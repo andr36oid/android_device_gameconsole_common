@@ -60,4 +60,4 @@ cd ../../packages/apps/Settings
 git reset --hard
 git clean -f -d
 
-cd ../../../device/anbernic/common/patches
+cd ../../../device/gameconsole/common/patches
