@@ -131,6 +131,16 @@ LOCAL_MODULE                         := remove-Email
 EXECUTABLES.remove-Email.OVERRIDES := Email
 include $(BUILD_PHONY_PACKAGE)
 
+include $(CLEAR_VARS)
+LOCAL_MODULE                         := remove-TrebuchetQuickStepGo
+EXECUTABLES.remove-TrebuchetQuickStepGo.OVERRIDES := TrebuchetQuickStepGo
+include $(BUILD_PHONY_PACKAGE)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE                         := remove-TrebuchetQuickStep
+EXECUTABLES.remove-TrebuchetQuickStep.OVERRIDES := TrebuchetQuickStep
+include $(BUILD_PHONY_PACKAGE)
+
 # if some modules are built directly from this directory (not subdirectories),
 # their rules should be written here.
 

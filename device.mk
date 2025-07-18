@@ -420,11 +420,13 @@ PRODUCT_PACKAGES += \
     	remove-ExactCalculator \
     	remove-Etar \
     	remove-Email \
+		remove-TrebuchetQuickStepGo \
+		remove-TrebuchetQuickStep
  	
 PRODUCT_PACKAGES += \
 	usb_modeswitch \
-	ATVLauncher \
-	TVbro \
+	Daijishou \
+	Bromite \
 	LeanbackIME \
 
 # Include rootaccess
