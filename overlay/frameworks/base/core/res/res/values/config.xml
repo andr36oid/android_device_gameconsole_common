@@ -226,7 +226,6 @@
 
     <!-- Flag indicating whether or not to enable night mode detection. -->
     <bool name="config_enableNightMode">true</bool>
-    <integer name="config_defaultNightMode">2</integer>
     
     <!-- Whether or not swipe up gesture's opt-in setting is available on this device -->
     <bool name="config_swipe_up_gesture_setting_available">true</bool>
