@@ -443,10 +443,6 @@ PRODUCT_PACKAGES += \
 	libandroid_net \
 	netutils-wrapper-1.0
 
-# Trust
-PRODUCT_PACKAGES += \
-	vendor.lineage.trust@1.0-service
-
 # WiFi Display
 PRODUCT_PACKAGES += \
 	libaacwrapper \
