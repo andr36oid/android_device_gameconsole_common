@@ -500,7 +500,7 @@ key BUTTON_X {
 }
 
 key BUTTON_Y {
-    base:                               fallback SPACE
+    base:                               fallback TAB
 }
 
 key BUTTON_Z {
