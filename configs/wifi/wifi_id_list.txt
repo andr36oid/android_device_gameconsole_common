@@ -122,6 +122,7 @@
 0bda 8179 8188eu /vendor/etc/modprobe.d/8188eu 
 0bda 0179 8188eu /vendor/etc/modprobe.d/8188eu /* REALTEK RTL8188ETV */
 0bda f179 8188eu /vendor/etc/modprobe.d/8188eu /* REALTEK RTL8188FTV */
+2357 010c 8188eu /vendor/etc/modprobe.d/8188eu /* REALTEK RTL8188EU */
 0bda 817c 8192cu /vendor/etc/modprobe.d/8192cu /* 8192CE-VAU USB minCard */
 0bda 8191 8192cu /vendor/etc/modprobe.d/8192cu /* 8192CU 2*2 */
 1058 0631 8192cu /vendor/etc/modprobe.d/8192cu /* Alpha, 8192CU */
