@@ -2,8 +2,7 @@
 /dev/block/mmcblk0p2     /system     ext4       ro,barrier=1                                        wait,first_stage_mount
 /dev/block/mmcblk0p3     /data       f2fs       noatime,nosuid,nodev,nodiratime,inline_data         wait,latemount,check,quota,formattable,reservedsize=128M
 /dev/block/mmcblk0p3     /data       ext4       noatime,nosuid,nodev,barrier=1,noauto_da_alloc	    quota,latemount,formattable,reservedsize=128M
-*/block/mmcblk0*  	     /boot       vfat       defaults                      	                    voldmanaged=sdcard1:1
 */block/mmcblk1*  	     auto        auto       defaults                      	                    voldmanaged=sdcard2:auto
 */block/sd*              auto        auto       defaults        			                        voldmanaged=usb:auto
 
-/dev/block/zram0         none        swap       defaults                                            zramsize=1073741824,notrim
+/dev/block/zram0         none        swap       defaults                                            zramsize=75%,max_comp_streams=8,zram_backingdev_size=256M
