@@ -1,0 +1,135 @@
+#!/bin/sh
+
+export PATH=/usr/bin:/bin:/usr/sbin:/sbin
+/bin/busybox --install -s
+
+/bin/busybox mount -t proc /proc /proc
+/bin/busybox mount -t sysfs none /sys
+
+echo /sbin/mdev >/proc/sys/kernel/hotplug
+mdev -s
+
+for _ in $(seq 1 100); do
+	[ -e "/dev/fb0" ] && break
+	/bin/busybox sleep 0.1
+done
+
+[ -e "/sys/class/graphics/fb0/modes" ] || return
+[ -z "$(cat /sys/class/graphics/fb0/mode)" ] || return
+
+_mode="$(cat /sys/class/graphics/fb0/modes)"
+echo "Setting framebuffer mode to: $_mode"
+echo "$_mode" > /sys/class/graphics/fb0/mode
+
+
+mount -t auto -v /dev/mmcblk0p1 /mnt
+NOROMS=0
+[ -f /mnt/rk3326-r36s-android.dtb ] && DEVICE=1 && echo "R36S Detected"
+[ -f /mnt/rk3326-r36plus-android.dtb ] && DEVICE=2 && echo "R36Plus Detected"
+[ -f /mnt/rk3326-r50s-android.dtb ] && DEVICE=3 && echo "R50S Detected"
+[ -f /mnt/.noroms ] && NOROMS=1 && echo "Will not create ROMS partition!"
+
+if [ $DEVICE = 1 ]; then
+    cp /resizing_480.ppm /tmp/resizing.ppm
+fi
+
+if [ $DEVICE = 2 ]; then
+    cp /resizing_720.ppm /tmp/resizing.ppm
+fi
+
+if [ $DEVICE = 3 ]; then
+    cp /resizing_854.ppm /tmp/resizing.ppm
+fi
+
+/sbin/busybox-armv8l fbsplash -s /tmp/resizing.ppm
+
+#umount /dev/mmcblk0p*
+
+busybox sleep 1
+
+#fsck system
+fsck /dev/mmcblk0p2
+busybox sleep 1
+
+if [ "$NOROMS" = 1 ]; then
+    echo "Parted Stage: NOROMS=1" >> /mnt/error.log 2>&1
+    printf "fix\n" | parted ---pretend-input-tty /dev/mmcblk0 print
+    parted -s /dev/mmcblk0 mkpart userdata f2fs 5701009s 100% >> /mnt/error.log 2>&1
+else
+    echo "Parted Stage: NOROMS=0" >> /mnt/error.log 2>&1
+    # Create partition 6 of +16G
+    printf "fix\n" | parted ---pretend-input-tty /dev/mmcblk0 print
+    parted -s /dev/mmcblk0 mkpart userdata f2fs 5701009s 39255440s >> /mnt/error.log 2>&1
+    # Create next partition (number auto-assigned)
+    parted -s /dev/mmcblk0 mkpart EASYROMS fat32 39255441s 100% >> /mnt/error.log 2>&1
+fi
+
+busybox sleep 1
+
+sync
+partprobe /dev/mmcblk0 >> /mnt/error.log 2>&1
+partprobe >> /mnt/error.log 2>&1
+busybox sleep 1
+sync
+
+sleep 4
+
+echo "Resizing starting"
+mkfs.f2fs /dev/mmcblk0p6 >> /mnt/error.log 2>&1
+
+if [ $NOROMS = 0 ]; then
+    mkfs.exfat /dev/mmcblk0p7 -n EASYROMS >> /mnt/error.log 2>&1
+fi
+
+sync
+
+sleep 4
+sleep 1
+
+#mkdir /mnt
+#mount -t auto -v /dev/mmcblk0p1 /mnt 
+sync
+
+echo "Switching to Android Boot"
+mv /mnt/boot.ini /mnt/boot.ini-resize
+cp /mnt/boot.ini-android /mnt/boot.ini
+
+if [ $DEVICE = 1 ]; then
+    cp /resized_480.ppm /tmp/resized.ppm
+fi
+
+if [ $DEVICE = 2 ]; then
+    cp /resized_720.ppm /tmp/resized.ppm
+fi
+
+if [ $DEVICE = 3 ]; then
+    cp /resized_854.ppm /tmp/resized.ppm
+fi
+
+/sbin/busybox-armv8l fbsplash -s /tmp/resized.ppm
+
+sleep 5
+umount /mnt
+umount /proc
+umount /sys
+
+busybox reboot
+
+busybox reboot -f
+
+reboot
+
+reboot -f
+
+echo "Didn't reboot????"
+
+echo /sbin/mdev >/proc/sys/kernel/hotplug
+mdev -s
+
+mount -t auto -v /dev/mmcblk0p1 /mnt
+sync
+echo "Failed to reboot, init will end and kernel will panic." > /mnt/rebootfailed.log
+sync
+umount /mnt
+sleep 4
+echo "End"
