@@ -389,8 +389,8 @@ PRODUCT_COPY_FILES += \
 	    
 # Copy device kcm
 PRODUCT_COPY_FILES += \
-        $(LOCAL_PATH)/Vendor_1209_Product_3100.kcm:$(TARGET_COPY_OUT_VENDOR)/usr/keychars/Vendor_1209_Product_3100.kcm 
-        $(LOCAL_PATH)/Vendor_1209_Product_3100.idc:$(TARGET_COPY_OUT_VENDOR)/usr/idc/Vendor_1209_Product_3100.idc
+        $(LOCAL_PATH)/Vendor_1209_Product_3100.kcm:$(TARGET_COPY_OUT_VENDOR)/usr/keychars/Vendor_1209_Product_3100.kcm \
+        $(LOCAL_PATH)/Vendor_1209_Product_3100.idc:$(TARGET_COPY_OUT_VENDOR)/usr/idc/Vendor_1209_Product_3100.idc \
 
 # Build and run only ART
 PRODUCT_RUNTIMES := runtime_libart_default
