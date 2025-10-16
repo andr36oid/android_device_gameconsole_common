@@ -31,6 +31,7 @@ patch -p1 < ../../device/gameconsole/common/patches/frameworks/av/frameworks_av.
 cd ../base
 echo "Patching frameworks/base"
 patch -p1 < ../../device/gameconsole/common/patches/frameworks/base/frameworks_base.patch
+patch -p1 < ../../device/gameconsole/common/patches/frameworks/base/analog_stick_mouse.patch
 patch -p1 < ../../device/gameconsole/common/patches/frameworks/base/4caddd350b87596c59fa68abe48732449b76c724.patch
 patch -p1 < ../../device/gameconsole/common/patches/frameworks/base/d3319b8762e6499cb70bf7b134cb812615e9b722.patch
 cd ../native

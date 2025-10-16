@@ -1,0 +1,116 @@
+diff --git a/services/core/java/com/android/server/policy/PhoneWindowManager.java b/services/core/java/com/android/server/policy/PhoneWindowManager.java
+index 0ae5aa768a39..xxxxxxxxxxxx 100644
+--- a/services/core/java/com/android/server/policy/PhoneWindowManager.java
++++ b/services/core/java/com/android/server/policy/PhoneWindowManager.java
+@@ -85,6 +85,7 @@ import android.view.KeyEvent;
+ import android.view.LayoutInflater;
+ import android.view.MotionEvent;
+ import android.view.InputDevice;
++import android.view.InputEvent;
+ import android.view.PointerIcon;
+ import android.view.Surface;
+ import android.view.View;
+@@ -710,6 +711,15 @@ public class PhoneWindowManager implements WindowManagerPolicy {
+     private float mdeltax, mdeltay;
+     boolean keydown;
+
++    // Analog stick mouse control settings
++    private static final float ANALOG_DEADZONE = 0.15f;
++    private static final float ANALOG_SENSITIVITY = 8.0f;
++    private static final int ANALOG_POLL_INTERVAL_MS = 16; // ~60Hz
++    private static final int MSG_ANALOG_MOUSE_POLL = 200;
++    private float lastRX = 0.0f;
++    private float lastRY = 0.0f;
++    private boolean analogMouseActive = false;
++    private final Object mAnalogLock = new Object();
++
+     public Handler mKeyMouseHandler = new Handler() {
+         public void handleMessage(Message msg) {
+             switch(msg.what){
+@@ -749,6 +759,37 @@ public class PhoneWindowManager implements WindowManagerPolicy {
+         }
+     };
+
++    public Handler mAnalogMouseHandler = new Handler() {
++        public void handleMessage(Message msg) {
++            if (msg.what == MSG_ANALOG_MOUSE_POLL) {
++                synchronized(mAnalogLock) {
++                    if (analogMouseActive && mstate != null && mstate.equals("on")) {
++                        // Apply deadzone
++                        float rx = Math.abs(lastRX) > ANALOG_DEADZONE ? lastRX : 0.0f;
++                        float ry = Math.abs(lastRY) > ANALOG_DEADZONE ? lastRY : 0.0f;
++
++                        if (rx != 0.0f || ry != 0.0f) {
++                            mdeltax = rx * ANALOG_SENSITIVITY;
++                            mdeltay = ry * ANALOG_SENSITIVITY;
++
++                            try {
++                                mWindowManager.dispatchMouse(mdeltax, mdeltay, screenWidth, screenHeight);
++                            } catch (Exception e) {
++                                e.printStackTrace();
++                            }
++                        }
++
++                        // Continue polling while stick is active
++                        mAnalogMouseHandler.sendEmptyMessageDelayed(MSG_ANALOG_MOUSE_POLL, ANALOG_POLL_INTERVAL_MS);
++                    } else {
++                        // Stop polling when inactive
++                        analogMouseActive = false;
++                    }
++                }
++            }
++        }
++    };
++
+     // Lineage additions
+     private static final int MSG_TOGGLE_TORCH = 100;
+     private static final int MSG_CAMERA_LONG_PRESS = 101;
+@@ -3076,6 +3117,48 @@ public class PhoneWindowManager implements WindowManagerPolicy {
+         // try again later before dispatching.
+         return result;
+     }
++
++    @Override
++    public int interceptGenericMotionEventBeforeDispatching(IBinder focusedToken,
++            MotionEvent event, int policyFlags) {
++        // Intercept right analog stick for mouse control when in mouse mode
++        mstate = SystemProperties.get("sys.KeyMouse.mKeyMouseState");
++
++        if (mstate != null && mstate.equals("on") && (event.getSource() & InputDevice.SOURCE_CLASS_JOYSTICK) != 0) {
++            // MotionEvent.AXIS_Z = 11, AXIS_RZ = 14 (right analog stick per IDC mapping)
++            float rx = event.getAxisValue(11); // AXIS_Z (mapped from hardware axis 0x02)
++            float ry = event.getAxisValue(14); // AXIS_RZ (mapped from hardware axis 0x05)
++
++            synchronized(mAnalogLock) {
++                lastRX = rx;
++                lastRY = ry;
++
++                // Start polling if not already active and we have significant stick input
++                if (!analogMouseActive && (Math.abs(rx) > ANALOG_DEADZONE || Math.abs(ry) > ANALOG_DEADZONE)) {
++                    analogMouseActive = true;
++                    mAnalogMouseHandler.removeMessages(MSG_ANALOG_MOUSE_POLL);
++                    mAnalogMouseHandler.sendEmptyMessage(MSG_ANALOG_MOUSE_POLL);
++                }
++                // Stop polling if stick returns to center
++                else if (analogMouseActive && Math.abs(rx) <= ANALOG_DEADZONE && Math.abs(ry) <= ANALOG_DEADZONE) {
++                    analogMouseActive = false;
++                    mAnalogMouseHandler.removeMessages(MSG_ANALOG_MOUSE_POLL);
++                }
++            }
++
++            // Consume the event so it doesn't interfere with other input
++            return -1;
++        }
++
++        // For other devices or when mouse mode is off, use default behavior
++        // Call the original implementation if it exists
++        try {
++            return super.interceptGenericMotionEventBeforeDispatching(focusedToken, event, policyFlags);
++        } catch (AbstractMethodError e) {
++            // Method might not exist in this Android version, return 0 to allow event through
++            return 0;
++        }
++    }
+
+     /**
+      * Provide an opportunity for the phone window manager to intercept key processing
