@@ -77,9 +77,9 @@ index 0ae5aa768a39..xxxxxxxxxxxx 100644
 +        mstate = SystemProperties.get("sys.KeyMouse.mKeyMouseState");
 +
 +        if (mstate != null && mstate.equals("on") && (event.getSource() & InputDevice.SOURCE_CLASS_JOYSTICK) != 0) {
-+            // MotionEvent.AXIS_Z = 11, AXIS_RZ = 14 (right analog stick per IDC mapping)
-+            float rx = event.getAxisValue(11); // AXIS_Z (mapped from hardware axis 0x02)
-+            float ry = event.getAxisValue(14); // AXIS_RZ (mapped from hardware axis 0x05)
++            // MotionEvent.AXIS_RX = 12, AXIS_RY = 13 (right analog stick per IDC mapping)
++            float rx = event.getAxisValue(12); // AXIS_RX (mapped from hardware axis 0x02)
++            float ry = event.getAxisValue(13); // AXIS_RY (mapped from hardware axis 0x05)
 +
 +            synchronized(mAnalogLock) {
 +                lastRX = rx;

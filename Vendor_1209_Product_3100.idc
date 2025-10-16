@@ -60,7 +60,7 @@ axis 0x01 {
 axis 0x02 {
     # RX axis (right stick horizontal)
     mode = normal
-    axis = Z
+    axis = RX
     source = joystick
     flat = 4096
     fuzz = 255
@@ -70,7 +70,7 @@ axis 0x02 {
 axis 0x05 {
     # RY axis (right stick vertical)
     mode = normal
-    axis = RZ
+    axis = RY
     source = joystick
     flat = 4096
     fuzz = 255
