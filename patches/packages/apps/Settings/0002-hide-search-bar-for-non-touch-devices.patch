@@ -1,0 +1,27 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: kenny <0@kenny.cat>
+Date: Fri, 17 Oct 2025 14:30:00 +0000
+Subject: [PATCH] hide search bar for non-touch devices
+
+The search bar is not useful on devices without touchscreen
+and gets in the way of navigation with D-pad controllers.
+Hide it to improve usability.
+---
+ res/layout/search_bar.xml | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/res/layout/search_bar.xml b/res/layout/search_bar.xml
+index 232ed8a972..0000000000 100644
+--- a/res/layout/search_bar.xml
++++ b/res/layout/search_bar.xml
+@@ -21,6 +21,7 @@
+     android:id="@+id/search_bar"
+     style="@style/SearchBarStyle"
+     android:layout_width="match_parent"
+-    android:layout_height="wrap_content">
++    android:layout_height="wrap_content"
++    android:visibility="gone">
+     <Toolbar
+         android:id="@+id/search_action_bar"
+--
+2.25.1
