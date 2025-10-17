@@ -57,8 +57,8 @@ axis 0x01 {
 
 # Right analog stick - configured for mouse pointer control
 # When mouse mode is active, these axes will control the pointer
-axis 0x02 {
-    # RX axis (right stick horizontal)
+axis 0x03 {
+    # RX axis (right stick horizontal) - hardware sends ABS_RX = 0x03
     mode = normal
     axis = RX
     source = joystick
@@ -67,8 +67,8 @@ axis 0x02 {
     # Enable as potential pointer control
 }
 
-axis 0x05 {
-    # RY axis (right stick vertical)
+axis 0x04 {
+    # RY axis (right stick vertical) - hardware sends ABS_RY = 0x04
     mode = normal
     axis = RY
     source = joystick
