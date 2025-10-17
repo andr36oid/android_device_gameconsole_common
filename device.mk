@@ -43,6 +43,11 @@ PRODUCT_CHARACTERISTICS := tablet
 
 PRODUCT_BUILD_PROP_OVERRIDES += BUILD_UTC_DATE=0
 
+# Append git branch and last author to build number
+DEVICE_TREE_BRANCH := $(shell cd device/gameconsole/common 2>/dev/null && git rev-parse --abbrev-ref HEAD 2>/dev/null || echo "unknown")
+DEVICE_TREE_AUTHOR := $(shell cd device/gameconsole/common 2>/dev/null && git log -1 --format='%an' 2>/dev/null | tr ' ' '_' || echo "unknown")
+BUILD_NUMBER := $(BUILD_NUMBER).$(DEVICE_TREE_BRANCH).$(DEVICE_TREE_AUTHOR)
+
 PRODUCT_PROPERTY_OVERRIDES := \
     	ro.carrier=wifi-only
 
