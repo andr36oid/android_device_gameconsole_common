@@ -1,19 +1,17 @@
-diff --git a/services/core/java/com/android/server/policy/PhoneWindowManager.java b/services/core/java/com/android/server/policy/PhoneWindowManager.java
-index 0ae5aa768a39..xxxxxxxxxxxx 100644
 --- a/services/core/java/com/android/server/policy/PhoneWindowManager.java
 +++ b/services/core/java/com/android/server/policy/PhoneWindowManager.java
-@@ -85,6 +85,7 @@ import android.view.KeyEvent;
- import android.view.LayoutInflater;
- import android.view.MotionEvent;
+@@ -178,6 +178,7 @@
+ import android.view.IDisplayFoldListener;
+ import android.view.IWindowManager;
  import android.view.InputDevice;
 +import android.view.InputEvent;
- import android.view.PointerIcon;
- import android.view.Surface;
- import android.view.View;
-@@ -710,6 +711,15 @@ public class PhoneWindowManager implements WindowManagerPolicy {
+ import android.view.KeyCharacterMap;
+ import android.view.KeyCharacterMap.FallbackAction;
+ import android.view.KeyEvent;
+@@ -713,6 +714,16 @@
      private float mdeltax, mdeltay;
      boolean keydown;
-
+ 
 +    // Analog stick mouse control settings
 +    private static final float ANALOG_DEADZONE = 0.15f;
 +    private static final float ANALOG_SENSITIVITY = 8.0f;
@@ -27,10 +25,10 @@ index 0ae5aa768a39..xxxxxxxxxxxx 100644
      public Handler mKeyMouseHandler = new Handler() {
          public void handleMessage(Message msg) {
              switch(msg.what){
-@@ -749,6 +759,37 @@ public class PhoneWindowManager implements WindowManagerPolicy {
+@@ -752,6 +763,37 @@
          }
      };
-
+ 
 +    public Handler mAnalogMouseHandler = new Handler() {
 +        public void handleMessage(Message msg) {
 +            if (msg.what == MSG_ANALOG_MOUSE_POLL) {
@@ -65,11 +63,10 @@ index 0ae5aa768a39..xxxxxxxxxxxx 100644
      // Lineage additions
      private static final int MSG_TOGGLE_TORCH = 100;
      private static final int MSG_CAMERA_LONG_PRESS = 101;
-@@ -3076,6 +3117,48 @@ public class PhoneWindowManager implements WindowManagerPolicy {
-         // try again later before dispatching.
-         return result;
+@@ -3562,6 +3604,48 @@
+         return 0;
      }
-+
+ 
 +    @Override
 +    public int interceptGenericMotionEventBeforeDispatching(IBinder focusedToken,
 +            MotionEvent event, int policyFlags) {
@@ -78,8 +75,8 @@ index 0ae5aa768a39..xxxxxxxxxxxx 100644
 +
 +        if (mstate != null && mstate.equals("on") && (event.getSource() & InputDevice.SOURCE_CLASS_JOYSTICK) != 0) {
 +            // MotionEvent.AXIS_RX = 12, AXIS_RY = 13 (right analog stick per IDC mapping)
-+            float rx = event.getAxisValue(12); // AXIS_RX (mapped from hardware axis 0x02)
-+            float ry = event.getAxisValue(13); // AXIS_RY (mapped from hardware axis 0x05)
++            float rx = event.getAxisValue(12); // AXIS_RX (mapped from hardware axis 0x03)
++            float ry = event.getAxisValue(13); // AXIS_RY (mapped from hardware axis 0x04)
 +
 +            synchronized(mAnalogLock) {
 +                lastRX = rx;
@@ -111,6 +108,7 @@ index 0ae5aa768a39..xxxxxxxxxxxx 100644
 +            return 0;
 +        }
 +    }
-
++
      /**
-      * Provide an opportunity for the phone window manager to intercept key processing
+      * TV only: recognizes a remote control gesture for capturing a bug report.
+      */
