@@ -42,7 +42,8 @@ VENDOR_SECURITY_PATCH := $(PLATFORM_SECURITY_PATCH)
 PRODUCT_CHARACTERISTICS := tablet
 
 # Append git branch and last author to build display ID
-DEVICE_TREE_BRANCH := $(shell cd device/gameconsole/common 2>/dev/null && git rev-parse --abbrev-ref HEAD 2>/dev/null || echo "unknown")
+# Use symbolic-ref first, fallback to describe-all for detached HEAD, then branch name from remote
+DEVICE_TREE_BRANCH := $(shell cd device/gameconsole/common 2>/dev/null && (git symbolic-ref --short HEAD 2>/dev/null || git describe --all --exact-match 2>/dev/null | sed 's/^heads\///' || git for-each-ref --format='%(refname:short)' --points-at=HEAD refs/remotes/*/analog-stick-mouse 2>/dev/null | head -1 | sed 's|.*/||' || echo "unknown"))
 DEVICE_TREE_AUTHOR := $(shell cd device/gameconsole/common 2>/dev/null && git log -1 --format='%an' 2>/dev/null | tr ' ' '_' || echo "unknown")
 
 PRODUCT_BUILD_PROP_OVERRIDES += \

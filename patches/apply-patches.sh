@@ -69,5 +69,6 @@ patch -p1 < ../../device/gameconsole/common/patches/build/make/build_make.patch
 cd ../../packages/apps/Settings
 echo "Patching packages/apps/Settings"
 patch -p1 < ../../../device/gameconsole/common/patches/packages/apps/Settings/0001-fixed-Settings-Can-t-scroll-to-the-bottom.patch
+patch -p1 < ../../../device/gameconsole/common/patches/packages/apps/Settings/0002-hide-search-bar-for-non-touch-devices.patch
 
 cd ../../../device/gameconsole/common/patches
