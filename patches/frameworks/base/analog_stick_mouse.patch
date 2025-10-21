@@ -63,11 +63,10 @@
      // Lineage additions
      private static final int MSG_TOGGLE_TORCH = 100;
      private static final int MSG_CAMERA_LONG_PRESS = 101;
-@@ -3562,6 +3604,48 @@
+@@ -3562,6 +3604,47 @@
          return 0;
      }
- 
-+    @Override
+
 +    public int interceptGenericMotionEventBeforeDispatching(IBinder focusedToken,
 +            MotionEvent event, int policyFlags) {
 +        // Intercept right analog stick for mouse control when in mouse mode
