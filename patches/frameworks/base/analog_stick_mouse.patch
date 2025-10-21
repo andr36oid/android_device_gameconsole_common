@@ -63,7 +63,7 @@
      // Lineage additions
      private static final int MSG_TOGGLE_TORCH = 100;
      private static final int MSG_CAMERA_LONG_PRESS = 101;
-@@ -3562,6 +3604,47 @@
+@@ -3562,6 +3604,41 @@
          return 0;
      }
 
@@ -98,14 +98,8 @@
 +            return -1;
 +        }
 +
-+        // For other devices or when mouse mode is off, use default behavior
-+        // Call the original implementation if it exists
-+        try {
-+            return super.interceptGenericMotionEventBeforeDispatching(focusedToken, event, policyFlags);
-+        } catch (AbstractMethodError e) {
-+            // Method might not exist in this Android version, return 0 to allow event through
-+            return 0;
-+        }
++        // For other devices or when mouse mode is off, allow event through
++        return 0;
 +    }
 +
      /**
