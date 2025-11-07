@@ -287,7 +287,7 @@
          constraint will be enforced.
          We limit the UI graphics width to 1920 because higher resolution is unnecessary and causes
          too much overhead on the GPU for Android TV devices. -->
-    <integer name="config_maxUiWidth">854</integer>
+    <integer name="config_maxUiWidth">1920</integer>
 
     <!-- SD card is hot-pluggable on this device -->
     <bool name="config_batterySdCardAccessibility">true</bool>

@@ -106,6 +106,7 @@
 2357 0120 8821au /vendor/etc/modprobe.d/8821au
 2357 011f 8821au /vendor/etc/modprobe.d/8821au
 20f4 804b 8821au /vendor/etc/modprobe.d/8821au
+2357 0109 8192cu /vendor/etc/modprobe.d/8192cu /* TP-link TL-WN823N */
 0bda 8176 8192cu /vendor/etc/modprobe.d/8192cu /* 8188cu 1*1 dongole */
 0bda 8170 8192cu /vendor/etc/modprobe.d/8192cu /* 8188CE-VAU USB minCard */
 0bda 817e 8192cu /vendor/etc/modprobe.d/8192cu /* 8188CE-VAU USB minCard */

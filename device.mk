@@ -49,7 +49,7 @@ PRODUCT_PROPERTY_OVERRIDES := \
 
 # AAPT
 PRODUCT_AAPT_CONFIG := normal
-PRODUCT_AAPT_PREBUILT_DPI := normal ldpi mdpi
+PRODUCT_AAPT_PREBUILT_DPI := normal ldpi mdpi hdpi xhdpi
 
 # Overlays
 DEVICE_PACKAGE_OVERLAYS += \
