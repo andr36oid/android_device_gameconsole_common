@@ -69,4 +69,8 @@ cd ../../packages/apps/Settings
 echo "Patching packages/apps/Settings"
 patch -p1 < ../../../device/gameconsole/common/patches/packages/apps/Settings/0001-fixed-Settings-Can-t-scroll-to-the-bottom.patch
 
-cd ../../../device/gameconsole/common/patches
+cd ../../../lineage-sdk/
+echo "Patching lineage-sdk"
+patch -p1 < ../device/gameconsole/common/patches/lineage-sdk/b5dd9af871220714332a79a310a53e30b423e549.patch
+
+cd ../device/gameconsole/common/patches

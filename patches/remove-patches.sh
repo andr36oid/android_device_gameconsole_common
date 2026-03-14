@@ -60,4 +60,8 @@ cd ../../packages/apps/Settings
 git reset --hard
 git clean -f -d
 
-cd ../../../device/gameconsole/common/patches
+cd ../../../lineage-sdk/
+git reset --hard
+git clean -f -d
+
+cd ../device/gameconsole/common/patches

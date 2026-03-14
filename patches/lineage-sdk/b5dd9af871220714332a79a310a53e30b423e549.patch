@@ -1,0 +1,47 @@
+From b5dd9af871220714332a79a310a53e30b423e549 Mon Sep 17 00:00:00 2001
+From: sonic011gamer <efimgirjeu@gmail.com>
+Date: Sun, 27 Jul 2025 08:39:26 +0300
+Subject: [PATCH] Remove the trust notifications since they never want to go
+ away on their own. (plus we're on a console so we don't wanna see that)
+
+---
+ .../platform/internal/TrustInterfaceService.java          | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/lineage/lib/main/java/org/lineageos/platform/internal/TrustInterfaceService.java b/lineage/lib/main/java/org/lineageos/platform/internal/TrustInterfaceService.java
+index 9abfc12a4d..9d1cdaa3aa 100644
+--- a/lineage/lib/main/java/org/lineageos/platform/internal/TrustInterfaceService.java
++++ b/lineage/lib/main/java/org/lineageos/platform/internal/TrustInterfaceService.java
+@@ -102,7 +102,7 @@ public void onBootPhase(int phase) {
+ 
+             // Onboard
+             if (!hasOnboardedUser()) {
+-                postOnBoardingNotification();
++                //postOnBoardingNotification();
+                 registerLocaleChangedReceiver();
+                 return;
+             }
+@@ -207,12 +207,12 @@ private int getLevelForFeatureInternal(int feature) {
+     private void runTestInternal() {
+         int selinuxStatus = getSELinuxStatus();
+         if (selinuxStatus != TrustInterface.TRUST_FEATURE_LEVEL_GOOD) {
+-            postNotificationForFeatureInternal(TrustInterface.TRUST_WARN_SELINUX);
++            //postNotificationForFeatureInternal(TrustInterface.TRUST_WARN_SELINUX);
+         }
+ 
+         int keysStatus = getKeysStatus();
+         if (keysStatus != TrustInterface.TRUST_FEATURE_LEVEL_GOOD) {
+-            postNotificationForFeatureInternal(TrustInterface.TRUST_WARN_PUBLIC_KEY);
++            //postNotificationForFeatureInternal(TrustInterface.TRUST_WARN_PUBLIC_KEY);
+         }
+     }
+ 
+@@ -358,7 +358,7 @@ public void onReceive(Context context, Intent intent) {
+             if (intent.getAction() == Intent.ACTION_LOCALE_CHANGED) {
+                 if (!hasOnboardedUser()) {
+                     // When are not onboarded, we want to change the language of the notification
+-                    postOnBoardingNotification();
++                    //postOnBoardingNotification();
+                 } else {
+                     // We don't care anymore about language changes
+                     context.unregisterReceiver(this);
