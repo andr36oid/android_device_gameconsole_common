@@ -472,7 +472,7 @@ key PLUS {
 ### Non-printing keys ###
 
 key ESCAPE {
-    base:                               none
+    base:                               fallback BACK
     alt, meta:                          fallback HOME
     ctrl:                               fallback MENU
 }
@@ -500,7 +500,7 @@ key BUTTON_X {
 }
 
 key BUTTON_Y {
-    base:                               fallback TAB
+    base:                               fallback SPACE
 }
 
 key BUTTON_Z {
@@ -524,11 +524,11 @@ key BUTTON_R2 {
 }
 
 key BUTTON_THUMBL {
-    base:                               fallback TV_KEYMOUSE_MODE_SWITCH
+    base:                               fallback DPAD_CENTER
 }
 
 key BUTTON_THUMBR {
-    base:                               fallback HOME
+    base:                               none
 }
 
 key BUTTON_START {

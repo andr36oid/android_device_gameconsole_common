@@ -1,0 +1,58 @@
+key 102   HOME
+key 127   MENU
+key 139   MENU
+key 172   HOME
+key 114   VOLUME_DOWN
+key 115   VOLUME_UP
+key 116   POWER
+key 224   BRIGHTNESS_DOWN
+key 225   BRIGHTNESS_UP
+key 142   SLEEP
+key 143   WAKEUP
+key 152   POWER
+
+key 103   DPAD_UP
+key 105   DPAD_LEFT
+key 106   DPAD_RIGHT
+key 108   DPAD_DOWN
+
+key 304   BUTTON_A
+key 305   BUTTON_B
+key 307   BUTTON_X
+key 308   BUTTON_Y
+key 310   BUTTON_L1
+key 311   BUTTON_R1
+key 312   BUTTON_L2
+key 313   BUTTON_R2
+key 314   BUTTON_SELECT
+key 315   BUTTON_START
+key 316   BUTTON_MODE
+key 158   BUTTON_THUMBL
+key 125   BUTTON_THUMBR
+
+
+axis 0x00 X
+axis 0x01 Y
+axis 0x03 Z
+axis 0x04 RZ
+
+
+axis 0x10 HAT_X
+axis 0x11 HAT_Y
+
+# LEDs
+led 0x00 NUM_LOCK
+led 0x01 CAPS_LOCK
+led 0x02 SCROLL_LOCK
+led 0x03 COMPOSE
+led 0x04 KANA
+led 0x05 SLEEP
+led 0x06 SUSPEND
+led 0x07 MUTE
+led 0x08 MISC
+led 0x09 MAIL
+led 0x0a CHARGING
+
+# Keys defined by HID usages
+key usage 0x0c006F BRIGHTNESS_UP
+key usage 0x0c0070 BRIGHTNESS_DOWN
