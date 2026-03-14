@@ -397,6 +397,10 @@ PRODUCT_RUNTIMES := runtime_libart_default
 PRODUCT_PRODUCT_PROPERTIES += \
 	ro.statsd.enable=false
 
+# Joystick as mouse
+PRODUCT_PACKAGES += \
+	joyMouse
+
 # Remove phone packages that added by default product configuration
 PRODUCT_PACKAGES += \
     	remove-BlockedNumberProvider \

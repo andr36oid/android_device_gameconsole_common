@@ -262,6 +262,12 @@ service usb_modeswitch /vendor/bin/usb_modeswitch -KW -v 0bda -p 1a2b
     class main
     oneshot
 
+service joyMouse /system/bin/joyMouse
+	class main
+	user root
+    group root system
+    oneshot
+
 service wpa_supplicant /vendor/bin/hw/wpa_supplicant \
      -g@android:wpa_wlan0
      interface android.hardware.wifi.supplicant@1.0::ISupplicant default
