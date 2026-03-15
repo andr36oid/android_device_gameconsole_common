@@ -20,86 +20,80 @@
 #include <fcntl.h>
 #include <cutils/klog.h>
 #include <sys/types.h>
+#include <unistd.h>
+#include <cstdlib>
+#include <cmath>
 
 #define PSU_SYSFS_PATH "/sys/class/power_supply/battery"
-#define PSU_SYSFS_MAX_CURRENT_PATH PSU_SYSFS_PATH "/current_max"
-#define BATTERY_CRITICAL_LOW_CAP 10
-#define BATTERY_CRITICAL_LOW_IMAX_MA 1000
-#define BATTERY_MAX_IMAX_MA          4000
+#define BATTERY_CRITICAL_LOW_CAP 30
+#define BATTERY_CRITICAL_LOW_CURRENT_MA 100
+#define BATTERY_MAX_CURRENT_MA        4000
+#define BATTERY_CRITICAL_VOLTAGE_MV  3300  // 3.3V
+#define BATTERY_FULL_VOLTAGE_MV      4200  // 4.2V
 
 using namespace android;
 
-static int read_sysfs(const char *path, char *buf, size_t size) {
-    char *cp = NULL;
-
+static int read_sysfs_int(const char *path) {
+    char buf[16] = {0};
     int fd = open(path, O_RDONLY);
-    if (fd == -1) {
+    if (fd < 0) {
         KLOG_ERROR(LOG_TAG, "Could not open '%s'\n", path);
         return -1;
     }
 
-    ssize_t count = TEMP_FAILURE_RETRY(read(fd, buf, size));
-    if (count > 0)
-        cp = (char *)memrchr(buf, '\n', count);
-
-    if (cp)
-        *cp = '\0';
-    else
-        buf[0] = '\0';
-
+    ssize_t count = read(fd, buf, sizeof(buf) - 1);
     close(fd);
-    return count;
+    if (count <= 0)
+        return -1;
+
+    return atoi(buf);
 }
 
-static int read_current_max_ma() {
-    const int SIZE = 10;
-    char buf[SIZE];
-    if (read_sysfs(PSU_SYSFS_MAX_CURRENT_PATH, buf, SIZE) > 0)
-        return atoi(buf) / 1000;
-
-    return 0;
+static int read_current_ma() {
+    int val = read_sysfs_int(PSU_SYSFS_PATH "/current_now");
+    if (val == -1) return 0;
+    return std::abs(val) / 1000; // µA -> mA
 }
 
-static void odroidgoa_soc_adjust(struct BatteryProperties *props)
-{
-    int soc;
-    int current_max_ma;
+static int read_voltage_mv() {
+    int val = read_sysfs_int(PSU_SYSFS_PATH "/voltage_now");
+    if (val == -1) return 0;
+    return val / 1000; // µV -> mV
+}
 
-    soc = props->batteryLevel;
-    /*
-     * if not charging and State-Of-Charge (soc) is below
-     * BATTERY_CRITICAL_LOW_CAP shrink soc based on imax value
-     */
+static void odroidgoa_soc_adjust(struct BatteryProperties *props) {
+    int soc = props->batteryLevel;
+
     if ((soc < BATTERY_CRITICAL_LOW_CAP) &&
         ((props->batteryStatus == BATTERY_STATUS_DISCHARGING) ||
          (props->batteryStatus == BATTERY_STATUS_NOT_CHARGING) ||
          (props->batteryStatus == BATTERY_STATUS_UNKNOWN))) {
 
-        current_max_ma = read_current_max_ma();
-        if (current_max_ma == 0)
-            /*
-             * Either it failed to read sysfs or its really zero.  In either
-             * case lets just warn so logs will identify for further debug.
-             */
-            KLOG_WARNING(LOG_TAG, "imax=0\n");
-        else if (current_max_ma < BATTERY_CRITICAL_LOW_IMAX_MA)
-            /* force shutdown */
-            soc = 0;
-        else if (current_max_ma < BATTERY_MAX_IMAX_MA)
-            /* decrease soc towards zero */
-            soc = soc * current_max_ma / BATTERY_MAX_IMAX_MA;
+        int current_ma = read_current_ma();
+        int voltage_mv = read_voltage_mv();
 
-        KLOG_INFO(LOG_TAG, "imax=%d soc=%d\n", current_max_ma, soc);
+        if (current_ma == 0 || voltage_mv == 0) {
+            KLOG_WARNING(LOG_TAG, "current_now=%d voltage_now=%d\n", current_ma, voltage_mv);
+        } else if (current_ma < BATTERY_CRITICAL_LOW_CURRENT_MA || voltage_mv < BATTERY_CRITICAL_VOLTAGE_MV) {
+            soc = 0; // force shutdown
+        } else {
+            // scale SOC based on both current and voltage
+            float current_scale = (float)current_ma / BATTERY_MAX_CURRENT_MA;
+            float voltage_scale = (float)(voltage_mv - BATTERY_CRITICAL_VOLTAGE_MV) /
+                                  (BATTERY_FULL_VOLTAGE_MV - BATTERY_CRITICAL_VOLTAGE_MV);
+            voltage_scale = std::fmax(0.0f, std::fmin(1.0f, voltage_scale));
+
+            soc = (int)(soc * current_scale * voltage_scale);
+        }
+
+        KLOG_INFO(LOG_TAG, "current=%d mA voltage=%d mV soc=%d\n", current_ma, voltage_mv, soc);
     }
+
     props->batteryLevel = soc;
 }
 
-int healthd_board_battery_update(struct BatteryProperties *props)
-{
-
+int healthd_board_battery_update(struct BatteryProperties *props) {
     odroidgoa_soc_adjust(props);
-
-    // return 0 to log periodic polled battery status to kernel log
     return 0;
 }
 
