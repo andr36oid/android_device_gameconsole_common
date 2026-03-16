@@ -1,8 +1,8 @@
 #<src>                 <mnt_point>  <type>   <mnt_flags and options>                              <fs_mgr_flags>
-/dev/block/platform/ff370000.dwmmc/by-name/system       /system     ext4       ro,barrier=1                                        wait
+/dev/block/platform/ff370000.dwmmc/by-name/system       /           ext4       ro,barrier=1                                        wait
 /dev/block/platform/ff370000.dwmmc/by-name/userdata     /data       f2fs       noatime,nosuid,nodev,nodiratime,inline_data         wait
-/dev/block/platform/ff370000.dwmmc/by-name/userdata     /data       ext4       noatime,nosuid,nodev,barrier=1,noauto_da_alloc	   wait
-*/block/mmcblk0*  	     /boot       vfat        defaults                      	                    voldmanaged=sdcard1:1
+/dev/block/platform/ff370000.dwmmc/by-name/cache        /cache      ext4    noatime,nosuid,nodev,barrier=1,data=ordered,nomblk_io_submit,noauto_da_alloc wait,check
+*/block/mmcblk0*  	    /boot           emmc    defaults                                                        defaults
 */block/mmcblk0*  	     /exfat      exfat       defaults                                           voldmanaged=sdcard1:7
 */block/mmcblk1*  	     auto        auto        defaults                      	                    voldmanaged=sdcard2:auto
 */block/sd*              auto        auto        defaults        			                        voldmanaged=usb:auto

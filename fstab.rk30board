@@ -2,6 +2,9 @@
 /dev/block/platform/ff370000.dwmmc/by-name/system       /system     ext4       ro,barrier=1                                        wait,first_stage_mount
 /dev/block/platform/ff370000.dwmmc/by-name/userdata     /data       f2fs       noatime,nosuid,nodev,nodiratime,inline_data         wait,latemount,check,quota,formattable,reservedsize=128M
 /dev/block/platform/ff370000.dwmmc/by-name/userdata     /data       ext4       noatime,nosuid,nodev,barrier=1,noauto_da_alloc	   quota,latemount,formattable,reservedsize=128M
+/dev/block/platform/ff370000.dwmmc/by-name/cache        /cache      ext4       noatime,nosuid,nodev,barrier=1,data=ordered,nomblk_io_submit,noauto_da_alloc wait,check
+*/block/mmcblk0*  	     /boot           emmc    defaults                                                        defaults
+
 */block/mmcblk0*  	     auto        auto       defaults                                            voldmanaged=sdcard1:7
 */block/mmcblk1*  	     auto        auto       defaults                      	                    voldmanaged=sdcard2:auto
 */block/sd*              auto        auto       defaults        			                        voldmanaged=usb:auto
