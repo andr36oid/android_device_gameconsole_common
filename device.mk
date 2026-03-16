@@ -433,7 +433,7 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
 	usb_modeswitch \
 	Daijishou \
-	Bromite \
+	Cromite \
 	LeanbackIME \
 
 # Include rootaccess
