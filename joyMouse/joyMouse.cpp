@@ -17,7 +17,7 @@ const int RX_DEADZONE = 400;
 const int RY_DEADZONE = 400;
 
 const int MAX_STICK = 1800;     // derived from adc calibration (~center 1800)
-const int MAX_MOVE  = 15;       // max pixels per poll
+const int MAX_MOVE  = 4;       // max pixels per poll
 
 const int POLL_INTERVAL_MS = 8;
 const int R3_KEY_CODE = 125;
