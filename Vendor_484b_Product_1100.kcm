@@ -523,8 +523,10 @@ key BUTTON_R2 {
     base:                               none
 }
 
+# No fallback: L3 + R3 toggles joyMouse's mouse mode, and a DPAD_CENTER here
+# would press (or long-press) whatever has focus while doing that.
 key BUTTON_THUMBL {
-    base:                               fallback DPAD_CENTER
+    base:                               none
 }
 
 key BUTTON_THUMBR {
