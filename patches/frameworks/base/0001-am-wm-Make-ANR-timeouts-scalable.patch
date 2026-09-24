@@ -1,0 +1,111 @@
+From a65cf72d2df642fe335e3806fb95c62ac7d17432 Mon Sep 17 00:00:00 2001
+From: itskenny0 <0@kenny.cat>
+Date: Thu, 24 Sep 2026 22:20:22 +0000
+Subject: [PATCH] am/wm: Make ANR timeouts scalable via
+ ro.config.anr_timeout_multiplier
+
+Low-end devices (1GB RAM, slow SD storage) regularly need more than
+5s to bring up the first window of an app or to finish a broadcast
+receiver while under memory pressure. The app is not hung, just slow,
+yet the user gets the "isn't responding" dialog.
+
+Scale input dispatching, broadcast, service and content provider
+publish timeouts by ro.config.anr_timeout_multiplier (default 1, i.e.
+stock behaviour).
+
+---
+ .../core/java/com/android/server/am/ActiveServices.java   | 3 ++-
+ .../com/android/server/am/ActivityManagerService.java     | 8 +++++---
+ .../com/android/server/wm/ActivityTaskManagerService.java | 6 +++++-
+ .../java/com/android/server/wm/WindowManagerService.java  | 3 ++-
+ 4 files changed, 14 insertions(+), 6 deletions(-)
+
+diff --git a/services/core/java/com/android/server/am/ActiveServices.java b/services/core/java/com/android/server/am/ActiveServices.java
+index 7fcf2dc..a77a714 100644
+--- a/services/core/java/com/android/server/am/ActiveServices.java
++++ b/services/core/java/com/android/server/am/ActiveServices.java
+@@ -36,6 +36,7 @@ import static com.android.server.am.ActivityManagerDebugConfig.POSTFIX_SERVICE;
+ import static com.android.server.am.ActivityManagerDebugConfig.POSTFIX_SERVICE_EXECUTING;
+ import static com.android.server.am.ActivityManagerDebugConfig.TAG_AM;
+ import static com.android.server.am.ActivityManagerDebugConfig.TAG_WITH_CLASS_NAME;
++import static com.android.server.wm.ActivityTaskManagerService.ANR_TIMEOUT_MULTIPLIER;
+ 
+ import android.annotation.NonNull;
+ import android.annotation.Nullable;
+@@ -141,7 +142,7 @@ public final class ActiveServices {
+     private static final int DEBUG_FGS_ENFORCE_TYPE = 1;
+ 
+     // How long we wait for a service to finish executing.
+-    static final int SERVICE_TIMEOUT = 20*1000;
++    static final int SERVICE_TIMEOUT = 20*1000 * ANR_TIMEOUT_MULTIPLIER;
+ 
+     // How long we wait for a service to finish executing.
+     static final int SERVICE_BACKGROUND_TIMEOUT = SERVICE_TIMEOUT * 10;
+diff --git a/services/core/java/com/android/server/am/ActivityManagerService.java b/services/core/java/com/android/server/am/ActivityManagerService.java
+index fa63156..9228787 100644
+--- a/services/core/java/com/android/server/am/ActivityManagerService.java
++++ b/services/core/java/com/android/server/am/ActivityManagerService.java
+@@ -139,6 +139,7 @@ import static com.android.server.wm.ActivityTaskManagerService.DUMP_LASTANR_TRAC
+ import static com.android.server.wm.ActivityTaskManagerService.DUMP_RECENTS_CMD;
+ import static com.android.server.wm.ActivityTaskManagerService.DUMP_RECENTS_SHORT_CMD;
+ import static com.android.server.wm.ActivityTaskManagerService.DUMP_STARTER_CMD;
++import static com.android.server.wm.ActivityTaskManagerService.ANR_TIMEOUT_MULTIPLIER;
+ import static com.android.server.wm.ActivityTaskManagerService.KEY_DISPATCHING_TIMEOUT_MS;
+ import static com.android.server.wm.ActivityTaskManagerService.RELAUNCH_REASON_NONE;
+ import static com.android.server.wm.ActivityTaskManagerService.relaunchReasonToString;
+@@ -488,8 +489,8 @@ public class ActivityManagerService extends IActivityManager.Stub
+     static final int PROC_START_TIMEOUT_WITH_WRAPPER = 1200*1000;
+ 
+     // How long we allow a receiver to run before giving up on it.
+-    static final int BROADCAST_FG_TIMEOUT = 10*1000;
+-    static final int BROADCAST_BG_TIMEOUT = 60*1000;
++    static final int BROADCAST_FG_TIMEOUT = 10*1000 * ANR_TIMEOUT_MULTIPLIER;
++    static final int BROADCAST_BG_TIMEOUT = 60*1000 * ANR_TIMEOUT_MULTIPLIER;
+ 
+     public static final int MY_PID = myPid();
+ 
+@@ -5210,7 +5211,8 @@ public class ActivityManagerService extends IActivityManager.Stub
+             Message msg = mHandler.obtainMessage(CONTENT_PROVIDER_PUBLISH_TIMEOUT_MSG);
+             msg.obj = app;
+             mHandler.sendMessageDelayed(msg,
+-                    ContentResolver.CONTENT_PROVIDER_PUBLISH_TIMEOUT_MILLIS);
++                    ContentResolver.CONTENT_PROVIDER_PUBLISH_TIMEOUT_MILLIS
++                            * ANR_TIMEOUT_MULTIPLIER);
+         }
+ 
+         checkTime(startTime, "attachApplicationLocked: before bindApplication");
+diff --git a/services/core/java/com/android/server/wm/ActivityTaskManagerService.java b/services/core/java/com/android/server/wm/ActivityTaskManagerService.java
+index 96f2e04..414ef3f 100644
+--- a/services/core/java/com/android/server/wm/ActivityTaskManagerService.java
++++ b/services/core/java/com/android/server/wm/ActivityTaskManagerService.java
+@@ -314,8 +314,12 @@ public class ActivityTaskManagerService extends IActivityTaskManager.Stub {
+     private static final String TAG_LOCKTASK = TAG + POSTFIX_LOCKTASK;
+     private static final String TAG_CONFIGURATION = TAG + POSTFIX_CONFIGURATION;
+ 
++    // Scales all ANR timeouts. Slow, low-RAM devices need more headroom while apps
++    // are still starting up, otherwise they get flagged as hung while just loading.
++    public static final int ANR_TIMEOUT_MULTIPLIER =
++            Math.max(1, SystemProperties.getInt("ro.config.anr_timeout_multiplier", 1));
+     // How long we wait until we timeout on key dispatching.
+-    public static final int KEY_DISPATCHING_TIMEOUT_MS = 5 * 1000;
++    public static final int KEY_DISPATCHING_TIMEOUT_MS = 5 * 1000 * ANR_TIMEOUT_MULTIPLIER;
+     // How long we wait until we timeout on key dispatching during instrumentation.
+     static final int INSTRUMENTATION_KEY_DISPATCHING_TIMEOUT_MS = 60 * 1000;
+     // How long we permit background activity starts after an activity in the process
+diff --git a/services/core/java/com/android/server/wm/WindowManagerService.java b/services/core/java/com/android/server/wm/WindowManagerService.java
+index 03b22e5..fbf53c1 100644
+--- a/services/core/java/com/android/server/wm/WindowManagerService.java
++++ b/services/core/java/com/android/server/wm/WindowManagerService.java
+@@ -369,7 +369,8 @@ public class WindowManagerService extends IWindowManager.Stub
+     private static final int INPUT_DEVICES_READY_FOR_SAFE_MODE_DETECTION_TIMEOUT_MILLIS = 1000;
+ 
+     // Default input dispatching timeout in nanoseconds.
+-    static final long DEFAULT_INPUT_DISPATCHING_TIMEOUT_NANOS = 5000 * 1000000L;
++    static final long DEFAULT_INPUT_DISPATCHING_TIMEOUT_NANOS =
++            ActivityTaskManagerService.KEY_DISPATCHING_TIMEOUT_MS * 1000000L;
+ 
+     // Poll interval in milliseconds for watching boot animation finished.
+     // TODO(b/159045990) Migrate to SystemService.waitForState with dedicated thread.
+-- 
+2.43.0
+

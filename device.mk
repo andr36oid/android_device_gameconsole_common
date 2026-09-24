@@ -21,7 +21,14 @@
 # definition file).
 #
 # Inherit from those products. Most specific first.
+# Set TARGET_GAMECONSOLE_ZYGOTE64_ONLY := true in lineage_<device>.mk to drop
+# the 32-bit zygote. Saves one full zygote (preloaded classes/resources) but
+# apps shipping only 32-bit native libs will no longer start.
+ifeq ($(TARGET_GAMECONSOLE_ZYGOTE64_ONLY),true)
+$(call inherit-product, $(SRC_TARGET_DIR)/product/core_64_bit_only.mk)
+else
 $(call inherit-product, $(SRC_TARGET_DIR)/product/core_64_bit.mk)
+endif
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base.mk)
 
 # Device was launched with M
@@ -137,7 +144,6 @@ PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.software.midi.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.software.midi.xml \
     frameworks/native/data/etc/android.software.sip.voip.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.software.sip.voip.xml \
         frameworks/native/data/etc/android.hardware.faketouch.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.faketouch.xml \
-        frameworks/native/data/etc/android.software.backup.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.software.backup.xml \
         frameworks/native/data/etc/android.hardware.usb.host.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.usb.host.xml \
         frameworks/native/data/etc/android.hardware.usb.accessory.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.usb.accessory.xml \
     	frameworks/native/data/etc/android.hardware.ethernet.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.ethernet.xml \
@@ -199,7 +205,6 @@ PRODUCT_PACKAGES += \
     	audio.primary.$(TARGET_BOARD_PLATFORM) \
 	audio.usb.default \
     	audio.r_submix.default \
-    	audio.hearing_aid.default \
     	libaudioroute \
     	libaudio-resampler \
     	tinyplay \
@@ -310,11 +315,6 @@ PRODUCT_PACKAGES += \
     	android.hardware.drm@1.3-service-lazy.clearkey \
         android.hardware.drm@1.3-service-lazy.widevine
 
-# Dumpstate HAL
-PRODUCT_PACKAGES += \
-    	android.hardware.dumpstate@1.0-impl \
-    	android.hardware.dumpstate@1.0-service
-
 PRODUCT_PACKAGES += \
     	android.hardware.keymaster@3.0-impl \
     	android.hardware.keymaster@3.0-service
@@ -365,7 +365,6 @@ PRODUCT_PROPERTY_OVERRIDES += wifi.interface=wlan0 \
                               
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.wifi.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.wifi.xml \
-    frameworks/native/data/etc/android.hardware.wifi.aware.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.wifi.aware.xml \
     frameworks/native/data/etc/android.hardware.wifi.direct.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.wifi.direct.xml \
     $(LOCAL_PATH)/configs/wifi/wpa_supplicant.conf:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/wpa_supplicant.conf \
     $(LOCAL_PATH)/configs/wifi/wpa_supplicant.conf:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/wpa_supplicant_overlay.conf \
@@ -428,7 +427,26 @@ PRODUCT_PACKAGES += \
     	remove-Etar \
     	remove-Email \
 		remove-TrebuchetQuickStepGo \
-		remove-TrebuchetQuickStep
+		remove-TrebuchetQuickStep \
+	remove-Camera2 \
+	remove-Exchange2 \
+	remove-LiveWallpapersPicker \
+	remove-PhotoTable \
+	remove-QuickAccessWallet \
+	remove-QuickSearchBox \
+	remove-Seedvault \
+	remove-Updater \
+	remove-WAPPushManager
+
+# Run the network stack and tethering inside system_server instead of
+# two separate persistent processes (same as Android Go).
+PRODUCT_PACKAGES += \
+	InProcessNetworkStack \
+	com.android.tethering.inprocess
+
+# Hide features we do not want services started for (backup).
+PRODUCT_COPY_FILES += \
+	$(LOCAL_PATH)/configs/permissions/gameconsole_unavailable_features.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/gameconsole_unavailable_features.xml
  	
 PRODUCT_PACKAGES += \
 	usb_modeswitch \
@@ -476,7 +494,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 
 PRODUCT_PROPERTY_OVERRIDES += \
-	persist.debug.wfd.enable=1 \
 	debug.hwui.renderer=skiagl \
 	debug.hwui.use_buffer_age=false \
 	debug.hwui.use_partial_updates=false \
@@ -574,9 +591,11 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/updatable_apex.mk)
 # Flatten APEXs for performance
 OVERRIDE_TARGET_FLATTEN_APEX := true
 
-# IORap app launch prefetching using Perfetto traces and madvise
+# No IORap prefetching and no perfetto daemons. iorapd is meant for large
+# memory devices and keeps itself plus traced/traced_probes resident.
 PRODUCT_PRODUCT_PROPERTIES += \
-    ro.iorapd.enable=true
+    ro.iorapd.enable=false \
+    persist.traced.enable=0
 
 # set threshold to filter unused apps
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -586,7 +605,14 @@ pm.dexopt.downgrade_after_inactive_days=10
 TARGET_VNDK_USE_CORE_VARIANT := true
 
 # madvise random in ART to reduce page cache thrashing.
-dalvik.vm.madvise-random=true
+PRODUCT_PROPERTY_OVERRIDES += \
+	dalvik.vm.madvise-random=true
+
+# Give slow-starting apps more time before the ANR dialog pops up
+# (needs patches/frameworks/base/0001-am-wm-Make-ANR-timeouts-scalable...).
+# 3 = 15s input, 30s foreground broadcast, 60s service timeouts.
+PRODUCT_PROPERTY_OVERRIDES += \
+	ro.config.anr_timeout_multiplier=3
 
 PRODUCT_TYPE := go
 $(call inherit-product-if-exists, vendor/gapps/gapps.mk)

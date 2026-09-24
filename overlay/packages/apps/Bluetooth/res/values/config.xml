@@ -14,6 +14,11 @@
 -->
 <resources>
     <bool name="profile_supported_avrcp_controller">true</bool>
-    <bool name="profile_supported_sap">true</bool>
+    <!-- No telephony: drop phone-only profiles to slim down the BT process -->
+    <bool name="profile_supported_sap">false</bool>
+    <bool name="profile_supported_pbap">false</bool>
+    <bool name="profile_supported_map">false</bool>
+    <bool name="profile_supported_hearing_aid">false</bool>
+    <bool name="profile_supported_pan">false</bool>
 </resources>
 

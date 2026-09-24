@@ -9,4 +9,4 @@
 */block/mmcblk1*  	     auto        auto       defaults                      	                    voldmanaged=sdcard2:auto
 */block/sd*              auto        auto       defaults        			                        voldmanaged=usb:auto
 
-/dev/block/zram0         none        swap       defaults                                            zramsize=75%,max_comp_streams=8,zram_backingdev_size=256M
+/dev/block/zram0         none        swap       defaults                                            zramsize=75%,max_comp_streams=4

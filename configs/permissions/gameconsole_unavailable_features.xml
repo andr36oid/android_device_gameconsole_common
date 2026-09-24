@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Features handheld_core_hardware.xml declares that make system_server
+     start services (and bind their helper apps) we have no use for. -->
+<permissions>
+    <!-- No BackupManagerService, no transport processes bound at boot. -->
+    <unavailable-feature name="android.software.backup" />
+</permissions>

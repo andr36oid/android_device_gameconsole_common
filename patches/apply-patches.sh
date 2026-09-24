@@ -33,6 +33,7 @@ echo "Patching frameworks/base"
 patch -p1 < ../../device/gameconsole/common/patches/frameworks/base/frameworks_base.patch
 patch -p1 < ../../device/gameconsole/common/patches/frameworks/base/4caddd350b87596c59fa68abe48732449b76c724.patch
 patch -p1 < ../../device/gameconsole/common/patches/frameworks/base/d3319b8762e6499cb70bf7b134cb812615e9b722.patch
+patch -p1 < ../../device/gameconsole/common/patches/frameworks/base/0001-am-wm-Make-ANR-timeouts-scalable.patch
 cd ../native
 echo "Patching frameworks/native"
 patch -p1 < ../../device/gameconsole/common/patches/frameworks/native/frameworks_native.patch

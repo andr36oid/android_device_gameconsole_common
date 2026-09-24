@@ -141,6 +141,51 @@ LOCAL_MODULE                         := remove-TrebuchetQuickStep
 EXECUTABLES.remove-TrebuchetQuickStep.OVERRIDES := TrebuchetQuickStep
 include $(BUILD_PHONY_PACKAGE)
 
+include $(CLEAR_VARS)
+LOCAL_MODULE                         := remove-Camera2
+EXECUTABLES.remove-Camera2.OVERRIDES := Camera2
+include $(BUILD_PHONY_PACKAGE)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE                         := remove-Exchange2
+EXECUTABLES.remove-Exchange2.OVERRIDES := Exchange2
+include $(BUILD_PHONY_PACKAGE)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE                         := remove-LiveWallpapersPicker
+EXECUTABLES.remove-LiveWallpapersPicker.OVERRIDES := LiveWallpapersPicker
+include $(BUILD_PHONY_PACKAGE)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE                         := remove-PhotoTable
+EXECUTABLES.remove-PhotoTable.OVERRIDES := PhotoTable
+include $(BUILD_PHONY_PACKAGE)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE                         := remove-QuickAccessWallet
+EXECUTABLES.remove-QuickAccessWallet.OVERRIDES := QuickAccessWallet
+include $(BUILD_PHONY_PACKAGE)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE                         := remove-QuickSearchBox
+EXECUTABLES.remove-QuickSearchBox.OVERRIDES := QuickSearchBox
+include $(BUILD_PHONY_PACKAGE)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE                         := remove-Seedvault
+EXECUTABLES.remove-Seedvault.OVERRIDES := Seedvault
+include $(BUILD_PHONY_PACKAGE)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE                         := remove-Updater
+EXECUTABLES.remove-Updater.OVERRIDES := Updater
+include $(BUILD_PHONY_PACKAGE)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE                         := remove-WAPPushManager
+EXECUTABLES.remove-WAPPushManager.OVERRIDES := WAPPushManager
+include $(BUILD_PHONY_PACKAGE)
+
 # if some modules are built directly from this directory (not subdirectories),
 # their rules should be written here.
 

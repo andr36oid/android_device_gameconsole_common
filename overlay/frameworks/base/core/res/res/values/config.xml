@@ -144,7 +144,7 @@
          * The remote submix module "audio.r_submix.default" must be installed on the device.
          * The device must be provisioned with HDCP keys (for protected content).
     -->
-    <bool name="config_enableWifiDisplay">true</bool>
+    <bool name="config_enableWifiDisplay">false</bool>
 
     <!-- default device has recents property -->
     <bool name="config_hasRecents">false</bool>
@@ -264,8 +264,9 @@
     <!-- The device supports freeform window management -->
     <bool name="config_freeformWindowManagement">true</bool>
 
-    <!-- Enable Zram writeback feature to allow unused pages in zram be written to flash. -->
-    <bool name="config_zramWriteback">true</bool>
+    <!-- No zram writeback: kernel lacks CONFIG_ZRAM_WRITEBACK and it would
+         only hammer the SD card anyway. -->
+    <bool name="config_zramWriteback">false</bool>
 
     <!-- True if the firmware supports p2p MAC randomization -->
     <bool name="config_wifi_p2p_mac_randomization_supported">false</bool>
