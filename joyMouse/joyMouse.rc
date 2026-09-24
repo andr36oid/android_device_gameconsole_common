@@ -1,0 +1,5 @@
+service joyMouse /system/bin/joyMouse
+    class main
+    user root
+    group root system
+    priority -10

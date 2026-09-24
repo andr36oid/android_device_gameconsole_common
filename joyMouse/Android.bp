@@ -1,0 +1,64 @@
+// joyMouse: analog stick mouse for the touchscreen-less handhelds.
+
+cc_defaults {
+    name: "joymouse_defaults",
+    cflags: [
+        "-Wall",
+        "-Wextra",
+    ],
+    target: {
+        darwin: {
+            enabled: false,
+        },
+    },
+}
+
+// Everything that doesn't touch a device node; also built for the host tests.
+cc_library_static {
+    name: "libjoymouse",
+    defaults: ["joymouse_defaults"],
+    host_supported: true,
+    srcs: [
+        "src/Buttons.cpp",
+        "src/Chord.cpp",
+        "src/Config.cpp",
+        "src/Controller.cpp",
+        "src/Log.cpp",
+        "src/PointerModel.cpp",
+        "src/ScrollModel.cpp",
+        "src/Stick.cpp",
+    ],
+    export_include_dirs: ["src"],
+    target: {
+        android: {
+            shared_libs: ["liblog"],
+        },
+    },
+}
+
+cc_binary {
+    name: "joyMouse",
+    defaults: ["joymouse_defaults"],
+    srcs: [
+        "src/Announcer.cpp",
+        "src/Display.cpp",
+        "src/EvdevPad.cpp",
+        "src/Properties.cpp",
+        "src/Uinput.cpp",
+        "src/main.cpp",
+    ],
+    static_libs: ["libjoymouse"],
+    shared_libs: ["liblog"],
+    init_rc: ["joyMouse.rc"],
+}
+
+// m joyMouse_tests && $ANDROID_HOST_OUT/nativetest64/joyMouse_tests/joyMouse_tests
+cc_test_host {
+    name: "joyMouse_tests",
+    defaults: ["joymouse_defaults"],
+    srcs: [
+        "tests/ControllerTest.cpp",
+        "tests/ModelTest.cpp",
+    ],
+    static_libs: ["libjoymouse"],
+}
