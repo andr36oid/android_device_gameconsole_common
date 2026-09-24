@@ -1,83 +1,81 @@
-0e8d 7610 mt7610 /vendor/etc/modprobe.d/mt7610
-148f 7601 mt7601 /vendor/etc/modprobe.d/mt7601
-148f 5572 rt2800usb /vendor/etc/modprobe.d/rt2800usb
-148f 5370 rt2800usb /vendor/etc/modprobe.d/rt2800usb
 0bda b82b 8821cu /vendor/etc/modprobe.d/8821cu
 0bda b820 8821cu /vendor/etc/modprobe.d/8821cu
 0bda c821 8821cu /vendor/etc/modprobe.d/8821cu
 0bda c820 8821cu /vendor/etc/modprobe.d/8821cu
 0bda c82a 8821cu /vendor/etc/modprobe.d/8821cu
 0bda c82b 8821cu /vendor/etc/modprobe.d/8821cu
-0bda c811 8811cu /vendor/etc/modprobe.d/8821cu
-0bda 8811 8811cu /vendor/etc/modprobe.d/8821cu
+0bda c811 8821cu /vendor/etc/modprobe.d/8821cu
+0bda 8811 8821cu /vendor/etc/modprobe.d/8821cu
 0bda 2006 8821cu /vendor/etc/modprobe.d/8821cu
 0bda 8731 8821cu /vendor/etc/modprobe.d/8821cu
 0bda c80c 8821cu /vendor/etc/modprobe.d/8821cu
 2001 331d 8821cu /vendor/etc/modprobe.d/8821cu
-0bda b82c 8822bu /vendor/etc/modprobe.d/88x2bu /* Default ID for USB multi-function */
-0bda b812 8822bu /vendor/etc/modprobe.d/88x2bu /* Default ID for USB Single-function, WiFi only */
-13b1 0043 8822bu /vendor/etc/modprobe.d/88x2bu /* Alpha - Alpha*/
-0b05 1841 8822bu /vendor/etc/modprobe.d/88x2bu /* ASUS AC1300 USB-AC55 B1 */
-0b05 184c 8822bu /vendor/etc/modprobe.d/88x2bu /* ASUS U2*/
-7392 b822 8822bu /vendor/etc/modprobe.d/88x2bu /* Edimax EW-7822ULC */
-7392 c822 8822bu /vendor/etc/modprobe.d/88x2bu /* Edimax EW-7822UTC */
-2001 331e 8822bu /vendor/etc/modprobe.d/88x2bu /* Dlink - DWA-181*/
-2001 331c 8822bu /vendor/etc/modprobe.d/88x2bu /* Dlink - DWA-182*/
-0846 9055 8822bu /vendor/etc/modprobe.d/88x2bu /* NetGear A6150 */
-2357 012d 8822bu /vendor/etc/modprobe.d/88x2bu /* TP-Link Archer T3U */
-2357 0138 8822bu /vendor/etc/modprobe.d/88x2bu /* TP-Link Archer T3U Plus */
-2357 0115 8822bu /vendor/etc/modprobe.d/88x2bu /* TP-Link Archer T4U V3 */
-20f4 808a 8822bu /vendor/etc/modprobe.d/88x2bu /* TRENDnet TEW-808UBM */
-0bda 8813 8814au /vendor/etc/modprobe.d/8814au
-2001 331a 8814au /vendor/etc/modprobe.d/8814au /* D-Link - D-Link */
-0b05 1817 8814au /vendor/etc/modprobe.d/8814au /* ASUS - ASUSTeK */
-0b05 1852 8814au /vendor/etc/modprobe.d/8814au /* ASUS - ASUSTeK */
-0b05 1853 8814au /vendor/etc/modprobe.d/8814au /* ASUS - ASUSTeK */
-056e 400b 8814au /vendor/etc/modprobe.d/8814au /* ELECOM - ELECOM */
-056e 400d 8814au /vendor/etc/modprobe.d/8814au /* ELECOM - ELECOM */
-7392 a834 8814au /vendor/etc/modprobe.d/8814au /* Edimax - Edimax */
-7392 a833 8814au /vendor/etc/modprobe.d/8814au /* Edimax - AC1750 */
-0bda 8813 8814au /vendor/etc/modprobe.d/8814au /* Edimax - EDUP Adapters */
-0e66 0026 8814au /vendor/etc/modprobe.d/8814au /* Hawking Technologies - HW17ACU*/
-2357 0106 8814au /vendor/etc/modprobe.d/8814au /* TP-LINK Archer T9UH */
-20f4 809a 8814au /vendor/etc/modprobe.d/8814au /* TRENDnet - TRENDnet */
-20f4 809b 8814au /vendor/etc/modprobe.d/8814au /* TRENDnet TEW-809UB */
-0846 9054 8814au /vendor/etc/modprobe.d/8814au /* Netgear A7000 */
+0bda b82c 88x2bu /vendor/etc/modprobe.d/88x2bu
+0bda b812 88x2bu /vendor/etc/modprobe.d/88x2bu
+13b1 0043 88x2bu /vendor/etc/modprobe.d/88x2bu
+0b05 1841 88x2bu /vendor/etc/modprobe.d/88x2bu
+0b05 184c 88x2bu /vendor/etc/modprobe.d/88x2bu
+7392 b822 88x2bu /vendor/etc/modprobe.d/88x2bu
+7392 c822 88x2bu /vendor/etc/modprobe.d/88x2bu
+2001 331e 88x2bu /vendor/etc/modprobe.d/88x2bu
+2001 331c 88x2bu /vendor/etc/modprobe.d/88x2bu
+0846 9055 88x2bu /vendor/etc/modprobe.d/88x2bu
+2357 012d 88x2bu /vendor/etc/modprobe.d/88x2bu
+2357 0138 88x2bu /vendor/etc/modprobe.d/88x2bu
+2357 0115 88x2bu /vendor/etc/modprobe.d/88x2bu
+20f4 808a 88x2bu /vendor/etc/modprobe.d/88x2bu
+0bda b81a 88x2bu /vendor/etc/modprobe.d/88x2bu
+04ca 8602 88x2bu /vendor/etc/modprobe.d/88x2bu
+056e 4011 88x2bu /vendor/etc/modprobe.d/88x2bu
+0b05 1870 88x2bu /vendor/etc/modprobe.d/88x2bu
+0b05 1874 88x2bu /vendor/etc/modprobe.d/88x2bu
+0b05 19aa 88x2bu /vendor/etc/modprobe.d/88x2bu
+0bda 2102 88x2bu /vendor/etc/modprobe.d/88x2bu
+0e66 0025 88x2bu /vendor/etc/modprobe.d/88x2bu
+13b1 0045 88x2bu /vendor/etc/modprobe.d/88x2bu
+2001 331f 88x2bu /vendor/etc/modprobe.d/88x2bu
+20f4 805a 88x2bu /vendor/etc/modprobe.d/88x2bu
+2357 0116 88x2bu /vendor/etc/modprobe.d/88x2bu
+2357 0117 88x2bu /vendor/etc/modprobe.d/88x2bu
+2357 012e 88x2bu /vendor/etc/modprobe.d/88x2bu
+2c4e 0107 88x2bu /vendor/etc/modprobe.d/88x2bu
+7392 d822 88x2bu /vendor/etc/modprobe.d/88x2bu
+7392 e822 88x2bu /vendor/etc/modprobe.d/88x2bu
+7392 f822 88x2bu /vendor/etc/modprobe.d/88x2bu
 0bda 8812 8812au /vendor/etc/modprobe.d/8812au
 0bda 881a 8812au /vendor/etc/modprobe.d/8812au
 0bda 881b 8812au /vendor/etc/modprobe.d/8812au
 0bda 881c 8812au /vendor/etc/modprobe.d/8812au
-050d 1106 8812au /vendor/etc/modprobe.d/8812au /* Belkin - sercomm */
-7392 a822 8812au /vendor/etc/modprobe.d/8812au /* Edimax - EW-7822UAC */
-0df6 0074 8812au /vendor/etc/modprobe.d/8812au /* Sitecom - Edimax */
-04bb 0952 8812au /vendor/etc/modprobe.d/8812au /* I-O DATA - Edimax */
-0789 016e 8812au /vendor/etc/modprobe.d/8812au /* Logitec - Edimax */
-0409 0408 8812au /vendor/etc/modprobe.d/8812au /* NEC - */
-0b05 17d2 8812au /vendor/etc/modprobe.d/8812au /* ASUS - Edimax */
-0e66 0022 8812au /vendor/etc/modprobe.d/8812au /* HAWKING - Edimax */
-0586 3426 8812au /vendor/etc/modprobe.d/8812au /* ZyXEL - */
-2001 3313 8812au /vendor/etc/modprobe.d/8812au /* D-Link - ALPHA */
-1058 0632 8812au /vendor/etc/modprobe.d/8812au /* WD - Cybertan*/
-1740 0100 8812au /vendor/etc/modprobe.d/8812au /* EnGenius - EnGenius */
-2019 ab30 8812au /vendor/etc/modprobe.d/8812au /* Planex - Abocom */
-07b8 8812 8812au /vendor/etc/modprobe.d/8812au /* Abocom - Abocom */
-0846 9051 8812au /vendor/etc/modprobe.d/8812au /* Netgear A6200 v2 */
-2001 330e 8812au /vendor/etc/modprobe.d/8812au /* D-Link - ALPHA */
-2001 3313 8812au /vendor/etc/modprobe.d/8812au /* D-Link - ALPHA */
-2001 3315 8812au /vendor/etc/modprobe.d/8812au /* D-Link - D-Link DWA-182 (Rev. C1) */
-2001 3316 8812au /vendor/etc/modprobe.d/8812au /* D-Link - Cameo */
-13b1 003f 8812au /vendor/etc/modprobe.d/8812au /* Linksys - WUSB6300 */
-2357 0101 8812au /vendor/etc/modprobe.d/8812au /* TP-Link - Archer T4U AC1200 */
-2357 0103 8812au /vendor/etc/modprobe.d/8812au /* TP-Link - T4UH */
-2357 010d 8812au /vendor/etc/modprobe.d/8812au /* TP-Link - Archer T4U AC1300 */
-2357 010e 8812au /vendor/etc/modprobe.d/8812au /* TP-Link - Archer T4UH AC1300 */
-2357 010f 8812au /vendor/etc/modprobe.d/8812au /* TP-Link - T4UHP */
-2357 0122 8812au /vendor/etc/modprobe.d/8812au /* TP-Link - T4UHP (other) */
-20f4 805b 8812au /vendor/etc/modprobe.d/8812au /* TRENDnet - TEW-805UB */
-0411 025d 8812au /vendor/etc/modprobe.d/8812au /* Buffalo - WI-U3-866D */
-050d 1109 8812au /vendor/etc/modprobe.d/8812au /* Belkin F9L1109 - SerComm */
-148f 9097 8812au /vendor/etc/modprobe.d/8812au /* Amped Wireless ACA1 */
-2604 0012 8812au /vendor/etc/modprobe.d/8812au /* Tenda U12 */
+050d 1106 8812au /vendor/etc/modprobe.d/8812au
+7392 a822 8812au /vendor/etc/modprobe.d/8812au
+0df6 0074 8812au /vendor/etc/modprobe.d/8812au
+04bb 0952 8812au /vendor/etc/modprobe.d/8812au
+0789 016e 8812au /vendor/etc/modprobe.d/8812au
+0409 0408 8812au /vendor/etc/modprobe.d/8812au
+0b05 17d2 8812au /vendor/etc/modprobe.d/8812au
+0e66 0022 8812au /vendor/etc/modprobe.d/8812au
+0586 3426 8812au /vendor/etc/modprobe.d/8812au
+2001 3313 8812au /vendor/etc/modprobe.d/8812au
+1058 0632 8812au /vendor/etc/modprobe.d/8812au
+1740 0100 8812au /vendor/etc/modprobe.d/8812au
+2019 ab30 8812au /vendor/etc/modprobe.d/8812au
+07b8 8812 8812au /vendor/etc/modprobe.d/8812au
+0846 9051 8812au /vendor/etc/modprobe.d/8812au
+2001 330e 8812au /vendor/etc/modprobe.d/8812au
+2001 3315 8812au /vendor/etc/modprobe.d/8812au
+2001 3316 8812au /vendor/etc/modprobe.d/8812au
+13b1 003f 8812au /vendor/etc/modprobe.d/8812au
+2357 0101 8812au /vendor/etc/modprobe.d/8812au
+2357 0103 8812au /vendor/etc/modprobe.d/8812au
+2357 010d 8812au /vendor/etc/modprobe.d/8812au
+2357 010e 8812au /vendor/etc/modprobe.d/8812au
+2357 010f 8812au /vendor/etc/modprobe.d/8812au
+2357 0122 8812au /vendor/etc/modprobe.d/8812au
+20f4 805b 8812au /vendor/etc/modprobe.d/8812au
+0411 025d 8812au /vendor/etc/modprobe.d/8812au
+050d 1109 8812au /vendor/etc/modprobe.d/8812au
+148f 9097 8812au /vendor/etc/modprobe.d/8812au
+2604 0012 8812au /vendor/etc/modprobe.d/8812au
 0bda 0811 8821au /vendor/etc/modprobe.d/8821au
 0bda 0821 8821au /vendor/etc/modprobe.d/8821au
 0bda 8822 8821au /vendor/etc/modprobe.d/8821au
@@ -99,93 +97,995 @@
 0846 9052 8821au /vendor/etc/modprobe.d/8821au
 0411 029b 8821au /vendor/etc/modprobe.d/8821au
 056e 4007 8821au /vendor/etc/modprobe.d/8821au
-0bda a811 8821au /vendor/etc/modprobe.d/8821au
 3823 6249 8821au /vendor/etc/modprobe.d/8821au
 2357 011e 8821au /vendor/etc/modprobe.d/8821au
-2357 0122 8821au /vendor/etc/modprobe.d/8821au
 2357 0120 8821au /vendor/etc/modprobe.d/8821au
 2357 011f 8821au /vendor/etc/modprobe.d/8821au
 20f4 804b 8821au /vendor/etc/modprobe.d/8821au
-2357 0109 8192cu /vendor/etc/modprobe.d/8192cu /* TP-link TL-WN823N */
-0bda 8176 8192cu /vendor/etc/modprobe.d/8192cu /* 8188cu 1*1 dongole */
-0bda 8170 8192cu /vendor/etc/modprobe.d/8192cu /* 8188CE-VAU USB minCard */
-0bda 817e 8192cu /vendor/etc/modprobe.d/8192cu /* 8188CE-VAU USB minCard */
-0bda 817a 8192cu /vendor/etc/modprobe.d/8192cu /* 8188cu Slim Solo */
-0bda 817b 8192cu /vendor/etc/modprobe.d/8192cu /* 8188cu Slim Combo */
-0bda 817d 8192cu /vendor/etc/modprobe.d/8192cu /* 8188RU High-power USB Dongle */
-0bda 8754 8192cu /vendor/etc/modprobe.d/8192cu /* 8188 Combo for BC4 */
-0bda 817f 8192cu /vendor/etc/modprobe.d/8192cu /* 8188RU */
-0bda 818a 8192cu /vendor/etc/modprobe.d/8192cu /* RTL8188CUS-VL */
-0bda 018a 8192cu /vendor/etc/modprobe.d/8192cu /* RTL8188CTV */
-0bda 17c0 8192cu /vendor/etc/modprobe.d/8192cu /* RTK demoboard - USB-N10E */
-0bda 8177 8192cu /vendor/etc/modprobe.d/8192cu /* 8191cu 1*2 */
-0bda 8178 8192cu /vendor/etc/modprobe.d/8192cu /* 8192cu 2*2 */
-0bda 8179 8188eu /vendor/etc/modprobe.d/8188eu 
-0bda 0179 8188eu /vendor/etc/modprobe.d/8188eu /* REALTEK RTL8188ETV */
-0bda f179 8188eu /vendor/etc/modprobe.d/8188eu /* REALTEK RTL8188FTV */
-2357 010c 8188eu /vendor/etc/modprobe.d/8188eu /* REALTEK RTL8188EU */
-0bda 817c 8192cu /vendor/etc/modprobe.d/8192cu /* 8192CE-VAU USB minCard */
-0bda 8191 8192cu /vendor/etc/modprobe.d/8192cu /* 8192CU 2*2 */
-1058 0631 8192cu /vendor/etc/modprobe.d/8192cu /* Alpha, 8192CU */
-2019 ed17 8192cu /vendor/etc/modprobe.d/8192cu /* PCI - Edimax */
-0df6 0052 8192cu /vendor/etc/modprobe.d/8192cu /* Sitecom - Edimax */
-7392 7811 8192cu /vendor/etc/modprobe.d/8192cu /* Edimax - Edimax */
-07b8 8189 8192cu /vendor/etc/modprobe.d/8192cu /* Abocom - Abocom */
-0eb0 9071 8192cu /vendor/etc/modprobe.d/8192cu /* NO Brand - Etop */
-06f8 e033 8192cu /vendor/etc/modprobe.d/8192cu /* Hercules - Edimax */
-103c 1629 8192cu /vendor/etc/modprobe.d/8192cu /* HP - Lite-On ,8188CUS Slim Combo */
-2001 3308 8192cu /vendor/etc/modprobe.d/8192cu /* D-Link - Alpha */
-050d 1102 8192cu /vendor/etc/modprobe.d/8192cu /* Belkin - Edimax */
-2019 ab2a 8192cu /vendor/etc/modprobe.d/8192cu /* Planex - Abocom */
-20f4 648b 8192cu /vendor/etc/modprobe.d/8192cu /* TRENDnet - Cameo */
-4855 0090 8192cu /vendor/etc/modprobe.d/8192cu /*          - Feixun */
-13d3 3357 8192cu /vendor/etc/modprobe.d/8192cu /*          - AzureWave */
-0df6 005c 8192cu /vendor/etc/modprobe.d/8192cu /* Sitecom - Edimax */
-0bda 5088 8192cu /vendor/etc/modprobe.d/8192cu /* Thinkware - CC&C */
-4856 0091 8192cu /vendor/etc/modprobe.d/8192cu /* NetweeN - Feixun */
-0846 9041 8192cu /vendor/etc/modprobe.d/8192cu /* Netgear - Cameo */
-2019 4902 8192cu /vendor/etc/modprobe.d/8192cu /* Planex - Etop */
-2019 ab2e 8192cu /vendor/etc/modprobe.d/8192cu /* SW-WF02-AD15 -Abocom */
-2001 330b 8192cu /vendor/etc/modprobe.d/8192cu /* D-LINK - T&W */
-cdab 8010 8192cu /vendor/etc/modprobe.d/8192cu /* - - compare */
-0b05 17ba 8192cu /vendor/etc/modprobe.d/8192cu /* ASUS - Edimax */
-0bda 1e1e 8192cu /vendor/etc/modprobe.d/8192cu /* Intel - - */
-04bb 094c 8192cu /vendor/etc/modprobe.d/8192cu /* I-O DATA - Edimax */
-cdab 8011 8192cu /vendor/etc/modprobe.d/8192cu /* - - compare */
-0bda 0a8a 8192cu /vendor/etc/modprobe.d/8192cu /* Sony - Foxconn */
-0bda 317f 8192cu /vendor/etc/modprobe.d/8192cu /* Netcore,Netcore */
-13d3 3359 8192cu /vendor/etc/modprobe.d/8192cu /*  - Azwave */
-13d3 3358 8192cu /vendor/etc/modprobe.d/8192cu /*  - Azwave */
-04f2 aff7 8192cu /vendor/etc/modprobe.d/8192cu /* XAVI - XAVI */
-04f2 aff9 8192cu /vendor/etc/modprobe.d/8192cu /* XAVI - XAVI */
-04f2 affa 8192cu /vendor/etc/modprobe.d/8192cu /* XAVI - XAVI */
-04f2 aff8 8192cu /vendor/etc/modprobe.d/8192cu /* XAVI - XAVI */
-04f2 affb 8192cu /vendor/etc/modprobe.d/8192cu /* XAVI - XAVI */
-04f2 affc 8192cu /vendor/etc/modprobe.d/8192cu /* XAVI - XAVI */
-2019 1201 8192cu /vendor/etc/modprobe.d/8192cu /* Planex - Vencer */
-2001 3307 8192cu /vendor/etc/modprobe.d/8192cu /* D-Link - Cameo */
-2001 330a 8192cu /vendor/etc/modprobe.d/8192cu /* D-Link - Alpha */
-2001 3309 8192cu /vendor/etc/modprobe.d/8192cu /* D-Link - Alpha */
-0586 341f 8192cu /vendor/etc/modprobe.d/8192cu /* Zyxel - Abocom */
-7392 7822 8192cu /vendor/etc/modprobe.d/8192cu /* Edimax - Edimax */
-2019 ab2b 8192cu /vendor/etc/modprobe.d/8192cu /* Planex - Abocom */
-07b8 8178 8192cu /vendor/etc/modprobe.d/8192cu /* Abocom - Abocom */
-07aa 0056 8192cu /vendor/etc/modprobe.d/8192cu /* ATKK - Gemtek */
-4855 0091 8192cu /vendor/etc/modprobe.d/8192cu /*      - Feixun */
-050d 2102 8192cu /vendor/etc/modprobe.d/8192cu /* Belkin - Sercomm */
-050d 2103 8192cu /vendor/etc/modprobe.d/8192cu /* Belkin - Edimax */
-20f4 624d 8192cu /vendor/etc/modprobe.d/8192cu /* TRENDnet */
-0df6 0061 8192cu /vendor/etc/modprobe.d/8192cu /* Sitecom - Edimax */
-0b05 17ab 8192cu /vendor/etc/modprobe.d/8192cu /* ASUS - Edimax */
-0846 9021 8192cu /vendor/etc/modprobe.d/8192cu /* Netgear - Sercomm */
-0846 f001 8192cu /vendor/etc/modprobe.d/8192cu /* Netgear - Sercomm */
-0e66 0019 8192cu /vendor/etc/modprobe.d/8192cu /* Hawking,Edimax */
-0e66 0020 8192cu /vendor/etc/modprobe.d/8192cu /* Hawking  - Edimax */
-050d 1004 8192cu /vendor/etc/modprobe.d/8192cu /* Belkin - Edimax */
-0bda 2e2e 8192cu /vendor/etc/modprobe.d/8192cu /* Intel - - */
-2357 0100 8192cu /vendor/etc/modprobe.d/8192cu /* TP-Link - TP-Link */
-06f8 e035 8192cu /vendor/etc/modprobe.d/8192cu /* Hercules - Edimax */
-04bb 0950 8192cu /vendor/etc/modprobe.d/8192cu /* IO-DATA - Edimax */
-0df6 0070 8192cu /vendor/etc/modprobe.d/8192cu /* Sitecom - Edimax */
-0789 016d 8192cu /vendor/etc/modprobe.d/8192cu /* LOGITEC - Edimax */
-0bda 8186 8192cu /vendor/etc/modprobe.d/8192cu /* Intel-Xavi( Azwave) */
+0bda 8813 8814au /vendor/etc/modprobe.d/8814au
+2001 331a 8814au /vendor/etc/modprobe.d/8814au
+0b05 1817 8814au /vendor/etc/modprobe.d/8814au
+0b05 1852 8814au /vendor/etc/modprobe.d/8814au
+0b05 1853 8814au /vendor/etc/modprobe.d/8814au
+056e 400b 8814au /vendor/etc/modprobe.d/8814au
+056e 400d 8814au /vendor/etc/modprobe.d/8814au
+7392 a834 8814au /vendor/etc/modprobe.d/8814au
+7392 a833 8814au /vendor/etc/modprobe.d/8814au
+0e66 0026 8814au /vendor/etc/modprobe.d/8814au
+2357 0106 8814au /vendor/etc/modprobe.d/8814au
+20f4 809a 8814au /vendor/etc/modprobe.d/8814au
+20f4 809b 8814au /vendor/etc/modprobe.d/8814au
+0846 9054 8814au /vendor/etc/modprobe.d/8814au
+0bda b832 8852bu /vendor/etc/modprobe.d/8852bu
+0bda b83a 8852bu /vendor/etc/modprobe.d/8852bu
+0bda b852 8852bu /vendor/etc/modprobe.d/8852bu
+0bda b85a 8852bu /vendor/etc/modprobe.d/8852bu
+0bda a85b 8852bu /vendor/etc/modprobe.d/8852bu
+0411 038a 8852bu /vendor/etc/modprobe.d/8852bu
+0586 3428 8852bu /vendor/etc/modprobe.d/8852bu
+0b05 1a62 8852bu /vendor/etc/modprobe.d/8852bu
+0db0 6931 8852bu /vendor/etc/modprobe.d/8852bu
+0db0 f0c8 8852bu /vendor/etc/modprobe.d/8852bu
+2001 3327 8852bu /vendor/etc/modprobe.d/8852bu
+3574 6121 8852bu /vendor/etc/modprobe.d/8852bu
+3574 6241 8852bu /vendor/etc/modprobe.d/8852bu
+35bc 0100 8852bu /vendor/etc/modprobe.d/8852bu
+35bc 0108 8852bu /vendor/etc/modprobe.d/8852bu
+7392 6822 8852bu /vendor/etc/modprobe.d/8852bu
+0bda 818b 8192eu /vendor/etc/modprobe.d/8192eu
+0bda 818c 8192eu /vendor/etc/modprobe.d/8192eu
+2001 3312 8192eu /vendor/etc/modprobe.d/8192eu
+2001 3319 8192eu /vendor/etc/modprobe.d/8192eu
+2357 0107 8192eu /vendor/etc/modprobe.d/8192eu
+2357 0108 8192eu /vendor/etc/modprobe.d/8192eu
+2357 0109 8192eu /vendor/etc/modprobe.d/8192eu
+2357 0126 8192eu /vendor/etc/modprobe.d/8192eu
+2019 ab33 8192eu /vendor/etc/modprobe.d/8192eu
+2c4e 0100 8192eu /vendor/etc/modprobe.d/8192eu
+2c4e 0104 8192eu /vendor/etc/modprobe.d/8192eu
+0bda 8179 8188eu /vendor/etc/modprobe.d/8188eu
+0bda 0179 8188eu /vendor/etc/modprobe.d/8188eu
+07b8 8179 8188eu /vendor/etc/modprobe.d/8188eu
+0df6 0076 8188eu /vendor/etc/modprobe.d/8188eu
+2001 330f 8188eu /vendor/etc/modprobe.d/8188eu
+2001 3310 8188eu /vendor/etc/modprobe.d/8188eu
+2001 3311 8188eu /vendor/etc/modprobe.d/8188eu
+2001 331b 8188eu /vendor/etc/modprobe.d/8188eu
+056e 4008 8188eu /vendor/etc/modprobe.d/8188eu
+2357 010c 8188eu /vendor/etc/modprobe.d/8188eu
+2357 0111 8188eu /vendor/etc/modprobe.d/8188eu
+2c4e 0102 8188eu /vendor/etc/modprobe.d/8188eu
+0b05 18f0 8188eu /vendor/etc/modprobe.d/8188eu
+7392 b811 8188eu /vendor/etc/modprobe.d/8188eu
+0bda f179 8188fu /vendor/etc/modprobe.d/8188fu
+0bda b711 8188gu /vendor/etc/modprobe.d/8188gu
+0bda 2005 8188gu /vendor/etc/modprobe.d/8188gu
+a69c 8801 aic8800_fdrv /vendor/etc/modprobe.d/aic8800_fdrv
+a69c 8d81 aic8800_fdrv /vendor/etc/modprobe.d/aic8800_fdrv
+a69c 8d41 aic8800_fdrv /vendor/etc/modprobe.d/aic8800_fdrv
+a69c 88dc aic8800_fdrv /vendor/etc/modprobe.d/aic8800_fdrv
+a69c 88dd aic8800_fdrv /vendor/etc/modprobe.d/aic8800_fdrv
+368b 8d91 aic8800_fdrv /vendor/etc/modprobe.d/aic8800_fdrv
+368b 8d99 aic8800_fdrv /vendor/etc/modprobe.d/aic8800_fdrv
+368b 8d45 aic8800_fdrv /vendor/etc/modprobe.d/aic8800_fdrv
+368b 8d46 aic8800_fdrv /vendor/etc/modprobe.d/aic8800_fdrv
+368b 8d47 aic8800_fdrv /vendor/etc/modprobe.d/aic8800_fdrv
+368b 8d48 aic8800_fdrv /vendor/etc/modprobe.d/aic8800_fdrv
+368b 8d49 aic8800_fdrv /vendor/etc/modprobe.d/aic8800_fdrv
+368b 8d4a aic8800_fdrv /vendor/etc/modprobe.d/aic8800_fdrv
+368b 8871 aic8800_fdrv /vendor/etc/modprobe.d/aic8800_fdrv
+368b 8870 aic8800_fdrv /vendor/etc/modprobe.d/aic8800_fdrv
+a69c 8800 aic8800_fdrv /vendor/etc/modprobe.d/aic8800_fdrv
+a69c 8d80 aic8800_fdrv /vendor/etc/modprobe.d/aic8800_fdrv
+a69c 8d40 aic8800_fdrv /vendor/etc/modprobe.d/aic8800_fdrv
+368b 8d90 aic8800_fdrv /vendor/etc/modprobe.d/aic8800_fdrv
+368b 8d92 aic8800_fdrv /vendor/etc/modprobe.d/aic8800_fdrv
+0b05 1833 mt76x2u /vendor/etc/modprobe.d/mt76x2u
+0b05 17eb mt76x2u /vendor/etc/modprobe.d/mt76x2u
+0b05 180b mt76x2u /vendor/etc/modprobe.d/mt76x2u
+0e8d 7612 mt76x2u /vendor/etc/modprobe.d/mt76x2u
+057c 8503 mt76x2u /vendor/etc/modprobe.d/mt76x2u
+7392 b711 mt76x2u /vendor/etc/modprobe.d/mt76x2u
+0846 9053 mt76x2u /vendor/etc/modprobe.d/mt76x2u
+045e 02e6 mt76x2u /vendor/etc/modprobe.d/mt76x2u
+148f 7610 mt76x0 /vendor/etc/modprobe.d/mt76x0
+13b1 003e mt76x0 /vendor/etc/modprobe.d/mt76x0
+0e8d 7610 mt76x0 /vendor/etc/modprobe.d/mt76x0
+7392 a711 mt76x0 /vendor/etc/modprobe.d/mt76x0
+148f 761a mt76x0 /vendor/etc/modprobe.d/mt76x0
+148f 760a mt76x0 /vendor/etc/modprobe.d/mt76x0
+0b05 17d1 mt76x0 /vendor/etc/modprobe.d/mt76x0
+0b05 17db mt76x0 /vendor/etc/modprobe.d/mt76x0
+0df6 0075 mt76x0 /vendor/etc/modprobe.d/mt76x0
+2019 ab31 mt76x0 /vendor/etc/modprobe.d/mt76x0
+2001 3d02 mt76x0 /vendor/etc/modprobe.d/mt76x0
+0586 3425 mt76x0 /vendor/etc/modprobe.d/mt76x0
+07b8 7610 mt76x0 /vendor/etc/modprobe.d/mt76x0
+04bb 0951 mt76x0 /vendor/etc/modprobe.d/mt76x0
+057c 8502 mt76x0 /vendor/etc/modprobe.d/mt76x0
+293c 5702 mt76x0 /vendor/etc/modprobe.d/mt76x0
+20f4 806b mt76x0 /vendor/etc/modprobe.d/mt76x0
+7392 c711 mt76x0 /vendor/etc/modprobe.d/mt76x0
+0df6 0079 mt76x0 /vendor/etc/modprobe.d/mt76x0
+2357 0105 mt76x0 /vendor/etc/modprobe.d/mt76x0
+0e8d 7630 mt76x0 /vendor/etc/modprobe.d/mt76x0
+0e8d 7650 mt76x0 /vendor/etc/modprobe.d/mt76x0
+0b05 17d3 mt7601u /vendor/etc/modprobe.d/mt7601u
+0e8d 760a mt7601u /vendor/etc/modprobe.d/mt7601u
+0e8d 760b mt7601u /vendor/etc/modprobe.d/mt7601u
+13d3 3431 mt7601u /vendor/etc/modprobe.d/mt7601u
+13d3 3434 mt7601u /vendor/etc/modprobe.d/mt7601u
+148f 7601 mt7601u /vendor/etc/modprobe.d/mt7601u
+148f 760b mt7601u /vendor/etc/modprobe.d/mt7601u
+148f 760c mt7601u /vendor/etc/modprobe.d/mt7601u
+148f 760d mt7601u /vendor/etc/modprobe.d/mt7601u
+2001 3d04 mt7601u /vendor/etc/modprobe.d/mt7601u
+2717 4106 mt7601u /vendor/etc/modprobe.d/mt7601u
+2955 0001 mt7601u /vendor/etc/modprobe.d/mt7601u
+2955 1001 mt7601u /vendor/etc/modprobe.d/mt7601u
+2a5f 1000 mt7601u /vendor/etc/modprobe.d/mt7601u
+7392 7710 mt7601u /vendor/etc/modprobe.d/mt7601u
+07b8 2870 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+07b8 2770 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+07b8 3070 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+07b8 3071 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+07b8 3072 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+1482 3c09 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+1eda 2012 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+1eda 2210 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+1eda 2310 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+8516 2070 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+8516 2770 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+8516 2870 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+8516 3070 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+8516 3071 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+8516 3072 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+14b2 3c06 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+14b2 3c07 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+14b2 3c09 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+14b2 3c12 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+14b2 3c23 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+14b2 3c25 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+14b2 3c27 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+14b2 3c28 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+14b2 3c2c rt2800usb /vendor/etc/modprobe.d/rt2800usb
+15c5 0008 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+1690 0740 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0b05 1731 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0b05 1732 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0b05 1742 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0b05 1784 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+1761 0b05 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+13d3 3247 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+13d3 3273 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+13d3 3305 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+13d3 3307 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+13d3 3321 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+050d 8053 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+050d 805c rt2800usb /vendor/etc/modprobe.d/rt2800usb
+050d 815c rt2800usb /vendor/etc/modprobe.d/rt2800usb
+050d 825a rt2800usb /vendor/etc/modprobe.d/rt2800usb
+050d 825b rt2800usb /vendor/etc/modprobe.d/rt2800usb
+050d 935a rt2800usb /vendor/etc/modprobe.d/rt2800usb
+050d 935b rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0411 00e8 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0411 0158 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0411 015d rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0411 016f rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0411 01a2 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0411 01ee rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0411 01a8 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0411 01fd rt2800usb /vendor/etc/modprobe.d/rt2800usb
+07aa 002f rt2800usb /vendor/etc/modprobe.d/rt2800usb
+07aa 003c rt2800usb /vendor/etc/modprobe.d/rt2800usb
+07aa 003f rt2800usb /vendor/etc/modprobe.d/rt2800usb
+18c5 0012 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+07d1 3c09 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+07d1 3c0a rt2800usb /vendor/etc/modprobe.d/rt2800usb
+07d1 3c0d rt2800usb /vendor/etc/modprobe.d/rt2800usb
+07d1 3c0e rt2800usb /vendor/etc/modprobe.d/rt2800usb
+07d1 3c0f rt2800usb /vendor/etc/modprobe.d/rt2800usb
+07d1 3c11 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+07d1 3c13 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+07d1 3c15 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+07d1 3c16 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+07d1 3c17 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+2001 3317 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+2001 3c1b rt2800usb /vendor/etc/modprobe.d/rt2800usb
+2001 3c25 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+07fa 7712 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0fe9 b307 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+7392 4085 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+7392 7711 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+7392 7717 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+7392 7718 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+7392 7722 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+203d 1480 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+203d 14a9 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+1740 9701 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+1740 9702 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+1740 9703 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+1740 9705 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+1740 9706 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+1740 9707 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+1740 9708 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+1740 9709 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+15a9 0012 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+1044 800b rt2800usb /vendor/etc/modprobe.d/rt2800usb
+1044 800d rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0e66 0001 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0e66 0003 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0e66 0009 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0e66 000b rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0e66 0013 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0e66 0017 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0e66 0018 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+04bb 0945 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+04bb 0947 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+04bb 0948 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+13b1 0031 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+1737 0070 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+1737 0071 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+1737 0077 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+1737 0078 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0789 0162 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0789 0163 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0789 0164 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0789 0166 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+100d 9031 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0db0 3820 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0db0 3821 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0db0 3822 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0db0 3870 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0db0 3871 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0db0 6899 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0db0 821a rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0db0 822a rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0db0 822b rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0db0 822c rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0db0 870a rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0db0 871a rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0db0 871b rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0db0 871c rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0db0 899a rt2800usb /vendor/etc/modprobe.d/rt2800usb
+1b75 3070 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+1b75 3071 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+1b75 3072 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+1b75 a200 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+20b8 8888 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+1d4d 0002 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+1d4d 000c rt2800usb /vendor/etc/modprobe.d/rt2800usb
+1d4d 000e rt2800usb /vendor/etc/modprobe.d/rt2800usb
+1d4d 0011 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0471 200f rt2800usb /vendor/etc/modprobe.d/rt2800usb
+2019 5201 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+2019 ab25 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+2019 ed06 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+1a32 0304 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+148f 2070 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+148f 2770 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+148f 2870 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+148f 3070 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+148f 3071 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+148f 3072 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+04e8 2018 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+129b 1828 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0df6 0017 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0df6 002b rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0df6 002c rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0df6 002d rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0df6 0039 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0df6 003b rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0df6 003d rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0df6 003e rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0df6 003f rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0df6 0040 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0df6 0042 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0df6 0047 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0df6 0048 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0df6 0051 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0df6 005f rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0df6 0060 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+083a 6618 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+083a 7511 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+083a 7512 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+083a 7522 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+083a 8522 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+083a a618 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+083a a701 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+083a a702 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+083a a703 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+083a b522 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+15a9 0006 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+177f 0153 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+177f 0164 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+177f 0302 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+177f 0313 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+177f 0323 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+177f 0324 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+157e 300e rt2800usb /vendor/etc/modprobe.d/rt2800usb
+157e 3013 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0cde 0022 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0cde 0025 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+5a57 0280 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+5a57 0282 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+5a57 0283 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+5a57 5257 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0586 3416 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0586 3418 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0586 341a rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0586 341e rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0586 343e rt2800usb /vendor/etc/modprobe.d/rt2800usb
+050d 945b rt2800usb /vendor/etc/modprobe.d/rt2800usb
+2001 3c17 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+083a b511 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+083a b512 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0471 20dd rt2800usb /vendor/etc/modprobe.d/rt2800usb
+148f 3370 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+148f 8070 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0df6 0050 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+177f 0163 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+177f 0165 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+8516 3572 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+1690 0744 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+1690 0761 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+1690 0764 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0b05 179d rt2800usb /vendor/etc/modprobe.d/rt2800usb
+167b 4001 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+1740 9801 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+04bb 0944 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+13b1 002f rt2800usb /vendor/etc/modprobe.d/rt2800usb
+1737 0079 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0789 0170 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+148f 3572 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0df6 0041 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0df6 0062 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0df6 0065 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0df6 0066 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0df6 0068 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0930 0a07 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+5a57 0284 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+1b75 7733 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0b05 17bc rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0b05 17ad rt2800usb /vendor/etc/modprobe.d/rt2800usb
+050d 1103 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+148f f301 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+2001 3c1f rt2800usb /vendor/etc/modprobe.d/rt2800usb
+7392 7733 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0e66 0020 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0e66 0021 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+04bb 094e rt2800usb /vendor/etc/modprobe.d/rt2800usb
+13b1 003b rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0789 016b rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0846 9012 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0846 9013 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0846 9019 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+2019 ed19 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+148f 3573 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0df6 0067 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0df6 006a rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0df6 006e rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0586 3421 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+043e 7a12 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+043e 7a32 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0b05 17e8 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+13d3 3329 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+13d3 3365 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+2001 3c15 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+2001 3c19 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+2001 3c1c rt2800usb /vendor/etc/modprobe.d/rt2800usb
+2001 3c1d rt2800usb /vendor/etc/modprobe.d/rt2800usb
+2001 3c1e rt2800usb /vendor/etc/modprobe.d/rt2800usb
+2001 3c20 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+2001 3c22 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+2001 3c23 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+043e 7a22 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+043e 7a42 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+04da 1801 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+04da 1800 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+04da 23f6 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0471 2104 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0471 2126 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0471 2180 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0471 2181 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0471 2182 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+148f 5370 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+148f 5372 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+057c 8501 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0411 0241 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0411 0253 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+2001 3c1a rt2800usb /vendor/etc/modprobe.d/rt2800usb
+2001 3c21 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+043e 7a13 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+148f 5572 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+20f4 724a rt2800usb /vendor/etc/modprobe.d/rt2800usb
+07b8 3073 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+07b8 3074 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+14b2 3c08 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+14b2 3c11 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0e0b 9031 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0e0b 9041 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0b05 166a rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0b05 1760 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0b05 1761 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0b05 1790 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0b05 17a7 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+13d3 3262 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+13d3 3284 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+13d3 3322 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+13d3 3340 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+13d3 3399 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+13d3 3400 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+13d3 3401 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+050d 1003 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0411 012e rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0411 0148 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0411 0150 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+07aa 0041 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+07aa 0042 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+18c5 0008 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+07d1 3c0b rt2800usb /vendor/etc/modprobe.d/rt2800usb
+203d 14a1 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+1740 0600 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+1740 0602 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+15a9 0010 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+1044 800c rt2800usb /vendor/etc/modprobe.d/rt2800usb
+06f8 e036 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+148f f101 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+04bb 094b rt2800usb /vendor/etc/modprobe.d/rt2800usb
+1740 0605 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+1740 0615 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0789 0168 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0789 0169 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+100d 9032 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+05a6 0101 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+1d4d 0010 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+2019 ab24 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+2019 ab29 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+18e8 6259 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+08b9 1197 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0df6 003c rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0df6 004a rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0df6 004d rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0df6 0053 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0df6 0069 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0df6 006f rt2800usb /vendor/etc/modprobe.d/rt2800usb
+0df6 0078 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+083a a512 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+083a c522 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+083a d522 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+083a f511 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+177f 0254 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+f201 5370 rt2800usb /vendor/etc/modprobe.d/rt2800usb
+07b8 b21b rt73usb /vendor/etc/modprobe.d/rt73usb
+07b8 b21c rt73usb /vendor/etc/modprobe.d/rt73usb
+07b8 b21d rt73usb /vendor/etc/modprobe.d/rt73usb
+07b8 b21e rt73usb /vendor/etc/modprobe.d/rt73usb
+07b8 b21f rt73usb /vendor/etc/modprobe.d/rt73usb
+14b2 3c10 rt73usb /vendor/etc/modprobe.d/rt73usb
+148f 9021 rt73usb /vendor/etc/modprobe.d/rt73usb
+0eb0 9021 rt73usb /vendor/etc/modprobe.d/rt73usb
+18c5 0002 rt73usb /vendor/etc/modprobe.d/rt73usb
+1690 0722 rt73usb /vendor/etc/modprobe.d/rt73usb
+0b05 1723 rt73usb /vendor/etc/modprobe.d/rt73usb
+0b05 1724 rt73usb /vendor/etc/modprobe.d/rt73usb
+050d 7050 rt73usb /vendor/etc/modprobe.d/rt73usb
+050d 705a rt73usb /vendor/etc/modprobe.d/rt73usb
+050d 905b rt73usb /vendor/etc/modprobe.d/rt73usb
+050d 905c rt73usb /vendor/etc/modprobe.d/rt73usb
+1631 c019 rt73usb /vendor/etc/modprobe.d/rt73usb
+08dd 0120 rt73usb /vendor/etc/modprobe.d/rt73usb
+0411 00d8 rt73usb /vendor/etc/modprobe.d/rt73usb
+0411 00d9 rt73usb /vendor/etc/modprobe.d/rt73usb
+0411 00e6 rt73usb /vendor/etc/modprobe.d/rt73usb
+0411 00f4 rt73usb /vendor/etc/modprobe.d/rt73usb
+0411 0116 rt73usb /vendor/etc/modprobe.d/rt73usb
+0411 0119 rt73usb /vendor/etc/modprobe.d/rt73usb
+0411 0137 rt73usb /vendor/etc/modprobe.d/rt73usb
+178d 02be rt73usb /vendor/etc/modprobe.d/rt73usb
+1371 9022 rt73usb /vendor/etc/modprobe.d/rt73usb
+1371 9032 rt73usb /vendor/etc/modprobe.d/rt73usb
+14b2 3c22 rt73usb /vendor/etc/modprobe.d/rt73usb
+07aa 002e rt73usb /vendor/etc/modprobe.d/rt73usb
+07d1 3c03 rt73usb /vendor/etc/modprobe.d/rt73usb
+07d1 3c04 rt73usb /vendor/etc/modprobe.d/rt73usb
+07d1 3c06 rt73usb /vendor/etc/modprobe.d/rt73usb
+07d1 3c07 rt73usb /vendor/etc/modprobe.d/rt73usb
+7392 7318 rt73usb /vendor/etc/modprobe.d/rt73usb
+7392 7618 rt73usb /vendor/etc/modprobe.d/rt73usb
+1740 3701 rt73usb /vendor/etc/modprobe.d/rt73usb
+15a9 0004 rt73usb /vendor/etc/modprobe.d/rt73usb
+1044 8008 rt73usb /vendor/etc/modprobe.d/rt73usb
+1044 800a rt73usb /vendor/etc/modprobe.d/rt73usb
+1472 0009 rt73usb /vendor/etc/modprobe.d/rt73usb
+06f8 e002 rt73usb /vendor/etc/modprobe.d/rt73usb
+06f8 e010 rt73usb /vendor/etc/modprobe.d/rt73usb
+06f8 e020 rt73usb /vendor/etc/modprobe.d/rt73usb
+13b1 0020 rt73usb /vendor/etc/modprobe.d/rt73usb
+13b1 0023 rt73usb /vendor/etc/modprobe.d/rt73usb
+13b1 0028 rt73usb /vendor/etc/modprobe.d/rt73usb
+0db0 4600 rt73usb /vendor/etc/modprobe.d/rt73usb
+0db0 6877 rt73usb /vendor/etc/modprobe.d/rt73usb
+0db0 6874 rt73usb /vendor/etc/modprobe.d/rt73usb
+0db0 a861 rt73usb /vendor/etc/modprobe.d/rt73usb
+0db0 a874 rt73usb /vendor/etc/modprobe.d/rt73usb
+1b75 7318 rt73usb /vendor/etc/modprobe.d/rt73usb
+04bb 093d rt73usb /vendor/etc/modprobe.d/rt73usb
+148f 2573 rt73usb /vendor/etc/modprobe.d/rt73usb
+148f 2671 rt73usb /vendor/etc/modprobe.d/rt73usb
+0812 3101 rt73usb /vendor/etc/modprobe.d/rt73usb
+18e8 6196 rt73usb /vendor/etc/modprobe.d/rt73usb
+18e8 6229 rt73usb /vendor/etc/modprobe.d/rt73usb
+18e8 6238 rt73usb /vendor/etc/modprobe.d/rt73usb
+04e8 4471 rt73usb /vendor/etc/modprobe.d/rt73usb
+1740 7100 rt73usb /vendor/etc/modprobe.d/rt73usb
+0df6 0024 rt73usb /vendor/etc/modprobe.d/rt73usb
+0df6 0027 rt73usb /vendor/etc/modprobe.d/rt73usb
+0df6 002f rt73usb /vendor/etc/modprobe.d/rt73usb
+0df6 90ac rt73usb /vendor/etc/modprobe.d/rt73usb
+0df6 9712 rt73usb /vendor/etc/modprobe.d/rt73usb
+0769 31f3 rt73usb /vendor/etc/modprobe.d/rt73usb
+6933 5001 rt73usb /vendor/etc/modprobe.d/rt73usb
+0471 200a rt73usb /vendor/etc/modprobe.d/rt73usb
+2019 ab01 rt73usb /vendor/etc/modprobe.d/rt73usb
+2019 ab50 rt73usb /vendor/etc/modprobe.d/rt73usb
+7167 3840 rt73usb /vendor/etc/modprobe.d/rt73usb
+0cde 001c rt73usb /vendor/etc/modprobe.d/rt73usb
+0586 3415 rt73usb /vendor/etc/modprobe.d/rt73usb
+0b05 1706 rt2500usb /vendor/etc/modprobe.d/rt2500usb
+0b05 1707 rt2500usb /vendor/etc/modprobe.d/rt2500usb
+050d 7051 rt2500usb /vendor/etc/modprobe.d/rt2500usb
+13b1 000d rt2500usb /vendor/etc/modprobe.d/rt2500usb
+13b1 0011 rt2500usb /vendor/etc/modprobe.d/rt2500usb
+13b1 001a rt2500usb /vendor/etc/modprobe.d/rt2500usb
+14b2 3c02 rt2500usb /vendor/etc/modprobe.d/rt2500usb
+2001 3c00 rt2500usb /vendor/etc/modprobe.d/rt2500usb
+1044 8001 rt2500usb /vendor/etc/modprobe.d/rt2500usb
+1044 8007 rt2500usb /vendor/etc/modprobe.d/rt2500usb
+06f8 e000 rt2500usb /vendor/etc/modprobe.d/rt2500usb
+0411 005e rt2500usb /vendor/etc/modprobe.d/rt2500usb
+0411 0066 rt2500usb /vendor/etc/modprobe.d/rt2500usb
+0411 0067 rt2500usb /vendor/etc/modprobe.d/rt2500usb
+0411 008b rt2500usb /vendor/etc/modprobe.d/rt2500usb
+0411 0097 rt2500usb /vendor/etc/modprobe.d/rt2500usb
+0db0 6861 rt2500usb /vendor/etc/modprobe.d/rt2500usb
+0db0 6865 rt2500usb /vendor/etc/modprobe.d/rt2500usb
+0db0 6869 rt2500usb /vendor/etc/modprobe.d/rt2500usb
+148f 1706 rt2500usb /vendor/etc/modprobe.d/rt2500usb
+148f 2570 rt2500usb /vendor/etc/modprobe.d/rt2500usb
+148f 9020 rt2500usb /vendor/etc/modprobe.d/rt2500usb
+079b 004b rt2500usb /vendor/etc/modprobe.d/rt2500usb
+0681 3c06 rt2500usb /vendor/etc/modprobe.d/rt2500usb
+0707 ee13 rt2500usb /vendor/etc/modprobe.d/rt2500usb
+114b 0110 rt2500usb /vendor/etc/modprobe.d/rt2500usb
+0769 11f3 rt2500usb /vendor/etc/modprobe.d/rt2500usb
+0eb0 9020 rt2500usb /vendor/etc/modprobe.d/rt2500usb
+0f88 3012 rt2500usb /vendor/etc/modprobe.d/rt2500usb
+5a57 0260 rt2500usb /vendor/etc/modprobe.d/rt2500usb
+0bda 8191 rtl8192cu /vendor/etc/modprobe.d/rtl8192cu
+0bda 018a rtl8192cu /vendor/etc/modprobe.d/rtl8192cu
+0bda 8170 rtl8192cu /vendor/etc/modprobe.d/rtl8192cu
+0bda 8176 rtl8192cu /vendor/etc/modprobe.d/rtl8192cu
+0bda 8177 rtl8192cu /vendor/etc/modprobe.d/rtl8192cu
+0bda 817a rtl8192cu /vendor/etc/modprobe.d/rtl8192cu
+0bda 817b rtl8192cu /vendor/etc/modprobe.d/rtl8192cu
+0bda 817d rtl8192cu /vendor/etc/modprobe.d/rtl8192cu
+0bda 817e rtl8192cu /vendor/etc/modprobe.d/rtl8192cu
+0bda 817f rtl8192cu /vendor/etc/modprobe.d/rtl8192cu
+0bda 818a rtl8192cu /vendor/etc/modprobe.d/rtl8192cu
+0bda 819a rtl8192cu /vendor/etc/modprobe.d/rtl8192cu
+0bda 8754 rtl8192cu /vendor/etc/modprobe.d/rtl8192cu
+0bda 8178 rtl8192cu /vendor/etc/modprobe.d/rtl8192cu
+0bda 817c rtl8192cu /vendor/etc/modprobe.d/rtl8192cu
+050d 1102 rtl8192cu /vendor/etc/modprobe.d/rtl8192cu
+050d 11f2 rtl8192cu /vendor/etc/modprobe.d/rtl8192cu
+06f8 e033 rtl8192cu /vendor/etc/modprobe.d/rtl8192cu
+07b8 8188 rtl8192cu /vendor/etc/modprobe.d/rtl8192cu
+07b8 8189 rtl8192cu /vendor/etc/modprobe.d/rtl8192cu
+0846 9041 rtl8192cu /vendor/etc/modprobe.d/rtl8192cu
+0846 9043 rtl8192cu /vendor/etc/modprobe.d/rtl8192cu
+0b05 17ba rtl8192cu /vendor/etc/modprobe.d/rtl8192cu
+0bda 5088 rtl8192cu /vendor/etc/modprobe.d/rtl8192cu
+0df6 0052 rtl8192cu /vendor/etc/modprobe.d/rtl8192cu
+0df6 005c rtl8192cu /vendor/etc/modprobe.d/rtl8192cu
+0df6 0070 rtl8192cu /vendor/etc/modprobe.d/rtl8192cu
+0df6 0077 rtl8192cu /vendor/etc/modprobe.d/rtl8192cu
+0eb0 9071 rtl8192cu /vendor/etc/modprobe.d/rtl8192cu
+4856 0091 rtl8192cu /vendor/etc/modprobe.d/rtl8192cu
+103c 1629 rtl8192cu /vendor/etc/modprobe.d/rtl8192cu
+13d3 3357 rtl8192cu /vendor/etc/modprobe.d/rtl8192cu
+2001 3308 rtl8192cu /vendor/etc/modprobe.d/rtl8192cu
+2019 4902 rtl8192cu /vendor/etc/modprobe.d/rtl8192cu
+2019 ab2a rtl8192cu /vendor/etc/modprobe.d/rtl8192cu
+2019 ab2e rtl8192cu /vendor/etc/modprobe.d/rtl8192cu
+2019 ed17 rtl8192cu /vendor/etc/modprobe.d/rtl8192cu
+20f4 648b rtl8192cu /vendor/etc/modprobe.d/rtl8192cu
+7392 7811 rtl8192cu /vendor/etc/modprobe.d/rtl8192cu
+13d3 3358 rtl8192cu /vendor/etc/modprobe.d/rtl8192cu
+13d3 3359 rtl8192cu /vendor/etc/modprobe.d/rtl8192cu
+4855 0090 rtl8192cu /vendor/etc/modprobe.d/rtl8192cu
+4855 0091 rtl8192cu /vendor/etc/modprobe.d/rtl8192cu
+9846 9041 rtl8192cu /vendor/etc/modprobe.d/rtl8192cu
+0bda 317f rtl8192cu /vendor/etc/modprobe.d/rtl8192cu
+04f2 aff7 rtl8192cu /vendor/etc/modprobe.d/rtl8192cu
+04f2 aff9 rtl8192cu /vendor/etc/modprobe.d/rtl8192cu
+04f2 affa rtl8192cu /vendor/etc/modprobe.d/rtl8192cu
+04f2 aff8 rtl8192cu /vendor/etc/modprobe.d/rtl8192cu
+04f2 affb rtl8192cu /vendor/etc/modprobe.d/rtl8192cu
+04f2 affc rtl8192cu /vendor/etc/modprobe.d/rtl8192cu
+2019 1201 rtl8192cu /vendor/etc/modprobe.d/rtl8192cu
+050d 1004 rtl8192cu /vendor/etc/modprobe.d/rtl8192cu
+050d 2102 rtl8192cu /vendor/etc/modprobe.d/rtl8192cu
+050d 2103 rtl8192cu /vendor/etc/modprobe.d/rtl8192cu
+0586 341f rtl8192cu /vendor/etc/modprobe.d/rtl8192cu
+07aa 0056 rtl8192cu /vendor/etc/modprobe.d/rtl8192cu
+07b8 8178 rtl8192cu /vendor/etc/modprobe.d/rtl8192cu
+0846 9021 rtl8192cu /vendor/etc/modprobe.d/rtl8192cu
+0846 f001 rtl8192cu /vendor/etc/modprobe.d/rtl8192cu
+0b05 17ab rtl8192cu /vendor/etc/modprobe.d/rtl8192cu
+0bda 8186 rtl8192cu /vendor/etc/modprobe.d/rtl8192cu
+0df6 0061 rtl8192cu /vendor/etc/modprobe.d/rtl8192cu
+0e66 0019 rtl8192cu /vendor/etc/modprobe.d/rtl8192cu
+2001 3307 rtl8192cu /vendor/etc/modprobe.d/rtl8192cu
+2001 3309 rtl8192cu /vendor/etc/modprobe.d/rtl8192cu
+2001 330a rtl8192cu /vendor/etc/modprobe.d/rtl8192cu
+2001 330d rtl8192cu /vendor/etc/modprobe.d/rtl8192cu
+2019 ab2b rtl8192cu /vendor/etc/modprobe.d/rtl8192cu
+20f4 624d rtl8192cu /vendor/etc/modprobe.d/rtl8192cu
+2357 0100 rtl8192cu /vendor/etc/modprobe.d/rtl8192cu
+7392 7822 rtl8192cu /vendor/etc/modprobe.d/rtl8192cu
+0bda 8724 rtl8xxxu /vendor/etc/modprobe.d/rtl8xxxu
+0bda 1724 rtl8xxxu /vendor/etc/modprobe.d/rtl8xxxu
+0bda 0724 rtl8xxxu /vendor/etc/modprobe.d/rtl8xxxu
+0bda b720 rtl8xxxu /vendor/etc/modprobe.d/rtl8xxxu
+1058 0631 rtl8xxxu /vendor/etc/modprobe.d/rtl8xxxu
+04bb 094c rtl8xxxu /vendor/etc/modprobe.d/rtl8xxxu
+0bda 1e1e rtl8xxxu /vendor/etc/modprobe.d/rtl8xxxu
+2001 330b rtl8xxxu /vendor/etc/modprobe.d/rtl8xxxu
+cdab 8010 rtl8xxxu /vendor/etc/modprobe.d/rtl8xxxu
+04bb 0950 rtl8xxxu /vendor/etc/modprobe.d/rtl8xxxu
+06f8 e035 rtl8xxxu /vendor/etc/modprobe.d/rtl8xxxu
+0789 016d rtl8xxxu /vendor/etc/modprobe.d/rtl8xxxu
+0bda 2e2e rtl8xxxu /vendor/etc/modprobe.d/rtl8xxxu
+0b05 171d rtl8187 /vendor/etc/modprobe.d/rtl8187
+050d 705e rtl8187 /vendor/etc/modprobe.d/rtl8187
+0bda 8187 rtl8187 /vendor/etc/modprobe.d/rtl8187
+0bda 8189 rtl8187 /vendor/etc/modprobe.d/rtl8187
+0bda 8197 rtl8187 /vendor/etc/modprobe.d/rtl8187
+0bda 8198 rtl8187 /vendor/etc/modprobe.d/rtl8187
+0769 11f2 rtl8187 /vendor/etc/modprobe.d/rtl8187
+0789 010c rtl8187 /vendor/etc/modprobe.d/rtl8187
+0846 6100 rtl8187 /vendor/etc/modprobe.d/rtl8187
+0846 6a00 rtl8187 /vendor/etc/modprobe.d/rtl8187
+0846 4260 rtl8187 /vendor/etc/modprobe.d/rtl8187
+03f0 ca02 rtl8187 /vendor/etc/modprobe.d/rtl8187
+0df6 000d rtl8187 /vendor/etc/modprobe.d/rtl8187
+0df6 0028 rtl8187 /vendor/etc/modprobe.d/rtl8187
+0df6 0029 rtl8187 /vendor/etc/modprobe.d/rtl8187
+114b 0150 rtl8187 /vendor/etc/modprobe.d/rtl8187
+1371 9401 rtl8187 /vendor/etc/modprobe.d/rtl8187
+13d1 abe6 rtl8187 /vendor/etc/modprobe.d/rtl8187
+18e8 6232 rtl8187 /vendor/etc/modprobe.d/rtl8187
+1b75 8187 rtl8187 /vendor/etc/modprobe.d/rtl8187
+1737 0073 rtl8187 /vendor/etc/modprobe.d/rtl8187
+0cf3 9271 ath9k_htc /vendor/etc/modprobe.d/ath9k_htc
+0cf3 1006 ath9k_htc /vendor/etc/modprobe.d/ath9k_htc
+0846 9030 ath9k_htc /vendor/etc/modprobe.d/ath9k_htc
+07b8 9271 ath9k_htc /vendor/etc/modprobe.d/ath9k_htc
+07d1 3a10 ath9k_htc /vendor/etc/modprobe.d/ath9k_htc
+13d3 3327 ath9k_htc /vendor/etc/modprobe.d/ath9k_htc
+13d3 3328 ath9k_htc /vendor/etc/modprobe.d/ath9k_htc
+13d3 3346 ath9k_htc /vendor/etc/modprobe.d/ath9k_htc
+13d3 3348 ath9k_htc /vendor/etc/modprobe.d/ath9k_htc
+13d3 3349 ath9k_htc /vendor/etc/modprobe.d/ath9k_htc
+13d3 3350 ath9k_htc /vendor/etc/modprobe.d/ath9k_htc
+04ca 4605 ath9k_htc /vendor/etc/modprobe.d/ath9k_htc
+040d 3801 ath9k_htc /vendor/etc/modprobe.d/ath9k_htc
+0cf3 b003 ath9k_htc /vendor/etc/modprobe.d/ath9k_htc
+0cf3 b002 ath9k_htc /vendor/etc/modprobe.d/ath9k_htc
+057c 8403 ath9k_htc /vendor/etc/modprobe.d/ath9k_htc
+0471 209e ath9k_htc /vendor/etc/modprobe.d/ath9k_htc
+1eda 2315 ath9k_htc /vendor/etc/modprobe.d/ath9k_htc
+0cf3 7015 ath9k_htc /vendor/etc/modprobe.d/ath9k_htc
+1668 1200 ath9k_htc /vendor/etc/modprobe.d/ath9k_htc
+0cf3 7010 ath9k_htc /vendor/etc/modprobe.d/ath9k_htc
+0846 9018 ath9k_htc /vendor/etc/modprobe.d/ath9k_htc
+083a a704 ath9k_htc /vendor/etc/modprobe.d/ath9k_htc
+0411 017f ath9k_htc /vendor/etc/modprobe.d/ath9k_htc
+0411 0197 ath9k_htc /vendor/etc/modprobe.d/ath9k_htc
+04da 3904 ath9k_htc /vendor/etc/modprobe.d/ath9k_htc
+0930 0a08 ath9k_htc /vendor/etc/modprobe.d/ath9k_htc
+0cf3 20ff ath9k_htc /vendor/etc/modprobe.d/ath9k_htc
+0cf3 9170 carl9170 /vendor/etc/modprobe.d/carl9170
+0cf3 1001 carl9170 /vendor/etc/modprobe.d/carl9170
+0cf3 1002 carl9170 /vendor/etc/modprobe.d/carl9170
+0cf3 1010 carl9170 /vendor/etc/modprobe.d/carl9170
+0cf3 1011 carl9170 /vendor/etc/modprobe.d/carl9170
+cace 0300 carl9170 /vendor/etc/modprobe.d/carl9170
+07d1 3c10 carl9170 /vendor/etc/modprobe.d/carl9170
+07d1 3a09 carl9170 /vendor/etc/modprobe.d/carl9170
+07d1 3a0f carl9170 /vendor/etc/modprobe.d/carl9170
+0846 9040 carl9170 /vendor/etc/modprobe.d/carl9170
+0846 9010 carl9170 /vendor/etc/modprobe.d/carl9170
+0846 9001 carl9170 /vendor/etc/modprobe.d/carl9170
+0ace 1221 carl9170 /vendor/etc/modprobe.d/carl9170
+1435 0804 carl9170 /vendor/etc/modprobe.d/carl9170
+1435 0326 carl9170 /vendor/etc/modprobe.d/carl9170
+0586 3417 carl9170 /vendor/etc/modprobe.d/carl9170
+0cde 0023 carl9170 /vendor/etc/modprobe.d/carl9170
+0cde 0026 carl9170 /vendor/etc/modprobe.d/carl9170
+0cde 0027 carl9170 /vendor/etc/modprobe.d/carl9170
+083a f522 carl9170 /vendor/etc/modprobe.d/carl9170
+2019 5304 carl9170 /vendor/etc/modprobe.d/carl9170
+04bb 093f carl9170 /vendor/etc/modprobe.d/carl9170
+0409 0249 carl9170 /vendor/etc/modprobe.d/carl9170
+0409 02b4 carl9170 /vendor/etc/modprobe.d/carl9170
+057c 8401 carl9170 /vendor/etc/modprobe.d/carl9170
+057c 8402 carl9170 /vendor/etc/modprobe.d/carl9170
+1b75 9170 carl9170 /vendor/etc/modprobe.d/carl9170
+168c 0001 ar5523 /vendor/etc/modprobe.d/ar5523
+168c 0002 ar5523 /vendor/etc/modprobe.d/ar5523
+0cf3 0001 ar5523 /vendor/etc/modprobe.d/ar5523
+0cf3 0002 ar5523 /vendor/etc/modprobe.d/ar5523
+0cf3 0003 ar5523 /vendor/etc/modprobe.d/ar5523
+0cf3 0004 ar5523 /vendor/etc/modprobe.d/ar5523
+0cf3 0005 ar5523 /vendor/etc/modprobe.d/ar5523
+0cf3 0006 ar5523 /vendor/etc/modprobe.d/ar5523
+0d8e 7801 ar5523 /vendor/etc/modprobe.d/ar5523
+0d8e 7802 ar5523 /vendor/etc/modprobe.d/ar5523
+0d8e 7811 ar5523 /vendor/etc/modprobe.d/ar5523
+0d8e 7812 ar5523 /vendor/etc/modprobe.d/ar5523
+2001 3a00 ar5523 /vendor/etc/modprobe.d/ar5523
+2001 3a01 ar5523 /vendor/etc/modprobe.d/ar5523
+2001 3a02 ar5523 /vendor/etc/modprobe.d/ar5523
+2001 3a03 ar5523 /vendor/etc/modprobe.d/ar5523
+2001 3a04 ar5523 /vendor/etc/modprobe.d/ar5523
+2001 3a05 ar5523 /vendor/etc/modprobe.d/ar5523
+07d1 3a07 ar5523 /vendor/etc/modprobe.d/ar5523
+07d1 3a08 ar5523 /vendor/etc/modprobe.d/ar5523
+1690 0712 ar5523 /vendor/etc/modprobe.d/ar5523
+1690 0713 ar5523 /vendor/etc/modprobe.d/ar5523
+1690 0710 ar5523 /vendor/etc/modprobe.d/ar5523
+1690 0711 ar5523 /vendor/etc/modprobe.d/ar5523
+129b 160b ar5523 /vendor/etc/modprobe.d/ar5523
+129b 160c ar5523 /vendor/etc/modprobe.d/ar5523
+16ab 7801 ar5523 /vendor/etc/modprobe.d/ar5523
+16ab 7802 ar5523 /vendor/etc/modprobe.d/ar5523
+16ab 7811 ar5523 /vendor/etc/modprobe.d/ar5523
+16ab 7812 ar5523 /vendor/etc/modprobe.d/ar5523
+0d8e 7803 ar5523 /vendor/etc/modprobe.d/ar5523
+0846 4300 ar5523 /vendor/etc/modprobe.d/ar5523
+0846 4301 ar5523 /vendor/etc/modprobe.d/ar5523
+0846 4250 ar5523 /vendor/etc/modprobe.d/ar5523
+0846 4251 ar5523 /vendor/etc/modprobe.d/ar5523
+0846 5f00 ar5523 /vendor/etc/modprobe.d/ar5523
+0846 5f01 ar5523 /vendor/etc/modprobe.d/ar5523
+083a 4506 ar5523 /vendor/etc/modprobe.d/ar5523
+083a 4507 ar5523 /vendor/etc/modprobe.d/ar5523
+157e 3006 ar5523 /vendor/etc/modprobe.d/ar5523
+157e 3007 ar5523 /vendor/etc/modprobe.d/ar5523
+157e 3205 ar5523 /vendor/etc/modprobe.d/ar5523
+157e 3206 ar5523 /vendor/etc/modprobe.d/ar5523
+1435 0826 ar5523 /vendor/etc/modprobe.d/ar5523
+1435 0827 ar5523 /vendor/etc/modprobe.d/ar5523
+1435 0828 ar5523 /vendor/etc/modprobe.d/ar5523
+1435 0829 ar5523 /vendor/etc/modprobe.d/ar5523
+0cde 0012 ar5523 /vendor/etc/modprobe.d/ar5523
+0cde 0013 ar5523 /vendor/etc/modprobe.d/ar5523
+1385 4250 ar5523 /vendor/etc/modprobe.d/ar5523
+1385 4251 ar5523 /vendor/etc/modprobe.d/ar5523
+1385 5f00 ar5523 /vendor/etc/modprobe.d/ar5523
+1385 5f01 ar5523 /vendor/etc/modprobe.d/ar5523
+1385 5f02 ar5523 /vendor/etc/modprobe.d/ar5523
+1385 5f03 ar5523 /vendor/etc/modprobe.d/ar5523
+0a5c bd1e brcmfmac /vendor/etc/modprobe.d/brcmfmac
+0a5c bd17 brcmfmac /vendor/etc/modprobe.d/brcmfmac
+0a5c bd1f brcmfmac /vendor/etc/modprobe.d/brcmfmac
+0a5c bd27 brcmfmac /vendor/etc/modprobe.d/brcmfmac
+13b1 0039 brcmfmac /vendor/etc/modprobe.d/brcmfmac
+04b4 bd29 brcmfmac /vendor/etc/modprobe.d/brcmfmac
+043e 3101 brcmfmac /vendor/etc/modprobe.d/brcmfmac
+0a5c 0bdc brcmfmac /vendor/etc/modprobe.d/brcmfmac
+04b4 0bdc brcmfmac /vendor/etc/modprobe.d/brcmfmac
+1286 2041 mwifiex_usb /vendor/etc/modprobe.d/mwifiex_usb
+1286 2042 mwifiex_usb /vendor/etc/modprobe.d/mwifiex_usb
+1286 2043 mwifiex_usb /vendor/etc/modprobe.d/mwifiex_usb
+1286 2044 mwifiex_usb /vendor/etc/modprobe.d/mwifiex_usb
+1286 2049 mwifiex_usb /vendor/etc/modprobe.d/mwifiex_usb
+1286 204a mwifiex_usb /vendor/etc/modprobe.d/mwifiex_usb
+1286 2052 mwifiex_usb /vendor/etc/modprobe.d/mwifiex_usb
+1286 204e mwifiex_usb /vendor/etc/modprobe.d/mwifiex_usb
+0105 145f zd1211rw /vendor/etc/modprobe.d/zd1211rw
+0586 3401 zd1211rw /vendor/etc/modprobe.d/zd1211rw
+0586 3402 zd1211rw /vendor/etc/modprobe.d/zd1211rw
+0586 3407 zd1211rw /vendor/etc/modprobe.d/zd1211rw
+0586 3409 zd1211rw /vendor/etc/modprobe.d/zd1211rw
+079b 004a zd1211rw /vendor/etc/modprobe.d/zd1211rw
+07b8 6001 zd1211rw /vendor/etc/modprobe.d/zd1211rw
+0ace 1211 zd1211rw /vendor/etc/modprobe.d/zd1211rw
+0ace a211 zd1211rw /vendor/etc/modprobe.d/zd1211rw
+0b05 170c zd1211rw /vendor/etc/modprobe.d/zd1211rw
+0b3b 1630 zd1211rw /vendor/etc/modprobe.d/zd1211rw
+0b3b 5630 zd1211rw /vendor/etc/modprobe.d/zd1211rw
+0df6 9071 zd1211rw /vendor/etc/modprobe.d/zd1211rw
+0df6 9075 zd1211rw /vendor/etc/modprobe.d/zd1211rw
+126f a006 zd1211rw /vendor/etc/modprobe.d/zd1211rw
+129b 1666 zd1211rw /vendor/etc/modprobe.d/zd1211rw
+13b1 001e zd1211rw /vendor/etc/modprobe.d/zd1211rw
+1435 0711 zd1211rw /vendor/etc/modprobe.d/zd1211rw
+14ea ab10 zd1211rw /vendor/etc/modprobe.d/zd1211rw
+14ea ab13 zd1211rw /vendor/etc/modprobe.d/zd1211rw
+157e 300a zd1211rw /vendor/etc/modprobe.d/zd1211rw
+157e 300b zd1211rw /vendor/etc/modprobe.d/zd1211rw
+157e 3204 zd1211rw /vendor/etc/modprobe.d/zd1211rw
+157e 3207 zd1211rw /vendor/etc/modprobe.d/zd1211rw
+1740 2000 zd1211rw /vendor/etc/modprobe.d/zd1211rw
+6891 a727 zd1211rw /vendor/etc/modprobe.d/zd1211rw
+0053 5301 zd1211rw /vendor/etc/modprobe.d/zd1211rw
+0409 0248 zd1211rw /vendor/etc/modprobe.d/zd1211rw
+0411 00da zd1211rw /vendor/etc/modprobe.d/zd1211rw
+0471 1236 zd1211rw /vendor/etc/modprobe.d/zd1211rw
+0471 1237 zd1211rw /vendor/etc/modprobe.d/zd1211rw
+050d 705c zd1211rw /vendor/etc/modprobe.d/zd1211rw
+054c 0257 zd1211rw /vendor/etc/modprobe.d/zd1211rw
+0586 340a zd1211rw /vendor/etc/modprobe.d/zd1211rw
+0586 340f zd1211rw /vendor/etc/modprobe.d/zd1211rw
+0586 3410 zd1211rw /vendor/etc/modprobe.d/zd1211rw
+0586 3412 zd1211rw /vendor/etc/modprobe.d/zd1211rw
+0586 3413 zd1211rw /vendor/etc/modprobe.d/zd1211rw
+079b 0062 zd1211rw /vendor/etc/modprobe.d/zd1211rw
+07fa 1196 zd1211rw /vendor/etc/modprobe.d/zd1211rw
+083a 4505 zd1211rw /vendor/etc/modprobe.d/zd1211rw
+083a e501 zd1211rw /vendor/etc/modprobe.d/zd1211rw
+083a e503 zd1211rw /vendor/etc/modprobe.d/zd1211rw
+083a e506 zd1211rw /vendor/etc/modprobe.d/zd1211rw
+0ace 1215 zd1211rw /vendor/etc/modprobe.d/zd1211rw
+0ace b215 zd1211rw /vendor/etc/modprobe.d/zd1211rw
+0b05 171b zd1211rw /vendor/etc/modprobe.d/zd1211rw
+0baf 0121 zd1211rw /vendor/etc/modprobe.d/zd1211rw
+0cde 001a zd1211rw /vendor/etc/modprobe.d/zd1211rw
+0df6 0036 zd1211rw /vendor/etc/modprobe.d/zd1211rw
+129b 1667 zd1211rw /vendor/etc/modprobe.d/zd1211rw
+13b1 0024 zd1211rw /vendor/etc/modprobe.d/zd1211rw
+157e 300d zd1211rw /vendor/etc/modprobe.d/zd1211rw
+1582 6003 zd1211rw /vendor/etc/modprobe.d/zd1211rw
+2019 5303 zd1211rw /vendor/etc/modprobe.d/zd1211rw
+2019 ed01 zd1211rw /vendor/etc/modprobe.d/zd1211rw
+0ace 2011 zd1211rw /vendor/etc/modprobe.d/zd1211rw
+0ace 20ff zd1211rw /vendor/etc/modprobe.d/zd1211rw
+0586 3400 zd1201 /vendor/etc/modprobe.d/zd1201
+0ace 1201 zd1201 /vendor/etc/modprobe.d/zd1201
+050d 6051 zd1201 /vendor/etc/modprobe.d/zd1201
+0db0 6823 zd1201 /vendor/etc/modprobe.d/zd1201
+1044 8004 zd1201 /vendor/etc/modprobe.d/zd1201
+1044 8005 zd1201 /vendor/etc/modprobe.d/zd1201
+0411 0050 p54usb /vendor/etc/modprobe.d/p54usb
+045e 00c2 p54usb /vendor/etc/modprobe.d/p54usb
+0506 0a11 p54usb /vendor/etc/modprobe.d/p54usb
+0675 0530 p54usb /vendor/etc/modprobe.d/p54usb
+06b9 0120 p54usb /vendor/etc/modprobe.d/p54usb
+0707 ee06 p54usb /vendor/etc/modprobe.d/p54usb
+07aa 001c p54usb /vendor/etc/modprobe.d/p54usb
+083a 4501 p54usb /vendor/etc/modprobe.d/p54usb
+083a 4502 p54usb /vendor/etc/modprobe.d/p54usb
+083a 5501 p54usb /vendor/etc/modprobe.d/p54usb
+0846 4200 p54usb /vendor/etc/modprobe.d/p54usb
+0846 4210 p54usb /vendor/etc/modprobe.d/p54usb
+0846 4220 p54usb /vendor/etc/modprobe.d/p54usb
+09aa 1000 p54usb /vendor/etc/modprobe.d/p54usb
+0bf8 1007 p54usb /vendor/etc/modprobe.d/p54usb
+0cde 0006 p54usb /vendor/etc/modprobe.d/p54usb
+0db0 6826 p54usb /vendor/etc/modprobe.d/p54usb
+107b 55f2 p54usb /vendor/etc/modprobe.d/p54usb
+124a 4023 p54usb /vendor/etc/modprobe.d/p54usb
+124a 4026 p54usb /vendor/etc/modprobe.d/p54usb
+1435 0210 p54usb /vendor/etc/modprobe.d/p54usb
+15a9 0002 p54usb /vendor/etc/modprobe.d/p54usb
+1630 0005 p54usb /vendor/etc/modprobe.d/p54usb
+182d 096b p54usb /vendor/etc/modprobe.d/p54usb
+1915 2234 p54usb /vendor/etc/modprobe.d/p54usb
+1915 2235 p54usb /vendor/etc/modprobe.d/p54usb
+2001 3701 p54usb /vendor/etc/modprobe.d/p54usb
+2001 3703 p54usb /vendor/etc/modprobe.d/p54usb
+2001 3762 p54usb /vendor/etc/modprobe.d/p54usb
+5041 2234 p54usb /vendor/etc/modprobe.d/p54usb
+5041 2235 p54usb /vendor/etc/modprobe.d/p54usb
+0471 1230 p54usb /vendor/etc/modprobe.d/p54usb
+0572 2000 p54usb /vendor/etc/modprobe.d/p54usb
+0572 2002 p54usb /vendor/etc/modprobe.d/p54usb
+06a9 000e p54usb /vendor/etc/modprobe.d/p54usb
+06b9 0121 p54usb /vendor/etc/modprobe.d/p54usb
+07aa 0020 p54usb /vendor/etc/modprobe.d/p54usb
+0803 4310 p54usb /vendor/etc/modprobe.d/p54usb
+083a 4521 p54usb /vendor/etc/modprobe.d/p54usb
+083a 4531 p54usb /vendor/etc/modprobe.d/p54usb
+083a c501 p54usb /vendor/etc/modprobe.d/p54usb
+083a f503 p54usb /vendor/etc/modprobe.d/p54usb
+0846 4240 p54usb /vendor/etc/modprobe.d/p54usb
+0915 2000 p54usb /vendor/etc/modprobe.d/p54usb
+0915 2002 p54usb /vendor/etc/modprobe.d/p54usb
+0baf 0118 p54usb /vendor/etc/modprobe.d/p54usb
+0bf8 1009 p54usb /vendor/etc/modprobe.d/p54usb
+0cde 0008 p54usb /vendor/etc/modprobe.d/p54usb
+0cde 0015 p54usb /vendor/etc/modprobe.d/p54usb
+0d8e 3762 p54usb /vendor/etc/modprobe.d/p54usb
+124a 4025 p54usb /vendor/etc/modprobe.d/p54usb
+1260 ee22 p54usb /vendor/etc/modprobe.d/p54usb
+13b1 000a p54usb /vendor/etc/modprobe.d/p54usb
+13b1 000c p54usb /vendor/etc/modprobe.d/p54usb
+1413 5400 p54usb /vendor/etc/modprobe.d/p54usb
+1435 0427 p54usb /vendor/etc/modprobe.d/p54usb
+1668 1050 p54usb /vendor/etc/modprobe.d/p54usb
+1740 1000 p54usb /vendor/etc/modprobe.d/p54usb
+2001 3704 p54usb /vendor/etc/modprobe.d/p54usb
+2001 3705 p54usb /vendor/etc/modprobe.d/p54usb
+413c 5513 p54usb /vendor/etc/modprobe.d/p54usb
+413c 8102 p54usb /vendor/etc/modprobe.d/p54usb
+413c 8104 p54usb /vendor/etc/modprobe.d/p54usb
+03eb 7603 at76c50x-usb /vendor/etc/modprobe.d/at76c50x-usb
+066b 2211 at76c50x-usb /vendor/etc/modprobe.d/at76c50x-usb
+0864 4100 at76c50x-usb /vendor/etc/modprobe.d/at76c50x-usb
+0b3b 1612 at76c50x-usb /vendor/etc/modprobe.d/at76c50x-usb
+03f0 011c at76c50x-usb /vendor/etc/modprobe.d/at76c50x-usb
+0cde 0001 at76c50x-usb /vendor/etc/modprobe.d/at76c50x-usb
+069a 0320 at76c50x-usb /vendor/etc/modprobe.d/at76c50x-usb
+0d5c a001 at76c50x-usb /vendor/etc/modprobe.d/at76c50x-usb
+04a5 9000 at76c50x-usb /vendor/etc/modprobe.d/at76c50x-usb
+05dd ff31 at76c50x-usb /vendor/etc/modprobe.d/at76c50x-usb
+8086 0200 at76c50x-usb /vendor/etc/modprobe.d/at76c50x-usb
+0d8e 7100 at76c50x-usb /vendor/etc/modprobe.d/at76c50x-usb
+0d8e 7110 at76c50x-usb /vendor/etc/modprobe.d/at76c50x-usb
+04bb 0919 at76c50x-usb /vendor/etc/modprobe.d/at76c50x-usb
+069a 0821 at76c50x-usb /vendor/etc/modprobe.d/at76c50x-usb
+03eb 7604 at76c50x-usb /vendor/etc/modprobe.d/at76c50x-usb
+055d a000 at76c50x-usb /vendor/etc/modprobe.d/at76c50x-usb
+03eb 7605 at76c50x-usb /vendor/etc/modprobe.d/at76c50x-usb
+069a 0321 at76c50x-usb /vendor/etc/modprobe.d/at76c50x-usb
+077b 2219 at76c50x-usb /vendor/etc/modprobe.d/at76c50x-usb
+077b 2227 at76c50x-usb /vendor/etc/modprobe.d/at76c50x-usb
+0864 4102 at76c50x-usb /vendor/etc/modprobe.d/at76c50x-usb
+2001 3200 at76c50x-usb /vendor/etc/modprobe.d/at76c50x-usb
+1668 7605 at76c50x-usb /vendor/etc/modprobe.d/at76c50x-usb
+03eb 4102 at76c50x-usb /vendor/etc/modprobe.d/at76c50x-usb
+1371 5743 at76c50x-usb /vendor/etc/modprobe.d/at76c50x-usb
+1371 0001 at76c50x-usb /vendor/etc/modprobe.d/at76c50x-usb
+1371 0002 at76c50x-usb /vendor/etc/modprobe.d/at76c50x-usb
+04a5 9001 at76c50x-usb /vendor/etc/modprobe.d/at76c50x-usb
+0506 0a01 at76c50x-usb /vendor/etc/modprobe.d/at76c50x-usb
+0681 001b at76c50x-usb /vendor/etc/modprobe.d/at76c50x-usb
+050d 0050 at76c50x-usb /vendor/etc/modprobe.d/at76c50x-usb
+07b8 b000 at76c50x-usb /vendor/etc/modprobe.d/at76c50x-usb
+1044 8003 at76c50x-usb /vendor/etc/modprobe.d/at76c50x-usb
+2019 3220 at76c50x-usb /vendor/etc/modprobe.d/at76c50x-usb
+049f 0032 at76c50x-usb /vendor/etc/modprobe.d/at76c50x-usb
+07aa 0011 at76c50x-usb /vendor/etc/modprobe.d/at76c50x-usb
+07aa 0018 at76c50x-usb /vendor/etc/modprobe.d/at76c50x-usb
+05dd ff35 at76c50x-usb /vendor/etc/modprobe.d/at76c50x-usb
+083a 3501 at76c50x-usb /vendor/etc/modprobe.d/at76c50x-usb
+0d5c a002 at76c50x-usb /vendor/etc/modprobe.d/at76c50x-usb
+03eb 7606 at76c50x-usb /vendor/etc/modprobe.d/at76c50x-usb
+03eb 7613 at76c50x-usb /vendor/etc/modprobe.d/at76c50x-usb
+1371 0014 at76c50x-usb /vendor/etc/modprobe.d/at76c50x-usb
+1371 0013 at76c50x-usb /vendor/etc/modprobe.d/at76c50x-usb
+1915 2233 at76c50x-usb /vendor/etc/modprobe.d/at76c50x-usb
+12fd 1001 at76c50x-usb /vendor/etc/modprobe.d/at76c50x-usb
+07aa 7613 at76c50x-usb /vendor/etc/modprobe.d/at76c50x-usb
+0db0 1020 at76c50x-usb /vendor/etc/modprobe.d/at76c50x-usb
+03eb 7614 at76c50x-usb /vendor/etc/modprobe.d/at76c50x-usb
+03eb 7617 at76c50x-usb /vendor/etc/modprobe.d/at76c50x-usb
+1690 0701 at76c50x-usb /vendor/etc/modprobe.d/at76c50x-usb
+1557 0002 at76c50x-usb /vendor/etc/modprobe.d/at76c50x-usb
+03eb 7615 at76c50x-usb /vendor/etc/modprobe.d/at76c50x-usb
+1618 9113 rsi_usb /vendor/etc/modprobe.d/rsi_usb
+0411 00bc rndis_wlan /vendor/etc/modprobe.d/rndis_wlan
+0baf 011b rndis_wlan /vendor/etc/modprobe.d/rndis_wlan
+050d 011b rndis_wlan /vendor/etc/modprobe.d/rndis_wlan
+1799 011b rndis_wlan /vendor/etc/modprobe.d/rndis_wlan
+13b1 0014 rndis_wlan /vendor/etc/modprobe.d/rndis_wlan
+13b1 0026 rndis_wlan /vendor/etc/modprobe.d/rndis_wlan
+0b05 1717 rndis_wlan /vendor/etc/modprobe.d/rndis_wlan
+0a5c d11b rndis_wlan /vendor/etc/modprobe.d/rndis_wlan
+1690 0715 rndis_wlan /vendor/etc/modprobe.d/rndis_wlan
+13b1 000e rndis_wlan /vendor/etc/modprobe.d/rndis_wlan
+0baf 0111 rndis_wlan /vendor/etc/modprobe.d/rndis_wlan
+0411 004b rndis_wlan /vendor/etc/modprobe.d/rndis_wlan

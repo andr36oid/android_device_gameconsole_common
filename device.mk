@@ -371,20 +371,15 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/wifi/p2p_supplicant.conf:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/p2p_supplicant_overlay.conf \
     $(LOCAL_PATH)/configs/wifi/p2p_supplicant.conf:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/p2p_supplicant.conf
 
+# USB WiFi: VID:PID whitelist and per-driver module chains, generated from
+# the kernel build by scripts/android/gen-usb-wifi-list.sh, plus firmware
+USB_WIFI_PATH := device/gameconsole/common
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/wifi/rt2870.bin:$(TARGET_COPY_OUT_ROOT)/lib/firmware/rt2870.bin \
-    $(LOCAL_PATH)/configs/wifi/rtl8192cufw_TMSC.bin:$(TARGET_COPY_OUT_ROOT)/lib/firmware/rtlwifi/rtl8192cufw_TMSC.bin \
-    $(LOCAL_PATH)/configs/wifi/wifi_id_list.txt:$(TARGET_COPY_OUT_VENDOR)/etc/wifi_id_list.txt \
-    $(LOCAL_PATH)/configs/wifi/8188eu:$(TARGET_COPY_OUT_VENDOR)/etc/modprobe.d/8188eu \
-    $(LOCAL_PATH)/configs/wifi/8192cu:$(TARGET_COPY_OUT_VENDOR)/etc/modprobe.d/8192cu \
-    $(LOCAL_PATH)/configs/wifi/8812au:$(TARGET_COPY_OUT_VENDOR)/etc/modprobe.d/8812au \
-    $(LOCAL_PATH)/configs/wifi/8814au:$(TARGET_COPY_OUT_VENDOR)/etc/modprobe.d/8814au \
-    $(LOCAL_PATH)/configs/wifi/88x2bu:$(TARGET_COPY_OUT_VENDOR)/etc/modprobe.d/88x2bu \
-    $(LOCAL_PATH)/configs/wifi/8821au:$(TARGET_COPY_OUT_VENDOR)/etc/modprobe.d/8821au \
-    $(LOCAL_PATH)/configs/wifi/8821cu:$(TARGET_COPY_OUT_VENDOR)/etc/modprobe.d/8821cu \
-    $(LOCAL_PATH)/configs/wifi/rt2800usb:$(TARGET_COPY_OUT_VENDOR)/etc/modprobe.d/rt2800usb \
-    $(LOCAL_PATH)/configs/wifi/mt7610:$(TARGET_COPY_OUT_VENDOR)/etc/modprobe.d/mt7610 \
-    $(LOCAL_PATH)/configs/wifi/mt7601:$(TARGET_COPY_OUT_VENDOR)/etc/modprobe.d/mt7601 \
+    $(USB_WIFI_PATH)/configs/wifi/wifi_id_list.txt:$(TARGET_COPY_OUT_VENDOR)/etc/wifi_id_list.txt \
+    $(foreach f,$(notdir $(wildcard $(USB_WIFI_PATH)/configs/wifi/modprobe.d/*)),\
+        $(USB_WIFI_PATH)/configs/wifi/modprobe.d/$(f):$(TARGET_COPY_OUT_VENDOR)/etc/modprobe.d/$(f)) \
+    $(foreach f,$(shell cd $(USB_WIFI_PATH)/firmware/usbwifi && find . -type f ! -path './LICENSES/*' ! -name README.md | sed 's|^\./||'),\
+        $(USB_WIFI_PATH)/firmware/usbwifi/$(f):$(TARGET_COPY_OUT_VENDOR)/firmware/$(f)) \
     $(LOCAL_PATH)/configs/wifi/RT2870STA.dat:$(TARGET_COPY_OUT_SYSTEM)/etc/Wireless/RT2870STA/RT2870STA.dat
 	    
 # Copy device kcm
