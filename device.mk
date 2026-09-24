@@ -396,7 +396,8 @@ PRODUCT_PRODUCT_PROPERTIES += \
 
 # Joystick as mouse
 PRODUCT_PACKAGES += \
-	joyMouse
+	joyMouse \
+	JoyMouseSettings
 
 # Remove phone packages that added by default product configuration
 PRODUCT_PACKAGES += \

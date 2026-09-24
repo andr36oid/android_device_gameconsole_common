@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Every key maps to a system property, see PropertyStore. The defaults here
+     must match the joyMouse daemon's. -->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="active"
+        android:summary="@string/active_summary"
+        android:title="@string/active_title" />
+
+    <PreferenceCategory android:title="@string/category_switching">
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="toggle_enabled"
+            android:summary="@string/toggle_enabled_summary"
+            android:title="@string/toggle_enabled_title" />
+
+        <MultiSelectListPreference
+            android:defaultValue="@array/toggle_default"
+            android:dependency="toggle_enabled"
+            android:dialogTitle="@string/toggle_dialog_title"
+            android:entries="@array/button_labels"
+            android:entryValues="@array/button_values"
+            android:key="toggle"
+            android:title="@string/toggle_title" />
+
+        <ListPreference
+            android:defaultValue="1000"
+            android:dependency="toggle_enabled"
+            android:entries="@array/toggle_ms_labels"
+            android:entryValues="@array/toggle_ms_values"
+            android:key="toggle_ms"
+            android:summary="%s"
+            android:title="@string/toggle_ms_title" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="start_active"
+            android:summary="@string/start_active_summary"
+            android:title="@string/start_active_title" />
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="toast"
+            android:summary="@string/toast_summary"
+            android:title="@string/toast_title" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/category_pointer">
+
+        <ListPreference
+            android:defaultValue="100"
+            android:entries="@array/speed_labels"
+            android:entryValues="@array/speed_values"
+            android:key="speed"
+            android:summary="%s"
+            android:title="@string/speed_title" />
+
+        <ListPreference
+            android:defaultValue="2.2"
+            android:entries="@array/curve_labels"
+            android:entryValues="@array/curve_values"
+            android:key="curve"
+            android:summary="@string/curve_summary"
+            android:title="@string/curve_title" />
+
+        <ListPreference
+            android:defaultValue="10"
+            android:entries="@array/deadzone_labels"
+            android:entryValues="@array/deadzone_values"
+            android:key="deadzone"
+            android:summary="@string/deadzone_summary"
+            android:title="@string/deadzone_title" />
+
+        <ListPreference
+            android:defaultValue="35"
+            android:entries="@array/precision_labels"
+            android:entryValues="@array/precision_values"
+            android:key="precision"
+            android:summary="@string/precision_summary"
+            android:title="@string/precision_title" />
+
+        <ListPreference
+            android:defaultValue="right"
+            android:entries="@array/pointer_stick_labels"
+            android:entryValues="@array/pointer_stick_values"
+            android:key="pointer_stick"
+            android:summary="@string/pointer_stick_summary"
+            android:title="@string/pointer_stick_title" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="pointer_invert_x"
+            android:title="@string/pointer_invert_x_title" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="pointer_invert_y"
+            android:title="@string/pointer_invert_y_title" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/category_scrolling">
+
+        <ListPreference
+            android:defaultValue="100"
+            android:entries="@array/scroll_speed_labels"
+            android:entryValues="@array/scroll_speed_values"
+            android:key="scroll_speed"
+            android:summary="%s"
+            android:title="@string/scroll_speed_title" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="natural_scroll"
+            android:summary="@string/natural_scroll_summary"
+            android:title="@string/natural_scroll_title" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/category_buttons">
+
+        <PreferenceScreen
+            android:key="buttons"
+            android:summary="@string/buttons_summary"
+            android:title="@string/buttons_title">
+
+            <Preference
+                android:key="buttons_hint"
+                android:selectable="false"
+                android:summary="@string/buttons_hint" />
+
+            <ListPreference
+                android:defaultValue="smart"
+                android:entries="@array/action_labels"
+                android:entryValues="@array/action_values"
+                android:key="btn_a"
+                android:summary="%s"
+                android:title="@string/button_a" />
+
+            <ListPreference
+                android:defaultValue="pass"
+                android:entries="@array/action_labels"
+                android:entryValues="@array/action_values"
+                android:key="btn_b"
+                android:summary="%s"
+                android:title="@string/button_b" />
+
+            <ListPreference
+                android:defaultValue="pass"
+                android:entries="@array/action_labels"
+                android:entryValues="@array/action_values"
+                android:key="btn_x"
+                android:summary="%s"
+                android:title="@string/button_x" />
+
+            <ListPreference
+                android:defaultValue="pass"
+                android:entries="@array/action_labels"
+                android:entryValues="@array/action_values"
+                android:key="btn_y"
+                android:summary="%s"
+                android:title="@string/button_y" />
+
+            <ListPreference
+                android:defaultValue="right"
+                android:entries="@array/action_labels"
+                android:entryValues="@array/action_values"
+                android:key="btn_l1"
+                android:summary="%s"
+                android:title="@string/button_l1" />
+
+            <ListPreference
+                android:defaultValue="left"
+                android:entries="@array/action_labels"
+                android:entryValues="@array/action_values"
+                android:key="btn_r1"
+                android:summary="%s"
+                android:title="@string/button_r1" />
+
+            <ListPreference
+                android:defaultValue="scroll"
+                android:entries="@array/action_labels"
+                android:entryValues="@array/action_values"
+                android:key="btn_l2"
+                android:summary="%s"
+                android:title="@string/button_l2" />
+
+            <ListPreference
+                android:defaultValue="precision"
+                android:entries="@array/action_labels"
+                android:entryValues="@array/action_values"
+                android:key="btn_r2"
+                android:summary="%s"
+                android:title="@string/button_r2" />
+
+            <ListPreference
+                android:defaultValue="none"
+                android:entries="@array/action_labels"
+                android:entryValues="@array/action_values"
+                android:key="btn_l3"
+                android:summary="%s"
+                android:title="@string/button_title_l3" />
+
+            <ListPreference
+                android:defaultValue="left"
+                android:entries="@array/action_labels"
+                android:entryValues="@array/action_values"
+                android:key="btn_r3"
+                android:summary="%s"
+                android:title="@string/button_title_r3" />
+
+            <ListPreference
+                android:defaultValue="pass"
+                android:entries="@array/action_labels"
+                android:entryValues="@array/action_values"
+                android:key="btn_select"
+                android:summary="%s"
+                android:title="@string/button_select" />
+
+            <ListPreference
+                android:defaultValue="pass"
+                android:entries="@array/action_labels"
+                android:entryValues="@array/action_values"
+                android:key="btn_start"
+                android:summary="%s"
+                android:title="@string/button_start" />
+
+            <ListPreference
+                android:defaultValue="pass"
+                android:entries="@array/action_labels"
+                android:entryValues="@array/action_values"
+                android:key="btn_mode"
+                android:summary="%s"
+                android:title="@string/button_title_mode" />
+
+            <ListPreference
+                android:defaultValue="pass"
+                android:entries="@array/action_labels"
+                android:entryValues="@array/action_values"
+                android:key="btn_up"
+                android:summary="%s"
+                android:title="@string/button_title_up" />
+
+            <ListPreference
+                android:defaultValue="pass"
+                android:entries="@array/action_labels"
+                android:entryValues="@array/action_values"
+                android:key="btn_down"
+                android:summary="%s"
+                android:title="@string/button_title_down" />
+
+            <ListPreference
+                android:defaultValue="pass"
+                android:entries="@array/action_labels"
+                android:entryValues="@array/action_values"
+                android:key="btn_left"
+                android:summary="%s"
+                android:title="@string/button_title_left" />
+
+            <ListPreference
+                android:defaultValue="pass"
+                android:entries="@array/action_labels"
+                android:entryValues="@array/action_values"
+                android:key="btn_right"
+                android:summary="%s"
+                android:title="@string/button_title_right" />
+
+        </PreferenceScreen>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/category_controls">
+
+        <Preference
+            android:key="controls"
+            android:selectable="false"
+            android:title="@string/controls_title" />
+
+        <Preference
+            android:key="reset"
+            android:persistent="false"
+            android:title="@string/reset_title" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

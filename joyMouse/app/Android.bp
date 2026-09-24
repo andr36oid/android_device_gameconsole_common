@@ -1,0 +1,12 @@
+// Settings page and mode toast for the joyMouse daemon. Runs as the system
+// user so it can write the persist.sys.joymouse.* properties.
+android_app {
+    name: "JoyMouseSettings",
+    srcs: ["src/**/*.java"],
+    resource_dirs: ["res"],
+    certificate: "platform",
+    platform_apis: true,
+    optimize: {
+        enabled: false,
+    },
+}

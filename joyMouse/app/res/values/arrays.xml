@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Button names as the daemon knows them (persist.sys.joymouse.btn_<name>). -->
+    <string-array name="button_values" translatable="false">
+        <item>A</item>
+        <item>B</item>
+        <item>X</item>
+        <item>Y</item>
+        <item>L1</item>
+        <item>R1</item>
+        <item>L2</item>
+        <item>R2</item>
+        <item>L3</item>
+        <item>R3</item>
+        <item>SELECT</item>
+        <item>START</item>
+        <item>MODE</item>
+        <item>UP</item>
+        <item>DOWN</item>
+        <item>LEFT</item>
+        <item>RIGHT</item>
+    </string-array>
+    <string-array name="button_labels">
+        <item>@string/button_a</item>
+        <item>@string/button_b</item>
+        <item>@string/button_x</item>
+        <item>@string/button_y</item>
+        <item>@string/button_l1</item>
+        <item>@string/button_r1</item>
+        <item>@string/button_l2</item>
+        <item>@string/button_r2</item>
+        <item>@string/button_title_l3</item>
+        <item>@string/button_title_r3</item>
+        <item>@string/button_select</item>
+        <item>@string/button_start</item>
+        <item>@string/button_title_mode</item>
+        <item>@string/button_title_up</item>
+        <item>@string/button_title_down</item>
+        <item>@string/button_title_left</item>
+        <item>@string/button_title_right</item>
+    </string-array>
+    <!-- Short names for the toast, same order as button_values. -->
+    <string-array name="button_short_labels">
+        <item>@string/button_a</item>
+        <item>@string/button_b</item>
+        <item>@string/button_x</item>
+        <item>@string/button_y</item>
+        <item>@string/button_l1</item>
+        <item>@string/button_r1</item>
+        <item>@string/button_l2</item>
+        <item>@string/button_r2</item>
+        <item>@string/button_l3</item>
+        <item>@string/button_r3</item>
+        <item>@string/button_select</item>
+        <item>@string/button_start</item>
+        <item>@string/button_mode</item>
+        <item>@string/button_up</item>
+        <item>@string/button_down</item>
+        <item>@string/button_left</item>
+        <item>@string/button_right</item>
+    </string-array>
+    <string-array name="toggle_default" translatable="false">
+        <item>L3</item>
+        <item>R3</item>
+    </string-array>
+
+    <string-array name="action_values" translatable="false">
+        <item>pass</item>
+        <item>none</item>
+        <item>left</item>
+        <item>right</item>
+        <item>middle</item>
+        <item>back</item>
+        <item>forward</item>
+        <item>smart</item>
+        <item>precision</item>
+        <item>scroll</item>
+    </string-array>
+    <string-array name="action_labels">
+        <item>Normal button</item>
+        <item>Nothing</item>
+        <item>Left click</item>
+        <item>Right click</item>
+        <item>Middle click</item>
+        <item>Back</item>
+        <item>Forward</item>
+        <item>Left click while the pointer is shown, normal button otherwise</item>
+        <item>Precision: slow pointer while held</item>
+        <item>Scroll: pointer stick scrolls while held</item>
+    </string-array>
+
+    <string-array name="toggle_ms_values" translatable="false">
+        <item>500</item>
+        <item>750</item>
+        <item>1000</item>
+        <item>1500</item>
+        <item>2000</item>
+        <item>3000</item>
+    </string-array>
+    <string-array name="toggle_ms_labels">
+        <item>0.5 seconds</item>
+        <item>0.75 seconds</item>
+        <item>1 second</item>
+        <item>1.5 seconds</item>
+        <item>2 seconds</item>
+        <item>3 seconds</item>
+    </string-array>
+
+    <string-array name="speed_values" translatable="false">
+        <item>25</item>
+        <item>40</item>
+        <item>60</item>
+        <item>80</item>
+        <item>100</item>
+        <item>125</item>
+        <item>150</item>
+        <item>200</item>
+        <item>250</item>
+        <item>300</item>
+    </string-array>
+    <string-array name="speed_labels">
+        <item>25%</item>
+        <item>40%</item>
+        <item>60%</item>
+        <item>80%</item>
+        <item>100% (default)</item>
+        <item>125%</item>
+        <item>150%</item>
+        <item>200%</item>
+        <item>250%</item>
+        <item>300%</item>
+    </string-array>
+
+    <string-array name="curve_values" translatable="false">
+        <item>1.0</item>
+        <item>1.6</item>
+        <item>2.2</item>
+        <item>3.0</item>
+        <item>3.8</item>
+    </string-array>
+    <string-array name="curve_labels">
+        <item>Off (linear)</item>
+        <item>Low</item>
+        <item>Medium (default)</item>
+        <item>High</item>
+        <item>Very high</item>
+    </string-array>
+
+    <string-array name="deadzone_values" translatable="false">
+        <item>4</item>
+        <item>6</item>
+        <item>8</item>
+        <item>10</item>
+        <item>12</item>
+        <item>15</item>
+        <item>20</item>
+        <item>25</item>
+    </string-array>
+    <string-array name="deadzone_labels">
+        <item>4%</item>
+        <item>6%</item>
+        <item>8%</item>
+        <item>10% (default)</item>
+        <item>12%</item>
+        <item>15%</item>
+        <item>20%</item>
+        <item>25%</item>
+    </string-array>
+
+    <string-array name="precision_values" translatable="false">
+        <item>15</item>
+        <item>25</item>
+        <item>35</item>
+        <item>50</item>
+        <item>70</item>
+    </string-array>
+    <string-array name="precision_labels">
+        <item>15%</item>
+        <item>25%</item>
+        <item>35% (default)</item>
+        <item>50%</item>
+        <item>70%</item>
+    </string-array>
+
+    <string-array name="pointer_stick_values" translatable="false">
+        <item>right</item>
+        <item>left</item>
+    </string-array>
+    <string-array name="pointer_stick_labels">
+        <item>@string/stick_right</item>
+        <item>@string/stick_left</item>
+    </string-array>
+
+    <string-array name="scroll_speed_values" translatable="false">
+        <item>25</item>
+        <item>50</item>
+        <item>75</item>
+        <item>100</item>
+        <item>150</item>
+        <item>200</item>
+        <item>300</item>
+    </string-array>
+    <string-array name="scroll_speed_labels">
+        <item>25%</item>
+        <item>50%</item>
+        <item>75%</item>
+        <item>100% (default)</item>
+        <item>150%</item>
+        <item>200%</item>
+        <item>300%</item>
+    </string-array>
+</resources>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Joystick mouse</string>
+    <string name="settings_summary">Pointer speed, scrolling and button mapping</string>
+
+    <string name="active_title">Mouse mode</string>
+    <string name="active_summary">Use the analog sticks as a mouse</string>
+
+    <string name="category_switching">Switching</string>
+    <string name="toggle_enabled_title">Toggle with a button combination</string>
+    <string name="toggle_enabled_summary">Hold the combination to switch mouse mode on or off</string>
+    <string name="toggle_title">Button combination</string>
+    <string name="toggle_dialog_title">Pick at least two buttons</string>
+    <string name="toggle_too_few">Pick at least two buttons so mouse mode can\'t be switched by accident</string>
+    <string name="toggle_ms_title">Hold time</string>
+    <string name="start_active_title">Start in mouse mode</string>
+    <string name="start_active_summary">Switch mouse mode on after booting</string>
+    <string name="toast_title">On-screen message</string>
+    <string name="toast_summary">Show the controls whenever mouse mode switches</string>
+
+    <string name="category_pointer">Pointer</string>
+    <string name="speed_title">Pointer speed</string>
+    <string name="curve_title">Fine control</string>
+    <string name="curve_summary">%s. Higher values slow the pointer down near the center of the stick</string>
+    <string name="deadzone_title">Stick dead zone</string>
+    <string name="deadzone_summary">%s. Raise it if the pointer creeps on its own</string>
+    <string name="precision_title">Precision speed</string>
+    <string name="precision_summary">%s of the normal speed while the precision button is held</string>
+    <string name="pointer_stick_title">Pointer stick</string>
+    <string name="pointer_stick_summary">%s. The other stick scrolls</string>
+    <string name="pointer_invert_x_title">Invert horizontal movement</string>
+    <string name="pointer_invert_y_title">Invert vertical movement</string>
+
+    <string name="category_scrolling">Scrolling</string>
+    <string name="scroll_speed_title">Scroll speed</string>
+    <string name="natural_scroll_title">Natural scrolling</string>
+    <string name="natural_scroll_summary">Content moves with the stick, like dragging on a touchscreen</string>
+
+    <string name="category_buttons">Buttons</string>
+    <string name="buttons_title">Button mapping</string>
+    <string name="buttons_summary">What every button does while mouse mode is on</string>
+    <string name="buttons_hint">Buttons in the toggle combination act when tapped or held on their own.</string>
+
+    <string name="category_controls">Controls</string>
+    <string name="controls_title">Current controls</string>
+    <string name="reset_title">Reset to defaults</string>
+    <string name="reset_confirm">Reset all joystick mouse settings to their defaults?</string>
+
+    <!-- Toast and control summary. -->
+    <string name="mode_on">Mouse mode on</string>
+    <string name="mode_off">Mouse mode off</string>
+    <string name="stick_left">Left stick</string>
+    <string name="stick_right">Right stick</string>
+    <string name="sticks_pointer">%1$s: pointer</string>
+    <string name="sticks_pointer_scroll">%1$s: pointer · %2$s: scroll</string>
+    <string name="hold_to_switch_off">Hold %1$s to switch off</string>
+    <string name="hold_to_switch_on">Hold %1$s for %2$s to switch on</string>
+    <string name="switch_in_settings">Switch it on in Settings › System › Joystick mouse</string>
+    <string name="seconds">%1$s s</string>
+    <string name="binding">%1$s: %2$s</string>
+    <string name="list_separator">" · "</string>
+    <string name="button_separator">", "</string>
+    <string name="chord_separator">" + "</string>
+
+    <string name="does_click">click</string>
+    <string name="does_right_click">right-click</string>
+    <string name="does_middle_click">middle-click</string>
+    <string name="does_back">back</string>
+    <string name="does_forward">forward</string>
+    <string name="does_precision">precision (hold)</string>
+    <string name="does_scroll">scroll (hold)</string>
+
+    <string name="button_a">A</string>
+    <string name="button_b">B</string>
+    <string name="button_x">X</string>
+    <string name="button_y">Y</string>
+    <string name="button_l1">L1</string>
+    <string name="button_r1">R1</string>
+    <string name="button_l2">L2</string>
+    <string name="button_r2">R2</string>
+    <string name="button_l3">L3</string>
+    <string name="button_r3">R3</string>
+    <string name="button_select">Select</string>
+    <string name="button_start">Start</string>
+    <string name="button_mode">Fn</string>
+    <string name="button_up">Up</string>
+    <string name="button_down">Down</string>
+    <string name="button_left">Left</string>
+    <string name="button_right">Right</string>
+
+    <string name="button_title_l3">L3 (press left stick)</string>
+    <string name="button_title_r3">R3 (press right stick)</string>
+    <string name="button_title_mode">Fn / Mode</string>
+    <string name="button_title_up">D-pad up</string>
+    <string name="button_title_down">D-pad down</string>
+    <string name="button_title_left">D-pad left</string>
+    <string name="button_title_right">D-pad right</string>
+</resources>
