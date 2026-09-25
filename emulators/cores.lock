@@ -1,0 +1,26 @@
+# libretro cores shipped with the ROM, built from source by scripts/build-cores.sh.
+#
+# tier:    foss          -> OSI/FSF approved license, always shipped
+#          noncommercial -> free to redistribute, but NOT for commercial use;
+#                           only shipped with GAMECONSOLE_EMU_NONCOMMERCIAL_CORES=true
+# build:   jni   -> ndk-build in <path>/jni
+#          cmake -> cmake with the NDK toolchain in <path>, extra args comma separated
+# license: file inside the source tree that gets copied into the NOTICE
+#
+# name              tier           spdx                build  path                  license_file         args                                      repo                                                commit
+fceumm              foss           GPL-2.0-or-later    jni    .                     Copying              -                                         https://github.com/libretro/libretro-fceumm.git     236ccdfc911e84c60fea6b9d0699c2d440a8de14
+gambatte            foss           GPL-2.0-only        jni    libgambatte/libretro  COPYING              -                                         https://github.com/libretro/gambatte-libretro.git   d9d6cd06382d1ced30de34d56d3609452323dab1
+mgba                foss           MPL-2.0             cmake  .                     LICENSE              -DLIBMGBA_ONLY=ON,-DBUILD_LIBRETRO=ON     https://github.com/libretro/mgba.git                7a12d6d4b9acb14c0ae62c9166b6a2f3d08007f6
+gpsp                foss           GPL-2.0-or-later    jni    .                     COPYING              -                                         https://github.com/libretro/gpsp.git                5819380c2ffb0900219d700a382ee68c464ebb99
+pcsx_rearmed        foss           GPL-2.0-or-later    jni    .                     COPYING              -                                         https://github.com/libretro/pcsx_rearmed.git        ff81ed17a15241d2f3730cdd7585b38e172532ca
+mednafen_pce_fast   foss           GPL-2.0-or-later    jni    .                     COPYING              -                                         https://github.com/libretro/beetle-pce-fast-libretro.git 076a24e1b10f76f3a7a8e849d25fab89f81ce1e9
+gearsystem          foss           GPL-3.0-only        jni    platforms/libretro    LICENSE              -                                         https://github.com/drhelius/Gearsystem.git          0e35ec681bac7850d1518057aac38e4522066e16
+clownmdemu          foss           AGPL-3.0-or-later   cmake  .                     LICENCE.txt          -DUNITY_BUILD=ON                          https://github.com/Clownacy/clownmdemu-libretro.git f8395036544d806ebc68fd110a5621c49991a91d
+mednafen_ngp        foss           GPL-2.0-or-later    jni    .                     COPYING              -                                         https://github.com/libretro/beetle-ngp-libretro.git a50d5ac288a81f2104ddf43195a4efdd15c72227
+mednafen_wswan      foss           GPL-2.0-or-later    jni    .                     COPYING              -                                         https://github.com/libretro/beetle-wswan-libretro.git 4b01295838ea89e3f1355bbe4cb5cf98aa6108cd
+stella2014          foss           GPL-2.0-or-later    jni    .                     stella/license.txt   -                                         https://github.com/libretro/stella2014-libretro.git 7d1361e407e63f29e52892655069e5fb4096e691
+prosystem           foss           GPL-2.0-only        jni    .                     License.txt          -                                         https://github.com/libretro/prosystem-libretro.git  8a88014287c7a01cd568067e5a557d0a2b2a051f
+handy               foss           Zlib                jni    .                     lynx/license.txt     -                                         https://github.com/libretro/libretro-handy.git      bc55d462f0b2d6b073ea93dc552ebd73cec60fd1
+snes9x2010          noncommercial  LicenseRef-snes9x   jni    .                     LICENSE.txt          -                                         https://github.com/libretro/snes9x2010.git          fe690dd321fa5a46b5234a2bde089d2518c62b0e
+genesis_plus_gx     noncommercial  LicenseRef-gpgx     jni    libretro              LICENSE.txt          -                                         https://github.com/libretro/Genesis-Plus-GX.git     c2838c7dc4236fc2fe94e5dbd08b41486067918e
+picodrive           noncommercial  LicenseRef-picodrive jni   .                     COPYING              -                                         https://github.com/libretro/picodrive.git           ab021146b70eef7ec0ac2afe06a94e9b4c16ef74

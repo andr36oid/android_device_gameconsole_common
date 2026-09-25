@@ -1,0 +1,12 @@
+on post-fs-data
+    mkdir /data/misc/gameconsole 0700 root root
+
+service gameconsole-emu /system/bin/sh /system/etc/gameconsole/gameconsole-emu.sh
+    class main
+    user root
+    group root system
+    disabled
+    oneshot
+
+on property:sys.boot_completed=1
+    start gameconsole-emu
