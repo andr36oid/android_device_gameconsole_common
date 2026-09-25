@@ -458,6 +458,9 @@ PRODUCT_PACKAGES += \
 	Cromite \
 	LeanbackIME \
 
+# Preinstalled emulators (RetroArch + libretro cores, PPSSPP), see emulators/README.md
+$(call inherit-product, device/gameconsole/common/emulators/emulators.mk)
+
 # Include rootaccess
 PRODUCT_PACKAGES += \
     phh-su \
