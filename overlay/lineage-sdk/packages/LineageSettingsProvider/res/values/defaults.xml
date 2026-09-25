@@ -8,4 +8,8 @@
          Needs the LineageSettingsProvider change adding def_berry_black_theme. -->
     <bool name="def_berry_black_theme">true</bool>
 
+    <!-- Never send LineageOS stats unless the user opts in (already the
+         upstream default, pinned here since the setup wizard no longer asks) -->
+    <bool name="def_stats_collection">false</bool>
+
 </resources>

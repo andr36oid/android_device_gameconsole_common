@@ -32,6 +32,9 @@
     <string name="airplane_mode_toggleable_radios">bluetooth,wifi</string>
     <bool name="def_haptic_feedback">false</bool>
     <bool name="def_bluetooth_on">false</bool>
+    <!-- Location off by default (0 == off, 3 == on); the setup wizard no
+         longer asks about it -->
+    <integer name="def_location_mode">0</integer>
     <!--    <bool name="def_device_provisioned">true</bool>  -->
 
 </resources>
