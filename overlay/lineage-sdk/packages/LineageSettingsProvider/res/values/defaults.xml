@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Pure black background for the dark theme ("Pure black" under
+         Settings > Display > Dark theme). SystemUI turns the black theme
+         overlay off at boot unless this setting is set, so the dark theme
+         default in the framework overlay alone only gives dark grey.
+         Needs the LineageSettingsProvider change adding def_berry_black_theme. -->
+    <bool name="def_berry_black_theme">true</bool>
+
+</resources>

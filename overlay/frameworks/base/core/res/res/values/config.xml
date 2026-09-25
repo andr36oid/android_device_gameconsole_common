@@ -226,6 +226,11 @@
 
     <!-- Flag indicating whether or not to enable night mode detection. -->
     <bool name="config_enableNightMode">true</bool>
+
+    <!-- Dark theme by default (UiModeManager.MODE_NIGHT_YES). The pure black
+         variant is switched on by def_berry_black_theme in
+         overlay/lineage-sdk/packages/LineageSettingsProvider. -->
+    <integer name="config_defaultNightMode">2</integer>
     
     <!-- Whether or not swipe up gesture's opt-in setting is available on this device -->
     <bool name="config_swipe_up_gesture_setting_available">true</bool>
