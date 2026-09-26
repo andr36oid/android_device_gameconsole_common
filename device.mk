@@ -40,6 +40,11 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/emulated_storage.mk)
 # Enable userspace reboot
 $(call inherit-product, $(SRC_TARGET_DIR)/product/userspace_reboot.mk)
 
+# Black default wallpaper. A product overlay, as those beat device overlays, and set
+# before inheriting Lineage so it comes ahead of vendor/lineage/overlay/common.
+PRODUCT_PACKAGE_OVERLAYS += \
+	device/gameconsole/common/overlay-wallpaper
+
 # Inherit some common Lineage stuff.
 $(call inherit-product, vendor/lineage/config/common_mini_tablet_wifionly.mk)
 
@@ -62,10 +67,6 @@ PRODUCT_AAPT_PREBUILT_DPI := normal ldpi mdpi hdpi xhdpi
 DEVICE_PACKAGE_OVERLAYS += \
     	device/gameconsole/common/overlay \
     	device/gameconsole/common/overlay-lineage
-
-# Ahead of vendor/lineage/overlay/common, which product overlays beat device overlays with
-PRODUCT_PACKAGE_OVERLAYS += \
-	device/gameconsole/common/overlay-wallpaper
 
 # Soong namespaces
 PRODUCT_SOONG_NAMESPACES := device/gameconsole/common 
