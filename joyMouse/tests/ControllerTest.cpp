@@ -475,6 +475,33 @@ TEST_F(ControllerTest, RemappedButtonsActLikeTheirTarget) {
     EXPECT_EQ(pass.keys(), (Keys{{BTN_TR, 1}, {BTN_TR, 0}, {BTN_X, 1}, {BTN_X, 0}}));
 }
 
+TEST_F(ControllerTest, ClassicModeLeavesThePadToAndroid) {
+    config.classic = true;
+    reconfigure();
+    holdToggle();
+    EXPECT_EQ(controller->mode(), Mode::On);
+    EXPECT_FALSE(pad.grabbed);
+    EXPECT_FALSE(pass.opened);
+    EXPECT_TRUE(mouse.opened);
+    EXPECT_FALSE(controller->scrollStick().has_value());
+    // Only the right stick click also clicks; everything reaches Android directly.
+    tap(BTN_TR);
+    tap(BTN_A);
+    tap(kR3);
+    EXPECT_EQ(mouse.keys(), (Keys{{BTN_LEFT, 1}, {BTN_LEFT, 0}}));
+    EXPECT_TRUE(pass.events.empty());
+    // The right stick moves the pointer, the left one does nothing here.
+    abs(ABS_X, kStickMax);
+    advance(msToNanos(300));
+    EXPECT_EQ(mouse.count(EV_REL, REL_WHEEL), 0);
+    abs(ABS_RX, kStickMax);
+    advance(msToNanos(300));
+    EXPECT_GT(mouse.sum(EV_REL, REL_X), 0);
+    holdToggle();
+    EXPECT_EQ(controller->mode(), Mode::Off);
+    EXPECT_FALSE(mouse.opened);
+}
+
 TEST_F(ControllerTest, SmartButtonFollowsThePointer) {
     enterMouseMode();
     // Pointer just shown: A clicks.

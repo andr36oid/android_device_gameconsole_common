@@ -24,6 +24,7 @@ public class SettingsFragment extends PreferenceFragment
     private static final String KEY_TOGGLE = "toggle";
     private static final String KEY_TOGGLE_MS = "toggle_ms";
     private static final String KEY_POINTER_STICK = "pointer_stick";
+    private static final String KEY_CLASSIC = "classic";
     private static final String KEY_CONTROLS = "controls";
     private static final String KEY_RESET = "reset";
 
@@ -130,7 +131,8 @@ public class SettingsFragment extends PreferenceFragment
     private ControlsText.Setup currentSetup() {
         final ControlsText.Setup setup = new ControlsText.Setup();
         setup.pointerStick = ((ListPreference) findPreference(KEY_POINTER_STICK)).getValue();
-        setup.scrollStick = "left".equals(setup.pointerStick) ? "right" : "left";
+        final boolean classic = ((SwitchPreference) findPreference(KEY_CLASSIC)).isChecked();
+        setup.scrollStick = classic ? "none" : "left".equals(setup.pointerStick) ? "right" : "left";
         if (((SwitchPreference) findPreference(KEY_TOGGLE_ENABLED)).isChecked()) {
             setup.toggle = orderedButtons(((MultiSelectListPreference) findPreference(KEY_TOGGLE)).getValues());
         }
@@ -138,6 +140,11 @@ public class SettingsFragment extends PreferenceFragment
             setup.holdMs = Integer.parseInt(((ListPreference) findPreference(KEY_TOGGLE_MS)).getValue());
         } catch (NumberFormatException e) {
             // Keep the default.
+        }
+        if (classic) {
+            // Only the pointer stick's click does something extra
+            setup.bindings.put("left".equals(setup.pointerStick) ? "L3" : "R3", "left");
+            return setup;
         }
         for (String button : PropertyStore.BUTTONS) {
             final ListPreference binding =

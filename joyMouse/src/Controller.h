@@ -127,6 +127,8 @@ public:
     std::optional<StickSide> pointerStick() const { return pointerSide_; }
     std::optional<StickSide> scrollStick() const { return scrollSide_; }
     const Chord& chord() const { return chord_; }
+    bool classic() const { return classic_; }
+    std::optional<Button> pointerClick() const { return pointerClick_; }
     const PointerModel& pointerModel() const { return pointer_; }
 
 private:
@@ -209,6 +211,8 @@ private:
     // The chord is checked strictly (other keys and steering cancel it) while
     // a fullscreen app is on screen. Looked up when a hold starts.
     bool strictChord_ = false;
+    bool classic_ = false;
+    void handleKeyClassic(int code, int value, std::optional<Button> button, Nanos now);
     ButtonMap buttonMap_;
 
     Bindings bindings_ = defaultBindings();

@@ -29,6 +29,11 @@ constexpr const char kButtonRemapFile[] = "/data/system/hardware_button_remap";
 constexpr const char kButtonRemapSerialProperty[] = "sys.hardware_button_remap.serial";
 
 struct Config {
+    // Classic mode: like the original joyMouse, the pad isn't grabbed. The
+    // pointer stick moves the pointer and its stick click is the left button,
+    // while Android keeps getting every button and the other stick.
+    bool classic = false;
+
     // Pointer
     float speed = 1.0f;       // multiplier of the base top speed
     float curve = 2.2f;       // response exponent, 1 = linear

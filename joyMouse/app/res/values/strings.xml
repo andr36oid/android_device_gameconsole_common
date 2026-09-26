@@ -5,6 +5,8 @@
 
     <string name="active_title">Mouse mode</string>
     <string name="active_summary">Use the analog sticks as a mouse</string>
+    <string name="classic_title">Classic mouse mode</string>
+    <string name="classic_summary">Like earlier versions: the pointer stick moves the pointer and its click is a left click, while games still get every button and the other stick</string>
 
     <string name="category_switching">Switching</string>
     <string name="toggle_enabled_title">Toggle with a button combination</string>

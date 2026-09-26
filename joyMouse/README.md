@@ -83,6 +83,7 @@ Everything the page sets is a system property, so it also works from adb.
 | Property | Default | Meaning |
 |---|---|---|
 | `sys.joymouse.active` | | `1`/`0`: mouse mode state; set it to switch |
+| `persist.sys.joymouse.classic` | `0` | Classic mode: the pad isn't grabbed, the pointer stick moves the pointer and its click is a left click, games still get every button and the other stick |
 | `persist.sys.joymouse.speed` | `100` | Top pointer speed, % (100 % = 0.9 screen diagonals per second) |
 | `persist.sys.joymouse.curve` | `2.2` | Response exponent, `1` = linear |
 | `persist.sys.joymouse.deadzone` | `10` | Pointer stick dead zone, % |

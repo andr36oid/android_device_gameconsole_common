@@ -222,7 +222,11 @@ Announcement Daemon::describe(bool active) const {
             a.toggle += buttonName(b);
         }
     }
-    if (pad_) {
+    if (controller_ && controller_->classic()) {
+        if (const auto click = controller_->pointerClick()) {
+            a.bindings = std::string(buttonName(*click)) + "=left";
+        }
+    } else if (pad_) {
         const ButtonMap buttons(pad_->info().keys);
         const Bindings bindings = config_.bindings();
         for (size_t i = 0; i < kButtonCount; ++i) {

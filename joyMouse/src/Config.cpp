@@ -42,7 +42,7 @@ Bindings Config::bindings() const {
 }
 
 bool operator==(const Config& a, const Config& b) {
-    return a.speed == b.speed && a.curve == b.curve && a.deadzone == b.deadzone &&
+    return a.classic == b.classic && a.speed == b.speed && a.curve == b.curve && a.deadzone == b.deadzone &&
            a.precision == b.precision && a.accelCompensation == b.accelCompensation &&
            a.pointerStick == b.pointerStick && a.pointerInvertX == b.pointerInvertX &&
            a.pointerInvertY == b.pointerInvertY && a.scrollSpeed == b.scrollSpeed &&
@@ -151,6 +151,7 @@ Config loadConfig(const PropertyReader& read, std::vector<std::string>* warnings
         if (auto v = get(key(name))) apply(key(name), *v, parseBool(*v), out);
     };
 
+    boolean("classic", c.classic);
     percent("speed", 10, 500, c.speed);
     number("curve", 1.0f, 4.0f, c.curve);
     percent("deadzone", 0, 50, c.deadzone);

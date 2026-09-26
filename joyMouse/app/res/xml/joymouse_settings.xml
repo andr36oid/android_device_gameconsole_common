@@ -9,6 +9,15 @@
         android:summary="@string/active_summary"
         android:title="@string/active_title" />
 
+    <!-- Classic mode leaves the pad to Android, so scrolling and the button
+         actions don't apply -->
+    <SwitchPreference
+        android:defaultValue="false"
+        android:disableDependentsState="true"
+        android:key="classic"
+        android:summary="@string/classic_summary"
+        android:title="@string/classic_title" />
+
     <PreferenceCategory android:title="@string/category_switching">
 
         <SwitchPreference
@@ -103,7 +112,9 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/category_scrolling">
+    <PreferenceCategory
+        android:dependency="classic"
+        android:title="@string/category_scrolling">
 
         <ListPreference
             android:defaultValue="100"
@@ -121,7 +132,9 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/category_buttons">
+    <PreferenceCategory
+        android:dependency="classic"
+        android:title="@string/category_buttons">
 
         <PreferenceScreen
             android:key="buttons"

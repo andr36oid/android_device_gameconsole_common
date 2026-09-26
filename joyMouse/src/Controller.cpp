@@ -57,6 +57,7 @@ void Controller::configure(const Config& config, const Environment& env, Nanos n
     ticking_ = false;
 
     bindings_ = config.bindings();
+    classic_ = config.classic;
     remap_.fill(kNotRemapped);
     for (const RemapEntry& e : parseButtonRemap(config.buttonRemap)) {
         remap_[static_cast<size_t>(e.code)] =
@@ -91,7 +92,8 @@ void Controller::configure(const Config& config, const Environment& env, Nanos n
     } else if (has(opposite(preferred))) {
         pointerSide_ = opposite(preferred);
     }
-    if (pointerSide_ && has(opposite(*pointerSide_))) scrollSide_ = opposite(*pointerSide_);
+    // In classic mode the other stick belongs to Android.
+    if (pointerSide_ && !classic_ && has(opposite(*pointerSide_))) scrollSide_ = opposite(*pointerSide_);
     pointerClick_.reset();
     if (pointerSide_) {
         const Button click = *pointerSide_ == StickSide::Right ? Button::R3 : Button::L3;
@@ -212,6 +214,10 @@ void Controller::handleKey(int code, int value, Nanos now) {
 }
 
 void Controller::handleKeyOn(int code, int value, std::optional<Button> button, Nanos now) {
+    if (classic_) {
+        handleKeyClassic(code, value, button, now);
+        return;
+    }
     KeyRoute& route = routes_[static_cast<size_t>(code)];
     if (value == 2) {
         if (route.route == Route::Passthrough) queuePassthrough(EV_KEY, static_cast<uint16_t>(code), 2);
@@ -230,6 +236,24 @@ void Controller::handleKeyOn(int code, int value, std::optional<Button> button, 
     }
     if (down) {
         route = routeFor(bindingFor(code, button), now);
+        press(code, route, now);
+    }
+}
+
+// Classic mode: the pad isn't grabbed, so Android gets every key anyway. Only
+// the pointer stick's click also presses the left mouse button.
+void Controller::handleKeyClassic(int code, int value, std::optional<Button> button, Nanos now) {
+    if (value == 2) return;
+    KeyRoute& route = routes_[static_cast<size_t>(code)];
+    if (value == 0) {
+        if (route.route == Route::Unset) return;
+        const KeyRoute r = route;
+        route = KeyRoute{};
+        release(code, r, now);
+        return;
+    }
+    if (button && button == pointerClick_) {
+        route = routeFor(Action::Left, now);
         press(code, route, now);
     }
 }
@@ -288,7 +312,7 @@ void Controller::handleAbs(int code, int value, Nanos now) {
         updateMotion(now);
         return;
     }
-    if (mode_ == Mode::On && pad_.hasAbs(code)) {
+    if (mode_ == Mode::On && !classic_ && pad_.hasAbs(code)) {
         passthroughAbs_[static_cast<size_t>(code)] = value;
         queuePassthrough(EV_ABS, static_cast<uint16_t>(code), value);
     }
@@ -381,7 +405,7 @@ void Controller::enter(Nanos now, const char* why) {
     } else if (!mouse_.open()) {
         LOGE("could not create the virtual mouse");
         ok = false;
-    } else if (!passthrough_.open()) {
+    } else if (!classic_ && !passthrough_.open()) {
         LOGE("could not create the pass-through pad");
         mouse_.close();
         ok = false;
@@ -403,6 +427,11 @@ void Controller::enter(Nanos now, const char* why) {
     passthroughKeys_.reset();
     for (int code = 0; code < ABS_CNT; ++code) {
         if (pad_.hasAbs(code)) passthroughAbs_[static_cast<size_t>(code)] = pad_.center(code);
+    }
+    if (classic_) {
+        // Nothing is grabbed, so there's nothing to wait for.
+        mode_ = Mode::On;
+        grabCheckPending_ = false;
     }
     // Stick events were filtered while off; pick up where the sticks are now.
     resync(now);
