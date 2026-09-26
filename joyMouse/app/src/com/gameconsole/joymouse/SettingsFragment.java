@@ -37,7 +37,7 @@ public class SettingsFragment extends PreferenceFragment
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getPreferenceManager().setPreferenceDataStore(new PropertyStore());
+        getPreferenceManager().setPreferenceDataStore(new PropertyStore(getActivity()));
         addPreferencesFromResource(R.xml.joymouse_settings);
         listenToChanges(getPreferenceScreen());
         findPreference(KEY_RESET).setOnPreferenceClickListener(this);
