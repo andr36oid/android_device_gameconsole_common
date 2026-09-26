@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <SwitchPreference
+        android:key="enabled"
+        android:persistent="false"
+        android:title="@string/overclock_switch" />
+
+    <ListPreference
+        android:key="speed"
+        android:persistent="false"
+        android:title="@string/overclock_speed" />
+
+    <Preference
+        android:key="about"
+        android:selectable="false"
+        android:summary="@string/overclock_about" />
+</PreferenceScreen>

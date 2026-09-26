@@ -119,6 +119,12 @@ on zygote-start
 
 on boot
       
+    # Settings > CPU overclock switches the boost OPPs, the kernel starts with them off
+    chown root system /sys/devices/system/cpu/cpufreq/boost
+    chmod 0664 /sys/devices/system/cpu/cpufreq/boost
+    chown root system /sys/devices/system/cpu/cpufreq/policy0/scaling_max_freq
+    chmod 0664 /sys/devices/system/cpu/cpufreq/policy0/scaling_max_freq
+
     chown system system /sys/class/thermal/thermal_zone0/policy
     chown system system /sys/class/thermal/thermal_zone1/policy
     chown system system /sys/class/thermal/thermal_zone2/policy

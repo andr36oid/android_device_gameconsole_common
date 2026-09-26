@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="overclock_title">CPU overclock (experimental)</string>
+    <string name="overclock_summary">Run the processor faster than standard</string>
+
+    <string name="overclock_switch">Overclock</string>
+    <string name="overclock_switch_on">Running at up to <xliff:g id="speed">%1$s</xliff:g></string>
+    <string name="overclock_switch_off">Standard speed, up to <xliff:g id="speed">%1$s</xliff:g></string>
+    <string name="overclock_speed">Speed</string>
+
+    <!-- A CPU speed, e.g. "1.51 GHz" -->
+    <string name="speed_ghz"><xliff:g id="ghz">%1$.2f</xliff:g> GHz</string>
+
+    <string name="overclock_about">Faster emulation for demanding games, at a cost: the console gets warmer, the battery drains faster, and some consoles freeze or crash at the higher speeds. If that happens, pick a lower speed.\n\nThe console always starts at standard speed, a restart turns the overclock off. It also slows down by itself when it gets too hot.</string>
+
+    <string name="overclock_unsupported">This console can\'t be overclocked.</string>
+    <string name="overclock_failed">Couldn\'t change the CPU speed</string>
+
+    <!-- Quick Settings tile -->
+    <string name="tile_label">CPU overclock</string>
+    <string name="tile_off">Off</string>
+</resources>

@@ -408,6 +408,10 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
 	ButtonMapper
 
+# CPU overclock (Settings > CPU overclock, Quick Settings tile once used)
+PRODUCT_PACKAGES += \
+	CpuOverclock
+
 # Remove phone packages that added by default product configuration
 PRODUCT_PACKAGES += \
     	remove-BlockedNumberProvider \

@@ -1,0 +1,12 @@
+// Settings > CPU overclock and its Quick Settings tile. Runs as the system
+// user, which init gives the cpufreq boost and scaling_max_freq files to.
+android_app {
+    name: "CpuOverclock",
+    srcs: ["src/**/*.java"],
+    resource_dirs: ["res"],
+    certificate: "platform",
+    platform_apis: true,
+    optimize: {
+        enabled: false,
+    },
+}
