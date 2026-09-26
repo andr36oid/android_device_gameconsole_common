@@ -394,9 +394,10 @@ PRODUCT_RUNTIMES := runtime_libart_default
 PRODUCT_PRODUCT_PROPERTIES += \
 	ro.statsd.enable=false
 
-# Shown in Settings > About console
+# Shown in Settings > About console and in the boot animation
+ANDR36OID_VERSION := $(shell device/gameconsole/common/version.sh $(TARGET_BUILD_VARIANT))
 PRODUCT_PRODUCT_PROPERTIES += \
-	ro.andr36oid.version=$(shell device/gameconsole/common/version.sh $(TARGET_BUILD_VARIANT))
+	ro.andr36oid.version=$(ANDR36OID_VERSION)
 
 # Joystick as mouse
 PRODUCT_PACKAGES += \

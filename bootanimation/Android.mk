@@ -20,18 +20,34 @@
 
 LOCAL_PATH := $(call my-dir)
 
+# The text at the bottom carries the build's version when ImageMagick is
+# installed (called by path, the build's PATH doesn't include it), otherwise
+# the committed overlay.png is used.
+ANDR36OID_CONVERT := $(firstword $(wildcard /usr/bin/convert /usr/local/bin/convert))
+ifneq ($(ANDR36OID_CONVERT),)
+ANDR36OID_OVERLAY := $(TARGET_OUT_INTERMEDIATES)/ANDR36OID_BOOTANIMATION_TEXT/overlay.png
+$(ANDR36OID_OVERLAY): PRIVATE_PATH := $(LOCAL_PATH)
+$(ANDR36OID_OVERLAY): PRIVATE_TEXT := andr36oid - Android 11 - $(ANDR36OID_VERSION)
+$(ANDR36OID_OVERLAY): PRIVATE_CONVERT := $(ANDR36OID_CONVERT)
+$(ANDR36OID_OVERLAY): $(LOCAL_PATH)/make-overlay.sh
+	@mkdir -p $(dir $@)
+	$(hide) CONVERT=$(PRIVATE_CONVERT) $(PRIVATE_PATH)/make-overlay.sh "$(PRIVATE_TEXT)" $@
+endif
+ANDR36OID_OVERLAY ?= $(LOCAL_PATH)/overlay.png
+
 ANDR36OID_BOOTANIMATION := $(TARGET_OUT_INTERMEDIATES)/ANDR36OID_BOOTANIMATION/bootanimation.zip
 $(ANDR36OID_BOOTANIMATION): PRIVATE_PATH := $(LOCAL_PATH)
+$(ANDR36OID_BOOTANIMATION): PRIVATE_OVERLAY := $(ANDR36OID_OVERLAY)
 $(ANDR36OID_BOOTANIMATION): $(LOCAL_PATH)/gen-bootanimation.sh \
 		$(LOCAL_PATH)/bootanimation.tar \
 		$(LOCAL_PATH)/desc.txt \
-		$(LOCAL_PATH)/overlay.png \
+		$(ANDR36OID_OVERLAY) \
 		$(SOONG_ZIP)
 	@echo "Building bootanimation.zip"
 	$(hide) $(PRIVATE_PATH)/gen-bootanimation.sh $@ $(dir $@) \
 		$(PRIVATE_PATH)/bootanimation.tar \
 		$(PRIVATE_PATH)/desc.txt \
-		$(PRIVATE_PATH)/overlay.png \
+		$(PRIVATE_OVERLAY) \
 		prebuilts/tools-lineage/$(HOST_OS)-x86/bin/mogrify \
 		$(SOONG_ZIP) \
 		$(TARGET_SCREEN_HEIGHT) $(TARGET_SCREEN_WIDTH)
