@@ -43,6 +43,7 @@ Controller::Controller(PadInfo pad, PadPort& padPort, OutputPort& mouse, OutputP
       passthrough_(passthrough),
       listener_(listener),
       buttonMap_(pad_.keys) {
+    remap_.fill(kNotRemapped);
     for (int code = 0; code < ABS_CNT; ++code) {
         if (!pad_.hasAbs(code)) continue;
         abs_[static_cast<size_t>(code)] = pad_.abs[static_cast<size_t>(code)]->value;
@@ -56,6 +57,11 @@ void Controller::configure(const Config& config, const Environment& env, Nanos n
     ticking_ = false;
 
     bindings_ = config.bindings();
+    remap_.fill(kNotRemapped);
+    for (const RemapEntry& e : parseButtonRemap(config.buttonRemap)) {
+        remap_[static_cast<size_t>(e.code)] =
+                e.button ? static_cast<int8_t>(index(*e.button)) : kNotAButton;
+    }
 
     std::vector<Button> chord;
     if (config.toggleEnabled) chord = config.toggle ? *config.toggle : defaultToggleChord(buttonMap_);
@@ -223,9 +229,18 @@ void Controller::handleKeyOn(int code, int value, std::optional<Button> button, 
         return;
     }
     if (down) {
-        route = routeFor(button ? bindings_[index(*button)] : Action::Pass, now);
+        route = routeFor(bindingFor(code, button), now);
         press(code, route, now);
     }
+}
+
+// A remapped button does what the button it acts as does. Anything that isn't
+// a gamepad button after the remap is left to Android.
+Action Controller::bindingFor(int code, std::optional<Button> button) const {
+    const int8_t target = remap_[static_cast<size_t>(code)];
+    if (target == kNotAButton) return Action::Pass;
+    if (target != kNotRemapped) return bindings_[static_cast<size_t>(target)];
+    return button ? bindings_[index(*button)] : Action::Pass;
 }
 
 void Controller::handleMember(Button b, int code, bool down, Nanos now) {
@@ -241,7 +256,7 @@ void Controller::handleMember(Button b, int code, bool down, Nanos now) {
         } else {
             m.pending = true;
             m.since = now;
-            m.route = routeFor(bindings_[index(b)], now);
+            m.route = routeFor(bindingFor(code, b), now);
         }
     } else {
         m.down = false;
@@ -315,7 +330,9 @@ void Controller::refreshChord(Nanos now) {
         if (chord_.isMember(static_cast<Button>(i))) memberKeys += buttonDownCount_[i];
     }
     const bool wasArmed = chord_.armed();
-    chord_.update(down, keysDownCount_ - memberKeys, now);
+    if (!chord_.engaged()) strictChord_ = listener_ && listener_->inFullscreenApp();
+    // Outside fullscreen apps other keys don't matter, like the original joyMouse.
+    chord_.update(down, strictChord_ ? keysDownCount_ - memberKeys : 0, now);
     if (mode_ == Mode::Off && chord_.armed() != wasArmed) {
         // Stick events are filtered while off; watch the sticks for the
         // duration of the hold so steering can veto it.
@@ -326,9 +343,9 @@ void Controller::refreshChord(Nanos now) {
 }
 
 void Controller::checkSteering() {
-    if (!chord_.armed()) return;
-    const bool steering = (left_.valid() && left_.rawMagnitude() > kSteerThreshold) ||
-                          (right_.valid() && right_.rawMagnitude() > kSteerThreshold);
+    if (!chord_.armed() || !strictChord_) return;
+    const bool steering = (left_.valid() && left_.travel() > kSteerThreshold) ||
+                          (right_.valid() && right_.travel() > kSteerThreshold);
     if (steering) {
         LOGD("toggle chord ignored: a stick is being pushed");
         chord_.veto();

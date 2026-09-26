@@ -31,6 +31,17 @@ const char* buttonName(Button b);
 // Case-insensitive; also accepts LB/RB/LT/RT/LS/RS/FN.
 std::optional<Button> parseButton(std::string_view name);
 
+// One entry of the hardware button remap (Settings > Button mapping): the
+// physical key code and the gamepad button it now acts as. `button` is unset
+// when the key is disabled or mapped to something that isn't a gamepad button.
+struct RemapEntry {
+    int code;
+    std::optional<Button> button;
+};
+// Parses the framework's "scanCode:KEYCODE,..." format, e.g.
+// "304:BUTTON_B,305:BUTTON_A,172:NONE". Invalid entries are skipped.
+std::vector<RemapEntry> parseButtonRemap(std::string_view remap);
+
 // What a button does while mouse mode is active.
 enum class Action : uint8_t {
     Pass,       // forwarded to Android unchanged

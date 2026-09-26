@@ -40,6 +40,7 @@ public:
     ~Daemon() override;
     int run(bool verbose);
     void onMouseModeChanged(bool active) override;
+    bool inFullscreenApp() override;
 
 private:
     Config readConfig();
@@ -82,9 +83,23 @@ Daemon::~Daemon() {
     if (signalFd_ >= 0) close(signalFd_);
 }
 
+// The framework writes the active hardware button remap to a file, it doesn't
+// fit in a property. Missing file: nothing is remapped.
+std::string readButtonRemap() {
+    std::string remap;
+    if (FILE* f = std::fopen(kButtonRemapFile, "re")) {
+        char buf[1024];
+        const size_t n = std::fread(buf, 1, sizeof(buf), f);
+        std::fclose(f);
+        remap.assign(buf, n);
+    }
+    return remap;
+}
+
 Config Daemon::readConfig() {
     std::vector<std::string> warnings;
     Config c = loadConfig([](const char* name) { return getProperty(name); }, &warnings);
+    c.buttonRemap = readButtonRemap();
     // Properties change all the time system-wide; only repeat news.
     if (warnings != lastWarnings_) {
         for (const std::string& w : warnings) LOGW("%s", w.c_str());
@@ -218,6 +233,10 @@ Announcement Daemon::describe(bool active) const {
         }
     }
     return a;
+}
+
+bool Daemon::inFullscreenApp() {
+    return getProperty(kFullscreenProperty) == "1";
 }
 
 void Daemon::onMouseModeChanged(bool active) {

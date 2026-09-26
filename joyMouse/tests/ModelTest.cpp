@@ -271,6 +271,20 @@ TEST(ButtonsTest, ParseNames) {
     }
 }
 
+TEST(ButtonsTest, ParseButtonRemap) {
+    const auto entries = parseButtonRemap(
+            "304:BUTTON_B, 305:KEYCODE_BUTTON_A,158:103,172:NONE,114:VOLUME_UP,bad,0:BUTTON_X");
+    ASSERT_EQ(entries.size(), 5u);
+    EXPECT_EQ(entries[0].code, 304);
+    EXPECT_EQ(entries[0].button, Button::B);
+    EXPECT_EQ(entries[1].button, Button::A);
+    EXPECT_EQ(entries[2].code, 158);
+    EXPECT_EQ(entries[2].button, Button::R1);  // key code 103 is BUTTON_R1
+    EXPECT_FALSE(entries[3].button.has_value());
+    EXPECT_FALSE(entries[4].button.has_value());
+    EXPECT_TRUE(parseButtonRemap("").empty());
+}
+
 TEST(ButtonsTest, OdroidStickClickQuirk) {
     KeyBits keys;
     keys.set(BTN_A);

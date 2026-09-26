@@ -66,6 +66,9 @@ class ModeListener {
 public:
     virtual ~ModeListener() = default;
     virtual void onMouseModeChanged(bool active) = 0;
+    // Whether a fullscreen app, usually a game, is on screen. The toggle chord
+    // is stricter there.
+    virtual bool inFullscreenApp() { return false; }
 };
 
 struct Environment {
@@ -100,9 +103,10 @@ public:
     static constexpr Nanos kStickSettle = msToNanos(150);   // spring back after a stick click
     static constexpr Nanos kPointerIdle = msToNanos(15000); // Android fades the pointer then
     static constexpr float kRestThreshold = 0.35f;
-    // A stick pushed this far while the toggle chord is held means the buttons
-    // are part of gameplay, not a deliberate toggle.
-    static constexpr float kSteerThreshold = 0.6f;
+    // In a fullscreen app, a stick pushed this far while the toggle chord is
+    // held means the buttons are part of gameplay, not a deliberate toggle.
+    // Kept high: the R36S sticks are small and tilt when pressed.
+    static constexpr float kSteerThreshold = 0.9f;
     // Top speed at 100 %: this many screen diagonals per second.
     static constexpr float kTopSpeedPerDiagonal = 0.9f;
 
@@ -195,7 +199,16 @@ private:
     PadPort& padPort_;
     OutputPort& mouse_;
     OutputPort& passthrough_;
+    // What each physical key code acts as after the hardware button remap.
+    static constexpr int8_t kNotRemapped = -1;
+    static constexpr int8_t kNotAButton = -2;  // disabled, or not a gamepad button
+    Action bindingFor(int code, std::optional<Button> button) const;
+    std::array<int8_t, KEY_CNT> remap_;
+
     ModeListener* listener_;
+    // The chord is checked strictly (other keys and steering cancel it) while
+    // a fullscreen app is on screen. Looked up when a hold starts.
+    bool strictChord_ = false;
     ButtonMap buttonMap_;
 
     Bindings bindings_ = defaultBindings();

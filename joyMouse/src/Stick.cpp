@@ -54,6 +54,10 @@ float Stick::rawMagnitude() const {
     return scaled().magnitude();
 }
 
+float Stick::travel() const {
+    return std::min(1.0f, StickVector{normalized(0), normalized(1)}.magnitude());
+}
+
 StickVector Stick::output() const {
     const StickVector v = scaled();
     const float m = v.magnitude();

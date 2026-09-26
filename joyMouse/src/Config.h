@@ -21,6 +21,12 @@ enum StickAxis : size_t { kLeftX, kLeftY, kRightX, kRightY, kStickAxisCount };
 constexpr const char kPropertyPrefix[] = "persist.sys.joymouse.";
 // Runtime state and on/off switch.
 constexpr const char kActiveProperty[] = "sys.joymouse.active";
+// "1" while SystemUI hides the status bar for a fullscreen app.
+constexpr const char kFullscreenProperty[] = "sys.joymouse.fullscreen";
+// The framework keeps the active hardware button remap here, and changes
+// kButtonRemapSerialProperty whenever it rewrites the file.
+constexpr const char kButtonRemapFile[] = "/data/system/hardware_button_remap";
+constexpr const char kButtonRemapSerialProperty[] = "sys.hardware_button_remap.serial";
 
 struct Config {
     // Pointer
@@ -50,6 +56,9 @@ struct Config {
 
     // Per-button actions in mouse mode; unset means defaultBindings().
     std::array<std::optional<Action>, kButtonCount> buttons;
+    // Hardware button remap from Settings > Button mapping, "scanCode:KEYCODE,...".
+    // In mouse mode a remapped button gets the action of the button it acts as.
+    std::string buttonRemap;
 
     int rateHz = 250;
     int clickFreezeMs = 60;

@@ -45,6 +45,10 @@ public:
 
     // Deflection before the deadzone, 0 at rest and 1 at the learned edge.
     float rawMagnitude() const;
+    // Deflection as a share of the advertised range, not of the learned edge.
+    // Until the edge is learned, a small push already counts as a large
+    // rawMagnitude(), so decisions about gameplay use this instead.
+    float travel() const;
 
 private:
     float normalized(int axis) const;

@@ -70,6 +70,41 @@ constexpr Alias kQuirkAliases[] = {
         {KEY_LEFTMETA, Button::R3},
 };
 
+// Android key codes of the gamepad buttons, by label and by number.
+struct KeyCodeName {
+    const char* label;
+    int keyCode;
+    Button button;
+};
+
+constexpr KeyCodeName kKeyCodes[] = {
+        {"BUTTON_A", 96, Button::A},          {"BUTTON_B", 97, Button::B},
+        {"BUTTON_X", 99, Button::X},          {"BUTTON_Y", 100, Button::Y},
+        {"BUTTON_L1", 102, Button::L1},       {"BUTTON_R1", 103, Button::R1},
+        {"BUTTON_L2", 104, Button::L2},       {"BUTTON_R2", 105, Button::R2},
+        {"BUTTON_THUMBL", 106, Button::L3},   {"BUTTON_THUMBR", 107, Button::R3},
+        {"BUTTON_SELECT", 109, Button::Select}, {"BUTTON_START", 108, Button::Start},
+        {"BUTTON_MODE", 110, Button::Mode},   {"DPAD_UP", 19, Button::Up},
+        {"DPAD_DOWN", 20, Button::Down},      {"DPAD_LEFT", 21, Button::Left},
+        {"DPAD_RIGHT", 22, Button::Right},
+};
+
+std::string_view trimView(std::string_view s) {
+    while (!s.empty() && std::isspace(static_cast<unsigned char>(s.front()))) s.remove_prefix(1);
+    while (!s.empty() && std::isspace(static_cast<unsigned char>(s.back()))) s.remove_suffix(1);
+    return s;
+}
+
+std::optional<int> parseCode(std::string_view s) {
+    if (s.empty() || s.size() > 9) return std::nullopt;
+    int value = 0;
+    for (char c : s) {
+        if (c < '0' || c > '9') return std::nullopt;
+        value = value * 10 + (c - '0');
+    }
+    return value;
+}
+
 bool equalsIgnoreCase(std::string_view a, std::string_view b) {
     if (a.size() != b.size()) return false;
     for (size_t i = 0; i < a.size(); ++i) {
@@ -95,6 +130,34 @@ std::optional<Button> parseButton(std::string_view name) {
         if (equalsIgnoreCase(name, s.name)) return s.button;
     }
     return std::nullopt;
+}
+
+std::vector<RemapEntry> parseButtonRemap(std::string_view remap) {
+    std::vector<RemapEntry> entries;
+    while (!remap.empty()) {
+        const size_t comma = remap.find(',');
+        const std::string_view entry = trimView(remap.substr(0, comma));
+        remap.remove_prefix(comma == std::string_view::npos ? remap.size() : comma + 1);
+
+        const size_t colon = entry.find(':');
+        if (colon == std::string_view::npos) continue;
+        const auto code = parseCode(trimView(entry.substr(0, colon)));
+        if (!code || *code <= 0 || *code >= KEY_CNT) continue;
+        std::string_view target = trimView(entry.substr(colon + 1));
+        if (target.size() > 8 && equalsIgnoreCase(target.substr(0, 8), "KEYCODE_")) {
+            target.remove_prefix(8);
+        }
+        const auto number = parseCode(target);
+        RemapEntry e{*code, std::nullopt};
+        for (const KeyCodeName& k : kKeyCodes) {
+            if (number ? *number == k.keyCode : equalsIgnoreCase(target, k.label)) {
+                e.button = k.button;
+                break;
+            }
+        }
+        entries.push_back(e);
+    }
+    return entries;
 }
 
 const char* actionName(Action a) {

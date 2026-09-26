@@ -101,7 +101,9 @@ struct FakeOutput : OutputPort {
 
 struct FakeListener : ModeListener {
     std::vector<bool> changes;
+    bool fullscreen = false;
     void onMouseModeChanged(bool active) override { changes.push_back(active); }
+    bool inFullscreenApp() override { return fullscreen; }
 };
 
 using Keys = std::vector<std::pair<int, int>>;
@@ -220,7 +222,8 @@ TEST_F(ControllerTest, ShortChordDoesNothing) {
     EXPECT_EQ(controller->mode(), Mode::Off);
 }
 
-TEST_F(ControllerTest, ChordWithOtherButtonsDoesNothing) {
+TEST_F(ControllerTest, ChordWithOtherButtonsDoesNothingInFullscreenApps) {
+    listener.fullscreen = true;
     key(BTN_TR2, 1);  // e.g. accelerating in a racing game
     key(kL3, 1);
     key(kR3, 1);
@@ -228,7 +231,8 @@ TEST_F(ControllerTest, ChordWithOtherButtonsDoesNothing) {
     EXPECT_EQ(controller->mode(), Mode::Off);
 }
 
-TEST_F(ControllerTest, ChordWhileSteeringDoesNothing) {
+TEST_F(ControllerTest, ChordWhileSteeringDoesNothingInFullscreenApps) {
+    listener.fullscreen = true;
     key(kL3, 1);
     key(kR3, 1);
     // Stick events are watched during the hold...
@@ -243,12 +247,39 @@ TEST_F(ControllerTest, ChordWhileSteeringDoesNothing) {
     EXPECT_EQ(controller->mode(), Mode::Off);
 }
 
-TEST_F(ControllerTest, StickAlreadyPushedVetoesChord) {
+TEST_F(ControllerTest, StickAlreadyPushedVetoesChordInFullscreenApps) {
+    listener.fullscreen = true;
     pad.abs[ABS_RY] = -kStickMax;  // not reported while off, but read when the chord starts
     key(kL3, 1);
     key(kR3, 1);
     advance(msToNanos(3000));
     EXPECT_EQ(controller->mode(), Mode::Off);
+}
+
+TEST_F(ControllerTest, ChordIgnoresOtherButtonsOutsideFullscreenApps) {
+    key(BTN_TR2, 1);
+    key(kL3, 1);
+    key(kR3, 1);
+    advance(msToNanos(1100));
+    EXPECT_NE(controller->mode(), Mode::Off);
+}
+
+TEST_F(ControllerTest, ChordIgnoresSteeringOutsideFullscreenApps) {
+    key(kL3, 1);
+    key(kR3, 1);
+    abs(ABS_X, kStickMax);
+    advance(msToNanos(1100));
+    EXPECT_NE(controller->mode(), Mode::Off);
+}
+
+TEST_F(ControllerTest, SticksTiltedByPressingThemDontVetoInFullscreenApps) {
+    listener.fullscreen = true;
+    key(kL3, 1);
+    key(kR3, 1);
+    abs(ABS_X, kStickMax * 7 / 10);
+    abs(ABS_RY, -kStickMax * 7 / 10);
+    advance(msToNanos(1100));
+    EXPECT_NE(controller->mode(), Mode::Off);
 }
 
 TEST_F(ControllerTest, ToggleCanBeDisabled) {
@@ -275,7 +306,8 @@ TEST_F(ControllerTest, ChordTurnsMouseModeOffAndCleansUp) {
     EXPECT_EQ(mouse.count(EV_KEY, BTN_LEFT), 0);
 }
 
-TEST_F(ControllerTest, ExitChordWhilePointingDoesNothing) {
+TEST_F(ControllerTest, ExitChordWhilePointingDoesNothingInFullscreenApps) {
+    listener.fullscreen = true;
     enterMouseMode();
     key(kL3, 1);
     key(kR3, 1);
@@ -429,6 +461,18 @@ TEST_F(ControllerTest, UnmappedButtonsPassThrough) {
     tap(KEY_UP);
     EXPECT_EQ(pass.keys(), (Keys{{BTN_B, 1}, {BTN_B, 0}, {KEY_UP, 1}, {KEY_UP, 0}}));
     EXPECT_TRUE(mouse.keys().empty());
+}
+
+TEST_F(ControllerTest, RemappedButtonsActLikeTheirTarget) {
+    // R1 and B swapped in Settings > Button mapping, X disabled.
+    config.buttonRemap = "311:BUTTON_B, 305:BUTTON_R1, 307:NONE";
+    reconfigure();
+    enterMouseMode();
+    tap(BTN_B);   // acts as R1: left click
+    tap(BTN_TR);  // acts as B: Android gets the key and remaps it
+    tap(BTN_X);   // disabled: left to Android, which drops it
+    EXPECT_EQ(mouse.keys(), (Keys{{BTN_LEFT, 1}, {BTN_LEFT, 0}}));
+    EXPECT_EQ(pass.keys(), (Keys{{BTN_TR, 1}, {BTN_TR, 0}, {BTN_X, 1}, {BTN_X, 0}}));
 }
 
 TEST_F(ControllerTest, SmartButtonFollowsThePointer) {

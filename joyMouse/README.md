@@ -34,13 +34,26 @@ Mouse mode can also be switched from the Settings page, and with
 
 ### Not by accident
 
-The toggle only counts when:
+The combination has to be held for the whole hold time (1 s by default, up to
+10 s), and every button of it released since the last toggle. Like the original
+joyMouse, nothing else is checked.
+
+While a fullscreen app, usually a game, is on screen (SystemUI sets
+`sys.joymouse.fullscreen` while the status bar is hidden), it is stricter:
 
 * exactly the combination is held, nothing else,
-* for the whole hold time (1 s by default),
-* while no stick is pushed past 60 % (pressing L3 + R3 while steering in a game
-  is gameplay, not a toggle),
-* and every button of the combination was released since the last toggle.
+* and no stick is pushed past 90 % of its range (pressing L3 + R3 while
+  steering is gameplay, not a toggle). The R36S sticks are small and tilt when
+  pressed, so this stays high.
+
+### Button mapping
+
+In mouse mode the pad is grabbed, so the framework's hardware button remap
+(Settings › Button mapping) can't apply to what joyMouse handles itself. The
+framework copies the remap to `/data/system/hardware_button_remap` and changes
+`sys.hardware_button_remap.serial`; joyMouse then gives each button the action
+of the button it acts as. The toggle combination always uses the physical
+buttons.
 
 The combination needs at least two buttons, can be changed, and can be switched
 off altogether (then only Settings or the property switch it).

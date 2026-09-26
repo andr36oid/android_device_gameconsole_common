@@ -50,6 +50,7 @@ bool operator==(const Config& a, const Config& b) {
            a.invert == b.invert && a.toggleEnabled == b.toggleEnabled && a.toggle == b.toggle &&
            a.toggleMs == b.toggleMs &&
            a.startActive == b.startActive && a.toast == b.toast && a.buttons == b.buttons &&
+           a.buttonRemap == b.buttonRemap &&
            a.rateHz == b.rateHz && a.clickFreezeMs == b.clickFreezeMs && a.device == b.device &&
            a.displaySize == b.displaySize && a.debug == b.debug;
 }
@@ -176,7 +177,7 @@ Config loadConfig(const PropertyReader& read, std::vector<std::string>* warnings
 
     boolean("toggle_enabled", c.toggleEnabled);
     if (auto v = get(key("toggle"))) apply(key("toggle"), *v, parseChord(*v), c.toggle);
-    integer("toggle_ms", 300, 5000, c.toggleMs);
+    integer("toggle_ms", 300, 10000, c.toggleMs);
     boolean("start_active", c.startActive);
     boolean("toast", c.toast);
 
