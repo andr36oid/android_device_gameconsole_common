@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
-    <string name="button_mapping_title">Button mapping</string>
+    <string name="button_mapping_title">Button mapping (beta)</string>
     <string name="button_mapping_summary">Change what the console buttons do</string>
 
     <!-- The buttons of the console -->
