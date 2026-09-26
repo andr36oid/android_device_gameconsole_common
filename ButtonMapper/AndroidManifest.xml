@@ -11,17 +11,12 @@
         android:label="@string/button_mapping_title"
         android:supportsRtl="true">
 
-        <!-- Injected into the top level of the Settings app, right below Sound. Also in the
-             app list, so it can be opened from the front end. -->
+        <!-- Injected into the top level of the Settings app, right below Sound -->
         <activity
             android:name=".ButtonMappingActivity"
             android:exported="true"
             android:label="@string/button_mapping_title"
             android:theme="@android:style/Theme.DeviceDefault.Settings">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
             <intent-filter>
                 <action android:name="com.android.settings.action.IA_SETTINGS" />
             </intent-filter>
