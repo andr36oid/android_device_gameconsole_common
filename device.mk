@@ -63,6 +63,10 @@ DEVICE_PACKAGE_OVERLAYS += \
     	device/gameconsole/common/overlay \
     	device/gameconsole/common/overlay-lineage
 
+# Ahead of vendor/lineage/overlay/common, which product overlays beat device overlays with
+PRODUCT_PACKAGE_OVERLAYS += \
+	device/gameconsole/common/overlay-wallpaper
+
 # Soong namespaces
 PRODUCT_SOONG_NAMESPACES := device/gameconsole/common 
 
@@ -412,7 +416,7 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
 	CpuOverclock
 
-# Settings > About console > Credits
+# Credits, an easter egg behind the andr36oid version in Settings > About console
 PRODUCT_PACKAGES += \
 	Andr36oidCredits
 
