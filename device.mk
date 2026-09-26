@@ -458,7 +458,9 @@ PRODUCT_PACKAGES += \
 	Cromite \
 	LeanbackIME \
 
-# Preinstalled emulators (RetroArch + libretro cores, PPSSPP), see emulators/README.md
+# Preinstalled emulators (RetroArch + libretro cores, PPSSPP), see emulators/README.md.
+# Our free images include the SNES and Genesis cores that forbid commercial use.
+GAMECONSOLE_EMU_NONCOMMERCIAL_CORES := true
 $(call inherit-product, device/gameconsole/common/emulators/emulators.mk)
 
 # Include rootaccess
