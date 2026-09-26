@@ -11,7 +11,7 @@
         android:label="@string/button_mapping_title"
         android:supportsRtl="true">
 
-        <!-- Injected into the top level of the Settings app, right below Sound -->
+        <!-- Injected into the top level of the Settings app, right below Sound, with Joystick mouse -->
         <activity
             android:name=".ButtonMappingActivity"
             android:exported="true"
@@ -26,6 +26,9 @@
             <meta-data
                 android:name="com.android.settings.order"
                 android:value="-65" />
+            <meta-data
+                android:name="com.android.settings.keyhint"
+                android:value="top_level_button_mapping" />
             <meta-data
                 android:name="com.android.settings.icon"
                 android:resource="@drawable/ic_settings_button_mapping" />

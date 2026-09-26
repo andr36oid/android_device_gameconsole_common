@@ -57,7 +57,7 @@
     <string name="sticks_pointer_scroll">%1$s: pointer · %2$s: scroll</string>
     <string name="hold_to_switch_off">Hold %1$s to switch off</string>
     <string name="hold_to_switch_on">Hold %1$s for %2$s to switch on</string>
-    <string name="switch_in_settings">Switch it on in Settings › System › Joystick mouse</string>
+    <string name="switch_in_settings">Switch it on in Settings › Joystick mouse</string>
     <string name="seconds">%1$s s</string>
     <string name="binding">%1$s: %2$s</string>
     <string name="list_separator">" · "</string>

@@ -5,7 +5,7 @@ real Android mouse pointer, with scrolling, clicks, drag and full button
 remapping. Two parts:
 
 * `joyMouse` (native daemon, `/system/bin/joyMouse`, started by `joyMouse.rc`)
-* `JoyMouseSettings` (system app in `app/`): the *Settings › System › Joystick
+* `JoyMouseSettings` (system app in `app/`): the *Settings › Joystick
   mouse* page and the toast shown on every mode switch
 
 ## Using it
@@ -60,7 +60,7 @@ off altogether (then only Settings or the property switch it).
 
 ## Settings
 
-*Settings › System › Joystick mouse*:
+*Settings › Joystick mouse*:
 
 * **Mouse mode** on/off
 * **Switching**: toggle combination on/off, which buttons, hold time, start in
