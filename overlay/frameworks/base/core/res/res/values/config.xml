@@ -184,11 +184,13 @@
          "home" = Go to the home screen
          "appswitcher" = Recent apps, or the power menu's own app switcher without a quickstep launcher
          "closeapps" = Close all background apps, keeping the one on screen
+         "killapp" = Small button at the bottom that force stops the app on screen
          -->
     <string-array translatable="false" name="config_globalActionsList">
         <item>home</item>
         <item>appswitcher</item>
         <item>closeapps</item>
+        <item>killapp</item>
         <item>power</item>
         <item>restart</item>
         <item>settings</item>
