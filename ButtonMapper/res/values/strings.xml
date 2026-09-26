@@ -120,6 +120,9 @@
     <string name="profile_delete">Delete</string>
     <string name="profile_delete_title">Delete \u201c<xliff:g id="profile">%1$s</xliff:g>\u201d?</string>
     <string name="profile_delete_message">Its button changes are removed and the Standard buttons are used again.</string>
+    <string name="profile_delete_message_inactive">Its button changes are removed. The buttons you use now stay as they are.</string>
+    <string name="profile_delete_choose">Delete a profile…</string>
+    <string name="profile_delete_choose_title">Delete which profile?</string>
     <string name="profile_created">New profile \u201c<xliff:g id="profile">%1$s</xliff:g>\u201d. Button changes are saved in it.</string>
     <string name="profile_forked">The Standard buttons stay as they are, your change is saved in the new profile \u201c<xliff:g id="profile">%1$s</xliff:g>\u201d.</string>
     <string name="profile_blocked_message">\u201c<xliff:g id="profile">%1$s</xliff:g>\u201d would leave no button for: <xliff:g id="functions">%2$s</xliff:g>.</string>

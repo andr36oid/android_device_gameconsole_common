@@ -29,6 +29,7 @@ public class ButtonMappingActivity extends Activity implements ControllerView.Li
     private static final int CONFIRM_TIMEOUT_SECONDS = 10;
     private static final int SCAN_CODE_A = 304;
     private static final String NEW_PROFILE = "new";
+    private static final String DELETE_PROFILE = "delete";
 
     // What the drawing activates the selected button with.
     private static final List<String> OK_ACTIONS = Arrays.asList(
@@ -308,6 +309,10 @@ public class ButtonMappingActivity extends Activity implements ControllerView.Li
         if (mMapping.canCreateProfile()) {
             adapter.addCommand(getString(R.string.profile_new), NEW_PROFILE);
         }
+        // In the list, so any profile can be deleted with the d-pad, not just the active one
+        if (mMapping.getProfiles().size() > 1) {
+            adapter.addCommand(getString(R.string.profile_delete_choose), DELETE_PROFILE);
+        }
 
         final ButtonProfiles.Profile active = mMapping.getActiveProfile();
         builder.setTitle(R.string.profiles_title)
@@ -317,6 +322,8 @@ public class ButtonMappingActivity extends Activity implements ControllerView.Li
                             final String id = adapter.getValue(which);
                             if (NEW_PROFILE.equals(id)) {
                                 createProfile();
+                            } else if (DELETE_PROFILE.equals(id)) {
+                                showDeleteChooser();
                             } else if (!id.equals(active.id)) {
                                 switchProfile(id);
                             }
@@ -388,10 +395,33 @@ public class ButtonMappingActivity extends Activity implements ControllerView.Li
         input.requestFocus();
     }
 
+    private void showDeleteChooser() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        final ActionListAdapter adapter = new ActionListAdapter(builder.getContext());
+        for (ButtonProfiles.Profile profile : mMapping.getProfiles()) {
+            if (!profile.isStandard()) {
+                adapter.addAction(mMapping.getName(profile), profile.id);
+            }
+        }
+        builder.setTitle(R.string.profile_delete_choose_title)
+                .setAdapter(adapter, (dialog, which) -> {
+                    final String id = adapter.getValue(which);
+                    for (ButtonProfiles.Profile profile : mMapping.getProfiles()) {
+                        if (profile.id.equals(id)) {
+                            showDeleteDialog(profile);
+                        }
+                    }
+                })
+                .setNegativeButton(android.R.string.cancel, null);
+        showDialog(builder);
+    }
+
     private void showDeleteDialog(ButtonProfiles.Profile profile) {
+        final boolean active = profile.id.equals(mMapping.getActiveProfile().id);
         showDialog(new AlertDialog.Builder(this)
                 .setTitle(getString(R.string.profile_delete_title, mMapping.getName(profile)))
-                .setMessage(R.string.profile_delete_message)
+                .setMessage(active ? R.string.profile_delete_message
+                        : R.string.profile_delete_message_inactive)
                 .setPositiveButton(R.string.profile_delete, (dialog, which) -> {
                     // Deleting switches to the standard buttons, which are always fine.
                     mMapping.deleteProfile(profile.id);
