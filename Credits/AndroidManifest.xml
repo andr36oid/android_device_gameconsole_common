@@ -7,7 +7,7 @@
         android:label="@string/credits_title"
         android:supportsRtl="true">
 
-        <!-- Opened from Settings > About console -->
+        <!-- Opened by tapping the andr36oid version in Settings > About console -->
         <activity
             android:name=".CreditsActivity"
             android:exported="true"

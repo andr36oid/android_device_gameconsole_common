@@ -1,4 +1,4 @@
-// Settings > About console > Credits
+// The credits, opened by tapping the andr36oid version in Settings > About console
 android_app {
     name: "Andr36oidCredits",
     srcs: ["src/**/*.java"],

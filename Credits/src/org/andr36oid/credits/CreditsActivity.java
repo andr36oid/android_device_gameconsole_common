@@ -27,14 +27,13 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 /**
- * Settings > About console > Credits. Rolls by itself like film credits; the d-pad, the
- * mouse wheel or touch take over, and it carries on rolling a few seconds later.
+ * The credits, an easter egg: tapping the andr36oid version in Settings > About console
+ * opens them. They roll by themselves like film credits and can't be scrolled.
  */
 public class CreditsActivity extends Activity {
 
     private static final long START_DELAY_MS = 2500;
     private static final long END_PAUSE_MS = 3000;
-    private static final long RESUME_AFTER_MS = 4000;
     private static final long FADE_MS = 500;
     private static final float ROLL_DP_PER_SECOND = 24;
 
@@ -93,10 +92,8 @@ public class CreditsActivity extends Activity {
         mScroll.setVerticalScrollBarEnabled(false);
         mScroll.setVerticalFadingEdgeEnabled(true);
         mScroll.setFadingEdgeLength(dp(48));
-        mScroll.setFocusable(true);
         mScroll.addView(mContent);
         setContentView(mScroll);
-        mScroll.requestFocus();
     }
 
     @Override
@@ -113,32 +110,45 @@ public class CreditsActivity extends Activity {
         if (mShimmer != null) mShimmer.cancel();
     }
 
-    // Any input other than back takes over from the roll for a while.
+    // The credits roll by themselves; only back (B) does anything, and leaves.
 
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
-        if (event.getKeyCode() != KeyEvent.KEYCODE_BACK) {
-            takeOver();
+        final int key = event.getKeyCode();
+        if (key == KeyEvent.KEYCODE_BACK || key == KeyEvent.KEYCODE_BUTTON_B) {
+            if (event.getAction() == KeyEvent.ACTION_UP) finish();
+            return true;
         }
-        return super.dispatchKeyEvent(event);
+        // Volume and the like still work.
+        return KeyEvent.isGamepadButton(key) || isDpad(key) || super.dispatchKeyEvent(event);
     }
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
-        takeOver();
-        return super.dispatchTouchEvent(event);
+        return true;
     }
 
     @Override
     public boolean dispatchGenericMotionEvent(MotionEvent event) {
-        takeOver();
-        return super.dispatchGenericMotionEvent(event);
+        return true;
     }
 
-    private void takeOver() {
-        mContent.animate().cancel();
-        mContent.setAlpha(1f);
-        rollAfter(RESUME_AFTER_MS);
+    private static boolean isDpad(int key) {
+        switch (key) {
+            case KeyEvent.KEYCODE_DPAD_UP:
+            case KeyEvent.KEYCODE_DPAD_DOWN:
+            case KeyEvent.KEYCODE_DPAD_LEFT:
+            case KeyEvent.KEYCODE_DPAD_RIGHT:
+            case KeyEvent.KEYCODE_DPAD_CENTER:
+            case KeyEvent.KEYCODE_PAGE_UP:
+            case KeyEvent.KEYCODE_PAGE_DOWN:
+            case KeyEvent.KEYCODE_MOVE_HOME:
+            case KeyEvent.KEYCODE_MOVE_END:
+            case KeyEvent.KEYCODE_SPACE:
+                return true;
+            default:
+                return false;
+        }
     }
 
     private void rollAfter(long delayMs) {
