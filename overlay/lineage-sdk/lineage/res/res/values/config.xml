@@ -17,4 +17,11 @@
     -->
     <integer name="config_doubleTapOnHomeBehavior">2</integer>
 
+    <!-- Pinned to the power menu out of the box, so people find the feature -->
+    <string-array name="config_powerMenuDefaultPinnedApps" translatable="false">
+        <item>com.google.android.apps.nbu.files</item>
+        <item>com.retroarch</item>
+        <item>org.cromite.cromite</item>
+    </string-array>
+
 </resources>
