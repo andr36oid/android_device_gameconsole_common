@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The consoles have landscape panels about 430dp tall, the notification shade
+     is sized for phones twice as tall. See the SystemUI overlay as well. -->
+<resources>
+    <!-- Clock and status icons row at the top of the shade (48dp) -->
+    <dimen name="quick_qs_offset_height">36dp</dimen>
+    <!-- quick_qs_offset_height + the rest of the collapsed shade (176dp) -->
+    <dimen name="quick_qs_total_height">128dp</dimen>
+    <dimen name="quick_qs_total_height_with_media">176dp</dimen>
+</resources>

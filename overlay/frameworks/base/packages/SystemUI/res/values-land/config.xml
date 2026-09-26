@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- One wide row instead of two narrow ones: the panel is wide but short (4) -->
+    <integer name="quick_settings_num_columns">6</integer>
+</resources>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The consoles have landscape panels about 430dp tall, so the shade gets
+     tighter spacing than on phones. -->
+<resources>
+    <!-- Alarm and ringer line below the clock, also the padding above the tiles (48dp) -->
+    <dimen name="qs_header_tooltip_height">28dp</dimen>
+    <!-- Gap above the tile rows (8dp); the rows keep their 96dp for two lines of label -->
+    <dimen name="qs_tile_margin_top">0dp</dimen>
+    <!-- Brightness slider (40dp) and the settings/edit row at the bottom (48dp) -->
+    <dimen name="brightness_mirror_height">36dp</dimen>
+    <dimen name="qs_footer_height">40dp</dimen>
+</resources>
