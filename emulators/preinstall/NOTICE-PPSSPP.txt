@@ -1,9 +1,7 @@
 PPSSPP 1.19.3 (org.ppsspp.ppsspp, versionCode 119030000) - GPL-2.0-or-later
 
 Shipped unmodified as published by F-Droid (sha256 44e1ecb9268702fb65adcee14cffb6cdc3607e87abcf409004c9bdb6b2543f6c).
-Corresponding source:
-  https://f-droid.org/repo/org.ppsspp.ppsspp_119030000_src.tar.gz
-  (mirrored with every ROM release)
+Source: https://github.com/hrydgard/ppsspp/tree/v1.19.3
 
 ================================================================================
 PSPSDK BSD-compatible copyright notice (Some parts of the PSPSDK were used in this emulator (defines, constants, headers))

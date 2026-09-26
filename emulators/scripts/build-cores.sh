@@ -11,7 +11,7 @@
 #
 #   --ndk      NDK to use. Defaults to $ANDROID_NDK_HOME, otherwise the pinned
 #              r27c gets downloaded into the work dir.
-#   --sources  also drop a source tarball per core into DIR (for the release page)
+#   --sources  also drop a source tarball per core into DIR (optional, the NOTICE points at the sources)
 
 set -euo pipefail
 
@@ -132,7 +132,7 @@ notice() {
 	echo "libretro cores shipped in /system/etc/gameconsole/libretro/cores-$tier.tar.gz"
 	echo "Built for $ABI (API $API_LEVEL) with Android NDK r27c from the exact commits below."
 	echo "Corresponding source: the listed repository at the listed commit (including"
-	echo "git submodules). Source tarballs are also published with every ROM release."
+	echo "git submodules)."
 	[ "$tier" = noncommercial ] && {
 		echo
 		echo "NOTE: the cores in this archive are licensed for NON-COMMERCIAL use only."

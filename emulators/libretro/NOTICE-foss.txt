@@ -1,7 +1,7 @@
 libretro cores shipped in /system/etc/gameconsole/libretro/cores-foss.tar.gz
 Built for arm64-v8a (API 21) with Android NDK r27c from the exact commits below.
 Corresponding source: the listed repository at the listed commit (including
-git submodules). Source tarballs are also published with every ROM release.
+git submodules).
 
 ================================================================================
 fceumm  (GPL-2.0-or-later)

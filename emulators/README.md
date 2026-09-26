@@ -50,14 +50,9 @@ emulators/scripts/build-cores.sh
 Both regenerate the NOTICE files next to the binaries; commit them together.
 The `.apk` and `.tar.gz` files go through git LFS.
 
-## GPL homework for every release
+## Source
 
-```bash
-emulators/scripts/fetch-apks.sh  --sources out/sources
-emulators/scripts/build-cores.sh --sources out/sources
-```
-
-Upload `out/sources` next to the ROM image. That's the corresponding source for every
-binary above (F-Droid's source tarballs for the APKs, tracked files incl. submodules at
-the pinned commit for each core). The NOTICE files already tell users where to look,
-and they show up in Settings > About > Legal information.
+Nothing needs uploading with a release. The APKs are unmodified upstream releases and
+their NOTICE files point at the upstream repository at the release tag; the cores'
+NOTICE lists the repository and commit each one is built from. The NOTICE files show
+up in Settings > About > Legal information.

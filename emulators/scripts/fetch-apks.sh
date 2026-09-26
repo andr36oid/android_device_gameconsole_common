@@ -10,7 +10,7 @@
 # usage: fetch-apks.sh [--sources DIR]
 #
 #   --sources  also download F-Droid's source tarball for every APK into DIR
-#              (publish these with the ROM release to keep the GPL happy)
+#              (not needed for releases, the NOTICE points at the upstream source)
 
 set -euo pipefail
 
@@ -61,9 +61,9 @@ while read -r name pkg vc vname spdx sha license_url; do
 		echo "$name $vname ($pkg, versionCode $vc) - $spdx"
 		echo
 		echo "Shipped unmodified as published by F-Droid (sha256 $sha)."
-		echo "Corresponding source:"
-		echo "  https://f-droid.org/repo/${pkg}_${vc}_src.tar.gz"
-		echo "  (mirrored with every ROM release)"
+		# The license URL points into the upstream repository at the release tag
+		ref=${license_url#https://raw.githubusercontent.com/}
+		echo "Source: https://github.com/$(echo "$ref" | cut -d/ -f1-2)/tree/$(echo "$ref" | cut -d/ -f3)"
 		echo
 		echo "================================================================================"
 		curl -fsSL "$license_url" || die "$name: could not fetch license text"

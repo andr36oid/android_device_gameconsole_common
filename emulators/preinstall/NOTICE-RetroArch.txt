@@ -1,9 +1,7 @@
 RetroArch 1.22.2 (com.retroarch, versionCode 1597175267) - GPL-3.0-only
 
 Shipped unmodified as published by F-Droid (sha256 7120fd7a7f15b7a260366a8122c77070a80bc14bf28d34bc609439b2b52fdb64).
-Corresponding source:
-  https://f-droid.org/repo/com.retroarch_1597175267_src.tar.gz
-  (mirrored with every ROM release)
+Source: https://github.com/libretro/RetroArch/tree/v1.22.2
 
 ================================================================================
                     GNU GENERAL PUBLIC LICENSE
