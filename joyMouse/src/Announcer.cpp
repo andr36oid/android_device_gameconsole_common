@@ -7,7 +7,6 @@
 
 #include <cstring>
 #include <string>
-#include <utility>
 #include <vector>
 
 #include "Log.h"
@@ -24,23 +23,12 @@ constexpr const char kCmd[] = "/system/bin/cmd";
 }  // namespace
 
 void Announcer::announce(Announcement a) {
-    if (child_ > 0) {
-        pending_ = std::move(a);
-        return;
-    }
     spawn(a);
 }
 
 void Announcer::reap() {
     int status = 0;
-    pid_t pid;
-    while ((pid = waitpid(-1, &status, WNOHANG)) > 0) {
-        if (pid == child_) child_ = -1;
-    }
-    if (child_ < 0 && pending_) {
-        const Announcement next = std::move(*pending_);
-        pending_.reset();
-        spawn(next);
+    while (waitpid(-1, &status, WNOHANG) > 0) {
     }
 }
 
@@ -81,11 +69,7 @@ void Announcer::spawn(const Announcement& a) {
     pid_t pid = -1;
     const int rc = posix_spawn(&pid, kCmd, nullptr, &attr, argv.data(), environ);
     posix_spawnattr_destroy(&attr);
-    if (rc != 0) {
-        LOGW("cannot run %s: %s", kCmd, strerror(rc));
-        return;
-    }
-    child_ = pid;
+    if (rc != 0) LOGW("cannot run %s: %s", kCmd, strerror(rc));
 }
 
 }  // namespace joymouse

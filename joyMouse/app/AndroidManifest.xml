@@ -8,10 +8,12 @@
         android:name="com.gameconsole.joymouse.permission.ANNOUNCE"
         android:protectionLevel="signature" />
 
+    <!-- Persistent, so the mode toast shows at once instead of after an app start -->
     <application
         android:allowBackup="false"
         android:icon="@drawable/ic_joymouse"
         android:label="@string/app_name"
+        android:persistent="true"
         android:supportsRtl="true">
 
         <!-- Shows up in Settings > System. -->

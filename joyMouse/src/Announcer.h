@@ -3,7 +3,6 @@
 #include <sys/types.h>
 
 #include <cstdint>
-#include <optional>
 #include <string>
 
 namespace joymouse {
@@ -19,8 +18,9 @@ struct Announcement {
 };
 
 // Tells the JoyMouse app about mode changes so it can show a toast. Goes
-// through `cmd activity broadcast`; one broadcast in flight at a time, and
-// only the newest pending state is sent, so toasts never arrive out of order.
+// through `cmd activity broadcast`, which waits for the receiver, so every
+// change gets its own command right away instead of queueing behind a slow
+// one. Each carries a sequence number; the app drops any that arrive late.
 class Announcer {
 public:
     static constexpr const char kPackage[] = "com.gameconsole.joymouse";
@@ -32,9 +32,6 @@ public:
 
 private:
     void spawn(const Announcement& a);
-
-    pid_t child_ = -1;
-    std::optional<Announcement> pending_;
 };
 
 }  // namespace joymouse
