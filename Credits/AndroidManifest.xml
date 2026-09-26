@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="org.andr36oid.credits">
+
+    <application
+        android:allowBackup="false"
+        android:label="@string/credits_title"
+        android:supportsRtl="true">
+
+        <!-- Opened from Settings > About console -->
+        <activity
+            android:name=".CreditsActivity"
+            android:exported="true"
+            android:label="@string/credits_title"
+            android:screenOrientation="nosensor"
+            android:theme="@style/CreditsTheme" />
+    </application>
+</manifest>

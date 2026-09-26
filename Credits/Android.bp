@@ -1,0 +1,11 @@
+// Settings > About console > Credits
+android_app {
+    name: "Andr36oidCredits",
+    srcs: ["src/**/*.java"],
+    resource_dirs: ["res"],
+    certificate: "platform",
+    platform_apis: true,
+    optimize: {
+        enabled: false,
+    },
+}

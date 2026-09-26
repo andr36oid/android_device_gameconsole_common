@@ -412,6 +412,10 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
 	CpuOverclock
 
+# Settings > About console > Credits
+PRODUCT_PACKAGES += \
+	Andr36oidCredits
+
 # Remove phone packages that added by default product configuration
 PRODUCT_PACKAGES += \
     	remove-BlockedNumberProvider \

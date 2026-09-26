@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- The title's moving gradient -->
+    <color name="credits_gradient_1">#4FC3F7</color>
+    <color name="credits_gradient_2">#B388FF</color>
+    <color name="credits_gradient_3">#FF80AB</color>
+
+    <color name="credits_heading">#80DEEA</color>
+    <color name="credits_name">#FFFFFF</color>
+    <color name="credits_detail">#9EA7B8</color>
+    <color name="credits_rule">#33FFFFFF</color>
+</resources>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Deep blue fading into black -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <gradient
+        android:type="radial"
+        android:centerX="0.5"
+        android:centerY="0.15"
+        android:gradientRadius="120%p"
+        android:startColor="#1A2744"
+        android:centerColor="#0B1020"
+        android:endColor="#000000" />
+</shape>
