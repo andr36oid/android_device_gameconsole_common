@@ -1,0 +1,10 @@
+android_app {
+    name: "ButtonMapper",
+    srcs: ["src/**/*.java"],
+    resource_dirs: ["res"],
+    certificate: "platform",
+    platform_apis: true,
+    optimize: {
+        enabled: false,
+    },
+}

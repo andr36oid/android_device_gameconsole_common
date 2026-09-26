@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="button_mapping_title">Button mapping</string>
+    <string name="button_mapping_summary">Change what the console buttons do</string>
+
+    <!-- The buttons of the console -->
+    <string name="button_dpad_up">D-pad up</string>
+    <string name="button_dpad_down">D-pad down</string>
+    <string name="button_dpad_left">D-pad left</string>
+    <string name="button_dpad_right">D-pad right</string>
+    <string name="button_a">A button</string>
+    <string name="button_b">B button</string>
+    <string name="button_x">X button</string>
+    <string name="button_y">Y button</string>
+    <string name="button_l1">L1 button</string>
+    <string name="button_r1">R1 button</string>
+    <string name="button_l2">L2 button</string>
+    <string name="button_r2">R2 button</string>
+    <string name="button_l3">Left stick press (L3)</string>
+    <string name="button_r3">Right stick press (R3)</string>
+    <string name="button_select">Select button</string>
+    <string name="button_start">Start button</string>
+    <string name="button_function">FN button</string>
+    <string name="button_volume_down">Volume down button</string>
+    <string name="button_volume_up">Volume up button</string>
+    <string name="button_power">Power button</string>
+
+    <!-- What a button can do, grouped -->
+    <string name="section_game">Game buttons</string>
+    <string name="section_menu">Menu controls</string>
+    <string name="section_system">System</string>
+    <string name="section_media">Music and video</string>
+    <string name="section_off">Turn off</string>
+
+    <string name="action_button_a">A button</string>
+    <string name="action_button_b">B button</string>
+    <string name="action_button_x">X button</string>
+    <string name="action_button_y">Y button</string>
+    <string name="action_button_l1">L1 button</string>
+    <string name="action_button_r1">R1 button</string>
+    <string name="action_button_l2">L2 button</string>
+    <string name="action_button_r2">R2 button</string>
+    <string name="action_button_l3">Left stick press (L3)</string>
+    <string name="action_button_r3">Right stick press (R3)</string>
+    <string name="action_button_select">Select button</string>
+    <string name="action_button_start">Start button</string>
+    <string name="action_up">Up</string>
+    <string name="action_down">Down</string>
+    <string name="action_left">Left</string>
+    <string name="action_right">Right</string>
+    <string name="action_ok">OK</string>
+    <string name="action_back">Back</string>
+    <string name="action_home">Home screen</string>
+    <string name="action_menu">App menu</string>
+    <string name="action_screenshot">Take a screenshot</string>
+    <string name="action_power">Power (sleep and power menu)</string>
+    <string name="action_volume_up">Volume up</string>
+    <string name="action_volume_down">Volume down</string>
+    <string name="action_mute">Mute</string>
+    <string name="action_brightness_up">Brightness up</string>
+    <string name="action_brightness_down">Brightness down</string>
+    <string name="action_play_pause">Play / pause</string>
+    <string name="action_next">Next track</string>
+    <string name="action_previous">Previous track</string>
+    <string name="action_nothing">Nothing (button off)</string>
+
+    <!-- First choice in the list, puts the button back to what it did originally -->
+    <string name="action_original">Original: <xliff:g id="action">%1$s</xliff:g></string>
+    <string name="choose_title"><xliff:g id="button">%1$s</xliff:g>: what should it do?</string>
+
+    <!-- Below the drawing, about the selected button -->
+    <string name="status_default">Does: <xliff:g id="action">%1$s</xliff:g></string>
+    <string name="status_changed">Does: <xliff:g id="action">%1$s</xliff:g> (normally <xliff:g id="default_action">%2$s</xliff:g>)</string>
+    <string name="status_locked">Does: <xliff:g id="action">%1$s</xliff:g>. This one can\'t be changed.</string>
+
+    <!-- Shown on the screen of the drawn console -->
+    <string name="screen_hint">Pick a button with the D-pad, or just press it.\n\nThen press the <xliff:g id="button">%1$s</xliff:g> to change it.</string>
+    <string name="screen_hint_no_ok">Press a button to pick it.\n\nPress it again to change it.</string>
+
+    <string name="rescue_tip">Buttons all mixed up? Hold both volume buttons for 5 seconds to reset them.</string>
+
+    <string name="power_locked_title">The Power button stays as it is</string>
+    <string name="power_locked_message">It\'s the only button that can wake up the console, so it always works as the Power button.</string>
+
+    <!-- Things the console always needs a button for -->
+    <string name="function_up">Up</string>
+    <string name="function_down">Down</string>
+    <string name="function_left">Left</string>
+    <string name="function_right">Right</string>
+    <string name="function_select">OK</string>
+    <string name="function_back">Back</string>
+    <string name="function_home">Home screen</string>
+    <string name="function_power">Power</string>
+
+    <string name="blocked_title">That would lock you out</string>
+    <string name="blocked_message">Then no button would be left for: <xliff:g id="functions">%1$s</xliff:g>.\n\nGive that job to another button first.</string>
+
+    <string name="swap_title">Swap with the <xliff:g id="other_button">%1$s</xliff:g>?</string>
+    <string name="swap_message">The <xliff:g id="other_button">%1$s</xliff:g> does this right now. Swap the two buttons, or only change the <xliff:g id="button">%2$s</xliff:g>?</string>
+    <string name="swap_needed_message">The <xliff:g id="other_button">%1$s</xliff:g> does this right now. Changing only the <xliff:g id="button">%2$s</xliff:g> would leave no button for: <xliff:g id="functions">%3$s</xliff:g>.\n\nSwap the two buttons instead?</string>
+    <string name="swap_confirm">Swap</string>
+    <string name="swap_only_this">Only this one</string>
+
+    <string name="problem_title">Some buttons are missing</string>
+    <string name="problem_message">No button is set up for: <xliff:g id="functions">%1$s</xliff:g>.\n\nSwitch to the Standard buttons to fix this?</string>
+    <string name="problem_fix">Use Standard</string>
+    <string name="problem_later">Not now</string>
+
+    <!-- Profiles: button layouts to switch between -->
+    <string name="profile_standard">Standard</string>
+    <string name="profile_default_name">Profile %d</string>
+    <string name="profile_button">Profile: <xliff:g id="profile">%1$s</xliff:g></string>
+    <string name="profiles_title">Button profiles</string>
+    <string name="profile_new">New profile</string>
+    <string name="profiles_close">Close</string>
+    <string name="profile_rename">Rename</string>
+    <string name="profile_rename_title">Rename profile</string>
+    <string name="profile_rename_save">Save</string>
+    <string name="profile_delete">Delete</string>
+    <string name="profile_delete_title">Delete \u201c<xliff:g id="profile">%1$s</xliff:g>\u201d?</string>
+    <string name="profile_delete_message">Its button changes are removed and the Standard buttons are used again.</string>
+    <string name="profile_created">New profile \u201c<xliff:g id="profile">%1$s</xliff:g>\u201d. Button changes are saved in it.</string>
+    <string name="profile_forked">The Standard buttons stay as they are, your change is saved in the new profile \u201c<xliff:g id="profile">%1$s</xliff:g>\u201d.</string>
+    <string name="profile_blocked_message">\u201c<xliff:g id="profile">%1$s</xliff:g>\u201d would leave no button for: <xliff:g id="functions">%2$s</xliff:g>.</string>
+
+    <!-- Quick Settings tile that switches to the next profile -->
+    <string name="tile_label">Button profile</string>
+
+    <!-- Shown after a change to the buttons used in menus -->
+    <string name="confirm_title">Keep the new buttons?</string>
+    <plurals name="confirm_message">
+        <item quantity="one">Press Keep with the <xliff:g id="button">%1$s</xliff:g>. Otherwise everything goes back in <xliff:g id="seconds">%2$d</xliff:g> second.</item>
+        <item quantity="other">Press Keep with the <xliff:g id="button">%1$s</xliff:g>. Otherwise everything goes back in <xliff:g id="seconds">%2$d</xliff:g> seconds.</item>
+    </plurals>
+    <plurals name="confirm_message_generic">
+        <item quantity="one">Press Keep. Otherwise everything goes back in <xliff:g id="seconds">%d</xliff:g> second.</item>
+        <item quantity="other">Press Keep. Otherwise everything goes back in <xliff:g id="seconds">%d</xliff:g> seconds.</item>
+    </plurals>
+    <string name="confirm_keep">Keep</string>
+    <string name="confirm_undo">Undo</string>
+
+</resources>

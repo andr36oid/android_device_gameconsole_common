@@ -399,6 +399,10 @@ PRODUCT_PACKAGES += \
 	joyMouse \
 	JoyMouseSettings
 
+# Button mapping and profiles (Settings > Button mapping, Quick Settings tile)
+PRODUCT_PACKAGES += \
+	ButtonMapper
+
 # Remove phone packages that added by default product configuration
 PRODUCT_PACKAGES += \
     	remove-BlockedNumberProvider \

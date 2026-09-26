@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="org.andr36oid.buttonmapper">
+
+    <!-- Writes the hardware_button_* settings, granted through the platform signature -->
+    <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS" />
+
+    <application
+        android:allowBackup="false"
+        android:icon="@drawable/ic_app"
+        android:label="@string/button_mapping_title"
+        android:supportsRtl="true">
+
+        <!-- Injected into the top level of the Settings app, right below Sound. Also in the
+             app list, so it can be opened from the front end. -->
+        <activity
+            android:name=".ButtonMappingActivity"
+            android:exported="true"
+            android:label="@string/button_mapping_title"
+            android:theme="@android:style/Theme.DeviceDefault.Settings">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.android.settings.action.IA_SETTINGS" />
+            </intent-filter>
+            <meta-data
+                android:name="com.android.settings.category"
+                android:value="com.android.settings.category.ia.homepage" />
+            <meta-data
+                android:name="com.android.settings.order"
+                android:value="-65" />
+            <meta-data
+                android:name="com.android.settings.icon"
+                android:resource="@drawable/ic_settings_button_mapping" />
+            <meta-data
+                android:name="com.android.settings.bg.hint"
+                android:resource="@color/button_mapping_icon_background" />
+            <meta-data
+                android:name="com.android.settings.summary"
+                android:resource="@string/button_mapping_summary" />
+        </activity>
+
+        <!-- Switches between the button profiles -->
+        <service
+            android:name=".ProfileTileService"
+            android:exported="true"
+            android:icon="@drawable/ic_settings_button_mapping"
+            android:label="@string/tile_label"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
+    </application>
+</manifest>
