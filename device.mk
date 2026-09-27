@@ -87,6 +87,9 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_PROPERTY_OVERRIDES += \
     	dalvik.vm.foreground-heap-growth-multiplier=2.0
 
+# Size images without a fixed partition size (vendor) from their contents
+PRODUCT_USE_DYNAMIC_PARTITION_SIZE := true
+
 PRODUCT_COPY_FILES += \
     	$(LOCAL_PATH)/fstab.rk30board:$(TARGET_COPY_OUT_RAMDISK)/fstab.rk30board \
     	$(LOCAL_PATH)/fstab.rk30board:$(TARGET_COPY_OUT_ROOT)/fstab.rk30board \

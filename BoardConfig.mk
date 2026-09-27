@@ -104,11 +104,12 @@ BOARD_FLASH_BLOCK_SIZE := 4096
 BOARD_SYSTEMIMAGE_PARTITION_SIZE ?= 2320702017 # 2427M
 BOARD_SYSTEMIMAGE_FILE_SYSTEM_TYPE := ext4
 
-# Treble vendor partition, survives a GSI flash. The device mkimg.sh creates a
-# 160M partition; the image is 128M because the build also counts recovery.img
-# (about 24M) against this size.
+# Treble vendor partition, survives a GSI flash. The image is sized from its
+# contents plus 32M free (PRODUCT_USE_DYNAMIC_PARTITION_SIZE in device.mk), the
+# device mkimg.sh checks it fits the 160M partition. A fixed size would fail the
+# build, which counts recovery.img against the vendor size.
 TARGET_COPY_OUT_VENDOR := vendor
-BOARD_VENDORIMAGE_PARTITION_SIZE ?= 134217728 # 128M
+BOARD_VENDORIMAGE_PARTITION_RESERVED_SIZE := 33554432 # 32M
 BOARD_VENDORIMAGE_FILE_SYSTEM_TYPE := ext4
 # Creates the /metadata mount point, Magisk keeps its early data there
 BOARD_USES_METADATA_PARTITION := true
