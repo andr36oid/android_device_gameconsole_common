@@ -125,7 +125,7 @@ fi
     echo "KEEPVERITY=$KEEPVERITY"
     echo "KEEPFORCEENCRYPT=$KEEPFORCEENCRYPT"
     echo "RECOVERYMODE=$RECOVERYMODE"
-    [ -n "$PREINITDEVICE" ] && echo "PREINITDEVICE=$PREINITDEVICE"
+    if [ -n "$PREINITDEVICE" ]; then echo "PREINITDEVICE=$PREINITDEVICE"; fi
 } > config
 
 # 3. Compress the payload the way this Magisk version expects. We derive the

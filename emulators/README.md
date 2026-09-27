@@ -22,7 +22,7 @@ genesis_plus_gx and picodrive (MD/SMS/GG/Sega CD/32X).
 Nothing is installed as a system app. Everything lands in `/system/etc/gameconsole/` and
 the `gameconsole-emu` service (`seed/`) runs once `sys.boot_completed=1`:
 
-1. `pm install -g` every APK in `preinstall/preinstall.list` as a normal user app.
+1. `pm install -g` every APK in `preinstall/*.list` as a normal user app (`preinstall.list` is ours, `magisk.list` comes from `../magisk`).
    The APKs are byte-identical to F-Droid's, so F-Droid can update them and users can
    uninstall them. A removed app stays removed, an older installed version gets upgraded
    when the ROM ships a newer one, a failing version isn't retried every boot.

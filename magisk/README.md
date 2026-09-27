@@ -19,7 +19,9 @@ to `ramdisk.uimg` on a PC.
 `Magisk.apk` is the unmodified Magisk v29.0 release
 (https://github.com/topjohnwu/Magisk/releases/tag/v29.0, sha256
 `99d40df1a68a05a5e78452a9cd4f2d753434d7622baeeb44ea14ae8238c1a9ca`), GPLv3.
-To update, replace it with a newer release; the app module in `Android.mk`
-preinstalls the same file. `magiskboot` runs from the APK's x86_64 build on
-the build machine (arm64 through qemu-aarch64 on other hosts). Without the APK
-the image builds with the stock ramdisk and no root.
+To update, replace it with a newer release and bump the versionCode in
+`magisk.list`. The same file is installed as a normal app on first boot, by the
+emulator preinstaller (a system app would get no native libs extracted).
+`magiskboot` runs from the APK's x86_64 build on the build machine (arm64
+through qemu-aarch64 on other hosts). Without the APK the image builds with the
+stock ramdisk and no root.

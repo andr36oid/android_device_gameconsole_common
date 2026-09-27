@@ -32,34 +32,37 @@ installed_vc() {
 }
 
 install_apks() {
-	local list=$BASE/preinstall/preinstall.list pkg vc apk cur out
-	[ -f "$list" ] || return 0
+	local list pkg vc apk cur out
 
-	while read -r pkg vc apk; do
-		case $pkg in ''|\#*) continue ;; esac
-		[ -f "$BASE/preinstall/$apk" ] || continue
+	# preinstall.list is the emulators', other packages bring their own list
+	for list in "$BASE"/preinstall/*.list; do
+		[ -f "$list" ] || continue
+		while read -r pkg vc apk; do
+			case $pkg in ''|\#*) continue ;; esac
+			[ -f "$BASE/preinstall/$apk" ] || continue
 
-		cur=$(installed_vc "$pkg")
-		if [ -n "$cur" ]; then
-			# remember we have seen it, so an uninstall later on sticks
-			touch "$STATE/installed.$pkg"
-			[ "$cur" -ge "$vc" ] && continue
-		elif [ -e "$STATE/installed.$pkg" ]; then
-			continue
-		fi
-		# don't retry a version that failed before (e.g. a differently
-		# signed build of the same package is installed)
-		[ "$(cat "$STATE/failed.$pkg" 2>/dev/null)" = "$vc" ] && continue
+			cur=$(installed_vc "$pkg")
+			if [ -n "$cur" ]; then
+				# remember we have seen it, so an uninstall later on sticks
+				touch "$STATE/installed.$pkg"
+				[ "$cur" -ge "$vc" ] && continue
+			elif [ -e "$STATE/installed.$pkg" ]; then
+				continue
+			fi
+			# don't retry a version that failed before (e.g. a differently
+			# signed build of the same package is installed)
+			[ "$(cat "$STATE/failed.$pkg" 2>/dev/null)" = "$vc" ] && continue
 
-		log "installing $apk ($pkg $vc, currently: ${cur:-not installed})"
-		if out=$(pm install -r -g --user 0 "$BASE/preinstall/$apk" </dev/null 2>&1); then
-			touch "$STATE/installed.$pkg"
-			rm -f "$STATE/failed.$pkg"
-		else
-			log "installing $pkg failed: $out"
-			echo "$vc" >"$STATE/failed.$pkg"
-		fi
-	done <"$list"
+			log "installing $apk ($pkg $vc, currently: ${cur:-not installed})"
+			if out=$(pm install -r -g --user 0 "$BASE/preinstall/$apk" </dev/null 2>&1); then
+				touch "$STATE/installed.$pkg"
+				rm -f "$STATE/failed.$pkg"
+			else
+				log "installing $pkg failed: $out"
+				echo "$vc" >"$STATE/failed.$pkg"
+			fi
+		done <"$list"
+	done
 }
 
 seed_cores() {
