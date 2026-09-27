@@ -50,8 +50,14 @@ TARGET_NO_BOOTLOADER := true
 TARGET_NO_KERNEL := false
 BUILD_EMULATOR := false
 
-BOARD_BUILD_SYSTEM_ROOT_IMAGE := true
+# Boot like an Android device: U-Boot loads Image, a first-stage ramdisk and the
+# DTB (see the device boot.ini-android). The ramdisk's init mounts /system and
+# /vendor by partition name and switches root into /system, so a GSI flashed to
+# the system partition boots on our ramdisk and /vendor.
+BOARD_BUILD_SYSTEM_ROOT_IMAGE := false
 BOARD_USES_RECOVERY_AS_BOOT := false
+# gzip ramdisk, the kernel has CONFIG_RD_GZIP
+BOARD_RAMDISK_USE_LZ4 := false
 
 TARGET_KERNEL_SOURCE := kernel/gameconsole/r36s
 TARGET_KERNEL_ARCH := arm64
@@ -98,14 +104,23 @@ BOARD_FLASH_BLOCK_SIZE := 4096
 BOARD_SYSTEMIMAGE_PARTITION_SIZE ?= 2320702017 # 2427M
 BOARD_SYSTEMIMAGE_FILE_SYSTEM_TYPE := ext4
 
-#TARGET_COPY_OUT_VENDOR := vendor
-#BOARD_VENDORIMAGE_PARTITION_SIZE ?= 134217728 # 128M
-#BOARD_VENDORIMAGE_FILE_SYSTEM_TYPE := ext4
+# Treble vendor partition, survives a GSI flash. Must fit the vendor partition
+# the device mkimg.sh creates (160M).
+TARGET_COPY_OUT_VENDOR := vendor
+BOARD_VENDORIMAGE_PARTITION_SIZE ?= 167772160 # 160M
+BOARD_VENDORIMAGE_FILE_SYSTEM_TYPE := ext4
+# Creates the /metadata mount point, Magisk keeps its early data there
+BOARD_USES_METADATA_PARTITION := true
 
 BOARD_USERDATAIMAGE_PARTITION_SIZE ?= 134217728 # 128M
 TARGET_USERIMAGES_USE_EXT4 := true
 TARGET_USERIMAGES_USE_F2FS := true
 TARGET_USERIMAGES_SPARSE_EXT_DISABLED := true
+
+# No verified boot: U-Boot boots the SD card through boot.ini, there is no vbmeta
+# and no dm-verity, and no avb/verify flags in the fstab, so it never blocks a
+# boot or a GSI flash.
+BOARD_AVB_ENABLE := false
 
 # Recovery
 TARGET_NO_RECOVERY := false

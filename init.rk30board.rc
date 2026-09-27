@@ -57,7 +57,7 @@ on fs
     # Start HW service manager early
     start hwservicemanager
     
-    mount_all /fstab.rk30board --early
+    mount_all /vendor/etc/fstab.rk30board --early
     
 on late-fs
     # Start services for bootanim
@@ -69,7 +69,7 @@ on late-fs
         
 
     # Mount RW partitions which need run fsck    
-    mount_all /fstab.rk30board --late
+    mount_all /vendor/etc/fstab.rk30board --late
     
     # set RLIMIT_MEMLOCK to 8MB
     setrlimit 8 8388608 8388608
@@ -225,7 +225,7 @@ on boot
     
 on sys-boot-completed-set
    # Enable ZRAM on boot_complete
-    swapon_all /fstab.rk30board
+    swapon_all /vendor/etc/fstab.rk30board
 
 on configure-cpuset
     # update cpusets feature nodes for rk3326 tablet 

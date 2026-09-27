@@ -1,8 +1,15 @@
 #<src>                 <mnt_point>  <type>   <mnt_flags and options>                              <fs_mgr_flags>
+# system and vendor are mounted by the first-stage ramdisk, which then switches root into
+# /system. A GSI flashed to the system partition may be ext4 or EROFS, the first line that
+# mounts wins. No avb/verify flags: there is no verified boot on this device.
 /dev/block/platform/ff370000.dwmmc/by-name/system       /system     ext4       ro,barrier=1                                        wait,first_stage_mount
+/dev/block/platform/ff370000.dwmmc/by-name/system       /system     erofs      ro                                                  wait,first_stage_mount
+/dev/block/platform/ff370000.dwmmc/by-name/vendor       /vendor     ext4       ro,barrier=1                                        wait,first_stage_mount
+/dev/block/platform/ff370000.dwmmc/by-name/metadata     /metadata   ext4       noatime,nosuid,nodev,discard                        wait,check,formattable
 /dev/block/platform/ff370000.dwmmc/by-name/userdata     /data       f2fs       noatime,nosuid,nodev,nodiratime,inline_data         wait,latemount,check,quota,formattable,reservedsize=128M
 /dev/block/platform/ff370000.dwmmc/by-name/userdata     /data       ext4       noatime,nosuid,nodev,barrier=1,noauto_da_alloc	   quota,latemount,formattable,reservedsize=128M
-/dev/block/platform/ff370000.dwmmc/by-name/cache        /cache      ext4       noatime,nosuid,nodev,barrier=1,data=ordered,nomblk_io_submit,noauto_da_alloc wait,check
+/dev/block/platform/ff370000.dwmmc/by-name/cache        /cache      ext4       noatime,nosuid,nodev,barrier=1,data=ordered,nomblk_io_submit,noauto_da_alloc wait,check,formattable
+/dev/block/platform/ff370000.dwmmc/by-name/misc         /misc       emmc       defaults                                            defaults
 */block/mmcblk0*  	     /boot           emmc    defaults                                                        defaults
 
 */block/mmcblk0*  	     auto        auto       defaults                                            voldmanaged=sdcard1:7

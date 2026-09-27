@@ -90,7 +90,8 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_COPY_FILES += \
     	$(LOCAL_PATH)/fstab.rk30board:$(TARGET_COPY_OUT_RAMDISK)/fstab.rk30board \
     	$(LOCAL_PATH)/fstab.rk30board:$(TARGET_COPY_OUT_ROOT)/fstab.rk30board \
-    	$(LOCAL_PATH)/fstab.rk30board:$(TARGET_COPY_OUT_VENDOR)/fstab.rk30board 
+    	$(LOCAL_PATH)/fstab.rk30board:$(TARGET_COPY_OUT_VENDOR)/fstab.rk30board \
+    	$(LOCAL_PATH)/fstab.rk30board:$(TARGET_COPY_OUT_VENDOR)/etc/fstab.rk30board
     	
 PRODUCT_COPY_FILES += \
     	$(LOCAL_PATH)/init.rk30board.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.rk30board.rc \
@@ -132,9 +133,11 @@ PRODUCT_COPY_FILES += \
     	$(LOCAL_PATH)/firmware/ralink/rt3290.bin:$(TARGET_COPY_OUT_VENDOR)/firmware/rt3290.bin
 
 	    	    	    	    	    	
+# The /vendor copy is the one left when a GSI replaces /system
 PRODUCT_COPY_FILES += \
     	$(LOCAL_PATH)/ueventd.rk30board.rc:$(TARGET_COPY_OUT_ROOT)/ueventd.rk30board.rc \
-    	
+    	$(LOCAL_PATH)/ueventd.rk30board.rc:$(TARGET_COPY_OUT_VENDOR)/ueventd.rc
+
 # Permissions
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/handheld_core_hardware.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/handheld_core_hardware.xml \
@@ -335,11 +338,12 @@ PRODUCT_PACKAGES += \
     	android.hardware.media.omx@1.0-service \
 	android.hardware.media.c2@1.0-service
 	
-# PowerHAL
+# PowerHAL. The AIDL one is for newer GSIs, which only talk to Power AIDL.
 PRODUCT_PACKAGES += \
     	power.default \
     	android.hardware.power@1.0-impl \
-    	android.hardware.power@1.0-service
+    	android.hardware.power@1.0-service \
+    	android.hardware.power-service.example
 
 # RenderScript HIDL
 PRODUCT_PACKAGES += \
@@ -477,10 +481,10 @@ PRODUCT_PACKAGES += \
 GAMECONSOLE_EMU_NONCOMMERCIAL_CORES := true
 $(call inherit-product, device/gameconsole/common/emulators/emulators.mk)
 
-# Include rootaccess
+# Root is Magisk, baked into the ramdisk by the device mkimg.sh (see magisk/README.md).
+# The app is preinstalled so it works offline from the first boot.
 PRODUCT_PACKAGES += \
-    phh-su \
-    SuperUser
+    MagiskApp
 
 # Exclude AudioFX
 TARGET_EXCLUDES_AUDIOFX := true
