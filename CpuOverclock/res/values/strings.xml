@@ -2,7 +2,7 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
     <string name="overclock_title">Performance</string>
-    <string name="overclock_summary">Battery saver or full speed, and CPU overclock</string>
+    <string name="overclock_summary">Battery saver or full speed, CPU speed limit and overclock</string>
 
     <!-- Performance profiles -->
     <string name="profile_category">Performance profile</string>
@@ -22,20 +22,48 @@
     <!-- Toast after FN + R1, e.g. "Performance profile: Battery saver" -->
     <string name="profile_switched">Performance profile: <xliff:g id="profile">%1$s</xliff:g></string>
     <string name="profile_tile_label">Performance</string>
+    <!-- Toast after FN + R1 while a maximum CPU speed holds the CPU lower than the profile would,
+         e.g. "Performance profile: Balanced, CPU up to 816 MHz" -->
+    <string name="profile_switched_capped">Performance profile: <xliff:g id="profile">%1$s</xliff:g>, CPU up to <xliff:g id="speed">%2$s</xliff:g></string>
+    <!-- Tile subtitle with a maximum CPU speed, e.g. "Balanced, 816 MHz" -->
+    <string name="profile_tile_capped"><xliff:g id="profile">%1$s</xliff:g>, <xliff:g id="speed">%2$s</xliff:g></string>
+
+    <!-- Maximum CPU speed (underclock) -->
+    <string name="cpu_cap_title">Maximum CPU speed</string>
+    <!-- First entry of the list, no limit. speed is the standard top speed, e.g. "1296 MHz" -->
+    <string name="cpu_cap_stock">Stock (<xliff:g id="speed">%1$s</xliff:g>)</string>
+    <string name="cpu_cap_note">Lower means longer battery life and a cooler console, but slower games. If a game slows down, pick a higher speed. Kept when the console restarts.</string>
+    <!-- The cap is lower than what the profile allows, speed e.g. "816 MHz" -->
+    <string name="cpu_cap_active">Up to <xliff:g id="speed">%1$s</xliff:g>, whatever the profile.</string>
+    <!-- The profile already stays lower than the cap -->
+    <string name="cpu_cap_profile_lower"><xliff:g id="speed">%1$s</xliff:g>. The profile keeps the CPU at <xliff:g id="profile_speed">%2$s</xliff:g> or lower right now.</string>
+    <string name="cpu_cap_on_hold"><xliff:g id="speed">%1$s</xliff:g>. On hold while the overclock is on.</string>
+    <string name="cpu_cap_none">No limit beyond the profile.</string>
+    <!-- A CPU speed, e.g. "816 MHz" -->
+    <string name="speed_mhz"><xliff:g id="mhz">%1$d</xliff:g> MHz</string>
 
     <string name="overclock_category">CPU overclock (experimental)</string>
     <string name="overclock_switch">Overclock</string>
     <string name="overclock_switch_on">Running at up to <xliff:g id="speed">%1$s</xliff:g></string>
-    <string name="overclock_switch_off">Standard speed, up to <xliff:g id="speed">%1$s</xliff:g></string>
+    <string name="overclock_switch_off">Off, the CPU runs at up to <xliff:g id="speed">%1$s</xliff:g></string>
     <string name="overclock_speed">Speed</string>
 
     <!-- A CPU speed, e.g. "1.51 GHz" -->
     <string name="speed_ghz"><xliff:g id="ghz">%1$.2f</xliff:g> GHz</string>
 
-    <string name="overclock_about">Faster emulation for demanding games, at a cost: the console gets warmer, the battery drains faster, and some consoles freeze or crash at the higher speeds. If that happens, pick a lower speed.\n\nThe console always starts at standard speed, a restart turns the overclock off. It also slows down by itself when it gets too hot.</string>
+    <string name="overclock_about">Faster emulation for demanding games, at a cost: the console gets warmer, the battery drains faster, and some consoles freeze or crash at the higher speeds. If that happens, pick a lower speed.\n\nThe console always starts without the overclock, a restart turns it off. While it is on, the maximum CPU speed is on hold. The console also slows down by itself when it gets too hot.</string>
 
     <string name="overclock_unsupported">This console can\'t be overclocked.</string>
     <string name="overclock_failed">Couldn\'t change the CPU speed</string>
+
+    <!-- CPU undervolt -->
+    <string name="undervolt_category">CPU undervolt (experimental)</string>
+    <string name="undervolt_title">Undervolt</string>
+    <string name="undervolt_off">Off</string>
+    <!-- An undervolt step, e.g. "−25 mV" -->
+    <string name="undervolt_step">\u2212<xliff:g id="mv">%1$d</xliff:g> mV</string>
+    <string name="undervolt_about">Runs the CPU at a slightly lower voltage for the same speed, so it uses a bit less power and stays a bit cooler, mostly at the higher speeds. At 816 MHz and below there is little to gain.\n\nEvery chip is different. If a game crashes or the console freezes or restarts, go back to Off. A crash while something is being saved can damage files on the card, so go one step at a time and play for a while before going lower.\n\nThe console always starts with the undervolt off, a restart turns it off.</string>
+    <string name="undervolt_failed">Couldn\'t change the CPU voltage</string>
 
     <!-- Quick Settings tile -->
     <string name="tile_label">CPU overclock</string>

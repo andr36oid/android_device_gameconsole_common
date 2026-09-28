@@ -14,6 +14,11 @@
         <Preference
             android:key="profile_about"
             android:selectable="false" />
+
+        <ListPreference
+            android:key="cpu_cap"
+            android:persistent="false"
+            android:title="@string/cpu_cap_title" />
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -34,5 +39,21 @@
             android:key="about"
             android:selectable="false"
             android:summary="@string/overclock_about" />
+    </PreferenceCategory>
+
+    <!-- Removed when the kernel has no undervolt parameter -->
+    <PreferenceCategory
+        android:key="undervolt_category"
+        android:title="@string/undervolt_category">
+
+        <ListPreference
+            android:key="undervolt"
+            android:persistent="false"
+            android:title="@string/undervolt_title" />
+
+        <Preference
+            android:key="undervolt_about"
+            android:selectable="false"
+            android:summary="@string/undervolt_about" />
     </PreferenceCategory>
 </PreferenceScreen>
