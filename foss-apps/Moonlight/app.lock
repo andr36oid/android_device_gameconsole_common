@@ -1,0 +1,13 @@
+# Moonlight Game Streaming, F-Droid build (F-Droid signs it, so F-Droid can update it).
+# sha256 from the F-Droid index (index-v2.json). v12.2 is out on GitHub (2026-09-12)
+# but not on F-Droid yet; the GitHub build has a different signature.
+name=Moonlight
+package=com.limelight
+version_code=314
+version_name=12.1
+spdx=GPL-3.0-or-later
+sha256=ace0b28b0d4f4c5b2a0e683be6ca21ebde8476851c40d489d0591322fc6c4a99
+apk_url=https://f-droid.org/repo/com.limelight_314.apk
+source_url=https://github.com/moonlight-stream/moonlight-android/tree/v12.1 (F-Droid's source tarball: https://f-droid.org/repo/com.limelight_314_src.tar.gz)
+license_url=https://raw.githubusercontent.com/moonlight-stream/moonlight-android/v12.1/LICENSE.txt
+published_by=F-Droid
