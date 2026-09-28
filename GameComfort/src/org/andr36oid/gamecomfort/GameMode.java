@@ -4,6 +4,7 @@ import android.app.NotificationManager;
 import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.provider.Settings;
 import android.service.quicksettings.TileService;
@@ -19,6 +20,16 @@ import java.util.Arrays;
 final class GameMode {
 
     static final String KEY_AUTOMATIC = "game_mode_automatic";
+    /** Performance profile while game mode is on, -1 leaves it alone. */
+    static final String KEY_PROFILE = "game_mode_profile";
+
+    // The performance profiles (CpuOverclock) take these and remember what to go back to
+    static final String PROFILES_PACKAGE = "org.andr36oid.cpuoverclock";
+    static final ComponentName PROFILES_TILE = new ComponentName(PROFILES_PACKAGE,
+            PROFILES_PACKAGE + ".ProfileTileService");
+    private static final String ACTION_SET_PROFILE = PROFILES_PACKAGE + ".action.SET_PROFILE";
+    private static final String ACTION_RESTORE_PROFILE =
+            PROFILES_PACKAGE + ".action.RESTORE_PROFILE";
 
     private static final String KEY_ACTIVE = "game_mode_active";
     /** Turned on by automatic mode rather than by hand, so leaving the game turns it off. */
@@ -85,6 +96,11 @@ final class GameMode {
                 edit.putInt(KEY_SAVED_HEADS_UP, -1);
             }
             edit.putBoolean(KEY_BY_AUTOMATIC, automatic);
+            final int profile = Integer.parseInt(prefs.getString(KEY_PROFILE, "-1"));
+            if (profile >= 0) {
+                context.sendBroadcast(new Intent(ACTION_SET_PROFILE)
+                        .setPackage(PROFILES_PACKAGE).putExtra("profile", profile));
+            }
         } else {
             // Put things back, unless the user changed them in the meantime.
             final int savedFilter = prefs.getInt(KEY_SAVED_FILTER, 0);
@@ -98,6 +114,8 @@ final class GameMode {
                 Settings.Global.putInt(resolver, Settings.Global.HEADS_UP_NOTIFICATIONS_ENABLED,
                         savedHeadsUp);
             }
+            // Does nothing if game mode didn't change the profile
+            context.sendBroadcast(new Intent(ACTION_RESTORE_PROFILE).setPackage(PROFILES_PACKAGE));
             edit.remove(KEY_SAVED_FILTER).remove(KEY_SAVED_HEADS_UP)
                     .putBoolean(KEY_BY_AUTOMATIC, false);
         }

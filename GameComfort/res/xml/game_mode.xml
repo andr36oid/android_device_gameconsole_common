@@ -14,6 +14,15 @@
         android:summary="@string/game_mode_automatic_summary"
         android:title="@string/game_mode_automatic" />
 
+    <!-- Removed when the performance profiles aren't installed -->
+    <ListPreference
+        android:key="game_mode_profile"
+        android:defaultValue="-1"
+        android:entries="@array/game_mode_profile_entries"
+        android:entryValues="@array/game_mode_profile_values"
+        android:summary="%s"
+        android:title="@string/game_mode_profile" />
+
     <Preference
         android:key="about"
         android:selectable="false"
