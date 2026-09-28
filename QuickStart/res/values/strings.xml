@@ -110,6 +110,7 @@
     <string name="usb_mode_q">Connect the console to a computer</string>
     <string name="usb_mode_a">Turn on Settings &gt; USB mode &gt; Connect to a computer, then plug a data cable into the OTG port and a USB-A port on the computer. Pick File transfer in the USB notification. Pads and adapters on the OTG port don\'t work while this is on, and a restart turns it off.</string>
     <string name="usb_mode_wifi">Never turn this on if your console has Wi-Fi built in, such as the R36XX. Those consoles use this same USB port for their Wi-Fi, so Wi-Fi stops working and may not come back until you restart. USB mode asks before it switches.</string>
+    <string name="usb_mode_charging">Never use this while the console is charging from its other port. Unplug the charger first. If a charger is plugged in while it is on, USB mode switches back to accessories.</string>
     <string name="usb_adb">For adb, also turn on USB debugging in Settings &gt; System &gt; Developer options. To show Developer options, click Build number 7 times in Settings &gt; About console.</string>
     <string name="usb_host_only">The OTG port is for accessories: pads, USB drives and network adapters. It can\'t connect to a computer on this build.</string>
     <string name="usb_dongles_q">Accessories</string>
