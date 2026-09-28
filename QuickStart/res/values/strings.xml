@@ -3,8 +3,6 @@
 
     <string name="guide_title">Quick start guide</string>
     <string name="guide_summary">Buttons, shortcuts, your games, and help when something goes wrong</string>
-    <!-- Name of the app icon that opens the guide on the help topics -->
-    <string name="help_label">Help</string>
 
     <!-- Bottom bar: what the buttons do in the guide -->
     <string name="hint_choose">Choose</string>
@@ -26,7 +24,7 @@
     <string name="welcome_page">Previous or next topic</string>
     <string name="welcome_tutorial">Try the buttons again in the hands-on tutorial</string>
     <string name="welcome_close">Close the guide</string>
-    <string name="welcome_again">You can open this guide again any time from Settings &gt; Quick start guide, or with the Help icon in your app list.</string>
+    <string name="welcome_again">You can open this guide again any time from Settings &gt; Quick start guide.</string>
 
     <!-- Buttons -->
     <string name="buttons_title">Buttons</string>

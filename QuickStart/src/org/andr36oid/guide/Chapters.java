@@ -41,8 +41,6 @@ final class Chapters {
     static final class Chapter {
         final CharSequence title;
         final List<Item> items = new ArrayList<>();
-        // The help part starts here: the Help app icon opens the guide on this topic
-        boolean helpStart;
 
         Chapter(CharSequence title) {
             this.title = title;
@@ -159,7 +157,6 @@ final class Chapters {
         // Help: problems and how to get out of them. Written for someone who may only have a
         // PC and the SD card at hand, so every fix says where on the card to look.
         c = chapter(R.string.trouble_title, chapters);
-        c.helpStart = true;
         para(c, R.string.trouble_intro);
         heading(c, R.string.trouble_first_boot_q);
         para(c, R.string.trouble_first_boot_a);
