@@ -700,10 +700,12 @@ PRODUCT_PROPERTY_OVERRIDES += \
 	config.disable_consumerir=true \
 	config.disable_cameraservice=true \
 
+# adb over the network listens on 5555, the usual adb port. Not 5037: adbd running as root
+# ("adb root") keeps 5037 for its own server socket, so it could no longer listen for adb there.
 PRODUCT_PROPERTY_OVERRIDES += \
 	ro.radio.noril=yes \
 	ro.lockscreen.disable.default=true \
-	persist.adb.tcp.port=5037 \
+	persist.adb.tcp.port=5555 \
 	persist.sys.zram_enabled=1 \
 	persist.sys.disable_rescue=true \
 	persist.sys.purgeable_assets=1 \
