@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <Preference
+        android:key="intro"
+        android:selectable="false"
+        android:summary="@string/intro" />
+
+    <EditTextPreference
+        android:key="note"
+        android:title="@string/note_title"
+        android:summary="@string/note_hint"
+        android:dialogMessage="@string/note_dialog"
+        android:persistent="true" />
+
+    <Preference
+        android:key="save"
+        android:title="@string/save_title"
+        android:summary="@string/save_summary" />
+
+    <Preference
+        android:key="last_start"
+        android:title="@string/last_start_title"
+        android:selectable="false" />
+
+    <Preference
+        android:key="privacy"
+        android:selectable="false"
+        android:summary="@string/privacy" />
+</PreferenceScreen>

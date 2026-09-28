@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="org.andr36oid.report"
+    android:sharedUserId="android.uid.system">
+
+    <application
+        android:allowBackup="false"
+        android:icon="@drawable/ic_problem_report"
+        android:label="@string/report_title"
+        android:supportsRtl="true">
+
+        <!-- Injected into Settings > System, below Reset options. Also opened from the
+             crash notification. -->
+        <activity
+            android:name=".ReportActivity"
+            android:exported="true"
+            android:label="@string/report_title"
+            android:theme="@android:style/Theme.DeviceDefault.Settings">
+            <intent-filter>
+                <action android:name="com.android.settings.action.IA_SETTINGS" />
+            </intent-filter>
+            <meta-data
+                android:name="com.android.settings.category"
+                android:value="com.android.settings.category.ia.system" />
+            <meta-data
+                android:name="com.android.settings.order"
+                android:value="-45" />
+            <meta-data
+                android:name="com.android.settings.keyhint"
+                android:value="problem_report" />
+            <meta-data
+                android:name="com.android.settings.summary"
+                android:resource="@string/report_summary" />
+            <meta-data
+                android:name="com.android.settings.icon"
+                android:resource="@drawable/ic_problem_report" />
+        </activity>
+
+        <!-- After a start, says so if the last one ended in a crash -->
+        <receiver
+            android:name=".BootReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+    </application>
+</manifest>

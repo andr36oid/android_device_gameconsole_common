@@ -1,0 +1,9 @@
+on post-fs-data
+    mkdir /data/misc/andr36oid-report 0770 system system
+
+# Started by the Problem report page with ctl.start, see andr36oid-report.sh
+service andr36oid-report /system/bin/sh /system/etc/andr36oid-report.sh
+    user root
+    group root system log
+    disabled
+    oneshot
