@@ -128,6 +128,11 @@ BOARD_SYSTEMIMAGE_FILE_SYSTEM_TYPE := ext4
 # build, which counts recovery.img against the vendor size.
 TARGET_COPY_OUT_VENDOR := vendor
 BOARD_VENDORIMAGE_PARTITION_RESERVED_SIZE := 33554432 # 32M
+ifeq ($(TARGET_GAMECONSOLE_VULKAN),true)
+# The g2p0 blobs are about 37M bigger than the default ones. With 32M free the
+# vendor image no longer fits the 160M partition, so keep only 2M free.
+BOARD_VENDORIMAGE_PARTITION_RESERVED_SIZE := 2097152 # 2M
+endif
 BOARD_VENDORIMAGE_FILE_SYSTEM_TYPE := ext4
 # Creates the /metadata mount point, Magisk keeps its early data there
 BOARD_USES_METADATA_PARTITION := true
