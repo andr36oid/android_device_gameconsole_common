@@ -178,6 +178,7 @@ final class Chapters {
             heading(c, R.string.usb_mode_q);
             para(c, R.string.usb_mode_a);
             para(c, R.string.usb_mode_wifi);
+            para(c, R.string.usb_mode_charging);
             para(c, R.string.usb_adb);
         } else {
             para(c, R.string.usb_host_only);
