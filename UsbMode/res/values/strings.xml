@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="usb_mode_title">USB mode</string>
+    <string name="usb_mode_title">USB mode (beta)</string>
     <string name="usb_mode_summary">Use the OTG port for accessories or to connect to a computer</string>
 
     <string name="usb_mode_switch">Connect to a computer</string>
@@ -42,7 +42,7 @@
     <string name="usb_mode_failed">Couldn\'t switch the USB port</string>
 
     <!-- Quick Settings tile -->
-    <string name="tile_label">USB mode</string>
+    <string name="tile_label">USB mode (beta)</string>
     <string name="tile_host">Accessories</string>
     <string name="tile_device">Computer</string>
 </resources>
