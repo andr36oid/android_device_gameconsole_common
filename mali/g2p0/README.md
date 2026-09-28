@@ -22,7 +22,14 @@ Rockchip's vendor license.
 Rockchip only ships a 32-bit g2p0 build for Mali-G31 boards (`gpu/MaliTDVx`),
 its 64-bit TDVx blob is still r21p0 without Vulkan. The `MaliG52` build is the
 same DDK, supports Mali-G31 too, and comes as a matched 32/64-bit pair, so we
-use it for both.
+use it for both. Comparing the two 32-bit builds (MaliG52 vs MaliTDVx), the
+only readable differences are a few OpenCL 2.x entry points in the G52 build
+and the Rockchip build counter (rk_so_ver 8 vs 5). The GPU tables, shader
+compiler and Vulkan driver are the same.
+
+The same files (same git blob ids) are also in
+TinkerBoard-Android/rockchip-android-vendor-rockchip-common (android11-rockchip)
+and aosp-rockchip/android_vendor_rockchip_common (r-11.0).
 
 `vulkan.mali.so` is a small stub. It links `libGLES_mali.so`, which holds the
 actual Vulkan driver and its `HMI` symbol. `mali/Android.mk` installs it as
