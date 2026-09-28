@@ -47,6 +47,7 @@
     <string name="games_where">Games go on the EASYROMS partition of the SD card. In a computer, the card shows up as a drive called EASYROMS. On the console, it\'s the EASYROMS storage in the Files app.</string>
     <string name="games_folders">Give every system its own folder, named like nes, snes, gb, gba, megadrive or psx. Cards set up for ArkOS or dArkOS already use these names, so their games work as they are.</string>
     <string name="games_folders_ready">The console makes these folders on EASYROMS by itself, with a README listing which system goes where.</string>
+    <string name="games_wifi_transfer">No computer or card reader at hand? Open Wi-Fi transfer on the console and scan its QR code with your phone, or type the address it shows into any browser on the same network, to send games straight to EASYROMS.</string>
     <string name="games_library">Daijishou, the home screen, turns those folders into a game library: add a platform and pick its folder on EASYROMS.</string>
 
     <!-- Emulators -->
@@ -89,6 +90,8 @@
     <string name="trouble_stuck_a">Start it without root. On a computer, open BOOT and rename ramdisk.uimg to ramdisk-magisk.uimg, then rename ramdisk-stock.uimg to ramdisk.uimg. Your apps and games stay. Rename them back later to get root again.</string>
     <string name="trouble_frozen_q">The console froze</string>
     <string name="trouble_frozen_a">Hold Power for about 10 seconds until it switches off, then switch it on again. If it froze with the CPU overclock on, pick a lower speed next time. A restart always turns the overclock off.</string>
+    <string name="trouble_bios_q">A game doesn\'t start, or starts to a black screen</string>
+    <string name="trouble_bios_a">Many systems, like PlayStation, Sega CD, PC Engine CD and Game Boy Advance, need BIOS files from the real console. Put them in the bios folder on EASYROMS, then open BIOS check: it shows which files each system needs, spots wrong or misnamed ones, and copies the good ones to where the emulators look.</string>
     <string name="trouble_buttons_q">The buttons do the wrong thing</string>
     <string name="trouble_recovery_q">Recovery and factory reset</string>
     <string name="trouble_recovery_a">Hold FN while you switch the console on</string>

@@ -72,6 +72,8 @@ final class Chapters {
         final boolean usbMode = hasPackage("org.andr36oid.usbmode");
         final boolean batteryDetails = hasPackage("org.andr36oid.batterydetails");
         final boolean magisk = hasPackage("com.topjohnwu.magisk");
+        final boolean wifiTransfer = hasPackage("org.andr36oid.wifitransfer");
+        final boolean biosCheck = hasPackage("org.andr36oid.bioscheck");
         final String dpad = s(R.string.key_dpad);
         final String power = s(R.string.key_power);
         final String volume = s(R.string.key_volume);
@@ -121,6 +123,9 @@ final class Chapters {
         if (romFolders) {
             para(c, R.string.games_folders_ready);
         }
+        if (wifiTransfer) {
+            para(c, R.string.games_wifi_transfer);
+        }
         para(c, R.string.games_library);
 
         c = chapter(R.string.emulators_title, chapters);
@@ -164,6 +169,10 @@ final class Chapters {
         para(c, R.string.trouble_stuck_a);
         heading(c, R.string.trouble_frozen_q);
         para(c, R.string.trouble_frozen_a);
+        if (biosCheck) {
+            heading(c, R.string.trouble_bios_q);
+            para(c, R.string.trouble_bios_a);
+        }
         heading(c, R.string.trouble_buttons_q);
         para(c, R.string.mapping_reset);
         heading(c, R.string.trouble_recovery_q);
