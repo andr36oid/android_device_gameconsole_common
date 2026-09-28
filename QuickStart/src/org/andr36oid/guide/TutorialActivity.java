@@ -680,6 +680,11 @@ public class TutorialActivity extends Activity {
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
         mHandler.removeCallbacks(mFocusLost);
+        if (hasFocus && getCurrentFocus() == null) {
+            // Nothing focused yet (the window came up in touch mode, or the mouse was used):
+            // put the focus on Next, so the d-pad and A work straight away
+            mNext.requestFocus();
+        }
         if (!hasFocus) {
             // Checked a moment later: going home with FN also takes the focus first, but
             // then pauses the activity
