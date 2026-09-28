@@ -123,7 +123,7 @@
     <string name="card_title">SD card</string>
     <string name="card_layout">The card holds everything: Android, your apps and data (16 GB), and EASYROMS, which gets the rest of the card. EASYROMS uses exFAT, so Windows, macOS and Linux can all read it.</string>
     <string name="card_noroms_q">All the space for apps, no EASYROMS</string>
-    <string name="card_noroms_a">Before the very first start, make an empty file named .noroms on BOOT. The first start then gives the whole card to apps. This only works on a freshly written card.</string>
+    <string name="card_noroms_a">Before the very first start, make an empty file named .noroms on BOOT. The first start then gives the whole card to apps. This only works on a freshly written card. BIOS files then go in the bios folder on the internal storage.</string>
     <string name="card_backup_q">Back up your saves</string>
     <string name="card_backup_a">Saves made next to the games on EASYROMS are easy to copy on a computer. Saves inside an app stay with that app on the Android part of the card, so check each emulator\'s settings for where it keeps them.</string>
 
