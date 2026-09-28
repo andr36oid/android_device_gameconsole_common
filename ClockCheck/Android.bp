@@ -1,0 +1,12 @@
+// Warns once after boot when the clock was reset (battery ran empty) and offers to set it.
+// Runs as the system user like the other console apps; no background process.
+android_app {
+    name: "ClockCheck",
+    srcs: ["src/**/*.java"],
+    resource_dirs: ["res"],
+    certificate: "platform",
+    platform_apis: true,
+    optimize: {
+        enabled: false,
+    },
+}
