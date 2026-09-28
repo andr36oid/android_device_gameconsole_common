@@ -50,7 +50,27 @@ LOCAL_MODULE_RELATIVE_PATH := gameconsole/preinstall
 LOCAL_MODULE_STEM := RetroArch.apk
 LOCAL_SRC_FILES := preinstall/RetroArch.apk
 LOCAL_NOTICE_FILE := $(LOCAL_PATH)/preinstall/NOTICE-RetroArch.txt
-LOCAL_REQUIRED_MODULES := gameconsole-emu
+LOCAL_REQUIRED_MODULES := gameconsole-emu gameconsole-retroarch-cfg gameconsole-retroarch-pad
+include $(BUILD_PREBUILT)
+
+# RetroArch settings for a fresh install and the built-in pad's profile,
+# seeded by the gameconsole-emu service
+include $(CLEAR_VARS)
+LOCAL_MODULE := gameconsole-retroarch-cfg
+LOCAL_MODULE_CLASS := ETC
+LOCAL_MODULE_TAGS := optional
+LOCAL_MODULE_RELATIVE_PATH := gameconsole/retroarch
+LOCAL_MODULE_STEM := retroarch.cfg
+LOCAL_SRC_FILES := seed/retroarch/retroarch.cfg
+include $(BUILD_PREBUILT)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := gameconsole-retroarch-pad
+LOCAL_MODULE_CLASS := ETC
+LOCAL_MODULE_TAGS := optional
+LOCAL_MODULE_RELATIVE_PATH := gameconsole/retroarch/autoconfig
+LOCAL_MODULE_STEM := GO-Super_Gamepad.cfg
+LOCAL_SRC_FILES := seed/retroarch/GO-Super_Gamepad.cfg
 include $(BUILD_PREBUILT)
 
 include $(CLEAR_VARS)

@@ -7,7 +7,10 @@
 #    apps. They keep their F-Droid signature, so F-Droid can update them, and
 #    the user can uninstall them. An app the user removed stays removed, an
 #    older installed version gets upgraded when the ROM ships a newer one.
-# 2. Seeds the bundled libretro cores into RetroArch's core directory, which is
+# 2. Gives RetroArch a profile for the built-in pad and, on a fresh install
+#    only, ArkOS-like settings (hotkeys, saves next to the game). A
+#    retroarch.cfg that exists is never touched.
+# 3. Seeds the bundled libretro cores into RetroArch's core directory, which is
 #    where both RetroArch and Daijishou's RetroArch players look for them.
 #    Cores the user replaced (e.g. via RetroArch's online updater) are kept.
 # 3. Makes the usual ROM folders (ArkOS/dArkOS names) on a fresh EASYROMS
@@ -66,6 +69,79 @@ install_apks() {
 			fi
 		done <"$list"
 	done
+}
+
+# RetroArch reads retroarch.cfg from its folder on the internal storage
+RA_EXT=/data/media/0/Android/data/$RA_PKG/files
+RA_EXT_PUBLIC=/storage/emulated/0/Android/data/$RA_PKG/files
+AID_EXT_DATA_RW=1078
+
+# seed_owned <src> <dest> ; copies src to dest unless the user changed dest.
+# What we put there is recorded in the manifest, so a newer ROM can update it.
+seed_owned() {
+	local f=${2##*/} manifest=$RA_DATA/.gameconsole/seeded.sha1
+
+	if [ -e "$2" ]; then
+		[ "$(sha1 "$2")" = "$(sha1 "$1")" ] && return 0
+		if ! grep -q "^$(sha1 "$2") $f\$" "$manifest"; then
+			log "keeping user provided $f"
+			return 0
+		fi
+	fi
+	if ! { cp "$1" "$2.tmp" && mv -f "$2.tmp" "$2"; }; then
+		log "copying $f failed"
+		return 0
+	fi
+	grep -v " $f\$" "$manifest" >"$manifest.new"
+	echo "$(sha1 "$2") $f" >>"$manifest.new"
+	mv -f "$manifest.new" "$manifest"
+	log "seeded $f"
+}
+
+# seed_retroarch ; the built-in pad's profile, and on a fresh install the
+# settings from $BASE/retroarch/retroarch.cfg (ArkOS hotkeys, saves next to
+# the game). A retroarch.cfg that exists is never touched.
+seed_retroarch() {
+	local own=$RA_DATA/.gameconsole auto=$RA_DATA/autoconfig/android
+	local cfg=$RA_EXT/retroarch.cfg owner pad dir
+
+	[ -d "$RA_DATA" ] || return 0
+	owner=$(stat -c %u:%g "$RA_DATA")
+	mkdir -p "$own" "$auto"
+	touch "$own/seeded.sha1"
+
+	# RetroArch looks for pad profiles in autoconfig/android of its data dir
+	for pad in "$BASE"/retroarch/autoconfig/*.cfg; do
+		[ -f "$pad" ] && seed_owned "$pad" "$auto/${pad##*/}"
+	done
+	chown -R "$owner" "$RA_DATA/autoconfig" "$own"
+	restorecon -R "$RA_DATA/autoconfig" "$own" 2>/dev/null
+
+	[ -f "$BASE/retroarch/retroarch.cfg" ] || return 0
+	[ -e "$cfg" ] && return 0
+	# vold makes Android/data when it mounts the internal storage
+	[ -d "${RA_EXT%/*/*}" ] || return 0
+
+	# RetroArch hasn't run yet: make its folder the way vold does (owner the
+	# app, group ext_data_rw, setgid), only for what we create here
+	for dir in "${RA_EXT%/*}" "$RA_EXT"; do
+		[ -d "$dir" ] && continue
+		mkdir "$dir" || { log "making $dir failed"; return 0; }
+		chown "${owner%:*}:$AID_EXT_DATA_RW" "$dir"
+		chmod 2770 "$dir"
+	done
+	if ! { cp "$BASE/retroarch/retroarch.cfg" "$cfg.tmp" && mv -f "$cfg.tmp" "$cfg"; }; then
+		log "writing $cfg failed"
+		rm -f "$cfg.tmp"
+		return 0
+	fi
+	chown "${owner%:*}:$AID_EXT_DATA_RW" "$cfg"
+	chmod 0660 "$cfg"
+	restorecon -R "${RA_EXT%/*}" 2>/dev/null
+	# then vold fixes the folder up like its own (default ACL, quota project):
+	# IStorageManager.fixupAppDir, transaction 89 + 1
+	service call mount 90 s16 "$RA_EXT_PUBLIC" </dev/null >/dev/null 2>&1
+	log "seeded retroarch.cfg"
 }
 
 seed_cores() {
@@ -187,5 +263,6 @@ until pm path android </dev/null >/dev/null 2>&1; do
 done
 
 install_apks
+seed_retroarch
 seed_cores
 make_rom_folders
