@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <Preference
+        android:key="header"
+        android:selectable="false" />
+
+    <PreferenceCategory
+        android:key="graph_category"
+        android:title="@string/graph_title">
+
+        <org.andr36oid.batterydetails.GraphPreference
+            android:key="graph" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="now"
+        android:title="@string/now_title">
+
+        <Preference android:key="voltage" android:title="@string/voltage" android:selectable="false" />
+        <Preference android:key="current" android:title="@string/current" android:selectable="false" />
+        <Preference android:key="power" android:title="@string/power" android:selectable="false" />
+        <Preference android:key="temperature" android:title="@string/temperature" android:selectable="false" />
+        <Preference android:key="charger" android:title="@string/charger" android:selectable="false" />
+        <Preference android:key="capacity" android:title="@string/capacity" android:selectable="false" />
+    </PreferenceCategory>
+
+    <Preference
+        android:key="about"
+        android:selectable="false"
+        android:summary="@string/about" />
+</PreferenceScreen>

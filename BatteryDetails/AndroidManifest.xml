@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="org.andr36oid.batterydetails"
+    android:sharedUserId="android.uid.system">
+
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+    <application
+        android:allowBackup="false"
+        android:icon="@drawable/ic_battery_details"
+        android:label="@string/details_title"
+        android:supportsRtl="true">
+
+        <!-- Injected into Settings > Battery -->
+        <activity
+            android:name=".DetailsActivity"
+            android:exported="true"
+            android:label="@string/details_title"
+            android:theme="@android:style/Theme.DeviceDefault.Settings">
+            <intent-filter>
+                <action android:name="com.android.settings.action.IA_SETTINGS" />
+            </intent-filter>
+            <meta-data
+                android:name="com.android.settings.category"
+                android:value="com.android.settings.category.ia.battery" />
+            <!-- Same order as "Battery percentage"; ties sort by title, so this lands right
+                 above it. -->
+            <meta-data
+                android:name="com.android.settings.order"
+                android:value="6" />
+            <meta-data
+                android:name="com.android.settings.keyhint"
+                android:value="battery_details" />
+            <meta-data
+                android:name="com.android.settings.summary"
+                android:resource="@string/details_summary" />
+            <meta-data
+                android:name="com.android.settings.icon"
+                android:resource="@drawable/ic_battery_details" />
+        </activity>
+
+        <!-- Notes the charge level every 15 minutes for the graph -->
+        <service
+            android:name=".SampleJob"
+            android:exported="false"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+
+        <receiver
+            android:name=".BootReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+    </application>
+</manifest>

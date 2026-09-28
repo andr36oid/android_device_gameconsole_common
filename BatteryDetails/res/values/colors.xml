@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- The charge graph -->
+    <color name="graph_line">#80DEEA</color>
+    <color name="graph_fill">#3380DEEA</color>
+    <color name="graph_charging">#69F0AE</color>
+    <color name="graph_grid">#22FFFFFF</color>
+</resources>

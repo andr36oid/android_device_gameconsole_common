@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="details_title">Battery details</string>
+    <string name="details_summary">Voltage, current, charge times and a 24 hour graph</string>
+
+    <!-- Header -->
+    <string name="percent"><xliff:g id="percent">%1$d</xliff:g>%%</string>
+    <string name="status_charging">Charging</string>
+    <string name="status_full">Full</string>
+    <string name="status_discharging">On battery</string>
+    <string name="status_not_charging">Plugged in, not charging</string>
+    <string name="time_to_full">about <xliff:g id="time">%1$s</xliff:g> until full</string>
+    <string name="time_left">about <xliff:g id="time">%1$s</xliff:g> left at this rate</string>
+    <!-- Joins status and time, e.g. "Charging · about 1 h 10 min until full" -->
+    <string name="status_and_time"><xliff:g id="status">%1$s</xliff:g> · <xliff:g id="time">%2$s</xliff:g></string>
+
+    <string name="graph_title">Last 24 hours</string>
+    <string name="graph_empty">The graph fills in as you use the console. A point is added every 15 minutes while it is awake.</string>
+    <string name="graph_ago">24 h ago</string>
+    <string name="graph_now">now</string>
+
+    <string name="now_title">Right now</string>
+    <string name="voltage">Voltage</string>
+    <string name="current">Current</string>
+    <string name="power">Power</string>
+    <!-- The RK817 has no battery temperature sensor (the driver reports a fixed 18.8 °C), so this is the processor's -->
+    <string name="temperature">Processor temperature</string>
+    <string name="charger">Charger</string>
+    <string name="capacity">Battery size</string>
+
+    <string name="value_voltage"><xliff:g id="volts">%1$.2f</xliff:g> V</string>
+    <string name="value_current_in"><xliff:g id="ma">%1$d</xliff:g> mA going in</string>
+    <string name="value_current_out"><xliff:g id="ma">%1$d</xliff:g> mA going out</string>
+    <string name="value_power"><xliff:g id="watts">%1$.2f</xliff:g> W</string>
+    <string name="value_temperature"><xliff:g id="celsius">%1$.1f</xliff:g> °C</string>
+    <string name="value_capacity"><xliff:g id="mah">%1$d</xliff:g> mAh</string>
+    <string name="charger_none">Not plugged in</string>
+    <string name="charger_usb">USB</string>
+    <string name="charger_ac">Wall charger</string>
+    <string name="unknown">Unknown</string>
+
+    <string name="about">The percentage is the fuel gauge\'s estimate. The voltage is measured directly: about 4.2 V is full, 3.7 V is around the middle and the console turns off near 3.4 V. Voltage drops while a game is running and recovers at rest.\n\nIf the percentage and the voltage don\'t match, charge until the console says full. That lets the gauge correct itself.\n\nTimes are rough guesses from the current right now.</string>
+
+    <!-- Durations -->
+    <string name="duration_min"><xliff:g id="minutes">%1$d</xliff:g> min</string>
+    <string name="duration_h_min"><xliff:g id="hours">%1$d</xliff:g> h <xliff:g id="minutes">%2$d</xliff:g> min</string>
+</resources>
