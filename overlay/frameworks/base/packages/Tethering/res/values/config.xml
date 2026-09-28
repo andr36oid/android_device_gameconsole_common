@@ -5,9 +5,11 @@
          USB interfaces.  If the device doesn't want to support tethering over USB this should
          be empty.  An example would be "usb.*" -->
     <string-array translatable="false" name="config_tether_usb_regexs">
-        <item>"usb\\d"</item>
+        <!-- The gadget names its interfaces rndis* and ncm* (kernel f_rndis,
+             f_ncm). No usb\\d: usb0 and up are phones we tether from, which
+             EthernetService manages (config_ethernet_iface_regex). -->
         <item>"rndis\\d"</item>
-        <item>"ncm\\d"</item>        
+        <item>"ncm\\d"</item>
     </string-array>
 
     <!-- List of regexpressions describing the interface (if any) that represent tetherable
