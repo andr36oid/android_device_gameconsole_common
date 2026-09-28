@@ -244,8 +244,8 @@ public class TutorialActivity extends Activity {
                             R.string.tutorial_brightness_down},
                     new int[] {0, 0});
             add(STEP_SHADE, R.string.tutorial_shade_title, R.string.tutorial_shade_body,
-                    new int[] {R.string.tutorial_shade_open, R.string.tutorial_shade_close},
-                    new int[] {0, 0});
+                    new int[] {R.string.tutorial_shade_open},
+                    new int[] {0});
         }
         if (mouse) {
             add(STEP_MOUSE, R.string.tutorial_mouse_title, fnShortcuts
@@ -675,8 +675,6 @@ public class TutorialActivity extends Activity {
             // Checked a moment later: going home with FN also takes the focus first, but
             // then pauses the activity
             mHandler.postDelayed(mFocusLost, FOCUS_CHECK_MS);
-        } else if (current().id == STEP_SHADE && current().done[0]) {
-            markDone(1);
         }
     }
 

@@ -70,9 +70,8 @@
 
     <!-- FN + Y -->
     <string name="tutorial_shade_title">FN shortcuts: Quick Settings</string>
-    <string name="tutorial_shade_body">Hold FN and press Y to open your notifications and the Quick Settings, with tiles for things like Wi-Fi and Bluetooth.\n\nOpen it now, then close it again with FN + Y.</string>
+    <string name="tutorial_shade_body">Hold FN and press Y to open your notifications and the Quick Settings, with tiles for things like Wi-Fi and Bluetooth.\n\nOpen it now. FN + Y again closes it.</string>
     <string name="tutorial_shade_open">Open it: FN + Y</string>
-    <string name="tutorial_shade_close">Close it: FN + Y again</string>
 
     <!-- Joystick mouse -->
     <string name="tutorial_mouse_title">Joystick mouse</string>
