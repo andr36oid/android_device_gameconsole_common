@@ -56,6 +56,15 @@
     <string name="overclock_unsupported">This console can\'t be overclocked.</string>
     <string name="overclock_failed">Couldn\'t change the CPU speed</string>
 
+    <!-- CPU undervolt -->
+    <string name="undervolt_category">CPU undervolt (experimental)</string>
+    <string name="undervolt_title">Undervolt</string>
+    <string name="undervolt_off">Off</string>
+    <!-- An undervolt step, e.g. "−25 mV" -->
+    <string name="undervolt_step">\u2212<xliff:g id="mv">%1$d</xliff:g> mV</string>
+    <string name="undervolt_about">Runs the CPU at a slightly lower voltage for the same speed, so it uses a bit less power and stays a bit cooler, mostly at the higher speeds. At 816 MHz and below there is little to gain.\n\nEvery chip is different. If a game crashes or the console freezes or restarts, go back to Off. A crash while something is being saved can damage files on the card, so go one step at a time and play for a while before going lower.\n\nThe console always starts with the undervolt off, a restart turns it off.</string>
+    <string name="undervolt_failed">Couldn\'t change the CPU voltage</string>
+
     <!-- Quick Settings tile -->
     <string name="tile_label">CPU overclock</string>
     <string name="tile_off">Off</string>

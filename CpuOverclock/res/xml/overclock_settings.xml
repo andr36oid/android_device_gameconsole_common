@@ -40,4 +40,20 @@
             android:selectable="false"
             android:summary="@string/overclock_about" />
     </PreferenceCategory>
+
+    <!-- Removed when the kernel has no undervolt parameter -->
+    <PreferenceCategory
+        android:key="undervolt_category"
+        android:title="@string/undervolt_category">
+
+        <ListPreference
+            android:key="undervolt"
+            android:persistent="false"
+            android:title="@string/undervolt_title" />
+
+        <Preference
+            android:key="undervolt_about"
+            android:selectable="false"
+            android:summary="@string/undervolt_about" />
+    </PreferenceCategory>
 </PreferenceScreen>

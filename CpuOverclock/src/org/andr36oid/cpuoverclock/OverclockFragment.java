@@ -16,6 +16,8 @@ public class OverclockFragment extends PreferenceFragment
     private static final String KEY_CPU_CAP = "cpu_cap";
     private static final String KEY_ENABLED = "enabled";
     private static final String KEY_SPEED = "speed";
+    private static final String KEY_UNDERVOLT_CATEGORY = "undervolt_category";
+    private static final String KEY_UNDERVOLT = "undervolt";
 
     private Overclock mOverclock;
     private PerformanceProfiles mProfiles;
@@ -24,6 +26,8 @@ public class OverclockFragment extends PreferenceFragment
     private ListPreference mCpuCap;
     private SwitchPreference mEnabled;
     private ListPreference mSpeed;
+    private Undervolt mUndervolt;
+    private ListPreference mUndervoltLevel;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -36,6 +40,7 @@ public class OverclockFragment extends PreferenceFragment
         mCpuCap = (ListPreference) findPreference(KEY_CPU_CAP);
         mEnabled = (SwitchPreference) findPreference(KEY_ENABLED);
         mSpeed = (ListPreference) findPreference(KEY_SPEED);
+        setUpUndervolt();
 
         final CharSequence[] profileValues = new CharSequence[PerformanceProfiles.COUNT];
         for (int i = 0; i < profileValues.length; i++) {
@@ -95,6 +100,8 @@ public class OverclockFragment extends PreferenceFragment
             done = mProfiles.set(Integer.parseInt((String) newValue));
         } else if (preference == mCpuCap) {
             done = mProfiles.setCpuCap(Integer.parseInt((String) newValue));
+        } else if (preference == mUndervoltLevel) {
+            done = mUndervolt.set(Integer.parseInt((String) newValue));
         } else if (preference == mEnabled) {
             done = mOverclock.setOn((Boolean) newValue);
         } else {
@@ -102,7 +109,8 @@ public class OverclockFragment extends PreferenceFragment
         }
         if (!done) {
             Toast.makeText(getActivity(), preference == mProfile
-                    ? R.string.profile_failed : R.string.overclock_failed,
+                    ? R.string.profile_failed : preference == mUndervoltLevel
+                    ? R.string.undervolt_failed : R.string.overclock_failed,
                     Toast.LENGTH_SHORT).show();
         }
         // Shows what the kernel ended up with rather than what was asked for.
@@ -116,6 +124,7 @@ public class OverclockFragment extends PreferenceFragment
         mProfile.setSummary(mProfiles.getName(profile));
         mProfileAbout.setSummary(describe(profile));
         updateCpuCap();
+        updateUndervolt();
 
         if (!mOverclock.isSupported()) {
             return;
@@ -130,6 +139,36 @@ public class OverclockFragment extends PreferenceFragment
         final int chosen = mOverclock.getChosenSpeed();
         mSpeed.setValue(String.valueOf(chosen));
         mSpeed.setSummary(mOverclock.formatSpeed(chosen));
+    }
+
+    private void setUpUndervolt() {
+        mUndervolt = new Undervolt();
+        if (!mUndervolt.isSupported()) {
+            getPreferenceScreen().removePreference(findPreference(KEY_UNDERVOLT_CATEGORY));
+            return;
+        }
+        mUndervoltLevel = (ListPreference) findPreference(KEY_UNDERVOLT);
+        final int[] steps = Undervolt.STEPS_UV;
+        final CharSequence[] entries = new CharSequence[steps.length];
+        final CharSequence[] values = new CharSequence[steps.length];
+        for (int i = 0; i < steps.length; i++) {
+            entries[i] = steps[i] == 0 ? getString(R.string.undervolt_off)
+                    : getString(R.string.undervolt_step, steps[i] / 1000);
+            values[i] = String.valueOf(steps[i]);
+        }
+        mUndervoltLevel.setEntries(entries);
+        mUndervoltLevel.setEntryValues(values);
+        mUndervoltLevel.setOnPreferenceChangeListener(this);
+    }
+
+    private void updateUndervolt() {
+        if (mUndervoltLevel == null) {
+            return;
+        }
+        final int uv = mUndervolt.get();
+        mUndervoltLevel.setValue(String.valueOf(uv));
+        mUndervoltLevel.setSummary(uv <= 0 ? getString(R.string.undervolt_off)
+                : getString(R.string.undervolt_step, uv / 1000));
     }
 
     private void updateCpuCap() {
