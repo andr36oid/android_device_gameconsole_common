@@ -416,6 +416,11 @@ PRODUCT_PACKAGES += \
 	joyMouse \
 	JoyMouseSettings
 
+# Performance overlay: FPS, CPU, temperature and battery on top of games
+# (Settings > Performance overlay, Quick Settings tile once used)
+PRODUCT_PACKAGES += \
+	PerfOverlay
+
 # Button mapping and profiles (Settings > Button mapping, Quick Settings tile)
 PRODUCT_PACKAGES += \
 	ButtonMapper
