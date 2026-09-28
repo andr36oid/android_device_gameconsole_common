@@ -2,7 +2,9 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
     <string name="guide_title">Quick start guide</string>
-    <string name="guide_summary">Buttons, shortcuts and where your games go</string>
+    <string name="guide_summary">Buttons, shortcuts, your games, and help when something goes wrong</string>
+    <!-- Name of the app icon that opens the guide on the help topics -->
+    <string name="help_label">Help</string>
 
     <!-- Bottom bar: what the buttons do in the guide -->
     <string name="hint_choose">Choose</string>
@@ -23,7 +25,7 @@
     <string name="welcome_read">Read it, the D-pad then scrolls</string>
     <string name="welcome_page">Previous or next topic</string>
     <string name="welcome_close">Close the guide</string>
-    <string name="welcome_again">You can open this guide again any time from Settings &gt; Quick start guide.</string>
+    <string name="welcome_again">You can open this guide again any time from Settings &gt; Quick start guide, or with the Help icon in your app list.</string>
 
     <!-- Buttons -->
     <string name="buttons_title">Buttons</string>
@@ -45,6 +47,8 @@
     <string name="shortcuts_panel">Notifications and Quick Settings</string>
     <string name="shortcuts_mouse">Joystick mouse on or off</string>
     <string name="shortcuts_profile">Next performance profile</string>
+    <string name="shortcuts_overlay">Performance overlay on or off</string>
+    <string name="shortcuts_hold_help">Forgot one? Hold FN on its own for a moment, in any app or game, and this list shows up. Let go of FN to close it.</string>
 
     <!-- Games -->
     <string name="games_title">Your games</string>
@@ -81,6 +85,60 @@
     <string name="internet_title">Going online</string>
     <string name="internet_wifi">The console has no Wi-Fi built in. Plug a USB Wi-Fi adapter into the OTG port, with a USB-C adapter if it needs one, then turn on Wi-Fi in Settings &gt; Network &amp; internet.</string>
     <string name="internet_browser">Cromite is the web browser.</string>
+
+    <!-- Troubleshooting -->
+    <string name="trouble_title">Troubleshooting</string>
+    <string name="trouble_intro">Most problems can be fixed with a computer and the SD card. On a computer, the card shows a small drive called BOOT (the start files) and a big one called EASYROMS (your games).</string>
+    <string name="trouble_first_boot_q">The first start takes a long time</string>
+    <string name="trouble_first_boot_a">That\'s normal. The first start sets up the SD card and restarts on its own, then Android prepares its apps. Give it a few minutes and don\'t switch it off.</string>
+    <string name="trouble_panel_q">The screen stays black on the first start, but the console is on</string>
+    <string name="trouble_panel_a">Your console has a different screen than the one this card was set up for. On a computer, open BOOT, then Panels. Copy both files from one of the Panel folders to the top of BOOT and replace the files there. Panel4 is the default, so try the others one at a time.</string>
+    <string name="trouble_stuck_q">It stopped starting after an update or a Magisk module</string>
+    <string name="trouble_stuck_a">Start it without root. On a computer, open BOOT and rename ramdisk.uimg to ramdisk-magisk.uimg, then rename ramdisk-stock.uimg to ramdisk.uimg. Your apps and games stay. Rename them back later to get root again.</string>
+    <string name="trouble_frozen_q">The console froze</string>
+    <string name="trouble_frozen_a">Hold Power for about 10 seconds until it switches off, then switch it on again. If it froze with the CPU overclock on, pick a lower speed next time. A restart always turns the overclock off.</string>
+    <string name="trouble_buttons_q">The buttons do the wrong thing</string>
+    <string name="trouble_recovery_q">Recovery and factory reset</string>
+    <string name="trouble_recovery_a">Hold FN while you switch the console on</string>
+    <string name="trouble_recovery_more">This starts the recovery system, used for a factory reset or to install updates from a computer. A factory reset erases your apps and settings, but not the games on EASYROMS.</string>
+    <string name="trouble_clock_q">The date or time is wrong</string>
+    <string name="trouble_clock_a">The console forgets the time when the battery runs completely empty. Set it in Settings &gt; System &gt; Date &amp; time. With a network connection it sets itself, as long as "Use network-provided time" is on.</string>
+
+    <!-- USB and computers -->
+    <string name="usb_title">USB and computers</string>
+    <string name="usb_card">The easiest way to copy games is to put the SD card into a computer and copy them to EASYROMS. Put the card back before you switch the console on.</string>
+    <string name="usb_mode_q">Connect the console to a computer</string>
+    <string name="usb_mode_a">Turn on Settings &gt; USB mode &gt; Connect to a computer, then plug a data cable into the OTG port and a USB-A port on the computer. Pick File transfer in the USB notification. Pads and adapters on the OTG port don\'t work while this is on, and a restart turns it off.</string>
+    <string name="usb_adb">For adb, also turn on USB debugging in Settings &gt; System &gt; Developer options. To show Developer options, click Build number 7 times in Settings &gt; About console.</string>
+    <string name="usb_host_only">The OTG port is for accessories: pads, USB drives and network adapters. It can\'t connect to a computer on this build.</string>
+    <string name="usb_dongles_q">Accessories</string>
+    <string name="usb_dongles_a">Plug accessories into the OTG port, with a USB-C adapter or a small hub if needed. USB pads, keyboards, mice, USB drives, Wi-Fi, Bluetooth and Ethernet adapters work if Android has a driver for their chip. Adapters with common Realtek chips work best.</string>
+    <string name="usb_dongles_trouble">Nothing happens? Unplug it, wait a few seconds and plug it in again. Some adapters need more power than the port gives; a hub with its own power supply helps.</string>
+
+    <!-- SD card -->
+    <string name="card_title">SD card</string>
+    <string name="card_layout">The card holds everything: Android, your apps and data (16 GB), and EASYROMS, which gets the rest of the card. EASYROMS uses exFAT, so Windows, macOS and Linux can all read it.</string>
+    <string name="card_noroms_q">All the space for apps, no EASYROMS</string>
+    <string name="card_noroms_a">Before the very first start, make an empty file named .noroms on BOOT. The first start then gives the whole card to apps. This only works on a freshly written card.</string>
+    <string name="card_backup_q">Back up your saves</string>
+    <string name="card_backup_a">Saves made next to the games on EASYROMS are easy to copy on a computer. Saves inside an app stay with that app on the Android part of the card, so check each emulator\'s settings for where it keeps them.</string>
+
+    <!-- Battery -->
+    <string name="battery_title">Battery care</string>
+    <string name="battery_percent_q">The battery percentage looks wrong</string>
+    <string name="battery_percent_a">The battery gauge guesses the charge and learns as it goes. After the battery ran empty or the console sat unused for a long time, charge it to 100% with the console on and leave it on the charger for another half hour. That lets the gauge find the right level again.</string>
+    <string name="battery_details">Settings &gt; Battery &gt; Battery details shows the battery voltage: about 4.2 V is full, below 3.5 V is nearly empty.</string>
+    <string name="battery_sleep_q">Sleep or power off?</string>
+    <string name="battery_sleep_a">Sleep (tap Power) is fine for breaks, but still uses a little battery. For more than a day, power it off from the power menu.</string>
+    <string name="battery_storage_q">Putting it away for a while</string>
+    <string name="battery_storage_a">Charge it to about half and power it off. Top it up every few months. A battery left completely empty for a long time can wear out.</string>
+
+    <!-- Magisk -->
+    <string name="magisk_title">Root (Magisk)</string>
+    <string name="magisk_intro">The console comes with root through Magisk. Apps that ask for root show a prompt: allow or deny it with the buttons. The Magisk app manages root access and modules.</string>
+    <string name="magisk_modules">Root lives on the BOOT part of the card, so it stays when the system is updated.</string>
+    <string name="magisk_broken_q">A module broke the start</string>
+    <string name="magisk_broken_a">See Troubleshooting: on BOOT, swap ramdisk.uimg for ramdisk-stock.uimg, and the console starts without root and modules.</string>
 
     <!-- Key names drawn in the badges that aren't just the printed label -->
     <string name="key_dpad">D-pad</string>

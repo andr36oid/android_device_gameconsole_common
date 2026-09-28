@@ -39,6 +39,20 @@
                 android:resource="@color/guide_icon_background" />
         </activity>
 
+        <!-- Help in the app list (Daijishou and other home screens): the guide, opened on the
+             Troubleshooting topic -->
+        <activity-alias
+            android:name=".HelpActivity"
+            android:exported="true"
+            android:icon="@drawable/ic_quick_start"
+            android:label="@string/help_label"
+            android:targetActivity=".GuideActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
         <!-- Shows the guide once, as soon as the setup wizard is done -->
         <receiver
             android:name=".FirstBootReceiver"
