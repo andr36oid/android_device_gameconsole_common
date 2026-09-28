@@ -17,8 +17,9 @@ import android.content.Context;
  */
 final class Schedule {
 
-    static final int JOB_DAILY = 1;
-    static final int JOB_SESSION = 2;
+    // Job IDs are per UID, and every android.uid.system app shares one (the other andr36oid apps, LineageParts), so each app keeps to its own range
+    static final int JOB_DAILY = 3621;
+    static final int JOB_SESSION = 3622;
     static final long DAY_MS = 24 * 60 * 60 * 1000L;
     private static final long SESSION_PERIOD_MS = 30 * 60 * 1000L;
     /** When a daily run failed or couldn't start, try again after this. */
