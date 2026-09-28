@@ -19,3 +19,8 @@ ifeq ($(GAMECONSOLE_EMU_NONCOMMERCIAL_CORES),true)
 PRODUCT_PACKAGES += \
     libretro-cores-noncommercial
 endif
+
+# The gameconsole-emu service makes the usual ROM folders on a fresh EASYROMS partition.
+# Tells the quick start guide.
+PRODUCT_PRODUCT_PROPERTIES += \
+    ro.andr36oid.rom_folders=true
