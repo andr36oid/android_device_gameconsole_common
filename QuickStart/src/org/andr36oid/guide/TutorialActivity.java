@@ -135,6 +135,8 @@ public class TutorialActivity extends Activity {
     private boolean mReturnPending;
     private long mCreateTime;
     private long mLastInputTime;
+    // When the tutorial last brought itself back to the front
+    private long mReturnTime;
     private boolean mAutoReturned;
     private int mLeaves;
     private CharSequence mNote;
@@ -600,8 +602,14 @@ public class TutorialActivity extends Activity {
             return true;
         }
         final long now = SystemClock.uptimeMillis();
-        return now - mCreateTime >= AUTO_COVER_WINDOW_MS
-                && now - mLastInputTime < USER_ACTIVE_MS;
+        // Right after opening or coming back by itself, a cover is the home app still
+        // starting up: on a first start the FN step is where Daijishou first opens, and it
+        // brings itself to the front more than once
+        if (now - mCreateTime < AUTO_COVER_WINDOW_MS
+                || (mReturnTime != 0 && now - mReturnTime < AUTO_COVER_WINDOW_MS)) {
+            return false;
+        }
+        return now - mLastInputTime < USER_ACTIVE_MS;
     }
 
     /** Covered without the user doing anything: come back once, when home has settled. */
@@ -626,6 +634,7 @@ public class TutorialActivity extends Activity {
         if (isFinishing() || isDestroyed() || mResumed) {
             return;
         }
+        mReturnTime = SystemClock.uptimeMillis();
         try {
             // Runs as the system uid, so it may come back to the front from the background
             startActivity(new Intent(this, TutorialActivity.class)
