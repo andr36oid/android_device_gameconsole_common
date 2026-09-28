@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="org.andr36oid.controllertest">
+
+    <application
+        android:allowBackup="false"
+        android:icon="@drawable/ic_controller_test"
+        android:label="@string/test_title"
+        android:supportsRtl="true">
+
+        <!-- Injected into the top level of the Settings app, with the console's other entries -->
+        <activity
+            android:name=".ControllerTestActivity"
+            android:exported="true"
+            android:label="@string/test_title"
+            android:screenOrientation="nosensor"
+            android:theme="@style/ControllerTestTheme">
+            <intent-filter>
+                <action android:name="com.android.settings.action.IA_SETTINGS" />
+            </intent-filter>
+            <meta-data
+                android:name="com.android.settings.category"
+                android:value="com.android.settings.category.ia.homepage" />
+            <meta-data
+                android:name="com.android.settings.order"
+                android:value="-61" />
+            <meta-data
+                android:name="com.android.settings.keyhint"
+                android:value="top_level_controller_test" />
+            <meta-data
+                android:name="com.android.settings.summary"
+                android:resource="@string/test_summary" />
+            <meta-data
+                android:name="com.android.settings.icon"
+                android:resource="@drawable/ic_controller_test" />
+            <meta-data
+                android:name="com.android.settings.bg.hint"
+                android:resource="@color/test_icon_background" />
+        </activity>
+    </application>
+</manifest>
