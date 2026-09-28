@@ -1,3 +1,6 @@
+# Relabel /sys on all four cores during coldboot, init waits for it
+parallel_restorecon enabled
+
 /dev/ttyS*                0666   system     system
 /dev/galcore              0666   system     graphics
 /dev/graphics/fb0         0666   system     graphics
