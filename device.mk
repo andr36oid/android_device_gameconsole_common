@@ -380,6 +380,13 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += libwpa_client wpa_supplicant hostapd wificond libwifi-hal
 PRODUCT_PROPERTY_OVERRIDES += wifi.interface=wlan0 \
                               wifi.supplicant_scan_interval=180
+
+# Wi-Fi is a USB adapter. libwifi_hal loads its driver when Wi-Fi starts (or
+# uses one that is built in / already loaded, renaming its interface to
+# wlan0), and system_server starts Wi-Fi when an adapter is plugged in while
+# Wi-Fi is switched on (UsbWifiHotplugService).
+PRODUCT_PRODUCT_PROPERTIES += \
+	ro.wifi.usb_hotplug=true
                               
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.wifi.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.wifi.xml \
