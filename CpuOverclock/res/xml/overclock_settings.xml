@@ -1,18 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <SwitchPreference
-        android:key="enabled"
-        android:persistent="false"
-        android:title="@string/overclock_switch" />
+    <PreferenceCategory
+        android:key="profiles"
+        android:title="@string/profile_category">
 
-    <ListPreference
-        android:key="speed"
-        android:persistent="false"
-        android:title="@string/overclock_speed" />
+        <ListPreference
+            android:key="profile"
+            android:persistent="false"
+            android:title="@string/profile_title"
+            android:entries="@array/profile_names" />
 
-    <Preference
-        android:key="about"
-        android:selectable="false"
-        android:summary="@string/overclock_about" />
+        <Preference
+            android:key="profile_about"
+            android:selectable="false" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="overclock"
+        android:title="@string/overclock_category">
+
+        <SwitchPreference
+            android:key="enabled"
+            android:persistent="false"
+            android:title="@string/overclock_switch" />
+
+        <ListPreference
+            android:key="speed"
+            android:persistent="false"
+            android:title="@string/overclock_speed" />
+
+        <Preference
+            android:key="about"
+            android:selectable="false"
+            android:summary="@string/overclock_about" />
+    </PreferenceCategory>
 </PreferenceScreen>

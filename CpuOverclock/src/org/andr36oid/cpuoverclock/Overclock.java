@@ -92,14 +92,21 @@ final class Overclock {
 
     boolean setOn(boolean on) {
         try {
+            final PerformanceProfiles profiles = new PerformanceProfiles(mContext);
             if (on) {
+                // Overclocking in Battery saver makes no sense, go to Balanced.
+                if (profiles.get() == PerformanceProfiles.BATTERY_SAVER) {
+                    profiles.set(PerformanceProfiles.BALANCED);
+                }
                 // Boost on first, before that the kernel refuses anything above standard.
                 write(BOOST, "1");
                 write(POLICY + "scaling_max_freq", String.valueOf(getChosenSpeed()));
                 showTile();
             } else {
-                // Also puts scaling_max_freq back to the standard top speed.
+                // Also puts scaling_max_freq back to the standard top speed, the profile
+                // then lowers it again for Battery saver.
                 write(BOOST, "0");
+                profiles.apply();
             }
             return true;
         } catch (IOException e) {
