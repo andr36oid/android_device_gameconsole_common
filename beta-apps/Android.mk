@@ -12,7 +12,7 @@ LOCAL_MODULE_TAGS := optional
 LOCAL_MODULE_RELATIVE_PATH := gameconsole/preinstall
 LOCAL_MODULE_STEM := beta.list
 LOCAL_SRC_FILES := beta.list
-LOCAL_REQUIRED_MODULES := gameconsole-emu TrebleInfo-preinstall CPU-Z-preinstall UsbDeviceInfo-preinstall F-Droid-preinstall
+LOCAL_REQUIRED_MODULES := gameconsole-emu TrebleInfo-preinstall CPU-Z-preinstall UsbDeviceInfo-preinstall F-Droid-preinstall QuickShortcutMaker-preinstall
 include $(BUILD_PREBUILT)
 
 # Treble Info by Kevin Tresuelo (GPL-3.0), shows the Treble/GSI details of the device
@@ -53,4 +53,14 @@ LOCAL_MODULE_TAGS := optional
 LOCAL_MODULE_RELATIVE_PATH := gameconsole/preinstall
 LOCAL_MODULE_STEM := F-Droid.apk
 LOCAL_SRC_FILES := F-Droid.apk
+include $(BUILD_PREBUILT)
+
+# QuickShortcutMaker by sika524 (freeware), makes shortcuts to any activity of an app
+include $(CLEAR_VARS)
+LOCAL_MODULE := QuickShortcutMaker-preinstall
+LOCAL_MODULE_CLASS := ETC
+LOCAL_MODULE_TAGS := optional
+LOCAL_MODULE_RELATIVE_PATH := gameconsole/preinstall
+LOCAL_MODULE_STEM := QuickShortcutMaker.apk
+LOCAL_SRC_FILES := QuickShortcutMaker.apk
 include $(BUILD_PREBUILT)
