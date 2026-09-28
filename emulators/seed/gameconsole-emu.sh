@@ -4,7 +4,7 @@
 # gameconsole-emu: provisions the bundled emulators after boot.
 #
 # 0. On the very first start only, while the setup wizard is still on screen:
-#    installs the first-start launcher and makes it the home app, so the
+#    installs the first-start launcher and makes it the only home app, so the
 #    tutorial comes up when the wizard ends. See first_start below.
 # 1. Installs the APKs from /system/etc/gameconsole/preinstall as regular user
 #    apps. They keep their F-Droid signature, so F-Droid can update them, and
@@ -40,17 +40,49 @@ setup_done() {
 	[ "$(settings get secure user_setup_complete </dev/null 2>/dev/null)" = 1 ]
 }
 
+# Daijishou's home activity. While the first-start launcher is home it is
+# disabled, so the launcher is the only home app with priority 0.
+DJ_HOME=com.magneticchen.daijishou/com.magneticchen.daijishou.activities.BootstrapActivity
+DJ_HIDDEN=$STATE/firststart.daijishou-hidden
+
+# show_daijishou ; enables Daijishou's home activity again
+show_daijishou() {
+	local out
+	if out=$(pm enable --user 0 "$DJ_HOME" </dev/null 2>&1) &&
+		[ "${out%enabled}" != "$out" ]; then
+		rm -f "$DJ_HIDDEN"
+		log "Daijishou's home activity is enabled again"
+	else
+		log "enabling Daijishou's home activity failed: $out"
+	fi
+}
+
 # first_start: the first-start launcher (org.andr36oid.firststart, built from
 # FirstStart/ in the common device tree) is a tiny user app with a home
-# activity that opens the quick start guide's tutorial. It is installed and
-# made the holder of the home role while the setup wizard runs. The wizard's
-# home activity has priority 9 and wins until the wizard disables it, then
-# home is the launcher, not Daijishou. The guide gives the role back to
-# Daijishou and uninstalls the launcher when the tutorial is done.
+# activity that opens the quick start guide's tutorial. It is installed while
+# the setup wizard runs, and made the only home app besides the wizard:
+# Daijishou's home activity is disabled first. So there is never a moment with
+# two home apps of the same priority, and Android never asks which one to
+# use, however fast the wizard is:
+# - the wizard's home activity has priority 9 and wins until it disables it,
+# - after that, home is the one app with priority 0 that's there: the
+#   launcher, or Daijishou if something failed. If the wizard ends between
+#   disabling Daijishou and the install, Settings' FallbackHome shows for a
+#   moment (it checks every 500 ms for a real home app) and hands over to the
+#   launcher as soon as it's installed.
+# The guide undoes all of it when the tutorial is done: it disables the
+# launcher's home activity, enables Daijishou's, gives it the home role and
+# uninstalls the launcher.
 # Only on the first start: consoles set up before this build don't get it,
 # and it runs once (the marker file), so an uninstall sticks.
 first_start() {
 	local out done=$STATE/firststart.done
+
+	# Repair, every start: Daijishou stays hidden only while the launcher is
+	# there (a restart in the middle, or the guide didn't get to it)
+	if [ -e "$DJ_HIDDEN" ] && [ -z "$(installed_vc "$FS_PKG")" ]; then
+		show_daijishou
+	fi
 
 	[ -f "$FS_APK" ] || return 0
 	[ -e "$done" ] && return 0
@@ -60,29 +92,28 @@ first_start() {
 		return 0
 	fi
 
-	if ! out=$(pm install -r --user 0 "$FS_APK" </dev/null 2>&1); then
-		log "installing the first-start launcher failed: $out"
+	# The marker first, so a restart right after this still gets repaired
+	touch "$DJ_HIDDEN"
+	if ! out=$(pm disable --user 0 "$DJ_HOME" </dev/null 2>&1) ||
+		[ "${out%disabled}" = "$out" ]; then
+		log "disabling Daijishou's home activity failed, no first-start launcher: $out"
+		show_daijishou
 		touch "$done"
 		return 0
 	fi
-	# Right after the install: Daijishou and the launcher are both home apps
-	# with priority 0, and only the role's preferred activity keeps Android
-	# from asking which one to use
-	if ! out=$(cmd role add-role-holder --user 0 android.app.role.HOME "$FS_PKG" </dev/null 2>&1); then
-		log "making the first-start launcher home failed, removing it: $out"
-		pm uninstall "$FS_PKG" </dev/null >/dev/null 2>&1
+	if ! out=$(pm install -r --user 0 "$FS_APK" </dev/null 2>&1); then
+		log "installing the first-start launcher failed: $out"
+		show_daijishou
 		touch "$done"
 		return 0
 	fi
 	touch "$done"
-	log "first-start launcher installed and made home"
-
-	# The wizard finished while this ran (a very fast user): go home now,
-	# which is the launcher, which opens the tutorial
-	if setup_done; then
-		am start -a android.intent.action.MAIN -c android.intent.category.HOME \
-			</dev/null >/dev/null 2>&1
+	# Not needed for it to be home (it's the only home app with priority 0),
+	# but keeps the role in line with what is home
+	if ! out=$(cmd role add-role-holder --user 0 android.app.role.HOME "$FS_PKG" </dev/null 2>&1); then
+		log "giving the first-start launcher the home role failed: $out"
 	fi
+	log "first-start launcher installed, it is the home app until the tutorial is done"
 }
 
 install_apks() {

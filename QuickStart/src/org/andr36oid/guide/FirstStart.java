@@ -3,6 +3,7 @@ package org.andr36oid.guide;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.role.RoleManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -23,14 +24,15 @@ import java.util.function.Consumer;
  * The first start after the setup wizard, run with the first-start launcher.
  *
  * <p>The first-start launcher (org.andr36oid.firststart, FirstStart/ in this repo) is a tiny
- * user app with a home activity and nothing else. gameconsole-emu installs it while the setup
- * wizard runs and makes it the holder of the home role. So when the wizard ends, Android goes
- * home to the launcher, and the launcher tells FirstStartReceiver, which opens the tutorial.
+ * user app with a home activity and nothing else. gameconsole-emu disables Daijishou's home
+ * activity, installs the launcher while the setup wizard runs and gives it the home role. So
+ * when the wizard ends, the launcher is the only home app, Android goes home to it, and it
+ * tells FirstStartReceiver, which opens the tutorial.
  * Daijishou doesn't run at all until the tutorial is done, so it can't cover it. And each FN
  * press sends a new home intent to the launcher, which tells the tutorial exactly.
  *
- * <p>When the tutorial is finished or skipped, {@link #finish} gives the home role back to
- * Daijishou, sets the "shown" flag, opens the home screen (or the guide) and uninstalls the
+ * <p>When the tutorial is finished or skipped, {@link #finish} swaps the home activities back
+ * and gives the home role to Daijishou, sets the "shown" flag, opens the home screen (or the guide) and uninstalls the
  * launcher. The watchdog makes sure the console is never stuck with the launcher as home.
  */
 final class FirstStart {
@@ -40,6 +42,14 @@ final class FirstStart {
     static final String LAUNCHER_PACKAGE = "org.andr36oid.firststart";
     private static final String DAIJISHOU_PACKAGE = "com.magneticchen.daijishou";
     private static final String SETUP_WIZARD_PACKAGE = "org.lineageos.setupwizard";
+    /**
+     * Disabled by gameconsole-emu while the launcher is home, so the launcher is the only home
+     * app with priority 0 and Android never asks which home app to use.
+     */
+    private static final ComponentName DAIJISHOU_HOME = new ComponentName(DAIJISHOU_PACKAGE,
+            "com.magneticchen.daijishou.activities.BootstrapActivity");
+    private static final ComponentName LAUNCHER_HOME = new ComponentName(LAUNCHER_PACKAGE,
+            "org.andr36oid.firststart.HomeActivity");
 
     /**
      * The safety net: if the first-start launcher is home and the tutorial showed no sign of
@@ -195,6 +205,7 @@ final class FirstStart {
         };
         // In case the role controller never answers
         handler.postDelayed(() -> then.accept(false), ROLE_TIMEOUT_MS);
+        swapHome(app);
         final RoleManager roles = app.getSystemService(RoleManager.class);
         final String home = pickHome(app);
         try {
@@ -210,6 +221,35 @@ final class FirstStart {
         } catch (RuntimeException e) {
             Log.w(TAG, "Couldn't change the home role", e);
             then.accept(false);
+        }
+    }
+
+    /**
+     * The launcher's home activity off first, then Daijishou's on again: there are never two
+     * home apps with priority 0 at the same time, so Android can't ask which one to use. In
+     * between there is no real home app for a moment, and a home press then shows Settings'
+     * FallbackHome, which hands over as soon as Daijishou is back.
+     */
+    private static void swapHome(Context context) {
+        final PackageManager pm = context.getPackageManager();
+        try {
+            if (isLauncherInstalled(context)) {
+                pm.setComponentEnabledSetting(LAUNCHER_HOME,
+                        PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+                        PackageManager.DONT_KILL_APP);
+            }
+        } catch (RuntimeException e) {
+            Log.w(TAG, "Couldn't disable the launcher's home activity", e);
+        }
+        try {
+            if (pm.getComponentEnabledSetting(DAIJISHOU_HOME)
+                    == PackageManager.COMPONENT_ENABLED_STATE_DISABLED) {
+                pm.setComponentEnabledSetting(DAIJISHOU_HOME,
+                        PackageManager.COMPONENT_ENABLED_STATE_DEFAULT, 0);
+            }
+        } catch (RuntimeException e) {
+            // Not installed. gameconsole-emu also enables it again on the next start
+            Log.w(TAG, "Couldn't enable Daijishou's home activity", e);
         }
     }
 
