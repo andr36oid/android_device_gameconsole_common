@@ -294,15 +294,21 @@ cfg_set() {
 	return $rc
 }
 
-# ours <system_directory> ; true if it's unset, RetroArch's own default (as
-# RetroArch writes it back), or what we wrote last time. Anything else is a
-# folder the user picked.
+# ours <system_directory> ; true if it's unset, or what we wrote last time.
+# RetroArch's own default (as RetroArch writes it back) only counts until we
+# have set the folder once: after that, the default is a folder the user picked
+# on purpose. Anything else is always the user's.
 ours() {
+	[ -z "$1" ] && return 0
+	if [ -f "$SYSTEM_DIR_MARK" ]; then
+		[ "$1" = "$(cat "$SYSTEM_DIR_MARK")" ]
+		return
+	fi
 	case $1 in
-	''|default|/storage/emulated/0/RetroArch/system|/sdcard/RetroArch/system) return 0 ;;
+	default|/storage/emulated/0/RetroArch/system|/sdcard/RetroArch/system) return 0 ;;
 	"$RA_EXT_PUBLIC/system"|"$RA_DATA/system") return 0 ;;
 	esac
-	[ "$1" = "$(cat "$SYSTEM_DIR_MARK" 2>/dev/null)" ]
+	return 1
 }
 
 # bios_name <dir> ; the name of its bios folder in any case (BIOS, Bios), else bios
