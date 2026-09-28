@@ -37,4 +37,9 @@
     <integer name="def_location_mode">0</integer>
     <!--    <bool name="def_device_provisioned">true</bool>  -->
 
+    <!-- Window open/close and activity transitions at half length (0.5x in
+         Developer options), so menus feel quicker on the slow CPU -->
+    <fraction name="def_window_animation_scale">50%</fraction>
+    <fraction name="def_window_transition_scale">50%</fraction>
+
 </resources>
