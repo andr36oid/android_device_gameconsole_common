@@ -1,0 +1,16 @@
+// Wi-Fi transfer (Settings > Wi-Fi transfer, also in the app list): a small web server, on
+// only while the screen or its notification is up, so games can be copied to the console
+// from a phone or computer browser. Runs as the system user, which may write to EASYROMS
+// and internal storage. The QR code comes from external/zxing, like Settings' Wi-Fi code.
+android_app {
+    name: "WifiTransfer",
+    srcs: ["src/**/*.java"],
+    resource_dirs: ["res"],
+    asset_dirs: ["assets"],
+    static_libs: ["zxing-core-1.7"],
+    certificate: "platform",
+    platform_apis: true,
+    optimize: {
+        enabled: false,
+    },
+}

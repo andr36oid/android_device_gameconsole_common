@@ -500,6 +500,11 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
 	GameComfort
 
+# Wi-Fi transfer: copy games to the console from a phone or computer browser
+# (Settings > Wi-Fi transfer, app list, Quick Settings tile)
+PRODUCT_PACKAGES += \
+	WifiTransfer
+
 # Remove phone packages that added by default product configuration
 PRODUCT_PACKAGES += \
     	remove-BlockedNumberProvider \
