@@ -12,7 +12,7 @@ LOCAL_MODULE_TAGS := optional
 LOCAL_MODULE_RELATIVE_PATH := gameconsole/preinstall
 LOCAL_MODULE_STEM := beta.list
 LOCAL_SRC_FILES := beta.list
-LOCAL_REQUIRED_MODULES := gameconsole-emu TrebleInfo-preinstall
+LOCAL_REQUIRED_MODULES := gameconsole-emu TrebleInfo-preinstall CPU-Z-preinstall
 include $(BUILD_PREBUILT)
 
 # Treble Info by Kevin Tresuelo (GPL-3.0), shows the Treble/GSI details of the device
@@ -23,4 +23,14 @@ LOCAL_MODULE_TAGS := optional
 LOCAL_MODULE_RELATIVE_PATH := gameconsole/preinstall
 LOCAL_MODULE_STEM := TrebleInfo.apk
 LOCAL_SRC_FILES := TrebleInfo.apk
+include $(BUILD_PREBUILT)
+
+# CPU-Z by CPUID (freeware), shows the CPU, SoC, memory and sensors
+include $(CLEAR_VARS)
+LOCAL_MODULE := CPU-Z-preinstall
+LOCAL_MODULE_CLASS := ETC
+LOCAL_MODULE_TAGS := optional
+LOCAL_MODULE_RELATIVE_PATH := gameconsole/preinstall
+LOCAL_MODULE_STEM := CPU-Z.apk
+LOCAL_SRC_FILES := CPU-Z.apk
 include $(BUILD_PREBUILT)
