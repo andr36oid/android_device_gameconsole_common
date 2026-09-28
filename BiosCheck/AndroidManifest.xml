@@ -40,19 +40,6 @@
                 android:resource="@color/bios_icon_background" />
         </activity>
 
-        <!-- The same page in the app list (Daijishou and other home screens) -->
-        <activity-alias
-            android:name=".LauncherActivity"
-            android:exported="true"
-            android:icon="@mipmap/ic_launcher"
-            android:label="@string/app_title"
-            android:targetActivity=".BiosActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity-alias>
-
         <activity
             android:name=".SystemActivity"
             android:exported="false"
