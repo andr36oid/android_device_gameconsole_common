@@ -4,6 +4,8 @@
 <permissions>
     <!-- No BackupManagerService, no transport processes bound at boot. -->
     <unavailable-feature name="android.software.backup" />
+    <!-- No PrintManagerService, so the print spooler isn't started on every boot. -->
+    <unavailable-feature name="android.software.print" />
     <!-- No camera and no camera daemon; apps must not offer camera features. -->
     <unavailable-feature name="android.hardware.camera" />
 </permissions>
