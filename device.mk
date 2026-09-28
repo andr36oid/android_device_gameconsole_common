@@ -563,6 +563,15 @@ PRODUCT_PROPERTY_OVERRIDES += \
 #PRODUCT_PROPERTY_OVERRIDES += \
 #	ro.lmk.use_psi=true	\
 
+# lmkd (PSI mode) with the values it picks for ro.config.low_ram devices:
+# kill a cached app once 30% of the page cache is refaulting (default 100%),
+# since page cache reloads from the SD card stall the game in front, and
+# react to 200ms partial stalls instead of 70ms so short hiccups don't kill.
+PRODUCT_PROPERTY_OVERRIDES += \
+	ro.lmk.thrashing_limit=30 \
+	ro.lmk.thrashing_limit_decay=50 \
+	ro.lmk.psi_partial_stall_ms=200
+
 
 PRODUCT_PROPERTY_OVERRIDES += \
 	debug.hwui.renderer=skiagl \
