@@ -594,6 +594,10 @@ PRODUCT_PACKAGES += \
 GAMECONSOLE_EMU_NONCOMMERCIAL_CORES := true
 $(call inherit-product, device/gameconsole/common/emulators/emulators.mk)
 
+# Extra FOSS apps (game streaming, video player, stand-alone emulators),
+# installed on first boot like the emulators, see foss-apps/README.md.
+$(call inherit-product, device/gameconsole/common/foss-apps/foss-apps.mk)
+
 # Root is Magisk, baked into the ramdisk by the device mkimg.sh (see magisk/README.md).
 # The app is preinstalled so it works offline from the first boot.
 PRODUCT_PACKAGES += \
