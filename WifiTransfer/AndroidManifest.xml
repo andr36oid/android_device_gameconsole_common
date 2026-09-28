@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="org.andr36oid.wifitransfer"
+    android:sharedUserId="android.uid.system">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <application
+        android:allowBackup="false"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_title"
+        android:supportsRtl="true">
+
+        <!-- Injected into the top level of the Settings app, in the console group, and in
+             the app list (Daijishou and other home screens) -->
+        <activity
+            android:name=".TransferActivity"
+            android:exported="true"
+            android:label="@string/app_title"
+            android:launchMode="singleTask"
+            android:screenOrientation="nosensor"
+            android:theme="@android:style/Theme.DeviceDefault.DayNight">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.android.settings.action.IA_SETTINGS" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE_PREFERENCES" />
+            </intent-filter>
+            <meta-data
+                android:name="com.android.settings.category"
+                android:value="com.android.settings.category.ia.homepage" />
+            <!-- Between CPU overclock (-63) and the -61 group -->
+            <meta-data
+                android:name="com.android.settings.order"
+                android:value="-62" />
+            <meta-data
+                android:name="com.android.settings.keyhint"
+                android:value="top_level_wifi_transfer" />
+            <meta-data
+                android:name="com.android.settings.summary"
+                android:resource="@string/app_summary" />
+            <meta-data
+                android:name="com.android.settings.icon"
+                android:resource="@drawable/ic_wifi_transfer" />
+            <meta-data
+                android:name="com.android.settings.bg.hint"
+                android:resource="@color/transfer_icon_background" />
+        </activity>
+
+        <service
+            android:name=".TransferService"
+            android:exported="false" />
+
+        <service
+            android:name=".TransferTileService"
+            android:exported="true"
+            android:icon="@drawable/ic_wifi_transfer"
+            android:label="@string/tile_label"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
+    </application>
+</manifest>
