@@ -98,7 +98,8 @@ PRODUCT_COPY_FILES += \
     	
 PRODUCT_COPY_FILES += \
     	$(LOCAL_PATH)/init.rk30board.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.rk30board.rc \
-    	$(LOCAL_PATH)/init.rk30board.rc:$(TARGET_COPY_OUT_ROOT)/init.rk30board.rc
+    	$(LOCAL_PATH)/init.rk30board.rc:$(TARGET_COPY_OUT_ROOT)/init.rk30board.rc \
+    	$(LOCAL_PATH)/init.rk30board.usb.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.rk30board.usb.rc
 
 # RTL BLUETOOTH
 PRODUCT_COPY_FILES += \
