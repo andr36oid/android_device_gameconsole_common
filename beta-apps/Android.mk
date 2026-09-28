@@ -12,7 +12,7 @@ LOCAL_MODULE_TAGS := optional
 LOCAL_MODULE_RELATIVE_PATH := gameconsole/preinstall
 LOCAL_MODULE_STEM := beta.list
 LOCAL_SRC_FILES := beta.list
-LOCAL_REQUIRED_MODULES := gameconsole-emu TrebleInfo-preinstall CPU-Z-preinstall UsbDeviceInfo-preinstall F-Droid-preinstall QuickShortcutMaker-preinstall Haven-preinstall Termux-preinstall Athena-preinstall
+LOCAL_REQUIRED_MODULES := gameconsole-emu TrebleInfo-preinstall CPU-Z-preinstall UsbDeviceInfo-preinstall F-Droid-preinstall QuickShortcutMaker-preinstall Haven-preinstall Termux-preinstall Athena-preinstall TotalCommander-preinstall
 include $(BUILD_PREBUILT)
 
 # Treble Info by Kevin Tresuelo (GPL-3.0), shows the Treble/GSI details of the device
@@ -93,4 +93,14 @@ LOCAL_MODULE_TAGS := optional
 LOCAL_MODULE_RELATIVE_PATH := gameconsole/preinstall
 LOCAL_MODULE_STEM := Athena.apk
 LOCAL_SRC_FILES := Athena.apk
+include $(BUILD_PREBUILT)
+
+# Total Commander by Christian Ghisler (freeware), file manager
+include $(CLEAR_VARS)
+LOCAL_MODULE := TotalCommander-preinstall
+LOCAL_MODULE_CLASS := ETC
+LOCAL_MODULE_TAGS := optional
+LOCAL_MODULE_RELATIVE_PATH := gameconsole/preinstall
+LOCAL_MODULE_STEM := TotalCommander.apk
+LOCAL_SRC_FILES := TotalCommander.apk
 include $(BUILD_PREBUILT)
