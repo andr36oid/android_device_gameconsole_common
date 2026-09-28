@@ -26,7 +26,8 @@ the `gameconsole-emu` service (`seed/`) runs once `sys.boot_completed=1`:
    The APKs are byte-identical to F-Droid's, so F-Droid can update them and users can
    uninstall them. A removed app stays removed, an older installed version gets upgraded
    when the ROM ships a newer one, a failing version isn't retried every boot.
-2. Unpack `libretro/cores-*.tar.gz` into `/data/user/0/com.retroarch/cores`, which is
+2. Give RetroArch a profile for the built-in pad, see [RetroArch defaults](#retroarch-defaults).
+3. Unpack `libretro/cores-*.tar.gz` into `/data/user/0/com.retroarch/cores`, which is
    RetroArch's default core dir and what Daijishou's `com.retroarch` player templates
    point at. Cores the user replaced (online updater etc.) are left alone; clearing
    RetroArch's data re-seeds.
@@ -36,6 +37,15 @@ Log tag: `gameconsole-emu`. State: `/data/misc/gameconsole` and
 
 The service has no SELinux domain, same as `joyMouse`; it relies on the ROM running
 permissive.
+
+## RetroArch defaults
+
+`seed/retroarch/GO-Super_Gamepad.cfg` is RetroArch's profile for the built-in pad
+(Android name "GO-Super Gamepad", 0x484b:0x1100). Every button incl. L2/R2/L3/R3 and
+both analog sticks work without setup; without it RetroArch falls back to its generic
+"Android Gamepad" binds, which swap A/B and X/Y on this pad. It is copied to
+`/data/user/0/com.retroarch/autoconfig/android/` on every boot unless the user changed
+it there (tracked like the cores).
 
 ## Updating
 

@@ -7,7 +7,9 @@
 #    apps. They keep their F-Droid signature, so F-Droid can update them, and
 #    the user can uninstall them. An app the user removed stays removed, an
 #    older installed version gets upgraded when the ROM ships a newer one.
-# 2. Seeds the bundled libretro cores into RetroArch's core directory, which is
+# 2. Gives RetroArch a profile for the built-in pad, so every button and both
+#    sticks work without setup. A profile the user changed is kept.
+# 3. Seeds the bundled libretro cores into RetroArch's core directory, which is
 #    where both RetroArch and Daijishou's RetroArch players look for them.
 #    Cores the user replaced (e.g. via RetroArch's online updater) are kept.
 
@@ -63,6 +65,46 @@ install_apks() {
 			fi
 		done <"$list"
 	done
+}
+
+# seed_owned <src> <dest> ; copies src to dest unless the user changed dest.
+# What we put there is recorded in the manifest, so a newer ROM can update it.
+seed_owned() {
+	local f=${2##*/} manifest=$RA_DATA/.gameconsole/seeded.sha1
+
+	if [ -e "$2" ]; then
+		[ "$(sha1 "$2")" = "$(sha1 "$1")" ] && return 0
+		if ! grep -q "^$(sha1 "$2") $f\$" "$manifest"; then
+			log "keeping user provided $f"
+			return 0
+		fi
+	fi
+	if ! { cp "$1" "$2.tmp" && mv -f "$2.tmp" "$2"; }; then
+		log "copying $f failed"
+		return 0
+	fi
+	grep -v " $f\$" "$manifest" >"$manifest.new"
+	echo "$(sha1 "$2") $f" >>"$manifest.new"
+	mv -f "$manifest.new" "$manifest"
+	log "seeded $f"
+}
+
+# seed_retroarch ; the built-in pad's profile
+seed_retroarch() {
+	local own=$RA_DATA/.gameconsole auto=$RA_DATA/autoconfig/android
+	local owner pad
+
+	[ -d "$RA_DATA" ] || return 0
+	owner=$(stat -c %u:%g "$RA_DATA")
+	mkdir -p "$own" "$auto"
+	touch "$own/seeded.sha1"
+
+	# RetroArch looks for pad profiles in autoconfig/android of its data dir
+	for pad in "$BASE"/retroarch/autoconfig/*.cfg; do
+		[ -f "$pad" ] && seed_owned "$pad" "$auto/${pad##*/}"
+	done
+	chown -R "$owner" "$RA_DATA/autoconfig" "$own"
+	restorecon -R "$RA_DATA/autoconfig" "$own" 2>/dev/null
 }
 
 seed_cores() {
@@ -132,4 +174,5 @@ until pm path android </dev/null >/dev/null 2>&1; do
 done
 
 install_apks
+seed_retroarch
 seed_cores
