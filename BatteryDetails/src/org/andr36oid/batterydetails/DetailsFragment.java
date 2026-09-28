@@ -7,6 +7,7 @@ import android.os.BatteryManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
@@ -32,6 +33,8 @@ public class DetailsFragment extends PreferenceFragment {
     /** Both null when the kernel can't change the capacity */
     private CapacityPreference mCapacity;
     private Preference mCapacityReset;
+    /** Null when the kernel has no charge limit */
+    private ListPreference mLimit;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -39,6 +42,7 @@ public class DetailsFragment extends PreferenceFragment {
         addPreferencesFromResource(R.xml.details);
         mHeader = findPreference("header");
         mGraph = (GraphPreference) findPreference("graph");
+        setUpChargeLimit();
 
         mCapacity = (CapacityPreference) findPreference("capacity_slider");
         mCapacityReset = findPreference("capacity_reset");
@@ -65,6 +69,38 @@ public class DetailsFragment extends PreferenceFragment {
         });
     }
 
+    private void setUpChargeLimit() {
+        mLimit = (ListPreference) findPreference("charge_limit");
+        if (!ChargeLimit.isSupported()) {
+            getPreferenceScreen().removePreference(findPreference("limit_category"));
+            mLimit = null;
+            return;
+        }
+        final int n = ChargeLimit.CHOICES.length;
+        final CharSequence[] entries = new CharSequence[n];
+        final CharSequence[] values = new CharSequence[n];
+        for (int i = 0; i < n; i++) {
+            final int percent = ChargeLimit.CHOICES[i];
+            entries[i] = percent == 0 ? getString(R.string.limit_off)
+                    : getString(R.string.limit_choice, percent);
+            values[i] = Integer.toString(percent);
+        }
+        mLimit.setEntries(entries);
+        mLimit.setEntryValues(values);
+        mLimit.setOnPreferenceChangeListener((preference, value) -> {
+            final int percent = Integer.parseInt((String) value);
+            ChargeLimit.choose(percent);
+            showLimit(percent);
+            return true;
+        });
+    }
+
+    private void showLimit(int percent) {
+        mLimit.setValue(Integer.toString(percent));
+        mLimit.setSummary(percent == 0 ? getString(R.string.limit_summary_off)
+                : getString(R.string.limit_summary, percent, percent - ChargeLimit.HYSTERESIS));
+    }
+
     private void showReset(int chosenMah) {
         final int defaultMah = Capacity.defaultMah();
         mCapacityReset.setTitle(getString(R.string.capacity_reset, defaultMah));
@@ -80,6 +116,9 @@ public class DetailsFragment extends PreferenceFragment {
             History.record(context, Gauge.read());
         }
         mGraph.reload();
+        if (mLimit != null) {
+            showLimit(ChargeLimit.chosen());
+        }
         if (mCapacity != null) {
             final int mah = Capacity.chosenMah();
             mCapacity.setValue(mah, Capacity.defaultMah());
@@ -110,7 +149,8 @@ public class DetailsFragment extends PreferenceFragment {
         } else if (g.isCharging()) {
             status = getString(R.string.status_charging);
         } else if (plugged(context) != 0) {
-            status = getString(R.string.status_not_charging);
+            status = getString(mLimit != null && ChargeLimit.isHolding()
+                    ? R.string.status_limit_hold : R.string.status_not_charging);
         } else {
             status = getString(R.string.status_discharging);
         }

@@ -35,6 +35,15 @@
     <string name="capacity_reset">Reset to <xliff:g id="mah">%1$d</xliff:g> mAh</string>
     <string name="capacity">Fuel gauge is using</string>
 
+    <!-- Charge limit setting -->
+    <string name="limit_title">Battery care</string>
+    <string name="limit_setting">Charge limit</string>
+    <string name="limit_off">Off, charge to 100%</string>
+    <string name="limit_choice">Stop at <xliff:g id="percent">%1$d</xliff:g>%%</string>
+    <string name="limit_summary_off">Off. For a console that stays on the charger, a limit makes the battery last more years.</string>
+    <string name="limit_summary">Stops charging at <xliff:g id="limit">%1$d</xliff:g>%% and starts again at <xliff:g id="resume">%2$d</xliff:g>%%. The console runs from the charger in between. Turn it off before a long trip to get a full charge.</string>
+    <string name="status_limit_hold">Plugged in, held at the charge limit</string>
+
     <string name="value_voltage"><xliff:g id="volts">%1$.2f</xliff:g> V</string>
     <string name="value_current_in"><xliff:g id="ma">%1$d</xliff:g> mA going in</string>
     <string name="value_current_out"><xliff:g id="ma">%1$d</xliff:g> mA going out</string>

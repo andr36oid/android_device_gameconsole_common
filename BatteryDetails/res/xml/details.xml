@@ -38,6 +38,18 @@
         <Preference android:key="capacity" android:title="@string/capacity" android:selectable="false" />
     </PreferenceCategory>
 
+    <PreferenceCategory
+        android:key="limit_category"
+        android:title="@string/limit_title">
+
+        <!-- Removed when the kernel has no charge limit -->
+        <ListPreference
+            android:key="charge_limit"
+            android:title="@string/limit_setting"
+            android:dialogTitle="@string/limit_setting"
+            android:persistent="false" />
+    </PreferenceCategory>
+
     <Preference
         android:key="about"
         android:selectable="false"
