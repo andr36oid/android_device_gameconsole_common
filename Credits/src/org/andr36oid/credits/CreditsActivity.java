@@ -184,7 +184,7 @@ public class CreditsActivity extends Activity {
         people(person(R.drawable.avatar_snaccy, "snaccy", R.drawable.ic_github, "sonic011gamer"),
                 person(R.drawable.avatar_kenny, "kenny", R.drawable.ic_github, "itskenny0"));
         role(R.string.credits_role_clones);
-        people(person(0, "Kauan", 0, null));
+        people(person(R.drawable.avatar_kauan, "Kauan", R.drawable.ic_github, "K4uanGP"));
         role(R.string.credits_role_legend);
         people(person(R.drawable.avatar_sjsltech, "SjslTech", R.drawable.ic_youtube,
                 getString(R.string.credits_on_youtube)));
