@@ -411,6 +411,10 @@ ANDR36OID_VERSION := $(shell device/gameconsole/common/version.sh $(TARGET_BUILD
 PRODUCT_PRODUCT_PROPERTIES += \
 	ro.andr36oid.version=$(ANDR36OID_VERSION)
 
+# Holding FN shows the list of FN shortcuts (frameworks/base night/ux3-fn-help)
+PRODUCT_PRODUCT_PROPERTIES += \
+	ro.andr36oid.fn_help=true
+
 # FN + button shortcuts (frameworks/base PhoneWindowManager). Tells the quick start guide
 # to list them. persist.sys.fn_hotkeys=0 turns them off.
 PRODUCT_PRODUCT_PROPERTIES += \
