@@ -491,10 +491,6 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
 	UsbMode
 
-# Clock check: a notification after the clock was reset (battery ran empty)
-PRODUCT_PACKAGES += \
-	ClockCheck
-
 # Credits, an easter egg behind the andr36oid version in Settings > About console
 PRODUCT_PACKAGES += \
 	Andr36oidCredits
