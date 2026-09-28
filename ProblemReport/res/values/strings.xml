@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="report_title">Problem report</string>
+    <string name="report_summary">Save logs to the SD card to send with a bug report</string>
+
+    <string name="intro">Something went wrong? Save a report and attach it when you tell us about the problem. It holds the system logs from now and from the last start, crash reports and a description of this console. It takes about a minute.</string>
+
+    <string name="note_title">What went wrong?</string>
+    <string name="note_hint">Optional. What were you doing, and what happened?</string>
+    <string name="note_dialog">Describe the problem. It goes into the report.</string>
+
+    <string name="save_title">Save report</string>
+    <string name="save_summary">Saved to EASYROMS, in the folder andr36oid-reports</string>
+    <string name="save_running">Saving %1$s (step %2$d of %3$d)…</string>
+    <string name="save_done">Saved: %1$s</string>
+    <string name="save_done_toast">Report saved to %1$s</string>
+    <string name="save_failed">Not saved. %1$s</string>
+    <string name="error_no_storage">There is no EASYROMS partition and no internal Download folder to save it to.</string>
+    <string name="error_cant_write">The file could not be written. Is the card full?</string>
+    <string name="error_stopped">The report stopped before it was done.</string>
+    <string name="error_start">The report could not be started.</string>
+
+    <string name="step_system">system information</string>
+    <string name="step_logcat">the Android log</string>
+    <string name="step_kernel">the kernel log</string>
+    <string name="step_crashes">crash reports</string>
+    <string name="step_power">battery and sleep information</string>
+    <string name="step_devices">devices and connections</string>
+    <string name="step_apps">the list of apps</string>
+    <string name="step_saving">the file</string>
+
+    <string name="last_start_title">Logs from the last start</string>
+    <string name="last_start_crash">The last start ended with a system crash. Its log is kept and goes into the report.</string>
+    <string name="last_start_kept">Kept, they go into the report.</string>
+    <string name="last_start_none">None. They are only kept when the console restarts, not when it was switched off or the battery ran empty.</string>
+
+    <string name="privacy">The report lists your apps and can contain the names of Wi-Fi networks and Bluetooth devices. It doesn\'t contain your games or files. Have a look before you post it in public.</string>
+
+    <string name="channel_name">Problem reports</string>
+    <string name="crash_title">The console restarted after an error</string>
+    <string name="crash_text">Save a problem report now, while the logs are still there, and send it with a description of what happened.</string>
+    <string name="crash_action">Save report</string>
+</resources>

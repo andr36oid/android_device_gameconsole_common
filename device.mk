@@ -539,6 +539,11 @@ PRODUCT_PACKAGES += \
 	librkskia \
 
 	
+# Problem report: saves logs to EASYROMS for bug reports (Settings > System)
+PRODUCT_PACKAGES += \
+	ProblemReport \
+	andr36oid-report
+
 # omx
 PRODUCT_PACKAGES += \
     	libomxvpu_enc \

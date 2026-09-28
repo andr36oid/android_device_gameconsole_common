@@ -1,0 +1,15 @@
+// Settings > System > Problem report: saves logs as one file on EASYROMS for bug
+// reports, and says so after a crash restarted the console. Runs as the system user
+// like the other console apps; the logs are collected by the andr36oid-report init
+// service (Android.mk), because dmesg, tombstones and the previous start's logs
+// need root.
+android_app {
+    name: "ProblemReport",
+    srcs: ["src/**/*.java"],
+    resource_dirs: ["res"],
+    certificate: "platform",
+    platform_apis: true,
+    optimize: {
+        enabled: false,
+    },
+}
