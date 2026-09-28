@@ -1,0 +1,12 @@
+// Settings > Controller test: a full-screen button, stick and battery tester, also in the
+// app list. Reads the battery straight from sysfs.
+android_app {
+    name: "ControllerTest",
+    srcs: ["src/**/*.java"],
+    resource_dirs: ["res"],
+    certificate: "platform",
+    platform_apis: true,
+    optimize: {
+        enabled: false,
+    },
+}

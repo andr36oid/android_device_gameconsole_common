@@ -448,6 +448,10 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
 	Andr36oidGuide
 
+# Controller test (Settings > Controller test)
+PRODUCT_PACKAGES += \
+	ControllerTest
+
 # Remove phone packages that added by default product configuration
 PRODUCT_PACKAGES += \
     	remove-BlockedNumberProvider \

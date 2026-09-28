@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="test_title">Controller test</string>
+    <string name="test_summary">Try every button and stick, see the battery</string>
+
+    <!-- Bottom line. %1$d buttons pressed so far out of %2$d -->
+    <string name="test_hint">Hold START + SELECT to leave · FN goes Home · <xliff:g id="done">%1$d</xliff:g>/<xliff:g id="total">%2$d</xliff:g> buttons tested</string>
+    <string name="test_all_tested">All buttons work</string>
+    <string name="test_leaving">Leaving…</string>
+    <string name="test_no_key">Press any button</string>
+    <string name="test_no_stick">No analog sticks found</string>
+    <string name="test_battery_unknown">Battery: no data</string>
+</resources>
