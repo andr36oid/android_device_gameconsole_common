@@ -1,0 +1,8 @@
+// Android 11 stand-in for two Android 12 dependencies of the g7p1 Mali driver
+// (mali/g7p1, used only with TARGET_GAMECONSOLE_VULKAN). See ../README.md.
+cc_library_shared {
+    name: "libdmabufheap",
+    vendor: true,
+    srcs: ["dmabufheap_shim.cpp"],
+    cflags: ["-Wall", "-Werror"],
+}

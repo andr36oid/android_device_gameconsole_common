@@ -308,7 +308,7 @@ PRODUCT_COPY_FILES += \
         frameworks/native/data/etc/android.hardware.bluetooth_le.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.bluetooth_le.xml 
 
 ifeq ($(TARGET_GAMECONSOLE_VULKAN),true)
-# Experimental Vulkan from the g2p0 blob (mali/Android.mk). Mali-G31 on this
+# Experimental Vulkan from the g7p1 blob (mali/Android.mk). Mali-G31 on this
 # driver is not validated for anything higher, so advertise the baseline:
 # Vulkan 1.1, hardware level 0, compute level 0.
 PRODUCT_COPY_FILES += \
@@ -321,7 +321,8 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.hardware.vulkan=$(TARGET_BOARD_PLATFORM)
 
 PRODUCT_PACKAGES += \
-    vulkan.$(TARGET_BOARD_PLATFORM)
+    vulkan.$(TARGET_BOARD_PLATFORM) \
+    libdmabufheap
 endif
 
 # Specify OpenGLES version 
