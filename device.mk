@@ -355,8 +355,7 @@ PRODUCT_PACKAGES += \
 # Health
 PRODUCT_PACKAGES += \
 	android.hardware.health@2.1-impl \
-	android.hardware.health@2.1-service \
-	libhealthd.rk30board
+	android.hardware.health@2.1-service
 
 # USB HIDL
 PRODUCT_PACKAGES += \
