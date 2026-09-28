@@ -736,9 +736,12 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_DISABLE_SCUDO := true
 PRODUCT_MINIMIZE_JAVA_DEBUG_INFO := true
 
-# Set lowram options and enable traced by default
-PRODUCT_VENDOR_PROPERTIES += \
-     ro.config.low_ram=true \
+# Android Go low-RAM mode. Android 11 has no PRODUCT_VENDOR_PROPERTIES, so
+# this used to be dropped silently; it must go in PRODUCT_PROPERTY_OVERRIDES.
+# Trade-offs: no multi-window/PiP or bubbles, system_server windows
+# draw in software, apps that check isLowRamDevice() use less memory.
+PRODUCT_PROPERTY_OVERRIDES += \
+     ro.config.low_ram=true
 
 # Speed profile services and wifi-service to reduce RAM and storage.
 PRODUCT_SYSTEM_SERVER_COMPILER_FILTER := speed-profile
