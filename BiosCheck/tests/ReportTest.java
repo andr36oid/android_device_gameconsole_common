@@ -1,7 +1,6 @@
 package org.andr36oid.bioscheck;
 
 import org.andr36oid.bioscheck.BiosTable.Bios;
-import org.andr36oid.bioscheck.Report.Copy;
 import org.andr36oid.bioscheck.Report.FileState;
 import org.andr36oid.bioscheck.Report.Rename;
 import org.andr36oid.bioscheck.Report.SystemState;
@@ -21,15 +20,16 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Host test of the scanning and matching: fake BIOS files in a temp dir, a table with
- * their MD5s, the real helper script (run with sh) doing the scan and the copies.
+ * Host test of the scanning and matching: fake BIOS files in a temp EASYROMS/BIOS
+ * folder, a table with their MD5s, and the real helper script (run with sh) doing the
+ * scan and the renames.
  *
  *   tests/run-tests.sh
  */
 public class ReportTest {
 
     static int failures;
-    static File root, easyroms, bios, media, system, raData, dir;
+    static File root, easyroms, bios, raData, dir;
     static String helper, shell;
 
     public static void main(String[] args) throws Exception {
@@ -70,6 +70,11 @@ public class ReportTest {
                 "real table: scph5501.bin by MD5, any case");
         check(t.byName("NEOGEO.ZIP").get(0).anyContent(), "real table: neogeo.zip is name-only");
         check(t.system("neogeo").onlyInstalled, "real table: Neo Geo only with its core");
+        boolean plain = true;
+        for (BiosTable.Sys s : t.systems) {
+            plain &= !s.note.contains("system folder") && !s.note.contains("core");
+        }
+        check(plain, "real table: the notes don't talk about system folders or cores");
     }
 
     static void delete(File f) {
@@ -102,7 +107,6 @@ public class ReportTest {
         if (ops != null) put(dir, "ops", ops);
         final ProcessBuilder pb = new ProcessBuilder(shell, helper).inheritIO();
         pb.environment().put("BIOSCHECK_DIR", dir.getPath());
-        pb.environment().put("BIOSCHECK_MEDIA", media.getPath());
         pb.environment().put("BIOSCHECK_RA_DATA", raData.getPath());
         pb.environment().put("BIOSCHECK_EASYROMS", easyroms.getPath());
         final int rc = pb.start().waitFor();
@@ -110,10 +114,14 @@ public class ReportTest {
                 "helper " + action + " finished");
     }
 
-    static Report report(BiosTable t) throws Exception {
+    static Scan scan() throws Exception {
         try (FileReader r = new FileReader(new File(dir, "scan"), StandardCharsets.UTF_8)) {
-            return Report.build(t, Scan.parse(r));
+            return Scan.parse(r);
         }
+    }
+
+    static Report report(BiosTable t) throws Exception {
+        return Report.build(t, scan());
     }
 
     static FileState state(Report r, String name) {
@@ -125,40 +133,48 @@ public class ReportTest {
         return null;
     }
 
+    static int level(Report r, String id) {
+        return r.system(id) != null ? r.system(id).level : -1;
+    }
+
     static void scenario() throws Exception {
         root = Files.createTempDirectory("bioscheck").toFile();
         easyroms = new File(root, "easyroms");
         bios = new File(easyroms, "BIOS"); // any case
-        media = new File(root, "media");
-        system = new File(media, "RetroArch/system");
         raData = new File(root, "ra");
         dir = new File(root, "state");
         dir.mkdirs();
 
         // cores: no Genesis Plus GX, but FBNeo from the online updater
         for (String c : new String[] { "pcsx_rearmed", "fceumm", "mgba", "gambatte",
-                "mednafen_pce_fast", "gearsystem", "handy", "fbneo" }) {
+                "mednafen_pce_fast", "gearsystem", "handy", "fbneo", "clownmdemu" }) {
             put(new File(raData, "cores"), c + "_libretro_android.so", "x");
         }
 
-        final String us = "psx us", jp = "psx jp", other = "psx 1001", fds = "fds",
-                pce = "pce3", lynx = "lynx", gb = "gb", sms = "sms";
+        final String us = "psx us", jp = "psx jp", eu = "psx eu", fds = "fds", pce = "pce3",
+                lynx = "lynx", gb = "gb", sms = "sms";
         final String table = String.join("\n",
                 "# test table",
                 "system|psx|PlayStation|pcsx_rearmed|shipped|note",
                 "file|psx|scph5501.bin|oneof|" + md5(us) + "|US|",
                 "file|psx|scph5500.bin|oneof|" + md5(jp) + "|JP|",
-                "file|psx|scph1001.bin|oneof|" + md5(other) + "|US old|",
+                "file|psx|scph5502.bin|oneof|" + md5(eu) + "|EU|",
+                "file|psx|scph1001.bin|oneof|" + md5("psx 1001") + "|US old|",
+                "system|segacd|Sega CD|clownmdemu|shipped|note",
+                "file|segacd|bios_CD_U.bin|oneof|" + md5("cd u") + "|US|",
+                "file|segacd|bios_CD_E.bin|oneof|" + md5("cd e") + "|EU|",
                 "system|fds|FDS|fceumm|shipped|note",
                 "file|fds|disksys.rom|required|" + md5(fds) + "|FDS|",
                 "system|gba|GBA|mgba|shipped|note",
                 "file|gba|gba_bios.bin|optional|" + md5("gba") + "|GBA|",
                 "system|pcecd|PCE CD|mednafen_pce_fast|shipped|note",
                 "file|pcecd|syscard3.pce|required|" + md5(pce) + "|card 3|",
+                "file|pcecd|syscard2.pce|optional|" + md5("pce2") + "|card 2|",
                 "system|lynx|Lynx|handy|shipped|note",
                 "file|lynx|lynxboot.img|optional|" + md5(lynx) + "|boot|",
                 "system|gb|GB|gambatte mgba|shipped|note",
                 "file|gb|gb_bios.bin|optional|" + md5(gb) + "|GB|",
+                "file|gb|gbc_bios.bin|optional|" + md5("gbc") + "|GBC|",
                 "system|sms|SMS|gearsystem genesis_plus_gx|shipped|note",
                 "file|sms|bios.sms|optional|" + md5(sms) + "|SMS|gearsystem",
                 "file|sms|bios_U.sms|optional|" + md5(sms) + "|SMS US|genesis_plus_gx",
@@ -169,148 +185,124 @@ public class ReportTest {
                 "");
         final BiosTable t = BiosTable.parse(new StringReader(table));
 
-        put(bios, "SCPH5501.BIN", us);            // good, name in another case
-        put(bios, "psx japan.bin", jp);           // good content, wrong name
-        put(bios, "scph1001.bin", "bad dump");    // right name, unknown content
-        put(bios, "gba_bios.bin", fds);           // right name of another BIOS: it's disksys
-        put(bios, "syscard3.pce", pce);           // good, but a different one is in place
+        put(bios, "SCPH5501.BIN", us);                    // right, name in another case
+        put(bios, "psx japan.bin", jp);                   // right content, wrong name
+        put(new File(bios, "psx"), "scph5502.bin", eu);   // in a subfolder
+        put(bios, "scph1001.bin", "bad dump");            // right name, unknown content
+        put(bios, "gba_bios.bin", fds);                   // name of another BIOS: it's disksys
+        put(bios, "syscard3.pce", pce);
+        put(bios, "syscard2.pce", "other card");          // optional, wrong version
         put(bios, "gb_bios.bin", gb);
-        put(bios, "copy of gb.bin", gb);          // duplicate
-        put(bios, "bios_U.sms", sms);             // same content bios.sms needs
-        put(bios, "neogeo.zip", "any zip");       // name-only
-        put(bios, "game.zip", "a game");          // unknown
-        put(bios, "._SCPH5501.BIN", "mac junk");  // ignored
-        put(bios, "readme.txt", "text");          // ignored
-        put(system, "syscard3.pce", "other card");
-        put(system, "lynxboot.img", lynx);
-        final String conflictBefore = read(new File(system, "syscard3.pce"));
+        put(bios, "copy of gb.bin", gb);                  // a spare copy: left alone
+        put(bios, "bios_U.sms", sms);                     // Genesis Plus GX isn't there
+        put(bios, "neogeo.zip", "any zip");               // name-only
+        put(bios, "game.zip", "a game");                  // not a BIOS: ignored
+        put(bios, "._SCPH5501.BIN", "mac junk");          // ignored
+        put(bios, "readme.txt", "text");                  // ignored
+        put(bios, "lynxboot.img", lynx);
 
         helper("scan", null);
-        Report r = report(t);
+        Scan sc = scan();
+        check(sc.biosDir.equals(bios.getPath()), "bios folder found in capitals");
+        check(sc.files.size() == 13, "junk ignored, subfolder listed: " + sc.files.size());
+        Report r = Report.build(t, sc);
 
-        check(r.systemDir.equals(system.getPath()), "system dir is RetroArch's default");
         check(r.system("md") == null, "MD hidden: Genesis Plus GX isn't installed");
         check(r.system("neogeo") != null, "Neo Geo shown: FBNeo is installed");
         check(state(r, "bios_U.sms") == null, "bios_U.sms hidden (Genesis Plus GX only)");
 
-        check(state(r, "scph5501.bin").state == Report.READY, "scph5501.bin ready (any case)");
-        check(state(r, "scph5500.bin").state == Report.READY
-                && state(r, "scph5500.bin").source.name.equals("psx japan.bin"),
-                "scph5500.bin ready from the misnamed file");
+        check(state(r, "scph5501.bin").state == Report.FOUND, "scph5501.bin found (any case)");
+        check(state(r, "scph5500.bin").state == Report.WRONG_NAME
+                && state(r, "scph5500.bin").file.name.equals("psx japan.bin"),
+                "scph5500.bin: wrong name");
+        check(state(r, "scph5502.bin").state == Report.WRONG_NAME
+                && sc.inBios(state(r, "scph5502.bin").file).equals("psx/scph5502.bin"),
+                "scph5502.bin: in a subfolder counts as wrong name");
         final FileState s1001 = state(r, "scph1001.bin");
-        check(s1001.state == Report.WRONG && s1001.wrongIs.isEmpty() && s1001.wrong.inBiosFolder,
-                "scph1001.bin wrong, unknown content");
-        check(r.system("psx").level == Report.LEVEL_READY, "PlayStation: ready to copy");
+        check(s1001.state == Report.WRONG_VERSION && s1001.really.isEmpty()
+                && s1001.rename == null, "scph1001.bin: wrong version, unknown content");
+        check(level(r, "psx") == Report.LEVEL_READY,
+                "PlayStation: ready (one is enough, a wrong spare doesn't matter)");
 
-        check(state(r, "disksys.rom").state == Report.READY, "disksys.rom ready from gba_bios.bin");
+        check(state(r, "disksys.rom").state == Report.WRONG_NAME, "disksys.rom: wrong name");
+        check(level(r, "fds") == Report.LEVEL_WRONG_NAME, "FDS: wrong name");
         final FileState gba = state(r, "gba_bios.bin");
-        check(gba.state == Report.WRONG && gba.wrongIs.size() == 1
-                && gba.wrongIs.get(0).name.equals("disksys.rom"),
-                "gba_bios.bin wrong: identified as disksys.rom");
+        check(gba.state == Report.WRONG_VERSION && gba.really.size() == 1
+                && gba.really.get(0).name.equals("disksys.rom") && gba.rename != null,
+                "gba_bios.bin: really disksys.rom, renamed by the fix");
+        check(level(r, "gba") == Report.LEVEL_WRONG_VERSION, "GBA: wrong version");
 
-        final FileState card = state(r, "syscard3.pce");
-        check(card.state == Report.WRONG && card.source != null && !card.wrong.inBiosFolder,
-                "syscard3.pce: different file in place, good one in the bios folder");
-        check(r.conflicts.size() == 1 && r.conflicts.get(0).bios.name.equals("syscard3.pce"),
-                "one conflict: syscard3.pce");
-        check(r.system("pcecd").level == Report.LEVEL_WRONG, "PCE CD: wrong");
-
-        check(state(r, "lynxboot.img").state == Report.OK, "lynxboot.img OK in place");
-        check(r.system("lynx").level == Report.LEVEL_OK, "Lynx: OK");
-        check(state(r, "bios.sms").state == Report.READY, "bios.sms ready from bios_U.sms");
-        check(state(r, "neogeo.zip").state == Report.READY, "neogeo.zip ready by name");
+        check(state(r, "syscard3.pce").state == Report.FOUND, "syscard3.pce found");
+        check(state(r, "syscard2.pce").state == Report.WRONG_VERSION, "syscard2.pce wrong");
+        check(level(r, "pcecd") == Report.LEVEL_WRONG_VERSION,
+                "PCE CD: a wrong optional file still shows");
+        check(level(r, "segacd") == Report.LEVEL_MISSING_ONE_OF, "Sega CD: missing one of");
+        check(level(r, "lynx") == Report.LEVEL_READY, "Lynx: ready");
+        check(level(r, "gb") == Report.LEVEL_READY, "GB: ready, the spare copy left alone");
+        check(state(r, "bios.sms").state == Report.WRONG_NAME, "bios.sms: from bios_U.sms");
+        check(state(r, "neogeo.zip").state == Report.FOUND, "neogeo.zip found by name");
 
         final List<String> renames = new ArrayList<>();
-        for (Rename rn : r.renames) renames.add(rn.file.name + ">" + rn.to.name);
+        for (Rename rn : r.renames) renames.add(sc.inBios(rn.file) + ">" + rn.to.name);
         Collections.sort(renames);
-        check(renames.equals(Arrays.asList("gba_bios.bin>disksys.rom",
-                "psx japan.bin>scph5500.bin")), "renames: " + renames);
-        check(r.duplicates.size() == 1 && r.duplicates.get(0).file.name.equals("copy of gb.bin"),
-                "duplicate: copy of gb.bin");
-        check(r.unknown.size() == 1 && r.unknown.get(0).name.equals("game.zip"),
-                "unknown: game.zip only (junk ignored)");
+        check(renames.equals(Arrays.asList("bios_U.sms>bios.sms", "gba_bios.bin>disksys.rom",
+                "psx japan.bin>scph5500.bin", "psx/scph5502.bin>scph5502.bin")),
+                "renames: " + renames);
 
-        final List<String> dests = new ArrayList<>();
-        for (Copy c : r.copies) dests.add(c.to.substring(c.to.lastIndexOf('/') + 1));
-        Collections.sort(dests);
-        check(dests.equals(Arrays.asList("bios.sms", "disksys.rom", "gb_bios.bin", "neogeo.zip",
-                "scph5500.bin", "scph5501.bin")), "copies: " + dests);
-
-        // a copy slipped in over the different file must not overwrite it either
-        final List<Copy> sneaky = new ArrayList<>(r.copies);
-        sneaky.addAll(r.conflicts);
-        helper("apply", Report.ops(sneaky, Collections.emptyList(), Collections.emptyList()));
-        check(read(new File(system, "scph5501.bin")).equals(us), "copied scph5501.bin");
-        check(read(new File(system, "scph5500.bin")).equals(jp), "copied scph5500.bin");
-        check(read(new File(system, "bios.sms")).equals(sms), "copied bios.sms");
-        check(read(new File(system, "syscard3.pce")).equals(conflictBefore),
-                "different syscard3.pce kept");
-        final String result = read(new File(dir, "result"));
-        check(result.contains("kept " + system.getPath() + "/syscard3.pce"), "result says kept");
-        check(new File(bios, "SCPH5501.BIN").exists(), "bios folder files stay");
-
-        r = report(t);
-        check(r.copies.isEmpty(), "after the copy nothing is left to copy");
-        check(r.system("psx").level == Report.LEVEL_WRONG, "PlayStation: wrong (scph1001.bin)");
-        check(state(r, "scph5501.bin").state == Report.OK, "scph5501.bin now OK");
-
-        // copying again: same content, nothing happens
-        helper("apply", Report.ops(sneaky, Collections.emptyList(), Collections.emptyList()));
-        check(read(new File(dir, "result")).contains("same " + system.getPath() + "/scph5501.bin"),
-                "second copy: same");
-
-        // the user said replace
-        helper("apply", Report.ops(Collections.emptyList(), r.conflicts, Collections.emptyList()));
-        check(read(new File(system, "syscard3.pce")).equals(pce), "replaced syscard3.pce");
-
-        // renames
-        helper("apply", Report.ops(Collections.emptyList(), Collections.emptyList(), r.renames));
+        // the fix, then the helper scans again by itself
+        helper("rename", Report.ops(r.renames));
+        check(read(new File(dir, "result")).split("renamed ").length == 5, "4 renamed");
         check(new File(bios, "scph5500.bin").exists() && !new File(bios, "psx japan.bin").exists(),
-                "renamed psx japan.bin to scph5500.bin");
-        check(new File(bios, "disksys.rom").exists(), "renamed gba_bios.bin to disksys.rom");
+                "psx japan.bin is scph5500.bin now");
+        check(new File(bios, "scph5502.bin").exists()
+                && !new File(bios, "psx/scph5502.bin").exists(), "scph5502.bin moved up");
         r = report(t);
         check(r.renames.isEmpty(), "no renames left");
-        check(state(r, "gba_bios.bin").state == Report.MISSING, "gba_bios.bin now just missing");
-        check(r.system("pcecd").level == Report.LEVEL_OK, "PCE CD: OK");
+        check(level(r, "fds") == Report.LEVEL_READY, "FDS: ready");
+        check(state(r, "gba_bios.bin").state == Report.MISSING, "gba_bios.bin: just missing");
+        check(level(r, "gba") == Report.LEVEL_NOT_NEEDED, "GBA: optional, not needed");
+        check(level(r, "sms") == Report.LEVEL_READY, "SMS: ready");
 
-        // a rename never overwrites
-        put(bios, "x.bin", jp);
-        final Rename rn = new Rename();
-        rn.file = new Scan.Found();
-        rn.file.path = new File(bios, "x.bin").getPath();
-        rn.toPath = new File(bios, "scph5500.bin").getPath();
-        helper("apply", Report.ops(Collections.emptyList(), Collections.emptyList(),
-                Collections.singletonList(rn)));
-        check(read(new File(dir, "result")).startsWith("exists "), "rename onto a file refused");
-
-        // paths outside the allowed places are refused
-        final File outside = new File(root, "outside");
-        helper("apply", "copy\t" + new File(bios, "scph5500.bin") + "\t" + outside + "\t-\n"
-                + "copy\t" + new File(bios, "scph5500.bin") + "\t" + system + "/../../x\t-\n");
-        check(!outside.exists() && !new File(media, "x").exists()
-                && read(new File(dir, "result")).split("failed").length == 3,
-                "copies outside EASYROMS and the storage refused");
-
-        // RetroArch set to its own system folder
-        final File custom = new File(media, "Emu/system");
-        put(new File(media, "Android/data/com.retroarch/files"), "retroarch.cfg",
-                "savefile_directory = \"default\"\nsystem_directory = \"/storage/emulated/0/Emu/system\"\n");
+        // a missing required file
+        new File(bios, "syscard3.pce").delete();
+        new File(bios, "syscard2.pce").delete();
         helper("scan", null);
         r = report(t);
-        check(r.systemDir.equals(custom.getPath()), "system dir from retroarch.cfg");
-        check(state(r, "scph5501.bin").state == Report.READY
-                && state(r, "scph5501.bin").source.inBiosFolder,
-                "custom dir: copy again, from the bios folder");
+        check(level(r, "pcecd") == Report.LEVEL_MISSING, "PCE CD: missing");
+
+        // the helper refuses renames onto files, out of the bios folder, into subfolders
+        put(bios, "x.bin", jp);
+        put(easyroms, "outside.bin", jp);
+        final String b = bios.getPath();
+        helper("rename", String.join("\n",
+                b + "/x.bin\t" + b + "/scph5500.bin",
+                b + "/x.bin\t" + easyroms + "/y.bin",
+                b + "/x.bin\t" + b + "/psx/y.bin",
+                b + "/x.bin\t" + b + "/../y.bin",
+                easyroms + "/outside.bin\t" + b + "/z.bin",
+                b + "/../outside.bin\t" + b + "/z.bin", ""));
+        final String res = read(new File(dir, "result"));
+        check(res.startsWith("exists ") && res.split("failed ").length == 6,
+                "renames refused: " + res.replace('\n', '|'));
+        check(new File(bios, "x.bin").exists() && read(new File(bios, "scph5500.bin")).equals(jp)
+                && !new File(easyroms, "y.bin").exists() && !new File(bios, "z.bin").exists()
+                && new File(easyroms, "outside.bin").exists(), "nothing moved");
+
+        // a fresh card without a bios folder gets one
+        delete(bios);
+        helper("scan", null);
+        check(new File(easyroms, "bios").isDirectory() && scan().biosDir != null,
+                "bios folder made");
 
         // no EASYROMS
-        final File gone = new File(root, "gone");
         final File saved = easyroms;
-        easyroms = gone;
+        easyroms = new File(root, "gone");
         helper("scan", null);
+        final Scan gone = scan();
+        check(gone.biosDir == null && gone.easyroms == null && !gone.cores.isEmpty(),
+                "no EASYROMS: no bios folder");
+        helper("rename", b + "/x.bin\t" + b + "/y.bin\n");
+        check(read(new File(dir, "result")).startsWith("failed "), "no EASYROMS: rename fails");
         easyroms = saved;
-        try (FileReader fr = new FileReader(new File(dir, "scan"), StandardCharsets.UTF_8)) {
-            final Scan s = Scan.parse(fr);
-            check(s.biosDir == null && s.easyroms == null, "no EASYROMS: no bios folder");
-        }
     }
 }

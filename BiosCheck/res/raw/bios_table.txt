@@ -9,7 +9,8 @@
 #  - "*" instead of MD5s: no single known-good file (Neo Geo's neogeo.zip differs
 #    between arcade core versions), so any file with this name counts
 #
-# Everything goes into RetroArch's system folder. PPSSPP needs no BIOS.
+# Everything goes right into the bios folder on EASYROMS, which is RetroArch's system
+# folder (gameconsole-emu sets system_directory). PPSSPP needs no BIOS.
 #
 # system|<id>|<name>|<cores, space separated>|<shown: shipped = always, installed =
 #       only when one of its cores is installed>|<note>
@@ -68,5 +69,5 @@ file|a7800|7800 BIOS (E).rom|optional|397bb566584be7b9764e7a68974c4263|Atari 780
 system|lynx|Atari Lynx|handy|shipped|Optional: Handy has a built-in replacement, the real boot ROM is more accurate.
 file|lynx|lynxboot.img|optional|fcd403db69f54290b51035d82f835e7b|Atari Lynx boot ROM|
 
-system|neogeo|Neo Geo (arcade)|fbneo mame2003_plus mame2003 mame2010 mame|installed|Neo Geo games need the BIOS set, next to the games or in RetroArch's system folder. Use the one that matches your arcade core's version.
+system|neogeo|Neo Geo (arcade)|fbneo mame2003_plus mame2003 mame2010 mame|installed|Neo Geo games need this BIOS set, in the bios folder or next to the games. It has to match the version of your arcade emulator.
 file|neogeo|neogeo.zip|required|*|Neo Geo BIOS set (only the name is checked)|

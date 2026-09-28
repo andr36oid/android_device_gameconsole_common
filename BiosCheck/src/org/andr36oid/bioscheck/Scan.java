@@ -15,16 +15,14 @@ final class Scan {
     static final class Found {
         String path, name, md5;
         long size;
-        /** In the bios folder on EASYROMS, else in one of RetroArch's folders. */
-        boolean inBiosFolder;
+        /** Right in the bios folder, where RetroArch looks; else in a subfolder. */
+        boolean atTop;
     }
 
     /** Where EASYROMS and its bios folder are mounted, null if not. */
     String easyroms, biosDir;
-    /** RetroArch's system folder as set in retroarch.cfg, null if left at default. */
-    String cfgSystemDir;
-    String defaultSystemDir;
     final Set<String> cores = new HashSet<>();
+    /** The files in the bios folder and its subfolders. */
     final List<Found> files = new ArrayList<>();
 
     static Scan parse(Reader in) throws IOException {
@@ -34,26 +32,23 @@ final class Scan {
         String line;
         while ((line = r.readLine()) != null) {
             final String[] f = line.split("\t", -1);
+            if (f.length < 2) continue;
             switch (f[0]) {
                 case "easyroms":
-                    if (f.length > 1) s.easyroms = f[1];
+                    s.easyroms = f[1];
                     break;
                 case "bios":
-                    if (f.length > 1) s.biosDir = f[1];
-                    break;
-                case "system":
-                    if (f.length < 3) break;
-                    if ("cfg".equals(f[1])) s.cfgSystemDir = f[2];
-                    else s.defaultSystemDir = f[2];
+                    s.biosDir = f[1];
                     break;
                 case "core":
-                    if (f.length > 1) s.cores.add(f[1]);
+                    s.cores.add(f[1]);
                     break;
                 case "file":
                     if (f.length >= 4) fileLines.add(f);
                     break;
             }
         }
+        if (s.biosDir == null) return s;
         for (String[] f : fileLines) {
             final Found x = new Found();
             x.md5 = "-".equals(f[1]) ? null : f[1].toLowerCase(Locale.ROOT);
@@ -63,22 +58,18 @@ final class Scan {
                 x.size = -1;
             }
             x.path = f[3];
-            x.name = x.path.substring(x.path.lastIndexOf('/') + 1);
-            x.inBiosFolder = s.biosDir != null && x.path.startsWith(s.biosDir + "/");
-            s.files.add(x);
+            if (!x.path.startsWith(s.biosDir + "/")) continue;
+            final int slash = x.path.lastIndexOf('/');
+            x.name = x.path.substring(slash + 1);
+            x.atTop = slash == s.biosDir.length();
+            if (!junk(x.name)) s.files.add(x);
         }
         return s;
     }
 
-    /** The folder RetroArch reads BIOS files from. */
-    String systemDir() {
-        return cfgSystemDir != null ? cfgSystemDir : defaultSystemDir;
-    }
-
-    /** Files right in RetroArch's system folder, where the cores look. */
-    boolean inSystemDir(Found f) {
-        final String dir = systemDir();
-        return dir != null && f.path.equals(dir + "/" + f.name);
+    /** The path inside the bios folder, e.g. "psx/scph5501.bin". */
+    String inBios(Found f) {
+        return f.path.substring(biosDir.length() + 1);
     }
 
     /** Mac and Windows leave these next to copied files; they're never BIOS files. */

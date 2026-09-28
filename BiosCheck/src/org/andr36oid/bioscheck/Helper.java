@@ -15,8 +15,8 @@ import java.util.List;
 
 /**
  * Talks to the andr36oid-bioscheck init service (helper/andr36oid-bioscheck.sh), which
- * does the file work as root: we write a request (and the operations) and start it, it
- * writes one status line, the scan and the results.
+ * reads EASYROMS as root: we write a request (and the renames) and start it, it writes
+ * one status line, the scan and the results.
  */
 final class Helper {
 
@@ -34,9 +34,9 @@ final class Helper {
         return start("scan", null);
     }
 
-    /** Runs the operations (see Report.ops), then scans again. */
-    static boolean apply(String ops) {
-        return start("apply", ops);
+    /** Renames files in the bios folder (see Report.ops), then scans again. */
+    static boolean rename(String ops) {
+        return start("rename", ops);
     }
 
     private static boolean start(String action, String ops) {
@@ -75,7 +75,7 @@ final class Helper {
         }
     }
 
-    /** The last apply's result lines ("copied <path>" etc.). */
+    /** The last rename's result lines ("renamed <path>" etc.). */
     static List<String> result() {
         final List<String> lines = new ArrayList<>();
         final String s = read(RESULT);

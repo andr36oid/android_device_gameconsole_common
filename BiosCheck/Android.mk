@@ -1,6 +1,6 @@
-# The root part of the BIOS check: scans EASYROMS and RetroArch's system folder and
-# copies and renames files, started by the app through ctl.start. The app itself is
-# in Android.bp.
+# The root part of Settings > Emulator files: scans the bios folder on EASYROMS and
+# renames files in it, started by the app through ctl.start. The app itself is in
+# Android.bp.
 
 LOCAL_PATH := $(call my-dir)
 
