@@ -54,5 +54,37 @@
                 <action android:name="android.service.quicksettings.action.QS_TILE" />
             </intent-filter>
         </service>
+
+        <!-- Battery saver / Balanced / Performance. Always there, and added to Quick Settings
+             once, on the first boot. -->
+        <service
+            android:name=".ProfileTileService"
+            android:exported="true"
+            android:icon="@drawable/ic_performance_profile"
+            android:label="@string/profile_tile_label"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
+
+        <!-- Applies the saved profile after boot -->
+        <receiver
+            android:name=".ProfileReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
+        <!-- FN + R1, sent by the system (PhoneWindowManager) -->
+        <receiver
+            android:name=".ProfileSwitchReceiver"
+            android:exported="true"
+            android:permission="android.permission.DEVICE_POWER">
+            <intent-filter>
+                <action android:name="org.andr36oid.cpuoverclock.action.NEXT_PROFILE" />
+            </intent-filter>
+        </receiver>
     </application>
 </manifest>
