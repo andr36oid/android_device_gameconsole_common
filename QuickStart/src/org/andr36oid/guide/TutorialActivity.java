@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.ContentObserver;
 import android.os.Bundle;
@@ -241,7 +242,10 @@ public class TutorialActivity extends Activity {
         mProgress.setMax(mSteps.size() - 1);
 
         int start = 0;
-        if (savedInstanceState != null) {
+        if (savedInstanceState == null && mFirstStart) {
+            // The first start after a restart or a crash: go on where it was
+            start = restoreProgress();
+        } else if (savedInstanceState != null) {
             start = savedInstanceState.getInt("step", 0);
             mSkippedFrom = savedInstanceState.getInt("skipped_from", -1);
             for (int i = 0; i < mSteps.size(); i++) {
@@ -252,6 +256,57 @@ public class TutorialActivity extends Activity {
             }
         }
         showStep(Math.max(0, Math.min(start, mSteps.size() - 1)));
+    }
+
+    // ---- First start: progress kept across restarts and crashes
+
+    private static final String PROGRESS_PREFS = "tutorial_progress";
+
+    /** Saves the step, where Skip tutorial came from and the ticks, on the first start only. */
+    private void saveProgress() {
+        if (!mFirstStart) {
+            return;
+        }
+        final SharedPreferences.Editor editor = getSharedPreferences(PROGRESS_PREFS,
+                Context.MODE_PRIVATE).edit().clear()
+                .putInt("steps", mSteps.size())
+                .putInt("step", mIndex)
+                .putInt("skipped_from", mSkippedFrom);
+        for (int i = 0; i < mSteps.size(); i++) {
+            final StringBuilder done = new StringBuilder();
+            for (boolean d : mSteps.get(i).done) {
+                done.append(d ? '1' : '0');
+            }
+            editor.putString("done" + i, done.toString());
+        }
+        editor.apply();
+    }
+
+    /** The step to start on, from saveProgress. 0 if nothing (or another build's) was saved. */
+    private int restoreProgress() {
+        final SharedPreferences prefs = getSharedPreferences(PROGRESS_PREFS,
+                Context.MODE_PRIVATE);
+        if (prefs.getInt("steps", -1) != mSteps.size()) {
+            return 0;
+        }
+        mSkippedFrom = prefs.getInt("skipped_from", -1);
+        for (int i = 0; i < mSteps.size(); i++) {
+            final String done = prefs.getString("done" + i, null);
+            final boolean[] ticks = mSteps.get(i).done;
+            if (done == null || done.length() != ticks.length) {
+                continue;
+            }
+            for (int t = 0; t < ticks.length; t++) {
+                ticks[t] = done.charAt(t) == '1';
+            }
+        }
+        return prefs.getInt("step", 0);
+    }
+
+    /** Forgets the saved progress, once the first start is over. */
+    static void clearProgress(Context context) {
+        context.getSharedPreferences(PROGRESS_PREFS, Context.MODE_PRIVATE).edit().clear()
+                .apply();
     }
 
     private void buildSteps() {
@@ -443,6 +498,7 @@ public class TutorialActivity extends Activity {
         startDetectors();
         updateState();
         mNext.requestFocus();
+        saveProgress();
     }
 
     /** Refreshes the ticks, the note and the Next button after something was done. */
@@ -487,6 +543,7 @@ public class TutorialActivity extends Activity {
             mNext.requestFocus();
         }
         updateState();
+        saveProgress();
     }
 
     private void goNext() {

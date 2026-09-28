@@ -179,6 +179,7 @@ final class FirstStart {
         final Context app = context.getApplicationContext();
         FirstBootReceiver.markShown(app);
         prefs(app).edit().remove(PREF_CRASHES).commit();
+        TutorialActivity.clearProgress(app);
         cancelWatchdog(app);
         if (sFinishing) {
             return;
