@@ -27,7 +27,13 @@
     <!-- The RK817 has no battery temperature sensor (the driver reports a fixed 18.8 °C), so this is the processor's -->
     <string name="temperature">Processor temperature</string>
     <string name="charger">Charger</string>
-    <string name="capacity">Battery size</string>
+
+    <!-- Battery capacity setting -->
+    <string name="capacity_title">Battery capacity</string>
+    <string name="capacity_setting">Capacity</string>
+    <string name="capacity_hint">Printed on the battery. Wrong values make the percentage drift.</string>
+    <string name="capacity_reset">Reset to <xliff:g id="mah">%1$d</xliff:g> mAh</string>
+    <string name="capacity">Fuel gauge is using</string>
 
     <string name="value_voltage"><xliff:g id="volts">%1$.2f</xliff:g> V</string>
     <string name="value_current_in"><xliff:g id="ma">%1$d</xliff:g> mA going in</string>
@@ -35,6 +41,7 @@
     <string name="value_power"><xliff:g id="watts">%1$.2f</xliff:g> W</string>
     <string name="value_temperature"><xliff:g id="celsius">%1$.1f</xliff:g> °C</string>
     <string name="value_capacity"><xliff:g id="mah">%1$d</xliff:g> mAh</string>
+    <string name="value_capacity_default"><xliff:g id="mah">%1$d</xliff:g> mAh (default)</string>
     <string name="charger_none">Not plugged in</string>
     <string name="charger_usb">USB</string>
     <string name="charger_ac">Wall charger</string>

@@ -71,7 +71,7 @@ final class Gauge {
         return minutes > 0 && minutes < 48 * 60 ? minutes : UNKNOWN;
     }
 
-    private static String findBattery() {
+    static String findBattery() {
         final File[] supplies = new File("/sys/class/power_supply").listFiles();
         if (supplies == null) {
             return null;
@@ -99,7 +99,7 @@ final class Gauge {
         return zones[0].getPath() + "/temp";
     }
 
-    private static int readInt(String path, int divisor) {
+    static int readInt(String path, int divisor) {
         final String text = read(path);
         if (text == null) {
             return UNKNOWN;

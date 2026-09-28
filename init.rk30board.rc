@@ -304,6 +304,11 @@ service wpa_supplicant /vendor/bin/hw/wpa_supplicant \
 on property:persist.vendor.logger.enable=1
     start logger
 
+# Settings > Battery > Battery details > Battery capacity, in mAh; 0 is the device tree's value.
+# Also runs at boot when the saved value is loaded. Kernels without the knob just log a failed write.
+on property:persist.andr36oid.battery_capacity=*
+    write /sys/class/power_supply/battery/device/design_capacity_mah ${persist.andr36oid.battery_capacity}
+
 service logger /system/bin/logcat -b all -D -f /boot/logcat.txt
 	class main
 	user root
