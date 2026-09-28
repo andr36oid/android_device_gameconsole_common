@@ -131,6 +131,8 @@ public class TutorialActivity extends Activity {
     private int mIndex;
     // Where Back goes from the last page after Skip tutorial
     private int mSkippedFrom = -1;
+    /** The user said the console has no FN button: the FN steps are left out. */
+    private boolean mNoFn;
     private boolean mResumed;
     private boolean mReturnPending;
     private long mCreateTime;
@@ -152,6 +154,7 @@ public class TutorialActivity extends Activity {
     private TextView mNoteView;
     private Button mBack;
     private Button mSecondary;
+    private Button mNoFnButton;
     private Button mNext;
     private StickView mStickView;
 
@@ -186,6 +189,7 @@ public class TutorialActivity extends Activity {
         mNoteView = findViewById(R.id.note);
         mBack = findViewById(R.id.back);
         mSecondary = findViewById(R.id.secondary);
+        mNoFnButton = findViewById(R.id.no_fn);
         mNext = findViewById(R.id.next);
 
         mBack.setOnClickListener(v -> goBack());
@@ -197,12 +201,21 @@ public class TutorialActivity extends Activity {
             }
         });
         mNext.setOnClickListener(v -> goNext());
+        mNoFnButton.setOnClickListener(v -> {
+            mNoFn = true;
+            int next = mIndex + 1;
+            while (next < mSteps.size() - 1 && isFnStep(mSteps.get(next).id)) {
+                next++;
+            }
+            showStep(next);
+        });
         mProgress.setMax(mSteps.size() - 1);
 
         int start = 0;
         if (savedInstanceState != null) {
             start = savedInstanceState.getInt("step", 0);
             mSkippedFrom = savedInstanceState.getInt("skipped_from", -1);
+            mNoFn = savedInstanceState.getBoolean("no_fn", false);
             for (int i = 0; i < mSteps.size(); i++) {
                 final boolean[] done = savedInstanceState.getBooleanArray("done" + i);
                 if (done != null && done.length == mSteps.get(i).done.length) {
@@ -282,6 +295,7 @@ public class TutorialActivity extends Activity {
         super.onSaveInstanceState(outState);
         outState.putInt("step", mIndex);
         outState.putInt("skipped_from", mSkippedFrom);
+        outState.putBoolean("no_fn", mNoFn);
         for (int i = 0; i < mSteps.size(); i++) {
             outState.putBooleanArray("done" + i, mSteps.get(i).done);
         }
@@ -323,7 +337,15 @@ public class TutorialActivity extends Activity {
         mStepLabel.setText(getString(R.string.tutorial_step, index + 1, mSteps.size()));
         mProgress.setProgress(index);
         mTitle.setText(step.title);
-        CharSequence body = getText(step.body);
+        int bodyRes = step.body;
+        if (mNoFn && step.id == STEP_MOUSE) {
+            bodyRes = R.string.tutorial_mouse_body;
+        } else if (mNoFn && step.id == STEP_GAMES) {
+            bodyRes = R.string.tutorial_games_body_no_fn;
+        } else if (mNoFn && step.id == STEP_DONE) {
+            bodyRes = R.string.tutorial_done_body;
+        }
+        CharSequence body = getText(bodyRes);
         if (step.id == STEP_GAMES) {
             final CharSequence space = describeEasyroms();
             if (space != null) {
@@ -360,6 +382,7 @@ public class TutorialActivity extends Activity {
                 ? View.VISIBLE : View.GONE);
 
         mBack.setVisibility(index == 0 ? View.INVISIBLE : View.VISIBLE);
+        mNoFnButton.setVisibility(isFnStep(step.id) ? View.VISIBLE : View.GONE);
         mSecondary.setText(step.id == STEP_DONE
                 ? R.string.tutorial_open_guide : R.string.tutorial_skip_all);
         startDetectors();
@@ -415,7 +438,11 @@ public class TutorialActivity extends Activity {
         if (current().id == STEP_DONE) {
             finishTutorial();
         } else if (mIndex < mSteps.size() - 1) {
-            showStep(mIndex + 1);
+            int next = mIndex + 1;
+            while (mNoFn && next < mSteps.size() - 1 && isFnStep(mSteps.get(next).id)) {
+                next++;
+            }
+            showStep(next);
         }
     }
 
@@ -425,10 +452,19 @@ public class TutorialActivity extends Activity {
             mSkippedFrom = -1;
             showStep(from);
         } else if (mIndex > 0) {
-            showStep(mIndex - 1);
+            int previous = mIndex - 1;
+            while (mNoFn && previous > 0 && isFnStep(mSteps.get(previous).id)) {
+                previous--;
+            }
+            showStep(previous);
         } else {
             skipTutorial();
         }
+    }
+
+    /** The steps that only work with an FN button. */
+    private static boolean isFnStep(int id) {
+        return id == STEP_HOME || id == STEP_BRIGHTNESS || id == STEP_SHADE;
     }
 
     /** Straight to the last page, which says where the guide is. */
@@ -680,6 +716,11 @@ public class TutorialActivity extends Activity {
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
         mHandler.removeCallbacks(mFocusLost);
+        if (hasFocus && getCurrentFocus() == null) {
+            // Nothing focused yet (the window came up in touch mode, or the mouse was used):
+            // put the focus on Next, so the d-pad and A work straight away
+            mNext.requestFocus();
+        }
         if (!hasFocus) {
             // Checked a moment later: going home with FN also takes the focus first, but
             // then pauses the activity

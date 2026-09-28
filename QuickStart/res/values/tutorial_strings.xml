@@ -12,6 +12,8 @@
     <string name="tutorial_next">Next</string>
     <string name="tutorial_skip_step">Skip step</string>
     <string name="tutorial_skip_all">Skip tutorial</string>
+    <!-- On the FN steps, for consoles without an FN button: skips all of them -->
+    <string name="tutorial_no_fn">No FN button</string>
     <string name="tutorial_done">Done</string>
     <string name="tutorial_open_guide">Open the full guide</string>
 
@@ -89,6 +91,7 @@
     <!-- Games -->
     <string name="tutorial_games_title">Where your games go</string>
     <string name="tutorial_games_body">Put the SD card in a computer. Besides a small BOOT drive it shows a big drive called EASYROMS: that\'s for your games.\n\nGive each system its own folder, named like nes, snes, gba, megadrive or psx.\n\nThen open Daijishou (press FN), add a platform and pick its folder on EASYROMS. Daijishou lists the games and starts them in RetroArch or PPSSPP.</string>
+    <string name="tutorial_games_body_no_fn">Put the SD card in a computer. Besides a small BOOT drive it shows a big drive called EASYROMS: that\'s for your games.\n\nGive each system its own folder, named like nes, snes, gba, megadrive or psx.\n\nThen open Daijishou, add a platform and pick its folder on EASYROMS. Daijishou lists the games and starts them in RetroArch or PPSSPP.</string>
     <!-- Under the games text, when the EASYROMS partition was found -->
     <string name="tutorial_games_space">EASYROMS on this card: <xliff:g id="free">%1$s</xliff:g> free of <xliff:g id="total">%2$s</xliff:g>.</string>
 
