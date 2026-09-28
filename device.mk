@@ -428,6 +428,10 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
 	Andr36oidCredits
 
+# Quick start guide (Settings > Quick start guide, opens once after the first setup)
+PRODUCT_PACKAGES += \
+	Andr36oidGuide
+
 # Remove phone packages that added by default product configuration
 PRODUCT_PACKAGES += \
     	remove-BlockedNumberProvider \

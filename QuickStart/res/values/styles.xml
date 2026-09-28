@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="GuideTheme" parent="@android:style/Theme.DeviceDefault.NoActionBar.Fullscreen">
+        <item name="android:windowBackground">@drawable/guide_background</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/black</item>
+        <item name="android:colorAccent">@color/guide_accent</item>
+        <!-- The ring is drawn by the chapter and page backgrounds -->
+        <item name="android:defaultFocusHighlightEnabled">false</item>
+    </style>
+</resources>
