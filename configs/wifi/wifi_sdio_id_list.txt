@@ -1,0 +1,2 @@
+0296 5347 rk915 /vendor/etc/modprobe.d/rk915
+0296 5348 rk915 /vendor/etc/modprobe.d/rk915

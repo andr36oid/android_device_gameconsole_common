@@ -413,6 +413,13 @@ PRODUCT_COPY_FILES += \
         $(USB_WIFI_PATH)/firmware/usbwifi/$(f):$(TARGET_COPY_OUT_VENDOR)/firmware/$(f)) \
     $(LOCAL_PATH)/configs/wifi/RT2870STA.dat:$(TARGET_COPY_OUT_SYSTEM)/etc/Wireless/RT2870STA/RT2870STA.dat
 
+# Wi-Fi chip on the SDIO bus (RK915 clones): SDIO id list for libwifi_hal,
+# module chain in configs/wifi/modprobe.d/rk915, firmware from Rockchip
+PRODUCT_COPY_FILES += \
+    $(USB_WIFI_PATH)/configs/wifi/wifi_sdio_id_list.txt:$(TARGET_COPY_OUT_VENDOR)/etc/wifi_sdio_id_list.txt \
+    $(USB_WIFI_PATH)/firmware/rk915/rk915_fw.bin:$(TARGET_COPY_OUT_VENDOR)/firmware/rk915_fw.bin \
+    $(USB_WIFI_PATH)/firmware/rk915/rk915_patch.bin:$(TARGET_COPY_OUT_VENDOR)/firmware/rk915_patch.bin
+
 # USB Bluetooth firmware (btrtl, ath3k, QCA), see firmware/usbbt/README.md
 PRODUCT_COPY_FILES += \
     $(foreach f,$(shell cd $(USB_WIFI_PATH)/firmware/usbbt && find . -type f ! -path './LICENSES/*' ! -name README.md | sed 's|^\./||'),\
