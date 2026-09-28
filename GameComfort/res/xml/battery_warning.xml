@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ListPreference
+        android:key="battery_warning"
+        android:defaultValue="15,5"
+        android:entries="@array/warning_entries"
+        android:entryValues="@array/warning_values"
+        android:summary="%s"
+        android:title="@string/warning_when" />
+
+    <Preference
+        android:key="preview"
+        android:title="@string/warning_preview" />
+
+    <Preference
+        android:key="about"
+        android:selectable="false"
+        android:summary="@string/warning_about" />
+</PreferenceScreen>

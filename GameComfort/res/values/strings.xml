@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="app_name">Game comfort</string>
+
+    <!-- Low battery warning, Settings > Battery -->
+    <string name="warning_title">Low battery warning</string>
+    <string name="warning_summary">Warn on top of games so you can save in time</string>
+    <string name="warning_when">Warn at</string>
+    <string-array name="warning_entries">
+        <item>Off</item>
+        <item>15 % and 5 %</item>
+        <item>5 % only</item>
+    </string-array>
+    <string-array name="warning_values" translatable="false">
+        <item>off</item>
+        <item>15,5</item>
+        <item>5</item>
+    </string-array>
+    <string name="warning_preview">Show a test warning</string>
+    <string name="warning_about">Android\'s own low battery notification is easy to miss during a full screen game. This shows a short banner across the top of the screen instead, once for each level while the console runs on battery. It doesn\'t take the buttons away from the game.\n\nThe console turns itself off when the battery is empty, and anything not saved is lost.</string>
+
+    <!-- The banner on top of the game -->
+    <string name="banner_text">Battery <xliff:g id="percent">%1$d</xliff:g> %% – save your game now</string>
+</resources>

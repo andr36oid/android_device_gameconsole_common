@@ -428,6 +428,10 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
 	Andr36oidCredits
 
+# Low battery warning on top of games (Settings > Battery > Low battery warning)
+PRODUCT_PACKAGES += \
+	GameComfort
+
 # Remove phone packages that added by default product configuration
 PRODUCT_PACKAGES += \
     	remove-BlockedNumberProvider \
