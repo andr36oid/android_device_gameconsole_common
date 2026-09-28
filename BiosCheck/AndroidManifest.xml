@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="org.andr36oid.bioscheck"
+    android:sharedUserId="android.uid.system">
+
+    <application
+        android:allowBackup="false"
+        android:icon="@drawable/ic_bios_check"
+        android:label="@string/app_title"
+        android:supportsRtl="true">
+
+        <!-- Injected into the top level of the Settings app, in the console group -->
+        <activity
+            android:name=".BiosActivity"
+            android:exported="true"
+            android:label="@string/app_title"
+            android:theme="@android:style/Theme.DeviceDefault.DayNight">
+            <intent-filter>
+                <action android:name="com.android.settings.action.IA_SETTINGS" />
+            </intent-filter>
+            <meta-data
+                android:name="com.android.settings.category"
+                android:value="com.android.settings.category.ia.homepage" />
+            <!-- Same order as Controller test; ties sort by title, so this lands before
+                 it and before Storage (-60). -->
+            <meta-data
+                android:name="com.android.settings.order"
+                android:value="-61" />
+            <meta-data
+                android:name="com.android.settings.keyhint"
+                android:value="top_level_bios_check" />
+            <meta-data
+                android:name="com.android.settings.summary"
+                android:resource="@string/app_summary" />
+            <meta-data
+                android:name="com.android.settings.icon"
+                android:resource="@drawable/ic_bios_check" />
+            <meta-data
+                android:name="com.android.settings.bg.hint"
+                android:resource="@color/bios_icon_background" />
+        </activity>
+
+        <!-- The same page in the app list (Daijishou and other home screens) -->
+        <activity-alias
+            android:name=".LauncherActivity"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher"
+            android:label="@string/app_title"
+            android:targetActivity=".BiosActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
+        <activity
+            android:name=".SystemActivity"
+            android:exported="false"
+            android:parentActivityName=".BiosActivity"
+            android:theme="@android:style/Theme.DeviceDefault.DayNight" />
+    </application>
+</manifest>

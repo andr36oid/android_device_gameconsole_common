@@ -1,0 +1,72 @@
+# BIOS files for the emulators andr36oid ships (emulators/cores.lock, apks.lock).
+#
+# Sources:
+#  - file names and which core loads which: libretro-core-info (firmwareN_path,
+#    github.com/libretro/libretro-core-info, *_libretro.info), checked against each
+#    core's source at the commit in cores.lock
+#  - MD5s: libretro-database dat/System.dat (github.com/libretro/libretro-database,
+#    commit d5bae90b), which the core info notes and the libretro docs quote too
+#  - "*" instead of MD5s: no single known-good file (Neo Geo's neogeo.zip differs
+#    between arcade core versions), so any file with this name counts
+#
+# Everything goes into RetroArch's system folder. PPSSPP needs no BIOS.
+#
+# system|<id>|<name>|<cores, space separated>|<shown: shipped = always, installed =
+#       only when one of its cores is installed>|<note>
+# file|<system id>|<file name>|<required, oneof (one of these is enough) or optional>|
+#     <MD5s, space separated, or *>|<what it is>|<cores that use it, empty = the system's>
+
+system|psx|PlayStation|pcsx_rearmed|shipped|Games start without a BIOS, but more of them work with one. One BIOS is enough; the one for your games' region is best.
+file|psx|scph5501.bin|oneof|490f666e1afb15b7362b406ed1cea246|US BIOS, version 3.0|
+file|psx|scph5500.bin|oneof|8dd7d5296a650fac7319bce665a6a53c|Japanese BIOS, version 3.0|
+file|psx|scph5502.bin|oneof|32736f17079d0b2b7024407c39bd3050|European BIOS, version 3.0|
+file|psx|scph1001.bin|oneof|924e392ed05558ffdb115408c263dccf|US BIOS, version 2.2|
+file|psx|scph7001.bin|oneof|1e68c231d0896b7eadcad1d7d8e76129|US BIOS, version 4.1|
+file|psx|scph101.bin|oneof|6e3735ff4c7dc899ee98981385f6f3d0|PS one BIOS, version 4.4|
+file|psx|psxonpsp660.bin|oneof|c53ca5908936d412331790f4426c6c33|BIOS taken from a PSP|
+
+system|segacd|Sega CD / Mega CD|clownmdemu genesis_plus_gx picodrive|shipped|ClownMDEmu starts games without a BIOS. Genesis Plus GX and PicoDrive need the one for the game's region.
+file|segacd|bios_CD_U.bin|oneof|2efd74e3232ff260e371b99f84024f7f|Sega CD BIOS (US)|
+file|segacd|bios_CD_E.bin|oneof|e66fa1dc5820d254611fdcdba0662372|Mega CD BIOS (Europe)|
+file|segacd|bios_CD_J.bin|oneof|278a9397d192149e84e820ac621a8edd|Mega CD BIOS (Japan)|
+
+system|pcecd|PC Engine CD / TurboGrafx-CD|mednafen_pce_fast|shipped|CD games need a System Card BIOS. HuCard games start without one.
+file|pcecd|syscard3.pce|required|38179df8f4ac870017db21ebcbf53114|Super CD-ROM² System Card 3 (Japan), used by default|
+file|pcecd|syscard3u.pce|optional|0754f903b52e3b3342202bdafb13efa5|Super CD System Card 3 (US), pick it in the core options|
+file|pcecd|gexpress.pce|optional|6d2cb14fc3e1f65ceb135633d1694122|Games Express card, for a few unlicensed games|
+file|pcecd|syscard2.pce|optional|3cdd6614a918616bfc41c862e889dd79|CD-ROM² System Card 2 (Japan)|
+file|pcecd|syscard2u.pce|optional|94279f315e8b52904f65ab3108542afe|CD-ROM System Card 2 (US)|
+file|pcecd|syscard1.pce|optional|2b7ccb3d86baa18f6402c176f3065082|CD-ROM² System Card 1 (Japan)|
+
+system|fds|Famicom Disk System|fceumm|shipped|Disk System games (.fds) need this BIOS. NES cartridge games don't.
+file|fds|disksys.rom|required|ca30b50f880eb660a320674ed365ef7a|Famicom Disk System BIOS|
+
+system|gba|Game Boy Advance|mgba gpsp|shipped|Games start without a BIOS: both emulators have a built-in replacement. The real one shows the boot logo and helps a few games.
+file|gba|gba_bios.bin|optional|a860e8c0b6d573d191e4ec7db1b1e4f6|Game Boy Advance BIOS|
+
+system|gb|Game Boy / Game Boy Color|gambatte mgba|shipped|Optional: games start without these. They only add the boot logo.
+file|gb|gb_bios.bin|optional|32fbbd84168d3482956eb3c5051637f5|Game Boy boot ROM|
+file|gb|gbc_bios.bin|optional|dbfce9db9deaa2567f6a84fde55f9680|Game Boy Color boot ROM|
+file|gb|sgb_bios.bin|optional|d574d4f9c12f305074798f54c091a8b4|Super Game Boy boot ROM|mgba
+
+system|sms|Master System|gearsystem genesis_plus_gx|shipped|Optional: games start without it.
+file|sms|bios.sms|optional|840481177270d5642a14ca71ee72844c|Master System BIOS (Gearsystem)|gearsystem
+file|sms|bios_U.sms|optional|840481177270d5642a14ca71ee72844c|Master System BIOS, US (Genesis Plus GX)|genesis_plus_gx
+file|sms|bios_E.sms|optional|840481177270d5642a14ca71ee72844c|Master System BIOS, Europe (Genesis Plus GX)|genesis_plus_gx
+file|sms|bios_J.sms|optional|24a519c53f67b00640d0048ef7089105|Master System BIOS, Japan (Genesis Plus GX)|genesis_plus_gx
+
+system|gg|Game Gear|gearsystem genesis_plus_gx|shipped|Optional: games start without it.
+file|gg|bios.gg|optional|672e104c3be3a238301aceffc3b23fd6|Game Gear BIOS|
+
+system|md|Mega Drive / Genesis|genesis_plus_gx|shipped|Optional: games start without it. It only adds the startup screen of later consoles.
+file|md|bios_MD.bin|optional|d3293ebaaa7f4eb2a6766b68a0fb4609|Mega Drive startup ROM (TMSS)|
+
+system|a7800|Atari 7800|prosystem|shipped|Optional: games start without it.
+file|a7800|7800 BIOS (U).rom|optional|0763f1ffb006ddbe32e52d497ee848ae|Atari 7800 BIOS (US)|
+file|a7800|7800 BIOS (E).rom|optional|397bb566584be7b9764e7a68974c4263|Atari 7800 BIOS (Europe)|
+
+system|lynx|Atari Lynx|handy|shipped|Optional: Handy has a built-in replacement, the real boot ROM is more accurate.
+file|lynx|lynxboot.img|optional|fcd403db69f54290b51035d82f835e7b|Atari Lynx boot ROM|
+
+system|neogeo|Neo Geo (arcade)|fbneo mame2003_plus mame2003 mame2010 mame|installed|Neo Geo games need the BIOS set, next to the games or in RetroArch's system folder. Use the one that matches your arcade core's version.
+file|neogeo|neogeo.zip|required|*|Neo Geo BIOS set (only the name is checked)|
