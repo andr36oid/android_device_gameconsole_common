@@ -34,8 +34,9 @@ import java.util.List;
  */
 public class WhenReadyJobService extends JobService {
 
-    private static final int JOB_SETUP_DONE = 1;
-    private static final int JOB_CHECK = 2;
+    // Job IDs are per UID, and every android.uid.system app shares one (the other andr36oid apps, LineageParts), so each app keeps to its own range
+    private static final int JOB_SETUP_DONE = 3611;
+    private static final int JOB_CHECK = 3612;
 
     private static final long FIRST_CHECK_MS = 3000;
     private static final long CHECK_EVERY_MS = 3000;
