@@ -6,26 +6,17 @@
     <!-- Name of the app icon that opens the guide on the help topics -->
     <string name="help_label">Help</string>
 
-    <!-- Bottom bar: what the buttons do in the guide -->
-    <string name="hint_choose">Choose</string>
-    <string name="hint_read">Read</string>
-    <string name="hint_scroll">Scroll</string>
-    <string name="hint_page">Topic</string>
-    <string name="hint_back">Topics</string>
-    <string name="hint_close">Close</string>
     <!-- Joins two buttons pressed together, e.g. "FN + Start" -->
     <string name="key_plus">+</string>
-    <!-- Between two alternative buttons, e.g. "L1 / R1" -->
-    <string name="key_or">/</string>
 
     <!-- Welcome -->
     <string name="welcome_title">Welcome</string>
     <string name="welcome_intro">andr36oid turns this console into an Android handheld. Games, emulators and apps, all run with the buttons, no touchscreen needed.</string>
     <string name="welcome_choose">Choose a topic</string>
-    <string name="welcome_read">Read it, the D-pad then scrolls</string>
+    <string name="welcome_read">Open a topic, the D-pad then scrolls it</string>
     <string name="welcome_page">Previous or next topic</string>
     <string name="welcome_tutorial">Try the buttons again in the hands-on tutorial</string>
-    <string name="welcome_close">Close the guide</string>
+    <string name="welcome_close">Back to the topics, or close the guide</string>
     <string name="welcome_again">You can open this guide again any time from Settings &gt; Quick start guide, or with the Help icon in your app list.</string>
 
     <!-- Buttons -->

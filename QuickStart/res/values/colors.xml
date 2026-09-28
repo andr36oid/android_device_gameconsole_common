@@ -2,12 +2,4 @@
 <resources>
     <!-- Background of the round icon on the Settings home page -->
     <color name="guide_icon_background">#26A69A</color>
-
-    <color name="guide_accent">#80DEEA</color>
-    <color name="guide_text">#FFFFFF</color>
-    <color name="guide_detail">#B8C0CE</color>
-    <color name="guide_dim">#8A93A6</color>
-    <color name="guide_panel">#14FFFFFF</color>
-    <color name="guide_badge">#2A3550</color>
-    <color name="guide_badge_edge">#4A5A80</color>
 </resources>
