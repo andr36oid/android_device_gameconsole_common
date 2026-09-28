@@ -31,7 +31,7 @@ the `gameconsole-emu` service (`seed/`) runs once `sys.boot_completed=1`:
    RetroArch's default core dir and what Daijishou's `com.retroarch` player templates
    point at. Cores the user replaced (online updater etc.) are left alone; clearing
    RetroArch's data re-seeds.
-3. Make the usual ROM folders (`seed/rom-folders.txt`, ArkOS/dArkOS names) plus a
+4. Make the usual ROM folders (`seed/rom-folders.txt`, ArkOS/dArkOS names) plus a
    `README-andr36oid.txt` on the EASYROMS partition (`public:179,7`). Once per card, and
    only on a card that has none of these folders yet, so existing layouts stay untouched.
 

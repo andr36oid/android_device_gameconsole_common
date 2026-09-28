@@ -13,7 +13,7 @@
 # 3. Seeds the bundled libretro cores into RetroArch's core directory, which is
 #    where both RetroArch and Daijishou's RetroArch players look for them.
 #    Cores the user replaced (e.g. via RetroArch's online updater) are kept.
-# 3. Makes the usual ROM folders (ArkOS/dArkOS names) on a fresh EASYROMS
+# 4. Makes the usual ROM folders (ArkOS/dArkOS names) on a fresh EASYROMS
 #    partition, with a README telling which system goes where. Only once per
 #    card, and never on a card that already has any of them.
 
