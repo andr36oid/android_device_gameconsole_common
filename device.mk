@@ -646,3 +646,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 PRODUCT_TYPE := go
 $(call inherit-product-if-exists, vendor/gapps/gapps.mk)
+
+# Battery details: voltage, current, charge times and a 24 hour graph (Settings > Battery)
+PRODUCT_PACKAGES += \
+	BatteryDetails

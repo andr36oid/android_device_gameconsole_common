@@ -1,0 +1,12 @@
+// Settings > Battery > Battery details: voltage, current, charge times and a 24 hour
+// charge graph, from the fuel gauge in sysfs and a small sampler job.
+android_app {
+    name: "BatteryDetails",
+    srcs: ["src/**/*.java"],
+    resource_dirs: ["res"],
+    certificate: "platform",
+    platform_apis: true,
+    optimize: {
+        enabled: false,
+    },
+}
