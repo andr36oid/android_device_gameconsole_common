@@ -393,6 +393,11 @@ PRODUCT_COPY_FILES += \
     $(foreach f,$(shell cd $(USB_WIFI_PATH)/firmware/usbwifi && find . -type f ! -path './LICENSES/*' ! -name README.md | sed 's|^\./||'),\
         $(USB_WIFI_PATH)/firmware/usbwifi/$(f):$(TARGET_COPY_OUT_VENDOR)/firmware/$(f)) \
     $(LOCAL_PATH)/configs/wifi/RT2870STA.dat:$(TARGET_COPY_OUT_SYSTEM)/etc/Wireless/RT2870STA/RT2870STA.dat
+
+# USB Bluetooth firmware (btrtl, ath3k, QCA), see firmware/usbbt/README.md
+PRODUCT_COPY_FILES += \
+    $(foreach f,$(shell cd $(USB_WIFI_PATH)/firmware/usbbt && find . -type f ! -path './LICENSES/*' ! -name README.md | sed 's|^\./||'),\
+        $(USB_WIFI_PATH)/firmware/usbbt/$(f):$(TARGET_COPY_OUT_VENDOR)/firmware/$(f))
 	    
 # Copy device kcm
 PRODUCT_COPY_FILES += \
