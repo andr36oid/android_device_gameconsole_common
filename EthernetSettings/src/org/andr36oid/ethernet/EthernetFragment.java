@@ -257,8 +257,9 @@ public class EthernetFragment extends PreferenceFragment {
 
         final PreferenceCategory category = new PreferenceCategory(context);
         category.setKey("iface_" + iface);
-        category.setTitle(getString(iface.startsWith("usb")
-                ? R.string.ethernet_iface_phone : R.string.ethernet_iface_adapter, iface));
+        category.setTitle(getString(iface.startsWith("usb") ? R.string.ethernet_iface_phone
+                : iface.startsWith("wwan") ? R.string.ethernet_iface_modem
+                : R.string.ethernet_iface_adapter, iface));
         screen.addPreference(category);
 
         addInfo(category, R.string.ethernet_status, statusText(info));
@@ -354,8 +355,9 @@ public class EthernetFragment extends PreferenceFragment {
         if (info.carrier) {
             return getString(R.string.ethernet_status_connecting);
         }
-        return getString(info.iface.startsWith("usb")
-                ? R.string.ethernet_status_phone_waiting : R.string.ethernet_status_unplugged);
+        return getString(info.iface.startsWith("usb") ? R.string.ethernet_status_phone_waiting
+                : info.iface.startsWith("wwan") ? R.string.ethernet_status_modem_waiting
+                : R.string.ethernet_status_unplugged);
     }
 
     private String joinOrUnknown(List<String> items) {

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="ethernet_title">Ethernet</string>
-    <string name="ethernet_summary">USB Ethernet adapters and USB tethering from a phone</string>
+    <string name="ethernet_summary">USB Ethernet adapters, USB tethering from a phone and USB modems</string>
 
     <string name="ethernet_unavailable">Ethernet isn\'t available on this build</string>
     <string name="ethernet_none_title">Nothing plugged in</string>
@@ -10,6 +10,7 @@
     <!-- Category titles, %1$s is the interface name, e.g. eth0 -->
     <string name="ethernet_iface_adapter">Wired adapter (%1$s)</string>
     <string name="ethernet_iface_phone">Phone, USB tethering (%1$s)</string>
+    <string name="ethernet_iface_modem">USB mobile broadband modem (%1$s)</string>
 
     <string name="ethernet_status">Status</string>
     <string name="ethernet_status_connected">Connected</string>
@@ -17,6 +18,7 @@
     <string name="ethernet_status_connecting">Connecting…</string>
     <string name="ethernet_status_unplugged">Cable unplugged</string>
     <string name="ethernet_status_phone_waiting">Waiting for the phone</string>
+    <string name="ethernet_status_modem_waiting">Waiting for the mobile network</string>
 
     <string name="ethernet_ip_address">IP address</string>
     <string name="ethernet_gateway">Gateway</string>
