@@ -275,7 +275,10 @@ public class TutorialActivity extends Activity {
 
     private static final String PROGRESS_PREFS = "tutorial_progress";
 
-    /** Saves the step, where Skip tutorial came from and the ticks, on the first start only. */
+    /**
+     * Saves the step, where Skip tutorial came from, No FN and the ticks, on the first start
+     * only.
+     */
     private void saveProgress() {
         if (!mFirstStart) {
             return;
@@ -284,7 +287,8 @@ public class TutorialActivity extends Activity {
                 Context.MODE_PRIVATE).edit().clear()
                 .putInt("steps", mSteps.size())
                 .putInt("step", mIndex)
-                .putInt("skipped_from", mSkippedFrom);
+                .putInt("skipped_from", mSkippedFrom)
+                .putBoolean("no_fn", mNoFn);
         for (int i = 0; i < mSteps.size(); i++) {
             final StringBuilder done = new StringBuilder();
             for (boolean d : mSteps.get(i).done) {
@@ -303,6 +307,7 @@ public class TutorialActivity extends Activity {
             return 0;
         }
         mSkippedFrom = prefs.getInt("skipped_from", -1);
+        mNoFn = prefs.getBoolean("no_fn", false);
         for (int i = 0; i < mSteps.size(); i++) {
             final String done = prefs.getString("done" + i, null);
             final boolean[] ticks = mSteps.get(i).done;
