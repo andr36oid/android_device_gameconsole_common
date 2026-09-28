@@ -104,9 +104,21 @@
         <Button
             android:id="@+id/back"
             style="?android:attr/borderlessButtonStyle"
+            android:foreground="@drawable/tutorial_button_focus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/tutorial_back" />
+
+        <!-- Only on the FN steps, for consoles that don't have one -->
+        <Button
+            android:id="@+id/no_fn"
+            style="?android:attr/borderlessButtonStyle"
+            android:foreground="@drawable/tutorial_button_focus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@string/tutorial_no_fn"
+            android:visibility="gone" />
 
         <Space
             android:layout_width="0dp"
@@ -116,6 +128,7 @@
         <Button
             android:id="@+id/secondary"
             style="?android:attr/borderlessButtonStyle"
+            android:foreground="@drawable/tutorial_button_focus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp" />
@@ -123,6 +136,8 @@
         <Button
             android:id="@+id/next"
             style="@android:style/Widget.DeviceDefault.Button.Colored"
+            android:focusedByDefault="true"
+            android:foreground="@drawable/tutorial_button_focus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>
