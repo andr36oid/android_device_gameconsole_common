@@ -3,6 +3,12 @@
     package="org.andr36oid.guide"
     android:sharedUserId="android.uid.system">
 
+    <!-- Held by the first-start launcher (org.andr36oid.firststart, signed with the same key)
+         to tell FirstStartReceiver that it came to the front -->
+    <permission
+        android:name="org.andr36oid.guide.permission.FIRST_START"
+        android:protectionLevel="signature" />
+
     <application
         android:allowBackup="false"
         android:icon="@drawable/ic_quick_start"
@@ -39,8 +45,8 @@
                 android:resource="@color/guide_icon_background" />
         </activity>
 
-        <!-- Hands-on tutorial: FirstBootReceiver opens it once after setup, when the home
-             screen has settled. X in the guide opens it again. The action is for adb:
+        <!-- Hands-on tutorial: the first-start launcher opens it once after setup, through
+             FirstStartReceiver. X in the guide opens it again. The action is for adb:
              am start -a org.andr36oid.guide.action.TUTORIAL -->
         <activity
             android:name=".TutorialActivity"
@@ -57,8 +63,8 @@
             </intent-filter>
         </activity>
 
-        <!-- Opens the tutorial once the setup wizard is done and the home screen has
-             settled -->
+        <!-- The first start's safety net at boot and after the wizard: starts the watchdog
+             while the first-start launcher is home, removes a left-over launcher -->
         <receiver
             android:name=".FirstBootReceiver"
             android:exported="false">
@@ -66,6 +72,24 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+
+        <!-- From the first-start launcher: it came to the front (opens the tutorial, or FN
+             was pressed), Back to the tutorial, Skip tutorial -->
+        <receiver
+            android:name=".FirstStartReceiver"
+            android:exported="true"
+            android:permission="org.andr36oid.guide.permission.FIRST_START">
+            <intent-filter>
+                <action android:name="org.andr36oid.guide.action.FIRST_START_HOME" />
+                <action android:name="org.andr36oid.guide.action.FIRST_START_OPEN" />
+                <action android:name="org.andr36oid.guide.action.FIRST_START_SKIP" />
+            </intent-filter>
+        </receiver>
+
+        <!-- The first start's watchdog alarm and the launcher's uninstall result -->
+        <receiver
+            android:name=".FirstStartWatchdog"
+            android:exported="false" />
 
         <service
             android:name=".SetupDoneJobService"

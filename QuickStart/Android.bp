@@ -1,5 +1,6 @@
-// The quick start guide: shown once after the first setup, and from Settings > Quick start
-// guide. Runs as the system user so it may open by itself after setup.
+// The quick start guide and the hands-on tutorial: Settings > Quick start guide, and the
+// tutorial once after the first setup (see FirstStart.java). Runs as the system user, so it may
+// open by itself, give the home role back to Daijishou and uninstall the first-start launcher.
 android_app {
     name: "Andr36oidGuide",
     srcs: ["src/**/*.java"],

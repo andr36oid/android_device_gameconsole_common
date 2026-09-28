@@ -1,0 +1,31 @@
+// The first-start launcher: a tiny home app that is the home screen only while the first-start
+// tutorial runs. It is not a system app. gameconsole-emu installs it as a user app while the
+// setup wizard runs and makes it the home app (see emulators/seed/gameconsole-emu.sh). Each
+// time it becomes the front app (the wizard ended, or FN was pressed) it tells the quick start
+// guide, which shows its tutorial. When the tutorial is done the guide gives the home role back
+// to Daijishou and uninstalls this app.
+android_app {
+    name: "Andr36oidFirstStart",
+    srcs: ["src/**/*.java"],
+    resource_dirs: ["res"],
+    sdk_version: "current",
+    // Signed like the guide, so it gets the guide's signature permission to talk to it
+    certificate: "platform",
+    // pm install needs the dex inside the APK
+    dex_preopt: {
+        enabled: false,
+    },
+    optimize: {
+        enabled: false,
+    },
+}
+
+// Only this is in PRODUCT_PACKAGES, not the app itself, so the app is never installed to
+// /system/app: the APK goes to /system/etc/gameconsole/firststart/FirstStart.apk for
+// gameconsole-emu to install
+prebuilt_etc {
+    name: "Andr36oidFirstStart-preinstall",
+    src: ":Andr36oidFirstStart",
+    filename: "FirstStart.apk",
+    sub_dir: "gameconsole/firststart",
+}

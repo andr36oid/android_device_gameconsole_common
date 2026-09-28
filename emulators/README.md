@@ -42,6 +42,11 @@ the `gameconsole-emu` service (`seed/`) runs once `sys.boot_completed=1`:
 Log tag: `gameconsole-emu`. State: `/data/misc/gameconsole` and
 `/data/user/0/com.retroarch/.gameconsole`.
 
+Before all that, on the very first start only, it installs the first-start launcher
+(`../FirstStart`, shipped as `/system/etc/gameconsole/firststart/FirstStart.apk`) and makes
+it the home app for the tutorial after the setup wizard. The quick start guide uninstalls it
+when the tutorial is done.
+
 The service has no SELinux domain, same as `joyMouse`; it relies on the ROM running
 permissive.
 

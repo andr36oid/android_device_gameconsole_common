@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.ContentObserver;
 import android.os.Bundle;
@@ -12,7 +13,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.PowerManager;
 import android.os.StatFs;
-import android.os.SystemClock;
 import android.os.SystemProperties;
 import android.os.storage.StorageManager;
 import android.os.storage.StorageVolume;
@@ -41,15 +41,21 @@ import java.util.List;
 import java.util.Locale;
 
 /**
- * A hands-on tutorial that runs once after the setup wizard. Each step asks the user to press
- * something and ticks it off when it sees it happen. Every step can be skipped (Select or the
- * Skip step button), B goes back a step, and Skip tutorial jumps to the last page, so the user
- * is never stuck.
+ * A hands-on tutorial that runs once after the setup wizard, and from the guide (X). Each step
+ * asks the user to press something and ticks it off when it sees it happen. Every step can be
+ * skipped (Select or the Skip step button), B goes back a step, and Skip tutorial jumps to the
+ * last page, so the user is never stuck.
  *
  * <p>FN never reaches apps: the window manager turns it into Home and runs the FN shortcuts
- * itself. So the FN steps watch the result instead: leaving to the home screen for FN alone, the
- * brightness setting for FN + Vol, the window focus for FN + Y (the shade takes it), and
+ * itself. So the FN steps watch the result instead: going home for FN alone, the brightness
+ * setting for FN + Vol, the window focus for FN + Y (the shade takes it), and
  * sys.joymouse.active for the joystick mouse.
+ *
+ * <p>On the first start the first-start launcher is the home app (see FirstStart), so FN alone
+ * is seen exactly: the launcher gets the home intent and tells us (onHome). The tutorial always
+ * comes back then, since the launcher is no real home screen, and every way out goes through
+ * FirstStart.finish, which gives home back to Daijishou. Opened from the guide later, going
+ * home shows up as onUserLeaveHint, and leaving on a step without FN counts as leaving.
  */
 public class TutorialActivity extends Activity {
 
@@ -68,10 +74,6 @@ public class TutorialActivity extends Activity {
     private static final int MAX_RETURNS = 2;
     private static final long MOUSE_POLL_MS = 300;
     private static final long FOCUS_CHECK_MS = 300;
-    /** Home covering us this soon after opening is the home app still starting up. */
-    private static final long AUTO_COVER_WINDOW_MS = 15000;
-    /** No button for this long, and going home wasn't the user either. */
-    private static final long USER_ACTIVE_MS = 60000;
     private static final float STICK_THRESHOLD = 0.6f;
 
     private static final int STEP_WELCOME = 0;
@@ -87,8 +89,9 @@ public class TutorialActivity extends Activity {
     private static final int STEP_GAMES = 10;
     private static final int STEP_DONE = 11;
 
-    /** Whether a tutorial is on screen or in the background in this process. */
-    private static volatile boolean sOpen;
+    /** The tutorial on screen or in the background in this process, if any. */
+    private static TutorialActivity sInstance;
+    private static boolean sCrashHandlerSet;
 
     private static final class Step {
         final int id;
@@ -135,11 +138,8 @@ public class TutorialActivity extends Activity {
     private boolean mNoFn;
     private boolean mResumed;
     private boolean mReturnPending;
-    private long mCreateTime;
-    private long mLastInputTime;
-    // When the tutorial last brought itself back to the front
-    private long mReturnTime;
-    private boolean mAutoReturned;
+    // The first start: the first-start launcher is home and tells us about FN
+    private boolean mFirstStart;
     private int mLeaves;
     private CharSequence mNote;
 
@@ -166,15 +166,57 @@ public class TutorialActivity extends Activity {
     private boolean mMousePolling;
     private final float[] mStickAxes = new float[4];
 
-    static boolean isOpen() {
-        return sOpen;
+    /** Whether a tutorial is open in this process, on screen or not. */
+    static boolean isAlive() {
+        return sInstance != null && !sInstance.isDestroyed();
+    }
+
+    /**
+     * The first-start launcher came to the front. With no tutorial open, that's the end of the
+     * setup wizard or a start of the console: open it. Otherwise it was FN.
+     */
+    static void onHome(Context context) {
+        if (isAlive() && !sInstance.isFinishing()) {
+            sInstance.onHomePressed();
+        } else {
+            open(context);
+        }
+    }
+
+    /** Opens the tutorial, or brings it back to the front right away. */
+    static void open(Context context) {
+        if (isAlive() && !sInstance.isFinishing()) {
+            sInstance.mHandler.removeCallbacks(sInstance.mReturnRunnable);
+            sInstance.mReturnPending = false;
+            sInstance.bringToFront();
+            return;
+        }
+        try {
+            // Runs as the system uid, so it may start activities from the background
+            context.startActivity(new Intent(context, TutorialActivity.class)
+                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+        } catch (RuntimeException e) {
+            // The launcher's page stays, and the watchdog hands home back
+            Log.w(TAG, "Couldn't open the tutorial", e);
+        }
+    }
+
+    /** Closes the tutorial if it's open, for when the first start ended from elsewhere. */
+    static void close() {
+        if (isAlive() && !sInstance.isFinishing()) {
+            sInstance.finish();
+        }
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        sOpen = true;
-        mCreateTime = SystemClock.uptimeMillis();
+        sInstance = this;
+        mFirstStart = FirstStart.isActive(this);
+        if (mFirstStart) {
+            setCrashHandler();
+            mHandler.post(mHeartbeat);
+        }
         buildSteps();
 
         setContentView(R.layout.tutorial_activity);
@@ -212,7 +254,10 @@ public class TutorialActivity extends Activity {
         mProgress.setMax(mSteps.size() - 1);
 
         int start = 0;
-        if (savedInstanceState != null) {
+        if (savedInstanceState == null && mFirstStart) {
+            // The first start after a restart or a crash: go on where it was
+            start = restoreProgress();
+        } else if (savedInstanceState != null) {
             start = savedInstanceState.getInt("step", 0);
             mSkippedFrom = savedInstanceState.getInt("skipped_from", -1);
             mNoFn = savedInstanceState.getBoolean("no_fn", false);
@@ -224,6 +269,62 @@ public class TutorialActivity extends Activity {
             }
         }
         showStep(Math.max(0, Math.min(start, mSteps.size() - 1)));
+    }
+
+    // ---- First start: progress kept across restarts and crashes
+
+    private static final String PROGRESS_PREFS = "tutorial_progress";
+
+    /**
+     * Saves the step, where Skip tutorial came from, No FN and the ticks, on the first start
+     * only.
+     */
+    private void saveProgress() {
+        if (!mFirstStart) {
+            return;
+        }
+        final SharedPreferences.Editor editor = getSharedPreferences(PROGRESS_PREFS,
+                Context.MODE_PRIVATE).edit().clear()
+                .putInt("steps", mSteps.size())
+                .putInt("step", mIndex)
+                .putInt("skipped_from", mSkippedFrom)
+                .putBoolean("no_fn", mNoFn);
+        for (int i = 0; i < mSteps.size(); i++) {
+            final StringBuilder done = new StringBuilder();
+            for (boolean d : mSteps.get(i).done) {
+                done.append(d ? '1' : '0');
+            }
+            editor.putString("done" + i, done.toString());
+        }
+        editor.apply();
+    }
+
+    /** The step to start on, from saveProgress. 0 if nothing (or another build's) was saved. */
+    private int restoreProgress() {
+        final SharedPreferences prefs = getSharedPreferences(PROGRESS_PREFS,
+                Context.MODE_PRIVATE);
+        if (prefs.getInt("steps", -1) != mSteps.size()) {
+            return 0;
+        }
+        mSkippedFrom = prefs.getInt("skipped_from", -1);
+        mNoFn = prefs.getBoolean("no_fn", false);
+        for (int i = 0; i < mSteps.size(); i++) {
+            final String done = prefs.getString("done" + i, null);
+            final boolean[] ticks = mSteps.get(i).done;
+            if (done == null || done.length() != ticks.length) {
+                continue;
+            }
+            for (int t = 0; t < ticks.length; t++) {
+                ticks[t] = done.charAt(t) == '1';
+            }
+        }
+        return prefs.getInt("step", 0);
+    }
+
+    /** Forgets the saved progress, once the first start is over. */
+    static void clearProgress(Context context) {
+        context.getSharedPreferences(PROGRESS_PREFS, Context.MODE_PRIVATE).edit().clear()
+                .apply();
     }
 
     private void buildSteps() {
@@ -307,7 +408,6 @@ public class TutorialActivity extends Activity {
         mResumed = true;
         mHandler.removeCallbacks(mReturnRunnable);
         mReturnPending = false;
-        mComeBack.cancel();
     }
 
     @Override
@@ -320,9 +420,44 @@ public class TutorialActivity extends Activity {
     protected void onDestroy() {
         stopDetectors();
         mHandler.removeCallbacksAndMessages(null);
-        mComeBack.cancel();
-        sOpen = false;
+        if (sInstance == this) {
+            sInstance = null;
+        }
         super.onDestroy();
+    }
+
+    // ---- First start: signs of life for the watchdog
+
+    /** Every HEARTBEAT_MS while open, on screen or not, so a slow reader is still alive. */
+    private final Runnable mHeartbeat = new Runnable() {
+        @Override
+        public void run() {
+            FirstStart.heartbeat(TutorialActivity.this);
+            mHandler.postDelayed(this, FirstStart.HEARTBEAT_MS);
+        }
+    };
+
+    /** Counts crashes during the first start, so a crashing tutorial gives home back. */
+    private void setCrashHandler() {
+        if (sCrashHandlerSet) {
+            return;
+        }
+        sCrashHandlerSet = true;
+        final Context app = getApplicationContext();
+        final Thread.UncaughtExceptionHandler previous =
+                Thread.getDefaultUncaughtExceptionHandler();
+        Thread.setDefaultUncaughtExceptionHandler((thread, error) -> {
+            try {
+                if (FirstStart.isActive(app)) {
+                    FirstStart.noteCrash(app);
+                }
+            } catch (Throwable ignored) {
+                // Crashing already
+            }
+            if (previous != null) {
+                previous.uncaughtException(thread, error);
+            }
+        });
     }
 
     // ---- Navigation
@@ -334,6 +469,9 @@ public class TutorialActivity extends Activity {
         mNote = null;
         final Step step = current();
 
+        if (mFirstStart) {
+            FirstStart.heartbeat(this);
+        }
         mStepLabel.setText(getString(R.string.tutorial_step, index + 1, mSteps.size()));
         mProgress.setProgress(index);
         mTitle.setText(step.title);
@@ -388,6 +526,7 @@ public class TutorialActivity extends Activity {
         startDetectors();
         updateState();
         mNext.requestFocus();
+        saveProgress();
     }
 
     /** Refreshes the ticks, the note and the Next button after something was done. */
@@ -432,6 +571,7 @@ public class TutorialActivity extends Activity {
             mNext.requestFocus();
         }
         updateState();
+        saveProgress();
     }
 
     private void goNext() {
@@ -474,11 +614,22 @@ public class TutorialActivity extends Activity {
     }
 
     private void finishTutorial() {
-        FirstBootReceiver.markShown(this);
+        if (mFirstStart) {
+            // Home goes back to Daijishou, then the launcher is uninstalled
+            FirstStart.finish(this, false);
+        } else {
+            FirstBootReceiver.markShown(this);
+        }
         finish();
     }
 
     private void openGuide() {
+        if (mFirstStart) {
+            // Opens the guide once home is Daijishou again
+            FirstStart.finish(this, true);
+            finish();
+            return;
+        }
         FirstBootReceiver.markShown(this);
         finish();
         try {
@@ -492,7 +643,6 @@ public class TutorialActivity extends Activity {
 
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
-        mLastInputTime = SystemClock.uptimeMillis();
         final int key = event.getKeyCode();
         final boolean down = event.getAction() == KeyEvent.ACTION_DOWN;
         final boolean first = down && event.getRepeatCount() == 0;
@@ -574,7 +724,6 @@ public class TutorialActivity extends Activity {
 
     @Override
     public boolean dispatchGenericMotionEvent(MotionEvent event) {
-        mLastInputTime = SystemClock.uptimeMillis();
         if (current().id == STEP_STICKS && event.isFromSource(InputDevice.SOURCE_JOYSTICK)
                 && event.getAction() == MotionEvent.ACTION_MOVE) {
             mStickAxes[0] = event.getAxisValue(MotionEvent.AXIS_X);
@@ -600,11 +749,32 @@ public class TutorialActivity extends Activity {
 
     // ---- FN, the shade and the power button: watched from the outside
 
+    /**
+     * First start: the launcher got a home intent while the tutorial was open, so FN was
+     * pressed. On the FN step that's the task, on the FN shortcut steps it was FN on its own.
+     * Either way the tutorial comes back after RETURN_DELAY_MS, since the launcher isn't a
+     * real home screen.
+     */
+    private void onHomePressed() {
+        if (mResumed || mReturnPending) {
+            return;
+        }
+        final Step step = current();
+        if (step.id == STEP_HOME) {
+            markDone(0);
+        } else if (step.usesFn()) {
+            mNote = getText(R.string.tutorial_fn_alone);
+            updateState();
+        }
+        mReturnPending = true;
+        mHandler.postDelayed(mReturnRunnable, RETURN_DELAY_MS);
+    }
+
     @Override
     protected void onUserLeaveHint() {
         super.onUserLeaveHint();
-        // The hint also comes when an app starting up brings its task to the front
-        if (isUserLeave()) {
+        // On the first start the launcher tells us about FN instead (onHome)
+        if (!mFirstStart) {
             onLeft();
         }
     }
@@ -613,64 +783,19 @@ public class TutorialActivity extends Activity {
     protected void onStop() {
         super.onStop();
         // Not when the screen just went off: that's the power step
-        if (isFinishing() || !isInteractive()) {
+        if (mFirstStart || isFinishing() || !isInteractive()) {
             return;
         }
-        if (!isUserLeave()) {
-            comeBackWhenHomeSettles();
-        } else if (current().id == STEP_HOME) {
+        if (current().id == STEP_HOME) {
             // Belt and braces for the FN step, in case the leave hint didn't come
             onLeft();
         }
     }
 
-    /**
-     * Whether the user sent us away (FN), rather than the home app covering us by itself while
-     * it starts up. FN never reaches the app, so this goes by the other buttons: none pressed
-     * yet, none for a minute, or still in the first seconds after opening means it wasn't the
-     * user. On the FN step any earlier press counts, since that step asks for FN.
-     */
-    private boolean isUserLeave() {
-        if (mLastInputTime == 0) {
-            return false;
-        }
-        if (current().id == STEP_HOME) {
-            return true;
-        }
-        final long now = SystemClock.uptimeMillis();
-        // Right after opening or coming back by itself, a cover is the home app still
-        // starting up: on a first start the FN step is where Daijishou first opens, and it
-        // brings itself to the front more than once
-        if (now - mCreateTime < AUTO_COVER_WINDOW_MS
-                || (mReturnTime != 0 && now - mReturnTime < AUTO_COVER_WINDOW_MS)) {
-            return false;
-        }
-        return now - mLastInputTime < USER_ACTIVE_MS;
-    }
-
-    /** Covered without the user doing anything: come back once, when home has settled. */
-    private void comeBackWhenHomeSettles() {
-        if (mAutoReturned || mComeBack.isRunning()) {
-            return;
-        }
-        mAutoReturned = true;
-        Log.i(TAG, "Covered by another app without a button press, coming back");
-        mComeBack.start();
-    }
-
-    // Only onto a settled home screen: if something else is still in front after the timeout,
-    // the user started it, so stay in the background
-    private final HomeWaiter mComeBack = new HomeWaiter(this, timedOut -> {
-        if (!timedOut) {
-            bringToFront();
-        }
-    });
-
     private void bringToFront() {
         if (isFinishing() || isDestroyed() || mResumed) {
             return;
         }
-        mReturnTime = SystemClock.uptimeMillis();
         try {
             // Runs as the system uid, so it may come back to the front from the background
             startActivity(new Intent(this, TutorialActivity.class)
@@ -682,10 +807,9 @@ public class TutorialActivity extends Activity {
     }
 
     /**
-     * The user went to the home screen, most likely with FN. On a step about FN that's the
-     * point (or a slip), so the tutorial comes back, up to MAX_RETURNS times per step. Anywhere
-     * else, or after that, the user left on purpose: stay in the background and don't open by
-     * itself on the next start.
+     * Opened from the guide: the user went to the home screen, most likely with FN. On a step
+     * about FN that's the point (or a slip), so the tutorial comes back, up to MAX_RETURNS times
+     * per step. Anywhere else, or after that, the user left on purpose: stay in the background.
      */
     private void onLeft() {
         if (isFinishing() || mReturnPending) {

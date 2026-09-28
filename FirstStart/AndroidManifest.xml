@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The first-start launcher. Only a home activity that hands over to the quick start guide's
+     tutorial. The guide uninstalls it when the tutorial is done. -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="org.andr36oid.firststart"
+    android:versionCode="1"
+    android:versionName="1">
+
+    <!-- Defined by the quick start guide (signature): lets this app tell it about home -->
+    <uses-permission android:name="org.andr36oid.guide.permission.FIRST_START" />
+
+    <queries>
+        <package android:name="org.andr36oid.guide" />
+    </queries>
+
+    <application
+        android:allowBackup="false"
+        android:label="@string/app_name"
+        android:supportsRtl="true">
+
+        <activity
+            android:name=".HomeActivity"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:stateNotNeeded="true"
+            android:excludeFromRecents="true"
+            android:screenOrientation="nosensor"
+            android:configChanges="keyboard|keyboardHidden|navigation|touchscreen|orientation|screenSize|screenLayout|smallestScreenSize"
+            android:theme="@style/HomeTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.HOME" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>
