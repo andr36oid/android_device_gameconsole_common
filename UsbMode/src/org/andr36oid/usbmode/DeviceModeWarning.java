@@ -30,6 +30,7 @@ final class DeviceModeWarning {
             message.append(context.getString(R.string.warning_wifi_found, wifi)).append("\n\n");
         }
         message.append(context.getString(R.string.warning_wifi));
+        message.append("\n\n").append(context.getString(R.string.charging_warning));
 
         final boolean[] confirmed = new boolean[1];
         final AlertDialog dialog = new AlertDialog.Builder(context,

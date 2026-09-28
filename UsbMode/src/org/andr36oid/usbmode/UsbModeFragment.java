@@ -84,6 +84,13 @@ public class UsbModeFragment extends PreferenceFragment
         if (mWarning != null) {
             return;
         }
+        if (mUsbMode.isCharging()) {
+            Toast.makeText(getActivity(), R.string.charging_refused, Toast.LENGTH_LONG).show();
+            if (fromTile) {
+                getActivity().finish();
+            }
+            return;
+        }
         mWarning = DeviceModeWarning.show(getActivity(), mUsbMode,
                 new DeviceModeWarning.Callback() {
                     @Override
@@ -106,7 +113,10 @@ public class UsbModeFragment extends PreferenceFragment
         if (getActivity() == null) {
             return;
         }
-        if (!mUsbMode.setDevice(device)) {
+        if (device && mUsbMode.isCharging()) {
+            // Plugged in while the warning was open.
+            Toast.makeText(getActivity(), R.string.charging_refused, Toast.LENGTH_LONG).show();
+        } else if (!mUsbMode.setDevice(device)) {
             Toast.makeText(getActivity(), R.string.usb_mode_failed, Toast.LENGTH_SHORT).show();
         }
         // Shows what the kernel ended up with rather than what was asked for.

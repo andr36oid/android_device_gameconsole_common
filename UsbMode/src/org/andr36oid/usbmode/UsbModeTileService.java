@@ -20,6 +20,10 @@ public class UsbModeTileService extends TileService {
             return;
         }
         final boolean device = !usbMode.isDevice();
+        if (device && usbMode.isCharging()) {
+            Toast.makeText(this, R.string.charging_refused, Toast.LENGTH_LONG).show();
+            return;
+        }
         if (device && (!usbMode.isConfirmedThisBoot() || usbMode.getWifiOnOtgPort() != null)) {
             // The warning about built-in Wi-Fi needs a real screen with a controller-friendly
             // dialog, so the tile opens USB mode and asks there. Once confirmed, the tile

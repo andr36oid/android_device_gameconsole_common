@@ -3,9 +3,12 @@ package org.andr36oid.usbmode;
 import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.hardware.usb.UsbManager;
+import android.os.BatteryManager;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.text.TextUtils;
@@ -45,6 +48,9 @@ final class UsbMode {
 
     static final String KEY_FUNCTIONS = "functions";
     private static final String KEY_CONFIRMED_BOOT = "confirmed_boot";
+    private static final String KEY_DEVICE_BOOT = "device_boot";
+
+    private static final String POWER_SUPPLIES = "/sys/class/power_supply";
     static final String FUNCTIONS_MTP = "mtp";
     static final String FUNCTIONS_PTP = "ptp";
     static final String FUNCTIONS_NONE = "none";
@@ -65,7 +71,16 @@ final class UsbMode {
         return DEVICE.equals(read(OTG_MODE));
     }
 
+    /**
+     * Callers check {@link #isCharging()} first to explain why. Device mode is refused while
+     * charging: the OTG port's 5 V is always on, and a computer adds its own 5 V on the same line
+     * while the charger feeds the other port. The kernel refuses it too.
+     */
     boolean setDevice(boolean device) {
+        if (device && isCharging()) {
+            Log.w(TAG, "Not switching to device mode while charging");
+            return false;
+        }
         // Pick the functions before the port turns into a device, so the computer sees the
         // right ones straight away instead of adb alone and then a reconnect.
         if (device) {
@@ -75,13 +90,57 @@ final class UsbMode {
             write(OTG_MODE, device ? DEVICE : HOST);
         } catch (IOException e) {
             Log.e(TAG, "Couldn't switch the OTG port to " + (device ? DEVICE : HOST), e);
+            if (device) {
+                applyFunctions(false);
+            }
             return false;
         }
         if (!device) {
             applyFunctions(false);
         }
+        final boolean ok = isDevice() == device;
+        setDeviceMarker(device && ok);
+        if (device && ok) {
+            // Watches for a charger while the port is a device.
+            mContext.startForegroundService(new Intent(mContext, UsbModeService.class));
+        } else if (!device) {
+            mContext.stopService(new Intent(mContext, UsbModeService.class));
+        }
         showTile();
-        return isDevice() == device;
+        return ok;
+    }
+
+    /**
+     * True when a charger is plugged into the console. Android's battery status and the kernel's
+     * power supplies are both checked. A computer on the OTG port never shows up as a charger:
+     * the phy runs no charger detection on that port, only the DC port's detect pin counts.
+     */
+    boolean isCharging() {
+        final Intent battery = mContext.registerReceiver(null,
+                new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+        if (battery != null && battery.getIntExtra(BatteryManager.EXTRA_PLUGGED, 0) != 0) {
+            return true;
+        }
+        final File[] supplies = new File(POWER_SUPPLIES).listFiles();
+        if (supplies == null) {
+            return false;
+        }
+        for (File supply : supplies) {
+            final String path = supply.getPath();
+            if (!"Battery".equals(read(path + "/type")) && "1".equals(read(path + "/online"))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /** True when this app put the port in device mode since the last restart. */
+    boolean wasDeviceThisBoot() {
+        return prefs().getInt(KEY_DEVICE_BOOT, -1) == bootCount();
+    }
+
+    void setDeviceMarker(boolean device) {
+        prefs().edit().putInt(KEY_DEVICE_BOOT, device ? bootCount() : -1).commit();
     }
 
     /**
