@@ -4,4 +4,6 @@
 <permissions>
     <!-- No BackupManagerService, no transport processes bound at boot. -->
     <unavailable-feature name="android.software.backup" />
+    <!-- No camera and no camera daemon; apps must not offer camera features. -->
+    <unavailable-feature name="android.hardware.camera" />
 </permissions>

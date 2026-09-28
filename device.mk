@@ -498,7 +498,9 @@ PRODUCT_PACKAGES += \
 	remove-QuickSearchBox \
 	remove-Seedvault \
 	remove-Updater \
-	remove-WAPPushManager
+	remove-WAPPushManager \
+	remove-cameraserver \
+	remove-android.hardware.cas@1.2-service
 
 # Run the network stack and tethering inside system_server instead of
 # two separate persistent processes (same as Android Go).

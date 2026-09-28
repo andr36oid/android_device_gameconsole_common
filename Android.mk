@@ -186,6 +186,19 @@ LOCAL_MODULE                         := remove-WAPPushManager
 EXECUTABLES.remove-WAPPushManager.OVERRIDES := WAPPushManager
 include $(BUILD_PHONY_PACKAGE)
 
+# No camera on these consoles and no camera provider HAL is built, so the
+# camera daemon only costs memory.
+include $(CLEAR_VARS)
+LOCAL_MODULE                         := remove-cameraserver
+EXECUTABLES.remove-cameraserver.OVERRIDES := cameraserver
+include $(BUILD_PHONY_PACKAGE)
+
+# Media CAS is for scrambled TV streams; no app here uses it.
+include $(CLEAR_VARS)
+LOCAL_MODULE                         := remove-android.hardware.cas@1.2-service
+EXECUTABLES.remove-android.hardware.cas@1.2-service.OVERRIDES := android.hardware.cas@1.2-service
+include $(BUILD_PHONY_PACKAGE)
+
 # if some modules are built directly from this directory (not subdirectories),
 # their rules should be written here.
 
