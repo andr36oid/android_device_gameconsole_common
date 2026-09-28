@@ -84,7 +84,7 @@
 
     <!-- Internet -->
     <string name="internet_title">Going online</string>
-    <string name="internet_wifi">The console has no Wi-Fi built in. Plug a USB Wi-Fi adapter into the OTG port, with a USB-C adapter if it needs one, then turn on Wi-Fi in Settings &gt; Network &amp; internet.</string>
+    <string name="internet_wifi">Most R36S consoles have no Wi-Fi built in, but some models, such as the R36XX, do. If yours has it, just turn on Wi-Fi in Settings &gt; Network &amp; internet. If not, plug a USB Wi-Fi adapter into the OTG port, with a USB-C adapter if it needs one, then turn on Wi-Fi there.</string>
     <string name="internet_browser">Cromite is the web browser.</string>
 
     <!-- Troubleshooting -->
