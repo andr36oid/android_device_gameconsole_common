@@ -428,6 +428,12 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
 	Andr36oidCredits
 
+# BIOS check: which BIOS files are missing or wrong, copies the good ones to RetroArch
+# (Settings top level, and in the app list)
+PRODUCT_PACKAGES += \
+	BiosCheck \
+	andr36oid-bioscheck
+
 # Remove phone packages that added by default product configuration
 PRODUCT_PACKAGES += \
     	remove-BlockedNumberProvider \

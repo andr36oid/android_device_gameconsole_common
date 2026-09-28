@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_title">BIOS check</string>
+    <string name="app_summary">Find out why a game won\'t start: missing or wrong BIOS files</string>
+
+    <!-- The header of the main page -->
+    <string name="where_title">Put BIOS files in the bios folder on EASYROMS</string>
+    <!-- %1$s: where RetroArch reads them, e.g. Internal storage/RetroArch/system -->
+    <string name="where_summary">The emulators read them from %1$s. Copy to emulators puts the good ones there.</string>
+    <string name="where_no_easyroms">EASYROMS isn\'t mounted, so there is no bios folder to check. Only RetroArch\'s folder (%1$s) is checked.</string>
+    <string name="checking">Checking…</string>
+    <string name="check_failed">The check couldn\'t run. Restart the console and try again.</string>
+
+    <string name="copy_title">Copy to emulators</string>
+    <!-- %1$d: number of files -->
+    <plurals name="copy_summary">
+        <item quantity="one">%1$d good file is ready to copy</item>
+        <item quantity="other">%1$d good files are ready to copy</item>
+    </plurals>
+    <plurals name="copy_summary_conflicts">
+        <item quantity="one">%1$d more would replace a different file; you\'ll be asked</item>
+        <item quantity="other">%1$d more would replace different files; you\'ll be asked</item>
+    </plurals>
+    <string name="copy_nothing">Nothing to copy: every good file is already in place</string>
+    <string name="copy_running">Copying…</string>
+
+    <string name="rename_category">Wrong file names</string>
+    <!-- %1$s: the right name, %2$s: what it is -->
+    <string name="rename_summary">This is %1$s (%2$s). Select to rename it so the emulators find it.</string>
+    <string name="rename_dialog_title">Rename file?</string>
+    <!-- %1$s: the file\'s name now, %2$s: the right name, %3$s: what it is -->
+    <string name="rename_dialog_message">\"%1$s\" is %2$s (%3$s). Renaming it lets the emulators find it.</string>
+    <string name="rename_button">Rename</string>
+
+    <string name="systems_category">Systems</string>
+    <string name="other_category">Other files in the bios folder</string>
+    <string name="unknown_summary">Not a BIOS file these emulators use</string>
+    <string name="unknown_summary_big">Not a BIOS file these emulators use (too big to check)</string>
+    <!-- %1$s: the right name -->
+    <string name="duplicate_summary">A copy of %1$s, which is already there. Not needed.</string>
+    <string name="none_needed">No BIOS needed: NES, SNES, Mega Drive / Genesis, 32X, Neo Geo Pocket, WonderSwan, Atari 2600 and PSP.</string>
+    <string name="rescan_title">Check again</string>
+    <string name="rescan_summary">After adding or removing files</string>
+
+    <!-- System summaries. %1$s: file names -->
+    <string name="level_ok">OK: %1$s</string>
+    <string name="level_ready">Good files found. Use Copy to emulators to put them in place.</string>
+    <string name="level_optional_missing">No BIOS (optional: games start without one)</string>
+    <string name="level_wrong">Wrong file: %1$s</string>
+    <string name="level_recommended_missing">No BIOS found (recommended)</string>
+    <string name="level_required_missing">Missing: %1$s (needed)</string>
+
+    <!-- The detail page -->
+    <string name="files_category">BIOS files</string>
+    <string name="copy_system_title">Copy this system\'s files to emulators</string>
+    <string name="state_ok">OK, in RetroArch\'s system folder</string>
+    <string name="state_ready">Good file in the bios folder. Copy to emulators puts it in place.</string>
+    <!-- %1$s: the file\'s name there -->
+    <string name="state_ready_as">Good file in the bios folder (named %1$s). Copy to emulators puts it in place.</string>
+    <string name="state_ready_elsewhere">Good file found in another RetroArch folder. Copy to emulators puts it in place.</string>
+    <string name="state_conflict">RetroArch\'s system folder has a different file. A good one is in the bios folder: select to replace it.</string>
+    <!-- %1$s: the right name, %2$s: what it is -->
+    <string name="state_wrong_is">Wrong file: this is really %1$s (%2$s)</string>
+    <string name="state_wrong_unknown">Wrong file: its MD5 doesn\'t match the known-good one. It may be a bad dump or another version.</string>
+    <string name="state_wrong_in_system">(in RetroArch\'s system folder)</string>
+    <string name="state_wrong_in_bios">(in the bios folder)</string>
+    <string name="state_missing_required">Missing, needed</string>
+    <string name="state_missing_oneof">Missing (one BIOS of this system is enough)</string>
+    <string name="state_missing_optional">Missing (optional)</string>
+
+    <string name="details_what">What: %1$s</string>
+    <string name="details_cores">Used by: %1$s</string>
+    <string name="details_md5">Known-good MD5: %1$s</string>
+    <string name="details_md5_any">Known-good MD5: any file with this name works</string>
+    <!-- %1$s: path, %2$s: its MD5 -->
+    <string name="details_found">Found: %1$s\nMD5 %2$s</string>
+    <string name="close">Close</string>
+
+    <string name="replace_dialog_title">Replace different files?</string>
+    <string name="replace_dialog_message">RetroArch\'s system folder already has these files, but they are different from the good ones in your bios folder:\n\n%1$s\nReplace them?</string>
+    <!-- %1$s: file name, %2$s: what the file there is -->
+    <string name="replace_line">%1$s (the one there: %2$s)\n</string>
+    <string name="replace_unknown">not a known version</string>
+    <string name="replace_button">Replace</string>
+    <string name="keep_button">Keep them</string>
+
+    <!-- After copying and renaming -->
+    <plurals name="done_copied">
+        <item quantity="one">Copied %1$d file.</item>
+        <item quantity="other">Copied %1$d files.</item>
+    </plurals>
+    <plurals name="done_renamed">
+        <item quantity="one">Renamed %1$d file.</item>
+        <item quantity="other">Renamed %1$d files.</item>
+    </plurals>
+    <plurals name="done_kept">
+        <item quantity="one">Kept %1$d different file.</item>
+        <item quantity="other">Kept %1$d different files.</item>
+    </plurals>
+    <plurals name="done_failed">
+        <item quantity="one">%1$d file failed.</item>
+        <item quantity="other">%1$d files failed.</item>
+    </plurals>
+    <string name="done_nothing">Nothing changed.</string>
+
+    <string name="path_internal">Internal storage</string>
+    <string name="path_easyroms">EASYROMS</string>
+</resources>
