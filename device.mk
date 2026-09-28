@@ -98,7 +98,8 @@ PRODUCT_COPY_FILES += \
     	
 PRODUCT_COPY_FILES += \
     	$(LOCAL_PATH)/init.rk30board.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.rk30board.rc \
-    	$(LOCAL_PATH)/init.rk30board.rc:$(TARGET_COPY_OUT_ROOT)/init.rk30board.rc
+    	$(LOCAL_PATH)/init.rk30board.rc:$(TARGET_COPY_OUT_ROOT)/init.rk30board.rc \
+    	$(LOCAL_PATH)/init.rk30board.usb.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.rk30board.usb.rc
 
 # RTL BLUETOOTH
 PRODUCT_COPY_FILES += \
@@ -428,6 +429,11 @@ PRODUCT_PACKAGES += \
 # CPU overclock (Settings > CPU overclock, Quick Settings tile once used)
 PRODUCT_PACKAGES += \
 	CpuOverclock
+
+# USB mode: switches the OTG port between host and device (adb, MTP)
+# (Settings > USB mode, Quick Settings tile once used)
+PRODUCT_PACKAGES += \
+	UsbMode
 
 # Credits, an easter egg behind the andr36oid version in Settings > About console
 PRODUCT_PACKAGES += \

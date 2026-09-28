@@ -1,0 +1,12 @@
+// Settings > USB mode and its Quick Settings tile. Runs as the system user,
+// which init gives the usb2 phy's otg_mode file to.
+android_app {
+    name: "UsbMode",
+    srcs: ["src/**/*.java"],
+    resource_dirs: ["res"],
+    certificate: "platform",
+    platform_apis: true,
+    optimize: {
+        enabled: false,
+    },
+}

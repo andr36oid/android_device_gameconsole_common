@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <SwitchPreference
+        android:key="device"
+        android:persistent="false"
+        android:title="@string/usb_mode_switch" />
+
+    <Preference
+        android:key="about"
+        android:selectable="false"
+        android:summary="@string/usb_mode_about" />
+</PreferenceScreen>
