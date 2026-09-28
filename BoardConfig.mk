@@ -138,9 +138,10 @@ BOARD_SYSTEMIMAGE_FILE_SYSTEM_TYPE := ext4
 TARGET_COPY_OUT_VENDOR := vendor
 BOARD_VENDORIMAGE_PARTITION_RESERVED_SIZE := 33554432 # 32M
 ifeq ($(TARGET_GAMECONSOLE_VULKAN),true)
-# The g2p0 blobs are about 37M bigger than the default ones. With 32M free the
-# vendor image no longer fits the 160M partition, so keep only 2M free.
-BOARD_VENDORIMAGE_PARTITION_RESERVED_SIZE := 2097152 # 2M
+# The g2p0 blobs and gralloc 4 add about 38M, so the image (about 167M used
+# plus the reserve) no longer fits 160M. The device mkimg.sh then makes the
+# vendor partition 192M. 16M free leaves room below that.
+BOARD_VENDORIMAGE_PARTITION_RESERVED_SIZE := 16777216 # 16M
 endif
 BOARD_VENDORIMAGE_FILE_SYSTEM_TYPE := ext4
 # Creates the /metadata mount point, Magisk keeps its early data there
