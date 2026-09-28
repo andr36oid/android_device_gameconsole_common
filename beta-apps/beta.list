@@ -9,3 +9,4 @@ com.termux 1002 Termux.apk
 dev.sebaubuntu.athena 17 Athena.apk
 com.ghisler.android.TotalCommander 2490 TotalCommander.apk
 com.ghisler.tcplugins.LAN 106 TotalCommanderLAN.apk
+com.ghisler.tcplugins.SFTP 60 TotalCommanderSFTP.apk
