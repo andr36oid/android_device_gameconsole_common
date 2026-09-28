@@ -244,18 +244,37 @@ PRODUCT_COPY_FILES += \
         frameworks/native/data/etc/android.hardware.bluetooth.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.bluetooth.xml \
         frameworks/native/data/etc/android.hardware.bluetooth_le.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.bluetooth_le.xml 
 
+ifeq ($(TARGET_GAMECONSOLE_VULKAN),true)
+# Experimental Vulkan from the g2p0 blob (mali/Android.mk). Mali-G31 on this
+# driver is not validated for anything higher, so advertise the baseline:
+# Vulkan 1.1, hardware level 0, compute level 0.
+PRODUCT_COPY_FILES += \
+    frameworks/native/data/etc/android.hardware.vulkan.level-0.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.vulkan.level.xml \
+    frameworks/native/data/etc/android.hardware.vulkan.version-1_1.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.vulkan.version.xml \
+    frameworks/native/data/etc/android.hardware.vulkan.compute-0.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.vulkan.compute.xml
+
+# The loader tries vulkan.<ro.hardware.vulkan>.so, then vulkan.<ro.board.platform>.so
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.hardware.vulkan=$(TARGET_BOARD_PLATFORM)
+
+PRODUCT_PACKAGES += \
+    vulkan.$(TARGET_BOARD_PLATFORM)
+else
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.vulkan.level-1.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.vulkan.level.xml \
     frameworks/native/data/etc/android.hardware.vulkan.version-1_1.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.vulkan.version.xml \
     frameworks/native/data/etc/android.hardware.vulkan.compute-0.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.vulkan.compute.xml
+endif
 
 # Specify OpenGLES version 
 PRODUCT_PROPERTY_OVERRIDES += \
     	ro.opengles.version=196610
 
+ifneq ($(TARGET_GAMECONSOLE_VULKAN),true)
 PRODUCT_PROPERTY_OVERRIDES += \
 	ro.hardware.vulkan=rk30board \
     	
+endif
 #binary blobs from ARM
 #	vulkan.rk30board \
 
