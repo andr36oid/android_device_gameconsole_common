@@ -29,7 +29,7 @@ import java.util.Set;
 public class ReportTest {
 
     static int failures;
-    static File root, easyroms, bios, raData, dir;
+    static File root, easyroms, bios, raData, dir, media, part;
     static String helper, shell;
 
     public static void main(String[] args) throws Exception {
@@ -109,6 +109,8 @@ public class ReportTest {
         pb.environment().put("BIOSCHECK_DIR", dir.getPath());
         pb.environment().put("BIOSCHECK_RA_DATA", raData.getPath());
         pb.environment().put("BIOSCHECK_EASYROMS", easyroms.getPath());
+        pb.environment().put("BIOSCHECK_MEDIA", media.getPath());
+        pb.environment().put("BIOSCHECK_PART", part.getPath());
         final int rc = pb.start().waitFor();
         check(rc == 0 && read(new File(dir, "status")).trim().equals("done"),
                 "helper " + action + " finished");
@@ -144,6 +146,11 @@ public class ReportTest {
         raData = new File(root, "ra");
         dir = new File(root, "state");
         dir.mkdirs();
+        media = new File(root, "media");
+        media.mkdirs();
+        // EASYROMS's partition is there (a .noroms card has none)
+        part = new File(root, "mmcblk0p7");
+        put(root, "mmcblk0p7", "");
 
         // cores: no Genesis Plus GX, but FBNeo from the online updater
         for (String c : new String[] { "pcsx_rearmed", "fceumm", "mgba", "gambatte",
@@ -299,10 +306,40 @@ public class ReportTest {
         easyroms = new File(root, "gone");
         helper("scan", null);
         final Scan gone = scan();
-        check(gone.biosDir == null && gone.easyroms == null && !gone.cores.isEmpty(),
-                "no EASYROMS: no bios folder");
+        check(gone.biosDir == null && gone.easyroms == null && !gone.internal
+                && !gone.cores.isEmpty(), "EASYROMS not mounted: no bios folder, not internal");
         helper("rename", b + "/x.bin\t" + b + "/y.bin\n");
         check(read(new File(dir, "result")).startsWith("failed "), "no EASYROMS: rename fails");
         easyroms = saved;
+
+        // a card made with .noroms: no partition 7, the bios folder is on the internal
+        // storage
+        part.delete();
+        helper("scan", null);
+        Scan in = scan();
+        final File ibios = new File(media, "bios");
+        check(in.internal && in.easyroms == null && ibios.isDirectory()
+                && in.biosDir.equals(ibios.getPath()), "no EASYROMS partition: internal bios folder made");
+        put(ibios, "japan.bin", jp);
+        put(ibios, "SCPH5501.BIN", us);
+        helper("scan", null);
+        r = report(t);
+        check(state(r, "scph5501.bin").state == Report.FOUND, "internal: scph5501.bin found");
+        check(r.renames.size() == 1 && r.renames.get(0).toPath.equals(ibios + "/scph5500.bin"),
+                "internal: japan.bin to be renamed");
+        final String i = ibios.getPath();
+        helper("rename", Report.ops(r.renames) + i + "/SCPH5501.BIN\t" + easyroms + "/x.bin\n");
+        check(new File(ibios, "scph5500.bin").exists() && new File(ibios, "SCPH5501.BIN").exists()
+                && read(new File(dir, "result")).contains("failed "),
+                "internal: renamed, but nothing moves out of the folder");
+        r = report(t);
+        check(r.renames.isEmpty() && level(r, "psx") == Report.LEVEL_READY, "internal: PlayStation ready");
+
+        // the card is swapped for one with EASYROMS again
+        put(root, "mmcblk0p7", "");
+        helper("scan", null);
+        in = scan();
+        check(!in.internal && in.easyroms != null && in.biosDir.startsWith(easyroms.getPath()),
+                "EASYROMS back: its bios folder again");
     }
 }

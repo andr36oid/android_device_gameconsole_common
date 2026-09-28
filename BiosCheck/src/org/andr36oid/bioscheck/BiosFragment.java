@@ -21,12 +21,9 @@ public class BiosFragment extends CheckFragment {
         final PreferenceScreen screen = getPreferenceScreen();
         screen.removeAll();
 
-        if (mReport != null && !mounted()) {
-            screen.addPreference(text(c, c.getString(R.string.no_easyroms_title),
-                    c.getString(R.string.no_easyroms_summary)));
-            return;
-        }
-        screen.addPreference(text(c, null, c.getString(R.string.intro)));
+        if (unavailable(c)) return;
+        screen.addPreference(text(c, null, c.getString(mScan != null && mScan.internal
+                ? R.string.intro_internal : R.string.intro)));
         if (mFailed) {
             screen.addPreference(text(c, null, c.getString(R.string.check_failed)));
             return;

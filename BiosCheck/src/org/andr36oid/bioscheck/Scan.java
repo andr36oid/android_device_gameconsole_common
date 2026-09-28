@@ -21,6 +21,9 @@ final class Scan {
 
     /** Where EASYROMS and its bios folder are mounted, null if not. */
     String easyroms, biosDir;
+    /** The card has no EASYROMS partition (.noroms): the bios folder is on the
+     *  internal storage. */
+    boolean internal;
     final Set<String> cores = new HashSet<>();
     /** The files in the bios folder and its subfolders. */
     final List<Found> files = new ArrayList<>();
@@ -36,6 +39,9 @@ final class Scan {
             switch (f[0]) {
                 case "easyroms":
                     s.easyroms = f[1];
+                    break;
+                case "internal":
+                    s.internal = true;
                     break;
                 case "bios":
                     s.biosDir = f[1];

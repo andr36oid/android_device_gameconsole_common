@@ -13,13 +13,18 @@ import java.util.List;
 final class Texts {
 
     private static final String MEDIA_RW = "/mnt/media_rw/";
+    private static final String MEDIA = "/data/media/0";
 
     private Texts() {
     }
 
-    /** A path as the user knows it: EASYROMS/bios/... */
+    /** A path as the user knows it: EASYROMS/bios/..., Internal storage/bios/... */
     static String path(Context c, String path) {
-        if (path == null || !path.startsWith(MEDIA_RW)) return path;
+        if (path == null) return null;
+        if (path.startsWith(MEDIA + "/")) {
+            return c.getString(R.string.path_internal) + path.substring(MEDIA.length());
+        }
+        if (!path.startsWith(MEDIA_RW)) return path;
         final int slash = path.indexOf('/', MEDIA_RW.length());
         return c.getString(R.string.path_easyroms) + (slash < 0 ? "" : path.substring(slash));
     }
