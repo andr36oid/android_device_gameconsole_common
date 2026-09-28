@@ -31,8 +31,9 @@ final class HardwareButton {
             round(305, "BUTTON_B", R.string.button_b, "B", 200, 72),
             pill(312, "BUTTON_L2", R.string.button_l2, "L2", false, 14, 3, 44, 16),
             pill(310, "BUTTON_L1", R.string.button_l1, "L1", false, 48, 3, 78, 16),
-            pill(311, "BUTTON_R1", R.string.button_r1, "R1", false, 162, 3, 192, 16),
-            pill(313, "BUTTON_R2", R.string.button_r2, "R2", false, 196, 3, 226, 16),
+            // R1 sits at the outer edge, R2 inside, next to the volume buttons
+            pill(311, "BUTTON_R1", R.string.button_r1, "R1", false, 196, 3, 226, 16),
+            pill(313, "BUTTON_R2", R.string.button_r2, "R2", false, 162, 3, 192, 16),
             stick(158, "BUTTON_THUMBL", R.string.button_l3, "L3", 60, 112),
             stick(125, "BUTTON_THUMBR", R.string.button_r3, "R3", 180, 112),
             pill(314, "BUTTON_SELECT", R.string.button_select, "SELECT", true, 88, 107, 108, 115),
