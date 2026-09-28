@@ -34,6 +34,9 @@ endif
 TARGET_RK_GRALLOC_VERSION := 4
 include device/gameconsole/common/gralloc.device.mk
 else
+ifeq ($(TARGET_RK_GRALLOC_VERSION),4)
+$(error TARGET_RK_GRALLOC_VERSION=4 is set in the environment but TARGET_GAMECONSOLE_VULKAN is not true, librga would build for the wrong gralloc)
+endif
 TARGET_RK_GRALLOC_VERSION := 2
 endif
 
