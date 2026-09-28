@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- A chapter in the list: accent ring when focused, soft fill when it is the one shown -->
+<!-- A chapter in the list: accent ring when focused, the system's soft highlight when it is
+     the one shown -->
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_focused="true">
         <shape>
-            <corners android:radius="10dp" />
-            <solid android:color="#2680DEEA" />
-            <stroke android:width="2dp" android:color="@color/guide_accent" />
+            <corners android:radius="8dp" />
+            <solid android:color="?android:attr/colorControlHighlight" />
+            <stroke android:width="2dp" android:color="?android:attr/colorAccent" />
         </shape>
     </item>
     <item android:state_selected="true">
         <shape>
-            <corners android:radius="10dp" />
-            <solid android:color="@color/guide_panel" />
+            <corners android:radius="8dp" />
+            <solid android:color="?android:attr/colorControlHighlight" />
         </shape>
     </item>
     <item>
         <shape>
-            <corners android:radius="10dp" />
+            <corners android:radius="8dp" />
             <solid android:color="@android:color/transparent" />
         </shape>
     </item>

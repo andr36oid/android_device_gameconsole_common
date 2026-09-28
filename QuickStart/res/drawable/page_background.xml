@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- The page: a faint panel, ringed while the D-pad scrolls it -->
+<!-- The page: a faint panel in the system's highlight colour, ringed while the D-pad scrolls
+     it -->
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_focused="true">
         <shape>
-            <corners android:radius="14dp" />
-            <solid android:color="@color/guide_panel" />
-            <stroke android:width="2dp" android:color="@color/guide_accent" />
+            <corners android:radius="8dp" />
+            <solid android:color="?android:attr/colorControlHighlight" />
+            <stroke android:width="2dp" android:color="?android:attr/colorAccent" />
         </shape>
     </item>
     <item>
         <shape>
-            <corners android:radius="14dp" />
-            <solid android:color="@color/guide_panel" />
+            <corners android:radius="8dp" />
+            <solid android:color="?android:attr/colorControlHighlight" />
         </shape>
     </item>
 </selector>
