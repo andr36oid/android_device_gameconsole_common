@@ -13,9 +13,8 @@ import android.util.Log;
 /**
  * Opens the tutorial on the first start after the setup wizard, until it was finished or
  * skipped. On the very first boot the wizard is still on screen when the boot completes, so it
- * waits for the wizard to finish. The wizard normally opens the tutorial itself as its last
- * step; this is the fallback for a wizard without that step, and for consoles updated from a
- * build without the tutorial (they see it once and can skip it on the first page).
+ * waits for the wizard to finish. Consoles updated from a build without the tutorial see it once
+ * and can skip it on the first page.
  */
 public class FirstBootReceiver extends BroadcastReceiver {
 
@@ -23,6 +22,7 @@ public class FirstBootReceiver extends BroadcastReceiver {
     private static final String PREFS = "guide";
     private static final String PREF_SHOWN = "shown";
     static final int JOB_SETUP_DONE = 1;
+    static final int JOB_SHOW = 2;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -30,7 +30,7 @@ public class FirstBootReceiver extends BroadcastReceiver {
             return;
         }
         if (isSetupDone(context)) {
-            show(context);
+            scheduleShow(context);
         } else {
             waitForSetup(context);
         }
@@ -47,8 +47,20 @@ public class FirstBootReceiver extends BroadcastReceiver {
                 new ComponentName(context, SetupDoneJobService.class))
                 .addTriggerContentUri(new JobInfo.TriggerContentUri(
                         Settings.Secure.getUriFor(Settings.Secure.USER_SETUP_COMPLETE), 0))
-                // Let the wizard's last page close and the home screen come up first
                 .setTriggerContentUpdateDelay(1500)
+                .build();
+        context.getSystemService(JobScheduler.class).schedule(job);
+    }
+
+    /**
+     * Runs SetupDoneJobService right away. It waits for the home screen to settle (HomeWaiter)
+     * before it opens anything, since the home app still starts up for a few seconds after
+     * boot or after the wizard and would cover what opened first.
+     */
+    static void scheduleShow(Context context) {
+        final JobInfo job = new JobInfo.Builder(JOB_SHOW,
+                new ComponentName(context, SetupDoneJobService.class))
+                .setOverrideDeadline(0)
                 .build();
         context.getSystemService(JobScheduler.class).schedule(job);
     }
@@ -60,9 +72,7 @@ public class FirstBootReceiver extends BroadcastReceiver {
      * tutorial's last page offers it.
      */
     static void show(Context context) {
-        context.getSystemService(JobScheduler.class).cancel(JOB_SETUP_DONE);
         if (TutorialActivity.isOpen()) {
-            // The setup wizard already opened it as its last step
             return;
         }
         try {
@@ -88,7 +98,9 @@ public class FirstBootReceiver extends BroadcastReceiver {
         if (!wasShown(context)) {
             prefs(context).edit().putBoolean(PREF_SHOWN, true).apply();
         }
-        context.getSystemService(JobScheduler.class).cancel(JOB_SETUP_DONE);
+        final JobScheduler jobs = context.getSystemService(JobScheduler.class);
+        jobs.cancel(JOB_SETUP_DONE);
+        jobs.cancel(JOB_SHOW);
     }
 
     private static SharedPreferences prefs(Context context) {

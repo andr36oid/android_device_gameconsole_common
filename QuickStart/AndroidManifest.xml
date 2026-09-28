@@ -53,8 +53,9 @@
             </intent-filter>
         </activity-alias>
 
-        <!-- Hands-on tutorial: the setup wizard's last step opens it (ACTION_TUTORIAL), and
-             FirstBootReceiver opens it if the wizard didn't. X in the guide opens it again. -->
+        <!-- Hands-on tutorial: FirstBootReceiver opens it once after setup, when the home
+             screen has settled. X in the guide opens it again. The action is for adb:
+             am start -a org.andr36oid.guide.action.TUTORIAL -->
         <activity
             android:name=".TutorialActivity"
             android:exported="true"
@@ -70,8 +71,8 @@
             </intent-filter>
         </activity>
 
-        <!-- Opens the tutorial once, as soon as the setup wizard is done, if the wizard
-             didn't already -->
+        <!-- Opens the tutorial once the setup wizard is done and the home screen has
+             settled -->
         <receiver
             android:name=".FirstBootReceiver"
             android:exported="false">

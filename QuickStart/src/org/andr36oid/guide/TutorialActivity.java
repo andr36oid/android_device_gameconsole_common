@@ -12,6 +12,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.PowerManager;
 import android.os.StatFs;
+import android.os.SystemClock;
 import android.os.SystemProperties;
 import android.os.storage.StorageManager;
 import android.os.storage.StorageVolume;
@@ -67,6 +68,10 @@ public class TutorialActivity extends Activity {
     private static final int MAX_RETURNS = 2;
     private static final long MOUSE_POLL_MS = 300;
     private static final long FOCUS_CHECK_MS = 300;
+    /** Home covering us this soon after opening is the home app still starting up. */
+    private static final long AUTO_COVER_WINDOW_MS = 15000;
+    /** No button for this long, and going home wasn't the user either. */
+    private static final long USER_ACTIVE_MS = 60000;
     private static final float STICK_THRESHOLD = 0.6f;
 
     private static final int STEP_WELCOME = 0;
@@ -128,6 +133,9 @@ public class TutorialActivity extends Activity {
     private int mSkippedFrom = -1;
     private boolean mResumed;
     private boolean mReturnPending;
+    private long mCreateTime;
+    private long mLastInputTime;
+    private boolean mAutoReturned;
     private int mLeaves;
     private CharSequence mNote;
 
@@ -161,6 +169,7 @@ public class TutorialActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         sOpen = true;
+        mCreateTime = SystemClock.uptimeMillis();
         buildSteps();
 
         setContentView(R.layout.tutorial_activity);
@@ -282,6 +291,7 @@ public class TutorialActivity extends Activity {
         mResumed = true;
         mHandler.removeCallbacks(mReturnRunnable);
         mReturnPending = false;
+        mComeBack.cancel();
     }
 
     @Override
@@ -294,6 +304,7 @@ public class TutorialActivity extends Activity {
     protected void onDestroy() {
         stopDetectors();
         mHandler.removeCallbacksAndMessages(null);
+        mComeBack.cancel();
         sOpen = false;
         super.onDestroy();
     }
@@ -443,6 +454,7 @@ public class TutorialActivity extends Activity {
 
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
+        mLastInputTime = SystemClock.uptimeMillis();
         final int key = event.getKeyCode();
         final boolean down = event.getAction() == KeyEvent.ACTION_DOWN;
         final boolean first = down && event.getRepeatCount() == 0;
@@ -524,6 +536,7 @@ public class TutorialActivity extends Activity {
 
     @Override
     public boolean dispatchGenericMotionEvent(MotionEvent event) {
+        mLastInputTime = SystemClock.uptimeMillis();
         if (current().id == STEP_STICKS && event.isFromSource(InputDevice.SOURCE_JOYSTICK)
                 && event.getAction() == MotionEvent.ACTION_MOVE) {
             mStickAxes[0] = event.getAxisValue(MotionEvent.AXIS_X);
@@ -552,16 +565,74 @@ public class TutorialActivity extends Activity {
     @Override
     protected void onUserLeaveHint() {
         super.onUserLeaveHint();
-        onLeft();
+        // The hint also comes when an app starting up brings its task to the front
+        if (isUserLeave()) {
+            onLeft();
+        }
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        // Belt and braces for the FN step, in case the leave hint didn't come. Not when the
-        // screen just went off: that's the power step.
-        if (current().id == STEP_HOME && isInteractive()) {
+        // Not when the screen just went off: that's the power step
+        if (isFinishing() || !isInteractive()) {
+            return;
+        }
+        if (!isUserLeave()) {
+            comeBackWhenHomeSettles();
+        } else if (current().id == STEP_HOME) {
+            // Belt and braces for the FN step, in case the leave hint didn't come
             onLeft();
+        }
+    }
+
+    /**
+     * Whether the user sent us away (FN), rather than the home app covering us by itself while
+     * it starts up. FN never reaches the app, so this goes by the other buttons: none pressed
+     * yet, none for a minute, or still in the first seconds after opening means it wasn't the
+     * user. On the FN step any earlier press counts, since that step asks for FN.
+     */
+    private boolean isUserLeave() {
+        if (mLastInputTime == 0) {
+            return false;
+        }
+        if (current().id == STEP_HOME) {
+            return true;
+        }
+        final long now = SystemClock.uptimeMillis();
+        return now - mCreateTime >= AUTO_COVER_WINDOW_MS
+                && now - mLastInputTime < USER_ACTIVE_MS;
+    }
+
+    /** Covered without the user doing anything: come back once, when home has settled. */
+    private void comeBackWhenHomeSettles() {
+        if (mAutoReturned || mComeBack.isRunning()) {
+            return;
+        }
+        mAutoReturned = true;
+        Log.i(TAG, "Covered by another app without a button press, coming back");
+        mComeBack.start();
+    }
+
+    // Only onto a settled home screen: if something else is still in front after the timeout,
+    // the user started it, so stay in the background
+    private final HomeWaiter mComeBack = new HomeWaiter(this, timedOut -> {
+        if (!timedOut) {
+            bringToFront();
+        }
+    });
+
+    private void bringToFront() {
+        if (isFinishing() || isDestroyed() || mResumed) {
+            return;
+        }
+        try {
+            // Runs as the system uid, so it may come back to the front from the background
+            startActivity(new Intent(this, TutorialActivity.class)
+                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                            | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
+        } catch (RuntimeException e) {
+            Log.w(TAG, "Couldn't come back to the front", e);
         }
     }
 
@@ -593,17 +664,7 @@ public class TutorialActivity extends Activity {
 
     private final Runnable mReturnRunnable = () -> {
         mReturnPending = false;
-        if (isFinishing() || isDestroyed() || mResumed) {
-            return;
-        }
-        try {
-            // Runs as the system uid, so it may come back to the front from the background
-            startActivity(new Intent(this, TutorialActivity.class)
-                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-                            | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
-        } catch (RuntimeException e) {
-            Log.w(TAG, "Couldn't come back after FN", e);
-        }
+        bringToFront();
     };
 
     @Override
