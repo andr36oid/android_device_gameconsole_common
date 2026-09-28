@@ -25,10 +25,15 @@
     <!-- Wired interfaces EthernetService manages, including ones plugged in
          after boot: eth* for USB Ethernet adapters and iPhones (ipheth),
          usb* for phones sharing their connection over USB tethering
-         (rndis_host, cdc_ether, cdc_ncm). Our own USB tethering to a PC
+         (rndis_host, cdc_ether, cdc_ncm), wwan* for USB LTE/5G sticks and
+         modems (qmi_wwan, cdc_mbim, huawei_cdc_ncm, and cdc_ether/cdc_ncm/
+         rndis_host for modems the kernel knows). A stick in router mode
+         ("HiLink") hands out DHCP and just works; a modem that needs AT, QMI
+         or MBIM commands first stays at "Connecting" (there is no RIL).
+         Our own USB tethering to a PC
          (gadget mode) uses rndis* and ncm* (kernel f_rndis/f_ncm), which
          only Tethering matches, so the two never claim the same interface. -->
-    <string translatable="false" name="config_ethernet_iface_regex">(eth|usb)\\d+</string>
+    <string translatable="false" name="config_ethernet_iface_regex">(eth|usb|wwan)\\d+</string>
 
     <!-- Configuration of Ethernet interfaces in the following format:
          <interface name|mac address>;[Network Capabilities];[IP config]
@@ -39,7 +44,8 @@
                    use the following format to specify static IP configuration:
 		       ip=<ip-address/mask> gateway=<ip-address> dns=<comma-sep-ip-addresses>
                        domains=<comma-sep-domains>
-         A phone's USB tethering usually shares mobile data, so usb* gets the
+         A phone's USB tethering and a USB modem (wwan*) usually share mobile
+         data, so usb* and wwan* get the
          default capabilities minus NOT_METERED (12 INTERNET, 13 NOT_RESTRICTED,
          14 TRUSTED, 15 NOT_VPN): apps treat it like mobile data. eth* uses the
          defaults (unmetered, DHCP). Static IPs are set in Settings instead. -->
@@ -48,6 +54,10 @@
         <item>usb1;12,13,14,15;</item>
         <item>usb2;12,13,14,15;</item>
         <item>usb3;12,13,14,15;</item>
+        <item>wwan0;12,13,14,15;</item>
+        <item>wwan1;12,13,14,15;</item>
+        <item>wwan2;12,13,14,15;</item>
+        <item>wwan3;12,13,14,15;</item>
     </string-array>
 
     <!-- If set, the window manager will disable alpha trasformation 
