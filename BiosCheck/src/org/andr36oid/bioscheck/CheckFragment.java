@@ -85,9 +85,21 @@ abstract class CheckFragment extends PreferenceFragment {
         return mStartedAt != 0;
     }
 
-    /** True when there is a scan and EASYROMS was there for it. */
-    protected boolean mounted() {
-        return mScan != null && mScan.biosDir != null;
+    /**
+     * When the last scan found no bios folder, shows the one row saying why (EASYROMS
+     * isn't mounted, or on a card without EASYROMS: the check failed) and returns true.
+     */
+    protected boolean unavailable(Context c) {
+        if (mScan == null || mScan.biosDir != null) return false;
+        if (mScan.internal) {
+            getPreferenceScreen().addPreference(
+                    text(c, null, c.getString(R.string.check_failed)));
+        } else {
+            getPreferenceScreen().addPreference(text(c,
+                    c.getString(R.string.no_easyroms_title),
+                    c.getString(R.string.no_easyroms_summary)));
+        }
+        return true;
     }
 
     static BiosTable loadTable(Context c) {
@@ -163,7 +175,8 @@ abstract class CheckFragment extends PreferenceFragment {
         final String ops = Report.ops(mReport.renames);
         new AlertDialog.Builder(c)
                 .setTitle(R.string.fix_dialog_title)
-                .setMessage(c.getString(R.string.fix_dialog_message, list))
+                .setMessage(c.getString(mScan.internal ? R.string.fix_dialog_message_internal
+                        : R.string.fix_dialog_message, list))
                 .setPositiveButton(R.string.fix_button, (d, w) -> run(ops))
                 .setNegativeButton(android.R.string.cancel, null)
                 .show();

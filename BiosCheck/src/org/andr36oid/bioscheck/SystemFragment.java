@@ -27,11 +27,7 @@ public class SystemFragment extends CheckFragment {
         final PreferenceScreen screen = getPreferenceScreen();
         screen.removeAll();
         final SystemState s = mReport != null ? mReport.system(mId) : null;
-        if (mReport != null && !mounted()) {
-            screen.addPreference(text(c, c.getString(R.string.no_easyroms_title),
-                    c.getString(R.string.no_easyroms_summary)));
-            return;
-        }
+        if (unavailable(c)) return;
         if (s == null) {
             screen.addPreference(text(c, null, c.getString(
                     busy() ? R.string.checking : R.string.check_failed)));

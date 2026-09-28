@@ -5,6 +5,8 @@
 
     <!-- The main page -->
     <string name="intro">Some systems need a file from the original console (a BIOS) before their games start. Put these files in the bios folder on EASYROMS.</string>
+    <!-- The same, for a card set up without EASYROMS (.noroms) -->
+    <string name="intro_internal">Some systems need a file from the original console (a BIOS) before their games start. Put these files in the bios folder on the internal storage.</string>
     <string name="checking">Checking…</string>
     <string name="check_failed">The check couldn\'t run. Restart the console and try again.</string>
     <string name="no_easyroms_title">EASYROMS isn\'t available right now</string>
@@ -20,6 +22,7 @@
     <string name="fix_dialog_title">Rename these files?</string>
     <!-- %1$s: one line per file, made of fix_line -->
     <string name="fix_dialog_message">In the bios folder on EASYROMS:\n\n%1$s</string>
+    <string name="fix_dialog_message_internal">In the bios folder on the internal storage:\n\n%1$s</string>
     <!-- %1$s: the file\'s name now, %2$s: the right name -->
     <string name="fix_line">%1$s → %2$s\n</string>
     <string name="fix_button">Rename</string>
@@ -62,4 +65,5 @@
     <string name="close">Close</string>
 
     <string name="path_easyroms">EASYROMS</string>
+    <string name="path_internal">Internal storage</string>
 </resources>

@@ -9,7 +9,9 @@
 #
 #   scan    finds EASYROMS and its bios folder (any case; makes "bios" if there is
 #           none) and the installed RetroArch cores, and lists the files in the
-#           bios folder and its subfolders with their MD5
+#           bios folder and its subfolders with their MD5. A card set up with
+#           .noroms has no EASYROMS partition; then the bios folder is on the
+#           internal storage (gameconsole-emu points RetroArch there too).
 #   rename  runs the renames the app wrote to $DIR/ops, one per line:
 #             <from><TAB><to>
 #           both in the bios folder, <to> right in it, never over a file that
@@ -18,15 +20,22 @@
 # The app writes $DIR/request (action=scan|rename) and starts us with ctl.start.
 # $DIR/status is one line: "running <action>", "done" or "error <code>".
 # $DIR/scan, one TAB separated record per line:
-#   easyroms <path> / bios <path> / core <name> / file <md5 or -> <size> <path>
+#   easyroms <path> or internal <path> (no EASYROMS partition) / bios <path> /
+#   core <name> / file <md5 or -> <size> <path>
+# No easyroms, internal or bios line: EASYROMS is there but not mounted.
 # $DIR/result, one line per rename: renamed|exists|failed <path>
 #
-# EASYROMS paths are the ones root sees, /mnt/media_rw/<uuid>. The BIOSCHECK_*
+# Paths are the ones root sees: /mnt/media_rw/<uuid> for EASYROMS, /data/media/0
+# for the internal storage. The BIOSCHECK_*
 # variables are for testing on a PC.
 
 DIR=${BIOSCHECK_DIR:-/data/misc/andr36oid-bioscheck}
 RA_DATA=${BIOSCHECK_RA_DATA:-/data/user/0/com.retroarch}
+MEDIA=${BIOSCHECK_MEDIA:-/data/media/0}
+# EASYROMS is partition 7 of the boot card; with .noroms on BOOT the first start
+# gives the whole card to userdata (p6) and there is no p7
 EASYROMS_ID="public:179,7"
+EASYROMS_PART=${BIOSCHECK_PART:-/sys/block/mmcblk0/mmcblk0p7}
 # BIOS files are small; don't hash a stray game or disc image
 MAX_BYTES=67108864
 TAB=$(printf '\t')
@@ -76,15 +85,27 @@ bios_dir() {
 			return 0
 		fi
 	done
-	mkdir -p "$1/bios" 2>/dev/null && echo "$1/bios"
+	mkdir "$1/bios" 2>/dev/null || return 0
+	# owner and mode like its parent, as if the user had made it (a no-op on exFAT)
+	if [ -z "$BIOSCHECK_DIR" ]; then
+		chown "$(stat -c %u:%g "$1")" "$1/bios" 2>/dev/null
+		chmod "$(stat -c %a "$1")" "$1/bios" 2>/dev/null
+		restorecon "$1/bios" 2>/dev/null
+	fi
+	echo "$1/bios"
 }
 
 BIOS=
 find_bios() {
 	local root
-	root=$(easyroms)
-	[ -n "$root" ] || return 1
-	echo "easyroms$TAB$root"
+	if [ -e "$EASYROMS_PART" ]; then
+		root=$(easyroms)
+		[ -n "$root" ] || return 1
+		echo "easyroms$TAB$root"
+	else
+		root=$MEDIA
+		echo "internal$TAB$root"
+	fi
 	BIOS=$(bios_dir "$root")
 	[ -n "$BIOS" ] || return 1
 	echo "bios$TAB$BIOS"
