@@ -49,5 +49,10 @@
     <!-- Whether or not device header widget tile should display in device info page -->
     <bool name="config_show_device_header_in_device_info">true</bool>
 
+    <!-- No "Screen lock" in Security: there is no lock screen (keyguard is off),
+         so a PIN/password never protects anything but still locks the keystore
+         after every reboot and makes Settings ask for it; a pattern can't even be
+         drawn without a touchscreen. -->
+    <bool name="config_show_unlock_set_or_change">false</bool>
 </resources>
 
