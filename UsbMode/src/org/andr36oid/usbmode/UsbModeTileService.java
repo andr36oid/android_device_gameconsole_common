@@ -1,5 +1,6 @@
 package org.andr36oid.usbmode;
 
+import android.content.Intent;
 import android.service.quicksettings.Tile;
 import android.service.quicksettings.TileService;
 import android.widget.Toast;
@@ -18,7 +19,17 @@ public class UsbModeTileService extends TileService {
         if (!usbMode.isSupported()) {
             return;
         }
-        if (!usbMode.setDevice(!usbMode.isDevice())) {
+        final boolean device = !usbMode.isDevice();
+        if (device && (!usbMode.isConfirmedThisBoot() || usbMode.getWifiOnOtgPort() != null)) {
+            // The warning about built-in Wi-Fi needs a real screen with a controller-friendly
+            // dialog, so the tile opens USB mode and asks there. Once confirmed, the tile
+            // switches directly until the next restart, unless Wi-Fi shows up on the port.
+            startActivityAndCollapse(new Intent(this, UsbModeActivity.class)
+                    .putExtra(UsbModeFragment.EXTRA_ASK_DEVICE, true)
+                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP));
+            return;
+        }
+        if (!usbMode.setDevice(device)) {
             Toast.makeText(this, R.string.usb_mode_failed, Toast.LENGTH_SHORT).show();
         }
         updateTile();

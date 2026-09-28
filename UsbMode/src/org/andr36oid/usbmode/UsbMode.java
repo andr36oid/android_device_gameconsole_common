@@ -11,6 +11,7 @@ import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -39,7 +40,11 @@ final class UsbMode {
     private static final String HOST = "host";
     private static final String DEVICE = "peripheral";
 
+    /** The controller behind the OTG port. Built-in Wi-Fi (R36XX and similar) hangs off it too. */
+    private static final String OTG_CONTROLLER = "/ff300000.usb/";
+
     static final String KEY_FUNCTIONS = "functions";
+    private static final String KEY_CONFIRMED_BOOT = "confirmed_boot";
     static final String FUNCTIONS_MTP = "mtp";
     static final String FUNCTIONS_PTP = "ptp";
     static final String FUNCTIONS_NONE = "none";
@@ -77,6 +82,43 @@ final class UsbMode {
         }
         showTile();
         return isDevice() == device;
+    }
+
+    /**
+     * The name of a Wi-Fi interface that sits on the OTG port right now, or null. It could be
+     * an adapter the user plugged in, or Wi-Fi built into the console: both look the same.
+     */
+    String getWifiOnOtgPort() {
+        final File[] ifaces = new File("/sys/class/net").listFiles();
+        if (ifaces == null) {
+            return null;
+        }
+        for (File iface : ifaces) {
+            if (!new File(iface, "wireless").exists() && !new File(iface, "phy80211").exists()) {
+                continue;
+            }
+            try {
+                if (new File(iface, "device").getCanonicalPath().contains(OTG_CONTROLLER)) {
+                    return iface.getName();
+                }
+            } catch (IOException e) {
+                // Not a device we can follow, so not on the OTG port.
+            }
+        }
+        return null;
+    }
+
+    /** True once the warning about built-in Wi-Fi was accepted since the last restart. */
+    boolean isConfirmedThisBoot() {
+        return prefs().getInt(KEY_CONFIRMED_BOOT, -1) == bootCount();
+    }
+
+    void setConfirmedThisBoot() {
+        prefs().edit().putInt(KEY_CONFIRMED_BOOT, bootCount()).apply();
+    }
+
+    private int bootCount() {
+        return Settings.Global.getInt(mContext.getContentResolver(), Settings.Global.BOOT_COUNT, 0);
     }
 
     /** What a computer gets in device mode: mtp, ptp or none. */
