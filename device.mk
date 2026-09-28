@@ -233,12 +233,18 @@ PRODUCT_PROPERTY_OVERRIDES += aaudio.mmap_policy=2
 # 3 is AAUDIO_POLICY_ALWAYS means only use EXCLUSIVE mode.
 PRODUCT_PROPERTY_OVERRIDES += aaudio.mmap_exclusive_policy=2
     
-# Bluetooth HIDL
+# Bluetooth HIDL. Bluetooth is a USB dongle: the btusb HAL (bluetooth/btlinux)
+# gives up when none is plugged in, and with ro.bluetooth.usb_hotplug the
+# framework only turns Bluetooth on while a controller is present and turns
+# it back on when one is plugged in.
 PRODUCT_PACKAGES += \
     	audio.bluetooth.default \
     	android.hardware.bluetooth.audio@2.0-impl \
-    	android.hardware.bluetooth@1.1-impl \
-    	android.hardware.bluetooth@1.1-service.btlinux
+    	android.hardware.bluetooth@1.1-service.btusb
+
+PRODUCT_PRODUCT_PROPERTIES += \
+	ro.bluetooth.usb_hotplug=true \
+	bluetooth.enable_timeout_ms=8000
 
 PRODUCT_COPY_FILES += \
         frameworks/native/data/etc/android.hardware.bluetooth.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.bluetooth.xml \

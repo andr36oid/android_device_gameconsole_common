@@ -1,0 +1,29 @@
+// Bluetooth HAL for USB dongles (any controller the kernel's btusb driver
+// handles). A copy of system/bt/vendor_libs/linux/interface that copes with
+// the dongle being missing, plugged in late or pulled out while in use.
+cc_binary {
+    name: "android.hardware.bluetooth@1.1-service.btusb",
+    vendor: true,
+    relative_install_path: "hw",
+    srcs: [
+        "hci_packetizer.cc",
+        "h4_protocol.cc",
+        "bluetooth_hci.cc",
+        "async_fd_watcher.cc",
+        "service.cc",
+    ],
+    cflags: [
+        "-Wall",
+        "-Werror",
+    ],
+    header_libs: ["libbluetooth_headers"],
+    shared_libs: [
+        "android.hardware.bluetooth@1.1",
+        "libbase",
+        "libcutils",
+        "libhidlbase",
+        "liblog",
+        "libutils",
+    ],
+    init_rc: ["android.hardware.bluetooth@1.1-service.btusb.rc"],
+}

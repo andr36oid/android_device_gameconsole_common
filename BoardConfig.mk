@@ -153,6 +153,9 @@ DEVICE_MATRIX_FILE := device/gameconsole/common/compatibility_matrix.xml
 #BOARD_SEPOLICY_DIRS := $(DEVICE_PATH)/sepolicy
 #SELINUX_IGNORE_NEVERALLOWS := true
 
+# Labels for our own vendor services (the rest of sepolicy/ is not used)
+BOARD_VENDOR_SEPOLICY_DIRS += device/gameconsole/common/sepolicy-vendor
+
 #Config omx to support codec type.
 BOARD_SUPPORT_VP9 := true
 BOARD_SUPPORT_VP6 := true
