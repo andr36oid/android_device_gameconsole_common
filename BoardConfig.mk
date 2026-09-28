@@ -17,7 +17,28 @@ TARGET_BOARD_HARDWARE := rk30board
 TARGET_BOARD_PLATFORM := rk3326
 TARGET_BOARD_PLATFORM_GPU := mali-tDVx
 BOARD_VENDOR_GPU_PLATFORM := bifrost
+
+# Experimental Vulkan, off by default. When true the build switches to gralloc 4
+# (hardware/rockchip/libgralloc/bifrost/src) and the Rockchip Android 11 Mali
+# g2p0 blobs in mali/g2p0, which have the Vulkan driver. The old GLES-only blob
+# and gralloc 0 stay the default.
+# To turn it on, set TARGET_GAMECONSOLE_VULKAN := true in lineage_<device>.mk
+# before it includes this file, or export it, and also export
+# TARGET_RK_GRALLOC_VERSION=4 in the shell before lunch: the Soong-built librga
+# and libgralloc_priv read that value from the environment, not from make.
+TARGET_GAMECONSOLE_VULKAN ?= false
+ifeq ($(TARGET_GAMECONSOLE_VULKAN),true)
+ifneq ($(TARGET_RK_GRALLOC_VERSION),4)
+$(error TARGET_GAMECONSOLE_VULKAN=true needs TARGET_RK_GRALLOC_VERSION=4 exported in the environment, librga reads it from there)
+endif
+TARGET_RK_GRALLOC_VERSION := 4
+include device/gameconsole/common/gralloc.device.mk
+else
+ifeq ($(TARGET_RK_GRALLOC_VERSION),4)
+$(error TARGET_RK_GRALLOC_VERSION=4 is set in the environment but TARGET_GAMECONSOLE_VULKAN is not true, librga would build for the wrong gralloc)
+endif
 TARGET_RK_GRALLOC_VERSION := 2
+endif
 
 # DRM
 BOARD_USE_DRM := true
@@ -110,6 +131,11 @@ BOARD_SYSTEMIMAGE_FILE_SYSTEM_TYPE := ext4
 # build, which counts recovery.img against the vendor size.
 TARGET_COPY_OUT_VENDOR := vendor
 BOARD_VENDORIMAGE_PARTITION_RESERVED_SIZE := 33554432 # 32M
+ifeq ($(TARGET_GAMECONSOLE_VULKAN),true)
+# The g2p0 blobs are about 37M bigger than the default ones. With 32M free the
+# vendor image no longer fits the 160M partition, so keep only 2M free.
+BOARD_VENDORIMAGE_PARTITION_RESERVED_SIZE := 2097152 # 2M
+endif
 BOARD_VENDORIMAGE_FILE_SYSTEM_TYPE := ext4
 # Creates the /metadata mount point, Magisk keeps its early data there
 BOARD_USES_METADATA_PARTITION := true
