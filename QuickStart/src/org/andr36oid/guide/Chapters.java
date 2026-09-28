@@ -72,6 +72,7 @@ final class Chapters {
         final boolean magisk = hasPackage("com.topjohnwu.magisk");
         final boolean wifiTransfer = hasPackage("org.andr36oid.wifitransfer");
         final boolean biosCheck = hasPackage("org.andr36oid.bioscheck");
+        final boolean touchControls = hasPackage("org.andr36oid.touchmapper");
         final String dpad = s(R.string.key_dpad);
         final String power = s(R.string.key_power);
         final String volume = s(R.string.key_volume);
@@ -109,6 +110,9 @@ final class Chapters {
             }
             if (fnOverlay) {
                 row(c, R.string.shortcuts_overlay, "FN", "L2");
+            }
+            if (touchControls) {
+                row(c, R.string.shortcuts_touch, "FN", "L1");
             }
             if (fnHelp) {
                 para(c, R.string.shortcuts_hold_help);
@@ -149,6 +153,21 @@ final class Chapters {
         para(c, R.string.mouse_settings);
         para(c, R.string.mapping_settings);
         para(c, R.string.mapping_reset);
+
+        if (touchControls) {
+            c = chapter(R.string.touch_title, chapters);
+            para(c, R.string.touch_intro);
+            if (fnShortcuts) {
+                row(c, R.string.touch_open, "FN", "L1");
+            }
+            para(c, R.string.touch_settings);
+            row(c, R.string.touch_move, s(R.string.key_left_stick) + " / " + dpad);
+            row(c, R.string.touch_add, "A");
+            row(c, R.string.touch_size, "L1 / R1");
+            row(c, R.string.touch_save, "Start");
+            para(c, R.string.touch_kinds);
+            para(c, R.string.touch_other_buttons);
+        }
 
         c = chapter(R.string.internet_title, chapters);
         para(c, R.string.internet_wifi);

@@ -47,6 +47,7 @@
     <string name="shortcuts_mouse">Joystick mouse on or off</string>
     <string name="shortcuts_profile">Next performance profile</string>
     <string name="shortcuts_overlay">Performance overlay on or off</string>
+    <string name="shortcuts_touch">Touch controls editor, in a game</string>
     <string name="shortcuts_hold_help">Forgot one? Hold FN on its own for a moment, in any app or game, and this list shows up. Let go of FN to close it.</string>
 
     <!-- Games -->
@@ -80,6 +81,18 @@
     <string name="mouse_settings">Settings &gt; Joystick mouse changes speed, buttons and the combination.</string>
     <string name="mapping_settings">Settings &gt; Button mapping swaps buttons, with profiles for different games.</string>
     <string name="mapping_reset">Locked yourself out? Hold both volume buttons for 5 seconds and every button is back to normal.</string>
+
+    <!-- Touch controls -->
+    <string name="touch_title">Touch controls</string>
+    <string name="touch_intro">Some games only work with a touchscreen. Touch controls give such a game its own layout: each button or stick touches a spot on the screen. It switches on by itself while that game is in front; every other app keeps the normal buttons.</string>
+    <string name="touch_open">In the game: open the editor on top of it</string>
+    <string name="touch_settings">Or go to Settings &gt; Touch controls &gt; Add an app. The game starts and the editor opens on top.</string>
+    <string name="touch_move">Move the crosshair to a spot</string>
+    <string name="touch_add">Add a control there, then press its button or move its stick</string>
+    <string name="touch_size">Make the selected control smaller or bigger</string>
+    <string name="touch_save">Save and go back to the game</string>
+    <string name="touch_kinds">A control can tap, hold, swipe, work as an on-screen joystick, or look around like a camera. Select in the editor has more: a shift button for a second set of controls, and the on-screen labels.</string>
+    <string name="touch_other_buttons">Buttons without a control still work as normal buttons, and FN with its shortcuts always works.</string>
 
     <!-- Internet -->
     <string name="internet_title">Going online</string>
