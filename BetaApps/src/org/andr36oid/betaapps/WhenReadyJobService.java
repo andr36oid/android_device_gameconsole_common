@@ -27,6 +27,8 @@ import java.util.List;
  * <li>the setup wizard is done (a content trigger on user_setup_complete, like the guide),</li>
  * <li>the quick start guide, if this build has it, was shown (it opens by itself about 1.5 s
  * after setup),</li>
+ * <li>the first-start launcher (org.andr36oid.firststart) is gone: while it's installed, the
+ * tutorial after setup is running and the launcher is the home app,</li>
  * <li>and the home screen is in front on two checks in a row, so the guide was closed.</li>
  * </ol>
  * Checks every few seconds; gives up for this boot after about ten minutes (e.g. the tester
@@ -49,6 +51,7 @@ public class WhenReadyJobService extends JobService {
     private static final String EXTRA_HOME_SEEN = "home_seen";
 
     private static final String GUIDE_PACKAGE = "org.andr36oid.guide";
+    private static final String FIRST_START_PACKAGE = "org.andr36oid.firststart";
     private static final String SETTINGS_PACKAGE = "com.android.settings";
 
     static void start(Context context) {
@@ -78,6 +81,13 @@ public class WhenReadyJobService extends JobService {
         }
         final PersistableBundle extras = params.getExtras();
         final int checks = extras.getInt(EXTRA_CHECKS, 0);
+        if (isInstalled(FIRST_START_PACKAGE)) {
+            // The tutorial is running, however long it takes: wait without using up checks.
+            // The guide uninstalls the launcher when it's done, or after a minute without a
+            // sign of the tutorial.
+            scheduleCheck(this, CHECK_EVERY_MS, checks, false);
+            return false;
+        }
         final boolean homeWasSeen = extras.getBoolean(EXTRA_HOME_SEEN, false);
 
         final boolean guidePending = checks < MAX_GUIDE_CHECKS && isGuidePending();
@@ -141,10 +151,17 @@ public class WhenReadyJobService extends JobService {
      * "shown" flag in its preferences; both apps run as the system user, so the file is
      * readable. The guide sets the flag right before it opens.
      */
-    private boolean isGuidePending() {
+    private boolean isInstalled(String packageName) {
         try {
-            getPackageManager().getPackageInfo(GUIDE_PACKAGE, 0);
+            getPackageManager().getPackageInfo(packageName, 0);
+            return true;
         } catch (PackageManager.NameNotFoundException e) {
+            return false;
+        }
+    }
+
+    private boolean isGuidePending() {
+        if (!isInstalled(GUIDE_PACKAGE)) {
             return false;
         }
         try {
