@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_title">BIOS check</string>
-    <string name="app_summary">Find out why a game won\'t start: missing or wrong BIOS files</string>
+    <string name="app_title">Emulator files</string>
+    <string name="app_summary">Game won\'t start? Check the BIOS files from the original consoles that some emulators need</string>
 
     <!-- The header of the main page -->
     <string name="where_title">Put BIOS files in the bios folder on EASYROMS</string>
