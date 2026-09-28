@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="app_name">Touch controls</string>
+    <string name="settings_summary">Play touchscreen games with the buttons, per app</string>
+
+    <!-- Settings > Touch controls -->
+    <string name="settings_intro">Some games only work with a touchscreen. Here you can give such a game its own layout: each button or stick touches a spot on the screen. The layout switches on by itself while that game is in front, and every other app keeps the normal buttons.</string>
+    <string name="settings_apps">Apps with touch controls</string>
+    <string name="settings_add">Add an app</string>
+    <string name="settings_add_summary">Pick a game; it starts and the editor opens on top</string>
+    <string name="settings_add_none">Every app already has touch controls</string>
+    <string name="settings_how">How it works</string>
+    <string name="settings_shortcut_title">Edit while playing: FN + L1</string>
+    <string name="settings_shortcut_summary">In the game, hold FN and press L1. The editor opens on top of the game. FN goes back to the home screen as usual.</string>
+    <string name="settings_help_summary">What each button does in the editor</string>
+
+    <!-- Summary of an app in the list; %1$s is e.g. "5 controls" -->
+    <string name="profile_on">On · <xliff:g id="count">%1$s</xliff:g></string>
+    <string name="profile_off">Off · <xliff:g id="count">%1$s</xliff:g></string>
+    <string name="profile_empty">No controls yet</string>
+    <string name="profile_unreadable">Can\'t be read, edit it to start over</string>
+    <plurals name="control_count">
+        <item quantity="one"><xliff:g id="n">%d</xliff:g> control</item>
+        <item quantity="other"><xliff:g id="n">%d</xliff:g> controls</item>
+    </plurals>
+
+    <!-- One app's page -->
+    <string name="profile_enabled">Use touch controls</string>
+    <string name="profile_enabled_summary">While this app is in front</string>
+    <string name="profile_hints">Show the buttons on screen</string>
+    <string name="profile_hints_summary">Faint labels where each button touches</string>
+    <string name="profile_edit">Edit the layout</string>
+    <string name="profile_edit_summary">Starts <xliff:g id="app">%1$s</xliff:g>, then the editor opens on top</string>
+    <string name="profile_edit_starting">Starting the app. The editor opens in a moment.</string>
+    <string name="profile_cant_start">This app can\'t be started from here. Open it, then press FN + L1.</string>
+    <string name="profile_controls">Controls</string>
+    <string name="profile_delete">Delete touch controls</string>
+    <string name="profile_delete_message">The layout of this app is removed. The app gets the normal buttons again.</string>
+    <string name="profile_delete_confirm">Delete</string>
+
+    <!-- FN + L1 where there is nothing to edit -->
+    <string name="edit_needs_app">Open a game first, then press FN + L1 to set up its touch controls.</string>
+
+    <!-- Editor -->
+    <string name="editor_title">Touch controls: <xliff:g id="app">%1$s</xliff:g></string>
+    <string name="editor_layer_normal">Normal buttons</string>
+    <string name="editor_layer_shift">While <xliff:g id="button">%1$s</xliff:g> is held</string>
+    <string name="editor_profile_off">Switched off</string>
+    <string name="editor_saved">Touch controls for <xliff:g id="app">%1$s</xliff:g> saved</string>
+    <string name="editor_save_failed">Couldn\'t save. Try again.</string>
+    <string name="editor_deleted">Deleted</string>
+    <string name="editor_cancelled">Cancelled</string>
+    <string name="editor_no_shift">No shift button yet: Select, then Shift button</string>
+    <string name="editor_is_shift"><xliff:g id="button">%1$s</xliff:g> is the shift button. Press another one.</string>
+    <string name="editor_replaced"><xliff:g id="input">%1$s</xliff:g> did something else before. That control is gone.</string>
+    <string name="editor_replaced_dpad">The D-pad joystick is gone: the D-pad buttons work one by one now.</string>
+    <string name="editor_replaced_dpad_buttons">The single D-pad buttons are gone: the D-pad is a joystick now.</string>
+    <string name="editor_unsaved_title">Save the changes?</string>
+    <string name="editor_unsaved_message">The layout was changed but not saved.</string>
+    <string name="editor_save">Save</string>
+    <string name="editor_discard">Don\'t save</string>
+    <string name="editor_keep_editing">Keep editing</string>
+
+    <!-- Bottom strip of the editor: what each button does right now -->
+    <string name="hint_add">Add here</string>
+    <string name="hint_change">Change</string>
+    <string name="hint_delete">Delete</string>
+    <string name="hint_size">Size</string>
+    <string name="hint_next">Next</string>
+    <string name="hint_layer">Shift layer</string>
+    <string name="hint_options">Options</string>
+    <string name="hint_save">Save</string>
+    <string name="hint_close">Close</string>
+    <string name="hint_move">Move</string>
+    <string name="hint_place">Place</string>
+    <string name="hint_cancel">Cancel</string>
+    <string name="hint_hold_cancel">Hold to cancel</string>
+
+    <!-- Waiting for a button or stick; %1$s is a control type in lower case, e.g. "tap" -->
+    <string name="capture_button">Press the button for this <xliff:g id="type">%1$s</xliff:g></string>
+    <string name="capture_button_cancel">Any button works, B too. Hold B to cancel.</string>
+    <string name="capture_stick">Move the stick for this <xliff:g id="type">%1$s</xliff:g></string>
+    <string name="capture_stick_detail">Left stick, right stick, or press the D-pad</string>
+
+    <!-- Menus -->
+    <string name="editor_add_title">Add a control here</string>
+    <string name="editor_control_title">This control</string>
+    <string name="editor_menu_move">Move</string>
+    <string name="editor_menu_button">Button: <xliff:g id="button">%1$s</xliff:g></string>
+    <string name="editor_menu_stick">Stick: <xliff:g id="stick">%1$s</xliff:g></string>
+    <string name="editor_menu_type">Kind: <xliff:g id="type">%1$s</xliff:g></string>
+    <string name="editor_menu_direction">Direction: <xliff:g id="direction">%1$s</xliff:g></string>
+    <string name="editor_menu_speed">Speed: <xliff:g id="percent">%1$d</xliff:g>%%</string>
+    <string name="editor_menu_delete">Delete</string>
+    <string name="editor_type_title">Kind of control</string>
+    <string name="editor_direction_title">Swipe direction</string>
+    <string name="editor_speed_title">Look speed</string>
+    <string name="percent"><xliff:g id="percent">%1$d</xliff:g>%%</string>
+
+    <string name="type_tap">Tap</string>
+    <string name="type_hold">Hold</string>
+    <string name="type_joystick">Joystick</string>
+    <string name="type_camera">Look around</string>
+    <string name="type_swipe">Swipe</string>
+    <string name="type_tap_long">Tap: a short tap when the button is pressed</string>
+    <string name="type_hold_long">Hold: the finger stays down while the button is held</string>
+    <string name="type_joystick_long">Joystick: a stick or the D-pad drags a finger around this spot</string>
+    <string name="type_camera_long">Look around: a stick swipes across this area, for cameras and aiming</string>
+    <string name="type_swipe_long">Swipe: a quick swipe from here when the button is pressed</string>
+
+    <string name="direction_up">Up</string>
+    <string name="direction_down">Down</string>
+    <string name="direction_left">Left</string>
+    <string name="direction_right">Right</string>
+    <string name="direction_up_left">Up and left</string>
+    <string name="direction_up_right">Up and right</string>
+    <string name="direction_down_left">Down and left</string>
+    <string name="direction_down_right">Down and right</string>
+    <string name="direction_degrees"><xliff:g id="degrees">%1$d</xliff:g>°</string>
+
+    <string name="options_title">Options</string>
+    <string name="options_enabled_on">Touch controls for this app: on</string>
+    <string name="options_enabled_off">Touch controls for this app: off</string>
+    <string name="options_hints_on">Show the buttons while playing: on</string>
+    <string name="options_hints_off">Show the buttons while playing: off</string>
+    <string name="options_shift">Shift button: <xliff:g id="button">%1$s</xliff:g></string>
+    <string name="options_deadzone">Stick dead zone: <xliff:g id="percent">%1$d</xliff:g>%%</string>
+    <string name="options_help">Help</string>
+    <string name="options_clear">Remove all controls</string>
+    <string name="options_clear_message">Every control of this app is removed. Nothing is saved until you press Start.</string>
+    <string name="options_clear_confirm">Remove</string>
+    <string name="shift_title">Shift button</string>
+    <string name="shift_none">None</string>
+    <plurals name="shift_removed">
+        <item quantity="one">Removed <xliff:g id="n">%d</xliff:g> control that used that button</item>
+        <item quantity="other">Removed <xliff:g id="n">%d</xliff:g> controls that used that button</item>
+    </plurals>
+    <string name="deadzone_title">Stick dead zone</string>
+
+    <string name="help_title">Editor help</string>
+    <string name="help_text">Move the crosshair with the left stick or the D-pad.\n\nA on an empty spot adds a control there: pick the kind, then press its button or move its stick. A on a control changes it: move it, give it another button, or delete it.\n\nKinds:\n• Tap: a short tap\n• Hold: touches while the button is held\n• Joystick: a stick or the D-pad drags a finger around the spot, for on-screen sticks\n• Look around: a stick swipes across an area, for cameras and aiming\n• Swipe: a quick swipe in one direction\n\nL1 and R1, or the right stick, make the selected control smaller or bigger. L2 and R2 jump between controls. X deletes.\n\nShift button (Select, then Shift button): while it is held, a second set of controls applies. Y switches between the two sets.\n\nStart saves and closes. B closes. FN leaves without saving.\n\nButtons without a control keep working as normal buttons. FN and every FN shortcut always work.</string>
+</resources>

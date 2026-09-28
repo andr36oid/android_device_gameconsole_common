@@ -1,0 +1,15 @@
+// Settings > Touch controls: per-app layouts that turn buttons and sticks into touches, for
+// touchscreen-only games. The on-screen editor (FN + L1 in a game), the hints on top of the
+// game, and the watcher that tells the joyMouse daemon which app is in front; the daemon does
+// the touching (joyMouse/README.md). Runs as the system user, which may watch the task stack,
+// set sys.touchmap.*, write /data/system and draw system overlay windows.
+android_app {
+    name: "TouchMapper",
+    srcs: ["src/**/*.java"],
+    resource_dirs: ["res"],
+    certificate: "platform",
+    platform_apis: true,
+    optimize: {
+        enabled: false,
+    },
+}

@@ -474,6 +474,14 @@ PRODUCT_PACKAGES += \
 	joyMouse \
 	JoyMouseSettings
 
+# Touch controls: per-app layouts that turn buttons and sticks into touches for
+# touchscreen-only games (Settings > Touch controls, FN + L1 in a game). The joyMouse daemon
+# does the touching through a virtual touchscreen, described by the .idc
+PRODUCT_PACKAGES += \
+	TouchMapper
+PRODUCT_COPY_FILES += \
+	$(LOCAL_PATH)/joyMouse/andr36oid_Touch_Controls.idc:$(TARGET_COPY_OUT_SYSTEM)/usr/idc/andr36oid_Touch_Controls.idc
+
 # Performance overlay: FPS, CPU, temperature and battery on top of games
 # (Settings > Performance overlay, Quick Settings tile once used)
 PRODUCT_PACKAGES += \
