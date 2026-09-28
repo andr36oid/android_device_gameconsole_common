@@ -416,6 +416,10 @@ PRODUCT_PRODUCT_PROPERTIES += \
 PRODUCT_PRODUCT_PROPERTIES += \
 	ro.andr36oid.fn_hotkeys=true
 
+# FN + L2 shows or hides the performance overlay (frameworks/base night/ux3-fn-overlay)
+PRODUCT_PRODUCT_PROPERTIES += \
+	ro.andr36oid.fn_overlay=true
+
 # Joystick as mouse
 PRODUCT_PACKAGES += \
 	joyMouse \
