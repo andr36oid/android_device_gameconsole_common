@@ -427,6 +427,12 @@ PRODUCT_COPY_FILES += \
 # Build and run only ART
 PRODUCT_RUNTIMES := runtime_libart_default
 
+# Power menu stats panel: CPU, temperature, battery and RAM with small graphs of the last
+# 10 minutes above the power menu buttons (frameworks/base night/ux7-power-menu-stats).
+# persist.sys.power_menu_stats=0 hides it and stops its sampling, =1 brings it back.
+PRODUCT_PRODUCT_PROPERTIES += \
+	ro.andr36oid.power_menu_stats=true
+
 PRODUCT_PRODUCT_PROPERTIES += \
 	ro.statsd.enable=false
 
