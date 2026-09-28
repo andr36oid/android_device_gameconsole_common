@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="guide_title">Quick start guide</string>
+    <string name="guide_summary">Buttons, shortcuts and where your games go</string>
+
+    <!-- Bottom bar: what the buttons do in the guide -->
+    <string name="hint_choose">Choose</string>
+    <string name="hint_read">Read</string>
+    <string name="hint_scroll">Scroll</string>
+    <string name="hint_page">Topic</string>
+    <string name="hint_back">Topics</string>
+    <string name="hint_close">Close</string>
+    <!-- Joins two buttons pressed together, e.g. "FN + Start" -->
+    <string name="key_plus">+</string>
+    <!-- Between two alternative buttons, e.g. "L1 / R1" -->
+    <string name="key_or">/</string>
+
+    <!-- Welcome -->
+    <string name="welcome_title">Welcome</string>
+    <string name="welcome_intro">andr36oid turns this console into an Android handheld. Games, emulators and apps, all run with the buttons, no touchscreen needed.</string>
+    <string name="welcome_choose">Choose a topic</string>
+    <string name="welcome_read">Read it, the D-pad then scrolls</string>
+    <string name="welcome_page">Previous or next topic</string>
+    <string name="welcome_close">Close the guide</string>
+    <string name="welcome_again">You can open this guide again any time from Settings &gt; Quick start guide.</string>
+
+    <!-- Buttons -->
+    <string name="buttons_title">Buttons</string>
+    <string name="buttons_a">Select, confirm</string>
+    <string name="buttons_b">Back</string>
+    <string name="buttons_fn">Home screen</string>
+    <string name="buttons_power_tap">Tap: sleep and wake up</string>
+    <string name="buttons_power_hold">Hold: power menu with Home, the app switcher, Close background apps, Power off and Restart</string>
+    <string name="buttons_volume">Volume</string>
+    <string name="buttons_select">Menu in apps that have one</string>
+    <string name="buttons_stick">The left stick moves around like the D-pad</string>
+
+    <!-- FN shortcuts -->
+    <string name="shortcuts_title">FN shortcuts</string>
+    <string name="shortcuts_intro">Hold FN and press a second button. FN on its own still goes to the home screen.</string>
+    <string name="shortcuts_brightness">Screen brighter or darker</string>
+    <string name="shortcuts_screenshot">Screenshot, saved to Pictures/Screenshots</string>
+    <string name="shortcuts_last_app">Back to the app you used before</string>
+    <string name="shortcuts_panel">Notifications and Quick Settings</string>
+    <string name="shortcuts_mouse">Joystick mouse on or off</string>
+    <string name="shortcuts_profile">Next performance profile</string>
+
+    <!-- Games -->
+    <string name="games_title">Your games</string>
+    <string name="games_where">Games go on the EASYROMS partition of the SD card. In a computer, the card shows up as a drive called EASYROMS. On the console, it\'s the EASYROMS storage in the Files app.</string>
+    <string name="games_folders">Give every system its own folder, named like nes, snes, gb, gba, megadrive or psx. Cards set up for ArkOS or dArkOS already use these names, so their games work as they are.</string>
+    <string name="games_folders_ready">The console makes these folders on EASYROMS by itself, with a README listing which system goes where.</string>
+    <string name="games_library">Daijishou, the home screen, turns those folders into a game library: add a platform and pick its folder on EASYROMS.</string>
+
+    <!-- Emulators -->
+    <string name="emulators_title">Emulators</string>
+    <string name="emulators_included">RetroArch and PPSSPP come preinstalled. RetroArch already has the cores for NES, SNES, Game Boy, GBA, Mega Drive, Master System, Game Gear, PlayStation, PC Engine, Neo Geo Pocket, WonderSwan, Atari 2600, 7800 and Lynx.</string>
+    <string name="emulators_psp">PSP games run in PPSSPP. PlayStation games start without a BIOS, but work best with one in RetroArch\'s system folder.</string>
+    <string name="emulators_updates">The emulators are ordinary apps: F-Droid can update them, and you can uninstall them.</string>
+
+    <!-- Speed and battery -->
+    <string name="speed_title">Speed and battery</string>
+    <string name="speed_profiles">Settings &gt; Performance has three profiles. Battery saver for long sessions with older systems, Balanced for everyday use, Performance for PS1, N64 and PSP. The Quick Settings tile switches between them too.</string>
+    <string name="speed_overclock_alone">Settings &gt; CPU overclock (experimental) runs the processor faster than standard for demanding games. A restart turns it off. If the console freezes, pick a lower speed.</string>
+    <string name="speed_overclock">CPU overclock (experimental), on the same page, runs the processor faster than standard for demanding games. A restart turns it off. If the console freezes, pick a lower speed.</string>
+    <string name="speed_screen">The screen uses the most power. Lower brightness means longer play time.</string>
+
+    <!-- Mouse and button mapping -->
+    <string name="mouse_title">Mouse and buttons</string>
+    <string name="mouse_toggle">Hold both sticks pressed in for a second: joystick mouse on or off</string>
+    <string name="mouse_pointer">Move the pointer</string>
+    <string name="mouse_click">Click, hold R1 to drag</string>
+    <string name="mouse_right_click">Right click</string>
+    <string name="mouse_scroll">Scroll</string>
+    <string name="mouse_settings">Settings &gt; Joystick mouse changes speed, buttons and the combination.</string>
+    <string name="mapping_settings">Settings &gt; Button mapping swaps buttons, with profiles for different games.</string>
+    <string name="mapping_reset">Locked yourself out? Hold both volume buttons for 5 seconds and every button is back to normal.</string>
+
+    <!-- Internet -->
+    <string name="internet_title">Going online</string>
+    <string name="internet_wifi">The console has no Wi-Fi built in. Plug a USB Wi-Fi adapter into the OTG port, with a USB-C adapter if it needs one, then turn on Wi-Fi in Settings &gt; Network &amp; internet.</string>
+    <string name="internet_browser">Cromite is the web browser.</string>
+
+    <!-- Key names drawn in the badges that aren't just the printed label -->
+    <string name="key_dpad">D-pad</string>
+    <string name="key_power">Power</string>
+    <string name="key_volume">Vol</string>
+    <string name="key_right_stick">R stick</string>
+    <string name="key_left_stick">L stick</string>
+</resources>
