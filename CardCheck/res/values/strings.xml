@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="check_title">SD card check</string>
+    <string name="check_summary">Test the speed, and find out if a card is fake</string>
+
+    <string name="card_title">Card or drive</string>
+    <string name="no_card">No SD card or USB drive is ready. Insert one, or wait until it shows up in Storage.</string>
+
+    <!-- details: %1$s name (EASYROMS), %2$s size of the whole card -->
+    <string name="details_title">%1$s, %2$s card</string>
+    <string name="details_title_usb">%1$s, %2$s USB drive</string>
+    <!-- %1$s maker, %2$s product name, %3$s date made -->
+    <string name="details_card">%1$s %2$s, made %3$s</string>
+    <string name="details_free">%1$s free</string>
+    <string name="maker_unknown">Unknown maker (ID %1$s)</string>
+
+    <string name="speed_category">Speed</string>
+    <string name="speed_title">Test the speed</string>
+    <string name="speed_summary">Writes and reads a 256 MB file. Takes about a minute.</string>
+    <string name="speed_running_write">Writing…</string>
+    <string name="speed_running_read">Reading…</string>
+    <!-- %1$s write speed, %2$s read speed, e.g. 18.2 MB/s -->
+    <string name="speed_result">Write %1$s, read %2$s</string>
+    <string name="speed_good">Good for every system.</string>
+    <string name="speed_ok">Fine for games. Copying and saving large files is slow.</string>
+    <string name="speed_slow">Slow: expect long loading times, especially for PSP, Dreamcast and N64 games.</string>
+    <string name="mb_per_s">%1$.1f MB/s</string>
+
+    <string name="full_category">Real size</string>
+    <string name="full_title">Check the real size</string>
+    <string name="full_title_stop">Stop the check</string>
+    <!-- %1$s free space, %2$s how long -->
+    <string name="full_summary">Fills the free space (%1$s) with test data, reads it all back and then deletes it. A fake card that claims more space than it has fails this. Takes about %2$s.</string>
+    <string name="full_summary_unknown_time">Fills the free space (%1$s) with test data, reads it all back and then deletes it. A fake card that claims more space than it has fails this. Takes hours on a big card; test the speed first for a better estimate.</string>
+    <string name="full_probe">Looking for signs of a fake card…</string>
+    <!-- %1$s done, %2$s total, %3$s time left -->
+    <string name="full_writing">Writing test data: %1$s of %2$s, about %3$s left</string>
+    <string name="full_reading">Reading it back: %1$s of %2$s, about %3$s left</string>
+    <string name="full_writing_start">Writing test data: %1$s of %2$s</string>
+    <string name="full_reading_start">Reading it back: %1$s of %2$s</string>
+    <string name="full_stopping">Stopping and deleting the test data…</string>
+
+    <string name="full_pass">Passed. All %1$s of test data came back as written. This card is real.</string>
+    <string name="full_bad_data">Failed. %1$s of test data came back wrong, starting after about %2$s. The card is fake or damaged and only really holds about %3$s. Copy your games off it and use a different card.</string>
+    <string name="full_wraps">Failed. This card is fake: it starts over at its own beginning after about %1$s, so it only really holds that much. Keep your games below that, or better, use a different card.</string>
+    <string name="full_wraps_restored">The check caught it while writing and put the start of the card back.</string>
+    <string name="full_wraps_not_restored">The check caught it while writing, but could not put the start of the card back. The console may not start from this card any more: back up your games.</string>
+    <string name="full_write_error">Failed. The card reported an error after %1$s of test data. It may be damaged or fake.</string>
+    <string name="full_stopped">Stopped. The test data was deleted.</string>
+
+    <string name="error_prefix">Not done. %1$s</string>
+    <string name="error_no_space">There isn\'t enough free space for the test.</string>
+    <string name="error_not_mounted">The card is not ready.</string>
+    <string name="error_write">The card reported a write error.</string>
+    <string name="error_read">The card reported a read error.</string>
+    <string name="error_other">The check could not run.</string>
+
+    <string name="confirm_title">Check the real size?</string>
+    <!-- %1$s card name, %2$s how long -->
+    <string name="confirm_text">This fills all the free space on %1$s for about %2$s, so games can\'t save there until it is done. Plug in the charger: the console stays awake. You can stop at any time. Your games and files are not touched.</string>
+    <string name="confirm_time_unknown">a few hours</string>
+    <string name="confirm_start">Start</string>
+
+    <string name="busy">Another check is running.</string>
+
+    <string name="about">Consoles are often sold with fake or worn out cards. A fake card claims to be bigger than it is, and games copied past its real end come back broken. The check writes only to free space.</string>
+
+    <string name="hours_minutes">%1$d h %2$d min</string>
+    <string name="minutes">%1$d min</string>
+
+    <string name="channel_name">SD card check</string>
+    <string name="done_title">SD card check finished</string>
+</resources>

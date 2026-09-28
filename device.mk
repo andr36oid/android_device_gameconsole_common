@@ -548,6 +548,11 @@ PRODUCT_PACKAGES += \
     	libRkOMX_OSAL \
     	libOMX_Core \
 
+# SD card check: speed test and fake card check (Settings > Storage)
+PRODUCT_PACKAGES += \
+	CardCheck \
+	andr36oid-cardcheck
+
 # Camera omx-plugin vpu akmd libion_rockchip_ext
 #    	
 PRODUCT_PACKAGES += \

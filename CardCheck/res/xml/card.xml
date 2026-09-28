@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ListPreference
+        android:key="card"
+        android:title="@string/card_title"
+        android:persistent="false" />
+
+    <Preference
+        android:key="details"
+        android:selectable="false" />
+
+    <PreferenceCategory
+        android:key="speed_category"
+        android:title="@string/speed_category">
+
+        <Preference
+            android:key="speed"
+            android:title="@string/speed_title" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="full_category"
+        android:title="@string/full_category">
+
+        <Preference
+            android:key="full"
+            android:title="@string/full_title" />
+    </PreferenceCategory>
+
+    <Preference
+        android:key="about"
+        android:selectable="false"
+        android:summary="@string/about" />
+</PreferenceScreen>
