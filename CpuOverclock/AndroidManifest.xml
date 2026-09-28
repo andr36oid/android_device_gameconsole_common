@@ -86,5 +86,16 @@
                 <action android:name="org.andr36oid.cpuoverclock.action.NEXT_PROFILE" />
             </intent-filter>
         </receiver>
+
+        <!-- Game mode picks a profile while you play and puts the old one back after -->
+        <receiver
+            android:name=".ProfileCommandReceiver"
+            android:exported="true"
+            android:permission="android.permission.DEVICE_POWER">
+            <intent-filter>
+                <action android:name="org.andr36oid.cpuoverclock.action.SET_PROFILE" />
+                <action android:name="org.andr36oid.cpuoverclock.action.RESTORE_PROFILE" />
+            </intent-filter>
+        </receiver>
     </application>
 </manifest>
