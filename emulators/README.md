@@ -35,7 +35,8 @@ the `gameconsole-emu` service (`seed/`) runs once `sys.boot_completed=1`:
    `README-andr36oid.txt` on the EASYROMS partition (`public:179,7`). Once per card, and
    only on a card that has none of these folders yet, so existing layouts stay untouched.
 5. Point RetroArch's `system_directory` (where the cores look for BIOS files) at the bios
-   folder on EASYROMS, `/storage/<uuid>/bios`, like ArkOS's `/roms/bios`. See
+   folder on EASYROMS, `/storage/<uuid>/bios`, like ArkOS's `/roms/bios` (on a `.noroms`
+   card: `/storage/emulated/0/bios`). See
    [BIOS folder](#bios-folder) below.
 
 Log tag: `gameconsole-emu`. State: `/data/misc/gameconsole` and
@@ -95,6 +96,11 @@ existing `BIOS`/`Bios` folder is used as it is, a missing one is made):
   RetroArch (Settings > Directory > System/BIOS) is never touched.
 - installs from before this change get it too, as long as the setting is still the default.
 - if EASYROMS isn't mounted, nothing changes and the next boot tries again.
+- a card set up with `.noroms` on BOOT has no EASYROMS partition at all (no
+  `/sys/block/mmcblk0/mmcblk0p7`; the first start gives userdata the whole card). Then
+  the folder is `bios` on the internal storage, `/storage/emulated/0/bios` (made with the
+  owner and mode of `/data/media/0`), with the same rules. Moving between a card with
+  and one without EASYROMS updates the path we wrote.
 
 RetroArch 1.22.2 targets SDK 28 with `requestLegacyExternalStorage` and gets the storage
 permissions from `pm install -g`, so it reads `/storage/<uuid>` like it reads the games.

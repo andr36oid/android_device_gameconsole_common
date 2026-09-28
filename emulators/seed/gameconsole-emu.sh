@@ -17,7 +17,8 @@
 #    partition, with a README telling which system goes where. Only once per
 #    card, and never on a card that already has any of them.
 # 5. Points RetroArch's system folder (where the cores look for BIOS files) at
-#    the bios folder on EASYROMS, like ArkOS. A folder the user picked in
+#    the bios folder on EASYROMS, like ArkOS, or on the internal storage for a
+#    card made without EASYROMS (.noroms). A folder the user picked in
 #    RetroArch is kept.
 
 BASE=/system/etc/gameconsole
@@ -203,8 +204,13 @@ seed_cores() {
 	restorecon -R "$cores" "$own" 2>/dev/null
 }
 
-# EASYROMS is partition 7 of the boot card (mmcblk0p7, 179:7), a public volume
+# EASYROMS is partition 7 of the boot card (mmcblk0p7, 179:7), a public volume.
+# A card set up with .noroms on BOOT has no partition 7 at all: the first start
+# gives userdata (p6) the whole card (resizing/.../linuxrc).
 EASYROMS_ID="public:179,7"
+EASYROMS_PART=/sys/block/mmcblk0/mmcblk0p7
+# the internal storage as root sees it; apps see /storage/emulated/0
+MEDIA=/data/media/0
 ROM_FOLDERS=$BASE/rom-folders.txt
 
 # easyroms_path ; prints where EASYROMS is mounted, waits up to a minute for it
@@ -221,9 +227,23 @@ easyroms_path() {
 	return 1
 }
 
+# find_easyroms ; sets EASYROMS to where it is mounted (empty if it isn't), and
+# NOROMS when the card has no EASYROMS partition at all
+find_easyroms() {
+	NOROMS=
+	EASYROMS=
+	if [ -e "$EASYROMS_PART" ]; then
+		EASYROMS=$(easyroms_path) || EASYROMS=
+	else
+		NOROMS=1
+		log "no EASYROMS partition on this card (.noroms)"
+	fi
+}
+
 make_rom_folders() {
 	local root=$EASYROMS uuid stamp name
 	[ -f "$ROM_FOLDERS" ] || return 0
+	[ -n "$NOROMS" ] && return 0
 	[ -n "$root" ] || { log "EASYROMS not mounted, no ROM folders"; return 0; }
 	uuid=${root##*/}
 	stamp=$STATE/rom-folders.$uuid
@@ -285,30 +305,53 @@ ours() {
 	[ "$1" = "$(cat "$SYSTEM_DIR_MARK" 2>/dev/null)" ]
 }
 
-# bios_folder ; points RetroArch's system_directory at the bios folder on
-# EASYROMS, where the cores then find the BIOS files. Updated when the card
-# changes (another UUID, so another path), unless the user set a folder.
-bios_folder() {
-	local cfg=$RA_EXT/retroarch.cfg cur want d name=bios
-	# no bogus path: leave it and try again next boot
-	[ -n "$EASYROMS" ] || { log "EASYROMS not mounted, RetroArch's BIOS folder left as it is"; return 0; }
-	[ -f "$cfg" ] || return 0
-
-	# an existing bios folder in any case (BIOS, Bios)
-	for d in "$EASYROMS"/*/; do
+# bios_name <dir> ; the name of its bios folder in any case (BIOS, Bios), else bios
+bios_name() {
+	local d
+	for d in "$1"/*/; do
 		d=${d%/}
 		d=${d##*/}
 		if [ "$(echo "$d" | tr '[:upper:]' '[:lower:]')" = bios ]; then
-			name=$d
-			break
+			echo "$d"
+			return 0
 		fi
 	done
-	# RetroArch sees EASYROMS at /storage/<uuid>, root at /mnt/media_rw/<uuid>
-	want=/storage/${EASYROMS##*/}/$name
+	echo bios
+}
+
+# bios_folder ; points RetroArch's system_directory at the bios folder on
+# EASYROMS, where the cores then find the BIOS files; on a card without
+# EASYROMS at the bios folder on the internal storage. Updated when that
+# changes (a new card has another UUID, so another path), unless the user set a
+# folder.
+bios_folder() {
+	local cfg=$RA_EXT/retroarch.cfg cur want name dir
+	[ -f "$cfg" ] || return 0
+	if [ -n "$NOROMS" ]; then
+		name=$(bios_name "$MEDIA")
+		dir=$MEDIA/$name
+		want=/storage/emulated/0/$name
+	elif [ -n "$EASYROMS" ]; then
+		name=$(bios_name "$EASYROMS")
+		dir=$EASYROMS/$name
+		# RetroArch sees EASYROMS at /storage/<uuid>, root at /mnt/media_rw/<uuid>
+		want=/storage/${EASYROMS##*/}/$name
+	else
+		# no bogus path: leave it and try again next boot
+		log "EASYROMS not mounted, RetroArch's BIOS folder left as it is"
+		return 0
+	fi
 	cur=$(cfg_get "$cfg" system_directory)
 	if [ "$cur" != "$want" ]; then
 		ours "$cur" || return 0
-		mkdir -p "$EASYROMS/$name" || { log "couldn't make $name/ on EASYROMS"; return 0; }
+		if [ ! -d "$dir" ]; then
+			mkdir "$dir" || { log "couldn't make $dir"; return 0; }
+			# on the internal storage: owner and mode like its parent, as if
+			# the user had made it (a no-op on exFAT)
+			chown "$(stat -c %u:%g "${dir%/*}")" "$dir" 2>/dev/null
+			chmod "$(stat -c %a "${dir%/*}")" "$dir" 2>/dev/null
+			restorecon "$dir" 2>/dev/null
+		fi
 		cfg_set "$cfg" system_directory "$want" || { log "writing retroarch.cfg failed"; return 0; }
 		log "RetroArch reads BIOS files from $want now (was: ${cur:-unset})"
 	fi
@@ -328,7 +371,7 @@ done
 install_apks
 seed_retroarch
 seed_cores
-EASYROMS=$(easyroms_path) || EASYROMS=
+find_easyroms
 make_rom_folders
 # after the ROM folders: they are only made on a card without any of them
 bios_folder
