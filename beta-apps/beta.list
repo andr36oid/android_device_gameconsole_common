@@ -1,0 +1,24 @@
+# Apps offered to testers of beta, dirty and debug builds by the Beta apps app.
+# One app per line: package versionCode apk [needs=package] description
+# The name, icon and version shown come from the APK itself. The description is
+# the rest of the line, one short sentence. needs= (optional) names an app from
+# this list that gets ticked too when this one is ticked, e.g. for a plugin.
+# Put that app above the ones that need it, apps are installed in list order.
+com.kevintresuelo.treble 500004 TrebleInfo.apk Shows whether the system supports Treble and which GSI images fit it.
+com.cpuid.cpu_z 7 CPU-Z.apk Shows the CPU, chip, memory, battery and sensors.
+aws.apps.usbDeviceEnumerator 81 UsbDeviceInfo.apk Lists the USB devices plugged into the console.
+org.fdroid.fdroid 1023052 F-Droid.apk App store for free and open source apps. Allow it as an install source when it asks.
+com.sika524.android.quickshortcut 20400 QuickShortcutMaker.apk Makes home screen shortcuts to any screen of any app.
+sh.haven.app 8651 Haven.apk SSH, VNC and RDP client with a local Linux terminal.
+com.termux 1002 Termux.apk Linux terminal with a package manager for command line tools.
+dev.sebaubuntu.athena 17 Athena.apk Shows detailed hardware and system information.
+com.ghisler.android.TotalCommander 2490 TotalCommander.apk Two-pane file manager.
+com.ghisler.tcplugins.LAN 106 TotalCommanderLAN.apk needs=com.ghisler.android.TotalCommander Plugin for Total Commander: opens Windows (SMB) network shares.
+com.ghisler.tcplugins.SFTP 60 TotalCommanderSFTP.apk needs=com.ghisler.android.TotalCommander Plugin for Total Commander: opens SFTP servers.
+org.fedorahosted.freeotp 48 FreeOTP.apk Makes two-factor login codes.
+dev.imranr.obtainium.fdroid 23563 Obtainium.apk Installs and updates apps straight from their release pages, like GitHub.
+com.github.itskenny0.r1ha 103510688 R1HA.apk Home Assistant client for controlling your smart home.
+de.szalkowski.activitylauncher 20500 ActivityLauncher.apk Opens hidden screens of apps and makes shortcuts to them.
+info.dvkr.screenstream 44002 ScreenStream.apk Streams the console's screen to a web browser on your network.
+org.schabi.newpipe 1015 NewPipe.apk Watches YouTube and PeerTube videos without ads or a Google account.
+app.pwhs.universalinstaller 42 UniversalInstaller.apk Installs XAPK, APKS and APKM app bundles that the normal installer cannot open.

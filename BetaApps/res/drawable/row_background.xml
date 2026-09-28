@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- An app in the list, or a button: accent ring when focused -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_focused="true">
+        <shape>
+            <corners android:radius="10dp" />
+            <solid android:color="#26FFCC80" />
+            <stroke android:width="2dp" android:color="@color/beta_accent" />
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <corners android:radius="10dp" />
+            <solid android:color="@color/beta_panel" />
+        </shape>
+    </item>
+</selector>
