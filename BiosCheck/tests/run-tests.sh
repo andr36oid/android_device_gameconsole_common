@@ -1,6 +1,6 @@
 #!/bin/bash
-# Host test of the BIOS check: the table, the matching (plain Java, no android.*) and
-# the root helper doing the scan, copies and renames in a temp dir.
+# Host test of Emulator files: the table, the matching (plain Java, no android.*) and
+# the root helper doing the scan and the renames in a temp dir.
 #   BiosCheck/tests/run-tests.sh
 set -e
 HERE=$(cd "$(dirname "$0")/.." && pwd)

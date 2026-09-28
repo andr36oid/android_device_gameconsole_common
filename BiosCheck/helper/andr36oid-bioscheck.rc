@@ -1,7 +1,7 @@
 on post-fs-data
     mkdir /data/misc/andr36oid-bioscheck 0770 system system
 
-# Started by Settings > BIOS check with ctl.start, see andr36oid-bioscheck.sh
+# Started by Settings > Emulator files with ctl.start, see andr36oid-bioscheck.sh
 service andr36oid-bioscheck /system/bin/sh /system/etc/andr36oid-bioscheck.sh
     user root
     group root system media_rw

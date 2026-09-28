@@ -1,8 +1,8 @@
-// Settings > BIOS check: which BIOS files each system needs, which ones are on EASYROMS
-// and whether they're the right ones (MD5), and copies the good ones to where the
-// emulators look. Runs as the system user like the other console apps; the file work
-// is done by the andr36oid-bioscheck init service (Android.mk), which needs root for
-// EASYROMS and RetroArch's folders.
+// Settings > Emulator files: which BIOS files each system needs, whether they're in the
+// bios folder on EASYROMS (where RetroArch reads them) and whether they're the right
+// ones (MD5), and fixes file names. Runs as the system user like the other console
+// apps; the file work is done by the andr36oid-bioscheck init service (Android.mk),
+// which needs root for EASYROMS.
 android_app {
     name: "BiosCheck",
     srcs: ["src/**/*.java"],
