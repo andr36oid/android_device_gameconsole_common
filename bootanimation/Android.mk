@@ -17,6 +17,11 @@
 # Boot animation from LineageOS 23.2 (vendor/lineage@10b4c2b) with the
 # andr36oid version text at the bottom. Installed by vendor/lineage through
 # TARGET_BOOTANIMATION, set in BoardConfig.mk.
+#
+# desc.txt: the closing part2 is "p", not LineageOS' "c". A "c" part plays to
+# the end after boot has finished, and Android holds the home screen and
+# sys.boot_completed until the animation exits: 210 frames at 60fps, 3.5s of
+# every boot. With "p" the animation stops once part1 finishes its loop.
 
 LOCAL_PATH := $(call my-dir)
 
