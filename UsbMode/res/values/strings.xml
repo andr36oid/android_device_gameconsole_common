@@ -8,7 +8,19 @@
     <string name="usb_mode_switch_on">The OTG port acts as a device for a computer</string>
     <string name="usb_mode_switch_off">The OTG port powers accessories like pads, drives and network adapters</string>
 
-    <string name="usb_mode_about">Turn this on to reach the console from a computer through the OTG port: file transfer (MTP), and adb once USB debugging is on in Developer options. Choose what the connection does from the USB notification.\n\nWhile it is on, accessories plugged into the OTG port don\'t work. The console always starts with it off, a restart switches the port back to accessories.\n\nSome consoles don\'t wire the port for this. If the computer sees nothing with a good data cable, the console can\'t do it.</string>
+    <string name="usb_mode_about">Turn this on to reach the console from a computer through the OTG port: file transfer (MTP) or photo transfer (PTP), and adb once USB debugging is on in Developer options.\n\nWhile it is on, accessories plugged into the OTG port don\'t work. The console always starts with it off, a restart switches the port back to accessories.\n\nSome consoles don\'t wire the port for this. If the computer sees nothing with a good data cable, the console can\'t do it.</string>
+
+    <string name="usb_mode_functions">Use USB for</string>
+    <string-array name="usb_mode_functions_entries" translatable="false">
+        <item>File transfer</item>
+        <item>Photo transfer (PTP)</item>
+        <item>No data (adb only)</item>
+    </string-array>
+    <string-array name="usb_mode_functions_values" translatable="false">
+        <item>mtp</item>
+        <item>ptp</item>
+        <item>none</item>
+    </string-array>
 
     <string name="usb_mode_unsupported">This console can\'t switch its USB port.</string>
     <string name="usb_mode_failed">Couldn\'t switch the USB port</string>

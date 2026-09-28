@@ -6,6 +6,15 @@
         android:persistent="false"
         android:title="@string/usb_mode_switch" />
 
+    <ListPreference
+        android:key="functions"
+        android:title="@string/usb_mode_functions"
+        android:dialogTitle="@string/usb_mode_functions"
+        android:entries="@array/usb_mode_functions_entries"
+        android:entryValues="@array/usb_mode_functions_values"
+        android:defaultValue="mtp"
+        android:summary="%s" />
+
     <Preference
         android:key="about"
         android:selectable="false"

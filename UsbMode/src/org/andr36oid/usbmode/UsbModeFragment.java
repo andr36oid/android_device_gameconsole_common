@@ -1,6 +1,7 @@
 package org.andr36oid.usbmode;
 
 import android.os.Bundle;
+import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.SwitchPreference;
@@ -20,13 +21,17 @@ public class UsbModeFragment extends PreferenceFragment
         mUsbMode = new UsbMode(getActivity());
         addPreferencesFromResource(R.xml.usb_mode_settings);
         mDevice = (SwitchPreference) findPreference(KEY_DEVICE);
+        final ListPreference functions = (ListPreference) findPreference(UsbMode.KEY_FUNCTIONS);
+        functions.setValue(mUsbMode.getFunctions());
 
         if (!mUsbMode.isSupported()) {
             mDevice.setEnabled(false);
             mDevice.setSummary(R.string.usb_mode_unsupported);
+            functions.setEnabled(false);
             return;
         }
         mDevice.setOnPreferenceChangeListener(this);
+        functions.setOnPreferenceChangeListener(this);
     }
 
     @Override
@@ -40,6 +45,11 @@ public class UsbModeFragment extends PreferenceFragment
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
+        if (UsbMode.KEY_FUNCTIONS.equals(preference.getKey())) {
+            // Saves the choice and applies it right away when already in device mode.
+            mUsbMode.setFunctions((String) newValue);
+            return true;
+        }
         if (!mUsbMode.setDevice((Boolean) newValue)) {
             Toast.makeText(getActivity(), R.string.usb_mode_failed, Toast.LENGTH_SHORT).show();
         }
