@@ -20,3 +20,4 @@ To add one: put the APK here, add a module for it to `Android.mk` and to
 | Termux.apk | Termux 0.118.3 (GPL-3.0), https://f-droid.org/packages/com.termux/ (F-Droid build, hash matches the F-Droid index; universal APK, 114 MB) | e6265a57eb5ca363808488e3b01955958bed93bc0c8a0d281849b363b11027ec |
 | Athena.apk | Athena 2.0.3 by SebaUbuntu (Apache-2.0), https://f-droid.org/packages/dev.sebaubuntu.athena/ (F-Droid build, hash matches the F-Droid index) | 03d7823c598211808f2b81f6dae8ffad62a3c880cea64863fd3cd2084d91d577 |
 | TotalCommander.apk | Total Commander 3.62d by Christian Ghisler (freeware), https://www.ghisler.com/tcandroid3.apk, signed by Christian Ghisler | d918ccc0506f6ac3b72fb2cc4dc1eccb3f83eb873077d982a79054d8d65467e4 |
+| TotalCommanderLAN.apk | Total Commander LAN plugin 3.60 by Christian Ghisler (freeware), http://totalcommander.ch/aplg/tcandroidlan360.apk, signed by Christian Ghisler | c3091b317e4f4c4a0139a98830cef4269a79fc18bd27dce6c94d10e7bae308e8 |
