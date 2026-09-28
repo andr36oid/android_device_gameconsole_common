@@ -19,9 +19,10 @@ TARGET_BOARD_PLATFORM_GPU := mali-tDVx
 BOARD_VENDOR_GPU_PLATFORM := bifrost
 
 # Experimental Vulkan, off by default. When true the build switches to gralloc 4
-# (hardware/rockchip/libgralloc/bifrost/src) and the Rockchip Android 11 Mali
-# g2p0 blobs in mali/g2p0, which have the Vulkan driver. The old GLES-only blob
-# and gralloc 0 stay the default.
+# (hardware/rockchip/libgralloc/bifrost/src), the Rockchip Android 12 Mali-G31
+# g7p1 blobs in mali/g7p1, which have the Vulkan driver, and the matching g7p1
+# kbase in the kernel (arch/arm64/configs/gameconsole_vulkan.config). The old
+# GLES-only blob, gralloc 0 and the g2p0 kbase stay the default.
 # To turn it on, set TARGET_GAMECONSOLE_VULKAN := true in lineage_<device>.mk
 # before it includes this file, or export it, and also export
 # TARGET_RK_GRALLOC_VERSION=4 in the shell before lunch: the Soong-built librga
@@ -82,6 +83,13 @@ BOARD_RAMDISK_USE_LZ4 := false
 
 TARGET_KERNEL_SOURCE := kernel/gameconsole/r36s
 TARGET_KERNEL_ARCH := arm64
+ifeq ($(TARGET_GAMECONSOLE_VULKAN),true)
+# The g7p1 Mali blobs need the g7p1 kbase, this fragment selects it
+TARGET_KERNEL_ADDITIONAL_CONFIG := gameconsole_vulkan.config
+ifeq ($(wildcard $(TARGET_KERNEL_SOURCE)/arch/arm64/configs/$(TARGET_KERNEL_ADDITIONAL_CONFIG)),)
+$(error TARGET_GAMECONSOLE_VULKAN=true needs the kernel branch with the g7p1 Mali kbase ($(TARGET_KERNEL_ADDITIONAL_CONFIG) is missing))
+endif
+endif
 TARGET_KERNEL_CLANG_COMPILE := false
 BOARD_KERNEL_IMAGE_NAME = Image
 TARGET_KERNEL_CROSS_COMPILE_PREFIX := /opt/toolchains/gcc-linaro-6.3.1-2017.05-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-
@@ -138,7 +146,7 @@ BOARD_SYSTEMIMAGE_FILE_SYSTEM_TYPE := ext4
 TARGET_COPY_OUT_VENDOR := vendor
 BOARD_VENDORIMAGE_PARTITION_RESERVED_SIZE := 33554432 # 32M
 ifeq ($(TARGET_GAMECONSOLE_VULKAN),true)
-# The g2p0 blobs and gralloc 4 add about 38M, so the image (about 167M used
+# The g7p1 blobs and gralloc 4 add about 38M, so the image (about 167M used
 # plus the reserve) no longer fits 160M. The device mkimg.sh then makes the
 # vendor partition 192M. 16M free leaves room below that.
 BOARD_VENDORIMAGE_PARTITION_RESERVED_SIZE := 16777216 # 16M
