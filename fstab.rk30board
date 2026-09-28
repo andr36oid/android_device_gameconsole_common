@@ -8,7 +8,8 @@
 /dev/block/platform/ff370000.dwmmc/by-name/metadata     /metadata   ext4       noatime,nosuid,nodev,discard                        wait,check,formattable
 /dev/block/platform/ff370000.dwmmc/by-name/userdata     /data       f2fs       noatime,nosuid,nodev,nodiratime,inline_data         wait,latemount,check,quota,formattable,reservedsize=128M
 /dev/block/platform/ff370000.dwmmc/by-name/userdata     /data       ext4       noatime,nosuid,nodev,barrier=1,noauto_da_alloc	   quota,latemount,formattable,reservedsize=128M
-/dev/block/platform/ff370000.dwmmc/by-name/cache        /cache      ext4       noatime,nosuid,nodev,barrier=1,data=ordered,nomblk_io_submit,noauto_da_alloc wait,check,formattable
+# /cache only holds recovery logs and commands: no fsck on every boot, the kernel replays its journal when mounting
+/dev/block/platform/ff370000.dwmmc/by-name/cache        /cache      ext4       noatime,nosuid,nodev,barrier=1,data=ordered,nomblk_io_submit,noauto_da_alloc wait,formattable
 /dev/block/platform/ff370000.dwmmc/by-name/misc         /misc       emmc       defaults                                            defaults
 */block/mmcblk0*  	     /boot           emmc    defaults                                                        defaults
 
