@@ -14,6 +14,11 @@
         <Preference
             android:key="profile_about"
             android:selectable="false" />
+
+        <ListPreference
+            android:key="cpu_cap"
+            android:persistent="false"
+            android:title="@string/cpu_cap_title" />
     </PreferenceCategory>
 
     <PreferenceCategory

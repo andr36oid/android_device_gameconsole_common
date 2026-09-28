@@ -17,7 +17,7 @@ public class ProfileSwitchReceiver extends BroadcastReceiver {
         final PerformanceProfiles profiles = new PerformanceProfiles(context);
         final int next = profiles.next();
         final String text = profiles.set(next)
-                ? context.getString(R.string.profile_switched, profiles.getName(next))
+                ? profiles.describeForToast(next)
                 : context.getString(R.string.profile_failed);
         // Replace the last message when stepping through the profiles quickly
         if (sToast != null) {

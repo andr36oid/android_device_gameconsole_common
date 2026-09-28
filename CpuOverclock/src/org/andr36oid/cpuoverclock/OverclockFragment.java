@@ -13,6 +13,7 @@ public class OverclockFragment extends PreferenceFragment
 
     private static final String KEY_PROFILE = "profile";
     private static final String KEY_PROFILE_ABOUT = "profile_about";
+    private static final String KEY_CPU_CAP = "cpu_cap";
     private static final String KEY_ENABLED = "enabled";
     private static final String KEY_SPEED = "speed";
 
@@ -20,6 +21,7 @@ public class OverclockFragment extends PreferenceFragment
     private PerformanceProfiles mProfiles;
     private ListPreference mProfile;
     private Preference mProfileAbout;
+    private ListPreference mCpuCap;
     private SwitchPreference mEnabled;
     private ListPreference mSpeed;
 
@@ -31,6 +33,7 @@ public class OverclockFragment extends PreferenceFragment
         addPreferencesFromResource(R.xml.overclock_settings);
         mProfile = (ListPreference) findPreference(KEY_PROFILE);
         mProfileAbout = findPreference(KEY_PROFILE_ABOUT);
+        mCpuCap = (ListPreference) findPreference(KEY_CPU_CAP);
         mEnabled = (SwitchPreference) findPreference(KEY_ENABLED);
         mSpeed = (ListPreference) findPreference(KEY_SPEED);
 
@@ -40,6 +43,24 @@ public class OverclockFragment extends PreferenceFragment
         }
         mProfile.setEntryValues(profileValues);
         mProfile.setOnPreferenceChangeListener(this);
+
+        // Stock first, then the standard speeds below the top, highest first.
+        final int[] caps = mProfiles.getCpuCapChoices();
+        final CharSequence[] capEntries = new CharSequence[caps.length + 1];
+        final CharSequence[] capValues = new CharSequence[caps.length + 1];
+        capEntries[0] = getString(R.string.cpu_cap_stock,
+                mProfiles.formatMhz(mOverclock.getStandardSpeed()));
+        capValues[0] = "0";
+        for (int i = 0; i < caps.length; i++) {
+            capEntries[i + 1] = mProfiles.formatMhz(caps[i]);
+            capValues[i + 1] = String.valueOf(caps[i]);
+        }
+        mCpuCap.setEntries(capEntries);
+        mCpuCap.setEntryValues(capValues);
+        if (caps.length == 0) {
+            mCpuCap.setEnabled(false);
+        }
+        mCpuCap.setOnPreferenceChangeListener(this);
 
         if (!mOverclock.isSupported()) {
             mEnabled.setEnabled(false);
@@ -72,6 +93,8 @@ public class OverclockFragment extends PreferenceFragment
         final boolean done;
         if (preference == mProfile) {
             done = mProfiles.set(Integer.parseInt((String) newValue));
+        } else if (preference == mCpuCap) {
+            done = mProfiles.setCpuCap(Integer.parseInt((String) newValue));
         } else if (preference == mEnabled) {
             done = mOverclock.setOn((Boolean) newValue);
         } else {
@@ -92,6 +115,7 @@ public class OverclockFragment extends PreferenceFragment
         mProfile.setValue(String.valueOf(profile));
         mProfile.setSummary(mProfiles.getName(profile));
         mProfileAbout.setSummary(describe(profile));
+        updateCpuCap();
 
         if (!mOverclock.isSupported()) {
             return;
@@ -102,10 +126,28 @@ public class OverclockFragment extends PreferenceFragment
                 ? getString(R.string.overclock_switch_on,
                         mOverclock.formatSpeed(mOverclock.getMaxSpeed()))
                 : getString(R.string.overclock_switch_off,
-                        mOverclock.formatSpeed(mOverclock.getStandardSpeed())));
+                        mOverclock.formatSpeed(mOverclock.getMaxSpeed())));
         final int chosen = mOverclock.getChosenSpeed();
         mSpeed.setValue(String.valueOf(chosen));
         mSpeed.setSummary(mOverclock.formatSpeed(chosen));
+    }
+
+    private void updateCpuCap() {
+        final int cap = mProfiles.getCpuCap();
+        mCpuCap.setValue(String.valueOf(cap));
+        final String state;
+        if (cap == 0) {
+            state = getString(R.string.cpu_cap_none);
+        } else if (mOverclock.isOn()) {
+            state = getString(R.string.cpu_cap_on_hold, mProfiles.formatMhz(cap));
+        } else if (mProfiles.getActiveCpuCap() > 0) {
+            state = getString(R.string.cpu_cap_active,
+                    mProfiles.formatMhz(mProfiles.getActiveCpuCap()));
+        } else {
+            state = getString(R.string.cpu_cap_profile_lower, mProfiles.formatMhz(cap),
+                    mProfiles.formatMhz(mProfiles.getProfileCpuMax()));
+        }
+        mCpuCap.setSummary(state + "\n" + getString(R.string.cpu_cap_note));
     }
 
     private String describe(int profile) {
