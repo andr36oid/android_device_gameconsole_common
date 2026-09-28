@@ -34,6 +34,9 @@ the `gameconsole-emu` service (`seed/`) runs once `sys.boot_completed=1`:
 4. Make the usual ROM folders (`seed/rom-folders.txt`, ArkOS/dArkOS names) plus a
    `README-andr36oid.txt` on the EASYROMS partition (`public:179,7`). Once per card, and
    only on a card that has none of these folders yet, so existing layouts stay untouched.
+5. Point RetroArch's `system_directory` (where the cores look for BIOS files) at the bios
+   folder on EASYROMS, `/storage/<uuid>/bios`, like ArkOS's `/roms/bios`. See
+   [BIOS folder](#bios-folder) below.
 
 Log tag: `gameconsole-emu`. State: `/data/misc/gameconsole` and
 `/data/user/0/com.retroarch/.gameconsole`.
@@ -78,6 +81,24 @@ picked by Daijishou's player, not by retroarch.cfg. Same as ArkOS: gambatte, mGB
 PCSX ReARMed, Beetle PCE Fast/NeoPop/Cygne, Genesis Plus GX, PicoDrive. Use mGBA rather
 than gpSP for GBA, and Genesis Plus GX (non-commercial tier) rather than Gearsystem for
 Master System/Game Gear. Save states only load in the same core.
+
+### BIOS folder
+
+The EASYROMS path has the card's UUID in it, so it can't be in the seeded retroarch.cfg.
+Instead the service sets `system_directory = "/storage/<uuid>/bios"` on every boot (an
+existing `BIOS`/`Bios` folder is used as it is, a missing one is made):
+
+- only while the setting is unset, RetroArch's default (`default`,
+  `/storage/emulated/0/RetroArch/system`, which RetroArch writes back on exit) or the
+  value the service wrote last time (`/data/misc/gameconsole/retroarch-system-dir`).
+  So a new or reformatted card gets its new path, and a folder the user picked in
+  RetroArch (Settings > Directory > System/BIOS) is never touched.
+- installs from before this change get it too, as long as the setting is still the default.
+- if EASYROMS isn't mounted, nothing changes and the next boot tries again.
+
+RetroArch 1.22.2 targets SDK 28 with `requestLegacyExternalStorage` and gets the storage
+permissions from `pm install -g`, so it reads `/storage/<uuid>` like it reads the games.
+Settings > Emulator files checks what is in that folder.
 
 PPSSPP isn't seeded: it stores its settings (and `controls.ini`) in the memory stick
 folder the user picks on its first start, so there is nothing to seed before that.
