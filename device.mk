@@ -259,24 +259,11 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 PRODUCT_PACKAGES += \
     vulkan.$(TARGET_BOARD_PLATFORM)
-else
-PRODUCT_COPY_FILES += \
-    frameworks/native/data/etc/android.hardware.vulkan.level-1.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.vulkan.level.xml \
-    frameworks/native/data/etc/android.hardware.vulkan.version-1_1.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.vulkan.version.xml \
-    frameworks/native/data/etc/android.hardware.vulkan.compute-0.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.vulkan.compute.xml
 endif
 
 # Specify OpenGLES version 
 PRODUCT_PROPERTY_OVERRIDES += \
     	ro.opengles.version=196610
-
-ifneq ($(TARGET_GAMECONSOLE_VULKAN),true)
-PRODUCT_PROPERTY_OVERRIDES += \
-	ro.hardware.vulkan=rk30board \
-    	
-endif
-#binary blobs from ARM
-#	vulkan.rk30board \
 
 PRODUCT_PACKAGES += libGLES_mali.so 
 PRODUCT_PACKAGES += libGLES_android
