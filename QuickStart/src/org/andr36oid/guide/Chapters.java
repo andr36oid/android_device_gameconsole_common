@@ -20,10 +20,17 @@ final class Chapters {
         // Buttons pressed together; each entry may hold alternatives split by " / ".
         final List<String> keys;
         final CharSequence text;
+        // A question or problem that the paragraphs below it answer
+        final boolean heading;
 
         Item(List<String> keys, CharSequence text) {
+            this(keys, text, false);
+        }
+
+        Item(List<String> keys, CharSequence text, boolean heading) {
             this.keys = keys;
             this.text = text;
+            this.heading = heading;
         }
 
         boolean isParagraph() {
@@ -34,6 +41,8 @@ final class Chapters {
     static final class Chapter {
         final CharSequence title;
         final List<Item> items = new ArrayList<>();
+        // The help part starts here: the Help app icon opens the guide on this topic
+        boolean helpStart;
 
         Chapter(CharSequence title) {
             this.title = title;
@@ -55,6 +64,14 @@ final class Chapters {
         final boolean romFolders = SystemProperties.getBoolean("ro.andr36oid.rom_folders", false);
         final boolean profiles = hasComponent(new ComponentName("org.andr36oid.cpuoverclock",
                 "org.andr36oid.cpuoverclock.ProfileTileService"));
+        final boolean fnHelp = fnShortcuts
+                && SystemProperties.getBoolean("ro.andr36oid.fn_help", false);
+        final boolean fnOverlay = fnShortcuts
+                && SystemProperties.getBoolean("ro.andr36oid.fn_overlay", false)
+                && hasPackage("org.andr36oid.perfoverlay");
+        final boolean usbMode = hasPackage("org.andr36oid.usbmode");
+        final boolean batteryDetails = hasPackage("org.andr36oid.batterydetails");
+        final boolean magisk = hasPackage("com.topjohnwu.magisk");
         final String dpad = s(R.string.key_dpad);
         final String power = s(R.string.key_power);
         final String volume = s(R.string.key_volume);
@@ -88,6 +105,12 @@ final class Chapters {
             row(c, R.string.shortcuts_mouse, "FN", "X");
             if (profiles) {
                 row(c, R.string.shortcuts_profile, "FN", "R1");
+            }
+            if (fnOverlay) {
+                row(c, R.string.shortcuts_overlay, "FN", "L2");
+            }
+            if (fnHelp) {
+                para(c, R.string.shortcuts_hold_help);
             }
         }
 
@@ -127,6 +150,66 @@ final class Chapters {
         para(c, R.string.internet_wifi);
         para(c, R.string.internet_browser);
 
+        // Help: problems and how to get out of them. Written for someone who may only have a
+        // PC and the SD card at hand, so every fix says where on the card to look.
+        c = chapter(R.string.trouble_title, chapters);
+        c.helpStart = true;
+        para(c, R.string.trouble_intro);
+        heading(c, R.string.trouble_first_boot_q);
+        para(c, R.string.trouble_first_boot_a);
+        heading(c, R.string.trouble_panel_q);
+        para(c, R.string.trouble_panel_a);
+        heading(c, R.string.trouble_stuck_q);
+        para(c, R.string.trouble_stuck_a);
+        heading(c, R.string.trouble_frozen_q);
+        para(c, R.string.trouble_frozen_a);
+        heading(c, R.string.trouble_buttons_q);
+        para(c, R.string.mapping_reset);
+        heading(c, R.string.trouble_recovery_q);
+        row(c, R.string.trouble_recovery_a, "FN", power);
+        para(c, R.string.trouble_recovery_more);
+        heading(c, R.string.trouble_clock_q);
+        para(c, R.string.trouble_clock_a);
+
+        c = chapter(R.string.usb_title, chapters);
+        para(c, R.string.usb_card);
+        if (usbMode) {
+            heading(c, R.string.usb_mode_q);
+            para(c, R.string.usb_mode_a);
+            para(c, R.string.usb_adb);
+        } else {
+            para(c, R.string.usb_host_only);
+        }
+        heading(c, R.string.usb_dongles_q);
+        para(c, R.string.usb_dongles_a);
+        para(c, R.string.usb_dongles_trouble);
+
+        c = chapter(R.string.card_title, chapters);
+        para(c, R.string.card_layout);
+        heading(c, R.string.card_noroms_q);
+        para(c, R.string.card_noroms_a);
+        heading(c, R.string.card_backup_q);
+        para(c, R.string.card_backup_a);
+
+        c = chapter(R.string.battery_title, chapters);
+        heading(c, R.string.battery_percent_q);
+        para(c, R.string.battery_percent_a);
+        if (batteryDetails) {
+            para(c, R.string.battery_details);
+        }
+        heading(c, R.string.battery_sleep_q);
+        para(c, R.string.battery_sleep_a);
+        heading(c, R.string.battery_storage_q);
+        para(c, R.string.battery_storage_a);
+
+        if (magisk) {
+            c = chapter(R.string.magisk_title, chapters);
+            para(c, R.string.magisk_intro);
+            para(c, R.string.magisk_modules);
+            heading(c, R.string.magisk_broken_q);
+            para(c, R.string.magisk_broken_a);
+        }
+
         return chapters;
     }
 
@@ -134,6 +217,15 @@ final class Chapters {
         try {
             mContext.getPackageManager().getServiceInfo(component,
                     PackageManager.MATCH_DISABLED_COMPONENTS);
+            return true;
+        } catch (PackageManager.NameNotFoundException e) {
+            return false;
+        }
+    }
+
+    private boolean hasPackage(String packageName) {
+        try {
+            mContext.getPackageManager().getPackageInfo(packageName, 0);
             return true;
         } catch (PackageManager.NameNotFoundException e) {
             return false;
@@ -152,6 +244,10 @@ final class Chapters {
 
     private void para(Chapter chapter, int text) {
         chapter.items.add(new Item(new ArrayList<>(), mContext.getText(text)));
+    }
+
+    private void heading(Chapter chapter, int text) {
+        chapter.items.add(new Item(new ArrayList<>(), mContext.getText(text), true));
     }
 
     private void row(Chapter chapter, int text, String... keys) {

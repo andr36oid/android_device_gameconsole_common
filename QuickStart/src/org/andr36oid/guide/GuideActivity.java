@@ -1,6 +1,7 @@
 package org.andr36oid.guide;
 
 import android.app.Activity;
+import android.content.ComponentName;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.TypedValue;
@@ -21,6 +22,9 @@ import java.util.List;
  * topics and closes the guide from there. L1 and R1 step through the topics from anywhere.
  */
 public class GuideActivity extends Activity {
+
+    // activity-alias in the manifest: the Help icon in the app list
+    private static final String HELP_ALIAS = ".HelpActivity";
 
     private final List<TextView> mChapterViews = new ArrayList<>();
     private List<Chapters.Chapter> mChapters;
@@ -67,10 +71,23 @@ public class GuideActivity extends Activity {
         setContentView(root);
 
         final int start = savedInstanceState != null
-                ? savedInstanceState.getInt("chapter", 0) : 0;
+                ? savedInstanceState.getInt("chapter", 0) : getFirstChapter();
         showChapter(Math.min(start, mChapters.size() - 1));
         mChapterViews.get(mShown).requestFocus();
         updateHints(false);
+    }
+
+    /** The Help app icon opens the guide on the first help topic. */
+    private int getFirstChapter() {
+        final ComponentName component = getIntent().getComponent();
+        if (component != null && component.getClassName().endsWith(HELP_ALIAS)) {
+            for (int i = 0; i < mChapters.size(); i++) {
+                if (mChapters.get(i).helpStart) {
+                    return i;
+                }
+            }
+        }
+        return 0;
     }
 
     @Override
@@ -161,9 +178,17 @@ public class GuideActivity extends Activity {
         mPageTitle.setPadding(0, 0, 0, dp(8));
         mPageContent.addView(mPageTitle);
         for (Chapters.Item item : chapter.items) {
-            mPageContent.addView(item.isParagraph() ? buildParagraph(item) : buildRow(item));
+            mPageContent.addView(item.heading ? buildHeading(item)
+                    : item.isParagraph() ? buildParagraph(item) : buildRow(item));
         }
         mPage.scrollTo(0, 0);
+    }
+
+    private View buildHeading(Chapters.Item item) {
+        final TextView view = text(item.text, 16, R.color.guide_accent);
+        view.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
+        view.setPadding(0, dp(12), 0, dp(0));
+        return view;
     }
 
     private View buildParagraph(Chapters.Item item) {
