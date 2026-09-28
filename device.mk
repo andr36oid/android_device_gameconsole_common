@@ -425,6 +425,11 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
 	CpuOverclock
 
+# USB mode: switches the OTG port between host and device (adb, MTP)
+# (Settings > USB mode, Quick Settings tile once used)
+PRODUCT_PACKAGES += \
+	UsbMode
+
 # Credits, an easter egg behind the andr36oid version in Settings > About console
 PRODUCT_PACKAGES += \
 	Andr36oidCredits

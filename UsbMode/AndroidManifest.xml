@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="org.andr36oid.usbmode"
+    android:sharedUserId="android.uid.system">
+
+    <application
+        android:allowBackup="false"
+        android:icon="@drawable/ic_usb_mode"
+        android:label="@string/usb_mode_title"
+        android:supportsRtl="true">
+
+        <!-- Injected into the top level of the Settings app, right below CPU overclock.
+             Also opened by a long press on the tile. -->
+        <activity
+            android:name=".UsbModeActivity"
+            android:exported="true"
+            android:label="@string/usb_mode_title"
+            android:theme="@android:style/Theme.DeviceDefault.Settings">
+            <intent-filter>
+                <action android:name="com.android.settings.action.IA_SETTINGS" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE_PREFERENCES" />
+            </intent-filter>
+            <meta-data
+                android:name="com.android.settings.category"
+                android:value="com.android.settings.category.ia.homepage" />
+            <meta-data
+                android:name="com.android.settings.order"
+                android:value="-64" />
+            <meta-data
+                android:name="com.android.settings.keyhint"
+                android:value="top_level_usb_mode" />
+            <meta-data
+                android:name="com.android.settings.summary"
+                android:resource="@string/usb_mode_summary" />
+            <meta-data
+                android:name="com.android.settings.icon"
+                android:resource="@drawable/ic_usb_mode" />
+            <meta-data
+                android:name="com.android.settings.bg.hint"
+                android:resource="@color/usb_mode_icon_background" />
+        </activity>
+
+        <!-- Off until the USB mode is changed for the first time, see UsbMode.showTile() -->
+        <service
+            android:name=".UsbModeTileService"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@drawable/ic_usb_mode"
+            android:label="@string/tile_label"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
+    </application>
+</manifest>

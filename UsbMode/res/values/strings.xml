@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="usb_mode_title">USB mode</string>
+    <string name="usb_mode_summary">Use the OTG port for accessories or to connect to a computer</string>
+
+    <string name="usb_mode_switch">Connect to a computer</string>
+    <string name="usb_mode_switch_on">The OTG port acts as a device for a computer</string>
+    <string name="usb_mode_switch_off">The OTG port powers accessories like pads, drives and network adapters</string>
+
+    <string name="usb_mode_about">Turn this on to reach the console from a computer through the OTG port: file transfer (MTP), and adb once USB debugging is on in Developer options. Choose what the connection does from the USB notification.\n\nWhile it is on, accessories plugged into the OTG port don\'t work. The console always starts with it off, a restart switches the port back to accessories.\n\nSome consoles don\'t wire the port for this. If the computer sees nothing with a good data cable, the console can\'t do it.</string>
+
+    <string name="usb_mode_unsupported">This console can\'t switch its USB port.</string>
+    <string name="usb_mode_failed">Couldn\'t switch the USB port</string>
+
+    <!-- Quick Settings tile -->
+    <string name="tile_label">USB mode</string>
+    <string name="tile_host">Accessories</string>
+    <string name="tile_device">Computer</string>
+</resources>
