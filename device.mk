@@ -423,7 +423,7 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
         $(LOCAL_PATH)/Vendor_484b_Product_1100.kl:$(TARGET_COPY_OUT_SYSTEM)/usr/keylayout/Vendor_484b_Product_1100.kl \
         $(LOCAL_PATH)/Vendor_484b_Product_1100.kcm:$(TARGET_COPY_OUT_SYSTEM)/usr/keychars/Vendor_484b_Product_1100.kcm \
-		$(LOCAL_PATH)/Vendor_484b_Product_1100.idc:$(TARGET_COPY_OUT_SYSTEM)/usr/idc/Vendor_484b_Product_1100.kl
+        $(LOCAL_PATH)/Vendor_484b_Product_1100.idc:$(TARGET_COPY_OUT_SYSTEM)/usr/idc/Vendor_484b_Product_1100.idc
 
 # Build and run only ART
 PRODUCT_RUNTIMES := runtime_libart_default
