@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <!-- Hands-on tutorial that runs once after the setup wizard -->
+    <string name="tutorial_label">Tutorial</string>
+    <!-- Above the progress bar, e.g. "Step 3 of 11" -->
+    <string name="tutorial_step">Step <xliff:g id="current">%1$d</xliff:g> of <xliff:g id="total">%2$d</xliff:g></string>
+
+    <!-- Buttons at the bottom -->
+    <string name="tutorial_back">Back</string>
+    <string name="tutorial_start">Start</string>
+    <string name="tutorial_next">Next</string>
+    <string name="tutorial_skip_step">Skip step</string>
+    <string name="tutorial_skip_all">Skip tutorial</string>
+    <string name="tutorial_done">Done</string>
+    <string name="tutorial_open_guide">Open the full guide</string>
+
+    <!-- Shown under the list once everything on a step was done -->
+    <string name="tutorial_well_done">Well done. Press A to go on.</string>
+
+    <!-- Welcome -->
+    <string name="tutorial_welcome_title">Let\'s try the buttons</string>
+    <string name="tutorial_welcome_body">This console has no touchscreen. Everything works with the buttons, and this short tutorial lets you try each of them. It takes about three minutes.\n\nPress A to go on and B to go back. Press Select to skip a step you already know.</string>
+
+    <!-- A, B, X, Y -->
+    <string name="tutorial_face_title">A, B, X and Y</string>
+    <string name="tutorial_face_body">A confirms: it opens what\'s selected and presses buttons on screen.\n\nB goes back, one screen at a time.\n\nX and Y do different things in each app and game.\n\nPress each of them once.</string>
+    <string name="tutorial_press_a">Press A</string>
+    <string name="tutorial_press_b">Press B</string>
+    <string name="tutorial_press_x">Press X</string>
+    <string name="tutorial_press_y">Press Y</string>
+
+    <!-- D-pad -->
+    <string name="tutorial_dpad_title">D-pad</string>
+    <string name="tutorial_dpad_body">The D-pad moves the selection around the screen: through lists, menus and buttons. The left stick does the same in menus.\n\nPress each direction once.</string>
+    <string name="tutorial_dpad_up">Up</string>
+    <string name="tutorial_dpad_down">Down</string>
+    <string name="tutorial_dpad_left">Left</string>
+    <string name="tutorial_dpad_right">Right</string>
+
+    <!-- Sticks -->
+    <string name="tutorial_sticks_title">Sticks</string>
+    <string name="tutorial_sticks_body">Games use both sticks. You can also press each stick in, like a button: that\'s L3 and R3.\n\nMove both sticks and watch the dots follow them, then press one stick in.</string>
+    <string name="tutorial_stick_left">Move the left stick</string>
+    <string name="tutorial_stick_right">Move the right stick</string>
+    <string name="tutorial_stick_click">Press a stick in (L3 or R3)</string>
+
+    <!-- Shoulder buttons -->
+    <string name="tutorial_shoulder_title">Shoulder buttons</string>
+    <string name="tutorial_shoulder_body">L1 and R1 are the upper shoulder buttons, L2 and R2 the lower ones. Many apps use L1 and R1 to switch tabs or pages.\n\nPress each of them once.</string>
+    <string name="tutorial_press_l1">Press L1</string>
+    <string name="tutorial_press_r1">Press R1</string>
+    <string name="tutorial_press_l2">Press L2</string>
+    <string name="tutorial_press_r2">Press R2</string>
+
+    <!-- FN = home -->
+    <string name="tutorial_home_title">FN is the Home button</string>
+    <string name="tutorial_home_body">Press FN on its own to get to the home screen from anywhere, even from a game. The home screen is Daijishou, where your games and apps are.\n\nTry it now: press FN. This tutorial comes back by itself a few seconds later.</string>
+    <string name="tutorial_home_task">Press FN</string>
+    <string name="tutorial_home_back">Welcome back. That\'s all there is to it.</string>
+
+    <!-- FN + volume -->
+    <string name="tutorial_brightness_title">FN shortcuts: brightness</string>
+    <string name="tutorial_brightness_body">FN has a second job: hold it and press another button for a shortcut.\n\nHold FN and press Vol+ to make the screen brighter. Hold FN and press Vol− to make it darker. The volume buttons alone still change the volume.</string>
+    <string name="tutorial_brightness_up">Brighter: FN + Vol+</string>
+    <string name="tutorial_brightness_down">Darker: FN + Vol−</string>
+    <string name="tutorial_brightness_hint">Already at the brightest? Start with darker.</string>
+    <!-- After FN alone was pressed on a step that wants FN plus another button -->
+    <string name="tutorial_fn_alone">That was FN on its own, so the home screen opened. Hold FN down, then press the second button while you keep holding FN.</string>
+
+    <!-- FN + Y -->
+    <string name="tutorial_shade_title">FN shortcuts: Quick Settings</string>
+    <string name="tutorial_shade_body">Hold FN and press Y to open your notifications and the Quick Settings, with tiles for things like Wi-Fi and Bluetooth.\n\nOpen it now, then close it again with FN + Y.</string>
+    <string name="tutorial_shade_open">Open it: FN + Y</string>
+    <string name="tutorial_shade_close">Close it: FN + Y again</string>
+
+    <!-- Joystick mouse -->
+    <string name="tutorial_mouse_title">Joystick mouse</string>
+    <string name="tutorial_mouse_body">A few apps expect a touchscreen. For those, the right stick can move a mouse pointer. A clicks, L1 is a right click, and the left stick scrolls.\n\nTo turn it on or off, hold both sticks pressed in (L3 + R3) for a second.</string>
+    <string name="tutorial_mouse_body_fn">A few apps expect a touchscreen. For those, the right stick can move a mouse pointer. A clicks, L1 is a right click, and the left stick scrolls.\n\nTo turn it on or off, hold both sticks pressed in (L3 + R3) for a second, or press FN + X.</string>
+    <string name="tutorial_mouse_on">Turn the mouse on</string>
+    <string name="tutorial_mouse_off">Turn it off again</string>
+
+    <!-- Power -->
+    <string name="tutorial_power_title">Power button</string>
+    <string name="tutorial_power_body">Tap Power to put the console to sleep, and tap it again to wake it up.\n\nHold Power for a second to open the power menu: power off, restart and more. Press B to close the menu.</string>
+    <string name="tutorial_power_sleep">Tap Power to sleep, then again to wake up</string>
+    <string name="tutorial_power_menu">Hold Power to open the menu, then B to close it</string>
+
+    <!-- Games -->
+    <string name="tutorial_games_title">Where your games go</string>
+    <string name="tutorial_games_body">Put the SD card in a computer. Besides a small BOOT drive it shows a big drive called EASYROMS: that\'s for your games.\n\nGive each system its own folder, named like nes, snes, gba, megadrive or psx.\n\nThen open Daijishou (press FN), add a platform and pick its folder on EASYROMS. Daijishou lists the games and starts them in RetroArch or PPSSPP.</string>
+    <!-- Under the games text, when the EASYROMS partition was found -->
+    <string name="tutorial_games_space">EASYROMS on this card: <xliff:g id="free">%1$s</xliff:g> free of <xliff:g id="total">%2$s</xliff:g>.</string>
+
+    <!-- Finish -->
+    <string name="tutorial_done_title">You\'re ready</string>
+    <string name="tutorial_done_body">That\'s the basics.\n\nThe quick start guide explains more: emulators, speed and battery, going online, and what to do if something goes wrong. Open it here, from the Help icon in your app list, or from Settings &gt; Quick start guide.</string>
+    <string name="tutorial_done_body_fn_help">That\'s the basics. Forgot a shortcut? Hold FN on its own for a moment, in any app or game, to see them all.\n\nThe quick start guide explains more: emulators, speed and battery, going online, and what to do if something goes wrong. Open it here, from the Help icon in your app list, or from Settings &gt; Quick start guide.</string>
+
+    <!-- Guide bottom bar: X opens the tutorial -->
+    <string name="hint_tutorial">Tutorial</string>
+</resources>

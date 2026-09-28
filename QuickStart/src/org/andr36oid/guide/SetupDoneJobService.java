@@ -3,7 +3,7 @@ package org.andr36oid.guide;
 import android.app.job.JobParameters;
 import android.app.job.JobService;
 
-/** Runs when the setup-complete flag changes: opens the guide, or keeps waiting. */
+/** Runs when the setup-complete flag changes: opens the tutorial, or keeps waiting. */
 public class SetupDoneJobService extends JobService {
 
     @Override

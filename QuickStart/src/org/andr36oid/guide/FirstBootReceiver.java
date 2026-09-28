@@ -11,8 +11,11 @@ import android.provider.Settings;
 import android.util.Log;
 
 /**
- * Opens the guide once, on the first start after the setup wizard. On the very first boot the
- * wizard is still on screen when the boot completes, so the guide waits for it to finish.
+ * Opens the tutorial on the first start after the setup wizard, until it was finished or
+ * skipped. On the very first boot the wizard is still on screen when the boot completes, so it
+ * waits for the wizard to finish. The wizard normally opens the tutorial itself as its last
+ * step; this is the fallback for a wizard without that step, and for consoles updated from a
+ * build without the tutorial (they see it once and can skip it on the first page).
  */
 public class FirstBootReceiver extends BroadcastReceiver {
 
@@ -50,13 +53,30 @@ public class FirstBootReceiver extends BroadcastReceiver {
         context.getSystemService(JobScheduler.class).schedule(job);
     }
 
+    /**
+     * Opens the hands-on tutorial. It sets the "shown" flag itself when it's finished, skipped
+     * or left, so it comes back on the next start if the console restarted in the middle. The
+     * beta apps chooser waits for that flag. The guide itself no longer opens by itself: the
+     * tutorial's last page offers it.
+     */
     static void show(Context context) {
-        markShown(context);
+        context.getSystemService(JobScheduler.class).cancel(JOB_SETUP_DONE);
+        if (TutorialActivity.isOpen()) {
+            // The setup wizard already opened it as its last step
+            return;
+        }
         try {
-            context.startActivity(new Intent(context, GuideActivity.class)
+            context.startActivity(new Intent(context, TutorialActivity.class)
                     .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
         } catch (RuntimeException e) {
-            Log.w(TAG, "Couldn't open the guide", e);
+            Log.w(TAG, "Couldn't open the tutorial, opening the guide", e);
+            markShown(context);
+            try {
+                context.startActivity(new Intent(context, GuideActivity.class)
+                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+            } catch (RuntimeException e2) {
+                Log.w(TAG, "Couldn't open the guide", e2);
+            }
         }
     }
 

@@ -8,4 +8,11 @@
         <!-- The ring is drawn by the chapter and page backgrounds -->
         <item name="android:defaultFocusHighlightEnabled">false</item>
     </style>
+
+    <!-- The tutorial looks like the rest of the system: the stock device theme, light or dark
+         like Settings, with the stock focus highlight -->
+    <style name="TutorialTheme" parent="@android:style/Theme.DeviceDefault.DayNight">
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
 </resources>

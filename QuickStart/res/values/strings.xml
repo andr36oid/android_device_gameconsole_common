@@ -24,6 +24,7 @@
     <string name="welcome_choose">Choose a topic</string>
     <string name="welcome_read">Read it, the D-pad then scrolls</string>
     <string name="welcome_page">Previous or next topic</string>
+    <string name="welcome_tutorial">Try the buttons again in the hands-on tutorial</string>
     <string name="welcome_close">Close the guide</string>
     <string name="welcome_again">You can open this guide again any time from Settings &gt; Quick start guide, or with the Help icon in your app list.</string>
 
