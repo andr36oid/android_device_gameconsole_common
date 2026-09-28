@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <!-- Background of the round icon on the Settings home page and of the app icon -->
-    <color name="transfer_icon_background">#039BE5</color>
-</resources>

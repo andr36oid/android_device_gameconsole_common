@@ -506,11 +506,6 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
 	GameComfort
 
-# Wi-Fi transfer: copy games to the console from a phone or computer browser
-# (Settings > Wi-Fi transfer, app list, Quick Settings tile)
-PRODUCT_PACKAGES += \
-	WifiTransfer
-
 # BIOS check: which BIOS files are missing or wrong, copies the good ones to RetroArch
 # (Settings top level, and in the app list)
 PRODUCT_PACKAGES += \
