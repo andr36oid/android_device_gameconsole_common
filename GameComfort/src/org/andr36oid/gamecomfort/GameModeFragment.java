@@ -1,6 +1,7 @@
 package org.andr36oid.gamecomfort;
 
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
@@ -22,6 +23,19 @@ public class GameModeFragment extends PreferenceFragment
         mNow.setOnPreferenceChangeListener(this);
         mAutomatic = (SwitchPreference) findPreference(GameMode.KEY_AUTOMATIC);
         mAutomatic.setOnPreferenceChangeListener(this);
+        if (!hasProfiles()) {
+            getPreferenceScreen().removePreference(findPreference(GameMode.KEY_PROFILE));
+        }
+    }
+
+    private boolean hasProfiles() {
+        try {
+            getActivity().getPackageManager().getServiceInfo(GameMode.PROFILES_TILE,
+                    PackageManager.MATCH_DISABLED_COMPONENTS);
+            return true;
+        } catch (PackageManager.NameNotFoundException e) {
+            return false;
+        }
     }
 
     @Override
