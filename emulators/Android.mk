@@ -17,7 +17,17 @@ LOCAL_MODULE_RELATIVE_PATH := gameconsole
 LOCAL_MODULE_STEM := gameconsole-emu.sh
 LOCAL_SRC_FILES := seed/gameconsole-emu.sh
 LOCAL_INIT_RC := seed/gameconsole-emu.rc
-LOCAL_REQUIRED_MODULES := gameconsole-preinstall-list
+LOCAL_REQUIRED_MODULES := gameconsole-preinstall-list gameconsole-rom-folders
+include $(BUILD_PREBUILT)
+
+# ROM folders the service makes on a fresh EASYROMS partition
+include $(CLEAR_VARS)
+LOCAL_MODULE := gameconsole-rom-folders
+LOCAL_MODULE_CLASS := ETC
+LOCAL_MODULE_TAGS := optional
+LOCAL_MODULE_RELATIVE_PATH := gameconsole
+LOCAL_MODULE_STEM := rom-folders.txt
+LOCAL_SRC_FILES := seed/rom-folders.txt
 include $(BUILD_PREBUILT)
 
 include $(CLEAR_VARS)
