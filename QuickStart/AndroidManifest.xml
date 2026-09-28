@@ -53,7 +53,25 @@
             </intent-filter>
         </activity-alias>
 
-        <!-- Shows the guide once, as soon as the setup wizard is done -->
+        <!-- Hands-on tutorial: the setup wizard's last step opens it (ACTION_TUTORIAL), and
+             FirstBootReceiver opens it if the wizard didn't. X in the guide opens it again. -->
+        <activity
+            android:name=".TutorialActivity"
+            android:exported="true"
+            android:label="@string/tutorial_label"
+            android:launchMode="singleTask"
+            android:taskAffinity="org.andr36oid.guide.tutorial"
+            android:screenOrientation="nosensor"
+            android:configChanges="keyboard|keyboardHidden|navigation|touchscreen|orientation|screenSize|screenLayout|smallestScreenSize"
+            android:theme="@style/TutorialTheme">
+            <intent-filter>
+                <action android:name="org.andr36oid.guide.action.TUTORIAL" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <!-- Opens the tutorial once, as soon as the setup wizard is done, if the wizard
+             didn't already -->
         <receiver
             android:name=".FirstBootReceiver"
             android:exported="false">

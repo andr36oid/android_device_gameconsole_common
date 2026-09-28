@@ -82,6 +82,7 @@ final class Chapters {
         row(c, R.string.welcome_choose, dpad);
         row(c, R.string.welcome_read, "A");
         row(c, R.string.welcome_page, "L1 / R1");
+        row(c, R.string.welcome_tutorial, "X");
         row(c, R.string.welcome_close, "B");
         para(c, R.string.welcome_again);
 

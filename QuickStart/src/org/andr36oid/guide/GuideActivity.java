@@ -2,6 +2,7 @@ package org.andr36oid.guide;
 
 import android.app.Activity;
 import android.content.ComponentName;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.TypedValue;
@@ -257,6 +258,7 @@ public class GuideActivity extends Activity {
         } else {
             hint(getString(R.string.key_dpad), R.string.hint_choose);
             hint("A", R.string.hint_read);
+            hint("X", R.string.hint_tutorial);
             hint("B", R.string.hint_close);
         }
     }
@@ -302,6 +304,12 @@ public class GuideActivity extends Activity {
         // Handled on both down and up, so their fallback keys (B is Back, A is center)
         // never get generated.
         switch (key) {
+            case KeyEvent.KEYCODE_BUTTON_X:
+                // Try the buttons hands-on again
+                if (down && event.getRepeatCount() == 0) {
+                    startActivity(new Intent(this, TutorialActivity.class));
+                }
+                return true;
             case KeyEvent.KEYCODE_BUTTON_L1:
             case KeyEvent.KEYCODE_BUTTON_R1:
                 if (down) stepChapter(key == KeyEvent.KEYCODE_BUTTON_L1 ? -1 : 1);
