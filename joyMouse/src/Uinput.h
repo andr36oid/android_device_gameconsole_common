@@ -63,4 +63,22 @@ private:
     PadExtras extras_;
 };
 
+// The touchscreen of touch mode. Its name matches
+// /system/usr/idc/andr36oid_Touch_Controls.idc, which makes Android treat it
+// as a touchscreen on the built-in display. The raw range is the display in
+// its natural orientation, one unit per pixel.
+class VirtualTouchscreen : public UinputDevice {
+public:
+    static constexpr const char kName[] = "andr36oid Touch Controls";
+
+    VirtualTouchscreen(int width, int height) : width_(width), height_(height) {}
+
+protected:
+    Setup setup() const override;
+
+private:
+    int width_;
+    int height_;
+};
+
 }  // namespace joymouse

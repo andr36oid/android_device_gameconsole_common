@@ -2,11 +2,15 @@
 
 Mouse mode for the touchscreen-less RK3326 handhelds: the analog sticks drive a
 real Android mouse pointer, with scrolling, clicks, drag and full button
-remapping. Two parts:
+remapping. The same daemon also runs **touch controls**: per-app layouts that
+turn buttons and sticks into touches for touchscreen-only games (see below).
+Parts:
 
 * `joyMouse` (native daemon, `/system/bin/joyMouse`, started by `joyMouse.rc`)
 * `JoyMouseSettings` (system app in `app/`): the *Settings › Joystick
   mouse* page and the toast shown on every mode switch
+* `TouchMapper` (system app in `../TouchMapper`): *Settings › Touch controls*,
+  the on-screen editor, the hints, and the watcher that names the app in front
 
 ## Using it
 
@@ -133,12 +137,96 @@ Everything the page sets is a system property, so it also works from adb.
 touching a device node; the Linux side is `EvdevPad`, `Uinput`, `Display`,
 `Properties`, `Announcer` and `main.cpp`.
 
+## Touch controls
+
+Each app can have a layout (a profile) that turns buttons and sticks into
+touches on a virtual touchscreen. It switches on by itself while that app is in
+front; apps without one keep the normal buttons.
+
+* **Editor**: hold FN and press L1 in the game (PhoneWindowManager sends
+  `org.andr36oid.touchmapper.action.EDIT`), or *Settings › Touch controls ›
+  Add an app / Edit the layout*. It opens on top of the game and works with
+  the buttons alone.
+* **Kinds of control**: tap, hold, joystick (a stick or the d-pad drags a finger
+  around a point), look around (a stick drags a finger across an area, lifts
+  and starts over from the middle at the edge), swipe (a quick swipe in one
+  direction). A shift button (held) switches to a second set; anything the
+  second set doesn't define keeps its first-set control.
+* **What stays a button**: everything the profile doesn't use goes on to
+  Android through a copy of the pad, like in mouse mode. FN, and any button
+  pressed while FN is held, always goes through, so Home and all FN shortcuts
+  keep working. Volume and power are separate devices and never grabbed.
+* **Mouse mode wins**: while mouse mode is on, touch mode steps back, and comes
+  back when mouse mode ends. Only one of them drives the pad at a time
+  (`SharedPad` also keeps the one evdev grab between them).
+
+### How it fits together
+
+    TouchMapper app (system uid)                 joyMouse daemon (root)
+    ----------------------------                 ----------------------
+    WatcherService: task stack listener          PropertyWatcher -> loadTouch()
+      app in front has an enabled profile  --->  sys.touchmap.profile=<package>
+      profile saved                        --->  sys.touchmap.serial=<time>
+      display size / rotation              --->  sys.touchmap.display=640x480@0
+    EditorActivity writes                        reads
+      /data/system/andr36oid/touchmap/<package>.json
+                                                 TouchController: grab pad,
+                                                 uinput touchscreen + pad copy
+
+The virtual touchscreen is `andr36oid Touch Controls` (BUS_VIRTUAL, vendor and
+product 0, `INPUT_PROP_DIRECT`, 10 slots, `ABS_MT_SLOT` / `ABS_MT_TRACKING_ID` /
+`ABS_MT_POSITION_X/Y`, `BTN_TOUCH`). Its raw range is the display in its
+natural orientation; `andr36oid_Touch_Controls.idc` makes it an internal
+touchscreen on the built-in display, and Android rotates its touches with the
+display. The build doesn't declare `android.hardware.touchscreen`, so the
+device appearing or going away doesn't change the apps' configuration (no
+activity restarts).
+
+### Profile format
+
+    {
+      "version": 1,
+      "package": "com.example.game",
+      "enabled": true,          // off: the app keeps normal buttons
+      "hints": true,            // faint labels on top of the game
+      "shift": "L2",            // or "none"
+      "deadzone": 15,           // stick dead zone, %
+      "controls": [
+        {"type": "tap",      "button": "A",     "x": 0.88, "y": 0.80, "radius": 0.06},
+        {"type": "hold",     "button": "R1",    "x": 0.90, "y": 0.45, "radius": 0.06},
+        {"type": "joystick", "stick": "left",   "x": 0.17, "y": 0.72, "radius": 0.14},
+        {"type": "camera",   "stick": "right",  "x": 0.65, "y": 0.45, "radius": 0.25, "speed": 1.0},
+        {"type": "swipe",    "button": "Y",     "x": 0.50, "y": 0.60, "angle": 270, "length": 0.2},
+        {"type": "joystick", "stick": "dpad",   "x": 0.17, "y": 0.72, "radius": 0.14, "layer": 1}
+      ]
+    }
+
+The comments are only here; the files are plain JSON.
+
+* `x`, `y`: share of the screen's width and height, as the app is shown.
+* `radius`, `length`: share of the shorter screen side. Joystick: how far the
+  finger goes at full tilt. Camera: the area. Tap and hold: marker size only.
+* `speed` (camera): 1 = one shorter screen side per second at full tilt, with
+  a 1.6 response curve.
+* `angle` (swipe): degrees, 0 right, 90 down, 180 left, 270 up.
+* `layer`: 1 = only while the shift button is held.
+* Buttons: `A B X Y L1 R1 L2 R2 L3 R3 SELECT START UP DOWN LEFT RIGHT`
+  (physical buttons, the hardware button remap doesn't apply). Sticks:
+  `left right dpad`. A d-pad joystick takes the four d-pad buttons of its layer.
+
+Controls that can't work (unknown kind, no button, a button twice on one
+layer, the shift button as a control) are left out with a warning in logcat.
+
+Timing: taps last 50 ms, swipes 120 ms, a joystick finger rests on its center
+for 24 ms before it follows the stick, a camera finger lifts 150 ms after the
+stick is let go. Fingers move at 125 Hz, only while something moves.
+
 ## Building and testing
 
     m joyMouse JoyMouseSettings
 
-Host unit tests (models, config, chord, and the controller against fake
-devices):
+Host unit tests (models, config, chord, the mouse controller and touch mode
+against fake devices, touch slots, profile parsing, rotation):
 
     m joyMouse_tests && $ANDROID_HOST_OUT/nativetest64/joyMouse_tests/joyMouse_tests
 

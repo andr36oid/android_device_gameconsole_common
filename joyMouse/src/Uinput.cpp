@@ -5,11 +5,13 @@
 #include <sys/ioctl.h>
 #include <unistd.h>
 
+#include <algorithm>
 #include <cerrno>
 #include <cstdio>
 #include <cstring>
 
 #include "Log.h"
+#include "TouchSurface.h"
 
 namespace joymouse {
 
@@ -152,6 +154,29 @@ UinputDevice::Setup VirtualPad::setup() const {
     }
     s.msc = extras_.msc;
     s.props = extras_.props;
+    return s;
+}
+
+UinputDevice::Setup VirtualTouchscreen::setup() const {
+    Setup s;
+    s.name = kName;
+    s.phys = std::string(kOwnPhysPrefix) + "touch";
+    // Vendor and product 0: Android finds the .idc by name. BUS_VIRTUAL keeps
+    // it internal, so it maps to the built-in display and doesn't wake it.
+    s.id.bustype = BUS_VIRTUAL;
+    s.id.version = 1;
+    s.keys = {BTN_TOUCH};
+    auto axis = [](int32_t max) {
+        input_absinfo a{};
+        a.minimum = 0;
+        a.maximum = max;
+        return a;
+    };
+    s.abs.emplace_back(ABS_MT_SLOT, axis(TouchSurface::kSlots - 1));
+    s.abs.emplace_back(ABS_MT_TRACKING_ID, axis(TouchSurface::kMaxTrackingId));
+    s.abs.emplace_back(ABS_MT_POSITION_X, axis(std::max(width_ - 1, 1)));
+    s.abs.emplace_back(ABS_MT_POSITION_Y, axis(std::max(height_ - 1, 1)));
+    s.props = {INPUT_PROP_DIRECT};
     return s;
 }
 
