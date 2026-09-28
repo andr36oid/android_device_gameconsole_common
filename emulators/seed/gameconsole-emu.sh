@@ -16,6 +16,9 @@
 # 4. Makes the usual ROM folders (ArkOS/dArkOS names) on a fresh EASYROMS
 #    partition, with a README telling which system goes where. Only once per
 #    card, and never on a card that already has any of them.
+# 5. Points RetroArch's system folder (where the cores look for BIOS files) at
+#    the bios folder on EASYROMS, like ArkOS. A folder the user picked in
+#    RetroArch is kept.
 
 BASE=/system/etc/gameconsole
 STATE=/data/misc/gameconsole
@@ -219,9 +222,9 @@ easyroms_path() {
 }
 
 make_rom_folders() {
-	local root uuid stamp dir name
+	local root=$EASYROMS uuid stamp name
 	[ -f "$ROM_FOLDERS" ] || return 0
-	root=$(easyroms_path) || { log "EASYROMS not mounted, no ROM folders"; return 0; }
+	[ -n "$root" ] || { log "EASYROMS not mounted, no ROM folders"; return 0; }
 	uuid=${root##*/}
 	stamp=$STATE/rom-folders.$uuid
 	[ -e "$stamp" ] && return 0
@@ -252,6 +255,66 @@ make_rom_folders() {
 	touch "$stamp"
 }
 
+# what we last wrote into RetroArch's system_directory
+SYSTEM_DIR_MARK=$STATE/retroarch-system-dir
+
+# cfg_get <file> <key> ; a setting's value, without quotes; the last one wins
+cfg_get() {
+	sed -n "s/^[ 	]*$2[ 	]*=[ 	]*\"\{0,1\}\([^\"]*\)\"\{0,1\}[ 	]*\$/\1/p" "$1" | tail -n 1
+}
+
+# cfg_set <file> <key> <value> ; written in place, so the file keeps its owner,
+# mode and the ACL vold gave it
+cfg_set() {
+	local rc
+	{ grep -v "^[ 	]*$2[ 	]*=" "$1"; echo "$2 = \"$3\""; } >"$1.new" &&
+		cat "$1.new" >"$1"
+	rc=$?
+	rm -f "$1.new"
+	return $rc
+}
+
+# ours <system_directory> ; true if it's unset, RetroArch's own default (as
+# RetroArch writes it back), or what we wrote last time. Anything else is a
+# folder the user picked.
+ours() {
+	case $1 in
+	''|default|/storage/emulated/0/RetroArch/system|/sdcard/RetroArch/system) return 0 ;;
+	"$RA_EXT_PUBLIC/system"|"$RA_DATA/system") return 0 ;;
+	esac
+	[ "$1" = "$(cat "$SYSTEM_DIR_MARK" 2>/dev/null)" ]
+}
+
+# bios_folder ; points RetroArch's system_directory at the bios folder on
+# EASYROMS, where the cores then find the BIOS files. Updated when the card
+# changes (another UUID, so another path), unless the user set a folder.
+bios_folder() {
+	local cfg=$RA_EXT/retroarch.cfg cur want d name=bios
+	# no bogus path: leave it and try again next boot
+	[ -n "$EASYROMS" ] || { log "EASYROMS not mounted, RetroArch's BIOS folder left as it is"; return 0; }
+	[ -f "$cfg" ] || return 0
+
+	# an existing bios folder in any case (BIOS, Bios)
+	for d in "$EASYROMS"/*/; do
+		d=${d%/}
+		d=${d##*/}
+		if [ "$(echo "$d" | tr '[:upper:]' '[:lower:]')" = bios ]; then
+			name=$d
+			break
+		fi
+	done
+	# RetroArch sees EASYROMS at /storage/<uuid>, root at /mnt/media_rw/<uuid>
+	want=/storage/${EASYROMS##*/}/$name
+	cur=$(cfg_get "$cfg" system_directory)
+	if [ "$cur" != "$want" ]; then
+		ours "$cur" || return 0
+		mkdir -p "$EASYROMS/$name" || { log "couldn't make $name/ on EASYROMS"; return 0; }
+		cfg_set "$cfg" system_directory "$want" || { log "writing retroarch.cfg failed"; return 0; }
+		log "RetroArch reads BIOS files from $want now (was: ${cur:-unset})"
+	fi
+	echo "$want" >"$SYSTEM_DIR_MARK"
+}
+
 mkdir -p "$STATE"
 
 # boot_completed is set, but give the package manager a moment if needed
@@ -265,4 +328,7 @@ done
 install_apks
 seed_retroarch
 seed_cores
+EASYROMS=$(easyroms_path) || EASYROMS=
 make_rom_folders
+# after the ROM folders: they are only made on a card without any of them
+bios_folder
