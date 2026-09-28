@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Background of the round icon on the Settings home page -->
+    <color name="play_time_icon_background">#8E24AA</color>
+
+    <!-- The week chart -->
+    <color name="chart_bar">#5580DEEA</color>
+    <color name="chart_bar_today">#80DEEA</color>
+</resources>

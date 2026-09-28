@@ -1,0 +1,13 @@
+// Settings > Play time: how long the console was played today and this week, the most
+// played apps, and optional break reminders. Runs as the system user, which may read
+// the usage stats.
+android_app {
+    name: "Andr36oidPlayTime",
+    srcs: ["src/**/*.java"],
+    resource_dirs: ["res"],
+    certificate: "platform",
+    platform_apis: true,
+    optimize: {
+        enabled: false,
+    },
+}

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <org.andr36oid.playtime.ChartPreference
+        android:key="chart" />
+
+    <PreferenceCategory
+        android:key="most_played"
+        android:title="@string/most_played" />
+
+    <PreferenceCategory
+        android:key="breaks"
+        android:title="@string/breaks">
+
+        <ListPreference
+            android:key="break_minutes"
+            android:defaultValue="0"
+            android:entries="@array/break_entries"
+            android:entryValues="@array/break_values"
+            android:summary="%s"
+            android:title="@string/break_reminder" />
+
+        <Preference
+            android:key="about"
+            android:selectable="false"
+            android:summary="@string/about" />
+    </PreferenceCategory>
+</PreferenceScreen>

@@ -463,6 +463,10 @@ PRODUCT_PACKAGES += \
 	remove-Updater \
 	remove-WAPPushManager
 
+# Play time: time played per day, most played apps, break reminders (Settings > Play time)
+PRODUCT_PACKAGES += \
+	Andr36oidPlayTime
+
 # Run the network stack and tethering inside system_server instead of
 # two separate persistent processes (same as Android Go).
 PRODUCT_PACKAGES += \

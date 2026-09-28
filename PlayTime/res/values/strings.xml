@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="play_time_title">Play time</string>
+    <string name="play_time_summary">How long you played, your top games and break reminders</string>
+
+    <!-- Header above the week chart -->
+    <string name="today">Today: <xliff:g id="time">%1$s</xliff:g></string>
+    <string name="this_week">Last 7 days: <xliff:g id="time">%1$s</xliff:g></string>
+
+    <string name="most_played">Most played, last 7 days</string>
+    <string name="nothing_played">Nothing yet. Go play something!</string>
+    <!-- Summary of an app in the most played list: time, and the share of all play time -->
+    <string name="app_time"><xliff:g id="time">%1$s</xliff:g> · <xliff:g id="percent">%2$d</xliff:g>%%</string>
+
+    <string name="breaks">Breaks</string>
+    <string name="break_reminder">Remind me to take a break</string>
+    <string-array name="break_entries">
+        <item>Never</item>
+        <item>After 30 minutes</item>
+        <item>After 45 minutes</item>
+        <item>After 1 hour</item>
+        <item>After 1 hour 30 minutes</item>
+        <item>After 2 hours</item>
+    </string-array>
+    <string-array name="break_values" translatable="false">
+        <item>0</item>
+        <item>30</item>
+        <item>45</item>
+        <item>60</item>
+        <item>90</item>
+        <item>120</item>
+    </string-array>
+    <string name="about">Play time counts the time an app is open on the screen. The home screen, Settings and the screen being off don\'t count.\n\nThe break reminder counts how long the screen has been on. A pause of 2 minutes or more starts the count again.</string>
+
+    <!-- Durations -->
+    <string name="duration_min"><xliff:g id="minutes">%1$d</xliff:g> min</string>
+    <string name="duration_h"><xliff:g id="hours">%1$d</xliff:g> h</string>
+    <string name="duration_h_min"><xliff:g id="hours">%1$d</xliff:g> h <xliff:g id="minutes">%2$d</xliff:g> min</string>
+
+    <!-- Break reminder notification -->
+    <string name="channel_name">Break reminders</string>
+    <string name="break_title">You\'ve been playing for <xliff:g id="time">%1$s</xliff:g></string>
+    <string name="break_text">Time for a short break? Rest your eyes and stretch a bit, your game will wait.</string>
+    <string name="break_text_battery">Time for a short break? Rest your eyes and stretch a bit. Battery at <xliff:g id="percent">%1$d</xliff:g>%%.</string>
+</resources>
