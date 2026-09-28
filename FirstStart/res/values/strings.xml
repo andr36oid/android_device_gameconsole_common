@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">First start</string>
+    <!-- Shown for a moment when the home button (FN) is pressed during the first-start
+         tutorial, before the tutorial comes back -->
+    <string name="home_title">Home screen</string>
+    <string name="home_body">Your home screen, Daijishou, opens here once the tutorial is done.\n\nThe tutorial comes back in a moment.</string>
+    <string name="home_back">Back to the tutorial</string>
+    <string name="home_skip">Skip tutorial</string>
+</resources>

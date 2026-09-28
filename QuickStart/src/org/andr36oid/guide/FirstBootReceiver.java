@@ -8,31 +8,29 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.provider.Settings;
-import android.util.Log;
 
 /**
- * Opens the tutorial on the first start after the setup wizard, until it was finished or
- * skipped. On the very first boot the wizard is still on screen when the boot completes, so it
- * waits for the wizard to finish. Consoles updated from a build without the tutorial see it once
- * and can skip it on the first page.
+ * The tutorial's first start, at boot. The tutorial doesn't open from here: on the first start
+ * the first-start launcher is the home app and opens it (see FirstStart). This only keeps the
+ * safety net going: it waits for the wizard, starts the watchdog while the launcher is home,
+ * and removes a launcher that was left over. Consoles set up before this build don't get the
+ * tutorial by itself. It stays in Settings > Quick start guide (X).
  */
 public class FirstBootReceiver extends BroadcastReceiver {
 
-    private static final String TAG = "QuickStartGuide";
     private static final String PREFS = "guide";
     private static final String PREF_SHOWN = "shown";
     // Job IDs are per UID, and every android.uid.system app shares one (the other andr36oid apps, LineageParts), so each app keeps to its own range
     static final int JOB_SETUP_DONE = 3601;
-    static final int JOB_SHOW = 3602;
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (!Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction()) || wasShown(context)) {
+        if (!Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {
             return;
         }
         if (isSetupDone(context)) {
-            scheduleShow(context);
-        } else {
+            FirstStart.onSetupDone(context);
+        } else if (!wasShown(context)) {
             waitForSetup(context);
         }
     }
@@ -54,43 +52,9 @@ public class FirstBootReceiver extends BroadcastReceiver {
     }
 
     /**
-     * Runs SetupDoneJobService right away. It waits for the home screen to settle (HomeWaiter)
-     * before it opens anything, since the home app still starts up for a few seconds after
-     * boot or after the wizard and would cover what opened first.
+     * Whether the tutorial is done: finished, skipped, or the guide was opened. The beta apps
+     * chooser waits for this flag.
      */
-    static void scheduleShow(Context context) {
-        final JobInfo job = new JobInfo.Builder(JOB_SHOW,
-                new ComponentName(context, SetupDoneJobService.class))
-                .setOverrideDeadline(0)
-                .build();
-        context.getSystemService(JobScheduler.class).schedule(job);
-    }
-
-    /**
-     * Opens the hands-on tutorial. It sets the "shown" flag itself when it's finished, skipped
-     * or left, so it comes back on the next start if the console restarted in the middle. The
-     * beta apps chooser waits for that flag. The guide itself no longer opens by itself: the
-     * tutorial's last page offers it.
-     */
-    static void show(Context context) {
-        if (TutorialActivity.isOpen()) {
-            return;
-        }
-        try {
-            context.startActivity(new Intent(context, TutorialActivity.class)
-                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-        } catch (RuntimeException e) {
-            Log.w(TAG, "Couldn't open the tutorial, opening the guide", e);
-            markShown(context);
-            try {
-                context.startActivity(new Intent(context, GuideActivity.class)
-                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-            } catch (RuntimeException e2) {
-                Log.w(TAG, "Couldn't open the guide", e2);
-            }
-        }
-    }
-
     static boolean wasShown(Context context) {
         return prefs(context).getBoolean(PREF_SHOWN, false);
     }
@@ -99,9 +63,7 @@ public class FirstBootReceiver extends BroadcastReceiver {
         if (!wasShown(context)) {
             prefs(context).edit().putBoolean(PREF_SHOWN, true).apply();
         }
-        final JobScheduler jobs = context.getSystemService(JobScheduler.class);
-        jobs.cancel(JOB_SETUP_DONE);
-        jobs.cancel(JOB_SHOW);
+        context.getSystemService(JobScheduler.class).cancel(JOB_SETUP_DONE);
     }
 
     private static SharedPreferences prefs(Context context) {

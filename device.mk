@@ -428,9 +428,12 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
 	Andr36oidCredits
 
-# Quick start guide (Settings > Quick start guide, opens once after the first setup)
+# Quick start guide (Settings > Quick start guide), and its tutorial once after the first
+# setup. The first-start launcher is only shipped as an APK: gameconsole-emu installs it as a
+# user app while the setup wizard runs, and the guide uninstalls it after the tutorial.
 PRODUCT_PACKAGES += \
-	Andr36oidGuide
+	Andr36oidGuide \
+	Andr36oidFirstStart-preinstall
 
 # Remove phone packages that added by default product configuration
 PRODUCT_PACKAGES += \
