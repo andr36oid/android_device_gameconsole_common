@@ -91,7 +91,7 @@
     <string name="trouble_frozen_q">The console froze</string>
     <string name="trouble_frozen_a">Hold Power for about 10 seconds until it switches off, then switch it on again. If it froze with the CPU overclock on, pick a lower speed next time. A restart always turns the overclock off.</string>
     <string name="trouble_bios_q">A game doesn\'t start, or starts to a black screen</string>
-    <string name="trouble_bios_a">Many systems, like PlayStation, Sega CD, PC Engine CD and Game Boy Advance, need BIOS files from the real console. Put them in the bios folder on EASYROMS, then open BIOS check: it shows which files each system needs, spots wrong or misnamed ones, and copies the good ones to where the emulators look.</string>
+    <string name="trouble_bios_a">Many systems, like PlayStation, Sega CD, PC Engine CD and Game Boy Advance, need BIOS files from the real console. Put them in the bios folder on EASYROMS, then open Emulator files (in Settings and the app list): it shows which files each system needs, spots wrong or misnamed ones, and copies the good ones to where the emulators look.</string>
     <string name="trouble_buttons_q">The buttons do the wrong thing</string>
     <string name="trouble_recovery_q">Recovery and factory reset</string>
     <string name="trouble_recovery_a">Hold FN while you switch the console on</string>
