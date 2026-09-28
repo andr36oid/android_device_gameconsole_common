@@ -8,7 +8,23 @@
     <string name="usb_mode_switch_on">The OTG port acts as a device for a computer</string>
     <string name="usb_mode_switch_off">The OTG port powers accessories like pads, drives and network adapters</string>
 
-    <string name="usb_mode_about">Turn this on to reach the console from a computer through the OTG port: file transfer (MTP) or photo transfer (PTP), and adb once USB debugging is on in Developer options.\n\nWhile it is on, accessories plugged into the OTG port don\'t work. The console always starts with it off, a restart switches the port back to accessories.\n\nSome consoles don\'t wire the port for this. If the computer sees nothing with a good data cable, the console can\'t do it.</string>
+    <string name="usb_mode_about">Turn this on to reach the console from a computer through the OTG port: file transfer (MTP) or photo transfer (PTP), and adb once USB debugging is on in Developer options.\n\nWhile it is on, accessories plugged into the OTG port don\'t work. The console always starts with it off, a restart switches the port back to accessories.\n\nSome consoles don\'t wire the port for this. If the computer sees nothing with a good data cable, the console can\'t do it.\n\nNever turn this on if your console has Wi-Fi built in, such as the R36XX. Those consoles use this same USB port for their Wi-Fi.\n\nNever use this while the console is charging from its other port. Unplug the charger first. If a charger is plugged in while this is on, the port switches back to accessories right away.</string>
+
+    <!-- Asked before the port becomes a device for a computer -->
+    <string name="warning_title">Connect to a computer?</string>
+    <string name="warning_wifi">Don\'t turn this on if your console has Wi-Fi built in, such as the R36XX. Those consoles use this same USB port for their Wi-Fi. Wi-Fi stops working, may not come back until you restart, and other things can go wrong.\n\nMost R36S consoles have no Wi-Fi built in. On those, this is safe.</string>
+    <string name="warning_wifi_found">Wi-Fi was found on this USB port right now (%1$s). If it is built into your console, pick Cancel.</string>
+    <string name="warning_confirm">Connect</string>
+
+    <!-- Charging and device mode never go together -->
+    <string name="charging_warning">Never use this while the console is charging from its other port. Unplug the charger first.</string>
+    <string name="charging_refused">The console is charging. Never use this while the console is charging from its other port. Unplug the charger first.</string>
+    <string name="charging_toast">DO NOT DO THIS! Never charge and use USB client at the same time.</string>
+    <string name="channel_on">Connected to a computer</string>
+    <string name="channel_alert">USB mode switched off</string>
+    <string name="notification_on_title">USB port: connected to a computer</string>
+    <string name="notification_alert_title">USB mode switched off</string>
+    <string name="notification_alert_text">A charger was plugged in, so the OTG port went back to accessories. Never charge and use USB client at the same time.</string>
 
     <string name="usb_mode_functions">Use USB for</string>
     <string-array name="usb_mode_functions_entries" translatable="false">

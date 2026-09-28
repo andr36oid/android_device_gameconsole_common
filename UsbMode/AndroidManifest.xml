@@ -3,6 +3,8 @@
     package="org.andr36oid.usbmode"
     android:sharedUserId="android.uid.system">
 
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
     <application
         android:allowBackup="false"
         android:icon="@drawable/ic_usb_mode"
@@ -41,6 +43,11 @@
                 android:name="com.android.settings.bg.hint"
                 android:resource="@color/usb_mode_icon_background" />
         </activity>
+
+        <!-- Runs while the port is a device, switches it back when a charger is plugged in -->
+        <service
+            android:name=".UsbModeService"
+            android:exported="false" />
 
         <!-- Off until the USB mode is changed for the first time, see UsbMode.showTile() -->
         <service
