@@ -266,7 +266,7 @@
          This needs to match the constants in
          policy/src/com/android/internal/policy/impl/PhoneWindowManager.java
     -->
-    <integer name="config_doubleTapOnHomeBehavior">1</integer>
+    <integer name="config_doubleTapOnHomeBehavior">0</integer>
 
     <!-- Override the default detection behavior for the framework method
          android.view.ViewConfiguration#hasPermanentMenuKey().
