@@ -495,6 +495,11 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
 	ControllerTest
 
+# Low battery warning on top of games (Settings > Battery > Low battery warning) and
+# game mode: Do Not Disturb while playing (Settings > Game mode, Quick Settings tile)
+PRODUCT_PACKAGES += \
+	GameComfort
+
 # Remove phone packages that added by default product configuration
 PRODUCT_PACKAGES += \
     	remove-BlockedNumberProvider \

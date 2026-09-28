@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="app_name">Game comfort</string>
+
+    <!-- Low battery warning, Settings > Battery -->
+    <string name="warning_title">Low battery warning</string>
+    <string name="warning_summary">Warn on top of games so you can save in time</string>
+    <string name="warning_when">Warn at</string>
+    <string-array name="warning_entries">
+        <item>Off</item>
+        <item>15 % and 5 %</item>
+        <item>5 % only</item>
+    </string-array>
+    <string-array name="warning_values" translatable="false">
+        <item>off</item>
+        <item>15,5</item>
+        <item>5</item>
+    </string-array>
+    <string name="warning_preview">Show a test warning</string>
+    <string name="warning_about">Android\'s own low battery notification is easy to miss during a full screen game. This shows a short banner across the top of the screen instead, once for each level while the console runs on battery. It doesn\'t take the buttons away from the game.\n\nThe console turns itself off when the battery is empty, and anything not saved is lost.</string>
+
+    <!-- The banner on top of the game -->
+    <string name="banner_text">Battery <xliff:g id="percent">%1$d</xliff:g> %% – save your game now</string>
+
+    <!-- Game mode, Settings home page and Quick Settings tile -->
+    <string name="game_mode_title">Game mode</string>
+    <string name="game_mode_summary">Do Not Disturb and no pop-up notifications while you play</string>
+    <string name="game_mode_now">Game mode</string>
+    <string name="game_mode_now_summary">Turns on Do Not Disturb (priority only) and stops notifications from popping up over the game</string>
+    <string name="game_mode_automatic">Turn on automatically</string>
+    <string name="game_mode_automatic_summary">On while a game or emulator is open, off when you leave it</string>
+    <string name="game_mode_about">When game mode ends, Do Not Disturb and pop-up notifications go back to how they were. If you change Do Not Disturb yourself in the meantime, your change stays.\n\nAn app counts as a game if it says it is one, or if it is one of the common emulators such as RetroArch or PPSSPP.\n\nWhat Do Not Disturb lets through is set in Settings &gt; Sound &gt; Do Not Disturb.</string>
+    <string name="tile_on">On</string>
+    <string name="tile_off">Off</string>
+    <string name="tile_automatic">Automatic</string>
+</resources>

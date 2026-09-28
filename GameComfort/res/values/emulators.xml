@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Emulators count as games for automatic game mode even though they don't declare the
+         game category. The first two are preinstalled (keep in step with
+         emulators/apks.lock), the rest are common ones people install themselves. -->
+    <string-array name="emulator_packages" translatable="false">
+        <item>com.retroarch</item>
+        <item>org.ppsspp.ppsspp</item>
+        <item>com.retroarch.aarch64</item>
+        <item>com.retroarch.ra32</item>
+        <item>org.ppsspp.ppssppgold</item>
+        <item>com.dsemu.drastic</item>
+        <item>me.magnum.melonds</item>
+        <item>org.mupen64plusae.v3.fzurita</item>
+        <item>org.mupen64plusae.v3.alpha</item>
+        <item>com.github.stenzek.duckstation</item>
+        <item>com.epsxe.ePSXe</item>
+        <item>com.flycast.emulator</item>
+        <item>io.recompiled.redream</item>
+        <item>org.dolphinemu.dolphinemu</item>
+        <item>com.fastemulator.gba</item>
+        <item>com.fastemulator.gbc</item>
+        <item>it.dbtecno.pizzaboypro</item>
+        <item>it.dbtecno.pizzaboygbapro</item>
+        <item>com.explusalpha.Snes9xPlus</item>
+        <item>com.explusalpha.GbaEmu</item>
+        <item>com.explusalpha.GbcEmu</item>
+        <item>com.explusalpha.MdEmu</item>
+        <item>com.explusalpha.NesEmu</item>
+        <item>com.explusalpha.NgpEmu</item>
+        <item>com.explusalpha.PceEmu</item>
+        <item>com.seleuco.mame4d2024</item>
+    </string-array>
+</resources>
