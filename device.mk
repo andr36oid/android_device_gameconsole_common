@@ -275,7 +275,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.vendor.mpp_buf_type=1
 # Gralloc HAL
 PRODUCT_PACKAGES += \
-    arm.graphics-V1-ndk_platform.so \
+    arm.graphics-ndk_platform \
     android.hardware.graphics.allocator@4.0-impl-$(BOARD_VENDOR_GPU_PLATFORM) \
     android.hardware.graphics.mapper@4.0-impl-$(BOARD_VENDOR_GPU_PLATFORM) \
     android.hardware.graphics.allocator@4.0-service

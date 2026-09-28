@@ -17,7 +17,25 @@ TARGET_BOARD_HARDWARE := rk30board
 TARGET_BOARD_PLATFORM := rk3326
 TARGET_BOARD_PLATFORM_GPU := mali-tDVx
 BOARD_VENDOR_GPU_PLATFORM := bifrost
+
+# Experimental Vulkan, off by default. When true the build switches to gralloc 4
+# (hardware/rockchip/libgralloc/bifrost/src) and the Rockchip Android 11 Mali
+# g2p0 blobs in mali/g2p0, which have the Vulkan driver. The old GLES-only blob
+# and gralloc 0 stay the default.
+# To turn it on, set TARGET_GAMECONSOLE_VULKAN := true in lineage_<device>.mk
+# before it includes this file, or export it, and also export
+# TARGET_RK_GRALLOC_VERSION=4 in the shell before lunch: the Soong-built librga
+# and libgralloc_priv read that value from the environment, not from make.
+TARGET_GAMECONSOLE_VULKAN ?= false
+ifeq ($(TARGET_GAMECONSOLE_VULKAN),true)
+ifneq ($(TARGET_RK_GRALLOC_VERSION),4)
+$(error TARGET_GAMECONSOLE_VULKAN=true needs TARGET_RK_GRALLOC_VERSION=4 exported in the environment, librga reads it from there)
+endif
+TARGET_RK_GRALLOC_VERSION := 4
+include device/gameconsole/common/gralloc.device.mk
+else
 TARGET_RK_GRALLOC_VERSION := 2
+endif
 
 # DRM
 BOARD_USE_DRM := true
