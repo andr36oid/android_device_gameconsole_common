@@ -40,10 +40,20 @@ LOCAL_MODULE_RELATIVE_PATH := gameconsole/preinstall
 LOCAL_MODULE_STEM := RetroArch.apk
 LOCAL_SRC_FILES := preinstall/RetroArch.apk
 LOCAL_NOTICE_FILE := $(LOCAL_PATH)/preinstall/NOTICE-RetroArch.txt
-LOCAL_REQUIRED_MODULES := gameconsole-emu gameconsole-retroarch-pad
+LOCAL_REQUIRED_MODULES := gameconsole-emu gameconsole-retroarch-cfg gameconsole-retroarch-pad
 include $(BUILD_PREBUILT)
 
-# Profile for the built-in pad, seeded by the gameconsole-emu service
+# RetroArch settings for a fresh install and the built-in pad's profile,
+# seeded by the gameconsole-emu service
+include $(CLEAR_VARS)
+LOCAL_MODULE := gameconsole-retroarch-cfg
+LOCAL_MODULE_CLASS := ETC
+LOCAL_MODULE_TAGS := optional
+LOCAL_MODULE_RELATIVE_PATH := gameconsole/retroarch
+LOCAL_MODULE_STEM := retroarch.cfg
+LOCAL_SRC_FILES := seed/retroarch/retroarch.cfg
+include $(BUILD_PREBUILT)
+
 include $(CLEAR_VARS)
 LOCAL_MODULE := gameconsole-retroarch-pad
 LOCAL_MODULE_CLASS := ETC
