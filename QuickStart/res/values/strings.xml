@@ -60,7 +60,7 @@
     <!-- Emulators -->
     <string name="emulators_title">Emulators</string>
     <string name="emulators_included">RetroArch and PPSSPP come preinstalled. RetroArch already has the cores for NES, SNES, Game Boy, GBA, Mega Drive, Master System, Game Gear, PlayStation, PC Engine, Neo Geo Pocket, WonderSwan, Atari 2600, 7800 and Lynx.</string>
-    <string name="emulators_psp">PSP games run in PPSSPP. PlayStation games start without a BIOS, but work best with one in RetroArch\'s system folder.</string>
+    <string name="emulators_psp">PSP games run in PPSSPP. PlayStation games start without a BIOS, but work best with one in the bios folder on EASYROMS.</string>
     <string name="emulators_updates">The emulators are ordinary apps: F-Droid can update them, and you can uninstall them.</string>
 
     <!-- Speed and battery -->
@@ -98,7 +98,7 @@
     <string name="trouble_frozen_q">The console froze</string>
     <string name="trouble_frozen_a">Hold Power for about 10 seconds until it switches off, then switch it on again. If it froze with the CPU overclock on, pick a lower speed next time. A restart always turns the overclock off.</string>
     <string name="trouble_bios_q">A game doesn\'t start, or starts to a black screen</string>
-    <string name="trouble_bios_a">Many systems, like PlayStation, Sega CD, PC Engine CD and Game Boy Advance, need BIOS files from the real console. Put them in the bios folder on EASYROMS, then open Settings &gt; Emulator files: it shows which files each system needs, spots wrong or misnamed ones, and copies the good ones to where the emulators look.</string>
+    <string name="trouble_bios_a">Some systems, like Sega CD and PC Engine CD, need a file from the original console (a BIOS), and PlayStation games work better with one. Put these files in the bios folder on EASYROMS. Settings &gt; Emulator files shows what\'s missing.</string>
     <string name="trouble_buttons_q">The buttons do the wrong thing</string>
     <string name="trouble_recovery_q">Recovery and factory reset</string>
     <string name="trouble_recovery_a">Hold FN while you switch the console on</string>
