@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Line under the on-screen keyboard. The keyboard already handles these buttons
+         (LeanbackKeyboardController); this only tells the user. -->
+    <string name="andr36oid_button_hints">A type · X delete · Y space · L1/R1 move · L3 symbols · R3 caps · B close</string>
+</resources>
