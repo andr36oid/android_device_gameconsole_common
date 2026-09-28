@@ -10,6 +10,9 @@
 # 2. Seeds the bundled libretro cores into RetroArch's core directory, which is
 #    where both RetroArch and Daijishou's RetroArch players look for them.
 #    Cores the user replaced (e.g. via RetroArch's online updater) are kept.
+# 3. Makes the usual ROM folders (ArkOS/dArkOS names) on a fresh EASYROMS
+#    partition, with a README telling which system goes where. Only once per
+#    card, and never on a card that already has any of them.
 
 BASE=/system/etc/gameconsole
 STATE=/data/misc/gameconsole
@@ -121,6 +124,58 @@ seed_cores() {
 	restorecon -R "$cores" "$own" 2>/dev/null
 }
 
+# EASYROMS is partition 7 of the boot card (mmcblk0p7, 179:7), a public volume
+EASYROMS_ID="public:179,7"
+ROM_FOLDERS=$BASE/rom-folders.txt
+
+# easyroms_path ; prints where EASYROMS is mounted, waits up to a minute for it
+easyroms_path() {
+	local i=0 id state uuid
+	while [ $i -lt 30 ]; do
+		sm list-volumes public </dev/null 2>/dev/null | while read -r id state uuid; do
+			[ "$id" = "$EASYROMS_ID" ] && [ "$state" = mounted ] && [ -n "$uuid" ] &&
+				[ -d "/mnt/media_rw/$uuid" ] && echo "/mnt/media_rw/$uuid"
+		done | grep . && return 0
+		i=$((i + 1))
+		sleep 2
+	done
+	return 1
+}
+
+make_rom_folders() {
+	local root uuid stamp dir name
+	[ -f "$ROM_FOLDERS" ] || return 0
+	root=$(easyroms_path) || { log "EASYROMS not mounted, no ROM folders"; return 0; }
+	uuid=${root##*/}
+	stamp=$STATE/rom-folders.$uuid
+	[ -e "$stamp" ] && return 0
+
+	# a card that already has a ROM folder layout (ArkOS, dArkOS, the user's own)
+	# is left exactly as it is
+	while read -r name _; do
+		case $name in ''|\#*) continue ;; esac
+		if [ -d "$root/$name" ]; then
+			log "EASYROMS already has $name/, leaving its folders alone"
+			touch "$stamp"
+			return 0
+		fi
+	done <"$ROM_FOLDERS"
+
+	while read -r name _; do
+		case $name in ''|\#*) continue ;; esac
+		mkdir -p "$root/$name" || { log "couldn't make $name/ on EASYROMS"; return 0; }
+	done <"$ROM_FOLDERS"
+	# the list itself, without the comment lines, is the README
+	{
+		echo "ROM folders made by andr36oid. Put each system's games into its folder."
+		echo "Daijishou (the home screen) and RetroArch can then scan them."
+		echo
+		grep -v '^#' "$ROM_FOLDERS" | grep .
+	} >"$root/README-andr36oid.txt"
+	log "made the ROM folders on EASYROMS ($uuid)"
+	touch "$stamp"
+}
+
 mkdir -p "$STATE"
 
 # boot_completed is set, but give the package manager a moment if needed
@@ -133,3 +188,4 @@ done
 
 install_apks
 seed_cores
+make_rom_folders

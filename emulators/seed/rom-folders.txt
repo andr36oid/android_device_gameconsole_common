@@ -1,0 +1,28 @@
+# ROM folders made on a fresh EASYROMS partition, named like on ArkOS and dArkOS so
+# cards move between the systems. First word: the folder. The rest goes into the
+# README on the card: the system, then what plays it on andr36oid.
+bios              BIOS files (copy them to RetroArch's system folder too)
+nes               Nintendo NES / Famicom - RetroArch (FCEUmm)
+snes              Super Nintendo - RetroArch (Snes9x 2010)
+gb                Game Boy - RetroArch (Gambatte)
+gbc               Game Boy Color - RetroArch (Gambatte)
+gba               Game Boy Advance - RetroArch (mGBA, gpSP)
+n64               Nintendo 64 - needs an N64 emulator app or core
+nds               Nintendo DS - needs a DS emulator app or core
+genesis           Sega Genesis - RetroArch (Genesis Plus GX, PicoDrive, ClownMDEmu)
+megadrive         Sega Mega Drive - RetroArch (Genesis Plus GX, PicoDrive, ClownMDEmu)
+mastersystem      Sega Master System - RetroArch (Gearsystem)
+gamegear          Sega Game Gear - RetroArch (Gearsystem)
+segacd            Sega CD / Mega CD - RetroArch (Genesis Plus GX, ClownMDEmu)
+sega32x           Sega 32X - RetroArch (PicoDrive)
+psx               Sony PlayStation - RetroArch (PCSX ReARMed)
+psp               Sony PSP - PPSSPP
+pcengine          PC Engine / TurboGrafx-16 - RetroArch (Beetle PCE Fast)
+ngp               Neo Geo Pocket - RetroArch (Beetle NeoPop)
+ngpc              Neo Geo Pocket Color - RetroArch (Beetle NeoPop)
+wonderswan        WonderSwan - RetroArch (Beetle Cygne)
+wonderswancolor   WonderSwan Color - RetroArch (Beetle Cygne)
+atari2600         Atari 2600 - RetroArch (Stella 2014)
+atari7800         Atari 7800 - RetroArch (ProSystem)
+atarilynx         Atari Lynx - RetroArch (Handy)
+arcade            Arcade - needs an arcade core (FBNeo or MAME) from RetroArch's updater
