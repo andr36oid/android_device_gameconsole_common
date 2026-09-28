@@ -22,6 +22,19 @@
         <Preference android:key="power" android:title="@string/power" android:selectable="false" />
         <Preference android:key="temperature" android:title="@string/temperature" android:selectable="false" />
         <Preference android:key="charger" android:title="@string/charger" android:selectable="false" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="capacity_category"
+        android:title="@string/capacity_title">
+
+        <!-- Removed when the kernel can't change the capacity -->
+        <org.andr36oid.batterydetails.CapacityPreference
+            android:key="capacity_slider"
+            android:title="@string/capacity_setting"
+            android:summary="@string/capacity_hint" />
+        <Preference android:key="capacity_reset" />
+        <!-- What the fuel gauge reports back, so it shows the setting took effect -->
         <Preference android:key="capacity" android:title="@string/capacity" android:selectable="false" />
     </PreferenceCategory>
 
