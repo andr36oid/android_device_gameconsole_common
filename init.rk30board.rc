@@ -172,7 +172,8 @@ on boot
 	write /proc/sys/net/ipv4/tcp_timestamps 0
 
     	# VM
-    	write proc/sys/vm/laptop_mode 5
+    	# Laptop mode holds back writeback for spinning disks. Off lets the SD card flush early and in smaller bursts
+    	write proc/sys/vm/laptop_mode 0
     	write proc/sys/vm/compact_unevictable_allowed 0  
     	# Start non-blocking writeback later  	
     	write proc/sys/vm/dirty_background_ratio 10
