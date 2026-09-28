@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Time pickers as spinners (1) instead of the clock dial (2). The dial only
+         reacts to touch; the spinner's wheels move with d-pad up/down and
+         left/right goes to the next wheel. Used by Settings > Date & time,
+         Night Light's schedule, alarms and any app with a stock TimePicker. -->
+    <integer name="time_picker_mode_material">1</integer>
+</resources>
