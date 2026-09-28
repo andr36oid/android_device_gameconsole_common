@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Amber fading into black, a sibling of the quick start guide's teal -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <gradient
+        android:type="radial"
+        android:centerX="0.2"
+        android:centerY="0.1"
+        android:gradientRadius="120%p"
+        android:startColor="#3A2A10"
+        android:centerColor="#18120A"
+        android:endColor="#000000" />
+</shape>

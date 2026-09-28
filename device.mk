@@ -411,10 +411,12 @@ ANDR36OID_VERSION := $(shell device/gameconsole/common/version.sh $(TARGET_BUILD
 PRODUCT_PRODUCT_PROPERTIES += \
 	ro.andr36oid.version=$(ANDR36OID_VERSION)
 
-# Apps for beta testers (beta-apps/README.md), in every build but release builds
+# Apps for beta testers (beta-apps/README.md) and the Beta apps app that offers
+# them to the tester, in every build but release builds
 ifeq ($(filter %-release,$(ANDR36OID_VERSION)),)
 PRODUCT_PACKAGES += \
-	andr36oid-beta-apps
+	andr36oid-beta-apps \
+	Andr36oidBetaApps
 endif
 
 # Joystick as mouse

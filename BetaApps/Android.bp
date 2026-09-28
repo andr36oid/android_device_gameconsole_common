@@ -1,0 +1,14 @@
+// Beta apps: asks testers of beta, dirty and debug builds which of the apps in
+// /system/etc/gameconsole/beta they want, and installs those. Only in builds that
+// aren't release builds (device.mk). Runs as the system user, which may install
+// packages and open its screen by itself after setup; it is not a priv-app.
+android_app {
+    name: "Andr36oidBetaApps",
+    srcs: ["src/**/*.java"],
+    resource_dirs: ["res"],
+    certificate: "platform",
+    platform_apis: true,
+    optimize: {
+        enabled: false,
+    },
+}

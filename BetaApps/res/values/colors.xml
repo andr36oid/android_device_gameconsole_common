@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Background of the round icon on the Settings home page -->
+    <color name="beta_icon_background">#EF8F00</color>
+
+    <color name="beta_accent">#FFCC80</color>
+    <color name="beta_text">#FFFFFF</color>
+    <color name="beta_detail">#C4BBAE</color>
+    <color name="beta_dim">#9A9285</color>
+    <color name="beta_ok">#A5D6A7</color>
+    <color name="beta_error">#EF9A9A</color>
+    <color name="beta_panel">#14FFFFFF</color>
+    <color name="beta_notice">#26FFB74D</color>
+    <color name="beta_badge">#3A3020</color>
+    <color name="beta_badge_edge">#6A5A3A</color>
+</resources>

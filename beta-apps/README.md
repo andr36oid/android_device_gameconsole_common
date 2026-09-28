@@ -1,13 +1,35 @@
 # Beta apps
 
 Apps for beta testers, in every build whose version doesn't end in `-release`
-(beta, dirty, debug). They are installed as normal apps on first boot by the
-emulator preinstaller, from `beta.list`. A tester who later flashes a release
-build over a card keeps them until they uninstall them.
+(beta, dirty, debug). They are not installed by themselves. They sit in
+`/system/etc/gameconsole/beta/` with `beta.list`, and the Beta apps app
+(`BetaApps/`, also only in those builds) asks the tester which ones they want:
 
-To add one: put the APK here, add a module for it to `Android.mk` and to
-`LOCAL_REQUIRED_MODULES` of `andr36oid-beta-apps`, and add its line
-(`package versionCode file`) to `beta.list`.
+- on start-up, after the setup wizard and after the quick start guide is closed,
+  when `beta.list` has an app (or a newer version of one) the tester wasn't asked
+  about yet. Apps they were already asked about aren't offered again, so a new
+  beta build only asks about its new apps.
+- any time from Settings > Beta apps.
+
+The picked apps are installed as normal apps (the tester can uninstall them) with
+their own signature. A tester who later flashes a release build over a card keeps
+them until they uninstall them.
+
+To add one:
+
+1. Put the APK here.
+2. Add a module for it to `Android.mk` (copy one of the `*-beta` blocks, change
+   the module name, stem and file) and add the module name to
+   `LOCAL_REQUIRED_MODULES` of `andr36oid-beta-apps`.
+3. Add its line to `beta.list`: `package versionCode file description`. The
+   description is the rest of the line, one short sentence shown under the app's
+   name. Name, icon and version are read from the APK. For a plugin, put
+   `needs=<package>` before the description: ticking the plugin then ticks the
+   app it needs too. List that app above its plugins, apps install in list order.
+4. Add it to the table below.
+
+To offer a newer version, replace the APK and raise the versionCode in
+`beta.list`. Testers are asked again about that app only.
 
 | APK | Source | sha256 |
 |-----|--------|--------|
