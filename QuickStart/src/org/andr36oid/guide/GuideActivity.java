@@ -1,7 +1,6 @@
 package org.andr36oid.guide;
 
 import android.app.Activity;
-import android.content.ComponentName;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -23,9 +22,6 @@ import java.util.List;
  * topics and closes the guide from there. L1 and R1 step through the topics from anywhere.
  */
 public class GuideActivity extends Activity {
-
-    // activity-alias in the manifest: the Help icon in the app list
-    private static final String HELP_ALIAS = ".HelpActivity";
 
     private final List<TextView> mChapterViews = new ArrayList<>();
     private List<Chapters.Chapter> mChapters;
@@ -72,23 +68,10 @@ public class GuideActivity extends Activity {
         setContentView(root);
 
         final int start = savedInstanceState != null
-                ? savedInstanceState.getInt("chapter", 0) : getFirstChapter();
+                ? savedInstanceState.getInt("chapter", 0) : 0;
         showChapter(Math.min(start, mChapters.size() - 1));
         mChapterViews.get(mShown).requestFocus();
         updateHints(false);
-    }
-
-    /** The Help app icon opens the guide on the first help topic. */
-    private int getFirstChapter() {
-        final ComponentName component = getIntent().getComponent();
-        if (component != null && component.getClassName().endsWith(HELP_ALIAS)) {
-            for (int i = 0; i < mChapters.size(); i++) {
-                if (mChapters.get(i).helpStart) {
-                    return i;
-                }
-            }
-        }
-        return 0;
     }
 
     @Override

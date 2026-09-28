@@ -95,8 +95,8 @@
 
     <!-- Finish -->
     <string name="tutorial_done_title">You\'re ready</string>
-    <string name="tutorial_done_body">That\'s the basics.\n\nThe quick start guide explains more: emulators, speed and battery, going online, and what to do if something goes wrong. Open it here, from the Help icon in your app list, or from Settings &gt; Quick start guide.</string>
-    <string name="tutorial_done_body_fn_help">That\'s the basics. Forgot a shortcut? Hold FN on its own for a moment, in any app or game, to see them all.\n\nThe quick start guide explains more: emulators, speed and battery, going online, and what to do if something goes wrong. Open it here, from the Help icon in your app list, or from Settings &gt; Quick start guide.</string>
+    <string name="tutorial_done_body">That\'s the basics.\n\nThe quick start guide explains more: emulators, speed and battery, going online, and what to do if something goes wrong. Open it here, or any time from Settings &gt; Quick start guide.</string>
+    <string name="tutorial_done_body_fn_help">That\'s the basics. Forgot a shortcut? Hold FN on its own for a moment, in any app or game, to see them all.\n\nThe quick start guide explains more: emulators, speed and battery, going online, and what to do if something goes wrong. Open it here, or any time from Settings &gt; Quick start guide.</string>
 
     <!-- Guide bottom bar: X opens the tutorial -->
     <string name="hint_tutorial">Tutorial</string>
