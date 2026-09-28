@@ -13,7 +13,8 @@ import android.content.Context;
  */
 public class SampleJob extends JobService {
 
-    private static final int JOB_ID = 1;
+    // Job IDs are per UID, and every android.uid.system app shares one (the other andr36oid apps, LineageParts), so each app keeps to its own range
+    private static final int JOB_ID = 3631;
     private static final long PERIOD_MS = 15 * 60 * 1000L;
 
     static void schedule(Context context) {
