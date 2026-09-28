@@ -1,0 +1,14 @@
+// Settings > Network & internet > Ethernet: state of USB Ethernet adapters and
+// phones tethered over USB, and DHCP or static IP per interface. Uses the
+// hidden EthernetManager API and the signature NETWORK_STACK permission, so it
+// must be platform signed.
+android_app {
+    name: "EthernetSettings",
+    srcs: ["src/**/*.java"],
+    resource_dirs: ["res"],
+    certificate: "platform",
+    platform_apis: true,
+    optimize: {
+        enabled: false,
+    },
+}

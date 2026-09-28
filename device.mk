@@ -234,12 +234,18 @@ PRODUCT_PROPERTY_OVERRIDES += aaudio.mmap_policy=2
 # 3 is AAUDIO_POLICY_ALWAYS means only use EXCLUSIVE mode.
 PRODUCT_PROPERTY_OVERRIDES += aaudio.mmap_exclusive_policy=2
     
-# Bluetooth HIDL
+# Bluetooth HIDL. Bluetooth is a USB dongle: the btusb HAL (bluetooth/btlinux)
+# gives up when none is plugged in, and with ro.bluetooth.usb_hotplug the
+# framework only turns Bluetooth on while a controller is present and turns
+# it back on when one is plugged in.
 PRODUCT_PACKAGES += \
     	audio.bluetooth.default \
     	android.hardware.bluetooth.audio@2.0-impl \
-    	android.hardware.bluetooth@1.1-impl \
-    	android.hardware.bluetooth@1.1-service.btlinux
+    	android.hardware.bluetooth@1.1-service.btusb
+
+PRODUCT_PRODUCT_PROPERTIES += \
+	ro.bluetooth.usb_hotplug=true \
+	bluetooth.enable_timeout_ms=8000
 
 PRODUCT_COPY_FILES += \
         frameworks/native/data/etc/android.hardware.bluetooth.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.bluetooth.xml \
@@ -375,6 +381,13 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += libwpa_client wpa_supplicant hostapd wificond libwifi-hal
 PRODUCT_PROPERTY_OVERRIDES += wifi.interface=wlan0 \
                               wifi.supplicant_scan_interval=180
+
+# Wi-Fi is a USB adapter. libwifi_hal loads its driver when Wi-Fi starts (or
+# uses one that is built in / already loaded, renaming its interface to
+# wlan0), and system_server starts Wi-Fi when an adapter is plugged in while
+# Wi-Fi is switched on (UsbWifiHotplugService).
+PRODUCT_PRODUCT_PROPERTIES += \
+	ro.wifi.usb_hotplug=true
                               
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.wifi.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.wifi.xml \
@@ -521,6 +534,10 @@ PRODUCT_PACKAGES += \
 	android.system.net.netd@1.0 \
 	libandroid_net \
 	netutils-wrapper-1.0
+
+# Settings > Network & internet > Ethernet (USB adapters, USB tethering from a phone)
+PRODUCT_PACKAGES += \
+	EthernetSettings
 
 # WiFi Display
 PRODUCT_PACKAGES += \
