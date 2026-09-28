@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ethernet_title">Ethernet</string>
+    <string name="ethernet_summary">USB Ethernet adapters and USB tethering from a phone</string>
+
+    <string name="ethernet_unavailable">Ethernet isn\'t available on this build</string>
+    <string name="ethernet_none_title">Nothing plugged in</string>
+    <string name="ethernet_none_summary">Plug in a USB Ethernet adapter, or connect a phone with USB tethering turned on. On an iPhone, turn on Personal Hotspot.</string>
+
+    <!-- Category titles, %1$s is the interface name, e.g. eth0 -->
+    <string name="ethernet_iface_adapter">Wired adapter (%1$s)</string>
+    <string name="ethernet_iface_phone">Phone, USB tethering (%1$s)</string>
+
+    <string name="ethernet_status">Status</string>
+    <string name="ethernet_status_connected">Connected</string>
+    <string name="ethernet_status_no_internet">Connected, no internet</string>
+    <string name="ethernet_status_connecting">Connecting…</string>
+    <string name="ethernet_status_unplugged">Cable unplugged</string>
+    <string name="ethernet_status_phone_waiting">Waiting for the phone</string>
+
+    <string name="ethernet_ip_address">IP address</string>
+    <string name="ethernet_gateway">Gateway</string>
+    <string name="ethernet_dns">DNS servers</string>
+    <string name="ethernet_mac">MAC address</string>
+    <string name="ethernet_speed">Link speed</string>
+    <!-- %1$d is the speed in Mbit/s -->
+    <string name="ethernet_speed_value">%1$d Mbps</string>
+    <string name="ethernet_unknown">Not available</string>
+    <string name="ethernet_not_set">Not set</string>
+
+    <string name="ethernet_ip_settings">IP settings</string>
+    <string name="ethernet_ip_dhcp">DHCP</string>
+    <string name="ethernet_ip_static">Static</string>
+
+    <string name="ethernet_static_ip">Static IP address</string>
+    <string name="ethernet_static_ip_hint">For example 192.168.1.50/24</string>
+    <string name="ethernet_static_gateway">Static gateway</string>
+    <string name="ethernet_static_gateway_hint">For example 192.168.1.1, empty for none</string>
+    <string name="ethernet_static_dns">Static DNS servers</string>
+    <string name="ethernet_static_dns_hint">For example 1.1.1.1, 8.8.8.8</string>
+    <string name="ethernet_static_needs_ip">Set the IP address first</string>
+
+    <string name="ethernet_invalid_ip">Enter an IPv4 address, optionally with a prefix length such as /24</string>
+    <string name="ethernet_invalid_gateway">Enter an IPv4 address or leave it empty</string>
+    <string name="ethernet_invalid_dns">Enter IP addresses separated by commas</string>
+    <string name="ethernet_save_failed">Couldn\'t change the IP settings</string>
+</resources>

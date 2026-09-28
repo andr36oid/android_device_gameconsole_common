@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="org.andr36oid.ethernet">
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- EthernetManager.setConfiguration() needs it (signature permission) -->
+    <uses-permission android:name="android.permission.NETWORK_STACK" />
+
+    <application
+        android:allowBackup="false"
+        android:icon="@drawable/ic_ethernet"
+        android:label="@string/ethernet_title"
+        android:supportsRtl="true">
+
+        <!-- Injected into Settings > Network & internet, right below Wi-Fi -->
+        <activity
+            android:name=".EthernetActivity"
+            android:exported="true"
+            android:label="@string/ethernet_title"
+            android:theme="@android:style/Theme.DeviceDefault.Settings">
+            <intent-filter>
+                <action android:name="com.android.settings.action.IA_SETTINGS" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <meta-data
+                android:name="com.android.settings.category"
+                android:value="com.android.settings.category.ia.wireless" />
+            <meta-data
+                android:name="com.android.settings.order"
+                android:value="-25" />
+            <meta-data
+                android:name="com.android.settings.keyhint"
+                android:value="ethernet_settings" />
+            <meta-data
+                android:name="com.android.settings.summary"
+                android:resource="@string/ethernet_summary" />
+            <meta-data
+                android:name="com.android.settings.icon"
+                android:resource="@drawable/ic_ethernet" />
+        </activity>
+    </application>
+</manifest>

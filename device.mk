@@ -498,6 +498,10 @@ PRODUCT_PACKAGES += \
 	libandroid_net \
 	netutils-wrapper-1.0
 
+# Settings > Network & internet > Ethernet (USB adapters, USB tethering from a phone)
+PRODUCT_PACKAGES += \
+	EthernetSettings
+
 # WiFi Display
 PRODUCT_PACKAGES += \
 	libaacwrapper \
