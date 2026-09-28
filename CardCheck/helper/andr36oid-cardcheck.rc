@@ -1,0 +1,9 @@
+on post-fs-data
+    mkdir /data/misc/andr36oid-cardcheck 0770 system system
+
+# Started by Settings > Storage > SD card check with ctl.start, see andr36oid-cardcheck.sh
+service andr36oid-cardcheck /system/bin/sh /system/etc/andr36oid-cardcheck.sh
+    user root
+    group root system media_rw
+    disabled
+    oneshot

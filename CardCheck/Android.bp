@@ -1,0 +1,14 @@
+// Settings > Storage > SD card check: card details, a speed test and a real size check
+// that finds fake cards. Runs as the system user like the other console apps; the
+// reading and writing is done by the andr36oid-cardcheck init service (Android.mk),
+// which needs root for the card itself and for EASYROMS.
+android_app {
+    name: "CardCheck",
+    srcs: ["src/**/*.java"],
+    resource_dirs: ["res"],
+    certificate: "platform",
+    platform_apis: true,
+    optimize: {
+        enabled: false,
+    },
+}
