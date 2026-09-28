@@ -1,7 +1,7 @@
 # ROM folders made on a fresh EASYROMS partition, named like on ArkOS and dArkOS so
 # cards move between the systems. First word: the folder. The rest goes into the
 # README on the card: the system, then what plays it on andr36oid.
-bios              BIOS files (copy them to RetroArch's system folder too)
+bios              BIOS files. RetroArch reads them from here; Settings > Emulator files shows what's missing
 nes               Nintendo NES / Famicom - RetroArch (FCEUmm)
 snes              Super Nintendo - RetroArch (Snes9x 2010)
 gb                Game Boy - RetroArch (Gambatte)
