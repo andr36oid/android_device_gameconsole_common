@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_title">Save backup</string>
+
+    <!-- %1$s: a time, e.g. 14:02 -->
+    <string name="today">Today, %1$s</string>
+    <string name="yesterday">Yesterday, %1$s</string>
+    <plurals name="files">
+        <item quantity="one">%1$d file</item>
+        <item quantity="other">%1$d files</item>
+    </plurals>
+    <plurals name="games">
+        <item quantity="one">%1$d game</item>
+        <item quantity="other">%1$d games</item>
+    </plurals>
+
+    <!-- The summary in Settings and under Back up now -->
+    <!-- %1$s: when, e.g. Today, 14:02; %2$s: e.g. 123 files -->
+    <string name="last_backup">Last backup: %1$s, %2$s</string>
+    <string name="last_none">No backup yet</string>
+    <string name="last_no_saves">No save files found yet</string>
+    <!-- %1$s: the summary above, %2$s: what went wrong -->
+    <string name="last_failed">%1$s\nThe last try failed: %2$s</string>
+
+    <string name="where_internal">internal storage</string>
+    <string name="where_easyroms">EASYROMS</string>
+    <string name="where_usb">USB drive</string>
+
+    <!-- Progress, on the page and in the notification -->
+    <string name="step_start">Starting…</string>
+    <string name="step_scan">Looking for save files…</string>
+    <!-- %1$d: file number, %2$d: all files -->
+    <string name="step_backup">Backing up file %1$d of %2$d…</string>
+    <string name="step_backup_plain">Backing up…</string>
+    <string name="step_copy">Copying the backup to the other places…</string>
+    <string name="step_list">Reading the backups…</string>
+    <string name="step_plan">Comparing with the saves on the console…</string>
+    <string name="step_restore">Restoring…</string>
+
+    <!-- %1$s: e.g. 123 files -->
+    <string name="backup_done">Backed up %1$s</string>
+    <string name="backup_unchanged">Nothing changed since the last backup</string>
+    <string name="backup_nothing">No save files found. Play a game and save first.</string>
+
+    <string name="error_no_storage">Nothing to back up to: the internal storage and EASYROMS aren\'t available.</string>
+    <string name="error_no_space">Not enough free space for a backup on the internal storage or EASYROMS.</string>
+    <string name="error_write_failed">The backup couldn\'t be written. The SD card may be failing: copy your saves to a PC.</string>
+    <string name="error_no_usb">No USB drive found. Plug one in and try again.</string>
+    <string name="error_not_found">This backup isn\'t there anymore.</string>
+    <string name="error_safety_failed">Nothing was restored: the saves it would replace couldn\'t be backed up first. Free up some space and try again.</string>
+    <string name="error_busy">A backup is running. Try again in a moment.</string>
+    <string name="error_start">Save backup couldn\'t run. Restart the console and try again.</string>
+
+    <!-- The main page -->
+    <string name="backup_now_title">Back up now</string>
+    <string name="restore_title">Restore saves</string>
+    <string name="restore_summary">Pick a backup, then all of it or one game. You see what changes before anything is written.</string>
+    <string name="usb_title">Back up to USB drive now</string>
+    <!-- %1$s: the drive's name -->
+    <string name="usb_summary">Copies the newest backup to %1$s</string>
+    <string name="usb_none">Plug in a USB drive to keep a copy away from the SD card</string>
+    <string name="auto_category">Automatic backup</string>
+    <string name="auto_title">Back up automatically</string>
+    <string name="auto_summary">Once a day while charging, and after you close a game. Skipped when nothing changed.</string>
+    <string name="keep_title">Backups to keep</string>
+    <!-- %1$s: a number -->
+    <string name="keep_summary">The newest %1$s are kept, with at least one from each recent day. Older ones are deleted.</string>
+    <string-array name="keep_entries" translatable="false">
+        <item>3</item>
+        <item>5</item>
+        <item>10</item>
+        <item>20</item>
+        <item>30</item>
+    </string-array>
+    <string-array name="keep_values" translatable="false">
+        <item>3</item>
+        <item>5</item>
+        <item>10</item>
+        <item>20</item>
+        <item>30</item>
+    </string-array>
+    <string name="where_summary">Backups go to two places: Internal storage/Backups/Saves and EASYROMS/backups/saves, plus a USB drive when one is plugged in. Both places are on the same SD card, so copy the backups to a PC or USB drive now and then. Saves from RetroArch, PPSSPP and save files next to your games are included.</string>
+
+    <!-- The list of backups -->
+    <!-- %1$s: what's running -->
+    <string name="waiting_for_backup">A backup is running. %1$s</string>
+    <string name="no_backups">No backups yet. Use Back up now, or wait for the daily backup while charging.</string>
+    <!-- %1$s: e.g. 12 games, %2$s: e.g. 123 files, %3$s: size, %4$s: where -->
+    <string name="backup_summary">%1$s, %2$s, %3$s\nOn %4$s</string>
+    <!-- %1$s: where -->
+    <string name="backup_broken">This backup is damaged and can\'t be read (on %1$s)</string>
+
+    <!-- One backup -->
+    <string name="restore_all_title">Restore all</string>
+    <!-- %1$s: e.g. 123 files -->
+    <string name="restore_all_summary">All %1$s from this backup. You see what changes first.</string>
+    <!-- %1$s: e.g. 3 files, %2$s: folders, %3$s: when -->
+    <string name="game_summary">%1$s in %2$s, saved %3$s</string>
+
+    <!-- What restoring would do -->
+    <string name="plan_title_all">Restore all?</string>
+    <!-- %1$s: the game -->
+    <string name="plan_title_game">Restore %1$s?</string>
+    <plurals name="plan_missing">
+        <item quantity="one">%1$d file is missing on the console and will be put back.</item>
+        <item quantity="other">%1$d files are missing on the console and will be put back.</item>
+    </plurals>
+    <plurals name="plan_older">
+        <item quantity="one">%1$d older save on the console will be replaced with the backup.</item>
+        <item quantity="other">%1$d older saves on the console will be replaced with the backup.</item>
+    </plurals>
+    <plurals name="plan_newer">
+        <item quantity="one">%1$d save on the console is newer than the backup. It is kept:</item>
+        <item quantity="other">%1$d saves on the console are newer than the backup. They are kept:</item>
+    </plurals>
+    <!-- %1$s: file name, %2$s: its time on the console, %3$s: its time in the backup -->
+    <string name="plan_newer_item">• %1$s (console: %2$s, backup: %3$s)</string>
+    <!-- %1$d: how many more -->
+    <string name="plan_more">• and %1$d more</string>
+    <plurals name="plan_same">
+        <item quantity="one">%1$d file is already the same.</item>
+        <item quantity="other">%1$d files are already the same.</item>
+    </plurals>
+    <plurals name="plan_unavailable">
+        <item quantity="one">%1$d file belongs on EASYROMS, which isn\'t mounted, and can\'t be restored now.</item>
+        <item quantity="other">%1$d files belong on EASYROMS, which isn\'t mounted, and can\'t be restored now.</item>
+    </plurals>
+    <string name="plan_nothing">Nothing to restore.</string>
+    <string name="plan_note">Anything that gets replaced is backed up first. Quit RetroArch and PPSSPP before you restore, or they may write over the restored saves when they close.</string>
+    <string name="restore_button">Restore</string>
+    <string name="replace_newer_button">Replace newer too</string>
+    <string name="replace_newer_title">Replace newer saves?</string>
+    <plurals name="replace_newer_message">
+        <item quantity="one">%1$d save on the console is newer than the backup. Replacing it takes that game back to the older progress. The newer save is backed up first.</item>
+        <item quantity="other">%1$d saves on the console are newer than the backup. Replacing them takes those games back to the older progress. The newer saves are backed up first.</item>
+    </plurals>
+    <string name="replace_button">Replace</string>
+
+    <string name="result_title">Restore finished</string>
+    <plurals name="result_restored">
+        <item quantity="one">%1$d file restored.</item>
+        <item quantity="other">%1$d files restored.</item>
+    </plurals>
+    <plurals name="result_kept">
+        <item quantity="one">%1$d newer save kept.</item>
+        <item quantity="other">%1$d newer saves kept.</item>
+    </plurals>
+    <plurals name="result_failed">
+        <item quantity="one">%1$d file couldn\'t be written. The SD card may be full or failing.</item>
+        <item quantity="other">%1$d files couldn\'t be written. The SD card may be full or failing.</item>
+    </plurals>
+
+    <!-- The notification while an automatic backup runs -->
+    <string name="channel_name">Save backup running</string>
+    <string name="notification_title">Backing up saves</string>
+</resources>

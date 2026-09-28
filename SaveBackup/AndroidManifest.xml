@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="org.andr36oid.savebackup"
+    android:sharedUserId="android.uid.system">
+
+    <!-- The jobs survive restarts; they're scheduled again at boot as well -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <!-- To see when an emulator was closed (signature permission, we're platform signed) -->
+    <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS" />
+
+    <application
+        android:allowBackup="false"
+        android:icon="@drawable/ic_save_backup"
+        android:label="@string/app_title"
+        android:supportsRtl="true">
+
+        <!-- Injected into the top level of the Settings app, in the console group. The
+             summary (the last backup) comes from SummaryProvider. -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:label="@string/app_title"
+            android:theme="@android:style/Theme.DeviceDefault.DayNight">
+            <intent-filter>
+                <action android:name="com.android.settings.action.IA_SETTINGS" />
+            </intent-filter>
+            <meta-data
+                android:name="com.android.settings.category"
+                android:value="com.android.settings.category.ia.homepage" />
+            <!-- Same order as BIOS check and Controller test; ties sort by title, so this
+                 lands after them and before Storage (-60). -->
+            <meta-data
+                android:name="com.android.settings.order"
+                android:value="-61" />
+            <meta-data
+                android:name="com.android.settings.keyhint"
+                android:value="top_level_save_backup" />
+            <meta-data
+                android:name="com.android.settings.summary_uri"
+                android:value="content://org.andr36oid.savebackup.summary" />
+            <meta-data
+                android:name="com.android.settings.icon"
+                android:resource="@drawable/ic_save_backup" />
+            <meta-data
+                android:name="com.android.settings.bg.hint"
+                android:resource="@color/save_backup_icon_background" />
+        </activity>
+
+        <!-- The same page in the app list (Daijishou and other home screens) -->
+        <activity-alias
+            android:name=".LauncherActivity"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher"
+            android:label="@string/app_title"
+            android:targetActivity=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
+        <activity
+            android:name=".RestoreActivity"
+            android:exported="false"
+            android:label="@string/restore_title"
+            android:parentActivityName=".MainActivity"
+            android:theme="@android:style/Theme.DeviceDefault.DayNight" />
+
+        <activity
+            android:name=".GamesActivity"
+            android:exported="false"
+            android:parentActivityName=".RestoreActivity"
+            android:theme="@android:style/Theme.DeviceDefault.DayNight" />
+
+        <service
+            android:name=".BackupJobService"
+            android:exported="false"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+
+        <receiver
+            android:name=".BootReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+            </intent-filter>
+        </receiver>
+
+        <provider
+            android:name=".SummaryProvider"
+            android:authorities="org.andr36oid.savebackup.summary"
+            android:exported="true" />
+    </application>
+</manifest>

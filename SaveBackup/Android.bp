@@ -1,0 +1,19 @@
+// Settings > Save backup: backs the save games up into dated zips on the internal storage,
+// EASYROMS and USB drives (daily while charging, after a game, or by hand) and restores
+// them. Runs as the system user like the other console apps; the file work is done by
+// the Engine class of this APK, run as root by the andr36oid-savebackup init service
+// (Android.mk) with app_process.
+android_app {
+    name: "SaveBackup",
+    srcs: ["src/**/*.java"],
+    resource_dirs: ["res"],
+    certificate: "platform",
+    platform_apis: true,
+    optimize: {
+        enabled: false,
+    },
+    // app_process loads the Engine from the APK's classes.dex, so keep it in there
+    dex_preopt: {
+        enabled: false,
+    },
+}

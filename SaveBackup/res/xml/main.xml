@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <Preference
+        android:key="backup_now"
+        android:title="@string/backup_now_title" />
+
+    <Preference
+        android:key="restore"
+        android:title="@string/restore_title"
+        android:summary="@string/restore_summary" />
+
+    <Preference
+        android:key="usb"
+        android:title="@string/usb_title" />
+
+    <PreferenceCategory
+        android:key="auto_category"
+        android:title="@string/auto_category">
+
+        <SwitchPreference
+            android:key="auto"
+            android:title="@string/auto_title"
+            android:summary="@string/auto_summary"
+            android:defaultValue="true" />
+
+        <ListPreference
+            android:key="keep"
+            android:title="@string/keep_title"
+            android:entries="@array/keep_entries"
+            android:entryValues="@array/keep_values"
+            android:defaultValue="10" />
+    </PreferenceCategory>
+
+    <Preference
+        android:key="where"
+        android:selectable="false"
+        android:summary="@string/where_summary" />
+</PreferenceScreen>

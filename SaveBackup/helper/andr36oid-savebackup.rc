@@ -1,0 +1,13 @@
+on post-fs-data
+    mkdir /data/misc/andr36oid-savebackup 0770 system system
+
+# Started by Save backup (the app and its daily job) with ctl.start, see
+# andr36oid-savebackup.sh. Low CPU and I/O priority, so a game running meanwhile
+# doesn't stutter.
+service andr36oid-savebackup /system/bin/sh /system/etc/andr36oid-savebackup.sh
+    user root
+    group root system media_rw
+    disabled
+    oneshot
+    priority 10
+    ioprio be 7

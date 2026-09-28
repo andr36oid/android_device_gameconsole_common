@@ -466,6 +466,12 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
 	PerfOverlay
 
+# Save backup: daily and after-game backups of the save games to the internal storage,
+# EASYROMS and USB drives, and restore (Settings top level, and in the app list)
+PRODUCT_PACKAGES += \
+	SaveBackup \
+	andr36oid-savebackup
+
 # Button mapping and profiles (Settings > Button mapping, Quick Settings tile)
 PRODUCT_PACKAGES += \
 	ButtonMapper
