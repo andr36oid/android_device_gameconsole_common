@@ -157,7 +157,10 @@
     <string name="community_qr_description">QR code for t.me/andr36oid</string>
 
     <string name="magisk_title">Root (Magisk)</string>
-    <string name="magisk_intro">The console comes with root through Magisk. Apps that ask for root show a prompt: allow or deny it with the buttons. The Magisk app manages root access and modules.</string>
+    <string name="magisk_intro">The console comes with root through Magisk, but it is off until you set it up once.</string>
+    <string name="magisk_setup_q">Turn root on: open Magisk once first</string>
+    <string name="magisk_setup_a">Open the Magisk app and let it finish its setup. It asks to restart the console: say yes. Only after that restart do you have root.</string>
+    <string name="magisk_use">From then on, apps that ask for root show a prompt: allow or deny it with the buttons. The Magisk app manages root access and modules.</string>
     <string name="magisk_modules">Root lives on the BOOT part of the card, so it stays when the system is updated.</string>
     <string name="magisk_broken_q">A module broke the start</string>
     <string name="magisk_broken_a">See Troubleshooting: on BOOT, swap ramdisk.uimg for ramdisk-stock.uimg, and the console starts without root and modules.</string>

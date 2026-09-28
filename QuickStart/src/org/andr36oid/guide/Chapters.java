@@ -244,6 +244,9 @@ final class Chapters {
         if (magisk) {
             c = chapter(R.string.magisk_title, chapters);
             para(c, R.string.magisk_intro);
+            heading(c, R.string.magisk_setup_q);
+            para(c, R.string.magisk_setup_a);
+            para(c, R.string.magisk_use);
             para(c, R.string.magisk_modules);
             heading(c, R.string.magisk_broken_q);
             para(c, R.string.magisk_broken_a);
