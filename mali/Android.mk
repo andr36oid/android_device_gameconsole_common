@@ -44,19 +44,21 @@ include $(BUILD_PREBUILT)
 
 else # TARGET_GAMECONSOLE_VULKAN
 
-# Experimental: Rockchip's Android 11 g2p0 blobs with Vulkan, need gralloc 4.
-# Source and checksums in g2p0/README.md.
+# Experimental: Rockchip's Android 12 Mali-G31 (MaliTDVx) g7p1 blobs with
+# Vulkan. They need gralloc 4, the g7p1 kbase in the kernel
+# (gameconsole_vulkan.config) and libdmabufheap from g7p1/shim.
+# Source and checksums in g7p1/README.md.
 include $(CLEAR_VARS)
 LOCAL_MODULE := libGLES_mali.so
 LOCAL_MODULE_CLASS := SHARED_LIBRARIES
 LOCAL_STRIP_MODULE := false
 LOCAL_CHECK_ELF_FILES := false
-LOCAL_SRC_FILES_arm := g2p0/lib/egl/libGLES_mali.so
-LOCAL_SRC_FILES_arm64 := g2p0/lib64/egl/libGLES_mali.so
+LOCAL_SRC_FILES_arm := g7p1/lib/egl/libGLES_mali.so
+LOCAL_SRC_FILES_arm64 := g7p1/lib64/egl/libGLES_mali.so
 LOCAL_MODULE_PATH_32 := $(TARGET_OUT_VENDOR)/lib/egl/
 LOCAL_MODULE_PATH_64 := $(TARGET_OUT_VENDOR)/lib64/egl/
 LOCAL_MULTILIB := both
-LOCAL_SHARED_LIBRARIES := liblog libz libnativewindow libcutils android.hardware.graphics.mapper@4.0 libgralloctypes libhidlbase libutils libc++ libm libc libdl
+LOCAL_SHARED_LIBRARIES := libutilscallstack libnativewindow libutils liblog libdmabufheap libz libcutils android.hardware.graphics.mapper@4.0 libgralloctypes libhidlbase libhardware libc++ libm libc libdl
 
 # Same symlinks as the default blob, minus the broken vulkan one: the loader
 # gets vulkan.$(TARGET_BOARD_PLATFORM).so from the module below.
@@ -77,8 +79,8 @@ LOCAL_MODULE_SUFFIX := .so
 LOCAL_MODULE_CLASS := SHARED_LIBRARIES
 LOCAL_STRIP_MODULE := false
 LOCAL_CHECK_ELF_FILES := false
-LOCAL_SRC_FILES_arm := g2p0/lib/hw/vulkan.mali.so
-LOCAL_SRC_FILES_arm64 := g2p0/lib64/hw/vulkan.mali.so
+LOCAL_SRC_FILES_arm := g7p1/lib/hw/vulkan.mali.so
+LOCAL_SRC_FILES_arm64 := g7p1/lib64/hw/vulkan.mali.so
 LOCAL_MODULE_PATH_32 := $(TARGET_OUT_VENDOR)/lib/hw
 LOCAL_MODULE_PATH_64 := $(TARGET_OUT_VENDOR)/lib64/hw
 LOCAL_MULTILIB := both
