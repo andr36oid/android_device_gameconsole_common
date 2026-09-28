@@ -12,7 +12,7 @@ LOCAL_MODULE_TAGS := optional
 LOCAL_MODULE_RELATIVE_PATH := gameconsole/preinstall
 LOCAL_MODULE_STEM := beta.list
 LOCAL_SRC_FILES := beta.list
-LOCAL_REQUIRED_MODULES := gameconsole-emu TrebleInfo-preinstall CPU-Z-preinstall UsbDeviceInfo-preinstall F-Droid-preinstall QuickShortcutMaker-preinstall Haven-preinstall Termux-preinstall Athena-preinstall TotalCommander-preinstall TotalCommanderLAN-preinstall TotalCommanderSFTP-preinstall FreeOTP-preinstall
+LOCAL_REQUIRED_MODULES := gameconsole-emu TrebleInfo-preinstall CPU-Z-preinstall UsbDeviceInfo-preinstall F-Droid-preinstall QuickShortcutMaker-preinstall Haven-preinstall Termux-preinstall Athena-preinstall TotalCommander-preinstall TotalCommanderLAN-preinstall TotalCommanderSFTP-preinstall FreeOTP-preinstall Obtainium-preinstall
 include $(BUILD_PREBUILT)
 
 # Treble Info by Kevin Tresuelo (GPL-3.0), shows the Treble/GSI details of the device
@@ -133,4 +133,14 @@ LOCAL_MODULE_TAGS := optional
 LOCAL_MODULE_RELATIVE_PATH := gameconsole/preinstall
 LOCAL_MODULE_STEM := FreeOTP.apk
 LOCAL_SRC_FILES := FreeOTP.apk
+include $(BUILD_PREBUILT)
+
+# Obtainium by ImranR98 (GPL-3.0), app updates straight from GitHub and other sources
+include $(CLEAR_VARS)
+LOCAL_MODULE := Obtainium-preinstall
+LOCAL_MODULE_CLASS := ETC
+LOCAL_MODULE_TAGS := optional
+LOCAL_MODULE_RELATIVE_PATH := gameconsole/preinstall
+LOCAL_MODULE_STEM := Obtainium.apk
+LOCAL_SRC_FILES := Obtainium.apk
 include $(BUILD_PREBUILT)
