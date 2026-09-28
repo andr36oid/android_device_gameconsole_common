@@ -88,6 +88,10 @@ on late-fs
     insmod /vendor/lib/modules/btbcm.ko
     insmod /vendor/lib/modules/btrtl.ko
     insmod /vendor/lib/modules/btusb.ko
+    insmod /vendor/lib/modules/ath3k.ko
+    insmod /vendor/lib/modules/bcm203x.ko
+    insmod /vendor/lib/modules/bpa10x.ko
+    insmod /vendor/lib/modules/bfusb.ko
     
 on post-fs-data
 
