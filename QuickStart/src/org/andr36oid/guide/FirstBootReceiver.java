@@ -21,8 +21,9 @@ public class FirstBootReceiver extends BroadcastReceiver {
     private static final String TAG = "QuickStartGuide";
     private static final String PREFS = "guide";
     private static final String PREF_SHOWN = "shown";
-    static final int JOB_SETUP_DONE = 1;
-    static final int JOB_SHOW = 2;
+    // Job IDs are per UID, and every android.uid.system app shares one (the other andr36oid apps, LineageParts), so each app keeps to its own range
+    static final int JOB_SETUP_DONE = 3601;
+    static final int JOB_SHOW = 3602;
 
     @Override
     public void onReceive(Context context, Intent intent) {
