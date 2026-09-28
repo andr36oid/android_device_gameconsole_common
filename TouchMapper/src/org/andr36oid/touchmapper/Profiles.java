@@ -9,7 +9,6 @@ import android.util.Log;
 import org.json.JSONException;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -68,8 +67,9 @@ final class Profiles {
         if (!file.exists()) {
             return null;
         }
-        try (FileInputStream in = file.openRead()) {
-            final byte[] data = in.readAllBytes();
+        try {
+            // AtomicFile.readFully: InputStream.readAllBytes only came with Android 13
+            final byte[] data = file.readFully();
             return Profile.fromJson(packageName, new String(data, StandardCharsets.UTF_8));
         } catch (IOException | JSONException e) {
             Log.w(TAG, "Couldn't read the profile of " + packageName, e);
