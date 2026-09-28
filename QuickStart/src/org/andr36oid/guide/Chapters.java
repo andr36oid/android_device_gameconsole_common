@@ -15,22 +15,29 @@ import java.util.List;
  */
 final class Chapters {
 
-    /** A paragraph, or a row of buttons with what they do. */
+    /** A paragraph, a row of buttons with what they do, or a picture. */
     static final class Item {
         // Buttons pressed together; each entry may hold alternatives split by " / ".
         final List<String> keys;
         final CharSequence text;
         // A question or problem that the paragraphs below it answer
         final boolean heading;
+        // A picture shown under the text before it (0 = none), e.g. a QR code
+        final int image;
 
         Item(List<String> keys, CharSequence text) {
             this(keys, text, false);
         }
 
         Item(List<String> keys, CharSequence text, boolean heading) {
+            this(keys, text, heading, 0);
+        }
+
+        Item(List<String> keys, CharSequence text, boolean heading, int image) {
             this.keys = keys;
             this.text = text;
             this.heading = heading;
+            this.image = image;
         }
 
         boolean isParagraph() {
@@ -197,6 +204,10 @@ final class Chapters {
         heading(c, R.string.trouble_clock_q);
         para(c, R.string.trouble_clock_a);
 
+        c = chapter(R.string.community_title, chapters);
+        para(c, R.string.community_text);
+        image(c, R.drawable.community_qr, R.string.community_qr_description);
+
         c = chapter(R.string.usb_title, chapters);
         para(c, R.string.usb_card);
         if (usbMode) {
@@ -276,6 +287,11 @@ final class Chapters {
 
     private void heading(Chapter chapter, int text) {
         chapter.items.add(new Item(new ArrayList<>(), mContext.getText(text), true));
+    }
+
+    private void image(Chapter chapter, int drawable, int description) {
+        chapter.items.add(new Item(new ArrayList<>(), mContext.getText(description), false,
+                drawable));
     }
 
     private void row(Chapter chapter, int text, String... keys) {

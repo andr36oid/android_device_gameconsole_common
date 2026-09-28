@@ -9,6 +9,7 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -162,7 +163,8 @@ public class GuideActivity extends Activity {
         mPageTitle.setPadding(0, 0, 0, dp(8));
         mPageContent.addView(mPageTitle);
         for (Chapters.Item item : chapter.items) {
-            mPageContent.addView(item.heading ? buildHeading(item)
+            mPageContent.addView(item.image != 0 ? buildImage(item)
+                    : item.heading ? buildHeading(item)
                     : item.isParagraph() ? buildParagraph(item) : buildRow(item));
         }
         mPage.scrollTo(0, 0);
@@ -172,6 +174,19 @@ public class GuideActivity extends Activity {
         final TextView view = text(item.text, 16, R.color.guide_accent);
         view.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
         view.setPadding(0, dp(12), 0, dp(0));
+        return view;
+    }
+
+    private View buildImage(Chapters.Item item) {
+        final ImageView view = new ImageView(this);
+        view.setImageResource(item.image);
+        view.setContentDescription(item.text);
+        view.setAdjustViewBounds(true);
+        final LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(dp(140), dp(140));
+        params.gravity = Gravity.CENTER_HORIZONTAL;
+        params.topMargin = dp(8);
+        params.bottomMargin = dp(8);
+        view.setLayoutParams(params);
         return view;
     }
 
