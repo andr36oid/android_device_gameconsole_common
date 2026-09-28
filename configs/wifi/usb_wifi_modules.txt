@@ -2,6 +2,7 @@
 8188fu.ko
 8188gu.ko
 8192eu.ko
+8192fu.ko
 8812au.ko
 8814au.ko
 8821au.ko
@@ -13,12 +14,15 @@ aic_load_fw.ko
 ar5523.ko
 at76c50x-usb.ko
 ath.ko
+ath6kl_core.ko
+ath6kl_usb.ko
 ath9k_common.ko
 ath9k_htc.ko
 ath9k_hw.ko
 brcmfmac.ko
 brcmutil.ko
 carl9170.ko
+libertas.ko
 mt76-usb.ko
 mt76.ko
 mt7601u.ko
@@ -44,5 +48,7 @@ rtl8192cu.ko
 rtl8xxxu.ko
 rtl_usb.ko
 rtlwifi.ko
+usb8xxx.ko
+vt6656_stage.ko
 zd1201.ko
 zd1211rw.ko

@@ -16,6 +16,9 @@ built-in Android search path), aic8800 reads `/vendor/firmware/<chip>/`.
 | `zd1211/*` | zd1211rw | Debian firmware-zd1211 1.5-13 | zd1211-firmware.copyright |
 | `atmel_at76c50*.bin` | at76c50x-usb | Debian atmel-firmware 1.3-7 | atmel-firmware.copyright |
 | `isl3886usb`, `isl3887usb` | p54usb | daemonizer.de prism54 fw-usb 2.5.8.0 / 2.13.25.0.lm87 | redistributable per upstream |
+| `libertas/usb8388_v9.bin`, `libertas/usb8682.bin` | usb8xxx (libertas) | linux-firmware 9b858e5bb58d | LICENCE.Marvell |
+| `ath6k/AR6004/hw1.2/*`, `ath6k/AR6004/hw1.3/*` | ath6kl_usb | linux-firmware 9b858e5bb58d | LICENCE.atheros_firmware |
+| `vntwusb.fw` | vt6656_stage | linux-firmware 9b858e5bb58d | LICENCE.via_vt6656 |
 | `aic8800*/*` | aic_load_fw, aic8800_fdrv | radxa-pkg/aic8800 (src/USB/driver_fw/fw) | vendor firmware, see that repo |
 
 MediaTek (mt7601u/mt76x0/mt76x2u) and Ralink (rt2x00) firmware lives in
