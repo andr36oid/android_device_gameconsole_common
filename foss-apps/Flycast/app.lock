@@ -1,0 +1,13 @@
+# Flycast, the GitHub release APK (signed by Flyinghead, not on F-Droid).
+# sha256 from the GitHub release asset digest. Built from v2.7 plus one empty
+# commit (44e4c7b50, "empty commit to trigger CI builds"), so the source is v2.7.
+name=Flycast
+package=com.flycast.emulator
+version_code=3302
+version_name=2.7
+spdx=GPL-2.0
+sha256=1ac54d77b8283f6d58d077396d0916ec12c15b7e4ada9d957836a64590756c00
+apk_url=https://github.com/flyinghead/flycast/releases/download/v2.7/flycast-2.7.apk
+source_url=https://github.com/flyinghead/flycast/tree/v2.7
+license_url=https://raw.githubusercontent.com/flyinghead/flycast/v2.7/LICENSE
+published_by=the Flycast project on GitHub
