@@ -417,6 +417,11 @@ ANDR36OID_VERSION := $(shell device/gameconsole/common/version.sh $(TARGET_BUILD
 PRODUCT_PRODUCT_PROPERTIES += \
 	ro.andr36oid.version=$(ANDR36OID_VERSION)
 
+# FN + button shortcuts (frameworks/base PhoneWindowManager). Tells the quick start guide
+# to list them. persist.sys.fn_hotkeys=0 turns them off.
+PRODUCT_PRODUCT_PROPERTIES += \
+	ro.andr36oid.fn_hotkeys=true
+
 # Joystick as mouse
 PRODUCT_PACKAGES += \
 	joyMouse \
