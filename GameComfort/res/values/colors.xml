@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Background of the round game mode icon on the Settings home page -->
+    <color name="game_mode_icon_background">#1E88E5</color>
+</resources>

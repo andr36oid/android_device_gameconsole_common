@@ -1,6 +1,9 @@
 // Settings > Battery > Low battery warning: a short banner on top of games at 15 % and 5 %,
-// so there is time to save before the console turns off. Runs as the system user, which
-// may draw a system overlay window.
+// so there is time to save before the console turns off.
+// Settings > Game mode and its Quick Settings tile: Do Not Disturb and no pop-up
+// notifications while playing, optionally switched by the app in front.
+// Runs as the system user, which may draw a system overlay window, change Do Not Disturb
+// and watch the task stack.
 android_app {
     name: "GameComfort",
     srcs: ["src/**/*.java"],

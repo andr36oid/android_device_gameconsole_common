@@ -12,11 +12,12 @@ import android.os.PowerManager;
 /**
  * Runs in the background while a feature needs it and does nothing but wait for broadcasts.
  * Low battery warning: watches the charge level the fuel gauge reports and shows the banner
- * once per threshold while on battery.
+ * once per threshold while on battery. Automatic game mode: watches which app is in front.
  */
 public class ComfortService extends Service {
 
     private Banner mBanner;
+    private GameWatcher mGameWatcher;
     private boolean mWatchingBattery;
     /** Level to warn about once the screen comes on, -1 for none. */
     private int mPendingPercent = -1;
@@ -42,6 +43,7 @@ public class ComfortService extends Service {
     public void onCreate() {
         super.onCreate();
         mBanner = new Banner(this);
+        mGameWatcher = new GameWatcher(this);
     }
 
     @Override
@@ -51,6 +53,11 @@ public class ComfortService extends Service {
             return START_NOT_STICKY;
         }
         watchBattery(Comfort.isBatteryWarningOn(this));
+        if (GameMode.isAutomatic(this)) {
+            mGameWatcher.start();
+        } else {
+            mGameWatcher.stop();
+        }
         // Brought back if the system has to kill it for memory during a game.
         return START_STICKY;
     }
@@ -58,6 +65,7 @@ public class ComfortService extends Service {
     @Override
     public void onDestroy() {
         watchBattery(false);
+        mGameWatcher.stop();
         mBanner.hide();
         super.onDestroy();
     }

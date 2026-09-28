@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Not saved here, it shows the live state -->
+    <SwitchPreference
+        android:key="game_mode_now"
+        android:persistent="false"
+        android:summary="@string/game_mode_now_summary"
+        android:title="@string/game_mode_now" />
+
+    <SwitchPreference
+        android:key="game_mode_automatic"
+        android:defaultValue="false"
+        android:summary="@string/game_mode_automatic_summary"
+        android:title="@string/game_mode_automatic" />
+
+    <Preference
+        android:key="about"
+        android:selectable="false"
+        android:summary="@string/game_mode_about" />
+</PreferenceScreen>

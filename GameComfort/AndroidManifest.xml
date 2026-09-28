@@ -40,7 +40,55 @@
                 android:resource="@drawable/ic_battery_alert" />
         </activity>
 
-        <!-- Waits for battery changes while the warning is on. Not started otherwise. -->
+        <!-- Game mode, injected into the top level of the Settings app, in the console group.
+             Also opened by a long press on the tile. -->
+        <activity
+            android:name=".GameModeActivity"
+            android:exported="true"
+            android:label="@string/game_mode_title"
+            android:theme="@android:style/Theme.DeviceDefault.Settings">
+            <intent-filter>
+                <action android:name="com.android.settings.action.IA_SETTINGS" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE_PREFERENCES" />
+            </intent-filter>
+            <meta-data
+                android:name="com.android.settings.category"
+                android:value="com.android.settings.category.ia.homepage" />
+            <!-- Same order as Controller test; ties sort by title, so this lands near it
+                 and before Storage (-60). -->
+            <meta-data
+                android:name="com.android.settings.order"
+                android:value="-61" />
+            <meta-data
+                android:name="com.android.settings.keyhint"
+                android:value="top_level_game_mode" />
+            <meta-data
+                android:name="com.android.settings.summary"
+                android:resource="@string/game_mode_summary" />
+            <meta-data
+                android:name="com.android.settings.icon"
+                android:resource="@drawable/ic_game_mode" />
+            <meta-data
+                android:name="com.android.settings.bg.hint"
+                android:resource="@color/game_mode_icon_background" />
+        </activity>
+
+        <!-- Added to Quick Settings once, on the first boot -->
+        <service
+            android:name=".GameModeTileService"
+            android:exported="true"
+            android:icon="@drawable/ic_game_mode"
+            android:label="@string/game_mode_title"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
+
+        <!-- Waits for battery changes while the warning is on, and watches the app in front
+             while automatic game mode is on. Not started otherwise. -->
         <service
             android:name=".ComfortService"
             android:exported="false" />

@@ -41,7 +41,7 @@ final class Comfort {
     }
 
     static boolean isServiceNeeded(Context context) {
-        return isBatteryWarningOn(context);
+        return isBatteryWarningOn(context) || GameMode.isAutomatic(context);
     }
 
     /** Starts or stops the service to match the settings. */

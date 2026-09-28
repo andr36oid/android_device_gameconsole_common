@@ -428,7 +428,8 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
 	Andr36oidCredits
 
-# Low battery warning on top of games (Settings > Battery > Low battery warning)
+# Low battery warning on top of games (Settings > Battery > Low battery warning) and
+# game mode: Do Not Disturb while playing (Settings > Game mode, Quick Settings tile)
 PRODUCT_PACKAGES += \
 	GameComfort
 
