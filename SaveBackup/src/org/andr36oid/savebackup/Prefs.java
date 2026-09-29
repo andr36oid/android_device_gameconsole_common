@@ -11,6 +11,10 @@ final class Prefs {
     static final String KEEP = "keep";
     /** Until when the session job has looked at the app usage events. */
     static final String SESSION_SEEN = "session_seen";
+    /** Sync saves is on (Syncthing set up for the saves). */
+    static final String SYNC = "sync";
+    /** How many devices the saves were synced with when the page last looked. */
+    static final String SYNC_DEVICES = "sync_devices";
 
     private Prefs() {
     }
@@ -21,6 +25,10 @@ final class Prefs {
 
     static boolean auto(Context c) {
         return get(c).getBoolean(AUTO, true);
+    }
+
+    static boolean sync(Context c) {
+        return get(c).getBoolean(SYNC, false);
     }
 
     static int keep(Context c) {

@@ -29,6 +29,8 @@ import java.util.Map;
  * action=list                                  -> DIR/index
  * action=plan    zip=NAME [game=KEY]           -> DIR/plan
  * action=restore zip=NAME [game=KEY] newer=0|1 -> DIR/result
+ * action=sync_prefs on=0|1     the Syncthing app's settings for Sync saves (SyncSetup)
+ * action=sync_key [wait=SEC]   -> DIR/syncthing: its REST address and API key
  * </pre>
  * DIR/status is one line: "running …", "done …" or "error CODE". DIR/last describes the
  * last backup (see Index). DIR/touched lists what was made on the internal storage, for
@@ -46,6 +48,8 @@ public final class Engine {
     private final List<File> mTouched = new ArrayList<>();
     private long mNow;
     private long mLastProgress;
+    /** The Syncthing app's data dir, for Sync saves. */
+    File mStData = new File("/data/user/0/" + SyncSetup.PKG);
 
     Engine(File dir, Roots roots, Map<String, String> request) {
         mDir = dir;
@@ -61,6 +65,7 @@ public final class Engine {
 
     static int run(String[] args) {
         File dir = null, media = null, easyroms = null, raData = null, ppsspp = null;
+        File stData = null;
         final List<File> usb = new ArrayList<>();
         for (int i = 0; i + 1 < args.length; i += 2) {
             final File f = new File(args[i + 1]);
@@ -71,6 +76,7 @@ public final class Engine {
                 case "--usb": if (!args[i + 1].isEmpty()) usb.add(f); break;
                 case "--ra-data": raData = f; break;
                 case "--ppsspp-data": ppsspp = f; break;
+                case "--st-data": stData = f; break;
                 default: break;
             }
         }
@@ -84,6 +90,7 @@ public final class Engine {
         final Roots roots = new Roots(media, easyroms, usb, raData, ppsspp);
         final Map<String, String> req = Index.keyValues(read(new File(dir, "request")));
         final Engine e = new Engine(dir, roots, req);
+        if (stData != null) e.mStData = stData;
         String outcome;
         try {
             outcome = e.dispatch();
@@ -118,6 +125,10 @@ public final class Engine {
                 return plan();
             case "restore":
                 return restore();
+            case "sync_prefs":
+                return syncPrefs();
+            case "sync_key":
+                return syncKey();
             default:
                 return "error bad_request";
         }
@@ -367,6 +378,48 @@ public final class Engine {
                 + "\nsame=" + res.same + "\nfailed=" + res.failed + "\nunavailable="
                 + res.unavailable + "\n");
         return "done restore " + res.restored + " " + res.kept + " " + res.failed;
+    }
+
+    // ---- Sync saves (the Syncthing app's files, which only root can reach) ---------------
+
+    /**
+     * Writes the Syncthing app's settings for Sync saves on or off. The helper stops the
+     * app before (it would write its old settings back) and gives the file its owner after.
+     */
+    String syncPrefs() throws IOException {
+        if (!mStData.isDirectory()) return "error st_missing";
+        final File dir = new File(mStData, "shared_prefs");
+        if (!dir.isDirectory() && !dir.mkdirs()) return "error st_prefs";
+        final File f = new File(dir, SyncSetup.PKG + "_preferences.xml");
+        write(f, SyncSetup.mergePrefs(read(f), "1".equals(req("on"))));
+        return "done sync_prefs";
+    }
+
+    /**
+     * Copies the REST address and API key from the Syncthing app's config.xml for the app
+     * (system user) to use. Syncthing makes the file on its first start, so wait for it.
+     */
+    String syncKey() throws IOException {
+        final long wait = Math.min(Math.max(Index.num(req("wait")), 0), 180);
+        final long until = System.currentTimeMillis() + wait * 1000;
+        final File config = new File(mStData, "files/config.xml");
+        status("running sync_key");
+        while (true) {
+            final Map<String, String> gui = SyncSetup.gui(read(config));
+            if (!gui.isEmpty()) {
+                write(new File(mDir, "syncthing"), "url=" + gui.get("url") + "\napikey="
+                        + gui.get("apikey") + "\n");
+                return "done sync_key";
+            }
+            if (System.currentTimeMillis() >= until) {
+                return mStData.isDirectory() ? "error st_no_config" : "error st_missing";
+            }
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException ex) {
+                return "error st_no_config";
+            }
+        }
     }
 
     // ---- files -------------------------------------------------------------------------
