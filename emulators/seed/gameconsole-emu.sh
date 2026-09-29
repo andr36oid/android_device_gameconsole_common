@@ -380,13 +380,47 @@ cfg_get() {
 	sed -n "s/^[ 	]*$2[ 	]*=[ 	]*\"\{0,1\}\([^\"]*\)\"\{0,1\}[ 	]*\$/\1/p" "$1" | tail -n 1
 }
 
-# cfg_set <file> <key> <value> ; written in place, so the file keeps its owner,
+# One retroarch.cfg writer at a time: the start-up run and gameconsole-ra-players
+# (Settings > Controllers, when RetroArch closes) can overlap, and one change
+# would be lost. The lock is in /dev, so a restart clears it.
+CFG_LOCK=${CFG_LOCK:-/dev/gameconsole-emu-cfg.lock}
+
+cfg_lock() {
+	local n=0
+	while ! mkdir "$CFG_LOCK" 2>/dev/null; do
+		# nowhere to lock (a test on a PC): go on
+		[ -d "$CFG_LOCK" ] || return 0
+		n=$((n + 1))
+		# a holder that was killed: go on after 10 s
+		if [ "$n" -ge 50 ]; then
+			log "retroarch.cfg was locked for 10 s, going on"
+			return 0
+		fi
+		sleep 0.2
+	done
+}
+
+cfg_unlock() {
+	rmdir "$CFG_LOCK" 2>/dev/null
+}
+
+# cfg_set <file> <key> <value> ; see cfg_write, under the lock
+cfg_set() {
+	local rc
+	cfg_lock
+	cfg_write "$@"
+	rc=$?
+	cfg_unlock
+	return $rc
+}
+
+# cfg_write <file> <key> <value> ; written in place, so the file keeps its owner,
 # mode and the ACL vold gave it. The new text is made in <file>.new first and
 # only goes in when it is complete (every old line but the key's, plus the
 # key). A copy of the old file (<file>.bak) is kept until the new text is in;
 # if writing it fails (full /data), the old text is put back, or stays in
 # <file>.bak if even that fails.
-cfg_set() {
+cfg_write() {
 	local want
 	want=$(($(grep -c '' "$1") - $(grep -c "^[ 	]*$2[ 	]*=" "$1") + 1))
 	if ! { grep -v "^[ 	]*$2[ 	]*=" "$1"; echo "$2 = \"$3\""; } >"$1.new" ||
