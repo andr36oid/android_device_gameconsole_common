@@ -150,7 +150,15 @@ public final class Engine {
         if (usbAlways && mRoots.usb.isEmpty()) return "error no_usb";
         for (Roots.Place p : places) Archive.cleanTemp(p.dir);
 
-        final List<SaveFile> saves = new Collector(mRoots).collect();
+        // after a game only folders that changed are listed again (see Collector)
+        final long t0 = System.currentTimeMillis();
+        final Collector collector = new Collector(mRoots)
+                .cache(new File(mDir, "walk.cache"), reason.equals("session"));
+        final List<SaveFile> saves = collector.collect();
+        // for the test plan: how long the walk took (stderr is lost under init)
+        write(new File(mDir, "walk.last"), saves.size() + " saves, " + collector.listed
+                + " folders listed, " + (System.currentTimeMillis() - t0) + " ms, reason "
+                + reason + "\n");
         final Index.Last last = Index.Last.parse(read(new File(mDir, "last")));
         if (saves.isEmpty()) {
             last.checked = mNow;
