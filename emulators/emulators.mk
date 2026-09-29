@@ -13,7 +13,8 @@ PRODUCT_PACKAGES += \
     gameconsole-emu \
     RetroArch-preinstall \
     PPSSPP-preinstall \
-    libretro-cores-foss
+    libretro-cores-foss \
+    gameconsole-retroarch-cheats
 
 ifeq ($(GAMECONSOLE_EMU_NONCOMMERCIAL_CORES),true)
 PRODUCT_PACKAGES += \

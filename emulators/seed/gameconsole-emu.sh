@@ -410,6 +410,80 @@ bios_name() {
 	echo bios
 }
 
+# RetroArch's cheat files from libretro-database, one folder per system
+CHEATS_ARCHIVE=$BASE/libretro/cheats.tar.gz
+# free space /data needs for them, in KB (about 130 MB used once unpacked)
+CHEATS_MIN_FREE=400000
+
+# cheats_ours <cheat_database_path> ; true if we may point it at our folder:
+# unset, RetroArch's "default", ours already, or the folder RetroArch picks
+# when opened from its icon while that folder has no cheat files in it
+cheats_ours() {
+	case $1 in
+	''|default|"$RA_EXT_PUBLIC/cheats") return 0 ;;
+	/storage/emulated/0/RetroArch/cheats|/sdcard/RetroArch/cheats)
+		[ -z "$(find "$MEDIA/RetroArch/cheats" -type f 2>/dev/null | head -n 1)" ]
+		return
+		;;
+	esac
+	return 1
+}
+
+# seed_cheats ; RetroArch's online updater can't fetch cheats on an offline
+# console, so the Cheats menu (Load Cheat File) would be empty. Points
+# cheat_database_path at Android/data/com.retroarch/files/cheats, unless the
+# user picked another folder, and unpacks the cheat files there, once per
+# archive: a newer ROM with other cheats unpacks again over the old ones.
+# Files the user added or saved there stay. A folder the user deleted stays
+# deleted until a ROM brings a new archive.
+seed_cheats() {
+	local cfg=$RA_EXT/retroarch.cfg dir=$RA_EXT/cheats want=$RA_EXT_PUBLIC/cheats
+	local stamp=$RA_DATA/.gameconsole/cheats.sha1 cur sum owner free
+
+	[ -f "$CHEATS_ARCHIVE" ] && [ -d "$RA_DATA" ] && [ -f "$cfg" ] || return 0
+	cur=$(cfg_get "$cfg" cheat_database_path)
+	if [ "$cur" != "$want" ]; then
+		# a folder the user set: theirs, and no cheats unpacked
+		cheats_ours "$cur" || return 0
+		cfg_set "$cfg" cheat_database_path "$want" || { log "writing retroarch.cfg failed"; return 0; }
+		log "RetroArch's cheat folder is $want now (was: ${cur:-unset})"
+	fi
+
+	sum=$(sha1 "$CHEATS_ARCHIVE")
+	[ "$(cat "$stamp" 2>/dev/null)" = "$sum" ] && return 0
+	# the last line, counted from the end: a long device name wraps the line
+	free=$(df -k "$RA_EXT" 2>/dev/null | tail -n 1 | awk '{ print $(NF - 2) }')
+	if [ "${free:-0}" -lt "$CHEATS_MIN_FREE" ]; then
+		log "only ${free:-?} KB free, cheat files not unpacked"
+		return 0
+	fi
+	owner=$(stat -c %u "$RA_DATA")
+	if [ ! -d "$dir" ]; then
+		# made the way vold makes them (see seed_retroarch)
+		mkdir "$dir" || { log "making $dir failed"; return 0; }
+		chown "$owner:$AID_EXT_DATA_RW" "$dir"
+		chmod 2770 "$dir"
+	fi
+	# the pipe only returns tar's status, and some tars take a cut-off
+	# stream quietly: gzip leaves a mark when it fails
+	mkdir -p "${stamp%/*}"
+	rm -f "$stamp.err"
+	if ! { gzip -dc "$CHEATS_ARCHIVE" || echo failed >"$stamp.err"; } | tar -xof - -C "$dir" ||
+		[ -e "$stamp.err" ]; then
+		rm -f "$stamp.err"
+		log "unpacking the cheat files failed"
+		return 0
+	fi
+	chown -R "$owner:$AID_EXT_DATA_RW" "$dir"
+	find "$dir" -type d -exec chmod 2770 {} +
+	find "$dir" -type f -exec chmod 0660 {} +
+	restorecon -R "$dir" 2>/dev/null
+	service call mount 90 s16 "$want" </dev/null >/dev/null 2>&1
+	echo "$sum" >"$stamp"
+	chown "$(stat -c %u:%g "$RA_DATA")" "${stamp%/*}" "$stamp"
+	log "unpacked the cheat files into $want"
+}
+
 # bios_folder ; points RetroArch's system_directory at the bios folder on
 # EASYROMS, where the cores then find the BIOS files; on a card without
 # EASYROMS at the bios folder on the internal storage. Updated when that
@@ -467,3 +541,5 @@ find_easyroms
 make_rom_folders
 # after the ROM folders: they are only made on a card without any of them
 bios_folder
+# last: the first unpack takes a while
+seed_cheats

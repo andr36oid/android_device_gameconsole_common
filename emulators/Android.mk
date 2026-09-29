@@ -96,6 +96,19 @@ LOCAL_NOTICE_FILE := $(LOCAL_PATH)/libretro/NOTICE-foss.txt
 LOCAL_REQUIRED_MODULES := RetroArch-preinstall
 include $(BUILD_PREBUILT)
 
+# RetroArch cheat files from libretro-database (scripts/build-cheats.sh),
+# unpacked into RetroArch's cheat folder by the gameconsole-emu service
+include $(CLEAR_VARS)
+LOCAL_MODULE := gameconsole-retroarch-cheats
+LOCAL_MODULE_CLASS := ETC
+LOCAL_MODULE_TAGS := optional
+LOCAL_MODULE_RELATIVE_PATH := gameconsole/libretro
+LOCAL_MODULE_STEM := cheats.tar.gz
+LOCAL_SRC_FILES := libretro/cheats.tar.gz
+LOCAL_NOTICE_FILE := $(LOCAL_PATH)/libretro/NOTICE-cheats.txt
+LOCAL_REQUIRED_MODULES := RetroArch-preinstall
+include $(BUILD_PREBUILT)
+
 # Non-commercial licenses (snes9x, Genesis Plus GX, PicoDrive). Only pulled in
 # with GAMECONSOLE_EMU_NONCOMMERCIAL_CORES := true, see emulators.mk.
 include $(CLEAR_VARS)
