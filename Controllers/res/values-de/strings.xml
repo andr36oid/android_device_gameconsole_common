@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="controllers_title">Controller</string>
+    <string name="controllers_summary">Externe Controller, Bluetooth-Kopplung, Spieler 1</string>
+    <!-- Connected pads -->
+    <string name="connected_title">Verbundene Controller</string>
+    <string name="connected_none">Nur die eingebaute Steuerung. Steck einen Controller in den OTG-Anschluss (bei Bedarf mit Adapter) oder kopple einen über Bluetooth.</string>
+    <string name="bus_builtin">Eingebaut</string>
+    <string name="bus_usb">USB</string>
+    <string name="bus_bluetooth">Bluetooth</string>
+    <string name="bus_other">Extern</string>
+    <string name="battery_percent">Akku %1$d %%</string>
+    <string name="battery_level">Akku %1$s</string>
+    <string name="battery_charging">wird geladen</string>
+    <string name="battery_none">Kein Akkustand</string>
+    <string name="player_builtin_1">RetroArch-Spieler 1</string>
+    <string name="player_builtin_2">RetroArch-Spieler 2</string>
+    <string name="player_external_2">RetroArch-Spieler 2 und höher</string>
+    <string name="player_external_1">RetroArch-Spieler 1, wenn zuerst gedrückt</string>
+    <!-- joined with " · " -->
+    <string name="summary_separator">" · "</string>
+    <!-- RetroArch -->
+    <string name="retroarch_title">RetroArch</string>
+    <string name="player1_title">Spieler 1 in RetroArch</string>
+    <string-array name="player1_entries">
+        <item>Eingebaute Steuerung</item>
+        <item>Externer Controller</item>
+    </string-array>
+    <string name="player1_builtin_summary">Eingebaute Steuerung. Externe Controller sind Spieler 2, 3 und so weiter, in der Reihenfolge, in der du zum ersten Mal eine Taste darauf drückst.</string>
+    <string name="player1_external_summary">Der erste externe Controller, auf dem du eine Taste drückst. Die eingebaute Steuerung ist Spieler 2. Zum allein Spielen mit einem größeren Controller.</string>
+    <string name="player1_later">Die Änderung gilt ab dem nächsten Start von RetroArch. Ist es geöffnet, beende es zuerst (zweimal Select + Start).</string>
+    <string name="hotkeys_title">Tasten in RetroArch</string>
+    <string name="hotkeys_summary">Controller von Spieler 1: Select halten für die Hotkeys (Start beenden, R1/L1 Savestate speichern/laden, X Menü).\nJeder Controller: L1 + R1 + Start + Select oder die Xbox-/PS-/Capture-Taste öffnet das Menü, zweimal Start + Select beendet.</string>
+    <string name="ppsspp_title">PSP-Spiele (PPSSPP)</string>
+    <string name="ppsspp_summary">Jeder Controller steuert den einen Spieler. Die Tasten sind für die eingebaute Steuerung und Switch-Controller eingestellt (Kreuz = B). Spielst du mit einem Xbox- oder PlayStation-Controller, belege sie in PPSSPP neu.</string>
+    <!-- Bluetooth -->
+    <string name="bluetooth_title">Bluetooth</string>
+    <string name="pair_title">Bluetooth-Controller koppeln</string>
+    <string name="pair_summary">Nach einem Controller im Kopplungsmodus suchen</string>
+    <string name="bluetooth_off">Bluetooth einschalten</string>
+    <string name="bluetooth_off_summary">Bluetooth ist aus</string>
+    <string name="bluetooth_turning_on">Bluetooth wird eingeschaltet…</string>
+    <string name="bluetooth_missing">Kein Bluetooth</string>
+    <string name="bluetooth_missing_summary">Diese Konsole hat kein Bluetooth. Steck einen USB-Bluetooth-Adapter in den OTG-Anschluss, um kabellose Controller zu nutzen, oder nimm einen USB-Controller.</string>
+    <string name="paired_connected">Gekoppelt, verbunden</string>
+    <string name="paired_not_connected">Gekoppelt, nicht verbunden. Schalte den Controller ein oder drück A.</string>
+    <string name="paired_dialog_connect">Verbinden</string>
+    <string name="paired_dialog_forget">Entfernen</string>
+    <string name="paired_forget_title">%1$s entfernen?</string>
+    <string name="paired_forget_message">Um ihn wieder zu nutzen, musst du ihn erneut koppeln.</string>
+    <!-- Pairing page -->
+    <string name="pair_how_title">Controller in den Kopplungsmodus bringen</string>
+    <string name="pair_how">Xbox: Die kleine Kopplungstaste oben halten, bis die Xbox-Taste schnell blinkt.\nPlayStation 4 oder 5: Share (Create) und PS halten, bis das Licht blinkt.\nSwitch Pro: Die kleine Taste oben neben dem USB-Anschluss halten.\n8BitDo: Den Modus mit dem Schalter oder Start + einer Taste wählen, dann Pair 3 Sekunden lang halten.</string>
+    <string name="pair_found_title">Gefundene Controller</string>
+    <string name="pair_searching">Suche läuft…</string>
+    <string name="pair_search_again">Erneut suchen</string>
+    <string name="pair_search_again_summary">Nichts mehr gefunden. Drück A, um erneut zu suchen.</string>
+    <string name="pair_show_all">Alle Bluetooth-Geräte anzeigen</string>
+    <string name="pair_show_all_summary">Auch Geräte, die sich nicht als Controller ausgeben</string>
+    <string name="pair_device_summary">Drück A zum Koppeln</string>
+    <string name="pair_pairing">Wird gekoppelt… Erscheint eine Frage, wähle „Koppeln“.</string>
+    <string name="pair_connecting">Gekoppelt. Wird verbunden…</string>
+    <string name="pair_connected">Verbunden. Er ist bereit.</string>
+    <string name="pair_failed">Kopplung fehlgeschlagen. Bring den Controller erneut in den Kopplungsmodus und drück A.</string>
+    <string name="pair_no_name">Unbenanntes Gerät (%1$s)</string>
+</resources>

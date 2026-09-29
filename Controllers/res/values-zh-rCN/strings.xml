@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="controllers_title">手柄</string>
+    <string name="controllers_summary">外接手柄、蓝牙配对、玩家 1</string>
+    <!-- Connected pads -->
+    <string name="connected_title">已连接的手柄</string>
+    <string name="connected_none">只有内置按键。将手柄插入 OTG 接口（如有需要，可使用转接头），或通过蓝牙配对。</string>
+    <string name="bus_builtin">内置</string>
+    <string name="bus_usb">USB</string>
+    <string name="bus_bluetooth">蓝牙</string>
+    <string name="bus_other">外接</string>
+    <string name="battery_percent">电量 %1$d %%</string>
+    <string name="battery_level">电量 %1$s</string>
+    <string name="battery_charging">正在充电</string>
+    <string name="battery_none">无法读取电量</string>
+    <string name="player_builtin_1">RetroArch 玩家 1</string>
+    <string name="player_builtin_2">RetroArch 玩家 2</string>
+    <string name="player_external_2">RetroArch 玩家 2 及以后</string>
+    <string name="player_external_1">先按键时为 RetroArch 玩家 1</string>
+    <!-- joined with " · " -->
+    <string name="summary_separator">" · "</string>
+    <!-- RetroArch -->
+    <string name="retroarch_title">RetroArch</string>
+    <string name="player1_title">RetroArch 中的玩家 1</string>
+    <string-array name="player1_entries">
+        <item>内置按键</item>
+        <item>外接手柄</item>
+    </string-array>
+    <string name="player1_builtin_summary">内置按键。外接手柄按您第一次在上面按键的顺序，依次为玩家 2、3 等。</string>
+    <string name="player1_external_summary">您第一个按下按键的外接手柄。内置按键为玩家 2。适合一个人用更大的手柄玩。</string>
+    <string name="player1_later">下次启动 RetroArch 时生效。如果它已打开，请先退出（按两次 Select + Start）。</string>
+    <string name="hotkeys_title">RetroArch 中的按键</string>
+    <string name="hotkeys_summary">玩家 1 的手柄：按住 Select 使用快捷键（Start 退出，R1/L1 即时存档/读档，X 菜单）。\n任何手柄：L1 + R1 + Start + Select 或 Xbox / PS / 截图键打开菜单，按两次 Start + Select 退出。</string>
+    <string name="ppsspp_title">PSP 游戏（PPSSPP）</string>
+    <string name="ppsspp_summary">所有手柄都控制同一个玩家。按键是为内置按键和 Switch 手柄设置的（叉键 = B）。如果用 Xbox 或 PlayStation 手柄玩，请在 PPSSPP 中重新设置按键。</string>
+    <!-- Bluetooth -->
+    <string name="bluetooth_title">蓝牙</string>
+    <string name="pair_title">配对蓝牙手柄</string>
+    <string name="pair_summary">搜索处于配对模式的手柄</string>
+    <string name="bluetooth_off">开启蓝牙</string>
+    <string name="bluetooth_off_summary">蓝牙已关闭</string>
+    <string name="bluetooth_turning_on">正在开启蓝牙…</string>
+    <string name="bluetooth_missing">没有蓝牙</string>
+    <string name="bluetooth_missing_summary">这台掌机没有蓝牙。要使用无线手柄，请将 USB 蓝牙适配器插入 OTG 接口，或者使用 USB 手柄。</string>
+    <string name="paired_connected">已配对，已连接</string>
+    <string name="paired_not_connected">已配对，未连接。请打开手柄，或按 A。</string>
+    <string name="paired_dialog_connect">连接</string>
+    <string name="paired_dialog_forget">取消配对</string>
+    <string name="paired_forget_title">要取消与 %1$s 的配对吗？</string>
+    <string name="paired_forget_message">要再次使用它，需要重新配对。</string>
+    <!-- Pairing page -->
+    <string name="pair_how_title">让手柄进入配对模式</string>
+    <string name="pair_how">Xbox：按住顶部的小配对键，直到 Xbox 键快速闪烁。\nPlayStation 4 或 5：同时按住 Share（Create）和 PS 键，直到指示灯闪烁。\nSwitch Pro：按住顶部 USB 接口旁的小按键。\n8BitDo：用开关或 Start + 某个按键选择模式，然后按住 Pair 3 秒。</string>
+    <string name="pair_found_title">找到的手柄</string>
+    <string name="pair_searching">正在搜索…</string>
+    <string name="pair_search_again">重新搜索</string>
+    <string name="pair_search_again_summary">没有找到更多设备。按 A 重新搜索。</string>
+    <string name="pair_show_all">显示所有蓝牙设备</string>
+    <string name="pair_show_all_summary">包括没有标明自己是手柄的设备</string>
+    <string name="pair_device_summary">按 A 配对</string>
+    <string name="pair_pairing">正在配对… 如果出现询问，请选择“配对”。</string>
+    <string name="pair_connecting">已配对。正在连接…</string>
+    <string name="pair_connected">已连接，可以使用了。</string>
+    <string name="pair_failed">配对失败。请让手柄重新进入配对模式，然后按 A。</string>
+    <string name="pair_no_name">未命名设备（%1$s）</string>
+</resources>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="controllers_title">Kontroler</string>
+    <string name="controllers_summary">Gamepad eksternal, penyandingan Bluetooth, pemain 1</string>
+    <!-- Connected pads -->
+    <string name="connected_title">Kontroler terhubung</string>
+    <string name="connected_none">Hanya kontrol bawaan. Colokkan gamepad ke port OTG (dengan adaptor jika perlu) atau sandingkan lewat Bluetooth.</string>
+    <string name="bus_builtin">Bawaan</string>
+    <string name="bus_usb">USB</string>
+    <string name="bus_bluetooth">Bluetooth</string>
+    <string name="bus_other">Eksternal</string>
+    <string name="battery_percent">Baterai %1$d %%</string>
+    <string name="battery_level">Baterai %1$s</string>
+    <string name="battery_charging">mengisi daya</string>
+    <string name="battery_none">Baterai tak terbaca</string>
+    <string name="player_builtin_1">Pemain 1 RetroArch</string>
+    <string name="player_builtin_2">Pemain 2 RetroArch</string>
+    <string name="player_external_2">Pemain 2 dst. RetroArch</string>
+    <string name="player_external_1">Pemain 1 RetroArch jika ditekan duluan</string>
+    <!-- joined with " · " -->
+    <string name="summary_separator">" · "</string>
+    <!-- RetroArch -->
+    <string name="retroarch_title">RetroArch</string>
+    <string name="player1_title">Pemain 1 di RetroArch</string>
+    <string-array name="player1_entries">
+        <item>Kontrol bawaan</item>
+        <item>Kontroler eksternal</item>
+    </string-array>
+    <string name="player1_builtin_summary">Kontrol bawaan. Gamepad eksternal menjadi pemain 2, 3, dan seterusnya, sesuai urutan Anda pertama kali menekan tombolnya.</string>
+    <string name="player1_external_summary">Gamepad eksternal pertama yang tombolnya Anda tekan. Kontrol bawaan menjadi pemain 2. Untuk bermain sendiri dengan gamepad yang lebih besar.</string>
+    <string name="player1_later">Perubahan berlaku saat RetroArch dimulai lagi. Jika sedang terbuka, keluar dulu (Select + Start dua kali).</string>
+    <string name="hotkeys_title">Tombol di RetroArch</string>
+    <string name="hotkeys_summary">Kontroler pemain 1: tahan Select untuk hotkey (Start keluar, R1/L1 simpan/muat state, X menu).\nKontroler apa pun: L1 + R1 + Start + Select atau tombol Xbox / PS / Capture membuka menu, Start + Select dua kali untuk keluar.</string>
+    <string name="ppsspp_title">Game PSP (PPSSPP)</string>
+    <string name="ppsspp_summary">Semua kontroler mengendalikan satu pemain yang sama. Tombol diatur untuk kontrol bawaan dan gamepad Switch (Cross = B). Di gamepad Xbox atau PlayStation, petakan ulang tombolnya di PPSSPP jika Anda bermain dengannya.</string>
+    <!-- Bluetooth -->
+    <string name="bluetooth_title">Bluetooth</string>
+    <string name="pair_title">Sandingkan kontroler Bluetooth</string>
+    <string name="pair_summary">Cari kontroler dalam mode pairing</string>
+    <string name="bluetooth_off">Aktifkan Bluetooth</string>
+    <string name="bluetooth_off_summary">Bluetooth nonaktif</string>
+    <string name="bluetooth_turning_on">Mengaktifkan Bluetooth…</string>
+    <string name="bluetooth_missing">Tidak ada Bluetooth</string>
+    <string name="bluetooth_missing_summary">Konsol ini tidak punya Bluetooth. Colokkan dongle Bluetooth USB ke port OTG untuk memakai kontroler nirkabel, atau gunakan gamepad USB.</string>
+    <string name="paired_connected">Disandingkan, terhubung</string>
+    <string name="paired_not_connected">Disandingkan, tidak terhubung. Nyalakan kontroler, atau tekan A.</string>
+    <string name="paired_dialog_connect">Hubungkan</string>
+    <string name="paired_dialog_forget">Lupakan</string>
+    <string name="paired_forget_title">Lupakan %1$s?</string>
+    <string name="paired_forget_message">Untuk memakainya lagi, Anda harus menyandingkannya lagi.</string>
+    <!-- Pairing page -->
+    <string name="pair_how_title">Masukkan kontroler ke mode pairing</string>
+    <string name="pair_how">Xbox: tahan tombol pair kecil di atas sampai tombol Xbox berkedip cepat.\nPlayStation 4 atau 5: tahan Share (Create) dan PS sampai lampunya berkedip.\nSwitch Pro: tahan tombol kecil di atas, di sebelah port USB.\n8BitDo: pilih mode dengan sakelarnya atau Start + satu tombol, lalu tahan Pair selama 3 detik.</string>
+    <string name="pair_found_title">Kontroler ditemukan</string>
+    <string name="pair_searching">Mencari…</string>
+    <string name="pair_search_again">Cari lagi</string>
+    <string name="pair_search_again_summary">Tidak ada lagi yang ditemukan. Tekan A untuk mencari lagi.</string>
+    <string name="pair_show_all">Tampilkan semua perangkat Bluetooth</string>
+    <string name="pair_show_all_summary">Termasuk perangkat yang tidak menyebut dirinya kontroler</string>
+    <string name="pair_device_summary">Tekan A untuk menyandingkan</string>
+    <string name="pair_pairing">Menyandingkan… Jika muncul pertanyaan, pilih Sambungkan.</string>
+    <string name="pair_connecting">Disandingkan. Menghubungkan…</string>
+    <string name="pair_connected">Terhubung. Siap dipakai.</string>
+    <string name="pair_failed">Penyandingan gagal. Masukkan kontroler ke mode pairing lagi dan tekan A.</string>
+    <string name="pair_no_name">Perangkat tanpa nama (%1$s)</string>
+</resources>

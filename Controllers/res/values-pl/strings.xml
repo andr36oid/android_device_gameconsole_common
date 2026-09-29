@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="controllers_title">Kontrolery</string>
+    <string name="controllers_summary">Zewnętrzne pady, parowanie Bluetooth, gracz 1</string>
+    <!-- Connected pads -->
+    <string name="connected_title">Podłączone kontrolery</string>
+    <string name="connected_none">Tylko wbudowane sterowanie. Podłącz pad do portu OTG (w razie potrzeby przez przejściówkę) albo sparuj go przez Bluetooth.</string>
+    <string name="bus_builtin">Wbudowany</string>
+    <string name="bus_usb">USB</string>
+    <string name="bus_bluetooth">Bluetooth</string>
+    <string name="bus_other">Zewnętrzny</string>
+    <string name="battery_percent">Bateria %1$d %%</string>
+    <string name="battery_level">Bateria %1$s</string>
+    <string name="battery_charging">ładowanie</string>
+    <string name="battery_none">Brak odczytu baterii</string>
+    <string name="player_builtin_1">RetroArch: gracz 1</string>
+    <string name="player_builtin_2">RetroArch: gracz 2</string>
+    <string name="player_external_2">RetroArch: gracz 2 i dalsi</string>
+    <string name="player_external_1">RetroArch: gracz 1, jeśli naciśnięty pierwszy</string>
+    <!-- joined with " · " -->
+    <string name="summary_separator">" · "</string>
+    <!-- RetroArch -->
+    <string name="retroarch_title">RetroArch</string>
+    <string name="player1_title">Gracz 1 w RetroArch</string>
+    <string-array name="player1_entries">
+        <item>Wbudowane sterowanie</item>
+        <item>Zewnętrzny kontroler</item>
+    </string-array>
+    <string name="player1_builtin_summary">Wbudowane sterowanie. Zewnętrzne pady to gracze 2, 3 i kolejni, w kolejności, w jakiej pierwszy raz naciśniesz na nich przycisk.</string>
+    <string name="player1_external_summary">Pierwszy zewnętrzny pad, na którym naciśniesz przycisk. Wbudowane sterowanie to gracz 2. Do grania w pojedynkę na większym padzie.</string>
+    <string name="player1_later">Zmiana zadziała przy następnym uruchomieniu RetroArch. Jeśli jest otwarty, najpierw go zamknij (dwa razy Select + Start).</string>
+    <string name="hotkeys_title">Przyciski w RetroArch</string>
+    <string name="hotkeys_summary">Kontroler gracza 1: przytrzymaj Select, aby użyć skrótów (Start wyjście, R1/L1 zapis/wczytanie stanu, X menu).\nDowolny kontroler: L1 + R1 + Start + Select albo przycisk Xbox / PS / Capture otwiera menu, dwa razy Start + Select zamyka.</string>
+    <string name="ppsspp_title">Gry PSP (PPSSPP)</string>
+    <string name="ppsspp_summary">Każdy kontroler steruje tym samym jednym graczem. Przyciski są ustawione dla wbudowanego sterowania i padów Switch (Krzyżyk = B). Jeśli grasz na padzie Xbox lub PlayStation, zmień ich przypisanie w PPSSPP.</string>
+    <!-- Bluetooth -->
+    <string name="bluetooth_title">Bluetooth</string>
+    <string name="pair_title">Sparuj kontroler Bluetooth</string>
+    <string name="pair_summary">Szukaj kontrolera w trybie parowania</string>
+    <string name="bluetooth_off">Włącz Bluetooth</string>
+    <string name="bluetooth_off_summary">Bluetooth jest wyłączony</string>
+    <string name="bluetooth_turning_on">Włączanie Bluetootha…</string>
+    <string name="bluetooth_missing">Brak Bluetootha</string>
+    <string name="bluetooth_missing_summary">Ta konsola nie ma Bluetootha. Podłącz adapter Bluetooth na USB do portu OTG, aby używać kontrolerów bezprzewodowych, albo użyj pada USB.</string>
+    <string name="paired_connected">Sparowany, połączony</string>
+    <string name="paired_not_connected">Sparowany, niepołączony. Włącz kontroler albo naciśnij A.</string>
+    <string name="paired_dialog_connect">Połącz</string>
+    <string name="paired_dialog_forget">Zapomnij</string>
+    <string name="paired_forget_title">Zapomnieć %1$s?</string>
+    <string name="paired_forget_message">Aby znów go używać, trzeba go ponownie sparować.</string>
+    <!-- Pairing page -->
+    <string name="pair_how_title">Przełącz kontroler w tryb parowania</string>
+    <string name="pair_how">Xbox: przytrzymaj mały przycisk parowania na górze, aż przycisk Xbox zacznie szybko migać.\nPlayStation 4 lub 5: przytrzymaj Share (Create) i PS, aż światło zacznie migać.\nSwitch Pro: przytrzymaj mały przycisk na górze, obok portu USB.\n8BitDo: wybierz tryb przełącznikiem lub Start + przycisk, potem przytrzymaj Pair przez 3 sekundy.</string>
+    <string name="pair_found_title">Znalezione kontrolery</string>
+    <string name="pair_searching">Szukanie…</string>
+    <string name="pair_search_again">Szukaj ponownie</string>
+    <string name="pair_search_again_summary">Nic więcej nie znaleziono. Naciśnij A, aby szukać ponownie.</string>
+    <string name="pair_show_all">Pokaż wszystkie urządzenia Bluetooth</string>
+    <string name="pair_show_all_summary">Także te, które nie podają się za kontrolery</string>
+    <string name="pair_device_summary">Naciśnij A, aby sparować</string>
+    <string name="pair_pairing">Parowanie… Jeśli pojawi się pytanie, wybierz Sparuj.</string>
+    <string name="pair_connecting">Sparowano. Łączenie…</string>
+    <string name="pair_connected">Połączono. Można go używać.</string>
+    <string name="pair_failed">Parowanie nie powiodło się. Ponownie przełącz kontroler w tryb parowania i naciśnij A.</string>
+    <string name="pair_no_name">Urządzenie bez nazwy (%1$s)</string>
+</resources>

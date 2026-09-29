@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="controllers_title">Kontrolcüler</string>
+    <string name="controllers_summary">Harici oyun kolları, Bluetooth eşleme, 1. oyuncu</string>
+    <!-- Connected pads -->
+    <string name="connected_title">Bağlı kontrolcüler</string>
+    <string name="connected_none">Yalnızca dahili kontroller. OTG portuna bir oyun kolu takın (gerekirse bir adaptörle) ya da Bluetooth ile bir tane eşleyin.</string>
+    <string name="bus_builtin">Dahili</string>
+    <string name="bus_usb">USB</string>
+    <string name="bus_bluetooth">Bluetooth</string>
+    <string name="bus_other">Harici</string>
+    <string name="battery_percent">Pil %%%1$d</string>
+    <string name="battery_level">Pil %1$s</string>
+    <string name="battery_charging">şarj oluyor</string>
+    <string name="battery_none">Pil bilgisi yok</string>
+    <string name="player_builtin_1">RetroArch 1. oyuncu</string>
+    <string name="player_builtin_2">RetroArch 2. oyuncu</string>
+    <string name="player_external_2">RetroArch 2. oyuncu ve sonrası</string>
+    <string name="player_external_1">Önce basılırsa RetroArch 1. oyuncu</string>
+    <!-- joined with " · " -->
+    <string name="summary_separator">" · "</string>
+    <!-- RetroArch -->
+    <string name="retroarch_title">RetroArch</string>
+    <string name="player1_title">RetroArch\'ta 1. oyuncu</string>
+    <string-array name="player1_entries">
+        <item>Dahili kontroller</item>
+        <item>Harici kontrolcü</item>
+    </string-array>
+    <string name="player1_builtin_summary">Dahili kontroller. Harici oyun kolları, üzerlerinde ilk tuşa bastığınız sırayla 2., 3. vb. oyuncu olur.</string>
+    <string name="player1_external_summary">Üzerinde ilk tuşa bastığınız harici oyun kolu. Dahili kontroller 2. oyuncu olur. Daha büyük bir oyun koluyla tek başına oynamak için.</string>
+    <string name="player1_later">Değişiklik, RetroArch bir sonraki açılışında geçerli olur. Açıksa önce ondan çıkın (iki kez Select + Start).</string>
+    <string name="hotkeys_title">RetroArch\'taki tuşlar</string>
+    <string name="hotkeys_summary">1. oyuncunun kontrolcüsü: kısayollar için Select\'i basılı tutun (Start çıkış, R1/L1 durum kaydet/yükle, X menü).\nHer kontrolcü: L1 + R1 + Start + Select veya Xbox / PS / Capture tuşu menüyü açar, iki kez Start + Select çıkar.</string>
+    <string name="ppsspp_title">PSP oyunları (PPSSPP)</string>
+    <string name="ppsspp_summary">Her kontrolcü tek oyuncuyu kontrol eder. Tuşlar dahili kontroller ve Switch oyun kolları için ayarlıdır (Cross = B). Xbox veya PlayStation oyun koluyla oynarsanız tuşları PPSSPP\'de yeniden eşleyin.</string>
+    <!-- Bluetooth -->
+    <string name="bluetooth_title">Bluetooth</string>
+    <string name="pair_title">Bluetooth kontrolcü eşle</string>
+    <string name="pair_summary">Eşleme modundaki bir kontrolcüyü ara</string>
+    <string name="bluetooth_off">Bluetooth\'u aç</string>
+    <string name="bluetooth_off_summary">Bluetooth kapalı</string>
+    <string name="bluetooth_turning_on">Bluetooth açılıyor…</string>
+    <string name="bluetooth_missing">Bluetooth yok</string>
+    <string name="bluetooth_missing_summary">Bu konsolda Bluetooth yok. Kablosuz kontrolcüler için OTG portuna bir USB Bluetooth adaptörü takın ya da USB oyun kolu kullanın.</string>
+    <string name="paired_connected">Eşlendi, bağlı</string>
+    <string name="paired_not_connected">Eşlendi, bağlı değil. Kontrolcüyü açın veya A\'ya basın.</string>
+    <string name="paired_dialog_connect">Bağlan</string>
+    <string name="paired_dialog_forget">Unut</string>
+    <string name="paired_forget_title">%1$s unutulsun mu?</string>
+    <string name="paired_forget_message">Yeniden kullanmak için yeniden eşlemeniz gerekir.</string>
+    <!-- Pairing page -->
+    <string name="pair_how_title">Kontrolcüyü eşleme moduna alın</string>
+    <string name="pair_how">Xbox: Xbox tuşu hızlı yanıp sönene kadar üstteki küçük eşleme tuşunu basılı tutun.\nPlayStation 4 veya 5: ışık yanıp sönene kadar Share (Create) ve PS tuşlarını basılı tutun.\nSwitch Pro: üstte, USB portunun yanındaki küçük tuşu basılı tutun.\n8BitDo: modu anahtarıyla veya Start + bir tuşla seçin, sonra Pair tuşunu 3 saniye basılı tutun.</string>
+    <string name="pair_found_title">Bulunan kontrolcüler</string>
+    <string name="pair_searching">Aranıyor…</string>
+    <string name="pair_search_again">Yeniden ara</string>
+    <string name="pair_search_again_summary">Başka bir şey bulunamadı. Yeniden aramak için A\'ya basın.</string>
+    <string name="pair_show_all">Tüm Bluetooth cihazlarını göster</string>
+    <string name="pair_show_all_summary">Kontrolcü olduğunu bildirmeyen cihazlar da</string>
+    <string name="pair_device_summary">Eşlemek için A\'ya basın</string>
+    <string name="pair_pairing">Eşleniyor… Bir soru çıkarsa Eşle\'yi seçin.</string>
+    <string name="pair_connecting">Eşlendi. Bağlanıyor…</string>
+    <string name="pair_connected">Bağlandı. Kullanıma hazır.</string>
+    <string name="pair_failed">Eşleme başarısız oldu. Kontrolcüyü yeniden eşleme moduna alın ve A\'ya basın.</string>
+    <string name="pair_no_name">Adsız cihaz (%1$s)</string>
+</resources>

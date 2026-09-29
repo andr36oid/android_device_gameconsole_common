@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="controllers_title">Контроллеры</string>
+    <string name="controllers_summary">Внешние геймпады, Bluetooth, игрок 1</string>
+    <!-- Connected pads -->
+    <string name="connected_title">Подключённые контроллеры</string>
+    <string name="connected_none">Только встроенное управление. Подключите геймпад к порту OTG (при необходимости через переходник) или подключите его по Bluetooth.</string>
+    <string name="bus_builtin">Встроенный</string>
+    <string name="bus_usb">USB</string>
+    <string name="bus_bluetooth">Bluetooth</string>
+    <string name="bus_other">Внешний</string>
+    <string name="battery_percent">Батарея %1$d %%</string>
+    <string name="battery_level">Батарея: %1$s</string>
+    <string name="battery_charging">заряжается</string>
+    <string name="battery_none">Нет данных о батарее</string>
+    <string name="player_builtin_1">RetroArch: игрок 1</string>
+    <string name="player_builtin_2">RetroArch: игрок 2</string>
+    <string name="player_external_2">RetroArch: игрок 2 и далее</string>
+    <string name="player_external_1">RetroArch: игрок 1, если нажат первым</string>
+    <!-- joined with " · " -->
+    <string name="summary_separator">" · "</string>
+    <!-- RetroArch -->
+    <string name="retroarch_title">RetroArch</string>
+    <string name="player1_title">Игрок 1 в RetroArch</string>
+    <string-array name="player1_entries">
+        <item>Встроенное управление</item>
+        <item>Внешний контроллер</item>
+    </string-array>
+    <string name="player1_builtin_summary">Встроенное управление. Внешние геймпады — игроки 2, 3 и т. д., в том порядке, в котором вы впервые нажмёте на них кнопку.</string>
+    <string name="player1_external_summary">Первый внешний геймпад, на котором вы нажмёте кнопку. Встроенное управление — игрок 2. Чтобы играть одному на геймпаде побольше.</string>
+    <string name="player1_later">Изменения вступят в силу при следующем запуске RetroArch. Если он открыт, сначала выйдите из него (Select + Start дважды).</string>
+    <string name="hotkeys_title">Кнопки в RetroArch</string>
+    <string name="hotkeys_summary">Контроллер игрока 1: удерживайте Select для горячих клавиш (Start — выход, R1/L1 — быстрое сохранение/загрузка, X — меню).\nЛюбой контроллер: L1 + R1 + Start + Select или кнопка Xbox / PS / Capture открывает меню, Start + Select дважды — выход.</string>
+    <string name="ppsspp_title">Игры PSP (PPSSPP)</string>
+    <string name="ppsspp_summary">Все контроллеры управляют одним игроком. Кнопки настроены для встроенного управления и геймпадов Switch (Крест = B). Если играете на геймпаде Xbox или PlayStation, переназначьте кнопки в PPSSPP.</string>
+    <!-- Bluetooth -->
+    <string name="bluetooth_title">Bluetooth</string>
+    <string name="pair_title">Подключить Bluetooth-контроллер</string>
+    <string name="pair_summary">Поиск контроллера в режиме сопряжения</string>
+    <string name="bluetooth_off">Включить Bluetooth</string>
+    <string name="bluetooth_off_summary">Bluetooth выключен</string>
+    <string name="bluetooth_turning_on">Включение Bluetooth…</string>
+    <string name="bluetooth_missing">Нет Bluetooth</string>
+    <string name="bluetooth_missing_summary">В этой консоли нет Bluetooth. Подключите USB-адаптер Bluetooth к порту OTG, чтобы пользоваться беспроводными контроллерами, или используйте USB-геймпад.</string>
+    <string name="paired_connected">Сопряжён, подключён</string>
+    <string name="paired_not_connected">Сопряжён, не подключён. Включите контроллер или нажмите A.</string>
+    <string name="paired_dialog_connect">Подключить</string>
+    <string name="paired_dialog_forget">Забыть</string>
+    <string name="paired_forget_title">Забыть %1$s?</string>
+    <string name="paired_forget_message">Чтобы снова им пользоваться, придётся заново выполнить сопряжение.</string>
+    <!-- Pairing page -->
+    <string name="pair_how_title">Переведите контроллер в режим сопряжения</string>
+    <string name="pair_how">Xbox: удерживайте маленькую кнопку сопряжения сверху, пока кнопка Xbox не начнёт быстро мигать.\nPlayStation 4 или 5: удерживайте Share (Create) и PS, пока не замигает подсветка.\nSwitch Pro: удерживайте маленькую кнопку сверху, рядом с портом USB.\n8BitDo: выберите режим переключателем или Start + кнопка, затем удерживайте Pair 3 секунды.</string>
+    <string name="pair_found_title">Найденные контроллеры</string>
+    <string name="pair_searching">Поиск…</string>
+    <string name="pair_search_again">Искать снова</string>
+    <string name="pair_search_again_summary">Больше ничего не найдено. Нажмите A, чтобы искать снова.</string>
+    <string name="pair_show_all">Показать все Bluetooth-устройства</string>
+    <string name="pair_show_all_summary">Включая устройства, которые не сообщают, что они контроллеры</string>
+    <string name="pair_device_summary">Нажмите A для сопряжения</string>
+    <string name="pair_pairing">Сопряжение… Если появится вопрос, выберите «Добавить».</string>
+    <string name="pair_connecting">Сопряжён. Подключение…</string>
+    <string name="pair_connected">Подключён. Можно пользоваться.</string>
+    <string name="pair_failed">Не удалось выполнить сопряжение. Снова переведите контроллер в режим сопряжения и нажмите A.</string>
+    <string name="pair_no_name">Устройство без имени (%1$s)</string>
+</resources>
