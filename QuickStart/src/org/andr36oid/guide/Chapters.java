@@ -176,6 +176,26 @@ final class Chapters {
             para(c, R.string.touch_other_buttons);
         }
 
+        // Two consoles, one game, no router: a hotspot on one and RetroArch netplay
+        if (hasPackage("com.retroarch")) {
+            c = chapter(R.string.netplay_title, chapters);
+            para(c, R.string.netplay_intro);
+            heading(c, R.string.netplay_hotspot_q);
+            para(c, R.string.netplay_hotspot_a);
+            para(c, R.string.netplay_hotspot_fail);
+            heading(c, R.string.netplay_game_q);
+            para(c, R.string.netplay_game_a);
+            heading(c, R.string.netplay_host_q);
+            row(c, R.string.netplay_menu, "Select", "X");
+            para(c, R.string.netplay_host_a);
+            heading(c, R.string.netplay_join_q);
+            para(c, R.string.netplay_join_a);
+            para(c, R.string.netplay_join_ip);
+            heading(c, R.string.netplay_games_q);
+            para(c, R.string.netplay_games_a);
+            para(c, R.string.netplay_tips);
+        }
+
         c = chapter(R.string.internet_title, chapters);
         para(c, R.string.internet_wifi);
         para(c, R.string.internet_browser);
