@@ -248,8 +248,12 @@ on property:sys.boot_completed=1
     # Set default CPU frequency governor
     # configure governor settings for little cluster
     write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "schedutil"
-    write /sys/devices/system/cpu/cpufreq/schedutil/up_rate_limit_us 500
-    write /sys/devices/system/cpu/cpufreq/schedutil/down_rate_limit_us 2000
+    # The rockchip cpufreq driver keeps governor settings per policy, so the knobs are
+    # under policy0/schedutil (the old cpufreq/schedutil path does not exist).
+    # Without this schedutil waits 10 ms (40 us DT latency x 1000) between speed changes.
+    # Step up after 1 ms so a game gets the clock fast; step down after 10 ms as before.
+    write /sys/devices/system/cpu/cpufreq/policy0/schedutil/up_rate_limit_us 1000
+    write /sys/devices/system/cpu/cpufreq/policy0/schedutil/down_rate_limit_us 10000
     # Give the app on screen (top-app) a 10% schedtune boost, like Pixel 2/3 do.
     # schedutil then clocks up sooner for the game or menu in front.
     write /dev/stune/top-app/schedtune.boost 10
