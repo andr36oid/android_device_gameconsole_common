@@ -18,7 +18,8 @@
 #    Cores the user replaced (e.g. via RetroArch's online updater) are kept.
 # 4. Makes the usual ROM folders (ArkOS/dArkOS names) on a fresh EASYROMS
 #    partition, with a README telling which system goes where. Only once per
-#    card, and never on a card that already has any of them.
+#    card, and never on a card that already has any of them. Such a new card
+#    also gets a few free games (FreeGames/games.txt) and their licences.
 # 5. Points RetroArch's system folder (where the cores look for BIOS files) at
 #    the bios folder on EASYROMS, like ArkOS, or on the internal storage for a
 #    card made without EASYROMS (.noroms). A folder the user picked in
@@ -325,6 +326,56 @@ find_easyroms() {
 	fi
 }
 
+# a few games whose authors allow sharing them (FreeGames/games.txt), so a new
+# console has something to play before the user copies games
+FREE_GAMES=$BASE/free-games.tar.gz
+# free space EASYROMS needs for them, in KB (about 30 MB unpacked)
+FREE_GAMES_MIN_FREE=65536
+
+# seed_free_games <EASYROMS root> ; copies each game into its ROM folder, and
+# free-games-licenses.txt to the top. A file that is already there is never
+# overwritten, and a game whose folder doesn't exist is left out.
+seed_free_games() {
+	local root=$1 m dir free n=0
+	[ -f "$FREE_GAMES" ] && [ -n "$root" ] && [ -d "$root" ] || return 0
+	free=$(df -k "$root" 2>/dev/null | awk 'NR == 2 { print $4 }')
+	case $free in
+	''|*[!0-9]*) ;;
+	*)
+		if [ "$free" -lt "$FREE_GAMES_MIN_FREE" ]; then
+			log "EASYROMS has only $free KB free, no free games"
+			return 0
+		fi
+		;;
+	esac
+	# toybox tar says nothing and exits 0 on a broken archive: an empty list
+	if ! tar -tzf "$FREE_GAMES" >"$STATE/free-games.list" 2>/dev/null ||
+		[ ! -s "$STATE/free-games.list" ]; then
+		log "can't read $FREE_GAMES"
+		rm -f "$STATE/free-games.list"
+		return 0
+	fi
+	while IFS= read -r m; do
+		case $m in ''|*/|/*|*..*) continue ;; esac
+		case $m in
+		*/*)
+			dir=${m%/*}
+			[ -d "$root/$dir" ] || { log "no $dir/ folder on EASYROMS, left out ${m##*/}"; continue; }
+			;;
+		esac
+		[ -e "$root/$m" ] && continue
+		if tar -xzOf "$FREE_GAMES" "$m" >"$root/$m.part" 2>/dev/null &&
+			mv "$root/$m.part" "$root/$m"; then
+			n=$((n + 1))
+		else
+			rm -f "$root/$m.part"
+			log "couldn't copy $m to EASYROMS"
+		fi
+	done <"$STATE/free-games.list"
+	rm -f "$STATE/free-games.list"
+	log "copied $n files (free games and their licences) to EASYROMS"
+}
+
 make_rom_folders() {
 	local root=$EASYROMS uuid stamp name
 	[ -f "$ROM_FOLDERS" ] || return 0
@@ -357,6 +408,8 @@ make_rom_folders() {
 		grep -v '^#' "$ROM_FOLDERS" | grep .
 	} >"$root/README-andr36oid.txt"
 	log "made the ROM folders on EASYROMS ($uuid)"
+	# only on a card we just set up, so never on a card with the user's games
+	seed_free_games "$root"
 	touch "$stamp"
 }
 
