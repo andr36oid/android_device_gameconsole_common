@@ -303,7 +303,9 @@ easyroms_path() {
 	local i=0 id state uuid
 	while [ $i -lt 30 ]; do
 		sm list-volumes public </dev/null 2>/dev/null | while read -r id state uuid; do
-			[ "$id" = "$EASYROMS_ID" ] && [ "$state" = mounted ] && [ -n "$uuid" ] &&
+			# read-only (mounted_ro) counts: RetroArch still reads ROMs and BIOS files
+			case $state in mounted | mounted_ro) ;; *) continue ;; esac
+			[ "$id" = "$EASYROMS_ID" ] && [ -n "$uuid" ] &&
 				[ -d "/mnt/media_rw/$uuid" ] && echo "/mnt/media_rw/$uuid"
 		done | grep . && return 0
 		i=$((i + 1))

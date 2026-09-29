@@ -62,14 +62,17 @@ req() {
 	sed -n "s/^$1=//p" "$DIR/request" 2>/dev/null | head -n 1
 }
 
-# where EASYROMS is mounted, nothing if it isn't
+# where EASYROMS is mounted, nothing if it isn't. A read-only EASYROMS
+# (mounted_ro: write-protected card, drive Windows left unclean) still counts:
+# the scan only reads it
 easyroms() {
 	if [ -n "${BIOSCHECK_EASYROMS+set}" ]; then
 		[ -d "$BIOSCHECK_EASYROMS" ] && echo "$BIOSCHECK_EASYROMS"
 		return 0
 	fi
 	sm list-volumes public </dev/null 2>/dev/null | while read -r id state uuid; do
-		[ "$id" = "$EASYROMS_ID" ] && [ "$state" = mounted ] && [ -n "$uuid" ] &&
+		case $state in mounted | mounted_ro) ;; *) continue ;; esac
+		[ "$id" = "$EASYROMS_ID" ] && [ -n "$uuid" ] &&
 			[ -d "/mnt/media_rw/$uuid" ] && echo "/mnt/media_rw/$uuid"
 	done | head -n 1
 }
