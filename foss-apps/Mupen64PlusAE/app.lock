@@ -1,0 +1,13 @@
+# Mupen64Plus AE by the mupen64plus-ae team (Paul Lamb, Francisco Zurita and others),
+# F-Droid build from 2020 (the newest free build; newer M64Plus FZ builds are Play-only).
+# sha256 from the F-Droid index (index-v2.json).
+name=Mupen64PlusAE
+package=org.mupen64plusae.v3.alpha
+version_code=246
+version_name=3.0.246 (beta)
+spdx=GPL-3.0-or-later
+sha256=735117dc6590f8f6beb8ba153f194ee49cba3cb935bafbd9c49c661e7d6c14d5
+apk_url=https://f-droid.org/repo/org.mupen64plusae.v3.alpha_246.apk
+source_url=https://github.com/mupen64plus-ae/mupen64plus-ae/tree/v3.0.246 (F-Droid's source tarball: https://f-droid.org/repo/org.mupen64plusae.v3.alpha_246_src.tar.gz)
+license_url=https://raw.githubusercontent.com/mupen64plus-ae/mupen64plus-ae/v3.0.246/gpl-license
+published_by=F-Droid
