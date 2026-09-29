@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="home_screen_title">Ekran główny</string>
+    <string name="home_screen_summary">Daijishou lub andr36oid launcher</string>
+    <string name="home_screen_intro">Ekran główny to miejsce, do którego prowadzi FN.</string>
+    <string name="home_screen_daijishou_description">Gry według konsoli, z okładkami</string>
+    <string name="home_screen_launcher_description">Prosta siatka aplikacji. Otwarte źródło.</string>
+    <string name="home_screen_state_home">Obecny ekran główny</string>
+    <string name="home_screen_state_installed">Zainstalowany</string>
+    <string name="home_screen_state_removed">Usunięty</string>
+    <string name="home_screen_use">Ustaw jako główny</string>
+    <string name="home_screen_remove">Usuń</string>
+    <string name="home_screen_restore">Przywróć</string>
+    <string name="home_screen_remove_confirm">Usunąć <xliff:g id="app">%1$s</xliff:g>? Jego ustawienia i biblioteka gier zostaną usunięte. Możesz go przywrócić na tej stronie.</string>
+    <string name="home_screen_restored"><xliff:g id="app">%1$s</xliff:g> wrócił. Startuje pusty, jak nowa aplikacja.</string>
+    <string name="home_screen_now_home"><xliff:g id="app">%1$s</xliff:g> jest teraz ekranem głównym</string>
+    <string name="home_screen_failed">Nie udało się. Uruchom konsolę ponownie i spróbuj jeszcze raz.</string>
+</resources>

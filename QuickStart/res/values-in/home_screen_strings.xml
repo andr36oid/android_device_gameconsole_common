@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="home_screen_title">Layar utama</string>
+    <string name="home_screen_summary">Daijishou atau andr36oid launcher</string>
+    <string name="home_screen_intro">Layar utama adalah tempat FN membawa Anda.</string>
+    <string name="home_screen_daijishou_description">Game Anda diurutkan per konsol, dengan sampul</string>
+    <string name="home_screen_launcher_description">Kisi aplikasi yang sederhana. Sumber terbuka.</string>
+    <string name="home_screen_state_home">Layar utama saat ini</string>
+    <string name="home_screen_state_installed">Terpasang</string>
+    <string name="home_screen_state_removed">Dihapus</string>
+    <string name="home_screen_use">Jadikan layar utama</string>
+    <string name="home_screen_remove">Hapus</string>
+    <string name="home_screen_restore">Kembalikan</string>
+    <string name="home_screen_remove_confirm">Hapus <xliff:g id="app">%1$s</xliff:g>? Setelan dan pustaka game-nya akan dihapus. Anda dapat mengembalikannya di halaman ini.</string>
+    <string name="home_screen_restored"><xliff:g id="app">%1$s</xliff:g> sudah kembali. Aplikasi ini mulai kosong, seperti aplikasi baru.</string>
+    <string name="home_screen_now_home"><xliff:g id="app">%1$s</xliff:g> sekarang menjadi layar utama Anda</string>
+    <string name="home_screen_failed">Gagal. Mulai ulang konsol lalu coba lagi.</string>
+</resources>

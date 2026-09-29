@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="home_screen_title">Startbildschirm</string>
+    <string name="home_screen_summary">Daijishou oder der andr36oid launcher</string>
+    <string name="home_screen_intro">Zum Startbildschirm kommst du mit FN.</string>
+    <string name="home_screen_daijishou_description">Deine Spiele nach Konsole sortiert, mit Covern</string>
+    <string name="home_screen_launcher_description">Ein einfaches Raster deiner Apps. Open Source.</string>
+    <string name="home_screen_state_home">Aktueller Startbildschirm</string>
+    <string name="home_screen_state_installed">Installiert</string>
+    <string name="home_screen_state_removed">Entfernt</string>
+    <string name="home_screen_use">Als Startbildschirm</string>
+    <string name="home_screen_remove">Entfernen</string>
+    <string name="home_screen_restore">Zurückholen</string>
+    <string name="home_screen_remove_confirm"><xliff:g id="app">%1$s</xliff:g> entfernen? Seine Einstellungen und Spielebibliothek werden gelöscht. Du kannst es auf dieser Seite zurückholen.</string>
+    <string name="home_screen_restored"><xliff:g id="app">%1$s</xliff:g> ist zurück. Es startet leer, wie eine neue App.</string>
+    <string name="home_screen_now_home"><xliff:g id="app">%1$s</xliff:g> ist jetzt dein Startbildschirm</string>
+    <string name="home_screen_failed">Das hat nicht geklappt. Starte die Konsole neu und versuch es noch einmal.</string>
+</resources>
