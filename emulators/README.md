@@ -59,8 +59,25 @@ dArkOS (christianhaitian) use, so a card moves between ArkOS and andr36oid with 
   "GO-Super Gamepad", 0x484b:0x1100). Every button incl. L2/R2/L3/R3 and both analog
   sticks work without setup; without it RetroArch falls back to its generic "Android
   Gamepad" binds, which swap A/B and X/Y on this pad. Copied to
-  `/data/user/0/com.retroarch/autoconfig/android/` on every boot unless the user changed
-  it there (tracked like the cores).
+  `/data/user/0/com.retroarch/autoconfig/android/` unless the user changed it there
+  (tracked like the cores), whenever the ROM's profiles differ from the last boot's.
+- `autoconfig/`: RetroArch profiles for external controllers, seeded into the same folder
+  (only when the ROM brings other profiles than last time; a profile the user changed there
+  is kept). RetroArch unpacks its own profile set only when it is opened from its icon,
+  never when Daijishou starts a game, so without these an external pad got the generic
+  "Android Gamepad" binds (no right stick on many pads). Two kinds:
+  - `andr36oid_*.cfg`: Xbox (USB and Bluetooth), DualShock 4, DualSense and Switch
+    (Pro Controller, SNES, 8BitDo in Switch mode) as Android shows them here, with the
+    kernel drivers from night/usb-peripherals and the key layouts in `../gamepads/keylayout`.
+    Nintendo pads send their printed letters like the built-in pad (A right), so RetroArch's
+    own Pro Controller profile would swap A/B and X/Y. The Guide/PS/Capture button opens
+    RetroArch's menu, on any player. The matches sit in the alternative slots 3-9 of each
+    file: RetroArch adds the slot number to the match score, so these always win over
+    RetroArch's own profiles for the same pad (slots 0-2), whatever the folder order.
+  - `upstream/`: the android set of
+    [retroarch-joypad-autoconfig](https://github.com/libretro/retroarch-joypad-autoconfig)
+    at 3579625f (MIT, `upstream/COPYING`), 217 files, spaces and brackets in the file names
+    turned into `_` for the build. Covers 8BitDo, Logitech, generic USB SNES pads and more.
 - `retroarch.cfg`: a partial config, RetroArch fills in the rest. Written to
   `/storage/emulated/0/Android/data/com.retroarch/files/retroarch.cfg` (the one the
   RetroArch app and Daijishou's RetroArch players load) **only if there is no

@@ -10,7 +10,7 @@
 #    apps. They keep their F-Droid signature, so F-Droid can update them, and
 #    the user can uninstall them. An app the user removed stays removed, an
 #    older installed version gets upgraded when the ROM ships a newer one.
-# 2. Gives RetroArch a profile for the built-in pad and, on a fresh install
+# 2. Gives RetroArch profiles for the built-in pad and external pads and, on a fresh install
 #    only, ArkOS-like settings (hotkeys, saves next to the game). A
 #    retroarch.cfg that exists is never touched.
 # 3. Seeds the bundled libretro cores into RetroArch's core directory, which is
@@ -192,19 +192,26 @@ seed_owned() {
 # the game). A retroarch.cfg that exists is never touched.
 seed_retroarch() {
 	local own=$RA_DATA/.gameconsole auto=$RA_DATA/autoconfig/android
-	local cfg=$RA_EXT/retroarch.cfg owner pad dir
+	local cfg=$RA_EXT/retroarch.cfg owner pad dir sum
 
 	[ -d "$RA_DATA" ] || return 0
 	owner=$(stat -c %u:%g "$RA_DATA")
 	mkdir -p "$own" "$auto"
 	touch "$own/seeded.sha1"
 
-	# RetroArch looks for pad profiles in autoconfig/android of its data dir
-	for pad in "$BASE"/retroarch/autoconfig/*.cfg; do
-		[ -f "$pad" ] && seed_owned "$pad" "$auto/${pad##*/}"
-	done
-	chown -R "$owner" "$RA_DATA/autoconfig" "$own"
-	restorecon -R "$RA_DATA/autoconfig" "$own" 2>/dev/null
+	# RetroArch looks for pad profiles in autoconfig/android of its data dir:
+	# the built-in pad's, ours for external pads and the upstream set. Only
+	# when the ROM brings other profiles than last time (a stamp, as for the
+	# cores), so a normal boot doesn't hash ~220 files.
+	sum=$(cat "$BASE"/retroarch/autoconfig/*.cfg 2>/dev/null | sha1sum | cut -d' ' -f1)
+	if [ "$(cat "$own/autoconfig.sha1" 2>/dev/null)" != "$sum" ]; then
+		for pad in "$BASE"/retroarch/autoconfig/*.cfg; do
+			[ -f "$pad" ] && seed_owned "$pad" "$auto/${pad##*/}"
+		done
+		chown -R "$owner" "$RA_DATA/autoconfig" "$own"
+		restorecon -R "$RA_DATA/autoconfig" "$own" 2>/dev/null
+		echo "$sum" >"$own/autoconfig.sha1"
+	fi
 
 	[ -f "$BASE/retroarch/retroarch.cfg" ] || return 0
 	[ -e "$cfg" ] && return 0
