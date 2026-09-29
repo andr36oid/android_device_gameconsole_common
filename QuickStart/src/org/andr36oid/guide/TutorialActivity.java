@@ -487,6 +487,12 @@ public class TutorialActivity extends Activity {
         if (step.id == STEP_GAMES) {
             final CharSequence space = describeEasyroms();
             if (space != null) {
+                // Daijishou gets its platforms and folders on the first start (only on a
+                // card with EASYROMS, see gameconsole-emu.sh)
+                if (SystemProperties.getBoolean("ro.andr36oid.daijishou_platforms", false)) {
+                    body = getText(mNoFn ? R.string.tutorial_games_body_ready_no_fn
+                            : R.string.tutorial_games_body_ready);
+                }
                 body = TextUtils.concat(body, "\n\n", space);
             }
         }

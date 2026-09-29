@@ -67,6 +67,8 @@ final class Chapters {
     private List<Chapter> build() {
         final boolean fnShortcuts = SystemProperties.getBoolean("ro.andr36oid.fn_hotkeys", false);
         final boolean romFolders = SystemProperties.getBoolean("ro.andr36oid.rom_folders", false);
+        final boolean daijishouPlatforms =
+                SystemProperties.getBoolean("ro.andr36oid.daijishou_platforms", false);
         final boolean profiles = hasComponent(new ComponentName("org.andr36oid.cpuoverclock",
                 "org.andr36oid.cpuoverclock.ProfileTileService"));
         final boolean fnHelp = fnShortcuts
@@ -135,7 +137,7 @@ final class Chapters {
         if (wifiTransfer) {
             para(c, R.string.games_wifi_transfer);
         }
-        para(c, R.string.games_library);
+        para(c, daijishouPlatforms ? R.string.games_library_ready : R.string.games_library);
 
         c = chapter(R.string.emulators_title, chapters);
         para(c, R.string.emulators_included);
