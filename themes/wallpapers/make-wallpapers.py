@@ -4,7 +4,7 @@
 Every picture is drawn as pixel art at a quarter of the screen size and scaled
 up 4x with hard edges, so it stays sharp and the PNGs stay small. Two sizes:
 640x480 (res/drawable-nodpi) and 720x720 for the square clones
-(res/drawable-h600dp-nodpi: 720x720 at 178 dpi is ~620 dp high, 640x480 is 431).
+(res/drawable-h500dp-nodpi: 720x720 is ~550-620 dp high at density 200-178, 640x480 ~410-431).
 Thumbnails for the picker are 160x120 (<name>_small).
 
 Needs Pillow. Run from anywhere:  python3 make-wallpapers.py
@@ -280,7 +280,7 @@ def save(img, path):
 
 
 def main():
-    for w, h, folder in ((640, 480, 'drawable-nodpi'), (720, 720, 'drawable-h600dp-nodpi')):
+    for w, h, folder in ((640, 480, 'drawable-nodpi'), (720, 720, 'drawable-h500dp-nodpi')):
         for name, draw in PICTURES:
             rng = random.Random(name)  # same picture on every run
             small, lines = draw(w // SCALE, h // SCALE, rng)
