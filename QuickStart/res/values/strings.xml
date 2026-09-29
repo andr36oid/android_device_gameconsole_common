@@ -119,6 +119,20 @@
     <string name="trouble_clock_q">The date or time is wrong</string>
     <string name="trouble_clock_a">The console forgets the time when the battery runs completely empty. Set it in Settings &gt; System &gt; Date &amp; time. With a network connection it sets itself, as long as "Use network-provided time" is on.</string>
 
+    <!-- If your console won't start -->
+    <string name="rescue_title">If your console won\'t start</string>
+    <string name="rescue_intro">Try these steps in order. None of them touches your games on EASYROMS.</string>
+    <string name="rescue_safe_q">Safe mode</string>
+    <string name="rescue_safe_row">Hold Vol− while you switch the console on, until the home screen shows</string>
+    <string name="rescue_safe_a">Switch it off first; hold Power for 10 seconds if it hangs. In safe mode, "Safe mode" shows in the bottom left corner and apps you installed yourself don\'t run, RetroArch and PPSSPP too. Uninstall the app that causes trouble, or change the setting back. Restart normally to leave safe mode.</string>
+    <string name="rescue_magisk_q">It stopped starting after a Magisk module</string>
+    <string name="rescue_magisk_a">Switch it off and on again, up to three times. After two starts that don\'t finish, Magisk turns all modules off by itself. Safe mode turns them off too. They stay off until you turn them back on, one by one, in the Magisk app.</string>
+    <string name="rescue_file_q">The rescue file on the SD card</string>
+    <string name="rescue_file_a">For a forgotten screen lock, a broken home screen or one broken app. Put the SD card in a computer, open the BOOT drive and open rescue.txt with Notepad. Change no to yes for what you need: safe_mode, disable_magisk_modules, remove_screen_lock or reset_home. To reset one app, write its name, for example: clear_app_data = retroarch</string>
+    <string name="rescue_file_after">Save the file, put the card back and start the console. The start takes a little longer. Afterwards rescue.txt says no everywhere again, and rescue-result.txt on BOOT tells you what was done.</string>
+    <string name="rescue_reset_q">Factory reset, the last step</string>
+    <string name="rescue_reset_a">This deletes the apps you installed, their data, your settings, saved Wi-Fi networks and Magisk modules. Your games on EASYROMS and your files on the internal storage stay, but the apps\' own folders there (Android/data) go too. In rescue.txt, write exactly:\nfactory_reset = delete my apps and settings</string>
+
     <!-- USB and computers -->
     <string name="usb_title">USB and computers</string>
     <string name="usb_card">The easiest way to copy games is to put the SD card into a computer and copy them to EASYROMS. Put the card back before you switch the console on.</string>

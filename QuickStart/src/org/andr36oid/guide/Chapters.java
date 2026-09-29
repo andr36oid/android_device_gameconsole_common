@@ -204,6 +204,25 @@ final class Chapters {
         heading(c, R.string.trouble_clock_q);
         para(c, R.string.trouble_clock_a);
 
+        // A console that no longer starts. Safe mode (Vol- held) and Magisk's own safe mode
+        // work on every build; the rescue file only where the build installs it.
+        c = chapter(R.string.rescue_title, chapters);
+        para(c, R.string.rescue_intro);
+        heading(c, R.string.rescue_safe_q);
+        row(c, R.string.rescue_safe_row, volume + "−", power);
+        para(c, R.string.rescue_safe_a);
+        if (magisk) {
+            heading(c, R.string.rescue_magisk_q);
+            para(c, R.string.rescue_magisk_a);
+        }
+        if (new java.io.File("/system/etc/andr36oid-rescue.txt").exists()) {
+            heading(c, R.string.rescue_file_q);
+            para(c, R.string.rescue_file_a);
+            para(c, R.string.rescue_file_after);
+            heading(c, R.string.rescue_reset_q);
+            para(c, R.string.rescue_reset_a);
+        }
+
         c = chapter(R.string.community_title, chapters);
         para(c, R.string.community_text);
         image(c, R.drawable.community_qr, R.string.community_qr_description);
