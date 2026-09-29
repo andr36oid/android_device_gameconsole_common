@@ -71,9 +71,14 @@
 /* Playback codec parameters */
 /* number of base blocks in a short period (low latency) */
 #define PLAYBACK_PERIOD_MULTIPLIER 32  /* 21 ms */
-/* number of frames per short period (low latency) */
-#define PLAYBACK_PERIOD_SIZE 2048
-/* number of pseudo periods for low latency playback */
+/* number of frames per short period: 1024 frames = 21.3 ms at 48 kHz.
+ * It was 2048 (42.7 ms, 171 ms in the ALSA buffer), which added about
+ * 85 ms to the HAL buffer, 21 ms to the AudioFlinger mixer and more to
+ * every app's track buffer (sized from the mixer period and HAL latency).
+ * Emulators felt late. RetroArch picks its block size from this too
+ * (PROPERTY_OUTPUT_FRAMES_PER_BUFFER). */
+#define PLAYBACK_PERIOD_SIZE (CODEC_BASE_FRAME_COUNT * PLAYBACK_PERIOD_MULTIPLIER)
+/* number of pseudo periods for low latency playback: 4 x 21.3 = 85 ms */
 #define PLAYBACK_PERIOD_COUNT 4
 #define PLAYBACK_PERIOD_START_THRESHOLD 2
 #define PLAYBACK_CODEC_SAMPLING_RATE 48000
