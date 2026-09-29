@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Continue playing: Quick Settings tile, FN + A, power menu, and the Game mode page -->
+    <string name="continue_title">Продолжить</string>
+    <string name="continue_tile_none">Игр пока нет</string>
+    <string name="continue_category">Продолжить игру</string>
+    <string name="continue_now">Продолжить: <xliff:g id="game">%1$s</xliff:g></string>
+    <string name="continue_now_none">Игр ещё не было</string>
+    <string name="continue_now_ppsspp">PPSSPP</string>
+    <string name="continue_now_app">Android-игра</string>
+    <string name="continue_on_boot">Открывать снова после перезапуска</string>
+    <string name="continue_on_boot_summary">Если при выключении консоли была открыта игра, в том числе когда села батарея, она снова откроется примерно через 10 секунд после появления главного экрана</string>
+    <string name="continue_about">«Продолжить» одним нажатием возвращает последнюю игру: плитка «Продолжить» в быстрых настройках, FN + A или меню питания.\n\nИгра, которая ещё открыта, вернётся ровно туда, где вы остановились. Иначе RetroArch и PPSSPP снова запустят ту же игру, RetroArch с тем же ядром; другие игры просто откроются снова.\n\nВы продолжите с последнего сохранения в самой игре. RetroArch записывает его каждые 10 секунд, если оно изменилось. Быстрые сохранения никогда не загружаются и не записываются за вас: если ваше новейшее быстрое сохранение новее сохранения в игре, об этом появится сообщение.</string>
+    <string name="continue_nothing">Пока нечего продолжать</string>
+    <string name="continue_game_missing">Не найден файл игры <xliff:g id="game">%1$s</xliff:g>. SD-карта вставлена?</string>
+    <string name="continue_core_missing">Ядро RetroArch для <xliff:g id="game">%1$s</xliff:g> больше не установлено</string>
+    <string name="continue_failed">Не удалось запустить <xliff:g id="game">%1$s</xliff:g></string>
+    <string name="continue_starting">Продолжаем <xliff:g id="game">%1$s</xliff:g></string>
+    <string name="continue_state_hint">Продолжаем <xliff:g id="game">%1$s</xliff:g>. Ваше новейшее быстрое сохранение (<xliff:g id="slot">%2$s</xliff:g>) новее сохранения в игре. Чтобы использовать его, загрузите его в меню RetroArch (Select + X).</string>
+    <string name="continue_slot">слот <xliff:g id="slot">%1$d</xliff:g></string>
+    <string name="continue_slot_auto">автоматическое</string>
+</resources>

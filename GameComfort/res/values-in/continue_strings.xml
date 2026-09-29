@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Continue playing: Quick Settings tile, FN + A, power menu, and the Game mode page -->
+    <string name="continue_title">Lanjutkan</string>
+    <string name="continue_tile_none">Belum ada game</string>
+    <string name="continue_category">Lanjutkan bermain</string>
+    <string name="continue_now">Lanjutkan: <xliff:g id="game">%1$s</xliff:g></string>
+    <string name="continue_now_none">Belum ada game dimainkan</string>
+    <string name="continue_now_ppsspp">PPSSPP</string>
+    <string name="continue_now_app">Game Android</string>
+    <string name="continue_on_boot">Buka lagi setelah mulai ulang</string>
+    <string name="continue_on_boot_summary">Jika game sedang terbuka saat konsol mati, juga saat baterai habis, game dibuka lagi sekitar 10 detik setelah layar utama muncul</string>
+    <string name="continue_about">Lanjutkan membawa kembali game terakhir yang Anda mainkan, dengan satu tekan: kartu Lanjutkan di Setelan Cepat, FN + A, atau menu daya.\n\nGame yang masih terbuka kembali tepat di tempat Anda berhenti. Jika tidak, RetroArch dan PPSSPP memulai game yang sama lagi, RetroArch dengan core yang sama; game lain hanya dibuka lagi.\n\nAnda melanjutkan dari save terakhir game itu sendiri. RetroArch menulisnya setiap 10 detik jika ada perubahan. Save state tidak pernah dimuat atau ditulis untuk Anda: jika save state terbaru Anda lebih baru dari save game itu sendiri, sebuah pesan memberi tahu Anda.</string>
+    <string name="continue_nothing">Belum ada game untuk dilanjutkan</string>
+    <string name="continue_game_missing">File game <xliff:g id="game">%1$s</xliff:g> tidak ditemukan. Apakah kartu SD terpasang?</string>
+    <string name="continue_core_missing">Core RetroArch untuk <xliff:g id="game">%1$s</xliff:g> sudah tidak terinstal</string>
+    <string name="continue_failed"><xliff:g id="game">%1$s</xliff:g> tidak bisa dimulai</string>
+    <string name="continue_starting">Melanjutkan <xliff:g id="game">%1$s</xliff:g></string>
+    <string name="continue_state_hint">Melanjutkan <xliff:g id="game">%1$s</xliff:g>. Save state terbaru Anda (<xliff:g id="slot">%2$s</xliff:g>) lebih baru dari save game itu sendiri. Untuk memakainya, muat di menu RetroArch (Select + X).</string>
+    <string name="continue_slot">slot <xliff:g id="slot">%1$d</xliff:g></string>
+    <string name="continue_slot_auto">slot otomatis</string>
+</resources>

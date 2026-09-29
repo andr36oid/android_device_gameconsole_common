@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Continue playing: Quick Settings tile, FN + A, power menu, and the Game mode page -->
+    <string name="continue_title">继续</string>
+    <string name="continue_tile_none">还没有游戏</string>
+    <string name="continue_category">继续游戏</string>
+    <string name="continue_now">继续：<xliff:g id="game">%1$s</xliff:g></string>
+    <string name="continue_now_none">还没有玩过游戏</string>
+    <string name="continue_now_ppsspp">PPSSPP</string>
+    <string name="continue_now_app">Android 游戏</string>
+    <string name="continue_on_boot">重启后重新打开</string>
+    <string name="continue_on_boot_summary">如果掌机关机时（包括电池耗尽时）有游戏开着，主屏幕出现约 10 秒后会重新打开该游戏</string>
+    <string name="continue_about">“继续”只需按一下，就能回到您上次玩的游戏：可以用快捷设置中的“继续”图块、FN + A 或电源菜单。\n\n仍在运行的游戏会回到您离开时的位置。否则，RetroArch 和 PPSSPP 会重新启动同一个游戏，RetroArch 还会使用同一个核心；其他游戏只是重新打开。\n\n游戏会从它自己的最近一次存档继续。RetroArch 在存档有变化时每 10 秒写入一次。即时存档永远不会被自动读取或写入：如果您最新的即时存档比游戏自己的存档更新，会有消息提醒您。</string>
+    <string name="continue_nothing">还没有可继续的游戏</string>
+    <string name="continue_game_missing">找不到 <xliff:g id="game">%1$s</xliff:g> 的游戏文件。SD 卡插好了吗？</string>
+    <string name="continue_core_missing">RetroArch 中 <xliff:g id="game">%1$s</xliff:g> 所用的核心已不再安装</string>
+    <string name="continue_failed">无法启动 <xliff:g id="game">%1$s</xliff:g></string>
+    <string name="continue_starting">正在继续 <xliff:g id="game">%1$s</xliff:g></string>
+    <string name="continue_state_hint">正在继续 <xliff:g id="game">%1$s</xliff:g>。您最新的即时存档（<xliff:g id="slot">%2$s</xliff:g>）比游戏自己的存档更新。要使用它，请在 RetroArch 菜单（Select + X）中读取。</string>
+    <string name="continue_slot">槽位 <xliff:g id="slot">%1$d</xliff:g></string>
+    <string name="continue_slot_auto">自动即时存档</string>
+</resources>

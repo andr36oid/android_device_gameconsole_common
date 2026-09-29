@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Continue playing: Quick Settings tile, FN + A, power menu, and the Game mode page -->
+    <string name="continue_title">Weiterspielen</string>
+    <string name="continue_tile_none">Noch kein Spiel</string>
+    <string name="continue_category">Weiterspielen</string>
+    <string name="continue_now">Weiterspielen: <xliff:g id="game">%1$s</xliff:g></string>
+    <string name="continue_now_none">Noch kein Spiel gespielt</string>
+    <string name="continue_now_ppsspp">PPSSPP</string>
+    <string name="continue_now_app">Android-Spiel</string>
+    <string name="continue_on_boot">Nach einem Neustart wieder öffnen</string>
+    <string name="continue_on_boot_summary">War ein Spiel offen, als die Konsole ausging, auch wenn der Akku leer wurde, öffnet es sich etwa 10 Sekunden nach dem Startbildschirm wieder</string>
+    <string name="continue_about">Weiterspielen holt das zuletzt gespielte Spiel mit einem Druck zurück: über die Kachel „Weiterspielen“ in den Schnelleinstellungen, FN + A oder das Ein-/Aus-Menü.\n\nEin Spiel, das noch offen ist, kommt genau dort zurück, wo du aufgehört hast. Sonst starten RetroArch und PPSSPP dasselbe Spiel neu, RetroArch mit demselben Core; andere Spiele öffnen sich einfach wieder.\n\nDu machst beim letzten eigenen Spielstand des Spiels weiter. RetroArch schreibt ihn alle 10 Sekunden, wenn er sich ändert. Savestates werden nie für dich geladen oder geschrieben: Ist dein neuester Savestate neuer als der eigene Spielstand des Spiels, sagt dir eine Meldung Bescheid.</string>
+    <string name="continue_nothing">Noch kein Spiel zum Weiterspielen</string>
+    <string name="continue_game_missing">Die Spieldatei von <xliff:g id="game">%1$s</xliff:g> wurde nicht gefunden. Steckt die SD-Karte?</string>
+    <string name="continue_core_missing">Der RetroArch-Core für <xliff:g id="game">%1$s</xliff:g> ist nicht mehr installiert</string>
+    <string name="continue_failed"><xliff:g id="game">%1$s</xliff:g> konnte nicht gestartet werden</string>
+    <string name="continue_starting"><xliff:g id="game">%1$s</xliff:g> wird fortgesetzt</string>
+    <string name="continue_state_hint"><xliff:g id="game">%1$s</xliff:g> wird fortgesetzt. Dein neuester Savestate (<xliff:g id="slot">%2$s</xliff:g>) ist neuer als der eigene Spielstand des Spiels. Um ihn zu nutzen, lade ihn im RetroArch-Menü (Select + X).</string>
+    <string name="continue_slot">Slot <xliff:g id="slot">%1$d</xliff:g></string>
+    <string name="continue_slot_auto">der automatische</string>
+</resources>

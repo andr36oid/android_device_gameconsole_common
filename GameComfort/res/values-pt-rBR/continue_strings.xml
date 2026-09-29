@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Continue playing: Quick Settings tile, FN + A, power menu, and the Game mode page -->
+    <string name="continue_title">Continuar</string>
+    <string name="continue_tile_none">Nenhum jogo ainda</string>
+    <string name="continue_category">Continuar jogando</string>
+    <string name="continue_now">Continuar: <xliff:g id="game">%1$s</xliff:g></string>
+    <string name="continue_now_none">Nenhum jogo jogado ainda</string>
+    <string name="continue_now_ppsspp">PPSSPP</string>
+    <string name="continue_now_app">Jogo Android</string>
+    <string name="continue_on_boot">Abrir de novo depois de reiniciar</string>
+    <string name="continue_on_boot_summary">Se um jogo estava aberto quando o console desligou, mesmo que a bateria tenha acabado, ele abre de novo uns 10 segundos depois da tela inicial</string>
+    <string name="continue_about">Continuar traz de volta o último jogo que você jogou, com um só botão: o bloco Continuar nas Configurações rápidas, FN + A ou o menu liga/desliga.\n\nUm jogo que ainda está aberto volta exatamente onde você parou. Se não estiver, o RetroArch e o PPSSPP abrem o mesmo jogo de novo, o RetroArch com o mesmo core; outros jogos só abrem de novo.\n\nVocê continua a partir do último save do próprio jogo. O RetroArch grava esse save a cada 10 segundos quando ele muda. Esse recurso nunca carrega nem grava save states por você: se o seu save state mais recente for mais novo que o save do jogo, uma mensagem avisa.</string>
+    <string name="continue_nothing">Nenhum jogo para continuar ainda</string>
+    <string name="continue_game_missing">Não foi possível encontrar o arquivo do jogo <xliff:g id="game">%1$s</xliff:g>. O cartão SD está no console?</string>
+    <string name="continue_core_missing">O core do RetroArch para <xliff:g id="game">%1$s</xliff:g> não está mais instalado</string>
+    <string name="continue_failed">Não foi possível abrir <xliff:g id="game">%1$s</xliff:g></string>
+    <string name="continue_starting">Continuando <xliff:g id="game">%1$s</xliff:g></string>
+    <string name="continue_state_hint">Continuando <xliff:g id="game">%1$s</xliff:g>. Seu save state mais recente (<xliff:g id="slot">%2$s</xliff:g>) é mais novo que o save do próprio jogo. Para usá-lo, carregue-o no menu do RetroArch (Select + X).</string>
+    <string name="continue_slot">slot <xliff:g id="slot">%1$d</xliff:g></string>
+    <string name="continue_slot_auto">o automático</string>
+</resources>
