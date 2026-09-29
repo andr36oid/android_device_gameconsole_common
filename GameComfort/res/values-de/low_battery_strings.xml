@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="warning_last">Letzte Warnung bei 3 %</string>
+    <string name="warning_last_summary">Immer an, solange die Warnung an ist. Sie bleibt länger auf dem Bildschirm, weil sich die Konsole kurz danach selbst ausschaltet.</string>
+    <!-- Banner on top of a game, two lines at most -->
+    <string name="banner_last_text">Akku <xliff:g id="percent">%1$d</xliff:g> %% – jetzt speichern. Die Konsole schaltet sich gleich aus.</string>
+</resources>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="warning_last">Последнее предупреждение при 3 %</string>
+    <string name="warning_last_summary">Всегда включено, если включено предупреждение. Дольше держится на экране, потому что вскоре после него консоль выключается.</string>
+    <!-- Banner on top of a game: keep it short (two lines at most) -->
+    <string name="banner_last_text">Батарея <xliff:g id="percent">%1$d</xliff:g> %% – сохраните игру сейчас. Скоро консоль выключится.</string>
+</resources>

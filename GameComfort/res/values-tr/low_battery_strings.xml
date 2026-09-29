@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="warning_last">Son uyarı %3\'te</string>
+    <string name="warning_last_summary">Uyarı açıkken her zaman açık. Ekranda daha uzun kalır, çünkü konsol kısa süre sonra kendiliğinden kapanır.</string>
+    <string name="banner_last_text">Pil %%<xliff:g id="percent">%1$d</xliff:g> – oyununuzu şimdi kaydedin. Konsol birazdan kendiliğinden kapanacak.</string>
+</resources>

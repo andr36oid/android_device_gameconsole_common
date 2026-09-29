@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="warning_last">3% 时最后警告一次</string>
+    <string name="warning_last_summary">警告开启时始终启用。这条警告在屏幕上停留更久，因为掌机很快就会自动关机。</string>
+    <string name="banner_last_text">电量 <xliff:g id="percent">%1$d</xliff:g>%% – 请立即存档。掌机即将自动关机。</string>
+</resources>

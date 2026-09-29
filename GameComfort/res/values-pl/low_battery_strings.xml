@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="warning_last">Ostatnie ostrzeżenie przy 3 %</string>
+    <string name="warning_last_summary">Zawsze włączone, gdy ostrzeżenie jest włączone. Zostaje dłużej na ekranie, bo konsola wkrótce potem sama się wyłącza.</string>
+    <!-- The banner on top of the game, two lines at most -->
+    <string name="banner_last_text">Bateria <xliff:g id="percent">%1$d</xliff:g>%% – zapisz teraz grę. Konsola wkrótce sama się wyłączy.</string>
+</resources>
