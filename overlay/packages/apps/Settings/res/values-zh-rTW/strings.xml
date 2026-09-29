@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Settings entry and page title for device info. Traditional Chinese
+         (Taiwan, Hong Kong): values-zh-rCN is Simplified and does not reach
+         these locales, so Settings' own zh-rTW/zh-rHK text would show. -->
+    <string name="about_settings" product="tablet">關於掌機</string>
+    <string name="about_settings" product="default">關於掌機</string>
+    <string name="about_settings" product="device">關於掌機</string>
+</resources>
