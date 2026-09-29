@@ -591,6 +591,12 @@ PRODUCT_PACKAGES += \
 	remove-BuiltInPrintService \
 	remove-PrintRecommendationService
 
+# App prune 3: backup helpers (backup is already turned off)
+PRODUCT_PACKAGES += \
+	remove-LocalTransport \
+	remove-SharedStorageBackup \
+	remove-BackupRestoreConfirmation
+
 # Hide features we do not want services started for (backup).
 PRODUCT_COPY_FILES += \
 	$(LOCAL_PATH)/configs/permissions/gameconsole_unavailable_features.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/gameconsole_unavailable_features.xml

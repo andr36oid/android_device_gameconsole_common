@@ -231,6 +231,22 @@ LOCAL_MODULE                         := remove-PrintRecommendationService
 EXECUTABLES.remove-PrintRecommendationService.OVERRIDES := PrintRecommendationService
 include $(BUILD_PHONY_PACKAGE)
 
+# Backup is turned off (android.software.backup unavailable), so the shared storage backup agent, the local transport and the adb backup prompt are never used. WallpaperBackup stays: it is listed in PRODUCT_SYSTEM_SERVER_APPS.
+include $(CLEAR_VARS)
+LOCAL_MODULE                         := remove-LocalTransport
+EXECUTABLES.remove-LocalTransport.OVERRIDES := LocalTransport
+include $(BUILD_PHONY_PACKAGE)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE                         := remove-SharedStorageBackup
+EXECUTABLES.remove-SharedStorageBackup.OVERRIDES := SharedStorageBackup
+include $(BUILD_PHONY_PACKAGE)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE                         := remove-BackupRestoreConfirmation
+EXECUTABLES.remove-BackupRestoreConfirmation.OVERRIDES := BackupRestoreConfirmation
+include $(BUILD_PHONY_PACKAGE)
+
 # if some modules are built directly from this directory (not subdirectories),
 # their rules should be written here.
 
