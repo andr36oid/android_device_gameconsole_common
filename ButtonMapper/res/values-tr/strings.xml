@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="button_mapping_title">Tuş eşleme (beta)</string>
+    <string name="button_mapping_summary">Konsol tuşlarının ne yapacağını değiştirin</string>
+
+    <!-- The buttons of the console -->
+    <string name="button_dpad_up">Yön tuşu yukarı</string>
+    <string name="button_dpad_down">Yön tuşu aşağı</string>
+    <string name="button_dpad_left">Yön tuşu sol</string>
+    <string name="button_dpad_right">Yön tuşu sağ</string>
+    <string name="button_a">A tuşu</string>
+    <string name="button_b">B tuşu</string>
+    <string name="button_x">X tuşu</string>
+    <string name="button_y">Y tuşu</string>
+    <string name="button_l1">L1 tuşu</string>
+    <string name="button_r1">R1 tuşu</string>
+    <string name="button_l2">L2 tuşu</string>
+    <string name="button_r2">R2 tuşu</string>
+    <string name="button_l3">Sol analoga basma (L3)</string>
+    <string name="button_r3">Sağ analoga basma (R3)</string>
+    <string name="button_select">Select tuşu</string>
+    <string name="button_start">Start tuşu</string>
+    <string name="button_function">FN tuşu</string>
+    <string name="button_volume_down">Ses kısma tuşu</string>
+    <string name="button_volume_up">Ses açma tuşu</string>
+    <string name="button_power">Güç düğmesi</string>
+
+    <!-- What a button can do, grouped -->
+    <string name="section_game">Oyun tuşları</string>
+    <string name="section_menu">Menü kontrolleri</string>
+    <string name="section_system">Sistem</string>
+    <string name="section_media">Müzik ve video</string>
+    <string name="section_off">Kapalı</string>
+
+    <string name="action_button_a">A tuşu</string>
+    <string name="action_button_b">B tuşu</string>
+    <string name="action_button_x">X tuşu</string>
+    <string name="action_button_y">Y tuşu</string>
+    <string name="action_button_l1">L1 tuşu</string>
+    <string name="action_button_r1">R1 tuşu</string>
+    <string name="action_button_l2">L2 tuşu</string>
+    <string name="action_button_r2">R2 tuşu</string>
+    <string name="action_button_l3">Sol analoga basma (L3)</string>
+    <string name="action_button_r3">Sağ analoga basma (R3)</string>
+    <string name="action_button_select">Select tuşu</string>
+    <string name="action_button_start">Start tuşu</string>
+    <string name="action_up">Yukarı</string>
+    <string name="action_down">Aşağı</string>
+    <string name="action_left">Sol</string>
+    <string name="action_right">Sağ</string>
+    <string name="action_ok">Tamam</string>
+    <string name="action_back">Geri</string>
+    <string name="action_home">Ana ekran</string>
+    <string name="action_menu">Uygulama menüsü</string>
+    <string name="action_screenshot">Ekran görüntüsü al</string>
+    <string name="action_power">Güç (uyku ve güç menüsü)</string>
+    <string name="action_volume_up">Sesi aç</string>
+    <string name="action_volume_down">Sesi kıs</string>
+    <string name="action_mute">Sessiz</string>
+    <string name="action_brightness_up">Parlaklığı artır</string>
+    <string name="action_brightness_down">Parlaklığı azalt</string>
+    <string name="action_play_pause">Oynat / duraklat</string>
+    <string name="action_next">Sonraki parça</string>
+    <string name="action_previous">Önceki parça</string>
+    <string name="action_nothing">Hiçbir şey (tuş kapalı)</string>
+
+    <!-- First choice in the list, puts the button back to what it did originally -->
+    <string name="action_original">Orijinal: <xliff:g id="action">%1$s</xliff:g></string>
+    <string name="choose_title"><xliff:g id="button">%1$s</xliff:g>: ne yapsın?</string>
+
+    <!-- Below the drawing, about the selected button -->
+    <string name="status_default">Görevi: <xliff:g id="action">%1$s</xliff:g></string>
+    <string name="status_changed">Görevi: <xliff:g id="action">%1$s</xliff:g> (normalde <xliff:g id="default_action">%2$s</xliff:g>)</string>
+    <string name="status_locked">Görevi: <xliff:g id="action">%1$s</xliff:g>. Bu değiştirilemez.</string>
+
+    <!-- Shown on the screen of the drawn console -->
+    <string name="screen_hint">Yön tuşlarıyla bir tuş seçin ya da doğrudan ona basın.\n\nDeğiştirmek için sonra şuna basın: <xliff:g id="button">%1$s</xliff:g>.</string>
+    <string name="screen_hint_no_ok">Seçmek için bir tuşa basın.\n\nDeğiştirmek için yeniden basın.</string>
+
+    <string name="rescue_tip">Tuşlar birbirine mi karıştı? Sıfırlamak için iki ses tuşunu birlikte 5 saniye basılı tutun.</string>
+
+    <string name="power_locked_title">Güç düğmesi olduğu gibi kalır</string>
+    <string name="power_locked_message">Konsolu uyandırabilen tek tuş odur, bu yüzden her zaman Güç düğmesi olarak çalışır.</string>
+
+    <!-- Things the console always needs a button for -->
+    <string name="function_up">Yukarı</string>
+    <string name="function_down">Aşağı</string>
+    <string name="function_left">Sol</string>
+    <string name="function_right">Sağ</string>
+    <string name="function_select">Tamam</string>
+    <string name="function_back">Geri</string>
+    <string name="function_home">Ana ekran</string>
+    <string name="function_power">Güç</string>
+
+    <string name="blocked_title">Bu sizi dışarıda bırakır</string>
+    <string name="blocked_message">O zaman şunlar için hiç tuş kalmaz: <xliff:g id="functions">%1$s</xliff:g>.\n\nÖnce bu görevi başka bir tuşa verin.</string>
+
+    <string name="swap_title"><xliff:g id="other_button">%1$s</xliff:g> ile yer değiştirilsin mi?</string>
+    <string name="swap_message">Şu anda bunu <xliff:g id="other_button">%1$s</xliff:g> yapıyor. İki tuşun yeri değiştirilsin mi, yoksa yalnızca <xliff:g id="button">%2$s</xliff:g> mı değişsin?</string>
+    <string name="swap_needed_message">Şu anda bunu <xliff:g id="other_button">%1$s</xliff:g> yapıyor. Yalnızca <xliff:g id="button">%2$s</xliff:g> değişirse şunlar için hiç tuş kalmaz: <xliff:g id="functions">%3$s</xliff:g>.\n\nBunun yerine iki tuşun yeri değiştirilsin mi?</string>
+    <string name="swap_confirm">Yer değiştir</string>
+    <string name="swap_only_this">Yalnızca bu</string>
+
+    <string name="problem_title">Bazı tuşlar eksik</string>
+    <string name="problem_message">Şunlar için ayarlı tuş yok: <xliff:g id="functions">%1$s</xliff:g>.\n\nBunu düzeltmek için Standart tuşlara geçilsin mi?</string>
+    <string name="problem_fix">Standart\'ı kullan</string>
+    <string name="problem_later">Şimdi değil</string>
+
+    <!-- Profiles: button layouts to switch between -->
+    <string name="profile_standard">Standart</string>
+    <string name="profile_default_name">Profil %d</string>
+    <string name="profile_button">Profil: <xliff:g id="profile">%1$s</xliff:g></string>
+    <string name="profiles_title">Tuş profilleri</string>
+    <string name="profile_new">Yeni profil</string>
+    <string name="profiles_close">Kapat</string>
+    <string name="profile_rename">Yeniden adlandır</string>
+    <string name="profile_rename_title">Profili yeniden adlandır</string>
+    <string name="profile_rename_save">Kaydet</string>
+    <string name="profile_delete">Sil</string>
+    <string name="profile_delete_title">“<xliff:g id="profile">%1$s</xliff:g>” silinsin mi?</string>
+    <string name="profile_delete_message">Profildeki tuş değişiklikleri kaldırılır ve yeniden Standart tuşlar kullanılır.</string>
+    <string name="profile_delete_message_inactive">Profildeki tuş değişiklikleri kaldırılır. Şu an kullandığınız tuşlar olduğu gibi kalır.</string>
+    <string name="profile_delete_choose">Profil sil…</string>
+    <string name="profile_delete_choose_title">Hangi profil silinsin?</string>
+    <string name="profile_created">Yeni profil “<xliff:g id="profile">%1$s</xliff:g>”. Tuş değişiklikleri bu profile kaydedilir.</string>
+    <string name="profile_forked">Standart tuşlar olduğu gibi kalır, değişikliğiniz yeni “<xliff:g id="profile">%1$s</xliff:g>” profiline kaydedildi.</string>
+    <string name="profile_blocked_message">“<xliff:g id="profile">%1$s</xliff:g>” ile şunlar için hiç tuş kalmaz: <xliff:g id="functions">%2$s</xliff:g>.</string>
+
+    <!-- Quick Settings tile that switches to the next profile -->
+    <string name="tile_label">Tuş profili</string>
+
+    <!-- Shown after a change to the buttons used in menus -->
+    <string name="confirm_title">Yeni tuşlar korunsun mu?</string>
+    <plurals name="confirm_message">
+        <item quantity="one">Koru\'yu şu tuşla seçin: <xliff:g id="button">%1$s</xliff:g>. Yoksa her şey <xliff:g id="seconds">%2$d</xliff:g> saniye içinde eski haline döner.</item>
+        <item quantity="other">Koru\'yu şu tuşla seçin: <xliff:g id="button">%1$s</xliff:g>. Yoksa her şey <xliff:g id="seconds">%2$d</xliff:g> saniye içinde eski haline döner.</item>
+    </plurals>
+    <plurals name="confirm_message_generic">
+        <item quantity="one">Koru\'ya basın. Yoksa her şey <xliff:g id="seconds">%d</xliff:g> saniye içinde eski haline döner.</item>
+        <item quantity="other">Koru\'ya basın. Yoksa her şey <xliff:g id="seconds">%d</xliff:g> saniye içinde eski haline döner.</item>
+    </plurals>
+    <string name="confirm_keep">Koru</string>
+    <string name="confirm_undo">Geri al</string>
+
+</resources>

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_title">Kayıt yedekleme</string>
+
+    <!-- %1$s: a time, e.g. 14:02 -->
+    <string name="today">Bugün, %1$s</string>
+    <string name="yesterday">Dün, %1$s</string>
+    <plurals name="files">
+        <item quantity="one">%1$d dosya</item>
+        <item quantity="other">%1$d dosya</item>
+    </plurals>
+    <plurals name="games">
+        <item quantity="one">%1$d oyun</item>
+        <item quantity="other">%1$d oyun</item>
+    </plurals>
+
+    <!-- The summary in Settings and under Back up now -->
+    <!-- %1$s: when, e.g. Today, 14:02; %2$s: e.g. 123 files -->
+    <string name="last_backup">Son yedek: %1$s, %2$s</string>
+    <string name="last_none">Henüz yedek yok</string>
+    <string name="last_no_saves">Henüz kayıt dosyası bulunamadı</string>
+    <!-- %1$s: the summary above, %2$s: what went wrong -->
+    <string name="last_failed">%1$s\nSon deneme başarısız oldu: %2$s</string>
+
+    <string name="where_internal">dahili depolama</string>
+    <string name="where_easyroms">EASYROMS</string>
+    <string name="where_usb">USB sürücü</string>
+
+    <!-- Progress, on the page and in the notification -->
+    <string name="step_start">Başlatılıyor…</string>
+    <string name="step_scan">Kayıt dosyaları aranıyor…</string>
+    <!-- %1$d: file number, %2$d: all files -->
+    <string name="step_backup">Dosya yedekleniyor: %1$d / %2$d…</string>
+    <string name="step_backup_plain">Yedekleniyor…</string>
+    <string name="step_copy">Yedek diğer konumlara kopyalanıyor…</string>
+    <string name="step_list">Yedekler okunuyor…</string>
+    <string name="step_plan">Konsoldaki kayıtlarla karşılaştırılıyor…</string>
+    <string name="step_restore">Geri yükleniyor…</string>
+
+    <!-- %1$s: e.g. 123 files -->
+    <string name="backup_done">%1$s yedeklendi</string>
+    <string name="backup_unchanged">Son yedekten bu yana hiçbir şey değişmedi</string>
+    <string name="backup_nothing">Kayıt dosyası bulunamadı. Önce bir oyun oynayıp kayıt yapın.</string>
+
+    <string name="error_no_storage">Yedeklenecek yer yok: dahili depolama ve EASYROMS kullanılamıyor.</string>
+    <string name="error_no_space">Dahili depolamada veya EASYROMS\'ta yedek için yeterli boş alan yok.</string>
+    <string name="error_write_failed">Yedek yazılamadı. SD kart bozuluyor olabilir: kayıtlarınızı bir bilgisayara kopyalayın.</string>
+    <string name="error_no_usb">USB sürücü bulunamadı. Bir tane takıp tekrar deneyin.</string>
+    <string name="error_not_found">Bu yedek artık yok.</string>
+    <string name="error_safety_failed">Hiçbir şey geri yüklenmedi: yerine geçeceği kayıtlar önce yedeklenemedi. Biraz yer açıp tekrar deneyin.</string>
+    <string name="error_busy">Bir yedekleme sürüyor. Birazdan tekrar deneyin.</string>
+    <string name="error_start">Kayıt yedekleme çalıştırılamadı. Konsolu yeniden başlatıp tekrar deneyin.</string>
+
+    <!-- The main page -->
+    <string name="backup_now_title">Şimdi yedekle</string>
+    <string name="restore_title">Kayıtları geri yükle</string>
+    <string name="restore_summary">Bir yedek seçin, sonra tamamını veya tek bir oyunu. Bir şey yazılmadan önce neyin değişeceğini görürsünüz.</string>
+    <string name="usb_title">Şimdi USB sürücüye yedekle</string>
+    <!-- %1$s: the drive's name -->
+    <string name="usb_summary">En yeni yedeği %1$s sürücüsüne kopyalar</string>
+    <string name="usb_none">SD karttan ayrı bir kopya tutmak için bir USB sürücü takın</string>
+    <string name="auto_category">Otomatik yedekleme</string>
+    <string name="auto_title">Otomatik olarak yedekle</string>
+    <string name="auto_summary">Şarj olurken günde bir kez ve bir oyunu kapattıktan sonra. Hiçbir şey değişmediyse atlanır.</string>
+    <string name="keep_title">Saklanacak yedekler</string>
+    <!-- %1$s: a number -->
+    <string name="keep_summary">En yeni %1$s yedek saklanır, son günlerin her birinden en az bir tane olacak şekilde. Daha eskiler silinir.</string>
+    <string name="where_summary">Yedekler iki yere gider: Dahili depolama/Backups/Saves ve EASYROMS/backups/saves; takılıysa bir USB sürücüye de. İki konum da aynı SD kartta olduğundan yedekleri arada bir bilgisayara veya USB sürücüye kopyalayın. RetroArch ve PPSSPP kayıtları ile oyunlarınızın yanındaki kayıt dosyaları dahildir.</string>
+
+    <!-- The list of backups -->
+    <!-- %1$s: what's running -->
+    <string name="waiting_for_backup">Bir yedekleme sürüyor. %1$s</string>
+    <string name="no_backups">Henüz yedek yok. Şimdi yedekle\'yi kullanın ya da şarj sırasındaki günlük yedeği bekleyin.</string>
+    <!-- %1$s: e.g. 12 games, %2$s: e.g. 123 files, %3$s: size, %4$s: where -->
+    <string name="backup_summary">%1$s, %2$s, %3$s\nKonum: %4$s</string>
+    <!-- %1$s: where -->
+    <string name="backup_broken">Bu yedek hasarlı ve okunamıyor (konum: %1$s)</string>
+
+    <!-- One backup -->
+    <string name="restore_all_title">Tümünü geri yükle</string>
+    <!-- %1$s: e.g. 123 files -->
+    <string name="restore_all_summary">Bu yedekteki her şey (%1$s). Önce neyin değişeceğini görürsünüz.</string>
+    <!-- %1$s: e.g. 3 files, %2$s: folders, %3$s: when -->
+    <string name="game_summary">%2$s içinde %1$s, son kayıt: %3$s</string>
+
+    <!-- What restoring would do -->
+    <string name="plan_title_all">Tümü geri yüklensin mi?</string>
+    <!-- %1$s: the game -->
+    <string name="plan_title_game">%1$s geri yüklensin mi?</string>
+    <plurals name="plan_missing">
+        <item quantity="one">Konsolda %1$d dosya eksik, geri konacak.</item>
+        <item quantity="other">Konsolda %1$d dosya eksik, geri konacak.</item>
+    </plurals>
+    <plurals name="plan_older">
+        <item quantity="one">Konsoldaki %1$d eski kaydın yerine yedek konacak.</item>
+        <item quantity="other">Konsoldaki %1$d eski kaydın yerine yedek konacak.</item>
+    </plurals>
+    <plurals name="plan_newer">
+        <item quantity="one">Konsoldaki %1$d kayıt yedekten daha yeni. Korunacak:</item>
+        <item quantity="other">Konsoldaki %1$d kayıt yedekten daha yeni. Korunacaklar:</item>
+    </plurals>
+    <!-- %1$s: file name, %2$s: its time on the console, %3$s: its time in the backup -->
+    <string name="plan_newer_item">• %1$s (konsol: %2$s, yedek: %3$s)</string>
+    <!-- %1$d: how many more -->
+    <string name="plan_more">• ve %1$d tane daha</string>
+    <plurals name="plan_same">
+        <item quantity="one">%1$d dosya zaten aynı.</item>
+        <item quantity="other">%1$d dosya zaten aynı.</item>
+    </plurals>
+    <plurals name="plan_unavailable">
+        <item quantity="one">%1$d dosya, bağlı olmayan EASYROMS\'a ait ve şu anda geri yüklenemiyor.</item>
+        <item quantity="other">%1$d dosya, bağlı olmayan EASYROMS\'a ait ve şu anda geri yüklenemiyor.</item>
+    </plurals>
+    <string name="plan_nothing">Geri yüklenecek bir şey yok.</string>
+    <string name="plan_note">Yerine başka dosya konan her şey önce yedeklenir. Geri yüklemeden önce RetroArch ve PPSSPP\'den çıkın; yoksa kapanırken geri yüklenen kayıtların üzerine yazabilirler.</string>
+    <string name="restore_button">Geri yükle</string>
+    <string name="replace_newer_button">Yenileri de değiştir</string>
+    <string name="replace_newer_title">Yeni kayıtlar da değişsin mi?</string>
+    <plurals name="replace_newer_message">
+        <item quantity="one">Konsoldaki %1$d kayıt yedekten daha yeni. Onu değiştirmek, o oyunu eski ilerlemeye geri götürür. Daha yeni kayıt önce yedeklenir.</item>
+        <item quantity="other">Konsoldaki %1$d kayıt yedekten daha yeni. Onları değiştirmek, o oyunları eski ilerlemeye geri götürür. Daha yeni kayıtlar önce yedeklenir.</item>
+    </plurals>
+    <string name="replace_button">Değiştir</string>
+
+    <string name="result_title">Geri yükleme bitti</string>
+    <plurals name="result_restored">
+        <item quantity="one">%1$d dosya geri yüklendi.</item>
+        <item quantity="other">%1$d dosya geri yüklendi.</item>
+    </plurals>
+    <plurals name="result_kept">
+        <item quantity="one">%1$d daha yeni kayıt korundu.</item>
+        <item quantity="other">%1$d daha yeni kayıt korundu.</item>
+    </plurals>
+    <plurals name="result_failed">
+        <item quantity="one">%1$d dosya yazılamadı. SD kart dolu olabilir veya bozuluyor olabilir.</item>
+        <item quantity="other">%1$d dosya yazılamadı. SD kart dolu olabilir veya bozuluyor olabilir.</item>
+    </plurals>
+
+    <!-- The notification while an automatic backup runs -->
+    <string name="channel_name">Kayıt yedekleme çalışıyor</string>
+    <string name="notification_title">Kayıtlar yedekleniyor</string>
+</resources>

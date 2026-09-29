@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="credits_title">Emeği geçenler</string>
+
+    <string name="credits_tagline">R36S için Android 11</string>
+
+    <string name="credits_team">Ekip</string>
+    <string name="credits_role_port">İlk port</string>
+    <string name="credits_role_ux">Eklentiler &amp; UX</string>
+    <string name="credits_role_clones">Klon desteği çalışmaları</string>
+    <string name="credits_role_legend">İncelemeler, geri bildirim ve tam bir efsane</string>
+    <string name="credits_role_beta">Beta geri bildirimi</string>
+    <string name="credits_on_youtube">YouTube\'da</string>
+
+    <string name="credits_based_on">Temel aldığı çalışmalar</string>
+    <string name="credits_351droid">RG351MP için Android</string>
+    <string name="credits_lineageos">Özgür ve açık kaynaklı Android ROM\'u</string>
+    <string name="credits_android">Google tarafından</string>
+</resources>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="test_title">Kontrolcü testi</string>
+    <string name="test_summary">Tüm tuşları ve analogları deneyin, pili görün</string>
+
+    <!-- Bottom line. %1$d buttons pressed so far out of %2$d -->
+    <string name="test_hint">Çıkmak için START + SELECT basılı tutun · FN ana ekrana gider · <xliff:g id="done">%1$d</xliff:g>/<xliff:g id="total">%2$d</xliff:g> tuş test edildi</string>
+    <string name="test_all_tested">Tüm tuşlar çalışıyor</string>
+    <string name="test_leaving">Çıkılıyor…</string>
+    <string name="test_no_key">Herhangi bir tuşa basın</string>
+    <string name="test_no_stick">Analog çubuk bulunamadı</string>
+    <string name="test_battery_unknown">Pil: veri yok</string>
+</resources>

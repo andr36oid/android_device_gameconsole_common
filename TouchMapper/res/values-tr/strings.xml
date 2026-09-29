@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="app_name">Dokunmatik kontroller</string>
+    <string name="settings_summary">Dokunmatik ekran oyunlarını tuşlarla oynayın, uygulama başına</string>
+
+    <!-- Settings > Touch controls -->
+    <string name="settings_intro">Bazı oyunlar yalnızca dokunmatik ekranla çalışır. Burada böyle bir oyuna kendi düzenini verebilirsiniz: her tuş veya analog, ekranda bir noktaya dokunur. Düzen, o oyun öndeyken kendiliğinden açılır ve diğer tüm uygulamalar normal tuşlarla çalışmaya devam eder.</string>
+    <string name="settings_apps">Dokunmatik kontrollü uygulamalar</string>
+    <string name="settings_add">Uygulama ekle</string>
+    <string name="settings_add_summary">Bir oyun seçin; oyun başlar ve düzenleyici üstünde açılır</string>
+    <string name="settings_add_none">Tüm uygulamaların zaten dokunmatik kontrolü var</string>
+    <string name="settings_how">Nasıl çalışır</string>
+    <string name="settings_shortcut_title">Oynarken düzenle: FN + L1</string>
+    <string name="settings_shortcut_summary">Oyundayken FN tuşunu basılı tutup L1\'e basın. Düzenleyici oyunun üstünde açılır. FN her zamanki gibi ana ekrana döner.</string>
+    <string name="settings_help_summary">Düzenleyicide her tuşun ne yaptığı</string>
+
+    <!-- Summary of an app in the list; %1$s is e.g. "5 controls" -->
+    <string name="profile_on">Açık · <xliff:g id="count">%1$s</xliff:g></string>
+    <string name="profile_off">Kapalı · <xliff:g id="count">%1$s</xliff:g></string>
+    <string name="profile_empty">Henüz kontrol yok</string>
+    <string name="profile_unreadable">Okunamıyor, baştan başlamak için düzenleyin</string>
+    <plurals name="control_count">
+        <item quantity="one"><xliff:g id="n">%d</xliff:g> kontrol</item>
+        <item quantity="other"><xliff:g id="n">%d</xliff:g> kontrol</item>
+    </plurals>
+
+    <!-- One app's page -->
+    <string name="profile_enabled">Dokunmatik kontrolleri kullan</string>
+    <string name="profile_enabled_summary">Bu uygulama öndeyken</string>
+    <string name="profile_hints">Tuşları ekranda göster</string>
+    <string name="profile_hints_summary">Her tuşun dokunduğu yerde soluk etiketler</string>
+    <string name="profile_edit">Düzeni düzenle</string>
+    <string name="profile_edit_summary"><xliff:g id="app">%1$s</xliff:g> başlar, sonra düzenleyici üstünde açılır</string>
+    <string name="profile_edit_starting">Uygulama başlatılıyor. Düzenleyici birazdan açılacak.</string>
+    <string name="profile_cant_start">Bu uygulama buradan başlatılamıyor. Uygulamayı açın, sonra FN + L1\'e basın.</string>
+    <string name="profile_controls">Kontroller</string>
+    <string name="profile_delete">Dokunmatik kontrolleri sil</string>
+    <string name="profile_delete_message">Bu uygulamanın düzeni kaldırılır. Uygulama yeniden normal tuşları kullanır.</string>
+    <string name="profile_delete_confirm">Sil</string>
+
+    <!-- FN + L1 where there is nothing to edit -->
+    <string name="edit_needs_app">Önce bir oyun açın, sonra dokunmatik kontrollerini ayarlamak için FN + L1\'e basın.</string>
+
+    <!-- Editor -->
+    <string name="editor_title">Dokunmatik kontroller: <xliff:g id="app">%1$s</xliff:g></string>
+    <string name="editor_layer_normal">Normal tuşlar</string>
+    <string name="editor_layer_shift"><xliff:g id="button">%1$s</xliff:g> basılıyken</string>
+    <string name="editor_profile_off">Kapalı</string>
+    <string name="editor_saved"><xliff:g id="app">%1$s</xliff:g> için dokunmatik kontroller kaydedildi</string>
+    <string name="editor_save_failed">Kaydedilemedi. Tekrar deneyin.</string>
+    <string name="editor_deleted">Silindi</string>
+    <string name="editor_cancelled">İptal edildi</string>
+    <string name="editor_no_shift">Henüz Shift tuşu yok: Select, sonra Shift tuşu</string>
+    <string name="editor_is_shift"><xliff:g id="button">%1$s</xliff:g> Shift tuşu. Başka birine basın.</string>
+    <string name="editor_replaced"><xliff:g id="input">%1$s</xliff:g> önceden başka bir şey yapıyordu. O kontrol kaldırıldı.</string>
+    <string name="editor_replaced_dpad">Yön tuşları joystick\'i kaldırıldı: yön tuşları artık tek tek çalışıyor.</string>
+    <string name="editor_replaced_dpad_buttons">Tek tek yön tuşları kaldırıldı: yön tuşları artık bir joystick.</string>
+    <string name="editor_unsaved_title">Değişiklikler kaydedilsin mi?</string>
+    <string name="editor_unsaved_message">Düzen değiştirildi ama kaydedilmedi.</string>
+    <string name="editor_save">Kaydet</string>
+    <string name="editor_discard">Kaydetme</string>
+    <string name="editor_keep_editing">Düzenlemeye devam et</string>
+
+    <!-- Bottom strip of the editor: what each button does right now -->
+    <string name="hint_add">Buraya ekle</string>
+    <string name="hint_change">Değiştir</string>
+    <string name="hint_delete">Sil</string>
+    <string name="hint_size">Boyut</string>
+    <string name="hint_next">Sonraki</string>
+    <string name="hint_layer">Shift katmanı</string>
+    <string name="hint_options">Seçenekler</string>
+    <string name="hint_save">Kaydet</string>
+    <string name="hint_close">Kapat</string>
+    <string name="hint_move">Taşı</string>
+    <string name="hint_place">Yerleştir</string>
+    <string name="hint_cancel">İptal</string>
+    <string name="hint_hold_cancel">İptal için basılı tut</string>
+
+    <!-- Waiting for a button or stick; %1$s is a control type in lower case, e.g. "tap" -->
+    <string name="capture_button">Bu <xliff:g id="type">%1$s</xliff:g> için tuşa basın</string>
+    <string name="capture_button_cancel">Her tuş olur, B de. İptal için B\'yi basılı tutun.</string>
+    <string name="capture_stick">Bu <xliff:g id="type">%1$s</xliff:g> için analoğu oynatın</string>
+    <string name="capture_stick_detail">Sol analog, sağ analog veya yön tuşlarına basın</string>
+
+    <!-- Menus -->
+    <string name="editor_add_title">Buraya kontrol ekle</string>
+    <string name="editor_control_title">Bu kontrol</string>
+    <string name="editor_menu_move">Taşı</string>
+    <string name="editor_menu_button">Tuş: <xliff:g id="button">%1$s</xliff:g></string>
+    <string name="editor_menu_stick">Analog: <xliff:g id="stick">%1$s</xliff:g></string>
+    <string name="editor_menu_type">Tür: <xliff:g id="type">%1$s</xliff:g></string>
+    <string name="editor_menu_direction">Yön: <xliff:g id="direction">%1$s</xliff:g></string>
+    <string name="editor_menu_speed">Hız: %%<xliff:g id="percent">%1$d</xliff:g></string>
+    <string name="editor_menu_delete">Sil</string>
+    <string name="editor_type_title">Kontrol türü</string>
+    <string name="editor_direction_title">Kaydırma yönü</string>
+    <string name="editor_speed_title">Bakış hızı</string>
+    <string name="percent">%%<xliff:g id="percent">%1$d</xliff:g></string>
+
+    <string name="type_tap">Dokunma</string>
+    <string name="type_hold">Basılı tutma</string>
+    <string name="type_joystick">Joystick</string>
+    <string name="type_camera">Etrafa bakma</string>
+    <string name="type_swipe">Kaydırma</string>
+    <string name="type_tap_long">Dokunma: tuşa basılınca kısa bir dokunuş</string>
+    <string name="type_hold_long">Basılı tutma: tuş basılı olduğu sürece parmak ekranda kalır</string>
+    <string name="type_joystick_long">Joystick: bir analog veya yön tuşları, parmağı bu noktanın çevresinde sürükler</string>
+    <string name="type_camera_long">Etrafa bakma: bir analog bu alanda kaydırır; kamera ve nişan almak için</string>
+    <string name="type_swipe_long">Kaydırma: tuşa basılınca buradan hızlı bir kaydırma</string>
+
+    <string name="direction_up">Yukarı</string>
+    <string name="direction_down">Aşağı</string>
+    <string name="direction_left">Sol</string>
+    <string name="direction_right">Sağ</string>
+    <string name="direction_up_left">Yukarı ve sol</string>
+    <string name="direction_up_right">Yukarı ve sağ</string>
+    <string name="direction_down_left">Aşağı ve sol</string>
+    <string name="direction_down_right">Aşağı ve sağ</string>
+    <string name="direction_degrees"><xliff:g id="degrees">%1$d</xliff:g>°</string>
+
+    <string name="options_title">Seçenekler</string>
+    <string name="options_enabled_on">Bu uygulamada dokunmatik kontrol: açık</string>
+    <string name="options_enabled_off">Bu uygulamada dokunmatik kontrol: kapalı</string>
+    <string name="options_hints_on">Oynarken tuşları göster: açık</string>
+    <string name="options_hints_off">Oynarken tuşları göster: kapalı</string>
+    <string name="options_shift">Shift tuşu: <xliff:g id="button">%1$s</xliff:g></string>
+    <string name="options_deadzone">Analog ölü bölgesi: %%<xliff:g id="percent">%1$d</xliff:g></string>
+    <string name="options_help">Yardım</string>
+    <string name="options_clear">Tüm kontrolleri kaldır</string>
+    <string name="options_clear_message">Bu uygulamanın tüm kontrolleri kaldırılır. Start\'a basana kadar hiçbir şey kaydedilmez.</string>
+    <string name="options_clear_confirm">Kaldır</string>
+    <string name="shift_title">Shift tuşu</string>
+    <string name="shift_none">Yok</string>
+    <plurals name="shift_removed">
+        <item quantity="one">O tuşu kullanan <xliff:g id="n">%d</xliff:g> kontrol kaldırıldı</item>
+        <item quantity="other">O tuşu kullanan <xliff:g id="n">%d</xliff:g> kontrol kaldırıldı</item>
+    </plurals>
+    <string name="deadzone_title">Analog ölü bölgesi</string>
+
+    <string name="help_title">Düzenleyici yardımı</string>
+    <string name="help_text">Artı imlecini sol analog veya yön tuşlarıyla hareket ettirin.\n\nBoş bir noktada A, oraya bir kontrol ekler: türünü seçin, sonra tuşuna basın veya analoğunu oynatın. Bir kontrolün üzerinde A onu değiştirir: taşıyın, başka bir tuş verin veya silin.\n\nTürler:\n• Dokunma: kısa bir dokunuş\n• Basılı tutma: tuş basılı olduğu sürece dokunur\n• Joystick: bir analog veya yön tuşları, parmağı noktanın çevresinde sürükler; ekrandaki analoglar için\n• Etrafa bakma: bir analog bir alanda kaydırır; kamera ve nişan almak için\n• Kaydırma: tek yönde hızlı bir kaydırma\n\nL1 ve R1 ya da sağ analog, seçili kontrolü küçültür veya büyütür. L2 ve R2 kontroller arasında atlar. X siler.\n\nShift tuşu (Select, sonra Shift tuşu): bu tuş basılıyken ikinci bir kontrol seti geçerli olur. Y iki set arasında geçiş yapar.\n\nStart kaydeder ve kapatır. B kapatır. FN kaydetmeden çıkar.\n\nKontrolü olmayan tuşlar normal tuş olarak çalışmaya devam eder. FN ve tüm FN kısayolları her zaman çalışır.</string>
+</resources>

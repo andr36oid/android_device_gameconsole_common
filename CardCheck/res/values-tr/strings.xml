@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="check_title">SD kart kontrolü</string>
+    <string name="check_summary">Hızı test edin ve kartın sahte olup olmadığını öğrenin</string>
+
+    <string name="card_title">Kart veya sürücü</string>
+    <string name="no_card">Hazır bir SD kart veya USB sürücü yok. Bir tane takın ya da Depolama\'da görünene kadar bekleyin.</string>
+
+    <!-- details: %1$s name (EASYROMS), %2$s size of the whole card -->
+    <string name="details_title">%1$s, %2$s kart</string>
+    <string name="details_title_usb">%1$s, %2$s USB sürücü</string>
+    <!-- %1$s maker, %2$s product name, %3$s date made -->
+    <string name="details_card">%1$s %2$s, üretim: %3$s</string>
+    <string name="details_free">%1$s boş</string>
+    <string name="maker_unknown">Bilinmeyen üretici (Kimlik %1$s)</string>
+
+    <string name="speed_category">Hız</string>
+    <string name="speed_title">Hızı test et</string>
+    <string name="speed_summary">256 MB\'lık bir dosya yazar ve okur. Yaklaşık bir dakika sürer.</string>
+    <string name="speed_running_write">Yazılıyor…</string>
+    <string name="speed_running_read">Okunuyor…</string>
+    <!-- %1$s write speed, %2$s read speed, e.g. 18.2 MB/s -->
+    <string name="speed_result">Yazma %1$s, okuma %2$s</string>
+    <string name="speed_good">Her sistem için iyi.</string>
+    <string name="speed_ok">Oyunlar için yeterli. Büyük dosyaları kopyalamak ve kaydetmek yavaş olur.</string>
+    <string name="speed_slow">Yavaş: özellikle PSP, Dreamcast ve N64 oyunlarında uzun yükleme süreleri bekleyin.</string>
+    <string name="mb_per_s">%1$.1f MB/sn</string>
+
+    <string name="full_category">Gerçek boyut</string>
+    <string name="full_title">Gerçek boyutu kontrol et</string>
+    <string name="full_title_stop">Kontrolü durdur</string>
+    <!-- %1$s free space, %2$s how long -->
+    <string name="full_summary">Boş alanı (%1$s) test verisiyle doldurur, hepsini geri okur ve sonra siler. Olduğundan fazla alan gösteren sahte bir kart bu testi geçemez. Yaklaşık %2$s sürer.</string>
+    <string name="full_summary_unknown_time">Boş alanı (%1$s) test verisiyle doldurur, hepsini geri okur ve sonra siler. Olduğundan fazla alan gösteren sahte bir kart bu testi geçemez. Büyük bir kartta saatler sürer; daha iyi bir tahmin için önce hızı test edin.</string>
+    <string name="full_probe">Sahte kart belirtileri aranıyor…</string>
+    <!-- %1$s done, %2$s total, %3$s time left -->
+    <string name="full_writing">Test verisi yazılıyor: %1$s / %2$s, yaklaşık %3$s kaldı</string>
+    <string name="full_reading">Geri okunuyor: %1$s / %2$s, yaklaşık %3$s kaldı</string>
+    <string name="full_writing_start">Test verisi yazılıyor: %1$s / %2$s</string>
+    <string name="full_reading_start">Geri okunuyor: %1$s / %2$s</string>
+    <string name="full_stopping">Durduruluyor ve test verisi siliniyor…</string>
+
+    <string name="full_pass">Başarılı. %1$s test verisinin tamamı yazıldığı gibi geri okundu. Bu kart gerçek.</string>
+    <string name="full_bad_data">Başarısız. %1$s test verisi, yaklaşık %2$s sonrasından itibaren hatalı geri okundu. Kart sahte veya hasarlı ve gerçekte yalnızca yaklaşık %3$s tutuyor. Oyunlarınızı karttan kopyalayın ve başka bir kart kullanın.</string>
+    <string name="full_wraps">Başarısız. Bu kart sahte: yaklaşık %1$s sonra yazmaya kartın en başından yeniden başlıyor, yani gerçekte yalnızca o kadar tutuyor. Oyunlarınızı bu sınırın altında tutun ya da daha iyisi, başka bir kart kullanın.</string>
+    <string name="full_wraps_restored">Kontrol bunu yazarken yakaladı ve kartın başını geri yükledi.</string>
+    <string name="full_wraps_not_restored">Kontrol bunu yazarken yakaladı ama kartın başını geri yükleyemedi. Konsol artık bu karttan açılmayabilir: oyunlarınızı yedekleyin.</string>
+    <string name="full_write_error">Başarısız. Kart, %1$s test verisinden sonra hata bildirdi. Hasarlı veya sahte olabilir.</string>
+    <string name="full_stopped">Durduruldu. Test verisi silindi.</string>
+
+    <string name="error_prefix">Tamamlanmadı. %1$s</string>
+    <string name="error_no_space">Test için yeterli boş alan yok.</string>
+    <string name="error_not_mounted">Kart hazır değil.</string>
+    <string name="error_write">Kart bir yazma hatası bildirdi.</string>
+    <string name="error_read">Kart bir okuma hatası bildirdi.</string>
+    <string name="error_other">Kontrol yapılamadı.</string>
+
+    <string name="confirm_title">Gerçek boyut kontrol edilsin mi?</string>
+    <!-- %1$s card name, %2$s how long -->
+    <string name="confirm_text">Bu işlem %1$s üzerindeki tüm boş alanı yaklaşık %2$s boyunca doldurur, bu yüzden bitene kadar oyunlar oraya kayıt yapamaz. Şarj cihazını takın: konsol uyanık kalır. İstediğiniz zaman durdurabilirsiniz. Oyunlarınıza ve dosyalarınıza dokunulmaz.</string>
+    <string name="confirm_time_unknown">birkaç saat</string>
+    <string name="confirm_start">Başlat</string>
+
+    <string name="busy">Başka bir kontrol çalışıyor.</string>
+
+    <string name="about">Konsollar çoğu zaman sahte veya yıpranmış kartlarla satılır. Sahte bir kart olduğundan büyük görünür ve gerçek sınırını aşan oyunlar bozuk geri gelir. Kontrol yalnızca boş alana yazar.</string>
+
+    <string name="hours_minutes">%1$d sa %2$d dk</string>
+    <string name="minutes">%1$d dk</string>
+
+    <string name="channel_name">SD kart kontrolü</string>
+    <string name="done_title">SD kart kontrolü bitti</string>
+</resources>
