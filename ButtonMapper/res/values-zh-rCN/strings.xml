@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="button_mapping_title">按键映射（Beta）</string>
+    <string name="button_mapping_summary">更改掌机按键的功能</string>
+
+    <!-- The buttons of the console -->
+    <string name="button_dpad_up">方向键上</string>
+    <string name="button_dpad_down">方向键下</string>
+    <string name="button_dpad_left">方向键左</string>
+    <string name="button_dpad_right">方向键右</string>
+    <string name="button_a">A 键</string>
+    <string name="button_b">B 键</string>
+    <string name="button_x">X 键</string>
+    <string name="button_y">Y 键</string>
+    <string name="button_l1">L1 键</string>
+    <string name="button_r1">R1 键</string>
+    <string name="button_l2">L2 键</string>
+    <string name="button_r2">R2 键</string>
+    <string name="button_l3">按下左摇杆（L3）</string>
+    <string name="button_r3">按下右摇杆（R3）</string>
+    <string name="button_select">Select 键</string>
+    <string name="button_start">Start 键</string>
+    <string name="button_function">FN 键</string>
+    <string name="button_volume_down">音量减键</string>
+    <string name="button_volume_up">音量加键</string>
+    <string name="button_power">电源键</string>
+
+    <!-- What a button can do, grouped -->
+    <string name="section_game">游戏按键</string>
+    <string name="section_menu">菜单操作</string>
+    <string name="section_system">系统</string>
+    <string name="section_media">音乐和视频</string>
+    <string name="section_off">关闭</string>
+
+    <string name="action_button_a">A 键</string>
+    <string name="action_button_b">B 键</string>
+    <string name="action_button_x">X 键</string>
+    <string name="action_button_y">Y 键</string>
+    <string name="action_button_l1">L1 键</string>
+    <string name="action_button_r1">R1 键</string>
+    <string name="action_button_l2">L2 键</string>
+    <string name="action_button_r2">R2 键</string>
+    <string name="action_button_l3">按下左摇杆（L3）</string>
+    <string name="action_button_r3">按下右摇杆（R3）</string>
+    <string name="action_button_select">Select 键</string>
+    <string name="action_button_start">Start 键</string>
+    <string name="action_up">上</string>
+    <string name="action_down">下</string>
+    <string name="action_left">左</string>
+    <string name="action_right">右</string>
+    <string name="action_ok">确定</string>
+    <string name="action_back">返回</string>
+    <string name="action_home">主屏幕</string>
+    <string name="action_menu">应用菜单</string>
+    <string name="action_screenshot">截图</string>
+    <string name="action_power">电源（休眠和电源菜单）</string>
+    <string name="action_volume_up">音量加</string>
+    <string name="action_volume_down">音量减</string>
+    <string name="action_mute">静音</string>
+    <string name="action_brightness_up">亮度加</string>
+    <string name="action_brightness_down">亮度减</string>
+    <string name="action_play_pause">播放/暂停</string>
+    <string name="action_next">下一首</string>
+    <string name="action_previous">上一首</string>
+    <string name="action_nothing">无（停用按键）</string>
+
+    <!-- First choice in the list, puts the button back to what it did originally -->
+    <string name="action_original">原始功能：<xliff:g id="action">%1$s</xliff:g></string>
+    <string name="choose_title"><xliff:g id="button">%1$s</xliff:g>：要执行什么操作？</string>
+
+    <!-- Below the drawing, about the selected button -->
+    <string name="status_default">功能：<xliff:g id="action">%1$s</xliff:g></string>
+    <string name="status_changed">功能：<xliff:g id="action">%1$s</xliff:g>（原为 <xliff:g id="default_action">%2$s</xliff:g>）</string>
+    <string name="status_locked">功能：<xliff:g id="action">%1$s</xliff:g>。此按键无法更改。</string>
+
+    <!-- Shown on the screen of the drawn console -->
+    <string name="screen_hint">用方向键选择按键，或直接按下该按键。\n\n然后按 <xliff:g id="button">%1$s</xliff:g>进行更改。</string>
+    <string name="screen_hint_no_ok">按下一个按键即可选中。\n\n再按一次即可更改。</string>
+
+    <string name="rescue_tip">按键全乱了？同时按住两个音量键 5 秒即可重置。</string>
+
+    <string name="power_locked_title">电源键保持不变</string>
+    <string name="power_locked_message">只有它能唤醒掌机，所以它始终作为电源键使用。</string>
+
+    <!-- Things the console always needs a button for -->
+    <string name="function_up">上</string>
+    <string name="function_down">下</string>
+    <string name="function_left">左</string>
+    <string name="function_right">右</string>
+    <string name="function_select">确定</string>
+    <string name="function_back">返回</string>
+    <string name="function_home">主屏幕</string>
+    <string name="function_power">电源</string>
+
+    <string name="blocked_title">这样会导致无法操作</string>
+    <string name="blocked_message">这样就没有按键可用于：<xliff:g id="functions">%1$s</xliff:g>。\n\n请先把这个功能交给另一个按键。</string>
+
+    <string name="swap_title">与 <xliff:g id="other_button">%1$s</xliff:g>互换？</string>
+    <string name="swap_message"><xliff:g id="other_button">%1$s</xliff:g>目前执行此功能。要互换这两个按键，还是只更改 <xliff:g id="button">%2$s</xliff:g>？</string>
+    <string name="swap_needed_message"><xliff:g id="other_button">%1$s</xliff:g>目前执行此功能。只更改 <xliff:g id="button">%2$s</xliff:g>会导致没有按键可用于：<xliff:g id="functions">%3$s</xliff:g>。\n\n改为互换这两个按键？</string>
+    <string name="swap_confirm">互换</string>
+    <string name="swap_only_this">只改这个</string>
+
+    <string name="problem_title">缺少某些按键功能</string>
+    <string name="problem_message">以下功能没有设置按键：<xliff:g id="functions">%1$s</xliff:g>。\n\n要切换到“标准”按键来解决吗？</string>
+    <string name="problem_fix">使用标准</string>
+    <string name="problem_later">以后再说</string>
+
+    <!-- Profiles: button layouts to switch between -->
+    <string name="profile_standard">标准</string>
+    <string name="profile_default_name">配置 %d</string>
+    <string name="profile_button">配置：<xliff:g id="profile">%1$s</xliff:g></string>
+    <string name="profiles_title">按键配置</string>
+    <string name="profile_new">新建配置</string>
+    <string name="profiles_close">关闭</string>
+    <string name="profile_rename">重命名</string>
+    <string name="profile_rename_title">重命名配置</string>
+    <string name="profile_rename_save">保存</string>
+    <string name="profile_delete">删除</string>
+    <string name="profile_delete_title">要删除“<xliff:g id="profile">%1$s</xliff:g>”吗？</string>
+    <string name="profile_delete_message">其中的按键更改将被移除，并重新使用“标准”按键。</string>
+    <string name="profile_delete_message_inactive">其中的按键更改将被移除。当前使用的按键保持不变。</string>
+    <string name="profile_delete_choose">删除配置…</string>
+    <string name="profile_delete_choose_title">要删除哪个配置？</string>
+    <string name="profile_created">已新建配置“<xliff:g id="profile">%1$s</xliff:g>”。按键更改会保存在其中。</string>
+    <string name="profile_forked">“标准”按键保持不变，您的更改已保存到新配置“<xliff:g id="profile">%1$s</xliff:g>”中。</string>
+    <string name="profile_blocked_message">“<xliff:g id="profile">%1$s</xliff:g>”会导致没有按键可用于：<xliff:g id="functions">%2$s</xliff:g>。</string>
+
+    <!-- Quick Settings tile that switches to the next profile -->
+    <string name="tile_label">按键配置</string>
+
+    <!-- Shown after a change to the buttons used in menus -->
+    <string name="confirm_title">保留新的按键设置？</string>
+    <plurals name="confirm_message">
+        <item quantity="other">请用 <xliff:g id="button">%1$s</xliff:g>按“保留”。否则 <xliff:g id="seconds">%2$d</xliff:g> 秒后将全部恢复原样。</item>
+    </plurals>
+    <plurals name="confirm_message_generic">
+        <item quantity="other">请按“保留”。否则 <xliff:g id="seconds">%d</xliff:g> 秒后将全部恢复原样。</item>
+    </plurals>
+    <string name="confirm_keep">保留</string>
+    <string name="confirm_undo">撤消</string>
+
+</resources>

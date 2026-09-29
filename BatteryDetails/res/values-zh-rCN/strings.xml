@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="details_title">电池详情</string>
+    <string name="details_summary">电压、电流、充放电时间和 24 小时曲线图</string>
+
+    <!-- Header -->
+    <string name="percent"><xliff:g id="percent">%1$d</xliff:g>%%</string>
+    <string name="status_charging">正在充电</string>
+    <string name="status_full">已充满</string>
+    <string name="status_discharging">使用电池供电</string>
+    <string name="status_not_charging">已接通电源，未在充电</string>
+    <string name="time_to_full">大约 <xliff:g id="time">%1$s</xliff:g>后充满</string>
+    <string name="time_left">按当前耗电速度，大约还能用 <xliff:g id="time">%1$s</xliff:g></string>
+    <!-- Joins status and time, e.g. "Charging · about 1 h 10 min until full" -->
+    <string name="status_and_time"><xliff:g id="status">%1$s</xliff:g> · <xliff:g id="time">%2$s</xliff:g></string>
+
+    <string name="graph_title">过去 24 小时</string>
+    <string name="graph_empty">使用掌机的过程中曲线图会逐渐填满。掌机处于唤醒状态时，每 15 分钟记录一个点。</string>
+    <string name="graph_ago">24 小时前</string>
+    <string name="graph_now">现在</string>
+
+    <string name="now_title">当前</string>
+    <string name="voltage">电压</string>
+    <string name="current">电流</string>
+    <string name="power">功率</string>
+    <!-- The RK817 has no battery temperature sensor (the driver reports a fixed 18.8 °C), so this is the processor's -->
+    <string name="temperature">处理器温度</string>
+    <string name="charger">充电器</string>
+
+    <!-- Battery capacity setting -->
+    <string name="capacity_title">电池容量</string>
+    <string name="capacity_setting">容量</string>
+    <string name="capacity_hint">印在电池上。数值不对会导致电量百分比不准。</string>
+    <string name="capacity_reset">重置为 <xliff:g id="mah">%1$d</xliff:g> mAh</string>
+    <string name="capacity">电量计当前使用</string>
+
+    <string name="value_voltage"><xliff:g id="volts">%1$.2f</xliff:g> V</string>
+    <string name="value_current_in">流入 <xliff:g id="ma">%1$d</xliff:g> mA</string>
+    <string name="value_current_out">流出 <xliff:g id="ma">%1$d</xliff:g> mA</string>
+    <string name="value_power"><xliff:g id="watts">%1$.2f</xliff:g> W</string>
+    <string name="value_temperature"><xliff:g id="celsius">%1$.1f</xliff:g> °C</string>
+    <string name="value_capacity"><xliff:g id="mah">%1$d</xliff:g> mAh</string>
+    <string name="value_capacity_default"><xliff:g id="mah">%1$d</xliff:g> mAh（默认）</string>
+    <string name="charger_none">未接通电源</string>
+    <string name="charger_usb">USB</string>
+    <string name="charger_ac">充电头</string>
+    <string name="unknown">未知</string>
+
+    <string name="about">百分比是电量计估算出来的。电压则是直接测量的：约 4.2 V 为充满，3.7 V 左右为一半，接近 3.4 V 时掌机会关机。运行游戏时电压会下降，停下来后会回升。\n\n如果百分比和电压对不上，请一直充电到掌机显示“已充满”，这样电量计就能自行校正。\n\n时间是根据当前电流粗略估算的。</string>
+
+    <!-- Durations -->
+    <string name="duration_min"><xliff:g id="minutes">%1$d</xliff:g> 分钟</string>
+    <string name="duration_h_min"><xliff:g id="hours">%1$d</xliff:g> 小时 <xliff:g id="minutes">%2$d</xliff:g> 分钟</string>
+</resources>

@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="app_name">触控映射</string>
+    <string name="settings_summary">用按键玩触屏游戏，按应用分别设置</string>
+
+    <!-- Settings > Touch controls -->
+    <string name="settings_intro">有些游戏只能用触摸屏操作。您可以在这里为这类游戏设置专属布局：每个按键或摇杆会触摸屏幕上的一个位置。该游戏在前台运行时，布局会自动启用，其他应用仍使用普通按键。</string>
+    <string name="settings_apps">已设置触控映射的应用</string>
+    <string name="settings_add">添加应用</string>
+    <string name="settings_add_summary">选择一个游戏；游戏启动后，编辑器会在其上方打开</string>
+    <string name="settings_add_none">所有应用都已设置触控映射</string>
+    <string name="settings_how">使用方法</string>
+    <string name="settings_shortcut_title">游戏中编辑：FN + L1</string>
+    <string name="settings_shortcut_summary">在游戏中按住 FN 并按 L1，编辑器会在游戏上方打开。FN 仍和往常一样返回主屏幕。</string>
+    <string name="settings_help_summary">编辑器中各按键的功能</string>
+
+    <!-- Summary of an app in the list; %1$s is e.g. "5 controls" -->
+    <string name="profile_on">开启 · <xliff:g id="count">%1$s</xliff:g></string>
+    <string name="profile_off">关闭 · <xliff:g id="count">%1$s</xliff:g></string>
+    <string name="profile_empty">还没有控件</string>
+    <string name="profile_unreadable">无法读取，请编辑以重新开始</string>
+    <plurals name="control_count">
+        <item quantity="other"><xliff:g id="n">%d</xliff:g> 个控件</item>
+    </plurals>
+
+    <!-- One app's page -->
+    <string name="profile_enabled">使用触控映射</string>
+    <string name="profile_enabled_summary">此应用在前台运行时</string>
+    <string name="profile_hints">在屏幕上显示按键</string>
+    <string name="profile_hints_summary">在各按键触摸的位置显示淡色标签</string>
+    <string name="profile_edit">编辑布局</string>
+    <string name="profile_edit_summary">启动 <xliff:g id="app">%1$s</xliff:g>，然后在其上方打开编辑器</string>
+    <string name="profile_edit_starting">正在启动应用，编辑器马上就会打开。</string>
+    <string name="profile_cant_start">无法从这里启动此应用。请先打开它，然后按 FN + L1。</string>
+    <string name="profile_controls">控件</string>
+    <string name="profile_delete">删除触控映射</string>
+    <string name="profile_delete_message">此应用的布局将被移除，应用将重新使用普通按键。</string>
+    <string name="profile_delete_confirm">删除</string>
+
+    <!-- FN + L1 where there is nothing to edit -->
+    <string name="edit_needs_app">请先打开一个游戏，然后按 FN + L1 设置它的触控映射。</string>
+
+    <!-- Editor -->
+    <string name="editor_title">触控映射：<xliff:g id="app">%1$s</xliff:g></string>
+    <string name="editor_layer_normal">普通按键</string>
+    <string name="editor_layer_shift">按住 <xliff:g id="button">%1$s</xliff:g> 时</string>
+    <string name="editor_profile_off">已关闭</string>
+    <string name="editor_saved">已保存 <xliff:g id="app">%1$s</xliff:g> 的触控映射</string>
+    <string name="editor_save_failed">无法保存，请重试。</string>
+    <string name="editor_deleted">已删除</string>
+    <string name="editor_cancelled">已取消</string>
+    <string name="editor_no_shift">还没有 Shift 键：按 Select，再选“Shift 键”</string>
+    <string name="editor_is_shift"><xliff:g id="button">%1$s</xliff:g> 是 Shift 键，请按其他按键。</string>
+    <string name="editor_replaced"><xliff:g id="input">%1$s</xliff:g> 之前有其他功能，那个控件已被移除。</string>
+    <string name="editor_replaced_dpad">方向键摇杆已移除：方向键现在逐个按键单独生效。</string>
+    <string name="editor_replaced_dpad_buttons">单独的方向键控件已移除：方向键现在作为摇杆使用。</string>
+    <string name="editor_unsaved_title">保存更改？</string>
+    <string name="editor_unsaved_message">布局已更改，但尚未保存。</string>
+    <string name="editor_save">保存</string>
+    <string name="editor_discard">不保存</string>
+    <string name="editor_keep_editing">继续编辑</string>
+
+    <!-- Bottom strip of the editor: what each button does right now -->
+    <string name="hint_add">在此添加</string>
+    <string name="hint_change">更改</string>
+    <string name="hint_delete">删除</string>
+    <string name="hint_size">大小</string>
+    <string name="hint_next">下一个</string>
+    <string name="hint_layer">Shift 层</string>
+    <string name="hint_options">选项</string>
+    <string name="hint_save">保存</string>
+    <string name="hint_close">关闭</string>
+    <string name="hint_move">移动</string>
+    <string name="hint_place">放置</string>
+    <string name="hint_cancel">取消</string>
+    <string name="hint_hold_cancel">按住以取消</string>
+
+    <!-- Waiting for a button or stick; %1$s is a control type in lower case, e.g. "tap" -->
+    <string name="capture_button">请按下用于此“<xliff:g id="type">%1$s</xliff:g>”控件的按键</string>
+    <string name="capture_button_cancel">任何按键都可以，包括 B。按住 B 可取消。</string>
+    <string name="capture_stick">请推动用于此“<xliff:g id="type">%1$s</xliff:g>”控件的摇杆</string>
+    <string name="capture_stick_detail">左摇杆、右摇杆，或按方向键</string>
+
+    <!-- Menus -->
+    <string name="editor_add_title">在此添加控件</string>
+    <string name="editor_control_title">此控件</string>
+    <string name="editor_menu_move">移动</string>
+    <string name="editor_menu_button">按键：<xliff:g id="button">%1$s</xliff:g></string>
+    <string name="editor_menu_stick">摇杆：<xliff:g id="stick">%1$s</xliff:g></string>
+    <string name="editor_menu_type">类型：<xliff:g id="type">%1$s</xliff:g></string>
+    <string name="editor_menu_direction">方向：<xliff:g id="direction">%1$s</xliff:g></string>
+    <string name="editor_menu_speed">速度：<xliff:g id="percent">%1$d</xliff:g>%%</string>
+    <string name="editor_menu_delete">删除</string>
+    <string name="editor_type_title">控件类型</string>
+    <string name="editor_direction_title">滑动方向</string>
+    <string name="editor_speed_title">视角速度</string>
+    <string name="percent"><xliff:g id="percent">%1$d</xliff:g>%%</string>
+
+    <string name="type_tap">点按</string>
+    <string name="type_hold">按住</string>
+    <string name="type_joystick">摇杆</string>
+    <string name="type_camera">视角</string>
+    <string name="type_swipe">滑动</string>
+    <string name="type_tap_long">点按：按下按键时短按一下</string>
+    <string name="type_hold_long">按住：按住按键期间手指一直按在屏幕上</string>
+    <string name="type_joystick_long">摇杆：用摇杆或方向键让手指围绕此位置拖动</string>
+    <string name="type_camera_long">视角：用摇杆在此区域内滑动，用于转动视角和瞄准</string>
+    <string name="type_swipe_long">滑动：按下按键时从此处快速滑动</string>
+
+    <string name="direction_up">上</string>
+    <string name="direction_down">下</string>
+    <string name="direction_left">左</string>
+    <string name="direction_right">右</string>
+    <string name="direction_up_left">左上</string>
+    <string name="direction_up_right">右上</string>
+    <string name="direction_down_left">左下</string>
+    <string name="direction_down_right">右下</string>
+    <string name="direction_degrees"><xliff:g id="degrees">%1$d</xliff:g>°</string>
+
+    <string name="options_title">选项</string>
+    <string name="options_enabled_on">此应用的触控映射：开启</string>
+    <string name="options_enabled_off">此应用的触控映射：关闭</string>
+    <string name="options_hints_on">游戏时显示按键：开启</string>
+    <string name="options_hints_off">游戏时显示按键：关闭</string>
+    <string name="options_shift">Shift 键：<xliff:g id="button">%1$s</xliff:g></string>
+    <string name="options_deadzone">摇杆死区：<xliff:g id="percent">%1$d</xliff:g>%%</string>
+    <string name="options_help">帮助</string>
+    <string name="options_clear">移除所有控件</string>
+    <string name="options_clear_message">此应用的所有控件都将被移除。按 Start 之前不会保存任何内容。</string>
+    <string name="options_clear_confirm">移除</string>
+    <string name="shift_title">Shift 键</string>
+    <string name="shift_none">无</string>
+    <plurals name="shift_removed">
+        <item quantity="other">已移除 <xliff:g id="n">%d</xliff:g> 个使用该按键的控件</item>
+    </plurals>
+    <string name="deadzone_title">摇杆死区</string>
+
+    <string name="help_title">编辑器帮助</string>
+    <string name="help_text">用左摇杆或方向键移动十字准星。\n\n在空白位置按 A 可在此添加控件：先选择类型，再按下对应按键或推动对应摇杆。在控件上按 A 可更改它：移动、换一个按键或删除。\n\n类型：\n• 点按：短按一下\n• 按住：按住按键期间一直触摸\n• 摇杆：用摇杆或方向键让手指围绕该位置拖动，用于屏幕上的虚拟摇杆\n• 视角：用摇杆在一个区域内滑动，用于转动视角和瞄准\n• 滑动：朝一个方向快速滑动\n\nL1 和 R1 或右摇杆可缩小或放大所选控件。L2 和 R2 在控件之间跳转。X 删除。\n\nShift 键（按 Select，再选“Shift 键”）：按住它时，使用第二套控件。Y 在两套控件之间切换。\n\nStart 保存并关闭。B 关闭。FN 不保存直接退出。\n\n没有设置控件的按键仍作为普通按键使用。FN 及所有 FN 快捷键始终有效。</string>
+</resources>

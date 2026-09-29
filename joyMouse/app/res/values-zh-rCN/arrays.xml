@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string-array name="action_labels">
+        <item>普通按键</item>
+        <item>无</item>
+        <item>左键点击</item>
+        <item>右键点击</item>
+        <item>中键点击</item>
+        <item>返回</item>
+        <item>前进</item>
+        <item>显示指针时为左键点击，否则为普通按键</item>
+        <item>精确：按住时指针变慢</item>
+        <item>滚动：按住时指针摇杆用于滚动</item>
+    </string-array>
+
+    <string-array name="toggle_ms_labels">
+        <item>0.5 秒</item>
+        <item>0.75 秒</item>
+        <item>1 秒</item>
+        <item>1.5 秒</item>
+        <item>2 秒</item>
+        <item>3 秒</item>
+        <item>5 秒</item>
+        <item>10 秒</item>
+    </string-array>
+
+    <string-array name="speed_labels">
+        <item>25%</item>
+        <item>40%</item>
+        <item>60%</item>
+        <item>80%</item>
+        <item>100%（默认）</item>
+        <item>125%</item>
+        <item>150%</item>
+        <item>200%</item>
+        <item>250%</item>
+        <item>300%</item>
+    </string-array>
+
+    <string-array name="curve_labels">
+        <item>关闭（线性）</item>
+        <item>低</item>
+        <item>中（默认）</item>
+        <item>高</item>
+        <item>很高</item>
+    </string-array>
+
+    <string-array name="deadzone_labels">
+        <item>4%</item>
+        <item>6%</item>
+        <item>8%</item>
+        <item>10%（默认）</item>
+        <item>12%</item>
+        <item>15%</item>
+        <item>20%</item>
+        <item>25%</item>
+    </string-array>
+
+    <string-array name="precision_labels">
+        <item>15%</item>
+        <item>25%</item>
+        <item>35%（默认）</item>
+        <item>50%</item>
+        <item>70%</item>
+    </string-array>
+
+    <string-array name="scroll_speed_labels">
+        <item>25%</item>
+        <item>50%</item>
+        <item>75%</item>
+        <item>100%（默认）</item>
+        <item>150%</item>
+        <item>200%</item>
+        <item>300%</item>
+    </string-array>
+</resources>

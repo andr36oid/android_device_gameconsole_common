@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="credits_title">致谢</string>
+
+    <string name="credits_tagline">适用于 R36S 的 Android 11</string>
+
+    <string name="credits_team">团队</string>
+    <string name="credits_role_port">初始移植</string>
+    <string name="credits_role_ux">扩展功能与用户体验</string>
+    <string name="credits_role_clones">仿制机型支持</string>
+    <string name="credits_role_legend">审阅、反馈，绝对的传奇</string>
+    <string name="credits_role_beta">Beta 版反馈</string>
+    <string name="credits_on_youtube">YouTube 频道</string>
+
+    <string name="credits_based_on">基于以下人员的前期工作</string>
+    <string name="credits_351droid">适用于 RG351MP 的 Android</string>
+    <string name="credits_lineageos">自由开源的 Android ROM</string>
+    <string name="credits_android">由 Google 开发</string>
+</resources>

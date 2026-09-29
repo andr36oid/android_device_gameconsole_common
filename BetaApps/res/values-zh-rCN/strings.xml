@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="beta_title">Beta 版应用</string>
+    <string name="beta_summary">供测试者使用的额外应用，正式版中没有</string>
+
+    <!-- %1$s is the kind of build (beta, dirty, debug), %2$s the full version -->
+    <string name="beta_notice">您正在使用 <xliff:g id="kind">%1$s</xliff:g> 版本（<xliff:g id="version">%2$s</xliff:g>）。这些应用只在 beta 和 dirty 版本中提供，不属于正式版。</string>
+    <string name="beta_notice_more">选择您想试用的应用。之后随时可以从“设置 > Beta 版应用”回到这里。</string>
+    <string name="beta_kind_unknown">测试</string>
+    <string name="beta_version_unknown">未知版本</string>
+    <string name="beta_empty">此版本没有 Beta 版应用。</string>
+
+    <string name="beta_install">安装所选应用</string>
+    <!-- %d is the number of apps ticked -->
+    <string name="beta_install_count">安装所选应用（<xliff:g id="count">%d</xliff:g>）</string>
+    <string name="beta_not_now">以后再说</string>
+    <string name="beta_done">完成</string>
+
+    <!-- %s is the app version, e.g. 3.0.2 -->
+    <string name="beta_version">版本 <xliff:g id="version">%s</xliff:g></string>
+    <string name="state_not_installed">未安装</string>
+    <string name="state_installed">已安装</string>
+    <!-- %s is the installed version -->
+    <string name="state_update">已安装版本 <xliff:g id="version">%s</xliff:g>，这个更新</string>
+    <string name="state_newer_installed">已安装更新的版本</string>
+    <string name="state_waiting">正在等待…</string>
+    <!-- %d is a percentage -->
+    <string name="state_copying">正在复制… <xliff:g id="percent">%d</xliff:g>%%</string>
+    <string name="state_installing">正在安装…</string>
+    <string name="state_install_ok">已安装</string>
+    <!-- %s is the reason given by the package manager -->
+    <string name="state_install_failed">无法安装：<xliff:g id="reason">%s</xliff:g></string>
+    <string name="state_missing">此版本中缺少这个 APK</string>
+
+    <!-- %1$d apps installed, %2$d failed -->
+    <string name="result_summary">已安装 <xliff:g id="ok">%1$d</xliff:g> 个，失败 <xliff:g id="failed">%2$d</xliff:g> 个。</string>
+
+    <string name="key_dpad">方向键</string>
+    <string name="hint_choose">选择</string>
+    <string name="hint_tick">勾选/按下</string>
+    <string name="hint_not_now">以后再说</string>
+    <string name="hint_close">关闭</string>
+    <string name="hint_jump">列表/按钮</string>
+</resources>

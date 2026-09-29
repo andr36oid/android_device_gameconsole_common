@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="usb_mode_title">USB 模式（Beta）</string>
+    <string name="usb_mode_summary">将 OTG 接口用于外设或连接电脑</string>
+
+    <string name="usb_mode_switch">连接到电脑</string>
+    <string name="usb_mode_switch_on">OTG 接口作为电脑的外接设备</string>
+    <string name="usb_mode_switch_off">OTG 接口为手柄、U 盘和网络适配器等外设供电</string>
+
+    <string name="usb_mode_about">开启后可以通过 OTG 接口从电脑访问掌机：文件传输（MTP）或照片传输（PTP），在开发者选项中开启 USB 调试后还可使用 adb。\n\n开启期间，插在 OTG 接口上的外设无法使用。掌机每次启动时此功能都处于关闭状态，重启后接口会切换回外设模式。\n\n有些掌机的接口没有为此接线。如果使用可靠的数据线电脑仍然检测不到，说明这台掌机不支持。\n\n如果您的掌机内置 Wi-Fi（例如 R36XX），切勿开启此功能。这些掌机的 Wi-Fi 使用的正是这个 USB 接口。\n\n掌机通过另一个接口充电时，切勿使用此功能。请先拔下充电器。如果在开启期间插入充电器，接口会立即切换回外设模式。</string>
+
+    <!-- Asked before the port becomes a device for a computer -->
+    <string name="warning_title">连接到电脑？</string>
+    <string name="warning_wifi">如果您的掌机内置 Wi-Fi（例如 R36XX），请不要开启此功能。这些掌机的 Wi-Fi 使用的正是这个 USB 接口。开启后 Wi-Fi 会停止工作，可能要重启才能恢复，还可能出现其他问题。\n\n大多数 R36S 掌机没有内置 Wi-Fi，在这些掌机上开启是安全的。</string>
+    <string name="warning_wifi_found">当前在这个 USB 接口上检测到了 Wi-Fi（%1$s）。如果它是掌机内置的，请选择“取消”。</string>
+    <string name="warning_confirm">连接</string>
+
+    <!-- Charging and device mode never go together -->
+    <string name="charging_warning">掌机通过另一个接口充电时，切勿使用此功能。请先拔下充电器。</string>
+    <string name="charging_refused">掌机正在充电。掌机通过另一个接口充电时，切勿使用此功能。请先拔下充电器。</string>
+    <string name="charging_toast">切勿这样做！不要在充电的同时使用 USB 客户端模式。</string>
+    <string name="channel_on">已连接到电脑</string>
+    <string name="channel_alert">USB 模式已关闭</string>
+    <string name="notification_on_title">USB 接口：已连接到电脑</string>
+    <string name="notification_alert_title">USB 模式已关闭</string>
+    <string name="notification_alert_text">插入了充电器，因此 OTG 接口已切换回外设模式。不要在充电的同时使用 USB 客户端模式。</string>
+
+    <string name="usb_mode_functions">USB 的用途</string>
+
+    <string name="usb_mode_unsupported">此掌机无法切换 USB 接口。</string>
+    <string name="usb_mode_failed">无法切换 USB 接口</string>
+
+    <!-- Quick Settings tile -->
+    <string name="tile_label">USB 模式（Beta）</string>
+    <string name="tile_host">外设</string>
+    <string name="tile_device">电脑</string>
+</resources>

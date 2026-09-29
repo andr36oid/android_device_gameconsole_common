@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="report_title">问题报告</string>
+    <string name="report_summary">将日志保存到 SD 卡，以便随错误报告一起发送</string>
+
+    <string name="intro">出问题了？请保存一份报告，并在向我们反馈问题时附上。报告包含当前和上次启动时的系统日志、崩溃报告以及这台掌机的说明信息。大约需要 1 分钟。</string>
+
+    <string name="note_title">出了什么问题？</string>
+    <string name="note_hint">可选。您当时在做什么，发生了什么？</string>
+    <string name="note_dialog">描述一下问题。这段描述会写入报告。</string>
+
+    <string name="save_title">保存报告</string>
+    <string name="save_summary">保存到 EASYROMS 上的 andr36oid-reports 文件夹</string>
+    <string name="save_running">正在保存%1$s（第 %2$d 步，共 %3$d 步）…</string>
+    <string name="save_done">已保存：%1$s</string>
+    <string name="save_done_toast">报告已保存到 %1$s</string>
+    <string name="save_failed">未保存。%1$s</string>
+    <string name="error_no_storage">没有 EASYROMS 分区，也没有内部 Download 文件夹可用于保存。</string>
+    <string name="error_cant_write">无法写入文件。存储卡是否已满？</string>
+    <string name="error_stopped">报告在完成前停止了。</string>
+    <string name="error_start">无法开始生成报告。</string>
+
+    <string name="step_system">系统信息</string>
+    <string name="step_logcat">Android 日志</string>
+    <string name="step_kernel">内核日志</string>
+    <string name="step_crashes">崩溃报告</string>
+    <string name="step_power">电池和休眠信息</string>
+    <string name="step_devices">设备和连接</string>
+    <string name="step_apps">应用列表</string>
+    <string name="step_saving">文件</string>
+
+    <string name="last_start_title">上次启动的日志</string>
+    <string name="last_start_crash">上次启动以系统崩溃结束。其日志已保留，并会写入报告。</string>
+    <string name="last_start_kept">已保留，会写入报告。</string>
+    <string name="last_start_none">无。只有掌机重启时才会保留这些日志，关机或电池耗尽时不会保留。</string>
+
+    <string name="privacy">报告会列出您的应用，并可能包含 Wi-Fi 网络和蓝牙设备的名称。报告不包含您的游戏或文件。公开发布前请先检查一下。</string>
+
+    <string name="channel_name">问题报告</string>
+    <string name="crash_title">掌机因出错而重启了</string>
+    <string name="crash_text">请趁日志还在，立即保存问题报告，并附上发生情况的描述一起发送。</string>
+    <string name="crash_action">保存报告</string>
+</resources>
