@@ -133,3 +133,42 @@ Nothing needs uploading with a release. The APKs are unmodified upstream release
 their NOTICE files point at the upstream repository at the release tag; the cores'
 NOTICE lists the repository and commit each one is built from. The NOTICE files show
 up in Settings > About > Legal information.
+
+## RetroArch menu languages
+
+RetroArch's menu (RGUI) needs font files for some languages. Without them it
+shows English and says "Missing fonts for selected language". The F-Droid APK
+doesn't have them, and the online updater needs Wi-Fi. So the ROM ships the 7
+RGUI font files from libretro retroarch-assets (`seed/retroarch/rgui-font/`,
+247 KB, licences in its `NOTICE`, shown in Settings > About > Legal
+information). The `gameconsole-emu` service copies them into RetroArch's own
+assets folder, `/data/user/0/com.retroarch/assets/rgui/font`, on every boot
+(tracked like the cores: a file the user replaced is kept).
+
+| System language | Before | After | Font files it loads |
+|---|---|---|---|
+| English, Español, Português (BR), Deutsch, Français | own language | same | none (built in) |
+| Bahasa Indonesia | English (Android says `in`, RetroArch knows only `id`) | Indonesian where RetroArch has it (about a quarter), English for the rest | none |
+| Русский | English | Russian | `bitmap10x10_eng.bin`, `bitmap10x10_rus.bin` |
+| 中文 (简体) | English | Chinese | `bitmap10x10_eng/chn/jpn/kor.bin` (RetroArch wants all four) |
+| Polski, Türkçe | English | Polish, Turkish | `bitmap6x10_eng.bin`, `bitmap6x10_lse.bin` |
+
+Two settings in retroarch.cfg go with it, set by the service, not by the seeded file:
+
+- `assets_directory = "/data/user/0/com.retroarch/assets"`, only while it is unset or
+  `default`. Started from Daijishou, RetroArch gets no folders and would not find the
+  fonts. This is the folder it uses itself when opened from its icon. A folder the user
+  picked is kept.
+- `user_language`, once per RetroArch install, only for the languages in the table that
+  need it (ru, zh, pl, tr, in), and only while it is unset or English (`0`). RetroArch
+  takes the system language on its first start by itself, but saves English for good
+  when the fonts were missing, and never picks Indonesian. The seeded file can't do it:
+  it is written on the first boot, before the setup wizard asks for the language.
+  English picked in RetroArch's menu after that stays.
+
+Material UI, Ozone and XMB (not used here) take TrueType fonts instead: Ozone and XMB
+need assets from the online updater anyway, and Material UI's own `glui/font.ttf`
+(M+ 1p, in the APK) already covers Cyrillic, Polish and Turkish. Only Material UI and
+Ozone in Chinese would need `pkg/chinese-fallback-font.ttf`; Android's Noto CJK can't
+stand in, because RetroArch's font renderer on Android (stb_truetype 1.06) can't read
+its CFF outlines.
