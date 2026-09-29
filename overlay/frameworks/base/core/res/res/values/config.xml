@@ -145,6 +145,12 @@
     <!-- When true use the linux /dev/input/event subsystem to detect the switch changes on the headphone/microphone jack. When false use the older uevent framework. -->
     <bool name="config_useDevInputEventForAudioJack">true</bool>
 
+    <!-- Headphone volume warning level, in media volume steps. Media has 30
+         steps (ro.config.media_vol_steps), not the default 15, so the stock
+         value 10 would warn at a third of the range. 25 of 30 is the same
+         share as 10 of 12 was before. -->
+    <integer name="config_safe_media_volume_index">25</integer>
+
     <!-- gestures -->
     <bool name="config_volumeHushGestureEnabled">false</bool>
 

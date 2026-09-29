@@ -654,7 +654,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 	debug.sf.enable_gl_backpressure=1 \
 	vendor.hwc.compose_policy=6 \
 	vendor.hwc.device.primary=DSI \
-	ro.config.media_vol_steps=12 \
+	ro.config.media_vol_steps=30 \
 	vendor.gralloc.no_afbc_for_fb_target_layer = 1 \
 
 # librkskia
