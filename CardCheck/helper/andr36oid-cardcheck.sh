@@ -344,7 +344,10 @@ speed)
 	R1=$(now)
 	status state=running phase=random "w0=$W0" "w1=$W1" "r0=$R0" "r1=$R1"
 	# rr_ops= rr_s= rw_ops= rw_s= direct=, or rand_error=; nothing if it's missing
-	RAND=$("$CARDSPEED" "$SD/speed.bin" "$RAND_SECONDS" 2>/dev/null | grep -E '^[a-z_]+=[0-9a-z.]+$')
+	# the tool checks its time only between reads and writes; a hung card must not keep
+	# it (and the wake lock) forever
+	RAND=$(timeout -k 5 $((RAND_SECONDS * 2 + 30)) "$CARDSPEED" "$SD/speed.bin" "$RAND_SECONDS" \
+		2>/dev/null | grep -E '^[a-z_]+=[0-9a-z.]+$')
 	BUS=$(bus_mode)
 	cleanup_speed
 	log "speed test on $UUID: $SPEED_MB MB, write $W0..$W1, read $R0..$R1," \
