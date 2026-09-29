@@ -98,6 +98,9 @@
     <string name="internet_title">Going online</string>
     <string name="internet_wifi">Most R36S consoles have no Wi-Fi built in, but some models, such as the R36XX, do. If yours has it, just turn on Wi-Fi in Settings &gt; Network &amp; internet. If not, plug a USB Wi-Fi adapter into the OTG port, with a USB-C adapter if it needs one, then turn on Wi-Fi there.</string>
     <string name="internet_browser">Cromite is the web browser.</string>
+    <string name="internet_file_q">Set up Wi-Fi from your PC</string>
+    <string name="internet_file_a">Typing a Wi-Fi password with the D-pad is slow. Put the SD card in a computer, open the BOOT drive and open andr36oid-setup.txt with Notepad. Write your network name after wifi_ssid = and the password after wifi_password =, then save. Language, time zone and the 24-hour clock can go in there too. Best done before the very first start, then the setup is already in your language.</string>
+    <string name="internet_file_after">At the next start the console adds the network and tells you what it did. The file is then called andr36oid-setup.applied.txt, with the password taken out. Later you can also put a new andr36oid-setup.txt on EASYROMS or a USB stick, for example for another network.</string>
 
     <!-- Troubleshooting -->
     <string name="trouble_title">Troubleshooting</string>

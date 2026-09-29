@@ -179,6 +179,11 @@ final class Chapters {
         c = chapter(R.string.internet_title, chapters);
         para(c, R.string.internet_wifi);
         para(c, R.string.internet_browser);
+        if (hasPackage("org.andr36oid.cardsetup")) {
+            heading(c, R.string.internet_file_q);
+            para(c, R.string.internet_file_a);
+            para(c, R.string.internet_file_after);
+        }
 
         // Help: problems and how to get out of them. Written for someone who may only have a
         // PC and the SD card at hand, so every fix says where on the card to look.
