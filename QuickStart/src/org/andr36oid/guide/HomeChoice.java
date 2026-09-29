@@ -244,11 +244,20 @@ final class HomeChoice {
 
     /** Gives the home role to a package; {@code then} gets whether that worked. */
     static void makeHome(Context context, String packageName, Consumer<Boolean> then) {
+        final Context app = context.getApplicationContext();
         try {
             Log.i(TAG, "Giving the home role to " + packageName);
             context.getSystemService(RoleManager.class).addRoleHolderAsUser(
                     RoleManager.ROLE_HOME, packageName, 0, Process.myUserHandle(),
-                    context.getMainExecutor(), then);
+                    context.getMainExecutor(), ok -> {
+                        if (ok && homeOf(packageName) != null) {
+                            // gameconsole-emu's repair gives the role to this setting at the
+                            // next boot: keep it on what the user picked last, not the wizard
+                            Settings.Global.putString(app.getContentResolver(), SETTING_HOME,
+                                    packageName);
+                        }
+                        then.accept(ok);
+                    });
         } catch (RuntimeException e) {
             Log.w(TAG, "Couldn't give the home role to " + packageName, e);
             then.accept(false);
