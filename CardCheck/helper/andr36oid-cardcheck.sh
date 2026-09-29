@@ -371,6 +371,10 @@ resume)
 		cleanup_files
 		finish state=failed error=no_progress
 	fi
+	# a checksum line cut short by a power loss would get the next one appended onto it
+	# and then read as bad data: keep only whole lines
+	grep -E '^d[0-9]{3}/f[0-9]{3}\.bin [0-9a-f]{32}$' "$SUMS" >"$SUMS.tmp"
+	mv -f "$SUMS.tmp" "$SUMS"
 	done_mb=$(($(wc -l <"$SUMS") * FILE_MB))
 	status state=running phase=probe
 	# the start changed while the check was paused: the last file before a power cut

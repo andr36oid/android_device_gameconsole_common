@@ -202,6 +202,13 @@ sed -i 's/^state=.*/state=running/' "$DIR/status"
 run "$SH" resume
 ok "resume after a power cut" "$(key "$RES" result)/$(key "$RES" total_mb)" pass/128
 
+# ---- power cut while a checksum line was written: half a line at the end ----
+new_card
+run bash full SYNC_AT=3 SYNC_DO=pause
+printf 'd000/f002.bin 0123' >>"$DIR/sums-ABCD-1234"
+run "$SH" resume
+ok "resume after a cut checksum line" "$(key "$RES" result)/$(key "$RES" total_mb)" pass/128
+
 # ---- the card's start changed while paused: the last file wrapped ----
 new_card
 run bash full SYNC_AT=3 SYNC_DO=pause
