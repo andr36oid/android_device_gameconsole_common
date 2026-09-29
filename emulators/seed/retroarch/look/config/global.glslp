@@ -1,0 +1,7 @@
+# The picture for every core, see emulators/README.md. Sharp bilinear: each
+# game pixel is blown up by the largest whole number that fits, and only the
+# rest is smoothed. So pixels look even at uneven scales like 2.67x (GBA) or
+# 2.14x (SNES at 480 lines), with next to no blur.
+shaders = "1"
+shader0 = "../shaders/sharp-bilinear-simple.glsl"
+filter_linear0 = "true"
