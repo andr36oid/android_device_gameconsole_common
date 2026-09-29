@@ -27,25 +27,10 @@ public class FinishedReceiver extends BroadcastReceiver {
         if (!Checker.FULL.equals(s.get("action"))) return;
         final NotificationManager nm = context.getSystemService(NotificationManager.class);
         nm.cancel(PAUSED_ID);
-        final PendingIntent open = PendingIntent.getActivity(context, 0,
-                new Intent(context, CardActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK),
-                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+        final PendingIntent open = openPage(context);
 
         if ("paused".equals(s.get("state"))) {
-            final String text = context.getString(R.string.paused_text,
-                    Texts.size(context, Checker.number(s, "written_mb")));
-            nm.createNotificationChannel(new NotificationChannel(PAUSED_CHANNEL,
-                    context.getString(R.string.paused_channel),
-                    NotificationManager.IMPORTANCE_LOW));
-            nm.notify(PAUSED_ID, new Notification.Builder(context, PAUSED_CHANNEL)
-                    .setSmallIcon(R.drawable.ic_card_check)
-                    .setContentTitle(context.getString(R.string.paused_title))
-                    .setContentText(text)
-                    .setStyle(new Notification.BigTextStyle().bigText(text))
-                    .setContentIntent(open)
-                    .setOngoing(true)
-                    .setCategory(Notification.CATEGORY_STATUS)
-                    .build());
+            showPaused(context, Checker.number(s, "written_mb"));
             return;
         }
         // stopped from the page: nothing to tell
@@ -62,6 +47,31 @@ public class FinishedReceiver extends BroadcastReceiver {
                 .setStyle(new Notification.BigTextStyle().bigText(text))
                 .setContentIntent(open)
                 .setAutoCancel(true)
+                .setCategory(Notification.CATEGORY_STATUS)
+                .build());
+    }
+
+    private static PendingIntent openPage(Context context) {
+        return PendingIntent.getActivity(context, 0,
+                new Intent(context, CardActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK),
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+    }
+
+    /** The lasting "check paused" reminder; also posted again after a restart. */
+    static void showPaused(Context context, long writtenMb) {
+        final NotificationManager nm = context.getSystemService(NotificationManager.class);
+        final String text = context.getString(R.string.paused_text,
+                Texts.size(context, writtenMb));
+        nm.createNotificationChannel(new NotificationChannel(PAUSED_CHANNEL,
+                context.getString(R.string.paused_channel),
+                NotificationManager.IMPORTANCE_LOW));
+        nm.notify(PAUSED_ID, new Notification.Builder(context, PAUSED_CHANNEL)
+                .setSmallIcon(R.drawable.ic_card_check)
+                .setContentTitle(context.getString(R.string.paused_title))
+                .setContentText(text)
+                .setStyle(new Notification.BigTextStyle().bigText(text))
+                .setContentIntent(openPage(context))
+                .setOngoing(true)
                 .setCategory(Notification.CATEGORY_STATUS)
                 .build());
     }

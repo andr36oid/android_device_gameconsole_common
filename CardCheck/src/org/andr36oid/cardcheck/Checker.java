@@ -82,6 +82,22 @@ final class Checker {
         return read(new File(DIR, "progress-" + card.uuid));
     }
 
+    /**
+     * The test data a paused (or cut off) size check left on any card, in MB; -1 if none.
+     * Read at start-up, when no check runs.
+     */
+    static long pausedAnywhereMb() {
+        final File[] files = DIR.listFiles((dir, name) -> name.startsWith("progress-"));
+        if (files == null) return -1;
+        long mb = -1;
+        for (File f : files) {
+            final Map<String, String> p = read(f);
+            if (p.isEmpty()) continue;
+            mb = Math.max(mb, Math.max(0, number(p, "written_mb")));
+        }
+        return mb;
+    }
+
     /** A real size check on this card is paused: its test data is on the card. */
     static boolean paused(Card card) {
         if (progress(card).isEmpty()) return false;
