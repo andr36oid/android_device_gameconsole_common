@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="app_name">Conforto nos jogos</string>
+
+    <!-- Low battery warning, Settings > Battery -->
+    <string name="warning_title">Aviso de bateria fraca</string>
+    <string name="warning_summary">Avisa por cima dos jogos para dar tempo de salvar</string>
+    <string name="warning_when">Avisar em</string>
+    <string-array name="warning_entries">
+        <item>Desativado</item>
+        <item>15 % e 5 %</item>
+        <item>Só 5 %</item>
+    </string-array>
+    <string name="warning_preview">Mostrar um aviso de teste</string>
+    <string name="warning_about">A notificação de bateria fraca do próprio Android passa despercebida fácil durante um jogo em tela cheia. Por isso, isto mostra uma faixa curta no topo da tela, uma vez para cada nível, enquanto o console está na bateria. Ela não tira os botões do jogo.\n\nO console se desliga sozinho quando a bateria acaba, e o que não foi salvo é perdido.</string>
+
+    <!-- The banner on top of the game -->
+    <string name="banner_text">Bateria em <xliff:g id="percent">%1$d</xliff:g> %% – salve o jogo agora</string>
+
+    <!-- Game mode, Settings home page and Quick Settings tile -->
+    <string name="game_mode_title">Modo de jogo</string>
+    <string name="game_mode_summary">Não perturbe e nenhuma notificação pop-up enquanto você joga</string>
+    <string name="game_mode_now">Modo de jogo</string>
+    <string name="game_mode_now_summary">Ativa o Não perturbe (somente prioridade) e impede que notificações apareçam por cima do jogo</string>
+    <string name="game_mode_automatic">Ativar automaticamente</string>
+    <string name="game_mode_automatic_summary">Ativado enquanto um jogo ou emulador está aberto, desativado quando você sai</string>
+    <string name="game_mode_profile">Perfil de desempenho ao jogar</string>
+    <string-array name="game_mode_profile_entries">
+        <item>Não mudar</item>
+        <item>Desempenho</item>
+        <item>Equilibrado</item>
+        <item>Economia de bateria</item>
+    </string-array>
+    <string name="game_mode_about">Quando o modo de jogo termina, o Não perturbe e as notificações pop-up voltam ao que eram. Se você mudar o Não perturbe nesse meio-tempo, sua mudança é mantida.\n\nUm app conta como jogo se ele disser que é um, ou se for um dos emuladores comuns, como RetroArch ou PPSSPP.\n\nO perfil de desempenho que você usava também volta, a menos que você tenha escolhido outro enquanto jogava.\n\nO que o Não perturbe deixa passar é definido em Configurações &gt; Som &gt; Não perturbe.</string>
+    <string name="tile_on">Ativado</string>
+    <string name="tile_off">Desativado</string>
+    <string name="tile_automatic">Automático</string>
+</resources>

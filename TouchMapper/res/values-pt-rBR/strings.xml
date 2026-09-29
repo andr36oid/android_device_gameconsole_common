@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="app_name">Controles de toque</string>
+    <string name="settings_summary">Jogue jogos de tela touch com os botões, por app</string>
+
+    <!-- Settings > Touch controls -->
+    <string name="settings_intro">Alguns jogos só funcionam com tela touch. Aqui você pode dar a um jogo assim um layout próprio: cada botão ou analógico toca um ponto da tela. O layout liga sozinho enquanto esse jogo está em primeiro plano, e todos os outros apps continuam com os botões normais.</string>
+    <string name="settings_apps">Apps com controles de toque</string>
+    <string name="settings_add">Adicionar um app</string>
+    <string name="settings_add_summary">Escolha um jogo; ele abre e o editor aparece por cima</string>
+    <string name="settings_add_none">Todos os apps já têm controles de toque</string>
+    <string name="settings_how">Como funciona</string>
+    <string name="settings_shortcut_title">Editar durante o jogo: FN + L1</string>
+    <string name="settings_shortcut_summary">No jogo, segure FN e aperte L1. O editor abre por cima do jogo. FN volta para a tela inicial como sempre.</string>
+    <string name="settings_help_summary">O que cada botão faz no editor</string>
+
+    <!-- Summary of an app in the list; %1$s is e.g. "5 controls" -->
+    <string name="profile_on">Ativado · <xliff:g id="count">%1$s</xliff:g></string>
+    <string name="profile_off">Desativado · <xliff:g id="count">%1$s</xliff:g></string>
+    <string name="profile_empty">Nenhum controle ainda</string>
+    <string name="profile_unreadable">Não pode ser lido, edite para começar de novo</string>
+    <plurals name="control_count">
+        <item quantity="one"><xliff:g id="n">%d</xliff:g> controle</item>
+        <item quantity="other"><xliff:g id="n">%d</xliff:g> controles</item>
+    </plurals>
+
+    <!-- One app's page -->
+    <string name="profile_enabled">Usar controles de toque</string>
+    <string name="profile_enabled_summary">Com este app em primeiro plano</string>
+    <string name="profile_hints">Mostrar os botões na tela</string>
+    <string name="profile_hints_summary">Rótulos discretos onde cada botão toca</string>
+    <string name="profile_edit">Editar o layout</string>
+    <string name="profile_edit_summary">Abre <xliff:g id="app">%1$s</xliff:g> e depois o editor aparece por cima</string>
+    <string name="profile_edit_starting">Abrindo o app. O editor aparece em um instante.</string>
+    <string name="profile_cant_start">Este app não pode ser aberto daqui. Abra-o e depois aperte FN + L1.</string>
+    <string name="profile_controls">Controles</string>
+    <string name="profile_delete">Excluir controles de toque</string>
+    <string name="profile_delete_message">O layout deste app é removido. O app volta a usar os botões normais.</string>
+    <string name="profile_delete_confirm">Excluir</string>
+
+    <!-- FN + L1 where there is nothing to edit -->
+    <string name="edit_needs_app">Abra um jogo primeiro e depois aperte FN + L1 para configurar os controles de toque dele.</string>
+
+    <!-- Editor -->
+    <string name="editor_title">Controles de toque: <xliff:g id="app">%1$s</xliff:g></string>
+    <string name="editor_layer_normal">Botões normais</string>
+    <string name="editor_layer_shift">Com <xliff:g id="button">%1$s</xliff:g> pressionado</string>
+    <string name="editor_profile_off">Desativado</string>
+    <string name="editor_saved">Controles de toque de <xliff:g id="app">%1$s</xliff:g> salvos</string>
+    <string name="editor_save_failed">Não foi possível salvar. Tente de novo.</string>
+    <string name="editor_deleted">Excluído</string>
+    <string name="editor_cancelled">Cancelado</string>
+    <string name="editor_no_shift">Sem botão Shift ainda: Select e depois Botão Shift</string>
+    <string name="editor_is_shift"><xliff:g id="button">%1$s</xliff:g> é o botão Shift. Aperte outro.</string>
+    <string name="editor_replaced"><xliff:g id="input">%1$s</xliff:g> fazia outra coisa antes. Aquele controle foi removido.</string>
+    <string name="editor_replaced_dpad">O joystick do direcional foi removido: agora os botões do direcional funcionam um por um.</string>
+    <string name="editor_replaced_dpad_buttons">Os botões individuais do direcional foram removidos: agora o direcional é um joystick.</string>
+    <string name="editor_unsaved_title">Salvar as mudanças?</string>
+    <string name="editor_unsaved_message">O layout foi alterado, mas não foi salvo.</string>
+    <string name="editor_save">Salvar</string>
+    <string name="editor_discard">Não salvar</string>
+    <string name="editor_keep_editing">Continuar editando</string>
+
+    <!-- Bottom strip of the editor: what each button does right now -->
+    <string name="hint_add">Adicionar</string>
+    <string name="hint_change">Alterar</string>
+    <string name="hint_delete">Excluir</string>
+    <string name="hint_size">Tamanho</string>
+    <string name="hint_next">Próximo</string>
+    <string name="hint_layer">Camada Shift</string>
+    <string name="hint_options">Opções</string>
+    <string name="hint_save">Salvar</string>
+    <string name="hint_close">Fechar</string>
+    <string name="hint_move">Mover</string>
+    <string name="hint_place">Colocar</string>
+    <string name="hint_cancel">Cancelar</string>
+    <string name="hint_hold_cancel">Segure p/ cancelar</string>
+
+    <!-- Waiting for a button or stick; %1$s is a control type in lower case, e.g. "tap" -->
+    <string name="capture_button">Aperte o botão deste controle (<xliff:g id="type">%1$s</xliff:g>)</string>
+    <string name="capture_button_cancel">Qualquer botão serve, até o B. Segure B para cancelar.</string>
+    <string name="capture_stick">Mova o analógico deste controle (<xliff:g id="type">%1$s</xliff:g>)</string>
+    <string name="capture_stick_detail">Analógico esquerdo, analógico direito ou aperte o direcional</string>
+
+    <!-- Menus -->
+    <string name="editor_add_title">Adicionar controle aqui</string>
+    <string name="editor_control_title">Este controle</string>
+    <string name="editor_menu_move">Mover</string>
+    <string name="editor_menu_button">Botão: <xliff:g id="button">%1$s</xliff:g></string>
+    <string name="editor_menu_stick">Analógico: <xliff:g id="stick">%1$s</xliff:g></string>
+    <string name="editor_menu_type">Tipo: <xliff:g id="type">%1$s</xliff:g></string>
+    <string name="editor_menu_direction">Direção: <xliff:g id="direction">%1$s</xliff:g></string>
+    <string name="editor_menu_speed">Velocidade: <xliff:g id="percent">%1$d</xliff:g>%%</string>
+    <string name="editor_menu_delete">Excluir</string>
+    <string name="editor_type_title">Tipo de controle</string>
+    <string name="editor_direction_title">Direção do deslize</string>
+    <string name="editor_speed_title">Velocidade da câmera</string>
+    <string name="percent"><xliff:g id="percent">%1$d</xliff:g>%%</string>
+
+    <string name="type_tap">Toque</string>
+    <string name="type_hold">Segurar</string>
+    <string name="type_joystick">Joystick</string>
+    <string name="type_camera">Olhar em volta</string>
+    <string name="type_swipe">Deslizar</string>
+    <string name="type_tap_long">Toque: um toque rápido quando o botão é apertado</string>
+    <string name="type_hold_long">Segurar: o dedo fica na tela enquanto o botão é segurado</string>
+    <string name="type_joystick_long">Joystick: um analógico ou o direcional arrasta um dedo em volta deste ponto</string>
+    <string name="type_camera_long">Olhar em volta: um analógico desliza por esta área, para câmeras e mira</string>
+    <string name="type_swipe_long">Deslizar: um deslize rápido a partir daqui quando o botão é apertado</string>
+
+    <string name="direction_up">Cima</string>
+    <string name="direction_down">Baixo</string>
+    <string name="direction_left">Esquerda</string>
+    <string name="direction_right">Direita</string>
+    <string name="direction_up_left">Cima e esquerda</string>
+    <string name="direction_up_right">Cima e direita</string>
+    <string name="direction_down_left">Baixo e esquerda</string>
+    <string name="direction_down_right">Baixo e direita</string>
+    <string name="direction_degrees"><xliff:g id="degrees">%1$d</xliff:g>°</string>
+
+    <string name="options_title">Opções</string>
+    <string name="options_enabled_on">Controles de toque neste app: ativados</string>
+    <string name="options_enabled_off">Controles de toque neste app: desativados</string>
+    <string name="options_hints_on">Mostrar os botões ao jogar: ativado</string>
+    <string name="options_hints_off">Mostrar os botões ao jogar: desativado</string>
+    <string name="options_shift">Botão Shift: <xliff:g id="button">%1$s</xliff:g></string>
+    <string name="options_deadzone">Zona morta do analógico: <xliff:g id="percent">%1$d</xliff:g>%%</string>
+    <string name="options_help">Ajuda</string>
+    <string name="options_clear">Remover todos os controles</string>
+    <string name="options_clear_message">Todos os controles deste app são removidos. Nada é salvo até você apertar Start.</string>
+    <string name="options_clear_confirm">Remover</string>
+    <string name="shift_title">Botão Shift</string>
+    <string name="shift_none">Nenhum</string>
+    <plurals name="shift_removed">
+        <item quantity="one"><xliff:g id="n">%d</xliff:g> controle que usava esse botão foi removido</item>
+        <item quantity="other"><xliff:g id="n">%d</xliff:g> controles que usavam esse botão foram removidos</item>
+    </plurals>
+    <string name="deadzone_title">Zona morta do analógico</string>
+
+    <string name="help_title">Ajuda do editor</string>
+    <string name="help_text">Mova a mira com o analógico esquerdo ou o direcional.\n\nA em um ponto vazio adiciona um controle ali: escolha o tipo e depois aperte o botão ou mova o analógico dele. A em um controle altera esse controle: mova-o, dê outro botão a ele ou exclua-o.\n\nTipos:\n• Toque: um toque rápido\n• Segurar: toca enquanto o botão é segurado\n• Joystick: um analógico ou o direcional arrasta um dedo em volta do ponto, para analógicos na tela\n• Olhar em volta: um analógico desliza por uma área, para câmeras e mira\n• Deslizar: um deslize rápido em uma direção\n\nL1 e R1, ou o analógico direito, deixam o controle selecionado menor ou maior. L2 e R2 pulam entre os controles. X exclui.\n\nBotão Shift (Select e depois Botão Shift): enquanto ele é segurado, vale um segundo conjunto de controles. Y alterna entre os dois conjuntos.\n\nStart salva e fecha. B fecha. FN sai sem salvar.\n\nBotões sem controle continuam funcionando como botões normais. FN e todos os atalhos com FN sempre funcionam.</string>
+</resources>
