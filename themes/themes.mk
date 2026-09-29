@@ -28,3 +28,7 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
 	device/gameconsole/common/themes/bootanimation/bootanimation-retro.zip:$(TARGET_COPY_OUT_SYSTEM)/media/bootanimation-retro.zip \
 	device/gameconsole/common/themes/bootanimation/andr36oid-bootanim.rc:$(TARGET_COPY_OUT_SYSTEM)/etc/init/andr36oid-bootanim.rc
+
+# Settings > Display > Console look: accent colour, wallpaper, UI sounds, boot animation
+PRODUCT_PACKAGES += \
+	ConsoleLook

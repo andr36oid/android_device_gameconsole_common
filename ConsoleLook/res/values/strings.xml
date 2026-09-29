@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="look_title">Console look</string>
+    <string name="look_summary">Accent colour, wallpaper, sounds, boot animation</string>
+
+    <string name="accent_title">Accent colour</string>
+    <string name="accent_default">LineageOS teal (default)</string>
+
+    <string name="wallpaper_title">Wallpaper</string>
+    <string name="wallpaper_default">Black (default)</string>
+    <string name="wallpaper_other">Set elsewhere</string>
+    <string name="wallpaper_failed">Could not set the wallpaper</string>
+
+    <string name="sounds_title">UI sounds</string>
+    <string name="sounds_android">Android (default)</string>
+    <string name="sounds_retro">Retro</string>
+    <string name="sounds_summary">%1$s. Plays when Touch sounds is on (Sound &gt; Advanced).</string>
+    <string name="sounds_restart_title">Restart to hear the new sounds</string>
+    <string name="sounds_restart_message">Android loads its button sounds once, at start. The charger sound has already changed.</string>
+    <string name="restart_now">Restart now</string>
+    <string name="later">Later</string>
+
+    <string name="bootanim_title">Boot animation</string>
+    <string name="bootanim_lineage">LineageOS (default)</string>
+    <string name="bootanim_retro">andr36oid retro</string>
+    <string name="bootanim_summary">%1$s. Shows from the next start.</string>
+
+    <string name="about_wallpaper">Daijishou draws its own background, so the wallpaper only shows with other home screens and in Styles &amp; wallpapers. Daijishou\'s own background: Daijishou settings &gt; Wallpaper settings.</string>
+</resources>

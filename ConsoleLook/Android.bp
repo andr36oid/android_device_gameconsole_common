@@ -1,0 +1,12 @@
+// Settings > Display > Console look: accent colour, wallpaper, UI sounds and boot
+// animation in one d-pad friendly page (the pieces live in ../themes).
+android_app {
+    name: "ConsoleLook",
+    srcs: ["src/**/*.java"],
+    resource_dirs: ["res"],
+    certificate: "platform",
+    platform_apis: true,
+    optimize: {
+        enabled: false,
+    },
+}
