@@ -50,6 +50,17 @@ when the tutorial is done.
 The service has no SELinux domain, same as `joyMouse`; it relies on the ROM running
 permissive.
 
+The service also sets the refresh rate. RetroArch on Android assumes a 60 Hz screen (`video_refresh_rate = 60`) and never asks
+the system, and Android itself only knows the rate rounded to whole Hz. RetroArch uses
+the value to resample the sound so that a game makes exactly one frame per screen
+refresh. So the service works out the real rate from the panel timing the kernel uses
+(`/proc/device-tree/dsi@*/panel@*/display-timings`, native mode: pixel clock in whole
+kHz / (htotal * vtotal); Panel 4 gives 59.935683) and sets `video_refresh_rate` on
+every boot, with the same rules as the BIOS folder: only while it is unset, RetroArch's
+default 60, or the value written last time (`/data/misc/gameconsole/retroarch-refresh-rate`).
+Switching to another panel's DTB updates it; a rate the user set in RetroArch
+(Settings > Video > Output > Vertical Refresh Rate) is kept.
+
 ## RetroArch defaults
 
 Two files in `seed/retroarch/`. The hotkeys and save locations are the ones ArkOS and
