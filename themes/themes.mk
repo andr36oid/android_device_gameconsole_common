@@ -10,3 +10,7 @@ PRODUCT_PACKAGES += \
 	Andr36oidRedAccent \
 	Andr36oidGreenAccent \
 	Andr36oidOrangeAccent
+
+# Wallpapers drawn for 640x480 and 720x720 (replaces LineageOS' Backgrounds)
+PRODUCT_PACKAGES += \
+	Andr36oidWallpapers
