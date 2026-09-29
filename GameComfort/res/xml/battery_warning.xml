@@ -10,6 +10,12 @@
         android:title="@string/warning_when" />
 
     <Preference
+        android:key="last"
+        android:selectable="false"
+        android:summary="@string/warning_last_summary"
+        android:title="@string/warning_last" />
+
+    <Preference
         android:key="preview"
         android:title="@string/warning_preview" />
 

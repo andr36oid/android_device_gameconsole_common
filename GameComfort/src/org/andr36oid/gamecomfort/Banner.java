@@ -18,7 +18,9 @@ import android.widget.TextView;
  */
 final class Banner {
 
-    private static final long SHOW_MS = 5000;
+    static final long SHOW_MS = 5000;
+    /** The last warning stays longer: it is easy to miss in 5 s while playing. */
+    static final long SHOW_LAST_MS = 15000;
 
     private final Context mContext;
     private final WindowManager mWindowManager;
@@ -34,11 +36,15 @@ final class Banner {
     }
 
     void show(CharSequence text) {
+        show(text, SHOW_MS);
+    }
+
+    void show(CharSequence text, long durationMs) {
         hide();
         mView = LayoutInflater.from(mContext).inflate(R.layout.banner, null);
         ((TextView) mView.findViewById(R.id.text)).setText(text);
         mWindowManager.addView(mView, layoutParams());
-        mHandler.postDelayed(mHide, SHOW_MS);
+        mHandler.postDelayed(mHide, durationMs);
     }
 
     void hide() {

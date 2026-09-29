@@ -43,7 +43,8 @@ public class WarningFragment extends PreferenceFragment
         final int percent = getActivity().getSystemService(BatteryManager.class)
                 .getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY);
         Comfort.vibrate(getActivity());
-        mBanner.show(getString(R.string.banner_text,
+        // Below 4 % this is the last warning's text, but only shown for the usual 5 s
+        mBanner.show(Comfort.warningText(getActivity(),
                 percent >= 0 && percent <= 100 ? percent : 5));
         return true;
     }

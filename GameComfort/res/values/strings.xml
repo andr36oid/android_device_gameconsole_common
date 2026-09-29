@@ -18,10 +18,13 @@
         <item>5</item>
     </string-array>
     <string name="warning_preview">Show a test warning</string>
+    <string name="warning_last">Last warning at 3 %</string>
+    <string name="warning_last_summary">Always on while the warning is on. It stays longer on the screen, because the console turns itself off soon after.</string>
     <string name="warning_about">Android\'s own low battery notification is easy to miss during a full screen game. This shows a short banner across the top of the screen instead, once for each level while the console runs on battery. It doesn\'t take the buttons away from the game.\n\nThe console turns itself off when the battery is empty, and anything not saved is lost.</string>
 
     <!-- The banner on top of the game -->
     <string name="banner_text">Battery <xliff:g id="percent">%1$d</xliff:g> %% – save your game now</string>
+    <string name="banner_last_text">Battery <xliff:g id="percent">%1$d</xliff:g> %% – save your game now. The console turns itself off soon.</string>
 
     <!-- Game mode, Settings home page and Quick Settings tile -->
     <string name="game_mode_title">Game mode</string>

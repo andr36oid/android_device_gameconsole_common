@@ -12,6 +12,12 @@ final class LowBattery {
     /** Nothing warned yet in this discharge. */
     static final int NONE = Integer.MAX_VALUE;
 
+    /**
+     * The last warning, shortly before Android turns the console off at 0 %. It is always
+     * added while the warning is on, whatever levels were picked.
+     */
+    static final int LAST = 3;
+
     private LowBattery() {
     }
 
@@ -34,6 +40,26 @@ final class LowBattery {
             }
         }
         return Arrays.copyOf(thresholds, count);
+    }
+
+    /** The picked thresholds plus LAST, or none if the warning is off. */
+    static int[] withLast(int[] thresholds) {
+        if (thresholds.length == 0) {
+            return thresholds;
+        }
+        for (int t : thresholds) {
+            if (t == LAST) {
+                return thresholds;
+            }
+        }
+        final int[] result = Arrays.copyOf(thresholds, thresholds.length + 1);
+        result[thresholds.length] = LAST;
+        return result;
+    }
+
+    /** True if a warning at this level is the last one before the console turns off. */
+    static boolean isLast(int percent) {
+        return percent >= 0 && percent <= LAST;
     }
 
     /**
