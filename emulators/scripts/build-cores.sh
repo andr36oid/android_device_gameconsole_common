@@ -7,11 +7,18 @@
 # Building from pinned sources (instead of grabbing buildbot nightlies) is what
 # lets us point at the exact corresponding source for every binary we ship.
 #
-# usage: build-cores.sh [--tier foss|noncommercial|all] [--ndk DIR] [--work DIR] [--jobs N] [--sources DIR]
+# usage: build-cores.sh [--tier foss|noncommercial|all] [--ndk DIR] [--work DIR] [--jobs N] [--sources DIR] [--rebuild]
 #
 #   --ndk      NDK to use. Defaults to $ANDROID_NDK_HOME, otherwise the pinned
 #              r27c gets downloaded into the work dir.
 #   --sources  also drop a source tarball per core into DIR (optional, the NOTICE points at the sources)
+#   --rebuild  build every core. Without it, a core whose commit is unchanged is
+#              taken from the current archive (its sha256 is checked against the
+#              NOTICE), so adding a core doesn't change the binaries of the others.
+#
+# Every core is checked before it gets packed: ELF for AArch64, and no ARMv8.1+
+# instructions (LSE atomics etc.; the Cortex-A35 is ARMv8.0), see check-armv80.py.
+# The sha256 of every core goes into the NOTICE and into libretro/cores.sha256.
 
 set -euo pipefail
 
@@ -29,6 +36,7 @@ NDK=${ANDROID_NDK_HOME:-}
 WORK=${TMPDIR:-/tmp}/gameconsole-cores
 JOBS=$(nproc)
 SOURCES=
+REBUILD=
 
 while [ $# -gt 0 ]; do
 	case $1 in
@@ -37,7 +45,8 @@ while [ $# -gt 0 ]; do
 		--work) WORK=$2; shift 2 ;;
 		--jobs) JOBS=$2; shift 2 ;;
 		--sources) SOURCES=$2; shift 2 ;;
-		-h|--help) sed -n '2,17p' "$0"; exit 0 ;;
+		--rebuild) REBUILD=1; shift ;;
+		-h|--help) sed -n '2,24p' "$0"; exit 0 ;;
 		*) echo "unknown option: $1" >&2; exit 1 ;;
 	esac
 done
@@ -64,6 +73,8 @@ if [ -z "$NDK" ]; then
 fi
 [ -x "$NDK/ndk-build" ] || die "no usable NDK at $NDK"
 STRIP=$NDK/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-strip
+READELF=$NDK/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-readelf
+export OBJDUMP=$NDK/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-objdump
 
 # checkout <dir> <repo> <commit>
 checkout() {
@@ -75,6 +86,8 @@ checkout() {
 		git -C "$dir" fetch -q --depth 1 origin "$commit"
 		git -C "$dir" checkout -q FETCH_HEAD
 	fi
+	# some trees have gitlinks without a .gitmodules (mupen64plus-libretro-nx)
+	[ -f "$dir/.gitmodules" ] || return 0
 	git -C "$dir" submodule update -q --init --recursive --depth 1
 }
 
@@ -84,9 +97,19 @@ build() {
 	local lib=$WORK/out/${name}_libretro_android.so
 	case $kind in
 	jni)
+		# args: extra make variables, comma separated (GLES3=1,...)
+		local vars=() libs
+		[ "$args" != "-" ] && IFS=, read -r -a vars <<<"$args"
 		"$NDK/ndk-build" --no-print-directory -j"$JOBS" -C "$src/$path/jni" \
-			APP_ABI=$ABI APP_PLATFORM=android-$API_LEVEL >"$WORK/log/$name.log" 2>&1
-		cp "$src/$path/libs/$ABI/libretro.so" "$lib"
+			APP_ABI=$ABI APP_PLATFORM=android-$API_LEVEL "${vars[@]}" >"$WORK/log/$name.log" 2>&1
+		# the module is usually "retro"; a few cores name it after themselves
+		libs=$(find "$src/$path/libs/$ABI" -name '*.so' ! -name 'libc++_shared.so')
+		[ "$(echo "$libs" | wc -l)" = 1 ] || die "$name: expected one library, got: $libs"
+		cp "$libs" "$lib"
+		;;
+	script)
+		# scripts/cores/<name>.sh <source dir> <output .so>
+		NDK=$NDK JOBS=$JOBS "$HERE/scripts/cores/$name.sh" "$src/$path" "$lib" >"$WORK/log/$name.log" 2>&1
 		;;
 	cmake)
 		local b=$WORK/build/$name extra=()
@@ -106,6 +129,26 @@ build() {
 	"$STRIP" "$lib"
 }
 
+# verify <lib> ; AArch64 ELF that runs on ARMv8.0
+verify() {
+	case $("$READELF" -h "$1") in *Machine:*AArch64*) ;; *) die "${1##*/}: not an AArch64 ELF" ;; esac
+	"$HERE/scripts/check-armv80.py" "$1" || die "${1##*/}: uses instructions the Cortex-A35 lacks"
+}
+
+# reuse <name> <tier> <commit> ; takes the core from the current archive if it
+# was built from the same commit (checked against the sha256 in the NOTICE)
+reuse() {
+	local name=$1 tier=$2 commit=$3 so=${1}_libretro_android.so want
+	[ -z "$REBUILD" ] && [ -f "$OUT/cores-$tier.tar.gz" ] && [ -f "$OUT/NOTICE-$tier.txt" ] || return 1
+	want=$(awk -v n="$name" -v c="$commit" '
+		$1 == n && $2 ~ /^\(/ { hit = 1; next }
+		hit && $1 == "commit:" { ok = ($2 == c) }
+		hit && $1 == "sha256:" { if (ok) print $2; exit }' "$OUT/NOTICE-$tier.txt")
+	[ -n "$want" ] || return 1
+	tar -xzf "$OUT/cores-$tier.tar.gz" -O "./cores/$so" >"$WORK/out/$so" 2>/dev/null || return 1
+	[ "$(sha256sum "$WORK/out/$so" | cut -d' ' -f1)" = "$want" ]
+}
+
 mkdir -p "$WORK/src" "$WORK/out" "$WORK/log" "$WORK/build"
 
 declare -A TIER_CORES
@@ -115,7 +158,12 @@ while read -r name tier spdx kind path licfile args repo commit; do
 
 	echo ">> $name ($tier, ${commit:0:7})"
 	checkout "$WORK/src/$name" "$repo" "$commit"
-	build "$name" "$kind" "$path" "$args" || die "$name: build failed, see $WORK/log/$name.log"
+	if reuse "$name" "$tier" "$commit"; then
+		echo "   unchanged, taken from cores-$tier.tar.gz"
+	else
+		build "$name" "$kind" "$path" "$args" || die "$name: build failed, see $WORK/log/$name.log"
+	fi
+	verify "$WORK/out/${name}_libretro_android.so"
 	TIER_CORES[$tier]+="$name "
 
 	if [ -n "$SOURCES" ]; then
@@ -148,7 +196,7 @@ notice() {
 		echo "commit: $commit"
 		echo "sha256: $(sha256sum "$WORK/out/${name}_libretro_android.so" | cut -d' ' -f1)"
 		echo "================================================================================"
-		cat "$WORK/src/$name/$licfile"
+		tr -d '\r' <"$WORK/src/$name/$licfile"
 	done
 }
 
@@ -164,3 +212,15 @@ for tier in "${!TIER_CORES[@]}"; do
 		| gzip -9n >"$OUT/cores-$tier.tar.gz"
 	echo ">> $OUT/cores-$tier.tar.gz ($(du -h "$OUT/cores-$tier.tar.gz" | cut -f1), ${#cores[@]} cores)"
 done
+
+# pinned checksums of everything in the archives, one line per core:
+# <sha256>  <tier>/<file>  <size in bytes>
+for tier in foss noncommercial; do
+	[ -f "$OUT/cores-$tier.tar.gz" ] || continue
+	rm -rf "$WORK/sum"; mkdir -p "$WORK/sum"
+	tar -xzf "$OUT/cores-$tier.tar.gz" -C "$WORK/sum" ./cores
+	for so in "$WORK"/sum/cores/*.so; do
+		echo "$(sha256sum "$so" | cut -d' ' -f1)  $tier/${so##*/}  $(stat -c %s "$so")"
+	done
+done >"$OUT/cores.sha256"
+
