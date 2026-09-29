@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Added with the card ID, small block and pause/continue parts. -->
+    <!-- %1$s the marks as printed on the card, e.g. "Class 10, U3, V30, A2" -->
+    <string name="details_marks">Aufdruck: %1$s</string>
+    <!-- %1$s the mode's name, e.g. SDR104 -->
+    <string name="details_bus_fast">Läuft im schnellen Modus (UHS-I %1$s)</string>
+    <!-- %1$d top speed of the mode in MB/s -->
+    <string name="details_bus_normal">Läuft im normalen Modus (bis %1$d MB/s)</string>
+    <string name="details_bus_slow">Läuft im langsamen Modus (bis %1$d MB/s)</string>
+    <string name="advice_category">Was das bedeutet</string>
+    <string name="advice_paused">Eine Prüfung der echten Größe ist pausiert. Ihre Testdaten füllen die Karte, Spiele können also eventuell nicht speichern. Setze die Prüfung fort oder lösche unten die Testdaten.</string>
+    <string name="advice_fake">Diese Karte ist gefälscht oder beschädigt (siehe die Prüfung der echten Größe unten). Kopiere deine Spiele und Spielstände bald auf eine andere Karte.</string>
+    <string name="advice_write_error">Die Karte meldete beim Schreiben einen Fehler. Sie ist eventuell abgenutzt oder gefälscht. Sichere deine Spielstände.</string>
+    <!-- %1$s one or more of the sign_ texts, joined with "; " -->
+    <string name="advice_signs">Die eigene ID der Karte wirkt seltsam: %1$s. So sehen gefälschte Karten oft aus. Prüfe zur Sicherheit die echte Größe.</string>
+    <string name="advice_signs_but_real">Die eigene ID der Karte wirkt seltsam (%1$s), aber die Prüfung der echten Größe wurde bestanden, der Platz ist also echt.</string>
+    <!-- sign_ texts: lower-case clauses inserted after a colon or in parentheses -->
+    <string name="sign_no_maker">sie hat keine richtige Hersteller-ID</string>
+    <string name="sign_brand_mismatch">ihre Hersteller-ID und OEM-ID gehören zu verschiedenen Marken</string>
+    <string name="sign_size_mismatch">sie meldet zwei verschiedene Größen</string>
+    <string name="sign_spec_too_old">sie gibt eine SD-Kartenversion an, die für ihre Größe zu alt ist</string>
+    <!-- %1$s the date the card reports, e.g. 00/2000 -->
+    <string name="sign_bad_date">ihr Datum (%1$s) ist unmöglich</string>
+    <!-- %1$d a year -->
+    <string name="sign_too_old">sie wurde angeblich %1$d hergestellt, bevor es so große Karten gab</string>
+    <!-- %1$d MB/s the marks promise, %2$s measured, e.g. 2.5 MB/s -->
+    <string name="advice_claim_write">Laut Aufdruck schreibt die Karte mit mindestens %1$d MB/s, sie schrieb aber mit %2$s. Sie ist eventuell gefälscht oder abgenutzt.</string>
+    <!-- %1$d 1 or 2 (A1, A2) -->
+    <string name="advice_claim_small">Die Karte trägt den Aufdruck A%1$d, verarbeitet kleine Blöcke aber viel langsamer, als das verspricht. Sie ist eventuell gefälscht oder abgenutzt.</string>
+    <!-- %1$d top speed of the mode in MB/s -->
+    <string name="advice_bus_slow">Die Konsole betreibt diese Karte in einem langsameren Modus (bis %1$d MB/s), als die Karte kann. Ein Neustart hilft vielleicht. Bleibt es so, sind Karte oder Steckplatz eventuell verschmutzt oder abgenutzt.</string>
+    <string name="advice_slow">Diese Karte ist langsam: Spiele laden eventuell lange. Eine Karte mit A1 oder U3 ist schneller.</string>
+    <string name="advice_untested">Teste die Geschwindigkeit, um zu sehen, wie schnell Spiele laden.</string>
+    <string name="advice_good">Keine Probleme gefunden.</string>
+    <string name="speed_summary_small">Schreibt und liest eine 256-MB-Datei, dann kleine 4-KB-Blöcke. Dauert etwa eine Minute und braucht 1 GB freien Platz.</string>
+    <string name="speed_running_small">Kleine Blöcke testen…</string>
+    <!-- %1$s and %2$s whole numbers, e.g. 1,850 and 410 -->
+    <string name="speed_small">Kleine Blöcke: %1$s Lese- und %2$s Schreibvorgänge pro Sekunde</string>
+    <string name="marks_title">Was der Aufdruck auf einer Karte bedeutet</string>
+    <string name="marks_text">Class 10, U1 und V10: schreibt mit mindestens 10 MB/s. U3 und V30: mindestens 30 MB/s. A1: mindestens 1500 kleine Lese- und 500 kleine Schreibvorgänge pro Sekunde, das hilft bei Spielen aus vielen Dateien. A2 verspricht mehr, aber diese Konsole nutzt A2-Karten wie A1-Karten.</string>
+    <string name="error_paused">Auf dieser Karte ist eine Prüfung der echten Größe pausiert. Setze sie fort oder lösche zuerst ihre Testdaten.</string>
+    <string name="full_title_continue">Prüfung fortsetzen</string>
+    <!-- %1$s done, %2$s total -->
+    <string name="full_paused_write">Beim Schreiben pausiert, %1$s von %2$s. Die Testdaten bleiben auf der Karte, bis du fortsetzt oder sie löschst, bis dahin können Spiele eventuell nicht speichern.</string>
+    <string name="full_paused_verify">Beim Zurücklesen pausiert, %1$s von %2$s. Die Testdaten bleiben auf der Karte, bis du fortsetzt oder sie löschst, bis dahin können Spiele eventuell nicht speichern.</string>
+    <string name="full_delete_title">Testdaten löschen</string>
+    <!-- %1$s size -->
+    <string name="full_delete_summary">Gibt %1$s frei. Die nächste Prüfung beginnt von vorn.</string>
+    <string name="stop_title">Prüfung stoppen?</string>
+    <string name="stop_text">„Pausieren“ lässt die Testdaten auf der Karte, damit du später fortsetzen kannst. Bis dahin können Spiele eventuell nicht speichern. „Stoppen“ löscht die Testdaten.</string>
+    <!-- Dialog buttons, keep short -->
+    <string name="stop_pause">Pausieren</string>
+    <!-- Stops the check and deletes the test data -->
+    <string name="stop_delete">Stoppen</string>
+    <!-- %1$s card name, %2$s how long -->
+    <string name="confirm_text_pause">Das füllt etwa %2$s lang den gesamten freien Platz auf %1$s, Spiele können dort also erst danach wieder speichern. Schließ das Ladegerät an: Die Konsole bleibt wach. Du kannst pausieren und später fortsetzen oder jederzeit stoppen. Deine Spiele und Dateien bleiben unberührt.</string>
+    <string name="paused_channel">Pausierter SD-Karten-Test</string>
+    <string name="paused_title">SD-Karten-Test pausiert</string>
+    <!-- %1$s size of the test data -->
+    <string name="paused_text">%1$s Testdaten füllen die Karte. Setze die Prüfung fort oder lösche die Testdaten, damit Spiele wieder speichern können.</string>
+</resources>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Added with the card ID, small block and pause/continue parts. -->
+    <!-- %1$s the marks as printed on the card, e.g. "Class 10, U3, V30, A2" -->
+    <string name="details_marks">Marcada como %1$s</string>
+    <!-- %1$s the mode's name, e.g. SDR104 -->
+    <string name="details_bus_fast">Funciona en modo rápido (UHS-I %1$s)</string>
+    <!-- %1$d top speed of the mode in MB/s -->
+    <string name="details_bus_normal">Funciona en modo normal (hasta %1$d MB/s)</string>
+    <string name="details_bus_slow">Funciona en modo lento (hasta %1$d MB/s)</string>
+    <string name="advice_category">Qué significa</string>
+    <string name="advice_paused">Hay una comprobación del tamaño real en pausa. Sus datos de prueba llenan la tarjeta, así que puede que los juegos no puedan guardar. Continúa la comprobación o borra los datos de prueba más abajo.</string>
+    <string name="advice_fake">Esta tarjeta es falsa o está dañada (mira la comprobación del tamaño real más abajo). Copia pronto tus juegos y partidas guardadas a otra tarjeta.</string>
+    <string name="advice_write_error">La tarjeta ha dado un error al escribir. Puede estar gastada o ser falsa. Haz una copia de tus partidas guardadas.</string>
+    <!-- %1$s one or more of the sign_ texts, joined with "; " -->
+    <string name="advice_signs">El ID propio de la tarjeta parece raro: %1$s. Las tarjetas falsas suelen tener este aspecto. Comprueba el tamaño real para estar seguro.</string>
+    <string name="advice_signs_but_real">El ID propio de la tarjeta parece raro (%1$s), pero ha superado la comprobación del tamaño real, así que el espacio es real.</string>
+    <!-- sign_ texts: lower-case clauses inserted into advice_signs / advice_signs_but_real -->
+    <string name="sign_no_maker">no tiene un ID de fabricante válido</string>
+    <string name="sign_brand_mismatch">su ID de fabricante y su ID OEM son de marcas distintas</string>
+    <string name="sign_size_mismatch">indica dos tamaños distintos</string>
+    <string name="sign_spec_too_old">dice cumplir una versión de SD demasiado antigua para su tamaño</string>
+    <!-- %1$s the date the card reports, e.g. 00/2000 -->
+    <string name="sign_bad_date">su fecha (%1$s) es imposible</string>
+    <!-- %1$d a year -->
+    <string name="sign_too_old">dice haberse fabricado en %1$d, antes de que existieran tarjetas tan grandes</string>
+    <!-- %1$d MB/s the marks promise, %2$s measured, e.g. 2.5 MB/s -->
+    <string name="advice_claim_write">La tarjeta está marcada para escribir al menos a %1$d MB/s, pero ha escrito a %2$s. Puede ser falsa o estar gastada.</string>
+    <!-- %1$d 1 or 2 (A1, A2) -->
+    <string name="advice_claim_small">La tarjeta está marcada como A%1$d, pero maneja los bloques pequeños mucho más despacio de lo que eso promete. Puede ser falsa o estar gastada.</string>
+    <!-- %1$d top speed of the mode in MB/s -->
+    <string name="advice_bus_slow">La consola usa esta tarjeta en un modo más lento (hasta %1$d MB/s) del que admite la tarjeta. Reiniciar puede ayudar. Si sigue así, puede que la tarjeta o la ranura estén sucias o gastadas.</string>
+    <string name="advice_slow">Esta tarjeta es lenta: los juegos pueden tardar en cargar. Una tarjeta marcada como A1 o U3 será más rápida.</string>
+    <string name="advice_untested">Mide la velocidad para ver lo rápido que cargarán los juegos.</string>
+    <string name="advice_good">No se han encontrado problemas.</string>
+    <string name="speed_summary_small">Escribe y lee un archivo de 256 MB y después bloques pequeños de 4 KB. Tarda alrededor de un minuto y necesita 1 GB de espacio libre.</string>
+    <string name="speed_running_small">Probando bloques pequeños…</string>
+    <!-- %1$s and %2$s whole numbers, e.g. 1,850 and 410 -->
+    <string name="speed_small">Bloques pequeños: %1$s lecturas y %2$s escrituras por segundo</string>
+    <string name="marks_title">Qué significan las marcas de una tarjeta</string>
+    <string name="marks_text">Class 10, U1 y V10: escribe al menos a 10 MB/s. U3 y V30: al menos a 30 MB/s. A1: al menos 1500 lecturas pequeñas y 500 escrituras pequeñas por segundo, lo que ayuda a los juegos formados por muchos archivos. A2 promete más, pero esta consola usa las tarjetas A2 como si fueran A1.</string>
+    <string name="error_paused">Hay una comprobación del tamaño real en pausa en esta tarjeta. Continúala o borra antes sus datos de prueba.</string>
+    <string name="full_title_continue">Continuar la comprobación</string>
+    <!-- %1$s done, %2$s total -->
+    <string name="full_paused_write">En pausa durante la escritura, %1$s de %2$s. Los datos de prueba se quedan en la tarjeta hasta que continúes o los borres, así que hasta entonces puede que los juegos no puedan guardar.</string>
+    <string name="full_paused_verify">En pausa durante la relectura, %1$s de %2$s. Los datos de prueba se quedan en la tarjeta hasta que continúes o los borres, así que hasta entonces puede que los juegos no puedan guardar.</string>
+    <string name="full_delete_title">Borrar los datos de prueba</string>
+    <!-- %1$s size -->
+    <string name="full_delete_summary">Libera %1$s. La próxima comprobación empieza desde el principio.</string>
+    <string name="stop_title">¿Detener la comprobación?</string>
+    <string name="stop_text">Pausar deja los datos de prueba en la tarjeta para que puedas continuar más tarde. Hasta entonces puede que los juegos no puedan guardar. Detener borra los datos de prueba.</string>
+    <!-- Dialog buttons: keep short. stop_delete stops and deletes the test data. -->
+    <string name="stop_pause">Pausar</string>
+    <string name="stop_delete">Detener</string>
+    <!-- %1$s card name, %2$s how long -->
+    <string name="confirm_text_pause">Esto llena todo el espacio libre de %1$s durante unos %2$s, así que los juegos no podrán guardar ahí hasta que termine. Conecta el cargador: la consola se mantiene activa. Puedes pausarla y continuar más tarde, o detenerla en cualquier momento. Tus juegos y archivos no se tocan.</string>
+    <string name="paused_channel">Comprobación de SD en pausa</string>
+    <string name="paused_title">Comprobación de tarjeta SD en pausa</string>
+    <!-- %1$s size of the test data -->
+    <string name="paused_text">%1$s de datos de prueba llenan la tarjeta. Continúa la comprobación o borra los datos de prueba para que los juegos puedan volver a guardar.</string>
+</resources>
