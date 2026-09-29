@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="app_name">Controles táctiles</string>
+    <string name="settings_summary">Juega con los botones a juegos táctiles, app por app</string>
+
+    <!-- Settings > Touch controls -->
+    <string name="settings_intro">Algunos juegos solo funcionan con pantalla táctil. Aquí puedes dar a ese juego su propia distribución: cada botón o joystick toca un punto de la pantalla. La distribución se activa sola mientras ese juego está en primer plano, y las demás apps mantienen los botones normales.</string>
+    <string name="settings_apps">Apps con controles táctiles</string>
+    <string name="settings_add">Añadir una app</string>
+    <string name="settings_add_summary">Elige un juego; se inicia y el editor se abre encima</string>
+    <string name="settings_add_none">Todas las apps tienen ya controles táctiles</string>
+    <string name="settings_how">Cómo funciona</string>
+    <string name="settings_shortcut_title">Editar mientras juegas: FN + L1</string>
+    <string name="settings_shortcut_summary">En el juego, mantén FN y pulsa L1. El editor se abre encima del juego. FN vuelve a la pantalla de inicio como siempre.</string>
+    <string name="settings_help_summary">Qué hace cada botón en el editor</string>
+
+    <!-- Summary of an app in the list; %1$s is e.g. "5 controls" -->
+    <string name="profile_on">Activado · <xliff:g id="count">%1$s</xliff:g></string>
+    <string name="profile_off">Desactivado · <xliff:g id="count">%1$s</xliff:g></string>
+    <string name="profile_empty">Aún no hay controles</string>
+    <string name="profile_unreadable">No se puede leer; edítalo para empezar de nuevo</string>
+    <plurals name="control_count">
+        <item quantity="one"><xliff:g id="n">%d</xliff:g> control</item>
+        <item quantity="other"><xliff:g id="n">%d</xliff:g> controles</item>
+    </plurals>
+
+    <!-- One app's page -->
+    <string name="profile_enabled">Usar controles táctiles</string>
+    <string name="profile_enabled_summary">Con esta app en primer plano</string>
+    <string name="profile_hints">Mostrar los botones en pantalla</string>
+    <string name="profile_hints_summary">Etiquetas tenues donde toca cada botón</string>
+    <string name="profile_edit">Editar la distribución</string>
+    <string name="profile_edit_summary">Inicia <xliff:g id="app">%1$s</xliff:g> y luego el editor se abre encima</string>
+    <string name="profile_edit_starting">Iniciando la app. El editor se abrirá en un momento.</string>
+    <string name="profile_cant_start">Esta app no se puede iniciar desde aquí. Ábrela y pulsa FN + L1.</string>
+    <string name="profile_controls">Controles</string>
+    <string name="profile_delete">Eliminar controles táctiles</string>
+    <string name="profile_delete_message">Se eliminará la distribución de esta app. La app vuelve a usar los botones normales.</string>
+    <string name="profile_delete_confirm">Eliminar</string>
+
+    <!-- FN + L1 where there is nothing to edit -->
+    <string name="edit_needs_app">Abre antes un juego y luego pulsa FN + L1 para configurar sus controles táctiles.</string>
+
+    <!-- Editor -->
+    <string name="editor_title">Controles táctiles: <xliff:g id="app">%1$s</xliff:g></string>
+    <string name="editor_layer_normal">Botones normales</string>
+    <string name="editor_layer_shift">Mientras se mantiene <xliff:g id="button">%1$s</xliff:g></string>
+    <string name="editor_profile_off">Desactivados</string>
+    <string name="editor_saved">Controles táctiles de <xliff:g id="app">%1$s</xliff:g> guardados</string>
+    <string name="editor_save_failed">No se ha podido guardar. Vuelve a intentarlo.</string>
+    <string name="editor_deleted">Eliminado</string>
+    <string name="editor_cancelled">Cancelado</string>
+    <string name="editor_no_shift">Aún no hay botón Shift: Select y luego Botón Shift</string>
+    <string name="editor_is_shift"><xliff:g id="button">%1$s</xliff:g> es el botón Shift. Pulsa otro.</string>
+    <string name="editor_replaced"><xliff:g id="input">%1$s</xliff:g> ya hacía otra cosa. Ese control se ha eliminado.</string>
+    <string name="editor_replaced_dpad">Se ha eliminado el joystick de la cruceta: ahora los botones de la cruceta funcionan por separado.</string>
+    <string name="editor_replaced_dpad_buttons">Se han eliminado los botones sueltos de la cruceta: ahora la cruceta es un joystick.</string>
+    <string name="editor_unsaved_title">¿Guardar los cambios?</string>
+    <string name="editor_unsaved_message">La distribución ha cambiado, pero no se ha guardado.</string>
+    <string name="editor_save">Guardar</string>
+    <string name="editor_discard">No guardar</string>
+    <string name="editor_keep_editing">Seguir editando</string>
+
+    <!-- Bottom strip of the editor: what each button does right now -->
+    <string name="hint_add">Añadir aquí</string>
+    <string name="hint_change">Cambiar</string>
+    <string name="hint_delete">Eliminar</string>
+    <string name="hint_size">Tamaño</string>
+    <string name="hint_next">Siguiente</string>
+    <string name="hint_layer">Capa Shift</string>
+    <string name="hint_options">Opciones</string>
+    <string name="hint_save">Guardar</string>
+    <string name="hint_close">Cerrar</string>
+    <string name="hint_move">Mover</string>
+    <string name="hint_place">Colocar</string>
+    <string name="hint_cancel">Cancelar</string>
+    <string name="hint_hold_cancel">Mantén para cancelar</string>
+
+    <!-- Waiting for a button or stick; %1$s is a control type in lower case, e.g. "tap" -->
+    <string name="capture_button">Pulsa el botón para este control (<xliff:g id="type">%1$s</xliff:g>)</string>
+    <string name="capture_button_cancel">Sirve cualquier botón, también B. Mantén B para cancelar.</string>
+    <string name="capture_stick">Mueve el joystick para este control (<xliff:g id="type">%1$s</xliff:g>)</string>
+    <string name="capture_stick_detail">Joystick izquierdo, joystick derecho o pulsa la cruceta</string>
+
+    <!-- Menus -->
+    <string name="editor_add_title">Añadir un control aquí</string>
+    <string name="editor_control_title">Este control</string>
+    <string name="editor_menu_move">Mover</string>
+    <string name="editor_menu_button">Botón: <xliff:g id="button">%1$s</xliff:g></string>
+    <string name="editor_menu_stick">Joystick: <xliff:g id="stick">%1$s</xliff:g></string>
+    <string name="editor_menu_type">Tipo: <xliff:g id="type">%1$s</xliff:g></string>
+    <string name="editor_menu_direction">Dirección: <xliff:g id="direction">%1$s</xliff:g></string>
+    <string name="editor_menu_speed">Velocidad: <xliff:g id="percent">%1$d</xliff:g>%%</string>
+    <string name="editor_menu_delete">Eliminar</string>
+    <string name="editor_type_title">Tipo de control</string>
+    <string name="editor_direction_title">Dirección del gesto</string>
+    <string name="editor_speed_title">Velocidad de la cámara</string>
+    <string name="percent"><xliff:g id="percent">%1$d</xliff:g>%%</string>
+
+    <string name="type_tap">Toque</string>
+    <string name="type_hold">Mantener</string>
+    <string name="type_joystick">Joystick</string>
+    <string name="type_camera">Mirar alrededor</string>
+    <string name="type_swipe">Deslizar</string>
+    <string name="type_tap_long">Toque: un toque breve al pulsar el botón</string>
+    <string name="type_hold_long">Mantener: el dedo sigue apoyado mientras se mantiene el botón</string>
+    <string name="type_joystick_long">Joystick: un joystick o la cruceta arrastra un dedo alrededor de este punto</string>
+    <string name="type_camera_long">Mirar alrededor: un joystick desliza sobre esta zona, para cámaras y apuntar</string>
+    <string name="type_swipe_long">Deslizar: un deslizamiento rápido desde aquí al pulsar el botón</string>
+
+    <string name="direction_up">Arriba</string>
+    <string name="direction_down">Abajo</string>
+    <string name="direction_left">Izquierda</string>
+    <string name="direction_right">Derecha</string>
+    <string name="direction_up_left">Arriba a la izquierda</string>
+    <string name="direction_up_right">Arriba a la derecha</string>
+    <string name="direction_down_left">Abajo a la izquierda</string>
+    <string name="direction_down_right">Abajo a la derecha</string>
+    <string name="direction_degrees"><xliff:g id="degrees">%1$d</xliff:g>°</string>
+
+    <string name="options_title">Opciones</string>
+    <string name="options_enabled_on">Controles táctiles para esta app: sí</string>
+    <string name="options_enabled_off">Controles táctiles para esta app: no</string>
+    <string name="options_hints_on">Mostrar los botones al jugar: sí</string>
+    <string name="options_hints_off">Mostrar los botones al jugar: no</string>
+    <string name="options_shift">Botón Shift: <xliff:g id="button">%1$s</xliff:g></string>
+    <string name="options_deadzone">Zona muerta del joystick: <xliff:g id="percent">%1$d</xliff:g>%%</string>
+    <string name="options_help">Ayuda</string>
+    <string name="options_clear">Quitar todos los controles</string>
+    <string name="options_clear_message">Se quitan todos los controles de esta app. No se guarda nada hasta que pulses Start.</string>
+    <string name="options_clear_confirm">Quitar</string>
+    <string name="shift_title">Botón Shift</string>
+    <string name="shift_none">Ninguno</string>
+    <plurals name="shift_removed">
+        <item quantity="one">Se ha quitado <xliff:g id="n">%d</xliff:g> control que usaba ese botón</item>
+        <item quantity="other">Se han quitado <xliff:g id="n">%d</xliff:g> controles que usaban ese botón</item>
+    </plurals>
+    <string name="deadzone_title">Zona muerta del joystick</string>
+
+    <string name="help_title">Ayuda del editor</string>
+    <string name="help_text">Mueve la cruz con el joystick izquierdo o la cruceta.\n\nA en un punto vacío añade ahí un control: elige el tipo y luego pulsa su botón o mueve su joystick. A sobre un control lo cambia: moverlo, darle otro botón o eliminarlo.\n\nTipos:\n• Toque: un toque breve\n• Mantener: toca mientras se mantiene el botón\n• Joystick: un joystick o la cruceta arrastra un dedo alrededor del punto, para joysticks en pantalla\n• Mirar alrededor: un joystick desliza sobre una zona, para cámaras y apuntar\n• Deslizar: un deslizamiento rápido en una dirección\n\nL1 y R1, o el joystick derecho, hacen más pequeño o más grande el control seleccionado. L2 y R2 saltan de un control a otro. X elimina.\n\nBotón Shift (Select y luego Botón Shift): mientras se mantiene, se aplica un segundo juego de controles. Y cambia entre los dos juegos.\n\nStart guarda y cierra. B cierra. FN sale sin guardar.\n\nLos botones sin control siguen funcionando como botones normales. FN y todos los atajos con FN siempre funcionan.</string>
+</resources>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="report_title">Informe de problemas</string>
+    <string name="report_summary">Guarda registros en la tarjeta SD para enviarlos con un informe de errores</string>
+
+    <string name="intro">¿Algo ha fallado? Guarda un informe y adjúntalo cuando nos cuentes el problema. Contiene los registros del sistema de ahora y del último inicio, los informes de fallos y una descripción de esta consola. Tarda alrededor de un minuto.</string>
+
+    <string name="note_title">¿Qué ha fallado?</string>
+    <string name="note_hint">Opcional. ¿Qué estabas haciendo y qué ha pasado?</string>
+    <string name="note_dialog">Describe el problema. Se incluirá en el informe.</string>
+
+    <string name="save_title">Guardar informe</string>
+    <string name="save_summary">Se guarda en EASYROMS, en la carpeta andr36oid-reports</string>
+    <string name="save_running">Guardando %1$s (paso %2$d de %3$d)…</string>
+    <string name="save_done">Guardado: %1$s</string>
+    <string name="save_done_toast">Informe guardado en %1$s</string>
+    <string name="save_failed">No se ha guardado. %1$s</string>
+    <string name="error_no_storage">No hay ninguna partición EASYROMS ni carpeta Download interna donde guardarlo.</string>
+    <string name="error_cant_write">No se ha podido escribir el archivo. ¿Está llena la tarjeta?</string>
+    <string name="error_stopped">El informe se ha detenido antes de terminar.</string>
+    <string name="error_start">No se ha podido iniciar el informe.</string>
+
+    <string name="step_system">la información del sistema</string>
+    <string name="step_logcat">el registro de Android</string>
+    <string name="step_kernel">el registro del kernel</string>
+    <string name="step_crashes">los informes de fallos</string>
+    <string name="step_power">la información de batería y suspensión</string>
+    <string name="step_devices">los dispositivos y conexiones</string>
+    <string name="step_apps">la lista de apps</string>
+    <string name="step_saving">el archivo</string>
+
+    <string name="last_start_title">Registros del último inicio</string>
+    <string name="last_start_crash">El último inicio terminó con un fallo del sistema. Su registro se conserva y se incluirá en el informe.</string>
+    <string name="last_start_kept">Conservados, se incluirán en el informe.</string>
+    <string name="last_start_none">Ninguno. Solo se conservan cuando la consola se reinicia, no cuando se apagó o se agotó la batería.</string>
+
+    <string name="privacy">El informe incluye la lista de tus apps y puede contener nombres de redes Wi-Fi y de dispositivos Bluetooth. No contiene tus juegos ni tus archivos. Revísalo antes de publicarlo.</string>
+
+    <string name="channel_name">Informes de problemas</string>
+    <string name="crash_title">La consola se ha reiniciado tras un error</string>
+    <string name="crash_text">Guarda ahora un informe de problemas, mientras los registros siguen ahí, y envíalo con una descripción de lo que ha pasado.</string>
+    <string name="crash_action">Guardar informe</string>
+</resources>

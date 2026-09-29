@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="details_title">Detalles de la batería</string>
+    <string name="details_summary">Voltaje, corriente, tiempos de carga y un gráfico de 24 horas</string>
+
+    <!-- Header -->
+    <string name="percent"><xliff:g id="percent">%1$d</xliff:g>%%</string>
+    <string name="status_charging">Cargando</string>
+    <string name="status_full">Cargada</string>
+    <string name="status_discharging">Con batería</string>
+    <string name="status_not_charging">Enchufada, sin cargar</string>
+    <string name="time_to_full">unos <xliff:g id="time">%1$s</xliff:g> hasta la carga completa</string>
+    <string name="time_left">quedan unos <xliff:g id="time">%1$s</xliff:g> a este ritmo</string>
+    <!-- Joins status and time, e.g. "Charging · about 1 h 10 min until full" -->
+    <string name="status_and_time"><xliff:g id="status">%1$s</xliff:g> · <xliff:g id="time">%2$s</xliff:g></string>
+
+    <string name="graph_title">Últimas 24 horas</string>
+    <string name="graph_empty">El gráfico se va completando a medida que usas la consola. Se añade un punto cada 15 minutos mientras está activa.</string>
+    <string name="graph_ago">Hace 24 h</string>
+    <string name="graph_now">ahora</string>
+
+    <string name="now_title">Ahora mismo</string>
+    <string name="voltage">Voltaje</string>
+    <string name="current">Corriente</string>
+    <string name="power">Potencia</string>
+    <!-- The RK817 has no battery temperature sensor (the driver reports a fixed 18.8 °C), so this is the processor's -->
+    <string name="temperature">Temperatura del procesador</string>
+    <string name="charger">Cargador</string>
+
+    <!-- Battery capacity setting -->
+    <string name="capacity_title">Capacidad de la batería</string>
+    <string name="capacity_setting">Capacidad</string>
+    <string name="capacity_hint">Viene impresa en la batería. Un valor incorrecto hace que el porcentaje se desvíe.</string>
+    <string name="capacity_reset">Restablecer a <xliff:g id="mah">%1$d</xliff:g> mAh</string>
+    <string name="capacity">El medidor de carga usa</string>
+
+    <string name="value_voltage"><xliff:g id="volts">%1$.2f</xliff:g> V</string>
+    <string name="value_current_in">Entran <xliff:g id="ma">%1$d</xliff:g> mA</string>
+    <string name="value_current_out">Salen <xliff:g id="ma">%1$d</xliff:g> mA</string>
+    <string name="value_power"><xliff:g id="watts">%1$.2f</xliff:g> W</string>
+    <string name="value_temperature"><xliff:g id="celsius">%1$.1f</xliff:g> °C</string>
+    <string name="value_capacity"><xliff:g id="mah">%1$d</xliff:g> mAh</string>
+    <string name="value_capacity_default"><xliff:g id="mah">%1$d</xliff:g> mAh (predeterminado)</string>
+    <string name="charger_none">Sin enchufar</string>
+    <string name="charger_usb">USB</string>
+    <string name="charger_ac">Cargador de pared</string>
+    <string name="unknown">Desconocido</string>
+
+    <string name="about">El porcentaje es una estimación del medidor de carga. El voltaje se mide directamente: unos 4,2 V es carga completa, 3,7 V es más o menos la mitad y la consola se apaga cerca de 3,4 V. El voltaje baja mientras se ejecuta un juego y se recupera en reposo.\n\nSi el porcentaje y el voltaje no coinciden, carga hasta que la consola indique que está cargada. Así el medidor se corrige solo.\n\nLos tiempos son estimaciones aproximadas basadas en la corriente actual.</string>
+
+    <!-- Durations -->
+    <string name="duration_min"><xliff:g id="minutes">%1$d</xliff:g> min</string>
+    <string name="duration_h_min"><xliff:g id="hours">%1$d</xliff:g> h <xliff:g id="minutes">%2$d</xliff:g> min</string>
+</resources>

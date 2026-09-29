@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_name">Primer inicio</string>
+    <!-- Shown for a moment when the home button (FN) is pressed during the first-start
+         tutorial, before the tutorial comes back -->
+    <string name="home_title">Pantalla de inicio</string>
+    <string name="home_body">Tu pantalla de inicio, Daijishou, se abrirá aquí cuando termines el tutorial.\n\nEl tutorial vuelve en un momento.</string>
+    <string name="home_back">Volver al tutorial</string>
+    <string name="home_skip">Saltar tutorial</string>
+</resources>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="beta_title">Apps beta</string>
+    <string name="beta_summary">Apps extra para testers, no incluidas en las versiones estables</string>
+
+    <!-- %1$s is the kind of build (beta, dirty, debug), %2$s the full version -->
+    <string name="beta_notice">Estás usando una versión <xliff:g id="kind">%1$s</xliff:g> (<xliff:g id="version">%2$s</xliff:g>). Estas apps solo se ofrecen en las versiones beta y dirty. No forman parte de las versiones estables.</string>
+    <string name="beta_notice_more">Elige las que quieras probar. Puedes volver aquí cuando quieras desde Ajustes > Apps beta.</string>
+    <string name="beta_kind_unknown">de prueba</string>
+    <string name="beta_version_unknown">versión desconocida</string>
+    <string name="beta_empty">Esta versión no tiene apps beta.</string>
+
+    <string name="beta_install">Instalar selección</string>
+    <!-- %d is the number of apps ticked -->
+    <string name="beta_install_count">Instalar selección (<xliff:g id="count">%d</xliff:g>)</string>
+    <string name="beta_not_now">Ahora no</string>
+    <string name="beta_done">Hecho</string>
+
+    <!-- %s is the app version, e.g. 3.0.2 -->
+    <string name="beta_version">Versión <xliff:g id="version">%s</xliff:g></string>
+    <string name="state_not_installed">No instalada</string>
+    <string name="state_installed">Instalada</string>
+    <!-- %s is the installed version -->
+    <string name="state_update">Versión <xliff:g id="version">%s</xliff:g> instalada, esta es más reciente</string>
+    <string name="state_newer_installed">Hay una versión más reciente instalada</string>
+    <string name="state_waiting">Esperando…</string>
+    <!-- %d is a percentage -->
+    <string name="state_copying">Copiando… <xliff:g id="percent">%d</xliff:g>%%</string>
+    <string name="state_installing">Instalando…</string>
+    <string name="state_install_ok">Instalada ahora</string>
+    <!-- %s is the reason given by the package manager -->
+    <string name="state_install_failed">No se ha podido instalar: <xliff:g id="reason">%s</xliff:g></string>
+    <string name="state_missing">Falta el APK en esta versión</string>
+
+    <!-- %1$d apps installed, %2$d failed -->
+    <string name="result_summary">Instaladas: <xliff:g id="ok">%1$d</xliff:g>. Fallidas: <xliff:g id="failed">%2$d</xliff:g>.</string>
+
+    <string name="key_dpad">Cruceta</string>
+    <string name="hint_choose">Elegir</string>
+    <string name="hint_tick">Marcar / pulsar</string>
+    <string name="hint_not_now">Ahora no</string>
+    <string name="hint_close">Cerrar</string>
+    <string name="hint_jump">Lista / botones</string>
+</resources>

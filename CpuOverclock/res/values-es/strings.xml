@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="overclock_title">Rendimiento</string>
+    <string name="overclock_summary">Ahorro de batería o máxima velocidad, límite de CPU y overclock</string>
+
+    <!-- Performance profiles -->
+    <string name="profile_category">Perfil de rendimiento</string>
+    <string name="profile_title">Perfil</string>
+    <string-array name="profile_names">
+        <item>Ahorro de batería</item>
+        <item>Equilibrado</item>
+        <item>Rendimiento</item>
+    </string-array>
+    <!-- What each profile does. cpu is a CPU speed like "1.01 GHz", gpu a GPU speed in MHz. -->
+    <string name="profile_about_saver">Más tiempo de juego. La CPU se mantiene a <xliff:g id="cpu">%1$s</xliff:g> o menos y los gráficos a <xliff:g id="gpu">%2$d</xliff:g> MHz. Suficiente para juegos de 8 y 16 bits.</string>
+    <string name="profile_about_balanced">Velocidades estándar. El procesador acelera cuando un juego lo necesita y baja el ritmo cuando no.</string>
+    <string name="profile_about_performance">La emulación más fluida. La CPU nunca baja de <xliff:g id="cpu">%1$s</xliff:g> y los gráficos funcionan siempre a <xliff:g id="gpu">%2$d</xliff:g> MHz. Para juegos de PS1, N64 y PSP. La batería se agota antes.</string>
+    <string name="profile_about_footer">\n\nEl perfil se mantiene al reiniciar la consola. El icono de Ajustes rápidos cambia al siguiente.</string>
+    <string name="profile_about_footer_fn">\n\nEl perfil se mantiene al reiniciar la consola. FN + R1 y el icono de Ajustes rápidos cambian al siguiente.</string>
+    <string name="profile_failed">No se ha podido cambiar el perfil de rendimiento</string>
+    <!-- Toast after FN + R1, e.g. "Performance profile: Battery saver" -->
+    <string name="profile_switched">Perfil de rendimiento: <xliff:g id="profile">%1$s</xliff:g></string>
+    <string name="profile_tile_label">Rendimiento</string>
+    <!-- Toast after FN + R1 while a maximum CPU speed holds the CPU lower than the profile would,
+         e.g. "Performance profile: Balanced, CPU up to 816 MHz" -->
+    <string name="profile_switched_capped">Perfil de rendimiento: <xliff:g id="profile">%1$s</xliff:g>, CPU hasta <xliff:g id="speed">%2$s</xliff:g></string>
+    <!-- Tile subtitle with a maximum CPU speed, e.g. "Balanced, 816 MHz" -->
+    <string name="profile_tile_capped"><xliff:g id="profile">%1$s</xliff:g>, <xliff:g id="speed">%2$s</xliff:g></string>
+
+    <!-- Maximum CPU speed (underclock) -->
+    <string name="cpu_cap_title">Velocidad máxima de CPU</string>
+    <!-- First entry of the list, no limit. speed is the standard top speed, e.g. "1296 MHz" -->
+    <string name="cpu_cap_stock">De serie (<xliff:g id="speed">%1$s</xliff:g>)</string>
+    <string name="cpu_cap_note">Una velocidad más baja da más batería y una consola más fresca, pero juegos más lentos. Si un juego va lento, elige una velocidad más alta. Se mantiene al reiniciar la consola.</string>
+    <!-- The cap is lower than what the profile allows, speed e.g. "816 MHz" -->
+    <string name="cpu_cap_active">Hasta <xliff:g id="speed">%1$s</xliff:g>, sea cual sea el perfil.</string>
+    <!-- The profile already stays lower than the cap -->
+    <string name="cpu_cap_profile_lower"><xliff:g id="speed">%1$s</xliff:g>. Ahora el perfil mantiene la CPU a <xliff:g id="profile_speed">%2$s</xliff:g> o menos.</string>
+    <string name="cpu_cap_on_hold"><xliff:g id="speed">%1$s</xliff:g>. En pausa mientras el overclock esté activado.</string>
+    <string name="cpu_cap_none">Sin más límite que el del perfil.</string>
+    <!-- A CPU speed, e.g. "816 MHz" -->
+    <string name="speed_mhz"><xliff:g id="mhz">%1$d</xliff:g> MHz</string>
+
+    <string name="overclock_category">Overclock de la CPU (experimental)</string>
+    <string name="overclock_switch">Overclock</string>
+    <string name="overclock_switch_on">Funcionando hasta <xliff:g id="speed">%1$s</xliff:g></string>
+    <string name="overclock_switch_off">Desactivado, la CPU funciona hasta <xliff:g id="speed">%1$s</xliff:g></string>
+    <string name="overclock_speed">Velocidad</string>
+
+    <!-- A CPU speed, e.g. "1.51 GHz" -->
+    <string name="speed_ghz"><xliff:g id="ghz">%1$.2f</xliff:g> GHz</string>
+
+    <string name="overclock_about">Emulación más rápida para juegos exigentes, pero tiene un precio: la consola se calienta más, la batería se agota antes y algunas consolas se bloquean o fallan a las velocidades más altas. Si ocurre, elige una velocidad más baja.\n\nLa consola siempre arranca sin overclock; al reiniciar se desactiva. Mientras está activado, la velocidad máxima de la CPU queda en pausa. La consola también reduce la velocidad por sí sola cuando se calienta demasiado.</string>
+
+    <string name="overclock_unsupported">No se puede hacer overclock a esta consola.</string>
+    <string name="overclock_failed">No se ha podido cambiar la velocidad de la CPU</string>
+
+    <!-- CPU undervolt -->
+    <string name="undervolt_category">Undervolt de la CPU (experimental)</string>
+    <string name="undervolt_title">Undervolt</string>
+    <string name="undervolt_off">Desactivado</string>
+    <!-- An undervolt step, e.g. "−25 mV" -->
+    <string name="undervolt_step">−<xliff:g id="mv">%1$d</xliff:g> mV</string>
+    <string name="undervolt_about">Hace funcionar la CPU con un voltaje algo más bajo a la misma velocidad, así que consume un poco menos y se calienta un poco menos, sobre todo a las velocidades más altas. A 816 MHz o menos apenas se gana nada.\n\nCada chip es diferente. Si un juego falla o la consola se bloquea o se reinicia, vuelve a Desactivado. Un fallo mientras se está guardando algo puede dañar archivos de la tarjeta, así que baja de paso en paso y juega un rato antes de bajar más.\n\nLa consola siempre arranca con el undervolt desactivado; al reiniciar se desactiva.</string>
+    <string name="undervolt_failed">No se ha podido cambiar el voltaje de la CPU</string>
+
+    <!-- Quick Settings tile -->
+    <string name="tile_label">Overclock de CPU</string>
+    <string name="tile_off">Desactivado</string>
+</resources>
