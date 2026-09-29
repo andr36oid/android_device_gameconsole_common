@@ -429,59 +429,84 @@ cheats_ours() {
 	return 1
 }
 
+# cheats_merge <from> <to> ; moves the unpacked files into the cheat folder,
+# over our older copies; everything else in it stays
+cheats_merge() {
+	local e
+	for e in "$1"/*; do
+		[ -e "$e" ] || continue
+		if [ -d "$e" ] && [ -d "$2/${e##*/}" ]; then
+			cheats_merge "$e" "$2/${e##*/}" || return 1
+		else
+			mv -f "$e" "$2/${e##*/}" || return 1
+		fi
+	done
+}
+
 # seed_cheats ; RetroArch's online updater can't fetch cheats on an offline
 # console, so the Cheats menu (Load Cheat File) would be empty. Points
 # cheat_database_path at Android/data/com.retroarch/files/cheats, unless the
 # user picked another folder, and unpacks the cheat files there, once per
 # archive: a newer ROM with other cheats unpacks again over the old ones.
 # Files the user added or saved there stay. A folder the user deleted stays
-# deleted until a ROM brings a new archive.
+# deleted until a ROM brings a new archive. The archive is unpacked into
+# cheats.new next to it first and moved in only when that worked, and the path
+# is set only then: a full disk or a power cut leaves no half folder that
+# RetroArch points at.
 seed_cheats() {
 	local cfg=$RA_EXT/retroarch.cfg dir=$RA_EXT/cheats want=$RA_EXT_PUBLIC/cheats
-	local stamp=$RA_DATA/.gameconsole/cheats.sha1 cur sum owner free
+	local stamp=$RA_DATA/.gameconsole/cheats.sha1 tmp=$RA_EXT/cheats.new cur sum owner free
 
 	[ -f "$CHEATS_ARCHIVE" ] && [ -d "$RA_DATA" ] && [ -f "$cfg" ] || return 0
 	cur=$(cfg_get "$cfg" cheat_database_path)
+	# a folder the user set: theirs, and no cheats unpacked
+	[ "$cur" = "$want" ] || cheats_ours "$cur" || return 0
+	# a run cut off while unpacking
+	rm -rf "$tmp"
+
+	sum=$(sha1 "$CHEATS_ARCHIVE")
+	if [ "$(cat "$stamp" 2>/dev/null)" != "$sum" ]; then
+		# the last line, counted from the end: a long device name wraps the line
+		free=$(df -k "$RA_EXT" 2>/dev/null | tail -n 1 | awk '{ print $(NF - 2) }')
+		if [ "${free:-0}" -lt "$CHEATS_MIN_FREE" ]; then
+			log "only ${free:-?} KB free, cheat files not unpacked"
+			return 0
+		fi
+		owner=$(stat -c %u "$RA_DATA")
+		mkdir "$tmp" || { log "making $tmp failed"; return 0; }
+		# the pipe only returns tar's status, and some tars take a cut-off
+		# stream quietly: gzip leaves a mark when it fails
+		mkdir -p "${stamp%/*}"
+		rm -f "$stamp.err"
+		if ! { gzip -dc "$CHEATS_ARCHIVE" || echo failed >"$stamp.err"; } | tar -xof - -C "$tmp" ||
+			[ -e "$stamp.err" ]; then
+			rm -rf "$stamp.err" "$tmp"
+			log "unpacking the cheat files failed"
+			return 0
+		fi
+		if [ ! -d "$dir" ]; then
+			# a new folder: the whole unpacked one, made the way vold makes them
+			# (see seed_retroarch)
+			mv "$tmp" "$dir" || { rm -rf "$tmp"; log "moving the cheat files failed"; return 0; }
+		elif ! cheats_merge "$tmp" "$dir"; then
+			rm -rf "$tmp"
+			log "moving the cheat files failed, tried again next start"
+			return 0
+		fi
+		rm -rf "$tmp"
+		chown -R "$owner:$AID_EXT_DATA_RW" "$dir"
+		find "$dir" -type d -exec chmod 2770 {} +
+		find "$dir" -type f -exec chmod 0660 {} +
+		restorecon -R "$dir" 2>/dev/null
+		service call mount 90 s16 "$want" </dev/null >/dev/null 2>&1
+		echo "$sum" >"$stamp"
+		chown "$(stat -c %u:%g "$RA_DATA")" "${stamp%/*}" "$stamp"
+		log "unpacked the cheat files into $want"
+	fi
 	if [ "$cur" != "$want" ]; then
-		# a folder the user set: theirs, and no cheats unpacked
-		cheats_ours "$cur" || return 0
 		cfg_set "$cfg" cheat_database_path "$want" || { log "writing retroarch.cfg failed"; return 0; }
 		log "RetroArch's cheat folder is $want now (was: ${cur:-unset})"
 	fi
-
-	sum=$(sha1 "$CHEATS_ARCHIVE")
-	[ "$(cat "$stamp" 2>/dev/null)" = "$sum" ] && return 0
-	# the last line, counted from the end: a long device name wraps the line
-	free=$(df -k "$RA_EXT" 2>/dev/null | tail -n 1 | awk '{ print $(NF - 2) }')
-	if [ "${free:-0}" -lt "$CHEATS_MIN_FREE" ]; then
-		log "only ${free:-?} KB free, cheat files not unpacked"
-		return 0
-	fi
-	owner=$(stat -c %u "$RA_DATA")
-	if [ ! -d "$dir" ]; then
-		# made the way vold makes them (see seed_retroarch)
-		mkdir "$dir" || { log "making $dir failed"; return 0; }
-		chown "$owner:$AID_EXT_DATA_RW" "$dir"
-		chmod 2770 "$dir"
-	fi
-	# the pipe only returns tar's status, and some tars take a cut-off
-	# stream quietly: gzip leaves a mark when it fails
-	mkdir -p "${stamp%/*}"
-	rm -f "$stamp.err"
-	if ! { gzip -dc "$CHEATS_ARCHIVE" || echo failed >"$stamp.err"; } | tar -xof - -C "$dir" ||
-		[ -e "$stamp.err" ]; then
-		rm -f "$stamp.err"
-		log "unpacking the cheat files failed"
-		return 0
-	fi
-	chown -R "$owner:$AID_EXT_DATA_RW" "$dir"
-	find "$dir" -type d -exec chmod 2770 {} +
-	find "$dir" -type f -exec chmod 0660 {} +
-	restorecon -R "$dir" 2>/dev/null
-	service call mount 90 s16 "$want" </dev/null >/dev/null 2>&1
-	echo "$sum" >"$stamp"
-	chown "$(stat -c %u:%g "$RA_DATA")" "${stamp%/*}" "$stamp"
-	log "unpacked the cheat files into $want"
 }
 
 # bios_folder ; points RetroArch's system_directory at the bios folder on
