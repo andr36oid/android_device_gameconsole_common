@@ -77,6 +77,12 @@ public final class KeyboardLogic {
 
     private final List<Effect> out = new ArrayList<>();
 
+    /** The right stick must be pushed this long in the grid to switch to stick typing. */
+    public static final long RIGHT_SWITCH_MS = 300;
+    private long rightPushedAt = -1;   // since when the right stick is pushed in the grid
+    private float rightX;
+    private float rightY;
+
     public KeyboardLogic(String family, String language, boolean startInSticks) {
         letters = Layouts.letters(family);
         symbols = Layouts.symbols();
@@ -366,6 +372,7 @@ public final class KeyboardLogic {
         closeVariants();
         aPending = false;
         stick.reset();
+        rightPushedAt = -1;
     }
 
     // ---- sticks ----
@@ -379,11 +386,21 @@ public final class KeyboardLogic {
         return true;
     }
 
-    /** Right stick: types in stick mode (it also switches to stick mode when pushed). */
-    public List<Effect> rightStick(float x, float y) {
+    /**
+     * Right stick: types in stick mode. Held pushed for RIGHT_SWITCH_MS in the grid, it
+     * switches to stick mode (a drifting or knocked stick doesn't).
+     */
+    public List<Effect> rightStick(float x, float y, long now) {
         out.clear();
         if (mode != MODE_STICKS) {
-            if (Math.max(Math.abs(x), Math.abs(y)) < Radial.PICK) return out;
+            rightX = x;
+            rightY = y;
+            if (Math.max(Math.abs(x), Math.abs(y)) < Radial.PICK) {
+                rightPushedAt = -1;
+                return out;
+            }
+            if (rightPushedAt < 0) rightPushedAt = now;
+            if (now - rightPushedAt < RIGHT_SWITCH_MS) return out;
             // Pushing the right stick in the grid is a natural way to ask for stick typing.
             toggleMode();
         }
@@ -395,6 +412,11 @@ public final class KeyboardLogic {
     /** Timer while the left stick is held in the grid. Returns true if the highlight moved. */
     public boolean tick(long now) {
         if (mode != MODE_GRID) return false;
+        if (rightPushedAt >= 0 && now - rightPushedAt >= RIGHT_SWITCH_MS) {
+            // The right stick is still held where it was: no new motion events come
+            rightStick(rightX, rightY, now);
+            return true;
+        }
         int d = stick.tick(now);
         if (d < 0) return false;
         stepFromStick(d);
@@ -403,7 +425,12 @@ public final class KeyboardLogic {
 
     /** When the stick timer should fire next, or -1 if the stick is not held. */
     public long nextTick() {
-        return mode == MODE_GRID && stick.direction() >= 0 ? stick.nextAt() : -1;
+        long next = mode == MODE_GRID && stick.direction() >= 0 ? stick.nextAt() : -1;
+        if (mode == MODE_GRID && rightPushedAt >= 0) {
+            final long right = rightPushedAt + RIGHT_SWITCH_MS;
+            next = next < 0 ? right : Math.min(next, right);
+        }
+        return next;
     }
 
     private void stepFromStick(int dir) {

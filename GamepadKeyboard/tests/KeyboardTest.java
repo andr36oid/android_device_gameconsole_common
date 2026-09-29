@@ -278,25 +278,25 @@ public class KeyboardTest {
         eq(2, l.radial().group(), "group ijkl");
         l.leftStick(0f, 0f, 10);
         eq(2, l.radial().group(), "group sticks after release");
-        eq("", texts(l.rightStick(0f, 1f)), "point down (k)");
+        eq("", texts(l.rightStick(0f, 1f, 0)), "point down (k)");
         eq(2, l.radial().slot(), "slot down");
-        eq("", texts(l.rightStick(0.4f, 0.1f)), "between thresholds: nothing");
-        eq("TEXT(k)", texts(l.rightStick(0.05f, 0f)), "release types k");
-        eq("", texts(l.rightStick(0f, 0f)), "nothing more");
+        eq("", texts(l.rightStick(0.4f, 0.1f, 0)), "between thresholds: nothing");
+        eq("TEXT(k)", texts(l.rightStick(0.05f, 0f, 0)), "release types k");
+        eq("", texts(l.rightStick(0f, 0f, 0)), "nothing more");
         // change mind before release
-        l.rightStick(0f, -1f); // i
-        l.rightStick(-1f, 0f); // l
-        eq("TEXT(l)", texts(l.rightStick(0f, 0f)), "last pointed wins");
+        l.rightStick(0f, -1f, 0); // i
+        l.rightStick(-1f, 0f, 0); // l
+        eq("TEXT(l)", texts(l.rightStick(0f, 0f, 0)), "last pointed wins");
         // A while pointing types right away; release then types nothing
-        l.rightStick(1f, 0f); // j
+        l.rightStick(1f, 0f, 0); // j
         eq("TEXT(j)", texts(l.down(Buttons.PRESS, 0)), "A types pointed");
         eq("TEXT(j)", texts(l.down(Buttons.PRESS, 0)), "A again types again");
-        eq("", texts(l.rightStick(0f, 0f)), "release after A: nothing");
+        eq("", texts(l.rightStick(0f, 0f, 0)), "release after A: nothing");
         eq("", texts(l.down(Buttons.PRESS, 0)), "A with stick centred: nothing");
         // shift in stick mode
         l.down(Buttons.SHIFT, 0);
-        l.rightStick(0f, -1f);
-        eq("TEXT(I)", texts(l.rightStick(0f, 0f)), "shifted I");
+        l.rightStick(0f, -1f, 0);
+        eq("TEXT(I)", texts(l.rightStick(0f, 0f, 0)), "shifted I");
         eq(KeyboardLogic.SHIFT_OFF, l.shift(), "shift used");
         // d-pad rotates the group
         l.down(Buttons.NAV_RIGHT, 0);
@@ -306,15 +306,25 @@ public class KeyboardTest {
         // symbols
         l.down(Buttons.PAGE, 0);
         l.leftStick(0f, -1f, 20);
-        l.rightStick(0f, -1f);
-        eq("TEXT(1)", texts(l.rightStick(0f, 0f)), "symbols group 0 slot 0");
+        l.rightStick(0f, -1f, 0);
+        eq("TEXT(1)", texts(l.rightStick(0f, 0f, 0)), "symbols group 0 slot 0");
         // right stick from grid switches to stick mode
         KeyboardLogic g = new KeyboardLogic(Layouts.QWERTY, "en", false);
-        eq("", texts(g.rightStick(0.2f, 0f)), "small push: nothing");
+        eq("", texts(g.rightStick(0.2f, 0f, 0)), "small push: nothing");
         eq(KeyboardLogic.MODE_GRID, g.mode(), "still grid");
-        g.rightStick(0f, -1f);
-        eq(KeyboardLogic.MODE_STICKS, g.mode(), "pushed: stick mode");
-        eq("TEXT(a)", texts(g.rightStick(0f, 0f)), "and it typed group 0 slot 0");
+        g.rightStick(0f, -1f, 1000);
+        eq(KeyboardLogic.MODE_GRID, g.mode(), "a short push: still grid");
+        g.rightStick(0f, 0f, 1100);
+        g.rightStick(0f, -1f, 2000);
+        eq(KeyboardLogic.MODE_GRID, g.mode(), "released in between: starts again");
+        eq(2000 + KeyboardLogic.RIGHT_SWITCH_MS, g.nextTick(), "timer for the switch");
+        eq(true, g.tick(2000 + KeyboardLogic.RIGHT_SWITCH_MS), "held without new events");
+        eq(KeyboardLogic.MODE_STICKS, g.mode(), "held: stick mode");
+        eq("TEXT(a)", texts(g.rightStick(0f, 0f, 2400)), "and it typed group 0 slot 0");
+        KeyboardLogic h = new KeyboardLogic(Layouts.QWERTY, "en", false);
+        h.rightStick(0f, -1f, 0);
+        h.rightStick(0f, -0.9f, KeyboardLogic.RIGHT_SWITCH_MS);
+        eq(KeyboardLogic.MODE_STICKS, h.mode(), "held with motion events: stick mode");
     }
 
     static void stickRepeat() {

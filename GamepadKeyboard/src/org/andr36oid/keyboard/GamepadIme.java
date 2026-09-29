@@ -258,7 +258,7 @@ public class GamepadIme extends InputMethodService {
         boolean changed = logic.leftStick(e.getAxisValue(MotionEvent.AXIS_X),
                 e.getAxisValue(MotionEvent.AXIS_Y), now);
         List<KeyboardLogic.Effect> fx = logic.rightStick(e.getAxisValue(MotionEvent.AXIS_Z),
-                e.getAxisValue(MotionEvent.AXIS_RZ));
+                e.getAxisValue(MotionEvent.AXIS_RZ), now);
         changed |= !fx.isEmpty();
         apply(fx);
         changed |= hat(e);
