@@ -161,9 +161,9 @@ its library the way Daijishou itself stores it, once, before it first runs:
   `platforms/` at cde33bb, MIT, `official/LICENSE`), `seed/rom-folders.txt` and
   `cores.lock`. Platforms and players are the official ones (same uniqueId and player
   names), so Daijishou's own "update platforms" keeps working on them. A core the
-  official file doesn't list (ClownMDEmu) gets a player copied from the platform's first
-  RetroArch player. n64, nds, arcade and bios get no platform: we ship nothing that plays
-  them.
+  official file doesn't list (ClownMDEmu, and MAME 2003-Plus on the FBNeo arcade
+  platform) gets a player copied from the platform's first RetroArch player. nds and bios
+  get no platform: we ship nothing that plays them.
 - `daijishou/schema.sql`: Daijishou's Room schema (version 17, identity hash) exactly as
   its `DaijishouDatabase_Impl.createAllTables` makes it.
 - post-fs-data (`gameconsole-emu.sh post-fs-data`, run with `exec_start` before

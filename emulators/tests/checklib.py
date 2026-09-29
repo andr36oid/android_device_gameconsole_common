@@ -87,7 +87,7 @@ def main(seed, schema, db, prefs, grants, root, cores, apps):
         tree = json.loads(p["items_sync_tree_uri_list"])
         folders = []
         for u in tree:
-            m = re.match(re.escape(TREE + uuid + "%3A") + r"([a-z0-9]+)$", u)
+            m = re.match(re.escape(TREE + uuid + "%3A") + r"([a-z0-9-]+)$", u)
             check(m is not None, name + " bad uri " + u)
             if m:
                 folders.append(m.group(1))
