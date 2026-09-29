@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="save_summary_file">Wird als .zip-Datei auf dem Laufwerk BOOT der SD-Karte gespeichert (das Laufwerk, das jeder PC sieht), im Ordner andr36oid-reports</string>
+    <string name="confirm_title">Fehlerbericht speichern?</string>
+    <string name="confirm_message">Öffne am PC das Laufwerk BOOT der SD-Karte, Ordner andr36oid-reports, und schick uns die .zip-Datei.\n\nDarin: die Android- und Kernel-Logs (auch vom Start davor), Absturzberichte, das Konsolenmodell und sein DTB, Tasten und Sticks, Akku, Temperaturen, die SD-Karte, Ton und Bildschirm, deine App-Liste und wie viele Spiele in jedem ROM-Ordner sind.\n\nNicht dabei: WLAN-Namen und -Passwörter, Konten, Kontakte, die Namen deiner Spiele und Dateien, Seriennummern.</string>
+    <string name="confirm_save">Speichern</string>
+    <string name="privacy_file">Nicht dabei: WLAN-Namen und -Passwörter, Konten, Kontakte, die Namen deiner Spiele und Dateien, Seriennummern. Deine App-Liste ist dabei, und die Logs können noch Namen von Bluetooth-Geräten enthalten. Sieh ihn dir an, bevor du ihn öffentlich postest.</string>
+    <string name="pc_title">Tasten oder Bildschirm gehen nicht?</string>
+    <string name="pc_text">Leg am PC auf dem Laufwerk BOOT der SD-Karte eine Datei namens make-report.txt an. Du kannst hineinschreiben, was schiefgelaufen ist. Steck die Karte wieder ein, schalte ein und warte 5 Minuten. Der Bericht wird auf BOOT gespeichert und die Datei gelöscht.</string>
+    <string name="error_no_room">Auf BOOT, EASYROMS und dem internen Speicher ist kein Platz dafür.</string>
+</resources>

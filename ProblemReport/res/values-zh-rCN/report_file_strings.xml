@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="save_summary_file">以 .zip 文件保存到 SD 卡的 BOOT 盘（任何电脑都能看到的盘）上的 andr36oid-reports 文件夹</string>
+    <string name="confirm_title">保存问题报告？</string>
+    <string name="confirm_message">在电脑上打开 SD 卡的 BOOT 盘中的 andr36oid-reports 文件夹，然后发送 .zip 文件。\n\n包含：Android 和内核日志（包括上次启动的）、崩溃报告、掌机型号及其 DTB、按键和摇杆、电池、温度、SD 卡、声音和屏幕、您的应用列表，以及每个 ROM 文件夹中的游戏数量。\n\n不包含：Wi-Fi 名称和密码、帐号、联系人、您的游戏和文件的名称、序列号。</string>
+    <string name="confirm_save">保存</string>
+    <string name="privacy_file">不包含：Wi-Fi 名称和密码、帐号、联系人、您的游戏和文件的名称、序列号。报告包含您的应用列表，日志中仍可能出现蓝牙设备的名称。公开发布前请先检查一下。</string>
+    <string name="pc_title">按键或屏幕无法使用？</string>
+    <string name="pc_text">在电脑上，在 SD 卡的 BOOT 盘中新建一个名为 make-report.txt 的文件，可以在里面写下出了什么问题。把卡插回去并开机，然后等待 5 分钟。报告会保存到 BOOT，该文件会被删除。</string>
+    <string name="error_no_room">BOOT、EASYROMS 和内部存储都没有空间保存。</string>
+</resources>

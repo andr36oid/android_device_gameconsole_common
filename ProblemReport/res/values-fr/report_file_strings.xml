@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="save_summary_file">Enregistré en fichier .zip sur le lecteur BOOT de la carte SD (celui que tout PC voit), dans le dossier andr36oid-reports</string>
+    <string name="confirm_title">Enregistrer un rapport de problème ?</string>
+    <string name="confirm_message">Sur un PC, ouvrez le lecteur BOOT de la carte SD, dossier andr36oid-reports, et envoyez le fichier .zip.\n\nIl contient : les journaux Android et du noyau (aussi ceux du démarrage précédent), les rapports de plantage, le modèle de la console et son DTB, les boutons et les sticks, la batterie, les températures, la carte SD, le son et l\'écran, votre liste d\'applis et le nombre de jeux dans chaque dossier de ROM.\n\nLaissé de côté : noms et mots de passe Wi-Fi, comptes, contacts, noms de vos jeux et fichiers, numéros de série.</string>
+    <string name="confirm_save">Enregistrer</string>
+    <string name="privacy_file">Laissé de côté : noms et mots de passe Wi-Fi, comptes, contacts, noms de vos jeux et fichiers, numéros de série. Votre liste d\'applis y figure, et les journaux peuvent encore citer des appareils Bluetooth. Jetez-y un œil avant de le publier.</string>
+    <string name="pc_title">Boutons ou écran en panne ?</string>
+    <string name="pc_text">Sur un PC, créez un fichier nommé make-report.txt sur le lecteur BOOT de la carte SD. Vous pouvez y écrire ce qui s\'est passé. Remettez la carte, allumez la console et attendez 5 minutes. Le rapport est enregistré sur BOOT et le fichier est supprimé.</string>
+    <string name="error_no_room">Il n\'y a de place ni sur BOOT, ni sur EASYROMS, ni dans la mémoire interne.</string>
+</resources>

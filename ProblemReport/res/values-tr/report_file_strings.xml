@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="save_summary_file">SD kartın BOOT sürücüsüne (her bilgisayarın gördüğü sürücü) andr36oid-reports klasörüne .zip dosyası olarak kaydedilir</string>
+    <string name="confirm_title">Sorun raporu kaydedilsin mi?</string>
+    <string name="confirm_message">Bilgisayarda SD kartın BOOT sürücüsünü, andr36oid-reports klasörünü açın ve .zip dosyasını gönderin.\n\nİçinde: Android ve çekirdek günlükleri (önceki açılışınkiler de), çökme raporları, konsol modeli ve DTB\'si, düğmeler ve analog çubuklar, pil, sıcaklıklar, SD kart, ses ve ekran, uygulama listeniz ve her ROM klasöründe kaç oyun olduğu.\n\nDahil edilmez: Wi-Fi adları ve şifreleri, hesaplar, kişiler, oyunlarınızın ve dosyalarınızın adları, seri numaraları.</string>
+    <string name="confirm_save">Kaydet</string>
+    <string name="privacy_file">Dahil edilmez: Wi-Fi adları ve şifreleri, hesaplar, kişiler, oyunlarınızın ve dosyalarınızın adları, seri numaraları. Uygulama listeniz dahildir ve günlüklerde Bluetooth cihazlarının adları yine de geçebilir. Herkese açık bir yerde paylaşmadan önce bir göz atın.</string>
+    <string name="pc_title">Düğmeler veya ekran çalışmıyor mu?</string>
+    <string name="pc_text">Bilgisayarda SD kartın BOOT sürücüsünde make-report.txt adlı bir dosya oluşturun. İçine neyin ters gittiğini yazabilirsiniz. Kartı geri takın, konsolu açın ve 5 dakika bekleyin. Rapor BOOT\'a kaydedilir ve dosya silinir.</string>
+    <string name="error_no_room">BOOT\'ta, EASYROMS\'ta veya dahili depolamada bunun için yer yok.</string>
+</resources>

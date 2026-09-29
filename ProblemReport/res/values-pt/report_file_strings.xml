@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="save_summary_file">Salvo como arquivo .zip na unidade BOOT do cartão SD (a unidade que todo PC vê), na pasta andr36oid-reports</string>
+    <string name="confirm_title">Salvar um relatório de problema?</string>
+    <string name="confirm_message">No PC, abra a unidade BOOT do cartão SD, pasta andr36oid-reports, e envie o arquivo .zip.\n\nNele: os logs do Android e do kernel (também do início anterior), relatórios de falhas, o modelo do console e o DTB dele, botões e analógicos, bateria, temperaturas, o cartão SD, som e tela, sua lista de apps e quantos jogos há em cada pasta de ROMs.\n\nFica de fora: nomes e senhas de Wi-Fi, contas, contatos, os nomes dos seus jogos e arquivos, números de série.</string>
+    <string name="confirm_save">Salvar</string>
+    <string name="privacy_file">Fica de fora: nomes e senhas de Wi-Fi, contas, contatos, os nomes dos seus jogos e arquivos, números de série. Sua lista de apps está incluída, e os logs ainda podem citar dispositivos Bluetooth. Dê uma olhada antes de publicá-lo.</string>
+    <string name="pc_title">Botões ou tela não funcionam?</string>
+    <string name="pc_text">No PC, crie um arquivo chamado make-report.txt na unidade BOOT do cartão SD. Você pode escrever nele o que deu errado. Coloque o cartão de volta e ligue o console, depois espere 5 minutos. O relatório é salvo na BOOT e o arquivo é apagado.</string>
+    <string name="error_no_room">Não há espaço para ele na BOOT, no EASYROMS nem no armazenamento interno.</string>
+</resources>
