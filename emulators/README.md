@@ -38,6 +38,8 @@ the `gameconsole-emu` service (`seed/`) runs once `sys.boot_completed=1`:
    folder on EASYROMS, `/storage/<uuid>/bios`, like ArkOS's `/roms/bios` (on a `.noroms`
    card: `/storage/emulated/0/bios`). See
    [BIOS folder](#bios-folder) below.
+6. Keep the built-in pad player 1 in RetroArch and let every controller open the menu
+   and quit, see [Controllers and players](#controllers-and-players) below.
 
 Log tag: `gameconsole-emu`. State: `/data/misc/gameconsole` and
 `/data/user/0/com.retroarch/.gameconsole`.
@@ -104,6 +106,36 @@ picked by Daijishou's player, not by retroarch.cfg. Same as ArkOS: gambatte, mGB
 PCSX ReARMed, Beetle PCE Fast/NeoPop/Cygne, Genesis Plus GX, PicoDrive. Use mGBA rather
 than gpSP for GBA, and Genesis Plus GX (non-commercial tier) rather than Gearsystem for
 Master System/Game Gear. Save states only load in the same core.
+
+### Controllers and players
+
+Step 6 (`retroarch_players`) keeps the built-in pad player 1 and puts external pads on
+player 2 and up, in the order their first button is pressed. Without it RetroArch gives
+player 1 to whichever pad sends input first, which on Android can be an external pad.
+It uses RetroArch's device reservation (Settings > Input > Port 1 Controls > Device
+Reservation Type in RetroArch): `input_player1_device_reservation_type = "2"`
+(reserved) and `input_player1_reserved_device = "484b:1100"`, so player 1 stays free for
+the built-in pad even while an external pad is used first.
+
+Settings > Controllers can turn it round (`persist.andr36oid.ra_player1=external`): then
+player 2 is reserved for the built-in pad and the first external pad is player 1, for
+someone who plays alone on a bigger pad. The `gameconsole-ra-players` service writes the
+change once RetroArch is closed (RetroArch writes its old values back when it quits).
+
+Also for every controller, not only player 1's:
+- `all_users_control_menu = "true"`: every player can use the menu.
+- `input_quit_gamepad_combo = "4"`: Start+Select (twice) quits.
+- L1+R1+Start+Select opens the menu (already in the seeded config), and so does a pad's
+  Guide / PS / Capture button (the `andr36oid_*.cfg` profiles bind it).
+
+The Select hotkeys (save/load state, fast forward...) only work on player 1's pad:
+RetroArch 1.22 reads hotkeys from player 1 only (`input_keys_pressed`, "Hotkeys are only
+relevant for the first user"). Whoever wants them on the big pad makes it player 1.
+
+These settings are changed at boot only while they are unset, RetroArch's default or
+what the service wrote last time (`/data/misc/gameconsole/retroarch-managed/<key>`), so
+changes made in RetroArch stay; only a change in Settings > Controllers overrides the
+two player settings.
 
 ### BIOS folder
 

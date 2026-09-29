@@ -23,6 +23,9 @@
 #    the bios folder on EASYROMS, like ArkOS, or on the internal storage for a
 #    card made without EASYROMS (.noroms). A folder the user picked in
 #    RetroArch is kept.
+# 6. Controllers in RetroArch: the built-in pad is player 1 (or player 2 when
+#    Settings > Controllers says so), and every pad can open the menu and
+#    quit. See retroarch_players below; "players" as argument only does this.
 
 BASE=/system/etc/gameconsole
 STATE=/data/misc/gameconsole
@@ -456,7 +459,79 @@ bios_folder() {
 	echo "$want" >"$SYSTEM_DIR_MARK"
 }
 
+# What we last wrote into each controller setting of retroarch.cfg
+MANAGED=$STATE/retroarch-managed
+# 0x484b:0x1100, the built-in pad (odroidgo3-joypad, name "GO-Super Gamepad")
+BUILTIN_PAD=484b:1100
+
+# managed <file> <key> <value> <force> <RetroArch default>... ; sets a setting
+# when it is unset, what we wrote last time, or (before we ever wrote it)
+# RetroArch's default. Anything else is the user's and stays, unless forced.
+managed() {
+	local cfg=$1 key=$2 want=$3 force=$4 cur mark d ours=
+	shift 4
+	cur=$(cfg_get "$cfg" "$key")
+	[ "$cur" = "$want" ] && { echo "$want" >"$MANAGED/$key"; return 0; }
+	mark=$MANAGED/$key
+	if [ -n "$force" ] || [ -z "$cur" ]; then
+		ours=1
+	elif [ -f "$mark" ]; then
+		[ "$cur" = "$(cat "$mark")" ] && ours=1
+	else
+		for d in "$@"; do [ "$cur" = "$d" ] && ours=1; done
+	fi
+	[ -n "$ours" ] || return 0
+	cfg_set "$cfg" "$key" "$want" || { log "writing $key failed"; return 0; }
+	echo "$want" >"$mark"
+	log "RetroArch: $key = $want (was: ${cur:-unset})"
+}
+
+# retroarch_players [force] ; the built-in pad is player 1 in RetroArch, external
+# pads player 2 and up, in the order their first button is pressed. With
+# persist.andr36oid.ra_player1=external (Settings > Controllers) it is the
+# other way round: the first external pad is player 1, the built-in pad
+# player 2. RetroArch's device reservation does this (Settings > Input >
+# Port 1 Controls > Device Reservation in RetroArch). "Reserved" keeps that
+# player free for the pad until it sends its first input.
+# Also for every pad, not only player 1's: L1+R1+Start+Select (already set)
+# and a pad's Guide/PS button open the menu, Start+Select (twice) quits, and
+# every player can use the menu. The Select hotkeys (save states etc.) only
+# work on player 1's pad; RetroArch 1.22 reads hotkeys from player 1 only.
+# "force" (the setting was just changed in Settings) overrides values the
+# user set in RetroArch itself for the two player settings.
+retroarch_players() {
+	local cfg=$RA_EXT/retroarch.cfg force=${1:-} p1=$BUILTIN_PAD p2='' t1=2 t2=0
+	[ -f "$cfg" ] || return 0
+	mkdir -p "$MANAGED"
+	# reservation type: 2 = reserved, 0 = none
+	if [ "$(getprop persist.andr36oid.ra_player1)" = external ]; then
+		p1='' t1=0
+		p2=$BUILTIN_PAD t2=2
+	fi
+	managed "$cfg" input_player1_device_reservation_type $t1 "$force" 0
+	managed "$cfg" input_player1_reserved_device "$p1" "$force" ""
+	managed "$cfg" input_player2_device_reservation_type $t2 "$force" 0
+	managed "$cfg" input_player2_reserved_device "$p2" "$force" ""
+	managed "$cfg" all_users_control_menu true "" false
+	# 4 = Start+Select, with quit_press_twice (RetroArch's default) on
+	managed "$cfg" input_quit_gamepad_combo 4 "" 0
+}
+
+# retroarch_running ; RetroArch writes all its settings back when it quits
+retroarch_running() {
+	pidof "$RA_PKG" >/dev/null 2>&1
+}
+
 mkdir -p "$STATE"
+
+# gameconsole-ra-players: the player 1 choice in Settings > Controllers changed.
+# Applied once RetroArch is closed, as it would write its old values back.
+if [ "${1:-}" = players ]; then
+	[ "$(getprop sys.boot_completed)" = 1 ] || exit 0
+	while retroarch_running; do sleep 5; done
+	retroarch_players force
+	exit 0
+fi
 
 # boot_completed is set, but give the package manager a moment if needed
 i=0
@@ -474,3 +549,4 @@ find_easyroms
 make_rom_folders
 # after the ROM folders: they are only made on a card without any of them
 bios_folder
+retroarch_players
