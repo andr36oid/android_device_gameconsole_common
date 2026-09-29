@@ -1,0 +1,24 @@
+# Nintendo Switch Online SNES controller (Bluetooth), hid-nintendo driver
+# (kernel night/usb-peripherals). Like Android's own Switch Pro Controller
+# layout (Vendor_057e_Product_2009.kl) and the console's built-in pad, each
+# button sends the key of its printed letter: A (right) = BUTTON_A, B
+# (bottom) = BUTTON_B, X (top) = BUTTON_X, Y (left) = BUTTON_Y. Without this
+# file Generic.kl swapped A/B and X/Y on this pad only.
+
+# B, A, X, Y
+key 0x130    BUTTON_B
+key 0x131    BUTTON_A
+key 0x133    BUTTON_X
+key 0x134    BUTTON_Y
+
+key 0x136    BUTTON_L1
+key 0x137    BUTTON_R1
+key 0x138    BUTTON_L2
+key 0x139    BUTTON_R2
+
+axis 0x10    HAT_X
+axis 0x11    HAT_Y
+
+# Minus, Plus
+key 0x13a    BUTTON_SELECT
+key 0x13b    BUTTON_START
