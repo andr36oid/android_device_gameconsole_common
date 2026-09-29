@@ -11,7 +11,7 @@ LOCAL_MODULE_RELATIVE_PATH := gameconsole/preinstall
 LOCAL_MODULE_STEM := ScummVM.apk
 LOCAL_SRC_FILES := ScummVM.apk
 LOCAL_NOTICE_FILE := $(LOCAL_PATH)/NOTICE.txt
-LOCAL_REQUIRED_MODULES := gameconsole-emu foss-ScummVM-list
+LOCAL_REQUIRED_MODULES := gameconsole-emu foss-ScummVM-list foss-ScummVM-firstrun
 include $(BUILD_PREBUILT)
 
 include $(CLEAR_VARS)
@@ -21,4 +21,24 @@ LOCAL_MODULE_TAGS := optional
 LOCAL_MODULE_RELATIVE_PATH := gameconsole/preinstall
 LOCAL_MODULE_STEM := z-foss-scummvm.list
 LOCAL_SRC_FILES := z-foss-scummvm.list
+include $(BUILD_PREBUILT)
+
+# First-start settings, see ../README.md ("First-start settings")
+include $(CLEAR_VARS)
+LOCAL_MODULE := foss-ScummVM-firstrun
+LOCAL_MODULE_CLASS := ETC
+LOCAL_MODULE_TAGS := optional
+LOCAL_MODULE_RELATIVE_PATH := gameconsole/firstrun
+LOCAL_MODULE_STEM := scummvm.list
+LOCAL_SRC_FILES := firstrun/scummvm.list
+LOCAL_REQUIRED_MODULES := foss-ScummVM-firstrun-ini
+include $(BUILD_PREBUILT)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := foss-ScummVM-firstrun-ini
+LOCAL_MODULE_CLASS := ETC
+LOCAL_MODULE_TAGS := optional
+LOCAL_MODULE_RELATIVE_PATH := gameconsole/firstrun/scummvm
+LOCAL_MODULE_STEM := scummvm.ini
+LOCAL_SRC_FILES := firstrun/scummvm/scummvm.ini
 include $(BUILD_PREBUILT)
