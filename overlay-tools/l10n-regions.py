@@ -205,6 +205,19 @@ def analyse(src):
         our_keys = set()
         for keys in ours.values():
             our_keys |= set(keys)
+        # Product overlays (vendor/lineage, crowdin) come before our device
+        # overlays, so the same key in the same folder there beats ours.
+        if root != "overlay-wallpaper":
+            for v in VENDOR_ROOTS:
+                for folder, keys in scan_res(os.path.join(src, v, rel)).items():
+                    for k in sorted(set(keys) & set(ours_all.get(folder, {}))):
+                        theirs = {norm(sn) for _, sn in keys[k]}
+                        mine = {norm(sn) for _, sn in ours_all[folder][k]}
+                        if theirs == mine:
+                            continue
+                        # Not a language problem, so a warning: our value is unused.
+                        findings.append(("WARN", "%s: %s/%s/%s is a product overlay with another value; it beats ours (ours is unused)" % (
+                            rel, v, folder, k[1])))
         langs_we_have = {}
         for folder in ours:
             loc, rest = parse_folder(folder)
@@ -280,6 +293,14 @@ def analyse(src):
         for folder in ours_all:
             p = os.path.join(REPO, root, rel, folder, GENERATED_NAME)
             if os.path.exists(p) and p not in plan:
+                with open(p, encoding="utf-8") as f:
+                    srcs = set(re.findall(r"<!-- from (values[^ ]*) -->", f.read()))
+                missing = sorted(sf for sf in srcs if sf not in ours)
+                if missing:
+                    # e.g. this branch without the translations branch yet
+                    findings.append(("WARN", "%s: %s/%s: source %s not here (merge its translations first)" % (
+                        rel, folder, GENERATED_NAME, " ".join(missing))))
+                    continue
                 findings.append(("FAIL", "%s: %s/%s is stale (no longer needed), run --write" % (rel, folder, GENERATED_NAME)))
                 plan[p] = None
     return findings, plan
