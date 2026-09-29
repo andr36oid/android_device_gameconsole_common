@@ -314,7 +314,9 @@ decide() {
 	elif [ "$dtf" = ee ] && [ "$SERIAL_CLASH" = yes ]; then
 		VERDICT=old-ee-dtb
 		SUGGEST=$DT_WIRING
-	elif [ "$dtf" = ee ]; then
+	elif [ "$dtf" = ee ] && [ "$VOL_STUCK" = no ]; then
+		# every EE board has the volume ladder on channel 2, so with working
+		# volume keys the board is EE and only the stick/button wiring differs
 		VERDICT=other-ee
 		if [ "$DT_WIRING" = ee-b4 ]; then SUGGEST=ee-b3; else SUGGEST=ee-b4; fi
 	elif [ "$HW" = unknown ]; then
