@@ -11,6 +11,7 @@ GAMECONSOLE_EMU_NONCOMMERCIAL_CORES ?= false
 
 PRODUCT_PACKAGES += \
     gameconsole-emu \
+    sqlite3 \
     RetroArch-preinstall \
     PPSSPP-preinstall \
     libretro-cores-foss
@@ -24,3 +25,8 @@ endif
 # Tells the quick start guide.
 PRODUCT_PRODUCT_PROPERTIES += \
     ro.andr36oid.rom_folders=true
+
+# The gameconsole-emu service gives Daijishou a platform per ROM folder on the first start
+# (needs sqlite3 to write its library). Tells the quick start guide.
+PRODUCT_PRODUCT_PROPERTIES += \
+    ro.andr36oid.daijishou_platforms=true

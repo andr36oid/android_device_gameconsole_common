@@ -1,8 +1,17 @@
 on post-fs-data
     mkdir /data/misc/gameconsole 0700 root root
+    # before system_server starts: it reads the folder access (URI grants) for
+    # Daijishou only then. Waits for it; the step is a blkid call and a small file.
+    exec_start gameconsole-emu-early
 
 service gameconsole-emu /system/bin/sh /system/etc/gameconsole/gameconsole-emu.sh
     class main
+    user root
+    group root system
+    disabled
+    oneshot
+
+service gameconsole-emu-early /system/bin/sh /system/etc/gameconsole/gameconsole-emu.sh post-fs-data
     user root
     group root system
     disabled

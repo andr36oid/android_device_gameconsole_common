@@ -23,6 +23,9 @@
 #    the bios folder on EASYROMS, like ArkOS, or on the internal storage for a
 #    card made without EASYROMS (.noroms). A folder the user picked in
 #    RetroArch is kept.
+# 6. Gives Daijishou a platform per ROM folder system with our players, once,
+#    before its first start. Run as "gameconsole-emu.sh post-fs-data" (before
+#    system_server) it only writes the folder access that needs.
 
 BASE=/system/etc/gameconsole
 STATE=/data/misc/gameconsole
@@ -449,6 +452,262 @@ bios_folder() {
 	echo "$want" >"$SYSTEM_DIR_MARK"
 }
 
+# Daijishou, the home screen. On the first start its library gets one platform
+# per ROM folder system we can play, with the folder on EASYROMS as its sync
+# folder and our RetroArch core (or PPSSPP) as its player, so the user never has
+# to add platforms or pick folders. See emulators/README.md, "Daijishou platforms".
+DJ_PKG=com.magneticchen.daijishou
+DJ_DATA=/data/user/0/$DJ_PKG
+DJ_DB=$DJ_DATA/databases/Daijishou.db
+DJ_PREFS=$DJ_DATA/shared_prefs/${DJ_PKG}_preferences.xml
+DJ_SEED=$BASE/daijishou/daijishou-seed.txt
+DJ_SCHEMA=$BASE/daijishou/schema.sql
+# done: set once we added the platforms, or decided never to (Daijishou had a
+# library already, another Daijishou version)
+DJ_DONE=$STATE/daijishou.done
+URI_GRANTS=/data/system/urigrants.xml
+SAF_TREE=content://com.android.externalstorage.documents/tree
+EASYROMS_DEV=/dev/block/mmcblk0p7
+
+# dj_folders ; every ROM folder that gets a Daijishou platform
+dj_folders() {
+	sed -n 's/^platform	[0-9]*	\([^	]*\)	.*/\1/p' "$DJ_SEED" | tr ',' '\n'
+}
+
+# dj_tree_uri <uuid> <folder> ; the folder as Android's file picker hands it out
+dj_tree_uri() {
+	echo "$SAF_TREE/$1%3A$2"
+}
+
+# daijishou_grants: Daijishou reads its games through Android's storage access
+# framework, so it may only open a folder the user picked for it in the file
+# picker, which remembers that as a persisted URI grant in
+# /data/system/urigrants.xml. We write the same grants the picker would, once,
+# for every folder we give a platform. system_server reads the file only when
+# it starts, so this runs from post-fs-data, before it does. EASYROMS isn't
+# mounted yet at that point: its UUID comes from blkid, the tool vold names the
+# volume with (/storage/<UUID>).
+daijishou_grants() {
+	local uuid stamp folder uri now lines f=$URI_GRANTS
+
+	[ -f "$DJ_SEED" ] || return 0
+	[ -e "$DJ_DONE" ] && return 0
+	# .noroms: games live on the internal storage, no platforms
+	[ -e "$EASYROMS_PART" ] || return 0
+	# Daijishou has its own library already: leave it to the user
+	[ -e "$DJ_DB" ] && return 0
+
+	uuid=$(timeout 10 blkid -c /dev/null -s UUID "$EASYROMS_DEV" 2>/dev/null |
+		sed -n 's/.*UUID="\([^"]*\)".*/\1/p')
+	case $uuid in
+	'' | *[!0-9A-Fa-f-]*)
+		log "no usable UUID for EASYROMS (${uuid:-none}), no folder access for Daijishou"
+		return 0
+		;;
+	esac
+	stamp=$STATE/daijishou-grants.$uuid
+	[ -e "$stamp" ] && return 0
+	# a write system_server didn't finish: it recovers from it on start, not us
+	if [ -e "$f.bak" ] || [ -e "$f.new" ]; then
+		log "$f is being written, Daijishou's folder access next start"
+		return 0
+	fi
+
+	now=$(date +%s)000
+	lines=
+	for folder in $(dj_folders); do
+		uri=$(dj_tree_uri "$uuid" "$folder")
+		# already there (the user picked the folder, or an earlier try)
+		grep -q "targetPkg=\"$DJ_PKG\" uri=\"$uri\"" "$f" 2>/dev/null && continue
+		lines="$lines<uri-grant sourceUserId=\"0\" targetUserId=\"0\" sourcePkg=\"com.android.externalstorage\" targetPkg=\"$DJ_PKG\" uri=\"$uri\" prefix=\"true\" modeFlags=\"3\" createdTime=\"$now\" />"
+	done
+
+	if [ -n "$lines" ]; then
+		if [ -s "$f" ] && grep -q '</uri-grants>' "$f"; then
+			sed "s|</uri-grants>|$lines</uri-grants>|" "$f" >"$f.tmp"
+		elif [ -s "$f" ] && grep -q '<uri-grants */>' "$f"; then
+			sed "s|<uri-grants */>|<uri-grants>$lines</uri-grants>|" "$f" >"$f.tmp"
+		elif [ -s "$f" ]; then
+			log "$f looks odd, Daijishou gets no folder access"
+			return 0
+		else
+			echo "<?xml version='1.0' encoding='utf-8' standalone='yes' ?><uri-grants>$lines</uri-grants>" >"$f.tmp"
+		fi
+		if ! grep -q "$uuid%3A" "$f.tmp"; then
+			rm -f "$f.tmp"
+			log "writing $f failed"
+			return 0
+		fi
+		chown 1000:1000 "$f.tmp"
+		chmod 0600 "$f.tmp"
+		mv -f "$f.tmp" "$f"
+		restorecon "$f" 2>/dev/null
+		log "Daijishou may read the ROM folders on EASYROMS ($uuid)"
+	fi
+	touch "$stamp"
+}
+
+# dj_has <need> ; true if the core (core:<name>) or app (app:<package>) is there
+dj_has() {
+	case $1 in
+	core:*) [ -f "$RA_DATA/cores/${1#core:}_libretro_android.so" ] ;;
+	app:*) [ -n "$(installed_vc "${1#app:}")" ] ;;
+	*) return 1 ;;
+	esac
+}
+
+# dj_platform_sql <id> <player ids> <folder URIs> <values> ; one platform row
+dj_platform_sql() {
+	printf '%s\n' "INSERT INTO PlatformEntity (id, default_player_id, player_id_list, items_sync_tree_uri_list, unique_id, name, shortname, description, is_visible, scrape_preview_media, wallpaper_path, thumbnail_path, color_theme, color_on_theme, accept_filename_regex, scraper_source_list, box_art_aspect_ratio_id, use_custom_box_art_aspect_ratio, custom_box_art_aspect_ratio, screen_aspect_ratio_id, use_custom_screen_aspect_ratio, custom_screen_aspect_ratio, retro_achievements_console_id_list, extra) VALUES ($1, ${2%%,*}, '[$2]', '[$3]', $4);"
+}
+
+# dj_sql <easyroms dir> <uuid> ; the rows for Daijishou's library, as SQL. A
+# platform gets the folders that are on the card and the players that can run
+# here; the first player is its default. Without either, no platform (and no
+# players for it).
+dj_sql() {
+	local root=$1 uuid=$2 kind n arg vals f
+	local pid=0 plat=0 pnum='' pvals='' players='' uris=''
+
+	echo 'BEGIN;'
+	while IFS='	' read -r kind n arg vals; do
+		case $kind in
+		platform)
+			if [ -n "$pnum" ] && [ -n "$players" ]; then
+				plat=$((plat + 1))
+				dj_platform_sql "$plat" "$players" "$uris" "$pvals"
+			fi
+			uris=''
+			for f in $(echo "$arg" | tr ',' ' '); do
+				[ -d "$root/$f" ] || continue
+				uris="$uris${uris:+,}\"$(dj_tree_uri "$uuid" "$f")\""
+			done
+			# no folder on this card: skip the platform and its players
+			pnum=''
+			[ -n "$uris" ] && pnum=$n
+			pvals=$vals
+			players=''
+			;;
+		player)
+			if [ -z "$pnum" ] || [ "$n" != "$pnum" ] || ! dj_has "$arg"; then
+				continue
+			fi
+			pid=$((pid + 1))
+			players="$players${players:+,}$pid"
+			printf '%s\n' "INSERT INTO PlayerEntity (id, unique_id, player, name, description, am_start_arguments, kill_package_processes, kill_package_processes_warning, accepted_filename_regex, extra) VALUES ($pid, $vals);"
+			;;
+		esac
+	done <"$DJ_SEED"
+	if [ -n "$pnum" ] && [ -n "$players" ]; then
+		plat=$((plat + 1))
+		dj_platform_sql "$plat" "$players" "$uris" "$pvals"
+	fi
+	echo 'COMMIT;'
+}
+
+# dj_prefs ; Daijishou's settings file for its first start: it asks once to
+# sync the whole library, which finds the games in the folders. Everything else
+# stays at Daijishou's defaults.
+dj_prefs() {
+	cat <<'EOF'
+<?xml version='1.0' encoding='utf-8' standalone='yes' ?>
+<map>
+    <boolean name="sync_entirely_on_start" value="true" />
+    <string name="sync_entirely_on_start_hint">Your game systems are set up with their folders on EASYROMS. Press OK to look for games now. After adding games later, use Sync entirely in the library settings.</string>
+    <string name="sync_entirely_on_start_cancel_hint">Canceled. Sync entirely in the library settings looks for games later.</string>
+</map>
+EOF
+}
+
+# seed_daijishou: fills Daijishou's library before its first start. Only
+# once, only while Daijishou has no library yet (a database is never touched),
+# and only for the Daijishou version the schema was taken from.
+seed_daijishou() {
+	local uuid want vc owner tmp count
+
+	[ -f "$DJ_SEED" ] && [ -f "$DJ_SCHEMA" ] || return 0
+	[ -e "$DJ_DONE" ] && return 0
+	[ -n "$NOROMS" ] && return 0
+	[ -n "$EASYROMS" ] || { log "EASYROMS not mounted, Daijishou's platforms next start"; return 0; }
+	[ -d "$DJ_DATA" ] || return 0
+	if [ -e "$DJ_DB" ]; then
+		log "Daijishou has a library already, no platforms added"
+		touch "$DJ_DONE"
+		return 0
+	fi
+	uuid=${EASYROMS##*/}
+	if [ ! -e "$STATE/daijishou-grants.$uuid" ]; then
+		# post-fs-data writes them on the next start (the card may be new)
+		log "no folder access for Daijishou on $uuid yet, platforms next start"
+		return 0
+	fi
+	want=$(sed -n 's/^daijishou	//p' "$DJ_SEED")
+	vc=$(installed_vc "$DJ_PKG")
+	if [ "$vc" != "$want" ]; then
+		log "Daijishou ${vc:-missing}, the platforms are made for $want: none added"
+		touch "$DJ_DONE"
+		return 0
+	fi
+	if pidof "$DJ_PKG" >/dev/null 2>&1; then
+		log "Daijishou is running, platforms next start"
+		return 0
+	fi
+	command -v sqlite3 >/dev/null || { log "no sqlite3, no Daijishou platforms"; return 0; }
+
+	tmp=$STATE/daijishou.tmp
+	rm -rf "$tmp"
+	mkdir -p "$tmp"
+	dj_sql "$EASYROMS" "$uuid" >"$tmp/rows.sql"
+	if ! sqlite3 -bail "$tmp/Daijishou.db" <"$DJ_SCHEMA" ||
+		! sqlite3 -bail "$tmp/Daijishou.db" <"$tmp/rows.sql"; then
+		log "making Daijishou's library failed"
+		rm -rf "$tmp"
+		return 0
+	fi
+	count=$(sqlite3 "$tmp/Daijishou.db" "SELECT count(*) FROM PlatformEntity;")
+	if [ "${count:-0}" -eq 0 ]; then
+		log "no Daijishou platform to add (no ROM folders or players)"
+		rm -rf "$tmp"
+		touch "$DJ_DONE"
+		return 0
+	fi
+
+	# Daijishou may have started meanwhile
+	if [ -e "$DJ_DB" ] || pidof "$DJ_PKG" >/dev/null 2>&1; then
+		log "Daijishou started meanwhile, platforms next start"
+		rm -rf "$tmp"
+		return 0
+	fi
+	owner=$(stat -c %u:%g "$DJ_DATA")
+	mkdir -p "$DJ_DATA/databases"
+	chown "$owner" "$DJ_DATA/databases"
+	chmod 0771 "$DJ_DATA/databases"
+	chown "$owner" "$tmp/Daijishou.db"
+	chmod 0660 "$tmp/Daijishou.db"
+	mv -f "$tmp/Daijishou.db" "$DJ_DB"
+	if [ ! -e "$DJ_PREFS" ]; then
+		mkdir -p "${DJ_PREFS%/*}"
+		chown "$owner" "${DJ_PREFS%/*}"
+		chmod 0771 "${DJ_PREFS%/*}"
+		dj_prefs >"$DJ_PREFS"
+		chown "$owner" "$DJ_PREFS"
+		chmod 0660 "$DJ_PREFS"
+	fi
+	restorecon -R "$DJ_DATA/databases" "${DJ_PREFS%/*}" 2>/dev/null
+	rm -rf "$tmp"
+	touch "$DJ_DONE"
+	log "added $count platforms to Daijishou's library"
+}
+
+# post-fs-data: only the folder access for Daijishou, before system_server starts
+if [ "$1" = post-fs-data ]; then
+	daijishou_grants
+	exit 0
+fi
+
+# the host tests source this file for its functions
+[ -n "$GAMECONSOLE_EMU_TEST" ] && return 0
+
 mkdir -p "$STATE"
 
 # boot_completed is set, but give the package manager a moment if needed
@@ -467,3 +726,5 @@ find_easyroms
 make_rom_folders
 # after the ROM folders: they are only made on a card without any of them
 bios_folder
+# after the cores and ROM folders: a platform needs both
+seed_daijishou

@@ -38,6 +38,9 @@ the `gameconsole-emu` service (`seed/`) runs once `sys.boot_completed=1`:
    folder on EASYROMS, `/storage/<uuid>/bios`, like ArkOS's `/roms/bios` (on a `.noroms`
    card: `/storage/emulated/0/bios`). See
    [BIOS folder](#bios-folder) below.
+6. Give Daijishou (the home screen) one platform per system in the ROM folders, with the
+   folder on EASYROMS as its sync folder and our core or PPSSPP as its player, before
+   Daijishou's first start. See [Daijishou platforms](#daijishou-platforms) below.
 
 Log tag: `gameconsole-emu`. State: `/data/misc/gameconsole` and
 `/data/user/0/com.retroarch/.gameconsole`.
@@ -113,6 +116,55 @@ Settings > Emulator files checks what is in that folder.
 
 PPSSPP isn't seeded: it stores its settings (and `controls.ini`) in the memory stick
 folder the user picks on its first start, so there is nothing to seed before that.
+
+## Daijishou platforms
+
+Without this a new user has to add every platform in Daijishou by hand (its "Download
+platforms" list comes from GitHub, so offline there is nothing to pick) and pick each ROM
+folder in Android's file picker. Daijishou 1.5.0 has no intent, deep link or watched
+folder for importing platforms, and its import (platform JSON, Pegasus config, backup)
+always goes through the file picker; backups don't even keep the sync folders. So we fill
+its library the way Daijishou itself stores it, once, before it first runs:
+
+- `daijishou/platforms.txt`: ROM folder(s) -> official platform file -> cores, best first.
+  `scripts/gen-daijishou.py` makes `daijishou/daijishou-seed.txt` from it, from the
+  official platform files in `daijishou/official/` (github.com/TapiocaFox/Daijishou
+  `platforms/` at cde33bb, MIT, `official/LICENSE`), `seed/rom-folders.txt` and
+  `cores.lock`. Platforms and players are the official ones (same uniqueId and player
+  names), so Daijishou's own "update platforms" keeps working on them. A core the
+  official file doesn't list (ClownMDEmu) gets a player copied from the platform's first
+  RetroArch player. n64, nds, arcade and bios get no platform: we ship nothing that plays
+  them.
+- `daijishou/schema.sql`: Daijishou's Room schema (version 17, identity hash) exactly as
+  its `DaijishouDatabase_Impl.createAllTables` makes it.
+- post-fs-data (`gameconsole-emu.sh post-fs-data`, run with `exec_start` before
+  system_server starts): Daijishou reads games only through the storage access
+  framework, i.e. folders the user picked in the file picker, which Android remembers as
+  persisted URI grants in `/data/system/urigrants.xml`. We add the same entry the picker
+  would (`content://com.android.externalstorage.documents/tree/<UUID>%3A<folder>`, prefix,
+  read+write) for each platform folder. system_server only reads that file when it
+  starts, hence post-fs-data; the EASYROMS UUID comes from `blkid`, the tool vold names
+  `/storage/<UUID>` with. Existing grants are kept, nothing is doubled.
+- boot_completed (step 6): if Daijishou has no `Daijishou.db` yet, is the versionCode in
+  `daijishou-seed.txt` (416) and isn't running, write `Daijishou.db` with `sqlite3`: a
+  platform for each entry whose folder is on the card and that has at least one player
+  here (core in RetroArch's core dir, PPSSPP installed). Plus, only if Daijishou has no
+  settings file yet, `sync_entirely_on_start=true`: on its first start Daijishou asks once
+  to "Sync entirely" (our text in the dialog) and then finds the games itself.
+
+Never again after it ran once (`/data/misc/gameconsole/daijishou.done`), never on a
+Daijishou that has a library, never on a `.noroms` card (no EASYROMS; games are on the
+internal storage there). A different Daijishou versionCode skips it with a log line.
+
+After a Daijishou update: run `tests/run-daijishou-tests.sh`. If the schema check
+fails, take the new `createAllTables` statements, identity hash and version from the new
+APK (jadx, `DaijishouDatabase_Impl`) into `schema.sql`, set `DAIJISHOU_VERSION_CODE` in
+the generator and rerun it. Daijishou migrates an older library by itself, so an old
+schema is only a problem for consoles that seed after the update.
+
+Tests: `ANDROID_BUILD_TOP=... emulators/tests/run-daijishou-tests.sh` (generator up to date,
+schema vs. the APK's dex, the shell steps in a fake /data under bash and busybox ash with
+a real sqlite3, checked by `tests/checklib.py`).
 
 ## Updating
 

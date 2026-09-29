@@ -17,7 +17,8 @@ LOCAL_MODULE_RELATIVE_PATH := gameconsole
 LOCAL_MODULE_STEM := gameconsole-emu.sh
 LOCAL_SRC_FILES := seed/gameconsole-emu.sh
 LOCAL_INIT_RC := seed/gameconsole-emu.rc
-LOCAL_REQUIRED_MODULES := gameconsole-preinstall-list gameconsole-rom-folders
+LOCAL_REQUIRED_MODULES := gameconsole-preinstall-list gameconsole-rom-folders \
+    gameconsole-daijishou-seed gameconsole-daijishou-schema
 include $(BUILD_PREBUILT)
 
 # ROM folders the service makes on a fresh EASYROMS partition
@@ -28,6 +29,28 @@ LOCAL_MODULE_TAGS := optional
 LOCAL_MODULE_RELATIVE_PATH := gameconsole
 LOCAL_MODULE_STEM := rom-folders.txt
 LOCAL_SRC_FILES := seed/rom-folders.txt
+include $(BUILD_PREBUILT)
+
+# Daijishou platforms and players for the first start (made by
+# scripts/gen-daijishou.py from the official platform files, MIT) and the
+# library schema of the Daijishou we ship, see README.md "Daijishou platforms"
+include $(CLEAR_VARS)
+LOCAL_MODULE := gameconsole-daijishou-seed
+LOCAL_MODULE_CLASS := ETC
+LOCAL_MODULE_TAGS := optional
+LOCAL_MODULE_RELATIVE_PATH := gameconsole/daijishou
+LOCAL_MODULE_STEM := daijishou-seed.txt
+LOCAL_SRC_FILES := daijishou/daijishou-seed.txt
+LOCAL_NOTICE_FILE := $(LOCAL_PATH)/daijishou/official/LICENSE
+include $(BUILD_PREBUILT)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := gameconsole-daijishou-schema
+LOCAL_MODULE_CLASS := ETC
+LOCAL_MODULE_TAGS := optional
+LOCAL_MODULE_RELATIVE_PATH := gameconsole/daijishou
+LOCAL_MODULE_STEM := schema.sql
+LOCAL_SRC_FILES := daijishou/schema.sql
 include $(BUILD_PREBUILT)
 
 include $(CLEAR_VARS)

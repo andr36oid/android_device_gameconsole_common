@@ -1,0 +1,29 @@
+# Daijishou platforms made on the first start, one per system we can play.
+# scripts/gen-daijishou.py turns this into daijishou-seed.txt (run it after a change).
+#
+# ROM folders (from seed/rom-folders.txt, comma separated; the first one is the main
+# folder) / the official Daijishou platform file in official/ / what plays it, best
+# first: RetroArch cores by name (cores.lock), or app:<package> for an emulator app.
+# On the console the first one that is there becomes the platform's default player.
+#
+# Folders without a player we ship (n64, nds, arcade) and bios get no platform.
+nes                 NintendoEntertainmentSystem.json        fceumm
+snes                SuperNintendoEntertainmentSystem.json   snes9x2010
+gb                  NintendoGameBoy.json                    gambatte,mgba
+gbc                 NintendoGameBoyColor.json               gambatte,mgba
+gba                 NintendoGameBoyAdvance.json             mgba,gpsp
+genesis,megadrive   SegaGenesis.json                        genesis_plus_gx,picodrive,clownmdemu
+mastersystem        SegaMasterSystem.json                   gearsystem,genesis_plus_gx,picodrive
+gamegear            SegaGameGear.json                       gearsystem,genesis_plus_gx,picodrive
+segacd              SegaCD.json                             genesis_plus_gx,picodrive,clownmdemu
+sega32x             Sega32X.json                            picodrive
+psx                 SonyPlayStation.json                    pcsx_rearmed
+psp                 SonyPSP.json                            app:org.ppsspp.ppsspp
+pcengine            TurboGrafx16.json                       mednafen_pce_fast
+ngp                 NeoGeoPocket.json                       mednafen_ngp
+ngpc                NeoGeoPocketColor.json                  mednafen_ngp
+wonderswan          WonderSwan.json                         mednafen_wswan
+wonderswancolor     WonderSwanColor.json                    mednafen_wswan
+atari2600           Atari2600.json                          stella2014
+atari7800           Atari7800.json                          prosystem
+atarilynx           AtariLynx.json                          handy
