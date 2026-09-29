@@ -48,6 +48,11 @@ on init
     chown system system /sys/class/backlight/backlight/brightness
     chmod 0660 /sys/class/backlight/backlight/brightness
 
+    # Display color table (kernel VOP color_lut): Night Light and extra dim
+    # without GPU composition (frameworks/base DisplayTransformManager)
+    chown system system /sys/devices/platform/ff460000.vop/color_lut
+    chmod 0660 /sys/devices/platform/ff460000.vop/color_lut
+
     chown root root /sys/class/devfreq/dmc/system_status
     chmod 0666 /sys/class/devfreq/dmc/system_status
 
