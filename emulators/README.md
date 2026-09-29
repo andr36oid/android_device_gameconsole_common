@@ -184,9 +184,14 @@ its library the way Daijishou itself stores it, once, before it first runs:
 New games later (copied on a computer, say): Daijishou only looks for games when asked.
 On a console where we made the library, each boot compares the game files in the
 platform folders (saves, states, pictures, hidden files left out) with the last boot. If
-they changed, it sets `sync_entirely_on_start` again ("The games on EASYROMS changed.
-Press OK to update the library."), force-stops Daijishou around the change (it keeps its
-settings in memory) and brings the home screen back if Daijishou was in front. Off with
+games were added, it sets `sync_entirely_on_start` again ("The games on EASYROMS changed.
+New: gba (12), snes (3). Press OK to update the library."), force-stops Daijishou around
+the change (it keeps its settings in memory) and brings the home screen back if Daijishou
+was in front. Games that were only removed don't count: Daijishou's sync keeps their
+entries anyway, so it would read every game for nothing. A whole-library sync reads the
+start (up to 4 MB) of every game file for Daijishou's md5, so from 2000 games on
+(`DJ_BIG`) the text adds the expected time (1 minute per 600 games) and says to press
+Cancel and use each system's own Sync button instead. Off with
 `setprop persist.andr36oid.daijishou_autosync 0`.
 
 Never again after it ran once (`/data/misc/gameconsole/daijishou.done`), never on a
