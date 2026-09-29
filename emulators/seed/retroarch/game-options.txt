@@ -1,0 +1,24 @@
+# Core options for single games that need them on this console. The
+# gameconsole-emu service writes one config/<core>/<ROM name>.opt per "game"
+# line on a fresh install (see seed_game_options and game-compat in the
+# README). RetroArch finds the file by the ROM's file name without its
+# extension, so the names are the No-Intro / Redump ones most sets use. Each
+# file starts with our defaults for that core from retroarch-core-options.cfg,
+# then the "set" lines below the names.
+#
+# core <option prefix> <core name as RetroArch shows it>
+# game <ROM file name without extension>   (one or more)
+# set <key> = "<value>"                    (one or more)
+# Keys and values must exist in the core source at the commit in cores.lock.
+
+core mupen64plus- Mupen64Plus-Next
+# Donkey Kong 64: the core's built-in GLideN64 list forces a depth buffer copy
+# for this game, and on Android GLES the camera then floats and snaps back.
+# early lets our core option (no depth copy) win over that list; it is also
+# the cheaper setting. libretro/mupen64plus-libretro-nx issue 377,
+# gonetz/GLideN64 issue 2392.
+game Donkey Kong 64 (USA)
+game Donkey Kong 64 (Europe) (En,Fr,De,Es)
+game Donkey Kong 64 (Japan)
+set mupen64plus-GLideN64IniBehaviour = "early"
+set mupen64plus-EnableCopyDepthToRDRAM = "Off"

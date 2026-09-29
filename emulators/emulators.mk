@@ -26,6 +26,12 @@ GAMECONSOLE_EMU_LOOK := device/gameconsole/common/emulators/seed/retroarch/look
 PRODUCT_COPY_FILES += \
     $(call find-copy-subdir-files,*,$(GAMECONSOLE_EMU_LOOK),$(TARGET_COPY_OUT_SYSTEM)/etc/gameconsole/retroarch/look)
 
+# Core options for single games that need them on this chip, written as
+# config/<core>/<ROM name>.opt next to a fresh retroarch.cfg (game-compat)
+PRODUCT_COPY_FILES += \
+    device/gameconsole/common/emulators/seed/retroarch/game-options.txt:$(TARGET_COPY_OUT_SYSTEM)/etc/gameconsole/retroarch/game-options.txt \
+    device/gameconsole/common/emulators/seed/game-tips.txt:$(TARGET_COPY_OUT_SYSTEM)/etc/gameconsole/game-tips.txt
+
 # The gameconsole-emu service makes the usual ROM folders on a fresh EASYROMS partition.
 # Tells the quick start guide.
 PRODUCT_PRODUCT_PROPERTIES += \

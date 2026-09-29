@@ -165,6 +165,31 @@ PCSX ReARMed, Beetle PCE Fast/NeoPop/Cygne, Genesis Plus GX, PicoDrive. Use mGBA
 than gpSP for GBA, and Genesis Plus GX (non-commercial tier) rather than Gearsystem for
 Master System/Game Gear. Save states only load in the same core.
 
+### Settings for single games (game-compat)
+
+A few popular games need their own setting on this chip. Most don't: the cores already
+fix many games by themselves, by disc ID or ROM checksum (PCSX ReARMed's
+`libpcsxcore/database.c`, Mupen64Plus-Next's `mupen64plus.ini` and GLideN64's
+custom ini, PPSSPP's built-in `compat.ini`). Only what those don't do goes here, with
+its source; the list and reasons are in reports/overnight2/game-compat.md.
+
+- RetroArch: `seed/retroarch/game-options.txt` lists games by ROM file name (No-Intro /
+  Redump names) under their core. On a fresh install (the retroarch.cfg we wrote),
+  `seed_game_options` writes one `config/<core>/<ROM name>.opt` per name. RetroArch uses
+  that file instead of the core's options for that game only (Quick Menu > Core Options
+  shows it as game options). Options missing from it would get the core's own defaults,
+  so each file starts with our defaults for that core from
+  `retroarch-core-options.cfg`, then the game's lines. A file the user changed or
+  deleted (Manage Core Options > Delete Game Options) stays so; same manifest as the
+  look files. A ROM with another file name simply gets the normal settings.
+- PPSSPP: `seed/ppsspp/compat.ini` goes to `PSP/SYSTEM/compat.ini` with the other two
+  files. PPSSPP reads it after its own compat.ini, by disc ID, so file names don't
+  matter. It only holds compat flags. Per-game `<ID>_ppsspp.ini` files are not
+  seeded on purpose: loading one also replaces the whole button map with its own, so
+  our hotkeys would be lost in that game unless the file carried a copy.
+- `seed/game-tips.txt` becomes "Game tips.txt" on a fresh EASYROMS, next to the README:
+  which heavy games need a setting and which are too slow.
+
 ### BIOS folder
 
 The EASYROMS path has the card's UUID in it, so it can't be in the seeded retroarch.cfg.

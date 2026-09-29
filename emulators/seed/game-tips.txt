@@ -1,0 +1,73 @@
+GAME TIPS FOR THE HEAVY SYSTEMS (andr36oid)
+
+This console has a slow processor. Most games for the older systems run at
+full speed. For PlayStation, N64, PSP and Dreamcast, some games need a
+setting, and some are too heavy. This list says which. It is based on what
+people found on other consoles with the same chip (RK3326: R36S, RG351,
+ArkOS, ROCKNIX). Your results may differ a little.
+
+Already set for you on a new console:
+- Donkey Kong 64 (N64): a fix for the camera. It works when the ROM file has
+  its usual name, for example "Donkey Kong 64 (USA).z64".
+- God of War: Chains of Olympus and Ghost of Sparta (PSP): run at 30
+  frames per second instead of 60. The game stays at normal speed, but
+  it looks less smooth.
+- Many other games get fixes inside the emulators themselves. You don't
+  need to do anything for those.
+
+
+PLAYSTATION (RetroArch, PCSX ReARMed)
+- Almost every game runs at full speed. A few heavy ones, such as Gran
+  Turismo and Ape Escape, can slow down.
+- If a game stutters, the emulator skips a frame now and then by itself.
+- European games with copy protection (for example Vagrant Story, Spyro 3,
+  Final Fantasy VIII PAL) need their .sbi file next to the game, with the
+  same name.
+- Games on more than one disc: make an .m3u file that lists the discs, and
+  start that file.
+
+
+NINTENDO 64 (RetroArch, Mupen64Plus-Next)
+- Lighter games such as Super Mario 64 and Mario Kart 64 should run well.
+- Big games like Donkey Kong 64 and Majora's Mask slow down in busy scenes.
+- Too heavy: Perfect Dark, Conker's Bad Fur Day, Jet Force Gemini,
+  Ridge Racer 64, GoldenEye with 3 or 4 players.
+- The picture is 320x240 to keep the speed up. Some glow effects (the sun
+  and torches in Zelda) are missing on purpose. To get them back for one
+  game: Quick Menu > Core Options > Depth buffer to RDRAM > Software, then
+  Core Options > Manage Core Options > Save Game Options. It costs speed.
+
+
+PSP (PPSSPP)
+- Full speed or close: Crisis Core, Kingdom Hearts Birth by Sleep,
+  Persona 3 Portable, Monster Hunter Freedom Unite, Final Fantasy Tactics,
+  GTA Chinatown Wars, Need for Speed Most Wanted.
+- Too heavy or slow: Tekken 6, Burnout Legends and Dominator, WipEout Pure
+  and Pulse, Silent Hill Origins, God of War (playable at 30 fps).
+- GTA Liberty City Stories and Vice City Stories: slow in busy streets.
+  Don't turn on "Skip buffer effects" for GTA, God of War, Metal Gear
+  Peace Walker or Silent Hill: the picture breaks.
+- To try a setting for one game only: in the game, open the PPSSPP menu,
+  pick "Create game config", then change the setting. Note: PPSSPP then
+  keeps the buttons for that game too.
+
+
+DREAMCAST (Flycast, as tested on other consoles with this chip)
+- Run well: Crazy Taxi, Sonic Adventure 1 and 2, Soulcalibur, Jet Set
+  Radio, Marvel vs. Capcom 2, Ikaruga, Power Stone, Virtua Fighter 3tb.
+- Playable: Dead or Alive 2, Rez, Grandia II, Skies of Arcadia,
+  Virtua Tennis, Power Stone 2.
+- Too heavy: Sega Rally 2, Resident Evil 2, F355 Challenge.
+
+
+SUPER NINTENDO (RetroArch, Snes9x 2010)
+- Games with extra chips (Star Fox, Yoshi's Island, Doom, Super Mario RPG,
+  Kirby Super Star) are the heaviest. Star Fox was slow on the real
+  console too. If the sound crackles, the emulator skips a frame.
+
+
+NOT SUPPORTED
+- Nintendo DS: the fast DS emulator (DraStic) is closed and can't come with
+  the console. Others are too slow on this chip.
+- Sega Saturn: not included. A few 2D games would run, most 3D games don't.
+- PlayStation 2, GameCube, Wii: far too heavy.
