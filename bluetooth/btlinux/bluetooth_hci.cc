@@ -104,13 +104,13 @@ int BluetoothHci::openBtHci() {
   }
   bt_soc_fd_ = fd;
 
-  if (waitHciDev(hci_interface)) {
-    ALOGE( "HCI interface (%d) not found, is a Bluetooth adapter plugged in?",
-           hci_interface);
+  if (waitHciDev(&hci_interface)) {
+    ALOGE( "No HCI interface found, is a Bluetooth adapter plugged in?");
     ::close(fd);
     bt_soc_fd_ = -1;
     return -1;
   }
+  ALOGI( "Using hci%d", hci_interface);
   struct sockaddr_hci addr;
   memset(&addr, 0, sizeof(addr));
   addr.hci_family = AF_BLUETOOTH;
@@ -141,7 +141,10 @@ void BluetoothHci::closeBtHci() {
   rfkill_state_ = NULL;
 }
 
-int BluetoothHci::waitHciDev(int hci_interface) {
+// Waits for any registered controller and stores its index in *hci_interface.
+// A dongle is not always hci0: a second adapter, or a quick unplug and replug
+// while the old hci0 is still being torn down, gives hci1.
+int BluetoothHci::waitHciDev(int* hci_interface) {
   struct sockaddr_hci addr;
   struct pollfd fds[1];
   struct mgmt_pkt ev;
@@ -211,18 +214,25 @@ int BluetoothHci::waitHciDev(int hci_interface) {
         break;
       }
 
-      if (ev.opcode == MGMT_EV_INDEX_ADDED && ev.index == hci_interface) {
+      if (ev.opcode == MGMT_EV_INDEX_ADDED && ev.index != HCI_DEV_NONE) {
+        *hci_interface = ev.index;
         goto end;
       } else if (ev.opcode == MGMT_EV_COMMAND_COMP) {
         struct mgmt_event_read_index* cc;
         int i;
+        int lowest = -1;
 
         cc = (struct mgmt_event_read_index*)ev.data;
 
         if (cc->cc_opcode != MGMT_OP_INDEX_LIST || cc->status != 0) continue;
 
+        // Prefer the lowest index, so with one adapter nothing changes.
         for (i = 0; i < cc->num_intf; i++) {
-          if (cc->index[i] == hci_interface) goto end;
+          if (lowest < 0 || cc->index[i] < lowest) lowest = cc->index[i];
+        }
+        if (lowest >= 0) {
+          *hci_interface = lowest;
+          goto end;
         }
       }
     }

@@ -65,7 +65,7 @@ class BluetoothHci : public IBluetoothHci {
   const uint8_t HCI_DATA_TYPE_SCO = 3;
   const uint8_t HCI_DATA_TYPE_ISO = 5;
 
-  int waitHciDev(int hci_interface);
+  int waitHciDev(int* hci_interface);
   int findRfKill(void);
   int rfKill(int block);
   int openBtHci(void);
