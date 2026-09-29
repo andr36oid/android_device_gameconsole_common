@@ -26,6 +26,19 @@ void Announcer::announce(Announcement a) {
     spawn(a);
 }
 
+void Announcer::warmUp(Nanos now) {
+    if (lastWarmUp_ && now - *lastWarmUp_ < kWarmUpInterval) return;
+    lastWarmUp_ = now;
+    // Starts the app process if it isn't running; the receiver ignores this action.
+    run({
+            kCmd, "activity", "broadcast",
+            "-a", kWarmUpAction,
+            "-n", std::string(kPackage) + "/.ModeToastReceiver",
+            "--receiver-foreground",
+            "--include-stopped-packages",
+    });
+}
+
 void Announcer::reap() {
     int status = 0;
     while (waitpid(-1, &status, WNOHANG) > 0) {
@@ -35,7 +48,7 @@ void Announcer::reap() {
 void Announcer::spawn(const Announcement& a) {
     // Monotonic time orders the toasts, even across daemon restarts.
     const std::string seq = std::to_string(monotonicNow() / kNanosPerMs);
-    std::vector<std::string> args = {
+    run({
             kCmd, "activity", "broadcast",
             "-a", kAction,
             "-n", std::string(kPackage) + "/.ModeToastReceiver",
@@ -48,7 +61,10 @@ void Announcer::spawn(const Announcement& a) {
             "--ei", "hold_ms", std::to_string(a.holdMs),
             "--es", "bindings", a.bindings.empty() ? "none" : a.bindings,
             "--el", "seq", seq,
-    };
+    });
+}
+
+void Announcer::run(std::vector<std::string> args) {
     std::vector<char*> argv;
     for (std::string& arg : args) argv.push_back(arg.data());
     argv.push_back(nullptr);

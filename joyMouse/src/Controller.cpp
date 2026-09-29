@@ -364,6 +364,7 @@ void Controller::refreshChord(Nanos now) {
         if (chord_.armed()) refreshAbs();
     }
     checkSteering();
+    if (!wasArmed && chord_.armed() && listener_) listener_->onToggleArmed();
 }
 
 void Controller::checkSteering() {

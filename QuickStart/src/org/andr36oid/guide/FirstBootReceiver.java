@@ -33,6 +33,10 @@ public class FirstBootReceiver extends BroadcastReceiver {
         } else if (!wasShown(context)) {
             waitForSetup(context);
         }
+        if (wasShown(context) && !FirstStart.isLauncherInstalled(context)) {
+            // The first start is over for good, later boots have nothing to do here
+            BootStart.set(context, false);
+        }
     }
 
     static boolean isSetupDone(Context context) {

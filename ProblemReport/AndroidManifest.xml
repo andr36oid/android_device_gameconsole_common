@@ -36,13 +36,10 @@
                 android:resource="@drawable/ic_problem_report" />
         </activity>
 
-        <!-- After a start, says so if the last one ended in a crash -->
+        <!-- After a start, says so if the last one ended in a crash. Sent only by
+             andr36oid-report-check.sh (root) when it found one. -->
         <receiver
-            android:name=".BootReceiver"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-            </intent-filter>
-        </receiver>
+            android:name=".CrashNoticeReceiver"
+            android:exported="false" />
     </application>
 </manifest>

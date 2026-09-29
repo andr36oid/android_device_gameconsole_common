@@ -7,15 +7,20 @@ import android.content.Intent;
 /**
  * On every start, if the beta list has apps the tester wasn't asked about, waits until the
  * setup wizard is done, the quick start guide was shown and closed and the home screen is up,
- * then opens the Beta apps screen (see {@link WhenReadyJobService}).
+ * then opens the Beta apps screen (see {@link WhenReadyJobService}). Once the tester was asked
+ * about everything, it switches itself off until the next build (see NewBuildReceiver).
  */
 public class BootReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())
-                && BetaList.hasUnasked(context)) {
+        if (!Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {
+            return;
+        }
+        if (BetaList.hasUnasked(context)) {
             WhenReadyJobService.start(context);
+        } else {
+            BootStart.set(context, false);
         }
     }
 }

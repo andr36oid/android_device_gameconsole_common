@@ -48,6 +48,7 @@ public:
     int run(bool verbose);
     void onMouseModeChanged(bool active) override;
     bool inFullscreenApp() override;
+    void onToggleArmed() override;
 
 private:
     Config readConfig();
@@ -365,6 +366,13 @@ Announcement Daemon::describe(bool active) const {
 
 bool Daemon::inFullscreenApp() {
     return getProperty(kFullscreenProperty) == "1";
+}
+
+void Daemon::onToggleArmed() {
+    // The app isn't kept running: start it while the chord is held, so the toast that
+    // follows doesn't wait for an app start.
+    if (!config_.toast || getProperty("sys.boot_completed") != "1") return;
+    announcer_.warmUp(monotonicNow());
 }
 
 void Daemon::onMouseModeChanged(bool active) {

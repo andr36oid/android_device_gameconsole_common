@@ -62,7 +62,7 @@ public class ReportFragment extends PreferenceFragment {
         }
         // Opened from the crash notification, or back on the page: that's seen now.
         getActivity().getSystemService(NotificationManager.class)
-                .cancel(BootReceiver.NOTIFICATION_ID);
+                .cancel(CrashNoticeReceiver.NOTIFICATION_ID);
         poll();
     }
 

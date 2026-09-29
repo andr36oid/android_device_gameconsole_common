@@ -7,3 +7,14 @@ service andr36oid-report /system/bin/sh /system/etc/andr36oid-report.sh
     group root system log
     disabled
     oneshot
+
+# After every start: was the last one a crash? Wakes the app only if so, see
+# andr36oid-report-check.sh. sys.boot_completed is set again after a system_server restart.
+service andr36oid-report-check /system/bin/sh /system/etc/andr36oid-report-check.sh
+    user root
+    group root system log
+    disabled
+    oneshot
+
+on property:sys.boot_completed=1
+    start andr36oid-report-check
