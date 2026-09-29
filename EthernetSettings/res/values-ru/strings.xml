@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="ethernet_title">Ethernet</string>
+    <string name="ethernet_summary">USB-адаптеры Ethernet, USB-модем с телефона и USB-модемы</string>
+
+    <string name="ethernet_unavailable">В этой сборке Ethernet недоступен</string>
+    <string name="ethernet_none_title">Ничего не подключено</string>
+    <string name="ethernet_none_summary">Подключите USB-адаптер Ethernet или телефон с включённым USB-модемом. На iPhone включите режим модема.</string>
+
+    <!-- Category titles, %1$s is the interface name, e.g. eth0 -->
+    <string name="ethernet_iface_adapter">Проводной адаптер (%1$s)</string>
+    <string name="ethernet_iface_phone">Телефон, USB-модем (%1$s)</string>
+    <string name="ethernet_iface_modem">USB-модем мобильной сети (%1$s)</string>
+
+    <string name="ethernet_status">Статус</string>
+    <string name="ethernet_status_connected">Подключено</string>
+    <string name="ethernet_status_no_internet">Подключено, без интернета</string>
+    <string name="ethernet_status_connecting">Подключение…</string>
+    <string name="ethernet_status_unplugged">Кабель отключён</string>
+    <string name="ethernet_status_phone_waiting">Ожидание телефона</string>
+    <string name="ethernet_status_modem_waiting">Ожидание мобильной сети</string>
+
+    <string name="ethernet_ip_address">IP-адрес</string>
+    <string name="ethernet_gateway">Шлюз</string>
+    <string name="ethernet_dns">DNS-серверы</string>
+    <string name="ethernet_mac">MAC-адрес</string>
+    <string name="ethernet_speed">Скорость соединения</string>
+    <!-- %1$d is the speed in Mbit/s -->
+    <string name="ethernet_speed_value">%1$d Мбит/с</string>
+    <string name="ethernet_unknown">Недоступно</string>
+    <string name="ethernet_not_set">Не задано</string>
+
+    <string name="ethernet_ip_settings">Настройки IP</string>
+    <string name="ethernet_ip_dhcp">DHCP</string>
+    <string name="ethernet_ip_static">Статический</string>
+
+    <string name="ethernet_static_ip">Статический IP-адрес</string>
+    <string name="ethernet_static_ip_hint">Например, 192.168.1.50/24</string>
+    <string name="ethernet_static_gateway">Статический шлюз</string>
+    <string name="ethernet_static_gateway_hint">Например, 192.168.1.1; пусто, если нет</string>
+    <string name="ethernet_static_dns">Статические DNS-серверы</string>
+    <string name="ethernet_static_dns_hint">Например, 1.1.1.1, 8.8.8.8</string>
+    <string name="ethernet_static_needs_ip">Сначала укажите IP-адрес</string>
+
+    <string name="ethernet_invalid_ip">Введите адрес IPv4, можно с длиной префикса, например /24</string>
+    <string name="ethernet_invalid_gateway">Введите адрес IPv4 или оставьте поле пустым</string>
+    <string name="ethernet_invalid_dns">Введите IP-адреса через запятую</string>
+    <string name="ethernet_save_failed">Не удалось изменить настройки IP</string>
+</resources>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_title">Файлы эмуляторов</string>
+    <string name="app_summary">Игра не запускается? Проверьте файлы BIOS для систем</string>
+
+    <!-- The main page -->
+    <string name="intro">Некоторым системам для запуска игр нужен файл с оригинальной консоли (BIOS). Положите эти файлы в папку bios на EASYROMS.</string>
+    <!-- The same, for a card set up without EASYROMS (.noroms) -->
+    <string name="intro_internal">Некоторым системам для запуска игр нужен файл с оригинальной консоли (BIOS). Положите эти файлы в папку bios во внутренней памяти.</string>
+    <string name="checking">Проверка…</string>
+    <string name="check_failed">Не удалось выполнить проверку. Перезапустите консоль и попробуйте ещё раз.</string>
+    <string name="no_easyroms_title">EASYROMS сейчас недоступен</string>
+    <string name="no_easyroms_summary">Вставьте обратно SD-карту с разделом EASYROMS и снова откройте эту страницу.</string>
+    <string name="systems_category">Системы</string>
+
+    <string name="fix_title">Исправить имена файлов</string>
+    <!-- %1$d: number of files -->
+    <plurals name="fix_summary">
+        <item quantity="one">У %1$d файла неверное имя, поэтому эмуляторы его не находят</item>
+        <item quantity="few">У %1$d файлов неверные имена, поэтому эмуляторы их не находят</item>
+        <item quantity="many">У %1$d файлов неверные имена, поэтому эмуляторы их не находят</item>
+        <item quantity="other">У %1$d файла неверные имена, поэтому эмуляторы их не находят</item>
+    </plurals>
+    <string name="fix_dialog_title">Переименовать эти файлы?</string>
+    <!-- %1$s: one line per file, made of fix_line -->
+    <string name="fix_dialog_message">В папке bios на EASYROMS:\n\n%1$s</string>
+    <string name="fix_dialog_message_internal">В папке bios во внутренней памяти:\n\n%1$s</string>
+    <!-- %1$s: the file's name now, %2$s: the right name -->
+    <string name="fix_line">%1$s → %2$s\n</string>
+    <string name="fix_button">Переименовать</string>
+    <plurals name="fix_done">
+        <item quantity="one">Переименован %1$d файл.</item>
+        <item quantity="few">Переименовано %1$d файла.</item>
+        <item quantity="many">Переименовано %1$d файлов.</item>
+        <item quantity="other">Переименовано %1$d файла.</item>
+    </plurals>
+    <plurals name="fix_failed">
+        <item quantity="one">Не удалось переименовать %1$d файл.</item>
+        <item quantity="few">Не удалось переименовать %1$d файла.</item>
+        <item quantity="many">Не удалось переименовать %1$d файлов.</item>
+        <item quantity="other">Не удалось переименовать %1$d файла.</item>
+    </plurals>
+
+    <!-- A system's summary. %1$s: file names -->
+    <string name="level_ready">Готово</string>
+    <string name="level_not_needed">Необязательно: для игры не нужен</string>
+    <string name="level_missing">Нет файла: %1$s</string>
+    <string name="level_missing_one_of">Нет файла: %1$s или аналога</string>
+    <string name="level_wrong_version">Не та версия: %1$s. Игры могут не запуститься</string>
+    <string name="level_wrong_name">У файла неверное имя. Нажмите «Исправить имена файлов»</string>
+
+    <!-- A file on the system page -->
+    <string name="state_found">Найден</string>
+    <string name="state_missing_needed">Нет, нужен</string>
+    <string name="state_missing_one_of">Нет. Хватит одного из этих</string>
+    <string name="state_missing_optional">Нет, необязателен</string>
+    <string name="state_wrong_version">Не та версия: игры могут не запуститься</string>
+    <!-- %1$s: what the file really is -->
+    <string name="state_wrong_version_is">Не тот файл: это %1$s. Нажмите «Исправить имена файлов»</string>
+    <!-- %1$s: its name now, maybe with a subfolder -->
+    <string name="state_wrong_name">Найден как %1$s. Нажмите «Исправить имена файлов»</string>
+
+    <!-- A file's details (A on a file) -->
+    <string name="details_what">Что это: %1$s</string>
+    <string name="details_cores">Используется в: %1$s</string>
+    <string name="details_md5">MD5 нужного файла: %1$s</string>
+    <string name="details_md5_any">Подойдёт любой файл с этим именем</string>
+    <!-- %1$s: path, %2$s: its MD5 -->
+    <string name="details_file">Ваш файл: %1$s\nЕго MD5: %2$s</string>
+    <string name="details_file_big">Ваш файл: %1$s\nСлишком большой для этого файла</string>
+    <string name="close">Закрыть</string>
+
+    <string name="path_easyroms">EASYROMS</string>
+    <string name="path_internal">Внутренняя память</string>
+</resources>

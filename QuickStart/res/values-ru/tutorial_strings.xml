@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <!-- Hands-on tutorial that runs once after the setup wizard -->
+    <string name="tutorial_label">Обучение</string>
+    <!-- Above the progress bar, e.g. "Step 3 of 11" -->
+    <string name="tutorial_step">Шаг <xliff:g id="current">%1$d</xliff:g> из <xliff:g id="total">%2$d</xliff:g></string>
+
+    <!-- Buttons at the bottom -->
+    <string name="tutorial_back">Назад</string>
+    <string name="tutorial_start">Начать</string>
+    <string name="tutorial_next">Далее</string>
+    <string name="tutorial_skip_step">Пропустить шаг</string>
+    <string name="tutorial_skip_all">Пропустить обучение</string>
+    <!-- On the FN steps, for consoles without an FN button: skips all of them -->
+    <string name="tutorial_no_fn">Нет кнопки FN</string>
+    <string name="tutorial_done">Готово</string>
+    <string name="tutorial_open_guide">Открыть руководство</string>
+
+    <!-- Shown under the list once everything on a step was done -->
+    <string name="tutorial_well_done">Отлично. Нажмите A, чтобы продолжить.</string>
+
+    <!-- Welcome -->
+    <string name="tutorial_welcome_title">Попробуем кнопки</string>
+    <string name="tutorial_welcome_body">У этой консоли нет сенсорного экрана. Всё управляется кнопками, и это короткое обучение позволит попробовать каждую из них. Оно займёт около трёх минут.\n\nНажмите A, чтобы продолжить, и B, чтобы вернуться. Нажмите Select, чтобы пропустить знакомый шаг.</string>
+
+    <!-- A, B, X, Y -->
+    <string name="tutorial_face_title">A, B, X и Y</string>
+    <string name="tutorial_face_body">A подтверждает: открывает выбранное и нажимает кнопки на экране.\n\nB возвращает назад, на один экран за раз.\n\nX и Y делают разное в каждом приложении и игре.\n\nНажмите каждую по одному разу.</string>
+    <string name="tutorial_press_a">Нажмите A</string>
+    <string name="tutorial_press_b">Нажмите B</string>
+    <string name="tutorial_press_x">Нажмите X</string>
+    <string name="tutorial_press_y">Нажмите Y</string>
+
+    <!-- D-pad -->
+    <string name="tutorial_dpad_title">Крестовина</string>
+    <string name="tutorial_dpad_body">Крестовина перемещает выделение по экрану: по спискам, меню и кнопкам. В меню левый стик делает то же самое.\n\nНажмите каждое направление по одному разу.</string>
+    <string name="tutorial_dpad_up">Вверх</string>
+    <string name="tutorial_dpad_down">Вниз</string>
+    <string name="tutorial_dpad_left">Влево</string>
+    <string name="tutorial_dpad_right">Вправо</string>
+
+    <!-- Sticks -->
+    <string name="tutorial_sticks_title">Стики</string>
+    <string name="tutorial_sticks_body">Игры используют оба стика. Каждый стик можно также нажать, как кнопку: это L3 и R3.\n\nПодвигайте оба стика и посмотрите, как за ними следуют точки, затем нажмите на один стик.</string>
+    <string name="tutorial_stick_left">Подвигайте левый стик</string>
+    <string name="tutorial_stick_right">Подвигайте правый стик</string>
+    <string name="tutorial_stick_click">Нажмите на стик (L3 или R3)</string>
+
+    <!-- Shoulder buttons -->
+    <string name="tutorial_shoulder_title">Шифты</string>
+    <string name="tutorial_shoulder_body">L1 и R1 — верхние шифты, L2 и R2 — нижние. Многие приложения переключают вкладки или страницы кнопками L1 и R1.\n\nНажмите каждую по одному разу.</string>
+    <string name="tutorial_press_l1">Нажмите L1</string>
+    <string name="tutorial_press_r1">Нажмите R1</string>
+    <string name="tutorial_press_l2">Нажмите L2</string>
+    <string name="tutorial_press_r2">Нажмите R2</string>
+
+    <!-- FN = home -->
+    <string name="tutorial_home_title">FN — кнопка «Домой»</string>
+    <string name="tutorial_home_body">Нажмите одну FN, чтобы попасть на главный экран откуда угодно, даже из игры. Главный экран — это Daijishou, там ваши игры и приложения.\n\nПопробуйте: нажмите FN. Через несколько секунд обучение вернётся само.</string>
+    <string name="tutorial_home_task">Нажмите FN</string>
+    <string name="tutorial_home_back">С возвращением. Вот и всё.</string>
+
+    <!-- FN + volume -->
+    <string name="tutorial_brightness_title">Сочетания с FN: яркость</string>
+    <string name="tutorial_brightness_body">У FN есть вторая функция: удерживайте её и нажмите другую кнопку, чтобы выполнить быстрое действие.\n\nУдерживайте FN и нажмите Vol+, чтобы сделать экран ярче. Удерживайте FN и нажмите Vol−, чтобы сделать его темнее. Сами кнопки громкости по-прежнему меняют громкость.</string>
+    <string name="tutorial_brightness_up">Ярче: FN + Vol+</string>
+    <string name="tutorial_brightness_down">Темнее: FN + Vol−</string>
+    <string name="tutorial_brightness_hint">Яркость уже на максимуме? Начните с «Темнее».</string>
+    <!-- After FN alone was pressed on a step that wants FN plus another button -->
+    <string name="tutorial_fn_alone">Это была одна FN, поэтому открылся главный экран. Зажмите FN, затем, не отпуская её, нажмите вторую кнопку.</string>
+
+    <!-- FN + Y -->
+    <string name="tutorial_shade_title">Сочетания с FN: быстрые настройки</string>
+    <string name="tutorial_shade_body">Удерживайте FN и нажмите Y, чтобы открыть уведомления и быстрые настройки с плитками для Wi-Fi, Bluetooth и другого.\n\nОткройте их сейчас. FN + Y ещё раз закрывает панель.</string>
+    <string name="tutorial_shade_open">Открыть: FN + Y</string>
+
+    <!-- Joystick mouse -->
+    <string name="tutorial_mouse_title">Мышь-джойстик</string>
+    <string name="tutorial_mouse_body">Некоторым приложениям нужен сенсорный экран. Для них правый стик может двигать указатель мыши. A — клик, L1 — правый клик, левый стик прокручивает.\n\nЧтобы включить или выключить мышь, зажмите оба стика (L3 + R3) на секунду.</string>
+    <string name="tutorial_mouse_body_fn">Некоторым приложениям нужен сенсорный экран. Для них правый стик может двигать указатель мыши. A — клик, L1 — правый клик, левый стик прокручивает.\n\nЧтобы включить или выключить мышь, зажмите оба стика (L3 + R3) на секунду или нажмите FN + X.</string>
+    <string name="tutorial_mouse_on">Включите мышь</string>
+    <string name="tutorial_mouse_off">Снова выключите её</string>
+
+    <!-- Power -->
+    <string name="tutorial_power_title">Кнопка питания</string>
+    <string name="tutorial_power_body">Нажмите кнопку питания, чтобы перевести консоль в сон, и нажмите ещё раз, чтобы разбудить её.\n\nУдерживайте кнопку питания секунду, чтобы открыть меню питания: выключение, перезапуск и другое. Нажмите B, чтобы закрыть меню.</string>
+    <string name="tutorial_power_sleep">Нажмите питание для сна, затем ещё раз для пробуждения</string>
+    <string name="tutorial_power_menu">Удерживайте питание, чтобы открыть меню, затем B, чтобы закрыть</string>
+
+    <!-- Games -->
+    <string name="tutorial_games_title">Куда класть игры</string>
+    <string name="tutorial_games_body">Вставьте SD-карту в компьютер. Кроме маленького диска BOOT появится большой диск EASYROMS: он для ваших игр.\n\nДля каждой системы сделайте свою папку с именем вроде nes, snes, gba, megadrive или psx.\n\nЗатем откройте Daijishou (нажмите FN), добавьте платформу и выберите её папку на EASYROMS. Daijishou покажет список игр и будет запускать их в RetroArch или PPSSPP.</string>
+    <string name="tutorial_games_body_no_fn">Вставьте SD-карту в компьютер. Кроме маленького диска BOOT появится большой диск EASYROMS: он для ваших игр.\n\nДля каждой системы сделайте свою папку с именем вроде nes, snes, gba, megadrive или psx.\n\nЗатем откройте Daijishou, добавьте платформу и выберите её папку на EASYROMS. Daijishou покажет список игр и будет запускать их в RetroArch или PPSSPP.</string>
+    <!-- Under the games text, when the EASYROMS partition was found -->
+    <string name="tutorial_games_space">EASYROMS на этой карте: свободно <xliff:g id="free">%1$s</xliff:g> из <xliff:g id="total">%2$s</xliff:g>.</string>
+
+    <!-- Finish -->
+    <string name="tutorial_done_title">Всё готово</string>
+    <string name="tutorial_done_body">Это основы.\n\nВ кратком руководстве есть больше: эмуляторы, скорость и батарея, выход в интернет и что делать, если что-то пошло не так. Откройте его здесь или в любой момент: Настройки &gt; Краткое руководство.</string>
+    <string name="tutorial_done_body_fn_help">Это основы. Забыли сочетание? Удерживайте одну FN немного дольше в любом приложении или игре, чтобы увидеть все.\n\nВ кратком руководстве есть больше: эмуляторы, скорость и батарея, выход в интернет и что делать, если что-то пошло не так. Откройте его здесь или в любой момент: Настройки &gt; Краткое руководство.</string>
+
+    <!-- Guide bottom bar: X opens the tutorial -->
+    <string name="hint_tutorial">Обучение</string>
+</resources>

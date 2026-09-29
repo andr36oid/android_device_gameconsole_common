@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="button_mapping_title">Переназначение кнопок (бета)</string>
+    <string name="button_mapping_summary">Изменить действия кнопок консоли</string>
+
+    <!-- The buttons of the console -->
+    <string name="button_dpad_up">Крестовина вверх</string>
+    <string name="button_dpad_down">Крестовина вниз</string>
+    <string name="button_dpad_left">Крестовина влево</string>
+    <string name="button_dpad_right">Крестовина вправо</string>
+    <string name="button_a">Кнопка A</string>
+    <string name="button_b">Кнопка B</string>
+    <string name="button_x">Кнопка X</string>
+    <string name="button_y">Кнопка Y</string>
+    <string name="button_l1">Кнопка L1</string>
+    <string name="button_r1">Кнопка R1</string>
+    <string name="button_l2">Кнопка L2</string>
+    <string name="button_r2">Кнопка R2</string>
+    <string name="button_l3">Нажатие левого стика (L3)</string>
+    <string name="button_r3">Нажатие правого стика (R3)</string>
+    <string name="button_select">Кнопка Select</string>
+    <string name="button_start">Кнопка Start</string>
+    <string name="button_function">Кнопка FN</string>
+    <string name="button_volume_down">Кнопка громкости −</string>
+    <string name="button_volume_up">Кнопка громкости +</string>
+    <string name="button_power">Кнопка питания</string>
+
+    <!-- What a button can do, grouped -->
+    <string name="section_game">Игровые кнопки</string>
+    <string name="section_menu">Управление меню</string>
+    <string name="section_system">Система</string>
+    <string name="section_media">Музыка и видео</string>
+    <string name="section_off">Отключить</string>
+
+    <string name="action_button_a">Кнопка A</string>
+    <string name="action_button_b">Кнопка B</string>
+    <string name="action_button_x">Кнопка X</string>
+    <string name="action_button_y">Кнопка Y</string>
+    <string name="action_button_l1">Кнопка L1</string>
+    <string name="action_button_r1">Кнопка R1</string>
+    <string name="action_button_l2">Кнопка L2</string>
+    <string name="action_button_r2">Кнопка R2</string>
+    <string name="action_button_l3">Нажатие левого стика (L3)</string>
+    <string name="action_button_r3">Нажатие правого стика (R3)</string>
+    <string name="action_button_select">Кнопка Select</string>
+    <string name="action_button_start">Кнопка Start</string>
+    <string name="action_up">Вверх</string>
+    <string name="action_down">Вниз</string>
+    <string name="action_left">Влево</string>
+    <string name="action_right">Вправо</string>
+    <string name="action_ok">OK</string>
+    <string name="action_back">Назад</string>
+    <string name="action_home">Главный экран</string>
+    <string name="action_menu">Меню приложения</string>
+    <string name="action_screenshot">Сделать скриншот</string>
+    <string name="action_power">Питание (сон и меню питания)</string>
+    <string name="action_volume_up">Громкость +</string>
+    <string name="action_volume_down">Громкость −</string>
+    <string name="action_mute">Без звука</string>
+    <string name="action_brightness_up">Яркость +</string>
+    <string name="action_brightness_down">Яркость −</string>
+    <string name="action_play_pause">Воспроизведение / пауза</string>
+    <string name="action_next">Следующий трек</string>
+    <string name="action_previous">Предыдущий трек</string>
+    <string name="action_nothing">Ничего (кнопка отключена)</string>
+
+    <!-- First choice in the list, puts the button back to what it did originally -->
+    <string name="action_original">Исходно: <xliff:g id="action">%1$s</xliff:g></string>
+    <string name="choose_title"><xliff:g id="button">%1$s</xliff:g>: какое действие?</string>
+
+    <!-- Below the drawing, about the selected button -->
+    <string name="status_default">Действие: <xliff:g id="action">%1$s</xliff:g></string>
+    <string name="status_changed">Действие: <xliff:g id="action">%1$s</xliff:g> (обычно <xliff:g id="default_action">%2$s</xliff:g>)</string>
+    <string name="status_locked">Действие: <xliff:g id="action">%1$s</xliff:g>. Эту кнопку нельзя изменить.</string>
+
+    <!-- Shown on the screen of the drawn console -->
+    <string name="screen_hint">Выберите кнопку крестовиной или просто нажмите её.\n\nЧтобы изменить её, нажмите: <xliff:g id="button">%1$s</xliff:g>.</string>
+    <string name="screen_hint_no_ok">Нажмите кнопку, чтобы выбрать её.\n\nНажмите ещё раз, чтобы изменить.</string>
+
+    <string name="rescue_tip">Кнопки перепутались? Удерживайте обе кнопки громкости 5 секунд, чтобы сбросить их.</string>
+
+    <string name="power_locked_title">Кнопка питания не меняется</string>
+    <string name="power_locked_message">Только она может разбудить консоль, поэтому всегда работает как кнопка питания.</string>
+
+    <!-- Things the console always needs a button for -->
+    <string name="function_up">Вверх</string>
+    <string name="function_down">Вниз</string>
+    <string name="function_left">Влево</string>
+    <string name="function_right">Вправо</string>
+    <string name="function_select">OK</string>
+    <string name="function_back">Назад</string>
+    <string name="function_home">Главный экран</string>
+    <string name="function_power">Питание</string>
+
+    <string name="blocked_title">Так вы потеряете управление</string>
+    <string name="blocked_message">Тогда не останется кнопки для: <xliff:g id="functions">%1$s</xliff:g>.\n\nСначала назначьте это другой кнопке.</string>
+
+    <string name="swap_title">Поменять с: <xliff:g id="other_button">%1$s</xliff:g>?</string>
+    <string name="swap_message">Сейчас это делает <xliff:g id="other_button">%1$s</xliff:g>. Поменять две кнопки местами или изменить только эту (<xliff:g id="button">%2$s</xliff:g>)?</string>
+    <string name="swap_needed_message">Сейчас это делает <xliff:g id="other_button">%1$s</xliff:g>. Если изменить только эту кнопку (<xliff:g id="button">%2$s</xliff:g>), не останется кнопки для: <xliff:g id="functions">%3$s</xliff:g>.\n\nПоменять две кнопки местами?</string>
+    <string name="swap_confirm">Поменять</string>
+    <string name="swap_only_this">Только эту</string>
+
+    <string name="problem_title">Не хватает некоторых кнопок</string>
+    <string name="problem_message">Нет кнопки для: <xliff:g id="functions">%1$s</xliff:g>.\n\nПереключиться на стандартные кнопки, чтобы это исправить?</string>
+    <string name="problem_fix">Стандартные</string>
+    <string name="problem_later">Не сейчас</string>
+
+    <!-- Profiles: button layouts to switch between -->
+    <string name="profile_standard">Стандартный</string>
+    <string name="profile_default_name">Профиль %d</string>
+    <string name="profile_button">Профиль: <xliff:g id="profile">%1$s</xliff:g></string>
+    <string name="profiles_title">Профили кнопок</string>
+    <string name="profile_new">Новый профиль</string>
+    <string name="profiles_close">Закрыть</string>
+    <string name="profile_rename">Переименовать</string>
+    <string name="profile_rename_title">Переименовать профиль</string>
+    <string name="profile_rename_save">Сохранить</string>
+    <string name="profile_delete">Удалить</string>
+    <string name="profile_delete_title">Удалить «<xliff:g id="profile">%1$s</xliff:g>»?</string>
+    <string name="profile_delete_message">Изменения кнопок в нём будут удалены, снова будут использоваться стандартные кнопки.</string>
+    <string name="profile_delete_message_inactive">Изменения кнопок в нём будут удалены. Текущие кнопки останутся как есть.</string>
+    <string name="profile_delete_choose">Удалить профиль…</string>
+    <string name="profile_delete_choose_title">Какой профиль удалить?</string>
+    <string name="profile_created">Новый профиль «<xliff:g id="profile">%1$s</xliff:g>». Изменения кнопок сохраняются в нём.</string>
+    <string name="profile_forked">Стандартные кнопки остались как есть, изменение сохранено в новом профиле «<xliff:g id="profile">%1$s</xliff:g>».</string>
+    <string name="profile_blocked_message">В профиле «<xliff:g id="profile">%1$s</xliff:g>» не останется кнопки для: <xliff:g id="functions">%2$s</xliff:g>.</string>
+
+    <!-- Quick Settings tile that switches to the next profile -->
+    <string name="tile_label">Профиль кнопок</string>
+
+    <!-- Shown after a change to the buttons used in menus -->
+    <string name="confirm_title">Оставить новые кнопки?</string>
+    <plurals name="confirm_message">
+        <item quantity="one">Нажмите «Оставить» (<xliff:g id="button">%1$s</xliff:g>). Иначе всё вернётся через <xliff:g id="seconds">%2$d</xliff:g> секунду.</item>
+        <item quantity="few">Нажмите «Оставить» (<xliff:g id="button">%1$s</xliff:g>). Иначе всё вернётся через <xliff:g id="seconds">%2$d</xliff:g> секунды.</item>
+        <item quantity="many">Нажмите «Оставить» (<xliff:g id="button">%1$s</xliff:g>). Иначе всё вернётся через <xliff:g id="seconds">%2$d</xliff:g> секунд.</item>
+        <item quantity="other">Нажмите «Оставить» (<xliff:g id="button">%1$s</xliff:g>). Иначе всё вернётся через <xliff:g id="seconds">%2$d</xliff:g> секунды.</item>
+    </plurals>
+    <plurals name="confirm_message_generic">
+        <item quantity="one">Нажмите «Оставить». Иначе всё вернётся через <xliff:g id="seconds">%d</xliff:g> секунду.</item>
+        <item quantity="few">Нажмите «Оставить». Иначе всё вернётся через <xliff:g id="seconds">%d</xliff:g> секунды.</item>
+        <item quantity="many">Нажмите «Оставить». Иначе всё вернётся через <xliff:g id="seconds">%d</xliff:g> секунд.</item>
+        <item quantity="other">Нажмите «Оставить». Иначе всё вернётся через <xliff:g id="seconds">%d</xliff:g> секунды.</item>
+    </plurals>
+    <string name="confirm_keep">Оставить</string>
+    <string name="confirm_undo">Отменить</string>
+
+</resources>

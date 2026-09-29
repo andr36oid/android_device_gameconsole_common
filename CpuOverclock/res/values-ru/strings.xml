@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="overclock_title">Производительность</string>
+    <string name="overclock_summary">Энергосбережение или полная скорость, лимит частоты CPU и разгон</string>
+
+    <!-- Performance profiles -->
+    <string name="profile_category">Профиль производительности</string>
+    <string name="profile_title">Профиль</string>
+    <string-array name="profile_names">
+        <item>Энергосбережение</item>
+        <item>Баланс</item>
+        <item>Производительность</item>
+    </string-array>
+    <!-- What each profile does. cpu is a CPU speed like "1.01 GHz", gpu a GPU speed in MHz. -->
+    <string name="profile_about_saver">Дольше играть. Частота CPU не выше <xliff:g id="cpu">%1$s</xliff:g>, графики — <xliff:g id="gpu">%2$d</xliff:g> MHz. Этого хватает для 8- и 16-битных игр.</string>
+    <string name="profile_about_balanced">Стандартные частоты. Процессор ускоряется, когда игре это нужно, и замедляется, когда нет.</string>
+    <string name="profile_about_performance">Самая плавная эмуляция. Частота CPU не опускается ниже <xliff:g id="cpu">%1$s</xliff:g>, графика всё время работает на <xliff:g id="gpu">%2$d</xliff:g> MHz. Для игр PS1, N64 и PSP. Батарея садится быстрее.</string>
+    <string name="profile_about_footer">\n\nПрофиль сохраняется после перезапуска консоли. Плитка в быстрых настройках переключает на следующий.</string>
+    <string name="profile_about_footer_fn">\n\nПрофиль сохраняется после перезапуска консоли. FN + R1 и плитка в быстрых настройках переключают на следующий.</string>
+    <string name="profile_failed">Не удалось сменить профиль производительности</string>
+    <!-- Toast after FN + R1, e.g. "Performance profile: Battery saver" -->
+    <string name="profile_switched">Профиль производительности: <xliff:g id="profile">%1$s</xliff:g></string>
+    <string name="profile_tile_label">Производительность</string>
+    <!-- Toast after FN + R1 while a maximum CPU speed holds the CPU lower than the profile would,
+         e.g. "Performance profile: Balanced, CPU up to 816 MHz" -->
+    <string name="profile_switched_capped">Профиль производительности: <xliff:g id="profile">%1$s</xliff:g>, CPU до <xliff:g id="speed">%2$s</xliff:g></string>
+    <!-- Tile subtitle with a maximum CPU speed, e.g. "Balanced, 816 MHz" -->
+    <string name="profile_tile_capped"><xliff:g id="profile">%1$s</xliff:g>, <xliff:g id="speed">%2$s</xliff:g></string>
+
+    <!-- Maximum CPU speed (underclock) -->
+    <string name="cpu_cap_title">Макс. частота CPU</string>
+    <!-- First entry of the list, no limit. speed is the standard top speed, e.g. "1296 MHz" -->
+    <string name="cpu_cap_stock">Стандартная (<xliff:g id="speed">%1$s</xliff:g>)</string>
+    <string name="cpu_cap_note">Ниже частота — дольше работа от батареи и холоднее консоль, но игры медленнее. Если игра тормозит, выберите частоту повыше. Сохраняется после перезапуска консоли.</string>
+    <!-- The cap is lower than what the profile allows, speed e.g. "816 MHz" -->
+    <string name="cpu_cap_active">До <xliff:g id="speed">%1$s</xliff:g> при любом профиле.</string>
+    <!-- The profile already stays lower than the cap -->
+    <string name="cpu_cap_profile_lower"><xliff:g id="speed">%1$s</xliff:g>. Сейчас профиль и так держит CPU на <xliff:g id="profile_speed">%2$s</xliff:g> или ниже.</string>
+    <string name="cpu_cap_on_hold"><xliff:g id="speed">%1$s</xliff:g>. Не действует, пока включён разгон.</string>
+    <string name="cpu_cap_none">Без ограничений сверх профиля.</string>
+    <!-- A CPU speed, e.g. "816 MHz" -->
+    <string name="speed_mhz"><xliff:g id="mhz">%1$d</xliff:g> MHz</string>
+
+    <string name="overclock_category">Разгон CPU (экспериментально)</string>
+    <string name="overclock_switch">Разгон</string>
+    <string name="overclock_switch_on">Работает на частоте до <xliff:g id="speed">%1$s</xliff:g></string>
+    <string name="overclock_switch_off">Выкл., CPU работает на частоте до <xliff:g id="speed">%1$s</xliff:g></string>
+    <string name="overclock_speed">Частота</string>
+
+    <!-- A CPU speed, e.g. "1.51 GHz" -->
+    <string name="speed_ghz"><xliff:g id="ghz">%1$.2f</xliff:g> GHz</string>
+
+    <string name="overclock_about">Более быстрая эмуляция для требовательных игр, но за это приходится платить: консоль сильнее греется, батарея садится быстрее, а некоторые консоли на высоких частотах зависают или сбоят. В таком случае выберите частоту пониже.\n\nКонсоль всегда запускается без разгона, перезапуск его выключает. Пока разгон включён, максимальная частота CPU не действует. При перегреве консоль также сама снижает частоту.</string>
+
+    <string name="overclock_unsupported">Эту консоль нельзя разогнать.</string>
+    <string name="overclock_failed">Не удалось изменить частоту CPU</string>
+
+    <!-- CPU undervolt -->
+    <string name="undervolt_category">Андервольт CPU (экспериментально)</string>
+    <string name="undervolt_title">Андервольт</string>
+    <string name="undervolt_off">Выкл.</string>
+    <!-- An undervolt step, e.g. "−25 mV" -->
+    <string name="undervolt_step">−<xliff:g id="mv">%1$d</xliff:g> mV</string>
+    <string name="undervolt_about">CPU работает на той же частоте при чуть меньшем напряжении, поэтому потребляет немного меньше энергии и чуть меньше греется, в основном на высоких частотах. На 816 MHz и ниже выигрыш небольшой.\n\nВсе чипы разные. Если игра вылетает или консоль зависает или перезапускается, верните «Выкл.». Сбой во время сохранения может повредить файлы на карте, поэтому снижайте по одному шагу и какое-то время играйте, прежде чем идти ниже.\n\nКонсоль всегда запускается с выключенным андервольтом, перезапуск его выключает.</string>
+    <string name="undervolt_failed">Не удалось изменить напряжение CPU</string>
+
+    <!-- Quick Settings tile -->
+    <string name="tile_label">Разгон CPU</string>
+    <string name="tile_off">Выкл.</string>
+</resources>

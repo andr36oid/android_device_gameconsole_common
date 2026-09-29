@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="usb_mode_title">Режим USB (бета)</string>
+    <string name="usb_mode_summary">Порт OTG для аксессуаров или подключения к компьютеру</string>
+
+    <string name="usb_mode_switch">Подключение к компьютеру</string>
+    <string name="usb_mode_switch_on">Порт OTG работает как устройство для компьютера</string>
+    <string name="usb_mode_switch_off">Порт OTG питает аксессуары: геймпады, накопители и сетевые адаптеры</string>
+
+    <string name="usb_mode_about">Включите, чтобы получить доступ к консоли с компьютера через порт OTG: передача файлов (MTP) или фото (PTP), а также adb, если в разделе «Для разработчиков» включена отладка по USB.\n\nПока режим включён, аксессуары в порту OTG не работают. Консоль всегда запускается с выключенным режимом, перезапуск возвращает порт к аксессуарам.\n\nНа некоторых консолях порт для этого не разведён. Если компьютер ничего не видит при хорошем кабеле для передачи данных, консоль этого не умеет.\n\nНикогда не включайте это, если в консоли есть встроенный Wi-Fi, как в R36XX. Такие консоли используют этот же порт USB для Wi-Fi.\n\nНикогда не используйте это, пока консоль заряжается через другой порт. Сначала отключите зарядное устройство. Если подключить зарядку, пока режим включён, порт сразу вернётся к аксессуарам.</string>
+
+    <!-- Asked before the port becomes a device for a computer -->
+    <string name="warning_title">Подключить к компьютеру?</string>
+    <string name="warning_wifi">Не включайте это, если в консоли есть встроенный Wi-Fi, как в R36XX. Такие консоли используют этот же порт USB для Wi-Fi. Wi-Fi перестанет работать, может не вернуться до перезапуска, и возможны другие сбои.\n\nУ большинства консолей R36S встроенного Wi-Fi нет. На них это безопасно.</string>
+    <string name="warning_wifi_found">Сейчас на этом порту USB найден Wi-Fi (%1$s). Если он встроен в консоль, выберите «Отмена».</string>
+    <string name="warning_confirm">Подключить</string>
+
+    <!-- Charging and device mode never go together -->
+    <string name="charging_warning">Никогда не используйте это, пока консоль заряжается через другой порт. Сначала отключите зарядное устройство.</string>
+    <string name="charging_refused">Консоль заряжается. Никогда не используйте это, пока консоль заряжается через другой порт. Сначала отключите зарядное устройство.</string>
+    <string name="charging_toast">НЕ ДЕЛАЙТЕ ТАК! Никогда не заряжайте консоль одновременно с режимом USB-клиента.</string>
+    <string name="channel_on">Подключено к компьютеру</string>
+    <string name="channel_alert">Режим USB выключен</string>
+    <string name="notification_on_title">Порт USB: подключён к компьютеру</string>
+    <string name="notification_alert_title">Режим USB выключен</string>
+    <string name="notification_alert_text">Подключено зарядное устройство, поэтому порт OTG вернулся к аксессуарам. Никогда не заряжайте консоль одновременно с режимом USB-клиента.</string>
+
+    <string name="usb_mode_functions">Режим работы USB</string>
+
+    <string name="usb_mode_unsupported">На этой консоли нельзя переключить порт USB.</string>
+    <string name="usb_mode_failed">Не удалось переключить порт USB</string>
+
+    <!-- Quick Settings tile -->
+    <string name="tile_label">Режим USB (бета)</string>
+    <string name="tile_host">Аксессуары</string>
+    <string name="tile_device">Компьютер</string>
+</resources>
