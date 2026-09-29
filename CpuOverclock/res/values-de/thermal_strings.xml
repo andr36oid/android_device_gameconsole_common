@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="profile_about_performance">Flüssigste Emulation. Die CPU fällt nie unter <xliff:g id="cpu">%1$s</xliff:g>, die Grafik läuft immer mit <xliff:g id="gpu">%2$d</xliff:g> MHz und der Arbeitsspeicher mit voller Geschwindigkeit. Für PS1-, N64- und PSP-Spiele. Der Akku ist schneller leer.</string>
+</resources>

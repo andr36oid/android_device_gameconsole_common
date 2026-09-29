@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="profile_about_performance">Najpłynniejsza emulacja. CPU nigdy nie schodzi poniżej <xliff:g id="cpu">%1$s</xliff:g>, a grafika pracuje z <xliff:g id="gpu">%2$d</xliff:g> MHz i pamięć z pełną szybkością cały czas. Do gier PS1, N64 i PSP. Bateria rozładowuje się szybciej.</string>
+</resources>

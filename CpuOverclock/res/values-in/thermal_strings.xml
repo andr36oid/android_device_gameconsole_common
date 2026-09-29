@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="profile_about_performance">Emulasi paling lancar. CPU tidak pernah turun di bawah <xliff:g id="cpu">%1$s</xliff:g>, grafis berjalan di <xliff:g id="gpu">%2$d</xliff:g> MHz, dan memori di kecepatan penuh sepanjang waktu. Untuk game PS1, N64, dan PSP. Baterai lebih cepat habis.</string>
+</resources>

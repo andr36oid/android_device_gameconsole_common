@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="game_mode_steady_memory">Постоянная скорость памяти</string>
+    <string name="game_mode_steady_memory_summary">Во время игры память работает на полной скорости, поэтому её скорость не меняется посреди игры. Батарея расходуется немного быстрее.</string>
+</resources>
