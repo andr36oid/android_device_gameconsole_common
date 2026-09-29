@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="trouble_recovery_more">Bu, kurtarma menüsünü başlatır. Yön tuşları veya ses tuşlarıyla gezinin, A veya güç düğmesiyle seçin. Fabrika ayarlarına sıfırlama için önce \"Factory reset\", sonra \"Format data/factory reset\", ardından \"Reboot system now\" seçin. Bu, uygulamalarınızı, ayarlarınızı ve dahili depolamadaki tüm dosyaları siler, ama EASYROMS\'taki oyunları silmez. Diğer seçenekleri kullanmayın: bu kurtarma menüsü sisteminizden daha eskidir ve onun için güncelleme yükleyemez.</string>
+</resources>

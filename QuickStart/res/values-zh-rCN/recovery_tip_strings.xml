@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="trouble_recovery_more">这会启动恢复模式菜单。用方向键或音量键移动，用 A 或电源键选择。要恢复出厂设置，请依次选择“Factory reset”、“Format data/factory reset”和“Reboot system now”。这会清除您的应用、设置以及内部存储空间中的所有文件，但不会清除 EASYROMS 上的游戏。请勿使用其他选项：这个恢复模式比您的系统旧，无法为它安装更新。</string>
+</resources>

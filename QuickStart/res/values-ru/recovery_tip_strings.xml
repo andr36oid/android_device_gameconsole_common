@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="trouble_recovery_more">Так запускается меню восстановления (recovery). Перемещайтесь крестовиной или кнопками громкости, выбирайте кнопкой A или кнопкой питания. Для сброса к заводским настройкам выберите «Factory reset», затем «Format data/factory reset», затем «Reboot system now». Сброс удаляет ваши приложения, настройки и все файлы во внутренней памяти, но не игры на EASYROMS. Другие пункты не используйте: это recovery старше вашей системы и не может устанавливать для неё обновления.</string>
+</resources>
