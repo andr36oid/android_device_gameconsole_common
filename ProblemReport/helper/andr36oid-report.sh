@@ -557,11 +557,13 @@ if case $FILE in
 			-d "file:///sdcard/Download/andr36oid-reports/$FILE" >/dev/null 2>&1
 		;;
 	esac
-	# BOOT is small: keep the newest few
+	# BOOT is small: keep this one and the newest few others, by name (the date
+	# in it), not by file time. Never this one: after an empty battery the clock
+	# can be behind, and its name then looks older than the others.
 	if [ "$SHOWN" = BOOT ]; then
-		# shellcheck disable=SC2012 # our own names, report-<date>.zip
-		ls -t "$ROOT/andr36oid-reports"/report-*.zip 2>/dev/null |
-			tail -n +$((BOOT_KEEP_REPORTS + 1)) | while IFS= read -r f; do rm -f "$f"; done
+		for f in "$ROOT/andr36oid-reports"/report-*.zip; do
+			[ -f "$f" ] && [ "$f" != "$OUT" ] && echo "$f"
+		done | sort -r | tail -n +"$BOOT_KEEP_REPORTS" | while IFS= read -r f; do rm -f "$f"; done
 	fi
 	sync
 	log "saved $OUT ($(wc -c <"$OUT") bytes)"

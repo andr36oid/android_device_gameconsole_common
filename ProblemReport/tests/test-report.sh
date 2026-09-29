@@ -269,6 +269,21 @@ run_report
 check "4 old + 1 new -> 3 kept" [ "$(find "$R/boot/andr36oid-reports" -name 'report-*.zip' | wc -l)" = 3 ]
 check "the new one is kept" [ -n "$(find "$R/boot/andr36oid-reports" -name 'report-2026*.zip' -o -name "report-$(date +%Y)*.zip" | head -n 1)" ]
 
+# ---- 2b. the clock is behind (empty battery): the new report is kept all the same,
+# the others go by name, not by file time ----
+make_root
+mkdir -p "$R/boot/andr36oid-reports"
+for i in 1 2 3; do
+	touch "$R/boot/andr36oid-reports/report-2099010$i-000000.zip"
+done
+# file times the other way round than the names
+touch -d 2020-01-01 "$R/boot/andr36oid-reports/report-20990103-000000.zip"
+run_report
+check "clock behind: the new one is kept" [ -n "$(find "$R/boot/andr36oid-reports" -name "report-$(date +%Y)*.zip" | head -n 1)" ]
+check "clock behind: 3 kept" [ "$(find "$R/boot/andr36oid-reports" -name 'report-*.zip' | wc -l)" = 3 ]
+check "clock behind: the oldest name went" [ ! -e "$R/boot/andr36oid-reports/report-20990101-000000.zip" ]
+check "clock behind: newest name kept despite its old file time" [ -e "$R/boot/andr36oid-reports/report-20990103-000000.zip" ]
+
 # ---- 3. BOOT too full -> EASYROMS ----
 make_root
 echo 20000 >"$R/tmp/boot-free-kb"
