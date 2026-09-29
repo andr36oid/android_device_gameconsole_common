@@ -108,6 +108,14 @@ for sh in $SHELLS; do
 		"$T/folders-plain.txt" "$ARCHIVE" 'mkdir -p "$EASYROMS/gb"; while read -r n _; do case $n in ""|\#*) continue;; esac; mkdir -p "$EASYROMS/$n"; done <"$ROM_FOLDERS"; echo mine >"$EASYROMS/gb/2048.gb"; echo mine >"$EASYROMS/free-games-licenses.txt"; seed_free_games "$EASYROMS"' \
 		'[ "$(cat "$R/gb/2048.gb")" = mine ] && [ "$(cat "$R/free-games-licenses.txt")" = mine ] && same gb/"Libbet and the Magic Floor.gb" && grep -q "copied 5 files" "$L"'
 
+	run_case "$sh" "power cut while copying: the next start removes the .part files and copies again" \
+		"$T/folders-plain.txt" "$ARCHIVE" 'touch "$STATE/rom-folders.pending.ABCD-1234"; while read -r n _; do case $n in ""|\#*) continue;; esac; mkdir -p "$EASYROMS/$n"; done <"$ROM_FOLDERS"; echo half >"$EASYROMS/gb/2048.gb.part"; echo half >"$EASYROMS/gbc/uCity.gbc.part"; make_rom_folders' \
+		'all_same_plain && no_part && [ -e "$S/rom-folders.ABCD-1234" ] && [ ! -e "$S/rom-folders.pending.ABCD-1234" ] && grep -q "copied 7 files" "$L"'
+
+	run_case "$sh" "a finished set-up leaves no pending mark" \
+		"$T/folders-plain.txt" "$ARCHIVE" 'make_rom_folders' \
+		'[ -e "$S/rom-folders.ABCD-1234" ] && [ ! -e "$S/rom-folders.pending.ABCD-1234" ]'
+
 	run_case "$sh" "no archive on /system (GAMECONSOLE_FREE_GAMES=false): folders only" \
 		"$T/folders-plain.txt" "$T/none.tar.gz" 'make_rom_folders' \
 		'[ -d "$R/gb" ] && [ -z "$(find "$R" -type f ! -name README-andr36oid.txt)" ] && ! grep -q copied "$L"'

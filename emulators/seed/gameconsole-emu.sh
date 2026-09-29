@@ -363,6 +363,8 @@ seed_free_games() {
 			[ -d "$root/$dir" ] || { log "no $dir/ folder on EASYROMS, left out ${m##*/}"; continue; }
 			;;
 		esac
+		# a copy cut off by a power loss on an earlier start
+		rm -f "$root/$m.part"
 		[ -e "$root/$m" ] && continue
 		if tar -xzOf "$FREE_GAMES" "$m" >"$root/$m.part" 2>/dev/null &&
 			mv "$root/$m.part" "$root/$m"; then
@@ -377,17 +379,21 @@ seed_free_games() {
 }
 
 make_rom_folders() {
-	local root=$EASYROMS uuid stamp name
+	local root=$EASYROMS uuid stamp pending name
 	[ -f "$ROM_FOLDERS" ] || return 0
 	[ -n "$NOROMS" ] && return 0
 	[ -n "$root" ] || { log "EASYROMS not mounted, no ROM folders"; return 0; }
 	uuid=${root##*/}
 	stamp=$STATE/rom-folders.$uuid
 	[ -e "$stamp" ] && return 0
+	# set while we set up this card: a start cut off (power) halfway through,
+	# e.g. while copying the free games, finishes the job the next time, as
+	# the folders there are ours
+	pending=$STATE/rom-folders.pending.$uuid
 
 	# a card that already has a ROM folder layout (ArkOS, dArkOS, the user's own)
 	# is left exactly as it is
-	while read -r name _; do
+	[ -e "$pending" ] || while read -r name _; do
 		case $name in ''|\#*) continue ;; esac
 		if [ -d "$root/$name" ]; then
 			log "EASYROMS already has $name/, leaving its folders alone"
@@ -396,6 +402,7 @@ make_rom_folders() {
 		fi
 	done <"$ROM_FOLDERS"
 
+	touch "$pending"
 	while read -r name _; do
 		case $name in ''|\#*) continue ;; esac
 		mkdir -p "$root/$name" || { log "couldn't make $name/ on EASYROMS"; return 0; }
@@ -411,6 +418,7 @@ make_rom_folders() {
 	# only on a card we just set up, so never on a card with the user's games
 	seed_free_games "$root"
 	touch "$stamp"
+	rm -f "$pending"
 }
 
 # what we last wrote into RetroArch's system_directory
