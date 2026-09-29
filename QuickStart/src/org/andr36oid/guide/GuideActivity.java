@@ -37,6 +37,11 @@ public class GuideActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mChapters = buildChapters();
+        if (mChapters.isEmpty()) {
+            // Nothing could be read: leave instead of crashing on an empty list
+            finish();
+            return;
+        }
 
         final LinearLayout root = new LinearLayout(this);
         root.setOrientation(LinearLayout.VERTICAL);

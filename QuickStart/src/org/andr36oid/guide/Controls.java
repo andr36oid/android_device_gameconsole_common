@@ -52,7 +52,12 @@ final class Controls {
                 StandardCharsets.UTF_8))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                parse(line);
+                try {
+                    parse(line);
+                } catch (RuntimeException e) {
+                    // One bad line must not lose the rest of the page
+                    Log.w(TAG, "Skipped a bad line: " + line, e);
+                }
             }
         } catch (IOException | RuntimeException e) {
             Log.w(TAG, "Couldn't read the button list", e);
@@ -105,6 +110,11 @@ final class Controls {
             case "row":
                 mLevel = LEVEL_ITEM;
                 final int equals = rest.lastIndexOf(" = ");
+                if (equals < 0) {
+                    Log.w(TAG, "Skipped a row without \" = \": " + line);
+                    mItem = null;
+                    break;
+                }
                 mItem = new Chapters.Item(keys(rest.substring(0, equals)),
                         text(rest.substring(equals + 3)));
                 mItemShown = true;
