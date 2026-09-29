@@ -25,7 +25,8 @@
 #    RetroArch is kept.
 # 6. Gives Daijishou a platform per ROM folder system with our players, once,
 #    before its first start. Run as "gameconsole-emu.sh post-fs-data" (before
-#    system_server) it only writes the folder access that needs.
+#    system_server) it only writes the folder access that needs. Later, when
+#    the games on EASYROMS changed, Daijishou asks to look for games again.
 
 BASE=/system/etc/gameconsole
 STATE=/data/misc/gameconsole
@@ -465,6 +466,8 @@ DJ_SCHEMA=$BASE/daijishou/schema.sql
 # done: set once we added the platforms, or decided never to (Daijishou had a
 # library already, another Daijishou version)
 DJ_DONE=$STATE/daijishou.done
+# the card UUID if we made the library (dj_new_games only runs then)
+DJ_SEEDED=$STATE/daijishou.seeded
 URI_GRANTS=/data/system/urigrants.xml
 SAF_TREE=content://com.android.externalstorage.documents/tree
 EASYROMS_DEV=/dev/block/mmcblk0p7
@@ -696,7 +699,85 @@ seed_daijishou() {
 	restorecon -R "$DJ_DATA/databases" "${DJ_PREFS%/*}" 2>/dev/null
 	rm -rf "$tmp"
 	touch "$DJ_DONE"
+	# the first start's sync sees what's there now; later changes: dj_new_games
+	echo "$uuid" >"$DJ_SEEDED"
+	dj_games >"$STATE/daijishou-games.$uuid"
 	log "added $count platforms to Daijishou's library"
+}
+
+# dj_games ; the game files in the platform folders on EASYROMS, one path per
+# line, without what the emulators write next to them (saves, states) and
+# without scraped pictures, videos and game lists
+dj_games() {
+	local f
+	for f in $(dj_folders); do
+		[ -d "$EASYROMS/$f" ] && find "$EASYROMS/$f" -type f 2>/dev/null
+	done | sed "s|^$EASYROMS/||" |
+		grep -v -i -E '(^|/)\.|\.(srm|sav|rtc|ldci|dsv|mcd|mcr|state[0-9]*|auto|png|jpe?g|gif|mp4|txt|cfg|opt|bak|xml|nfo|log)$' |
+		sort
+}
+
+# dj_pref <file> <tag> <name> <element> ; sets one setting in a shared prefs file
+dj_pref() {
+	local cur
+	# only an element on one line can be dropped by line (Android writes one per line)
+	if grep "<$2 name=\"$3\"" "$1" | grep -v -q -e "</$2>" -e '/>'; then
+		return 1
+	fi
+	cur=$(grep -v "<$2 name=\"$3\"" "$1") || true
+	case $cur in
+	*'</map>'*) printf '%s\n' "$cur" | sed "s|</map>|$4</map>|" >"$1.new" ;;
+	*) return 1 ;;
+	esac
+}
+
+# dj_new_games: Daijishou only looks for games when asked to. On a console we set
+# up, when the games on EASYROMS changed since the last start (copied on a
+# computer, say), Daijishou asks again on its next start, like on the first one.
+# It keeps its settings in memory while it runs, so it's restarted around the
+# change; the home screen comes back by itself. persist.andr36oid.daijishou_autosync=0
+# turns this off.
+dj_new_games() {
+	local uuid seen now top owner p=$DJ_PREFS
+
+	[ -f "$DJ_SEEDED" ] && [ -n "$EASYROMS" ] || return 0
+	[ "$(getprop persist.andr36oid.daijishou_autosync)" = 0 ] && return 0
+	uuid=${EASYROMS##*/}
+	seen=$STATE/daijishou-games.$uuid
+	now=$(dj_games | cksum)
+	if [ ! -f "$seen" ]; then
+		# another card (EASYROMS formatted again): nothing to compare with
+		dj_games >"$seen"
+		return 0
+	fi
+	[ "$(cksum <"$seen")" = "$now" ] && return 0
+	# Daijishou's library isn't ours any more (data cleared): leave it
+	if [ ! -f "$p" ] || [ ! -f "$DJ_DB" ]; then
+		dj_games >"$seen"
+		return 0
+	fi
+
+	top=
+	dumpsys activity activities 2>/dev/null | grep -q "mResumedActivity.*$DJ_PKG/" && top=1
+	am force-stop "$DJ_PKG"
+	owner=$(stat -c %u:%g "$p")
+	if dj_pref "$p" boolean sync_entirely_on_start '<boolean name="sync_entirely_on_start" value="true" />' &&
+		mv -f "$p.new" "$p"; then
+		# the dialog's text; Daijishou's own if ours can't go in
+		dj_pref "$p" string sync_entirely_on_start_hint '<string name="sync_entirely_on_start_hint">The games on EASYROMS changed. Press OK to update the library.</string>' &&
+			mv -f "$p.new" "$p"
+		chown "$owner" "$p"
+		chmod 0660 "$p"
+		restorecon "$p" 2>/dev/null
+		log "games on EASYROMS changed, Daijishou looks for them on its next start"
+	else
+		rm -f "$p.new"
+		log "Daijishou's settings look odd, not asking it to look for new games"
+	fi
+	# a Daijishou that started meanwhile has the old settings in memory
+	am force-stop "$DJ_PKG"
+	[ -n "$top" ] && am start -a android.intent.action.MAIN -c android.intent.category.HOME >/dev/null 2>&1
+	dj_games >"$seen"
 }
 
 # post-fs-data: only the folder access for Daijishou, before system_server starts
@@ -728,3 +809,4 @@ make_rom_folders
 bios_folder
 # after the cores and ROM folders: a platform needs both
 seed_daijishou
+dj_new_games

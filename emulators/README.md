@@ -152,6 +152,14 @@ its library the way Daijishou itself stores it, once, before it first runs:
   settings file yet, `sync_entirely_on_start=true`: on its first start Daijishou asks once
   to "Sync entirely" (our text in the dialog) and then finds the games itself.
 
+New games later (copied on a computer, say): Daijishou only looks for games when asked.
+On a console where we made the library, each boot compares the game files in the
+platform folders (saves, states, pictures, hidden files left out) with the last boot. If
+they changed, it sets `sync_entirely_on_start` again ("The games on EASYROMS changed.
+Press OK to update the library."), force-stops Daijishou around the change (it keeps its
+settings in memory) and brings the home screen back if Daijishou was in front. Off with
+`setprop persist.andr36oid.daijishou_autosync 0`.
+
 Never again after it ran once (`/data/misc/gameconsole/daijishou.done`), never on a
 Daijishou that has a library, never on a `.noroms` card (no EASYROMS; games are on the
 internal storage there). A different Daijishou versionCode skips it with a log line.

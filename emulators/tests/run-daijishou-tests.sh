@@ -51,6 +51,7 @@ run_shell() {
 	# shellcheck disable=SC2086 # "busybox ash" is two words
 	out=$($sh "$HERE/seedtest.sh" "$EMU" 2>&1)
 	local rc=$?
+	# shellcheck disable=SC2001 # multi-line prefix
 	echo "$out" | sed "s/^/  [$sh] /"
 	if [ $rc -eq 0 ]; then
 		pass "seed functions under $sh"

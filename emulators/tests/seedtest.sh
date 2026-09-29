@@ -5,7 +5,8 @@
 
 EMU=$1
 HERE=$EMU/tests
-T=$(mktemp -d)
+# in RAM if possible: sqlite syncs every write
+T=$(mktemp -d -p /dev/shm 2>/dev/null || mktemp -d)
 trap 'rm -rf "$T"' EXIT
 fails=0
 
@@ -30,6 +31,7 @@ setup() {
 	DJ_SEED=$EMU/daijishou/daijishou-seed.txt
 	DJ_SCHEMA=$EMU/daijishou/schema.sql
 	DJ_DONE=$STATE/daijishou.done
+	DJ_SEEDED=$STATE/daijishou.seeded
 	URI_GRANTS=$T/c/system_data/urigrants.xml
 	EASYROMS_PART=$T/c/sys/mmcblk0p7
 	EASYROMS=$T/c/media_rw/$UUID
@@ -44,7 +46,7 @@ setup() {
 	for f in $(awk '!/^#/ && NF { print $1 }' "$EMU/seed/rom-folders.txt"); do
 		[ "$f" = "$skipfolder" ] || mkdir "$EASYROMS/$f"
 	done
-	rm -f "$T/running" "$T/log"
+	rm -f "$T/running" "$T/log" "$T/am" "$T/autosync"
 	DJ_VC=416
 }
 
@@ -60,6 +62,9 @@ pidof() { [ -e "$T/running" ]; }
 restorecon() { :; }
 chown() { :; }
 timeout() { shift; "$@"; }
+getprop() { cat "$T/autosync" 2>/dev/null; }
+am() { echo "$*" >>"$T/am"; }
+dumpsys() { echo "    mResumedActivity: ActivityRecord{1 u0 $DJ_PKG/.activities.MainActivity t9}"; }
 blkid() { echo "$EASYROMS_DEV: LABEL=\"EASYROMS\" UUID=\"$UUID\" TYPE=\"exfat\""; }
 
 ok() { echo "ok   $*"; }
@@ -228,5 +233,82 @@ a=$(sqlite3 "$DJ_DB" "SELECT am_start_arguments FROM PlayerEntity WHERE unique_i
 r=$(sqlite3 "$DJ_DB" "SELECT accept_filename_regex FROM PlatformEntity WHERE unique_id='snes'")
 [ "$(printf '%s' "$a" | wc -l)" -eq 3 ] && [ "$r" = '^(?!(?:\._|\.).*).*(?<!bml)$' ] &&
 	ok "newlines and backslashes kept" || bad "quoting: $r"
+
+# 19. new games: Daijishou asks again on its next start
+# what Android writes for Daijishou after its first sync
+android_prefs() {
+	cat >"$DJ_PREFS" <<'XML'
+<?xml version='1.0' encoding='utf-8' standalone='yes' ?>
+<map>
+    <int name="upgraded_version" value="416" />
+    <boolean name="sync_entirely_on_start" value="false" />
+    <string name="sync_entirely_on_start_hint">Update platforms, synchronize library, backup settings and more in one click depended on your settings.</string>
+    <string name="uuid">x</string>
+</map>
+XML
+}
+prefs_ok() {
+	python3 - "$DJ_PREFS" <<'PY'
+import sys, xml.etree.ElementTree as ET
+m = ET.parse(sys.argv[1]).getroot()
+b = [e for e in m if e.get("name") == "sync_entirely_on_start"]
+h = [e for e in m if e.get("name") == "sync_entirely_on_start_hint"]
+u = [e for e in m if e.get("name") in ("uuid", "upgraded_version")]
+sys.exit(0 if len(b) == 1 and b[0].get("value") == "true" and len(h) == 1
+         and "changed" in h[0].text and len(u) == 2 else 1)
+PY
+}
+setup "" ""
+daijishou_grants
+seed_daijishou
+android_prefs
+cp "$DJ_PREFS" "$T/p0"
+dj_new_games
+cmp -s "$DJ_PREFS" "$T/p0" && [ ! -e "$T/am" ] && ok "no new games: nothing" || bad "no change"
+touch "$EASYROMS/nes/Game (USA).nes" "$EASYROMS/nes/Other.srm" "$EASYROMS/gba/x.state1" "$EASYROMS/psx/.hidden"
+rm -f "$EASYROMS/nes/Game (USA).nes"
+dj_new_games
+cmp -s "$DJ_PREFS" "$T/p0" && [ ! -e "$T/am" ] && ok "saves, states, hidden files: nothing" || bad "saves counted"
+touch "$EASYROMS/nes/Game (USA).nes"
+dj_new_games
+if prefs_ok && [ "$(grep -c force-stop "$T/am")" -eq 2 ] && grep -q "category.HOME" "$T/am"; then
+	ok "new game: sync asked for, Daijishou restarted, home back"
+else
+	bad "new game"
+fi
+rm -f "$T/am"
+dj_new_games
+[ ! -e "$T/am" ] && ok "... once" || bad "asked twice"
+mkdir -p "$EASYROMS/psx/Game X"
+touch "$EASYROMS/psx/Game X/Game X.cue"
+echo 0 >"$T/autosync"
+dj_new_games
+[ ! -e "$T/am" ] && ok "autosync off: nothing" || bad "autosync off"
+rm -f "$T/autosync"
+dj_new_games
+prefs_ok && [ -e "$T/am" ] && ok "game in a subfolder counts" || bad "subfolder"
+# a library we didn't make: never
+setup "" ""
+mkdir -p "${DJ_DB%/*}" "${DJ_PREFS%/*}"
+echo user >"$DJ_DB"
+android_prefs
+daijishou_grants
+seed_daijishou
+dj_new_games
+touch "$EASYROMS/nes/new.nes"
+dj_new_games
+[ ! -e "$T/am" ] && grep -q '"false"' "$DJ_PREFS" && ok "user's own library: never touched" || bad "user library"
+# a hint over several lines stays, the flag still gets set
+setup "" ""
+daijishou_grants
+seed_daijishou
+android_prefs
+sed -i 's|one click depended on your settings.</string>|one click\n</string>|' "$DJ_PREFS"
+printf '%s\n' '<?xml version="1.0"?>' '<map>' '    <boolean name="sync_entirely_on_start" value="false" />' \
+	'    <string name="sync_entirely_on_start_hint">two' 'lines</string>' '</map>' >"$DJ_PREFS"
+touch "$EASYROMS/nes/new.nes"
+dj_new_games
+python3 -c "import xml.etree.ElementTree as E,sys; m=E.parse(sys.argv[1]).getroot(); sys.exit(0 if [e.get('value') for e in m if e.tag=='boolean']==['true'] else 1)" "$DJ_PREFS" &&
+	ok "odd hint kept, flag set" || bad "multi-line hint"
 
 [ $fails -eq 0 ]
