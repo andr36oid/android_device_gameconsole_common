@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Gamepad keyboard: an on-screen keyboard made for typing with the controller.
+     Platform signed for WRITE_SECURE_SETTINGS (switching to and from the Android TV
+     keyboard); it does not run as the system user. -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="org.andr36oid.keyboard">
+
+    <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS" />
+
+    <application
+        android:allowBackup="false"
+        android:icon="@drawable/ic_keyboard"
+        android:label="@string/ime_name"
+        android:supportsRtl="true">
+
+        <service
+            android:name=".GamepadIme"
+            android:exported="true"
+            android:label="@string/ime_name"
+            android:permission="android.permission.BIND_INPUT_METHOD">
+            <intent-filter>
+                <action android:name="android.view.InputMethod" />
+            </intent-filter>
+            <meta-data
+                android:name="android.view.im"
+                android:resource="@xml/method" />
+        </service>
+
+        <!-- Opened from Settings > System > Languages & input > On-screen keyboard -->
+        <activity
+            android:name=".SettingsActivity"
+            android:exported="true"
+            android:label="@string/ime_name"
+            android:theme="@android:style/Theme.DeviceDefault.Settings" />
+    </application>
+</manifest>
