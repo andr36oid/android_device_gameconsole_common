@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="ime_name">Teclado para mando</string>
+    <!-- Hint line above the keys. Buttons on keys (B, X, Y, START, SELECT, L3) are shown on the keys themselves. -->
+    <string name="hint_grid">Mantén A: acentos · L1/R1 mover cursor · L2 ocultar · R2 texto grande · R3 modo joystick</string>
+    <string name="hint_sticks">Joy. izq.: grupo · joy. der.: letra, suelta para escribir · B borrar · X espacio · Y mayús. · START intro · R3 teclas</string>
+    <string name="stick_left">grupo</string>
+    <string name="stick_right">suelta para escribir</string>
+    <string name="key_space">espacio</string>
+    <string name="key_go">Ir</string>
+    <string name="key_search">Buscar</string>
+    <string name="key_send">Enviar</string>
+    <string name="key_next">Siguiente</string>
+    <string name="key_done">Hecho</string>
+    <string name="key_previous">Atrás</string>
+    <string name="no_other_keyboard">No hay ningún otro teclado instalado.</string>
+    <string name="switched_to_tv">Teclado de Android TV activado. Para volver: Ajustes &gt; Sistema &gt; Idiomas e introducción de texto &gt; Teclado en pantalla &gt; Teclado para mando.</string>
+    <string name="which_self">Teclado en uso: Teclado para mando</string>
+    <string name="which_self_summary">Pulsa para usar en su lugar el teclado de Android TV (el que tenían las versiones anteriores)</string>
+    <string name="which_other">Teclado en uso: otro teclado</string>
+    <string name="which_other_summary">Pulsa para volver a usar el Teclado para mando</string>
+    <string name="pref_layout">Distribución de letras</string>
+    <string-array name="layout_entries">
+        <item>Automática (según el idioma del sistema)</item>
+        <item>QWERTY</item>
+        <item>QWERTZ</item>
+        <item>AZERTY</item>
+    </string-array>
+    <string name="pref_sticks">Empezar escribiendo con joysticks</string>
+    <string name="pref_sticks_summary">Abre el teclado con los dos círculos de los joysticks en lugar de las teclas. R3 cambia de modo en cualquier momento.</string>
+    <string name="pref_auto_big">Mostrar el texto si el teclado lo tapa</string>
+    <string name="pref_auto_big_summary">Si el campo de texto queda debajo del teclado, muestra el texto en una línea grande encima. R2 hace lo mismo a mano.</string>
+    <string name="pref_hints">Mostrar ayuda de botones</string>
+    <string name="pref_hints_summary">La línea sobre las teclas y los nombres de los botones en las teclas</string>
+    <string name="buttons_title">Botones</string>
+    <string name="buttons_help">Cruceta o joystick izquierdo: moverse\nA: escribir (mantén para acentos: á, ñ, ü…)\nB: borrar (con el campo vacío: cerrar)\nX: espacio\nY: mayúsculas (dos veces: bloqueo de mayúsculas)\nL1 / R1: mover el cursor de texto\nL2: cerrar el teclado\nR2: activar o desactivar la línea de texto grande\nStart: intro / hecho\nSelect: letras o símbolos\nL3: cambiar al teclado de Android TV\nR3: cuadrícula de teclas o escritura con joysticks\n\nEscritura con joysticks: el joystick izquierdo elige un grupo de cuatro, el derecho apunta a una letra y, al soltarlo, se escribe.</string>
+</resources>

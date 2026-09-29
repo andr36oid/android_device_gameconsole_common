@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="ime_name">Oyun kolu klavyesi</string>
+    <!-- Hint line above the keys. Buttons on keys (B, X, Y, START, SELECT, L3) are shown on the keys themselves. -->
+    <string name="hint_grid">A basılı: aksanlar · L1/R1 imleç · L2 gizle · R2 büyük metin · R3 analogla yazma</string>
+    <string name="hint_sticks">Sol analog: grup · sağ analog: harf, bırakınca yazar · B sil · X boşluk · Y shift · START enter · R3 tuşlar</string>
+    <string name="stick_left">grup</string>
+    <string name="stick_right">bırakınca yazar</string>
+    <string name="key_space">boşluk</string>
+    <string name="key_go">Git</string>
+    <string name="key_search">Ara</string>
+    <string name="key_send">Gönder</string>
+    <string name="key_next">İleri</string>
+    <string name="key_done">Bitti</string>
+    <string name="key_previous">Geri</string>
+    <string name="no_other_keyboard">Başka klavye yüklü değil.</string>
+    <string name="switched_to_tv">Android TV klavyesi açık. Geri dönmek için: Ayarlar &gt; Sistem &gt; Diller ve giriş &gt; Ekran klavyesi &gt; Oyun kolu klavyesi.</string>
+    <string name="which_self">Kullanılan klavye: Oyun kolu klavyesi</string>
+    <string name="which_self_summary">Bunun yerine Android TV klavyesini (eski derlemelerdeki) kullanmak için seçin</string>
+    <string name="which_other">Kullanılan klavye: başka bir klavye</string>
+    <string name="which_other_summary">Oyun kolu klavyesini yeniden kullanmak için seçin</string>
+    <string name="pref_layout">Harf düzeni</string>
+    <string-array name="layout_entries">
+        <item>Otomatik (sistem dilinden)</item>
+        <item>QWERTY</item>
+        <item>QWERTZ</item>
+        <item>AZERTY</item>
+    </string-array>
+    <string name="pref_sticks">Analogla yazmayla başla</string>
+    <string name="pref_sticks_summary">Klavyeyi tuşlar yerine iki analog dairesiyle açar. R3 her zaman geçiş yapar.</string>
+    <string name="pref_auto_big">Klavye metni gizlerse metni göster</string>
+    <string name="pref_auto_big_summary">Metin alanı klavyenin altında kalırsa metni üstünde büyük bir satırda gösterir. R2 bunu elle yapar.</string>
+    <string name="pref_hints">Tuş ipuçlarını göster</string>
+    <string name="pref_hints_summary">Tuşların üstündeki satır ve tuşlardaki düğme adları</string>
+    <string name="buttons_title">Tuşlar</string>
+    <string name="buttons_help">Yön tuşları veya sol analog: hareket\nA: yaz (aksanlar için basılı tutun: é, ü, ß…)\nB: sil (boş alanda: kapat)\nX: boşluk\nY: shift (iki kez: büyük harf kilidi)\nL1 / R1: metin imlecini taşı\nL2: klavyeyi kapat\nR2: büyük metin satırı açık veya kapalı\nStart: enter / bitti\nSelect: harfler veya semboller\nL3: Android TV klavyesine geç\nR3: tuş ızgarası veya analogla yazma\n\nAnalogla yazma: sol analog dörtlü bir grup seçer, sağ analog bir harfi gösterir, yazmak için bırakın.</string>
+</resources>

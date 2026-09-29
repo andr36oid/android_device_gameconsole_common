@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="ime_name">手柄键盘</string>
+    <!-- Hint line above the keys. Buttons on keys (B, X, Y, START, SELECT, L3) are shown on the keys themselves. -->
+    <string name="hint_grid">按住 A：重音字母 · L1/R1 移动光标 · L2 隐藏 · R2 大字 · R3 摇杆输入</string>
+    <string name="hint_sticks">左摇杆：选组 · 右摇杆：选字母，松开即输入 · B 删除 · X 空格 · Y 大小写 · START 回车 · R3 按键</string>
+    <string name="stick_left">选组</string>
+    <string name="stick_right">松开即输入</string>
+    <string name="key_space">空格</string>
+    <string name="key_go">前往</string>
+    <string name="key_search">搜索</string>
+    <string name="key_send">发送</string>
+    <string name="key_next">下一个</string>
+    <string name="key_done">完成</string>
+    <string name="key_previous">上一个</string>
+    <string name="no_other_keyboard">没有安装其他键盘。</string>
+    <string name="switched_to_tv">已切换到 Android TV 键盘。要切换回来：设置 &gt; 系统 &gt; 语言和输入法 &gt; 屏幕键盘 &gt; 手柄键盘。</string>
+    <string name="which_self">当前键盘：手柄键盘</string>
+    <string name="which_self_summary">选择此项可改用 Android TV 键盘（旧版本使用的键盘）</string>
+    <string name="which_other">当前键盘：其他键盘</string>
+    <string name="which_other_summary">选择此项可重新使用手柄键盘</string>
+    <string name="pref_layout">字母布局</string>
+    <string-array name="layout_entries">
+        <item>自动（根据系统语言）</item>
+        <item>QWERTY</item>
+        <item>QWERTZ</item>
+        <item>AZERTY</item>
+    </string-array>
+    <string name="pref_sticks">启动时使用摇杆输入</string>
+    <string name="pref_sticks_summary">打开键盘时显示两个摇杆圆盘，而不是按键。随时可按 R3 切换。</string>
+    <string name="pref_auto_big">键盘遮住文字时显示文字</string>
+    <string name="pref_auto_big_summary">如果输入框被键盘遮住，就在键盘上方用一行大字显示文字。按 R2 可手动显示。</string>
+    <string name="pref_hints">显示按键提示</string>
+    <string name="pref_hints_summary">按键上方的提示行，以及按键上的按钮名称</string>
+    <string name="buttons_title">按键</string>
+    <string name="buttons_help">方向键或左摇杆：移动\nA：输入（按住可输入重音字母：é、ü、ß…）\nB：删除（输入框为空时：关闭）\nX：空格\nY：切换大小写（按两次：大写锁定）\nL1 / R1：移动文字光标\nL2：关闭键盘\nR2：开启或关闭大字行\nStart：回车 / 完成\nSelect：字母或符号\nL3：切换到 Android TV 键盘\nR3：按键网格或摇杆输入\n\n摇杆输入：左摇杆选择一组四个字母，右摇杆指向某个字母，松开即可输入。</string>
+</resources>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="ime_name">Clavier manette</string>
+    <!-- Hint line above the keys. Buttons on keys (B, X, Y, START, SELECT, L3) are shown on the keys themselves. -->
+    <string name="hint_grid">A maintenu : accents · L1/R1 curseur · L2 masquer · R2 gros texte · R3 saisie aux sticks</string>
+    <string name="hint_sticks">Stick G : groupe · stick D : lettre, relâcher pour taper · B effacer · X espace · Y maj · START entrée · R3 touches</string>
+    <string name="stick_left">groupe</string>
+    <string name="stick_right">relâcher pour taper</string>
+    <string name="key_space">espace</string>
+    <string name="key_go">OK</string>
+    <string name="key_search">Chercher</string>
+    <string name="key_send">Envoyer</string>
+    <string name="key_next">Suivant</string>
+    <string name="key_done">OK</string>
+    <string name="key_previous">Retour</string>
+    <string name="no_other_keyboard">Aucun autre clavier n\'est installé.</string>
+    <string name="switched_to_tv">Clavier Android TV activé. Pour revenir : Paramètres &gt; Système &gt; Langues et saisie &gt; Clavier à l\'écran &gt; Clavier manette.</string>
+    <string name="which_self">Clavier utilisé : Clavier manette</string>
+    <string name="which_self_summary">Sélectionnez pour utiliser plutôt le clavier Android TV (celui des anciennes versions)</string>
+    <string name="which_other">Clavier utilisé : un autre clavier</string>
+    <string name="which_other_summary">Sélectionnez pour utiliser de nouveau le Clavier manette</string>
+    <string name="pref_layout">Disposition des lettres</string>
+    <string-array name="layout_entries">
+        <item>Automatique (selon la langue du système)</item>
+        <item>QWERTY</item>
+        <item>QWERTZ</item>
+        <item>AZERTY</item>
+    </string-array>
+    <string name="pref_sticks">Démarrer en saisie aux sticks</string>
+    <string name="pref_sticks_summary">Ouvre le clavier avec les deux cercles des sticks au lieu des touches. R3 permet de basculer à tout moment.</string>
+    <string name="pref_auto_big">Afficher le texte masqué par le clavier</string>
+    <string name="pref_auto_big_summary">Si le champ de texte se retrouve sous le clavier, le texte s\'affiche en grand sur une ligne au-dessus. R2 le fait manuellement.</string>
+    <string name="pref_hints">Afficher l\'aide des boutons</string>
+    <string name="pref_hints_summary">La ligne au-dessus des touches et les noms des boutons sur les touches</string>
+    <string name="buttons_title">Boutons</string>
+    <string name="buttons_help">Croix ou stick gauche : se déplacer\nA : taper (maintenir pour les accents : é, ü, ß…)\nB : effacer (champ vide : fermer)\nX : espace\nY : majuscule (deux fois : verrouiller)\nL1 / R1 : déplacer le curseur\nL2 : fermer le clavier\nR2 : ligne de gros texte oui/non\nStart : entrée / OK\nSelect : lettres ou symboles\nL3 : passer au clavier Android TV\nR3 : grille de touches ou saisie aux sticks\n\nSaisie aux sticks : le stick gauche choisit un groupe de quatre, le stick droit pointe une lettre, relâchez-le pour la taper.</string>
+</resources>
