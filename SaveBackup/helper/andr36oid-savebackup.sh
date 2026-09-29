@@ -42,20 +42,24 @@ status() {
 
 # "easyroms <path>" and "usb <path>" for every mounted drive
 volumes() {
-	local id state uuid
+	local dev dir _
 	if testing; then
 		[ -n "$SAVEBACKUP_EASYROMS" ] && echo "easyroms $SAVEBACKUP_EASYROMS"
 		[ -n "$SAVEBACKUP_USB" ] && echo "usb $SAVEBACKUP_USB"
 		return 0
 	fi
-	sm list-volumes public </dev/null 2>/dev/null | while read -r id state uuid; do
-		[ "$state" = mounted ] && [ -n "$uuid" ] && [ -d "/mnt/media_rw/$uuid" ] || continue
-		if [ "$id" = "$EASYROMS_ID" ]; then
-			echo "easyroms /mnt/media_rw/$uuid"
+	# vold mounts each drive from /dev/block/vold/public:<major>,<minor> at
+	# /mnt/media_rw/<uuid>, so /proc/mounts tells; `sm list-volumes` started a
+	# second Java VM next to the engine's at each run
+	while read -r dev dir _; do
+		case $dev in /dev/block/vold/public:*) ;; *) continue ;; esac
+		case $dir in /mnt/media_rw/?*) [ -d "$dir" ] || continue ;; *) continue ;; esac
+		if [ "$dev" = "/dev/block/vold/$EASYROMS_ID" ]; then
+			echo "easyroms $dir"
 		else
-			echo "usb /mnt/media_rw/$uuid"
+			echo "usb $dir"
 		fi
-	done
+	done </proc/mounts
 }
 
 # the APK holding the engine: the one in /system, or an update if there is one
