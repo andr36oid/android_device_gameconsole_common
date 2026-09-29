@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_name">Premier démarrage</string>
+    <string name="home_title">Écran d\'accueil</string>
+    <string name="home_body">Votre écran d\'accueil, Daijishou, s\'ouvrira ici une fois le tutoriel terminé.\n\nLe tutoriel revient dans un instant.</string>
+    <string name="home_back">Retour au tutoriel</string>
+    <string name="home_skip">Passer le tutoriel</string>
+</resources>

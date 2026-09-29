@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="overclock_title">Performances</string>
+    <string name="overclock_summary">Économie de batterie ou pleine vitesse, limite CPU et overclocking</string>
+
+    <!-- Performance profiles -->
+    <string name="profile_category">Profil de performances</string>
+    <string name="profile_title">Profil</string>
+    <string-array name="profile_names">
+        <item>Économie de batterie</item>
+        <item>Équilibré</item>
+        <item>Performances</item>
+    </string-array>
+    <!-- What each profile does. cpu is a CPU speed like "1.01 GHz", gpu a GPU speed in MHz. -->
+    <string name="profile_about_saver">Plus d\'autonomie. Le CPU reste à <xliff:g id="cpu">%1$s</xliff:g> maximum et le GPU à <xliff:g id="gpu">%2$d</xliff:g> MHz. Largement suffisant pour les jeux 8 et 16 bits.</string>
+    <string name="profile_about_balanced">Vitesses standard. Le processeur accélère quand un jeu en a besoin et ralentit sinon.</string>
+    <string name="profile_about_performance">Émulation la plus fluide. Le CPU ne descend jamais sous <xliff:g id="cpu">%1$s</xliff:g> et le GPU tourne en permanence à <xliff:g id="gpu">%2$d</xliff:g> MHz. Pour les jeux PS1, N64 et PSP. La batterie se vide plus vite.</string>
+    <string name="profile_about_footer">\n\nLe profil est conservé au redémarrage de la console. La tuile des Réglages rapides passe au profil suivant.</string>
+    <string name="profile_about_footer_fn">\n\nLe profil est conservé au redémarrage de la console. FN + R1 et la tuile des Réglages rapides passent au profil suivant.</string>
+    <string name="profile_failed">Impossible de changer le profil de performances</string>
+    <!-- Toast after FN + R1, e.g. "Performance profile: Battery saver" -->
+    <string name="profile_switched">Profil de performances : <xliff:g id="profile">%1$s</xliff:g></string>
+    <string name="profile_tile_label">Performances</string>
+    <string name="profile_switched_capped">Profil de performances : <xliff:g id="profile">%1$s</xliff:g>, CPU jusqu\'à <xliff:g id="speed">%2$s</xliff:g></string>
+    <!-- Tile subtitle with a maximum CPU speed, e.g. "Balanced, 816 MHz" -->
+    <string name="profile_tile_capped"><xliff:g id="profile">%1$s</xliff:g>, <xliff:g id="speed">%2$s</xliff:g></string>
+
+    <!-- Maximum CPU speed (underclock) -->
+    <string name="cpu_cap_title">Vitesse CPU maximale</string>
+    <!-- First entry of the list, no limit. speed is the standard top speed, e.g. "1296 MHz" -->
+    <string name="cpu_cap_stock">D\'origine (<xliff:g id="speed">%1$s</xliff:g>)</string>
+    <string name="cpu_cap_note">Plus bas, c\'est plus d\'autonomie et une console plus fraîche, mais des jeux plus lents. Si un jeu ralentit, choisissez une vitesse plus élevée. Conservé au redémarrage de la console.</string>
+    <!-- The cap is lower than what the profile allows, speed e.g. "816 MHz" -->
+    <string name="cpu_cap_active">Jusqu\'à <xliff:g id="speed">%1$s</xliff:g>, quel que soit le profil.</string>
+    <!-- The profile already stays lower than the cap -->
+    <string name="cpu_cap_profile_lower"><xliff:g id="speed">%1$s</xliff:g>. Le profil maintient actuellement le CPU à <xliff:g id="profile_speed">%2$s</xliff:g> ou moins.</string>
+    <string name="cpu_cap_on_hold"><xliff:g id="speed">%1$s</xliff:g>. Suspendu tant que l\'overclocking est activé.</string>
+    <string name="cpu_cap_none">Pas de limite en dehors du profil.</string>
+    <!-- A CPU speed, e.g. "816 MHz" -->
+    <string name="speed_mhz"><xliff:g id="mhz">%1$d</xliff:g> MHz</string>
+
+    <string name="overclock_category">Overclocking CPU (expérimental)</string>
+    <string name="overclock_switch">Overclocking</string>
+    <string name="overclock_switch_on">Jusqu\'à <xliff:g id="speed">%1$s</xliff:g></string>
+    <string name="overclock_switch_off">Désactivé, le CPU monte jusqu\'à <xliff:g id="speed">%1$s</xliff:g></string>
+    <string name="overclock_speed">Vitesse</string>
+
+    <!-- A CPU speed, e.g. "1.51 GHz" -->
+    <string name="speed_ghz"><xliff:g id="ghz">%1$.2f</xliff:g> GHz</string>
+
+    <string name="overclock_about">Une émulation plus rapide pour les jeux exigeants, avec un prix : la console chauffe davantage, la batterie se vide plus vite, et certaines consoles se figent ou plantent aux vitesses les plus élevées. Dans ce cas, choisissez une vitesse plus basse.\n\nLa console démarre toujours sans overclocking, un redémarrage le désactive. Tant qu\'il est activé, la vitesse CPU maximale est suspendue. La console ralentit aussi d\'elle-même si elle devient trop chaude.</string>
+
+    <string name="overclock_unsupported">Cette console ne peut pas être overclockée.</string>
+    <string name="overclock_failed">Impossible de changer la vitesse du CPU</string>
+
+    <!-- CPU undervolt -->
+    <string name="undervolt_category">Undervolting CPU (expérimental)</string>
+    <string name="undervolt_title">Undervolting</string>
+    <string name="undervolt_off">Désactivé</string>
+    <!-- An undervolt step, e.g. "−25 mV" -->
+    <string name="undervolt_step">−<xliff:g id="mv">%1$d</xliff:g> mV</string>
+    <string name="undervolt_about">Fait tourner le CPU à une tension un peu plus basse pour la même vitesse : il consomme un peu moins et chauffe un peu moins, surtout aux vitesses élevées. À 816 MHz et moins, le gain est faible.\n\nChaque puce est différente. Si un jeu plante ou si la console se fige ou redémarre, revenez à Désactivé. Un plantage pendant un enregistrement peut endommager des fichiers sur la carte : descendez d\'un cran à la fois et jouez un moment avant d\'aller plus bas.\n\nLa console démarre toujours sans undervolting, un redémarrage le désactive.</string>
+    <string name="undervolt_failed">Impossible de changer la tension du CPU</string>
+
+    <!-- Quick Settings tile -->
+    <string name="tile_label">Overclocking CPU</string>
+    <string name="tile_off">Désactivé</string>
+</resources>

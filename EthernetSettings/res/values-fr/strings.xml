@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="ethernet_title">Ethernet</string>
+    <string name="ethernet_summary">Adaptateurs Ethernet USB, partage de connexion USB d\'un téléphone et modems USB</string>
+
+    <string name="ethernet_unavailable">Ethernet n\'est pas disponible dans cette version</string>
+    <string name="ethernet_none_title">Rien de branché</string>
+    <string name="ethernet_none_summary">Branchez un adaptateur Ethernet USB, ou connectez un téléphone avec le partage via USB activé. Sur un iPhone, activez Partage de connexion.</string>
+
+    <!-- Category titles, %1$s is the interface name, e.g. eth0 -->
+    <string name="ethernet_iface_adapter">Adaptateur filaire (%1$s)</string>
+    <string name="ethernet_iface_phone">Téléphone, partage via USB (%1$s)</string>
+    <string name="ethernet_iface_modem">Modem mobile USB (%1$s)</string>
+
+    <string name="ethernet_status">État</string>
+    <string name="ethernet_status_connected">Connecté</string>
+    <string name="ethernet_status_no_internet">Connecté, sans Internet</string>
+    <string name="ethernet_status_connecting">Connexion…</string>
+    <string name="ethernet_status_unplugged">Câble débranché</string>
+    <string name="ethernet_status_phone_waiting">En attente du téléphone</string>
+    <string name="ethernet_status_modem_waiting">En attente du réseau mobile</string>
+
+    <string name="ethernet_ip_address">Adresse IP</string>
+    <string name="ethernet_gateway">Passerelle</string>
+    <string name="ethernet_dns">Serveurs DNS</string>
+    <string name="ethernet_mac">Adresse MAC</string>
+    <string name="ethernet_speed">Débit de la liaison</string>
+    <!-- %1$d is the speed in Mbit/s -->
+    <string name="ethernet_speed_value">%1$d Mbit/s</string>
+    <string name="ethernet_unknown">Non disponible</string>
+    <string name="ethernet_not_set">Non défini</string>
+
+    <string name="ethernet_ip_settings">Paramètres IP</string>
+    <string name="ethernet_ip_dhcp">DHCP</string>
+    <string name="ethernet_ip_static">Statique</string>
+
+    <string name="ethernet_static_ip">Adresse IP statique</string>
+    <string name="ethernet_static_ip_hint">Par exemple 192.168.1.50/24</string>
+    <string name="ethernet_static_gateway">Passerelle statique</string>
+    <string name="ethernet_static_gateway_hint">Par exemple 192.168.1.1, vide si aucune</string>
+    <string name="ethernet_static_dns">Serveurs DNS statiques</string>
+    <string name="ethernet_static_dns_hint">Par exemple 1.1.1.1, 8.8.8.8</string>
+    <string name="ethernet_static_needs_ip">Définissez d\'abord l\'adresse IP</string>
+
+    <string name="ethernet_invalid_ip">Saisissez une adresse IPv4, éventuellement avec une longueur de préfixe comme /24</string>
+    <string name="ethernet_invalid_gateway">Saisissez une adresse IPv4 ou laissez vide</string>
+    <string name="ethernet_invalid_dns">Saisissez des adresses IP séparées par des virgules</string>
+    <string name="ethernet_save_failed">Impossible de modifier les paramètres IP</string>
+</resources>

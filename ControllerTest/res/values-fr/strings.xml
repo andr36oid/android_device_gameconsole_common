@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="test_title">Test des commandes</string>
+    <string name="test_summary">Essayer chaque bouton et stick, voir la batterie</string>
+
+    <!-- Bottom line. %1$d buttons pressed so far out of %2$d -->
+    <string name="test_hint">Maintenir START + SELECT pour quitter · FN : accueil · <xliff:g id="done">%1$d</xliff:g>/<xliff:g id="total">%2$d</xliff:g> boutons testés</string>
+    <string name="test_all_tested">Tous les boutons marchent</string>
+    <string name="test_leaving">Fermeture…</string>
+    <string name="test_no_key">Appuyez sur un bouton</string>
+    <string name="test_no_stick">Aucun stick analogique détecté</string>
+    <string name="test_battery_unknown">Batterie : aucune donnée</string>
+</resources>

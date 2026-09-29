@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string-array name="action_labels">
+        <item>Bouton normal</item>
+        <item>Rien</item>
+        <item>Clic gauche</item>
+        <item>Clic droit</item>
+        <item>Clic central</item>
+        <item>Retour</item>
+        <item>Avancer</item>
+        <item>Clic gauche si le pointeur est affiché, sinon bouton normal</item>
+        <item>Précision : pointeur lent tant que maintenu</item>
+        <item>Défilement : le stick du pointeur fait défiler tant que maintenu</item>
+    </string-array>
+
+    <string-array name="toggle_ms_labels">
+        <item>0,5 seconde</item>
+        <item>0,75 seconde</item>
+        <item>1 seconde</item>
+        <item>1,5 seconde</item>
+        <item>2 secondes</item>
+        <item>3 secondes</item>
+        <item>5 secondes</item>
+        <item>10 secondes</item>
+    </string-array>
+
+    <string-array name="speed_labels">
+        <item>25 %</item>
+        <item>40 %</item>
+        <item>60 %</item>
+        <item>80 %</item>
+        <item>100 % (défaut)</item>
+        <item>125 %</item>
+        <item>150 %</item>
+        <item>200 %</item>
+        <item>250 %</item>
+        <item>300 %</item>
+    </string-array>
+
+    <string-array name="curve_labels">
+        <item>Désactivé (linéaire)</item>
+        <item>Faible</item>
+        <item>Moyen (défaut)</item>
+        <item>Élevé</item>
+        <item>Très élevé</item>
+    </string-array>
+
+    <string-array name="deadzone_labels">
+        <item>4 %</item>
+        <item>6 %</item>
+        <item>8 %</item>
+        <item>10 % (défaut)</item>
+        <item>12 %</item>
+        <item>15 %</item>
+        <item>20 %</item>
+        <item>25 %</item>
+    </string-array>
+
+    <string-array name="precision_labels">
+        <item>15 %</item>
+        <item>25 %</item>
+        <item>35 % (défaut)</item>
+        <item>50 %</item>
+        <item>70 %</item>
+    </string-array>
+
+    <string-array name="scroll_speed_labels">
+        <item>25 %</item>
+        <item>50 %</item>
+        <item>75 %</item>
+        <item>100 % (défaut)</item>
+        <item>150 %</item>
+        <item>200 %</item>
+        <item>300 %</item>
+    </string-array>
+</resources>

@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="button_mapping_title">Mappage des boutons (bêta)</string>
+    <string name="button_mapping_summary">Changer le rôle des boutons de la console</string>
+
+    <!-- The buttons of the console -->
+    <string name="button_dpad_up">Croix haut</string>
+    <string name="button_dpad_down">Croix bas</string>
+    <string name="button_dpad_left">Croix gauche</string>
+    <string name="button_dpad_right">Croix droite</string>
+    <string name="button_a">Bouton A</string>
+    <string name="button_b">Bouton B</string>
+    <string name="button_x">Bouton X</string>
+    <string name="button_y">Bouton Y</string>
+    <string name="button_l1">Bouton L1</string>
+    <string name="button_r1">Bouton R1</string>
+    <string name="button_l2">Bouton L2</string>
+    <string name="button_r2">Bouton R2</string>
+    <string name="button_l3">Clic stick gauche (L3)</string>
+    <string name="button_r3">Clic stick droit (R3)</string>
+    <string name="button_select">Bouton Select</string>
+    <string name="button_start">Bouton Start</string>
+    <string name="button_function">Bouton FN</string>
+    <string name="button_volume_down">Bouton volume -</string>
+    <string name="button_volume_up">Bouton volume +</string>
+    <string name="button_power">Bouton Marche/Arrêt</string>
+
+    <!-- What a button can do, grouped -->
+    <string name="section_game">Boutons de jeu</string>
+    <string name="section_menu">Navigation</string>
+    <string name="section_system">Système</string>
+    <string name="section_media">Musique et vidéo</string>
+    <string name="section_off">Désactiver</string>
+
+    <string name="action_button_a">Bouton A</string>
+    <string name="action_button_b">Bouton B</string>
+    <string name="action_button_x">Bouton X</string>
+    <string name="action_button_y">Bouton Y</string>
+    <string name="action_button_l1">Bouton L1</string>
+    <string name="action_button_r1">Bouton R1</string>
+    <string name="action_button_l2">Bouton L2</string>
+    <string name="action_button_r2">Bouton R2</string>
+    <string name="action_button_l3">Clic stick gauche (L3)</string>
+    <string name="action_button_r3">Clic stick droit (R3)</string>
+    <string name="action_button_select">Bouton Select</string>
+    <string name="action_button_start">Bouton Start</string>
+    <string name="action_up">Haut</string>
+    <string name="action_down">Bas</string>
+    <string name="action_left">Gauche</string>
+    <string name="action_right">Droite</string>
+    <string name="action_ok">OK</string>
+    <string name="action_back">Retour</string>
+    <string name="action_home">Écran d\'accueil</string>
+    <string name="action_menu">Menu de l\'appli</string>
+    <string name="action_screenshot">Capture d\'écran</string>
+    <string name="action_power">Marche/Arrêt (veille et menu)</string>
+    <string name="action_volume_up">Volume +</string>
+    <string name="action_volume_down">Volume -</string>
+    <string name="action_mute">Couper le son</string>
+    <string name="action_brightness_up">Luminosité +</string>
+    <string name="action_brightness_down">Luminosité -</string>
+    <string name="action_play_pause">Lecture / pause</string>
+    <string name="action_next">Piste suivante</string>
+    <string name="action_previous">Piste précédente</string>
+    <string name="action_nothing">Rien (bouton désactivé)</string>
+
+    <!-- First choice in the list, puts the button back to what it did originally -->
+    <string name="action_original">D\'origine : <xliff:g id="action">%1$s</xliff:g></string>
+    <string name="choose_title"><xliff:g id="button">%1$s</xliff:g> : quel rôle ?</string>
+
+    <!-- Below the drawing, about the selected button -->
+    <string name="status_default">Rôle : <xliff:g id="action">%1$s</xliff:g></string>
+    <string name="status_changed">Rôle : <xliff:g id="action">%1$s</xliff:g> (normalement <xliff:g id="default_action">%2$s</xliff:g>)</string>
+    <string name="status_locked">Rôle : <xliff:g id="action">%1$s</xliff:g>. Celui-ci ne peut pas être modifié.</string>
+
+    <!-- Shown on the screen of the drawn console -->
+    <string name="screen_hint">Choisissez un bouton avec la croix, ou appuyez simplement dessus.\n\nAppuyez ensuite sur « <xliff:g id="button">%1$s</xliff:g> » pour le modifier.</string>
+    <string name="screen_hint_no_ok">Appuyez sur un bouton pour le choisir.\n\nAppuyez à nouveau pour le modifier.</string>
+
+    <string name="rescue_tip">Boutons tout mélangés ? Maintenez les deux boutons de volume pendant 5 secondes pour les réinitialiser.</string>
+
+    <string name="power_locked_title">Le bouton Marche/Arrêt ne change pas</string>
+    <string name="power_locked_message">C\'est le seul bouton qui peut sortir la console de veille, il garde donc toujours son rôle de bouton Marche/Arrêt.</string>
+
+    <!-- Things the console always needs a button for -->
+    <string name="function_up">Haut</string>
+    <string name="function_down">Bas</string>
+    <string name="function_left">Gauche</string>
+    <string name="function_right">Droite</string>
+    <string name="function_select">OK</string>
+    <string name="function_back">Retour</string>
+    <string name="function_home">Écran d\'accueil</string>
+    <string name="function_power">Marche/Arrêt</string>
+
+    <string name="blocked_title">Vous seriez bloqué</string>
+    <string name="blocked_message">Plus aucun bouton ne servirait à : <xliff:g id="functions">%1$s</xliff:g>.\n\nConfiez d\'abord ce rôle à un autre bouton.</string>
+
+    <string name="swap_title">Échanger avec « <xliff:g id="other_button">%1$s</xliff:g> » ?</string>
+    <string name="swap_message">« <xliff:g id="other_button">%1$s</xliff:g> » a déjà ce rôle. Échanger les deux boutons, ou modifier seulement « <xliff:g id="button">%2$s</xliff:g> » ?</string>
+    <string name="swap_needed_message">« <xliff:g id="other_button">%1$s</xliff:g> » a déjà ce rôle. Modifier seulement « <xliff:g id="button">%2$s</xliff:g> » ne laisserait aucun bouton pour : <xliff:g id="functions">%3$s</xliff:g>.\n\nÉchanger plutôt les deux boutons ?</string>
+    <string name="swap_confirm">Échanger</string>
+    <string name="swap_only_this">Celui-ci seul</string>
+
+    <string name="problem_title">Des boutons manquent</string>
+    <string name="problem_message">Aucun bouton n\'est configuré pour : <xliff:g id="functions">%1$s</xliff:g>.\n\nRepasser aux boutons Standard pour corriger ?</string>
+    <string name="problem_fix">Utiliser Standard</string>
+    <string name="problem_later">Plus tard</string>
+
+    <!-- Profiles: button layouts to switch between -->
+    <string name="profile_standard">Standard</string>
+    <string name="profile_default_name">Profil %d</string>
+    <string name="profile_button">Profil : <xliff:g id="profile">%1$s</xliff:g></string>
+    <string name="profiles_title">Profils de boutons</string>
+    <string name="profile_new">Nouveau profil</string>
+    <string name="profiles_close">Fermer</string>
+    <string name="profile_rename">Renommer</string>
+    <string name="profile_rename_title">Renommer le profil</string>
+    <string name="profile_rename_save">Enregistrer</string>
+    <string name="profile_delete">Supprimer</string>
+    <string name="profile_delete_title">Supprimer « <xliff:g id="profile">%1$s</xliff:g> » ?</string>
+    <string name="profile_delete_message">Ses modifications de boutons sont supprimées et les boutons Standard sont de nouveau utilisés.</string>
+    <string name="profile_delete_message_inactive">Ses modifications de boutons sont supprimées. Les boutons que vous utilisez actuellement ne changent pas.</string>
+    <string name="profile_delete_choose">Supprimer un profil…</string>
+    <string name="profile_delete_choose_title">Quel profil supprimer ?</string>
+    <string name="profile_created">Nouveau profil « <xliff:g id="profile">%1$s</xliff:g> ». Les modifications de boutons y sont enregistrées.</string>
+    <string name="profile_forked">Les boutons Standard ne changent pas, votre modification est enregistrée dans le nouveau profil « <xliff:g id="profile">%1$s</xliff:g> ».</string>
+    <string name="profile_blocked_message">« <xliff:g id="profile">%1$s</xliff:g> » ne laisserait aucun bouton pour : <xliff:g id="functions">%2$s</xliff:g>.</string>
+
+    <!-- Quick Settings tile that switches to the next profile -->
+    <string name="tile_label">Profil de boutons</string>
+
+    <!-- Shown after a change to the buttons used in menus -->
+    <string name="confirm_title">Garder les nouveaux boutons ?</string>
+    <plurals name="confirm_message">
+        <item quantity="one">Appuyez sur Garder avec « <xliff:g id="button">%1$s</xliff:g> ». Sinon, tout revient comme avant dans <xliff:g id="seconds">%2$d</xliff:g> seconde.</item>
+        <item quantity="other">Appuyez sur Garder avec « <xliff:g id="button">%1$s</xliff:g> ». Sinon, tout revient comme avant dans <xliff:g id="seconds">%2$d</xliff:g> secondes.</item>
+    </plurals>
+    <plurals name="confirm_message_generic">
+        <item quantity="one">Appuyez sur Garder. Sinon, tout revient comme avant dans <xliff:g id="seconds">%d</xliff:g> seconde.</item>
+        <item quantity="other">Appuyez sur Garder. Sinon, tout revient comme avant dans <xliff:g id="seconds">%d</xliff:g> secondes.</item>
+    </plurals>
+    <string name="confirm_keep">Garder</string>
+    <string name="confirm_undo">Annuler</string>
+
+</resources>

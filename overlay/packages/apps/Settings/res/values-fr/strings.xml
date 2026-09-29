@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Settings entry and page title for device info -->
+    <string name="about_settings" product="tablet">À propos de la console</string>
+    <string name="about_settings" product="default">À propos de la console</string>
+    <string name="about_settings" product="device">À propos de la console</string>
+</resources>

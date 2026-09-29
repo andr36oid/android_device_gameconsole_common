@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="details_title">Détails de la batterie</string>
+    <string name="details_summary">Tension, courant, temps de charge et graphique sur 24 heures</string>
+
+    <!-- Header -->
+    <string name="percent"><xliff:g id="percent">%1$d</xliff:g> %%</string>
+    <string name="status_charging">En charge</string>
+    <string name="status_full">Chargée</string>
+    <string name="status_discharging">Sur batterie</string>
+    <string name="status_not_charging">Branchée, pas en charge</string>
+    <string name="time_to_full">pleine dans environ <xliff:g id="time">%1$s</xliff:g></string>
+    <string name="time_left">encore environ <xliff:g id="time">%1$s</xliff:g> à ce rythme</string>
+    <string name="status_and_time"><xliff:g id="status">%1$s</xliff:g> · <xliff:g id="time">%2$s</xliff:g></string>
+
+    <string name="graph_title">Dernières 24 heures</string>
+    <string name="graph_empty">Le graphique se remplit à mesure que vous utilisez la console. Un point est ajouté toutes les 15 minutes quand elle est allumée.</string>
+    <string name="graph_ago">il y a 24 h</string>
+    <string name="graph_now">maintenant</string>
+
+    <string name="now_title">En ce moment</string>
+    <string name="voltage">Tension</string>
+    <string name="current">Courant</string>
+    <string name="power">Puissance</string>
+    <string name="temperature">Température du processeur</string>
+    <string name="charger">Chargeur</string>
+
+    <!-- Battery capacity setting -->
+    <string name="capacity_title">Capacité de la batterie</string>
+    <string name="capacity_setting">Capacité</string>
+    <string name="capacity_hint">Inscrite sur la batterie. Une valeur fausse fait dériver le pourcentage.</string>
+    <string name="capacity_reset">Rétablir <xliff:g id="mah">%1$d</xliff:g> mAh</string>
+    <string name="capacity">La jauge utilise</string>
+
+    <string name="value_voltage"><xliff:g id="volts">%1$.2f</xliff:g> V</string>
+    <string name="value_current_in"><xliff:g id="ma">%1$d</xliff:g> mA en entrée</string>
+    <string name="value_current_out"><xliff:g id="ma">%1$d</xliff:g> mA en sortie</string>
+    <string name="value_power"><xliff:g id="watts">%1$.2f</xliff:g> W</string>
+    <string name="value_temperature"><xliff:g id="celsius">%1$.1f</xliff:g> °C</string>
+    <string name="value_capacity"><xliff:g id="mah">%1$d</xliff:g> mAh</string>
+    <string name="value_capacity_default"><xliff:g id="mah">%1$d</xliff:g> mAh (par défaut)</string>
+    <string name="charger_none">Non branchée</string>
+    <string name="charger_usb">USB</string>
+    <string name="charger_ac">Chargeur secteur</string>
+    <string name="unknown">Inconnu</string>
+
+    <string name="about">Le pourcentage est une estimation de la jauge. La tension, elle, est mesurée directement : environ 4,2 V correspond à une batterie pleine, 3,7 V à peu près à la moitié, et la console s\'éteint vers 3,4 V. La tension baisse pendant une partie et remonte au repos.\n\nSi le pourcentage et la tension ne concordent pas, chargez jusqu\'à ce que la console indique « Chargée ». La jauge peut ainsi se corriger.\n\nLes durées sont des estimations approximatives basées sur le courant actuel.</string>
+
+    <!-- Durations -->
+    <string name="duration_min"><xliff:g id="minutes">%1$d</xliff:g> min</string>
+    <string name="duration_h_min"><xliff:g id="hours">%1$d</xliff:g> h <xliff:g id="minutes">%2$d</xliff:g> min</string>
+</resources>

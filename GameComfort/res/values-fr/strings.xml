@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="app_name">Confort de jeu</string>
+
+    <!-- Low battery warning, Settings > Battery -->
+    <string name="warning_title">Alerte batterie faible</string>
+    <string name="warning_summary">Alerte par-dessus les jeux pour sauvegarder à temps</string>
+    <string name="warning_when">Alerter à</string>
+    <string-array name="warning_entries">
+        <item>Désactivé</item>
+        <item>15 % et 5 %</item>
+        <item>5 % seulement</item>
+    </string-array>
+    <string name="warning_preview">Tester l\'alerte</string>
+    <string name="warning_about">La notification de batterie faible d\'Android passe facilement inaperçue pendant un jeu en plein écran. Ceci affiche à la place un court bandeau en haut de l\'écran, une fois pour chaque niveau, quand la console fonctionne sur batterie. Les boutons restent au jeu.\n\nLa console s\'éteint d\'elle-même quand la batterie est vide, et tout ce qui n\'est pas sauvegardé est perdu.</string>
+
+    <!-- The banner on top of the game -->
+    <string name="banner_text">Batterie <xliff:g id="percent">%1$d</xliff:g> %% – sauvegardez votre partie</string>
+
+    <!-- Game mode, Settings home page and Quick Settings tile -->
+    <string name="game_mode_title">Mode jeu</string>
+    <string name="game_mode_summary">Ne pas déranger et pas de notifications pop-up pendant le jeu</string>
+    <string name="game_mode_now">Mode jeu</string>
+    <string name="game_mode_now_summary">Active Ne pas déranger (prioritaires uniquement) et empêche les notifications de s\'afficher par-dessus le jeu</string>
+    <string name="game_mode_automatic">Activer automatiquement</string>
+    <string name="game_mode_automatic_summary">Activé quand un jeu ou un émulateur est ouvert, désactivé quand vous le quittez</string>
+    <string name="game_mode_profile">Profil de performances en jeu</string>
+    <string-array name="game_mode_profile_entries">
+        <item>Ne pas changer</item>
+        <item>Performances</item>
+        <item>Équilibré</item>
+        <item>Économie de batterie</item>
+    </string-array>
+    <string name="game_mode_about">Quand le mode jeu se termine, Ne pas déranger et les notifications pop-up reviennent à leur état précédent. Si vous modifiez vous-même Ne pas déranger entre-temps, votre modification est conservée.\n\nUne appli compte comme un jeu si elle se déclare comme tel, ou si c\'est un émulateur courant comme RetroArch ou PPSSPP.\n\nLe profil de performances précédent revient aussi, sauf si vous en avez choisi un autre pendant le jeu.\n\nCe que Ne pas déranger laisse passer se règle dans Paramètres &gt; Son &gt; Ne pas déranger.</string>
+    <string name="tile_on">Activé</string>
+    <string name="tile_off">Désactivé</string>
+    <string name="tile_automatic">Automatique</string>
+</resources>
