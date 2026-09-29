@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="internet_file_q">在电脑上设置 Wi-Fi</string>
+    <string name="internet_file_a">用方向键输入 Wi-Fi 密码很慢。将 SD 卡插入电脑，打开 BOOT 磁盘，用记事本打开 andr36oid-setup.txt。在 wifi_ssid = 后面写上网络名称，在 wifi_password = 后面写上密码，然后保存。语言、时区和 24 小时制也可以写在里面。最好在首次启动之前完成，这样设置向导一开始就是您的语言。</string>
+    <string name="internet_file_after">下次启动时，掌机会添加该网络并告诉您做了哪些设置。之后该文件会改名为 andr36oid-setup.applied.txt，其中的密码会被删除。以后也可以把新的 andr36oid-setup.txt 放到 EASYROMS 或 U 盘上，例如用来添加另一个网络。</string>
+</resources>

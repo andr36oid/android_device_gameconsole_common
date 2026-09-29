@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- If your console won't start -->
+    <string name="rescue_title">Si la console ne démarre plus</string>
+    <string name="rescue_intro">Essayez ces étapes dans l\'ordre. Aucune ne touche à vos jeux sur EASYROMS.</string>
+    <string name="rescue_safe_q">Mode sécurisé</string>
+    <string name="rescue_safe_row">Maintenez Vol− pendant que vous allumez la console, jusqu\'à l\'écran d\'accueil</string>
+    <string name="rescue_safe_a">Éteignez-la d\'abord ; maintenez Marche/Arrêt 10 secondes si elle est figée. En mode sécurisé, « Mode sécurisé » s\'affiche en bas à gauche et les applis que vous avez installées vous-même ne se lancent pas, RetroArch et PPSSPP non plus. Désinstallez l\'appli qui pose problème, ou rétablissez le paramètre. Redémarrez normalement pour quitter le mode sécurisé.</string>
+    <string name="rescue_magisk_q">Elle ne démarre plus après un module Magisk</string>
+    <string name="rescue_magisk_a">Éteignez-la et rallumez-la, jusqu\'à trois fois. Après deux démarrages qui n\'aboutissent pas, Magisk désactive de lui-même tous les modules. Le mode sécurisé les désactive aussi. Ils restent désactivés jusqu\'à ce que vous les réactiviez, un par un, dans l\'appli Magisk.</string>
+    <string name="rescue_file_q">Le fichier de secours sur la carte SD</string>
+    <string name="rescue_file_a">Pour un verrouillage de l\'écran oublié, un écran d\'accueil cassé ou une appli défaillante. Mettez la carte SD dans un ordinateur, ouvrez le lecteur BOOT et ouvrez rescue.txt avec le Bloc-notes. Remplacez no par yes pour ce dont vous avez besoin : safe_mode, disable_magisk_modules, remove_screen_lock ou reset_home. Pour réinitialiser une appli, écrivez son nom, par exemple : clear_app_data = retroarch</string>
+    <string name="rescue_file_after">Enregistrez le fichier, remettez la carte et allumez la console. Le démarrage prend un peu plus de temps. Ensuite, rescue.txt indique de nouveau no partout, et rescue-result.txt sur BOOT vous dit ce qui a été fait.</string>
+    <string name="rescue_reset_q">Réinitialisation d\'usine, en dernier recours</string>
+    <string name="rescue_reset_a">Cela supprime les applis que vous avez installées, leurs données, vos paramètres, les réseaux Wi-Fi enregistrés et les modules Magisk. Vos jeux sur EASYROMS et vos fichiers de la mémoire de stockage interne sont conservés, mais les dossiers propres aux applis (Android/data) disparaissent aussi. Dans rescue.txt, écrivez exactement :\nfactory_reset = delete my apps and settings</string>
+</resources>

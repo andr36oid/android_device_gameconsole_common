@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="usb_wifi_transfer_q">通过 Wi-Fi 复制文件</string>
+    <string name="usb_wifi_transfer_a">没有数据线或读卡器？在掌机上打开“设置 &gt; Wi-Fi 传输”。用手机扫描它显示的二维码，或在连接同一 Wi-Fi 的手机或电脑的浏览器中输入它显示的地址。在该网页上可以把游戏、BIOS 文件和存档传到掌机，也可以取回、重命名和删除它们。</string>
+    <string name="usb_wifi_transfer_more">它会共享 EASYROMS 以及内部存储空间中的 roms、bios、RetroArch 和 PSP 文件夹，并且只在该界面打开时共享。按 B 停止共享。</string>
+</resources>

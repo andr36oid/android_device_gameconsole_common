@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="usb_wifi_transfer_q">Dateien über WLAN kopieren</string>
+    <string name="usb_wifi_transfer_a">Kein Kabel oder Kartenleser? Öffne auf der Konsole Einstellungen &gt; WLAN-Übertragung. Scanne den QR-Code mit deinem Smartphone oder gib die angezeigte Adresse in einen Browser auf einem Smartphone oder Computer im selben WLAN ein. Auf dieser Seite kannst du Spiele, BIOS-Dateien und Spielstände auf die Konsole schicken, herunterladen, umbenennen und löschen.</string>
+    <string name="usb_wifi_transfer_more">Sie gibt EASYROMS und die Ordner roms, bios, RetroArch und PSP im internen Speicher frei, und nur, solange dieser Bildschirm offen ist. Drück B, um die Freigabe zu beenden.</string>
+</resources>

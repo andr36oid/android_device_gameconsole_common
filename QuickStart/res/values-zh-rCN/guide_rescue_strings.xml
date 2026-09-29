@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- If your console won't start -->
+    <string name="rescue_title">掌机无法启动时</string>
+    <string name="rescue_intro">请按顺序尝试以下步骤。它们都不会动到 EASYROMS 上的游戏。</string>
+    <string name="rescue_safe_q">安全模式</string>
+    <string name="rescue_safe_row">开机时按住 Vol−，直到显示主屏幕</string>
+    <string name="rescue_safe_a">先关机；如果卡死，按住电源键 10 秒。在安全模式下，左下角会显示“安全模式”，您自己安装的应用都不会运行，RetroArch 和 PPSSPP 也一样。请卸载引起问题的应用，或把设置改回来。正常重启即可退出安全模式。</string>
+    <string name="rescue_magisk_q">装了 Magisk 模块后无法启动</string>
+    <string name="rescue_magisk_a">关机再开机，最多重复三次。连续两次启动未完成后，Magisk 会自动关闭所有模块。安全模式也会关闭它们。之后模块会一直保持关闭，直到您在 Magisk 应用中逐个重新开启。</string>
+    <string name="rescue_file_q">SD 卡上的救援文件</string>
+    <string name="rescue_file_a">适用于忘记锁屏密码、主屏幕损坏或某个应用损坏的情况。将 SD 卡插入电脑，打开 BOOT 磁盘，用记事本打开 rescue.txt。把所需项目的 no 改为 yes：safe_mode、disable_magisk_modules、remove_screen_lock 或 reset_home。要重置某个应用，请写上它的名称，例如：clear_app_data = retroarch</string>
+    <string name="rescue_file_after">保存文件，把卡插回掌机并开机。这次启动会稍慢一些。之后 rescue.txt 中会全部恢复为 no，BOOT 上的 rescue-result.txt 会告诉您执行了哪些操作。</string>
+    <string name="rescue_reset_q">恢复出厂设置：最后一步</string>
+    <string name="rescue_reset_a">这会删除您安装的应用及其数据、您的设置、已保存的 Wi-Fi 网络和 Magisk 模块。EASYROMS 上的游戏和内部存储空间中的文件会保留，但其中各应用自己的文件夹（Android/data）也会被删除。在 rescue.txt 中准确写入：\nfactory_reset = delete my apps and settings</string>
+</resources>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="internet_file_q">Siapkan Wi-Fi dari PC</string>
+    <string name="internet_file_a">Mengetik kata sandi Wi-Fi dengan D-pad itu lambat. Masukkan kartu SD ke komputer, buka drive BOOT, dan buka andr36oid-setup.txt dengan Notepad. Tulis nama jaringan Anda setelah wifi_ssid = dan kata sandinya setelah wifi_password =, lalu simpan. Bahasa, zona waktu, dan jam 24 jam juga bisa ditulis di sana. Paling baik dilakukan sebelum penyalaan pertama, supaya penyiapan sudah dalam bahasa Anda.</string>
+    <string name="internet_file_after">Saat penyalaan berikutnya, konsol menambahkan jaringan dan memberi tahu apa yang dilakukannya. File itu lalu bernama andr36oid-setup.applied.txt, tanpa kata sandi. Nanti Anda juga bisa menaruh andr36oid-setup.txt baru di EASYROMS atau flashdisk USB, misalnya untuk jaringan lain.</string>
+</resources>

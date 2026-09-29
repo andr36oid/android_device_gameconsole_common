@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="trouble_sticks_q">Los joysticks se mueven solos o no llegan al borde</string>
+    <string name="trouble_sticks_a">Abre Ajustes &gt; Calibrar joysticks y pulsa A. Mueve los dos joysticks en círculos completos, despacio y hasta el borde. Luego suéltalos y pulsa A. A partir de ahí, todos los juegos y apps usan los joysticks corregidos, también después de reiniciar.</string>
+    <string name="trouble_sticks_more">¿Todavía se desvían un poco? Izquierda y derecha en la cruceta cambian la zona muerta, la parte alrededor del centro que se ignora. Pulsa X dos veces para volver a los valores de fábrica.</string>
+</resources>

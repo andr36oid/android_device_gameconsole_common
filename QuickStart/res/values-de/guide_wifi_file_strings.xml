@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="internet_file_q">WLAN am PC einrichten</string>
+    <string name="internet_file_a">Ein WLAN-Passwort mit dem Steuerkreuz einzutippen dauert lange. Steck die SD-Karte in einen Computer, öffne das Laufwerk BOOT und öffne andr36oid-setup.txt mit dem Editor (Notepad). Schreib deinen Netzwerknamen hinter wifi_ssid = und das Passwort hinter wifi_password =, dann speichern. Sprache, Zeitzone und die 24-Stunden-Uhr können auch hinein. Am besten vor dem allerersten Start, dann ist die Einrichtung schon in deiner Sprache.</string>
+    <string name="internet_file_after">Beim nächsten Start fügt die Konsole das Netzwerk hinzu und sagt dir, was sie gemacht hat. Die Datei heißt dann andr36oid-setup.applied.txt, ohne das Passwort. Später kannst du auch eine neue andr36oid-setup.txt auf EASYROMS oder einen USB-Stick legen, zum Beispiel für ein anderes Netzwerk.</string>
+</resources>

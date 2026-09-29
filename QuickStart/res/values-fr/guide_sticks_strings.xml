@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="trouble_sticks_q">Les sticks dérivent ou n\'atteignent pas le bord</string>
+    <string name="trouble_sticks_a">Ouvrez Paramètres &gt; Calibrer les sticks et appuyez sur A. Faites faire aux deux sticks des cercles complets, lentement et jusqu\'au bord. Puis relâchez-les et appuyez sur A. Dès lors, tous les jeux et applis utilisent les sticks corrigés, même après un redémarrage.</string>
+    <string name="trouble_sticks_more">Ça dérive encore un peu ? Gauche et droite sur la croix modifient la zone morte, la partie autour du centre qui est ignorée. Appuyez deux fois sur X pour revenir aux réglages d\'usine.</string>
+</resources>

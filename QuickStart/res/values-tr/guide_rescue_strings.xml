@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- If your console won't start -->
+    <string name="rescue_title">Konsolunuz açılmıyorsa</string>
+    <string name="rescue_intro">Bu adımları sırayla deneyin. Hiçbiri EASYROMS\'taki oyunlarınıza dokunmaz.</string>
+    <string name="rescue_safe_q">Güvenli mod</string>
+    <string name="rescue_safe_row">Konsolu açarken, ana ekran görünene kadar Ses− tuşunu basılı tutun</string>
+    <string name="rescue_safe_a">Önce kapatın; takılı kalırsa güç düğmesini 10 saniye basılı tutun. Güvenli modda sol alt köşede \"Güvenli mod\" yazar ve kendi yüklediğiniz uygulamalar çalışmaz, RetroArch ve PPSSPP de. Soruna yol açan uygulamayı kaldırın ya da ayarı eski haline getirin. Güvenli moddan çıkmak için normal şekilde yeniden başlatın.</string>
+    <string name="rescue_magisk_q">Bir Magisk modülünden sonra açılmıyor</string>
+    <string name="rescue_magisk_a">Kapatıp yeniden açın, en fazla üç kez. Tamamlanmayan iki açılıştan sonra Magisk tüm modülleri kendiliğinden kapatır. Güvenli mod da onları kapatır. Magisk uygulamasında tek tek yeniden açana kadar kapalı kalırlar.</string>
+    <string name="rescue_file_q">SD karttaki kurtarma dosyası</string>
+    <string name="rescue_file_a">Unutulan ekran kilidi, bozuk bir ana ekran veya bozuk tek bir uygulama için. SD kartı bir bilgisayara takın, BOOT sürücüsünü açın ve rescue.txt dosyasını Not Defteri ile açın. İhtiyacınız olan şey için no\'yu yes yapın: safe_mode, disable_magisk_modules, remove_screen_lock veya reset_home. Tek bir uygulamayı sıfırlamak için adını yazın, örneğin: clear_app_data = retroarch</string>
+    <string name="rescue_file_after">Dosyayı kaydedin, kartı geri takın ve konsolu açın. Açılış biraz daha uzun sürer. Sonrasında rescue.txt her yerde yeniden no der, BOOT\'taki rescue-result.txt de neyin yapıldığını söyler.</string>
+    <string name="rescue_reset_q">Fabrika ayarlarına sıfırlama, son adım</string>
+    <string name="rescue_reset_a">Bu, yüklediğiniz uygulamaları, verilerini, ayarlarınızı, kayıtlı Wi-Fi ağlarını ve Magisk modüllerini siler. EASYROMS\'taki oyunlarınız ve dahili depolamadaki dosyalarınız kalır, ama uygulamaların oradaki kendi klasörleri (Android/data) de gider. rescue.txt dosyasına tam olarak şunu yazın:\nfactory_reset = delete my apps and settings</string>
+</resources>

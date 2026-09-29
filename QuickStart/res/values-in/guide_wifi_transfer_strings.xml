@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="usb_wifi_transfer_q">Salin file lewat Wi-Fi</string>
+    <string name="usb_wifi_transfer_a">Tidak ada kabel atau pembaca kartu? Buka Setelan &gt; Transfer Wi-Fi di konsol. Pindai kode QR-nya dengan ponsel, atau ketik alamat yang ditampilkan di browser pada ponsel atau komputer di Wi-Fi yang sama. Halaman itu bisa mengirim game, file BIOS, dan save ke konsol, mengambilnya, mengganti namanya, dan menghapusnya.</string>
+    <string name="usb_wifi_transfer_more">Yang dibagikan adalah EASYROMS serta folder roms, bios, RetroArch, dan PSP di penyimpanan internal, dan hanya selama layar itu terbuka. Tekan B untuk berhenti berbagi.</string>
+</resources>

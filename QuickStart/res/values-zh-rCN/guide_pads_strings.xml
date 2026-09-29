@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- A second controller -->
+    <string name="pads_title">用第二个手柄玩</string>
+    <string name="pads_connect">将 USB 手柄插入 OTG 接口，如有需要，可使用转接头。蓝牙手柄：打开“设置 &gt; 手柄 &gt; 配对蓝牙手柄”，让手柄进入配对模式，然后在列表中选中它并按 A。该页面说明了 Xbox、PlayStation、Switch 和 8BitDo 手柄如何进入配对模式。</string>
+    <string name="pads_players">在 RetroArch 中，掌机自身的按键仍是玩家 1。其他手柄按您第一次在上面按键的顺序，依次为玩家 2、3 等。</string>
+    <string name="pads_alone">想一个人用更大的手柄玩？将“设置 &gt; 手柄 &gt; RetroArch 中的玩家 1”设为“外接手柄”。请先退出 RetroArch；更改在它下次启动时生效。</string>
+    <string name="pads_menu">在任何手柄上，按 L1 + R1 + Start + Select，或按 Xbox、PS 或截图键，都会打开 RetroArch 菜单。按两次 Start + Select 退出游戏。PSP 游戏只有一个玩家，所有手柄都控制它。</string>
+</resources>

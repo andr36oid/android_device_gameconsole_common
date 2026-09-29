@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="card_sync_q">Te same zapisy na dwóch urządzeniach</string>
+    <string name="card_sync_a">Ustawienia &gt; Kopia zapisów gier &gt; Synchronizacja zapisów utrzymuje te same zapisy gier i stany zapisu na tej konsoli i na twoim komputerze, telefonie lub innej konsoli, przez domowe Wi-Fi. Bez chmury i bez konta, a gry i pliki BIOS nigdy nie są kopiowane. Synchronizacja działa, gdy konsola ładuje się z włączonym Wi-Fi, oraz gdy ta strona jest otwarta.</string>
+    <string name="card_sync_pair">Na komputerze lub telefonie zainstaluj Syncthing i dodaj identyfikator konsoli z tej strony albo zeskanuj jej kod. Komputer lub telefon pojawi się wtedy na konsoli w sekcji Dodaj urządzenie: naciśnij na nim A. Dla dwóch konsol włącz Synchronizację zapisów na obu, a potem na każdej wybierz tę drugą. Zamknij grę, zanim zagrasz na drugim urządzeniu.</string>
+</resources>

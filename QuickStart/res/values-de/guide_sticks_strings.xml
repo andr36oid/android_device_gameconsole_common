@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="trouble_sticks_q">Sticks driften oder kommen nicht bis zum Rand</string>
+    <string name="trouble_sticks_a">Öffne Einstellungen &gt; Sticks kalibrieren und drück A. Beweg beide Sticks in vollen Kreisen, langsam und ganz bis zum Rand. Lass sie dann los und drück A. Ab dann nutzen alle Spiele und Apps die korrigierten Sticks, auch nach einem Neustart.</string>
+    <string name="trouble_sticks_more">Kriecht es noch ein wenig? Links und rechts auf dem Steuerkreuz ändern die Totzone, den Bereich um die Mitte, der ignoriert wird. Drück zweimal X, um zu den Werkseinstellungen zurückzukehren.</string>
+</resources>

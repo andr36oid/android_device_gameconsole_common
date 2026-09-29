@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- A second controller -->
+    <string name="pads_title">Jouer avec une seconde manette</string>
+    <string name="pads_connect">Branchez une manette USB sur le port OTG, avec un adaptateur si nécessaire. Pour une manette Bluetooth, ouvrez Paramètres &gt; Manettes &gt; Associer une manette Bluetooth, mettez la manette en mode association et appuyez sur A sur son nom dans la liste. La page explique comment activer le mode association sur les manettes Xbox, PlayStation, Switch et 8BitDo.</string>
+    <string name="pads_players">Dans RetroArch, les boutons de la console restent le joueur 1. Les manettes supplémentaires sont les joueurs 2, 3, etc., dans l\'ordre où vous appuyez pour la première fois sur l\'un de leurs boutons.</string>
+    <string name="pads_alone">Envie de jouer seul sur la plus grande manette ? Réglez Paramètres &gt; Manettes &gt; Joueur 1 dans RetroArch sur Manette externe. Quittez d\'abord RetroArch : le changement s\'applique à son prochain démarrage.</string>
+    <string name="pads_menu">Sur n\'importe quelle manette, L1 + R1 + Start + Select, ou le bouton Xbox, PS ou Capture, ouvre le menu de RetroArch. Start + Select deux fois quitte le jeu. Les jeux PSP n\'ont qu\'un seul joueur, et toutes les manettes le contrôlent.</string>
+</resources>

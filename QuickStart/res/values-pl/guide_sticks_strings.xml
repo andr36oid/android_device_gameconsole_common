@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="trouble_sticks_q">Gałki dryfują lub nie sięgają krawędzi</string>
+    <string name="trouble_sticks_a">Otwórz Ustawienia &gt; Kalibracja gałek i naciśnij A. Zataczaj obiema gałkami pełne koła, powoli i aż do samej krawędzi. Potem puść je i naciśnij A. Od tej chwili każda gra i aplikacja używa poprawionych gałek, także po ponownym uruchomieniu.</string>
+    <string name="trouble_sticks_more">Nadal trochę dryfują? Lewo i prawo na krzyżaku zmieniają martwą strefę, czyli pomijany obszar wokół środka. Naciśnij dwa razy X, aby wrócić do ustawień fabrycznych.</string>
+</resources>

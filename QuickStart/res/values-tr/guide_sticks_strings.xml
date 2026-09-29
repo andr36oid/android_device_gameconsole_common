@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="trouble_sticks_q">Analoglar kayıyor veya kenara ulaşmıyor</string>
+    <string name="trouble_sticks_a">Ayarlar &gt; Analogları kalibre et\'i açın ve A\'ya basın. İki analoğu da yavaşça ve sonuna kadar kenara götürerek tam daireler çizdirin. Sonra onları bırakın ve A\'ya basın. Bundan sonra her oyun ve uygulama düzeltilmiş analogları kullanır, yeniden başlattıktan sonra da.</string>
+    <string name="trouble_sticks_more">Hâlâ biraz mı kayıyor? Yön tuşlarında sol ve sağ, ölü bölgeyi, yani ortadaki yok sayılan alanı değiştirir. Fabrika ayarlarına dönmek için X\'e iki kez basın.</string>
+</resources>

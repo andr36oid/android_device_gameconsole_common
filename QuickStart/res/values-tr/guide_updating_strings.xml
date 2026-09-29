@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Updates -->
+    <string name="updating_title">andr36oid\'i güncelleme</string>
+    <string name="updating_intro">Ayarlar &gt; Sistem &gt; Güncellemeler yeni bir andr36oid sürümü yükler. Uygulamalarınız, ayarlarınız, kayıtlarınız, EASYROMS\'taki oyunlarınız ve Magisk olduğu gibi kalır.</string>
+    <string name="updating_file_q">Bir dosyadan</string>
+    <string name="updating_file_a">Bilgisayarda sürüm dosyasını indirin (lineage-…-r36s-android.img.zip, yaklaşık 1,1 GB). Zip\'ten çıkarmayın. EASYROMS\'ta update adlı bir klasöre kopyalayın (yoksa klasörü oluşturun). Sonra Güncellemeler\'i açın ve dosyayı seçin.</string>
+    <string name="updating_online_q">İnternetten</string>
+    <string name="updating_online_a">Wi-Fi açıkken Güncellemeleri şimdi denetle\'yi seçin, sonra indirmek için sürümün üzerinde A\'ya basın. Konsol yalnızca buna bastığınızda sorar ya da Günde bir kez denetle\'yi açarsanız günde bir kez. Asla kendiliğinden indirmez.</string>
+    <string name="updating_install_q">Yükleme</string>
+    <string name="updating_install_a">Konsol önce yaklaşık 5 dakika süren bir kontrolle dosyayı denetler ve neyin değişeceğini gösterir. En az %50\'ye kadar şarj edin veya şarj cihazını takın. Sonra Yükle ve yeniden başlat\'ı seçin. Güncelleme yazılırken ekran yaklaşık 5 dakika siyah zemin üzerinde beyaz yazı gösterir, sonra Android açılır. Bu arada konsolu kapatmayın.</string>
+    <string name="updating_power_cut">Yine de elektrik kesilirse güncelleme bir sonraki açılışta kendiliğinden devam eder, en fazla üç kez.</string>
+</resources>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="card_sync_q">让两台设备上的存档保持一致</string>
+    <string name="card_sync_a">“设置 &gt; 存档备份 &gt; 同步存档”可以通过家里的 Wi-Fi，让这台掌机与您的电脑、手机或另一台掌机上的游戏存档和即时存档保持一致。不使用云端，也不需要帐号，游戏和 BIOS 文件永远不会被复制。掌机在连接 Wi-Fi 充电时，以及该页面打开时，会进行同步。</string>
+    <string name="card_sync_pair">在电脑或手机上安装 Syncthing，添加该页面上显示的掌机 ID，或扫描其二维码。之后电脑或手机会出现在掌机的“添加设备”下：在它上面按 A。如果是两台掌机，请在两台上都开启“同步存档”，然后在各自的页面上选择对方。在另一台设备上玩之前，请先退出游戏。</string>
+</resources>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="trouble_panel_a">Votre console a un autre écran que celui prévu pour cette carte. Sur un ordinateur, ouvrez BOOT, puis Panels. Copiez tous les fichiers de l\'un des dossiers Panel à la racine de BOOT en remplaçant les fichiers existants. Panel4 est celui par défaut, essayez donc les autres un par un.</string>
+    <!-- Clone consoles -->
+    <string name="clone_title">Utiliser une console clone</string>
+    <string name="clone_intro">Beaucoup de consoles ressemblent à la R36S mais sont construites différemment à l\'intérieur. La carte démarre avec les fichiers de la R36S d\'origine. Un clone a généralement besoin d\'autres fichiers du lecteur BOOT de la carte SD.</string>
+    <string name="clone_which_q">Quel dossier</string>
+    <string name="clone_which_a">Sur un ordinateur, ouvrez BOOT. Panels contient un dossier pour chaque écran de R36S d\'origine et pour la R36S Plus. Experimental contient un dossier pour chaque clone connu, comme les K36, G80, R36 Max, R36 Ultra et les cartes Soy Sauce. Le fichier README.txt dans Panels et dans Experimental indique quelle console va avec quel dossier. Les fichiers d\'Experimental ne sont pas testés : ne les utilisez que si Panels ne fonctionne pas.</string>
+    <string name="clone_soy">Les cartes Soy Sauce (Y3506 imprimé sur la carte) ne doivent jamais utiliser Panel5 ou Panel6, même si l\'écran semble correct. Utilisez un dossier Soy dans Experimental.</string>
+    <string name="clone_copy_q">Copier tous les fichiers</string>
+    <string name="clone_copy_a">Créez d\'abord un dossier nommé Backup sur BOOT et copiez-y ces fichiers de la racine de BOOT : rk3326-r36s-android.dtb, les trois fichiers rg351, logo.bmp et logo_kernel.bmp. Copiez ensuite tous les fichiers de votre dossier à la racine de BOOT en remplaçant ceux qui s\'y trouvent. Vraiment tous : les trois fichiers rg351 sont le même fichier sous trois noms, et votre console choisit celui qu\'elle veut.</string>
+    <string name="clone_black_q">L\'écran reste noir, ou les boutons ne marchent pas</string>
+    <string name="clone_black_a">Essayez le dossier suivant qui pourrait convenir à votre console. Si seul le logo de démarrage reste noir mais qu\'Android s\'affiche, gardez-le. Pour revenir en arrière, copiez les fichiers de votre dossier Backup, ou de Panels/Panel4, à la racine de BOOT.</string>
+    <string name="clone_emmc">Certains clones, comme les R36 Ultra, R36 Max et R39 Max, démarrent d\'abord sur leur propre mémoire intégrée et peuvent ignorer complètement la carte SD.</string>
+</resources>

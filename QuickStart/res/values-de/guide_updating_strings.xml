@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Updates -->
+    <string name="updating_title">andr36oid aktualisieren</string>
+    <string name="updating_intro">Einstellungen &gt; System &gt; Updates installiert eine neue andr36oid-Version. Deine Apps, Einstellungen, Spielstände, Spiele auf EASYROMS und Magisk bleiben alle erhalten.</string>
+    <string name="updating_file_q">Aus einer Datei</string>
+    <string name="updating_file_a">Lade am Computer die Release-Datei herunter (lineage-…-r36s-android.img.zip, etwa 1,1 GB). Entpacke sie nicht. Kopiere sie in einen Ordner namens update auf EASYROMS (leg den Ordner an, wenn er fehlt). Öffne dann Updates und wähle die Datei.</string>
+    <string name="updating_online_q">Online</string>
+    <string name="updating_online_a">Wähle bei eingeschaltetem WLAN „Jetzt nach Updates suchen“ und drück dann A auf der Version, um sie herunterzuladen. Die Konsole fragt nur nach, wenn du das drückst, oder einmal am Tag, wenn du „Einmal am Tag suchen“ einschaltest. Sie lädt nie von selbst etwas herunter.</string>
+    <string name="updating_install_q">Installieren</string>
+    <string name="updating_install_a">Die Konsole prüft zuerst die Datei, was etwa 5 Minuten dauert, und zeigt, was sich ändert. Lade sie auf mindestens 50% oder schließ das Ladegerät an. Wähle dann „Installieren und neu starten“. Der Bildschirm wird für etwa 5 Minuten schwarz mit weißem Text, während das Update geschrieben wird, dann startet Android. Schalte sie in der Zeit nicht aus.</string>
+    <string name="updating_power_cut">Fällt der Strom trotzdem aus, macht das Update beim nächsten Start von selbst weiter, bis zu dreimal.</string>
+</resources>

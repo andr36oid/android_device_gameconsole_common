@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="internet_file_q">Wi-Fi\'ı bilgisayarınızdan ayarlayın</string>
+    <string name="internet_file_a">Wi-Fi şifresini yön tuşlarıyla yazmak yavaştır. SD kartı bir bilgisayara takın, BOOT sürücüsünü açın ve andr36oid-setup.txt dosyasını Not Defteri ile açın. Ağınızın adını wifi_ssid = sonrasına, şifreyi wifi_password = sonrasına yazın, sonra kaydedin. Dil, saat dilimi ve 24 saat biçimi de oraya yazılabilir. En iyisi bunu en ilk açılıştan önce yapmaktır; o zaman kurulum zaten sizin dilinizde olur.</string>
+    <string name="internet_file_after">Bir sonraki açılışta konsol ağı ekler ve ne yaptığını size söyler. Dosyanın adı sonra andr36oid-setup.applied.txt olur ve şifre çıkarılır. Daha sonra, örneğin başka bir ağ için, EASYROMS\'a veya bir USB belleğe yeni bir andr36oid-setup.txt da koyabilirsiniz.</string>
+</resources>

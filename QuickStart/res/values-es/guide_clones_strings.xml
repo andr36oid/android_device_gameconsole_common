@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="trouble_panel_a">Tu consola tiene una pantalla distinta de aquella para la que se preparó esta tarjeta. En un ordenador, abre BOOT y luego Panels. Copia todos los archivos de una de las carpetas Panel a la raíz de BOOT y reemplaza los que hay. Panel4 es la predeterminada, así que prueba las demás de una en una.</string>
+    <!-- Clone consoles -->
+    <string name="clone_title">Usar una consola clónica</string>
+    <string name="clone_intro">Muchas consolas se parecen a la R36S, pero por dentro son distintas. La tarjeta viene con los archivos para la R36S original. Un clon suele necesitar otros archivos de la unidad BOOT de la tarjeta SD.</string>
+    <string name="clone_which_q">Qué carpeta usar</string>
+    <string name="clone_which_a">En un ordenador, abre BOOT. Panels tiene una carpeta para cada pantalla de la R36S original y para la R36S Plus. Experimental tiene una carpeta para cada clon conocido, como K36, G80, R36 Max, R36 Ultra y las placas Soy Sauce. El README.txt de Panels y el de Experimental indican qué consola corresponde a cada carpeta. Los archivos de Experimental no están probados, así que úsalos solo si Panels no funciona.</string>
+    <string name="clone_soy">Las placas Soy Sauce (con Y3506 impreso en la placa) nunca deben usar Panel5 ni Panel6, aunque la pantalla parezca verse bien. Usa una carpeta Soy de Experimental.</string>
+    <string name="clone_copy_q">Copia todos los archivos</string>
+    <string name="clone_copy_a">Primero crea una carpeta llamada Backup en BOOT y copia en ella estos archivos de la raíz de BOOT: rk3326-r36s-android.dtb, los tres archivos rg351, logo.bmp y logo_kernel.bmp. Luego copia todos los archivos de tu carpeta a la raíz de BOOT y reemplaza los que hay. De verdad todos: los tres archivos rg351 son el mismo archivo con tres nombres, y tu consola elige el que necesita.</string>
+    <string name="clone_black_q">La pantalla se queda en negro o los botones no funcionan</string>
+    <string name="clone_black_a">Prueba la siguiente carpeta que podría servir para tu consola. Si solo el logotipo de arranque se queda en negro pero Android se inicia, déjalo así. Para volver atrás, copia los archivos de tu carpeta Backup, o de Panels/Panel4, a la raíz de BOOT.</string>
+    <string name="clone_emmc">Algunos clones, como la R36 Ultra, la R36 Max y la R39 Max, arrancan primero desde su propia memoria interna y puede que ni siquiera lean la tarjeta SD.</string>
+</resources>

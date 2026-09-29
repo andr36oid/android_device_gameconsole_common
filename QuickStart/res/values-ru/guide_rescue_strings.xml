@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- If your console won't start -->
+    <string name="rescue_title">Если консоль не запускается</string>
+    <string name="rescue_intro">Пробуйте эти шаги по порядку. Ни один из них не трогает ваши игры на EASYROMS.</string>
+    <string name="rescue_safe_q">Безопасный режим</string>
+    <string name="rescue_safe_row">Удерживайте Vol− при включении консоли, пока не появится главный экран</string>
+    <string name="rescue_safe_a">Сначала выключите её; если она зависла, удерживайте кнопку питания 10 секунд. В безопасном режиме в левом нижнем углу видна надпись «Безопасный режим», а приложения, которые вы установили сами, не работают, RetroArch и PPSSPP тоже. Удалите приложение, из-за которого проблема, или верните настройку обратно. Чтобы выйти из безопасного режима, перезапустите консоль как обычно.</string>
+    <string name="rescue_magisk_q">Перестала запускаться после модуля Magisk</string>
+    <string name="rescue_magisk_a">Выключите и снова включите её, до трёх раз. После двух незавершённых запусков Magisk сам выключает все модули. Безопасный режим тоже их выключает. Они остаются выключенными, пока вы не включите их снова, по одному, в приложении Magisk.</string>
+    <string name="rescue_file_q">Файл восстановления на SD-карте</string>
+    <string name="rescue_file_a">Если забыта блокировка экрана, сломался главный экран или одно приложение. Вставьте SD-карту в компьютер, откройте диск BOOT и откройте rescue.txt в Блокноте. Замените no на yes у того, что нужно: safe_mode, disable_magisk_modules, remove_screen_lock или reset_home. Чтобы сбросить одно приложение, напишите его имя, например: clear_app_data = retroarch</string>
+    <string name="rescue_file_after">Сохраните файл, верните карту на место и включите консоль. Запуск займёт немного больше времени. После этого в rescue.txt везде снова будет no, а rescue-result.txt на BOOT расскажет, что было сделано.</string>
+    <string name="rescue_reset_q">Сброс настроек, последний шаг</string>
+    <string name="rescue_reset_a">Это удаляет установленные вами приложения, их данные, ваши настройки, сохранённые сети Wi-Fi и модули Magisk. Игры на EASYROMS и ваши файлы во внутренней памяти остаются, но собственные папки приложений там (Android/data) тоже удаляются. В rescue.txt напишите в точности:\nfactory_reset = delete my apps and settings</string>
+</resources>

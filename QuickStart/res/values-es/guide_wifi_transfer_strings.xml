@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="usb_wifi_transfer_q">Copiar archivos por Wi-Fi</string>
+    <string name="usb_wifi_transfer_a">¿No tienes cable ni lector de tarjetas? Abre Ajustes &gt; Transferencia Wi-Fi en la consola. Escanea su código QR con el teléfono o escribe la dirección que muestra en el navegador de un teléfono u ordenador conectado a la misma red Wi-Fi. Desde esa página puedes enviar a la consola juegos, archivos BIOS y partidas, descargarlos, cambiarles el nombre y borrarlos.</string>
+    <string name="usb_wifi_transfer_more">Comparte EASYROMS y las carpetas roms, bios, RetroArch y PSP del almacenamiento interno, y solo mientras esa pantalla está abierta. Pulsa B para dejar de compartir.</string>
+</resources>

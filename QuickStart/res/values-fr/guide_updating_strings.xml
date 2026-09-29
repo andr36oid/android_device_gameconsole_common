@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Updates -->
+    <string name="updating_title">Mettre à jour andr36oid</string>
+    <string name="updating_intro">Paramètres &gt; Système &gt; Mises à jour installe une nouvelle version d\'andr36oid. Vos applis, paramètres, sauvegardes, jeux sur EASYROMS et Magisk sont tous conservés.</string>
+    <string name="updating_file_q">Depuis un fichier</string>
+    <string name="updating_file_a">Sur un ordinateur, téléchargez le fichier de la version (lineage-…-r36s-android.img.zip, environ 1,1 Go). Ne le décompressez pas. Copiez-le dans un dossier nommé update sur EASYROMS (créez le dossier s\'il n\'existe pas). Ouvrez ensuite Mises à jour et choisissez le fichier.</string>
+    <string name="updating_online_q">En ligne</string>
+    <string name="updating_online_a">Avec le Wi-Fi activé, choisissez Rechercher des mises à jour, puis appuyez sur A sur la version pour la télécharger. La console ne vérifie que lorsque vous appuyez sur ce bouton, ou une fois par jour si vous activez Vérifier une fois par jour. Elle ne télécharge jamais rien d\'elle-même.</string>
+    <string name="updating_install_q">Installation</string>
+    <string name="updating_install_a">La console vérifie d\'abord le fichier, ce qui prend environ 5 minutes, et affiche ce qui change. Chargez-la à au moins 50 % ou branchez le chargeur. Choisissez ensuite Installer et redémarrer. L\'écran devient noir avec du texte blanc pendant environ 5 minutes, le temps d\'écrire la mise à jour, puis Android démarre. Ne l\'éteignez pas pendant ce temps.</string>
+    <string name="updating_power_cut">Si le courant est coupé malgré tout, la mise à jour reprend d\'elle-même au démarrage suivant, jusqu\'à trois fois.</string>
+</resources>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="usb_wifi_transfer_q">Dosyaları Wi-Fi ile kopyalayın</string>
+    <string name="usb_wifi_transfer_a">Kablo veya kart okuyucu yok mu? Konsolda Ayarlar &gt; Wi-Fi aktarımı sayfasını açın. QR kodunu telefonunuzla tarayın ya da gösterdiği adresi aynı Wi-Fi\'daki bir telefonun veya bilgisayarın tarayıcısına yazın. O sayfa konsola oyun, BIOS dosyası ve kayıt gönderebilir, onları alabilir, yeniden adlandırabilir ve silebilir.</string>
+    <string name="usb_wifi_transfer_more">EASYROMS\'u ve dahili depolamadaki roms, bios, RetroArch ve PSP klasörlerini paylaşır, yalnızca o ekran açıkken. Paylaşımı durdurmak için B\'ye basın.</string>
+</resources>

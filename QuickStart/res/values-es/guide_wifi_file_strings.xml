@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="internet_file_q">Configurar el Wi-Fi desde el PC</string>
+    <string name="internet_file_a">Escribir una contraseña Wi-Fi con la cruceta es lento. Mete la tarjeta SD en un ordenador, abre la unidad BOOT y abre andr36oid-setup.txt con el Bloc de notas. Escribe el nombre de tu red después de wifi_ssid = y la contraseña después de wifi_password =. Luego guarda el archivo. También puedes poner ahí el idioma, la zona horaria y el reloj de 24 horas. Lo mejor es hacerlo antes del primer inicio: así la configuración ya aparece en tu idioma.</string>
+    <string name="internet_file_after">En el siguiente arranque, la consola añade la red y te dice lo que ha hecho. El archivo pasa a llamarse andr36oid-setup.applied.txt, sin la contraseña. Más adelante también puedes poner un andr36oid-setup.txt nuevo en EASYROMS o en una memoria USB, por ejemplo para otra red.</string>
+</resources>

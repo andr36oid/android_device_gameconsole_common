@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Updates -->
+    <string name="updating_title">更新 andr36oid</string>
+    <string name="updating_intro">“设置 &gt; 系统 &gt; 系统更新”可安装新的 andr36oid 版本。您的应用、设置、存档、EASYROMS 上的游戏和 Magisk 都会保留。</string>
+    <string name="updating_file_q">从文件更新</string>
+    <string name="updating_file_a">在电脑上下载版本文件（lineage-…-r36s-android.img.zip，约 1.1 GB）。不要解压。将它复制到 EASYROMS 上名为 update 的文件夹中（如果没有这个文件夹，请新建一个）。然后打开“系统更新”并选择该文件。</string>
+    <string name="updating_online_q">在线更新</string>
+    <string name="updating_online_a">开启 Wi-Fi 后，选择“立即检查更新”，然后在版本上按 A 即可下载。掌机只在您按下此项时查询；如果开启了“每天检查一次”，则每天查询一次。它从不自行下载。</string>
+    <string name="updating_install_q">安装</string>
+    <string name="updating_install_a">掌机会先检查文件（约需 5 分钟），并显示会有哪些变化。请充电到至少 50%，或插上充电器。然后选择“安装并重启”。写入更新期间，屏幕会变黑并显示白色文字，持续约 5 分钟，然后 Android 启动。在此期间切勿关机。</string>
+    <string name="updating_power_cut">即使中途断电，下次启动时更新也会自动继续，最多重试三次。</string>
+</resources>

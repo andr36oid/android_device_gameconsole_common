@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="trouble_panel_a">Konsol Anda punya layar yang berbeda dari yang disiapkan untuk kartu ini. Di komputer, buka BOOT, lalu Panels. Salin semua file dari salah satu folder Panel ke bagian teratas BOOT dan ganti file yang ada di sana. Panel4 adalah default, jadi coba yang lain satu per satu.</string>
+    <!-- Clone consoles -->
+    <string name="clone_title">Memakai konsol klon</string>
+    <string name="clone_intro">Banyak konsol terlihat seperti R36S tetapi isinya berbeda. Kartu ini dimulai dengan file untuk R36S asli. Konsol klon biasanya butuh file lain dari drive BOOT di kartu SD.</string>
+    <string name="clone_which_q">Folder yang mana</string>
+    <string name="clone_which_a">Di komputer, buka BOOT. Panels punya folder untuk setiap layar R36S asli dan R36S Plus. Experimental punya folder untuk setiap klon yang dikenal, seperti K36, G80, R36 Max, R36 Ultra, dan board Soy Sauce. README.txt di Panels dan di Experimental menjelaskan konsol mana cocok dengan folder mana. File di Experimental belum diuji, jadi pakai hanya jika Panels tidak berhasil.</string>
+    <string name="clone_soy">Board Soy Sauce (ada tulisan Y3506 di board) tidak boleh memakai Panel5 atau Panel6, meskipun layarnya terlihat benar. Gunakan folder Soy di Experimental.</string>
+    <string name="clone_copy_q">Salin semua file</string>
+    <string name="clone_copy_a">Pertama, buat folder bernama Backup di BOOT dan salin file-file ini dari bagian teratas BOOT ke dalamnya: rk3326-r36s-android.dtb, ketiga file rg351, logo.bmp, dan logo_kernel.bmp. Lalu salin semua file dari folder Anda ke bagian teratas BOOT dan ganti yang ada di sana. Benar-benar semuanya: ketiga file rg351 adalah file yang sama dengan tiga nama, dan konsol Anda memilih yang dibutuhkannya.</string>
+    <string name="clone_black_q">Layar tetap hitam, atau tombol tidak berfungsi</string>
+    <string name="clone_black_a">Coba folder berikutnya yang mungkin cocok dengan konsol Anda. Jika hanya logo penyalaan yang tetap hitam tetapi Android muncul, biarkan saja. Untuk kembali, salin file dari folder Backup, atau dari Panels/Panel4, ke bagian teratas BOOT.</string>
+    <string name="clone_emmc">Beberapa klon, seperti R36 Ultra, R36 Max, dan R39 Max, menyala dari memori bawaannya sendiri dulu dan mungkin sama sekali tidak melihat kartu SD.</string>
+</resources>

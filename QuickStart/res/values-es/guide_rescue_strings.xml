@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- If your console won't start -->
+    <string name="rescue_title">Si la consola no arranca</string>
+    <string name="rescue_intro">Prueba estos pasos en orden. Ninguno toca tus juegos de EASYROMS.</string>
+    <string name="rescue_safe_q">Modo seguro</string>
+    <string name="rescue_safe_row">Mantén Vol− mientras enciendes la consola, hasta que aparezca la pantalla de inicio</string>
+    <string name="rescue_safe_a">Apágala antes; si se ha quedado bloqueada, mantén el botón de encendido 10 segundos. En modo seguro aparece «Modo seguro» en la esquina inferior izquierda y las apps que instalaste tú no se ejecutan, tampoco RetroArch ni PPSSPP. Desinstala la app que da problemas o vuelve a cambiar el ajuste. Reinicia normalmente para salir del modo seguro.</string>
+    <string name="rescue_magisk_q">Dejó de arrancar tras instalar un módulo de Magisk</string>
+    <string name="rescue_magisk_a">Apágala y vuelve a encenderla, hasta tres veces. Tras dos arranques que no terminan, Magisk desactiva todos los módulos por sí solo. El modo seguro también los desactiva. Siguen desactivados hasta que vuelvas a activarlos, uno a uno, en la app Magisk.</string>
+    <string name="rescue_file_q">El archivo de rescate de la tarjeta SD</string>
+    <string name="rescue_file_a">Para un bloqueo de pantalla olvidado, una pantalla de inicio que no funciona o una app estropeada. Mete la tarjeta SD en un ordenador, abre la unidad BOOT y abre rescue.txt con el Bloc de notas. Cambia no por yes en lo que necesites: safe_mode, disable_magisk_modules, remove_screen_lock o reset_home. Para restablecer una sola app, escribe su nombre, por ejemplo: clear_app_data = retroarch</string>
+    <string name="rescue_file_after">Guarda el archivo, vuelve a poner la tarjeta y enciende la consola. El arranque tarda un poco más. Después, rescue.txt vuelve a decir no en todas partes, y rescue-result.txt en BOOT te dice lo que se ha hecho.</string>
+    <string name="rescue_reset_q">Restablecer datos de fábrica, el último paso</string>
+    <string name="rescue_reset_a">Esto borra las apps que instalaste, sus datos, tus ajustes, las redes Wi-Fi guardadas y los módulos de Magisk. Tus juegos de EASYROMS y tus archivos del almacenamiento interno se conservan, pero las carpetas propias de las apps (Android/data) también se borran. En rescue.txt, escribe exactamente:\nfactory_reset = delete my apps and settings</string>
+</resources>
