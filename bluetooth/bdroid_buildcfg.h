@@ -28,4 +28,12 @@
 #define BTA_GATT_INCLUDED  TRUE
 #define BLE_INCLUDED       TRUE
 #define SMP_INCLUDED       TRUE
+
+/* Game pads, sniff subrating: a pad whose SDP record has no
+ * HIDSSRHostMaxLatency gets half the link supervision timeout, capped at
+ * 800 slots (500 ms). While a pad that only reports on change is held still,
+ * the link may then sleep up to 500 ms between polls and the next press waits
+ * for it. Cap it at 18 slots (11.25 ms), the value the stack already uses for
+ * Switch pads (INTEROP_HID_HOST_LIMIT_SNIFF_INTERVAL). */
+#define BTA_HH_SSR_MAX_LATENCY_DEF 18
 #endif
