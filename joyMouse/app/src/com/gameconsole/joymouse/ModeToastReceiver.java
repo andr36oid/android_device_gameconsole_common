@@ -10,6 +10,8 @@ import java.util.Arrays;
 /**
  * The joyMouse daemon broadcasts every mode change here; this turns it into a
  * toast that tells the user what just happened and how the controls work now.
+ * It also sends WARM_UP when the toggle chord begins, only to get this app
+ * started in time; that one needs nothing done.
  */
 public class ModeToastReceiver extends BroadcastReceiver {
     static final String ACTION_MODE_CHANGED = "com.gameconsole.joymouse.action.MODE_CHANGED";

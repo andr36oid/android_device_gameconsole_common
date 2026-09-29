@@ -69,6 +69,8 @@ public:
     // Whether a fullscreen app, usually a game, is on screen. The toggle chord
     // is stricter there.
     virtual bool inFullscreenApp() { return false; }
+    // The toggle chord is now held and counting: the mode may change in a moment.
+    virtual void onToggleArmed() {}
 };
 
 struct Environment {
