@@ -61,7 +61,18 @@ installed_vc() {
 pidof() { [ -e "$T/running" ]; }
 restorecon() { :; }
 chown() { :; }
-timeout() { shift; "$@"; }
+timeout() {
+	echo "$*" >>"$T/timeout"
+	while [ $# -gt 0 ]; do
+		case $1 in
+		-k | -s) shift 2 ;;
+		-*) shift ;;
+		*) break ;;
+		esac
+	done
+	shift
+	"$@"
+}
 getprop() { cat "$T/autosync" 2>/dev/null; }
 am() { echo "$*" >>"$T/am"; }
 dumpsys() { echo "    mResumedActivity: ActivityRecord{1 u0 $DJ_PKG/.activities.MainActivity t9}"; }
@@ -212,6 +223,7 @@ echo y >"$URI_GRANTS.bak"
 daijishou_grants
 [ "$(cat "$URI_GRANTS")" = x ] && [ ! -e "$STATE/daijishou-grants.$UUID" ] && ok ".bak: left alone" || bad ".bak"
 
+grep -q -- '-k 2 10 blkid' "$T/timeout" 2>/dev/null && ok "blkid killed if it hangs (timeout -k)" || bad "timeout -k: $(cat "$T/timeout" 2>/dev/null)"
 # 16. garbage UUID from blkid
 setup "" ""
 UUID='AB|CD'

@@ -539,7 +539,9 @@ daijishou_grants() {
 	# Daijishou has its own library already: leave it to the user
 	[ -e "$DJ_DB" ] && return 0
 
-	uuid=$(timeout 10 blkid -c /dev/null -s UUID "$EASYROMS_DEV" 2>/dev/null |
+	# init waits for this step (exec_start): KILL 2 s after TERM for a blkid
+	# stuck on a failing card
+	uuid=$(timeout -k 2 10 blkid -c /dev/null -s UUID "$EASYROMS_DEV" 2>/dev/null |
 		sed -n 's/.*UUID="\([^"]*\)".*/\1/p')
 	case $uuid in
 	'' | *[!0-9A-Fa-f-]*)
