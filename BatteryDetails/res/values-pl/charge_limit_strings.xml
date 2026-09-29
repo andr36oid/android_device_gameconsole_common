@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Charge limit setting -->
+    <string name="limit_title">Dbanie o baterię</string>
+    <string name="limit_setting">Limit ładowania</string>
+    <string name="limit_off">Wył., ładuj do 100%</string>
+    <string name="limit_choice">Zatrzymaj przy <xliff:g id="percent">%1$d</xliff:g>%%</string>
+    <string name="limit_summary_off">Wył. Jeśli konsola stale stoi na ładowarce, limit sprawi, że bateria posłuży o wiele lat dłużej.</string>
+    <string name="limit_summary">Przestaje ładować przy <xliff:g id="limit">%1$d</xliff:g>%% i zaczyna ponownie przy <xliff:g id="resume">%2$d</xliff:g>%%. W międzyczasie konsola działa z ładowarki. Przed dłuższym wyjazdem wyłącz limit, aby naładować baterię do pełna.</string>
+    <string name="status_limit_hold">Podłączona, zatrzymana na limicie ładowania</string>
+</resources>

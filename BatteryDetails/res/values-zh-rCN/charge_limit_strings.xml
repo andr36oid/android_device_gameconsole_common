@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Charge limit setting -->
+    <string name="limit_title">电池保养</string>
+    <string name="limit_setting">充电上限</string>
+    <string name="limit_off">关闭，充到 100%</string>
+    <string name="limit_choice">充到 <xliff:g id="percent">%1$d</xliff:g>%% 停止</string>
+    <string name="limit_summary_off">已关闭。如果掌机一直插着充电器，设置上限可以让电池多用几年。</string>
+    <string name="limit_summary">充到 <xliff:g id="limit">%1$d</xliff:g>%% 时停止充电，降到 <xliff:g id="resume">%2$d</xliff:g>%% 时重新开始充电。在此期间掌机由充电器供电。出远门前请关闭此功能，以便充满电。</string>
+    <string name="status_limit_hold">已接通电源，保持在充电上限</string>
+</resources>

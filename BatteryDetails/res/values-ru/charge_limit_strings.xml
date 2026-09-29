@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Charge limit setting -->
+    <string name="limit_title">Уход за батареей</string>
+    <string name="limit_setting">Предел заряда</string>
+    <string name="limit_off">Выкл., заряд до 100%</string>
+    <string name="limit_choice">До <xliff:g id="percent">%1$d</xliff:g>%%</string>
+    <string name="limit_summary_off">Выкл. Если консоль всегда стоит на зарядке, предел продлит жизнь батареи на годы.</string>
+    <string name="limit_summary">Зарядка останавливается на <xliff:g id="limit">%1$d</xliff:g>%% и снова начинается на <xliff:g id="resume">%2$d</xliff:g>%%. В промежутке консоль работает от зарядного устройства. Перед долгой поездкой выключите предел, чтобы зарядить батарею полностью.</string>
+    <string name="status_limit_hold">Подключено, заряд удерживается на пределе</string>
+</resources>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Charge limit setting -->
+    <string name="limit_title">Akkupflege</string>
+    <string name="limit_setting">Ladelimit</string>
+    <string name="limit_off">Aus, bis 100% laden</string>
+    <string name="limit_choice">Bei <xliff:g id="percent">%1$d</xliff:g> %% stoppen</string>
+    <string name="limit_summary_off">Aus. Bei einer Konsole, die meist am Ladegerät hängt, hält der Akku mit einem Limit mehr Jahre.</string>
+    <string name="limit_summary">Hört bei <xliff:g id="limit">%1$d</xliff:g> %% auf zu laden und lädt ab <xliff:g id="resume">%2$d</xliff:g> %% wieder. Dazwischen läuft die Konsole über das Ladegerät. Schalte das Limit vor einer langen Reise aus, um voll zu laden.</string>
+    <string name="status_limit_hold">Angeschlossen, am Ladelimit gehalten</string>
+</resources>
