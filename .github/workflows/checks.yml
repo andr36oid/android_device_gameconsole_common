@@ -1,0 +1,80 @@
+# Host checks, no Android tree: the same checks as ci/run-local.sh (run that before pushing).
+name: checks
+
+on:
+  push:
+    branches: [lineage-18.1]
+  pull_request:
+    branches: [lineage-18.1]
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # the commit check needs the pushed range
+          lfs: false       # APK sizes come from the LFS pointers, no download
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '11'
+
+      - name: Install tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq shellcheck dash mksh busybox sqlite3 libgtest-dev
+
+      - name: Commit range
+        env:
+          EVENT: ${{ github.event_name }}
+          PR_BASE: ${{ github.event.pull_request.base.sha }}
+          PR_HEAD: ${{ github.event.pull_request.head.sha }}
+          BEFORE: ${{ github.event.before }}
+          AFTER: ${{ github.sha }}
+        run: |
+          if [ "$EVENT" = pull_request ]; then
+            range=$PR_BASE..$PR_HEAD; base=$PR_BASE
+          elif [ -n "$BEFORE" ] && ! [ "$BEFORE" -eq 0 ] 2>/dev/null && git cat-file -e "$BEFORE^{commit}" 2>/dev/null; then
+            range=$BEFORE..$AFTER; base=$BEFORE
+          else
+            # new branch or force push: only the pushed head
+            range=$AFTER~1..$AFTER; base=$AFTER~1
+          fi
+          echo "RANGE=$range" >>"$GITHUB_ENV"
+          echo "BASE=$base" >>"$GITHUB_ENV"
+          echo "JDK=$JAVA_HOME/bin" >>"$GITHUB_ENV"
+          echo "range $range, APK sizes against $base"
+
+      - name: Commit authors and messages
+        if: always()
+        run: ci/run-local.sh commits
+
+      - name: shellcheck
+        if: always()
+        run: ci/run-local.sh shellcheck
+
+      - name: Test scripts
+        if: always()
+        run: ci/run-local.sh tests
+
+      - name: Native host tests
+        if: always()
+        run: ci/run-local.sh native
+
+      - name: Python generators --check
+        if: always()
+        run: ci/run-local.sh python
+
+      - name: XML well-formed
+        if: always()
+        run: ci/run-local.sh xml
+
+      - name: Prebuilt APK sizes
+        if: always()
+        run: ci/run-local.sh apksize
