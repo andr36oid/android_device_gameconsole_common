@@ -17,6 +17,7 @@
     <string name="controls_heading_power">Zasilanie i głośność</string>
     <string name="controls_power_off">Przytrzymaj ok. 10 sekund: wyłącza zawieszoną konsolę</string>
     <string name="controls_remap_reset">Przytrzymaj oba przez 5 sekund: wszystkie przyciski wracają do normy</string>
+    <string name="controls_screen_record">Włącz / wyłącz nagrywanie ekranu, zapis w Movies</string>
     <string name="controls_ra_intro">Przytrzymaj Select i naciśnij drugi przycisk. RetroArch dostaje te skróty przy pierwszej konfiguracji. Skróty zmienione przez ciebie zostają.</string>
     <string name="controls_quit_twice">Wyjdź z gry (naciśnij Start dwa razy)</string>
     <string name="controls_save_state">Szybki zapis</string>

@@ -17,6 +17,7 @@
     <string name="controls_heading_power">Energia e volume</string>
     <string name="controls_power_off">Segure uns 10 segundos: desliga um console travado</string>
     <string name="controls_remap_reset">Segure os dois por 5 segundos: todos os botões voltam ao normal</string>
+    <string name="controls_screen_record">Iniciar / parar gravação de tela, salva em Movies</string>
     <string name="controls_ra_intro">Segure Select e aperte o segundo botão. O RetroArch recebe esses atalhos quando é configurado pela primeira vez. Atalhos que você mesmo mudou continuam.</string>
     <string name="controls_quit_twice">Sair do jogo (aperte Start duas vezes)</string>
     <string name="controls_save_state">Fazer save state</string>

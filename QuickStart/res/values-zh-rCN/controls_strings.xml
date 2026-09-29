@@ -17,6 +17,7 @@
     <string name="controls_heading_power">电源和音量</string>
     <string name="controls_power_off">按住约 10 秒：关闭卡死的主机</string>
     <string name="controls_remap_reset">同时按住 5 秒：所有按键恢复正常</string>
+    <string name="controls_screen_record">开始 / 停止屏幕录制，保存到 Movies</string>
     <string name="controls_ra_intro">按住 Select，再按第二个按键。RetroArch 首次设置时会获得这些快捷键。您自己改过的快捷键会保留。</string>
     <string name="controls_quit_twice">退出游戏（按两次 Start）</string>
     <string name="controls_save_state">即时存档</string>

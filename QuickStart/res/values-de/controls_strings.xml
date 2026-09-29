@@ -17,6 +17,7 @@
     <string name="controls_heading_power">Ein/Aus und Lautstärke</string>
     <string name="controls_power_off">Etwa 10 Sekunden halten: schaltet eine eingefrorene Konsole aus</string>
     <string name="controls_remap_reset">Beide 5 Sekunden halten: alle Tasten wieder normal</string>
+    <string name="controls_screen_record">Bildschirmaufnahme starten / stoppen, gespeichert in Movies</string>
     <string name="controls_ra_intro">Halte Select und drück die zweite Taste. RetroArch bekommt diese Hotkeys bei der ersten Einrichtung. Hotkeys, die du selbst geändert hast, bleiben.</string>
     <string name="controls_quit_twice">Spiel beenden (Start zweimal drücken)</string>
     <string name="controls_save_state">Savestate speichern</string>

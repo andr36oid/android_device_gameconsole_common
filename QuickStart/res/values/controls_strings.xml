@@ -25,6 +25,7 @@
     <string name="controls_heading_power">Power and volume</string>
     <string name="controls_power_off">Hold about 10 seconds: switches off a frozen console</string>
     <string name="controls_remap_reset">Hold both for 5 seconds: every button back to normal</string>
+    <string name="controls_screen_record">Start / stop screen recording, saved to Movies</string>
 
     <!-- In games: RetroArch hotkeys -->
     <string name="controls_ra_intro">Hold Select, then press the second button. RetroArch gets these when it is first set up. Hotkeys you changed yourself stay.</string>

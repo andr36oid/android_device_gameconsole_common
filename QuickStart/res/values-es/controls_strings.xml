@@ -17,6 +17,7 @@
     <string name="controls_heading_power">Encendido y volumen</string>
     <string name="controls_power_off">Mantenlo unos 10 segundos: apaga una consola bloqueada</string>
     <string name="controls_remap_reset">Mantén los dos 5 segundos: todos los botones vuelven a la normalidad</string>
+    <string name="controls_screen_record">Iniciar / detener grabación de pantalla, se guarda en Movies</string>
     <string name="controls_ra_intro">Mantén pulsado Select y pulsa el segundo botón. RetroArch recibe estos atajos la primera vez que se configura. Los atajos que hayas cambiado tú se mantienen.</string>
     <string name="controls_quit_twice">Salir del juego (pulsa Start dos veces)</string>
     <string name="controls_save_state">Guardado rápido</string>

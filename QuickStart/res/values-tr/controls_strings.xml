@@ -17,6 +17,7 @@
     <string name="controls_heading_power">Güç ve ses</string>
     <string name="controls_power_off">Yaklaşık 10 saniye basılı tutun: donan konsolu kapatır</string>
     <string name="controls_remap_reset">İkisini 5 saniye basılı tutun: tüm tuşlar normale döner</string>
+    <string name="controls_screen_record">Ekran kaydını başlat / durdur, Movies klasörüne kaydedilir</string>
     <string name="controls_ra_intro">Select tuşunu basılı tutup ikinci tuşa basın. RetroArch bu kısayolları ilk kurulduğunda alır. Kendi değiştirdiğiniz kısayollar korunur.</string>
     <string name="controls_quit_twice">Oyundan çık (Start tuşuna iki kez basın)</string>
     <string name="controls_save_state">Hızlı kayıt</string>

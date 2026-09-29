@@ -17,6 +17,7 @@
     <string name="controls_heading_power">Питание и громкость</string>
     <string name="controls_power_off">Удерживать около 10 секунд: выключает зависшую консоль</string>
     <string name="controls_remap_reset">Удерживать обе 5 секунд: все кнопки снова работают как обычно</string>
+    <string name="controls_screen_record">Начать / остановить запись экрана, сохраняется в Movies</string>
     <string name="controls_ra_intro">Удерживайте Select и нажмите вторую кнопку. RetroArch получает эти сочетания при первой настройке. Сочетания, которые вы изменили сами, сохраняются.</string>
     <string name="controls_quit_twice">Выйти из игры (нажмите Start дважды)</string>
     <string name="controls_save_state">Быстрое сохранение</string>
