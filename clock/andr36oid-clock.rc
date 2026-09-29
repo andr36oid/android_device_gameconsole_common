@@ -1,0 +1,11 @@
+# Clock after an empty battery, see /system/etc/andr36oid-clock.sh
+
+# Before zygote: nothing running yet has looked at the wall clock in a way that matters.
+on post-fs-data
+    mkdir /data/misc/andr36oid-clock 0700 root root
+    exec - root root -- /system/bin/sh /system/etc/andr36oid-clock.sh boot
+
+# Also a clean shutdown at 0 % battery. The last time the clock was known to be right, and
+# the clock chip gets the system time (in case Android couldn't write it this boot).
+on shutdown
+    exec - root root -- /system/bin/sh /system/etc/andr36oid-clock.sh shutdown
