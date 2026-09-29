@@ -162,7 +162,8 @@ final class CardId {
 
     /**
      * Signs of a fake or no-name card. {@code diskBytes} is the size the system uses
-     * (0 if not known), {@code nowYear}/{@code nowMonth} today (month 1-12).
+     * (0 if not known), {@code nowYear}/{@code nowMonth} today (month 1-12); nowYear 0
+     * when the clock can't be trusted, then a date in the future isn't a sign.
      */
     List<Sign> signs(long diskBytes, int nowYear, int nowMonth) {
         final List<Sign> s = new ArrayList<>();
@@ -185,8 +186,8 @@ final class CardId {
             s.add(Sign.SPEC_TOO_OLD);
         }
         if (hasId()) {
-            if (month < 1 || month > 12 || year > nowYear
-                    || (year == nowYear && month > nowMonth + 1)) {
+            if (month < 1 || month > 12 || (nowYear > 0 && (year > nowYear
+                    || (year == nowYear && month > nowMonth + 1)))) {
                 s.add(Sign.BAD_DATE);
             } else if (year < oldestYearFor(size)) {
                 s.add(Sign.TOO_OLD_FOR_SIZE);

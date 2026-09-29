@@ -1,6 +1,7 @@
 package org.andr36oid.cardcheck;
 
 import android.content.Context;
+import android.os.Build;
 import android.text.format.Formatter;
 
 import java.util.ArrayList;
@@ -82,8 +83,9 @@ final class Texts {
     static String advice(Context c, Card card, CardId id, Map<String, String> speed,
             Map<String, String> full, boolean paused) {
         final Calendar now = Calendar.getInstance();
+        final int year = clockTrusted() ? now.get(Calendar.YEAR) : 0;
         final List<Verdict.Item> items = Verdict.advise(id, card.diskBytes, speed, full,
-                paused, now.get(Calendar.YEAR), now.get(Calendar.MONTH) + 1);
+                paused, year, now.get(Calendar.MONTH) + 1);
         final StringBuilder sb = new StringBuilder();
         for (Verdict.Item i : items) {
             if (sb.length() > 0) sb.append("\n\n");
@@ -91,6 +93,17 @@ final class Texts {
         }
         return sb.toString();
     }
+
+    /**
+     * After an empty battery the clock starts at the build date (Android moves an older
+     * clock up to it), so an offline console may be far behind. Until the clock is well
+     * past the build date, a card made "in the future" isn't counted as a fake sign.
+     */
+    private static boolean clockTrusted() {
+        return System.currentTimeMillis() > Build.TIME + CLOCK_SLACK_MS;
+    }
+
+    private static final long CLOCK_SLACK_MS = 30L * 24 * 60 * 60 * 1000;
 
     private static String adviceItem(Context c, CardId id, Verdict.Item i) {
         switch (i.kind) {

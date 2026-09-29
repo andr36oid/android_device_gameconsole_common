@@ -145,6 +145,10 @@ public class CardIdTest {
                 null, null).signs(disk64, 2026, 9), "[BAD_DATE]");
         eq("future", CardId.parse(cid(0x03, "SD", "SN64G", 2027, 1), csd2(SIZE64),
                 null, null).signs(disk64, 2026, 9), "[BAD_DATE]");
+        eq("future, clock not trusted", CardId.parse(cid(0x03, "SD", "SN64G", 2027, 1),
+                csd2(SIZE64), null, null).signs(disk64, 0, 9), "[]");
+        eq("month 0, clock not trusted", CardId.parse(cid(0x03, "SD", "SN64G", 2020, 0),
+                csd2(SIZE64), null, null).signs(disk64, 0, 9), "[BAD_DATE]");
         eq("next month is fine", CardId.parse(cid(0x03, "SD", "SN64G", 2026, 10),
                 csd2(SIZE64), null, null).signs(disk64, 2026, 9), "[]");
         eq("1 TB from 2012", CardId.parse(cid(0x03, "SD", "SN1T", 2012, 6),
