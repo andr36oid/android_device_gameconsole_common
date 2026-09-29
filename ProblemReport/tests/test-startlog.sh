@@ -59,6 +59,7 @@ if [ $# -eq 0 ]; then sed "s/^\([^=]*\)=\(.*\)/[\1]: [\2]/" $P; exit 0; fi
 v=$(sed -n "s/^$1=//p" $P | head -n 1); echo "${v:-$2}"'
 	cat >"$R"/tmp/props <<'EOF'
 ro.andr36oid.version=test-1
+ro.build.fingerprint=andr36oid/r36s:11/test/2:userdebug
 ro.product.device=r36s
 ro.boot.revision=3
 ro.serialno=SERIALSECRET1
@@ -95,6 +96,8 @@ else /bin/df "$@"; fi'
 	echo "pid: 1, name: zygote KEEPTOMB /storage/emulated/0/Secret Tomb/file.bin" >"$R"/data/tombstones/tombstone_00
 	# not the first start: PackageManager wrote this at an earlier start
 	echo "<packages/>" >"$R"/data/system/packages.xml
+	# and this version finished starting before
+	echo "andr36oid/r36s:11/test/2:userdebug" >"$R"/data/misc/andr36oid-report/start-build
 
 	B=$R/boot
 	mkdir -p "$B/Panels/Panel 4"
@@ -227,6 +230,28 @@ rm "$R/data/system/packages.xml"
 run_script startlog
 wait
 check "first start, done in time: no start log" [ "$(logs_on_boot)" = 0 ]
+
+# ---- 4b. first start of a new version (the updater keeps /data): the long limit ----
+make_root
+echo "andr36oid/r36s:11/test/1:userdebug" >"$R"/data/misc/andr36oid-report/start-build
+S=$(date +%s)
+run_script startlog
+E=$(date +%s)
+check "new version: waited the long limit" [ $((E - S)) -ge 6 ]
+unpack "$(find "$R/boot/andr36oid-reports" -name 'start-log-*.zip' | head -n 1)"
+check "new version: summary says so" has "(first start of this card: no, first start of a new version)"
+check "new version, never started: old version kept" \
+	grep -qx "andr36oid/r36s:11/test/1:userdebug" "$R"/data/misc/andr36oid-report/start-build
+# ... finishing after the normal limit but before the long one: no start log, and the
+# new version is noted, so the next start has the normal limit again
+make_root
+rm "$R"/data/misc/andr36oid-report/start-build
+(sleep 3 && sed -i 's/^sys.boot_completed=0/sys.boot_completed=1/' "$R/tmp/props") &
+run_script startlog
+wait
+check "new version, done in time: no start log" [ "$(logs_on_boot)" = 0 ]
+check "new version, done in time: version noted" \
+	grep -qx "andr36oid/r36s:11/test/2:userdebug" "$R"/data/misc/andr36oid-report/start-build
 
 # ---- 5. BOOT keeps the newest 3 start logs (by name) and never the reports' ----
 make_root

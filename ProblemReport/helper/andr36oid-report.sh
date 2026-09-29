@@ -15,8 +15,8 @@
 #                  consoles whose buttons or screen don't work (make the file on a PC).
 #   startlog       by init at every start (post-fs-data). Sleeps until the start is
 #                  done and then ends. Only when Android hasn't finished starting
-#                  after 5 minutes (20 on the first start of a card), it saves a
-#                  small start log on BOOT for the endless boot logo case, see
+#                  after 5 minutes (20 on the first start of a card or of a new
+#                  version), it saves a small start log on BOOT for the endless boot logo case, see
 #                  startlog_mode.
 #
 # Talks to the app through /data/misc/andr36oid-report:
@@ -58,6 +58,8 @@ START_KEEP=3
 START_WORK=${REPORT_START_WORK:-/dev/andr36oid-startlog}
 # where a start log goes when BOOT can't be written; the next report takes it along
 START_KEPT=$DIR/start-logs
+# the version that last finished starting; a new one gets the long limit too
+START_BUILD=$DIR/start-build
 # a make-report.txt start-up report is coming, which also saves after 5 minutes
 START_PENDING=${REPORT_START_PENDING:-/dev/andr36oid-report.pending}
 BOOT=
@@ -615,22 +617,31 @@ startlog_finish() {
 
 # startlog_mode ; at every start. Sleeps while the start runs (a few getprop calls)
 # and ends when it is done: that is all on a normal start. Only when Android hasn't
-# finished after START_WAIT (START_WAIT_FIRST on the first start of a card) it
-# saves one start log. It runs once per start, and BOOT keeps the newest 3.
+# finished after START_WAIT (START_WAIT_FIRST on the first start of a card or of a
+# new version) it saves one start log. It runs once per start, and BOOT keeps the newest 3.
 startlog_mode() {
-	local limit=$START_WAIT first=no waited=0 tries=0 f
+	local limit=$START_WAIT first=no waited=0 tries=0 f build
+	build=$(getprop ro.build.fingerprint)
 	# the first start of this /data: PackageManager writes packages.xml during it
 	# (the same test as the first-start boot animation)
 	if [ ! -e /data/system/packages.xml ] && [ ! -e /data/system/packages-backup.xml ]; then
 		limit=$START_WAIT_FIRST
 		first=yes
+	elif [ "$(cat "$START_BUILD" 2>/dev/null)" != "$build" ]; then
+		# the first start of a new version (the updater keeps /data): Android
+		# optimizes every app again, which can take minutes on this chip
+		limit=$START_WAIT_FIRST
+		first="no, first start of a new version"
 	fi
 	while [ "$(getprop sys.boot_completed)" != 1 ]; do
 		[ "$waited" -ge "$limit" ] && break
 		sleep "$START_STEP"
 		waited=$((waited + START_STEP))
 	done
-	[ "$(getprop sys.boot_completed)" = 1 ] && return 0
+	if [ "$(getprop sys.boot_completed)" = 1 ]; then
+		[ "$first" = no ] || echo "$build" >"$START_BUILD"
+		return 0
+	fi
 	if [ -e "$START_PENDING" ]; then
 		log "the start didn't finish, but make-report.txt saves a full report"
 		return 0
