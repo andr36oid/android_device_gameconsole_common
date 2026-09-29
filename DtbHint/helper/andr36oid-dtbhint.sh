@@ -33,6 +33,13 @@ BOOT_DEVS=${DTBHINT_BOOT_DEVS:-"/dev/block/by-name/BOOT /dev/block/platform/ff37
 # Test mode: a folder; dmesg, getevent and getprop answers come from files in
 # $ROOT, BOOT is the folder $DTBHINT_BOOT, the notification goes to $TEST/calls
 TEST=${DTBHINT_TEST:-}
+# one BOOT user at a time, see boot_lock (in test mode: in $TEST)
+BOOT_LOCK=${DTBHINT_BOOT_LOCK:-/dev/andr36oid-boot.lock}
+[ -n "$TEST" ] && [ -z "${DTBHINT_BOOT_LOCK:-}" ] && BOOT_LOCK=$TEST/boot.lock
+BOOT_LOCK_WAIT=${DTBHINT_BOOT_LOCK_WAIT:-30}
+BOOT=
+BOOT_RW=
+BOOT_MOUNTED=
 # wait this long after boot_completed, so nobody still holds a button from the start
 WAIT=${DTBHINT_WAIT:-20}
 # and this long between the two button reads
@@ -237,31 +244,96 @@ gather() {
 
 # ---- BOOT ----
 
+# boot_lock <seconds> ; the same in andr36oid-report.sh, andr36oid-dtbhint.sh and
+# andr36oid-cardsetup.sh. The start-up helpers take turns with BOOT: Linux won't
+# mount it a second time with the other ro/rw flag. The lock is a folder in /dev
+# (a restart clears it) with the holder's pid; a holder that was killed is
+# noticed by its pid, and its BOOT mount is taken away. False after waiting
+# this long.
+boot_lock() {
+	local n=0 pid m
+	while ! mkdir "$BOOT_LOCK" 2>/dev/null; do
+		pid=$(cat "$BOOT_LOCK/pid" 2>/dev/null)
+		if [ -n "$pid" ] && ! kill -0 "$pid" 2>/dev/null; then
+			rm -rf "$BOOT_LOCK"
+			continue
+		fi
+		n=$((n + 1))
+		[ "$n" -gt $(($1 * 5)) ] && return 1
+		sleep 0.2
+	done
+	echo $$ >"$BOOT_LOCK/pid"
+	grep -o ' /mnt/andr36oid-[a-z]*-boot ' "$PROC/mounts" 2>/dev/null | while read -r m; do
+		boot_cmd umount "$m"
+	done
+	return 0
+}
+
+boot_unlock() {
+	[ "$(cat "$BOOT_LOCK/pid" 2>/dev/null)" = "$$" ] && rm -rf "$BOOT_LOCK"
+}
+
+# boot_cmd <mount or umount> <args...> ; only recorded in test mode
+boot_cmd() {
+	if [ -n "$TEST" ]; then
+		echo "$*" >>"$TEST/boot"
+		return 0
+	fi
+	"$@" 2>/dev/null
+}
+
+# boot_open ; mounts BOOT read-only, holds the BOOT lock until boot_close
 boot_open() {
 	local dev
 	BOOT=
+	BOOT_RW=
 	BOOT_MOUNTED=
+	if ! boot_lock "$BOOT_LOCK_WAIT"; then
+		log "BOOT is busy (another start-up helper)"
+		return 1
+	fi
 	if [ -n "$TEST" ]; then
-		[ -d "${DTBHINT_BOOT:-}" ] && BOOT=$DTBHINT_BOOT
-		[ -n "$BOOT" ]
-		return
+		if [ -d "${DTBHINT_BOOT:-}" ]; then
+			BOOT=$DTBHINT_BOOT
+			boot_cmd mount -o ro
+			return 0
+		fi
+		boot_unlock
+		return 1
 	fi
 	mkdir -p "$BOOT_MNT"
 	for dev in $BOOT_DEVS; do
 		[ -e "$dev" ] || continue
-		mount -t vfat -o rw,noatime "$dev" "$BOOT_MNT" 2>/dev/null || continue
+		mount -t vfat -o ro,noatime "$dev" "$BOOT_MNT" 2>/dev/null || continue
 		BOOT=$BOOT_MNT
 		BOOT_MOUNTED=1
 		return 0
 	done
+	boot_unlock
 	return 1
 }
 
+# boot_rw ; makes the open BOOT writable, only when there is something to write
+boot_rw() {
+	[ -n "$BOOT_RW" ] && return 0
+	if [ -n "$TEST" ]; then
+		boot_cmd mount -o remount,rw
+		[ -e "$BOOT/.readonly" ] || BOOT_RW=1
+	elif mount -o remount,rw "$BOOT_MNT" 2>/dev/null; then
+		BOOT_RW=1
+	fi
+	[ -n "$BOOT_RW" ]
+}
+
 boot_close() {
-	[ -n "$BOOT_MOUNTED" ] || return 0
-	sync
-	umount "$BOOT_MNT" 2>/dev/null
+	if [ -n "$BOOT_MOUNTED" ]; then
+		sync
+		umount "$BOOT_MNT" 2>/dev/null
+	fi
+	[ -n "$TEST" ] && [ -n "$BOOT" ] && boot_cmd umount
 	BOOT_MOUNTED=
+	BOOT_RW=
+	boot_unlock
 }
 
 # which BOOT folder the top DTB is a copy of (Panels first: Panel4 is also the top)
@@ -624,8 +696,11 @@ main() {
 		echo "raw: adc0=${ADC0:-} adc2=${ADC2:-} rev=${REV:-} stuck_n=$STUCK_N"
 	} >"$DATA/$HINT"
 	if [ -n "$BOOT" ]; then
+		# read-only until here: writable only when the text changed
 		if ! cmp -s "$new" "$BOOT/$HINT"; then
-			if cp "$new" "$BOOT/$HINT.tmp" && mv "$BOOT/$HINT.tmp" "$BOOT/$HINT"; then
+			if ! boot_rw; then
+				log "BOOT is read-only, $HINT not written"
+			elif cp "$new" "$BOOT/$HINT.tmp" && mv "$BOOT/$HINT.tmp" "$BOOT/$HINT"; then
 				log "wrote $HINT on BOOT"
 			else
 				rm -f "$BOOT/$HINT.tmp"

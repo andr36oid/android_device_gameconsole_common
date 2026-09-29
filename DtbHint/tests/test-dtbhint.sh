@@ -297,13 +297,44 @@ cases() {
 	expect "right dtb: exit 0" [ "$(cat "$R/test/rc")" = 0 ]
 
 	# a second run with the same state doesn't rewrite the file
+	expect "first run: BOOT read-only, then writable for the new file" \
+		[ "$(tr '\n' , <"$R/test/boot")" = "mount -o ro,mount -o remount,rw,umount," ]
+	expect "first run: lock released" [ ! -e "$R/test/boot.lock" ]
 	touch -d '2001-01-01 00:00:00' "$h"
+	rm -f "$R/test/boot"
 	hint "$R"
 	expect "same state: file not rewritten" [ "$(date -r "$h" +%Y)" = 2001 ]
+	expect "same state: BOOT only read-only" [ "$(tr '\n' , <"$R/test/boot")" = "mount -o ro,umount," ]
 	# a changed state does
 	echo 514 >"$R/sys/bus/iio/devices/iio:device0/in_voltage0_raw"
 	hint "$R"
 	expect "changed state: file rewritten" [ "$(date -r "$h" +%Y)" != 2001 ]
+	# another start-up helper holds BOOT: skipped after the wait, nothing mounted
+	sleep 30 &
+	holder=$!
+	mkdir "$R/test/boot.lock"
+	echo "$holder" >"$R/test/boot.lock/pid"
+	rm -f "$R/test/boot"
+	touch -d '2001-01-01 00:00:00' "$h"
+	echo 166 >"$R/sys/bus/iio/devices/iio:device0/in_voltage0_raw"
+	DTBHINT_BOOT_LOCK_WAIT=1
+	export DTBHINT_BOOT_LOCK_WAIT
+	hint "$R"
+	expect "BOOT busy: said so" contains "$R/test/log" "BOOT is busy"
+	expect "BOOT busy: not mounted" [ ! -e "$R/test/boot" ]
+	expect "BOOT busy: file untouched" [ "$(date -r "$h" +%Y)" = 2001 ]
+	expect "BOOT busy: the holder's lock kept" [ "$(cat "$R/test/boot.lock/pid")" = "$holder" ]
+	kill "$holder" 2>/dev/null
+	wait "$holder" 2>/dev/null
+	# the holder was killed: its lock and its mount are taken over
+	echo "/dev/block/mmcblk0p1 /mnt/andr36oid-cardsetup-boot vfat rw,noatime 0 0" >"$R/proc/mounts"
+	hint "$R"
+	unset DTBHINT_BOOT_LOCK_WAIT
+	expect "stale lock: file written" [ "$(date -r "$h" +%Y)" != 2001 ]
+	expect "stale lock: the killed helper's mount taken away" contains "$R/test/boot" "umount /mnt/andr36oid-cardsetup-boot"
+	expect "stale lock: released" [ ! -e "$R/test/boot.lock" ]
+	echo 514 >"$R/sys/bus/iio/devices/iio:device0/in_voltage0_raw"
+	hint "$R"
 	expect "changed state: wrong-family" [ "$(result "$R")" = wrong-family ]
 
 	# Soy board with Panel5 (the README warning case)
