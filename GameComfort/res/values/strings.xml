@@ -43,6 +43,8 @@
         <item>1</item>
         <item>0</item>
     </string-array>
+    <string name="game_mode_steady_memory">Steady memory speed</string>
+    <string name="game_mode_steady_memory_summary">Keeps the memory at full speed while you play, so its speed never changes in the middle of a game. Uses a little more battery.</string>
     <string name="game_mode_about">When game mode ends, Do Not Disturb and pop-up notifications go back to how they were. If you change Do Not Disturb yourself in the meantime, your change stays.\n\nAn app counts as a game if it says it is one, or if it is one of the common emulators such as RetroArch or PPSSPP.\n\nThe performance profile you had comes back too, unless you picked another one while playing.\n\nWhat Do Not Disturb lets through is set in Settings &gt; Sound &gt; Do Not Disturb.</string>
     <string name="tile_on">On</string>
     <string name="tile_off">Off</string>

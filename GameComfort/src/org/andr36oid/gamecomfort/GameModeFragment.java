@@ -25,6 +25,7 @@ public class GameModeFragment extends PreferenceFragment
         mAutomatic.setOnPreferenceChangeListener(this);
         if (!hasProfiles()) {
             getPreferenceScreen().removePreference(findPreference(GameMode.KEY_PROFILE));
+            getPreferenceScreen().removePreference(findPreference(GameMode.KEY_STEADY_MEMORY));
         }
     }
 
