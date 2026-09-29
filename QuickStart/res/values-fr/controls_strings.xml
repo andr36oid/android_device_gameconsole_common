@@ -13,6 +13,7 @@
     <string name="controls_start">Valider, comme A</string>
     <string name="controls_dpad">Se déplacer dans les menus et les listes</string>
     <string name="controls_console_swap">Certains clones Soy Sauce (lot 253x) ont FN et SELECT inversés. Si FN agit comme SELECT, la carte SD a besoin des fichiers 253x : voir Experimental/README.txt sur le lecteur BOOT.</string>
+    <string name="controls_continue">Reprendre le dernier jeu joué</string>
     <string name="controls_fn_hold">Maintenu seul : affiche les raccourcis FN</string>
     <string name="controls_heading_power">Marche/Arrêt et volume</string>
     <string name="controls_power_off">Maintenir environ 10 secondes : éteint une console figée</string>

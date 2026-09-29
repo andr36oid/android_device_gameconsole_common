@@ -13,6 +13,7 @@
     <string name="controls_start">确认，和 A 一样</string>
     <string name="controls_dpad">在菜单和列表中移动</string>
     <string name="controls_console_swap">部分 Soy Sauce 克隆机（253x 批次）的 FN 和 SELECT 是反的。如果 FN 的作用像 SELECT，SD 卡需要 253x 文件：请查看 BOOT 盘中的 Experimental/README.txt。</string>
+    <string name="controls_continue">继续上次玩的游戏</string>
     <string name="controls_fn_hold">单独按住：显示 FN 快捷键</string>
     <string name="controls_heading_power">电源和音量</string>
     <string name="controls_power_off">按住约 10 秒：关闭卡死的主机</string>

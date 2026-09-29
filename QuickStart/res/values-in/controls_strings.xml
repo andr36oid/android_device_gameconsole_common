@@ -13,6 +13,7 @@
     <string name="controls_start">Konfirmasi, seperti A</string>
     <string name="controls_dpad">Bergerak di menu dan daftar</string>
     <string name="controls_console_swap">Beberapa klon Soy Sauce (batch 253x) punya FN dan SELECT yang tertukar. Jika FN berfungsi seperti SELECT, kartu SD memerlukan file 253x: lihat Experimental/README.txt di drive BOOT.</string>
+    <string name="controls_continue">Lanjutkan game terakhir yang dimainkan</string>
     <string name="controls_fn_hold">Tahan sendiri: menampilkan pintasan FN</string>
     <string name="controls_heading_power">Daya dan volume</string>
     <string name="controls_power_off">Tahan sekitar 10 detik: mematikan konsol yang macet</string>

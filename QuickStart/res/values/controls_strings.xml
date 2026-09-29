@@ -21,6 +21,7 @@
     <string name="controls_console_swap">Some Soy Sauce clones (batch 253x) have FN and SELECT the other way round. If FN acts like SELECT, the SD card needs the 253x files: see Experimental/README.txt on the BOOT drive.</string>
 
     <!-- System -->
+    <string name="controls_continue">Continue the last game you played</string>
     <string name="controls_fn_hold">Hold on its own: shows the FN shortcuts</string>
     <string name="controls_heading_power">Power and volume</string>
     <string name="controls_power_off">Hold about 10 seconds: switches off a frozen console</string>

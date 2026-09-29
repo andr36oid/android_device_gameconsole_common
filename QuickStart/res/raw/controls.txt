@@ -70,6 +70,11 @@ row FN + Y = shortcuts_panel
 row FN + X = shortcuts_mouse
   if-prop ro.andr36oid.fn_hotkeys
   check fn
+row FN + A = controls_continue
+  if-prop ro.andr36oid.fn_hotkeys
+  if-package org.andr36oid.gamecomfort
+  check fn
+  check has common:GameComfort/AndroidManifest.xml "org\.andr36oid\.gamecomfort\.action\.CONTINUE"
 row FN + R1 = shortcuts_profile
   if-prop ro.andr36oid.fn_hotkeys
   if-package org.andr36oid.cpuoverclock

@@ -13,6 +13,7 @@
     <string name="controls_start">A gibi onaylar</string>
     <string name="controls_dpad">Menülerde ve listelerde gezinir</string>
     <string name="controls_console_swap">Bazı Soy Sauce klonlarında (253x partisi) FN ve SELECT yer değiştirmiştir. FN, SELECT gibi çalışıyorsa SD kartın 253x dosyalarına ihtiyacı vardır: BOOT sürücüsündeki Experimental/README.txt dosyasına bakın.</string>
+    <string name="controls_continue">Son oynadığın oyuna devam et</string>
     <string name="controls_fn_hold">Tek başına basılı tutun: FN kısayollarını gösterir</string>
     <string name="controls_heading_power">Güç ve ses</string>
     <string name="controls_power_off">Yaklaşık 10 saniye basılı tutun: donan konsolu kapatır</string>

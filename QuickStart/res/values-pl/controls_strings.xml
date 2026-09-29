@@ -13,6 +13,7 @@
     <string name="controls_start">Potwierdź, jak A</string>
     <string name="controls_dpad">Poruszanie się po menu i listach</string>
     <string name="controls_console_swap">Niektóre klony Soy Sauce (partia 253x) mają zamienione FN i SELECT. Jeśli FN działa jak SELECT, karta SD potrzebuje plików 253x: zobacz Experimental/README.txt na dysku BOOT.</string>
+    <string name="controls_continue">Graj dalej w ostatnią grę</string>
     <string name="controls_fn_hold">Przytrzymaj sam: pokazuje skróty z FN</string>
     <string name="controls_heading_power">Zasilanie i głośność</string>
     <string name="controls_power_off">Przytrzymaj ok. 10 sekund: wyłącza zawieszoną konsolę</string>

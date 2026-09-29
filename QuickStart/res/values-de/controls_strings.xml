@@ -13,6 +13,7 @@
     <string name="controls_start">Bestätigen, wie A</string>
     <string name="controls_dpad">In Menüs und Listen bewegen</string>
     <string name="controls_console_swap">Manche Soy-Sauce-Klone (Charge 253x) haben FN und SELECT vertauscht. Wenn FN wie SELECT wirkt, braucht die SD-Karte die 253x-Dateien: siehe Experimental/README.txt auf dem Laufwerk BOOT.</string>
+    <string name="controls_continue">Das zuletzt gespielte Spiel weiterspielen</string>
     <string name="controls_fn_hold">Allein halten: zeigt die FN-Shortcuts</string>
     <string name="controls_heading_power">Ein/Aus und Lautstärke</string>
     <string name="controls_power_off">Etwa 10 Sekunden halten: schaltet eine eingefrorene Konsole aus</string>
