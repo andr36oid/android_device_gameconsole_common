@@ -1,6 +1,7 @@
 on post-fs-data
     mkdir /data/misc/andr36oid-report 0770 system system
     start andr36oid-report-boot
+    start andr36oid-startlog
 
 # At every start: a report without the menus, when BOOT has a file make-report.txt
 # (made on a PC). Without that file it only looks at BOOT and ends at once.
@@ -9,6 +10,17 @@ service andr36oid-report-boot /system/bin/sh /system/etc/andr36oid-report.sh boo
     group root system log
     disabled
     oneshot
+
+# At every start: sleeps until Android has started, then ends. Only if that takes
+# over 5 minutes (20 on a card's first start) it saves a start log on BOOT, for
+# endless boot logos. A oneshot's process group dies with it, so it stays in the
+# foreground; priority 10 keeps it out of the way of a slow start.
+service andr36oid-startlog /system/bin/sh /system/etc/andr36oid-report.sh startlog
+    user root
+    group root system log
+    disabled
+    oneshot
+    priority 10
 
 # Started by the Problem report page with ctl.start, see andr36oid-report.sh
 service andr36oid-report /system/bin/sh /system/etc/andr36oid-report.sh
