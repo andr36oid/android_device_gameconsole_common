@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="emulators_cheats">Los trucos de muchos juegos ya están en la consola, sin necesidad de internet. Durante un juego en RetroArch, abre el menú con Select + X y ve a Menú rápido &gt; Trucos &gt; Cargar archivo de trucos (reemplazar). Elige el sistema y luego el juego. Activa los trucos que quieras y elige Aplicar cambios.</string>
+</resources>

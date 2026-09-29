@@ -140,6 +140,7 @@ final class Chapters {
         c = chapter(R.string.emulators_title, chapters);
         para(c, R.string.emulators_included);
         para(c, R.string.emulators_psp);
+        para(c, R.string.emulators_cheats);
         para(c, R.string.emulators_updates);
 
         c = chapter(R.string.speed_title, chapters);
