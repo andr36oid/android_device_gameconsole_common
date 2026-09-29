@@ -769,6 +769,11 @@ pm.dexopt.downgrade_after_inactive_days=10
 # Dedupe VNDK libraries with identical core variants.
 TARGET_VNDK_USE_CORE_VARIANT := true
 
+# DTB hint: at every start, BOOT/dtb-hint.txt says whether the DTB fits the console
+# and which folder to try if not (DtbHint/)
+PRODUCT_PACKAGES += \
+	andr36oid-dtbhint
+
 # madvise random in ART to reduce page cache thrashing.
 PRODUCT_PROPERTY_OVERRIDES += \
 	dalvik.vm.madvise-random=true
