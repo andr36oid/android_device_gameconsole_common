@@ -26,7 +26,8 @@ the `gameconsole-emu` service (`seed/`) runs once `sys.boot_completed=1`:
    The APKs are byte-identical to F-Droid's, so F-Droid can update them and users can
    uninstall them. A removed app stays removed, an older installed version gets upgraded
    when the ROM ships a newer one, a failing version isn't retried every boot.
-2. Set up RetroArch, see [RetroArch defaults](#retroarch-defaults) below.
+2. Set up RetroArch, see [RetroArch defaults](#retroarch-defaults) below, and on a fresh
+   PPSSPP install its data folder and settings, see [PPSSPP defaults](#ppsspp-defaults).
 3. Unpack `libretro/cores-*.tar.gz` into `/data/user/0/com.retroarch/cores`, which is
    RetroArch's default core dir and what Daijishou's `com.retroarch` player templates
    point at. Cores the user replaced (online updater etc.) are left alone; clearing
@@ -49,6 +50,54 @@ when the tutorial is done.
 
 The service has no SELinux domain, same as `joyMouse`; it relies on the ROM running
 permissive.
+
+## PPSSPP defaults
+
+PPSSPP 1.19.3 targets Android 15, so on Android 11 it runs with scoped storage: on its
+first start it asks where to keep its data (the "memory stick"), and a game started from
+Daijishou opens that question instead of the game. `seed_ppsspp` answers it once, right
+after the APKs are installed, but only while PPSSPP has no `files/memstick_dir.txt`
+(it never ran, or its data was cleared):
+
+- memory stick = PPSSPP's own folder,
+  `/storage/emulated/0/Android/data/org.ppsspp.ppsspp/files`. This is what the
+  "Skip (Use App Private Data)" button on that screen picks. It is the one folder PPSSPP
+  can use without the file picker. Save backup, Storage care and Continue playing
+  already look there. Uninstalling PPSSPP deletes it (Save backup keeps copies).
+  To keep PSP data on EASYROMS instead: PPSSPP > Settings > System > Memory stick
+  folder > Create or choose a PSP folder; PPSSPP offers to move the data.
+- `PSP/SYSTEM/ppsspp.ini` and `PSP/SYSTEM/controls.ini` from `seed/ppsspp/`, each only
+  if it isn't there. PPSSPP fills in every setting not listed and writes both back on
+  exit. A folder the user picked is never touched.
+
+What `ppsspp.ini` sets (every key checked against 1.19.3's `Core/Config.cpp`):
+
+| Setting | Value | Why |
+|---|---|---|
+| `GraphicsBackend` | OpenGL | PPSSPP's Android default is Vulkan, which this Mali driver doesn't have |
+| `InternalResolution`, `AndroidHwScale` | 1x, native | PSP's 480x272; anything more is too much for the Mali-G31 |
+| `AutoFrameSkip`, `FrameSkip` | on, up to 2 | keeps speed and sound in heavy scenes (ArkOS, ROCKNIX RK3326) |
+| `SkipBufferEffects` | off | buffered rendering; auto frameskip needs it, many games break without it |
+| `SkipGPUReadbackMode` | skip | GPU readbacks stall the Mali badly (ROCKNIX RK3326) |
+| `TextureBackoffCache` | on | "lazy texture caching" speedhack (ArkOS, ROCKNIX) |
+| `TexScalingLevel`, `AnisotropyLevel`, `TextureShader` | off, 0, off | no texture upscaling or extra filtering (ArkOS) |
+| `SplineBezierQuality` | low | curved surfaces are CPU heavy (ArkOS, ROCKNIX) |
+| `HardwareTransform`, `SoftwareSkinning` | on, on | PPSSPP defaults, stated so a changed default can't slow us down |
+| `CPUCore`, `IOTimingMethod`, `SeparateSASThread` | JIT, fast, on | PPSSPP defaults (fastest) |
+| `iShowStatusFlags` | 0 | no FPS counter |
+| `ImmersiveMode` | on | full screen without system bars |
+| `ShowTouchControls`, `ShowTouchPause` | off | no touch screen; PPSSPP would draw its touch pad over the game |
+| `UIScaleFactor` | +2 (1.19x) | menus are readable at 640x480 / 178 dpi |
+| `CheckForNewVersion` | off | offline console; F-Droid does updates |
+| `AutoLoadSaveState`, `EnableStateUndo`, `RewindSnapshotInterval` | off | like RetroArch here; states are 20-40 MB each |
+| `AllowMappingCombos` | on | so the hotkeys below show up and can be changed in Control mapping |
+
+`controls.ini` is PPSSPP's own Android pad map (face buttons, D-pad, stick, L2 = menu,
+R2 = fast forward) plus hotkeys like RetroArch's, hold Select and press:
+Start quit (asks first if the game wasn't saved for a minute), R1/L1 save/load state,
+Up/Down state slot, X menu, A pause, B reset, Y screenshot, L3 fast forward on/off.
+The face buttons are PPSSPP's default, so the controllers step (if present) still finds
+and moves them.
 
 ## RetroArch defaults
 
@@ -111,8 +160,7 @@ RetroArch 1.22.2 targets SDK 28 with `requestLegacyExternalStorage` and gets the
 permissions from `pm install -g`, so it reads `/storage/<uuid>` like it reads the games.
 Settings > Emulator files checks what is in that folder.
 
-PPSSPP isn't seeded: it stores its settings (and `controls.ini`) in the memory stick
-folder the user picks on its first start, so there is nothing to seed before that.
+PPSSPP's memory stick folder and settings: see [PPSSPP defaults](#ppsspp-defaults).
 
 ## Updating
 

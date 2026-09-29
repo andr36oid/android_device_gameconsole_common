@@ -160,6 +160,84 @@ install_apks() {
 	done
 }
 
+PP_PKG=org.ppsspp.ppsspp
+PP_DATA=/data/user/0/$PP_PKG
+# PPSSPP's own folder on the internal storage (getExternalFilesDir), the one
+# its first-start screen calls "Use App Private Data"
+PP_EXT=/data/media/0/Android/data/$PP_PKG/files
+PP_EXT_PUBLIC=/storage/emulated/0/Android/data/$PP_PKG/files
+
+# seed_ppsspp ; on a fresh PPSSPP install: its memory stick folder and
+# settings for this console (OpenGL, 1x, auto frameskip, hotkeys like
+# RetroArch's). PPSSPP targets Android 15, so on Android 11 it runs with scoped
+# storage and asks on its first start where to keep its data; a game started
+# from Daijishou would open that question instead of the game. Without a
+# memstick_dir.txt, PPSSPP never ran (or its data was cleared): then it gets
+# its own folder PP_EXT, the same one the "Skip" choice on that screen picks,
+# and ppsspp.ini/controls.ini in PSP/SYSTEM there, each only if missing. A
+# folder the user picked (memstick_dir.txt exists) is never touched.
+seed_ppsspp() {
+	local owner uid dir f
+
+	[ -d "$PP_DATA" ] || return 0
+	[ -e "$PP_DATA/files/memstick_dir.txt" ] && return 0
+	[ -f "$BASE/ppsspp/ppsspp.ini" ] || return 0
+	# vold makes Android/data when it mounts the internal storage
+	[ -d "${PP_EXT%/*/*}" ] || return 0
+	owner=$(stat -c %u:%g "$PP_DATA")
+	uid=${owner%:*}
+
+	# its folder the way vold makes it (owner the app, group ext_data_rw,
+	# setgid), then PSP/SYSTEM like PPSSPP makes them
+	for dir in "${PP_EXT%/*}" "$PP_EXT"; do
+		[ -d "$dir" ] && continue
+		mkdir "$dir" || { log "making $dir failed"; return 0; }
+		chown "$uid:$AID_EXT_DATA_RW" "$dir"
+		chmod 2770 "$dir"
+	done
+	for dir in "$PP_EXT/PSP" "$PP_EXT/PSP/SYSTEM"; do
+		[ -d "$dir" ] && continue
+		mkdir "$dir" || { log "making $dir failed"; return 0; }
+		chown "$uid:$AID_EXT_DATA_RW" "$dir"
+		chmod 2770 "$dir"
+	done
+	for f in ppsspp.ini controls.ini; do
+		[ -f "$BASE/ppsspp/$f" ] || continue
+		[ -e "$PP_EXT/PSP/SYSTEM/$f" ] && continue
+		if ! { cp "$BASE/ppsspp/$f" "$PP_EXT/PSP/SYSTEM/$f.tmp" &&
+			mv -f "$PP_EXT/PSP/SYSTEM/$f.tmp" "$PP_EXT/PSP/SYSTEM/$f"; }; then
+			log "writing PPSSPP's $f failed"
+			rm -f "$PP_EXT/PSP/SYSTEM/$f.tmp"
+			return 0
+		fi
+		chown "$uid:$AID_EXT_DATA_RW" "$PP_EXT/PSP/SYSTEM/$f"
+		chmod 0660 "$PP_EXT/PSP/SYSTEM/$f"
+		log "seeded PPSSPP's $f"
+	done
+	restorecon -R "${PP_EXT%/*}" 2>/dev/null
+	# vold's own fixup for app folders (default ACL, quota project), as for
+	# RetroArch: IStorageManager.fixupAppDir, transaction 89 + 1
+	service call mount 90 s16 "$PP_EXT_PUBLIC" </dev/null >/dev/null 2>&1
+
+	# last, so a failure above leaves PPSSPP asking as usual. No newline:
+	# PPSSPP uses the whole file as the path.
+	[ -d "$PP_DATA/files" ] || {
+		mkdir "$PP_DATA/files" && chown "$owner" "$PP_DATA/files" &&
+			chmod 0771 "$PP_DATA/files"
+	} || { log "making PPSSPP's files folder failed"; return 0; }
+	if ! { printf '%s' "$PP_EXT_PUBLIC" >"$PP_DATA/files/memstick_dir.txt.tmp" &&
+		mv -f "$PP_DATA/files/memstick_dir.txt.tmp" "$PP_DATA/files/memstick_dir.txt"; }; then
+		log "writing PPSSPP's memstick_dir.txt failed"
+		rm -f "$PP_DATA/files/memstick_dir.txt.tmp"
+		return 0
+	fi
+	chown "$owner" "$PP_DATA/files/memstick_dir.txt"
+	chmod 0600 "$PP_DATA/files/memstick_dir.txt"
+	restorecon -R "$PP_DATA/files" 2>/dev/null
+	log "PPSSPP keeps its data in $PP_EXT_PUBLIC"
+}
+
+
 # RetroArch reads retroarch.cfg from its folder on the internal storage
 RA_EXT=/data/media/0/Android/data/$RA_PKG/files
 RA_EXT_PUBLIC=/storage/emulated/0/Android/data/$RA_PKG/files
@@ -461,6 +539,7 @@ done
 
 first_start
 install_apks
+seed_ppsspp
 seed_retroarch
 seed_cores
 find_easyroms
