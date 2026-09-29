@@ -457,6 +457,11 @@ PRODUCT_PRODUCT_PROPERTIES += \
 PRODUCT_PRODUCT_PROPERTIES += \
 	ro.andr36oid.fn_hotkeys=true
 
+# FN + B opens the power menu's App switcher page (frameworks/base night/o2-fn-switcher).
+# Tells the quick start guide and Buttons and shortcuts to list it.
+PRODUCT_PRODUCT_PROPERTIES += \
+	ro.andr36oid.fn_switcher=true
+
 # FN + L2 shows or hides the performance overlay (frameworks/base night/ux3-fn-overlay)
 PRODUCT_PRODUCT_PROPERTIES += \
 	ro.andr36oid.fn_overlay=true

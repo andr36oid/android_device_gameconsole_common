@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- FN + B opens the power menu's App switcher page (frameworks/base PhoneWindowManager) -->
+<resources>
+    <!-- Guide, FN shortcuts chapter, and Buttons and shortcuts, next to "FN + B".
+         "App switcher" is the power menu tile's name. -->
+    <string name="shortcuts_app_switcher">App switcher: pick one of your open apps</string>
+</resources>
