@@ -381,14 +381,33 @@ cfg_get() {
 }
 
 # cfg_set <file> <key> <value> ; written in place, so the file keeps its owner,
-# mode and the ACL vold gave it
+# mode and the ACL vold gave it. The new text is made in <file>.new first and
+# only goes in when it is complete (every old line but the key's, plus the
+# key). A copy of the old file (<file>.bak) is kept until the new text is in;
+# if writing it fails (full /data), the old text is put back, or stays in
+# <file>.bak if even that fails.
 cfg_set() {
-	local rc
-	{ grep -v "^[ 	]*$2[ 	]*=" "$1"; echo "$2 = \"$3\""; } >"$1.new" &&
-		cat "$1.new" >"$1"
-	rc=$?
+	local want
+	want=$(($(grep -c '' "$1") - $(grep -c "^[ 	]*$2[ 	]*=" "$1") + 1))
+	if ! { grep -v "^[ 	]*$2[ 	]*=" "$1"; echo "$2 = \"$3\""; } >"$1.new" ||
+		[ "$(($(wc -l <"$1.new")))" -ne "$want" ] ||
+		! { cp "$1" "$1.bak.tmp" && mv -f "$1.bak.tmp" "$1.bak"; }; then
+		rm -f "$1.new" "$1.bak.tmp"
+		return 1
+	fi
+	if cat "$1.new" >"$1"; then
+		rm -f "$1.new" "$1.bak"
+		return 0
+	fi
 	rm -f "$1.new"
-	return $rc
+	if cat "$1.bak" >"$1"; then
+		rm -f "$1.bak"
+		log "writing $1 failed, the old one is back"
+	else
+		chown "$(stat -c %u:%g "${1%/*}")" "$1.bak" 2>/dev/null
+		log "writing $1 failed, the old one is in $1.bak"
+	fi
+	return 1
 }
 
 # ours <system_directory> ; true if it's unset, or what we wrote last time.
