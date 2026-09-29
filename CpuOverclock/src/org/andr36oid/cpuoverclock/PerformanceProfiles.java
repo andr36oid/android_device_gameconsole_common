@@ -133,8 +133,10 @@ final class PerformanceProfiles {
     boolean apply() {
         final int profile = get();
         // Balanced without a cap is what the kernel starts with, so boot only has to write
-        // anything else (and put the tile in once)
+        // anything else (and put the tile in once). A memory hold left over from a game
+        // is dropped at boot.
         BootStart.set(mContext, profile != BALANCED || getCpuCap() > 0
+                || ProfileCommandReceiver.isMemoryHeld(mContext)
                 || !prefs().getBoolean(PREF_TILE_ADDED, false));
         boolean ok = true;
 
