@@ -193,13 +193,16 @@ class ControllerView extends View {
         invalidate();
     }
 
-    // Drawing. Everything is laid out in fractions of the view, the R36S screen is 640x480.
+    // Drawing. Everything is laid out in fractions of a 4:3 box (the R36S screen is 640x480).
+    // Other screen shapes (720x720) get the largest 4:3 box, centred.
 
     @Override
     protected void onDraw(Canvas canvas) {
-        final float w = getWidth();
-        final float h = getHeight();
         canvas.drawColor(BACKGROUND);
+        final float w = Math.min(getWidth(), getHeight() * 4f / 3f);
+        final float h = w * 3f / 4f;
+        canvas.save();
+        canvas.translate((getWidth() - w) / 2f, (getHeight() - h) / 2f);
         mStroke.setStrokeWidth(Math.max(1.5f, h * 0.005f));
         mText.setTextSize(h * 0.038f);
         mMono.setTextSize(h * 0.03f);
@@ -262,6 +265,7 @@ class ControllerView extends View {
         }
 
         bottom(canvas, w, h);
+        canvas.restore();
     }
 
     private int fillFor(int code) {
