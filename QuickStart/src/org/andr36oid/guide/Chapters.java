@@ -92,6 +92,8 @@ final class Chapters {
         final boolean wifiTransfer = hasPackage("org.andr36oid.wifitransfer");
         final boolean biosCheck = hasPackage("org.andr36oid.bioscheck");
         final boolean touchControls = hasPackage("org.andr36oid.touchmapper");
+        final boolean fnSwitcher = fnShortcuts
+                && SystemProperties.getBoolean("ro.andr36oid.fn_switcher", false);
         final String dpad = s(R.string.key_dpad);
         final String power = s(R.string.key_power);
         final String volume = s(R.string.key_volume);
@@ -122,6 +124,9 @@ final class Chapters {
             row(c, R.string.shortcuts_brightness, "FN", volume + "+ / " + volume + "−");
             row(c, R.string.shortcuts_screenshot, "FN", "Start");
             row(c, R.string.shortcuts_last_app, "FN", "Select");
+            if (fnSwitcher) {
+                row(c, R.string.shortcuts_app_switcher, "FN", "B");
+            }
             row(c, R.string.shortcuts_panel, "FN", "Y");
             row(c, R.string.shortcuts_mouse, "FN", "X");
             if (profiles) {
