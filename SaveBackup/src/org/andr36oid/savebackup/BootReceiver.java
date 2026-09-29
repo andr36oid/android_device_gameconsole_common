@@ -4,7 +4,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-/** Makes sure the automatic backup jobs are scheduled after a start or an update. */
+/**
+ * Makes sure the automatic backup jobs are scheduled after a start or an update. Switched off
+ * while automatic backups are off (see BootStart).
+ */
 public class BootReceiver extends BroadcastReceiver {
 
     @Override
