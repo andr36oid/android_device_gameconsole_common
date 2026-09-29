@@ -22,3 +22,9 @@ PRODUCT_PACKAGES += \
 PRODUCT_COPY_FILES += \
 	$(foreach f,move select key key_space key_delete key_return key_invalid charging,\
 		device/gameconsole/common/themes/sounds/audio/$(f).ogg:$(TARGET_COPY_OUT_PRODUCT)/media/audio/ui/andr36oid/$(f).ogg)
+
+# Retro boot animation, chosen in Settings > Display > Console look
+# (persist.andr36oid.bootanimation=retro; stock LineageOS animation otherwise)
+PRODUCT_COPY_FILES += \
+	device/gameconsole/common/themes/bootanimation/bootanimation-retro.zip:$(TARGET_COPY_OUT_SYSTEM)/media/bootanimation-retro.zip \
+	device/gameconsole/common/themes/bootanimation/andr36oid-bootanim.rc:$(TARGET_COPY_OUT_SYSTEM)/etc/init/andr36oid-bootanim.rc
