@@ -1,0 +1,18 @@
+# Syncthing-Fork (Syncthing for Android, by Catfriend1 and researchxxl), the
+# arm64-v8a APK from the GitHub release (32 MB; F-Droid only has the 68 MB
+# universal APK). Same signer as F-Droid's build (Catfriend1, cert sha256
+# d374b8de...), so F-Droid can update it. sha256 from the GitHub release asset
+# digest. The Go binary inside (libsyncthingnative.so) is built with
+# GOARM64=v8.0; every LSE atomic in it sits behind the runtime HasATOMICS check,
+# so it runs on the Cortex-A35 (see reports/overnight2/save-sync.md).
+# The Syncthing core it wraps is the "syncthing" git submodule at that tag.
+name=Syncthing
+package=com.github.catfriend1.syncthingfork
+version_code=2010500
+version_name=2.1.5.0
+spdx=MPL-2.0
+sha256=221c05d1b6db9788e7112a6293a230ef0e7bc676d8523a96db5ff176be94582c
+apk_url=https://github.com/researchxxl/syncthing-android/releases/download/v2.1.5.0/com.github.catfriend1.syncthingfork_release_v2.1.5.0_arm64-v8a.apk
+source_url=https://github.com/researchxxl/syncthing-android/tree/v2.1.5.0 (Syncthing core: https://github.com/syncthing/syncthing, the submodule in that tree)
+license_url=https://raw.githubusercontent.com/researchxxl/syncthing-android/v2.1.5.0/LICENSE
+published_by=the Syncthing-Fork project on GitHub
