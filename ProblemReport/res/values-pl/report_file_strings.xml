@@ -8,4 +8,5 @@
     <string name="pc_title">Przyciski lub ekran nie działają?</string>
     <string name="pc_text">Na komputerze utwórz na dysku BOOT karty SD plik o nazwie make-report.txt. Możesz w nim opisać, co poszło nie tak. Włóż kartę z powrotem, włącz konsolę i poczekaj 5 minut. Raport zostanie zapisany na BOOT, a plik usunięty.</string>
     <string name="error_no_room">Nie ma na niego miejsca ani na BOOT, ani na EASYROMS, ani w pamięci wewnętrznej.</string>
+    <string name="save_busy">Raport jest właśnie tworzony przy uruchomieniu (make-report.txt). Poczekaj, aż zostanie zapisany.</string>
 </resources>

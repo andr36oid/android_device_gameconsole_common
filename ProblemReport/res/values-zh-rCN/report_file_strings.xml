@@ -8,4 +8,5 @@
     <string name="pc_title">按键或屏幕无法使用？</string>
     <string name="pc_text">在电脑上，在 SD 卡的 BOOT 盘中新建一个名为 make-report.txt 的文件，可以在里面写下出了什么问题。把卡插回去并开机，然后等待 5 分钟。报告会保存到 BOOT，该文件会被删除。</string>
     <string name="error_no_room">BOOT、EASYROMS 和内部存储都没有空间保存。</string>
+    <string name="save_busy">正在开机时生成报告（make-report.txt）。请等待保存完成。</string>
 </resources>

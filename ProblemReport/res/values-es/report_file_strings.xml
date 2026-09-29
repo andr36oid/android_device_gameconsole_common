@@ -8,4 +8,5 @@
     <string name="pc_title">¿No funcionan los botones o la pantalla?</string>
     <string name="pc_text">En un PC, crea un archivo llamado make-report.txt en la unidad BOOT de la tarjeta SD. Puedes escribir en él qué ha fallado. Vuelve a poner la tarjeta, enciende la consola y espera 5 minutos. El informe se guarda en BOOT y el archivo se borra.</string>
     <string name="error_no_room">No hay espacio para guardarlo en BOOT, EASYROMS ni en el almacenamiento interno.</string>
+    <string name="save_busy">Se está creando un informe al arrancar (make-report.txt). Espera a que se guarde.</string>
 </resources>

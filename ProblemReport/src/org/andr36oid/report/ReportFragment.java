@@ -10,6 +10,7 @@ import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -87,8 +88,10 @@ public class ReportFragment extends PreferenceFragment {
                 .setPositiveButton(R.string.confirm_save, (dialog, which) -> save())
                 .setNegativeButton(android.R.string.cancel, null)
                 .create();
-        // A saves right away; the long text still scrolls with the d-pad
+        // A saves right away; up moves to the long text, which then scrolls with the d-pad
         d.setOnShowListener(dialog -> {
+            final View message = d.findViewById(android.R.id.message);
+            if (message != null) message.setFocusable(true);
             final Button b = d.getButton(AlertDialog.BUTTON_POSITIVE);
             if (b != null) b.requestFocus();
         });
@@ -120,6 +123,9 @@ public class ReportFragment extends PreferenceFragment {
             if (s.state == Reporter.RUNNING) {
                 mSave.setSummary(getString(R.string.save_running, stepName(s.text),
                         s.step, s.steps));
+            } else if (mStartedAt == 0 && Reporter.bootReportRunning()) {
+                // The start-up report (make-report.txt) is still looking or collecting
+                mSave.setSummary(R.string.save_busy);
             }
             mHandler.postDelayed(mPoll, POLL_MS);
             return;

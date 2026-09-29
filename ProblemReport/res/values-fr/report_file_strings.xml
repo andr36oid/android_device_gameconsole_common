@@ -8,4 +8,5 @@
     <string name="pc_title">Boutons ou écran en panne ?</string>
     <string name="pc_text">Sur un PC, créez un fichier nommé make-report.txt sur le lecteur BOOT de la carte SD. Vous pouvez y écrire ce qui s\'est passé. Remettez la carte, allumez la console et attendez 5 minutes. Le rapport est enregistré sur BOOT et le fichier est supprimé.</string>
     <string name="error_no_room">Il n\'y a de place ni sur BOOT, ni sur EASYROMS, ni dans la mémoire interne.</string>
+    <string name="save_busy">Un rapport est en cours au démarrage (make-report.txt). Attendez qu\'il soit enregistré.</string>
 </resources>

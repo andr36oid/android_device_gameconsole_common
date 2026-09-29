@@ -8,4 +8,5 @@
     <string name="pc_title">Tasten oder Bildschirm gehen nicht?</string>
     <string name="pc_text">Leg am PC auf dem Laufwerk BOOT der SD-Karte eine Datei namens make-report.txt an. Du kannst hineinschreiben, was schiefgelaufen ist. Steck die Karte wieder ein, schalte ein und warte 5 Minuten. Der Bericht wird auf BOOT gespeichert und die Datei gelöscht.</string>
     <string name="error_no_room">Auf BOOT, EASYROMS und dem internen Speicher ist kein Platz dafür.</string>
+    <string name="save_busy">Beim Start wird gerade ein Bericht erstellt (make-report.txt). Warte, bis er gespeichert ist.</string>
 </resources>

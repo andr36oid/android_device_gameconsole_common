@@ -19,6 +19,8 @@ final class Reporter {
 
     private static final String TAG = "ProblemReport";
     static final String SERVICE = "andr36oid-report";
+    /** The start-up report (make-report.txt on BOOT); it takes the same lock. */
+    static final String BOOT_SERVICE = "andr36oid-report-boot";
     private static final File DIR = new File("/data/misc/andr36oid-report");
     private static final File NOTE = new File(DIR, "note.txt");
     private static final File STATUS = new File(DIR, "status");
@@ -51,8 +53,18 @@ final class Reporter {
         }
     }
 
+    /** A report is being made: from this page, or the start-up one. */
     static boolean serviceRunning() {
-        final String state = SystemProperties.get("init.svc." + SERVICE, "");
+        return running(SERVICE) || bootReportRunning();
+    }
+
+    /** The start-up report runs (at every start it looks at BOOT for make-report.txt). */
+    static boolean bootReportRunning() {
+        return running(BOOT_SERVICE);
+    }
+
+    private static boolean running(String service) {
+        final String state = SystemProperties.get("init.svc." + service, "");
         return "running".equals(state) || "restarting".equals(state);
     }
 

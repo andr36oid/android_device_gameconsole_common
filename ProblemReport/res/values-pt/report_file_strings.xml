@@ -8,4 +8,5 @@
     <string name="pc_title">Botões ou tela não funcionam?</string>
     <string name="pc_text">No PC, crie um arquivo chamado make-report.txt na unidade BOOT do cartão SD. Você pode escrever nele o que deu errado. Coloque o cartão de volta e ligue o console, depois espere 5 minutos. O relatório é salvo na BOOT e o arquivo é apagado.</string>
     <string name="error_no_room">Não há espaço para ele na BOOT, no EASYROMS nem no armazenamento interno.</string>
+    <string name="save_busy">Um relatório está sendo feito na inicialização (make-report.txt). Espere até ele ser salvo.</string>
 </resources>

@@ -13,4 +13,5 @@
     <string name="pc_text">On a PC, make a file called make-report.txt on the BOOT drive of the SD card. You can write what went wrong in it. Put the card back and switch on, then wait 5 minutes. The report is saved on BOOT and the file is deleted.</string>
 
     <string name="error_no_room">There is no room for it on BOOT, EASYROMS or the internal storage.</string>
+    <string name="save_busy">A report is being made at start-up (make-report.txt). Wait until it is saved.</string>
 </resources>

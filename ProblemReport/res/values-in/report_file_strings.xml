@@ -8,4 +8,5 @@
     <string name="pc_title">Tombol atau layar tidak berfungsi?</string>
     <string name="pc_text">Di PC, buat file bernama make-report.txt di drive BOOT kartu SD. Anda bisa menulis apa yang salah di dalamnya. Pasang kembali kartunya, nyalakan konsol, lalu tunggu 5 menit. Laporan disimpan di BOOT dan file tersebut dihapus.</string>
     <string name="error_no_room">Tidak ada ruang untuk menyimpannya di BOOT, EASYROMS, atau penyimpanan internal.</string>
+    <string name="save_busy">Laporan sedang dibuat saat menyala (make-report.txt). Tunggu sampai tersimpan.</string>
 </resources>

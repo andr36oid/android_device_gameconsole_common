@@ -8,4 +8,5 @@
     <string name="pc_title">Düğmeler veya ekran çalışmıyor mu?</string>
     <string name="pc_text">Bilgisayarda SD kartın BOOT sürücüsünde make-report.txt adlı bir dosya oluşturun. İçine neyin ters gittiğini yazabilirsiniz. Kartı geri takın, konsolu açın ve 5 dakika bekleyin. Rapor BOOT\'a kaydedilir ve dosya silinir.</string>
     <string name="error_no_room">BOOT\'ta, EASYROMS\'ta veya dahili depolamada bunun için yer yok.</string>
+    <string name="save_busy">Açılışta bir rapor hazırlanıyor (make-report.txt). Kaydedilene kadar bekleyin.</string>
 </resources>
