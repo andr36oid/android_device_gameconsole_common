@@ -9,7 +9,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
 
 /**
  * Talks to the andr36oid-report init service (helper/andr36oid-report.sh), which does the
@@ -103,21 +102,6 @@ final class Reporter {
             if (f.getName().startsWith("console-ramoops")) return true;
         }
         return false;
-    }
-
-    /** A short fingerprint of a file, to tell the same crash record from a new one. */
-    static String fingerprint(File f) {
-        try (InputStream in = new FileInputStream(f)) {
-            final byte[] buf = new byte[4096];
-            final int n = in.read(buf);
-            final MessageDigest md = MessageDigest.getInstance("SHA-1");
-            if (n > 0) md.update(buf, 0, n);
-            final StringBuilder sb = new StringBuilder();
-            for (byte b : md.digest()) sb.append(String.format("%02x", b));
-            return sb.toString();
-        } catch (Exception e) {
-            return null;
-        }
     }
 
     private static String readSmall(File f) {
