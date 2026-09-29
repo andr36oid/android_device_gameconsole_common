@@ -85,6 +85,11 @@
             <intent-filter>
                 <action android:name="android.service.quicksettings.action.QS_TILE" />
             </intent-filter>
+            <!-- SystemUI keeps the last state and only binds on a click or when the app
+                 asks for an update (GameMode.updateTile) -->
+            <meta-data
+                android:name="android.service.quicksettings.ACTIVE_TILE"
+                android:value="true" />
         </service>
 
         <!-- Waits for battery changes while the warning is on, and watches the app in front

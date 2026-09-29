@@ -120,6 +120,14 @@ final class GameMode {
                     .putBoolean(KEY_BY_AUTOMATIC, false);
         }
         edit.putBoolean(KEY_ACTIVE, on).apply();
+        updateTile(context);
+    }
+
+    /**
+     * Tells SystemUI to ask the tile for its state. It is an active tile, so SystemUI doesn't
+     * ask by itself.
+     */
+    static void updateTile(Context context) {
         TileService.requestListeningState(context,
                 new ComponentName(context, GameModeTileService.class));
     }
