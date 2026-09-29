@@ -83,6 +83,34 @@ Left at RetroArch's Android defaults on purpose (they already match ArkOS or the
 screen): bilinear filter off, integer scale off, aspect ratio core provided, save
 state auto save/load off.
 
+### How games look
+
+The fresh-install retroarch.cfg also turns shaders on and sets RetroArch's config and
+shader folders to `Android/data/com.retroarch/files/config` and `.../files/shaders`.
+Daijishou's players pass no folders to RetroArch, so without this RetroArch would use
+one config folder when started from Daijishou and another when started from its own
+icon. The service then copies `seed/retroarch/look/` there (`seed_look`):
+
+| File | What it does |
+|---|---|
+| `config/global.glslp` | sharp bilinear (`shaders/sharp-bilinear-simple.glsl`) for every core: each game pixel is scaled by the largest whole number that fits, only the rest is smoothed. Uneven factors (GBA 2.67x, SNES 2.14x at 480 lines, 720x720 clones) then give even pixels with next to no blur. At a whole-number scale it looks exactly like no shader |
+| `config/Gambatte/Gambatte.cfg` | core override for Game Boy / Color: integer scaling in "smart" mode, so 3x (480x432) on 640x480 and 4x (640x576) on 720x720, and no "override loaded" message |
+| `shaders/*.glslp` | presets to pick in Quick Menu > Shaders > Load: sharp-bilinear-simple, zfast-crt (scanlines), zfast-lcd (LCD grid, best at whole-number scales, e.g. Game Boy) |
+
+The F-Droid RetroArch APK has no shaders at all and the online updater needs Wi-Fi, so
+the three shader files ship here: `glsl-shaders` (libretro) at f8e23ff;
+sharp-bilinear-simple (rsn8887, after Themaister) public domain, zfast_crt and
+zfast_lcd (Greg Hogan, SoltanGris42) GPL-2.0+. All three are one texture read per
+pixel, made for a Raspberry Pi 3 at 1080p; at 640x480 the Mali-G31 does a seventh of
+that work. They compile as GLSL ES 1.00 (what RetroArch's `gl` driver uses here).
+
+Only installs whose retroarch.cfg the service wrote get these files (`.gameconsole/look`
+marks them). An existing retroarch.cfg means the user's own picture settings stay as
+they are; to switch, delete retroarch.cfg and reboot. A newer ROM updates a file only
+while it is unchanged (same manifest as the cores); a file the user changed or
+removed (for example with Quick Menu > Shaders > Remove Global Preset) stays that way.
+Game or folder presets and overrides the user saves win over these.
+
 Saves only carry over when both sides run a core with the same save format. The core is
 picked by Daijishou's player, not by retroarch.cfg. Same as ArkOS: gambatte, mGBA,
 PCSX ReARMed, Beetle PCE Fast/NeoPop/Cygne, Genesis Plus GX, PicoDrive. Use mGBA rather
