@@ -6,10 +6,14 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.os.SystemClock;
 import android.service.quicksettings.TileService;
 
 import org.andr36oid.cpuoverclock.AppProfileRules.Front;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -32,6 +36,8 @@ final class AppProfiles {
     private static final String STATE_PKG = "pkg";
     private static final String STATE_PROFILE = "profile";
     private static final String STATE_PICKED = "picked";
+    /** The boot the state is from: what was in front before a restart isn't any more. */
+    private static final String STATE_BOOT = "boot";
 
     private AppProfiles() {
     }
@@ -88,18 +94,33 @@ final class AppProfiles {
     static Front getFront(Context context) {
         final SharedPreferences state = state(context);
         final String pkg = state.getString(STATE_PKG, null);
-        if (pkg == null) {
+        if (pkg == null || !bootId().equals(state.getString(STATE_BOOT, null))) {
             return Front.NONE;
         }
         return new Front(pkg, state.getInt(STATE_PROFILE, AppProfileRules.FOLLOW),
                 state.getInt(STATE_PICKED, AppProfileRules.FOLLOW));
     }
 
+    /** Changes at every boot. */
+    private static String bootId() {
+        try (BufferedReader r = new BufferedReader(
+                new FileReader("/proc/sys/kernel/random/boot_id"))) {
+            final String id = r.readLine();
+            if (id != null && !id.trim().isEmpty()) {
+                return id.trim();
+            }
+        } catch (IOException e) {
+            // fall through
+        }
+        // Minutes since the epoch at boot: the same all through one boot
+        return "boot-" + (System.currentTimeMillis() - SystemClock.elapsedRealtime()) / 60000;
+    }
+
     static void setFront(Context context, Front front) {
         final SharedPreferences.Editor edit = state(context).edit().clear();
         if (front.pkg != null) {
             edit.putString(STATE_PKG, front.pkg).putInt(STATE_PROFILE, front.profile)
-                    .putInt(STATE_PICKED, front.picked);
+                    .putInt(STATE_PICKED, front.picked).putString(STATE_BOOT, bootId());
         }
         edit.commit();
     }
