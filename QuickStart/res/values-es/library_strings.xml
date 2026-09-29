@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="games_library_ready">Daijishou, la pantalla de inicio, ya tiene una plataforma para cada uno de estos sistemas, con su carpeta de EASYROMS asignada. La primera vez que se abre, pregunta si debe buscar juegos: pulsa OK. Si añades juegos más adelante, usa «Sync entirely» en los ajustes de la biblioteca de Daijishou. Para otros sistemas, o en una tarjeta preparada con .noroms, añade una plataforma en Daijishou y elige su carpeta.</string>
+</resources>
