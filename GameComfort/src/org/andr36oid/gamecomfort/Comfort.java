@@ -53,6 +53,9 @@ final class Comfort {
         } else {
             context.stopService(service);
         }
+        // At boot the service has to start again, and the tile goes in once
+        BootStart.set(context, isServiceNeeded(context)
+                || !prefs(context).getBoolean(GameMode.KEY_TILE_ADDED, false));
     }
 
     /** One short buzz, if the console has a vibration motor at all (the R36S has none). */
