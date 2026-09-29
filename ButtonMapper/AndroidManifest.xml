@@ -50,6 +50,11 @@
             <intent-filter>
                 <action android:name="android.service.quicksettings.action.QS_TILE" />
             </intent-filter>
+            <!-- SystemUI keeps the last state and only binds on a click or when the app
+                 asks for an update, see TileService.requestListeningState -->
+            <meta-data
+                android:name="android.service.quicksettings.ACTIVE_TILE"
+                android:value="true" />
         </service>
     </application>
 </manifest>
