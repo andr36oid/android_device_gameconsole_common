@@ -138,7 +138,11 @@ save_progress() {
 		echo "checked_mb=$checked_mb"
 		echo "bad_mb=$bad_mb"
 		echo "first_bad=$first_bad"
-	} >"$PROGRESS.tmp" && mv -f "$PROGRESS.tmp" "$PROGRESS"
+	} >"$PROGRESS.tmp" || return
+	# init starts us with umask 077; the app (uid system) must be able to read it
+	chown system:system "$PROGRESS.tmp" 2>/dev/null
+	chmod 0660 "$PROGRESS.tmp"
+	mv -f "$PROGRESS.tmp" "$PROGRESS"
 }
 
 # check_stop : the app asked to stop (delete the test data) or to pause (keep it)

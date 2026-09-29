@@ -86,6 +86,8 @@ new_card() {
 run() {
 	local sh=$1 action=$2
 	shift 2
+	# init starts services with umask 077
+	umask 077
 	printf 'action=%s\npath=%s\ndisk=179:0\ndisk_mb=128\n' "$action" "$ROOT" >"$DIR/request"
 	rm -f "$T/sync.count"
 	if [ "$sh" = bash ]; then
@@ -167,6 +169,7 @@ run bash full SYNC_AT=3 SYNC_DO=pause
 ok "pause" "$(key "$RES" state)/$(key "$RES" phase)/$(key "$RES" written_mb)" paused/write/32
 ok "pause keeps the test data" "$(find "$ROOT" -name '*.bin' | wc -l)" 2
 ok "pause keeps progress" "$(key "$PROG" phase)/$(key "$PROG" written_mb)" write/32
+ok "progress readable by the app (umask 077)" "$(stat -c %a "$PROG")" 660
 run "$SH" speed CARDCHECK_FREE_MB=2000
 ok "no speed test while paused" "$(key "$DIR/status" error)" paused
 ok "speed test left the paused data" "$(find "$ROOT" -name '*.bin' | wc -l)" 2
