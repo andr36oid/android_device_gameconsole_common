@@ -325,8 +325,10 @@ case $h in
 esac
 # many systems: the first six by count, then "and more"
 android_prefs
+# (endings the players take: PlayStation has no zip, the others take zip)
 for f in nes snes gb gbc megadrive psx n64; do
-	[ -d "$EASYROMS/$f" ] && touch "$EASYROMS/$f/new-$f.bin"
+	e=zip; [ $f = psx ] && e=bin
+	[ -d "$EASYROMS/$f" ] && touch "$EASYROMS/$f/new-$f.$e"
 done
 touch "$EASYROMS/psx/second.bin"
 dj_new_games
