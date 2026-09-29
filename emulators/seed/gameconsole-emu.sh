@@ -312,6 +312,34 @@ easyroms_path() {
 	return 1
 }
 
+# rom_nomedia: an empty .nomedia file in each ROM folder on EASYROMS (ours and
+# ArkOS-style ones the user copied). Android's media scanner then files the
+# pictures, music and videos in there (box art, snaps, EasyRPG and DOS game
+# files, PICO-8 carts) as plain files: Gallery and the music player don't fill
+# up with game files, and the scanner skips reading their tags and pictures.
+# Only the media scanner reads .nomedia; Daijishou (storage access framework),
+# RetroArch (file paths) and PPSSPP list the folders themselves, and all three
+# skip hidden files. Each folder once per card: a .nomedia the user deletes
+# stays deleted.
+rom_nomedia() {
+	local root=$EASYROMS noted name
+	[ -f "$ROM_FOLDERS" ] && [ -n "$root" ] || return 0
+	noted=$STATE/rom-nomedia.${root##*/}
+	touch "$noted" || return 0
+	while read -r name _; do
+		case $name in ''|\#*) continue ;; esac
+		[ -d "$root/$name" ] || continue
+		grep -qxF "$name" "$noted" && continue
+		# touch, not a redirection: a failed redirection on a special
+		# built-in (:) ends the whole script in mksh and dash
+		if [ -e "$root/$name/.nomedia" ] || touch "$root/$name/.nomedia"; then
+			echo "$name" >>"$noted"
+		else
+			log "couldn't put .nomedia into $name/"
+		fi
+	done <"$ROM_FOLDERS"
+}
+
 # find_easyroms ; sets EASYROMS to where it is mounted (empty if it isn't), and
 # NOROMS when the card has no EASYROMS partition at all
 find_easyroms() {
@@ -465,5 +493,6 @@ seed_retroarch
 seed_cores
 find_easyroms
 make_rom_folders
+rom_nomedia
 # after the ROM folders: they are only made on a card without any of them
 bios_folder
