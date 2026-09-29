@@ -487,6 +487,9 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
 	PerfOverlay
 
+# Optional looks: R36S accent colours, wallpapers, retro UI sounds, boot animation
+$(call inherit-product, device/gameconsole/common/themes/themes.mk)
+
 # Save backup: daily and after-game backups of the save games to the internal storage,
 # EASYROMS and USB drives, and restore (Settings top level, and in the app list)
 PRODUCT_PACKAGES += \
