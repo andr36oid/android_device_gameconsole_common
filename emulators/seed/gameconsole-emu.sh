@@ -126,6 +126,30 @@ first_start() {
 	log "first-start launcher installed, it is the home app until the tutorial is done"
 }
 
+# Cromite blocks the Gamepad API (its RestrictGamepadAccess feature, on by
+# default), so browser games don't see the pad. Chromium on Android reads extra
+# switches from /data/local/chrome-command-line on any build (only root can
+# write there); the first word is a placeholder for the program name. Written
+# once, and only if there is no such file: a file the user made is left alone,
+# and one the user deleted stays deleted. Delete it to block the pad again: the
+# switch beats chrome://flags.
+CHROME_CMDLINE=/data/local/chrome-command-line
+CROMITE_GAMEPAD_DONE=$STATE/cromite-gamepad.done
+seed_cromite_gamepad() {
+	[ -e "$CROMITE_GAMEPAD_DONE" ] && return 0
+	if [ ! -e "$CHROME_CMDLINE" ]; then
+		if ! echo "_ --disable-features=RestrictGamepadAccess" >"$CHROME_CMDLINE"; then
+			log "couldn't write $CHROME_CMDLINE, the browser keeps blocking the pad"
+			return 0
+		fi
+		# Cromite reads it as its own app user
+		chmod 644 "$CHROME_CMDLINE"
+		restorecon "$CHROME_CMDLINE" 2>/dev/null
+		log "browser games can use the pad now ($CHROME_CMDLINE)"
+	fi
+	: >"$CROMITE_GAMEPAD_DONE"
+}
+
 install_apks() {
 	local list pkg vc apk cur out
 
@@ -459,6 +483,7 @@ until pm path android </dev/null >/dev/null 2>&1; do
 	sleep 2
 done
 
+seed_cromite_gamepad
 first_start
 install_apks
 seed_retroarch
