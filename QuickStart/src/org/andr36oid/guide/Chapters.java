@@ -302,6 +302,18 @@ final class Chapters {
             para(c, R.string.magisk_broken_a);
         }
 
+        if (hasPackage("org.andr36oid.updater")) {
+            c = chapter(R.string.updating_title, chapters);
+            para(c, R.string.updating_intro);
+            heading(c, R.string.updating_file_q);
+            para(c, R.string.updating_file_a);
+            heading(c, R.string.updating_online_q);
+            para(c, R.string.updating_online_a);
+            heading(c, R.string.updating_install_q);
+            para(c, R.string.updating_install_a);
+            para(c, R.string.updating_power_cut);
+        }
+
         return chapters;
     }
 

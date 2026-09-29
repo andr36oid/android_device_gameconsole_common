@@ -203,6 +203,17 @@
     <string name="magisk_broken_q">A module broke the start</string>
     <string name="magisk_broken_a">See Troubleshooting: on BOOT, swap ramdisk.uimg for ramdisk-stock.uimg, and the console starts without root and modules.</string>
 
+    <!-- Updates -->
+    <string name="updating_title">Updating andr36oid</string>
+    <string name="updating_intro">Settings &gt; System &gt; Updates installs a new andr36oid release. Your apps, settings, saves, games on EASYROMS and Magisk all stay.</string>
+    <string name="updating_file_q">From a file</string>
+    <string name="updating_file_a">On a computer, download the release file (lineage-…-r36s-android.img.zip, about 1.1 GB). Don\'t unzip it. Copy it into a folder called update on EASYROMS (make the folder if it isn\'t there). Then open Updates and pick the file.</string>
+    <string name="updating_online_q">Online</string>
+    <string name="updating_online_a">With Wi-Fi on, choose Check for updates now, then press A on the release to download it. The console only asks when you press this, or once a day if you turn on Check once a day. It never downloads by itself.</string>
+    <string name="updating_install_q">Installing</string>
+    <string name="updating_install_a">The console first checks the file, which takes about 5 minutes, and shows what changes. Charge it to at least 50% or plug in the charger. Then choose Install and restart. The screen turns black with white text for about 5 minutes while the update is written, then Android starts. Don\'t switch it off meanwhile.</string>
+    <string name="updating_power_cut">If the power goes out anyway, the update carries on by itself at the next start, up to three times.</string>
+
     <!-- Key names drawn in the badges that aren't just the printed label -->
     <string name="key_dpad">D-pad</string>
     <string name="key_power">Power</string>
