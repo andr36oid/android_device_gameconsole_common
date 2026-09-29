@@ -1,0 +1,12 @@
+# Droid-ify by LooKeR and contributors, F-Droid build (F-Droid signs it, so it can update itself).
+# sha256 from the F-Droid index (index-v2.json).
+name=Droidify
+package=com.looker.droidify
+version_code=770
+version_name=0.7.7
+spdx=GPL-3.0-or-later
+sha256=da3070f3f18bdbed1eab666677afd39e4b19a60c70f0bfca68a5730147f81f10
+apk_url=https://f-droid.org/repo/com.looker.droidify_770.apk
+source_url=https://github.com/Droid-ify/client/tree/v0.7.7 (F-Droid's source tarball: https://f-droid.org/repo/com.looker.droidify_770_src.tar.gz)
+license_url=https://raw.githubusercontent.com/Droid-ify/client/v0.7.7/LICENSE
+published_by=F-Droid
