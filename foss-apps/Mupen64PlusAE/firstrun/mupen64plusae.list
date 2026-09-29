@@ -1,0 +1,10 @@
+# Mupen64Plus AE 3.0.246: a controller profile for the built-in pad, made
+# player 1's profile. Custom profiles are files/Profiles/controller.cfg
+# (GlobalPrefs.profilesDir); the profile in use is the shared pref
+# controllerProfile1 (default "Android Gamepad"). The prefs file also means
+# "has run", so it goes last: without the profile the pref would point at
+# nothing. See ../../README.md, "First-start settings".
+package org.mupen64plusae.v3.alpha
+unless data shared_prefs/org.mupen64plusae.v3.alpha_preferences.xml
+data controller.cfg files/Profiles/controller.cfg
+data prefs.xml shared_prefs/org.mupen64plusae.v3.alpha_preferences.xml
