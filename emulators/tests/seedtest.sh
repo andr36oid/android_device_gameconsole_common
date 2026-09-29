@@ -281,6 +281,14 @@ touch "$EASYROMS/nes/Game (USA).nes" "$EASYROMS/nes/Other.srm" "$EASYROMS/gba/x.
 rm -f "$EASYROMS/nes/Game (USA).nes"
 dj_new_games
 cmp -s "$DJ_PREFS" "$T/p0" && [ ! -e "$T/am" ] && ok "saves, states, hidden files: nothing" || bad "saves counted"
+# what cores write next to the games with saves in the content folder: DOSBox
+# Pure, EasyRPG, PrBoom, FBNeo/MAME (subfolders), and a scraped picture
+mkdir -p "$EASYROMS/nes/nvram" "$EASYROMS/nes/hi" "$EASYROMS/nes/Some RPG"
+touch "$EASYROMS/nes/Game.pure.zip" "$EASYROMS/nes/Some RPG/Save01.lsd" "$EASYROMS/nes/prbmsav0.dsg" \
+	"$EASYROMS/nes/nvram/game.nv" "$EASYROMS/nes/hi/game.hi" "$EASYROMS/nes/Game.PNG" "$EASYROMS/nes/Game.eep"
+dj_new_games
+cmp -s "$DJ_PREFS" "$T/p0" && [ ! -e "$T/am" ] && ok "core save files and pictures: nothing" || bad "core saves counted"
+dj_exts | grep -q '^nes .*|nes|' && ok "file endings from the players" || bad "dj_exts: $(dj_exts | head -n 3)"
 touch "$EASYROMS/nes/Game (USA).nes"
 dj_new_games
 if prefs_ok && [ "$(grep -c force-stop "$T/am")" -eq 2 ] && grep -q "category.HOME" "$T/am"; then

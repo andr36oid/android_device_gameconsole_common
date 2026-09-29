@@ -746,15 +746,35 @@ seed_daijishou() {
 	log "added $count platforms to Daijishou's library"
 }
 
+# dj_exts ; one line "<folder> <ext|ext|...>" per platform folder: the file
+# endings its players accept (their accepted_filename_regex in $DJ_SEED)
+dj_exts() {
+	awk -F '\t' '
+	$1 == "platform" { n = $2; dirs[n] = $3 }
+	$1 == "player" && match($0, /\(\?:[^)]*\)\$/) {
+		e = substr($0, RSTART + 3, RLENGTH - 5)
+		ext[$2] = (ext[$2] == "" ? e : ext[$2] "|" e)
+	}
+	END {
+		for (n in dirs) {
+			k = split(dirs[n], d, ",")
+			for (i = 1; i <= k; i++) if (ext[n] != "") print d[i], ext[n]
+		}
+	}' "$DJ_SEED"
+}
+
 # dj_games ; the game files in the platform folders on EASYROMS, one path per
-# line, without what the emulators write next to them (saves, states) and
-# without scraped pictures, videos and game lists
+# line: only files with an ending the platform's players accept, so saves and
+# states the cores write next to the games (.srm, .state, .nv, .hi, .lsd,
+# .dsg...), scraped pictures and game lists don't count. DOSBox Pure's saves
+# end in .pure.zip, which would pass as a game.
 dj_games() {
-	local f
-	for f in $(dj_folders); do
-		[ -d "$EASYROMS/$f" ] && find "$EASYROMS/$f" -type f 2>/dev/null
+	local f exts
+	dj_exts | while read -r f exts; do
+		[ -d "$EASYROMS/$f" ] || continue
+		find "$EASYROMS/$f" -type f 2>/dev/null | grep -i -E "\.($exts)\$"
 	done | sed "s|^$EASYROMS/||" |
-		grep -v -i -E '(^|/)\.|\.(srm|sav|rtc|ldci|dsv|mcd|mcr|state[0-9]*|auto|png|jpe?g|gif|mp4|txt|cfg|opt|bak|xml|nfo|log)$' |
+		grep -v -i -E '(^|/)\.|\.pure\.zip$' |
 		sort
 }
 

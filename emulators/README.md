@@ -183,7 +183,10 @@ its library the way Daijishou itself stores it, once, before it first runs:
 
 New games later (copied on a computer, say): Daijishou only looks for games when asked.
 On a console where we made the library, each boot compares the game files in the
-platform folders (saves, states, pictures, hidden files left out) with the last boot. If
+platform folders with the last boot. Only files with an ending one of the platform's
+players accepts count (their `accepted_filename_regex`), so the saves, states and NVRAM
+files cores write next to the games don't; nor do hidden files and DOSBox Pure's
+`.pure.zip` saves. If
 they changed, it sets `sync_entirely_on_start` again ("The games on EASYROMS changed.
 Press OK to update the library."), force-stops Daijishou around the change (it keeps its
 settings in memory) and brings the home screen back if Daijishou was in front. Off with
