@@ -38,7 +38,12 @@ BOOT_KEEP_REPORTS=3
 BOOT_WAIT=${REPORT_BOOT_WAIT:-300}
 SETTLE=${REPORT_SETTLE:-30}
 LOCK=${REPORT_LOCK:-/dev/andr36oid-report.lock}
+# one BOOT user at a time, see boot_lock
+BOOT_LOCK=${REPORT_BOOT_LOCK:-/dev/andr36oid-boot.lock}
+BOOT_LOCK_WAIT=${REPORT_BOOT_LOCK_WAIT:-30}
 ROM_FOLDERS=/system/etc/gameconsole/rom-folders.txt
+BOOT=
+BOOT_RW=
 BOOT_MOUNTED=
 
 log() {
@@ -87,41 +92,77 @@ show() {
 
 # ---- BOOT (partition 1, FAT) ----
 
-# boot_open [ro] ; mounts BOOT at $BOOT_MNT, read-write if it can (not with "ro"),
-# else read-only. Sets BOOT (the folder) and BOOT_RW (1 if writable).
+# boot_lock <seconds> ; the same in andr36oid-report.sh, andr36oid-dtbhint.sh and
+# andr36oid-cardsetup.sh. The start-up helpers take turns with BOOT: Linux won't
+# mount it a second time with the other ro/rw flag. The lock is a folder in /dev
+# (a restart clears it) with the holder's pid; a holder that was killed is
+# noticed by its pid, and its BOOT mount is taken away. False after waiting
+# this long.
+boot_lock() {
+	local n=0 pid m
+	while ! mkdir "$BOOT_LOCK" 2>/dev/null; do
+		pid=$(cat "$BOOT_LOCK/pid" 2>/dev/null)
+		if [ -n "$pid" ] && ! kill -0 "$pid" 2>/dev/null; then
+			rm -rf "$BOOT_LOCK"
+			continue
+		fi
+		n=$((n + 1))
+		[ "$n" -gt $(($1 * 5)) ] && return 1
+		sleep 0.2
+	done
+	echo $$ >"$BOOT_LOCK/pid"
+	grep -o ' /mnt/andr36oid-[a-z]*-boot ' /proc/mounts 2>/dev/null | while read -r m; do
+		umount "$m" 2>/dev/null
+	done
+	return 0
+}
+
+boot_unlock() {
+	[ "$(cat "$BOOT_LOCK/pid" 2>/dev/null)" = "$$" ] && rm -rf "$BOOT_LOCK"
+}
+
+# boot_open ; mounts BOOT read-only at $BOOT_MNT (boot_rw makes it writable while
+# something is written). Sets BOOT (the folder). Holds the BOOT lock until
+# boot_close.
 boot_open() {
 	local dev
-	BOOT=
+	[ -n "$BOOT" ] && return 0
 	BOOT_RW=
+	if ! boot_lock "$BOOT_LOCK_WAIT"; then
+		log "BOOT is busy (another start-up helper)"
+		return 1
+	fi
 	if [ -n "$BOOT_TEST" ]; then
 		BOOT=$BOOT_TEST
-		[ "$1" = ro ] || [ -e "$BOOT/.readonly" ] || BOOT_RW=1
 		return 0
 	fi
 	mkdir -p "$BOOT_MNT"
 	for dev in $BOOT_DEVS; do
 		[ -e "$dev" ] || continue
-		if [ "$1" != ro ] && mount -t vfat -o rw,noatime "$dev" "$BOOT_MNT" 2>/dev/null; then
-			BOOT_RW=1
-		elif ! mount -t vfat -o ro,noatime "$dev" "$BOOT_MNT" 2>/dev/null; then
-			continue
-		fi
+		mount -t vfat -o ro,noatime "$dev" "$BOOT_MNT" 2>/dev/null || continue
 		BOOT=$BOOT_MNT
 		BOOT_MOUNTED=1
 		return 0
 	done
+	boot_unlock
 	return 1
 }
 
 boot_close() {
-	[ -n "$BOOT_MOUNTED" ] || return 0
-	sync
-	umount "$BOOT_MNT" 2>/dev/null
+	if [ -n "$BOOT_MOUNTED" ]; then
+		sync
+		umount "$BOOT_MNT" 2>/dev/null
+	fi
+	BOOT=
+	BOOT_RW=
 	BOOT_MOUNTED=
+	boot_unlock
 }
 
-# boot_rw ; makes the open BOOT writable
+# boot_rw ; makes the open BOOT writable (until boot_close)
 boot_rw() {
+	[ -n "$BOOT" ] || return 1
+	[ -n "$BOOT_RW" ] && return 0
 	if [ -n "$BOOT_TEST" ]; then
 		[ -e "$BOOT/.readonly" ] || BOOT_RW=1
 	elif mount -o remount,rw "$BOOT_MNT" 2>/dev/null; then
@@ -153,11 +194,12 @@ trigger_file() {
 	return 1
 }
 
-# where the report goes: BOOT if it can be written and keeps enough room, else
-# EASYROMS if it's mounted, else internal Download
+# target [noboot] ; where the report goes: BOOT if it's open and keeps enough room
+# (it is made writable only to save the zip), else EASYROMS if it's mounted,
+# else internal Download
 target() {
 	local id state uuid free
-	if [ -n "$BOOT_RW" ]; then
+	if [ -z "${1:-}" ] && [ -n "$BOOT" ]; then
 		free=$(free_kb "$BOOT")
 		case $free in
 		'' | *[!0-9]*) free=0 ;;
@@ -191,7 +233,7 @@ easyroms() {
 boot_mode() {
 	local f waited=0
 	# read-only just to look: other start-up helpers read BOOT at the same time
-	boot_open ro || return 1
+	boot_open || return 1
 	if ! f=$(trigger_file); then
 		boot_close
 		return 1
@@ -220,7 +262,7 @@ boot_mode() {
 # boot_result <text> ; boot mode: one line on BOOT saying where the report went
 boot_result() {
 	[ "$MODE" = boot ] || return 0
-	[ -n "$BOOT_RW" ] || return 0
+	boot_open && boot_rw || return 0
 	printf '%s\r\n' "$1" >"$BOOT/make-report-result.txt"
 }
 
@@ -376,6 +418,7 @@ trap finish EXIT
 rm -rf "$DIR"/report-*
 mkdir -p "$WORK" || { status "error cant_write"; exit 1; }
 
+# read-only while the report is made; BOOT is only written to save it
 boot_open || log "BOOT not found"
 if ! T=$(target); then
 	status "error no_storage"
@@ -430,6 +473,8 @@ step 1 system
 	fi
 	echo
 } >>"$WORK/summary.txt"
+# not mounted while the rest is collected (minutes): other helpers use BOOT too
+boot_close
 run system.txt 10 getprop
 run system.txt 5 cat /proc/cmdline
 run system.txt 5 cat /proc/cpuinfo
@@ -538,18 +583,40 @@ done
 rm -f "$DIR/scrub.sed"
 readme >"$WORK/README.txt"
 
-mkdir -p "$ROOT/andr36oid-reports"
 if command -v zip >/dev/null 2>&1; then
 	FILE=$NAME.zip
 else
 	FILE=$NAME.tar.gz
 fi
+# made on /data first; BOOT is writable only for the copy
+ZIP=$DIR/$FILE
+rm -f "$ZIP"
+if ! case $FILE in
+	*.zip) (cd "$DIR" && zip -q -r -X "$ZIP" "$NAME") ;;
+	*) tar -czf "$ZIP" -C "$DIR" "$NAME" ;;
+	esac then
+	rm -f "$ZIP"
+	log "packing the report failed"
+	status "error cant_write"
+	boot_result "No problem report: it could not be packed."
+	rm -rf "$WORK"
+	exit 1
+fi
+if [ "$SHOWN" = BOOT ] && ! { boot_open && boot_rw; }; then
+	log "BOOT can't be written, saving the report elsewhere"
+	boot_close
+	if ! T=$(target noboot); then
+		status "error no_storage"
+		rm -rf "$WORK" "$ZIP"
+		exit 1
+	fi
+	ROOT=${T% *}
+	SHOWN=${T##* }
+fi
+mkdir -p "$ROOT/andr36oid-reports"
 OUT=$ROOT/andr36oid-reports/$FILE
 rm -f "$OUT.tmp"
-if case $FILE in
-	*.zip) (cd "$DIR" && zip -q -r -X "$OUT.tmp" "$NAME") ;;
-	*) tar -czf "$OUT.tmp" -C "$DIR" "$NAME" ;;
-	esac && mv -f "$OUT.tmp" "$OUT"; then
+if cp "$ZIP" "$OUT.tmp" && mv -f "$OUT.tmp" "$OUT"; then
 	case $ROOT in
 	/data/media/*)
 		chown -R media_rw:media_rw "$ROOT/andr36oid-reports"
@@ -575,4 +642,6 @@ else
 	status "error cant_write"
 	boot_result "No problem report: $SHOWN/andr36oid-reports/$FILE could not be written."
 fi
+boot_close
+rm -f "$ZIP"
 rm -rf "$WORK"

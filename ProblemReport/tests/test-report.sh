@@ -123,7 +123,9 @@ esac'
 echo "Filesystem 1K-blocks Used Available Use% Mounted"
 echo "/dev/boot 262144 1000 $(cat /tmp/boot-free-kb) 1% /boot"
 else /bin/df "$@"; fi'
-	stub mount 'exit 1'
+	# mount/umount only record what they were asked, and whether the BOOT lock was held
+	stub mount 'echo "mount $* lock=$([ -d /tmp/bootlock ] && echo held || echo free)" >>/tmp/mounts'
+	stub umount 'echo "umount $* lock=$([ -d /tmp/bootlock ] && echo held || echo free)" >>/tmp/mounts'
 
 	# /proc
 	printf 'Powkiddy R36S\0' >"$R"/proc/device-tree/model
@@ -176,7 +178,9 @@ else /bin/df "$@"; fi'
 
 # run_report [boot] ; runs the collector in the fake root, as the console's init would
 run_report() {
-	local shell_cmd lib64=()
+	local shell_cmd lib64=() boot_env=(--setenv REPORT_TEST_BOOT /boot)
+	# REAL_MOUNT=1: the mount code runs (with the stubs), BOOT_MNT is the fake BOOT
+	[ -n "${REAL_MOUNT:-}" ] && boot_env=(--setenv REPORT_BOOT_DEVS /tmp/bootdev --setenv REPORT_BOOT_MNT /boot)
 	case $SH in
 	bash) shell_cmd=/bin/bash ;;
 	*)
@@ -191,7 +195,8 @@ run_report() {
 		--bind "$R/data" /data --bind "$R/mnt" /mnt --bind "$R/boot" /boot \
 		--bind "$R/tmp" /tmp --ro-bind "$R/toy" /toy --dev /dev \
 		--setenv PATH /toy/bin:/system/bin:/usr/bin:/bin --setenv LD_LIBRARY_PATH /toy/lib64 \
-		--setenv REPORT_TEST_BOOT /boot --setenv REPORT_BOOT_WAIT 10 \
+		"${boot_env[@]}" --setenv REPORT_BOOT_WAIT 10 --setenv REPORT_BOOT_LOCK /tmp/bootlock \
+		--setenv REPORT_BOOT_LOCK_WAIT "${LOCK_WAIT:-30}" \
 		--setenv REPORT_SETTLE 0 --setenv REPORT_LOCK /tmp/lock \
 		"$shell_cmd" /system/etc/andr36oid-report.sh "$@" >"$T/out" 2>&1
 	echo $? >"$T/rc"
@@ -348,6 +353,55 @@ mkdir "$R/tmp/lock"
 run_report
 check "locked: exit 1" [ "$(cat "$T/rc")" = 1 ]
 check "locked: lock not taken away" [ -d "$R/tmp/lock" ]
+
+# ---- 10. the mounts: BOOT read-only while the report is made, writable only to
+# save it, and never mounted without the BOOT lock ----
+make_root
+touch "$R/tmp/bootdev"
+REAL_MOUNT=1 run_report
+check "mounts: saved on BOOT ($(cat "$T/out"))" grep -q '^done BOOT/' "$R/data/misc/andr36oid-report/status"
+check "mounts: BOOT mounted read-only" grep -q '^mount -t vfat -o ro,noatime /tmp/bootdev /boot lock=held$' "$R/tmp/mounts"
+check "mounts: never mounted read-write" sh -c "! grep -q 'o rw' '$R/tmp/mounts'"
+check "mounts: always with the lock" sh -c "! grep -q 'lock=free' '$R/tmp/mounts'"
+check "mounts: ro, closed while collecting, then ro + rw to save" \
+	[ "$(sed 's/ lock=.*//; s/ \/tmp\/bootdev//' "$R/tmp/mounts" | tr '\n' ,)" = \
+	"mount -t vfat -o ro,noatime /boot,umount /boot,mount -t vfat -o ro,noatime /boot,mount -o remount,rw /boot,umount /boot," ]
+check "mounts: lock released" [ ! -e "$R/tmp/bootlock" ]
+
+# ---- 11. start-up run, real mount code: rw only to delete the trigger and write the result ----
+make_root
+touch "$R/tmp/bootdev" "$R/boot/make-report.txt"
+REAL_MOUNT=1 run_report boot
+check "boot mounts: saved ($(cat "$T/out"))" grep -q '^Problem report saved: BOOT/' "$R/boot/make-report-result.txt"
+check "boot mounts: always with the lock" sh -c "! grep -q 'lock=free' '$R/tmp/mounts'"
+check "boot mounts: every mount unmounted" [ "$(grep -c '^mount -t' "$R/tmp/mounts")" = "$(grep -c '^umount /boot' "$R/tmp/mounts")" ]
+
+# ---- 12. another helper holds BOOT: the report goes to EASYROMS ----
+make_root
+sleep 60 &
+HOLDER=$!
+mkdir "$R/tmp/bootlock"
+echo "$HOLDER" >"$R/tmp/bootlock/pid"
+LOCK_WAIT=1 run_report
+kill "$HOLDER" 2>/dev/null
+wait "$HOLDER" 2>/dev/null
+check "BOOT busy: saved on EASYROMS" grep -q '^done EASYROMS/' "$R/data/misc/andr36oid-report/status"
+check "BOOT busy: said so" grep -q "BOOT is busy" "$R/tmp/log"
+check "BOOT busy: the holder's lock kept" [ "$(cat "$R/tmp/bootlock/pid")" = "$HOLDER" ]
+
+# ---- 13. a lock left by a helper that was killed, and its mount: taken over ----
+make_root
+touch "$R/tmp/bootdev"
+sh -c 'exit 0' &
+DEAD=$!
+wait "$DEAD"
+mkdir "$R/tmp/bootlock"
+echo "$DEAD" >"$R/tmp/bootlock/pid"
+echo "/dev/block/mmcblk0p1 /mnt/andr36oid-cardsetup-boot vfat rw,noatime 0 0" >>"$R/proc/mounts"
+LOCK_WAIT=1 REAL_MOUNT=1 run_report
+check "stale lock: saved on BOOT" grep -q '^done BOOT/' "$R/data/misc/andr36oid-report/status"
+check "stale lock: the killed helper's mount taken away" grep -q '^umount /mnt/andr36oid-cardsetup-boot lock=held' "$R/tmp/mounts"
+check "stale lock: released" [ ! -e "$R/tmp/bootlock" ]
 
 echo "passed $PASS, failed $FAIL (shell: $SH)"
 [ "$FAIL" = 0 ]
