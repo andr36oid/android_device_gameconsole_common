@@ -265,6 +265,17 @@ final class Chapters {
         heading(c, R.string.battery_storage_q);
         para(c, R.string.battery_storage_a);
 
+        c = chapter(R.string.clone_title, chapters);
+        para(c, R.string.clone_intro);
+        heading(c, R.string.clone_which_q);
+        para(c, R.string.clone_which_a);
+        para(c, R.string.clone_soy);
+        heading(c, R.string.clone_copy_q);
+        para(c, R.string.clone_copy_a);
+        heading(c, R.string.clone_black_q);
+        para(c, R.string.clone_black_a);
+        para(c, R.string.clone_emmc);
+
         if (magisk) {
             c = chapter(R.string.magisk_title, chapters);
             para(c, R.string.magisk_intro);

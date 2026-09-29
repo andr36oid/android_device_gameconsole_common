@@ -105,7 +105,7 @@
     <string name="trouble_first_boot_q">The first start takes a long time</string>
     <string name="trouble_first_boot_a">That\'s normal. The first start sets up the SD card and restarts on its own, then Android prepares its apps. Give it a few minutes and don\'t switch it off.</string>
     <string name="trouble_panel_q">The screen stays black on the first start, but the console is on</string>
-    <string name="trouble_panel_a">Your console has a different screen than the one this card was set up for. On a computer, open BOOT, then Panels. Copy both files from one of the Panel folders to the top of BOOT and replace the files there. Panel4 is the default, so try the others one at a time.</string>
+    <string name="trouble_panel_a">Your console has a different screen than the one this card was set up for. On a computer, open BOOT, then Panels. Copy all files from one of the Panel folders to the top of BOOT and replace the files there. Panel4 is the default, so try the others one at a time.</string>
     <string name="trouble_stuck_q">It stopped starting after an update or a Magisk module</string>
     <string name="trouble_stuck_a">Start it without root. On a computer, open BOOT and rename ramdisk.uimg to ramdisk-magisk.uimg, then rename ramdisk-stock.uimg to ramdisk.uimg. Your apps and games stay. Rename them back later to get root again.</string>
     <string name="trouble_frozen_q">The console froze</string>
@@ -166,6 +166,18 @@
     <string name="battery_sleep_a">Sleep (tap Power) is fine for breaks, but still uses a little battery. For more than a day, power it off from the power menu.</string>
     <string name="battery_storage_q">Putting it away for a while</string>
     <string name="battery_storage_a">Charge it to about half and power it off. Top it up every few months. A battery left completely empty for a long time can wear out.</string>
+
+    <!-- Clone consoles -->
+    <string name="clone_title">Using a clone console</string>
+    <string name="clone_intro">Many consoles look like the R36S but are built differently inside. The card starts with the files for the genuine R36S. A clone usually needs other files from the BOOT drive of the SD card.</string>
+    <string name="clone_which_q">Which folder</string>
+    <string name="clone_which_a">On a computer, open BOOT. Panels has a folder for each genuine R36S screen and the R36S Plus. Experimental has a folder for each known clone, such as K36, G80, R36 Max, R36 Ultra and the Soy Sauce boards. The README.txt in Panels and in Experimental says which console goes with which folder. The Experimental files are untested, so only use them if Panels doesn\'t work.</string>
+    <string name="clone_soy">Soy Sauce boards (Y3506 printed on the board) must never use Panel5 or Panel6, even if the screen looks right. Use a Soy folder in Experimental.</string>
+    <string name="clone_copy_q">Copy all files</string>
+    <string name="clone_copy_a">First make a folder called Backup on BOOT and copy these files from the top of BOOT into it: rk3326-r36s-android.dtb, the three rg351 files, logo.bmp and logo_kernel.bmp. Then copy all files from your folder to the top of BOOT and replace the ones there. Really all of them: the three rg351 files are the same file under three names, and your console picks the one it wants.</string>
+    <string name="clone_black_q">The screen stays black, or the buttons don\'t work</string>
+    <string name="clone_black_a">Try the next folder that could fit your console. If only the boot logo stays black but Android comes up, keep it. To go back, copy the files from your Backup folder, or from Panels/Panel4, to the top of BOOT.</string>
+    <string name="clone_emmc">Some clones, like the R36 Ultra, R36 Max and R39 Max, start from their own built-in memory first and may not look at the SD card at all.</string>
 
     <!-- Magisk -->
     <!-- Community -->
