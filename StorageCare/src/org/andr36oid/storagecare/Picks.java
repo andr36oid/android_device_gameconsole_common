@@ -8,8 +8,9 @@ import java.util.Set;
 
 /**
  * The last scan and what the user picked from it, shared by the main page and the review
- * pages while the app is open. Old states, old backups and RetroArch's cache start picked;
- * box art, screenshots, APKs and duplicates start unpicked, since those may be wanted.
+ * pages while the app is open. Old states and RetroArch's cache start picked. Old save
+ * backups start unpicked (Save backup keeps its own number of them as a safety net), and so
+ * do box art, screenshots, APKs and duplicates, since those may be wanted.
  */
 final class Picks {
 
@@ -17,7 +18,7 @@ final class Picks {
     }
 
     static final Set<String> PICKED_AT_START =
-            new HashSet<>(Arrays.asList(Scan.STATES, Scan.BACKUPS, Scan.RACACHE));
+            new HashSet<>(Arrays.asList(Scan.STATES, Scan.RACACHE));
 
     static Scan scan;
     static final Set<String> picked = new HashSet<>();

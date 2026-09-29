@@ -52,7 +52,7 @@
     <string name="remove_nothing">Nothing picked</string>
 
     <string name="about_states">Save states beyond the newest %1$d of each game. In-game saves (.srm, .sav) and the auto state are never listed.</string>
-    <string name="about_backups">Save backup copies beyond the newest %1$d in each place. The newest backups stay.</string>
+    <string name="about_backups">Save backup copies beyond the newest %1$d in each place (internal storage, EASYROMS). The newest stay. Save backup itself keeps up to the number set there.</string>
     <string name="about_racache">Files RetroArch unpacked or kept to start games faster. It makes them again.</string>
     <string name="about_thumbs">Box art and title pictures RetroArch downloaded for its game lists. Getting them back needs Wi-Fi.</string>
     <string name="about_shots">Screenshots from RetroArch, PPSSPP and Android. Camera and other pictures are not listed.</string>
