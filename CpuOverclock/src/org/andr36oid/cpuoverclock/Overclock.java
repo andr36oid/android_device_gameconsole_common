@@ -108,6 +108,8 @@ final class Overclock {
                 write(BOOST, "0");
                 profiles.apply();
             }
+            // The profile tile hides the speed cap while the overclock is on.
+            PerformanceProfiles.updateTile(mContext);
             return true;
         } catch (IOException e) {
             Log.e(TAG, "Couldn't switch the overclock " + (on ? "on" : "off"), e);

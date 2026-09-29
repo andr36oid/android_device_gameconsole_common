@@ -66,6 +66,13 @@
             <intent-filter>
                 <action android:name="android.service.quicksettings.action.QS_TILE" />
             </intent-filter>
+            <!-- SystemUI keeps the last state and only binds on a click or when the app
+                 asks for an update (PerformanceProfiles.updateTile). The overclock tile is
+                 not active: the kernel starts with the overclock off, so a saved "on" would
+                 be wrong after a restart. -->
+            <meta-data
+                android:name="android.service.quicksettings.ACTIVE_TILE"
+                android:value="true" />
         </service>
 
         <!-- Applies the saved profile after boot -->

@@ -18,5 +18,9 @@ public class ProfileReceiver extends BroadcastReceiver {
         final PerformanceProfiles profiles = new PerformanceProfiles(context);
         profiles.apply();
         profiles.addTileOnce();
+        if (profiles.getCpuCap() > 0) {
+            // The console starts without the overclock, so the tile may have to show the cap
+            PerformanceProfiles.updateTile(context);
+        }
     }
 }
