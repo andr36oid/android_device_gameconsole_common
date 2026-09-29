@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Settings > Buttons and shortcuts. See values/controls_strings.xml -->
+<resources>
+    <string name="controls_title">按键和快捷键</string>
+    <string name="controls_summary">所有按键组合：系统、游戏、鼠标模式</string>
+    <string name="controls_topic_console">主机</string>
+    <string name="controls_topic_system">系统</string>
+    <string name="controls_topic_retroarch">游戏中（RetroArch）</string>
+    <string name="controls_topic_emulators">其他模拟器</string>
+    <string name="controls_topic_mouse">鼠标模式</string>
+    <string name="controls_console_top">图中第一行是顶部边缘的按键。</string>
+    <string name="controls_console_labels">按键名称以主机上印的为准。部分克隆机的按键位置不同。</string>
+    <string name="controls_start">确认，和 A 一样</string>
+    <string name="controls_dpad">在菜单和列表中移动</string>
+    <string name="controls_console_swap">部分 Soy Sauce 克隆机（253x 批次）的 FN 和 SELECT 是反的。如果 FN 的作用像 SELECT，SD 卡需要 253x 文件：请查看 BOOT 盘中的 Experimental/README.txt。</string>
+    <string name="controls_fn_hold">单独按住：显示 FN 快捷键</string>
+    <string name="controls_heading_power">电源和音量</string>
+    <string name="controls_power_off">按住约 10 秒：关闭卡死的主机</string>
+    <string name="controls_remap_reset">同时按住 5 秒：所有按键恢复正常</string>
+    <string name="controls_ra_intro">按住 Select，再按第二个按键。RetroArch 首次设置时会获得这些快捷键。您自己改过的快捷键会保留。</string>
+    <string name="controls_quit_twice">退出游戏（按两次 Start）</string>
+    <string name="controls_save_state">即时存档</string>
+    <string name="controls_load_state">读取即时存档</string>
+    <string name="controls_slot">上一个 / 下一个存档位</string>
+    <string name="controls_menu">模拟器菜单</string>
+    <string name="controls_pause">暂停 / 继续</string>
+    <string name="controls_reset_twice">重新开始游戏（按两次 B）</string>
+    <string name="controls_reset">重新开始游戏</string>
+    <string name="controls_screenshot">截图</string>
+    <string name="controls_ff_toggle">快进开 / 关</string>
+    <string name="controls_ff_hold">按住时快进</string>
+    <string name="controls_ra_fn">FN 会返回主屏幕并暂停游戏。请先存档：内存不足时，Android 可能会关闭暂停的游戏。</string>
+    <string name="controls_emulators_intro">在应用允许的情况下，按键与 RetroArch 相同：按住 Select，再按第二个按键。</string>
+    <string name="controls_quit_ask">退出（游戏未保存时会先询问）</string>
+    <string name="controls_quit">退出游戏</string>
+    <string name="controls_ppsspp_passthrough">游戏也会收到 Select 和第二个按键。</string>
+    <string name="controls_flycast_note">Flycast 没有重新开始的按键。在街机游戏中，Select 也是投币键。</string>
+    <string name="controls_menu_n64">菜单：存档、读档、重新开始、退出</string>
+    <string name="controls_menu_easyrpg">菜单，含 Exit Game</string>
+    <string name="controls_emulators_changed">这些按键在每个应用首次打开时设置。您在应用中改过的按键设置会保留。</string>
+    <string name="controls_mouse_intro">鼠标模式会在屏幕上显示指针，用于为触摸屏设计的应用。</string>
+    <string name="controls_mouse_precision">按住：指针变慢，便于点小目标</string>
+    <string name="controls_mouse_scroll">按住：指针摇杆用于滚动</string>
+</resources>

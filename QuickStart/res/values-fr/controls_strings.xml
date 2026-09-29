@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Settings > Buttons and shortcuts. See values/controls_strings.xml -->
+<resources>
+    <string name="controls_title">Boutons et raccourcis</string>
+    <string name="controls_summary">Toutes les combinaisons de boutons : système, jeux, mode souris</string>
+    <string name="controls_topic_console">La console</string>
+    <string name="controls_topic_system">Système</string>
+    <string name="controls_topic_retroarch">En jeu (RetroArch)</string>
+    <string name="controls_topic_emulators">Autres émulateurs</string>
+    <string name="controls_topic_mouse">Mode souris</string>
+    <string name="controls_console_top">La première ligne du dessin montre les boutons de la tranche supérieure.</string>
+    <string name="controls_console_labels">Les boutons portent le nom imprimé sur la console. Sur certaines consoles clones, ils sont placés ailleurs.</string>
+    <string name="controls_start">Valider, comme A</string>
+    <string name="controls_dpad">Se déplacer dans les menus et les listes</string>
+    <string name="controls_console_swap">Certains clones Soy Sauce (lot 253x) ont FN et SELECT inversés. Si FN agit comme SELECT, la carte SD a besoin des fichiers 253x : voir Experimental/README.txt sur le lecteur BOOT.</string>
+    <string name="controls_fn_hold">Maintenu seul : affiche les raccourcis FN</string>
+    <string name="controls_heading_power">Marche/Arrêt et volume</string>
+    <string name="controls_power_off">Maintenir environ 10 secondes : éteint une console figée</string>
+    <string name="controls_remap_reset">Maintenir les deux 5 secondes : tous les boutons reviennent à la normale</string>
+    <string name="controls_ra_intro">Maintenez Select, puis appuyez sur le second bouton. RetroArch reçoit ces raccourcis à sa première configuration. Les raccourcis que vous avez modifiés vous-même sont conservés.</string>
+    <string name="controls_quit_twice">Quitter le jeu (appuyez deux fois sur Start)</string>
+    <string name="controls_save_state">Sauvegarder l\'état</string>
+    <string name="controls_load_state">Charger l\'état</string>
+    <string name="controls_slot">Emplacement précédent / suivant</string>
+    <string name="controls_menu">Menu de l\'émulateur</string>
+    <string name="controls_pause">Pause / reprendre</string>
+    <string name="controls_reset_twice">Redémarrer le jeu (appuyez deux fois sur B)</string>
+    <string name="controls_reset">Redémarrer le jeu</string>
+    <string name="controls_screenshot">Capture d\'écran</string>
+    <string name="controls_ff_toggle">Avance rapide activée / désactivée</string>
+    <string name="controls_ff_hold">Avance rapide tant que maintenu</string>
+    <string name="controls_ra_fn">FN ramène à l\'écran d\'accueil et met le jeu en pause. Sauvegardez d\'abord : Android peut fermer un jeu en pause quand la mémoire manque.</string>
+    <string name="controls_emulators_intro">Quand l\'appli le permet, les boutons sont les mêmes que dans RetroArch : maintenez Select, puis appuyez sur le second bouton.</string>
+    <string name="controls_quit_ask">Quitter (demande d\'abord si la partie n\'est pas sauvegardée)</string>
+    <string name="controls_quit">Quitter le jeu</string>
+    <string name="controls_ppsspp_passthrough">Le jeu reçoit aussi Select et le second bouton.</string>
+    <string name="controls_flycast_note">Flycast n\'a pas de bouton pour redémarrer. Dans les jeux d\'arcade, Select sert aussi à insérer une pièce.</string>
+    <string name="controls_menu_n64">Menu : sauvegarder, charger, redémarrer, quitter</string>
+    <string name="controls_menu_easyrpg">Menu, avec Exit Game</string>
+    <string name="controls_emulators_changed">Ces boutons sont réglés à la première ouverture de chaque appli. Les réglages de boutons que vous avez modifiés dans une appli sont conservés.</string>
+    <string name="controls_mouse_intro">Le mode souris affiche un pointeur à l\'écran, pour les applis conçues pour un écran tactile.</string>
+    <string name="controls_mouse_precision">Maintenir : pointeur lent, pour les petites cibles</string>
+    <string name="controls_mouse_scroll">Maintenir : le stick du pointeur fait défiler</string>
+</resources>

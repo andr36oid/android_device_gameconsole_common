@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Settings > Buttons and shortcuts. See values/controls_strings.xml -->
+<resources>
+    <string name="controls_title">Tasten und Shortcuts</string>
+    <string name="controls_summary">Alle Tastenkombinationen: System, Spiele, Mausmodus</string>
+    <string name="controls_topic_console">Die Konsole</string>
+    <string name="controls_topic_system">System</string>
+    <string name="controls_topic_retroarch">In Spielen (RetroArch)</string>
+    <string name="controls_topic_emulators">Andere Emulatoren</string>
+    <string name="controls_topic_mouse">Mausmodus</string>
+    <string name="controls_console_top">Die erste Zeile der Zeichnung zeigt die Tasten an der Oberkante.</string>
+    <string name="controls_console_labels">Die Tasten heißen so, wie sie auf der Konsole beschriftet sind. Bei manchen Klon-Konsolen sitzen sie an anderen Stellen.</string>
+    <string name="controls_start">Bestätigen, wie A</string>
+    <string name="controls_dpad">In Menüs und Listen bewegen</string>
+    <string name="controls_console_swap">Manche Soy-Sauce-Klone (Charge 253x) haben FN und SELECT vertauscht. Wenn FN wie SELECT wirkt, braucht die SD-Karte die 253x-Dateien: siehe Experimental/README.txt auf dem Laufwerk BOOT.</string>
+    <string name="controls_fn_hold">Allein halten: zeigt die FN-Shortcuts</string>
+    <string name="controls_heading_power">Ein/Aus und Lautstärke</string>
+    <string name="controls_power_off">Etwa 10 Sekunden halten: schaltet eine eingefrorene Konsole aus</string>
+    <string name="controls_remap_reset">Beide 5 Sekunden halten: alle Tasten wieder normal</string>
+    <string name="controls_ra_intro">Halte Select und drück die zweite Taste. RetroArch bekommt diese Hotkeys bei der ersten Einrichtung. Hotkeys, die du selbst geändert hast, bleiben.</string>
+    <string name="controls_quit_twice">Spiel beenden (Start zweimal drücken)</string>
+    <string name="controls_save_state">Savestate speichern</string>
+    <string name="controls_load_state">Savestate laden</string>
+    <string name="controls_slot">Vorheriger / nächster Slot</string>
+    <string name="controls_menu">Emulator-Menü</string>
+    <string name="controls_pause">Pause / weiter</string>
+    <string name="controls_reset_twice">Spiel neu starten (B zweimal drücken)</string>
+    <string name="controls_reset">Spiel neu starten</string>
+    <string name="controls_screenshot">Screenshot</string>
+    <string name="controls_ff_toggle">Schnellvorlauf an / aus</string>
+    <string name="controls_ff_hold">Schnellvorlauf, solange gehalten</string>
+    <string name="controls_ra_fn">FN führt zum Startbildschirm und pausiert das Spiel. Vorher speichern: Android kann ein pausiertes Spiel schließen, wenn der Speicher knapp wird.</string>
+    <string name="controls_emulators_intro">Wo die App es zulässt, sind die Tasten dieselben wie in RetroArch: Select halten, dann die zweite Taste drücken.</string>
+    <string name="controls_quit_ask">Beenden (fragt vorher, wenn das Spiel nicht gespeichert ist)</string>
+    <string name="controls_quit">Spiel beenden</string>
+    <string name="controls_ppsspp_passthrough">Das Spiel bekommt Select und die zweite Taste auch.</string>
+    <string name="controls_flycast_note">Flycast hat keine Taste zum Neustarten. In Arcade-Spielen ist Select auch die Münztaste.</string>
+    <string name="controls_menu_n64">Menü: speichern, laden, neu starten, beenden</string>
+    <string name="controls_menu_easyrpg">Menü, mit Exit Game</string>
+    <string name="controls_emulators_changed">Diese Tasten werden eingerichtet, wenn eine App zum ersten Mal geöffnet wird. Tasteneinstellungen, die du in einer App geändert hast, bleiben.</string>
+    <string name="controls_mouse_intro">Der Mausmodus zeigt einen Mauszeiger auf dem Bildschirm, für Apps, die für einen Touchscreen gemacht sind.</string>
+    <string name="controls_mouse_precision">Halten: langsamer Zeiger für kleine Ziele</string>
+    <string name="controls_mouse_scroll">Halten: der Zeiger-Stick scrollt</string>
+</resources>

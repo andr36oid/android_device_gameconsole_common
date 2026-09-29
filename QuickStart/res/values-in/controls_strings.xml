@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Settings > Buttons and shortcuts. See values/controls_strings.xml -->
+<resources>
+    <string name="controls_title">Tombol dan pintasan</string>
+    <string name="controls_summary">Semua kombinasi tombol: sistem, game, mode mouse</string>
+    <string name="controls_topic_console">Konsol</string>
+    <string name="controls_topic_system">Sistem</string>
+    <string name="controls_topic_retroarch">Dalam game (RetroArch)</string>
+    <string name="controls_topic_emulators">Emulator lain</string>
+    <string name="controls_topic_mouse">Mode mouse</string>
+    <string name="controls_console_top">Baris pertama gambar menunjukkan tombol di tepi atas.</string>
+    <string name="controls_console_labels">Nama tombol sesuai tulisan di konsol. Pada beberapa konsol klon, letaknya berbeda.</string>
+    <string name="controls_start">Konfirmasi, seperti A</string>
+    <string name="controls_dpad">Bergerak di menu dan daftar</string>
+    <string name="controls_console_swap">Beberapa klon Soy Sauce (batch 253x) punya FN dan SELECT yang tertukar. Jika FN berfungsi seperti SELECT, kartu SD memerlukan file 253x: lihat Experimental/README.txt di drive BOOT.</string>
+    <string name="controls_fn_hold">Tahan sendiri: menampilkan pintasan FN</string>
+    <string name="controls_heading_power">Daya dan volume</string>
+    <string name="controls_power_off">Tahan sekitar 10 detik: mematikan konsol yang macet</string>
+    <string name="controls_remap_reset">Tahan keduanya 5 detik: semua tombol kembali normal</string>
+    <string name="controls_ra_intro">Tahan Select, lalu tekan tombol kedua. RetroArch mendapat pintasan ini saat pertama kali disiapkan. Pintasan yang Anda ubah sendiri tetap dipakai.</string>
+    <string name="controls_quit_twice">Keluar dari game (tekan Start dua kali)</string>
+    <string name="controls_save_state">Simpan state</string>
+    <string name="controls_load_state">Muat state</string>
+    <string name="controls_slot">Slot sebelumnya / berikutnya</string>
+    <string name="controls_menu">Menu emulator</string>
+    <string name="controls_pause">Jeda / lanjutkan</string>
+    <string name="controls_reset_twice">Mulai ulang game (tekan B dua kali)</string>
+    <string name="controls_reset">Mulai ulang game</string>
+    <string name="controls_screenshot">Screenshot</string>
+    <string name="controls_ff_toggle">Maju cepat aktif / nonaktif</string>
+    <string name="controls_ff_hold">Maju cepat selama ditahan</string>
+    <string name="controls_ra_fn">FN membuka layar utama dan menjeda game. Simpan dulu: Android bisa menutup game yang dijeda saat memori kurang.</string>
+    <string name="controls_emulators_intro">Jika aplikasi mengizinkan, tombolnya sama seperti di RetroArch: tahan Select, lalu tekan tombol kedua.</string>
+    <string name="controls_quit_ask">Keluar (bertanya dulu jika game belum disimpan)</string>
+    <string name="controls_quit">Keluar dari game</string>
+    <string name="controls_ppsspp_passthrough">Game juga menerima Select dan tombol kedua.</string>
+    <string name="controls_flycast_note">Flycast tidak punya tombol mulai ulang. Dalam game arcade, Select juga tombol koin.</string>
+    <string name="controls_menu_n64">Menu: simpan, muat, mulai ulang, keluar</string>
+    <string name="controls_menu_easyrpg">Menu, dengan Exit Game</string>
+    <string name="controls_emulators_changed">Tombol ini disiapkan saat setiap aplikasi pertama kali dibuka. Pengaturan tombol yang Anda ubah di aplikasi tetap dipakai.</string>
+    <string name="controls_mouse_intro">Mode mouse menampilkan penunjuk di layar, untuk aplikasi yang dibuat untuk layar sentuh.</string>
+    <string name="controls_mouse_precision">Tahan: penunjuk lambat, untuk target kecil</string>
+    <string name="controls_mouse_scroll">Tahan: stik penunjuk menggulir</string>
+</resources>

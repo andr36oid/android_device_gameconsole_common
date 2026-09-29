@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Settings > Buttons and shortcuts. See values/controls_strings.xml -->
+<resources>
+    <string name="controls_title">Przyciski i skróty</string>
+    <string name="controls_summary">Wszystkie kombinacje przycisków: system, gry, tryb myszy</string>
+    <string name="controls_topic_console">Konsola</string>
+    <string name="controls_topic_system">System</string>
+    <string name="controls_topic_retroarch">W grach (RetroArch)</string>
+    <string name="controls_topic_emulators">Inne emulatory</string>
+    <string name="controls_topic_mouse">Tryb myszy</string>
+    <string name="controls_console_top">Pierwszy wiersz rysunku to przyciski na górnej krawędzi.</string>
+    <string name="controls_console_labels">Przyciski mają nazwy nadrukowane na konsoli. W niektórych klonach są w innych miejscach.</string>
+    <string name="controls_start">Potwierdź, jak A</string>
+    <string name="controls_dpad">Poruszanie się po menu i listach</string>
+    <string name="controls_console_swap">Niektóre klony Soy Sauce (partia 253x) mają zamienione FN i SELECT. Jeśli FN działa jak SELECT, karta SD potrzebuje plików 253x: zobacz Experimental/README.txt na dysku BOOT.</string>
+    <string name="controls_fn_hold">Przytrzymaj sam: pokazuje skróty z FN</string>
+    <string name="controls_heading_power">Zasilanie i głośność</string>
+    <string name="controls_power_off">Przytrzymaj ok. 10 sekund: wyłącza zawieszoną konsolę</string>
+    <string name="controls_remap_reset">Przytrzymaj oba przez 5 sekund: wszystkie przyciski wracają do normy</string>
+    <string name="controls_ra_intro">Przytrzymaj Select i naciśnij drugi przycisk. RetroArch dostaje te skróty przy pierwszej konfiguracji. Skróty zmienione przez ciebie zostają.</string>
+    <string name="controls_quit_twice">Wyjdź z gry (naciśnij Start dwa razy)</string>
+    <string name="controls_save_state">Szybki zapis</string>
+    <string name="controls_load_state">Szybki odczyt</string>
+    <string name="controls_slot">Poprzedni / następny slot</string>
+    <string name="controls_menu">Menu emulatora</string>
+    <string name="controls_pause">Pauza / wznów</string>
+    <string name="controls_reset_twice">Uruchom grę od nowa (naciśnij B dwa razy)</string>
+    <string name="controls_reset">Uruchom grę od nowa</string>
+    <string name="controls_screenshot">Zrzut ekranu</string>
+    <string name="controls_ff_toggle">Przyspieszenie wł. / wył.</string>
+    <string name="controls_ff_hold">Przyspieszenie, dopóki trzymasz</string>
+    <string name="controls_ra_fn">FN przenosi na ekran główny i wstrzymuje grę. Najpierw zapisz: Android może zamknąć wstrzymaną grę, gdy brakuje pamięci.</string>
+    <string name="controls_emulators_intro">Jeśli aplikacja na to pozwala, przyciski są takie same jak w RetroArch: przytrzymaj Select i naciśnij drugi przycisk.</string>
+    <string name="controls_quit_ask">Wyjdź (najpierw pyta, jeśli gra nie jest zapisana)</string>
+    <string name="controls_quit">Wyjdź z gry</string>
+    <string name="controls_ppsspp_passthrough">Gra też odbiera Select i drugi przycisk.</string>
+    <string name="controls_flycast_note">Flycast nie ma przycisku restartu. W grach arcade Select to też przycisk monety.</string>
+    <string name="controls_menu_n64">Menu: zapis, odczyt, restart, wyjście</string>
+    <string name="controls_menu_easyrpg">Menu z opcją Exit Game</string>
+    <string name="controls_emulators_changed">Te przyciski są ustawiane przy pierwszym otwarciu każdej aplikacji. Ustawienia przycisków zmienione przez ciebie w aplikacji zostają.</string>
+    <string name="controls_mouse_intro">Tryb myszy pokazuje na ekranie wskaźnik, dla aplikacji zrobionych pod ekran dotykowy.</string>
+    <string name="controls_mouse_precision">Przytrzymaj: wolny wskaźnik do małych celów</string>
+    <string name="controls_mouse_scroll">Przytrzymaj: gałka wskaźnika przewija</string>
+</resources>
