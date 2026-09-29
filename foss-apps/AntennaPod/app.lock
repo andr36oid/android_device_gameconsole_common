@@ -1,0 +1,12 @@
+# AntennaPod by the AntennaPod contributors, F-Droid build (F-Droid signs it).
+# sha256 from the F-Droid index (index-v2.json).
+name=AntennaPod
+package=de.danoeh.antennapod
+version_code=3120295
+version_name=3.12.2
+spdx=GPL-3.0-only
+sha256=3f43a4337a693cdb49141afe06cb596e88c796009ed77bff51e9444ce2d1ebfc
+apk_url=https://f-droid.org/repo/de.danoeh.antennapod_3120295.apk
+source_url=https://github.com/AntennaPod/AntennaPod/tree/3.12.2 (F-Droid's source tarball: https://f-droid.org/repo/de.danoeh.antennapod_3120295_src.tar.gz)
+license_url=https://raw.githubusercontent.com/AntennaPod/AntennaPod/3.12.2/LICENSE
+published_by=F-Droid
