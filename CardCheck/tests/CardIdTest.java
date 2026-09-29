@@ -235,6 +235,9 @@ public class CardIdTest {
         // U3 A2 card writing 2.56 MB/s, 25 small reads/s: not what it says
         eq("claims", advise(a2, slow, none, false),
                 "CLAIM_WRITE(30.0,2.56) CLAIM_SMALL(2.0,0.0) BUS_SLOW(25.0,0.0) SLOW");
+        // an A2 card that does A1 speed: A2 needs a command queue this kernel doesn't use
+        eq("A2 card at A1 speed", advise(a2, speed("112.8", "205.62", "12000", "4800",
+                "ultra_high_speed_SDR104_SDXC"), none, false), "GOOD");
         eq("plain U1 card, slow", advise(plain, slow, none, false),
                 "CLAIM_WRITE(10.0,2.56) BUS_SLOW(25.0,0.0) SLOW");
         eq("fake A1 U3", advise(fake, slow, none, false),

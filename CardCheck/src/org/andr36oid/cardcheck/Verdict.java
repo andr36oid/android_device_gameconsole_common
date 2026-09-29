@@ -99,9 +99,11 @@ final class Verdict {
      * few hundred reads and sometimes under 50 writes, which is what makes games made of
      * many files and saving slow.
      */
+    static final int A1_READ_IOPS = 1500, A1_WRITE_IOPS = 500;
+
     static int smallLevel(double reads, double writes) {
         if (Double.isNaN(reads) || Double.isNaN(writes)) return UNKNOWN;
-        if (reads >= 1500 && writes >= 500) return GOOD;
+        if (reads >= A1_READ_IOPS && writes >= A1_WRITE_IOPS) return GOOD;
         if (reads >= 500 && writes >= 50) return OK;
         return SLOW;
     }
@@ -153,9 +155,11 @@ final class Verdict {
         if (id != null && id.promisedWriteMbps() > 0 && write < id.promisedWriteMbps() / 3.0) {
             items.add(new Item(Kind.CLAIM_WRITE, id.promisedWriteMbps(), write, none));
         }
+        // This kernel runs A2 cards like A1 cards (no command queue or cache), so an A2
+        // card is held to the A1 numbers.
         if (id != null && id.appClass > 0 && !Double.isNaN(reads)
-                && (reads < id.promisedReadIops() / 3.0
-                        || writes < id.promisedWriteIops() / 3.0)) {
+                && (reads < Math.min(id.promisedReadIops(), A1_READ_IOPS) / 3.0
+                        || writes < Math.min(id.promisedWriteIops(), A1_WRITE_IOPS) / 3.0)) {
             items.add(new Item(Kind.CLAIM_SMALL, id.appClass, 0, none));
         }
         final Bus bus = Bus.of(speed.get("bus"));
