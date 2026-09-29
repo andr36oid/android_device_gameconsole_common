@@ -19,6 +19,14 @@
             android:key="cpu_cap"
             android:persistent="false"
             android:title="@string/cpu_cap_title" />
+
+        <Preference
+            android:key="app_profiles"
+            android:title="@string/app_profiles_title">
+            <intent
+                android:targetClass="org.andr36oid.cpuoverclock.AppProfilesActivity"
+                android:targetPackage="org.andr36oid.cpuoverclock" />
+        </Preference>
     </PreferenceCategory>
 
     <PreferenceCategory
