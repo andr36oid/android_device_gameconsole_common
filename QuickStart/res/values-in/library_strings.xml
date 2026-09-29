@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="games_library_ready">Daijishou, layar utama, sudah punya platform untuk setiap sistem ini, yang diarahkan ke foldernya di EASYROMS. Saat pertama kali dibuka, Daijishou bertanya apakah perlu mencari game: tekan OK. Setelah menambah game nanti, gunakan Sync entirely di setelan perpustakaan Daijishou. Untuk sistem lain, atau di kartu yang disiapkan dengan .noroms, tambahkan platform di Daijishou dan pilih foldernya.</string>
+</resources>

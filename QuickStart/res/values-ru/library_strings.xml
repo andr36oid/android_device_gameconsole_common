@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="games_library_ready">В Daijishou, главном экране, уже есть платформа для каждой из этих систем, привязанная к её папке на EASYROMS. При первом открытии он предложит поискать игры: нажмите OK. Когда позже добавите игры, используйте Sync entirely в настройках библиотеки Daijishou. Для других систем или на карте, подготовленной с .noroms, добавьте платформу в Daijishou и выберите её папку.</string>
+</resources>

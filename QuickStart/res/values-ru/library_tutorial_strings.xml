@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="tutorial_games_body_ready">Вставьте SD-карту в компьютер. Кроме маленького диска BOOT появится большой диск EASYROMS: он для ваших игр.\n\nКладите каждую игру в папку её системы, например nes, snes, gba, megadrive или psx.\n\nDaijishou (нажмите FN) уже знает эти системы и их папки. При первом открытии он предложит поискать игры: нажмите OK. Когда позже добавите игры, используйте Sync entirely в настройках его библиотеки. Игры запускаются в RetroArch или PPSSPP.</string>
+    <string name="tutorial_games_body_ready_no_fn">Вставьте SD-карту в компьютер. Кроме маленького диска BOOT появится большой диск EASYROMS: он для ваших игр.\n\nКладите каждую игру в папку её системы, например nes, snes, gba, megadrive или psx.\n\nDaijishou, главный экран, уже знает эти системы и их папки. При первом открытии он предложит поискать игры: нажмите OK. Когда позже добавите игры, используйте Sync entirely в настройках его библиотеки. Игры запускаются в RetroArch или PPSSPP.</string>
+</resources>

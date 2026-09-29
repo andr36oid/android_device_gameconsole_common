@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="games_library_ready">主屏幕 Daijishou 已为这些系统各建好一个平台，并设为 EASYROMS 上对应的文件夹。首次打开时，它会询问是否查找游戏：请按“确定”。以后添加游戏后，请在 Daijishou 的游戏库设置中使用 Sync entirely。其他系统，或者在用 .noroms 设置的卡上，请在 Daijishou 中添加一个平台并选择对应的文件夹。</string>
+</resources>
