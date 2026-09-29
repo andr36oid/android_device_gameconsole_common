@@ -331,6 +331,9 @@
     <!-- Minimum screen brightness setting allowed by the power manager.
          The user is forbidden from setting the brightness below this level. -->
     <integer name="config_screenBrightnessSettingMinimum">10</integer>
-     <integer name="config_screenBrightnessSettingMaximum">160</integer>
+    <!-- Maximum screen brightness setting. The lights HAL turns N (0-255) into backlight
+         level N * 256 / 407 of 160, so 255 is full PWM, the same top as ArkOS. 160 was
+         level 100 (62.5%). -->
+    <integer name="config_screenBrightnessSettingMaximum">255</integer>
     
 </resources>
