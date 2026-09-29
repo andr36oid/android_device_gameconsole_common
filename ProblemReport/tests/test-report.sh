@@ -353,6 +353,7 @@ mkdir "$R/tmp/lock"
 run_report
 check "locked: exit 1" [ "$(cat "$T/rc")" = 1 ]
 check "locked: lock not taken away" [ -d "$R/tmp/lock" ]
+check "locked: the page is told" grep -qx 'error busy' "$R/data/misc/andr36oid-report/status"
 
 # ---- 10. the mounts: BOOT read-only while the report is made, writable only to
 # save it, and never mounted without the BOOT lock ----

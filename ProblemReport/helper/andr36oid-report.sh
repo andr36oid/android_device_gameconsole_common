@@ -408,6 +408,8 @@ tries=0
 while ! mkdir "$LOCK" 2>/dev/null; do
 	if [ "$MODE" != boot ] || [ "$tries" -ge 60 ]; then
 		log "another report is being saved"
+		# the page shows why nothing happens
+		[ "$MODE" != boot ] && status "error busy"
 		exit 1
 	fi
 	sleep 5
