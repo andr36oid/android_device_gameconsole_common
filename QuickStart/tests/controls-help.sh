@@ -14,7 +14,8 @@ CHECK="python3 $HERE/check-controls.py"
 PWM=services/core/java/com/android/server/policy/PhoneWindowManager.java
 # The frameworks/base files controls.txt names
 FWB_FILES="$PWM core/res/res/values/config.xml
-services/core/java/com/android/server/input/InputManagerService.java"
+services/core/java/com/android/server/input/InputManagerService.java
+packages/SystemUI/src/com/android/systemui/globalactions/GlobalActionsComponent.java"
 T=$(mktemp -d)
 trap 'rm -rf "$T"' EXIT
 pass=0
@@ -36,6 +37,7 @@ fresh() {
 	rm -rf "$T/c"
 	mkdir -p "$T/c/emulators/seed/retroarch" "$T/c/joyMouse/src" "$T/c/QuickStart"
 	cp "$COMMON"/Vendor_484b_Product_1100.kl "$COMMON"/Vendor_484b_Product_1100.kcm "$T/c/"
+	cp "$COMMON/device.mk" "$T/c/"
 	cp "$COMMON/emulators/seed/retroarch/retroarch.cfg" "$T/c/emulators/seed/retroarch/"
 	cp "$COMMON/joyMouse/src/Buttons.cpp" "$COMMON/joyMouse/src/Config.h" "$T/c/joyMouse/src/"
 	cp "$COMMON/joyMouse/README.md" "$T/c/joyMouse/"
@@ -146,6 +148,17 @@ if [ -f "$FWB/$PWM" ]; then
 	fwb=$T/f
 	sed -i '/case KeyEvent.KEYCODE_BUTTON_Y:/,+1d' "$fwb/$PWM"
 	expect "FN shortcut removed, row still there" "FN + Y is not an FN shortcut"
+
+	fresh
+	fwb=$T/f
+	sed -i '/case KeyEvent.KEYCODE_BUTTON_B:/,+1d' "$fwb/$PWM"
+	expect "FN + B removed, row still there" "FN + B is not an FN shortcut"
+
+	fresh
+	fwb=$T/f
+	sed -i 's/action\.SHOW_APP_SWITCHER/action.SHOW_SWITCHER/' \
+		"$fwb/packages/SystemUI/src/com/android/systemui/globalactions/GlobalActionsComponent.java"
+	expect "App switcher broadcast renamed in SystemUI" "GlobalActionsComponent.java lacks"
 else
 	echo "skip FN cases: no frameworks/base at $FWB"
 fi

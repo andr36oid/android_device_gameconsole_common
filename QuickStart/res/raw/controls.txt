@@ -64,6 +64,12 @@ row FN + Start = shortcuts_screenshot
 row FN + Select = shortcuts_last_app
   if-prop ro.andr36oid.fn_hotkeys
   check fn
+row FN + B = shortcuts_app_switcher
+  if-prop ro.andr36oid.fn_hotkeys
+  if-prop ro.andr36oid.fn_switcher
+  check fn
+  check has common:device.mk ro\.andr36oid\.fn_switcher=true
+  check has fwb:packages/SystemUI/src/com/android/systemui/globalactions/GlobalActionsComponent.java "com\.android\.systemui\.action\.SHOW_APP_SWITCHER"
 row FN + Y = shortcuts_panel
   if-prop ro.andr36oid.fn_hotkeys
   check fn
