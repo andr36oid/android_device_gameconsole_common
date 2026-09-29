@@ -1,0 +1,13 @@
+on post-fs-data
+    mkdir /data/misc/andr36oid-storagecare 0770 system system
+
+# Started by Settings > Storage > Free up space and its space check with ctl.start, see
+# andr36oid-storagecare.sh. Low CPU and I/O priority, so a game running meanwhile
+# doesn't stutter.
+service andr36oid-storagecare /system/bin/sh /system/etc/andr36oid-storagecare.sh
+    user root
+    group root system media_rw
+    disabled
+    oneshot
+    priority 10
+    ioprio be 7

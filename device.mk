@@ -681,6 +681,12 @@ PRODUCT_PACKAGES += \
 	CardCheck \
 	andr36oid-cardcheck
 
+# Free up space (Settings > Storage): old save states, backups, caches, screenshots,
+# APKs and duplicate ROMs; low space and EASYROMS error notifications
+PRODUCT_PACKAGES += \
+	StorageCare \
+	andr36oid-storagecare
+
 # Camera omx-plugin vpu akmd libion_rockchip_ext
 #    	
 PRODUCT_PACKAGES += \

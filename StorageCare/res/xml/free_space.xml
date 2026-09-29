@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:key="space"
+        android:title="@string/cat_space" />
+
+    <PreferenceCategory
+        android:key="health"
+        android:title="@string/cat_health" />
+
+    <Preference
+        android:key="scan"
+        android:persistent="false"
+        android:title="@string/scan_title"
+        android:summary="@string/scan_summary" />
+
+    <PreferenceCategory
+        android:key="found"
+        android:title="@string/cat_found">
+        <Preference
+            android:key="remove"
+            android:persistent="false"
+            android:title="@string/remove_title" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="folders"
+        android:title="@string/cat_folders" />
+
+    <PreferenceCategory
+        android:key="options"
+        android:title="@string/cat_options">
+        <ListPreference
+            android:key="keep_states"
+            android:title="@string/opt_keep_states"
+            android:summary="%s"
+            android:entries="@array/keep_entries"
+            android:entryValues="@array/keep_entries"
+            android:defaultValue="3" />
+        <ListPreference
+            android:key="keep_backups"
+            android:title="@string/opt_keep_backups"
+            android:summary="%s"
+            android:entries="@array/keep_entries"
+            android:entryValues="@array/keep_entries"
+            android:defaultValue="3" />
+        <SwitchPreference
+            android:key="dups"
+            android:title="@string/opt_dups"
+            android:summary="@string/opt_dups_summary"
+            android:defaultValue="false" />
+        <SwitchPreference
+            android:key="warn"
+            android:title="@string/opt_warn"
+            android:summary="@string/opt_warn_summary"
+            android:defaultValue="true" />
+    </PreferenceCategory>
+</PreferenceScreen>
