@@ -36,4 +36,14 @@
  * for it. Cap it at 18 slots (11.25 ms), the value the stack already uses for
  * Switch pads (INTEROP_HID_HOST_LIMIT_SNIFF_INTERVAL). */
 #define BTA_HH_SSR_MAX_LATENCY_DEF 18
+
+/* HID devices whose class of device does not say joystick or gamepad (some
+ * pads in X-input or keyboard mode, cheap clones) got the generic sniff
+ * interval of 30-54 slots (19-34 ms) 30 s after connecting, so at most ~30
+ * reports per second. Give every HID device the gamepad interval, 14-18 slots
+ * (9-11 ms). Mice and keyboards poll faster too, at a small cost to their
+ * battery. */
+#define BTA_DM_PM_SNIFF_HH_OPEN_IDX BTA_DM_PM_SNIFF6
+#define BTA_DM_PM_SNIFF_HH_ACTIVE_IDX BTA_DM_PM_SNIFF6
+#define BTA_DM_PM_SNIFF_HH_IDLE_IDX BTA_DM_PM_SNIFF6
 #endif
