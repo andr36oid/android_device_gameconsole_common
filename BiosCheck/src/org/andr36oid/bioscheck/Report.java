@@ -12,7 +12,8 @@ import java.util.Set;
 /**
  * Matches what the helper found in the bios folder against the BIOS table: the state
  * of every BIOS file and system, and the files that only need a new name. RetroArch
- * reads the files right in the bios folder, by name. Plain Java, so it can be tested
+ * reads the files by name, right in the bios folder or in the subfolder the table
+ * names (neocd/neocd_f.rom); a few emulators need whole folders (Machines/). Plain Java, so it can be tested
  * on a PC.
  */
 final class Report {
@@ -88,13 +89,14 @@ final class Report {
     }
 
     static boolean good(Found f, Bios b) {
-        return b.anyContent() ? f.name.equalsIgnoreCase(b.name) : b.goodMd5(f.md5);
+        return b.anyContent() ? f.rel.equalsIgnoreCase(b.name) : b.goodMd5(f.md5);
     }
 
-    /** The file with this name right in the bios folder (any case), or null. */
-    private static Found atTop(Scan scan, String name) {
-        for (Found f : scan.files) {
-            if (f.atTop && f.name.equalsIgnoreCase(name)) return f;
+    /** The file (or folder) where the table says, in the bios folder or the
+     *  subfolder in its name (any case), or null. */
+    private static Found inPlace(Scan scan, Bios b) {
+        for (Found f : b.folder() ? scan.dirs : scan.files) {
+            if (f.rel.equalsIgnoreCase(b.name)) return f;
         }
         return null;
     }
@@ -102,7 +104,7 @@ final class Report {
     private FileState fileState(BiosTable table, Scan scan, Bios b) {
         final FileState fs = new FileState();
         fs.bios = b;
-        fs.file = atTop(scan, b.name);
+        fs.file = inPlace(scan, b);
         if (fs.file != null && good(fs.file, b)) {
             fs.state = FOUND;
         } else if (fs.file != null) {
@@ -159,21 +161,17 @@ final class Report {
     }
 
     /**
-     * Files in the bios folder that are a BIOS we know, but under another name or in a
-     * subfolder, where RetroArch doesn't find them. Only renamed to a file a shown
+     * Files in the bios folder that are a BIOS we know, but under another name or in
+     * the wrong folder, where the emulator doesn't find them. Only renamed to a file a shown
      * system uses, and never onto a file that is there already; so a spare copy of a
      * file that is in place stays as it is.
      */
     private void findRenames(BiosTable table, Scan scan) {
         final Set<String> taken = new HashSet<>();
-        for (Found f : scan.files) {
-            if (f.atTop) taken.add(BiosTable.key(f.name));
-        }
+        for (Found f : scan.files) taken.add(BiosTable.key(f.rel));
         for (Found f : scan.files) {
             boolean fine = false;
-            if (f.atTop) {
-                for (Bios b : table.byName(f.name)) fine |= good(f, b) && used(b, scan);
-            }
+            for (Bios b : table.byName(f.rel)) fine |= good(f, b) && used(b, scan);
             if (fine) continue;
             for (Bios b : table.byMd5(f.md5)) {
                 if (!used(b, scan) || !shown(b.system, scan)

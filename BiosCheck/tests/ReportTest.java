@@ -69,7 +69,29 @@ public class ReportTest {
         check(t.byMd5("490F666E1AFB15B7362B406ED1CEA246").get(0).name.equals("scph5501.bin"),
                 "real table: scph5501.bin by MD5, any case");
         check(t.byName("NEOGEO.ZIP").get(0).anyContent(), "real table: neogeo.zip is name-only");
-        check(t.system("neogeo").onlyInstalled, "real table: Neo Geo only with its core");
+        check(!t.system("neogeo").onlyInstalled, "real table: Neo Geo shown, FBNeo ships now");
+        check(t.system("fds").cores.contains("nestopia")
+                && t.system("pcecd").cores.contains("mednafen_supergrafx"),
+                "real table: Nestopia and SuperGrafx use the old BIOS files");
+        boolean newCores = true;
+        for (String c : new String[] { "neocd", "puae2021", "bluemsx", "freeintv", "o2em",
+                "a5200", "pokemini", "easyrpg" }) {
+            boolean has = false;
+            for (BiosTable.Sys s : t.systems) has |= s.cores.contains(c);
+            newCores &= has;
+        }
+        check(newCores, "real table: every new core that loads files has a system");
+        check(t.byMd5("8834880c33164ccbe6476b559f3e37de").get(0).name.equals("neocd/neocd_f.rom"),
+                "real table: Neo Geo CD BIOS in its subfolder");
+        check(t.byName("machines/").get(0).folder() && t.byName("Machines/").get(0).need
+                == BiosTable.REQUIRED, "real table: blueMSX's Machines folder, required");
+        boolean slashes = true;
+        for (Bios b : t.files) {
+            slashes &= !b.name.startsWith("/") && !b.name.contains("//")
+                    && b.name.indexOf('/') == b.name.lastIndexOf('/')
+                    || b.folder() && b.name.split("/").length <= 2;
+        }
+        check(slashes, "real table: at most one folder level (the helper renames that deep)");
         boolean plain = true;
         for (BiosTable.Sys s : t.systems) {
             plain &= !s.note.contains("system folder") && !s.note.contains("core");
@@ -154,7 +176,8 @@ public class ReportTest {
 
         // cores: no Genesis Plus GX, but FBNeo from the online updater
         for (String c : new String[] { "pcsx_rearmed", "fceumm", "mgba", "gambatte",
-                "mednafen_pce_fast", "gearsystem", "handy", "fbneo", "clownmdemu" }) {
+                "mednafen_pce_fast", "gearsystem", "handy", "fbneo", "clownmdemu", "neocd",
+                "bluemsx" }) {
             put(new File(raData, "cores"), c + "_libretro_android.so", "x");
         }
 
@@ -189,6 +212,12 @@ public class ReportTest {
                 "file|md|bios_MD.bin|optional|" + md5("md") + "|MD|",
                 "system|neogeo|Neo Geo|fbneo|installed|note",
                 "file|neogeo|neogeo.zip|required|*|set|",
+                "system|neocd|Neo Geo CD|neocd|shipped|note",
+                "file|neocd|neocd/neocd_f.rom|oneof|" + md5("ncd f") + "|front|",
+                "file|neocd|neocd/neocd_t.rom|oneof|" + md5("ncd t") + "|top|",
+                "system|msx|MSX|bluemsx|shipped|note",
+                "file|msx|Machines/|required|*|machines|",
+                "file|msx|Databases/|required|*|databases|",
                 "");
         final BiosTable t = BiosTable.parse(new StringReader(table));
 
@@ -207,11 +236,18 @@ public class ReportTest {
         put(bios, "._SCPH5501.BIN", "mac junk");          // ignored
         put(bios, "readme.txt", "text");                  // ignored
         put(bios, "lynxboot.img", lynx);
+        put(bios, "front.rom", "ncd f");                  // goes into neocd/, made by the fix
+        put(new File(bios, "Machines/Shared Roms"), "MSX.rom", "msx"); // too deep: not listed
 
         helper("scan", null);
         Scan sc = scan();
         check(sc.biosDir.equals(bios.getPath()), "bios folder found in capitals");
-        check(sc.files.size() == 13, "junk ignored, subfolder listed: " + sc.files.size());
+        check(sc.files.size() == 14, "junk ignored, subfolder listed: " + sc.files.size());
+        final List<String> dirs = new ArrayList<>();
+        for (Scan.Found d : sc.dirs) dirs.add(d.rel);
+        Collections.sort(dirs);
+        check(dirs.equals(Arrays.asList("Machines/", "Machines/Shared Roms/", "psx/")),
+                "folders listed two deep: " + dirs);
         Report r = Report.build(t, sc);
 
         check(r.system("md") == null, "MD hidden: Genesis Plus GX isn't installed");
@@ -252,13 +288,21 @@ public class ReportTest {
         final List<String> renames = new ArrayList<>();
         for (Rename rn : r.renames) renames.add(sc.inBios(rn.file) + ">" + rn.to.name);
         Collections.sort(renames);
-        check(renames.equals(Arrays.asList("bios_U.sms>bios.sms", "gba_bios.bin>disksys.rom",
-                "psx japan.bin>scph5500.bin", "psx/scph5502.bin>scph5502.bin")),
-                "renames: " + renames);
+        check(renames.equals(Arrays.asList("bios_U.sms>bios.sms", "front.rom>neocd/neocd_f.rom",
+                "gba_bios.bin>disksys.rom", "psx japan.bin>scph5500.bin",
+                "psx/scph5502.bin>scph5502.bin")), "renames: " + renames);
+        check(state(r, "neocd/neocd_f.rom").state == Report.WRONG_NAME
+                && level(r, "neocd") == Report.LEVEL_WRONG_NAME, "Neo Geo CD: wrong place");
+        check(state(r, "Machines/").state == Report.FOUND
+                && state(r, "Machines/").file.rel.equals("Machines/")
+                && state(r, "Databases/").state == Report.MISSING
+                && level(r, "msx") == Report.LEVEL_MISSING, "MSX: Machines there, Databases missing");
 
         // the fix, then the helper scans again by itself
         helper("rename", Report.ops(r.renames));
-        check(read(new File(dir, "result")).split("renamed ").length == 5, "4 renamed");
+        check(read(new File(dir, "result")).split("renamed ").length == 6, "5 renamed");
+        check(read(new File(new File(bios, "neocd"), "neocd_f.rom")).equals("ncd f")
+                && !new File(bios, "front.rom").exists(), "front.rom is neocd/neocd_f.rom now");
         check(new File(bios, "scph5500.bin").exists() && !new File(bios, "psx japan.bin").exists(),
                 "psx japan.bin is scph5500.bin now");
         check(new File(bios, "scph5502.bin").exists()
@@ -269,6 +313,11 @@ public class ReportTest {
         check(state(r, "gba_bios.bin").state == Report.MISSING, "gba_bios.bin: just missing");
         check(level(r, "gba") == Report.LEVEL_NOT_NEEDED, "GBA: optional, not needed");
         check(level(r, "sms") == Report.LEVEL_READY, "SMS: ready");
+        check(level(r, "neocd") == Report.LEVEL_READY, "Neo Geo CD: ready");
+        new File(bios, "databases").mkdirs();                // any case
+        helper("scan", null);
+        r = report(t);
+        check(level(r, "msx") == Report.LEVEL_READY, "MSX: ready with both folders");
 
         // a missing required file
         new File(bios, "syscard3.pce").delete();
@@ -284,7 +333,7 @@ public class ReportTest {
         helper("rename", String.join("\n",
                 b + "/x.bin\t" + b + "/scph5500.bin",
                 b + "/x.bin\t" + easyroms + "/y.bin",
-                b + "/x.bin\t" + b + "/psx/y.bin",
+                b + "/x.bin\t" + b + "/psx/sub/y.bin",
                 b + "/x.bin\t" + b + "/../y.bin",
                 easyroms + "/outside.bin\t" + b + "/z.bin",
                 b + "/../outside.bin\t" + b + "/z.bin", ""));

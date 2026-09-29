@@ -8,6 +8,14 @@
 #    commit d5bae90b), which the core info notes and the libretro docs quote too
 #  - "*" instead of MD5s: no single known-good file (Neo Geo's neogeo.zip differs
 #    between arcade core versions), so any file with this name counts
+#  - a name with a slash is in that subfolder of the bios folder (neocd/...); a name
+#    ending in a slash is a folder that has to be there (blueMSX's Machines/)
+#  - left out on purpose: add-on hardware nobody plays here (Fuse's Pentagon and
+#    Scorpion ROMs, VICE's JiffyDOS, the 64DD IPL, BS-X / Sufami Turbo), and FBNeo's
+#    other arcade BIOS sets (they go next to the games like neogeo.zip). No BIOS at
+#    all: Game & Watch, Virtual Boy, ZX Spectrum (Fuse has its ROMs built in), C64
+#    (VICE too), Vectrex, DOSBox Pure, PrBoom (prboom.wad goes next to the WADs),
+#    FAKE-08.
 #
 # Everything goes right into the bios folder on EASYROMS, which is RetroArch's system
 # folder (gameconsole-emu sets system_directory). PPSSPP needs no BIOS.
@@ -31,15 +39,15 @@ file|segacd|bios_CD_U.bin|oneof|2efd74e3232ff260e371b99f84024f7f|Sega CD BIOS (U
 file|segacd|bios_CD_E.bin|oneof|e66fa1dc5820d254611fdcdba0662372|Mega CD BIOS (Europe)|
 file|segacd|bios_CD_J.bin|oneof|278a9397d192149e84e820ac621a8edd|Mega CD BIOS (Japan)|
 
-system|pcecd|PC Engine CD / TurboGrafx-CD|mednafen_pce_fast|shipped|CD games need a System Card BIOS. HuCard games start without one.
+system|pcecd|PC Engine CD / TurboGrafx-CD|mednafen_pce_fast mednafen_supergrafx|shipped|CD games need a System Card BIOS. HuCard games start without one.
 file|pcecd|syscard3.pce|required|38179df8f4ac870017db21ebcbf53114|Super CD-ROM² System Card 3 (Japan), used by default|
-file|pcecd|syscard3u.pce|optional|0754f903b52e3b3342202bdafb13efa5|Super CD System Card 3 (US), pick it in the core options|
+file|pcecd|syscard3u.pce|optional|0754f903b52e3b3342202bdafb13efa5|Super CD System Card 3 (US), pick it in the core options|mednafen_pce_fast
 file|pcecd|gexpress.pce|optional|6d2cb14fc3e1f65ceb135633d1694122|Games Express card, for a few unlicensed games|
 file|pcecd|syscard2.pce|optional|3cdd6614a918616bfc41c862e889dd79|CD-ROM² System Card 2 (Japan)|
-file|pcecd|syscard2u.pce|optional|94279f315e8b52904f65ab3108542afe|CD-ROM System Card 2 (US)|
+file|pcecd|syscard2u.pce|optional|94279f315e8b52904f65ab3108542afe|CD-ROM System Card 2 (US)|mednafen_pce_fast
 file|pcecd|syscard1.pce|optional|2b7ccb3d86baa18f6402c176f3065082|CD-ROM² System Card 1 (Japan)|
 
-system|fds|Famicom Disk System|fceumm|shipped|Disk System games (.fds) need this BIOS. NES cartridge games don't.
+system|fds|Famicom Disk System|fceumm nestopia|shipped|Disk System games (.fds) need this BIOS. NES cartridge games don't.
 file|fds|disksys.rom|required|ca30b50f880eb660a320674ed365ef7a|Famicom Disk System BIOS|
 
 system|gba|Game Boy Advance|mgba gpsp|shipped|Games start without a BIOS: both emulators have a built-in replacement. The real one shows the boot logo and helps a few games.
@@ -69,5 +77,57 @@ file|a7800|7800 BIOS (E).rom|optional|397bb566584be7b9764e7a68974c4263|Atari 780
 system|lynx|Atari Lynx|handy|shipped|Optional: Handy has a built-in replacement, the real boot ROM is more accurate.
 file|lynx|lynxboot.img|optional|fcd403db69f54290b51035d82f835e7b|Atari Lynx boot ROM|
 
-system|neogeo|Neo Geo (arcade)|fbneo mame2003_plus mame2003 mame2010 mame|installed|Neo Geo games need this BIOS set, in the bios folder or next to the games. It has to match the version of your arcade emulator.
+system|neogeo|Neo Geo (arcade)|fbneo mame2003_plus mame2003 mame2010 mame|shipped|Neo Geo games need this BIOS set, in the bios folder or next to the games. It has to match the version of your arcade emulator.
 file|neogeo|neogeo.zip|required|*|Neo Geo BIOS set (only the name is checked)|
+
+system|neocd|Neo Geo CD|neocd|shipped|Games start without a BIOS, but the built-in stand-in is incomplete and many games need a real one. One is enough, in the neocd folder inside the bios folder.
+file|neocd|neocd/neocd_f.rom|oneof|8834880c33164ccbe6476b559f3e37de|Front loader BIOS|
+file|neocd|neocd/neocd_sf.rom|oneof|043d76d5f0ef836500700c34faef774d|Front loader BIOS (SMKDAN)|
+file|neocd|neocd/front-sp1.bin|oneof|5c2366f25ff92d71788468ca492ebeca|Front loader BIOS (MAME)|
+file|neocd|neocd/neocd_t.rom|oneof|de3cf45d227ad44645b22aa83b49f450|Top loader BIOS|
+file|neocd|neocd/neocd_st.rom|oneof|f6325a33c6d63ea4b9162a3fa8c32727|Top loader BIOS (SMKDAN)|
+file|neocd|neocd/top-sp1.bin|oneof|122aee210324c72e8a11116e6ef9c0d0|Top loader BIOS (MAME)|
+file|neocd|neocd/neocd_z.rom|oneof|11526d58d4c524daef7d5d677dc6b004|CDZ BIOS|
+file|neocd|neocd/neocd_sz.rom|oneof|971ee8a36fb72da57aed01758f0a37f5|CDZ BIOS (SMKDAN)|
+file|neocd|neocd/neocd.bin|oneof|f39572af7584cb5b3f70ae8cc848aba2|CDZ BIOS (MAME)|
+file|neocd|neocd/uni-bioscd.rom|oneof|08ca8b2dba6662e8024f9e789711c6fc|Universe BIOS 3.2|
+file|neocd|neocd/ng-lo.rom|optional|e255264d85d5765013b1b2fa8109dd53|Y-zoom ROM (made up when missing, same result)|
+file|neocd|neocd/000-lo.lo|optional|fc7599f3f871578fe9a0453662d1c966|Y-zoom ROM, MAME name (made up when missing, same result)|
+
+system|amiga|Amiga|puae2021|shipped|Games start with the free AROS replacement, but many need a real Kickstart. Kickstart 1.3 (A500) is the one most games want, 3.1 (A1200) for AGA games, the CD32 pair for CD32 discs.
+file|amiga|kick34005.A500|optional|82a21c1890cae844b3df741f2762d48d|Kickstart 1.3 (A500), amiga-os-130.rom|
+file|amiga|kick40068.A1200|optional|646773759326fbac3b2311fd8c8793ee|Kickstart 3.1 (A1200), amiga-os-310-a1200.rom|
+file|amiga|kick40060.CD32|optional|5f8924d013dd57a89cf349f4cdedc6b1|CD32 Kickstart 3.1, amiga-os-310-cd32.rom|
+file|amiga|kick40060.CD32.ext|optional|bb72565701b1b6faece07d68ea5da639|CD32 extended ROM, amiga-os-310-cd32-ext.rom|
+file|amiga|kick33180.A500|optional|85ad74194e87c08904327de1a9443b7a|Kickstart 1.2 (A500), amiga-os-120.rom|
+file|amiga|kick37175.A500|optional|dc10d7bdd1b6f450773dfb558477c230|Kickstart 2.04 (A500+), amiga-os-204.rom|
+file|amiga|kick37350.A600|optional|465646c9b6729f77eea5314d1f057951|Kickstart 2.05 (A600), amiga-os-205-a600.rom|
+file|amiga|kick40063.A600|optional|e40a5dfb3d017ba8779faba30cbd1c8e|Kickstart 3.1 (A600), amiga-os-310-a600.rom|
+file|amiga|kick39106.A1200|optional|b7cc148386aa631136f510cd29e42fc3|Kickstart 3.0 (A1200), amiga-os-300-a1200.rom|
+file|amiga|kick39106.A4000|optional|9b8bdd5a3fd32c2a5a6f5b1aefc799a5|Kickstart 3.0 (A4000), amiga-os-300-a4000.rom|
+file|amiga|kick40068.A4000|optional|9bdedde6a4f33555b4a270c8ca53297d|Kickstart 3.1 (A4000), amiga-os-310-a4000.rom|
+file|amiga|kick34005.CDTV|optional|89da1838a24460e4b93f4f0c5d92d48d|CDTV extended ROM, amiga-os-130-cdtv-ext.rom|
+
+system|msx|MSX / MSX2 / ColecoVision|bluemsx|shipped|Needed for every game: the Machines and Databases folders from the full blueMSX download (the libretro "BlueMSX" system pack), copied into the bios folder as they are. The ColecoVision BIOS is in Machines too.
+file|msx|Machines/|required|*|Machine setups and their system ROMs|
+file|msx|Databases/|required|*|Game database, so games get the right cartridge type|
+
+system|intv|Intellivision|freeintv|shipped|Games need both files.
+file|intv|exec.bin|required|62e761035cb657903761800f4437b8af|Intellivision Executive ROM|
+file|intv|grom.bin|required|0cd5946c6473e42e8e4c2137785e427f|Intellivision Graphics ROM|
+
+system|videopac|Videopac / Odyssey 2|o2em|shipped|Games need o2rom.bin. The other three are for picking the French or Videopac+ console in the options.
+file|videopac|o2rom.bin|required|562d5ebf9e030a40d6fabfc2f33139fd|Odyssey 2 / Videopac G7000 BIOS|
+file|videopac|c52.bin|optional|f1071cdb0b6b10dde94d3bc8a6146387|Videopac G7000 BIOS (France)|
+file|videopac|g7400.bin|optional|c500ff71236068e0dc0d0603d265ae76|Videopac+ G7400 BIOS (Europe)|
+file|videopac|jopac.bin|optional|279008e4a0db2dc5f1c048853b033828|Videopac+ G7400 BIOS (France)|
+
+system|a5200|Atari 5200|a5200|shipped|Optional: games start with the free Altirra replacement. The real BIOS is more compatible.
+file|a5200|5200.rom|optional|281f20ea4320404ec820fb7ec0693b38|Atari 5200 BIOS|
+
+system|pokemini|Pokemon Mini|pokemini|shipped|Optional: games start with the free replacement.
+file|pokemini|bios.min|optional|1e4fb124a3a886865acb574f388c803d|Pokemon Mini BIOS|
+
+system|easyrpg|RPG Maker 2000 / 2003|easyrpg|shipped|Optional: most games bring everything they need. Games made for the RTP (the RPG Maker run time package) need it unpacked into these folders.
+file|easyrpg|rtp/2000/|optional|*|RPG Maker 2000 RTP|
+file|easyrpg|rtp/2003/|optional|*|RPG Maker 2003 RTP|

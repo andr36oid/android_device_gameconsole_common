@@ -38,6 +38,11 @@ final class BiosTable {
         /** Cores that load it; the system's cores if the table names none. */
         List<String> cores;
 
+        /** A folder that has to be there ("Machines/"), not a file. */
+        boolean folder() {
+            return name.endsWith("/");
+        }
+
         boolean anyContent() {
             return md5s.isEmpty();
         }

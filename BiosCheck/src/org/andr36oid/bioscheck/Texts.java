@@ -102,9 +102,13 @@ final class Texts {
         final StringBuilder sb = new StringBuilder(fileState(c, scan, s, f)).append("\n\n");
         sb.append(c.getString(R.string.details_what, b.description)).append('\n');
         sb.append(c.getString(R.string.details_cores, String.join(", ", b.cores))).append('\n');
-        sb.append(b.anyContent() ? c.getString(R.string.details_md5_any)
+        sb.append(b.folder() ? c.getString(R.string.details_folder)
+                : b.anyContent() ? c.getString(R.string.details_md5_any)
                 : c.getString(R.string.details_md5, String.join(", ", b.md5s)));
-        if (f.file != null) {
+        if (f.file != null && b.folder()) {
+            sb.append("\n\n").append(c.getString(R.string.details_folder_found,
+                    path(c, f.file.path)));
+        } else if (f.file != null) {
             sb.append("\n\n").append(f.file.md5 != null
                     ? c.getString(R.string.details_file, path(c, f.file.path), f.file.md5)
                     : c.getString(R.string.details_file_big, path(c, f.file.path)));
