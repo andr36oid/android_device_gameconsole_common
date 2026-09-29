@@ -215,6 +215,22 @@ LOCAL_MODULE                         := remove-OneTimeInitializer
 EXECUTABLES.remove-OneTimeInitializer.OVERRIDES := OneTimeInitializer
 include $(BUILD_PHONY_PACKAGE)
 
+# Printing is turned off (android.software.print unavailable), so the spooler and print services are never used.
+include $(CLEAR_VARS)
+LOCAL_MODULE                         := remove-PrintSpooler
+EXECUTABLES.remove-PrintSpooler.OVERRIDES := PrintSpooler
+include $(BUILD_PHONY_PACKAGE)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE                         := remove-BuiltInPrintService
+EXECUTABLES.remove-BuiltInPrintService.OVERRIDES := BuiltInPrintService
+include $(BUILD_PHONY_PACKAGE)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE                         := remove-PrintRecommendationService
+EXECUTABLES.remove-PrintRecommendationService.OVERRIDES := PrintRecommendationService
+include $(BUILD_PHONY_PACKAGE)
+
 # if some modules are built directly from this directory (not subdirectories),
 # their rules should be written here.
 

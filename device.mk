@@ -585,6 +585,12 @@ PRODUCT_PACKAGES += \
 	remove-DynamicSystemInstallationService \
 	remove-OneTimeInitializer
 
+# App prune 2: print apps (printing is already turned off)
+PRODUCT_PACKAGES += \
+	remove-PrintSpooler \
+	remove-BuiltInPrintService \
+	remove-PrintRecommendationService
+
 # Hide features we do not want services started for (backup).
 PRODUCT_COPY_FILES += \
 	$(LOCAL_PATH)/configs/permissions/gameconsole_unavailable_features.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/gameconsole_unavailable_features.xml
