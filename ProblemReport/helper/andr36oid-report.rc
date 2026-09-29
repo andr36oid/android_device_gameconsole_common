@@ -1,5 +1,14 @@
 on post-fs-data
     mkdir /data/misc/andr36oid-report 0770 system system
+    start andr36oid-report-boot
+
+# At every start: a report without the menus, when BOOT has a file make-report.txt
+# (made on a PC). Without that file it only looks at BOOT and ends at once.
+service andr36oid-report-boot /system/bin/sh /system/etc/andr36oid-report.sh boot
+    user root
+    group root system log
+    disabled
+    oneshot
 
 # Started by the Problem report page with ctl.start, see andr36oid-report.sh
 service andr36oid-report /system/bin/sh /system/etc/andr36oid-report.sh

@@ -1,5 +1,6 @@
 package org.andr36oid.report;
 
+import android.app.AlertDialog;
 import android.app.NotificationManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -9,6 +10,7 @@ import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.text.TextUtils;
+import android.widget.Button;
 import android.widget.Toast;
 
 /** One page: an optional description, a Save button with progress, and what gets kept. */
@@ -45,7 +47,7 @@ public class ReportFragment extends PreferenceFragment {
             return true;
         });
         mSave.setOnPreferenceClickListener(pref -> {
-            save();
+            confirm();
             return true;
         });
         showNote(mNote.getText());
@@ -74,6 +76,23 @@ public class ReportFragment extends PreferenceFragment {
 
     private void showNote(String note) {
         mNote.setSummary(TextUtils.isEmpty(note) ? getString(R.string.note_hint) : note);
+    }
+
+    /** Says where the report goes and what is in it, then saves on a yes. */
+    private void confirm() {
+        if (Reporter.serviceRunning()) return;
+        final AlertDialog d = new AlertDialog.Builder(getActivity())
+                .setTitle(R.string.confirm_title)
+                .setMessage(R.string.confirm_message)
+                .setPositiveButton(R.string.confirm_save, (dialog, which) -> save())
+                .setNegativeButton(android.R.string.cancel, null)
+                .create();
+        // A saves right away; the long text still scrolls with the d-pad
+        d.setOnShowListener(dialog -> {
+            final Button b = d.getButton(AlertDialog.BUTTON_POSITIVE);
+            if (b != null) b.requestFocus();
+        });
+        d.show();
     }
 
     private void save() {
@@ -133,7 +152,7 @@ public class ReportFragment extends PreferenceFragment {
                     mSave.setSummary(getString(R.string.save_failed,
                             getString(R.string.error_start)));
                 } else {
-                    mSave.setSummary(R.string.save_summary);
+                    mSave.setSummary(R.string.save_summary_file);
                 }
                 break;
         }
@@ -155,7 +174,7 @@ public class ReportFragment extends PreferenceFragment {
 
     private String errorText(String code) {
         switch (code) {
-            case "no_storage": return getString(R.string.error_no_storage);
+            case "no_storage": return getString(R.string.error_no_room);
             case "cant_write": return getString(R.string.error_cant_write);
             default: return getString(R.string.error_stopped);
         }
