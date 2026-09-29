@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="share_category">SD kart</string>
+    <string name="share_export">Düzenleri SD karta kaydet</string>
+    <string name="share_export_summary">Tüm düzenleri EASYROMS üzerindeki touchmap klasörüne kopyalar. Yeni bir imaj kurduğunuzda orada kalırlar ve bunları paylaşabilirsiniz.</string>
+    <string name="share_import">Düzenleri SD karttan yükle</string>
+    <string name="share_import_summary">EASYROMS üzerindeki touchmap klasöründeki düzenleri ekler. Zaten düzeni olan bir uygulama kendi düzenini korur.</string>
+    <string name="share_working">Kopyalanıyor…</string>
+    <string name="share_exported">Kaydedilen düzenler: %1$d\nKlasör: EASYROMS/touchmap</string>
+    <string name="share_imported">Yeni düzenler: %1$d\nKendi düzenini koruyan uygulamalar: %2$d\nKullanılamayan dosyalar: %3$d</string>
+    <string name="share_error_nocard">EASYROMS bulunamadı. SD kartı kontrol edip tekrar deneyin.</string>
+    <string name="share_error_none">Henüz kaydedilecek düzen yok.</string>
+    <string name="share_error_empty">Düzen bulunamadı. .json dosyalarını EASYROMS üzerindeki touchmap klasörüne koyup tekrar deneyin.</string>
+    <string name="share_error_failed">Olmadı. Tekrar deneyin.</string>
+</resources>

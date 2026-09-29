@@ -7,6 +7,7 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.Preference;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
@@ -26,6 +27,8 @@ import java.util.Set;
 public class ProfilesFragment extends PreferenceFragment {
 
     private PreferenceCategory mApps;
+    private final Handler mHandler = new Handler();
+    private AlertDialog mBusy;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -42,6 +45,32 @@ public class ProfilesFragment extends PreferenceFragment {
         mApps = new PreferenceCategory(context);
         mApps.setTitle(R.string.settings_apps);
         screen.addPreference(mApps);
+
+        final PreferenceCategory card = new PreferenceCategory(context);
+        card.setTitle(R.string.share_category);
+        screen.addPreference(card);
+        final Preference export = new Preference(context);
+        export.setTitle(R.string.share_export);
+        export.setSummary(R.string.share_export_summary);
+        export.setOnPreferenceClickListener(p -> {
+            if (Profiles.packages().isEmpty()) {
+                message(getString(R.string.share_error_none));
+            } else {
+                busy();
+                Share.export(context, mHandler, this::shareDone);
+            }
+            return true;
+        });
+        card.addPreference(export);
+        final Preference load = new Preference(context);
+        load.setTitle(R.string.share_import);
+        load.setSummary(R.string.share_import_summary);
+        load.setOnPreferenceClickListener(p -> {
+            busy();
+            Share.load(context, mHandler, this::shareDone);
+            return true;
+        });
+        card.addPreference(load);
 
         final PreferenceCategory how = new PreferenceCategory(context);
         how.setTitle(R.string.settings_how);
@@ -63,6 +92,54 @@ public class ProfilesFragment extends PreferenceFragment {
             return true;
         });
         how.addPreference(help);
+    }
+
+    @Override
+    public void onDestroy() {
+        mHandler.removeCallbacksAndMessages(null);
+        if (mBusy != null) {
+            mBusy.dismiss();
+            mBusy = null;
+        }
+        super.onDestroy();
+    }
+
+    private void busy() {
+        mBusy = new AlertDialog.Builder(getActivity())
+                .setMessage(R.string.share_working)
+                .setCancelable(false)
+                .show();
+    }
+
+    private void shareDone(Share.Outcome o) {
+        if (mBusy != null) {
+            mBusy.dismiss();
+            mBusy = null;
+        }
+        if (!isAdded()) {
+            return;
+        }
+        if (o.ok && o.exported > 0) {
+            message(getString(R.string.share_exported, o.exported));
+        } else if (o.ok) {
+            message(getString(R.string.share_imported, o.added, o.kept, o.bad));
+            fillApps();
+        } else if ("nocard".equals(o.error)) {
+            message(getString(R.string.share_error_nocard));
+        } else if ("none".equals(o.error)) {
+            message(getString(R.string.share_error_none));
+        } else if ("empty".equals(o.error)) {
+            message(getString(R.string.share_error_empty));
+        } else {
+            message(getString(R.string.share_error_failed));
+        }
+    }
+
+    private void message(CharSequence text) {
+        new AlertDialog.Builder(getActivity())
+                .setMessage(text)
+                .setPositiveButton(android.R.string.ok, null)
+                .show();
     }
 
     @Override

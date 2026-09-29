@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="share_category">Carte SD</string>
+    <string name="share_export">Enregistrer les dispositions sur la carte SD</string>
+    <string name="share_export_summary">Copie toutes les dispositions dans le dossier touchmap d\'EASYROMS. Elles y restent quand vous installez une nouvelle image, et vous pouvez les partager.</string>
+    <string name="share_import">Charger les dispositions depuis la carte SD</string>
+    <string name="share_import_summary">Ajoute les dispositions du dossier touchmap d\'EASYROMS. Une appli qui a déjà une disposition garde la sienne.</string>
+    <string name="share_working">Copie en cours…</string>
+    <string name="share_exported">Dispositions enregistrées : %1$d\nDossier : EASYROMS/touchmap</string>
+    <string name="share_imported">Nouvelles dispositions : %1$d\nApplis qui gardent leur disposition : %2$d\nFichiers inutilisables : %3$d</string>
+    <string name="share_error_nocard">EASYROMS est introuvable. Vérifiez la carte SD, puis réessayez.</string>
+    <string name="share_error_none">Il n\'y a encore aucune disposition à enregistrer.</string>
+    <string name="share_error_empty">Aucune disposition trouvée. Placez des fichiers .json dans le dossier touchmap d\'EASYROMS, puis réessayez.</string>
+    <string name="share_error_failed">Cela n\'a pas fonctionné. Réessayez.</string>
+</resources>

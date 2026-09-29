@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="share_category">Tarjeta SD</string>
+    <string name="share_export">Guardar distribuciones en la tarjeta SD</string>
+    <string name="share_export_summary">Copia todas las distribuciones a la carpeta touchmap de EASYROMS. Se conservan al instalar una imagen nueva y puedes compartirlas.</string>
+    <string name="share_import">Cargar distribuciones de la tarjeta SD</string>
+    <string name="share_import_summary">Añade las distribuciones de la carpeta touchmap de EASYROMS. Una app que ya tiene distribución conserva la suya.</string>
+    <string name="share_working">Copiando…</string>
+    <string name="share_exported">Distribuciones guardadas: %1$d\nCarpeta: EASYROMS/touchmap</string>
+    <string name="share_imported">Distribuciones nuevas: %1$d\nApps que conservan la suya: %2$d\nArchivos que no se han podido usar: %3$d</string>
+    <string name="share_error_nocard">No se encuentra EASYROMS. Comprueba la tarjeta SD y vuelve a intentarlo.</string>
+    <string name="share_error_none">Todavía no hay distribuciones que guardar.</string>
+    <string name="share_error_empty">No se han encontrado distribuciones. Pon archivos .json en la carpeta touchmap de EASYROMS y vuelve a intentarlo.</string>
+    <string name="share_error_failed">No ha funcionado. Vuelve a intentarlo.</string>
+</resources>

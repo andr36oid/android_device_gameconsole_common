@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Settings > Touch controls: layouts to and from the touchmap folder on EASYROMS.
+     Kept apart from strings.xml so the translation branches don't collide. -->
+<resources>
+    <string name="share_category">SD card</string>
+    <string name="share_export">Save layouts to the SD card</string>
+    <string name="share_export_summary">Copies all layouts to the touchmap folder on EASYROMS. They stay there when you install a new image, and you can share them.</string>
+    <string name="share_import">Load layouts from the SD card</string>
+    <string name="share_import_summary">Adds the layouts from the touchmap folder on EASYROMS. An app that already has a layout keeps its own.</string>
+    <string name="share_working">Copying…</string>
+    <string name="share_exported">Layouts saved: %1$d\nFolder: EASYROMS/touchmap</string>
+    <string name="share_imported">New layouts: %1$d\nApps that kept their own layout: %2$d\nFiles that couldn\'t be used: %3$d</string>
+    <string name="share_error_nocard">EASYROMS isn\'t there. Check the SD card, then try again.</string>
+    <string name="share_error_none">There are no layouts to save yet.</string>
+    <string name="share_error_empty">No layouts found. Put .json files in the touchmap folder on EASYROMS, then try again.</string>
+    <string name="share_error_failed">That didn\'t work. Try again.</string>
+</resources>

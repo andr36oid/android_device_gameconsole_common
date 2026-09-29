@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="share_category">SD-карта</string>
+    <string name="share_export">Сохранить раскладки на SD-карту</string>
+    <string name="share_export_summary">Копирует все раскладки в папку touchmap на EASYROMS. Они сохранятся при установке нового образа, и ими можно поделиться.</string>
+    <string name="share_import">Загрузить раскладки с SD-карты</string>
+    <string name="share_import_summary">Добавляет раскладки из папки touchmap на EASYROMS. Если у приложения уже есть раскладка, остаётся его собственная.</string>
+    <string name="share_working">Копирование…</string>
+    <string name="share_exported">Сохранено раскладок: %1$d\nПапка: EASYROMS/touchmap</string>
+    <string name="share_imported">Новых раскладок: %1$d\nПриложений, сохранивших свою раскладку: %2$d\nФайлов, которые не удалось использовать: %3$d</string>
+    <string name="share_error_nocard">EASYROMS не найден. Проверьте SD-карту и попробуйте ещё раз.</string>
+    <string name="share_error_none">Пока нет раскладок для сохранения.</string>
+    <string name="share_error_empty">Раскладки не найдены. Положите файлы .json в папку touchmap на EASYROMS и попробуйте ещё раз.</string>
+    <string name="share_error_failed">Не получилось. Попробуйте ещё раз.</string>
+</resources>
