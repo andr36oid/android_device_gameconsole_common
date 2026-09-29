@@ -263,6 +263,11 @@ final class Chapters {
         para(c, R.string.card_noroms_a);
         heading(c, R.string.card_backup_q);
         para(c, R.string.card_backup_a);
+        if (hasPackage("com.github.catfriend1.syncthingfork")) {
+            heading(c, R.string.card_sync_q);
+            para(c, R.string.card_sync_a);
+            para(c, R.string.card_sync_pair);
+        }
 
         c = chapter(R.string.battery_title, chapters);
         heading(c, R.string.battery_percent_q);

@@ -162,6 +162,9 @@
     <string name="card_noroms_a">Before the very first start, make an empty file named .noroms on BOOT. The first start then gives the whole card to apps. This only works on a freshly written card. BIOS files then go in the bios folder on the internal storage.</string>
     <string name="card_backup_q">Back up your saves</string>
     <string name="card_backup_a">Saves made next to the games on EASYROMS are easy to copy on a computer. Saves inside an app stay with that app on the Android part of the card, so check each emulator\'s settings for where it keeps them.</string>
+    <string name="card_sync_q">Keep your saves the same on two devices</string>
+    <string name="card_sync_a">Settings &gt; Save backup &gt; Sync saves keeps your save games and save states the same on this console and your PC, phone or another console, over your home Wi-Fi. There is no cloud and no account, and games and BIOS files are never copied. It syncs while the console charges on Wi-Fi, and while that page is open.</string>
+    <string name="card_sync_pair">On a PC or phone, install Syncthing and add the console\'s ID from that page, or scan its code. The PC or phone then shows up on the console under Add a device: press A on it. For two consoles, turn on Sync saves on both, then pick each one on the other. Quit the game before you play on the other device.</string>
 
     <!-- Battery -->
     <string name="battery_title">Battery care</string>
