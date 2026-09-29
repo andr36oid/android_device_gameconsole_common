@@ -61,7 +61,7 @@
     <string name="usb_none">SD karttan ayrı bir kopya tutmak için bir USB sürücü takın</string>
     <string name="auto_category">Otomatik yedekleme</string>
     <string name="auto_title">Otomatik olarak yedekle</string>
-    <string name="auto_summary">Şarj olurken günde bir kez ve bir oyunu kapattıktan sonra. Hiçbir şey değişmediyse atlanır.</string>
+    <string name="auto_summary">Şarj olurken günde bir kez ve bir oyunu kapattıktan sonra. Hiçbir şey değişmediyse atlanır. Oyundan sonra 16 MB üzerindeki kayıt durumları (PSP) günlük yedeği bekler.</string>
     <string name="keep_title">Saklanacak yedekler</string>
     <!-- %1$s: a number -->
     <string name="keep_summary">En yeni %1$s yedek saklanır, son günlerin her birinden en az bir tane olacak şekilde. Daha eskiler silinir.</string>

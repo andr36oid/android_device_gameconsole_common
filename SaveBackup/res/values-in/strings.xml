@@ -59,7 +59,7 @@
     <string name="usb_none">Colokkan drive USB untuk menyimpan salinan di luar kartu SD</string>
     <string name="auto_category">Pencadangan otomatis</string>
     <string name="auto_title">Cadangkan otomatis</string>
-    <string name="auto_summary">Sekali sehari saat mengisi daya, dan setelah Anda menutup game. Dilewati jika tidak ada perubahan.</string>
+    <string name="auto_summary">Sekali sehari saat mengisi daya, dan setelah Anda menutup game. Dilewati jika tidak ada perubahan. Setelah bermain, save state di atas 16 MB (PSP) menunggu cadangan harian.</string>
     <string name="keep_title">Cadangan yang disimpan</string>
     <!-- %1$s: a number -->
     <string name="keep_summary">%1$s cadangan terbaru disimpan, minimal satu dari setiap hari terakhir. Yang lebih lama dihapus.</string>
