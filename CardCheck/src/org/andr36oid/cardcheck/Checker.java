@@ -100,10 +100,18 @@ final class Checker {
 
     /** A real size check on this card is paused: its test data is on the card. */
     static boolean paused(Card card) {
-        if (progress(card).isEmpty()) return false;
-        if (!running()) return true;
-        final Map<String, String> s = status();
-        return !(FULL.equals(s.get("action")) && card.uuid.equals(s.get("uuid")));
+        final Map<String, String> progress = progress(card);
+        if (progress.isEmpty()) return false;
+        final boolean running = running();
+        return paused(card, progress, running, running ? status() : null);
+    }
+
+    /** The same from values already read ({@code status} may be null if not running). */
+    static boolean paused(Card card, Map<String, String> progress, boolean running,
+            Map<String, String> status) {
+        if (progress.isEmpty()) return false;
+        if (!running) return true;
+        return !(FULL.equals(status.get("action")) && card.uuid.equals(status.get("uuid")));
     }
 
     private static Map<String, String> read(File f) {

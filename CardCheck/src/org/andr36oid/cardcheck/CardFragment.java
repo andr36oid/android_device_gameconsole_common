@@ -5,6 +5,7 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.HandlerThread;
 import android.os.Looper;
 import android.os.SystemClock;
 import android.preference.ListPreference;
@@ -30,6 +31,11 @@ public class CardFragment extends PreferenceFragment {
 
     private final Handler mHandler = new Handler(Looper.getMainLooper());
     private final Runnable mPoll = this::refresh;
+    /** Status files, sysfs and free space are read here, not on the main thread. */
+    private HandlerThread mThread;
+    private Handler mWorker;
+    /** Counts refresh() calls; a read that finishes after a newer one is dropped. */
+    private int mGeneration;
 
     private ListPreference mCardPref;
     private Preference mDetails, mAdvice, mSpeed, mFull, mFullDelete;
@@ -45,6 +51,9 @@ public class CardFragment extends PreferenceFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.card);
+        mThread = new HandlerThread("CardCheck");
+        mThread.start();
+        mWorker = new Handler(mThread.getLooper());
         mCardPref = (ListPreference) findPreference("card");
         mDetails = findPreference("details");
         mAdvice = findPreference("advice");
@@ -99,7 +108,14 @@ public class CardFragment extends PreferenceFragment {
     @Override
     public void onPause() {
         mHandler.removeCallbacks(mPoll);
+        mGeneration++;
         super.onPause();
+    }
+
+    @Override
+    public void onDestroy() {
+        mThread.quitSafely();
+        super.onDestroy();
     }
 
     private void loadCards() {
@@ -146,8 +162,42 @@ public class CardFragment extends PreferenceFragment {
         }
         if (mCardPref.getValue() != null) mCardPref.setSummary(card.name);
 
-        final Map<String, String> s = Checker.status();
-        final boolean running = Checker.running() || (mStartedAt != 0
+        final int generation = ++mGeneration;
+        mWorker.post(() -> {
+            final Snapshot snap = new Snapshot(card);
+            mHandler.post(() -> {
+                if (generation == mGeneration && isResumed() && getActivity() != null) {
+                    show(getActivity(), card, snap);
+                }
+            });
+        });
+    }
+
+    /** Everything refresh() shows that has to be read from files. */
+    private static final class Snapshot {
+        final Map<String, String> status, progress, speed, full;
+        final boolean serviceRunning;
+        final CardId id;
+        final String manfid, product, date;
+        final long freeBytes;
+
+        Snapshot(Card card) {
+            serviceRunning = Checker.running();
+            status = Checker.status();
+            progress = Checker.progress(card);
+            speed = Checker.result(Checker.SPEED, card);
+            full = Checker.result(Checker.FULL, card);
+            id = card.id();
+            manfid = card.sd ? card.attr("manfid") : null;
+            product = card.sd ? card.attr("name") : null;
+            date = card.sd ? card.attr("date") : null;
+            freeBytes = card.freeBytes();
+        }
+    }
+
+    private void show(Context c, Card card, Snapshot snap) {
+        final Map<String, String> s = snap.status;
+        final boolean running = snap.serviceRunning || (mStartedAt != 0
                 && SystemClock.elapsedRealtime() - mStartedAt < START_GRACE_MS
                 && !"done".equals(s.get("state")) && !"failed".equals(s.get("state"))
                 && !"stopped".equals(s.get("state")) && !"paused".equals(s.get("state")));
@@ -163,12 +213,13 @@ public class CardFragment extends PreferenceFragment {
                 : running && mStartedAction != null;
         final boolean fullHere = running && thisCard
                 && (Checker.FULL.equals(action) || Checker.RESUME.equals(action));
-        final boolean paused = !fullHere && Checker.paused(card);
+        final boolean paused = !fullHere
+                && Checker.paused(card, snap.progress, snap.serviceRunning, s);
 
-        final CardId id = card.id();
-        final Map<String, String> speed = Checker.result(Checker.SPEED, card);
-        final Map<String, String> full = Checker.result(Checker.FULL, card);
-        showDetails(c, card, id, speed);
+        final CardId id = snap.id;
+        final Map<String, String> speed = snap.speed;
+        final Map<String, String> full = snap.full;
+        showDetails(c, card, snap, speed);
         mAdvice.setSummary(Texts.advice(c, card, id, speed, full, paused));
 
         // speed
@@ -193,18 +244,18 @@ public class CardFragment extends PreferenceFragment {
             mFull.setEnabled(!mStopping);
         } else if (paused) {
             mFull.setTitle(R.string.full_title_continue);
-            mFull.setSummary(Texts.paused(c, Checker.progress(card)));
+            mFull.setSummary(Texts.paused(c, snap.progress));
             mFull.setEnabled(true);
         } else {
             mFull.setTitle(R.string.full_title);
             final String text = Texts.fullResult(c, full);
-            mFull.setSummary(text != null ? text : fullIntro(c, card, speed));
+            mFull.setSummary(text != null ? text : fullIntro(c, snap.freeBytes, speed));
             mFull.setEnabled(!running);
         }
         if (paused) {
             mFullCategory.addPreference(mFullDelete);
             mFullDelete.setSummary(c.getString(R.string.full_delete_summary, Texts.size(c,
-                    Checker.number(Checker.progress(card), "written_mb"))));
+                    Checker.number(snap.progress, "written_mb"))));
         } else {
             mFullCategory.removePreference(mFullDelete);
         }
@@ -212,30 +263,30 @@ public class CardFragment extends PreferenceFragment {
         if (running) mHandler.postDelayed(mPoll, POLL_MS);
     }
 
-    private void showDetails(Context c, Card card, CardId id, Map<String, String> speed) {
+    private void showDetails(Context c, Card card, Snapshot snap, Map<String, String> speed) {
         final String size = Formatter.formatShortFileSize(c, card.diskBytes);
         mDetails.setTitle(c.getString(card.sd ? R.string.details_title
                 : R.string.details_title_usb, card.name, size));
         final StringBuilder sb = new StringBuilder();
         if (card.sd) {
-            final String mid = card.attr("manfid");
+            final String mid = snap.manfid;
             String maker = Card.maker(mid);
             if (maker == null && mid != null) maker = c.getString(R.string.maker_unknown, mid);
-            final String product = card.attr("name");
-            final String date = card.attr("date");
+            final String product = snap.product;
+            final String date = snap.date;
             if (maker != null && product != null && date != null) {
                 sb.append(c.getString(R.string.details_card, maker, product, date)).append('\n');
             }
         }
-        final String lines = Texts.cardLines(c, id, speed);
+        final String lines = Texts.cardLines(c, snap.id, speed);
         if (!lines.isEmpty()) sb.append(lines).append('\n');
         sb.append(c.getString(R.string.details_free,
-                Formatter.formatFileSize(c, card.freeBytes())));
+                Formatter.formatFileSize(c, snap.freeBytes)));
         mDetails.setSummary(sb);
     }
 
-    private String fullIntro(Context c, Card card, Map<String, String> speed) {
-        final long freeMb = card.freeBytes() / (1024 * 1024);
+    private String fullIntro(Context c, long freeBytes, Map<String, String> speed) {
+        final long freeMb = freeBytes / (1024 * 1024);
         final String free = Texts.size(c, freeMb);
         final double secs = Texts.fullEstimate(speed, freeMb);
         if (Double.isNaN(secs)) return c.getString(R.string.full_summary_unknown_time, free);
