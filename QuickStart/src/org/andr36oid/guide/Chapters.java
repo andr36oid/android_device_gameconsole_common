@@ -142,6 +142,14 @@ final class Chapters {
         para(c, R.string.emulators_psp);
         para(c, R.string.emulators_updates);
 
+        if (hasPackage("org.andr36oid.controllers")) {
+            c = chapter(R.string.pads_title, chapters);
+            para(c, R.string.pads_connect);
+            para(c, R.string.pads_players);
+            para(c, R.string.pads_alone);
+            para(c, R.string.pads_menu);
+        }
+
         c = chapter(R.string.speed_title, chapters);
         if (profiles) {
             para(c, R.string.speed_profiles);
