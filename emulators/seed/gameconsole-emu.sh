@@ -300,14 +300,19 @@ ROM_FOLDERS=$BASE/rom-folders.txt
 
 # easyroms_path ; prints where EASYROMS is mounted, waits up to a minute for it
 easyroms_path() {
-	local i=0 id state uuid
-	while [ $i -lt 30 ]; do
-		sm list-volumes public </dev/null 2>/dev/null | while read -r id state uuid; do
-			[ "$id" = "$EASYROMS_ID" ] && [ "$state" = mounted ] && [ -n "$uuid" ] &&
-				[ -d "/mnt/media_rw/$uuid" ] && echo "/mnt/media_rw/$uuid"
-		done | grep . && return 0
+	# vold mounts it from /dev/block/vold/public:179,7 at /mnt/media_rw/<uuid>,
+	# so /proc/mounts tells. (Asking `sm list-volumes` started a Java VM each
+	# time, about a second of CPU per try, while Daijishou starts after boot.)
+	local i=0 dev dir _
+	while [ $i -lt 60 ]; do
+		while read -r dev dir _; do
+			[ "$dev" = "/dev/block/vold/$EASYROMS_ID" ] || continue
+			case $dir in
+			/mnt/media_rw/?*) [ -d "$dir" ] && { echo "$dir"; return 0; } ;;
+			esac
+		done <"${MOUNTS:-/proc/mounts}"
 		i=$((i + 1))
-		sleep 2
+		sleep 1
 	done
 	return 1
 }
