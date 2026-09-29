@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="look_title">Apparence de la console</string>
+    <string name="look_summary">Couleur d\'accent, fond d\'écran, sons, animation de démarrage</string>
+    <string name="accent_title">Couleur d\'accent</string>
+    <string name="accent_default">Bleu-vert LineageOS (par défaut)</string>
+    <string name="wallpaper_title">Fond d\'écran</string>
+    <string name="wallpaper_default">Noir (par défaut)</string>
+    <string name="wallpaper_other">Défini ailleurs</string>
+    <string name="wallpaper_failed">Impossible de définir le fond d\'écran</string>
+    <string name="sounds_title">Sons de l\'interface</string>
+    <string name="sounds_android">Android (par défaut)</string>
+    <string name="sounds_retro">Rétro</string>
+    <string name="sounds_summary">%1$s. Joués quand Sons des touches est activé (Son &gt; Paramètres avancés).</string>
+    <string name="sounds_restart_title">Redémarrer pour entendre les nouveaux sons</string>
+    <string name="sounds_restart_message">Android charge ses sons de boutons une seule fois, au démarrage. Le son du chargeur a déjà changé.</string>
+    <string name="restart_now">Redémarrer</string>
+    <string name="later">Plus tard</string>
+    <string name="bootanim_title">Animation de démarrage</string>
+    <string name="bootanim_lineage">LineageOS (par défaut)</string>
+    <string name="bootanim_retro">andr36oid rétro</string>
+    <string name="bootanim_summary">%1$s. Visible au prochain démarrage.</string>
+    <string name="about_wallpaper">Daijishou dessine son propre arrière-plan : le fond d\'écran n\'est donc visible qu\'avec d\'autres écrans d\'accueil et dans Styles et fonds d\'écran. Pour l\'arrière-plan de Daijishou lui-même : paramètres de Daijishou &gt; Wallpaper settings.</string>
+</resources>

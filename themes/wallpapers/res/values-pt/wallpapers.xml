@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Names shown in Settings > Display > Console look, same order -->
+    <string-array name="wallpaper_titles">
+        <item>Pôr do sol em pixels</item>
+        <item>Colinas à noite</item>
+        <item>Contorno do console</item>
+        <item>Padrão de botões</item>
+        <item>Carcaça roxa transparente</item>
+        <item>Monitor verde</item>
+    </string-array>
+</resources>

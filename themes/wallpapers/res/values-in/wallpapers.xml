@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Names shown in Settings > Display > Console look, same order -->
+    <string-array name="wallpaper_titles">
+        <item>Senja piksel</item>
+        <item>Bukit malam</item>
+        <item>Garis konsol</item>
+        <item>Pola tombol</item>
+        <item>Casing ungu bening</item>
+        <item>Monitor hijau</item>
+    </string-array>
+</resources>

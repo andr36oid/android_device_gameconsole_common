@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="look_title">Konsol görünümü</string>
+    <string name="look_summary">Vurgu rengi, duvar kağıdı, sesler, açılış animasyonu</string>
+    <string name="accent_title">Vurgu rengi</string>
+    <string name="accent_default">LineageOS turkuazı (varsayılan)</string>
+    <string name="wallpaper_title">Duvar kağıdı</string>
+    <string name="wallpaper_default">Siyah (varsayılan)</string>
+    <string name="wallpaper_other">Başka yerden ayarlandı</string>
+    <string name="wallpaper_failed">Duvar kağıdı ayarlanamadı</string>
+    <string name="sounds_title">Arayüz sesleri</string>
+    <string name="sounds_android">Android (varsayılan)</string>
+    <string name="sounds_retro">Retro</string>
+    <string name="sounds_summary">%1$s. Dokunma sesleri açıkken çalar (Ses &gt; Gelişmiş).</string>
+    <string name="sounds_restart_title">Yeni sesleri duymak için yeniden başlatın</string>
+    <string name="sounds_restart_message">Android tuş seslerini bir kez, açılışta yükler. Şarj cihazı sesi zaten değişti.</string>
+    <string name="restart_now">Şimdi yeniden başlat</string>
+    <string name="later">Sonra</string>
+    <string name="bootanim_title">Açılış animasyonu</string>
+    <string name="bootanim_lineage">LineageOS (varsayılan)</string>
+    <string name="bootanim_retro">andr36oid retro</string>
+    <string name="bootanim_summary">%1$s. Bir sonraki açılıştan itibaren görünür.</string>
+    <string name="about_wallpaper">Daijishou kendi arka planını çizer, bu yüzden duvar kağıdı yalnızca başka ana ekranlarla ve Stiller ve duvar kağıtları\'nda görünür. Daijishou\'nun kendi arka planı: Daijishou ayarları &gt; Wallpaper settings.</string>
+</resources>

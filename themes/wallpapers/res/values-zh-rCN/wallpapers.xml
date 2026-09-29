@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Names shown in Settings > Display > Console look, same order -->
+    <string-array name="wallpaper_titles">
+        <item>像素日落</item>
+        <item>夜色山丘</item>
+        <item>掌机轮廓</item>
+        <item>按键图案</item>
+        <item>透明紫色外壳</item>
+        <item>绿色显示器</item>
+    </string-array>
+</resources>
