@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="cal_title">Sticks kalibrieren</string>
+    <string name="cal_summary">Für Sticks, die driften oder nicht bis zum Rand kommen</string>
+    <string name="cal_left">Linker Stick</string>
+    <string name="cal_right">Rechter Stick</string>
+    <string name="cal_status_factory">Werkseinstellungen aktiv</string>
+    <string name="cal_status_calibrated">Kalibriert</string>
+    <string name="cal_status_unsupported">Der Stick-Treiber dieses Systems lässt sich nicht kalibrieren</string>
+    <!-- %1$d is a percentage of the stick's travel -->
+    <string name="cal_deadzone">Totzone: <xliff:g id="percent">%1$d</xliff:g> %%</string>
+    <string name="cal_hint_idle">A  Kalibrieren     X  Zurücksetzen     ◀ ▶  Totzone     B  Zurück</string>
+    <string name="cal_hint_idle_factory">A  Kalibrieren     B  Zurück</string>
+    <string name="cal_hint_back">B  Zurück</string>
+    <string name="cal_hint_capture">A  Fertig     B  Abbrechen</string>
+    <string name="cal_step_circles">Beweg beide Sticks in vollen Kreisen, langsam, ganz bis zum Rand. Jeweils dreimal.</string>
+    <string name="cal_step_release">Lass dann beide Sticks los und drück A.</string>
+    <!-- %1$d directions reached so far, out of 4 -->
+    <string name="cal_directions"><xliff:g id="done">%1$d</xliff:g> von 4 Richtungen</string>
+    <string name="cal_directions_done">Alle Richtungen erreicht</string>
+    <string name="cal_measuring">Die Mitte wird gemessen, Sticks nicht berühren…</string>
+    <string name="cal_saved">Gespeichert. Spiele und Apps nutzen jetzt die neue Kalibrierung.</string>
+    <string name="cal_not_applied">Gespeichert, aber der Treiber hat sie nicht übernommen. Starte die Konsole neu und prüfe es noch einmal.</string>
+    <string name="cal_left_short">Der linke Stick hat nicht in jeder Richtung den Rand erreicht. Kreise weiter, lass dann los und drück A.</string>
+    <string name="cal_right_short">Der rechte Stick hat nicht in jeder Richtung den Rand erreicht. Kreise weiter, lass dann los und drück A.</string>
+    <string name="cal_not_still">Ein Stick hat sich bewegt, während die Mitte gemessen wurde. Lass beide Sticks los und drück noch einmal A.</string>
+    <string name="cal_reset_confirm">Drück noch einmal X, um zu den Werkseinstellungen zurückzukehren</string>
+    <string name="cal_reset_done">Werkseinstellungen wiederhergestellt</string>
+    <string name="cal_deadzone_needs_cal">Erst kalibrieren, dann lässt sich die Totzone ändern</string>
+</resources>

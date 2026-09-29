@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="cal_title">Kalibrasi stik</string>
+    <string name="cal_summary">Untuk stik yang bergeser sendiri atau tidak mencapai tepi</string>
+    <string name="cal_left">Stik kiri</string>
+    <string name="cal_right">Stik kanan</string>
+    <string name="cal_status_factory">Memakai setelan pabrik</string>
+    <string name="cal_status_calibrated">Terkalibrasi</string>
+    <string name="cal_status_unsupported">Driver stik di sistem ini tidak bisa dikalibrasi</string>
+    <!-- %1$d is a percentage of the stick's travel -->
+    <string name="cal_deadzone">Zona mati: <xliff:g id="percent">%1$d</xliff:g> %%</string>
+    <string name="cal_hint_idle">A  Kalibrasi     X  Setelan pabrik     ◀ ▶  Zona mati     B  Kembali</string>
+    <string name="cal_hint_idle_factory">A  Kalibrasi     B  Kembali</string>
+    <string name="cal_hint_back">B  Kembali</string>
+    <string name="cal_hint_capture">A  Selesai     B  Batal</string>
+    <string name="cal_step_circles">Putar kedua stik dalam lingkaran penuh, pelan-pelan, sampai ke tepi. Masing-masing tiga kali.</string>
+    <string name="cal_step_release">Lalu lepaskan kedua stik dan tekan A.</string>
+    <!-- %1$d directions reached so far, out of 4 -->
+    <string name="cal_directions"><xliff:g id="done">%1$d</xliff:g> dari 4 arah</string>
+    <string name="cal_directions_done">Semua arah tercapai</string>
+    <string name="cal_measuring">Mengukur titik tengah, jangan sentuh stik…</string>
+    <string name="cal_saved">Tersimpan. Game dan aplikasi kini memakai kalibrasi baru.</string>
+    <string name="cal_not_applied">Tersimpan, tetapi driver tidak menerimanya. Mulai ulang konsol dan periksa lagi.</string>
+    <string name="cal_left_short">Stik kiri belum mencapai tepi di semua arah. Terus putar, lalu lepaskan dan tekan A.</string>
+    <string name="cal_right_short">Stik kanan belum mencapai tepi di semua arah. Terus putar, lalu lepaskan dan tekan A.</string>
+    <string name="cal_not_still">Ada stik yang bergerak saat titik tengah diukur. Lepaskan kedua stik dan tekan A lagi.</string>
+    <string name="cal_reset_confirm">Tekan X lagi untuk kembali ke setelan pabrik</string>
+    <string name="cal_reset_done">Kembali ke setelan pabrik</string>
+    <string name="cal_deadzone_needs_cal">Kalibrasi dulu, baru zona mati bisa diubah</string>
+</resources>

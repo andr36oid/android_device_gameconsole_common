@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="cal_title">Analogları kalibre et</string>
+    <string name="cal_summary">Kayan veya kenara ulaşmayan analoglar için</string>
+    <string name="cal_left">Sol analog</string>
+    <string name="cal_right">Sağ analog</string>
+    <string name="cal_status_factory">Fabrika ayarları kullanılıyor</string>
+    <string name="cal_status_calibrated">Kalibre edildi</string>
+    <string name="cal_status_unsupported">Bu sistemdeki analog sürücüsü kalibre edilemiyor</string>
+    <!-- %1$d is a percentage of the stick's travel -->
+    <string name="cal_deadzone">Ölü bölge: %%<xliff:g id="percent">%1$d</xliff:g></string>
+    <string name="cal_hint_idle">A  Kalibre et     X  Fabrika ayarları     ◀ ▶  Ölü bölge     B  Geri</string>
+    <string name="cal_hint_idle_factory">A  Kalibre et     B  Geri</string>
+    <string name="cal_hint_back">B  Geri</string>
+    <string name="cal_hint_capture">A  Bitti     B  İptal</string>
+    <string name="cal_step_circles">İki analoğu da yavaşça, sonuna kadar kenara götürerek tam daireler çizdirin. Her biriyle üç kez.</string>
+    <string name="cal_step_release">Sonra iki analoğu da bırakın ve A\'ya basın.</string>
+    <!-- %1$d directions reached so far, out of 4 -->
+    <string name="cal_directions"><xliff:g id="done">%1$d</xliff:g> / 4 yön</string>
+    <string name="cal_directions_done">Tüm yönlere ulaşıldı</string>
+    <string name="cal_measuring">Orta nokta ölçülüyor, analoglara dokunmayın…</string>
+    <string name="cal_saved">Kaydedildi. Oyunlar ve uygulamalar artık yeni kalibrasyonu kullanıyor.</string>
+    <string name="cal_not_applied">Kaydedildi, ama sürücü bunu almadı. Konsolu yeniden başlatıp tekrar kontrol edin.</string>
+    <string name="cal_left_short">Sol analog her yönde kenara ulaşmadı. Daire çizmeye devam edin, sonra bırakıp A\'ya basın.</string>
+    <string name="cal_right_short">Sağ analog her yönde kenara ulaşmadı. Daire çizmeye devam edin, sonra bırakıp A\'ya basın.</string>
+    <string name="cal_not_still">Orta nokta ölçülürken bir analog hareket etti. İki analoğu da bırakın ve yeniden A\'ya basın.</string>
+    <string name="cal_reset_confirm">Fabrika ayarlarına dönmek için X\'e yeniden basın</string>
+    <string name="cal_reset_done">Fabrika ayarlarına dönüldü</string>
+    <string name="cal_deadzone_needs_cal">Önce kalibre edin, sonra ölü bölge değiştirilebilir</string>
+</resources>

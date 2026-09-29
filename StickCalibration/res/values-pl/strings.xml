@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="cal_title">Kalibracja gałek</string>
+    <string name="cal_summary">Dla gałek, które dryfują lub nie sięgają krawędzi</string>
+    <string name="cal_left">Lewa gałka</string>
+    <string name="cal_right">Prawa gałka</string>
+    <string name="cal_status_factory">Używane są ustawienia fabryczne</string>
+    <string name="cal_status_calibrated">Skalibrowano</string>
+    <string name="cal_status_unsupported">Sterownika gałek w tym systemie nie da się skalibrować</string>
+    <!-- %1$d is a percentage of the stick's travel -->
+    <string name="cal_deadzone">Martwa strefa: <xliff:g id="percent">%1$d</xliff:g> %%</string>
+    <string name="cal_hint_idle">A  Kalibruj     X  Fabryczne     ◀ ▶  Martwa strefa     B  Wstecz</string>
+    <string name="cal_hint_idle_factory">A  Kalibruj     B  Wstecz</string>
+    <string name="cal_hint_back">B  Wstecz</string>
+    <string name="cal_hint_capture">A  Gotowe     B  Anuluj</string>
+    <string name="cal_step_circles">Zataczaj obiema gałkami pełne koła, powoli, aż do samej krawędzi. Każdą po trzy razy.</string>
+    <string name="cal_step_release">Potem puść obie gałki i naciśnij A.</string>
+    <!-- %1$d directions reached so far, out of 4 -->
+    <string name="cal_directions"><xliff:g id="done">%1$d</xliff:g> z 4 kierunków</string>
+    <string name="cal_directions_done">Osiągnięto wszystkie kierunki</string>
+    <string name="cal_measuring">Pomiar środka, nie dotykaj gałek…</string>
+    <string name="cal_saved">Zapisano. Gry i aplikacje używają teraz nowej kalibracji.</string>
+    <string name="cal_not_applied">Zapisano, ale sterownik jej nie przyjął. Uruchom konsolę ponownie i sprawdź jeszcze raz.</string>
+    <string name="cal_left_short">Lewa gałka nie sięgnęła krawędzi we wszystkich kierunkach. Zataczaj dalej koła, potem puść i naciśnij A.</string>
+    <string name="cal_right_short">Prawa gałka nie sięgnęła krawędzi we wszystkich kierunkach. Zataczaj dalej koła, potem puść i naciśnij A.</string>
+    <string name="cal_not_still">Gałka poruszyła się podczas pomiaru środka. Puść obie gałki i naciśnij A ponownie.</string>
+    <string name="cal_reset_confirm">Naciśnij X jeszcze raz, aby wrócić do ustawień fabrycznych</string>
+    <string name="cal_reset_done">Przywrócono ustawienia fabryczne</string>
+    <string name="cal_deadzone_needs_cal">Najpierw skalibruj, potem można zmienić martwą strefę</string>
+</resources>

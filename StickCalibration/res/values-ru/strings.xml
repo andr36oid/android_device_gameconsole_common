@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="cal_title">Калибровка стиков</string>
+    <string name="cal_summary">Если стики дрейфуют или не достают до края</string>
+    <string name="cal_left">Левый стик</string>
+    <string name="cal_right">Правый стик</string>
+    <string name="cal_status_factory">Заводские настройки</string>
+    <string name="cal_status_calibrated">Откалиброван</string>
+    <string name="cal_status_unsupported">Драйвер стиков в этой системе не поддерживает калибровку</string>
+    <!-- %1$d is a percentage of the stick's travel -->
+    <string name="cal_deadzone">Мёртвая зона: <xliff:g id="percent">%1$d</xliff:g> %%</string>
+    <string name="cal_hint_idle">A  Калибровать     X  Заводские     ◀ ▶  Мёртвая зона     B  Назад</string>
+    <string name="cal_hint_idle_factory">A  Калибровать     B  Назад</string>
+    <string name="cal_hint_back">B  Назад</string>
+    <string name="cal_hint_capture">A  Готово     B  Отмена</string>
+    <string name="cal_step_circles">Медленно вращайте оба стика по полному кругу, до самого края. По три раза каждый.</string>
+    <string name="cal_step_release">Затем отпустите оба стика и нажмите A.</string>
+    <!-- %1$d directions reached so far, out of 4 -->
+    <string name="cal_directions">Направлений: <xliff:g id="done">%1$d</xliff:g> из 4</string>
+    <string name="cal_directions_done">Все направления пройдены</string>
+    <string name="cal_measuring">Измеряется центр, не трогайте стики…</string>
+    <string name="cal_saved">Сохранено. Игры и приложения уже используют новую калибровку.</string>
+    <string name="cal_not_applied">Сохранено, но драйвер её не принял. Перезапустите консоль и проверьте снова.</string>
+    <string name="cal_left_short">Левый стик дошёл до края не во всех направлениях. Продолжайте вращать, затем отпустите и нажмите A.</string>
+    <string name="cal_right_short">Правый стик дошёл до края не во всех направлениях. Продолжайте вращать, затем отпустите и нажмите A.</string>
+    <string name="cal_not_still">Во время измерения центра стик сдвинулся. Отпустите оба стика и снова нажмите A.</string>
+    <string name="cal_reset_confirm">Нажмите X ещё раз, чтобы вернуть заводские настройки</string>
+    <string name="cal_reset_done">Заводские настройки возвращены</string>
+    <string name="cal_deadzone_needs_cal">Сначала выполните калибровку, затем можно менять мёртвую зону</string>
+</resources>

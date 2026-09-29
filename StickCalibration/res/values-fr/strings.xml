@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="cal_title">Calibrer les sticks</string>
+    <string name="cal_summary">Pour les sticks qui dérivent ou n\'atteignent pas le bord</string>
+    <string name="cal_left">Stick gauche</string>
+    <string name="cal_right">Stick droit</string>
+    <string name="cal_status_factory">Réglages d\'usine utilisés</string>
+    <string name="cal_status_calibrated">Calibré</string>
+    <string name="cal_status_unsupported">Le pilote des sticks de ce système ne peut pas être calibré</string>
+    <!-- %1$d is a percentage of the stick's travel -->
+    <string name="cal_deadzone">Zone morte : <xliff:g id="percent">%1$d</xliff:g> %%</string>
+    <string name="cal_hint_idle">A  Calibrer     X  Usine     ◀ ▶  Zone morte     B  Retour</string>
+    <string name="cal_hint_idle_factory">A  Calibrer     B  Retour</string>
+    <string name="cal_hint_back">B  Retour</string>
+    <string name="cal_hint_capture">A  OK     B  Annuler</string>
+    <string name="cal_step_circles">Faites faire aux deux sticks des cercles complets, lentement, jusqu\'au bord. Trois fois chacun.</string>
+    <string name="cal_step_release">Puis relâchez les deux sticks et appuyez sur A.</string>
+    <!-- %1$d directions reached so far, out of 4 -->
+    <string name="cal_directions"><xliff:g id="done">%1$d</xliff:g> directions sur 4</string>
+    <string name="cal_directions_done">Toutes les directions atteintes</string>
+    <string name="cal_measuring">Mesure du centre, ne touchez pas aux sticks…</string>
+    <string name="cal_saved">Enregistré. Les jeux et applis utilisent maintenant le nouveau calibrage.</string>
+    <string name="cal_not_applied">Enregistré, mais le pilote ne l\'a pas pris en compte. Redémarrez la console et vérifiez à nouveau.</string>
+    <string name="cal_left_short">Le stick gauche n\'a pas atteint le bord dans toutes les directions. Continuez les cercles, puis relâchez et appuyez sur A.</string>
+    <string name="cal_right_short">Le stick droit n\'a pas atteint le bord dans toutes les directions. Continuez les cercles, puis relâchez et appuyez sur A.</string>
+    <string name="cal_not_still">Un stick a bougé pendant la mesure du centre. Relâchez les deux sticks et appuyez à nouveau sur A.</string>
+    <string name="cal_reset_confirm">Appuyez à nouveau sur X pour revenir aux réglages d\'usine</string>
+    <string name="cal_reset_done">Réglages d\'usine rétablis</string>
+    <string name="cal_deadzone_needs_cal">Calibrez d\'abord, la zone morte pourra ensuite être modifiée</string>
+</resources>
