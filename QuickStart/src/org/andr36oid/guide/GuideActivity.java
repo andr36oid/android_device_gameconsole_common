@@ -36,10 +36,7 @@ public class GuideActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Opened by hand, so it doesn't need to open by itself any more
-        FirstBootReceiver.markShown(this);
-
-        mChapters = Chapters.build(this);
+        mChapters = buildChapters();
 
         final LinearLayout root = new LinearLayout(this);
         root.setOrientation(LinearLayout.VERTICAL);
@@ -75,6 +72,22 @@ public class GuideActivity extends Activity {
         updateHints(false);
     }
 
+    /** The topics. Buttons and shortcuts (ControlsActivity) has its own. */
+    protected List<Chapters.Chapter> buildChapters() {
+        // Opened by hand, so it doesn't need to open by itself any more
+        FirstBootReceiver.markShown(this);
+        return Chapters.build(this);
+    }
+
+    protected CharSequence getHeaderTitle() {
+        return getText(R.string.guide_title);
+    }
+
+    /** X opens the hands-on tutorial, only from the guide itself. */
+    protected boolean offersTutorial() {
+        return true;
+    }
+
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -87,7 +100,7 @@ public class GuideActivity extends Activity {
         header.setGravity(Gravity.CENTER_VERTICAL);
         header.setPadding(dp(4), 0, dp(4), dp(10));
 
-        final TextView title = text(getString(R.string.guide_title), 22, R.color.guide_text);
+        final TextView title = text(getHeaderTitle(), 22, R.color.guide_text);
         title.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
         header.addView(title, new LinearLayout.LayoutParams(0,
                 ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
@@ -163,7 +176,8 @@ public class GuideActivity extends Activity {
         mPageTitle.setPadding(0, 0, 0, dp(8));
         mPageContent.addView(mPageTitle);
         for (Chapters.Item item : chapter.items) {
-            mPageContent.addView(item.image != 0 ? buildImage(item)
+            mPageContent.addView(item.art ? buildArt(item)
+                    : item.image != 0 ? buildImage(item)
                     : item.heading ? buildHeading(item)
                     : item.isParagraph() ? buildParagraph(item) : buildRow(item));
         }
@@ -190,6 +204,17 @@ public class GuideActivity extends Activity {
         return view;
     }
 
+    /** A drawing made of characters: fixed-width, never wrapped, a bit smaller. */
+    private View buildArt(Chapters.Item item) {
+        final TextView view = text(item.text, 13, R.color.guide_text);
+        view.setTypeface(Typeface.MONOSPACE);
+        view.setHorizontallyScrolling(true);
+        view.setIncludeFontPadding(false);
+        view.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
+        view.setPadding(0, dp(6), 0, dp(10));
+        return view;
+    }
+
     private View buildParagraph(Chapters.Item item) {
         final TextView view = text(item.text, 15, R.color.guide_detail);
         view.setLineSpacing(dp(3), 1f);
@@ -206,6 +231,7 @@ public class GuideActivity extends Activity {
         final LinearLayout keys = new LinearLayout(this);
         keys.setOrientation(LinearLayout.HORIZONTAL);
         keys.setGravity(Gravity.CENTER_VERTICAL);
+        int badges = 0;
         for (int i = 0; i < item.keys.size(); i++) {
             if (i > 0) {
                 keys.addView(joiner(getString(R.string.key_plus)));
@@ -216,7 +242,18 @@ public class GuideActivity extends Activity {
                     keys.addView(joiner(getString(R.string.key_or)));
                 }
                 keys.addView(badge(alternatives[j]));
+                badges++;
             }
+        }
+        if (badges > 3) {
+            // Too many for the column (L1 + R1 + Start + Select): keys above the text
+            row.setOrientation(LinearLayout.VERTICAL);
+            row.setGravity(Gravity.START);
+            row.addView(keys);
+            final TextView text = text(item.text, 15, R.color.guide_text);
+            text.setPadding(0, dp(3), 0, 0);
+            row.addView(text);
+            return row;
         }
         // Keys in a column of their own, so the descriptions line up
         row.addView(keys, new LinearLayout.LayoutParams(dp(160),
@@ -256,7 +293,9 @@ public class GuideActivity extends Activity {
         } else {
             hint(getString(R.string.key_dpad), R.string.hint_choose);
             hint("A", R.string.hint_read);
-            hint("X", R.string.hint_tutorial);
+            if (offersTutorial()) {
+                hint("X", R.string.hint_tutorial);
+            }
             hint("B", R.string.hint_close);
         }
     }
@@ -304,6 +343,9 @@ public class GuideActivity extends Activity {
         switch (key) {
             case KeyEvent.KEYCODE_BUTTON_X:
                 // Try the buttons hands-on again
+                if (!offersTutorial()) {
+                    break;
+                }
                 if (down && event.getRepeatCount() == 0) {
                     startActivity(new Intent(this, TutorialActivity.class));
                 }

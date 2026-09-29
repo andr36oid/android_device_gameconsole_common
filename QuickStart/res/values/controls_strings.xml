@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Settings > Buttons and shortcuts (ControlsActivity). Which rows show, and their buttons,
+     come from res/raw/controls.txt. The page also uses some of the guide's own strings
+     (buttons_*, shortcuts_*, mouse_*), so both say the same. -->
+<resources>
+    <string name="controls_title">Buttons and shortcuts</string>
+    <string name="controls_summary">Every button combination: system, games, mouse mode</string>
+
+    <!-- Topics in the list on the left -->
+    <string name="controls_topic_console">The console</string>
+    <string name="controls_topic_system">System</string>
+    <string name="controls_topic_retroarch">In games (RetroArch)</string>
+    <string name="controls_topic_emulators">Other emulators</string>
+    <string name="controls_topic_mouse">Mouse mode</string>
+
+    <!-- The console: a drawing of the buttons, then what the main buttons do -->
+    <string name="controls_console_top">The first line of the drawing shows the buttons on the top edge.</string>
+    <string name="controls_console_labels">Buttons are named as printed on the console. On some clone consoles they sit in other places.</string>
+    <string name="controls_start">Confirm, like A</string>
+    <string name="controls_dpad">Move around menus and lists</string>
+    <string name="controls_console_swap">Some Soy Sauce clones (batch 253x) have FN and SELECT the other way round. If FN acts like SELECT, the SD card needs the 253x files: see Experimental/README.txt on the BOOT drive.</string>
+
+    <!-- System -->
+    <string name="controls_fn_hold">Hold on its own: shows the FN shortcuts</string>
+    <string name="controls_heading_power">Power and volume</string>
+    <string name="controls_power_off">Hold about 10 seconds: switches off a frozen console</string>
+    <string name="controls_remap_reset">Hold both for 5 seconds: every button back to normal</string>
+
+    <!-- In games: RetroArch hotkeys -->
+    <string name="controls_ra_intro">Hold Select, then press the second button. RetroArch gets these when it is first set up. Hotkeys you changed yourself stay.</string>
+    <string name="controls_quit_twice">Quit the game (press Start twice)</string>
+    <string name="controls_save_state">Save state</string>
+    <string name="controls_load_state">Load state</string>
+    <string name="controls_slot">Previous / next state slot</string>
+    <string name="controls_menu">Emulator menu</string>
+    <string name="controls_pause">Pause / continue</string>
+    <string name="controls_reset_twice">Restart the game (press B twice)</string>
+    <string name="controls_reset">Restart the game</string>
+    <string name="controls_screenshot">Screenshot</string>
+    <string name="controls_ff_toggle">Fast forward on / off</string>
+    <string name="controls_ff_hold">Fast forward while held</string>
+    <string name="controls_ra_fn">FN goes to the home screen and pauses the game. Save first: Android may close a paused game when memory runs low.</string>
+
+    <!-- Other emulators; the app names are headings and not translated -->
+    <string name="controls_emulators_intro">Where an app allows it, the buttons are the same as in RetroArch: hold Select, then press the second button.</string>
+    <string name="controls_quit_ask">Quit (asks first if the game isn\'t saved)</string>
+    <string name="controls_quit">Quit the game</string>
+    <string name="controls_ppsspp_passthrough">The game also sees Select and the second button.</string>
+    <string name="controls_flycast_note">Flycast has no restart button. In arcade games, Select is also the coin button.</string>
+    <string name="controls_menu_n64">Menu: save, load, restart, exit</string>
+    <string name="controls_menu_easyrpg">Menu, with Exit Game</string>
+    <string name="controls_emulators_changed">These buttons are set up the first time each app is opened. Button settings you changed in an app stay.</string>
+
+    <!-- Mouse mode -->
+    <string name="controls_mouse_intro">Mouse mode puts a pointer on the screen, for apps made for a touchscreen.</string>
+    <string name="controls_mouse_precision">Hold: slow pointer, for small targets</string>
+    <string name="controls_mouse_scroll">Hold: the pointer stick scrolls</string>
+</resources>

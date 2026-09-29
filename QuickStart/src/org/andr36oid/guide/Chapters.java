@@ -24,6 +24,8 @@ final class Chapters {
         final boolean heading;
         // A picture shown under the text before it (0 = none), e.g. a QR code
         final int image;
+        // The text is a drawing made of characters, shown in a fixed-width font
+        final boolean art;
 
         Item(List<String> keys, CharSequence text) {
             this(keys, text, false);
@@ -38,6 +40,16 @@ final class Chapters {
             this.text = text;
             this.heading = heading;
             this.image = image;
+            this.art = false;
+        }
+
+        /** A drawing made of characters, e.g. the console in Buttons and shortcuts. */
+        Item(CharSequence art) {
+            this.keys = new ArrayList<>();
+            this.text = art;
+            this.heading = false;
+            this.image = 0;
+            this.art = true;
         }
 
         boolean isParagraph() {

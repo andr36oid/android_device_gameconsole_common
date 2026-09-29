@@ -1,0 +1,215 @@
+# Buttons and shortcuts: the one list behind Settings > Buttons and shortcuts
+# (ControlsActivity) and its host check (tests/check-controls.py). Change a
+# combination here, never in the Java code; the check compares every row with
+# the key layout, the FN code, joyMouse and the seeded emulator settings.
+#
+# topic <string>            a topic in the list on the left
+# heading <string>|=<name>  a heading on the page (=: a name, not translated)
+# text <string>             a paragraph
+# art <text>                one line of the console drawing (monospace)
+# row <keys> = <string>     buttons and what they do. " + " joins buttons
+#                           pressed together, " / " splits alternatives.
+#                           @name is a string of this app (e.g. @key_dpad),
+#                           a + or - right after it is kept (@key_volume+).
+# Indented lines belong to the item above:
+#   if-package <pkg>        only when the app is installed
+#   if-file <path>          only when the file exists (a seeded setting)
+#   if-prop <prop>          only when the property is true
+#   check ...               for the host check only (see check-controls.py)
+# A condition on a topic or heading hides everything up to the next one.
+# A topic without a single row left is hidden.
+
+topic controls_topic_console
+art    L2  L1   -  +  POWER   R2  R1
+art  .------------------------------.
+art  |    .--------------------.    |
+art  |    |                    |    |
+art  |    |                    |    |
+art  |    |                    |    |
+art  |    '--------------------'    |
+art  |     ^                  X     |
+art  |   <   >              Y   A   |
+art  |     v                  B     |
+art  |                              |
+art  |   (L3) SELECT FN START (R3)  |
+art  '------------------------------'
+text controls_console_top
+text controls_console_labels
+row A = buttons_a
+  check kcm BUTTON_A DPAD_CENTER
+row Start = controls_start
+  check kcm BUTTON_START DPAD_CENTER
+row B = buttons_b
+  check kcm BUTTON_B BACK
+row @key_dpad = controls_dpad
+  check kl DPAD_UP DPAD_DOWN DPAD_LEFT DPAD_RIGHT
+row FN = buttons_fn
+  check kl HOME 172
+row Select = buttons_select
+  check kcm BUTTON_SELECT MENU
+text buttons_stick
+text controls_console_swap
+  check exists r36s:BOOT/Experimental/Soy-Panel5-253x
+  check exists r36s:BOOT/Experimental/Soy-Panel7-253x
+
+topic controls_topic_system
+text shortcuts_intro
+  if-prop ro.andr36oid.fn_hotkeys
+row FN + @key_volume+ / @key_volume- = shortcuts_brightness
+  if-prop ro.andr36oid.fn_hotkeys
+  check fn
+row FN + Start = shortcuts_screenshot
+  if-prop ro.andr36oid.fn_hotkeys
+  check fn
+row FN + Select = shortcuts_last_app
+  if-prop ro.andr36oid.fn_hotkeys
+  check fn
+row FN + Y = shortcuts_panel
+  if-prop ro.andr36oid.fn_hotkeys
+  check fn
+row FN + X = shortcuts_mouse
+  if-prop ro.andr36oid.fn_hotkeys
+  check fn
+row FN + R1 = shortcuts_profile
+  if-prop ro.andr36oid.fn_hotkeys
+  if-package org.andr36oid.cpuoverclock
+  check fn
+row FN + L2 = shortcuts_overlay
+  if-prop ro.andr36oid.fn_hotkeys
+  if-prop ro.andr36oid.fn_overlay
+  if-package org.andr36oid.perfoverlay
+  check fn
+row FN + L1 = shortcuts_touch
+  if-prop ro.andr36oid.fn_hotkeys
+  if-package org.andr36oid.touchmapper
+  check fn
+row FN = controls_fn_hold
+  if-prop ro.andr36oid.fn_hotkeys
+  if-prop ro.andr36oid.fn_help
+  check has fwb:services/core/java/com/android/server/policy/PhoneWindowManager.java FN_HELP_DELAY_DEFAULT_MS = [1-9]
+heading controls_heading_power
+row @key_power = buttons_power_tap
+  check kl POWER 116
+row @key_power = buttons_power_hold
+  check kl POWER 116
+  check has fwb:core/res/res/values/config.xml "config_longPressOnPowerBehavior">1<
+row @key_power = controls_power_off
+  check hardware the power chip (RK817) cuts the power when Power is held about 10 s
+row @key_volume+ / @key_volume- = buttons_volume
+  check kl VOLUME_UP 115 VOLUME_DOWN 114
+row @key_volume+ + @key_volume- = controls_remap_reset
+  check has fwb:services/core/java/com/android/server/input/InputManagerService.java RESET_CHORD_TIMEOUT_MS = 5000;
+
+topic controls_topic_retroarch
+  if-package com.retroarch
+text controls_ra_intro
+row Select + Start = controls_quit_twice
+  check ra exit_emulator
+  check lacks common:emulators/seed/retroarch/retroarch.cfg ^quit_press_twice = "false"
+row Select + R1 = controls_save_state
+  check ra save_state
+row Select + L1 = controls_load_state
+  check ra load_state
+row Select + ↑ / ↓ = controls_slot
+  check ra state_slot_decrease state_slot_increase
+row Select + X = controls_menu
+  check ra menu_toggle
+row L1 + R1 + Start + Select = controls_menu
+  check ra-combo
+row Select + A = controls_pause
+  check ra pause_toggle
+row Select + B = controls_reset_twice
+  check ra reset
+  check lacks common:emulators/seed/retroarch/retroarch.cfg ^quit_press_twice = "false"
+row Select + Y = controls_screenshot
+  check ra screenshot
+row Select + L3 = controls_ff_toggle
+  check ra toggle_fast_forward
+text controls_ra_fn
+
+topic controls_topic_emulators
+text controls_emulators_intro
+text controls_emulators_changed
+heading =PPSSPP
+  if-package org.ppsspp.ppsspp
+  if-file /system/etc/gameconsole/ppsspp/controls.ini
+row Select + Start = controls_quit_ask
+  check ppsspp Exit App
+row Select + R1 = controls_save_state
+  check ppsspp Save State
+row Select + L1 = controls_load_state
+  check ppsspp Load State
+row Select + ↑ / ↓ = controls_slot
+  check ppsspp Previous Slot|Next Slot
+row Select + X = controls_menu
+  check ppsspp Pause
+row L2 = controls_menu
+  check ppsspp Pause
+row Select + A = controls_pause
+  check ppsspp Pause (no menu)
+row Select + B = controls_reset
+  check ppsspp Reset
+row Select + Y = controls_screenshot
+  check ppsspp Screenshot
+row Select + L3 = controls_ff_toggle
+  check ppsspp SpeedToggle
+row R2 = controls_ff_hold
+  check ppsspp Fast-forward
+text controls_ppsspp_passthrough
+heading =Flycast
+  if-package com.flycast.emulator
+  if-file /system/etc/gameconsole/firstrun/flycast.list
+row Select + Start = controls_quit
+  check flycast btn_escape
+row Select + R1 = controls_save_state
+  check flycast btn_quick_save
+row Select + L1 = controls_load_state
+  check flycast btn_jump_state
+row Select + ↑ / ↓ = controls_slot
+  check flycast btn_prev_slot|btn_next_slot
+row Select + X = controls_menu
+  check flycast btn_menu
+row Select + A = controls_pause
+  check flycast btn_pause
+row Select + Y = controls_screenshot
+  check flycast btn_screenshot
+row Select + L3 = controls_ff_toggle
+  check flycast btn_fforward
+text controls_flycast_note
+  check has common:foss-apps/Flycast/firstrun/flycast/arcade.cfg ^bind\d+ = 109:btn_d$
+heading =Mupen64Plus AE
+  if-package org.mupen64plusae.v3.alpha
+  if-file /system/etc/gameconsole/firstrun/mupen64plusae.list
+row Select = controls_menu_n64
+  check mupen 32
+row L3 = controls_ff_hold
+  check mupen 26
+row R3 = controls_screenshot
+  check mupen 33
+heading =EasyRPG Player
+  if-package org.easyrpg.player
+  if-file /system/etc/gameconsole/firstrun/easyrpg.list
+row Start / Select = controls_menu_easyrpg
+  check has common:foss-apps/EasyRPG/firstrun/easyrpg/config.ini ^SETTINGS_MENU=.*JOY_START,JOY_BACK
+
+topic controls_topic_mouse
+text controls_mouse_intro
+row L3 + R3 = mouse_toggle
+  check has common:joyMouse/src/Buttons.cpp return \{Button::L3, Button::R3\};
+  check has common:joyMouse/src/Config.h int toggleMs = 1000;
+row FN + X = shortcuts_mouse
+  if-prop ro.andr36oid.fn_hotkeys
+  check fn
+row @key_right_stick = mouse_pointer
+  check has common:joyMouse/src/Config.h unset: right stick when the pad has one
+row @key_left_stick = mouse_scroll
+  check has common:joyMouse/README.md \| Left stick \| Scrolls
+row A / R1 / R3 = mouse_click
+  check mouse Smart Left Left
+row L1 = mouse_right_click
+  check mouse Right
+row R2 = controls_mouse_precision
+  check mouse Precision
+row L2 = controls_mouse_scroll
+  check mouse Scroll
+text mouse_settings
