@@ -87,10 +87,16 @@ on property:sys.usb.config=accessory,audio_source && property:sys.usb.configfs=1
 on property:sys.usb.config=accessory,audio_source,adb && property:sys.usb.configfs=1
     write /config/usb_gadget/g1/idProduct 0x2d05
 
-# MTP and PTP on functionfs. The gadget is unbound first so that it never
-# gets functions linked while it is bound, whatever order the actions run in.
+# MTP and PTP on functionfs. Android always sets sys.usb.config=none before a
+# new set of functions (init.usb.configfs.rc unbinds the gadget and removes
+# the links), and when adbd restarts the kernel unbinds the gadget itself, so
+# these actions only link and bind. They must be safe to run more than once:
+# a second run just gets EEXIST from the links and EBUSY from the UDC write.
+# Never write "none" to the UDC here. With adb in the mix that unbinds the
+# gadget adbd just got bound to, adbd closes and reopens its functionfs and
+# sets sys.usb.ffs.ready=1 again, and the actions run again: a bind/unbind
+# loop that the PC sees as no device at all until the next restart.
 on property:sys.usb.config=mtp && property:sys.usb.configfs=1
-    write /config/usb_gadget/g1/UDC "none"
     write /config/usb_gadget/g1/idProduct 0x4ee1
     write /config/usb_gadget/g1/configs/b.1/strings/0x409/configuration "mtp"
     symlink /config/usb_gadget/g1/functions/ffs.mtp /config/usb_gadget/g1/configs/b.1/f1
@@ -100,14 +106,12 @@ on property:sys.usb.config=mtp,adb && property:sys.usb.configfs=1
     write /config/usb_gadget/g1/idProduct 0x4ee2
 
 on property:sys.usb.ffs.ready=1 && property:sys.usb.config=mtp,adb && property:sys.usb.configfs=1
-    write /config/usb_gadget/g1/UDC "none"
     write /config/usb_gadget/g1/configs/b.1/strings/0x409/configuration "mtp_adb"
     symlink /config/usb_gadget/g1/functions/ffs.mtp /config/usb_gadget/g1/configs/b.1/f1
     symlink /config/usb_gadget/g1/functions/ffs.adb /config/usb_gadget/g1/configs/b.1/f2
     write /config/usb_gadget/g1/UDC ${sys.usb.controller}
 
 on property:sys.usb.config=ptp && property:sys.usb.configfs=1
-    write /config/usb_gadget/g1/UDC "none"
     write /config/usb_gadget/g1/idProduct 0x4ee5
     write /config/usb_gadget/g1/configs/b.1/strings/0x409/configuration "ptp"
     symlink /config/usb_gadget/g1/functions/ffs.ptp /config/usb_gadget/g1/configs/b.1/f1
@@ -117,7 +121,6 @@ on property:sys.usb.config=ptp,adb && property:sys.usb.configfs=1
     write /config/usb_gadget/g1/idProduct 0x4ee6
 
 on property:sys.usb.ffs.ready=1 && property:sys.usb.config=ptp,adb && property:sys.usb.configfs=1
-    write /config/usb_gadget/g1/UDC "none"
     write /config/usb_gadget/g1/configs/b.1/strings/0x409/configuration "ptp_adb"
     symlink /config/usb_gadget/g1/functions/ffs.ptp /config/usb_gadget/g1/configs/b.1/f1
     symlink /config/usb_gadget/g1/functions/ffs.adb /config/usb_gadget/g1/configs/b.1/f2
