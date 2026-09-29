@@ -360,6 +360,111 @@ make_rom_folders() {
 	touch "$stamp"
 }
 
+# First-start settings for the stand-alone apps (foss-apps/<App>/firstrun/,
+# see foss-apps/README.md): button maps and hotkeys for the built-in pad,
+# written before the app runs for the first time. Each
+# $FIRSTRUN/<name>.list has one instruction per line:
+#   package <package>
+#   unless data|ext <path>  skip the list while this exists: the app has run
+#                           and has settings of its own
+#   data <file> <path>      copy $FIRSTRUN/<name>/<file> to <path> in the app's
+#                           private folder (/data/user/0/<package>)
+#   ext <file> <path>       the same into its folder on the internal storage
+#                           (Android/data/<package>/files)
+# Only missing files are written, in list order, and a list stops at the first
+# failure, so the file the app's own "has it run" check reads goes last.
+# <path> may contain spaces.
+FIRSTRUN=$BASE/firstrun
+APP_DATA=/data/user/0
+
+# mkdirs_as <dir> <owner> <mode> ; makes dir and its missing parents
+mkdirs_as() {
+	[ -d "$1" ] && return 0
+	[ -n "$1" ] || return 1
+	mkdirs_as "${1%/*}" "$2" "$3" || return 1
+	mkdir "$1" && chown "$2" "$1" && chmod "$3" "$1"
+}
+
+# firstrun_copy <src> <dest> <owner> <dir mode> ; src to dest unless dest
+# exists. Returns 1 on failure, 2 if dest was there already.
+firstrun_copy() {
+	[ -e "$2" ] && return 2
+	[ -f "$1" ] || { log "first-start file $1 is missing"; return 1; }
+	mkdirs_as "${2%/*}" "$3" "$4" || { log "making ${2%/*} failed"; return 1; }
+	if ! { cp "$1" "$2.tmp" && mv -f "$2.tmp" "$2"; }; then
+		log "writing $2 failed"
+		rm -f "$2.tmp"
+		return 1
+	fi
+	chown "$3" "$2"
+	chmod 0660 "$2"
+}
+
+# firstrun_list <list>
+firstrun_list() {
+	local dir=${1%.list} pkg='' data='' ext='' owner='' kind src dest rc
+	local wrote_data='' wrote_ext=''
+
+	while read -r kind src dest; do
+		case $kind in
+		'' | \#*) continue ;;
+		package)
+			pkg=$src
+			data=$APP_DATA/$pkg
+			ext=$MEDIA/Android/data/$pkg/files
+			# not installed (or removed by the user)
+			[ -d "$data" ] || return 0
+			owner=$(stat -c %u:%g "$data")
+			continue
+			;;
+		esac
+		[ -n "$pkg" ] || { log "${1##*/}: no package line first"; return 0; }
+		case $kind in
+		unless)
+			case $src in
+			data) [ -e "$data/$dest" ] && return 0 ;;
+			ext) [ -e "$ext/$dest" ] && return 0 ;;
+			*) log "${1##*/}: unknown place $src"; return 0 ;;
+			esac
+			;;
+		data)
+			firstrun_copy "$dir/$src" "$data/$dest" "$owner" 0771
+			rc=$?
+			[ $rc = 1 ] && break
+			[ $rc = 0 ] && wrote_data=1 && log "seeded $pkg's $dest"
+			;;
+		ext)
+			# vold makes Android/data when it mounts the internal storage
+			[ -d "$MEDIA/Android/data" ] || break
+			firstrun_copy "$dir/$src" "$ext/$dest" "${owner%:*}:$AID_EXT_DATA_RW" 2770
+			rc=$?
+			[ $rc = 1 ] && break
+			[ $rc = 0 ] && wrote_ext=1 && log "seeded $pkg's $dest (internal storage)"
+			;;
+		*)
+			log "${1##*/}: unknown line $kind"
+			break
+			;;
+		esac
+	done <"$1"
+
+	[ -n "$wrote_data" ] && restorecon -R "$data" 2>/dev/null
+	if [ -n "$wrote_ext" ]; then
+		restorecon -R "${ext%/*}" 2>/dev/null
+		# vold's own fixup for app folders (default ACL, quota project), as
+		# for RetroArch: IStorageManager.fixupAppDir, transaction 89 + 1
+		service call mount 90 s16 "/storage/emulated/0/Android/data/$pkg/files" </dev/null >/dev/null 2>&1
+	fi
+	return 0
+}
+
+seed_firstrun() {
+	local list
+	for list in "$FIRSTRUN"/*.list; do
+		[ -f "$list" ] && firstrun_list "$list"
+	done
+}
+
 # what we last wrote into RetroArch's system_directory
 SYSTEM_DIR_MARK=$STATE/retroarch-system-dir
 
@@ -465,5 +570,7 @@ seed_retroarch
 seed_cores
 find_easyroms
 make_rom_folders
+# stand-alone apps' first-start settings, after the installs
+seed_firstrun
 # after the ROM folders: they are only made on a card without any of them
 bios_folder
