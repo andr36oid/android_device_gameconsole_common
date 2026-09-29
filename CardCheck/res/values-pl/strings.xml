@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="check_title">Test karty SD</string>
+    <string name="check_summary">Sprawdź szybkość i czy karta nie jest podróbką</string>
+
+    <string name="card_title">Karta lub dysk</string>
+    <string name="no_card">Żadna karta SD ani pendrive nie jest gotowa. Włóż ją lub poczekaj, aż pojawi się w ustawieniach Pamięć wewnętrzna.</string>
+
+    <!-- details: %1$s name (EASYROMS), %2$s size of the whole card -->
+    <string name="details_title">%1$s, karta %2$s</string>
+    <string name="details_title_usb">%1$s, pendrive %2$s</string>
+    <!-- %1$s maker, %2$s product name, %3$s date made -->
+    <string name="details_card">%1$s %2$s, produkcja %3$s</string>
+    <string name="details_free">Wolne: %1$s</string>
+    <string name="maker_unknown">Nieznany producent (ID %1$s)</string>
+
+    <string name="speed_category">Szybkość</string>
+    <string name="speed_title">Sprawdź szybkość</string>
+    <string name="speed_summary">Zapisuje i odczytuje plik 256 MB. Trwa około minuty.</string>
+    <string name="speed_running_write">Zapisywanie…</string>
+    <string name="speed_running_read">Odczytywanie…</string>
+    <!-- %1$s write speed, %2$s read speed, e.g. 18.2 MB/s -->
+    <string name="speed_result">Zapis %1$s, odczyt %2$s</string>
+    <string name="speed_good">Dobra dla każdego systemu.</string>
+    <string name="speed_ok">Wystarczy do gier. Kopiowanie i zapisywanie dużych plików jest wolne.</string>
+    <string name="speed_slow">Wolna: spodziewaj się długiego wczytywania, zwłaszcza w grach PSP, Dreamcast i N64.</string>
+    <string name="mb_per_s">%1$.1f MB/s</string>
+
+    <string name="full_category">Rzeczywista pojemność</string>
+    <string name="full_title">Sprawdź pojemność</string>
+    <string name="full_title_stop">Zatrzymaj sprawdzanie</string>
+    <!-- %1$s free space, %2$s how long -->
+    <string name="full_summary">Zapełnia wolne miejsce (%1$s) danymi testowymi, odczytuje je z powrotem, a potem usuwa. Podrobiona karta, która podaje więcej miejsca, niż ma, nie przejdzie testu. Trwa około %2$s.</string>
+    <string name="full_summary_unknown_time">Zapełnia wolne miejsce (%1$s) danymi testowymi, odczytuje je z powrotem, a potem usuwa. Podrobiona karta, która podaje więcej miejsca, niż ma, nie przejdzie testu. Na dużej karcie trwa godzinami; najpierw sprawdź szybkość, aby uzyskać lepsze oszacowanie.</string>
+    <string name="full_probe">Szukanie oznak podrobionej karty…</string>
+    <!-- %1$s done, %2$s total, %3$s time left -->
+    <string name="full_writing">Zapisywanie danych testowych: %1$s z %2$s, zostało około %3$s</string>
+    <string name="full_reading">Odczytywanie: %1$s z %2$s, zostało około %3$s</string>
+    <string name="full_writing_start">Zapisywanie danych testowych: %1$s z %2$s</string>
+    <string name="full_reading_start">Odczytywanie: %1$s z %2$s</string>
+    <string name="full_stopping">Zatrzymywanie i usuwanie danych testowych…</string>
+
+    <string name="full_pass">Test zaliczony. Wszystkie dane testowe (%1$s) wróciły takie, jak zostały zapisane. Ta karta jest prawdziwa.</string>
+    <string name="full_bad_data">Test niezaliczony. %1$s danych testowych wróciło z błędami, począwszy od około %2$s. Karta jest podrobiona lub uszkodzona i naprawdę mieści tylko około %3$s. Skopiuj z niej gry i użyj innej karty.</string>
+    <string name="full_wraps">Test niezaliczony. Ta karta jest podrobiona: po około %1$s zaczyna zapisywać od swojego początku, więc naprawdę mieści tylko tyle. Trzymaj gry poniżej tej granicy albo, lepiej, użyj innej karty.</string>
+    <string name="full_wraps_restored">Test wykrył to podczas zapisu i przywrócił początek karty.</string>
+    <string name="full_wraps_not_restored">Test wykrył to podczas zapisu, ale nie udało się przywrócić początku karty. Konsola może już nie uruchamiać się z tej karty: zrób kopię zapasową gier.</string>
+    <string name="full_write_error">Test niezaliczony. Karta zgłosiła błąd po zapisaniu %1$s danych testowych. Może być uszkodzona lub podrobiona.</string>
+    <string name="full_stopped">Zatrzymano. Dane testowe zostały usunięte.</string>
+
+    <string name="error_prefix">Nie wykonano. %1$s</string>
+    <string name="error_no_space">Za mało wolnego miejsca na test.</string>
+    <string name="error_not_mounted">Karta nie jest gotowa.</string>
+    <string name="error_write">Karta zgłosiła błąd zapisu.</string>
+    <string name="error_read">Karta zgłosiła błąd odczytu.</string>
+    <string name="error_other">Nie udało się przeprowadzić sprawdzenia.</string>
+
+    <string name="confirm_title">Sprawdzić pojemność?</string>
+    <!-- %1$s card name, %2$s how long -->
+    <string name="confirm_text">Test zapełni całe wolne miejsce na %1$s na około %2$s, więc do jego końca gry nie mogą tam niczego zapisać. Podłącz ładowarkę: konsola nie zaśnie. Możesz przerwać w każdej chwili. Twoje gry i pliki nie zostaną naruszone.</string>
+    <string name="confirm_time_unknown">kilka godzin</string>
+    <string name="confirm_start">Start</string>
+
+    <string name="busy">Trwa już inne sprawdzanie.</string>
+
+    <string name="about">Konsole często są sprzedawane z podrobionymi lub zużytymi kartami. Podrobiona karta podaje, że jest większa, niż jest naprawdę, a gry skopiowane poza jej rzeczywisty koniec wracają uszkodzone. Test zapisuje tylko w wolnym miejscu.</string>
+
+    <string name="hours_minutes">%1$d h %2$d min</string>
+    <string name="minutes">%1$d min</string>
+
+    <string name="channel_name">Test karty SD</string>
+    <string name="done_title">Test karty SD zakończony</string>
+</resources>

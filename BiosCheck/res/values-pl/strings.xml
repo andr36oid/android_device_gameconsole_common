@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_title">Pliki emulatorów</string>
+    <string name="app_summary">Gra się nie uruchamia? Sprawdź pliki BIOS, których potrzebują niektóre systemy</string>
+
+    <!-- The main page -->
+    <string name="intro">Niektóre systemy potrzebują pliku z oryginalnej konsoli (BIOS-u), zanim uruchomią gry. Umieść te pliki w folderze bios na EASYROMS.</string>
+    <string name="intro_internal">Niektóre systemy potrzebują pliku z oryginalnej konsoli (BIOS-u), zanim uruchomią gry. Umieść te pliki w folderze bios w pamięci wewnętrznej.</string>
+    <string name="checking">Sprawdzanie…</string>
+    <string name="check_failed">Nie udało się przeprowadzić sprawdzenia. Uruchom konsolę ponownie i spróbuj jeszcze raz.</string>
+    <string name="no_easyroms_title">EASYROMS jest teraz niedostępny</string>
+    <string name="no_easyroms_summary">Włóż z powrotem kartę SD z partycją EASYROMS, a potem ponownie otwórz tę stronę.</string>
+    <string name="systems_category">Systemy</string>
+
+    <string name="fix_title">Popraw nazwy plików</string>
+    <!-- %1$d: number of files -->
+    <plurals name="fix_summary">
+        <item quantity="one">%1$d plik ma złą nazwę, więc emulatory go nie znajdą</item>
+        <item quantity="few">%1$d pliki mają złe nazwy, więc emulatory ich nie znajdą</item>
+        <item quantity="many">%1$d plików ma złe nazwy, więc emulatory ich nie znajdą</item>
+        <item quantity="other">%1$d pliku ma złe nazwy, więc emulatory ich nie znajdą</item>
+    </plurals>
+    <string name="fix_dialog_title">Zmienić nazwy tych plików?</string>
+    <string name="fix_dialog_message">W folderze bios na EASYROMS:\n\n%1$s</string>
+    <string name="fix_dialog_message_internal">W folderze bios w pamięci wewnętrznej:\n\n%1$s</string>
+    <string name="fix_line">%1$s → %2$s\n</string>
+    <string name="fix_button">Zmień nazwy</string>
+    <plurals name="fix_done">
+        <item quantity="one">Zmieniono nazwę %1$d pliku.</item>
+        <item quantity="few">Zmieniono nazwy %1$d plików.</item>
+        <item quantity="many">Zmieniono nazwy %1$d plików.</item>
+        <item quantity="other">Zmieniono nazwy %1$d pliku.</item>
+    </plurals>
+    <plurals name="fix_failed">
+        <item quantity="one">Nie udało się zmienić nazwy %1$d pliku.</item>
+        <item quantity="few">Nie udało się zmienić nazw %1$d plików.</item>
+        <item quantity="many">Nie udało się zmienić nazw %1$d plików.</item>
+        <item quantity="other">Nie udało się zmienić nazw %1$d pliku.</item>
+    </plurals>
+
+    <!-- A system's summary. %1$s: file names -->
+    <string name="level_ready">Gotowe</string>
+    <string name="level_not_needed">Opcjonalne: niepotrzebne do gry</string>
+    <string name="level_missing">Brak: %1$s</string>
+    <string name="level_missing_one_of">Brak: %1$s lub podobnego</string>
+    <string name="level_wrong_version">Zła wersja: %1$s. Gry mogą się nie uruchamiać</string>
+    <string name="level_wrong_name">Plik ma złą nazwę. Użyj Popraw nazwy plików</string>
+
+    <!-- A file on the system page -->
+    <string name="state_found">Znaleziono</string>
+    <string name="state_missing_needed">Brak, wymagany</string>
+    <string name="state_missing_one_of">Brak. Wystarczy jeden z tych plików</string>
+    <string name="state_missing_optional">Brak, opcjonalny</string>
+    <string name="state_wrong_version">Zła wersja: gry mogą się nie uruchamiać</string>
+    <string name="state_wrong_version_is">Zły plik: to jest %1$s. Użyj Popraw nazwy plików</string>
+    <string name="state_wrong_name">Znaleziono jako %1$s. Użyj Popraw nazwy plików</string>
+
+    <!-- A file's details (A on a file) -->
+    <string name="details_what">Co to jest: %1$s</string>
+    <string name="details_cores">Używany przez: %1$s</string>
+    <string name="details_md5">MD5 właściwego pliku: %1$s</string>
+    <string name="details_md5_any">Działa każdy plik o tej nazwie</string>
+    <string name="details_file">Twój plik: %1$s\nJego MD5: %2$s</string>
+    <string name="details_file_big">Twój plik: %1$s\nZa duży, by był tym plikiem</string>
+    <string name="close">Zamknij</string>
+
+    <string name="path_easyroms">EASYROMS</string>
+    <string name="path_internal">Pamięć wewnętrzna</string>
+</resources>

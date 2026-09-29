@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="usb_mode_title">Tryb USB (beta)</string>
+    <string name="usb_mode_summary">Port OTG do akcesoriów lub do połączenia z komputerem</string>
+
+    <string name="usb_mode_switch">Połącz z komputerem</string>
+    <string name="usb_mode_switch_on">Port OTG działa jako urządzenie dla komputera</string>
+    <string name="usb_mode_switch_off">Port OTG zasila akcesoria, np. pady, pendrive\'y i adaptery sieciowe</string>
+
+    <string name="usb_mode_about">Włącz to, aby połączyć się z konsolą z komputera przez port OTG: przesyłanie plików (MTP) lub zdjęć (PTP), a także adb po włączeniu Debugowania USB w Opcjach programistycznych.\n\nGdy ta opcja jest włączona, akcesoria podłączone do portu OTG nie działają. Konsola zawsze uruchamia się z tą opcją wyłączoną, ponowne uruchomienie przełącza port z powrotem na akcesoria.\n\nW niektórych konsolach port nie jest do tego podłączony. Jeśli komputer nic nie widzi mimo dobrego kabla do transmisji danych, konsola tego nie potrafi.\n\nNigdy tego nie włączaj, jeśli twoja konsola ma wbudowane Wi-Fi, jak R36XX. Te konsole używają tego samego portu USB do Wi-Fi.\n\nNigdy nie używaj tego, gdy konsola ładuje się przez drugi port. Najpierw odłącz ładowarkę. Jeśli podłączysz ładowarkę, gdy ta opcja jest włączona, port od razu wróci do akcesoriów.</string>
+
+    <!-- Asked before the port becomes a device for a computer -->
+    <string name="warning_title">Połączyć z komputerem?</string>
+    <string name="warning_wifi">Nie włączaj tego, jeśli twoja konsola ma wbudowane Wi-Fi, jak R36XX. Te konsole używają tego samego portu USB do Wi-Fi. Wi-Fi przestanie działać, może nie wrócić do ponownego uruchomienia i mogą pojawić się inne problemy.\n\nWiększość konsol R36S nie ma wbudowanego Wi-Fi. W nich jest to bezpieczne.</string>
+    <string name="warning_wifi_found">Na tym porcie USB wykryto właśnie Wi-Fi (%1$s). Jeśli jest ono wbudowane w twoją konsolę, wybierz Anuluj.</string>
+    <string name="warning_confirm">Połącz</string>
+
+    <!-- Charging and device mode never go together -->
+    <string name="charging_warning">Nigdy nie używaj tego, gdy konsola ładuje się przez drugi port. Najpierw odłącz ładowarkę.</string>
+    <string name="charging_refused">Konsola się ładuje. Nigdy nie używaj tego, gdy konsola ładuje się przez drugi port. Najpierw odłącz ładowarkę.</string>
+    <string name="charging_toast">NIE RÓB TEGO! Nigdy nie ładuj konsoli i nie używaj trybu klienta USB jednocześnie.</string>
+    <string name="channel_on">Połączono z komputerem</string>
+    <string name="channel_alert">Tryb USB wyłączony</string>
+    <string name="notification_on_title">Port USB: połączono z komputerem</string>
+    <string name="notification_alert_title">Tryb USB wyłączony</string>
+    <string name="notification_alert_text">Podłączono ładowarkę, więc port OTG wrócił do akcesoriów. Nigdy nie ładuj konsoli i nie używaj trybu klienta USB jednocześnie.</string>
+
+    <string name="usb_mode_functions">Użyj USB do</string>
+
+    <string name="usb_mode_unsupported">Ta konsola nie może przełączyć portu USB.</string>
+    <string name="usb_mode_failed">Nie udało się przełączyć portu USB</string>
+
+    <!-- Quick Settings tile -->
+    <string name="tile_label">Tryb USB (beta)</string>
+    <string name="tile_host">Akcesoria</string>
+    <string name="tile_device">Komputer</string>
+</resources>

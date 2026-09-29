@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="report_title">Zgłoszenie problemu</string>
+    <string name="report_summary">Zapisz logi na karcie SD, aby dołączyć je do zgłoszenia błędu</string>
+
+    <string name="intro">Coś poszło nie tak? Zapisz raport i dołącz go, gdy opiszesz nam problem. Zawiera logi systemu z teraz i z poprzedniego uruchomienia, raporty awarii i opis tej konsoli. Trwa to około minuty.</string>
+
+    <string name="note_title">Co poszło nie tak?</string>
+    <string name="note_hint">Opcjonalnie. Co się działo i co poszło nie tak?</string>
+    <string name="note_dialog">Opisz problem. Opis trafi do raportu.</string>
+
+    <string name="save_title">Zapisz raport</string>
+    <string name="save_summary">Zapisywany na EASYROMS, w folderze andr36oid-reports</string>
+    <string name="save_running">Zapisywanie: %1$s (krok %2$d z %3$d)…</string>
+    <string name="save_done">Zapisano: %1$s</string>
+    <string name="save_done_toast">Raport zapisano w %1$s</string>
+    <string name="save_failed">Nie zapisano. %1$s</string>
+    <string name="error_no_storage">Nie ma partycji EASYROMS ani wewnętrznego folderu Download, w którym można by go zapisać.</string>
+    <string name="error_cant_write">Nie udało się zapisać pliku. Czy karta jest pełna?</string>
+    <string name="error_stopped">Raport zatrzymał się przed końcem.</string>
+    <string name="error_start">Nie udało się rozpocząć raportu.</string>
+
+    <string name="step_system">informacje o systemie</string>
+    <string name="step_logcat">log Androida</string>
+    <string name="step_kernel">log jądra</string>
+    <string name="step_crashes">raporty awarii</string>
+    <string name="step_power">informacje o baterii i uśpieniu</string>
+    <string name="step_devices">urządzenia i połączenia</string>
+    <string name="step_apps">lista aplikacji</string>
+    <string name="step_saving">plik</string>
+
+    <string name="last_start_title">Logi z poprzedniego uruchomienia</string>
+    <string name="last_start_crash">Poprzednie uruchomienie zakończyło się awarią systemu. Jej log został zachowany i trafi do raportu.</string>
+    <string name="last_start_kept">Zachowane, trafią do raportu.</string>
+    <string name="last_start_none">Brak. Są zachowywane tylko przy ponownym uruchomieniu konsoli, a nie po jej wyłączeniu lub rozładowaniu baterii.</string>
+
+    <string name="privacy">Raport zawiera listę twoich aplikacji i może zawierać nazwy sieci Wi-Fi i urządzeń Bluetooth. Nie zawiera twoich gier ani plików. Przejrzyj go, zanim opublikujesz go publicznie.</string>
+
+    <string name="channel_name">Zgłoszenia problemów</string>
+    <string name="crash_title">Konsola uruchomiła się ponownie po błędzie</string>
+    <string name="crash_text">Zapisz teraz zgłoszenie problemu, póki logi jeszcze są, i wyślij je z opisem tego, co się stało.</string>
+    <string name="crash_action">Zapisz raport</string>
+</resources>

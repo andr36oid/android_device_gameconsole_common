@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Hands-on tutorial that runs once after the setup wizard -->
+    <string name="tutorial_label">Samouczek</string>
+    <string name="tutorial_step">Krok <xliff:g id="current">%1$d</xliff:g> z <xliff:g id="total">%2$d</xliff:g></string>
+
+    <!-- Buttons at the bottom -->
+    <string name="tutorial_back">Wstecz</string>
+    <string name="tutorial_start">Start</string>
+    <string name="tutorial_next">Dalej</string>
+    <string name="tutorial_skip_step">Pomiń krok</string>
+    <string name="tutorial_skip_all">Pomiń samouczek</string>
+    <string name="tutorial_no_fn">Brak przycisku FN</string>
+    <string name="tutorial_done">Gotowe</string>
+    <string name="tutorial_open_guide">Otwórz pełny przewodnik</string>
+
+    <string name="tutorial_well_done">Świetnie. Naciśnij A, aby przejść dalej.</string>
+
+    <!-- Welcome -->
+    <string name="tutorial_welcome_title">Wypróbujmy przyciski</string>
+    <string name="tutorial_welcome_body">Ta konsola nie ma ekranu dotykowego. Wszystko obsługujesz przyciskami, a ten krótki samouczek pozwoli ci wypróbować każdy z nich. Zajmie to około trzech minut.\n\nNaciśnij A, aby przejść dalej, i B, aby wrócić. Naciśnij Select, aby pominąć krok, który już znasz.</string>
+
+    <!-- A, B, X, Y -->
+    <string name="tutorial_face_title">A, B, X i Y</string>
+    <string name="tutorial_face_body">A potwierdza: otwiera to, co jest zaznaczone, i naciska przyciski na ekranie.\n\nB cofa, o jeden ekran naraz.\n\nX i Y robią różne rzeczy w każdej aplikacji i grze.\n\nNaciśnij każdy z nich raz.</string>
+    <string name="tutorial_press_a">Naciśnij A</string>
+    <string name="tutorial_press_b">Naciśnij B</string>
+    <string name="tutorial_press_x">Naciśnij X</string>
+    <string name="tutorial_press_y">Naciśnij Y</string>
+
+    <!-- D-pad -->
+    <string name="tutorial_dpad_title">Krzyżak</string>
+    <string name="tutorial_dpad_body">Krzyżak przesuwa zaznaczenie po ekranie: po listach, menu i przyciskach. W menu lewa gałka robi to samo.\n\nNaciśnij raz każdy kierunek.</string>
+    <string name="tutorial_dpad_up">Góra</string>
+    <string name="tutorial_dpad_down">Dół</string>
+    <string name="tutorial_dpad_left">Lewo</string>
+    <string name="tutorial_dpad_right">Prawo</string>
+
+    <!-- Sticks -->
+    <string name="tutorial_sticks_title">Gałki</string>
+    <string name="tutorial_sticks_body">Gry używają obu gałek. Każdą gałkę możesz też wcisnąć jak przycisk: to L3 i R3.\n\nPoruszaj obiema gałkami i patrz, jak kropki za nimi podążają, a potem wciśnij jedną gałkę.</string>
+    <string name="tutorial_stick_left">Porusz lewą gałką</string>
+    <string name="tutorial_stick_right">Porusz prawą gałką</string>
+    <string name="tutorial_stick_click">Wciśnij gałkę (L3 lub R3)</string>
+
+    <!-- Shoulder buttons -->
+    <string name="tutorial_shoulder_title">Przyciski na krawędzi</string>
+    <string name="tutorial_shoulder_body">L1 i R1 to górne przyciski na krawędzi, L2 i R2 dolne. Wiele aplikacji używa L1 i R1 do przełączania kart lub stron.\n\nNaciśnij każdy z nich raz.</string>
+    <string name="tutorial_press_l1">Naciśnij L1</string>
+    <string name="tutorial_press_r1">Naciśnij R1</string>
+    <string name="tutorial_press_l2">Naciśnij L2</string>
+    <string name="tutorial_press_r2">Naciśnij R2</string>
+
+    <!-- FN = home -->
+    <string name="tutorial_home_title">FN to ekran główny</string>
+    <string name="tutorial_home_body">Naciśnij sam FN, aby z dowolnego miejsca, nawet z gry, przejść na ekran główny. Ekran główny to Daijishou, gdzie są twoje gry i aplikacje.\n\nSpróbuj teraz: naciśnij FN. Samouczek sam wróci po kilku sekundach.</string>
+    <string name="tutorial_home_task">Naciśnij FN</string>
+    <string name="tutorial_home_back">Witaj z powrotem. To wszystko.</string>
+
+    <!-- FN + volume -->
+    <string name="tutorial_brightness_title">Skróty z FN: jasność</string>
+    <string name="tutorial_brightness_body">FN ma drugie zadanie: przytrzymaj go i naciśnij inny przycisk, aby użyć skrótu.\n\nPrzytrzymaj FN i naciśnij Vol+, aby rozjaśnić ekran. Przytrzymaj FN i naciśnij Vol−, aby go przyciemnić. Same przyciski głośności nadal zmieniają głośność.</string>
+    <string name="tutorial_brightness_up">Jaśniej: FN + Vol+</string>
+    <string name="tutorial_brightness_down">Ciemniej: FN + Vol−</string>
+    <string name="tutorial_brightness_hint">Jasność już na maksimum? Zacznij od przyciemnienia.</string>
+    <string name="tutorial_fn_alone">To był sam FN, więc otworzył się ekran główny. Przytrzymaj FN, a potem naciśnij drugi przycisk, cały czas trzymając FN.</string>
+
+    <!-- FN + Y -->
+    <string name="tutorial_shade_title">Skróty z FN: Szybkie ustawienia</string>
+    <string name="tutorial_shade_body">Przytrzymaj FN i naciśnij Y, aby otworzyć powiadomienia i Szybkie ustawienia z kafelkami m.in. do Wi-Fi i Bluetootha.\n\nOtwórz je teraz. FN + Y ponownie je zamyka.</string>
+    <string name="tutorial_shade_open">Otwórz: FN + Y</string>
+
+    <!-- Joystick mouse -->
+    <string name="tutorial_mouse_title">Mysz na gałkach</string>
+    <string name="tutorial_mouse_body">Kilka aplikacji wymaga ekranu dotykowego. W nich prawa gałka może poruszać kursorem myszy. A klika, L1 to prawy przycisk myszy, a lewa gałka przewija.\n\nAby włączyć lub wyłączyć mysz, przytrzymaj przez sekundę obie wciśnięte gałki (L3 + R3).</string>
+    <string name="tutorial_mouse_body_fn">Kilka aplikacji wymaga ekranu dotykowego. W nich prawa gałka może poruszać kursorem myszy. A klika, L1 to prawy przycisk myszy, a lewa gałka przewija.\n\nAby włączyć lub wyłączyć mysz, przytrzymaj przez sekundę obie wciśnięte gałki (L3 + R3) albo naciśnij FN + X.</string>
+    <string name="tutorial_mouse_on">Włącz mysz</string>
+    <string name="tutorial_mouse_off">Wyłącz ją z powrotem</string>
+
+    <!-- Power -->
+    <string name="tutorial_power_title">Przycisk zasilania</string>
+    <string name="tutorial_power_body">Naciśnij przycisk zasilania, aby uśpić konsolę, i naciśnij go ponownie, aby ją wybudzić.\n\nPrzytrzymaj go przez sekundę, aby otworzyć menu zasilania: wyłączanie, ponowne uruchamianie i więcej. Naciśnij B, aby zamknąć menu.</string>
+    <string name="tutorial_power_sleep">Naciśnij zasilanie, aby uśpić, i jeszcze raz, aby wybudzić</string>
+    <string name="tutorial_power_menu">Przytrzymaj zasilanie, aby otworzyć menu, potem B, aby je zamknąć</string>
+
+    <!-- Games -->
+    <string name="tutorial_games_title">Gdzie trafiają gry</string>
+    <string name="tutorial_games_body">Włóż kartę SD do komputera. Oprócz małego dysku BOOT pokaże ona duży dysk o nazwie EASYROMS: to miejsce na twoje gry.\n\nKażdy system dostaje własny folder o nazwie np. nes, snes, gba, megadrive lub psx.\n\nPotem otwórz Daijishou (naciśnij FN), dodaj platformę i wybierz jej folder na EASYROMS. Daijishou pokaże listę gier i uruchomi je w RetroArch lub PPSSPP.</string>
+    <string name="tutorial_games_body_no_fn">Włóż kartę SD do komputera. Oprócz małego dysku BOOT pokaże ona duży dysk o nazwie EASYROMS: to miejsce na twoje gry.\n\nKażdy system dostaje własny folder o nazwie np. nes, snes, gba, megadrive lub psx.\n\nPotem otwórz Daijishou, dodaj platformę i wybierz jej folder na EASYROMS. Daijishou pokaże listę gier i uruchomi je w RetroArch lub PPSSPP.</string>
+    <string name="tutorial_games_space">EASYROMS na tej karcie: <xliff:g id="free">%1$s</xliff:g> wolne z <xliff:g id="total">%2$s</xliff:g>.</string>
+
+    <!-- Finish -->
+    <string name="tutorial_done_title">Wszystko gotowe</string>
+    <string name="tutorial_done_body">To już podstawy.\n\nPrzewodnik Szybki start wyjaśnia więcej: emulatory, szybkość i baterię, internet oraz co zrobić, gdy coś pójdzie nie tak. Otwórz go tutaj albo w każdej chwili w Ustawienia &gt; Szybki start.</string>
+    <string name="tutorial_done_body_fn_help">To już podstawy. Nie pamiętasz skrótu? Przytrzymaj przez chwilę sam FN, w dowolnej aplikacji lub grze, aby zobaczyć wszystkie.\n\nPrzewodnik Szybki start wyjaśnia więcej: emulatory, szybkość i baterię, internet oraz co zrobić, gdy coś pójdzie nie tak. Otwórz go tutaj albo w każdej chwili w Ustawienia &gt; Szybki start.</string>
+
+    <!-- Guide bottom bar: X opens the tutorial -->
+    <string name="hint_tutorial">Samouczek</string>
+</resources>
