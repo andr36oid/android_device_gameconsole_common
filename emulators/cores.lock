@@ -1,11 +1,16 @@
 # libretro cores shipped with the ROM, built from source by scripts/build-cores.sh.
 #
-# tier:    foss          -> OSI/FSF approved license, always shipped
-#          noncommercial -> free to redistribute, but NOT for commercial use;
+# tier:    foss          -> OSI/FSF approved license, always shipped. A few carry
+#                           built-in system ROMs or a small non-OSI part whose
+#                           owners still allow redistribution in products that are
+#                           sold (bluemsx V9938, fuse Amstrad ROMs); see the NOTICE
+#          noncommercial -> free to redistribute, but NOT for commercial use (also
+#                           cores with built-in ROMs that only allow free copies);
 #                           only shipped with GAMECONSOLE_EMU_NONCOMMERCIAL_CORES=true
-# build:   jni   -> ndk-build in <path>/jni
-#          cmake -> cmake with the NDK toolchain in <path>, extra args comma separated
-# license: file inside the source tree that gets copied into the NOTICE
+# build:   jni    -> ndk-build in <path>/jni, args = extra make variables, comma separated
+#          cmake  -> cmake with the NDK toolchain in <path>, extra args comma separated
+#          script -> scripts/cores/<name>.sh <path> <output .so>
+# license: file(s) inside the source tree that get copied into the NOTICE, comma separated
 #
 # name              tier           spdx                build  path                  license_file         args                                      repo                                                commit
 fceumm              foss           GPL-2.0-or-later    jni    .                     Copying              -                                         https://github.com/libretro/libretro-fceumm.git     236ccdfc911e84c60fea6b9d0699c2d440a8de14
@@ -24,3 +29,4 @@ handy               foss           Zlib                jni    .                 
 snes9x2010          noncommercial  LicenseRef-snes9x   jni    .                     LICENSE.txt          -                                         https://github.com/libretro/snes9x2010.git          fe690dd321fa5a46b5234a2bde089d2518c62b0e
 genesis_plus_gx     noncommercial  LicenseRef-gpgx     jni    libretro              LICENSE.txt          -                                         https://github.com/libretro/Genesis-Plus-GX.git     c2838c7dc4236fc2fe94e5dbd08b41486067918e
 picodrive           noncommercial  LicenseRef-picodrive jni   .                     COPYING              -                                         https://github.com/libretro/picodrive.git           ab021146b70eef7ec0ac2afe06a94e9b4c16ef74
+nestopia            foss           GPL-2.0-or-later    jni    libretro              COPYING              -                                         https://github.com/libretro/nestopia.git            8f00f500912a847062de432e38765c7285483e62
