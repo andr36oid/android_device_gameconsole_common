@@ -26,6 +26,8 @@
 # 6. Controllers in RetroArch: the built-in pad is player 1 (or player 2 when
 #    Settings > Controllers says so), and every pad can open the menu and
 #    quit. See retroarch_players below; "players" as argument only does this.
+# 7. PPSSPP: once it has written its controls.ini, the PSP buttons by
+#    position on the built-in pad (Cross = B), if still PPSSPP's default.
 
 BASE=/system/etc/gameconsole
 STATE=/data/misc/gameconsole
@@ -459,6 +461,72 @@ bios_folder() {
 	echo "$want" >"$SYSTEM_DIR_MARK"
 }
 
+PP_PKG=org.ppsspp.ppsspp
+PP_DATA=/data/user/0/$PP_PKG
+# controls.ini files whose face buttons we already put in place
+PP_DONE=$STATE/ppsspp-controls
+
+# ppsspp_memstick ; prints PPSSPP's memory stick folder as root sees it. PPSSPP
+# asks for it on its first start and keeps it in files/memstick_dir.txt: a
+# plain path or a folder picked with the Android file picker (content URI).
+ppsspp_memstick() {
+	local dir vol rel
+	dir=$(cat "$PP_DATA/files/memstick_dir.txt" 2>/dev/null) || return 1
+	case $dir in
+	content://com.android.externalstorage.documents/tree/*)
+		# tree/primary%3APSP or tree/1234-ABCD%3Agames%2Fpsp
+		dir=$(echo "${dir#*/tree/}" |
+			sed -e 's/%3[Aa]/:/g' -e 's#%2[Ff]#/#g' -e 's/%20/ /g' -e 's/%25/%/g')
+		vol=${dir%%:*}
+		rel=${dir#*:}
+		if [ "$vol" = primary ]; then
+			dir=$MEDIA/$rel
+		else
+			dir=/mnt/media_rw/$vol/$rel
+		fi
+		;;
+	/storage/emulated/0/*) dir=$MEDIA/${dir#/storage/emulated/0/} ;;
+	/storage/*) dir=/mnt/media_rw/${dir#/storage/} ;;
+	/*) ;;
+	*) return 1 ;;
+	esac
+	[ -d "$dir" ] && echo "${dir%/}"
+}
+
+# ppsspp_controls ; PSP buttons by position on the built-in pad. PPSSPP's
+# Android default puts Cross on BUTTON_A, which is the bottom button on Xbox
+# and PlayStation pads but the right one on this console (and on Switch pads),
+# where it sends the printed letter. So Cross, Circle, Square and Triangle
+# landed on the right, bottom, top and left buttons. Once PPSSPP has written
+# its controls.ini (after its first start), and only while the four face
+# buttons are still PPSSPP's default for pads, they are moved to Cross = B,
+# Circle = A, Square = Y, Triangle = X, like the PSP. PPSSPP reads every
+# controller as the one player. Once per controls.ini, so a mapping the user
+# makes later stays.
+ppsspp_controls() {
+	local root ini
+	root=$(ppsspp_memstick) || return 0
+	ini=$root/PSP/SYSTEM/controls.ini
+	[ -f "$ini" ] || return 0
+	grep -qxF "$ini" "$PP_DONE" 2>/dev/null && return 0
+	# 10 = PPSSPP's pad device, 96/97/99/100 = BUTTON_A/B/X/Y
+	if grep -Eq '^Cross *=.*[= ,]10-96(,|.?$)' "$ini" &&
+		grep -Eq '^Circle *=.*[= ,]10-97(,|.?$)' "$ini" &&
+		grep -Eq '^Square *=.*[= ,]10-99(,|.?$)' "$ini" &&
+		grep -Eq '^Triangle *=.*[= ,]10-100(,|.?$)' "$ini"; then
+		sed -E -e '/^Cross *=/s/([= ,])10-96(,|.?$)/\110-97\2/' \
+			-e '/^Circle *=/s/([= ,])10-97(,|.?$)/\110-96\2/' \
+			-e '/^Square *=/s/([= ,])10-99(,|.?$)/\110-100\2/' \
+			-e '/^Triangle *=/s/([= ,])10-100(,|.?$)/\110-99\2/' "$ini" >"$ini.new" &&
+			cat "$ini.new" >"$ini" &&
+			log "PPSSPP: face buttons by position (Cross = B) in $ini"
+		rm -f "$ini.new"
+	else
+		log "PPSSPP: face buttons in $ini already changed, left alone"
+	fi
+	echo "$ini" >>"$PP_DONE"
+}
+
 # What we last wrote into each controller setting of retroarch.cfg
 MANAGED=$STATE/retroarch-managed
 # 0x484b:0x1100, the built-in pad (odroidgo3-joypad, name "GO-Super Gamepad")
@@ -550,3 +618,5 @@ make_rom_folders
 # after the ROM folders: they are only made on a card without any of them
 bios_folder
 retroarch_players
+# PPSSPP isn't running this early; it writes controls.ini back when it quits
+ppsspp_controls

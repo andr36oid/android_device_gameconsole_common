@@ -40,6 +40,8 @@ the `gameconsole-emu` service (`seed/`) runs once `sys.boot_completed=1`:
    [BIOS folder](#bios-folder) below.
 6. Keep the built-in pad player 1 in RetroArch and let every controller open the menu
    and quit, see [Controllers and players](#controllers-and-players) below.
+7. PPSSPP: the PSP face buttons by position on the built-in pad, once PPSSPP has made its
+   controls.ini, see the end of [BIOS folder](#bios-folder).
 
 Log tag: `gameconsole-emu`. State: `/data/misc/gameconsole` and
 `/data/user/0/com.retroarch/.gameconsole`.
@@ -162,6 +164,17 @@ Settings > Emulator files checks what is in that folder.
 
 PPSSPP isn't seeded: it stores its settings (and `controls.ini`) in the memory stick
 folder the user picks on its first start, so there is nothing to seed before that.
+Step 7 (`ppsspp_controls`) fixes its buttons afterwards: PPSSPP's Android default maps
+Cross to BUTTON_A, the bottom button on Xbox/PlayStation pads but the right one on the
+built-in pad (and Switch pads), so Cross/Circle/Square/Triangle sat on right/bottom/top/
+left. On the first boot after PPSSPP wrote `PSP/SYSTEM/controls.ini` (it does on quit),
+and only if the four face buttons are still PPSSPP's pad default (`10-96/97/99/100`), they
+become Cross = B, Circle = A, Square = Y, Triangle = X. The memory stick folder comes from
+`files/memstick_dir.txt` (a path or a file-picker content URI, internal storage or SD
+card). Once per controls.ini (`/data/misc/gameconsole/ppsspp-controls`), so a later
+mapping of the user's stays. PPSSPP treats every connected controller as the one player,
+so on an Xbox or PlayStation pad the face buttons are then turned by one position; remap
+in PPSSPP (Settings > Controls > Control mapping) if that pad is the main one.
 
 ## Updating
 
