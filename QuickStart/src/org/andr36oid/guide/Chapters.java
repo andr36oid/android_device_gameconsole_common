@@ -198,6 +198,11 @@ final class Chapters {
         }
         heading(c, R.string.trouble_buttons_q);
         para(c, R.string.mapping_reset);
+        if (hasPackage("org.andr36oid.stickcalibration")) {
+            heading(c, R.string.trouble_sticks_q);
+            para(c, R.string.trouble_sticks_a);
+            para(c, R.string.trouble_sticks_more);
+        }
         heading(c, R.string.trouble_recovery_q);
         row(c, R.string.trouble_recovery_a, "FN", power);
         para(c, R.string.trouble_recovery_more);

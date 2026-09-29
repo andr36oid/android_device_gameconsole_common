@@ -113,6 +113,9 @@
     <string name="trouble_bios_q">A game doesn\'t start, or starts to a black screen</string>
     <string name="trouble_bios_a">Some systems, like Sega CD and PC Engine CD, need a file from the original console (a BIOS), and PlayStation games work better with one. Put these files in the bios folder on EASYROMS. Settings &gt; Emulator files shows what\'s missing.</string>
     <string name="trouble_buttons_q">The buttons do the wrong thing</string>
+    <string name="trouble_sticks_q">Sticks drift or don\'t reach the edge</string>
+    <string name="trouble_sticks_a">Open Settings &gt; Calibrate sticks and press A. Move both sticks in full circles, slowly and all the way to the edge. Then let go of them and press A. From then on every game and app uses the corrected sticks, also after a restart.</string>
+    <string name="trouble_sticks_more">Still creeping a little? Left and right on the D-pad change the dead zone, the part around the middle that is ignored. Press X twice to go back to the factory settings.</string>
     <string name="trouble_recovery_q">Recovery and factory reset</string>
     <string name="trouble_recovery_a">Hold FN while you switch the console on</string>
     <string name="trouble_recovery_more">This starts the recovery system, used for a factory reset or to install updates from a computer. A factory reset erases your apps and settings, but not the games on EASYROMS.</string>
