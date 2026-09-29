@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Sync saves (Syncthing) -->
+    <string name="sync_title">Synchro des sauvegardes</string>
+    <string name="sync_row_off">Désactivée. Gardez les mêmes sauvegardes sur cette console et sur votre PC, votre téléphone ou d\'autres consoles.</string>
+    <!-- %1$d: number of devices -->
+    <plurals name="sync_row_on">
+        <item quantity="one">Activée, avec %1$d appareil</item>
+        <item quantity="other">Activée, avec %1$d appareils</item>
+    </plurals>
+    <string name="sync_switch_title">Synchro des sauvegardes</string>
+    <string name="sync_switch_off">Désactivée</string>
+    <string name="sync_switch_on">Activée. Synchronise en Wi-Fi pendant la charge, et tant que cette page est ouverte.</string>
+    <string name="sync_status_off">Vos sauvegardes de jeu et états de sauvegarde restent identiques sur chaque appareil que vous ajoutez, via le Wi-Fi, sans cloud. Les ROM ne sont jamais copiées. Utilise l\'appli Syncthing.</string>
+    <string name="sync_status_starting">Démarrage de Syncthing…</string>
+    <string name="sync_status_no_devices">Aucun appareil pour l\'instant. Ajoutez-en un ci-dessous.</string>
+    <string name="sync_status_scanning">Recherche des sauvegardes modifiées…</string>
+    <plurals name="sync_status_syncing">
+        <item quantity="one">Synchronisation, encore %1$d fichier…</item>
+        <item quantity="other">Synchronisation, encore %1$d fichiers…</item>
+    </plurals>
+    <plurals name="sync_status_errors">
+        <item quantity="one">%1$d fichier n\'a pas pu être synchronisé. Ouvrez Syncthing pour en savoir plus.</item>
+        <item quantity="other">%1$d fichiers n\'ont pas pu être synchronisés. Ouvrez Syncthing pour en savoir plus.</item>
+    </plurals>
+    <string name="sync_status_folder_error">Un dossier de sauvegardes ne peut pas être synchronisé. EASYROMS est-il monté ? Ouvrez Syncthing pour en savoir plus.</string>
+    <string name="sync_status_waiting">À jour ici. En attente de la connexion de vos appareils.</string>
+    <string name="sync_status_done">À jour</string>
+    <string name="sync_step_prepare">Configuration de Syncthing…</string>
+    <string name="sync_step_start">Démarrage de Syncthing. Le premier démarrage prend jusqu\'à deux minutes…</string>
+    <string name="sync_step_folders">Ajout des dossiers de sauvegardes…</string>
+    <string name="sync_step_stop">Arrêt…</string>
+    <string name="sync_my_id_title">ID de cette console</string>
+    <string name="sync_my_id_none">Affiché une fois Syncthing lancé</string>
+    <string name="sync_my_id_message">Sur votre PC ou téléphone, ouvrez Syncthing, choisissez Ajouter un appareil (Add Remote Device) et saisissez cet ID ou scannez le code. Le PC apparaît alors ci-dessous sous Ajouter un appareil.</string>
+    <string name="sync_devices_category">Synchronisé avec</string>
+    <string name="sync_devices_none">Aucun appareil pour l\'instant</string>
+    <string name="sync_device_connected">Connecté</string>
+    <string name="sync_device_offline">Non connecté</string>
+    <string name="sync_remove_title">Arrêter la synchro avec %1$s ?</string>
+    <string name="sync_remove_message">Les sauvegardes restent sur les deux appareils. Elles ne sont simplement plus maintenues identiques.</string>
+    <string name="sync_remove_button">Arrêter la synchro</string>
+    <string name="sync_add_category">Ajouter un appareil</string>
+    <string name="sync_pending_summary">Veut se synchroniser avec cette console</string>
+    <!-- %1$s: the first 7 characters of a device ID -->
+    <string name="sync_nearby_title">Appareil %1$s</string>
+    <string name="sync_nearby_summary">Trouvé sur ce Wi-Fi</string>
+    <string name="sync_add_hint">Un PC ou un téléphone : installez-y Syncthing et ajoutez l\'ID de cette console (ci-dessus). Une autre console : activez-y Synchro des sauvegardes, puis choisissez-la ici.</string>
+    <!-- %1$s: device name -->
+    <string name="sync_add_title">Synchroniser avec %1$s ?</string>
+    <!-- %1$s: the full device ID -->
+    <string name="sync_add_message">N\'ajoutez que vos propres appareils. Celui-ci reçoit les sauvegardes de cette console et peut les modifier.\n\nID : %1$s</string>
+    <string name="sync_add_button">Synchroniser</string>
+    <string name="sync_change_failed">Cela n\'a pas fonctionné. Syncthing est-il lancé ? Réessayez dans un instant.</string>
+    <string name="sync_open_title">Ouvrir Syncthing</string>
+    <string name="sync_open_summary">Tous les paramètres, les autres dossiers et ce qui a été synchronisé</string>
+    <string name="sync_note">Quittez le jeu avant d\'y jouer sur un autre appareil. Si les deux modifient la même sauvegarde, la plus récente l\'emporte et l\'autre est conservée à côté sous forme de fichier .sync-conflict. Les sauvegardes remplacées sont aussi conservées dans .stversions (les 5 dernières) et dans vos copies.</string>
+    <string name="sync_off_title">Désactiver la synchro ?</string>
+    <string name="sync_off_message">Vos sauvegardes restent sur cette console et sur vos autres appareils. Les modifications ne sont plus synchronisées. Vos appareils sont mémorisés pour la prochaine fois.</string>
+    <string name="sync_off_button">Désactiver</string>
+    <string name="sync_failed_title">Impossible d\'activer Synchro des sauvegardes</string>
+    <string name="sync_error_missing">L\'appli Syncthing n\'est pas installée.</string>
+    <string name="sync_error_not_running">Syncthing n\'a pas démarré. Ouvrez Syncthing une fois, puis réessayez.</string>
+    <string name="sync_error_other">Un problème est survenu lors de la configuration de Syncthing. Réessayez, ou ouvrez Syncthing pour le configurer vous-même.</string>
+    <string name="sync_label_easyroms">Sauvegardes de jeu sur EASYROMS</string>
+    <string name="sync_label_internal">Sauvegardes de jeu sur le stockage interne</string>
+</resources>

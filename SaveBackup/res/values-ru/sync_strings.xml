@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Sync saves (Syncthing) -->
+    <string name="sync_title">Синхронизация сохранений</string>
+    <string name="sync_row_off">Выкл. Одинаковые сохранения на этой консоли и на вашем компьютере, телефоне или других консолях.</string>
+    <!-- %1$d: number of devices -->
+    <plurals name="sync_row_on">
+        <item quantity="one">Вкл., %1$d устройство</item>
+        <item quantity="few">Вкл., %1$d устройства</item>
+        <item quantity="many">Вкл., %1$d устройств</item>
+        <item quantity="other">Вкл., %1$d устройства</item>
+    </plurals>
+    <string name="sync_switch_title">Синхронизация сохранений</string>
+    <string name="sync_switch_off">Выкл.</string>
+    <string name="sync_switch_on">Вкл. Синхронизация по Wi-Fi во время зарядки и пока открыта эта страница.</string>
+    <string name="sync_status_off">Игровые и быстрые сохранения остаются одинаковыми на всех добавленных устройствах, по Wi-Fi, без облака. ROM-файлы никогда не копируются. Используется приложение Syncthing.</string>
+    <string name="sync_status_starting">Запуск Syncthing…</string>
+    <string name="sync_status_no_devices">Устройств пока нет. Добавьте их ниже.</string>
+    <string name="sync_status_scanning">Поиск изменённых сохранений…</string>
+    <plurals name="sync_status_syncing">
+        <item quantity="one">Синхронизация, остался %1$d файл…</item>
+        <item quantity="few">Синхронизация, осталось %1$d файла…</item>
+        <item quantity="many">Синхронизация, осталось %1$d файлов…</item>
+        <item quantity="other">Синхронизация, осталось %1$d файла…</item>
+    </plurals>
+    <plurals name="sync_status_errors">
+        <item quantity="one">Не удалось синхронизировать %1$d файл. Подробности в Syncthing.</item>
+        <item quantity="few">Не удалось синхронизировать %1$d файла. Подробности в Syncthing.</item>
+        <item quantity="many">Не удалось синхронизировать %1$d файлов. Подробности в Syncthing.</item>
+        <item quantity="other">Не удалось синхронизировать %1$d файла. Подробности в Syncthing.</item>
+    </plurals>
+    <string name="sync_status_folder_error">Папку с сохранениями не удаётся синхронизировать. EASYROMS подключён? Подробности в Syncthing.</string>
+    <string name="sync_status_waiting">Здесь всё актуально. Ждём, когда ваши устройства появятся в сети.</string>
+    <string name="sync_status_done">Всё актуально</string>
+    <string name="sync_step_prepare">Настройка Syncthing…</string>
+    <string name="sync_step_start">Запуск Syncthing. Первый запуск занимает до двух минут…</string>
+    <string name="sync_step_folders">Добавление папок с сохранениями…</string>
+    <string name="sync_step_stop">Остановка…</string>
+    <string name="sync_my_id_title">ID этой консоли</string>
+    <string name="sync_my_id_none">Появится, когда запустится Syncthing</string>
+    <string name="sync_my_id_message">На компьютере или телефоне откройте Syncthing, выберите «Добавить удалённое устройство» и введите этот ID или отсканируйте код. Затем компьютер появится ниже, в разделе «Добавить устройство».</string>
+    <string name="sync_devices_category">Синхронизация с</string>
+    <string name="sync_devices_none">Устройств пока нет</string>
+    <string name="sync_device_connected">Подключено</string>
+    <string name="sync_device_offline">Сейчас не подключено</string>
+    <string name="sync_remove_title">Прекратить синхронизацию с %1$s?</string>
+    <string name="sync_remove_message">Сохранения останутся на обоих устройствах, просто больше не будут одинаковыми.</string>
+    <string name="sync_remove_button">Прекратить</string>
+    <string name="sync_add_category">Добавить устройство</string>
+    <string name="sync_pending_summary">Хочет синхронизироваться с этой консолью</string>
+    <!-- %1$s: the first 7 characters of a device ID -->
+    <string name="sync_nearby_title">Устройство %1$s</string>
+    <string name="sync_nearby_summary">Найдено в этой сети Wi-Fi</string>
+    <string name="sync_add_hint">Компьютер или телефон: установите там Syncthing и добавьте ID этой консоли (выше). Другая консоль: включите там «Синхронизацию сохранений», затем выберите её здесь.</string>
+    <!-- %1$s: device name -->
+    <string name="sync_add_title">Синхронизировать сохранения с %1$s?</string>
+    <!-- %1$s: the full device ID -->
+    <string name="sync_add_message">Добавляйте только свои устройства. Устройство получит сохранения с этой консоли и сможет их менять.\n\nID: %1$s</string>
+    <string name="sync_add_button">Синхронизировать</string>
+    <string name="sync_change_failed">Не получилось. Syncthing запущен? Попробуйте ещё раз чуть позже.</string>
+    <string name="sync_open_title">Открыть Syncthing</string>
+    <string name="sync_open_summary">Все настройки, другие папки и что было синхронизировано</string>
+    <string name="sync_note">Выйдите из игры, прежде чем играть в неё на другом устройстве. Если одно и то же сохранение изменено на обоих, побеждает более новое, а другое хранится рядом как файл .sync-conflict. Заменённые сохранения также хранятся в .stversions (последние 5) и в ваших копиях.</string>
+    <string name="sync_off_title">Выключить синхронизацию сохранений?</string>
+    <string name="sync_off_message">Сохранения останутся на этой консоли и на других ваших устройствах. Изменения больше не синхронизируются. Ваши устройства запоминаются на будущее.</string>
+    <string name="sync_off_button">Выключить</string>
+    <string name="sync_failed_title">Не удалось включить синхронизацию сохранений</string>
+    <string name="sync_error_missing">Приложение Syncthing не установлено.</string>
+    <string name="sync_error_not_running">Syncthing не запустился. Откройте Syncthing один раз и попробуйте снова.</string>
+    <string name="sync_error_other">При настройке Syncthing что-то пошло не так. Попробуйте ещё раз или откройте Syncthing и настройте его вручную.</string>
+    <string name="sync_label_easyroms">Сохранения игр на EASYROMS</string>
+    <string name="sync_label_internal">Сохранения игр во внутренней памяти</string>
+</resources>

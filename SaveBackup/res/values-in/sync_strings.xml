@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Sync saves (Syncthing) -->
+    <string name="sync_title">Sinkronkan save</string>
+    <string name="sync_row_off">Nonaktif. Samakan save Anda di konsol ini dan di PC, ponsel, atau konsol lain.</string>
+    <!-- %1$d: number of devices -->
+    <plurals name="sync_row_on">
+        <item quantity="other">Aktif, dengan %1$d perangkat</item>
+    </plurals>
+    <string name="sync_switch_title">Sinkronkan save</string>
+    <string name="sync_switch_off">Nonaktif</string>
+    <string name="sync_switch_on">Aktif. Sinkronisasi lewat Wi-Fi saat mengisi daya, dan selama halaman ini terbuka.</string>
+    <string name="sync_status_off">Save game dan save state Anda dijaga tetap sama di setiap perangkat yang Anda tambahkan, lewat Wi-Fi, tanpa cloud. ROM tidak pernah disalin. Fitur ini memakai aplikasi Syncthing.</string>
+    <string name="sync_status_starting">Memulai Syncthing…</string>
+    <string name="sync_status_no_devices">Belum ada perangkat. Tambahkan di bawah.</string>
+    <string name="sync_status_scanning">Mencari save yang berubah…</string>
+    <plurals name="sync_status_syncing">
+        <item quantity="other">Menyinkronkan, %1$d file lagi…</item>
+    </plurals>
+    <plurals name="sync_status_errors">
+        <item quantity="other">%1$d file tidak bisa disinkronkan. Buka Syncthing untuk detailnya.</item>
+    </plurals>
+    <string name="sync_status_folder_error">Sebuah folder save tidak bisa disinkronkan. Apakah EASYROMS terpasang? Buka Syncthing untuk detailnya.</string>
+    <string name="sync_status_waiting">Di sini sudah terbaru. Menunggu perangkat Anda online.</string>
+    <string name="sync_status_done">Sudah terbaru</string>
+    <string name="sync_step_prepare">Menyiapkan Syncthing…</string>
+    <string name="sync_step_start">Memulai Syncthing. Mulai pertama bisa sampai dua menit…</string>
+    <string name="sync_step_folders">Menambahkan folder save…</string>
+    <string name="sync_step_stop">Menghentikan…</string>
+    <string name="sync_my_id_title">ID konsol ini</string>
+    <string name="sync_my_id_none">Muncul setelah Syncthing berjalan</string>
+    <string name="sync_my_id_message">Di PC atau ponsel Anda, buka Syncthing, pilih Add Remote Device, lalu masukkan ID ini atau pindai kodenya. PC itu lalu muncul di bawah, di Tambah perangkat.</string>
+    <string name="sync_devices_category">Sinkron dengan</string>
+    <string name="sync_devices_none">Belum ada perangkat</string>
+    <string name="sync_device_connected">Terhubung</string>
+    <string name="sync_device_offline">Sedang tidak terhubung</string>
+    <string name="sync_remove_title">Berhenti sinkron dengan %1$s?</string>
+    <string name="sync_remove_message">Save tetap ada di kedua perangkat. Hanya saja tidak lagi dijaga tetap sama.</string>
+    <string name="sync_remove_button">Berhenti sinkron</string>
+    <string name="sync_add_category">Tambah perangkat</string>
+    <string name="sync_pending_summary">Ingin sinkron dengan konsol ini</string>
+    <!-- %1$s: the first 7 characters of a device ID -->
+    <string name="sync_nearby_title">Perangkat %1$s</string>
+    <string name="sync_nearby_summary">Ditemukan di Wi-Fi ini</string>
+    <string name="sync_add_hint">PC atau ponsel: instal Syncthing di sana dan tambahkan ID konsol ini (di atas). Konsol lain: aktifkan Sinkronkan save di sana, lalu pilih di sini.</string>
+    <!-- %1$s: device name -->
+    <string name="sync_add_title">Sinkronkan save dengan %1$s?</string>
+    <!-- %1$s: the full device ID -->
+    <string name="sync_add_message">Tambahkan hanya perangkat milik Anda. Perangkat itu mendapat save di konsol ini dan bisa mengubahnya.\n\nID: %1$s</string>
+    <string name="sync_add_button">Sinkronkan</string>
+    <string name="sync_change_failed">Tidak berhasil. Apakah Syncthing berjalan? Coba lagi sebentar.</string>
+    <string name="sync_open_title">Buka Syncthing</string>
+    <string name="sync_open_summary">Semua setelan, folder lain, dan apa yang sudah disinkronkan</string>
+    <string name="sync_note">Keluar dari game sebelum memainkannya di perangkat lain. Jika keduanya mengubah save yang sama, yang lebih baru menang dan yang lain disimpan sebagai file .sync-conflict di sebelahnya. Save yang diganti juga disimpan di .stversions (5 terakhir) dan di cadangan Anda.</string>
+    <string name="sync_off_title">Nonaktifkan Sinkronkan save?</string>
+    <string name="sync_off_message">Save Anda tetap ada di konsol ini dan di perangkat Anda yang lain. Perubahan tidak lagi disinkronkan. Perangkat Anda diingat untuk lain kali.</string>
+    <string name="sync_off_button">Nonaktifkan</string>
+    <string name="sync_failed_title">Sinkronkan save tidak bisa diaktifkan</string>
+    <string name="sync_error_missing">Aplikasi Syncthing tidak terinstal.</string>
+    <string name="sync_error_not_running">Syncthing tidak berjalan. Buka Syncthing sekali, lalu coba lagi.</string>
+    <string name="sync_error_other">Terjadi masalah saat menyiapkan Syncthing. Coba lagi, atau buka Syncthing untuk menyiapkannya secara manual.</string>
+    <string name="sync_label_easyroms">Save game di EASYROMS</string>
+    <string name="sync_label_internal">Save game di penyimpanan internal</string>
+</resources>
