@@ -39,6 +39,15 @@ public final class Engine {
     /** Room to leave on a partition, so games can still save. */
     static final long MARGIN = 32L << 20;
     static final int DEFAULT_KEEP = 10;
+    /**
+     * After a game (reason=session), save states bigger than this are left out: PSP states
+     * are 20-40 MB each and would be zipped and written twice after every session. Daily,
+     * manual, USB and before-restore backups take them. In-game saves are always taken.
+     * The page says "16 MB" (auto_summary): change it there too.
+     */
+    static final long SESSION_STATE_MAX = 16L << 20;
+    /** An after-game run takes the big states too when the last whole backup is older. */
+    static final long WHOLE_EVERY = 24L * 3600 * 1000;
 
     private final File mDir;
     private final Roots mRoots;
@@ -154,22 +163,57 @@ public final class Engine {
         final long t0 = System.currentTimeMillis();
         final Collector collector = new Collector(mRoots)
                 .cache(new File(mDir, "walk.cache"), reason.equals("session"));
-        final List<SaveFile> saves = collector.collect();
-        // for the test plan: how long the walk took (stderr is lost under init)
-        write(new File(mDir, "walk.last"), saves.size() + " saves, " + collector.listed
-                + " folders listed, " + (System.currentTimeMillis() - t0) + " ms, reason "
-                + reason + "\n");
+        final List<SaveFile> found = collector.collect();
         final Index.Last last = Index.Last.parse(read(new File(mDir, "last")));
-        if (saves.isEmpty()) {
+        // after a game, big save states wait for the daily backup, unless there was no
+        // whole backup for a day (the daily run needs a charger, so it may not come)
+        final boolean session = reason.equals("session")
+                && last.full <= mNow && mNow - last.full < WHOLE_EVERY;
+        final List<SaveFile> saves = new ArrayList<>();
+        int leftOut = 0;
+        for (SaveFile s : found) {
+            if (session && bigState(s.id, s.size)) {
+                leftOut++;
+            } else {
+                saves.add(s);
+            }
+        }
+        // for the test plan: how long the walk took (stderr is lost under init)
+        write(new File(mDir, "walk.last"), found.size() + " saves, " + collector.listed
+                + " folders listed, " + (System.currentTimeMillis() - t0) + " ms, reason "
+                + reason + ", " + leftOut + " big states left out\n");
+        if (found.isEmpty()) {
             last.checked = mNow;
+            last.full = mNow;
             last.result = "nothing";
             writeLast(last);
             return "done nothing";
         }
 
+        // Unchanged = the same files, sizes and times as in the backups (last.fp is the
+        // newest backup's list, full.fp the newest whole one's). Saves and small states are
+        // compared with the newest backup, big states with the newest whole backup, so after
+        // an after-game backup (no big states) the daily run only writes them again when
+        // one of them changed. An after-game run doesn't look at big states at all.
         final String fp = Manifest.fingerprint(saves);
         final File newest = find(last.name, places);
-        if (newest != null && fp.equals(read(new File(mDir, "last.fp")))) {
+        final File whole = find(last.fullName, places);
+        final String lastFp = read(new File(mDir, "last.fp"));
+        String fullFp = read(new File(mDir, "full.fp"));
+        if (fullFp == null && last.fullName.equals(last.name)) fullFp = lastFp;
+        final boolean same = newest != null && lastFp != null
+                && part(fp, false).equals(part(lastFp, false))
+                && (session || whole != null && fullFp != null
+                        && part(fp, true).equals(part(fullFp, true)));
+        if (same) {
+            if (!session) {
+                // the newest backup and the newest whole one have everything there is now
+                last.full = mNow;
+            } else if (leftOut == 0) {
+                // no big states now: the newest backup has everything
+                last.full = mNow;
+                last.fullName = last.name;
+            }
             // nothing changed: make sure every place has the newest backup, though
             status("running copy");
             for (Roots.Place p : places) {
@@ -178,7 +222,8 @@ public final class Engine {
                     continue;
                 }
                 copyTo(newest, p);
-                prune(p, keep, protect);
+                if (whole != null) copyTo(whole, p);
+                prune(p, keep, protect, last.fullName);
             }
             last.checked = mNow;
             last.result = "unchanged";
@@ -213,10 +258,14 @@ public final class Engine {
         }
         if (written == null) return room ? "error write_failed" : "error no_space";
 
+        if (leftOut == 0) {
+            last.full = mNow;
+            last.fullName = name;
+        }
         status("running copy");
         for (Roots.Place p : places) {
             if (!new File(p.dir, name).equals(written)) copyTo(written, p);
-            prune(p, keep, protect);
+            prune(p, keep, protect, last.fullName);
         }
         last.time = mNow;
         last.name = name;
@@ -227,6 +276,7 @@ public final class Engine {
         last.result = "backup";
         writeLast(last);
         write(new File(mDir, "last.fp"), fp);
+        if (leftOut == 0) write(new File(mDir, "full.fp"), fp);
         return "done backup " + name + " " + m.entries.size();
     }
 
@@ -241,8 +291,27 @@ public final class Engine {
         }
     }
 
-    private static void prune(Roots.Place p, int keep, String protect) {
-        Archive.prune(p.dir, keep, protect);
+    /** Keeps {@code keep} backups, and the protected one and the newest whole one. */
+    private static void prune(Roots.Place p, int keep, String protect, String whole) {
+        Archive.prune(p.dir, keep, protect, whole);
+    }
+
+    /** A save state an after-game backup leaves out. */
+    static boolean bigState(String id, long size) {
+        return size > SESSION_STATE_MAX && Games.isState(id);
+    }
+
+    /** The lines of a fingerprint (see Manifest) of big save states, or of all the rest. */
+    static String part(String fp, boolean big) {
+        final StringBuilder b = new StringBuilder();
+        for (String line : fp.split("\n")) {
+            if (line.isEmpty()) continue;
+            final String[] f = line.split("\t", -1);
+            if ((f.length >= 3 && bigState(f[0], Index.num(f[1]))) == big) {
+                b.append(line).append('\n');
+            }
+        }
+        return b.toString();
     }
 
     private static File find(String name, List<Roots.Place> places) {

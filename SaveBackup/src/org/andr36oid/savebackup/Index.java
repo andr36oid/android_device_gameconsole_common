@@ -38,10 +38,18 @@ final class Index {
         long checked;
         /** backup, unchanged, nothing (no saves found), or an error code. */
         String result = "";
+        /**
+         * When all saves were last found backed up, big save states too (an after-game run
+         * leaves those out, see Engine.SESSION_STATE_MAX). The daily run goes by this.
+         */
+        long full;
+        /** The newest backup that has everything; pruning keeps it. */
+        String fullName = "";
 
         String text() {
             return "time=" + time + "\nname=" + name + "\nfiles=" + files + "\nbytes=" + bytes
-                    + "\nwhere=" + where + "\nchecked=" + checked + "\nresult=" + result + "\n";
+                    + "\nwhere=" + where + "\nchecked=" + checked + "\nresult=" + result
+                    + "\nfull=" + full + "\nfull_name=" + fullName + "\n";
         }
 
         static Last parse(String text) {
@@ -55,6 +63,14 @@ final class Index {
             l.where = str(kv.get("where"));
             l.checked = num(kv.get("checked"));
             l.result = str(kv.get("result"));
+            if (kv.containsKey("full")) {
+                l.full = num(kv.get("full"));
+                l.fullName = str(kv.get("full_name"));
+            } else {
+                // written before after-game runs left anything out: every backup was whole
+                l.full = l.checked;
+                l.fullName = l.name;
+            }
             return l;
         }
     }

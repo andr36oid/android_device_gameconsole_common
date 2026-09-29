@@ -12,6 +12,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
@@ -220,11 +221,13 @@ final class Archive {
     /**
      * Keeps {@code keep} backups: the newest one of each of the last keep/2 days that have
      * backups (so a day of many short sessions can't push out every older day), then the
-     * newest of the rest. {@code protect} is never deleted.
+     * newest of the rest. The {@code protect} names (null is fine) are never deleted.
      *
      * @return the files deleted
      */
-    static List<File> prune(File dir, int keep, String protect) {
+    static List<File> prune(File dir, int keep, String... protect) {
+        final Set<String> keepNames = new HashSet<>();
+        if (protect != null) keepNames.addAll(Arrays.asList(protect));
         final List<File> all = list(dir);
         final Set<File> kept = new LinkedHashSet<>();
         final Set<String> days = new HashSet<>();
@@ -239,7 +242,7 @@ final class Archive {
         }
         final List<File> deleted = new ArrayList<>();
         for (File f : all) {
-            if (kept.contains(f) || f.getName().equals(protect)) continue;
+            if (kept.contains(f) || keepNames.contains(f.getName())) continue;
             if (f.delete()) deleted.add(f);
         }
         return deleted;
