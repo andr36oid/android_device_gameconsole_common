@@ -196,7 +196,11 @@ notice() {
 		echo "commit: $commit"
 		echo "sha256: $(sha256sum "$WORK/out/${name}_libretro_android.so" | cut -d' ' -f1)"
 		echo "================================================================================"
-		tr -d '\r' <"$WORK/src/$name/$licfile"
+		# license: one file or several, comma separated
+		local lf
+		for lf in ${licfile//,/ }; do
+			tr -d '\r' <"$WORK/src/$name/$lf"
+		done
 	done
 }
 
