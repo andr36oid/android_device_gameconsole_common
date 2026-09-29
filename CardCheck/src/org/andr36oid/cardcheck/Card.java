@@ -73,12 +73,19 @@ final class Card {
     String attr(String name) {
         if (sysPath == null) return null;
         try (InputStream in = new FileInputStream(new File(sysPath, "device/" + name))) {
-            final byte[] buf = new byte[128];
+            final byte[] buf = new byte[256];
             final int n = in.read(buf);
             return n > 0 ? new String(buf, 0, n, StandardCharsets.US_ASCII).trim() : null;
         } catch (IOException e) {
             return null;
         }
+    }
+
+    /** The card's ID registers (SD cards only), null if they can't be read. */
+    CardId id() {
+        if (!sd) return null;
+        final CardId id = CardId.parse(attr("cid"), attr("csd"), attr("scr"), attr("ssr"));
+        return id.hasId() ? id : null;
     }
 
     /** SD association manufacturer IDs of the common brands. */

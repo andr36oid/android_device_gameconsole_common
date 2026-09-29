@@ -10,4 +10,5 @@ LOCAL_MODULE_TAGS := optional
 LOCAL_MODULE_STEM := andr36oid-cardcheck.sh
 LOCAL_SRC_FILES := helper/andr36oid-cardcheck.sh
 LOCAL_INIT_RC := helper/andr36oid-cardcheck.rc
+LOCAL_REQUIRED_MODULES := andr36oid-cardspeed
 include $(BUILD_PREBUILT)

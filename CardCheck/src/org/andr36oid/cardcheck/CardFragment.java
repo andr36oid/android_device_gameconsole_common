@@ -9,6 +9,7 @@ import android.os.Looper;
 import android.os.SystemClock;
 import android.preference.ListPreference;
 import android.preference.Preference;
+import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.text.format.Formatter;
 import android.widget.Toast;
@@ -16,7 +17,10 @@ import android.widget.Toast;
 import java.util.List;
 import java.util.Map;
 
-/** The card's details, the speed test and the real size check, with live progress. */
+/**
+ * The card's details and what they mean, the speed test and the real size check (which
+ * can be paused and continued), with live progress.
+ */
 public class CardFragment extends PreferenceFragment {
 
     private static final long POLL_MS = 1000;
@@ -28,7 +32,8 @@ public class CardFragment extends PreferenceFragment {
     private final Runnable mPoll = this::refresh;
 
     private ListPreference mCardPref;
-    private Preference mDetails, mSpeed, mFull;
+    private Preference mDetails, mAdvice, mSpeed, mFull, mFullDelete;
+    private PreferenceCategory mFullCategory;
     private List<Card> mCards;
     private String mUuid;
     private long mStartedAt;
@@ -42,8 +47,11 @@ public class CardFragment extends PreferenceFragment {
         addPreferencesFromResource(R.xml.card);
         mCardPref = (ListPreference) findPreference("card");
         mDetails = findPreference("details");
+        mAdvice = findPreference("advice");
         mSpeed = findPreference("speed");
         mFull = findPreference("full");
+        mFullDelete = findPreference("full_delete");
+        mFullCategory = (PreferenceCategory) findPreference("full_category");
         if (savedInstanceState != null) mUuid = savedInstanceState.getString(KEY_CARD);
 
         mCardPref.setOnPreferenceChangeListener((pref, value) -> {
@@ -57,6 +65,10 @@ public class CardFragment extends PreferenceFragment {
         });
         mFull.setOnPreferenceClickListener(pref -> {
             fullClicked();
+            return true;
+        });
+        mFullDelete.setOnPreferenceClickListener(pref -> {
+            start(Checker.DELETE);
             return true;
         });
     }
@@ -73,9 +85,11 @@ public class CardFragment extends PreferenceFragment {
         getActivity().getSystemService(NotificationManager.class)
                 .cancel(FinishedReceiver.NOTIFICATION_ID);
         loadCards();
-        // A check that was cut short (reboot, power loss) leaves test files behind.
+        // A speed test that was cut short (reboot, power loss) leaves its file behind. A
+        // real size check keeps its test data and progress: it shows as paused.
         final Map<String, String> s = Checker.status();
-        if ("running".equals(s.get("state")) && !Checker.running()) {
+        if ("running".equals(s.get("state")) && Checker.SPEED.equals(s.get("action"))
+                && !Checker.running()) {
             final Card card = find(s.get("uuid"));
             if (card != null) Checker.start(Checker.CLEANUP, card);
         }
@@ -124,70 +138,97 @@ public class CardFragment extends PreferenceFragment {
         if (card == null) {
             mDetails.setTitle(null);
             mDetails.setSummary(R.string.no_card);
+            mAdvice.setSummary(null);
             mSpeed.setEnabled(false);
             mFull.setEnabled(false);
+            mFullCategory.removePreference(mFullDelete);
             return;
         }
         if (mCardPref.getValue() != null) mCardPref.setSummary(card.name);
-        showDetails(c, card);
 
         final Map<String, String> s = Checker.status();
         final boolean running = Checker.running() || (mStartedAt != 0
                 && SystemClock.elapsedRealtime() - mStartedAt < START_GRACE_MS
                 && !"done".equals(s.get("state")) && !"failed".equals(s.get("state"))
-                && !"stopped".equals(s.get("state")));
+                && !"stopped".equals(s.get("state")) && !"paused".equals(s.get("state")));
         if (!running) {
             mStartedAt = 0;
             mStartedAction = null;
             mStopping = false;
         }
+        // a resumed check writes action=full like a new one
         final String action = s.get("action") != null ? s.get("action")
                 : (running ? mStartedAction : null);
         final boolean thisCard = s.get("uuid") != null ? card.uuid.equals(s.get("uuid"))
                 : running && mStartedAction != null;
+        final boolean fullHere = running && thisCard
+                && (Checker.FULL.equals(action) || Checker.RESUME.equals(action));
+        final boolean paused = !fullHere && Checker.paused(card);
+
+        final CardId id = card.id();
+        final Map<String, String> speed = Checker.result(Checker.SPEED, card);
+        final Map<String, String> full = Checker.result(Checker.FULL, card);
+        showDetails(c, card, id, speed);
+        mAdvice.setSummary(Texts.advice(c, card, id, speed, full, paused));
 
         // speed
-        final Map<String, String> speed = Checker.result(Checker.SPEED, card);
         if (running && Checker.SPEED.equals(action) && thisCard) {
-            mSpeed.setSummary("read".equals(s.get("phase"))
-                    ? R.string.speed_running_read : R.string.speed_running_write);
+            final String phase = s.get("phase");
+            mSpeed.setSummary("random".equals(phase) ? R.string.speed_running_small
+                    : "read".equals(phase) ? R.string.speed_running_read
+                    : R.string.speed_running_write);
+        } else if (paused) {
+            mSpeed.setSummary(R.string.error_paused);
         } else {
             final String text = Texts.speedResult(c, speed);
-            mSpeed.setSummary(text != null ? text : c.getString(R.string.speed_summary));
+            mSpeed.setSummary(text != null ? text : c.getString(R.string.speed_summary_small));
         }
-        mSpeed.setEnabled(!running);
+        mSpeed.setEnabled(!running && !paused);
 
         // real size
-        if (running && Checker.FULL.equals(action) && thisCard) {
+        if (fullHere) {
             mFull.setTitle(R.string.full_title_stop);
             mFull.setSummary(mStopping ? c.getString(R.string.full_stopping)
                     : fullProgress(c, s, speed));
             mFull.setEnabled(!mStopping);
+        } else if (paused) {
+            mFull.setTitle(R.string.full_title_continue);
+            mFull.setSummary(Texts.paused(c, Checker.progress(card)));
+            mFull.setEnabled(true);
         } else {
             mFull.setTitle(R.string.full_title);
-            final String text = Texts.fullResult(c, Checker.result(Checker.FULL, card));
+            final String text = Texts.fullResult(c, full);
             mFull.setSummary(text != null ? text : fullIntro(c, card, speed));
             mFull.setEnabled(!running);
+        }
+        if (paused) {
+            mFullCategory.addPreference(mFullDelete);
+            mFullDelete.setSummary(c.getString(R.string.full_delete_summary, Texts.size(c,
+                    Checker.number(Checker.progress(card), "written_mb"))));
+        } else {
+            mFullCategory.removePreference(mFullDelete);
         }
 
         if (running) mHandler.postDelayed(mPoll, POLL_MS);
     }
 
-    private void showDetails(Context c, Card card) {
+    private void showDetails(Context c, Card card, CardId id, Map<String, String> speed) {
         final String size = Formatter.formatShortFileSize(c, card.diskBytes);
         mDetails.setTitle(c.getString(card.sd ? R.string.details_title
                 : R.string.details_title_usb, card.name, size));
         final StringBuilder sb = new StringBuilder();
         if (card.sd) {
-            final String id = card.attr("manfid");
-            String maker = Card.maker(id);
-            if (maker == null && id != null) maker = c.getString(R.string.maker_unknown, id);
+            final String mid = card.attr("manfid");
+            String maker = Card.maker(mid);
+            if (maker == null && mid != null) maker = c.getString(R.string.maker_unknown, mid);
             final String product = card.attr("name");
             final String date = card.attr("date");
             if (maker != null && product != null && date != null) {
                 sb.append(c.getString(R.string.details_card, maker, product, date)).append('\n');
             }
         }
+        final String lines = Texts.cardLines(c, id, speed);
+        if (!lines.isEmpty()) sb.append(lines).append('\n');
         sb.append(c.getString(R.string.details_free,
                 Formatter.formatFileSize(c, card.freeBytes())));
         mDetails.setSummary(sb);
@@ -205,9 +246,11 @@ public class CardFragment extends PreferenceFragment {
         final String phase = s.get("phase");
         final long done = Checker.number(s, "done_mb");
         final long total = Checker.number(s, "total_mb");
+        // a resumed check starts counting from where it was paused
+        final long base = Math.max(0, Checker.number(s, "base_mb"));
         final double now = Checker.seconds(s, "now");
-        if ("write".equals(phase) && done > 0) {
-            final double rate = done / (now - Checker.seconds(s, "started"));
+        if ("write".equals(phase) && done > base) {
+            final double rate = (done - base) / (now - Checker.seconds(s, "started"));
             // what's left to write, plus reading it all back
             final double left = (total - done) / rate + total / readRate(speed, rate);
             return rate > 0 ? c.getString(R.string.full_writing, Texts.size(c, done),
@@ -215,15 +258,19 @@ public class CardFragment extends PreferenceFragment {
                     : c.getString(R.string.full_writing_start, Texts.size(c, done),
                     Texts.size(c, total));
         }
-        if ("verify".equals(phase) && done > 0) {
-            final double rate = done / (now - Checker.seconds(s, "read0"));
+        if ("write".equals(phase)) {
+            return c.getString(R.string.full_writing_start, Texts.size(c, Math.max(0, done)),
+                    Texts.size(c, total));
+        }
+        if ("verify".equals(phase) && done > base) {
+            final double rate = (done - base) / (now - Checker.seconds(s, "read0"));
             return rate > 0 ? c.getString(R.string.full_reading, Texts.size(c, done),
                     Texts.size(c, total), Texts.duration(c, (total - done) / rate))
                     : c.getString(R.string.full_reading_start, Texts.size(c, done),
                     Texts.size(c, total));
         }
         if ("verify".equals(phase)) {
-            return c.getString(R.string.full_reading_start, Texts.size(c, 0),
+            return c.getString(R.string.full_reading_start, Texts.size(c, Math.max(0, done)),
                     Texts.size(c, total));
         }
         return c.getString(R.string.full_probe);
@@ -235,50 +282,66 @@ public class CardFragment extends PreferenceFragment {
         return r > 0 ? r : writeRate * 2;
     }
 
-    private void startSpeed() {
+    /** Starts the service for the selected card, unless something is running. */
+    private void start(String action) {
         final Card card = find(mUuid);
         if (card == null) return;
         if (Checker.running()) {
             Toast.makeText(getActivity(), R.string.busy, Toast.LENGTH_SHORT).show();
             return;
         }
-        if (Checker.start(Checker.SPEED, card)) {
+        if (Checker.RESUME.equals(action) || Checker.DELETE.equals(action)) {
+            getActivity().getSystemService(NotificationManager.class)
+                    .cancel(FinishedReceiver.PAUSED_ID);
+        }
+        if (Checker.start(action, card)) {
             mStartedAt = SystemClock.elapsedRealtime();
-            mStartedAction = Checker.SPEED;
+            mStartedAction = action;
         }
         refresh();
+    }
+
+    private void startSpeed() {
+        start(Checker.SPEED);
     }
 
     private void fullClicked() {
         final Card card = find(mUuid);
         if (card == null) return;
         final Map<String, String> s = Checker.status();
+        final Context c = getActivity();
         if (Checker.running()) {
             if (Checker.FULL.equals(s.get("action")) && card.uuid.equals(s.get("uuid"))) {
-                Checker.stop();
-                mStopping = true;
-                refresh();
+                new AlertDialog.Builder(c)
+                        .setTitle(R.string.stop_title)
+                        .setMessage(R.string.stop_text)
+                        .setPositiveButton(R.string.stop_pause, (d, which) -> stop(true))
+                        .setNegativeButton(R.string.stop_delete, (d, which) -> stop(false))
+                        .show();
             } else {
-                Toast.makeText(getActivity(), R.string.busy, Toast.LENGTH_SHORT).show();
+                Toast.makeText(c, R.string.busy, Toast.LENGTH_SHORT).show();
             }
             return;
         }
-        final Context c = getActivity();
+        if (Checker.paused(card)) {
+            start(Checker.RESUME);
+            return;
+        }
         final double secs = Texts.fullEstimate(Checker.result(Checker.SPEED, card),
                 card.freeBytes() / (1024 * 1024));
         final String time = Double.isNaN(secs) ? c.getString(R.string.confirm_time_unknown)
                 : Texts.duration(c, secs);
         new AlertDialog.Builder(c)
                 .setTitle(R.string.confirm_title)
-                .setMessage(c.getString(R.string.confirm_text, card.name, time))
-                .setPositiveButton(R.string.confirm_start, (d, which) -> {
-                    if (Checker.start(Checker.FULL, card)) {
-                        mStartedAt = SystemClock.elapsedRealtime();
-                        mStartedAction = Checker.FULL;
-                    }
-                    refresh();
-                })
+                .setMessage(c.getString(R.string.confirm_text_pause, card.name, time))
+                .setPositiveButton(R.string.confirm_start, (d, which) -> start(Checker.FULL))
                 .setNegativeButton(android.R.string.cancel, null)
                 .show();
+    }
+
+    private void stop(boolean pause) {
+        Checker.stop(pause);
+        mStopping = true;
+        refresh();
     }
 }

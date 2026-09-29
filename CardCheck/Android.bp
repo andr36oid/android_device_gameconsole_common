@@ -12,3 +12,15 @@ android_app {
         enabled: false,
     },
 }
+
+// Random 4 KB reads and writes for the speed test (O_DIRECT, which toybox dd can't do).
+// Run by the helper as root; pulled in by andr36oid-cardcheck in Android.mk.
+cc_binary {
+    name: "andr36oid-cardspeed",
+    srcs: ["speed/cardspeed.c"],
+    cflags: [
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+    ],
+}
