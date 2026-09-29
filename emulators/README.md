@@ -111,6 +111,24 @@ RetroArch 1.22.2 targets SDK 28 with `requestLegacyExternalStorage` and gets the
 permissions from `pm install -g`, so it reads `/storage/<uuid>` like it reads the games.
 Settings > Emulator files checks what is in that folder.
 
+### Core options
+
+`seed/retroarch/retroarch-core-options.cfg` goes to
+`Android/data/com.retroarch/files/retroarch-core-options.cfg`, next to retroarch.cfg.
+RetroArch (per-core options, its default) reads that file for any core that has no
+`config/<core>/<core>.opt` yet and copies the values into that file on first use; after
+that the user's own changes win. So it works for existing installs too, for every core
+they haven't run yet. The service writes it when missing and updates it with a newer
+ROM only while the user hasn't edited it (same manifest as the pad profile).
+
+It only holds values that differ from the core defaults (plus the recompilers, pinned):
+PCSX ReARMed simple sound interpolation and frameskip only against crackling;
+Mupen64Plus-Next at 320x240 with GLideN64 threaded and no frame buffer copies to N64
+memory; Snes9x 2010 threaded renderer and frameskip only against crackling; MAME
+2003-Plus no disclaimer screens and 22 kHz sound; PUAE 2021 "compatible" CPU timing
+and low resolution; VICE without true drive emulation. The keys and values are checked
+against the core sources at the pinned commits.
+
 PPSSPP isn't seeded: it stores its settings (and `controls.ini`) in the memory stick
 folder the user picks on its first start, so there is nothing to seed before that.
 
