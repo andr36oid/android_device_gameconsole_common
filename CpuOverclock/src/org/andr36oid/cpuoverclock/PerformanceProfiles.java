@@ -127,6 +127,10 @@ final class PerformanceProfiles {
     /** Writes the current profile's limits to the kernel. */
     boolean apply() {
         final int profile = get();
+        // Balanced without a cap is what the kernel starts with, so boot only has to write
+        // anything else (and put the tile in once)
+        BootStart.set(mContext, profile != BALANCED || getCpuCap() > 0
+                || !prefs().getBoolean(PREF_TILE_ADDED, false));
         boolean ok = true;
 
         final int[] cpu = readFrequencies(POLICY + "scaling_available_frequencies");
