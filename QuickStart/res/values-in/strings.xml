@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="guide_title">Panduan mulai cepat</string>
+    <string name="guide_summary">Tombol, pintasan, game Anda, dan bantuan saat ada masalah</string>
+
+    <!-- Bottom bar: what the buttons do in the guide -->
+    <string name="hint_choose">Pilih</string>
+    <string name="hint_read">Baca</string>
+    <string name="hint_scroll">Gulir</string>
+    <string name="hint_page">Topik</string>
+    <string name="hint_back">Topik</string>
+    <string name="hint_close">Tutup</string>
+    <!-- Joins two buttons pressed together, e.g. "FN + Start" -->
+    <string name="key_plus">+</string>
+    <!-- Between two alternative buttons, e.g. "L1 / R1" -->
+    <string name="key_or">/</string>
+
+    <!-- Welcome -->
+    <string name="welcome_title">Selamat datang</string>
+    <string name="welcome_intro">andr36oid mengubah konsol ini menjadi handheld Android. Game, emulator, dan aplikasi, semuanya dijalankan dengan tombol, tanpa perlu layar sentuh.</string>
+    <string name="welcome_choose">Pilih topik</string>
+    <string name="welcome_read">Baca topik, lalu D-pad untuk menggulir</string>
+    <string name="welcome_page">Topik sebelumnya/berikutnya</string>
+    <string name="welcome_tutorial">Coba lagi tombolnya di tutorial praktik</string>
+    <string name="welcome_close">Tutup panduan</string>
+    <string name="welcome_again">Anda bisa membuka panduan ini lagi kapan saja dari Setelan &gt; Panduan mulai cepat.</string>
+
+    <!-- Buttons -->
+    <string name="buttons_title">Tombol</string>
+    <string name="buttons_a">Pilih, konfirmasi</string>
+    <string name="buttons_b">Kembali</string>
+    <string name="buttons_fn">Layar utama</string>
+    <string name="buttons_power_tap">Ketuk: tidur dan bangun</string>
+    <string name="buttons_power_hold">Tahan: menu daya dengan Beranda, Pengalih aplikasi, Tutup aplikasi latar belakang, Matikan, dan Mulai ulang</string>
+    <string name="buttons_volume">Volume</string>
+    <string name="buttons_select">Menu di aplikasi yang memilikinya</string>
+    <string name="buttons_stick">Stik kiri bergerak seperti D-pad</string>
+
+    <!-- FN shortcuts -->
+    <string name="shortcuts_title">Pintasan FN</string>
+    <string name="shortcuts_intro">Tahan FN dan tekan tombol kedua. FN saja tetap kembali ke layar utama.</string>
+    <string name="shortcuts_brightness">Layar lebih terang atau lebih gelap</string>
+    <string name="shortcuts_screenshot">Screenshot, disimpan ke Pictures/Screenshots</string>
+    <string name="shortcuts_last_app">Kembali ke aplikasi sebelumnya</string>
+    <string name="shortcuts_panel">Notifikasi dan Setelan Cepat</string>
+    <string name="shortcuts_mouse">Mouse joystick aktif/nonaktif</string>
+    <string name="shortcuts_profile">Profil performa berikutnya</string>
+    <string name="shortcuts_overlay">Overlay performa aktif atau nonaktif</string>
+    <string name="shortcuts_touch">Editor kontrol sentuh, di dalam game</string>
+    <string name="shortcuts_hold_help">Lupa salah satunya? Tahan FN saja sebentar, di aplikasi atau game apa pun, dan daftar ini akan muncul. Lepaskan FN untuk menutupnya.</string>
+
+    <!-- Games -->
+    <string name="games_title">Game Anda</string>
+    <string name="games_where">Game disimpan di partisi EASYROMS pada kartu SD. Di komputer, kartu muncul sebagai drive bernama EASYROMS. Di konsol, ini adalah penyimpanan EASYROMS di aplikasi File.</string>
+    <string name="games_folders">Beri setiap sistem foldernya sendiri, dengan nama seperti nes, snes, gb, gba, megadrive, atau psx. Kartu yang disiapkan untuk ArkOS atau dArkOS sudah memakai nama ini, jadi game-nya langsung bisa dipakai.</string>
+    <string name="games_folders_ready">Konsol membuat folder ini sendiri di EASYROMS, lengkap dengan README yang menjelaskan sistem mana masuk ke folder mana.</string>
+    <string name="games_wifi_transfer">Tidak ada komputer atau pembaca kartu? Buka Wi-Fi transfer di konsol dan pindai kode QR-nya dengan ponsel, atau ketik alamat yang ditampilkan di browser apa pun di jaringan yang sama, untuk mengirim game langsung ke EASYROMS.</string>
+    <string name="games_library">Daijishou, layar utama, mengubah folder tersebut menjadi perpustakaan game: tambahkan platform dan pilih foldernya di EASYROMS.</string>
+
+    <!-- Emulators -->
+    <string name="emulators_title">Emulator</string>
+    <string name="emulators_included">RetroArch dan PPSSPP sudah terinstal. RetroArch sudah punya core untuk NES, SNES, Game Boy, GBA, Mega Drive, Master System, Game Gear, PlayStation, PC Engine, Neo Geo Pocket, WonderSwan, Atari 2600, 7800, dan Lynx.</string>
+    <string name="emulators_psp">Game PSP berjalan di PPSSPP. Game PlayStation bisa dimulai tanpa BIOS, tetapi berjalan paling baik dengan BIOS di folder bios di EASYROMS.</string>
+    <string name="emulators_updates">Emulator adalah aplikasi biasa: F-Droid bisa mengupdatenya, dan Anda bisa meng-uninstall-nya.</string>
+
+    <!-- Speed and battery -->
+    <string name="speed_title">Kecepatan dan baterai</string>
+    <string name="speed_profiles">Setelan &gt; Performa punya tiga profil. Hemat baterai untuk sesi panjang dengan sistem lama, Seimbang untuk pemakaian sehari-hari, Performa untuk PS1, N64, dan PSP. Kartu Setelan Cepat juga bisa beralih di antaranya.</string>
+    <string name="speed_overclock_alone">Setelan &gt; Overclock CPU (eksperimental) menjalankan prosesor lebih cepat dari standar untuk game berat. Memulai ulang akan mematikannya. Jika konsol macet, pilih kecepatan yang lebih rendah.</string>
+    <string name="speed_overclock">Overclock CPU (eksperimental), di halaman yang sama, menjalankan prosesor lebih cepat dari standar untuk game berat. Memulai ulang akan mematikannya. Jika konsol macet, pilih kecepatan yang lebih rendah.</string>
+    <string name="speed_screen">Layar memakai daya paling banyak. Kecerahan lebih rendah berarti waktu bermain lebih lama.</string>
+
+    <!-- Mouse and button mapping -->
+    <string name="mouse_title">Mouse dan tombol</string>
+    <string name="mouse_toggle">Tekan kedua stik selama satu detik: mouse joystick aktif atau nonaktif</string>
+    <string name="mouse_pointer">Gerakkan pointer</string>
+    <string name="mouse_click">Klik, tahan R1 untuk menyeret</string>
+    <string name="mouse_right_click">Klik kanan</string>
+    <string name="mouse_scroll">Gulir</string>
+    <string name="mouse_settings">Setelan &gt; Mouse joystick mengubah kecepatan, tombol, dan kombinasi.</string>
+    <string name="mapping_settings">Setelan &gt; Pemetaan tombol menukar tombol, dengan profil untuk game yang berbeda.</string>
+    <string name="mapping_reset">Terkunci? Tahan kedua tombol volume selama 5 detik dan semua tombol kembali normal.</string>
+
+    <!-- Touch controls -->
+    <string name="touch_title">Kontrol sentuh</string>
+    <string name="touch_intro">Beberapa game hanya bisa dimainkan dengan layar sentuh. Kontrol sentuh memberi game seperti itu tata letaknya sendiri: setiap tombol atau stik menyentuh satu titik di layar. Tata letak aktif sendiri saat game itu berada di depan; aplikasi lain tetap memakai tombol biasa.</string>
+    <string name="touch_open">Di dalam game: buka editor di atasnya</string>
+    <string name="touch_settings">Atau buka Setelan &gt; Kontrol sentuh &gt; Tambah aplikasi. Game dimulai dan editor terbuka di atasnya.</string>
+    <string name="touch_move">Gerakkan penanda silang ke suatu titik</string>
+    <string name="touch_add">Tambah kontrol di sana, lalu tekan tombolnya atau gerakkan stiknya</string>
+    <string name="touch_size">Kecilkan atau besarkan kontrol yang dipilih</string>
+    <string name="touch_save">Simpan dan kembali ke game</string>
+    <string name="touch_kinds">Kontrol bisa mengetuk, menahan, menggeser, berfungsi sebagai joystick di layar, atau melihat sekeliling seperti kamera. Select di editor punya lebih banyak: tombol shift untuk set kontrol kedua, dan label di layar.</string>
+    <string name="touch_other_buttons">Tombol tanpa kontrol tetap berfungsi seperti biasa, dan FN beserta pintasannya selalu berfungsi.</string>
+
+    <!-- Internet -->
+    <string name="internet_title">Terhubung ke internet</string>
+    <string name="internet_wifi">Sebagian besar konsol R36S tidak punya Wi-Fi bawaan, tetapi beberapa model, seperti R36XX, punya. Jika konsol Anda punya, cukup aktifkan Wi-Fi di Setelan &gt; Jaringan &amp; internet. Jika tidak, colokkan adaptor Wi-Fi USB ke port OTG, dengan adaptor USB-C jika perlu, lalu aktifkan Wi-Fi di sana.</string>
+    <string name="internet_browser">Cromite adalah browser web-nya.</string>
+
+    <!-- Troubleshooting -->
+    <string name="trouble_title">Pemecahan masalah</string>
+    <string name="trouble_intro">Sebagian besar masalah bisa diperbaiki dengan komputer dan kartu SD. Di komputer, kartu menampilkan drive kecil bernama BOOT (file untuk menyalakan) dan drive besar bernama EASYROMS (game Anda).</string>
+    <string name="trouble_first_boot_q">Penyalaan pertama butuh waktu lama</string>
+    <string name="trouble_first_boot_a">Itu normal. Penyalaan pertama menyiapkan kartu SD dan memulai ulang sendiri, lalu Android menyiapkan aplikasinya. Tunggu beberapa menit dan jangan matikan konsol.</string>
+    <string name="trouble_panel_q">Layar tetap hitam saat penyalaan pertama, padahal konsol menyala</string>
+    <string name="trouble_panel_a">Konsol Anda punya layar yang berbeda dari yang disiapkan untuk kartu ini. Di komputer, buka BOOT, lalu Panels. Salin kedua file dari salah satu folder Panel ke bagian teratas BOOT dan ganti file yang ada di sana. Panel4 adalah default, jadi coba yang lain satu per satu.</string>
+    <string name="trouble_stuck_q">Konsol tidak mau menyala setelah update atau modul Magisk</string>
+    <string name="trouble_stuck_a">Nyalakan tanpa root. Di komputer, buka BOOT dan ganti nama ramdisk.uimg menjadi ramdisk-magisk.uimg, lalu ganti nama ramdisk-stock.uimg menjadi ramdisk.uimg. Aplikasi dan game Anda tetap ada. Kembalikan namanya nanti untuk mendapatkan root lagi.</string>
+    <string name="trouble_frozen_q">Konsol macet</string>
+    <string name="trouble_frozen_a">Tahan tombol daya sekitar 10 detik sampai konsol mati, lalu nyalakan lagi. Jika macet saat overclock CPU aktif, pilih kecepatan yang lebih rendah lain kali. Memulai ulang selalu mematikan overclock.</string>
+    <string name="trouble_bios_q">Game tidak mau jalan, atau hanya layar hitam</string>
+    <string name="trouble_bios_a">Beberapa sistem, seperti Sega CD dan PC Engine CD, butuh file dari konsol aslinya (BIOS), dan game PlayStation berjalan lebih baik dengan BIOS. Taruh file ini di folder bios di EASYROMS. Setelan &gt; File emulator menunjukkan apa yang kurang.</string>
+    <string name="trouble_buttons_q">Tombol melakukan hal yang salah</string>
+    <string name="trouble_recovery_q">Recovery dan reset ke setelan pabrik</string>
+    <string name="trouble_recovery_a">Tahan FN saat menyalakan konsol</string>
+    <string name="trouble_recovery_more">Ini memulai sistem recovery, yang dipakai untuk reset ke setelan pabrik atau menginstal update dari komputer. Reset ke setelan pabrik menghapus aplikasi dan setelan Anda, tetapi tidak menghapus game di EASYROMS.</string>
+    <string name="trouble_clock_q">Tanggal atau waktu salah</string>
+    <string name="trouble_clock_a">Konsol lupa waktu saat baterai benar-benar habis. Atur di Setelan &gt; Sistem &gt; Tanggal &amp; waktu. Dengan koneksi jaringan, waktu diatur sendiri, selama \"Gunakan waktu yang disediakan jaringan\" aktif.</string>
+
+    <!-- USB and computers -->
+    <string name="usb_title">USB dan komputer</string>
+    <string name="usb_card">Cara termudah menyalin game adalah memasukkan kartu SD ke komputer dan menyalinnya ke EASYROMS. Pasang kembali kartu sebelum menyalakan konsol.</string>
+    <string name="usb_mode_q">Hubungkan konsol ke komputer</string>
+    <string name="usb_mode_a">Aktifkan Setelan &gt; Mode USB &gt; Hubungkan ke komputer, lalu colokkan kabel data ke port OTG dan port USB-A di komputer. Pilih Transfer File di notifikasi USB. Gamepad dan adaptor di port OTG tidak berfungsi selama ini aktif, dan memulai ulang akan mematikannya.</string>
+    <string name="usb_mode_wifi">Jangan pernah aktifkan ini jika konsol Anda punya Wi-Fi bawaan, seperti R36XX. Konsol tersebut memakai port USB yang sama untuk Wi-Fi-nya, jadi Wi-Fi berhenti berfungsi dan mungkin tidak kembali sampai Anda memulai ulang. Mode USB bertanya dulu sebelum beralih.</string>
+    <string name="usb_mode_charging">Jangan pernah gunakan ini saat konsol sedang diisi daya dari port lainnya. Cabut charger dulu. Jika charger dicolokkan saat fitur ini aktif, Mode USB kembali ke mode aksesori.</string>
+    <string name="usb_adb">Untuk adb, aktifkan juga Debugging USB di Setelan &gt; Sistem &gt; Opsi developer. Untuk menampilkan Opsi developer, klik Nomor versi 7 kali di Setelan &gt; Tentang konsol.</string>
+    <string name="usb_host_only">Port OTG untuk aksesori: gamepad, drive USB, dan adaptor jaringan. Port ini tidak bisa terhubung ke komputer di build ini.</string>
+    <string name="usb_dongles_q">Aksesori</string>
+    <string name="usb_dongles_a">Colokkan aksesori ke port OTG, dengan adaptor USB-C atau hub kecil jika perlu. Gamepad USB, keyboard, mouse, drive USB, serta adaptor Wi-Fi, Bluetooth, dan Ethernet berfungsi jika Android punya driver untuk chip-nya. Adaptor dengan chip Realtek yang umum paling cocok. Pada konsol dengan Wi-Fi bawaan, seperti R36XX, perangkat yang dicolokkan ke port OTG bisa menghentikan Wi-Fi bawaan.</string>
+    <string name="usb_dongles_trouble">Tidak terjadi apa-apa? Cabut, tunggu beberapa detik, lalu colokkan lagi. Beberapa adaptor butuh daya lebih besar dari yang diberikan port; hub dengan catu daya sendiri bisa membantu.</string>
+
+    <!-- SD card -->
+    <string name="card_title">Kartu SD</string>
+    <string name="card_layout">Kartu menyimpan semuanya: Android, aplikasi dan data Anda (16 GB), dan EASYROMS, yang mendapat sisa kartu. EASYROMS memakai exFAT, jadi Windows, macOS, dan Linux bisa membacanya.</string>
+    <string name="card_noroms_q">Semua ruang untuk aplikasi, tanpa EASYROMS</string>
+    <string name="card_noroms_a">Sebelum penyalaan pertama kali, buat file kosong bernama .noroms di BOOT. Penyalaan pertama lalu memberikan seluruh kartu untuk aplikasi. Ini hanya berlaku pada kartu yang baru ditulis. File BIOS lalu disimpan di folder bios di penyimpanan internal.</string>
+    <string name="card_backup_q">Cadangkan save Anda</string>
+    <string name="card_backup_a">Save yang dibuat di sebelah game di EASYROMS mudah disalin di komputer. Save di dalam aplikasi tetap bersama aplikasi itu di bagian Android pada kartu, jadi periksa setelan setiap emulator untuk tahu di mana save disimpan.</string>
+
+    <!-- Battery -->
+    <string name="battery_title">Perawatan baterai</string>
+    <string name="battery_percent_q">Persentase baterai terlihat salah</string>
+    <string name="battery_percent_a">Pengukur baterai memperkirakan isi daya dan terus belajar. Setelah baterai habis atau konsol lama tidak dipakai, isi daya sampai 100% dengan konsol menyala dan biarkan di charger setengah jam lagi. Dengan begitu pengukur bisa menemukan level yang benar lagi.</string>
+    <string name="battery_details">Setelan &gt; Baterai &gt; Detail baterai menampilkan tegangan baterai: sekitar 4,2 V berarti penuh, di bawah 3,5 V hampir habis.</string>
+    <string name="battery_sleep_q">Tidur atau matikan?</string>
+    <string name="battery_sleep_a">Tidur (ketuk tombol daya) cocok untuk jeda, tetapi tetap memakai sedikit baterai. Untuk lebih dari sehari, matikan dari menu daya.</string>
+    <string name="battery_storage_q">Menyimpan konsol untuk sementara</string>
+    <string name="battery_storage_a">Isi daya sampai sekitar setengah dan matikan. Isi ulang setiap beberapa bulan. Baterai yang dibiarkan benar-benar kosong dalam waktu lama bisa rusak.</string>
+
+    <!-- Community -->
+    <string name="community_title">Komunitas</string>
+    <string name="community_text">Ada pertanyaan, tips, atau sekadar ingin memamerkan konsol Anda? Komunitas andr36oid ada di Telegram: t.me/andr36oid\n\nPindai kode dengan ponsel Anda untuk bergabung.</string>
+    <string name="community_qr_description">Kode QR untuk t.me/andr36oid</string>
+
+    <string name="magisk_title">Root (Magisk)</string>
+    <string name="magisk_intro">Konsol dilengkapi root melalui Magisk, tetapi root nonaktif sampai Anda menyiapkannya sekali.</string>
+    <string name="magisk_setup_q">Aktifkan root: buka Magisk sekali dulu</string>
+    <string name="magisk_setup_a">Buka aplikasi Magisk dan biarkan penyiapannya selesai. Magisk meminta konsol dimulai ulang: pilih ya. Baru setelah dimulai ulang Anda punya root.</string>
+    <string name="magisk_use">Sejak itu, aplikasi yang meminta root menampilkan permintaan: izinkan atau tolak dengan tombol. Aplikasi Magisk mengelola akses root dan modul.</string>
+    <string name="magisk_modules">Root berada di bagian BOOT pada kartu, jadi tetap ada saat sistem diupdate.</string>
+    <string name="magisk_broken_q">Modul membuat konsol gagal menyala</string>
+    <string name="magisk_broken_a">Lihat Pemecahan masalah: di BOOT, tukar ramdisk.uimg dengan ramdisk-stock.uimg, dan konsol menyala tanpa root dan modul.</string>
+
+    <!-- Key names drawn in the badges that aren't just the printed label -->
+    <string name="key_dpad">D-pad</string>
+    <string name="key_power">Daya</string>
+    <string name="key_volume">Vol</string>
+    <string name="key_right_stick">Stik R</string>
+    <string name="key_left_stick">Stik L</string>
+</resources>

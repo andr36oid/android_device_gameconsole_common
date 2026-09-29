@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="app_name">Kenyamanan bermain</string>
+
+    <!-- Low battery warning, Settings > Battery -->
+    <string name="warning_title">Peringatan baterai lemah</string>
+    <string name="warning_summary">Peringatan di atas game agar Anda sempat menyimpan</string>
+    <string name="warning_when">Peringatkan di</string>
+    <string-array name="warning_entries">
+        <item>Nonaktif</item>
+        <item>15 % dan 5 %</item>
+        <item>Hanya 5 %</item>
+    </string-array>
+    <string name="warning_preview">Tampilkan peringatan uji</string>
+    <string name="warning_about">Notifikasi baterai lemah bawaan Android mudah terlewat saat bermain game layar penuh. Fitur ini menampilkan banner singkat di bagian atas layar, sekali untuk setiap level selama konsol memakai baterai. Tombol tetap berfungsi di game.\n\nKonsol mati sendiri saat baterai habis, dan apa pun yang belum disimpan akan hilang.</string>
+
+    <!-- The banner on top of the game -->
+    <string name="banner_text">Baterai <xliff:g id="percent">%1$d</xliff:g> %% – simpan game Anda sekarang</string>
+
+    <!-- Game mode, Settings home page and Quick Settings tile -->
+    <string name="game_mode_title">Mode game</string>
+    <string name="game_mode_summary">Jangan Ganggu dan tanpa notifikasi pop-up saat bermain</string>
+    <string name="game_mode_now">Mode game</string>
+    <string name="game_mode_now_summary">Mengaktifkan Jangan Ganggu (hanya prioritas) dan mencegah notifikasi muncul di atas game</string>
+    <string name="game_mode_automatic">Aktifkan otomatis</string>
+    <string name="game_mode_automatic_summary">Aktif saat game atau emulator terbuka, nonaktif saat Anda keluar</string>
+    <string name="game_mode_profile">Profil performa saat bermain</string>
+    <string-array name="game_mode_profile_entries">
+        <item>Jangan ubah</item>
+        <item>Performa</item>
+        <item>Seimbang</item>
+        <item>Hemat baterai</item>
+    </string-array>
+    <string name="game_mode_about">Saat mode game berakhir, Jangan Ganggu dan notifikasi pop-up kembali seperti sebelumnya. Jika Anda mengubah Jangan Ganggu sendiri selama itu, perubahan Anda tetap berlaku.\n\nSebuah aplikasi dianggap game jika aplikasi itu menyatakan dirinya game, atau jika termasuk emulator umum seperti RetroArch atau PPSSPP.\n\nProfil performa sebelumnya juga kembali, kecuali Anda memilih profil lain saat bermain.\n\nApa yang boleh lewat saat Jangan Ganggu diatur di Setelan &gt; Suara &gt; Jangan Ganggu.</string>
+    <string name="tile_on">Aktif</string>
+    <string name="tile_off">Nonaktif</string>
+    <string name="tile_automatic">Otomatis</string>
+</resources>

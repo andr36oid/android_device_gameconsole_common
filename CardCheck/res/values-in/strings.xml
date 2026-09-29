@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="check_title">Cek kartu SD</string>
+    <string name="check_summary">Uji kecepatan, dan cari tahu apakah kartu palsu</string>
+
+    <string name="card_title">Kartu atau drive</string>
+    <string name="no_card">Tidak ada kartu SD atau drive USB yang siap. Masukkan satu, atau tunggu sampai muncul di Penyimpanan.</string>
+
+    <!-- details: %1$s name (EASYROMS), %2$s size of the whole card -->
+    <string name="details_title">%1$s, kartu %2$s</string>
+    <string name="details_title_usb">%1$s, drive USB %2$s</string>
+    <!-- %1$s maker, %2$s product name, %3$s date made -->
+    <string name="details_card">%1$s %2$s, dibuat %3$s</string>
+    <string name="details_free">%1$s kosong</string>
+    <string name="maker_unknown">Pembuat tidak dikenal (ID %1$s)</string>
+
+    <string name="speed_category">Kecepatan</string>
+    <string name="speed_title">Uji kecepatan</string>
+    <string name="speed_summary">Menulis dan membaca file 256 MB. Butuh sekitar satu menit.</string>
+    <string name="speed_running_write">Menulis…</string>
+    <string name="speed_running_read">Membaca…</string>
+    <!-- %1$s write speed, %2$s read speed, e.g. 18.2 MB/s -->
+    <string name="speed_result">Tulis %1$s, baca %2$s</string>
+    <string name="speed_good">Bagus untuk semua sistem.</string>
+    <string name="speed_ok">Cukup untuk game. Menyalin dan menyimpan file besar lambat.</string>
+    <string name="speed_slow">Lambat: waktu loading akan lama, terutama untuk game PSP, Dreamcast, dan N64.</string>
+    <string name="mb_per_s">%1$.1f MB/s</string>
+
+    <string name="full_category">Ukuran asli</string>
+    <string name="full_title">Cek ukuran asli</string>
+    <string name="full_title_stop">Hentikan pengecekan</string>
+    <!-- %1$s free space, %2$s how long -->
+    <string name="full_summary">Mengisi ruang kosong (%1$s) dengan data uji, membaca semuanya kembali, lalu menghapusnya. Kartu palsu yang mengaku punya ruang lebih besar dari aslinya akan gagal. Butuh sekitar %2$s.</string>
+    <string name="full_summary_unknown_time">Mengisi ruang kosong (%1$s) dengan data uji, membaca semuanya kembali, lalu menghapusnya. Kartu palsu yang mengaku punya ruang lebih besar dari aslinya akan gagal. Butuh berjam-jam pada kartu besar; uji kecepatan dulu untuk perkiraan yang lebih tepat.</string>
+    <string name="full_probe">Mencari tanda-tanda kartu palsu…</string>
+    <!-- %1$s done, %2$s total, %3$s time left -->
+    <string name="full_writing">Menulis data uji: %1$s dari %2$s, sisa sekitar %3$s</string>
+    <string name="full_reading">Membaca kembali: %1$s dari %2$s, sisa sekitar %3$s</string>
+    <string name="full_writing_start">Menulis data uji: %1$s dari %2$s</string>
+    <string name="full_reading_start">Membaca kembali: %1$s dari %2$s</string>
+    <string name="full_stopping">Menghentikan dan menghapus data uji…</string>
+
+    <string name="full_pass">Lulus. Semua %1$s data uji terbaca sama seperti yang ditulis. Kartu ini asli.</string>
+    <string name="full_bad_data">Gagal. %1$s data uji terbaca salah, mulai setelah sekitar %2$s. Kartu ini palsu atau rusak dan sebenarnya hanya muat sekitar %3$s. Salin game Anda dari kartu ini dan gunakan kartu lain.</string>
+    <string name="full_wraps">Gagal. Kartu ini palsu: setelah sekitar %1$s, kartu kembali menulis dari awal, jadi sebenarnya hanya muat sebanyak itu. Simpan game di bawah batas itu, atau lebih baik, gunakan kartu lain.</string>
+    <string name="full_wraps_restored">Pengecekan mendeteksinya saat menulis dan memulihkan bagian awal kartu.</string>
+    <string name="full_wraps_not_restored">Pengecekan mendeteksinya saat menulis, tetapi tidak bisa memulihkan bagian awal kartu. Konsol mungkin tidak bisa lagi menyala dari kartu ini: cadangkan game Anda.</string>
+    <string name="full_write_error">Gagal. Kartu melaporkan error setelah %1$s data uji. Kartu mungkin rusak atau palsu.</string>
+    <string name="full_stopped">Dihentikan. Data uji sudah dihapus.</string>
+
+    <string name="error_prefix">Tidak selesai. %1$s</string>
+    <string name="error_no_space">Ruang kosong tidak cukup untuk pengujian.</string>
+    <string name="error_not_mounted">Kartu belum siap.</string>
+    <string name="error_write">Kartu melaporkan error tulis.</string>
+    <string name="error_read">Kartu melaporkan error baca.</string>
+    <string name="error_other">Pengecekan tidak bisa dijalankan.</string>
+
+    <string name="confirm_title">Cek ukuran asli?</string>
+    <!-- %1$s card name, %2$s how long -->
+    <string name="confirm_text">Ini mengisi semua ruang kosong di %1$s selama sekitar %2$s, jadi game tidak bisa menyimpan di sana sampai selesai. Colokkan charger: konsol tetap menyala. Anda bisa berhenti kapan saja. Game dan file Anda tidak disentuh.</string>
+    <string name="confirm_time_unknown">beberapa jam</string>
+    <string name="confirm_start">Mulai</string>
+
+    <string name="busy">Pengecekan lain sedang berjalan.</string>
+
+    <string name="about">Konsol sering dijual dengan kartu palsu atau sudah aus. Kartu palsu mengaku lebih besar dari aslinya, dan game yang disalin melewati batas aslinya akan rusak. Pengecekan hanya menulis ke ruang kosong.</string>
+
+    <string name="hours_minutes">%1$d j %2$d mnt</string>
+    <string name="minutes">%1$d mnt</string>
+
+    <string name="channel_name">Cek kartu SD</string>
+    <string name="done_title">Cek kartu SD selesai</string>
+</resources>

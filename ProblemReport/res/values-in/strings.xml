@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="report_title">Laporan masalah</string>
+    <string name="report_summary">Simpan log ke kartu SD untuk dikirim bersama laporan bug</string>
+
+    <string name="intro">Ada yang tidak beres? Simpan laporan dan lampirkan saat Anda memberi tahu kami tentang masalahnya. Laporan berisi log sistem dari saat ini dan dari penyalaan terakhir, laporan crash, dan deskripsi konsol ini. Butuh sekitar satu menit.</string>
+
+    <string name="note_title">Apa yang salah?</string>
+    <string name="note_hint">Opsional. Apa yang sedang Anda lakukan, dan apa yang terjadi?</string>
+    <string name="note_dialog">Jelaskan masalahnya. Penjelasan ini dimasukkan ke laporan.</string>
+
+    <string name="save_title">Simpan laporan</string>
+    <string name="save_summary">Disimpan ke EASYROMS, di folder andr36oid-reports</string>
+    <string name="save_running">Menyimpan %1$s (langkah %2$d dari %3$d)…</string>
+    <string name="save_done">Tersimpan: %1$s</string>
+    <string name="save_done_toast">Laporan disimpan ke %1$s</string>
+    <string name="save_failed">Tidak tersimpan. %1$s</string>
+    <string name="error_no_storage">Tidak ada partisi EASYROMS dan folder Download internal untuk menyimpannya.</string>
+    <string name="error_cant_write">File tidak bisa ditulis. Apakah kartunya penuh?</string>
+    <string name="error_stopped">Laporan berhenti sebelum selesai.</string>
+    <string name="error_start">Laporan tidak bisa dimulai.</string>
+
+    <string name="step_system">informasi sistem</string>
+    <string name="step_logcat">log Android</string>
+    <string name="step_kernel">log kernel</string>
+    <string name="step_crashes">laporan crash</string>
+    <string name="step_power">informasi baterai dan tidur</string>
+    <string name="step_devices">perangkat dan koneksi</string>
+    <string name="step_apps">daftar aplikasi</string>
+    <string name="step_saving">file</string>
+
+    <string name="last_start_title">Log dari penyalaan terakhir</string>
+    <string name="last_start_crash">Penyalaan terakhir berakhir dengan crash sistem. Log-nya disimpan dan dimasukkan ke laporan.</string>
+    <string name="last_start_kept">Disimpan, akan dimasukkan ke laporan.</string>
+    <string name="last_start_none">Tidak ada. Log hanya disimpan saat konsol dimulai ulang, bukan saat dimatikan atau baterai habis.</string>
+
+    <string name="privacy">Laporan mencantumkan aplikasi Anda dan bisa berisi nama jaringan Wi-Fi dan perangkat Bluetooth. Laporan tidak berisi game atau file Anda. Periksa dulu sebelum Anda mempostingnya di tempat umum.</string>
+
+    <string name="channel_name">Laporan masalah</string>
+    <string name="crash_title">Konsol dimulai ulang setelah error</string>
+    <string name="crash_text">Simpan laporan masalah sekarang, selagi log masih ada, dan kirim bersama penjelasan tentang apa yang terjadi.</string>
+    <string name="crash_action">Simpan laporan</string>
+</resources>

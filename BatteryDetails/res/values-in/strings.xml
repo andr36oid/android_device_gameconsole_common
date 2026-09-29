@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="details_title">Detail baterai</string>
+    <string name="details_summary">Tegangan, arus, waktu pengisian, dan grafik 24 jam</string>
+
+    <!-- Header -->
+    <string name="percent"><xliff:g id="percent">%1$d</xliff:g>%%</string>
+    <string name="status_charging">Mengisi daya</string>
+    <string name="status_full">Penuh</string>
+    <string name="status_discharging">Pakai baterai</string>
+    <string name="status_not_charging">Tercolok, tidak mengisi</string>
+    <string name="time_to_full">penuh dalam sekitar <xliff:g id="time">%1$s</xliff:g></string>
+    <string name="time_left">sisa sekitar <xliff:g id="time">%1$s</xliff:g> dengan pemakaian ini</string>
+    <!-- Joins status and time -->
+    <string name="status_and_time"><xliff:g id="status">%1$s</xliff:g> · <xliff:g id="time">%2$s</xliff:g></string>
+
+    <string name="graph_title">24 jam terakhir</string>
+    <string name="graph_empty">Grafik terisi seiring Anda memakai konsol. Satu titik ditambahkan setiap 15 menit selama konsol menyala.</string>
+    <string name="graph_ago">24 jam lalu</string>
+    <string name="graph_now">sekarang</string>
+
+    <string name="now_title">Saat ini</string>
+    <string name="voltage">Tegangan</string>
+    <string name="current">Arus</string>
+    <string name="power">Daya</string>
+    <string name="temperature">Suhu prosesor</string>
+    <string name="charger">Pengisi daya</string>
+
+    <!-- Battery capacity setting -->
+    <string name="capacity_title">Kapasitas baterai</string>
+    <string name="capacity_setting">Kapasitas</string>
+    <string name="capacity_hint">Tertera pada baterai. Nilai yang salah membuat persentase meleset.</string>
+    <string name="capacity_reset">Reset ke <xliff:g id="mah">%1$d</xliff:g> mAh</string>
+    <string name="capacity">Pengukur baterai memakai</string>
+
+    <string name="value_voltage"><xliff:g id="volts">%1$.2f</xliff:g> V</string>
+    <string name="value_current_in"><xliff:g id="ma">%1$d</xliff:g> mA masuk</string>
+    <string name="value_current_out"><xliff:g id="ma">%1$d</xliff:g> mA keluar</string>
+    <string name="value_power"><xliff:g id="watts">%1$.2f</xliff:g> W</string>
+    <string name="value_temperature"><xliff:g id="celsius">%1$.1f</xliff:g> °C</string>
+    <string name="value_capacity"><xliff:g id="mah">%1$d</xliff:g> mAh</string>
+    <string name="value_capacity_default"><xliff:g id="mah">%1$d</xliff:g> mAh (default)</string>
+    <string name="charger_none">Tidak dicolok</string>
+    <string name="charger_usb">USB</string>
+    <string name="charger_ac">Charger dinding</string>
+    <string name="unknown">Tidak diketahui</string>
+
+    <string name="about">Persentase adalah perkiraan dari pengukur baterai. Tegangan diukur langsung: sekitar 4,2 V berarti penuh, 3,7 V kira-kira setengah, dan konsol mati di dekat 3,4 V. Tegangan turun saat game berjalan dan pulih saat istirahat.\n\nJika persentase dan tegangan tidak cocok, isi daya sampai konsol menyatakan penuh. Dengan begitu pengukur bisa mengoreksi dirinya sendiri.\n\nWaktu hanyalah perkiraan kasar dari arus saat ini.</string>
+
+    <!-- Durations -->
+    <string name="duration_min"><xliff:g id="minutes">%1$d</xliff:g> mnt</string>
+    <string name="duration_h_min"><xliff:g id="hours">%1$d</xliff:g> j <xliff:g id="minutes">%2$d</xliff:g> mnt</string>
+</resources>

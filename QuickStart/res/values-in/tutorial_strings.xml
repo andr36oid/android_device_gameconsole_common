@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <!-- Hands-on tutorial that runs once after the setup wizard -->
+    <string name="tutorial_label">Tutorial</string>
+    <!-- Above the progress bar, e.g. "Step 3 of 11" -->
+    <string name="tutorial_step">Langkah <xliff:g id="current">%1$d</xliff:g> dari <xliff:g id="total">%2$d</xliff:g></string>
+
+    <!-- Buttons at the bottom -->
+    <string name="tutorial_back">Kembali</string>
+    <string name="tutorial_start">Mulai</string>
+    <string name="tutorial_next">Berikutnya</string>
+    <string name="tutorial_skip_step">Lewati langkah</string>
+    <string name="tutorial_skip_all">Lewati tutorial</string>
+    <!-- On the FN steps, for consoles without an FN button: skips all of them -->
+    <string name="tutorial_no_fn">Tidak ada FN</string>
+    <string name="tutorial_done">Selesai</string>
+    <string name="tutorial_open_guide">Buka panduan lengkap</string>
+
+    <!-- Shown under the list once everything on a step was done -->
+    <string name="tutorial_well_done">Bagus. Tekan A untuk lanjut.</string>
+
+    <!-- Welcome -->
+    <string name="tutorial_welcome_title">Ayo coba tombolnya</string>
+    <string name="tutorial_welcome_body">Konsol ini tidak punya layar sentuh. Semuanya dijalankan dengan tombol, dan tutorial singkat ini membantu Anda mencoba setiap tombol. Butuh sekitar tiga menit.\n\nTekan A untuk lanjut dan B untuk kembali. Tekan Select untuk melewati langkah yang sudah Anda ketahui.</string>
+
+    <!-- A, B, X, Y -->
+    <string name="tutorial_face_title">A, B, X, dan Y</string>
+    <string name="tutorial_face_body">A untuk konfirmasi: membuka yang dipilih dan menekan tombol di layar.\n\nB untuk kembali, satu layar setiap kali.\n\nX dan Y punya fungsi berbeda di setiap aplikasi dan game.\n\nTekan masing-masing sekali.</string>
+    <string name="tutorial_press_a">Tekan A</string>
+    <string name="tutorial_press_b">Tekan B</string>
+    <string name="tutorial_press_x">Tekan X</string>
+    <string name="tutorial_press_y">Tekan Y</string>
+
+    <!-- D-pad -->
+    <string name="tutorial_dpad_title">D-pad</string>
+    <string name="tutorial_dpad_body">D-pad memindahkan pilihan di layar: di daftar, menu, dan tombol. Stik kiri melakukan hal yang sama di menu.\n\nTekan setiap arah sekali.</string>
+    <string name="tutorial_dpad_up">Atas</string>
+    <string name="tutorial_dpad_down">Bawah</string>
+    <string name="tutorial_dpad_left">Kiri</string>
+    <string name="tutorial_dpad_right">Kanan</string>
+
+    <!-- Sticks -->
+    <string name="tutorial_sticks_title">Stik</string>
+    <string name="tutorial_sticks_body">Game memakai kedua stik. Setiap stik juga bisa ditekan seperti tombol: itulah L3 dan R3.\n\nGerakkan kedua stik dan lihat titiknya mengikuti, lalu tekan salah satu stik.</string>
+    <string name="tutorial_stick_left">Gerakkan stik kiri</string>
+    <string name="tutorial_stick_right">Gerakkan stik kanan</string>
+    <string name="tutorial_stick_click">Tekan stik (L3 atau R3)</string>
+
+    <!-- Shoulder buttons -->
+    <string name="tutorial_shoulder_title">Tombol bahu</string>
+    <string name="tutorial_shoulder_body">L1 dan R1 adalah tombol bahu atas, L2 dan R2 yang bawah. Banyak aplikasi memakai L1 dan R1 untuk berganti tab atau halaman.\n\nTekan masing-masing sekali.</string>
+    <string name="tutorial_press_l1">Tekan L1</string>
+    <string name="tutorial_press_r1">Tekan R1</string>
+    <string name="tutorial_press_l2">Tekan L2</string>
+    <string name="tutorial_press_r2">Tekan R2</string>
+
+    <!-- FN = home -->
+    <string name="tutorial_home_title">FN adalah tombol Beranda</string>
+    <string name="tutorial_home_body">Tekan FN saja untuk ke layar utama dari mana pun, bahkan dari dalam game. Layar utamanya adalah Daijishou, tempat game dan aplikasi Anda.\n\nCoba sekarang: tekan FN. Tutorial ini kembali sendiri beberapa detik kemudian.</string>
+    <string name="tutorial_home_task">Tekan FN</string>
+    <string name="tutorial_home_back">Selamat datang kembali. Semudah itu.</string>
+
+    <!-- FN + volume -->
+    <string name="tutorial_brightness_title">Pintasan FN: kecerahan</string>
+    <string name="tutorial_brightness_body">FN punya tugas kedua: tahan FN dan tekan tombol lain untuk pintasan.\n\nTahan FN dan tekan Vol+ untuk membuat layar lebih terang. Tahan FN dan tekan Vol− untuk membuatnya lebih gelap. Tombol volume saja tetap mengubah volume.</string>
+    <string name="tutorial_brightness_up">Lebih terang: FN + Vol+</string>
+    <string name="tutorial_brightness_down">Lebih gelap: FN + Vol−</string>
+    <string name="tutorial_brightness_hint">Sudah paling terang? Mulai dengan lebih gelap.</string>
+    <!-- After FN alone was pressed on a step that wants FN plus another button -->
+    <string name="tutorial_fn_alone">Tadi hanya FN yang ditekan, jadi layar utama terbuka. Tahan FN, lalu tekan tombol kedua sambil tetap menahan FN.</string>
+
+    <!-- FN + Y -->
+    <string name="tutorial_shade_title">Pintasan FN: Setelan Cepat</string>
+    <string name="tutorial_shade_body">Tahan FN dan tekan Y untuk membuka notifikasi dan Setelan Cepat, dengan kartu untuk hal seperti Wi-Fi dan Bluetooth.\n\nBuka sekarang. FN + Y sekali lagi untuk menutupnya.</string>
+    <string name="tutorial_shade_open">Buka: FN + Y</string>
+
+    <!-- Joystick mouse -->
+    <string name="tutorial_mouse_title">Mouse joystick</string>
+    <string name="tutorial_mouse_body">Beberapa aplikasi mengharapkan layar sentuh. Untuk aplikasi itu, stik kanan bisa menggerakkan pointer mouse. A untuk klik, L1 untuk klik kanan, dan stik kiri untuk menggulir.\n\nUntuk mengaktifkan atau menonaktifkannya, tekan kedua stik (L3 + R3) selama satu detik.</string>
+    <string name="tutorial_mouse_body_fn">Beberapa aplikasi mengharapkan layar sentuh. Untuk aplikasi itu, stik kanan bisa menggerakkan pointer mouse. A untuk klik, L1 untuk klik kanan, dan stik kiri untuk menggulir.\n\nUntuk mengaktifkan atau menonaktifkannya, tekan kedua stik (L3 + R3) selama satu detik, atau tekan FN + X.</string>
+    <string name="tutorial_mouse_on">Aktifkan mouse</string>
+    <string name="tutorial_mouse_off">Nonaktifkan lagi</string>
+
+    <!-- Power -->
+    <string name="tutorial_power_title">Tombol daya</string>
+    <string name="tutorial_power_body">Ketuk tombol daya untuk membuat konsol tidur, dan ketuk lagi untuk membangunkannya.\n\nTahan tombol daya selama satu detik untuk membuka menu daya: matikan, mulai ulang, dan lainnya. Tekan B untuk menutup menu.</string>
+    <string name="tutorial_power_sleep">Ketuk tombol daya untuk tidur, lalu lagi untuk bangun</string>
+    <string name="tutorial_power_menu">Tahan tombol daya untuk membuka menu, lalu B untuk menutup</string>
+
+    <!-- Games -->
+    <string name="tutorial_games_title">Tempat game Anda</string>
+    <string name="tutorial_games_body">Masukkan kartu SD ke komputer. Selain drive BOOT yang kecil, akan muncul drive besar bernama EASYROMS: itu untuk game Anda.\n\nBeri setiap sistem foldernya sendiri, dengan nama seperti nes, snes, gba, megadrive, atau psx.\n\nLalu buka Daijishou (tekan FN), tambahkan platform dan pilih foldernya di EASYROMS. Daijishou menampilkan daftar game dan memulainya di RetroArch atau PPSSPP.</string>
+    <string name="tutorial_games_body_no_fn">Masukkan kartu SD ke komputer. Selain drive BOOT yang kecil, akan muncul drive besar bernama EASYROMS: itu untuk game Anda.\n\nBeri setiap sistem foldernya sendiri, dengan nama seperti nes, snes, gba, megadrive, atau psx.\n\nLalu buka Daijishou, tambahkan platform dan pilih foldernya di EASYROMS. Daijishou menampilkan daftar game dan memulainya di RetroArch atau PPSSPP.</string>
+    <!-- Under the games text, when the EASYROMS partition was found -->
+    <string name="tutorial_games_space">EASYROMS di kartu ini: <xliff:g id="free">%1$s</xliff:g> kosong dari <xliff:g id="total">%2$s</xliff:g>.</string>
+
+    <!-- Finish -->
+    <string name="tutorial_done_title">Anda siap</string>
+    <string name="tutorial_done_body">Itulah dasar-dasarnya.\n\nPanduan mulai cepat menjelaskan lebih banyak: emulator, kecepatan dan baterai, terhubung ke internet, dan apa yang harus dilakukan jika ada masalah. Buka di sini, atau kapan saja dari Setelan &gt; Panduan mulai cepat.</string>
+    <string name="tutorial_done_body_fn_help">Itulah dasar-dasarnya. Lupa pintasan? Tahan FN saja sebentar, di aplikasi atau game apa pun, untuk melihat semuanya.\n\nPanduan mulai cepat menjelaskan lebih banyak: emulator, kecepatan dan baterai, terhubung ke internet, dan apa yang harus dilakukan jika ada masalah. Buka di sini, atau kapan saja dari Setelan &gt; Panduan mulai cepat.</string>
+
+    <!-- Guide bottom bar: X opens the tutorial -->
+    <string name="hint_tutorial">Tutorial</string>
+</resources>
