@@ -505,6 +505,11 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
 	ButtonMapper
 
+# Controllers: connected pads with battery and RetroArch player, who is player 1 in
+# RetroArch, Bluetooth pairing with the buttons only (Settings > Controllers)
+PRODUCT_PACKAGES += \
+	Andr36oidControllers
+
 # CPU overclock (Settings > CPU overclock, Quick Settings tile once used)
 PRODUCT_PACKAGES += \
 	CpuOverclock
