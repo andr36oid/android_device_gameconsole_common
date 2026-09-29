@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Settings > USB devices. MACHINE-DRAFTED, not yet read by a native speaker. -->
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="usb_check_title">Appareils USB</string>
+    <string name="usb_check_summary">Qu\'est-ce qui est branché, et est-ce que ça marche ?</string>
+    <string name="usb_check_link_summary">Voir ce qui est branché sur le port OTG et si ça marche</string>
+    <string name="usb_check_plugged_in">Branché maintenant</string>
+    <string name="usb_check_none">Rien n\'est branché</string>
+    <string name="usb_check_none_summary">Branchez l\'appareil sur le port OTG, avec un adaptateur OTG ou un hub. Cette page se met à jour toute seule.</string>
+    <string name="usb_check_port_device">Le port OTG est réglé pour se connecter à un ordinateur (Mode USB). Les accessoires ne marchent pas tant que vous ne le remettez pas.</string>
+    <string name="usb_check_works">Fonctionne</string>
+    <string name="usb_check_wifi_off">Compatible. Activez le Wi-Fi pour l\'utiliser.</string>
+    <string name="usb_check_not_started">Compatible, mais son pilote n\'a pas démarré. Débranchez-le puis rebranchez-le.</string>
+    <string name="usb_check_no_power">Détecté, mais il n\'a pas démarré. Il lui faut peut-être plus de courant que le port n\'en donne. Essayez un hub avec sa propre alimentation.</string>
+    <string name="usb_check_cd_mode">En mode CD de pilote. La console le bascule toute seule en quelques secondes. Si cela reste, débranchez-le puis rebranchez-le.</string>
+    <string name="usb_check_cd_unknown">En mode CD de pilote, et la console ne sait pas le basculer (puce <xliff:g id="chip_id" example="0bda:1a2b">%1$s</xliff:g>).</string>
+    <string name="usb_check_not_supported">Non compatible (puce <xliff:g id="chip_id" example="0bda:885a">%1$s</xliff:g>)</string>
+    <string name="usb_check_not_supported_named">Non compatible : <xliff:g id="chip_name" example="Realtek RTL8852AU">%1$s</xliff:g> (puce <xliff:g id="chip_id" example="0bda:885a">%2$s</xliff:g>)</string>
+    <string name="usb_check_bt_only">Le Bluetooth marche. Son Wi-Fi n\'est pas compatible (puce <xliff:g id="chip" example="0bda:d723">%1$s</xliff:g>).</string>
+    <string name="usb_check_wifi_hint">Les adaptateurs avec une puce RTL8188, RTL8811CU/8821CU, RTL8812BU ou MT7601U fonctionnent.</string>
+    <string name="usb_check_kind_wifi">Adaptateur Wi-Fi</string>
+    <string name="usb_check_kind_bluetooth">Adaptateur Bluetooth</string>
+    <string name="usb_check_kind_network">Adaptateur réseau ou modem</string>
+    <string name="usb_check_kind_audio">Carte son ou casque</string>
+    <string name="usb_check_kind_gamepad">Manette</string>
+    <string name="usb_check_kind_keyboard">Clavier</string>
+    <string name="usb_check_kind_mouse">Souris</string>
+    <string name="usb_check_kind_input">Manette, clavier ou souris</string>
+    <string name="usb_check_kind_storage">Clé USB ou lecteur de cartes</string>
+    <string name="usb_check_kind_serial">Adaptateur série</string>
+    <string name="usb_check_kind_video">Caméra ou tuner TV</string>
+    <string name="usb_check_kind_hub">Hub USB</string>
+    <string name="usb_check_kind_other">Appareil USB</string>
+    <string name="usb_check_copy">Copier les détails</string>
+    <string name="usb_check_copy_summary">Pour une question dans le chat de la communauté. Un rapport de problème les contient aussi.</string>
+    <string name="usb_check_copied">Détails copiés</string>
+    <string name="usb_check_about">La puce est l\'identifiant de l\'appareil (fabricant:modèle). Quand vous demandez de l\'aide, donnez la puce. Appuyez sur A sur un appareil pour voir tout ce que la console en sait.</string>
+</resources>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Settings > USB devices. MACHINE-DRAFTED, not yet read by a native speaker. -->
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="usb_check_title">USB-устройства</string>
+    <string name="usb_check_summary">Что подключено и работает ли оно?</string>
+    <string name="usb_check_link_summary">Что подключено к порту OTG и работает ли оно</string>
+    <string name="usb_check_plugged_in">Подключено сейчас</string>
+    <string name="usb_check_none">Ничего не подключено</string>
+    <string name="usb_check_none_summary">Подключите устройство к порту OTG через OTG-переходник или хаб. Страница обновляется сама.</string>
+    <string name="usb_check_port_device">Порт OTG настроен на подключение к компьютеру (Режим USB). Аксессуары не работают, пока вы не переключите его обратно.</string>
+    <string name="usb_check_works">Работает</string>
+    <string name="usb_check_wifi_off">Поддерживается. Включите Wi-Fi, чтобы им пользоваться.</string>
+    <string name="usb_check_not_started">Поддерживается, но драйвер не запустился. Отключите и снова подключите устройство.</string>
+    <string name="usb_check_no_power">Обнаружено, но не запустилось. Возможно, ему нужно больше питания, чем даёт порт. Попробуйте хаб с отдельным питанием.</string>
+    <string name="usb_check_cd_mode">В режиме диска с драйвером. Консоль сама переключит его через несколько секунд. Если это не проходит, отключите и снова подключите устройство.</string>
+    <string name="usb_check_cd_unknown">В режиме диска с драйвером, и консоль не умеет его переключить (чип <xliff:g id="chip_id" example="0bda:1a2b">%1$s</xliff:g>).</string>
+    <string name="usb_check_not_supported">Не поддерживается (чип <xliff:g id="chip_id" example="0bda:885a">%1$s</xliff:g>)</string>
+    <string name="usb_check_not_supported_named">Не поддерживается: <xliff:g id="chip_name" example="Realtek RTL8852AU">%1$s</xliff:g> (чип <xliff:g id="chip_id" example="0bda:885a">%2$s</xliff:g>)</string>
+    <string name="usb_check_bt_only">Bluetooth работает. Его Wi-Fi не поддерживается (чип <xliff:g id="chip" example="0bda:d723">%1$s</xliff:g>).</string>
+    <string name="usb_check_wifi_hint">Работают адаптеры с чипами RTL8188, RTL8811CU/8821CU, RTL8812BU или MT7601U.</string>
+    <string name="usb_check_kind_wifi">Адаптер Wi-Fi</string>
+    <string name="usb_check_kind_bluetooth">Адаптер Bluetooth</string>
+    <string name="usb_check_kind_network">Сетевой адаптер или модем</string>
+    <string name="usb_check_kind_audio">Звуковая карта или гарнитура</string>
+    <string name="usb_check_kind_gamepad">Геймпад</string>
+    <string name="usb_check_kind_keyboard">Клавиатура</string>
+    <string name="usb_check_kind_mouse">Мышь</string>
+    <string name="usb_check_kind_input">Геймпад, клавиатура или мышь</string>
+    <string name="usb_check_kind_storage">Флешка или картридер</string>
+    <string name="usb_check_kind_serial">Последовательный адаптер</string>
+    <string name="usb_check_kind_video">Камера или ТВ-тюнер</string>
+    <string name="usb_check_kind_hub">USB-хаб</string>
+    <string name="usb_check_kind_other">USB-устройство</string>
+    <string name="usb_check_copy">Скопировать сведения</string>
+    <string name="usb_check_copy_summary">Для вопроса в чате сообщества. Отчёт о проблеме тоже их содержит.</string>
+    <string name="usb_check_copied">Сведения скопированы</string>
+    <string name="usb_check_about">Чип — это идентификатор устройства (производитель:модель). Когда просите помощи, укажите чип. Нажмите A на устройстве, чтобы увидеть всё, что консоль о нём знает.</string>
+</resources>

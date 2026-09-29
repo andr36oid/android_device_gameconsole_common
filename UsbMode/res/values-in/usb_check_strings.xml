@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Settings > USB devices. MACHINE-DRAFTED, not yet read by a native speaker. -->
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="usb_check_title">Perangkat USB</string>
+    <string name="usb_check_summary">Apa yang tercolok, dan apakah berfungsi?</string>
+    <string name="usb_check_link_summary">Lihat apa yang tercolok di port OTG dan apakah berfungsi</string>
+    <string name="usb_check_plugged_in">Tercolok sekarang</string>
+    <string name="usb_check_none">Tidak ada yang tercolok</string>
+    <string name="usb_check_none_summary">Colokkan perangkat ke port OTG, dengan adaptor OTG atau hub. Halaman ini diperbarui sendiri.</string>
+    <string name="usb_check_port_device">Port OTG diatur untuk terhubung ke komputer (Mode USB). Aksesori tidak berfungsi sampai Anda mengembalikannya.</string>
+    <string name="usb_check_works">Berfungsi</string>
+    <string name="usb_check_wifi_off">Didukung. Nyalakan Wi-Fi untuk memakainya.</string>
+    <string name="usb_check_not_started">Didukung, tetapi drivernya tidak berjalan. Cabut lalu colokkan lagi.</string>
+    <string name="usb_check_no_power">Terdeteksi, tetapi tidak berjalan. Mungkin perlu daya lebih dari yang diberikan port. Coba hub dengan catu daya sendiri.</string>
+    <string name="usb_check_cd_mode">Dalam mode CD driver. Konsol mengalihkannya sendiri dalam beberapa detik. Jika tetap begini, cabut lalu colokkan lagi.</string>
+    <string name="usb_check_cd_unknown">Dalam mode CD driver, dan konsol tidak tahu cara mengalihkannya (chip <xliff:g id="chip_id" example="0bda:1a2b">%1$s</xliff:g>).</string>
+    <string name="usb_check_not_supported">Tidak didukung (chip <xliff:g id="chip_id" example="0bda:885a">%1$s</xliff:g>)</string>
+    <string name="usb_check_not_supported_named">Tidak didukung: <xliff:g id="chip_name" example="Realtek RTL8852AU">%1$s</xliff:g> (chip <xliff:g id="chip_id" example="0bda:885a">%2$s</xliff:g>)</string>
+    <string name="usb_check_bt_only">Bluetooth berfungsi. Wi-Fi-nya tidak didukung (chip <xliff:g id="chip" example="0bda:d723">%1$s</xliff:g>).</string>
+    <string name="usb_check_wifi_hint">Adaptor dengan chip RTL8188, RTL8811CU/8821CU, RTL8812BU, atau MT7601U berfungsi.</string>
+    <string name="usb_check_kind_wifi">Adaptor Wi-Fi</string>
+    <string name="usb_check_kind_bluetooth">Adaptor Bluetooth</string>
+    <string name="usb_check_kind_network">Adaptor jaringan atau modem</string>
+    <string name="usb_check_kind_audio">Kartu suara atau headset</string>
+    <string name="usb_check_kind_gamepad">Gamepad</string>
+    <string name="usb_check_kind_keyboard">Keyboard</string>
+    <string name="usb_check_kind_mouse">Mouse</string>
+    <string name="usb_check_kind_input">Gamepad, keyboard, atau mouse</string>
+    <string name="usb_check_kind_storage">Flashdisk atau pembaca kartu</string>
+    <string name="usb_check_kind_serial">Adaptor serial</string>
+    <string name="usb_check_kind_video">Kamera atau tuner TV</string>
+    <string name="usb_check_kind_hub">Hub USB</string>
+    <string name="usb_check_kind_other">Perangkat USB</string>
+    <string name="usb_check_copy">Salin detail</string>
+    <string name="usb_check_copy_summary">Untuk pertanyaan di chat komunitas. Laporan masalah juga memuatnya.</string>
+    <string name="usb_check_copied">Detail disalin</string>
+    <string name="usb_check_about">Chip adalah ID perangkat (pembuat:model). Saat meminta bantuan, sebutkan chip-nya. Tekan A pada perangkat untuk melihat semua yang diketahui konsol tentangnya.</string>
+</resources>

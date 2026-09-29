@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Settings > USB devices. MACHINE-DRAFTED, not yet read by a native speaker. -->
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="usb_check_title">Dispositivos USB</string>
+    <string name="usb_check_summary">¿Qué está conectado y funciona?</string>
+    <string name="usb_check_link_summary">Mira qué está conectado al puerto OTG y si funciona</string>
+    <string name="usb_check_plugged_in">Conectado ahora</string>
+    <string name="usb_check_none">No hay nada conectado</string>
+    <string name="usb_check_none_summary">Conecta el dispositivo al puerto OTG, con un adaptador OTG o un hub. Esta página se actualiza sola.</string>
+    <string name="usb_check_port_device">El puerto OTG está configurado para conectarse a un ordenador (Modo USB). Los accesorios no funcionan hasta que lo vuelvas a cambiar.</string>
+    <string name="usb_check_works">Funciona</string>
+    <string name="usb_check_wifi_off">Compatible. Activa el Wi-Fi para usarlo.</string>
+    <string name="usb_check_not_started">Compatible, pero su controlador no se inició. Desconéctalo y vuelve a conectarlo.</string>
+    <string name="usb_check_no_power">Detectado, pero no se inició. Puede necesitar más energía de la que da el puerto. Prueba un hub con alimentación propia.</string>
+    <string name="usb_check_cd_mode">En modo CD de controlador. La consola lo cambia sola en unos segundos. Si sigue así, desconéctalo y vuelve a conectarlo.</string>
+    <string name="usb_check_cd_unknown">En modo CD de controlador, y la consola no sabe cómo cambiarlo (chip <xliff:g id="chip_id" example="0bda:1a2b">%1$s</xliff:g>).</string>
+    <string name="usb_check_not_supported">No compatible (chip <xliff:g id="chip_id" example="0bda:885a">%1$s</xliff:g>)</string>
+    <string name="usb_check_not_supported_named">No compatible: <xliff:g id="chip_name" example="Realtek RTL8852AU">%1$s</xliff:g> (chip <xliff:g id="chip_id" example="0bda:885a">%2$s</xliff:g>)</string>
+    <string name="usb_check_bt_only">El Bluetooth funciona. Su Wi-Fi no es compatible (chip <xliff:g id="chip" example="0bda:d723">%1$s</xliff:g>).</string>
+    <string name="usb_check_wifi_hint">Funcionan los adaptadores con chips RTL8188, RTL8811CU/8821CU, RTL8812BU o MT7601U.</string>
+    <string name="usb_check_kind_wifi">Adaptador Wi-Fi</string>
+    <string name="usb_check_kind_bluetooth">Adaptador Bluetooth</string>
+    <string name="usb_check_kind_network">Adaptador de red o módem</string>
+    <string name="usb_check_kind_audio">Tarjeta de sonido o auriculares</string>
+    <string name="usb_check_kind_gamepad">Mando</string>
+    <string name="usb_check_kind_keyboard">Teclado</string>
+    <string name="usb_check_kind_mouse">Ratón</string>
+    <string name="usb_check_kind_input">Mando, teclado o ratón</string>
+    <string name="usb_check_kind_storage">Memoria USB o lector de tarjetas</string>
+    <string name="usb_check_kind_serial">Adaptador serie</string>
+    <string name="usb_check_kind_video">Cámara o sintonizador de TV</string>
+    <string name="usb_check_kind_hub">Hub USB</string>
+    <string name="usb_check_kind_other">Dispositivo USB</string>
+    <string name="usb_check_copy">Copiar detalles</string>
+    <string name="usb_check_copy_summary">Para una pregunta en el chat de la comunidad. El informe de problemas también los incluye.</string>
+    <string name="usb_check_copied">Detalles copiados</string>
+    <string name="usb_check_about">El chip es la identificación del dispositivo (fabricante:modelo). Cuando pidas ayuda, indica el chip. Pulsa A en un dispositivo para ver todo lo que la consola sabe de él.</string>
+</resources>
