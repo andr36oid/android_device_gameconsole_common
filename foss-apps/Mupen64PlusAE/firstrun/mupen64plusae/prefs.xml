@@ -1,4 +1,6 @@
 <?xml version='1.0' encoding='utf-8' standalone='yes' ?>
 <map>
     <string name="controllerProfile1">Built-in controls</string>
+    <string name="emulationProfileDefault">Built-in GLideN64</string>
+    <boolean name="hybridTextureFilter_v2" value="false" />
 </map>
