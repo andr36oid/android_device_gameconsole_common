@@ -1,0 +1,6 @@
+# Moonlight 12.1: settings are the default shared_prefs
+# (PreferenceConfiguration.readPreferences). See ../../README.md,
+# "First-start settings".
+package com.limelight
+unless data shared_prefs/com.limelight_preferences.xml
+data prefs.xml shared_prefs/com.limelight_preferences.xml
