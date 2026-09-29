@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="check_title">Verificar cartão SD</string>
+    <string name="check_summary">Teste a velocidade e descubra se um cartão é falso</string>
+
+    <string name="card_title">Cartão ou pen drive</string>
+    <string name="no_card">Nenhum cartão SD ou pen drive USB está pronto. Insira um ou espere até ele aparecer em Armazenamento.</string>
+
+    <!-- details: %1$s name (EASYROMS), %2$s size of the whole card -->
+    <string name="details_title">%1$s, cartão de %2$s</string>
+    <string name="details_title_usb">%1$s, pen drive USB de %2$s</string>
+    <!-- %1$s maker, %2$s product name, %3$s date made -->
+    <string name="details_card">%1$s %2$s, fabricado em %3$s</string>
+    <string name="details_free">%1$s livres</string>
+    <string name="maker_unknown">Fabricante desconhecido (ID %1$s)</string>
+
+    <string name="speed_category">Velocidade</string>
+    <string name="speed_title">Testar a velocidade</string>
+    <string name="speed_summary">Grava e lê um arquivo de 256 MB. Leva cerca de um minuto.</string>
+    <string name="speed_running_write">Gravando…</string>
+    <string name="speed_running_read">Lendo…</string>
+    <!-- %1$s write speed, %2$s read speed, e.g. 18.2 MB/s -->
+    <string name="speed_result">Gravação %1$s, leitura %2$s</string>
+    <string name="speed_good">Bom para todos os sistemas.</string>
+    <string name="speed_ok">Serve para jogos. Copiar e salvar arquivos grandes é lento.</string>
+    <string name="speed_slow">Lento: espere carregamentos demorados, principalmente em jogos de PSP, Dreamcast e N64.</string>
+    <string name="mb_per_s">%1$.1f MB/s</string>
+
+    <string name="full_category">Tamanho real</string>
+    <string name="full_title">Verificar o tamanho real</string>
+    <string name="full_title_stop">Parar a verificação</string>
+    <!-- %1$s free space, %2$s how long -->
+    <string name="full_summary">Preenche o espaço livre (%1$s) com dados de teste, lê tudo de volta e depois apaga. Um cartão falso que diz ter mais espaço do que tem falha neste teste. Leva cerca de %2$s.</string>
+    <string name="full_summary_unknown_time">Preenche o espaço livre (%1$s) com dados de teste, lê tudo de volta e depois apaga. Um cartão falso que diz ter mais espaço do que tem falha neste teste. Leva horas em um cartão grande; teste a velocidade primeiro para ter uma estimativa melhor.</string>
+    <string name="full_probe">Procurando sinais de cartão falso…</string>
+    <!-- %1$s done, %2$s total, %3$s time left -->
+    <string name="full_writing">Gravando dados de teste: %1$s de %2$s, cerca de %3$s restantes</string>
+    <string name="full_reading">Lendo de volta: %1$s de %2$s, cerca de %3$s restantes</string>
+    <string name="full_writing_start">Gravando dados de teste: %1$s de %2$s</string>
+    <string name="full_reading_start">Lendo de volta: %1$s de %2$s</string>
+    <string name="full_stopping">Parando e apagando os dados de teste…</string>
+
+    <string name="full_pass">Aprovado. Todos os %1$s de dados de teste voltaram como foram gravados. Este cartão é verdadeiro.</string>
+    <string name="full_bad_data">Reprovado. %1$s de dados de teste voltaram errados, a partir de cerca de %2$s. O cartão é falso ou está danificado e só comporta de verdade cerca de %3$s. Tire seus jogos dele e use outro cartão.</string>
+    <string name="full_wraps">Reprovado. Este cartão é falso: ele volta ao próprio início depois de cerca de %1$s, então só comporta isso de verdade. Mantenha seus jogos abaixo disso ou, melhor ainda, use outro cartão.</string>
+    <string name="full_wraps_restored">A verificação percebeu isso durante a gravação e restaurou o início do cartão.</string>
+    <string name="full_wraps_not_restored">A verificação percebeu isso durante a gravação, mas não conseguiu restaurar o início do cartão. O console pode não iniciar mais por este cartão: faça backup dos seus jogos.</string>
+    <string name="full_write_error">Reprovado. O cartão informou um erro depois de %1$s de dados de teste. Ele pode estar danificado ou ser falso.</string>
+    <string name="full_stopped">Parado. Os dados de teste foram apagados.</string>
+
+    <string name="error_prefix">Não concluído. %1$s</string>
+    <string name="error_no_space">Não há espaço livre suficiente para o teste.</string>
+    <string name="error_not_mounted">O cartão não está pronto.</string>
+    <string name="error_write">O cartão informou um erro de gravação.</string>
+    <string name="error_read">O cartão informou um erro de leitura.</string>
+    <string name="error_other">Não foi possível fazer a verificação.</string>
+
+    <string name="confirm_title">Verificar o tamanho real?</string>
+    <!-- %1$s card name, %2$s how long -->
+    <string name="confirm_text">Isto ocupa todo o espaço livre de %1$s por cerca de %2$s, então os jogos não conseguem salvar lá até terminar. Conecte o carregador: o console fica ligado. Você pode parar a qualquer momento. Seus jogos e arquivos não são alterados.</string>
+    <string name="confirm_time_unknown">algumas horas</string>
+    <string name="confirm_start">Iniciar</string>
+
+    <string name="busy">Outra verificação está em andamento.</string>
+
+    <string name="about">Consoles costumam vir com cartões falsos ou gastos. Um cartão falso diz ser maior do que é, e os jogos copiados além do fim real dele voltam corrompidos. A verificação grava apenas no espaço livre.</string>
+
+    <string name="hours_minutes">%1$d h %2$d min</string>
+    <string name="minutes">%1$d min</string>
+
+    <string name="channel_name">Verificar cartão SD</string>
+    <string name="done_title">Verificação do SD concluída</string>
+</resources>

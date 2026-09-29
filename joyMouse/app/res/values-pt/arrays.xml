@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string-array name="action_labels">
+        <item>Botão normal</item>
+        <item>Nada</item>
+        <item>Clique esquerdo</item>
+        <item>Clique direito</item>
+        <item>Clique do meio</item>
+        <item>Voltar</item>
+        <item>Avançar</item>
+        <item>Clique esquerdo com o ponteiro visível, senão botão normal</item>
+        <item>Precisão: ponteiro lento enquanto segurado</item>
+        <item>Rolagem: o analógico do ponteiro rola enquanto segurado</item>
+    </string-array>
+
+    <string-array name="toggle_ms_labels">
+        <item>0,5 segundo</item>
+        <item>0,75 segundo</item>
+        <item>1 segundo</item>
+        <item>1,5 segundo</item>
+        <item>2 segundos</item>
+        <item>3 segundos</item>
+        <item>5 segundos</item>
+        <item>10 segundos</item>
+    </string-array>
+
+    <string-array name="speed_labels">
+        <item>25%</item>
+        <item>40%</item>
+        <item>60%</item>
+        <item>80%</item>
+        <item>100% (padrão)</item>
+        <item>125%</item>
+        <item>150%</item>
+        <item>200%</item>
+        <item>250%</item>
+        <item>300%</item>
+    </string-array>
+
+    <string-array name="curve_labels">
+        <item>Desativado (linear)</item>
+        <item>Baixo</item>
+        <item>Médio (padrão)</item>
+        <item>Alto</item>
+        <item>Muito alto</item>
+    </string-array>
+
+    <string-array name="deadzone_labels">
+        <item>4%</item>
+        <item>6%</item>
+        <item>8%</item>
+        <item>10% (padrão)</item>
+        <item>12%</item>
+        <item>15%</item>
+        <item>20%</item>
+        <item>25%</item>
+    </string-array>
+
+    <string-array name="precision_labels">
+        <item>15%</item>
+        <item>25%</item>
+        <item>35% (padrão)</item>
+        <item>50%</item>
+        <item>70%</item>
+    </string-array>
+
+    <string-array name="scroll_speed_labels">
+        <item>25%</item>
+        <item>50%</item>
+        <item>75%</item>
+        <item>100% (padrão)</item>
+        <item>150%</item>
+        <item>200%</item>
+        <item>300%</item>
+    </string-array>
+</resources>
