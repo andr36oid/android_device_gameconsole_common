@@ -34,6 +34,11 @@ on init
 
     # disable transparent huge pages
     write /sys/kernel/mm/transparent_hugepage/enabled "never"
+    # khugepaged starts before init (THP is "madvise" in the defconfig) and raises
+    # min_free_kbytes to 36864 (18 free 2MB pageblocks for huge pages). Turning
+    # THP off above does not lower it again, so the kernel kept ~58MB free at all times.
+    # 12MB is still 3x the kernel's own default for 1GB and gives ~24MB back to apps.
+    write /proc/sys/vm/min_free_kbytes 12288
 
     # Prefer swapping anon pages to zram over dropping file cache.
     # 4.19 caps swappiness at 100, anything higher is rejected.
