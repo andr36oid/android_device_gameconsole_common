@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="netplay_title">Main bersama</string>
+    <string name="netplay_intro">Dua konsol bisa memainkan satu game bersama lewat Wi-Fi, bahkan tanpa router di dekatnya: satu konsol membuat hotspot Wi-Fi dan konsol lain terhubung ke sana. Keduanya perlu Wi-Fi (bawaan atau adaptor Wi-Fi USB) dan game yang sama.</string>
+    <string name="netplay_hotspot_q">1. Buat hotspot di konsol pertama</string>
+    <string name="netplay_hotspot_a">Colokkan adaptor Wi-Fi, lalu buka Setelan &gt; Jaringan &amp; internet &gt; Hotspot &amp; tethering &gt; Hotspot Wi-Fi dan aktifkan. Nama dan sandi hotspot ada di halaman yang sama. Di konsol kedua, hubungkan ke hotspot itu di Setelan &gt; Jaringan &amp; internet &gt; Wi-Fi. Akan muncul tulisan tidak ada internet. Itu tidak apa-apa.</string>
+    <string name="netplay_hotspot_fail">Hotspot tidak mau menyala? Tidak semua adaptor bisa membuat hotspot. Tukar adaptor antar konsol, atau hubungkan kedua konsol ke Wi-Fi rumah yang sama atau ke hotspot ponsel.</string>
+    <string name="netplay_game_q">2. Buka game yang sama di keduanya</string>
+    <string name="netplay_game_a">Gunakan file game yang sama (versi dan region yang sama) dengan emulator yang sama di kedua konsol. Kalau tidak, konsol tidak bisa terhubung atau game jadi tidak sinkron.</string>
+    <string name="netplay_host_q">3. Konsol pertama: jadi host</string>
+    <string name="netplay_menu">Buka menu RetroArch</string>
+    <string name="netplay_host_a">Tekan B sampai Anda di Menu Utama, buka Netplay dan pilih Start Netplay Host. Lalu tutup menu dan tunggu.</string>
+    <string name="netplay_join_q">4. Konsol kedua: bergabung</string>
+    <string name="netplay_join_a">Buka menu dengan cara yang sama, buka Netplay dan pilih Refresh Netplay LAN List. Pilih konsol pertama di daftar. Game dimulai ulang di kedua konsol, dan konsol kedua menjadi pemain 2.</string>
+    <string name="netplay_join_ip">Tidak ada di daftar? Cari alamat konsol pertama di konsol kedua: Setelan &gt; Jaringan &amp; internet &gt; Wi-Fi, pilih hotspot, lalu Lanjutan &gt; Gateway. Di Netplay, pilih Connect to Netplay Host dan ketik alamat itu.</string>
+    <string name="netplay_games_q">Game yang paling cocok</string>
+    <string name="netplay_games_a">Game NES, Master System, Mega Drive, dan PC Engine berjalan lancar. SNES bisa, dengan sedikit lebih banyak jeda pada tombol. Game Game Boy dan GBA tidak punya mode dua pemain di satu konsol, jadi tidak ada yang bisa dibagi. PlayStation terlalu berat untuk dimainkan lewat jaringan di konsol ini.</string>
+    <string name="netplay_tips">Letakkan kedua konsol berdekatan. Hotspot memakai baterai lebih banyak, jadi matikan setelah selesai. Nama Anda di netplay diambil dari nama perangkat; ubah di RetroArch lewat Pengaturan &gt; Pengguna &gt; Nama Pengguna.</string>
+</resources>

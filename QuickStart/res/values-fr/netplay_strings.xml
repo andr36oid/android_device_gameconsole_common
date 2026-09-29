@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="netplay_title">Jouer à deux</string>
+    <string name="netplay_intro">Deux consoles peuvent jouer ensemble au même jeu par Wi-Fi, même sans box ni routeur : une console crée un point d\'accès Wi-Fi et l\'autre s\'y connecte. Les deux ont besoin du Wi-Fi (intégré ou un adaptateur Wi-Fi USB) et du même jeu.</string>
+    <string name="netplay_hotspot_q">1. Créez un point d\'accès sur la première console</string>
+    <string name="netplay_hotspot_a">Branchez l\'adaptateur Wi-Fi, allez dans Paramètres &gt; Réseau et Internet &gt; Point d\'accès et partage de connexion &gt; Point d\'accès Wi-Fi et activez-le. Le nom et le mot de passe du point d\'accès sont sur la même page. Sur la deuxième console, connectez-vous à ce point d\'accès dans Paramètres &gt; Réseau et Internet &gt; Wi-Fi. Elle indique qu\'il n\'y a pas d\'Internet. C\'est normal.</string>
+    <string name="netplay_hotspot_fail">Le point d\'accès ne s\'active pas ? Tous les adaptateurs ne peuvent pas en créer un. Échangez les adaptateurs entre les consoles, ou connectez les deux consoles au même Wi-Fi de la maison ou au point d\'accès d\'un téléphone.</string>
+    <string name="netplay_game_q">2. Lancez le même jeu sur les deux</string>
+    <string name="netplay_game_a">Utilisez le même fichier de jeu (même version et même région) avec le même émulateur sur les deux consoles. Sinon elles ne se connectent pas, ou le jeu se désynchronise.</string>
+    <string name="netplay_host_q">3. Première console : héberger la partie</string>
+    <string name="netplay_menu">Ouvrir le menu de RetroArch</string>
+    <string name="netplay_host_a">Appuyez sur B jusqu\'au Menu principal, ouvrez Jeu en réseau et choisissez Commencer à héberger le jeu en réseau. Fermez ensuite le menu et attendez.</string>
+    <string name="netplay_join_q">4. Deuxième console : rejoindre</string>
+    <string name="netplay_join_a">Ouvrez le menu de la même façon, ouvrez Jeu en réseau et choisissez Rafraîchir la liste des LAN de jeu en réseau. Choisissez la première console dans la liste. Le jeu redémarre sur les deux consoles, et la deuxième console est le joueur 2.</string>
+    <string name="netplay_join_ip">Elle n\'est pas dans la liste ? Trouvez l\'adresse de la première console sur la deuxième : Paramètres &gt; Réseau et Internet &gt; Wi-Fi, choisissez le point d\'accès, puis Paramètres avancés &gt; Passerelle. Dans Jeu en réseau, choisissez Se connecter à l\'hôte de jeu en réseau et tapez cette adresse.</string>
+    <string name="netplay_games_q">Les jeux qui marchent le mieux</string>
+    <string name="netplay_games_a">Les jeux NES, Master System, Mega Drive et PC Engine tournent bien. La SNES marche, avec un peu plus de latence sur les boutons. Les jeux Game Boy et GBA n\'ont pas de mode deux joueurs sur une seule console, il n\'y a donc rien à partager. La PlayStation est trop lourde pour cette console en réseau.</string>
+    <string name="netplay_tips">Gardez les consoles près l\'une de l\'autre. Le point d\'accès consomme plus de batterie, coupez-le quand vous avez fini. Votre nom en jeu en réseau vient du nom de l\'appareil ; changez-le dans RetroArch sous Réglages &gt; Utilisateur &gt; Pseudo.</string>
+</resources>

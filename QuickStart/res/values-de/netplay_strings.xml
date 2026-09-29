@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="netplay_title">Zusammen spielen</string>
+    <string name="netplay_intro">Zwei Konsolen können ein Spiel zusammen über WLAN spielen, auch ohne Router in der Nähe: Eine Konsole macht einen WLAN-Hotspot, die andere verbindet sich damit. Beide brauchen WLAN (eingebaut oder ein USB-WLAN-Adapter) und dasselbe Spiel.</string>
+    <string name="netplay_hotspot_q">1. Hotspot auf der ersten Konsole einrichten</string>
+    <string name="netplay_hotspot_a">Steck den WLAN-Adapter ein, geh zu Einstellungen &gt; Netzwerk &amp; Internet &gt; Hotspot und Tethering &gt; WLAN-Hotspot und schalte ihn ein. Name und Passwort des Hotspots stehen auf derselben Seite. Verbinde die zweite Konsole unter Einstellungen &gt; Netzwerk &amp; Internet &gt; WLAN mit diesem Hotspot. Sie meldet, dass es kein Internet gibt. Das ist in Ordnung.</string>
+    <string name="netplay_hotspot_fail">Der Hotspot geht nicht an? Nicht jeder Adapter kann einen machen. Tausch die Adapter zwischen den Konsolen, oder verbinde beide Konsolen mit demselben WLAN zu Hause oder dem Hotspot eines Handys.</string>
+    <string name="netplay_game_q">2. Auf beiden dasselbe Spiel starten</string>
+    <string name="netplay_game_a">Nimm auf beiden Konsolen dieselbe Spieldatei (gleiche Version und Region) mit demselben Emulator. Sonst verbinden sie sich nicht, oder das Spiel läuft auseinander.</string>
+    <string name="netplay_host_q">3. Erste Konsole: Spiel anbieten</string>
+    <string name="netplay_menu">RetroArch-Menü öffnen</string>
+    <string name="netplay_host_a">Drück B, bis du im Hauptmenü bist, öffne Netzwerkspiel und wähle Hosting starten. Dann schließ das Menü und warte.</string>
+    <string name="netplay_join_q">4. Zweite Konsole: beitreten</string>
+    <string name="netplay_join_a">Öffne das Menü genauso, öffne Netzwerkspiel und wähle LAN-Netzwerkspielliste aktualisieren. Wähl die erste Konsole in der Liste. Das Spiel startet auf beiden Konsolen neu, und die zweite Konsole ist Spieler 2.</string>
+    <string name="netplay_join_ip">Nicht in der Liste? Die Adresse der ersten Konsole findest du auf der zweiten: Einstellungen &gt; Netzwerk &amp; Internet &gt; WLAN, den Hotspot wählen, dann Erweitert &gt; Gateway. Wähl in Netzwerkspiel Zu Netzwerkspiel-Host verbinden und gib diese Adresse ein.</string>
+    <string name="netplay_games_q">Welche Spiele am besten laufen</string>
+    <string name="netplay_games_a">NES-, Master-System-, Mega-Drive- und PC-Engine-Spiele laufen gut. SNES geht, mit etwas mehr Verzögerung bei den Tasten. Game-Boy- und GBA-Spiele haben keinen Zwei-Spieler-Modus auf einer Konsole, es gibt also nichts zu teilen. PlayStation ist für diese Konsole übers Netz zu schwer.</string>
+    <string name="netplay_tips">Halte die Konsolen nah beieinander. Der Hotspot braucht mehr Akku, schalte ihn danach aus. Dein Name im Netzwerkspiel kommt vom Gerätenamen; ändern kannst du ihn in RetroArch unter Einstellungen &gt; Benutzer &gt; Benutzername.</string>
+</resources>
