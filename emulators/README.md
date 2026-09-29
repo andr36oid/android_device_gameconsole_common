@@ -183,10 +183,7 @@ its library the way Daijishou itself stores it, once, before it first runs:
 
 New games later (copied on a computer, say): Daijishou only looks for games when asked.
 On a console where we made the library, each boot compares the game files in the
-platform folders with the last boot. Only files with an ending one of the platform's
-players accepts count (their `accepted_filename_regex`), so the saves, states and NVRAM
-files cores write next to the games don't; nor do hidden files and DOSBox Pure's
-`.pure.zip` saves. If
+platform folders (saves, states, pictures, hidden files left out) with the last boot. If
 they changed, it sets `sync_entirely_on_start` again ("The games on EASYROMS changed.
 Press OK to update the library."), force-stops Daijishou around the change (it keeps its
 settings in memory) and brings the home screen back if Daijishou was in front. Off with
@@ -195,6 +192,12 @@ settings in memory) and brings the home screen back if Daijishou was in front. O
 Never again after it ran once (`/data/misc/gameconsole/daijishou.done`), never on a
 Daijishou that has a library, never on a `.noroms` card (no EASYROMS; games are on the
 internal storage there). A different Daijishou versionCode skips it with a log line.
+
+Which files count as games for that: only files with an ending one of the platform's
+players accepts (their `accepted_filename_regex` in `daijishou-seed.txt`). So the saves,
+states and NVRAM files cores write next to the games (`.srm`, `.state`, `.nv`, `.hi`,
+EasyRPG `.lsd`, PrBoom `.dsg`) don't count; nor do hidden files and DOSBox Pure's
+`.pure.zip` saves.
 
 After a Daijishou update: run `tests/run-daijishou-tests.sh`. If the schema check
 fails, take the new `createAllTables` statements, identity hash and version from the new
