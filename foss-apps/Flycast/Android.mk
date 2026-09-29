@@ -23,7 +23,7 @@ LOCAL_MODULE_STEM := z-foss-flycast.list
 LOCAL_SRC_FILES := z-foss-flycast.list
 include $(BUILD_PREBUILT)
 
-# First-start button maps and hotkeys, see ../README.md ("First-start settings")
+# First-start settings, button maps and hotkeys, see ../README.md ("First-start settings")
 include $(CLEAR_VARS)
 LOCAL_MODULE := foss-Flycast-firstrun
 LOCAL_MODULE_CLASS := ETC
@@ -31,7 +31,7 @@ LOCAL_MODULE_TAGS := optional
 LOCAL_MODULE_RELATIVE_PATH := gameconsole/firstrun
 LOCAL_MODULE_STEM := flycast.list
 LOCAL_SRC_FILES := firstrun/flycast.list
-LOCAL_REQUIRED_MODULES := foss-Flycast-firstrun-dreamcast foss-Flycast-firstrun-arcade
+LOCAL_REQUIRED_MODULES := foss-Flycast-firstrun-emucfg foss-Flycast-firstrun-dreamcast foss-Flycast-firstrun-arcade
 include $(BUILD_PREBUILT)
 
 include $(CLEAR_VARS)
@@ -50,4 +50,13 @@ LOCAL_MODULE_TAGS := optional
 LOCAL_MODULE_RELATIVE_PATH := gameconsole/firstrun/flycast
 LOCAL_MODULE_STEM := arcade.cfg
 LOCAL_SRC_FILES := firstrun/flycast/arcade.cfg
+include $(BUILD_PREBUILT)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := foss-Flycast-firstrun-emucfg
+LOCAL_MODULE_CLASS := ETC
+LOCAL_MODULE_TAGS := optional
+LOCAL_MODULE_RELATIVE_PATH := gameconsole/firstrun/flycast
+LOCAL_MODULE_STEM := emu.cfg
+LOCAL_SRC_FILES := firstrun/flycast/emu.cfg
 include $(BUILD_PREBUILT)

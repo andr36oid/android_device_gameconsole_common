@@ -3,8 +3,11 @@
 # (getExternalFilesDir), maps are mappings/<api>_<device name>[_arcade].cfg
 # (core/input/gamepad_device.cpp make_mapping_filename). Flycast writes its
 # shared_prefs (home_directory) on its first start, so they mean "has run".
+# emu.cfg: two speed settings (auto frame skip, per-strip sorting); Flycast
+# reads it from the same home folder (core/cfg/cfg.cpp).
 # See ../../README.md, "First-start settings".
 package com.flycast.emulator
 unless data shared_prefs/com.flycast.emulator_preferences.xml
+ext emu.cfg emu.cfg
 ext dreamcast.cfg mappings/Android_GO-Super Gamepad.cfg
 ext arcade.cfg mappings/Android_GO-Super Gamepad_arcade.cfg
