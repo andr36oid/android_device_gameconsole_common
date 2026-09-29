@@ -134,7 +134,9 @@ public class BetaAppsActivity extends Activity {
             mRows.add(row);
         }
 
-        registerReceiver(mResultReceiver, new IntentFilter(ACTION_INSTALL_RESULT));
+        // Only the installer result (sent as us, the system uid) may reach this receiver
+        registerReceiver(mResultReceiver, new IntentFilter(ACTION_INSTALL_RESULT),
+                android.Manifest.permission.INSTALL_PACKAGES, null);
 
         final LinearLayout root = new LinearLayout(this);
         root.setOrientation(LinearLayout.VERTICAL);
