@@ -777,6 +777,14 @@ PRODUCT_PRODUCT_PROPERTIES += \
 PRODUCT_PROPERTY_OVERRIDES += \
 pm.dexopt.downgrade_after_inactive_days=10
 
+# First boot: the apps that can't be compiled at build time (PermissionController,
+# MediaProvider, ExtServices, Tethering, OsuLogin in the APEXes, ~6 MB of code) are
+# compiled while system_server starts, which holds up the first boot. verify skips
+# the quicken pass (Android 12 does the same); the idle compile later turns them
+# into speed-profile anyway.
+PRODUCT_PROPERTY_OVERRIDES += \
+	pm.dexopt.first-boot=verify
+
 # Dedupe VNDK libraries with identical core variants.
 TARGET_VNDK_USE_CORE_VARIANT := true
 
