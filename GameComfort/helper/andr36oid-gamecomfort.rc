@@ -1,0 +1,9 @@
+on post-fs-data
+    mkdir /data/misc/andr36oid-gamecomfort 0770 system system
+
+# Started by Game comfort ("Continue playing") with ctl.start, see andr36oid-gamecomfort.sh
+service andr36oid-gamecomfort /system/bin/sh /system/etc/andr36oid-gamecomfort.sh
+    user root
+    group root system media_rw
+    disabled
+    oneshot

@@ -130,8 +130,13 @@ final class GameMode {
         if (prefs.getBoolean(KEY_TILE_ADDED, false)) {
             return;
         }
+        addTile(context, new ComponentName(context, GameModeTileService.class));
+        prefs.edit().putBoolean(KEY_TILE_ADDED, true).apply();
+    }
+
+    /** Adds a tile at the end of Quick Settings, unless it is there already. */
+    static void addTile(Context context, ComponentName tile) {
         final ContentResolver resolver = context.getContentResolver();
-        final ComponentName tile = new ComponentName(context, GameModeTileService.class);
         final String spec = "custom(" + tile.flattenToShortString() + ")";
         String tiles = Settings.Secure.getString(resolver, Settings.Secure.QS_TILES);
         if (TextUtils.isEmpty(tiles)) {
@@ -141,6 +146,5 @@ final class GameMode {
         if (!Arrays.asList(tiles.split(",")).contains(spec)) {
             Settings.Secure.putString(resolver, Settings.Secure.QS_TILES, tiles + "," + spec);
         }
-        prefs.edit().putBoolean(KEY_TILE_ADDED, true).apply();
     }
 }

@@ -87,8 +87,37 @@
             </intent-filter>
         </service>
 
+        <!-- Continue playing: brings back the last game and closes, no window of its own.
+             Started by its tile, by the power menu and by FN + A (PhoneWindowManager). -->
+        <activity
+            android:name=".ContinueActivity"
+            android:excludeFromRecents="true"
+            android:exported="true"
+            android:label="@string/continue_title"
+            android:noHistory="true"
+            android:permission="android.permission.DEVICE_POWER"
+            android:taskAffinity=""
+            android:theme="@android:style/Theme.Translucent.NoTitleBar">
+            <intent-filter>
+                <action android:name="org.andr36oid.gamecomfort.action.CONTINUE" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <!-- Added to Quick Settings once, on the first boot; long press opens Game mode -->
+        <service
+            android:name=".ContinueTileService"
+            android:exported="true"
+            android:icon="@drawable/ic_continue"
+            android:label="@string/continue_title"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
+
         <!-- Waits for battery changes while the warning is on, and watches the app in front
-             while automatic game mode is on. Not started otherwise. -->
+             (Continue playing, automatic game mode). -->
         <service
             android:name=".ComfortService"
             android:exported="false" />

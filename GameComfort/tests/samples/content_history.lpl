@@ -1,0 +1,36 @@
+{
+  "version": "1.5",
+  "default_core_path": "",
+  "default_core_name": "",
+  "label_display_mode": 0,
+  "right_thumbnail_mode": 0,
+  "left_thumbnail_mode": 0,
+  "thumbnail_match_mode": 0,
+  "sort_mode": 0,
+  "items": [
+    {
+      "path": "/storage/1234-ABCD/gba/Pokémon - Emerald Version (USA, Europe) [!].gba",
+      "label": "",
+      "core_path": "/data/user/0/com.retroarch/cores/mgba_libretro_android.so",
+      "core_name": "Nintendo - Game Boy Advance (mGBA)",
+      "crc32": "",
+      "db_name": ""
+    },
+    {
+      "path": "/storage/1234-ABCD/nes/Super Mario Bros. (World).zip#Super Mario Bros. (World).nes",
+      "label": "Mario \"the\" Plumber",
+      "core_path": "/data/user/0/com.retroarch/cores/fceumm_libretro_android.so",
+      "core_name": "Nintendo - NES / Famicom (FCEUmm)",
+      "crc32": "3337EC46|crc",
+      "db_name": "Nintendo - Nintendo Entertainment System.lpl"
+    },
+    {
+      "path": "/storage/emulated/0/Download/test.gb",
+      "label": "test",
+      "core_path": "DETECT",
+      "core_name": "DETECT",
+      "crc32": "",
+      "db_name": ""
+    }
+  ]
+}

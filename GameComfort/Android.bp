@@ -2,6 +2,9 @@
 // so there is time to save before the console turns off.
 // Settings > Game mode and its Quick Settings tile: Do Not Disturb and no pop-up
 // notifications while playing, optionally switched by the app in front.
+// Continue playing (Game mode page, its own tile, FN + A, power menu): back into the last
+// game, with RetroArch's and PPSSPP's own last game file; the files are read by the
+// andr36oid-gamecomfort init service (Android.mk). Host tests: tests/run-tests.sh.
 // Runs as the system user, which may draw a system overlay window, change Do Not Disturb
 // and watch the task stack.
 android_app {
