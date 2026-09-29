@@ -199,6 +199,22 @@ LOCAL_MODULE                         := remove-android.hardware.cas@1.2-service
 EXECUTABLES.remove-android.hardware.cas@1.2-service.OVERRIDES := android.hardware.cas@1.2-service
 include $(BUILD_PHONY_PACKAGE)
 
+# Work profile / managed device setup, DSU (GSI) loader and the Launcher2 dialer-icon fixer: none can be used here, all three start a process at every boot.
+include $(CLEAR_VARS)
+LOCAL_MODULE                         := remove-ManagedProvisioning
+EXECUTABLES.remove-ManagedProvisioning.OVERRIDES := ManagedProvisioning
+include $(BUILD_PHONY_PACKAGE)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE                         := remove-DynamicSystemInstallationService
+EXECUTABLES.remove-DynamicSystemInstallationService.OVERRIDES := DynamicSystemInstallationService
+include $(BUILD_PHONY_PACKAGE)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE                         := remove-OneTimeInitializer
+EXECUTABLES.remove-OneTimeInitializer.OVERRIDES := OneTimeInitializer
+include $(BUILD_PHONY_PACKAGE)
+
 # if some modules are built directly from this directory (not subdirectories),
 # their rules should be written here.
 

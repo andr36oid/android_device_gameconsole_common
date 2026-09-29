@@ -579,6 +579,12 @@ PRODUCT_PACKAGES += \
 	InProcessNetworkStack \
 	com.android.tethering.inprocess
 
+# App prune 1: apps that start at every boot but can't do anything on this console (work profile setup, DSU loader, old launcher fixer)
+PRODUCT_PACKAGES += \
+	remove-ManagedProvisioning \
+	remove-DynamicSystemInstallationService \
+	remove-OneTimeInitializer
+
 # Hide features we do not want services started for (backup).
 PRODUCT_COPY_FILES += \
 	$(LOCAL_PATH)/configs/permissions/gameconsole_unavailable_features.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/gameconsole_unavailable_features.xml
