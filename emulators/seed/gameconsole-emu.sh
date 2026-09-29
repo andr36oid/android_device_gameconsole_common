@@ -12,7 +12,8 @@
 #    older installed version gets upgraded when the ROM ships a newer one.
 # 2. Gives RetroArch a profile for the built-in pad and, on a fresh install
 #    only, ArkOS-like settings (hotkeys, saves next to the game). A
-#    retroarch.cfg that exists is never touched.
+#    retroarch.cfg that exists is never touched. Core option defaults for
+#    the slow Cortex-A35 (retroarch-core-options.cfg) go next to it.
 # 3. Seeds the bundled libretro cores into RetroArch's core directory, which is
 #    where both RetroArch and Daijishou's RetroArch players look for them.
 #    Cores the user replaced (e.g. via RetroArch's online updater) are kept.
@@ -235,6 +236,44 @@ seed_retroarch() {
 	# IStorageManager.fixupAppDir, transaction 89 + 1
 	service call mount 90 s16 "$RA_EXT_PUBLIC" </dev/null >/dev/null 2>&1
 	log "seeded retroarch.cfg"
+}
+
+# seed_core_options ; core option defaults tuned for the Cortex-A35
+# ($BASE/retroarch/retroarch-core-options.cfg), next to retroarch.cfg.
+# RetroArch reads this file for every core that has no options file of its own
+# yet (config/<core>/<core>.opt); once the user changes an option, RetroArch
+# writes that per-core file and this one no longer matters for the core.
+# Written when missing, updated by a newer ROM only while unchanged.
+seed_core_options() {
+	local src=$BASE/retroarch/retroarch-core-options.cfg
+	local dest=$RA_EXT/retroarch-core-options.cfg f=retroarch-core-options.cfg
+	local manifest=$RA_DATA/.gameconsole/seeded.sha1 owner
+
+	[ -f "$src" ] && [ -d "$RA_DATA" ] || return 0
+	# RetroArch's folder exists once it ran or seed_retroarch made it
+	[ -d "$RA_EXT" ] || return 0
+	touch "$manifest"
+	if [ -e "$dest" ]; then
+		[ "$(sha1 "$dest")" = "$(sha1 "$src")" ] && return 0
+		if ! grep -q "^$(sha1 "$dest") $f\$" "$manifest"; then
+			log "keeping user provided $f"
+			return 0
+		fi
+	fi
+	owner=$(stat -c %u "$RA_DATA")
+	if ! { cp "$src" "$dest.tmp" && mv -f "$dest.tmp" "$dest"; }; then
+		log "writing $dest failed"
+		rm -f "$dest.tmp"
+		return 0
+	fi
+	chown "$owner:$AID_EXT_DATA_RW" "$dest"
+	chmod 0660 "$dest"
+	restorecon "$dest" 2>/dev/null
+	grep -v " $f\$" "$manifest" >"$manifest.new"
+	echo "$(sha1 "$dest") $f" >>"$manifest.new"
+	mv -f "$manifest.new" "$manifest"
+	chown "$(stat -c %u:%g "$RA_DATA")" "$manifest"
+	log "seeded $f"
 }
 
 seed_cores() {
@@ -802,6 +841,7 @@ done
 first_start
 install_apks
 seed_retroarch
+seed_core_options
 seed_cores
 find_easyroms
 make_rom_folders

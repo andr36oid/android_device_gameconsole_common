@@ -73,7 +73,8 @@ LOCAL_MODULE_RELATIVE_PATH := gameconsole/preinstall
 LOCAL_MODULE_STEM := RetroArch.apk
 LOCAL_SRC_FILES := preinstall/RetroArch.apk
 LOCAL_NOTICE_FILE := $(LOCAL_PATH)/preinstall/NOTICE-RetroArch.txt
-LOCAL_REQUIRED_MODULES := gameconsole-emu gameconsole-retroarch-cfg gameconsole-retroarch-pad
+LOCAL_REQUIRED_MODULES := gameconsole-emu gameconsole-retroarch-cfg gameconsole-retroarch-pad \
+    gameconsole-retroarch-core-options
 include $(BUILD_PREBUILT)
 
 # RetroArch settings for a fresh install and the built-in pad's profile,
@@ -94,6 +95,17 @@ LOCAL_MODULE_TAGS := optional
 LOCAL_MODULE_RELATIVE_PATH := gameconsole/retroarch/autoconfig
 LOCAL_MODULE_STEM := GO-Super_Gamepad.cfg
 LOCAL_SRC_FILES := seed/retroarch/GO-Super_Gamepad.cfg
+include $(BUILD_PREBUILT)
+
+# Core option defaults for the Cortex-A35 (N64 at 320x240, threaded
+# renderers, ...), read by RetroArch for cores without their own options file
+include $(CLEAR_VARS)
+LOCAL_MODULE := gameconsole-retroarch-core-options
+LOCAL_MODULE_CLASS := ETC
+LOCAL_MODULE_TAGS := optional
+LOCAL_MODULE_RELATIVE_PATH := gameconsole/retroarch
+LOCAL_MODULE_STEM := retroarch-core-options.cfg
+LOCAL_SRC_FILES := seed/retroarch/retroarch-core-options.cfg
 include $(BUILD_PREBUILT)
 
 include $(CLEAR_VARS)

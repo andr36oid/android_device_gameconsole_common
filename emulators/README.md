@@ -6,16 +6,27 @@ What ships, and how it gets onto the device:
 |---|---|---|---|
 | RetroArch (F-Droid, `com.retroarch`) | 1.22.2 | GPL-3.0-only | 30.9 MB (APK) |
 | PPSSPP (F-Droid, `org.ppsspp.ppsspp`) | 1.19.3 | GPL-2.0-or-later | 41.3 MB (APK) |
-| libretro cores, FOSS tier (13) | pinned commits | GPL/AGPL/MPL/Zlib | 4.1 MB (tar.gz) |
-| libretro cores, non-commercial tier (3, opt-in) | pinned commits | non-commercial | 2.5 MB (tar.gz) |
+| libretro cores, FOSS tier (29) | pinned commits | GPL/LGPL/AGPL/MPL/MIT/Zlib/Artistic | 22.6 MB (tar.gz), 93 MB unpacked |
+| libretro cores, non-commercial tier (9, opt-in) | pinned commits | non-commercial | 30.0 MB (tar.gz), 128 MB unpacked |
 
-FOSS cores: fceumm (NES), gambatte (GB/GBC), mgba + gpsp (GBA), pcsx_rearmed (PS1),
-mednafen_pce_fast (PCE/TG16), gearsystem (SMS/GG/SG-1000), clownmdemu (MD/Mega CD),
-mednafen_ngp (NGP/NGPC), mednafen_wswan (WS/WSC), stella2014 (2600), prosystem (7800),
-handy (Lynx).
+FOSS cores: nestopia + fceumm (NES/FDS), gambatte (GB/GBC), mgba + gpsp (GBA),
+mupen64plus_next_gles3 (N64), pcsx_rearmed (PS1), mednafen_pce_fast (PCE/TG16/PCE CD),
+mednafen_supergrafx (SuperGrafx), gearsystem (SMS/GG/SG-1000), clownmdemu (MD/Mega CD),
+mednafen_ngp (NGP/NGPC), mednafen_wswan (WS/WSC), mednafen_vb (Virtual Boy), pokemini,
+gw (Game & Watch), stella2014 (2600), a5200 (5200), prosystem (7800), handy (Lynx),
+o2em (Videopac/Odyssey 2), freeintv (Intellivision), bluemsx (MSX/ColecoVision),
+fuse (ZX Spectrum), puae2021 (Amiga), dosbox_pure (DOS), prboom (Doom), fake08 (PICO-8),
+easyrpg (RPG Maker 2000/2003).
 
-Non-commercial cores (`GAMECONSOLE_EMU_NONCOMMERCIAL_CORES := true`): snes9x2010 (SNES),
-genesis_plus_gx and picodrive (MD/SMS/GG/Sega CD/32X).
+Non-commercial cores (`GAMECONSOLE_EMU_NONCOMMERCIAL_CORES := true`): snes9x2010 and
+snes9x (SNES), genesis_plus_gx and picodrive (MD/SMS/GG/Sega CD/32X), fbneo (arcade,
+Neo Geo, CPS), mame2003_plus (arcade), neocd (Neo Geo CD; MAME Z80 core), vice_x64 (C64;
+built-in Commodore ROMs), vecx (Vectrex; built-in system ROM).
+
+Every core is checked by `scripts/check-armv80.py` when it is built: no ARMv8.1+
+instructions (LSE atomics and friends; the Cortex-A35 is ARMv8.0). Compiler
+outline-atomics helpers, which test for LSE at run time, are allowed.
+`libretro/cores.sha256` pins every core file.
 
 ## How it works
 
@@ -114,6 +125,24 @@ RetroArch 1.22.2 targets SDK 28 with `requestLegacyExternalStorage` and gets the
 permissions from `pm install -g`, so it reads `/storage/<uuid>` like it reads the games.
 Settings > Emulator files checks what is in that folder.
 
+### Core options
+
+`seed/retroarch/retroarch-core-options.cfg` goes to
+`Android/data/com.retroarch/files/retroarch-core-options.cfg`, next to retroarch.cfg.
+RetroArch (per-core options, its default) reads that file for any core that has no
+`config/<core>/<core>.opt` yet and copies the values into that file on first use; after
+that the user's own changes win. So it works for existing installs too, for every core
+they haven't run yet. The service writes it when missing and updates it with a newer
+ROM only while the user hasn't edited it (same manifest as the pad profile).
+
+It only holds values that differ from the core defaults (plus the recompilers, pinned):
+PCSX ReARMed simple sound interpolation and frameskip only against crackling;
+Mupen64Plus-Next at 320x240 with GLideN64 threaded and no frame buffer copies to N64
+memory; Snes9x 2010 threaded renderer and frameskip only against crackling; MAME
+2003-Plus no disclaimer screens and 22 kHz sound; PUAE 2021 "compatible" CPU timing
+and low resolution; VICE without true drive emulation. The keys and values are checked
+against the core sources at the pinned commits.
+
 PPSSPP isn't seeded: it stores its settings (and `controls.ini`) in the memory stick
 folder the user picks on its first start, so there is nothing to seed before that.
 
@@ -183,6 +212,11 @@ emulators/scripts/fetch-apks.sh
 # cores: edit commits in cores.lock, then (NDK r27c gets downloaded if $ANDROID_NDK_HOME is unset)
 emulators/scripts/build-cores.sh
 ```
+
+Only cores whose commit changed are rebuilt; the others are taken from the current
+archive after a sha256 check (`--rebuild` builds everything; the old binaries are not
+byte-reproducible on another machine). EasyRPG builds with `scripts/cores/easyrpg.sh`,
+which also builds its libraries (needs `meson`, `ninja`, autotools and ~20 minutes).
 
 Both regenerate the NOTICE files next to the binaries; commit them together.
 The `.apk` and `.tar.gz` files go through git LFS.
