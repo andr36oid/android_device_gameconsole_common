@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="play_time_title">Spielzeit</string>
+    <string name="play_time_summary">Wie lange du gespielt hast, deine Top-Spiele und Pausenerinnerungen</string>
+
+    <!-- Header above the week chart -->
+    <string name="today">Heute: <xliff:g id="time">%1$s</xliff:g></string>
+    <string name="this_week">Letzte 7 Tage: <xliff:g id="time">%1$s</xliff:g></string>
+
+    <string name="most_played">Meistgespielt, letzte 7 Tage</string>
+    <string name="nothing_played">Noch nichts. Los, spiel was!</string>
+    <!-- Summary of an app in the most played list: time, and the share of all play time -->
+    <string name="app_time"><xliff:g id="time">%1$s</xliff:g> · <xliff:g id="percent">%2$d</xliff:g>%%</string>
+
+    <string name="breaks">Pausen</string>
+    <string name="break_reminder">An Pause erinnern</string>
+    <string-array name="break_entries">
+        <item>Nie</item>
+        <item>Nach 30 Minuten</item>
+        <item>Nach 45 Minuten</item>
+        <item>Nach 1 Stunde</item>
+        <item>Nach 1 Stunde 30 Minuten</item>
+        <item>Nach 2 Stunden</item>
+    </string-array>
+    <string name="about">Die Spielzeit zählt, wie lange eine App auf dem Bildschirm geöffnet ist. Der Startbildschirm, die Einstellungen und ausgeschalteter Bildschirm zählen nicht.\n\nDie Pausenerinnerung zählt, wie lange der Bildschirm an ist. Eine Pause von 2 Minuten oder mehr startet die Zählung neu.</string>
+
+    <!-- Durations -->
+    <string name="duration_min"><xliff:g id="minutes">%1$d</xliff:g> min</string>
+    <string name="duration_h"><xliff:g id="hours">%1$d</xliff:g> h</string>
+    <string name="duration_h_min"><xliff:g id="hours">%1$d</xliff:g> h <xliff:g id="minutes">%2$d</xliff:g> min</string>
+
+    <!-- Break reminder notification -->
+    <string name="channel_name">Pausenerinnerungen</string>
+    <string name="break_title">Du spielst schon seit <xliff:g id="time">%1$s</xliff:g></string>
+    <string name="break_text">Zeit für eine kurze Pause? Gönn deinen Augen Ruhe und streck dich ein bisschen, dein Spiel wartet.</string>
+    <string name="break_text_battery">Zeit für eine kurze Pause? Gönn deinen Augen Ruhe und streck dich ein bisschen. Akku bei <xliff:g id="percent">%1$d</xliff:g>%%.</string>
+</resources>

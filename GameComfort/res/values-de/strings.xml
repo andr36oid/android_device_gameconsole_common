@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="app_name">Spielkomfort</string>
+
+    <!-- Low battery warning, Settings > Battery -->
+    <string name="warning_title">Warnung bei niedrigem Akku</string>
+    <string name="warning_summary">Warnung über dem Spiel, damit du rechtzeitig speichern kannst</string>
+    <string name="warning_when">Warnen bei</string>
+    <string-array name="warning_entries">
+        <item>Aus</item>
+        <item>15 % und 5 %</item>
+        <item>Nur 5 %</item>
+    </string-array>
+    <string name="warning_preview">Testwarnung anzeigen</string>
+    <string name="warning_about">Die normale Android-Benachrichtigung bei niedrigem Akku übersieht man in einem Vollbildspiel leicht. Stattdessen erscheint hier ein kurzes Banner oben über den Bildschirm, einmal pro Stufe, solange die Konsole im Akkubetrieb läuft. Das Spiel behält dabei die Tasten.\n\nIst der Akku leer, schaltet sich die Konsole selbst aus und alles nicht Gespeicherte geht verloren.</string>
+
+    <!-- The banner on top of the game -->
+    <string name="banner_text">Akku <xliff:g id="percent">%1$d</xliff:g> %% – jetzt speichern</string>
+
+    <!-- Game mode, Settings home page and Quick Settings tile -->
+    <string name="game_mode_title">Spielmodus</string>
+    <string name="game_mode_summary">„Bitte nicht stören“ und keine Pop-up-Benachrichtigungen beim Spielen</string>
+    <string name="game_mode_now">Spielmodus</string>
+    <string name="game_mode_now_summary">Schaltet „Bitte nicht stören“ (nur wichtige Unterbrechungen) ein und verhindert, dass Benachrichtigungen über dem Spiel aufpoppen</string>
+    <string name="game_mode_automatic">Automatisch einschalten</string>
+    <string name="game_mode_automatic_summary">An, solange ein Spiel oder Emulator geöffnet ist, aus, wenn du ihn verlässt</string>
+    <string name="game_mode_profile">Leistungsprofil beim Spielen</string>
+    <string-array name="game_mode_profile_entries">
+        <item>Nicht ändern</item>
+        <item>Leistung</item>
+        <item>Ausgewogen</item>
+        <item>Energiesparen</item>
+    </string-array>
+    <string name="game_mode_about">Wenn der Spielmodus endet, werden „Bitte nicht stören“ und Pop-up-Benachrichtigungen wieder so, wie sie vorher waren. Änderst du „Bitte nicht stören“ in der Zwischenzeit selbst, bleibt deine Änderung.\n\nEine App gilt als Spiel, wenn sie sich selbst als Spiel ausgibt oder einer der gängigen Emulatoren wie RetroArch oder PPSSPP ist.\n\nAuch dein vorheriges Leistungsprofil kommt zurück, außer du hast beim Spielen ein anderes gewählt.\n\nWas „Bitte nicht stören“ durchlässt, legst du unter Einstellungen &gt; Töne &gt; Bitte nicht stören fest.</string>
+    <string name="tile_on">An</string>
+    <string name="tile_off">Aus</string>
+    <string name="tile_automatic">Automatisch</string>
+</resources>

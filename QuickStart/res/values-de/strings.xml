@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="guide_title">Kurzanleitung</string>
+    <string name="guide_summary">Tasten, Shortcuts, deine Spiele und Hilfe, wenn etwas nicht klappt</string>
+
+    <!-- Bottom bar: what the buttons do in the guide -->
+    <string name="hint_choose">Auswählen</string>
+    <string name="hint_read">Lesen</string>
+    <string name="hint_scroll">Scrollen</string>
+    <string name="hint_page">Thema</string>
+    <string name="hint_back">Themen</string>
+    <string name="hint_close">Schließen</string>
+    <!-- Joins two buttons pressed together, e.g. "FN + Start" -->
+    <string name="key_plus">+</string>
+    <!-- Between two alternative buttons, e.g. "L1 / R1" -->
+    <string name="key_or">/</string>
+
+    <!-- Welcome -->
+    <string name="welcome_title">Willkommen</string>
+    <string name="welcome_intro">andr36oid macht aus dieser Konsole einen Android-Handheld. Spiele, Emulatoren und Apps laufen alle mit den Tasten, ganz ohne Touchscreen.</string>
+    <string name="welcome_choose">Thema auswählen</string>
+    <string name="welcome_read">Lesen, das Steuerkreuz scrollt dann</string>
+    <string name="welcome_page">Vorheriges oder nächstes Thema</string>
+    <string name="welcome_tutorial">Die Tasten noch einmal im Tutorial ausprobieren</string>
+    <string name="welcome_close">Anleitung schließen</string>
+    <string name="welcome_again">Du kannst diese Anleitung jederzeit wieder über Einstellungen &gt; Kurzanleitung öffnen.</string>
+
+    <!-- Buttons -->
+    <string name="buttons_title">Tasten</string>
+    <string name="buttons_a">Auswählen, bestätigen</string>
+    <string name="buttons_b">Zurück</string>
+    <string name="buttons_fn">Startbildschirm</string>
+    <string name="buttons_power_tap">Kurz: Standby und Aufwecken</string>
+    <string name="buttons_power_hold">Halten: Ein-/Aus-Menü mit Startbildschirm, App-Übersicht, Hintergrund-Apps schließen, Ausschalten und Neustart</string>
+    <string name="buttons_volume">Lautstärke</string>
+    <string name="buttons_select">Menü in Apps, die eins haben</string>
+    <string name="buttons_stick">Der linke Stick bewegt sich wie das Steuerkreuz</string>
+
+    <!-- FN shortcuts -->
+    <string name="shortcuts_title">FN-Shortcuts</string>
+    <string name="shortcuts_intro">Halte FN und drück eine zweite Taste. FN allein führt weiterhin zum Startbildschirm.</string>
+    <string name="shortcuts_brightness">Bildschirm heller oder dunkler</string>
+    <string name="shortcuts_screenshot">Screenshot, gespeichert in Pictures/Screenshots</string>
+    <string name="shortcuts_last_app">Zurück zur vorher genutzten App</string>
+    <string name="shortcuts_panel">Benachrichtigungen und Schnelleinstellungen</string>
+    <string name="shortcuts_mouse">Joystick-Maus an oder aus</string>
+    <string name="shortcuts_profile">Nächstes Leistungsprofil</string>
+    <string name="shortcuts_overlay">Leistungs-Overlay an oder aus</string>
+    <string name="shortcuts_touch">Editor für Touch-Steuerung, im Spiel</string>
+    <string name="shortcuts_hold_help">Einen vergessen? Halte FN allein kurz gedrückt, in jeder App und jedem Spiel, dann erscheint diese Liste. Lass FN los, um sie zu schließen.</string>
+
+    <!-- Games -->
+    <string name="games_title">Deine Spiele</string>
+    <string name="games_where">Spiele kommen auf die EASYROMS-Partition der SD-Karte. Am Computer erscheint die Karte als Laufwerk namens EASYROMS. Auf der Konsole ist es der Speicher EASYROMS in der App „Dateien“.</string>
+    <string name="games_folders">Gib jedem System einen eigenen Ordner, benannt wie nes, snes, gb, gba, megadrive oder psx. Karten, die für ArkOS oder dArkOS eingerichtet sind, nutzen diese Namen schon, ihre Spiele funktionieren also direkt.</string>
+    <string name="games_folders_ready">Die Konsole legt diese Ordner auf EASYROMS selbst an, mit einer README, die auflistet, welches System wohin gehört.</string>
+    <string name="games_wifi_transfer">Kein Computer oder Kartenleser zur Hand? Öffne Wi-Fi transfer auf der Konsole und scanne den QR-Code mit deinem Smartphone oder gib die angezeigte Adresse in einen Browser im selben Netzwerk ein, um Spiele direkt auf EASYROMS zu schicken.</string>
+    <string name="games_library">Daijishou, der Startbildschirm, macht aus diesen Ordnern eine Spielebibliothek: Füge eine Plattform hinzu und wähle ihren Ordner auf EASYROMS.</string>
+
+    <!-- Emulators -->
+    <string name="emulators_title">Emulatoren</string>
+    <string name="emulators_included">RetroArch und PPSSPP sind vorinstalliert. RetroArch hat schon die Cores für NES, SNES, Game Boy, GBA, Mega Drive, Master System, Game Gear, PlayStation, PC Engine, Neo Geo Pocket, WonderSwan, Atari 2600, 7800 und Lynx.</string>
+    <string name="emulators_psp">PSP-Spiele laufen in PPSSPP. PlayStation-Spiele starten ohne BIOS, laufen aber am besten mit einem im Ordner bios auf EASYROMS.</string>
+    <string name="emulators_updates">Die Emulatoren sind ganz normale Apps: F-Droid kann sie aktualisieren und du kannst sie deinstallieren.</string>
+
+    <!-- Speed and battery -->
+    <string name="speed_title">Geschwindigkeit und Akku</string>
+    <string name="speed_profiles">Unter Einstellungen &gt; Leistung gibt es drei Profile: Energiesparen für lange Sessions mit älteren Systemen, Ausgewogen für den Alltag, Leistung für PS1, N64 und PSP. Die Kachel in den Schnelleinstellungen wechselt ebenfalls zwischen ihnen.</string>
+    <string name="speed_overclock_alone">Einstellungen &gt; CPU-Übertaktung (experimentell) lässt den Prozessor für anspruchsvolle Spiele schneller als normal laufen. Ein Neustart schaltet sie aus. Friert die Konsole ein, wähle einen niedrigeren Takt.</string>
+    <string name="speed_overclock">CPU-Übertaktung (experimentell) auf derselben Seite lässt den Prozessor für anspruchsvolle Spiele schneller als normal laufen. Ein Neustart schaltet sie aus. Friert die Konsole ein, wähle einen niedrigeren Takt.</string>
+    <string name="speed_screen">Der Bildschirm braucht den meisten Strom. Weniger Helligkeit heißt längere Spielzeit.</string>
+
+    <!-- Mouse and button mapping -->
+    <string name="mouse_title">Maus und Tasten</string>
+    <string name="mouse_toggle">Beide Sticks eine Sekunde lang eingedrückt halten: Joystick-Maus an oder aus</string>
+    <string name="mouse_pointer">Zeiger bewegen</string>
+    <string name="mouse_click">Klicken, R1 halten zum Ziehen</string>
+    <string name="mouse_right_click">Rechtsklick</string>
+    <string name="mouse_scroll">Scrollen</string>
+    <string name="mouse_settings">Einstellungen &gt; Joystick-Maus ändert Geschwindigkeit, Tasten und die Kombination.</string>
+    <string name="mapping_settings">Einstellungen &gt; Tastenbelegung tauscht Tasten, mit Profilen für verschiedene Spiele.</string>
+    <string name="mapping_reset">Ausgesperrt? Halte beide Lautstärketasten 5 Sekunden lang gedrückt, dann sind alle Tasten wieder normal.</string>
+
+    <!-- Touch controls -->
+    <string name="touch_title">Touch-Steuerung</string>
+    <string name="touch_intro">Manche Spiele funktionieren nur mit Touchscreen. Die Touch-Steuerung gibt so einem Spiel ein eigenes Layout: Jede Taste und jeder Stick tippt auf eine Stelle des Bildschirms. Es schaltet sich von selbst ein, solange dieses Spiel im Vordergrund ist; alle anderen Apps behalten die normalen Tasten.</string>
+    <string name="touch_open">Im Spiel: Editor darüber öffnen</string>
+    <string name="touch_settings">Oder geh zu Einstellungen &gt; Touch-Steuerung &gt; App hinzufügen. Das Spiel startet und der Editor öffnet sich darüber.</string>
+    <string name="touch_move">Fadenkreuz an eine Stelle bewegen</string>
+    <string name="touch_add">Dort ein Steuerelement hinzufügen, dann seine Taste drücken oder seinen Stick bewegen</string>
+    <string name="touch_size">Gewähltes Steuerelement kleiner oder größer machen</string>
+    <string name="touch_save">Speichern und zurück zum Spiel</string>
+    <string name="touch_kinds">Ein Steuerelement kann tippen, halten, wischen, als Bildschirm-Joystick dienen oder sich wie eine Kamera umsehen. Select im Editor bietet mehr: eine Umschalttaste für einen zweiten Satz Steuerelemente und die Beschriftungen auf dem Bildschirm.</string>
+    <string name="touch_other_buttons">Tasten ohne Steuerelement funktionieren weiter als normale Tasten, und FN mit seinen Shortcuts funktioniert immer.</string>
+
+    <!-- Internet -->
+    <string name="internet_title">Online gehen</string>
+    <string name="internet_wifi">Die meisten R36S-Konsolen haben kein eingebautes WLAN, manche Modelle wie die R36XX aber schon. Hat deine WLAN, schalte es einfach unter Einstellungen &gt; Netzwerk &amp; Internet ein. Wenn nicht, steck einen USB-WLAN-Adapter in den OTG-Anschluss, bei Bedarf mit USB-C-Adapter, und schalte dort WLAN ein.</string>
+    <string name="internet_browser">Cromite ist der Webbrowser.</string>
+
+    <!-- Troubleshooting -->
+    <string name="trouble_title">Fehlerbehebung</string>
+    <string name="trouble_intro">Die meisten Probleme lassen sich mit einem Computer und der SD-Karte beheben. Am Computer zeigt die Karte ein kleines Laufwerk namens BOOT (die Startdateien) und ein großes namens EASYROMS (deine Spiele).</string>
+    <string name="trouble_first_boot_q">Der erste Start dauert lange</string>
+    <string name="trouble_first_boot_a">Das ist normal. Beim ersten Start wird die SD-Karte eingerichtet und die Konsole startet von selbst neu, danach bereitet Android seine Apps vor. Gib ihr ein paar Minuten und schalte sie nicht aus.</string>
+    <string name="trouble_panel_q">Beim ersten Start bleibt der Bildschirm schwarz, aber die Konsole ist an</string>
+    <string name="trouble_panel_a">Deine Konsole hat einen anderen Bildschirm als den, für den diese Karte eingerichtet wurde. Öffne am Computer BOOT und dann Panels. Kopiere beide Dateien aus einem der Panel-Ordner nach oben in BOOT und ersetze die Dateien dort. Panel4 ist der Standard, probiere also die anderen nacheinander aus.</string>
+    <string name="trouble_stuck_q">Sie startet nach einem Update oder einem Magisk-Modul nicht mehr</string>
+    <string name="trouble_stuck_a">Starte sie ohne Root. Öffne am Computer BOOT und benenne ramdisk.uimg in ramdisk-magisk.uimg um, dann ramdisk-stock.uimg in ramdisk.uimg. Deine Apps und Spiele bleiben erhalten. Benenne sie später zurück, um wieder Root zu haben.</string>
+    <string name="trouble_frozen_q">Die Konsole ist eingefroren</string>
+    <string name="trouble_frozen_a">Halte die Ein-/Aus-Taste etwa 10 Sekunden lang, bis sie sich ausschaltet, und schalte sie dann wieder ein. Ist sie bei eingeschalteter CPU-Übertaktung eingefroren, wähle nächstes Mal einen niedrigeren Takt. Ein Neustart schaltet die Übertaktung immer aus.</string>
+    <string name="trouble_bios_q">Ein Spiel startet nicht oder nur mit schwarzem Bildschirm</string>
+    <string name="trouble_bios_a">Manche Systeme wie Sega CD und PC Engine CD brauchen eine Datei von der Originalkonsole (ein BIOS), und PlayStation-Spiele laufen mit einem besser. Lege diese Dateien in den Ordner bios auf EASYROMS. Einstellungen &gt; Emulatordateien zeigt, was fehlt.</string>
+    <string name="trouble_buttons_q">Die Tasten machen das Falsche</string>
+    <string name="trouble_recovery_q">Recovery und Werksreset</string>
+    <string name="trouble_recovery_a">Halte FN gedrückt, während du die Konsole einschaltest</string>
+    <string name="trouble_recovery_more">Das startet das Recovery-System, mit dem du auf Werkseinstellungen zurücksetzen oder Updates vom Computer installieren kannst. Das Zurücksetzen löscht deine Apps und Einstellungen, aber nicht die Spiele auf EASYROMS.</string>
+    <string name="trouble_clock_q">Datum oder Uhrzeit sind falsch</string>
+    <string name="trouble_clock_a">Die Konsole vergisst die Uhrzeit, wenn der Akku ganz leer wird. Stell sie unter Einstellungen &gt; System &gt; Datum und Uhrzeit ein. Mit Netzwerkverbindung stellt sie sich selbst, solange „Zeit aus Netzwerk verwenden“ an ist.</string>
+
+    <!-- USB and computers -->
+    <string name="usb_title">USB und Computer</string>
+    <string name="usb_card">Am einfachsten kopierst du Spiele, indem du die SD-Karte in einen Computer steckst und sie auf EASYROMS kopierst. Steck die Karte wieder ein, bevor du die Konsole einschaltest.</string>
+    <string name="usb_mode_q">Konsole mit einem Computer verbinden</string>
+    <string name="usb_mode_a">Schalte Einstellungen &gt; USB-Modus &gt; Mit Computer verbinden ein und steck dann ein Datenkabel in den OTG-Anschluss und einen USB-A-Anschluss am Computer. Wähle in der USB-Benachrichtigung „Dateiübertragung“. Controller und Adapter am OTG-Anschluss funktionieren währenddessen nicht, und ein Neustart schaltet es aus.</string>
+    <string name="usb_mode_wifi">Schalte das nie ein, wenn deine Konsole eingebautes WLAN hat, wie die R36XX. Diese Konsolen nutzen denselben USB-Anschluss für ihr WLAN, also funktioniert WLAN dann nicht mehr und kommt eventuell erst nach einem Neustart zurück. Der USB-Modus fragt vor dem Umschalten nach.</string>
+    <string name="usb_mode_charging">Nutze das nie, während die Konsole über ihren anderen Anschluss lädt. Zieh zuerst das Ladegerät ab. Wird ein Ladegerät angeschlossen, während es an ist, schaltet der USB-Modus zurück auf Zubehör.</string>
+    <string name="usb_adb">Für adb schalte außerdem USB-Debugging unter Einstellungen &gt; System &gt; Entwickleroptionen ein. Um die Entwickleroptionen anzuzeigen, klicke 7-mal auf „Build-Nummer“ unter Einstellungen &gt; Über die Konsole.</string>
+    <string name="usb_host_only">Der OTG-Anschluss ist für Zubehör: Controller, USB-Sticks und Netzwerkadapter. In diesem Build kann er keine Verbindung zu einem Computer herstellen.</string>
+    <string name="usb_dongles_q">Zubehör</string>
+    <string name="usb_dongles_a">Steck Zubehör in den OTG-Anschluss, bei Bedarf mit USB-C-Adapter oder kleinem Hub. USB-Controller, Tastaturen, Mäuse, USB-Sticks sowie WLAN-, Bluetooth- und Ethernet-Adapter funktionieren, wenn Android einen Treiber für ihren Chip hat. Adapter mit gängigen Realtek-Chips funktionieren am besten. Bei Konsolen mit eingebautem WLAN wie der R36XX kann etwas am OTG-Anschluss das eingebaute WLAN stören.</string>
+    <string name="usb_dongles_trouble">Es passiert nichts? Zieh es ab, warte ein paar Sekunden und steck es wieder ein. Manche Adapter brauchen mehr Strom, als der Anschluss liefert; ein Hub mit eigenem Netzteil hilft.</string>
+
+    <!-- SD card -->
+    <string name="card_title">SD-Karte</string>
+    <string name="card_layout">Die Karte enthält alles: Android, deine Apps und Daten (16 GB) sowie EASYROMS, das den Rest der Karte bekommt. EASYROMS nutzt exFAT, damit Windows, macOS und Linux es alle lesen können.</string>
+    <string name="card_noroms_q">Der ganze Platz für Apps, kein EASYROMS</string>
+    <string name="card_noroms_a">Leg vor dem allerersten Start eine leere Datei namens .noroms auf BOOT an. Der erste Start gibt dann die ganze Karte an die Apps. Das funktioniert nur mit einer frisch beschriebenen Karte. BIOS-Dateien kommen dann in den Ordner bios im internen Speicher.</string>
+    <string name="card_backup_q">Spielstände sichern</string>
+    <string name="card_backup_a">Spielstände, die neben den Spielen auf EASYROMS liegen, lassen sich am Computer leicht kopieren. Spielstände in einer App bleiben bei dieser App im Android-Teil der Karte. Sieh also in den Einstellungen jedes Emulators nach, wo er sie ablegt.</string>
+
+    <!-- Battery -->
+    <string name="battery_title">Akkupflege</string>
+    <string name="battery_percent_q">Die Akku-Prozentzahl scheint falsch</string>
+    <string name="battery_percent_a">Der Ladestandsmesser schätzt die Ladung und lernt dabei dazu. Wenn der Akku leer war oder die Konsole lange ungenutzt lag, lade sie eingeschaltet auf 100% und lass sie noch eine halbe Stunde am Ladegerät. So findet der Messer wieder den richtigen Stand.</string>
+    <string name="battery_details">Einstellungen &gt; Akku &gt; Akkudetails zeigt die Akkuspannung: Etwa 4,2 V ist voll, unter 3,5 V ist fast leer.</string>
+    <string name="battery_sleep_q">Standby oder ausschalten?</string>
+    <string name="battery_sleep_a">Standby (Ein-/Aus-Taste kurz drücken) ist gut für Pausen, verbraucht aber noch etwas Akku. Für mehr als einen Tag schalte die Konsole über das Ein-/Aus-Menü aus.</string>
+    <string name="battery_storage_q">Für längere Zeit weglegen</string>
+    <string name="battery_storage_a">Lade sie auf etwa die Hälfte und schalte sie aus. Lade sie alle paar Monate nach. Ein Akku, der lange ganz leer liegt, kann Schaden nehmen.</string>
+
+    <!-- Magisk -->
+    <!-- Community -->
+    <string name="community_title">Community</string>
+    <string name="community_text">Fragen, Tipps oder willst du einfach deine Konsole zeigen? Die andr36oid-Community findest du auf Telegram: t.me/andr36oid\n\nScanne den Code mit deinem Smartphone, um beizutreten.</string>
+    <string name="community_qr_description">QR-Code für t.me/andr36oid</string>
+
+    <string name="magisk_title">Root (Magisk)</string>
+    <string name="magisk_intro">Die Konsole hat Root über Magisk, aber es ist aus, bis du es einmal eingerichtet hast.</string>
+    <string name="magisk_setup_q">Root einschalten: zuerst Magisk einmal öffnen</string>
+    <string name="magisk_setup_a">Öffne die Magisk-App und lass sie ihre Einrichtung abschließen. Sie fragt, ob die Konsole neu starten soll: Sag Ja. Erst nach diesem Neustart hast du Root.</string>
+    <string name="magisk_use">Ab dann zeigen Apps, die Root anfordern, eine Abfrage: Erlaube oder verweigere es mit den Tasten. Die Magisk-App verwaltet Root-Zugriff und Module.</string>
+    <string name="magisk_modules">Root liegt im BOOT-Teil der Karte und bleibt daher bei System-Updates erhalten.</string>
+    <string name="magisk_broken_q">Ein Modul hat den Start kaputt gemacht</string>
+    <string name="magisk_broken_a">Siehe Fehlerbehebung: Tausche auf BOOT ramdisk.uimg gegen ramdisk-stock.uimg, dann startet die Konsole ohne Root und Module.</string>
+
+    <!-- Key names drawn in the badges that aren't just the printed label -->
+    <string name="key_dpad">Steuerkreuz</string>
+    <string name="key_power">Ein/Aus</string>
+    <string name="key_volume">Lautst.</string>
+    <string name="key_right_stick">R-Stick</string>
+    <string name="key_left_stick">L-Stick</string>
+</resources>

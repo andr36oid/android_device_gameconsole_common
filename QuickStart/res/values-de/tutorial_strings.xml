@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <!-- Hands-on tutorial that runs once after the setup wizard -->
+    <string name="tutorial_label">Tutorial</string>
+    <!-- Above the progress bar, e.g. "Step 3 of 11" -->
+    <string name="tutorial_step">Schritt <xliff:g id="current">%1$d</xliff:g> von <xliff:g id="total">%2$d</xliff:g></string>
+
+    <!-- Buttons at the bottom -->
+    <string name="tutorial_back">Zurück</string>
+    <string name="tutorial_start">Los</string>
+    <string name="tutorial_next">Weiter</string>
+    <string name="tutorial_skip_step">Schritt überspringen</string>
+    <string name="tutorial_skip_all">Tutorial überspringen</string>
+    <!-- On the FN steps, for consoles without an FN button: skips all of them -->
+    <string name="tutorial_no_fn">Keine FN-Taste</string>
+    <string name="tutorial_done">Fertig</string>
+    <string name="tutorial_open_guide">Ganze Anleitung öffnen</string>
+
+    <!-- Shown under the list once everything on a step was done -->
+    <string name="tutorial_well_done">Gut gemacht. Drück A, um weiterzumachen.</string>
+
+    <!-- Welcome -->
+    <string name="tutorial_welcome_title">Probieren wir die Tasten aus</string>
+    <string name="tutorial_welcome_body">Diese Konsole hat keinen Touchscreen. Alles funktioniert mit den Tasten, und in diesem kurzen Tutorial kannst du jede davon ausprobieren. Es dauert etwa drei Minuten.\n\nDrück A, um weiterzumachen, und B, um zurückzugehen. Drück Select, um einen Schritt zu überspringen, den du schon kennst.</string>
+
+    <!-- A, B, X, Y -->
+    <string name="tutorial_face_title">A, B, X und Y</string>
+    <string name="tutorial_face_body">A bestätigt: Es öffnet, was ausgewählt ist, und drückt Schaltflächen auf dem Bildschirm.\n\nB geht zurück, einen Bildschirm nach dem anderen.\n\nX und Y machen in jeder App und jedem Spiel etwas anderes.\n\nDrück jede davon einmal.</string>
+    <string name="tutorial_press_a">Drück A</string>
+    <string name="tutorial_press_b">Drück B</string>
+    <string name="tutorial_press_x">Drück X</string>
+    <string name="tutorial_press_y">Drück Y</string>
+
+    <!-- D-pad -->
+    <string name="tutorial_dpad_title">Steuerkreuz</string>
+    <string name="tutorial_dpad_body">Das Steuerkreuz bewegt die Auswahl über den Bildschirm: durch Listen, Menüs und Schaltflächen. Der linke Stick macht in Menüs dasselbe.\n\nDrück jede Richtung einmal.</string>
+    <string name="tutorial_dpad_up">Hoch</string>
+    <string name="tutorial_dpad_down">Runter</string>
+    <string name="tutorial_dpad_left">Links</string>
+    <string name="tutorial_dpad_right">Rechts</string>
+
+    <!-- Sticks -->
+    <string name="tutorial_sticks_title">Sticks</string>
+    <string name="tutorial_sticks_body">Spiele nutzen beide Sticks. Du kannst jeden Stick auch wie eine Taste eindrücken: Das sind L3 und R3.\n\nBewege beide Sticks und sieh zu, wie die Punkte ihnen folgen. Drück dann einen Stick ein.</string>
+    <string name="tutorial_stick_left">Linken Stick bewegen</string>
+    <string name="tutorial_stick_right">Rechten Stick bewegen</string>
+    <string name="tutorial_stick_click">Einen Stick eindrücken (L3 oder R3)</string>
+
+    <!-- Shoulder buttons -->
+    <string name="tutorial_shoulder_title">Schultertasten</string>
+    <string name="tutorial_shoulder_body">L1 und R1 sind die oberen Schultertasten, L2 und R2 die unteren. Viele Apps nutzen L1 und R1, um zwischen Tabs oder Seiten zu wechseln.\n\nDrück jede davon einmal.</string>
+    <string name="tutorial_press_l1">Drück L1</string>
+    <string name="tutorial_press_r1">Drück R1</string>
+    <string name="tutorial_press_l2">Drück L2</string>
+    <string name="tutorial_press_r2">Drück R2</string>
+
+    <!-- FN = home -->
+    <string name="tutorial_home_title">FN ist die Home-Taste</string>
+    <string name="tutorial_home_body">Drück FN allein, um von überall zum Startbildschirm zu kommen, sogar aus einem Spiel. Der Startbildschirm ist Daijishou, dort sind deine Spiele und Apps.\n\nProbier es jetzt: Drück FN. Dieses Tutorial kommt ein paar Sekunden später von selbst zurück.</string>
+    <string name="tutorial_home_task">Drück FN</string>
+    <string name="tutorial_home_back">Willkommen zurück. Mehr ist es nicht.</string>
+
+    <!-- FN + volume -->
+    <string name="tutorial_brightness_title">FN-Shortcuts: Helligkeit</string>
+    <string name="tutorial_brightness_body">FN hat eine zweite Aufgabe: Halte FN und drück eine andere Taste für einen Shortcut.\n\nHalte FN und drück Vol+, um den Bildschirm heller zu machen. Halte FN und drück Vol−, um ihn dunkler zu machen. Die Lautstärketasten allein ändern weiterhin die Lautstärke.</string>
+    <string name="tutorial_brightness_up">Heller: FN + Vol+</string>
+    <string name="tutorial_brightness_down">Dunkler: FN + Vol−</string>
+    <string name="tutorial_brightness_hint">Schon ganz hell? Fang mit dunkler an.</string>
+    <!-- After FN alone was pressed on a step that wants FN plus another button -->
+    <string name="tutorial_fn_alone">Das war FN allein, deshalb hat sich der Startbildschirm geöffnet. Halte FN gedrückt und drück dann die zweite Taste, während du FN weiter hältst.</string>
+
+    <!-- FN + Y -->
+    <string name="tutorial_shade_title">FN-Shortcuts: Schnelleinstellungen</string>
+    <string name="tutorial_shade_body">Halte FN und drück Y, um deine Benachrichtigungen und die Schnelleinstellungen zu öffnen, mit Kacheln für Dinge wie WLAN und Bluetooth.\n\nÖffne sie jetzt. FN + Y schließt sie wieder.</string>
+    <string name="tutorial_shade_open">Öffnen: FN + Y</string>
+
+    <!-- Joystick mouse -->
+    <string name="tutorial_mouse_title">Joystick-Maus</string>
+    <string name="tutorial_mouse_body">Einige Apps erwarten einen Touchscreen. Für sie kann der rechte Stick einen Mauszeiger bewegen. A klickt, L1 ist ein Rechtsklick und der linke Stick scrollt.\n\nZum Ein- oder Ausschalten halte beide Sticks eine Sekunde lang eingedrückt (L3 + R3).</string>
+    <string name="tutorial_mouse_body_fn">Einige Apps erwarten einen Touchscreen. Für sie kann der rechte Stick einen Mauszeiger bewegen. A klickt, L1 ist ein Rechtsklick und der linke Stick scrollt.\n\nZum Ein- oder Ausschalten halte beide Sticks eine Sekunde lang eingedrückt (L3 + R3) oder drück FN + X.</string>
+    <string name="tutorial_mouse_on">Maus einschalten</string>
+    <string name="tutorial_mouse_off">Wieder ausschalten</string>
+
+    <!-- Power -->
+    <string name="tutorial_power_title">Ein-/Aus-Taste</string>
+    <string name="tutorial_power_body">Drück kurz die Ein-/Aus-Taste, um die Konsole in den Standby zu schicken, und noch einmal, um sie aufzuwecken.\n\nHalte die Ein-/Aus-Taste eine Sekunde lang, um das Ein-/Aus-Menü zu öffnen: Ausschalten, Neustart und mehr. Drück B, um das Menü zu schließen.</string>
+    <string name="tutorial_power_sleep">Ein/Aus kurz drücken: Standby, dann wieder aufwecken</string>
+    <string name="tutorial_power_menu">Ein/Aus halten: Menü öffnen, dann mit B schließen</string>
+
+    <!-- Games -->
+    <string name="tutorial_games_title">Wohin deine Spiele kommen</string>
+    <string name="tutorial_games_body">Steck die SD-Karte in einen Computer. Neben einem kleinen Laufwerk BOOT zeigt sie ein großes Laufwerk namens EASYROMS: Das ist für deine Spiele.\n\nGib jedem System einen eigenen Ordner, benannt wie nes, snes, gba, megadrive oder psx.\n\nÖffne dann Daijishou (drück FN), füge eine Plattform hinzu und wähle ihren Ordner auf EASYROMS. Daijishou listet die Spiele auf und startet sie in RetroArch oder PPSSPP.</string>
+    <string name="tutorial_games_body_no_fn">Steck die SD-Karte in einen Computer. Neben einem kleinen Laufwerk BOOT zeigt sie ein großes Laufwerk namens EASYROMS: Das ist für deine Spiele.\n\nGib jedem System einen eigenen Ordner, benannt wie nes, snes, gba, megadrive oder psx.\n\nÖffne dann Daijishou, füge eine Plattform hinzu und wähle ihren Ordner auf EASYROMS. Daijishou listet die Spiele auf und startet sie in RetroArch oder PPSSPP.</string>
+    <!-- Under the games text, when the EASYROMS partition was found -->
+    <string name="tutorial_games_space">EASYROMS auf dieser Karte: <xliff:g id="free">%1$s</xliff:g> von <xliff:g id="total">%2$s</xliff:g> frei.</string>
+
+    <!-- Finish -->
+    <string name="tutorial_done_title">Du bist bereit</string>
+    <string name="tutorial_done_body">Das sind die Grundlagen.\n\nDie Kurzanleitung erklärt mehr: Emulatoren, Geschwindigkeit und Akku, online gehen und was zu tun ist, wenn etwas nicht klappt. Öffne sie hier oder jederzeit über Einstellungen &gt; Kurzanleitung.</string>
+    <string name="tutorial_done_body_fn_help">Das sind die Grundlagen. Einen Shortcut vergessen? Halte FN allein kurz gedrückt, in jeder App und jedem Spiel, um alle zu sehen.\n\nDie Kurzanleitung erklärt mehr: Emulatoren, Geschwindigkeit und Akku, online gehen und was zu tun ist, wenn etwas nicht klappt. Öffne sie hier oder jederzeit über Einstellungen &gt; Kurzanleitung.</string>
+
+    <!-- Guide bottom bar: X opens the tutorial -->
+    <string name="hint_tutorial">Tutorial</string>
+</resources>
