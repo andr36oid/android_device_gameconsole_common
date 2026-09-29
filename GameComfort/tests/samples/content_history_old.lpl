@@ -1,0 +1,17 @@
+/storage/1234-ABCD/snes/Chrono Trigger (USA).sfc
+Chrono Trigger (USA)
+/data/user/0/com.retroarch/cores/snes9x2010_libretro_android.so
+Nintendo - SNES / SFC (Snes9x 2010)
+DETECT
+
+/storage/1234-ABCD/gb/Tetris (World).gb
+
+/data/user/0/com.retroarch/cores/gambatte_libretro_android.so
+Nintendo - Game Boy / Color (Gambatte)
+
+
+default_core_path = ""
+default_core_name = ""
+label_display_mode = "0"
+thumbnail_mode = "0|0"
+sort_mode = "0"

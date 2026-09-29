@@ -27,4 +27,26 @@
         android:key="about"
         android:selectable="false"
         android:summary="@string/game_mode_about" />
+
+    <PreferenceCategory
+        android:key="continue"
+        android:title="@string/continue_category">
+
+        <!-- Title and summary set in code; pressing it continues the game -->
+        <Preference
+            android:key="continue_now"
+            android:persistent="false"
+            android:title="@string/continue_now_none" />
+
+        <SwitchPreference
+            android:key="continue_on_boot"
+            android:defaultValue="false"
+            android:summary="@string/continue_on_boot_summary"
+            android:title="@string/continue_on_boot" />
+
+        <Preference
+            android:key="continue_about"
+            android:selectable="false"
+            android:summary="@string/continue_about" />
+    </PreferenceCategory>
 </PreferenceScreen>

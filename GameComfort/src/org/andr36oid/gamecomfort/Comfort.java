@@ -41,12 +41,16 @@ final class Comfort {
     }
 
     static boolean isServiceNeeded(Context context) {
-        return isBatteryWarningOn(context) || GameMode.isAutomatic(context);
+        // Continue playing always watches which game is in front
+        return true;
     }
 
     /** Starts or stops the service to match the settings. */
     static void update(Context context) {
-        final Intent service = new Intent(context, ComfortService.class);
+        update(context, new Intent(context, ComfortService.class));
+    }
+
+    static void update(Context context, Intent service) {
         if (isServiceNeeded(context)) {
             // The system user may start services from the background.
             context.startService(service);

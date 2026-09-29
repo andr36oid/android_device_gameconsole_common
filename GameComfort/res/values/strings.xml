@@ -47,4 +47,23 @@
     <string name="tile_on">On</string>
     <string name="tile_off">Off</string>
     <string name="tile_automatic">Automatic</string>
+    <!-- Continue playing: Quick Settings tile, FN + A, power menu, and the Game mode page -->
+    <string name="continue_title">Continue</string>
+    <string name="continue_tile_none">No game yet</string>
+    <string name="continue_category">Continue playing</string>
+    <string name="continue_now">Continue: <xliff:g id="game">%1$s</xliff:g></string>
+    <string name="continue_now_none">No game played yet</string>
+    <string name="continue_now_ppsspp">PPSSPP</string>
+    <string name="continue_now_app">Android game</string>
+    <string name="continue_on_boot">Open it again after a restart</string>
+    <string name="continue_on_boot_summary">If a game was open when the console turned off, also when the battery ran out, it opens again about 10 seconds after the home screen</string>
+    <string name="continue_about">Continue brings back the last game you played, in one press: the Continue tile in Quick Settings, FN + A, or the power menu.\n\nA game that is still open comes back just where you left it. Otherwise RetroArch and PPSSPP start the same game again, RetroArch with the same core; other games just open again.\n\nYou go on from the game\'s own last save. RetroArch writes it every 10 seconds when it changes. Save states are never loaded or written for you: if your newest save state is newer than the game\'s own save, a message tells you.</string>
+    <string name="continue_nothing">No game to continue yet</string>
+    <string name="continue_game_missing">Can\'t find the game file of <xliff:g id="game">%1$s</xliff:g>. Is the SD card in?</string>
+    <string name="continue_core_missing">RetroArch\'s core for <xliff:g id="game">%1$s</xliff:g> isn\'t installed any more</string>
+    <string name="continue_failed">Couldn\'t start <xliff:g id="game">%1$s</xliff:g></string>
+    <string name="continue_starting">Continuing <xliff:g id="game">%1$s</xliff:g></string>
+    <string name="continue_state_hint">Continuing <xliff:g id="game">%1$s</xliff:g>. Your newest save state (<xliff:g id="slot">%2$s</xliff:g>) is newer than the game\'s own save. To use it, load it in the RetroArch menu (Select + X).</string>
+    <string name="continue_slot">slot <xliff:g id="slot">%1$d</xliff:g></string>
+    <string name="continue_slot_auto">the automatic one</string>
 </resources>
