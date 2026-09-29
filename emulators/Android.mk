@@ -62,6 +62,7 @@ LOCAL_MODULE_TAGS := optional
 LOCAL_MODULE_RELATIVE_PATH := gameconsole/retroarch
 LOCAL_MODULE_STEM := retroarch.cfg
 LOCAL_SRC_FILES := seed/retroarch/retroarch.cfg
+LOCAL_REQUIRED_MODULES := gameconsole-retroarch-rgui-fonts
 include $(BUILD_PREBUILT)
 
 include $(CLEAR_VARS)
@@ -108,3 +109,29 @@ LOCAL_SRC_FILES := libretro/cores-noncommercial.tar.gz
 LOCAL_NOTICE_FILE := $(LOCAL_PATH)/libretro/NOTICE-noncommercial.txt
 LOCAL_REQUIRED_MODULES := RetroArch-preinstall
 include $(BUILD_PREBUILT)
+
+# RetroArch menu (RGUI) fonts for Russian, Chinese, Polish and Turkish, from
+# libretro retroarch-assets. Seeded into RetroArch's assets folder by the
+# gameconsole-emu service. One module per file, all with the same NOTICE.
+GAMECONSOLE_RGUI_FONTS := \
+    bitmap6x10_eng.bin bitmap6x10_lse.bin \
+    bitmap10x10_eng.bin bitmap10x10_rus.bin \
+    bitmap10x10_chn.bin bitmap10x10_jpn.bin bitmap10x10_kor.bin
+
+define gameconsole-rgui-font
+include $$(CLEAR_VARS)
+LOCAL_MODULE := gameconsole-rgui-font-$(basename $(1))
+LOCAL_MODULE_CLASS := ETC
+LOCAL_MODULE_TAGS := optional
+LOCAL_MODULE_RELATIVE_PATH := gameconsole/retroarch/rgui-font
+LOCAL_MODULE_STEM := $(1)
+LOCAL_SRC_FILES := seed/retroarch/rgui-font/$(1)
+LOCAL_NOTICE_FILE := $$(LOCAL_PATH)/seed/retroarch/rgui-font/NOTICE
+include $$(BUILD_PREBUILT)
+endef
+$(foreach f,$(GAMECONSOLE_RGUI_FONTS),$(eval $(call gameconsole-rgui-font,$(f))))
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := gameconsole-retroarch-rgui-fonts
+LOCAL_REQUIRED_MODULES := $(foreach f,$(GAMECONSOLE_RGUI_FONTS),gameconsole-rgui-font-$(basename $(f)))
+include $(BUILD_PHONY_PACKAGE)
