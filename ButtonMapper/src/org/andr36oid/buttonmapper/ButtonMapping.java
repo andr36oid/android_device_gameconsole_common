@@ -1,11 +1,9 @@
 package org.andr36oid.buttonmapper;
 
-import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.hardware.input.InputManager;
 import android.provider.Settings;
-import android.service.quicksettings.TileService;
 import android.view.InputDevice;
 import android.view.KeyEvent;
 
@@ -212,9 +210,6 @@ final class ButtonMapping {
     private void saveProfiles() {
         Settings.Global.putString(mResolver, SETTING_PROFILES, mProfiles.serialize());
         Settings.Global.putString(mResolver, SETTING_ACTIVE_PROFILE, mProfiles.getActive().id);
-        // The tile is an active tile: SystemUI only asks it for its state when told to.
-        TileService.requestListeningState(mContext,
-                new ComponentName(mContext, ProfileTileService.class));
     }
 
     /** Saves the profiles and puts the layout of the active one to use. */
