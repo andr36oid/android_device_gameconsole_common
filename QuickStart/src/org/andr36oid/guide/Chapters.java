@@ -251,6 +251,11 @@ final class Chapters {
         heading(c, R.string.usb_dongles_q);
         para(c, R.string.usb_dongles_a);
         para(c, R.string.usb_dongles_trouble);
+        if (wifiTransfer) {
+            heading(c, R.string.usb_wifi_transfer_q);
+            para(c, R.string.usb_wifi_transfer_a);
+            para(c, R.string.usb_wifi_transfer_more);
+        }
 
         c = chapter(R.string.card_title, chapters);
         para(c, R.string.card_layout);
