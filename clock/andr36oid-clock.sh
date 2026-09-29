@@ -25,8 +25,11 @@
 #     at every usage stats flush, at most 20 minutes apart while the console is in use.
 #     That covers a battery pulled while running.
 # Both follow the clock when someone sets it back, at their next write.
+# A last good time more than 20 years after the build date (a date set wrong by
+# hand, then a flat battery) is capped there.
 #
-# mksh arithmetic is 32-bit: fine for Unix times until 2038.
+# mksh arithmetic is 32-bit, and Unix times pass 2^31 in 2038: times are
+# compared with awk (gt), never with [ -lt ] or $(( )).
 
 # The host tests point these elsewhere
 DIR=${ANDR36OID_CLOCK_DIR:-/data/misc/andr36oid-clock}
@@ -38,6 +41,16 @@ TAG=andr36oid-clock
 say() {
     log -p i -t "$TAG" "$1"
     echo "$TAG: $1" 2> /dev/null > /dev/kmsg
+}
+
+# gt <a> <b> ; true if a > b (whole seconds; awk, see above)
+gt() {
+    awk -v a="$1" -v b="$2" 'BEGIN { exit !(a + 0 > b + 0) }'
+}
+
+# The latest time the clock is set back to: the build date plus 20 years
+cap() {
+    awk -v b="$1" 'BEGIN { printf "%.0f\n", b + 20 * 31557600 }'
 }
 
 mtime() {
@@ -52,7 +65,7 @@ mtime() {
 last_good() {
     a=$(mtime "$STAMP")
     b=$(mtime "$USAGE")
-    if [ "$b" -gt "$a" ]; then echo "$b"; else echo "$a"; fi
+    if gt "$b" "$a"; then echo "$b"; else echo "$a"; fi
 }
 
 stamp() {
@@ -70,8 +83,14 @@ restore_target() {
     case "$2" in
         ''|*[!0-9]*|0) return ;;
     esac
-    [ "$1" -lt "$2" ] || return
-    if [ "$3" -gt "$2" ]; then echo "$3"; else echo "$2"; fi
+    gt "$2" "$1" || return
+    if gt "$3" "$(cap "$2")"; then
+        cap "$2"
+    elif gt "$3" "$2"; then
+        echo "$3"
+    else
+        echo "$2"
+    fi
 }
 
 case "$1" in

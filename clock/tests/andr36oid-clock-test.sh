@@ -1,8 +1,11 @@
 #!/bin/bash
 # Host test for ../andr36oid-clock.sh: runs it with a fake clock, fake RTC and fake
 # properties (stub commands first in PATH). Run: bash andr36oid-clock-test.sh
-# (TEST_SHELL="busybox sh" runs the script under another POSIX shell)
+# (TEST_SHELL=dash or a mksh path runs the script under another shell)
 set -u
+# busybox's ash runs its own date and hwclock, not the stubs: it would set this
+# machine's clock
+case ${TEST_SHELL:-} in *busybox*) echo "not under busybox: its date/hwclock would set the host clock"; exit 1 ;; esac
 HERE=$(cd "$(dirname "$0")" && pwd)
 SCRIPT=$HERE/../andr36oid-clock.sh
 T=$(mktemp -d)
@@ -140,6 +143,24 @@ expect "cycle: back at the shutdown time" 1791000000 "$(now)"
 echo 1791000600 > "$T/now"     # the next boot reads the RTC we wrote, plus uptime
 run boot
 expect "cycle: the boot after is normal" 0 "$(restored)"
+
+# 10b. A date far in the future set by hand, saved, then a flat battery: capped at
+# the build date + 20 years
+setup $RESET; stamp_at 4102444800     # 2100-01-01
+run boot
+expect "future stamp capped at build + 20 years" $((BUILD + 20 * 31557600)) "$(now)"
+
+# 10c. After 2038 (past 2^31): still compared right. Build date 2040, reset RTC,
+# stamp in 2041
+BUILD=2210000000
+setup $RESET; stamp_at 2240000000
+run boot
+expect "2040s: reset seen, clock to the stamp" 2240000000 "$(now)"
+setup 2250000000; stamp_at 2240000000
+run boot
+expect "2040s: a good clock is left alone" 2250000000 "$(now)"
+expect "2040s: not flagged" 0 "$(restored)"
+BUILD=1788000000
 
 # 11. Unknown argument
 run bogus 2> /dev/null
