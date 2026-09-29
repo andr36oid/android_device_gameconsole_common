@@ -188,7 +188,9 @@ its source; the list and reasons are in reports/overnight2/game-compat.md.
   seeded on purpose: loading one also replaces the whole button map with its own, so
   our hotkeys would be lost in that game unless the file carried a copy.
 - `seed/game-tips.txt` becomes "Game tips.txt" on a fresh EASYROMS, next to the README:
-  which heavy games need a setting and which are too slow.
+  which heavy games need a setting and which are too slow. English, Spanish and
+  Brazilian Portuguese stacked in one file (UTF-8 with BOM, 76 columns): it is written
+  on the first start, before the setup wizard, so the language isn't known yet.
 
 ### BIOS folder
 

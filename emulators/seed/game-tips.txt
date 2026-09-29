@@ -1,3 +1,11 @@
+﻿GAME TIPS / CONSEJOS PARA JUEGOS / DICAS DE JOGOS (andr36oid)
+
+English first. Español más abajo. Português mais abaixo.
+
+============================================================================
+ENGLISH
+============================================================================
+
 GAME TIPS FOR THE HEAVY SYSTEMS (andr36oid)
 
 This console has a slow processor. Most games for the older systems run at
@@ -71,3 +79,183 @@ NOT SUPPORTED
   the console. Others are too slow on this chip.
 - Sega Saturn: not included. A few 2D games would run, most 3D games don't.
 - PlayStation 2, GameCube, Wii: far too heavy.
+
+
+============================================================================
+ESPAÑOL
+============================================================================
+
+CONSEJOS PARA LOS SISTEMAS MÁS PESADOS (andr36oid)
+
+Esta consola tiene un procesador lento. Casi todos los juegos de los
+sistemas más antiguos funcionan a velocidad completa. En PlayStation, N64,
+PSP y Dreamcast, algunos juegos necesitan un ajuste y otros son demasiado
+pesados. Esta lista dice cuáles. Se basa en lo que se probó en otras
+consolas con el mismo chip (RK3326: R36S, RG351, ArkOS, ROCKNIX). Tus
+resultados pueden variar un poco.
+
+Ya viene ajustado en una consola nueva:
+- Donkey Kong 64 (N64): un arreglo para la cámara. Funciona si el archivo
+  del juego tiene su nombre habitual, por ejemplo
+  "Donkey Kong 64 (USA).z64".
+- God of War: Chains of Olympus y Ghost of Sparta (PSP): funcionan a 30
+  imágenes por segundo en vez de 60. El juego va a velocidad normal, pero
+  se ve menos fluido.
+- Muchos otros juegos ya se corrigen dentro de los propios emuladores. Para
+  esos no tienes que hacer nada.
+
+
+PLAYSTATION (RetroArch, PCSX ReARMed)
+- Casi todos los juegos van a velocidad completa. Algunos pesados, como
+  Gran Turismo y Ape Escape, pueden ir más lentos.
+- Si un juego no va fluido, el emulador salta una imagen de vez en cuando
+  por sí solo.
+- Los juegos europeos con protección anticopia (por ejemplo Vagrant Story,
+  Spyro 3, Final Fantasy VIII PAL) necesitan su archivo .sbi junto al
+  juego, con el mismo nombre.
+- Juegos de más de un disco: crea un archivo .m3u con la lista de los
+  discos y abre ese archivo.
+
+
+NINTENDO 64 (RetroArch, Mupen64Plus-Next)
+- Los juegos más ligeros, como Super Mario 64 y Mario Kart 64, deberían ir
+  bien.
+- Los juegos grandes como Donkey Kong 64 y Majora's Mask van más lentos en
+  las escenas con mucha acción.
+- Demasiado pesados: Perfect Dark, Conker's Bad Fur Day, Jet Force Gemini,
+  Ridge Racer 64, GoldenEye con 3 o 4 jugadores.
+- La imagen es de 320x240 para mantener la velocidad. Faltan a propósito
+  algunos brillos (el sol y las antorchas en Zelda). Para recuperarlos en
+  un juego: Menú rápido > Opciones del núcleo > Depth buffer to RDRAM >
+  Software (esta opción sale en inglés), luego Opciones del núcleo >
+  Administrar opciones del núcleo > Guardar opciones del juego. Cuesta
+  velocidad.
+
+
+PSP (PPSSPP)
+- A velocidad completa o casi: Crisis Core, Kingdom Hearts Birth by Sleep,
+  Persona 3 Portable, Monster Hunter Freedom Unite, Final Fantasy Tactics,
+  GTA Chinatown Wars, Need for Speed Most Wanted.
+- Demasiado pesados o lentos: Tekken 6, Burnout Legends y Dominator,
+  WipEout Pure y Pulse, Silent Hill Origins, God of War (jugable a 30
+  imágenes por segundo).
+- GTA Liberty City Stories y Vice City Stories: lentos en las calles con
+  mucho tráfico. No actives "Saltar efectos de búfer" ("Skip buffer
+  effects") en GTA, God of War, Metal Gear Peace Walker ni Silent Hill: la
+  imagen se ve mal.
+- Para probar un ajuste en un solo juego: dentro del juego abre el menú de
+  PPSSPP, elige "Crear configuración de juego" ("Create game config") y
+  cambia el ajuste. Ojo: PPSSPP guarda entonces también los botones para
+  ese juego.
+
+
+DREAMCAST (Flycast, según pruebas en otras consolas con este chip)
+- Van bien: Crazy Taxi, Sonic Adventure 1 y 2, Soulcalibur, Jet Set Radio,
+  Marvel vs. Capcom 2, Ikaruga, Power Stone, Virtua Fighter 3tb.
+- Jugables: Dead or Alive 2, Rez, Grandia II, Skies of Arcadia,
+  Virtua Tennis, Power Stone 2.
+- Demasiado pesados: Sega Rally 2, Resident Evil 2, F355 Challenge.
+
+
+SUPER NINTENDO (RetroArch, Snes9x 2010)
+- Los juegos con chips extra (Star Fox, Yoshi's Island, Doom, Super Mario
+  RPG, Kirby Super Star) son los más pesados. Star Fox ya iba lento en la
+  consola original. Si el sonido chisporrotea, el emulador salta una
+  imagen.
+
+
+NO COMPATIBLES
+- Nintendo DS: el emulador rápido de DS (DraStic) es cerrado y no puede
+  venir con la consola. Los demás son demasiado lentos para este chip.
+- Sega Saturn: no incluido. Algunos juegos 2D irían, la mayoría de los 3D
+  no.
+- PlayStation 2, GameCube, Wii: muchísimo más pesados de lo que la consola
+  puede mover.
+
+
+============================================================================
+PORTUGUÊS (BRASIL)
+============================================================================
+
+DICAS PARA OS SISTEMAS MAIS PESADOS (andr36oid)
+
+Este console tem um processador lento. Quase todos os jogos dos sistemas
+mais antigos rodam em velocidade total. No PlayStation, N64, PSP e
+Dreamcast, alguns jogos precisam de um ajuste e outros são pesados demais.
+Esta lista diz quais. Ela se baseia no que foi testado em outros consoles
+com o mesmo chip (RK3326: R36S, RG351, ArkOS, ROCKNIX). Seus resultados
+podem variar um pouco.
+
+Já vem ajustado em um console novo:
+- Donkey Kong 64 (N64): uma correção para a câmera. Funciona quando o
+  arquivo do jogo tem o nome de costume, por exemplo
+  "Donkey Kong 64 (USA).z64".
+- God of War: Chains of Olympus e Ghost of Sparta (PSP): rodam a 30
+  quadros por segundo em vez de 60. O jogo fica na velocidade normal, mas
+  parece menos fluido.
+- Muitos outros jogos já são corrigidos dentro dos próprios emuladores.
+  Para esses você não precisa fazer nada.
+
+
+PLAYSTATION (RetroArch, PCSX ReARMed)
+- Quase todos os jogos rodam em velocidade total. Alguns pesados, como
+  Gran Turismo e Ape Escape, podem ficar lentos.
+- Se um jogo engasgar, o emulador pula um quadro de vez em quando por
+  conta própria.
+- Jogos europeus com proteção contra cópia (por exemplo Vagrant Story,
+  Spyro 3, Final Fantasy VIII PAL) precisam do arquivo .sbi ao lado do
+  jogo, com o mesmo nome.
+- Jogos com mais de um disco: crie um arquivo .m3u com a lista dos discos
+  e abra esse arquivo.
+
+
+NINTENDO 64 (RetroArch, Mupen64Plus-Next)
+- Jogos mais leves, como Super Mario 64 e Mario Kart 64, devem rodar bem.
+- Jogos grandes como Donkey Kong 64 e Majora's Mask ficam lentos nas cenas
+  mais agitadas.
+- Pesados demais: Perfect Dark, Conker's Bad Fur Day, Jet Force Gemini,
+  Ridge Racer 64, GoldenEye com 3 ou 4 jogadores.
+- A imagem é 320x240 para manter a velocidade. Alguns brilhos (o sol e as
+  tochas em Zelda) faltam de propósito. Para trazê-los de volta em um
+  jogo: Menu rápido > Configurações do núcleo > Depth buffer to RDRAM >
+  Software (essa opção aparece em inglês), depois Configurações do núcleo
+  > Gerenciar > Salvar configurações por conteúdo. Custa velocidade.
+
+
+PSP (PPSSPP)
+- Em velocidade total ou quase: Crisis Core, Kingdom Hearts Birth by
+  Sleep, Persona 3 Portable, Monster Hunter Freedom Unite, Final Fantasy
+  Tactics, GTA Chinatown Wars, Need for Speed Most Wanted.
+- Pesados demais ou lentos: Tekken 6, Burnout Legends e Dominator, WipEout
+  Pure e Pulse, Silent Hill Origins, God of War (jogável a 30 quadros por
+  segundo).
+- GTA Liberty City Stories e Vice City Stories: lentos nas ruas
+  movimentadas. Não ative "Ignorar efeitos do buffer" ("Skip buffer
+  effects") em GTA, God of War, Metal Gear Peace Walker ou Silent Hill: a
+  imagem fica com defeito.
+- Para testar um ajuste em um jogo só: dentro do jogo abra o menu do
+  PPSSPP, escolha "Criar configuração do jogo" ("Create game config") e
+  mude o ajuste. Atenção: o PPSSPP passa a guardar também os botões desse
+  jogo.
+
+
+DREAMCAST (Flycast, conforme testes em outros consoles com este chip)
+- Rodam bem: Crazy Taxi, Sonic Adventure 1 e 2, Soulcalibur, Jet Set
+  Radio, Marvel vs. Capcom 2, Ikaruga, Power Stone, Virtua Fighter 3tb.
+- Jogáveis: Dead or Alive 2, Rez, Grandia II, Skies of Arcadia,
+  Virtua Tennis, Power Stone 2.
+- Pesados demais: Sega Rally 2, Resident Evil 2, F355 Challenge.
+
+
+SUPER NINTENDO (RetroArch, Snes9x 2010)
+- Os jogos com chips extras (Star Fox, Yoshi's Island, Doom, Super Mario
+  RPG, Kirby Super Star) são os mais pesados. Star Fox já era lento no
+  console original. Se o som chiar, o emulador pula um quadro.
+
+
+NÃO SUPORTADOS
+- Nintendo DS: o emulador rápido de DS (DraStic) é fechado e não pode vir
+  com o console. Os outros são lentos demais neste chip.
+- Sega Saturn: não incluído. Alguns jogos 2D rodariam, a maioria dos 3D
+  não.
+- PlayStation 2, GameCube, Wii: pesados demais, de longe.
