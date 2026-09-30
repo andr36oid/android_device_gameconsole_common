@@ -133,21 +133,43 @@ first_start() {
 # once, and only if there is no such file: a file the user made is left alone,
 # and one the user deleted stays deleted. Delete it to block the pad again: the
 # switch beats chrome://flags.
+# The marker says "written" when we made the file ("user" when it was there
+# already). A power cut can leave our file empty: then it is written again.
 CHROME_CMDLINE=/data/local/chrome-command-line
 CROMITE_GAMEPAD_DONE=$STATE/cromite-gamepad.done
-seed_cromite_gamepad() {
-	[ -e "$CROMITE_GAMEPAD_DONE" ] && return 0
-	if [ ! -e "$CHROME_CMDLINE" ]; then
-		if ! echo "_ --disable-features=RestrictGamepadAccess" >"$CHROME_CMDLINE"; then
-			log "couldn't write $CHROME_CMDLINE, the browser keeps blocking the pad"
-			return 0
-		fi
-		# Cromite reads it as its own app user
-		chmod 644 "$CHROME_CMDLINE"
-		restorecon "$CHROME_CMDLINE" 2>/dev/null
-		log "browser games can use the pad now ($CHROME_CMDLINE)"
+cromite_cmdline_write() {
+	local tmp=$CHROME_CMDLINE.tmp
+	rm -f "$tmp"
+	# a temp file and a rename, so the file is never there half written.
+	# Cromite reads it as its own app user: 644.
+	if ! echo "_ --disable-features=RestrictGamepadAccess" >"$tmp" ||
+		! chmod 644 "$tmp" || ! mv -f "$tmp" "$CHROME_CMDLINE"; then
+		rm -f "$tmp"
+		log "couldn't write $CHROME_CMDLINE, the browser keeps blocking the pad"
+		return 1
 	fi
-	: >"$CROMITE_GAMEPAD_DONE"
+	restorecon "$CHROME_CMDLINE" 2>/dev/null
+	echo written >"$CROMITE_GAMEPAD_DONE"
+	log "browser games can use the pad now ($CHROME_CMDLINE)"
+}
+seed_cromite_gamepad() {
+	local mark
+	if [ -e "$CROMITE_GAMEPAD_DONE" ]; then
+		mark=$(cat "$CROMITE_GAMEPAD_DONE" 2>/dev/null)
+		# ours, but emptied by a power cut: write it again (deleted stays deleted)
+		if [ "$mark" = written ] && [ -f "$CHROME_CMDLINE" ] && [ ! -s "$CHROME_CMDLINE" ]; then
+			cromite_cmdline_write
+		fi
+		return 0
+	fi
+	# an empty file does nothing for Chromium: it is ours from a power cut
+	# before the marker, or an empty one the user made
+	if [ ! -e "$CHROME_CMDLINE" ] || { [ -f "$CHROME_CMDLINE" ] && [ ! -s "$CHROME_CMDLINE" ]; }; then
+		cromite_cmdline_write
+	else
+		echo user >"$CROMITE_GAMEPAD_DONE"
+	fi
+	return 0
 }
 
 install_apks() {
