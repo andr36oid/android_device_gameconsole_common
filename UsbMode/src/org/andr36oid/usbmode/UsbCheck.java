@@ -71,7 +71,8 @@ final class UsbCheck {
         }
 
         final String cd = t.cdMode.get(id);
-        if (cd != null) {
+        // a known ID, unless its drive says it is a plain disk
+        if (cd != null && !(storageIsDisk(d) && !storageIsCd(d))) {
             r.kind = "wifi".equals(cd) ? "wifi" : "network";
             r.status = Status.CD_MODE;
             for (UsbScan.Iface i : d.ifaces) addOnce(r.bound, i.driver);
@@ -217,14 +218,37 @@ final class UsbCheck {
         return fallback != null ? fallback : "other";
     }
 
-    /** A mass-storage device from a Wi-Fi chip maker that calls itself a disk or CD */
+    /**
+     * The storage part is a CD-ROM: a drive of SCSI type 5, or the ATAPI (0x02) or
+     * SFF-8070i (0x05) subclass. Driver CDs mostly say "SCSI" (0x06), so the drive
+     * type is what usually tells.
+     */
+    static boolean storageIsCd(UsbScan.Device d) {
+        for (UsbScan.Iface i : d.ifaces) {
+            if (i.cls != 0x08) continue;
+            if (i.subClass == 0x02 || i.subClass == 0x05) return true;
+            if (i.scsiTypes.contains(5)) return true;
+        }
+        return false;
+    }
+
+    /** The storage part has a normal drive: SCSI type 0 (disk) or 0x0e (simple disk) */
+    static boolean storageIsDisk(UsbScan.Device d) {
+        for (UsbScan.Iface i : d.ifaces) {
+            if (i.cls != 0x08) continue;
+            if (i.scsiTypes.contains(0) || i.scsiTypes.contains(0x0e)) return true;
+        }
+        return false;
+    }
+
+    /**
+     * A CD-ROM from a Wi-Fi chip maker that calls itself a disk or CD, and has no
+     * normal drive. A USB stick or disk case with a Realtek or MediaTek chip is a
+     * disk, not a driver CD.
+     */
     static boolean looksLikeWifiCd(UsbScan.Device d) {
         if (!WIFI_CD_VENDORS.contains(d.vid)) return false;
-        boolean storage = false;
-        for (UsbScan.Iface i : d.ifaces) {
-            if (i.cls == 0x08) storage = true;
-        }
-        if (!storage) return false;
+        if (!storageIsCd(d) || storageIsDisk(d)) return false;
         final String s = (nz(d.manufacturer) + " " + nz(d.product)).toLowerCase(Locale.ROOT);
         if (s.matches(".*(crw|card|reader|sd/mmc|flash).*")) return false;
         return s.matches(".*(disk|cd|driver|wlan|wi-?fi|wireless|802\\.11).*");
@@ -261,7 +285,12 @@ final class UsbCheck {
             sb.append("  ").append(i.name)
                     .append(String.format(Locale.ROOT, "  %02x/%02x/%02x", i.cls & 0xff,
                             i.subClass & 0xff, i.protocol & 0xff))
-                    .append("  driver ").append(i.driver == null ? "-" : i.driver).append('\n');
+                    .append("  driver ").append(i.driver == null ? "-" : i.driver);
+            if (!i.scsiTypes.isEmpty()) {
+                sb.append("  scsi");
+                for (int ty : i.scsiTypes) sb.append(' ').append(ty);
+            }
+            sb.append('\n');
         }
         if (!r.missing.isEmpty()) {
             sb.append("  should be taken by: ").append(join(r.missing)).append('\n');

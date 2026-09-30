@@ -22,6 +22,8 @@ final class UsbScan {
         int cls = -1, subClass = -1, protocol = -1;
         String modalias;    // "usb:v0BDApC811d0200dc00dsc00dp00icFFiscFFipFFin00"
         String driver;      // bound driver, null if none
+        /** SCSI peripheral type of each drive of a storage part: 0 disk, 5 CD-ROM */
+        final List<Integer> scsiTypes = new ArrayList<>();
     }
 
     static final class Device {
@@ -77,11 +79,38 @@ final class UsbScan {
                 i.protocol = hex(read(f, "bInterfaceProtocol"));
                 i.modalias = read(f, "modalias");
                 i.driver = driverOf(f);
+                if (i.cls == 0x08) scsiTypes(f, i.scsiTypes);
                 dev.ifaces.add(i);
             }
             out.add(dev);
         }
         return out;
+    }
+
+    /** usb-storage puts its drives at hostN/targetN:0:0/N:0:0:L/type */
+    private static void scsiTypes(File iface, List<Integer> out) {
+        final File[] hosts = iface.listFiles((dir, n) -> n.startsWith("host"));
+        if (hosts == null) return;
+        Arrays.sort(hosts);
+        for (File h : hosts) {
+            final File[] targets = h.listFiles((dir, n) -> n.startsWith("target"));
+            if (targets == null) continue;
+            Arrays.sort(targets);
+            for (File t : targets) {
+                final File[] luns = t.listFiles((dir, n) -> n.indexOf(':') >= 0);
+                if (luns == null) continue;
+                Arrays.sort(luns);
+                for (File l : luns) {
+                    final String type = read(l, "type");
+                    if (type == null) continue;
+                    try {
+                        out.add(Integer.parseInt(type));
+                    } catch (NumberFormatException e) {
+                        // not a number: skip it
+                    }
+                }
+            }
+        }
     }
 
     private static String driverOf(File iface) {

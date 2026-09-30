@@ -40,6 +40,13 @@ ifc() {
 	fi
 }
 
+# lun <interface> <SCSI type> [lun]: a drive usb-storage made (0 disk, 5 CD-ROM)
+lun() {
+	l=$D/$1/host0/target0:0:0/0:0:0:${3:-0}
+	mkdir -p "$l"
+	echo "$2" >"$l/type"
+}
+
 # root hub: skipped
 dev usb1 1d6b 0002 09 1 "Linux" "DWC OTG Controller"
 ifc usb1 0 09 00 00 hub
@@ -54,6 +61,7 @@ ifc 1-1.1 0 ff ff ff -
 # Wi-Fi in driver-CD mode, known ID
 dev 1-1.2 0bda 1a2b 00 1 "Realtek" "DISK"
 ifc 1-1.2 0 08 06 50 usb-storage
+lun 1-1.2:1.0 5
 
 # Wi-Fi 6 without a driver (RTL8852AU)
 dev 1-1.3 0bda 885a 00 1 "Realtek" "802.11ax WLAN Adapter"
@@ -85,6 +93,31 @@ ifc 2-1 1 03 00 00 usbhid 6400
 # driver-CD from a Wi-Fi maker that the kernel doesn't know
 dev 3-1 0bda a192 00 1 "Realtek" "DISK"
 ifc 3-1 0 08 06 50 usb-storage
+lun 3-1:1.0 5
+
+# a USB disk case with a Realtek bridge chip: a disk, not a driver CD
+dev 3-2 0bda 9210 00 1 "Realtek" "RTL9210 USB DISK"
+ifc 3-2 0 08 06 50 usb-storage
+lun 3-2:1.0 0
+
+# a MediaTek-branded stick, drive not scanned yet: nothing says CD
+dev 3-3 0e8d 1887 00 1 "MediaTek" "USB Disk"
+ifc 3-3 0 08 06 50 usb-storage
+
+# an old-style driver CD that says ATAPI in its subclass
+dev 3-4 0e8d 7aa1 00 1 "MediaTek" "Driver CD"
+ifc 3-4 0 08 02 50 usb-storage
+
+# a known driver-CD ID whose drive is a plain disk: a disk
+dev 3-5 0bda 1a2b 00 1 "Realtek" "DISK"
+ifc 3-5 0 08 06 50 usb-storage
+lun 3-5:1.0 0
+
+# a driver CD with a CD drive and an empty card slot drive (type 0): not called a CD
+dev 3-6 0bda a193 00 1 "Realtek" "DISK"
+ifc 3-6 0 08 06 50 usb-storage
+lun 3-6:1.0 5 0
+lun 3-6:1.0 0 1
 
 # Realtek card reader: a real drive, works
 dev 4-1 0bda 0158 00 1 "Generic" "USB2.0-CRW"

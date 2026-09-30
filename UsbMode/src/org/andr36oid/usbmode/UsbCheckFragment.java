@@ -14,6 +14,8 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.View;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
@@ -79,6 +81,8 @@ public class UsbCheckFragment extends PreferenceFragment {
             copyDetails();
             return true;
         });
+        // nothing to copy until the table has loaded and the list is filled
+        mCopy.setEnabled(false);
         root.addPreference(mCopy);
 
         final Preference about = new Preference(ctx);
@@ -96,6 +100,7 @@ public class UsbCheckFragment extends PreferenceFragment {
                 mWifiIds = w;
                 mShown = null;
                 refresh();
+                mCopy.setEnabled(true);
             });
         }, "usb-check-table").start();
     }
@@ -166,25 +171,33 @@ public class UsbCheckFragment extends PreferenceFragment {
         rebuild(results, portIsDevice);
     }
 
+    /**
+     * Fills the list. When the same devices are still there (only a status or
+     * Wi-Fi changed), the rows are updated in place, so the d-pad focus stays
+     * put. When a device comes or goes, the focus goes back to the device it
+     * was on.
+     */
     private void rebuild(List<UsbCheck.Result> results, boolean portIsDevice) {
         final Context ctx = getActivity();
-        mList.removeAll();
+        final List<Preference> rows = new ArrayList<>();
         if (portIsDevice) {
             final Preference p = new Preference(ctx);
+            p.setKey("port");
             p.setSelectable(false);
             p.setTitle(R.string.usb_check_port_device);
-            mList.addPreference(p);
+            rows.add(p);
         }
         if (results.isEmpty()) {
             final Preference p = new Preference(ctx);
+            p.setKey("none");
             p.setSelectable(false);
             p.setTitle(R.string.usb_check_none);
             p.setSummary(R.string.usb_check_none_summary);
-            mList.addPreference(p);
-            return;
+            rows.add(p);
         }
         for (UsbCheck.Result r : results) {
             final Preference p = new Preference(ctx);
+            p.setKey("dev:" + r.dev.name);
             final String name = UsbCheck.name(r.dev);
             p.setTitle(name != null ? name : getString(kindName(r.kind)));
             p.setSummary(statusText(r) + "\n" + detailLine(r, name != null));
@@ -197,7 +210,54 @@ public class UsbCheckFragment extends PreferenceFragment {
                         .show();
                 return true;
             });
-            mList.addPreference(p);
+            rows.add(p);
+        }
+
+        boolean same = mList.getPreferenceCount() == rows.size();
+        for (int i = 0; same && i < rows.size(); i++) {
+            same = rows.get(i).getKey().equals(mList.getPreference(i).getKey());
+        }
+        if (same) {
+            for (int i = 0; i < rows.size(); i++) {
+                final Preference old = mList.getPreference(i);
+                final Preference p = rows.get(i);
+                old.setTitle(p.getTitle());
+                old.setSummary(p.getSummary());
+                old.setOnPreferenceClickListener(p.getOnPreferenceClickListener());
+            }
+            return;
+        }
+        final String focused = focusedKey();
+        mList.removeAll();
+        for (Preference p : rows) mList.addPreference(p);
+        // the list's adapter picks up the new rows in a post of its own; this runs after it
+        if (focused != null) mHandler.post(() -> focus(focused));
+    }
+
+    private ListView listView() {
+        final View v = getView();
+        final View l = v == null ? null : v.findViewById(android.R.id.list);
+        return l instanceof ListView ? (ListView) l : null;
+    }
+
+    /** Key of the device row the d-pad is on, or null */
+    private String focusedKey() {
+        final ListView lv = listView();
+        if (lv == null || !lv.hasFocus()) return null;
+        final Object o = lv.getSelectedItem();
+        final String key = o instanceof Preference ? ((Preference) o).getKey() : null;
+        return key != null && key.startsWith("dev:") ? key : null;
+    }
+
+    private void focus(String key) {
+        final ListView lv = listView();
+        if (lv == null) return;
+        for (int i = 0; i < lv.getCount(); i++) {
+            final Object o = lv.getItemAtPosition(i);
+            if (o instanceof Preference && key.equals(((Preference) o).getKey())) {
+                lv.setSelection(i);
+                return;
+            }
         }
     }
 
@@ -285,7 +345,7 @@ public class UsbCheckFragment extends PreferenceFragment {
 
     private void copyDetails() {
         final ClipboardManager cm = getActivity().getSystemService(ClipboardManager.class);
-        if (cm == null) return;
+        if (cm == null || mDetails.isEmpty()) return;
         cm.setPrimaryClip(ClipData.newPlainText(getString(R.string.usb_check_title), mDetails));
         Toast.makeText(getActivity(), R.string.usb_check_copied, Toast.LENGTH_SHORT).show();
     }

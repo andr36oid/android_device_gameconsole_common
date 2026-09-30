@@ -165,7 +165,7 @@ public class UsbCheckTest {
 
     private static void sysfsTests(File root, UsbTable t, Map<String, String> wifi) {
         List<UsbCheck.Result> rs = run(root, t, wifi, false);
-        eq("devices (root hub and interfaces skipped)", 14, rs.size());
+        eq("devices (root hub and interfaces skipped)", 19, rs.size());
         check("no root hub", find(rs, "usb1") == null);
 
         expect(rs, "1-1", UsbCheck.Status.WORKS, "hub", null);
@@ -178,6 +178,14 @@ public class UsbCheckTest {
         expect(rs, "1-1.7", UsbCheck.Status.NO_POWER, "wifi", null);
         expect(rs, "2-1", UsbCheck.Status.WORKS, "keyboard", null);
         expect(rs, "3-1", UsbCheck.Status.CD_UNKNOWN, "wifi", null);
+        // driver CD only when the drive is a CD-ROM and there is no normal disk
+        expect(rs, "3-2", UsbCheck.Status.WORKS, "storage", null);
+        expect(rs, "3-3", UsbCheck.Status.WORKS, "storage", null);
+        expect(rs, "3-4", UsbCheck.Status.CD_UNKNOWN, "wifi", null);
+        expect(rs, "3-5", UsbCheck.Status.WORKS, "storage", null);
+        expect(rs, "3-6", UsbCheck.Status.WORKS, "storage", null);
+        eq("scsi types read", java.util.Arrays.asList(5, 0), find(rs, "3-6").dev.ifaces.get(0).scsiTypes);
+        check("details: scsi types", UsbCheck.details(find(rs, "3-1")).contains("  3-1:1.0  08/06/50  driver usb-storage  scsi 5\n"));
         expect(rs, "4-1", UsbCheck.Status.WORKS, "storage", null);
         expect(rs, "5-1", UsbCheck.Status.WORKS, "audio", null);
         expect(rs, "6-1", UsbCheck.Status.BT_ONLY, "bluetooth", "Realtek RTL8723DU");
