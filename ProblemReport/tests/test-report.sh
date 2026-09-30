@@ -289,6 +289,16 @@ check "clock behind: 3 kept" [ "$(find "$R/boot/andr36oid-reports" -name 'report
 check "clock behind: the oldest name went" [ ! -e "$R/boot/andr36oid-reports/report-20990101-000000.zip" ]
 check "clock behind: newest name kept despite its old file time" [ -e "$R/boot/andr36oid-reports/report-20990103-000000.zip" ]
 
+# ---- 2c. a .tmp copy left by a power cut is removed at the next save ----
+make_root
+mkdir -p "$R/boot/andr36oid-reports"
+touch "$R/boot/andr36oid-reports/report-20200101-000000.zip.tmp" \
+	"$R/boot/andr36oid-reports/start-log-20200101-000000.zip.tmp" "$R/boot/andr36oid-reports/notes.tmp"
+run_report
+check "stale tmp: report .tmp removed" [ ! -e "$R/boot/andr36oid-reports/report-20200101-000000.zip.tmp" ]
+check "stale tmp: start log .tmp removed" [ ! -e "$R/boot/andr36oid-reports/start-log-20200101-000000.zip.tmp" ]
+check "stale tmp: other files kept" [ -e "$R/boot/andr36oid-reports/notes.tmp" ]
+
 # ---- 3. BOOT too full -> EASYROMS ----
 make_root
 echo 20000 >"$R/tmp/boot-free-kb"

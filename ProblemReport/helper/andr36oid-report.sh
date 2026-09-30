@@ -574,6 +574,16 @@ prune_start_logs() {
 	done | sort -r | tail -n +"$2" | while IFS= read -r f; do rm -f "$f"; done
 }
 
+# prune_tmp <folder> ; a copy cut off by a power cut stays behind as a .tmp. Both
+# locks are held here and nothing else writes these names, so any left is stale.
+prune_tmp() {
+	local f
+	for f in "$1"/start-log-*.tmp "$1"/report-*.tmp; do
+		[ -f "$f" ] && rm -f "$f"
+	done
+	return 0
+}
+
 # startlog_save ; copies $ZIP to BOOT (read-write only for the copy), else keeps it
 # in /data (BOOT missing, busy, full or read-only), where the next problem report
 # takes it along
@@ -588,6 +598,7 @@ startlog_save() {
 		if [ "$free" -le $((BOOT_KEEP_KB + 16384 + kb)) ]; then
 			log "BOOT has only ${free} KB free, not saving the start log there"
 		elif boot_rw && mkdir -p "$BOOT/andr36oid-reports" &&
+			prune_tmp "$BOOT/andr36oid-reports" &&
 			cp "$ZIP" "$BOOT/andr36oid-reports/$FILE.tmp" &&
 			mv -f "$BOOT/andr36oid-reports/$FILE.tmp" "$BOOT/andr36oid-reports/$FILE"; then
 			prune_start_logs "$BOOT/andr36oid-reports" "$START_KEEP"
@@ -892,7 +903,7 @@ if [ "$SHOWN" = BOOT ] && ! { boot_open && boot_rw; }; then
 fi
 mkdir -p "$ROOT/andr36oid-reports"
 OUT=$ROOT/andr36oid-reports/$FILE
-rm -f "$OUT.tmp"
+prune_tmp "$ROOT/andr36oid-reports"
 if cp "$ZIP" "$OUT.tmp" && mv -f "$OUT.tmp" "$OUT"; then
 	case $ROOT in
 	/data/media/*)

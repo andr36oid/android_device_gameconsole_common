@@ -268,6 +268,18 @@ check "keep 3: newest names kept" [ -e "$R/boot/andr36oid-reports/start-log-2099
 check "keep 3: reports untouched" [ -e "$R/boot/andr36oid-reports/report-20200101-000000.zip" ]
 check "keep 3: note lists 3" [ "$(grep -c '^  start-log-' "$R/boot/andr36oid-start-log.txt")" = 3 ]
 
+# ---- 5b. a .tmp copy left by a power cut is removed at the next save ----
+make_root
+mkdir -p "$R/boot/andr36oid-reports"
+touch "$R/boot/andr36oid-reports/start-log-20200101-000000.zip.tmp" \
+	"$R/boot/andr36oid-reports/report-20200101-000000.zip.tmp" "$R/boot/andr36oid-reports/notes.tmp"
+run_script startlog
+check "stale tmp: saved ($(cat "$T/out"))" [ -n "$(find "$R/boot/andr36oid-reports" -name 'start-log-*.zip')" ]
+check "stale tmp: start log .tmp removed" [ ! -e "$R/boot/andr36oid-reports/start-log-20200101-000000.zip.tmp" ]
+check "stale tmp: report .tmp removed" [ ! -e "$R/boot/andr36oid-reports/report-20200101-000000.zip.tmp" ]
+check "stale tmp: other files kept" [ -e "$R/boot/andr36oid-reports/notes.tmp" ]
+check "stale tmp: no .tmp of this save" [ -z "$(find "$R/boot/andr36oid-reports" -name 'start-log-*.tmp')" ]
+
 # ---- 6. BOOT too full: kept in /data, and the next problem report takes it along ----
 make_root
 echo 40000 >"$R/tmp/boot-free-kb"
