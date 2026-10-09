@@ -51,17 +51,51 @@ busybox sleep 1
 fsck /dev/mmcblk0p2
 busybox sleep 1
 
-if [ "$NOROMS" = 1 ]; then
-    echo "Parted Stage: NOROMS=1" >> /mnt/error.log 2>&1
-    printf "fix\n" | parted ---pretend-input-tty /dev/mmcblk0 print
-    parted -s /dev/mmcblk0 mkpart userdata f2fs 5701009s 100% >> /mnt/error.log 2>&1
-else
-    echo "Parted Stage: NOROMS=0" >> /mnt/error.log 2>&1
-    # Create partition 6 of +16G
-    printf "fix\n" | parted ---pretend-input-tty /dev/mmcblk0 print
-    parted -s /dev/mmcblk0 mkpart userdata f2fs 5701009s 39255440s >> /mnt/error.log 2>&1
+# userdata size. Order of choice:
+#  - .noroms on BOOT: the whole card goes to userdata, no EASYROMS;
+#  - userdata-size.txt on BOOT (written by the SD card flasher): a whole
+#    number of GiB, or "all";
+#  - otherwise half of the free space, at least 8 GiB and at most 64 GiB.
+# If that would leave EASYROMS with less than 1 GiB, userdata gets everything.
+# BEGIN plan_userdata
+GIB=2097152
+USERDATA_START=5701009
+plan_userdata() {
+    # $1: card size in 512-byte sectors, $2: wish ("" / "all" / GiB number)
+    # Sets USERDATA_END and NOROMS. The backup GPT needs the last 34 sectors.
+    _last=$(($1 - 34))
+    _free=$((_last - USERDATA_START + 1))
+    case "$2" in
+        all) NOROMS=1 ;;
+        "") _want=$((_free / 2))
+            [ "$_want" -lt $((8 * GIB)) ] && _want=$((8 * GIB))
+            [ "$_want" -gt $((64 * GIB)) ] && _want=$((64 * GIB)) ;;
+        *[!0-9]*) echo "Ignoring bad userdata size: $2"
+            plan_userdata "$1" ""; return ;;
+        *) _want=$(($2 * GIB))
+            [ "$_want" -lt $((4 * GIB)) ] && _want=$((4 * GIB)) ;;
+    esac
+    if [ "$NOROMS" != 1 ]; then
+        # End userdata so that EASYROMS starts on a 1 MiB boundary
+        USERDATA_END=$(( (USERDATA_START + _want) / 2048 * 2048 - 1 ))
+        [ $((_last - USERDATA_END)) -lt "$GIB" ] && NOROMS=1
+    fi
+    [ "$NOROMS" = 1 ] && USERDATA_END=$_last
+}
+# END plan_userdata
+
+CARD_SECTORS=$(cat /sys/block/mmcblk0/size)
+WISH=""
+[ -f /mnt/userdata-size.txt ] && WISH=$(tr -d ' \r\n' < /mnt/userdata-size.txt | tr 'A-Z' 'a-z')
+WISH=${WISH%gib}; WISH=${WISH%gb}; WISH=${WISH%g}
+plan_userdata "$CARD_SECTORS" "$WISH"
+echo "Parted Stage: card ${CARD_SECTORS}s, wish '$WISH', userdata ${USERDATA_START}s-${USERDATA_END}s, NOROMS=$NOROMS" >> /mnt/error.log 2>&1
+
+printf "fix\n" | parted ---pretend-input-tty /dev/mmcblk0 print
+parted -s /dev/mmcblk0 mkpart userdata f2fs ${USERDATA_START}s ${USERDATA_END}s >> /mnt/error.log 2>&1
+if [ "$NOROMS" = 0 ]; then
     # Create next partition (number auto-assigned)
-    parted -s /dev/mmcblk0 mkpart EASYROMS fat32 39255441s 100% >> /mnt/error.log 2>&1
+    parted -s /dev/mmcblk0 mkpart EASYROMS fat32 $((USERDATA_END + 1))s 100% >> /mnt/error.log 2>&1
 fi
 
 busybox sleep 1
