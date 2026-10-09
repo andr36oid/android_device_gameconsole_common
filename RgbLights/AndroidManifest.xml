@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="org.andr36oid.rgblights"
+    android:sharedUserId="android.uid.system">
+
+    <application
+        android:allowBackup="false"
+        android:icon="@drawable/ic_rgb_lights"
+        android:label="@string/rgb_title"
+        android:supportsRtl="true">
+
+        <!-- Injected into Settings > Display. Off until BootReceiver finds the RGB LED, so
+             consoles without one never show it. -->
+        <activity
+            android:name=".RgbLightsActivity"
+            android:enabled="false"
+            android:exported="true"
+            android:label="@string/rgb_title"
+            android:theme="@android:style/Theme.DeviceDefault.Settings">
+            <intent-filter>
+                <action android:name="com.android.settings.action.IA_SETTINGS" />
+            </intent-filter>
+            <meta-data
+                android:name="com.android.settings.category"
+                android:value="com.android.settings.category.ia.display" />
+            <meta-data
+                android:name="com.android.settings.keyhint"
+                android:value="display_rgb_lights" />
+            <meta-data
+                android:name="com.android.settings.summary"
+                android:resource="@string/rgb_summary" />
+            <meta-data
+                android:name="com.android.settings.icon"
+                android:resource="@drawable/ic_rgb_lights" />
+        </activity>
+
+        <!-- Shows or hides the Settings entry after every boot: the card can move between
+             consoles -->
+        <receiver
+            android:name=".BootReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+    </application>
+</manifest>
