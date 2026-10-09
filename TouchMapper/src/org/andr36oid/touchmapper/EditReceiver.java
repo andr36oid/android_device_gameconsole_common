@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.SystemClock;
 import android.widget.Toast;
 
 /**
@@ -13,6 +14,13 @@ import android.widget.Toast;
 public class EditReceiver extends BroadcastReceiver {
 
     static final String ACTION_EDIT = "org.andr36oid.touchmapper.action.EDIT";
+
+    // A bouncing L1 or FN sends FN + L1 twice. The second one comes before the editor is in
+    // front, so the check below still sees the game, and starting the editor again (it
+    // clears its task) can close the one just opened. Kauan: "opens and closes almost
+    // instantly".
+    static final long REFIRE_MS = 1000;
+    private static long sLastOpen = -REFIRE_MS;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -28,7 +36,16 @@ public class EditReceiver extends BroadcastReceiver {
             Toast.makeText(context, R.string.edit_needs_app, Toast.LENGTH_LONG).show();
             return;
         }
+        final long now = SystemClock.uptimeMillis();
+        if (isRefire(now, sLastOpen)) {
+            return;
+        }
+        sLastOpen = now;
         context.startActivity(Profiles.editIntent(context, pkg));
+    }
+
+    static boolean isRefire(long now, long lastOpen) {
+        return now - lastOpen < REFIRE_MS;
     }
 
     /** Games and other apps, but not the home screen, Settings or this app itself. */
