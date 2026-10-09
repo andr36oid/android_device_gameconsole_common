@@ -37,6 +37,10 @@ public:
     // Camera speed 1 moves the finger this many shorter screen sides per second at full tilt.
     static constexpr float kCameraBaseSpeed = 1.0f;
     static constexpr float kCameraCurve = 1.6f;
+    // A stick direction used as a button is pressed from this far out, and let
+    // go below kDirectionRelease, so it doesn't flicker at the edge.
+    static constexpr float kDirectionPress = 0.5f;
+    static constexpr float kDirectionRelease = 0.3f;
 
     TouchController(PadInfo pad, PadPort& padPort, OutputPort& touch, OutputPort& passthrough);
 
@@ -101,7 +105,8 @@ private:
     void resync(Nanos now);
     void setAbsReporting(bool enabled);
 
-    void pressControl(int code, const TouchControl& c, Nanos now);
+    void pressControl(KeyRoute& route, const TouchControl& c, Nanos now);
+    void updateDirections(StickSource s, Nanos now);
     void releaseControl(KeyRoute& r);
     void refreshLayer(Nanos now);
 
@@ -144,6 +149,7 @@ private:
     Stick left_, right_;
 
     std::array<KeyRoute, KEY_CNT> routes_{};
+    std::array<KeyRoute, kStickDirectionCount> directionRoutes_{};
     int shiftHeld_ = 0;
     int layer_ = 0;
     std::vector<TimedFinger> timed_;

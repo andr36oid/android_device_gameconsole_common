@@ -18,6 +18,39 @@ final class Inputs {
             "UP", "DOWN", "LEFT", "RIGHT",
     };
 
+    /**
+     * A stick pushed one way, usable like a button by tap, hold and swipe (for games with a
+     * button per direction). Same names as the daemon (joyMouse/src/TouchProfile.cpp).
+     */
+    static final String[] STICK_DIRECTIONS = {
+            "LSTICK_UP", "LSTICK_DOWN", "LSTICK_LEFT", "LSTICK_RIGHT",
+            "RSTICK_UP", "RSTICK_DOWN", "RSTICK_LEFT", "RSTICK_RIGHT",
+    };
+
+    static boolean isStickDirection(String input) {
+        return input != null && (input.startsWith("LSTICK_") || input.startsWith("RSTICK_"));
+    }
+
+    /** The stick of a stick direction: Profile.STICK_LEFT or STICK_RIGHT. */
+    static String stickOf(String direction) {
+        return direction.startsWith("L") ? Profile.STICK_LEFT : Profile.STICK_RIGHT;
+    }
+
+    /**
+     * The direction a stick is pushed in, or null when it isn't pushed past threshold.
+     * +y is down.
+     */
+    static String stickDirection(String stick, float x, float y, float threshold) {
+        if (Math.hypot(x, y) <= threshold) {
+            return null;
+        }
+        final String prefix = Profile.STICK_LEFT.equals(stick) ? "LSTICK_" : "RSTICK_";
+        if (Math.abs(x) > Math.abs(y)) {
+            return prefix + (x > 0 ? "RIGHT" : "LEFT");
+        }
+        return prefix + (y > 0 ? "DOWN" : "UP");
+    }
+
     /** Buttons that can be the shift button. */
     static final String[] SHIFT_BUTTONS = {"L1", "R1", "L2", "R2", "L3", "R3", "SELECT"};
 
@@ -98,6 +131,14 @@ final class Inputs {
             case Profile.STICK_LEFT: return "L";
             case Profile.STICK_RIGHT: return "R";
             case Profile.STICK_DPAD: return "✚";
+            case "LSTICK_UP": return "L↑";
+            case "LSTICK_DOWN": return "L↓";
+            case "LSTICK_LEFT": return "L←";
+            case "LSTICK_RIGHT": return "L→";
+            case "RSTICK_UP": return "R↑";
+            case "RSTICK_DOWN": return "R↓";
+            case "RSTICK_LEFT": return "R←";
+            case "RSTICK_RIGHT": return "R→";
             default: return input;
         }
     }
@@ -117,6 +158,14 @@ final class Inputs {
             case Profile.STICK_LEFT: return "Left stick";
             case Profile.STICK_RIGHT: return "Right stick";
             case Profile.STICK_DPAD: return "D-pad";
+            case "LSTICK_UP": return "Left stick up";
+            case "LSTICK_DOWN": return "Left stick down";
+            case "LSTICK_LEFT": return "Left stick left";
+            case "LSTICK_RIGHT": return "Left stick right";
+            case "RSTICK_UP": return "Right stick up";
+            case "RSTICK_DOWN": return "Right stick down";
+            case "RSTICK_LEFT": return "Right stick left";
+            case "RSTICK_RIGHT": return "Right stick right";
             default: return input;
         }
     }

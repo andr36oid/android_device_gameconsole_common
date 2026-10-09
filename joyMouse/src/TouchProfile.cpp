@@ -13,6 +13,8 @@ namespace {
 constexpr const char* kControlTypeNames[] = {"tap", "hold", "joystick", "camera", "swipe"};
 constexpr const char* kStickSourceNames[] = {"left", "right", "dpad"};
 constexpr size_t kMaxControls = 64;
+constexpr const char* kStickDirectionNames[] = {"LSTICK_UP",  "LSTICK_DOWN",  "LSTICK_LEFT",  "LSTICK_RIGHT",
+                                                "RSTICK_UP",  "RSTICK_DOWN",  "RSTICK_LEFT",  "RSTICK_RIGHT"};
 
 bool isDpad(Button b) {
     return b == Button::Up || b == Button::Down || b == Button::Left || b == Button::Right;
@@ -61,6 +63,27 @@ std::optional<StickSource> parseStickSource(std::string_view s) {
     return std::nullopt;
 }
 
+std::optional<StickDirection> parseStickDirection(std::string_view s) {
+    for (size_t i = 0; i < std::size(kStickDirectionNames); ++i) {
+        if (s.size() != std::string_view(kStickDirectionNames[i]).size()) continue;
+        bool same = true;
+        for (size_t k = 0; k < s.size() && same; ++k) {
+            char c = s[k];
+            if (c >= 'a' && c <= 'z') c = static_cast<char>(c - 'a' + 'A');
+            same = c == kStickDirectionNames[i][k];
+        }
+        if (same) {
+            return StickDirection{i < kStickDirCount ? StickSource::Left : StickSource::Right,
+                                  static_cast<StickDir>(i % kStickDirCount)};
+        }
+    }
+    return std::nullopt;
+}
+
+const char* stickDirectionName(StickDirection d) {
+    return kStickDirectionNames[index(d)];
+}
+
 const TouchControl* TouchProfile::forButton(Button b, int layer) const {
     for (int l = layer; l >= 0; --l) {
         for (const TouchControl& c : controls) {
@@ -77,6 +100,22 @@ const TouchControl* TouchProfile::forStick(StickSource s, int layer) const {
         }
     }
     return nullptr;
+}
+
+const TouchControl* TouchProfile::forDirection(StickDirection d, int layer) const {
+    for (int l = layer; l >= 0; --l) {
+        for (const TouchControl& c : controls) {
+            if (c.layer == l && !c.usesStick() && c.direction == d) return &c;
+        }
+    }
+    return nullptr;
+}
+
+bool TouchProfile::stickHasDirections(StickSource s, int layer) const {
+    for (size_t d = 0; d < kStickDirCount; ++d) {
+        if (forDirection({s, static_cast<StickDir>(d)}, layer)) return true;
+    }
+    return false;
 }
 
 bool TouchProfile::usesButton(Button b) const {
@@ -128,6 +167,7 @@ std::optional<TouchProfile> parseTouchProfile(std::string_view json, std::vector
     // Which buttons and sticks each layer already uses.
     bool buttonUsed[2][kButtonCount] = {};
     bool stickUsed[2][kStickSourceCount] = {};
+    bool directionUsed[2][kStickDirectionCount] = {};
     for (size_t i = 0; i < list->items().size(); ++i) {
         const JsonValue& item = list->items()[i];
         if (p.controls.size() >= kMaxControls) {
@@ -178,6 +218,16 @@ std::optional<TouchProfile> parseTouchProfile(std::string_view json, std::vector
             c.stick = stick;
         } else {
             const auto name = text(item, "button");
+            if (const auto dir = name ? parseStickDirection(*name) : std::nullopt) {
+                if (directionUsed[c.layer][index(*dir)]) {
+                    warn(describe(i, "stick direction already used on this layer"));
+                    continue;
+                }
+                directionUsed[c.layer][index(*dir)] = true;
+                c.direction = dir;
+                p.controls.push_back(c);
+                continue;
+            }
             const auto button = name ? parseButton(*name) : std::nullopt;
             if (!button || *button == Button::Mode) {
                 warn(describe(i, "no button"));
@@ -207,6 +257,22 @@ std::optional<TouchProfile> parseTouchProfile(std::string_view json, std::vector
                                         }),
                          p.controls.end());
         if (p.controls.size() != before) warn("d-pad buttons left out: the d-pad is a joystick on that layer");
+    }
+    // Likewise a stick that is a joystick or camera has no directions on its layer.
+    for (int layer = 0; layer < 2; ++layer) {
+        for (StickSource s : {StickSource::Left, StickSource::Right}) {
+            if (!stickUsed[layer][static_cast<size_t>(s)]) continue;
+            const size_t before = p.controls.size();
+            p.controls.erase(std::remove_if(p.controls.begin(), p.controls.end(),
+                                            [&](const TouchControl& c) {
+                                                return c.layer == layer && c.direction && c.direction->stick == s;
+                                            }),
+                             p.controls.end());
+            if (p.controls.size() != before) {
+                warn(std::string("stick directions left out: the ") + stickSourceName(s) +
+                     " stick is a joystick or camera on that layer");
+            }
+        }
     }
     return p;
 }
