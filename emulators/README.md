@@ -220,6 +220,12 @@ the generator adds an `art` line per platform, and the seed copies them to
 Daijishou keeps the ones it downloads. After changing `platforms.txt`, run the fetch
 script before the generator.
 
+Widgets: Daijishou's home page starts with four app shortcuts, RetroArch, Files, VLC and
+Settings, in that order (`DJ_WIDGETS` in the script; an app that isn't installed is left
+out). The service writes them into a new `Widget.db`, built from
+`daijishou/widget-schema.sql` (Daijishou's own widget schema, checked against the APK by
+the host test). A `Widget.db` that already has widgets, or can't be read, is left alone.
+
 Tests: `ANDROID_BUILD_TOP=... emulators/tests/run-daijishou-tests.sh` (generator up to date,
 schema vs. the APK's dex, the shell steps in a fake /data under bash and busybox ash with
 a real sqlite3, checked by `tests/checklib.py`).
