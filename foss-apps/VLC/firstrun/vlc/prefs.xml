@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8' standalone='yes' ?>
+<map>
+    <boolean name="video_player_tips_shown" value="true" />
+    <boolean name="audioplayer_tips_shown" value="true" />
+    <boolean name="playlist_tips_shown" value="true" />
+    <boolean name="widgets_tips_shown" value="true" />
+</map>
