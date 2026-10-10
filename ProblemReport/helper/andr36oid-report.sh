@@ -144,6 +144,10 @@ step 5 power
 show power.txt /sys/power/state /sys/power/mem_sleep /sys/power/wakeup_count \
 	/sys/power/wake_lock /sys/power/suspend_stats/* /sys/kernel/wakeup_reasons/*
 show power.txt /sys/class/power_supply/*/uevent
+# fuel gauge: how the level was picked at boot, capacity and charge limit knobs
+B=/sys/class/power_supply/battery/device
+show power.txt $B/gauge_boot $B/design_capacity_mah $B/charge_limit_percent \
+	$B/charge_limit_active
 for z in /sys/class/thermal/thermal_zone*; do
 	echo "$z $(cat "$z/type" 2>/dev/null) $(cat "$z/temp" 2>/dev/null)" >>"$WORK/power.txt"
 done
