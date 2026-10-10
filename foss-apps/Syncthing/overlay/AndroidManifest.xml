@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The app's name shown as "Syncthing" (it calls itself Syncthing-Fork). A static
+     overlay on /product: always on, the F-Droid APK stays as it is. -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="org.andr36oid.overlay.syncthing"
+    android:versionCode="1"
+    android:versionName="1.0">
+
+    <overlay
+        android:targetPackage="com.github.catfriend1.syncthingfork"
+        android:isStatic="true"
+        android:priority="1" />
+
+    <application android:hasCode="false" />
+</manifest>

@@ -23,3 +23,14 @@ LOCAL_MODULE_RELATIVE_PATH := gameconsole/preinstall
 LOCAL_MODULE_STEM := z-foss-syncthing.list
 LOCAL_SRC_FILES := z-foss-syncthing.list
 include $(BUILD_PREBUILT)
+
+# "Syncthing" instead of "Syncthing-Fork" as the app's name, in every language the
+# app has a name for: overlay/AndroidManifest.xml
+include $(CLEAR_VARS)
+LOCAL_PACKAGE_NAME := Andr36oidSyncthingName
+LOCAL_MANIFEST_FILE := overlay/AndroidManifest.xml
+LOCAL_RESOURCE_DIR := $(LOCAL_PATH)/overlay/res
+LOCAL_PRODUCT_MODULE := true
+LOCAL_CERTIFICATE := platform
+LOCAL_SDK_VERSION := current
+include $(BUILD_RRO_PACKAGE)
