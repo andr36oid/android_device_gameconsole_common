@@ -607,6 +607,88 @@ make_rom_folders() {
 	touch "$stamp"
 }
 
+# what we last wrote into RetroArch's video_refresh_rate
+REFRESH_MARK=$STATE/retroarch-refresh-rate
+DT_ROOT=/proc/device-tree
+
+# dt_u32 <file> ; a one-cell device tree property as a number
+dt_u32() {
+	od -An -tu1 -N4 "$1" 2>/dev/null |
+		awk 'NF == 4 { printf "%d\n", (($1 * 256 + $2) * 256 + $3) * 256 + $4 }'
+}
+
+# panel_hz ; the screen's real refresh rate, from the display timing the
+# kernel uses (the DTB's native mode): pixel clock / (htotal * vtotal). The
+# clock counts in whole kHz, like DRM does. Nothing if there is no such timing.
+panel_hz() {
+	local t n native first use clk ht vt p v
+	for t in "$DT_ROOT"/dsi@*/panel@*/display-timings; do
+		[ -d "$t" ] || continue
+		native=$(dt_u32 "$t/native-mode")
+		first='' use=''
+		for n in "$t"/*/; do
+			n=${n%/}
+			[ -f "$n/clock-frequency" ] || continue
+			[ -n "$first" ] || first=$n
+			if [ -n "$native" ] && [ "$(dt_u32 "$n/phandle")" = "$native" ]; then
+				use=$n
+				break
+			fi
+		done
+		# without native-mode the kernel takes the first timing
+		use=${use:-$first}
+		[ -n "$use" ] || continue
+		clk=$(dt_u32 "$use/clock-frequency")
+		ht=0 vt=0
+		for p in hactive hfront-porch hsync-len hback-porch; do
+			v=$(dt_u32 "$use/$p")
+			ht=$((ht + ${v:-0}))
+		done
+		for p in vactive vfront-porch vsync-len vback-porch; do
+			v=$(dt_u32 "$use/$p")
+			vt=$((vt + ${v:-0}))
+		done
+		if [ "${clk:-0}" -gt 0 ] && [ "$ht" -gt 0 ] && [ "$vt" -gt 0 ]; then
+			awk -v c="$clk" -v h="$ht" -v v="$vt" \
+				'BEGIN { printf "%.6f\n", int(c / 1000) * 1000 / (h * v) }'
+			return 0
+		fi
+	done
+}
+
+# same_hz <a> <b> ; true if both are set and closer than 0.001 Hz (RetroArch
+# stores the value as a float and writes it back with 6 decimals)
+same_hz() {
+	[ -n "$1" ] && [ -n "$2" ] &&
+		awk -v a="$1" -v b="$2" 'BEGIN { d = a - b; exit !(d < 0.001 && d > -0.001) }'
+}
+
+# refresh_rate ; tells RetroArch the screen's real refresh rate. RetroArch
+# assumes 60 Hz on Android and does not ask the system (Android only knows it
+# rounded to whole Hz anyway). With the real rate it resamples the sound so
+# that games run exactly one frame per screen refresh: no dropped or doubled
+# frames in scrolling games. Set when unset, when RetroArch's default 60 is
+# still there and we never set it, or when it is still what we wrote last time
+# (e.g. after switching to another panel's DTB). A rate the user set is kept.
+refresh_rate() {
+	local cfg=$RA_EXT/retroarch.cfg cur want
+	[ -f "$cfg" ] || return 0
+	want=$(panel_hz)
+	[ -n "$want" ] || { log "no panel timing found, RetroArch's refresh rate left as it is"; return 0; }
+	cur=$(cfg_get "$cfg" video_refresh_rate)
+	same_hz "$cur" "$want" && { echo "$want" >"$REFRESH_MARK"; return 0; }
+	if [ -n "$cur" ]; then
+		if [ -f "$REFRESH_MARK" ]; then
+			same_hz "$cur" "$(cat "$REFRESH_MARK")" || return 0
+		else
+			same_hz "$cur" 60 || return 0
+		fi
+	fi
+	cfg_set "$cfg" video_refresh_rate "$want" || { log "writing retroarch.cfg failed"; return 0; }
+	echo "$want" >"$REFRESH_MARK"
+	log "RetroArch's refresh rate is $want Hz now (was: ${cur:-unset})"
+}
+
 # what we last wrote into RetroArch's system_directory
 SYSTEM_DIR_MARK=$STATE/retroarch-system-dir
 
@@ -1263,6 +1345,7 @@ seed_core_options
 seed_cores
 seed_look
 find_easyroms
+refresh_rate
 make_rom_folders
 # after the ROM folders: they are only made on a card without any of them
 bios_folder
