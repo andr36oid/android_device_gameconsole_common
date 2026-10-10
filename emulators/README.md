@@ -127,6 +127,15 @@ What `ppsspp.ini` sets (every key checked against 1.19.3's `Core/Config.cpp`):
 | `AutoLoadSaveState`, `EnableStateUndo`, `RewindSnapshotInterval` | off | like RetroArch here; states are 20-40 MB each |
 | `AllowMappingCombos` | on | so the hotkeys below show up and can be changed in Control mapping |
 
+Left at PPSSPP's default on purpose (checked against 1.19.3, see
+reports/overnight2/ppsspp-cpu.md): `DisableRangeCulling` off (culling runs in the
+vertex shader and saves GPU work), `DepthRasterMode` (only on for the few games PPSSPP
+flags, where it replaces a slower readback), `InflightFrames` 3, `UberShader*` on,
+`ShaderCache` on, `BloomHack` (does nothing at 1x), `RenderDuplicateFrames` off, no
+post shader, OpenGL's own render thread (always on for GL; `MultiThreading` is
+Vulkan only). Skipping readbacks breaks a few games that PPSSPP flags
+RequireBlockTransfer; `compat.ini` below turns readbacks back on for exactly those.
+
 `controls.ini` is PPSSPP's own Android pad map (face buttons, D-pad, stick, L2 = menu,
 R2 = fast forward) plus hotkeys like RetroArch's, hold Select and press:
 Start quit (asks first if the game wasn't saved for a minute), R1/L1 save/load state,
@@ -268,7 +277,8 @@ its source; the list and reasons are in reports/overnight2/game-compat.md.
   look files. A ROM with another file name simply gets the normal settings.
 - PPSSPP: `seed/ppsspp/compat.ini` goes to `PSP/SYSTEM/compat.ini` with the other two
   files. PPSSPP reads it after its own compat.ini, by disc ID, so file names don't
-  matter. It only holds compat flags. Per-game `<ID>_ppsspp.ini` files are not
+  matter. It only holds compat flags: God of War at 30 fps, and GPU readbacks back
+  on for PPSSPP's RequireBlockTransfer games (`ForceEnableGPUReadback`). Per-game `<ID>_ppsspp.ini` files are not
   seeded on purpose: loading one also replaces the whole button map with its own, so
   our hotkeys would be lost in that game unless the file carried a copy.
 - `seed/game-tips.txt` becomes "Game tips.txt" on a fresh EASYROMS, next to the README:
