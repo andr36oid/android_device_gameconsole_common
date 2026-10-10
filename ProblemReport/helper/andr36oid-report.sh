@@ -13,6 +13,11 @@
 #                  has a file make-report.txt: then it deletes the file, waits for
 #                  the start to finish (or 5 minutes) and saves a report. For
 #                  consoles whose buttons or screen don't work (make the file on a PC).
+#   startlog       by init at every start (post-fs-data). Sleeps until the start is
+#                  done and then ends. Only when Android hasn't finished starting
+#                  after 5 minutes (20 on the first start of a card or of a new
+#                  version), it saves a small start log on BOOT for the endless boot logo case, see
+#                  startlog_mode.
 #
 # Talks to the app through /data/misc/andr36oid-report:
 #   note.txt  what the user typed (optional, written by the app)
@@ -42,6 +47,21 @@ LOCK=${REPORT_LOCK:-/dev/andr36oid-report.lock}
 BOOT_LOCK=${REPORT_BOOT_LOCK:-/dev/andr36oid-boot.lock}
 BOOT_LOCK_WAIT=${REPORT_BOOT_LOCK_WAIT:-30}
 ROM_FOLDERS=/system/etc/gameconsole/rom-folders.txt
+# startlog mode: how long a start may take, normal and first start (the first start
+# of a card sets up every app); how often to look
+START_WAIT=${REPORT_START_WAIT:-300}
+START_WAIT_FIRST=${REPORT_START_WAIT_FIRST:-1200}
+START_STEP=${REPORT_START_STEP:-10}
+# start logs kept on BOOT, the oldest go
+START_KEEP=3
+# made in RAM: /data may be what is broken
+START_WORK=${REPORT_START_WORK:-/dev/andr36oid-startlog}
+# where a start log goes when BOOT can't be written; the next report takes it along
+START_KEPT=$DIR/start-logs
+# the version that last finished starting; a new one gets the long limit too
+START_BUILD=$DIR/start-build
+# a make-report.txt start-up report is coming, which also saves after 5 minutes
+START_PENDING=${REPORT_START_PENDING:-/dev/andr36oid-report.pending}
 BOOT=
 BOOT_RW=
 BOOT_MOUNTED=
@@ -250,6 +270,8 @@ boot_mode() {
 		return 1
 	fi
 	echo "Saving a problem report, started $(date)." >"$BOOT/make-report-result.txt"
+	# the start log (startlog mode) leaves this start to us
+	: >"$START_PENDING"
 	# not mounted while waiting: other start-up helpers use BOOT too
 	boot_close
 	while [ "$(getprop sys.boot_completed)" != 1 ] && [ "$waited" -lt "$BOOT_WAIT" ]; do
@@ -266,6 +288,29 @@ boot_result() {
 	[ "$MODE" = boot ] || return 0
 	boot_open && boot_rw || return 0
 	printf '%s\r\n' "$1" >"$BOOT/make-report-result.txt"
+}
+
+# dtb_info ; the DTB boot.ini loads, and which Panels/Experimental copy on BOOT
+# each top DTB is the same as (clones differ only there). BOOT must be open.
+dtb_info() {
+	local f h
+	if [ -z "$BOOT" ]; then
+		echo "BOOT: not readable"
+		return 0
+	fi
+	echo "DTB loaded by boot.ini: $(sed -n 's/^[[:space:]]*load .* \([^ ]*\.dtb\).*/\1/p' \
+		"$BOOT/boot.ini" 2>/dev/null | tr -d '\r' | tr '\n' ' ')"
+	echo "DTB files on BOOT (and the Panels/Experimental copy each one is the same as):"
+	find "$BOOT" -name '*.dtb' -type f 2>/dev/null | while IFS= read -r f; do
+		echo "$(sha1sum <"$f" | cut -c 1-12) ${f#"$BOOT"/}"
+	done >"$WORK/dtb.list"
+	# shellcheck disable=SC2094 # both only read dtb.list
+	while read -r h f; do
+		case $f in */*) continue ;; esac
+		echo "  $f sha1 $h, same as: $(grep "^$h .*/" "$WORK/dtb.list" | cut -d ' ' -f 2- |
+			tr '\n' ';' | sed 's/;$//; s/;/; /g')"
+	done <"$WORK/dtb.list"
+	rm -f "$WORK/dtb.list"
 }
 
 # card_id <cid hex> ; the SD card ID with the product serial number (PSN, hex
@@ -379,6 +424,8 @@ devices.txt   USB devices, input devices (buttons, sticks) and their events,
 apps.txt      installed apps and versions, open screens, memory use, Magisk
               modules, system settings (global, system)
 roms.txt      how many files are in each ROM folder on EASYROMS
+start-log-*   the logs of a start that didn't finish, if one was saved
+              while BOOT couldn't be written
 
 What is left out or blanked
 ---------------------------
@@ -395,11 +442,262 @@ Have a look before you post it in public.
 EOF
 }
 
+# ---- start log (startlog mode): for a start that never finishes ----
+
+# startlog_readme ; README.txt in a start log zip
+startlog_readme() {
+	cat <<'EOT'
+andr36oid start log
+===================
+
+Saved because Android did not finish starting (the boot logo stayed on the
+screen). Please attach this .zip file to your bug report, and say which
+console you have and what the screen shows.
+
+summary.txt   version, kernel, battery, how long the start waited, which
+              console and DTB (device tree, the DTB boot.ini loads and which
+              Panels/Experimental copy it matches)
+system.txt    system properties (which services run or keep restarting),
+              kernel command line, memory, mounts, free space, processes
+logcat.txt    the Android log of this start (main, system, crash)
+logcat-previous-start.txt  the Android log of the start before, if kept
+kernel.txt    the kernel log (dmesg)
+previous-start-*.txt  the kernel log and crash record of the start before,
+              if the console restarted (pstore, last_kmsg)
+crashes.txt   the list of crash reports (tombstones, ANRs) and the newest
+              two tombstones
+
+Wi-Fi names and keys, e-mail addresses, serial numbers and the names of your
+games and files are taken out, like in the problem report.
+EOT
+}
+
+# startlog_collect <minutes> <first start: yes|no> ; the logs of this start into
+# $WORK. Only what works while Android hangs: nothing that asks system_server
+# (dumpsys, sm, pm, settings would wait for it).
+startlog_collect() {
+	local f
+	{
+		echo "andr36oid start log"
+		echo "Android did not finish starting in $1 minutes (first start of this card: $2)."
+		echo "Saved:   $(date)"
+		echo "Version: $(getprop ro.andr36oid.version)"
+		echo "Build:   $(getprop ro.build.fingerprint)"
+		echo "Device:  $(getprop ro.product.device) ($(getprop ro.boot.hardware))"
+		echo "Kernel:  $(uname -a)"
+		echo "Up:      $(uptime)"
+		echo "Boot reason: $(getprop sys.boot.reason) (last: $(getprop ro.boot.bootreason))"
+		echo "Boot animation: $(getprop init.svc.bootanim), zygote: $(getprop init.svc.zygote)," \
+			"system_server restarts: $(getprop sys.system_server.start_count)"
+		echo "Battery: $(cat /sys/class/power_supply/battery/capacity 2>/dev/null)%," \
+			"$(cat /sys/class/power_supply/battery/status 2>/dev/null)," \
+			"$(cat /sys/class/power_supply/battery/voltage_now 2>/dev/null) uV"
+		echo
+		echo "Device tree model: $(tr -d '\0' </proc/device-tree/model 2>/dev/null)"
+		echo "Device tree compatible: $(tr '\0' ' ' </proc/device-tree/compatible 2>/dev/null)"
+		echo "Board revision (U-Boot hwrev): $(getprop ro.boot.revision)"
+		if boot_open; then
+			dtb_info
+			boot_close
+		else
+			echo "BOOT: not readable"
+		fi
+		echo
+	} >"$WORK/summary.txt"
+	run system.txt 10 getprop
+	run system.txt 5 cat /proc/cmdline
+	run system.txt 5 cat /proc/meminfo
+	run system.txt 5 cat /proc/mounts
+	run system.txt 10 df -h
+	run system.txt 10 ps -A -o USER,PID,PPID,VSZ,RSS,PCY,S,TIME,NAME
+	run logcat.txt 60 logcat -d -b main,system,crash -v threadtime
+	run logcat-previous-start.txt 30 logcat -L -b main,system,crash -v threadtime
+	run kernel.txt 10 dmesg
+	for f in /sys/fs/pstore/* /proc/last_kmsg; do
+		[ -f "$f" ] || continue
+		cap 2097152 <"$f" >"$WORK/previous-start-${f##*/}.txt"
+	done
+	run crashes.txt 5 ls -la /data/tombstones /data/anr
+	# shellcheck disable=SC2010,SC2012 # newest first needs ls -t; names are tombstone_NN
+	for f in $(ls -t /data/tombstones/tombstone_* 2>/dev/null | grep -v '\.pb$' | head -n 2); do
+		show crashes.txt "$f"
+	done
+	# the same cleaning as the problem report
+	scrub_rules >"$START_WORK/scrub.sed"
+	for f in "$WORK"/*; do
+		[ -f "$f" ] || continue
+		if sed -E -f "$START_WORK/scrub.sed" "$f" >"$f.s"; then
+			mv -f "$f.s" "$f"
+		else
+			rm -f "$f" "$f.s"
+			log "couldn't clean ${f##*/}, left out"
+		fi
+	done
+	startlog_readme >"$WORK/README.txt"
+}
+
+# startlog_note <file> ; the note at the top of BOOT: what happened and where the
+# logs are. In three languages: the console's language isn't known this early.
+startlog_note() {
+	local f
+	# UTF-8 with a BOM, so old Notepad shows the accents
+	printf '\357\273\277'
+	{
+		echo "Android did not finish starting on this console ($(date))."
+		echo "Its logs were saved in the folder andr36oid-reports on this drive."
+		echo "Please attach the newest start-log file to an issue at"
+		echo "https://github.com/andr36oid/releases/issues and say which console you have."
+		echo
+		echo "Android no terminó de arrancar en esta consola."
+		echo "Sus registros se guardaron en la carpeta andr36oid-reports de esta unidad."
+		echo "Adjunta el archivo start-log más nuevo a un reporte (issue) en"
+		echo "https://github.com/andr36oid/releases/issues y di qué consola tienes."
+		echo
+		echo "O Android não terminou de iniciar neste console."
+		echo "Os registros foram salvos na pasta andr36oid-reports desta unidade."
+		echo "Anexe o arquivo start-log mais recente a uma issue em"
+		echo "https://github.com/andr36oid/releases/issues e diga qual console você tem."
+		echo
+		echo "Newest / Más nuevo / Mais novo: andr36oid-reports/$1"
+		echo "Kept / Guardados / Guardados:"
+		for f in "$BOOT/andr36oid-reports"/start-log-*; do
+			[ -f "$f" ] && echo "  ${f##*/}"
+		done
+	} | sed 's/$/\r/'
+}
+
+# prune_start_logs <folder> <keep> ; keeps the file just saved and the newest others
+# by name (the date in it), like the reports
+prune_start_logs() {
+	local f
+	for f in "$1"/start-log-*; do
+		case $f in *.tmp) continue ;; esac
+		[ -f "$f" ] && [ "${f##*/}" != "$FILE" ] && echo "$f"
+	done | sort -r | tail -n +"$2" | while IFS= read -r f; do rm -f "$f"; done
+}
+
+# prune_tmp <folder> ; a copy cut off by a power cut stays behind as a .tmp. Both
+# locks are held here and nothing else writes these names, so any left is stale.
+prune_tmp() {
+	local f
+	for f in "$1"/start-log-*.tmp "$1"/report-*.tmp; do
+		[ -f "$f" ] && rm -f "$f"
+	done
+	return 0
+}
+
+# startlog_save ; copies $ZIP to BOOT (read-write only for the copy), else keeps it
+# in /data (BOOT missing, busy, full or read-only), where the next problem report
+# takes it along
+startlog_save() {
+	local free kb
+	kb=$(($(wc -c <"$ZIP") / 1024 + 1))
+	if boot_open; then
+		free=$(free_kb "$BOOT")
+		case $free in
+		'' | *[!0-9]*) free=0 ;;
+		esac
+		if [ "$free" -le $((BOOT_KEEP_KB + 16384 + kb)) ]; then
+			log "BOOT has only ${free} KB free, not saving the start log there"
+		elif boot_rw && mkdir -p "$BOOT/andr36oid-reports" &&
+			prune_tmp "$BOOT/andr36oid-reports" &&
+			cp "$ZIP" "$BOOT/andr36oid-reports/$FILE.tmp" &&
+			mv -f "$BOOT/andr36oid-reports/$FILE.tmp" "$BOOT/andr36oid-reports/$FILE"; then
+			prune_start_logs "$BOOT/andr36oid-reports" "$START_KEEP"
+			startlog_note "$FILE" >"$BOOT/andr36oid-start-log.txt"
+			sync
+			boot_close
+			log "start log saved on BOOT: andr36oid-reports/$FILE ($kb KB)"
+			return 0
+		else
+			rm -f "$BOOT/andr36oid-reports/$FILE.tmp" 2>/dev/null
+			log "BOOT can't be written, keeping the start log in $START_KEPT"
+		fi
+		boot_close
+	else
+		log "BOOT can't be opened, keeping the start log in $START_KEPT"
+	fi
+	mkdir -p "$START_KEPT" && cp "$ZIP" "$START_KEPT/$FILE" || return 1
+	prune_start_logs "$START_KEPT" "$START_KEEP"
+	log "start log kept in $START_KEPT/$FILE"
+}
+
+startlog_finish() {
+	boot_close
+	rm -rf "$START_WORK"
+	rmdir "$LOCK" 2>/dev/null
+}
+
+# startlog_mode ; at every start. Sleeps while the start runs (a few getprop calls)
+# and ends when it is done: that is all on a normal start. Only when Android hasn't
+# finished after START_WAIT (START_WAIT_FIRST on the first start of a card or of a
+# new version) it saves one start log. It runs once per start, and BOOT keeps the newest 3.
+startlog_mode() {
+	local limit=$START_WAIT first=no waited=0 tries=0 f build
+	build=$(getprop ro.build.fingerprint)
+	# the first start of this /data: PackageManager writes packages.xml during it
+	# (the same test as the first-start boot animation)
+	if [ ! -e /data/system/packages.xml ] && [ ! -e /data/system/packages-backup.xml ]; then
+		limit=$START_WAIT_FIRST
+		first=yes
+	elif [ "$(cat "$START_BUILD" 2>/dev/null)" != "$build" ]; then
+		# the first start of a new version (the updater keeps /data): Android
+		# optimizes every app again, which can take minutes on this chip
+		limit=$START_WAIT_FIRST
+		first="no, first start of a new version"
+	fi
+	while [ "$(getprop sys.boot_completed)" != 1 ]; do
+		[ "$waited" -ge "$limit" ] && break
+		sleep "$START_STEP"
+		waited=$((waited + START_STEP))
+	done
+	if [ "$(getprop sys.boot_completed)" = 1 ]; then
+		[ "$first" = no ] || echo "$build" >"$START_BUILD"
+		return 0
+	fi
+	if [ -e "$START_PENDING" ]; then
+		log "the start didn't finish, but make-report.txt saves a full report"
+		return 0
+	fi
+	log "the start didn't finish in $((limit / 60)) minutes, saving a start log"
+	# one at a time with the reports
+	while ! mkdir "$LOCK" 2>/dev/null; do
+		[ "$tries" -ge 12 ] && { log "a report is being saved, no start log"; return 0; }
+		sleep 5
+		tries=$((tries + 1))
+	done
+	trap startlog_finish EXIT
+	trap 'exit 143' TERM INT
+	NAME=start-log-$(date +%Y%m%d-%H%M%S)
+	WORK=$START_WORK/$NAME
+	rm -rf "$START_WORK"
+	mkdir -p "$WORK" || return 1
+	startlog_collect $((limit / 60)) "$first"
+	if command -v zip >/dev/null 2>&1; then
+		FILE=$NAME.zip
+		ZIP=$START_WORK/$FILE
+		(cd "$START_WORK" && zip -q -r -X "$ZIP" "$NAME") || { log "packing the start log failed"; return 1; }
+	else
+		# no zip: the files one after the other in one text file
+		FILE=$NAME.txt
+		ZIP=$START_WORK/$FILE
+		for f in "$WORK"/*; do
+			echo "======== ${f##*/}"
+			cat "$f"
+		done >"$ZIP"
+	fi
+	startlog_save
+}
+
 finish() {
 	boot_close
 	rmdir "$LOCK" 2>/dev/null
 }
 
+if [ "$MODE" = startlog ]; then
+	startlog_mode
+	exit $?
+fi
 if [ "$MODE" = boot ]; then
 	boot_mode || exit 0
 fi
@@ -459,23 +757,7 @@ step 1 system
 	echo "Device tree model: $(tr -d '\0' </proc/device-tree/model 2>/dev/null)"
 	echo "Device tree compatible: $(tr '\0' ' ' </proc/device-tree/compatible 2>/dev/null)"
 	echo "Board revision (U-Boot hwrev): $(getprop ro.boot.revision)"
-	if [ -n "$BOOT" ]; then
-		echo "DTB loaded by boot.ini: $(sed -n 's/^[[:space:]]*load .* \([^ ]*\.dtb\).*/\1/p' \
-			"$BOOT/boot.ini" 2>/dev/null | tr -d '\r' | tr '\n' ' ')"
-		echo "DTB files on BOOT (and the Panels/Experimental copy each one is the same as):"
-		find "$BOOT" -name '*.dtb' -type f 2>/dev/null | while IFS= read -r f; do
-			echo "$(sha1sum <"$f" | cut -c 1-12) ${f#"$BOOT"/}"
-		done >"$WORK/dtb.list"
-		# shellcheck disable=SC2094 # both only read dtb.list
-		while read -r h f; do
-			case $f in */*) continue ;; esac
-			echo "  $f sha1 $h, same as: $(grep "^$h .*/" "$WORK/dtb.list" | cut -d ' ' -f 2- |
-				tr '\n' ';' | sed 's/;$//; s/;/; /g')"
-		done <"$WORK/dtb.list"
-		rm -f "$WORK/dtb.list"
-	else
-		echo "BOOT: not readable"
-	fi
+	dtb_info
 	echo
 } >>"$WORK/summary.txt"
 # not mounted while the rest is collected (minutes): other helpers use BOOT too
@@ -592,6 +874,10 @@ for f in "$WORK"/*; do
 done
 rm -f "$DIR/scrub.sed"
 readme >"$WORK/README.txt"
+# the newest start log that couldn't go to BOOT (startlog_save), already cleaned
+# shellcheck disable=SC2012 # names are start-log-<date>, sorted by name
+f=$(ls "$START_KEPT"/start-log-* 2>/dev/null | sort | tail -n 1)
+[ -n "$f" ] && cp "$f" "$WORK/"
 
 if command -v zip >/dev/null 2>&1; then
 	FILE=$NAME.zip
@@ -625,7 +911,7 @@ if [ "$SHOWN" = BOOT ] && ! { boot_open && boot_rw; }; then
 fi
 mkdir -p "$ROOT/andr36oid-reports"
 OUT=$ROOT/andr36oid-reports/$FILE
-rm -f "$OUT.tmp"
+prune_tmp "$ROOT/andr36oid-reports"
 if cp "$ZIP" "$OUT.tmp" && mv -f "$OUT.tmp" "$OUT"; then
 	case $ROOT in
 	/data/media/*)
