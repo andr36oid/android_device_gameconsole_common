@@ -15,7 +15,6 @@
     <!-- What each profile does. cpu is a CPU speed like "1.01 GHz", gpu a GPU speed in MHz. -->
     <string name="profile_about_saver">Plus d\'autonomie. Le CPU reste à <xliff:g id="cpu">%1$s</xliff:g> maximum et le GPU à <xliff:g id="gpu">%2$d</xliff:g> MHz. Largement suffisant pour les jeux 8 et 16 bits.</string>
     <string name="profile_about_balanced">Vitesses standard. Le processeur accélère quand un jeu en a besoin et ralentit sinon.</string>
-    <string name="profile_about_performance">Émulation la plus fluide. Le CPU ne descend jamais sous <xliff:g id="cpu">%1$s</xliff:g> et le GPU tourne en permanence à <xliff:g id="gpu">%2$d</xliff:g> MHz. Pour les jeux PS1, N64 et PSP. La batterie se vide plus vite.</string>
     <string name="profile_about_footer">\n\nLe profil est conservé au redémarrage de la console. La tuile des Réglages rapides passe au profil suivant.</string>
     <string name="profile_about_footer_fn">\n\nLe profil est conservé au redémarrage de la console. FN + R1 et la tuile des Réglages rapides passent au profil suivant.</string>
     <string name="profile_failed">Impossible de changer le profil de performances</string>

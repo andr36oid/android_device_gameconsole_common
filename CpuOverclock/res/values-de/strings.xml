@@ -15,7 +15,6 @@
     <!-- What each profile does. cpu is a CPU speed like "1.01 GHz", gpu a GPU speed in MHz. -->
     <string name="profile_about_saver">Längere Spielzeit. Die CPU bleibt bei höchstens <xliff:g id="cpu">%1$s</xliff:g>, die Grafik bei <xliff:g id="gpu">%2$d</xliff:g> MHz. Reicht locker für 8- und 16-Bit-Spiele.</string>
     <string name="profile_about_balanced">Normale Geschwindigkeiten. Der Prozessor wird schneller, wenn ein Spiel es braucht, und langsamer, wenn nicht.</string>
-    <string name="profile_about_performance">Flüssigste Emulation. Die CPU fällt nie unter <xliff:g id="cpu">%1$s</xliff:g> und die Grafik läuft immer mit <xliff:g id="gpu">%2$d</xliff:g> MHz. Für PS1-, N64- und PSP-Spiele. Der Akku ist schneller leer.</string>
     <string name="profile_about_footer">\n\nDas Profil bleibt nach einem Neustart erhalten. Die Kachel in den Schnelleinstellungen wechselt zum nächsten.</string>
     <string name="profile_about_footer_fn">\n\nDas Profil bleibt nach einem Neustart erhalten. FN + R1 und die Kachel in den Schnelleinstellungen wechseln zum nächsten.</string>
     <string name="profile_failed">Leistungsprofil konnte nicht geändert werden</string>

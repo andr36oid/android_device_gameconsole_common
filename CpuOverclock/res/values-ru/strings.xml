@@ -15,7 +15,6 @@
     <!-- What each profile does. cpu is a CPU speed like "1.01 GHz", gpu a GPU speed in MHz. -->
     <string name="profile_about_saver">Дольше играть. Частота CPU не выше <xliff:g id="cpu">%1$s</xliff:g>, графики — <xliff:g id="gpu">%2$d</xliff:g> MHz. Этого хватает для 8- и 16-битных игр.</string>
     <string name="profile_about_balanced">Стандартные частоты. Процессор ускоряется, когда игре это нужно, и замедляется, когда нет.</string>
-    <string name="profile_about_performance">Самая плавная эмуляция. Частота CPU не опускается ниже <xliff:g id="cpu">%1$s</xliff:g>, графика всё время работает на <xliff:g id="gpu">%2$d</xliff:g> MHz. Для игр PS1, N64 и PSP. Батарея садится быстрее.</string>
     <string name="profile_about_footer">\n\nПрофиль сохраняется после перезапуска консоли. Плитка в быстрых настройках переключает на следующий.</string>
     <string name="profile_about_footer_fn">\n\nПрофиль сохраняется после перезапуска консоли. FN + R1 и плитка в быстрых настройках переключают на следующий.</string>
     <string name="profile_failed">Не удалось сменить профиль производительности</string>

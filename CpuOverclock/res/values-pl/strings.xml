@@ -14,7 +14,6 @@
     </string-array>
     <string name="profile_about_saver">Dłuższy czas gry. CPU pracuje z szybkością najwyżej <xliff:g id="cpu">%1$s</xliff:g>, a grafika z <xliff:g id="gpu">%2$d</xliff:g> MHz. W zupełności wystarcza do gier 8- i 16-bitowych.</string>
     <string name="profile_about_balanced">Standardowe szybkości. Procesor przyspiesza, gdy gra tego potrzebuje, i zwalnia, gdy nie.</string>
-    <string name="profile_about_performance">Najpłynniejsza emulacja. CPU nigdy nie schodzi poniżej <xliff:g id="cpu">%1$s</xliff:g>, a grafika cały czas pracuje z <xliff:g id="gpu">%2$d</xliff:g> MHz. Do gier PS1, N64 i PSP. Bateria rozładowuje się szybciej.</string>
     <string name="profile_about_footer">\n\nProfil zostaje po ponownym uruchomieniu konsoli. Kafelek w Szybkich ustawieniach przełącza na następny.</string>
     <string name="profile_about_footer_fn">\n\nProfil zostaje po ponownym uruchomieniu konsoli. FN + R1 i kafelek w Szybkich ustawieniach przełączają na następny.</string>
     <string name="profile_failed">Nie udało się zmienić profilu wydajności</string>

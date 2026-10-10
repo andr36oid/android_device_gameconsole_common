@@ -15,7 +15,6 @@
     <!-- What each profile does. cpu is a CPU speed like "1.01 GHz", gpu a GPU speed in MHz. -->
     <string name="profile_about_saver">游戏时间更长。CPU 频率不超过 <xliff:g id="cpu">%1$s</xliff:g>，图形频率为 <xliff:g id="gpu">%2$d</xliff:g> MHz。玩 8 位和 16 位游戏绰绰有余。</string>
     <string name="profile_about_balanced">标准频率。游戏需要时处理器加速，不需要时降速。</string>
-    <string name="profile_about_performance">模拟最流畅。CPU 频率始终不低于 <xliff:g id="cpu">%1$s</xliff:g>，图形频率一直保持在 <xliff:g id="gpu">%2$d</xliff:g> MHz。适合 PS1、N64 和 PSP 游戏。耗电更快。</string>
     <string name="profile_about_footer">\n\n掌机重启后仍保留所选模式。用快捷设置图块可切换到下一个模式。</string>
     <string name="profile_about_footer_fn">\n\n掌机重启后仍保留所选模式。按 FN + R1 或用快捷设置图块可切换到下一个模式。</string>
     <string name="profile_failed">无法更改性能模式</string>

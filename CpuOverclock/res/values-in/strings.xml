@@ -15,7 +15,6 @@
     <!-- What each profile does. cpu is a CPU speed like "1.01 GHz", gpu a GPU speed in MHz. -->
     <string name="profile_about_saver">Waktu bermain lebih lama. CPU tetap di <xliff:g id="cpu">%1$s</xliff:g> atau lebih rendah dan grafis di <xliff:g id="gpu">%2$d</xliff:g> MHz. Sudah lebih dari cukup untuk game 8 dan 16-bit.</string>
     <string name="profile_about_balanced">Kecepatan standar. Prosesor makin cepat saat game membutuhkannya dan melambat saat tidak.</string>
-    <string name="profile_about_performance">Emulasi paling lancar. CPU tidak pernah turun di bawah <xliff:g id="cpu">%1$s</xliff:g> dan grafis selalu berjalan di <xliff:g id="gpu">%2$d</xliff:g> MHz. Untuk game PS1, N64, dan PSP. Baterai lebih cepat habis.</string>
     <string name="profile_about_footer">\n\nProfil tetap tersimpan saat konsol dimulai ulang. Kartu Setelan Cepat beralih ke profil berikutnya.</string>
     <string name="profile_about_footer_fn">\n\nProfil tetap tersimpan saat konsol dimulai ulang. FN + R1 dan kartu Setelan Cepat beralih ke profil berikutnya.</string>
     <string name="profile_failed">Tidak bisa mengubah profil performa</string>
