@@ -23,6 +23,13 @@
         android:summary="%s"
         android:title="@string/game_mode_profile" />
 
+    <!-- Removed with the profile list, the performance profiles app does the work -->
+    <SwitchPreference
+        android:key="game_mode_steady_memory"
+        android:defaultValue="true"
+        android:summary="@string/game_mode_steady_memory_summary"
+        android:title="@string/game_mode_steady_memory" />
+
     <Preference
         android:key="about"
         android:selectable="false"

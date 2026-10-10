@@ -13,6 +13,7 @@ public class ProfileReceiver extends BroadcastReceiver {
             return;
         }
         final PerformanceProfiles profiles = new PerformanceProfiles(context);
+        ProfileCommandReceiver.clearMemoryHold(context);
         profiles.apply();
         profiles.addTileOnce();
     }

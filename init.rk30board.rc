@@ -150,6 +150,9 @@ on boot
     chmod 0664 /sys/class/devfreq/ff400000.gpu/min_freq
     chown root system /sys/class/devfreq/ff400000.gpu/max_freq
     chmod 0664 /sys/class/devfreq/ff400000.gpu/max_freq
+    # Performance also holds the memory clock at its top speed
+    chown root system /sys/class/devfreq/dmc/min_freq
+    chmod 0664 /sys/class/devfreq/dmc/min_freq
     # Settings > Performance > CPU undervolt, the kernel resets it on every boot
     chown root system /sys/module/rockchip_cpufreq/parameters/undervolt_uv
     chmod 0664 /sys/module/rockchip_cpufreq/parameters/undervolt_uv

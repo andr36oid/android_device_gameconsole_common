@@ -45,6 +45,11 @@ final class PerformanceProfiles {
     private static final String GPU = "/sys/class/devfreq/ff400000.gpu/";
     private static final String GPU_MIN = GPU + "min_freq";
     private static final String GPU_MAX = GPU + "max_freq";
+    // The memory (DDR) clock. Every change of it waits for the next frame on the screen and
+    // holds all four cores for a moment, so Performance (and game mode, if it asks) keeps it
+    // at the top speed instead.
+    private static final String DMC = "/sys/class/devfreq/dmc/";
+    private static final String DMC_MIN = DMC + "min_freq";
 
     private static final String PREFS = "profiles";
     private static final String PREF_PROFILE = "profile";
@@ -167,6 +172,19 @@ final class PerformanceProfiles {
             } catch (IOException e) {
                 Log.e(TAG, "Couldn't set the GPU speeds", e);
                 ok = false;
+            }
+        }
+
+        final int[] dmc = readFrequencies(DMC + "available_frequencies");
+        if (dmc.length > 0) {
+            try {
+                // 0 means the lowest; the memory clock then scales with the load again.
+                final boolean hold = profile == PERFORMANCE
+                        || ProfileCommandReceiver.isMemoryHeld(mContext);
+                write(DMC_MIN, hold ? dmc[dmc.length - 1] : 0);
+            } catch (IOException e) {
+                // Older builds don't let the system user write it; the CPU and GPU still count.
+                Log.w(TAG, "Couldn't set the memory speed", e);
             }
         }
         return ok;

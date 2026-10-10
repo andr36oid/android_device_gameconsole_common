@@ -22,6 +22,8 @@ final class GameMode {
     static final String KEY_AUTOMATIC = "game_mode_automatic";
     /** Performance profile while game mode is on, -1 leaves it alone. */
     static final String KEY_PROFILE = "game_mode_profile";
+    /** Hold the memory clock at its top speed while game mode is on. */
+    static final String KEY_STEADY_MEMORY = "game_mode_steady_memory";
 
     // The performance profiles (CpuOverclock) take these and remember what to go back to
     static final String PROFILES_PACKAGE = "org.andr36oid.cpuoverclock";
@@ -97,9 +99,12 @@ final class GameMode {
             }
             edit.putBoolean(KEY_BY_AUTOMATIC, automatic);
             final int profile = Integer.parseInt(prefs.getString(KEY_PROFILE, "-1"));
-            if (profile >= 0) {
+            final boolean steadyMemory = prefs.getBoolean(KEY_STEADY_MEMORY, true);
+            if (profile >= 0 || steadyMemory) {
+                // -1 leaves the profile alone, the memory hold still applies
                 context.sendBroadcast(new Intent(ACTION_SET_PROFILE)
-                        .setPackage(PROFILES_PACKAGE).putExtra("profile", profile));
+                        .setPackage(PROFILES_PACKAGE).putExtra("profile", profile)
+                        .putExtra("hold_memory", steadyMemory));
             }
         } else {
             // Put things back, unless the user changed them in the meantime.
@@ -114,7 +119,7 @@ final class GameMode {
                 Settings.Global.putInt(resolver, Settings.Global.HEADS_UP_NOTIFICATIONS_ENABLED,
                         savedHeadsUp);
             }
-            // Does nothing if game mode didn't change the profile
+            // Does nothing if game mode didn't change the profile or hold the memory clock
             context.sendBroadcast(new Intent(ACTION_RESTORE_PROFILE).setPackage(PROFILES_PACKAGE));
             edit.remove(KEY_SAVED_FILTER).remove(KEY_SAVED_HEADS_UP)
                     .putBoolean(KEY_BY_AUTOMATIC, false);
