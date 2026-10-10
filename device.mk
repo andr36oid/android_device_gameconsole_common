@@ -65,6 +65,10 @@ PRODUCT_PROPERTY_OVERRIDES := \
 
 # AAPT
 PRODUCT_AAPT_CONFIG := normal
+# Every console runs at ro.sf.lcd_density 178 (r36s BoardConfig), where Android picks
+# mdpi pictures anyway. Keep only those in platform-built APKs (about 16 MB less).
+# Larger "Display size" steps (198+) scale mdpi up instead of using hdpi.
+PRODUCT_AAPT_PREF_CONFIG := mdpi
 PRODUCT_AAPT_PREBUILT_DPI := normal ldpi mdpi hdpi xhdpi
 
 # Overlays
