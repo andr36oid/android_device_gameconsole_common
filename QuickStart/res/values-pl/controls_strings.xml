@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Settings > Buttons and shortcuts. See values/controls_strings.xml -->
+<!-- The guide's button chapters. See values/controls_strings.xml -->
 <resources>
-    <string name="controls_title">Przyciski i skróty</string>
-    <string name="controls_summary">Wszystkie kombinacje przycisków: system, gry, tryb myszy</string>
     <string name="controls_topic_console">Konsola</string>
     <string name="controls_topic_system">System</string>
     <string name="controls_topic_retroarch">W grach (RetroArch)</string>
     <string name="controls_topic_emulators">Inne emulatory</string>
     <string name="controls_topic_mouse">Tryb myszy</string>
-    <string name="controls_console_top">Pierwszy wiersz rysunku to przyciski na górnej krawędzi.</string>
+    <string name="controls_console_top">Przyciski narysowane nad konsolą są na jej górnej krawędzi.</string>
     <string name="controls_console_labels">Przyciski mają nazwy nadrukowane na konsoli. W niektórych klonach są w innych miejscach.</string>
     <string name="controls_start">Potwierdź, jak A</string>
     <string name="controls_dpad">Poruszanie się po menu i listach</string>

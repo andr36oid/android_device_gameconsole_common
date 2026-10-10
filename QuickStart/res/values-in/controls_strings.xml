@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Settings > Buttons and shortcuts. See values/controls_strings.xml -->
+<!-- The guide's button chapters. See values/controls_strings.xml -->
 <resources>
-    <string name="controls_title">Tombol dan pintasan</string>
-    <string name="controls_summary">Semua kombinasi tombol: sistem, game, mode mouse</string>
     <string name="controls_topic_console">Konsol</string>
     <string name="controls_topic_system">Sistem</string>
     <string name="controls_topic_retroarch">Dalam game (RetroArch)</string>
     <string name="controls_topic_emulators">Emulator lain</string>
     <string name="controls_topic_mouse">Mode mouse</string>
-    <string name="controls_console_top">Baris pertama gambar menunjukkan tombol di tepi atas.</string>
+    <string name="controls_console_top">Tombol yang digambar di atas konsol ada di tepi atasnya.</string>
     <string name="controls_console_labels">Nama tombol sesuai tulisan di konsol. Pada beberapa konsol klon, letaknya berbeda.</string>
     <string name="controls_start">Konfirmasi, seperti A</string>
     <string name="controls_dpad">Bergerak di menu dan daftar</string>

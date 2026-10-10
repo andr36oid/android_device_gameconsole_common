@@ -14,8 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The topics of Settings > Buttons and shortcuts, read from res/raw/controls.txt. That file is
- * the only list of the console's button combinations; tests/check-controls.py compares it with
+ * The button chapters of the guide, read from res/raw/controls.txt. That file is the only
+ * list of the console's button combinations; tests/check-controls.py compares it with
  * the key layout, the FN code, joyMouse and the seeded emulator settings, so the page can't
  * name a combination the build doesn't have. The file format is described at its top.
  */
@@ -32,7 +32,6 @@ final class Controls {
     private boolean mHeadingShown = true;
     private boolean mItemShown = true;
     private Chapters.Item mItem;
-    private final StringBuilder mArt = new StringBuilder();
 
     private static final int LEVEL_TOPIC = 0;
     private static final int LEVEL_HEADING = 1;
@@ -78,14 +77,6 @@ final class Controls {
         final int space = line.indexOf(' ');
         final String kind = space < 0 ? line : line.substring(0, space);
         final String rest = space < 0 ? "" : line.substring(space + 1);
-        if (kind.equals("art")) {
-            // All art lines make one picture
-            if (mArt.length() == 0) {
-                flushItem();
-            }
-            mArt.append(mArt.length() == 0 ? "" : "\n").append(rest);
-            return;
-        }
         flushItem();
         switch (kind) {
             case "topic":
@@ -100,6 +91,12 @@ final class Controls {
                 mLevel = LEVEL_HEADING;
                 mHeadingShown = true;
                 mItem = new Chapters.Item(new ArrayList<>(), text(rest), true);
+                mItemShown = true;
+                break;
+            case "drawing":
+                // The only drawing is the console
+                mLevel = LEVEL_ITEM;
+                mItem = Chapters.Item.drawing();
                 mItemShown = true;
                 break;
             case "text":
@@ -164,12 +161,6 @@ final class Controls {
     }
 
     private void flushItem() {
-        if (mArt.length() > 0 && mChapter != null) {
-            if (mTopicShown && mHeadingShown) {
-                mChapter.items.add(new Chapters.Item(mArt.toString()));
-            }
-            mArt.setLength(0);
-        }
         if (mItem == null || mChapter == null) {
             mItem = null;
             return;

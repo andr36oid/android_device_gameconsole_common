@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Settings > Buttons and shortcuts. See values/controls_strings.xml -->
+<!-- The guide's button chapters. See values/controls_strings.xml -->
 <resources>
-    <string name="controls_title">Botões e atalhos</string>
-    <string name="controls_summary">Todas as combinações de botões: sistema, jogos, modo mouse</string>
     <string name="controls_topic_console">O console</string>
     <string name="controls_topic_system">Sistema</string>
     <string name="controls_topic_retroarch">Nos jogos (RetroArch)</string>
     <string name="controls_topic_emulators">Outros emuladores</string>
     <string name="controls_topic_mouse">Modo mouse</string>
-    <string name="controls_console_top">A primeira linha do desenho mostra os botões da borda de cima.</string>
+    <string name="controls_console_top">Os botões desenhados acima do console ficam na borda de cima.</string>
     <string name="controls_console_labels">Os botões têm o nome impresso no console. Em alguns consoles clones eles ficam em outros lugares.</string>
     <string name="controls_start">Confirmar, como o A</string>
     <string name="controls_dpad">Navegar por menus e listas</string>
