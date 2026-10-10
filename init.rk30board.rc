@@ -94,7 +94,9 @@ on late-fs
     setrlimit 8 8388608 8388608
 
     # boot time fs tune
-    write /sys/block/mmcblk0/queue/iostats 0
+    # I/O counters on for the SD card (this kernel starts with them off), so
+    # /sys/block/mmcblk0/stat, storaged and dumpsys diskstats show what is written to it
+    write /sys/block/mmcblk0/queue/iostats 1
     write /sys/block/mmcblk0/queue/scheduler mq-deadline
     write /sys/block/mmcblk0/queue/iosched/slice_idle 0
     write /sys/block/mmcblk0/queue/rotational 0    
@@ -225,7 +227,7 @@ on boot
     write /sys/block/sda/queue/read_ahead_kb 2048
     write /sys/block/sda/queue/nr_requests 256
     write /sys/block/sda/queue/iostats 0
-    write /sys/block/mmcblk0/queue/iostats 0
+    write /sys/block/mmcblk0/queue/iostats 1
     write /sys/block/mmcblk0/queue/read_ahead_kb 512
     write /sys/block/mmcblk0/queue/nr_requests 2048
     write /sys/block/mmcblk0/queue/add_random 0 
@@ -233,7 +235,7 @@ on boot
     write /sys/block/mmcblk0/queue/discard_max_bytes 134217728
     # Second card slot (ROMs on TF2): same read-ahead as the boot card instead of the 128KB kernel default
     write /sys/block/mmcblk1/queue/read_ahead_kb 512
-    write /sys/block/mmcblk1/queue/iostats 0
+    write /sys/block/mmcblk1/queue/iostats 1
     write /sys/block/mmcblk1/queue/add_random 0
   
     trigger sys-boot-completed-set
