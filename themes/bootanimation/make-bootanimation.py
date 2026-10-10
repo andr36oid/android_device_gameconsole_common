@@ -4,7 +4,7 @@ bootanimation-retro.zip next to this script.
 
 The frames are a 480x144 strip; Android centres it on any screen and keeps the
 rest black, so one zip fits 640x480 and 720x720. 12 fps, pixels drawn 6x.
-  part0 (plays once): the name is typed out behind a cursor
+  part0 (plays once, always to the end): the name is typed out behind a cursor
   part1 (loops until Android is up): the cursor blinks, a block bounces below
 Needs Pillow.  Run from anywhere:  python3 make-bootanimation.py
 """
@@ -72,7 +72,7 @@ def main():
     part0 += [frame(len(TEXT), True, None)] * 3
     bounce = list(range(9)) + list(range(7, 0, -1))                     # 16 frames
     part1 = [frame(len(TEXT), (n // 4) % 2 == 0, b) for n, b in enumerate(bounce)]
-    desc = '%d %d %d\np 1 0 part0\np 0 0 part1\n' % (LW * UNIT, LH * UNIT, FPS)
+    desc = '%d %d %d\nc 1 0 part0\np 0 0 part1\n' % (LW * UNIT, LH * UNIT, FPS)
     out = os.path.join(HERE, 'bootanimation-retro.zip')
     with zipfile.ZipFile(out, 'w', zipfile.ZIP_STORED) as z:
         def add(name, data):
