@@ -49,7 +49,7 @@
 
     <!-- Shoulder buttons -->
     <string name="tutorial_shoulder_title">Shoulder buttons</string>
-    <string name="tutorial_shoulder_body">L1 and R1 are the upper shoulder buttons, L2 and R2 the lower ones. Many apps use L1 and R1 to switch tabs or pages.\n\nPress each of them once.</string>
+    <string name="tutorial_shoulder_body">The shoulder buttons are on the back: L1 and R1 on the outside, L2 and R2 next to them on the inside. Many apps use L1 and R1 to switch tabs or pages.\n\nPress each of them once.</string>
     <string name="tutorial_press_l1">Press L1</string>
     <string name="tutorial_press_r1">Press R1</string>
     <string name="tutorial_press_l2">Press L2</string>

@@ -6,7 +6,7 @@
     <string name="controls_topic_retroarch">В играх (RetroArch)</string>
     <string name="controls_topic_emulators">Другие эмуляторы</string>
     <string name="controls_topic_mouse">Режим мыши</string>
-    <string name="controls_console_top">Кнопки, нарисованные вокруг консоли, находятся на её торцах: шифты сверху, питание слева, громкость справа.</string>
+    <string name="controls_console_top">Кнопки, нарисованные вокруг консоли, находятся на её торцах: шифты сзади, питание слева, громкость справа.</string>
     <string name="controls_console_labels">Кнопки называются так, как они подписаны на консоли. На некоторых клонах они расположены иначе.</string>
     <string name="controls_start">Подтвердить, как A</string>
     <string name="controls_dpad">Перемещение по меню и спискам</string>
