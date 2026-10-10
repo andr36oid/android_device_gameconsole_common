@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="game_mode_steady_memory">Konstanter Speichertakt</string>
+    <string name="game_mode_steady_memory_summary">Hält den Arbeitsspeicher beim Spielen auf voller Geschwindigkeit, damit sich sein Takt nie mitten im Spiel ändert. Braucht etwas mehr Akku.</string>
+</resources>

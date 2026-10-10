@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="profile_about_performance">Émulation la plus fluide. Le CPU ne descend jamais sous <xliff:g id="cpu">%1$s</xliff:g>, le GPU tourne en permanence à <xliff:g id="gpu">%2$d</xliff:g> MHz et la mémoire à pleine vitesse. Pour les jeux PS1, N64 et PSP. La batterie se vide plus vite.</string>
+</resources>

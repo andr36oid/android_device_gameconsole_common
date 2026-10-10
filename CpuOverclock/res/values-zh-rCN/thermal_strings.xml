@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="profile_about_performance">模拟最流畅。CPU 频率始终不低于 <xliff:g id="cpu">%1$s</xliff:g>，图形频率一直保持在 <xliff:g id="gpu">%2$d</xliff:g> MHz，内存也一直全速运行。适合 PS1、N64 和 PSP 游戏。耗电更快。</string>
+</resources>

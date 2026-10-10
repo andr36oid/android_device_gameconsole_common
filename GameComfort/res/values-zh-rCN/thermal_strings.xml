@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="game_mode_steady_memory">稳定内存速度</string>
+    <string name="game_mode_steady_memory_summary">玩游戏时让内存保持全速运行，使其速度不会在游戏中途变化。会稍微多耗一点电。</string>
+</resources>

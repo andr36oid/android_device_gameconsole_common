@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="profile_about_performance">Самая плавная эмуляция. Частота CPU не опускается ниже <xliff:g id="cpu">%1$s</xliff:g>, графика всё время работает на <xliff:g id="gpu">%2$d</xliff:g> MHz, а память — на полной скорости. Для игр PS1, N64 и PSP. Батарея садится быстрее.</string>
+</resources>

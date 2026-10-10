@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="profile_about_performance">En akıcı emülasyon. CPU hiçbir zaman <xliff:g id="cpu">%1$s</xliff:g> altına düşmez; grafik işlemcisi <xliff:g id="gpu">%2$d</xliff:g> MHz\'de, bellek ise tam hızda sürekli çalışır. PS1, N64 ve PSP oyunları için. Pil daha hızlı biter.</string>
+</resources>
