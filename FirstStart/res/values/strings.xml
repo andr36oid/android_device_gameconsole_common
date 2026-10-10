@@ -7,7 +7,4 @@
     <string name="home_body">Your home screen, Daijishou, opens here once the tutorial is done.\n\nThe tutorial comes back in a moment.</string>
     <string name="home_back">Back to the tutorial</string>
     <string name="home_skip">Skip tutorial</string>
-    <!-- While Daijishou's library is still being made on the first start -->
-    <string name="preparing_title">Preparing your games…</string>
-    <string name="preparing_body">Daijishou, your home screen, opens by itself as soon as your game systems are set up. On the first start this takes a few minutes.</string>
 </resources>
