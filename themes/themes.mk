@@ -15,9 +15,14 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
 	Andr36oidWallpapers
 
-# Retro UI sounds (d-pad moves, A, keyboard, charger), off by default. With
+# Retro UI sounds (d-pad moves, A, keyboard, charger), on by default. With
 # persist.andr36oid.ui_sounds=retro the audio service reads audio_assets_retro.xml
-# (frameworks/base SoundEffectsHelper) instead of the framework's sound list.
+# (frameworks/base SoundEffectsHelper) instead of the framework's sound list; the
+# charger sound's default is in the SettingsProvider overlay. Settings > Personalization
+# switches to Android's (=android, kept over this default).
+PRODUCT_PRODUCT_PROPERTIES += \
+	persist.andr36oid.ui_sounds=retro
+
 PRODUCT_COPY_FILES += \
 	device/gameconsole/common/themes/sounds/audio_assets_retro.xml:$(TARGET_COPY_OUT_PRODUCT)/etc/andr36oid/audio_assets_retro.xml \
 	$(foreach f,move select key key_space key_delete key_return key_invalid charging,\
