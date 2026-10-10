@@ -110,6 +110,22 @@
             </intent-filter>
         </activity>
 
+        <!-- The setup wizard's page after the tutorial: shut down now to copy games onto
+             EASYROMS -->
+        <activity
+            android:name=".SetupAddGamesActivity"
+            android:exported="true"
+            android:label="@string/add_games_title"
+            android:excludeFromRecents="true"
+            android:screenOrientation="nosensor"
+            android:configChanges="keyboard|keyboardHidden|navigation|touchscreen|orientation|screenSize|screenLayout|smallestScreenSize"
+            android:theme="@style/TutorialTheme">
+            <intent-filter>
+                <action android:name="org.andr36oid.guide.action.SETUP_ADD_GAMES" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
         <!-- The first start's safety net at boot and after the wizard: starts the watchdog
              while the first-start launcher is home, removes a left-over launcher -->
         <receiver

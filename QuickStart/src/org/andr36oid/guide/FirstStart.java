@@ -4,6 +4,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.role.RoleManager;
 import android.content.ComponentName;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,8 +13,10 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.PowerManager;
 import android.os.Process;
 import android.os.SystemClock;
+import android.provider.Settings;
 import android.util.Log;
 
 import java.util.List;
@@ -67,6 +70,7 @@ final class FirstStart {
     private static final String PREF_CRASHES = "first_start_crashes";
     // "Open the full guide" on the tutorial's last page in the setup wizard
     private static final String PREF_OPEN_GUIDE = "open_guide_after_setup";
+    private static final long SHUTDOWN_DELAY_MS = 2000;
 
     private static boolean sFinishing;
 
@@ -111,7 +115,9 @@ final class FirstStart {
             }
             // The home screen chosen in the wizard, once (FirstStart.finish does it otherwise)
             HomeChoice.applyOnce(context);
-            if (takeOpenGuide(context)) {
+            if (takeShutdown(context)) {
+                shutdownSoon(context);
+            } else if (takeOpenGuide(context)) {
                 open(context, true);
             }
         }
@@ -120,6 +126,33 @@ final class FirstStart {
     /** The tutorial in the setup wizard: open the guide once the setup is done. */
     static void openGuideAfterSetup(Context context) {
         prefs(context).edit().putBoolean(PREF_OPEN_GUIDE, true).commit();
+    }
+
+    /** "Shut down now" on the setup's add games page (SetupAddGamesActivity), once. */
+    private static boolean takeShutdown(Context context) {
+        final ContentResolver resolver = context.getContentResolver();
+        if (Settings.Global.getInt(resolver, SetupAddGamesActivity.SETTING_SHUTDOWN, 0) != 1) {
+            return false;
+        }
+        Settings.Global.putInt(resolver, SetupAddGamesActivity.SETTING_SHUTDOWN, 0);
+        return true;
+    }
+
+    /**
+     * Powers off a moment later: the home role and the package and settings changes are
+     * written to disk with a short delay.
+     */
+    private static void shutdownSoon(Context context) {
+        final Context app = context.getApplicationContext();
+        Log.i(TAG, "Setup done, shutting down so games can be added to EASYROMS");
+        new Handler(Looper.getMainLooper()).postDelayed(() -> {
+            try {
+                app.getSystemService(PowerManager.class).shutdown(false,
+                        "andr36oid: add games after setup", false);
+            } catch (RuntimeException e) {
+                Log.w(TAG, "Couldn't shut down", e);
+            }
+        }, SHUTDOWN_DELAY_MS);
     }
 
     private static boolean takeOpenGuide(Context context) {
@@ -223,7 +256,13 @@ final class FirstStart {
                 // picks the only home app left
                 Log.w(TAG, "Couldn't give the home role back, uninstalling anyway");
             }
-            open(app, guide);
+            if (takeShutdown(app)) {
+                // "Shut down now" on the add games page: Daijishou is home, so the next
+                // start opens it. A launcher not uninstalled yet goes on the next start.
+                shutdownSoon(app);
+            } else {
+                open(app, guide);
+            }
             uninstallLauncher(app);
             if (ok && home != null) {
                 // Only now that the chosen one is home: removing the other can't leave the

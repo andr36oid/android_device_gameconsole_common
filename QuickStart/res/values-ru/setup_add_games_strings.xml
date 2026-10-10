@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="add_games_title">Добавить игры сейчас?</string>
+    <string name="add_games_body">Игры хранятся на диске EASYROMS этой SD-карты. Если добавить их сейчас, Daijishou найдёт их при первом же запуске:\n\n1. Выберите «Выключить сейчас».\n2. Вставьте SD-карту в компьютер. Скопируйте каждую игру в папку её системы на EASYROMS, например nes, snes, gba или psx.\n3. Верните карту и включите консоль. Daijishou откроется и предложит найти игры: нажмите OK.\n\nИли продолжите сейчас и добавьте игры позже.</string>
+    <string name="add_games_shut_down">Выключить сейчас</string>
+    <string name="add_games_later">Не сейчас</string>
+</resources>

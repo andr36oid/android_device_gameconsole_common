@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- The setup wizard page after the tutorial (SetupAddGamesActivity) -->
+    <string name="add_games_title">Add your games now?</string>
+    <string name="add_games_body">Your games go on the EASYROMS drive of this SD card. If you add them now, Daijishou finds them the first time it opens:\n\n1. Choose Shut down now.\n2. Put the SD card in a computer. Copy each game into the folder of its system on EASYROMS, like nes, snes, gba or psx.\n3. Put the card back and start the console. Daijishou opens and asks to look for games: press OK.\n\nOr go on now and add games later.</string>
+    <string name="add_games_shut_down">Shut down now</string>
+    <string name="add_games_later">Not now</string>
+</resources>
