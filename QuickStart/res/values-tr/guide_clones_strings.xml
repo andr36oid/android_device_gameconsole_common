@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="trouble_panel_a">Konsolunuzda, bu kartın hazırlandığından farklı bir ekran var. Bilgisayarda BOOT\'u, ardından Panels klasörünü açın. Panel klasörlerinden birindeki tüm dosyaları BOOT\'un en üst dizinine kopyalayın ve oradaki dosyaların yerine koyun. Varsayılan Panel4\'tür, bu yüzden diğerlerini tek tek deneyin.</string>
+    <!-- Clone consoles -->
+    <string name="clone_title">Klon konsol kullanmak</string>
+    <string name="clone_intro">Birçok konsol R36S\'e benzer ama içi farklı yapılmıştır. Kart, orijinal R36S\'in dosyalarıyla başlar. Bir klon genellikle SD kartın BOOT sürücüsündeki başka dosyalara ihtiyaç duyar.</string>
+    <string name="clone_which_q">Hangi klasör</string>
+    <string name="clone_which_a">Bilgisayarda BOOT\'u açın. Panels içinde her orijinal R36S ekranı ve R36S Plus için bir klasör vardır. Experimental içinde K36, G80, R36 Max, R36 Ultra ve Soy Sauce kartları gibi bilinen her klon için bir klasör vardır. Panels ve Experimental içindeki README.txt, hangi konsolun hangi klasörle eşleştiğini söyler. Experimental dosyaları test edilmemiştir, bu yüzden onları yalnızca Panels işe yaramazsa kullanın.</string>
+    <string name="clone_soy">Soy Sauce kartları (kartın üzerinde Y3506 yazar) ekran doğru görünse bile asla Panel5 veya Panel6 kullanmamalıdır. Experimental içindeki bir Soy klasörünü kullanın.</string>
+    <string name="clone_copy_q">Tüm dosyaları kopyalayın</string>
+    <string name="clone_copy_a">Önce BOOT\'ta Backup adlı bir klasör oluşturun ve BOOT\'un en üst dizinindeki şu dosyaları içine kopyalayın: rk3326-r36s-android.dtb, üç rg351 dosyası, logo.bmp ve logo_kernel.bmp. Sonra klasörünüzdeki tüm dosyaları BOOT\'un en üst dizinine kopyalayın ve oradakilerin yerine koyun. Gerçekten hepsini: üç rg351 dosyası üç farklı adla aynı dosyadır ve konsolunuz istediğini seçer.</string>
+    <string name="clone_black_q">Ekran siyah kalıyor veya tuşlar çalışmıyor</string>
+    <string name="clone_black_a">Konsolunuza uyabilecek bir sonraki klasörü deneyin. Yalnızca açılış logosu siyah kalıyor ama Android açılıyorsa böyle bırakın. Geri dönmek için Backup klasörünüzdeki ya da Panels/Panel4 içindeki dosyaları BOOT\'un en üst dizinine kopyalayın.</string>
+    <string name="clone_emmc">R36 Ultra, R36 Max ve R39 Max gibi bazı klonlar önce kendi dahili belleklerinden açılır ve SD karta hiç bakmayabilir.</string>
+</resources>

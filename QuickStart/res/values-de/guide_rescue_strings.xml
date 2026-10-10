@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- If your console won't start -->
+    <string name="rescue_title">Wenn die Konsole nicht startet</string>
+    <string name="rescue_intro">Probier diese Schritte der Reihe nach. Keiner davon rührt deine Spiele auf EASYROMS an.</string>
+    <string name="rescue_safe_q">Abgesicherter Modus</string>
+    <string name="rescue_safe_row">Halte Vol−, während du die Konsole einschaltest, bis der Startbildschirm erscheint</string>
+    <string name="rescue_safe_a">Schalte sie zuerst aus; hängt sie, halte die Ein-/Aus-Taste 10 Sekunden lang. Im abgesicherten Modus steht unten links „Abgesicherter Modus“, und Apps, die du selbst installiert hast, laufen nicht, auch RetroArch und PPSSPP nicht. Deinstalliere die App, die Ärger macht, oder stell die Einstellung zurück. Starte normal neu, um den abgesicherten Modus zu verlassen.</string>
+    <string name="rescue_magisk_q">Sie startet nach einem Magisk-Modul nicht mehr</string>
+    <string name="rescue_magisk_a">Schalte sie aus und wieder ein, bis zu dreimal. Nach zwei Starts, die nicht fertig werden, schaltet Magisk alle Module selbst aus. Der abgesicherte Modus schaltet sie ebenfalls aus. Sie bleiben aus, bis du sie in der Magisk-App einzeln wieder einschaltest.</string>
+</resources>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="card_sync_q">Spielstände auf zwei Geräten gleich halten</string>
+    <string name="card_sync_a">Einstellungen &gt; Spielstand-Backup &gt; Spielstand-Sync hält deine Spielstände und Savestates auf dieser Konsole und deinem PC, Smartphone oder einer anderen Konsole gleich, über dein WLAN zu Hause. Es gibt keine Cloud und kein Konto, und Spiele und BIOS-Dateien werden nie kopiert. Synchronisiert wird, während die Konsole im WLAN lädt und solange diese Seite offen ist.</string>
+    <string name="card_sync_pair">Installiere auf einem PC oder Smartphone Syncthing und füge die ID der Konsole von dieser Seite hinzu oder scanne ihren Code. Der PC oder das Smartphone erscheint dann auf der Konsole unter „Gerät hinzufügen“: Drück dort A. Bei zwei Konsolen schalte auf beiden Spielstand-Sync ein und wähle dann jeweils die andere aus. Beende das Spiel, bevor du auf dem anderen Gerät spielst.</string>
+</resources>

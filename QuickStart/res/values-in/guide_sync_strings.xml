@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="card_sync_q">Samakan save di dua perangkat</string>
+    <string name="card_sync_a">Setelan &gt; Cadangan save &gt; Sinkronkan save menjaga save game dan save state Anda tetap sama di konsol ini dan di PC, ponsel, atau konsol lain, lewat Wi-Fi rumah. Tanpa cloud dan tanpa akun, dan game serta file BIOS tidak pernah disalin. Sinkronisasi berjalan saat konsol diisi daya dan terhubung ke Wi-Fi, dan selama halaman itu terbuka.</string>
+    <string name="card_sync_pair">Di PC atau ponsel, instal Syncthing dan tambahkan ID konsol dari halaman itu, atau pindai kodenya. PC atau ponsel itu lalu muncul di konsol di bawah Tambah perangkat: tekan A padanya. Untuk dua konsol, aktifkan Sinkronkan save di keduanya, lalu pilih masing-masing di konsol yang lain. Keluar dari game sebelum bermain di perangkat lain.</string>
+</resources>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="card_sync_q">Garder les mêmes sauvegardes sur deux appareils</string>
+    <string name="card_sync_a">Paramètres &gt; Copie des sauvegardes &gt; Synchro des sauvegardes garde vos sauvegardes de jeu et vos états de sauvegarde identiques sur cette console et sur votre PC, votre téléphone ou une autre console, via le Wi-Fi de la maison. Pas de cloud ni de compte, et les jeux et fichiers BIOS ne sont jamais copiés. La synchronisation a lieu pendant que la console charge en Wi-Fi, et tant que cette page est ouverte.</string>
+    <string name="card_sync_pair">Sur un PC ou un téléphone, installez Syncthing et ajoutez l\'ID de la console affiché sur cette page, ou scannez son code. Le PC ou le téléphone apparaît alors sur la console sous Ajouter un appareil : appuyez sur A dessus. Pour deux consoles, activez Synchro des sauvegardes sur les deux, puis choisissez chacune sur l\'autre. Quittez le jeu avant de jouer sur l\'autre appareil.</string>
+</resources>

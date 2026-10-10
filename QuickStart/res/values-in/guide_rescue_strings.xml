@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- If your console won't start -->
+    <string name="rescue_title">Jika konsol tidak mau menyala</string>
+    <string name="rescue_intro">Coba langkah-langkah ini secara berurutan. Tidak satu pun menyentuh game Anda di EASYROMS.</string>
+    <string name="rescue_safe_q">Mode aman</string>
+    <string name="rescue_safe_row">Tahan Vol− sambil menyalakan konsol, sampai layar utama muncul</string>
+    <string name="rescue_safe_a">Matikan dulu; tahan tombol daya 10 detik jika konsol macet. Di mode aman, tulisan “Mode aman” muncul di pojok kiri bawah dan aplikasi yang Anda instal sendiri tidak berjalan, termasuk RetroArch dan PPSSPP. Uninstall aplikasi yang bermasalah, atau kembalikan setelannya. Mulai ulang seperti biasa untuk keluar dari mode aman.</string>
+    <string name="rescue_magisk_q">Konsol tidak mau menyala setelah modul Magisk</string>
+    <string name="rescue_magisk_a">Matikan dan nyalakan lagi, sampai tiga kali. Setelah dua kali penyalaan yang tidak selesai, Magisk menonaktifkan semua modul sendiri. Mode aman juga menonaktifkannya. Modul tetap nonaktif sampai Anda mengaktifkannya lagi, satu per satu, di aplikasi Magisk.</string>
+</resources>

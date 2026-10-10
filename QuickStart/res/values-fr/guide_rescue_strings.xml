@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- If your console won't start -->
+    <string name="rescue_title">Si la console ne démarre plus</string>
+    <string name="rescue_intro">Essayez ces étapes dans l\'ordre. Aucune ne touche à vos jeux sur EASYROMS.</string>
+    <string name="rescue_safe_q">Mode sécurisé</string>
+    <string name="rescue_safe_row">Maintenez Vol− pendant que vous allumez la console, jusqu\'à l\'écran d\'accueil</string>
+    <string name="rescue_safe_a">Éteignez-la d\'abord ; maintenez Marche/Arrêt 10 secondes si elle est figée. En mode sécurisé, « Mode sécurisé » s\'affiche en bas à gauche et les applis que vous avez installées vous-même ne se lancent pas, RetroArch et PPSSPP non plus. Désinstallez l\'appli qui pose problème, ou rétablissez le paramètre. Redémarrez normalement pour quitter le mode sécurisé.</string>
+    <string name="rescue_magisk_q">Elle ne démarre plus après un module Magisk</string>
+    <string name="rescue_magisk_a">Éteignez-la et rallumez-la, jusqu\'à trois fois. Après deux démarrages qui n\'aboutissent pas, Magisk désactive de lui-même tous les modules. Le mode sécurisé les désactive aussi. Ils restent désactivés jusqu\'à ce que vous les réactiviez, un par un, dans l\'appli Magisk.</string>
+</resources>

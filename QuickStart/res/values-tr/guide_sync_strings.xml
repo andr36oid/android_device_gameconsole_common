@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="card_sync_q">Kayıtlarınızı iki cihazda aynı tutun</string>
+    <string name="card_sync_a">Ayarlar &gt; Kayıt yedekleme &gt; Kayıtları eşitle, oyun kayıtlarınızı ve kayıt durumlarınızı bu konsolda ve bilgisayarınızda, telefonunuzda veya başka bir konsolda ev Wi-Fi\'ınız üzerinden aynı tutar. Bulut ve hesap yoktur; oyunlar ve BIOS dosyaları asla kopyalanmaz. Konsol Wi-Fi\'dayken şarj olurken ve o sayfa açıkken eşitler.</string>
+    <string name="card_sync_pair">Bilgisayara veya telefona Syncthing\'i yükleyin ve o sayfadaki konsol kimliğini ekleyin ya da kodunu tarayın. Bilgisayar veya telefon sonra konsolda Cihaz ekle altında görünür: üzerinde A\'ya basın. İki konsol için ikisinde de Kayıtları eşitle\'yi açın, sonra her birinde diğerini seçin. Diğer cihazda oynamadan önce oyundan çıkın.</string>
+</resources>

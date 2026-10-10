@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- A second controller -->
+    <string name="pads_title">Bermain dengan kontroler kedua</string>
+    <string name="pads_connect">Colokkan gamepad USB ke port OTG, dengan adaptor jika perlu. Untuk gamepad Bluetooth, buka Setelan &gt; Kontroler &gt; Sandingkan kontroler Bluetooth, masukkan gamepad ke mode pairing, lalu tekan A padanya di daftar. Halaman itu menjelaskan cara masuk ke mode pairing di gamepad Xbox, PlayStation, Switch, dan 8BitDo.</string>
+    <string name="pads_players">Di RetroArch, tombol konsol sendiri tetap menjadi pemain 1. Gamepad tambahan menjadi pemain 2, 3, dan seterusnya, sesuai urutan Anda pertama kali menekan tombolnya.</string>
+    <string name="pads_alone">Ingin bermain sendiri dengan gamepad yang lebih besar? Setel Setelan &gt; Kontroler &gt; Pemain 1 di RetroArch ke Kontroler eksternal. Keluar dari RetroArch dulu; perubahan berlaku sejak RetroArch dimulai lagi.</string>
+    <string name="pads_menu">Di gamepad apa pun, L1 + R1 + Start + Select, atau tombol Xbox, PS, atau Capture, membuka menu RetroArch. Start + Select yang ditekan dua kali akan keluar dari game. Game PSP hanya punya satu pemain, dan setiap gamepad mengendalikannya.</string>
+</resources>

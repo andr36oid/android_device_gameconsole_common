@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="trouble_panel_a">Deine Konsole hat einen anderen Bildschirm als den, für den diese Karte eingerichtet wurde. Öffne am Computer BOOT und dann Panels. Kopiere alle Dateien aus einem der Panel-Ordner nach oben in BOOT und ersetze die Dateien dort. Panel4 ist der Standard, probiere also die anderen nacheinander aus.</string>
+    <!-- Clone consoles -->
+    <string name="clone_title">Eine Klon-Konsole nutzen</string>
+    <string name="clone_intro">Viele Konsolen sehen aus wie die R36S, sind innen aber anders gebaut. Die Karte startet mit den Dateien für die echte R36S. Ein Klon braucht meist andere Dateien vom Laufwerk BOOT der SD-Karte.</string>
+    <string name="clone_which_q">Welcher Ordner</string>
+    <string name="clone_which_a">Öffne am Computer BOOT. Panels hat einen Ordner für jeden Bildschirm der echten R36S und für die R36S Plus. Experimental hat einen Ordner für jeden bekannten Klon, etwa K36, G80, R36 Max, R36 Ultra und die Soy-Sauce-Platinen. Die README.txt in Panels und in Experimental sagt, welche Konsole zu welchem Ordner gehört. Die Dateien in Experimental sind ungetestet, nutze sie also nur, wenn Panels nicht funktioniert.</string>
+    <string name="clone_soy">Soy-Sauce-Platinen (Y3506 auf die Platine gedruckt) dürfen nie Panel5 oder Panel6 nutzen, selbst wenn der Bildschirm richtig aussieht. Nutze einen Soy-Ordner in Experimental.</string>
+    <string name="clone_copy_q">Alle Dateien kopieren</string>
+    <string name="clone_copy_a">Leg zuerst auf BOOT einen Ordner namens Backup an und kopiere diese Dateien von oben in BOOT hinein: rk3326-r36s-android.dtb, die drei rg351-Dateien, logo.bmp und logo_kernel.bmp. Kopiere dann alle Dateien aus deinem Ordner nach oben in BOOT und ersetze die dort. Wirklich alle: Die drei rg351-Dateien sind dieselbe Datei unter drei Namen, und deine Konsole sucht sich die aus, die sie will.</string>
+    <string name="clone_black_q">Der Bildschirm bleibt schwarz oder die Tasten funktionieren nicht</string>
+    <string name="clone_black_a">Probier den nächsten Ordner, der zu deiner Konsole passen könnte. Bleibt nur das Startlogo schwarz, aber Android erscheint, behalte ihn. Um zurückzugehen, kopiere die Dateien aus deinem Backup-Ordner oder aus Panels/Panel4 nach oben in BOOT.</string>
+    <string name="clone_emmc">Manche Klone wie die R36 Ultra, R36 Max und R39 Max starten zuerst von ihrem eingebauten Speicher und schauen eventuell gar nicht auf die SD-Karte.</string>
+</resources>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- If your console won't start -->
+    <string name="rescue_title">Se o console não inicia</string>
+    <string name="rescue_intro">Tente estes passos na ordem. Nenhum deles mexe nos seus jogos no EASYROMS.</string>
+    <string name="rescue_safe_q">Modo de segurança</string>
+    <string name="rescue_safe_row">Segure Vol− enquanto liga o console, até a tela inicial aparecer</string>
+    <string name="rescue_safe_a">Desligue o console primeiro; se ele travar, segure o botão liga/desliga por 10 segundos. No modo de segurança, “Modo de segurança” aparece no canto inferior esquerdo e os apps que você mesmo instalou não abrem, incluindo o RetroArch e o PPSSPP. Desinstale o app que está causando o problema ou volte a configuração ao que era. Reinicie normalmente para sair do modo de segurança.</string>
+    <string name="rescue_magisk_q">Parou de iniciar depois de um módulo do Magisk</string>
+    <string name="rescue_magisk_a">Desligue e ligue de novo, até três vezes. Depois de duas inicializações que não terminam, o Magisk desativa todos os módulos sozinho. O modo de segurança também os desativa. Eles continuam desativados até você ativá-los de novo, um por um, no app Magisk.</string>
+</resources>

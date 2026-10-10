@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="card_sync_q">Las mismas partidas en dos dispositivos</string>
+    <string name="card_sync_a">Ajustes &gt; Copia de partidas &gt; Sincronizar partidas mantiene iguales tus partidas guardadas y tus guardados rápidos en esta consola y en tu PC, teléfono u otra consola, a través del Wi-Fi de casa. No hay nube ni cuenta, y los juegos y archivos BIOS nunca se copian. Sincroniza mientras la consola se carga con el Wi-Fi conectado, y también mientras esa página está abierta.</string>
+    <string name="card_sync_pair">En un PC o teléfono, instala Syncthing y añade el ID de la consola que aparece en esa página, o escanea su código. Después, el PC o el teléfono aparece en la consola en Añadir un dispositivo: pulsa A sobre él. Con dos consolas, activa Sincronizar partidas en las dos y luego, en cada una, elige la otra. Cierra el juego antes de jugar en el otro dispositivo.</string>
+</resources>
