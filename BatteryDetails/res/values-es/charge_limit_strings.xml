@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Charge limit setting -->
+    <string name="limit_title">Cuidado de la batería</string>
+    <string name="limit_setting">Límite de carga</string>
+    <string name="limit_off">Desactivado, carga al 100 %</string>
+    <string name="limit_choice">Parar al <xliff:g id="percent">%1$d</xliff:g> %%</string>
+    <string name="limit_summary_off">Desactivado. Si la consola pasa mucho tiempo en el cargador, un límite hace que la batería dure más años.</string>
+    <string name="limit_summary">Deja de cargar al <xliff:g id="limit">%1$d</xliff:g> %% y vuelve a cargar al <xliff:g id="resume">%2$d</xliff:g> %%. Mientras tanto, la consola funciona con el cargador. Desactívalo antes de un viaje largo para tener la carga completa.</string>
+    <string name="status_limit_hold">Enchufada, se mantiene en el límite de carga</string>
+</resources>

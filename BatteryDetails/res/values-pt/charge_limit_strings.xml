@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Charge limit setting -->
+    <string name="limit_title">Cuidados com a bateria</string>
+    <string name="limit_setting">Limite de carga</string>
+    <string name="limit_off">Desativado, carrega até 100%</string>
+    <string name="limit_choice">Parar em <xliff:g id="percent">%1$d</xliff:g>%%</string>
+    <string name="limit_summary_off">Desativado. Se o console fica sempre no carregador, um limite faz a bateria durar mais anos.</string>
+    <string name="limit_summary">Para de carregar em <xliff:g id="limit">%1$d</xliff:g>%% e volta a carregar em <xliff:g id="resume">%2$d</xliff:g>%%. Nesse intervalo, o console funciona pelo carregador. Desative antes de uma viagem longa para ter a carga completa.</string>
+    <string name="status_limit_hold">Conectado, carga pausada no limite</string>
+</resources>

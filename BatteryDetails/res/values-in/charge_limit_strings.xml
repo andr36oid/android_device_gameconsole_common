@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Charge limit setting -->
+    <string name="limit_title">Perawatan baterai</string>
+    <string name="limit_setting">Batas pengisian</string>
+    <string name="limit_off">Nonaktif, isi sampai 100%</string>
+    <string name="limit_choice">Berhenti di <xliff:g id="percent">%1$d</xliff:g>%%</string>
+    <string name="limit_summary_off">Nonaktif. Untuk konsol yang selalu di charger, batas pengisian membuat baterai awet bertahun-tahun lebih lama.</string>
+    <string name="limit_summary">Berhenti mengisi di <xliff:g id="limit">%1$d</xliff:g>%% dan mulai lagi di <xliff:g id="resume">%2$d</xliff:g>%%. Di antaranya konsol berjalan dari charger. Nonaktifkan sebelum perjalanan jauh agar terisi penuh.</string>
+    <string name="status_limit_hold">Tercolok, ditahan di batas pengisian</string>
+</resources>

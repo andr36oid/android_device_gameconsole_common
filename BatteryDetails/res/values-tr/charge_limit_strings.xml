@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Charge limit setting -->
+    <string name="limit_title">Pil bakımı</string>
+    <string name="limit_setting">Şarj sınırı</string>
+    <string name="limit_off">Kapalı, %100\'e kadar şarj</string>
+    <string name="limit_choice">%%<xliff:g id="percent">%1$d</xliff:g> seviyesinde dur</string>
+    <string name="limit_summary_off">Kapalı. Sürekli şarjda duran bir konsolda sınır, pilin daha çok yıl dayanmasını sağlar.</string>
+    <string name="limit_summary">Şarjı %%<xliff:g id="limit">%1$d</xliff:g> seviyesinde durdurur ve %%<xliff:g id="resume">%2$d</xliff:g> seviyesinde yeniden başlatır. Arada konsol şarj cihazından çalışır. Tam şarj için uzun bir yolculuktan önce bunu kapatın.</string>
+    <string name="status_limit_hold">Takılı, şarj sınırında tutuluyor</string>
+</resources>
