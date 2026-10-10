@@ -66,9 +66,9 @@
 
     <!-- A second controller -->
     <string name="pads_title">Playing with a second controller</string>
-    <string name="pads_connect">Plug a USB pad into the OTG port, with an adapter if needed. For a Bluetooth pad, open Settings &gt; Controllers &gt; Pair a Bluetooth controller, put the pad into pairing mode and press A on it in the list. The page says how pairing mode works on Xbox, PlayStation, Switch and 8BitDo pads.</string>
+    <string name="pads_connect">Plug a USB pad into the OTG port, with an adapter if needed. For a Bluetooth pad, open Settings &gt; Controls &gt; External controllers &gt; Pair a Bluetooth controller, put the pad into pairing mode and press A on it in the list. The page says how pairing mode works on Xbox, PlayStation, Switch and 8BitDo pads.</string>
     <string name="pads_players">In RetroArch the console\'s own buttons stay player 1. Extra pads are player 2, 3 and so on, in the order you first press a button on them.</string>
-    <string name="pads_alone">Want to play alone on the bigger pad? Set Settings &gt; Controllers &gt; Player 1 in RetroArch to External controller. Quit RetroArch first; the change counts from its next start.</string>
+    <string name="pads_alone">Want to play alone on the bigger pad? Set Settings &gt; Controls &gt; Player 1 in RetroArch to External controller. Quit RetroArch first; the change counts from its next start.</string>
     <string name="pads_menu">On any pad, L1 + R1 + Start + Select, or the Xbox, PS or Capture button, opens the RetroArch menu. Start + Select pressed twice quits the game. PSP games have only one player, and every pad controls it.</string>
 
     <!-- Speed and battery -->
@@ -121,7 +121,7 @@
     <string name="trouble_bios_a">Some systems, like Sega CD and PC Engine CD, need a file from the original console (a BIOS), and PlayStation games work better with one. Put these files in the bios folder on EASYROMS. Settings &gt; Emulator files shows what\'s missing.</string>
     <string name="trouble_buttons_q">The buttons do the wrong thing</string>
     <string name="trouble_sticks_q">Sticks drift or don\'t reach the edge</string>
-    <string name="trouble_sticks_a">Open Settings &gt; Calibrate sticks and press A. Move both sticks in full circles, slowly and all the way to the edge. Then let go of them and press A. From then on every game and app uses the corrected sticks, also after a restart.</string>
+    <string name="trouble_sticks_a">Open Settings &gt; Controls &gt; Calibrate sticks and press A. Move both sticks in full circles, slowly and all the way to the edge. Then let go of them and press A. From then on every game and app uses the corrected sticks, also after a restart.</string>
     <string name="trouble_sticks_more">Still creeping a little? Left and right on the D-pad change the dead zone, the part around the middle that is ignored. Press X twice to go back to the factory settings.</string>
     <string name="trouble_recovery_q">Recovery and factory reset</string>
     <string name="trouble_recovery_a">Hold FN while you switch the console on</string>
