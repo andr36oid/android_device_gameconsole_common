@@ -902,6 +902,13 @@ find_easyroms() {
 	EASYROMS=
 	if [ -e "$EASYROMS_PART" ]; then
 		EASYROMS=$(easyroms_path) || EASYROMS=
+		# On a first start vold checks the new card for minutes before it
+		# mounts EASYROMS. The steps that need it then run once the rest is
+		# done, when it shows up, instead of on the next start.
+		if [ -z "$EASYROMS" ] && [ -z "$GAMECONSOLE_EMU_TEST" ]; then
+			log "EASYROMS not mounted yet, its steps wait for it"
+			trap easyroms_late EXIT
+		fi
 	else
 		NOROMS=1
 		log "no EASYROMS partition on this card (.noroms)"
@@ -958,6 +965,31 @@ seed_free_games() {
 	done <"$STATE/free-games.list"
 	rm -f "$STATE/free-games.list"
 	log "copied $n files (free games and their licences) to EASYROMS"
+}
+
+# easyroms_late: the EASYROMS steps of a start that ended before vold mounted
+# it, run from the exit trap: the ROM folders with the free games, their
+# .nomedia files, the BIOS folder, Daijishou's systems. Waits up to about 20
+# minutes (easyroms_path waits a minute per call).
+EASYROMS_LATE_TRIES=20
+easyroms_late() {
+	local i=0
+	trap - EXIT
+	while [ $i -lt $EASYROMS_LATE_TRIES ]; do
+		EASYROMS=$(easyroms_path) && break
+		EASYROMS=
+		i=$((i + 1))
+	done
+	if [ -z "$EASYROMS" ]; then
+		log "EASYROMS still not mounted, its steps next start"
+		return 0
+	fi
+	log "EASYROMS mounted at $EASYROMS, doing its steps now"
+	make_rom_folders
+	command -v rom_nomedia >/dev/null && rom_nomedia
+	bios_folder
+	seed_daijishou
+	dj_new_games
 }
 
 make_rom_folders() {
