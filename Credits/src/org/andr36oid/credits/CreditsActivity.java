@@ -92,6 +92,10 @@ public class CreditsActivity extends Activity {
         mScroll.setVerticalScrollBarEnabled(false);
         mScroll.setVerticalFadingEdgeEnabled(true);
         mScroll.setFadingEdgeLength(dp(48));
+        // Nothing on this screen takes input: without this the scroll view gets the focus on
+        // start and Android draws its focus highlight, a white veil, over all of it.
+        mScroll.setFocusable(false);
+        mScroll.setDefaultFocusHighlightEnabled(false);
         mScroll.addView(mContent);
         setContentView(mScroll);
     }
