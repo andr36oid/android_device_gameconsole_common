@@ -114,7 +114,6 @@
     <string name="trouble_buttons_q">Кнопки делают не то</string>
     <string name="trouble_recovery_q">Recovery и сброс настроек</string>
     <string name="trouble_recovery_a">Удерживайте FN при включении консоли</string>
-    <string name="trouble_recovery_more">Так запускается система восстановления (recovery), которая нужна для сброса к заводским настройкам или установки обновлений с компьютера. Сброс удаляет ваши приложения и настройки, но не игры на EASYROMS.</string>
     <string name="trouble_clock_q">Неверные дата или время</string>
     <string name="trouble_clock_a">Когда батарея садится полностью, консоль забывает время. Установите его в разделе Настройки &gt; Система &gt; Дата и время. При подключении к сети время устанавливается само, если включён параметр «Использовать время сети».</string>
 

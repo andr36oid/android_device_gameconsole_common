@@ -114,7 +114,6 @@
     <string name="trouble_buttons_q">Tuşlar yanlış şey yapıyor</string>
     <string name="trouble_recovery_q">Kurtarma ve fabrika sıfırlaması</string>
     <string name="trouble_recovery_a">Konsolu açarken FN tuşunu basılı tutun</string>
-    <string name="trouble_recovery_more">Bu, fabrika ayarlarına sıfırlama veya bilgisayardan güncelleme yüklemek için kullanılan kurtarma sistemini başlatır. Fabrika ayarlarına sıfırlama uygulamalarınızı ve ayarlarınızı siler, ama EASYROMS\'taki oyunları silmez.</string>
     <string name="trouble_clock_q">Tarih veya saat yanlış</string>
     <string name="trouble_clock_a">Pil tamamen bittiğinde konsol saati unutur. Saati Ayarlar &gt; Sistem &gt; Tarih ve saat bölümünden ayarlayın. Ağ bağlantısı varsa, \"Ağın sağladığı saati kullan\" açık olduğu sürece saat kendini ayarlar.</string>
 

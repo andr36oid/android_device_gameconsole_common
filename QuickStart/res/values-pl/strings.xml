@@ -112,7 +112,6 @@
     <string name="trouble_buttons_q">Przyciski robią nie to, co trzeba</string>
     <string name="trouble_recovery_q">Recovery i reset fabryczny</string>
     <string name="trouble_recovery_a">Przytrzymaj FN podczas włączania konsoli</string>
-    <string name="trouble_recovery_more">Uruchamia to system recovery, służący do przywracania ustawień fabrycznych lub instalowania aktualizacji z komputera. Przywrócenie ustawień fabrycznych usuwa aplikacje i ustawienia, ale nie gry na EASYROMS.</string>
     <string name="trouble_clock_q">Data lub godzina jest nieprawidłowa</string>
     <string name="trouble_clock_a">Konsola zapomina godzinę, gdy bateria rozładuje się do zera. Ustaw ją w Ustawienia &gt; System &gt; Data i godzina. Z połączeniem sieciowym ustawia się sama, o ile opcja „Użyj czasu podanego przez sieć” jest włączona.</string>
 

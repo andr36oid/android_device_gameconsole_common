@@ -114,7 +114,6 @@
     <string name="trouble_buttons_q">Die Tasten machen das Falsche</string>
     <string name="trouble_recovery_q">Recovery und Werksreset</string>
     <string name="trouble_recovery_a">Halte FN gedrückt, während du die Konsole einschaltest</string>
-    <string name="trouble_recovery_more">Das startet das Recovery-System, mit dem du auf Werkseinstellungen zurücksetzen oder Updates vom Computer installieren kannst. Das Zurücksetzen löscht deine Apps und Einstellungen, aber nicht die Spiele auf EASYROMS.</string>
     <string name="trouble_clock_q">Datum oder Uhrzeit sind falsch</string>
     <string name="trouble_clock_a">Die Konsole vergisst die Uhrzeit, wenn der Akku ganz leer wird. Stell sie unter Einstellungen &gt; System &gt; Datum und Uhrzeit ein. Mit Netzwerkverbindung stellt sie sich selbst, solange „Zeit aus Netzwerk verwenden“ an ist.</string>
 

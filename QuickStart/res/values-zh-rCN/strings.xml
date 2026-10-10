@@ -114,7 +114,6 @@
     <string name="trouble_buttons_q">按键功能不对</string>
     <string name="trouble_recovery_q">恢复模式和恢复出厂设置</string>
     <string name="trouble_recovery_a">开机时按住 FN</string>
-    <string name="trouble_recovery_more">这会启动恢复模式，用于恢复出厂设置或从电脑安装更新。恢复出厂设置会清除您的应用和设置，但不会清除 EASYROMS 上的游戏。</string>
     <string name="trouble_clock_q">日期或时间不对</string>
     <string name="trouble_clock_a">电池完全耗尽时，掌机会忘记时间。请在“设置 &gt; 系统 &gt; 日期和时间”中设置。只要开启了“使用网络提供的时间”，连接网络后就会自动设置。</string>
 

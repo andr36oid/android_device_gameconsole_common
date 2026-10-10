@@ -114,7 +114,6 @@
     <string name="trouble_buttons_q">Tombol melakukan hal yang salah</string>
     <string name="trouble_recovery_q">Recovery dan reset ke setelan pabrik</string>
     <string name="trouble_recovery_a">Tahan FN saat menyalakan konsol</string>
-    <string name="trouble_recovery_more">Ini memulai sistem recovery, yang dipakai untuk reset ke setelan pabrik atau menginstal update dari komputer. Reset ke setelan pabrik menghapus aplikasi dan setelan Anda, tetapi tidak menghapus game di EASYROMS.</string>
     <string name="trouble_clock_q">Tanggal atau waktu salah</string>
     <string name="trouble_clock_a">Konsol lupa waktu saat baterai benar-benar habis. Atur di Setelan &gt; Sistem &gt; Tanggal &amp; waktu. Dengan koneksi jaringan, waktu diatur sendiri, selama \"Gunakan waktu yang disediakan jaringan\" aktif.</string>
 

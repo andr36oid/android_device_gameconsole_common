@@ -114,7 +114,6 @@
     <string name="trouble_buttons_q">Os botões fazem a coisa errada</string>
     <string name="trouble_recovery_q">Recovery e redefinição de fábrica</string>
     <string name="trouble_recovery_a">Segure FN enquanto liga o console</string>
-    <string name="trouble_recovery_more">Isso inicia o sistema de recovery, usado para redefinir para a configuração original ou instalar atualizações de um computador. A redefinição apaga seus apps e configurações, mas não os jogos no EASYROMS.</string>
     <string name="trouble_clock_q">A data ou a hora está errada</string>
     <string name="trouble_clock_a">O console esquece a hora quando a bateria acaba totalmente. Ajuste em Configurações &gt; Sistema &gt; Data e hora. Com uma conexão de rede, ela se ajusta sozinha, desde que “Usar horário fornecido pela rede” esteja ativado.</string>
 

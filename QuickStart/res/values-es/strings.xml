@@ -114,7 +114,6 @@
     <string name="trouble_buttons_q">Los botones no hacen lo que deben</string>
     <string name="trouble_recovery_q">Recovery y valores de fábrica</string>
     <string name="trouble_recovery_a">Mantén FN mientras enciendes la consola</string>
-    <string name="trouble_recovery_more">Así se inicia el sistema de recuperación (recovery), que sirve para restablecer el estado de fábrica o instalar actualizaciones desde un ordenador. El restablecimiento de fábrica borra tus apps y ajustes, pero no los juegos de EASYROMS.</string>
     <string name="trouble_clock_q">La fecha o la hora no son correctas</string>
     <string name="trouble_clock_a">La consola olvida la hora cuando la batería se agota por completo. Ajústala en Ajustes &gt; Sistema &gt; Fecha y hora. Con conexión a una red se ajusta sola, siempre que «Usar la hora proporcionada por la red» esté activado.</string>
 

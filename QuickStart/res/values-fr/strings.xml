@@ -114,7 +114,6 @@
     <string name="trouble_buttons_q">Les boutons ne font pas ce qu\'il faut</string>
     <string name="trouble_recovery_q">Recovery et réinitialisation d\'usine</string>
     <string name="trouble_recovery_a">Maintenez FN pendant que vous allumez la console</string>
-    <string name="trouble_recovery_more">Cela lance le système de recovery, qui sert à la réinitialisation d\'usine ou à installer des mises à jour depuis un ordinateur. La réinitialisation d\'usine efface vos applis et paramètres, mais pas les jeux sur EASYROMS.</string>
     <string name="trouble_clock_q">La date ou l\'heure est fausse</string>
     <string name="trouble_clock_a">La console oublie l\'heure quand la batterie se vide complètement. Réglez-la dans Paramètres &gt; Système &gt; Date et heure. Avec une connexion réseau, elle se règle toute seule, tant que « Utiliser la date et l\'heure fournies par le réseau » est activé.</string>
 
