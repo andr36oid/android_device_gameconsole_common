@@ -206,7 +206,8 @@ first_start() {
 }
 
 # Cromite blocks the Gamepad API (its RestrictGamepadAccess feature, on by
-# default), so browser games don't see the pad. Chromium on Android reads extra
+# default), so browser games don't see the pad, and opens with a welcome screen
+# that is no use on a console (--disable-fre skips it). Chromium on Android reads extra
 # switches from /data/local/chrome-command-line on any build (only root can
 # write there); the first word is a placeholder for the program name. Written
 # once, and only if there is no such file: a file the user made is left alone,
@@ -216,12 +217,15 @@ first_start() {
 # already). A power cut can leave our file empty: then it is written again.
 CHROME_CMDLINE=/data/local/chrome-command-line
 CROMITE_GAMEPAD_DONE=$STATE/cromite-gamepad.done
+CROMITE_SWITCHES="--disable-features=RestrictGamepadAccess --disable-fre"
+# what earlier builds wrote; a file with exactly this is ours and gets the new line
+CROMITE_SWITCHES_OLD="--disable-features=RestrictGamepadAccess"
 cromite_cmdline_write() {
 	local tmp=$CHROME_CMDLINE.tmp
 	rm -f "$tmp"
 	# a temp file and a rename, so the file is never there half written.
 	# Cromite reads it as its own app user: 644.
-	if ! echo "_ --disable-features=RestrictGamepadAccess" >"$tmp" ||
+	if ! echo "_ $CROMITE_SWITCHES" >"$tmp" ||
 		! chmod 644 "$tmp" || ! mv -f "$tmp" "$CHROME_CMDLINE"; then
 		rm -f "$tmp"
 		log "couldn't write $CHROME_CMDLINE, the browser keeps blocking the pad"
@@ -238,6 +242,8 @@ seed_cromite_gamepad() {
 		# ours, but emptied by a power cut: write it again (deleted stays deleted)
 		if [ "$mark" = written ] && [ -f "$CHROME_CMDLINE" ] && [ ! -s "$CHROME_CMDLINE" ]; then
 			cromite_cmdline_write
+		elif [ "$mark" = written ] && [ "$(cat "$CHROME_CMDLINE" 2>/dev/null)" = "_ $CROMITE_SWITCHES_OLD" ]; then
+			cromite_cmdline_write
 		fi
 		return 0
 	fi
@@ -249,6 +255,33 @@ seed_cromite_gamepad() {
 		echo user >"$CROMITE_GAMEPAD_DONE"
 	fi
 	return 0
+}
+
+# Cromite's default search engine: DuckDuckGo Light, one of its built-in
+# engines. Chromium keeps the choice in its profile's Preferences file, so one
+# is written before Cromite's first start (no app_chrome folder yet). After
+# that the file is Cromite's and never touched; the user changes the engine in
+# Cromite's settings.
+CROMITE_PKG=org.cromite.cromite
+seed_cromite_search() {
+	local data=/data/user/0/$CROMITE_PKG owner dir
+	[ -d "$data" ] || return 0
+	[ -e "$data/app_chrome" ] && return 0
+	owner=$(stat -c %u:%g "$data") || return 0
+	dir=$data/app_chrome/Default
+	if ! mkdir -p "$dir" || ! cat >"$dir/Preferences" <<'PREFS'
+{"default_search_provider_data":{"template_url_data":{"short_name":"DuckDuckGo Light","keyword":"duckduckgo.com/lite","url":"https://duckduckgo.com/lite/?q={searchTerms}","favicon_url":"https://duckduckgo.com/favicon.ico","safe_for_autoreplace":true,"id":"1000","prepopulate_id":0,"date_created":"0","last_modified":"0","last_visited":"0","usage_count":0,"alternate_urls":[],"input_encodings":["UTF-8"]}}}
+PREFS
+	then
+		rm -rf "$data/app_chrome"
+		log "couldn't set the browser's search engine"
+		return 0
+	fi
+	chown -R "$owner" "$data/app_chrome"
+	chmod 700 "$data/app_chrome" "$dir"
+	chmod 600 "$dir/Preferences"
+	restorecon -R "$data/app_chrome" 2>/dev/null
+	log "browser searches with DuckDuckGo Light"
 }
 
 install_apks() {
@@ -1942,6 +1975,7 @@ until pm path android </dev/null >/dev/null 2>&1; do
 done
 
 seed_cromite_gamepad
+seed_cromite_search
 first_start
 install_apks
 seed_ppsspp
