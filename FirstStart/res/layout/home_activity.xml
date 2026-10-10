@@ -8,6 +8,7 @@
     android:paddingEnd="48dp">
 
     <TextView
+        android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -15,6 +16,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
+        android:id="@+id/body"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:lineSpacingMultiplier="1.1"
@@ -24,6 +26,7 @@
         android:textSize="16sp" />
 
     <LinearLayout
+        android:id="@+id/buttons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"

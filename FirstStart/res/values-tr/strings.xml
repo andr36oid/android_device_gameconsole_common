@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="preparing_title">Oyunlarınız hazırlanıyor…</string>
+    <string name="preparing_body">Ana ekranınız Daijishou, oyun sistemleriniz hazır olur olmaz kendiliğinden açılır. İlk açılışta bu birkaç dakika sürer.</string>
+</resources>
