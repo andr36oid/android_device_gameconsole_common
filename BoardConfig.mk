@@ -85,6 +85,9 @@ TARGET_KERNEL_ARCH := arm64
 TARGET_KERNEL_CLANG_COMPILE := false
 BOARD_KERNEL_IMAGE_NAME = Image
 TARGET_KERNEL_CROSS_COMPILE_PREFIX := /opt/toolchains/gcc-linaro-6.3.1-2017.05-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-
+# The kernel's version line names andr36oid, not the build machine:
+# "Linux version ... (andr36oid@andr36oid)"
+TARGET_KERNEL_ADDITIONAL_FLAGS += KBUILD_BUILD_USER=andr36oid KBUILD_BUILD_HOST=andr36oid
 
 #BOARD_KERNEL_PAGESIZE := 4096
 #BOARD_KERNEL_BASE 	:= 0x10000000
