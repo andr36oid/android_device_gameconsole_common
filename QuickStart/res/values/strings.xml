@@ -105,9 +105,6 @@
     <string name="internet_title">Going online</string>
     <string name="internet_wifi">Most R36S consoles have no Wi-Fi built in, but some models, such as the R36XX, do. If yours has it, just turn on Wi-Fi in Settings &gt; Network &amp; internet. If not, plug a USB Wi-Fi adapter into the OTG port, with a USB-C adapter if it needs one, then turn on Wi-Fi there.</string>
     <string name="internet_browser">Cromite is the web browser.</string>
-    <string name="internet_file_q">Set up Wi-Fi from your PC</string>
-    <string name="internet_file_a">Typing a Wi-Fi password with the D-pad is slow. Put the SD card in a computer, open the BOOT drive and open andr36oid-setup.txt with Notepad. Write your network name after wifi_ssid = and the password after wifi_password =, then save. Language, time zone and the 24-hour clock can go in there too. Best done before the very first start, then the setup is already in your language.</string>
-    <string name="internet_file_after">At the next start the console adds the network and tells you what it did. The file is then called andr36oid-setup.applied.txt, with the password taken out. Later you can also put a new andr36oid-setup.txt on EASYROMS or a USB stick, for example for another network.</string>
 
     <!-- Troubleshooting -->
     <string name="trouble_title">Troubleshooting</string>
@@ -140,11 +137,6 @@
     <string name="rescue_safe_a">Switch it off first; hold Power for 10 seconds if it hangs. In safe mode, "Safe mode" shows in the bottom left corner and apps you installed yourself don\'t run, RetroArch and PPSSPP too. Uninstall the app that causes trouble, or change the setting back. Restart normally to leave safe mode.</string>
     <string name="rescue_magisk_q">It stopped starting after a Magisk module</string>
     <string name="rescue_magisk_a">Switch it off and on again, up to three times. After two starts that don\'t finish, Magisk turns all modules off by itself. Safe mode turns them off too. They stay off until you turn them back on, one by one, in the Magisk app.</string>
-    <string name="rescue_file_q">The rescue file on the SD card</string>
-    <string name="rescue_file_a">For a forgotten screen lock, a broken home screen or one broken app. Put the SD card in a computer, open the BOOT drive and open rescue.txt with Notepad. Change no to yes for what you need: safe_mode, disable_magisk_modules, remove_screen_lock or reset_home. To reset one app, write its name, for example: clear_app_data = retroarch</string>
-    <string name="rescue_file_after">Save the file, put the card back and start the console. The start takes a little longer. Afterwards rescue.txt says no everywhere again, and rescue-result.txt on BOOT tells you what was done.</string>
-    <string name="rescue_reset_q">Factory reset, the last step</string>
-    <string name="rescue_reset_a">This deletes the apps you installed, their data, your settings, saved Wi-Fi networks and Magisk modules. Your games on EASYROMS and your files on the internal storage stay, but the apps\' own folders there (Android/data) go too. In rescue.txt, write exactly:\nfactory_reset = delete my apps and settings</string>
 
     <!-- USB and computers -->
     <string name="usb_title">USB and computers</string>
