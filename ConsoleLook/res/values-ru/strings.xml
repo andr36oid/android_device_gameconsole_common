@@ -1,24 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="look_title">Внешний вид консоли</string>
-    <string name="look_summary">Цвет акцента, обои, звуки, анимация загрузки</string>
+    <string name="look_title">Персонализация</string>
+    <string name="look_summary">Цвет акцента, звуки, анимация загрузки</string>
     <string name="accent_title">Цвет акцента</string>
     <string name="accent_default">Бирюзовый LineageOS (по умолч.)</string>
-    <string name="wallpaper_title">Обои</string>
-    <string name="wallpaper_default">Чёрные (по умолчанию)</string>
-    <string name="wallpaper_other">Заданы в другом месте</string>
-    <string name="wallpaper_failed">Не удалось установить обои</string>
     <string name="sounds_title">Звуки интерфейса</string>
     <string name="sounds_android">Android (по умолчанию)</string>
     <string name="sounds_retro">Ретро</string>
     <string name="sounds_summary">%1$s. Звучат, если включён «Звук нажатия на экран» (Звук &gt; Расширенные настройки).</string>
-    <string name="sounds_restart_title">Перезапустите, чтобы услышать новые звуки</string>
-    <string name="sounds_restart_message">Android загружает звуки кнопок один раз, при запуске. Звук зарядки уже изменился.</string>
-    <string name="restart_now">Перезапустить</string>
-    <string name="later">Позже</string>
     <string name="bootanim_title">Анимация загрузки</string>
     <string name="bootanim_lineage">LineageOS (по умолчанию)</string>
     <string name="bootanim_retro">andr36oid ретро</string>
     <string name="bootanim_summary">%1$s. Появится со следующего запуска.</string>
-    <string name="about_wallpaper">Daijishou рисует собственный фон, поэтому обои видны только с другими главными экранами и в разделе «Стили и обои». Собственный фон Daijishou: настройки Daijishou &gt; Wallpaper settings.</string>
 </resources>

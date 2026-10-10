@@ -1,24 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="look_title">Visual do console</string>
-    <string name="look_summary">Cor de destaque, plano de fundo, sons, animação de inicialização</string>
+    <string name="look_title">Personalização</string>
+    <string name="look_summary">Cor de destaque, sons, animação de inicialização</string>
     <string name="accent_title">Cor de destaque</string>
     <string name="accent_default">Azul-petróleo do LineageOS (padrão)</string>
-    <string name="wallpaper_title">Plano de fundo</string>
-    <string name="wallpaper_default">Preto (padrão)</string>
-    <string name="wallpaper_other">Definido em outro lugar</string>
-    <string name="wallpaper_failed">Não foi possível definir o plano de fundo</string>
     <string name="sounds_title">Sons da interface</string>
     <string name="sounds_android">Android (padrão)</string>
     <string name="sounds_retro">Retrô</string>
     <string name="sounds_summary">%1$s. Toca quando Sons de toque está ativado (Som &gt; Avançado).</string>
-    <string name="sounds_restart_title">Reinicie para ouvir os novos sons</string>
-    <string name="sounds_restart_message">O Android carrega os sons dos botões uma vez, ao iniciar. O som do carregador já mudou.</string>
-    <string name="restart_now">Reiniciar agora</string>
-    <string name="later">Depois</string>
     <string name="bootanim_title">Animação de inicialização</string>
     <string name="bootanim_lineage">LineageOS (padrão)</string>
     <string name="bootanim_retro">andr36oid retrô</string>
     <string name="bootanim_summary">%1$s. Aparece a partir do próximo início.</string>
-    <string name="about_wallpaper">O Daijishou desenha o próprio fundo, então o plano de fundo só aparece com outras telas iniciais e em Estilos e planos de fundo. Para o fundo do próprio Daijishou: configurações do Daijishou &gt; Wallpaper settings.</string>
 </resources>

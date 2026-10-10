@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <!-- Names shown in Settings > Display > Console look, same order -->
+    <!-- Names, same order -->
     <string-array name="wallpaper_titles">
         <item>Pixel-Sonnenuntergang</item>
         <item>Hügel bei Nacht</item>

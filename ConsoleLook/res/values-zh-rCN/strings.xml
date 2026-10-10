@@ -1,24 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="look_title">掌机外观</string>
-    <string name="look_summary">强调色、壁纸、提示音、开机动画</string>
+    <string name="look_title">个性化</string>
+    <string name="look_summary">强调色、提示音、开机动画</string>
     <string name="accent_title">强调色</string>
     <string name="accent_default">LineageOS 青色（默认）</string>
-    <string name="wallpaper_title">壁纸</string>
-    <string name="wallpaper_default">黑色（默认）</string>
-    <string name="wallpaper_other">已在其他地方设置</string>
-    <string name="wallpaper_failed">无法设置壁纸</string>
     <string name="sounds_title">界面提示音</string>
     <string name="sounds_android">Android（默认）</string>
     <string name="sounds_retro">复古</string>
     <string name="sounds_summary">%1$s。开启“触摸提示音”时播放（声音 &gt; 高级）。</string>
-    <string name="sounds_restart_title">重启后才能听到新的提示音</string>
-    <string name="sounds_restart_message">Android 只在启动时加载一次按键提示音。充电提示音已经更改。</string>
-    <string name="restart_now">立即重启</string>
-    <string name="later">以后再说</string>
     <string name="bootanim_title">开机动画</string>
     <string name="bootanim_lineage">LineageOS（默认）</string>
     <string name="bootanim_retro">andr36oid 复古</string>
     <string name="bootanim_summary">%1$s。下次启动时显示。</string>
-    <string name="about_wallpaper">Daijishou 会绘制自己的背景，因此壁纸只在使用其他主屏幕时以及在“样式和壁纸”中显示。Daijishou 自己的背景：Daijishou 设置 &gt; Wallpaper settings。</string>
 </resources>
