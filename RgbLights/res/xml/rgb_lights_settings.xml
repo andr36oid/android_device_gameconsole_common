@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ListPreference
+        android:key="colour"
+        android:persistent="false"
+        android:title="@string/rgb_colour_title"
+        android:dialogTitle="@string/rgb_colour_title"
+        android:entries="@array/rgb_colour_names"
+        android:entryValues="@array/rgb_colour_values" />
+
+    <Preference
+        android:key="about"
+        android:selectable="false"
+        android:summary="@string/rgb_about" />
+</PreferenceScreen>

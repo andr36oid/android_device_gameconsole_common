@@ -519,6 +519,11 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
 	CpuOverclock
 
+# RGB lights (Settings > Display > RGB lights), shown only on consoles with an
+# RGB LED (R36 Ultra); off unless chosen
+PRODUCT_PACKAGES += \
+	RgbLights
+
 # USB mode: switches the OTG port between host and device (adb, MTP)
 # (Settings > USB mode, Quick Settings tile once used)
 PRODUCT_PACKAGES += \

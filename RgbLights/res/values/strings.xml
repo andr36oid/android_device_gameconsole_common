@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Settings > Display entry for the RGB LED of the R36 Ultra -->
+    <string name="rgb_title">RGB lights</string>
+    <string name="rgb_summary">Colour of the lights, or off</string>
+    <string name="rgb_colour_title">Colour</string>
+    <string name="rgb_about">The lights are off unless you pick a colour here. Your choice stays after a restart.</string>
+    <string name="rgb_missing">This console has no RGB lights</string>
+
+    <string-array name="rgb_colour_names">
+        <item>Off</item>
+        <item>Red</item>
+        <item>Green</item>
+        <item>Blue</item>
+        <item>Yellow</item>
+        <item>Cyan</item>
+        <item>Purple</item>
+        <item>White</item>
+    </string-array>
+
+    <!-- Must match the property triggers in init.rk30board.rc -->
+    <string-array name="rgb_colour_values" translatable="false">
+        <item>off</item>
+        <item>red</item>
+        <item>green</item>
+        <item>blue</item>
+        <item>yellow</item>
+        <item>cyan</item>
+        <item>purple</item>
+        <item>white</item>
+    </string-array>
+</resources>

@@ -331,4 +331,44 @@ service logger /system/bin/logcat -b all -D -f /boot/logcat.txt
     disabled
     oneshot
 
+# RGB lights (RgbLights app, R36 Ultra only). The LEDs exist only in that DTB;
+# elsewhere the property is never set, and the writes would fail harmlessly.
+on property:persist.sys.rgb_lights=off
+    write /sys/class/leds/red:status/brightness 0
+    write /sys/class/leds/green:status/brightness 0
+    write /sys/class/leds/blue:status/brightness 0
 
+on property:persist.sys.rgb_lights=red
+    write /sys/class/leds/red:status/brightness 1
+    write /sys/class/leds/green:status/brightness 0
+    write /sys/class/leds/blue:status/brightness 0
+
+on property:persist.sys.rgb_lights=green
+    write /sys/class/leds/red:status/brightness 0
+    write /sys/class/leds/green:status/brightness 1
+    write /sys/class/leds/blue:status/brightness 0
+
+on property:persist.sys.rgb_lights=blue
+    write /sys/class/leds/red:status/brightness 0
+    write /sys/class/leds/green:status/brightness 0
+    write /sys/class/leds/blue:status/brightness 1
+
+on property:persist.sys.rgb_lights=yellow
+    write /sys/class/leds/red:status/brightness 1
+    write /sys/class/leds/green:status/brightness 1
+    write /sys/class/leds/blue:status/brightness 0
+
+on property:persist.sys.rgb_lights=cyan
+    write /sys/class/leds/red:status/brightness 0
+    write /sys/class/leds/green:status/brightness 1
+    write /sys/class/leds/blue:status/brightness 1
+
+on property:persist.sys.rgb_lights=purple
+    write /sys/class/leds/red:status/brightness 1
+    write /sys/class/leds/green:status/brightness 0
+    write /sys/class/leds/blue:status/brightness 1
+
+on property:persist.sys.rgb_lights=white
+    write /sys/class/leds/red:status/brightness 1
+    write /sys/class/leds/green:status/brightness 1
+    write /sys/class/leds/blue:status/brightness 1

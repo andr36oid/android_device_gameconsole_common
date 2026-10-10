@@ -1,0 +1,12 @@
+// Settings > Display > RGB lights, only on consoles with an RGB LED (R36 Ultra).
+// The colour is a persistent property; init.rk30board.rc turns it into LED writes.
+android_app {
+    name: "RgbLights",
+    srcs: ["src/**/*.java"],
+    resource_dirs: ["res"],
+    certificate: "platform",
+    platform_apis: true,
+    optimize: {
+        enabled: false,
+    },
+}
