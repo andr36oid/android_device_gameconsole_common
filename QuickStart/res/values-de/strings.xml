@@ -78,15 +78,15 @@
     <string name="mouse_click">Klicken, R1 halten zum Ziehen</string>
     <string name="mouse_right_click">Rechtsklick</string>
     <string name="mouse_scroll">Scrollen</string>
-    <string name="mouse_settings">Einstellungen &gt; Joystick-Maus ändert Geschwindigkeit, Tasten und die Kombination.</string>
-    <string name="mapping_settings">Einstellungen &gt; Tastenbelegung tauscht Tasten, mit Profilen für verschiedene Spiele.</string>
+    <string name="mouse_settings">Einstellungen &gt; Steuerung &gt; Joystick-Maus ändert Geschwindigkeit, Tasten und die Kombination.</string>
+    <string name="mapping_settings">Einstellungen &gt; Steuerung &gt; Tastenbelegung tauscht Tasten, mit Profilen für verschiedene Spiele.</string>
     <string name="mapping_reset">Ausgesperrt? Halte beide Lautstärketasten 5 Sekunden lang gedrückt, dann sind alle Tasten wieder normal.</string>
 
     <!-- Touch controls -->
     <string name="touch_title">Touch-Steuerung</string>
     <string name="touch_intro">Manche Spiele funktionieren nur mit Touchscreen. Die Touch-Steuerung gibt so einem Spiel ein eigenes Layout: Jede Taste und jeder Stick tippt auf eine Stelle des Bildschirms. Es schaltet sich von selbst ein, solange dieses Spiel im Vordergrund ist; alle anderen Apps behalten die normalen Tasten.</string>
     <string name="touch_open">Im Spiel: Editor darüber öffnen</string>
-    <string name="touch_settings">Oder geh zu Einstellungen &gt; Touch-Steuerung &gt; App hinzufügen. Das Spiel startet und der Editor öffnet sich darüber.</string>
+    <string name="touch_settings">Oder geh zu Einstellungen &gt; Steuerung &gt; Touch-Steuerung &gt; App hinzufügen. Das Spiel startet und der Editor öffnet sich darüber.</string>
     <string name="touch_move">Fadenkreuz an eine Stelle bewegen</string>
     <string name="touch_add">Dort ein Steuerelement hinzufügen, dann seine Taste drücken oder seinen Stick bewegen</string>
     <string name="touch_size">Gewähltes Steuerelement kleiner oder größer machen</string>

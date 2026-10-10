@@ -78,15 +78,15 @@
     <string name="mouse_click">Clic, R1 maintenu : glisser</string>
     <string name="mouse_right_click">Clic droit</string>
     <string name="mouse_scroll">Défiler</string>
-    <string name="mouse_settings">Paramètres &gt; Souris joystick règle la vitesse, les boutons et la combinaison.</string>
-    <string name="mapping_settings">Paramètres &gt; Mappage des boutons échange les boutons, avec des profils pour différents jeux.</string>
+    <string name="mouse_settings">Paramètres &gt; Commandes &gt; Souris joystick règle la vitesse, les boutons et la combinaison.</string>
+    <string name="mapping_settings">Paramètres &gt; Commandes &gt; Mappage des boutons échange les boutons, avec des profils pour différents jeux.</string>
     <string name="mapping_reset">Plus aucun bouton ne répond comme prévu ? Maintenez les deux boutons de volume pendant 5 secondes et tous les boutons reviennent à la normale.</string>
 
     <!-- Touch controls -->
     <string name="touch_title">Commandes tactiles</string>
     <string name="touch_intro">Certains jeux ne fonctionnent qu\'avec un écran tactile. Les commandes tactiles donnent à ce jeu sa propre disposition : chaque bouton ou stick touche un point de l\'écran. Elle s\'active d\'elle-même quand ce jeu est au premier plan ; toutes les autres applis gardent les boutons normaux.</string>
     <string name="touch_open">En jeu : ouvrir l\'éditeur par-dessus</string>
-    <string name="touch_settings">Ou allez dans Paramètres &gt; Commandes tactiles &gt; Ajouter une appli. Le jeu démarre et l\'éditeur s\'ouvre par-dessus.</string>
+    <string name="touch_settings">Ou allez dans Paramètres &gt; Commandes &gt; Commandes tactiles &gt; Ajouter une appli. Le jeu démarre et l\'éditeur s\'ouvre par-dessus.</string>
     <string name="touch_move">Placer le viseur sur un point</string>
     <string name="touch_add">Y ajouter une commande, puis appuyer sur son bouton ou bouger son stick</string>
     <string name="touch_size">Réduire ou agrandir la commande sélectionnée</string>

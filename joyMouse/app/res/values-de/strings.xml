@@ -57,7 +57,7 @@
     <string name="sticks_pointer_scroll">%1$s: Zeiger · %2$s: Scrollen</string>
     <string name="hold_to_switch_off">%1$s halten zum Ausschalten</string>
     <string name="hold_to_switch_on">%1$s %2$s lang halten zum Einschalten</string>
-    <string name="switch_in_settings">Einschalten unter Einstellungen › Joystick-Maus</string>
+    <string name="switch_in_settings">Einschalten unter Einstellungen › Steuerung › Joystick-Maus</string>
     <string name="seconds">%1$s s</string>
     <string name="binding">%1$s: %2$s</string>
     <string name="list_separator">" · "</string>

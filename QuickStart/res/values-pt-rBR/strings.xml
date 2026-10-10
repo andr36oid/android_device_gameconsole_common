@@ -78,15 +78,15 @@
     <string name="mouse_click">Clique; segure R1 e arraste</string>
     <string name="mouse_right_click">Clique direito</string>
     <string name="mouse_scroll">Rolar</string>
-    <string name="mouse_settings">Configurações &gt; Mouse com analógico muda a velocidade, os botões e a combinação.</string>
-    <string name="mapping_settings">Configurações &gt; Mapeamento de botões troca botões, com perfis para jogos diferentes.</string>
+    <string name="mouse_settings">Configurações &gt; Controles &gt; Mouse com analógico muda a velocidade, os botões e a combinação.</string>
+    <string name="mapping_settings">Configurações &gt; Controles &gt; Mapeamento de botões troca botões, com perfis para jogos diferentes.</string>
     <string name="mapping_reset">Ficou sem controle? Segure os dois botões de volume por 5 segundos e todos os botões voltam ao normal.</string>
 
     <!-- Touch controls -->
     <string name="touch_title">Controles de toque</string>
     <string name="touch_intro">Alguns jogos só funcionam com tela touch. Os controles de toque dão a um jogo assim um layout próprio: cada botão ou analógico toca um ponto da tela. Eles ligam sozinhos enquanto esse jogo está em primeiro plano; todos os outros apps continuam com os botões normais.</string>
     <string name="touch_open">No jogo: abre o editor por cima dele</string>
-    <string name="touch_settings">Ou vá em Configurações &gt; Controles de toque &gt; Adicionar um app. O jogo abre e o editor aparece por cima.</string>
+    <string name="touch_settings">Ou vá em Configurações &gt; Controles &gt; Controles de toque &gt; Adicionar um app. O jogo abre e o editor aparece por cima.</string>
     <string name="touch_move">Mova a mira até um ponto</string>
     <string name="touch_add">Adicione um controle ali e depois aperte o botão ou mova o analógico dele</string>
     <string name="touch_size">Deixa o controle selecionado menor ou maior</string>

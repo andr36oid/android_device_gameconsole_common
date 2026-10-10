@@ -78,15 +78,15 @@
     <string name="mouse_click">Tıkla; R1 basılıyken sürükle</string>
     <string name="mouse_right_click">Sağ tık</string>
     <string name="mouse_scroll">Kaydır</string>
-    <string name="mouse_settings">Hızı, tuşları ve tuş kombinasyonunu Ayarlar &gt; Joystick fare bölümünden değiştirebilirsiniz.</string>
-    <string name="mapping_settings">Ayarlar &gt; Tuş eşleme ile tuşların yerini değiştirin; farklı oyunlar için profiller var.</string>
+    <string name="mouse_settings">Hızı, tuşları ve tuş kombinasyonunu Ayarlar &gt; Kontroller &gt; Joystick fare bölümünden değiştirebilirsiniz.</string>
+    <string name="mapping_settings">Ayarlar &gt; Kontroller &gt; Tuş eşleme ile tuşların yerini değiştirin; farklı oyunlar için profiller var.</string>
     <string name="mapping_reset">Kendinizi dışarıda mı bıraktınız? İki ses tuşunu birlikte 5 saniye basılı tutun, tüm tuşlar normale döner.</string>
 
     <!-- Touch controls -->
     <string name="touch_title">Dokunmatik kontroller</string>
     <string name="touch_intro">Bazı oyunlar yalnızca dokunmatik ekranla çalışır. Dokunmatik kontroller böyle bir oyuna kendi düzenini verir: her tuş veya analog, ekranda bir noktaya dokunur. Düzen, o oyun öndeyken kendiliğinden açılır; diğer tüm uygulamalar normal tuşlarla çalışmaya devam eder.</string>
     <string name="touch_open">Oyunda: düzenleyiciyi oyunun üstünde açın</string>
-    <string name="touch_settings">Ya da Ayarlar &gt; Dokunmatik kontroller &gt; Uygulama ekle\'ye gidin. Oyun başlar ve düzenleyici üstünde açılır.</string>
+    <string name="touch_settings">Ya da Ayarlar &gt; Kontroller &gt; Dokunmatik kontroller &gt; Uygulama ekle\'ye gidin. Oyun başlar ve düzenleyici üstünde açılır.</string>
     <string name="touch_move">Artı imlecini bir noktaya taşıyın</string>
     <string name="touch_add">Oraya bir kontrol ekleyin, sonra tuşuna basın veya analoğunu oynatın</string>
     <string name="touch_size">Seçili kontrolü küçültün veya büyütün</string>

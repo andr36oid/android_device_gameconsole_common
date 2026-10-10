@@ -76,15 +76,15 @@
     <string name="mouse_click">Kliknięcie, przytrzymaj R1, aby przeciągać</string>
     <string name="mouse_right_click">Prawy przycisk myszy</string>
     <string name="mouse_scroll">Przewijanie</string>
-    <string name="mouse_settings">Ustawienia &gt; Mysz na gałkach zmienia szybkość, przyciski i kombinację.</string>
-    <string name="mapping_settings">Ustawienia &gt; Mapowanie przycisków zamienia przyciski, z profilami dla różnych gier.</string>
+    <string name="mouse_settings">Ustawienia &gt; Sterowanie &gt; Mysz na gałkach zmienia szybkość, przyciski i kombinację.</string>
+    <string name="mapping_settings">Ustawienia &gt; Sterowanie &gt; Mapowanie przycisków zamienia przyciski, z profilami dla różnych gier.</string>
     <string name="mapping_reset">Nic nie działa jak trzeba? Przytrzymaj oba przyciski głośności przez 5 sekund, a wszystkie przyciski wrócą do normy.</string>
 
     <!-- Touch controls -->
     <string name="touch_title">Sterowanie dotykowe</string>
     <string name="touch_intro">Niektóre gry działają tylko z ekranem dotykowym. Sterowanie dotykowe daje takiej grze własny układ: każdy przycisk lub gałka dotyka wybranego miejsca na ekranie. Włącza się samo, gdy ta gra jest na wierzchu; wszystkie inne aplikacje mają zwykłe przyciski.</string>
     <string name="touch_open">W grze: otwórz edytor na jej wierzchu</string>
-    <string name="touch_settings">Albo przejdź do Ustawienia &gt; Sterowanie dotykowe &gt; Dodaj aplikację. Gra się uruchomi, a na niej otworzy się edytor.</string>
+    <string name="touch_settings">Albo przejdź do Ustawienia &gt; Sterowanie &gt; Sterowanie dotykowe &gt; Dodaj aplikację. Gra się uruchomi, a na niej otworzy się edytor.</string>
     <string name="touch_move">Przesuń celownik w wybrane miejsce</string>
     <string name="touch_add">Dodaj tam element, potem naciśnij jego przycisk lub porusz jego gałką</string>
     <string name="touch_size">Zmniejsz lub powiększ wybrany element</string>
