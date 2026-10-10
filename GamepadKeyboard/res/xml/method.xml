@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- The only keyboard marked default (LeanbackIME's im_is_default is turned off by the
-     device overlay), so Android picks this one on first start and after a language change.
+<!-- Not marked default: the Android TV keyboard (LeanbackIME) stays the default keyboard.
+     This one is installed and can be chosen in Settings > System > Languages & input.
      One subtype per Latin-script language with its own layout or accents; other languages
      fall back to en_US (QWERTY). The layout itself is chosen in code from the locale. -->
 <input-method xmlns:android="http://schemas.android.com/apk/res/android"
-    android:isDefault="true"
+    android:isDefault="false"
     android:settingsActivity="org.andr36oid.keyboard.SettingsActivity">
     <subtype android:label="@string/subtype_generic" android:imeSubtypeLocale="en_US" android:imeSubtypeMode="keyboard" />
     <subtype android:label="@string/subtype_generic" android:imeSubtypeLocale="en_GB" android:imeSubtypeMode="keyboard" />

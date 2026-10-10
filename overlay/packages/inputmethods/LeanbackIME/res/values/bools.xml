@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <!-- The Gamepad keyboard is the default keyboard. With two keyboards marked default,
-         Android's pick (first start, and after every system language change) depends on
-         package order, so the Android TV keyboard is not marked default. It stays
-         installed and can be chosen in Settings or with L3 on the Gamepad keyboard. -->
-    <bool name="im_is_default">false</bool>
-</resources>

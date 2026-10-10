@@ -589,9 +589,8 @@ PRODUCT_PACKAGES += \
 	Cromite \
 	LeanbackIME \
 
-# On-screen keyboard made for the controller (key grid or stick typing), the default
-# keyboard. The Android TV keyboard above stays installed and selectable; its overlay
-# turns off its "default" flag so Android always picks this one.
+# On-screen keyboard made for the controller (key grid or stick typing), a second
+# keyboard to choose in Settings. The Android TV keyboard above stays the default.
 PRODUCT_PACKAGES += \
 	GamepadKeyboard
 
