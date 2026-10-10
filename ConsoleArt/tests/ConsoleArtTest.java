@@ -19,9 +19,9 @@ import java.util.List;
 import javax.imageio.ImageIO;
 
 /**
- * Host test of the drawing: checks the layout (everything on the body or the top edge, nothing
- * overlapping, a 4:3 screen) and, given a folder, paints the console and a stick into PNGs
- * with Java2D through the same Painter calls the apps make.
+ * Host test of the drawing: checks the layout (everything on the body or sticking out of an
+ * edge, nothing overlapping, a 4:3 screen) and, given a folder, paints the console and a stick
+ * into PNGs with Java2D through the same Painter calls the apps make.
  *
  *   tests/run-tests.sh [png folder]
  */
@@ -59,7 +59,7 @@ public class ConsoleArtTest {
             // Room for the focus ring and badge in the viewport
             check(inside(r, v, 3), k + " in the viewport");
             if (k.shape == R36s.SHAPE_TAB) {
-                check(k.bottom < b[1], k + " above the body");
+                check(k.bottom < b[1] || k.right < b[0] || k.left > b[2], k + " outside the body");
             } else {
                 check(inside(r, b, 2), k + " on the body");
                 check(!overlaps(r, R36s.BEZEL, 2), k + " clear of the screen");
@@ -78,9 +78,11 @@ public class ConsoleArtTest {
                         k + " clear of " + o);
             }
         }
-        // The top edge in the console's order, from the front
-        final Control[] top = {Control.L2, Control.L1, Control.VOLUME_DOWN, Control.VOLUME_UP,
-                Control.POWER, Control.R2, Control.R1};
+        // The top edge in the console's order, from the front; power left, volume right
+        final Control[] top = {Control.L2, Control.L1, Control.R2, Control.R1};
+        check(Control.POWER.right < b[0], "power on the left side");
+        check(Control.VOLUME_UP.left > b[2] && Control.VOLUME_DOWN.left > b[2]
+                && Control.VOLUME_UP.bottom < Control.VOLUME_DOWN.top, "volume right, + above -");
         for (int i = 1; i < top.length; i++) {
             check(top[i - 1].right < top[i].left, top[i - 1] + " left of " + top[i]);
         }
