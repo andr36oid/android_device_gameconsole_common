@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- One boot animation in the picker: a frame of it, then its name -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingStart="?android:attr/dialogPreferredPadding"
+    android:paddingEnd="?android:attr/dialogPreferredPadding"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp">
+
+    <ImageView
+        android:id="@+id/preview"
+        android:layout_width="128dp"
+        android:layout_height="96dp"
+        android:importantForAccessibility="no"
+        android:scaleType="fitCenter" />
+
+    <CheckedTextView
+        android:id="@+id/label"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginStart="16dp"
+        android:checkMark="?android:attr/listChoiceIndicatorSingle"
+        android:textAppearance="?android:attr/textAppearanceListItem" />
+</LinearLayout>

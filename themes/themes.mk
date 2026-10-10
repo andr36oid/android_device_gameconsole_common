@@ -15,20 +15,20 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
 	Andr36oidWallpapers
 
-# Retro UI sounds (d-pad moves, A, keyboard, charger), off by default:
-# the Andr36oidRetroSounds overlay switches Android's touch sounds over to them
-PRODUCT_PACKAGES += \
-	Andr36oidRetroSounds
+# Retro UI sounds (d-pad moves, A, keyboard, charger), off by default. With
+# persist.andr36oid.ui_sounds=retro the audio service reads audio_assets_retro.xml
+# (frameworks/base SoundEffectsHelper) instead of the framework's sound list.
 PRODUCT_COPY_FILES += \
+	device/gameconsole/common/themes/sounds/audio_assets_retro.xml:$(TARGET_COPY_OUT_PRODUCT)/etc/andr36oid/audio_assets_retro.xml \
 	$(foreach f,move select key key_space key_delete key_return key_invalid charging,\
 		device/gameconsole/common/themes/sounds/audio/$(f).ogg:$(TARGET_COPY_OUT_PRODUCT)/media/audio/ui/andr36oid/$(f).ogg)
 
-# Retro boot animation, chosen in Settings > Display > Console look
+# Retro boot animation, chosen in Settings > Personalization
 # (persist.andr36oid.bootanimation=retro; stock LineageOS animation otherwise)
 PRODUCT_COPY_FILES += \
 	device/gameconsole/common/themes/bootanimation/bootanimation-retro.zip:$(TARGET_COPY_OUT_SYSTEM)/media/bootanimation-retro.zip \
 	device/gameconsole/common/themes/bootanimation/andr36oid-bootanim.rc:$(TARGET_COPY_OUT_SYSTEM)/etc/init/andr36oid-bootanim.rc
 
-# Settings > Display > Console look: accent colour, wallpaper, UI sounds, boot animation
+# Settings > Personalization: accent colour, UI sounds, boot animation
 PRODUCT_PACKAGES += \
 	ConsoleLook

@@ -3,15 +3,13 @@
     package="org.andr36oid.look"
     android:sharedUserId="android.uid.system">
 
-    <uses-permission android:name="android.permission.SET_WALLPAPER" />
-
     <application
         android:allowBackup="false"
         android:icon="@drawable/ic_console_look"
         android:label="@string/look_title"
         android:supportsRtl="true">
 
-        <!-- Injected into Settings > Display -->
+        <!-- Injected into the top level of the Settings app, right after Display -->
         <activity
             android:name=".LookActivity"
             android:exported="true"
@@ -22,16 +20,22 @@
             </intent-filter>
             <meta-data
                 android:name="com.android.settings.category"
-                android:value="com.android.settings.category.ia.display" />
+                android:value="com.android.settings.category.ia.homepage" />
+            <meta-data
+                android:name="com.android.settings.order"
+                android:value="-79" />
             <meta-data
                 android:name="com.android.settings.keyhint"
-                android:value="console_look" />
+                android:value="top_level_personalization" />
             <meta-data
                 android:name="com.android.settings.summary"
                 android:resource="@string/look_summary" />
             <meta-data
                 android:name="com.android.settings.icon"
                 android:resource="@drawable/ic_console_look" />
+            <meta-data
+                android:name="com.android.settings.bg.hint"
+                android:resource="@color/look_icon_background" />
         </activity>
     </application>
 </manifest>
