@@ -43,3 +43,28 @@ update those, the project's own releases can.
 
 Nothing needs uploading with a release: the APKs are unmodified upstream
 builds and NOTICE.txt points at the source for that version.
+
+## First-start settings (button maps, hotkeys)
+
+Some apps get settings for the built-in pad before they run for the first
+time: a button map and, where the app allows it, the same Select hotkeys as
+RetroArch and PPSSPP (Select + Start quit, Select + R1/L1 save/load state, ...).
+They are only written while the app has never run, so a user's own settings
+are never touched. Clearing the app's data and rebooting writes them again.
+
+    <App>/firstrun/<name>.list     what goes where (read by the gameconsole-emu service)
+    <App>/firstrun/<name>/<file>   the files themselves
+
+The list, one instruction per line:
+
+    package <package>
+    unless data|ext <path>   skip the list while this exists (the app has run)
+    data <file> <path>       copy firstrun/<name>/<file> to <path> in /data/user/0/<package>
+    ext <file> <path>        the same into Android/data/<package>/files on the internal storage
+
+They land in `/system/etc/gameconsole/firstrun/`. Only missing files are
+written, in list order; a list stops at its first failure. So the file the app
+itself uses to tell whether it ran before (usually its shared_prefs) goes last.
+`<path>` may contain spaces. Files get the app's owner (group ext_data_rw on
+the internal storage) and SELinux label, like the RetroArch and PPSSPP seeding
+in `../emulators`.

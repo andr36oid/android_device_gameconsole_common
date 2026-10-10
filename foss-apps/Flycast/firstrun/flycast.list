@@ -1,0 +1,10 @@
+# Flycast 2.7: map for the built-in pad ("GO-Super Gamepad") with RetroArch's
+# Select hotkeys. Flycast's home folder is Android/data/com.flycast.emulator/files
+# (getExternalFilesDir), maps are mappings/<api>_<device name>[_arcade].cfg
+# (core/input/gamepad_device.cpp make_mapping_filename). Flycast writes its
+# shared_prefs (home_directory) on its first start, so they mean "has run".
+# See ../../README.md, "First-start settings".
+package com.flycast.emulator
+unless data shared_prefs/com.flycast.emulator_preferences.xml
+ext dreamcast.cfg mappings/Android_GO-Super Gamepad.cfg
+ext arcade.cfg mappings/Android_GO-Super Gamepad_arcade.cfg

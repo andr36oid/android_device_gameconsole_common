@@ -1,0 +1,8 @@
+# EasyRPG Player 0.8.1.1: config.ini sits in Android/data/org.easyrpg.player/files
+# (GameBrowserHelper passes getExternalFilesDir as --config-path); the Android
+# app's own settings are its shared_prefs, written last as they also mean
+# "has run". See ../../README.md, "First-start settings".
+package org.easyrpg.player
+unless data shared_prefs/org.easyrpg.player_preferences.xml
+ext config.ini config.ini
+data prefs.xml shared_prefs/org.easyrpg.player_preferences.xml

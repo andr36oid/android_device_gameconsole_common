@@ -11,7 +11,7 @@ LOCAL_MODULE_RELATIVE_PATH := gameconsole/preinstall
 LOCAL_MODULE_STEM := Mupen64PlusAE.apk
 LOCAL_SRC_FILES := Mupen64PlusAE.apk
 LOCAL_NOTICE_FILE := $(LOCAL_PATH)/NOTICE.txt
-LOCAL_REQUIRED_MODULES := gameconsole-emu foss-Mupen64PlusAE-list
+LOCAL_REQUIRED_MODULES := gameconsole-emu foss-Mupen64PlusAE-list foss-Mupen64PlusAE-firstrun
 include $(BUILD_PREBUILT)
 
 include $(CLEAR_VARS)
@@ -21,4 +21,33 @@ LOCAL_MODULE_TAGS := optional
 LOCAL_MODULE_RELATIVE_PATH := gameconsole/preinstall
 LOCAL_MODULE_STEM := z-foss-mupen64plusae.list
 LOCAL_SRC_FILES := z-foss-mupen64plusae.list
+include $(BUILD_PREBUILT)
+
+# First-start controller profile, see ../README.md ("First-start settings")
+include $(CLEAR_VARS)
+LOCAL_MODULE := foss-Mupen64PlusAE-firstrun
+LOCAL_MODULE_CLASS := ETC
+LOCAL_MODULE_TAGS := optional
+LOCAL_MODULE_RELATIVE_PATH := gameconsole/firstrun
+LOCAL_MODULE_STEM := mupen64plusae.list
+LOCAL_SRC_FILES := firstrun/mupen64plusae.list
+LOCAL_REQUIRED_MODULES := foss-Mupen64PlusAE-firstrun-profile foss-Mupen64PlusAE-firstrun-prefs
+include $(BUILD_PREBUILT)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := foss-Mupen64PlusAE-firstrun-profile
+LOCAL_MODULE_CLASS := ETC
+LOCAL_MODULE_TAGS := optional
+LOCAL_MODULE_RELATIVE_PATH := gameconsole/firstrun/mupen64plusae
+LOCAL_MODULE_STEM := controller.cfg
+LOCAL_SRC_FILES := firstrun/mupen64plusae/controller.cfg
+include $(BUILD_PREBUILT)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := foss-Mupen64PlusAE-firstrun-prefs
+LOCAL_MODULE_CLASS := ETC
+LOCAL_MODULE_TAGS := optional
+LOCAL_MODULE_RELATIVE_PATH := gameconsole/firstrun/mupen64plusae
+LOCAL_MODULE_STEM := prefs.xml
+LOCAL_SRC_FILES := firstrun/mupen64plusae/prefs.xml
 include $(BUILD_PREBUILT)
