@@ -8,9 +8,4 @@
     <string name="rescue_safe_a">Najpierw ją wyłącz; jeśli się zawiesiła, przytrzymaj przycisk zasilania przez 10 sekund. W trybie awaryjnym w lewym dolnym rogu widać napis „Tryb awaryjny”, a aplikacje zainstalowane przez ciebie nie działają, także RetroArch i PPSSPP. Odinstaluj aplikację, która sprawia problemy, albo cofnij zmianę ustawienia. Aby wyjść z trybu awaryjnego, uruchom konsolę ponownie w zwykły sposób.</string>
     <string name="rescue_magisk_q">Konsola przestała się uruchamiać po module Magisk</string>
     <string name="rescue_magisk_a">Wyłącz ją i włącz ponownie, do trzech razy. Po dwóch nieudanych uruchomieniach Magisk sam wyłącza wszystkie moduły. Tryb awaryjny też je wyłącza. Pozostają wyłączone, dopóki nie włączysz ich z powrotem, po jednym, w aplikacji Magisk.</string>
-    <string name="rescue_file_q">Plik ratunkowy na karcie SD</string>
-    <string name="rescue_file_a">Na zapomnianą blokadę ekranu, zepsuty ekran główny lub jedną zepsutą aplikację. Włóż kartę SD do komputera, otwórz dysk BOOT i otwórz rescue.txt w Notatniku. Zmień no na yes przy tym, czego potrzebujesz: safe_mode, disable_magisk_modules, remove_screen_lock lub reset_home. Aby zresetować jedną aplikację, wpisz jej nazwę, np.: clear_app_data = retroarch</string>
-    <string name="rescue_file_after">Zapisz plik, włóż kartę z powrotem i uruchom konsolę. Uruchamianie potrwa trochę dłużej. Potem w rescue.txt znów wszędzie jest no, a rescue-result.txt na BOOT mówi, co zostało zrobione.</string>
-    <string name="rescue_reset_q">Reset fabryczny, ostatni krok</string>
-    <string name="rescue_reset_a">Usuwa to zainstalowane przez ciebie aplikacje, ich dane, twoje ustawienia, zapisane sieci Wi-Fi i moduły Magisk. Twoje gry na EASYROMS i pliki w pamięci wewnętrznej zostają, ale własne foldery aplikacji w tej pamięci (Android/data) też znikają. W rescue.txt wpisz dokładnie:\nfactory_reset = delete my apps and settings</string>
 </resources>

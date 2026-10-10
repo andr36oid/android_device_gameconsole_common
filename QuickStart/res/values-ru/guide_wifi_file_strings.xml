@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="internet_file_q">Настройка Wi-Fi с компьютера</string>
-    <string name="internet_file_a">Вводить пароль Wi-Fi крестовиной долго. Вставьте SD-карту в компьютер, откройте диск BOOT и откройте andr36oid-setup.txt в Блокноте. Впишите имя сети после wifi_ssid = и пароль после wifi_password =, затем сохраните. Туда же можно вписать язык, часовой пояс и 24-часовой формат. Лучше сделать это до самого первого запуска, тогда настройка сразу будет на вашем языке.</string>
-    <string name="internet_file_after">При следующем запуске консоль добавит сеть и сообщит, что сделала. После этого файл называется andr36oid-setup.applied.txt, а пароль из него удалён. Позже можно положить новый andr36oid-setup.txt и на EASYROMS или USB-накопитель, например для другой сети.</string>
-</resources>
