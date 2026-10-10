@@ -65,6 +65,13 @@
     <string name="emulators_psp">PSP games run in PPSSPP. PlayStation games start without a BIOS, but work best with one in the bios folder on EASYROMS.</string>
     <string name="emulators_updates">The emulators are ordinary apps: F-Droid can update them, and you can uninstall them.</string>
 
+    <!-- A second controller -->
+    <string name="pads_title">Playing with a second controller</string>
+    <string name="pads_connect">Plug a USB pad into the OTG port, with an adapter if needed. For a Bluetooth pad, open Settings &gt; Controllers &gt; Pair a Bluetooth controller, put the pad into pairing mode and press A on it in the list. The page says how pairing mode works on Xbox, PlayStation, Switch and 8BitDo pads.</string>
+    <string name="pads_players">In RetroArch the console\'s own buttons stay player 1. Extra pads are player 2, 3 and so on, in the order you first press a button on them.</string>
+    <string name="pads_alone">Want to play alone on the bigger pad? Set Settings &gt; Controllers &gt; Player 1 in RetroArch to External controller. Quit RetroArch first; the change counts from its next start.</string>
+    <string name="pads_menu">On any pad, L1 + R1 + Start + Select, or the Xbox, PS or Capture button, opens the RetroArch menu. Start + Select pressed twice quits the game. PSP games have only one player, and every pad controls it.</string>
+
     <!-- Speed and battery -->
     <string name="speed_title">Speed and battery</string>
     <string name="speed_profiles">Settings &gt; Performance has three profiles. Battery saver for long sessions with older systems, Balanced for everyday use, Performance for PS1, N64 and PSP. The Quick Settings tile switches between them too.</string>
@@ -106,7 +113,7 @@
     <string name="trouble_first_boot_q">The first start takes a long time</string>
     <string name="trouble_first_boot_a">That\'s normal. The first start sets up the SD card and restarts on its own, then Android prepares its apps. Give it a few minutes and don\'t switch it off.</string>
     <string name="trouble_panel_q">The screen stays black on the first start, but the console is on</string>
-    <string name="trouble_panel_a">Your console has a different screen than the one this card was set up for. On a computer, open BOOT, then Panels. Copy both files from one of the Panel folders to the top of BOOT and replace the files there. Panel4 is the default, so try the others one at a time.</string>
+    <string name="trouble_panel_a">Your console has a different screen than the one this card was set up for. On a computer, open BOOT, then Panels. Copy all files from one of the Panel folders to the top of BOOT and replace the files there. Panel4 is the default, so try the others one at a time.</string>
     <string name="trouble_stuck_q">It stopped starting after an update or a Magisk module</string>
     <string name="trouble_stuck_a">Start it without root. On a computer, open BOOT and rename ramdisk.uimg to ramdisk-magisk.uimg, then rename ramdisk-stock.uimg to ramdisk.uimg. Your apps and games stay. Rename them back later to get root again.</string>
     <string name="trouble_frozen_q">The console froze</string>
@@ -114,11 +121,23 @@
     <string name="trouble_bios_q">A game doesn\'t start, or starts to a black screen</string>
     <string name="trouble_bios_a">Some systems, like Sega CD and PC Engine CD, need a file from the original console (a BIOS), and PlayStation games work better with one. Put these files in the bios folder on EASYROMS. Settings &gt; Emulator files shows what\'s missing.</string>
     <string name="trouble_buttons_q">The buttons do the wrong thing</string>
+    <string name="trouble_sticks_q">Sticks drift or don\'t reach the edge</string>
+    <string name="trouble_sticks_a">Open Settings &gt; Calibrate sticks and press A. Move both sticks in full circles, slowly and all the way to the edge. Then let go of them and press A. From then on every game and app uses the corrected sticks, also after a restart.</string>
+    <string name="trouble_sticks_more">Still creeping a little? Left and right on the D-pad change the dead zone, the part around the middle that is ignored. Press X twice to go back to the factory settings.</string>
     <string name="trouble_recovery_q">Recovery and factory reset</string>
     <string name="trouble_recovery_a">Hold FN while you switch the console on</string>
     <string name="trouble_recovery_more">This starts the recovery system, used for a factory reset or to install updates from a computer. A factory reset erases your apps and settings, but not the games on EASYROMS.</string>
     <string name="trouble_clock_q">The date or time is wrong</string>
     <string name="trouble_clock_a">The console forgets the time when the battery runs completely empty. Set it in Settings &gt; System &gt; Date &amp; time. With a network connection it sets itself, as long as "Use network-provided time" is on.</string>
+
+    <!-- If your console won't start -->
+    <string name="rescue_title">If your console won\'t start</string>
+    <string name="rescue_intro">Try these steps in order. None of them touches your games on EASYROMS.</string>
+    <string name="rescue_safe_q">Safe mode</string>
+    <string name="rescue_safe_row">Hold Vol− while you switch the console on, until the home screen shows</string>
+    <string name="rescue_safe_a">Switch it off first; hold Power for 10 seconds if it hangs. In safe mode, "Safe mode" shows in the bottom left corner and apps you installed yourself don\'t run, RetroArch and PPSSPP too. Uninstall the app that causes trouble, or change the setting back. Restart normally to leave safe mode.</string>
+    <string name="rescue_magisk_q">It stopped starting after a Magisk module</string>
+    <string name="rescue_magisk_a">Switch it off and on again, up to three times. After two starts that don\'t finish, Magisk turns all modules off by itself. Safe mode turns them off too. They stay off until you turn them back on, one by one, in the Magisk app.</string>
 
     <!-- USB and computers -->
     <string name="usb_title">USB and computers</string>
@@ -140,6 +159,9 @@
     <string name="card_noroms_a">Before the very first start, make an empty file named .noroms on BOOT. The first start then gives the whole card to apps. This only works on a freshly written card. BIOS files then go in the bios folder on the internal storage.</string>
     <string name="card_backup_q">Back up your saves</string>
     <string name="card_backup_a">Saves made next to the games on EASYROMS are easy to copy on a computer. Saves inside an app stay with that app on the Android part of the card, so check each emulator\'s settings for where it keeps them.</string>
+    <string name="card_sync_q">Keep your saves the same on two devices</string>
+    <string name="card_sync_a">Settings &gt; Save backup &gt; Sync saves keeps your save games and save states the same on this console and your PC, phone or another console, over your home Wi-Fi. There is no cloud and no account, and games and BIOS files are never copied. It syncs while the console charges on Wi-Fi, and while that page is open.</string>
+    <string name="card_sync_pair">On a PC or phone, install Syncthing and add the console\'s ID from that page, or scan its code. The PC or phone then shows up on the console under Add a device: press A on it. For two consoles, turn on Sync saves on both, then pick each one on the other. Quit the game before you play on the other device.</string>
 
     <!-- Battery -->
     <string name="battery_title">Battery care</string>
@@ -150,6 +172,18 @@
     <string name="battery_sleep_a">Sleep (tap Power) is fine for breaks, but still uses a little battery. For more than a day, power it off from the power menu.</string>
     <string name="battery_storage_q">Putting it away for a while</string>
     <string name="battery_storage_a">Charge it to about half and power it off. Top it up every few months. A battery left completely empty for a long time can wear out.</string>
+
+    <!-- Clone consoles -->
+    <string name="clone_title">Using a clone console</string>
+    <string name="clone_intro">Many consoles look like the R36S but are built differently inside. The card starts with the files for the genuine R36S. A clone usually needs other files from the BOOT drive of the SD card.</string>
+    <string name="clone_which_q">Which folder</string>
+    <string name="clone_which_a">On a computer, open BOOT. Panels has a folder for each genuine R36S screen and the R36S Plus. Experimental has a folder for each known clone, such as K36, G80, R36 Max, R36 Ultra and the Soy Sauce boards. The README.txt in Panels and in Experimental says which console goes with which folder. The Experimental files are untested, so only use them if Panels doesn\'t work.</string>
+    <string name="clone_soy">Soy Sauce boards (Y3506 printed on the board) must never use Panel5 or Panel6, even if the screen looks right. Use a Soy folder in Experimental.</string>
+    <string name="clone_copy_q">Copy all files</string>
+    <string name="clone_copy_a">First make a folder called Backup on BOOT and copy these files from the top of BOOT into it: rk3326-r36s-android.dtb, the three rg351 files, logo.bmp and logo_kernel.bmp. Then copy all files from your folder to the top of BOOT and replace the ones there. Really all of them: the three rg351 files are the same file under three names, and your console picks the one it wants.</string>
+    <string name="clone_black_q">The screen stays black, or the buttons don\'t work</string>
+    <string name="clone_black_a">Try the next folder that could fit your console. If only the boot logo stays black but Android comes up, keep it. To go back, copy the files from your Backup folder, or from Panels/Panel4, to the top of BOOT.</string>
+    <string name="clone_emmc">Some clones, like the R36 Ultra, R36 Max and R39 Max, start from their own built-in memory first and may not look at the SD card at all.</string>
 
     <!-- Magisk -->
     <!-- Community -->

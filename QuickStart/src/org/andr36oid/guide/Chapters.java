@@ -144,6 +144,14 @@ final class Chapters {
         para(c, R.string.emulators_psp);
         para(c, R.string.emulators_updates);
 
+        if (hasPackage("org.andr36oid.controllers")) {
+            c = chapter(R.string.pads_title, chapters);
+            para(c, R.string.pads_connect);
+            para(c, R.string.pads_players);
+            para(c, R.string.pads_alone);
+            para(c, R.string.pads_menu);
+        }
+
         c = chapter(R.string.speed_title, chapters);
         if (profiles) {
             para(c, R.string.speed_profiles);
@@ -200,11 +208,27 @@ final class Chapters {
         }
         heading(c, R.string.trouble_buttons_q);
         para(c, R.string.mapping_reset);
+        if (hasPackage("org.andr36oid.stickcalibration")) {
+            heading(c, R.string.trouble_sticks_q);
+            para(c, R.string.trouble_sticks_a);
+            para(c, R.string.trouble_sticks_more);
+        }
         heading(c, R.string.trouble_recovery_q);
         row(c, R.string.trouble_recovery_a, "FN", power);
         para(c, R.string.trouble_recovery_more);
         heading(c, R.string.trouble_clock_q);
         para(c, R.string.trouble_clock_a);
+
+        // A console that no longer starts: safe mode (Vol- held) and Magisk's own safe mode.
+        c = chapter(R.string.rescue_title, chapters);
+        para(c, R.string.rescue_intro);
+        heading(c, R.string.rescue_safe_q);
+        row(c, R.string.rescue_safe_row, volume + "−", power);
+        para(c, R.string.rescue_safe_a);
+        if (magisk) {
+            heading(c, R.string.rescue_magisk_q);
+            para(c, R.string.rescue_magisk_a);
+        }
 
         c = chapter(R.string.community_title, chapters);
         para(c, R.string.community_text);
@@ -231,6 +255,11 @@ final class Chapters {
         para(c, R.string.card_noroms_a);
         heading(c, R.string.card_backup_q);
         para(c, R.string.card_backup_a);
+        if (hasPackage("com.github.catfriend1.syncthingfork")) {
+            heading(c, R.string.card_sync_q);
+            para(c, R.string.card_sync_a);
+            para(c, R.string.card_sync_pair);
+        }
 
         c = chapter(R.string.battery_title, chapters);
         heading(c, R.string.battery_percent_q);
@@ -242,6 +271,17 @@ final class Chapters {
         para(c, R.string.battery_sleep_a);
         heading(c, R.string.battery_storage_q);
         para(c, R.string.battery_storage_a);
+
+        c = chapter(R.string.clone_title, chapters);
+        para(c, R.string.clone_intro);
+        heading(c, R.string.clone_which_q);
+        para(c, R.string.clone_which_a);
+        para(c, R.string.clone_soy);
+        heading(c, R.string.clone_copy_q);
+        para(c, R.string.clone_copy_a);
+        heading(c, R.string.clone_black_q);
+        para(c, R.string.clone_black_a);
+        para(c, R.string.clone_emmc);
 
         if (magisk) {
             c = chapter(R.string.magisk_title, chapters);
