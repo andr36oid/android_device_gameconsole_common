@@ -140,9 +140,9 @@ expect "PPSSPP rows without if-file" "is missing, and the row has no if-file"
 if [ -f "$FWB/$PWM" ]; then
 	fresh
 	fwb=$T/f
-	sed -i 's/^\(            case KeyEvent.KEYCODE_BUTTON_L1:\)$/            case KeyEvent.KEYCODE_BUTTON_R2:\n                return FN_HOTKEY_SCREENSHOT;\n\1/' \
+	sed -i 's/^\(            case KeyEvent.KEYCODE_BUTTON_L1:\)$/            case KeyEvent.KEYCODE_BUTTON_THUMBL:\n                return FN_HOTKEY_SCREENSHOT;\n\1/' \
 		"$fwb/$PWM"
-	expect "new FN shortcut without a row" "FN + BUTTON_R2 is a shortcut"
+	expect "new FN shortcut without a row" "FN + BUTTON_THUMBL is a shortcut"
 
 	fresh
 	fwb=$T/f

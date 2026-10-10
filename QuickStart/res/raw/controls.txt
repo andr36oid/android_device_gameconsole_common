@@ -74,6 +74,9 @@ row FN + L2 = shortcuts_overlay
   if-prop ro.andr36oid.fn_overlay
   if-package org.andr36oid.perfoverlay
   check fn
+row FN + R2 = controls_screen_record
+  if-prop ro.andr36oid.fn_hotkeys
+  check fn
 row FN + L1 = shortcuts_touch
   if-prop ro.andr36oid.fn_hotkeys
   if-package org.andr36oid.touchmapper

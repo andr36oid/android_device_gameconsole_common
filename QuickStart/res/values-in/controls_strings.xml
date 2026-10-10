@@ -16,6 +16,7 @@
     <string name="controls_heading_power">Daya dan volume</string>
     <string name="controls_power_off">Tahan sekitar 10 detik: mematikan konsol yang macet</string>
     <string name="controls_remap_reset">Tahan keduanya 5 detik: semua tombol kembali normal</string>
+    <string name="controls_screen_record">Mulai / hentikan rekaman layar, disimpan di Movies</string>
     <string name="controls_ra_intro">Tahan Select, lalu tekan tombol kedua. RetroArch mendapat pintasan ini saat pertama kali disiapkan. Pintasan yang Anda ubah sendiri tetap dipakai.</string>
     <string name="controls_quit_twice">Keluar dari game (tekan Start dua kali)</string>
     <string name="controls_save_state">Simpan state</string>

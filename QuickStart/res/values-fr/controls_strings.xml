@@ -16,6 +16,7 @@
     <string name="controls_heading_power">Marche/Arrêt et volume</string>
     <string name="controls_power_off">Maintenir environ 10 secondes : éteint une console figée</string>
     <string name="controls_remap_reset">Maintenir les deux 5 secondes : tous les boutons reviennent à la normale</string>
+    <string name="controls_screen_record">Lancer / arrêter l\'enregistrement d\'écran, enregistré dans Movies</string>
     <string name="controls_ra_intro">Maintenez Select, puis appuyez sur le second bouton. RetroArch reçoit ces raccourcis à sa première configuration. Les raccourcis que vous avez modifiés vous-même sont conservés.</string>
     <string name="controls_quit_twice">Quitter le jeu (appuyez deux fois sur Start)</string>
     <string name="controls_save_state">Sauvegarder l\'état</string>
