@@ -68,3 +68,9 @@ itself uses to tell whether it ran before (usually its shared_prefs) goes last.
 `<path>` may contain spaces. Files get the app's owner (group ext_data_rw on
 the internal storage) and SELinux label, like the RetroArch and PPSSPP seeding
 in `../emulators`.
+
+Flycast and Mupen64Plus AE also get a few speed settings this way (Flycast's
+`emu.cfg`, a Mupen emulation profile made the default). Only values that
+differ from the app's own defaults are written. The comments in those files
+say what each value does. Everything else stays at the app's default; those
+were checked against the RK3326 and kept on purpose.
