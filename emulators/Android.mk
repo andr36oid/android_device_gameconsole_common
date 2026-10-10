@@ -117,7 +117,8 @@ LOCAL_MODULE_RELATIVE_PATH := gameconsole/preinstall
 LOCAL_MODULE_STEM := PPSSPP.apk
 LOCAL_SRC_FILES := preinstall/PPSSPP.apk
 LOCAL_NOTICE_FILE := $(LOCAL_PATH)/preinstall/NOTICE-PPSSPP.txt
-LOCAL_REQUIRED_MODULES := gameconsole-emu gameconsole-ppsspp-ini gameconsole-ppsspp-controls
+LOCAL_REQUIRED_MODULES := gameconsole-emu gameconsole-ppsspp-ini gameconsole-ppsspp-controls \
+    gameconsole-ppsspp-compat
 include $(BUILD_PREBUILT)
 
 # PPSSPP settings and button map for a fresh install, seeded by the
@@ -138,6 +139,16 @@ LOCAL_MODULE_TAGS := optional
 LOCAL_MODULE_RELATIVE_PATH := gameconsole/ppsspp
 LOCAL_MODULE_STEM := controls.ini
 LOCAL_SRC_FILES := seed/ppsspp/controls.ini
+include $(BUILD_PREBUILT)
+
+# per-game fixes by disc ID for this slow chip (PPSSPP's user compat.ini)
+include $(CLEAR_VARS)
+LOCAL_MODULE := gameconsole-ppsspp-compat
+LOCAL_MODULE_CLASS := ETC
+LOCAL_MODULE_TAGS := optional
+LOCAL_MODULE_RELATIVE_PATH := gameconsole/ppsspp
+LOCAL_MODULE_STEM := compat.ini
+LOCAL_SRC_FILES := seed/ppsspp/compat.ini
 include $(BUILD_PREBUILT)
 
 # libretro cores, built from pinned sources by scripts/build-cores.sh

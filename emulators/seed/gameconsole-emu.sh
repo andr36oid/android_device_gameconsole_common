@@ -18,7 +18,8 @@
 #    where both RetroArch and Daijishou's RetroArch players look for them.
 #    Cores the user replaced (e.g. via RetroArch's online updater) are kept.
 #    Then, on a fresh install only, how games look: a sharp scaling shader
-#    and 3x for the Game Boy.
+#    and 3x for the Game Boy, and core options for the few games that need
+#    their own on this chip.
 # 4. Makes the usual ROM folders (ArkOS/dArkOS names) on a fresh EASYROMS
 #    partition, with a README telling which system goes where. Only once per
 #    card, and never on a card that already has any of them.
@@ -253,6 +254,8 @@ PP_EXT_PUBLIC=/storage/emulated/0/Android/data/$PP_PKG/files
 # its own folder PP_EXT, the same one the "Skip" choice on that screen picks,
 # and ppsspp.ini/controls.ini in PSP/SYSTEM there, each only if missing. A
 # folder the user picked (memstick_dir.txt exists) is never touched.
+# compat.ini there is PPSSPP's own per-game fix list for the user, read by
+# disc ID after its built-in one (see game-compat in the README).
 seed_ppsspp() {
 	local owner uid dir f
 
@@ -278,7 +281,7 @@ seed_ppsspp() {
 		chown "$uid:$AID_EXT_DATA_RW" "$dir"
 		chmod 2770 "$dir"
 	done
-	for f in ppsspp.ini controls.ini; do
+	for f in ppsspp.ini controls.ini compat.ini; do
 		[ -f "$BASE/ppsspp/$f" ] || continue
 		[ -e "$PP_EXT/PSP/SYSTEM/$f" ] && continue
 		if ! { cp "$BASE/ppsspp/$f" "$PP_EXT/PSP/SYSTEM/$f.tmp" &&
@@ -492,6 +495,134 @@ seed_cores() {
 	restorecon -R "$cores" "$own" 2>/dev/null
 }
 
+# game_opt_drop <key> ; removes key's line from the seed manifest. Keys hold
+# ROM names (spaces, brackets), so no grep patterns.
+game_opt_drop() {
+	local manifest=$RA_DATA/.gameconsole/seeded.sha1 l
+
+	while IFS= read -r l; do
+		[ "${l#* }" = "$1" ] || printf '%s\n' "$l"
+	done <"$manifest" >"$manifest.new"
+	mv -f "$manifest.new" "$manifest"
+}
+
+# game_opt_write <core> <prefix> <ROM name> <defaults> <game lines> <owner>
+# ; writes config/<core>/<ROM name>.opt: our defaults for the core (keys that
+# start with prefix), then the game's own lines, which win
+game_opt_write() {
+	local core=$1 prefix=$2 name=$3 defaults=$4 sets=$5 owner=$6
+	local manifest=$RA_DATA/.gameconsole/seeded.sha1
+	local key="games/$core/$name.opt" dest="$RA_EXT/config/$core/$name.opt"
+	local tmp=$RA_DATA/.gameconsole/game.opt l k dir
+
+	{
+		echo "# $name: settings for this game on this console, see Game tips.txt"
+		if [ -f "$defaults" ]; then
+			grep "^$prefix" "$defaults" | while IFS= read -r l; do
+				k=${l%% *}
+				grep -q "^$k " "$sets" || printf '%s\n' "$l"
+			done
+		fi
+		cat "$sets"
+	} >"$tmp"
+	if [ -e "$dest" ]; then
+		[ "$(sha1 "$dest")" = "$(sha1 "$tmp")" ] && return 0
+		if ! grep -qxF "$(sha1 "$dest") $key" "$manifest"; then
+			log "keeping user provided config/$core/$name.opt"
+			return 0
+		fi
+	elif cut -d' ' -f2- "$manifest" | grep -qxF "$key"; then
+		# we put it there before, so the user removed it
+		return 0
+	fi
+	for dir in "$RA_EXT/config" "$RA_EXT/config/$core"; do
+		[ -d "$dir" ] && continue
+		mkdir "$dir" || { log "making $dir failed"; return 0; }
+		chown "$owner:$AID_EXT_DATA_RW" "$dir"
+		chmod 2770 "$dir"
+		restorecon "$dir" 2>/dev/null
+	done
+	if ! { cp "$tmp" "$dest.tmp" && mv -f "$dest.tmp" "$dest"; }; then
+		log "writing $dest failed"
+		rm -f "$dest.tmp"
+		return 0
+	fi
+	chown "$owner:$AID_EXT_DATA_RW" "$dest"
+	chmod 0660 "$dest"
+	restorecon "$dest" 2>/dev/null
+	game_opt_drop "$key"
+	echo "$(sha1 "$dest") $key" >>"$manifest"
+	log "seeded config/$core/$name.opt"
+}
+
+# seed_game_options ; on a fresh install (the retroarch.cfg we wrote, see
+# seed_look): core options for single games that need them on this chip,
+# listed in $BASE/retroarch/game-options.txt. RetroArch uses
+# config/<core>/<ROM file name>.opt instead of the core's options file for
+# that game only. Options missing there get the core's own defaults, not
+# ours, so each file starts with our defaults for that core (the
+# retroarch-core-options.cfg next to retroarch.cfg), then the game's lines.
+# Same rules as seed_look: a file the user changed or removed stays so. Runs
+# before seed_look, which marks a new retroarch.cfg as seeded.
+seed_game_options() {
+	local src=$BASE/retroarch/game-options.txt own=$RA_DATA/.gameconsole
+	local manifest=$RA_DATA/.gameconsole/seeded.sha1
+	local line l core='' prefix='' defaults owner sets names last=''
+
+	[ -f "$src" ] && [ -d "$RA_EXT" ] && [ -e "$own/look" ] || return 0
+	owner=$(stat -c %u "$RA_DATA")
+	touch "$manifest"
+	# a new retroarch.cfg starts over: files removed before come back
+	if [ "$(cat "$own/look")" = new ]; then
+		grep -v " games/" "$manifest" >"$manifest.new"
+		mv -f "$manifest.new" "$manifest"
+	fi
+	defaults=$RA_EXT/retroarch-core-options.cfg
+	[ -f "$defaults" ] || defaults=$BASE/retroarch/retroarch-core-options.cfg
+	sets=$own/game.sets names=$own/game.names
+	: >"$sets"
+	: >"$names"
+	# blocks of "game <ROM name>" lines, then their "set <key> = <value>"
+	# lines, under a "core <option prefix> <core name>" line
+	while IFS= read -r line || [ -n "$line" ]; do
+		case $line in
+		'core '* | 'game '*)
+			if [ "$last" = opt ]; then
+				while IFS= read -r l; do
+					game_opt_write "$core" "$prefix" "$l" "$defaults" "$sets" "$owner"
+				done <"$names"
+				: >"$sets"
+				: >"$names"
+			fi
+			case $line in
+			'core '*)
+				: >"$names"
+				line=${line#core }
+				prefix=${line%% *}
+				core=${line#* }
+				last=core
+				;;
+			*)
+				printf '%s\n' "${line#game }" >>"$names"
+				last=game
+				;;
+			esac
+			;;
+		'set '*)
+			printf '%s\n' "${line#set }" >>"$sets"
+			last=opt
+			;;
+		esac
+	done <"$src"
+	if [ "$last" = opt ]; then
+		while IFS= read -r l; do
+			game_opt_write "$core" "$prefix" "$l" "$defaults" "$sets" "$owner"
+		done <"$names"
+	fi
+	rm -f "$sets" "$names" "$own/game.opt"
+	chown "$(stat -c %u:%g "$RA_DATA")" "$manifest"
+}
+
 # seed_look ; how games look ($BASE/retroarch/look): the sharp bilinear shader
 # for every core (config/global.glslp), 3x for the Game Boy
 # (config/Gambatte/Gambatte.cfg) and a few shaders to pick from in RetroArch,
@@ -697,6 +828,8 @@ make_rom_folders() {
 		echo
 		grep -v '^#' "$ROM_FOLDERS" | grep .
 	} >"$root/README-andr36oid.txt"
+	# which heavy games need a setting, and which run too slow (game-compat)
+	[ -f "$BASE/game-tips.txt" ] && cp "$BASE/game-tips.txt" "$root/Game tips.txt"
 	log "made the ROM folders on EASYROMS ($uuid)"
 	touch "$stamp"
 }
@@ -1542,6 +1675,7 @@ seed_ppsspp
 seed_retroarch
 seed_core_options
 seed_cores
+seed_game_options
 seed_look
 find_easyroms
 refresh_rate
