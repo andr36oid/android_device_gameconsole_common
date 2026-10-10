@@ -901,7 +901,6 @@ PRODUCT_PACKAGES += \
 PRODUCT_PRODUCT_PROPERTIES += \
 	ro.andr36oid.extra_dim=true \
 	ro.andr36oid.screen_colors=true
-||||||| 1ba7a2e
 
 # TEST IMAGES ONLY, not for a release: logcat is kept on the card in /data/misc/logd
 # (16 files of 2 MB, the oldest dropped), so a problem can be read from the card
