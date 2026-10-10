@@ -49,7 +49,7 @@
 
     <!-- Shoulder buttons -->
     <string name="tutorial_shoulder_title">Omuz tuşları</string>
-    <string name="tutorial_shoulder_body">L1 ve R1 üstteki, L2 ve R2 alttaki omuz tuşlarıdır. Birçok uygulama sekme veya sayfa değiştirmek için L1 ve R1\'i kullanır.\n\nHer birine bir kez basın.</string>
+    <string name="tutorial_shoulder_body">Omuz tuşları arkadadır: L1 ve R1 dışta, L2 ve R2 yanlarında içte. Birçok uygulama sekme veya sayfa değiştirmek için L1 ve R1\'i kullanır.\n\nHer birine bir kez basın.</string>
     <string name="tutorial_press_l1">L1\'e basın</string>
     <string name="tutorial_press_r1">R1\'e basın</string>
     <string name="tutorial_press_l2">L2\'ye basın</string>

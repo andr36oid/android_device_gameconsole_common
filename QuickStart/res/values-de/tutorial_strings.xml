@@ -49,7 +49,7 @@
 
     <!-- Shoulder buttons -->
     <string name="tutorial_shoulder_title">Schultertasten</string>
-    <string name="tutorial_shoulder_body">L1 und R1 sind die oberen Schultertasten, L2 und R2 die unteren. Viele Apps nutzen L1 und R1, um zwischen Tabs oder Seiten zu wechseln.\n\nDrück jede davon einmal.</string>
+    <string name="tutorial_shoulder_body">Die Schultertasten sitzen hinten: L1 und R1 außen, L2 und R2 daneben innen. Viele Apps nutzen L1 und R1, um zwischen Tabs oder Seiten zu wechseln.\n\nDrück jede davon einmal.</string>
     <string name="tutorial_press_l1">Drück L1</string>
     <string name="tutorial_press_r1">Drück R1</string>
     <string name="tutorial_press_l2">Drück L2</string>

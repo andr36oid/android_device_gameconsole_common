@@ -49,7 +49,7 @@
 
     <!-- Shoulder buttons -->
     <string name="tutorial_shoulder_title">Gatillos</string>
-    <string name="tutorial_shoulder_body">L1 y R1 son los gatillos superiores, y L2 y R2 los inferiores. Muchas apps usan L1 y R1 para cambiar de pestaña o de página.\n\nPulsa cada uno una vez.</string>
+    <string name="tutorial_shoulder_body">Los gatillos están detrás: L1 y R1 por fuera, L2 y R2 a su lado por dentro. Muchas apps usan L1 y R1 para cambiar de pestaña o de página.\n\nPulsa cada uno una vez.</string>
     <string name="tutorial_press_l1">Pulsa L1</string>
     <string name="tutorial_press_r1">Pulsa R1</string>
     <string name="tutorial_press_l2">Pulsa L2</string>
