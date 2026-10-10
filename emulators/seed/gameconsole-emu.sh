@@ -62,15 +62,44 @@ setup_done() {
 DJ_HOME=com.magneticchen.daijishou/com.magneticchen.daijishou.activities.BootstrapActivity
 DJ_HIDDEN=$STATE/firststart.daijishou-hidden
 
+# Our launcher's home activity, when the build ships it (apps/Andr36oidLauncher
+# sets the property). Hidden like Daijishou's while the first-start launcher is
+# home. The setup wizard asks which of the two becomes home; the quick start
+# guide applies that when the tutorial is done (QuickStart HomeChoice.java).
+LA_HOME=$(getprop ro.andr36oid.launcher_home 2>/dev/null)
+LA_HIDDEN=$STATE/firststart.launcher-hidden
+
+# show_home <component> <marker> ; enables a home activity again
+show_home() {
+	local out
+	if out=$(pm enable --user 0 "$1" </dev/null 2>&1) &&
+		[ "${out%enabled}" != "$out" ]; then
+		rm -f "$2"
+		log "home activity ${1%%/*} is enabled again"
+	else
+		log "enabling home activity ${1%%/*} failed: $out"
+	fi
+}
+
 # show_daijishou ; enables Daijishou's home activity again
 show_daijishou() {
-	local out
-	if out=$(pm enable --user 0 "$DJ_HOME" </dev/null 2>&1) &&
-		[ "${out%enabled}" != "$out" ]; then
-		rm -f "$DJ_HIDDEN"
-		log "Daijishou's home activity is enabled again"
-	else
-		log "enabling Daijishou's home activity failed: $out"
+	show_home "$DJ_HOME" "$DJ_HIDDEN"
+}
+
+# show_launcher ; enables our launcher's home activity again
+show_launcher() {
+	show_home "$LA_HOME" "$LA_HIDDEN"
+}
+
+# home_role_again ; with two home apps on again, gives the home role to the one
+# chosen in the setup wizard (Daijishou without a choice). That writes the
+# "always use" home entry for both, so Android doesn't ask which one to use.
+home_role_again() {
+	local home out
+	home=$(settings get global andr36oid_home </dev/null 2>/dev/null)
+	case $home in ''|null) home=${DJ_HOME%%/*} ;; esac
+	if ! out=$(cmd role add-role-holder --user 0 android.app.role.HOME "$home" </dev/null 2>&1); then
+		log "giving $home the home role failed: $out"
 	fi
 }
 
@@ -78,7 +107,8 @@ show_daijishou() {
 # FirstStart/ in the common device tree) is a tiny user app with a home
 # activity that opens the quick start guide's tutorial. It is installed while
 # the setup wizard runs, and made the only home app besides the wizard:
-# Daijishou's home activity is disabled first. So there is never a moment with
+# Daijishou's home activity (and our launcher's, if the build ships it) is
+# disabled first. So there is never a moment with
 # two home apps of the same priority, and Android never asks which one to
 # use, however fast the wizard is:
 # - the wizard's home activity has priority 9 and wins until it disables it,
@@ -88,17 +118,21 @@ show_daijishou() {
 #   moment (it checks every 500 ms for a real home app) and hands over to the
 #   launcher as soon as it's installed.
 # The guide undoes all of it when the tutorial is done: it disables the
-# launcher's home activity, enables Daijishou's, gives it the home role and
-# uninstalls the launcher.
+# launcher's home activity, enables Daijishou's (and our launcher's), gives the
+# home role to the one chosen in the wizard and uninstalls the launcher.
 # Only on the first start: consoles set up before this build don't get it,
 # and it runs once (the marker file), so an uninstall sticks.
 first_start() {
 	local out done=$STATE/firststart.done
 
-	# Repair, every start: Daijishou stays hidden only while the launcher is
-	# there (a restart in the middle, or the guide didn't get to it)
-	if [ -e "$DJ_HIDDEN" ] && [ -z "$(installed_vc "$FS_PKG")" ]; then
-		show_daijishou
+	# Repair, every start: Daijishou and our launcher stay hidden only while
+	# the first-start launcher is there (a restart in the middle, or the guide
+	# didn't get to it)
+	if { [ -e "$DJ_HIDDEN" ] || [ -e "$LA_HIDDEN" ]; } &&
+		[ -z "$(installed_vc "$FS_PKG")" ]; then
+		[ -e "$DJ_HIDDEN" ] && show_daijishou
+		[ -e "$LA_HIDDEN" ] && [ -n "$LA_HOME" ] && show_launcher
+		home_role_again
 	fi
 
 	[ -f "$FS_APK" ] || return 0
@@ -118,9 +152,23 @@ first_start() {
 		touch "$done"
 		return 0
 	fi
+	if [ -n "$LA_HOME" ] && [ -n "$(installed_vc "${LA_HOME%%/*}")" ]; then
+		touch "$LA_HIDDEN"
+		if ! out=$(pm disable --user 0 "$LA_HOME" </dev/null 2>&1) ||
+			[ "${out%disabled}" = "$out" ]; then
+			log "disabling our launcher's home activity failed, no first-start launcher: $out"
+			show_launcher
+			show_daijishou
+			home_role_again
+			touch "$done"
+			return 0
+		fi
+	fi
 	if ! out=$(pm install -r --user 0 "$FS_APK" </dev/null 2>&1); then
 		log "installing the first-start launcher failed: $out"
 		show_daijishou
+		[ -e "$LA_HIDDEN" ] && show_launcher
+		home_role_again
 		touch "$done"
 		return 0
 	fi

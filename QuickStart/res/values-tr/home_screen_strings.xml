@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="home_screen_title">Ana ekran</string>
+    <string name="home_screen_summary">Daijishou veya andr36oid launcher</string>
+    <string name="home_screen_intro">Ana ekran, FN tuşunun sizi götürdüğü yerdir.</string>
+    <string name="home_screen_daijishou_description">Oyunlarınız konsola göre, kapak resimleriyle</string>
+    <string name="home_screen_launcher_description">Uygulamalarınız için basit bir ızgara. Açık kaynak.</string>
+    <string name="home_screen_state_home">Şu anki ana ekran</string>
+    <string name="home_screen_state_installed">Yüklü</string>
+    <string name="home_screen_state_removed">Kaldırıldı</string>
+    <string name="home_screen_use">Ana ekran yap</string>
+    <string name="home_screen_remove">Kaldır</string>
+    <string name="home_screen_restore">Geri getir</string>
+    <string name="home_screen_remove_confirm"><xliff:g id="app">%1$s</xliff:g> kaldırılsın mı? Ayarları ve oyun kitaplığı silinir. Bu sayfadan geri getirebilirsiniz.</string>
+    <string name="home_screen_restored"><xliff:g id="app">%1$s</xliff:g> geri geldi. Yeni bir uygulama gibi boş başlar.</string>
+    <string name="home_screen_now_home"><xliff:g id="app">%1$s</xliff:g> artık ana ekranınız</string>
+    <string name="home_screen_failed">Olmadı. Konsolu yeniden başlatıp tekrar deneyin.</string>
+</resources>

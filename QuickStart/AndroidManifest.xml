@@ -63,6 +63,38 @@
             </intent-filter>
         </activity>
 
+        <!-- Settings > Apps & notifications > Home screen: switch between Daijishou and our
+             launcher, remove or bring back the other one. Off unless the build ships both
+             (FirstBootReceiver switches it on), so the row isn't there otherwise. -->
+        <activity
+            android:name=".HomeScreenActivity"
+            android:enabled="false"
+            android:exported="true"
+            android:label="@string/home_screen_title"
+            android:theme="@android:style/Theme.DeviceDefault.DayNight">
+            <intent-filter>
+                <action android:name="com.android.settings.action.IA_SETTINGS" />
+            </intent-filter>
+            <meta-data
+                android:name="com.android.settings.category"
+                android:value="com.android.settings.category.ia.apps" />
+            <meta-data
+                android:name="com.android.settings.order"
+                android:value="-10" />
+            <meta-data
+                android:name="com.android.settings.keyhint"
+                android:value="andr36oid_home_screen" />
+            <meta-data
+                android:name="com.android.settings.summary"
+                android:resource="@string/home_screen_summary" />
+            <meta-data
+                android:name="com.android.settings.icon"
+                android:resource="@drawable/ic_home_screen" />
+            <meta-data
+                android:name="com.android.settings.icon_tintable"
+                android:value="true" />
+        </activity>
+
         <!-- The first start's safety net at boot and after the wizard: starts the watchdog
              while the first-start launcher is home, removes a left-over launcher -->
         <receiver

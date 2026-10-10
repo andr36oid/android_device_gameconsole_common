@@ -7,6 +7,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.provider.Settings;
 
 /**
@@ -28,10 +29,23 @@ public class FirstBootReceiver extends BroadcastReceiver {
         if (!Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {
             return;
         }
+        showHomeScreenPage(context);
         if (isSetupDone(context)) {
             FirstStart.onSetupDone(context);
         } else if (!wasShown(context)) {
             waitForSetup(context);
+        }
+    }
+
+    /** Settings > Apps & notifications > Home screen, only when there are two to pick from. */
+    private static void showHomeScreenPage(Context context) {
+        final int state = HomeChoice.hasChoice()
+                ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED
+                : PackageManager.COMPONENT_ENABLED_STATE_DEFAULT;
+        final ComponentName page = new ComponentName(context, HomeScreenActivity.class);
+        final PackageManager pm = context.getPackageManager();
+        if (pm.getComponentEnabledSetting(page) != state) {
+            pm.setComponentEnabledSetting(page, state, PackageManager.DONT_KILL_APP);
         }
     }
 

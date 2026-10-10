@@ -24,30 +24,26 @@ import java.util.function.Consumer;
  * The first start after the setup wizard, run with the first-start launcher.
  *
  * <p>The first-start launcher (org.andr36oid.firststart, FirstStart/ in this repo) is a tiny
- * user app with a home activity and nothing else. gameconsole-emu disables Daijishou's home
- * activity, installs the launcher while the setup wizard runs and gives it the home role. So
+ * user app with a home activity and nothing else. gameconsole-emu disables the home activities
+ * of Daijishou and our launcher (if the build ships it), installs the first-start launcher
+ * while the setup wizard runs and gives it the home role. So
  * when the wizard ends, the launcher is the only home app, Android goes home to it, and it
  * tells FirstStartReceiver, which opens the tutorial.
  * Daijishou doesn't run at all until the tutorial is done, so it can't cover it. And each FN
  * press sends a new home intent to the launcher, which tells the tutorial exactly.
  *
  * <p>When the tutorial is finished or skipped, {@link #finish} swaps the home activities back
- * and gives the home role to Daijishou, sets the "shown" flag, opens the home screen (or the guide) and uninstalls the
- * launcher. The watchdog makes sure the console is never stuck with the launcher as home.
+ * and gives the home role to the home screen chosen in the setup wizard (Daijishou if there
+ * was no choice, see {@link HomeChoice}), sets the "shown" flag, opens the home screen (or the
+ * guide), uninstalls the launcher and, if the user asked for it, removes the other home
+ * screen. The watchdog makes sure the console is never stuck with the launcher as home.
  */
 final class FirstStart {
 
     private static final String TAG = "FirstStart";
 
     static final String LAUNCHER_PACKAGE = "org.andr36oid.firststart";
-    private static final String DAIJISHOU_PACKAGE = "com.magneticchen.daijishou";
     private static final String SETUP_WIZARD_PACKAGE = "org.lineageos.setupwizard";
-    /**
-     * Disabled by gameconsole-emu while the launcher is home, so the launcher is the only home
-     * app with priority 0 and Android never asks which home app to use.
-     */
-    private static final ComponentName DAIJISHOU_HOME = new ComponentName(DAIJISHOU_PACKAGE,
-            "com.magneticchen.daijishou.activities.BootstrapActivity");
     private static final ComponentName LAUNCHER_HOME = new ComponentName(LAUNCHER_PACKAGE,
             "org.andr36oid.firststart.HomeActivity");
 
@@ -106,9 +102,13 @@ final class FirstStart {
             } else {
                 armWatchdog(context);
             }
-        } else if (!FirstBootReceiver.wasShown(context)) {
-            Log.i(TAG, "No first-start launcher, the tutorial stays in the guide");
-            FirstBootReceiver.markShown(context);
+        } else {
+            if (!FirstBootReceiver.wasShown(context)) {
+                Log.i(TAG, "No first-start launcher, the tutorial stays in the guide");
+                FirstBootReceiver.markShown(context);
+            }
+            // The home screen chosen in the wizard, once (FirstStart.finish does it otherwise)
+            HomeChoice.applyOnce(context);
         }
     }
 
@@ -170,10 +170,11 @@ final class FirstStart {
     // ---- The end
 
     /**
-     * Ends the first start: sets the "shown" flag, gives the home role back to Daijishou,
-     * opens the home screen (or the guide, if asked), then uninstalls the launcher
-     * without asking (this app runs as the system uid, which holds DELETE_PACKAGES). Safe to
-     * call more than once.
+     * Ends the first start: sets the "shown" flag, gives the home role to the chosen home
+     * screen, opens the home screen (or the guide, if asked), then uninstalls the launcher
+     * without asking (this app runs as the system uid, which holds DELETE_PACKAGES) and, if
+     * the user asked for it in the wizard, removes the other home screen. Safe to call more
+     * than once.
      */
     static void finish(Context context, boolean openGuide) {
         final Context app = context.getApplicationContext();
@@ -190,6 +191,9 @@ final class FirstStart {
 
         final Handler handler = new Handler(Looper.getMainLooper());
         final AtomicBoolean ran = new AtomicBoolean();
+        // The home activities first: pickHome only finds home apps whose activity is on
+        swapHome(app, HomeChoice.chosen(app));
+        final String home = pickHome(app);
         final Consumer<Boolean> then = ok -> {
             if (ran.getAndSet(true)) {
                 return;
@@ -202,13 +206,17 @@ final class FirstStart {
             }
             open(app, openGuide);
             uninstallLauncher(app);
+            if (ok && home != null) {
+                // Only now that the chosen one is home: removing the other can't leave the
+                // console without a home app
+                HomeChoice.removeOtherIfAsked(app, home);
+                HomeChoice.markApplied(app);
+            }
             sFinishing = false;
         };
         // In case the role controller never answers
         handler.postDelayed(() -> then.accept(false), ROLE_TIMEOUT_MS);
-        swapHome(app);
         final RoleManager roles = app.getSystemService(RoleManager.class);
-        final String home = pickHome(app);
         try {
             if (home != null) {
                 Log.i(TAG, "Giving the home role to " + home);
@@ -226,12 +234,14 @@ final class FirstStart {
     }
 
     /**
-     * The launcher's home activity off first, then Daijishou's on again: there are never two
-     * home apps with priority 0 at the same time, so Android can't ask which one to use. In
-     * between there is no real home app for a moment, and a home press then shows Settings'
-     * FallbackHome, which hands over as soon as Daijishou is back.
+     * The launcher's home activity off first, then the chosen home screen's on again, then the
+     * other one's (if it's installed) with the preferred home entry already listing it: Android
+     * never sees two home apps with priority 0 without an "always use" entry for them, so it
+     * can't ask which one to use. In between there is no real home app for a moment, and a
+     * home press then shows Settings' FallbackHome, which hands over as soon as the chosen
+     * home screen is back.
      */
-    private static void swapHome(Context context) {
+    private static void swapHome(Context context, String home) {
         final PackageManager pm = context.getPackageManager();
         try {
             if (isLauncherInstalled(context)) {
@@ -242,27 +252,23 @@ final class FirstStart {
         } catch (RuntimeException e) {
             Log.w(TAG, "Couldn't disable the launcher's home activity", e);
         }
-        try {
-            if (pm.getComponentEnabledSetting(DAIJISHOU_HOME)
-                    == PackageManager.COMPONENT_ENABLED_STATE_DISABLED) {
-                pm.setComponentEnabledSetting(DAIJISHOU_HOME,
-                        PackageManager.COMPONENT_ENABLED_STATE_DEFAULT, 0);
-            }
-        } catch (RuntimeException e) {
-            // Not installed. gameconsole-emu also enables it again on the next start
-            Log.w(TAG, "Couldn't enable Daijishou's home activity", e);
-        }
+        // Not installed: gameconsole-emu also enables them again on the next start
+        HomeChoice.showHomes(context, home);
     }
 
-    /** Daijishou if it's there, else any other home app but the launcher and system ones. */
+    /**
+     * The home screen chosen in the wizard if it's there (Daijishou without a choice), else any
+     * other home app but the launcher and system ones.
+     */
     private static String pickHome(Context context) {
+        final String chosen = HomeChoice.chosen(context);
         final List<ResolveInfo> homes = context.getPackageManager().queryIntentActivities(
                 new Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_HOME),
                 PackageManager.MATCH_DEFAULT_ONLY);
         String other = null;
         for (ResolveInfo info : homes) {
             final String pkg = info.activityInfo.packageName;
-            if (DAIJISHOU_PACKAGE.equals(pkg)) {
+            if (chosen.equals(pkg)) {
                 return pkg;
             }
             if (other == null && !LAUNCHER_PACKAGE.equals(pkg)

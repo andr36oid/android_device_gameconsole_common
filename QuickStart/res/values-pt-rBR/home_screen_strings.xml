@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="home_screen_title">Tela inicial</string>
+    <string name="home_screen_summary">Daijishou ou o andr36oid launcher</string>
+    <string name="home_screen_intro">A tela inicial é para onde o FN leva você.</string>
+    <string name="home_screen_daijishou_description">Seus jogos organizados por console, com capas</string>
+    <string name="home_screen_launcher_description">Uma grade simples com seus apps. Código aberto.</string>
+    <string name="home_screen_state_home">Tela inicial atual</string>
+    <string name="home_screen_state_installed">Instalado</string>
+    <string name="home_screen_state_removed">Removido</string>
+    <string name="home_screen_use">Usar como tela inicial</string>
+    <string name="home_screen_remove">Remover</string>
+    <string name="home_screen_restore">Recuperar</string>
+    <string name="home_screen_remove_confirm">Remover o <xliff:g id="app">%1$s</xliff:g>? As configurações e a biblioteca de jogos dele serão apagadas. Você pode recuperá-lo nesta página.</string>
+    <string name="home_screen_restored">O <xliff:g id="app">%1$s</xliff:g> voltou. Ele começa vazio, como um app novo.</string>
+    <string name="home_screen_now_home">O <xliff:g id="app">%1$s</xliff:g> agora é sua tela inicial</string>
+    <string name="home_screen_failed">Não deu certo. Reinicie o console e tente de novo.</string>
+</resources>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="home_screen_title">Главный экран</string>
+    <string name="home_screen_summary">Daijishou или andr36oid launcher</string>
+    <string name="home_screen_intro">Главный экран открывается кнопкой FN.</string>
+    <string name="home_screen_daijishou_description">Игры по консолям, с обложками</string>
+    <string name="home_screen_launcher_description">Простая сетка приложений. Открытый код.</string>
+    <string name="home_screen_state_home">Сейчас главный экран</string>
+    <string name="home_screen_state_installed">Установлено</string>
+    <string name="home_screen_state_removed">Удалено</string>
+    <string name="home_screen_use">Сделать главным</string>
+    <string name="home_screen_remove">Удалить</string>
+    <string name="home_screen_restore">Вернуть</string>
+    <string name="home_screen_remove_confirm">Удалить «<xliff:g id="app">%1$s</xliff:g>»? Его настройки и библиотека игр будут стёрты. Вернуть его можно на этой странице.</string>
+    <string name="home_screen_restored">«<xliff:g id="app">%1$s</xliff:g>» снова на месте. Он начинает с нуля, как новое приложение.</string>
+    <string name="home_screen_now_home">«<xliff:g id="app">%1$s</xliff:g>» теперь ваш главный экран</string>
+    <string name="home_screen_failed">Не получилось. Перезапустите консоль и попробуйте снова.</string>
+</resources>

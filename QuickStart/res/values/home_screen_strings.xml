@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Settings > Apps & notifications row and page title: which app is the home screen [CHAR LIMIT=30] -->
+    <string name="home_screen_title">Home screen</string>
+    <!-- Settings row summary [CHAR LIMIT=60] -->
+    <string name="home_screen_summary">Daijishou or the andr36oid launcher</string>
+    <!-- Top of the page -->
+    <string name="home_screen_intro">The home screen is where FN takes you.</string>
+    <!-- App names, the same in every language. The launcher's must match its app label. -->
+    <string name="home_screen_daijishou" translatable="false">Daijishou</string>
+    <string name="home_screen_launcher" translatable="false">andr36oid launcher</string>
+    <!-- Same text as on the setup wizard's "Choose your home screen" page [CHAR LIMIT=60] -->
+    <string name="home_screen_daijishou_description">Your games sorted by console, with box art</string>
+    <!-- Same text as on the setup wizard's "Choose your home screen" page [CHAR LIMIT=60] -->
+    <string name="home_screen_launcher_description">A simple grid of your apps. Open source.</string>
+    <!-- State under a home screen's name [CHAR LIMIT=30] -->
+    <string name="home_screen_state_home">Home screen now</string>
+    <!-- State under a home screen's name [CHAR LIMIT=30] -->
+    <string name="home_screen_state_installed">Installed</string>
+    <!-- State under a home screen's name: uninstalled for the user, can be brought back [CHAR LIMIT=30] -->
+    <string name="home_screen_state_removed">Removed</string>
+    <!-- Button [CHAR LIMIT=25] -->
+    <string name="home_screen_use">Use as home screen</string>
+    <!-- Button and dialog button [CHAR LIMIT=20] -->
+    <string name="home_screen_remove">Remove</string>
+    <!-- Button: install a removed home screen again [CHAR LIMIT=20] -->
+    <string name="home_screen_restore">Get it back</string>
+    <!-- Dialog. %1$s is Daijishou or andr36oid launcher -->
+    <string name="home_screen_remove_confirm">Remove <xliff:g id="app">%1$s</xliff:g>? Its settings and game library are deleted. You can get it back on this page.</string>
+    <!-- Toast after "Get it back". %1$s is Daijishou or andr36oid launcher -->
+    <string name="home_screen_restored"><xliff:g id="app">%1$s</xliff:g> is back. It starts empty, like a new app.</string>
+    <!-- Toast. %1$s is Daijishou or andr36oid launcher -->
+    <string name="home_screen_now_home"><xliff:g id="app">%1$s</xliff:g> is your home screen now</string>
+    <!-- Toast when a change didn't work -->
+    <string name="home_screen_failed">That didn\'t work. Restart the console and try again.</string>
+</resources>
