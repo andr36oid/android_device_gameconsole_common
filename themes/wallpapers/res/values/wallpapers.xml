@@ -12,7 +12,7 @@
         <item>andr36oid_phosphor</item>
     </string-array>
 
-    <!-- Names shown in Settings > Display > Console look, same order -->
+    <!-- Names, same order -->
     <string-array name="wallpaper_titles">
         <item>Pixel sunset</item>
         <item>Night hills</item>

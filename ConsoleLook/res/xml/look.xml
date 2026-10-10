@@ -7,22 +7,11 @@
         android:persistent="false" />
 
     <ListPreference
-        android:key="wallpaper"
-        android:title="@string/wallpaper_title"
-        android:persistent="false" />
-
-    <ListPreference
         android:key="sounds"
         android:title="@string/sounds_title"
         android:persistent="false" />
 
-    <ListPreference
-        android:key="bootanim"
-        android:title="@string/bootanim_title"
-        android:persistent="false" />
-
     <Preference
-        android:key="about"
-        android:selectable="false"
-        android:summary="@string/about_wallpaper" />
+        android:key="bootanim"
+        android:title="@string/bootanim_title" />
 </PreferenceScreen>

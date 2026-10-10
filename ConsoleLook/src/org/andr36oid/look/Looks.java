@@ -1,12 +1,10 @@
 package org.andr36oid.look;
 
-import android.app.WallpaperManager;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.om.OverlayInfo;
 import android.content.om.OverlayManager;
 import android.content.pm.PackageManager;
-import android.content.res.Resources;
 import android.media.AudioManager;
 import android.os.Process;
 import android.os.SystemProperties;
@@ -17,13 +15,11 @@ import android.util.Log;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/** Reads and applies the four looks. Everything here is optional and off by default. */
+/** Reads and applies the three looks. Everything here is optional and off by default. */
 final class Looks {
 
     private static final String TAG = "ConsoleLook";
@@ -32,13 +28,10 @@ final class Looks {
     static final String ACCENT_CATEGORY = "android.theme.customization.accent_color";
     private static final String OUR_ACCENTS = "org.andr36oid.overlay.accent.";
 
-    // ---- wallpapers: the partner package from themes/wallpapers
-    static final String WALLPAPER_PACKAGE = "org.andr36oid.wallpapers";
-    private static final String PREF_WALLPAPER = "wallpaper";
-    private static final String PREF_WALLPAPER_ID = "wallpaper_id";
-
-    // ---- UI sounds: runtime overlay for the framework's audio_assets.xml
-    static final String RETRO_SOUNDS = "org.andr36oid.overlay.sounds.retro";
+    // ---- UI sounds: the audio service reads its sound list from
+    // /product/etc/andr36oid/audio_assets_retro.xml while this is "retro"
+    static final String SOUNDS_PROP = "persist.andr36oid.ui_sounds";
+    private static final String RETRO_ASSETS = "/product/etc/andr36oid/audio_assets_retro.xml";
     private static final String RETRO_CHARGING = "/product/media/audio/ui/andr36oid/charging.ogg";
     private static final String STOCK_CHARGING = "/product/media/audio/ui/ChargingStarted.ogg";
     private static final String PREF_OLD_CHARGING = "old_charging_sound";
@@ -129,92 +122,25 @@ final class Looks {
         return TextUtils.isEmpty(s) ? "{}" : s;
     }
 
-    // ------------------------------------------------------------------ wallpaper
-
-    static Resources wallpaperResources(Context context) {
-        try {
-            return context.getPackageManager().getResourcesForApplication(WALLPAPER_PACKAGE);
-        } catch (PackageManager.NameNotFoundException e) {
-            return null;
-        }
-    }
-
-    /** Names (drawable resource names) of the bundled wallpapers. */
-    static String[] wallpaperNames(Resources res) {
-        final int id = res.getIdentifier("wallpapers", "array", WALLPAPER_PACKAGE);
-        return id == 0 ? new String[0] : res.getStringArray(id);
-    }
-
-    static String[] wallpaperTitles(Resources res, String[] names) {
-        final int id = res.getIdentifier("wallpaper_titles", "array", WALLPAPER_PACKAGE);
-        final String[] titles = id == 0 ? new String[0] : res.getStringArray(id);
-        final String[] out = new String[names.length];
-        for (int i = 0; i < names.length; i++) {
-            out[i] = i < titles.length ? titles[i] : names[i];
-        }
-        return out;
-    }
-
-    /**
-     * The bundled wallpaper that is set, "" for the default, or null when something else
-     * set a wallpaper since (another app or Styles & wallpapers).
-     */
-    static String currentWallpaper(Context context) {
-        final WallpaperManager wm = context.getSystemService(WallpaperManager.class);
-        final int id = wm.getWallpaperId(WallpaperManager.FLAG_SYSTEM);
-        final android.content.SharedPreferences prefs = prefs(context);
-        final String name = prefs.getString(PREF_WALLPAPER, "");
-        if (id <= 0) return "";                         // never set: the black default
-        if (id == prefs.getInt(PREF_WALLPAPER_ID, -1)) return name;
-        return null;
-    }
-
-    static boolean setWallpaper(Context context, String name) {
-        final WallpaperManager wm = context.getSystemService(WallpaperManager.class);
-        final int which = WallpaperManager.FLAG_SYSTEM | WallpaperManager.FLAG_LOCK;
-        try {
-            if (TextUtils.isEmpty(name)) {
-                wm.clear(which);
-            } else {
-                final Resources res = wallpaperResources(context);
-                if (res == null) return false;
-                final int id = res.getIdentifier(name, "drawable", WALLPAPER_PACKAGE);
-                if (id == 0) return false;
-                try (InputStream in = res.openRawResource(id)) {
-                    wm.setStream(in, null, true, which);
-                }
-            }
-        } catch (IOException | RuntimeException e) {
-            Log.w(TAG, "wallpaper " + name, e);
-            return false;
-        }
-        prefs(context).edit()
-                .putString(PREF_WALLPAPER, name)
-                .putInt(PREF_WALLPAPER_ID, wm.getWallpaperId(WallpaperManager.FLAG_SYSTEM))
-                .apply();
-        return true;
-    }
-
     // ------------------------------------------------------------------ sounds
 
-    static boolean retroSoundsOn(Context context) {
-        final OverlayManager om = context.getSystemService(OverlayManager.class);
-        final OverlayInfo info = om.getOverlayInfo(RETRO_SOUNDS, Process.myUserHandle());
-        return info != null && info.isEnabled();
+    static boolean retroSoundsOn() {
+        return "retro".equals(SystemProperties.get(SOUNDS_PROP, ""));
     }
 
-    static boolean retroSoundsInstalled(Context context) {
-        final OverlayManager om = context.getSystemService(OverlayManager.class);
-        return om.getOverlayInfo(RETRO_SOUNDS, Process.myUserHandle()) != null;
+    static boolean retroSoundsInstalled() {
+        return new java.io.File(RETRO_ASSETS).isFile();
     }
 
     /**
-     * Switches the sound set. The d-pad/click/keyboard sounds need a restart (the audio
-     * service reads its list once); the charger sound is a setting and changes at once.
+     * Switches the sound set. The audio service reads its sound list again when it
+     * reloads the sounds, so the new set plays at once; so does the charger sound.
      */
     static void setRetroSounds(Context context, boolean on) {
-        final OverlayManager om = context.getSystemService(OverlayManager.class);
-        om.setEnabled(RETRO_SOUNDS, on, Process.myUserHandle());
+        SystemProperties.set(SOUNDS_PROP, on ? "retro" : "android");
+        final AudioManager audio = context.getSystemService(AudioManager.class);
+        audio.unloadSoundEffects();
+        audio.loadSoundEffects();
         final ContentResolver cr = context.getContentResolver();
         final android.content.SharedPreferences prefs = prefs(context);
         if (on) {
@@ -226,7 +152,6 @@ final class Looks {
             // Asking for retro sounds means wanting to hear them
             if (Settings.System.getInt(cr, Settings.System.SOUND_EFFECTS_ENABLED, 1) == 0) {
                 Settings.System.putInt(cr, Settings.System.SOUND_EFFECTS_ENABLED, 1);
-                context.getSystemService(AudioManager.class).loadSoundEffects();
             }
         } else {
             final String old = prefs.getString(PREF_OLD_CHARGING, null);

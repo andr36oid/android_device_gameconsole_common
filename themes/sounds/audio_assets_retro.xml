@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Retro sound set. Paths are relative to /product/media/audio/ui/. -->
+<!-- Retro sound set, read by the audio service when persist.andr36oid.ui_sounds is retro
+     (Settings > Personalization). Paths are relative to /product/media/audio/ui/. -->
 <audio_assets version="1.0">
     <group name="touch_sounds">
         <asset id="FX_KEY_CLICK" file="andr36oid/select.ogg"/>
