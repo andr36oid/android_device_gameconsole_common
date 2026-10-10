@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The dialog while Android starts its apps after boot. The build is a "tablet"
+     product (PRODUCT_CHARACTERISTICS), so the framework said "Tablet is starting". -->
+<resources>
+    <string name="android_start_title" product="tablet">Console starting\u2026</string>
+    <string name="android_start_title" product="default">Console starting\u2026</string>
+</resources>
