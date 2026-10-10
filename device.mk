@@ -619,6 +619,18 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
 	Andr36oidPlayTime
 
+# Second home screen next to Daijishou: the andr36oid launcher (our SproutLauncher fork,
+# apps/Andr36oidLauncher). The setup wizard asks which one is home. Only when its APK is in
+# the tree; without it the build and the wizard stay Daijishou-only.
+# ro.andr36oid.launcher_home is the launcher's home activity (package/class): the one place
+# the setup wizard, the quick start guide and gameconsole-emu learn its id from.
+ifneq ($(wildcard device/gameconsole/common/apps/Andr36oidLauncher/Andr36oidLauncher.apk),)
+PRODUCT_PACKAGES += \
+	Andr36oidLauncher
+PRODUCT_PRODUCT_PROPERTIES += \
+	ro.andr36oid.launcher_home=org.andr36oid.launcher/games.indiegesindel.sproutlauncher.MainActivity
+endif
+
 # Run the network stack and tethering inside system_server instead of
 # two separate persistent processes (same as Android Go).
 PRODUCT_PACKAGES += \
