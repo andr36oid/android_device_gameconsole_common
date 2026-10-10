@@ -1,11 +1,16 @@
 # libretro cores shipped with the ROM, built from source by scripts/build-cores.sh.
 #
-# tier:    foss          -> OSI/FSF approved license, always shipped
-#          noncommercial -> free to redistribute, but NOT for commercial use;
+# tier:    foss          -> OSI/FSF approved license, always shipped. A few carry
+#                           built-in system ROMs or a small non-OSI part whose
+#                           owners still allow redistribution in products that are
+#                           sold (bluemsx V9938, fuse Amstrad ROMs); see the NOTICE
+#          noncommercial -> free to redistribute, but NOT for commercial use (also
+#                           cores with built-in ROMs that only allow free copies);
 #                           only shipped with GAMECONSOLE_EMU_NONCOMMERCIAL_CORES=true
-# build:   jni   -> ndk-build in <path>/jni
-#          cmake -> cmake with the NDK toolchain in <path>, extra args comma separated
-# license: file inside the source tree that gets copied into the NOTICE
+# build:   jni    -> ndk-build in <path>/jni, args = extra make variables, comma separated
+#          cmake  -> cmake with the NDK toolchain in <path>, extra args comma separated
+#          script -> scripts/cores/<name>.sh <path> <output .so>
+# license: file(s) inside the source tree that get copied into the NOTICE, comma separated
 #
 # name              tier           spdx                build  path                  license_file         args                                      repo                                                commit
 fceumm              foss           GPL-2.0-or-later    jni    .                     Copying              -                                         https://github.com/libretro/libretro-fceumm.git     236ccdfc911e84c60fea6b9d0699c2d440a8de14
@@ -24,3 +29,25 @@ handy               foss           Zlib                jni    .                 
 snes9x2010          noncommercial  LicenseRef-snes9x   jni    .                     LICENSE.txt          -                                         https://github.com/libretro/snes9x2010.git          fe690dd321fa5a46b5234a2bde089d2518c62b0e
 genesis_plus_gx     noncommercial  LicenseRef-gpgx     jni    libretro              LICENSE.txt          -                                         https://github.com/libretro/Genesis-Plus-GX.git     c2838c7dc4236fc2fe94e5dbd08b41486067918e
 picodrive           noncommercial  LicenseRef-picodrive jni   .                     COPYING              -                                         https://github.com/libretro/picodrive.git           ab021146b70eef7ec0ac2afe06a94e9b4c16ef74
+nestopia            foss           GPL-2.0-or-later    jni    libretro              COPYING              -                                         https://github.com/libretro/nestopia.git            8f00f500912a847062de432e38765c7285483e62
+mupen64plus_next_gles3 foss        GPL-2.0-or-later    jni    libretro              LICENSE              GLES3=1                                   https://github.com/libretro/mupen64plus-libretro-nx.git 6752836de8b224febfd5708444755b77712ac939
+mednafen_supergrafx foss           GPL-2.0-or-later    jni    .                     COPYING              -                                         https://github.com/libretro/beetle-supergrafx-libretro.git 3c6fcd3deded54ebecd69408f108407ac03d11b5
+mednafen_vb         foss           GPL-2.0-or-later    jni    .                     COPYING              -                                         https://github.com/libretro/beetle-vb-libretro.git  83ed42608601fb7b01d41e4f8fb2007a37b8c84e
+pokemini            foss           GPL-3.0-or-later    jni    .                     LICENSE              -                                         https://github.com/libretro/PokeMini.git            132111b76343559860532a1ccc094f93f1ed5650
+o2em                foss           Artistic-2.0        jni    .                     COPYING              -                                         https://github.com/libretro/libretro-o2em.git       679d6fec04963f6e70a7ec217e3d0ebb1fe472fc
+freeintv            foss           GPL-2.0-or-later    jni    .                     LICENSE              -                                         https://github.com/libretro/FreeIntv.git            ef3e0fe322bec62a7f916c0bb0834c08c348d0b4
+a5200               foss           GPL-2.0-only        jni    .                     License.txt          -                                         https://github.com/libretro/a5200.git               40c6f2f1ad4a3145b328d5baaf010fae6c7e752b
+gw                  foss           Zlib                jni    build                 LICENSE              -                                         https://github.com/libretro/gw-libretro.git         91d599b951e7bfe7e040347f58667cba20074adc
+bluemsx             foss           LicenseRef-bluemsx  jni    .                     license.txt          -                                         https://github.com/libretro/blueMSX-libretro.git    e3086eb5d36d77fa11704cf53dc176686e70127d
+fuse                foss           GPL-3.0-or-later    jni    build                 LICENSE,fuse/roms/README.copyright -                           https://github.com/libretro/fuse-libretro.git       e997e2bc32c888348f862f69f2c53babfedf7791
+dosbox_pure         foss           GPL-2.0-or-later    jni    .                     LICENSE              -                                         https://github.com/schellingb/dosbox-pure.git       73e03aa145e0549ed4d5a20f8e65532714da33f5
+puae2021            foss           GPL-2.0-or-later    jni    .                     COPYING              -                                         https://github.com/libretro/libretro-uae.git        297b34777372fd5f117785798f99b4c7433b6034
+prboom              foss           GPL-2.0-or-later    jni    .                     COPYING              -                                         https://github.com/libretro/libretro-prboom.git     e5db549b6c85fc500b3a559efe2dc00870521c5d
+fake08              foss           MIT                 jni    platform/libretro     LICENSE.MD           -                                         https://github.com/jtothebell/fake-08.git           814991a2571ad3970e386cef48f3b148aa1c27b9
+easyrpg             foss           GPL-3.0-or-later    script .                     COPYING,lib/liblcf/COPYING,builds/libretro/buildscripts/shared/packages.ini - https://github.com/libretro/easyrpg-libretro.git a3fbb7c24fd5a39fd95388d09135256a6b19f1e4
+fbneo               noncommercial  LicenseRef-fbneo    jni    src/burner/libretro   src/license.txt      -                                         https://github.com/libretro/FBNeo.git               a4012b161e48b33b94940f07987323574c237448
+mame2003_plus       noncommercial  LicenseRef-mame2003plus jni .                    LICENSE.md           -                                         https://github.com/libretro/mame2003-plus-libretro.git 0d9a325c96aa96460be7b2fe4310a7096981ff75
+neocd               noncommercial  LicenseRef-neocd jni .      LICENSE.md,src/3rdparty/z80/z80.cpp -                          https://github.com/libretro/neocd_libretro.git      3118c6901787e863e80e79170d02d47657b3b0ab
+snes9x              noncommercial  LicenseRef-snes9x   jni    libretro              LICENSE              -                                         https://github.com/libretro/snes9x.git              fae2fea08f74180759ef540ee94259213f503480
+vice_x64            noncommercial  LicenseRef-vice jni .       COPYING              -                                         https://github.com/libretro/vice-libretro.git       9d7983826ea792f6cce7fdfe6c09488129c6f886
+vecx                noncommercial  LicenseRef-vecx jni .    LICENSE.md           -                                         https://github.com/libretro/libretro-vecx.git       8f671cc9d737f2890c3ce19e177e2984dcae121f

@@ -57,6 +57,7 @@
     <string name="games_folders_ready">The console makes these folders on EASYROMS by itself, with a README listing which system goes where.</string>
     <string name="games_wifi_transfer">No computer or card reader at hand? Open Wi-Fi transfer on the console and scan its QR code with your phone, or type the address it shows into any browser on the same network, to send games straight to EASYROMS.</string>
     <string name="games_library">Daijishou, the home screen, turns those folders into a game library: add a platform and pick its folder on EASYROMS.</string>
+    <string name="games_library_ready">Daijishou, the home screen, already has a platform for each of these systems, set to its folder on EASYROMS. The first time it opens, it asks to look for games: press OK. After adding games later, use Sync entirely in Daijishou\'s library settings. For other systems, or on a card set up with .noroms, add a platform in Daijishou and pick its folder.</string>
 
     <!-- Emulators -->
     <string name="emulators_title">Emulators</string>
