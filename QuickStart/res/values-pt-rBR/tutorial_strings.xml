@@ -49,7 +49,7 @@
 
     <!-- Shoulder buttons -->
     <string name="tutorial_shoulder_title">Gatilhos</string>
-    <string name="tutorial_shoulder_body">L1 e R1 são os gatilhos de cima, L2 e R2 os de baixo. Muitos apps usam L1 e R1 para trocar de aba ou de página.\n\nAperte cada um deles uma vez.</string>
+    <string name="tutorial_shoulder_body">Os gatilhos ficam atrás: L1 e R1 por fora, L2 e R2 ao lado, por dentro. Muitos apps usam L1 e R1 para trocar de aba ou de página.\n\nAperte cada um deles uma vez.</string>
     <string name="tutorial_press_l1">Aperte L1</string>
     <string name="tutorial_press_r1">Aperte R1</string>
     <string name="tutorial_press_l2">Aperte L2</string>

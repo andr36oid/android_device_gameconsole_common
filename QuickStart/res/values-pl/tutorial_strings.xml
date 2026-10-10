@@ -45,7 +45,7 @@
 
     <!-- Shoulder buttons -->
     <string name="tutorial_shoulder_title">Przyciski na krawędzi</string>
-    <string name="tutorial_shoulder_body">L1 i R1 to górne przyciski na krawędzi, L2 i R2 dolne. Wiele aplikacji używa L1 i R1 do przełączania kart lub stron.\n\nNaciśnij każdy z nich raz.</string>
+    <string name="tutorial_shoulder_body">Spusty są z tyłu: L1 i R1 na zewnątrz, L2 i R2 obok, od środka. Wiele aplikacji używa L1 i R1 do przełączania kart lub stron.\n\nNaciśnij każdy z nich raz.</string>
     <string name="tutorial_press_l1">Naciśnij L1</string>
     <string name="tutorial_press_r1">Naciśnij R1</string>
     <string name="tutorial_press_l2">Naciśnij L2</string>

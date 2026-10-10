@@ -49,7 +49,7 @@
 
     <!-- Shoulder buttons -->
     <string name="tutorial_shoulder_title">Шифты</string>
-    <string name="tutorial_shoulder_body">L1 и R1 — верхние шифты, L2 и R2 — нижние. Многие приложения переключают вкладки или страницы кнопками L1 и R1.\n\nНажмите каждую по одному разу.</string>
+    <string name="tutorial_shoulder_body">Шифты находятся сзади: L1 и R1 снаружи, L2 и R2 рядом, ближе к центру. Многие приложения переключают вкладки или страницы кнопками L1 и R1.\n\nНажмите каждую по одному разу.</string>
     <string name="tutorial_press_l1">Нажмите L1</string>
     <string name="tutorial_press_r1">Нажмите R1</string>
     <string name="tutorial_press_l2">Нажмите L2</string>

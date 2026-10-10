@@ -49,7 +49,7 @@
 
     <!-- Shoulder buttons -->
     <string name="tutorial_shoulder_title">Tombol bahu</string>
-    <string name="tutorial_shoulder_body">L1 dan R1 adalah tombol bahu atas, L2 dan R2 yang bawah. Banyak aplikasi memakai L1 dan R1 untuk berganti tab atau halaman.\n\nTekan masing-masing sekali.</string>
+    <string name="tutorial_shoulder_body">Tombol bahu ada di belakang: L1 dan R1 di sisi luar, L2 dan R2 di sebelahnya di sisi dalam. Banyak aplikasi memakai L1 dan R1 untuk berganti tab atau halaman.\n\nTekan masing-masing sekali.</string>
     <string name="tutorial_press_l1">Tekan L1</string>
     <string name="tutorial_press_r1">Tekan R1</string>
     <string name="tutorial_press_l2">Tekan L2</string>
