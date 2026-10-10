@@ -199,6 +199,54 @@ LOCAL_MODULE                         := remove-android.hardware.cas@1.2-service
 EXECUTABLES.remove-android.hardware.cas@1.2-service.OVERRIDES := android.hardware.cas@1.2-service
 include $(BUILD_PHONY_PACKAGE)
 
+# Work profile / managed device setup, DSU (GSI) loader and the Launcher2 dialer-icon fixer: none can be used here, all three start a process at every boot.
+include $(CLEAR_VARS)
+LOCAL_MODULE                         := remove-ManagedProvisioning
+EXECUTABLES.remove-ManagedProvisioning.OVERRIDES := ManagedProvisioning
+include $(BUILD_PHONY_PACKAGE)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE                         := remove-DynamicSystemInstallationService
+EXECUTABLES.remove-DynamicSystemInstallationService.OVERRIDES := DynamicSystemInstallationService
+include $(BUILD_PHONY_PACKAGE)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE                         := remove-OneTimeInitializer
+EXECUTABLES.remove-OneTimeInitializer.OVERRIDES := OneTimeInitializer
+include $(BUILD_PHONY_PACKAGE)
+
+# Printing is turned off (android.software.print unavailable), so the spooler and print services are never used.
+include $(CLEAR_VARS)
+LOCAL_MODULE                         := remove-PrintSpooler
+EXECUTABLES.remove-PrintSpooler.OVERRIDES := PrintSpooler
+include $(BUILD_PHONY_PACKAGE)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE                         := remove-BuiltInPrintService
+EXECUTABLES.remove-BuiltInPrintService.OVERRIDES := BuiltInPrintService
+include $(BUILD_PHONY_PACKAGE)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE                         := remove-PrintRecommendationService
+EXECUTABLES.remove-PrintRecommendationService.OVERRIDES := PrintRecommendationService
+include $(BUILD_PHONY_PACKAGE)
+
+# Backup is turned off (android.software.backup unavailable), so the shared storage backup agent, the local transport and the adb backup prompt are never used. WallpaperBackup stays: it is listed in PRODUCT_SYSTEM_SERVER_APPS.
+include $(CLEAR_VARS)
+LOCAL_MODULE                         := remove-LocalTransport
+EXECUTABLES.remove-LocalTransport.OVERRIDES := LocalTransport
+include $(BUILD_PHONY_PACKAGE)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE                         := remove-SharedStorageBackup
+EXECUTABLES.remove-SharedStorageBackup.OVERRIDES := SharedStorageBackup
+include $(BUILD_PHONY_PACKAGE)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE                         := remove-BackupRestoreConfirmation
+EXECUTABLES.remove-BackupRestoreConfirmation.OVERRIDES := BackupRestoreConfirmation
+include $(BUILD_PHONY_PACKAGE)
+
 # if some modules are built directly from this directory (not subdirectories),
 # their rules should be written here.
 
