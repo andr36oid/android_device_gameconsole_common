@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="controllers_title">Mandos</string>
+    <string name="controllers_summary">Mandos externos, vinculación Bluetooth, jugador 1</string>
+    <!-- Connected pads -->
+    <string name="connected_title">Mandos conectados</string>
+    <string name="connected_none">Solo los controles integrados. Conecta un mando al puerto OTG (con un adaptador si hace falta) o vincula uno por Bluetooth.</string>
+    <string name="bus_builtin">Integrados</string>
+    <string name="bus_usb">USB</string>
+    <string name="bus_bluetooth">Bluetooth</string>
+    <string name="bus_other">Externo</string>
+    <string name="battery_percent">Batería %1$d %%</string>
+    <string name="battery_level">Batería %1$s</string>
+    <string name="battery_charging">cargando</string>
+    <string name="battery_none">Sin datos de batería</string>
+    <string name="player_builtin_1">Jugador 1 en RetroArch</string>
+    <string name="player_builtin_2">Jugador 2 en RetroArch</string>
+    <string name="player_external_2">Jugador 2, 3… en RetroArch</string>
+    <string name="player_external_1">Jugador 1 en RetroArch si se pulsa primero</string>
+    <!-- joined with " · " -->
+    <string name="summary_separator">" · "</string>
+    <!-- RetroArch -->
+    <string name="retroarch_title">RetroArch</string>
+    <string name="player1_title">Jugador 1 en RetroArch</string>
+    <string-array name="player1_entries">
+        <item>Controles integrados</item>
+        <item>Mando externo</item>
+    </string-array>
+    <string name="player1_builtin_summary">Controles integrados. Los mandos externos son los jugadores 2, 3, etc., en el orden en que pulses un botón en cada uno por primera vez.</string>
+    <string name="player1_external_summary">El primer mando externo en el que pulses un botón. Los controles integrados son el jugador 2. Para jugar solo con un mando más grande.</string>
+    <string name="player1_later">Los cambios se aplican la próxima vez que se inicie RetroArch. Si está abierto, ciérralo antes (Select + Start dos veces).</string>
+    <string name="hotkeys_title">Botones en RetroArch</string>
+    <string name="hotkeys_summary">Mando del jugador 1: mantén Select para los atajos (Start sale, R1/L1 guarda/carga un guardado rápido, X abre el menú).\nCualquier mando: L1 + R1 + Start + Select o el botón Xbox / PS / Capture abre el menú; Start + Select dos veces sale.</string>
+    <string name="ppsspp_title">Juegos de PSP (PPSSPP)</string>
+    <string name="ppsspp_summary">Todos los mandos controlan al único jugador. Los botones están configurados para los controles integrados y los mandos de Switch (Cruz = B). Si juegas con un mando de Xbox o PlayStation, reasígnalos en PPSSPP.</string>
+    <!-- Bluetooth -->
+    <string name="bluetooth_title">Bluetooth</string>
+    <string name="pair_title">Vincular un mando Bluetooth</string>
+    <string name="pair_summary">Busca un mando en modo de vinculación</string>
+    <string name="bluetooth_off">Activar Bluetooth</string>
+    <string name="bluetooth_off_summary">El Bluetooth está desactivado</string>
+    <string name="bluetooth_turning_on">Activando Bluetooth…</string>
+    <string name="bluetooth_missing">Sin Bluetooth</string>
+    <string name="bluetooth_missing_summary">Esta consola no tiene Bluetooth. Conecta un adaptador Bluetooth USB al puerto OTG para usar mandos inalámbricos, o usa un mando USB.</string>
+    <string name="paired_connected">Vinculado, conectado</string>
+    <string name="paired_not_connected">Vinculado, no conectado. Enciende el mando o pulsa A.</string>
+    <string name="paired_dialog_connect">Conectar</string>
+    <string name="paired_dialog_forget">Olvidar</string>
+    <string name="paired_forget_title">¿Olvidar %1$s?</string>
+    <string name="paired_forget_message">Para volver a usarlo, tendrás que vincularlo de nuevo.</string>
+    <!-- Pairing page -->
+    <string name="pair_how_title">Pon el mando en modo de vinculación</string>
+    <string name="pair_how">Xbox: mantén el pequeño botón de vinculación de arriba hasta que el botón Xbox parpadee rápido.\nPlayStation 4 o 5: mantén Share (Create) y PS hasta que la luz parpadee.\nSwitch Pro: mantén el pequeño botón de arriba, junto al puerto USB.\n8BitDo: elige el modo con su interruptor o con Start + un botón y luego mantén Pair 3 segundos.</string>
+    <string name="pair_found_title">Mandos encontrados</string>
+    <string name="pair_searching">Buscando…</string>
+    <string name="pair_search_again">Volver a buscar</string>
+    <string name="pair_search_again_summary">No se ha encontrado nada más. Pulsa A para volver a buscar.</string>
+    <string name="pair_show_all">Mostrar todos los dispositivos Bluetooth</string>
+    <string name="pair_show_all_summary">También los que no se identifican como mandos</string>
+    <string name="pair_device_summary">Pulsa A para vincular</string>
+    <string name="pair_pairing">Vinculando… Si aparece una pregunta, elige Vincular.</string>
+    <string name="pair_connecting">Vinculado. Conectando…</string>
+    <string name="pair_connected">Conectado. Ya puedes usarlo.</string>
+    <string name="pair_failed">No se ha podido vincular. Vuelve a poner el mando en modo de vinculación y pulsa A.</string>
+    <string name="pair_no_name">Dispositivo sin nombre (%1$s)</string>
+</resources>

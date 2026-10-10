@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="controllers_title">Manettes</string>
+    <string name="controllers_summary">Manettes externes, association Bluetooth, joueur 1</string>
+    <!-- Connected pads -->
+    <string name="connected_title">Manettes connectées</string>
+    <string name="connected_none">Seulement les commandes intégrées. Branchez une manette sur le port OTG (avec un adaptateur si nécessaire) ou associez-en une en Bluetooth.</string>
+    <string name="bus_builtin">Intégrée</string>
+    <string name="bus_usb">USB</string>
+    <string name="bus_bluetooth">Bluetooth</string>
+    <string name="bus_other">Externe</string>
+    <string name="battery_percent">Batterie %1$d %%</string>
+    <string name="battery_level">Batterie %1$s</string>
+    <string name="battery_charging">en charge</string>
+    <string name="battery_none">Niveau de batterie inconnu</string>
+    <string name="player_builtin_1">RetroArch joueur 1</string>
+    <string name="player_builtin_2">RetroArch joueur 2</string>
+    <string name="player_external_2">RetroArch joueur 2 et plus</string>
+    <string name="player_external_1">RetroArch joueur 1 si utilisée en premier</string>
+    <!-- joined with " · " -->
+    <string name="summary_separator">" · "</string>
+    <!-- RetroArch -->
+    <string name="retroarch_title">RetroArch</string>
+    <string name="player1_title">Joueur 1 dans RetroArch</string>
+    <string-array name="player1_entries">
+        <item>Commandes intégrées</item>
+        <item>Manette externe</item>
+    </string-array>
+    <string name="player1_builtin_summary">Commandes intégrées. Les manettes externes sont les joueurs 2, 3, etc., dans l\'ordre où vous appuyez pour la première fois sur l\'un de leurs boutons.</string>
+    <string name="player1_external_summary">La première manette externe sur laquelle vous appuyez sur un bouton. Les commandes intégrées sont le joueur 2. Pour jouer seul sur une plus grande manette.</string>
+    <string name="player1_later">Le changement s\'applique au prochain démarrage de RetroArch. S\'il est ouvert, quittez-le d\'abord (Select + Start deux fois).</string>
+    <string name="hotkeys_title">Boutons dans RetroArch</string>
+    <string name="hotkeys_summary">Manette du joueur 1 : maintenez Select pour les raccourcis (Start quitter, R1/L1 sauvegarder/charger l\'état, X menu).\nToute manette : L1 + R1 + Start + Select ou le bouton Xbox / PS / Capture ouvre le menu, Start + Select deux fois quitte.</string>
+    <string name="ppsspp_title">Jeux PSP (PPSSPP)</string>
+    <string name="ppsspp_summary">Toutes les manettes contrôlent l\'unique joueur. Les boutons sont réglés pour les commandes intégrées et les manettes Switch (Croix = B). Sur une manette Xbox ou PlayStation, réassignez-les dans PPSSPP si vous jouez avec.</string>
+    <!-- Bluetooth -->
+    <string name="bluetooth_title">Bluetooth</string>
+    <string name="pair_title">Associer une manette Bluetooth</string>
+    <string name="pair_summary">Rechercher une manette en mode association</string>
+    <string name="bluetooth_off">Activer le Bluetooth</string>
+    <string name="bluetooth_off_summary">Le Bluetooth est désactivé</string>
+    <string name="bluetooth_turning_on">Activation du Bluetooth…</string>
+    <string name="bluetooth_missing">Pas de Bluetooth</string>
+    <string name="bluetooth_missing_summary">Cette console n\'a pas de Bluetooth. Branchez un adaptateur Bluetooth USB sur le port OTG pour utiliser des manettes sans fil, ou utilisez une manette USB.</string>
+    <string name="paired_connected">Associée, connectée</string>
+    <string name="paired_not_connected">Associée, non connectée. Allumez la manette ou appuyez sur A.</string>
+    <string name="paired_dialog_connect">Connecter</string>
+    <string name="paired_dialog_forget">Oublier</string>
+    <string name="paired_forget_title">Oublier %1$s ?</string>
+    <string name="paired_forget_message">Pour l\'utiliser à nouveau, vous devrez l\'associer de nouveau.</string>
+    <!-- Pairing page -->
+    <string name="pair_how_title">Mettez la manette en mode association</string>
+    <string name="pair_how">Xbox : maintenez le petit bouton d\'association sur le dessus jusqu\'à ce que le bouton Xbox clignote vite.\nPlayStation 4 ou 5 : maintenez Share (Create) et PS jusqu\'à ce que le voyant clignote.\nSwitch Pro : maintenez le petit bouton sur le dessus, à côté du port USB.\n8BitDo : choisissez le mode avec son interrupteur ou Start + un bouton, puis maintenez Pair 3 secondes.</string>
+    <string name="pair_found_title">Manettes trouvées</string>
+    <string name="pair_searching">Recherche…</string>
+    <string name="pair_search_again">Rechercher à nouveau</string>
+    <string name="pair_search_again_summary">Rien d\'autre trouvé. Appuyez sur A pour relancer la recherche.</string>
+    <string name="pair_show_all">Afficher tous les appareils Bluetooth</string>
+    <string name="pair_show_all_summary">Y compris ceux qui ne se déclarent pas comme manettes</string>
+    <string name="pair_device_summary">Appuyez sur A pour associer</string>
+    <string name="pair_pairing">Association… Si une question s\'affiche, choisissez Associer.</string>
+    <string name="pair_connecting">Associée. Connexion…</string>
+    <string name="pair_connected">Connectée. Elle est prête à l\'emploi.</string>
+    <string name="pair_failed">Échec de l\'association. Remettez la manette en mode association et appuyez sur A.</string>
+    <string name="pair_no_name">Appareil sans nom (%1$s)</string>
+</resources>
