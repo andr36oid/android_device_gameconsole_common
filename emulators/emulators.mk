@@ -7,6 +7,14 @@
 # commercial use, so leave it off for images that end up on devices for sale.
 #
 
+# A few free games (FreeGames/games.txt) for the ROM folders on a fresh card.
+# Set GAMECONSOLE_FREE_GAMES := false to leave them out (saves ~10 MB on /system).
+GAMECONSOLE_FREE_GAMES ?= true
+ifeq ($(GAMECONSOLE_FREE_GAMES),true)
+PRODUCT_PACKAGES += \
+    gameconsole-free-games
+endif
+
 GAMECONSOLE_EMU_NONCOMMERCIAL_CORES ?= false
 
 PRODUCT_PACKAGES += \
