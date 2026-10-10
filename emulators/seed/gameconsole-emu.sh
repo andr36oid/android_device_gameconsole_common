@@ -52,6 +52,23 @@ sha1() {
 	sha1sum "$1" | cut -d' ' -f1
 }
 
+# netplay_name ; the name the other player sees in RetroArch netplay: the device
+# name from Settings > About. While that is still the model name every console
+# has, R36S and 4 characters of this console's Android ID, e.g. R36S-3F9A.
+netplay_name() {
+	local name id dev
+	name=$(settings get global device_name </dev/null 2>/dev/null)
+	if [ -z "$name" ] || [ "$name" = null ] || [ "$name" = "$(getprop ro.product.model)" ]; then
+		dev=$(getprop ro.product.device | tr '[:lower:]' '[:upper:]')
+		id=$(settings get secure android_id </dev/null 2>/dev/null | cut -c1-4 |
+			tr '[:lower:]' '[:upper:]')
+		[ "$id" = NULL ] && id=
+		name=${dev:-R36S}${id:+-$id}
+	fi
+	# RetroArch keeps 31 characters; quotes and backslashes would break the cfg
+	echo "$name" | sed 's/["\\]//g' | cut -c1-31
+}
+
 # installed_vc <package> ; prints the installed versionCode, nothing if absent
 installed_vc() {
 	pm list packages --show-versioncode "$1" </dev/null 2>/dev/null |
@@ -369,6 +386,7 @@ seed_retroarch() {
 		rm -f "$cfg.tmp"
 		return 0
 	fi
+	cfg_set "$cfg" netplay_nickname "$(netplay_name)" || log "setting the netplay name failed"
 	chown "${owner%:*}:$AID_EXT_DATA_RW" "$cfg"
 	chmod 0660 "$cfg"
 	restorecon -R "${RA_EXT%/*}" 2>/dev/null

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="netplay_title">双人联机</string>
+    <string name="netplay_intro">两台掌机可以通过 Wi-Fi 一起玩同一个游戏，附近没有路由器也可以：一台掌机开启 WLAN 热点，另一台连接它。两台都需要 Wi-Fi（内置或 USB Wi-Fi 适配器），并且要有同一个游戏。</string>
+    <string name="netplay_hotspot_q">1. 在第一台掌机上开启热点</string>
+    <string name="netplay_hotspot_a">插上 Wi-Fi 适配器，进入“设置 &gt; 网络和互联网 &gt; 热点和网络共享 &gt; WLAN 热点”并开启。热点名称和密码在同一页面上。在第二台掌机上，到“设置 &gt; 网络和互联网 &gt; WLAN”连接这个热点。它会提示无法访问互联网，这没关系。</string>
+    <string name="netplay_hotspot_fail">热点开不了？并不是每个适配器都能开热点。把两台掌机的适配器对调，或者让两台掌机连接同一个家庭 Wi-Fi 或手机热点。</string>
+    <string name="netplay_game_q">2. 两台都打开同一个游戏</string>
+    <string name="netplay_game_a">两台掌机要用同一个游戏文件（相同版本和地区）和同一个模拟器。否则无法连接，或者游戏会不同步。</string>
+    <string name="netplay_host_q">3. 第一台掌机：创建主机</string>
+    <string name="netplay_menu">打开 RetroArch 菜单</string>
+    <string name="netplay_host_a">按 B 直到回到主菜单，打开“联机”，选择“作为游戏主机”。然后关闭菜单并等待。</string>
+    <string name="netplay_join_q">4. 第二台掌机：加入</string>
+    <string name="netplay_join_a">用同样的方法打开菜单，打开“联机”，选择“刷新局域网联机列表”。在列表中选择第一台掌机。两台掌机上的游戏会重新开始，第二台掌机是玩家 2。</string>
+    <string name="netplay_join_ip">列表里没有？在第二台掌机上查看第一台的地址：“设置 &gt; 网络和互联网 &gt; WLAN”，选择这个热点，再看“高级 &gt; 网关”。在“联机”中选择“连接到联机主机”，输入这个地址。</string>
+    <string name="netplay_games_q">哪些游戏效果最好</string>
+    <string name="netplay_games_a">NES、Master System、Mega Drive 和 PC Engine 游戏运行良好。SNES 也可以，但按键会稍微慢一点。Game Boy 和 GBA 游戏在一台机器上没有双人模式，所以没有可以共享的。PlayStation 对这台掌机来说太重，无法联机游玩。</string>
+    <string name="netplay_tips">让两台掌机靠近一些。热点会多耗电，玩完后请关闭。您在联机中的名字来自设备名称；可以在 RetroArch 的“设置 &gt; 用户 &gt; 用户名”中修改。</string>
+</resources>
