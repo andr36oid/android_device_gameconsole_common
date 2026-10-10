@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Per-app profiles -->
+    <string name="app_profiles_title">Uygulama profilleri</string>
+    <string name="app_profiles_off">Kapalı</string>
+    <!-- Summary in Settings > Performance, count is the number of apps with their own profile -->
+    <plurals name="app_profiles_on">
+        <item quantity="one">Açık, <xliff:g id="count">%d</xliff:g> uygulamanın kendi profili var</item>
+        <item quantity="other">Açık, <xliff:g id="count">%d</xliff:g> uygulamanın kendi profili var</item>
+    </plurals>
+    <string name="app_profiles_switch">Profili uygulamaya göre değiştir</string>
+    <string name="app_profiles_switch_summary">Kendi profili olan bir uygulama, açıkken bu profili kullanır. Uygulamadan çıkınca Performans\'ta seçilen profil geri gelir.</string>
+    <string name="app_profiles_apps">Uygulamalar</string>
+    <!-- First choice of every app, profile is the chosen profile, e.g. "Default (Balanced)" -->
+    <string name="app_profile_default">Varsayılan (<xliff:g id="profile">%1$s</xliff:g>)</string>
+    <string name="app_profiles_about">Varsayılan, uygulamanın Performans\'ta seçilen profili izlediği anlamına gelir. Bazı emülatörler Performans ile, bazı uygulamalar Dengeli veya Pil tasarrufu ile başlar. Hepsini burada değiştirebilirsiniz.\n\nHızlı Ayarlar kutusu ve FN + R1, kendi profili olan bir uygulamada da çalışır. Seçiminiz o zaman uygulamadan çıkana kadar geçerli olur.\n\nBu açıkken küçük bir yardımcı hangi uygulamanın açık olduğunu izler. Bu kapalıyken veya hiçbir uygulamanın kendi profili yokken çalışmaz.</string>
+    <!-- Second line of the FN + R1 message in an app with its own profile, app is its name -->
+    <string name="app_profile_until_left"><xliff:g id="app">%1$s</xliff:g> uygulamasından çıkana kadar</string>
+    <!-- Tile subtitle in an app with its own profile, e.g. "Performance, PPSSPP" -->
+    <string name="app_profile_tile"><xliff:g id="profile">%1$s</xliff:g>, <xliff:g id="app">%2$s</xliff:g></string>
+</resources>
