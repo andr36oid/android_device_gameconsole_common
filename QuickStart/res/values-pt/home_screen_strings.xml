@@ -2,7 +2,7 @@
 <!-- Copy of values-pt-rBR: every Portuguese setting uses the Brazilian text -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="home_screen_title">Tela inicial</string>
-    <string name="home_screen_summary">Daijishou ou o andr36oid launcher</string>
+    <string name="home_screen_summary">Daijishou ou Simple UI</string>
     <string name="home_screen_intro">A tela inicial é para onde o FN leva você.</string>
     <string name="home_screen_daijishou_description">Seus jogos organizados por console, com capas</string>
     <string name="home_screen_launcher_description">Uma grade simples com seus apps. Código aberto.</string>

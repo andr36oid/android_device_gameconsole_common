@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="home_screen_title">Layar utama</string>
-    <string name="home_screen_summary">Daijishou atau andr36oid launcher</string>
+    <string name="home_screen_summary">Daijishou atau Simple UI</string>
     <string name="home_screen_intro">Layar utama adalah tempat FN membawa Anda.</string>
     <string name="home_screen_daijishou_description">Game Anda diurutkan per konsol, dengan sampul</string>
     <string name="home_screen_launcher_description">Kisi aplikasi yang sederhana. Sumber terbuka.</string>

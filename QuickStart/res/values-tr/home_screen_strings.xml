@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="home_screen_title">Ana ekran</string>
-    <string name="home_screen_summary">Daijishou veya andr36oid launcher</string>
+    <string name="home_screen_summary">Daijishou veya Simple UI</string>
     <string name="home_screen_intro">Ana ekran, FN tuşunun sizi götürdüğü yerdir.</string>
     <string name="home_screen_daijishou_description">Oyunlarınız konsola göre, kapak resimleriyle</string>
     <string name="home_screen_launcher_description">Uygulamalarınız için basit bir ızgara. Açık kaynak.</string>

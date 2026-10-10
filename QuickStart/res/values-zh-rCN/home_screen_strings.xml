@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="home_screen_title">主屏幕</string>
-    <string name="home_screen_summary">Daijishou 或 andr36oid launcher</string>
+    <string name="home_screen_summary">Daijishou 或 Simple UI</string>
     <string name="home_screen_intro">按 FN 即可回到主屏幕。</string>
     <string name="home_screen_daijishou_description">按主机分类的游戏，带封面</string>
     <string name="home_screen_launcher_description">简洁的应用网格。开源。</string>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="home_screen_title">Главный экран</string>
-    <string name="home_screen_summary">Daijishou или andr36oid launcher</string>
+    <string name="home_screen_summary">Daijishou или Simple UI</string>
     <string name="home_screen_intro">Главный экран открывается кнопкой FN.</string>
     <string name="home_screen_daijishou_description">Игры по консолям, с обложками</string>
     <string name="home_screen_launcher_description">Простая сетка приложений. Открытый код.</string>
