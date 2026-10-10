@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="cal_title">Calibrar joysticks</string>
+    <string name="cal_summary">Para joysticks que se mueven solos o no llegan al borde</string>
+    <string name="cal_left">Joystick izquierdo</string>
+    <string name="cal_right">Joystick derecho</string>
+    <string name="cal_status_factory">Con los valores de fábrica</string>
+    <string name="cal_status_calibrated">Calibrado</string>
+    <string name="cal_status_unsupported">El controlador de joysticks de este sistema no se puede calibrar</string>
+    <!-- %1$d is a percentage of the stick's travel -->
+    <string name="cal_deadzone">Zona muerta: <xliff:g id="percent">%1$d</xliff:g> %%</string>
+    <string name="cal_hint_idle">A  Calibrar     X  Valores de fábrica     ◀ ▶  Zona muerta     B  Atrás</string>
+    <string name="cal_hint_idle_factory">A  Calibrar     B  Atrás</string>
+    <string name="cal_hint_back">B  Atrás</string>
+    <string name="cal_hint_capture">A  Hecho     B  Cancelar</string>
+    <string name="cal_step_circles">Mueve los dos joysticks en círculos completos, despacio y hasta el borde. Tres veces cada uno.</string>
+    <string name="cal_step_release">Luego suelta los dos joysticks y pulsa A.</string>
+    <!-- %1$d directions reached so far, out of 4 -->
+    <string name="cal_directions"><xliff:g id="done">%1$d</xliff:g> de 4 direcciones</string>
+    <string name="cal_directions_done">Todas las direcciones alcanzadas</string>
+    <string name="cal_measuring">Midiendo el centro, no toques los joysticks…</string>
+    <string name="cal_saved">Guardado. Los juegos y las apps ya usan la nueva calibración.</string>
+    <string name="cal_not_applied">Guardado, pero el controlador no lo ha aplicado. Reinicia la consola y vuelve a comprobarlo.</string>
+    <string name="cal_left_short">El joystick izquierdo no ha llegado al borde en todas las direcciones. Sigue girándolo; luego suéltalo y pulsa A.</string>
+    <string name="cal_right_short">El joystick derecho no ha llegado al borde en todas las direcciones. Sigue girándolo; luego suéltalo y pulsa A.</string>
+    <string name="cal_not_still">Un joystick se ha movido mientras se medía el centro. Suelta los dos joysticks y vuelve a pulsar A.</string>
+    <string name="cal_reset_confirm">Vuelve a pulsar X para volver a los valores de fábrica</string>
+    <string name="cal_reset_done">Valores de fábrica restablecidos</string>
+    <string name="cal_deadzone_needs_cal">Calibra primero; después se puede cambiar la zona muerta</string>
+</resources>

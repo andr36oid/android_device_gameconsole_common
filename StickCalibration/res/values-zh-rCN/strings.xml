@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="cal_title">校准摇杆</string>
+    <string name="cal_summary">适用于漂移或推不到边缘的摇杆</string>
+    <string name="cal_left">左摇杆</string>
+    <string name="cal_right">右摇杆</string>
+    <string name="cal_status_factory">使用出厂设置</string>
+    <string name="cal_status_calibrated">已校准</string>
+    <string name="cal_status_unsupported">此系统的摇杆驱动无法校准</string>
+    <!-- %1$d is a percentage of the stick's travel -->
+    <string name="cal_deadzone">死区：<xliff:g id="percent">%1$d</xliff:g> %%</string>
+    <string name="cal_hint_idle">A  校准     X  出厂设置     ◀ ▶  死区     B  返回</string>
+    <string name="cal_hint_idle_factory">A  校准     B  返回</string>
+    <string name="cal_hint_back">B  返回</string>
+    <string name="cal_hint_capture">A  完成     B  取消</string>
+    <string name="cal_step_circles">将两个摇杆慢慢地转满圈，一直推到边缘。每个转三圈。</string>
+    <string name="cal_step_release">然后松开两个摇杆并按 A。</string>
+    <!-- %1$d directions reached so far, out of 4 -->
+    <string name="cal_directions">已到达 <xliff:g id="done">%1$d</xliff:g>/4 个方向</string>
+    <string name="cal_directions_done">所有方向都已到达</string>
+    <string name="cal_measuring">正在测量中心位置，请勿触碰摇杆…</string>
+    <string name="cal_saved">已保存。游戏和应用现在使用新的校准。</string>
+    <string name="cal_not_applied">已保存，但驱动未采用。请重启掌机后再检查。</string>
+    <string name="cal_left_short">左摇杆没有在每个方向都推到边缘。请继续转圈，然后松开并按 A。</string>
+    <string name="cal_right_short">右摇杆没有在每个方向都推到边缘。请继续转圈，然后松开并按 A。</string>
+    <string name="cal_not_still">测量中心位置时有摇杆移动了。请松开两个摇杆，再按一次 A。</string>
+    <string name="cal_reset_confirm">再按一次 X 恢复出厂设置</string>
+    <string name="cal_reset_done">已恢复出厂设置</string>
+    <string name="cal_deadzone_needs_cal">请先校准，然后才能更改死区</string>
+</resources>
