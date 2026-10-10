@@ -561,6 +561,82 @@ EASYROMS_PART=/sys/block/mmcblk0/mmcblk0p7
 MEDIA=/data/media/0
 ROM_FOLDERS=$BASE/rom-folders.txt
 
+# RetroArch's menu (RGUI) draws Russian, Chinese, Polish and Turkish only with
+# font files from its assets folder. Without them it shows English, and says
+# "Missing fonts for selected language". The F-Droid APK doesn't have them.
+RA_FONTS=$BASE/retroarch/rgui-font
+# RetroArch's own assets folder (it unpacks the APK's assets there when opened
+# from its icon). Started from Daijishou it gets no folders at all, so it only
+# finds the fonts when retroarch.cfg names this folder.
+RA_ASSETS=$RA_DATA/assets
+
+# ra_language <locale> ; RetroArch's number (user_language) for the system
+# languages it needs our fonts or our help for, nothing for the others.
+# Indonesian: Android reports it as "in", which RetroArch doesn't know.
+ra_language() {
+	case $1 in
+	ru|ru-*) echo 9 ;;
+	zh-TW|zh-TW-*|zh-HK|zh-HK-*|zh-MO|zh-MO-*|zh-Hant|zh-Hant-*) echo 11 ;;
+	zh|zh-*) echo 12 ;;
+	pl|pl-*) echo 14 ;;
+	tr|tr-*) echo 18 ;;
+	in|in-*|id|id-*) echo 24 ;;
+	esac
+}
+
+# ra_fonts ; copies the RGUI fonts into RetroArch's assets folder, points
+# retroarch.cfg at that folder while it names none, and fixes the menu
+# language once, see ra_language
+ra_fonts() {
+	local own=$RA_DATA/.gameconsole cfg=$RA_EXT/retroarch.cfg
+	local fonts=$RA_ASSETS/rgui/font owner dir font cur loc lang
+
+	[ -d "$RA_DATA" ] && [ -d "$RA_FONTS" ] || return 0
+	owner=$(stat -c %u:%g "$RA_DATA")
+	mkdir -p "$own"
+	touch "$own/seeded.sha1"
+	for dir in "$RA_ASSETS" "${fonts%/*}" "$fonts"; do
+		[ -d "$dir" ] && continue
+		mkdir "$dir" || { log "making $dir failed"; return 0; }
+		chown "$owner" "$dir"
+		chmod 0700 "$dir"
+	done
+	for font in "$RA_FONTS"/*.bin; do
+		[ -f "$font" ] && seed_owned "$font" "$fonts/${font##*/}"
+	done
+	chown -R "$owner" "$fonts" "$own"
+	chmod 0600 "$fonts"/*.bin 2>/dev/null
+	restorecon "$RA_ASSETS" "${fonts%/*}" 2>/dev/null
+	restorecon -R "$fonts" "$own" 2>/dev/null
+
+	[ -f "$cfg" ] || return 0
+	# unset, or "default" (what RetroArch writes back when it had no folder)
+	cur=$(cfg_get "$cfg" assets_directory)
+	case $cur in
+	''|default)
+		cfg_set "$cfg" assets_directory "$RA_ASSETS" || { log "writing retroarch.cfg failed"; return 0; }
+		log "RetroArch's assets folder is $RA_ASSETS now (was: ${cur:-unset})"
+		;;
+	esac
+
+	# The language, once per RetroArch install. RetroArch takes the system
+	# language itself on its first start, but not Indonesian, and it saves
+	# English for good when the fonts were missing. So "unset" or English in
+	# a system language from ra_language gets that language, one time only:
+	# English picked in RetroArch's menu after that stays.
+	[ -e "$own/language" ] && return 0
+	loc=$(getprop persist.sys.locale)
+	lang=$(ra_language "$loc")
+	[ -n "$lang" ] || return 0
+	cur=$(cfg_get "$cfg" user_language)
+	if [ -z "$cur" ] || [ "$cur" = 0 ]; then
+		cfg_set "$cfg" user_language "$lang" || { log "writing retroarch.cfg failed"; return 0; }
+		log "RetroArch's menu language is $lang now, for $loc (was: ${cur:-unset})"
+	fi
+	echo "$loc" >"$own/language"
+	chown "$owner" "$own/language"
+}
+
 # easyroms_path ; prints where EASYROMS is mounted, waits up to a minute for it
 easyroms_path() {
 	local i=0 id state uuid
@@ -1469,6 +1545,7 @@ seed_cores
 seed_look
 find_easyroms
 refresh_rate
+ra_fonts
 make_rom_folders
 # stand-alone apps' first-start settings, after the installs
 seed_firstrun
