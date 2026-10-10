@@ -39,18 +39,18 @@ mkdir -p $INTERMEDIATES
 
 tar xfp $PARAM_BOOTANIMATION_TAR -C $INTERMEDIATES
 
-# desc.txt plays the logo morph (part2) right after the intro, so it is over
-# long before Android is up and nothing waits for it. part2 ends on the finished
-# teal logo (frame 310); its fade to black (311-359) is left out, and part3
-# holds frame 310 until Android is up.
+# desc.txt: after the intro the dots (part1) circle 11 times (~16 s), then the
+# logo forms (part2) and part3 holds it. A normal start shows the animation for
+# about 24 s, so the logo is there shortly before the home screen. Everything
+# after the intro stops as soon as Android is up: a faster start cuts the
+# animation short instead of waiting for it. part2 ends on the finished teal
+# logo (frame 310); its fade to black (311-359) is left out.
 for f in $INTERMEDIATES/part2/*.png; do
     n=$(basename "$f" .png)
     [ "$n" -gt 310 ] && rm "$f"
 done
 mkdir -p $INTERMEDIATES/part3
 cp $INTERMEDIATES/part2/310.png $INTERMEDIATES/part3/
-# the dots loop (part1) is not played any more
-rm -rf $INTERMEDIATES/part1
 
 # All supported consoles run in landscape (panels mounted in portrait are
 # rotated by SurfaceFlinger), so the canvas is always long side x short side.
