@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Sync saves (Syncthing) -->
+    <string name="sync_title">同步存档</string>
+    <string name="sync_row_off">已关闭。让这台掌机与您的电脑、手机或其他掌机上的存档保持一致。</string>
+    <!-- %1$d: number of devices -->
+    <plurals name="sync_row_on">
+        <item quantity="other">已开启，与 %1$d 台设备同步</item>
+    </plurals>
+    <string name="sync_switch_title">同步存档</string>
+    <string name="sync_switch_off">关闭</string>
+    <string name="sync_switch_on">已开启。连接 Wi-Fi 充电时以及此页面打开时同步。</string>
+    <string name="sync_status_off">通过 Wi-Fi 让您添加的每台设备上的游戏存档和即时存档保持一致，不使用云端。ROM 永远不会被复制。此功能使用 Syncthing 应用。</string>
+    <string name="sync_status_starting">正在启动 Syncthing…</string>
+    <string name="sync_status_no_devices">还没有设备。请在下方添加。</string>
+    <string name="sync_status_scanning">正在查找有变化的存档…</string>
+    <plurals name="sync_status_syncing">
+        <item quantity="other">正在同步，还剩 %1$d 个文件…</item>
+    </plurals>
+    <plurals name="sync_status_errors">
+        <item quantity="other">有 %1$d 个文件无法同步。请打开 Syncthing 查看详情。</item>
+    </plurals>
+    <string name="sync_status_folder_error">某个存档文件夹无法同步。EASYROMS 装载了吗？请打开 Syncthing 查看详情。</string>
+    <string name="sync_status_waiting">这里已是最新。正在等待您的设备上线。</string>
+    <string name="sync_status_done">已是最新</string>
+    <string name="sync_step_prepare">正在设置 Syncthing…</string>
+    <string name="sync_step_start">正在启动 Syncthing。首次启动最多需要两分钟…</string>
+    <string name="sync_step_folders">正在添加存档文件夹…</string>
+    <string name="sync_step_stop">正在停止…</string>
+    <string name="sync_my_id_title">这台掌机的 ID</string>
+    <string name="sync_my_id_none">Syncthing 运行后显示</string>
+    <string name="sync_my_id_message">在电脑或手机上打开 Syncthing，选择“添加远程设备”（Add Remote Device），然后输入此 ID 或扫描二维码。之后电脑会出现在下方的“添加设备”下。</string>
+    <string name="sync_devices_category">正在同步的设备</string>
+    <string name="sync_devices_none">还没有设备</string>
+    <string name="sync_device_connected">已连接</string>
+    <string name="sync_device_offline">当前未连接</string>
+    <string name="sync_remove_title">要停止与 %1$s 同步吗？</string>
+    <string name="sync_remove_message">两台设备上的存档都会保留，只是不再保持一致。</string>
+    <string name="sync_remove_button">停止同步</string>
+    <string name="sync_add_category">添加设备</string>
+    <string name="sync_pending_summary">想与这台掌机同步</string>
+    <!-- %1$s: the first 7 characters of a device ID -->
+    <string name="sync_nearby_title">设备 %1$s</string>
+    <string name="sync_nearby_summary">在此 Wi-Fi 中找到</string>
+    <string name="sync_add_hint">电脑或手机：在上面安装 Syncthing，并添加这台掌机的 ID（见上方）。另一台掌机：在那台上开启“同步存档”，然后在这里选择它。</string>
+    <!-- %1$s: device name -->
+    <string name="sync_add_title">要与 %1$s 同步存档吗？</string>
+    <!-- %1$s: the full device ID -->
+    <string name="sync_add_message">只添加属于您自己的设备。它会获得这台掌机上的存档，并且可以更改它们。\n\nID：%1$s</string>
+    <string name="sync_add_button">同步</string>
+    <string name="sync_change_failed">操作失败。Syncthing 在运行吗？请稍后重试。</string>
+    <string name="sync_open_title">打开 Syncthing</string>
+    <string name="sync_open_summary">所有设置、其他文件夹以及同步记录</string>
+    <string name="sync_note">在另一台设备上玩之前，请先退出游戏。如果两边都更改了同一个存档，较新的存档会保留，另一个会作为 .sync-conflict 文件保存在旁边。被替换的存档也会保存在 .stversions 中（最近 5 个）以及您的备份中。</string>
+    <string name="sync_off_title">要关闭“同步存档”吗？</string>
+    <string name="sync_off_message">存档会保留在这台掌机和您的其他设备上，但更改不再同步。您的设备会被记住，下次可直接使用。</string>
+    <string name="sync_off_button">关闭</string>
+    <string name="sync_failed_title">无法开启“同步存档”</string>
+    <string name="sync_error_missing">未安装 Syncthing 应用。</string>
+    <string name="sync_error_not_running">Syncthing 没有启动。请先打开一次 Syncthing，然后重试。</string>
+    <string name="sync_error_other">设置 Syncthing 时出了问题。请重试，或打开 Syncthing 手动设置。</string>
+    <string name="sync_label_easyroms">EASYROMS 上的游戏存档</string>
+    <string name="sync_label_internal">内部存储空间中的游戏存档</string>
+</resources>

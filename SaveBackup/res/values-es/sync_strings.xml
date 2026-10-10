@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Sync saves (Syncthing) -->
+    <string name="sync_title">Sincronizar partidas</string>
+    <string name="sync_row_off">Desactivado. Mantén iguales tus partidas en esta consola y en tu PC, teléfono u otras consolas.</string>
+    <!-- %1$d: number of devices -->
+    <plurals name="sync_row_on">
+        <item quantity="one">Activado, con %1$d dispositivo</item>
+        <item quantity="other">Activado, con %1$d dispositivos</item>
+    </plurals>
+    <string name="sync_switch_title">Sincronizar partidas</string>
+    <string name="sync_switch_off">Desactivado</string>
+    <string name="sync_switch_on">Activado. Sincroniza por Wi-Fi mientras carga y mientras esta página está abierta.</string>
+    <string name="sync_status_off">Tus partidas guardadas y guardados rápidos se mantienen iguales en todos los dispositivos que añadas, por Wi-Fi y sin nube. Las ROMs nunca se copian. Usa la app Syncthing.</string>
+    <string name="sync_status_starting">Iniciando Syncthing…</string>
+    <string name="sync_status_no_devices">Aún no hay dispositivos. Añade uno abajo.</string>
+    <string name="sync_status_scanning">Buscando partidas que han cambiado…</string>
+    <plurals name="sync_status_syncing">
+        <item quantity="one">Sincronizando, falta %1$d archivo…</item>
+        <item quantity="other">Sincronizando, faltan %1$d archivos…</item>
+    </plurals>
+    <plurals name="sync_status_errors">
+        <item quantity="one">No se ha podido sincronizar %1$d archivo. Abre Syncthing para ver los detalles.</item>
+        <item quantity="other">No se han podido sincronizar %1$d archivos. Abre Syncthing para ver los detalles.</item>
+    </plurals>
+    <string name="sync_status_folder_error">No se puede sincronizar una carpeta de partidas. ¿Está montada EASYROMS? Abre Syncthing para ver los detalles.</string>
+    <string name="sync_status_waiting">Todo al día aquí. Esperando a que tus dispositivos se conecten.</string>
+    <string name="sync_status_done">Todo al día</string>
+    <string name="sync_step_prepare">Configurando Syncthing…</string>
+    <string name="sync_step_start">Iniciando Syncthing. La primera vez tarda hasta dos minutos…</string>
+    <string name="sync_step_folders">Añadiendo las carpetas de partidas…</string>
+    <string name="sync_step_stop">Deteniendo…</string>
+    <string name="sync_my_id_title">ID de esta consola</string>
+    <string name="sync_my_id_none">Aparece cuando Syncthing funcione</string>
+    <string name="sync_my_id_message">En tu PC o teléfono, abre Syncthing, elige Añadir dispositivo remoto (Add Remote Device) e introduce este ID o escanea el código. Después, el PC aparece abajo, en Añadir un dispositivo.</string>
+    <string name="sync_devices_category">Sincronizando con</string>
+    <string name="sync_devices_none">Aún no hay dispositivos</string>
+    <string name="sync_device_connected">Conectado</string>
+    <string name="sync_device_offline">No conectado ahora</string>
+    <string name="sync_remove_title">¿Dejar de sincronizar con %1$s?</string>
+    <string name="sync_remove_message">Las partidas se quedan en los dos dispositivos. Simplemente dejan de mantenerse iguales.</string>
+    <string name="sync_remove_button">Dejar de sincronizar</string>
+    <string name="sync_add_category">Añadir un dispositivo</string>
+    <string name="sync_pending_summary">Quiere sincronizarse con esta consola</string>
+    <!-- %1$s: the first 7 characters of a device ID -->
+    <string name="sync_nearby_title">Dispositivo %1$s</string>
+    <string name="sync_nearby_summary">Encontrado en esta red Wi-Fi</string>
+    <string name="sync_add_hint">Un PC o teléfono: instala Syncthing en él y añade el ID de esta consola (arriba). Otra consola: activa allí Sincronizar partidas y luego elígela aquí.</string>
+    <!-- %1$s: device name -->
+    <string name="sync_add_title">¿Sincronizar partidas con %1$s?</string>
+    <!-- %1$s: the full device ID -->
+    <string name="sync_add_message">Añade solo dispositivos que sean tuyos. Ese dispositivo recibirá las partidas de esta consola y podrá cambiarlas.\n\nID: %1$s</string>
+    <string name="sync_add_button">Sincronizar</string>
+    <string name="sync_change_failed">No ha funcionado. ¿Está en marcha Syncthing? Vuelve a intentarlo en un momento.</string>
+    <string name="sync_open_title">Abrir Syncthing</string>
+    <string name="sync_open_summary">Todos los ajustes, otras carpetas y lo que se ha sincronizado</string>
+    <string name="sync_note">Cierra el juego antes de jugarlo en otro dispositivo. Si los dos cambian la misma partida, gana la más reciente y la otra se conserva como archivo .sync-conflict a su lado. Las partidas reemplazadas también se conservan en .stversions (las 5 últimas) y en tus copias.</string>
+    <string name="sync_off_title">¿Desactivar Sincronizar partidas?</string>
+    <string name="sync_off_message">Tus partidas se quedan en esta consola y en tus otros dispositivos. Los cambios ya no se sincronizan. Tus dispositivos se recuerdan para la próxima vez.</string>
+    <string name="sync_off_button">Desactivar</string>
+    <string name="sync_failed_title">No se ha podido activar Sincronizar partidas</string>
+    <string name="sync_error_missing">La app Syncthing no está instalada.</string>
+    <string name="sync_error_not_running">Syncthing no se ha iniciado. Abre Syncthing una vez y vuelve a intentarlo.</string>
+    <string name="sync_error_other">Algo ha fallado al configurar Syncthing. Vuelve a intentarlo o abre Syncthing para configurarlo a mano.</string>
+    <string name="sync_label_easyroms">Partidas en EASYROMS</string>
+    <string name="sync_label_internal">Partidas en el almacenamiento interno</string>
+</resources>

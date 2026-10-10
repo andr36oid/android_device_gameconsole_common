@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Sync saves (Syncthing) -->
+    <string name="sync_title">Spielstand-Sync</string>
+    <string name="sync_row_off">Aus. Hält deine Spielstände auf dieser Konsole und deinem PC, Smartphone oder anderen Konsolen gleich.</string>
+    <!-- %1$d: number of devices -->
+    <plurals name="sync_row_on">
+        <item quantity="one">An, mit %1$d Gerät</item>
+        <item quantity="other">An, mit %1$d Geräten</item>
+    </plurals>
+    <string name="sync_switch_title">Spielstand-Sync</string>
+    <string name="sync_switch_off">Aus</string>
+    <string name="sync_switch_on">An. Synchronisiert im WLAN beim Laden und solange diese Seite offen ist.</string>
+    <string name="sync_status_off">Deine Spielstände und Savestates werden auf jedem Gerät, das du hinzufügst, gleich gehalten, über WLAN, ohne Cloud. ROMs werden nie kopiert. Dafür wird die App Syncthing genutzt.</string>
+    <string name="sync_status_starting">Syncthing wird gestartet…</string>
+    <string name="sync_status_no_devices">Noch keine Geräte. Füge unten eins hinzu.</string>
+    <string name="sync_status_scanning">Suche nach geänderten Spielständen…</string>
+    <plurals name="sync_status_syncing">
+        <item quantity="one">Wird synchronisiert, noch %1$d Datei…</item>
+        <item quantity="other">Wird synchronisiert, noch %1$d Dateien…</item>
+    </plurals>
+    <plurals name="sync_status_errors">
+        <item quantity="one">%1$d Datei konnte nicht synchronisiert werden. Details in Syncthing.</item>
+        <item quantity="other">%1$d Dateien konnten nicht synchronisiert werden. Details in Syncthing.</item>
+    </plurals>
+    <string name="sync_status_folder_error">Ein Spielstand-Ordner kann nicht synchronisiert werden. Ist EASYROMS eingebunden? Details in Syncthing.</string>
+    <string name="sync_status_waiting">Hier alles aktuell. Warte darauf, dass deine Geräte online kommen.</string>
+    <string name="sync_status_done">Alles aktuell</string>
+    <string name="sync_step_prepare">Syncthing wird eingerichtet…</string>
+    <string name="sync_step_start">Syncthing wird gestartet. Der erste Start dauert bis zu zwei Minuten…</string>
+    <string name="sync_step_folders">Spielstand-Ordner werden hinzugefügt…</string>
+    <string name="sync_step_stop">Wird beendet…</string>
+    <string name="sync_my_id_title">ID dieser Konsole</string>
+    <string name="sync_my_id_none">Erscheint, sobald Syncthing läuft</string>
+    <string name="sync_my_id_message">Öffne Syncthing auf deinem PC oder Smartphone, wähle „Gerät hinzufügen“ (Add Remote Device) und gib diese ID ein oder scanne den Code. Der PC erscheint dann unten unter „Gerät hinzufügen“.</string>
+    <string name="sync_devices_category">Synchronisiert mit</string>
+    <string name="sync_devices_none">Noch keine Geräte</string>
+    <string name="sync_device_connected">Verbunden</string>
+    <string name="sync_device_offline">Gerade nicht verbunden</string>
+    <string name="sync_remove_title">Sync mit %1$s beenden?</string>
+    <string name="sync_remove_message">Die Spielstände bleiben auf beiden Geräten. Sie werden nur nicht mehr gleich gehalten.</string>
+    <string name="sync_remove_button">Sync beenden</string>
+    <string name="sync_add_category">Gerät hinzufügen</string>
+    <string name="sync_pending_summary">Will mit dieser Konsole synchronisieren</string>
+    <!-- %1$s: the first 7 characters of a device ID -->
+    <string name="sync_nearby_title">Gerät %1$s</string>
+    <string name="sync_nearby_summary">In diesem WLAN gefunden</string>
+    <string name="sync_add_hint">Ein PC oder Smartphone: Installiere dort Syncthing und füge die ID dieser Konsole (oben) hinzu. Eine andere Konsole: Schalte dort Spielstand-Sync ein und wähle sie dann hier aus.</string>
+    <!-- %1$s: device name -->
+    <string name="sync_add_title">Mit %1$s synchronisieren?</string>
+    <!-- %1$s: the full device ID -->
+    <string name="sync_add_message">Füge nur Geräte hinzu, die dir gehören. Es bekommt die Spielstände dieser Konsole und kann sie ändern.\n\nID: %1$s</string>
+    <string name="sync_add_button">Synchronisieren</string>
+    <string name="sync_change_failed">Das hat nicht geklappt. Läuft Syncthing? Versuch es gleich noch einmal.</string>
+    <string name="sync_open_title">Syncthing öffnen</string>
+    <string name="sync_open_summary">Alle Einstellungen, andere Ordner und was synchronisiert wurde</string>
+    <string name="sync_note">Beende das Spiel, bevor du es auf einem anderen Gerät spielst. Ändern beide denselben Spielstand, gewinnt der neuere, und der andere bleibt als .sync-conflict-Datei daneben erhalten. Ersetzte Spielstände werden außerdem in .stversions (die letzten 5) und in deinen Backups aufbewahrt.</string>
+    <string name="sync_off_title">Spielstand-Sync ausschalten?</string>
+    <string name="sync_off_message">Deine Spielstände bleiben auf dieser Konsole und auf deinen anderen Geräten. Änderungen werden nicht mehr synchronisiert. Deine Geräte bleiben für das nächste Mal gespeichert.</string>
+    <string name="sync_off_button">Ausschalten</string>
+    <string name="sync_failed_title">Spielstand-Sync konnte nicht eingeschaltet werden</string>
+    <string name="sync_error_missing">Die App Syncthing ist nicht installiert.</string>
+    <string name="sync_error_not_running">Syncthing ist nicht gestartet. Öffne Syncthing einmal und versuch es dann noch einmal.</string>
+    <string name="sync_error_other">Beim Einrichten von Syncthing ist etwas schiefgegangen. Versuch es noch einmal oder öffne Syncthing, um es von Hand einzurichten.</string>
+    <string name="sync_label_easyroms">Spielstände auf EASYROMS</string>
+    <string name="sync_label_internal">Spielstände im internen Speicher</string>
+</resources>
