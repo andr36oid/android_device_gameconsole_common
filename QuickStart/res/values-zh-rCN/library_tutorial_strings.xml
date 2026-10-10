@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="tutorial_games_body_ready">将 SD 卡插入电脑。除了一个小的 BOOT 磁盘，还会显示一个名为 EASYROMS 的大磁盘：那是放游戏的地方。\n\n把每个游戏放进对应系统的文件夹，例如 nes、snes、gba、megadrive 或 psx。\n\nDaijishou（按 FN）已经建好这些系统，也知道它们的文件夹。首次打开时，它会询问是否查找游戏：请按“确定”。以后添加游戏后，请在它的游戏库设置中使用 Sync entirely。它会用 RetroArch 或 PPSSPP 启动游戏。</string>
+    <string name="tutorial_games_body_ready_no_fn">将 SD 卡插入电脑。除了一个小的 BOOT 磁盘，还会显示一个名为 EASYROMS 的大磁盘：那是放游戏的地方。\n\n把每个游戏放进对应系统的文件夹，例如 nes、snes、gba、megadrive 或 psx。\n\n主屏幕 Daijishou 已经建好这些系统，也知道它们的文件夹。首次打开时，它会询问是否查找游戏：请按“确定”。以后添加游戏后，请在它的游戏库设置中使用 Sync entirely。它会用 RetroArch 或 PPSSPP 启动游戏。</string>
+</resources>

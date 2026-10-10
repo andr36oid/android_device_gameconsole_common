@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="games_library_ready">Ana ekran olan Daijishou\'da bu sistemlerin her biri için EASYROMS\'taki klasörüne ayarlanmış bir platform zaten var. İlk açıldığında oyunları aramak isteyip istemediğinizi sorar: OK\'e basın. Sonradan oyun eklediğinizde Daijishou\'nun kütüphane ayarlarında \"Sync entirely\" seçeneğini kullanın. Başka sistemler için ya da .noroms ile hazırlanmış bir kartta Daijishou\'da bir platform ekleyin ve klasörünü seçin.</string>
+</resources>
