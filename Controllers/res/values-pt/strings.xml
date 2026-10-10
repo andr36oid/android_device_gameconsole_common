@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="controllers_title">Controles</string>
-    <string name="controllers_summary">Controles externos, pareamento Bluetooth, jogador 1</string>
+    <string name="controllers_title">Controlos</string>
+    <string name="controllers_summary">Mapeamento de botões, analógicos, rato, comandos</string>
+
+    <!-- The Controls page -->
+    <string name="console_title">Esta consola</string>
+    <string name="more_title">Outros comandos</string>
+    <string name="external_title">Comandos externos</string>
+    <string name="external_none">Nenhum ligado</string>
     <!-- Connected pads -->
     <string name="connected_title">Controles conectados</string>
     <string name="connected_none">Só os controles do console. Conecte um controle na porta OTG (com um adaptador, se precisar) ou pareie um por Bluetooth.</string>
@@ -20,19 +26,12 @@
     <!-- joined with " · " -->
     <string name="summary_separator">" · "</string>
     <!-- RetroArch -->
-    <string name="retroarch_title">RetroArch</string>
     <string name="player1_title">Jogador 1 no RetroArch</string>
     <string-array name="player1_entries">
         <item>Controles do console</item>
         <item>Controle externo</item>
     </string-array>
-    <string name="player1_builtin_summary">Controles do console. Os controles externos são os jogadores 2, 3 e assim por diante, na ordem em que você aperta um botão neles pela primeira vez.</string>
-    <string name="player1_external_summary">O primeiro controle externo em que você apertar um botão. Os controles do console viram o jogador 2. Para jogar sozinho em um controle maior.</string>
     <string name="player1_later">A mudança vale a partir da próxima vez que o RetroArch abrir. Se ele estiver aberto, feche-o primeiro (Select + Start duas vezes).</string>
-    <string name="hotkeys_title">Botões no RetroArch</string>
-    <string name="hotkeys_summary">Controle do jogador 1: segure Select para as teclas de atalho (Start sai, R1/L1 salva/carrega save state, X menu).\nQualquer controle: L1 + R1 + Start + Select ou o botão Xbox / PS / Capture abre o menu, Start + Select duas vezes sai.</string>
-    <string name="ppsspp_title">Jogos de PSP (PPSSPP)</string>
-    <string name="ppsspp_summary">Todos os controles comandam o único jogador. Os botões estão configurados para os controles do console e controles de Switch (Cross = B). Em um controle de Xbox ou PlayStation, remapeie os botões no PPSSPP se for jogar com ele.</string>
     <!-- Bluetooth -->
     <string name="bluetooth_title">Bluetooth</string>
     <string name="pair_title">Parear um controle Bluetooth</string>

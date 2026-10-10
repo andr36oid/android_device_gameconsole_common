@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="controllers_title">Kontroler</string>
-    <string name="controllers_summary">Gamepad eksternal, penyandingan Bluetooth, pemain 1</string>
+    <string name="controllers_title">Kontrol</string>
+    <string name="controllers_summary">Pemetaan tombol, stik, mouse, kontroler</string>
+
+    <!-- The Controls page -->
+    <string name="console_title">Konsol ini</string>
+    <string name="more_title">Kontroler lain</string>
+    <string name="external_title">Kontroler eksternal</string>
+    <string name="external_none">Tidak ada yang terhubung</string>
     <!-- Connected pads -->
     <string name="connected_title">Kontroler terhubung</string>
     <string name="connected_none">Hanya kontrol bawaan. Colokkan gamepad ke port OTG (dengan adaptor jika perlu) atau sandingkan lewat Bluetooth.</string>
@@ -20,19 +26,12 @@
     <!-- joined with " · " -->
     <string name="summary_separator">" · "</string>
     <!-- RetroArch -->
-    <string name="retroarch_title">RetroArch</string>
     <string name="player1_title">Pemain 1 di RetroArch</string>
     <string-array name="player1_entries">
         <item>Kontrol bawaan</item>
         <item>Kontroler eksternal</item>
     </string-array>
-    <string name="player1_builtin_summary">Kontrol bawaan. Gamepad eksternal menjadi pemain 2, 3, dan seterusnya, sesuai urutan Anda pertama kali menekan tombolnya.</string>
-    <string name="player1_external_summary">Gamepad eksternal pertama yang tombolnya Anda tekan. Kontrol bawaan menjadi pemain 2. Untuk bermain sendiri dengan gamepad yang lebih besar.</string>
     <string name="player1_later">Perubahan berlaku saat RetroArch dimulai lagi. Jika sedang terbuka, keluar dulu (Select + Start dua kali).</string>
-    <string name="hotkeys_title">Tombol di RetroArch</string>
-    <string name="hotkeys_summary">Kontroler pemain 1: tahan Select untuk hotkey (Start keluar, R1/L1 simpan/muat state, X menu).\nKontroler apa pun: L1 + R1 + Start + Select atau tombol Xbox / PS / Capture membuka menu, Start + Select dua kali untuk keluar.</string>
-    <string name="ppsspp_title">Game PSP (PPSSPP)</string>
-    <string name="ppsspp_summary">Semua kontroler mengendalikan satu pemain yang sama. Tombol diatur untuk kontrol bawaan dan gamepad Switch (Cross = B). Di gamepad Xbox atau PlayStation, petakan ulang tombolnya di PPSSPP jika Anda bermain dengannya.</string>
     <!-- Bluetooth -->
     <string name="bluetooth_title">Bluetooth</string>
     <string name="pair_title">Sandingkan kontroler Bluetooth</string>

@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="controllers_title">Manettes</string>
-    <string name="controllers_summary">Manettes externes, association Bluetooth, joueur 1</string>
+    <string name="controllers_title">Commandes</string>
+    <string name="controllers_summary">Mappage des boutons, sticks, souris, manettes</string>
+
+    <!-- The Controls page -->
+    <string name="console_title">Cette console</string>
+    <string name="more_title">Autres manettes</string>
+    <string name="external_title">Manettes externes</string>
+    <string name="external_none">Aucune connectée</string>
     <!-- Connected pads -->
     <string name="connected_title">Manettes connectées</string>
     <string name="connected_none">Seulement les commandes intégrées. Branchez une manette sur le port OTG (avec un adaptateur si nécessaire) ou associez-en une en Bluetooth.</string>
@@ -20,19 +26,12 @@
     <!-- joined with " · " -->
     <string name="summary_separator">" · "</string>
     <!-- RetroArch -->
-    <string name="retroarch_title">RetroArch</string>
     <string name="player1_title">Joueur 1 dans RetroArch</string>
     <string-array name="player1_entries">
         <item>Commandes intégrées</item>
         <item>Manette externe</item>
     </string-array>
-    <string name="player1_builtin_summary">Commandes intégrées. Les manettes externes sont les joueurs 2, 3, etc., dans l\'ordre où vous appuyez pour la première fois sur l\'un de leurs boutons.</string>
-    <string name="player1_external_summary">La première manette externe sur laquelle vous appuyez sur un bouton. Les commandes intégrées sont le joueur 2. Pour jouer seul sur une plus grande manette.</string>
     <string name="player1_later">Le changement s\'applique au prochain démarrage de RetroArch. S\'il est ouvert, quittez-le d\'abord (Select + Start deux fois).</string>
-    <string name="hotkeys_title">Boutons dans RetroArch</string>
-    <string name="hotkeys_summary">Manette du joueur 1 : maintenez Select pour les raccourcis (Start quitter, R1/L1 sauvegarder/charger l\'état, X menu).\nToute manette : L1 + R1 + Start + Select ou le bouton Xbox / PS / Capture ouvre le menu, Start + Select deux fois quitte.</string>
-    <string name="ppsspp_title">Jeux PSP (PPSSPP)</string>
-    <string name="ppsspp_summary">Toutes les manettes contrôlent l\'unique joueur. Les boutons sont réglés pour les commandes intégrées et les manettes Switch (Croix = B). Sur une manette Xbox ou PlayStation, réassignez-les dans PPSSPP si vous jouez avec.</string>
     <!-- Bluetooth -->
     <string name="bluetooth_title">Bluetooth</string>
     <string name="pair_title">Associer une manette Bluetooth</string>

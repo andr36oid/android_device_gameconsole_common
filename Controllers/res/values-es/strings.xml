@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="controllers_title">Mandos</string>
-    <string name="controllers_summary">Mandos externos, vinculación Bluetooth, jugador 1</string>
+    <string name="controllers_title">Controles</string>
+    <string name="controllers_summary">Asignación de botones, joysticks, ratón, mandos</string>
+
+    <!-- The Controls page -->
+    <string name="console_title">Esta consola</string>
+    <string name="more_title">Otros mandos</string>
+    <string name="external_title">Mandos externos</string>
+    <string name="external_none">Ninguno conectado</string>
     <!-- Connected pads -->
     <string name="connected_title">Mandos conectados</string>
     <string name="connected_none">Solo los controles integrados. Conecta un mando al puerto OTG (con un adaptador si hace falta) o vincula uno por Bluetooth.</string>
@@ -20,19 +26,12 @@
     <!-- joined with " · " -->
     <string name="summary_separator">" · "</string>
     <!-- RetroArch -->
-    <string name="retroarch_title">RetroArch</string>
     <string name="player1_title">Jugador 1 en RetroArch</string>
     <string-array name="player1_entries">
         <item>Controles integrados</item>
         <item>Mando externo</item>
     </string-array>
-    <string name="player1_builtin_summary">Controles integrados. Los mandos externos son los jugadores 2, 3, etc., en el orden en que pulses un botón en cada uno por primera vez.</string>
-    <string name="player1_external_summary">El primer mando externo en el que pulses un botón. Los controles integrados son el jugador 2. Para jugar solo con un mando más grande.</string>
     <string name="player1_later">Los cambios se aplican la próxima vez que se inicie RetroArch. Si está abierto, ciérralo antes (Select + Start dos veces).</string>
-    <string name="hotkeys_title">Botones en RetroArch</string>
-    <string name="hotkeys_summary">Mando del jugador 1: mantén Select para los atajos (Start sale, R1/L1 guarda/carga un guardado rápido, X abre el menú).\nCualquier mando: L1 + R1 + Start + Select o el botón Xbox / PS / Capture abre el menú; Start + Select dos veces sale.</string>
-    <string name="ppsspp_title">Juegos de PSP (PPSSPP)</string>
-    <string name="ppsspp_summary">Todos los mandos controlan al único jugador. Los botones están configurados para los controles integrados y los mandos de Switch (Cruz = B). Si juegas con un mando de Xbox o PlayStation, reasígnalos en PPSSPP.</string>
     <!-- Bluetooth -->
     <string name="bluetooth_title">Bluetooth</string>
     <string name="pair_title">Vincular un mando Bluetooth</string>
