@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="trouble_sticks_q">Stik bergeser sendiri atau tidak mencapai tepi</string>
-    <string name="trouble_sticks_a">Buka Setelan &gt; Kalibrasi stik dan tekan A. Putar kedua stik dalam lingkaran penuh, pelan-pelan dan sampai ke tepi. Lalu lepaskan dan tekan A. Sejak itu semua game dan aplikasi memakai stik yang sudah dikoreksi, juga setelah mulai ulang.</string>
+    <string name="trouble_sticks_a">Buka Setelan &gt; Kontrol &gt; Kalibrasi stik dan tekan A. Putar kedua stik dalam lingkaran penuh, pelan-pelan dan sampai ke tepi. Lalu lepaskan dan tekan A. Sejak itu semua game dan aplikasi memakai stik yang sudah dikoreksi, juga setelah mulai ulang.</string>
     <string name="trouble_sticks_more">Masih sedikit bergeser? Kiri dan kanan pada D-pad mengubah zona mati, yaitu bagian di sekitar tengah yang diabaikan. Tekan X dua kali untuk kembali ke setelan pabrik.</string>
 </resources>

@@ -2,8 +2,8 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- A second controller -->
     <string name="pads_title">Gra z drugim kontrolerem</string>
-    <string name="pads_connect">Podłącz pad USB do portu OTG, w razie potrzeby przez przejściówkę. Dla pada Bluetooth otwórz Ustawienia &gt; Kontrolery &gt; Sparuj kontroler Bluetooth, przełącz pad w tryb parowania i naciśnij na nim A na liście. Ta strona wyjaśnia, jak włączyć tryb parowania na padach Xbox, PlayStation, Switch i 8BitDo.</string>
+    <string name="pads_connect">Podłącz pad USB do portu OTG, w razie potrzeby przez przejściówkę. Dla pada Bluetooth otwórz Ustawienia &gt; Sterowanie &gt; Kontrolery zewnętrzne &gt; Sparuj kontroler Bluetooth, przełącz pad w tryb parowania i naciśnij na nim A na liście. Ta strona wyjaśnia, jak włączyć tryb parowania na padach Xbox, PlayStation, Switch i 8BitDo.</string>
     <string name="pads_players">W RetroArch własne przyciski konsoli zostają graczem 1. Dodatkowe pady to gracze 2, 3 i kolejni, w kolejności, w jakiej pierwszy raz naciśniesz na nich przycisk.</string>
-    <string name="pads_alone">Chcesz grać sam na większym padzie? Ustaw Ustawienia &gt; Kontrolery &gt; Gracz 1 w RetroArch na Zewnętrzny kontroler. Najpierw zamknij RetroArch; zmiana działa od jego następnego uruchomienia.</string>
+    <string name="pads_alone">Chcesz grać sam na większym padzie? Ustaw Ustawienia &gt; Sterowanie &gt; Gracz 1 w RetroArch na Zewnętrzny kontroler. Najpierw zamknij RetroArch; zmiana działa od jego następnego uruchomienia.</string>
     <string name="pads_menu">Na dowolnym padzie L1 + R1 + Start + Select albo przycisk Xbox, PS lub Capture otwiera menu RetroArch. Dwa razy Start + Select zamyka grę. Gry PSP mają tylko jednego gracza i steruje nim każdy pad.</string>
 </resources>
