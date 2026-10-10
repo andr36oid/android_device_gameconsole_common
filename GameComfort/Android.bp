@@ -1,5 +1,5 @@
 // Settings > Battery > Low battery warning: a short banner on top of games at 15 % and 5 %,
-// so there is time to save before the console turns off.
+// and a longer last one at 3 %, so there is time to save before the console turns off.
 // Settings > Game mode and its Quick Settings tile: Do Not Disturb and no pop-up
 // notifications while playing, optionally switched by the app in front.
 // Continue playing (Game mode page, its own tile, FN + A, power menu): back into the last

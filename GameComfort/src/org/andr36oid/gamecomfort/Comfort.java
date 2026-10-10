@@ -24,8 +24,8 @@ final class Comfort {
     }
 
     static int[] getThresholds(Context context) {
-        return LowBattery.parse(prefs(context).getString(KEY_BATTERY_WARNING,
-                DEFAULT_BATTERY_WARNING));
+        return LowBattery.withLast(LowBattery.parse(prefs(context).getString(
+                KEY_BATTERY_WARNING, DEFAULT_BATTERY_WARNING)));
     }
 
     static boolean isBatteryWarningOn(Context context) {
@@ -38,6 +38,12 @@ final class Comfort {
 
     static void setWarned(Context context, int warned) {
         prefs(context).edit().putInt(KEY_WARNED, warned).apply();
+    }
+
+    /** The banner text for this level; the last warning says that the console turns off. */
+    static String warningText(Context context, int percent) {
+        return context.getString(LowBattery.isLast(percent) ? R.string.banner_last_text
+                : R.string.banner_text, percent);
     }
 
     static boolean isServiceNeeded(Context context) {

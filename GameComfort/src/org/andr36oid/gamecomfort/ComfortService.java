@@ -148,6 +148,7 @@ public class ComfortService extends Service {
     }
 
     private void showWarning(int percent) {
-        mBanner.show(getString(R.string.banner_text, percent));
+        mBanner.show(Comfort.warningText(this, percent),
+                LowBattery.isLast(percent) ? Banner.SHOW_LAST_MS : Banner.SHOW_MS);
     }
 }
