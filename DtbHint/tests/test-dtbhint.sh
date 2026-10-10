@@ -189,7 +189,7 @@ hint() {
 	R=$1
 	b=$R/boot
 	[ -d "$b" ] && [ -f "$b/rk3326-r36s-android.dtb" ] || b=$R/none
-	DTBHINT_ROOT=$R DTBHINT_TEST=$R/test DTBHINT_BOOT=$b DTBHINT_DATA=$R/data \
+	DTBHINT_ROOT=$R DTBHINT_TEST=$R/test DTBHINT_BOOT=$b DTBHINT_DATA=$R/data DTBHINT_UBOOT_DEVS=$R/uboot.img \
 		DTBHINT_WAIT=0 DTBHINT_GAP=0 $SH "$SCRIPT" >"$R/test/out" 2>&1
 	echo $? >"$R/test/rc"
 }
@@ -295,6 +295,18 @@ cases() {
 	expect "right dtb: CRLF" [ "$(grep -c "$(printf '\r')\$" "$h")" = "$(wc -l <"$h" | tr -d ' ')" ]
 	expect "right dtb: data copy" [ -s "$R/data/dtb-hint.txt" ]
 	expect "right dtb: exit 0" [ "$(cat "$R/test/rc")" = 0 ]
+	# Console details in Settings: board, panel folder, U-Boot version
+	fake "$R" Panels/Panel4 Panels/Panel4 adc0=165
+	printf 'junk\000U-Boot 2017.09-gf293360118 (Sep 20 2026)\000more' >"$R/uboot.img"
+	hint "$R"
+	i=$R/test/info
+	expect "info: board" contains "$i" "andr36oid.info.board=genuine"
+	expect "info: board id" contains "$i" "andr36oid.info.board_id=165"
+	expect "info: panel" contains "$i" "andr36oid.info.panel=Panels/Panel4"
+	expect "info: u-boot" grep -q -x "andr36oid.info.uboot=2017.09-gf293360118" "$i"
+	fake "$R" Panels/Panel4 Panels/Panel4
+	hint "$R"
+	expect "info: no u-boot partition" grep -q -x "andr36oid.info.uboot=" "$R/test/info"
 
 	# R46H and R50S: no hint at all, nothing written on BOOT
 	for m in "Game Console R46H" "Game Console R50S"; do
@@ -304,6 +316,7 @@ cases() {
 		expect "$m: no hint on BOOT" [ ! -e "$R/boot/dtb-hint.txt" ]
 		expect "$m: exit 0" [ "$(cat "$R/test/rc")" = 0 ]
 		expect "$m: logged" contains "$R/test/log" "no hint for this console"
+		expect "$m: no board info" lacks "$R/test/info" "andr36oid.info.board"
 	done
 	fake "$R" Panels/Panel4 Panels/Panel4
 	hint "$R"
