@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="org.andr36oid.look"
+    android:sharedUserId="android.uid.system">
+
+    <uses-permission android:name="android.permission.SET_WALLPAPER" />
+
+    <application
+        android:allowBackup="false"
+        android:icon="@drawable/ic_console_look"
+        android:label="@string/look_title"
+        android:supportsRtl="true">
+
+        <!-- Injected into Settings > Display -->
+        <activity
+            android:name=".LookActivity"
+            android:exported="true"
+            android:label="@string/look_title"
+            android:theme="@android:style/Theme.DeviceDefault.Settings">
+            <intent-filter>
+                <action android:name="com.android.settings.action.IA_SETTINGS" />
+            </intent-filter>
+            <meta-data
+                android:name="com.android.settings.category"
+                android:value="com.android.settings.category.ia.display" />
+            <meta-data
+                android:name="com.android.settings.keyhint"
+                android:value="console_look" />
+            <meta-data
+                android:name="com.android.settings.summary"
+                android:resource="@string/look_summary" />
+            <meta-data
+                android:name="com.android.settings.icon"
+                android:resource="@drawable/ic_console_look" />
+        </activity>
+    </application>
+</manifest>

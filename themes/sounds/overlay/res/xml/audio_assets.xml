@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Retro sound set. Paths are relative to /product/media/audio/ui/. -->
+<audio_assets version="1.0">
+    <group name="touch_sounds">
+        <asset id="FX_KEY_CLICK" file="andr36oid/select.ogg"/>
+        <asset id="FX_FOCUS_NAVIGATION_UP" file="andr36oid/move.ogg"/>
+        <asset id="FX_FOCUS_NAVIGATION_DOWN" file="andr36oid/move.ogg"/>
+        <asset id="FX_FOCUS_NAVIGATION_LEFT" file="andr36oid/move.ogg"/>
+        <asset id="FX_FOCUS_NAVIGATION_RIGHT" file="andr36oid/move.ogg"/>
+        <asset id="FX_KEYPRESS_STANDARD" file="andr36oid/key.ogg"/>
+        <asset id="FX_KEYPRESS_SPACEBAR" file="andr36oid/key_space.ogg"/>
+        <asset id="FX_KEYPRESS_DELETE" file="andr36oid/key_delete.ogg"/>
+        <asset id="FX_KEYPRESS_RETURN" file="andr36oid/key_return.ogg"/>
+        <asset id="FX_KEYPRESS_INVALID" file="andr36oid/key_invalid.ogg"/>
+    </group>
+</audio_assets>

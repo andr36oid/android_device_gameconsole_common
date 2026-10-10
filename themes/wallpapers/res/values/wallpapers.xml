@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">andr36oid wallpapers</string>
+
+    <!-- Read by the wallpaper picker: each name needs <name> and <name>_small drawables -->
+    <string-array name="wallpapers" translatable="false">
+        <item>andr36oid_sunset</item>
+        <item>andr36oid_hills</item>
+        <item>andr36oid_console</item>
+        <item>andr36oid_pattern</item>
+        <item>andr36oid_clearshell</item>
+        <item>andr36oid_phosphor</item>
+    </string-array>
+
+    <!-- Names shown in Settings > Display > Console look, same order -->
+    <string-array name="wallpaper_titles">
+        <item>Pixel sunset</item>
+        <item>Night hills</item>
+        <item>Console outline</item>
+        <item>Button pattern</item>
+        <item>Clear purple shell</item>
+        <item>Green monitor</item>
+    </string-array>
+</resources>
