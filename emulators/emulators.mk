@@ -21,6 +21,12 @@ PRODUCT_PACKAGES += \
     libretro-cores-noncommercial
 endif
 
+# How games look in RetroArch (sharp bilinear shader, 3x Game Boy), seeded
+# next to a fresh retroarch.cfg by the gameconsole-emu service
+GAMECONSOLE_EMU_LOOK := device/gameconsole/common/emulators/seed/retroarch/look
+PRODUCT_COPY_FILES += \
+    $(call find-copy-subdir-files,*,$(GAMECONSOLE_EMU_LOOK),$(TARGET_COPY_OUT_SYSTEM)/etc/gameconsole/retroarch/look)
+
 # The gameconsole-emu service makes the usual ROM folders on a fresh EASYROMS partition.
 # Tells the quick start guide.
 PRODUCT_PRODUCT_PROPERTIES += \

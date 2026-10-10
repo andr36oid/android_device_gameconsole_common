@@ -17,6 +17,8 @@
 # 3. Seeds the bundled libretro cores into RetroArch's core directory, which is
 #    where both RetroArch and Daijishou's RetroArch players look for them.
 #    Cores the user replaced (e.g. via RetroArch's online updater) are kept.
+#    Then, on a fresh install only, how games look: a sharp scaling shader
+#    and 3x for the Game Boy.
 # 4. Makes the usual ROM folders (ArkOS/dArkOS names) on a fresh EASYROMS
 #    partition, with a README telling which system goes where. Only once per
 #    card, and never on a card that already has any of them.
@@ -235,6 +237,8 @@ seed_retroarch() {
 	# then vold fixes the folder up like its own (default ACL, quota project):
 	# IStorageManager.fixupAppDir, transaction 89 + 1
 	service call mount 90 s16 "$RA_EXT_PUBLIC" </dev/null >/dev/null 2>&1
+	# this install gets our picture settings too, see seed_look
+	echo new >"$own/look"
 	log "seeded retroarch.cfg"
 }
 
@@ -330,6 +334,66 @@ seed_cores() {
 	chmod 0700 "$cores" "$own"
 	chmod 0600 "$cores"/*.so 2>/dev/null
 	restorecon -R "$cores" "$own" 2>/dev/null
+}
+
+# seed_look ; how games look ($BASE/retroarch/look): the sharp bilinear shader
+# for every core (config/global.glslp), 3x for the Game Boy
+# (config/Gambatte/Gambatte.cfg) and a few shaders to pick from in RetroArch,
+# next to retroarch.cfg. Only on installs whose retroarch.cfg we wrote: that
+# one turns shaders on and points RetroArch at these folders. An install with
+# its own retroarch.cfg keeps its picture as it is. A newer ROM updates a file
+# while it is unchanged; a file the user changed or deleted stays that way.
+seed_look() {
+	local src=$BASE/retroarch/look manifest=$RA_DATA/.gameconsole/seeded.sha1
+	local f rel key dest dir part owner
+
+	[ -d "$src" ] && [ -d "$RA_EXT" ] && [ -e "$RA_DATA/.gameconsole/look" ] || return 0
+	owner=$(stat -c %u "$RA_DATA")
+	touch "$manifest"
+	# a new retroarch.cfg starts over: files removed before come back
+	if [ "$(cat "$RA_DATA/.gameconsole/look")" = new ]; then
+		grep -v " look/" "$manifest" >"$manifest.new"
+		mv -f "$manifest.new" "$manifest"
+		echo seeded >"$RA_DATA/.gameconsole/look"
+	fi
+	find "$src" -type f | sort | while read -r f; do
+		rel=${f#"$src"/}
+		key=look/$rel
+		dest=$RA_EXT/$rel
+		if [ -e "$dest" ]; then
+			[ "$(sha1 "$dest")" = "$(sha1 "$f")" ] && continue
+			if ! grep -q "^$(sha1 "$dest") $key\$" "$manifest"; then
+				log "keeping user provided $rel"
+				continue
+			fi
+		elif grep -q " $key\$" "$manifest"; then
+			# we put it there before, so the user removed it
+			continue
+		fi
+		# missing folders, made the way vold makes them (see seed_retroarch)
+		dir=$RA_EXT
+		for part in $(echo "${rel%/*}" | tr / ' '); do
+			dir=$dir/$part
+			[ -d "$dir" ] && continue
+			mkdir "$dir" || break
+			chown "$owner:$AID_EXT_DATA_RW" "$dir"
+			chmod 2770 "$dir"
+			restorecon "$dir" 2>/dev/null
+		done
+		if ! { cp "$f" "$dest.tmp" && mv -f "$dest.tmp" "$dest"; }; then
+			log "writing $dest failed"
+			rm -f "$dest.tmp"
+			continue
+		fi
+		chown "$owner:$AID_EXT_DATA_RW" "$dest"
+		chmod 0660 "$dest"
+		restorecon "$dest" 2>/dev/null
+		grep -v " $key\$" "$manifest" >"$manifest.new"
+		echo "$(sha1 "$dest") $key" >>"$manifest.new"
+		mv -f "$manifest.new" "$manifest"
+		log "seeded $rel"
+	done
+	chown "$(stat -c %u:%g "$RA_DATA")" "$manifest"
 }
 
 # EASYROMS is partition 7 of the boot card (mmcblk0p7, 179:7), a public volume.
@@ -865,6 +929,7 @@ install_apks
 seed_retroarch
 seed_core_options
 seed_cores
+seed_look
 find_easyroms
 make_rom_folders
 # after the ROM folders: they are only made on a card without any of them
