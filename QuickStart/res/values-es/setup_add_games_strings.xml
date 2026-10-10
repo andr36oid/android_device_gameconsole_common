@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="add_games_title">¿Añadir tus juegos ahora?</string>
-    <string name="add_games_body">Tus juegos van en la unidad EASYROMS de esta tarjeta SD. Si los añades ahora, Daijishou los encuentra la primera vez que se abre:\n\n1. Elige Apagar ahora.\n2. Pon la tarjeta SD en un ordenador. Copia cada juego en la carpeta de su sistema en EASYROMS, como nes, snes, gba o psx.\n3. Vuelve a poner la tarjeta y enciende la consola. Daijishou se abre y pregunta si buscar juegos: pulsa OK.\n\nO sigue ahora y añade juegos más tarde.</string>
+    <string name="add_games_body">Tus juegos van en la unidad EASYROMS de esta tarjeta SD. Si los añades ahora, Daijishou los encuentra la primera vez que se abre:\n\n1. Elige Apagar ahora.\n2. Pon la tarjeta SD en un ordenador. Copia cada juego en la carpeta de su sistema en EASYROMS, como nes, snes, gba o psx.\n3. Si tienes archivos BIOS (PlayStation, Sega CD y algunos otros sistemas los necesitan), cópialos en la carpeta bios de EASYROMS.\n4. Vuelve a poner la tarjeta y enciende la consola. Daijishou se abre y pregunta si buscar juegos: pulsa OK.\n\nO sigue ahora y añade juegos más tarde.</string>
     <string name="add_games_shut_down">Apagar ahora</string>
     <string name="add_games_later">Ahora no</string>
 </resources>

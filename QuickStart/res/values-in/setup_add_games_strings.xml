@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="add_games_title">Tambahkan game sekarang?</string>
-    <string name="add_games_body">Game Anda disimpan di drive EASYROMS pada kartu SD ini. Jika Anda menambahkannya sekarang, Daijishou menemukannya saat pertama kali dibuka:\n\n1. Pilih Matikan sekarang.\n2. Masukkan kartu SD ke komputer. Salin setiap game ke folder sistemnya di EASYROMS, seperti nes, snes, gba, atau psx.\n3. Pasang kembali kartunya dan nyalakan konsol. Daijishou terbuka dan menawarkan untuk mencari game: tekan OK.\n\nAtau lanjutkan sekarang dan tambahkan game nanti.</string>
+    <string name="add_games_body">Game Anda disimpan di drive EASYROMS pada kartu SD ini. Jika Anda menambahkannya sekarang, Daijishou menemukannya saat pertama kali dibuka:\n\n1. Pilih Matikan sekarang.\n2. Masukkan kartu SD ke komputer. Salin setiap game ke folder sistemnya di EASYROMS, seperti nes, snes, gba, atau psx.\n3. Jika Anda punya file BIOS (PlayStation, Sega CD, dan beberapa sistem lain memerlukannya), salin ke folder bios di EASYROMS.\n4. Pasang kembali kartunya dan nyalakan konsol. Daijishou terbuka dan menawarkan untuk mencari game: tekan OK.\n\nAtau lanjutkan sekarang dan tambahkan game nanti.</string>
     <string name="add_games_shut_down">Matikan sekarang</string>
     <string name="add_games_later">Nanti saja</string>
 </resources>

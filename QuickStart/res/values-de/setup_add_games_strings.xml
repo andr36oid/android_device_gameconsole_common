@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="add_games_title">Jetzt Spiele hinzufügen?</string>
-    <string name="add_games_body">Deine Spiele kommen auf das Laufwerk EASYROMS dieser SD-Karte. Wenn du sie jetzt hinzufügst, findet Daijishou sie gleich beim ersten Öffnen:\n\n1. Wähle Jetzt ausschalten.\n2. Steck die SD-Karte in einen Computer. Kopiere jedes Spiel in den Ordner seines Systems auf EASYROMS, z. B. nes, snes, gba oder psx.\n3. Steck die Karte wieder ein und schalte die Konsole ein. Daijishou öffnet sich und fragt, ob es nach Spielen suchen soll: Drück OK.\n\nOder mach jetzt weiter und füge Spiele später hinzu.</string>
+    <string name="add_games_body">Deine Spiele kommen auf das Laufwerk EASYROMS dieser SD-Karte. Wenn du sie jetzt hinzufügst, findet Daijishou sie gleich beim ersten Öffnen:\n\n1. Wähle Jetzt ausschalten.\n2. Steck die SD-Karte in einen Computer. Kopiere jedes Spiel in den Ordner seines Systems auf EASYROMS, z. B. nes, snes, gba oder psx.\n3. Wenn du BIOS-Dateien hast (PlayStation, Sega CD und ein paar andere Systeme brauchen sie), kopiere sie in den Ordner bios auf EASYROMS.\n4. Steck die Karte wieder ein und schalte die Konsole ein. Daijishou öffnet sich und fragt, ob es nach Spielen suchen soll: Drück OK.\n\nOder mach jetzt weiter und füge Spiele später hinzu.</string>
     <string name="add_games_shut_down">Jetzt ausschalten</string>
     <string name="add_games_later">Nicht jetzt</string>
 </resources>

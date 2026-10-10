@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="add_games_title">Oyunlarınızı şimdi eklemek ister misiniz?</string>
-    <string name="add_games_body">Oyunlarınız bu SD kartın EASYROMS sürücüsüne gider. Şimdi eklerseniz Daijishou onları ilk açılışta bulur:\n\n1. Şimdi kapat\'ı seçin.\n2. SD kartı bir bilgisayara takın. Her oyunu EASYROMS üzerindeki sisteminin klasörüne kopyalayın; örneğin nes, snes, gba veya psx.\n3. Kartı geri takıp konsolu açın. Daijishou açılır ve oyunları aramayı önerir: OK\'a basın.\n\nYa da şimdi devam edin ve oyunları sonra ekleyin.</string>
+    <string name="add_games_body">Oyunlarınız bu SD kartın EASYROMS sürücüsüne gider. Şimdi eklerseniz Daijishou onları ilk açılışta bulur:\n\n1. Şimdi kapat\'ı seçin.\n2. SD kartı bir bilgisayara takın. Her oyunu EASYROMS üzerindeki sisteminin klasörüne kopyalayın; örneğin nes, snes, gba veya psx.\n3. BIOS dosyalarınız varsa (PlayStation, Sega CD ve birkaç başka sistem bunlara ihtiyaç duyar), bunları EASYROMS üzerindeki bios klasörüne kopyalayın.\n4. Kartı geri takıp konsolu açın. Daijishou açılır ve oyunları aramayı önerir: OK\'a basın.\n\nYa da şimdi devam edin ve oyunları sonra ekleyin.</string>
     <string name="add_games_shut_down">Şimdi kapat</string>
     <string name="add_games_later">Şimdi değil</string>
 </resources>
