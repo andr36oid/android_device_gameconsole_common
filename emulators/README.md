@@ -178,6 +178,22 @@ dArkOS (christianhaitian) use, so a card moves between ArkOS and andr36oid with 
   means installs that already ran RetroArch keep their settings after an update: to get
   these defaults, delete that retroarch.cfg (or clear RetroArch's data) and reboot.
 
+CPU and GPU cost: checked against RetroArch 1.22.2's source, dArkOS and ROCKNIX
+(RK3326) for settings that cost CPU or GPU on the Cortex-A35 / Mali-G31 for little gain. Only one needed a
+change; the rest are already cheap or cost nothing while a game runs (details and
+estimates in the ra-cpu report, O2-106):
+
+| Setting | Value | Why |
+|---|---|---|
+| `input_overlay_enable` | off (seeded) | RetroArch's Android default is on unless the model name is a known console. No touch screen here; after one start from the RetroArch icon the touch gamepad would load and draw over every game |
+| `audio_resampler`, `_quality` | sinc, lower (default) | about 0.3-0.5 % of one core (estimate). The NEON code is not built into the arm64 APK, and "lowest" (4 taps) is no faster than "lower" there. Nearest would save about 0.3 % and alias audibly. dArkOS uses normal (twice the cost), ROCKNIX lower |
+| `rewind_enable`, `run_ahead_enabled` | off (default) | a save state every frame, too heavy for most cores on the A35 |
+| `video_shared_context` | off (default) | only for GL cores; on would switch EGL contexts twice a frame |
+| `menu_enable_widgets` | on (default) | a few GL calls per frame when nothing is shown |
+| `savestate_file_compression` | on (default) | compresses on RetroArch's task thread, writes a smaller file to the SD card |
+| `log_verbosity`, `log_to_file` | off (default) | nothing is logged; turn on only for tests |
+| `content_runtime_log`, `history_list_enable` | on (default) | one small file each when a game starts or ends |
+
 What the config sets:
 
 | Setting | Value | Why |
