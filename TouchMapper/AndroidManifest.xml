@@ -56,7 +56,7 @@
             android:launchMode="singleTask"
             android:taskAffinity="org.andr36oid.touchmapper.editor"
             android:screenOrientation="behind"
-            android:configChanges="keyboard|keyboardHidden|navigation|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
+            android:configChanges="keyboard|keyboardHidden|navigation|touchscreen|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
             android:theme="@style/EditorTheme" />
 
         <!-- Watches the app in front while any profile is on -->

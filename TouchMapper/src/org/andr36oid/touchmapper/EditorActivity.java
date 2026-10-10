@@ -126,7 +126,9 @@ public class EditorActivity extends Activity implements Choreographer.FrameCallb
     protected void onStop() {
         super.onStop();
         // FN (Home) or anything else that covers the editor leaves it; unsaved changes go.
-        if (!isFinishing()) {
+        // Not on a restart for a configuration change: switching touch controls off removes
+        // the virtual touchscreen, which is one.
+        if (!isFinishing() && !isChangingConfigurations()) {
             finish();
         }
     }
