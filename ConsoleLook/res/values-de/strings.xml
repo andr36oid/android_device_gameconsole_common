@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="look_title">Konsolendesign</string>
+    <string name="look_summary">Akzentfarbe, Hintergrund, Töne, Startanimation</string>
+    <string name="accent_title">Akzentfarbe</string>
+    <string name="accent_default">LineageOS-Türkis (Standard)</string>
+    <string name="wallpaper_title">Hintergrund</string>
+    <string name="wallpaper_default">Schwarz (Standard)</string>
+    <string name="wallpaper_other">Anderswo festgelegt</string>
+    <string name="wallpaper_failed">Hintergrund konnte nicht festgelegt werden</string>
+    <string name="sounds_title">Systemtöne</string>
+    <string name="sounds_android">Android (Standard)</string>
+    <string name="sounds_retro">Retro</string>
+    <string name="sounds_summary">%1$s. Zu hören, wenn „Töne bei Berührung“ an ist (Töne &gt; Erweitert).</string>
+    <string name="sounds_restart_title">Neu starten, um die neuen Töne zu hören</string>
+    <string name="sounds_restart_message">Android lädt seine Tastentöne nur einmal beim Start. Der Ladeton ist schon geändert.</string>
+    <string name="restart_now">Jetzt neu starten</string>
+    <string name="later">Später</string>
+    <string name="bootanim_title">Startanimation</string>
+    <string name="bootanim_lineage">LineageOS (Standard)</string>
+    <string name="bootanim_retro">andr36oid Retro</string>
+    <string name="bootanim_summary">%1$s. Ab dem nächsten Start zu sehen.</string>
+    <string name="about_wallpaper">Daijishou zeichnet seinen eigenen Hintergrund, deshalb ist der Hintergrund nur bei anderen Startbildschirmen und unter „Designs und Hintergründe“ zu sehen. Den eigenen Hintergrund von Daijishou stellst du in den Daijishou-Einstellungen unter „Wallpaper settings“ ein.</string>
+</resources>

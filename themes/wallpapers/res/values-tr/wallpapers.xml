@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Names shown in Settings > Display > Console look, same order -->
+    <string-array name="wallpaper_titles">
+        <item>Piksel gün batımı</item>
+        <item>Gece tepeleri</item>
+        <item>Konsol çizimi</item>
+        <item>Tuş deseni</item>
+        <item>Şeffaf mor kasa</item>
+        <item>Yeşil monitör</item>
+    </string-array>
+</resources>
