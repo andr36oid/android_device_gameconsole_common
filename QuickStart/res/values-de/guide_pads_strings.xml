@@ -2,8 +2,8 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- A second controller -->
     <string name="pads_title">Mit einem zweiten Controller spielen</string>
-    <string name="pads_connect">Steck einen USB-Controller in den OTG-Anschluss, bei Bedarf mit Adapter. Für einen Bluetooth-Controller öffne Einstellungen &gt; Controller &gt; Bluetooth-Controller koppeln, bring den Controller in den Kopplungsmodus und drück A auf ihm in der Liste. Die Seite erklärt, wie der Kopplungsmodus bei Xbox-, PlayStation-, Switch- und 8BitDo-Controllern geht.</string>
+    <string name="pads_connect">Steck einen USB-Controller in den OTG-Anschluss, bei Bedarf mit Adapter. Für einen Bluetooth-Controller öffne Einstellungen &gt; Steuerung &gt; Externe Controller &gt; Bluetooth-Controller koppeln, bring den Controller in den Kopplungsmodus und drück A auf ihm in der Liste. Die Seite erklärt, wie der Kopplungsmodus bei Xbox-, PlayStation-, Switch- und 8BitDo-Controllern geht.</string>
     <string name="pads_players">In RetroArch bleiben die Tasten der Konsole Spieler 1. Weitere Controller sind Spieler 2, 3 und so weiter, in der Reihenfolge, in der du zum ersten Mal eine Taste darauf drückst.</string>
-    <string name="pads_alone">Willst du allein mit dem größeren Controller spielen? Stell Einstellungen &gt; Controller &gt; Spieler 1 in RetroArch auf „Externer Controller“. Beende RetroArch vorher; die Änderung gilt ab seinem nächsten Start.</string>
+    <string name="pads_alone">Willst du allein mit dem größeren Controller spielen? Stell Einstellungen &gt; Steuerung &gt; Spieler 1 in RetroArch auf „Externer Controller“. Beende RetroArch vorher; die Änderung gilt ab seinem nächsten Start.</string>
     <string name="pads_menu">Auf jedem Controller öffnet L1 + R1 + Start + Select oder die Xbox-, PS- oder Capture-Taste das RetroArch-Menü. Zweimal Start + Select beendet das Spiel. PSP-Spiele haben nur einen Spieler, und jeder Controller steuert ihn.</string>
 </resources>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="trouble_sticks_q">摇杆漂移或推不到边缘</string>
-    <string name="trouble_sticks_a">打开“设置 &gt; 校准摇杆”并按 A。将两个摇杆慢慢地转满圈，一直推到边缘。然后松开摇杆并按 A。此后所有游戏和应用都会使用校正后的摇杆，重启后也一样。</string>
+    <string name="trouble_sticks_a">打开“设置 &gt; 控制 &gt; 校准摇杆”并按 A。将两个摇杆慢慢地转满圈，一直推到边缘。然后松开摇杆并按 A。此后所有游戏和应用都会使用校正后的摇杆，重启后也一样。</string>
     <string name="trouble_sticks_more">还是有点漂移？按方向键的左右可以调整死区，也就是中间被忽略的那一小块范围。按两次 X 可恢复出厂设置。</string>
 </resources>

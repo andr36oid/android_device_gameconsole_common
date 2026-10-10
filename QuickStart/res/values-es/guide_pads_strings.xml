@@ -2,8 +2,8 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- A second controller -->
     <string name="pads_title">Jugar con un segundo mando</string>
-    <string name="pads_connect">Conecta un mando USB al puerto OTG, con un adaptador si hace falta. Para un mando Bluetooth, abre Ajustes &gt; Mandos &gt; Vincular un mando Bluetooth, pon el mando en modo de vinculación y pulsa A sobre él en la lista. La página explica cómo activar el modo de vinculación en mandos de Xbox, PlayStation, Switch y 8BitDo.</string>
+    <string name="pads_connect">Conecta un mando USB al puerto OTG, con un adaptador si hace falta. Para un mando Bluetooth, abre Ajustes &gt; Controles &gt; Mandos externos &gt; Vincular un mando Bluetooth, pon el mando en modo de vinculación y pulsa A sobre él en la lista. La página explica cómo activar el modo de vinculación en mandos de Xbox, PlayStation, Switch y 8BitDo.</string>
     <string name="pads_players">En RetroArch, los botones de la propia consola siguen siendo el jugador 1. Los mandos adicionales son los jugadores 2, 3, etc., en el orden en que pulses un botón en cada uno por primera vez.</string>
-    <string name="pads_alone">¿Quieres jugar solo con el mando grande? En Ajustes &gt; Mandos &gt; Jugador 1 en RetroArch, elige Mando externo. Cierra RetroArch antes; el cambio se aplica la próxima vez que se inicie.</string>
+    <string name="pads_alone">¿Quieres jugar solo con el mando grande? En Ajustes &gt; Controles &gt; Jugador 1 en RetroArch, elige Mando externo. Cierra RetroArch antes; el cambio se aplica la próxima vez que se inicie.</string>
     <string name="pads_menu">En cualquier mando, L1 + R1 + Start + Select, o el botón Xbox, PS o Capture, abre el menú de RetroArch. Start + Select pulsados dos veces cierran el juego. Los juegos de PSP tienen un solo jugador, y todos los mandos lo controlan.</string>
 </resources>

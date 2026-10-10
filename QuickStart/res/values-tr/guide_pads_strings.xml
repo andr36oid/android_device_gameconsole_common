@@ -2,8 +2,8 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- A second controller -->
     <string name="pads_title">İkinci bir kontrolcüyle oynamak</string>
-    <string name="pads_connect">OTG portuna bir USB oyun kolu takın, gerekirse bir adaptörle. Bluetooth oyun kolu için Ayarlar &gt; Kontrolcüler &gt; Bluetooth kontrolcü eşle\'yi açın, oyun kolunu eşleme moduna alın ve listede onun üzerinde A\'ya basın. Sayfa, Xbox, PlayStation, Switch ve 8BitDo oyun kollarında eşleme modunun nasıl açıldığını anlatır.</string>
+    <string name="pads_connect">OTG portuna bir USB oyun kolu takın, gerekirse bir adaptörle. Bluetooth oyun kolu için Ayarlar &gt; Kontroller &gt; Harici kontrolcüler &gt; Bluetooth kontrolcü eşle\'yi açın, oyun kolunu eşleme moduna alın ve listede onun üzerinde A\'ya basın. Sayfa, Xbox, PlayStation, Switch ve 8BitDo oyun kollarında eşleme modunun nasıl açıldığını anlatır.</string>
     <string name="pads_players">RetroArch\'ta konsolun kendi tuşları 1. oyuncu olarak kalır. Ek oyun kolları, üzerlerinde ilk tuşa bastığınız sırayla 2., 3. vb. oyuncu olur.</string>
-    <string name="pads_alone">Daha büyük oyun koluyla tek başına mı oynamak istiyorsunuz? Ayarlar &gt; Kontrolcüler &gt; RetroArch\'ta 1. oyuncu ayarını Harici kontrolcü yapın. Önce RetroArch\'tan çıkın; değişiklik onun bir sonraki açılışından itibaren geçerli olur.</string>
+    <string name="pads_alone">Daha büyük oyun koluyla tek başına mı oynamak istiyorsunuz? Ayarlar &gt; Kontroller &gt; RetroArch\'ta 1. oyuncu ayarını Harici kontrolcü yapın. Önce RetroArch\'tan çıkın; değişiklik onun bir sonraki açılışından itibaren geçerli olur.</string>
     <string name="pads_menu">Herhangi bir oyun kolunda L1 + R1 + Start + Select ya da Xbox, PS veya Capture tuşu RetroArch menüsünü açar. İki kez basılan Start + Select oyundan çıkar. PSP oyunlarında tek oyuncu vardır ve her oyun kolu onu kontrol eder.</string>
 </resources>
