@@ -31,3 +31,12 @@ PRODUCT_PRODUCT_PROPERTIES += \
 # (needs sqlite3 to write its library). Tells the quick start guide.
 PRODUCT_PRODUCT_PROPERTIES += \
     ro.andr36oid.daijishou_platforms=true
+
+# Daijishou's systems get a wallpaper and thumbnail on the first start: the COLORFUL
+# pack, Daijishou's own default (by viking, from LaunchBox's "Colorful resources",
+# edited by iShade, indexed by TapiocaFox), shrunk for the screen by
+# scripts/fetch-daijishou-art.py. See daijishou/art/README.
+PRODUCT_COPY_FILES += \
+    $(foreach f,$(notdir $(wildcard device/gameconsole/common/emulators/daijishou/art/*.jpg)),\
+        device/gameconsole/common/emulators/daijishou/art/$(f):$(TARGET_COPY_OUT_SYSTEM)/etc/gameconsole/daijishou/art/$(f)) \
+    device/gameconsole/common/emulators/daijishou/art/README:$(TARGET_COPY_OUT_SYSTEM)/etc/gameconsole/daijishou/art/README

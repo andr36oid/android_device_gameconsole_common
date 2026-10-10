@@ -546,6 +546,9 @@ DJ_DB=$DJ_DATA/databases/Daijishou.db
 DJ_PREFS=$DJ_DATA/shared_prefs/${DJ_PKG}_preferences.xml
 DJ_SEED=$BASE/daijishou/daijishou-seed.txt
 DJ_SCHEMA=$BASE/daijishou/schema.sql
+# the systems' pictures (COLORFUL, Daijishou's default pack), see
+# scripts/fetch-daijishou-art.py
+DJ_ART=$BASE/daijishou/art
 # Android's sqlite3 quits in this service ("register_localized_collators()
 # failed": it can't load ICU), so the image has its own without ICU;
 # sqlite3 is for tests on a PC
@@ -698,13 +701,22 @@ dj_platform_sql() {
 	printf '%s\n' "INSERT INTO PlatformEntity (id, default_player_id, player_id_list, items_sync_tree_uri_list, unique_id, name, shortname, description, is_visible, scrape_preview_media, wallpaper_path, thumbnail_path, color_theme, color_on_theme, accept_filename_regex, scraper_source_list, box_art_aspect_ratio_id, use_custom_box_art_aspect_ratio, custom_box_art_aspect_ratio, screen_aspect_ratio_id, use_custom_screen_aspect_ratio, custom_screen_aspect_ratio, retro_achievements_console_id_list, extra) VALUES ($1, ${2%%,*}, '[$2]', '[$3]', $4);"
 }
 
+# dj_art_sql <id> <picture> ; the platform's wallpaper and thumbnail, where
+# Daijishou keeps the ones it downloads (files/platform_*/<id>.png; it reads
+# them by content, so a JPEG is fine). dj_art copies them there.
+dj_art_sql() {
+	printf '%s\n' "UPDATE PlatformEntity SET wallpaper_path = '$DJ_DATA/files/platform_wallpapers/$1.png', thumbnail_path = '$DJ_DATA/files/platform_thumbnails/$1.png' WHERE id = $1;"
+	[ -n "$DJ_ART_LIST" ] && echo "$1 $2" >>"$DJ_ART_LIST"
+}
+
 # dj_sql <easyroms dir> <uuid> ; the rows for Daijishou's library, as SQL. A
 # platform gets the folders that are on the card and the players that can run
 # here; the first player is its default. Without either, no platform (and no
-# players for it).
+# players for it). With DJ_ART_LIST set, each platform's picture is listed
+# there as "<id> <file>" for dj_art.
 dj_sql() {
 	local root=$1 uuid=$2 kind n arg vals f
-	local pid=0 plat=0 pnum='' pvals='' players='' uris=''
+	local pid=0 plat=0 pnum='' pvals='' players='' uris='' art=''
 
 	echo 'BEGIN;'
 	while IFS='	' read -r kind n arg vals; do
@@ -713,7 +725,9 @@ dj_sql() {
 			if [ -n "$pnum" ] && [ -n "$players" ]; then
 				plat=$((plat + 1))
 				dj_platform_sql "$plat" "$players" "$uris" "$pvals"
+				[ -n "$art" ] && dj_art_sql "$plat" "$art"
 			fi
+			art=''
 			uris=''
 			for f in $(echo "$arg" | tr ',' ' '); do
 				[ -d "$root/$f" ] || continue
@@ -724,6 +738,9 @@ dj_sql() {
 			[ -n "$uris" ] && pnum=$n
 			pvals=$vals
 			players=''
+			;;
+		art)
+			[ -n "$pnum" ] && [ "$n" = "$pnum" ] && [ -f "$DJ_ART/$arg" ] && art=$arg
 			;;
 		player)
 			if [ -z "$pnum" ] || [ "$n" != "$pnum" ] || ! dj_has "$arg"; then
@@ -738,8 +755,30 @@ dj_sql() {
 	if [ -n "$pnum" ] && [ -n "$players" ]; then
 		plat=$((plat + 1))
 		dj_platform_sql "$plat" "$players" "$uris" "$pvals"
+		[ -n "$art" ] && dj_art_sql "$plat" "$art"
 	fi
 	echo 'COMMIT;'
+}
+
+# dj_art <list> <owner> ; copies the pictures dj_sql listed into Daijishou's
+# folders, owned by Daijishou. A picture that can't be copied only leaves that
+# system plain (Daijishou shows its default look for a missing file).
+dj_art() {
+	local list=$1 owner=$2 id file d
+	[ -s "$list" ] || return 0
+	for d in "$DJ_DATA/files" "$DJ_DATA/files/platform_wallpapers" \
+		"$DJ_DATA/files/platform_thumbnails"; do
+		[ -d "$d" ] || { mkdir -p "$d" && chown "$owner" "$d" && chmod 0771 "$d"; }
+	done
+	while read -r id file; do
+		for d in platform_wallpapers platform_thumbnails; do
+			cp -f "$DJ_ART/$file" "$DJ_DATA/files/$d/$id.png" &&
+				chown "$owner" "$DJ_DATA/files/$d/$id.png" &&
+				chmod 0660 "$DJ_DATA/files/$d/$id.png" ||
+				log "copying the picture $file for platform $id failed"
+		done
+	done <"$list"
+	restorecon -R "$DJ_DATA/files" 2>/dev/null
 }
 
 DJ_HINT='Your game systems are set up with their folders on EASYROMS. Press OK to look for games now. After adding games later, use Sync entirely in the library settings.'
@@ -807,7 +846,9 @@ seed_daijishou() {
 	tmp=$STATE/daijishou.tmp
 	rm -rf "$tmp"
 	mkdir -p "$tmp"
+	DJ_ART_LIST=$tmp/art.list
 	dj_sql "$EASYROMS" "$uuid" >"$tmp/rows.sql"
+	DJ_ART_LIST=
 	if ! "$SQLITE" -bail "$tmp/Daijishou.db" <"$DJ_SCHEMA" ||
 		! "$SQLITE" -bail "$tmp/Daijishou.db" <"$tmp/rows.sql"; then
 		log "making Daijishou's library failed"
@@ -856,6 +897,7 @@ seed_daijishou() {
 	chown "$owner" "$tmp/Daijishou.db"
 	chmod 0660 "$tmp/Daijishou.db"
 	mv -f "$tmp/Daijishou.db" "$DJ_DB"
+	dj_art "$tmp/art.list" "$owner"
 	if [ ! -e "$DJ_PREFS" ]; then
 		mkdir -p "${DJ_PREFS%/*}"
 		chown "$owner" "${DJ_PREFS%/*}"
