@@ -20,6 +20,10 @@
 # included in a build is to use PRODUCT_PACKAGES in a product
 # definition file).
 #
+# Default language English (UK). ro.product.locale is the first entry of
+# PRODUCT_LOCALES; set before any inherit so it comes ahead of full_base's en_US.
+PRODUCT_LOCALES := en_GB
+
 # Inherit from those products. Most specific first.
 # Set TARGET_GAMECONSOLE_ZYGOTE64_ONLY := true in lineage_<device>.mk to drop
 # the 32-bit zygote. Saves one full zygote (preloaded classes/resources) but
