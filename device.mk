@@ -917,9 +917,11 @@ PRODUCT_PRODUCT_PROPERTIES += \
 	ro.andr36oid.extra_dim=true \
 	ro.andr36oid.screen_colors=true
 
-# TEST IMAGES ONLY, not for a release: logcat is kept on the card in /data/misc/logd
-# (16 files of 2 MB, the oldest dropped), so a problem can be read from the card
-# afterwards; adb is not available on the test console
+# Every build but a release keeps logcat on the card in /data/misc/logd (16 files of
+# 2 MB, the oldest dropped), so a problem can be read from the card afterwards; adb is
+# often not available on a test console. ANDR36OID_BUILD_KIND comes from build-image.sh
+# (night, beta, release); a build without it counts as a release, so logcat stays off.
+ifneq ($(filter-out release,$(ANDR36OID_BUILD_KIND)),)
 PRODUCT_PRODUCT_PROPERTIES += \
     logd.logpersistd=logcatd \
     logd.logpersistd.size=16
@@ -927,3 +929,4 @@ PRODUCT_PRODUCT_PROPERTIES += \
 # which this build doesn't use, so without this the setting above starts nothing
 PRODUCT_PACKAGES += \
     logpersist.start
+endif
