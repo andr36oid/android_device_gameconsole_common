@@ -25,6 +25,7 @@ public class MainFragment extends PreferenceFragment {
     private Helper.Runner mRunner;
     private Preference mBackupNow;
     private Preference mUsb;
+    private Preference mSync;
     private ListPreference mKeep;
     /** What the last run we started or followed said, shown until the page is left. */
     private String mOutcome;
@@ -36,6 +37,17 @@ public class MainFragment extends PreferenceFragment {
         mBackupNow = findPreference("backup_now");
         mUsb = findPreference("usb");
         mKeep = (ListPreference) findPreference("keep");
+        mSync = findPreference("sync");
+        if (SyncFragment.installed(getActivity())) {
+            mSync.setOnPreferenceClickListener(p -> {
+                startActivity(new Intent(getActivity(), SyncActivity.class));
+                return true;
+            });
+        } else {
+            // Sync saves needs the Syncthing app; the user may have uninstalled it
+            getPreferenceScreen().removePreference(mSync);
+            mSync = null;
+        }
         mRunner = new Helper.Runner(mHandler, new Helper.Runner.Listener() {
             @Override
             public void onProgress(String status) {
@@ -118,6 +130,12 @@ public class MainFragment extends PreferenceFragment {
         mUsb.setEnabled(drive != null);
         mUsb.setSummary(drive != null ? c.getString(R.string.usb_summary, drive)
                 : c.getString(R.string.usb_none));
+        if (mSync != null) {
+            final int n = Prefs.get(c).getInt(Prefs.SYNC_DEVICES, 0);
+            mSync.setSummary(Prefs.sync(c)
+                    ? c.getResources().getQuantityString(R.plurals.sync_row_on, n, n)
+                    : c.getString(R.string.sync_row_off));
+        }
     }
 
     private void showKeep(String value) {

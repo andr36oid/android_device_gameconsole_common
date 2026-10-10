@@ -45,6 +45,42 @@ final class Helper {
                 + "newer=" + (newer ? 1 : 0) + "\nkeep=" + Prefs.keep(c) + "\n";
     }
 
+    static String syncPrefsRequest(boolean on) {
+        return "action=sync_prefs\non=" + (on ? 1 : 0) + "\n";
+    }
+
+    static String syncKeyRequest(int waitSeconds) {
+        return "action=sync_key\nwait=" + waitSeconds + "\n";
+    }
+
+    /** The Syncthing app's REST API, once sync_key has copied its key; else null. */
+    static SyncApi syncApi() {
+        return SyncApi.fromKeyFile(Engine.read(new File(DIR, "syncthing")));
+    }
+
+    /**
+     * Runs a request to its end on the calling thread (not the main thread): waits while
+     * another run is going, up to {@code timeoutMs} in all. Returns the final status.
+     */
+    static String runBlocking(String request, long timeoutMs) {
+        final long until = SystemClock.elapsedRealtime() + timeoutMs;
+        while (!start(request)) {
+            if (SystemClock.elapsedRealtime() > until) return "error busy";
+            SystemClock.sleep(1000);
+        }
+        final long started = SystemClock.elapsedRealtime();
+        while (true) {
+            SystemClock.sleep(500);
+            final String s = status();
+            final boolean finished = s.startsWith("done") || s.startsWith("error");
+            final long now = SystemClock.elapsedRealtime();
+            if (!running() && (finished || now - started > Runner.START_GRACE_MS)) {
+                return finished ? s : "error start";
+            }
+            if (now > until) return "error timeout";
+        }
+    }
+
     /** Starts the helper, false if it's busy or can't be started. */
     static boolean start(String request) {
         if (running()) return false;
@@ -107,7 +143,7 @@ final class Helper {
 
         private static final long POLL_MS = 500;
         /** How long the service may take to show up after ctl.start. */
-        private static final long START_GRACE_MS = 5000;
+        static final long START_GRACE_MS = 5000;
 
         private final Handler mHandler;
         private final Listener mListener;

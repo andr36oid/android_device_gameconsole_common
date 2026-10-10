@@ -14,6 +14,10 @@
         android:key="usb"
         android:title="@string/usb_title" />
 
+    <Preference
+        android:key="sync"
+        android:title="@string/sync_title" />
+
     <PreferenceCategory
         android:key="auto_category"
         android:title="@string/auto_category">

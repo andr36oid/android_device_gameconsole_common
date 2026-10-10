@@ -153,4 +153,73 @@
     <!-- The notification while an automatic backup runs -->
     <string name="channel_name">Save backup running</string>
     <string name="notification_title">Backing up saves</string>
+    <!-- Sync saves (Syncthing) -->
+    <string name="sync_title">Sync saves</string>
+    <string name="sync_row_off">Off. Keep your saves the same on this console and your PC, phone or other consoles.</string>
+    <!-- %1$d: number of devices -->
+    <plurals name="sync_row_on">
+        <item quantity="one">On, with %1$d device</item>
+        <item quantity="other">On, with %1$d devices</item>
+    </plurals>
+    <string name="sync_switch_title">Sync saves</string>
+    <string name="sync_switch_off">Off</string>
+    <string name="sync_switch_on">On. Syncs on Wi-Fi while charging, and while this page is open.</string>
+    <string name="sync_status_off">Your save games and save states are kept the same on every device you add, over Wi-Fi, with no cloud. ROMs are never copied. It uses the Syncthing app.</string>
+    <string name="sync_status_starting">Starting Syncthing…</string>
+    <string name="sync_status_no_devices">No devices yet. Add one below.</string>
+    <string name="sync_status_scanning">Looking for changed saves…</string>
+    <plurals name="sync_status_syncing">
+        <item quantity="one">Syncing, %1$d file to go…</item>
+        <item quantity="other">Syncing, %1$d files to go…</item>
+    </plurals>
+    <plurals name="sync_status_errors">
+        <item quantity="one">%1$d file couldn\'t be synced. Open Syncthing for details.</item>
+        <item quantity="other">%1$d files couldn\'t be synced. Open Syncthing for details.</item>
+    </plurals>
+    <string name="sync_status_folder_error">A save folder can\'t be synced. Is EASYROMS mounted? Open Syncthing for details.</string>
+    <string name="sync_status_waiting">Up to date here. Waiting for your devices to come online.</string>
+    <string name="sync_status_done">Up to date</string>
+    <string name="sync_step_prepare">Setting up Syncthing…</string>
+    <string name="sync_step_start">Starting Syncthing. The first start takes up to two minutes…</string>
+    <string name="sync_step_folders">Adding the save folders…</string>
+    <string name="sync_step_stop">Stopping…</string>
+
+    <string name="sync_my_id_title">This console\'s ID</string>
+    <string name="sync_my_id_none">Shown once Syncthing runs</string>
+    <string name="sync_my_id_message">On your PC or phone, open Syncthing, choose Add Remote Device and enter this ID or scan the code. The PC then shows up below under Add a device.</string>
+
+    <string name="sync_devices_category">Syncing with</string>
+    <string name="sync_devices_none">No devices yet</string>
+    <string name="sync_device_connected">Connected</string>
+    <string name="sync_device_offline">Not connected now</string>
+    <string name="sync_remove_title">Stop syncing with %1$s?</string>
+    <string name="sync_remove_message">The saves stay on both devices. They are just not kept the same anymore.</string>
+    <string name="sync_remove_button">Stop syncing</string>
+
+    <string name="sync_add_category">Add a device</string>
+    <string name="sync_pending_summary">Wants to sync with this console</string>
+    <!-- %1$s: the first 7 characters of a device ID -->
+    <string name="sync_nearby_title">Device %1$s</string>
+    <string name="sync_nearby_summary">Found on this Wi-Fi</string>
+    <string name="sync_add_hint">A PC or phone: install Syncthing there and add this console\'s ID (above). Another console: turn on Sync saves there, then pick it here.</string>
+    <!-- %1$s: device name -->
+    <string name="sync_add_title">Sync saves with %1$s?</string>
+    <!-- %1$s: the full device ID -->
+    <string name="sync_add_message">Only add devices that are yours. It gets the saves on this console and can change them.\n\nID: %1$s</string>
+    <string name="sync_add_button">Sync</string>
+    <string name="sync_change_failed">That didn\'t work. Is Syncthing running? Try again in a moment.</string>
+
+    <string name="sync_open_title">Open Syncthing</string>
+    <string name="sync_open_summary">All settings, other folders and what was synced</string>
+    <string name="sync_note">Quit the game before you play it on another device. If both change the same save, the newer one wins and the other is kept as a .sync-conflict file next to it. Replaced saves are also kept in .stversions (the last 5) and in your backups.</string>
+
+    <string name="sync_off_title">Turn off Sync saves?</string>
+    <string name="sync_off_message">Your saves stay on this console and on your other devices. Changes are no longer synced. Your devices are remembered for next time.</string>
+    <string name="sync_off_button">Turn off</string>
+    <string name="sync_failed_title">Sync saves couldn\'t be turned on</string>
+    <string name="sync_error_missing">The Syncthing app isn\'t installed.</string>
+    <string name="sync_error_not_running">Syncthing didn\'t start. Open Syncthing once, then try again.</string>
+    <string name="sync_error_other">Something went wrong while setting up Syncthing. Try again, or open Syncthing to set it up by hand.</string>
+    <string name="sync_label_easyroms">Game saves on EASYROMS</string>
+    <string name="sync_label_internal">Game saves on internal storage</string>
 </resources>

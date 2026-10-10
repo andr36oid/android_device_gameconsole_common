@@ -14,6 +14,10 @@
 # EASYROMS or a USB drive (/mnt/media_rw/<uuid>); the engine checks every path it restores
 # to. The owner fix-up here only touches paths under the internal storage.
 #
+# Sync saves: action=sync_prefs stops the Syncthing app (it would write its old settings
+# back), lets it reach all files, and after the engine wrote its settings gives the file
+# back to the app. action=sync_key copies its REST key for the app.
+#
 # SAVEBACKUP_* variables are for testing on a PC (tests/run-tests.sh):
 #   SAVEBACKUP_RUN       command that runs the engine instead of app_process
 #   SAVEBACKUP_EASYROMS  EASYROMS folder ("" = not mounted), SAVEBACKUP_USB a USB folder
@@ -22,6 +26,8 @@ DIR=${SAVEBACKUP_DIR:-/data/misc/andr36oid-savebackup}
 MEDIA=${SAVEBACKUP_MEDIA:-/data/media/0}
 RA_DATA=${SAVEBACKUP_RA_DATA:-/data/user/0/com.retroarch}
 PPSSPP_DATA=${SAVEBACKUP_PPSSPP_DATA:-/data/user/0/org.ppsspp.ppsspp}
+ST=com.github.catfriend1.syncthingfork
+ST_DATA=${SAVEBACKUP_ST_DATA:-/data/user/0/$ST}
 PKG=org.andr36oid.savebackup
 APK=/system/app/SaveBackup/SaveBackup.apk
 EASYROMS_ID="public:179,7"
@@ -98,13 +104,43 @@ fix_owners() {
 	rm -f "$DIR/touched"
 }
 
+# before the engine writes the Syncthing app's settings: stop it, and let it (or not) run
+# in the background and reach EASYROMS and the internal storage
+sync_before() {
+	local on=$1
+	testing && return 0
+	am force-stop "$ST" </dev/null >/dev/null 2>&1
+	if [ "$on" = 1 ]; then
+		appops set "$ST" MANAGE_EXTERNAL_STORAGE allow </dev/null >/dev/null 2>&1
+		dumpsys deviceidle whitelist +"$ST" </dev/null >/dev/null 2>&1
+	else
+		dumpsys deviceidle whitelist -"$ST" </dev/null >/dev/null 2>&1
+	fi
+	return 0
+}
+
+# the settings file the engine wrote belongs to the Syncthing app
+sync_after() {
+	local owner
+	testing && return 0
+	[ -d "$ST_DATA/shared_prefs" ] || return 0
+	owner=$(stat -c %u:%g "$ST_DATA") || return 0
+	chown -R "$owner" "$ST_DATA/shared_prefs" 2>/dev/null
+	chmod 0771 "$ST_DATA/shared_prefs" 2>/dev/null
+	chmod 0660 "$ST_DATA/shared_prefs/"* 2>/dev/null
+	restorecon -R "$ST_DATA/shared_prefs" 2>/dev/null
+	return 0
+}
+
 umask 022
 mkdir -p "$DIR"
 rm -f "$DIR/touched"
 status "running start"
+ACTION=$(sed -n 's/^action=//p' "$DIR/request" 2>/dev/null | head -n 1)
 
 VOLS=$(volumes)
-set -- --dir "$DIR" --media "$MEDIA" --ra-data "$RA_DATA" --ppsspp-data "$PPSSPP_DATA"
+set -- --dir "$DIR" --media "$MEDIA" --ra-data "$RA_DATA" --ppsspp-data "$PPSSPP_DATA" \
+	--st-data "$ST_DATA"
 while read -r kind path; do
 	case $kind in
 	easyroms) set -- "$@" --easyroms "$path" ;;
@@ -115,7 +151,9 @@ $VOLS
 EOF
 
 log "start: $(tr '\n' ' ' <"$DIR/request" 2>/dev/null)"
+[ "$ACTION" = sync_prefs ] && sync_before "$(sed -n 's/^on=//p' "$DIR/request" | head -n 1)"
 engine "$@"
+[ "$ACTION" = sync_prefs ] && sync_after
 fix_owners
 testing || { sync; chown system:system "$DIR"/* 2>/dev/null; }
 

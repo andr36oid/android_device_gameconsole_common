@@ -7,6 +7,8 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <!-- To see when an emulator was closed (signature permission, we're platform signed) -->
     <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS" />
+    <!-- Sync saves talks to the Syncthing app's REST API on 127.0.0.1 -->
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="false"
@@ -50,6 +52,13 @@
             android:name=".RestoreActivity"
             android:exported="false"
             android:label="@string/restore_title"
+            android:parentActivityName=".MainActivity"
+            android:theme="@android:style/Theme.DeviceDefault.DayNight" />
+
+        <activity
+            android:name=".SyncActivity"
+            android:exported="false"
+            android:label="@string/sync_title"
             android:parentActivityName=".MainActivity"
             android:theme="@android:style/Theme.DeviceDefault.DayNight" />
 
