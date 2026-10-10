@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="trouble_recovery_more">Uruchamia to menu recovery. Poruszaj się krzyżakiem lub przyciskami głośności, wybieraj przyciskiem A lub zasilania. Aby przywrócić ustawienia fabryczne, wybierz „Factory reset”, potem „Format data/factory reset”, a potem „Reboot system now”. Usuwa to twoje aplikacje, ustawienia i wszystkie pliki w pamięci wewnętrznej, ale nie gry na EASYROMS. Nie używaj pozostałych opcji: to recovery jest starsze niż twój system i nie może instalować jego aktualizacji.</string>
+</resources>

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="trouble_recovery_more">Isso inicia o menu de recovery. Navegue com o direcional ou os botões de volume e escolha com A ou com o botão liga/desliga. Para redefinir para a configuração original, escolha “Factory reset”, depois “Format data/factory reset” e então “Reboot system now”. Isso apaga seus apps, suas configurações e todos os arquivos do armazenamento interno, mas não os jogos no EASYROMS. Não use as outras opções: este recovery é mais antigo que o seu sistema e não consegue instalar atualizações para ele.</string>
+</resources>

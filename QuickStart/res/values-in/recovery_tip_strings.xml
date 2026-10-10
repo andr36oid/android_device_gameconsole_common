@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="trouble_recovery_more">Ini memulai menu recovery. Bergerak dengan D-pad atau tombol volume, pilih dengan A atau tombol daya. Untuk reset ke setelan pabrik, pilih “Factory reset”, lalu “Format data/factory reset”, lalu “Reboot system now”. Reset ke setelan pabrik menghapus aplikasi, setelan, dan semua file di penyimpanan internal Anda, tetapi tidak menghapus game di EASYROMS. Jangan gunakan opsi lainnya: recovery ini lebih lama dari sistem Anda dan tidak bisa menginstal update untuknya.</string>
+</resources>
