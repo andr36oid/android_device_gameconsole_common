@@ -1,0 +1,9 @@
+// sqlite3 for the gameconsole-emu service, see gameconsole-sqlite3.c
+cc_binary {
+    name: "gameconsole-sqlite3",
+    defaults: ["sqlite-defaults"],
+    srcs: ["gameconsole-sqlite3.c"],
+    include_dirs: ["external/sqlite/dist"],
+    static_libs: ["libsqlite_static_noicu"],
+    shared_libs: ["liblog"],
+}
