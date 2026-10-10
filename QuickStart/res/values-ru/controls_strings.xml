@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Settings > Buttons and shortcuts. See values/controls_strings.xml -->
+<!-- The guide's button chapters. See values/controls_strings.xml -->
 <resources>
-    <string name="controls_title">Кнопки и сочетания</string>
-    <string name="controls_summary">Все сочетания кнопок: система, игры, режим мыши</string>
     <string name="controls_topic_console">Консоль</string>
     <string name="controls_topic_system">Система</string>
     <string name="controls_topic_retroarch">В играх (RetroArch)</string>
     <string name="controls_topic_emulators">Другие эмуляторы</string>
     <string name="controls_topic_mouse">Режим мыши</string>
-    <string name="controls_console_top">В первой строке рисунка показаны кнопки на верхнем торце.</string>
+    <string name="controls_console_top">Кнопки, нарисованные над консолью, находятся на её верхнем торце.</string>
     <string name="controls_console_labels">Кнопки называются так, как они подписаны на консоли. На некоторых клонах они расположены иначе.</string>
     <string name="controls_start">Подтвердить, как A</string>
     <string name="controls_dpad">Перемещение по меню и спискам</string>

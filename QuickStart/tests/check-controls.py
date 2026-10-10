@@ -135,7 +135,7 @@ def parse(path):
                     raise SystemExit('%s:%d: unknown line %r' % (path, number, line))
                 continue
             kind, _, rest = line.partition(' ')
-            if kind == 'art':
+            if kind == 'drawing':
                 continue
             item = Item(kind, rest, number, topic, heading)
             if kind == 'topic':
@@ -554,7 +554,6 @@ class Checker:
                     m = re.match(r'@(\w+)', label)
                     if m:
                         used.add(m.group(1))
-        used |= {'controls_title', 'controls_summary'}
         for name in sorted(used - set(english)):
             self.error(None, 'string %s is used in controls.txt but not in res/values' % name)
         for name in sorted(own - used):

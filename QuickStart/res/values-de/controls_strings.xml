@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Settings > Buttons and shortcuts. See values/controls_strings.xml -->
+<!-- The guide's button chapters. See values/controls_strings.xml -->
 <resources>
-    <string name="controls_title">Tasten und Shortcuts</string>
-    <string name="controls_summary">Alle Tastenkombinationen: System, Spiele, Mausmodus</string>
     <string name="controls_topic_console">Die Konsole</string>
     <string name="controls_topic_system">System</string>
     <string name="controls_topic_retroarch">In Spielen (RetroArch)</string>
     <string name="controls_topic_emulators">Andere Emulatoren</string>
     <string name="controls_topic_mouse">Mausmodus</string>
-    <string name="controls_console_top">Die erste Zeile der Zeichnung zeigt die Tasten an der Oberkante.</string>
+    <string name="controls_console_top">Die Tasten über der Konsole sitzen an ihrer Oberkante.</string>
     <string name="controls_console_labels">Die Tasten heißen so, wie sie auf der Konsole beschriftet sind. Bei manchen Klon-Konsolen sitzen sie an anderen Stellen.</string>
     <string name="controls_start">Bestätigen, wie A</string>
     <string name="controls_dpad">In Menüs und Listen bewegen</string>

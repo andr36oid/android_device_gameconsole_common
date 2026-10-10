@@ -1,12 +1,13 @@
-# Buttons and shortcuts: the one list behind Settings > Buttons and shortcuts
-# (ControlsActivity) and its host check (tests/check-controls.py). Change a
+# Buttons and shortcuts: the one list behind the button chapters of the Quick start
+# guide (Controls.java) and its host check (tests/check-controls.py). Change a
 # combination here, never in the Java code; the check compares every row with
 # the key layout, the FN code, joyMouse and the seeded emulator settings.
 #
 # topic <string>            a topic in the list on the left
 # heading <string>|=<name>  a heading on the page (=: a name, not translated)
 # text <string>             a paragraph
-# art <text>                one line of the console drawing (monospace)
+# drawing console           the drawing of the console (ConsoleArt, as in the button
+#                           mapper)
 # row <keys> = <string>     buttons and what they do. " + " joins buttons
 #                           pressed together, " / " splits alternatives.
 #                           @name is a string of this app (e.g. @key_dpad),
@@ -20,19 +21,7 @@
 # A topic without a single row left is hidden.
 
 topic controls_topic_console
-art    L2  L1   -  +  POWER   R2  R1
-art  .------------------------------.
-art  |    .--------------------.    |
-art  |    |                    |    |
-art  |    |                    |    |
-art  |    |                    |    |
-art  |    '--------------------'    |
-art  |     ^                  X     |
-art  |   <   >              Y   A   |
-art  |     v                  B     |
-art  |                              |
-art  |   (L3) SELECT FN START (R3)  |
-art  '------------------------------'
+drawing console
 text controls_console_top
 text controls_console_labels
 row A = buttons_a
@@ -51,6 +40,7 @@ text buttons_stick
 text controls_console_swap
   check exists r36s:BOOT/Experimental/Soy-Panel5-253x
   check exists r36s:BOOT/Experimental/Soy-Panel7-253x
+text mapping_settings
 
 topic controls_topic_system
 text shortcuts_intro
