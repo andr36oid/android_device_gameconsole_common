@@ -1,6 +1,0 @@
-# ScummVM 2026.3.0: its settings file is files/scummvm.ini in the private
-# folder (ScummVMActivity.seekAndInitScummvmConfiguration); ScummVM fills in
-# the rest on first start. See ../../README.md, "First-start settings".
-package org.scummvm.scummvm
-unless data files/scummvm.ini
-data scummvm.ini files/scummvm.ini
