@@ -76,9 +76,10 @@ req() {
 
 free_mb() {
 	local a s
+	# shellcheck disable=SC2046 # split the two numbers into $1 $2
 	set -- $(stat -f -c '%a %S' "$ROOT" 2>/dev/null)
 	a=$1 s=$2
-	[ -n "$a" ] && [ -n "$s" ] || { echo 0; return; }
+	if [ -z "$a" ] || [ -z "$s" ]; then echo 0; return; fi
 	if [ "$s" -ge 1048576 ]; then
 		echo $((a * (s / 1048576)))
 	else
@@ -164,7 +165,9 @@ esac
 # ---- full check ----
 echo "$WAKELOCK" >/sys/power/wake_lock 2>/dev/null
 cleanup_files
-[ -n "$DEV" ] && [ -b "$DEV" ] && [ "$DISK_MB" -gt 0 ] || finish state=failed error=no_disk
+if ! { [ -n "$DEV" ] && [ -b "$DEV" ] && [ "$DISK_MB" -gt 0 ]; }; then
+	finish state=failed error=no_disk
+fi
 
 # 1. read-only probe: does the card's start show up again further in?
 status state=running phase=probe

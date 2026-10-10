@@ -54,9 +54,11 @@ show() {
 	for p in "$@"; do
 		[ -r "$p" ] || continue
 		[ -d "$p" ] && continue
-		echo "== $p" >>"$WORK/$f"
-		cap 1048576 <"$p" >>"$WORK/$f" 2>&1
-		echo >>"$WORK/$f"
+		{
+			echo "== $p"
+			cap 1048576 <"$p" 2>&1
+			echo
+		} >>"$WORK/$f"
 	done
 }
 
@@ -92,6 +94,7 @@ step 1 system
 	echo "Kernel:  $(uname -a)"
 	echo "Up:      $(uptime)"
 	echo "Boot reason: $(getprop sys.boot.reason) (last: $(getprop sys.boot.reason.last))"
+	# shellcheck disable=SC2012 # plain sysfs names, sorted like ls
 	echo "Previous start's logs: $(ls /sys/fs/pstore 2>/dev/null | tr '\n' ' ')"
 	echo "Battery: $(cat /sys/class/power_supply/battery/capacity 2>/dev/null)%," \
 		"$(cat /sys/class/power_supply/battery/status 2>/dev/null)," \
@@ -128,6 +131,7 @@ done
 
 step 4 crashes
 run crashes.txt 5 ls -la /data/tombstones /data/anr
+# shellcheck disable=SC2010,SC2012 # newest first needs ls -t; names are tombstone_NN and anr_*
 for f in $(ls -t /data/tombstones/tombstone_* 2>/dev/null | grep -v '\.pb$' | head -n 3) \
 	$(ls -t /data/anr/* 2>/dev/null | head -n 2); do
 	show crashes.txt "$f"

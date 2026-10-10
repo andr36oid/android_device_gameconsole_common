@@ -55,7 +55,7 @@ volumes() {
 		return 0
 	fi
 	sm list-volumes public </dev/null 2>/dev/null | while read -r id state uuid; do
-		[ "$state" = mounted ] && [ -n "$uuid" ] && [ -d "/mnt/media_rw/$uuid" ] || continue
+		if ! { [ "$state" = mounted ] && [ -n "$uuid" ] && [ -d "/mnt/media_rw/$uuid" ]; }; then continue; fi
 		if [ "$id" = "$EASYROMS_ID" ]; then
 			echo "easyroms /mnt/media_rw/$uuid"
 		else

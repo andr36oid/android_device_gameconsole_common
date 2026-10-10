@@ -34,14 +34,14 @@ PARAM_TARGET_SCREEN_WIDTH=$9
 
 INTERMEDIATES=$PARAM_GENDIR/intermediates
 
-rm -rf $INTERMEDIATES
-mkdir -p $INTERMEDIATES
+rm -rf "$INTERMEDIATES"
+mkdir -p "$INTERMEDIATES"
 
-tar xfp $PARAM_BOOTANIMATION_TAR -C $INTERMEDIATES
+tar xfp "$PARAM_BOOTANIMATION_TAR" -C "$INTERMEDIATES"
 
 # All supported consoles run in landscape (panels mounted in portrait are
 # rotated by SurfaceFlinger), so the canvas is always long side x short side.
-if [ $PARAM_TARGET_SCREEN_HEIGHT -lt $PARAM_TARGET_SCREEN_WIDTH ]; then
+if [ "$PARAM_TARGET_SCREEN_HEIGHT" -lt "$PARAM_TARGET_SCREEN_WIDTH" ]; then
     SHORTSIDE=$PARAM_TARGET_SCREEN_HEIGHT
     LONGSIDE=$PARAM_TARGET_SCREEN_WIDTH
 else
@@ -50,21 +50,21 @@ else
 fi
 
 IMAGEWIDTH=$SHORTSIDE
-IMAGEHEIGHT=$(expr $IMAGEWIDTH / 3)
+IMAGEHEIGHT=$((IMAGEWIDTH / 3))
 
 # overlay.png is rendered for a 480px tall screen at 4x
 OVERLAY=$PARAM_GENDIR/overlay.png
-cp $PARAM_OVERLAY_PNG $OVERLAY
-$PARAM_MOGRIFY -resize $(expr $SHORTSIDE \* 100 / 1920)% $OVERLAY
-MARGIN=$(expr $SHORTSIDE / 80)
+cp "$PARAM_OVERLAY_PNG" "$OVERLAY"
+"$PARAM_MOGRIFY" -resize "$((SHORTSIDE * 100 / 1920))%" "$OVERLAY"
+MARGIN=$((SHORTSIDE / 80))
 
-$PARAM_MOGRIFY -resize "$IMAGEWIDTH"x"$IMAGEHEIGHT" \
+"$PARAM_MOGRIFY" -resize "$IMAGEWIDTH"x"$IMAGEHEIGHT" \
     -background black -gravity center -extent "$LONGSIDE"x"$SHORTSIDE" \
     -gravity south -draw "image over 0,$MARGIN 0,0 '$OVERLAY'" \
-    -colors 256 $INTERMEDIATES/*/*.png
+    -colors 256 "$INTERMEDIATES"/*/*.png
 
-echo "$LONGSIDE $SHORTSIDE 60" > $INTERMEDIATES/desc.txt
-cat $PARAM_DESC_TXT >> $INTERMEDIATES/desc.txt
+echo "$LONGSIDE $SHORTSIDE 60" > "$INTERMEDIATES/desc.txt"
+cat "$PARAM_DESC_TXT" >> "$INTERMEDIATES/desc.txt"
 
-rm -f $PARAM_OUT
-$PARAM_SOONG_ZIP -L 0 -o $PARAM_OUT -C $INTERMEDIATES -D $INTERMEDIATES
+rm -f "$PARAM_OUT"
+"$PARAM_SOONG_ZIP" -L 0 -o "$PARAM_OUT" -C "$INTERMEDIATES" -D "$INTERMEDIATES"

@@ -14,6 +14,7 @@ if [ -z "$kind" ]; then
     kind=release
     # The Rockchip libraries write the git state into these during the build.
     generated=':!libhwjpeg/mpi/version.h :!omx_il/include/rockchip/git_info.h'
+    # shellcheck disable=SC2016 # the inner sh -c script expands these itself
     if [ -f .repo/project.list ] && xargs -P16 -I{} sh -c '
             cd "{}" 2>/dev/null || exit 0
             git diff-index --quiet HEAD -- . $0 2>/dev/null || exit 255

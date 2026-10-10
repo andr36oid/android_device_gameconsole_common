@@ -50,8 +50,8 @@ while [ $# -gt 0 ]; do
     esac
 done
 
-[ -n "$RAMDISK_IN" ] && [ -f "$RAMDISK_IN" ] || die "missing --ramdisk (input ramdisk not found)"
-[ -n "$APK" ] && [ -f "$APK" ] || die "missing --apk (Magisk apk not found)"
+{ [ -n "$RAMDISK_IN" ] && [ -f "$RAMDISK_IN" ]; } || die "missing --ramdisk (input ramdisk not found)"
+{ [ -n "$APK" ] && [ -f "$APK" ]; } || die "missing --apk (Magisk apk not found)"
 [ -n "$OUT" ] || die "missing --out"
 
 # Make paths absolute now: the script cd's into its work dir later.
@@ -76,7 +76,7 @@ A32="$WORK/apk/lib/armeabi-v7a"
 cd "$WORK"
 
 # magiskinit (required)
-[ -f "$A64/libmagiskinit.so" ] && cp "$A64/libmagiskinit.so" magiskinit || die "APK missing libmagiskinit.so"
+{ [ -f "$A64/libmagiskinit.so" ] && cp "$A64/libmagiskinit.so" magiskinit; } || die "APK missing libmagiskinit.so"
 # magisk applet: modern Magisk ships one libmagisk.so; older ships 64/32 split.
 [ -f "$A64/libmagisk.so" ]   && cp "$A64/libmagisk.so"   magisk
 [ -f "$A64/libmagisk64.so" ] && cp "$A64/libmagisk64.so" magisk64
@@ -89,11 +89,11 @@ elif [ -f "$A64/libstub.so" ]; then cp "$A64/libstub.so" stub.apk; fi
 # magiskboot is just a build tool: run the HOST-arch copy natively so no qemu
 # is needed. Fall back to the arm64 copy under qemu if there is no host build.
 case "$(uname -m)" in
-    x86_64)         HOSTLIB="$WORK/apk/lib/x86_64";      HOSTQEMU="";;
-    i386|i686)      HOSTLIB="$WORK/apk/lib/x86";         HOSTQEMU="";;
-    aarch64|arm64)  HOSTLIB="$A64";                      HOSTQEMU="";;
-    armv7l|armv8l)  HOSTLIB="$A32";                      HOSTQEMU="";;
-    *)              HOSTLIB="";                           HOSTQEMU="";;
+    x86_64)         HOSTLIB="$WORK/apk/lib/x86_64";;
+    i386|i686)      HOSTLIB="$WORK/apk/lib/x86";;
+    aarch64|arm64)  HOSTLIB="$A64";;
+    armv7l|armv8l)  HOSTLIB="$A32";;
+    *)              HOSTLIB="";;
 esac
 RUNNER=""
 if [ -n "$HOSTLIB" ] && [ -f "$HOSTLIB/libmagiskboot.so" ]; then
@@ -110,7 +110,7 @@ MB() { if [ -n "$RUNNER" ]; then "$RUNNER" ./magiskboot "$@"; else ./magiskboot 
 # 126/127 instead means it could not be executed at all. (|| so set -e is happy.)
 ec=0; MB >/dev/null 2>&1 || ec=$?
 { [ "$ec" -ne 126 ] && [ "$ec" -ne 127 ]; } || die "cannot execute magiskboot on this host (exit $ec)."
-echo "inject_magisk: magiskboot = $([ -n "$RUNNER" ] && echo "$RUNNER (qemu)" || echo native $(uname -m))"
+echo "inject_magisk: magiskboot = $([ -n "$RUNNER" ] && echo "$RUNNER (qemu)" || echo "native $(uname -m)")"
 
 # 1. Get an uncompressed cpio from whatever we were handed (gz/lz4/xz or raw).
 if MB decompress "$RAMDISK_IN" ramdisk.cpio 2>/dev/null; then
