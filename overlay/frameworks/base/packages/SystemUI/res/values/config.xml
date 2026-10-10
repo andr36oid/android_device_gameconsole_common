@@ -25,8 +25,13 @@
 
     <!-- The default tiles to display in QuickSettings -->
     <string name="quick_settings_tiles_default" translatable="false">
-        wifi,bt,battery,airplane,night,custom(org.andr36oid.buttonmapper/.ProfileTileService)
+        wifi,bt,battery,airplane,night,custom(org.andr36oid.buttonmapper/.ProfileTileService),screenrecord
     </string>
+
+    <!-- Screen recordings at 30 fps. The recorder otherwise uses the panel's refresh rate,
+         which is 68 to 107 Hz on many panels: too much for the software H.264 encoder next
+         to a running emulator, and above what AVC level 3 allows at 640x480. -->
+    <integer name="config_screenRecorderMaxFramerate">30</integer>
 
     <!-- Disable KeyguardSerivce -->
     <bool name="config_enableKeyguardService">false</bool>
