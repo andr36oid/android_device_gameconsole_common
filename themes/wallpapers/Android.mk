@@ -1,6 +1,6 @@
 # The andr36oid wallpapers, drawn by make-wallpapers.py (original art).
 # A wallpaper "partner" package: Styles & wallpapers lists them under
-# On-device wallpapers, and Settings > Display > Console look sets them.
+# On-device wallpapers.
 # Replaces LineageOS' Backgrounds (1080p photos, 2.7 MB on mini builds), as the
 # wallpaper picker only reads one partner package.
 LOCAL_PATH := $(call my-dir)

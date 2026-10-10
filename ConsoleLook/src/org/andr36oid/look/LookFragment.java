@@ -2,72 +2,55 @@ package org.andr36oid.look;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.res.Resources;
 import android.os.Bundle;
-import android.os.PowerManager;
 import android.preference.ListPreference;
+import android.preference.Preference;
 import android.preference.PreferenceFragment;
-import android.text.TextUtils;
-import android.widget.Toast;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.CheckedTextView;
+import android.widget.ImageView;
 
 import java.util.List;
 
-/** Settings > Display > Console look. Each row is a plain list, picked with the d-pad. */
+/** Settings > Personalization. Each row is a plain list, picked with the d-pad. */
 public class LookFragment extends PreferenceFragment {
 
     private static final String DEFAULT = "";
 
-    private ListPreference mAccent, mWallpaper, mSounds, mBootAnim;
+    /** The boot animations, with a frame of each for the picker */
+    private static final String[] BOOTANIM_VALUES = {Looks.BOOTANIM_LINEAGE, Looks.BOOTANIM_RETRO};
+    private static final int[] BOOTANIM_LABELS = {R.string.bootanim_lineage, R.string.bootanim_retro};
+    private static final int[] BOOTANIM_PREVIEWS = {R.drawable.bootanim_lineage, R.drawable.bootanim_retro};
+
+    private ListPreference mAccent, mSounds;
+    private Preference mBootAnim;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.look);
         mAccent = (ListPreference) findPreference("accent");
-        mWallpaper = (ListPreference) findPreference("wallpaper");
         mSounds = (ListPreference) findPreference("sounds");
-        mBootAnim = (ListPreference) findPreference("bootanim");
+        mBootAnim = findPreference("bootanim");
 
         mAccent.setOnPreferenceChangeListener((pref, value) -> {
             // SystemUI applies it; every screen, this one too, redraws in the new colour
             Looks.setAccent(getContext(), (String) value);
             return true;
         });
-        mWallpaper.setOnPreferenceChangeListener((pref, value) -> {
-            final Context context = getContext().getApplicationContext();
-            final String name = (String) value;
-            // Decoding and saving a picture takes a moment, keep it off the UI thread
-            new Thread(() -> {
-                final boolean ok = Looks.setWallpaper(context, name);
-                if (getActivity() == null) return;
-                getActivity().runOnUiThread(() -> {
-                    if (!ok) {
-                        Toast.makeText(context, R.string.wallpaper_failed,
-                                Toast.LENGTH_SHORT).show();
-                    }
-                    if (isAdded()) refresh();
-                });
-            }, "ConsoleLookWallpaper").start();
-            return false;
-        });
         mSounds.setOnPreferenceChangeListener((pref, value) -> {
             final boolean retro = "retro".equals(value);
-            if (retro == Looks.retroSoundsOn(getContext())) return false;
+            if (retro == Looks.retroSoundsOn()) return false;
             Looks.setRetroSounds(getContext(), retro);
             refresh();
-            new AlertDialog.Builder(getContext())
-                    .setTitle(R.string.sounds_restart_title)
-                    .setMessage(R.string.sounds_restart_message)
-                    .setPositiveButton(R.string.restart_now, (d, w) ->
-                            getContext().getSystemService(PowerManager.class).reboot(null))
-                    .setNegativeButton(R.string.later, null)
-                    .show();
             return false;
         });
-        mBootAnim.setOnPreferenceChangeListener((pref, value) -> {
-            Looks.setRetroBootAnimation(Looks.BOOTANIM_RETRO.equals(value));
-            refresh();
-            return false;
+        mBootAnim.setOnPreferenceClickListener(pref -> {
+            showBootAnimations();
+            return true;
         });
     }
 
@@ -75,6 +58,36 @@ public class LookFragment extends PreferenceFragment {
     public void onResume() {
         super.onResume();
         refresh();
+    }
+
+    /** A list like the other rows', with a frame of each animation next to its name. */
+    private void showBootAnimations() {
+        final Context context = getContext();
+        final int current = Looks.retroBootAnimation() ? 1 : 0;
+        final LayoutInflater inflater = LayoutInflater.from(context);
+        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, 0,
+                new String[] {getString(BOOTANIM_LABELS[0]), getString(BOOTANIM_LABELS[1])}) {
+            @Override
+            public View getView(int position, View view, ViewGroup parent) {
+                if (view == null) view = inflater.inflate(R.layout.bootanim_item, parent, false);
+                ((ImageView) view.findViewById(R.id.preview))
+                        .setImageResource(BOOTANIM_PREVIEWS[position]);
+                final CheckedTextView label = view.findViewById(R.id.label);
+                label.setText(getItem(position));
+                label.setChecked(position == current);
+                return view;
+            }
+        };
+        new AlertDialog.Builder(context)
+                .setTitle(R.string.bootanim_title)
+                .setSingleChoiceItems(adapter, current, (dialog, which) -> {
+                    Looks.setRetroBootAnimation(Looks.BOOTANIM_RETRO.equals(
+                            BOOTANIM_VALUES[which]));
+                    dialog.dismiss();
+                    refresh();
+                })
+                .setNegativeButton(android.R.string.cancel, null)
+                .show();
     }
 
     private void refresh() {
@@ -98,47 +111,18 @@ public class LookFragment extends PreferenceFragment {
         mAccent.setValue(accent);
         mAccent.setSummary(accentSummary);
 
-        // Wallpaper
-        final Resources res = Looks.wallpaperResources(context);
-        final String[] names = res == null ? new String[0] : Looks.wallpaperNames(res);
-        final String[] titles = res == null ? new String[0] : Looks.wallpaperTitles(res, names);
-        final CharSequence[] wpLabels = new CharSequence[names.length + 1];
-        final CharSequence[] wpValues = new CharSequence[names.length + 1];
-        wpLabels[0] = getString(R.string.wallpaper_default);
-        wpValues[0] = DEFAULT;
-        for (int i = 0; i < names.length; i++) {
-            wpLabels[i + 1] = titles[i];
-            wpValues[i + 1] = names[i];
-        }
-        mWallpaper.setEntries(wpLabels);
-        mWallpaper.setEntryValues(wpValues);
-        final String wallpaper = Looks.currentWallpaper(context);
-        mWallpaper.setValue(wallpaper);
-        String wpSummary = getString(R.string.wallpaper_other);
-        if (wallpaper != null) {
-            for (int i = 0; i < wpValues.length; i++) {
-                if (TextUtils.equals(wpValues[i], wallpaper)) wpSummary = wpLabels[i].toString();
-            }
-        }
-        mWallpaper.setSummary(wpSummary);
-
         // UI sounds
-        mSounds.setEnabled(Looks.retroSoundsInstalled(context));
+        mSounds.setEnabled(Looks.retroSoundsInstalled());
         mSounds.setEntries(new CharSequence[] {
                 getString(R.string.sounds_android), getString(R.string.sounds_retro)});
         mSounds.setEntryValues(new CharSequence[] {"android", "retro"});
-        final boolean retro = Looks.retroSoundsOn(context);
+        final boolean retro = Looks.retroSoundsOn();
         mSounds.setValue(retro ? "retro" : "android");
         mSounds.setSummary(getString(R.string.sounds_summary,
                 getString(retro ? R.string.sounds_retro : R.string.sounds_android)));
 
         // Boot animation
-        mBootAnim.setEntries(new CharSequence[] {
-                getString(R.string.bootanim_lineage), getString(R.string.bootanim_retro)});
-        mBootAnim.setEntryValues(new CharSequence[] {
-                Looks.BOOTANIM_LINEAGE, Looks.BOOTANIM_RETRO});
         final boolean retroAnim = Looks.retroBootAnimation();
-        mBootAnim.setValue(retroAnim ? Looks.BOOTANIM_RETRO : Looks.BOOTANIM_LINEAGE);
         mBootAnim.setSummary(getString(R.string.bootanim_summary,
                 getString(retroAnim ? R.string.bootanim_retro : R.string.bootanim_lineage)));
     }
