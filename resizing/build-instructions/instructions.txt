@@ -10,3 +10,7 @@ Run:
 Copy the rootfs.cpio.gz from output/images/ and move it to the root of the kernel directory or tweak the defconfig to use your path.
 Build the kernel with resizing_defconfig from its source.
 
+
+Changing only the resizer script (overlay/linuxrc) does not need a rebuild:
+run swap-linuxrc.py (needs pigz). It swaps linuxrc inside prebuilt/Image-resizing.
+Test the size choice with: sh tests/plan_userdata_test.sh
