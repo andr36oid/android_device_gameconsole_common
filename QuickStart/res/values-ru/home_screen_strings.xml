@@ -3,8 +3,8 @@
     <string name="home_screen_title">Главный экран</string>
     <string name="home_screen_summary">Daijishou или Simple UI</string>
     <string name="home_screen_intro">Главный экран открывается кнопкой FN.</string>
-    <string name="home_screen_daijishou_description">Игры по консолям, с обложками</string>
-    <string name="home_screen_launcher_description">Простая сетка приложений. Открытый код.</string>
+    <string name="home_screen_daijishou_description">Больше похоже на Android-консоль.\nИгры по консолям, с обложками</string>
+    <string name="home_screen_launcher_description">Больше похоже на Android TV.\nПростая сетка приложений. Открытый код.</string>
     <string name="home_screen_state_home">Сейчас главный экран</string>
     <string name="home_screen_state_installed">Установлено</string>
     <string name="home_screen_state_removed">Удалено</string>

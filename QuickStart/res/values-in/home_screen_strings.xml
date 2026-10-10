@@ -3,8 +3,8 @@
     <string name="home_screen_title">Layar utama</string>
     <string name="home_screen_summary">Daijishou atau Simple UI</string>
     <string name="home_screen_intro">Layar utama adalah tempat FN membawa Anda.</string>
-    <string name="home_screen_daijishou_description">Game Anda diurutkan per konsol, dengan sampul</string>
-    <string name="home_screen_launcher_description">Kisi aplikasi yang sederhana. Sumber terbuka.</string>
+    <string name="home_screen_daijishou_description">Terasa lebih seperti konsol Android.\nGame Anda diurutkan per konsol, dengan sampul</string>
+    <string name="home_screen_launcher_description">Terasa lebih seperti Android TV.\nKisi aplikasi yang sederhana. Sumber terbuka.</string>
     <string name="home_screen_state_home">Layar utama saat ini</string>
     <string name="home_screen_state_installed">Terpasang</string>
     <string name="home_screen_state_removed">Dihapus</string>

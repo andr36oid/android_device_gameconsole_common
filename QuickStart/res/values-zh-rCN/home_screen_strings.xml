@@ -3,8 +3,8 @@
     <string name="home_screen_title">主屏幕</string>
     <string name="home_screen_summary">Daijishou 或 Simple UI</string>
     <string name="home_screen_intro">按 FN 即可回到主屏幕。</string>
-    <string name="home_screen_daijishou_description">按主机分类的游戏，带封面</string>
-    <string name="home_screen_launcher_description">简洁的应用网格。开源。</string>
+    <string name="home_screen_daijishou_description">更像一台安卓游戏机。\n按主机分类的游戏，带封面</string>
+    <string name="home_screen_launcher_description">更像 Android TV。\n简洁的应用网格。开源。</string>
     <string name="home_screen_state_home">当前主屏幕</string>
     <string name="home_screen_state_installed">已安装</string>
     <string name="home_screen_state_removed">已移除</string>
