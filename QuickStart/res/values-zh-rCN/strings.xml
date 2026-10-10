@@ -105,7 +105,6 @@
     <string name="trouble_first_boot_q">首次启动需要很长时间</string>
     <string name="trouble_first_boot_a">这是正常的。首次启动会设置 SD 卡并自动重启，然后 Android 会准备应用。请等待几分钟，不要关机。</string>
     <string name="trouble_panel_q">首次启动时屏幕一直黑屏，但掌机已开机</string>
-    <string name="trouble_panel_a">您的掌机屏幕与这张卡预设的屏幕不同。在电脑上打开 BOOT，再打开 Panels。从其中一个 Panel 文件夹中复制两个文件到 BOOT 的根目录，并替换那里的文件。Panel4 是默认值，请逐个尝试其他的。</string>
     <string name="trouble_stuck_q">更新或安装 Magisk 模块后无法启动</string>
     <string name="trouble_stuck_a">不使用 root 启动。在电脑上打开 BOOT，把 ramdisk.uimg 重命名为 ramdisk-magisk.uimg，再把 ramdisk-stock.uimg 重命名为 ramdisk.uimg。您的应用和游戏都会保留。之后把名称改回来即可重新获得 root。</string>
     <string name="trouble_frozen_q">掌机卡死了</string>

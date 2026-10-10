@@ -103,7 +103,6 @@
     <string name="trouble_first_boot_q">Pierwsze uruchomienie trwa długo</string>
     <string name="trouble_first_boot_a">To normalne. Pierwsze uruchomienie przygotowuje kartę SD i samo uruchamia konsolę ponownie, potem Android przygotowuje aplikacje. Daj mu kilka minut i nie wyłączaj konsoli.</string>
     <string name="trouble_panel_q">Przy pierwszym uruchomieniu ekran jest czarny, ale konsola jest włączona</string>
-    <string name="trouble_panel_a">Twoja konsola ma inny ekran niż ten, dla którego przygotowano kartę. W komputerze otwórz BOOT, a potem Panels. Skopiuj oba pliki z jednego z folderów Panel do głównego katalogu BOOT i zastąp tamte pliki. Domyślny jest Panel4, więc próbuj po kolei pozostałych.</string>
     <string name="trouble_stuck_q">Konsola przestała się uruchamiać po aktualizacji lub module Magisk</string>
     <string name="trouble_stuck_a">Uruchom ją bez roota. W komputerze otwórz BOOT i zmień nazwę ramdisk.uimg na ramdisk-magisk.uimg, a potem ramdisk-stock.uimg na ramdisk.uimg. Aplikacje i gry zostają. Później przywróć nazwy, aby znów mieć roota.</string>
     <string name="trouble_frozen_q">Konsola się zawiesiła</string>

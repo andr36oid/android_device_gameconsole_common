@@ -105,7 +105,6 @@
     <string name="trouble_first_boot_q">Der erste Start dauert lange</string>
     <string name="trouble_first_boot_a">Das ist normal. Beim ersten Start wird die SD-Karte eingerichtet und die Konsole startet von selbst neu, danach bereitet Android seine Apps vor. Gib ihr ein paar Minuten und schalte sie nicht aus.</string>
     <string name="trouble_panel_q">Beim ersten Start bleibt der Bildschirm schwarz, aber die Konsole ist an</string>
-    <string name="trouble_panel_a">Deine Konsole hat einen anderen Bildschirm als den, für den diese Karte eingerichtet wurde. Öffne am Computer BOOT und dann Panels. Kopiere beide Dateien aus einem der Panel-Ordner nach oben in BOOT und ersetze die Dateien dort. Panel4 ist der Standard, probiere also die anderen nacheinander aus.</string>
     <string name="trouble_stuck_q">Sie startet nach einem Update oder einem Magisk-Modul nicht mehr</string>
     <string name="trouble_stuck_a">Starte sie ohne Root. Öffne am Computer BOOT und benenne ramdisk.uimg in ramdisk-magisk.uimg um, dann ramdisk-stock.uimg in ramdisk.uimg. Deine Apps und Spiele bleiben erhalten. Benenne sie später zurück, um wieder Root zu haben.</string>
     <string name="trouble_frozen_q">Die Konsole ist eingefroren</string>

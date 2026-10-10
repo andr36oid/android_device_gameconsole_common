@@ -105,7 +105,6 @@
     <string name="trouble_first_boot_q">Le premier démarrage est très long</string>
     <string name="trouble_first_boot_a">C\'est normal. Le premier démarrage prépare la carte SD et redémarre tout seul, puis Android prépare ses applis. Patientez quelques minutes et n\'éteignez pas la console.</string>
     <string name="trouble_panel_q">L\'écran reste noir au premier démarrage, mais la console est allumée</string>
-    <string name="trouble_panel_a">Votre console a un autre écran que celui prévu pour cette carte. Sur un ordinateur, ouvrez BOOT, puis Panels. Copiez les deux fichiers de l\'un des dossiers Panel à la racine de BOOT en remplaçant les fichiers existants. Panel4 est celui par défaut, essayez donc les autres un par un.</string>
     <string name="trouble_stuck_q">Elle ne démarre plus après une mise à jour ou un module Magisk</string>
     <string name="trouble_stuck_a">Démarrez-la sans root. Sur un ordinateur, ouvrez BOOT et renommez ramdisk.uimg en ramdisk-magisk.uimg, puis ramdisk-stock.uimg en ramdisk.uimg. Vos applis et jeux sont conservés. Renommez-les plus tard dans l\'autre sens pour retrouver le root.</string>
     <string name="trouble_frozen_q">La console est figée</string>

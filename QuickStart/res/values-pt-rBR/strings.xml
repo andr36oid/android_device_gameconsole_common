@@ -105,7 +105,6 @@
     <string name="trouble_first_boot_q">O primeiro início demora muito</string>
     <string name="trouble_first_boot_a">Isso é normal. O primeiro início prepara o cartão SD e reinicia sozinho, depois o Android prepara os apps. Espere alguns minutos e não desligue.</string>
     <string name="trouble_panel_q">A tela fica preta no primeiro início, mas o console está ligado</string>
-    <string name="trouble_panel_a">Seu console tem uma tela diferente daquela para a qual este cartão foi preparado. No computador, abra BOOT e depois Panels. Copie os dois arquivos de uma das pastas Panel para a raiz do BOOT, substituindo os que estão lá. Panel4 é o padrão, então teste as outras uma por vez.</string>
     <string name="trouble_stuck_q">Parou de iniciar depois de uma atualização ou de um módulo do Magisk</string>
     <string name="trouble_stuck_a">Inicie sem root. No computador, abra BOOT e renomeie ramdisk.uimg para ramdisk-magisk.uimg, depois renomeie ramdisk-stock.uimg para ramdisk.uimg. Seus apps e jogos continuam lá. Renomeie de volta depois para ter root de novo.</string>
     <string name="trouble_frozen_q">O console travou</string>

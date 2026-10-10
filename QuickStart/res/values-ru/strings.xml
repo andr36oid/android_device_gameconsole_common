@@ -105,7 +105,6 @@
     <string name="trouble_first_boot_q">Первый запуск идёт очень долго</string>
     <string name="trouble_first_boot_a">Это нормально. При первом запуске консоль подготавливает SD-карту и сама перезапускается, затем Android готовит свои приложения. Подождите несколько минут и не выключайте её.</string>
     <string name="trouble_panel_q">При первом запуске экран остаётся чёрным, хотя консоль включена</string>
-    <string name="trouble_panel_a">В вашей консоли другой экран, не тот, для которого подготовлена эта карта. На компьютере откройте BOOT, затем Panels. Скопируйте оба файла из одной из папок Panel в корень BOOT с заменой. Panel4 — вариант по умолчанию, так что пробуйте остальные по одной.</string>
     <string name="trouble_stuck_q">Перестала запускаться после обновления или модуля Magisk</string>
     <string name="trouble_stuck_a">Запустите её без root. На компьютере откройте BOOT и переименуйте ramdisk.uimg в ramdisk-magisk.uimg, затем ramdisk-stock.uimg в ramdisk.uimg. Приложения и игры останутся. Чтобы вернуть root, позже переименуйте их обратно.</string>
     <string name="trouble_frozen_q">Консоль зависла</string>
