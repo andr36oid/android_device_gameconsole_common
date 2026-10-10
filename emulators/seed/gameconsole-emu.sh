@@ -1646,6 +1646,15 @@ DJ_DB=$DJ_DATA/databases/Daijishou.db
 DJ_PREFS=$DJ_DATA/shared_prefs/${DJ_PKG}_preferences.xml
 DJ_SEED=$BASE/daijishou/daijishou-seed.txt
 DJ_SCHEMA=$BASE/daijishou/schema.sql
+# Daijishou's home page (widgets page) on the first start: app shortcuts, in this
+# order (Files is documentsui). Set up like that on a console by hand, then copied
+# from its Widget.db. An app that isn't installed is left out.
+DJ_WIDGET_DB=$DJ_DATA/databases/Widget.db
+DJ_WIDGET_SCHEMA=$BASE/daijishou/widget-schema.sql
+DJ_WIDGETS='com.retroarch/com.retroarch.browser.mainmenu.MainMenuActivity
+com.android.documentsui/com.android.documentsui.LauncherActivity
+org.videolan.vlc/org.videolan.vlc.StartActivity
+com.android.settings/com.android.settings.Settings'
 # the systems' pictures (COLORFUL, Daijishou's default pack), see
 # scripts/fetch-daijishou-art.py
 DJ_ART=$BASE/daijishou/art
@@ -1906,6 +1915,41 @@ daijishou_ready() {
 		log "couldn't tell the guide that Daijishou is ready"
 }
 
+# dj_widgets <tmp dir> <owner> ; Daijishou's widgets (DJ_WIDGETS) in a new Widget.db,
+# with Daijishou stopped. A Widget.db with widgets in it, or one that can't be read,
+# is the user's and stays.
+dj_widgets() {
+	local db=$1/Widget.db now c pos=0 n
+	[ -f "$DJ_WIDGET_SCHEMA" ] || return 0
+	if [ -e "$DJ_WIDGET_DB" ]; then
+		# read on a copy: sqlite as root would leave root's -shm next to Daijishou's
+		cp "$DJ_WIDGET_DB" "$1/check.db" 2>/dev/null || return 0
+		[ -e "$DJ_WIDGET_DB-wal" ] && cp "$DJ_WIDGET_DB-wal" "$1/check.db-wal" 2>/dev/null
+		n=$("$SQLITE" "$1/check.db" "SELECT count(*) FROM WidgetInstanceEntity;" 2>/dev/null)
+		[ "$n" = 0 ] || return 0
+	fi
+	now=$(date +%s)000
+	{
+		cat "$DJ_WIDGET_SCHEMA"
+		for c in $DJ_WIDGETS; do
+			[ -n "$(installed_vc "${c%%/*}")" ] || continue
+			pos=$((pos + 1))
+			echo "INSERT INTO AppShortcutWidgetInstanceEntity (id, resolve_info_string_id, alternative_image_path, last_update_timestamp) VALUES ($pos, '$c', NULL, $now);"
+			echo "INSERT INTO WidgetInstanceEntity (id, widget_id, widget_instance_id, added_date_timestamp, position) VALUES ($pos, 'app_shortcut', $pos, $now, $((pos - 1)));"
+		done
+	} >"$1/widgets.sql"
+	[ $pos -gt 0 ] || return 0
+	if ! "$SQLITE" -bail "$db" <"$1/widgets.sql"; then
+		log "making Daijishou's widgets failed"
+		return 0
+	fi
+	chown "$2" "$db"
+	chmod 0660 "$db"
+	rm -f "$DJ_WIDGET_DB-wal" "$DJ_WIDGET_DB-shm" "$DJ_WIDGET_DB-journal"
+	mv -f "$db" "$DJ_WIDGET_DB"
+	log "added $pos app shortcuts to Daijishou's home page"
+}
+
 # seed_daijishou: fills Daijishou's library before its first start, or right
 # after it if Daijishou came up before EASYROMS did and its library is still
 # empty. Only once, never over a library with a system or game in it, and only
@@ -2007,6 +2051,7 @@ seed_daijishou() {
 	chmod 0660 "$tmp/Daijishou.db"
 	mv -f "$tmp/Daijishou.db" "$DJ_DB"
 	dj_art "$tmp/art.list" "$owner"
+	dj_widgets "$tmp" "$owner"
 	if [ ! -e "$DJ_PREFS" ]; then
 		mkdir -p "${DJ_PREFS%/*}"
 		chown "$owner" "${DJ_PREFS%/*}"

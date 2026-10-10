@@ -18,7 +18,8 @@ LOCAL_MODULE_STEM := gameconsole-emu.sh
 LOCAL_SRC_FILES := seed/gameconsole-emu.sh
 LOCAL_INIT_RC := seed/gameconsole-emu.rc
 LOCAL_REQUIRED_MODULES := gameconsole-preinstall-list gameconsole-rom-folders \
-    gameconsole-daijishou-seed gameconsole-daijishou-schema
+    gameconsole-daijishou-seed gameconsole-daijishou-schema \
+    gameconsole-daijishou-widget-schema
 include $(BUILD_PREBUILT)
 
 # ROM folders the service makes on a fresh EASYROMS partition
@@ -51,6 +52,16 @@ LOCAL_MODULE_TAGS := optional
 LOCAL_MODULE_RELATIVE_PATH := gameconsole/daijishou
 LOCAL_MODULE_STEM := schema.sql
 LOCAL_SRC_FILES := daijishou/schema.sql
+include $(BUILD_PREBUILT)
+
+# Daijishou's widget database schema, for the home page's app shortcuts
+include $(CLEAR_VARS)
+LOCAL_MODULE := gameconsole-daijishou-widget-schema
+LOCAL_MODULE_CLASS := ETC
+LOCAL_MODULE_TAGS := optional
+LOCAL_MODULE_RELATIVE_PATH := gameconsole/daijishou
+LOCAL_MODULE_STEM := widget-schema.sql
+LOCAL_SRC_FILES := daijishou/widget-schema.sql
 include $(BUILD_PREBUILT)
 
 include $(CLEAR_VARS)

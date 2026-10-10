@@ -42,6 +42,11 @@ if [ -f "$APK" ]; then
 	else
 		fail "schema.sql doesn't match the APK"
 	fi
+	if python3 "$HERE/checkschema.py" "$APK" "$EMU/daijishou/widget-schema.sql"; then
+		pass "widget-schema.sql matches $(basename "$APK")"
+	else
+		fail "widget-schema.sql doesn't match the APK"
+	fi
 else
 	echo "skip schema check, no $APK"
 fi

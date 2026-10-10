@@ -30,6 +30,9 @@ setup() {
 	DJ_PREFS=$DJ_DATA/shared_prefs/${DJ_PKG}_preferences.xml
 	DJ_SEED=$EMU/daijishou/daijishou-seed.txt
 	DJ_SCHEMA=$EMU/daijishou/schema.sql
+	DJ_WIDGET_DB=$DJ_DATA/databases/Widget.db
+	DJ_WIDGET_SCHEMA=$EMU/daijishou/widget-schema.sql
+	WIDGET_APPS="com.retroarch com.android.documentsui org.videolan.vlc com.android.settings"
 	DJ_ART=$EMU/daijishou/art
 	DJ_DONE=$STATE/daijishou.done
 	DJ_SEEDED=$STATE/daijishou.seeded
@@ -61,6 +64,7 @@ installed_vc() {
 	case $1 in
 	"$DJ_PKG") echo "$DJ_VC" ;;
 	org.ppsspp.ppsspp) case ",$APPS," in *",$1,"*) echo 119030000 ;; esac ;;
+	*) case " $WIDGET_APPS " in *" $1 "*) echo 1 ;; esac ;;
 	esac
 }
 pidof() { [ -e "$T/running" ]; }
@@ -487,5 +491,30 @@ seed_daijishou
 [ "$(sqlite3 "$DJ_DB" "SELECT wallpaper_path IS NULL FROM PlatformEntity WHERE unique_id = 'nes'")" = 1 ] &&
 	[ "$(sqlite3 "$DJ_DB" "SELECT count(*) FROM PlatformEntity WHERE wallpaper_path IS NOT NULL")" -gt 0 ] &&
 	ok "pictures: a missing one leaves only that system plain" || bad "missing picture"
+
+# 21. widgets: Daijishou's home page gets the app shortcuts in order; a missing app is
+# left out without a gap; widgets the user has are kept
+widgets() { sqlite3 "$DJ_WIDGET_DB" "SELECT w.position || ' ' || a.resolve_info_string_id FROM WidgetInstanceEntity w JOIN AppShortcutWidgetInstanceEntity a ON a.id = w.widget_instance_id WHERE w.widget_id = 'app_shortcut' ORDER BY w.position" | tr '\n' ' '; }
+setup "" ""
+daijishou_grants
+seed_daijishou
+[ "$(widgets)" = "0 com.retroarch/com.retroarch.browser.mainmenu.MainMenuActivity 1 com.android.documentsui/com.android.documentsui.LauncherActivity 2 org.videolan.vlc/org.videolan.vlc.StartActivity 3 com.android.settings/com.android.settings.Settings " ] &&
+	[ "$(sqlite3 "$DJ_WIDGET_DB" 'PRAGMA user_version')" = 8 ] &&
+	ok "widgets: RetroArch, Files, VLC, Settings" || bad "widgets: $(widgets)"
+setup "" ""
+WIDGET_APPS="com.retroarch com.android.documentsui com.android.settings"
+daijishou_grants
+seed_daijishou
+[ "$(widgets)" = "0 com.retroarch/com.retroarch.browser.mainmenu.MainMenuActivity 1 com.android.documentsui/com.android.documentsui.LauncherActivity 2 com.android.settings/com.android.settings.Settings " ] &&
+	ok "widgets: no VLC, no gap" || bad "widgets without VLC: $(widgets)"
+setup "" ""
+mkdir -p "${DJ_WIDGET_DB%/*}"
+sqlite3 "$DJ_WIDGET_DB" <"$DJ_WIDGET_SCHEMA"
+sqlite3 "$DJ_WIDGET_DB" "INSERT INTO WidgetInstanceEntity VALUES (1, 'rss', 1, 1, 0)"
+cp "$DJ_WIDGET_DB" "$T/widget.before"
+daijishou_grants
+seed_daijishou
+cmp -s "$DJ_WIDGET_DB" "$T/widget.before" && [ ! -e "$DJ_WIDGET_DB-shm" ] &&
+	ok "widgets: the user's are kept, no -shm left" || bad "widgets of the user"
 
 [ $fails -eq 0 ]
