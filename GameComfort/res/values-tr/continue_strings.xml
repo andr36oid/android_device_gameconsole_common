@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Continue playing: Quick Settings tile, FN + A, power menu, and the Game mode page -->
+    <string name="continue_title">Devam et</string>
+    <string name="continue_tile_none">Henüz oyun yok</string>
+    <string name="continue_category">Oynamaya devam et</string>
+    <string name="continue_now">Devam et: <xliff:g id="game">%1$s</xliff:g></string>
+    <string name="continue_now_none">Henüz oyun oynanmadı</string>
+    <string name="continue_now_ppsspp">PPSSPP</string>
+    <string name="continue_now_app">Android oyunu</string>
+    <string name="continue_on_boot">Yeniden başlatınca tekrar aç</string>
+    <string name="continue_on_boot_summary">Konsol kapandığında, pil bittiği için bile olsa, bir oyun açıksa ana ekrandan yaklaşık 10 saniye sonra yeniden açılır</string>
+    <string name="continue_about">Devam et, oynadığınız son oyunu tek basışla geri getirir: Hızlı Ayarlar\'daki Devam et kutusu, FN + A veya güç menüsü.\n\nHâlâ açık olan bir oyun tam bıraktığınız yerden geri gelir. Yoksa RetroArch ve PPSSPP aynı oyunu yeniden başlatır, RetroArch aynı çekirdekle; diğer oyunlar sadece yeniden açılır.\n\nOyunun kendi son kaydından devam edersiniz. RetroArch bunu değiştiğinde her 10 saniyede bir yazar. Kayıt durumları sizin yerinize asla yüklenmez veya yazılmaz: en yeni kayıt durumunuz oyunun kendi kaydından daha yeniyse bir mesaj size bunu söyler.</string>
+    <string name="continue_nothing">Henüz devam edilecek oyun yok</string>
+    <string name="continue_game_missing"><xliff:g id="game">%1$s</xliff:g> oyun dosyası bulunamıyor. SD kart takılı mı?</string>
+    <string name="continue_core_missing"><xliff:g id="game">%1$s</xliff:g> için RetroArch çekirdeği artık yüklü değil</string>
+    <string name="continue_failed"><xliff:g id="game">%1$s</xliff:g> başlatılamadı</string>
+    <string name="continue_starting"><xliff:g id="game">%1$s</xliff:g> devam ediyor</string>
+    <string name="continue_state_hint"><xliff:g id="game">%1$s</xliff:g> devam ediyor. En yeni kayıt durumunuz (<xliff:g id="slot">%2$s</xliff:g>) oyunun kendi kaydından daha yeni. Onu kullanmak için RetroArch menüsünde yükleyin (Select + X).</string>
+    <string name="continue_slot"><xliff:g id="slot">%1$d</xliff:g>. yuva</string>
+    <string name="continue_slot_auto">otomatik olan</string>
+</resources>

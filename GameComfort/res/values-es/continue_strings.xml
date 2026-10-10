@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Continue playing: Quick Settings tile, FN + A, power menu, and the Game mode page -->
+    <string name="continue_title">Continuar</string>
+    <string name="continue_tile_none">Aún no hay juego</string>
+    <string name="continue_category">Seguir jugando</string>
+    <string name="continue_now">Continuar: <xliff:g id="game">%1$s</xliff:g></string>
+    <string name="continue_now_none">Aún no has jugado a nada</string>
+    <string name="continue_now_ppsspp">PPSSPP</string>
+    <string name="continue_now_app">Juego de Android</string>
+    <string name="continue_on_boot">Volver a abrirlo tras reiniciar</string>
+    <string name="continue_on_boot_summary">Si había un juego abierto cuando se apagó la consola, incluso por quedarse sin batería, se vuelve a abrir unos 10 segundos después de que aparezca la pantalla de inicio</string>
+    <string name="continue_about">Continuar te lleva de vuelta, con una sola pulsación, al último juego al que jugaste: el icono Continuar de Ajustes rápidos, FN + A o el menú de encendido.\n\nUn juego que sigue abierto vuelve justo donde lo dejaste. Si no, RetroArch y PPSSPP inician de nuevo el mismo juego, RetroArch con el mismo núcleo; los demás juegos simplemente se vuelven a abrir.\n\nSigues desde la última partida guardada del propio juego. RetroArch la escribe cada 10 segundos cuando cambia. Continuar nunca carga ni crea guardados rápidos por ti: si tu guardado rápido más reciente es más nuevo que la partida guardada del juego, un mensaje te avisa.</string>
+    <string name="continue_nothing">Aún no hay ningún juego que continuar</string>
+    <string name="continue_game_missing">No se encuentra el archivo del juego <xliff:g id="game">%1$s</xliff:g>. ¿Está puesta la tarjeta SD?</string>
+    <string name="continue_core_missing">El núcleo de RetroArch para <xliff:g id="game">%1$s</xliff:g> ya no está instalado</string>
+    <string name="continue_failed">No se ha podido iniciar <xliff:g id="game">%1$s</xliff:g></string>
+    <string name="continue_starting">Continuando <xliff:g id="game">%1$s</xliff:g></string>
+    <string name="continue_state_hint">Continuando <xliff:g id="game">%1$s</xliff:g>. Tu guardado rápido más reciente (<xliff:g id="slot">%2$s</xliff:g>) es más nuevo que la partida guardada del juego. Para usarlo, cárgalo en el menú de RetroArch (Select + X).</string>
+    <string name="continue_slot">ranura <xliff:g id="slot">%1$d</xliff:g></string>
+    <string name="continue_slot_auto">el automático</string>
+</resources>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Continue playing: Quick Settings tile, FN + A, power menu, and the Game mode page -->
+    <string name="continue_title">Graj dalej</string>
+    <string name="continue_tile_none">Brak gry</string>
+    <string name="continue_category">Graj dalej</string>
+    <string name="continue_now">Graj dalej: <xliff:g id="game">%1$s</xliff:g></string>
+    <string name="continue_now_none">Brak ostatniej gry</string>
+    <string name="continue_now_ppsspp">PPSSPP</string>
+    <string name="continue_now_app">Gra na Androida</string>
+    <string name="continue_on_boot">Otwórz ją znowu po ponownym uruchomieniu</string>
+    <string name="continue_on_boot_summary">Jeśli gra była otwarta, gdy konsola się wyłączyła, także gdy padła bateria, otworzy się znowu około 10 sekund po pojawieniu się ekranu głównego</string>
+    <string name="continue_about">Graj dalej jednym naciśnięciem przywraca ostatnio uruchomioną grę: kafelek Graj dalej w Szybkich ustawieniach, FN + A lub menu zasilania.\n\nGra, która jest nadal otwarta, wraca dokładnie do miejsca, w którym była. W przeciwnym razie RetroArch i PPSSPP uruchamiają tę samą grę ponownie, RetroArch z tym samym rdzeniem; inne gry po prostu otwierają się ponownie.\n\nGrasz dalej od ostatniego zapisu samej gry. RetroArch zapisuje go co 10 sekund, gdy się zmienia. Stany zapisu nigdy nie są wczytywane ani zapisywane za ciebie: jeśli twój najnowszy stan zapisu jest nowszy niż zapis gry, zobaczysz komunikat.</string>
+    <string name="continue_nothing">Brak gry do kontynuowania</string>
+    <string name="continue_game_missing">Nie można znaleźć pliku gry <xliff:g id="game">%1$s</xliff:g>. Czy karta SD jest włożona?</string>
+    <string name="continue_core_missing">Rdzeń RetroArch dla gry <xliff:g id="game">%1$s</xliff:g> nie jest już zainstalowany</string>
+    <string name="continue_failed">Nie udało się uruchomić gry <xliff:g id="game">%1$s</xliff:g></string>
+    <string name="continue_starting">Wracasz do gry <xliff:g id="game">%1$s</xliff:g></string>
+    <string name="continue_state_hint">Wracasz do gry <xliff:g id="game">%1$s</xliff:g>. Twój najnowszy stan zapisu (<xliff:g id="slot">%2$s</xliff:g>) jest nowszy niż zapis gry. Aby go użyć, wczytaj go w menu RetroArch (Select + X).</string>
+    <string name="continue_slot">slot <xliff:g id="slot">%1$d</xliff:g></string>
+    <string name="continue_slot_auto">automatyczny</string>
+</resources>

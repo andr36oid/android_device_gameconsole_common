@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Continue playing: Quick Settings tile, FN + A, power menu, and the Game mode page -->
+    <string name="continue_title">Reprendre</string>
+    <string name="continue_tile_none">Aucun jeu</string>
+    <string name="continue_category">Reprendre la partie</string>
+    <string name="continue_now">Reprendre : <xliff:g id="game">%1$s</xliff:g></string>
+    <string name="continue_now_none">Aucun jeu lancé pour l\'instant</string>
+    <string name="continue_now_ppsspp">PPSSPP</string>
+    <string name="continue_now_app">Jeu Android</string>
+    <string name="continue_on_boot">Rouvrir après un redémarrage</string>
+    <string name="continue_on_boot_summary">Si un jeu était ouvert quand la console s\'est éteinte, même quand la batterie s\'est vidée, il se rouvre environ 10 secondes après l\'écran d\'accueil</string>
+    <string name="continue_about">Reprendre ramène le dernier jeu auquel vous avez joué, en une seule pression : la tuile Reprendre des Réglages rapides, FN + A, ou le menu Marche/Arrêt.\n\nUn jeu encore ouvert revient exactement là où vous l\'avez laissé. Sinon, RetroArch et PPSSPP relancent le même jeu, RetroArch avec le même core ; les autres jeux se rouvrent simplement.\n\nVous repartez de la dernière sauvegarde du jeu lui-même. RetroArch l\'écrit toutes les 10 secondes quand elle change. Les états de sauvegarde ne sont jamais chargés ni écrits à votre place : si votre état de sauvegarde le plus récent est plus récent que la sauvegarde du jeu, un message vous le signale.</string>
+    <string name="continue_nothing">Aucun jeu à reprendre pour l\'instant</string>
+    <string name="continue_game_missing">Fichier du jeu introuvable pour <xliff:g id="game">%1$s</xliff:g>. La carte SD est-elle insérée ?</string>
+    <string name="continue_core_missing">Le core RetroArch de <xliff:g id="game">%1$s</xliff:g> n\'est plus installé</string>
+    <string name="continue_failed">Impossible de lancer <xliff:g id="game">%1$s</xliff:g></string>
+    <string name="continue_starting">Reprise de <xliff:g id="game">%1$s</xliff:g></string>
+    <string name="continue_state_hint">Reprise de <xliff:g id="game">%1$s</xliff:g>. Votre état de sauvegarde le plus récent (<xliff:g id="slot">%2$s</xliff:g>) est plus récent que la sauvegarde du jeu. Pour l\'utiliser, chargez-le dans le menu de RetroArch (Select + X).</string>
+    <string name="continue_slot">emplacement <xliff:g id="slot">%1$d</xliff:g></string>
+    <string name="continue_slot_auto">l\'automatique</string>
+</resources>
