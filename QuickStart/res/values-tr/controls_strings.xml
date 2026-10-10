@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The guide's button chapters. See values/controls_strings.xml -->
+<resources>
+    <string name="controls_topic_console">Konsol</string>
+    <string name="controls_topic_system">Sistem</string>
+    <string name="controls_topic_retroarch">Oyunlarda (RetroArch)</string>
+    <string name="controls_topic_emulators">Diğer emülatörler</string>
+    <string name="controls_topic_mouse">Fare modu</string>
+    <string name="controls_console_top">Konsolun üstünde çizilen tuşlar üst kenarındadır.</string>
+    <string name="controls_console_labels">Tuşların adları konsolun üzerinde yazdığı gibidir. Bazı klon konsollarda tuşlar başka yerlerdedir.</string>
+    <string name="controls_start">A gibi onaylar</string>
+    <string name="controls_dpad">Menülerde ve listelerde gezinir</string>
+    <string name="controls_console_swap">Bazı Soy Sauce klonlarında (253x partisi) FN ve SELECT yer değiştirmiştir. FN, SELECT gibi çalışıyorsa SD kartın 253x dosyalarına ihtiyacı vardır: BOOT sürücüsündeki Experimental/README.txt dosyasına bakın.</string>
+    <string name="controls_fn_hold">Tek başına basılı tutun: FN kısayollarını gösterir</string>
+    <string name="controls_heading_power">Güç ve ses</string>
+    <string name="controls_power_off">Yaklaşık 10 saniye basılı tutun: donan konsolu kapatır</string>
+    <string name="controls_remap_reset">İkisini 5 saniye basılı tutun: tüm tuşlar normale döner</string>
+    <string name="controls_ra_intro">Select tuşunu basılı tutup ikinci tuşa basın. RetroArch bu kısayolları ilk kurulduğunda alır. Kendi değiştirdiğiniz kısayollar korunur.</string>
+    <string name="controls_quit_twice">Oyundan çık (Start tuşuna iki kez basın)</string>
+    <string name="controls_save_state">Hızlı kayıt</string>
+    <string name="controls_load_state">Hızlı kaydı yükle</string>
+    <string name="controls_slot">Önceki / sonraki yuva</string>
+    <string name="controls_menu">Emülatör menüsü</string>
+    <string name="controls_pause">Duraklat / devam et</string>
+    <string name="controls_reset_twice">Oyunu yeniden başlat (B tuşuna iki kez basın)</string>
+    <string name="controls_reset">Oyunu yeniden başlat</string>
+    <string name="controls_screenshot">Ekran görüntüsü</string>
+    <string name="controls_ff_toggle">Hızlı ileri aç / kapat</string>
+    <string name="controls_ff_hold">Basılı tutulduğu sürece hızlı ileri</string>
+    <string name="controls_ra_fn">FN ana ekrana gider ve oyunu duraklatır. Önce kaydedin: Bellek azaldığında Android duraklatılmış bir oyunu kapatabilir.</string>
+    <string name="controls_emulators_intro">Uygulama izin veriyorsa tuşlar RetroArch ile aynıdır: Select tuşunu basılı tutup ikinci tuşa basın.</string>
+    <string name="controls_quit_ask">Çık (oyun kaydedilmediyse önce sorar)</string>
+    <string name="controls_quit">Oyundan çık</string>
+    <string name="controls_ppsspp_passthrough">Oyun da Select ve ikinci tuşu algılar.</string>
+    <string name="controls_flycast_note">Flycast\'te yeniden başlatma tuşu yoktur. Arcade oyunlarında Select aynı zamanda jeton tuşudur.</string>
+    <string name="controls_menu_n64">Menü: kaydet, yükle, yeniden başlat, çık</string>
+    <string name="controls_menu_easyrpg">Menü, Exit Game seçeneğiyle</string>
+    <string name="controls_emulators_changed">Bu tuşlar her uygulama ilk kez açıldığında ayarlanır. Bir uygulamada kendiniz değiştirdiğiniz tuş ayarları korunur.</string>
+    <string name="controls_mouse_intro">Fare modu, dokunmatik ekran için yapılmış uygulamalar için ekrana bir işaretçi getirir.</string>
+    <string name="controls_mouse_precision">Basılı tutun: küçük hedefler için yavaş işaretçi</string>
+    <string name="controls_mouse_scroll">Basılı tutun: işaretçi analoğu kaydırır</string>
+</resources>

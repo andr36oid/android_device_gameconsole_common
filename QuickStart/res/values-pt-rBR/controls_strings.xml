@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The guide's button chapters. See values/controls_strings.xml -->
+<resources>
+    <string name="controls_topic_console">O console</string>
+    <string name="controls_topic_system">Sistema</string>
+    <string name="controls_topic_retroarch">Nos jogos (RetroArch)</string>
+    <string name="controls_topic_emulators">Outros emuladores</string>
+    <string name="controls_topic_mouse">Modo mouse</string>
+    <string name="controls_console_top">Os botões desenhados acima do console ficam na borda de cima.</string>
+    <string name="controls_console_labels">Os botões têm o nome impresso no console. Em alguns consoles clones eles ficam em outros lugares.</string>
+    <string name="controls_start">Confirmar, como o A</string>
+    <string name="controls_dpad">Navegar por menus e listas</string>
+    <string name="controls_console_swap">Alguns clones Soy Sauce (lote 253x) têm FN e SELECT trocados. Se o FN funcionar como SELECT, o cartão SD precisa dos arquivos 253x: veja Experimental/README.txt no drive BOOT.</string>
+    <string name="controls_fn_hold">Segure sozinho: mostra os atalhos com FN</string>
+    <string name="controls_heading_power">Energia e volume</string>
+    <string name="controls_power_off">Segure uns 10 segundos: desliga um console travado</string>
+    <string name="controls_remap_reset">Segure os dois por 5 segundos: todos os botões voltam ao normal</string>
+    <string name="controls_ra_intro">Segure Select e aperte o segundo botão. O RetroArch recebe esses atalhos quando é configurado pela primeira vez. Atalhos que você mesmo mudou continuam.</string>
+    <string name="controls_quit_twice">Sair do jogo (aperte Start duas vezes)</string>
+    <string name="controls_save_state">Fazer save state</string>
+    <string name="controls_load_state">Carregar save state</string>
+    <string name="controls_slot">Slot anterior / próximo</string>
+    <string name="controls_menu">Menu do emulador</string>
+    <string name="controls_pause">Pausar / continuar</string>
+    <string name="controls_reset_twice">Reiniciar o jogo (aperte B duas vezes)</string>
+    <string name="controls_reset">Reiniciar o jogo</string>
+    <string name="controls_screenshot">Captura de tela</string>
+    <string name="controls_ff_toggle">Avanço rápido liga / desliga</string>
+    <string name="controls_ff_hold">Avanço rápido enquanto segura</string>
+    <string name="controls_ra_fn">FN vai para a tela inicial e pausa o jogo. Salve antes: o Android pode fechar um jogo pausado quando falta memória.</string>
+    <string name="controls_emulators_intro">Quando o app permite, os botões são os mesmos do RetroArch: segure Select e aperte o segundo botão.</string>
+    <string name="controls_quit_ask">Sair (pergunta antes se o jogo não foi salvo)</string>
+    <string name="controls_quit">Sair do jogo</string>
+    <string name="controls_ppsspp_passthrough">O jogo também recebe o Select e o segundo botão.</string>
+    <string name="controls_flycast_note">O Flycast não tem botão de reiniciar. Nos jogos de arcade, o Select também é o botão de ficha.</string>
+    <string name="controls_menu_n64">Menu: salvar, carregar, reiniciar, sair</string>
+    <string name="controls_menu_easyrpg">Menu, com Exit Game</string>
+    <string name="controls_emulators_changed">Esses botões são configurados na primeira vez que cada app é aberto. Configurações de botões que você mudou em um app continuam.</string>
+    <string name="controls_mouse_intro">O modo mouse coloca um ponteiro na tela, para apps feitos para tela sensível ao toque.</string>
+    <string name="controls_mouse_precision">Segurar: ponteiro lento, para alvos pequenos</string>
+    <string name="controls_mouse_scroll">Segurar: o analógico do ponteiro rola a tela</string>
+</resources>

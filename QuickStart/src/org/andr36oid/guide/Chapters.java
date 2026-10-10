@@ -24,6 +24,8 @@ final class Chapters {
         final boolean heading;
         // A picture shown under the text before it (0 = none), e.g. a QR code
         final int image;
+        // The drawing of the console instead of text
+        final boolean drawing;
 
         Item(List<String> keys, CharSequence text) {
             this(keys, text, false);
@@ -38,6 +40,20 @@ final class Chapters {
             this.text = text;
             this.heading = heading;
             this.image = image;
+            this.drawing = false;
+        }
+
+        private Item() {
+            this.keys = new ArrayList<>();
+            this.text = "";
+            this.heading = false;
+            this.image = 0;
+            this.drawing = true;
+        }
+
+        /** The drawing of the console, in the button chapters. */
+        static Item drawing() {
+            return new Item();
         }
 
         boolean isParagraph() {
@@ -71,11 +87,6 @@ final class Chapters {
                 SystemProperties.getBoolean("ro.andr36oid.daijishou_platforms", false);
         final boolean profiles = hasComponent(new ComponentName("org.andr36oid.cpuoverclock",
                 "org.andr36oid.cpuoverclock.ProfileTileService"));
-        final boolean fnHelp = fnShortcuts
-                && SystemProperties.getBoolean("ro.andr36oid.fn_help", false);
-        final boolean fnOverlay = fnShortcuts
-                && SystemProperties.getBoolean("ro.andr36oid.fn_overlay", false)
-                && hasPackage("org.andr36oid.perfoverlay");
         final boolean usbMode = hasPackage("org.andr36oid.usbmode");
         final boolean batteryDetails = hasPackage("org.andr36oid.batterydetails");
         final boolean magisk = hasPackage("com.topjohnwu.magisk");
@@ -84,7 +95,6 @@ final class Chapters {
         final boolean touchControls = hasPackage("org.andr36oid.touchmapper");
         final String dpad = s(R.string.key_dpad);
         final String power = s(R.string.key_power);
-        final String volume = s(R.string.key_volume);
         final List<Chapter> chapters = new ArrayList<>();
 
         Chapter c = chapter(R.string.welcome_title, chapters);
@@ -96,37 +106,9 @@ final class Chapters {
         row(c, R.string.welcome_close, "B");
         para(c, R.string.welcome_again);
 
-        c = chapter(R.string.buttons_title, chapters);
-        row(c, R.string.buttons_a, "A");
-        row(c, R.string.buttons_b, "B");
-        row(c, R.string.buttons_fn, "FN");
-        row(c, R.string.buttons_power_tap, power);
-        row(c, R.string.buttons_power_hold, power);
-        row(c, R.string.buttons_volume, volume + "+ / " + volume + "−");
-        row(c, R.string.buttons_select, "Select");
-        para(c, R.string.buttons_stick);
-
-        if (fnShortcuts) {
-            c = chapter(R.string.shortcuts_title, chapters);
-            para(c, R.string.shortcuts_intro);
-            row(c, R.string.shortcuts_brightness, "FN", volume + "+ / " + volume + "−");
-            row(c, R.string.shortcuts_screenshot, "FN", "Start");
-            row(c, R.string.shortcuts_last_app, "FN", "Select");
-            row(c, R.string.shortcuts_panel, "FN", "Y");
-            row(c, R.string.shortcuts_mouse, "FN", "X");
-            if (profiles) {
-                row(c, R.string.shortcuts_profile, "FN", "R1");
-            }
-            if (fnOverlay) {
-                row(c, R.string.shortcuts_overlay, "FN", "L2");
-            }
-            if (touchControls) {
-                row(c, R.string.shortcuts_touch, "FN", "L1");
-            }
-            if (fnHelp) {
-                para(c, R.string.shortcuts_hold_help);
-            }
-        }
+        // The buttons, the FN shortcuts, the emulator hotkeys and mouse mode, with a drawing of
+        // the console: res/raw/controls.txt, checked against the build
+        chapters.addAll(Controls.build(mContext));
 
         c = chapter(R.string.games_title, chapters);
         para(c, R.string.games_where);
@@ -160,16 +142,6 @@ final class Chapters {
             para(c, R.string.speed_overclock_alone);
         }
         para(c, R.string.speed_screen);
-
-        c = chapter(R.string.mouse_title, chapters);
-        row(c, R.string.mouse_toggle, "L3", "R3");
-        row(c, R.string.mouse_pointer, s(R.string.key_right_stick));
-        row(c, R.string.mouse_click, "A / R1");
-        row(c, R.string.mouse_right_click, "L1");
-        row(c, R.string.mouse_scroll, s(R.string.key_left_stick));
-        para(c, R.string.mouse_settings);
-        para(c, R.string.mapping_settings);
-        para(c, R.string.mapping_reset);
 
         if (touchControls) {
             c = chapter(R.string.touch_title, chapters);

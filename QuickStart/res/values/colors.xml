@@ -2,4 +2,5 @@
 <resources>
     <!-- Background of the round icon on the Settings home page -->
     <color name="guide_icon_background">#26A69A</color>
+    <!-- Background of the Buttons and shortcuts icon on the Settings home page -->
 </resources>

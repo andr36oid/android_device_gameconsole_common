@@ -40,6 +40,11 @@ public class GuideActivity extends Activity {
         FirstBootReceiver.markShown(this);
 
         mChapters = Chapters.build(this);
+        if (mChapters.isEmpty()) {
+            // Nothing could be read: leave instead of crashing on an empty list
+            finish();
+            return;
+        }
 
         final LinearLayout root = new LinearLayout(this);
         root.setOrientation(LinearLayout.VERTICAL);
@@ -163,7 +168,8 @@ public class GuideActivity extends Activity {
         mPageTitle.setPadding(0, 0, 0, dp(8));
         mPageContent.addView(mPageTitle);
         for (Chapters.Item item : chapter.items) {
-            mPageContent.addView(item.image != 0 ? buildImage(item)
+            mPageContent.addView(item.drawing ? buildDrawing()
+                    : item.image != 0 ? buildImage(item)
                     : item.heading ? buildHeading(item)
                     : item.isParagraph() ? buildParagraph(item) : buildRow(item));
         }
@@ -190,6 +196,16 @@ public class GuideActivity extends Activity {
         return view;
     }
 
+    /** The console as the button mapper draws it, as tall as fits a page. */
+    private View buildDrawing() {
+        final ConsoleView view = new ConsoleView(this);
+        view.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
+        view.setPadding(0, dp(6), 0, dp(10));
+        view.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                dp(250)));
+        return view;
+    }
+
     private View buildParagraph(Chapters.Item item) {
         final TextView view = text(item.text, 15, R.color.guide_detail);
         view.setLineSpacing(dp(3), 1f);
@@ -206,6 +222,7 @@ public class GuideActivity extends Activity {
         final LinearLayout keys = new LinearLayout(this);
         keys.setOrientation(LinearLayout.HORIZONTAL);
         keys.setGravity(Gravity.CENTER_VERTICAL);
+        int badges = 0;
         for (int i = 0; i < item.keys.size(); i++) {
             if (i > 0) {
                 keys.addView(joiner(getString(R.string.key_plus)));
@@ -216,7 +233,18 @@ public class GuideActivity extends Activity {
                     keys.addView(joiner(getString(R.string.key_or)));
                 }
                 keys.addView(badge(alternatives[j]));
+                badges++;
             }
+        }
+        if (badges > 3) {
+            // Too many for the column (L1 + R1 + Start + Select): keys above the text
+            row.setOrientation(LinearLayout.VERTICAL);
+            row.setGravity(Gravity.START);
+            row.addView(keys);
+            final TextView text = text(item.text, 15, R.color.guide_text);
+            text.setPadding(0, dp(3), 0, 0);
+            row.addView(text);
+            return row;
         }
         // Keys in a column of their own, so the descriptions line up
         row.addView(keys, new LinearLayout.LayoutParams(dp(160),
