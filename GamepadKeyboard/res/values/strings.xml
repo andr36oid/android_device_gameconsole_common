@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ime_name">Gamepad keyboard</string>
+    <!-- Subtype name: the language, e.g. "English (United States)" -->
+    <string name="subtype_generic" translatable="false">%s</string>
+
+    <!-- Hint line above the keys. Buttons on keys (B, X, Y, START, SELECT, L3) are shown on the keys themselves. -->
+    <string name="hint_grid">Hold A: accents · L1/R1 move cursor · L2 hide · R2 big text · R3 stick typing</string>
+    <string name="hint_sticks">Left stick: group · right stick: letter, let go to type · B delete · X space · Y shift · START enter · R3 keys</string>
+    <string name="stick_left">group</string>
+    <string name="stick_right">let go to type</string>
+
+    <string name="key_space">space</string>
+    <string name="key_go">Go</string>
+    <string name="key_search">Search</string>
+    <string name="key_send">Send</string>
+    <string name="key_next">Next</string>
+    <string name="key_done">Done</string>
+    <string name="key_previous">Back</string>
+
+    <string name="no_other_keyboard">No other keyboard is installed.</string>
+    <string name="switched_to_tv">Android TV keyboard on. To come back: Settings > System > Languages &amp; input > On-screen keyboard > Gamepad keyboard.</string>
+
+    <string name="which_self">Keyboard in use: Gamepad keyboard</string>
+    <string name="which_self_summary">Select to use the Android TV keyboard instead (the one older builds had)</string>
+    <string name="which_other">Keyboard in use: another keyboard</string>
+    <string name="which_other_summary">Select to use the Gamepad keyboard again</string>
+
+    <string name="pref_layout">Letter layout</string>
+    <string-array name="layout_entries">
+        <item>Automatic (from the system language)</item>
+        <item>QWERTY</item>
+        <item>QWERTZ</item>
+        <item>AZERTY</item>
+    </string-array>
+    <string-array name="layout_values" translatable="false">
+        <item>auto</item>
+        <item>qwerty</item>
+        <item>qwertz</item>
+        <item>azerty</item>
+    </string-array>
+
+    <string name="pref_sticks">Start in stick typing</string>
+    <string name="pref_sticks_summary">Open the keyboard with the two stick circles instead of the keys. R3 switches at any time.</string>
+    <string name="pref_auto_big">Show the text when the keyboard hides it</string>
+    <string name="pref_auto_big_summary">If the text field ends up under the keyboard, show the text in a big line above it. R2 does this by hand.</string>
+    <string name="pref_hints">Show button hints</string>
+    <string name="pref_hints_summary">The line above the keys and the button names on keys</string>
+
+    <string name="buttons_title">Buttons</string>
+    <string name="buttons_help">D-pad or left stick: move\nA: type (hold for accents: é, ü, ß…)\nB: delete (on an empty field: close)\nX: space\nY: shift (twice: caps lock)\nL1 / R1: move the text cursor\nL2: close the keyboard\nR2: big text line on or off\nStart: enter / done\nSelect: letters or symbols\nL3: switch to the Android TV keyboard\nR3: key grid or stick typing\n\nStick typing: the left stick picks a group of four, the right stick points at a letter, let it go to type it.</string>
+</resources>

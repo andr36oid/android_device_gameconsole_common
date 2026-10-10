@@ -1,0 +1,13 @@
+// Gamepad keyboard: the default on-screen keyboard, made for the controller (key grid with
+// the d-pad, or stick typing with both sticks). The Android TV keyboard (LeanbackIME) stays
+// installed and selectable. Logic in src/.../core is plain Java with host tests in tests/.
+android_app {
+    name: "GamepadKeyboard",
+    srcs: ["src/**/*.java"],
+    resource_dirs: ["res"],
+    certificate: "platform",
+    platform_apis: true,
+    optimize: {
+        enabled: false,
+    },
+}

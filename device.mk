@@ -593,6 +593,11 @@ PRODUCT_PACKAGES += \
 	Cromite \
 	LeanbackIME \
 
+# On-screen keyboard made for the controller (key grid or stick typing), a second
+# keyboard to choose in Settings. The Android TV keyboard above stays the default.
+PRODUCT_PACKAGES += \
+	GamepadKeyboard
+
 # Preinstalled emulators (RetroArch + libretro cores, PPSSPP), see emulators/README.md.
 # Our free images include the SNES and Genesis cores that forbid commercial use.
 GAMECONSOLE_EMU_NONCOMMERCIAL_CORES := true

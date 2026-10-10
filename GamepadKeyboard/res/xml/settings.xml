@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <Preference
+        android:key="which_keyboard"
+        android:persistent="false"
+        android:title="@string/which_self" />
+
+    <ListPreference
+        android:key="layout"
+        android:defaultValue="auto"
+        android:entries="@array/layout_entries"
+        android:entryValues="@array/layout_values"
+        android:summary="%s"
+        android:title="@string/pref_layout" />
+
+    <SwitchPreference
+        android:key="start_sticks"
+        android:defaultValue="false"
+        android:summary="@string/pref_sticks_summary"
+        android:title="@string/pref_sticks" />
+
+    <SwitchPreference
+        android:key="auto_big_text"
+        android:defaultValue="true"
+        android:summary="@string/pref_auto_big_summary"
+        android:title="@string/pref_auto_big" />
+
+    <SwitchPreference
+        android:key="show_hints"
+        android:defaultValue="true"
+        android:summary="@string/pref_hints_summary"
+        android:title="@string/pref_hints" />
+
+    <Preference
+        android:key="buttons"
+        android:selectable="false"
+        android:title="@string/buttons_title"
+        android:summary="@string/buttons_help" />
+</PreferenceScreen>
