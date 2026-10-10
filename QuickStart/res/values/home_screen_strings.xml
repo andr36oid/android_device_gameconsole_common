@@ -10,9 +10,9 @@
     <string name="home_screen_daijishou" translatable="false">Daijishou</string>
     <string name="home_screen_launcher" translatable="false">Simple UI</string>
     <!-- Same text as on the setup wizard's "Choose your home screen" page [CHAR LIMIT=60] -->
-    <string name="home_screen_daijishou_description">Your games sorted by console, with box art</string>
+    <string name="home_screen_daijishou_description">Feels more like an Android console.\nYour games sorted by console, with box art</string>
     <!-- Same text as on the setup wizard's "Choose your home screen" page [CHAR LIMIT=60] -->
-    <string name="home_screen_launcher_description">A simple grid of your apps. Open source.</string>
+    <string name="home_screen_launcher_description">Feels more like Android TV.\nA simple grid of your apps. Open source.</string>
     <!-- State under a home screen's name [CHAR LIMIT=30] -->
     <string name="home_screen_state_home">Home screen now</string>
     <!-- State under a home screen's name [CHAR LIMIT=30] -->

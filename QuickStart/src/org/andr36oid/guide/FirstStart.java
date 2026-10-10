@@ -180,11 +180,15 @@ final class FirstStart {
     /** "Shut down now" on the setup's add games page (SetupAddGamesActivity), once. */
     private static boolean takeShutdown(Context context) {
         final ContentResolver resolver = context.getContentResolver();
-        if (Settings.Global.getInt(resolver, SetupAddGamesActivity.SETTING_SHUTDOWN, 0) != 1) {
+        final int chosenIn = Settings.Global.getInt(resolver,
+                SetupAddGamesActivity.SETTING_SHUTDOWN, 0);
+        if (chosenIn == 0) {
             return false;
         }
         Settings.Global.putInt(resolver, SetupAddGamesActivity.SETTING_SHUTDOWN, 0);
-        return true;
+        // Only in the start it was chosen in: should the reset above not reach the disk
+        // before the power goes off, the next start must not shut down again
+        return chosenIn == SetupAddGamesActivity.bootCount(context);
     }
 
     /**
@@ -286,6 +290,14 @@ final class FirstStart {
             return;
         }
         sFinishing = true;
+        if (takeShutdown(app)) {
+            // "Shut down now" on the setup's add games page: off right away, nothing handed
+            // over. The first-start launcher stays home, so the next start goes on from here
+            // (onSetupDone): it waits for Daijishou's library, then Daijishou opens and asks
+            // to look for the games copied in the meantime. sFinishing stays set.
+            shutdownSoon(app);
+            return;
+        }
         if (!isDaijishouReady(app)) {
             // Daijishou opens only with its library in it: its first start then asks to look
             // for games. The first-start launcher says so meanwhile.
@@ -317,13 +329,7 @@ final class FirstStart {
                 // picks the only home app left
                 Log.w(TAG, "Couldn't give the home role back, uninstalling anyway");
             }
-            if (takeShutdown(app)) {
-                // "Shut down now" on the add games page: Daijishou is home, so the next
-                // start opens it. A launcher not uninstalled yet goes on the next start.
-                shutdownSoon(app);
-            } else {
-                open(app, guide);
-            }
+            open(app, guide);
             uninstallLauncher(app);
             if (ok && home != null) {
                 // Only now that the chosen one is home: removing the other can't leave the

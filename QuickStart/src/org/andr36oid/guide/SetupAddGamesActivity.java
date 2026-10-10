@@ -18,14 +18,18 @@ import java.util.Locale;
  * screen; otherwise it passes straight on.
  *
  * "Shut down now" sets SETTING_SHUTDOWN and goes on: the wizard's last page then finishes
- * the setup by itself, and the guide powers off once Daijishou is home (FirstStart), so the
- * next start opens Daijishou.
+ * the setup by itself, and the guide powers off right away (FirstStart.finish). The
+ * first-start launcher stays home, so the next start goes on from there: it waits for
+ * Daijishou's library, then Daijishou opens and asks to look for the games.
  */
 public class SetupAddGamesActivity extends Activity {
 
     private static final String TAG = "SetupAddGames";
 
-    /** Settings.Global: power off once the setup is done (read by the wizard and FirstStart). */
+    /**
+     * Settings.Global: power off once the setup is done (read by the wizard and FirstStart).
+     * 0, or the boot count of the start it was chosen in (bootCount).
+     */
     static final String SETTING_SHUTDOWN = "andr36oid_setup_shutdown";
 
     @Override
@@ -57,7 +61,13 @@ public class SetupAddGamesActivity extends Activity {
     }
 
     private void setShutdown(boolean on) {
-        Settings.Global.putInt(getContentResolver(), SETTING_SHUTDOWN, on ? 1 : 0);
+        Settings.Global.putInt(getContentResolver(), SETTING_SHUTDOWN, on ? bootCount(this) : 0);
+    }
+
+    /** This start's number (Settings.Global.BOOT_COUNT), at least 1. */
+    static int bootCount(Context context) {
+        return Math.max(1, Settings.Global.getInt(context.getContentResolver(),
+                Settings.Global.BOOT_COUNT, 1));
     }
 
     /** Whether the card has the EASYROMS partition, mounted. */

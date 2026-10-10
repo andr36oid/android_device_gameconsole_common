@@ -4,8 +4,8 @@
     <string name="home_screen_title">Tela inicial</string>
     <string name="home_screen_summary">Daijishou ou Simple UI</string>
     <string name="home_screen_intro">A tela inicial é para onde o FN leva você.</string>
-    <string name="home_screen_daijishou_description">Seus jogos organizados por console, com capas</string>
-    <string name="home_screen_launcher_description">Uma grade simples com seus apps. Código aberto.</string>
+    <string name="home_screen_daijishou_description">Parece mais um console Android.\nSeus jogos organizados por console, com capas</string>
+    <string name="home_screen_launcher_description">Parece mais o Android TV.\nUma grade simples com seus apps. Código aberto.</string>
     <string name="home_screen_state_home">Tela inicial atual</string>
     <string name="home_screen_state_installed">Instalado</string>
     <string name="home_screen_state_removed">Removido</string>
