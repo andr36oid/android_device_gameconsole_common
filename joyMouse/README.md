@@ -150,8 +150,10 @@ front; apps without one keep the normal buttons.
 * **Kinds of control**: tap, hold, joystick (a stick or the d-pad drags a finger
   around a point), look around (a stick drags a finger across an area, lifts
   and starts over from the middle at the edge), swipe (a quick swipe in one
-  direction). A shift button (held) switches to a second set; anything the
-  second set doesn't define keeps its first-set control.
+  direction). Tap, hold and swipe can also be set off by a stick pushed one way
+  (left stick up, ...), for games with a separate button per direction. A shift
+  button (held) switches to a second set; anything the second set doesn't
+  define keeps its first-set control.
 * **What stays a button**: everything the profile doesn't use goes on to
   Android through a copy of the pad, like in mouse mode. FN, and any button
   pressed while FN is held, always goes through, so Home and all FN shortcuts
@@ -213,6 +215,10 @@ The comments are only here; the files are plain JSON.
 * Buttons: `A B X Y L1 R1 L2 R2 L3 R3 SELECT START UP DOWN LEFT RIGHT`
   (physical buttons, the hardware button remap doesn't apply). Sticks:
   `left right dpad`. A d-pad joystick takes the four d-pad buttons of its layer.
+* Stick directions as the `button` of a tap, hold or swipe: `LSTICK_UP
+  LSTICK_DOWN LSTICK_LEFT LSTICK_RIGHT` and the same with `RSTICK_`. Pressed at
+  half the stick's travel, let go below 30 %, so a diagonal presses two. A stick
+  that is a joystick or camera on a layer has no directions on that layer.
 
 Controls that can't work (unknown kind, no button, a button twice on one
 layer, the shift button as a control) are left out with a warning in logcat.

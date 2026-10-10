@@ -90,6 +90,7 @@ void TouchController::setProfile(std::optional<TouchProfile> profile, Nanos now)
     // The routes point into the old profile.
     if (state_ == State::On) releaseGestures(now);
     routes_.fill(KeyRoute{});
+    directionRoutes_.fill(KeyRoute{});
     sticks_.fill(StickState{});
     profile_ = std::move(profile);
     if (profile_) {
@@ -165,6 +166,7 @@ void TouchController::maybeGrab(Nanos now) {
     grabbed_ = true;
     grabCheckPending_ = false;
     routes_.fill(KeyRoute{});
+    directionRoutes_.fill(KeyRoute{});
     sticks_.fill(StickState{});
     shiftHeld_ = 0;
     layer_ = 0;
@@ -184,6 +186,7 @@ void TouchController::releaseGestures(Nanos now) {
         }
         r = KeyRoute{};
     }
+    directionRoutes_.fill(KeyRoute{});
     timed_.clear();
     for (StickState& st : sticks_) st = StickState{};
     shiftHeld_ = 0;
@@ -352,11 +355,10 @@ void TouchController::handleKeyOn(int code, int value, Nanos now) {
     }
     route.route = Route::Control;
     route.control = control;
-    pressControl(code, *control, now);
+    pressControl(route, *control, now);
 }
 
-void TouchController::pressControl(int code, const TouchControl& c, Nanos now) {
-    KeyRoute& route = routes_[static_cast<size_t>(code)];
+void TouchController::pressControl(KeyRoute& route, const TouchControl& c, Nanos now) {
     const auto [x, y] = point(c);
     const int slot = surface_.down(x, y);
     if (slot < 0) {
@@ -424,6 +426,7 @@ void TouchController::handleAbs(int code, int value, Nanos now) {
     }
     if (state_ != State::On || !pad_.hasAbs(code)) return;
     const auto source = sourceOfAxis(code);
+    if (source == StickSource::Left || source == StickSource::Right) updateDirections(*source, now);
     if (source && stickMapped(*source)) {
         if (!ticking_) {
             ticking_ = true;
@@ -438,7 +441,35 @@ void TouchController::handleAbs(int code, int value, Nanos now) {
 // --- Sticks -------------------------------------------------------------
 
 bool TouchController::stickMapped(StickSource s) const {
-    return profile_ && profile_->forStick(s, layer_) != nullptr;
+    return profile_ && (profile_->forStick(s, layer_) != nullptr ||
+                        (s != StickSource::Dpad && profile_->stickHasDirections(s, layer_)));
+}
+
+// Stick directions used as buttons: pressed and let go as the stick moves.
+// A pressed one keeps its control until it is let go, like a button does
+// across a layer change.
+void TouchController::updateDirections(StickSource s, Nanos now) {
+    if (!profile_) return;
+    const StickVector v = vectorFor(s);
+    const float amount[kStickDirCount] = {-v.y, v.y, -v.x, v.x};  // up, down, left, right
+    const bool fnHeld = keysDown_.test(kFnCode);
+    for (size_t d = 0; d < kStickDirCount; ++d) {
+        const StickDirection dir{s, static_cast<StickDir>(d)};
+        KeyRoute& route = directionRoutes_[index(dir)];
+        if (route.route == Route::Control) {
+            if (amount[d] < kDirectionRelease) {
+                releaseControl(route);
+                route = KeyRoute{};
+            }
+            continue;
+        }
+        if (amount[d] < kDirectionPress || fnHeld) continue;
+        const TouchControl* control = profile_->forDirection(dir, layer_);
+        if (!control) continue;
+        route.route = Route::Control;
+        route.control = control;
+        pressControl(route, *control, now);
+    }
 }
 
 void TouchController::syncStickPassthrough() {

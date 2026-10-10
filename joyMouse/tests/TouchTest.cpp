@@ -319,6 +319,33 @@ TEST(TouchProfileTest, DpadJoystickTakesTheDirections) {
     EXPECT_EQ(warnings.size(), 1u);
 }
 
+TEST(TouchProfileTest, StickDirectionsAsButtons) {
+    std::vector<std::string> warnings;
+    const auto p = parseTouchProfile(R"({"controls": [
+        {"type": "hold", "button": "LSTICK_UP", "x": 0.5, "y": 0.2},
+        {"type": "tap", "button": "rstick_left", "x": 0.1, "y": 0.5},
+        {"type": "tap", "button": "LSTICK_UP", "x": 0.9, "y": 0.9},
+        {"type": "swipe", "button": "RSTICK_DOWN", "x": 0.5, "y": 0.5, "layer": 1},
+        {"type": "camera", "stick": "right", "x": 0.7, "y": 0.5, "layer": 1}]})",
+                                     &warnings, nullptr);
+    ASSERT_TRUE(p);
+    // The second LSTICK_UP is a duplicate; RSTICK_DOWN goes, the right stick is a camera on layer 1.
+    ASSERT_EQ(p->controls.size(), 3u);
+    EXPECT_EQ(warnings.size(), 2u);
+    const StickDirection up{StickSource::Left, StickDir::Up};
+    const StickDirection left{StickSource::Right, StickDir::Left};
+    ASSERT_NE(p->forDirection(up, 0), nullptr);
+    EXPECT_EQ(p->forDirection(up, 0)->type, ControlType::Hold);
+    EXPECT_FALSE(p->forDirection(up, 0)->button);
+    EXPECT_EQ(p->forDirection(up, 1), p->forDirection(up, 0));  // layer 1 falls back
+    EXPECT_NE(p->forDirection(left, 0), nullptr);
+    EXPECT_EQ(p->forDirection({StickSource::Right, StickDir::Down}, 1), nullptr);
+    EXPECT_TRUE(p->stickHasDirections(StickSource::Left, 0));
+    EXPECT_FALSE(p->stickHasDirections(StickSource::Dpad, 0));
+    EXPECT_STREQ(stickDirectionName(left), "RSTICK_LEFT");
+    EXPECT_FALSE(parseStickDirection("DPAD_UP"));
+}
+
 TEST(TouchProfileTest, RejectsNonProfiles) {
     std::string error;
     EXPECT_FALSE(parseTouchProfile("[]", nullptr, &error));
@@ -804,6 +831,54 @@ TEST_F(TouchControllerTest, UnmappedStickPassesThrough) {
     stick(ABS_RX, ABS_RY, 0.5f, 0.0f);
     EXPECT_EQ(passthrough.lastAbs(ABS_RX, 0), static_cast<int>(0.5f * kStickMax));
     EXPECT_TRUE(screen.frames.empty());
+}
+
+TEST_F(TouchControllerTest, StickDirectionsPressControls) {
+    start(R"({"controls": [
+        {"type": "hold", "button": "LSTICK_UP", "x": 0.5, "y": 0.25},
+        {"type": "tap", "button": "LSTICK_RIGHT", "x": 0.75, "y": 0.5}]})");
+    // Not far enough yet: 0.3 of the range is about 0.39 of the stick's
+    // (learned) travel after the dead zone.
+    stick(ABS_X, ABS_Y, 0.0f, -0.3f);
+    EXPECT_EQ(model().count(), 0);
+    stick(ABS_X, ABS_Y, 0.0f, -0.6f);
+    TouchModel m = model();
+    ASSERT_EQ(m.count(), 1);
+    EXPECT_EQ(m.only()->x, 320);
+    EXPECT_EQ(m.only()->y, 120);
+    // Held while the stick stays up, also a bit below the press point.
+    advance(500);
+    stick(ABS_X, ABS_Y, 0.0f, -0.3f);
+    EXPECT_EQ(model().count(), 1);
+    stick(ABS_X, ABS_Y, 0.0f, -0.1f);
+    EXPECT_EQ(model().count(), 0);
+    // Right: a tap, once per push.
+    stick(ABS_X, ABS_Y, 1.0f, 0.0f);
+    EXPECT_EQ(model().count(), 1);
+    advance(60);
+    stick(ABS_X, ABS_Y, 0.9f, 0.0f);
+    EXPECT_EQ(model().count(), 0);
+    stick(ABS_X, ABS_Y, 0.0f, 0.0f);
+    stick(ABS_X, ABS_Y, 1.0f, 0.0f);
+    advance(60);
+    EXPECT_EQ(model().downs, 3);
+    // The game never saw the left stick; the right stick is still its own.
+    EXPECT_EQ(passthrough.lastAbs(ABS_X, 0), 0);
+    EXPECT_EQ(passthrough.lastAbs(ABS_Y, 0), 0);
+    stick(ABS_RX, ABS_RY, 0.5f, 0.0f);
+    EXPECT_EQ(passthrough.lastAbs(ABS_RX, 0), static_cast<int>(0.5f * kStickMax));
+}
+
+TEST_F(TouchControllerTest, StickDirectionLetGoOnProfileSwitch) {
+    start(R"({"controls": [{"type": "hold", "button": "LSTICK_DOWN", "x": 0.5, "y": 0.5}]})");
+    stick(ABS_X, ABS_Y, 0.0f, 1.0f);
+    EXPECT_EQ(model().count(), 1);
+    load(R"({"controls": [{"type": "tap", "button": "A", "x": 0.5, "y": 0.5}]})");
+    EXPECT_EQ(model().count(), 0);
+    // Pushing on with the new profile presses nothing.
+    stick(ABS_X, ABS_Y, 0.0f, 0.9f);
+    stick(ABS_X, ABS_Y, 0.0f, 1.0f);
+    EXPECT_EQ(model().downs, 1);
 }
 
 TEST_F(TouchControllerTest, MouseModeSuspendsTouchMode) {

@@ -34,6 +34,24 @@ enum class ControlType : uint8_t {
 enum class StickSource : uint8_t { Left, Right, Dpad };
 constexpr size_t kStickSourceCount = 3;
 
+// A stick pushed one way, as the trigger of a tap, hold or swipe instead of a
+// button, for games with separate buttons for each direction. In the profile
+// file it is a "button" named LSTICK_UP, RSTICK_LEFT, ...
+enum class StickDir : uint8_t { Up, Down, Left, Right };
+constexpr size_t kStickDirCount = 4;
+struct StickDirection {
+    StickSource stick = StickSource::Left;  // Left or Right
+    StickDir dir = StickDir::Up;
+    bool operator==(const StickDirection& o) const { return stick == o.stick && dir == o.dir; }
+};
+// Index into a [2 sticks x 4 directions] table.
+constexpr size_t index(StickDirection d) {
+    return static_cast<size_t>(d.stick) * kStickDirCount + static_cast<size_t>(d.dir);
+}
+constexpr size_t kStickDirectionCount = 2 * kStickDirCount;
+std::optional<StickDirection> parseStickDirection(std::string_view s);
+const char* stickDirectionName(StickDirection d);
+
 const char* controlTypeName(ControlType t);
 std::optional<ControlType> parseControlType(std::string_view s);
 const char* stickSourceName(StickSource s);
@@ -42,6 +60,7 @@ std::optional<StickSource> parseStickSource(std::string_view s);
 struct TouchControl {
     ControlType type = ControlType::Tap;
     std::optional<Button> button;      // Tap, Hold, Swipe
+    std::optional<StickDirection> direction;  // Tap, Hold, Swipe instead of a button
     std::optional<StickSource> stick;  // Joystick, Camera
     // Position as a share of the screen's width and height, as the app is shown.
     float x = 0.5f;
@@ -73,6 +92,10 @@ struct TouchProfile {
     // back to layer 0 for anything it doesn't define.
     const TouchControl* forButton(Button b, int layer) const;
     const TouchControl* forStick(StickSource s, int layer) const;
+    const TouchControl* forDirection(StickDirection d, int layer) const;
+    // Whether a tap, hold or swipe uses a direction of the stick on the layer
+    // (or on layer 0 for layer 1).
+    bool stickHasDirections(StickSource s, int layer) const;
     // Whether anything on any layer uses the input.
     bool usesButton(Button b) const;
     bool usesStick(StickSource s) const;

@@ -55,6 +55,8 @@
     <string name="editor_is_shift"><xliff:g id="button">%1$s</xliff:g> is the shift button. Press another one.</string>
     <string name="editor_replaced"><xliff:g id="input">%1$s</xliff:g> did something else before. That control is gone.</string>
     <string name="editor_replaced_dpad">The D-pad joystick is gone: the D-pad buttons work one by one now.</string>
+    <string name="editor_replaced_stick"><xliff:g id="stick">%1$s</xliff:g> was one control before. That control is gone: its directions work one by one now.</string>
+    <string name="editor_replaced_stick_directions">The single directions of the <xliff:g id="stick">%1$s</xliff:g> are gone: it is one control now.</string>
     <string name="editor_replaced_dpad_buttons">The single D-pad buttons are gone: the D-pad is a joystick now.</string>
     <string name="editor_unsaved_title">Save the changes?</string>
     <string name="editor_unsaved_message">The layout was changed but not saved.</string>
@@ -79,7 +81,7 @@
 
     <!-- Waiting for a button or stick; %1$s is a control type in lower case, e.g. "tap" -->
     <string name="capture_button">Press the button for this <xliff:g id="type">%1$s</xliff:g></string>
-    <string name="capture_button_cancel">Any button works, B too. Hold B to cancel.</string>
+    <string name="capture_button_cancel">Any button works, B too, or push a stick one way. Hold B to cancel.</string>
     <string name="capture_stick">Move the stick for this <xliff:g id="type">%1$s</xliff:g></string>
     <string name="capture_stick_detail">Left stick, right stick, or press the D-pad</string>
 

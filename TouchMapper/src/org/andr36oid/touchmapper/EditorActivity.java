@@ -302,6 +302,18 @@ public class EditorActivity extends Activity implements Choreographer.FrameCallb
         final float hx = event.getAxisValue(MotionEvent.AXIS_HAT_X);
         final float hy = event.getAxisValue(MotionEvent.AXIS_HAT_Y);
 
+        if (mMode == Mode.CAPTURE_BUTTON) {
+            // A stick pushed one way works like a button for tap, hold and swipe
+            String direction = Inputs.stickDirection(Profile.STICK_LEFT, lx, ly, CAPTURE_THRESHOLD);
+            if (direction == null) {
+                direction = Inputs.stickDirection(Profile.STICK_RIGHT, rx, ry, CAPTURE_THRESHOLD);
+            }
+            if (direction != null) {
+                mCaptureDown = null;
+                buttonCaptured(direction);
+            }
+            return true;
+        }
         if (mMode == Mode.CAPTURE_STICK) {
             if (Math.hypot(lx, ly) > CAPTURE_THRESHOLD) {
                 stickCaptured(Profile.STICK_LEFT);
@@ -825,6 +837,15 @@ public class EditorActivity extends Activity implements Choreographer.FrameCallb
                 note = getString(R.string.editor_replaced_dpad);
             }
         }
+        if (Inputs.isStickDirection(button)) {
+            // A joystick or camera stick has no directions on its layer (the daemon agrees)
+            final String stick = Inputs.stickOf(button);
+            final Profile.Control whole = mProfile.find(stick, target.layer);
+            if (whole != null) {
+                mProfile.controls.remove(whole);
+                note = getString(R.string.editor_replaced_stick, Inputs.longLabel(stick));
+            }
+        }
         target.button = button;
         finishCapture(target, note);
         if (Profile.SWIPE.equals(target.type) && mCaptureTarget == null) {
@@ -851,6 +872,16 @@ public class EditorActivity extends Activity implements Choreographer.FrameCallb
                 if (c != target && c.layer == target.layer && Inputs.isDpad(c.button)) {
                     mProfile.controls.remove(i);
                     note = getString(R.string.editor_replaced_dpad_buttons);
+                }
+            }
+        } else {
+            for (int i = mProfile.controls.size() - 1; i >= 0; i--) {
+                final Profile.Control c = mProfile.controls.get(i);
+                if (c != target && c.layer == target.layer && Inputs.isStickDirection(c.button)
+                        && stick.equals(Inputs.stickOf(c.button))) {
+                    mProfile.controls.remove(i);
+                    note = getString(R.string.editor_replaced_stick_directions,
+                            Inputs.longLabel(stick));
                 }
             }
         }
