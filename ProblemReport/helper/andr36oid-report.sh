@@ -828,6 +828,8 @@ for d in /sys/bus/usb/devices/*; do
 	echo "$d $(cat "$d/idVendor"):$(cat "$d/idProduct") $(cat "$d/manufacturer" 2>/dev/null)" \
 		"$(cat "$d/product" 2>/dev/null) speed $(cat "$d/speed" 2>/dev/null)" >>"$WORK/devices.txt"
 done
+# what Settings > USB devices said the last time it was open (drivers, chips)
+show devices.txt /data/data/org.andr36oid.usbmode/files/usb-check.txt
 show devices.txt /proc/bus/input/devices
 show devices.txt /sys/block/mmcblk*/device/name /sys/block/mmcblk*/device/manfid \
 	/sys/block/mmcblk*/device/oemid /sys/block/mmcblk*/device/date /sys/block/mmcblk*/size

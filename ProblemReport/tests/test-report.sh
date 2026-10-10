@@ -157,6 +157,9 @@ else /bin/df "$@"; fi'
 	echo short >"$R"/sys/block/mmcblk1/device/cid
 
 	# /data
+	mkdir -p "$R"/data/data/org.andr36oid.usbmode/files
+	printf 'andr36oid USB check\n1-1  0bda:885a  NOT_SUPPORTED USBCHECKKEEP\n' \
+		>"$R"/data/data/org.andr36oid.usbmode/files/usb-check.txt
 	echo "pid: 1, name: /storage/emulated/0/Secret Tomb/file.bin" >"$R"/data/tombstones/tombstone_00
 	echo "anr" >"$R"/data/anr/anr_1
 
@@ -227,6 +230,7 @@ done
 check "pstore copy" [ -f "$(echo "$T"/x/report-*/previous-start-console-ramoops-0.txt)" ]
 check "useful log line kept" has "joypad keys dead KEEPME"
 check "kernel log kept" has KEEPKERNEL
+check "USB check result kept" has "0bda:885a  NOT_SUPPORTED USBCHECKKEEP"
 check "pstore kept" has KEEPPSTORE
 check "input devices kept" has "odroidgo3-joypad"
 check "DT model" has "Device tree model: Powkiddy R36S"
