@@ -1,0 +1,13 @@
+# VLC for Android, F-Droid arm64-v8a build (F-Droid signs it, so F-Droid can update it).
+# sha256 from the F-Droid index (index-v2.json). The license file in the source is
+# GPL version 2; F-Droid lists the app as GPL-3.0-only.
+name=VLC
+package=org.videolan.vlc
+version_code=13070106
+version_name=3.7.1
+spdx=GPL (COPYING in the source is GPL-2.0, F-Droid lists GPL-3.0-only)
+sha256=355ff246a0348c094a256926ea31cbec92701a2faca3d41d49170798c550ee3b
+apk_url=https://f-droid.org/repo/org.videolan.vlc_13070106.apk
+source_url=https://code.videolan.org/videolan/vlc-android/-/tree/3.7.1 (F-Droid's source tarball: https://f-droid.org/repo/org.videolan.vlc_13070106_src.tar.gz)
+license_url=https://code.videolan.org/videolan/vlc-android/-/raw/3.7.1/COPYING
+published_by=F-Droid

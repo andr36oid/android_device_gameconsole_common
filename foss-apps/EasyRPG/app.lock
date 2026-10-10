@@ -1,0 +1,13 @@
+# EasyRPG Player, the project's own APK from easyrpg.org (signed "EasyRPG Player").
+# No checksum is published; the sha256 below is of the file downloaded on
+# 2026-09-28 (signature checked with apksigner). F-Droid only has 0.6.2.3 from 2021.
+name=EasyRPG
+package=org.easyrpg.player
+version_code=9777
+version_name=0.8.1.1
+spdx=GPL-3.0-or-later
+sha256=06fae3b0bb39e3efd11c624c16fff343fa192741329444d037a38fbcfa1c2cd6
+apk_url=https://easyrpg.org/downloads/player/0.8.1.1/easyrpg-player-0.8.1.1-android.apk
+source_url=https://github.com/EasyRPG/Player/tree/0.8.1.1
+license_url=https://raw.githubusercontent.com/EasyRPG/Player/0.8.1.1/COPYING
+published_by=the EasyRPG project
