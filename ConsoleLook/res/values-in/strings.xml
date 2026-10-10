@@ -1,24 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="look_title">Tampilan konsol</string>
-    <string name="look_summary">Warna aksen, wallpaper, suara, animasi booting</string>
+    <string name="look_title">Personalisasi</string>
+    <string name="look_summary">Warna aksen, suara, animasi booting</string>
     <string name="accent_title">Warna aksen</string>
     <string name="accent_default">Teal LineageOS (default)</string>
-    <string name="wallpaper_title">Wallpaper</string>
-    <string name="wallpaper_default">Hitam (default)</string>
-    <string name="wallpaper_other">Disetel di tempat lain</string>
-    <string name="wallpaper_failed">Wallpaper tidak bisa disetel</string>
     <string name="sounds_title">Suara antarmuka</string>
     <string name="sounds_android">Android (default)</string>
     <string name="sounds_retro">Retro</string>
     <string name="sounds_summary">%1$s. Berbunyi saat Suara sentuhan aktif (Suara &gt; Lanjutan).</string>
-    <string name="sounds_restart_title">Mulai ulang untuk mendengar suara baru</string>
-    <string name="sounds_restart_message">Android memuat suara tombolnya sekali, saat menyala. Suara charger sudah berubah.</string>
-    <string name="restart_now">Mulai ulang sekarang</string>
-    <string name="later">Nanti</string>
     <string name="bootanim_title">Animasi booting</string>
     <string name="bootanim_lineage">LineageOS (default)</string>
     <string name="bootanim_retro">andr36oid retro</string>
     <string name="bootanim_summary">%1$s. Tampil mulai penyalaan berikutnya.</string>
-    <string name="about_wallpaper">Daijishou menggambar latar belakangnya sendiri, jadi wallpaper hanya terlihat dengan layar utama lain dan di Gaya &amp; wallpaper. Latar belakang Daijishou sendiri: Daijishou settings &gt; Wallpaper settings.</string>
 </resources>

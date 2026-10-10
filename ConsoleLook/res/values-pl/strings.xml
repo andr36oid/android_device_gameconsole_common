@@ -1,24 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="look_title">Wygląd konsoli</string>
-    <string name="look_summary">Kolor akcentu, tapeta, dźwięki, animacja startowa</string>
+    <string name="look_title">Personalizacja</string>
+    <string name="look_summary">Kolor akcentu, dźwięki, animacja startowa</string>
     <string name="accent_title">Kolor akcentu</string>
     <string name="accent_default">Morski LineageOS (domyślny)</string>
-    <string name="wallpaper_title">Tapeta</string>
-    <string name="wallpaper_default">Czarna (domyślna)</string>
-    <string name="wallpaper_other">Ustawiona gdzie indziej</string>
-    <string name="wallpaper_failed">Nie udało się ustawić tapety</string>
     <string name="sounds_title">Dźwięki interfejsu</string>
     <string name="sounds_android">Android (domyślne)</string>
     <string name="sounds_retro">Retro</string>
     <string name="sounds_summary">%1$s. Słychać je, gdy włączone są Dźwięki przy dotknięciu (Dźwięk &gt; Zaawansowane).</string>
-    <string name="sounds_restart_title">Uruchom ponownie, aby usłyszeć nowe dźwięki</string>
-    <string name="sounds_restart_message">Android wczytuje dźwięki przycisków raz, przy uruchomieniu. Dźwięk ładowarki już się zmienił.</string>
-    <string name="restart_now">Uruchom ponownie</string>
-    <string name="later">Później</string>
     <string name="bootanim_title">Animacja startowa</string>
     <string name="bootanim_lineage">LineageOS (domyślna)</string>
     <string name="bootanim_retro">andr36oid retro</string>
     <string name="bootanim_summary">%1$s. Widoczna od następnego uruchomienia.</string>
-    <string name="about_wallpaper">Daijishou rysuje własne tło, więc tapeta jest widoczna tylko z innymi ekranami głównymi i w aplikacji Style i tapety. Własne tło Daijishou: ustawienia Daijishou &gt; Wallpaper settings.</string>
 </resources>
