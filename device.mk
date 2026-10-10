@@ -920,3 +920,7 @@ PRODUCT_PRODUCT_PROPERTIES += \
 PRODUCT_PRODUCT_PROPERTIES += \
     logd.logpersistd=logcatd \
     logd.logpersistd.size=16
+# logcatd and its init script: Android only adds them through the debug package list,
+# which this build doesn't use, so without this the setting above starts nothing
+PRODUCT_PACKAGES += \
+    logpersist.start
