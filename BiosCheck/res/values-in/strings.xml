@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_title">File emulator</string>
+    <string name="app_summary">Game tidak mau jalan? Periksa file BIOS yang dibutuhkan beberapa sistem</string>
+
+    <!-- The main page -->
+    <string name="intro">Beberapa sistem butuh file dari konsol aslinya (BIOS) sebelum game-nya bisa jalan. Taruh file ini di folder bios di EASYROMS.</string>
+    <!-- The same, for a card set up without EASYROMS (.noroms) -->
+    <string name="intro_internal">Beberapa sistem butuh file dari konsol aslinya (BIOS) sebelum game-nya bisa jalan. Taruh file ini di folder bios di penyimpanan internal.</string>
+    <string name="checking">Memeriksa…</string>
+    <string name="check_failed">Pemeriksaan tidak bisa dijalankan. Mulai ulang konsol dan coba lagi.</string>
+    <string name="no_easyroms_title">EASYROMS sedang tidak tersedia</string>
+    <string name="no_easyroms_summary">Masukkan lagi kartu SD dengan partisi EASYROMS, lalu buka halaman ini lagi.</string>
+    <string name="systems_category">Sistem</string>
+
+    <string name="fix_title">Perbaiki nama file</string>
+    <!-- %1$d: number of files -->
+    <plurals name="fix_summary">
+        <item quantity="other">%1$d file salah nama, jadi emulator tidak bisa menemukannya</item>
+    </plurals>
+    <string name="fix_dialog_title">Ganti nama file ini?</string>
+    <!-- %1$s: one line per file, made of fix_line -->
+    <string name="fix_dialog_message">Di folder bios di EASYROMS:\n\n%1$s</string>
+    <string name="fix_dialog_message_internal">Di folder bios di penyimpanan internal:\n\n%1$s</string>
+    <!-- %1$s: the file's name now, %2$s: the right name -->
+    <string name="fix_line">%1$s → %2$s\n</string>
+    <string name="fix_button">Ganti nama</string>
+    <plurals name="fix_done">
+        <item quantity="other">%1$d file diganti namanya.</item>
+    </plurals>
+    <plurals name="fix_failed">
+        <item quantity="other">%1$d file tidak bisa diganti namanya.</item>
+    </plurals>
+
+    <!-- A system's summary. %1$s: file names -->
+    <string name="level_ready">Siap</string>
+    <string name="level_not_needed">Opsional: tidak perlu untuk bermain</string>
+    <string name="level_missing">Tidak ada: %1$s</string>
+    <string name="level_missing_one_of">Tidak ada: %1$s atau sejenisnya</string>
+    <string name="level_wrong_version">Versi salah: %1$s. Game mungkin tidak jalan</string>
+    <string name="level_wrong_name">Ada file yang salah nama. Gunakan Perbaiki nama file</string>
+
+    <!-- A file on the system page -->
+    <string name="state_found">Ditemukan</string>
+    <string name="state_missing_needed">Tidak ada, dibutuhkan</string>
+    <string name="state_missing_one_of">Tidak ada. Salah satu sudah cukup</string>
+    <string name="state_missing_optional">Tidak ada, opsional</string>
+    <string name="state_wrong_version">Versi salah: game mungkin tidak jalan</string>
+    <!-- %1$s: what the file really is -->
+    <string name="state_wrong_version_is">File salah: ini adalah %1$s. Gunakan Perbaiki nama file</string>
+    <!-- %1$s: its name now, maybe with a subfolder -->
+    <string name="state_wrong_name">Ditemukan sebagai %1$s. Gunakan Perbaiki nama file</string>
+
+    <!-- A file's details (A on a file) -->
+    <string name="details_what">Fungsinya: %1$s</string>
+    <string name="details_cores">Dipakai oleh: %1$s</string>
+    <string name="details_md5">MD5 file yang benar: %1$s</string>
+    <string name="details_md5_any">Semua file bernama ini bisa dipakai</string>
+    <!-- %1$s: path, %2$s: its MD5 -->
+    <string name="details_file">File Anda: %1$s\nMD5-nya: %2$s</string>
+    <string name="details_file_big">File Anda: %1$s\nTerlalu besar untuk file ini</string>
+    <string name="close">Tutup</string>
+
+    <string name="path_easyroms">EASYROMS</string>
+    <string name="path_internal">Penyimpanan internal</string>
+</resources>

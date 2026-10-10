@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_title">模拟器文件</string>
+    <string name="app_summary">游戏无法启动？检查部分系统需要的 BIOS 文件</string>
+
+    <!-- The main page -->
+    <string name="intro">部分系统需要原版主机的文件（BIOS）才能启动游戏。请将这些文件放入 EASYROMS 上的 bios 文件夹。</string>
+    <!-- The same, for a card set up without EASYROMS (.noroms) -->
+    <string name="intro_internal">部分系统需要原版主机的文件（BIOS）才能启动游戏。请将这些文件放入内部存储空间中的 bios 文件夹。</string>
+    <string name="checking">正在检查…</string>
+    <string name="check_failed">无法运行检查。请重启掌机后重试。</string>
+    <string name="no_easyroms_title">EASYROMS 目前不可用</string>
+    <string name="no_easyroms_summary">请重新插入带有 EASYROMS 分区的 SD 卡，然后再次打开此页面。</string>
+    <string name="systems_category">系统</string>
+
+    <string name="fix_title">修正文件名</string>
+    <!-- %1$d: number of files -->
+    <plurals name="fix_summary">
+        <item quantity="other">%1$d 个文件的名称不对，模拟器找不到它们</item>
+    </plurals>
+    <string name="fix_dialog_title">要重命名这些文件吗？</string>
+    <!-- %1$s: one line per file, made of fix_line -->
+    <string name="fix_dialog_message">在 EASYROMS 上的 bios 文件夹中：\n\n%1$s</string>
+    <string name="fix_dialog_message_internal">在内部存储空间中的 bios 文件夹中：\n\n%1$s</string>
+    <!-- %1$s: the file\'s name now, %2$s: the right name -->
+    <string name="fix_line">%1$s → %2$s\n</string>
+    <string name="fix_button">重命名</string>
+    <plurals name="fix_done">
+        <item quantity="other">已重命名 %1$d 个文件。</item>
+    </plurals>
+    <plurals name="fix_failed">
+        <item quantity="other">有 %1$d 个文件无法重命名。</item>
+    </plurals>
+
+    <!-- A system\'s summary. %1$s: file names -->
+    <string name="level_ready">已就绪</string>
+    <string name="level_not_needed">可选：玩游戏不需要</string>
+    <string name="level_missing">缺少：%1$s</string>
+    <string name="level_missing_one_of">缺少：%1$s 或类似文件</string>
+    <string name="level_wrong_version">版本不对：%1$s。游戏可能无法启动</string>
+    <string name="level_wrong_name">有文件名称不对。请使用“修正文件名”</string>
+
+    <!-- A file on the system page -->
+    <string name="state_found">已找到</string>
+    <string name="state_missing_needed">缺少，必需</string>
+    <string name="state_missing_one_of">缺少。其中任意一个即可</string>
+    <string name="state_missing_optional">缺少，可选</string>
+    <string name="state_wrong_version">版本不对：游戏可能无法启动</string>
+    <!-- %1$s: what the file really is -->
+    <string name="state_wrong_version_is">文件不对：这是 %1$s。请使用“修正文件名”</string>
+    <!-- %1$s: its name now, maybe with a subfolder -->
+    <string name="state_wrong_name">找到的文件名为 %1$s。请使用“修正文件名”</string>
+
+    <!-- A file\'s details (A on a file) -->
+    <string name="details_what">这是什么：%1$s</string>
+    <string name="details_cores">使用者：%1$s</string>
+    <string name="details_md5">正确文件的 MD5：%1$s</string>
+    <string name="details_md5_any">任何使用此名称的文件均可</string>
+    <!-- %1$s: path, %2$s: its MD5 -->
+    <string name="details_file">您的文件：%1$s\n它的 MD5：%2$s</string>
+    <string name="details_file_big">您的文件：%1$s\n文件太大，不可能是这个文件</string>
+    <string name="close">关闭</string>
+
+    <string name="path_easyroms">EASYROMS</string>
+    <string name="path_internal">内部存储空间</string>
+</resources>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="report_title">Rapport de problème</string>
+    <string name="report_summary">Enregistrer les journaux sur la carte SD pour un rapport de bug</string>
+
+    <string name="intro">Un problème ? Enregistrez un rapport et joignez-le quand vous nous signalez le problème. Il contient les journaux système actuels et ceux du dernier démarrage, les rapports de plantage et une description de cette console. Cela prend environ une minute.</string>
+
+    <string name="note_title">Que s\'est-il passé ?</string>
+    <string name="note_hint">Facultatif. Que faisiez-vous, et que s\'est-il passé ?</string>
+    <string name="note_dialog">Décrivez le problème. La description est ajoutée au rapport.</string>
+
+    <string name="save_title">Enregistrer le rapport</string>
+    <string name="save_summary">Enregistré sur EASYROMS, dans le dossier andr36oid-reports</string>
+    <string name="save_running">Enregistrement : %1$s (étape %2$d sur %3$d)…</string>
+    <string name="save_done">Enregistré : %1$s</string>
+    <string name="save_done_toast">Rapport enregistré dans %1$s</string>
+    <string name="save_failed">Non enregistré. %1$s</string>
+    <string name="error_no_storage">Il n\'y a ni partition EASYROMS ni dossier Download interne où l\'enregistrer.</string>
+    <string name="error_cant_write">Impossible d\'écrire le fichier. La carte est-elle pleine ?</string>
+    <string name="error_stopped">Le rapport s\'est arrêté avant la fin.</string>
+    <string name="error_start">Impossible de démarrer le rapport.</string>
+
+    <string name="step_system">informations système</string>
+    <string name="step_logcat">journal Android</string>
+    <string name="step_kernel">journal du noyau</string>
+    <string name="step_crashes">rapports de plantage</string>
+    <string name="step_power">informations batterie et veille</string>
+    <string name="step_devices">appareils et connexions</string>
+    <string name="step_apps">liste des applis</string>
+    <string name="step_saving">fichier</string>
+
+    <string name="last_start_title">Journaux du dernier démarrage</string>
+    <string name="last_start_crash">Le dernier démarrage s\'est terminé par un plantage du système. Son journal est conservé et ajouté au rapport.</string>
+    <string name="last_start_kept">Conservés, ils seront ajoutés au rapport.</string>
+    <string name="last_start_none">Aucun. Ils ne sont conservés que lorsque la console redémarre, pas quand elle a été éteinte ou que la batterie s\'est vidée.</string>
+
+    <string name="privacy">Le rapport liste vos applis et peut contenir les noms de réseaux Wi-Fi et d\'appareils Bluetooth. Il ne contient ni vos jeux ni vos fichiers. Jetez-y un œil avant de le publier.</string>
+
+    <string name="channel_name">Rapports de problème</string>
+    <string name="crash_title">La console a redémarré après une erreur</string>
+    <string name="crash_text">Enregistrez un rapport de problème maintenant, tant que les journaux sont encore là, et envoyez-le avec une description de ce qui s\'est passé.</string>
+    <string name="crash_action">Enregistrer le rapport</string>
+</resources>

@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="guide_title">快速入门指南</string>
+    <string name="guide_summary">按键、快捷键、您的游戏，以及出问题时的帮助</string>
+
+    <!-- Bottom bar: what the buttons do in the guide -->
+    <string name="hint_choose">选择</string>
+    <string name="hint_read">阅读</string>
+    <string name="hint_scroll">滚动</string>
+    <string name="hint_page">主题</string>
+    <string name="hint_back">主题列表</string>
+    <string name="hint_close">关闭</string>
+    <!-- Joins two buttons pressed together, e.g. "FN + Start" -->
+    <string name="key_plus">+</string>
+    <!-- Between two alternative buttons, e.g. "L1 / R1" -->
+    <string name="key_or">/</string>
+
+    <!-- Welcome -->
+    <string name="welcome_title">欢迎</string>
+    <string name="welcome_intro">andr36oid 把这台掌机变成一台 Android 掌机。游戏、模拟器和应用全都可以用按键操作，不需要触摸屏。</string>
+    <string name="welcome_choose">选择主题</string>
+    <string name="welcome_read">阅读主题，之后方向键用于滚动</string>
+    <string name="welcome_page">上一个或下一个主题</string>
+    <string name="welcome_tutorial">在互动教程中再试一遍按键</string>
+    <string name="welcome_close">关闭指南</string>
+    <string name="welcome_again">您随时可以从“设置 &gt; 快速入门指南”再次打开本指南。</string>
+
+    <!-- Buttons -->
+    <string name="buttons_title">按键</string>
+    <string name="buttons_a">选择、确认</string>
+    <string name="buttons_b">返回</string>
+    <string name="buttons_fn">主屏幕</string>
+    <string name="buttons_power_tap">短按：休眠和唤醒</string>
+    <string name="buttons_power_hold">长按：打开电源菜单，包含主屏幕、切换应用、关闭后台应用、关机和重启</string>
+    <string name="buttons_volume">音量</string>
+    <string name="buttons_select">在有菜单的应用中打开菜单</string>
+    <string name="buttons_stick">左摇杆可以像方向键一样移动</string>
+
+    <!-- FN shortcuts -->
+    <string name="shortcuts_title">FN 快捷键</string>
+    <string name="shortcuts_intro">按住 FN 再按另一个按键。单独按 FN 仍然返回主屏幕。</string>
+    <string name="shortcuts_brightness">调亮或调暗屏幕</string>
+    <string name="shortcuts_screenshot">截图，保存到 Pictures/Screenshots</string>
+    <string name="shortcuts_last_app">回到上一个使用的应用</string>
+    <string name="shortcuts_panel">通知和快捷设置</string>
+    <string name="shortcuts_mouse">开启或关闭摇杆鼠标</string>
+    <string name="shortcuts_profile">下一个性能模式</string>
+    <string name="shortcuts_overlay">开启或关闭性能浮窗</string>
+    <string name="shortcuts_touch">触控映射编辑器（在游戏中）</string>
+    <string name="shortcuts_hold_help">忘了某个快捷键？在任何应用或游戏中单独按住 FN 片刻，就会显示此列表。松开 FN 即可关闭。</string>
+
+    <!-- Games -->
+    <string name="games_title">您的游戏</string>
+    <string name="games_where">游戏放在 SD 卡的 EASYROMS 分区中。在电脑上，这张卡会显示为名为 EASYROMS 的磁盘。在掌机上，它是“文件”应用中的 EASYROMS 存储空间。</string>
+    <string name="games_folders">为每个系统建一个单独的文件夹，命名为 nes、snes、gb、gba、megadrive 或 psx 等。为 ArkOS 或 dArkOS 准备的卡已经使用这些名称，因此其中的游戏可以直接使用。</string>
+    <string name="games_folders_ready">掌机会自动在 EASYROMS 上创建这些文件夹，并附带一个 README，列出各系统对应的文件夹。</string>
+    <string name="games_wifi_transfer">手边没有电脑或读卡器？在掌机上打开 Wi-Fi transfer，用手机扫描它显示的二维码，或在同一网络中的任意浏览器里输入它显示的地址，即可把游戏直接传到 EASYROMS。</string>
+    <string name="games_library">主屏幕 Daijishou 会把这些文件夹变成游戏库：添加一个平台，然后在 EASYROMS 上选择对应的文件夹。</string>
+
+    <!-- Emulators -->
+    <string name="emulators_title">模拟器</string>
+    <string name="emulators_included">RetroArch 和 PPSSPP 已预装。RetroArch 已包含以下系统的核心：NES、SNES、Game Boy、GBA、Mega Drive、Master System、Game Gear、PlayStation、PC Engine、Neo Geo Pocket、WonderSwan、Atari 2600、7800 和 Lynx。</string>
+    <string name="emulators_psp">PSP 游戏在 PPSSPP 中运行。PlayStation 游戏没有 BIOS 也能启动，但在 EASYROMS 的 bios 文件夹中放入 BIOS 后效果最好。</string>
+    <string name="emulators_updates">这些模拟器都是普通应用：可以用 F-Droid 更新，也可以卸载。</string>
+
+    <!-- Speed and battery -->
+    <string name="speed_title">速度和电池</string>
+    <string name="speed_profiles">“设置 &gt; 性能”中有三种模式。省电模式适合长时间玩老系统，均衡模式适合日常使用，性能模式适合 PS1、N64 和 PSP。也可以用快捷设置图块切换。</string>
+    <string name="speed_overclock_alone">“设置 &gt; CPU 超频（实验性）”可以让处理器以高于标准的频率运行，适合要求高的游戏。重启后会自动关闭。如果掌机卡死，请选择较低的频率。</string>
+    <string name="speed_overclock">同一页面上的“CPU 超频（实验性）”可以让处理器以高于标准的频率运行，适合要求高的游戏。重启后会自动关闭。如果掌机卡死，请选择较低的频率。</string>
+    <string name="speed_screen">屏幕最耗电。降低亮度可以玩得更久。</string>
+
+    <!-- Mouse and button mapping -->
+    <string name="mouse_title">鼠标和按键</string>
+    <string name="mouse_toggle">同时按下两个摇杆 1 秒：开启或关闭摇杆鼠标</string>
+    <string name="mouse_pointer">移动指针</string>
+    <string name="mouse_click">点击，按住 R1 可拖动</string>
+    <string name="mouse_right_click">右键点击</string>
+    <string name="mouse_scroll">滚动</string>
+    <string name="mouse_settings">在“设置 &gt; 摇杆鼠标”中可以更改速度、按键和组合键。</string>
+    <string name="mapping_settings">在“设置 &gt; 按键映射”中可以互换按键，并可为不同游戏设置配置。</string>
+    <string name="mapping_reset">按键设置乱了没法操作？同时按住两个音量键 5 秒，所有按键就会恢复正常。</string>
+
+    <!-- Touch controls -->
+    <string name="touch_title">触控映射</string>
+    <string name="touch_intro">有些游戏只能用触摸屏操作。触控映射可为这类游戏设置专属布局：每个按键或摇杆会触摸屏幕上的一个位置。该游戏在前台运行时会自动启用，其他应用仍使用普通按键。</string>
+    <string name="touch_open">在游戏中：在游戏上方打开编辑器</string>
+    <string name="touch_settings">或者前往“设置 &gt; 触控映射 &gt; 添加应用”。游戏会启动，编辑器会在其上方打开。</string>
+    <string name="touch_move">将十字准星移到某个位置</string>
+    <string name="touch_add">在该位置添加控件，然后按下它的按键或推动它的摇杆</string>
+    <string name="touch_size">缩小或放大所选控件</string>
+    <string name="touch_save">保存并返回游戏</string>
+    <string name="touch_kinds">控件可以点按、按住、滑动、用作屏幕摇杆，或像相机一样转动视角。在编辑器中按 Select 还有更多选项：用于第二套控件的 Shift 键，以及屏幕上的标签。</string>
+    <string name="touch_other_buttons">没有设置控件的按键仍作为普通按键使用，FN 及其快捷键始终有效。</string>
+
+    <!-- Internet -->
+    <string name="internet_title">上网</string>
+    <string name="internet_wifi">大多数 R36S 掌机没有内置 Wi-Fi，但有些型号（例如 R36XX）有。如果您的掌机有，只需在“设置 &gt; 网络和互联网”中开启 WLAN。如果没有，请将 USB Wi-Fi 适配器插入 OTG 接口（如有需要，可配一个 USB-C 转接头），然后在同一位置开启 WLAN。</string>
+    <string name="internet_browser">网页浏览器是 Cromite。</string>
+
+    <!-- Troubleshooting -->
+    <string name="trouble_title">故障排除</string>
+    <string name="trouble_intro">大多数问题都可以用电脑和 SD 卡解决。在电脑上，这张卡会显示一个名为 BOOT 的小磁盘（启动文件）和一个名为 EASYROMS 的大磁盘（您的游戏）。</string>
+    <string name="trouble_first_boot_q">首次启动需要很长时间</string>
+    <string name="trouble_first_boot_a">这是正常的。首次启动会设置 SD 卡并自动重启，然后 Android 会准备应用。请等待几分钟，不要关机。</string>
+    <string name="trouble_panel_q">首次启动时屏幕一直黑屏，但掌机已开机</string>
+    <string name="trouble_panel_a">您的掌机屏幕与这张卡预设的屏幕不同。在电脑上打开 BOOT，再打开 Panels。从其中一个 Panel 文件夹中复制两个文件到 BOOT 的根目录，并替换那里的文件。Panel4 是默认值，请逐个尝试其他的。</string>
+    <string name="trouble_stuck_q">更新或安装 Magisk 模块后无法启动</string>
+    <string name="trouble_stuck_a">不使用 root 启动。在电脑上打开 BOOT，把 ramdisk.uimg 重命名为 ramdisk-magisk.uimg，再把 ramdisk-stock.uimg 重命名为 ramdisk.uimg。您的应用和游戏都会保留。之后把名称改回来即可重新获得 root。</string>
+    <string name="trouble_frozen_q">掌机卡死了</string>
+    <string name="trouble_frozen_a">按住电源键约 10 秒直到关机，然后重新开机。如果卡死时开启了 CPU 超频，下次请选择较低的频率。重启后超频总是会关闭。</string>
+    <string name="trouble_bios_q">游戏无法启动，或启动后黑屏</string>
+    <string name="trouble_bios_a">有些系统（如 Sega CD 和 PC Engine CD）需要原版主机的文件（BIOS），PlayStation 游戏有 BIOS 也会运行得更好。请将这些文件放入 EASYROMS 上的 bios 文件夹。“设置 &gt; 模拟器文件”会显示缺少哪些文件。</string>
+    <string name="trouble_buttons_q">按键功能不对</string>
+    <string name="trouble_recovery_q">恢复模式和恢复出厂设置</string>
+    <string name="trouble_recovery_a">开机时按住 FN</string>
+    <string name="trouble_recovery_more">这会启动恢复模式，用于恢复出厂设置或从电脑安装更新。恢复出厂设置会清除您的应用和设置，但不会清除 EASYROMS 上的游戏。</string>
+    <string name="trouble_clock_q">日期或时间不对</string>
+    <string name="trouble_clock_a">电池完全耗尽时，掌机会忘记时间。请在“设置 &gt; 系统 &gt; 日期和时间”中设置。只要开启了“使用网络提供的时间”，连接网络后就会自动设置。</string>
+
+    <!-- USB and computers -->
+    <string name="usb_title">USB 和电脑</string>
+    <string name="usb_card">复制游戏最简单的方法是把 SD 卡插入电脑，然后复制到 EASYROMS。开机前请先把卡插回掌机。</string>
+    <string name="usb_mode_q">将掌机连接到电脑</string>
+    <string name="usb_mode_a">开启“设置 &gt; USB 模式 &gt; 连接到电脑”，然后用数据线连接 OTG 接口和电脑的 USB-A 接口。在 USB 通知中选择“文件传输”。开启期间，插在 OTG 接口上的手柄和适配器无法使用，重启后此功能会关闭。</string>
+    <string name="usb_mode_wifi">如果您的掌机内置 Wi-Fi（例如 R36XX），切勿开启此功能。这些掌机的 Wi-Fi 使用的正是这个 USB 接口，因此 Wi-Fi 会停止工作，可能要重启才能恢复。USB 模式在切换前会先询问。</string>
+    <string name="usb_mode_charging">掌机通过另一个接口充电时，切勿使用此功能。请先拔下充电器。如果在开启期间插入充电器，USB 模式会切换回外设模式。</string>
+    <string name="usb_adb">如需使用 adb，还要在“设置 &gt; 系统 &gt; 开发者选项”中开启“USB 调试”。要显示开发者选项，请在“设置 &gt; 关于掌机”中点击“版本号”7 次。</string>
+    <string name="usb_host_only">OTG 接口用于连接外设：手柄、U 盘和网络适配器。在此版本中无法用它连接电脑。</string>
+    <string name="usb_dongles_q">外设</string>
+    <string name="usb_dongles_a">将外设插入 OTG 接口，如有需要，可使用 USB-C 转接头或小型集线器。只要 Android 有对应芯片的驱动，USB 手柄、键盘、鼠标、U 盘以及 Wi-Fi、蓝牙和以太网适配器都能使用。采用常见 Realtek 芯片的适配器兼容性最好。在内置 Wi-Fi 的掌机（例如 R36XX）上，插入 OTG 接口的设备可能导致内置 Wi-Fi 无法使用。</string>
+    <string name="usb_dongles_trouble">没有反应？拔下设备，等几秒后重新插入。有些适配器需要的电量超过接口能提供的；使用带独立电源的集线器会有帮助。</string>
+
+    <!-- SD card -->
+    <string name="card_title">SD 卡</string>
+    <string name="card_layout">这张卡存放所有内容：Android、您的应用和数据（16 GB），以及占用卡上剩余空间的 EASYROMS。EASYROMS 使用 exFAT 格式，Windows、macOS 和 Linux 都能读取。</string>
+    <string name="card_noroms_q">全部空间用于应用，不要 EASYROMS</string>
+    <string name="card_noroms_a">在首次启动之前，在 BOOT 上创建一个名为 .noroms 的空文件。首次启动时就会把整张卡都分给应用。此方法仅适用于刚写入系统的卡。之后 BIOS 文件要放在内部存储空间中的 bios 文件夹里。</string>
+    <string name="card_backup_q">备份存档</string>
+    <string name="card_backup_a">保存在 EASYROMS 上游戏旁边的存档，可以很方便地在电脑上复制。保存在应用内部的存档会随应用留在卡上的 Android 部分，因此请在各模拟器的设置中查看存档的位置。</string>
+
+    <!-- Battery -->
+    <string name="battery_title">电池保养</string>
+    <string name="battery_percent_q">电池百分比看起来不对</string>
+    <string name="battery_percent_a">电量计会估算电量，并在使用中不断学习。在电池耗尽或掌机长时间未使用后，请在开机状态下充到 100%，然后继续充电半小时。这样电量计就能重新找到正确的电量。</string>
+    <string name="battery_details">“设置 &gt; 电池 &gt; 电池详情”会显示电池电压：约 4.2 V 为充满，低于 3.5 V 时电量快要耗尽。</string>
+    <string name="battery_sleep_q">休眠还是关机？</string>
+    <string name="battery_sleep_a">短暂休息时用休眠（短按电源键）就可以，但仍会消耗少量电量。超过一天不用时，请从电源菜单关机。</string>
+    <string name="battery_storage_q">长时间存放</string>
+    <string name="battery_storage_a">将电量充到一半左右，然后关机。每隔几个月补充一次电量。电池长时间完全没电可能会损坏。</string>
+
+    <!-- Magisk -->
+    <!-- Community -->
+    <string name="community_title">社区</string>
+    <string name="community_text">有问题、有技巧，或者只是想秀一下您的掌机？andr36oid 社区在 Telegram 上：t.me/andr36oid\n\n用手机扫描二维码即可加入。</string>
+    <string name="community_qr_description">t.me/andr36oid 的二维码</string>
+
+    <string name="magisk_title">Root（Magisk）</string>
+    <string name="magisk_intro">掌机通过 Magisk 自带 root，但需要先设置一次才会生效。</string>
+    <string name="magisk_setup_q">开启 root：先打开一次 Magisk</string>
+    <string name="magisk_setup_a">打开 Magisk 应用，让它完成设置。它会要求重启掌机：请选择同意。重启之后才有 root 权限。</string>
+    <string name="magisk_use">此后，请求 root 权限的应用会显示提示：用按键选择允许或拒绝。Magisk 应用用于管理 root 权限和模块。</string>
+    <string name="magisk_modules">root 位于卡上的 BOOT 部分，因此系统更新后仍会保留。</string>
+    <string name="magisk_broken_q">某个模块导致无法启动</string>
+    <string name="magisk_broken_a">请参阅“故障排除”：在 BOOT 上将 ramdisk.uimg 换成 ramdisk-stock.uimg，掌机就会在没有 root 和模块的情况下启动。</string>
+
+    <!-- Key names drawn in the badges that aren't just the printed label -->
+    <string name="key_dpad">方向键</string>
+    <string name="key_power">电源</string>
+    <string name="key_volume">音量</string>
+    <string name="key_right_stick">右摇杆</string>
+    <string name="key_left_stick">左摇杆</string>
+</resources>

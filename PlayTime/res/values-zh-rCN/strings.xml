@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="play_time_title">游戏时间</string>
+    <string name="play_time_summary">玩了多久、最常玩的游戏和休息提醒</string>
+
+    <!-- Header above the week chart -->
+    <string name="today">今天：<xliff:g id="time">%1$s</xliff:g></string>
+    <string name="this_week">过去 7 天：<xliff:g id="time">%1$s</xliff:g></string>
+
+    <string name="most_played">最常玩（过去 7 天）</string>
+    <string name="nothing_played">还没有记录。快去玩点什么吧！</string>
+    <!-- Summary of an app in the most played list: time, and the share of all play time -->
+    <string name="app_time"><xliff:g id="time">%1$s</xliff:g> · <xliff:g id="percent">%2$d</xliff:g>%%</string>
+
+    <string name="breaks">休息</string>
+    <string name="break_reminder">提醒我休息</string>
+    <string-array name="break_entries">
+        <item>从不</item>
+        <item>30 分钟后</item>
+        <item>45 分钟后</item>
+        <item>1 小时后</item>
+        <item>1 小时 30 分钟后</item>
+        <item>2 小时后</item>
+    </string-array>
+    <string name="about">游戏时间统计的是应用在屏幕上打开的时间。主屏幕、设置和屏幕关闭的时间不计算在内。\n\n休息提醒统计的是屏幕连续亮着的时间。暂停 2 分钟或更久后会重新计时。</string>
+
+    <!-- Durations -->
+    <string name="duration_min"><xliff:g id="minutes">%1$d</xliff:g> 分钟</string>
+    <string name="duration_h"><xliff:g id="hours">%1$d</xliff:g> 小时</string>
+    <string name="duration_h_min"><xliff:g id="hours">%1$d</xliff:g> 小时 <xliff:g id="minutes">%2$d</xliff:g> 分钟</string>
+
+    <!-- Break reminder notification -->
+    <string name="channel_name">休息提醒</string>
+    <string name="break_title">您已经玩了 <xliff:g id="time">%1$s</xliff:g></string>
+    <string name="break_text">该休息一下了吧？让眼睛歇歇，活动活动身体，游戏会等着您。</string>
+    <string name="break_text_battery">该休息一下了吧？让眼睛歇歇，活动活动身体。电量剩余 <xliff:g id="percent">%1$d</xliff:g>%%。</string>
+</resources>

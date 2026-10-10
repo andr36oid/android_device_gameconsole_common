@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string-array name="action_labels">
+        <item>Tombol biasa</item>
+        <item>Tidak ada</item>
+        <item>Klik kiri</item>
+        <item>Klik kanan</item>
+        <item>Klik tengah</item>
+        <item>Kembali</item>
+        <item>Maju</item>
+        <item>Klik kiri saat pointer terlihat, jika tidak tombol biasa</item>
+        <item>Presisi: pointer lambat selama ditahan</item>
+        <item>Gulir: stik pointer menggulir selama ditahan</item>
+    </string-array>
+
+    <string-array name="toggle_ms_labels">
+        <item>0,5 detik</item>
+        <item>0,75 detik</item>
+        <item>1 detik</item>
+        <item>1,5 detik</item>
+        <item>2 detik</item>
+        <item>3 detik</item>
+        <item>5 detik</item>
+        <item>10 detik</item>
+    </string-array>
+
+    <string-array name="speed_labels">
+        <item>25%</item>
+        <item>40%</item>
+        <item>60%</item>
+        <item>80%</item>
+        <item>100% (default)</item>
+        <item>125%</item>
+        <item>150%</item>
+        <item>200%</item>
+        <item>250%</item>
+        <item>300%</item>
+    </string-array>
+
+    <string-array name="curve_labels">
+        <item>Nonaktif (linear)</item>
+        <item>Rendah</item>
+        <item>Sedang (default)</item>
+        <item>Tinggi</item>
+        <item>Sangat tinggi</item>
+    </string-array>
+
+    <string-array name="deadzone_labels">
+        <item>4%</item>
+        <item>6%</item>
+        <item>8%</item>
+        <item>10% (default)</item>
+        <item>12%</item>
+        <item>15%</item>
+        <item>20%</item>
+        <item>25%</item>
+    </string-array>
+
+    <string-array name="precision_labels">
+        <item>15%</item>
+        <item>25%</item>
+        <item>35% (default)</item>
+        <item>50%</item>
+        <item>70%</item>
+    </string-array>
+
+    <string-array name="scroll_speed_labels">
+        <item>25%</item>
+        <item>50%</item>
+        <item>75%</item>
+        <item>100% (default)</item>
+        <item>150%</item>
+        <item>200%</item>
+        <item>300%</item>
+    </string-array>
+</resources>

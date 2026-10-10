@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="test_title">Тест контроллера</string>
+    <string name="test_summary">Проверьте все кнопки и стики, заряд батареи</string>
+
+    <!-- Bottom line. %1$d buttons pressed so far out of %2$d -->
+    <string name="test_hint">Удерживайте START + SELECT — выход · FN — домой · проверено: <xliff:g id="done">%1$d</xliff:g>/<xliff:g id="total">%2$d</xliff:g></string>
+    <string name="test_all_tested">Все кнопки работают</string>
+    <string name="test_leaving">Выход…</string>
+    <string name="test_no_key">Нажмите любую кнопку</string>
+    <string name="test_no_stick">Аналоговые стики не найдены</string>
+    <string name="test_battery_unknown">Батарея: нет данных</string>
+</resources>

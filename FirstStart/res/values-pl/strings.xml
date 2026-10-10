@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_name">Pierwsze uruchomienie</string>
+    <string name="home_title">Ekran główny</string>
+    <string name="home_body">Twój ekran główny, Daijishou, otworzy się tutaj po zakończeniu samouczka.\n\nSamouczek za chwilę wróci.</string>
+    <string name="home_back">Wróć do samouczka</string>
+    <string name="home_skip">Pomiń samouczek</string>
+</resources>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="play_time_title">Oyun süresi</string>
+    <string name="play_time_summary">Ne kadar oynadığınız, en çok oynadıklarınız ve mola hatırlatıcıları</string>
+
+    <!-- Header above the week chart -->
+    <string name="today">Bugün: <xliff:g id="time">%1$s</xliff:g></string>
+    <string name="this_week">Son 7 gün: <xliff:g id="time">%1$s</xliff:g></string>
+
+    <string name="most_played">En çok oynananlar, son 7 gün</string>
+    <string name="nothing_played">Henüz bir şey yok. Hadi bir şeyler oynayın!</string>
+    <!-- Summary of an app in the most played list: time, and the share of all play time -->
+    <string name="app_time"><xliff:g id="time">%1$s</xliff:g> · %%<xliff:g id="percent">%2$d</xliff:g></string>
+
+    <string name="breaks">Molalar</string>
+    <string name="break_reminder">Mola vermemi hatırlat</string>
+    <string-array name="break_entries">
+        <item>Hiçbir zaman</item>
+        <item>30 dakika sonra</item>
+        <item>45 dakika sonra</item>
+        <item>1 saat sonra</item>
+        <item>1 saat 30 dakika sonra</item>
+        <item>2 saat sonra</item>
+    </string-array>
+    <string name="about">Oyun süresi, bir uygulamanın ekranda açık kaldığı süreyi sayar. Ana ekran, Ayarlar ve ekranın kapalı olduğu süre sayılmaz.\n\nMola hatırlatıcısı ekranın ne kadar süredir açık olduğunu sayar. 2 dakika veya daha uzun bir ara sayımı yeniden başlatır.</string>
+
+    <!-- Durations -->
+    <string name="duration_min"><xliff:g id="minutes">%1$d</xliff:g> dk</string>
+    <string name="duration_h"><xliff:g id="hours">%1$d</xliff:g> sa</string>
+    <string name="duration_h_min"><xliff:g id="hours">%1$d</xliff:g> sa <xliff:g id="minutes">%2$d</xliff:g> dk</string>
+
+    <!-- Break reminder notification -->
+    <string name="channel_name">Mola hatırlatıcıları</string>
+    <string name="break_title"><xliff:g id="time">%1$s</xliff:g> süredir oynuyorsunuz</string>
+    <string name="break_text">Kısa bir mola vermeye ne dersiniz? Gözlerinizi dinlendirin ve biraz gerinin, oyununuz bekler.</string>
+    <string name="break_text_battery">Kısa bir mola vermeye ne dersiniz? Gözlerinizi dinlendirin ve biraz gerinin. Pil: %%<xliff:g id="percent">%1$d</xliff:g>.</string>
+</resources>

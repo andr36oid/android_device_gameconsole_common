@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="overclock_title">Leistung</string>
+    <string name="overclock_summary">Energiesparen oder volle Geschwindigkeit, CPU-Limit und Übertakten</string>
+
+    <!-- Performance profiles -->
+    <string name="profile_category">Leistungsprofil</string>
+    <string name="profile_title">Profil</string>
+    <string-array name="profile_names">
+        <item>Energiesparen</item>
+        <item>Ausgewogen</item>
+        <item>Leistung</item>
+    </string-array>
+    <!-- What each profile does. cpu is a CPU speed like "1.01 GHz", gpu a GPU speed in MHz. -->
+    <string name="profile_about_saver">Längere Spielzeit. Die CPU bleibt bei höchstens <xliff:g id="cpu">%1$s</xliff:g>, die Grafik bei <xliff:g id="gpu">%2$d</xliff:g> MHz. Reicht locker für 8- und 16-Bit-Spiele.</string>
+    <string name="profile_about_balanced">Normale Geschwindigkeiten. Der Prozessor wird schneller, wenn ein Spiel es braucht, und langsamer, wenn nicht.</string>
+    <string name="profile_about_performance">Flüssigste Emulation. Die CPU fällt nie unter <xliff:g id="cpu">%1$s</xliff:g> und die Grafik läuft immer mit <xliff:g id="gpu">%2$d</xliff:g> MHz. Für PS1-, N64- und PSP-Spiele. Der Akku ist schneller leer.</string>
+    <string name="profile_about_footer">\n\nDas Profil bleibt nach einem Neustart erhalten. Die Kachel in den Schnelleinstellungen wechselt zum nächsten.</string>
+    <string name="profile_about_footer_fn">\n\nDas Profil bleibt nach einem Neustart erhalten. FN + R1 und die Kachel in den Schnelleinstellungen wechseln zum nächsten.</string>
+    <string name="profile_failed">Leistungsprofil konnte nicht geändert werden</string>
+    <!-- Toast after FN + R1, e.g. "Performance profile: Battery saver" -->
+    <string name="profile_switched">Leistungsprofil: <xliff:g id="profile">%1$s</xliff:g></string>
+    <string name="profile_tile_label">Leistung</string>
+    <!-- Toast after FN + R1 while a maximum CPU speed holds the CPU lower than the profile would,
+         e.g. "Performance profile: Balanced, CPU up to 816 MHz" -->
+    <string name="profile_switched_capped">Leistungsprofil: <xliff:g id="profile">%1$s</xliff:g>, CPU bis <xliff:g id="speed">%2$s</xliff:g></string>
+    <!-- Tile subtitle with a maximum CPU speed, e.g. "Balanced, 816 MHz" -->
+    <string name="profile_tile_capped"><xliff:g id="profile">%1$s</xliff:g>, <xliff:g id="speed">%2$s</xliff:g></string>
+
+    <!-- Maximum CPU speed (underclock) -->
+    <string name="cpu_cap_title">Maximaler CPU-Takt</string>
+    <!-- First entry of the list, no limit. speed is the standard top speed, e.g. "1296 MHz" -->
+    <string name="cpu_cap_stock">Standard (<xliff:g id="speed">%1$s</xliff:g>)</string>
+    <string name="cpu_cap_note">Weniger bedeutet längere Akkulaufzeit und eine kühlere Konsole, aber langsamere Spiele. Wenn ein Spiel ruckelt, wähle einen höheren Takt. Bleibt nach einem Neustart erhalten.</string>
+    <!-- The cap is lower than what the profile allows, speed e.g. "816 MHz" -->
+    <string name="cpu_cap_active">Bis <xliff:g id="speed">%1$s</xliff:g>, egal welches Profil.</string>
+    <!-- The profile already stays lower than the cap -->
+    <string name="cpu_cap_profile_lower"><xliff:g id="speed">%1$s</xliff:g>. Das Profil hält die CPU gerade bei <xliff:g id="profile_speed">%2$s</xliff:g> oder darunter.</string>
+    <string name="cpu_cap_on_hold"><xliff:g id="speed">%1$s</xliff:g>. Pausiert, solange die Übertaktung an ist.</string>
+    <string name="cpu_cap_none">Kein Limit außer dem Profil.</string>
+    <!-- A CPU speed, e.g. "816 MHz" -->
+    <string name="speed_mhz"><xliff:g id="mhz">%1$d</xliff:g> MHz</string>
+
+    <string name="overclock_category">CPU-Übertaktung (experimentell)</string>
+    <string name="overclock_switch">Übertakten</string>
+    <string name="overclock_switch_on">Läuft mit bis zu <xliff:g id="speed">%1$s</xliff:g></string>
+    <string name="overclock_switch_off">Aus, die CPU läuft mit bis zu <xliff:g id="speed">%1$s</xliff:g></string>
+    <string name="overclock_speed">Takt</string>
+
+    <!-- A CPU speed, e.g. "1.51 GHz" -->
+    <string name="speed_ghz"><xliff:g id="ghz">%1$.2f</xliff:g> GHz</string>
+
+    <string name="overclock_about">Schnellere Emulation für anspruchsvolle Spiele, aber mit Nachteilen: Die Konsole wird wärmer, der Akku leert sich schneller und manche Konsolen frieren bei höheren Takten ein oder stürzen ab. Wähle dann einen niedrigeren Takt.\n\nDie Konsole startet immer ohne Übertaktung, ein Neustart schaltet sie aus. Solange sie an ist, ist der maximale CPU-Takt pausiert. Wird die Konsole zu heiß, drosselt sie sich außerdem selbst.</string>
+
+    <string name="overclock_unsupported">Diese Konsole lässt sich nicht übertakten.</string>
+    <string name="overclock_failed">CPU-Takt konnte nicht geändert werden</string>
+
+    <!-- CPU undervolt -->
+    <string name="undervolt_category">CPU-Undervolting (experimentell)</string>
+    <string name="undervolt_title">Undervolting</string>
+    <string name="undervolt_off">Aus</string>
+    <!-- An undervolt step, e.g. "−25 mV" -->
+    <string name="undervolt_step">−<xliff:g id="mv">%1$d</xliff:g> mV</string>
+    <string name="undervolt_about">Betreibt die CPU bei gleichem Takt mit etwas niedrigerer Spannung. So verbraucht sie etwas weniger Strom und bleibt etwas kühler, vor allem bei höheren Takten. Bei 816 MHz und darunter bringt es kaum etwas.\n\nJeder Chip ist anders. Wenn ein Spiel abstürzt oder die Konsole einfriert oder neu startet, stell wieder auf „Aus“. Ein Absturz während des Speicherns kann Dateien auf der Karte beschädigen. Geh also Schritt für Schritt vor und spiel eine Weile, bevor du weiter runtergehst.\n\nDie Konsole startet immer ohne Undervolting, ein Neustart schaltet es aus.</string>
+    <string name="undervolt_failed">CPU-Spannung konnte nicht geändert werden</string>
+
+    <!-- Quick Settings tile -->
+    <string name="tile_label">CPU-Übertaktung</string>
+    <string name="tile_off">Aus</string>
+</resources>

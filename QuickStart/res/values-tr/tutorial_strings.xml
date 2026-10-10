@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <!-- Hands-on tutorial that runs once after the setup wizard -->
+    <string name="tutorial_label">Eğitim</string>
+    <!-- Above the progress bar, e.g. "Step 3 of 11" -->
+    <string name="tutorial_step">Adım <xliff:g id="current">%1$d</xliff:g> / <xliff:g id="total">%2$d</xliff:g></string>
+
+    <!-- Buttons at the bottom -->
+    <string name="tutorial_back">Geri</string>
+    <string name="tutorial_start">Başla</string>
+    <string name="tutorial_next">İleri</string>
+    <string name="tutorial_skip_step">Adımı atla</string>
+    <string name="tutorial_skip_all">Eğitimi atla</string>
+    <!-- On the FN steps, for consoles without an FN button: skips all of them -->
+    <string name="tutorial_no_fn">FN tuşu yok</string>
+    <string name="tutorial_done">Bitti</string>
+    <string name="tutorial_open_guide">Tam kılavuzu aç</string>
+
+    <!-- Shown under the list once everything on a step was done -->
+    <string name="tutorial_well_done">Harika. Devam etmek için A\'ya basın.</string>
+
+    <!-- Welcome -->
+    <string name="tutorial_welcome_title">Tuşları deneyelim</string>
+    <string name="tutorial_welcome_body">Bu konsolda dokunmatik ekran yok. Her şey tuşlarla çalışır ve bu kısa eğitim her birini denemenizi sağlar. Yaklaşık üç dakika sürer.\n\nDevam etmek için A\'ya, geri gitmek için B\'ye basın. Zaten bildiğiniz bir adımı atlamak için Select\'e basın.</string>
+
+    <!-- A, B, X, Y -->
+    <string name="tutorial_face_title">A, B, X ve Y</string>
+    <string name="tutorial_face_body">A onaylar: seçili olanı açar ve ekrandaki düğmelere basar.\n\nB her seferinde bir ekran geri gider.\n\nX ve Y her uygulamada ve oyunda farklı şeyler yapar.\n\nHer birine bir kez basın.</string>
+    <string name="tutorial_press_a">A\'ya basın</string>
+    <string name="tutorial_press_b">B\'ye basın</string>
+    <string name="tutorial_press_x">X\'e basın</string>
+    <string name="tutorial_press_y">Y\'ye basın</string>
+
+    <!-- D-pad -->
+    <string name="tutorial_dpad_title">Yön tuşları</string>
+    <string name="tutorial_dpad_body">Yön tuşları seçimi ekranda gezdirir: listelerde, menülerde ve düğmelerde. Menülerde sol analog da aynı işi yapar.\n\nHer yöne bir kez basın.</string>
+    <string name="tutorial_dpad_up">Yukarı</string>
+    <string name="tutorial_dpad_down">Aşağı</string>
+    <string name="tutorial_dpad_left">Sol</string>
+    <string name="tutorial_dpad_right">Sağ</string>
+
+    <!-- Sticks -->
+    <string name="tutorial_sticks_title">Analoglar</string>
+    <string name="tutorial_sticks_body">Oyunlar iki analoğu da kullanır. Her analoğa bir tuş gibi içeri doğru da basabilirsiniz: bunlar L3 ve R3\'tür.\n\nİki analoğu da oynatın ve noktaların onları takip ettiğini görün, sonra bir analoğa içeri doğru basın.</string>
+    <string name="tutorial_stick_left">Sol analoğu oynatın</string>
+    <string name="tutorial_stick_right">Sağ analoğu oynatın</string>
+    <string name="tutorial_stick_click">Bir analoğa basın (L3 veya R3)</string>
+
+    <!-- Shoulder buttons -->
+    <string name="tutorial_shoulder_title">Omuz tuşları</string>
+    <string name="tutorial_shoulder_body">L1 ve R1 üstteki, L2 ve R2 alttaki omuz tuşlarıdır. Birçok uygulama sekme veya sayfa değiştirmek için L1 ve R1\'i kullanır.\n\nHer birine bir kez basın.</string>
+    <string name="tutorial_press_l1">L1\'e basın</string>
+    <string name="tutorial_press_r1">R1\'e basın</string>
+    <string name="tutorial_press_l2">L2\'ye basın</string>
+    <string name="tutorial_press_r2">R2\'ye basın</string>
+
+    <!-- FN = home -->
+    <string name="tutorial_home_title">FN, Ana ekran tuşudur</string>
+    <string name="tutorial_home_body">Her yerden, hatta bir oyundan bile ana ekrana gitmek için FN tuşuna tek başına basın. Ana ekran, oyunlarınızın ve uygulamalarınızın bulunduğu Daijishou\'dur.\n\nŞimdi deneyin: FN tuşuna basın. Bu eğitim birkaç saniye sonra kendiliğinden geri gelir.</string>
+    <string name="tutorial_home_task">FN tuşuna basın</string>
+    <string name="tutorial_home_back">Tekrar hoş geldiniz. Hepsi bu kadar.</string>
+
+    <!-- FN + volume -->
+    <string name="tutorial_brightness_title">FN kısayolları: parlaklık</string>
+    <string name="tutorial_brightness_body">FN tuşunun ikinci bir görevi var: basılı tutup başka bir tuşa bastığınızda kısayol olur.\n\nEkranı aydınlatmak için FN tuşunu basılı tutup Ses+ tuşuna basın. Karartmak için FN tuşunu basılı tutup Ses− tuşuna basın. Ses tuşları tek başına yine sesi değiştirir.</string>
+    <string name="tutorial_brightness_up">Daha parlak: FN + Ses+</string>
+    <string name="tutorial_brightness_down">Daha koyu: FN + Ses−</string>
+    <string name="tutorial_brightness_hint">Zaten en parlakta mı? Karartarak başlayın.</string>
+    <!-- After FN alone was pressed on a step that wants FN plus another button -->
+    <string name="tutorial_fn_alone">FN tuşuna tek başına bastınız, bu yüzden ana ekran açıldı. FN tuşunu basılı tutun ve bırakmadan ikinci tuşa basın.</string>
+
+    <!-- FN + Y -->
+    <string name="tutorial_shade_title">FN kısayolları: Hızlı Ayarlar</string>
+    <string name="tutorial_shade_body">Bildirimlerinizi ve Wi-Fi, Bluetooth gibi şeylerin kutularının bulunduğu Hızlı Ayarlar\'ı açmak için FN tuşunu basılı tutup Y\'ye basın.\n\nŞimdi açın. Yeniden FN + Y kapatır.</string>
+    <string name="tutorial_shade_open">Açın: FN + Y</string>
+
+    <!-- Joystick mouse -->
+    <string name="tutorial_mouse_title">Joystick fare</string>
+    <string name="tutorial_mouse_body">Birkaç uygulama dokunmatik ekran bekler. Bunlar için sağ analog bir fare işaretçisini hareket ettirebilir. A tıklar, L1 sağ tıktır ve sol analog kaydırır.\n\nAçmak veya kapatmak için iki analoğu birlikte (L3 + R3) bir saniye basılı tutun.</string>
+    <string name="tutorial_mouse_body_fn">Birkaç uygulama dokunmatik ekran bekler. Bunlar için sağ analog bir fare işaretçisini hareket ettirebilir. A tıklar, L1 sağ tıktır ve sol analog kaydırır.\n\nAçmak veya kapatmak için iki analoğu birlikte (L3 + R3) bir saniye basılı tutun ya da FN + X\'e basın.</string>
+    <string name="tutorial_mouse_on">Fareyi açın</string>
+    <string name="tutorial_mouse_off">Yeniden kapatın</string>
+
+    <!-- Power -->
+    <string name="tutorial_power_title">Güç düğmesi</string>
+    <string name="tutorial_power_body">Konsolu uyutmak için güç düğmesine kısaca basın, uyandırmak için yeniden basın.\n\nGüç menüsünü açmak için güç düğmesini bir saniye basılı tutun: kapat, yeniden başlat ve daha fazlası. Menüyü kapatmak için B\'ye basın.</string>
+    <string name="tutorial_power_sleep">Güç\'e kısaca basıp uyutun, yeniden basıp uyandırın</string>
+    <string name="tutorial_power_menu">Güç\'ü basılı tutarak menüyü açın, B ile kapatın</string>
+
+    <!-- Games -->
+    <string name="tutorial_games_title">Oyunlarınız nereye gider</string>
+    <string name="tutorial_games_body">SD kartı bir bilgisayara takın. Küçük bir BOOT sürücüsünün yanında EASYROMS adlı büyük bir sürücü görünür: bu, oyunlarınız içindir.\n\nHer sisteme nes, snes, gba, megadrive veya psx gibi adlarla kendi klasörünü verin.\n\nSonra Daijishou\'yu açın (FN tuşuna basın), bir platform ekleyin ve EASYROMS\'taki klasörünü seçin. Daijishou oyunları listeler ve RetroArch veya PPSSPP ile başlatır.</string>
+    <string name="tutorial_games_body_no_fn">SD kartı bir bilgisayara takın. Küçük bir BOOT sürücüsünün yanında EASYROMS adlı büyük bir sürücü görünür: bu, oyunlarınız içindir.\n\nHer sisteme nes, snes, gba, megadrive veya psx gibi adlarla kendi klasörünü verin.\n\nSonra Daijishou\'yu açın, bir platform ekleyin ve EASYROMS\'taki klasörünü seçin. Daijishou oyunları listeler ve RetroArch veya PPSSPP ile başlatır.</string>
+    <!-- Under the games text, when the EASYROMS partition was found -->
+    <string name="tutorial_games_space">Bu karttaki EASYROMS: <xliff:g id="total">%2$s</xliff:g> alanın <xliff:g id="free">%1$s</xliff:g> kadarı boş.</string>
+
+    <!-- Finish -->
+    <string name="tutorial_done_title">Hazırsınız</string>
+    <string name="tutorial_done_body">Temel bilgiler bu kadar.\n\nHızlı başlangıç kılavuzu daha fazlasını anlatır: emülatörler, hız ve pil, internete bağlanma ve bir sorun çıktığında ne yapmalı. Buradan ya da istediğiniz zaman Ayarlar &gt; Hızlı başlangıç kılavuzu bölümünden açın.</string>
+    <string name="tutorial_done_body_fn_help">Temel bilgiler bu kadar. Bir kısayolu mu unuttunuz? Hepsini görmek için herhangi bir uygulamada veya oyunda FN tuşunu tek başına bir süre basılı tutun.\n\nHızlı başlangıç kılavuzu daha fazlasını anlatır: emülatörler, hız ve pil, internete bağlanma ve bir sorun çıktığında ne yapmalı. Buradan ya da istediğiniz zaman Ayarlar &gt; Hızlı başlangıç kılavuzu bölümünden açın.</string>
+
+    <!-- Guide bottom bar: X opens the tutorial -->
+    <string name="hint_tutorial">Eğitim</string>
+</resources>

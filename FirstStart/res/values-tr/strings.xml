@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_name">İlk açılış</string>
+    <!-- Shown for a moment when the home button (FN) is pressed during the first-start
+         tutorial, before the tutorial comes back -->
+    <string name="home_title">Ana ekran</string>
+    <string name="home_body">Ana ekranınız Daijishou, eğitim bitince burada açılır.\n\nEğitim birazdan geri gelecek.</string>
+    <string name="home_back">Eğitime dön</string>
+    <string name="home_skip">Eğitimi atla</string>
+</resources>

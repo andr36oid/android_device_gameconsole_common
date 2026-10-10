@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="button_mapping_title">Mapowanie przycisków (beta)</string>
+    <string name="button_mapping_summary">Zmień działanie przycisków konsoli</string>
+
+    <!-- The buttons of the console -->
+    <string name="button_dpad_up">Krzyżak w górę</string>
+    <string name="button_dpad_down">Krzyżak w dół</string>
+    <string name="button_dpad_left">Krzyżak w lewo</string>
+    <string name="button_dpad_right">Krzyżak w prawo</string>
+    <string name="button_a">Przycisk A</string>
+    <string name="button_b">Przycisk B</string>
+    <string name="button_x">Przycisk X</string>
+    <string name="button_y">Przycisk Y</string>
+    <string name="button_l1">Przycisk L1</string>
+    <string name="button_r1">Przycisk R1</string>
+    <string name="button_l2">Przycisk L2</string>
+    <string name="button_r2">Przycisk R2</string>
+    <string name="button_l3">Wciśnięcie lewej gałki (L3)</string>
+    <string name="button_r3">Wciśnięcie prawej gałki (R3)</string>
+    <string name="button_select">Przycisk Select</string>
+    <string name="button_start">Przycisk Start</string>
+    <string name="button_function">Przycisk FN</string>
+    <string name="button_volume_down">Przycisk głośności −</string>
+    <string name="button_volume_up">Przycisk głośności +</string>
+    <string name="button_power">Przycisk zasilania</string>
+
+    <!-- What a button can do, grouped -->
+    <string name="section_game">Przyciski gry</string>
+    <string name="section_menu">Sterowanie menu</string>
+    <string name="section_system">System</string>
+    <string name="section_media">Muzyka i wideo</string>
+    <string name="section_off">Wyłączenie</string>
+
+    <string name="action_button_a">Przycisk A</string>
+    <string name="action_button_b">Przycisk B</string>
+    <string name="action_button_x">Przycisk X</string>
+    <string name="action_button_y">Przycisk Y</string>
+    <string name="action_button_l1">Przycisk L1</string>
+    <string name="action_button_r1">Przycisk R1</string>
+    <string name="action_button_l2">Przycisk L2</string>
+    <string name="action_button_r2">Przycisk R2</string>
+    <string name="action_button_l3">Wciśnięcie lewej gałki (L3)</string>
+    <string name="action_button_r3">Wciśnięcie prawej gałki (R3)</string>
+    <string name="action_button_select">Przycisk Select</string>
+    <string name="action_button_start">Przycisk Start</string>
+    <string name="action_up">Góra</string>
+    <string name="action_down">Dół</string>
+    <string name="action_left">Lewo</string>
+    <string name="action_right">Prawo</string>
+    <string name="action_ok">OK</string>
+    <string name="action_back">Wstecz</string>
+    <string name="action_home">Ekran główny</string>
+    <string name="action_menu">Menu aplikacji</string>
+    <string name="action_screenshot">Zrzut ekranu</string>
+    <string name="action_power">Zasilanie (uśpienie i menu zasilania)</string>
+    <string name="action_volume_up">Głośniej</string>
+    <string name="action_volume_down">Ciszej</string>
+    <string name="action_mute">Wycisz</string>
+    <string name="action_brightness_up">Jaśniej</string>
+    <string name="action_brightness_down">Ciemniej</string>
+    <string name="action_play_pause">Odtwórz / wstrzymaj</string>
+    <string name="action_next">Następny utwór</string>
+    <string name="action_previous">Poprzedni utwór</string>
+    <string name="action_nothing">Nic (przycisk wyłączony)</string>
+
+    <string name="action_original">Oryginalnie: <xliff:g id="action">%1$s</xliff:g></string>
+    <string name="choose_title"><xliff:g id="button">%1$s</xliff:g>: co ma robić?</string>
+
+    <!-- Below the drawing, about the selected button -->
+    <string name="status_default">Działanie: <xliff:g id="action">%1$s</xliff:g></string>
+    <string name="status_changed">Działanie: <xliff:g id="action">%1$s</xliff:g> (normalnie <xliff:g id="default_action">%2$s</xliff:g>)</string>
+    <string name="status_locked">Działanie: <xliff:g id="action">%1$s</xliff:g>. Tego nie można zmienić.</string>
+
+    <!-- Shown on the screen of the drawn console -->
+    <string name="screen_hint">Wybierz przycisk krzyżakiem albo po prostu go naciśnij.\n\nPotem naciśnij <xliff:g id="button">%1$s</xliff:g>, aby go zmienić.</string>
+    <string name="screen_hint_no_ok">Naciśnij przycisk, aby go wybrać.\n\nNaciśnij go ponownie, aby go zmienić.</string>
+
+    <string name="rescue_tip">Przyciski pomieszane? Przytrzymaj oba przyciski głośności przez 5 sekund, aby je zresetować.</string>
+
+    <string name="power_locked_title">Przycisk zasilania zostaje bez zmian</string>
+    <string name="power_locked_message">To jedyny przycisk, który może wybudzić konsolę, więc zawsze działa jako przycisk zasilania.</string>
+
+    <!-- Things the console always needs a button for -->
+    <string name="function_up">Góra</string>
+    <string name="function_down">Dół</string>
+    <string name="function_left">Lewo</string>
+    <string name="function_right">Prawo</string>
+    <string name="function_select">OK</string>
+    <string name="function_back">Wstecz</string>
+    <string name="function_home">Ekran główny</string>
+    <string name="function_power">Zasilanie</string>
+
+    <string name="blocked_title">To zablokowałoby sterowanie</string>
+    <string name="blocked_message">Nie zostałby żaden przycisk dla: <xliff:g id="functions">%1$s</xliff:g>.\n\nNajpierw przypisz to zadanie innemu przyciskowi.</string>
+
+    <string name="swap_title">Zamienić z „<xliff:g id="other_button">%1$s</xliff:g>”?</string>
+    <string name="swap_message">To robi teraz „<xliff:g id="other_button">%1$s</xliff:g>”. Zamienić oba przyciski czy zmienić tylko „<xliff:g id="button">%2$s</xliff:g>”?</string>
+    <string name="swap_needed_message">To robi teraz „<xliff:g id="other_button">%1$s</xliff:g>”. Zmiana tylko „<xliff:g id="button">%2$s</xliff:g>” nie zostawiłaby żadnego przycisku dla: <xliff:g id="functions">%3$s</xliff:g>.\n\nZamienić zamiast tego oba przyciski?</string>
+    <string name="swap_confirm">Zamień</string>
+    <string name="swap_only_this">Tylko ten</string>
+
+    <string name="problem_title">Brakuje niektórych przycisków</string>
+    <string name="problem_message">Żaden przycisk nie jest ustawiony dla: <xliff:g id="functions">%1$s</xliff:g>.\n\nPrzełączyć na przyciski Standardowe, aby to naprawić?</string>
+    <string name="problem_fix">Użyj Standardowych</string>
+    <string name="problem_later">Nie teraz</string>
+
+    <!-- Profiles: button layouts to switch between -->
+    <string name="profile_standard">Standardowe</string>
+    <string name="profile_default_name">Profil %d</string>
+    <string name="profile_button">Profil: <xliff:g id="profile">%1$s</xliff:g></string>
+    <string name="profiles_title">Profile przycisków</string>
+    <string name="profile_new">Nowy profil</string>
+    <string name="profiles_close">Zamknij</string>
+    <string name="profile_rename">Zmień nazwę</string>
+    <string name="profile_rename_title">Zmień nazwę profilu</string>
+    <string name="profile_rename_save">Zapisz</string>
+    <string name="profile_delete">Usuń</string>
+    <string name="profile_delete_title">Usunąć „<xliff:g id="profile">%1$s</xliff:g>”?</string>
+    <string name="profile_delete_message">Jego zmiany przycisków zostaną usunięte i znów będą używane przyciski Standardowe.</string>
+    <string name="profile_delete_message_inactive">Jego zmiany przycisków zostaną usunięte. Przyciski, których używasz teraz, zostają bez zmian.</string>
+    <string name="profile_delete_choose">Usuń profil…</string>
+    <string name="profile_delete_choose_title">Który profil usunąć?</string>
+    <string name="profile_created">Nowy profil „<xliff:g id="profile">%1$s</xliff:g>”. Zmiany przycisków są w nim zapisywane.</string>
+    <string name="profile_forked">Przyciski Standardowe zostają bez zmian, twoja zmiana jest zapisana w nowym profilu „<xliff:g id="profile">%1$s</xliff:g>”.</string>
+    <string name="profile_blocked_message">„<xliff:g id="profile">%1$s</xliff:g>” nie zostawiłby żadnego przycisku dla: <xliff:g id="functions">%2$s</xliff:g>.</string>
+
+    <!-- Quick Settings tile that switches to the next profile -->
+    <string name="tile_label">Profil przycisków</string>
+
+    <!-- Shown after a change to the buttons used in menus -->
+    <string name="confirm_title">Zachować nowe przyciski?</string>
+    <plurals name="confirm_message">
+        <item quantity="one">Naciśnij Zachowaj, używając: <xliff:g id="button">%1$s</xliff:g>. W przeciwnym razie wszystko wróci za <xliff:g id="seconds">%2$d</xliff:g> sekundę.</item>
+        <item quantity="few">Naciśnij Zachowaj, używając: <xliff:g id="button">%1$s</xliff:g>. W przeciwnym razie wszystko wróci za <xliff:g id="seconds">%2$d</xliff:g> sekundy.</item>
+        <item quantity="many">Naciśnij Zachowaj, używając: <xliff:g id="button">%1$s</xliff:g>. W przeciwnym razie wszystko wróci za <xliff:g id="seconds">%2$d</xliff:g> sekund.</item>
+        <item quantity="other">Naciśnij Zachowaj, używając: <xliff:g id="button">%1$s</xliff:g>. W przeciwnym razie wszystko wróci za <xliff:g id="seconds">%2$d</xliff:g> sekundy.</item>
+    </plurals>
+    <plurals name="confirm_message_generic">
+        <item quantity="one">Naciśnij Zachowaj. W przeciwnym razie wszystko wróci za <xliff:g id="seconds">%d</xliff:g> sekundę.</item>
+        <item quantity="few">Naciśnij Zachowaj. W przeciwnym razie wszystko wróci za <xliff:g id="seconds">%d</xliff:g> sekundy.</item>
+        <item quantity="many">Naciśnij Zachowaj. W przeciwnym razie wszystko wróci za <xliff:g id="seconds">%d</xliff:g> sekund.</item>
+        <item quantity="other">Naciśnij Zachowaj. W przeciwnym razie wszystko wróci za <xliff:g id="seconds">%d</xliff:g> sekundy.</item>
+    </plurals>
+    <string name="confirm_keep">Zachowaj</string>
+    <string name="confirm_undo">Cofnij</string>
+
+</resources>

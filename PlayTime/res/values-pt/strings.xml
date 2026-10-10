@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="play_time_title">Tempo de jogo</string>
+    <string name="play_time_summary">Quanto tempo você jogou, seus jogos favoritos e lembretes de pausa</string>
+
+    <!-- Header above the week chart -->
+    <string name="today">Hoje: <xliff:g id="time">%1$s</xliff:g></string>
+    <string name="this_week">Últimos 7 dias: <xliff:g id="time">%1$s</xliff:g></string>
+
+    <string name="most_played">Mais jogados, últimos 7 dias</string>
+    <string name="nothing_played">Nada ainda. Vá jogar alguma coisa!</string>
+    <!-- Summary of an app in the most played list: time, and the share of all play time -->
+    <string name="app_time"><xliff:g id="time">%1$s</xliff:g> · <xliff:g id="percent">%2$d</xliff:g>%%</string>
+
+    <string name="breaks">Pausas</string>
+    <string name="break_reminder">Lembrar de fazer uma pausa</string>
+    <string-array name="break_entries">
+        <item>Nunca</item>
+        <item>Após 30 minutos</item>
+        <item>Após 45 minutos</item>
+        <item>Após 1 hora</item>
+        <item>Após 1 hora e 30 minutos</item>
+        <item>Após 2 horas</item>
+    </string-array>
+    <string name="about">O tempo de jogo conta o tempo em que um app está aberto na tela. A tela inicial, as Configurações e a tela desligada não contam.\n\nO lembrete de pausa conta há quanto tempo a tela está ligada. Uma pausa de 2 minutos ou mais recomeça a contagem.</string>
+
+    <!-- Durations -->
+    <string name="duration_min"><xliff:g id="minutes">%1$d</xliff:g> min</string>
+    <string name="duration_h"><xliff:g id="hours">%1$d</xliff:g> h</string>
+    <string name="duration_h_min"><xliff:g id="hours">%1$d</xliff:g> h <xliff:g id="minutes">%2$d</xliff:g> min</string>
+
+    <!-- Break reminder notification -->
+    <string name="channel_name">Lembretes de pausa</string>
+    <string name="break_title">Você está jogando há <xliff:g id="time">%1$s</xliff:g></string>
+    <string name="break_text">Que tal uma pausa curta? Descanse os olhos e se alongue um pouco, seu jogo vai esperar.</string>
+    <string name="break_text_battery">Que tal uma pausa curta? Descanse os olhos e se alongue um pouco. Bateria em <xliff:g id="percent">%1$d</xliff:g>%%.</string>
+</resources>

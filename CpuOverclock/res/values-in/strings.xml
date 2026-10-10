@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="overclock_title">Performa</string>
+    <string name="overclock_summary">Hemat baterai atau kecepatan penuh, batas kecepatan CPU, dan overclock</string>
+
+    <!-- Performance profiles -->
+    <string name="profile_category">Profil performa</string>
+    <string name="profile_title">Profil</string>
+    <string-array name="profile_names">
+        <item>Hemat baterai</item>
+        <item>Seimbang</item>
+        <item>Performa</item>
+    </string-array>
+    <!-- What each profile does. cpu is a CPU speed like "1.01 GHz", gpu a GPU speed in MHz. -->
+    <string name="profile_about_saver">Waktu bermain lebih lama. CPU tetap di <xliff:g id="cpu">%1$s</xliff:g> atau lebih rendah dan grafis di <xliff:g id="gpu">%2$d</xliff:g> MHz. Sudah lebih dari cukup untuk game 8 dan 16-bit.</string>
+    <string name="profile_about_balanced">Kecepatan standar. Prosesor makin cepat saat game membutuhkannya dan melambat saat tidak.</string>
+    <string name="profile_about_performance">Emulasi paling lancar. CPU tidak pernah turun di bawah <xliff:g id="cpu">%1$s</xliff:g> dan grafis selalu berjalan di <xliff:g id="gpu">%2$d</xliff:g> MHz. Untuk game PS1, N64, dan PSP. Baterai lebih cepat habis.</string>
+    <string name="profile_about_footer">\n\nProfil tetap tersimpan saat konsol dimulai ulang. Kartu Setelan Cepat beralih ke profil berikutnya.</string>
+    <string name="profile_about_footer_fn">\n\nProfil tetap tersimpan saat konsol dimulai ulang. FN + R1 dan kartu Setelan Cepat beralih ke profil berikutnya.</string>
+    <string name="profile_failed">Tidak bisa mengubah profil performa</string>
+    <!-- Toast after FN + R1 -->
+    <string name="profile_switched">Profil performa: <xliff:g id="profile">%1$s</xliff:g></string>
+    <string name="profile_tile_label">Performa</string>
+    <!-- Toast after FN + R1 while a maximum CPU speed holds the CPU lower than the profile would -->
+    <string name="profile_switched_capped">Profil performa: <xliff:g id="profile">%1$s</xliff:g>, CPU hingga <xliff:g id="speed">%2$s</xliff:g></string>
+    <!-- Tile subtitle with a maximum CPU speed -->
+    <string name="profile_tile_capped"><xliff:g id="profile">%1$s</xliff:g>, <xliff:g id="speed">%2$s</xliff:g></string>
+
+    <!-- Maximum CPU speed (underclock) -->
+    <string name="cpu_cap_title">Kecepatan CPU maksimum</string>
+    <!-- First entry of the list, no limit. -->
+    <string name="cpu_cap_stock">Bawaan (<xliff:g id="speed">%1$s</xliff:g>)</string>
+    <string name="cpu_cap_note">Makin rendah, baterai makin awet dan konsol lebih dingin, tetapi game lebih lambat. Jika game melambat, pilih kecepatan yang lebih tinggi. Tetap tersimpan saat konsol dimulai ulang.</string>
+    <!-- The cap is lower than what the profile allows -->
+    <string name="cpu_cap_active">Hingga <xliff:g id="speed">%1$s</xliff:g>, apa pun profilnya.</string>
+    <!-- The profile already stays lower than the cap -->
+    <string name="cpu_cap_profile_lower"><xliff:g id="speed">%1$s</xliff:g>. Profil saat ini menjaga CPU di <xliff:g id="profile_speed">%2$s</xliff:g> atau lebih rendah.</string>
+    <string name="cpu_cap_on_hold"><xliff:g id="speed">%1$s</xliff:g>. Ditangguhkan selama overclock aktif.</string>
+    <string name="cpu_cap_none">Tidak ada batas selain profil.</string>
+    <!-- A CPU speed -->
+    <string name="speed_mhz"><xliff:g id="mhz">%1$d</xliff:g> MHz</string>
+
+    <string name="overclock_category">Overclock CPU (eksperimental)</string>
+    <string name="overclock_switch">Overclock</string>
+    <string name="overclock_switch_on">Berjalan hingga <xliff:g id="speed">%1$s</xliff:g></string>
+    <string name="overclock_switch_off">Nonaktif, CPU berjalan hingga <xliff:g id="speed">%1$s</xliff:g></string>
+    <string name="overclock_speed">Kecepatan</string>
+
+    <!-- A CPU speed -->
+    <string name="speed_ghz"><xliff:g id="ghz">%1$.2f</xliff:g> GHz</string>
+
+    <string name="overclock_about">Emulasi lebih cepat untuk game berat, dengan risiko: konsol lebih panas, baterai lebih cepat habis, dan beberapa konsol macet atau crash di kecepatan tinggi. Jika itu terjadi, pilih kecepatan yang lebih rendah.\n\nKonsol selalu menyala tanpa overclock, memulai ulang akan mematikannya. Selama overclock aktif, kecepatan CPU maksimum ditangguhkan. Konsol juga melambat sendiri saat terlalu panas.</string>
+
+    <string name="overclock_unsupported">Konsol ini tidak bisa di-overclock.</string>
+    <string name="overclock_failed">Tidak bisa mengubah kecepatan CPU</string>
+
+    <!-- CPU undervolt -->
+    <string name="undervolt_category">Undervolt CPU (eksperimental)</string>
+    <string name="undervolt_title">Undervolt</string>
+    <string name="undervolt_off">Nonaktif</string>
+    <!-- An undervolt step -->
+    <string name="undervolt_step">−<xliff:g id="mv">%1$d</xliff:g> mV</string>
+    <string name="undervolt_about">Menjalankan CPU dengan tegangan sedikit lebih rendah pada kecepatan yang sama, sehingga daya yang dipakai sedikit lebih kecil dan suhunya sedikit lebih dingin, terutama di kecepatan tinggi. Di 816 MHz ke bawah, manfaatnya kecil.\n\nSetiap chip berbeda. Jika game crash atau konsol macet atau memulai ulang sendiri, kembali ke Nonaktif. Crash saat sesuatu sedang disimpan bisa merusak file di kartu, jadi turunkan satu langkah demi satu langkah dan bermainlah sebentar sebelum menurunkan lagi.\n\nKonsol selalu menyala dengan undervolt nonaktif, memulai ulang akan mematikannya.</string>
+    <string name="undervolt_failed">Tidak bisa mengubah tegangan CPU</string>
+
+    <!-- Quick Settings tile -->
+    <string name="tile_label">Overclock CPU</string>
+    <string name="tile_off">Nonaktif</string>
+</resources>

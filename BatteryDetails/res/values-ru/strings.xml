@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="details_title">Сведения о батарее</string>
+    <string name="details_summary">Напряжение, ток, время заряда и график за 24 часа</string>
+
+    <!-- Header -->
+    <string name="percent"><xliff:g id="percent">%1$d</xliff:g>%%</string>
+    <string name="status_charging">Заряжается</string>
+    <string name="status_full">Заряжена</string>
+    <string name="status_discharging">От батареи</string>
+    <string name="status_not_charging">Подключено, не заряжается</string>
+    <string name="time_to_full">до полной зарядки около <xliff:g id="time">%1$s</xliff:g></string>
+    <string name="time_left">при таком расходе осталось около <xliff:g id="time">%1$s</xliff:g></string>
+    <!-- Joins status and time, e.g. "Charging · about 1 h 10 min until full" -->
+    <string name="status_and_time"><xliff:g id="status">%1$s</xliff:g> · <xliff:g id="time">%2$s</xliff:g></string>
+
+    <string name="graph_title">Последние 24 часа</string>
+    <string name="graph_empty">График заполняется, пока вы пользуетесь консолью. Пока она не спит, каждые 15 минут добавляется точка.</string>
+    <string name="graph_ago">24 ч назад</string>
+    <string name="graph_now">сейчас</string>
+
+    <string name="now_title">Прямо сейчас</string>
+    <string name="voltage">Напряжение</string>
+    <string name="current">Ток</string>
+    <string name="power">Мощность</string>
+    <!-- The RK817 has no battery temperature sensor (the driver reports a fixed 18.8 °C), so this is the processor's -->
+    <string name="temperature">Температура процессора</string>
+    <string name="charger">Зарядное устройство</string>
+
+    <!-- Battery capacity setting -->
+    <string name="capacity_title">Ёмкость батареи</string>
+    <string name="capacity_setting">Ёмкость</string>
+    <string name="capacity_hint">Указана на батарее. При неверном значении процент будет уплывать.</string>
+    <string name="capacity_reset">Сбросить на <xliff:g id="mah">%1$d</xliff:g> mAh</string>
+    <string name="capacity">Контроллер учитывает</string>
+
+    <string name="value_voltage"><xliff:g id="volts">%1$.2f</xliff:g> V</string>
+    <string name="value_current_in">поступает <xliff:g id="ma">%1$d</xliff:g> mA</string>
+    <string name="value_current_out">расходуется <xliff:g id="ma">%1$d</xliff:g> mA</string>
+    <string name="value_power"><xliff:g id="watts">%1$.2f</xliff:g> W</string>
+    <string name="value_temperature"><xliff:g id="celsius">%1$.1f</xliff:g> °C</string>
+    <string name="value_capacity"><xliff:g id="mah">%1$d</xliff:g> mAh</string>
+    <string name="value_capacity_default"><xliff:g id="mah">%1$d</xliff:g> mAh (по умолчанию)</string>
+    <string name="charger_none">Не подключено</string>
+    <string name="charger_usb">USB</string>
+    <string name="charger_ac">Сетевое зарядное</string>
+    <string name="unknown">Неизвестно</string>
+
+    <string name="about">Процент — это оценка контроллера заряда. Напряжение измеряется напрямую: около 4,2 V — полный заряд, 3,7 V — примерно середина, а около 3,4 V консоль выключается. Во время игры напряжение проседает и восстанавливается в покое.\n\nЕсли процент и напряжение не совпадают, зарядите консоль, пока она не покажет полный заряд. Так контроллер сам себя исправит.\n\nВремя — грубая оценка по текущему току.</string>
+
+    <!-- Durations -->
+    <string name="duration_min"><xliff:g id="minutes">%1$d</xliff:g> мин</string>
+    <string name="duration_h_min"><xliff:g id="hours">%1$d</xliff:g> ч <xliff:g id="minutes">%2$d</xliff:g> мин</string>
+</resources>

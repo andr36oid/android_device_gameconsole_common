@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="app_name">Kontrol sentuh</string>
+    <string name="settings_summary">Mainkan game layar sentuh dengan tombol, per aplikasi</string>
+
+    <!-- Settings > Touch controls -->
+    <string name="settings_intro">Beberapa game hanya bisa dimainkan dengan layar sentuh. Di sini Anda bisa memberi game seperti itu tata letaknya sendiri: setiap tombol atau stik menyentuh satu titik di layar. Tata letak aktif sendiri saat game itu berada di depan, dan aplikasi lain tetap memakai tombol biasa.</string>
+    <string name="settings_apps">Aplikasi dengan kontrol sentuh</string>
+    <string name="settings_add">Tambah aplikasi</string>
+    <string name="settings_add_summary">Pilih game; game dimulai dan editor terbuka di atasnya</string>
+    <string name="settings_add_none">Semua aplikasi sudah punya kontrol sentuh</string>
+    <string name="settings_how">Cara kerjanya</string>
+    <string name="settings_shortcut_title">Edit saat bermain: FN + L1</string>
+    <string name="settings_shortcut_summary">Di dalam game, tahan FN dan tekan L1. Editor terbuka di atas game. FN kembali ke layar utama seperti biasa.</string>
+    <string name="settings_help_summary">Fungsi setiap tombol di editor</string>
+
+    <!-- Summary of an app in the list; %1$s is e.g. "5 controls" -->
+    <string name="profile_on">Aktif · <xliff:g id="count">%1$s</xliff:g></string>
+    <string name="profile_off">Nonaktif · <xliff:g id="count">%1$s</xliff:g></string>
+    <string name="profile_empty">Belum ada kontrol</string>
+    <string name="profile_unreadable">Tidak bisa dibaca, edit untuk mulai dari awal</string>
+    <plurals name="control_count">
+        <item quantity="other"><xliff:g id="n">%d</xliff:g> kontrol</item>
+    </plurals>
+
+    <!-- One app's page -->
+    <string name="profile_enabled">Gunakan kontrol sentuh</string>
+    <string name="profile_enabled_summary">Saat aplikasi ini berada di depan</string>
+    <string name="profile_hints">Tampilkan tombol di layar</string>
+    <string name="profile_hints_summary">Label samar di titik sentuh setiap tombol</string>
+    <string name="profile_edit">Edit tata letak</string>
+    <string name="profile_edit_summary">Memulai <xliff:g id="app">%1$s</xliff:g>, lalu editor terbuka di atasnya</string>
+    <string name="profile_edit_starting">Memulai aplikasi. Editor segera terbuka.</string>
+    <string name="profile_cant_start">Aplikasi ini tidak bisa dimulai dari sini. Buka aplikasinya, lalu tekan FN + L1.</string>
+    <string name="profile_controls">Kontrol</string>
+    <string name="profile_delete">Hapus kontrol sentuh</string>
+    <string name="profile_delete_message">Tata letak aplikasi ini dihapus. Aplikasi kembali memakai tombol biasa.</string>
+    <string name="profile_delete_confirm">Hapus</string>
+
+    <!-- FN + L1 where there is nothing to edit -->
+    <string name="edit_needs_app">Buka game dulu, lalu tekan FN + L1 untuk mengatur kontrol sentuhnya.</string>
+
+    <!-- Editor -->
+    <string name="editor_title">Kontrol sentuh: <xliff:g id="app">%1$s</xliff:g></string>
+    <string name="editor_layer_normal">Tombol biasa</string>
+    <string name="editor_layer_shift">Saat <xliff:g id="button">%1$s</xliff:g> ditahan</string>
+    <string name="editor_profile_off">Dinonaktifkan</string>
+    <string name="editor_saved">Kontrol sentuh untuk <xliff:g id="app">%1$s</xliff:g> disimpan</string>
+    <string name="editor_save_failed">Tidak bisa menyimpan. Coba lagi.</string>
+    <string name="editor_deleted">Dihapus</string>
+    <string name="editor_cancelled">Dibatalkan</string>
+    <string name="editor_no_shift">Belum ada tombol shift: Select, lalu Tombol shift</string>
+    <string name="editor_is_shift"><xliff:g id="button">%1$s</xliff:g> adalah tombol shift. Tekan tombol lain.</string>
+    <string name="editor_replaced"><xliff:g id="input">%1$s</xliff:g> sebelumnya punya fungsi lain. Kontrol itu sudah dihapus.</string>
+    <string name="editor_replaced_dpad">Joystick D-pad dihapus: tombol D-pad sekarang berfungsi satu per satu.</string>
+    <string name="editor_replaced_dpad_buttons">Tombol D-pad tunggal dihapus: D-pad sekarang menjadi joystick.</string>
+    <string name="editor_unsaved_title">Simpan perubahan?</string>
+    <string name="editor_unsaved_message">Tata letak diubah tetapi belum disimpan.</string>
+    <string name="editor_save">Simpan</string>
+    <string name="editor_discard">Jangan simpan</string>
+    <string name="editor_keep_editing">Lanjut mengedit</string>
+
+    <!-- Bottom strip of the editor: what each button does right now -->
+    <string name="hint_add">Tambah di sini</string>
+    <string name="hint_change">Ubah</string>
+    <string name="hint_delete">Hapus</string>
+    <string name="hint_size">Ukuran</string>
+    <string name="hint_next">Berikutnya</string>
+    <string name="hint_layer">Lapisan shift</string>
+    <string name="hint_options">Opsi</string>
+    <string name="hint_save">Simpan</string>
+    <string name="hint_close">Tutup</string>
+    <string name="hint_move">Pindahkan</string>
+    <string name="hint_place">Letakkan</string>
+    <string name="hint_cancel">Batal</string>
+    <string name="hint_hold_cancel">Tahan untuk batal</string>
+
+    <!-- Waiting for a button or stick; %1$s is a control type in lower case, e.g. "tap" -->
+    <string name="capture_button">Tekan tombol untuk kontrol <xliff:g id="type">%1$s</xliff:g> ini</string>
+    <string name="capture_button_cancel">Tombol apa saja bisa, B juga. Tahan B untuk batal.</string>
+    <string name="capture_stick">Gerakkan stik untuk kontrol <xliff:g id="type">%1$s</xliff:g> ini</string>
+    <string name="capture_stick_detail">Stik kiri, stik kanan, atau tekan D-pad</string>
+
+    <!-- Menus -->
+    <string name="editor_add_title">Tambah kontrol di sini</string>
+    <string name="editor_control_title">Kontrol ini</string>
+    <string name="editor_menu_move">Pindahkan</string>
+    <string name="editor_menu_button">Tombol: <xliff:g id="button">%1$s</xliff:g></string>
+    <string name="editor_menu_stick">Stik: <xliff:g id="stick">%1$s</xliff:g></string>
+    <string name="editor_menu_type">Jenis: <xliff:g id="type">%1$s</xliff:g></string>
+    <string name="editor_menu_direction">Arah: <xliff:g id="direction">%1$s</xliff:g></string>
+    <string name="editor_menu_speed">Kecepatan: <xliff:g id="percent">%1$d</xliff:g>%%</string>
+    <string name="editor_menu_delete">Hapus</string>
+    <string name="editor_type_title">Jenis kontrol</string>
+    <string name="editor_direction_title">Arah geser</string>
+    <string name="editor_speed_title">Kecepatan pandang</string>
+    <string name="percent"><xliff:g id="percent">%1$d</xliff:g>%%</string>
+
+    <string name="type_tap">Ketuk</string>
+    <string name="type_hold">Tahan</string>
+    <string name="type_joystick">Joystick</string>
+    <string name="type_camera">Lihat sekeliling</string>
+    <string name="type_swipe">Geser</string>
+    <string name="type_tap_long">Ketuk: ketukan singkat saat tombol ditekan</string>
+    <string name="type_hold_long">Tahan: jari tetap menyentuh selama tombol ditahan</string>
+    <string name="type_joystick_long">Joystick: stik atau D-pad menggeser jari di sekitar titik ini</string>
+    <string name="type_camera_long">Lihat sekeliling: stik menggeser di area ini, untuk kamera dan membidik</string>
+    <string name="type_swipe_long">Geser: gesekan cepat dari sini saat tombol ditekan</string>
+
+    <string name="direction_up">Atas</string>
+    <string name="direction_down">Bawah</string>
+    <string name="direction_left">Kiri</string>
+    <string name="direction_right">Kanan</string>
+    <string name="direction_up_left">Kiri atas</string>
+    <string name="direction_up_right">Kanan atas</string>
+    <string name="direction_down_left">Kiri bawah</string>
+    <string name="direction_down_right">Kanan bawah</string>
+    <string name="direction_degrees"><xliff:g id="degrees">%1$d</xliff:g>°</string>
+
+    <string name="options_title">Opsi</string>
+    <string name="options_enabled_on">Kontrol sentuh untuk aplikasi ini: aktif</string>
+    <string name="options_enabled_off">Kontrol sentuh untuk aplikasi ini: nonaktif</string>
+    <string name="options_hints_on">Tampilkan tombol saat bermain: aktif</string>
+    <string name="options_hints_off">Tampilkan tombol saat bermain: nonaktif</string>
+    <string name="options_shift">Tombol shift: <xliff:g id="button">%1$s</xliff:g></string>
+    <string name="options_deadzone">Zona mati stik: <xliff:g id="percent">%1$d</xliff:g>%%</string>
+    <string name="options_help">Bantuan</string>
+    <string name="options_clear">Hapus semua kontrol</string>
+    <string name="options_clear_message">Semua kontrol aplikasi ini dihapus. Tidak ada yang disimpan sampai Anda menekan Start.</string>
+    <string name="options_clear_confirm">Hapus</string>
+    <string name="shift_title">Tombol shift</string>
+    <string name="shift_none">Tidak ada</string>
+    <plurals name="shift_removed">
+        <item quantity="other"><xliff:g id="n">%d</xliff:g> kontrol yang memakai tombol itu dihapus</item>
+    </plurals>
+    <string name="deadzone_title">Zona mati stik</string>
+
+    <string name="help_title">Bantuan editor</string>
+    <string name="help_text">Gerakkan penanda silang dengan stik kiri atau D-pad.\n\nA di titik kosong menambahkan kontrol di sana: pilih jenisnya, lalu tekan tombolnya atau gerakkan stiknya. A pada kontrol akan mengubahnya: pindahkan, beri tombol lain, atau hapus.\n\nJenis:\n• Ketuk: ketukan singkat\n• Tahan: menyentuh selama tombol ditahan\n• Joystick: stik atau D-pad menggeser jari di sekitar titik, untuk stik di layar\n• Lihat sekeliling: stik menggeser di sebuah area, untuk kamera dan membidik\n• Geser: gesekan cepat ke satu arah\n\nL1 dan R1, atau stik kanan, mengecilkan atau membesarkan kontrol yang dipilih. L2 dan R2 berpindah antar kontrol. X menghapus.\n\nTombol shift (Select, lalu Tombol shift): selama ditahan, set kontrol kedua yang berlaku. Y beralih di antara kedua set.\n\nStart menyimpan dan menutup. B menutup. FN keluar tanpa menyimpan.\n\nTombol tanpa kontrol tetap berfungsi seperti biasa. FN dan semua pintasan FN selalu berfungsi.</string>
+</resources>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="play_time_title">Waktu bermain</string>
+    <string name="play_time_summary">Lama bermain, game teratas, dan pengingat istirahat</string>
+
+    <!-- Header above the week chart -->
+    <string name="today">Hari ini: <xliff:g id="time">%1$s</xliff:g></string>
+    <string name="this_week">7 hari terakhir: <xliff:g id="time">%1$s</xliff:g></string>
+
+    <string name="most_played">Terbanyak dimainkan (7 hari)</string>
+    <string name="nothing_played">Belum ada. Ayo main sesuatu!</string>
+    <!-- Summary of an app in the most played list: time, and the share of all play time -->
+    <string name="app_time"><xliff:g id="time">%1$s</xliff:g> · <xliff:g id="percent">%2$d</xliff:g>%%</string>
+
+    <string name="breaks">Istirahat</string>
+    <string name="break_reminder">Ingatkan saya untuk istirahat</string>
+    <string-array name="break_entries">
+        <item>Tidak pernah</item>
+        <item>Setelah 30 menit</item>
+        <item>Setelah 45 menit</item>
+        <item>Setelah 1 jam</item>
+        <item>Setelah 1 jam 30 menit</item>
+        <item>Setelah 2 jam</item>
+    </string-array>
+    <string name="about">Waktu bermain menghitung lamanya aplikasi terbuka di layar. Layar utama, Setelan, dan saat layar mati tidak dihitung.\n\nPengingat istirahat menghitung berapa lama layar menyala. Jeda 2 menit atau lebih akan memulai hitungan dari awal.</string>
+
+    <!-- Durations -->
+    <string name="duration_min"><xliff:g id="minutes">%1$d</xliff:g> mnt</string>
+    <string name="duration_h"><xliff:g id="hours">%1$d</xliff:g> j</string>
+    <string name="duration_h_min"><xliff:g id="hours">%1$d</xliff:g> j <xliff:g id="minutes">%2$d</xliff:g> mnt</string>
+
+    <!-- Break reminder notification -->
+    <string name="channel_name">Pengingat istirahat</string>
+    <string name="break_title">Anda sudah bermain selama <xliff:g id="time">%1$s</xliff:g></string>
+    <string name="break_text">Waktunya istirahat sebentar? Istirahatkan mata dan lakukan sedikit peregangan, game Anda akan menunggu.</string>
+    <string name="break_text_battery">Waktunya istirahat sebentar? Istirahatkan mata dan lakukan sedikit peregangan. Baterai <xliff:g id="percent">%1$d</xliff:g>%%.</string>
+</resources>

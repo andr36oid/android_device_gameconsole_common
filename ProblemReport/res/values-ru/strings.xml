@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="report_title">Отчёт о проблеме</string>
+    <string name="report_summary">Сохранить логи на SD-карту для отчёта об ошибке</string>
+
+    <string name="intro">Что-то пошло не так? Сохраните отчёт и приложите его, когда будете рассказывать нам о проблеме. В нём системные логи за текущий и прошлый запуск, отчёты о сбоях и описание этой консоли. Это занимает около минуты.</string>
+
+    <string name="note_title">Что случилось?</string>
+    <string name="note_hint">Необязательно. Что вы делали и что произошло?</string>
+    <string name="note_dialog">Опишите проблему. Описание попадёт в отчёт.</string>
+
+    <string name="save_title">Сохранить отчёт</string>
+    <string name="save_summary">Сохраняется на EASYROMS, в папку andr36oid-reports</string>
+    <string name="save_running">Сохранение: %1$s (шаг %2$d из %3$d)…</string>
+    <string name="save_done">Сохранено: %1$s</string>
+    <string name="save_done_toast">Отчёт сохранён: %1$s</string>
+    <string name="save_failed">Не сохранено. %1$s</string>
+    <string name="error_no_storage">Нет ни раздела EASYROMS, ни внутренней папки Download, куда можно сохранить отчёт.</string>
+    <string name="error_cant_write">Не удалось записать файл. Может, карта заполнена?</string>
+    <string name="error_stopped">Создание отчёта прервалось до завершения.</string>
+    <string name="error_start">Не удалось начать создание отчёта.</string>
+
+    <string name="step_system">сведения о системе</string>
+    <string name="step_logcat">лог Android</string>
+    <string name="step_kernel">лог ядра</string>
+    <string name="step_crashes">отчёты о сбоях</string>
+    <string name="step_power">сведения о батарее и сне</string>
+    <string name="step_devices">устройства и подключения</string>
+    <string name="step_apps">список приложений</string>
+    <string name="step_saving">файл</string>
+
+    <string name="last_start_title">Логи прошлого запуска</string>
+    <string name="last_start_crash">Прошлый запуск закончился системным сбоем. Его лог сохранён и попадёт в отчёт.</string>
+    <string name="last_start_kept">Сохранены и попадут в отчёт.</string>
+    <string name="last_start_none">Нет. Они сохраняются только при перезапуске консоли, а не когда её выключили или села батарея.</string>
+
+    <string name="privacy">В отчёте есть список ваших приложений, а также могут быть названия сетей Wi-Fi и устройств Bluetooth. Ваших игр и файлов в нём нет. Просмотрите его, прежде чем публиковать в открытом доступе.</string>
+
+    <string name="channel_name">Отчёты о проблемах</string>
+    <string name="crash_title">Консоль перезапустилась после ошибки</string>
+    <string name="crash_text">Сохраните отчёт о проблеме сейчас, пока логи ещё есть, и отправьте его с описанием того, что произошло.</string>
+    <string name="crash_action">Сохранить отчёт</string>
+</resources>

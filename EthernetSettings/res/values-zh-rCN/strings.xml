@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="ethernet_title">以太网</string>
+    <string name="ethernet_summary">USB 以太网适配器、手机 USB 网络共享和 USB 调制解调器</string>
+
+    <string name="ethernet_unavailable">此版本不支持以太网</string>
+    <string name="ethernet_none_title">未连接任何设备</string>
+    <string name="ethernet_none_summary">请插入 USB 以太网适配器，或连接已开启 USB 网络共享的手机。如果是 iPhone，请开启“个人热点”。</string>
+
+    <!-- Category titles, %1$s is the interface name, e.g. eth0 -->
+    <string name="ethernet_iface_adapter">有线适配器（%1$s）</string>
+    <string name="ethernet_iface_phone">手机 USB 网络共享（%1$s）</string>
+    <string name="ethernet_iface_modem">USB 移动宽带调制解调器（%1$s）</string>
+
+    <string name="ethernet_status">状态</string>
+    <string name="ethernet_status_connected">已连接</string>
+    <string name="ethernet_status_no_internet">已连接，但无法访问互联网</string>
+    <string name="ethernet_status_connecting">正在连接…</string>
+    <string name="ethernet_status_unplugged">网线未连接</string>
+    <string name="ethernet_status_phone_waiting">正在等待手机</string>
+    <string name="ethernet_status_modem_waiting">正在等待移动网络</string>
+
+    <string name="ethernet_ip_address">IP 地址</string>
+    <string name="ethernet_gateway">网关</string>
+    <string name="ethernet_dns">DNS 服务器</string>
+    <string name="ethernet_mac">MAC 地址</string>
+    <string name="ethernet_speed">连接速度</string>
+    <!-- %1$d is the speed in Mbit/s -->
+    <string name="ethernet_speed_value">%1$d Mbps</string>
+    <string name="ethernet_unknown">无法获取</string>
+    <string name="ethernet_not_set">未设置</string>
+
+    <string name="ethernet_ip_settings">IP 设置</string>
+    <string name="ethernet_ip_dhcp">DHCP</string>
+    <string name="ethernet_ip_static">静态</string>
+
+    <string name="ethernet_static_ip">静态 IP 地址</string>
+    <string name="ethernet_static_ip_hint">例如 192.168.1.50/24</string>
+    <string name="ethernet_static_gateway">静态网关</string>
+    <string name="ethernet_static_gateway_hint">例如 192.168.1.1，留空表示无</string>
+    <string name="ethernet_static_dns">静态 DNS 服务器</string>
+    <string name="ethernet_static_dns_hint">例如 1.1.1.1, 8.8.8.8</string>
+    <string name="ethernet_static_needs_ip">请先设置 IP 地址</string>
+
+    <string name="ethernet_invalid_ip">请输入 IPv4 地址，可带前缀长度，例如 /24</string>
+    <string name="ethernet_invalid_gateway">请输入 IPv4 地址或留空</string>
+    <string name="ethernet_invalid_dns">请输入 IP 地址，用英文逗号分隔</string>
+    <string name="ethernet_save_failed">无法更改 IP 设置</string>
+</resources>

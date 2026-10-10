@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="usb_mode_title">Mode USB (beta)</string>
+    <string name="usb_mode_summary">Gunakan port OTG untuk aksesori atau untuk terhubung ke komputer</string>
+
+    <string name="usb_mode_switch">Hubungkan ke komputer</string>
+    <string name="usb_mode_switch_on">Port OTG berfungsi sebagai perangkat untuk komputer</string>
+    <string name="usb_mode_switch_off">Port OTG memberi daya ke aksesori seperti gamepad, drive, dan adaptor jaringan</string>
+
+    <string name="usb_mode_about">Aktifkan ini untuk mengakses konsol dari komputer lewat port OTG: transfer file (MTP) atau transfer foto (PTP), dan adb setelah debug USB diaktifkan di Opsi developer.\n\nSelama aktif, aksesori yang dicolokkan ke port OTG tidak berfungsi. Konsol selalu menyala dengan fitur ini nonaktif, memulai ulang akan mengembalikan port ke mode aksesori.\n\nBeberapa konsol tidak menyambungkan port untuk fungsi ini. Jika komputer tidak mendeteksi apa pun dengan kabel data yang bagus, konsol tidak mendukungnya.\n\nJangan pernah aktifkan ini jika konsol Anda punya Wi-Fi bawaan, seperti R36XX. Konsol tersebut memakai port USB yang sama untuk Wi-Fi-nya.\n\nJangan pernah gunakan ini saat konsol sedang diisi daya dari port lainnya. Cabut charger dulu. Jika charger dicolokkan saat fitur ini aktif, port langsung kembali ke mode aksesori.</string>
+
+    <!-- Asked before the port becomes a device for a computer -->
+    <string name="warning_title">Hubungkan ke komputer?</string>
+    <string name="warning_wifi">Jangan aktifkan ini jika konsol Anda punya Wi-Fi bawaan, seperti R36XX. Konsol tersebut memakai port USB yang sama untuk Wi-Fi-nya. Wi-Fi akan berhenti berfungsi, mungkin tidak kembali sampai Anda memulai ulang, dan hal lain bisa bermasalah.\n\nSebagian besar konsol R36S tidak punya Wi-Fi bawaan. Pada konsol tersebut, ini aman.</string>
+    <string name="warning_wifi_found">Wi-Fi terdeteksi di port USB ini sekarang (%1$s). Jika Wi-Fi itu bawaan konsol Anda, pilih Batal.</string>
+    <string name="warning_confirm">Hubungkan</string>
+
+    <!-- Charging and device mode never go together -->
+    <string name="charging_warning">Jangan pernah gunakan ini saat konsol sedang diisi daya dari port lainnya. Cabut charger dulu.</string>
+    <string name="charging_refused">Konsol sedang diisi daya. Jangan pernah gunakan ini saat konsol sedang diisi daya dari port lainnya. Cabut charger dulu.</string>
+    <string name="charging_toast">JANGAN LAKUKAN INI! Jangan pernah mengisi daya dan memakai klien USB bersamaan.</string>
+    <string name="channel_on">Terhubung ke komputer</string>
+    <string name="channel_alert">Mode USB dinonaktifkan</string>
+    <string name="notification_on_title">Port USB: terhubung ke komputer</string>
+    <string name="notification_alert_title">Mode USB dinonaktifkan</string>
+    <string name="notification_alert_text">Charger dicolokkan, jadi port OTG kembali ke mode aksesori. Jangan pernah mengisi daya dan memakai klien USB bersamaan.</string>
+
+    <string name="usb_mode_functions">Gunakan USB untuk</string>
+
+    <string name="usb_mode_unsupported">Konsol ini tidak bisa mengganti mode port USB.</string>
+    <string name="usb_mode_failed">Tidak bisa mengganti mode port USB</string>
+
+    <!-- Quick Settings tile -->
+    <string name="tile_label">Mode USB (beta)</string>
+    <string name="tile_host">Aksesori</string>
+    <string name="tile_device">Komputer</string>
+</resources>

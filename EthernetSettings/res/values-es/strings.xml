@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="ethernet_title">Ethernet</string>
+    <string name="ethernet_summary">Adaptadores Ethernet USB, conexión compartida por USB desde un teléfono y módems USB</string>
+
+    <string name="ethernet_unavailable">Ethernet no está disponible en esta versión</string>
+    <string name="ethernet_none_title">No hay nada conectado</string>
+    <string name="ethernet_none_summary">Conecta un adaptador Ethernet USB o un teléfono con la conexión compartida por USB activada. En un iPhone, activa Compartir Internet.</string>
+
+    <!-- Category titles, %1$s is the interface name, e.g. eth0 -->
+    <string name="ethernet_iface_adapter">Adaptador por cable (%1$s)</string>
+    <string name="ethernet_iface_phone">Teléfono, conexión por USB (%1$s)</string>
+    <string name="ethernet_iface_modem">Módem USB de banda ancha móvil (%1$s)</string>
+
+    <string name="ethernet_status">Estado</string>
+    <string name="ethernet_status_connected">Conectado</string>
+    <string name="ethernet_status_no_internet">Conectado, sin Internet</string>
+    <string name="ethernet_status_connecting">Conectando…</string>
+    <string name="ethernet_status_unplugged">Cable desconectado</string>
+    <string name="ethernet_status_phone_waiting">Esperando al teléfono</string>
+    <string name="ethernet_status_modem_waiting">Esperando a la red móvil</string>
+
+    <string name="ethernet_ip_address">Dirección IP</string>
+    <string name="ethernet_gateway">Puerta de enlace</string>
+    <string name="ethernet_dns">Servidores DNS</string>
+    <string name="ethernet_mac">Dirección MAC</string>
+    <string name="ethernet_speed">Velocidad del enlace</string>
+    <!-- %1$d is the speed in Mbit/s -->
+    <string name="ethernet_speed_value">%1$d Mbps</string>
+    <string name="ethernet_unknown">No disponible</string>
+    <string name="ethernet_not_set">Sin configurar</string>
+
+    <string name="ethernet_ip_settings">Ajustes de IP</string>
+    <string name="ethernet_ip_dhcp">DHCP</string>
+    <string name="ethernet_ip_static">Estática</string>
+
+    <string name="ethernet_static_ip">Dirección IP estática</string>
+    <string name="ethernet_static_ip_hint">Por ejemplo, 192.168.1.50/24</string>
+    <string name="ethernet_static_gateway">Puerta de enlace estática</string>
+    <string name="ethernet_static_gateway_hint">Por ejemplo, 192.168.1.1; vacío si no hay</string>
+    <string name="ethernet_static_dns">Servidores DNS estáticos</string>
+    <string name="ethernet_static_dns_hint">Por ejemplo, 1.1.1.1, 8.8.8.8</string>
+    <string name="ethernet_static_needs_ip">Configura antes la dirección IP</string>
+
+    <string name="ethernet_invalid_ip">Introduce una dirección IPv4, opcionalmente con una longitud de prefijo como /24</string>
+    <string name="ethernet_invalid_gateway">Introduce una dirección IPv4 o déjalo vacío</string>
+    <string name="ethernet_invalid_dns">Introduce direcciones IP separadas por comas</string>
+    <string name="ethernet_save_failed">No se han podido cambiar los ajustes de IP</string>
+</resources>

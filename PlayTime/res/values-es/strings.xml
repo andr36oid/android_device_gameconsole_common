@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="play_time_title">Tiempo de juego</string>
+    <string name="play_time_summary">Cuánto has jugado, tus juegos favoritos y recordatorios de descanso</string>
+
+    <!-- Header above the week chart -->
+    <string name="today">Hoy: <xliff:g id="time">%1$s</xliff:g></string>
+    <string name="this_week">Últimos 7 días: <xliff:g id="time">%1$s</xliff:g></string>
+
+    <string name="most_played">Más jugados, últimos 7 días</string>
+    <string name="nothing_played">Nada todavía. ¡Ponte a jugar!</string>
+    <!-- Summary of an app in the most played list: time, and the share of all play time -->
+    <string name="app_time"><xliff:g id="time">%1$s</xliff:g> · <xliff:g id="percent">%2$d</xliff:g>%%</string>
+
+    <string name="breaks">Descansos</string>
+    <string name="break_reminder">Recordarme que descanse</string>
+    <string-array name="break_entries">
+        <item>Nunca</item>
+        <item>Tras 30 minutos</item>
+        <item>Tras 45 minutos</item>
+        <item>Tras 1 hora</item>
+        <item>Tras 1 hora y 30 minutos</item>
+        <item>Tras 2 horas</item>
+    </string-array>
+    <string name="about">El tiempo de juego cuenta el tiempo que una app está abierta en pantalla. La pantalla de inicio, Ajustes y la pantalla apagada no cuentan.\n\nEl recordatorio de descanso cuenta cuánto tiempo lleva encendida la pantalla. Una pausa de 2 minutos o más reinicia la cuenta.</string>
+
+    <!-- Durations -->
+    <string name="duration_min"><xliff:g id="minutes">%1$d</xliff:g> min</string>
+    <string name="duration_h"><xliff:g id="hours">%1$d</xliff:g> h</string>
+    <string name="duration_h_min"><xliff:g id="hours">%1$d</xliff:g> h <xliff:g id="minutes">%2$d</xliff:g> min</string>
+
+    <!-- Break reminder notification -->
+    <string name="channel_name">Avisos de descanso</string>
+    <string name="break_title">Llevas <xliff:g id="time">%1$s</xliff:g> jugando</string>
+    <string name="break_text">¿Un pequeño descanso? Descansa la vista y estírate un poco; tu juego te esperará.</string>
+    <string name="break_text_battery">¿Un pequeño descanso? Descansa la vista y estírate un poco. Batería al <xliff:g id="percent">%1$d</xliff:g>%%.</string>
+</resources>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="details_title">Szczegóły baterii</string>
+    <string name="details_summary">Napięcie, prąd, czasy ładowania i wykres z 24 godzin</string>
+
+    <!-- Header -->
+    <string name="percent"><xliff:g id="percent">%1$d</xliff:g>%%</string>
+    <string name="status_charging">Ładowanie</string>
+    <string name="status_full">Naładowana</string>
+    <string name="status_discharging">Na baterii</string>
+    <string name="status_not_charging">Podłączona, nie ładuje się</string>
+    <string name="time_to_full">około <xliff:g id="time">%1$s</xliff:g> do pełnego naładowania</string>
+    <string name="time_left">jeszcze około <xliff:g id="time">%1$s</xliff:g> przy obecnym zużyciu</string>
+    <string name="status_and_time"><xliff:g id="status">%1$s</xliff:g> · <xliff:g id="time">%2$s</xliff:g></string>
+
+    <string name="graph_title">Ostatnie 24 godziny</string>
+    <string name="graph_empty">Wykres wypełnia się podczas używania konsoli. Punkt jest dodawany co 15 minut, gdy konsola nie śpi.</string>
+    <string name="graph_ago">24 h temu</string>
+    <string name="graph_now">teraz</string>
+
+    <string name="now_title">W tej chwili</string>
+    <string name="voltage">Napięcie</string>
+    <string name="current">Prąd</string>
+    <string name="power">Moc</string>
+    <string name="temperature">Temperatura procesora</string>
+    <string name="charger">Ładowarka</string>
+
+    <!-- Battery capacity setting -->
+    <string name="capacity_title">Pojemność baterii</string>
+    <string name="capacity_setting">Pojemność</string>
+    <string name="capacity_hint">Nadrukowana na baterii. Błędna wartość sprawia, że procent się rozjeżdża.</string>
+    <string name="capacity_reset">Przywróć <xliff:g id="mah">%1$d</xliff:g> mAh</string>
+    <string name="capacity">Wskaźnik naładowania używa</string>
+
+    <string name="value_voltage"><xliff:g id="volts">%1$.2f</xliff:g> V</string>
+    <string name="value_current_in"><xliff:g id="ma">%1$d</xliff:g> mA do baterii</string>
+    <string name="value_current_out"><xliff:g id="ma">%1$d</xliff:g> mA z baterii</string>
+    <string name="value_power"><xliff:g id="watts">%1$.2f</xliff:g> W</string>
+    <string name="value_temperature"><xliff:g id="celsius">%1$.1f</xliff:g> °C</string>
+    <string name="value_capacity"><xliff:g id="mah">%1$d</xliff:g> mAh</string>
+    <string name="value_capacity_default"><xliff:g id="mah">%1$d</xliff:g> mAh (domyślnie)</string>
+    <string name="charger_none">Niepodłączona</string>
+    <string name="charger_usb">USB</string>
+    <string name="charger_ac">Ładowarka sieciowa</string>
+    <string name="unknown">Nieznane</string>
+
+    <string name="about">Procent to szacunek wskaźnika naładowania. Napięcie jest mierzone bezpośrednio: około 4,2 V to pełna bateria, 3,7 V to mniej więcej połowa, a przy około 3,4 V konsola się wyłącza. Napięcie spada podczas gry i wraca w spoczynku.\n\nJeśli procent i napięcie się nie zgadzają, ładuj, aż konsola pokaże pełne naładowanie. Wtedy wskaźnik sam się skoryguje.\n\nCzasy to przybliżone szacunki na podstawie bieżącego prądu.</string>
+
+    <!-- Durations -->
+    <string name="duration_min"><xliff:g id="minutes">%1$d</xliff:g> min</string>
+    <string name="duration_h_min"><xliff:g id="hours">%1$d</xliff:g> h <xliff:g id="minutes">%2$d</xliff:g> min</string>
+</resources>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="test_title">Controller-Test</string>
+    <string name="test_summary">Alle Tasten und Sticks ausprobieren, Akku ansehen</string>
+
+    <!-- Bottom line. %1$d buttons pressed so far out of %2$d -->
+    <string name="test_hint">START + SELECT halten zum Beenden · FN: Startbildschirm · <xliff:g id="done">%1$d</xliff:g>/<xliff:g id="total">%2$d</xliff:g> Tasten getestet</string>
+    <string name="test_all_tested">Alle Tasten funktionieren</string>
+    <string name="test_leaving">Wird beendet…</string>
+    <string name="test_no_key">Drück eine beliebige Taste</string>
+    <string name="test_no_stick">Keine Analogsticks gefunden</string>
+    <string name="test_battery_unknown">Akku: keine Daten</string>
+</resources>

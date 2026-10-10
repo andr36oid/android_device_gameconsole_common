@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="overclock_title">性能</string>
+    <string name="overclock_summary">省电或全速运行、CPU 限速和超频</string>
+
+    <!-- Performance profiles -->
+    <string name="profile_category">性能模式</string>
+    <string name="profile_title">模式</string>
+    <string-array name="profile_names">
+        <item>省电</item>
+        <item>均衡</item>
+        <item>性能</item>
+    </string-array>
+    <!-- What each profile does. cpu is a CPU speed like "1.01 GHz", gpu a GPU speed in MHz. -->
+    <string name="profile_about_saver">游戏时间更长。CPU 频率不超过 <xliff:g id="cpu">%1$s</xliff:g>，图形频率为 <xliff:g id="gpu">%2$d</xliff:g> MHz。玩 8 位和 16 位游戏绰绰有余。</string>
+    <string name="profile_about_balanced">标准频率。游戏需要时处理器加速，不需要时降速。</string>
+    <string name="profile_about_performance">模拟最流畅。CPU 频率始终不低于 <xliff:g id="cpu">%1$s</xliff:g>，图形频率一直保持在 <xliff:g id="gpu">%2$d</xliff:g> MHz。适合 PS1、N64 和 PSP 游戏。耗电更快。</string>
+    <string name="profile_about_footer">\n\n掌机重启后仍保留所选模式。用快捷设置图块可切换到下一个模式。</string>
+    <string name="profile_about_footer_fn">\n\n掌机重启后仍保留所选模式。按 FN + R1 或用快捷设置图块可切换到下一个模式。</string>
+    <string name="profile_failed">无法更改性能模式</string>
+    <!-- Toast after FN + R1, e.g. "Performance profile: Battery saver" -->
+    <string name="profile_switched">性能模式：<xliff:g id="profile">%1$s</xliff:g></string>
+    <string name="profile_tile_label">性能</string>
+    <!-- Toast after FN + R1 while a maximum CPU speed holds the CPU lower than the profile would,
+         e.g. "Performance profile: Balanced, CPU up to 816 MHz" -->
+    <string name="profile_switched_capped">性能模式：<xliff:g id="profile">%1$s</xliff:g>，CPU 最高 <xliff:g id="speed">%2$s</xliff:g></string>
+    <!-- Tile subtitle with a maximum CPU speed, e.g. "Balanced, 816 MHz" -->
+    <string name="profile_tile_capped"><xliff:g id="profile">%1$s</xliff:g>，<xliff:g id="speed">%2$s</xliff:g></string>
+
+    <!-- Maximum CPU speed (underclock) -->
+    <string name="cpu_cap_title">CPU 最高频率</string>
+    <!-- First entry of the list, no limit. speed is the standard top speed, e.g. "1296 MHz" -->
+    <string name="cpu_cap_stock">默认（<xliff:g id="speed">%1$s</xliff:g>）</string>
+    <string name="cpu_cap_note">频率越低，续航越长、掌机越凉快，但游戏会变慢。如果游戏卡顿，请选择更高的频率。掌机重启后仍会保留。</string>
+    <!-- The cap is lower than what the profile allows, speed e.g. "816 MHz" -->
+    <string name="cpu_cap_active">最高 <xliff:g id="speed">%1$s</xliff:g>，与性能模式无关。</string>
+    <!-- The profile already stays lower than the cap -->
+    <string name="cpu_cap_profile_lower"><xliff:g id="speed">%1$s</xliff:g>。当前性能模式已将 CPU 限制在 <xliff:g id="profile_speed">%2$s</xliff:g> 或更低。</string>
+    <string name="cpu_cap_on_hold"><xliff:g id="speed">%1$s</xliff:g>。超频开启期间暂停生效。</string>
+    <string name="cpu_cap_none">除性能模式外无其他限制。</string>
+    <!-- A CPU speed, e.g. "816 MHz" -->
+    <string name="speed_mhz"><xliff:g id="mhz">%1$d</xliff:g> MHz</string>
+
+    <string name="overclock_category">CPU 超频（实验性）</string>
+    <string name="overclock_switch">超频</string>
+    <string name="overclock_switch_on">运行频率最高 <xliff:g id="speed">%1$s</xliff:g></string>
+    <string name="overclock_switch_off">已关闭，CPU 最高运行在 <xliff:g id="speed">%1$s</xliff:g></string>
+    <string name="overclock_speed">频率</string>
+
+    <!-- A CPU speed, e.g. "1.51 GHz" -->
+    <string name="speed_ghz"><xliff:g id="ghz">%1$.2f</xliff:g> GHz</string>
+
+    <string name="overclock_about">让要求高的游戏模拟得更快，但有代价：掌机会更热，耗电更快，部分掌机在较高频率下会卡死或崩溃。如果出现这种情况，请选择较低的频率。\n\n掌机每次启动时都不会超频，重启即可关闭超频。超频开启期间，CPU 最高频率设置暂停生效。掌机过热时也会自动降速。</string>
+
+    <string name="overclock_unsupported">此掌机无法超频。</string>
+    <string name="overclock_failed">无法更改 CPU 频率</string>
+
+    <!-- CPU undervolt -->
+    <string name="undervolt_category">CPU 降压（实验性）</string>
+    <string name="undervolt_title">降压</string>
+    <string name="undervolt_off">关闭</string>
+    <!-- An undervolt step, e.g. "−25 mV" -->
+    <string name="undervolt_step">−<xliff:g id="mv">%1$d</xliff:g> mV</string>
+    <string name="undervolt_about">以稍低的电压让 CPU 跑同样的频率，因此耗电略少、温度略低，在较高频率下效果最明显。816 MHz 及以下时收益很小。\n\n每颗芯片都不一样。如果游戏崩溃，或掌机卡死、重启，请改回“关闭”。在保存数据时崩溃可能会损坏卡上的文件，所以请一次只降一档，玩一段时间后再继续降低。\n\n掌机每次启动时降压都处于关闭状态，重启即可关闭降压。</string>
+    <string name="undervolt_failed">无法更改 CPU 电压</string>
+
+    <!-- Quick Settings tile -->
+    <string name="tile_label">CPU 超频</string>
+    <string name="tile_off">关闭</string>
+</resources>

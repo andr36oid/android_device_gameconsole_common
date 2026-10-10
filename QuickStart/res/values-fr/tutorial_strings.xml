@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <!-- Hands-on tutorial that runs once after the setup wizard -->
+    <string name="tutorial_label">Tutoriel</string>
+    <!-- Above the progress bar, e.g. "Step 3 of 11" -->
+    <string name="tutorial_step">Étape <xliff:g id="current">%1$d</xliff:g> sur <xliff:g id="total">%2$d</xliff:g></string>
+
+    <!-- Buttons at the bottom -->
+    <string name="tutorial_back">Retour</string>
+    <string name="tutorial_start">Commencer</string>
+    <string name="tutorial_next">Suivant</string>
+    <string name="tutorial_skip_step">Passer l\'étape</string>
+    <string name="tutorial_skip_all">Passer le tutoriel</string>
+    <!-- On the FN steps, for consoles without an FN button: skips all of them -->
+    <string name="tutorial_no_fn">Pas de bouton FN</string>
+    <string name="tutorial_done">Terminé</string>
+    <string name="tutorial_open_guide">Ouvrir le guide complet</string>
+
+    <!-- Shown under the list once everything on a step was done -->
+    <string name="tutorial_well_done">Bravo. Appuyez sur A pour continuer.</string>
+
+    <!-- Welcome -->
+    <string name="tutorial_welcome_title">Essayons les boutons</string>
+    <string name="tutorial_welcome_body">Cette console n\'a pas d\'écran tactile. Tout fonctionne avec les boutons, et ce court tutoriel vous permet de les essayer un par un. Il dure environ trois minutes.\n\nAppuyez sur A pour continuer et sur B pour revenir en arrière. Appuyez sur Select pour passer une étape que vous connaissez déjà.</string>
+
+    <!-- A, B, X, Y -->
+    <string name="tutorial_face_title">A, B, X et Y</string>
+    <string name="tutorial_face_body">A valide : il ouvre ce qui est sélectionné et appuie sur les boutons à l\'écran.\n\nB revient en arrière, un écran à la fois.\n\nX et Y font des choses différentes selon l\'appli et le jeu.\n\nAppuyez une fois sur chacun.</string>
+    <string name="tutorial_press_a">Appuyez sur A</string>
+    <string name="tutorial_press_b">Appuyez sur B</string>
+    <string name="tutorial_press_x">Appuyez sur X</string>
+    <string name="tutorial_press_y">Appuyez sur Y</string>
+
+    <!-- D-pad -->
+    <string name="tutorial_dpad_title">Croix directionnelle</string>
+    <string name="tutorial_dpad_body">La croix déplace la sélection sur l\'écran : dans les listes, les menus et les boutons. Le stick gauche fait de même dans les menus.\n\nAppuyez une fois dans chaque direction.</string>
+    <string name="tutorial_dpad_up">Haut</string>
+    <string name="tutorial_dpad_down">Bas</string>
+    <string name="tutorial_dpad_left">Gauche</string>
+    <string name="tutorial_dpad_right">Droite</string>
+
+    <!-- Sticks -->
+    <string name="tutorial_sticks_title">Sticks</string>
+    <string name="tutorial_sticks_body">Les jeux utilisent les deux sticks. Vous pouvez aussi enfoncer chaque stick comme un bouton : ce sont L3 et R3.\n\nBougez les deux sticks et regardez les points les suivre, puis enfoncez un stick.</string>
+    <string name="tutorial_stick_left">Bougez le stick gauche</string>
+    <string name="tutorial_stick_right">Bougez le stick droit</string>
+    <string name="tutorial_stick_click">Enfoncez un stick (L3 ou R3)</string>
+
+    <!-- Shoulder buttons -->
+    <string name="tutorial_shoulder_title">Gâchettes</string>
+    <string name="tutorial_shoulder_body">L1 et R1 sont les gâchettes du haut, L2 et R2 celles du bas. Beaucoup d\'applis utilisent L1 et R1 pour changer d\'onglet ou de page.\n\nAppuyez une fois sur chacune.</string>
+    <string name="tutorial_press_l1">Appuyez sur L1</string>
+    <string name="tutorial_press_r1">Appuyez sur R1</string>
+    <string name="tutorial_press_l2">Appuyez sur L2</string>
+    <string name="tutorial_press_r2">Appuyez sur R2</string>
+
+    <!-- FN = home -->
+    <string name="tutorial_home_title">FN est le bouton Accueil</string>
+    <string name="tutorial_home_body">Appuyez sur FN seul pour revenir à l\'écran d\'accueil de n\'importe où, même depuis un jeu. L\'écran d\'accueil, c\'est Daijishou, où se trouvent vos jeux et vos applis.\n\nEssayez maintenant : appuyez sur FN. Ce tutoriel revient tout seul quelques secondes plus tard.</string>
+    <string name="tutorial_home_task">Appuyez sur FN</string>
+    <string name="tutorial_home_back">Vous revoilà. Ce n\'est pas plus compliqué que ça.</string>
+
+    <!-- FN + volume -->
+    <string name="tutorial_brightness_title">Raccourcis FN : luminosité</string>
+    <string name="tutorial_brightness_body">FN a un second rôle : maintenez-le et appuyez sur un autre bouton pour un raccourci.\n\nMaintenez FN et appuyez sur Vol+ pour rendre l\'écran plus lumineux. Maintenez FN et appuyez sur Vol− pour l\'assombrir. Les boutons de volume seuls règlent toujours le volume.</string>
+    <string name="tutorial_brightness_up">Plus lumineux : FN + Vol+</string>
+    <string name="tutorial_brightness_down">Plus sombre : FN + Vol−</string>
+    <string name="tutorial_brightness_hint">Déjà au maximum ? Commencez par plus sombre.</string>
+    <!-- After FN alone was pressed on a step that wants FN plus another button -->
+    <string name="tutorial_fn_alone">C\'était FN seul, l\'écran d\'accueil s\'est donc ouvert. Maintenez FN enfoncé, puis appuyez sur le second bouton sans relâcher FN.</string>
+
+    <!-- FN + Y -->
+    <string name="tutorial_shade_title">Raccourcis FN : Réglages rapides</string>
+    <string name="tutorial_shade_body">Maintenez FN et appuyez sur Y pour ouvrir vos notifications et les Réglages rapides, avec des tuiles pour le Wi-Fi, le Bluetooth, etc.\n\nOuvrez-les maintenant. FN + Y à nouveau les referme.</string>
+    <string name="tutorial_shade_open">Ouvrir : FN + Y</string>
+
+    <!-- Joystick mouse -->
+    <string name="tutorial_mouse_title">Souris joystick</string>
+    <string name="tutorial_mouse_body">Quelques applis attendent un écran tactile. Pour celles-ci, le stick droit peut déplacer un pointeur de souris. A clique, L1 fait un clic droit et le stick gauche fait défiler.\n\nPour l\'activer ou la désactiver, maintenez les deux sticks enfoncés (L3 + R3) pendant une seconde.</string>
+    <string name="tutorial_mouse_body_fn">Quelques applis attendent un écran tactile. Pour celles-ci, le stick droit peut déplacer un pointeur de souris. A clique, L1 fait un clic droit et le stick gauche fait défiler.\n\nPour l\'activer ou la désactiver, maintenez les deux sticks enfoncés (L3 + R3) pendant une seconde, ou appuyez sur FN + X.</string>
+    <string name="tutorial_mouse_on">Activez la souris</string>
+    <string name="tutorial_mouse_off">Désactivez-la</string>
+
+    <!-- Power -->
+    <string name="tutorial_power_title">Bouton Marche/Arrêt</string>
+    <string name="tutorial_power_body">Un appui court sur Marche/Arrêt met la console en veille, un autre la réveille.\n\nMaintenez Marche/Arrêt une seconde pour ouvrir le menu Marche/Arrêt : éteindre, redémarrer et plus encore. Appuyez sur B pour fermer le menu.</string>
+    <string name="tutorial_power_sleep">Appui court pour la veille, puis à nouveau pour réveiller</string>
+    <string name="tutorial_power_menu">Maintenez pour ouvrir le menu, puis B pour le fermer</string>
+
+    <!-- Games -->
+    <string name="tutorial_games_title">Où mettre vos jeux</string>
+    <string name="tutorial_games_body">Mettez la carte SD dans un ordinateur. En plus d\'un petit lecteur BOOT, elle affiche un grand lecteur nommé EASYROMS : c\'est pour vos jeux.\n\nDonnez à chaque système son propre dossier, nommé par exemple nes, snes, gba, megadrive ou psx.\n\nOuvrez ensuite Daijishou (appuyez sur FN), ajoutez une plate-forme et choisissez son dossier sur EASYROMS. Daijishou liste les jeux et les lance dans RetroArch ou PPSSPP.</string>
+    <string name="tutorial_games_body_no_fn">Mettez la carte SD dans un ordinateur. En plus d\'un petit lecteur BOOT, elle affiche un grand lecteur nommé EASYROMS : c\'est pour vos jeux.\n\nDonnez à chaque système son propre dossier, nommé par exemple nes, snes, gba, megadrive ou psx.\n\nOuvrez ensuite Daijishou, ajoutez une plate-forme et choisissez son dossier sur EASYROMS. Daijishou liste les jeux et les lance dans RetroArch ou PPSSPP.</string>
+    <!-- Under the games text, when the EASYROMS partition was found -->
+    <string name="tutorial_games_space">EASYROMS sur cette carte : <xliff:g id="free">%1$s</xliff:g> libres sur <xliff:g id="total">%2$s</xliff:g>.</string>
+
+    <!-- Finish -->
+    <string name="tutorial_done_title">Vous êtes prêt</string>
+    <string name="tutorial_done_body">Voilà pour les bases.\n\nLe guide de démarrage rapide en explique plus : émulateurs, vitesse et batterie, connexion à Internet, et que faire en cas de problème. Ouvrez-le ici, ou à tout moment depuis Paramètres &gt; Guide de démarrage rapide.</string>
+    <string name="tutorial_done_body_fn_help">Voilà pour les bases. Un raccourci oublié ? Maintenez FN seul un instant, dans n\'importe quelle appli ou jeu, pour tous les voir.\n\nLe guide de démarrage rapide en explique plus : émulateurs, vitesse et batterie, connexion à Internet, et que faire en cas de problème. Ouvrez-le ici, ou à tout moment depuis Paramètres &gt; Guide de démarrage rapide.</string>
+
+    <!-- Guide bottom bar: X opens the tutorial -->
+    <string name="hint_tutorial">Tutoriel</string>
+</resources>

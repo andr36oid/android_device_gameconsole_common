@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="play_time_title">Czas gry</string>
+    <string name="play_time_summary">Jak długo grasz, twoje ulubione gry i przypomnienia o przerwie</string>
+
+    <!-- Header above the week chart -->
+    <string name="today">Dzisiaj: <xliff:g id="time">%1$s</xliff:g></string>
+    <string name="this_week">Ostatnie 7 dni: <xliff:g id="time">%1$s</xliff:g></string>
+
+    <string name="most_played">Najczęściej grane, ostatnie 7 dni</string>
+    <string name="nothing_played">Jeszcze nic. Zagraj w coś!</string>
+    <string name="app_time"><xliff:g id="time">%1$s</xliff:g> · <xliff:g id="percent">%2$d</xliff:g>%%</string>
+
+    <string name="breaks">Przerwy</string>
+    <string name="break_reminder">Przypominaj o przerwie</string>
+    <string-array name="break_entries">
+        <item>Nigdy</item>
+        <item>Po 30 minutach</item>
+        <item>Po 45 minutach</item>
+        <item>Po 1 godzinie</item>
+        <item>Po 1 godzinie 30 minutach</item>
+        <item>Po 2 godzinach</item>
+    </string-array>
+    <string name="about">Czas gry liczy, jak długo aplikacja jest otwarta na ekranie. Ekran główny, Ustawienia i wyłączony ekran się nie liczą.\n\nPrzypomnienie o przerwie liczy, jak długo ekran jest włączony. Przerwa trwająca 2 minuty lub dłużej zaczyna liczenie od nowa.</string>
+
+    <!-- Durations -->
+    <string name="duration_min"><xliff:g id="minutes">%1$d</xliff:g> min</string>
+    <string name="duration_h"><xliff:g id="hours">%1$d</xliff:g> h</string>
+    <string name="duration_h_min"><xliff:g id="hours">%1$d</xliff:g> h <xliff:g id="minutes">%2$d</xliff:g> min</string>
+
+    <!-- Break reminder notification -->
+    <string name="channel_name">Przypomnienia o przerwie</string>
+    <string name="break_title">Grasz już <xliff:g id="time">%1$s</xliff:g></string>
+    <string name="break_text">Czas na krótką przerwę? Daj odpocząć oczom i trochę się rozciągnij, gra poczeka.</string>
+    <string name="break_text_battery">Czas na krótką przerwę? Daj odpocząć oczom i trochę się rozciągnij. Bateria: <xliff:g id="percent">%1$d</xliff:g>%%.</string>
+</resources>

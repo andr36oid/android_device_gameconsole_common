@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="guide_title">Hızlı başlangıç kılavuzu</string>
+    <string name="guide_summary">Tuşlar, kısayollar, oyunlarınız ve bir sorun çıktığında yardım</string>
+
+    <!-- Bottom bar: what the buttons do in the guide -->
+    <string name="hint_choose">Seç</string>
+    <string name="hint_read">Oku</string>
+    <string name="hint_scroll">Kaydır</string>
+    <string name="hint_page">Konu</string>
+    <string name="hint_back">Konular</string>
+    <string name="hint_close">Kapat</string>
+    <!-- Joins two buttons pressed together, e.g. "FN + Start" -->
+    <string name="key_plus">+</string>
+    <!-- Between two alternative buttons, e.g. "L1 / R1" -->
+    <string name="key_or">/</string>
+
+    <!-- Welcome -->
+    <string name="welcome_title">Hoş geldiniz</string>
+    <string name="welcome_intro">andr36oid bu konsolu bir Android el konsoluna dönüştürür. Oyunlar, emülatörler ve uygulamalar tuşlarla çalışır, dokunmatik ekran gerekmez.</string>
+    <string name="welcome_choose">Bir konu seçin</string>
+    <string name="welcome_read">Okuyun, yön tuşları sonra metni kaydırır</string>
+    <string name="welcome_page">Önceki veya sonraki konu</string>
+    <string name="welcome_tutorial">Uygulamalı eğitimde tuşları yeniden deneyin</string>
+    <string name="welcome_close">Kılavuzu kapatın</string>
+    <string name="welcome_again">Bu kılavuzu istediğiniz zaman Ayarlar &gt; Hızlı başlangıç kılavuzu bölümünden yeniden açabilirsiniz.</string>
+
+    <!-- Buttons -->
+    <string name="buttons_title">Tuşlar</string>
+    <string name="buttons_a">Seç, onayla</string>
+    <string name="buttons_b">Geri</string>
+    <string name="buttons_fn">Ana ekran</string>
+    <string name="buttons_power_tap">Kısa bas: uyku ve uyandırma</string>
+    <string name="buttons_power_hold">Basılı tut: Ana ekran, uygulama değiştirici, Arka plan uygulamalarını kapat, Kapat ve Yeniden başlat içeren güç menüsü</string>
+    <string name="buttons_volume">Ses</string>
+    <string name="buttons_select">Menüsü olan uygulamalarda menü</string>
+    <string name="buttons_stick">Sol analog, yön tuşları gibi gezinir</string>
+
+    <!-- FN shortcuts -->
+    <string name="shortcuts_title">FN kısayolları</string>
+    <string name="shortcuts_intro">FN tuşunu basılı tutup ikinci bir tuşa basın. FN tek başına yine ana ekrana gider.</string>
+    <string name="shortcuts_brightness">Ekranı aydınlat veya karart</string>
+    <string name="shortcuts_screenshot">Ekran görüntüsü, Pictures/Screenshots klasörüne kaydedilir</string>
+    <string name="shortcuts_last_app">Önceki uygulamaya dön</string>
+    <string name="shortcuts_panel">Bildirimler ve Hızlı Ayarlar</string>
+    <string name="shortcuts_mouse">Joystick fareyi aç veya kapat</string>
+    <string name="shortcuts_profile">Sonraki performans profili</string>
+    <string name="shortcuts_overlay">Performans katmanını aç veya kapat</string>
+    <string name="shortcuts_touch">Oyundayken dokunmatik kontrol düzenleyicisi</string>
+    <string name="shortcuts_hold_help">Birini mi unuttunuz? Herhangi bir uygulamada veya oyunda FN tuşunu tek başına bir süre basılı tutun, bu liste açılır. Kapatmak için FN tuşunu bırakın.</string>
+
+    <!-- Games -->
+    <string name="games_title">Oyunlarınız</string>
+    <string name="games_where">Oyunlar SD kartın EASYROMS bölümüne konur. Bilgisayarda kart, EASYROMS adlı bir sürücü olarak görünür. Konsolda ise Dosyalar uygulamasındaki EASYROMS depolama alanıdır.</string>
+    <string name="games_folders">Her sisteme nes, snes, gb, gba, megadrive veya psx gibi adlarla kendi klasörünü verin. ArkOS veya dArkOS için hazırlanmış kartlar bu adları zaten kullanır, bu yüzden oyunları olduğu gibi çalışır.</string>
+    <string name="games_folders_ready">Konsol bu klasörleri EASYROMS\'ta kendisi oluşturur; hangi sistemin nereye gittiğini listeleyen bir README de ekler.</string>
+    <string name="games_wifi_transfer">Yakında bilgisayar veya kart okuyucu yok mu? Oyunları doğrudan EASYROMS\'a göndermek için konsolda Wi-Fi transfer\'i açın ve QR kodunu telefonunuzla tarayın ya da gösterdiği adresi aynı ağdaki herhangi bir tarayıcıya yazın.</string>
+    <string name="games_library">Ana ekran olan Daijishou, bu klasörleri bir oyun kütüphanesine dönüştürür: bir platform ekleyin ve EASYROMS\'taki klasörünü seçin.</string>
+
+    <!-- Emulators -->
+    <string name="emulators_title">Emülatörler</string>
+    <string name="emulators_included">RetroArch ve PPSSPP önceden yüklü gelir. RetroArch\'ta NES, SNES, Game Boy, GBA, Mega Drive, Master System, Game Gear, PlayStation, PC Engine, Neo Geo Pocket, WonderSwan, Atari 2600, 7800 ve Lynx çekirdekleri zaten var.</string>
+    <string name="emulators_psp">PSP oyunları PPSSPP\'de çalışır. PlayStation oyunları BIOS olmadan da açılır, ama EASYROMS\'taki bios klasöründe bir BIOS varsa en iyi şekilde çalışır.</string>
+    <string name="emulators_updates">Emülatörler sıradan uygulamalardır: F-Droid onları güncelleyebilir ve isterseniz kaldırabilirsiniz.</string>
+
+    <!-- Speed and battery -->
+    <string name="speed_title">Hız ve pil</string>
+    <string name="speed_profiles">Ayarlar &gt; Performans\'ta üç profil vardır. Eski sistemlerle uzun oturumlar için Pil tasarrufu, günlük kullanım için Dengeli, PS1, N64 ve PSP için Performans. Hızlı Ayarlar kutusu da bunlar arasında geçiş yapar.</string>
+    <string name="speed_overclock_alone">Ayarlar &gt; CPU hız aşırtma (deneysel), zorlu oyunlar için işlemciyi standarttan daha hızlı çalıştırır. Yeniden başlatmak onu kapatır. Konsol donarsa daha düşük bir hız seçin.</string>
+    <string name="speed_overclock">Aynı sayfadaki CPU hız aşırtma (deneysel), zorlu oyunlar için işlemciyi standarttan daha hızlı çalıştırır. Yeniden başlatmak onu kapatır. Konsol donarsa daha düşük bir hız seçin.</string>
+    <string name="speed_screen">En çok gücü ekran harcar. Parlaklık ne kadar düşükse oyun süresi o kadar uzun olur.</string>
+
+    <!-- Mouse and button mapping -->
+    <string name="mouse_title">Fare ve tuşlar</string>
+    <string name="mouse_toggle">İki analoğu birlikte bir saniye basılı tutun: joystick fare açılır veya kapanır</string>
+    <string name="mouse_pointer">İşaretçiyi hareket ettir</string>
+    <string name="mouse_click">Tıkla; R1 basılıyken sürükle</string>
+    <string name="mouse_right_click">Sağ tık</string>
+    <string name="mouse_scroll">Kaydır</string>
+    <string name="mouse_settings">Hızı, tuşları ve tuş kombinasyonunu Ayarlar &gt; Joystick fare bölümünden değiştirebilirsiniz.</string>
+    <string name="mapping_settings">Ayarlar &gt; Tuş eşleme ile tuşların yerini değiştirin; farklı oyunlar için profiller var.</string>
+    <string name="mapping_reset">Kendinizi dışarıda mı bıraktınız? İki ses tuşunu birlikte 5 saniye basılı tutun, tüm tuşlar normale döner.</string>
+
+    <!-- Touch controls -->
+    <string name="touch_title">Dokunmatik kontroller</string>
+    <string name="touch_intro">Bazı oyunlar yalnızca dokunmatik ekranla çalışır. Dokunmatik kontroller böyle bir oyuna kendi düzenini verir: her tuş veya analog, ekranda bir noktaya dokunur. Düzen, o oyun öndeyken kendiliğinden açılır; diğer tüm uygulamalar normal tuşlarla çalışmaya devam eder.</string>
+    <string name="touch_open">Oyunda: düzenleyiciyi oyunun üstünde açın</string>
+    <string name="touch_settings">Ya da Ayarlar &gt; Dokunmatik kontroller &gt; Uygulama ekle\'ye gidin. Oyun başlar ve düzenleyici üstünde açılır.</string>
+    <string name="touch_move">Artı imlecini bir noktaya taşıyın</string>
+    <string name="touch_add">Oraya bir kontrol ekleyin, sonra tuşuna basın veya analoğunu oynatın</string>
+    <string name="touch_size">Seçili kontrolü küçültün veya büyütün</string>
+    <string name="touch_save">Kaydedip oyuna dönün</string>
+    <string name="touch_kinds">Bir kontrol dokunabilir, basılı tutabilir, kaydırabilir, ekran joystick\'i gibi çalışabilir ya da kamera gibi etrafa bakabilir. Düzenleyicide Select ile daha fazlası var: ikinci bir kontrol seti için Shift tuşu ve ekrandaki etiketler.</string>
+    <string name="touch_other_buttons">Kontrolü olmayan tuşlar normal tuş olarak çalışmaya devam eder; FN ve kısayolları her zaman çalışır.</string>
+
+    <!-- Internet -->
+    <string name="internet_title">İnternete bağlanma</string>
+    <string name="internet_wifi">Çoğu R36S konsolunda dahili Wi-Fi yoktur, ama R36XX gibi bazı modellerde vardır. Sizinkinde varsa Wi-Fi\'ı Ayarlar &gt; Ağ ve internet bölümünden açmanız yeterli. Yoksa OTG portuna bir USB Wi-Fi adaptörü takın (gerekirse bir USB-C adaptörüyle), sonra Wi-Fi\'ı orada açın.</string>
+    <string name="internet_browser">Web tarayıcısı Cromite\'tir.</string>
+
+    <!-- Troubleshooting -->
+    <string name="trouble_title">Sorun giderme</string>
+    <string name="trouble_intro">Çoğu sorun bir bilgisayar ve SD kartla çözülebilir. Bilgisayarda kart, BOOT adlı küçük bir sürücü (başlangıç dosyaları) ve EASYROMS adlı büyük bir sürücü (oyunlarınız) gösterir.</string>
+    <string name="trouble_first_boot_q">İlk açılış uzun sürüyor</string>
+    <string name="trouble_first_boot_a">Bu normaldir. İlk açılış SD kartı hazırlar ve kendiliğinden yeniden başlar, ardından Android uygulamalarını hazırlar. Birkaç dakika bekleyin ve konsolu kapatmayın.</string>
+    <string name="trouble_panel_q">İlk açılışta ekran siyah kalıyor ama konsol açık</string>
+    <string name="trouble_panel_a">Konsolunuzda, bu kartın hazırlandığından farklı bir ekran var. Bilgisayarda BOOT\'u, ardından Panels klasörünü açın. Panel klasörlerinden birindeki iki dosyayı BOOT\'un en üst dizinine kopyalayın ve oradaki dosyaların yerine koyun. Varsayılan Panel4\'tür, bu yüzden diğerlerini tek tek deneyin.</string>
+    <string name="trouble_stuck_q">Bir güncellemeden veya Magisk modülünden sonra açılmıyor</string>
+    <string name="trouble_stuck_a">Root olmadan başlatın. Bilgisayarda BOOT\'u açın ve ramdisk.uimg dosyasının adını ramdisk-magisk.uimg yapın, ardından ramdisk-stock.uimg dosyasının adını ramdisk.uimg yapın. Uygulamalarınız ve oyunlarınız kalır. Root\'u geri almak için adları daha sonra eski haline getirin.</string>
+    <string name="trouble_frozen_q">Konsol dondu</string>
+    <string name="trouble_frozen_a">Kapanana kadar güç düğmesini yaklaşık 10 saniye basılı tutun, sonra yeniden açın. CPU hız aşırtma açıkken donduysa bir dahaki sefere daha düşük bir hız seçin. Yeniden başlatmak hız aşırtmayı her zaman kapatır.</string>
+    <string name="trouble_bios_q">Oyun açılmıyor ya da siyah ekranla açılıyor</string>
+    <string name="trouble_bios_a">Sega CD ve PC Engine CD gibi bazı sistemler orijinal konsoldan alınmış bir dosyaya (BIOS) ihtiyaç duyar, PlayStation oyunları da biriyle daha iyi çalışır. Bu dosyaları EASYROMS\'taki bios klasörüne koyun. Ayarlar &gt; Emülatör dosyaları neyin eksik olduğunu gösterir.</string>
+    <string name="trouble_buttons_q">Tuşlar yanlış şey yapıyor</string>
+    <string name="trouble_recovery_q">Kurtarma ve fabrika sıfırlaması</string>
+    <string name="trouble_recovery_a">Konsolu açarken FN tuşunu basılı tutun</string>
+    <string name="trouble_recovery_more">Bu, fabrika ayarlarına sıfırlama veya bilgisayardan güncelleme yüklemek için kullanılan kurtarma sistemini başlatır. Fabrika ayarlarına sıfırlama uygulamalarınızı ve ayarlarınızı siler, ama EASYROMS\'taki oyunları silmez.</string>
+    <string name="trouble_clock_q">Tarih veya saat yanlış</string>
+    <string name="trouble_clock_a">Pil tamamen bittiğinde konsol saati unutur. Saati Ayarlar &gt; Sistem &gt; Tarih ve saat bölümünden ayarlayın. Ağ bağlantısı varsa, \"Ağın sağladığı saati kullan\" açık olduğu sürece saat kendini ayarlar.</string>
+
+    <!-- USB and computers -->
+    <string name="usb_title">USB ve bilgisayarlar</string>
+    <string name="usb_card">Oyunları kopyalamanın en kolay yolu, SD kartı bilgisayara takıp oyunları EASYROMS\'a kopyalamaktır. Konsolu açmadan önce kartı geri takın.</string>
+    <string name="usb_mode_q">Konsolu bilgisayara bağlama</string>
+    <string name="usb_mode_a">Ayarlar &gt; USB modu &gt; Bilgisayara bağlan\'ı açın, sonra bir veri kablosunu OTG portuna ve bilgisayardaki bir USB-A portuna takın. USB bildiriminde Dosya Aktarımı\'nı seçin. Bu açıkken OTG portundaki oyun kolları ve adaptörler çalışmaz; yeniden başlatmak bunu kapatır.</string>
+    <string name="usb_mode_wifi">Konsolunuzda R36XX gibi dahili Wi-Fi varsa bunu asla açmayın. Bu konsollar Wi-Fi için aynı USB portunu kullanır; Wi-Fi çalışmayı durdurur ve yeniden başlatana kadar geri gelmeyebilir. USB modu geçiş yapmadan önce sorar.</string>
+    <string name="usb_mode_charging">Konsol diğer portundan şarj olurken bunu asla kullanmayın. Önce şarj cihazını çıkarın. Bu açıkken bir şarj cihazı takılırsa USB modu aksesuarlara geri döner.</string>
+    <string name="usb_adb">adb için ayrıca Ayarlar &gt; Sistem &gt; Geliştirici seçenekleri\'nde USB hata ayıklaması\'nı açın. Geliştirici seçenekleri\'ni göstermek için Ayarlar &gt; Konsol hakkında bölümünde Derleme numarası\'na 7 kez tıklayın.</string>
+    <string name="usb_host_only">OTG portu aksesuarlar içindir: oyun kolları, USB sürücüler ve ağ adaptörleri. Bu derlemede bilgisayara bağlanamaz.</string>
+    <string name="usb_dongles_q">Aksesuarlar</string>
+    <string name="usb_dongles_a">Aksesuarları OTG portuna takın, gerekirse bir USB-C adaptörü veya küçük bir hub ile. USB oyun kolları, klavyeler, fareler, USB sürücüler, Wi-Fi, Bluetooth ve Ethernet adaptörleri, Android\'de çipleri için sürücü varsa çalışır. Yaygın Realtek çipli adaptörler en iyi sonucu verir. R36XX gibi dahili Wi-Fi\'lı konsollarda OTG portuna takılan bir şey dahili Wi-Fi\'ı durdurabilir.</string>
+    <string name="usb_dongles_trouble">Hiçbir şey olmuyor mu? Çıkarın, birkaç saniye bekleyin ve yeniden takın. Bazı adaptörler portun verdiğinden fazla güce ihtiyaç duyar; kendi güç kaynağı olan bir hub işe yarar.</string>
+
+    <!-- SD card -->
+    <string name="card_title">SD kart</string>
+    <string name="card_layout">Kart her şeyi tutar: Android, uygulamalarınız ve verileriniz (16 GB) ve kartın geri kalanını alan EASYROMS. EASYROMS exFAT kullanır, bu yüzden Windows, macOS ve Linux\'un hepsi onu okuyabilir.</string>
+    <string name="card_noroms_q">Tüm alan uygulamalara, EASYROMS olmasın</string>
+    <string name="card_noroms_a">En ilk açılıştan önce BOOT\'ta .noroms adlı boş bir dosya oluşturun. İlk açılış o zaman kartın tamamını uygulamalara verir. Bu yalnızca yeni yazılmış bir kartta çalışır. BIOS dosyaları da bu durumda dahili depolamadaki bios klasörüne konur.</string>
+    <string name="card_backup_q">Kayıtlarınızı yedekleyin</string>
+    <string name="card_backup_a">EASYROMS\'ta oyunların yanına yapılan kayıtlar bilgisayarda kolayca kopyalanabilir. Bir uygulamanın içindeki kayıtlar kartın Android kısmında o uygulamayla birlikte kalır; bu yüzden her emülatörün ayarlarında kayıtları nerede tuttuğuna bakın.</string>
+
+    <!-- Battery -->
+    <string name="battery_title">Pil bakımı</string>
+    <string name="battery_percent_q">Pil yüzdesi yanlış görünüyor</string>
+    <string name="battery_percent_a">Pil ölçer şarjı tahmin eder ve zamanla öğrenir. Pil tamamen bittikten veya konsol uzun süre kullanılmadan kaldıktan sonra, konsol açıkken %100\'e kadar şarj edin ve yarım saat daha şarjda bırakın. Böylece ölçer doğru seviyeyi yeniden bulur.</string>
+    <string name="battery_details">Ayarlar &gt; Pil &gt; Pil ayrıntıları pil voltajını gösterir: yaklaşık 4,2 V dolu, 3,5 V\'un altı neredeyse boş demektir.</string>
+    <string name="battery_sleep_q">Uyku mu, kapatmak mı?</string>
+    <string name="battery_sleep_a">Uyku (güç düğmesine kısaca basın) molalar için uygundur ama yine de biraz pil harcar. Bir günden uzun süreler için konsolu güç menüsünden kapatın.</string>
+    <string name="battery_storage_q">Bir süre kaldırmak</string>
+    <string name="battery_storage_a">Yaklaşık yarıya kadar şarj edip kapatın. Birkaç ayda bir şarjı tamamlayın. Uzun süre tamamen boş bırakılan bir pil yıpranabilir.</string>
+
+    <!-- Magisk -->
+    <!-- Community -->
+    <string name="community_title">Topluluk</string>
+    <string name="community_text">Sorularınız, ipuçlarınız mı var ya da konsolunuzu göstermek mi istiyorsunuz? andr36oid topluluğunu Telegram\'da bulabilirsiniz: t.me/andr36oid\n\nKatılmak için kodu telefonunuzla tarayın.</string>
+    <string name="community_qr_description">t.me/andr36oid için QR kodu</string>
+
+    <string name="magisk_title">Root (Magisk)</string>
+    <string name="magisk_intro">Konsol, Magisk ile root\'lu gelir, ama bir kez kurulum yapana kadar kapalıdır.</string>
+    <string name="magisk_setup_q">Root\'u açma: önce Magisk\'i bir kez açın</string>
+    <string name="magisk_setup_a">Magisk uygulamasını açın ve kurulumunu bitirmesini bekleyin. Konsolu yeniden başlatmak isteyecek: evet deyin. Root, ancak bu yeniden başlatmadan sonra kullanılabilir.</string>
+    <string name="magisk_use">Bundan sonra root isteyen uygulamalar bir istem gösterir: tuşlarla izin verin veya reddedin. Magisk uygulaması root erişimini ve modülleri yönetir.</string>
+    <string name="magisk_modules">Root, kartın BOOT kısmında bulunur, bu yüzden sistem güncellendiğinde yerinde kalır.</string>
+    <string name="magisk_broken_q">Bir modül açılışı bozdu</string>
+    <string name="magisk_broken_a">Sorun giderme\'ye bakın: BOOT\'ta ramdisk.uimg ile ramdisk-stock.uimg\'nin yerini değiştirin; konsol root ve modüller olmadan açılır.</string>
+
+    <!-- Key names drawn in the badges that aren't just the printed label -->
+    <string name="key_dpad">Yön tuşları</string>
+    <string name="key_power">Güç</string>
+    <string name="key_volume">Ses</string>
+    <string name="key_right_stick">Sağ analog</string>
+    <string name="key_left_stick">Sol analog</string>
+</resources>

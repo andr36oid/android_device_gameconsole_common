@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="usb_mode_title">Mode USB (bêta)</string>
+    <string name="usb_mode_summary">Utiliser le port OTG pour des accessoires ou pour se connecter à un ordinateur</string>
+
+    <string name="usb_mode_switch">Connecter à un ordinateur</string>
+    <string name="usb_mode_switch_on">Le port OTG sert de périphérique pour un ordinateur</string>
+    <string name="usb_mode_switch_off">Le port OTG alimente des accessoires comme des manettes, des clés et des adaptateurs réseau</string>
+
+    <string name="usb_mode_about">Activez cette option pour accéder à la console depuis un ordinateur via le port OTG : transfert de fichiers (MTP) ou de photos (PTP), et adb une fois le débogage USB activé dans les Options pour les développeurs.\n\nTant qu\'elle est activée, les accessoires branchés sur le port OTG ne fonctionnent pas. La console démarre toujours avec l\'option désactivée, un redémarrage remet le port en mode accessoires.\n\nCertaines consoles n\'ont pas le port câblé pour cela. Si l\'ordinateur ne voit rien avec un bon câble de données, la console n\'en est pas capable.\n\nN\'activez jamais cette option si votre console a le Wi-Fi intégré, comme la R36XX. Ces consoles utilisent ce même port USB pour leur Wi-Fi.\n\nNe l\'utilisez jamais pendant que la console charge par son autre port. Débranchez d\'abord le chargeur. Si un chargeur est branché pendant que l\'option est activée, le port repasse immédiatement en mode accessoires.</string>
+
+    <!-- Asked before the port becomes a device for a computer -->
+    <string name="warning_title">Connecter à un ordinateur ?</string>
+    <string name="warning_wifi">N\'activez pas cette option si votre console a le Wi-Fi intégré, comme la R36XX. Ces consoles utilisent ce même port USB pour leur Wi-Fi. Le Wi-Fi cesse de fonctionner, peut ne revenir qu\'après un redémarrage, et d\'autres problèmes peuvent survenir.\n\nLa plupart des consoles R36S n\'ont pas de Wi-Fi intégré. Sur celles-ci, c\'est sans risque.</string>
+    <string name="warning_wifi_found">Du Wi-Fi vient d\'être détecté sur ce port USB (%1$s). S\'il est intégré à votre console, choisissez Annuler.</string>
+    <string name="warning_confirm">Connecter</string>
+
+    <!-- Charging and device mode never go together -->
+    <string name="charging_warning">Ne l\'utilisez jamais pendant que la console charge par son autre port. Débranchez d\'abord le chargeur.</string>
+    <string name="charging_refused">La console est en charge. Ne l\'utilisez jamais pendant que la console charge par son autre port. Débranchez d\'abord le chargeur.</string>
+    <string name="charging_toast">NE FAITES PAS ÇA ! Ne chargez jamais en utilisant le mode client USB en même temps.</string>
+    <string name="channel_on">Connectée à un ordinateur</string>
+    <string name="channel_alert">Mode USB désactivé</string>
+    <string name="notification_on_title">Port USB : connecté à un ordinateur</string>
+    <string name="notification_alert_title">Mode USB désactivé</string>
+    <string name="notification_alert_text">Un chargeur a été branché, le port OTG est donc repassé en mode accessoires. Ne chargez jamais en utilisant le mode client USB en même temps.</string>
+
+    <string name="usb_mode_functions">Utiliser l\'USB pour</string>
+
+    <string name="usb_mode_unsupported">Cette console ne peut pas changer le mode de son port USB.</string>
+    <string name="usb_mode_failed">Impossible de changer le mode du port USB</string>
+
+    <!-- Quick Settings tile -->
+    <string name="tile_label">Mode USB (bêta)</string>
+    <string name="tile_host">Accessoires</string>
+    <string name="tile_device">Ordinateur</string>
+</resources>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="app_name">Comodidad de juego</string>
+
+    <!-- Low battery warning, Settings > Battery -->
+    <string name="warning_title">Aviso de batería baja</string>
+    <string name="warning_summary">Avisa encima del juego para que puedas guardar a tiempo</string>
+    <string name="warning_when">Avisar al</string>
+    <string-array name="warning_entries">
+        <item>Desactivado</item>
+        <item>15 % y 5 %</item>
+        <item>Solo 5 %</item>
+    </string-array>
+    <string name="warning_preview">Mostrar un aviso de prueba</string>
+    <string name="warning_about">La notificación de batería baja de Android es fácil de pasar por alto durante un juego a pantalla completa. Esto muestra en su lugar un breve banner en la parte superior de la pantalla, una vez por cada nivel, mientras la consola funciona con batería. No le quita los botones al juego.\n\nLa consola se apaga sola cuando la batería se agota, y todo lo que no esté guardado se pierde.</string>
+
+    <!-- The banner on top of the game -->
+    <string name="banner_text">Batería al <xliff:g id="percent">%1$d</xliff:g> %% – guarda la partida ya</string>
+
+    <!-- Game mode, Settings home page and Quick Settings tile -->
+    <string name="game_mode_title">Modo juego</string>
+    <string name="game_mode_summary">No molestar y sin notificaciones emergentes mientras juegas</string>
+    <string name="game_mode_now">Modo juego</string>
+    <string name="game_mode_now_summary">Activa No molestar (solo prioritarias) e impide que las notificaciones aparezcan encima del juego</string>
+    <string name="game_mode_automatic">Activar automáticamente</string>
+    <string name="game_mode_automatic_summary">Activado mientras hay un juego o emulador abierto, desactivado al salir</string>
+    <string name="game_mode_profile">Perfil de rendimiento al jugar</string>
+    <string-array name="game_mode_profile_entries">
+        <item>No cambiar</item>
+        <item>Rendimiento</item>
+        <item>Equilibrado</item>
+        <item>Ahorro de batería</item>
+    </string-array>
+    <string name="game_mode_about">Cuando termina el modo juego, No molestar y las notificaciones emergentes vuelven a estar como antes. Si cambias No molestar tú mismo mientras tanto, tu cambio se mantiene.\n\nUna app cuenta como juego si ella misma lo indica o si es uno de los emuladores habituales, como RetroArch o PPSSPP.\n\nTambién vuelve el perfil de rendimiento que tenías, salvo que hayas elegido otro mientras jugabas.\n\nLo que deja pasar No molestar se configura en Ajustes &gt; Sonido &gt; No molestar.</string>
+    <string name="tile_on">Activado</string>
+    <string name="tile_off">Desactivado</string>
+    <string name="tile_automatic">Automático</string>
+</resources>

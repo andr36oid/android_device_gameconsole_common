@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_title">Emülatör dosyaları</string>
+    <string name="app_summary">Oyun açılmıyor mu? Bazı sistemlerin gerektirdiği BIOS dosyalarını kontrol edin</string>
+
+    <!-- The main page -->
+    <string name="intro">Bazı sistemlerin oyunları, orijinal konsoldan alınmış bir dosya (BIOS) olmadan açılmaz. Bu dosyaları EASYROMS\'taki bios klasörüne koyun.</string>
+    <!-- The same, for a card set up without EASYROMS (.noroms) -->
+    <string name="intro_internal">Bazı sistemlerin oyunları, orijinal konsoldan alınmış bir dosya (BIOS) olmadan açılmaz. Bu dosyaları dahili depolamadaki bios klasörüne koyun.</string>
+    <string name="checking">Kontrol ediliyor…</string>
+    <string name="check_failed">Kontrol yapılamadı. Konsolu yeniden başlatıp tekrar deneyin.</string>
+    <string name="no_easyroms_title">EASYROMS şu anda kullanılamıyor</string>
+    <string name="no_easyroms_summary">EASYROMS bölümünün olduğu SD kartı geri takın, sonra bu sayfayı yeniden açın.</string>
+    <string name="systems_category">Sistemler</string>
+
+    <string name="fix_title">Dosya adlarını düzelt</string>
+    <!-- %1$d: number of files -->
+    <plurals name="fix_summary">
+        <item quantity="one">%1$d dosyanın adı yanlış, bu yüzden emülatörler onu bulamıyor</item>
+        <item quantity="other">%1$d dosyanın adı yanlış, bu yüzden emülatörler onları bulamıyor</item>
+    </plurals>
+    <string name="fix_dialog_title">Dosya adları düzeltilsin mi?</string>
+    <!-- %1$s: one line per file, made of fix_line -->
+    <string name="fix_dialog_message">EASYROMS\'taki bios klasöründe:\n\n%1$s</string>
+    <string name="fix_dialog_message_internal">Dahili depolamadaki bios klasöründe:\n\n%1$s</string>
+    <!-- %1$s: the file's name now, %2$s: the right name -->
+    <string name="fix_line">%1$s → %2$s\n</string>
+    <string name="fix_button">Yeniden adlandır</string>
+    <plurals name="fix_done">
+        <item quantity="one">%1$d dosya yeniden adlandırıldı.</item>
+        <item quantity="other">%1$d dosya yeniden adlandırıldı.</item>
+    </plurals>
+    <plurals name="fix_failed">
+        <item quantity="one">%1$d dosya yeniden adlandırılamadı.</item>
+        <item quantity="other">%1$d dosya yeniden adlandırılamadı.</item>
+    </plurals>
+
+    <!-- A system's summary. %1$s: file names -->
+    <string name="level_ready">Hazır</string>
+    <string name="level_not_needed">İsteğe bağlı: oynamak için gerekmez</string>
+    <string name="level_missing">Eksik: %1$s</string>
+    <string name="level_missing_one_of">Eksik: %1$s veya benzeri</string>
+    <string name="level_wrong_version">Yanlış sürüm: %1$s. Oyunlar açılmayabilir</string>
+    <string name="level_wrong_name">Bir dosyanın adı yanlış. Dosya adlarını düzelt\'i kullanın</string>
+
+    <!-- A file on the system page -->
+    <string name="state_found">Bulundu</string>
+    <string name="state_missing_needed">Eksik, gerekli</string>
+    <string name="state_missing_one_of">Eksik. Bunlardan biri yeterli</string>
+    <string name="state_missing_optional">Eksik, isteğe bağlı</string>
+    <string name="state_wrong_version">Yanlış sürüm: oyunlar açılmayabilir</string>
+    <!-- %1$s: what the file really is -->
+    <string name="state_wrong_version_is">Yanlış dosya: bu %1$s. Dosya adlarını düzelt\'i kullanın</string>
+    <!-- %1$s: its name now, maybe with a subfolder -->
+    <string name="state_wrong_name">%1$s adıyla bulundu. Dosya adlarını düzelt\'i kullanın</string>
+
+    <!-- A file's details (A on a file) -->
+    <string name="details_what">Nedir: %1$s</string>
+    <string name="details_cores">Kullanan: %1$s</string>
+    <string name="details_md5">Doğru dosyanın MD5\'i: %1$s</string>
+    <string name="details_md5_any">Bu adı taşıyan her dosya çalışır</string>
+    <!-- %1$s: path, %2$s: its MD5 -->
+    <string name="details_file">Sizin dosyanız: %1$s\nMD5\'i: %2$s</string>
+    <string name="details_file_big">Sizin dosyanız: %1$s\nBu dosya olamayacak kadar büyük</string>
+    <string name="close">Kapat</string>
+
+    <string name="path_easyroms">EASYROMS</string>
+    <string name="path_internal">Dahili depolama</string>
+</resources>

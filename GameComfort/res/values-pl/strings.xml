@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="app_name">Komfort gry</string>
+
+    <!-- Low battery warning, Settings > Battery -->
+    <string name="warning_title">Ostrzeżenie o baterii</string>
+    <string name="warning_summary">Ostrzega nad grą, aby zdążyć ją zapisać</string>
+    <string name="warning_when">Ostrzegaj przy</string>
+    <string-array name="warning_entries">
+        <item>Wył.</item>
+        <item>15 % i 5 %</item>
+        <item>Tylko 5 %</item>
+    </string-array>
+    <string name="warning_preview">Pokaż testowe ostrzeżenie</string>
+    <string name="warning_about">Systemowe powiadomienie Androida o niskiej baterii łatwo przeoczyć podczas gry na pełnym ekranie. Zamiast niego u góry ekranu pojawia się krótki pasek, raz dla każdego poziomu, gdy konsola działa na baterii. Nie odbiera on grze przycisków.\n\nKonsola sama się wyłącza, gdy bateria jest pusta, a wszystko, co nie zostało zapisane, przepada.</string>
+
+    <!-- The banner on top of the game -->
+    <string name="banner_text">Bateria <xliff:g id="percent">%1$d</xliff:g>%% – zapisz teraz grę</string>
+
+    <!-- Game mode, Settings home page and Quick Settings tile -->
+    <string name="game_mode_title">Tryb gry</string>
+    <string name="game_mode_summary">Nie przeszkadzać i żadnych wyskakujących powiadomień podczas gry</string>
+    <string name="game_mode_now">Tryb gry</string>
+    <string name="game_mode_now_summary">Włącza Nie przeszkadzać (tylko priorytetowe) i blokuje powiadomienia wyskakujące nad grą</string>
+    <string name="game_mode_automatic">Włączaj automatycznie</string>
+    <string name="game_mode_automatic_summary">Włączony, gdy otwarta jest gra lub emulator, wyłączony po wyjściu z niej</string>
+    <string name="game_mode_profile">Profil wydajności podczas gry</string>
+    <string-array name="game_mode_profile_entries">
+        <item>Bez zmian</item>
+        <item>Wydajność</item>
+        <item>Zrównoważony</item>
+        <item>Oszczędzanie baterii</item>
+    </string-array>
+    <string name="game_mode_about">Gdy tryb gry się kończy, Nie przeszkadzać i wyskakujące powiadomienia wracają do poprzedniego stanu. Jeśli w międzyczasie sam zmienisz Nie przeszkadzać, twoja zmiana zostaje.\n\nAplikacja liczy się jako gra, jeśli sama tak podaje albo jest jednym z popularnych emulatorów, jak RetroArch czy PPSSPP.\n\nWraca też poprzedni profil wydajności, chyba że podczas gry wybierzesz inny.\n\nTo, co przepuszcza Nie przeszkadzać, ustawisz w Ustawienia &gt; Dźwięk &gt; Nie przeszkadzać.</string>
+    <string name="tile_on">Wł.</string>
+    <string name="tile_off">Wył.</string>
+    <string name="tile_automatic">Automatycznie</string>
+</resources>

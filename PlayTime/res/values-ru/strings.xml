@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="play_time_title">Игровое время</string>
+    <string name="play_time_summary">Сколько вы играли, любимые игры и напоминания о перерыве</string>
+
+    <!-- Header above the week chart -->
+    <string name="today">Сегодня: <xliff:g id="time">%1$s</xliff:g></string>
+    <string name="this_week">За 7 дней: <xliff:g id="time">%1$s</xliff:g></string>
+
+    <string name="most_played">Чаще всего за 7 дней</string>
+    <string name="nothing_played">Пока ничего. Самое время поиграть!</string>
+    <!-- Summary of an app in the most played list: time, and the share of all play time -->
+    <string name="app_time"><xliff:g id="time">%1$s</xliff:g> · <xliff:g id="percent">%2$d</xliff:g>%%</string>
+
+    <string name="breaks">Перерывы</string>
+    <string name="break_reminder">Напоминать о перерыве</string>
+    <string-array name="break_entries">
+        <item>Никогда</item>
+        <item>Через 30 минут</item>
+        <item>Через 45 минут</item>
+        <item>Через 1 час</item>
+        <item>Через 1 час 30 минут</item>
+        <item>Через 2 часа</item>
+    </string-array>
+    <string name="about">Игровое время — это время, пока приложение открыто на экране. Главный экран, настройки и выключенный экран не считаются.\n\nНапоминание о перерыве считает, сколько времени включён экран. Пауза от 2 минут начинает отсчёт заново.</string>
+
+    <!-- Durations -->
+    <string name="duration_min"><xliff:g id="minutes">%1$d</xliff:g> мин</string>
+    <string name="duration_h"><xliff:g id="hours">%1$d</xliff:g> ч</string>
+    <string name="duration_h_min"><xliff:g id="hours">%1$d</xliff:g> ч <xliff:g id="minutes">%2$d</xliff:g> мин</string>
+
+    <!-- Break reminder notification -->
+    <string name="channel_name">Напоминания о перерыве</string>
+    <string name="break_title">Вы играете уже <xliff:g id="time">%1$s</xliff:g></string>
+    <string name="break_text">Может, небольшой перерыв? Дайте глазам отдохнуть и немного разомнитесь, игра подождёт.</string>
+    <string name="break_text_battery">Может, небольшой перерыв? Дайте глазам отдохнуть и немного разомнитесь. Заряд батареи: <xliff:g id="percent">%1$d</xliff:g>%%.</string>
+</resources>

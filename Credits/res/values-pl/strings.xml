@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="credits_title">Twórcy</string>
+
+    <string name="credits_tagline">Android 11 dla R36S</string>
+
+    <string name="credits_team">Zespół</string>
+    <string name="credits_role_port">Pierwszy port</string>
+    <string name="credits_role_ux">Rozszerzenia i UX</string>
+    <string name="credits_role_clones">Obsługa klonów</string>
+    <string name="credits_role_legend">Recenzje, opinie i absolutna legenda</string>
+    <string name="credits_role_beta">Opinie z testów beta</string>
+    <string name="credits_on_youtube">na YouTube</string>
+
+    <string name="credits_based_on">Na podstawie wcześniejszej pracy</string>
+    <string name="credits_351droid">Android dla RG351MP</string>
+    <string name="credits_lineageos">Wolny i otwarty ROM z Androidem</string>
+    <string name="credits_android">od Google</string>
+</resources>

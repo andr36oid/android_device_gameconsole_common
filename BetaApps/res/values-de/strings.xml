@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="beta_title">Beta-Apps</string>
+    <string name="beta_summary">Zusätzliche Apps für Tester, nicht in Release-Builds</string>
+
+    <!-- %1$s is the kind of build (beta, dirty, debug), %2$s the full version -->
+    <string name="beta_notice">Du nutzt einen <xliff:g id="kind" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">%1$s</xliff:g>-Build (<xliff:g id="version" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">%2$s</xliff:g>). Diese Apps gibt es nur in Beta- und Dirty-Builds. Sie sind nicht Teil der Release-Builds.</string>
+    <string name="beta_notice_more">Wähle die aus, die du ausprobieren möchtest. Du kannst jederzeit über Einstellungen > Beta-Apps hierher zurückkommen.</string>
+    <string name="beta_kind_unknown">Test</string>
+    <string name="beta_version_unknown">unbekannte Version</string>
+    <string name="beta_empty">Dieser Build enthält keine Beta-Apps.</string>
+
+    <string name="beta_install">Auswahl installieren</string>
+    <!-- %d is the number of apps ticked -->
+    <string name="beta_install_count">Auswahl installieren (<xliff:g id="count" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">%d</xliff:g>)</string>
+    <string name="beta_not_now">Nicht jetzt</string>
+    <string name="beta_done">Fertig</string>
+
+    <!-- %s is the app version, e.g. 3.0.2 -->
+    <string name="beta_version">Version <xliff:g id="version" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">%s</xliff:g></string>
+    <string name="state_not_installed">Nicht installiert</string>
+    <string name="state_installed">Installiert</string>
+    <!-- %s is the installed version -->
+    <string name="state_update">Version <xliff:g id="version" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">%s</xliff:g> installiert, diese hier ist neuer</string>
+    <string name="state_newer_installed">Eine neuere Version ist installiert</string>
+    <string name="state_waiting">Warten…</string>
+    <!-- %d is a percentage -->
+    <string name="state_copying">Kopieren… <xliff:g id="percent" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">%d</xliff:g>%%</string>
+    <string name="state_installing">Installieren…</string>
+    <string name="state_install_ok">Jetzt installiert</string>
+    <!-- %s is the reason given by the package manager -->
+    <string name="state_install_failed">Installation fehlgeschlagen: <xliff:g id="reason" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">%s</xliff:g></string>
+    <string name="state_missing">Die APK fehlt in diesem Build</string>
+
+    <!-- %1$d apps installed, %2$d failed -->
+    <string name="result_summary">Installiert: <xliff:g id="ok" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">%1$d</xliff:g>, fehlgeschlagen: <xliff:g id="failed" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">%2$d</xliff:g>.</string>
+
+    <string name="key_dpad">Steuerkreuz</string>
+    <string name="hint_choose">Auswählen</string>
+    <string name="hint_tick">Ankreuzen / drücken</string>
+    <string name="hint_not_now">Nicht jetzt</string>
+    <string name="hint_close">Schließen</string>
+    <string name="hint_jump">Liste / Tasten</string>
+</resources>

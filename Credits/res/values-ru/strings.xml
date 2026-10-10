@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="credits_title">Авторы</string>
+
+    <string name="credits_tagline">Android 11 для R36S</string>
+
+    <string name="credits_team">Команда</string>
+    <string name="credits_role_port">Первоначальный порт</string>
+    <string name="credits_role_ux">Расширения и UX</string>
+    <string name="credits_role_clones">Поддержка клонов</string>
+    <string name="credits_role_legend">Отзывы, советы и просто легенда</string>
+    <string name="credits_role_beta">Отзывы о бета-версиях</string>
+    <string name="credits_on_youtube">на YouTube</string>
+
+    <string name="credits_based_on">Основано на работе</string>
+    <string name="credits_351droid">Android для RG351MP</string>
+    <string name="credits_lineageos">Свободная прошивка Android с открытым исходным кодом</string>
+    <string name="credits_android">от Google</string>
+</resources>

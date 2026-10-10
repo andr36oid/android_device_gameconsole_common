@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_title">Arquivos dos emuladores</string>
+    <string name="app_summary">O jogo não abre? Confira os arquivos de BIOS que alguns sistemas precisam</string>
+
+    <!-- The main page -->
+    <string name="intro">Alguns sistemas precisam de um arquivo do console original (uma BIOS) antes que os jogos abram. Coloque esses arquivos na pasta bios do EASYROMS.</string>
+    <!-- The same, for a card set up without EASYROMS (.noroms) -->
+    <string name="intro_internal">Alguns sistemas precisam de um arquivo do console original (uma BIOS) antes que os jogos abram. Coloque esses arquivos na pasta bios do armazenamento interno.</string>
+    <string name="checking">Verificando…</string>
+    <string name="check_failed">Não foi possível fazer a verificação. Reinicie o console e tente de novo.</string>
+    <string name="no_easyroms_title">EASYROMS não está disponível agora</string>
+    <string name="no_easyroms_summary">Coloque de volta o cartão SD com a partição EASYROMS e abra esta página de novo.</string>
+    <string name="systems_category">Sistemas</string>
+
+    <string name="fix_title">Corrigir nomes</string>
+    <!-- %1$d: number of files -->
+    <plurals name="fix_summary">
+        <item quantity="one">%1$d arquivo está com o nome errado, então os emuladores não conseguem encontrá-lo</item>
+        <item quantity="other">%1$d arquivos estão com o nome errado, então os emuladores não conseguem encontrá-los</item>
+    </plurals>
+    <string name="fix_dialog_title">Renomear estes arquivos?</string>
+    <!-- %1$s: one line per file, made of fix_line -->
+    <string name="fix_dialog_message">Na pasta bios do EASYROMS:\n\n%1$s</string>
+    <string name="fix_dialog_message_internal">Na pasta bios do armazenamento interno:\n\n%1$s</string>
+    <!-- %1$s: the file's name now, %2$s: the right name -->
+    <string name="fix_line">%1$s → %2$s\n</string>
+    <string name="fix_button">Renomear</string>
+    <plurals name="fix_done">
+        <item quantity="one">%1$d arquivo renomeado.</item>
+        <item quantity="other">%1$d arquivos renomeados.</item>
+    </plurals>
+    <plurals name="fix_failed">
+        <item quantity="one">Não foi possível renomear %1$d arquivo.</item>
+        <item quantity="other">Não foi possível renomear %1$d arquivos.</item>
+    </plurals>
+
+    <!-- A system's summary. %1$s: file names -->
+    <string name="level_ready">Pronto</string>
+    <string name="level_not_needed">Opcional: não é necessário para jogar</string>
+    <string name="level_missing">Faltando: %1$s</string>
+    <string name="level_missing_one_of">Faltando: %1$s ou similar</string>
+    <string name="level_wrong_version">Versão errada: %1$s. Os jogos podem não abrir</string>
+    <string name="level_wrong_name">Um arquivo está com o nome errado. Use Corrigir nomes</string>
+
+    <!-- A file on the system page -->
+    <string name="state_found">Encontrado</string>
+    <string name="state_missing_needed">Faltando, necessário</string>
+    <string name="state_missing_one_of">Faltando. Basta um destes</string>
+    <string name="state_missing_optional">Faltando, opcional</string>
+    <string name="state_wrong_version">Versão errada: os jogos podem não abrir</string>
+    <!-- %1$s: what the file really is -->
+    <string name="state_wrong_version_is">Arquivo errado: este é %1$s. Use Corrigir nomes</string>
+    <!-- %1$s: its name now, maybe with a subfolder -->
+    <string name="state_wrong_name">Encontrado como %1$s. Use Corrigir nomes</string>
+
+    <!-- A file's details (A on a file) -->
+    <string name="details_what">O que é: %1$s</string>
+    <string name="details_cores">Usado por: %1$s</string>
+    <string name="details_md5">MD5 do arquivo certo: %1$s</string>
+    <string name="details_md5_any">Qualquer arquivo com este nome funciona</string>
+    <!-- %1$s: path, %2$s: its MD5 -->
+    <string name="details_file">Seu arquivo: %1$s\nMD5 dele: %2$s</string>
+    <string name="details_file_big">Seu arquivo: %1$s\nGrande demais para ser este arquivo</string>
+    <string name="close">Fechar</string>
+
+    <string name="path_easyroms">EASYROMS</string>
+    <string name="path_internal">Armazenamento interno</string>
+</resources>

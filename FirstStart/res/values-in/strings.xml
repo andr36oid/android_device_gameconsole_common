@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_name">Mulai pertama</string>
+    <string name="home_title">Layar utama</string>
+    <string name="home_body">Layar utama Anda, Daijishou, terbuka di sini setelah tutorial selesai.\n\nTutorial akan kembali sebentar lagi.</string>
+    <string name="home_back">Kembali ke tutorial</string>
+    <string name="home_skip">Lewati tutorial</string>
+</resources>

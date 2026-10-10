@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="app_name">Sterowanie dotykowe</string>
+    <string name="settings_summary">Graj w gry dotykowe przyciskami, osobno dla każdej aplikacji</string>
+
+    <!-- Settings > Touch controls -->
+    <string name="settings_intro">Niektóre gry działają tylko z ekranem dotykowym. Tutaj możesz dać takiej grze własny układ: każdy przycisk lub gałka dotyka wybranego miejsca na ekranie. Układ włącza się sam, gdy ta gra jest na wierzchu, a wszystkie inne aplikacje mają zwykłe przyciski.</string>
+    <string name="settings_apps">Aplikacje ze sterowaniem dotykowym</string>
+    <string name="settings_add">Dodaj aplikację</string>
+    <string name="settings_add_summary">Wybierz grę; uruchomi się, a na niej otworzy się edytor</string>
+    <string name="settings_add_none">Każda aplikacja ma już sterowanie dotykowe</string>
+    <string name="settings_how">Jak to działa</string>
+    <string name="settings_shortcut_title">Edycja podczas gry: FN + L1</string>
+    <string name="settings_shortcut_summary">W grze przytrzymaj FN i naciśnij L1. Edytor otworzy się na wierzchu gry. FN jak zwykle wraca na ekran główny.</string>
+    <string name="settings_help_summary">Co robi każdy przycisk w edytorze</string>
+
+    <!-- Summary of an app in the list; %1$s is e.g. "5 controls" -->
+    <string name="profile_on">Wł. · <xliff:g id="count">%1$s</xliff:g></string>
+    <string name="profile_off">Wył. · <xliff:g id="count">%1$s</xliff:g></string>
+    <string name="profile_empty">Brak elementów</string>
+    <string name="profile_unreadable">Nie można odczytać, edytuj, aby zacząć od nowa</string>
+    <plurals name="control_count">
+        <item quantity="one"><xliff:g id="n">%d</xliff:g> element</item>
+        <item quantity="few"><xliff:g id="n">%d</xliff:g> elementy</item>
+        <item quantity="many"><xliff:g id="n">%d</xliff:g> elementów</item>
+        <item quantity="other"><xliff:g id="n">%d</xliff:g> elementu</item>
+    </plurals>
+
+    <!-- One app's page -->
+    <string name="profile_enabled">Włącz sterowanie dotykowe</string>
+    <string name="profile_enabled_summary">Gdy ta aplikacja jest na wierzchu</string>
+    <string name="profile_hints">Pokazuj przyciski na ekranie</string>
+    <string name="profile_hints_summary">Blade podpisy w miejscach, których dotykają przyciski</string>
+    <string name="profile_edit">Edytuj układ</string>
+    <string name="profile_edit_summary">Uruchamia <xliff:g id="app">%1$s</xliff:g>, a potem na wierzchu otwiera edytor</string>
+    <string name="profile_edit_starting">Uruchamianie aplikacji. Edytor otworzy się za chwilę.</string>
+    <string name="profile_cant_start">Tej aplikacji nie można uruchomić stąd. Otwórz ją, a potem naciśnij FN + L1.</string>
+    <string name="profile_controls">Elementy sterowania</string>
+    <string name="profile_delete">Usuń sterowanie dotykowe</string>
+    <string name="profile_delete_message">Układ tej aplikacji zostanie usunięty. Aplikacja znów będzie miała zwykłe przyciski.</string>
+    <string name="profile_delete_confirm">Usuń</string>
+
+    <!-- FN + L1 where there is nothing to edit -->
+    <string name="edit_needs_app">Najpierw otwórz grę, a potem naciśnij FN + L1, aby ustawić jej sterowanie dotykowe.</string>
+
+    <!-- Editor -->
+    <string name="editor_title">Sterowanie dotykowe: <xliff:g id="app">%1$s</xliff:g></string>
+    <string name="editor_layer_normal">Zwykłe przyciski</string>
+    <string name="editor_layer_shift">Przytrzymany: <xliff:g id="button">%1$s</xliff:g></string>
+    <string name="editor_profile_off">Wyłączone</string>
+    <string name="editor_saved">Zapisano sterowanie dotykowe dla <xliff:g id="app">%1$s</xliff:g></string>
+    <string name="editor_save_failed">Nie udało się zapisać. Spróbuj ponownie.</string>
+    <string name="editor_deleted">Usunięto</string>
+    <string name="editor_cancelled">Anulowano</string>
+    <string name="editor_no_shift">Brak przycisku Shift: Select, potem Przycisk Shift</string>
+    <string name="editor_is_shift"><xliff:g id="button">%1$s</xliff:g> to przycisk Shift. Naciśnij inny.</string>
+    <string name="editor_replaced">Poprzedni element dla <xliff:g id="input">%1$s</xliff:g> został usunięty.</string>
+    <string name="editor_replaced_dpad">Joystick na krzyżaku usunięty: przyciski krzyżaka działają teraz osobno.</string>
+    <string name="editor_replaced_dpad_buttons">Osobne przyciski krzyżaka usunięte: krzyżak jest teraz joystickiem.</string>
+    <string name="editor_unsaved_title">Zapisać zmiany?</string>
+    <string name="editor_unsaved_message">Układ został zmieniony, ale nie zapisany.</string>
+    <string name="editor_save">Zapisz</string>
+    <string name="editor_discard">Nie zapisuj</string>
+    <string name="editor_keep_editing">Edytuj dalej</string>
+
+    <!-- Bottom strip of the editor: what each button does right now -->
+    <string name="hint_add">Dodaj tu</string>
+    <string name="hint_change">Zmień</string>
+    <string name="hint_delete">Usuń</string>
+    <string name="hint_size">Rozmiar</string>
+    <string name="hint_next">Dalej</string>
+    <string name="hint_layer">Warstwa Shift</string>
+    <string name="hint_options">Opcje</string>
+    <string name="hint_save">Zapisz</string>
+    <string name="hint_close">Zamknij</string>
+    <string name="hint_move">Przesuń</string>
+    <string name="hint_place">Umieść</string>
+    <string name="hint_cancel">Anuluj</string>
+    <string name="hint_hold_cancel">Przytrzymaj: anuluj</string>
+
+    <!-- Waiting for a button or stick; %1$s is a control type in lower case, e.g. "tap" -->
+    <string name="capture_button">Naciśnij przycisk dla elementu: <xliff:g id="type">%1$s</xliff:g></string>
+    <string name="capture_button_cancel">Działa każdy przycisk, także B. Przytrzymaj B, aby anulować.</string>
+    <string name="capture_stick">Porusz gałką dla elementu: <xliff:g id="type">%1$s</xliff:g></string>
+    <string name="capture_stick_detail">Lewa gałka, prawa gałka lub naciśnij krzyżak</string>
+
+    <!-- Menus -->
+    <string name="editor_add_title">Dodaj tu element</string>
+    <string name="editor_control_title">Ten element</string>
+    <string name="editor_menu_move">Przesuń</string>
+    <string name="editor_menu_button">Przycisk: <xliff:g id="button">%1$s</xliff:g></string>
+    <string name="editor_menu_stick">Gałka: <xliff:g id="stick">%1$s</xliff:g></string>
+    <string name="editor_menu_type">Rodzaj: <xliff:g id="type">%1$s</xliff:g></string>
+    <string name="editor_menu_direction">Kierunek: <xliff:g id="direction">%1$s</xliff:g></string>
+    <string name="editor_menu_speed">Szybkość: <xliff:g id="percent">%1$d</xliff:g>%%</string>
+    <string name="editor_menu_delete">Usuń</string>
+    <string name="editor_type_title">Rodzaj elementu</string>
+    <string name="editor_direction_title">Kierunek przesunięcia</string>
+    <string name="editor_speed_title">Szybkość rozglądania</string>
+    <string name="percent"><xliff:g id="percent">%1$d</xliff:g>%%</string>
+
+    <string name="type_tap">Stuknięcie</string>
+    <string name="type_hold">Przytrzymanie</string>
+    <string name="type_joystick">Joystick</string>
+    <string name="type_camera">Rozglądanie</string>
+    <string name="type_swipe">Przesunięcie</string>
+    <string name="type_tap_long">Stuknięcie: krótkie stuknięcie po naciśnięciu przycisku</string>
+    <string name="type_hold_long">Przytrzymanie: palec dotyka ekranu, dopóki przycisk jest wciśnięty</string>
+    <string name="type_joystick_long">Joystick: gałka lub krzyżak przesuwa palec wokół tego miejsca</string>
+    <string name="type_camera_long">Rozglądanie: gałka przesuwa palec po tym obszarze, do kamery i celowania</string>
+    <string name="type_swipe_long">Przesunięcie: szybkie przesunięcie stąd po naciśnięciu przycisku</string>
+
+    <string name="direction_up">W górę</string>
+    <string name="direction_down">W dół</string>
+    <string name="direction_left">W lewo</string>
+    <string name="direction_right">W prawo</string>
+    <string name="direction_up_left">W górę i w lewo</string>
+    <string name="direction_up_right">W górę i w prawo</string>
+    <string name="direction_down_left">W dół i w lewo</string>
+    <string name="direction_down_right">W dół i w prawo</string>
+    <string name="direction_degrees"><xliff:g id="degrees">%1$d</xliff:g>°</string>
+
+    <string name="options_title">Opcje</string>
+    <string name="options_enabled_on">Sterowanie dotykowe tej aplikacji: wł.</string>
+    <string name="options_enabled_off">Sterowanie dotykowe tej aplikacji: wył.</string>
+    <string name="options_hints_on">Pokazuj przyciski podczas gry: wł.</string>
+    <string name="options_hints_off">Pokazuj przyciski podczas gry: wył.</string>
+    <string name="options_shift">Przycisk Shift: <xliff:g id="button">%1$s</xliff:g></string>
+    <string name="options_deadzone">Martwa strefa gałki: <xliff:g id="percent">%1$d</xliff:g>%%</string>
+    <string name="options_help">Pomoc</string>
+    <string name="options_clear">Usuń wszystkie elementy</string>
+    <string name="options_clear_message">Wszystkie elementy tej aplikacji zostaną usunięte. Nic nie zostanie zapisane, dopóki nie naciśniesz Start.</string>
+    <string name="options_clear_confirm">Usuń</string>
+    <string name="shift_title">Przycisk Shift</string>
+    <string name="shift_none">Brak</string>
+    <plurals name="shift_removed">
+        <item quantity="one">Usunięto <xliff:g id="n">%d</xliff:g> element, który używał tego przycisku</item>
+        <item quantity="few">Usunięto <xliff:g id="n">%d</xliff:g> elementy, które używały tego przycisku</item>
+        <item quantity="many">Usunięto <xliff:g id="n">%d</xliff:g> elementów, które używały tego przycisku</item>
+        <item quantity="other">Usunięto <xliff:g id="n">%d</xliff:g> elementu, które używały tego przycisku</item>
+    </plurals>
+    <string name="deadzone_title">Martwa strefa gałki</string>
+
+    <string name="help_title">Pomoc edytora</string>
+    <string name="help_text">Celownik przesuwasz lewą gałką lub krzyżakiem.\n\nA w pustym miejscu dodaje tam element: wybierz rodzaj, a potem naciśnij jego przycisk lub porusz jego gałką. A na elemencie go zmienia: przesuń go, przypisz inny przycisk albo usuń.\n\nRodzaje:\n• Stuknięcie: krótkie stuknięcie\n• Przytrzymanie: dotyk, dopóki przycisk jest wciśnięty\n• Joystick: gałka lub krzyżak przesuwa palec wokół miejsca, do gałek na ekranie\n• Rozglądanie: gałka przesuwa palec po obszarze, do kamery i celowania\n• Przesunięcie: szybkie przesunięcie w jednym kierunku\n\nL1 i R1 lub prawa gałka zmniejszają lub powiększają wybrany element. L2 i R2 przeskakują między elementami. X usuwa.\n\nPrzycisk Shift (Select, potem Przycisk Shift): gdy jest przytrzymany, działa drugi zestaw elementów. Y przełącza między zestawami.\n\nStart zapisuje i zamyka. B zamyka. FN wychodzi bez zapisywania.\n\nPrzyciski bez przypisanego elementu działają jak zwykle. FN i wszystkie skróty z FN działają zawsze.</string>
+</resources>

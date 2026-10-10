@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string-array name="action_labels">
+        <item>Normal tuş</item>
+        <item>Hiçbir şey</item>
+        <item>Sol tık</item>
+        <item>Sağ tık</item>
+        <item>Orta tık</item>
+        <item>Geri</item>
+        <item>İleri</item>
+        <item>İşaretçi görünürken sol tık, yoksa normal tuş</item>
+        <item>Hassasiyet: basılıyken işaretçi yavaşlar</item>
+        <item>Kaydırma: basılıyken işaretçi analoğu kaydırır</item>
+    </string-array>
+
+    <string-array name="toggle_ms_labels">
+        <item>0,5 saniye</item>
+        <item>0,75 saniye</item>
+        <item>1 saniye</item>
+        <item>1,5 saniye</item>
+        <item>2 saniye</item>
+        <item>3 saniye</item>
+        <item>5 saniye</item>
+        <item>10 saniye</item>
+    </string-array>
+
+    <string-array name="speed_labels">
+        <item>%25</item>
+        <item>%40</item>
+        <item>%60</item>
+        <item>%80</item>
+        <item>%100 (varsayılan)</item>
+        <item>%125</item>
+        <item>%150</item>
+        <item>%200</item>
+        <item>%250</item>
+        <item>%300</item>
+    </string-array>
+
+    <string-array name="curve_labels">
+        <item>Kapalı (doğrusal)</item>
+        <item>Düşük</item>
+        <item>Orta (varsayılan)</item>
+        <item>Yüksek</item>
+        <item>Çok yüksek</item>
+    </string-array>
+
+    <string-array name="deadzone_labels">
+        <item>%4</item>
+        <item>%6</item>
+        <item>%8</item>
+        <item>%10 (varsayılan)</item>
+        <item>%12</item>
+        <item>%15</item>
+        <item>%20</item>
+        <item>%25</item>
+    </string-array>
+
+    <string-array name="precision_labels">
+        <item>%15</item>
+        <item>%25</item>
+        <item>%35 (varsayılan)</item>
+        <item>%50</item>
+        <item>%70</item>
+    </string-array>
+
+    <string-array name="scroll_speed_labels">
+        <item>%25</item>
+        <item>%50</item>
+        <item>%75</item>
+        <item>%100 (varsayılan)</item>
+        <item>%150</item>
+        <item>%200</item>
+        <item>%300</item>
+    </string-array>
+</resources>

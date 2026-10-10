@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_title">Copie des sauvegardes</string>
+
+    <!-- %1$s: a time, e.g. 14:02 -->
+    <string name="today">Aujourd\'hui, %1$s</string>
+    <string name="yesterday">Hier, %1$s</string>
+    <plurals name="files">
+        <item quantity="one">%1$d fichier</item>
+        <item quantity="other">%1$d fichiers</item>
+    </plurals>
+    <plurals name="games">
+        <item quantity="one">%1$d jeu</item>
+        <item quantity="other">%1$d jeux</item>
+    </plurals>
+
+    <!-- %1$s: when, e.g. Today, 14:02; %2$s: e.g. 123 files -->
+    <string name="last_backup">Dernière copie : %1$s, %2$s</string>
+    <string name="last_none">Aucune copie</string>
+    <string name="last_no_saves">Aucune sauvegarde trouvée</string>
+    <!-- %1$s: the summary above, %2$s: what went wrong -->
+    <string name="last_failed">%1$s\nLa dernière tentative a échoué : %2$s</string>
+
+    <string name="where_internal">stockage interne</string>
+    <string name="where_easyroms">EASYROMS</string>
+    <string name="where_usb">clé USB</string>
+
+    <!-- Progress, on the page and in the notification -->
+    <string name="step_start">Démarrage…</string>
+    <string name="step_scan">Recherche des fichiers de sauvegarde…</string>
+    <!-- %1$d: file number, %2$d: all files -->
+    <string name="step_backup">Copie du fichier %1$d sur %2$d…</string>
+    <string name="step_backup_plain">Copie…</string>
+    <string name="step_copy">Copie vers les autres emplacements…</string>
+    <string name="step_list">Lecture des copies…</string>
+    <string name="step_plan">Comparaison avec les sauvegardes de la console…</string>
+    <string name="step_restore">Restauration…</string>
+
+    <!-- %1$s: e.g. 123 files -->
+    <string name="backup_done">Copié : %1$s</string>
+    <string name="backup_unchanged">Rien n\'a changé depuis la dernière copie</string>
+    <string name="backup_nothing">Aucun fichier de sauvegarde trouvé. Jouez et sauvegardez d\'abord une partie.</string>
+
+    <string name="error_no_storage">Aucun emplacement pour la copie : le stockage interne et EASYROMS ne sont pas disponibles.</string>
+    <string name="error_no_space">Pas assez d\'espace libre pour une copie sur le stockage interne ou EASYROMS.</string>
+    <string name="error_write_failed">Impossible d\'écrire la copie. La carte SD est peut-être défaillante : copiez vos sauvegardes sur un PC.</string>
+    <string name="error_no_usb">Aucune clé USB trouvée. Branchez-en une et réessayez.</string>
+    <string name="error_not_found">Cette copie n\'existe plus.</string>
+    <string name="error_safety_failed">Rien n\'a été restauré : les sauvegardes à remplacer n\'ont pas pu être copiées au préalable. Libérez de l\'espace et réessayez.</string>
+    <string name="error_busy">Une copie est en cours. Réessayez dans un instant.</string>
+    <string name="error_start">Copie des sauvegardes n\'a pas pu démarrer. Redémarrez la console et réessayez.</string>
+
+    <!-- The main page -->
+    <string name="backup_now_title">Copier maintenant</string>
+    <string name="restore_title">Restauration</string>
+    <string name="restore_summary">Choisissez une copie, puis tout ou un seul jeu. Vous voyez ce qui change avant toute écriture.</string>
+    <string name="usb_title">Copier sur clé USB maintenant</string>
+    <!-- %1$s: the drive's name -->
+    <string name="usb_summary">Place la copie la plus récente sur %1$s</string>
+    <string name="usb_none">Branchez une clé USB pour garder une copie hors de la carte SD</string>
+    <string name="auto_category">Copie automatique</string>
+    <string name="auto_title">Copier automatiquement</string>
+    <string name="auto_summary">Une fois par jour pendant la charge, et après la fermeture d\'un jeu. Ignorée si rien n\'a changé.</string>
+    <string name="keep_title">Copies à conserver</string>
+    <!-- %1$s: a number -->
+    <string name="keep_summary">Les %1$s plus récentes sont conservées, avec au moins une par jour récent. Les plus anciennes sont supprimées.</string>
+    <string name="where_summary">Les copies vont à deux endroits : Internal storage/Backups/Saves et EASYROMS/backups/saves, plus une clé USB quand il y en a une de branchée. Les deux endroits sont sur la même carte SD, copiez donc de temps en temps les copies sur un PC ou une clé USB. Les sauvegardes de RetroArch et PPSSPP et les fichiers de sauvegarde à côté de vos jeux sont inclus.</string>
+
+    <!-- The list of backups -->
+    <!-- %1$s: what's running -->
+    <string name="waiting_for_backup">Une copie est en cours. %1$s</string>
+    <string name="no_backups">Aucune copie pour l\'instant. Utilisez Copier maintenant, ou attendez la copie quotidienne pendant la charge.</string>
+    <!-- %1$s: e.g. 12 games, %2$s: e.g. 123 files, %3$s: size, %4$s: where -->
+    <string name="backup_summary">%1$s, %2$s, %3$s\nSur %4$s</string>
+    <!-- %1$s: where -->
+    <string name="backup_broken">Cette copie est endommagée et illisible (sur %1$s)</string>
+
+    <!-- One backup -->
+    <string name="restore_all_title">Tout restaurer</string>
+    <!-- %1$s: e.g. 123 files -->
+    <string name="restore_all_summary">Les %1$s de cette copie. Vous voyez d\'abord ce qui change.</string>
+    <!-- %1$s: e.g. 3 files, %2$s: folders, %3$s: when -->
+    <string name="game_summary">%1$s dans %2$s, sauvegarde : %3$s</string>
+
+    <!-- What restoring would do -->
+    <string name="plan_title_all">Tout restaurer ?</string>
+    <!-- %1$s: the game -->
+    <string name="plan_title_game">Restaurer %1$s ?</string>
+    <plurals name="plan_missing">
+        <item quantity="one">%1$d fichier manque sur la console et sera remis en place.</item>
+        <item quantity="other">%1$d fichiers manquent sur la console et seront remis en place.</item>
+    </plurals>
+    <plurals name="plan_older">
+        <item quantity="one">%1$d sauvegarde plus ancienne sur la console sera remplacée par la copie.</item>
+        <item quantity="other">%1$d sauvegardes plus anciennes sur la console seront remplacées par la copie.</item>
+    </plurals>
+    <plurals name="plan_newer">
+        <item quantity="one">%1$d sauvegarde sur la console est plus récente que la copie. Elle est conservée :</item>
+        <item quantity="other">%1$d sauvegardes sur la console sont plus récentes que la copie. Elles sont conservées :</item>
+    </plurals>
+    <!-- %1$s: file name, %2$s: its time on the console, %3$s: its time in the backup -->
+    <string name="plan_newer_item">• %1$s (console : %2$s, copie : %3$s)</string>
+    <!-- %1$d: how many more -->
+    <string name="plan_more">• et %1$d de plus</string>
+    <plurals name="plan_same">
+        <item quantity="one">%1$d fichier est déjà identique.</item>
+        <item quantity="other">%1$d fichiers sont déjà identiques.</item>
+    </plurals>
+    <plurals name="plan_unavailable">
+        <item quantity="one">%1$d fichier va sur EASYROMS, qui n\'est pas monté, et ne peut pas être restauré maintenant.</item>
+        <item quantity="other">%1$d fichiers vont sur EASYROMS, qui n\'est pas monté, et ne peuvent pas être restaurés maintenant.</item>
+    </plurals>
+    <string name="plan_nothing">Rien à restaurer.</string>
+    <string name="plan_note">Tout ce qui est remplacé est d\'abord copié. Quittez RetroArch et PPSSPP avant de restaurer, sinon ils risquent d\'écraser les sauvegardes restaurées en se fermant.</string>
+    <string name="restore_button">Restaurer</string>
+    <string name="replace_newer_button">Tout remplacer</string>
+    <string name="replace_newer_title">Écraser les plus récentes ?</string>
+    <plurals name="replace_newer_message">
+        <item quantity="one">%1$d sauvegarde sur la console est plus récente que la copie. La remplacer ramène ce jeu à la progression plus ancienne. La sauvegarde récente est d\'abord copiée.</item>
+        <item quantity="other">%1$d sauvegardes sur la console sont plus récentes que la copie. Les remplacer ramène ces jeux à la progression plus ancienne. Les sauvegardes récentes sont d\'abord copiées.</item>
+    </plurals>
+    <string name="replace_button">Remplacer</string>
+
+    <string name="result_title">Restauration terminée</string>
+    <plurals name="result_restored">
+        <item quantity="one">%1$d fichier restauré.</item>
+        <item quantity="other">%1$d fichiers restaurés.</item>
+    </plurals>
+    <plurals name="result_kept">
+        <item quantity="one">%1$d sauvegarde plus récente conservée.</item>
+        <item quantity="other">%1$d sauvegardes plus récentes conservées.</item>
+    </plurals>
+    <plurals name="result_failed">
+        <item quantity="one">Impossible d\'écrire %1$d fichier. La carte SD est peut-être pleine ou défaillante.</item>
+        <item quantity="other">Impossible d\'écrire %1$d fichiers. La carte SD est peut-être pleine ou défaillante.</item>
+    </plurals>
+
+    <!-- The notification while an automatic backup runs -->
+    <string name="channel_name">Copie des sauvegardes en cours</string>
+    <string name="notification_title">Copie des sauvegardes</string>
+</resources>

@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="button_mapping_title">Pemetaan tombol (beta)</string>
+    <string name="button_mapping_summary">Ubah fungsi tombol konsol</string>
+
+    <!-- The buttons of the console -->
+    <string name="button_dpad_up">D-pad atas</string>
+    <string name="button_dpad_down">D-pad bawah</string>
+    <string name="button_dpad_left">D-pad kiri</string>
+    <string name="button_dpad_right">D-pad kanan</string>
+    <string name="button_a">Tombol A</string>
+    <string name="button_b">Tombol B</string>
+    <string name="button_x">Tombol X</string>
+    <string name="button_y">Tombol Y</string>
+    <string name="button_l1">Tombol L1</string>
+    <string name="button_r1">Tombol R1</string>
+    <string name="button_l2">Tombol L2</string>
+    <string name="button_r2">Tombol R2</string>
+    <string name="button_l3">Tekan stik kiri (L3)</string>
+    <string name="button_r3">Tekan stik kanan (R3)</string>
+    <string name="button_select">Tombol Select</string>
+    <string name="button_start">Tombol Start</string>
+    <string name="button_function">Tombol FN</string>
+    <string name="button_volume_down">Tombol volume turun</string>
+    <string name="button_volume_up">Tombol volume naik</string>
+    <string name="button_power">Tombol daya</string>
+
+    <!-- What a button can do, grouped -->
+    <string name="section_game">Tombol game</string>
+    <string name="section_menu">Kontrol menu</string>
+    <string name="section_system">Sistem</string>
+    <string name="section_media">Musik dan video</string>
+    <string name="section_off">Nonaktifkan</string>
+
+    <string name="action_button_a">Tombol A</string>
+    <string name="action_button_b">Tombol B</string>
+    <string name="action_button_x">Tombol X</string>
+    <string name="action_button_y">Tombol Y</string>
+    <string name="action_button_l1">Tombol L1</string>
+    <string name="action_button_r1">Tombol R1</string>
+    <string name="action_button_l2">Tombol L2</string>
+    <string name="action_button_r2">Tombol R2</string>
+    <string name="action_button_l3">Tekan stik kiri (L3)</string>
+    <string name="action_button_r3">Tekan stik kanan (R3)</string>
+    <string name="action_button_select">Tombol Select</string>
+    <string name="action_button_start">Tombol Start</string>
+    <string name="action_up">Atas</string>
+    <string name="action_down">Bawah</string>
+    <string name="action_left">Kiri</string>
+    <string name="action_right">Kanan</string>
+    <string name="action_ok">OK</string>
+    <string name="action_back">Kembali</string>
+    <string name="action_home">Layar utama</string>
+    <string name="action_menu">Menu aplikasi</string>
+    <string name="action_screenshot">Ambil screenshot</string>
+    <string name="action_power">Daya (tidur dan menu daya)</string>
+    <string name="action_volume_up">Volume naik</string>
+    <string name="action_volume_down">Volume turun</string>
+    <string name="action_mute">Bisukan</string>
+    <string name="action_brightness_up">Kecerahan naik</string>
+    <string name="action_brightness_down">Kecerahan turun</string>
+    <string name="action_play_pause">Putar / jeda</string>
+    <string name="action_next">Lagu berikutnya</string>
+    <string name="action_previous">Lagu sebelumnya</string>
+    <string name="action_nothing">Tidak ada (tombol mati)</string>
+
+    <!-- First choice in the list, puts the button back to what it did originally -->
+    <string name="action_original">Asli: <xliff:g id="action">%1$s</xliff:g></string>
+    <string name="choose_title"><xliff:g id="button">%1$s</xliff:g>: fungsinya apa?</string>
+
+    <!-- Below the drawing, about the selected button -->
+    <string name="status_default">Fungsi: <xliff:g id="action">%1$s</xliff:g></string>
+    <string name="status_changed">Fungsi: <xliff:g id="action">%1$s</xliff:g> (biasanya <xliff:g id="default_action">%2$s</xliff:g>)</string>
+    <string name="status_locked">Fungsi: <xliff:g id="action">%1$s</xliff:g>. Tombol ini tidak bisa diubah.</string>
+
+    <!-- Shown on the screen of the drawn console -->
+    <string name="screen_hint">Pilih tombol dengan D-pad, atau langsung tekan tombolnya.\n\nLalu tekan <xliff:g id="button">%1$s</xliff:g> untuk mengubahnya.</string>
+    <string name="screen_hint_no_ok">Tekan tombol untuk memilihnya.\n\nTekan lagi untuk mengubahnya.</string>
+
+    <string name="rescue_tip">Tombol jadi kacau? Tahan kedua tombol volume selama 5 detik untuk meresetnya.</string>
+
+    <string name="power_locked_title">Tombol daya tetap seperti semula</string>
+    <string name="power_locked_message">Hanya tombol ini yang bisa membangunkan konsol, jadi tombol ini selalu berfungsi sebagai tombol daya.</string>
+
+    <!-- Things the console always needs a button for -->
+    <string name="function_up">Atas</string>
+    <string name="function_down">Bawah</string>
+    <string name="function_left">Kiri</string>
+    <string name="function_right">Kanan</string>
+    <string name="function_select">OK</string>
+    <string name="function_back">Kembali</string>
+    <string name="function_home">Layar utama</string>
+    <string name="function_power">Daya</string>
+
+    <string name="blocked_title">Anda akan terkunci</string>
+    <string name="blocked_message">Tidak akan ada tombol tersisa untuk: <xliff:g id="functions">%1$s</xliff:g>.\n\nBerikan tugas itu ke tombol lain dulu.</string>
+
+    <string name="swap_title">Tukar dengan <xliff:g id="other_button">%1$s</xliff:g>?</string>
+    <string name="swap_message"><xliff:g id="other_button">%1$s</xliff:g> sedang menjalankan fungsi ini. Tukar kedua tombol, atau hanya ubah <xliff:g id="button">%2$s</xliff:g>?</string>
+    <string name="swap_needed_message"><xliff:g id="other_button">%1$s</xliff:g> sedang menjalankan fungsi ini. Jika hanya <xliff:g id="button">%2$s</xliff:g> yang diubah, tidak ada tombol tersisa untuk: <xliff:g id="functions">%3$s</xliff:g>.\n\nTukar kedua tombol saja?</string>
+    <string name="swap_confirm">Tukar</string>
+    <string name="swap_only_this">Hanya yang ini</string>
+
+    <string name="problem_title">Beberapa tombol hilang</string>
+    <string name="problem_message">Tidak ada tombol untuk: <xliff:g id="functions">%1$s</xliff:g>.\n\nBeralih ke tombol Standar untuk memperbaikinya?</string>
+    <string name="problem_fix">Pakai Standar</string>
+    <string name="problem_later">Lain kali</string>
+
+    <!-- Profiles: button layouts to switch between -->
+    <string name="profile_standard">Standar</string>
+    <string name="profile_default_name">Profil %d</string>
+    <string name="profile_button">Profil: <xliff:g id="profile">%1$s</xliff:g></string>
+    <string name="profiles_title">Profil tombol</string>
+    <string name="profile_new">Profil baru</string>
+    <string name="profiles_close">Tutup</string>
+    <string name="profile_rename">Ganti nama</string>
+    <string name="profile_rename_title">Ganti nama profil</string>
+    <string name="profile_rename_save">Simpan</string>
+    <string name="profile_delete">Hapus</string>
+    <string name="profile_delete_title">Hapus “<xliff:g id="profile">%1$s</xliff:g>”?</string>
+    <string name="profile_delete_message">Perubahan tombolnya dihapus dan tombol Standar dipakai lagi.</string>
+    <string name="profile_delete_message_inactive">Perubahan tombolnya dihapus. Tombol yang Anda pakai sekarang tetap seperti semula.</string>
+    <string name="profile_delete_choose">Hapus profil…</string>
+    <string name="profile_delete_choose_title">Hapus profil yang mana?</string>
+    <string name="profile_created">Profil baru “<xliff:g id="profile">%1$s</xliff:g>”. Perubahan tombol disimpan di sana.</string>
+    <string name="profile_forked">Tombol Standar tetap seperti semula, perubahan Anda disimpan di profil baru “<xliff:g id="profile">%1$s</xliff:g>”.</string>
+    <string name="profile_blocked_message">“<xliff:g id="profile">%1$s</xliff:g>” tidak menyisakan tombol untuk: <xliff:g id="functions">%2$s</xliff:g>.</string>
+
+    <!-- Quick Settings tile that switches to the next profile -->
+    <string name="tile_label">Profil tombol</string>
+
+    <!-- Shown after a change to the buttons used in menus -->
+    <string name="confirm_title">Pakai tombol baru?</string>
+    <plurals name="confirm_message">
+        <item quantity="other">Tekan Pakai dengan <xliff:g id="button">%1$s</xliff:g>. Jika tidak, semua kembali seperti semula dalam <xliff:g id="seconds">%2$d</xliff:g> detik.</item>
+    </plurals>
+    <plurals name="confirm_message_generic">
+        <item quantity="other">Tekan Pakai. Jika tidak, semua kembali seperti semula dalam <xliff:g id="seconds">%d</xliff:g> detik.</item>
+    </plurals>
+    <string name="confirm_keep">Pakai</string>
+    <string name="confirm_undo">Urungkan</string>
+
+</resources>

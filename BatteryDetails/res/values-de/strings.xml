@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="details_title">Akkudetails</string>
+    <string name="details_summary">Spannung, Strom, Ladezeiten und ein 24-Stunden-Verlauf</string>
+
+    <!-- Header -->
+    <string name="percent"><xliff:g id="percent">%1$d</xliff:g>%%</string>
+    <string name="status_charging">Wird geladen</string>
+    <string name="status_full">Voll</string>
+    <string name="status_discharging">Akkubetrieb</string>
+    <string name="status_not_charging">Angeschlossen, lädt nicht</string>
+    <string name="time_to_full">noch etwa <xliff:g id="time">%1$s</xliff:g> bis voll</string>
+    <string name="time_left">bei diesem Verbrauch noch etwa <xliff:g id="time">%1$s</xliff:g></string>
+    <!-- Joins status and time, e.g. "Charging · about 1 h 10 min until full" -->
+    <string name="status_and_time"><xliff:g id="status">%1$s</xliff:g> · <xliff:g id="time">%2$s</xliff:g></string>
+
+    <string name="graph_title">Letzte 24 Stunden</string>
+    <string name="graph_empty">Der Verlauf füllt sich, während du die Konsole benutzt. Solange sie wach ist, kommt alle 15 Minuten ein Punkt dazu.</string>
+    <string name="graph_ago">vor 24 h</string>
+    <string name="graph_now">jetzt</string>
+
+    <string name="now_title">Gerade jetzt</string>
+    <string name="voltage">Spannung</string>
+    <string name="current">Strom</string>
+    <string name="power">Leistung</string>
+    <!-- The RK817 has no battery temperature sensor (the driver reports a fixed 18.8 °C), so this is the processor's -->
+    <string name="temperature">Prozessortemperatur</string>
+    <string name="charger">Ladegerät</string>
+
+    <!-- Battery capacity setting -->
+    <string name="capacity_title">Akkukapazität</string>
+    <string name="capacity_setting">Kapazität</string>
+    <string name="capacity_hint">Steht auf dem Akku. Falsche Werte lassen die Prozentanzeige abdriften.</string>
+    <string name="capacity_reset">Auf <xliff:g id="mah">%1$d</xliff:g> mAh zurücksetzen</string>
+    <string name="capacity">Ladestandsmesser nutzt</string>
+
+    <string name="value_voltage"><xliff:g id="volts">%1$.2f</xliff:g> V</string>
+    <string name="value_current_in"><xliff:g id="ma">%1$d</xliff:g> mA fließen hinein</string>
+    <string name="value_current_out"><xliff:g id="ma">%1$d</xliff:g> mA fließen heraus</string>
+    <string name="value_power"><xliff:g id="watts">%1$.2f</xliff:g> W</string>
+    <string name="value_temperature"><xliff:g id="celsius">%1$.1f</xliff:g> °C</string>
+    <string name="value_capacity"><xliff:g id="mah">%1$d</xliff:g> mAh</string>
+    <string name="value_capacity_default"><xliff:g id="mah">%1$d</xliff:g> mAh (Standard)</string>
+    <string name="charger_none">Nicht angeschlossen</string>
+    <string name="charger_usb">USB</string>
+    <string name="charger_ac">Netzteil</string>
+    <string name="unknown">Unbekannt</string>
+
+    <string name="about">Die Prozentzahl ist eine Schätzung des Ladestandsmessers. Die Spannung wird direkt gemessen: etwa 4,2 V ist voll, 3,7 V ist ungefähr die Mitte und bei etwa 3,4 V schaltet sich die Konsole aus. Während ein Spiel läuft, sinkt die Spannung, in Ruhe steigt sie wieder.\n\nWenn Prozentzahl und Spannung nicht zusammenpassen, lade die Konsole, bis sie „Voll“ anzeigt. Dann korrigiert sich der Messer selbst.\n\nDie Zeiten sind grobe Schätzungen anhand des aktuellen Stroms.</string>
+
+    <!-- Durations -->
+    <string name="duration_min"><xliff:g id="minutes">%1$d</xliff:g> min</string>
+    <string name="duration_h_min"><xliff:g id="hours">%1$d</xliff:g> h <xliff:g id="minutes">%2$d</xliff:g> min</string>
+</resources>

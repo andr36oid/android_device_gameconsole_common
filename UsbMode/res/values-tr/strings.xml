@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="usb_mode_title">USB modu (beta)</string>
+    <string name="usb_mode_summary">OTG portunu aksesuarlar için veya bilgisayara bağlanmak için kullanın</string>
+
+    <string name="usb_mode_switch">Bilgisayara bağlan</string>
+    <string name="usb_mode_switch_on">OTG portu bilgisayar için bir cihaz gibi davranır</string>
+    <string name="usb_mode_switch_off">OTG portu oyun kolu, sürücü ve ağ adaptörü gibi aksesuarlara güç verir</string>
+
+    <string name="usb_mode_about">Konsola OTG portu üzerinden bir bilgisayardan erişmek için bunu açın: dosya aktarımı (MTP) veya fotoğraf aktarımı (PTP), Geliştirici seçenekleri\'nde USB hata ayıklaması açıldıktan sonra da adb.\n\nBu açıkken OTG portuna takılan aksesuarlar çalışmaz. Konsol her zaman bu kapalı olarak açılır, yeniden başlatmak portu aksesuarlara geri döndürür.\n\nBazı konsollarda port bunun için bağlanmamıştır. İyi bir veri kablosuyla bilgisayar hiçbir şey görmüyorsa konsol bunu yapamıyordur.\n\nKonsolunuzda R36XX gibi dahili Wi-Fi varsa bunu asla açmayın. Bu konsollar Wi-Fi için aynı USB portunu kullanır.\n\nKonsol diğer portundan şarj olurken bunu asla kullanmayın. Önce şarj cihazını çıkarın. Bu açıkken bir şarj cihazı takılırsa port hemen aksesuarlara geri döner.</string>
+
+    <!-- Asked before the port becomes a device for a computer -->
+    <string name="warning_title">Bilgisayara bağlanılsın mı?</string>
+    <string name="warning_wifi">Konsolunuzda R36XX gibi dahili Wi-Fi varsa bunu açmayın. Bu konsollar Wi-Fi için aynı USB portunu kullanır. Wi-Fi çalışmayı durdurur, yeniden başlatana kadar geri gelmeyebilir ve başka sorunlar da çıkabilir.\n\nÇoğu R36S konsolunda dahili Wi-Fi yoktur. Bunlarda bu işlem güvenlidir.</string>
+    <string name="warning_wifi_found">Şu anda bu USB portunda Wi-Fi bulundu (%1$s). Konsolunuzda dahiliyse İptal\'i seçin.</string>
+    <string name="warning_confirm">Bağlan</string>
+
+    <!-- Charging and device mode never go together -->
+    <string name="charging_warning">Konsol diğer portundan şarj olurken bunu asla kullanmayın. Önce şarj cihazını çıkarın.</string>
+    <string name="charging_refused">Konsol şarj oluyor. Konsol diğer portundan şarj olurken bunu asla kullanmayın. Önce şarj cihazını çıkarın.</string>
+    <string name="charging_toast">BUNU YAPMAYIN! Şarj ile USB istemcisini asla aynı anda kullanmayın.</string>
+    <string name="channel_on">Bilgisayara bağlı</string>
+    <string name="channel_alert">USB modu kapatıldı</string>
+    <string name="notification_on_title">USB portu: bilgisayara bağlı</string>
+    <string name="notification_alert_title">USB modu kapatıldı</string>
+    <string name="notification_alert_text">Bir şarj cihazı takıldı, bu yüzden OTG portu aksesuarlara geri döndü. Şarj ile USB istemcisini asla aynı anda kullanmayın.</string>
+
+    <string name="usb_mode_functions">USB\'yi şunun için kullan</string>
+
+    <string name="usb_mode_unsupported">Bu konsol USB portunu değiştiremez.</string>
+    <string name="usb_mode_failed">USB portu değiştirilemedi</string>
+
+    <!-- Quick Settings tile -->
+    <string name="tile_label">USB modu (beta)</string>
+    <string name="tile_host">Aksesuarlar</string>
+    <string name="tile_device">Bilgisayar</string>
+</resources>

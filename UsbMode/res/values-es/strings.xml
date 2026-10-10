@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="usb_mode_title">Modo USB (beta)</string>
+    <string name="usb_mode_summary">Usa el puerto OTG para accesorios o para conectarte a un ordenador</string>
+
+    <string name="usb_mode_switch">Conectar a un ordenador</string>
+    <string name="usb_mode_switch_on">El puerto OTG funciona como dispositivo para un ordenador</string>
+    <string name="usb_mode_switch_off">El puerto OTG alimenta accesorios como mandos, unidades y adaptadores de red</string>
+
+    <string name="usb_mode_about">Actívalo para acceder a la consola desde un ordenador a través del puerto OTG: transferencia de archivos (MTP) o de fotos (PTP), y adb cuando la depuración por USB esté activada en Opciones para desarrolladores.\n\nMientras está activado, los accesorios conectados al puerto OTG no funcionan. La consola siempre arranca con esta opción desactivada; al reiniciar, el puerto vuelve al modo de accesorios.\n\nAlgunas consolas no tienen el puerto cableado para esto. Si el ordenador no detecta nada con un buen cable de datos, la consola no puede hacerlo.\n\nNunca lo actives si tu consola tiene Wi-Fi integrado, como la R36XX. Esas consolas usan este mismo puerto USB para el Wi-Fi.\n\nNunca lo uses mientras la consola se carga por su otro puerto. Desconecta antes el cargador. Si se conecta un cargador mientras está activado, el puerto vuelve al modo de accesorios de inmediato.</string>
+
+    <!-- Asked before the port becomes a device for a computer -->
+    <string name="warning_title">¿Conectar a un ordenador?</string>
+    <string name="warning_wifi">No lo actives si tu consola tiene Wi-Fi integrado, como la R36XX. Esas consolas usan este mismo puerto USB para el Wi-Fi. El Wi-Fi deja de funcionar, puede que no vuelva hasta que reinicies y pueden fallar otras cosas.\n\nLa mayoría de las consolas R36S no tienen Wi-Fi integrado. En ellas es seguro.</string>
+    <string name="warning_wifi_found">Se ha detectado Wi-Fi en este puerto USB ahora mismo (%1$s). Si está integrado en tu consola, elige Cancelar.</string>
+    <string name="warning_confirm">Conectar</string>
+
+    <!-- Charging and device mode never go together -->
+    <string name="charging_warning">Nunca lo uses mientras la consola se carga por su otro puerto. Desconecta antes el cargador.</string>
+    <string name="charging_refused">La consola se está cargando. Nunca lo uses mientras la consola se carga por su otro puerto. Desconecta antes el cargador.</string>
+    <string name="charging_toast">¡NO HAGAS ESTO! Nunca cargues y uses el modo cliente USB a la vez.</string>
+    <string name="channel_on">Conectada a un ordenador</string>
+    <string name="channel_alert">Modo USB desactivado</string>
+    <string name="notification_on_title">Puerto USB: conectado a un ordenador</string>
+    <string name="notification_alert_title">Modo USB desactivado</string>
+    <string name="notification_alert_text">Se ha conectado un cargador, así que el puerto OTG ha vuelto al modo de accesorios. Nunca cargues y uses el modo cliente USB a la vez.</string>
+
+    <string name="usb_mode_functions">Usar USB para</string>
+
+    <string name="usb_mode_unsupported">Esta consola no puede cambiar su puerto USB.</string>
+    <string name="usb_mode_failed">No se ha podido cambiar el puerto USB</string>
+
+    <!-- Quick Settings tile -->
+    <string name="tile_label">Modo USB (beta)</string>
+    <string name="tile_host">Accesorios</string>
+    <string name="tile_device">Ordenador</string>
+</resources>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="app_name">游戏辅助</string>
+
+    <!-- Low battery warning, Settings > Battery -->
+    <string name="warning_title">低电量警告</string>
+    <string name="warning_summary">在游戏画面上方提醒，让您及时存档</string>
+    <string name="warning_when">提醒时机</string>
+    <string-array name="warning_entries">
+        <item>关闭</item>
+        <item>15% 和 5%</item>
+        <item>仅 5%</item>
+    </string-array>
+    <string name="warning_preview">显示测试警告</string>
+    <string name="warning_about">全屏玩游戏时，Android 自带的低电量通知很容易被忽略。此功能会改为在屏幕顶部显示一条简短的横幅，在掌机使用电池供电时，每个电量档位提醒一次。它不会抢走游戏的按键操作。\n\n电池耗尽时掌机会自动关机，未保存的进度都会丢失。</string>
+
+    <!-- The banner on top of the game -->
+    <string name="banner_text">电量 <xliff:g id="percent">%1$d</xliff:g>%% – 请立即存档</string>
+
+    <!-- Game mode, Settings home page and Quick Settings tile -->
+    <string name="game_mode_title">游戏模式</string>
+    <string name="game_mode_summary">玩游戏时开启勿扰模式并屏蔽弹出通知</string>
+    <string name="game_mode_now">游戏模式</string>
+    <string name="game_mode_now_summary">开启勿扰模式（仅限优先事项），并阻止通知在游戏画面上弹出</string>
+    <string name="game_mode_automatic">自动开启</string>
+    <string name="game_mode_automatic_summary">打开游戏或模拟器时开启，离开时关闭</string>
+    <string name="game_mode_profile">游戏时的性能模式</string>
+    <string-array name="game_mode_profile_entries">
+        <item>不更改</item>
+        <item>性能</item>
+        <item>均衡</item>
+        <item>省电</item>
+    </string-array>
+    <string name="game_mode_about">游戏模式结束后，勿扰模式和弹出通知会恢复原来的状态。如果您在此期间自己更改了勿扰模式，则保留您的更改。\n\n如果应用声明自己是游戏，或属于 RetroArch、PPSSPP 等常见模拟器，就会被视为游戏。\n\n原来的性能模式也会恢复，除非您在游戏时选择了其他模式。\n\n勿扰模式允许哪些内容通过，可在“设置 &gt; 声音 &gt; 勿扰模式”中设置。</string>
+    <string name="tile_on">开启</string>
+    <string name="tile_off">关闭</string>
+    <string name="tile_automatic">自动</string>
+</resources>

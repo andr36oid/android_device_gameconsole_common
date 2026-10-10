@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="details_title">Pil ayrıntıları</string>
+    <string name="details_summary">Voltaj, akım, şarj süreleri ve 24 saatlik grafik</string>
+
+    <!-- Header -->
+    <string name="percent">%%<xliff:g id="percent">%1$d</xliff:g></string>
+    <string name="status_charging">Şarj oluyor</string>
+    <string name="status_full">Dolu</string>
+    <string name="status_discharging">Pille çalışıyor</string>
+    <string name="status_not_charging">Takılı, şarj olmuyor</string>
+    <string name="time_to_full">dolmasına yaklaşık <xliff:g id="time">%1$s</xliff:g></string>
+    <string name="time_left">bu hızla yaklaşık <xliff:g id="time">%1$s</xliff:g> kaldı</string>
+    <!-- Joins status and time, e.g. "Charging · about 1 h 10 min until full" -->
+    <string name="status_and_time"><xliff:g id="status">%1$s</xliff:g> · <xliff:g id="time">%2$s</xliff:g></string>
+
+    <string name="graph_title">Son 24 saat</string>
+    <string name="graph_empty">Grafik, konsolu kullandıkça dolar. Konsol uyanıkken her 15 dakikada bir nokta eklenir.</string>
+    <string name="graph_ago">24 sa önce</string>
+    <string name="graph_now">şimdi</string>
+
+    <string name="now_title">Şu anda</string>
+    <string name="voltage">Voltaj</string>
+    <string name="current">Akım</string>
+    <string name="power">Güç</string>
+    <!-- The RK817 has no battery temperature sensor (the driver reports a fixed 18.8 °C), so this is the processor's -->
+    <string name="temperature">İşlemci sıcaklığı</string>
+    <string name="charger">Şarj cihazı</string>
+
+    <!-- Battery capacity setting -->
+    <string name="capacity_title">Pil kapasitesi</string>
+    <string name="capacity_setting">Kapasite</string>
+    <string name="capacity_hint">Pilin üzerinde yazar. Yanlış değer, yüzdenin kaymasına yol açar.</string>
+    <string name="capacity_reset"><xliff:g id="mah">%1$d</xliff:g> mAh değerine sıfırla</string>
+    <string name="capacity">Pil ölçerin kullandığı</string>
+
+    <string name="value_voltage"><xliff:g id="volts">%1$.2f</xliff:g> V</string>
+    <string name="value_current_in"><xliff:g id="ma">%1$d</xliff:g> mA giriyor</string>
+    <string name="value_current_out"><xliff:g id="ma">%1$d</xliff:g> mA çıkıyor</string>
+    <string name="value_power"><xliff:g id="watts">%1$.2f</xliff:g> W</string>
+    <string name="value_temperature"><xliff:g id="celsius">%1$.1f</xliff:g> °C</string>
+    <string name="value_capacity"><xliff:g id="mah">%1$d</xliff:g> mAh</string>
+    <string name="value_capacity_default"><xliff:g id="mah">%1$d</xliff:g> mAh (varsayılan)</string>
+    <string name="charger_none">Takılı değil</string>
+    <string name="charger_usb">USB</string>
+    <string name="charger_ac">Duvar şarj cihazı</string>
+    <string name="unknown">Bilinmiyor</string>
+
+    <string name="about">Yüzde, pil ölçerin tahminidir. Voltaj ise doğrudan ölçülür: yaklaşık 4,2 V dolu, 3,7 V yarı civarı demektir ve konsol 3,4 V civarında kapanır. Oyun çalışırken voltaj düşer, dinlenirken yeniden yükselir.\n\nYüzde ile voltaj uyuşmuyorsa konsol dolu diyene kadar şarj edin. Böylece ölçer kendini düzeltir.\n\nSüreler, şu anki akıma göre yapılmış kaba tahminlerdir.</string>
+
+    <!-- Durations -->
+    <string name="duration_min"><xliff:g id="minutes">%1$d</xliff:g> dk</string>
+    <string name="duration_h_min"><xliff:g id="hours">%1$d</xliff:g> sa <xliff:g id="minutes">%2$d</xliff:g> dk</string>
+</resources>

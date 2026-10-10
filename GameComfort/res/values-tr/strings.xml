@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="app_name">Oyun konforu</string>
+
+    <!-- Low battery warning, Settings > Battery -->
+    <string name="warning_title">Düşük pil uyarısı</string>
+    <string name="warning_summary">Zamanında kayıt yapabilmeniz için oyunların üstünde uyarır</string>
+    <string name="warning_when">Uyarı seviyesi</string>
+    <string-array name="warning_entries">
+        <item>Kapalı</item>
+        <item>%15 ve %5</item>
+        <item>Yalnızca %5</item>
+    </string-array>
+    <string name="warning_preview">Test uyarısı göster</string>
+    <string name="warning_about">Android\'in kendi düşük pil bildirimi, tam ekran bir oyun sırasında kolayca gözden kaçar. Bu özellik bunun yerine ekranın üstünde kısa bir şerit gösterir; konsol pille çalışırken her seviye için bir kez. Tuşları oyundan almaz.\n\nPil bittiğinde konsol kendiliğinden kapanır ve kaydedilmemiş her şey kaybolur.</string>
+
+    <!-- The banner on top of the game -->
+    <string name="banner_text">Pil %%<xliff:g id="percent">%1$d</xliff:g> – oyununuzu şimdi kaydedin</string>
+
+    <!-- Game mode, Settings home page and Quick Settings tile -->
+    <string name="game_mode_title">Oyun modu</string>
+    <string name="game_mode_summary">Oynarken Rahatsız Etmeyin açık, açılır bildirim yok</string>
+    <string name="game_mode_now">Oyun modu</string>
+    <string name="game_mode_now_summary">Rahatsız Etmeyin\'i (yalnızca öncelikliler) açar ve bildirimlerin oyunun üstünde açılmasını engeller</string>
+    <string name="game_mode_automatic">Otomatik olarak aç</string>
+    <string name="game_mode_automatic_summary">Bir oyun veya emülatör açıkken açık, ondan çıkınca kapalı</string>
+    <string name="game_mode_profile">Oynarken performans profili</string>
+    <string-array name="game_mode_profile_entries">
+        <item>Değiştirme</item>
+        <item>Performans</item>
+        <item>Dengeli</item>
+        <item>Pil tasarrufu</item>
+    </string-array>
+    <string name="game_mode_about">Oyun modu bittiğinde Rahatsız Etmeyin ve açılır bildirimler eski hallerine döner. Bu arada Rahatsız Etmeyin\'i kendiniz değiştirirseniz sizin değişikliğiniz kalır.\n\nBir uygulama, kendini oyun olarak tanıtıyorsa ya da RetroArch veya PPSSPP gibi yaygın emülatörlerden biriyse oyun sayılır.\n\nOynarken başka bir profil seçmediyseniz önceki performans profiliniz de geri gelir.\n\nRahatsız Etmeyin\'in nelere izin vereceği Ayarlar &gt; Ses &gt; Rahatsız Etmeyin bölümünden ayarlanır.</string>
+    <string name="tile_on">Açık</string>
+    <string name="tile_off">Kapalı</string>
+    <string name="tile_automatic">Otomatik</string>
+</resources>

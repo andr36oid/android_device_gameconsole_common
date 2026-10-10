@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="app_name">Сенсорное управление</string>
+    <string name="settings_summary">Игры для сенсорного экрана на кнопках, для каждого приложения</string>
+
+    <!-- Settings > Touch controls -->
+    <string name="settings_intro">Некоторые игры работают только с сенсорным экраном. Здесь можно задать такой игре свою раскладку: каждая кнопка или стик касается точки на экране. Раскладка включается сама, пока эта игра на экране, а все остальные приложения получают обычные кнопки.</string>
+    <string name="settings_apps">Приложения с сенсорным управлением</string>
+    <string name="settings_add">Добавить приложение</string>
+    <string name="settings_add_summary">Выберите игру: она запустится, а поверх откроется редактор</string>
+    <string name="settings_add_none">Сенсорное управление уже есть у всех приложений</string>
+    <string name="settings_how">Как это работает</string>
+    <string name="settings_shortcut_title">Правка во время игры: FN + L1</string>
+    <string name="settings_shortcut_summary">В игре удерживайте FN и нажмите L1. Поверх игры откроется редактор. FN, как обычно, возвращает на главный экран.</string>
+    <string name="settings_help_summary">Что делает каждая кнопка в редакторе</string>
+
+    <!-- Summary of an app in the list; %1$s is e.g. "5 controls" -->
+    <string name="profile_on">Вкл. · <xliff:g id="count">%1$s</xliff:g></string>
+    <string name="profile_off">Выкл. · <xliff:g id="count">%1$s</xliff:g></string>
+    <string name="profile_empty">Элементов пока нет</string>
+    <string name="profile_unreadable">Не читается, откройте редактор, чтобы начать заново</string>
+    <plurals name="control_count">
+        <item quantity="one"><xliff:g id="n">%d</xliff:g> элемент</item>
+        <item quantity="few"><xliff:g id="n">%d</xliff:g> элемента</item>
+        <item quantity="many"><xliff:g id="n">%d</xliff:g> элементов</item>
+        <item quantity="other"><xliff:g id="n">%d</xliff:g> элемента</item>
+    </plurals>
+
+    <!-- One app's page -->
+    <string name="profile_enabled">Сенсорное управление</string>
+    <string name="profile_enabled_summary">Пока это приложение на экране</string>
+    <string name="profile_hints">Показывать кнопки на экране</string>
+    <string name="profile_hints_summary">Бледные подписи там, где касается каждая кнопка</string>
+    <string name="profile_edit">Изменить раскладку</string>
+    <string name="profile_edit_summary">Запускает <xliff:g id="app">%1$s</xliff:g>, затем поверх открывается редактор</string>
+    <string name="profile_edit_starting">Запуск приложения. Редактор сейчас откроется.</string>
+    <string name="profile_cant_start">Это приложение нельзя запустить отсюда. Откройте его и нажмите FN + L1.</string>
+    <string name="profile_controls">Элементы</string>
+    <string name="profile_delete">Удалить сенсорное управление</string>
+    <string name="profile_delete_message">Раскладка этого приложения будет удалена. Приложение снова получит обычные кнопки.</string>
+    <string name="profile_delete_confirm">Удалить</string>
+
+    <!-- FN + L1 where there is nothing to edit -->
+    <string name="edit_needs_app">Сначала откройте игру, затем нажмите FN + L1, чтобы настроить сенсорное управление.</string>
+
+    <!-- Editor -->
+    <string name="editor_title">Сенсорное управление: <xliff:g id="app">%1$s</xliff:g></string>
+    <string name="editor_layer_normal">Обычные кнопки</string>
+    <string name="editor_layer_shift">Пока удерживается <xliff:g id="button">%1$s</xliff:g></string>
+    <string name="editor_profile_off">Выключено</string>
+    <string name="editor_saved">Сенсорное управление для <xliff:g id="app">%1$s</xliff:g> сохранено</string>
+    <string name="editor_save_failed">Не удалось сохранить. Попробуйте ещё раз.</string>
+    <string name="editor_deleted">Удалено</string>
+    <string name="editor_cancelled">Отменено</string>
+    <string name="editor_no_shift">Кнопка Shift не задана: Select, затем «Кнопка Shift»</string>
+    <string name="editor_is_shift"><xliff:g id="button">%1$s</xliff:g> — кнопка Shift. Нажмите другую.</string>
+    <string name="editor_replaced"><xliff:g id="input">%1$s</xliff:g>: раньше использовалось для другого элемента, он удалён.</string>
+    <string name="editor_replaced_dpad">Джойстик на крестовине удалён: кнопки крестовины теперь работают по отдельности.</string>
+    <string name="editor_replaced_dpad_buttons">Отдельные кнопки крестовины удалены: теперь крестовина — джойстик.</string>
+    <string name="editor_unsaved_title">Сохранить изменения?</string>
+    <string name="editor_unsaved_message">Раскладка изменена, но не сохранена.</string>
+    <string name="editor_save">Сохранить</string>
+    <string name="editor_discard">Не сохранять</string>
+    <string name="editor_keep_editing">Продолжить</string>
+
+    <!-- Bottom strip of the editor: what each button does right now -->
+    <string name="hint_add">Добавить</string>
+    <string name="hint_change">Изменить</string>
+    <string name="hint_delete">Удалить</string>
+    <string name="hint_size">Размер</string>
+    <string name="hint_next">Далее</string>
+    <string name="hint_layer">Слой Shift</string>
+    <string name="hint_options">Опции</string>
+    <string name="hint_save">Сохранить</string>
+    <string name="hint_close">Закрыть</string>
+    <string name="hint_move">Двигать</string>
+    <string name="hint_place">Поставить</string>
+    <string name="hint_cancel">Отмена</string>
+    <string name="hint_hold_cancel">Удерж. — отмена</string>
+
+    <!-- Waiting for a button or stick; %1$s is a control type in lower case, e.g. "tap" -->
+    <string name="capture_button">Нажмите кнопку для элемента «<xliff:g id="type">%1$s</xliff:g>»</string>
+    <string name="capture_button_cancel">Подойдёт любая кнопка, и B тоже. Удерживайте B для отмены.</string>
+    <string name="capture_stick">Наклоните стик для элемента «<xliff:g id="type">%1$s</xliff:g>»</string>
+    <string name="capture_stick_detail">Левый стик, правый стик или нажмите крестовину</string>
+
+    <!-- Menus -->
+    <string name="editor_add_title">Добавить элемент сюда</string>
+    <string name="editor_control_title">Этот элемент</string>
+    <string name="editor_menu_move">Переместить</string>
+    <string name="editor_menu_button">Кнопка: <xliff:g id="button">%1$s</xliff:g></string>
+    <string name="editor_menu_stick">Стик: <xliff:g id="stick">%1$s</xliff:g></string>
+    <string name="editor_menu_type">Тип: <xliff:g id="type">%1$s</xliff:g></string>
+    <string name="editor_menu_direction">Направление: <xliff:g id="direction">%1$s</xliff:g></string>
+    <string name="editor_menu_speed">Скорость: <xliff:g id="percent">%1$d</xliff:g>%%</string>
+    <string name="editor_menu_delete">Удалить</string>
+    <string name="editor_type_title">Тип элемента</string>
+    <string name="editor_direction_title">Направление свайпа</string>
+    <string name="editor_speed_title">Скорость обзора</string>
+    <string name="percent"><xliff:g id="percent">%1$d</xliff:g>%%</string>
+
+    <string name="type_tap">Нажатие</string>
+    <string name="type_hold">Удержание</string>
+    <string name="type_joystick">Джойстик</string>
+    <string name="type_camera">Обзор</string>
+    <string name="type_swipe">Свайп</string>
+    <string name="type_tap_long">Нажатие: короткое касание при нажатии кнопки</string>
+    <string name="type_hold_long">Удержание: палец остаётся на экране, пока кнопка удерживается</string>
+    <string name="type_joystick_long">Джойстик: стик или крестовина водит пальцем вокруг этой точки</string>
+    <string name="type_camera_long">Обзор: стик проводит пальцем по этой области, для камеры и прицеливания</string>
+    <string name="type_swipe_long">Свайп: быстрый свайп отсюда при нажатии кнопки</string>
+
+    <string name="direction_up">Вверх</string>
+    <string name="direction_down">Вниз</string>
+    <string name="direction_left">Влево</string>
+    <string name="direction_right">Вправо</string>
+    <string name="direction_up_left">Вверх и влево</string>
+    <string name="direction_up_right">Вверх и вправо</string>
+    <string name="direction_down_left">Вниз и влево</string>
+    <string name="direction_down_right">Вниз и вправо</string>
+    <string name="direction_degrees"><xliff:g id="degrees">%1$d</xliff:g>°</string>
+
+    <string name="options_title">Опции</string>
+    <string name="options_enabled_on">Сенсорное управление для приложения: вкл.</string>
+    <string name="options_enabled_off">Сенсорное управление для приложения: выкл.</string>
+    <string name="options_hints_on">Показывать кнопки в игре: вкл.</string>
+    <string name="options_hints_off">Показывать кнопки в игре: выкл.</string>
+    <string name="options_shift">Кнопка Shift: <xliff:g id="button">%1$s</xliff:g></string>
+    <string name="options_deadzone">Мёртвая зона стика: <xliff:g id="percent">%1$d</xliff:g>%%</string>
+    <string name="options_help">Справка</string>
+    <string name="options_clear">Удалить все элементы</string>
+    <string name="options_clear_message">Все элементы этого приложения будут удалены. Ничего не сохранится, пока вы не нажмёте Start.</string>
+    <string name="options_clear_confirm">Удалить</string>
+    <string name="shift_title">Кнопка Shift</string>
+    <string name="shift_none">Нет</string>
+    <plurals name="shift_removed">
+        <item quantity="one">Удалён <xliff:g id="n">%d</xliff:g> элемент, использовавший эту кнопку</item>
+        <item quantity="few">Удалено <xliff:g id="n">%d</xliff:g> элемента, использовавших эту кнопку</item>
+        <item quantity="many">Удалено <xliff:g id="n">%d</xliff:g> элементов, использовавших эту кнопку</item>
+        <item quantity="other">Удалено <xliff:g id="n">%d</xliff:g> элемента, использовавших эту кнопку</item>
+    </plurals>
+    <string name="deadzone_title">Мёртвая зона стика</string>
+
+    <string name="help_title">Справка по редактору</string>
+    <string name="help_text">Прицел двигается левым стиком или крестовиной.\n\nA на пустом месте добавляет туда элемент: выберите тип, затем нажмите его кнопку или наклоните его стик. A на элементе изменяет его: переместить, назначить другую кнопку или удалить.\n\nТипы:\n• Нажатие: короткое касание\n• Удержание: касание, пока кнопка удерживается\n• Джойстик: стик или крестовина водит пальцем вокруг точки, для экранных стиков\n• Обзор: стик проводит пальцем по области, для камеры и прицеливания\n• Свайп: быстрый свайп в одном направлении\n\nL1 и R1 или правый стик уменьшают или увеличивают выбранный элемент. L2 и R2 переключают между элементами. X удаляет.\n\nКнопка Shift (Select, затем «Кнопка Shift»): пока она удерживается, действует второй набор элементов. Y переключает между наборами.\n\nStart сохраняет и закрывает. B закрывает. FN выходит без сохранения.\n\nКнопки без элемента работают как обычно. FN и все сочетания с FN работают всегда.</string>
+</resources>

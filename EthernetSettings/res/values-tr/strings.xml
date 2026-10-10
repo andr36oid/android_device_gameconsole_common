@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="ethernet_title">Ethernet</string>
+    <string name="ethernet_summary">USB Ethernet adaptörleri, telefondan USB tethering ve USB modemler</string>
+
+    <string name="ethernet_unavailable">Ethernet bu derlemede kullanılamıyor</string>
+    <string name="ethernet_none_title">Takılı bir şey yok</string>
+    <string name="ethernet_none_summary">Bir USB Ethernet adaptörü takın ya da USB tethering açık bir telefon bağlayın. iPhone\'da Kişisel Erişim Noktası\'nı açın.</string>
+
+    <!-- Category titles, %1$s is the interface name, e.g. eth0 -->
+    <string name="ethernet_iface_adapter">Kablolu adaptör (%1$s)</string>
+    <string name="ethernet_iface_phone">Telefon, USB tethering (%1$s)</string>
+    <string name="ethernet_iface_modem">USB mobil geniş bant modemi (%1$s)</string>
+
+    <string name="ethernet_status">Durum</string>
+    <string name="ethernet_status_connected">Bağlı</string>
+    <string name="ethernet_status_no_internet">Bağlı, internet yok</string>
+    <string name="ethernet_status_connecting">Bağlanıyor…</string>
+    <string name="ethernet_status_unplugged">Kablo takılı değil</string>
+    <string name="ethernet_status_phone_waiting">Telefon bekleniyor</string>
+    <string name="ethernet_status_modem_waiting">Mobil ağ bekleniyor</string>
+
+    <string name="ethernet_ip_address">IP adresi</string>
+    <string name="ethernet_gateway">Ağ geçidi</string>
+    <string name="ethernet_dns">DNS sunucuları</string>
+    <string name="ethernet_mac">MAC adresi</string>
+    <string name="ethernet_speed">Bağlantı hızı</string>
+    <!-- %1$d is the speed in Mbit/s -->
+    <string name="ethernet_speed_value">%1$d Mbps</string>
+    <string name="ethernet_unknown">Kullanılamıyor</string>
+    <string name="ethernet_not_set">Ayarlanmadı</string>
+
+    <string name="ethernet_ip_settings">IP ayarları</string>
+    <string name="ethernet_ip_dhcp">DHCP</string>
+    <string name="ethernet_ip_static">Statik</string>
+
+    <string name="ethernet_static_ip">Statik IP adresi</string>
+    <string name="ethernet_static_ip_hint">Örneğin 192.168.1.50/24</string>
+    <string name="ethernet_static_gateway">Statik ağ geçidi</string>
+    <string name="ethernet_static_gateway_hint">Örneğin 192.168.1.1, yoksa boş bırakın</string>
+    <string name="ethernet_static_dns">Statik DNS sunucuları</string>
+    <string name="ethernet_static_dns_hint">Örneğin 1.1.1.1, 8.8.8.8</string>
+    <string name="ethernet_static_needs_ip">Önce IP adresini ayarlayın</string>
+
+    <string name="ethernet_invalid_ip">Bir IPv4 adresi girin; isterseniz /24 gibi bir önek uzunluğuyla</string>
+    <string name="ethernet_invalid_gateway">Bir IPv4 adresi girin veya boş bırakın</string>
+    <string name="ethernet_invalid_dns">IP adreslerini virgülle ayırarak girin</string>
+    <string name="ethernet_save_failed">IP ayarları değiştirilemedi</string>
+</resources>

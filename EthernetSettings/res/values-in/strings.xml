@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="ethernet_title">Ethernet</string>
+    <string name="ethernet_summary">Adaptor Ethernet USB, tethering USB dari ponsel, dan modem USB</string>
+
+    <string name="ethernet_unavailable">Ethernet tidak tersedia di build ini</string>
+    <string name="ethernet_none_title">Tidak ada yang tercolok</string>
+    <string name="ethernet_none_summary">Colokkan adaptor Ethernet USB, atau hubungkan ponsel dengan tethering USB aktif. Di iPhone, aktifkan Hotspot Pribadi.</string>
+
+    <!-- Category titles, %1$s is the interface name, e.g. eth0 -->
+    <string name="ethernet_iface_adapter">Adaptor kabel (%1$s)</string>
+    <string name="ethernet_iface_phone">Ponsel, tethering USB (%1$s)</string>
+    <string name="ethernet_iface_modem">Modem USB data seluler (%1$s)</string>
+
+    <string name="ethernet_status">Status</string>
+    <string name="ethernet_status_connected">Terhubung</string>
+    <string name="ethernet_status_no_internet">Terhubung, tanpa internet</string>
+    <string name="ethernet_status_connecting">Menghubungkan…</string>
+    <string name="ethernet_status_unplugged">Kabel tidak tercolok</string>
+    <string name="ethernet_status_phone_waiting">Menunggu ponsel</string>
+    <string name="ethernet_status_modem_waiting">Menunggu jaringan seluler</string>
+
+    <string name="ethernet_ip_address">Alamat IP</string>
+    <string name="ethernet_gateway">Gateway</string>
+    <string name="ethernet_dns">Server DNS</string>
+    <string name="ethernet_mac">Alamat MAC</string>
+    <string name="ethernet_speed">Kecepatan link</string>
+    <!-- %1$d is the speed in Mbit/s -->
+    <string name="ethernet_speed_value">%1$d Mbps</string>
+    <string name="ethernet_unknown">Tidak tersedia</string>
+    <string name="ethernet_not_set">Belum diatur</string>
+
+    <string name="ethernet_ip_settings">Setelan IP</string>
+    <string name="ethernet_ip_dhcp">DHCP</string>
+    <string name="ethernet_ip_static">Statis</string>
+
+    <string name="ethernet_static_ip">Alamat IP statis</string>
+    <string name="ethernet_static_ip_hint">Misalnya 192.168.1.50/24</string>
+    <string name="ethernet_static_gateway">Gateway statis</string>
+    <string name="ethernet_static_gateway_hint">Misalnya 192.168.1.1, kosongkan jika tidak ada</string>
+    <string name="ethernet_static_dns">Server DNS statis</string>
+    <string name="ethernet_static_dns_hint">Misalnya 1.1.1.1, 8.8.8.8</string>
+    <string name="ethernet_static_needs_ip">Atur alamat IP dulu</string>
+
+    <string name="ethernet_invalid_ip">Masukkan alamat IPv4, boleh dengan panjang prefiks seperti /24</string>
+    <string name="ethernet_invalid_gateway">Masukkan alamat IPv4 atau biarkan kosong</string>
+    <string name="ethernet_invalid_dns">Masukkan alamat IP yang dipisahkan koma</string>
+    <string name="ethernet_save_failed">Tidak bisa mengubah setelan IP</string>
+</resources>

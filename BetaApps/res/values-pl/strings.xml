@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="beta_title">Aplikacje beta</string>
+    <string name="beta_summary">Dodatkowe aplikacje dla testerów, nie ma ich w wersjach wydaniowych</string>
+
+    <!-- %1$s is the kind of build (beta, dirty, debug), %2$s the full version -->
+    <string name="beta_notice">Używasz wersji typu <xliff:g id="kind">%1$s</xliff:g> (<xliff:g id="version">%2$s</xliff:g>). Te aplikacje są dostępne tylko w wersjach beta i dirty. Nie wchodzą w skład wersji wydaniowych.</string>
+    <string name="beta_notice_more">Wybierz te, które chcesz wypróbować. Możesz tu wrócić w każdej chwili przez Ustawienia &gt; Aplikacje beta.</string>
+    <string name="beta_kind_unknown">test</string>
+    <string name="beta_version_unknown">nieznana wersja</string>
+    <string name="beta_empty">Ta wersja nie ma aplikacji beta.</string>
+
+    <string name="beta_install">Zainstaluj wybrane</string>
+    <string name="beta_install_count">Zainstaluj wybrane (<xliff:g id="count">%d</xliff:g>)</string>
+    <string name="beta_not_now">Nie teraz</string>
+    <string name="beta_done">Gotowe</string>
+
+    <string name="beta_version">Wersja <xliff:g id="version">%s</xliff:g></string>
+    <string name="state_not_installed">Niezainstalowana</string>
+    <string name="state_installed">Zainstalowana</string>
+    <string name="state_update">Zainstalowana wersja <xliff:g id="version">%s</xliff:g>, ta jest nowsza</string>
+    <string name="state_newer_installed">Zainstalowana jest nowsza wersja</string>
+    <string name="state_waiting">Czekam…</string>
+    <string name="state_copying">Kopiowanie… <xliff:g id="percent">%d</xliff:g>%%</string>
+    <string name="state_installing">Instalowanie…</string>
+    <string name="state_install_ok">Zainstalowano</string>
+    <string name="state_install_failed">Nie udało się zainstalować: <xliff:g id="reason">%s</xliff:g></string>
+    <string name="state_missing">W tej wersji brakuje pliku APK</string>
+
+    <string name="result_summary">Zainstalowano: <xliff:g id="ok">%1$d</xliff:g>, błędy: <xliff:g id="failed">%2$d</xliff:g>.</string>
+
+    <string name="key_dpad">Krzyżak</string>
+    <string name="hint_choose">Wybierz</string>
+    <string name="hint_tick">Zaznacz / naciśnij</string>
+    <string name="hint_not_now">Nie teraz</string>
+    <string name="hint_close">Zamknij</string>
+    <string name="hint_jump">Lista / przyciski</string>
+</resources>

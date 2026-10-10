@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="overclock_title">Performans</string>
+    <string name="overclock_summary">Pil tasarrufu veya tam hız, CPU hız sınırı ve hız aşırtma</string>
+
+    <!-- Performance profiles -->
+    <string name="profile_category">Performans profili</string>
+    <string name="profile_title">Profil</string>
+    <string-array name="profile_names">
+        <item>Pil tasarrufu</item>
+        <item>Dengeli</item>
+        <item>Performans</item>
+    </string-array>
+    <!-- What each profile does. cpu is a CPU speed like "1.01 GHz", gpu a GPU speed in MHz. -->
+    <string name="profile_about_saver">Daha uzun oyun süresi. CPU <xliff:g id="cpu">%1$s</xliff:g> veya altında, grafik işlemcisi <xliff:g id="gpu">%2$d</xliff:g> MHz\'de kalır. 8 ve 16 bit oyunlar için fazlasıyla yeterli.</string>
+    <string name="profile_about_balanced">Standart hızlar. İşlemci, oyun ihtiyaç duyduğunda hızlanır, duymadığında yavaşlar.</string>
+    <string name="profile_about_performance">En akıcı emülasyon. CPU hiçbir zaman <xliff:g id="cpu">%1$s</xliff:g> altına düşmez ve grafik işlemcisi sürekli <xliff:g id="gpu">%2$d</xliff:g> MHz\'de çalışır. PS1, N64 ve PSP oyunları için. Pil daha hızlı biter.</string>
+    <string name="profile_about_footer">\n\nKonsol yeniden başladığında profil korunur. Hızlı Ayarlar kutusu bir sonrakine geçer.</string>
+    <string name="profile_about_footer_fn">\n\nKonsol yeniden başladığında profil korunur. FN + R1 ve Hızlı Ayarlar kutusu bir sonrakine geçer.</string>
+    <string name="profile_failed">Performans profili değiştirilemedi</string>
+    <!-- Toast after FN + R1, e.g. "Performance profile: Battery saver" -->
+    <string name="profile_switched">Performans profili: <xliff:g id="profile">%1$s</xliff:g></string>
+    <string name="profile_tile_label">Performans</string>
+    <!-- Toast after FN + R1 while a maximum CPU speed holds the CPU lower than the profile would,
+         e.g. "Performance profile: Balanced, CPU up to 816 MHz" -->
+    <string name="profile_switched_capped">Performans profili: <xliff:g id="profile">%1$s</xliff:g>, CPU en fazla <xliff:g id="speed">%2$s</xliff:g></string>
+    <!-- Tile subtitle with a maximum CPU speed, e.g. "Balanced, 816 MHz" -->
+    <string name="profile_tile_capped"><xliff:g id="profile">%1$s</xliff:g>, <xliff:g id="speed">%2$s</xliff:g></string>
+
+    <!-- Maximum CPU speed (underclock) -->
+    <string name="cpu_cap_title">Maksimum CPU hızı</string>
+    <!-- First entry of the list, no limit. speed is the standard top speed, e.g. "1296 MHz" -->
+    <string name="cpu_cap_stock">Fabrika (<xliff:g id="speed">%1$s</xliff:g>)</string>
+    <string name="cpu_cap_note">Düşük hız daha uzun pil ömrü ve daha serin bir konsol demektir ama oyunlar yavaşlar. Bir oyun yavaşlarsa daha yüksek bir hız seçin. Konsol yeniden başladığında korunur.</string>
+    <!-- The cap is lower than what the profile allows, speed e.g. "816 MHz" -->
+    <string name="cpu_cap_active">Profil ne olursa olsun en fazla <xliff:g id="speed">%1$s</xliff:g>.</string>
+    <!-- The profile already stays lower than the cap -->
+    <string name="cpu_cap_profile_lower"><xliff:g id="speed">%1$s</xliff:g>. Profil şu anda CPU\'yu <xliff:g id="profile_speed">%2$s</xliff:g> veya altında tutuyor.</string>
+    <string name="cpu_cap_on_hold"><xliff:g id="speed">%1$s</xliff:g>. Hız aşırtma açıkken beklemede.</string>
+    <string name="cpu_cap_none">Profilin ötesinde sınır yok.</string>
+    <!-- A CPU speed, e.g. "816 MHz" -->
+    <string name="speed_mhz"><xliff:g id="mhz">%1$d</xliff:g> MHz</string>
+
+    <string name="overclock_category">CPU hız aşırtma (deneysel)</string>
+    <string name="overclock_switch">Hız aşırtma</string>
+    <string name="overclock_switch_on">En fazla <xliff:g id="speed">%1$s</xliff:g> hızında çalışıyor</string>
+    <string name="overclock_switch_off">Kapalı, CPU en fazla <xliff:g id="speed">%1$s</xliff:g> hızında çalışır</string>
+    <string name="overclock_speed">Hız</string>
+
+    <!-- A CPU speed, e.g. "1.51 GHz" -->
+    <string name="speed_ghz"><xliff:g id="ghz">%1$.2f</xliff:g> GHz</string>
+
+    <string name="overclock_about">Zorlu oyunlar için daha hızlı emülasyon, ama bir bedeli var: konsol daha çok ısınır, pil daha hızlı biter ve bazı konsollar yüksek hızlarda donar ya da çöker. Böyle olursa daha düşük bir hız seçin.\n\nKonsol her zaman hız aşırtma olmadan açılır, yeniden başlatmak onu kapatır. Açıkken maksimum CPU hızı beklemeye alınır. Konsol çok ısındığında da kendiliğinden yavaşlar.</string>
+
+    <string name="overclock_unsupported">Bu konsolda hız aşırtma yapılamaz.</string>
+    <string name="overclock_failed">CPU hızı değiştirilemedi</string>
+
+    <!-- CPU undervolt -->
+    <string name="undervolt_category">CPU voltaj düşürme (deneysel)</string>
+    <string name="undervolt_title">Voltaj düşürme</string>
+    <string name="undervolt_off">Kapalı</string>
+    <!-- An undervolt step, e.g. "−25 mV" -->
+    <string name="undervolt_step">−<xliff:g id="mv">%1$d</xliff:g> mV</string>
+    <string name="undervolt_about">CPU\'yu aynı hızda biraz daha düşük voltajla çalıştırır; böylece özellikle yüksek hızlarda biraz daha az güç harcar ve biraz daha serin kalır. 816 MHz ve altında kazanç azdır.\n\nHer çip farklıdır. Bir oyun çökerse ya da konsol donar veya yeniden başlarsa Kapalı\'ya geri dönün. Bir şey kaydedilirken yaşanan bir çökme karttaki dosyalara zarar verebilir; bu yüzden her seferinde bir adım ilerleyin ve daha aşağı inmeden önce bir süre oynayın.\n\nKonsol her zaman voltaj düşürme kapalı olarak açılır, yeniden başlatmak onu kapatır.</string>
+    <string name="undervolt_failed">CPU voltajı değiştirilemedi</string>
+
+    <!-- Quick Settings tile -->
+    <string name="tile_label">CPU hız aşırtma</string>
+    <string name="tile_off">Kapalı</string>
+</resources>

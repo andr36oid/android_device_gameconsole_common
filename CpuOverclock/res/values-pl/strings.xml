@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="overclock_title">Wydajność</string>
+    <string name="overclock_summary">Oszczędzanie baterii lub pełna szybkość, limit CPU i podkręcanie</string>
+
+    <!-- Performance profiles -->
+    <string name="profile_category">Profil wydajności</string>
+    <string name="profile_title">Profil</string>
+    <string-array name="profile_names">
+        <item>Oszczędzanie baterii</item>
+        <item>Zrównoważony</item>
+        <item>Wydajność</item>
+    </string-array>
+    <string name="profile_about_saver">Dłuższy czas gry. CPU pracuje z szybkością najwyżej <xliff:g id="cpu">%1$s</xliff:g>, a grafika z <xliff:g id="gpu">%2$d</xliff:g> MHz. W zupełności wystarcza do gier 8- i 16-bitowych.</string>
+    <string name="profile_about_balanced">Standardowe szybkości. Procesor przyspiesza, gdy gra tego potrzebuje, i zwalnia, gdy nie.</string>
+    <string name="profile_about_performance">Najpłynniejsza emulacja. CPU nigdy nie schodzi poniżej <xliff:g id="cpu">%1$s</xliff:g>, a grafika cały czas pracuje z <xliff:g id="gpu">%2$d</xliff:g> MHz. Do gier PS1, N64 i PSP. Bateria rozładowuje się szybciej.</string>
+    <string name="profile_about_footer">\n\nProfil zostaje po ponownym uruchomieniu konsoli. Kafelek w Szybkich ustawieniach przełącza na następny.</string>
+    <string name="profile_about_footer_fn">\n\nProfil zostaje po ponownym uruchomieniu konsoli. FN + R1 i kafelek w Szybkich ustawieniach przełączają na następny.</string>
+    <string name="profile_failed">Nie udało się zmienić profilu wydajności</string>
+    <string name="profile_switched">Profil wydajności: <xliff:g id="profile">%1$s</xliff:g></string>
+    <string name="profile_tile_label">Wydajność</string>
+    <string name="profile_switched_capped">Profil wydajności: <xliff:g id="profile">%1$s</xliff:g>, CPU do <xliff:g id="speed">%2$s</xliff:g></string>
+    <string name="profile_tile_capped"><xliff:g id="profile">%1$s</xliff:g>, <xliff:g id="speed">%2$s</xliff:g></string>
+
+    <!-- Maximum CPU speed (underclock) -->
+    <string name="cpu_cap_title">Maksymalna szybkość CPU</string>
+    <string name="cpu_cap_stock">Fabryczna (<xliff:g id="speed">%1$s</xliff:g>)</string>
+    <string name="cpu_cap_note">Niższa to dłuższa praca na baterii i chłodniejsza konsola, ale wolniejsze gry. Jeśli gra zwalnia, wybierz wyższą szybkość. Zostaje po ponownym uruchomieniu konsoli.</string>
+    <string name="cpu_cap_active">Do <xliff:g id="speed">%1$s</xliff:g>, niezależnie od profilu.</string>
+    <string name="cpu_cap_profile_lower"><xliff:g id="speed">%1$s</xliff:g>. Profil utrzymuje teraz CPU na <xliff:g id="profile_speed">%2$s</xliff:g> lub niżej.</string>
+    <string name="cpu_cap_on_hold"><xliff:g id="speed">%1$s</xliff:g>. Wstrzymane, gdy podkręcanie jest włączone.</string>
+    <string name="cpu_cap_none">Bez limitu poza profilem.</string>
+    <string name="speed_mhz"><xliff:g id="mhz">%1$d</xliff:g> MHz</string>
+
+    <string name="overclock_category">Podkręcanie CPU (eksperymentalne)</string>
+    <string name="overclock_switch">Podkręcanie</string>
+    <string name="overclock_switch_on">Pracuje z szybkością do <xliff:g id="speed">%1$s</xliff:g></string>
+    <string name="overclock_switch_off">Wył., CPU pracuje z szybkością do <xliff:g id="speed">%1$s</xliff:g></string>
+    <string name="overclock_speed">Szybkość</string>
+
+    <string name="speed_ghz"><xliff:g id="ghz">%1$.2f</xliff:g> GHz</string>
+
+    <string name="overclock_about">Szybsza emulacja w wymagających grach, ale za cenę: konsola bardziej się nagrzewa, bateria szybciej się rozładowuje, a niektóre konsole przy wyższych szybkościach zawieszają się lub wyłączają. Jeśli tak się stanie, wybierz niższą szybkość.\n\nKonsola zawsze uruchamia się bez podkręcania, ponowne uruchomienie je wyłącza. Gdy jest włączone, maksymalna szybkość CPU jest wstrzymana. Konsola sama też zwalnia, gdy za bardzo się nagrzeje.</string>
+
+    <string name="overclock_unsupported">Tej konsoli nie da się podkręcić.</string>
+    <string name="overclock_failed">Nie udało się zmienić szybkości CPU</string>
+
+    <!-- CPU undervolt -->
+    <string name="undervolt_category">Obniżanie napięcia CPU (eksperymentalne)</string>
+    <string name="undervolt_title">Obniżenie napięcia</string>
+    <string name="undervolt_off">Wył.</string>
+    <string name="undervolt_step">−<xliff:g id="mv">%1$d</xliff:g> mV</string>
+    <string name="undervolt_about">CPU pracuje z nieco niższym napięciem przy tej samej szybkości, więc zużywa trochę mniej energii i jest trochę chłodniejszy, głównie przy wyższych szybkościach. Przy 816 MHz i niżej zysk jest niewielki.\n\nKażdy układ jest inny. Jeśli gra się wysypuje albo konsola się zawiesza lub uruchamia ponownie, wróć do Wył. Awaria w trakcie zapisywania może uszkodzić pliki na karcie, więc zmieniaj po jednym kroku i pograj chwilę, zanim zejdziesz niżej.\n\nKonsola zawsze uruchamia się bez obniżonego napięcia, ponowne uruchomienie je wyłącza.</string>
+    <string name="undervolt_failed">Nie udało się zmienić napięcia CPU</string>
+
+    <!-- Quick Settings tile -->
+    <string name="tile_label">Podkręcanie CPU</string>
+    <string name="tile_off">Wył.</string>
+</resources>

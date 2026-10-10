@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_title">Backup de saves</string>
+
+    <!-- %1$s: a time, e.g. 14:02 -->
+    <string name="today">Hoje, %1$s</string>
+    <string name="yesterday">Ontem, %1$s</string>
+    <plurals name="files">
+        <item quantity="one">%1$d arquivo</item>
+        <item quantity="other">%1$d arquivos</item>
+    </plurals>
+    <plurals name="games">
+        <item quantity="one">%1$d jogo</item>
+        <item quantity="other">%1$d jogos</item>
+    </plurals>
+
+    <!-- The summary in Settings and under Back up now -->
+    <!-- %1$s: when, e.g. Today, 14:02; %2$s: e.g. 123 files -->
+    <string name="last_backup">Último backup: %1$s, %2$s</string>
+    <string name="last_none">Nenhum backup ainda</string>
+    <string name="last_no_saves">Nenhum save encontrado ainda</string>
+    <!-- %1$s: the summary above, %2$s: what went wrong -->
+    <string name="last_failed">%1$s\nA última tentativa falhou: %2$s</string>
+
+    <string name="where_internal">armazenamento interno</string>
+    <string name="where_easyroms">EASYROMS</string>
+    <string name="where_usb">pen drive USB</string>
+
+    <!-- Progress, on the page and in the notification -->
+    <string name="step_start">Iniciando…</string>
+    <string name="step_scan">Procurando arquivos de save…</string>
+    <!-- %1$d: file number, %2$d: all files -->
+    <string name="step_backup">Fazendo backup do arquivo %1$d de %2$d…</string>
+    <string name="step_backup_plain">Fazendo backup…</string>
+    <string name="step_copy">Copiando o backup para os outros locais…</string>
+    <string name="step_list">Lendo os backups…</string>
+    <string name="step_plan">Comparando com os saves do console…</string>
+    <string name="step_restore">Restaurando…</string>
+
+    <!-- %1$s: e.g. 123 files -->
+    <string name="backup_done">Backup feito: %1$s</string>
+    <string name="backup_unchanged">Nada mudou desde o último backup</string>
+    <string name="backup_nothing">Nenhum arquivo de save encontrado. Jogue e salve um jogo primeiro.</string>
+
+    <string name="error_no_storage">Não há onde fazer o backup: o armazenamento interno e o EASYROMS não estão disponíveis.</string>
+    <string name="error_no_space">Não há espaço livre suficiente para um backup no armazenamento interno nem no EASYROMS.</string>
+    <string name="error_write_failed">Não foi possível gravar o backup. O cartão SD pode estar falhando: copie seus saves para um PC.</string>
+    <string name="error_no_usb">Nenhum pen drive USB encontrado. Conecte um e tente de novo.</string>
+    <string name="error_not_found">Este backup não existe mais.</string>
+    <string name="error_safety_failed">Nada foi restaurado: não foi possível fazer backup antes dos saves que seriam substituídos. Libere algum espaço e tente de novo.</string>
+    <string name="error_busy">Um backup está em andamento. Tente de novo daqui a pouco.</string>
+    <string name="error_start">Não foi possível executar o Backup de saves. Reinicie o console e tente de novo.</string>
+
+    <!-- The main page -->
+    <string name="backup_now_title">Fazer backup agora</string>
+    <string name="restore_title">Restaurar saves</string>
+    <string name="restore_summary">Escolha um backup e depois tudo ou um jogo só. Você vê o que muda antes de qualquer coisa ser gravada.</string>
+    <string name="usb_title">Fazer backup no pen drive agora</string>
+    <!-- %1$s: the drive's name -->
+    <string name="usb_summary">Copia o backup mais recente para %1$s</string>
+    <string name="usb_none">Conecte um pen drive USB para guardar uma cópia fora do cartão SD</string>
+    <string name="auto_category">Backup automático</string>
+    <string name="auto_title">Fazer backup automaticamente</string>
+    <string name="auto_summary">Uma vez por dia durante a carga e depois que você fecha um jogo. Pulado quando nada mudou.</string>
+    <string name="keep_title">Backups a manter</string>
+    <!-- %1$s: a number -->
+    <string name="keep_summary">Os %1$s mais recentes são mantidos, com pelo menos um de cada dia recente. Os mais antigos são excluídos.</string>
+    <string name="where_summary">Os backups vão para dois lugares: Backups/Saves no armazenamento interno e EASYROMS/backups/saves, além de um pen drive USB quando houver um conectado. Os dois lugares ficam no mesmo cartão SD, então copie os backups para um PC ou pen drive de vez em quando. Inclui saves do RetroArch, do PPSSPP e arquivos de save ao lado dos seus jogos.</string>
+
+    <!-- The list of backups -->
+    <!-- %1$s: what's running -->
+    <string name="waiting_for_backup">Um backup está em andamento. %1$s</string>
+    <string name="no_backups">Nenhum backup ainda. Use Fazer backup agora ou espere o backup diário durante a carga.</string>
+    <!-- %1$s: e.g. 12 games, %2$s: e.g. 123 files, %3$s: size, %4$s: where -->
+    <string name="backup_summary">%1$s, %2$s, %3$s\nEm %4$s</string>
+    <!-- %1$s: where -->
+    <string name="backup_broken">Este backup está danificado e não pode ser lido (em %1$s)</string>
+
+    <!-- One backup -->
+    <string name="restore_all_title">Restaurar tudo</string>
+    <!-- %1$s: e.g. 123 files -->
+    <string name="restore_all_summary">Todos os %1$s deste backup. Você vê o que muda primeiro.</string>
+    <!-- %1$s: e.g. 3 files, %2$s: folders, %3$s: when -->
+    <string name="game_summary">%1$s em %2$s, salvo %3$s</string>
+
+    <!-- What restoring would do -->
+    <string name="plan_title_all">Restaurar tudo?</string>
+    <!-- %1$s: the game -->
+    <string name="plan_title_game">Restaurar %1$s?</string>
+    <plurals name="plan_missing">
+        <item quantity="one">%1$d arquivo está faltando no console e será colocado de volta.</item>
+        <item quantity="other">%1$d arquivos estão faltando no console e serão colocados de volta.</item>
+    </plurals>
+    <plurals name="plan_older">
+        <item quantity="one">%1$d save mais antigo no console será substituído pelo backup.</item>
+        <item quantity="other">%1$d saves mais antigos no console serão substituídos pelo backup.</item>
+    </plurals>
+    <plurals name="plan_newer">
+        <item quantity="one">%1$d save no console é mais novo que o backup. Ele será mantido:</item>
+        <item quantity="other">%1$d saves no console são mais novos que o backup. Eles serão mantidos:</item>
+    </plurals>
+    <!-- %1$s: file name, %2$s: its time on the console, %3$s: its time in the backup -->
+    <string name="plan_newer_item">• %1$s (console: %2$s, backup: %3$s)</string>
+    <!-- %1$d: how many more -->
+    <string name="plan_more">• e mais %1$d</string>
+    <plurals name="plan_same">
+        <item quantity="one">%1$d arquivo já é igual.</item>
+        <item quantity="other">%1$d arquivos já são iguais.</item>
+    </plurals>
+    <plurals name="plan_unavailable">
+        <item quantity="one">%1$d arquivo pertence ao EASYROMS, que não está montado, e não pode ser restaurado agora.</item>
+        <item quantity="other">%1$d arquivos pertencem ao EASYROMS, que não está montado, e não podem ser restaurados agora.</item>
+    </plurals>
+    <string name="plan_nothing">Nada para restaurar.</string>
+    <string name="plan_note">Tudo o que for substituído tem backup feito antes. Feche o RetroArch e o PPSSPP antes de restaurar, ou eles podem gravar por cima dos saves restaurados ao fechar.</string>
+    <string name="restore_button">Restaurar</string>
+    <string name="replace_newer_button">Substituir os mais novos</string>
+    <string name="replace_newer_title">Substituir saves mais novos?</string>
+    <plurals name="replace_newer_message">
+        <item quantity="one">%1$d save no console é mais novo que o backup. Substituí-lo leva esse jogo de volta ao progresso anterior. O save mais novo tem backup feito antes.</item>
+        <item quantity="other">%1$d saves no console são mais novos que o backup. Substituí-los leva esses jogos de volta ao progresso anterior. Os saves mais novos têm backup feito antes.</item>
+    </plurals>
+    <string name="replace_button">Substituir</string>
+
+    <string name="result_title">Restauração concluída</string>
+    <plurals name="result_restored">
+        <item quantity="one">%1$d arquivo restaurado.</item>
+        <item quantity="other">%1$d arquivos restaurados.</item>
+    </plurals>
+    <plurals name="result_kept">
+        <item quantity="one">%1$d save mais novo mantido.</item>
+        <item quantity="other">%1$d saves mais novos mantidos.</item>
+    </plurals>
+    <plurals name="result_failed">
+        <item quantity="one">Não foi possível gravar %1$d arquivo. O cartão SD pode estar cheio ou falhando.</item>
+        <item quantity="other">Não foi possível gravar %1$d arquivos. O cartão SD pode estar cheio ou falhando.</item>
+    </plurals>
+
+    <!-- The notification while an automatic backup runs -->
+    <string name="channel_name">Backup de saves rodando</string>
+    <string name="notification_title">Fazendo backup dos saves</string>
+</resources>

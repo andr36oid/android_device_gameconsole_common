@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <!-- Hands-on tutorial that runs once after the setup wizard -->
+    <string name="tutorial_label">Tutorial</string>
+    <!-- Above the progress bar, e.g. "Step 3 of 11" -->
+    <string name="tutorial_step">Paso <xliff:g id="current">%1$d</xliff:g> de <xliff:g id="total">%2$d</xliff:g></string>
+
+    <!-- Buttons at the bottom -->
+    <string name="tutorial_back">Atrás</string>
+    <string name="tutorial_start">Empezar</string>
+    <string name="tutorial_next">Siguiente</string>
+    <string name="tutorial_skip_step">Saltar paso</string>
+    <string name="tutorial_skip_all">Saltar tutorial</string>
+    <!-- On the FN steps, for consoles without an FN button: skips all of them -->
+    <string name="tutorial_no_fn">No tengo FN</string>
+    <string name="tutorial_done">Hecho</string>
+    <string name="tutorial_open_guide">Abrir la guía completa</string>
+
+    <!-- Shown under the list once everything on a step was done -->
+    <string name="tutorial_well_done">Muy bien. Pulsa A para seguir.</string>
+
+    <!-- Welcome -->
+    <string name="tutorial_welcome_title">Vamos a probar los botones</string>
+    <string name="tutorial_welcome_body">Esta consola no tiene pantalla táctil. Todo funciona con los botones, y este breve tutorial te permite probar cada uno. Tarda unos tres minutos.\n\nPulsa A para seguir y B para volver. Pulsa Select para saltar un paso que ya conozcas.</string>
+
+    <!-- A, B, X, Y -->
+    <string name="tutorial_face_title">A, B, X e Y</string>
+    <string name="tutorial_face_body">A confirma: abre lo seleccionado y pulsa los botones de la pantalla.\n\nB vuelve atrás, de pantalla en pantalla.\n\nX e Y hacen cosas distintas en cada app y juego.\n\nPulsa cada uno una vez.</string>
+    <string name="tutorial_press_a">Pulsa A</string>
+    <string name="tutorial_press_b">Pulsa B</string>
+    <string name="tutorial_press_x">Pulsa X</string>
+    <string name="tutorial_press_y">Pulsa Y</string>
+
+    <!-- D-pad -->
+    <string name="tutorial_dpad_title">Cruceta</string>
+    <string name="tutorial_dpad_body">La cruceta mueve la selección por la pantalla: por listas, menús y botones. El joystick izquierdo hace lo mismo en los menús.\n\nPulsa cada dirección una vez.</string>
+    <string name="tutorial_dpad_up">Arriba</string>
+    <string name="tutorial_dpad_down">Abajo</string>
+    <string name="tutorial_dpad_left">Izquierda</string>
+    <string name="tutorial_dpad_right">Derecha</string>
+
+    <!-- Sticks -->
+    <string name="tutorial_sticks_title">Joysticks</string>
+    <string name="tutorial_sticks_body">Los juegos usan los dos joysticks. También puedes hundir cada joystick como si fuera un botón: son L3 y R3.\n\nMueve los dos joysticks y mira cómo los siguen los puntos; luego hunde uno de ellos.</string>
+    <string name="tutorial_stick_left">Mueve el joystick izquierdo</string>
+    <string name="tutorial_stick_right">Mueve el joystick derecho</string>
+    <string name="tutorial_stick_click">Hunde un joystick (L3 o R3)</string>
+
+    <!-- Shoulder buttons -->
+    <string name="tutorial_shoulder_title">Gatillos</string>
+    <string name="tutorial_shoulder_body">L1 y R1 son los gatillos superiores, y L2 y R2 los inferiores. Muchas apps usan L1 y R1 para cambiar de pestaña o de página.\n\nPulsa cada uno una vez.</string>
+    <string name="tutorial_press_l1">Pulsa L1</string>
+    <string name="tutorial_press_r1">Pulsa R1</string>
+    <string name="tutorial_press_l2">Pulsa L2</string>
+    <string name="tutorial_press_r2">Pulsa R2</string>
+
+    <!-- FN = home -->
+    <string name="tutorial_home_title">FN es el botón de inicio</string>
+    <string name="tutorial_home_body">Pulsa FN solo para ir a la pantalla de inicio desde cualquier sitio, incluso desde un juego. La pantalla de inicio es Daijishou, donde están tus juegos y apps.\n\nPruébalo ahora: pulsa FN. Este tutorial volverá solo unos segundos después.</string>
+    <string name="tutorial_home_task">Pulsa FN</string>
+    <string name="tutorial_home_back">Ya estás de vuelta. Así de fácil.</string>
+
+    <!-- FN + volume -->
+    <string name="tutorial_brightness_title">Atajos con FN: brillo</string>
+    <string name="tutorial_brightness_body">FN tiene una segunda función: mantenlo pulsado y pulsa otro botón para usar un atajo.\n\nMantén FN y pulsa Vol+ para subir el brillo de la pantalla. Mantén FN y pulsa Vol− para bajarlo. Los botones de volumen solos siguen cambiando el volumen.</string>
+    <string name="tutorial_brightness_up">Más brillo: FN + Vol+</string>
+    <string name="tutorial_brightness_down">Menos brillo: FN + Vol−</string>
+    <string name="tutorial_brightness_hint">¿Ya está al máximo? Empieza bajándolo.</string>
+    <!-- After FN alone was pressed on a step that wants FN plus another button -->
+    <string name="tutorial_fn_alone">Has pulsado FN solo, así que se ha abierto la pantalla de inicio. Mantén pulsado FN y, sin soltarlo, pulsa el segundo botón.</string>
+
+    <!-- FN + Y -->
+    <string name="tutorial_shade_title">Atajos con FN: Ajustes rápidos</string>
+    <string name="tutorial_shade_body">Mantén FN y pulsa Y para abrir las notificaciones y los Ajustes rápidos, con iconos para cosas como el Wi-Fi y el Bluetooth.\n\nÁbrelos ahora. Con FN + Y otra vez se cierran.</string>
+    <string name="tutorial_shade_open">Ábrelos: FN + Y</string>
+
+    <!-- Joystick mouse -->
+    <string name="tutorial_mouse_title">Ratón con joystick</string>
+    <string name="tutorial_mouse_body">Algunas apps esperan una pantalla táctil. Para ellas, el joystick derecho puede mover un puntero de ratón. A hace clic, L1 es el clic derecho y el joystick izquierdo desplaza.\n\nPara activarlo o desactivarlo, mantén hundidos los dos joysticks (L3 + R3) durante un segundo.</string>
+    <string name="tutorial_mouse_body_fn">Algunas apps esperan una pantalla táctil. Para ellas, el joystick derecho puede mover un puntero de ratón. A hace clic, L1 es el clic derecho y el joystick izquierdo desplaza.\n\nPara activarlo o desactivarlo, mantén hundidos los dos joysticks (L3 + R3) durante un segundo, o pulsa FN + X.</string>
+    <string name="tutorial_mouse_on">Activa el ratón</string>
+    <string name="tutorial_mouse_off">Vuelve a desactivarlo</string>
+
+    <!-- Power -->
+    <string name="tutorial_power_title">Botón de encendido</string>
+    <string name="tutorial_power_body">Pulsa el botón de encendido para suspender la consola y vuelve a pulsarlo para activarla.\n\nMantenlo pulsado un segundo para abrir el menú de encendido: apagar, reiniciar y más. Pulsa B para cerrar el menú.</string>
+    <string name="tutorial_power_sleep">Pulsa Encendido para suspender y otra vez para activar</string>
+    <string name="tutorial_power_menu">Mantén Encendido para abrir el menú y B para cerrarlo</string>
+
+    <!-- Games -->
+    <string name="tutorial_games_title">Dónde van tus juegos</string>
+    <string name="tutorial_games_body">Mete la tarjeta SD en un ordenador. Además de una pequeña unidad BOOT, aparece una unidad grande llamada EASYROMS: es para tus juegos.\n\nDale a cada sistema su propia carpeta, con nombres como nes, snes, gba, megadrive o psx.\n\nLuego abre Daijishou (pulsa FN), añade una plataforma y elige su carpeta en EASYROMS. Daijishou muestra la lista de juegos y los inicia en RetroArch o PPSSPP.</string>
+    <string name="tutorial_games_body_no_fn">Mete la tarjeta SD en un ordenador. Además de una pequeña unidad BOOT, aparece una unidad grande llamada EASYROMS: es para tus juegos.\n\nDale a cada sistema su propia carpeta, con nombres como nes, snes, gba, megadrive o psx.\n\nLuego abre Daijishou, añade una plataforma y elige su carpeta en EASYROMS. Daijishou muestra la lista de juegos y los inicia en RetroArch o PPSSPP.</string>
+    <!-- Under the games text, when the EASYROMS partition was found -->
+    <string name="tutorial_games_space">EASYROMS en esta tarjeta: <xliff:g id="free">%1$s</xliff:g> libres de <xliff:g id="total">%2$s</xliff:g>.</string>
+
+    <!-- Finish -->
+    <string name="tutorial_done_title">Ya está todo listo</string>
+    <string name="tutorial_done_body">Eso es lo básico.\n\nLa guía de inicio rápido explica más: emuladores, velocidad y batería, conexión a Internet y qué hacer si algo falla. Ábrela aquí o cuando quieras desde Ajustes &gt; Guía de inicio rápido.</string>
+    <string name="tutorial_done_body_fn_help">Eso es lo básico. ¿Se te ha olvidado un atajo? Mantén FN solo un momento, en cualquier app o juego, para verlos todos.\n\nLa guía de inicio rápido explica más: emuladores, velocidad y batería, conexión a Internet y qué hacer si algo falla. Ábrela aquí o cuando quieras desde Ajustes &gt; Guía de inicio rápido.</string>
+
+    <!-- Guide bottom bar: X opens the tutorial -->
+    <string name="hint_tutorial">Tutorial</string>
+</resources>

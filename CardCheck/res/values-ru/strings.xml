@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="check_title">Проверка SD-карты</string>
+    <string name="check_summary">Проверить скорость и узнать, не поддельная ли карта</string>
+
+    <string name="card_title">Карта или накопитель</string>
+    <string name="no_card">Нет готовой SD-карты или USB-накопителя. Вставьте их или подождите, пока они появятся в разделе «Хранилище».</string>
+
+    <!-- details: %1$s name (EASYROMS), %2$s size of the whole card -->
+    <string name="details_title">%1$s, карта %2$s</string>
+    <string name="details_title_usb">%1$s, USB-накопитель %2$s</string>
+    <!-- %1$s maker, %2$s product name, %3$s date made -->
+    <string name="details_card">%1$s %2$s, выпущена %3$s</string>
+    <string name="details_free">Свободно: %1$s</string>
+    <string name="maker_unknown">Неизвестный производитель (ID %1$s)</string>
+
+    <string name="speed_category">Скорость</string>
+    <string name="speed_title">Проверить скорость</string>
+    <string name="speed_summary">Записывает и читает файл 256 МБ. Занимает около минуты.</string>
+    <string name="speed_running_write">Запись…</string>
+    <string name="speed_running_read">Чтение…</string>
+    <!-- %1$s write speed, %2$s read speed, e.g. 18.2 MB/s -->
+    <string name="speed_result">Запись %1$s, чтение %2$s</string>
+    <string name="speed_good">Подходит для всех систем.</string>
+    <string name="speed_ok">Для игр подходит. Копирование и сохранение больших файлов идёт медленно.</string>
+    <string name="speed_slow">Медленная: загрузка будет долгой, особенно в играх PSP, Dreamcast и N64.</string>
+    <string name="mb_per_s">%1$.1f МБ/с</string>
+
+    <string name="full_category">Реальный объём</string>
+    <string name="full_title">Проверить реальный объём</string>
+    <string name="full_title_stop">Остановить проверку</string>
+    <!-- %1$s free space, %2$s how long -->
+    <string name="full_summary">Заполняет свободное место (%1$s) тестовыми данными, читает их обратно и затем удаляет. Поддельная карта, которая заявляет больше места, чем есть на самом деле, эту проверку не пройдёт. Занимает около %2$s.</string>
+    <string name="full_summary_unknown_time">Заполняет свободное место (%1$s) тестовыми данными, читает их обратно и затем удаляет. Поддельная карта, которая заявляет больше места, чем есть на самом деле, эту проверку не пройдёт. На большой карте занимает несколько часов; для более точной оценки сначала проверьте скорость.</string>
+    <string name="full_probe">Поиск признаков поддельной карты…</string>
+    <!-- %1$s done, %2$s total, %3$s time left -->
+    <string name="full_writing">Запись тестовых данных: %1$s из %2$s, осталось около %3$s</string>
+    <string name="full_reading">Чтение обратно: %1$s из %2$s, осталось около %3$s</string>
+    <string name="full_writing_start">Запись тестовых данных: %1$s из %2$s</string>
+    <string name="full_reading_start">Чтение обратно: %1$s из %2$s</string>
+    <string name="full_stopping">Остановка и удаление тестовых данных…</string>
+
+    <string name="full_pass">Пройдено. Все %1$s тестовых данных прочитаны без ошибок. Это настоящая карта.</string>
+    <string name="full_bad_data">Не пройдено. %1$s тестовых данных прочитаны с ошибками, начиная примерно после %2$s. Карта поддельная или повреждена, реально на неё помещается около %3$s. Скопируйте с неё игры и используйте другую карту.</string>
+    <string name="full_wraps">Не пройдено. Карта поддельная: примерно после %1$s запись начинается заново с её начала, так что реально помещается только столько. Держите игры в этих пределах, а лучше используйте другую карту.</string>
+    <string name="full_wraps_restored">Проверка заметила это во время записи и восстановила начало карты.</string>
+    <string name="full_wraps_not_restored">Проверка заметила это во время записи, но не смогла восстановить начало карты. Консоль может больше не запуститься с этой карты: сделайте резервную копию игр.</string>
+    <string name="full_write_error">Не пройдено. Карта сообщила об ошибке после %1$s тестовых данных. Возможно, она повреждена или поддельная.</string>
+    <string name="full_stopped">Остановлено. Тестовые данные удалены.</string>
+
+    <string name="error_prefix">Не выполнено. %1$s</string>
+    <string name="error_no_space">Для проверки не хватает свободного места.</string>
+    <string name="error_not_mounted">Карта не готова.</string>
+    <string name="error_write">Карта сообщила об ошибке записи.</string>
+    <string name="error_read">Карта сообщила об ошибке чтения.</string>
+    <string name="error_other">Не удалось выполнить проверку.</string>
+
+    <string name="confirm_title">Проверить реальный объём?</string>
+    <!-- %1$s card name, %2$s how long -->
+    <string name="confirm_text">Проверка займёт всё свободное место на %1$s примерно на %2$s, так что до её окончания игры не смогут туда сохраняться. Подключите зарядное устройство: консоль не будет засыпать. Остановить можно в любой момент. Ваши игры и файлы не затрагиваются.</string>
+    <string name="confirm_time_unknown">несколько часов</string>
+    <string name="confirm_start">Начать</string>
+
+    <string name="busy">Уже идёт другая проверка.</string>
+
+    <string name="about">Консоли часто продают с поддельными или изношенными картами. Поддельная карта заявляет больший объём, чем есть на самом деле, и игры, записанные за её реальным концом, оказываются испорченными. Проверка пишет только в свободное место.</string>
+
+    <string name="hours_minutes">%1$d ч %2$d мин</string>
+    <string name="minutes">%1$d мин</string>
+
+    <string name="channel_name">Проверка SD-карты</string>
+    <string name="done_title">Проверка SD-карты завершена</string>
+</resources>

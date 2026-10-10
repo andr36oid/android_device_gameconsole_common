@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="test_title">手柄测试</string>
+    <string name="test_summary">测试每个按键和摇杆，查看电池状态</string>
+
+    <!-- Bottom line. %1$d buttons pressed so far out of %2$d -->
+    <string name="test_hint">按住 START + SELECT 退出 · FN 返回主屏幕 · 已测试 <xliff:g id="done">%1$d</xliff:g>/<xliff:g id="total">%2$d</xliff:g> 个按键</string>
+    <string name="test_all_tested">所有按键均正常</string>
+    <string name="test_leaving">正在退出…</string>
+    <string name="test_no_key">请按任意键</string>
+    <string name="test_no_stick">未找到摇杆</string>
+    <string name="test_battery_unknown">电池：无数据</string>
+</resources>

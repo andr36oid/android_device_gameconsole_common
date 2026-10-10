@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="app_name">Touch-Steuerung</string>
+    <string name="settings_summary">Touchscreen-Spiele mit den Tasten spielen, pro App</string>
+
+    <!-- Settings > Touch controls -->
+    <string name="settings_intro">Manche Spiele funktionieren nur mit Touchscreen. Hier kannst du so einem Spiel ein eigenes Layout geben: Jede Taste und jeder Stick tippt auf eine Stelle des Bildschirms. Das Layout schaltet sich von selbst ein, solange dieses Spiel im Vordergrund ist, und alle anderen Apps behalten die normalen Tasten.</string>
+    <string name="settings_apps">Apps mit Touch-Steuerung</string>
+    <string name="settings_add">App hinzufügen</string>
+    <string name="settings_add_summary">Wähle ein Spiel; es startet und der Editor öffnet sich darüber</string>
+    <string name="settings_add_none">Alle Apps haben schon eine Touch-Steuerung</string>
+    <string name="settings_how">So funktioniert es</string>
+    <string name="settings_shortcut_title">Beim Spielen bearbeiten: FN + L1</string>
+    <string name="settings_shortcut_summary">Halte im Spiel FN und drück L1. Der Editor öffnet sich über dem Spiel. FN führt wie gewohnt zum Startbildschirm.</string>
+    <string name="settings_help_summary">Was jede Taste im Editor macht</string>
+
+    <!-- Summary of an app in the list; %1$s is e.g. "5 controls" -->
+    <string name="profile_on">An · <xliff:g id="count">%1$s</xliff:g></string>
+    <string name="profile_off">Aus · <xliff:g id="count">%1$s</xliff:g></string>
+    <string name="profile_empty">Noch keine Steuerelemente</string>
+    <string name="profile_unreadable">Nicht lesbar, bearbeite es, um neu anzufangen</string>
+    <plurals name="control_count">
+        <item quantity="one"><xliff:g id="n">%d</xliff:g> Steuerelement</item>
+        <item quantity="other"><xliff:g id="n">%d</xliff:g> Steuerelemente</item>
+    </plurals>
+
+    <!-- One app's page -->
+    <string name="profile_enabled">Touch-Steuerung nutzen</string>
+    <string name="profile_enabled_summary">Solange diese App im Vordergrund ist</string>
+    <string name="profile_hints">Tasten auf dem Bildschirm zeigen</string>
+    <string name="profile_hints_summary">Blasse Beschriftungen, wo jede Taste tippt</string>
+    <string name="profile_edit">Layout bearbeiten</string>
+    <string name="profile_edit_summary">Startet <xliff:g id="app">%1$s</xliff:g>, dann öffnet sich der Editor darüber</string>
+    <string name="profile_edit_starting">App wird gestartet. Der Editor öffnet sich gleich.</string>
+    <string name="profile_cant_start">Diese App lässt sich nicht von hier starten. Öffne sie und drück dann FN + L1.</string>
+    <string name="profile_controls">Steuerelemente</string>
+    <string name="profile_delete">Touch-Steuerung löschen</string>
+    <string name="profile_delete_message">Das Layout dieser App wird entfernt. Die App bekommt wieder die normalen Tasten.</string>
+    <string name="profile_delete_confirm">Löschen</string>
+
+    <!-- FN + L1 where there is nothing to edit -->
+    <string name="edit_needs_app">Öffne zuerst ein Spiel und drück dann FN + L1, um seine Touch-Steuerung einzurichten.</string>
+
+    <!-- Editor -->
+    <string name="editor_title">Touch-Steuerung: <xliff:g id="app">%1$s</xliff:g></string>
+    <string name="editor_layer_normal">Normale Tasten</string>
+    <string name="editor_layer_shift">Solange <xliff:g id="button">%1$s</xliff:g> gehalten wird</string>
+    <string name="editor_profile_off">Ausgeschaltet</string>
+    <string name="editor_saved">Touch-Steuerung für <xliff:g id="app">%1$s</xliff:g> gespeichert</string>
+    <string name="editor_save_failed">Speichern fehlgeschlagen. Versuch es noch einmal.</string>
+    <string name="editor_deleted">Gelöscht</string>
+    <string name="editor_cancelled">Abgebrochen</string>
+    <string name="editor_no_shift">Noch keine Umschalttaste: Select, dann Umschalttaste</string>
+    <string name="editor_is_shift"><xliff:g id="button">%1$s</xliff:g> ist die Umschalttaste. Drück eine andere.</string>
+    <string name="editor_replaced"><xliff:g id="input">%1$s</xliff:g> hatte vorher eine andere Aufgabe. Dieses Steuerelement ist weg.</string>
+    <string name="editor_replaced_dpad">Der Steuerkreuz-Joystick ist weg: Die Steuerkreuz-Tasten funktionieren jetzt einzeln.</string>
+    <string name="editor_replaced_dpad_buttons">Die einzelnen Steuerkreuz-Tasten sind weg: Das Steuerkreuz ist jetzt ein Joystick.</string>
+    <string name="editor_unsaved_title">Änderungen speichern?</string>
+    <string name="editor_unsaved_message">Das Layout wurde geändert, aber nicht gespeichert.</string>
+    <string name="editor_save">Speichern</string>
+    <string name="editor_discard">Nicht speichern</string>
+    <string name="editor_keep_editing">Weiter bearbeiten</string>
+
+    <!-- Bottom strip of the editor: what each button does right now -->
+    <string name="hint_add">Hier hinzufügen</string>
+    <string name="hint_change">Ändern</string>
+    <string name="hint_delete">Löschen</string>
+    <string name="hint_size">Größe</string>
+    <string name="hint_next">Nächstes</string>
+    <string name="hint_layer">Umschaltebene</string>
+    <string name="hint_options">Optionen</string>
+    <string name="hint_save">Speichern</string>
+    <string name="hint_close">Schließen</string>
+    <string name="hint_move">Bewegen</string>
+    <string name="hint_place">Platzieren</string>
+    <string name="hint_cancel">Abbrechen</string>
+    <string name="hint_hold_cancel">Halten zum Abbrechen</string>
+
+    <!-- Waiting for a button or stick; %1$s is a control type in lower case, e.g. "tap" -->
+    <string name="capture_button">Drück die Taste für dieses Steuerelement (<xliff:g id="type">%1$s</xliff:g>)</string>
+    <string name="capture_button_cancel">Jede Taste geht, auch B. Halte B zum Abbrechen.</string>
+    <string name="capture_stick">Beweg den Stick für dieses Steuerelement (<xliff:g id="type">%1$s</xliff:g>)</string>
+    <string name="capture_stick_detail">Linker Stick, rechter Stick oder Steuerkreuz drücken</string>
+
+    <!-- Menus -->
+    <string name="editor_add_title">Steuerelement hinzufügen</string>
+    <string name="editor_control_title">Dieses Steuerelement</string>
+    <string name="editor_menu_move">Bewegen</string>
+    <string name="editor_menu_button">Taste: <xliff:g id="button">%1$s</xliff:g></string>
+    <string name="editor_menu_stick">Stick: <xliff:g id="stick">%1$s</xliff:g></string>
+    <string name="editor_menu_type">Art: <xliff:g id="type">%1$s</xliff:g></string>
+    <string name="editor_menu_direction">Richtung: <xliff:g id="direction">%1$s</xliff:g></string>
+    <string name="editor_menu_speed">Tempo: <xliff:g id="percent">%1$d</xliff:g>%%</string>
+    <string name="editor_menu_delete">Löschen</string>
+    <string name="editor_type_title">Art des Steuerelements</string>
+    <string name="editor_direction_title">Wischrichtung</string>
+    <string name="editor_speed_title">Umsehtempo</string>
+    <string name="percent"><xliff:g id="percent">%1$d</xliff:g>%%</string>
+
+    <string name="type_tap">Tippen</string>
+    <string name="type_hold">Halten</string>
+    <string name="type_joystick">Joystick</string>
+    <string name="type_camera">Umsehen</string>
+    <string name="type_swipe">Wischen</string>
+    <string name="type_tap_long">Tippen: kurzes Tippen, wenn die Taste gedrückt wird</string>
+    <string name="type_hold_long">Halten: Der Finger bleibt unten, solange die Taste gehalten wird</string>
+    <string name="type_joystick_long">Joystick: Ein Stick oder das Steuerkreuz zieht einen Finger um diese Stelle</string>
+    <string name="type_camera_long">Umsehen: Ein Stick wischt über diesen Bereich, für Kamera und Zielen</string>
+    <string name="type_swipe_long">Wischen: schnelles Wischen von hier, wenn die Taste gedrückt wird</string>
+
+    <string name="direction_up">Hoch</string>
+    <string name="direction_down">Runter</string>
+    <string name="direction_left">Links</string>
+    <string name="direction_right">Rechts</string>
+    <string name="direction_up_left">Hoch und links</string>
+    <string name="direction_up_right">Hoch und rechts</string>
+    <string name="direction_down_left">Runter und links</string>
+    <string name="direction_down_right">Runter und rechts</string>
+    <string name="direction_degrees"><xliff:g id="degrees">%1$d</xliff:g>°</string>
+
+    <string name="options_title">Optionen</string>
+    <string name="options_enabled_on">Touch-Steuerung für diese App: an</string>
+    <string name="options_enabled_off">Touch-Steuerung für diese App: aus</string>
+    <string name="options_hints_on">Tasten beim Spielen zeigen: an</string>
+    <string name="options_hints_off">Tasten beim Spielen zeigen: aus</string>
+    <string name="options_shift">Umschalttaste: <xliff:g id="button">%1$s</xliff:g></string>
+    <string name="options_deadzone">Stick-Totzone: <xliff:g id="percent">%1$d</xliff:g>%%</string>
+    <string name="options_help">Hilfe</string>
+    <string name="options_clear">Alle Steuerelemente entfernen</string>
+    <string name="options_clear_message">Alle Steuerelemente dieser App werden entfernt. Gespeichert wird erst, wenn du Start drückst.</string>
+    <string name="options_clear_confirm">Entfernen</string>
+    <string name="shift_title">Umschalttaste</string>
+    <string name="shift_none">Keine</string>
+    <plurals name="shift_removed">
+        <item quantity="one"><xliff:g id="n">%d</xliff:g> Steuerelement mit dieser Taste entfernt</item>
+        <item quantity="other"><xliff:g id="n">%d</xliff:g> Steuerelemente mit dieser Taste entfernt</item>
+    </plurals>
+    <string name="deadzone_title">Stick-Totzone</string>
+
+    <string name="help_title">Editor-Hilfe</string>
+    <string name="help_text">Beweg das Fadenkreuz mit dem linken Stick oder dem Steuerkreuz.\n\nA auf einer freien Stelle fügt dort ein Steuerelement hinzu: Wähle die Art, dann drück seine Taste oder beweg seinen Stick. A auf einem Steuerelement ändert es: verschieben, eine andere Taste geben oder löschen.\n\nArten:\n• Tippen: ein kurzes Tippen\n• Halten: berührt, solange die Taste gehalten wird\n• Joystick: Ein Stick oder das Steuerkreuz zieht einen Finger um die Stelle, für Bildschirm-Sticks\n• Umsehen: Ein Stick wischt über einen Bereich, für Kamera und Zielen\n• Wischen: ein schnelles Wischen in eine Richtung\n\nL1 und R1 oder der rechte Stick machen das gewählte Steuerelement kleiner oder größer. L2 und R2 springen zwischen Steuerelementen. X löscht.\n\nUmschalttaste (Select, dann Umschalttaste): Solange sie gehalten wird, gilt ein zweiter Satz Steuerelemente. Y wechselt zwischen den beiden Sätzen.\n\nStart speichert und schließt. B schließt. FN verlässt den Editor ohne Speichern.\n\nTasten ohne Steuerelement funktionieren weiter als normale Tasten. FN und alle FN-Shortcuts funktionieren immer.</string>
+</resources>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="ethernet_title">Ethernet</string>
+    <string name="ethernet_summary">Adaptery Ethernet na USB, tethering USB z telefonu i modemy USB</string>
+
+    <string name="ethernet_unavailable">Ethernet nie jest dostępny w tej wersji</string>
+    <string name="ethernet_none_title">Nic nie podłączono</string>
+    <string name="ethernet_none_summary">Podłącz adapter Ethernet na USB albo telefon z włączonym tetheringiem USB. Na iPhonie włącz Hotspot osobisty.</string>
+
+    <!-- Category titles, %1$s is the interface name, e.g. eth0 -->
+    <string name="ethernet_iface_adapter">Adapter przewodowy (%1$s)</string>
+    <string name="ethernet_iface_phone">Telefon, tethering USB (%1$s)</string>
+    <string name="ethernet_iface_modem">Modem komórkowy USB (%1$s)</string>
+
+    <string name="ethernet_status">Stan</string>
+    <string name="ethernet_status_connected">Połączono</string>
+    <string name="ethernet_status_no_internet">Połączono, brak internetu</string>
+    <string name="ethernet_status_connecting">Łączenie…</string>
+    <string name="ethernet_status_unplugged">Kabel odłączony</string>
+    <string name="ethernet_status_phone_waiting">Czekam na telefon</string>
+    <string name="ethernet_status_modem_waiting">Czekam na sieć komórkową</string>
+
+    <string name="ethernet_ip_address">Adres IP</string>
+    <string name="ethernet_gateway">Brama</string>
+    <string name="ethernet_dns">Serwery DNS</string>
+    <string name="ethernet_mac">Adres MAC</string>
+    <string name="ethernet_speed">Szybkość łącza</string>
+    <!-- %1$d is the speed in Mbit/s -->
+    <string name="ethernet_speed_value">%1$d Mb/s</string>
+    <string name="ethernet_unknown">Niedostępne</string>
+    <string name="ethernet_not_set">Nie ustawiono</string>
+
+    <string name="ethernet_ip_settings">Ustawienia IP</string>
+    <string name="ethernet_ip_dhcp">DHCP</string>
+    <string name="ethernet_ip_static">Statyczne</string>
+
+    <string name="ethernet_static_ip">Statyczny adres IP</string>
+    <string name="ethernet_static_ip_hint">Na przykład 192.168.1.50/24</string>
+    <string name="ethernet_static_gateway">Statyczna brama</string>
+    <string name="ethernet_static_gateway_hint">Na przykład 192.168.1.1, puste, jeśli brak</string>
+    <string name="ethernet_static_dns">Statyczne serwery DNS</string>
+    <string name="ethernet_static_dns_hint">Na przykład 1.1.1.1, 8.8.8.8</string>
+    <string name="ethernet_static_needs_ip">Najpierw ustaw adres IP</string>
+
+    <string name="ethernet_invalid_ip">Wpisz adres IPv4, opcjonalnie z długością prefiksu, np. /24</string>
+    <string name="ethernet_invalid_gateway">Wpisz adres IPv4 lub zostaw puste</string>
+    <string name="ethernet_invalid_dns">Wpisz adresy IP oddzielone przecinkami</string>
+    <string name="ethernet_save_failed">Nie udało się zmienić ustawień IP</string>
+</resources>

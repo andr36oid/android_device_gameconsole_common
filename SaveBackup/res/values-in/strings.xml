@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_title">Cadangan save</string>
+
+    <!-- %1$s: a time, e.g. 14:02 -->
+    <string name="today">Hari ini, %1$s</string>
+    <string name="yesterday">Kemarin, %1$s</string>
+    <plurals name="files">
+        <item quantity="other">%1$d file</item>
+    </plurals>
+    <plurals name="games">
+        <item quantity="other">%1$d game</item>
+    </plurals>
+
+    <!-- The summary in Settings and under Back up now -->
+    <!-- %1$s: when, e.g. Today, 14:02; %2$s: e.g. 123 files -->
+    <string name="last_backup">Cadangan terakhir: %1$s, %2$s</string>
+    <string name="last_none">Belum ada cadangan</string>
+    <string name="last_no_saves">Belum ada file save</string>
+    <!-- %1$s: the summary above, %2$s: what went wrong -->
+    <string name="last_failed">%1$s\nPercobaan terakhir gagal: %2$s</string>
+
+    <string name="where_internal">penyimpanan internal</string>
+    <string name="where_easyroms">EASYROMS</string>
+    <string name="where_usb">drive USB</string>
+
+    <!-- Progress, on the page and in the notification -->
+    <string name="step_start">Memulai…</string>
+    <string name="step_scan">Mencari file save…</string>
+    <!-- %1$d: file number, %2$d: all files -->
+    <string name="step_backup">Mencadangkan file %1$d dari %2$d…</string>
+    <string name="step_backup_plain">Mencadangkan…</string>
+    <string name="step_copy">Menyalin cadangan ke lokasi lainnya…</string>
+    <string name="step_list">Membaca cadangan…</string>
+    <string name="step_plan">Membandingkan dengan save di konsol…</string>
+    <string name="step_restore">Memulihkan…</string>
+
+    <!-- %1$s: e.g. 123 files -->
+    <string name="backup_done">%1$s dicadangkan</string>
+    <string name="backup_unchanged">Tidak ada perubahan sejak cadangan terakhir</string>
+    <string name="backup_nothing">Tidak ada file save. Mainkan game dan simpan dulu.</string>
+
+    <string name="error_no_storage">Tidak ada tempat untuk mencadangkan: penyimpanan internal dan EASYROMS tidak tersedia.</string>
+    <string name="error_no_space">Ruang kosong di penyimpanan internal atau EASYROMS tidak cukup untuk cadangan.</string>
+    <string name="error_write_failed">Cadangan tidak bisa ditulis. Kartu SD mungkin mulai rusak: salin save Anda ke PC.</string>
+    <string name="error_no_usb">Drive USB tidak ditemukan. Colokkan satu dan coba lagi.</string>
+    <string name="error_not_found">Cadangan ini sudah tidak ada.</string>
+    <string name="error_safety_failed">Tidak ada yang dipulihkan: save yang akan diganti tidak bisa dicadangkan dulu. Kosongkan sedikit ruang dan coba lagi.</string>
+    <string name="error_busy">Pencadangan sedang berjalan. Coba lagi sebentar.</string>
+    <string name="error_start">Cadangan save tidak bisa dijalankan. Mulai ulang konsol dan coba lagi.</string>
+
+    <!-- The main page -->
+    <string name="backup_now_title">Cadangkan sekarang</string>
+    <string name="restore_title">Pulihkan save</string>
+    <string name="restore_summary">Pilih cadangan, lalu semuanya atau satu game. Anda melihat perubahannya sebelum ada yang ditulis.</string>
+    <string name="usb_title">Cadangkan ke drive USB sekarang</string>
+    <!-- %1$s: the drive's name -->
+    <string name="usb_summary">Menyalin cadangan terbaru ke %1$s</string>
+    <string name="usb_none">Colokkan drive USB untuk menyimpan salinan di luar kartu SD</string>
+    <string name="auto_category">Pencadangan otomatis</string>
+    <string name="auto_title">Cadangkan otomatis</string>
+    <string name="auto_summary">Sekali sehari saat mengisi daya, dan setelah Anda menutup game. Dilewati jika tidak ada perubahan.</string>
+    <string name="keep_title">Cadangan yang disimpan</string>
+    <!-- %1$s: a number -->
+    <string name="keep_summary">%1$s cadangan terbaru disimpan, minimal satu dari setiap hari terakhir. Yang lebih lama dihapus.</string>
+    <string name="where_summary">Cadangan disimpan di dua tempat: Penyimpanan internal/Backups/Saves dan EASYROMS/backups/saves, ditambah drive USB jika dicolokkan. Kedua tempat berada di kartu SD yang sama, jadi sesekali salin cadangan ke PC atau drive USB. Save dari RetroArch, PPSSPP, dan file save di sebelah game Anda ikut dicadangkan.</string>
+
+    <!-- The list of backups -->
+    <!-- %1$s: what's running -->
+    <string name="waiting_for_backup">Pencadangan sedang berjalan. %1$s</string>
+    <string name="no_backups">Belum ada cadangan. Gunakan Cadangkan sekarang, atau tunggu pencadangan harian saat mengisi daya.</string>
+    <!-- %1$s: e.g. 12 games, %2$s: e.g. 123 files, %3$s: size, %4$s: where -->
+    <string name="backup_summary">%1$s, %2$s, %3$s\nDi %4$s</string>
+    <!-- %1$s: where -->
+    <string name="backup_broken">Cadangan ini rusak dan tidak bisa dibaca (di %1$s)</string>
+
+    <!-- One backup -->
+    <string name="restore_all_title">Pulihkan semua</string>
+    <!-- %1$s: e.g. 123 files -->
+    <string name="restore_all_summary">Semua %1$s dari cadangan ini. Anda melihat perubahannya dulu.</string>
+    <!-- %1$s: e.g. 3 files, %2$s: folders, %3$s: when -->
+    <string name="game_summary">%1$s di %2$s, disimpan %3$s</string>
+
+    <!-- What restoring would do -->
+    <string name="plan_title_all">Pulihkan semua?</string>
+    <!-- %1$s: the game -->
+    <string name="plan_title_game">Pulihkan %1$s?</string>
+    <plurals name="plan_missing">
+        <item quantity="other">%1$d file tidak ada di konsol dan akan dikembalikan.</item>
+    </plurals>
+    <plurals name="plan_older">
+        <item quantity="other">%1$d save lama di konsol akan diganti dengan cadangan.</item>
+    </plurals>
+    <plurals name="plan_newer">
+        <item quantity="other">%1$d save di konsol lebih baru dari cadangan. Save tersebut tetap disimpan:</item>
+    </plurals>
+    <!-- %1$s: file name, %2$s: its time on the console, %3$s: its time in the backup -->
+    <string name="plan_newer_item">• %1$s (konsol: %2$s, cadangan: %3$s)</string>
+    <!-- %1$d: how many more -->
+    <string name="plan_more">• dan %1$d lainnya</string>
+    <plurals name="plan_same">
+        <item quantity="other">%1$d file sudah sama.</item>
+    </plurals>
+    <plurals name="plan_unavailable">
+        <item quantity="other">%1$d file seharusnya ada di EASYROMS, yang tidak terpasang, dan tidak bisa dipulihkan sekarang.</item>
+    </plurals>
+    <string name="plan_nothing">Tidak ada yang perlu dipulihkan.</string>
+    <string name="plan_note">Apa pun yang diganti akan dicadangkan dulu. Tutup RetroArch dan PPSSPP sebelum memulihkan, atau keduanya bisa menimpa save yang dipulihkan saat ditutup.</string>
+    <string name="restore_button">Pulihkan</string>
+    <string name="replace_newer_button">Ganti yang lebih baru</string>
+    <string name="replace_newer_title">Ganti save yang lebih baru?</string>
+    <plurals name="replace_newer_message">
+        <item quantity="other">%1$d save di konsol lebih baru dari cadangan. Menggantinya akan mengembalikan game tersebut ke progres yang lebih lama. Save yang lebih baru dicadangkan dulu.</item>
+    </plurals>
+    <string name="replace_button">Ganti</string>
+
+    <string name="result_title">Pemulihan selesai</string>
+    <plurals name="result_restored">
+        <item quantity="other">%1$d file dipulihkan.</item>
+    </plurals>
+    <plurals name="result_kept">
+        <item quantity="other">%1$d save lebih baru tidak diganti.</item>
+    </plurals>
+    <plurals name="result_failed">
+        <item quantity="other">%1$d file tidak bisa ditulis. Kartu SD mungkin penuh atau mulai rusak.</item>
+    </plurals>
+
+    <!-- The notification while an automatic backup runs -->
+    <string name="channel_name">Cadangan save berjalan</string>
+    <string name="notification_title">Mencadangkan save</string>
+</resources>

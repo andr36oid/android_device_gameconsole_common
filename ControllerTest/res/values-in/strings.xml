@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="test_title">Tes kontroler</string>
+    <string name="test_summary">Coba semua tombol dan stik, lihat baterai</string>
+    <!-- Bottom line. %1$d buttons pressed so far out of %2$d -->
+    <string name="test_hint">Tahan START + SELECT untuk keluar · FN ke Beranda · <xliff:g id="done">%1$d</xliff:g>/<xliff:g id="total">%2$d</xliff:g> tombol dites</string>
+    <string name="test_all_tested">Semua tombol berfungsi</string>
+    <string name="test_leaving">Keluar…</string>
+    <string name="test_no_key">Tekan tombol apa saja</string>
+    <string name="test_no_stick">Stik analog tidak ditemukan</string>
+    <string name="test_battery_unknown">Baterai: tidak ada data</string>
+</resources>

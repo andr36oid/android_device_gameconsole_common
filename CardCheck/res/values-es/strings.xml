@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="check_title">Comprobar tarjeta SD</string>
+    <string name="check_summary">Mide la velocidad y descubre si una tarjeta es falsa</string>
+
+    <string name="card_title">Tarjeta o unidad</string>
+    <string name="no_card">No hay ninguna tarjeta SD ni unidad USB lista. Inserta una o espera a que aparezca en Almacenamiento.</string>
+
+    <!-- details: %1$s name (EASYROMS), %2$s size of the whole card -->
+    <string name="details_title">%1$s, tarjeta de %2$s</string>
+    <string name="details_title_usb">%1$s, unidad USB de %2$s</string>
+    <!-- %1$s maker, %2$s product name, %3$s date made -->
+    <string name="details_card">%1$s %2$s, fabricada en %3$s</string>
+    <string name="details_free">%1$s libres</string>
+    <string name="maker_unknown">Fabricante desconocido (ID %1$s)</string>
+
+    <string name="speed_category">Velocidad</string>
+    <string name="speed_title">Medir la velocidad</string>
+    <string name="speed_summary">Escribe y lee un archivo de 256 MB. Tarda alrededor de un minuto.</string>
+    <string name="speed_running_write">Escribiendo…</string>
+    <string name="speed_running_read">Leyendo…</string>
+    <!-- %1$s write speed, %2$s read speed, e.g. 18.2 MB/s -->
+    <string name="speed_result">Escritura %1$s, lectura %2$s</string>
+    <string name="speed_good">Buena para todos los sistemas.</string>
+    <string name="speed_ok">Bien para jugar. Copiar y guardar archivos grandes es lento.</string>
+    <string name="speed_slow">Lenta: los tiempos de carga serán largos, sobre todo en juegos de PSP, Dreamcast y N64.</string>
+    <string name="mb_per_s">%1$.1f MB/s</string>
+
+    <string name="full_category">Tamaño real</string>
+    <string name="full_title">Comprobar el tamaño real</string>
+    <string name="full_title_stop">Detener la comprobación</string>
+    <!-- %1$s free space, %2$s how long -->
+    <string name="full_summary">Llena el espacio libre (%1$s) con datos de prueba, los vuelve a leer todos y después los borra. Una tarjeta falsa que dice tener más espacio del que tiene no pasa esta prueba. Tarda unos %2$s.</string>
+    <string name="full_summary_unknown_time">Llena el espacio libre (%1$s) con datos de prueba, los vuelve a leer todos y después los borra. Una tarjeta falsa que dice tener más espacio del que tiene no pasa esta prueba. En una tarjeta grande tarda horas; mide antes la velocidad para tener una estimación mejor.</string>
+    <string name="full_probe">Buscando indicios de tarjeta falsa…</string>
+    <!-- %1$s done, %2$s total, %3$s time left -->
+    <string name="full_writing">Escribiendo datos de prueba: %1$s de %2$s, quedan unos %3$s</string>
+    <string name="full_reading">Leyéndolos de nuevo: %1$s de %2$s, quedan unos %3$s</string>
+    <string name="full_writing_start">Escribiendo datos de prueba: %1$s de %2$s</string>
+    <string name="full_reading_start">Leyéndolos de nuevo: %1$s de %2$s</string>
+    <string name="full_stopping">Deteniendo y borrando los datos de prueba…</string>
+
+    <string name="full_pass">Superada. Los %1$s de datos de prueba se han leído tal como se escribieron. Esta tarjeta es auténtica.</string>
+    <string name="full_bad_data">No superada. %1$s de datos de prueba se han leído mal, a partir de unos %2$s. La tarjeta es falsa o está dañada y en realidad solo tiene unos %3$s. Copia tus juegos a otro sitio y usa otra tarjeta.</string>
+    <string name="full_wraps">No superada. Esta tarjeta es falsa: vuelve a empezar desde su propio inicio tras unos %1$s, así que en realidad solo tiene esa capacidad. Mantén tus juegos por debajo de eso o, mejor aún, usa otra tarjeta.</string>
+    <string name="full_wraps_restored">La comprobación lo ha detectado durante la escritura y ha restaurado el inicio de la tarjeta.</string>
+    <string name="full_wraps_not_restored">La comprobación lo ha detectado durante la escritura, pero no ha podido restaurar el inicio de la tarjeta. Puede que la consola ya no arranque desde esta tarjeta: haz una copia de tus juegos.</string>
+    <string name="full_write_error">No superada. La tarjeta ha dado un error tras %1$s de datos de prueba. Puede estar dañada o ser falsa.</string>
+    <string name="full_stopped">Detenida. Se han borrado los datos de prueba.</string>
+
+    <string name="error_prefix">Sin completar. %1$s</string>
+    <string name="error_no_space">No hay suficiente espacio libre para la prueba.</string>
+    <string name="error_not_mounted">La tarjeta no está lista.</string>
+    <string name="error_write">La tarjeta ha dado un error de escritura.</string>
+    <string name="error_read">La tarjeta ha dado un error de lectura.</string>
+    <string name="error_other">No se ha podido hacer la comprobación.</string>
+
+    <string name="confirm_title">¿Comprobar el tamaño real?</string>
+    <!-- %1$s card name, %2$s how long -->
+    <string name="confirm_text">Esto llena todo el espacio libre de %1$s durante unos %2$s, así que los juegos no podrán guardar ahí hasta que termine. Conecta el cargador: la consola se mantiene activa. Puedes detenerla en cualquier momento. Tus juegos y archivos no se tocan.</string>
+    <string name="confirm_time_unknown">unas horas</string>
+    <string name="confirm_start">Iniciar</string>
+
+    <string name="busy">Ya hay otra comprobación en curso.</string>
+
+    <string name="about">Las consolas se venden a menudo con tarjetas falsas o gastadas. Una tarjeta falsa dice ser más grande de lo que es, y los juegos copiados más allá de su final real se leen dañados. La comprobación solo escribe en el espacio libre.</string>
+
+    <string name="hours_minutes">%1$d h %2$d min</string>
+    <string name="minutes">%1$d min</string>
+
+    <string name="channel_name">Comprobar tarjeta SD</string>
+    <string name="done_title">Comprobación de SD terminada</string>
+</resources>

@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_title">Kopia zapisów gier</string>
+
+    <!-- %1$s: a time, e.g. 14:02 -->
+    <string name="today">Dzisiaj, %1$s</string>
+    <string name="yesterday">Wczoraj, %1$s</string>
+    <plurals name="files">
+        <item quantity="one">%1$d plik</item>
+        <item quantity="few">%1$d pliki</item>
+        <item quantity="many">%1$d plików</item>
+        <item quantity="other">%1$d pliku</item>
+    </plurals>
+    <plurals name="games">
+        <item quantity="one">%1$d gra</item>
+        <item quantity="few">%1$d gry</item>
+        <item quantity="many">%1$d gier</item>
+        <item quantity="other">%1$d gry</item>
+    </plurals>
+
+    <!-- %1$s: when, e.g. Today, 14:02; %2$s: e.g. 123 files -->
+    <string name="last_backup">Ostatnia kopia: %1$s, %2$s</string>
+    <string name="last_none">Nie ma jeszcze kopii</string>
+    <string name="last_no_saves">Nie znaleziono jeszcze plików zapisu</string>
+    <!-- %1$s: the summary above, %2$s: what went wrong -->
+    <string name="last_failed">%1$s\nOstatnia próba nie powiodła się: %2$s</string>
+
+    <string name="where_internal">pamięć wewnętrzna</string>
+    <string name="where_easyroms">EASYROMS</string>
+    <string name="where_usb">pendrive</string>
+
+    <!-- Progress, on the page and in the notification -->
+    <string name="step_start">Uruchamianie…</string>
+    <string name="step_scan">Szukanie plików zapisu…</string>
+    <string name="step_backup">Kopiowanie pliku %1$d z %2$d…</string>
+    <string name="step_backup_plain">Tworzenie kopii…</string>
+    <string name="step_copy">Kopiowanie kopii do pozostałych miejsc…</string>
+    <string name="step_list">Odczytywanie kopii…</string>
+    <string name="step_plan">Porównywanie z zapisami na konsoli…</string>
+    <string name="step_restore">Przywracanie…</string>
+
+    <!-- %1$s: e.g. 123 files -->
+    <string name="backup_done">Skopiowano: %1$s</string>
+    <string name="backup_unchanged">Nic się nie zmieniło od ostatniej kopii</string>
+    <string name="backup_nothing">Nie znaleziono plików zapisu. Najpierw zagraj i zapisz grę.</string>
+
+    <string name="error_no_storage">Nie ma gdzie zrobić kopii: pamięć wewnętrzna i EASYROMS są niedostępne.</string>
+    <string name="error_no_space">Za mało wolnego miejsca na kopię w pamięci wewnętrznej lub na EASYROMS.</string>
+    <string name="error_write_failed">Nie udało się zapisać kopii. Karta SD może się psuć: skopiuj zapisy na komputer.</string>
+    <string name="error_no_usb">Nie znaleziono pendrive\'a. Podłącz go i spróbuj ponownie.</string>
+    <string name="error_not_found">Tej kopii już nie ma.</string>
+    <string name="error_safety_failed">Niczego nie przywrócono: nie udało się najpierw skopiować zapisów, które zostałyby zastąpione. Zwolnij trochę miejsca i spróbuj ponownie.</string>
+    <string name="error_busy">Trwa tworzenie kopii. Spróbuj ponownie za chwilę.</string>
+    <string name="error_start">Nie udało się uruchomić kopii zapisów. Uruchom konsolę ponownie i spróbuj jeszcze raz.</string>
+
+    <!-- The main page -->
+    <string name="backup_now_title">Utwórz kopię teraz</string>
+    <string name="restore_title">Przywróć zapisy</string>
+    <string name="restore_summary">Wybierz kopię, a potem całość lub jedną grę. Przed zapisaniem czegokolwiek zobaczysz, co się zmieni.</string>
+    <string name="usb_title">Skopiuj teraz na pendrive</string>
+    <!-- %1$s: the drive's name -->
+    <string name="usb_summary">Kopiuje najnowszą kopię na %1$s</string>
+    <string name="usb_none">Podłącz pendrive, aby trzymać kopię poza kartą SD</string>
+    <string name="auto_category">Automatyczna kopia</string>
+    <string name="auto_title">Twórz kopie automatycznie</string>
+    <string name="auto_summary">Raz dziennie podczas ładowania i po zamknięciu gry. Pomijana, gdy nic się nie zmieniło.</string>
+    <string name="keep_title">Ile kopii zachować</string>
+    <!-- %1$s: a number -->
+    <string name="keep_summary">Zachowywane są najnowsze kopie (%1$s), w tym co najmniej jedna z każdego z ostatnich dni. Starsze są usuwane.</string>
+    <string name="where_summary">Kopie trafiają w dwa miejsca: Pamięć wewnętrzna/Backups/Saves i EASYROMS/backups/saves, a także na pendrive, gdy jest podłączony. Oba miejsca są na tej samej karcie SD, więc od czasu do czasu skopiuj kopie na komputer lub pendrive. Uwzględniane są zapisy z RetroArch, PPSSPP i pliki zapisu leżące obok gier.</string>
+
+    <!-- The list of backups -->
+    <!-- %1$s: what's running -->
+    <string name="waiting_for_backup">Trwa tworzenie kopii. %1$s</string>
+    <string name="no_backups">Nie ma jeszcze kopii. Użyj Utwórz kopię teraz albo poczekaj na codzienną kopię podczas ładowania.</string>
+    <!-- %1$s: e.g. 12 games, %2$s: e.g. 123 files, %3$s: size, %4$s: where -->
+    <string name="backup_summary">%1$s, %2$s, %3$s\nMiejsce: %4$s</string>
+    <!-- %1$s: where -->
+    <string name="backup_broken">Ta kopia jest uszkodzona i nie da się jej odczytać (miejsce: %1$s)</string>
+
+    <!-- One backup -->
+    <string name="restore_all_title">Przywróć wszystko</string>
+    <!-- %1$s: e.g. 123 files -->
+    <string name="restore_all_summary">Wszystko z tej kopii (%1$s). Najpierw zobaczysz, co się zmieni.</string>
+    <!-- %1$s: e.g. 3 files, %2$s: folders, %3$s: when -->
+    <string name="game_summary">%1$s w %2$s, zapisano %3$s</string>
+
+    <!-- What restoring would do -->
+    <string name="plan_title_all">Przywrócić wszystko?</string>
+    <!-- %1$s: the game -->
+    <string name="plan_title_game">Przywrócić %1$s?</string>
+    <plurals name="plan_missing">
+        <item quantity="one">%1$d pliku brakuje na konsoli i zostanie przywrócony.</item>
+        <item quantity="few">%1$d plików brakuje na konsoli i zostaną przywrócone.</item>
+        <item quantity="many">%1$d plików brakuje na konsoli i zostaną przywrócone.</item>
+        <item quantity="other">%1$d pliku brakuje na konsoli i zostaną przywrócone.</item>
+    </plurals>
+    <plurals name="plan_older">
+        <item quantity="one">%1$d starszy zapis na konsoli zostanie zastąpiony kopią.</item>
+        <item quantity="few">%1$d starsze zapisy na konsoli zostaną zastąpione kopią.</item>
+        <item quantity="many">%1$d starszych zapisów na konsoli zostanie zastąpionych kopią.</item>
+        <item quantity="other">%1$d starszego zapisu na konsoli zostanie zastąpione kopią.</item>
+    </plurals>
+    <plurals name="plan_newer">
+        <item quantity="one">%1$d zapis na konsoli jest nowszy niż kopia. Zostanie zachowany:</item>
+        <item quantity="few">%1$d zapisy na konsoli są nowsze niż kopia. Zostaną zachowane:</item>
+        <item quantity="many">%1$d zapisów na konsoli jest nowszych niż kopia. Zostaną zachowane:</item>
+        <item quantity="other">%1$d zapisu na konsoli jest nowsze niż kopia. Zostaną zachowane:</item>
+    </plurals>
+    <!-- %1$s: file name, %2$s: its time on the console, %3$s: its time in the backup -->
+    <string name="plan_newer_item">• %1$s (konsola: %2$s, kopia: %3$s)</string>
+    <!-- %1$d: how many more -->
+    <string name="plan_more">• i jeszcze %1$d</string>
+    <plurals name="plan_same">
+        <item quantity="one">%1$d plik jest już taki sam.</item>
+        <item quantity="few">%1$d pliki są już takie same.</item>
+        <item quantity="many">%1$d plików jest już takich samych.</item>
+        <item quantity="other">%1$d pliku jest już takie same.</item>
+    </plurals>
+    <plurals name="plan_unavailable">
+        <item quantity="one">%1$d plik należy do EASYROMS, który nie jest zamontowany, więc nie można go teraz przywrócić.</item>
+        <item quantity="few">%1$d pliki należą do EASYROMS, który nie jest zamontowany, więc nie można ich teraz przywrócić.</item>
+        <item quantity="many">%1$d plików należy do EASYROMS, który nie jest zamontowany, więc nie można ich teraz przywrócić.</item>
+        <item quantity="other">%1$d pliku należy do EASYROMS, który nie jest zamontowany, więc nie można ich teraz przywrócić.</item>
+    </plurals>
+    <string name="plan_nothing">Nie ma nic do przywrócenia.</string>
+    <string name="plan_note">Wszystko, co zostanie zastąpione, jest najpierw kopiowane. Przed przywracaniem zamknij RetroArch i PPSSPP, bo inaczej przy zamykaniu mogą nadpisać przywrócone zapisy.</string>
+    <string name="restore_button">Przywróć</string>
+    <string name="replace_newer_button">Zastąp też nowsze</string>
+    <string name="replace_newer_title">Zastąpić nowsze zapisy?</string>
+    <plurals name="replace_newer_message">
+        <item quantity="one">%1$d zapis na konsoli jest nowszy niż kopia. Zastąpienie go cofnie tę grę do starszego postępu. Nowszy zapis zostanie najpierw skopiowany.</item>
+        <item quantity="few">%1$d zapisy na konsoli są nowsze niż kopia. Zastąpienie ich cofnie te gry do starszego postępu. Nowsze zapisy zostaną najpierw skopiowane.</item>
+        <item quantity="many">%1$d zapisów na konsoli jest nowszych niż kopia. Zastąpienie ich cofnie te gry do starszego postępu. Nowsze zapisy zostaną najpierw skopiowane.</item>
+        <item quantity="other">%1$d zapisu na konsoli jest nowsze niż kopia. Zastąpienie ich cofnie te gry do starszego postępu. Nowsze zapisy zostaną najpierw skopiowane.</item>
+    </plurals>
+    <string name="replace_button">Zastąp</string>
+
+    <string name="result_title">Przywracanie zakończone</string>
+    <plurals name="result_restored">
+        <item quantity="one">Przywrócono %1$d plik.</item>
+        <item quantity="few">Przywrócono %1$d pliki.</item>
+        <item quantity="many">Przywrócono %1$d plików.</item>
+        <item quantity="other">Przywrócono %1$d pliku.</item>
+    </plurals>
+    <plurals name="result_kept">
+        <item quantity="one">Zachowano %1$d nowszy zapis.</item>
+        <item quantity="few">Zachowano %1$d nowsze zapisy.</item>
+        <item quantity="many">Zachowano %1$d nowszych zapisów.</item>
+        <item quantity="other">Zachowano %1$d nowszego zapisu.</item>
+    </plurals>
+    <plurals name="result_failed">
+        <item quantity="one">Nie udało się zapisać %1$d pliku. Karta SD może być pełna lub się psuć.</item>
+        <item quantity="few">Nie udało się zapisać %1$d plików. Karta SD może być pełna lub się psuć.</item>
+        <item quantity="many">Nie udało się zapisać %1$d plików. Karta SD może być pełna lub się psuć.</item>
+        <item quantity="other">Nie udało się zapisać %1$d pliku. Karta SD może być pełna lub się psuć.</item>
+    </plurals>
+
+    <!-- The notification while an automatic backup runs -->
+    <string name="channel_name">Trwa kopia zapisów gier</string>
+    <string name="notification_title">Kopiowanie zapisów gier</string>
+</resources>

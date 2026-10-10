@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="report_title">Relatório de problema</string>
+    <string name="report_summary">Salve os logs no cartão SD para enviar com um relato de bug</string>
+
+    <string name="intro">Deu algo errado? Salve um relatório e anexe-o quando nos contar sobre o problema. Ele contém os logs do sistema de agora e do último início, relatórios de falhas e uma descrição deste console. Leva cerca de um minuto.</string>
+
+    <string name="note_title">O que deu errado?</string>
+    <string name="note_hint">Opcional. O que você estava fazendo e o que aconteceu?</string>
+    <string name="note_dialog">Descreva o problema. Isso vai no relatório.</string>
+
+    <string name="save_title">Salvar relatório</string>
+    <string name="save_summary">Salvo no EASYROMS, na pasta andr36oid-reports</string>
+    <string name="save_running">Salvando %1$s (etapa %2$d de %3$d)…</string>
+    <string name="save_done">Salvo: %1$s</string>
+    <string name="save_done_toast">Relatório salvo em %1$s</string>
+    <string name="save_failed">Não salvo. %1$s</string>
+    <string name="error_no_storage">Não há partição EASYROMS nem pasta Download interna para salvar.</string>
+    <string name="error_cant_write">Não foi possível gravar o arquivo. O cartão está cheio?</string>
+    <string name="error_stopped">O relatório parou antes de terminar.</string>
+    <string name="error_start">Não foi possível iniciar o relatório.</string>
+
+    <string name="step_system">informações do sistema</string>
+    <string name="step_logcat">o log do Android</string>
+    <string name="step_kernel">o log do kernel</string>
+    <string name="step_crashes">relatórios de falhas</string>
+    <string name="step_power">informações de bateria e suspensão</string>
+    <string name="step_devices">dispositivos e conexões</string>
+    <string name="step_apps">a lista de apps</string>
+    <string name="step_saving">o arquivo</string>
+
+    <string name="last_start_title">Logs do último início</string>
+    <string name="last_start_crash">O último início terminou com uma falha do sistema. O log dela foi guardado e vai no relatório.</string>
+    <string name="last_start_kept">Guardados, eles vão no relatório.</string>
+    <string name="last_start_none">Nenhum. Eles só são guardados quando o console reinicia, não quando foi desligado ou a bateria acabou.</string>
+
+    <string name="privacy">O relatório lista seus apps e pode conter nomes de redes Wi-Fi e dispositivos Bluetooth. Ele não contém seus jogos nem arquivos. Dê uma olhada antes de publicá-lo.</string>
+
+    <string name="channel_name">Relatórios de problemas</string>
+    <string name="crash_title">O console reiniciou após um erro</string>
+    <string name="crash_text">Salve um relatório de problema agora, enquanto os logs ainda estão lá, e envie-o com uma descrição do que aconteceu.</string>
+    <string name="crash_action">Salvar relatório</string>
+</resources>

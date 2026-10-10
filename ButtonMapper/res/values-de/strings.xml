@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="button_mapping_title">Tastenbelegung (Beta)</string>
+    <string name="button_mapping_summary">Ändern, was die Tasten der Konsole tun</string>
+
+    <!-- The buttons of the console -->
+    <string name="button_dpad_up">Steuerkreuz hoch</string>
+    <string name="button_dpad_down">Steuerkreuz runter</string>
+    <string name="button_dpad_left">Steuerkreuz links</string>
+    <string name="button_dpad_right">Steuerkreuz rechts</string>
+    <string name="button_a">A-Taste</string>
+    <string name="button_b">B-Taste</string>
+    <string name="button_x">X-Taste</string>
+    <string name="button_y">Y-Taste</string>
+    <string name="button_l1">L1-Taste</string>
+    <string name="button_r1">R1-Taste</string>
+    <string name="button_l2">L2-Taste</string>
+    <string name="button_r2">R2-Taste</string>
+    <string name="button_l3">Linken Stick drücken (L3)</string>
+    <string name="button_r3">Rechten Stick drücken (R3)</string>
+    <string name="button_select">Select-Taste</string>
+    <string name="button_start">Start-Taste</string>
+    <string name="button_function">FN-Taste</string>
+    <string name="button_volume_down">Leiser-Taste</string>
+    <string name="button_volume_up">Lauter-Taste</string>
+    <string name="button_power">Ein-/Aus-Taste</string>
+
+    <!-- What a button can do, grouped -->
+    <string name="section_game">Spieltasten</string>
+    <string name="section_menu">Menüsteuerung</string>
+    <string name="section_system">System</string>
+    <string name="section_media">Musik und Video</string>
+    <string name="section_off">Ausschalten</string>
+
+    <string name="action_button_a">A-Taste</string>
+    <string name="action_button_b">B-Taste</string>
+    <string name="action_button_x">X-Taste</string>
+    <string name="action_button_y">Y-Taste</string>
+    <string name="action_button_l1">L1-Taste</string>
+    <string name="action_button_r1">R1-Taste</string>
+    <string name="action_button_l2">L2-Taste</string>
+    <string name="action_button_r2">R2-Taste</string>
+    <string name="action_button_l3">Linken Stick drücken (L3)</string>
+    <string name="action_button_r3">Rechten Stick drücken (R3)</string>
+    <string name="action_button_select">Select-Taste</string>
+    <string name="action_button_start">Start-Taste</string>
+    <string name="action_up">Hoch</string>
+    <string name="action_down">Runter</string>
+    <string name="action_left">Links</string>
+    <string name="action_right">Rechts</string>
+    <string name="action_ok">OK</string>
+    <string name="action_back">Zurück</string>
+    <string name="action_home">Startbildschirm</string>
+    <string name="action_menu">App-Menü</string>
+    <string name="action_screenshot">Screenshot aufnehmen</string>
+    <string name="action_power">Ein/Aus (Standby und Ein-/Aus-Menü)</string>
+    <string name="action_volume_up">Lauter</string>
+    <string name="action_volume_down">Leiser</string>
+    <string name="action_mute">Stummschalten</string>
+    <string name="action_brightness_up">Heller</string>
+    <string name="action_brightness_down">Dunkler</string>
+    <string name="action_play_pause">Wiedergabe / Pause</string>
+    <string name="action_next">Nächster Titel</string>
+    <string name="action_previous">Vorheriger Titel</string>
+    <string name="action_nothing">Nichts (Taste aus)</string>
+
+    <!-- First choice in the list, puts the button back to what it did originally -->
+    <string name="action_original">Original: <xliff:g id="action">%1$s</xliff:g></string>
+    <string name="choose_title"><xliff:g id="button">%1$s</xliff:g>: Was soll passieren?</string>
+
+    <!-- Below the drawing, about the selected button -->
+    <string name="status_default">Tut: <xliff:g id="action">%1$s</xliff:g></string>
+    <string name="status_changed">Tut: <xliff:g id="action">%1$s</xliff:g> (normal: <xliff:g id="default_action">%2$s</xliff:g>)</string>
+    <string name="status_locked">Tut: <xliff:g id="action">%1$s</xliff:g>. Diese Taste lässt sich nicht ändern.</string>
+
+    <!-- Shown on the screen of the drawn console -->
+    <string name="screen_hint">Wähle eine Taste mit dem Steuerkreuz aus oder drück sie einfach.\n\nDrück dann <xliff:g id="button">%1$s</xliff:g>, um sie zu ändern.</string>
+    <string name="screen_hint_no_ok">Drück eine Taste, um sie auszuwählen.\n\nDrück sie noch einmal, um sie zu ändern.</string>
+
+    <string name="rescue_tip">Tasten durcheinander? Halte beide Lautstärketasten 5 Sekunden lang gedrückt, um sie zurückzusetzen.</string>
+
+    <string name="power_locked_title">Die Ein-/Aus-Taste bleibt, wie sie ist</string>
+    <string name="power_locked_message">Nur sie kann die Konsole aufwecken, deshalb funktioniert sie immer als Ein-/Aus-Taste.</string>
+
+    <!-- Things the console always needs a button for -->
+    <string name="function_up">Hoch</string>
+    <string name="function_down">Runter</string>
+    <string name="function_left">Links</string>
+    <string name="function_right">Rechts</string>
+    <string name="function_select">OK</string>
+    <string name="function_back">Zurück</string>
+    <string name="function_home">Startbildschirm</string>
+    <string name="function_power">Ein/Aus</string>
+
+    <string name="blocked_title">Damit würdest du dich aussperren</string>
+    <string name="blocked_message">Dann bliebe keine Taste mehr für: <xliff:g id="functions">%1$s</xliff:g>.\n\nGib diese Aufgabe zuerst einer anderen Taste.</string>
+
+    <string name="swap_title">Mit <xliff:g id="other_button">%1$s</xliff:g> tauschen?</string>
+    <string name="swap_message">Das macht gerade <xliff:g id="other_button">%1$s</xliff:g>. Beide Tasten tauschen oder nur <xliff:g id="button">%2$s</xliff:g> ändern?</string>
+    <string name="swap_needed_message">Das macht gerade <xliff:g id="other_button">%1$s</xliff:g>. Wenn du nur <xliff:g id="button">%2$s</xliff:g> änderst, bleibt keine Taste für: <xliff:g id="functions">%3$s</xliff:g>.\n\nStattdessen beide Tasten tauschen?</string>
+    <string name="swap_confirm">Tauschen</string>
+    <string name="swap_only_this">Nur diese</string>
+
+    <string name="problem_title">Einige Tasten fehlen</string>
+    <string name="problem_message">Keine Taste ist belegt mit: <xliff:g id="functions">%1$s</xliff:g>.\n\nZur Standardbelegung wechseln, um das zu beheben?</string>
+    <string name="problem_fix">Standard nutzen</string>
+    <string name="problem_later">Nicht jetzt</string>
+
+    <!-- Profiles: button layouts to switch between -->
+    <string name="profile_standard">Standard</string>
+    <string name="profile_default_name">Profil %d</string>
+    <string name="profile_button">Profil: <xliff:g id="profile">%1$s</xliff:g></string>
+    <string name="profiles_title">Tastenprofile</string>
+    <string name="profile_new">Neues Profil</string>
+    <string name="profiles_close">Schließen</string>
+    <string name="profile_rename">Umbenennen</string>
+    <string name="profile_rename_title">Profil umbenennen</string>
+    <string name="profile_rename_save">Speichern</string>
+    <string name="profile_delete">Löschen</string>
+    <string name="profile_delete_title">„<xliff:g id="profile">%1$s</xliff:g>“ löschen?</string>
+    <string name="profile_delete_message">Seine Tastenänderungen werden entfernt und die Standardbelegung wird wieder genutzt.</string>
+    <string name="profile_delete_message_inactive">Seine Tastenänderungen werden entfernt. Die Tasten, die du gerade nutzt, bleiben, wie sie sind.</string>
+    <string name="profile_delete_choose">Profil löschen…</string>
+    <string name="profile_delete_choose_title">Welches Profil löschen?</string>
+    <string name="profile_created">Neues Profil „<xliff:g id="profile">%1$s</xliff:g>“. Tastenänderungen werden darin gespeichert.</string>
+    <string name="profile_forked">Die Standardbelegung bleibt, wie sie ist. Deine Änderung wird im neuen Profil „<xliff:g id="profile">%1$s</xliff:g>“ gespeichert.</string>
+    <string name="profile_blocked_message">„<xliff:g id="profile">%1$s</xliff:g>“ würde keine Taste übrig lassen für: <xliff:g id="functions">%2$s</xliff:g>.</string>
+
+    <!-- Quick Settings tile that switches to the next profile -->
+    <string name="tile_label">Tastenprofil</string>
+
+    <!-- Shown after a change to the buttons used in menus -->
+    <string name="confirm_title">Neue Tasten behalten?</string>
+    <plurals name="confirm_message">
+        <item quantity="one">Drück „Behalten“ mit <xliff:g id="button">%1$s</xliff:g>. Sonst wird in <xliff:g id="seconds">%2$d</xliff:g> Sekunde alles zurückgesetzt.</item>
+        <item quantity="other">Drück „Behalten“ mit <xliff:g id="button">%1$s</xliff:g>. Sonst wird in <xliff:g id="seconds">%2$d</xliff:g> Sekunden alles zurückgesetzt.</item>
+    </plurals>
+    <plurals name="confirm_message_generic">
+        <item quantity="one">Drück „Behalten“. Sonst wird in <xliff:g id="seconds">%d</xliff:g> Sekunde alles zurückgesetzt.</item>
+        <item quantity="other">Drück „Behalten“. Sonst wird in <xliff:g id="seconds">%d</xliff:g> Sekunden alles zurückgesetzt.</item>
+    </plurals>
+    <string name="confirm_keep">Behalten</string>
+    <string name="confirm_undo">Rückgängig</string>
+
+</resources>
