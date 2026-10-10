@@ -158,9 +158,6 @@
     <string name="usb_dongles_q">Accessories</string>
     <string name="usb_dongles_a">Plug accessories into the OTG port, with a USB-C adapter or a small hub if needed. USB pads, keyboards, mice, USB drives, Wi-Fi, Bluetooth and Ethernet adapters work if Android has a driver for their chip. Adapters with common Realtek chips work best. On consoles with Wi-Fi built in, such as the R36XX, something plugged into the OTG port can stop the built-in Wi-Fi.</string>
     <string name="usb_dongles_trouble">Nothing happens? Unplug it, wait a few seconds and plug it in again. Some adapters need more power than the port gives; a hub with its own power supply helps.</string>
-    <string name="usb_wifi_transfer_q">Copy files over Wi-Fi</string>
-    <string name="usb_wifi_transfer_a">No cable or card reader? Open Settings &gt; Wi-Fi transfer on the console. Scan its QR code with your phone, or type the address it shows into a browser on a phone or computer on the same Wi-Fi. That page can send games, BIOS files and saves to the console, fetch them, rename them and delete them.</string>
-    <string name="usb_wifi_transfer_more">It shares EASYROMS and the roms, bios, RetroArch and PSP folders of the internal storage, and only while that screen is open. Press B to stop sharing.</string>
 
     <!-- SD card -->
     <string name="card_title">SD card</string>
@@ -209,17 +206,6 @@
     <string name="magisk_modules">Root lives on the BOOT part of the card, so it stays when the system is updated.</string>
     <string name="magisk_broken_q">A module broke the start</string>
     <string name="magisk_broken_a">See Troubleshooting: on BOOT, swap ramdisk.uimg for ramdisk-stock.uimg, and the console starts without root and modules.</string>
-
-    <!-- Updates -->
-    <string name="updating_title">Updating andr36oid</string>
-    <string name="updating_intro">Settings &gt; System &gt; Updates installs a new andr36oid release. Your apps, settings, saves, games on EASYROMS and Magisk all stay.</string>
-    <string name="updating_file_q">From a file</string>
-    <string name="updating_file_a">On a computer, download the release file (lineage-…-r36s-android.img.zip, about 1.1 GB). Don\'t unzip it. Copy it into a folder called update on EASYROMS (make the folder if it isn\'t there). Then open Updates and pick the file.</string>
-    <string name="updating_online_q">Online</string>
-    <string name="updating_online_a">With Wi-Fi on, choose Check for updates now, then press A on the release to download it. The console only asks when you press this, or once a day if you turn on Check once a day. It never downloads by itself.</string>
-    <string name="updating_install_q">Installing</string>
-    <string name="updating_install_a">The console first checks the file, which takes about 5 minutes, and shows what changes. Charge it to at least 50% or plug in the charger. Then choose Install and restart. The screen turns black with white text for about 5 minutes while the update is written, then Android starts. Don\'t switch it off meanwhile.</string>
-    <string name="updating_power_cut">If the power goes out anyway, the update carries on by itself at the next start, up to three times.</string>
 
     <!-- Key names drawn in the badges that aren't just the printed label -->
     <string name="key_dpad">D-pad</string>

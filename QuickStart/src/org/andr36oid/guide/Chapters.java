@@ -259,11 +259,6 @@ final class Chapters {
         heading(c, R.string.usb_dongles_q);
         para(c, R.string.usb_dongles_a);
         para(c, R.string.usb_dongles_trouble);
-        if (wifiTransfer) {
-            heading(c, R.string.usb_wifi_transfer_q);
-            para(c, R.string.usb_wifi_transfer_a);
-            para(c, R.string.usb_wifi_transfer_more);
-        }
 
         c = chapter(R.string.card_title, chapters);
         para(c, R.string.card_layout);
@@ -308,18 +303,6 @@ final class Chapters {
             para(c, R.string.magisk_modules);
             heading(c, R.string.magisk_broken_q);
             para(c, R.string.magisk_broken_a);
-        }
-
-        if (hasPackage("org.andr36oid.updater")) {
-            c = chapter(R.string.updating_title, chapters);
-            para(c, R.string.updating_intro);
-            heading(c, R.string.updating_file_q);
-            para(c, R.string.updating_file_a);
-            heading(c, R.string.updating_online_q);
-            para(c, R.string.updating_online_a);
-            heading(c, R.string.updating_install_q);
-            para(c, R.string.updating_install_a);
-            para(c, R.string.updating_power_cut);
         }
 
         return chapters;
