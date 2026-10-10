@@ -50,6 +50,9 @@
             <intent-filter>
                 <action android:name="android.service.quicksettings.action.QS_TILE" />
             </intent-filter>
+            <!-- Not an active tile on purpose: the volume-button reset in the framework
+                 clears the remap without telling this app, so SystemUI must bind the
+                 tile each time the panel opens to show the right profile -->
         </service>
     </application>
 </manifest>

@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
+import android.service.quicksettings.TileService;
 import android.text.TextUtils;
 
 import java.util.Arrays;
@@ -59,6 +60,9 @@ final class Hud {
         } else {
             context.stopService(service);
         }
+        // The tile is an active tile: SystemUI only asks it for its state when told to.
+        TileService.requestListeningState(context,
+                new ComponentName(context, HudTileService.class));
     }
 
     /** The first time the overlay is used, its tile appears in Quick Settings. */

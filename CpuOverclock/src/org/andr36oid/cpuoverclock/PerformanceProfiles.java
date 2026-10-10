@@ -5,6 +5,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.provider.Settings;
+import android.service.quicksettings.TileService;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -92,6 +93,7 @@ final class PerformanceProfiles {
             return apply();
         }
         prefs().edit().putInt(PREF_PROFILE, profile).commit();
+        updateTile(mContext);
         final Overclock overclock = new Overclock(mContext);
         if (profile == BATTERY_SAVER && overclock.isOn()) {
             // Also applies the profile once the overclock is off.
@@ -108,6 +110,7 @@ final class PerformanceProfiles {
     /** Remembers the maximum CPU speed (0 for none) and applies it. Turns the overclock off. */
     boolean setCpuCap(int khz) {
         prefs().edit().putInt(PREF_CPU_CAP, Math.max(0, khz)).commit();
+        updateTile(mContext);
         final Overclock overclock = new Overclock(mContext);
         if (khz > 0 && overclock.isOn()) {
             // Also applies the profile and the cap once the overclock is off.
@@ -149,6 +152,15 @@ final class PerformanceProfiles {
 
     int next() {
         return (get() + 1) % COUNT;
+    }
+
+    /**
+     * Tells SystemUI to ask the profile tile for its state. It is an active tile, so SystemUI
+     * doesn't ask by itself. Called whenever the profile, the cap or the overclock changes.
+     */
+    static void updateTile(Context context) {
+        TileService.requestListeningState(context,
+                new ComponentName(context, ProfileTileService.class));
     }
 
     /** Writes the current profile's limits to the kernel. */

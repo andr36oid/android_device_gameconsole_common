@@ -106,6 +106,8 @@ public class GameModeFragment extends PreferenceFragment
             mNow.setChecked(false);
         }
         Comfort.update(context);
+        // The tile says "Automatic" while game mode is off
+        GameMode.updateTile(context);
         return false;
     }
 }
