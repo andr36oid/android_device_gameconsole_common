@@ -205,6 +205,52 @@ first_start() {
 	log "first-start launcher installed, it is the home app until the tutorial is done"
 }
 
+# Cromite blocks the Gamepad API (its RestrictGamepadAccess feature, on by
+# default), so browser games don't see the pad. Chromium on Android reads extra
+# switches from /data/local/chrome-command-line on any build (only root can
+# write there); the first word is a placeholder for the program name. Written
+# once, and only if there is no such file: a file the user made is left alone,
+# and one the user deleted stays deleted. Delete it to block the pad again: the
+# switch beats chrome://flags.
+# The marker says "written" when we made the file ("user" when it was there
+# already). A power cut can leave our file empty: then it is written again.
+CHROME_CMDLINE=/data/local/chrome-command-line
+CROMITE_GAMEPAD_DONE=$STATE/cromite-gamepad.done
+cromite_cmdline_write() {
+	local tmp=$CHROME_CMDLINE.tmp
+	rm -f "$tmp"
+	# a temp file and a rename, so the file is never there half written.
+	# Cromite reads it as its own app user: 644.
+	if ! echo "_ --disable-features=RestrictGamepadAccess" >"$tmp" ||
+		! chmod 644 "$tmp" || ! mv -f "$tmp" "$CHROME_CMDLINE"; then
+		rm -f "$tmp"
+		log "couldn't write $CHROME_CMDLINE, the browser keeps blocking the pad"
+		return 1
+	fi
+	restorecon "$CHROME_CMDLINE" 2>/dev/null
+	echo written >"$CROMITE_GAMEPAD_DONE"
+	log "browser games can use the pad now ($CHROME_CMDLINE)"
+}
+seed_cromite_gamepad() {
+	local mark
+	if [ -e "$CROMITE_GAMEPAD_DONE" ]; then
+		mark=$(cat "$CROMITE_GAMEPAD_DONE" 2>/dev/null)
+		# ours, but emptied by a power cut: write it again (deleted stays deleted)
+		if [ "$mark" = written ] && [ -f "$CHROME_CMDLINE" ] && [ ! -s "$CHROME_CMDLINE" ]; then
+			cromite_cmdline_write
+		fi
+		return 0
+	fi
+	# an empty file does nothing for Chromium: it is ours from a power cut
+	# before the marker, or an empty one the user made
+	if [ ! -e "$CHROME_CMDLINE" ] || { [ -f "$CHROME_CMDLINE" ] && [ ! -s "$CHROME_CMDLINE" ]; }; then
+		cromite_cmdline_write
+	else
+		echo user >"$CROMITE_GAMEPAD_DONE"
+	fi
+	return 0
+}
+
 install_apks() {
 	local list pkg vc apk cur out
 
@@ -1887,6 +1933,7 @@ until pm path android </dev/null >/dev/null 2>&1; do
 	sleep 2
 done
 
+seed_cromite_gamepad
 first_start
 install_apks
 seed_ppsspp
