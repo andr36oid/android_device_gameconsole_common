@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Settings > USB devices. MACHINE-DRAFTED, not yet read by a native speaker. -->
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="usb_check_title">USB cihazları</string>
+    <string name="usb_check_summary">Ne takılı ve çalışıyor mu?</string>
+    <string name="usb_check_link_summary">OTG portuna ne takılı olduğunu ve çalışıp çalışmadığını gör</string>
+    <string name="usb_check_plugged_in">Şu an takılı</string>
+    <string name="usb_check_none">Hiçbir şey takılı değil</string>
+    <string name="usb_check_none_summary">Cihazı bir OTG adaptörü veya hub ile OTG portuna takın. Bu sayfa kendiliğinden yenilenir.</string>
+    <string name="usb_check_port_device">OTG portu bilgisayara bağlanacak şekilde ayarlı (USB modu). Geri alana kadar aksesuarlar çalışmaz.</string>
+    <string name="usb_check_works">Çalışıyor</string>
+    <string name="usb_check_wifi_off">Destekleniyor. Kullanmak için Wi-Fi\'yi açın.</string>
+    <string name="usb_check_not_started">Destekleniyor ama sürücüsü başlamadı. Çıkarıp yeniden takın.</string>
+    <string name="usb_check_no_power">Görüldü ama başlamadı. Portun verdiğinden fazla güç gerekebilir. Kendi güç kaynağı olan bir hub deneyin.</string>
+    <string name="usb_check_cd_mode">Sürücü CD modunda. Konsol birkaç saniye içinde kendisi değiştirir. Böyle kalırsa çıkarıp yeniden takın.</string>
+    <string name="usb_check_cd_unknown">Sürücü CD modunda ve konsol onu nasıl değiştireceğini bilmiyor (çip <xliff:g id="chip_id" example="0bda:1a2b">%1$s</xliff:g>).</string>
+    <string name="usb_check_not_supported">Desteklenmiyor (çip <xliff:g id="chip_id" example="0bda:885a">%1$s</xliff:g>)</string>
+    <string name="usb_check_not_supported_named">Desteklenmiyor: <xliff:g id="chip_name" example="Realtek RTL8852AU">%1$s</xliff:g> (çip <xliff:g id="chip_id" example="0bda:885a">%2$s</xliff:g>)</string>
+    <string name="usb_check_bt_only">Bluetooth çalışıyor. Wi-Fi kısmı desteklenmiyor (çip <xliff:g id="chip" example="0bda:d723">%1$s</xliff:g>).</string>
+    <string name="usb_check_wifi_hint">RTL8188, RTL8811CU/8821CU, RTL8812BU veya MT7601U çipli adaptörler çalışır.</string>
+    <string name="usb_check_kind_wifi">Wi-Fi adaptörü</string>
+    <string name="usb_check_kind_bluetooth">Bluetooth adaptörü</string>
+    <string name="usb_check_kind_network">Ağ adaptörü veya modem</string>
+    <string name="usb_check_kind_audio">Ses kartı veya kulaklık</string>
+    <string name="usb_check_kind_gamepad">Oyun kolu</string>
+    <string name="usb_check_kind_keyboard">Klavye</string>
+    <string name="usb_check_kind_mouse">Fare</string>
+    <string name="usb_check_kind_input">Oyun kolu, klavye veya fare</string>
+    <string name="usb_check_kind_storage">USB bellek veya kart okuyucu</string>
+    <string name="usb_check_kind_serial">Seri adaptör</string>
+    <string name="usb_check_kind_video">Kamera veya TV alıcısı</string>
+    <string name="usb_check_kind_hub">USB hub</string>
+    <string name="usb_check_kind_other">USB cihazı</string>
+    <string name="usb_check_copy">Ayrıntıları kopyala</string>
+    <string name="usb_check_copy_summary">Topluluk sohbetinde bir soru için. Sorun raporu da bunları içerir.</string>
+    <string name="usb_check_copied">Ayrıntılar kopyalandı</string>
+    <string name="usb_check_about">Çip, cihazın kimliğidir (üretici:model). Yardım isterken çipi yazın. Konsolun bir cihaz hakkında bildiği her şeyi görmek için üzerinde A\'ya basın.</string>
+</resources>

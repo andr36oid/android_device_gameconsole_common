@@ -44,6 +44,58 @@
                 android:resource="@color/usb_mode_icon_background" />
         </activity>
 
+        <!-- "What did I plug in?": every USB device with a plain name and whether it
+             works. In Network & internet (Wi-Fi and Ethernet adapters) and, through the
+             alias, in Connected devices (pads, sound cards, drives). -->
+        <activity
+            android:name=".UsbCheckActivity"
+            android:exported="true"
+            android:label="@string/usb_check_title"
+            android:theme="@android:style/Theme.DeviceDefault.Settings">
+            <intent-filter>
+                <action android:name="com.android.settings.action.IA_SETTINGS" />
+            </intent-filter>
+            <meta-data
+                android:name="com.android.settings.category"
+                android:value="com.android.settings.category.ia.wireless" />
+            <meta-data
+                android:name="com.android.settings.order"
+                android:value="-20" />
+            <meta-data
+                android:name="com.android.settings.keyhint"
+                android:value="usb_check_network" />
+            <meta-data
+                android:name="com.android.settings.summary"
+                android:resource="@string/usb_check_summary" />
+            <meta-data
+                android:name="com.android.settings.icon"
+                android:resource="@drawable/ic_usb_mode" />
+        </activity>
+        <activity-alias
+            android:name=".UsbCheckConnectedDevices"
+            android:targetActivity=".UsbCheckActivity"
+            android:exported="true"
+            android:label="@string/usb_check_title">
+            <intent-filter>
+                <action android:name="com.android.settings.action.IA_SETTINGS" />
+            </intent-filter>
+            <meta-data
+                android:name="com.android.settings.category"
+                android:value="com.android.settings.category.ia.connect" />
+            <meta-data
+                android:name="com.android.settings.order"
+                android:value="-20" />
+            <meta-data
+                android:name="com.android.settings.keyhint"
+                android:value="usb_check_connected" />
+            <meta-data
+                android:name="com.android.settings.summary"
+                android:resource="@string/usb_check_summary" />
+            <meta-data
+                android:name="com.android.settings.icon"
+                android:resource="@drawable/ic_usb_mode" />
+        </activity-alias>
+
         <!-- Runs while the port is a device, switches it back when a charger is plugged in -->
         <service
             android:name=".UsbModeService"

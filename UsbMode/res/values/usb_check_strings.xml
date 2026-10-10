@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Settings > Network & internet / Connected devices > USB devices: what is plugged
+     into the OTG port, and does it work? -->
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="usb_check_title">USB devices</string>
+    <string name="usb_check_summary">What is plugged in, and does it work?</string>
+    <string name="usb_check_link_summary">See what is plugged into the OTG port and whether it works</string>
+
+    <string name="usb_check_plugged_in">Plugged in now</string>
+    <string name="usb_check_none">Nothing is plugged in</string>
+    <string name="usb_check_none_summary">Plug the device into the OTG port, with an OTG adapter or a hub. This page updates by itself.</string>
+    <string name="usb_check_port_device">The OTG port is set to connect to a computer (USB mode). Accessories don\'t work until you switch it back.</string>
+
+    <!-- What the console found out about one device -->
+    <string name="usb_check_works">Works</string>
+    <string name="usb_check_wifi_off">Supported. Turn on Wi-Fi to use it.</string>
+    <string name="usb_check_not_started">Supported, but its driver did not start. Unplug it and plug it back in.</string>
+    <string name="usb_check_no_power">Seen, but it did not start. It may need more power than the port gives. Try a hub with its own power supply.</string>
+    <string name="usb_check_cd_mode">In driver-CD mode. The console switches it by itself in a few seconds. If this stays, unplug it and plug it back in.</string>
+    <string name="usb_check_cd_unknown">In driver-CD mode, and the console doesn\'t know how to switch it (chip <xliff:g id="chip_id" example="0bda:1a2b">%1$s</xliff:g>).</string>
+    <string name="usb_check_not_supported">Not supported (chip <xliff:g id="chip_id" example="0bda:885a">%1$s</xliff:g>)</string>
+    <string name="usb_check_not_supported_named">Not supported: <xliff:g id="chip_name" example="Realtek RTL8852AU">%1$s</xliff:g> (chip <xliff:g id="chip_id" example="0bda:885a">%2$s</xliff:g>)</string>
+    <string name="usb_check_bt_only">Bluetooth works. Its Wi-Fi is not supported (chip <xliff:g id="chip" example="0bda:d723">%1$s</xliff:g>).</string>
+    <string name="usb_check_wifi_hint">Adapters with RTL8188, RTL8811CU/8821CU, RTL8812BU or MT7601U chips work.</string>
+
+    <!-- What kind of device it is, shown when it has no name of its own and in the second line -->
+    <string name="usb_check_kind_wifi">Wi-Fi adapter</string>
+    <string name="usb_check_kind_bluetooth">Bluetooth adapter</string>
+    <string name="usb_check_kind_network">Network adapter or modem</string>
+    <string name="usb_check_kind_audio">Sound card or headset</string>
+    <string name="usb_check_kind_gamepad">Game controller</string>
+    <string name="usb_check_kind_keyboard">Keyboard</string>
+    <string name="usb_check_kind_mouse">Mouse</string>
+    <string name="usb_check_kind_input">Controller, keyboard or mouse</string>
+    <string name="usb_check_kind_storage">USB drive or card reader</string>
+    <string name="usb_check_kind_serial">Serial adapter</string>
+    <string name="usb_check_kind_video">Camera or TV tuner</string>
+    <string name="usb_check_kind_hub">USB hub</string>
+    <string name="usb_check_kind_other">USB device</string>
+
+    <string name="usb_check_copy">Copy details</string>
+    <string name="usb_check_copy_summary">For a question in the community chat. A problem report includes them too.</string>
+    <string name="usb_check_copied">Details copied</string>
+    <string name="usb_check_about">The chip is the device\'s ID (maker:model). When you ask for help, tell us the chip. Press A on a device to see everything the console knows about it.</string>
+</resources>

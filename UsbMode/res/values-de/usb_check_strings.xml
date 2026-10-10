@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Settings > USB devices. MACHINE-DRAFTED, not yet read by a native speaker. -->
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="usb_check_title">USB-Geräte</string>
+    <string name="usb_check_summary">Was ist eingesteckt, und funktioniert es?</string>
+    <string name="usb_check_link_summary">Zeigt, was am OTG-Anschluss steckt und ob es funktioniert</string>
+    <string name="usb_check_plugged_in">Jetzt eingesteckt</string>
+    <string name="usb_check_none">Nichts eingesteckt</string>
+    <string name="usb_check_none_summary">Stecke das Gerät in den OTG-Anschluss, mit einem OTG-Adapter oder einem Hub. Diese Seite aktualisiert sich selbst.</string>
+    <string name="usb_check_port_device">Der OTG-Anschluss ist auf Verbindung mit einem Computer gestellt (USB-Modus). Zubehör funktioniert erst, wenn du ihn zurückstellst.</string>
+    <string name="usb_check_works">Funktioniert</string>
+    <string name="usb_check_wifi_off">Unterstützt. Schalte WLAN ein, um es zu nutzen.</string>
+    <string name="usb_check_not_started">Unterstützt, aber der Treiber ist nicht gestartet. Zieh es ab und steck es wieder ein.</string>
+    <string name="usb_check_no_power">Erkannt, aber nicht gestartet. Es braucht vielleicht mehr Strom, als der Anschluss liefert. Versuch einen Hub mit eigenem Netzteil.</string>
+    <string name="usb_check_cd_mode">Im Treiber-CD-Modus. Die Konsole schaltet es in ein paar Sekunden selbst um. Bleibt das so, zieh es ab und steck es wieder ein.</string>
+    <string name="usb_check_cd_unknown">Im Treiber-CD-Modus, und die Konsole weiß nicht, wie sie es umschaltet (Chip <xliff:g id="chip_id" example="0bda:1a2b">%1$s</xliff:g>).</string>
+    <string name="usb_check_not_supported">Nicht unterstützt (Chip <xliff:g id="chip_id" example="0bda:885a">%1$s</xliff:g>)</string>
+    <string name="usb_check_not_supported_named">Nicht unterstützt: <xliff:g id="chip_name" example="Realtek RTL8852AU">%1$s</xliff:g> (Chip <xliff:g id="chip_id" example="0bda:885a">%2$s</xliff:g>)</string>
+    <string name="usb_check_bt_only">Bluetooth funktioniert. Sein WLAN wird nicht unterstützt (Chip <xliff:g id="chip" example="0bda:d723">%1$s</xliff:g>).</string>
+    <string name="usb_check_wifi_hint">Adapter mit den Chips RTL8188, RTL8811CU/8821CU, RTL8812BU oder MT7601U funktionieren.</string>
+    <string name="usb_check_kind_wifi">WLAN-Adapter</string>
+    <string name="usb_check_kind_bluetooth">Bluetooth-Adapter</string>
+    <string name="usb_check_kind_network">Netzwerkadapter oder Modem</string>
+    <string name="usb_check_kind_audio">Soundkarte oder Headset</string>
+    <string name="usb_check_kind_gamepad">Controller</string>
+    <string name="usb_check_kind_keyboard">Tastatur</string>
+    <string name="usb_check_kind_mouse">Maus</string>
+    <string name="usb_check_kind_input">Controller, Tastatur oder Maus</string>
+    <string name="usb_check_kind_storage">USB-Stick oder Kartenleser</string>
+    <string name="usb_check_kind_serial">Serieller Adapter</string>
+    <string name="usb_check_kind_video">Kamera oder TV-Tuner</string>
+    <string name="usb_check_kind_hub">USB-Hub</string>
+    <string name="usb_check_kind_other">USB-Gerät</string>
+    <string name="usb_check_copy">Details kopieren</string>
+    <string name="usb_check_copy_summary">Für eine Frage im Community-Chat. Ein Problembericht enthält sie auch.</string>
+    <string name="usb_check_copied">Details kopiert</string>
+    <string name="usb_check_about">Der Chip ist die Kennung des Geräts (Hersteller:Modell). Nenne den Chip, wenn du um Hilfe bittest. Drück A auf einem Gerät, um alles zu sehen, was die Konsole darüber weiß.</string>
+</resources>

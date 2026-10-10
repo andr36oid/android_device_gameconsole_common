@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Settings > USB devices. MACHINE-DRAFTED, not yet read by a native speaker. -->
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="usb_check_title">USB 设备</string>
+    <string name="usb_check_summary">插了什么，能用吗？</string>
+    <string name="usb_check_link_summary">查看 OTG 接口上插了什么，以及能否使用</string>
+    <string name="usb_check_plugged_in">当前已插入</string>
+    <string name="usb_check_none">没有插入任何设备</string>
+    <string name="usb_check_none_summary">用 OTG 转接头或集线器把设备插到 OTG 接口。本页会自动刷新。</string>
+    <string name="usb_check_port_device">OTG 接口当前设为连接电脑（USB 模式）。切换回去之前，外设无法使用。</string>
+    <string name="usb_check_works">可用</string>
+    <string name="usb_check_wifi_off">支持。打开 WLAN 即可使用。</string>
+    <string name="usb_check_not_started">支持，但驱动没有启动。请拔下后重新插入。</string>
+    <string name="usb_check_no_power">已识别，但没有启动。它可能需要比接口更多的供电。请试试带独立电源的集线器。</string>
+    <string name="usb_check_cd_mode">处于驱动光盘模式。主机会在几秒内自动切换。如果一直这样，请拔下后重新插入。</string>
+    <string name="usb_check_cd_unknown">处于驱动光盘模式，主机不知道如何切换（芯片 <xliff:g id="chip_id" example="0bda:1a2b">%1$s</xliff:g>）。</string>
+    <string name="usb_check_not_supported">不支持（芯片 <xliff:g id="chip_id" example="0bda:885a">%1$s</xliff:g>）</string>
+    <string name="usb_check_not_supported_named">不支持：<xliff:g id="chip_name" example="Realtek RTL8852AU">%1$s</xliff:g>（芯片 <xliff:g id="chip_id" example="0bda:885a">%2$s</xliff:g>）</string>
+    <string name="usb_check_bt_only">蓝牙可用。它的 WLAN 不受支持（芯片 <xliff:g id="chip" example="0bda:d723">%1$s</xliff:g>）。</string>
+    <string name="usb_check_wifi_hint">使用 RTL8188、RTL8811CU/8821CU、RTL8812BU 或 MT7601U 芯片的网卡可以使用。</string>
+    <string name="usb_check_kind_wifi">WLAN 网卡</string>
+    <string name="usb_check_kind_bluetooth">蓝牙适配器</string>
+    <string name="usb_check_kind_network">网络适配器或调制解调器</string>
+    <string name="usb_check_kind_audio">声卡或耳机</string>
+    <string name="usb_check_kind_gamepad">手柄</string>
+    <string name="usb_check_kind_keyboard">键盘</string>
+    <string name="usb_check_kind_mouse">鼠标</string>
+    <string name="usb_check_kind_input">手柄、键盘或鼠标</string>
+    <string name="usb_check_kind_storage">U 盘或读卡器</string>
+    <string name="usb_check_kind_serial">串口适配器</string>
+    <string name="usb_check_kind_video">摄像头或电视棒</string>
+    <string name="usb_check_kind_hub">USB 集线器</string>
+    <string name="usb_check_kind_other">USB 设备</string>
+    <string name="usb_check_copy">复制详细信息</string>
+    <string name="usb_check_copy_summary">用于在社区群里提问。问题报告中也包含这些信息。</string>
+    <string name="usb_check_copied">已复制详细信息</string>
+    <string name="usb_check_about">芯片是设备的 ID（厂商:型号）。求助时请提供芯片。在设备上按 A 可查看主机了解到的全部信息。</string>
+</resources>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Settings > USB devices. MACHINE-DRAFTED, not yet read by a native speaker. -->
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="usb_check_title">Urządzenia USB</string>
+    <string name="usb_check_summary">Co jest podłączone i czy działa?</string>
+    <string name="usb_check_link_summary">Zobacz, co jest podłączone do portu OTG i czy działa</string>
+    <string name="usb_check_plugged_in">Podłączone teraz</string>
+    <string name="usb_check_none">Nic nie jest podłączone</string>
+    <string name="usb_check_none_summary">Podłącz urządzenie do portu OTG przez przejściówkę OTG lub hub. Ta strona odświeża się sama.</string>
+    <string name="usb_check_port_device">Port OTG jest ustawiony na połączenie z komputerem (Tryb USB). Akcesoria nie działają, dopóki go nie przełączysz z powrotem.</string>
+    <string name="usb_check_works">Działa</string>
+    <string name="usb_check_wifi_off">Obsługiwane. Włącz Wi-Fi, aby go używać.</string>
+    <string name="usb_check_not_started">Obsługiwane, ale sterownik się nie uruchomił. Odłącz i podłącz ponownie.</string>
+    <string name="usb_check_no_power">Wykryte, ale się nie uruchomiło. Może potrzebować więcej prądu, niż daje port. Spróbuj huba z własnym zasilaniem.</string>
+    <string name="usb_check_cd_mode">W trybie płyty ze sterownikiem. Konsola sama je przełączy w kilka sekund. Jeśli to nie minie, odłącz i podłącz ponownie.</string>
+    <string name="usb_check_cd_unknown">W trybie płyty ze sterownikiem, a konsola nie wie, jak je przełączyć (układ <xliff:g id="chip_id" example="0bda:1a2b">%1$s</xliff:g>).</string>
+    <string name="usb_check_not_supported">Nieobsługiwane (układ <xliff:g id="chip_id" example="0bda:885a">%1$s</xliff:g>)</string>
+    <string name="usb_check_not_supported_named">Nieobsługiwane: <xliff:g id="chip_name" example="Realtek RTL8852AU">%1$s</xliff:g> (układ <xliff:g id="chip_id" example="0bda:885a">%2$s</xliff:g>)</string>
+    <string name="usb_check_bt_only">Bluetooth działa. Jego Wi-Fi nie jest obsługiwane (układ <xliff:g id="chip" example="0bda:d723">%1$s</xliff:g>).</string>
+    <string name="usb_check_wifi_hint">Działają adaptery z układami RTL8188, RTL8811CU/8821CU, RTL8812BU lub MT7601U.</string>
+    <string name="usb_check_kind_wifi">Adapter Wi-Fi</string>
+    <string name="usb_check_kind_bluetooth">Adapter Bluetooth</string>
+    <string name="usb_check_kind_network">Adapter sieciowy lub modem</string>
+    <string name="usb_check_kind_audio">Karta dźwiękowa lub zestaw słuchawkowy</string>
+    <string name="usb_check_kind_gamepad">Pad</string>
+    <string name="usb_check_kind_keyboard">Klawiatura</string>
+    <string name="usb_check_kind_mouse">Mysz</string>
+    <string name="usb_check_kind_input">Pad, klawiatura lub mysz</string>
+    <string name="usb_check_kind_storage">Pendrive lub czytnik kart</string>
+    <string name="usb_check_kind_serial">Adapter szeregowy</string>
+    <string name="usb_check_kind_video">Kamera lub tuner TV</string>
+    <string name="usb_check_kind_hub">Hub USB</string>
+    <string name="usb_check_kind_other">Urządzenie USB</string>
+    <string name="usb_check_copy">Kopiuj szczegóły</string>
+    <string name="usb_check_copy_summary">Do pytania na czacie społeczności. Raport o problemie też je zawiera.</string>
+    <string name="usb_check_copied">Skopiowano szczegóły</string>
+    <string name="usb_check_about">Układ to identyfikator urządzenia (producent:model). Prosząc o pomoc, podaj układ. Naciśnij A na urządzeniu, aby zobaczyć wszystko, co konsola o nim wie.</string>
+</resources>
