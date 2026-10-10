@@ -6,7 +6,7 @@
     <string name="controls_topic_retroarch">En jeu (RetroArch)</string>
     <string name="controls_topic_emulators">Autres émulateurs</string>
     <string name="controls_topic_mouse">Mode souris</string>
-    <string name="controls_console_top">Les boutons dessinés autour de la console sont sur ses tranches : les gâchettes en haut, l\'alimentation à gauche, le volume à droite.</string>
+    <string name="controls_console_top">Les boutons dessinés autour de la console sont sur ses tranches : les gâchettes au dos, l\'alimentation à gauche, le volume à droite.</string>
     <string name="controls_console_labels">Les boutons portent le nom imprimé sur la console. Sur certaines consoles clones, ils sont placés ailleurs.</string>
     <string name="controls_start">Valider, comme A</string>
     <string name="controls_dpad">Se déplacer dans les menus et les listes</string>
