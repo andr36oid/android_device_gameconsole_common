@@ -126,7 +126,7 @@
     <string name="trouble_sticks_more">Still creeping a little? Left and right on the D-pad change the dead zone, the part around the middle that is ignored. Press X twice to go back to the factory settings.</string>
     <string name="trouble_recovery_q">Recovery and factory reset</string>
     <string name="trouble_recovery_a">Hold FN while you switch the console on</string>
-    <string name="trouble_recovery_more">This starts the recovery system, used for a factory reset or to install updates from a computer. A factory reset erases your apps and settings, but not the games on EASYROMS.</string>
+    <string name="trouble_recovery_more">This starts the recovery menu. Move with the d-pad or the volume buttons, choose with A or Power. For a factory reset, pick Factory reset, then Format data/factory reset, then Reboot system now. This erases your apps, your settings and all files in internal storage, but not the games on EASYROMS. Don\'t use the other options: this recovery is older than your system and can\'t install updates for it.</string>
     <string name="trouble_clock_q">The date or time is wrong</string>
     <string name="trouble_clock_a">The console forgets the time when the battery runs completely empty. Set it in Settings &gt; System &gt; Date &amp; time. With a network connection it sets itself, as long as "Use network-provided time" is on.</string>
 
