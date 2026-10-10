@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="add_games_title">现在添加游戏吗？</string>
+    <string name="add_games_body">游戏存放在这张 SD 卡的 EASYROMS 盘里。现在添加的话，Daijishou 第一次打开就能找到它们：\n\n1. 选择“立即关机”。\n2. 把 SD 卡插到电脑上，把每个游戏复制到 EASYROMS 上对应系统的文件夹，例如 nes、snes、gba 或 psx。\n3. 把卡插回去并开机。Daijishou 打开后会询问是否查找游戏：按“OK”。\n\n也可以现在继续，以后再添加游戏。</string>
+    <string name="add_games_shut_down">立即关机</string>
+    <string name="add_games_later">以后再说</string>
+</resources>

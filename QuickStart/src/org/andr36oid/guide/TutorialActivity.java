@@ -63,14 +63,6 @@ public class TutorialActivity extends Activity {
 
     static final String ACTION_TUTORIAL = "org.andr36oid.guide.action.TUTORIAL";
 
-    // The setup wizard's page protocol (org.lineageos.setupwizard SetupWizardApp): a page
-    // goes on by sending NEXT with the extras it was started with and its result code
-    private static final String SETUP_WIZARD_PACKAGE = "org.lineageos.setupwizard";
-    private static final String ACTION_SETUP_NEXT = "com.android.wizard.NEXT";
-    private static final String EXTRA_SCRIPT_URI = "scriptUri";
-    private static final String EXTRA_RESULT_CODE = "com.android.setupwizard.ResultCode";
-    private static final int REQUEST_SETUP_NEXT = 10000;
-
     private static final String JOYMOUSE_PACKAGE = "com.gameconsole.joymouse";
     private static final String JOYMOUSE_ACTIVE_PROPERTY = "sys.joymouse.active";
     // Intent.ACTION_CLOSE_SYSTEM_DIALOGS reason when the power menu opens
@@ -223,7 +215,7 @@ public class TutorialActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         sInstance = this;
-        mInSetup = getIntent().hasExtra(EXTRA_SCRIPT_URI);
+        mInSetup = SetupPages.isPage(this);
         mFirstStart = !mInSetup && FirstStart.isActive(this);
         if (mFirstStart) {
             setCrashHandler();
@@ -646,7 +638,7 @@ public class TutorialActivity extends Activity {
     private void finishTutorial() {
         if (mInSetup) {
             FirstBootReceiver.markShown(this);
-            nextSetupPage();
+            SetupPages.next(this);
             return;
         }
         if (mFirstStart) {
@@ -663,7 +655,7 @@ public class TutorialActivity extends Activity {
             // Opens once the setup is done and home is handed back (FirstStart.finish)
             FirstStart.openGuideAfterSetup(this);
             FirstBootReceiver.markShown(this);
-            nextSetupPage();
+            SetupPages.next(this);
             return;
         }
         if (mFirstStart) {
@@ -810,25 +802,6 @@ public class TutorialActivity extends Activity {
         }
         mReturnPending = true;
         mHandler.postDelayed(mReturnRunnable, RETURN_DELAY_MS);
-    }
-
-    /**
-     * Setup wizard: on to its next page. The tutorial stays below it, so B there comes back
-     * here; the wizard closes its whole task when it's done.
-     */
-    private void nextSetupPage() {
-        final Intent next = new Intent(ACTION_SETUP_NEXT).setPackage(SETUP_WIZARD_PACKAGE);
-        if (getIntent().getExtras() != null) {
-            next.putExtras(getIntent().getExtras());
-        }
-        next.putExtra(EXTRA_RESULT_CODE, RESULT_OK);
-        try {
-            startActivityForResult(next, REQUEST_SETUP_NEXT);
-        } catch (RuntimeException e) {
-            // Never leave the wizard stuck on this page
-            Log.w(TAG, "Couldn't go on with the setup", e);
-            finish();
-        }
     }
 
     @Override
