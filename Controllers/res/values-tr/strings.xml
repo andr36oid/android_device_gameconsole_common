@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="controllers_title">Kontrolcüler</string>
-    <string name="controllers_summary">Harici oyun kolları, Bluetooth eşleme, 1. oyuncu</string>
+    <string name="controllers_title">Kontroller</string>
+    <string name="controllers_summary">Tuş eşleme, analoglar, fare, kontrolcüler</string>
+
+    <!-- The Controls page -->
+    <string name="console_title">Bu konsol</string>
+    <string name="more_title">Diğer kontrolcüler</string>
+    <string name="external_title">Harici kontrolcüler</string>
+    <string name="external_none">Bağlı kontrolcü yok</string>
     <!-- Connected pads -->
     <string name="connected_title">Bağlı kontrolcüler</string>
     <string name="connected_none">Yalnızca dahili kontroller. OTG portuna bir oyun kolu takın (gerekirse bir adaptörle) ya da Bluetooth ile bir tane eşleyin.</string>
@@ -20,19 +26,12 @@
     <!-- joined with " · " -->
     <string name="summary_separator">" · "</string>
     <!-- RetroArch -->
-    <string name="retroarch_title">RetroArch</string>
     <string name="player1_title">RetroArch\'ta 1. oyuncu</string>
     <string-array name="player1_entries">
         <item>Dahili kontroller</item>
         <item>Harici kontrolcü</item>
     </string-array>
-    <string name="player1_builtin_summary">Dahili kontroller. Harici oyun kolları, üzerlerinde ilk tuşa bastığınız sırayla 2., 3. vb. oyuncu olur.</string>
-    <string name="player1_external_summary">Üzerinde ilk tuşa bastığınız harici oyun kolu. Dahili kontroller 2. oyuncu olur. Daha büyük bir oyun koluyla tek başına oynamak için.</string>
     <string name="player1_later">Değişiklik, RetroArch bir sonraki açılışında geçerli olur. Açıksa önce ondan çıkın (iki kez Select + Start).</string>
-    <string name="hotkeys_title">RetroArch\'taki tuşlar</string>
-    <string name="hotkeys_summary">1. oyuncunun kontrolcüsü: kısayollar için Select\'i basılı tutun (Start çıkış, R1/L1 durum kaydet/yükle, X menü).\nHer kontrolcü: L1 + R1 + Start + Select veya Xbox / PS / Capture tuşu menüyü açar, iki kez Start + Select çıkar.</string>
-    <string name="ppsspp_title">PSP oyunları (PPSSPP)</string>
-    <string name="ppsspp_summary">Her kontrolcü tek oyuncuyu kontrol eder. Tuşlar dahili kontroller ve Switch oyun kolları için ayarlıdır (Cross = B). Xbox veya PlayStation oyun koluyla oynarsanız tuşları PPSSPP\'de yeniden eşleyin.</string>
     <!-- Bluetooth -->
     <string name="bluetooth_title">Bluetooth</string>
     <string name="pair_title">Bluetooth kontrolcü eşle</string>

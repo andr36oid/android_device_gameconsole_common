@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="controllers_title">Контроллеры</string>
-    <string name="controllers_summary">Внешние геймпады, Bluetooth, игрок 1</string>
+    <string name="controllers_title">Управление</string>
+    <string name="controllers_summary">Переназначение кнопок, стики, мышь, контроллеры</string>
+
+    <!-- The Controls page -->
+    <string name="console_title">Эта консоль</string>
+    <string name="more_title">Другие контроллеры</string>
+    <string name="external_title">Внешние контроллеры</string>
+    <string name="external_none">Ничего не подключено</string>
     <!-- Connected pads -->
     <string name="connected_title">Подключённые контроллеры</string>
     <string name="connected_none">Только встроенное управление. Подключите геймпад к порту OTG (при необходимости через переходник) или подключите его по Bluetooth.</string>
@@ -20,19 +26,12 @@
     <!-- joined with " · " -->
     <string name="summary_separator">" · "</string>
     <!-- RetroArch -->
-    <string name="retroarch_title">RetroArch</string>
     <string name="player1_title">Игрок 1 в RetroArch</string>
     <string-array name="player1_entries">
         <item>Встроенное управление</item>
         <item>Внешний контроллер</item>
     </string-array>
-    <string name="player1_builtin_summary">Встроенное управление. Внешние геймпады — игроки 2, 3 и т. д., в том порядке, в котором вы впервые нажмёте на них кнопку.</string>
-    <string name="player1_external_summary">Первый внешний геймпад, на котором вы нажмёте кнопку. Встроенное управление — игрок 2. Чтобы играть одному на геймпаде побольше.</string>
     <string name="player1_later">Изменения вступят в силу при следующем запуске RetroArch. Если он открыт, сначала выйдите из него (Select + Start дважды).</string>
-    <string name="hotkeys_title">Кнопки в RetroArch</string>
-    <string name="hotkeys_summary">Контроллер игрока 1: удерживайте Select для горячих клавиш (Start — выход, R1/L1 — быстрое сохранение/загрузка, X — меню).\nЛюбой контроллер: L1 + R1 + Start + Select или кнопка Xbox / PS / Capture открывает меню, Start + Select дважды — выход.</string>
-    <string name="ppsspp_title">Игры PSP (PPSSPP)</string>
-    <string name="ppsspp_summary">Все контроллеры управляют одним игроком. Кнопки настроены для встроенного управления и геймпадов Switch (Крест = B). Если играете на геймпаде Xbox или PlayStation, переназначьте кнопки в PPSSPP.</string>
     <!-- Bluetooth -->
     <string name="bluetooth_title">Bluetooth</string>
     <string name="pair_title">Подключить Bluetooth-контроллер</string>

@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="controllers_title">手柄</string>
-    <string name="controllers_summary">外接手柄、蓝牙配对、玩家 1</string>
+    <string name="controllers_title">控制</string>
+    <string name="controllers_summary">按键映射、摇杆、鼠标、手柄</string>
+
+    <!-- The Controls page -->
+    <string name="console_title">本机</string>
+    <string name="more_title">其他手柄</string>
+    <string name="external_title">外接手柄</string>
+    <string name="external_none">未连接</string>
     <!-- Connected pads -->
     <string name="connected_title">已连接的手柄</string>
     <string name="connected_none">只有内置按键。将手柄插入 OTG 接口（如有需要，可使用转接头），或通过蓝牙配对。</string>
@@ -20,19 +26,12 @@
     <!-- joined with " · " -->
     <string name="summary_separator">" · "</string>
     <!-- RetroArch -->
-    <string name="retroarch_title">RetroArch</string>
     <string name="player1_title">RetroArch 中的玩家 1</string>
     <string-array name="player1_entries">
         <item>内置按键</item>
         <item>外接手柄</item>
     </string-array>
-    <string name="player1_builtin_summary">内置按键。外接手柄按您第一次在上面按键的顺序，依次为玩家 2、3 等。</string>
-    <string name="player1_external_summary">您第一个按下按键的外接手柄。内置按键为玩家 2。适合一个人用更大的手柄玩。</string>
     <string name="player1_later">下次启动 RetroArch 时生效。如果它已打开，请先退出（按两次 Select + Start）。</string>
-    <string name="hotkeys_title">RetroArch 中的按键</string>
-    <string name="hotkeys_summary">玩家 1 的手柄：按住 Select 使用快捷键（Start 退出，R1/L1 即时存档/读档，X 菜单）。\n任何手柄：L1 + R1 + Start + Select 或 Xbox / PS / 截图键打开菜单，按两次 Start + Select 退出。</string>
-    <string name="ppsspp_title">PSP 游戏（PPSSPP）</string>
-    <string name="ppsspp_summary">所有手柄都控制同一个玩家。按键是为内置按键和 Switch 手柄设置的（叉键 = B）。如果用 Xbox 或 PlayStation 手柄玩，请在 PPSSPP 中重新设置按键。</string>
     <!-- Bluetooth -->
     <string name="bluetooth_title">蓝牙</string>
     <string name="pair_title">配对蓝牙手柄</string>

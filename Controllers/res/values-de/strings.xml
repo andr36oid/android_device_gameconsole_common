@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="controllers_title">Controller</string>
-    <string name="controllers_summary">Externe Controller, Bluetooth-Kopplung, Spieler 1</string>
+    <string name="controllers_title">Steuerung</string>
+    <string name="controllers_summary">Tastenbelegung, Sticks, Maus, Controller</string>
+
+    <!-- The Controls page -->
+    <string name="console_title">Diese Konsole</string>
+    <string name="more_title">Andere Controller</string>
+    <string name="external_title">Externe Controller</string>
+    <string name="external_none">Keiner verbunden</string>
     <!-- Connected pads -->
     <string name="connected_title">Verbundene Controller</string>
     <string name="connected_none">Nur die eingebaute Steuerung. Steck einen Controller in den OTG-Anschluss (bei Bedarf mit Adapter) oder kopple einen über Bluetooth.</string>
@@ -20,19 +26,12 @@
     <!-- joined with " · " -->
     <string name="summary_separator">" · "</string>
     <!-- RetroArch -->
-    <string name="retroarch_title">RetroArch</string>
     <string name="player1_title">Spieler 1 in RetroArch</string>
     <string-array name="player1_entries">
         <item>Eingebaute Steuerung</item>
         <item>Externer Controller</item>
     </string-array>
-    <string name="player1_builtin_summary">Eingebaute Steuerung. Externe Controller sind Spieler 2, 3 und so weiter, in der Reihenfolge, in der du zum ersten Mal eine Taste darauf drückst.</string>
-    <string name="player1_external_summary">Der erste externe Controller, auf dem du eine Taste drückst. Die eingebaute Steuerung ist Spieler 2. Zum allein Spielen mit einem größeren Controller.</string>
     <string name="player1_later">Die Änderung gilt ab dem nächsten Start von RetroArch. Ist es geöffnet, beende es zuerst (zweimal Select + Start).</string>
-    <string name="hotkeys_title">Tasten in RetroArch</string>
-    <string name="hotkeys_summary">Controller von Spieler 1: Select halten für die Hotkeys (Start beenden, R1/L1 Savestate speichern/laden, X Menü).\nJeder Controller: L1 + R1 + Start + Select oder die Xbox-/PS-/Capture-Taste öffnet das Menü, zweimal Start + Select beendet.</string>
-    <string name="ppsspp_title">PSP-Spiele (PPSSPP)</string>
-    <string name="ppsspp_summary">Jeder Controller steuert den einen Spieler. Die Tasten sind für die eingebaute Steuerung und Switch-Controller eingestellt (Kreuz = B). Spielst du mit einem Xbox- oder PlayStation-Controller, belege sie in PPSSPP neu.</string>
     <!-- Bluetooth -->
     <string name="bluetooth_title">Bluetooth</string>
     <string name="pair_title">Bluetooth-Controller koppeln</string>
