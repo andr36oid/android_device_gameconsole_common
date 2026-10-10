@@ -136,14 +136,15 @@ else
 	bad "FOSS-only image"
 fi
 
-# 5. Daijishou has a library already: not touched, never again
+# 5. a library that can't be read: not touched, not done, tried again next start
 setup "" ""
 mkdir -p "${DJ_DB%/*}"
 echo user >"$DJ_DB"
 daijishou_grants
 seed_daijishou
-[ "$(cat "$DJ_DB")" = user ] && [ ! -e "$URI_GRANTS" ] && [ ! -e "$DJ_PREFS" ] && [ -e "$DJ_DONE" ] &&
-	ok "existing library left alone" || bad "existing library"
+[ "$(cat "$DJ_DB")" = user ] && [ ! -e "$DJ_PREFS" ] && [ ! -e "$DJ_DONE" ] && [ ! -e "$DJ_SEEDED" ] &&
+	grep -q "can't read Daijishou's library" "$T/log" &&
+	ok "unreadable library left alone, not done" || bad "unreadable library"
 
 # 5b. Daijishou started before EASYROMS was mounted and made an empty library;
 # an older image had set done for it already: filled now, its settings kept
@@ -167,6 +168,22 @@ fi
 sum=$(cat "$DJ_DB" "$DJ_PREFS" | cksum)
 seed_daijishou
 [ "$(cat "$DJ_DB" "$DJ_PREFS" | cksum)" = "$sum" ] && ok "... once" || bad "empty library filled twice"
+
+# 5e. as found on a console: Daijishou made its empty library in WAL mode (the
+# database file is only its header, the tables are in the -wal), and an image
+# before took it for the user's and set done: filled now
+setup "" ""
+daijishou_grants
+mkdir -p "${DJ_DB%/*}" "$T/wal"
+{
+	echo "PRAGMA journal_mode=WAL; PRAGMA wal_autocheckpoint=0;"
+	cat "$DJ_SCHEMA"
+	echo ".shell cp \"$T/wal/Daijishou.db\" \"$T/wal/Daijishou.db-wal\" \"${DJ_DB%/*}/\""
+} | sqlite3 "$T/wal/Daijishou.db" >/dev/null
+touch "$DJ_DONE"
+[ -s "$DJ_DB-wal" ] || bad "5e setup: no WAL"
+seed_daijishou
+checklib && [ -e "$DJ_SEEDED" ] && ok "empty WAL-mode library, done set: filled" || bad "empty WAL-mode library"
 
 # 5c. a real library with one system of the user's, no done yet: left alone
 setup "" ""
