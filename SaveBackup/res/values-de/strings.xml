@@ -61,7 +61,7 @@
     <string name="usb_none">Steck einen USB-Stick ein, um eine Kopie außerhalb der SD-Karte zu haben</string>
     <string name="auto_category">Automatisches Backup</string>
     <string name="auto_title">Automatisch sichern</string>
-    <string name="auto_summary">Einmal am Tag beim Laden und nachdem du ein Spiel schließt. Wird übersprungen, wenn sich nichts geändert hat.</string>
+    <string name="auto_summary">Einmal am Tag beim Laden und nachdem du ein Spiel schließt. Wird übersprungen, wenn sich nichts geändert hat. Nach einem Spiel warten Spielstände über 16 MB (PSP) auf das tägliche Backup.</string>
     <string name="keep_title">Backups behalten</string>
     <!-- %1$s: a number -->
     <string name="keep_summary">Die neuesten %1$s werden behalten, mit mindestens einem von jedem der letzten Tage. Ältere werden gelöscht.</string>

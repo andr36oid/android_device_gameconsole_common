@@ -61,7 +61,7 @@
     <string name="usb_none">Conecta una unidad USB para guardar una copia fuera de la tarjeta SD</string>
     <string name="auto_category">Copia automática</string>
     <string name="auto_title">Hacer copia automáticamente</string>
-    <string name="auto_summary">Una vez al día mientras carga y después de cerrar un juego. Se omite si no ha cambiado nada.</string>
+    <string name="auto_summary">Una vez al día mientras carga y después de cerrar un juego. Se omite si no ha cambiado nada. Después de un juego, los estados guardados de más de 16 MB (PSP) esperan a la copia diaria.</string>
     <string name="keep_title">Copias que conservar</string>
     <!-- %1$s: a number -->
     <string name="keep_summary">Se conservan las %1$s más recientes, con al menos una de cada día reciente. Las más antiguas se borran.</string>

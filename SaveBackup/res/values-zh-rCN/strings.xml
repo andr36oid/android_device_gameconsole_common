@@ -59,7 +59,7 @@
     <string name="usb_none">插入 U 盘，即可在 SD 卡之外另存一份副本</string>
     <string name="auto_category">自动备份</string>
     <string name="auto_title">自动备份</string>
-    <string name="auto_summary">充电时每天一次，以及关闭游戏后。没有变化时跳过。</string>
+    <string name="auto_summary">充电时每天一次，以及关闭游戏后。没有变化时跳过。关闭游戏后，超过 16 MB 的即时存档（PSP）等到每日备份时再备份。</string>
     <string name="keep_title">保留的备份数量</string>
     <!-- %1$s: a number -->
     <string name="keep_summary">保留最新的 %1$s 个备份，最近几天每天至少保留一个。更早的备份会被删除。</string>

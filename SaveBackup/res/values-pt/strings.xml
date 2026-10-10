@@ -61,7 +61,7 @@
     <string name="usb_none">Conecte um pen drive USB para guardar uma cópia fora do cartão SD</string>
     <string name="auto_category">Backup automático</string>
     <string name="auto_title">Fazer backup automaticamente</string>
-    <string name="auto_summary">Uma vez por dia durante a carga e depois que você fecha um jogo. Pulado quando nada mudou.</string>
+    <string name="auto_summary">Uma vez por dia durante a carga e depois que você fecha um jogo. Pulado quando nada mudou. Depois de um jogo, save states acima de 16 MB (PSP) esperam o backup diário.</string>
     <string name="keep_title">Backups a manter</string>
     <!-- %1$s: a number -->
     <string name="keep_summary">Os %1$s mais recentes são mantidos, com pelo menos um de cada dia recente. Os mais antigos são excluídos.</string>
