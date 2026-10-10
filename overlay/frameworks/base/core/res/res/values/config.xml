@@ -101,6 +101,10 @@
     -->
     <integer name="config_shortPressOnPowerBehavior">2</integer>
 
+    <!-- Plugging a charger in (or pulling it out) turns the screen on, so the
+         console shows it is charging. The kernel wakes on both (rk817 charger). -->
+    <bool name="config_unplugTurnsOnScreen">true</bool>
+
     <bool name="config_dreamsSupported">false</bool>
 
     <!-- the 5th element "resore-time" indicates the number of milliseconds to delay
