@@ -1027,6 +1027,7 @@ easyroms_late() {
 	bios_folder
 	seed_daijishou
 	dj_new_games
+	daijishou_ready
 }
 
 make_rom_folders() {
@@ -1896,6 +1897,15 @@ dj_prefs() {
 EOF
 }
 
+# daijishou_ready ; Daijishou's library is made, or there won't be one (no EASYROMS:
+# then it's made when the card mounts, see easyroms_late): the quick start guide
+# makes Daijishou the home screen only after this, so its first start already asks
+# to look for games (QuickStart FirstStart.java, FirstStart/HomeActivity.java)
+daijishou_ready() {
+	settings put global andr36oid_daijishou_ready 1 </dev/null >/dev/null 2>&1 ||
+		log "couldn't tell the guide that Daijishou is ready"
+}
+
 # seed_daijishou: fills Daijishou's library before its first start, or right
 # after it if Daijishou came up before EASYROMS did and its library is still
 # empty. Only once, never over a library with a system or game in it, and only
@@ -2205,6 +2215,7 @@ bios_folder
 # after the cores and ROM folders: a platform needs both
 seed_daijishou
 dj_new_games
+daijishou_ready
 retroarch_players
 # PPSSPP isn't running this early; it writes controls.ini back when it quits
 ppsspp_controls
