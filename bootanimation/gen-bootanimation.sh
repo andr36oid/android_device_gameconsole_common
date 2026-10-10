@@ -39,6 +39,14 @@ mkdir -p $INTERMEDIATES
 
 tar xfp $PARAM_BOOTANIMATION_TAR -C $INTERMEDIATES
 
+# part3: the last frame of the logo morph (part2), held while Android starts.
+# desc.txt plays the morph right after the intro, so the animation is finished
+# by the time Android is up and nothing waits for it.
+mkdir -p $INTERMEDIATES/part3
+cp "$(ls $INTERMEDIATES/part2/*.png | tail -n 1)" $INTERMEDIATES/part3/
+# the dots loop (part1) is not played any more
+rm -rf $INTERMEDIATES/part1
+
 # All supported consoles run in landscape (panels mounted in portrait are
 # rotated by SurfaceFlinger), so the canvas is always long side x short side.
 if [ $PARAM_TARGET_SCREEN_HEIGHT -lt $PARAM_TARGET_SCREEN_WIDTH ]; then
