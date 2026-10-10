@@ -6,15 +6,25 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.BatteryManager;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
 import android.os.PowerManager;
 
 /**
- * Runs in the background while a feature needs it and does nothing but wait for broadcasts.
- * Low battery warning: watches the charge level the fuel gauge reports and shows the banner
- * once per threshold while on battery. Automatic game mode: watches which app is in front.
+ * Runs in the background and does nothing but wait for broadcasts. Low battery warning:
+ * watches the charge level the fuel gauge reports and shows the banner once per threshold
+ * while on battery. Continue playing and automatic game mode: watch which app is in front.
+ * After a restart, optionally opens the game that was open when the console went off.
  */
 public class ComfortService extends Service {
+
+    static final String EXTRA_AFTER_BOOT = "after_boot";
+    static final String EXTRA_GAME_WAS_OPEN = "game_was_open";
+    /** Lets the home screen come up and settle first */
+    private static final long CONTINUE_AFTER_BOOT_MS = 10000;
+
+    private final Handler mHandler = new Handler(Looper.getMainLooper());
 
     private Banner mBanner;
     private GameWatcher mGameWatcher;
@@ -53,17 +63,35 @@ public class ComfortService extends Service {
             return START_NOT_STICKY;
         }
         watchBattery(Comfort.isBatteryWarningOn(this));
-        if (GameMode.isAutomatic(this)) {
-            mGameWatcher.start();
-        } else {
-            mGameWatcher.stop();
+        mGameWatcher.start();
+        if (intent != null && intent.getBooleanExtra(EXTRA_AFTER_BOOT, false)) {
+            if (intent.getBooleanExtra(EXTRA_GAME_WAS_OPEN, false) && Continue.isOnBoot(this)) {
+                mHandler.postDelayed(this::continueAfterBoot, CONTINUE_AFTER_BOOT_MS);
+            } else {
+                // For the tile and the power menu
+                Continue.refreshSoon(this);
+            }
         }
         // Brought back if the system has to kill it for memory during a game.
         return START_STICKY;
     }
 
+    /** Opens the game again, unless the user started something else in the meantime. */
+    private void continueAfterBoot() {
+        if (!getSystemService(PowerManager.class).isInteractive()
+                || !Continue.isHomeInFront(this)) {
+            Continue.refreshSoon(this);
+            return;
+        }
+        Continue.BACKGROUND.execute(() -> {
+            final Continue.Result result = Continue.start(this);
+            mHandler.post(() -> Continue.show(this, result));
+        });
+    }
+
     @Override
     public void onDestroy() {
+        mHandler.removeCallbacksAndMessages(null);
         watchBattery(false);
         mGameWatcher.stop();
         mBanner.hide();

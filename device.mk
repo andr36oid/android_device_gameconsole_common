@@ -527,10 +527,13 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
 	ControllerTest
 
-# Low battery warning on top of games (Settings > Battery > Low battery warning) and
-# game mode: Do Not Disturb while playing (Settings > Game mode, Quick Settings tile)
+# Low battery warning on top of games (Settings > Battery > Low battery warning),
+# game mode: Do Not Disturb while playing (Settings > Game mode, Quick Settings tile),
+# and Continue playing: back into the last game (tile, FN + A, power menu); its root
+# helper reads RetroArch's and PPSSPP's last game
 PRODUCT_PACKAGES += \
-	GameComfort
+	GameComfort \
+	andr36oid-gamecomfort
 
 # BIOS check: which BIOS files are missing or wrong, copies the good ones to RetroArch
 # (Settings top level, and in the app list)
