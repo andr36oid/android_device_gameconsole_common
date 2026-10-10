@@ -17,4 +17,5 @@
     <string name="credits_351droid">Android для RG351MP</string>
     <string name="credits_lineageos">Свободная прошивка Android с открытым исходным кодом</string>
     <string name="credits_android">от Google</string>
+    <string name="credits_sprout">Главный экран Simple UI, автор Indiegesindel</string>
 </resources>
