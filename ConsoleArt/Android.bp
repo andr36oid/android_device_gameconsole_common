@@ -1,0 +1,8 @@
+// The R36S as the apps draw it: one console drawing (button mapper, controller test, Quick
+// start guide) and one stick drawing (controller test, stick calibration, the guide's
+// tutorial), so they all look the same. Host test: tests/run-tests.sh
+java_library {
+    name: "andr36oid-console-art",
+    srcs: ["src/**/*.java"],
+    platform_apis: true,
+}

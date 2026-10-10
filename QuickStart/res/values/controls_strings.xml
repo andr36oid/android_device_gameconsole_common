@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Settings > Buttons and shortcuts (ControlsActivity). Which rows show, and their buttons,
-     come from res/raw/controls.txt. The page also uses some of the guide's own strings
-     (buttons_*, shortcuts_*, mouse_*), so both say the same. -->
+<!-- The button chapters of the guide. Which rows show, and their buttons, come from
+     res/raw/controls.txt. The chapters also use some older guide strings (buttons_*,
+     shortcuts_*, mouse_*, mapping_settings). -->
 <resources>
-    <string name="controls_title">Buttons and shortcuts</string>
-    <string name="controls_summary">Every button combination: system, games, mouse mode</string>
 
     <!-- Topics in the list on the left -->
     <string name="controls_topic_console">The console</string>
@@ -14,7 +12,7 @@
     <string name="controls_topic_mouse">Mouse mode</string>
 
     <!-- The console: a drawing of the buttons, then what the main buttons do -->
-    <string name="controls_console_top">The first line of the drawing shows the buttons on the top edge.</string>
+    <string name="controls_console_top">The buttons drawn above the console are on its top edge.</string>
     <string name="controls_console_labels">Buttons are named as printed on the console. On some clone consoles they sit in other places.</string>
     <string name="controls_start">Confirm, like A</string>
     <string name="controls_dpad">Move around menus and lists</string>

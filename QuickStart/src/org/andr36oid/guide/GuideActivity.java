@@ -36,7 +36,10 @@ public class GuideActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mChapters = buildChapters();
+        // Opened by hand, so it doesn't need to open by itself any more
+        FirstBootReceiver.markShown(this);
+
+        mChapters = Chapters.build(this);
         if (mChapters.isEmpty()) {
             // Nothing could be read: leave instead of crashing on an empty list
             finish();
@@ -77,22 +80,6 @@ public class GuideActivity extends Activity {
         updateHints(false);
     }
 
-    /** The topics. Buttons and shortcuts (ControlsActivity) has its own. */
-    protected List<Chapters.Chapter> buildChapters() {
-        // Opened by hand, so it doesn't need to open by itself any more
-        FirstBootReceiver.markShown(this);
-        return Chapters.build(this);
-    }
-
-    protected CharSequence getHeaderTitle() {
-        return getText(R.string.guide_title);
-    }
-
-    /** X opens the hands-on tutorial, only from the guide itself. */
-    protected boolean offersTutorial() {
-        return true;
-    }
-
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -105,7 +92,7 @@ public class GuideActivity extends Activity {
         header.setGravity(Gravity.CENTER_VERTICAL);
         header.setPadding(dp(4), 0, dp(4), dp(10));
 
-        final TextView title = text(getHeaderTitle(), 22, R.color.guide_text);
+        final TextView title = text(getString(R.string.guide_title), 22, R.color.guide_text);
         title.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
         header.addView(title, new LinearLayout.LayoutParams(0,
                 ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
@@ -181,7 +168,7 @@ public class GuideActivity extends Activity {
         mPageTitle.setPadding(0, 0, 0, dp(8));
         mPageContent.addView(mPageTitle);
         for (Chapters.Item item : chapter.items) {
-            mPageContent.addView(item.art ? buildArt(item)
+            mPageContent.addView(item.drawing ? buildDrawing()
                     : item.image != 0 ? buildImage(item)
                     : item.heading ? buildHeading(item)
                     : item.isParagraph() ? buildParagraph(item) : buildRow(item));
@@ -209,14 +196,13 @@ public class GuideActivity extends Activity {
         return view;
     }
 
-    /** A drawing made of characters: fixed-width, never wrapped, a bit smaller. */
-    private View buildArt(Chapters.Item item) {
-        final TextView view = text(item.text, 13, R.color.guide_text);
-        view.setTypeface(Typeface.MONOSPACE);
-        view.setHorizontallyScrolling(true);
-        view.setIncludeFontPadding(false);
+    /** The console as the button mapper draws it, as tall as fits a page. */
+    private View buildDrawing() {
+        final ConsoleView view = new ConsoleView(this);
         view.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
         view.setPadding(0, dp(6), 0, dp(10));
+        view.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                dp(250)));
         return view;
     }
 
@@ -298,9 +284,7 @@ public class GuideActivity extends Activity {
         } else {
             hint(getString(R.string.key_dpad), R.string.hint_choose);
             hint("A", R.string.hint_read);
-            if (offersTutorial()) {
-                hint("X", R.string.hint_tutorial);
-            }
+            hint("X", R.string.hint_tutorial);
             hint("B", R.string.hint_close);
         }
     }
@@ -348,9 +332,6 @@ public class GuideActivity extends Activity {
         switch (key) {
             case KeyEvent.KEYCODE_BUTTON_X:
                 // Try the buttons hands-on again
-                if (!offersTutorial()) {
-                    break;
-                }
                 if (down && event.getRepeatCount() == 0) {
                     startActivity(new Intent(this, TutorialActivity.class));
                 }
