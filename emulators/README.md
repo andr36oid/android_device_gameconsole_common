@@ -46,6 +46,12 @@ the `gameconsole-emu` service (`seed/`) runs once `sys.boot_completed=1`:
 4. Make the usual ROM folders (`seed/rom-folders.txt`, ArkOS/dArkOS names) plus a
    `README-andr36oid.txt` on the EASYROMS partition (`public:179,7`). Once per card, and
    only on a card that has none of these folders yet, so existing layouts stay untouched.
+   Every ROM folder that exists (ours or the user's) gets an empty `.nomedia` once per card
+   (`rom_nomedia`, list in `/data/misc/gameconsole/rom-nomedia.<uuid>`). Android 11's media
+   scanner still walks those folders at every mount, but files the pictures, music and
+   videos in them as plain files, so Gallery and Eleven don't list box art, EasyRPG/DOS game
+   files or PICO-8 carts, and the scanner doesn't read their tags. Daijishou, RetroArch and
+   PPSSPP don't use the media store for games. A `.nomedia` the user deletes stays deleted.
 5. Point RetroArch's `system_directory` (where the cores look for BIOS files) at the bios
    folder on EASYROMS, `/storage/<uuid>/bios`, like ArkOS's `/roms/bios` (on a `.noroms`
    card: `/storage/emulated/0/bios`). See
