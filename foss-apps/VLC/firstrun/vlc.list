@@ -1,0 +1,7 @@
+# VLC for Android 3.7: the touch tutorials (swipe and tap overlays on the first video,
+# audio player and playlist) marked as seen; they need a touchscreen to get past. Its
+# settings are the default shared_prefs, which also mean "has run". Its own welcome
+# and storage permission pages still show. See ../../README.md, "First-start settings".
+package org.videolan.vlc
+unless data shared_prefs/org.videolan.vlc_preferences.xml
+data prefs.xml shared_prefs/org.videolan.vlc_preferences.xml
