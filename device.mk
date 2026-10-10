@@ -808,3 +808,11 @@ $(call inherit-product-if-exists, vendor/gapps/gapps.mk)
 # Battery details: voltage, current, charge times and a 24 hour graph (Settings > Battery)
 PRODUCT_PACKAGES += \
 	BatteryDetails
+
+# Display comfort: Extra dim and Screen colors on Settings > Display (Settings and
+# frameworks/base night/o2-display). Extra dim and Night Light use the display color
+# table (kernel color_lut), Screen colors the display saturation stage (Rockchip composer
+# persist.vendor.saturation.main)
+PRODUCT_PRODUCT_PROPERTIES += \
+	ro.andr36oid.extra_dim=true \
+	ro.andr36oid.screen_colors=true
