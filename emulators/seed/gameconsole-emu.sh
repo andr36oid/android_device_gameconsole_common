@@ -1555,11 +1555,10 @@ retroarch_players() {
 	managed "$cfg" all_users_control_menu true "" false
 	# 4 = Start+Select, with quit_press_twice (RetroArch's default) on
 	managed "$cfg" input_quit_gamepad_combo 4 "" 0
-	# Where the pad profiles are (seed_retroarch). RetroArch only works that out
-	# when its own menu starts it: a game started by the home screen comes
-	# without the DATADIR extra, RetroArch then finds no profile and falls back
-	# to binds that swap A/B and X/Y on the built-in pad.
-	managed "$cfg" joypad_autoconfig_dir "$RA_DATA/autoconfig" "" default
+	# RetroArch on Android swaps OK and back in its menu by default: OK on B
+	# (bottom), back on A (right). Unswapped, A confirms and B goes back, as
+	# printed on the pad and as everywhere else on the console.
+	managed "$cfg" menu_swap_ok_cancel_buttons false "" true
 }
 
 # retroarch_running ; RetroArch writes all its settings back when it quits
