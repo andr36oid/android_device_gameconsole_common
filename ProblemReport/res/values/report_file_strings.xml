@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Report as a .zip on BOOT, the confirm dialog, and the make-report.txt tip -->
+<resources>
+    <string name="save_summary_file">Saved as a .zip file on the BOOT drive of the SD card (the drive every PC sees), in the folder andr36oid-reports</string>
+
+    <string name="confirm_title">Save a problem report?</string>
+    <string name="confirm_message">On a PC, open the BOOT drive of the SD card, folder andr36oid-reports, and send the .zip file.\n\nIn it: the Android and kernel logs (also from the start before), crash reports, the console model and its DTB, buttons and sticks, battery, temperatures, the SD card, sound and screen, your list of apps, and how many games are in each ROM folder.\n\nLeft out: Wi-Fi names and passwords, accounts, contacts, the names of your games and files, serial numbers.</string>
+    <string name="confirm_save">Save</string>
+
+    <string name="privacy_file">Left out: Wi-Fi names and passwords, accounts, contacts, the names of your games and files, serial numbers. Your list of apps is in it, and the logs can still name Bluetooth devices. Have a look before you post it in public.</string>
+
+    <string name="pc_title">Buttons or screen not working?</string>
+    <string name="pc_text">On a PC, make a file called make-report.txt on the BOOT drive of the SD card. You can write what went wrong in it. Put the card back and switch on, then wait 5 minutes. The report is saved on BOOT and the file is deleted.</string>
+
+    <string name="error_no_room">There is no room for it on BOOT, EASYROMS or the internal storage.</string>
+    <string name="save_busy">A report is being made at start-up (make-report.txt). Wait until it is saved.</string>
+</resources>

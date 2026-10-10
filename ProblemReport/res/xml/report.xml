@@ -16,7 +16,7 @@
     <Preference
         android:key="save"
         android:title="@string/save_title"
-        android:summary="@string/save_summary" />
+        android:summary="@string/save_summary_file" />
 
     <Preference
         android:key="last_start"
@@ -26,5 +26,11 @@
     <Preference
         android:key="privacy"
         android:selectable="false"
-        android:summary="@string/privacy" />
+        android:summary="@string/privacy_file" />
+
+    <Preference
+        android:key="pc_tip"
+        android:title="@string/pc_title"
+        android:selectable="false"
+        android:summary="@string/pc_text" />
 </PreferenceScreen>

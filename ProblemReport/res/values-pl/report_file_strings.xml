@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="save_summary_file">Zapisywany jako plik .zip na dysku BOOT karty SD (ten, który widzi każdy komputer), w folderze andr36oid-reports</string>
+    <string name="confirm_title">Zapisać raport o problemie?</string>
+    <string name="confirm_message">Na komputerze otwórz dysk BOOT karty SD, folder andr36oid-reports, i wyślij plik .zip.\n\nZawiera: logi Androida i jądra (także z poprzedniego uruchomienia), raporty awarii, model konsoli i jej DTB, przyciski i gałki, baterię, temperatury, kartę SD, dźwięk i ekran, listę twoich aplikacji oraz liczbę gier w każdym folderze ROM.\n\nPominięte: nazwy i hasła Wi-Fi, konta, kontakty, nazwy twoich gier i plików, numery seryjne.</string>
+    <string name="confirm_save">Zapisz</string>
+    <string name="privacy_file">Pominięte: nazwy i hasła Wi-Fi, konta, kontakty, nazwy twoich gier i plików, numery seryjne. Lista twoich aplikacji jest w raporcie, a logi mogą nadal zawierać nazwy urządzeń Bluetooth. Przejrzyj go, zanim opublikujesz go publicznie.</string>
+    <string name="pc_title">Przyciski lub ekran nie działają?</string>
+    <string name="pc_text">Na komputerze utwórz na dysku BOOT karty SD plik o nazwie make-report.txt. Możesz w nim opisać, co poszło nie tak. Włóż kartę z powrotem, włącz konsolę i poczekaj 5 minut. Raport zostanie zapisany na BOOT, a plik usunięty.</string>
+    <string name="error_no_room">Nie ma na niego miejsca ani na BOOT, ani na EASYROMS, ani w pamięci wewnętrznej.</string>
+    <string name="save_busy">Raport jest właśnie tworzony przy uruchomieniu (make-report.txt). Poczekaj, aż zostanie zapisany.</string>
+</resources>
