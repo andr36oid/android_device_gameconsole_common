@@ -4,7 +4,7 @@ package org.andr36oid.consoleart;
  * The front of the R36S, upright as it is held, in drawing units: the body is 120 wide and 176
  * tall. The screen fills the top, the D-pad sits under it on the left, the speaker in the
  * middle, A B X Y on the right, FN below the speaker with Select and Start under it, and the
- * two sticks in the bottom corners. The shoulder buttons are on the top edge (L2 L1 ... R2 R1
+ * two sticks in the bottom corners. The shoulder buttons are on the top edge (L1 L2 ... R2 R1
  * from the front), power on the left side and the volume buttons on the right side, + above -;
  * they are drawn as tabs sticking out of the body. Plain Java, so the host test can draw it
  * too.
@@ -45,8 +45,8 @@ public final class R36s {
         START(SHAPE_ROUND, null, "START", round(71, 123, 4.2f)),
         L3(SHAPE_STICK, "L3", null, round(25, 148, 14)),
         R3(SHAPE_STICK, "R3", null, round(95, 148, 14)),
-        L2(SHAPE_TAB, "L2", null, 4, -10, 21, -2),
-        L1(SHAPE_TAB, "L1", null, 23, -10, 40, -2),
+        L2(SHAPE_TAB, "L2", null, 23, -10, 40, -2),
+        L1(SHAPE_TAB, "L1", null, 4, -10, 21, -2),
         VOLUME_UP(SHAPE_TAB, "+", null, 122, 20, 130, 32),
         VOLUME_DOWN(SHAPE_TAB, "−", null, 122, 34, 130, 46),
         /** Drawn with the power symbol */
