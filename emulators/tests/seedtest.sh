@@ -298,7 +298,9 @@ daijishou_grants
 seed_daijishou
 a=$(sqlite3 "$DJ_DB" "SELECT am_start_arguments FROM PlayerEntity WHERE unique_id='psx.ra.pcsx_rearmed'")
 r=$(sqlite3 "$DJ_DB" "SELECT accept_filename_regex FROM PlatformEntity WHERE unique_id='snes'")
-[ "$(printf '%s' "$a" | wc -l)" -eq 3 ] && [ "$r" = '^(?!(?:\._|\.).*).*(?<!bml)$' ] &&
+# 7 lines: component, ROM, core, config, and the folders RetroArch's own launcher passes
+[ "$(printf '%s' "$a" | wc -l)" -eq 6 ] && [ "$(printf '%s\n' "$a" | sed -n 5p)" = " -e DATADIR /data/user/0/com.retroarch" ] &&
+	[ "$r" = '^(?!(?:\._|\.).*).*(?<!bml)$' ] &&
 	ok "newlines and backslashes kept" || bad "quoting: $r"
 
 # 19. new games: Daijishou asks again on its next start

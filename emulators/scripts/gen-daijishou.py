@@ -69,6 +69,18 @@ PLAYER_COLUMNS = [
 
 RETROARCH = "-n com.retroarch/"
 
+# The folders RetroArch's own launcher hands to RetroActivityFuture
+# (MainMenuActivity.startRetroActivity). Without DATADIR RetroArch has no default
+# folders, so a core given by name ("-e LIBRETRO gambatte") is only found once
+# retroarch.cfg has libretro_directory, which RetroArch writes the first time it is
+# opened itself: until then every game from Daijishou hung RetroArch. EXTERNAL and
+# SDCARD keep saves and states where they are when RetroArch is opened itself.
+RETROARCH_EXTRAS = (
+    " -e DATADIR /data/user/0/com.retroarch",
+    " -e EXTERNAL /storage/emulated/0/Android/data/com.retroarch/files",
+    " -e SDCARD /storage/emulated/0",
+)
+
 
 def sql_text(s):
     """A one-line SQL expression for the string s (NULL for None)."""
@@ -199,6 +211,10 @@ def generate():
                 if not want.startswith("core:"):
                     raise SystemExit("%s: no player for %s" % (fname, need))
                 p = synth_player(platform, players, need)
+            if ra_core(p):
+                p = dict(p)
+                p["amStartArguments"] = "\n".join(
+                    [p["amStartArguments"].rstrip("\n")] + list(RETROARCH_EXTRAS))
             lines.append("player\t%d\t%s\t%s" % (n, want, player_values(p)))
     return "\n".join(lines) + "\n"
 
