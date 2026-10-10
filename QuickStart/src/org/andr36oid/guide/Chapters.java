@@ -95,6 +95,7 @@ final class Chapters {
         final boolean touchControls = hasPackage("org.andr36oid.touchmapper");
         final String dpad = s(R.string.key_dpad);
         final String power = s(R.string.key_power);
+        final String volume = s(R.string.key_volume);
         final List<Chapter> chapters = new ArrayList<>();
 
         Chapter c = chapter(R.string.welcome_title, chapters);
