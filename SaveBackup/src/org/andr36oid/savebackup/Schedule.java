@@ -8,7 +8,7 @@ import android.content.Context;
 /**
  * The two automatic jobs:
  * <ul>
- * <li>daily: while charging, once a day (24 hours after the last backup or check). If the
+ * <li>daily: while charging, once a day (24 hours after the last full backup or check). If the
  *     console isn't charging then, it runs as soon as it's plugged in.</li>
  * <li>session: about every 30 minutes while the console is awake, looks whether an emulator
  *     was closed since the last look and backs up if so. Looking costs nothing but a query
@@ -16,7 +16,9 @@ import android.content.Context;
  *     periodic job has a deadline, and JobScheduler wakes a sleeping console for every
  *     deadline. Games are only closed while the screen is on, so nothing is missed.</li>
  * </ul>
- * Both skip the backup when nothing changed (the engine checks sizes and times).
+ * Both skip the backup when nothing changed (the engine checks sizes and times). The
+ * session run leaves save states over 16 MB out (Engine.SESSION_STATE_MAX); the daily run
+ * takes them, and so does a session run when the last whole backup is over a day old.
  */
 final class Schedule {
 
@@ -64,7 +66,8 @@ final class Schedule {
      */
     static void daily(Context c, long atLeast) {
         if (!Prefs.auto(c)) return;
-        final long last = Helper.last().checked;
+        // everything backed up, big save states too (after-game runs leave those out)
+        final long last = Helper.last().full;
         long wait = last > 0
                 ? Math.max(0, Math.min(DAY_MS, last + DAY_MS - System.currentTimeMillis())) : 0;
         wait = Math.max(wait, atLeast);

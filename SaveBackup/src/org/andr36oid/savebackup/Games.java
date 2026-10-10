@@ -38,6 +38,17 @@ final class Games {
         return STATE.matcher(n).matches();
     }
 
+    /**
+     * A save state (not an in-game save), by its id ("internal/…"): RetroArch's .state
+     * files and their thumbnails, PPSSPP's .ppst, anything in a PPSSPP_STATE folder.
+     */
+    static boolean isState(String id) {
+        final String n = id.toLowerCase(Locale.ROOT);
+        final String name = n.substring(n.lastIndexOf('/') + 1);
+        return STATE.matcher(name).matches() || name.endsWith(".ppst")
+                || n.contains("/ppsspp_state/");
+    }
+
     /** "Zelda (USA).state.auto" -> "Zelda (USA)" */
     static String baseName(String name) {
         String n = name;

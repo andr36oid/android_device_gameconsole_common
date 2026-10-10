@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.ArrayList;
@@ -37,6 +38,7 @@ public class EngineTest {
             units();
             walkCache();
             scenario();
+            bigStates();
         } finally {
             if (root != null) delete(root);
         }
@@ -511,6 +513,219 @@ public class EngineTest {
                 && failed.time > 0, "no storage: the failure is remembered: " + st);
         media = keepMedia;
         easyroms = new File(keepEasy);
+    }
+
+    // ---- big save states and after-game runs --------------------------------------------
+
+    /**
+     * After a game, save states over Engine.SESSION_STATE_MAX are left out and don't count
+     * as a change; daily, manual and USB backups take them, and the newest backup that has
+     * them is never pruned.
+     */
+    static void bigStates() throws Exception {
+        final long max = Engine.SESSION_STATE_MAX;
+        check(Games.isState("internal/PSP/PPSSPP_STATE/ULUS10041_1.00_0.ppst")
+                && Games.isState("easyroms/psx/FF7.state.auto")
+                && Games.isState("internal/RetroArch/states/Zelda.state3.png")
+                && Games.isState("internal/PSP/PPSSPP_STATE/ULUS10041_1.00_0.jpg")
+                && !Games.isState("internal/PSP/SAVEDATA/ULUS10041DATA00/DATA.BIN")
+                && !Games.isState("easyroms/gba/Zelda.srm"),
+                "big states: which files are save states");
+        check(Engine.bigState("internal/PSP/PPSSPP_STATE/a.ppst", max + 1)
+                && !Engine.bigState("internal/PSP/PPSSPP_STATE/a.ppst", max)
+                && !Engine.bigState("internal/PSP/SAVEDATA/ULUS10041DATA00/DATA.BIN", max * 4)
+                && !Engine.bigState("easyroms/n64/Mario.srm", max * 2),
+                "big states: only states over the limit; in-game saves of any size stay in");
+        final String fpText = "a.srm\t10\t1\nb.ppst\t" + (max + 1) + "\t2\n"
+                + "c.state1\t" + max + "\t3\n";
+        check(Engine.part(fpText, false).equals("a.srm\t10\t1\nc.state1\t" + max + "\t3\n")
+                && Engine.part(fpText, true).equals("b.ppst\t" + (max + 1) + "\t2\n"),
+                "big states: a fingerprint split into big states and the rest");
+        final Index.Last old = Index.Last.parse("time=5\nname=saves-x-1.zip\nchecked=7\n"
+                + "result=backup\n");
+        check(old.full == 7 && old.fullName.equals("saves-x-1.zip"),
+                "big states: a last file from before counts as a full backup");
+
+        final File keepRoot = root, keepMedia = media, keepEasy = easyroms, keepUsb = usb,
+                keepDir = dir, keepRa = raData, keepPp = ppsspp;
+        final long keepClock = clock;
+        final File r = Files.createTempDirectory("savebackup-big").toFile();
+        try {
+            media = new File(r, "media");
+            easyroms = new File(r, "1234-ABCD");
+            usb = null;
+            dir = new File(r, "misc");
+            raData = new File(r, "ra");
+            ppsspp = new File(r, "ppsspp");
+            for (File f : new File[] {media, easyroms, dir, raData, ppsspp}) f.mkdirs();
+            final File in = new File(media, "Backups/Saves");
+            final File er = new File(easyroms, "backups/saves");
+            final String state = "PSP/PPSSPP_STATE/ULUS10041_1.00_0.ppst";
+            final String stateId = "internal/" + state;
+            put(media, "RetroArch/saves/Zelda.srm", "zelda-v1", -30);
+            put(media, "RetroArch/states/Zelda.state1", "small state", -30);
+            put(media, "PSP/SAVEDATA/ULUS10041DATA00/DATA.BIN", "psp-save", -30);
+            bigFile(media, state, "state-v1", max + 4096, -30);
+
+            // a manual backup takes the big state
+            String st = run("action=backup\nreason=manual\nkeep=3");
+            final String full1 = Archive.list(in).get(0).getName();
+            Index.Last last = Index.Last.parse(read(new File(dir, "last")));
+            check(st.startsWith("done backup") && has(new File(in, full1), stateId)
+                    && last.full == clock && last.fullName.equals(full1),
+                    "big states: a manual backup takes them: " + st);
+
+            // after a game, only the big state changed: nothing is written
+            clock += 3600000;
+            bigFile(media, state, "state-v2", max + 8192, -1);
+            st = run("action=backup\nreason=session\nkeep=3");
+            last = Index.Last.parse(read(new File(dir, "last")));
+            check(st.startsWith("done unchanged") && Archive.list(in).size() == 1
+                    && Archive.list(er).size() == 1 && last.checked == clock
+                    && last.full == clock - 3600000,
+                    "big states: after a game, a changed big state alone writes nothing: " + st);
+            check(read(new File(dir, "walk.last")).contains("1 big states left out"),
+                    "big states: walk.last says what was left out");
+
+            // after a game, a save changed: a new backup without the big state
+            clock += 3600000;
+            put(media, "RetroArch/saves/Zelda.srm", "zelda-v2", -1);
+            st = run("action=backup\nreason=session\nkeep=3");
+            final String sess1 = Archive.list(in).get(0).getName();
+            Manifest m = Archive.readManifest(new File(in, sess1));
+            last = Index.Last.parse(read(new File(dir, "last")));
+            check(st.startsWith("done backup") && !has(new File(in, sess1), stateId)
+                    && entry(m, "internal/RetroArch/saves/Zelda.srm").sha1.equals(sha1("zelda-v2"))
+                    && has(new File(in, sess1), "internal/RetroArch/states/Zelda.state1")
+                    && has(new File(in, sess1), "internal/PSP/SAVEDATA/ULUS10041DATA00/DATA.BIN")
+                    && new File(er, sess1).isFile(),
+                    "big states: after a game, the saves and small states, not the big one");
+            check(last.name.equals(sess1) && last.fullName.equals(full1)
+                    && last.full == clock - 7200000,
+                    "big states: the last full backup is still the manual one");
+
+            // the same again: unchanged (the session backup is compared without big states)
+            clock += 3600000;
+            st = run("action=backup\nreason=session\nkeep=3");
+            check(st.startsWith("done unchanged"), "big states: then nothing changed: " + st);
+
+            // many sessions with keep=3: the only backup with the big state stays
+            for (int i = 0; i < 4; i++) {
+                clock += 3600000;
+                put(media, "RetroArch/saves/Zelda.srm", "zelda-v" + (i + 3), -1);
+                run("action=backup\nreason=session\nkeep=3");
+            }
+            check(new File(in, full1).isFile() && new File(er, full1).isFile()
+                    && Archive.list(in).size() == 4 && Archive.list(er).size() == 4,
+                    "big states: pruning keeps 3 and the newest backup that has everything ("
+                    + Archive.list(in).size() + ")");
+
+            // the daily run takes the big state, and is due by the last full backup
+            clock += 3600000;
+            st = run("action=backup\nreason=daily\nkeep=3");
+            final String full2 = Archive.list(in).get(0).getName();
+            last = Index.Last.parse(read(new File(dir, "last")));
+            check(st.startsWith("done backup") && has(new File(in, full2), stateId)
+                    && entry(Archive.readManifest(new File(in, full2)), stateId).size
+                            == max + 8192
+                    && last.full == clock && last.fullName.equals(full2),
+                    "big states: the daily backup takes the new big state: " + st);
+            check(!new File(in, full1).exists() && Archive.list(in).size() == 3,
+                    "big states: the older full backup is pruned once a newer one exists");
+            st = run("action=backup\nreason=daily\nkeep=3");
+            check(st.startsWith("done unchanged"), "big states: daily again: unchanged: " + st);
+
+            // a session backup of a changed save, then the daily run: the big state is the
+            // same as in the newest whole backup, so nothing is written, but it counts as full
+            clock += 3600000;
+            put(media, "RetroArch/saves/Zelda.srm", "zelda-v8", -1);
+            st = run("action=backup\nreason=session\nkeep=3");
+            final String sess2 = Archive.list(in).get(0).getName();
+            clock += DAY;
+            final int zips = Archive.list(in).size();
+            st = run("action=backup\nreason=daily\nkeep=3");
+            last = Index.Last.parse(read(new File(dir, "last")));
+            check(st.equals("done unchanged " + sess2) && Archive.list(in).size() == zips
+                    && last.full == clock && last.fullName.equals(full2),
+                    "big states: daily after a session backup, big state unchanged: nothing"
+                    + " written: " + st);
+            // a lost copy of the whole backup is put back by an unchanged run
+            new File(er, full2).delete();
+            run("action=backup\nreason=daily\nkeep=3");
+            check(new File(er, full2).isFile(), "big states: the whole backup's lost copy is"
+                    + " made again");
+            // back up to USB now: the newest backup and the whole one go to the drive
+            usb = new File(r, "USB0");
+            usb.mkdirs();
+            st = run("action=backup\nreason=usb\nusb=1\nkeep=3");
+            check(st.startsWith("done unchanged") && new File(usb, "Backups/Saves/" + sess2).isFile()
+                    && new File(usb, "Backups/Saves/" + full2).isFile(),
+                    "big states: USB gets the newest backup and the newest whole one: " + st);
+            usb = null;
+
+            // no big states at all: an after-game backup is a full one
+            new File(media, state).delete();
+            clock += 3600000;
+            put(media, "RetroArch/saves/Zelda.srm", "zelda-v9", -1);
+            st = run("action=backup\nreason=session\nkeep=3");
+            last = Index.Last.parse(read(new File(dir, "last")));
+            check(st.startsWith("done backup") && last.full == clock
+                    && last.fullName.equals(last.name),
+                    "big states: without big states an after-game backup counts as full");
+
+            // no whole backup for over a day (no charger, so no daily run): the after-game
+            // backup takes the big states
+            bigFile(media, state, "state-v4", max + 2, -1);
+            clock += DAY + 3600000;
+            put(media, "RetroArch/saves/Zelda.srm", "zelda-v11", -1);
+            st = run("action=backup\nreason=session\nkeep=3");
+            last = Index.Last.parse(read(new File(dir, "last")));
+            check(st.startsWith("done backup") && has(new File(in, last.name), stateId)
+                    && last.full == clock && last.fullName.equals(last.name),
+                    "big states: no whole backup for a day: an after-game backup takes them");
+
+            // USB: back up to USB now after a session backup takes the big state
+            bigFile(media, state, "state-v3", max + 1, -1);
+            clock += 3600000;
+            put(media, "RetroArch/saves/Zelda.srm", "zelda-v10", -1);
+            run("action=backup\nreason=session\nkeep=3");
+            usb = new File(r, "USB");
+            usb.mkdirs();
+            st = run("action=backup\nreason=usb\nusb=1\nkeep=3");
+            final List<File> onUsb = Archive.list(new File(usb, "Backups/Saves"));
+            check(st.startsWith("done backup") && onUsb.size() == 1 && has(onUsb.get(0), stateId),
+                    "big states: back up to USB makes a full backup first: " + st);
+        } finally {
+            delete(r);
+            root = keepRoot;
+            media = keepMedia;
+            easyroms = keepEasy;
+            usb = keepUsb;
+            dir = keepDir;
+            raData = keepRa;
+            ppsspp = keepPp;
+            clock = keepClock;
+        }
+    }
+
+    /** A sparse file of the given size that starts with {@code head}. */
+    static void bigFile(File base, String rel, String head, long size, int minutes)
+            throws IOException {
+        final File f = new File(base, rel);
+        f.getParentFile().mkdirs();
+        f.delete();
+        try (RandomAccessFile raf = new RandomAccessFile(f, "rw")) {
+            raf.write(head.getBytes(StandardCharsets.UTF_8));
+            raf.setLength(size);
+        }
+        f.setLastModified(clock + minutes * 60000L);
+    }
+
+    static boolean has(File zip, String id) throws IOException {
+        for (Manifest.Entry e : Archive.readManifest(zip).entries) {
+            if (e.id.equals(id)) return true;
+        }
+        return false;
     }
 
     // ---- helpers -----------------------------------------------------------------------

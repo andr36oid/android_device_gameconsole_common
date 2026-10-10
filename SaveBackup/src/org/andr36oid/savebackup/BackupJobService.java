@@ -116,9 +116,13 @@ public class BackupJobService extends JobService {
         if (p.getJobId() == Schedule.JOB_SESSION) nextSession();
     }
 
+    /**
+     * Goes by the last time everything was backed up, not by the last check: after-game
+     * runs leave big save states out, so they don't count here.
+     */
     private String dailyReason() {
-        final long checked = Helper.last().checked;
-        return System.currentTimeMillis() - checked >= DAILY_DUE_MS ? "daily" : null;
+        final long full = Helper.last().full;
+        return System.currentTimeMillis() - full >= DAILY_DUE_MS ? "daily" : null;
     }
 
     /**

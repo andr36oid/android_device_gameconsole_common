@@ -61,7 +61,7 @@
     <string name="usb_none">Plug in a USB drive to keep a copy away from the SD card</string>
     <string name="auto_category">Automatic backup</string>
     <string name="auto_title">Back up automatically</string>
-    <string name="auto_summary">Once a day while charging, and after you close a game. Skipped when nothing changed.</string>
+    <string name="auto_summary">Once a day while charging, and after you close a game. Skipped when nothing changed. After a game, save states over 16 MB (PSP) wait for the daily backup.</string>
     <string name="keep_title">Backups to keep</string>
     <!-- %1$s: a number -->
     <string name="keep_summary">The newest %1$s are kept, with at least one from each recent day. Older ones are deleted.</string>
