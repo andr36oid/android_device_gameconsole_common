@@ -42,12 +42,22 @@
                 android:resource="@color/beta_icon_background" />
         </activity>
 
-        <!-- Asks about new apps once per boot, when setup is done and the home screen is up -->
+        <!-- Asks about new apps once per boot, when setup is done and the home screen is up.
+             Switches itself off when there is nothing to ask. -->
         <receiver
             android:name=".BootReceiver"
             android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
+        <!-- First start of a new build: switches the boot receiver back on -->
+        <receiver
+            android:name=".NewBuildReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.PRE_BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
 

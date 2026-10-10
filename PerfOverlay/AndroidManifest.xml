@@ -64,7 +64,8 @@
             </intent-filter>
         </service>
 
-        <!-- Puts the overlay back after a restart if it was on -->
+        <!-- Puts the overlay back after a restart if it was on. The app switches it off
+             while the overlay is off. -->
         <receiver
             android:name=".BootReceiver"
             android:exported="true">

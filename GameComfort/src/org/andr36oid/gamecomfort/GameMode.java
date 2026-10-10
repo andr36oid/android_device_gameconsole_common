@@ -40,7 +40,7 @@ final class GameMode {
     private static final String KEY_SAVED_FILTER = "game_mode_saved_filter";
     /** Heads-up setting before, or -1 if game mode didn't change it. */
     private static final String KEY_SAVED_HEADS_UP = "game_mode_saved_heads_up";
-    private static final String KEY_TILE_ADDED = "game_mode_tile_added";
+    static final String KEY_TILE_ADDED = "game_mode_tile_added";
 
     private static final int FILTER = NotificationManager.INTERRUPTION_FILTER_PRIORITY;
 

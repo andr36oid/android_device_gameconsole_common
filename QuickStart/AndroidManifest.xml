@@ -96,7 +96,8 @@
         </activity>
 
         <!-- The first start's safety net at boot and after the wizard: starts the watchdog
-             while the first-start launcher is home, removes a left-over launcher -->
+             while the first-start launcher is home, removes a left-over launcher. Switches
+             itself off once the first start is over. -->
         <receiver
             android:name=".FirstBootReceiver"
             android:exported="false">

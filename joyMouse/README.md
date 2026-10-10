@@ -132,6 +132,8 @@ Everything the page sets is a system property, so it also works from adb.
   first one immediately, dominant axis only.
 * Toasts: on each switch the daemon runs `cmd activity broadcast` to
   `JoyMouseSettings` (permission-protected receiver), which shows the toast.
+  The app isn't kept running; a WARM_UP broadcast when the toggle chord is
+  first held starts it, so it is ready when the hold time is up.
 
 `src/Controller.cpp` holds the whole mode/button/motion state machine without
 touching a device node; the Linux side is `EvdevPad`, `Uinput`, `Display`,

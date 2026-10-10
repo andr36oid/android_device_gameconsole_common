@@ -50,6 +50,8 @@ final class Hud {
 
     /** Starts or stops the overlay service without touching the saved choice. */
     static void apply(Context context, boolean on) {
+        // Only needed at boot to put the overlay back
+        BootStart.set(context, on);
         final Intent service = new Intent(context, HudService.class);
         if (on) {
             context.startForegroundService(service);

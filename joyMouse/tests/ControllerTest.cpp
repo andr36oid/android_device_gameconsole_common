@@ -102,8 +102,10 @@ struct FakeOutput : OutputPort {
 struct FakeListener : ModeListener {
     std::vector<bool> changes;
     bool fullscreen = false;
+    int armed = 0;
     void onMouseModeChanged(bool active) override { changes.push_back(active); }
     bool inFullscreenApp() override { return fullscreen; }
+    void onToggleArmed() override { ++armed; }
 };
 
 using Keys = std::vector<std::pair<int, int>>;
@@ -290,6 +292,47 @@ TEST_F(ControllerTest, ToggleCanBeDisabled) {
     advance(msToNanos(3000));
     EXPECT_EQ(controller->mode(), Mode::Off);
     EXPECT_FALSE(controller->chord().enabled());
+}
+
+// The daemon starts the toast app when the hold begins, before the switch.
+TEST_F(ControllerTest, ArmedOncePerHoldBeforeTheSwitch) {
+    key(kL3, 1);
+    EXPECT_EQ(listener.armed, 0);
+    key(kR3, 1);
+    EXPECT_EQ(listener.armed, 1);
+    EXPECT_TRUE(listener.changes.empty());
+    advance(msToNanos(config.toggleMs + 50));
+    EXPECT_EQ(listener.armed, 1);
+    ASSERT_EQ(listener.changes.size(), 1u);
+    key(kL3, 0);
+    key(kR3, 0);
+    holdToggle();  // and on the way out
+    EXPECT_EQ(listener.armed, 2);
+    EXPECT_EQ(listener.changes.size(), 2u);
+}
+
+TEST_F(ControllerTest, NotArmedWhenTheChordDoesNotCount) {
+    listener.fullscreen = true;
+    key(BTN_TR2, 1);
+    key(kL3, 1);
+    key(kR3, 1);
+    EXPECT_EQ(listener.armed, 0);
+    key(kL3, 0);
+    key(kR3, 0);
+    key(BTN_TR2, 0);
+    pad.abs[ABS_RY] = -kStickMax;  // vetoed at once
+    key(kL3, 1);
+    key(kR3, 1);
+    EXPECT_EQ(listener.armed, 0);
+}
+
+TEST_F(ControllerTest, NotArmedWhenToggleIsDisabled) {
+    config.toggleEnabled = false;
+    reconfigure();
+    key(kL3, 1);
+    key(kR3, 1);
+    advance(msToNanos(3000));
+    EXPECT_EQ(listener.armed, 0);
 }
 
 TEST_F(ControllerTest, ChordTurnsMouseModeOffAndCleansUp) {

@@ -76,6 +76,8 @@ public class WatcherService extends Service {
 
     /** Starts the watcher if any profile is on, or lets it stop. */
     static void refresh(Context context) {
+        // Only needed at boot while a profile is on
+        BootStart.set(context, Profiles.anyEnabled());
         context.startService(new Intent(context, WatcherService.class).setAction(ACTION_REFRESH));
     }
 

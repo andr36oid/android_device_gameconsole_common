@@ -33,6 +33,8 @@ final class Schedule {
 
     /** Schedules or cancels the jobs to match the switch. */
     static void update(Context c) {
+        // Only needed at boot (to check the jobs) while automatic backups are on
+        BootStart.set(c, Prefs.auto(c));
         final JobScheduler js = c.getSystemService(JobScheduler.class);
         if (!Prefs.auto(c)) {
             js.cancel(JOB_DAILY);
