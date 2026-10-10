@@ -39,11 +39,16 @@ mkdir -p $INTERMEDIATES
 
 tar xfp $PARAM_BOOTANIMATION_TAR -C $INTERMEDIATES
 
-# part3: the last frame of the logo morph (part2), held while Android starts.
-# desc.txt plays the morph right after the intro, so the animation is finished
-# by the time Android is up and nothing waits for it.
+# desc.txt plays the logo morph (part2) right after the intro, so it is over
+# long before Android is up and nothing waits for it. part2 ends on the finished
+# teal logo (frame 310); its fade to black (311-359) is left out, and part3
+# holds frame 310 until Android is up.
+for f in $INTERMEDIATES/part2/*.png; do
+    n=$(basename "$f" .png)
+    [ "$n" -gt 310 ] && rm "$f"
+done
 mkdir -p $INTERMEDIATES/part3
-cp "$(ls $INTERMEDIATES/part2/*.png | tail -n 1)" $INTERMEDIATES/part3/
+cp $INTERMEDIATES/part2/310.png $INTERMEDIATES/part3/
 # the dots loop (part1) is not played any more
 rm -rf $INTERMEDIATES/part1
 
