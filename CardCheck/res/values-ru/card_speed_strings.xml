@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Added with the card ID, small block and pause/continue parts. -->
+    <!-- %1$s the marks as printed on the card, e.g. "Class 10, U3, V30, A2" -->
+    <string name="details_marks">Маркировка: %1$s</string>
+    <!-- %1$s the mode's name, e.g. SDR104 -->
+    <string name="details_bus_fast">Работает в быстром режиме (UHS-I %1$s)</string>
+    <!-- %1$d top speed of the mode in MB/s -->
+    <string name="details_bus_normal">Работает в обычном режиме (до %1$d МБ/с)</string>
+    <string name="details_bus_slow">Работает в медленном режиме (до %1$d МБ/с)</string>
+    <string name="advice_category">Что это значит</string>
+    <string name="advice_paused">Проверка реального объёма приостановлена. Её тестовые данные заполняют карту, поэтому игры, возможно, не смогут сохраняться. Продолжите проверку или удалите тестовые данные ниже.</string>
+    <string name="advice_fake">Эта карта поддельная или повреждена (см. проверку реального объёма ниже). Как можно скорее скопируйте игры и сохранения на другую карту.</string>
+    <string name="advice_write_error">При записи карта сообщила об ошибке. Возможно, она изношена или поддельная. Сделайте резервную копию сохранений.</string>
+    <!-- %1$s one or more of the sign_ texts, joined with "; " -->
+    <string name="advice_signs">Собственный ID карты выглядит странно: %1$s. Так часто выглядят поддельные карты. Чтобы знать наверняка, проверьте реальный объём.</string>
+    <string name="advice_signs_but_real">Собственный ID карты выглядит странно (%1$s), но проверка реального объёма пройдена, так что место настоящее.</string>
+    <string name="sign_no_maker">нет правильного ID производителя</string>
+    <string name="sign_brand_mismatch">ID производителя и OEM ID относятся к разным брендам</string>
+    <string name="sign_size_mismatch">указаны два разных объёма</string>
+    <string name="sign_spec_too_old">заявлена версия SD, слишком старая для такого объёма</string>
+    <!-- %1$s the date the card reports, e.g. 00/2000 -->
+    <string name="sign_bad_date">невозможная дата выпуска (%1$s)</string>
+    <!-- %1$d a year -->
+    <string name="sign_too_old">указан год выпуска %1$d, когда таких больших карт ещё не было</string>
+    <!-- %1$d MB/s the marks promise, %2$s measured, e.g. 2.5 MB/s -->
+    <string name="advice_claim_write">По маркировке карта записывает не менее %1$d МБ/с, но записала со скоростью %2$s. Возможно, она поддельная или изношена.</string>
+    <!-- %1$d 1 or 2 (A1, A2) -->
+    <string name="advice_claim_small">Карта маркирована A%1$d, но с маленькими блоками работает гораздо медленнее обещанного. Возможно, она поддельная или изношена.</string>
+    <!-- %1$d top speed of the mode in MB/s -->
+    <string name="advice_bus_slow">Консоль использует эту карту в более медленном режиме (до %1$d МБ/с), чем карта поддерживает. Может помочь перезапуск. Если не поможет, возможно, карта или слот загрязнены или изношены.</string>
+    <string name="advice_slow">Карта медленная: игры могут загружаться долго. Карта с маркировкой A1 или U3 будет быстрее.</string>
+    <string name="advice_untested">Проверьте скорость, чтобы узнать, как быстро будут загружаться игры.</string>
+    <string name="advice_good">Проблем не найдено.</string>
+    <string name="speed_summary_small">Записывает и читает файл 256 МБ, затем маленькие блоки по 4 КБ. Занимает около минуты, нужно 1 ГБ свободного места.</string>
+    <string name="speed_running_small">Проверка маленьких блоков…</string>
+    <!-- %1$s and %2$s whole numbers, e.g. 1,850 and 410 -->
+    <string name="speed_small">Маленькие блоки в секунду: чтение %1$s, запись %2$s</string>
+    <string name="marks_title">Что значит маркировка на карте</string>
+    <string name="marks_text">Class 10, U1 и V10: запись не менее 10 МБ/с. U3 и V30: не менее 30 МБ/с. A1: не менее 1500 чтений и 500 записей маленьких блоков в секунду, это помогает играм из множества файлов. A2 обещает больше, но эта консоль использует карты A2 как A1.</string>
+    <string name="error_paused">На этой карте приостановлена проверка реального объёма. Сначала продолжите её или удалите её тестовые данные.</string>
+    <string name="full_title_continue">Продолжить проверку</string>
+    <!-- %1$s done, %2$s total -->
+    <string name="full_paused_write">Приостановлено во время записи, %1$s из %2$s. Тестовые данные остаются на карте, пока вы не продолжите проверку или не удалите их, поэтому до тех пор игры, возможно, не смогут сохраняться.</string>
+    <string name="full_paused_verify">Приостановлено во время чтения обратно, %1$s из %2$s. Тестовые данные остаются на карте, пока вы не продолжите проверку или не удалите их, поэтому до тех пор игры, возможно, не смогут сохраняться.</string>
+    <string name="full_delete_title">Удалить тестовые данные</string>
+    <!-- %1$s size -->
+    <string name="full_delete_summary">Освободит %1$s. Следующая проверка начнётся сначала.</string>
+    <string name="stop_title">Остановить проверку?</string>
+    <string name="stop_text">«Пауза» оставляет тестовые данные на карте, чтобы продолжить позже. До этого игры, возможно, не смогут сохраняться. «Стоп» удаляет тестовые данные.</string>
+    <string name="stop_pause">Пауза</string>
+    <string name="stop_delete">Стоп</string>
+    <!-- %1$s card name, %2$s how long -->
+    <string name="confirm_text_pause">Проверка займёт всё свободное место на %1$s примерно на %2$s, так что до её окончания игры не смогут туда сохраняться. Подключите зарядное устройство: консоль не будет засыпать. Проверку можно приостановить и продолжить позже или остановить в любой момент. Ваши игры и файлы не затрагиваются.</string>
+    <string name="paused_channel">Приостановленная проверка SD-карты</string>
+    <string name="paused_title">Проверка SD-карты на паузе</string>
+    <!-- %1$s size of the test data -->
+    <string name="paused_text">Тестовые данные (%1$s) заполняют карту. Продолжите проверку или удалите тестовые данные, чтобы игры снова могли сохраняться.</string>
+</resources>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Added with the card ID, small block and pause/continue parts. -->
+    <!-- %1$s the marks as printed on the card, e.g. "Class 10, U3, V30, A2" -->
+    <string name="details_marks">İşaretler: %1$s</string>
+    <!-- %1$s the mode's name, e.g. SDR104 -->
+    <string name="details_bus_fast">Hızlı modda çalışıyor (UHS-I %1$s)</string>
+    <!-- %1$d top speed of the mode in MB/s -->
+    <string name="details_bus_normal">Normal modda çalışıyor (en fazla %1$d MB/sn)</string>
+    <string name="details_bus_slow">Yavaş modda çalışıyor (en fazla %1$d MB/sn)</string>
+    <string name="advice_category">Bu ne anlama geliyor</string>
+    <string name="advice_paused">Bir gerçek boyut kontrolü duraklatıldı. Test verisi kartı dolduruyor, bu yüzden oyunlar kayıt yapamayabilir. Aşağıdan kontrole devam edin veya test verisini silin.</string>
+    <string name="advice_fake">Bu kart sahte veya hasarlı (aşağıdaki gerçek boyut kontrolüne bakın). Oyunlarınızı ve kayıtlarınızı en kısa zamanda başka bir karta kopyalayın.</string>
+    <string name="advice_write_error">Kart yazarken bir hata bildirdi. Yıpranmış veya sahte olabilir. Kayıtlarınızı yedekleyin.</string>
+    <!-- %1$s one or more of the sign_ texts, joined with "; " -->
+    <string name="advice_signs">Kartın kendi kimliği tuhaf görünüyor: %1$s. Sahte kartlar çoğu zaman böyle görünür. Emin olmak için gerçek boyutu kontrol edin.</string>
+    <string name="advice_signs_but_real">Kartın kendi kimliği tuhaf görünüyor (%1$s), ama gerçek boyut kontrolü başarılı oldu, yani alan gerçek.</string>
+    <string name="sign_no_maker">düzgün bir üretici kimliği yok</string>
+    <string name="sign_brand_mismatch">üretici kimliği ve OEM kimliği farklı markalara ait</string>
+    <string name="sign_size_mismatch">iki farklı boyut bildiriyor</string>
+    <string name="sign_spec_too_old">boyutuna göre fazla eski bir SD kart sürümü bildiriyor</string>
+    <!-- %1$s the date the card reports, e.g. 00/2000 -->
+    <string name="sign_bad_date">tarihi (%1$s) mümkün değil</string>
+    <!-- %1$d a year -->
+    <string name="sign_too_old">%1$d yılında, bu kadar büyük kartlar henüz yokken üretildiğini söylüyor</string>
+    <!-- %1$d MB/s the marks promise, %2$s measured, e.g. 2.5 MB/s -->
+    <string name="advice_claim_write">Kartın işaretleri yazmada en az %1$d MB/sn vaat ediyor, ama kart %2$s hızla yazdı. Sahte veya yıpranmış olabilir.</string>
+    <!-- %1$d 1 or 2 (A1, A2) -->
+    <string name="advice_claim_small">Kartın üzerinde A%1$d yazıyor, ama küçük blokları bunun vaat ettiğinden çok daha yavaş işliyor. Sahte veya yıpranmış olabilir.</string>
+    <!-- %1$d top speed of the mode in MB/s -->
+    <string name="advice_bus_slow">Konsol bu kartı, kartın desteklediğinden daha yavaş bir modda (en fazla %1$d MB/sn) çalıştırıyor. Yeniden başlatmak işe yarayabilir. Böyle kalırsa kart veya yuva kirli ya da yıpranmış olabilir.</string>
+    <string name="advice_slow">Bu kart yavaş: oyunlar yavaş yüklenebilir. A1 veya U3 işaretli bir kart daha hızlı olur.</string>
+    <string name="advice_untested">Oyunların ne kadar hızlı yükleneceğini görmek için hızı test edin.</string>
+    <string name="advice_good">Sorun bulunamadı.</string>
+    <string name="speed_summary_small">256 MB\'lık bir dosya, ardından 4 KB\'lık küçük bloklar yazar ve okur. Yaklaşık bir dakika sürer ve 1 GB boş alan gerektirir.</string>
+    <string name="speed_running_small">Küçük bloklar test ediliyor…</string>
+    <!-- %1$s and %2$s whole numbers, e.g. 1,850 and 410 -->
+    <string name="speed_small">Küçük bloklar: saniyede %1$s okuma ve %2$s yazma</string>
+    <string name="marks_title">Karttaki işaretlerin anlamı</string>
+    <string name="marks_text">Class 10, U1 ve V10: en az 10 MB/sn yazar. U3 ve V30: en az 30 MB/sn. A1: saniyede en az 1500 küçük okuma ve 500 küçük yazma; bu, çok sayıda dosyadan oluşan oyunlara yardımcı olur. A2 daha fazlasını vaat eder, ama bu konsol A2 kartları A1 kartları gibi kullanır.</string>
+    <string name="error_paused">Bu kartta bir gerçek boyut kontrolü duraklatıldı. Önce kontrole devam edin veya test verisini silin.</string>
+    <string name="full_title_continue">Kontrole devam et</string>
+    <!-- %1$s done, %2$s total -->
+    <string name="full_paused_write">Yazarken duraklatıldı, %1$s / %2$s. Test verisi siz devam edene veya silene kadar kartta kalır; o zamana kadar oyunlar kayıt yapamayabilir.</string>
+    <string name="full_paused_verify">Geri okurken duraklatıldı, %1$s / %2$s. Test verisi siz devam edene veya silene kadar kartta kalır; o zamana kadar oyunlar kayıt yapamayabilir.</string>
+    <string name="full_delete_title">Test verisini sil</string>
+    <!-- %1$s size -->
+    <string name="full_delete_summary">%1$s boşaltır. Sonraki kontrol en baştan başlar.</string>
+    <string name="stop_title">Kontrol durdurulsun mu?</string>
+    <string name="stop_text">Duraklat, test verisini kartta tutar; böylece daha sonra devam edebilirsiniz. O zamana kadar oyunlar kayıt yapamayabilir. Durdur, test verisini siler.</string>
+    <string name="stop_pause">Duraklat</string>
+    <string name="stop_delete">Durdur</string>
+    <!-- %1$s card name, %2$s how long -->
+    <string name="confirm_text_pause">Bu işlem %1$s üzerindeki tüm boş alanı yaklaşık %2$s boyunca doldurur, bu yüzden bitene kadar oyunlar oraya kayıt yapamaz. Şarj cihazını takın: konsol uyanık kalır. Duraklatıp daha sonra devam edebilir veya istediğiniz zaman durdurabilirsiniz. Oyunlarınıza ve dosyalarınıza dokunulmaz.</string>
+    <string name="paused_channel">Duraklatılan SD kart kontrolü</string>
+    <string name="paused_title">SD kart kontrolü duraklatıldı</string>
+    <!-- %1$s size of the test data -->
+    <string name="paused_text">%1$s test verisi kartı dolduruyor. Oyunların yeniden kayıt yapabilmesi için kontrole devam edin veya test verisini silin.</string>
+</resources>

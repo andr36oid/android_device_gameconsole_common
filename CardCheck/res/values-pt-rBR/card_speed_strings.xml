@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Added with the card ID, small block and pause/continue parts. -->
+    <!-- %1$s the marks as printed on the card, e.g. "Class 10, U3, V30, A2" -->
+    <string name="details_marks">Marcado como %1$s</string>
+    <!-- %1$s the mode's name, e.g. SDR104 -->
+    <string name="details_bus_fast">Roda no modo rápido (UHS-I %1$s)</string>
+    <!-- %1$d top speed of the mode in MB/s -->
+    <string name="details_bus_normal">Roda no modo normal (até %1$d MB/s)</string>
+    <string name="details_bus_slow">Roda no modo lento (até %1$d MB/s)</string>
+    <string name="advice_category">O que isso significa</string>
+    <string name="advice_paused">Uma verificação do tamanho real está pausada. Os dados de teste ocupam o cartão, então os jogos podem não conseguir salvar. Continue a verificação ou apague os dados de teste abaixo.</string>
+    <string name="advice_fake">Este cartão é falso ou está danificado (veja a verificação do tamanho real abaixo). Copie seus jogos e saves para outro cartão logo.</string>
+    <string name="advice_write_error">O cartão informou um erro durante a gravação. Ele pode estar gasto ou ser falso. Faça backup dos seus saves.</string>
+    <!-- %1$s one or more of the sign_ texts, joined with "; " -->
+    <string name="advice_signs">O ID do próprio cartão parece estranho: %1$s. Cartões falsos costumam ser assim. Verifique o tamanho real para ter certeza.</string>
+    <string name="advice_signs_but_real">O ID do próprio cartão parece estranho (%1$s), mas passou na verificação do tamanho real, então o espaço é real.</string>
+    <string name="sign_no_maker">não tem um ID de fabricante válido</string>
+    <string name="sign_brand_mismatch">o ID de fabricante e o ID OEM são de marcas diferentes</string>
+    <string name="sign_size_mismatch">ele informa dois tamanhos diferentes</string>
+    <string name="sign_spec_too_old">ele diz ter uma versão de cartão SD antiga demais para o tamanho dele</string>
+    <!-- %1$s the date the card reports, e.g. 00/2000 -->
+    <string name="sign_bad_date">a data dele (%1$s) é impossível</string>
+    <!-- %1$d a year -->
+    <string name="sign_too_old">ele diz ter sido fabricado em %1$d, antes de existirem cartões desse tamanho</string>
+    <!-- %1$d MB/s the marks promise, %2$s measured, e.g. 2.5 MB/s -->
+    <string name="advice_claim_write">O cartão é marcado para gravar a pelo menos %1$d MB/s, mas gravou a %2$s. Ele pode ser falso ou estar gasto.</string>
+    <!-- %1$d 1 or 2 (A1, A2) -->
+    <string name="advice_claim_small">O cartão é marcado como A%1$d, mas lida com blocos pequenos muito mais devagar do que isso promete. Ele pode ser falso ou estar gasto.</string>
+    <!-- %1$d top speed of the mode in MB/s -->
+    <string name="advice_bus_slow">O console usa este cartão em um modo mais lento (até %1$d MB/s) do que o cartão aceita. Reiniciar pode ajudar. Se continuar assim, o cartão ou o slot pode estar sujo ou gasto.</string>
+    <string name="advice_slow">Este cartão é lento: os jogos podem demorar para carregar. Um cartão marcado como A1 ou U3 será mais rápido.</string>
+    <string name="advice_untested">Teste a velocidade para ver o quão rápido os jogos vão carregar.</string>
+    <string name="advice_good">Nenhum problema encontrado.</string>
+    <string name="speed_summary_small">Grava e lê um arquivo de 256 MB e depois blocos pequenos de 4 KB. Leva cerca de um minuto e precisa de 1 GB de espaço livre.</string>
+    <string name="speed_running_small">Testando blocos pequenos…</string>
+    <!-- %1$s and %2$s whole numbers, e.g. 1,850 and 410 -->
+    <string name="speed_small">Blocos pequenos: %1$s leituras e %2$s gravações por segundo</string>
+    <string name="marks_title">O que as marcas de um cartão significam</string>
+    <string name="marks_text">Class 10, U1 e V10: grava a pelo menos 10 MB/s. U3 e V30: pelo menos 30 MB/s. A1: pelo menos 1500 leituras e 500 gravações pequenas por segundo, o que ajuda jogos feitos de muitos arquivos. A2 promete mais, mas este console usa cartões A2 como cartões A1.</string>
+    <string name="error_paused">Uma verificação do tamanho real está pausada neste cartão. Primeiro continue a verificação ou apague os dados de teste dela.</string>
+    <string name="full_title_continue">Continuar a verificação</string>
+    <!-- %1$s done, %2$s total -->
+    <string name="full_paused_write">Pausada durante a gravação, %1$s de %2$s. Os dados de teste ficam no cartão até você continuar ou apagá-los, então os jogos podem não conseguir salvar até lá.</string>
+    <string name="full_paused_verify">Pausada durante a leitura, %1$s de %2$s. Os dados de teste ficam no cartão até você continuar ou apagá-los, então os jogos podem não conseguir salvar até lá.</string>
+    <string name="full_delete_title">Apagar os dados de teste</string>
+    <!-- %1$s size -->
+    <string name="full_delete_summary">Libera %1$s. A próxima verificação começa do início.</string>
+    <string name="stop_title">Parar a verificação?</string>
+    <string name="stop_text">Pausar mantém os dados de teste no cartão para você continuar depois. Até lá, os jogos podem não conseguir salvar. Parar apaga os dados de teste.</string>
+    <string name="stop_pause">Pausar</string>
+    <string name="stop_delete">Parar</string>
+    <!-- %1$s card name, %2$s how long -->
+    <string name="confirm_text_pause">Isto ocupa todo o espaço livre de %1$s por cerca de %2$s, então os jogos não conseguem salvar lá até terminar. Conecte o carregador: o console fica ligado. Você pode pausar e continuar depois, ou parar a qualquer momento. Seus jogos e arquivos não são alterados.</string>
+    <string name="paused_channel">Verificação do SD pausada</string>
+    <string name="paused_title">Verificação do SD pausada</string>
+    <!-- %1$s size of the test data -->
+    <string name="paused_text">%1$s de dados de teste ocupam o cartão. Continue a verificação ou apague os dados de teste para os jogos poderem salvar de novo.</string>
+</resources>

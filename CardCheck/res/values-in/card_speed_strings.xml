@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Added with the card ID, small block and pause/continue parts. -->
+    <!-- %1$s the marks as printed on the card, e.g. "Class 10, U3, V30, A2" -->
+    <string name="details_marks">Bertanda %1$s</string>
+    <!-- %1$s the mode's name, e.g. SDR104 -->
+    <string name="details_bus_fast">Berjalan dalam mode cepat (UHS-I %1$s)</string>
+    <!-- %1$d top speed of the mode in MB/s -->
+    <string name="details_bus_normal">Berjalan dalam mode normal (hingga %1$d MB/s)</string>
+    <string name="details_bus_slow">Berjalan dalam mode lambat (hingga %1$d MB/s)</string>
+    <string name="advice_category">Artinya</string>
+    <string name="advice_paused">Cek ukuran asli sedang dijeda. Data ujinya memenuhi kartu, jadi game mungkin tidak bisa menyimpan. Lanjutkan pengecekan atau hapus data uji di bawah.</string>
+    <string name="advice_fake">Kartu ini palsu atau rusak (lihat cek ukuran asli di bawah). Segera salin game dan simpanan Anda ke kartu lain.</string>
+    <string name="advice_write_error">Kartu melaporkan error saat menulis. Kartu mungkin sudah aus atau palsu. Cadangkan simpanan Anda.</string>
+    <!-- %1$s one or more of the sign_ texts, joined with "; " -->
+    <string name="advice_signs">ID bawaan kartu terlihat aneh: %1$s. Kartu palsu sering terlihat seperti ini. Cek ukuran asli untuk memastikan.</string>
+    <string name="advice_signs_but_real">ID bawaan kartu terlihat aneh (%1$s), tetapi cek ukuran asli lulus, jadi ruangnya asli.</string>
+    <!-- sign_ texts: lower-case clauses inserted into advice_signs / advice_signs_but_real -->
+    <string name="sign_no_maker">tidak punya ID pembuat yang benar</string>
+    <string name="sign_brand_mismatch">ID pembuat dan ID OEM-nya milik merek yang berbeda</string>
+    <string name="sign_size_mismatch">melaporkan dua ukuran yang berbeda</string>
+    <string name="sign_spec_too_old">mengaku versi kartu SD yang terlalu lama untuk ukurannya</string>
+    <!-- %1$s the date the card reports, e.g. 00/2000 -->
+    <string name="sign_bad_date">tanggalnya (%1$s) mustahil</string>
+    <!-- %1$d a year -->
+    <string name="sign_too_old">mengaku dibuat tahun %1$d, sebelum ada kartu sebesar ini</string>
+    <!-- %1$d MB/s the marks promise, %2$s measured, e.g. 2.5 MB/s -->
+    <string name="advice_claim_write">Kartu ini bertanda minimal %1$d MB/s saat menulis, tetapi menulis dengan %2$s. Kartu mungkin palsu atau sudah aus.</string>
+    <!-- %1$d 1 or 2 (A1, A2) -->
+    <string name="advice_claim_small">Kartu ini bertanda A%1$d, tetapi menangani blok kecil jauh lebih lambat dari yang dijanjikan. Kartu mungkin palsu atau sudah aus.</string>
+    <!-- %1$d top speed of the mode in MB/s -->
+    <string name="advice_bus_slow">Konsol menjalankan kartu ini dalam mode yang lebih lambat (hingga %1$d MB/s) daripada yang didukung kartu. Memulai ulang mungkin membantu. Jika tetap begini, kartu atau slotnya mungkin kotor atau aus.</string>
+    <string name="advice_slow">Kartu ini lambat: game mungkin lama dimuat. Kartu bertanda A1 atau U3 akan lebih cepat.</string>
+    <string name="advice_untested">Uji kecepatan untuk melihat seberapa cepat game akan dimuat.</string>
+    <string name="advice_good">Tidak ada masalah.</string>
+    <string name="speed_summary_small">Menulis dan membaca file 256 MB, lalu blok kecil 4 KB. Butuh sekitar satu menit dan ruang kosong 1 GB.</string>
+    <string name="speed_running_small">Menguji blok kecil…</string>
+    <!-- %1$s and %2$s whole numbers, e.g. 1,850 and 410 -->
+    <string name="speed_small">Blok kecil: %1$s baca dan %2$s tulis per detik</string>
+    <string name="marks_title">Arti tanda pada kartu</string>
+    <string name="marks_text">Class 10, U1, dan V10: menulis minimal 10 MB/s. U3 dan V30: minimal 30 MB/s. A1: minimal 1500 baca kecil dan 500 tulis kecil per detik, yang membantu game yang terdiri dari banyak file. A2 menjanjikan lebih, tetapi konsol ini memakai kartu A2 seperti kartu A1.</string>
+    <string name="error_paused">Cek ukuran asli sedang dijeda di kartu ini. Lanjutkan atau hapus data ujinya terlebih dahulu.</string>
+    <string name="full_title_continue">Lanjutkan pengecekan</string>
+    <!-- %1$s done, %2$s total -->
+    <string name="full_paused_write">Dijeda saat menulis, %1$s dari %2$s. Data uji tetap di kartu sampai Anda melanjutkan atau menghapusnya, jadi sampai saat itu game mungkin tidak bisa menyimpan.</string>
+    <string name="full_paused_verify">Dijeda saat membaca kembali, %1$s dari %2$s. Data uji tetap di kartu sampai Anda melanjutkan atau menghapusnya, jadi sampai saat itu game mungkin tidak bisa menyimpan.</string>
+    <string name="full_delete_title">Hapus data uji</string>
+    <!-- %1$s size -->
+    <string name="full_delete_summary">Mengosongkan %1$s. Pengecekan berikutnya dimulai dari awal.</string>
+    <string name="stop_title">Hentikan pengecekan?</string>
+    <string name="stop_text">Jeda menyimpan data uji di kartu agar Anda bisa melanjutkan nanti. Sampai saat itu game mungkin tidak bisa menyimpan. Hentikan menghapus data uji.</string>
+    <!-- Dialog buttons: keep short. stop_delete stops and deletes the test data. -->
+    <string name="stop_pause">Jeda</string>
+    <string name="stop_delete">Hentikan</string>
+    <!-- %1$s card name, %2$s how long -->
+    <string name="confirm_text_pause">Ini mengisi semua ruang kosong di %1$s selama sekitar %2$s, jadi game tidak bisa menyimpan di sana sampai selesai. Colokkan charger: konsol tetap menyala. Anda bisa menjeda dan melanjutkan nanti, atau berhenti kapan saja. Game dan file Anda tidak disentuh.</string>
+    <string name="paused_channel">Cek kartu SD yang dijeda</string>
+    <string name="paused_title">Cek kartu SD dijeda</string>
+    <!-- %1$s size of the test data -->
+    <string name="paused_text">%1$s data uji memenuhi kartu. Lanjutkan pengecekan atau hapus data uji agar game bisa menyimpan lagi.</string>
+</resources>

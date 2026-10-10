@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Added with the card ID, small block and pause/continue parts. -->
+    <!-- %1$s the marks as printed on the card, e.g. "Class 10, U3, V30, A2" -->
+    <string name="details_marks">Oznaczenia: %1$s</string>
+    <!-- %1$s the mode's name, e.g. SDR104 -->
+    <string name="details_bus_fast">Działa w trybie szybkim (UHS-I %1$s)</string>
+    <!-- %1$d top speed of the mode in MB/s -->
+    <string name="details_bus_normal">Działa w trybie normalnym (do %1$d MB/s)</string>
+    <string name="details_bus_slow">Działa w trybie wolnym (do %1$d MB/s)</string>
+    <string name="advice_category">Co to oznacza</string>
+    <string name="advice_paused">Sprawdzanie pojemności jest wstrzymane. Jego dane testowe zapełniają kartę, więc gry mogą nie móc zapisywać. Wznów sprawdzanie lub usuń dane testowe poniżej.</string>
+    <string name="advice_fake">Ta karta jest podrobiona lub uszkodzona (zobacz sprawdzanie pojemności poniżej). Wkrótce skopiuj gry i zapisy na inną kartę.</string>
+    <string name="advice_write_error">Karta zgłosiła błąd podczas zapisu. Może być zużyta lub podrobiona. Zrób kopię zapasową zapisów.</string>
+    <!-- %1$s one or more of the sign_ texts, joined with "; " -->
+    <string name="advice_signs">Własne ID karty wygląda dziwnie: %1$s. Podrobione karty często tak wyglądają. Sprawdź pojemność, aby mieć pewność.</string>
+    <string name="advice_signs_but_real">Własne ID karty wygląda dziwnie (%1$s), ale sprawdzanie pojemności zakończyło się pomyślnie, więc miejsce jest prawdziwe.</string>
+    <string name="sign_no_maker">nie ma prawidłowego ID producenta</string>
+    <string name="sign_brand_mismatch">ID producenta i ID OEM należą do różnych marek</string>
+    <string name="sign_size_mismatch">podaje dwie różne pojemności</string>
+    <string name="sign_spec_too_old">podaje wersję SD za starą jak na swoją pojemność</string>
+    <!-- %1$s the date the card reports, e.g. 00/2000 -->
+    <string name="sign_bad_date">data produkcji (%1$s) jest niemożliwa</string>
+    <!-- %1$d a year -->
+    <string name="sign_too_old">podaje rok produkcji %1$d, gdy tak duże karty jeszcze nie istniały</string>
+    <!-- %1$d MB/s the marks promise, %2$s measured, e.g. 2.5 MB/s -->
+    <string name="advice_claim_write">Karta ma oznaczenie co najmniej %1$d MB/s przy zapisie, ale zapisywała z szybkością %2$s. Może być podrobiona lub zużyta.</string>
+    <!-- %1$d 1 or 2 (A1, A2) -->
+    <string name="advice_claim_small">Karta ma oznaczenie A%1$d, ale małe bloki obsługuje dużo wolniej, niż to obiecuje. Może być podrobiona lub zużyta.</string>
+    <!-- %1$d top speed of the mode in MB/s -->
+    <string name="advice_bus_slow">Konsola obsługuje tę kartę w wolniejszym trybie (do %1$d MB/s), niż karta potrafi. Może pomóc ponowne uruchomienie. Jeśli to się nie zmieni, karta lub gniazdo mogą być brudne albo zużyte.</string>
+    <string name="advice_slow">Ta karta jest wolna: gry mogą się długo wczytywać. Karta z oznaczeniem A1 lub U3 będzie szybsza.</string>
+    <string name="advice_untested">Sprawdź szybkość, aby zobaczyć, jak szybko będą się wczytywać gry.</string>
+    <string name="advice_good">Nie znaleziono problemów.</string>
+    <string name="speed_summary_small">Zapisuje i odczytuje plik 256 MB, a potem małe bloki 4 KB. Trwa około minuty i wymaga 1 GB wolnego miejsca.</string>
+    <string name="speed_running_small">Testowanie małych bloków…</string>
+    <!-- %1$s and %2$s whole numbers, e.g. 1,850 and 410 -->
+    <string name="speed_small">Małe bloki: %1$s odczytów i %2$s zapisów na sekundę</string>
+    <string name="marks_title">Co znaczą oznaczenia na karcie</string>
+    <string name="marks_text">Class 10, U1 i V10: zapis co najmniej 10 MB/s. U3 i V30: co najmniej 30 MB/s. A1: co najmniej 1500 małych odczytów i 500 małych zapisów na sekundę, co pomaga grom złożonym z wielu plików. A2 obiecuje więcej, ale ta konsola używa kart A2 tak jak kart A1.</string>
+    <string name="error_paused">Sprawdzanie pojemności tej karty jest wstrzymane. Najpierw je wznów lub usuń jego dane testowe.</string>
+    <string name="full_title_continue">Wznów sprawdzanie</string>
+    <!-- %1$s done, %2$s total -->
+    <string name="full_paused_write">Wstrzymano podczas zapisu, %1$s z %2$s. Dane testowe zostają na karcie, dopóki nie wznowisz sprawdzania lub ich nie usuniesz, więc do tego czasu gry mogą nie móc zapisywać.</string>
+    <string name="full_paused_verify">Wstrzymano podczas odczytu, %1$s z %2$s. Dane testowe zostają na karcie, dopóki nie wznowisz sprawdzania lub ich nie usuniesz, więc do tego czasu gry mogą nie móc zapisywać.</string>
+    <string name="full_delete_title">Usuń dane testowe</string>
+    <!-- %1$s size -->
+    <string name="full_delete_summary">Zwalnia %1$s. Następne sprawdzanie zacznie się od początku.</string>
+    <string name="stop_title">Zatrzymać sprawdzanie?</string>
+    <string name="stop_text">„Wstrzymaj” zostawia dane testowe na karcie, więc możesz wznowić później. Do tego czasu gry mogą nie móc zapisywać. „Zatrzymaj” usuwa dane testowe.</string>
+    <string name="stop_pause">Wstrzymaj</string>
+    <string name="stop_delete">Zatrzymaj</string>
+    <!-- %1$s card name, %2$s how long -->
+    <string name="confirm_text_pause">Test zapełni całe wolne miejsce na %1$s na około %2$s, więc do jego końca gry nie mogą tam niczego zapisać. Podłącz ładowarkę: konsola nie zaśnie. Możesz wstrzymać i wznowić później albo przerwać w każdej chwili. Twoje gry i pliki nie zostaną naruszone.</string>
+    <string name="paused_channel">Wstrzymany test karty SD</string>
+    <string name="paused_title">Test karty SD wstrzymany</string>
+    <!-- %1$s size of the test data -->
+    <string name="paused_text">Dane testowe (%1$s) zapełniają kartę. Wznów sprawdzanie lub usuń dane testowe, aby gry znów mogły zapisywać.</string>
+</resources>

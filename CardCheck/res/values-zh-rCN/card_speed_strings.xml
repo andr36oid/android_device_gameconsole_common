@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Added with the card ID, small block and pause/continue parts. -->
+    <!-- %1$s the marks as printed on the card, e.g. "Class 10, U3, V30, A2" -->
+    <string name="details_marks">标识：%1$s</string>
+    <!-- %1$s the mode's name, e.g. SDR104 -->
+    <string name="details_bus_fast">以高速模式运行（UHS-I %1$s）</string>
+    <!-- %1$d top speed of the mode in MB/s -->
+    <string name="details_bus_normal">以普通模式运行（最高 %1$d MB/s）</string>
+    <string name="details_bus_slow">以低速模式运行（最高 %1$d MB/s）</string>
+    <string name="advice_category">结果说明</string>
+    <string name="advice_paused">实际容量检查已暂停。测试数据占满了存储卡，游戏可能无法存档。请继续检查，或在下方删除测试数据。</string>
+    <string name="advice_fake">此卡是假卡或已损坏（见下方的实际容量检查）。请尽快把游戏和存档复制到另一张卡上。</string>
+    <string name="advice_write_error">存储卡在写入时报告了错误。它可能已磨损或是假卡。请备份您的存档。</string>
+    <!-- %1$s one or more of the sign_ texts, joined with "; " -->
+    <string name="advice_signs">此卡自身的 ID 看起来不正常：%1$s。假卡常常是这样。请检查实际容量以确认。</string>
+    <string name="advice_signs_but_real">此卡自身的 ID 看起来不正常（%1$s），但实际容量检查已通过，所以容量是真实的。</string>
+    <string name="sign_no_maker">没有有效的厂商 ID</string>
+    <string name="sign_brand_mismatch">厂商 ID 和 OEM ID 属于不同品牌</string>
+    <string name="sign_size_mismatch">报告了两个不同的容量</string>
+    <string name="sign_spec_too_old">声称的 SD 卡版本对这么大的容量来说太旧</string>
+    <!-- %1$s the date the card reports, e.g. 00/2000 -->
+    <string name="sign_bad_date">生产日期（%1$s）不可能存在</string>
+    <!-- %1$d a year -->
+    <string name="sign_too_old">声称生产于 %1$d 年，那时还没有这么大的卡</string>
+    <!-- %1$d MB/s the marks promise, %2$s measured, e.g. 2.5 MB/s -->
+    <string name="advice_claim_write">此卡标称写入速度至少 %1$d MB/s，但实测写入只有 %2$s。它可能是假卡或已磨损。</string>
+    <!-- %1$d 1 or 2 (A1, A2) -->
+    <string name="advice_claim_small">此卡标有 A%1$d，但处理小数据块的速度远低于该标识承诺的水平。它可能是假卡或已磨损。</string>
+    <!-- %1$d top speed of the mode in MB/s -->
+    <string name="advice_bus_slow">掌机以低于此卡所支持的模式运行它（最高 %1$d MB/s）。重启可能会有帮助。如果一直这样，可能是卡或卡槽脏了或已磨损。</string>
+    <string name="advice_slow">此卡速度慢：游戏可能加载缓慢。标有 A1 或 U3 的卡会更快。</string>
+    <string name="advice_untested">测试速度，看看游戏加载有多快。</string>
+    <string name="advice_good">未发现问题。</string>
+    <string name="speed_summary_small">写入并读取一个 256 MB 的文件，然后测试 4 KB 的小数据块。大约需要 1 分钟，需要 1 GB 可用空间。</string>
+    <string name="speed_running_small">正在测试小数据块…</string>
+    <!-- %1$s and %2$s whole numbers, e.g. 1,850 and 410 -->
+    <string name="speed_small">小数据块：每秒读取 %1$s 次，写入 %2$s 次</string>
+    <string name="marks_title">卡上标识的含义</string>
+    <string name="marks_text">Class 10、U1 和 V10：写入至少 10 MB/s。U3 和 V30：至少 30 MB/s。A1：每秒至少 1500 次小数据读取和 500 次小数据写入，对由许多文件组成的游戏有帮助。A2 承诺的更高，但此掌机会把 A2 卡当作 A1 卡使用。</string>
+    <string name="error_paused">此卡上有一项实际容量检查已暂停。请先继续检查或删除其测试数据。</string>
+    <string name="full_title_continue">继续检查</string>
+    <!-- %1$s done, %2$s total -->
+    <string name="full_paused_write">写入时已暂停：%1$s / %2$s。在您继续或删除之前，测试数据会一直留在卡上，在此期间游戏可能无法存档。</string>
+    <string name="full_paused_verify">读回时已暂停：%1$s / %2$s。在您继续或删除之前，测试数据会一直留在卡上，在此期间游戏可能无法存档。</string>
+    <string name="full_delete_title">删除测试数据</string>
+    <!-- %1$s size -->
+    <string name="full_delete_summary">释放 %1$s。下次检查将从头开始。</string>
+    <string name="stop_title">停止检查？</string>
+    <string name="stop_text">“暂停”会把测试数据保留在卡上，以便稍后继续。在此之前游戏可能无法存档。“停止”会删除测试数据。</string>
+    <string name="stop_pause">暂停</string>
+    <string name="stop_delete">停止</string>
+    <!-- %1$s card name, %2$s how long -->
+    <string name="confirm_text_pause">此操作会占满 %1$s 上的全部可用空间，持续大约 %2$s，完成前游戏无法在上面存档。请接上充电器：掌机会保持唤醒。您可以暂停并稍后继续，也可以随时停止。您的游戏和文件不会受到影响。</string>
+    <string name="paused_channel">已暂停的 SD 卡检测</string>
+    <string name="paused_title">SD 卡检测已暂停</string>
+    <!-- %1$s size of the test data -->
+    <string name="paused_text">%1$s 测试数据占用着存储卡。请继续检查或删除测试数据，让游戏可以重新存档。</string>
+</resources>
