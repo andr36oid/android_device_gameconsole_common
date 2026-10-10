@@ -1585,6 +1585,25 @@ URI_GRANTS=/data/system/urigrants.xml
 SAF_TREE=content://com.android.externalstorage.documents/tree
 EASYROMS_DEV=/dev/block/mmcblk0p7
 
+# dj_user_library ; Daijishou has a library of its own: a system or a game in
+# it. The empty one Daijishou makes when it starts before we could fill it (the
+# home screen comes up while EASYROMS is still being checked and mounted on a
+# first start) isn't the user's. Unreadable counts as the user's.
+dj_user_library() {
+	[ -e "$DJ_DB" ] || return 1
+	command -v sqlite3 >/dev/null || return 0
+	[ "$(sqlite3 -readonly "$DJ_DB" 'SELECT (SELECT count(*) FROM PlatformEntity) + (SELECT count(*) FROM PlayableItemEntity);' 2>/dev/null)" != 0 ]
+}
+
+# dj_settled ; nothing left to do for Daijishou's library: we made it, the user
+# has one, or we decided never to (another Daijishou version...). Images before
+# dj_user_library set done for an empty library too; that one is filled now.
+dj_settled() {
+	[ -e "$DJ_SEEDED" ] && return 0
+	dj_user_library && return 0
+	[ -e "$DJ_DONE" ] && [ ! -e "$DJ_DB" ]
+}
+
 # dj_folders ; every ROM folder that gets a Daijishou platform
 dj_folders() {
 	sed -n 's/^platform	[0-9]*	\([^	]*\)	.*/\1/p' "$DJ_SEED" | tr ',' '\n'
@@ -1607,11 +1626,11 @@ daijishou_grants() {
 	local uuid stamp folder uri now lines f=$URI_GRANTS
 
 	[ -f "$DJ_SEED" ] || return 0
-	[ -e "$DJ_DONE" ] && return 0
+	[ -e "$DJ_DONE" ] && dj_settled && return 0
 	# .noroms: games live on the internal storage, no platforms
 	[ -e "$EASYROMS_PART" ] || return 0
 	# Daijishou has its own library already: leave it to the user
-	[ -e "$DJ_DB" ] && return 0
+	dj_user_library && return 0
 
 	# init waits for this step (exec_start): KILL 2 s after TERM for a blkid
 	# stuck on a failing card
@@ -1723,36 +1742,42 @@ dj_sql() {
 	echo 'COMMIT;'
 }
 
+DJ_HINT='Your game systems are set up with their folders on EASYROMS. Press OK to look for games now. After adding games later, use Sync entirely in the library settings.'
+
 # dj_prefs ; Daijishou's settings file for its first start: it asks once to
 # sync the whole library, which finds the games in the folders. Everything else
 # stays at Daijishou's defaults.
 dj_prefs() {
-	cat <<'EOF'
+	cat <<EOF
 <?xml version='1.0' encoding='utf-8' standalone='yes' ?>
 <map>
     <boolean name="sync_entirely_on_start" value="true" />
-    <string name="sync_entirely_on_start_hint">Your game systems are set up with their folders on EASYROMS. Press OK to look for games now. After adding games later, use Sync entirely in the library settings.</string>
+    <string name="sync_entirely_on_start_hint">$DJ_HINT</string>
     <string name="sync_entirely_on_start_cancel_hint">Canceled. Sync entirely in the library settings looks for games later.</string>
 </map>
 EOF
 }
 
-# seed_daijishou: fills Daijishou's library before its first start. Only
-# once, only while Daijishou has no library yet (a database is never touched),
-# and only for the Daijishou version the schema was taken from.
+# seed_daijishou: fills Daijishou's library before its first start, or right
+# after it if Daijishou came up before EASYROMS did and its library is still
+# empty. Only once, never over a library with a system or game in it, and only
+# for the Daijishou version the schema was taken from.
 seed_daijishou() {
-	local uuid want vc owner tmp count
+	local uuid want vc owner tmp count late='' top=''
 
 	[ -f "$DJ_SEED" ] && [ -f "$DJ_SCHEMA" ] || return 0
-	[ -e "$DJ_DONE" ] && return 0
+	[ -e "$DJ_DONE" ] && dj_settled && return 0
 	[ -n "$NOROMS" ] && return 0
 	[ -n "$EASYROMS" ] || { log "EASYROMS not mounted, Daijishou's platforms next start"; return 0; }
 	[ -d "$DJ_DATA" ] || return 0
-	if [ -e "$DJ_DB" ]; then
+	if dj_user_library; then
 		log "Daijishou has a library already, no platforms added"
 		touch "$DJ_DONE"
 		return 0
 	fi
+	# Daijishou started first and made an empty library: replaced below, with
+	# Daijishou stopped around it
+	[ -e "$DJ_DB" ] && late=1
 	uuid=${EASYROMS##*/}
 	if [ ! -e "$STATE/daijishou-grants.$uuid" ]; then
 		# post-fs-data writes them on the next start (the card may be new)
@@ -1766,7 +1791,7 @@ seed_daijishou() {
 		touch "$DJ_DONE"
 		return 0
 	fi
-	if pidof "$DJ_PKG" >/dev/null 2>&1; then
+	if [ -z "$late" ] && pidof "$DJ_PKG" >/dev/null 2>&1; then
 		log "Daijishou is running, platforms next start"
 		return 0
 	fi
@@ -1790,8 +1815,20 @@ seed_daijishou() {
 		return 0
 	fi
 
+	if [ -n "$late" ]; then
+		# it keeps the library in memory while it runs; as the home screen it
+		# may come straight back, so it's stopped again once the files are in
+		dumpsys activity activities 2>/dev/null | grep -q "mResumedActivity.*$DJ_PKG/" && top=1
+		am force-stop "$DJ_PKG"
+		if dj_user_library; then
+			log "Daijishou has a library already, no platforms added"
+			rm -rf "$tmp"
+			touch "$DJ_DONE"
+			return 0
+		fi
+		rm -f "$DJ_DB-wal" "$DJ_DB-shm" "$DJ_DB-journal"
 	# Daijishou may have started meanwhile
-	if [ -e "$DJ_DB" ] || pidof "$DJ_PKG" >/dev/null 2>&1; then
+	elif [ -e "$DJ_DB" ] || pidof "$DJ_PKG" >/dev/null 2>&1; then
 		log "Daijishou started meanwhile, platforms next start"
 		rm -rf "$tmp"
 		return 0
@@ -1810,9 +1847,23 @@ seed_daijishou() {
 		dj_prefs >"$DJ_PREFS"
 		chown "$owner" "$DJ_PREFS"
 		chmod 0660 "$DJ_PREFS"
+	elif dj_pref "$DJ_PREFS" boolean sync_entirely_on_start '<boolean name="sync_entirely_on_start" value="true" />' &&
+		mv -f "$DJ_PREFS.new" "$DJ_PREFS"; then
+		# Daijishou's own settings file from its first start
+		dj_pref "$DJ_PREFS" string sync_entirely_on_start_hint "<string name=\"sync_entirely_on_start_hint\">$DJ_HINT</string>" &&
+			mv -f "$DJ_PREFS.new" "$DJ_PREFS"
+		chown "$owner" "$DJ_PREFS"
+		chmod 0660 "$DJ_PREFS"
+	else
+		rm -f "$DJ_PREFS.new"
+		log "Daijishou's settings look odd, it won't ask to look for games"
 	fi
 	restorecon -R "$DJ_DATA/databases" "${DJ_PREFS%/*}" 2>/dev/null
 	rm -rf "$tmp"
+	if [ -n "$late" ]; then
+		am force-stop "$DJ_PKG"
+		[ -n "$top" ] && am start -a android.intent.action.MAIN -c android.intent.category.HOME >/dev/null 2>&1
+	fi
 	touch "$DJ_DONE"
 	# the first start's sync sees what's there now; later changes: dj_new_games
 	echo "$uuid" >"$DJ_SEEDED"

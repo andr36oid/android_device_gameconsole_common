@@ -451,8 +451,14 @@ Cancel and use each system's own Sync button instead. Off with
 `setprop persist.andr36oid.daijishou_autosync 0`.
 
 Never again after it ran once (`/data/misc/gameconsole/daijishou.done`), never on a
-Daijishou that has a library, never on a `.noroms` card (no EASYROMS; games are on the
+Daijishou whose library has a system or a game, never on a `.noroms` card (no EASYROMS; games are on the
 internal storage there). A different Daijishou versionCode skips it with a log line.
+
+Daijishou can start before EASYROMS is mounted on a first start (the card check takes a
+while) and then makes an empty library. That one is replaced like a missing one, with
+Daijishou force-stopped before and after, and its own settings file gets the "look for
+games" question added. Cards from older images that had marked such a library as done
+are filled on their next start.
 
 Which files count as games for that: only files with an ending one of the platform's
 players accepts (their `accepted_filename_regex` in `daijishou-seed.txt`). So the saves,
