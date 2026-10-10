@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="org.andr36oid.controllers"
+    android:sharedUserId="android.uid.system">
+
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.BLUETOOTH_PRIVILEGED" />
+    <!-- Bluetooth discovery without the location setting on -->
+    <uses-permission android:name="android.permission.RADIO_SCAN_WITHOUT_LOCATION" />
+
+    <application
+        android:allowBackup="false"
+        android:icon="@drawable/ic_controllers"
+        android:label="@string/controllers_title"
+        android:supportsRtl="true">
+
+        <!-- Injected into the top level of the Settings app, next to Button mapping -->
+        <activity
+            android:name=".ControllersActivity"
+            android:exported="true"
+            android:label="@string/controllers_title"
+            android:theme="@android:style/Theme.DeviceDefault.Settings">
+            <intent-filter>
+                <action android:name="com.android.settings.action.IA_SETTINGS" />
+            </intent-filter>
+            <meta-data
+                android:name="com.android.settings.category"
+                android:value="com.android.settings.category.ia.homepage" />
+            <meta-data
+                android:name="com.android.settings.order"
+                android:value="-65" />
+            <meta-data
+                android:name="com.android.settings.keyhint"
+                android:value="top_level_controllers" />
+            <meta-data
+                android:name="com.android.settings.summary"
+                android:resource="@string/controllers_summary" />
+            <meta-data
+                android:name="com.android.settings.icon"
+                android:resource="@drawable/ic_controllers" />
+            <meta-data
+                android:name="com.android.settings.bg.hint"
+                android:resource="@color/controllers_icon_background" />
+        </activity>
+
+        <activity
+            android:name=".PairActivity"
+            android:exported="false"
+            android:label="@string/pair_title"
+            android:theme="@android:style/Theme.DeviceDefault.Settings" />
+    </application>
+</manifest>

@@ -1,0 +1,14 @@
+// Settings > Controllers: connected pads with their battery and RetroArch player, the
+// player 1 choice for RetroArch, and pairing Bluetooth controllers with the buttons only.
+// Runs as the system user for the Bluetooth calls and the persist.andr36oid.ra_player1
+// property.
+android_app {
+    name: "Andr36oidControllers",
+    srcs: ["src/**/*.java"],
+    resource_dirs: ["res"],
+    certificate: "platform",
+    platform_apis: true,
+    optimize: {
+        enabled: false,
+    },
+}

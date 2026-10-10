@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <Preference
+        android:key="how"
+        android:selectable="false"
+        android:title="@string/pair_how_title"
+        android:summary="@string/pair_how" />
+
+    <PreferenceCategory
+        android:key="found"
+        android:title="@string/pair_found_title" />
+
+    <SwitchPreference
+        android:key="show_all"
+        android:persistent="false"
+        android:title="@string/pair_show_all"
+        android:summary="@string/pair_show_all_summary" />
+</PreferenceScreen>

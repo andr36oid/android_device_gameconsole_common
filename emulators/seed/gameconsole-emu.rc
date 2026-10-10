@@ -19,3 +19,15 @@ service gameconsole-emu-early /system/bin/sh /system/etc/gameconsole/gameconsole
 
 on property:sys.boot_completed=1
     start gameconsole-emu
+
+# Settings > Controllers changed who is player 1 in RetroArch: written into
+# retroarch.cfg once RetroArch is closed (gameconsole-emu.sh, retroarch_players)
+service gameconsole-ra-players /system/bin/sh /system/etc/gameconsole/gameconsole-emu.sh players
+    class main
+    user root
+    group root system
+    disabled
+    oneshot
+
+on property:persist.andr36oid.ra_player1=*
+    start gameconsole-ra-players

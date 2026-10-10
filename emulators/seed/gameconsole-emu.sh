@@ -10,7 +10,7 @@
 #    apps. They keep their F-Droid signature, so F-Droid can update them, and
 #    the user can uninstall them. An app the user removed stays removed, an
 #    older installed version gets upgraded when the ROM ships a newer one.
-# 2. Gives RetroArch a profile for the built-in pad and, on a fresh install
+# 2. Gives RetroArch profiles for the built-in pad and external pads and, on a fresh install
 #    only, ArkOS-like settings (hotkeys, saves next to the game). A
 #    retroarch.cfg that exists is never touched. Core option defaults for
 #    the slow Cortex-A35 (retroarch-core-options.cfg) go next to it.
@@ -30,6 +30,11 @@
 #    before its first start. Run as "gameconsole-emu.sh post-fs-data" (before
 #    system_server) it only writes the folder access that needs. Later, when
 #    the games on EASYROMS changed, Daijishou asks to look for games again.
+# 7. Controllers in RetroArch: the built-in pad is player 1 (or player 2 when
+#    Settings > Controllers says so), and every pad can open the menu and
+#    quit. See retroarch_players below; "players" as argument only does this.
+# 8. PPSSPP: once it has written its controls.ini, the PSP buttons by
+#    position on the built-in pad (Cross = B), if still PPSSPP's default.
 
 BASE=/system/etc/gameconsole
 STATE=/data/misc/gameconsole
@@ -247,19 +252,26 @@ seed_owned() {
 # the game). A retroarch.cfg that exists is never touched.
 seed_retroarch() {
 	local own=$RA_DATA/.gameconsole auto=$RA_DATA/autoconfig/android
-	local cfg=$RA_EXT/retroarch.cfg owner pad dir
+	local cfg=$RA_EXT/retroarch.cfg owner pad dir sum
 
 	[ -d "$RA_DATA" ] || return 0
 	owner=$(stat -c %u:%g "$RA_DATA")
 	mkdir -p "$own" "$auto"
 	touch "$own/seeded.sha1"
 
-	# RetroArch looks for pad profiles in autoconfig/android of its data dir
-	for pad in "$BASE"/retroarch/autoconfig/*.cfg; do
-		[ -f "$pad" ] && seed_owned "$pad" "$auto/${pad##*/}"
-	done
-	chown -R "$owner" "$RA_DATA/autoconfig" "$own"
-	restorecon -R "$RA_DATA/autoconfig" "$own" 2>/dev/null
+	# RetroArch looks for pad profiles in autoconfig/android of its data dir:
+	# the built-in pad's, ours for external pads and the upstream set. Only
+	# when the ROM brings other profiles than last time (a stamp, as for the
+	# cores), so a normal boot doesn't hash ~220 files.
+	sum=$(cat "$BASE"/retroarch/autoconfig/*.cfg 2>/dev/null | sha1sum | cut -d' ' -f1)
+	if [ "$(cat "$own/autoconfig.sha1" 2>/dev/null)" != "$sum" ]; then
+		for pad in "$BASE"/retroarch/autoconfig/*.cfg; do
+			[ -f "$pad" ] && seed_owned "$pad" "$auto/${pad##*/}"
+		done
+		chown -R "$owner" "$RA_DATA/autoconfig" "$own"
+		restorecon -R "$RA_DATA/autoconfig" "$own" 2>/dev/null
+		echo "$sum" >"$own/autoconfig.sha1"
+	fi
 
 	[ -f "$BASE/retroarch/retroarch.cfg" ] || return 0
 	[ -e "$cfg" ] && return 0
@@ -523,15 +535,68 @@ cfg_get() {
 	sed -n "s/^[ 	]*$2[ 	]*=[ 	]*\"\{0,1\}\([^\"]*\)\"\{0,1\}[ 	]*\$/\1/p" "$1" | tail -n 1
 }
 
-# cfg_set <file> <key> <value> ; written in place, so the file keeps its owner,
-# mode and the ACL vold gave it
+# One retroarch.cfg writer at a time: the start-up run and gameconsole-ra-players
+# (Settings > Controllers, when RetroArch closes) can overlap, and one change
+# would be lost. The lock is in /dev, so a restart clears it.
+CFG_LOCK=${CFG_LOCK:-/dev/gameconsole-emu-cfg.lock}
+
+cfg_lock() {
+	local n=0
+	while ! mkdir "$CFG_LOCK" 2>/dev/null; do
+		# nowhere to lock (a test on a PC): go on
+		[ -d "$CFG_LOCK" ] || return 0
+		n=$((n + 1))
+		# a holder that was killed: go on after 10 s
+		if [ "$n" -ge 50 ]; then
+			log "retroarch.cfg was locked for 10 s, going on"
+			return 0
+		fi
+		sleep 0.2
+	done
+}
+
+cfg_unlock() {
+	rmdir "$CFG_LOCK" 2>/dev/null
+}
+
+# cfg_set <file> <key> <value> ; see cfg_write, under the lock
 cfg_set() {
 	local rc
-	{ grep -v "^[ 	]*$2[ 	]*=" "$1"; echo "$2 = \"$3\""; } >"$1.new" &&
-		cat "$1.new" >"$1"
+	cfg_lock
+	cfg_write "$@"
 	rc=$?
-	rm -f "$1.new"
+	cfg_unlock
 	return $rc
+}
+
+# cfg_write <file> <key> <value> ; written in place, so the file keeps its owner,
+# mode and the ACL vold gave it. The new text is made in <file>.new first and
+# only goes in when it is complete (every old line but the key's, plus the
+# key). A copy of the old file (<file>.bak) is kept until the new text is in;
+# if writing it fails (full /data), the old text is put back, or stays in
+# <file>.bak if even that fails.
+cfg_write() {
+	local want
+	want=$(($(grep -c '' "$1") - $(grep -c "^[ 	]*$2[ 	]*=" "$1") + 1))
+	if ! { grep -v "^[ 	]*$2[ 	]*=" "$1"; echo "$2 = \"$3\""; } >"$1.new" ||
+		[ "$(($(wc -l <"$1.new")))" -ne "$want" ] ||
+		! { cp "$1" "$1.bak.tmp" && mv -f "$1.bak.tmp" "$1.bak"; }; then
+		rm -f "$1.new" "$1.bak.tmp"
+		return 1
+	fi
+	if cat "$1.new" >"$1"; then
+		rm -f "$1.new" "$1.bak"
+		return 0
+	fi
+	rm -f "$1.new"
+	if cat "$1.bak" >"$1"; then
+		rm -f "$1.bak"
+		log "writing $1 failed, the old one is back"
+	else
+		chown "$(stat -c %u:%g "${1%/*}")" "$1.bak" 2>/dev/null
+		log "writing $1 failed, the old one is in $1.bak"
+	fi
+	return 1
 }
 
 # ours <system_directory> ; true if it's unset, or what we wrote last time.
@@ -602,6 +667,135 @@ bios_folder() {
 		log "RetroArch reads BIOS files from $want now (was: ${cur:-unset})"
 	fi
 	echo "$want" >"$SYSTEM_DIR_MARK"
+}
+
+PP_PKG=org.ppsspp.ppsspp
+PP_DATA=/data/user/0/$PP_PKG
+# controls.ini files whose face buttons we already put in place
+PP_DONE=$STATE/ppsspp-controls
+
+# ppsspp_memstick ; prints PPSSPP's memory stick folder as root sees it. PPSSPP
+# asks for it on its first start and keeps it in files/memstick_dir.txt: a
+# plain path or a folder picked with the Android file picker (content URI).
+ppsspp_memstick() {
+	local dir vol rel
+	dir=$(cat "$PP_DATA/files/memstick_dir.txt" 2>/dev/null) || return 1
+	case $dir in
+	content://com.android.externalstorage.documents/tree/*)
+		# tree/primary%3APSP or tree/1234-ABCD%3Agames%2Fpsp
+		dir=$(echo "${dir#*/tree/}" |
+			sed -e 's/%3[Aa]/:/g' -e 's#%2[Ff]#/#g' -e 's/%20/ /g' -e 's/%25/%/g')
+		vol=${dir%%:*}
+		rel=${dir#*:}
+		if [ "$vol" = primary ]; then
+			dir=$MEDIA/$rel
+		else
+			dir=/mnt/media_rw/$vol/$rel
+		fi
+		;;
+	/storage/emulated/0/*) dir=$MEDIA/${dir#/storage/emulated/0/} ;;
+	/storage/*) dir=/mnt/media_rw/${dir#/storage/} ;;
+	/*) ;;
+	*) return 1 ;;
+	esac
+	[ -d "$dir" ] && echo "${dir%/}"
+}
+
+# ppsspp_controls ; PSP buttons by position on the built-in pad. PPSSPP's
+# Android default puts Cross on BUTTON_A, which is the bottom button on Xbox
+# and PlayStation pads but the right one on this console (and on Switch pads),
+# where it sends the printed letter. So Cross, Circle, Square and Triangle
+# landed on the right, bottom, top and left buttons. Once PPSSPP has written
+# its controls.ini (after its first start), and only while the four face
+# buttons are still PPSSPP's default for pads, they are moved to Cross = B,
+# Circle = A, Square = Y, Triangle = X, like the PSP. PPSSPP reads every
+# controller as the one player. Once per controls.ini, so a mapping the user
+# makes later stays.
+ppsspp_controls() {
+	local root ini
+	root=$(ppsspp_memstick) || return 0
+	ini=$root/PSP/SYSTEM/controls.ini
+	[ -f "$ini" ] || return 0
+	grep -qxF "$ini" "$PP_DONE" 2>/dev/null && return 0
+	# 10 = PPSSPP's pad device, 96/97/99/100 = BUTTON_A/B/X/Y
+	if grep -Eq '^Cross *=.*[= ,]10-96(,|.?$)' "$ini" &&
+		grep -Eq '^Circle *=.*[= ,]10-97(,|.?$)' "$ini" &&
+		grep -Eq '^Square *=.*[= ,]10-99(,|.?$)' "$ini" &&
+		grep -Eq '^Triangle *=.*[= ,]10-100(,|.?$)' "$ini"; then
+		sed -E -e '/^Cross *=/s/([= ,])10-96(,|.?$)/\110-97\2/' \
+			-e '/^Circle *=/s/([= ,])10-97(,|.?$)/\110-96\2/' \
+			-e '/^Square *=/s/([= ,])10-99(,|.?$)/\110-100\2/' \
+			-e '/^Triangle *=/s/([= ,])10-100(,|.?$)/\110-99\2/' "$ini" >"$ini.new" &&
+			cat "$ini.new" >"$ini" &&
+			log "PPSSPP: face buttons by position (Cross = B) in $ini"
+		rm -f "$ini.new"
+	else
+		log "PPSSPP: face buttons in $ini already changed, left alone"
+	fi
+	echo "$ini" >>"$PP_DONE"
+}
+
+# What we last wrote into each controller setting of retroarch.cfg
+MANAGED=$STATE/retroarch-managed
+# 0x484b:0x1100, the built-in pad (odroidgo3-joypad, name "GO-Super Gamepad")
+BUILTIN_PAD=484b:1100
+
+# managed <file> <key> <value> <force> <RetroArch default>... ; sets a setting
+# when it is unset, what we wrote last time, or (before we ever wrote it)
+# RetroArch's default. Anything else is the user's and stays, unless forced.
+managed() {
+	local cfg=$1 key=$2 want=$3 force=$4 cur mark d ours=
+	shift 4
+	cur=$(cfg_get "$cfg" "$key")
+	[ "$cur" = "$want" ] && { echo "$want" >"$MANAGED/$key"; return 0; }
+	mark=$MANAGED/$key
+	if [ -n "$force" ] || [ -z "$cur" ]; then
+		ours=1
+	elif [ -f "$mark" ]; then
+		[ "$cur" = "$(cat "$mark")" ] && ours=1
+	else
+		for d in "$@"; do [ "$cur" = "$d" ] && ours=1; done
+	fi
+	[ -n "$ours" ] || return 0
+	cfg_set "$cfg" "$key" "$want" || { log "writing $key failed"; return 0; }
+	echo "$want" >"$mark"
+	log "RetroArch: $key = $want (was: ${cur:-unset})"
+}
+
+# retroarch_players [force] ; the built-in pad is player 1 in RetroArch, external
+# pads player 2 and up, in the order their first button is pressed. With
+# persist.andr36oid.ra_player1=external (Settings > Controllers) it is the
+# other way round: the first external pad is player 1, the built-in pad
+# player 2. RetroArch's device reservation does this (Settings > Input >
+# Port 1 Controls > Device Reservation in RetroArch). "Reserved" keeps that
+# player free for the pad until it sends its first input.
+# Also for every pad, not only player 1's: L1+R1+Start+Select (already set)
+# and a pad's Guide/PS button open the menu, Start+Select (twice) quits, and
+# every player can use the menu. The Select hotkeys (save states etc.) only
+# work on player 1's pad; RetroArch 1.22 reads hotkeys from player 1 only.
+# "force" (the setting was just changed in Settings) overrides values the
+# user set in RetroArch itself for the two player settings.
+retroarch_players() {
+	local cfg=$RA_EXT/retroarch.cfg force=${1:-} p1=$BUILTIN_PAD p2='' t1=2 t2=0
+	[ -f "$cfg" ] || return 0
+	mkdir -p "$MANAGED"
+	# reservation type: 2 = reserved, 0 = none
+	if [ "$(getprop persist.andr36oid.ra_player1)" = external ]; then
+		p1='' t1=0
+		p2=$BUILTIN_PAD t2=2
+	fi
+	managed "$cfg" input_player1_device_reservation_type $t1 "$force" 0
+	managed "$cfg" input_player1_reserved_device "$p1" "$force" ""
+	managed "$cfg" input_player2_device_reservation_type $t2 "$force" 0
+	managed "$cfg" input_player2_reserved_device "$p2" "$force" ""
+	managed "$cfg" all_users_control_menu true "" false
+	# 4 = Start+Select, with quit_press_twice (RetroArch's default) on
+	managed "$cfg" input_quit_gamepad_combo 4 "" 0
+}
+
+# retroarch_running ; RetroArch writes all its settings back when it quits
+retroarch_running() {
+	pidof "$RA_PKG" >/dev/null 2>&1
 }
 
 # Daijishou, the home screen. On the first start its library gets one platform
@@ -964,6 +1158,15 @@ fi
 
 mkdir -p "$STATE"
 
+# gameconsole-ra-players: the player 1 choice in Settings > Controllers changed.
+# Applied once RetroArch is closed, as it would write its old values back.
+if [ "${1:-}" = players ]; then
+	[ "$(getprop sys.boot_completed)" = 1 ] || exit 0
+	while retroarch_running; do sleep 5; done
+	retroarch_players force
+	exit 0
+fi
+
 # boot_completed is set, but give the package manager a moment if needed
 i=0
 until pm path android </dev/null >/dev/null 2>&1; do
@@ -985,3 +1188,6 @@ bios_folder
 # after the cores and ROM folders: a platform needs both
 seed_daijishou
 dj_new_games
+retroarch_players
+# PPSSPP isn't running this early; it writes controls.ini back when it quits
+ppsspp_controls

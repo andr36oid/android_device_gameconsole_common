@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="controllers_title">Controllers</string>
+    <string name="controllers_summary">External pads, Bluetooth pairing, player 1</string>
+
+    <!-- Connected pads -->
+    <string name="connected_title">Connected controllers</string>
+    <string name="connected_none">Only the built-in controls. Plug a pad into the OTG port (with an adapter if needed) or pair one over Bluetooth.</string>
+    <string name="bus_builtin">Built-in</string>
+    <string name="bus_usb">USB</string>
+    <string name="bus_bluetooth">Bluetooth</string>
+    <string name="bus_other">External</string>
+    <string name="battery_percent">Battery %1$d %%</string>
+    <string name="battery_level">Battery %1$s</string>
+    <string name="battery_charging">charging</string>
+    <string name="battery_none">No battery reading</string>
+    <string name="player_builtin_1">RetroArch player 1</string>
+    <string name="player_builtin_2">RetroArch player 2</string>
+    <string name="player_external_2">RetroArch player 2 and up</string>
+    <string name="player_external_1">RetroArch player 1 if pressed first</string>
+    <!-- joined with " · " -->
+    <string name="summary_separator">" · "</string>
+
+    <!-- RetroArch -->
+    <string name="retroarch_title">RetroArch</string>
+    <string name="player1_title">Player 1 in RetroArch</string>
+    <string-array name="player1_entries">
+        <item>Built-in controls</item>
+        <item>External controller</item>
+    </string-array>
+    <string-array name="player1_values" translatable="false">
+        <item>builtin</item>
+        <item>external</item>
+    </string-array>
+    <string name="player1_builtin_summary">Built-in controls. External pads are player 2, 3 and so on, in the order you first press a button on them.</string>
+    <string name="player1_external_summary">The first external pad you press a button on. The built-in controls are player 2. For playing alone on a bigger pad.</string>
+    <string name="player1_later">Changes take effect the next time RetroArch starts. If it is open, quit it first (Select + Start twice).</string>
+    <string name="hotkeys_title">Buttons in RetroArch</string>
+    <string name="hotkeys_summary">Player 1\'s controller: hold Select for the hotkeys (Start quit, R1/L1 save/load state, X menu).\nAny controller: L1 + R1 + Start + Select or the Xbox / PS / Capture button opens the menu, Start + Select twice quits.</string>
+    <string name="ppsspp_title">PSP games (PPSSPP)</string>
+    <string name="ppsspp_summary">Every controller controls the one player. Buttons are set for the built-in controls and Switch pads (Cross = B). On an Xbox or PlayStation pad, remap them in PPSSPP if you play with it.</string>
+
+    <!-- Bluetooth -->
+    <string name="bluetooth_title">Bluetooth</string>
+    <string name="pair_title">Pair a Bluetooth controller</string>
+    <string name="pair_summary">Search for a controller in pairing mode</string>
+    <string name="bluetooth_off">Turn on Bluetooth</string>
+    <string name="bluetooth_off_summary">Bluetooth is off</string>
+    <string name="bluetooth_turning_on">Turning on Bluetooth…</string>
+    <string name="bluetooth_missing">No Bluetooth</string>
+    <string name="bluetooth_missing_summary">This console has no Bluetooth. Plug a USB Bluetooth dongle into the OTG port to use wireless controllers, or use a USB pad.</string>
+    <string name="paired_connected">Paired, connected</string>
+    <string name="paired_not_connected">Paired, not connected. Turn the controller on, or press A.</string>
+    <string name="paired_dialog_connect">Connect</string>
+    <string name="paired_dialog_forget">Forget</string>
+    <string name="paired_forget_title">Forget %1$s?</string>
+    <string name="paired_forget_message">To use it again you have to pair it again.</string>
+
+    <!-- Pairing page -->
+    <string name="pair_how_title">Put the controller into pairing mode</string>
+    <string name="pair_how">Xbox: hold the small pair button on top until the Xbox button flashes fast.\nPlayStation 4 or 5: hold Share (Create) and PS until the light flashes.\nSwitch Pro: hold the small button on top, next to the USB port.\n8BitDo: pick the mode with its switch or Start + a button, then hold Pair for 3 seconds.</string>
+    <string name="pair_found_title">Found controllers</string>
+    <string name="pair_searching">Searching…</string>
+    <string name="pair_search_again">Search again</string>
+    <string name="pair_search_again_summary">Nothing more found. Press A to search again.</string>
+    <string name="pair_show_all">Show all Bluetooth devices</string>
+    <string name="pair_show_all_summary">Also devices that don\'t say they are controllers</string>
+    <string name="pair_device_summary">Press A to pair</string>
+    <string name="pair_pairing">Pairing… If a question appears, choose Pair.</string>
+    <string name="pair_connecting">Paired. Connecting…</string>
+    <string name="pair_connected">Connected. It is ready to use.</string>
+    <string name="pair_failed">Pairing failed. Put the controller into pairing mode again and press A.</string>
+    <string name="pair_no_name">Unnamed device (%1$s)</string>
+</resources>

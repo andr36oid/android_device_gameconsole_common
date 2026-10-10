@@ -52,6 +52,10 @@ the `gameconsole-emu` service (`seed/`) runs once `sys.boot_completed=1`:
 6. Give Daijishou (the home screen) one platform per system in the ROM folders, with the
    folder on EASYROMS as its sync folder and our core or PPSSPP as its player, before
    Daijishou's first start. See [Daijishou platforms](#daijishou-platforms) below.
+7. Keep the built-in pad player 1 in RetroArch and let every controller open the menu
+   and quit, see [Controllers and players](#controllers-and-players) below.
+8. PPSSPP: the PSP face buttons by position on the built-in pad, once PPSSPP has made its
+   controls.ini, see the end of [BIOS folder](#bios-folder).
 
 Log tag: `gameconsole-emu`. State: `/data/misc/gameconsole` and
 `/data/user/0/com.retroarch/.gameconsole`.
@@ -73,8 +77,25 @@ dArkOS (christianhaitian) use, so a card moves between ArkOS and andr36oid with 
   "GO-Super Gamepad", 0x484b:0x1100). Every button incl. L2/R2/L3/R3 and both analog
   sticks work without setup; without it RetroArch falls back to its generic "Android
   Gamepad" binds, which swap A/B and X/Y on this pad. Copied to
-  `/data/user/0/com.retroarch/autoconfig/android/` on every boot unless the user changed
-  it there (tracked like the cores).
+  `/data/user/0/com.retroarch/autoconfig/android/` unless the user changed it there
+  (tracked like the cores), whenever the ROM's profiles differ from the last boot's.
+- `autoconfig/`: RetroArch profiles for external controllers, seeded into the same folder
+  (only when the ROM brings other profiles than last time; a profile the user changed there
+  is kept). RetroArch unpacks its own profile set only when it is opened from its icon,
+  never when Daijishou starts a game, so without these an external pad got the generic
+  "Android Gamepad" binds (no right stick on many pads). Two kinds:
+  - `andr36oid_*.cfg`: Xbox (USB and Bluetooth), DualShock 4, DualSense and Switch
+    (Pro Controller, SNES, 8BitDo in Switch mode) as Android shows them here, with the
+    kernel drivers from night/usb-peripherals and the key layouts in `../gamepads/keylayout`.
+    Nintendo pads send their printed letters like the built-in pad (A right), so RetroArch's
+    own Pro Controller profile would swap A/B and X/Y. The Guide/PS/Capture button opens
+    RetroArch's menu, on any player. The matches sit in the alternative slots 3-9 of each
+    file: RetroArch adds the slot number to the match score, so these always win over
+    RetroArch's own profiles for the same pad (slots 0-2), whatever the folder order.
+  - `upstream/`: the android set of
+    [retroarch-joypad-autoconfig](https://github.com/libretro/retroarch-joypad-autoconfig)
+    at 3579625f (MIT, `upstream/COPYING`), 217 files, spaces and brackets in the file names
+    turned into `_` for the build. Covers 8BitDo, Logitech, generic USB SNES pads and more.
 - `retroarch.cfg`: a partial config, RetroArch fills in the rest. Written to
   `/storage/emulated/0/Android/data/com.retroarch/files/retroarch.cfg` (the one the
   RetroArch app and Daijishou's RetroArch players load) **only if there is no
@@ -130,6 +151,36 @@ PCSX ReARMed, Beetle PCE Fast/NeoPop/Cygne, Genesis Plus GX, PicoDrive. Use mGBA
 than gpSP for GBA, and Genesis Plus GX (non-commercial tier) rather than Gearsystem for
 Master System/Game Gear. Save states only load in the same core.
 
+### Controllers and players
+
+Step 7 (`retroarch_players`) keeps the built-in pad player 1 and puts external pads on
+player 2 and up, in the order their first button is pressed. Without it RetroArch gives
+player 1 to whichever pad sends input first, which on Android can be an external pad.
+It uses RetroArch's device reservation (Settings > Input > Port 1 Controls > Device
+Reservation Type in RetroArch): `input_player1_device_reservation_type = "2"`
+(reserved) and `input_player1_reserved_device = "484b:1100"`, so player 1 stays free for
+the built-in pad even while an external pad is used first.
+
+Settings > Controllers can turn it round (`persist.andr36oid.ra_player1=external`): then
+player 2 is reserved for the built-in pad and the first external pad is player 1, for
+someone who plays alone on a bigger pad. The `gameconsole-ra-players` service writes the
+change once RetroArch is closed (RetroArch writes its old values back when it quits).
+
+Also for every controller, not only player 1's:
+- `all_users_control_menu = "true"`: every player can use the menu.
+- `input_quit_gamepad_combo = "4"`: Start+Select (twice) quits.
+- L1+R1+Start+Select opens the menu (already in the seeded config), and so does a pad's
+  Guide / PS / Capture button (the `andr36oid_*.cfg` profiles bind it).
+
+The Select hotkeys (save/load state, fast forward...) only work on player 1's pad:
+RetroArch 1.22 reads hotkeys from player 1 only (`input_keys_pressed`, "Hotkeys are only
+relevant for the first user"). Whoever wants them on the big pad makes it player 1.
+
+These settings are changed at boot only while they are unset, RetroArch's default or
+what the service wrote last time (`/data/misc/gameconsole/retroarch-managed/<key>`), so
+changes made in RetroArch stay; only a change in Settings > Controllers overrides the
+two player settings.
+
 ### BIOS folder
 
 The EASYROMS path has the card's UUID in it, so it can't be in the seeded retroarch.cfg.
@@ -173,6 +224,17 @@ against the core sources at the pinned commits.
 
 PPSSPP isn't seeded: it stores its settings (and `controls.ini`) in the memory stick
 folder the user picks on its first start, so there is nothing to seed before that.
+Step 8 (`ppsspp_controls`) fixes its buttons afterwards: PPSSPP's Android default maps
+Cross to BUTTON_A, the bottom button on Xbox/PlayStation pads but the right one on the
+built-in pad (and Switch pads), so Cross/Circle/Square/Triangle sat on right/bottom/top/
+left. On the first boot after PPSSPP wrote `PSP/SYSTEM/controls.ini` (it does on quit),
+and only if the four face buttons are still PPSSPP's pad default (`10-96/97/99/100`), they
+become Cross = B, Circle = A, Square = Y, Triangle = X. The memory stick folder comes from
+`files/memstick_dir.txt` (a path or a file-picker content URI, internal storage or SD
+card). Once per controls.ini (`/data/misc/gameconsole/ppsspp-controls`), so a later
+mapping of the user's stays. PPSSPP treats every connected controller as the one player,
+so on an Xbox or PlayStation pad the face buttons are then turned by one position; remap
+in PPSSPP (Settings > Controls > Control mapping) if that pad is the main one.
 
 ## Daijishou platforms
 

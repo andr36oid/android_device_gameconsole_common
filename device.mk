@@ -433,6 +433,14 @@ PRODUCT_COPY_FILES += \
         $(LOCAL_PATH)/Vendor_484b_Product_1100.kcm:$(TARGET_COPY_OUT_SYSTEM)/usr/keychars/Vendor_484b_Product_1100.kcm \
         $(LOCAL_PATH)/Vendor_484b_Product_1100.idc:$(TARGET_COPY_OUT_SYSTEM)/usr/idc/Vendor_484b_Product_1100.idc
 
+# Key layouts for external controllers that Android 11 gets wrong or lacks (DualSense,
+# Xbox pads xpad only knows by maker, newer Xbox Bluetooth IDs, Nintendo pads), see the
+# comment at the top of each file
+GAMEPADS_PATH := device/gameconsole/common/gamepads
+PRODUCT_COPY_FILES += \
+        $(foreach f,$(notdir $(wildcard $(GAMEPADS_PATH)/keylayout/*.kl)),\
+            $(GAMEPADS_PATH)/keylayout/$(f):$(TARGET_COPY_OUT_SYSTEM)/usr/keylayout/$(f))
+
 # Build and run only ART
 PRODUCT_RUNTIMES := runtime_libart_default
 
@@ -501,6 +509,11 @@ PRODUCT_PACKAGES += \
 # Button mapping and profiles (Settings > Button mapping, Quick Settings tile)
 PRODUCT_PACKAGES += \
 	ButtonMapper
+
+# Controllers: connected pads with battery and RetroArch player, who is player 1 in
+# RetroArch, Bluetooth pairing with the buttons only (Settings > Controllers)
+PRODUCT_PACKAGES += \
+	Andr36oidControllers
 
 # CPU overclock (Settings > CPU overclock, Quick Settings tile once used)
 PRODUCT_PACKAGES += \

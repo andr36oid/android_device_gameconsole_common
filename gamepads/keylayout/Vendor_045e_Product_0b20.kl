@@ -1,0 +1,34 @@
+# Xbox Wireless Controller over Bluetooth, 045e:0b20 (Xbox One S controller after the 2021 firmware update).
+# Android 11 has layouts only for the older Bluetooth IDs (02e0, 02fd). Without
+# one, Generic.kl put the triggers on BRAKE/GAS and the Xbox button on HOME.
+# This is Android's 02fd layout (Vendor_045e_Product_02fd.kl), plus View and
+# Share as newer firmware sends them. Keys a firmware doesn't send do nothing.
+
+key 304   BUTTON_A
+key 305   BUTTON_B
+key 307   BUTTON_X
+key 308   BUTTON_Y
+key 310   BUTTON_L1
+key 311   BUTTON_R1
+key 317   BUTTON_THUMBL
+key 318   BUTTON_THUMBR
+
+# Left stick, right stick, triggers
+axis 0x00 X flat 4096
+axis 0x01 Y flat 4096
+axis 0x02 Z flat 4096
+axis 0x05 RZ flat 4096
+axis 0x0a LTRIGGER
+axis 0x09 RTRIGGER
+
+axis 0x10 HAT_X
+axis 0x11 HAT_Y
+
+# View (older firmware: KEY_BACK), Menu, Xbox button (KEY_HOMEPAGE or BTN_MODE)
+key 158   BUTTON_SELECT
+key 314   BUTTON_SELECT
+key 315   BUTTON_START
+key 172   BUTTON_MODE
+key 316   BUTTON_MODE
+# Share (Series controllers)
+key 167   MEDIA_RECORD
