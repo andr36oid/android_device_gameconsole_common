@@ -78,15 +78,15 @@
     <string name="mouse_click">Click, hold R1 to drag</string>
     <string name="mouse_right_click">Right click</string>
     <string name="mouse_scroll">Scroll</string>
-    <string name="mouse_settings">Settings &gt; Joystick mouse changes speed, buttons and the combination.</string>
-    <string name="mapping_settings">Settings &gt; Button mapping swaps buttons, with profiles for different games.</string>
+    <string name="mouse_settings">Settings &gt; Controls &gt; Joystick mouse changes speed, buttons and the combination.</string>
+    <string name="mapping_settings">Settings &gt; Controls &gt; Button mapping swaps buttons, with profiles for different games.</string>
     <string name="mapping_reset">Locked yourself out? Hold both volume buttons for 5 seconds and every button is back to normal.</string>
 
     <!-- Touch controls -->
     <string name="touch_title">Touch controls</string>
     <string name="touch_intro">Some games only work with a touchscreen. Touch controls give such a game its own layout: each button or stick touches a spot on the screen. It switches on by itself while that game is in front; every other app keeps the normal buttons.</string>
     <string name="touch_open">In the game: open the editor on top of it</string>
-    <string name="touch_settings">Or go to Settings &gt; Touch controls &gt; Add an app. The game starts and the editor opens on top.</string>
+    <string name="touch_settings">Or go to Settings &gt; Controls &gt; Touch controls &gt; Add an app. The game starts and the editor opens on top.</string>
     <string name="touch_move">Move the crosshair to a spot</string>
     <string name="touch_add">Add a control there, then press its button or move its stick</string>
     <string name="touch_size">Make the selected control smaller or bigger</string>
