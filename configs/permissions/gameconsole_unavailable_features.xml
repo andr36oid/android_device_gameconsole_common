@@ -8,4 +8,7 @@
     <unavailable-feature name="android.software.print" />
     <!-- No camera and no camera daemon; apps must not offer camera features. -->
     <unavailable-feature name="android.hardware.camera" />
+    <!-- No picture-in-picture: a video app shrunk into a PiP window stays on top
+         of everything, and its expand/close buttons need a touchscreen. -->
+    <unavailable-feature name="android.software.picture_in_picture" />
 </permissions>
