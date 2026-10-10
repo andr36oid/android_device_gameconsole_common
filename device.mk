@@ -811,6 +811,17 @@ PRODUCT_VENDOR_PROPERTIES += \
 # Speed profile services and wifi-service to reduce RAM and storage.
 PRODUCT_SYSTEM_SERVER_COMPILER_FILTER := speed-profile
 
+# Profiles for compiling apps ahead of time: a <module>.prof here makes the build
+# compile that app with speed-profile (only the methods in the profile, plus an app
+# image) instead of quicken. Daijishou.prof is the baseline profile Daijishou ships
+# inside its APK (assets/dexopt/baseline.prof), so its start-up code is compiled
+# before the first start instead of being interpreted and JIT-compiled on every boot
+# until the idle compile runs. +6.5 MB on /system. After updating Daijishou.apk,
+# refresh it with: unzip -p apps/Daijishou/Daijishou.apk assets/dexopt/baseline.prof
+# > dexpreopt-profiles/Daijishou.prof (an old one only prints "Profile out of date"
+# and the app is compiled as before).
+PRODUCT_DEX_PREOPT_PROFILE_DIR := device/gameconsole/common/dexpreopt-profiles
+
 # Always preopt extracted APKs to prevent extracting out of the APK for gms
 # modules.
 PRODUCT_ALWAYS_PREOPT_EXTRACTED_APK := true
@@ -833,6 +844,14 @@ PRODUCT_PRODUCT_PROPERTIES += \
 # set threshold to filter unused apps
 PRODUCT_PROPERTY_OVERRIDES += \
 pm.dexopt.downgrade_after_inactive_days=10
+
+# First boot: the apps that can't be compiled at build time (PermissionController,
+# MediaProvider, ExtServices, Tethering, OsuLogin in the APEXes, ~6 MB of code) are
+# compiled while system_server starts, which holds up the first boot. verify skips
+# the quicken pass (Android 12 does the same); the idle compile later turns them
+# into speed-profile anyway.
+PRODUCT_PROPERTY_OVERRIDES += \
+	pm.dexopt.first-boot=verify
 
 # Dedupe VNDK libraries with identical core variants.
 TARGET_VNDK_USE_CORE_VARIANT := true
