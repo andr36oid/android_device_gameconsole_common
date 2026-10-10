@@ -10,35 +10,13 @@
         android:label="@string/cal_title"
         android:supportsRtl="true">
 
-        <!-- Injected into the top level of the Settings app. Same order as Controller test;
-             ties sort by title, so it lands right above it. -->
+        <!-- Opened from Settings > Controls (Controllers app), not an entry of its own -->
         <activity
             android:name=".StickCalibrationActivity"
             android:exported="true"
             android:label="@string/cal_title"
             android:screenOrientation="nosensor"
             android:theme="@style/StickCalibrationTheme">
-            <intent-filter>
-                <action android:name="com.android.settings.action.IA_SETTINGS" />
-            </intent-filter>
-            <meta-data
-                android:name="com.android.settings.category"
-                android:value="com.android.settings.category.ia.homepage" />
-            <meta-data
-                android:name="com.android.settings.order"
-                android:value="-61" />
-            <meta-data
-                android:name="com.android.settings.keyhint"
-                android:value="top_level_stick_calibration" />
-            <meta-data
-                android:name="com.android.settings.summary"
-                android:resource="@string/cal_summary" />
-            <meta-data
-                android:name="com.android.settings.icon"
-                android:resource="@drawable/ic_stick_calibration" />
-            <meta-data
-                android:name="com.android.settings.bg.hint"
-                android:resource="@color/cal_icon_background" />
         </activity>
     </application>
 </manifest>
