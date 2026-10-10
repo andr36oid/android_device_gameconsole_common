@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="org.andr36oid.storagecare"
+    android:sharedUserId="android.uid.system">
+
+    <!-- The space check is scheduled again at boot -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <!-- Clearing all app caches (signature permission, we're platform signed) -->
+    <uses-permission android:name="android.permission.CLEAR_APP_CACHE" />
+    <!-- The size of all app caches -->
+    <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS" />
+
+    <application
+        android:allowBackup="false"
+        android:icon="@drawable/ic_free_space"
+        android:label="@string/app_title"
+        android:supportsRtl="true">
+
+        <!-- Injected into Settings > Storage, next to SD card check -->
+        <activity
+            android:name=".FreeSpaceActivity"
+            android:exported="true"
+            android:label="@string/app_title"
+            android:theme="@android:style/Theme.DeviceDefault.Settings">
+            <intent-filter>
+                <action android:name="com.android.settings.action.IA_SETTINGS" />
+            </intent-filter>
+            <meta-data
+                android:name="com.android.settings.category"
+                android:value="com.android.settings.category.ia.storage" />
+            <meta-data
+                android:name="com.android.settings.keyhint"
+                android:value="free_up_space" />
+            <meta-data
+                android:name="com.android.settings.summary"
+                android:resource="@string/app_summary" />
+            <meta-data
+                android:name="com.android.settings.icon"
+                android:resource="@drawable/ic_free_space" />
+        </activity>
+
+        <activity
+            android:name=".GroupActivity"
+            android:exported="false"
+            android:parentActivityName=".FreeSpaceActivity"
+            android:theme="@android:style/Theme.DeviceDefault.Settings" />
+
+        <service
+            android:name=".CheckJobService"
+            android:exported="false"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+
+        <receiver
+            android:name=".BootReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.MEDIA_MOUNTED" />
+                <action android:name="android.intent.action.MEDIA_UNMOUNTABLE" />
+                <data android:scheme="file" />
+            </intent-filter>
+        </receiver>
+    </application>
+</manifest>

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_title">Free up space</string>
+    <string name="app_summary">Old save states, screenshots, caches and card problems</string>
+
+    <string name="cat_space">Free space</string>
+    <string name="space_internal">Internal storage</string>
+    <string name="space_easyroms">EASYROMS (games)</string>
+    <string name="space_free_of">%1$s free of %2$s</string>
+    <string name="space_easyroms_missing">Not available right now</string>
+
+    <string name="cat_health">Card health</string>
+    <string name="health_ok">No problems found on EASYROMS</string>
+    <string name="health_ok_text">The card was checked when it was opened, and the system has reported no errors since.</string>
+    <string name="health_unmountable">EASYROMS can\'t be opened</string>
+    <string name="health_unmountable_text">Your games and saves are most likely still on the card. Don\'t format it. Restart the console once. If it stays like this, put the card in a PC and check it (Windows: right-click the drive, Properties, Tools, Check).</string>
+    <string name="health_read_only">EASYROMS is read-only</string>
+    <string name="health_read_only_text">The card had a file system error, so the system stopped writing to it. Games still start, but new saves and save states are not kept. Restart the console. If it happens again, check the card on a PC and copy your saves off it.</string>
+    <string name="health_errors">EASYROMS has file system errors</string>
+    <string name="health_errors_text">Restart the console so the card gets checked and repaired. If this comes back, check the card on a PC and copy your saves off it.</string>
+    <string name="health_fixed">EASYROMS was repaired</string>
+    <string name="health_fixed_text">The card wasn\'t closed properly last time (flat battery or power pulled). The errors were fixed when it was opened. If a game copied just before that doesn\'t start, copy it again.</string>
+
+    <string name="scan_title">Look for files to remove</string>
+    <string name="scan_summary">Nothing is removed until you pick it and confirm. Takes up to a minute on a full card.</string>
+    <string name="scan_again_summary">Look again</string>
+    <string name="scan_running">Looking…</string>
+    <string name="scan_running_files">Looked at %1$s files…</string>
+    <string name="scan_running_dups">Comparing ROMs of the same size…</string>
+    <string name="delete_running">Removing %1$s of %2$s…</string>
+    <string name="busy">Busy with something else, try again in a moment</string>
+    <string name="failed">That didn\'t work (%1$s)</string>
+
+    <string name="cat_found">Can be removed</string>
+    <string name="group_title_size">%1$s: %2$s</string>
+    <string name="group_states">Old save states</string>
+    <string name="group_backups">Old save backups</string>
+    <string name="group_racache">RetroArch cache</string>
+    <string name="group_thumbs">RetroArch box art</string>
+    <string name="group_shots">Screenshots</string>
+    <string name="group_apks">Downloaded app installers</string>
+    <string name="group_dups">Same ROM twice</string>
+    <string name="group_caches">App caches</string>
+    <string name="picked_all">All %1$d picked</string>
+    <string name="picked_none">%1$d found, none picked</string>
+    <string name="picked_some">%1$d of %2$d picked (%3$s)</string>
+    <string name="caches_picked">Will be cleared. Apps make them again when needed.</string>
+    <string name="caches_not_picked">Not picked</string>
+    <string name="remove_title">Remove picked files</string>
+    <string name="remove_summary">%1$d files and folders, %2$s</string>
+    <string name="remove_summary_caches">, and the app caches</string>
+    <string name="remove_nothing">Nothing picked</string>
+
+    <string name="about_states">Save states beyond the newest %1$d of each game. In-game saves (.srm, .sav) and the auto state are never listed.</string>
+    <string name="about_backups">Save backup copies beyond the newest %1$d in each place (internal storage, EASYROMS). The newest stay. Save backup itself keeps up to the number set there.</string>
+    <string name="about_racache">Files RetroArch unpacked or kept to start games faster. It makes them again.</string>
+    <string name="about_thumbs">Box art and title pictures RetroArch downloaded for its game lists. Getting them back needs Wi-Fi.</string>
+    <string name="about_shots">Screenshots from RetroArch, PPSSPP and Android. Camera and other pictures are not listed.</string>
+    <string name="about_apks">App installers in Download and at the top of EASYROMS. Installed apps stay installed.</string>
+    <string name="about_dups">ROMs that are byte for byte the same as one in another folder. The copy shown under "same as" stays.</string>
+    <string name="group_more">And %1$d smaller ones, not shown. Pick all or none decides for them.</string>
+    <string name="pick_all">Pick all</string>
+    <string name="pick_none">Pick none</string>
+    <string name="item_summary">%1$s · %2$s · %3$s</string>
+    <string name="item_same_as">Same as %1$s</string>
+
+    <string name="cat_folders">Biggest folders on EASYROMS</string>
+    <string name="folder_summary">%1$s, %2$d files</string>
+
+    <string name="confirm_title">Remove for good?</string>
+    <string name="confirm_files">%1$d files and folders (%2$s) will be removed. This can\'t be undone.</string>
+    <string name="confirm_caches">App caches will be cleared.</string>
+    <string name="confirm_safe">In-game saves are never removed, and the newest %1$d save states of each game stay. Quit RetroArch and PPSSPP first.</string>
+    <string name="confirm_remove">Remove</string>
+
+    <string name="result_title">Done</string>
+    <string name="result_removed">Removed %1$d files and folders, %2$s.</string>
+    <string name="result_caches">App caches: %1$s freed.</string>
+    <string name="result_skipped">%1$d were left alone because they changed since the search or are in use.</string>
+
+    <string name="cat_options">Options</string>
+    <string name="opt_keep_states">Save states to keep per game</string>
+    <string name="opt_keep_backups">Save backups to keep in each place</string>
+    <string name="opt_dups">Look for the same ROM twice</string>
+    <string name="opt_dups_summary">Compares ROMs of the same size. Makes the search slower.</string>
+    <string name="opt_warn">Warn when space runs low</string>
+    <string name="opt_warn_summary">A notification when the internal storage or EASYROMS is almost full, or when EASYROMS has errors</string>
+    <string-array name="keep_entries" translatable="false">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>5</item>
+        <item>10</item>
+    </string-array>
+
+    <string name="channel_warnings">Storage warnings</string>
+    <string name="warn_internal_low">Internal storage is almost full</string>
+    <string name="warn_internal_low_text">%1$s left. Apps, downloads and screenshots stop working when it\'s full. Tap to free up space.</string>
+    <string name="warn_internal_full">Internal storage is full</string>
+    <string name="warn_internal_full_text">%1$s left. Apps may stop working. Tap to free up space.</string>
+    <string name="warn_easyroms_low">EASYROMS is almost full</string>
+    <string name="warn_easyroms_low_text">%1$s left on the games card. Games save there, and when it\'s full saves and save states fail. Tap to free up space.</string>
+    <string name="warn_easyroms_full">EASYROMS is full</string>
+    <string name="warn_easyroms_full_text">%1$s left. New saves and save states can\'t be written. Tap to free up space, or move some games to a PC.</string>
+</resources>

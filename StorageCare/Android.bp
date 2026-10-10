@@ -1,0 +1,20 @@
+// Settings > Storage > Free up space: finds old save states, old save backups, RetroArch
+// box art and cache, screenshots, downloaded APKs and duplicate ROMs, and removes what the
+// user picked; warns when the internal storage or EASYROMS runs low, and when EASYROMS
+// has file system errors. Runs as the system user like the other console apps; the file
+// work is done by the Engine class of this APK, run as root by the andr36oid-storagecare
+// init service (Android.mk) with app_process.
+android_app {
+    name: "StorageCare",
+    srcs: ["src/**/*.java"],
+    resource_dirs: ["res"],
+    certificate: "platform",
+    platform_apis: true,
+    optimize: {
+        enabled: false,
+    },
+    // app_process loads the Engine from the APK's classes.dex, so keep it in there
+    dex_preopt: {
+        enabled: false,
+    },
+}
