@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="ime_name">Keyboard gamepad</string>
+    <!-- Hint line above the keys. Buttons on keys (B, X, Y, START, SELECT, L3) are shown on the keys themselves. -->
+    <string name="hint_grid">Tahan A: aksen · L1/R1 geser kursor · L2 sembunyi · R2 teks besar · R3 ketik stik</string>
+    <string name="hint_sticks">Stik kiri: grup · stik kanan: huruf, lepas untuk mengetik · B hapus · X spasi · Y shift · START enter · R3 tombol</string>
+    <string name="stick_left">grup</string>
+    <string name="stick_right">lepas untuk mengetik</string>
+    <string name="key_space">spasi</string>
+    <string name="key_go">Buka</string>
+    <string name="key_search">Cari</string>
+    <string name="key_send">Kirim</string>
+    <string name="key_next">Lanjut</string>
+    <string name="key_done">Selesai</string>
+    <string name="key_previous">Kembali</string>
+    <string name="no_other_keyboard">Tidak ada keyboard lain yang terinstal.</string>
+    <string name="switched_to_tv">Keyboard Android TV aktif. Untuk kembali: Setelan &gt; Sistem &gt; Bahasa &amp; masukan &gt; Keyboard virtual &gt; Keyboard gamepad.</string>
+    <string name="which_self">Keyboard yang dipakai: Keyboard gamepad</string>
+    <string name="which_self_summary">Pilih untuk memakai keyboard Android TV (yang ada di build lama)</string>
+    <string name="which_other">Keyboard yang dipakai: keyboard lain</string>
+    <string name="which_other_summary">Pilih untuk memakai Keyboard gamepad lagi</string>
+    <string name="pref_layout">Tata letak huruf</string>
+    <string-array name="layout_entries">
+        <item>Otomatis (dari bahasa sistem)</item>
+        <item>QWERTY</item>
+        <item>QWERTZ</item>
+        <item>AZERTY</item>
+    </string-array>
+    <string name="pref_sticks">Mulai dengan ketik stik</string>
+    <string name="pref_sticks_summary">Buka keyboard dengan dua lingkaran stik, bukan tombol. R3 beralih kapan saja.</string>
+    <string name="pref_auto_big">Tampilkan teks saat tertutup keyboard</string>
+    <string name="pref_auto_big_summary">Jika kolom teks tertutup keyboard, tampilkan teksnya dalam baris besar di atasnya. R2 melakukannya secara manual.</string>
+    <string name="pref_hints">Tampilkan petunjuk tombol</string>
+    <string name="pref_hints_summary">Baris di atas tombol dan nama tombol pada tombol keyboard</string>
+    <string name="buttons_title">Tombol</string>
+    <string name="buttons_help">D-pad atau stik kiri: pindah\nA: ketik (tahan untuk aksen: é, ü, ß…)\nB: hapus (di kolom kosong: tutup)\nX: spasi\nY: shift (dua kali: caps lock)\nL1 / R1: geser kursor teks\nL2: tutup keyboard\nR2: baris teks besar aktif atau nonaktif\nStart: enter / selesai\nSelect: huruf atau simbol\nL3: beralih ke keyboard Android TV\nR3: kotak tombol atau ketik stik\n\nKetik stik: stik kiri memilih grup berisi empat huruf, stik kanan menunjuk sebuah huruf, lepaskan untuk mengetiknya.</string>
+</resources>

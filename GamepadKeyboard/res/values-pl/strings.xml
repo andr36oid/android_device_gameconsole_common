@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="ime_name">Klawiatura gamepada</string>
+    <!-- Hint line above the keys. Buttons on keys (B, X, Y, START, SELECT, L3) are shown on the keys themselves. -->
+    <string name="hint_grid">Przytrzymaj A: akcenty · L1/R1 kursor · L2 ukryj · R2 duży tekst · R3 pisanie gałkami</string>
+    <string name="hint_sticks">Lewa gałka: grupa · prawa gałka: litera, puść, aby wpisać · B usuń · X spacja · Y shift · START enter · R3 klawisze</string>
+    <string name="stick_left">grupa</string>
+    <string name="stick_right">puść, aby wpisać</string>
+    <string name="key_space">spacja</string>
+    <string name="key_go">Idź</string>
+    <string name="key_search">Szukaj</string>
+    <string name="key_send">Wyślij</string>
+    <string name="key_next">Dalej</string>
+    <string name="key_done">Gotowe</string>
+    <string name="key_previous">Wstecz</string>
+    <string name="no_other_keyboard">Nie zainstalowano innej klawiatury.</string>
+    <string name="switched_to_tv">Włączono klawiaturę Android TV. Aby wrócić: Ustawienia &gt; System &gt; Języki i metody wprowadzania &gt; Klawiatura ekranowa &gt; Klawiatura gamepada.</string>
+    <string name="which_self">Używana klawiatura: Klawiatura gamepada</string>
+    <string name="which_self_summary">Wybierz, aby zamiast niej używać klawiatury Android TV (tej ze starszych wersji)</string>
+    <string name="which_other">Używana klawiatura: inna klawiatura</string>
+    <string name="which_other_summary">Wybierz, aby znów używać Klawiatury gamepada</string>
+    <string name="pref_layout">Układ liter</string>
+    <string-array name="layout_entries">
+        <item>Automatyczny (wg języka systemu)</item>
+        <item>QWERTY</item>
+        <item>QWERTZ</item>
+        <item>AZERTY</item>
+    </string-array>
+    <string name="pref_sticks">Zaczynaj od pisania gałkami</string>
+    <string name="pref_sticks_summary">Otwiera klawiaturę z dwoma kołami gałek zamiast klawiszy. R3 przełącza w każdej chwili.</string>
+    <string name="pref_auto_big">Pokaż tekst, gdy klawiatura go zasłania</string>
+    <string name="pref_auto_big_summary">Jeśli pole tekstowe znajdzie się pod klawiaturą, pokaż tekst w dużym wierszu nad nią. R2 robi to ręcznie.</string>
+    <string name="pref_hints">Podpowiedzi przycisków</string>
+    <string name="pref_hints_summary">Wiersz nad klawiszami i nazwy przycisków na klawiszach</string>
+    <string name="buttons_title">Przyciski</string>
+    <string name="buttons_help">Krzyżak lub lewa gałka: ruch\nA: wpisz (przytrzymaj, aby wybrać akcent: é, ü, ß…)\nB: usuń (w pustym polu: zamknij)\nX: spacja\nY: shift (dwa razy: caps lock)\nL1 / R1: przesuń kursor tekstu\nL2: zamknij klawiaturę\nR2: duży wiersz tekstu wł. lub wył.\nStart: enter / gotowe\nSelect: litery lub symbole\nL3: przełącz na klawiaturę Android TV\nR3: siatka klawiszy lub pisanie gałkami\n\nPisanie gałkami: lewa gałka wybiera grupę czterech znaków, prawa wskazuje literę, puść ją, aby ją wpisać.</string>
+</resources>

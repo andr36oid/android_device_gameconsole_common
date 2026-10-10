@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="ime_name">Клавиатура для геймпада</string>
+    <!-- Hint line above the keys. Buttons on keys (B, X, Y, START, SELECT, L3) are shown on the keys themselves. -->
+    <string name="hint_grid">Удерж. A: диакритика · L1/R1 курсор · L2 скрыть · R2 крупно · R3 ввод стиками</string>
+    <string name="hint_sticks">Левый стик: группа · правый: буква, отпустите для ввода · B стереть · X пробел · Y Shift · START ввод · R3 клавиши</string>
+    <string name="stick_left">группа</string>
+    <string name="stick_right">отпустите для ввода</string>
+    <string name="key_space">пробел</string>
+    <string name="key_go">Перейти</string>
+    <string name="key_search">Найти</string>
+    <string name="key_send">Отпр.</string>
+    <string name="key_next">Далее</string>
+    <string name="key_done">Готово</string>
+    <string name="key_previous">Назад</string>
+    <string name="no_other_keyboard">Других клавиатур не установлено.</string>
+    <string name="switched_to_tv">Включена клавиатура Android TV. Чтобы вернуться: Настройки &gt; Система &gt; Язык и ввод &gt; Экранная клавиатура &gt; Клавиатура для геймпада.</string>
+    <string name="which_self">Используется: клавиатура для геймпада</string>
+    <string name="which_self_summary">Выберите, чтобы вместо неё использовать клавиатуру Android TV (как в старых сборках)</string>
+    <string name="which_other">Используется: другая клавиатура</string>
+    <string name="which_other_summary">Выберите, чтобы снова использовать клавиатуру для геймпада</string>
+    <string name="pref_layout">Раскладка букв</string>
+    <string-array name="layout_entries">
+        <item>Автоматически (по языку системы)</item>
+        <item>QWERTY</item>
+        <item>QWERTZ</item>
+        <item>AZERTY</item>
+    </string-array>
+    <string name="pref_sticks">Начинать с ввода стиками</string>
+    <string name="pref_sticks_summary">Открывать клавиатуру с двумя кругами для стиков вместо клавиш. R3 переключает в любой момент.</string>
+    <string name="pref_auto_big">Показывать текст, если его закрывает клавиатура</string>
+    <string name="pref_auto_big_summary">Если поле ввода оказалось под клавиатурой, текст показывается крупной строкой над ней. R2 делает это вручную.</string>
+    <string name="pref_hints">Подсказки по кнопкам</string>
+    <string name="pref_hints_summary">Строка над клавишами и названия кнопок на клавишах</string>
+    <string name="buttons_title">Кнопки</string>
+    <string name="buttons_help">Крестовина или левый стик: перемещение\nA: ввод (удерживайте для диакритики: é, ü, ß…)\nB: стереть (в пустом поле: закрыть)\nX: пробел\nY: Shift (дважды: Caps Lock)\nL1 / R1: двигать текстовый курсор\nL2: закрыть клавиатуру\nR2: крупная строка текста вкл./выкл.\nStart: Enter / готово\nSelect: буквы или символы\nL3: переключиться на клавиатуру Android TV\nR3: сетка клавиш или ввод стиками\n\nВвод стиками: левый стик выбирает группу из четырёх, правый указывает на букву, отпустите его, чтобы ввести её.</string>
+</resources>
