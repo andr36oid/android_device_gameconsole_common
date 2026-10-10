@@ -9,19 +9,21 @@
 #
 #   scan    finds EASYROMS and its bios folder (any case; makes "bios" if there is
 #           none) and the installed RetroArch cores, and lists the files in the
-#           bios folder and its subfolders with their MD5. A card set up with
+#           bios folder and its subfolders with their MD5, and the folders two
+#           levels deep (blueMSX needs bios/Machines, EasyRPG bios/rtp/2000). A card set up with
 #           .noroms has no EASYROMS partition; then the bios folder is on the
 #           internal storage (gameconsole-emu points RetroArch there too).
 #   rename  runs the renames the app wrote to $DIR/ops, one per line:
 #             <from><TAB><to>
-#           both in the bios folder, <to> right in it, never over a file that
-#           exists. Then scans again.
+#           both in the bios folder, <to> right in it or in a folder right in
+#           it (bios/neocd, made if missing), never over a file that exists.
+#           Then scans again.
 #
 # The app writes $DIR/request (action=scan|rename) and starts us with ctl.start.
 # $DIR/status is one line: "running <action>", "done" or "error <code>".
 # $DIR/scan, one TAB separated record per line:
 #   easyroms <path> or internal <path> (no EASYROMS partition) / bios <path> /
-#   core <name> / file <md5 or -> <size> <path>
+#   core <name> / file <md5 or -> <size> <path> / dir <path>
 # No easyroms, internal or bios line: EASYROMS is there but not mounted.
 # $DIR/result, one line per rename: renamed|exists|failed <path>
 #
@@ -128,19 +130,34 @@ scan() {
 				sum=$(md5sum <"$f" 2>/dev/null | cut -d' ' -f1)
 			echo "file$TAB${sum:--}$TAB${size:-0}$TAB$f"
 		done
+		[ -n "$BIOS" ] && find "$BIOS" -mindepth 1 -maxdepth 2 -type d 2>/dev/null | while IFS= read -r f; do
+			case $f in *"$TAB"*) continue ;; esac
+			echo "dir$TAB$f"
+		done
 	} >"$DIR/scan.tmp"
 	own "$DIR/scan.tmp"
 	mv -f "$DIR/scan.tmp" "$DIR/scan"
 }
 
-# rename <from> <to> ; from anywhere in the bios folder to a name right in it
+# rename <from> <to> ; from anywhere in the bios folder to a name right in it, or
+# in a folder right in it (made if missing)
 rename() {
-	local from=$1 to=$2
+	local from=$1 to=$2 dir
 	case $from/$to in
 	*/../*|*/./*|*/..|*/.) echo "failed $to"; return ;;
 	esac
 	case $from in "$BIOS"/*) ;; *) echo "failed $to"; return ;; esac
-	if [ "${to%/*}" != "$BIOS" ] || [ ! -f "$from" ]; then
+	dir=${to%/*}
+	if [ "$dir" != "$BIOS" ] && [ "${dir%/*}" = "$BIOS" ] && [ ! -d "$dir" ]; then
+		mkdir "$dir" 2>/dev/null
+		if [ -z "$BIOSCHECK_DIR" ]; then
+			chown "$(stat -c %u:%g "$BIOS")" "$dir" 2>/dev/null
+			chmod "$(stat -c %a "$BIOS")" "$dir" 2>/dev/null
+			restorecon "$dir" 2>/dev/null
+		fi
+	fi
+	if { [ "$dir" != "$BIOS" ] && [ "${dir%/*}" != "$BIOS" ]; } ||
+		[ ! -d "$dir" ] || [ ! -f "$from" ]; then
 		echo "failed $to"
 	elif [ -e "$to" ]; then
 		echo "exists $to"

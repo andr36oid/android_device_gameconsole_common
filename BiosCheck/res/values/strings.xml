@@ -59,6 +59,8 @@
     <string name="details_cores">Used by: %1$s</string>
     <string name="details_md5">Right file\'s MD5: %1$s</string>
     <string name="details_md5_any">Any file with this name works</string>
+    <string name="details_folder">A folder with this name, with all the files from the emulator\'s full download in it</string>
+    <string name="details_folder_found">Your folder: %1$s</string>
     <!-- %1$s: path, %2$s: its MD5 -->
     <string name="details_file">Your file: %1$s\nIts MD5: %2$s</string>
     <string name="details_file_big">Your file: %1$s\nToo big to be this file</string>
