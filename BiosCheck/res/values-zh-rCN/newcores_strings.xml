@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="details_folder">一个使用此名称的文件夹，里面放着该模拟器完整下载包中的全部文件</string>
+    <string name="details_folder_found">您的文件夹：%1$s</string>
+</resources>

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="details_folder">Ein Ordner mit diesem Namen, darin alle Dateien aus dem vollständigen Download des Emulators</string>
+    <string name="details_folder_found">Dein Ordner: %1$s</string>
+</resources>
