@@ -39,6 +39,8 @@ fresh() {
 	cp "$COMMON/emulators/seed/retroarch/retroarch.cfg" "$T/c/emulators/seed/retroarch/"
 	cp "$COMMON/joyMouse/src/Buttons.cpp" "$COMMON/joyMouse/src/Config.h" "$T/c/joyMouse/src/"
 	cp "$COMMON/joyMouse/README.md" "$T/c/joyMouse/"
+	mkdir -p "$T/c/GameComfort"
+	cp "$COMMON/GameComfort/AndroidManifest.xml" "$T/c/GameComfort/"
 	cp -r "$APP/res" "$T/c/QuickStart/"
 	rm -rf "$T/f"
 	if [ -f "$FWB/$PWM" ]; then

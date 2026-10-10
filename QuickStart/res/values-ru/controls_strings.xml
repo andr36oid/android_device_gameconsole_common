@@ -11,6 +11,7 @@
     <string name="controls_start">Подтвердить, как A</string>
     <string name="controls_dpad">Перемещение по меню и спискам</string>
     <string name="controls_console_swap">У некоторых клонов Soy Sauce (партия 253x) FN и SELECT поменяны местами. Если FN работает как SELECT, на SD-карте нужны файлы 253x: см. Experimental/README.txt на диске BOOT.</string>
+    <string name="controls_continue">Продолжить последнюю игру</string>
     <string name="controls_fn_hold">Удерживать отдельно: список сочетаний с FN</string>
     <string name="controls_heading_power">Питание и громкость</string>
     <string name="controls_power_off">Удерживать около 10 секунд: выключает зависшую консоль</string>

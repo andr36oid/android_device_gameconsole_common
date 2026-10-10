@@ -11,6 +11,7 @@
     <string name="controls_start">Confirmar, como A</string>
     <string name="controls_dpad">Moverse por menús y listas</string>
     <string name="controls_console_swap">Algunos clones Soy Sauce (lote 253x) tienen FN y SELECT al revés. Si FN funciona como SELECT, la tarjeta SD necesita los archivos 253x: consulta Experimental/README.txt en la unidad BOOT.</string>
+    <string name="controls_continue">Continuar el último juego que jugaste</string>
     <string name="controls_fn_hold">Mantenlo pulsado solo: muestra los atajos con FN</string>
     <string name="controls_heading_power">Encendido y volumen</string>
     <string name="controls_power_off">Mantenlo unos 10 segundos: apaga una consola bloqueada</string>
