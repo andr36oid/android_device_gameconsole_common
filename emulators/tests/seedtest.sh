@@ -51,7 +51,11 @@ setup() {
 }
 
 # stubs for what only exists on the console
-log() { echo "$*" >>"$T/log"; }
+# like the real log(): also on stdout, so a log line inside $(...) shows up as a bug
+log() {
+	echo "$*" >>"$T/log"
+	echo "$*"
+}
 installed_vc() {
 	case $1 in
 	"$DJ_PKG") echo "$DJ_VC" ;;
