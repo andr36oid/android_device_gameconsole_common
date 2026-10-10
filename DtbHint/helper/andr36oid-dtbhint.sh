@@ -30,6 +30,7 @@ SYS=$ROOT/sys
 DATA=${DTBHINT_DATA:-/data/misc/andr36oid-dtbhint}
 BOOT_MNT=${DTBHINT_BOOT_MNT:-/mnt/andr36oid-dtbhint-boot}
 BOOT_DEVS=${DTBHINT_BOOT_DEVS:-"/dev/block/by-name/BOOT /dev/block/platform/ff370000.dwmmc/by-name/BOOT /dev/block/mmcblk0p1"}
+UBOOT_DEVS=${DTBHINT_UBOOT_DEVS:-"/dev/block/by-name/uboot /dev/block/platform/ff370000.dwmmc/by-name/uboot /dev/block/mmcblk0p4"}
 # Test mode: a folder; dmesg, getevent and getprop answers come from files in
 # $ROOT, BOOT is the folder $DTBHINT_BOOT, the notification goes to $TEST/calls
 TEST=${DTBHINT_TEST:-}
@@ -69,6 +70,29 @@ log() {
 }
 
 # ---- small readers; each prints nothing when the source is missing ----
+
+# info <name> <value> ; for Settings > About console > Console details, which
+# can't read the board ID, BOOT or the U-Boot partition itself:
+# andr36oid.info.<name>
+info() {
+	if [ -n "$TEST" ]; then
+		echo "andr36oid.info.$1=$2" >>"$TEST/info"
+	else
+		setprop "andr36oid.info.$1" "$2" 2>/dev/null
+	fi
+}
+
+# uboot_version ; "2017.09-gf293360118" from the U-Boot partition, empty if
+# it can't be read
+uboot_version() {
+	local dev
+	for dev in $UBOOT_DEVS; do
+		[ -r "$dev" ] || continue
+		head -c 4194304 "$dev" 2>/dev/null | grep -a -o -m 1 'U-Boot 20[0-9][0-9]\.[0-9][0-9][-0-9a-z]*' |
+			head -n 1 | sed 's/^U-Boot //'
+		return 0
+	done
+}
 
 prop() {
 	if [ -n "$TEST" ]; then
@@ -679,6 +703,7 @@ main() {
 	local new
 	nap "$WAIT"
 	gather
+	info uboot "$(uboot_version)"
 	# R46H and R50S have their own DTB in BOOT/Devices; the folders and board
 	# checks here are for R36S boards and would only point them the wrong way
 	case $MODEL in
@@ -687,10 +712,14 @@ main() {
 		return 0
 		;;
 	esac
+	# the board check is for R36S boards too
+	info board "$HW"
+	info board_id "${ADC0:-}"
 	mkdir -p "$DATA" 2>/dev/null
 	new=$DATA/hint.new
 	if boot_open; then
 		installed_folder
+		info panel "${FOLDER:-custom}"
 	else
 		FOLDER=
 		log "BOOT not found"
