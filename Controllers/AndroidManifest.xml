@@ -15,7 +15,8 @@
         android:label="@string/controllers_title"
         android:supportsRtl="true">
 
-        <!-- Injected into the top level of the Settings app, next to Button mapping -->
+        <!-- Injected into the top level of the Settings app: Controls, the one entry for the
+             buttons and sticks (button mapping, calibration, test, mouse, touch controls) -->
         <activity
             android:name=".ControllersActivity"
             android:exported="true"
@@ -43,6 +44,12 @@
                 android:name="com.android.settings.bg.hint"
                 android:resource="@color/controllers_icon_background" />
         </activity>
+
+        <activity
+            android:name=".ExternalActivity"
+            android:exported="false"
+            android:label="@string/external_title"
+            android:theme="@android:style/Theme.DeviceDefault.Settings" />
 
         <activity
             android:name=".PairActivity"

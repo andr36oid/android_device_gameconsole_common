@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="controllers_title">Controllers</string>
-    <string name="controllers_summary">External pads, Bluetooth pairing, player 1</string>
+    <string name="controllers_title">Controls</string>
+    <string name="controllers_summary">Button mapping, sticks, mouse, controllers</string>
+
+    <!-- The Controls page -->
+    <string name="console_title">This console</string>
+    <string name="more_title">Other controllers</string>
+    <string name="external_title">External controllers</string>
+    <string name="external_none">None connected</string>
 
     <!-- Connected pads -->
     <string name="connected_title">Connected controllers</string>
@@ -22,7 +28,6 @@
     <string name="summary_separator">" · "</string>
 
     <!-- RetroArch -->
-    <string name="retroarch_title">RetroArch</string>
     <string name="player1_title">Player 1 in RetroArch</string>
     <string-array name="player1_entries">
         <item>Built-in controls</item>
@@ -32,13 +37,7 @@
         <item>builtin</item>
         <item>external</item>
     </string-array>
-    <string name="player1_builtin_summary">Built-in controls. External pads are player 2, 3 and so on, in the order you first press a button on them.</string>
-    <string name="player1_external_summary">The first external pad you press a button on. The built-in controls are player 2. For playing alone on a bigger pad.</string>
     <string name="player1_later">Changes take effect the next time RetroArch starts. If it is open, quit it first (Select + Start twice).</string>
-    <string name="hotkeys_title">Buttons in RetroArch</string>
-    <string name="hotkeys_summary">Player 1\'s controller: hold Select for the hotkeys (Start quit, R1/L1 save/load state, X menu).\nAny controller: L1 + R1 + Start + Select or the Xbox / PS / Capture button opens the menu, Start + Select twice quits.</string>
-    <string name="ppsspp_title">PSP games (PPSSPP)</string>
-    <string name="ppsspp_summary">Every controller controls the one player. Buttons are set for the built-in controls and Switch pads (Cross = B). On an Xbox or PlayStation pad, remap them in PPSSPP if you play with it.</string>
 
     <!-- Bluetooth -->
     <string name="bluetooth_title">Bluetooth</string>

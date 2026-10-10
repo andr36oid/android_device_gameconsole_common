@@ -65,6 +65,9 @@ dArkOS (christianhaitian) use, so a card moves between ArkOS and andr36oid with 
   Gamepad" binds, which swap A/B and X/Y on this pad. Copied to
   `/data/user/0/com.retroarch/autoconfig/android/` unless the user changed it there
   (tracked like the cores), whenever the ROM's profiles differ from the last boot's.
+  retroarch.cfg gets `joypad_autoconfig_dir` pointing there (unless the user picked
+  another folder): RetroArch only finds the folder itself when its own menu starts it,
+  not for games the home screen starts.
 - `autoconfig/`: RetroArch profiles for external controllers, seeded into the same folder
   (only when the ROM brings other profiles than last time; a profile the user changed there
   is kept). RetroArch unpacks its own profile set only when it is opened from its icon,
