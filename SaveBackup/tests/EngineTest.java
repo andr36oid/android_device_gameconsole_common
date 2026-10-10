@@ -35,6 +35,7 @@ public class EngineTest {
         java = args[3];
         try {
             units();
+            walkCache();
             scenario();
         } finally {
             if (root != null) delete(root);
@@ -127,6 +128,143 @@ public class EngineTest {
 
     // ---- the whole thing, through the helper -------------------------------------------
 
+    /** The folder cache of a quick (after-game) walk gives the same saves as a full walk. */
+    static void walkCache() throws IOException {
+        final File r = Files.createTempDirectory("savebackup-walk").toFile();
+        try {
+            final File m = new File(r, "media"), e = new File(r, "EASY"), d = new File(r, "misc");
+            final File cache = new File(d, "walk.cache");
+            d.mkdirs();
+            final long old = System.currentTimeMillis() - 3600000L;
+            final String[] systems = {"gba", "snes", "psx", "nes", "md"};
+            for (String sys : systems) {
+                for (int i = 0; i < 40; i++) put(e, sys + "/Game " + i + ".zip", "rom", -60);
+            }
+            put(e, "gba/Zelda.srm", "zelda-v1", -30);
+            put(e, "psx/FF7.state.auto", "ff7", -30);
+            put(e, "psp/PSP/SAVEDATA/ULUS10041DATA00/DATA.BIN", "psp", -30);
+            put(e, ".hidden/x.srm", "hidden", -30);
+            put(e, "backups/y.srm", "backup", -30);
+            put(m, "RetroArch/saves/Pokemon.srm", "pokemon", -30);
+            put(m, "Android/data/other/z.sav", "other app", -30);
+            final Roots roots = new Roots(m, e, new ArrayList<>(), new File(r, "ra"),
+                    new File(r, "pp"));
+            ageDirs(r, old);
+
+            final List<SaveFile> plain = new Collector(roots).collect();
+            final Collector full = new Collector(roots).cache(cache, false);
+            final List<SaveFile> first = full.collect();
+            check(ids(first).equals(ids(plain)) && ids(first).size() == 4 && cache.isFile(),
+                    "walk cache: a full walk finds the same saves and writes the cache: "
+                    + ids(first));
+            Collector q = new Collector(roots).cache(cache, true);
+            List<SaveFile> quick = q.collect();
+            check(fp(quick).equals(fp(first)) && q.listed == 0,
+                    "walk cache: a quick walk lists no folder and finds the same saves ("
+                    + q.listed + " listed)");
+            check(new Collector(roots).cache(cache, false).collect().size() == 4
+                    && full.listed > 10,
+                    "walk cache: a full walk lists every folder (" + full.listed + ")");
+
+            // a save written in place: the folder time stays, the save is still seen
+            final File zelda = new File(e, "gba/Zelda.srm");
+            final long gbaTime = zelda.getParentFile().lastModified();
+            Files.write(zelda.toPath(), "zelda-v2-longer".getBytes(StandardCharsets.UTF_8));
+            zelda.setLastModified(old + 60000);
+            zelda.getParentFile().setLastModified(gbaTime);
+            q = new Collector(roots).cache(cache, true);
+            quick = q.collect();
+            check(q.listed == 0 && find(quick, "easyroms/gba/Zelda.srm").size == 15,
+                    "walk cache: a save changed in place is seen without listing");
+
+            // a new save next to the ROMs: the folder time changes, it is listed again
+            put(e, "snes/Mario.srm", "mario", 0);
+            q = new Collector(roots).cache(cache, true);
+            quick = q.collect();
+            check(q.listed == 1 && ids(quick).contains("easyroms/snes/Mario.srm"),
+                    "walk cache: a new save is found, only its folder listed (" + q.listed + ")");
+            // changed just now: not trusted yet, listed again next time
+            q = new Collector(roots).cache(cache, true);
+            q.collect();
+            check(q.listed == 1, "walk cache: a folder changed within seconds is listed again");
+            new File(e, "snes").setLastModified(old + 120000);
+            q = new Collector(roots).cache(cache, true);
+            q.collect();
+            final Collector q2 = new Collector(roots).cache(cache, true);
+            q2.collect();
+            check(q.listed == 1 && q2.listed == 0, "walk cache: then it is remembered again");
+
+            // a deleted save and a new game folder with a save
+            new File(e, "psx/FF7.state.auto").delete();
+            put(e, "gb/Tetris.srm", "tetris", 0);
+            q = new Collector(roots).cache(cache, true);
+            quick = q.collect();
+            final List<SaveFile> ref = new Collector(roots).collect();
+            check(ids(quick).equals(ids(ref)) && !ids(quick).contains("easyroms/psx/FF7.state.auto")
+                    && ids(quick).contains("easyroms/gb/Tetris.srm"),
+                    "walk cache: a deleted save and a new folder: same as a full walk "
+                    + ids(quick));
+
+            // copied from a PC that kept the folder time: only a full walk sees it
+            ageDirs(r, old);
+            new Collector(roots).cache(cache, false).collect();
+            final File md = new File(e, "md");
+            final long mdTime = md.lastModified();
+            put(e, "md/Sonic.srm", "sonic", -5);
+            md.setLastModified(mdTime);
+            quick = new Collector(roots).cache(cache, true).collect();
+            final List<SaveFile> fullAgain = new Collector(roots).cache(cache, false).collect();
+            check(!ids(quick).contains("easyroms/md/Sonic.srm")
+                    && ids(fullAgain).contains("easyroms/md/Sonic.srm"),
+                    "walk cache: a folder time kept by a PC: the next full walk finds it");
+
+            // an old cache or one from the future (clock went back) is not trusted
+            for (long t : new long[] {System.currentTimeMillis() - Collector.CACHE_MAX_AGE - 60000,
+                    System.currentTimeMillis() + 3600000L}) {
+                final String text = read(cache);
+                Files.write(cache.toPath(), text.replaceFirst("^savebackup-walk 1 \\d+",
+                        "savebackup-walk 1 " + t).getBytes(StandardCharsets.UTF_8));
+                q = new Collector(roots).cache(cache, true);
+                q.collect();
+                check(q.listed == full.listed + 1,
+                        "walk cache: a cache from " + (t > System.currentTimeMillis()
+                        ? "the future" : "over a day ago") + " is ignored (" + q.listed + ")");
+            }
+            // a broken cache file is ignored
+            Files.write(cache.toPath(), "junk\n".getBytes(StandardCharsets.UTF_8));
+            q = new Collector(roots).cache(cache, true);
+            check(ids(q.collect()).equals(ids(new Collector(roots).collect())) && q.listed > 10,
+                    "walk cache: a broken cache means a full walk");
+        } finally {
+            delete(r);
+        }
+    }
+
+    /** Sets every folder under f to an old time, as on a card that sat unchanged. */
+    static void ageDirs(File f, long time) {
+        final File[] children = f.listFiles();
+        if (children == null) return;
+        for (File c : children) ageDirs(c, time);
+        f.setLastModified(time);
+    }
+
+    static List<String> ids(List<SaveFile> saves) {
+        final List<String> out = new ArrayList<>();
+        for (SaveFile s : saves) out.add(s.id);
+        return out;
+    }
+
+    static String fp(List<SaveFile> saves) {
+        return Manifest.fingerprint(saves);
+    }
+
+    static SaveFile find(List<SaveFile> saves, String id) {
+        for (SaveFile s : saves) {
+            if (s.id.equals(id)) return s;
+        }
+        throw new AssertionError("not found: " + id);
+    }
+
     static void scenario() throws Exception {
         root = Files.createTempDirectory("savebackup").toFile();
         media = new File(root, "media");
@@ -215,6 +353,14 @@ public class EngineTest {
                 "unchanged: no new zip");
         check(Index.Last.parse(read(new File(dir, "last"))).checked == clock,
                 "unchanged: the check time moves on");
+        ageDirs(easyroms, System.currentTimeMillis() - 3600000L);
+        ageDirs(media, System.currentTimeMillis() - 3600000L);
+        run("action=backup\nreason=daily");
+        st = run("action=backup\nreason=session");
+        final String walk = read(new File(dir, "walk.last"));
+        check(st.startsWith("done unchanged") && new File(dir, "walk.cache").isFile()
+                && walk != null && walk.contains(" 0 folders listed") && walk.contains("session"),
+                "after a game: the quick walk lists no unchanged folder: " + walk);
 
         // 3. a copy got lost: an unchanged run puts it back
         new File(easyroms, "backups/saves/" + first).delete();
