@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="warning_last">Peringatan terakhir di 3 %</string>
+    <string name="warning_last_summary">Selalu aktif selama peringatan aktif. Tampil lebih lama di layar, karena konsol akan segera mati sendiri setelahnya.</string>
+    <!-- The last banner on top of the game: keep it short -->
+    <string name="banner_last_text">Baterai <xliff:g id="percent">%1$d</xliff:g> %% – simpan game Anda sekarang. Konsol akan segera mati sendiri.</string>
+</resources>

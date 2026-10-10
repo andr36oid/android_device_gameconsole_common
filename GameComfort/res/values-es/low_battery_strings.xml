@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="warning_last">Último aviso al 3 %</string>
+    <string name="warning_last_summary">Siempre activo mientras el aviso esté activado. Se queda más tiempo en la pantalla, porque la consola se apaga sola poco después.</string>
+    <!-- The last banner on top of the game: keep it short (two lines at most) -->
+    <string name="banner_last_text">Batería al <xliff:g id="percent">%1$d</xliff:g> %% – guarda la partida ya. La consola se apagará pronto.</string>
+</resources>
