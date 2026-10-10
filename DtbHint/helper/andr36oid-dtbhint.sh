@@ -704,8 +704,6 @@ main() {
 	nap "$WAIT"
 	gather
 	info uboot "$(uboot_version)"
-	info board "$HW"
-	info board_id "${ADC0:-}"
 	# R46H and R50S have their own DTB in BOOT/Devices; the folders and board
 	# checks here are for R36S boards and would only point them the wrong way
 	case $MODEL in
@@ -714,6 +712,9 @@ main() {
 		return 0
 		;;
 	esac
+	# the board check is for R36S boards too
+	info board "$HW"
+	info board_id "${ADC0:-}"
 	mkdir -p "$DATA" 2>/dev/null
 	new=$DATA/hint.new
 	if boot_open; then
