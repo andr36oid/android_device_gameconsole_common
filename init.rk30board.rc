@@ -21,7 +21,14 @@ on early-init
     chown system system /sys/class/devfreq/dmc/vop_bandwidth
     chmod 0660 /sys/class/devfreq/dmc/vop_bandwidth
 
-    
+    # Screen density per DTB: the 720x720 DTBs set ro.boot.lcd_density (200)
+    # in /firmware/android. ro.sf.lcd_density (178, build.prop) is already
+    # set and can't change, so use qemu.sf.lcd_density, the override that
+    # SurfaceFlinger and DisplayMetrics read first. Other DTBs: 178, the same
+    # as TARGET_SCREEN_DENSITY in r36s/BoardConfig.mk (keep the two equal).
+    setprop qemu.sf.lcd_density ${ro.boot.lcd_density:-178}
+
+
 on init
 
     symlink /etc/firmware /vendor/firmware

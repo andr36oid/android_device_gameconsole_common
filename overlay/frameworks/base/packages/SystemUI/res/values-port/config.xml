@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copy of values-land for the 720x720 screens: Android calls a square
+     screen portrait, so values-land never applies there. Keep both equal. -->
+<resources>
+    <!-- One wide row instead of two narrow ones: the panel is wide but short (4) -->
+    <integer name="quick_settings_num_columns">6</integer>
+</resources>
