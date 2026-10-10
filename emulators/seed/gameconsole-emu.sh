@@ -284,6 +284,31 @@ PREFS
 	log "browser searches with DuckDuckGo Light"
 }
 
+# The network speed in the status bar (LineageOS' indicator): upload and
+# download, in KB/s with the unit, hidden while nothing moves. Each setting is
+# written only while it is unset, so a choice made in Settings stays; once all
+# four are there it isn't looked at again (each `content` call starts a Java VM).
+LINEAGE_SECURE=content://lineagesettings/secure
+NET_TRAFFIC='network_traffic_mode:3 network_traffic_autohide:1 network_traffic_units:2 network_traffic_show_units:1'
+seed_net_traffic() {
+	local pair name value failed=''
+	[ -e "$STATE/net-traffic.done" ] && return 0
+	for pair in $NET_TRAFFIC; do
+		name=${pair%%:*}
+		value=${pair#*:}
+		content query --uri "$LINEAGE_SECURE" --projection value --where "name='$name'" \
+			</dev/null 2>/dev/null | grep -q 'value=' && continue
+		if content insert --uri "$LINEAGE_SECURE" --bind "name:s:$name" \
+			--bind "value:s:$value" </dev/null >/dev/null 2>&1; then
+			log "status bar network speed: $name=$value"
+		else
+			log "setting $name failed"
+			failed=1
+		fi
+	done
+	[ -z "$failed" ] && touch "$STATE/net-traffic.done"
+}
+
 install_apks() {
 	local list pkg vc apk cur out
 
@@ -2058,6 +2083,7 @@ done
 
 seed_cromite_gamepad
 seed_cromite_search
+seed_net_traffic
 first_start
 install_apks
 seed_ppsspp
