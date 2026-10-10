@@ -1,0 +1,11 @@
+# DTB hint: once per start, after the home screen is up, checks whether the
+# device tree on BOOT fits this console and writes BOOT/dtb-hint.txt (and a
+# notification if it looks wrong). Reads only; never changes a DTB.
+service andr36oid-dtbhint /system/bin/sh /system/etc/andr36oid-dtbhint.sh
+    user root
+    group root system
+    disabled
+    oneshot
+
+on property:sys.boot_completed=1
+    start andr36oid-dtbhint
