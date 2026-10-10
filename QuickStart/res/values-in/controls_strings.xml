@@ -6,7 +6,7 @@
     <string name="controls_topic_retroarch">Dalam game (RetroArch)</string>
     <string name="controls_topic_emulators">Emulator lain</string>
     <string name="controls_topic_mouse">Mode mouse</string>
-    <string name="controls_console_top">Tombol yang digambar di atas konsol ada di tepi atasnya.</string>
+    <string name="controls_console_top">Tombol yang digambar di sekeliling konsol ada di tepinya: tombol bahu di atas, daya di sisi kiri, volume di sisi kanan.</string>
     <string name="controls_console_labels">Nama tombol sesuai tulisan di konsol. Pada beberapa konsol klon, letaknya berbeda.</string>
     <string name="controls_start">Konfirmasi, seperti A</string>
     <string name="controls_dpad">Bergerak di menu dan daftar</string>

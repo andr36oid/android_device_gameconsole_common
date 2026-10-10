@@ -12,7 +12,7 @@
     <string name="controls_topic_mouse">Mouse mode</string>
 
     <!-- The console: a drawing of the buttons, then what the main buttons do -->
-    <string name="controls_console_top">The buttons drawn above the console are on its top edge.</string>
+    <string name="controls_console_top">The buttons drawn around the console are on its edges: the shoulder buttons on top, power on the left side, volume on the right side.</string>
     <string name="controls_console_labels">Buttons are named as printed on the console. On some clone consoles they sit in other places.</string>
     <string name="controls_start">Confirm, like A</string>
     <string name="controls_dpad">Move around menus and lists</string>

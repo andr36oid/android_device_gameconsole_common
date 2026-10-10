@@ -6,7 +6,7 @@
     <string name="controls_topic_retroarch">Nos jogos (RetroArch)</string>
     <string name="controls_topic_emulators">Outros emuladores</string>
     <string name="controls_topic_mouse">Modo mouse</string>
-    <string name="controls_console_top">Os botões desenhados acima do console ficam na borda de cima.</string>
+    <string name="controls_console_top">Os botões desenhados à volta da consola ficam nas margens: os gatilhos em cima, o botão de ligar no lado esquerdo e o volume no direito.</string>
     <string name="controls_console_labels">Os botões têm o nome impresso no console. Em alguns consoles clones eles ficam em outros lugares.</string>
     <string name="controls_start">Confirmar, como o A</string>
     <string name="controls_dpad">Navegar por menus e listas</string>
