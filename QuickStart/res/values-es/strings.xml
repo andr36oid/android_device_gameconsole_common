@@ -78,15 +78,15 @@
     <string name="mouse_click">Clic; mantén R1 para arrastrar</string>
     <string name="mouse_right_click">Clic derecho</string>
     <string name="mouse_scroll">Desplazar</string>
-    <string name="mouse_settings">Ajustes &gt; Ratón con joystick cambia la velocidad, los botones y la combinación.</string>
-    <string name="mapping_settings">Ajustes &gt; Asignación de botones intercambia botones, con perfiles para distintos juegos.</string>
+    <string name="mouse_settings">Ajustes &gt; Controles &gt; Ratón con joystick cambia la velocidad, los botones y la combinación.</string>
+    <string name="mapping_settings">Ajustes &gt; Controles &gt; Asignación de botones intercambia botones, con perfiles para distintos juegos.</string>
     <string name="mapping_reset">¿Te has quedado sin control? Mantén pulsados los dos botones de volumen durante 5 segundos y todos los botones vuelven a la normalidad.</string>
 
     <!-- Touch controls -->
     <string name="touch_title">Controles táctiles</string>
     <string name="touch_intro">Algunos juegos solo funcionan con pantalla táctil. Los controles táctiles dan a ese juego su propia distribución: cada botón o joystick toca un punto de la pantalla. Se activa sola mientras ese juego está en primer plano; las demás apps mantienen los botones normales.</string>
     <string name="touch_open">En el juego: abrir el editor encima</string>
-    <string name="touch_settings">O ve a Ajustes &gt; Controles táctiles &gt; Añadir una app. El juego se inicia y el editor se abre encima.</string>
+    <string name="touch_settings">O ve a Ajustes &gt; Controles &gt; Controles táctiles &gt; Añadir una app. El juego se inicia y el editor se abre encima.</string>
     <string name="touch_move">Mover la cruz a un punto</string>
     <string name="touch_add">Añadir ahí un control y luego pulsar su botón o mover su joystick</string>
     <string name="touch_size">Hacer más pequeño o más grande el control seleccionado</string>

@@ -78,15 +78,15 @@
     <string name="mouse_click">Klik, tahan R1 untuk menyeret</string>
     <string name="mouse_right_click">Klik kanan</string>
     <string name="mouse_scroll">Gulir</string>
-    <string name="mouse_settings">Setelan &gt; Mouse joystick mengubah kecepatan, tombol, dan kombinasi.</string>
-    <string name="mapping_settings">Setelan &gt; Pemetaan tombol menukar tombol, dengan profil untuk game yang berbeda.</string>
+    <string name="mouse_settings">Setelan &gt; Kontrol &gt; Mouse joystick mengubah kecepatan, tombol, dan kombinasi.</string>
+    <string name="mapping_settings">Setelan &gt; Kontrol &gt; Pemetaan tombol menukar tombol, dengan profil untuk game yang berbeda.</string>
     <string name="mapping_reset">Terkunci? Tahan kedua tombol volume selama 5 detik dan semua tombol kembali normal.</string>
 
     <!-- Touch controls -->
     <string name="touch_title">Kontrol sentuh</string>
     <string name="touch_intro">Beberapa game hanya bisa dimainkan dengan layar sentuh. Kontrol sentuh memberi game seperti itu tata letaknya sendiri: setiap tombol atau stik menyentuh satu titik di layar. Tata letak aktif sendiri saat game itu berada di depan; aplikasi lain tetap memakai tombol biasa.</string>
     <string name="touch_open">Di dalam game: buka editor di atasnya</string>
-    <string name="touch_settings">Atau buka Setelan &gt; Kontrol sentuh &gt; Tambah aplikasi. Game dimulai dan editor terbuka di atasnya.</string>
+    <string name="touch_settings">Atau buka Setelan &gt; Kontrol &gt; Kontrol sentuh &gt; Tambah aplikasi. Game dimulai dan editor terbuka di atasnya.</string>
     <string name="touch_move">Gerakkan penanda silang ke suatu titik</string>
     <string name="touch_add">Tambah kontrol di sana, lalu tekan tombolnya atau gerakkan stiknya</string>
     <string name="touch_size">Kecilkan atau besarkan kontrol yang dipilih</string>

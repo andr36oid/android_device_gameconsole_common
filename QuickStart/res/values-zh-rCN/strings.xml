@@ -78,15 +78,15 @@
     <string name="mouse_click">点击，按住 R1 可拖动</string>
     <string name="mouse_right_click">右键点击</string>
     <string name="mouse_scroll">滚动</string>
-    <string name="mouse_settings">在“设置 &gt; 摇杆鼠标”中可以更改速度、按键和组合键。</string>
-    <string name="mapping_settings">在“设置 &gt; 按键映射”中可以互换按键，并可为不同游戏设置配置。</string>
+    <string name="mouse_settings">在“设置 &gt; 控制 &gt; 摇杆鼠标”中可以更改速度、按键和组合键。</string>
+    <string name="mapping_settings">在“设置 &gt; 控制 &gt; 按键映射”中可以互换按键，并可为不同游戏设置配置。</string>
     <string name="mapping_reset">按键设置乱了没法操作？同时按住两个音量键 5 秒，所有按键就会恢复正常。</string>
 
     <!-- Touch controls -->
     <string name="touch_title">触控映射</string>
     <string name="touch_intro">有些游戏只能用触摸屏操作。触控映射可为这类游戏设置专属布局：每个按键或摇杆会触摸屏幕上的一个位置。该游戏在前台运行时会自动启用，其他应用仍使用普通按键。</string>
     <string name="touch_open">在游戏中：在游戏上方打开编辑器</string>
-    <string name="touch_settings">或者前往“设置 &gt; 触控映射 &gt; 添加应用”。游戏会启动，编辑器会在其上方打开。</string>
+    <string name="touch_settings">或者前往“设置 &gt; 控制 &gt; 触控映射 &gt; 添加应用”。游戏会启动，编辑器会在其上方打开。</string>
     <string name="touch_move">将十字准星移到某个位置</string>
     <string name="touch_add">在该位置添加控件，然后按下它的按键或推动它的摇杆</string>
     <string name="touch_size">缩小或放大所选控件</string>

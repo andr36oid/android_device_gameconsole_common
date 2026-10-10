@@ -57,7 +57,7 @@
     <string name="sticks_pointer_scroll">%1$s: kursor · %2$s: przewijanie</string>
     <string name="hold_to_switch_off">Przytrzymaj %1$s, aby wyłączyć</string>
     <string name="hold_to_switch_on">Przytrzymaj %1$s przez %2$s, aby włączyć</string>
-    <string name="switch_in_settings">Włącz w Ustawienia › Mysz na gałkach</string>
+    <string name="switch_in_settings">Włącz w Ustawienia › Sterowanie › Mysz na gałkach</string>
     <string name="seconds">%1$s s</string>
     <string name="binding">%1$s: %2$s</string>
     <string name="list_separator">" · "</string>
