@@ -449,6 +449,31 @@ which also builds its libraries (needs `meson`, `ninja`, autotools and ~20 minut
 Both regenerate the NOTICE files next to the binaries; commit them together.
 The `.apk` and `.tar.gz` files go through git LFS.
 
+## Cheats
+
+RetroArch's cheat files come from its online updater (Online Updater > Update Cheats),
+which needs Wi-Fi. So `libretro/cheats.tar.gz` ships the `.cht` files of
+[libretro-database](https://github.com/libretro/libretro-database) (CC BY-SA 4.0,
+`libretro/NOTICE-cheats.txt`) for the 34 systems we have a working core for: 20,360
+files, 54 MB, 9.3 MB packed. The service, after the BIOS folder:
+
+- sets `cheat_database_path = "/storage/emulated/0/Android/data/com.retroarch/files/cheats"`
+  while it is unset, `default`, or RetroArch's own default after an icon start
+  (`/storage/emulated/0/RetroArch/cheats`) with no cheat files in that folder. A folder the
+  user picked is kept, and then nothing is unpacked.
+- unpacks the archive there once per archive (stamp
+  `/data/user/0/com.retroarch/.gameconsole/cheats.sha1`), if /data has 400 MB free. A new
+  archive unpacks over the old files; files the user added or saved stay. About 130 MB
+  on f2fs (20k small files).
+
+In a game: Quick Menu > Cheats > Load Cheat File (Replace) > system folder > game.
+RetroArch saves what the user turned on per game in `cheats/<core name>/<game>.cht` and
+loads it at the next start; "Auto-Apply Cheats During Game Load" makes it apply too.
+
+To update the cheats, change `COMMIT` (and the system list, if needed) in
+`scripts/build-cheats.sh` and run it. It writes the archive and its NOTICE; the same
+commit always gives the same bytes.
+
 ## Source
 
 Nothing needs uploading with a release. The APKs are unmodified upstream releases and
