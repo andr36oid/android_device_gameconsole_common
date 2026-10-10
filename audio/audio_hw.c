@@ -132,14 +132,6 @@ static void select_devices(struct alsa_audio_device *adev)
 
     audio_route_reset(adev->audio_route);
 
-    /* Playback paths only while an output is open. In standby (AudioFlinger
-     * closes the output after 3 s of silence) the reset above leaves
-     * "Playback Path" OFF: the rk817 driver then switches off the DAC, the
-     * speaker amplifier and the codec clock instead of idling with them on.
-     * (From the headphone path it only stops the clock, against pops.) */
-    if (adev->active_output == NULL)
-        speaker_on = headphones_on = 0;
-
     if (speaker_on)
         audio_route_apply_path(adev->audio_route, "speaker");
     if (headphones_on)
@@ -188,7 +180,6 @@ static int start_output_stream(struct alsa_stream_out *out)
 
     out->unavailable = false;
     adev->active_output = out;
-    select_devices(adev);
     return 0;
 }
 
@@ -244,7 +235,6 @@ static int do_output_standby(struct alsa_stream_out *out)
         out->pcm = NULL;
         adev->active_output = NULL;
         out->standby = 1;
-        select_devices(adev);
     }
     return 0;
 }
