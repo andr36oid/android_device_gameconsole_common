@@ -145,6 +145,40 @@ seed_daijishou
 [ "$(cat "$DJ_DB")" = user ] && [ ! -e "$URI_GRANTS" ] && [ ! -e "$DJ_PREFS" ] && [ -e "$DJ_DONE" ] &&
 	ok "existing library left alone" || bad "existing library"
 
+# 5b. Daijishou started before EASYROMS was mounted and made an empty library;
+# an older image had set done for it already: filled now, its settings kept
+setup "" ""
+daijishou_grants
+mkdir -p "${DJ_DB%/*}" "${DJ_PREFS%/*}"
+sqlite3 "$DJ_DB" <"$DJ_SCHEMA"
+touch "$DJ_DB-wal" "$DJ_DONE"
+printf '%s\n' "<?xml version='1.0' encoding='utf-8' standalone='yes' ?>" '<map>' \
+	'    <boolean name="first_launch" value="false" />' '</map>' >"$DJ_PREFS"
+touch "$T/running"
+seed_daijishou
+rm -f "$T/running"
+if checklib && [ -e "$DJ_SEEDED" ] && [ ! -e "$DJ_DB-wal" ] &&
+	grep -q 'name="first_launch" value="false"' "$DJ_PREFS" &&
+	[ "$(grep -c force-stop "$T/am")" -eq 2 ] && grep -q "category.HOME" "$T/am"; then
+	ok "empty library from an early Daijishou start: filled, settings kept"
+else
+	bad "empty library"
+fi
+sum=$(cat "$DJ_DB" "$DJ_PREFS" | cksum)
+seed_daijishou
+[ "$(cat "$DJ_DB" "$DJ_PREFS" | cksum)" = "$sum" ] && ok "... once" || bad "empty library filled twice"
+
+# 5c. a real library with one system of the user's, no done yet: left alone
+setup "" ""
+mkdir -p "${DJ_DB%/*}"
+sqlite3 "$DJ_DB" <"$DJ_SCHEMA"
+sqlite3 "$DJ_DB" "INSERT INTO PlatformEntity (id, default_player_id, player_id_list, items_sync_tree_uri_list, unique_id, name, shortname, description, is_visible, scrape_preview_media, wallpaper_path, thumbnail_path, color_theme, color_on_theme, accept_filename_regex, scraper_source_list, box_art_aspect_ratio_id, use_custom_box_art_aspect_ratio, custom_box_art_aspect_ratio, screen_aspect_ratio_id, use_custom_screen_aspect_ratio, custom_screen_aspect_ratio, retro_achievements_console_id_list, extra) VALUES (1, 0, '[]', '[]', 'mine', 'Mine', 'mine', '', 1, 0, '', '', '', '', '', '[]', 0, 0, '', 0, 0, '', '[]', '');" 2>>"$T/log"
+sum=$(cksum <"$DJ_DB")
+daijishou_grants
+seed_daijishou
+[ "$(cksum <"$DJ_DB")" = "$sum" ] && [ ! -e "$URI_GRANTS" ] && [ -e "$DJ_DONE" ] && [ ! -e "$DJ_SEEDED" ] &&
+	ok "user's own library with a system left alone" || bad "user's library"
+
 # 6. another Daijishou version
 setup "" ""
 DJ_VC=417
