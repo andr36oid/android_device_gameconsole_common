@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Settings > Buttons and shortcuts. See values/controls_strings.xml -->
+<!-- The guide's button chapters. See values/controls_strings.xml -->
 <resources>
-    <string name="controls_title">按键和快捷键</string>
-    <string name="controls_summary">所有按键组合：系统、游戏、鼠标模式</string>
     <string name="controls_topic_console">主机</string>
     <string name="controls_topic_system">系统</string>
     <string name="controls_topic_retroarch">游戏中（RetroArch）</string>
     <string name="controls_topic_emulators">其他模拟器</string>
     <string name="controls_topic_mouse">鼠标模式</string>
-    <string name="controls_console_top">图中第一行是顶部边缘的按键。</string>
+    <string name="controls_console_top">画在主机上方的按键位于顶部边缘。</string>
     <string name="controls_console_labels">按键名称以主机上印的为准。部分克隆机的按键位置不同。</string>
     <string name="controls_start">确认，和 A 一样</string>
     <string name="controls_dpad">在菜单和列表中移动</string>
