@@ -11,12 +11,27 @@
         android:selectable="false" />
 
     <PreferenceCategory
+        android:key="advice_category"
+        android:title="@string/advice_category">
+
+        <Preference
+            android:key="advice"
+            android:selectable="false" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
         android:key="speed_category"
         android:title="@string/speed_category">
 
         <Preference
             android:key="speed"
             android:title="@string/speed_title" />
+
+        <Preference
+            android:key="marks"
+            android:selectable="false"
+            android:title="@string/marks_title"
+            android:summary="@string/marks_text" />
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -26,6 +41,10 @@
         <Preference
             android:key="full"
             android:title="@string/full_title" />
+
+        <Preference
+            android:key="full_delete"
+            android:title="@string/full_delete_title" />
     </PreferenceCategory>
 
     <Preference

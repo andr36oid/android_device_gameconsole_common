@@ -25,6 +25,8 @@ final class Checker {
     private static final File STATUS = new File(DIR, "status");
 
     static final String SPEED = "speed", FULL = "full", CLEANUP = "cleanup";
+    /** Go on with a paused real size check, or delete its test data. */
+    static final String RESUME = "resume", DELETE = "delete";
 
     private Checker() {
     }
@@ -48,9 +50,10 @@ final class Checker {
         }
     }
 
-    static void stop() {
-        try {
-            new FileOutputStream(new File(DIR, "stop")).close();
+    /** Asks a running check to stop; a real size check keeps its test data if pausing. */
+    static void stop(boolean pause) {
+        try (FileOutputStream out = new FileOutputStream(new File(DIR, "stop"))) {
+            if (pause) out.write("pause\n".getBytes(StandardCharsets.UTF_8));
         } catch (IOException e) {
             Log.w(TAG, "can't ask the check to stop", e);
         }
@@ -71,6 +74,46 @@ final class Checker {
         return read(new File(DIR, "result-" + action + "-" + card.uuid));
     }
 
+    /**
+     * What a paused (or cut off) real size check on this card left: phase, total_mb,
+     * written_mb, checked_mb. Empty if there is none.
+     */
+    static Map<String, String> progress(Card card) {
+        return read(new File(DIR, "progress-" + card.uuid));
+    }
+
+    /**
+     * The test data a paused (or cut off) size check left on any card, in MB; -1 if none.
+     * Read at start-up, when no check runs.
+     */
+    static long pausedAnywhereMb() {
+        final File[] files = DIR.listFiles((dir, name) -> name.startsWith("progress-"));
+        if (files == null) return -1;
+        long mb = -1;
+        for (File f : files) {
+            final Map<String, String> p = read(f);
+            if (p.isEmpty()) continue;
+            mb = Math.max(mb, Math.max(0, number(p, "written_mb")));
+        }
+        return mb;
+    }
+
+    /** A real size check on this card is paused: its test data is on the card. */
+    static boolean paused(Card card) {
+        final Map<String, String> progress = progress(card);
+        if (progress.isEmpty()) return false;
+        final boolean running = running();
+        return paused(card, progress, running, running ? status() : null);
+    }
+
+    /** The same from values already read ({@code status} may be null if not running). */
+    static boolean paused(Card card, Map<String, String> progress, boolean running,
+            Map<String, String> status) {
+        if (progress.isEmpty()) return false;
+        if (!running) return true;
+        return !(FULL.equals(status.get("action")) && card.uuid.equals(status.get("uuid")));
+    }
+
     private static Map<String, String> read(File f) {
         final Map<String, String> map = new HashMap<>();
         try (InputStream in = new FileInputStream(f)) {
@@ -87,26 +130,15 @@ final class Checker {
         return map;
     }
 
-    /** Seconds from a "seconds.nanoseconds" time the service wrote, NaN if missing. */
     static double seconds(Map<String, String> s, String key) {
-        try {
-            return Double.parseDouble(s.get(key));
-        } catch (NullPointerException | NumberFormatException e) {
-            return Double.NaN;
-        }
+        return Stats.seconds(s, key);
     }
 
     static long number(Map<String, String> s, String key) {
-        try {
-            return Long.parseLong(s.get(key));
-        } catch (NullPointerException | NumberFormatException e) {
-            return -1;
-        }
+        return Stats.number(s, key);
     }
 
-    /** MB/s between two time keys, NaN if they're missing. */
     static double speed(Map<String, String> s, long mb, String from, String to) {
-        final double t = seconds(s, to) - seconds(s, from);
-        return t > 0 ? mb / t : Double.NaN;
+        return Stats.speed(s, mb, from, to);
     }
 }
