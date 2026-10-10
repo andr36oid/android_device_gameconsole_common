@@ -4,28 +4,31 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.Path;
 import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.util.TypedValue;
 import android.view.View;
 
+import org.andr36oid.consoleart.CanvasPainter;
+import org.andr36oid.consoleart.Palette;
+import org.andr36oid.consoleart.StickDrawing;
+
 /**
- * Two stick circles with the live stick position, the dead zone and, while calibrating, the
- * path each stick took; a title, a message block and the key hints below. Colours come from
+ * The two sticks (the shared stick drawing) with the live position, the dead zone and, while
+ * calibrating, the path each stick took; a title, a message block and the key hints below. Colours come from
  * the DayNight theme. Laid out in fractions of the view for the 640x480 screen.
  */
 class CalibrationView extends View {
 
     private static final int TRAIL = 240;
 
-    private final Paint mStroke = new Paint(Paint.ANTI_ALIAS_FLAG);
-    private final Paint mFill = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final TextPaint mTitle = new TextPaint(Paint.ANTI_ALIAS_FLAG);
     private final TextPaint mText = new TextPaint(Paint.ANTI_ALIAS_FLAG);
     private final TextPaint mDim = new TextPaint(Paint.ANTI_ALIAS_FLAG);
-    private final Path mPath = new Path();
+    private final CanvasPainter mPainter = new CanvasPainter();
+    private final StickDrawing mStick = new StickDrawing();
+    private final StickDrawing.Colors mStickColors;
 
     private final int mFg;
     private final int mSecondary;
@@ -57,7 +60,7 @@ class CalibrationView extends View {
         mAccent = a.getColor(2, 0xFF80CBC4);
         a.recycle();
 
-        mStroke.setStyle(Paint.Style.STROKE);
+        mStickColors = new Palette(context).stick;
         mTitle.setColor(mFg);
         mTitle.setTextSize(sp(20));
         mText.setColor(mFg);
@@ -151,46 +154,10 @@ class CalibrationView extends View {
 
     private void drawStick(Canvas canvas, float cx, float cy, float r, int stick,
             String label) {
-        mStroke.setColor(mSecondary);
-        mStroke.setStrokeWidth(sp(2));
-        canvas.drawCircle(cx, cy, r, mStroke);
-        mStroke.setStrokeWidth(sp(1));
-        canvas.drawLine(cx - r, cy, cx + r, cy, mStroke);
-        canvas.drawLine(cx, cy - r, cx, cy + r, mStroke);
-
-        if (mDeadzone > 0) {
-            mFill.setColor((mAccent & 0x00FFFFFF) | 0x40000000);
-            canvas.drawCircle(cx, cy, r * mDeadzone, mFill);
-        }
-
-        final int n = mTrailCount[stick];
-        if (mShowTrail && n > 1) {
-            mPath.reset();
-            final int first = (mTrailHead[stick] - n + TRAIL) % TRAIL;
-            for (int k = 0; k < n; k++) {
-                final int i = (first + k) % TRAIL;
-                final float x = cx + clamp(mTrail[stick][i * 2]) * r;
-                final float y = cy + clamp(mTrail[stick][i * 2 + 1]) * r;
-                if (k == 0) {
-                    mPath.moveTo(x, y);
-                } else {
-                    mPath.lineTo(x, y);
-                }
-            }
-            mStroke.setColor(mAccent);
-            mStroke.setStrokeWidth(sp(2));
-            canvas.drawPath(mPath, mStroke);
-        }
-
-        mFill.setColor(mFg);
-        canvas.drawCircle(cx + clamp(mAxes[stick * 2]) * r,
-                cy + clamp(mAxes[stick * 2 + 1]) * r, sp(7), mFill);
-
-        final float tw = mDim.measureText(label);
-        canvas.drawText(label, cx - tw / 2, cy + r + sp(20), mDim);
-    }
-
-    private static float clamp(float v) {
-        return Math.max(-1f, Math.min(1f, v));
+        mStick.labelSize = mDim.getTextSize();
+        mPainter.on(canvas).identity();
+        mStick.draw(mPainter, mStickColors, cx, cy, r, mAxes[stick * 2], mAxes[stick * 2 + 1],
+                false, mDeadzone, mShowTrail ? mTrail[stick] : null, mTrailHead[stick],
+                mTrailCount[stick], label);
     }
 }
