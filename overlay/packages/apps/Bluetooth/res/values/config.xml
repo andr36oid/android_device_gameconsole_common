@@ -20,5 +20,9 @@
     <bool name="profile_supported_map">false</bool>
     <bool name="profile_supported_hearing_aid">false</bool>
     <bool name="profile_supported_pan">false</bool>
+    <!-- No phone calls, and Android 11 cannot carry call audio (SCO) over a
+         USB dongle: offer headsets music (A2DP) only, as Android TV does.
+         Voice chat apps then play through A2DP instead of silent SCO. -->
+    <bool name="profile_supported_hs_hfp">false</bool>
 </resources>
 
