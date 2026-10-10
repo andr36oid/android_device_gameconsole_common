@@ -10,8 +10,11 @@ import android.content.Context;
  * <ul>
  * <li>daily: while charging, once a day (24 hours after the last backup or check). If the
  *     console isn't charging then, it runs as soon as it's plugged in.</li>
- * <li>session: every 30 minutes, looks whether an emulator was closed since the last look
- *     and backs up if so. Looking costs nothing but a query of the app usage events.</li>
+ * <li>session: about every 30 minutes while the console is awake, looks whether an emulator
+ *     was closed since the last look and backs up if so. Looking costs nothing but a query
+ *     of the app usage events. It is a one-shot job scheduled again after each run: a
+ *     periodic job has a deadline, and JobScheduler wakes a sleeping console for every
+ *     deadline. Games are only closed while the screen is on, so nothing is missed.</li>
  * </ul>
  * Both skip the backup when nothing changed (the engine checks sizes and times).
  */
@@ -37,13 +40,20 @@ final class Schedule {
             return;
         }
         daily(c, 0);
-        if (js.getPendingJob(JOB_SESSION) == null) {
-            js.schedule(new JobInfo.Builder(JOB_SESSION, component(c))
-                    .setPeriodic(SESSION_PERIOD_MS)
-                    .setRequiresBatteryNotLow(true)
-                    .setPersisted(true)
-                    .build());
-        }
+        final JobInfo pending = js.getPendingJob(JOB_SESSION);
+        // also replaces the periodic job of older versions
+        if (pending == null || pending.isPeriodic()) session(c);
+    }
+
+    /** The next look for a closed game, in about 30 minutes of awake time. */
+    static void session(Context c) {
+        if (!Prefs.auto(c)) return;
+        c.getSystemService(JobScheduler.class).schedule(
+                new JobInfo.Builder(JOB_SESSION, component(c))
+                        .setMinimumLatency(SESSION_PERIOD_MS)
+                        .setRequiresBatteryNotLow(true)
+                        .setPersisted(true)
+                        .build());
     }
 
     /**

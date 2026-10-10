@@ -319,6 +319,11 @@ on property:persist.vendor.logger.enable=1
 on property:persist.andr36oid.battery_capacity=*
     write /sys/class/power_supply/battery/device/design_capacity_mah ${persist.andr36oid.battery_capacity}
 
+# Settings > Battery > Battery details > Charge limit, in %; 0 is off (charge to 100 %).
+# The kernel stops charging at the limit and starts again 5 points below it.
+on property:persist.andr36oid.charge_limit=*
+    write /sys/class/power_supply/battery/device/charge_limit_percent ${persist.andr36oid.charge_limit}
+
 service logger /system/bin/logcat -b all -D -f /boot/logcat.txt
 	class main
 	user root

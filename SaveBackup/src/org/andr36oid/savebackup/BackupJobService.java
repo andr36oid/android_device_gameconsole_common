@@ -8,6 +8,7 @@ import android.app.job.JobParameters;
 import android.app.job.JobService;
 import android.app.usage.UsageEvents;
 import android.app.usage.UsageStatsManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
@@ -55,6 +56,8 @@ public class BackupJobService extends JobService {
         if (reason == null || Helper.running()) {
             if (params.getJobId() == Schedule.JOB_DAILY) {
                 Schedule.daily(this, reason == null ? 0 : Schedule.RETRY_MS);
+            } else {
+                nextSession();
             }
             return false;
         }
@@ -74,6 +77,7 @@ public class BackupJobService extends JobService {
         if (!mRunner.start(Helper.backupRequest(this, reason, false))) {
             mParams = null;
             if (params.getJobId() == Schedule.JOB_DAILY) Schedule.daily(this, Schedule.RETRY_MS);
+            else nextSession();
             return false;
         }
         mHandler.postDelayed(mNotify, NOTIFY_AFTER_MS);
@@ -86,7 +90,17 @@ public class BackupJobService extends JobService {
         if (mRunner != null) mRunner.stop();
         clearNotification();
         mParams = null;
+        if (params.getJobId() == Schedule.JOB_SESSION) nextSession();
         return false;
+    }
+
+    /**
+     * The session job is one-shot (see Schedule). Scheduling the same ID replaces the job
+     * that is running, so this waits until the current call has returned.
+     */
+    private void nextSession() {
+        final Context app = getApplicationContext();
+        mHandler.post(() -> Schedule.session(app));
     }
 
     private void finish(String status) {
@@ -99,6 +113,7 @@ public class BackupJobService extends JobService {
             Schedule.daily(this, status.startsWith("done") ? 0 : Schedule.RETRY_MS);
         }
         jobFinished(p, false);
+        if (p.getJobId() == Schedule.JOB_SESSION) nextSession();
     }
 
     private String dailyReason() {
