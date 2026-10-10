@@ -79,7 +79,7 @@ public class ConsoleArtTest {
             }
         }
         // The top edge in the console's order, from the front; power left, volume right
-        final Control[] top = {Control.L2, Control.L1, Control.R2, Control.R1};
+        final Control[] top = {Control.L1, Control.L2, Control.R2, Control.R1};
         check(Control.POWER.right < b[0], "power on the left side");
         check(Control.VOLUME_UP.left > b[2] && Control.VOLUME_DOWN.left > b[2]
                 && Control.VOLUME_UP.bottom < Control.VOLUME_DOWN.top, "volume right, + above -");
