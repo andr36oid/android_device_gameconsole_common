@@ -1645,6 +1645,11 @@ DJ_DB=$DJ_DATA/databases/Daijishou.db
 DJ_PREFS=$DJ_DATA/shared_prefs/${DJ_PKG}_preferences.xml
 DJ_SEED=$BASE/daijishou/daijishou-seed.txt
 DJ_SCHEMA=$BASE/daijishou/schema.sql
+# Android's sqlite3 quits in this service ("register_localized_collators()
+# failed": it can't load ICU), so the image has its own without ICU;
+# sqlite3 is for tests on a PC
+SQLITE=sqlite3
+command -v gameconsole-sqlite3 >/dev/null 2>&1 && SQLITE=gameconsole-sqlite3
 # done: set once we added the platforms, or decided never to (Daijishou had a
 # library already, another Daijishou version)
 DJ_DONE=$STATE/daijishou.done
@@ -1663,11 +1668,11 @@ dj_library_count() {
 	mkdir -p "$tmp" || return 0
 	cp "$DJ_DB" "$tmp/Daijishou.db" 2>/dev/null || { rm -rf "$tmp"; return 0; }
 	[ -e "$DJ_DB-wal" ] && cp "$DJ_DB-wal" "$tmp/Daijishou.db-wal" 2>/dev/null
-	n=$(sqlite3 "$tmp/Daijishou.db" 'SELECT (SELECT count(*) FROM PlatformEntity) + (SELECT count(*) FROM PlayableItemEntity);' 2>"$tmp/err")
+	n=$("$SQLITE" "$tmp/Daijishou.db" 'SELECT (SELECT count(*) FROM PlatformEntity) + (SELECT count(*) FROM PlayableItemEntity);' 2>"$tmp/err")
 	err=$(head -c 200 "$tmp/err" 2>/dev/null)
 	rm -rf "$tmp"
 	case $n in
-	'' | *[!0-9]*) log "can't read Daijishou's library: ${err:-${n:-no answer}}" ;;
+	'' | *[!0-9]*) log "can't read Daijishou's library: ${err:-${n:-no answer}}" >&2 ;;
 	*) echo "$n" ;;
 	esac
 }
@@ -1680,11 +1685,11 @@ dj_library_count() {
 dj_user_library() {
 	local n
 	[ -e "$DJ_DB" ] || return 1
-	command -v sqlite3 >/dev/null || return 2
+	command -v "$SQLITE" >/dev/null || return 2
 	n=$(dj_library_count)
 	case $n in
-	'') return 2 ;;
 	0) return 1 ;;
+	*[!0-9]* | '') return 2 ;;
 	*) return 0 ;;
 	esac
 }
@@ -1896,19 +1901,19 @@ seed_daijishou() {
 		log "Daijishou is running, platforms next start"
 		return 0
 	fi
-	command -v sqlite3 >/dev/null || { log "no sqlite3, no Daijishou platforms"; return 0; }
+	command -v "$SQLITE" >/dev/null || { log "no sqlite3, no Daijishou platforms"; return 0; }
 
 	tmp=$STATE/daijishou.tmp
 	rm -rf "$tmp"
 	mkdir -p "$tmp"
 	dj_sql "$EASYROMS" "$uuid" >"$tmp/rows.sql"
-	if ! sqlite3 -bail "$tmp/Daijishou.db" <"$DJ_SCHEMA" ||
-		! sqlite3 -bail "$tmp/Daijishou.db" <"$tmp/rows.sql"; then
+	if ! "$SQLITE" -bail "$tmp/Daijishou.db" <"$DJ_SCHEMA" ||
+		! "$SQLITE" -bail "$tmp/Daijishou.db" <"$tmp/rows.sql"; then
 		log "making Daijishou's library failed"
 		rm -rf "$tmp"
 		return 0
 	fi
-	count=$(sqlite3 "$tmp/Daijishou.db" "SELECT count(*) FROM PlatformEntity;")
+	count=$("$SQLITE" "$tmp/Daijishou.db" "SELECT count(*) FROM PlatformEntity;")
 	if [ "${count:-0}" -eq 0 ]; then
 		log "no Daijishou platform to add (no ROM folders or players)"
 		rm -rf "$tmp"

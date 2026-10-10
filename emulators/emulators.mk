@@ -20,6 +20,7 @@ GAMECONSOLE_EMU_NONCOMMERCIAL_CORES ?= false
 PRODUCT_PACKAGES += \
     gameconsole-emu \
     sqlite3 \
+    gameconsole-sqlite3 \
     RetroArch-preinstall \
     PPSSPP-preinstall \
     libretro-cores-foss \
