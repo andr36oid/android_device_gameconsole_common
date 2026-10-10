@@ -63,6 +63,14 @@ public class TutorialActivity extends Activity {
 
     static final String ACTION_TUTORIAL = "org.andr36oid.guide.action.TUTORIAL";
 
+    // The setup wizard's page protocol (org.lineageos.setupwizard SetupWizardApp): a page
+    // goes on by sending NEXT with the extras it was started with and its result code
+    private static final String SETUP_WIZARD_PACKAGE = "org.lineageos.setupwizard";
+    private static final String ACTION_SETUP_NEXT = "com.android.wizard.NEXT";
+    private static final String EXTRA_SCRIPT_URI = "scriptUri";
+    private static final String EXTRA_RESULT_CODE = "com.android.setupwizard.ResultCode";
+    private static final int REQUEST_SETUP_NEXT = 10000;
+
     private static final String JOYMOUSE_PACKAGE = "com.gameconsole.joymouse";
     private static final String JOYMOUSE_ACTIVE_PROPERTY = "sys.joymouse.active";
     // Intent.ACTION_CLOSE_SYSTEM_DIALOGS reason when the power menu opens
@@ -140,6 +148,9 @@ public class TutorialActivity extends Activity {
     private boolean mReturnPending;
     // The first start: the first-start launcher is home and tells us about FN
     private boolean mFirstStart;
+    // A page of the setup wizard (SetupTutorialActivity): Home and the shade are off until
+    // the setup is done, so those two steps only describe them
+    private boolean mInSetup;
     private int mLeaves;
     private CharSequence mNote;
 
@@ -212,7 +223,8 @@ public class TutorialActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         sInstance = this;
-        mFirstStart = FirstStart.isActive(this);
+        mInSetup = getIntent().hasExtra(EXTRA_SCRIPT_URI);
+        mFirstStart = !mInSetup && FirstStart.isActive(this);
         if (mFirstStart) {
             setCrashHandler();
             mHandler.post(mHeartbeat);
@@ -351,17 +363,26 @@ public class TutorialActivity extends Activity {
                         R.string.tutorial_press_l2, R.string.tutorial_press_r2},
                 new int[] {KeyEvent.KEYCODE_BUTTON_L1, KeyEvent.KEYCODE_BUTTON_R1,
                         KeyEvent.KEYCODE_BUTTON_L2, KeyEvent.KEYCODE_BUTTON_R2});
-        add(STEP_HOME, R.string.tutorial_home_title, R.string.tutorial_home_body,
-                new int[] {R.string.tutorial_home_task}, new int[] {0});
+        if (mInSetup) {
+            add(STEP_HOME, R.string.tutorial_home_title, R.string.tutorial_home_body_setup);
+        } else {
+            add(STEP_HOME, R.string.tutorial_home_title, R.string.tutorial_home_body,
+                    new int[] {R.string.tutorial_home_task}, new int[] {0});
+        }
         if (fnShortcuts) {
             add(STEP_BRIGHTNESS, R.string.tutorial_brightness_title,
                     R.string.tutorial_brightness_body,
                     new int[] {R.string.tutorial_brightness_up,
                             R.string.tutorial_brightness_down},
                     new int[] {0, 0});
-            add(STEP_SHADE, R.string.tutorial_shade_title, R.string.tutorial_shade_body,
-                    new int[] {R.string.tutorial_shade_open},
-                    new int[] {0});
+            if (mInSetup) {
+                add(STEP_SHADE, R.string.tutorial_shade_title,
+                        R.string.tutorial_shade_body_setup);
+            } else {
+                add(STEP_SHADE, R.string.tutorial_shade_title, R.string.tutorial_shade_body,
+                        new int[] {R.string.tutorial_shade_open},
+                        new int[] {0});
+            }
         }
         if (mouse) {
             add(STEP_MOUSE, R.string.tutorial_mouse_title, fnShortcuts
@@ -597,6 +618,9 @@ public class TutorialActivity extends Activity {
                 previous--;
             }
             showStep(previous);
+        } else if (mInSetup) {
+            // Back to the setup wizard's previous page
+            finish();
         } else {
             skipTutorial();
         }
@@ -614,6 +638,11 @@ public class TutorialActivity extends Activity {
     }
 
     private void finishTutorial() {
+        if (mInSetup) {
+            FirstBootReceiver.markShown(this);
+            nextSetupPage();
+            return;
+        }
         if (mFirstStart) {
             // Home goes back to Daijishou, then the launcher is uninstalled
             FirstStart.finish(this, false);
@@ -624,6 +653,13 @@ public class TutorialActivity extends Activity {
     }
 
     private void openGuide() {
+        if (mInSetup) {
+            // Opens once the setup is done and home is handed back (FirstStart.finish)
+            FirstStart.openGuideAfterSetup(this);
+            FirstBootReceiver.markShown(this);
+            nextSetupPage();
+            return;
+        }
         if (mFirstStart) {
             // Opens the guide once home is Daijishou again
             FirstStart.finish(this, true);
@@ -770,11 +806,31 @@ public class TutorialActivity extends Activity {
         mHandler.postDelayed(mReturnRunnable, RETURN_DELAY_MS);
     }
 
+    /**
+     * Setup wizard: on to its next page. The tutorial stays below it, so B there comes back
+     * here; the wizard closes its whole task when it's done.
+     */
+    private void nextSetupPage() {
+        final Intent next = new Intent(ACTION_SETUP_NEXT).setPackage(SETUP_WIZARD_PACKAGE);
+        if (getIntent().getExtras() != null) {
+            next.putExtras(getIntent().getExtras());
+        }
+        next.putExtra(EXTRA_RESULT_CODE, RESULT_OK);
+        try {
+            startActivityForResult(next, REQUEST_SETUP_NEXT);
+        } catch (RuntimeException e) {
+            // Never leave the wizard stuck on this page
+            Log.w(TAG, "Couldn't go on with the setup", e);
+            finish();
+        }
+    }
+
     @Override
     protected void onUserLeaveHint() {
         super.onUserLeaveHint();
-        // On the first start the launcher tells us about FN instead (onHome)
-        if (!mFirstStart) {
+        // On the first start the launcher tells us about FN instead (onHome); in the setup
+        // wizard only the wizard's own next page takes the tutorial's place
+        if (!mFirstStart && !mInSetup) {
             onLeft();
         }
     }
@@ -783,7 +839,7 @@ public class TutorialActivity extends Activity {
     protected void onStop() {
         super.onStop();
         // Not when the screen just went off: that's the power step
-        if (mFirstStart || isFinishing() || !isInteractive()) {
+        if (mFirstStart || mInSetup || isFinishing() || !isInteractive()) {
             return;
         }
         if (current().id == STEP_HOME) {

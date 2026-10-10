@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tutorial_home_body_setup">Naciśnij sam FN, aby z dowolnego miejsca, nawet z gry, przejść na ekran główny. Ekran główny to Daijishou, gdzie są twoje gry i aplikacje.\n\nTo działa po zakończeniu konfiguracji, więc tutaj nie ma jeszcze czego wypróbować.</string>
+    <string name="tutorial_shade_body_setup">Przytrzymaj FN i naciśnij Y, aby otworzyć powiadomienia i Szybkie ustawienia z kafelkami m.in. do Wi-Fi i Bluetootha. FN + Y ponownie je zamyka.\n\nTo działa po zakończeniu konfiguracji, więc tutaj nie ma jeszcze czego wypróbować.</string>
+</resources>

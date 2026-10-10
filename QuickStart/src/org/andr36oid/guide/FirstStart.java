@@ -65,6 +65,8 @@ final class FirstStart {
 
     private static final String PREFS = "guide";
     private static final String PREF_CRASHES = "first_start_crashes";
+    // "Open the full guide" on the tutorial's last page in the setup wizard
+    private static final String PREF_OPEN_GUIDE = "open_guide_after_setup";
 
     private static boolean sFinishing;
 
@@ -109,7 +111,23 @@ final class FirstStart {
             }
             // The home screen chosen in the wizard, once (FirstStart.finish does it otherwise)
             HomeChoice.applyOnce(context);
+            if (takeOpenGuide(context)) {
+                open(context, true);
+            }
         }
+    }
+
+    /** The tutorial in the setup wizard: open the guide once the setup is done. */
+    static void openGuideAfterSetup(Context context) {
+        prefs(context).edit().putBoolean(PREF_OPEN_GUIDE, true).commit();
+    }
+
+    private static boolean takeOpenGuide(Context context) {
+        if (!prefs(context).getBoolean(PREF_OPEN_GUIDE, false)) {
+            return false;
+        }
+        prefs(context).edit().remove(PREF_OPEN_GUIDE).commit();
+        return true;
     }
 
     // ---- The watchdog
@@ -186,6 +204,7 @@ final class FirstStart {
             return;
         }
         sFinishing = true;
+        openGuide |= takeOpenGuide(app);
         // Skipped on the launcher's page, or the watchdog: the tutorial may still be open
         TutorialActivity.close();
 

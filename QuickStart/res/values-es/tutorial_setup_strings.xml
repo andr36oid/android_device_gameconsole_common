@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tutorial_home_body_setup">Pulsa FN solo para ir a la pantalla de inicio desde cualquier sitio, incluso desde un juego. La pantalla de inicio es Daijishou, donde están tus juegos y apps.\n\nFunciona cuando termine la configuración, así que aquí todavía no hay nada que probar.</string>
+    <string name="tutorial_shade_body_setup">Mantén FN y pulsa Y para abrir las notificaciones y los Ajustes rápidos, con iconos para cosas como el Wi-Fi y el Bluetooth. Con FN + Y otra vez se cierran.\n\nFunciona cuando termine la configuración, así que aquí todavía no hay nada que probar.</string>
+</resources>
