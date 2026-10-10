@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="usb_wifi_transfer_q">Copiar arquivos pelo Wi-Fi</string>
-    <string name="usb_wifi_transfer_a">Sem cabo nem leitor de cartão? Abra Configurações &gt; Transferência Wi-Fi no console. Leia o QR code com o celular, ou digite o endereço mostrado em um navegador no celular ou no computador, no mesmo Wi-Fi. Por essa página dá para mandar jogos, arquivos de BIOS e saves para o console, baixá-los, renomeá-los e excluí-los.</string>
-    <string name="usb_wifi_transfer_more">Ela compartilha o EASYROMS e as pastas roms, bios, RetroArch e PSP do armazenamento interno, e só enquanto essa tela está aberta. Aperte B para parar de compartilhar.</string>
-</resources>

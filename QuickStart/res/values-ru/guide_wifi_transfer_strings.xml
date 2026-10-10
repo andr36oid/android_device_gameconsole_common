@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="usb_wifi_transfer_q">Копирование файлов по Wi-Fi</string>
-    <string name="usb_wifi_transfer_a">Нет кабеля или картридера? Откройте на консоли Настройки &gt; Передача по Wi-Fi. Отсканируйте её QR-код телефоном или введите показанный адрес в браузере на телефоне или компьютере в той же сети Wi-Fi. На этой странице можно отправлять на консоль игры, файлы BIOS и сохранения, скачивать их, переименовывать и удалять.</string>
-    <string name="usb_wifi_transfer_more">Открывается доступ к EASYROMS и к папкам roms, bios, RetroArch и PSP во внутренней памяти, и только пока этот экран открыт. Нажмите B, чтобы закрыть доступ.</string>
-</resources>
