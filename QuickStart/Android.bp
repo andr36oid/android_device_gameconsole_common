@@ -6,6 +6,7 @@ android_app {
     name: "Andr36oidGuide",
     srcs: ["src/**/*.java"],
     resource_dirs: ["res"],
+    static_libs: ["andr36oid-console-art"],
     certificate: "platform",
     platform_apis: true,
     optimize: {

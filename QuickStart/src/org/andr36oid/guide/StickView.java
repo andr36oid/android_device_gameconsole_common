@@ -1,34 +1,25 @@
 package org.andr36oid.guide;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.view.View;
 
-/** Two circles with a dot each that follow the left and right stick, in the theme's colors. */
+import org.andr36oid.consoleart.CanvasPainter;
+import org.andr36oid.consoleart.Palette;
+import org.andr36oid.consoleart.StickDrawing;
+
+/** The left and right stick as the shared drawing shows them, following the sticks. */
 public class StickView extends View {
 
-    private final Paint mRing = new Paint(Paint.ANTI_ALIAS_FLAG);
-    private final Paint mDot = new Paint(Paint.ANTI_ALIAS_FLAG);
-    private final Paint mLabel = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private final CanvasPainter mPainter = new CanvasPainter();
+    private final StickDrawing mStick = new StickDrawing();
+    private final StickDrawing.Colors mColors;
     private final float[] mAxes = new float[4];
 
     public StickView(Context context) {
         super(context);
-        final TypedArray a = context.obtainStyledAttributes(new int[] {
-                android.R.attr.textColorSecondary, android.R.attr.colorAccent});
-        final int ring = a.getColor(0, 0xFF888888);
-        final int dot = a.getColor(1, 0xFF80CBC4);
-        a.recycle();
-        final float density = getResources().getDisplayMetrics().density;
-        mRing.setStyle(Paint.Style.STROKE);
-        mRing.setStrokeWidth(2 * density);
-        mRing.setColor(ring);
-        mDot.setColor(dot);
-        mLabel.setColor(ring);
-        mLabel.setTextAlign(Paint.Align.CENTER);
-        mLabel.setTextSize(12 * getResources().getDisplayMetrics().scaledDensity);
+        mColors = new Palette(context).stick;
+        mStick.labelSize = 12 * getResources().getDisplayMetrics().scaledDensity;
     }
 
     /** Left x, left y, right x, right y, each from -1 to 1. */
@@ -42,26 +33,18 @@ public class StickView extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        final float labelHeight = mLabel.getTextSize() * 1.6f;
+        final float labelHeight = mStick.labelSize * 2;
         final float w = getWidth() / 2f;
         final float h = getHeight() - labelHeight;
-        final float radius = Math.max(0, Math.min(w, h) / 2f - mRing.getStrokeWidth() * 4);
+        final float radius = Math.min(w, h) / 2f * 0.85f;
         if (radius <= 0) {
             return;
         }
-        final float dot = Math.max(4, radius / 5f);
+        mPainter.on(canvas).identity();
         for (int stick = 0; stick < 2; stick++) {
-            final float cx = w * stick + w / 2f;
-            final float cy = h / 2f;
-            canvas.drawCircle(cx, cy, radius, mRing);
-            canvas.drawCircle(cx + clamp(mAxes[stick * 2]) * (radius - dot),
-                    cy + clamp(mAxes[stick * 2 + 1]) * (radius - dot), dot, mDot);
-            canvas.drawText(stick == 0 ? "L" : "R", cx, getHeight() - mLabel.getTextSize() / 2,
-                    mLabel);
+            mStick.draw(mPainter, mColors, w * stick + w / 2f, h / 2f, radius,
+                    mAxes[stick * 2], mAxes[stick * 2 + 1], false, 0, null, 0, 0,
+                    stick == 0 ? "L" : "R");
         }
-    }
-
-    private static float clamp(float value) {
-        return Math.max(-1f, Math.min(1f, value));
     }
 }
