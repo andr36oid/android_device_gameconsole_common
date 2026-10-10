@@ -55,8 +55,9 @@ busybox sleep 1
 #  - .noroms on BOOT: the whole card goes to userdata, no EASYROMS;
 #  - userdata-size.txt on BOOT (written by the SD card flasher): a whole
 #    number of GiB, or "all";
-#  - otherwise half of the free space, at least 8 GiB and at most 64 GiB.
-# If that would leave EASYROMS with less than 1 GiB, userdata gets everything.
+#  - otherwise half of the free space, at most 64 GiB.
+# Android always gets at least 16 GiB. If that would leave EASYROMS with less
+# than 1 GiB (every card of 16 GB or less), userdata gets the whole card.
 # BEGIN plan_userdata
 GIB=2097152
 USERDATA_START=5701009
@@ -68,13 +69,12 @@ plan_userdata() {
     case "$2" in
         all) NOROMS=1 ;;
         "") _want=$((_free / 2))
-            [ "$_want" -lt $((8 * GIB)) ] && _want=$((8 * GIB))
             [ "$_want" -gt $((64 * GIB)) ] && _want=$((64 * GIB)) ;;
         *[!0-9]*) echo "Ignoring bad userdata size: $2"
             plan_userdata "$1" ""; return ;;
-        *) _want=$(($2 * GIB))
-            [ "$_want" -lt $((4 * GIB)) ] && _want=$((4 * GIB)) ;;
+        *) _want=$(($2 * GIB)) ;;
     esac
+    [ "$NOROMS" != 1 ] && [ "$_want" -lt $((16 * GIB)) ] && _want=$((16 * GIB))
     if [ "$NOROMS" != 1 ]; then
         # End userdata so that EASYROMS starts on a 1 MiB boundary
         USERDATA_END=$(( (USERDATA_START + _want) / 2048 * 2048 - 1 ))

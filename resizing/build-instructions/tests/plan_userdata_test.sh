@@ -28,11 +28,16 @@ NOROMS=$3; plan_userdata $sectors '$2' >/dev/null; echo \$NOROMS \$USERDATA_END"
     else echo "FAIL $1 '$2' noroms=$3 -> NOROMS=$noroms end=$end (want $4 $exp_end)"; fail=1; fi
 }
 
-# Kauan's 20.1 GB card: half of the free space (just over 8 GiB), about 8.6 GB EASYROMS
-check 20113457152 "" 0 0 half
-# 16 GB card: half is under 8 GiB, so 8 GiB; EASYROMS still gets over 1 GiB
-check 16000000000 "" 0 0 8
-# 8 GB card: 8 GiB would not fit, so everything goes to userdata
+# Kauan's 20.1 GB card: about 16 GiB free after the system, so 16 GiB would leave under
+# 1 GiB for EASYROMS: the whole card
+check 20113457152 "" 0 1 all
+# 24 GB card: 16 GiB, the rest (about 3.6 GiB) for EASYROMS
+check $((24 * GB)) "" 0 0 16
+# 32 GB card: half is under 16 GiB, so 16 GiB
+check $((32 * GB)) "" 0 0 16
+# 16 GB card: 16 GiB plus 1 GiB for EASYROMS don't fit, so the whole card
+check 16000000000 "" 0 1 all
+# 8 GB card: the whole card
 check 8000000000 "" 0 1 all
 # 64 GB card: half of the free space
 check $((64 * GB)) "" 0 0 half
@@ -47,8 +52,11 @@ check $((64 * GB)) "all" 0 1 all
 check $((64 * GB)) "56" 0 1 all
 # Wish bigger than the card
 check $((32 * GB)) "100" 0 1 all
-# Tiny wish is raised to 4 GiB
-check $((64 * GB)) "1" 0 0 4
+# A wish under 16 GiB is raised to 16 GiB
+check $((64 * GB)) "1" 0 0 16
+check $((64 * GB)) "8" 0 0 16
+# ...and on a 16 GB card it becomes the whole card
+check 16000000000 "8" 0 1 all
 # Junk falls back to the default
 check $((512 * GB)) "lots" 0 0 64
 
