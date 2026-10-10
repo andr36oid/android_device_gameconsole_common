@@ -57,18 +57,40 @@ final class PerformanceProfiles {
     private static final String PREF_CPU_CAP = "cpu_cap_khz";
 
     private final Context mContext;
+    // See inEffect()
+    private final boolean mInEffect;
 
+    /** Works on the chosen profile: the one picked in Settings, or by game mode for a while. */
     PerformanceProfiles(Context context) {
+        this(context, false);
+    }
+
+    private PerformanceProfiles(Context context, boolean inEffect) {
         mContext = context;
+        mInEffect = inEffect;
+    }
+
+    /**
+     * Works on the profile in effect right now: the one of the app in front if it has its
+     * own (AppProfiles), else the chosen one. Picking one while such an app is in front
+     * lasts until the app is left. For the tile and FN + R1.
+     */
+    static PerformanceProfiles inEffect(Context context) {
+        return new PerformanceProfiles(context, true);
     }
 
     int get() {
-        final int profile = prefs().getInt(PREF_PROFILE, BALANCED);
-        return profile >= 0 && profile < COUNT ? profile : BALANCED;
+        int profile = prefs().getInt(PREF_PROFILE, BALANCED);
+        profile = profile >= 0 && profile < COUNT ? profile : BALANCED;
+        return mInEffect ? AppProfiles.effective(mContext, profile) : profile;
     }
 
     /** Remembers the profile and applies it. Battery saver turns the overclock off. */
     boolean set(int profile) {
+        if (mInEffect && AppProfiles.pick(mContext, profile)) {
+            // Only while this app is in front, the chosen profile stays
+            return apply();
+        }
         prefs().edit().putInt(PREF_PROFILE, profile).commit();
         final Overclock overclock = new Overclock(mContext);
         if (profile == BATTERY_SAVER && overclock.isOn()) {
@@ -131,6 +153,10 @@ final class PerformanceProfiles {
 
     /** Writes the current profile's limits to the kernel. */
     boolean apply() {
+        if (!mInEffect) {
+            // An app in front may have a profile of its own, that one goes to the kernel
+            return inEffect(mContext).apply();
+        }
         final int profile = get();
         // Balanced without a cap is what the kernel starts with, so boot only has to write
         // anything else (and put the tile in once). A memory hold left over from a game

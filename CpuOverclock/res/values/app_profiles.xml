@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Profiles apps get when per-app profiles are switched on and the user hasn't picked one
+         for them: package=saver|balanced|performance. Apps not listed follow the chosen
+         profile. Why these, see reports/overnight2/app-profiles.md:
+         - PSP, N64, Dreamcast and DS emulators need the speed all the time; Performance also
+           holds the memory clock (O2-42), so no hitches when it changes.
+         - RetroArch is not listed: most of its cores are 8 and 16-bit systems that run fine
+           in Battery saver, so it follows the user's choice.
+         - The home screen and Settings: Balanced, snappy menus without Performance's fixed
+           top clocks when that is the chosen profile.
+         - Video players decode in hardware; Battery saver is plenty for 640x480. -->
+    <string-array name="app_profile_defaults" translatable="false">
+        <item>org.ppsspp.ppsspp=performance</item>
+        <item>org.ppsspp.ppssppgold=performance</item>
+        <item>com.flycast.emulator=performance</item>
+        <item>org.mupen64plusae.v3.alpha=performance</item>
+        <item>org.mupen64plusae.v3.fzurita=performance</item>
+        <item>com.dsemu.drastic=performance</item>
+        <item>me.magnum.melonds=performance</item>
+        <item>io.recompiled.redream=performance</item>
+        <item>com.magneticchen.daijishou=balanced</item>
+        <item>com.android.settings=balanced</item>
+        <item>org.videolan.vlc=saver</item>
+    </string-array>
+</resources>

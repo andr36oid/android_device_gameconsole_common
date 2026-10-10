@@ -97,5 +97,29 @@
                 <action android:name="org.andr36oid.cpuoverclock.action.RESTORE_PROFILE" />
             </intent-filter>
         </receiver>
+
+        <!-- Settings > Performance > Per-app profiles -->
+        <activity
+            android:name=".AppProfilesActivity"
+            android:exported="false"
+            android:label="@string/app_profiles_title"
+            android:theme="@android:style/Theme.DeviceDefault.Settings" />
+
+        <!-- Switches to an app's own profile while it is in front. Runs only while per-app
+             profiles are on and some app has one. -->
+        <service
+            android:name=".AppProfileService"
+            android:exported="false" />
+
+        <!-- Starts that watcher after boot. Off until per-app profiles are used, see
+             AppProfiles.update() -->
+        <receiver
+            android:name=".AppProfileBootReceiver"
+            android:enabled="false"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
     </application>
 </manifest>

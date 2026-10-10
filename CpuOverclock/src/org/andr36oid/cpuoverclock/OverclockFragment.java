@@ -14,6 +14,7 @@ public class OverclockFragment extends PreferenceFragment
     private static final String KEY_PROFILE = "profile";
     private static final String KEY_PROFILE_ABOUT = "profile_about";
     private static final String KEY_CPU_CAP = "cpu_cap";
+    private static final String KEY_APP_PROFILES = "app_profiles";
     private static final String KEY_ENABLED = "enabled";
     private static final String KEY_SPEED = "speed";
     private static final String KEY_UNDERVOLT_CATEGORY = "undervolt_category";
@@ -125,6 +126,7 @@ public class OverclockFragment extends PreferenceFragment
         mProfileAbout.setSummary(describe(profile));
         updateCpuCap();
         updateUndervolt();
+        updateAppProfiles();
 
         if (!mOverclock.isSupported()) {
             return;
@@ -169,6 +171,17 @@ public class OverclockFragment extends PreferenceFragment
         mUndervoltLevel.setValue(String.valueOf(uv));
         mUndervoltLevel.setSummary(uv <= 0 ? getString(R.string.undervolt_off)
                 : getString(R.string.undervolt_step, uv / 1000));
+    }
+
+    private void updateAppProfiles() {
+        final Preference apps = findPreference(KEY_APP_PROFILES);
+        if (!AppProfiles.isEnabled(getActivity())) {
+            apps.setSummary(R.string.app_profiles_off);
+            return;
+        }
+        final int count = AppProfiles.countSet(getActivity());
+        apps.setSummary(getResources().getQuantityString(R.plurals.app_profiles_on, count,
+                count));
     }
 
     private void updateCpuCap() {
