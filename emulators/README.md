@@ -172,10 +172,11 @@ What the config sets:
 | `autosave_interval` | 10 s (also RetroArch's Android default) | FN (Home) only pauses RetroArch; if Android later closes it in the background, at most 10 s of in-game saving is lost |
 | `menu_driver` | `rgui` | ArkOS's menu; readable at 640x480, needs no assets (Android's default Material UI is for touch) |
 | `video_threaded` | on | as ArkOS, keeps the Cortex-A35 at full speed |
+| `audio_latency` | 64 ms (Android default 128) | less sound lag, see Latency below |
 
 Left at RetroArch's Android defaults on purpose (they already match ArkOS or the
-screen): bilinear filter off, integer scale off, aspect ratio core provided, audio
-latency 128 ms, save state auto save/load off.
+screen): bilinear filter off, integer scale off, aspect ratio core provided, save
+state auto save/load off.
 
 ### How games look
 
@@ -188,7 +189,8 @@ icon. The service then copies `seed/retroarch/look/` there (`seed_look`):
 | File | What it does |
 |---|---|
 | `config/global.glslp` | sharp bilinear (`shaders/sharp-bilinear-simple.glsl`) for every core: each game pixel is scaled by the largest whole number that fits, only the rest is smoothed. Uneven factors (GBA 2.67x, SNES 2.14x at 480 lines, 720x720 clones) then give even pixels with next to no blur. At a whole-number scale it looks exactly like no shader |
-| `config/Gambatte/Gambatte.cfg` | core override for Game Boy / Color: integer scaling in "smart" mode, so 3x (480x432) on 640x480 and 4x (640x576) on 720x720, and no "override loaded" message |
+| `config/Gambatte/Gambatte.cfg` | core override for Game Boy / Color: integer scaling in "smart" mode, so 3x (480x432) on 640x480 and 4x (640x576) on 720x720, one frame of run-ahead (see Latency), and no "override loaded" message |
+| `config/Nestopia/Nestopia.cfg`, `config/FCEUmm/FCEUmm.cfg` | core overrides for NES / FDS: one frame of run-ahead (see Latency), no "override loaded" message |
 | `shaders/*.glslp` | presets to pick in Quick Menu > Shaders > Load: sharp-bilinear-simple, zfast-crt (scanlines), zfast-lcd (LCD grid, best at whole-number scales, e.g. Game Boy) |
 
 The F-Droid RetroArch APK has no shaders at all and the online updater needs Wi-Fi, so
@@ -259,6 +261,52 @@ existing `BIOS`/`Bios` folder is used as it is, a missing one is made):
   the folder is `bios` on the internal storage, `/storage/emulated/0/bios` (made with the
   owner and mode of `/data/media/0`), with the same rules. Moving between a card with
   and one without EASYROMS updates the path we wrote.
+
+### Latency
+
+RetroArch 1.22.2 for Android (F-Droid) is built with OpenSL ES as its only sound
+driver (no AAudio, no tinyalsa). The audio HAL has no MMAP path and no fast mixer, so
+AAudio in other apps goes through the same AudioTrack path anyway. The seeded
+`audio_latency` of 64 ms makes RetroArch's own queue 3 blocks of 1024 frames at 48 kHz
+(RetroArch sets `audio_block_frames` itself from Android's mixer period). The layers
+below it (AudioTrack, mixer, driver) keep at least 190 ms more and cover a slow frame.
+
+Left at RetroArch's defaults on purpose (the same values as ArkOS, dArkOS and ROCKNIX
+on this chip):
+
+| Setting | Default | Why not changed |
+|---|---|---|
+| `video_hard_sync` | off | GLES 3 has the fences, but waiting for the Mali GPU after each frame costs speed, and Android's compositor keeps its own buffers after the swap anyway |
+| `video_frame_delay`, `video_frame_delay_auto` | 0, off | with threaded video the main loop runs at the pace of the sound, not the screen, so a delay after the frame is not tied to the refresh and gains nothing; the A35 has no time to spare for it in most cores |
+| `video_max_swapchain_images` | 3 | only read by the Vulkan, KMS and D3D drivers, not by the Android GL context |
+| `input_poll_type_behavior` | 2 (late) | reads the pad when the core asks, the lowest-lag mode already |
+| `run_ahead_enabled`, `preemptive_frames_enable` | off | a second run of the core each frame is too heavy for most cores on the A35; on for NES and Game Boy only, below |
+| `video_threaded` | on (seeded) | costs up to one frame of lag, but SNES, GBA and PS1 need it for full speed |
+
+**Run-ahead for NES and Game Boy.** Many games react to a button one or two frames
+late on the real console too. Run-ahead hides one of those frames. The overrides for
+Nestopia, FCEUmm and Gambatte (in `seed/retroarch/look/config/`, seeded by
+`seed_look` with the same rules as the picture settings) turn on "Preemptive Frames"
+with 1 frame, not classic run-ahead:
+
+- classic run-ahead (single instance) runs the core twice every frame and saves and
+  loads a state each time: always about twice the CPU. A second instance costs even a
+  bit more;
+- preemptive frames saves a state every frame (tens of KB for these cores, well under
+  1 ms) and only goes back and runs the frame again when a
+  button changed. That is a few times a second, so on average it costs 10-20 % more
+  CPU, and a frame with a button change costs about twice as much;
+- a NES or Game Boy frame takes an estimated 3-7 ms on the A35, so even the doubled
+  frame fits in 16.7 ms. SNES (Snes9x 2010, 8-12 ms and more with Super FX), Genesis,
+  GBA and PS1 don't fit and stay off. Snes9x 2010 also uses frameskip "auto", which
+  doesn't mix well with going back a frame.
+
+To turn it off: Quick Menu > Overrides > Remove Core Overrides (the file then stays
+removed; for Game Boy that also drops the 3x picture), or set Settings > Latency >
+Run-Ahead to off and save the core overrides. A setting changed only in the menu is
+lost when the game is closed while an override is active (RetroArch reloads
+retroarch.cfg before it saves, `config_unload_override`). That already holds for
+Game Boy games because of the 3x override; with these files it holds for NES games too.
 
 RetroArch 1.22.2 targets SDK 28 with `requestLegacyExternalStorage` and gets the storage
 permissions from `pm install -g`, so it reads `/storage/<uuid>` like it reads the games.
