@@ -503,7 +503,8 @@ PRODUCT_PACKAGES += \
 # touchscreen-only games (Settings > Touch controls, FN + L1 in a game). The joyMouse daemon
 # does the touching through a virtual touchscreen, described by the .idc
 PRODUCT_PACKAGES += \
-	TouchMapper
+	TouchMapper \
+	andr36oid-touchmap-share
 PRODUCT_COPY_FILES += \
 	$(LOCAL_PATH)/joyMouse/andr36oid_Touch_Controls.idc:$(TARGET_COPY_OUT_SYSTEM)/usr/idc/andr36oid_Touch_Controls.idc
 

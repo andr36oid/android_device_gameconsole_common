@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="share_category">Karta SD</string>
+    <string name="share_export">Zapisz układy na karcie SD</string>
+    <string name="share_export_summary">Kopiuje wszystkie układy do folderu touchmap na EASYROMS. Zostaną tam po instalacji nowego obrazu i możesz się nimi dzielić.</string>
+    <string name="share_import">Wczytaj układy z karty SD</string>
+    <string name="share_import_summary">Dodaje układy z folderu touchmap na EASYROMS. Aplikacja, która ma już układ, zachowuje swój.</string>
+    <string name="share_working">Kopiowanie…</string>
+    <string name="share_exported">Zapisane układy: %1$d\nFolder: EASYROMS/touchmap</string>
+    <string name="share_imported">Nowe układy: %1$d\nAplikacje, które zachowały swój układ: %2$d\nPliki, których nie dało się użyć: %3$d</string>
+    <string name="share_error_nocard">Nie znaleziono EASYROMS. Sprawdź kartę SD i spróbuj ponownie.</string>
+    <string name="share_error_none">Nie ma jeszcze układów do zapisania.</string>
+    <string name="share_error_empty">Nie znaleziono układów. Umieść pliki .json w folderze touchmap na EASYROMS i spróbuj ponownie.</string>
+    <string name="share_error_failed">Nie udało się. Spróbuj ponownie.</string>
+</resources>

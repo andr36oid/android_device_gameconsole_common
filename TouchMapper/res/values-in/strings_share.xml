@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="share_category">Kartu SD</string>
+    <string name="share_export">Simpan tata letak ke kartu SD</string>
+    <string name="share_export_summary">Menyalin semua tata letak ke folder touchmap di EASYROMS. Tata letak tetap ada saat Anda memasang image baru, dan bisa Anda bagikan.</string>
+    <string name="share_import">Muat tata letak dari kartu SD</string>
+    <string name="share_import_summary">Menambahkan tata letak dari folder touchmap di EASYROMS. Aplikasi yang sudah punya tata letak tetap memakai miliknya.</string>
+    <string name="share_working">Menyalin…</string>
+    <string name="share_exported">Tata letak disimpan: %1$d\nFolder: EASYROMS/touchmap</string>
+    <string name="share_imported">Tata letak baru: %1$d\nAplikasi yang tetap memakai tata letaknya: %2$d\nFile yang tidak bisa dipakai: %3$d</string>
+    <string name="share_error_nocard">EASYROMS tidak ditemukan. Periksa kartu SD, lalu coba lagi.</string>
+    <string name="share_error_none">Belum ada tata letak untuk disimpan.</string>
+    <string name="share_error_empty">Tidak ada tata letak. Taruh file .json di folder touchmap di EASYROMS, lalu coba lagi.</string>
+    <string name="share_error_failed">Tidak berhasil. Coba lagi.</string>
+</resources>

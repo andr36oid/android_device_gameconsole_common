@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="share_category">SD-Karte</string>
+    <string name="share_export">Layouts auf der SD-Karte speichern</string>
+    <string name="share_export_summary">Kopiert alle Layouts in den Ordner touchmap auf EASYROMS. Dort bleiben sie, wenn du ein neues Image installierst, und du kannst sie teilen.</string>
+    <string name="share_import">Layouts von der SD-Karte laden</string>
+    <string name="share_import_summary">Fügt die Layouts aus dem Ordner touchmap auf EASYROMS hinzu. Eine App, die schon ein Layout hat, behält ihr eigenes.</string>
+    <string name="share_working">Wird kopiert…</string>
+    <string name="share_exported">Gespeicherte Layouts: %1$d\nOrdner: EASYROMS/touchmap</string>
+    <string name="share_imported">Neue Layouts: %1$d\nApps mit eigenem Layout behalten: %2$d\nNicht nutzbare Dateien: %3$d</string>
+    <string name="share_error_nocard">EASYROMS nicht gefunden. Prüfe die SD-Karte und versuch es noch einmal.</string>
+    <string name="share_error_none">Es gibt noch keine Layouts zum Speichern.</string>
+    <string name="share_error_empty">Keine Layouts gefunden. Lege .json-Dateien in den Ordner touchmap auf EASYROMS und versuch es noch einmal.</string>
+    <string name="share_error_failed">Das hat nicht geklappt. Versuch es noch einmal.</string>
+</resources>

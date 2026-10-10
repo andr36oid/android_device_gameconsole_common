@@ -1,0 +1,10 @@
+on post-fs-data
+    mkdir /data/misc/andr36oid-touchmap 0770 system system
+
+# Started by Settings > Touch controls with ctl.start to copy layouts to or from the
+# touchmap folder on EASYROMS, see andr36oid-touchmap-share.sh. Runs for a moment only.
+service andr36oid-touchmap-share /system/bin/sh /system/etc/andr36oid-touchmap-share.sh
+    user root
+    group root system media_rw
+    disabled
+    oneshot
