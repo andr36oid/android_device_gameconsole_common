@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Settings > Controls. The console's own entries open the apps below; their titles are the
+     apps' labels, and an app the build doesn't have is left out. -->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:key="console"
+        android:title="@string/console_title">
+
+        <Preference android:key="org.andr36oid.buttonmapper/.ButtonMappingActivity" />
+        <Preference android:key="org.andr36oid.stickcalibration/.StickCalibrationActivity" />
+        <Preference android:key="org.andr36oid.controllertest/.ControllerTestActivity" />
+        <Preference android:key="com.gameconsole.joymouse/.SettingsActivity" />
+        <Preference android:key="org.andr36oid.touchmapper/.SettingsActivity" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="more"
+        android:title="@string/more_title">
+
+        <Preference
+            android:key="external"
+            android:title="@string/external_title" />
+
+        <ListPreference
+            android:key="player1"
+            android:persistent="false"
+            android:title="@string/player1_title"
+            android:dialogTitle="@string/player1_title"
+            android:summary="%s"
+            android:entries="@array/player1_entries"
+            android:entryValues="@array/player1_values" />
+    </PreferenceCategory>
+</PreferenceScreen>
