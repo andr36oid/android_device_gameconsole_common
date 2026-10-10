@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="home_screen_title">Startbildschirm</string>
-    <string name="home_screen_summary">Daijishou oder der andr36oid launcher</string>
+    <string name="home_screen_summary">Daijishou oder Simple UI</string>
     <string name="home_screen_intro">Zum Startbildschirm kommst du mit FN.</string>
     <string name="home_screen_daijishou_description">Deine Spiele nach Konsole sortiert, mit Covern</string>
     <string name="home_screen_launcher_description">Ein einfaches Raster deiner Apps. Open Source.</string>

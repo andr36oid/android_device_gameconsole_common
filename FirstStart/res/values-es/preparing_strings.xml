@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="preparing_title">Preparando tus juegos…</string>
+    <string name="preparing_body">Daijishou, tu pantalla de inicio, se abre sola en cuanto tus sistemas de juego estén listos. En el primer inicio tarda unos minutos.</string>
+</resources>

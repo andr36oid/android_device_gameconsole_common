@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="home_screen_title">Ekran główny</string>
-    <string name="home_screen_summary">Daijishou lub andr36oid launcher</string>
+    <string name="home_screen_summary">Daijishou lub Simple UI</string>
     <string name="home_screen_intro">Ekran główny to miejsce, do którego prowadzi FN.</string>
     <string name="home_screen_daijishou_description">Gry według konsoli, z okładkami</string>
     <string name="home_screen_launcher_description">Prosta siatka aplikacji. Otwarte źródło.</string>

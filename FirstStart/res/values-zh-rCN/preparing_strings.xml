@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="preparing_title">正在准备游戏…</string>
+    <string name="preparing_body">游戏系统设置好后，主屏幕 Daijishou 会自动打开。首次启动需要几分钟。</string>
+</resources>

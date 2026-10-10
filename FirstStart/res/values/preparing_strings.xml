@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- While Daijishou's library is still being made on the first start -->
+    <string name="preparing_title">Preparing your games…</string>
+    <string name="preparing_body">Daijishou, your home screen, opens by itself as soon as your game systems are set up. On the first start this takes a few minutes.</string>
+</resources>

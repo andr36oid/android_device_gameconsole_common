@@ -3,9 +3,15 @@ package org.andr36oid.firststart;
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Intent;
+import android.database.ContentObserver;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
+import android.widget.TextView;
 
 /**
  * The home screen while the first-start tutorial runs. It has no tutorial logic: each time it
@@ -13,6 +19,10 @@ import android.view.KeyEvent;
  * quick start guide, and the guide shows its tutorial again. Its own page only shows for a
  * moment, or if the tutorial doesn't come back: then A goes back to the tutorial and Skip
  * tutorial ends it, which gives the home screen back to Daijishou.
+ *
+ * Daijishou only becomes home once its library is written (the guide waits for
+ * SETTING_DAIJISHOU_READY from gameconsole-emu). Until then this page says the games are being
+ * prepared, and tells the guide again the moment they are, in case the guide was stopped.
  */
 public class HomeActivity extends Activity {
 
@@ -26,6 +36,21 @@ public class HomeActivity extends Activity {
     private static final String ACTION_OPEN = GUIDE_PACKAGE + ".action.FIRST_START_OPEN";
     /** The user wants to skip the tutorial and go to the real home screen. */
     private static final String ACTION_SKIP = GUIDE_PACKAGE + ".action.FIRST_START_SKIP";
+    /** Settings.Global, set by gameconsole-emu once Daijishou's library is written. */
+    private static final String SETTING_DAIJISHOU_READY = "andr36oid_daijishou_ready";
+    /** Settings.Global, the home screen chosen in the setup wizard (empty: Daijishou). */
+    private static final String SETTING_HOME = "andr36oid_home";
+    private static final String DAIJISHOU = "com.magneticchen.daijishou";
+
+    private final Handler mHandler = new Handler(Looper.getMainLooper());
+    private final ContentObserver mReadyObserver = new ContentObserver(mHandler) {
+        @Override
+        public void onChange(boolean selfChange) {
+            if (showState()) {
+                tell(ACTION_HOME);
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +63,30 @@ public class HomeActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
+        getContentResolver().registerContentObserver(
+                Settings.Global.getUriFor(SETTING_DAIJISHOU_READY), false, mReadyObserver);
+        showState();
         findViewById(R.id.back).requestFocus();
         tell(ACTION_HOME);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        getContentResolver().unregisterContentObserver(mReadyObserver);
+    }
+
+    /** The page for now: "preparing" while Daijishou isn't ready. Returns whether it is. */
+    private boolean showState() {
+        final String home = Settings.Global.getString(getContentResolver(), SETTING_HOME);
+        final boolean ready = (home != null && !home.isEmpty() && !DAIJISHOU.equals(home))
+                || Settings.Global.getInt(getContentResolver(), SETTING_DAIJISHOU_READY, 0) == 1;
+        ((TextView) findViewById(R.id.title)).setText(
+                ready ? R.string.home_title : R.string.preparing_title);
+        ((TextView) findViewById(R.id.body)).setText(
+                ready ? R.string.home_body : R.string.preparing_body);
+        findViewById(R.id.buttons).setVisibility(ready ? View.VISIBLE : View.INVISIBLE);
+        return ready;
     }
 
     @Override

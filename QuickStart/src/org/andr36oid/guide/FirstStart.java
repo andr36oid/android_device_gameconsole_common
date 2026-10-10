@@ -8,6 +8,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.ContentObserver;
 import android.content.pm.PackageInstaller;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -71,6 +72,10 @@ final class FirstStart {
     // "Open the full guide" on the tutorial's last page in the setup wizard
     private static final String PREF_OPEN_GUIDE = "open_guide_after_setup";
     private static final long SHUTDOWN_DELAY_MS = 2000;
+    /** Settings.Global, set by gameconsole-emu: Daijishou's library is written. */
+    static final String SETTING_DAIJISHOU_READY = "andr36oid_daijishou_ready";
+    // In case gameconsole-emu never gets there (the library is made ~5 min after the start)
+    private static final long READY_TIMEOUT_MS = 15 * 60 * 1000;
 
     private static boolean sFinishing;
 
@@ -126,6 +131,50 @@ final class FirstStart {
     /** The tutorial in the setup wizard: open the guide once the setup is done. */
     static void openGuideAfterSetup(Context context) {
         prefs(context).edit().putBoolean(PREF_OPEN_GUIDE, true).commit();
+    }
+
+    /**
+     * Whether Daijishou's library is written (gameconsole-emu sets SETTING_DAIJISHOU_READY
+     * once it made it, or decided not to). Only matters when Daijishou becomes home.
+     */
+    static boolean isDaijishouReady(Context context) {
+        return !HomeChoice.DAIJISHOU.equals(HomeChoice.chosen(context))
+                || Settings.Global.getInt(context.getContentResolver(),
+                        SETTING_DAIJISHOU_READY, 0) == 1;
+    }
+
+    /** Runs then once Daijishou is ready, or after READY_TIMEOUT_MS in case it never is. */
+    private static void waitForDaijishou(Context app, Runnable then) {
+        final Handler handler = new Handler(Looper.getMainLooper());
+        final AtomicBoolean ran = new AtomicBoolean();
+        final ContentObserver[] observer = new ContentObserver[1];
+        final Runnable done = () -> {
+            if (ran.getAndSet(true)) {
+                return;
+            }
+            handler.removeCallbacksAndMessages(null);
+            app.getContentResolver().unregisterContentObserver(observer[0]);
+            then.run();
+        };
+        observer[0] = new ContentObserver(handler) {
+            @Override
+            public void onChange(boolean selfChange) {
+                if (isDaijishouReady(app)) {
+                    Log.i(TAG, "Daijishou's library is ready");
+                    done.run();
+                }
+            }
+        };
+        app.getContentResolver().registerContentObserver(
+                Settings.Global.getUriFor(SETTING_DAIJISHOU_READY), false, observer[0]);
+        handler.postDelayed(() -> {
+            Log.w(TAG, "Daijishou's library still isn't ready, giving it the home screen anyway");
+            done.run();
+        }, READY_TIMEOUT_MS);
+        // Set between the check and the registration
+        if (isDaijishouReady(app)) {
+            done.run();
+        }
     }
 
     /** "Shut down now" on the setup's add games page (SetupAddGamesActivity), once. */
@@ -237,6 +286,18 @@ final class FirstStart {
             return;
         }
         sFinishing = true;
+        if (!isDaijishouReady(app)) {
+            // Daijishou opens only with its library in it: its first start then asks to look
+            // for games. The first-start launcher says so meanwhile.
+            Log.i(TAG, "Waiting for Daijishou's library before giving it the home screen");
+            waitForDaijishou(app, () -> handOver(app, openGuide));
+            return;
+        }
+        handOver(app, openGuide);
+    }
+
+    /** finish(), part two: Daijishou (or our launcher) becomes home, the launcher goes. */
+    private static void handOver(Context app, boolean openGuide) {
         final boolean guide = openGuide | takeOpenGuide(app);
         // Skipped on the launcher's page, or the watchdog: the tutorial may still be open
         TutorialActivity.close();
