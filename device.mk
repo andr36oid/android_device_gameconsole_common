@@ -785,3 +785,10 @@ $(call inherit-product-if-exists, vendor/gapps/gapps.mk)
 # Battery details: voltage, current, charge times and a 24 hour graph (Settings > Battery)
 PRODUCT_PACKAGES += \
 	BatteryDetails
+
+# TEST IMAGES ONLY, not for a release: logcat is kept on the card in /data/misc/logd
+# (16 files of 2 MB, the oldest dropped), so a problem can be read from the card
+# afterwards; adb is not available on the test console
+PRODUCT_PRODUCT_PROPERTIES += \
+    logd.logpersistd=logcatd \
+    logd.logpersistd.size=16
