@@ -40,6 +40,7 @@
 
 BASE=/system/etc/gameconsole
 STATE=/data/misc/gameconsole
+LOG_FILE=$STATE/gameconsole-emu.log
 RA_PKG=com.retroarch
 RA_DATA=/data/user/0/$RA_PKG
 FS_PKG=org.andr36oid.firststart
@@ -48,6 +49,17 @@ FS_APK=$BASE/firststart/FirstStart.apk
 log() {
 	/system/bin/log -t gameconsole-emu "$*"
 	echo "$*"
+	# also kept on the card (logcat is gone after a restart): LOG_FILE,
+	# shortened at every start (log_trim)
+	[ -n "${LOG_FILE:-}" ] && [ -d "${LOG_FILE%/*}" ] &&
+		echo "$(date '+%m-%d %H:%M:%S') $*" >>"$LOG_FILE"
+}
+
+# log_trim ; keeps the last 400 lines of LOG_FILE
+log_trim() {
+	[ -f "$LOG_FILE" ] || return 0
+	[ "$(wc -l <"$LOG_FILE")" -gt 400 ] || return 0
+	tail -n 400 "$LOG_FILE" >"$LOG_FILE.new" && mv -f "$LOG_FILE.new" "$LOG_FILE"
 }
 
 sha1() {
@@ -1642,14 +1654,39 @@ URI_GRANTS=/data/system/urigrants.xml
 SAF_TREE=content://com.android.externalstorage.documents/tree
 EASYROMS_DEV=/dev/block/mmcblk0p7
 
-# dj_user_library ; Daijishou has a library of its own: a system or a game in
-# it. The empty one Daijishou makes when it starts before we could fill it (the
-# home screen comes up while EASYROMS is still being checked and mounted on a
-# first start) isn't the user's. Unreadable counts as the user's.
+# dj_library_count ; systems + games in Daijishou's library, empty if it can't
+# be read. Counted in a copy: the live one is open in Daijishou, in WAL mode, and
+# a read-only open of it can fail (it may have to recover the WAL first).
+dj_library_count() {
+	local tmp=$STATE/daijishou-check n err
+	rm -rf "$tmp"
+	mkdir -p "$tmp" || return 0
+	cp "$DJ_DB" "$tmp/Daijishou.db" 2>/dev/null || { rm -rf "$tmp"; return 0; }
+	[ -e "$DJ_DB-wal" ] && cp "$DJ_DB-wal" "$tmp/Daijishou.db-wal" 2>/dev/null
+	n=$(sqlite3 "$tmp/Daijishou.db" 'SELECT (SELECT count(*) FROM PlatformEntity) + (SELECT count(*) FROM PlayableItemEntity);' 2>"$tmp/err")
+	err=$(head -c 200 "$tmp/err" 2>/dev/null)
+	rm -rf "$tmp"
+	case $n in
+	'' | *[!0-9]*) log "can't read Daijishou's library: ${err:-${n:-no answer}}" ;;
+	*) echo "$n" ;;
+	esac
+}
+
+# dj_user_library ; 0: Daijishou has a library of its own (a system or a game
+# in it), 1: it has none or an empty one, 2: can't tell. The empty one Daijishou
+# makes when it starts before we could fill it (the home screen comes up while
+# EASYROMS is still being checked and mounted on a first start) isn't the user's.
+# "Can't tell" leaves the library alone and tries again next start.
 dj_user_library() {
+	local n
 	[ -e "$DJ_DB" ] || return 1
-	command -v sqlite3 >/dev/null || return 0
-	[ "$(sqlite3 -readonly "$DJ_DB" 'SELECT (SELECT count(*) FROM PlatformEntity) + (SELECT count(*) FROM PlayableItemEntity);' 2>/dev/null)" != 0 ]
+	command -v sqlite3 >/dev/null || return 2
+	n=$(dj_library_count)
+	case $n in
+	'') return 2 ;;
+	0) return 1 ;;
+	*) return 0 ;;
+	esac
 }
 
 # dj_settled ; nothing left to do for Daijishou's library: we made it, the user
@@ -1820,18 +1857,25 @@ EOF
 # empty. Only once, never over a library with a system or game in it, and only
 # for the Daijishou version the schema was taken from.
 seed_daijishou() {
-	local uuid want vc owner tmp count late='' top=''
+	local uuid want vc owner tmp count rc late='' top=''
 
 	[ -f "$DJ_SEED" ] && [ -f "$DJ_SCHEMA" ] || return 0
 	[ -e "$DJ_DONE" ] && dj_settled && return 0
 	[ -n "$NOROMS" ] && return 0
 	[ -n "$EASYROMS" ] || { log "EASYROMS not mounted, Daijishou's platforms next start"; return 0; }
 	[ -d "$DJ_DATA" ] || return 0
-	if dj_user_library; then
+	dj_user_library
+	case $? in
+	0)
 		log "Daijishou has a library already, no platforms added"
 		touch "$DJ_DONE"
 		return 0
-	fi
+		;;
+	2)
+		log "Daijishou's library can't be read, platforms next start"
+		return 0
+		;;
+	esac
 	# Daijishou started first and made an empty library: replaced below, with
 	# Daijishou stopped around it
 	[ -e "$DJ_DB" ] && late=1
@@ -1877,12 +1921,21 @@ seed_daijishou() {
 		# may come straight back, so it's stopped again once the files are in
 		dumpsys activity activities 2>/dev/null | grep -q "mResumedActivity.*$DJ_PKG/" && top=1
 		am force-stop "$DJ_PKG"
-		if dj_user_library; then
-			log "Daijishou has a library already, no platforms added"
+		dj_user_library
+		rc=$?
+		case $rc in
+		0 | 2)
+			if [ $rc -eq 0 ]; then
+				log "Daijishou has a library already, no platforms added"
+				touch "$DJ_DONE"
+			else
+				log "Daijishou's library can't be read, platforms next start"
+			fi
 			rm -rf "$tmp"
-			touch "$DJ_DONE"
+			[ -n "$top" ] && am start -a android.intent.action.MAIN -c android.intent.category.HOME >/dev/null 2>&1
 			return 0
-		fi
+			;;
+		esac
 		rm -f "$DJ_DB-wal" "$DJ_DB-shm" "$DJ_DB-journal"
 	# Daijishou may have started meanwhile
 	elif [ -e "$DJ_DB" ] || pidof "$DJ_PKG" >/dev/null 2>&1; then
@@ -2063,6 +2116,7 @@ fi
 [ -n "$GAMECONSOLE_EMU_TEST" ] && return 0
 
 mkdir -p "$STATE"
+log_trim
 
 # gameconsole-ra-players: the player 1 choice in Settings > Controllers changed.
 # Applied once RetroArch is closed, as it would write its old values back.
