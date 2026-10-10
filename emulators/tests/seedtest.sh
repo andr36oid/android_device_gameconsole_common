@@ -307,6 +307,56 @@ dj_new_games
 rm -f "$T/autosync"
 dj_new_games
 prefs_ok && [ -e "$T/am" ] && ok "game in a subfolder counts" || bad "subfolder"
+hint() {
+	python3 -c "import xml.etree.ElementTree as E,sys; print([e.text for e in E.parse(sys.argv[1]).getroot() if e.get('name')=='sync_entirely_on_start_hint'][0])" "$DJ_PREFS"
+}
+# removed games only: a sync would read everything for nothing
+rm -f "$T/am"
+android_prefs
+cp "$DJ_PREFS" "$T/p0"
+rm -f "$EASYROMS/nes/Game (USA).nes"
+dj_new_games
+cmp -s "$DJ_PREFS" "$T/p0" && [ ! -e "$T/am" ] && grep -q "only removed" "$T/log" &&
+	ok "games only removed: not asked" || bad "removal asked"
+# the question names the systems with new games
+touch "$EASYROMS/gba/a.gba" "$EASYROMS/gba/b.gba" "$EASYROMS/snes/c.sfc"
+dj_new_games
+h=$(hint)
+[ "$h" = "The games on EASYROMS changed. New: gba (2), snes (1). Press OK to update the library." ] &&
+	prefs_ok && ok "systems with new games named" || bad "hint: $h"
+# a big library: how long, and how to sync one system
+rm -f "$T/am"
+android_prefs
+mkdir -p "$EASYROMS/arcade"
+i=0
+while [ $i -lt 2000 ]; do
+	: >"$EASYROMS/arcade/game$i.zip"
+	i=$((i + 1))
+done
+dj_new_games
+n=$(grep -c . "$STATE/daijishou-games.$UUID")
+h=$(hint)
+case $h in
+"The games on EASYROMS changed. New: arcade (2000). Press OK to update the library. This reads every game again: with $n games it takes about 4 minutes. To update only the systems above, press Cancel, open each one and use its Sync button.")
+	prefs_ok && [ -e "$T/am" ] && [ ! -e "$STATE/daijishou-games.$UUID.new" ] &&
+		ok "big library: time and per-system hint ($n games)" || bad "big library"
+	;;
+*) bad "big hint: $h" ;;
+esac
+# many systems: the first six by count, then "and more"
+android_prefs
+# (endings the players take: PlayStation has no zip, the others take zip)
+for f in nes snes gb gbc megadrive psx n64; do
+	e=zip; [ $f = psx ] && e=bin
+	[ -d "$EASYROMS/$f" ] && touch "$EASYROMS/$f/new-$f.$e"
+done
+touch "$EASYROMS/psx/second.bin"
+dj_new_games
+h=$(hint)
+case $h in
+*"New: psx (2), gb (1), gbc (1), megadrive (1), n64 (1), nes (1) and more. Press OK"*) ok "more than six systems cut short" ;;
+*) bad "six systems: $h" ;;
+esac
 # a library we didn't make: never
 setup "" ""
 mkdir -p "${DJ_DB%/*}" "${DJ_PREFS%/*}"

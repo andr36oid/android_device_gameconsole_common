@@ -1780,31 +1780,61 @@ dj_pref() {
 	esac
 }
 
+# a sync of the whole library reads the start (up to 4 MB) of every game file
+# again, Daijishou's md5: roughly a minute or two per 1000 games on this card
+# reader. From this many games on, the question says so and how to sync only
+# the systems that changed (each system's own Sync button).
+DJ_BIG=2000
+
+# dj_hint <old list> <new list> ; the question's text: which systems got new
+# games, and for a big library how long the whole sync takes
+dj_hint() {
+	local total systems mins
+	total=$(grep -c . "$2")
+	# most new games first, at most six systems
+	systems=$(comm -13 "$1" "$2" | cut -d/ -f1 | sort | uniq -c | sort -k1,1nr -k2,2 |
+		awk 'NR <= 6 { printf "%s%s (%d)", (NR > 1 ? ", " : ""), $2, $1 } NR == 7 { printf " and more" }')
+	printf 'The games on EASYROMS changed. New: %s. Press OK to update the library.' "$systems"
+	if [ "$total" -ge "$DJ_BIG" ]; then
+		mins=$(((total + 599) / 600))
+		printf ' This reads every game again: with %s games it takes about %s minutes. To update only the systems above, press Cancel, open each one and use its Sync button.' "$total" "$mins"
+	fi
+}
+
 # dj_new_games: Daijishou only looks for games when asked to. On a console we set
-# up, when the games on EASYROMS changed since the last start (copied on a
+# up, when games were added to EASYROMS since the last start (copied on a
 # computer, say), Daijishou asks again on its next start, like on the first one.
-# It keeps its settings in memory while it runs, so it's restarted around the
-# change; the home screen comes back by itself. persist.andr36oid.daijishou_autosync=0
-# turns this off.
+# Games that were only removed don't count: a sync keeps their entries anyway
+# (Daijishou's "clear disjointed items" is off), so it would read every game
+# for nothing. Daijishou keeps its settings in memory while it runs, so it's
+# restarted around the change; the home screen comes back by itself.
+# persist.andr36oid.daijishou_autosync=0 turns this off.
 dj_new_games() {
-	local uuid seen now top owner p=$DJ_PREFS
+	local uuid seen now top owner hint p=$DJ_PREFS
 
 	[ -f "$DJ_SEEDED" ] && [ -n "$EASYROMS" ] || return 0
 	[ "$(getprop persist.andr36oid.daijishou_autosync)" = 0 ] && return 0
 	uuid=${EASYROMS##*/}
 	seen=$STATE/daijishou-games.$uuid
-	now=$(dj_games | cksum)
-	if [ ! -f "$seen" ]; then
-		# another card (EASYROMS formatted again): nothing to compare with
-		dj_games >"$seen"
+	now=$seen.new
+	# one walk of the folders per start (thousands of games on a slow card)
+	dj_games >"$now"
+	if [ ! -f "$seen" ] || cmp -s "$seen" "$now"; then
+		# same games, or another card (EASYROMS formatted again): nothing to ask
+		mv -f "$now" "$seen"
 		return 0
 	fi
-	[ "$(cksum <"$seen")" = "$now" ] && return 0
 	# Daijishou's library isn't ours any more (data cleared): leave it
 	if [ ! -f "$p" ] || [ ! -f "$DJ_DB" ]; then
-		dj_games >"$seen"
+		mv -f "$now" "$seen"
 		return 0
 	fi
+	if [ -z "$(comm -13 "$seen" "$now" | head -n 1)" ]; then
+		log "games on EASYROMS were only removed, Daijishou not asked to look again"
+		mv -f "$now" "$seen"
+		return 0
+	fi
+	hint=$(dj_hint "$seen" "$now")
 
 	top=
 	dumpsys activity activities 2>/dev/null | grep -q "mResumedActivity.*$DJ_PKG/" && top=1
@@ -1813,12 +1843,12 @@ dj_new_games() {
 	if dj_pref "$p" boolean sync_entirely_on_start '<boolean name="sync_entirely_on_start" value="true" />' &&
 		mv -f "$p.new" "$p"; then
 		# the dialog's text; Daijishou's own if ours can't go in
-		dj_pref "$p" string sync_entirely_on_start_hint '<string name="sync_entirely_on_start_hint">The games on EASYROMS changed. Press OK to update the library.</string>' &&
+		dj_pref "$p" string sync_entirely_on_start_hint "<string name=\"sync_entirely_on_start_hint\">$hint</string>" &&
 			mv -f "$p.new" "$p"
 		chown "$owner" "$p"
 		chmod 0660 "$p"
 		restorecon "$p" 2>/dev/null
-		log "games on EASYROMS changed, Daijishou looks for them on its next start"
+		log "new games on EASYROMS, Daijishou looks for them on its next start"
 	else
 		rm -f "$p.new"
 		log "Daijishou's settings look odd, not asking it to look for new games"
@@ -1826,7 +1856,7 @@ dj_new_games() {
 	# a Daijishou that started meanwhile has the old settings in memory
 	am force-stop "$DJ_PKG"
 	[ -n "$top" ] && am start -a android.intent.action.MAIN -c android.intent.category.HOME >/dev/null 2>&1
-	dj_games >"$seen"
+	mv -f "$now" "$seen"
 }
 
 # post-fs-data: only the folder access for Daijishou, before system_server starts
