@@ -296,6 +296,18 @@ cases() {
 	expect "right dtb: data copy" [ -s "$R/data/dtb-hint.txt" ]
 	expect "right dtb: exit 0" [ "$(cat "$R/test/rc")" = 0 ]
 
+	# R46H and R50S: no hint at all, nothing written on BOOT
+	for m in "Game Console R46H" "Game Console R50S"; do
+		fake "$R" Panels/Panel4 Panels/Panel4
+		printf '%s\000' "$m" >"$R/proc/device-tree/model"
+		hint "$R"
+		expect "$m: no hint on BOOT" [ ! -e "$R/boot/dtb-hint.txt" ]
+		expect "$m: exit 0" [ "$(cat "$R/test/rc")" = 0 ]
+		expect "$m: logged" contains "$R/test/log" "no hint for this console"
+	done
+	fake "$R" Panels/Panel4 Panels/Panel4
+	hint "$R"
+
 	# a second run with the same state doesn't rewrite the file
 	expect "first run: BOOT read-only, then writable for the new file" \
 		[ "$(tr '\n' , <"$R/test/boot")" = "mount -o ro,mount -o remount,rw,umount," ]

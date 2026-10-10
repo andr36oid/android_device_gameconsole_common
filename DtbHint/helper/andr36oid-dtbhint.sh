@@ -679,6 +679,14 @@ main() {
 	local new
 	nap "$WAIT"
 	gather
+	# R46H and R50S have their own DTB in BOOT/Devices; the folders and board
+	# checks here are for R36S boards and would only point them the wrong way
+	case $MODEL in
+	*R46H* | *R50S*)
+		log "$MODEL: no hint for this console"
+		return 0
+		;;
+	esac
 	mkdir -p "$DATA" 2>/dev/null
 	new=$DATA/hint.new
 	if boot_open; then
