@@ -315,6 +315,15 @@ service wpa_supplicant /vendor/bin/hw/wpa_supplicant \
      disabled
      oneshot
 
+# Settings > Calibrate sticks: per-axis ends and middle ("off" = factory settings) and the
+# round dead zone in %, for the odroidgo3-joypad driver. Also runs at boot when the saved
+# values are loaded. Kernels without the files just log a failed write.
+on property:persist.andr36oid.stick_deadzone=*
+    write /sys/devices/platform/odroidgo3-joypad/stick_deadzone ${persist.andr36oid.stick_deadzone}
+
+on property:persist.andr36oid.stick_cal=*
+    write /sys/devices/platform/odroidgo3-joypad/stick_cal ${persist.andr36oid.stick_cal}
+
 on property:persist.vendor.logger.enable=1
     start logger
 

@@ -1,0 +1,14 @@
+// Settings > Calibrate sticks: measures each stick's ends and middle and hands them to the
+// joypad driver (through a persistent property that init writes to sysfs), so every game
+// and app gets the corrected sticks.
+android_app {
+    name: "StickCalibration",
+    srcs: ["src/**/*.java"],
+    resource_dirs: ["res"],
+    static_libs: ["andr36oid-console-art"],
+    certificate: "platform",
+    platform_apis: true,
+    optimize: {
+        enabled: false,
+    },
+}

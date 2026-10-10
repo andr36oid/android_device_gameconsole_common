@@ -692,6 +692,11 @@ PRODUCT_PROPERTY_OVERRIDES += \
 	ro.config.media_vol_steps=30 \
 	vendor.gralloc.no_afbc_for_fb_target_layer = 1 \
 
+# Stick calibration (Settings > Calibrate sticks); the joypad driver applies it, init hands
+# it over at boot (init.rk30board.rc)
+PRODUCT_PACKAGES += \
+	StickCalibration
+
 # librkskia
 PRODUCT_PACKAGES += \
 	librkskia \

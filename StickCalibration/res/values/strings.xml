@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="cal_title">Calibrate sticks</string>
+    <string name="cal_summary">For sticks that drift or don\'t reach the edge</string>
+
+    <string name="cal_left">Left stick</string>
+    <string name="cal_right">Right stick</string>
+
+    <string name="cal_status_factory">Using the factory settings</string>
+    <string name="cal_status_calibrated">Calibrated</string>
+    <string name="cal_status_unsupported">The stick driver on this system cannot be calibrated</string>
+    <!-- %1$d is a percentage of the stick's travel -->
+    <string name="cal_deadzone">Dead zone: <xliff:g id="percent">%1$d</xliff:g> %%</string>
+
+    <string name="cal_hint_idle">A  Calibrate     X  Factory settings     ◀ ▶  Dead zone     B  Back</string>
+    <string name="cal_hint_idle_factory">A  Calibrate     B  Back</string>
+    <string name="cal_hint_back">B  Back</string>
+    <string name="cal_hint_capture">A  Done     B  Cancel</string>
+
+    <string name="cal_step_circles">Move both sticks in full circles, slowly, all the way to the edge. Three times each.</string>
+    <string name="cal_step_release">Then let go of both sticks and press A.</string>
+    <!-- %1$d directions reached so far, out of 4 -->
+    <string name="cal_directions"><xliff:g id="done">%1$d</xliff:g> of 4 directions</string>
+    <string name="cal_directions_done">All directions reached</string>
+    <string name="cal_measuring">Measuring the middle, don\'t touch the sticks…</string>
+
+    <string name="cal_saved">Saved. Games and apps use the new calibration now.</string>
+    <string name="cal_not_applied">Saved, but the driver did not take it. Restart the console and check again.</string>
+    <string name="cal_left_short">The left stick did not reach the edge in every direction. Keep circling, then let go and press A.</string>
+    <string name="cal_right_short">The right stick did not reach the edge in every direction. Keep circling, then let go and press A.</string>
+    <string name="cal_not_still">A stick moved while the middle was measured. Let go of both sticks and press A again.</string>
+    <string name="cal_reset_confirm">Press X again to go back to the factory settings</string>
+    <string name="cal_reset_done">Back to the factory settings</string>
+    <string name="cal_deadzone_needs_cal">Calibrate first, then the dead zone can be changed</string>
+</resources>
