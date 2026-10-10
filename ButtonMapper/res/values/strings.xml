@@ -69,7 +69,7 @@
     <string name="action_original">Original: <xliff:g id="action">%1$s</xliff:g></string>
     <string name="choose_title"><xliff:g id="button">%1$s</xliff:g>: what should it do?</string>
 
-    <!-- Below the drawing, about the selected button -->
+    <!-- Next to the drawing, about the selected button -->
     <string name="status_default">Does: <xliff:g id="action">%1$s</xliff:g></string>
     <string name="status_changed">Does: <xliff:g id="action">%1$s</xliff:g> (normally <xliff:g id="default_action">%2$s</xliff:g>)</string>
     <string name="status_locked">Does: <xliff:g id="action">%1$s</xliff:g>. This one can\'t be changed.</string>
