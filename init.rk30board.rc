@@ -2,6 +2,10 @@ import /vendor/etc/init/hw/init.${ro.target.product}.rc
 import /vendor/etc/init/hw/init.rk30board.usb.rc
 
 on early-init
+    # Screen settings of the console, from its BOOT profile's boot script (one image
+    # for every console, see r36s BOOT/Devices). Set before SurfaceFlinger starts;
+    # ro properties, so only the first value counts.
+    setprop ro.surface_flinger.primary_display_orientation ${ro.boot.sf_orientation:-ORIENTATION_0}
    
     # mount debugfs
     mount debugfs /sys/kernel/debug /sys/kernel/debug mode=755
@@ -372,3 +376,6 @@ on property:persist.sys.rgb_lights=white
     write /sys/class/leds/red:status/brightness 1
     write /sys/class/leds/green:status/brightness 1
     write /sys/class/leds/blue:status/brightness 1
+# Screen density of the console's BOOT profile (e.g. R46H), the Android default otherwise
+on property:ro.boot.lcd_density=*
+    setprop ro.sf.lcd_density ${ro.boot.lcd_density}
