@@ -766,6 +766,16 @@ run system.txt 10 getprop
 run system.txt 5 cat /proc/cmdline
 run system.txt 5 cat /proc/cpuinfo
 run system.txt 5 cat /proc/meminfo
+# Capture RAM and compressed swap before the heavier dumpsys/log collection.
+# mm_stat reports original bytes, compressed bytes and physical pool bytes;
+# disksize/SwapTotal are logical capacity, not allocated physical RAM.
+show memory.txt /proc/uptime /proc/meminfo /proc/swaps /proc/pressure/memory \
+	/proc/vmstat /proc/sys/vm/swappiness /proc/sys/vm/page-cluster \
+	/proc/sys/vm/min_free_kbytes /proc/sys/vm/extra_free_kbytes \
+	/proc/sys/vm/watermark_scale_factor /sys/module/zswap/parameters/enabled
+show memory.txt /sys/block/zram*/disksize /sys/block/zram*/comp_algorithm \
+	/sys/block/zram*/mm_stat /sys/block/zram*/io_stat /sys/block/zram*/bd_stat \
+	/sys/block/zram*/mem_limit /sys/block/zram*/debug_stat
 run system.txt 5 cat /proc/mounts
 run system.txt 10 df -h
 run system.txt 10 ps -A -o USER,PID,PPID,VSZ,RSS,PCY,S,TIME,NAME
