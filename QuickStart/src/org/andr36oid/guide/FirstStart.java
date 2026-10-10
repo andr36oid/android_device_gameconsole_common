@@ -204,7 +204,7 @@ final class FirstStart {
             return;
         }
         sFinishing = true;
-        openGuide |= takeOpenGuide(app);
+        final boolean guide = openGuide | takeOpenGuide(app);
         // Skipped on the launcher's page, or the watchdog: the tutorial may still be open
         TutorialActivity.close();
 
@@ -223,7 +223,7 @@ final class FirstStart {
                 // picks the only home app left
                 Log.w(TAG, "Couldn't give the home role back, uninstalling anyway");
             }
-            open(app, openGuide);
+            open(app, guide);
             uninstallLauncher(app);
             if (ok && home != null) {
                 // Only now that the chosen one is home: removing the other can't leave the
