@@ -6,7 +6,7 @@
     <string name="controls_topic_retroarch">In Spielen (RetroArch)</string>
     <string name="controls_topic_emulators">Andere Emulatoren</string>
     <string name="controls_topic_mouse">Mausmodus</string>
-    <string name="controls_console_top">Die Tasten über der Konsole sitzen an ihrer Oberkante.</string>
+    <string name="controls_console_top">Die Tasten rund um die Konsole sitzen an ihren Kanten: die Schultertasten oben, Power an der linken Seite, die Lautstärke an der rechten.</string>
     <string name="controls_console_labels">Die Tasten heißen so, wie sie auf der Konsole beschriftet sind. Bei manchen Klon-Konsolen sitzen sie an anderen Stellen.</string>
     <string name="controls_start">Bestätigen, wie A</string>
     <string name="controls_dpad">In Menüs und Listen bewegen</string>

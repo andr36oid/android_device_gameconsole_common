@@ -6,7 +6,7 @@
     <string name="controls_topic_retroarch">W grach (RetroArch)</string>
     <string name="controls_topic_emulators">Inne emulatory</string>
     <string name="controls_topic_mouse">Tryb myszy</string>
-    <string name="controls_console_top">Przyciski narysowane nad konsolą są na jej górnej krawędzi.</string>
+    <string name="controls_console_top">Przyciski narysowane wokół konsoli są na jej krawędziach: spusty na górze, zasilanie na lewym boku, głośność na prawym.</string>
     <string name="controls_console_labels">Przyciski mają nazwy nadrukowane na konsoli. W niektórych klonach są w innych miejscach.</string>
     <string name="controls_start">Potwierdź, jak A</string>
     <string name="controls_dpad">Poruszanie się po menu i listach</string>

@@ -6,7 +6,7 @@
     <string name="controls_topic_retroarch">Oyunlarda (RetroArch)</string>
     <string name="controls_topic_emulators">Diğer emülatörler</string>
     <string name="controls_topic_mouse">Fare modu</string>
-    <string name="controls_console_top">Konsolun üstünde çizilen tuşlar üst kenarındadır.</string>
+    <string name="controls_console_top">Konsolun çevresinde çizilen tuşlar kenarlarındadır: omuz tuşları üstte, güç sol yanda, ses sağ yanda.</string>
     <string name="controls_console_labels">Tuşların adları konsolun üzerinde yazdığı gibidir. Bazı klon konsollarda tuşlar başka yerlerdedir.</string>
     <string name="controls_start">A gibi onaylar</string>
     <string name="controls_dpad">Menülerde ve listelerde gezinir</string>
