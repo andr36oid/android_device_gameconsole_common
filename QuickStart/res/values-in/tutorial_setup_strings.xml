@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tutorial_home_body_setup">Tekan FN saja untuk ke layar utama dari mana pun, bahkan dari dalam game. Layar utamanya adalah Daijishou, tempat game dan aplikasi Anda.\n\nIni berfungsi setelah penyiapan selesai, jadi belum ada yang bisa dicoba di sini.</string>
+    <string name="tutorial_shade_body_setup">Tahan FN dan tekan Y untuk membuka notifikasi dan Setelan Cepat, dengan kartu untuk hal seperti Wi-Fi dan Bluetooth. FN + Y sekali lagi untuk menutupnya.\n\nIni berfungsi setelah penyiapan selesai, jadi belum ada yang bisa dicoba di sini.</string>
+</resources>

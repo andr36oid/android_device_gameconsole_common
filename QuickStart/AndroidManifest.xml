@@ -95,6 +95,21 @@
                 android:value="true" />
         </activity>
 
+        <!-- The same tutorial as the setup wizard's last page, in the wizard's task -->
+        <activity
+            android:name=".SetupTutorialActivity"
+            android:exported="true"
+            android:label="@string/tutorial_label"
+            android:excludeFromRecents="true"
+            android:screenOrientation="nosensor"
+            android:configChanges="keyboard|keyboardHidden|navigation|touchscreen|orientation|screenSize|screenLayout|smallestScreenSize"
+            android:theme="@style/TutorialTheme">
+            <intent-filter>
+                <action android:name="org.andr36oid.guide.action.SETUP_TUTORIAL" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
         <!-- The first start's safety net at boot and after the wizard: starts the watchdog
              while the first-start launcher is home, removes a left-over launcher. Switches
              itself off once the first start is over. -->
