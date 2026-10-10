@@ -462,6 +462,12 @@ ANDR36OID_VERSION := $(shell device/gameconsole/common/version.sh $(TARGET_BUILD
 PRODUCT_PRODUCT_PROPERTIES += \
 	ro.andr36oid.version=$(ANDR36OID_VERSION)
 
+# Apps that ask for portrait stay upright in the middle of the landscape screen with black
+# bars, instead of turning the picture sideways (frameworks/base night/o2-portrait).
+# adb shell wm fixed-to-user-rotation disabled brings back the old behaviour.
+PRODUCT_PRODUCT_PROPERTIES += \
+	ro.andr36oid.fixed_rotation=true
+
 # Holding FN shows the list of FN shortcuts (frameworks/base night/ux3-fn-help)
 PRODUCT_PRODUCT_PROPERTIES += \
 	ro.andr36oid.fn_help=true
