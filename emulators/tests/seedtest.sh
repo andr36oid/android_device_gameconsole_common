@@ -30,6 +30,7 @@ setup() {
 	DJ_PREFS=$DJ_DATA/shared_prefs/${DJ_PKG}_preferences.xml
 	DJ_SEED=$EMU/daijishou/daijishou-seed.txt
 	DJ_SCHEMA=$EMU/daijishou/schema.sql
+	DJ_ART=$EMU/daijishou/art
 	DJ_DONE=$STATE/daijishou.done
 	DJ_SEEDED=$STATE/daijishou.seeded
 	URI_GRANTS=$T/c/system_data/urigrants.xml
@@ -437,5 +438,54 @@ touch "$EASYROMS/nes/new.nes"
 dj_new_games
 python3 -c "import xml.etree.ElementTree as E,sys; m=E.parse(sys.argv[1]).getroot(); sys.exit(0 if [e.get('value') for e in m if e.tag=='boolean']==['true'] else 1)" "$DJ_PREFS" &&
 	ok "odd hint kept, flag set" || bad "multi-line hint"
+
+# 20. pictures: each platform's wallpaper and thumbnail are a copy of the picture its
+# art line names, where Daijishou keeps them; also when a missing folder (gbc) shifts
+# the platform ids
+# checkart: every platform in the library has both paths, and each file is its picture
+checkart() {
+	python3 - "$DJ_DB" "$DJ_SEED" "$DJ_ART" "$DJ_DATA" <<'EOF'
+import filecmp, os, sqlite3, sys
+db, seed, art, data = sys.argv[1:]
+want, last = {}, None
+for line in open(seed, encoding="utf-8"):
+    f = line.rstrip("\n").split("\t")
+    if f[0] == "platform":
+        last = f[3].split(",")[0].strip().strip("'")
+    elif f[0] == "art":
+        want[last] = f[2]
+rows = sqlite3.connect(db).execute(
+    "SELECT id, unique_id, wallpaper_path, thumbnail_path FROM PlatformEntity").fetchall()
+if not rows:
+    sys.exit("no platforms")
+for pid, uid, wp, th in rows:
+    for kind, path in (("wallpapers", wp), ("thumbnails", th)):
+        expect = "%s/files/platform_%s/%d.png" % (data, kind, pid)
+        if path != expect:
+            sys.exit("%s: %s path %r, not %r" % (uid, kind, path, expect))
+        if not filecmp.cmp(path, os.path.join(art, want[uid]), shallow=False):
+            sys.exit("%s: %s is not %s" % (uid, path, want[uid]))
+EOF
+}
+setup "" ""
+daijishou_grants
+seed_daijishou
+checkart && ok "pictures: every platform has its wallpaper and thumbnail" || bad "pictures"
+setup "" gbc
+daijishou_grants
+seed_daijishou
+checkart && [ ! -e "$DJ_DATA/files/platform_wallpapers/$(sqlite3 "$DJ_DB" 'SELECT count(*) + 1 FROM PlatformEntity').png" ] &&
+	ok "pictures: ids follow the platforms on the card" || bad "pictures with a folder missing"
+# a picture missing from the image: that system stays plain, the rest get theirs
+setup "" ""
+DJ_ART=$T/art
+mkdir -p "$DJ_ART"
+cp "$EMU"/daijishou/art/*.jpg "$DJ_ART"
+rm "$DJ_ART/nes.jpg"
+daijishou_grants
+seed_daijishou
+[ "$(sqlite3 "$DJ_DB" "SELECT wallpaper_path IS NULL FROM PlatformEntity WHERE unique_id = 'nes'")" = 1 ] &&
+	[ "$(sqlite3 "$DJ_DB" "SELECT count(*) FROM PlatformEntity WHERE wallpaper_path IS NOT NULL")" -gt 0 ] &&
+	ok "pictures: a missing one leaves only that system plain" || bad "missing picture"
 
 [ $fails -eq 0 ]

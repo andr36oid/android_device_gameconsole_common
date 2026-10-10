@@ -472,6 +472,15 @@ APK (jadx, `DaijishouDatabase_Impl`) into `schema.sql`, set `DAIJISHOU_VERSION_C
 the generator and rerun it. Daijishou migrates an older library by itself, so an old
 schema is only a problem for consoles that seed after the update.
 
+Pictures: each platform gets the picture Daijishou's own import would download, from
+the COLORFUL pack (by viking, edited by iShade, indexed by TapiocaFox), as its wallpaper
+and thumbnail. `scripts/fetch-daijishou-art.py` fetches the ones our platforms use into
+`daijishou/art/` (shrunk to the screen, about 660 KB; credits in `daijishou/art/README`),
+the generator adds an `art` line per platform, and the seed copies them to
+`files/platform_wallpapers/<id>.png` and `files/platform_thumbnails/<id>.png`, where
+Daijishou keeps the ones it downloads. After changing `platforms.txt`, run the fetch
+script before the generator.
+
 Tests: `ANDROID_BUILD_TOP=... emulators/tests/run-daijishou-tests.sh` (generator up to date,
 schema vs. the APK's dex, the shell steps in a fake /data under bash and busybox ash with
 a real sqlite3, checked by `tests/checklib.py`).

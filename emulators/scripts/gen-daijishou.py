@@ -14,6 +14,9 @@ Output (tab separated, one record per line, values already written as SQL):
                                                    player, player list and sync folders
   player     <n>  <needs>    <SQL values>          PlayerEntity without id; needs is
                                                    core:<name> or app:<package>
+  art        <n>  <file>                           the platform's picture in
+                                                   daijishou/art/ (wallpaper and
+                                                   thumbnail), see fetch-daijishou-art.py
 
 Run with --check to only compare with the file in the tree (used by the host tests).
 """
@@ -170,9 +173,32 @@ def synth_player(platform, players, core):
     return p
 
 
+def art_file(index, platform):
+    """The picture Daijishou's own import gives this platform from the COLORFUL pack
+    (unique id, then short name, then the pack's default), as our file name in
+    daijishou/art/. Same rules as scripts/fetch-daijishou-art.py."""
+    name = None
+    for key, field in (("matchPlatformUniqueId", "uniqueId"),
+                       ("matchPlatformShortname", "shortname")):
+        for e in index["wallpaperList"]:
+            if name is None and e.get(key) and e[key] == platform.get(field):
+                name = e["filename"]
+    if name is None and index.get("hasDefaultWallpaper"):
+        name = index["defaultWallpaperFilename"]
+    if name is None:
+        return None
+    ours = re.sub(r"[^a-z0-9]+", "-", os.path.splitext(name)[0].lower()).strip("-") + ".jpg"
+    if not os.path.isfile(os.path.join(DJ, "art", ours)):
+        raise SystemExit("%s: no daijishou/art/%s, run scripts/fetch-daijishou-art.py"
+                         % (platform["uniqueId"], ours))
+    return ours
+
+
 def generate():
     rom_folders = {w[0] for w in read_words(os.path.join(EMU, "seed", "rom-folders.txt"))}
     cores = {w[0] for w in read_words(os.path.join(EMU, "cores.lock"))}
+    with open(os.path.join(DJ, "art", "index.json"), encoding="utf-8") as f:
+        art_index = json.load(f)
 
     lines = [
         "# Made by scripts/gen-daijishou.py from daijishou/platforms.txt and the official",
@@ -199,6 +225,9 @@ def generate():
         seen_ids.add(platform["uniqueId"])
 
         lines.append("platform\t%d\t%s\t%s" % (n, ",".join(folders), platform_values(platform)))
+        art = art_file(art_index, platform)
+        if art:
+            lines.append("art\t%d\t%s" % (n, art))
         for need in needs:
             if need.startswith("app:"):
                 want = need

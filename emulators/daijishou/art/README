@@ -1,0 +1,15 @@
+Pictures of the game systems for Daijishou (wallpaper and thumbnail of each platform).
+
+They are the COLORFUL platform pack, the one Daijishou itself uses when a platform is
+added by hand:
+  pictures: viking, "Colorful resources" on the LaunchBox forums
+            (https://forums.launchbox-app.com/files/file/2485-colorful-resources/)
+  edited:   iShade (UsagiShade)
+  indexed:  TapiocaFox (Yves Chen) for Daijishou,
+            github.com/TapiocaFox/Daijishou themes/platform_wallpapers_packs/colorful
+            at commit cde33bb64af2eb1cc56965c8a68702b3485a6d73 (index.json here)
+
+Only the pictures our platforms use, shrunk to at most 854x480 as JPEG by
+emulators/scripts/fetch-daijishou-art.py; the console names them like Daijishou does
+(files/platform_wallpapers/<id>.png). The game system names and looks shown belong to
+their owners.
