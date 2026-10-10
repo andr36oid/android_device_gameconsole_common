@@ -81,6 +81,19 @@ NOT SUPPORTED
 - PlayStation 2, GameCube, Wii: far too heavy.
 
 
+BIG GAME COLLECTIONS (thousands of games)
+- The home screen (Daijishou) finds new games when it syncs. A sync of the
+  whole library ("Sync entirely") reads the start of every game file. With
+  10,000 games or more that takes about 15 to 30 minutes.
+- Let that sync finish before you start a game. A game can make Android
+  close the home screen to free memory, and the sync then stops. Start it
+  again with "Sync entirely" in the library settings.
+- Added games to one or two systems only? Open that system in Daijishou and
+  use its Sync button. That reads only the games of that system.
+- Copy thousands of games with the card in a card reader on a computer.
+  Over the USB cable it takes much longer.
+
+
 ============================================================================
 ESPAÑOL
 ============================================================================
@@ -173,6 +186,21 @@ NO COMPATIBLES
   puede mover.
 
 
+COLECCIONES GRANDES (miles de juegos)
+- La pantalla de inicio (Daijishou) encuentra los juegos nuevos al
+  sincronizar. Sincronizar toda la biblioteca ("Sync entirely") lee el
+  principio de cada archivo de juego. Con 10.000 juegos o más tarda unos
+  15 a 30 minutos.
+- Deja que termine antes de empezar un juego. Un juego puede hacer que
+  Android cierre la pantalla de inicio para liberar memoria, y entonces la
+  sincronización se detiene. Vuelve a empezarla con "Sync entirely" en los
+  ajustes de la biblioteca.
+- ¿Agregaste juegos a uno o dos sistemas? Abre ese sistema en Daijishou y
+  usa su botón Sync. Así solo lee los juegos de ese sistema.
+- Copia miles de juegos con la tarjeta en un lector de tarjetas de la
+  computadora. Por el cable USB tarda mucho más.
+
+
 ============================================================================
 PORTUGUÊS (BRASIL)
 ============================================================================
@@ -259,3 +287,16 @@ NÃO SUPORTADOS
 - Sega Saturn: não incluído. Alguns jogos 2D rodariam, a maioria dos 3D
   não.
 - PlayStation 2, GameCube, Wii: pesados demais, de longe.
+
+
+COLEÇÕES GRANDES (milhares de jogos)
+- A tela inicial (Daijishou) encontra os jogos novos ao sincronizar.
+  Sincronizar a biblioteca inteira ("Sync entirely") lê o começo de cada
+  arquivo de jogo. Com 10.000 jogos ou mais, isso leva uns 15 a 30 minutos.
+- Deixe terminar antes de abrir um jogo. Um jogo pode fazer o Android
+  fechar a tela inicial para liberar memória, e aí a sincronização para.
+  Comece de novo com "Sync entirely" nas configurações da biblioteca.
+- Adicionou jogos em só um ou dois sistemas? Abra esse sistema no Daijishou
+  e use o botão Sync dele. Assim ele lê só os jogos desse sistema.
+- Copie milhares de jogos com o cartão num leitor de cartão no computador.
+  Pelo cabo USB demora muito mais.
