@@ -107,8 +107,8 @@ public class DetailsFragment extends PreferenceFragment {
 
     private void showLimit(int percent) {
         mLimit.setValue(Integer.toString(percent));
-        mLimit.setSummary(percent == 0 ? getString(R.string.limit_summary_off)
-                : getString(R.string.limit_summary, percent, percent - ChargeLimit.HYSTERESIS));
+        mLimit.setSummary(listSummary(percent == 0 ? getString(R.string.limit_summary_off)
+                : getString(R.string.limit_summary, percent, percent - ChargeLimit.HYSTERESIS)));
     }
 
     private void setUpChargeSpeed() {
@@ -163,16 +163,24 @@ public class DetailsFragment extends PreferenceFragment {
         }
         mSpeed.setValue(Integer.toString(ma));
         if (ma == 0) {
-            mSpeed.setSummary(getString(R.string.speed_summary_default, defaultMa,
-                    ChargeSpeed.batteryWatts(defaultMa)));
+            mSpeed.setSummary(listSummary(getString(R.string.speed_summary_default, defaultMa,
+                    ChargeSpeed.batteryWatts(defaultMa))));
         } else if (ma < defaultMa) {
-            mSpeed.setSummary(getString(R.string.speed_summary_slower, ma,
-                    ChargeSpeed.batteryWatts(ma)));
+            mSpeed.setSummary(listSummary(getString(R.string.speed_summary_slower, ma,
+                    ChargeSpeed.batteryWatts(ma))));
         } else {
-            mSpeed.setSummary(getString(R.string.speed_summary_faster, ma,
+            mSpeed.setSummary(listSummary(getString(R.string.speed_summary_faster, ma,
                     ChargeSpeed.batteryWatts(ma), ChargeSpeed.chargerAmps(ma),
-                    ChargeSpeed.chargerWatts(ma)));
+                    ChargeSpeed.chargerWatts(ma))));
         }
+    }
+
+    /**
+     * ListPreference runs its summary through String.format to fill in the chosen entry, so a
+     * plain % in it ("Stops charging at 80%") throws and the page can't open: double them.
+     */
+    private static String listSummary(String summary) {
+        return summary.replace("%", "%%");
     }
 
     private void showReset(int chosenMah) {
