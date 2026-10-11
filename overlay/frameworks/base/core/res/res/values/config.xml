@@ -347,5 +347,12 @@
          color matrix, but frameworks/base sends Night Light to the display color table
          (kernel VOP color_lut) instead, so games keep hardware composition. -->
     <bool name="config_nightDisplayAvailable">true</bool>
+
+    <!-- Panels that offer other refresh rates (kernel night/o2-panel-modes) start at
+         60 Hz; Settings > Display > Peak refresh rate changes the cap. The cap is the
+         peak rate, not the default rate, because the default rate would hold every
+         choice above it at 60 Hz. -->
+    <integer name="config_defaultRefreshRate">0</integer>
+    <integer name="config_defaultPeakRefreshRate">60</integer>
     
 </resources>
