@@ -54,6 +54,7 @@
     <!-- FN = home -->
     <string name="tutorial_home_title">FN to ekran główny</string>
     <string name="tutorial_home_body">Naciśnij sam FN, aby z dowolnego miejsca, nawet z gry, przejść na ekran główny. Ekran główny to Daijishou, gdzie są twoje gry i aplikacje.\n\nSpróbuj teraz: naciśnij FN. Samouczek sam wróci po kilku sekundach.</string>
+    <string name="tutorial_home_body_simple">Naciśnij sam FN, aby z dowolnego miejsca, nawet z gry, przejść na ekran główny. Ekran główny to Simple UI: ulubione aplikacje w „Przypięte”, wszystkie w „Aplikacje”.\n\nSpróbuj teraz: naciśnij FN. Samouczek sam wróci po kilku sekundach.</string>
     <string name="tutorial_home_task">Naciśnij FN</string>
     <string name="tutorial_home_back">Witaj z powrotem. To wszystko.</string>
 

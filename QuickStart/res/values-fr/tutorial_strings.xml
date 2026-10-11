@@ -58,6 +58,7 @@
     <!-- FN = home -->
     <string name="tutorial_home_title">FN est le bouton Accueil</string>
     <string name="tutorial_home_body">Appuyez sur FN seul pour revenir à l\'écran d\'accueil de n\'importe où, même depuis un jeu. L\'écran d\'accueil, c\'est Daijishou, où se trouvent vos jeux et vos applis.\n\nEssayez maintenant : appuyez sur FN. Ce tutoriel revient tout seul quelques secondes plus tard.</string>
+    <string name="tutorial_home_body_simple">Appuyez sur FN seul pour revenir à l\'écran d\'accueil de n\'importe où, même depuis un jeu. L\'écran d\'accueil, c\'est Simple UI : vos applis préférées sous « Épinglés », toutes les applis sous « Applications ».\n\nEssayez maintenant : appuyez sur FN. Ce tutoriel revient tout seul quelques secondes plus tard.</string>
     <string name="tutorial_home_task">Appuyez sur FN</string>
     <string name="tutorial_home_back">Vous revoilà. Ce n\'est pas plus compliqué que ça.</string>
 

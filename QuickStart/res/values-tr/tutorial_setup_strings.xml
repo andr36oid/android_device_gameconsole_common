@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="tutorial_home_body_setup">Her yerden, hatta bir oyundan bile ana ekrana gitmek için FN tuşuna tek başına basın. Ana ekran, oyunlarınızın ve uygulamalarınızın bulunduğu Daijishou\'dur.\n\nBu, kurulum bittikten sonra çalışır; bu yüzden burada henüz deneyecek bir şey yok.</string>
+    <string name="tutorial_home_body_setup_simple">Her yerden, hatta bir oyundan bile ana ekrana gitmek için FN tuşuna tek başına basın. Ana ekran Simple UI\'dır: sevdiğiniz uygulamalar \"Sabitlenenler\"de, hepsi \"Uygulamalar\"da.\n\nBu, kurulum bittikten sonra çalışır; bu yüzden burada henüz deneyecek bir şey yok.</string>
     <string name="tutorial_shade_body_setup">Bildirimlerinizi ve Wi-Fi, Bluetooth gibi şeylerin kutularının bulunduğu Hızlı Ayarlar\'ı açmak için FN tuşunu basılı tutup Y\'ye basın. Yeniden FN + Y kapatır.\n\nBu, kurulum bittikten sonra çalışır; bu yüzden burada henüz deneyecek bir şey yok.</string>
 </resources>

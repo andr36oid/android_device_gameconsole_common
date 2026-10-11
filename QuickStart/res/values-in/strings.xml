@@ -60,9 +60,9 @@
 
     <!-- Emulators -->
     <string name="emulators_title">Emulator</string>
-    <string name="emulators_included">RetroArch dan PPSSPP sudah terinstal. RetroArch sudah punya core untuk NES, SNES, Game Boy, GBA, Mega Drive, Master System, Game Gear, PlayStation, PC Engine, Neo Geo Pocket, WonderSwan, Atari 2600, 7800, dan Lynx.</string>
+    <string name="emulators_included">RetroArch dan PPSSPP sudah terinstal, bersama Flycast (Dreamcast), Mupen64Plus AE (N64), dan EasyRPG Player. RetroArch sudah punya core untuk Nintendo, Sega, PlayStation, N64, arcade, Neo Geo, PC Engine, Atari, MSX, DOS, Amiga, ZX Spectrum, C64, PICO-8, dan lainnya. README di EASYROMS menjelaskan folder mana untuk sistem apa.</string>
     <string name="emulators_psp">Game PSP berjalan di PPSSPP. Game PlayStation bisa dimulai tanpa BIOS, tetapi berjalan paling baik dengan BIOS di folder bios di EASYROMS.</string>
-    <string name="emulators_updates">Emulator adalah aplikasi biasa: F-Droid bisa mengupdatenya, dan Anda bisa meng-uninstall-nya.</string>
+    <string name="emulators_updates">Emulator ini adalah aplikasi biasa: Anda bisa meng-uninstall-nya, dan jika Anda menginstal F-Droid, F-Droid bisa meng-update-nya.</string>
 
     <!-- Speed and battery -->
     <string name="speed_title">Kecepatan dan baterai</string>
@@ -121,10 +121,10 @@
     <string name="usb_title">USB dan komputer</string>
     <string name="usb_card">Cara termudah menyalin game adalah memasukkan kartu SD ke komputer dan menyalinnya ke EASYROMS. Pasang kembali kartu sebelum menyalakan konsol.</string>
     <string name="usb_mode_q">Hubungkan konsol ke komputer</string>
-    <string name="usb_mode_a">Aktifkan Setelan &gt; Mode USB &gt; Hubungkan ke komputer, lalu colokkan kabel data ke port OTG dan port USB-A di komputer. Pilih Transfer File di notifikasi USB. Gamepad dan adaptor di port OTG tidak berfungsi selama ini aktif, dan memulai ulang akan mematikannya.</string>
+    <string name="usb_mode_a">Aktifkan Setelan &gt; Mode USB &gt; Hubungkan ke komputer, lalu colokkan kabel data ke port OTG dan port USB-A di komputer. Transfer file aktif secara default; “Gunakan USB untuk” di halaman yang sama mengganti ke transfer foto atau hanya adb. Gamepad dan adaptor di port OTG tidak berfungsi selama ini aktif, dan memulai ulang akan mematikannya.</string>
     <string name="usb_mode_wifi">Jangan pernah aktifkan ini jika konsol Anda punya Wi-Fi bawaan, seperti R36XX. Konsol tersebut memakai port USB yang sama untuk Wi-Fi-nya, jadi Wi-Fi berhenti berfungsi dan mungkin tidak kembali sampai Anda memulai ulang. Mode USB bertanya dulu sebelum beralih.</string>
     <string name="usb_mode_charging">Jangan pernah gunakan ini saat konsol sedang diisi daya dari port lainnya. Cabut charger dulu. Jika charger dicolokkan saat fitur ini aktif, Mode USB kembali ke mode aksesori.</string>
-    <string name="usb_adb">Untuk adb, aktifkan juga Debugging USB di Setelan &gt; Sistem &gt; Opsi developer. Untuk menampilkan Opsi developer, klik Nomor versi 7 kali di Setelan &gt; Tentang konsol.</string>
+    <string name="usb_adb">Untuk adb, aktifkan juga Debugging USB di Setelan &gt; Sistem &gt; Opsi developer. Untuk menampilkan Opsi developer, tekan A 7 kali pada Nomor versi di Setelan &gt; Tentang konsol.</string>
     <string name="usb_host_only">Port OTG untuk aksesori: gamepad, drive USB, dan adaptor jaringan. Port ini tidak bisa terhubung ke komputer di build ini.</string>
     <string name="usb_dongles_q">Aksesori</string>
     <string name="usb_dongles_a">Colokkan aksesori ke port OTG, dengan adaptor USB-C atau hub kecil jika perlu. Gamepad USB, keyboard, mouse, drive USB, serta adaptor Wi-Fi, Bluetooth, dan Ethernet berfungsi jika Android punya driver untuk chip-nya. Adaptor dengan chip Realtek yang umum paling cocok. Pada konsol dengan Wi-Fi bawaan, seperti R36XX, perangkat yang dicolokkan ke port OTG bisa menghentikan Wi-Fi bawaan.</string>
@@ -132,16 +132,16 @@
 
     <!-- SD card -->
     <string name="card_title">Kartu SD</string>
-    <string name="card_layout">Kartu menyimpan semuanya: Android, aplikasi dan data Anda (16 GB), dan EASYROMS, yang mendapat sisa kartu. EASYROMS memakai exFAT, jadi Windows, macOS, dan Linux bisa membacanya.</string>
+    <string name="card_layout">Kartu menyimpan semuanya: Android, aplikasi dan data Anda (separuh kartu, antara 16 dan 64 GB), dan EASYROMS, yang mendapat sisanya. Di kartu 16 GB atau lebih kecil, Android memakai seluruh kartu dan tidak ada EASYROMS. EASYROMS memakai exFAT, jadi Windows, macOS, dan Linux bisa membacanya.</string>
     <string name="card_noroms_q">Semua ruang untuk aplikasi, tanpa EASYROMS</string>
-    <string name="card_noroms_a">Sebelum penyalaan pertama kali, buat file kosong bernama .noroms di BOOT. Penyalaan pertama lalu memberikan seluruh kartu untuk aplikasi. Ini hanya berlaku pada kartu yang baru ditulis. File BIOS lalu disimpan di folder bios di penyimpanan internal.</string>
+    <string name="card_noroms_a">Sebelum penyalaan pertama kali, buat file kosong bernama .noroms di BOOT. Penyalaan pertama lalu memberikan seluruh kartu untuk aplikasi. Atau, untuk memilih ukurannya, tulis angka dalam GB (atau all) ke file bernama userdata-size.txt di BOOT. Ini hanya berlaku pada kartu yang baru ditulis. File BIOS lalu disimpan di folder bios di penyimpanan internal.</string>
     <string name="card_backup_q">Cadangkan save Anda</string>
     <string name="card_backup_a">Save yang dibuat di sebelah game di EASYROMS mudah disalin di komputer. Save di dalam aplikasi tetap bersama aplikasi itu di bagian Android pada kartu, jadi periksa setelan setiap emulator untuk tahu di mana save disimpan.</string>
 
     <!-- Battery -->
     <string name="battery_title">Perawatan baterai</string>
     <string name="battery_percent_q">Persentase baterai terlihat salah</string>
-    <string name="battery_percent_a">Pengukur baterai memperkirakan isi daya dan terus belajar. Setelah baterai habis atau konsol lama tidak dipakai, isi daya sampai 100% dengan konsol menyala dan biarkan di charger setengah jam lagi. Dengan begitu pengukur bisa menemukan level yang benar lagi.</string>
+    <string name="battery_percent_a">Pengukur baterai memperkirakan isi daya dan terus belajar. Setelah baterai habis atau konsol lama tidak dipakai, isi daya sampai 100% dengan konsol menyala dan biarkan di charger setengah jam lagi. Dengan begitu pengukur bisa menemukan level yang benar lagi. Jika Anda memasang batas pengisian di Setelan &gt; Baterai &gt; Detail baterai, matikan dulu untuk ini.</string>
     <string name="battery_details">Setelan &gt; Baterai &gt; Detail baterai menampilkan tegangan baterai: sekitar 4,2 V berarti penuh, di bawah 3,5 V hampir habis.</string>
     <string name="battery_sleep_q">Tidur atau matikan?</string>
     <string name="battery_sleep_a">Tidur (ketuk tombol daya) cocok untuk jeda, tetapi tetap memakai sedikit baterai. Untuk lebih dari sehari, matikan dari menu daya.</string>

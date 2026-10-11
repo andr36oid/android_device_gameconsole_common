@@ -58,6 +58,7 @@
     <!-- FN = home -->
     <string name="tutorial_home_title">FN 是主屏幕键</string>
     <string name="tutorial_home_body">在任何地方（即使在游戏中）单独按 FN 都能回到主屏幕。主屏幕是 Daijishou，您的游戏和应用都在那里。\n\n现在试一下：按 FN。几秒后本教程会自动回来。</string>
+    <string name="tutorial_home_body_simple">在任何地方（即使在游戏中）单独按 FN 都能回到主屏幕。主屏幕是 Simple UI：常用应用在“已固定”中，所有应用在“应用”中。\n\n现在试一下：按 FN。几秒后本教程会自动回来。</string>
     <string name="tutorial_home_task">按 FN</string>
     <string name="tutorial_home_back">欢迎回来。就是这么简单。</string>
 

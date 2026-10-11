@@ -58,6 +58,7 @@
     <!-- FN = home -->
     <string name="tutorial_home_title">FN é o botão Início</string>
     <string name="tutorial_home_body">Aperte só o FN para ir à tela inicial de qualquer lugar, até de um jogo. A tela inicial é o Daijishou, onde ficam seus jogos e apps.\n\nTeste agora: aperte FN. Este tutorial volta sozinho alguns segundos depois.</string>
+    <string name="tutorial_home_body_simple">Aperte só o FN para ir à tela inicial de qualquer lugar, até de um jogo. A tela inicial é o Simple UI: seus apps favoritos em “Fixados”, todos os apps em “Apps”.\n\nTeste agora: aperte FN. Este tutorial volta sozinho alguns segundos depois.</string>
     <string name="tutorial_home_task">Aperte FN</string>
     <string name="tutorial_home_back">Bem-vindo de volta. É só isso.</string>
 

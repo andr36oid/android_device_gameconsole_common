@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="tutorial_games_body_ready">将 SD 卡插入电脑。除了一个小的 BOOT 磁盘，还会显示一个名为 EASYROMS 的大磁盘：那是放游戏的地方。\n\n把每个游戏放进对应系统的文件夹，例如 nes、snes、gba、megadrive 或 psx。\n\nDaijishou（按 FN）已经建好这些系统，也知道它们的文件夹。首次打开时，它会询问是否查找游戏：请按“确定”。以后添加游戏后，请在它的游戏库设置中使用 Sync entirely。它会用 RetroArch 或 PPSSPP 启动游戏。</string>
-    <string name="tutorial_games_body_ready_no_fn">将 SD 卡插入电脑。除了一个小的 BOOT 磁盘，还会显示一个名为 EASYROMS 的大磁盘：那是放游戏的地方。\n\n把每个游戏放进对应系统的文件夹，例如 nes、snes、gba、megadrive 或 psx。\n\n主屏幕 Daijishou 已经建好这些系统，也知道它们的文件夹。首次打开时，它会询问是否查找游戏：请按“确定”。以后添加游戏后，请在它的游戏库设置中使用 Sync entirely。它会用 RetroArch 或 PPSSPP 启动游戏。</string>
+    <string name="tutorial_games_body_ready">将 SD 卡插入电脑。除了一个小的 BOOT 磁盘，还会显示一个名为 EASYROMS 的大磁盘：那是放游戏的地方。\n\n把每个游戏放进对应系统的文件夹，例如 nes、snes、gba、megadrive 或 psx。\n\nDaijishou（按 FN）已经建好这些系统，也知道它们的文件夹。首次打开时，它会询问是否查找游戏：请按“确定”。以后添加了游戏，它会在下次启动时再次询问。在掌机开着时添加的游戏，要在它的游戏库设置中使用 Sync entirely 后才会出现。它会用 RetroArch 或 PPSSPP 启动游戏。</string>
+    <string name="tutorial_games_body_ready_no_fn">将 SD 卡插入电脑。除了一个小的 BOOT 磁盘，还会显示一个名为 EASYROMS 的大磁盘：那是放游戏的地方。\n\n把每个游戏放进对应系统的文件夹，例如 nes、snes、gba、megadrive 或 psx。\n\n主屏幕 Daijishou 已经建好这些系统，也知道它们的文件夹。首次打开时，它会询问是否查找游戏：请按“确定”。以后添加了游戏，它会在下次启动时再次询问。在掌机开着时添加的游戏，要在它的游戏库设置中使用 Sync entirely 后才会出现。它会用 RetroArch 或 PPSSPP 启动游戏。</string>
+    <string name="tutorial_games_body_simple">将 SD 卡插入电脑。除了一个小的 BOOT 磁盘，还会显示一个名为 EASYROMS 的大磁盘：那是放游戏的地方。\n\n把每个游戏放进对应系统的文件夹，例如 nes、snes、gba、megadrive 或 psx。\n\n如需游戏库，请从 Simple UI 的“应用”中打开 Daijishou：它知道这些文件夹，打开时会询问是否查找游戏。也可以直接在 RetroArch 中用 Load Content 或从 PPSSPP 的游戏列表启动游戏。</string>
+    <string name="tutorial_games_body_simple_no_daijishou">将 SD 卡插入电脑。除了一个小的 BOOT 磁盘，还会显示一个名为 EASYROMS 的大磁盘：那是放游戏的地方。\n\n把每个游戏放进对应系统的文件夹，例如 nes、snes、gba、megadrive 或 psx。\n\n然后在 RetroArch 中用 Load Content 或从 PPSSPP 的游戏列表启动游戏，并在 EASYROMS 上对应的文件夹中选择它。</string>
 </resources>

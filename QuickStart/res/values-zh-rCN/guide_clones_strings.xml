@@ -8,7 +8,7 @@
     <string name="clone_which_a">在电脑上打开 BOOT。Panels 中为每种正版 R36S 屏幕和 R36S Plus 各有一个文件夹。Experimental 中为每种已知的仿制机各有一个文件夹，例如 K36、G80、R36 Max、R36 Ultra 和 Soy Sauce 主板。Panels 和 Experimental 中的 README.txt 说明了哪台掌机对应哪个文件夹。Experimental 中的文件未经测试，只有在 Panels 无效时才使用。</string>
     <string name="clone_soy">Soy Sauce 主板（板上印有 Y3506）绝不能使用 Panel5 或 Panel6，即使屏幕看起来正常也不行。请使用 Experimental 中的 Soy 文件夹。</string>
     <string name="clone_copy_q">复制所有文件</string>
-    <string name="clone_copy_a">先在 BOOT 上建一个名为 Backup 的文件夹，把 BOOT 根目录中的这些文件复制进去：rk3326-r36s-android.dtb、三个 rg351 文件、logo.bmp 和 logo_kernel.bmp。然后把您所选文件夹中的所有文件复制到 BOOT 的根目录，并替换那里的文件。一定要复制全部文件：三个 rg351 文件是同一个文件的三个名称，掌机会自己选用需要的那个。</string>
+    <string name="clone_copy_a">先在 BOOT 上建一个名为 Backup 的文件夹，把 BOOT 根目录中的这些文件复制进去：rk3326-r36s-android.dtb、六个 rg351 文件、logo.bmp、logo_kernel.bmp 和 battery_*.bmp 文件。然后把您所选文件夹中的所有文件复制到 BOOT 的根目录，并替换那里的文件。一定要复制全部文件：六个 rg351 文件是同一个文件的六个名称，掌机会自己选用需要的那个。</string>
     <string name="clone_black_q">屏幕一直黑屏，或按键无效</string>
     <string name="clone_black_a">换下一个可能适合您掌机的文件夹试试。如果只有开机画面是黑的，但 Android 能正常启动，就保留这个。要恢复原样，请把 Backup 文件夹或 Panels/Panel4 中的文件复制到 BOOT 的根目录。</string>
     <string name="clone_emmc">有些仿制机（例如 R36 Ultra、R36 Max 和 R39 Max）会先从自己的内置存储启动，可能根本不读取 SD 卡。</string>

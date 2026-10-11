@@ -3,5 +3,6 @@
     <!-- The tutorial as the setup wizard's last page: Home and the shade are off until
          the setup is done, so these two steps only describe them -->
     <string name="tutorial_home_body_setup">Press FN on its own to get to the home screen from anywhere, even from a game. The home screen is Daijishou, where your games and apps are.\n\nThis works once the setup is finished, so there\'s nothing to try here yet.</string>
+    <string name="tutorial_home_body_setup_simple">Press FN on its own to get to the home screen from anywhere, even from a game. The home screen is Simple UI: your favourite apps under Pinned, all of them under Apps.\n\nThis works once the setup is finished, so there\'s nothing to try here yet.</string>
     <string name="tutorial_shade_body_setup">Hold FN and press Y to open your notifications and the Quick Settings, with tiles for things like Wi-Fi and Bluetooth. FN + Y again closes them.\n\nThis works once the setup is finished, so there\'s nothing to try here yet.</string>
 </resources>

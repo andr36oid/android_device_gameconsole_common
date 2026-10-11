@@ -58,6 +58,7 @@
     <!-- FN = home -->
     <string name="tutorial_home_title">FN es el botón de inicio</string>
     <string name="tutorial_home_body">Pulsa FN solo para ir a la pantalla de inicio desde cualquier sitio, incluso desde un juego. La pantalla de inicio es Daijishou, donde están tus juegos y apps.\n\nPruébalo ahora: pulsa FN. Este tutorial volverá solo unos segundos después.</string>
+    <string name="tutorial_home_body_simple">Pulsa FN solo para ir a la pantalla de inicio desde cualquier sitio, incluso desde un juego. La pantalla de inicio es Simple UI: tus apps favoritas en «Fijados» y todas en «Aplicaciones».\n\nPruébalo ahora: pulsa FN. Este tutorial volverá solo unos segundos después.</string>
     <string name="tutorial_home_task">Pulsa FN</string>
     <string name="tutorial_home_back">Ya estás de vuelta. Así de fácil.</string>
 

@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="games_library_ready">主屏幕 Daijishou 已为这些系统各建好一个平台，并设为 EASYROMS 上对应的文件夹。首次打开时，它会询问是否查找游戏：请按“确定”。以后添加游戏后，请在 Daijishou 的游戏库设置中使用 Sync entirely。其他系统，或者在用 .noroms 设置的卡上，请在 Daijishou 中添加一个平台并选择对应的文件夹。</string>
+    <string name="games_library_ready">主屏幕 Daijishou 已为这些系统各建好一个平台，并设为 EASYROMS 上对应的文件夹。首次打开时，它会询问是否查找游戏：请按“确定”。以后添加了游戏，它会在下次启动时再次询问。在掌机开着时添加的游戏，要在 Daijishou 的游戏库设置中使用 Sync entirely 后才会出现。其他系统，或者在用 .noroms 设置的卡上，请在 Daijishou 中添加一个平台并选择对应的文件夹。</string>
+    <string name="games_library_simple">您的主屏幕是 Simple UI，它显示的是应用，而不是游戏。如需游戏库，请从“应用”中打开 Daijishou：它已经知道这些文件夹，打开时会询问是否查找游戏。也可以直接在 RetroArch 中用 Load Content 或从 PPSSPP 的游戏列表启动游戏。</string>
+    <string name="games_library_simple_no_daijishou">您的主屏幕是 Simple UI，它显示的是应用，而不是游戏。请在 RetroArch 中用 Load Content 或从 PPSSPP 的游戏列表启动游戏，并在 EASYROMS 上对应的文件夹中选择它。要找回 Daijishou 的游戏库，请前往“设置 &gt; 应用和通知 &gt; 主屏幕”。</string>
 </resources>

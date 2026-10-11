@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="tutorial_home_body_setup">Drück FN allein, um von überall zum Startbildschirm zu kommen, sogar aus einem Spiel. Der Startbildschirm ist Daijishou, dort sind deine Spiele und Apps.\n\nDas geht, sobald die Einrichtung fertig ist. Hier gibt es also noch nichts auszuprobieren.</string>
+    <string name="tutorial_home_body_setup_simple">Drück FN allein, um von überall zum Startbildschirm zu kommen, sogar aus einem Spiel. Der Startbildschirm ist Simple UI: deine Lieblings-Apps unter „Angeheftet“, alle Apps unter „Apps“.\n\nDas geht, sobald die Einrichtung fertig ist. Hier gibt es also noch nichts auszuprobieren.</string>
     <string name="tutorial_shade_body_setup">Halte FN und drück Y, um deine Benachrichtigungen und die Schnelleinstellungen zu öffnen, mit Kacheln für Dinge wie WLAN und Bluetooth. FN + Y schließt sie wieder.\n\nDas geht, sobald die Einrichtung fertig ist. Hier gibt es also noch nichts auszuprobieren.</string>
 </resources>

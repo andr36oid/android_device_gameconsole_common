@@ -58,6 +58,7 @@
     <!-- FN = home -->
     <string name="tutorial_home_title">FN adalah tombol Beranda</string>
     <string name="tutorial_home_body">Tekan FN saja untuk ke layar utama dari mana pun, bahkan dari dalam game. Layar utamanya adalah Daijishou, tempat game dan aplikasi Anda.\n\nCoba sekarang: tekan FN. Tutorial ini kembali sendiri beberapa detik kemudian.</string>
+    <string name="tutorial_home_body_simple">Tekan FN saja untuk ke layar utama dari mana pun, bahkan dari dalam game. Layar utamanya adalah Simple UI: aplikasi favorit Anda di “Disematkan”, semua aplikasi di “Aplikasi”.\n\nCoba sekarang: tekan FN. Tutorial ini kembali sendiri beberapa detik kemudian.</string>
     <string name="tutorial_home_task">Tekan FN</string>
     <string name="tutorial_home_back">Selamat datang kembali. Semudah itu.</string>
 

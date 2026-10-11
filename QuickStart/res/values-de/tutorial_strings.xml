@@ -58,6 +58,7 @@
     <!-- FN = home -->
     <string name="tutorial_home_title">FN ist die Home-Taste</string>
     <string name="tutorial_home_body">Drück FN allein, um von überall zum Startbildschirm zu kommen, sogar aus einem Spiel. Der Startbildschirm ist Daijishou, dort sind deine Spiele und Apps.\n\nProbier es jetzt: Drück FN. Dieses Tutorial kommt ein paar Sekunden später von selbst zurück.</string>
+    <string name="tutorial_home_body_simple">Drück FN allein, um von überall zum Startbildschirm zu kommen, sogar aus einem Spiel. Der Startbildschirm ist Simple UI: deine Lieblings-Apps unter „Angeheftet“, alle Apps unter „Apps“.\n\nProbier es jetzt: Drück FN. Dieses Tutorial kommt ein paar Sekunden später von selbst zurück.</string>
     <string name="tutorial_home_task">Drück FN</string>
     <string name="tutorial_home_back">Willkommen zurück. Mehr ist es nicht.</string>
 

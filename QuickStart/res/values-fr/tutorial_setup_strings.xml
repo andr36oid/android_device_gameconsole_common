@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="tutorial_home_body_setup">Appuyez sur FN seul pour revenir à l\'écran d\'accueil de n\'importe où, même depuis un jeu. L\'écran d\'accueil, c\'est Daijishou, où se trouvent vos jeux et vos applis.\n\nCela fonctionne une fois la configuration terminée : rien à essayer ici pour l\'instant.</string>
+    <string name="tutorial_home_body_setup_simple">Appuyez sur FN seul pour revenir à l\'écran d\'accueil de n\'importe où, même depuis un jeu. L\'écran d\'accueil, c\'est Simple UI : vos applis préférées sous « Épinglés », toutes les applis sous « Applications ».\n\nCela fonctionne une fois la configuration terminée : rien à essayer ici pour l\'instant.</string>
     <string name="tutorial_shade_body_setup">Maintenez FN et appuyez sur Y pour ouvrir vos notifications et les Réglages rapides, avec des tuiles pour le Wi-Fi, le Bluetooth, etc. FN + Y à nouveau les referme.\n\nCela fonctionne une fois la configuration terminée : rien à essayer ici pour l\'instant.</string>
 </resources>

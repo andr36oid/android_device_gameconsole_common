@@ -81,6 +81,23 @@ final class HomeChoice {
         return launcherHome() != null;
     }
 
+    /**
+     * Whether the home screen is (or, during the setup, will be) our launcher rather than
+     * Daijishou, for the guide's texts.
+     */
+    static boolean isSimpleUi(Context context) {
+        return hasChoice() && !DAIJISHOU.equals(chosen(context));
+    }
+
+    /**
+     * Whether Daijishou is there to open from the app list: installed, and not about to be
+     * removed because the user asked for that in the setup wizard.
+     */
+    static boolean keepsDaijishou(Context context) {
+        return isInstalled(context, DAIJISHOU) && Settings.Global.getInt(
+                context.getContentResolver(), SETTING_REMOVE_OTHER, 0) == 0;
+    }
+
     /** Daijishou's and, if shipped, our launcher's home activity. */
     static List<ComponentName> ourHomes() {
         final List<ComponentName> homes = new ArrayList<>();

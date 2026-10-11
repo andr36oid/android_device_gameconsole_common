@@ -120,7 +120,13 @@ final class Chapters {
         if (wifiTransfer) {
             para(c, R.string.games_wifi_transfer);
         }
-        para(c, daijishouPlatforms ? R.string.games_library_ready : R.string.games_library);
+        if (!HomeChoice.isSimpleUi(mContext)) {
+            para(c, daijishouPlatforms ? R.string.games_library_ready : R.string.games_library);
+        } else if (HomeChoice.keepsDaijishou(mContext)) {
+            para(c, R.string.games_library_simple);
+        } else {
+            para(c, R.string.games_library_simple_no_daijishou);
+        }
 
         c = chapter(R.string.emulators_title, chapters);
         para(c, R.string.emulators_included);

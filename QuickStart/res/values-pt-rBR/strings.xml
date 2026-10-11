@@ -60,9 +60,9 @@
 
     <!-- Emulators -->
     <string name="emulators_title">Emuladores</string>
-    <string name="emulators_included">RetroArch e PPSSPP já vêm instalados. O RetroArch já tem os cores para NES, SNES, Game Boy, GBA, Mega Drive, Master System, Game Gear, PlayStation, PC Engine, Neo Geo Pocket, WonderSwan, Atari 2600, 7800 e Lynx.</string>
+    <string name="emulators_included">RetroArch e PPSSPP já vêm instalados, junto com Flycast (Dreamcast), Mupen64Plus AE (N64) e EasyRPG Player. O RetroArch já tem cores para Nintendo, Sega, PlayStation, N64, arcade, Neo Geo, PC Engine, Atari, MSX, DOS, Amiga, ZX Spectrum, C64, PICO-8 e mais. O README no EASYROMS diz qual pasta é de qual sistema.</string>
     <string name="emulators_psp">Jogos de PSP rodam no PPSSPP. Jogos de PlayStation abrem sem BIOS, mas funcionam melhor com uma na pasta bios do EASYROMS.</string>
-    <string name="emulators_updates">Os emuladores são apps comuns: o F-Droid pode atualizá-los, e você pode desinstalá-los.</string>
+    <string name="emulators_updates">Os emuladores são apps comuns: você pode desinstalá-los e, se instalar o F-Droid, ele pode atualizá-los.</string>
 
     <!-- Speed and battery -->
     <string name="speed_title">Velocidade e bateria</string>
@@ -121,10 +121,10 @@
     <string name="usb_title">USB e computadores</string>
     <string name="usb_card">O jeito mais fácil de copiar jogos é colocar o cartão SD em um computador e copiá-los para o EASYROMS. Coloque o cartão de volta antes de ligar o console.</string>
     <string name="usb_mode_q">Conectar o console a um computador</string>
-    <string name="usb_mode_a">Ative Configurações &gt; Modo USB &gt; Conectar a um computador e depois ligue um cabo de dados na porta OTG e em uma porta USB-A do computador. Escolha Transferência de arquivo na notificação USB. Controles e adaptadores na porta OTG não funcionam enquanto isso estiver ativado, e reiniciar desativa.</string>
+    <string name="usb_mode_a">Ative Configurações &gt; Modo USB &gt; Conectar a um computador e depois ligue um cabo de dados na porta OTG e em uma porta USB-A do computador. A transferência de arquivos já vem ativada; “Usar USB para”, na mesma página, muda para transferência de fotos ou só adb. Controles e adaptadores na porta OTG não funcionam enquanto isso estiver ativado, e reiniciar desativa.</string>
     <string name="usb_mode_wifi">Nunca ative isso se o seu console tiver Wi-Fi embutido, como o R36XX. Esses consoles usam esta mesma porta USB para o Wi-Fi, então o Wi-Fi para de funcionar e pode não voltar até você reiniciar. O Modo USB pergunta antes de alternar.</string>
     <string name="usb_mode_charging">Nunca use isso enquanto o console estiver carregando pela outra porta. Desconecte o carregador primeiro. Se um carregador for conectado com isso ativado, o Modo USB volta para acessórios.</string>
-    <string name="usb_adb">Para o adb, ative também a Depuração USB em Configurações &gt; Sistema &gt; Opções do desenvolvedor. Para mostrar as Opções do desenvolvedor, clique 7 vezes em Número da versão em Configurações &gt; Sobre o console.</string>
+    <string name="usb_adb">Para o adb, ative também a Depuração USB em Configurações &gt; Sistema &gt; Opções do desenvolvedor. Para mostrar as Opções do desenvolvedor, aperte A 7 vezes em Número da versão em Configurações &gt; Sobre o console.</string>
     <string name="usb_host_only">A porta OTG é para acessórios: controles, pen drives e adaptadores de rede. Ela não consegue se conectar a um computador nesta versão.</string>
     <string name="usb_dongles_q">Acessórios</string>
     <string name="usb_dongles_a">Conecte os acessórios na porta OTG, com um adaptador USB-C ou um hub pequeno se precisar. Controles USB, teclados, mouses, pen drives e adaptadores Wi-Fi, Bluetooth e Ethernet funcionam se o Android tiver driver para o chip deles. Adaptadores com chips Realtek comuns funcionam melhor. Em consoles com Wi-Fi embutido, como o R36XX, algo conectado na porta OTG pode desligar o Wi-Fi embutido.</string>
@@ -132,16 +132,16 @@
 
     <!-- SD card -->
     <string name="card_title">Cartão SD</string>
-    <string name="card_layout">O cartão guarda tudo: o Android, seus apps e dados (16 GB) e o EASYROMS, que fica com o resto do cartão. O EASYROMS usa exFAT, então Windows, macOS e Linux conseguem ler.</string>
+    <string name="card_layout">O cartão guarda tudo: o Android, seus apps e dados (metade do cartão, entre 16 e 64 GB) e o EASYROMS, que fica com o resto. Em um cartão de 16 GB ou menos, o Android fica com o cartão inteiro e não há EASYROMS. O EASYROMS usa exFAT, então Windows, macOS e Linux conseguem ler.</string>
     <string name="card_noroms_q">Todo o espaço para apps, sem EASYROMS</string>
-    <string name="card_noroms_a">Antes do primeiro início de todos, crie um arquivo vazio chamado .noroms no BOOT. Aí o primeiro início dá o cartão inteiro para os apps. Isso só funciona em um cartão recém-gravado. Os arquivos de BIOS então vão na pasta bios do armazenamento interno.</string>
+    <string name="card_noroms_a">Antes do primeiro início de todos, crie um arquivo vazio chamado .noroms no BOOT. Aí o primeiro início dá o cartão inteiro para os apps. Ou, para escolher o tamanho, escreva um número de GB (ou all) em um arquivo chamado userdata-size.txt no BOOT. Isso só funciona em um cartão recém-gravado. Os arquivos de BIOS então vão na pasta bios do armazenamento interno.</string>
     <string name="card_backup_q">Backup dos saves</string>
     <string name="card_backup_a">Saves feitos ao lado dos jogos no EASYROMS são fáceis de copiar no computador. Saves dentro de um app ficam com esse app na parte Android do cartão, então veja nas configurações de cada emulador onde ele os guarda.</string>
 
     <!-- Battery -->
     <string name="battery_title">Cuidados com a bateria</string>
     <string name="battery_percent_q">A porcentagem da bateria parece errada</string>
-    <string name="battery_percent_a">O medidor de bateria estima a carga e vai aprendendo com o uso. Depois que a bateria acabou ou o console ficou muito tempo sem uso, carregue o console ligado até chegar a 100%. Depois deixe no carregador por mais meia hora. Assim o medidor encontra o nível certo de novo.</string>
+    <string name="battery_percent_a">O medidor de bateria estima a carga e vai aprendendo com o uso. Depois que a bateria acabou ou o console ficou muito tempo sem uso, carregue o console ligado até chegar a 100%. Depois deixe no carregador por mais meia hora. Assim o medidor encontra o nível certo de novo. Se você definiu um limite de carga em Configurações &gt; Bateria &gt; Detalhes da bateria, desative-o para isso.</string>
     <string name="battery_details">Configurações &gt; Bateria &gt; Detalhes da bateria mostra a tensão da bateria: cerca de 4,2 V é carga completa, abaixo de 3,5 V está quase vazia.</string>
     <string name="battery_sleep_q">Suspender ou desligar?</string>
     <string name="battery_sleep_a">Suspender (apertar o botão liga/desliga) serve para pausas, mas ainda gasta um pouco de bateria. Para mais de um dia, desligue pelo menu liga/desliga.</string>

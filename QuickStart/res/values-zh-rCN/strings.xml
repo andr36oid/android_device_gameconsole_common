@@ -60,9 +60,9 @@
 
     <!-- Emulators -->
     <string name="emulators_title">模拟器</string>
-    <string name="emulators_included">RetroArch 和 PPSSPP 已预装。RetroArch 已包含以下系统的核心：NES、SNES、Game Boy、GBA、Mega Drive、Master System、Game Gear、PlayStation、PC Engine、Neo Geo Pocket、WonderSwan、Atari 2600、7800 和 Lynx。</string>
+    <string name="emulators_included">RetroArch 和 PPSSPP 已预装，另外还有 Flycast（Dreamcast）、Mupen64Plus AE（N64）和 EasyRPG Player。RetroArch 已包含 Nintendo、Sega、PlayStation、N64、街机、Neo Geo、PC Engine、Atari、MSX、DOS、Amiga、ZX Spectrum、C64、PICO-8 等系统的核心。EASYROMS 上的 README 说明了哪个文件夹对应哪个系统。</string>
     <string name="emulators_psp">PSP 游戏在 PPSSPP 中运行。PlayStation 游戏没有 BIOS 也能启动，但在 EASYROMS 的 bios 文件夹中放入 BIOS 后效果最好。</string>
-    <string name="emulators_updates">这些模拟器都是普通应用：可以用 F-Droid 更新，也可以卸载。</string>
+    <string name="emulators_updates">这些模拟器都是普通应用：可以卸载；如果安装了 F-Droid，也可以用它更新。</string>
 
     <!-- Speed and battery -->
     <string name="speed_title">速度和电池</string>
@@ -121,10 +121,10 @@
     <string name="usb_title">USB 和电脑</string>
     <string name="usb_card">复制游戏最简单的方法是把 SD 卡插入电脑，然后复制到 EASYROMS。开机前请先把卡插回掌机。</string>
     <string name="usb_mode_q">将掌机连接到电脑</string>
-    <string name="usb_mode_a">开启“设置 &gt; USB 模式 &gt; 连接到电脑”，然后用数据线连接 OTG 接口和电脑的 USB-A 接口。在 USB 通知中选择“文件传输”。开启期间，插在 OTG 接口上的手柄和适配器无法使用，重启后此功能会关闭。</string>
+    <string name="usb_mode_a">开启“设置 &gt; USB 模式 &gt; 连接到电脑”，然后用数据线连接 OTG 接口和电脑的 USB-A 接口。文件传输默认已开启；同一页面上的“USB 的用途”可切换为照片传输或仅 adb。开启期间，插在 OTG 接口上的手柄和适配器无法使用，重启后此功能会关闭。</string>
     <string name="usb_mode_wifi">如果您的掌机内置 Wi-Fi（例如 R36XX），切勿开启此功能。这些掌机的 Wi-Fi 使用的正是这个 USB 接口，因此 Wi-Fi 会停止工作，可能要重启才能恢复。USB 模式在切换前会先询问。</string>
     <string name="usb_mode_charging">掌机通过另一个接口充电时，切勿使用此功能。请先拔下充电器。如果在开启期间插入充电器，USB 模式会切换回外设模式。</string>
-    <string name="usb_adb">如需使用 adb，还要在“设置 &gt; 系统 &gt; 开发者选项”中开启“USB 调试”。要显示开发者选项，请在“设置 &gt; 关于掌机”中点击“版本号”7 次。</string>
+    <string name="usb_adb">如需使用 adb，还要在“设置 &gt; 系统 &gt; 开发者选项”中开启“USB 调试”。要显示开发者选项，请在“设置 &gt; 关于掌机”中的“版本号”上按 A 键 7 次。</string>
     <string name="usb_host_only">OTG 接口用于连接外设：手柄、U 盘和网络适配器。在此版本中无法用它连接电脑。</string>
     <string name="usb_dongles_q">外设</string>
     <string name="usb_dongles_a">将外设插入 OTG 接口，如有需要，可使用 USB-C 转接头或小型集线器。只要 Android 有对应芯片的驱动，USB 手柄、键盘、鼠标、U 盘以及 Wi-Fi、蓝牙和以太网适配器都能使用。采用常见 Realtek 芯片的适配器兼容性最好。在内置 Wi-Fi 的掌机（例如 R36XX）上，插入 OTG 接口的设备可能导致内置 Wi-Fi 无法使用。</string>
@@ -132,16 +132,16 @@
 
     <!-- SD card -->
     <string name="card_title">SD 卡</string>
-    <string name="card_layout">这张卡存放所有内容：Android、您的应用和数据（16 GB），以及占用卡上剩余空间的 EASYROMS。EASYROMS 使用 exFAT 格式，Windows、macOS 和 Linux 都能读取。</string>
+    <string name="card_layout">这张卡存放所有内容：Android、您的应用和数据（卡的一半，16 到 64 GB 之间），以及占用剩余空间的 EASYROMS。在 16 GB 或更小的卡上，Android 会占用整张卡，没有 EASYROMS。EASYROMS 使用 exFAT 格式，Windows、macOS 和 Linux 都能读取。</string>
     <string name="card_noroms_q">全部空间用于应用，不要 EASYROMS</string>
-    <string name="card_noroms_a">在首次启动之前，在 BOOT 上创建一个名为 .noroms 的空文件。首次启动时就会把整张卡都分给应用。此方法仅适用于刚写入系统的卡。之后 BIOS 文件要放在内部存储空间中的 bios 文件夹里。</string>
+    <string name="card_noroms_a">在首次启动之前，在 BOOT 上创建一个名为 .noroms 的空文件。首次启动时就会把整张卡都分给应用。如果想自己选大小，可以在 BOOT 上的 userdata-size.txt 文件中写入 GB 数（或 all）。此方法仅适用于刚写入系统的卡。之后 BIOS 文件要放在内部存储空间中的 bios 文件夹里。</string>
     <string name="card_backup_q">备份存档</string>
     <string name="card_backup_a">保存在 EASYROMS 上游戏旁边的存档，可以很方便地在电脑上复制。保存在应用内部的存档会随应用留在卡上的 Android 部分，因此请在各模拟器的设置中查看存档的位置。</string>
 
     <!-- Battery -->
     <string name="battery_title">电池保养</string>
     <string name="battery_percent_q">电池百分比看起来不对</string>
-    <string name="battery_percent_a">电量计会估算电量，并在使用中不断学习。在电池耗尽或掌机长时间未使用后，请在开机状态下充到 100%，然后继续充电半小时。这样电量计就能重新找到正确的电量。</string>
+    <string name="battery_percent_a">电量计会估算电量，并在使用中不断学习。在电池耗尽或掌机长时间未使用后，请在开机状态下充到 100%，然后继续充电半小时。这样电量计就能重新找到正确的电量。如果在“设置 &gt; 电池 &gt; 电池详情”中设置了充电上限，请先关闭它。</string>
     <string name="battery_details">“设置 &gt; 电池 &gt; 电池详情”会显示电池电压：约 4.2 V 为充满，低于 3.5 V 时电量快要耗尽。</string>
     <string name="battery_sleep_q">休眠还是关机？</string>
     <string name="battery_sleep_a">短暂休息时用休眠（短按电源键）就可以，但仍会消耗少量电量。超过一天不用时，请从电源菜单关机。</string>

@@ -60,9 +60,9 @@
 
     <!-- Emulators -->
     <string name="emulators_title">Emülatörler</string>
-    <string name="emulators_included">RetroArch ve PPSSPP önceden yüklü gelir. RetroArch\'ta NES, SNES, Game Boy, GBA, Mega Drive, Master System, Game Gear, PlayStation, PC Engine, Neo Geo Pocket, WonderSwan, Atari 2600, 7800 ve Lynx çekirdekleri zaten var.</string>
+    <string name="emulators_included">RetroArch ve PPSSPP, Flycast (Dreamcast), Mupen64Plus AE (N64) ve EasyRPG Player ile birlikte önceden yüklü gelir. RetroArch\'ta Nintendo, Sega, PlayStation, N64, atari salonu, Neo Geo, PC Engine, Atari, MSX, DOS, Amiga, ZX Spectrum, C64, PICO-8 ve daha fazlası için çekirdekler zaten var. EASYROMS\'taki README hangi klasörün hangi sisteme ait olduğunu söyler.</string>
     <string name="emulators_psp">PSP oyunları PPSSPP\'de çalışır. PlayStation oyunları BIOS olmadan da açılır, ama EASYROMS\'taki bios klasöründe bir BIOS varsa en iyi şekilde çalışır.</string>
-    <string name="emulators_updates">Emülatörler sıradan uygulamalardır: F-Droid onları güncelleyebilir ve isterseniz kaldırabilirsiniz.</string>
+    <string name="emulators_updates">Emülatörler sıradan uygulamalardır: onları kaldırabilirsiniz ve F-Droid\'i yüklerseniz onları güncelleyebilir.</string>
 
     <!-- Speed and battery -->
     <string name="speed_title">Hız ve pil</string>
@@ -121,10 +121,10 @@
     <string name="usb_title">USB ve bilgisayarlar</string>
     <string name="usb_card">Oyunları kopyalamanın en kolay yolu, SD kartı bilgisayara takıp oyunları EASYROMS\'a kopyalamaktır. Konsolu açmadan önce kartı geri takın.</string>
     <string name="usb_mode_q">Konsolu bilgisayara bağlama</string>
-    <string name="usb_mode_a">Ayarlar &gt; USB modu &gt; Bilgisayara bağlan\'ı açın, sonra bir veri kablosunu OTG portuna ve bilgisayardaki bir USB-A portuna takın. USB bildiriminde Dosya Aktarımı\'nı seçin. Bu açıkken OTG portundaki oyun kolları ve adaptörler çalışmaz; yeniden başlatmak bunu kapatır.</string>
+    <string name="usb_mode_a">Ayarlar &gt; USB modu &gt; Bilgisayara bağlan\'ı açın, sonra bir veri kablosunu OTG portuna ve bilgisayardaki bir USB-A portuna takın. Dosya aktarımı varsayılan olarak açıktır; aynı sayfadaki \"USB\'yi şunun için kullan\" fotoğraf aktarımına veya yalnızca adb\'ye geçirir. Bu açıkken OTG portundaki oyun kolları ve adaptörler çalışmaz; yeniden başlatmak bunu kapatır.</string>
     <string name="usb_mode_wifi">Konsolunuzda R36XX gibi dahili Wi-Fi varsa bunu asla açmayın. Bu konsollar Wi-Fi için aynı USB portunu kullanır; Wi-Fi çalışmayı durdurur ve yeniden başlatana kadar geri gelmeyebilir. USB modu geçiş yapmadan önce sorar.</string>
     <string name="usb_mode_charging">Konsol diğer portundan şarj olurken bunu asla kullanmayın. Önce şarj cihazını çıkarın. Bu açıkken bir şarj cihazı takılırsa USB modu aksesuarlara geri döner.</string>
-    <string name="usb_adb">adb için ayrıca Ayarlar &gt; Sistem &gt; Geliştirici seçenekleri\'nde USB hata ayıklaması\'nı açın. Geliştirici seçenekleri\'ni göstermek için Ayarlar &gt; Konsol hakkında bölümünde Derleme numarası\'na 7 kez tıklayın.</string>
+    <string name="usb_adb">adb için ayrıca Ayarlar &gt; Sistem &gt; Geliştirici seçenekleri\'nde USB hata ayıklaması\'nı açın. Geliştirici seçenekleri\'ni göstermek için Ayarlar &gt; Konsol hakkında bölümünde Derleme numarası üzerinde 7 kez A\'ya basın.</string>
     <string name="usb_host_only">OTG portu aksesuarlar içindir: oyun kolları, USB sürücüler ve ağ adaptörleri. Bu derlemede bilgisayara bağlanamaz.</string>
     <string name="usb_dongles_q">Aksesuarlar</string>
     <string name="usb_dongles_a">Aksesuarları OTG portuna takın, gerekirse bir USB-C adaptörü veya küçük bir hub ile. USB oyun kolları, klavyeler, fareler, USB sürücüler, Wi-Fi, Bluetooth ve Ethernet adaptörleri, Android\'de çipleri için sürücü varsa çalışır. Yaygın Realtek çipli adaptörler en iyi sonucu verir. R36XX gibi dahili Wi-Fi\'lı konsollarda OTG portuna takılan bir şey dahili Wi-Fi\'ı durdurabilir.</string>
@@ -132,16 +132,16 @@
 
     <!-- SD card -->
     <string name="card_title">SD kart</string>
-    <string name="card_layout">Kart her şeyi tutar: Android, uygulamalarınız ve verileriniz (16 GB) ve kartın geri kalanını alan EASYROMS. EASYROMS exFAT kullanır, bu yüzden Windows, macOS ve Linux\'un hepsi onu okuyabilir.</string>
+    <string name="card_layout">Kart her şeyi tutar: Android, uygulamalarınız ve verileriniz (kartın yarısı, 16 ile 64 GB arası) ve geri kalanını alan EASYROMS. 16 GB veya daha küçük bir kartta Android kartın tamamını alır ve EASYROMS olmaz. EASYROMS exFAT kullanır, bu yüzden Windows, macOS ve Linux\'un hepsi onu okuyabilir.</string>
     <string name="card_noroms_q">Tüm alan uygulamalara, EASYROMS olmasın</string>
-    <string name="card_noroms_a">En ilk açılıştan önce BOOT\'ta .noroms adlı boş bir dosya oluşturun. İlk açılış o zaman kartın tamamını uygulamalara verir. Bu yalnızca yeni yazılmış bir kartta çalışır. BIOS dosyaları da bu durumda dahili depolamadaki bios klasörüne konur.</string>
+    <string name="card_noroms_a">En ilk açılıştan önce BOOT\'ta .noroms adlı boş bir dosya oluşturun. İlk açılış o zaman kartın tamamını uygulamalara verir. Ya da boyutu seçmek için BOOT\'taki userdata-size.txt adlı bir dosyaya GB cinsinden bir sayı (veya all) yazın. Bu yalnızca yeni yazılmış bir kartta çalışır. BIOS dosyaları da bu durumda dahili depolamadaki bios klasörüne konur.</string>
     <string name="card_backup_q">Kayıtlarınızı yedekleyin</string>
     <string name="card_backup_a">EASYROMS\'ta oyunların yanına yapılan kayıtlar bilgisayarda kolayca kopyalanabilir. Bir uygulamanın içindeki kayıtlar kartın Android kısmında o uygulamayla birlikte kalır; bu yüzden her emülatörün ayarlarında kayıtları nerede tuttuğuna bakın.</string>
 
     <!-- Battery -->
     <string name="battery_title">Pil bakımı</string>
     <string name="battery_percent_q">Pil yüzdesi yanlış görünüyor</string>
-    <string name="battery_percent_a">Pil ölçer şarjı tahmin eder ve zamanla öğrenir. Pil tamamen bittikten veya konsol uzun süre kullanılmadan kaldıktan sonra, konsol açıkken %100\'e kadar şarj edin ve yarım saat daha şarjda bırakın. Böylece ölçer doğru seviyeyi yeniden bulur.</string>
+    <string name="battery_percent_a">Pil ölçer şarjı tahmin eder ve zamanla öğrenir. Pil tamamen bittikten veya konsol uzun süre kullanılmadan kaldıktan sonra, konsol açıkken %100\'e kadar şarj edin ve yarım saat daha şarjda bırakın. Böylece ölçer doğru seviyeyi yeniden bulur. Ayarlar &gt; Pil &gt; Pil ayrıntıları\'nda bir şarj sınırı ayarladıysanız, bunun için kapatın.</string>
     <string name="battery_details">Ayarlar &gt; Pil &gt; Pil ayrıntıları pil voltajını gösterir: yaklaşık 4,2 V dolu, 3,5 V\'un altı neredeyse boş demektir.</string>
     <string name="battery_sleep_q">Uyku mu, kapatmak mı?</string>
     <string name="battery_sleep_a">Uyku (güç düğmesine kısaca basın) molalar için uygundur ama yine de biraz pil harcar. Bir günden uzun süreler için konsolu güç menüsünden kapatın.</string>

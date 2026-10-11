@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="tutorial_home_body_setup">在任何地方（即使在游戏中）单独按 FN 都能回到主屏幕。主屏幕是 Daijishou，您的游戏和应用都在那里。\n\n设置完成后才能使用，所以这里暂时没有可以试的。</string>
+    <string name="tutorial_home_body_setup_simple">在任何地方（即使在游戏中）单独按 FN 都能回到主屏幕。主屏幕是 Simple UI：常用应用在“已固定”中，所有应用在“应用”中。\n\n设置完成后才能使用，所以这里暂时没有可以试的。</string>
     <string name="tutorial_shade_body_setup">按住 FN 再按 Y，可以打开通知和快捷设置，其中有 WLAN、蓝牙等图块。再按一次 FN + Y 即可关闭。\n\n设置完成后才能使用，所以这里暂时没有可以试的。</string>
 </resources>

@@ -57,13 +57,15 @@
     <string name="games_folders_ready">The console makes these folders on EASYROMS by itself, with a README listing which system goes where.</string>
     <string name="games_wifi_transfer">No computer or card reader at hand? Open Wi-Fi transfer on the console and scan its QR code with your phone, or type the address it shows into any browser on the same network, to send games straight to EASYROMS.</string>
     <string name="games_library">Daijishou, the home screen, turns those folders into a game library: add a platform and pick its folder on EASYROMS.</string>
-    <string name="games_library_ready">Daijishou, the home screen, already has a platform for each of these systems, set to its folder on EASYROMS. The first time it opens, it asks to look for games: press OK. After adding games later, use Sync entirely in Daijishou\'s library settings. For other systems, or on a card set up with .noroms, add a platform in Daijishou and pick its folder.</string>
+    <string name="games_library_ready">Daijishou, the home screen, already has a platform for each of these systems, set to its folder on EASYROMS. The first time it opens, it asks to look for games: press OK. When you add games later, it asks again at the next start. Games added while the console is on show up after Sync entirely in Daijishou\'s library settings. For other systems, or on a card set up with .noroms, add a platform in Daijishou and pick its folder.</string>
+    <string name="games_library_simple">Your home screen is Simple UI, which shows apps, not games. For a game library, open Daijishou from Apps: it already knows these folders and asks to look for games when you open it. Or start a game straight from RetroArch with Load Content, or from PPSSPP\'s game list.</string>
+    <string name="games_library_simple_no_daijishou">Your home screen is Simple UI, which shows apps, not games. Start a game from RetroArch with Load Content, or from PPSSPP\'s game list, and pick it in its folder on EASYROMS. To get Daijishou\'s game library back, go to Settings &gt; Apps &amp; notifications &gt; Home screen.</string>
 
     <!-- Emulators -->
     <string name="emulators_title">Emulators</string>
-    <string name="emulators_included">RetroArch and PPSSPP come preinstalled. RetroArch already has the cores for NES, SNES, Game Boy, GBA, Mega Drive, Master System, Game Gear, PlayStation, PC Engine, Neo Geo Pocket, WonderSwan, Atari 2600, 7800 and Lynx.</string>
+    <string name="emulators_included">RetroArch and PPSSPP come preinstalled, with Flycast (Dreamcast), Mupen64Plus AE (N64) and EasyRPG Player. RetroArch already has cores for Nintendo, Sega, PlayStation, N64, arcade, Neo Geo, PC Engine, Atari, MSX, DOS, Amiga, ZX Spectrum, C64, PICO-8 and more. The README on EASYROMS lists which folder goes with which system.</string>
     <string name="emulators_psp">PSP games run in PPSSPP. PlayStation games start without a BIOS, but work best with one in the bios folder on EASYROMS.</string>
-    <string name="emulators_updates">The emulators are ordinary apps: F-Droid can update them, and you can uninstall them.</string>
+    <string name="emulators_updates">The emulators are ordinary apps: you can uninstall them, and if you install F-Droid, it can update them.</string>
 
     <!-- A second controller -->
     <string name="pads_title">Playing with a second controller</string>
@@ -126,7 +128,7 @@
     <string name="trouble_sticks_more">Still creeping a little? Left and right on the D-pad change the dead zone, the part around the middle that is ignored. Press X twice to go back to the factory settings.</string>
     <string name="trouble_recovery_q">Recovery and factory reset</string>
     <string name="trouble_recovery_a">Hold FN while you switch the console on</string>
-    <string name="trouble_recovery_more">This starts the recovery menu. Move with the d-pad or the volume buttons, choose with A or Power. For a factory reset, pick Factory reset, then Format data/factory reset, then Reboot system now. This erases your apps, your settings and all files in internal storage, but not the games on EASYROMS. Don\'t use the other options: this recovery is older than your system and can\'t install updates for it.</string>
+    <string name="trouble_recovery_more">This starts the recovery menu. If holding FN does nothing (Soy Sauce and some other clones), put an empty file named recovery.txt on BOOT with a computer instead, and delete it again afterwards: as long as it is there, every start goes into recovery. In the recovery menu, move with the d-pad or the volume buttons, choose with A or Power. For a factory reset, pick Factory reset, then Format data/factory reset, then Reboot system now. This erases your apps, your settings and all files in internal storage, but not the games on EASYROMS. Don\'t use the other options: this recovery is older than your system and can\'t install updates for it.</string>
     <string name="trouble_clock_q">The date or time is wrong</string>
     <string name="trouble_clock_a">The console forgets the time when the battery runs completely empty. Set it in Settings &gt; System &gt; Date &amp; time. With a network connection it sets itself, as long as "Use network-provided time" is on.</string>
 
@@ -143,10 +145,10 @@
     <string name="usb_title">USB and computers</string>
     <string name="usb_card">The easiest way to copy games is to put the SD card into a computer and copy them to EASYROMS. Put the card back before you switch the console on.</string>
     <string name="usb_mode_q">Connect the console to a computer</string>
-    <string name="usb_mode_a">Turn on Settings &gt; USB mode &gt; Connect to a computer, then plug a data cable into the OTG port and a USB-A port on the computer. Pick File transfer in the USB notification. Pads and adapters on the OTG port don\'t work while this is on, and a restart turns it off.</string>
+    <string name="usb_mode_a">Turn on Settings &gt; USB mode &gt; Connect to a computer, then plug a data cable into the OTG port and a USB-A port on the computer. File transfer is on by default; Use USB for, on the same page, switches to photo transfer or adb only. Pads and adapters on the OTG port don\'t work while this is on, and a restart turns it off.</string>
     <string name="usb_mode_wifi">Never turn this on if your console has Wi-Fi built in, such as the R36XX. Those consoles use this same USB port for their Wi-Fi, so Wi-Fi stops working and may not come back until you restart. USB mode asks before it switches.</string>
     <string name="usb_mode_charging">Never use this while the console is charging from its other port. Unplug the charger first. If a charger is plugged in while it is on, USB mode switches back to accessories.</string>
-    <string name="usb_adb">For adb, also turn on USB debugging in Settings &gt; System &gt; Developer options. To show Developer options, click Build number 7 times in Settings &gt; About console.</string>
+    <string name="usb_adb">For adb, also turn on USB debugging in Settings &gt; System &gt; Developer options. To show Developer options, press A on Build number 7 times in Settings &gt; About console.</string>
     <string name="usb_host_only">The OTG port is for accessories: pads, USB drives and network adapters. It can\'t connect to a computer on this build.</string>
     <string name="usb_dongles_q">Accessories</string>
     <string name="usb_dongles_a">Plug accessories into the OTG port, with a USB-C adapter or a small hub if needed. USB pads, keyboards, mice, USB drives, Wi-Fi, Bluetooth and Ethernet adapters work if Android has a driver for their chip. Adapters with common Realtek chips work best. On consoles with Wi-Fi built in, such as the R36XX, something plugged into the OTG port can stop the built-in Wi-Fi.</string>
@@ -154,9 +156,9 @@
 
     <!-- SD card -->
     <string name="card_title">SD card</string>
-    <string name="card_layout">The card holds everything: Android, your apps and data (16 GB), and EASYROMS, which gets the rest of the card. EASYROMS uses exFAT, so Windows, macOS and Linux can all read it.</string>
+    <string name="card_layout">The card holds everything: Android, your apps and data (half the card, between 16 and 64 GB), and EASYROMS, which gets the rest. On a card of 16 GB or less, Android takes the whole card and there is no EASYROMS. EASYROMS uses exFAT, so Windows, macOS and Linux can all read it.</string>
     <string name="card_noroms_q">All the space for apps, no EASYROMS</string>
-    <string name="card_noroms_a">Before the very first start, make an empty file named .noroms on BOOT. The first start then gives the whole card to apps. This only works on a freshly written card. BIOS files then go in the bios folder on the internal storage.</string>
+    <string name="card_noroms_a">Before the very first start, make an empty file named .noroms on BOOT. The first start then gives the whole card to apps. Or, to pick the size, write a number of GB (or all) into a file named userdata-size.txt on BOOT. This only works on a freshly written card. BIOS files then go in the bios folder on the internal storage.</string>
     <string name="card_backup_q">Back up your saves</string>
     <string name="card_backup_a">Saves made next to the games on EASYROMS are easy to copy on a computer. Saves inside an app stay with that app on the Android part of the card, so check each emulator\'s settings for where it keeps them.</string>
     <string name="card_sync_q">Keep your saves the same on two devices</string>
@@ -166,7 +168,7 @@
     <!-- Battery -->
     <string name="battery_title">Battery care</string>
     <string name="battery_percent_q">The battery percentage looks wrong</string>
-    <string name="battery_percent_a">The battery gauge guesses the charge and learns as it goes. After the battery ran empty or the console sat unused for a long time, charge it to 100% with the console on and leave it on the charger for another half hour. That lets the gauge find the right level again.</string>
+    <string name="battery_percent_a">The battery gauge guesses the charge and learns as it goes. After the battery ran empty or the console sat unused for a long time, charge it to 100% with the console on and leave it on the charger for another half hour. That lets the gauge find the right level again. If you set a charge limit in Settings &gt; Battery &gt; Battery details, turn it off for this.</string>
     <string name="battery_details">Settings &gt; Battery &gt; Battery details shows the battery voltage: about 4.2 V is full, below 3.5 V is nearly empty.</string>
     <string name="battery_sleep_q">Sleep or power off?</string>
     <string name="battery_sleep_a">Sleep (tap Power) is fine for breaks, but still uses a little battery. For more than a day, power it off from the power menu.</string>
@@ -180,7 +182,7 @@
     <string name="clone_which_a">On a computer, open BOOT. Panels has a folder for each genuine R36S screen and the R36S Plus. Experimental has a folder for each known clone, such as K36, G80, R36 Max, R36 Ultra and the Soy Sauce boards. The README.txt in Panels and in Experimental says which console goes with which folder. The Experimental files are untested, so only use them if Panels doesn\'t work.</string>
     <string name="clone_soy">Soy Sauce boards (Y3506 printed on the board) must never use Panel5 or Panel6, even if the screen looks right. Use a Soy folder in Experimental.</string>
     <string name="clone_copy_q">Copy all files</string>
-    <string name="clone_copy_a">First make a folder called Backup on BOOT and copy these files from the top of BOOT into it: rk3326-r36s-android.dtb, the three rg351 files, logo.bmp and logo_kernel.bmp. Then copy all files from your folder to the top of BOOT and replace the ones there. Really all of them: the three rg351 files are the same file under three names, and your console picks the one it wants.</string>
+    <string name="clone_copy_a">First make a folder called Backup on BOOT and copy these files from the top of BOOT into it: rk3326-r36s-android.dtb, the six rg351 files, logo.bmp, logo_kernel.bmp and the battery_*.bmp files. Then copy all files from your folder to the top of BOOT and replace the ones there. Really all of them: the six rg351 files are the same file under six names, and your console picks the one it wants.</string>
     <string name="clone_black_q">The screen stays black, or the buttons don\'t work</string>
     <string name="clone_black_a">Try the next folder that could fit your console. If only the boot logo stays black but Android comes up, keep it. To go back, copy the files from your Backup folder, or from Panels/Panel4, to the top of BOOT.</string>
     <string name="clone_emmc">Some clones, like the R36 Ultra, R36 Max and R39 Max, start from their own built-in memory first and may not look at the SD card at all.</string>

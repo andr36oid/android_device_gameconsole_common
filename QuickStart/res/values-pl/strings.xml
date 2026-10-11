@@ -58,9 +58,9 @@
 
     <!-- Emulators -->
     <string name="emulators_title">Emulatory</string>
-    <string name="emulators_included">RetroArch i PPSSPP są zainstalowane fabrycznie. RetroArch ma już rdzenie dla NES, SNES, Game Boy, GBA, Mega Drive, Master System, Game Gear, PlayStation, PC Engine, Neo Geo Pocket, WonderSwan, Atari 2600, 7800 i Lynx.</string>
+    <string name="emulators_included">RetroArch i PPSSPP są zainstalowane fabrycznie, razem z Flycast (Dreamcast), Mupen64Plus AE (N64) i EasyRPG Player. RetroArch ma już rdzenie dla Nintendo, Segi, PlayStation, N64, automatów, Neo Geo, PC Engine, Atari, MSX, DOS, Amigi, ZX Spectrum, C64, PICO-8 i innych. README na EASYROMS mówi, który folder jest dla którego systemu.</string>
     <string name="emulators_psp">Gry PSP działają w PPSSPP. Gry PlayStation uruchamiają się bez BIOS-u, ale najlepiej działają z nim w folderze bios na EASYROMS.</string>
-    <string name="emulators_updates">Emulatory to zwykłe aplikacje: F-Droid może je aktualizować i możesz je odinstalować.</string>
+    <string name="emulators_updates">Emulatory to zwykłe aplikacje: możesz je odinstalować, a jeśli zainstalujesz F-Droid, może je aktualizować.</string>
 
     <!-- Speed and battery -->
     <string name="speed_title">Szybkość i bateria</string>
@@ -119,10 +119,10 @@
     <string name="usb_title">USB i komputery</string>
     <string name="usb_card">Najprościej skopiować gry, wkładając kartę SD do komputera i kopiując je na EASYROMS. Włóż kartę z powrotem, zanim włączysz konsolę.</string>
     <string name="usb_mode_q">Podłącz konsolę do komputera</string>
-    <string name="usb_mode_a">Włącz Ustawienia &gt; Tryb USB &gt; Połącz z komputerem, a potem podłącz kabel do transmisji danych do portu OTG i do portu USB-A komputera. W powiadomieniu USB wybierz Przesyłanie plików. Pady i adaptery w porcie OTG nie działają, gdy ta opcja jest włączona, a ponowne uruchomienie ją wyłącza.</string>
+    <string name="usb_mode_a">Włącz Ustawienia &gt; Tryb USB &gt; Połącz z komputerem, a potem podłącz kabel do transmisji danych do portu OTG i do portu USB-A komputera. Przesyłanie plików jest domyślnie włączone; „Użyj USB do” na tej samej stronie przełącza na przesyłanie zdjęć lub samo adb. Pady i adaptery w porcie OTG nie działają, gdy ta opcja jest włączona, a ponowne uruchomienie ją wyłącza.</string>
     <string name="usb_mode_wifi">Nigdy tego nie włączaj, jeśli twoja konsola ma wbudowane Wi-Fi, jak R36XX. Te konsole używają tego samego portu USB do Wi-Fi, więc Wi-Fi przestanie działać i może nie wrócić do ponownego uruchomienia. Tryb USB pyta przed przełączeniem.</string>
     <string name="usb_mode_charging">Nigdy nie używaj tego, gdy konsola ładuje się przez drugi port. Najpierw odłącz ładowarkę. Jeśli podłączysz ładowarkę, gdy opcja jest włączona, tryb USB wróci do akcesoriów.</string>
-    <string name="usb_adb">Do adb włącz też Debugowanie USB w Ustawienia &gt; System &gt; Opcje programistyczne. Aby pokazać Opcje programistyczne, kliknij 7 razy Numer kompilacji w Ustawienia &gt; Informacje o konsoli.</string>
+    <string name="usb_adb">Do adb włącz też Debugowanie USB w Ustawienia &gt; System &gt; Opcje programistyczne. Aby pokazać Opcje programistyczne, naciśnij 7 razy A na Numer kompilacji w Ustawienia &gt; Informacje o konsoli.</string>
     <string name="usb_host_only">Port OTG służy do akcesoriów: padów, pendrive\'ów i adapterów sieciowych. W tej wersji nie może połączyć się z komputerem.</string>
     <string name="usb_dongles_q">Akcesoria</string>
     <string name="usb_dongles_a">Podłączaj akcesoria do portu OTG, w razie potrzeby przez przejściówkę USB-C lub mały hub. Pady USB, klawiatury, myszy, pendrive\'y oraz adaptery Wi-Fi, Bluetooth i Ethernet działają, jeśli Android ma sterownik do ich układu. Najlepiej działają adaptery z popularnymi układami Realtek. W konsolach z wbudowanym Wi-Fi, np. R36XX, coś podłączonego do portu OTG może wyłączyć wbudowane Wi-Fi.</string>
@@ -130,16 +130,16 @@
 
     <!-- SD card -->
     <string name="card_title">Karta SD</string>
-    <string name="card_layout">Na karcie jest wszystko: Android, twoje aplikacje i dane (16 GB) oraz EASYROMS, który dostaje resztę karty. EASYROMS używa exFAT, więc Windows, macOS i Linux mogą go odczytać.</string>
+    <string name="card_layout">Na karcie jest wszystko: Android, twoje aplikacje i dane (połowa karty, od 16 do 64 GB) oraz EASYROMS, który dostaje resztę. Na karcie 16 GB lub mniejszej Android zajmuje całą kartę i nie ma EASYROMS. EASYROMS używa exFAT, więc Windows, macOS i Linux mogą go odczytać.</string>
     <string name="card_noroms_q">Całe miejsce na aplikacje, bez EASYROMS</string>
-    <string name="card_noroms_a">Przed pierwszym uruchomieniem utwórz na BOOT pusty plik o nazwie .noroms. Pierwsze uruchomienie odda wtedy całą kartę aplikacjom. Działa to tylko na świeżo nagranej karcie. Pliki BIOS trafiają wtedy do folderu bios w pamięci wewnętrznej.</string>
+    <string name="card_noroms_a">Przed pierwszym uruchomieniem utwórz na BOOT pusty plik o nazwie .noroms. Pierwsze uruchomienie odda wtedy całą kartę aplikacjom. Albo, aby wybrać rozmiar, wpisz liczbę GB (lub all) do pliku o nazwie userdata-size.txt na BOOT. Działa to tylko na świeżo nagranej karcie. Pliki BIOS trafiają wtedy do folderu bios w pamięci wewnętrznej.</string>
     <string name="card_backup_q">Kopia zapisów gier</string>
     <string name="card_backup_a">Zapisy tworzone obok gier na EASYROMS łatwo skopiować w komputerze. Zapisy wewnątrz aplikacji zostają z nią w androidowej części karty, więc sprawdź w ustawieniach każdego emulatora, gdzie je trzyma.</string>
 
     <!-- Battery -->
     <string name="battery_title">Dbanie o baterię</string>
     <string name="battery_percent_q">Procent baterii wygląda na błędny</string>
-    <string name="battery_percent_a">Wskaźnik baterii szacuje poziom naładowania i uczy się z czasem. Gdy bateria się rozładowała albo konsola długo leżała nieużywana, naładuj ją do 100% przy włączonej konsoli i zostaw na ładowarce jeszcze pół godziny. Wtedy wskaźnik znowu znajdzie właściwy poziom.</string>
+    <string name="battery_percent_a">Wskaźnik baterii szacuje poziom naładowania i uczy się z czasem. Gdy bateria się rozładowała albo konsola długo leżała nieużywana, naładuj ją do 100% przy włączonej konsoli i zostaw na ładowarce jeszcze pół godziny. Wtedy wskaźnik znowu znajdzie właściwy poziom. Jeśli ustawiono limit ładowania w Ustawienia &gt; Bateria &gt; Szczegóły baterii, wyłącz go na ten czas.</string>
     <string name="battery_details">Ustawienia &gt; Bateria &gt; Szczegóły baterii pokazuje napięcie baterii: około 4,2 V to pełna, poniżej 3,5 V prawie pusta.</string>
     <string name="battery_sleep_q">Uśpić czy wyłączyć?</string>
     <string name="battery_sleep_a">Uśpienie (naciśnij przycisk zasilania) wystarczy na przerwy, ale nadal zużywa trochę baterii. Na dłużej niż dzień wyłącz konsolę z menu zasilania.</string>

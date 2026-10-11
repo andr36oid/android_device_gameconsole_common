@@ -58,6 +58,7 @@
     <!-- FN = home -->
     <string name="tutorial_home_title">FN, Ana ekran tuşudur</string>
     <string name="tutorial_home_body">Her yerden, hatta bir oyundan bile ana ekrana gitmek için FN tuşuna tek başına basın. Ana ekran, oyunlarınızın ve uygulamalarınızın bulunduğu Daijishou\'dur.\n\nŞimdi deneyin: FN tuşuna basın. Bu eğitim birkaç saniye sonra kendiliğinden geri gelir.</string>
+    <string name="tutorial_home_body_simple">Her yerden, hatta bir oyundan bile ana ekrana gitmek için FN tuşuna tek başına basın. Ana ekran Simple UI\'dır: sevdiğiniz uygulamalar \"Sabitlenenler\"de, hepsi \"Uygulamalar\"da.\n\nŞimdi deneyin: FN tuşuna basın. Bu eğitim birkaç saniye sonra kendiliğinden geri gelir.</string>
     <string name="tutorial_home_task">FN tuşuna basın</string>
     <string name="tutorial_home_back">Tekrar hoş geldiniz. Hepsi bu kadar.</string>
 

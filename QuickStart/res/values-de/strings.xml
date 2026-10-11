@@ -60,9 +60,9 @@
 
     <!-- Emulators -->
     <string name="emulators_title">Emulatoren</string>
-    <string name="emulators_included">RetroArch und PPSSPP sind vorinstalliert. RetroArch hat schon die Cores für NES, SNES, Game Boy, GBA, Mega Drive, Master System, Game Gear, PlayStation, PC Engine, Neo Geo Pocket, WonderSwan, Atari 2600, 7800 und Lynx.</string>
+    <string name="emulators_included">RetroArch und PPSSPP sind vorinstalliert, dazu Flycast (Dreamcast), Mupen64Plus AE (N64) und EasyRPG Player. RetroArch hat schon Cores für Nintendo, Sega, PlayStation, N64, Arcade, Neo Geo, PC Engine, Atari, MSX, DOS, Amiga, ZX Spectrum, C64, PICO-8 und mehr. Die README auf EASYROMS sagt, welcher Ordner zu welchem System gehört.</string>
     <string name="emulators_psp">PSP-Spiele laufen in PPSSPP. PlayStation-Spiele starten ohne BIOS, laufen aber am besten mit einem im Ordner bios auf EASYROMS.</string>
-    <string name="emulators_updates">Die Emulatoren sind ganz normale Apps: F-Droid kann sie aktualisieren und du kannst sie deinstallieren.</string>
+    <string name="emulators_updates">Die Emulatoren sind ganz normale Apps: Du kannst sie deinstallieren, und wenn du F-Droid installierst, kann es sie aktualisieren.</string>
 
     <!-- Speed and battery -->
     <string name="speed_title">Geschwindigkeit und Akku</string>
@@ -121,10 +121,10 @@
     <string name="usb_title">USB und Computer</string>
     <string name="usb_card">Am einfachsten kopierst du Spiele, indem du die SD-Karte in einen Computer steckst und sie auf EASYROMS kopierst. Steck die Karte wieder ein, bevor du die Konsole einschaltest.</string>
     <string name="usb_mode_q">Konsole mit einem Computer verbinden</string>
-    <string name="usb_mode_a">Schalte Einstellungen &gt; USB-Modus &gt; Mit Computer verbinden ein und steck dann ein Datenkabel in den OTG-Anschluss und einen USB-A-Anschluss am Computer. Wähle in der USB-Benachrichtigung „Dateiübertragung“. Controller und Adapter am OTG-Anschluss funktionieren währenddessen nicht, und ein Neustart schaltet es aus.</string>
+    <string name="usb_mode_a">Schalte Einstellungen &gt; USB-Modus &gt; Mit Computer verbinden ein und steck dann ein Datenkabel in den OTG-Anschluss und einen USB-A-Anschluss am Computer. Dateiübertragung ist von selbst an; „USB verwenden für“ auf derselben Seite schaltet auf Fotoübertragung oder nur adb um. Controller und Adapter am OTG-Anschluss funktionieren währenddessen nicht, und ein Neustart schaltet es aus.</string>
     <string name="usb_mode_wifi">Schalte das nie ein, wenn deine Konsole eingebautes WLAN hat, wie die R36XX. Diese Konsolen nutzen denselben USB-Anschluss für ihr WLAN, also funktioniert WLAN dann nicht mehr und kommt eventuell erst nach einem Neustart zurück. Der USB-Modus fragt vor dem Umschalten nach.</string>
     <string name="usb_mode_charging">Nutze das nie, während die Konsole über ihren anderen Anschluss lädt. Zieh zuerst das Ladegerät ab. Wird ein Ladegerät angeschlossen, während es an ist, schaltet der USB-Modus zurück auf Zubehör.</string>
-    <string name="usb_adb">Für adb schalte außerdem USB-Debugging unter Einstellungen &gt; System &gt; Entwickleroptionen ein. Um die Entwickleroptionen anzuzeigen, klicke 7-mal auf „Build-Nummer“ unter Einstellungen &gt; Über die Konsole.</string>
+    <string name="usb_adb">Für adb schalte außerdem USB-Debugging unter Einstellungen &gt; System &gt; Entwickleroptionen ein. Um die Entwickleroptionen anzuzeigen, drück 7-mal A auf „Build-Nummer“ unter Einstellungen &gt; Über die Konsole.</string>
     <string name="usb_host_only">Der OTG-Anschluss ist für Zubehör: Controller, USB-Sticks und Netzwerkadapter. In diesem Build kann er keine Verbindung zu einem Computer herstellen.</string>
     <string name="usb_dongles_q">Zubehör</string>
     <string name="usb_dongles_a">Steck Zubehör in den OTG-Anschluss, bei Bedarf mit USB-C-Adapter oder kleinem Hub. USB-Controller, Tastaturen, Mäuse, USB-Sticks sowie WLAN-, Bluetooth- und Ethernet-Adapter funktionieren, wenn Android einen Treiber für ihren Chip hat. Adapter mit gängigen Realtek-Chips funktionieren am besten. Bei Konsolen mit eingebautem WLAN wie der R36XX kann etwas am OTG-Anschluss das eingebaute WLAN stören.</string>
@@ -132,16 +132,16 @@
 
     <!-- SD card -->
     <string name="card_title">SD-Karte</string>
-    <string name="card_layout">Die Karte enthält alles: Android, deine Apps und Daten (16 GB) sowie EASYROMS, das den Rest der Karte bekommt. EASYROMS nutzt exFAT, damit Windows, macOS und Linux es alle lesen können.</string>
+    <string name="card_layout">Die Karte enthält alles: Android, deine Apps und Daten (die halbe Karte, zwischen 16 und 64 GB) sowie EASYROMS, das den Rest bekommt. Auf einer Karte mit 16 GB oder weniger nimmt Android die ganze Karte und es gibt kein EASYROMS. EASYROMS nutzt exFAT, damit Windows, macOS und Linux es alle lesen können.</string>
     <string name="card_noroms_q">Der ganze Platz für Apps, kein EASYROMS</string>
-    <string name="card_noroms_a">Leg vor dem allerersten Start eine leere Datei namens .noroms auf BOOT an. Der erste Start gibt dann die ganze Karte an die Apps. Das funktioniert nur mit einer frisch beschriebenen Karte. BIOS-Dateien kommen dann in den Ordner bios im internen Speicher.</string>
+    <string name="card_noroms_a">Leg vor dem allerersten Start eine leere Datei namens .noroms auf BOOT an. Der erste Start gibt dann die ganze Karte an die Apps. Oder schreib, um die Größe selbst zu wählen, eine Zahl in GB (oder all) in eine Datei namens userdata-size.txt auf BOOT. Das funktioniert nur mit einer frisch beschriebenen Karte. BIOS-Dateien kommen dann in den Ordner bios im internen Speicher.</string>
     <string name="card_backup_q">Spielstände sichern</string>
     <string name="card_backup_a">Spielstände, die neben den Spielen auf EASYROMS liegen, lassen sich am Computer leicht kopieren. Spielstände in einer App bleiben bei dieser App im Android-Teil der Karte. Sieh also in den Einstellungen jedes Emulators nach, wo er sie ablegt.</string>
 
     <!-- Battery -->
     <string name="battery_title">Akkupflege</string>
     <string name="battery_percent_q">Die Akku-Prozentzahl scheint falsch</string>
-    <string name="battery_percent_a">Der Ladestandsmesser schätzt die Ladung und lernt dabei dazu. Wenn der Akku leer war oder die Konsole lange ungenutzt lag, lade sie eingeschaltet auf 100% und lass sie noch eine halbe Stunde am Ladegerät. So findet der Messer wieder den richtigen Stand.</string>
+    <string name="battery_percent_a">Der Ladestandsmesser schätzt die Ladung und lernt dabei dazu. Wenn der Akku leer war oder die Konsole lange ungenutzt lag, lade sie eingeschaltet auf 100% und lass sie noch eine halbe Stunde am Ladegerät. So findet der Messer wieder den richtigen Stand. Hast du unter Einstellungen &gt; Akku &gt; Akkudetails ein Ladelimit gesetzt, schalte es dafür aus.</string>
     <string name="battery_details">Einstellungen &gt; Akku &gt; Akkudetails zeigt die Akkuspannung: Etwa 4,2 V ist voll, unter 3,5 V ist fast leer.</string>
     <string name="battery_sleep_q">Standby oder ausschalten?</string>
     <string name="battery_sleep_a">Standby (Ein-/Aus-Taste kurz drücken) ist gut für Pausen, verbraucht aber noch etwas Akku. Für mehr als einen Tag schalte die Konsole über das Ein-/Aus-Menü aus.</string>

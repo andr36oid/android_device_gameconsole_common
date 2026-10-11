@@ -355,10 +355,14 @@ public class TutorialActivity extends Activity {
                         R.string.tutorial_press_l2, R.string.tutorial_press_r2},
                 new int[] {KeyEvent.KEYCODE_BUTTON_L1, KeyEvent.KEYCODE_BUTTON_R1,
                         KeyEvent.KEYCODE_BUTTON_L2, KeyEvent.KEYCODE_BUTTON_R2});
+        final boolean simpleUi = HomeChoice.isSimpleUi(this);
         if (mInSetup) {
-            add(STEP_HOME, R.string.tutorial_home_title, R.string.tutorial_home_body_setup);
+            add(STEP_HOME, R.string.tutorial_home_title, simpleUi
+                    ? R.string.tutorial_home_body_setup_simple
+                    : R.string.tutorial_home_body_setup);
         } else {
-            add(STEP_HOME, R.string.tutorial_home_title, R.string.tutorial_home_body,
+            add(STEP_HOME, R.string.tutorial_home_title, simpleUi
+                            ? R.string.tutorial_home_body_simple : R.string.tutorial_home_body,
                     new int[] {R.string.tutorial_home_task}, new int[] {0});
         }
         if (fnShortcuts) {
@@ -496,13 +500,21 @@ public class TutorialActivity extends Activity {
         } else if (mNoFn && step.id == STEP_DONE) {
             bodyRes = R.string.tutorial_done_body;
         }
+        // Simple UI shows apps, not games: Daijishou (if it's still there) is one of them
+        final boolean simpleUiGames = step.id == STEP_GAMES && HomeChoice.isSimpleUi(this);
+        if (simpleUiGames) {
+            bodyRes = HomeChoice.keepsDaijishou(this)
+                    ? R.string.tutorial_games_body_simple
+                    : R.string.tutorial_games_body_simple_no_daijishou;
+        }
         CharSequence body = getText(bodyRes);
         if (step.id == STEP_GAMES) {
             final CharSequence space = describeEasyroms();
             if (space != null) {
                 // Daijishou gets its platforms and folders on the first start (only on a
                 // card with EASYROMS, see gameconsole-emu.sh)
-                if (SystemProperties.getBoolean("ro.andr36oid.daijishou_platforms", false)) {
+                if (!simpleUiGames && SystemProperties.getBoolean(
+                        "ro.andr36oid.daijishou_platforms", false)) {
                     body = getText(mNoFn ? R.string.tutorial_games_body_ready_no_fn
                             : R.string.tutorial_games_body_ready);
                 }
