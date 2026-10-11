@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">APK installer</string>
+    <!-- The question at start, %d = how many APKs are listed -->
+    <plurals name="ask_title">
+        <item quantity="one">Install %d app from EASYROMS?</item>
+        <item quantity="other">Install %d apps from EASYROMS?</item>
+    </plurals>
+    <!-- One APK in the list: file name (size) -->
+    <string name="apk_item" translatable="false">%1$s (%2$s)</string>
+    <string name="install">Install</string>
+    <string name="not_now">Not now</string>
+    <string name="installing_title">Installing apps</string>
+    <!-- %1$d = this APK's number, %2$d = how many, %3$s = its file name -->
+    <string name="installing">Installing %3$s (%1$d of %2$d)…</string>
+    <string name="done_title">Done</string>
+    <plurals name="installed">
+        <item quantity="one">%d app installed.</item>
+        <item quantity="other">%d apps installed.</item>
+    </plurals>
+    <string name="failed">Not installed:</string>
+    <!-- A failed APK: file name: what pm said -->
+    <string name="failed_item" translatable="false">%1$s: %2$s</string>
+</resources>

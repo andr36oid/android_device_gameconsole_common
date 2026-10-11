@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">APK 安装器</string>
+    <plurals name="ask_title">
+        <item quantity="other">从 EASYROMS 安装 %d 个应用？</item>
+    </plurals>
+    <string name="install">安装</string>
+    <string name="not_now">以后再说</string>
+    <string name="installing_title">正在安装应用</string>
+    <string name="installing">正在安装 %3$s（第 %1$d 个，共 %2$d 个）…</string>
+    <string name="done_title">完成</string>
+    <plurals name="installed">
+        <item quantity="other">已安装 %d 个应用。</item>
+    </plurals>
+    <string name="failed">未安装：</string>
+</resources>

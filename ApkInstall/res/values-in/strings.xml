@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Penginstal APK</string>
+    <plurals name="ask_title">
+        <item quantity="other">Instal %d aplikasi dari EASYROMS?</item>
+    </plurals>
+    <string name="install">Instal</string>
+    <string name="not_now">Nanti</string>
+    <string name="installing_title">Menginstal aplikasi</string>
+    <string name="installing">Menginstal %3$s (%1$d dari %2$d)…</string>
+    <string name="done_title">Selesai</string>
+    <plurals name="installed">
+        <item quantity="other">%d aplikasi terinstal.</item>
+    </plurals>
+    <string name="failed">Tidak terinstal:</string>
+</resources>

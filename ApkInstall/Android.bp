@@ -1,0 +1,14 @@
+// APK installer: at every start, when EASYROMS has an apk folder with APKs that weren't
+// answered yet, asks which to install (all ticked) and installs them. Runs as the system
+// user like the other console apps; reading EASYROMS and pm install are done by the
+// andr36oid-apkinstall init service (Android.mk), which needs root for EASYROMS.
+android_app {
+    name: "ApkInstall",
+    srcs: ["src/**/*.java"],
+    resource_dirs: ["res"],
+    certificate: "platform",
+    platform_apis: true,
+    optimize: {
+        enabled: false,
+    },
+}
