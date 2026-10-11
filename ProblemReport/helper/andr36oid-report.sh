@@ -264,6 +264,9 @@ boot_mode() {
 	mkdir -p "$DIR"
 	# its text is the description (the file may just be empty)
 	tr -d '\r' <"$f" | head -c 65536 >"$DIR/note.txt"
+	# the Problem report page (system) writes this file next time: root's copy would stop it
+	chown system:system "$DIR/note.txt"
+	chmod 0660 "$DIR/note.txt"
 	if ! boot_rw || ! rm -f "$f"; then
 		log "BOOT is read-only, can't delete ${f##*/}: no report (it would run at every start)"
 		boot_close
