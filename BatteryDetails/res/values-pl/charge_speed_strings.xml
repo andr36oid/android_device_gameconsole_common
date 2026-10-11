@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Charging speed setting -->
+    <string name="speed_setting">Szybkość ładowania</string>
+    <string name="speed_default">Domyślna (<xliff:g id="ma">%1$d</xliff:g> mA, ok. <xliff:g id="watts">%2$s</xliff:g> W)</string>
+    <string name="speed_choice"><xliff:g id="ma">%1$d</xliff:g> mA, ok. <xliff:g id="watts">%2$s</xliff:g> W</string>
+    <string name="speed_summary_default">Domyślna dla konsoli: <xliff:g id="ma">%1$d</xliff:g> mA, ok. <xliff:g id="watts">%2$s</xliff:g> W do baterii.</string>
+    <string name="speed_summary_slower"><xliff:g id="ma">%1$d</xliff:g> mA, ok. <xliff:g id="watts">%2$s</xliff:g> W. Wolniej niż domyślnie: chłodniej i łagodniej dla baterii.</string>
+    <string name="speed_summary_faster"><xliff:g id="ma">%1$d</xliff:g> mA, ok. <xliff:g id="watts">%2$s</xliff:g> W. Szybciej niż domyślnie: potrzebna ładowarka dająca co najmniej <xliff:g id="amps">%3$s</xliff:g> A (<xliff:g id="charger_watts">%4$s</xliff:g> W).</string>
+    <string name="speed_warning_title">Ładować szybciej niż domyślnie?</string>
+    <string name="speed_warning">Ładowanie prądem <xliff:g id="ma">%1$d</xliff:g> mA (ok. <xliff:g id="watts">%2$s</xliff:g> W do baterii) bardziej nagrzewa baterię i konsolę, a bateria szybciej się zużywa. Ładowarka musi dawać co najmniej <xliff:g id="amps">%3$s</xliff:g> A (<xliff:g id="charger_watts">%4$s</xliff:g> W). Ze słabszą ładowarką, portem USB komputera lub cienkim kablem ładowanie może się przerywać albo konsoli może zabraknąć zasilania. Przy najwyższych prędkościach warto założyć radiator na układ zasilania (RK817). Używaj tylko z dobrą ładowarką i nie wtedy, gdy konsola jest gorąca.</string>
+    <string name="speed_warning_ok">Ładuj szybciej</string>
+</resources>

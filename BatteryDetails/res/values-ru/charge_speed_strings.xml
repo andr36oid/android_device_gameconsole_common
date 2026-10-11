@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Charging speed setting -->
+    <string name="speed_setting">Скорость зарядки</string>
+    <string name="speed_default">По умолчанию (<xliff:g id="ma">%1$d</xliff:g> мА, около <xliff:g id="watts">%2$s</xliff:g> Вт)</string>
+    <string name="speed_choice"><xliff:g id="ma">%1$d</xliff:g> мА, около <xliff:g id="watts">%2$s</xliff:g> Вт</string>
+    <string name="speed_summary_default">Значение консоли по умолчанию: <xliff:g id="ma">%1$d</xliff:g> мА, около <xliff:g id="watts">%2$s</xliff:g> Вт в батарею.</string>
+    <string name="speed_summary_slower"><xliff:g id="ma">%1$d</xliff:g> мА, около <xliff:g id="watts">%2$s</xliff:g> Вт. Медленнее, чем по умолчанию: меньше нагрев и износ батареи.</string>
+    <string name="speed_summary_faster"><xliff:g id="ma">%1$d</xliff:g> мА, около <xliff:g id="watts">%2$s</xliff:g> Вт. Быстрее, чем по умолчанию: нужно зарядное устройство не слабее <xliff:g id="amps">%3$s</xliff:g> А (<xliff:g id="charger_watts">%4$s</xliff:g> Вт).</string>
+    <string name="speed_warning_title">Заряжать быстрее, чем по умолчанию?</string>
+    <string name="speed_warning">Зарядка током <xliff:g id="ma">%1$d</xliff:g> мА (около <xliff:g id="watts">%2$s</xliff:g> Вт в батарею) сильнее нагревает батарею и консоль, и батарея изнашивается быстрее. Зарядное устройство должно давать не менее <xliff:g id="amps">%3$s</xliff:g> А (<xliff:g id="charger_watts">%4$s</xliff:g> Вт). Со слабым зарядным устройством, USB-портом компьютера или тонким кабелем зарядка может прерываться, или консоли может не хватить питания. На самых высоких скоростях стоит поставить радиатор на микросхему питания (RK817). Используйте только с хорошим зарядным устройством и не тогда, когда консоль горячая.</string>
+    <string name="speed_warning_ok">Заряжать быстрее</string>
+</resources>

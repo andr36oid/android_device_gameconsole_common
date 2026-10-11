@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Charging speed setting -->
+    <string name="speed_setting">Charging speed</string>
+    <string name="speed_default">Default (<xliff:g id="ma">%1$d</xliff:g> mA, about <xliff:g id="watts">%2$s</xliff:g> W)</string>
+    <string name="speed_choice"><xliff:g id="ma">%1$d</xliff:g> mA, about <xliff:g id="watts">%2$s</xliff:g> W</string>
+    <string name="speed_summary_default">The console\'s default: <xliff:g id="ma">%1$d</xliff:g> mA, about <xliff:g id="watts">%2$s</xliff:g> W into the battery.</string>
+    <string name="speed_summary_slower"><xliff:g id="ma">%1$d</xliff:g> mA, about <xliff:g id="watts">%2$s</xliff:g> W. Slower than the default: cooler, and easier on the battery.</string>
+    <string name="speed_summary_faster"><xliff:g id="ma">%1$d</xliff:g> mA, about <xliff:g id="watts">%2$s</xliff:g> W. Faster than the default: needs a charger that gives at least <xliff:g id="amps">%3$s</xliff:g> A (<xliff:g id="charger_watts">%4$s</xliff:g> W).</string>
+    <string name="speed_warning_title">Charge faster than the default?</string>
+    <string name="speed_warning">Charging at <xliff:g id="ma">%1$d</xliff:g> mA (about <xliff:g id="watts">%2$s</xliff:g> W into the battery) makes the battery and the console warmer, and the battery wears out sooner. The charger has to give at least <xliff:g id="amps">%3$s</xliff:g> A (<xliff:g id="charger_watts">%4$s</xliff:g> W). With a weaker charger, a computer\'s USB port or a thin cable, charging can stop and start, or the console can run out of power. At the highest speeds, a heat sink on the power chip (RK817) is a good idea. Only use it with a good charger, and not while the console is hot.</string>
+    <string name="speed_warning_ok">Charge faster</string>
+</resources>

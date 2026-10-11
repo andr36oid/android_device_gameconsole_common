@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Charging speed setting -->
+    <string name="speed_setting">Kecepatan pengisian</string>
+    <string name="speed_default">Bawaan (<xliff:g id="ma">%1$d</xliff:g> mA, sekitar <xliff:g id="watts">%2$s</xliff:g> W)</string>
+    <string name="speed_choice"><xliff:g id="ma">%1$d</xliff:g> mA, sekitar <xliff:g id="watts">%2$s</xliff:g> W</string>
+    <string name="speed_summary_default">Bawaan konsol: <xliff:g id="ma">%1$d</xliff:g> mA, sekitar <xliff:g id="watts">%2$s</xliff:g> W ke baterai.</string>
+    <string name="speed_summary_slower"><xliff:g id="ma">%1$d</xliff:g> mA, sekitar <xliff:g id="watts">%2$s</xliff:g> W. Lebih lambat dari bawaan: lebih dingin dan lebih ramah untuk baterai.</string>
+    <string name="speed_summary_faster"><xliff:g id="ma">%1$d</xliff:g> mA, sekitar <xliff:g id="watts">%2$s</xliff:g> W. Lebih cepat dari bawaan: perlu pengisi daya minimal <xliff:g id="amps">%3$s</xliff:g> A (<xliff:g id="charger_watts">%4$s</xliff:g> W).</string>
+    <string name="speed_warning_title">Isi lebih cepat dari bawaan?</string>
+    <string name="speed_warning">Mengisi dengan <xliff:g id="ma">%1$d</xliff:g> mA (sekitar <xliff:g id="watts">%2$s</xliff:g> W ke baterai) membuat baterai dan konsol lebih panas, dan baterai lebih cepat aus. Pengisi daya harus memberi minimal <xliff:g id="amps">%3$s</xliff:g> A (<xliff:g id="charger_watts">%4$s</xliff:g> W). Dengan pengisi daya yang lebih lemah, port USB komputer, atau kabel tipis, pengisian bisa berhenti dan mulai lagi, atau daya konsol bisa habis. Pada kecepatan tertinggi, sebaiknya pasang heat sink pada chip daya (RK817). Gunakan hanya dengan pengisi daya yang bagus, dan jangan saat konsol sedang panas.</string>
+    <string name="speed_warning_ok">Isi lebih cepat</string>
+</resources>
