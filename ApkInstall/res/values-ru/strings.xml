@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Установщик APK</string>
+    <plurals name="ask_title">
+        <item quantity="one">Установить %d приложение с EASYROMS?</item>
+        <item quantity="few">Установить %d приложения с EASYROMS?</item>
+        <item quantity="many">Установить %d приложений с EASYROMS?</item>
+        <item quantity="other">Установить %d приложения с EASYROMS?</item>
+    </plurals>
+    <string name="install">Установить</string>
+    <string name="not_now">Не сейчас</string>
+    <string name="installing_title">Установка приложений</string>
+    <string name="installing">Установка %3$s (%1$d из %2$d)…</string>
+    <string name="done_title">Готово</string>
+    <plurals name="installed">
+        <item quantity="one">Установлено %d приложение.</item>
+        <item quantity="few">Установлено %d приложения.</item>
+        <item quantity="many">Установлено %d приложений.</item>
+        <item quantity="other">Установлено %d приложения.</item>
+    </plurals>
+    <string name="failed">Не установлены:</string>
+</resources>

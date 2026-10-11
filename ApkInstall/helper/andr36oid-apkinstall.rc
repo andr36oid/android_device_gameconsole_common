@@ -1,0 +1,9 @@
+on post-fs-data
+    mkdir /data/misc/andr36oid-apkinstall 0770 system system
+
+# Started by the APK installer with ctl.start, see andr36oid-apkinstall.sh
+service andr36oid-apkinstall /system/bin/sh /system/etc/andr36oid-apkinstall.sh
+    user root
+    group root system media_rw
+    disabled
+    oneshot

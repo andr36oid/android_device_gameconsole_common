@@ -777,6 +777,11 @@ PRODUCT_PACKAGES += \
 	StorageCare \
 	andr36oid-storagecare
 
+# APK installer: at start, offers to install the APKs in EASYROMS/apk
+PRODUCT_PACKAGES += \
+	ApkInstall \
+	andr36oid-apkinstall
+
 # Camera omx-plugin vpu akmd libion_rockchip_ext
 #    	
 PRODUCT_PACKAGES += \

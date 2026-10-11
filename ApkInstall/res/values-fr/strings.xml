@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Installation d\'APK</string>
+    <plurals name="ask_title">
+        <item quantity="one">Installer %d appli depuis EASYROMS ?</item>
+        <item quantity="many">Installer %d applis depuis EASYROMS ?</item>
+        <item quantity="other">Installer %d applis depuis EASYROMS ?</item>
+    </plurals>
+    <string name="install">Installer</string>
+    <string name="not_now">Plus tard</string>
+    <string name="installing_title">Installation des applis</string>
+    <string name="installing">Installation de %3$s (%1$d sur %2$d)…</string>
+    <string name="done_title">Terminé</string>
+    <plurals name="installed">
+        <item quantity="one">%d appli installée.</item>
+        <item quantity="many">%d applis installées.</item>
+        <item quantity="other">%d applis installées.</item>
+    </plurals>
+    <string name="failed">Non installées :</string>
+</resources>

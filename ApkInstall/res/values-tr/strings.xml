@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">APK yükleyici</string>
+    <plurals name="ask_title">
+        <item quantity="one">EASYROMS\'tan %d uygulama yüklensin mi?</item>
+        <item quantity="other">EASYROMS\'tan %d uygulama yüklensin mi?</item>
+    </plurals>
+    <string name="install">Yükle</string>
+    <string name="not_now">Şimdi değil</string>
+    <string name="installing_title">Uygulamalar yükleniyor</string>
+    <string name="installing">%3$s yükleniyor (%1$d / %2$d)…</string>
+    <string name="done_title">Bitti</string>
+    <plurals name="installed">
+        <item quantity="one">%d uygulama yüklendi.</item>
+        <item quantity="other">%d uygulama yüklendi.</item>
+    </plurals>
+    <string name="failed">Yüklenemedi:</string>
+</resources>
