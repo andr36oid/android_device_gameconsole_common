@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Charging speed setting -->
+    <string name="speed_setting">Vitesse de charge</string>
+    <string name="speed_default">Par défaut (<xliff:g id="ma">%1$d</xliff:g> mA, environ <xliff:g id="watts">%2$s</xliff:g> W)</string>
+    <string name="speed_choice"><xliff:g id="ma">%1$d</xliff:g> mA, environ <xliff:g id="watts">%2$s</xliff:g> W</string>
+    <string name="speed_summary_default">Valeur par défaut de la console : <xliff:g id="ma">%1$d</xliff:g> mA, environ <xliff:g id="watts">%2$s</xliff:g> W vers la batterie.</string>
+    <string name="speed_summary_slower"><xliff:g id="ma">%1$d</xliff:g> mA, environ <xliff:g id="watts">%2$s</xliff:g> W. Plus lent que par défaut : moins de chaleur et moins d\'usure pour la batterie.</string>
+    <string name="speed_summary_faster"><xliff:g id="ma">%1$d</xliff:g> mA, environ <xliff:g id="watts">%2$s</xliff:g> W. Plus rapide que par défaut : il faut un chargeur d\'au moins <xliff:g id="amps">%3$s</xliff:g> A (<xliff:g id="charger_watts">%4$s</xliff:g> W).</string>
+    <string name="speed_warning_title">Charger plus vite que par défaut ?</string>
+    <string name="speed_warning">Charger à <xliff:g id="ma">%1$d</xliff:g> mA (environ <xliff:g id="watts">%2$s</xliff:g> W vers la batterie) fait chauffer davantage la batterie et la console, et la batterie s\'use plus vite. Le chargeur doit fournir au moins <xliff:g id="amps">%3$s</xliff:g> A (<xliff:g id="charger_watts">%4$s</xliff:g> W). Avec un chargeur plus faible, le port USB d\'un ordinateur ou un câble fin, la charge peut s\'interrompre et reprendre, ou la console peut manquer d\'énergie. Aux vitesses les plus élevées, un dissipateur sur la puce d\'alimentation (RK817) est conseillé. À utiliser uniquement avec un bon chargeur, et pas quand la console est chaude.</string>
+    <string name="speed_warning_ok">Charger plus vite</string>
+</resources>

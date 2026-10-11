@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Charging speed setting -->
+    <string name="speed_setting">Şarj hızı</string>
+    <string name="speed_default">Varsayılan (<xliff:g id="ma">%1$d</xliff:g> mA, yaklaşık <xliff:g id="watts">%2$s</xliff:g> W)</string>
+    <string name="speed_choice"><xliff:g id="ma">%1$d</xliff:g> mA, yaklaşık <xliff:g id="watts">%2$s</xliff:g> W</string>
+    <string name="speed_summary_default">Konsolun varsayılanı: <xliff:g id="ma">%1$d</xliff:g> mA, pile yaklaşık <xliff:g id="watts">%2$s</xliff:g> W.</string>
+    <string name="speed_summary_slower"><xliff:g id="ma">%1$d</xliff:g> mA, yaklaşık <xliff:g id="watts">%2$s</xliff:g> W. Varsayılandan yavaş: daha serin ve pil için daha az yıpratıcı.</string>
+    <string name="speed_summary_faster"><xliff:g id="ma">%1$d</xliff:g> mA, yaklaşık <xliff:g id="watts">%2$s</xliff:g> W. Varsayılandan hızlı: en az <xliff:g id="amps">%3$s</xliff:g> A (<xliff:g id="charger_watts">%4$s</xliff:g> W) veren bir şarj cihazı gerekir.</string>
+    <string name="speed_warning_title">Varsayılandan hızlı şarj edilsin mi?</string>
+    <string name="speed_warning"><xliff:g id="ma">%1$d</xliff:g> mA ile şarj etmek (pile yaklaşık <xliff:g id="watts">%2$s</xliff:g> W) pili ve konsolu daha çok ısıtır ve pil daha çabuk yıpranır. Şarj cihazı en az <xliff:g id="amps">%3$s</xliff:g> A (<xliff:g id="charger_watts">%4$s</xliff:g> W) vermelidir. Daha zayıf bir şarj cihazı, bilgisayarın USB bağlantı noktası veya ince bir kabloyla şarj durup yeniden başlayabilir ya da konsolun gücü bitebilir. En yüksek hızlarda güç yongasına (RK817) bir soğutucu takmak iyi bir fikirdir. Yalnızca iyi bir şarj cihazıyla ve konsol sıcakken değil kullanın.</string>
+    <string name="speed_warning_ok">Daha hızlı şarj et</string>
+</resources>

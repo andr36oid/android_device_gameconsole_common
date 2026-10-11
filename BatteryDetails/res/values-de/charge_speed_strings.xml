@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Charging speed setting -->
+    <string name="speed_setting">Ladegeschwindigkeit</string>
+    <string name="speed_default">Standard (<xliff:g id="ma">%1$d</xliff:g> mA, etwa <xliff:g id="watts">%2$s</xliff:g> W)</string>
+    <string name="speed_choice"><xliff:g id="ma">%1$d</xliff:g> mA, etwa <xliff:g id="watts">%2$s</xliff:g> W</string>
+    <string name="speed_summary_default">Standard der Konsole: <xliff:g id="ma">%1$d</xliff:g> mA, etwa <xliff:g id="watts">%2$s</xliff:g> W in den Akku.</string>
+    <string name="speed_summary_slower"><xliff:g id="ma">%1$d</xliff:g> mA, etwa <xliff:g id="watts">%2$s</xliff:g> W. Langsamer als der Standard: kühler und schonender für den Akku.</string>
+    <string name="speed_summary_faster"><xliff:g id="ma">%1$d</xliff:g> mA, etwa <xliff:g id="watts">%2$s</xliff:g> W. Schneller als der Standard: braucht ein Ladegerät mit mindestens <xliff:g id="amps">%3$s</xliff:g> A (<xliff:g id="charger_watts">%4$s</xliff:g> W).</string>
+    <string name="speed_warning_title">Schneller als der Standard laden?</string>
+    <string name="speed_warning">Laden mit <xliff:g id="ma">%1$d</xliff:g> mA (etwa <xliff:g id="watts">%2$s</xliff:g> W in den Akku) macht Akku und Konsole wärmer, und der Akku nutzt sich schneller ab. Das Ladegerät muss mindestens <xliff:g id="amps">%3$s</xliff:g> A (<xliff:g id="charger_watts">%4$s</xliff:g> W) liefern. Mit einem schwächeren Ladegerät, dem USB-Anschluss eines Computers oder einem dünnen Kabel kann das Laden immer wieder abbrechen, oder der Konsole geht der Strom aus. Bei den höchsten Stufen ist ein Kühlkörper auf dem Power-Chip (RK817) eine gute Idee. Nutze es nur mit einem guten Ladegerät und nicht, wenn die Konsole heiß ist.</string>
+    <string name="speed_warning_ok">Schneller laden</string>
+</resources>

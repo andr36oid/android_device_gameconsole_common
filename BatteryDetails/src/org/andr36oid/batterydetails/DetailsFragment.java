@@ -1,5 +1,6 @@
 package org.andr36oid.batterydetails;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -11,6 +12,9 @@ import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /** Live readings, refreshed every 2 seconds while the page is open, and the graph. */
 public class DetailsFragment extends PreferenceFragment {
@@ -35,6 +39,8 @@ public class DetailsFragment extends PreferenceFragment {
     private Preference mCapacityReset;
     /** Null when the kernel has no charge limit */
     private ListPreference mLimit;
+    /** Null when the kernel has no charging speed setting */
+    private ListPreference mSpeed;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,6 +49,10 @@ public class DetailsFragment extends PreferenceFragment {
         mHeader = findPreference("header");
         mGraph = (GraphPreference) findPreference("graph");
         setUpChargeLimit();
+        setUpChargeSpeed();
+        if (mLimit == null && mSpeed == null) {
+            getPreferenceScreen().removePreference(findPreference("limit_category"));
+        }
 
         mCapacity = (CapacityPreference) findPreference("capacity_slider");
         mCapacityReset = findPreference("capacity_reset");
@@ -72,7 +82,7 @@ public class DetailsFragment extends PreferenceFragment {
     private void setUpChargeLimit() {
         mLimit = (ListPreference) findPreference("charge_limit");
         if (!ChargeLimit.isSupported()) {
-            getPreferenceScreen().removePreference(findPreference("limit_category"));
+            ((PreferenceCategory) findPreference("limit_category")).removePreference(mLimit);
             mLimit = null;
             return;
         }
@@ -101,6 +111,70 @@ public class DetailsFragment extends PreferenceFragment {
                 : getString(R.string.limit_summary, percent, percent - ChargeLimit.HYSTERESIS));
     }
 
+    private void setUpChargeSpeed() {
+        mSpeed = (ListPreference) findPreference("charge_speed");
+        if (!ChargeSpeed.isSupported()) {
+            ((PreferenceCategory) findPreference("limit_category")).removePreference(mSpeed);
+            mSpeed = null;
+            return;
+        }
+        final int defaultMa = ChargeSpeed.defaultMa();
+        final List<CharSequence> entries = new ArrayList<>();
+        final List<CharSequence> values = new ArrayList<>();
+        for (int ma : ChargeSpeed.CHOICES) {
+            if (ma == defaultMa) {
+                continue; // the "Default" entry is this one
+            }
+            entries.add(ma == 0
+                    ? getString(R.string.speed_default, defaultMa,
+                            ChargeSpeed.batteryWatts(defaultMa))
+                    : getString(R.string.speed_choice, ma, ChargeSpeed.batteryWatts(ma)));
+            values.add(Integer.toString(ma));
+        }
+        mSpeed.setEntries(entries.toArray(new CharSequence[0]));
+        mSpeed.setEntryValues(values.toArray(new CharSequence[0]));
+        mSpeed.setOnPreferenceChangeListener((preference, value) -> {
+            final int ma = Integer.parseInt((String) value);
+            if (ma > defaultMa) {
+                // Faster than the console's default: only after the warning
+                new AlertDialog.Builder(getActivity())
+                        .setTitle(R.string.speed_warning_title)
+                        .setMessage(getString(R.string.speed_warning, ma,
+                                ChargeSpeed.batteryWatts(ma), ChargeSpeed.chargerAmps(ma),
+                                ChargeSpeed.chargerWatts(ma)))
+                        .setPositiveButton(R.string.speed_warning_ok, (dialog, which) -> {
+                            ChargeSpeed.choose(ma);
+                            showSpeed(ma);
+                        })
+                        .setNegativeButton(android.R.string.cancel, null)
+                        .show();
+                return false;
+            }
+            ChargeSpeed.choose(ma);
+            showSpeed(ma);
+            return true;
+        });
+    }
+
+    private void showSpeed(int ma) {
+        final int defaultMa = ChargeSpeed.defaultMa();
+        if (ma == defaultMa) {
+            ma = 0;
+        }
+        mSpeed.setValue(Integer.toString(ma));
+        if (ma == 0) {
+            mSpeed.setSummary(getString(R.string.speed_summary_default, defaultMa,
+                    ChargeSpeed.batteryWatts(defaultMa)));
+        } else if (ma < defaultMa) {
+            mSpeed.setSummary(getString(R.string.speed_summary_slower, ma,
+                    ChargeSpeed.batteryWatts(ma)));
+        } else {
+            mSpeed.setSummary(getString(R.string.speed_summary_faster, ma,
+                    ChargeSpeed.batteryWatts(ma), ChargeSpeed.chargerAmps(ma),
+                    ChargeSpeed.chargerWatts(ma)));
+        }
+    }
+
     private void showReset(int chosenMah) {
         final int defaultMah = Capacity.defaultMah();
         mCapacityReset.setTitle(getString(R.string.capacity_reset, defaultMah));
@@ -118,6 +192,9 @@ public class DetailsFragment extends PreferenceFragment {
         mGraph.reload();
         if (mLimit != null) {
             showLimit(ChargeLimit.chosen());
+        }
+        if (mSpeed != null) {
+            showSpeed(ChargeSpeed.chosen());
         }
         if (mCapacity != null) {
             final int mah = Capacity.chosenMah();

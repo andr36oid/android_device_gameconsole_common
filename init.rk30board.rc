@@ -322,6 +322,11 @@ on property:persist.andr36oid.battery_capacity=*
 on property:persist.andr36oid.charge_limit=*
     write /sys/class/power_supply/battery/device/charge_limit_percent ${persist.andr36oid.charge_limit}
 
+# Settings > Battery > Battery details > Charging speed, in mA; 0 is the console's default
+# from its device tree. Above the default the kernel lets the charger input draw more too.
+on property:persist.andr36oid.charge_current=*
+    write /sys/class/power_supply/ac/device/charge_current_ma ${persist.andr36oid.charge_current}
+
 service logger /system/bin/logcat -b all -D -f /boot/logcat.txt
 	class main
 	user root

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Charging speed setting -->
+    <string name="speed_setting">Velocidade de carregamento</string>
+    <string name="speed_default">Padrão (<xliff:g id="ma">%1$d</xliff:g> mA, cerca de <xliff:g id="watts">%2$s</xliff:g> W)</string>
+    <string name="speed_choice"><xliff:g id="ma">%1$d</xliff:g> mA, cerca de <xliff:g id="watts">%2$s</xliff:g> W</string>
+    <string name="speed_summary_default">O padrão do console: <xliff:g id="ma">%1$d</xliff:g> mA, cerca de <xliff:g id="watts">%2$s</xliff:g> W para a bateria.</string>
+    <string name="speed_summary_slower"><xliff:g id="ma">%1$d</xliff:g> mA, cerca de <xliff:g id="watts">%2$s</xliff:g> W. Mais lenta que o padrão: menos calor e menos desgaste da bateria.</string>
+    <string name="speed_summary_faster"><xliff:g id="ma">%1$d</xliff:g> mA, cerca de <xliff:g id="watts">%2$s</xliff:g> W. Mais rápida que o padrão: precisa de um carregador de pelo menos <xliff:g id="amps">%3$s</xliff:g> A (<xliff:g id="charger_watts">%4$s</xliff:g> W).</string>
+    <string name="speed_warning_title">Carregar mais rápido que o padrão?</string>
+    <string name="speed_warning">Carregar a <xliff:g id="ma">%1$d</xliff:g> mA (cerca de <xliff:g id="watts">%2$s</xliff:g> W para a bateria) esquenta mais a bateria e o console, e a bateria se desgasta mais cedo. O carregador precisa fornecer pelo menos <xliff:g id="amps">%3$s</xliff:g> A (<xliff:g id="charger_watts">%4$s</xliff:g> W). Com um carregador mais fraco, a porta USB de um computador ou um cabo fino, o carregamento pode parar e recomeçar, ou o console pode ficar sem energia. Nas velocidades mais altas, vale a pena pôr um dissipador no chip de energia (RK817). Use só com um bom carregador e não enquanto o console estiver quente.</string>
+    <string name="speed_warning_ok">Carregar mais rápido</string>
+</resources>

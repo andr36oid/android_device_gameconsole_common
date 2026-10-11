@@ -48,6 +48,13 @@
             android:title="@string/limit_setting"
             android:dialogTitle="@string/limit_setting"
             android:persistent="false" />
+
+        <!-- Removed when the kernel has no charging speed setting -->
+        <ListPreference
+            android:key="charge_speed"
+            android:title="@string/speed_setting"
+            android:dialogTitle="@string/speed_setting"
+            android:persistent="false" />
     </PreferenceCategory>
 
     <Preference
