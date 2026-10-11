@@ -823,6 +823,10 @@ show power.txt /sys/class/power_supply/*/uevent
 B=/sys/class/power_supply/battery/device
 show power.txt $B/gauge_boot $B/design_capacity_mah $B/charge_limit_percent \
 	$B/charge_limit_active
+# charging speed setting (night/o2-kernel-charge-speed); current_now in the battery
+# uevent is the real charge current, ac or usb online says which charger type
+show power.txt /sys/class/power_supply/ac/device/charge_current_ma \
+	/sys/class/power_supply/ac/device/charge_current_default_ma
 for z in /sys/class/thermal/thermal_zone*; do
 	echo "$z $(cat "$z/type" 2>/dev/null) $(cat "$z/temp" 2>/dev/null)" >>"$WORK/power.txt"
 done
