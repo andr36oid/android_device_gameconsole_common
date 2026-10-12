@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="deep_sleep_title">Głęboki sen</string>
+    <string name="deep_sleep_summary">Kroki oszczędzania energii w uśpieniu, do szukania problemów z uśpieniem</string>
+    <string name="deep_sleep_intro">Te kroki decydują, jak głęboko śpi konsola. Wyłączenie niektórych może zapobiec zawieszaniu się konsoli w uśpieniu, ale zużywa więcej baterii w czasie snu. Zmiana działa od następnego uśpienia i zostaje po ponownym uruchomieniu. Jeśli konsola się nie budzi, przytrzymaj Power przez 7 sekund.</string>
+    <string name="deep_sleep_reset">Przywróć domyślne</string>
+    <string name="deep_sleep_state">Teraz: %1$s. Domyślnie dla tej konsoli: %2$s</string>
+    <string name="deep_sleep_unsupported">Ten system nie może zmienić kroków uśpienia.</string>
+    <string name="deep_sleep_steps">Kroki uśpienia</string>
+    <string name="deep_sleep_wake">Wybudzanie</string>
+    <string name="step_armoff">Rdzenie wyłączone</string>
+    <string name="step_armoff_summary">Wyłącz rdzenie procesora (ARMOFF)</string>
+    <string name="step_logoff">Logika wyłączona</string>
+    <string name="step_logoff_summary">Wyłącz też domenę zasilania logiki (ARMOFF_LOGOFF)</string>
+    <string name="step_ddrpd">Oszczędzanie pamięci</string>
+    <string name="step_ddrpd_summary">Przełącz RAM w tryb power-down (ARMOFF_DDRPD)</string>
+    <string name="step_plls">Generatory zegara wyłączone</string>
+    <string name="step_plls_summary">Wyłącz PLL (PMU_HW_PLLS_PD)</string>
+    <string name="step_32k">Zegar 32 kHz</string>
+    <string name="step_32k_summary">Uruchom kontroler zasilania na wolnym zegarze 32 kHz (PMU_PMUALIVE_32K)</string>
+    <string name="step_osc">Kwarc 24 MHz wyłączony</string>
+    <string name="step_osc_summary">Zatrzymaj główny kwarc (PMU_DIS_OSC)</string>
+    <string name="step_clk_gt">Bramkowanie zegarów</string>
+    <string name="step_clk_gt_summary">Zatrzymaj zegary nieużywanych części układu (CLK_GT)</string>
+    <string name="step_pmic_lp">Tryb oszczędny układu zasilania</string>
+    <string name="step_pmic_lp_summary">Przełącz układ zasilania w tryb oszczędny i obniż napięcia (PMIC_LP)</string>
+    <string name="wake_usb">Wybudzanie przez USB</string>
+    <string name="wake_usb_summary">Podłączenie kabla lub urządzenia USB może wybudzić konsolę (USB_WKUP_EN)</string>
+</resources>

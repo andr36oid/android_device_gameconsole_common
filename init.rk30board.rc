@@ -309,6 +309,14 @@ on property:persist.andr36oid.stick_deadzone=*
 on property:persist.andr36oid.stick_cal=*
     write /sys/devices/platform/odroidgo3-joypad/stick_cal ${persist.andr36oid.stick_cal}
 
+# Settings > Battery > Deep sleep: the firmware's sleep steps and wake-up sources
+# ("default" = the DTB's). Also runs at boot when the saved values are loaded.
+on property:persist.andr36oid.sleep_mode=*
+    write /sys/module/rockchip_pm_config/parameters/sleep_mode ${persist.andr36oid.sleep_mode}
+
+on property:persist.andr36oid.sleep_wakeup=*
+    write /sys/module/rockchip_pm_config/parameters/sleep_wakeup ${persist.andr36oid.sleep_wakeup}
+
 on property:persist.vendor.logger.enable=1
     start logger
 

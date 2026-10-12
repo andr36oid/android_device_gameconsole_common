@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="org.andr36oid.deepsleep"
+    android:sharedUserId="android.uid.system">
+
+    <application
+        android:allowBackup="false"
+        android:icon="@drawable/ic_deep_sleep"
+        android:label="@string/deep_sleep_title"
+        android:supportsRtl="true">
+
+        <!-- Injected into Settings > Battery -->
+        <activity
+            android:name=".DeepSleepActivity"
+            android:exported="true"
+            android:label="@string/deep_sleep_title"
+            android:theme="@android:style/Theme.DeviceDefault.Settings">
+            <intent-filter>
+                <action android:name="com.android.settings.action.IA_SETTINGS" />
+            </intent-filter>
+            <meta-data
+                android:name="com.android.settings.category"
+                android:value="com.android.settings.category.ia.battery" />
+            <meta-data
+                android:name="com.android.settings.summary"
+                android:resource="@string/deep_sleep_summary" />
+            <meta-data
+                android:name="com.android.settings.icon"
+                android:resource="@drawable/ic_deep_sleep" />
+        </activity>
+    </application>
+</manifest>

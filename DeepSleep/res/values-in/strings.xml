@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="deep_sleep_title">Tidur dalam</string>
+    <string name="deep_sleep_summary">Langkah hemat daya saat tidur, untuk mencari masalah tidur</string>
+    <string name="deep_sleep_intro">Langkah-langkah ini menentukan seberapa dalam konsol tidur. Mematikan beberapa bisa mencegah konsol macet saat tidur, tetapi memakai lebih banyak baterai saat tidur. Perubahan berlaku mulai tidur berikutnya dan tetap setelah restart. Jika konsol tidak bangun, tahan Power selama 7 detik.</string>
+    <string name="deep_sleep_reset">Kembali ke default</string>
+    <string name="deep_sleep_state">Sekarang: %1$s. Default konsol ini: %2$s</string>
+    <string name="deep_sleep_unsupported">Sistem ini tidak bisa mengubah langkah tidur.</string>
+    <string name="deep_sleep_steps">Langkah tidur</string>
+    <string name="deep_sleep_wake">Bangun</string>
+    <string name="step_armoff">Inti mati</string>
+    <string name="step_armoff_summary">Matikan inti prosesor (ARMOFF)</string>
+    <string name="step_logoff">Logika mati</string>
+    <string name="step_logoff_summary">Matikan juga domain daya logika (ARMOFF_LOGOFF)</string>
+    <string name="step_ddrpd">Memori hemat daya</string>
+    <string name="step_ddrpd_summary">Masukkan RAM ke mode power-down (ARMOFF_DDRPD)</string>
+    <string name="step_plls">Pembangkit clock mati</string>
+    <string name="step_plls_summary">Matikan PLL (PMU_HW_PLLS_PD)</string>
+    <string name="step_32k">Clock 32 kHz</string>
+    <string name="step_32k_summary">Jalankan pengendali daya dengan clock lambat 32 kHz (PMU_PMUALIVE_32K)</string>
+    <string name="step_osc">Kristal 24 MHz mati</string>
+    <string name="step_osc_summary">Hentikan kristal utama (PMU_DIS_OSC)</string>
+    <string name="step_clk_gt">Clock gating</string>
+    <string name="step_clk_gt_summary">Hentikan clock bagian chip yang tidak dipakai (CLK_GT)</string>
+    <string name="step_pmic_lp">Mode hemat chip daya</string>
+    <string name="step_pmic_lp_summary">Masukkan chip daya ke mode hemat dan turunkan tegangan (PMIC_LP)</string>
+    <string name="wake_usb">Bangun lewat USB</string>
+    <string name="wake_usb_summary">Mencolokkan kabel atau perangkat USB bisa membangunkan konsol (USB_WKUP_EN)</string>
+</resources>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="deep_sleep_title">深度睡眠</string>
+    <string name="deep_sleep_summary">睡眠时的省电步骤，用于排查睡眠问题</string>
+    <string name="deep_sleep_intro">这些步骤决定主机睡得多深。关闭其中一些可以避免主机在睡眠中卡死，但睡眠时更耗电。更改从下一次睡眠起生效，重启后仍然保留。如果主机无法唤醒，请按住电源键 7 秒。</string>
+    <string name="deep_sleep_reset">恢复默认</string>
+    <string name="deep_sleep_state">当前：%1$s。此主机的默认值：%2$s</string>
+    <string name="deep_sleep_unsupported">此系统无法更改睡眠步骤。</string>
+    <string name="deep_sleep_steps">睡眠步骤</string>
+    <string name="deep_sleep_wake">唤醒</string>
+    <string name="step_armoff">关闭核心</string>
+    <string name="step_armoff_summary">关闭处理器核心 (ARMOFF)</string>
+    <string name="step_logoff">关闭逻辑</string>
+    <string name="step_logoff_summary">同时关闭逻辑电源域 (ARMOFF_LOGOFF)</string>
+    <string name="step_ddrpd">内存省电</string>
+    <string name="step_ddrpd_summary">让内存进入 power-down 模式 (ARMOFF_DDRPD)</string>
+    <string name="step_plls">关闭时钟发生器</string>
+    <string name="step_plls_summary">关闭 PLL (PMU_HW_PLLS_PD)</string>
+    <string name="step_32k">32 kHz 时钟</string>
+    <string name="step_32k_summary">让电源控制器使用慢速 32 kHz 时钟 (PMU_PMUALIVE_32K)</string>
+    <string name="step_osc">关闭 24 MHz 晶振</string>
+    <string name="step_osc_summary">停止主晶振 (PMU_DIS_OSC)</string>
+    <string name="step_clk_gt">时钟门控</string>
+    <string name="step_clk_gt_summary">停止芯片空闲部分的时钟 (CLK_GT)</string>
+    <string name="step_pmic_lp">电源芯片低功耗模式</string>
+    <string name="step_pmic_lp_summary">让电源芯片进入低功耗模式并降低电压 (PMIC_LP)</string>
+    <string name="wake_usb">USB 唤醒</string>
+    <string name="wake_usb_summary">插入数据线或 USB 设备可以唤醒主机 (USB_WKUP_EN)</string>
+</resources>

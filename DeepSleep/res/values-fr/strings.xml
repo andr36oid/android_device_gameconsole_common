@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="deep_sleep_title">Veille profonde</string>
+    <string name="deep_sleep_summary">Étapes d’économie d’énergie en veille, pour trouver les problèmes de veille</string>
+    <string name="deep_sleep_intro">Ces étapes décident de la profondeur de la veille. En désactiver certaines peut empêcher la console de se figer en veille, mais consomme plus de batterie pendant la veille. Un changement compte dès la prochaine veille et reste après un redémarrage. Si la console ne se réveille pas, maintenez Power 7 secondes.</string>
+    <string name="deep_sleep_reset">Rétablir les valeurs par défaut</string>
+    <string name="deep_sleep_state">Actuel : %1$s. Par défaut pour cette console : %2$s</string>
+    <string name="deep_sleep_unsupported">Ce système ne peut pas changer les étapes de veille.</string>
+    <string name="deep_sleep_steps">Étapes de veille</string>
+    <string name="deep_sleep_wake">Réveil</string>
+    <string name="step_armoff">Cœurs éteints</string>
+    <string name="step_armoff_summary">Éteindre les cœurs du processeur (ARMOFF)</string>
+    <string name="step_logoff">Logique éteinte</string>
+    <string name="step_logoff_summary">Éteindre aussi le domaine d’alimentation logique (ARMOFF_LOGOFF)</string>
+    <string name="step_ddrpd">Mémoire en économie</string>
+    <string name="step_ddrpd_summary">Mettre la RAM en mode power-down (ARMOFF_DDRPD)</string>
+    <string name="step_plls">Générateurs d’horloge éteints</string>
+    <string name="step_plls_summary">Éteindre les PLL (PMU_HW_PLLS_PD)</string>
+    <string name="step_32k">Horloge 32 kHz</string>
+    <string name="step_32k_summary">Faire tourner le contrôleur d’alimentation sur son horloge lente de 32 kHz (PMU_PMUALIVE_32K)</string>
+    <string name="step_osc">Quartz 24 MHz éteint</string>
+    <string name="step_osc_summary">Arrêter le quartz principal (PMU_DIS_OSC)</string>
+    <string name="step_clk_gt">Coupure des horloges</string>
+    <string name="step_clk_gt_summary">Arrêter les horloges des parties inactives de la puce (CLK_GT)</string>
+    <string name="step_pmic_lp">Économie de la puce d’alimentation</string>
+    <string name="step_pmic_lp_summary">Mettre la puce d’alimentation en économie et baisser les tensions (PMIC_LP)</string>
+    <string name="wake_usb">Réveil par USB</string>
+    <string name="wake_usb_summary">Brancher un câble ou un appareil USB peut réveiller la console (USB_WKUP_EN)</string>
+</resources>

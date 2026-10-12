@@ -539,6 +539,10 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
 	CpuOverclock
 
+# Settings > Battery > Deep sleep: the firmware's sleep steps, for finding sleep freezes
+PRODUCT_PACKAGES += \
+	DeepSleep
+
 # RGB lights (Settings > Display > RGB lights), shown only on consoles with an
 # RGB LED (R36 Ultra); off unless chosen
 PRODUCT_PACKAGES += \

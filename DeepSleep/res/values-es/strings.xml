@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="deep_sleep_title">Sueño profundo</string>
+    <string name="deep_sleep_summary">Pasos de ahorro de energía en reposo, para encontrar problemas de reposo</string>
+    <string name="deep_sleep_intro">Estos pasos deciden lo profundo que duerme la consola. Desactivar algunos puede evitar que la consola se congele en reposo, pero gasta más batería mientras duerme. Un cambio cuenta desde el siguiente reposo y se mantiene tras reiniciar. Si la consola no despierta, mantén pulsado Power 7 segundos.</string>
+    <string name="deep_sleep_reset">Restablecer</string>
+    <string name="deep_sleep_state">Ahora: %1$s. Predeterminado de esta consola: %2$s</string>
+    <string name="deep_sleep_unsupported">Este sistema no puede cambiar los pasos de reposo.</string>
+    <string name="deep_sleep_steps">Pasos de reposo</string>
+    <string name="deep_sleep_wake">Despertar</string>
+    <string name="step_armoff">Núcleos apagados</string>
+    <string name="step_armoff_summary">Apagar los núcleos del procesador (ARMOFF)</string>
+    <string name="step_logoff">Lógica apagada</string>
+    <string name="step_logoff_summary">Apagar también el dominio de energía de la lógica (ARMOFF_LOGOFF)</string>
+    <string name="step_ddrpd">Memoria en bajo consumo</string>
+    <string name="step_ddrpd_summary">Poner la RAM en modo power-down (ARMOFF_DDRPD)</string>
+    <string name="step_plls">Generadores de reloj apagados</string>
+    <string name="step_plls_summary">Apagar los PLL (PMU_HW_PLLS_PD)</string>
+    <string name="step_32k">Reloj de 32 kHz</string>
+    <string name="step_32k_summary">Hacer funcionar el controlador de energía con su reloj lento de 32 kHz (PMU_PMUALIVE_32K)</string>
+    <string name="step_osc">Cristal de 24 MHz apagado</string>
+    <string name="step_osc_summary">Detener el cristal principal (PMU_DIS_OSC)</string>
+    <string name="step_clk_gt">Corte de relojes</string>
+    <string name="step_clk_gt_summary">Detener los relojes de las partes inactivas del chip (CLK_GT)</string>
+    <string name="step_pmic_lp">Bajo consumo del chip de energía</string>
+    <string name="step_pmic_lp_summary">Poner el chip de energía en bajo consumo y bajar los voltajes (PMIC_LP)</string>
+    <string name="wake_usb">Despertar por USB</string>
+    <string name="wake_usb_summary">Conectar un cable o un dispositivo USB puede despertar la consola (USB_WKUP_EN)</string>
+</resources>

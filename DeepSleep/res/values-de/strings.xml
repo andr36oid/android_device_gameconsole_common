@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="deep_sleep_title">Tiefschlaf</string>
+    <string name="deep_sleep_summary">Stromsparschritte im Schlaf, um Schlafprobleme zu finden</string>
+    <string name="deep_sleep_intro">Diese Schritte legen fest, wie tief die Konsole schläft. Einige auszuschalten kann verhindern, dass die Konsole im Schlaf hängen bleibt, braucht aber im Schlaf mehr Akku. Eine Änderung gilt ab dem nächsten Schlaf und bleibt nach einem Neustart. Wenn die Konsole nicht aufwacht, halte Power 7 Sekunden lang gedrückt.</string>
+    <string name="deep_sleep_reset">Auf Standard zurücksetzen</string>
+    <string name="deep_sleep_state">Jetzt: %1$s. Standard für diese Konsole: %2$s</string>
+    <string name="deep_sleep_unsupported">Dieses System kann die Schlafschritte nicht ändern.</string>
+    <string name="deep_sleep_steps">Schlafschritte</string>
+    <string name="deep_sleep_wake">Aufwachen</string>
+    <string name="step_armoff">Kerne aus</string>
+    <string name="step_armoff_summary">Prozessorkerne ausschalten (ARMOFF)</string>
+    <string name="step_logoff">Logik aus</string>
+    <string name="step_logoff_summary">Auch den Logik-Strombereich ausschalten (ARMOFF_LOGOFF)</string>
+    <string name="step_ddrpd">Speicher-Stromsparmodus</string>
+    <string name="step_ddrpd_summary">Den RAM in den Power-down-Modus versetzen (ARMOFF_DDRPD)</string>
+    <string name="step_plls">Taktgeber aus</string>
+    <string name="step_plls_summary">Die PLLs ausschalten (PMU_HW_PLLS_PD)</string>
+    <string name="step_32k">32-kHz-Takt</string>
+    <string name="step_32k_summary">Den Power-Controller mit seinem langsamen 32-kHz-Takt laufen lassen (PMU_PMUALIVE_32K)</string>
+    <string name="step_osc">24-MHz-Quarz aus</string>
+    <string name="step_osc_summary">Den Hauptquarz anhalten (PMU_DIS_OSC)</string>
+    <string name="step_clk_gt">Takt-Gating</string>
+    <string name="step_clk_gt_summary">Die Takte ungenutzter Chipteile anhalten (CLK_GT)</string>
+    <string name="step_pmic_lp">Stromsparmodus des Power-Chips</string>
+    <string name="step_pmic_lp_summary">Den Power-Chip in den Stromsparmodus versetzen und die Spannungen senken (PMIC_LP)</string>
+    <string name="wake_usb">Bei USB aufwachen</string>
+    <string name="wake_usb_summary">Ein Kabel oder USB-Gerät einzustecken kann die Konsole wecken (USB_WKUP_EN)</string>
+</resources>

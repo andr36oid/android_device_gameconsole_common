@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="deep_sleep_title">Derin uyku</string>
+    <string name="deep_sleep_summary">Uykudaki güç tasarrufu adımları, uyku sorunlarını bulmak için</string>
+    <string name="deep_sleep_intro">Bu adımlar konsolun ne kadar derin uyuyacağını belirler. Bazılarını kapatmak konsolun uykuda donmasını önleyebilir, ancak uykudayken daha çok pil harcar. Bir değişiklik bir sonraki uykudan itibaren geçerlidir ve yeniden başlatmadan sonra da kalır. Konsol uyanmazsa Power\'ı 7 saniye basılı tutun.</string>
+    <string name="deep_sleep_reset">Varsayılana dön</string>
+    <string name="deep_sleep_state">Şu an: %1$s. Bu konsolun varsayılanı: %2$s</string>
+    <string name="deep_sleep_unsupported">Bu sistem uyku adımlarını değiştiremiyor.</string>
+    <string name="deep_sleep_steps">Uyku adımları</string>
+    <string name="deep_sleep_wake">Uyanma</string>
+    <string name="step_armoff">Çekirdekler kapalı</string>
+    <string name="step_armoff_summary">İşlemci çekirdeklerini kapat (ARMOFF)</string>
+    <string name="step_logoff">Mantık kapalı</string>
+    <string name="step_logoff_summary">Mantık güç alanını da kapat (ARMOFF_LOGOFF)</string>
+    <string name="step_ddrpd">Bellek güç tasarrufu</string>
+    <string name="step_ddrpd_summary">RAM\'i power-down moduna al (ARMOFF_DDRPD)</string>
+    <string name="step_plls">Saat üreteçleri kapalı</string>
+    <string name="step_plls_summary">PLL\'leri kapat (PMU_HW_PLLS_PD)</string>
+    <string name="step_32k">32 kHz saat</string>
+    <string name="step_32k_summary">Güç denetleyicisini yavaş 32 kHz saatinde çalıştır (PMU_PMUALIVE_32K)</string>
+    <string name="step_osc">24 MHz kristal kapalı</string>
+    <string name="step_osc_summary">Ana kristali durdur (PMU_DIS_OSC)</string>
+    <string name="step_clk_gt">Saat kapılama</string>
+    <string name="step_clk_gt_summary">Çipin boştaki kısımlarının saatlerini durdur (CLK_GT)</string>
+    <string name="step_pmic_lp">Güç çipi düşük güç modu</string>
+    <string name="step_pmic_lp_summary">Güç çipini düşük güç moduna al ve gerilimleri düşür (PMIC_LP)</string>
+    <string name="wake_usb">USB ile uyan</string>
+    <string name="wake_usb_summary">Kablo veya USB cihaz takmak konsolu uyandırabilir (USB_WKUP_EN)</string>
+</resources>

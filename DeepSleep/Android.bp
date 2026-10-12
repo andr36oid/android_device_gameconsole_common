@@ -1,0 +1,13 @@
+// Settings > Battery > Deep sleep: which power-saving steps the firmware takes in sleep, to
+// find the cause of consoles that never wake. Runs as the system user so it can set
+// persist.andr36oid.sleep_*; init writes them to the kernel (init.rk30board.rc).
+android_app {
+    name: "DeepSleep",
+    srcs: ["src/**/*.java"],
+    resource_dirs: ["res"],
+    certificate: "platform",
+    platform_apis: true,
+    optimize: {
+        enabled: false,
+    },
+}

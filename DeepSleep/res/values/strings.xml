@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="deep_sleep_title">Deep sleep</string>
+    <string name="deep_sleep_summary">Power-saving steps in sleep, for finding sleep problems</string>
+    <string name="deep_sleep_intro">These steps decide how deeply the console sleeps. Turning some off can stop a console from freezing in sleep, but it uses more battery while asleep. A change counts from the next sleep and stays after a restart. If the console doesn\'t wake up, hold Power for 7 seconds.</string>
+    <string name="deep_sleep_reset">Back to default</string>
+    <string name="deep_sleep_state">Now: %1$s. Default for this console: %2$s</string>
+    <string name="deep_sleep_unsupported">This system can\'t change the sleep steps.</string>
+    <string name="deep_sleep_steps">Sleep steps</string>
+    <string name="deep_sleep_wake">Waking up</string>
+    <string name="step_armoff">Cores off</string>
+    <string name="step_armoff_summary">Turn the processor cores off (ARMOFF)</string>
+    <string name="step_logoff">Logic off</string>
+    <string name="step_logoff_summary">Also turn the logic power domain off (ARMOFF_LOGOFF)</string>
+    <string name="step_ddrpd">Memory power-down</string>
+    <string name="step_ddrpd_summary">Put the RAM in power-down mode (ARMOFF_DDRPD)</string>
+    <string name="step_plls">Clock generators off</string>
+    <string name="step_plls_summary">Turn the PLLs off (PMU_HW_PLLS_PD)</string>
+    <string name="step_32k">32 kHz clock</string>
+    <string name="step_32k_summary">Run the power controller on its slow 32 kHz clock (PMU_PMUALIVE_32K)</string>
+    <string name="step_osc">24 MHz crystal off</string>
+    <string name="step_osc_summary">Stop the main crystal (PMU_DIS_OSC)</string>
+    <string name="step_clk_gt">Clock gating</string>
+    <string name="step_clk_gt_summary">Stop the clocks of idle parts of the chip (CLK_GT)</string>
+    <string name="step_pmic_lp">Power chip low-power mode</string>
+    <string name="step_pmic_lp_summary">Put the power chip in low-power mode and lower the voltages (PMIC_LP)</string>
+    <string name="wake_usb">Wake on USB</string>
+    <string name="wake_usb_summary">Plugging in a cable or USB device can wake the console (USB_WKUP_EN)</string>
+</resources>

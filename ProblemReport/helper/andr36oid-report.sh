@@ -819,7 +819,8 @@ done
 
 step 5 power
 show power.txt /sys/power/state /sys/power/mem_sleep /sys/power/wakeup_count \
-	/sys/power/wake_lock /sys/power/suspend_stats/* /sys/kernel/wakeup_reasons/*
+	/sys/power/wake_lock /sys/power/suspend_stats/* /sys/kernel/wakeup_reasons/* \
+	/sys/module/rockchip_pm_config/parameters/*
 show power.txt /sys/class/power_supply/*/uevent
 # fuel gauge: how the level was picked at boot, capacity and charge limit knobs
 B=/sys/class/power_supply/battery/device
