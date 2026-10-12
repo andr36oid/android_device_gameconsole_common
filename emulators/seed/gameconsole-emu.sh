@@ -351,9 +351,13 @@ install_apks() {
 				log "installing $pkg failed: $out"
 				# Only the package's own failures ("Failure [INSTALL_...]") are
 				# kept. When Android's package service is gone (system_server
-				# restarting) the next start tries again.
+				# restarting) or the console is shutting down (setup's "Shut
+				# down now"), the next start tries again.
 				case $out in
-				*"Failure ["*) echo "$vc" >"$STATE/failed.$pkg" ;;
+				*"Failure ["*)
+					[ -n "$(getprop sys.shutdown.requested)" ] ||
+						echo "$vc" >"$STATE/failed.$pkg"
+					;;
 				esac
 			fi
 		done <"$list"
