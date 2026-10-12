@@ -406,7 +406,9 @@ decide() {
 		SUGGEST=$HW
 	elif [ "$SYMPTOMS" = no ]; then
 		VERDICT=ok
-		SUGGEST=$DT_WIRING
+		# A black screen shows no symptoms, and a V12 wired like the G80 runs the
+		# K36-kind Var2 without a stuck button: offer every EE folder
+		if [ "$dtf" = ee ]; then SUGGEST=ee; else SUGGEST=$DT_WIRING; fi
 	elif [ "$dtf" = ee ] && [ "$SERIAL_CLASH" = yes ]; then
 		VERDICT=old-ee-dtb
 		SUGGEST=$DT_WIRING
