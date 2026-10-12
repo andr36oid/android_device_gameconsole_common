@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Deep sleep setting -->
+    <string name="sleep_title">Reposo</string>
+    <string name="deep_sleep">Reposo profundo</string>
+    <string name="deep_sleep_on">Activado: gasta la menor batería con la pantalla apagada. Si la consola a veces no se despierta, desactívalo.</string>
+    <string name="deep_sleep_off">Desactivado: con la pantalla apagada la consola solo descansa ligeramente. La batería se gasta más rápido.</string>
+</resources>

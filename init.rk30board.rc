@@ -327,6 +327,21 @@ on property:persist.andr36oid.charge_limit=*
 on property:persist.andr36oid.charge_current=*
     write /sys/class/power_supply/ac/device/charge_current_ma ${persist.andr36oid.charge_current}
 
+# Settings > Battery > Battery details > Deep sleep. Off: the console only idles with the
+# screen off (s2idle) instead of powering down through the firmware, for consoles that
+# sometimes don't wake up. Unset is the kernel's default, deep.
+on property:persist.andr36oid.deep_sleep=0
+    write /sys/power/mem_sleep s2idle
+
+on property:persist.andr36oid.deep_sleep=1
+    write /sys/power/mem_sleep deep
+
+# Keep logging to the saved kernel log (pstore) through sleep and note each device's suspend
+# and resume, so the log after a console that didn't wake up shows the step it hung in
+on boot
+    write /sys/module/printk/parameters/console_suspend N
+    write /sys/power/pm_print_times 1
+
 service logger /system/bin/logcat -b all -D -f /boot/logcat.txt
 	class main
 	user root

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Deep sleep setting -->
+    <string name="sleep_title">睡眠</string>
+    <string name="deep_sleep">深度睡眠</string>
+    <string name="deep_sleep_on">开启：屏幕关闭时最省电。如果掌机有时无法唤醒，请关闭此项。</string>
+    <string name="deep_sleep_off">关闭：屏幕关闭时掌机只进入浅睡眠，耗电更快。</string>
+</resources>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Deep sleep setting -->
+    <string name="sleep_title">Tidur</string>
+    <string name="deep_sleep">Tidur nyenyak</string>
+    <string name="deep_sleep_on">Aktif: paling hemat baterai saat layar mati. Jika konsol kadang tidak bangun lagi, matikan ini.</string>
+    <string name="deep_sleep_off">Nonaktif: konsol hanya istirahat ringan saat layar mati. Baterai lebih cepat habis.</string>
+</resources>

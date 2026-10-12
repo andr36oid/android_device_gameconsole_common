@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Deep sleep setting -->
+    <string name="sleep_title">Veille</string>
+    <string name="deep_sleep">Veille profonde</string>
+    <string name="deep_sleep_on">Activée : consomme le moins de batterie écran éteint. Si la console ne se réveille parfois plus, désactivez-la.</string>
+    <string name="deep_sleep_off">Désactivée : écran éteint, la console ne fait que se reposer légèrement. La batterie se vide alors plus vite.</string>
+</resources>

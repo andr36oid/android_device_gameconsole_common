@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Deep sleep setting -->
+    <string name="sleep_title">Uyku</string>
+    <string name="deep_sleep">Derin uyku</string>
+    <string name="deep_sleep_on">Açık: ekran kapalıyken en az pil harcar. Konsol bazen uykudan uyanmıyorsa bunu kapat.</string>
+    <string name="deep_sleep_off">Kapalı: ekran kapalıyken konsol yalnızca hafifçe dinlenir. Pil daha hızlı biter.</string>
+</resources>

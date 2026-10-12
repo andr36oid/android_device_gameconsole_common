@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Deep sleep setting -->
+    <string name="sleep_title">Сон</string>
+    <string name="deep_sleep">Глубокий сон</string>
+    <string name="deep_sleep_on">Вкл.: меньше всего расходует батарею при выключенном экране. Если консоль иногда не просыпается, выключите это.</string>
+    <string name="deep_sleep_off">Выкл.: при выключенном экране консоль лишь слегка отдыхает. Батарея садится быстрее.</string>
+</resources>

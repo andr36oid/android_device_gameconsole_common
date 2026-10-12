@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Deep sleep setting -->
+    <string name="sleep_title">Suspensão</string>
+    <string name="deep_sleep">Suspensão profunda</string>
+    <string name="deep_sleep_on">Ligada: gasta o mínimo de bateria com o ecrã desligado. Se a consola às vezes não acorda, desliga isto.</string>
+    <string name="deep_sleep_off">Desligada: com o ecrã desligado a consola só descansa levemente. A bateria gasta-se mais depressa.</string>
+</resources>

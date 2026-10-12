@@ -57,6 +57,19 @@
             android:persistent="false" />
     </PreferenceCategory>
 
+    <PreferenceCategory
+        android:key="sleep_category"
+        android:title="@string/sleep_title">
+
+        <!-- Removed when the kernel has no sleep modes to choose from -->
+        <SwitchPreference
+            android:key="deep_sleep"
+            android:title="@string/deep_sleep"
+            android:summaryOn="@string/deep_sleep_on"
+            android:summaryOff="@string/deep_sleep_off"
+            android:persistent="false" />
+    </PreferenceCategory>
+
     <Preference
         android:key="about"
         android:selectable="false"

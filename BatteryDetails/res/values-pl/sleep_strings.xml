@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Deep sleep setting -->
+    <string name="sleep_title">Uśpienie</string>
+    <string name="deep_sleep">Głębokie uśpienie</string>
+    <string name="deep_sleep_on">Włączone: najmniejsze zużycie baterii przy wyłączonym ekranie. Jeśli konsola czasem się nie wybudza, wyłącz to.</string>
+    <string name="deep_sleep_off">Wyłączone: przy wyłączonym ekranie konsola tylko lekko odpoczywa. Bateria rozładowuje się wtedy szybciej.</string>
+</resources>

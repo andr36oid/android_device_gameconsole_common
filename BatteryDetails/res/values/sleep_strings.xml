@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Deep sleep setting -->
+    <string name="sleep_title">Sleep</string>
+    <string name="deep_sleep">Deep sleep</string>
+    <string name="deep_sleep_on">On: uses the least battery while the screen is off. If the console sometimes doesn\'t wake up from sleep, turn this off.</string>
+    <string name="deep_sleep_off">Off: the console only rests lightly while the screen is off. The battery runs down faster then.</string>
+</resources>

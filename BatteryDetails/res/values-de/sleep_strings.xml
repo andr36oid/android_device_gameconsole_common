@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Deep sleep setting -->
+    <string name="sleep_title">Ruhezustand</string>
+    <string name="deep_sleep">Tiefschlaf</string>
+    <string name="deep_sleep_on">An: verbraucht bei ausgeschaltetem Bildschirm am wenigsten Akku. Wenn die Konsole manchmal nicht mehr aufwacht, schalte das aus.</string>
+    <string name="deep_sleep_off">Aus: die Konsole ruht bei ausgeschaltetem Bildschirm nur leicht. Der Akku leert sich dann schneller.</string>
+</resources>

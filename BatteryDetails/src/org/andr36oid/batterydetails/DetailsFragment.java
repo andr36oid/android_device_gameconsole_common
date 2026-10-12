@@ -12,6 +12,7 @@ import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
+import android.preference.SwitchPreference;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +42,8 @@ public class DetailsFragment extends PreferenceFragment {
     private ListPreference mLimit;
     /** Null when the kernel has no charging speed setting */
     private ListPreference mSpeed;
+    /** Null when the kernel has no sleep modes to choose from */
+    private SwitchPreference mDeepSleep;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -53,6 +56,7 @@ public class DetailsFragment extends PreferenceFragment {
         if (mLimit == null && mSpeed == null) {
             getPreferenceScreen().removePreference(findPreference("limit_category"));
         }
+        setUpDeepSleep();
 
         mCapacity = (CapacityPreference) findPreference("capacity_slider");
         mCapacityReset = findPreference("capacity_reset");
@@ -101,6 +105,19 @@ public class DetailsFragment extends PreferenceFragment {
             final int percent = Integer.parseInt((String) value);
             ChargeLimit.choose(percent);
             showLimit(percent);
+            return true;
+        });
+    }
+
+    private void setUpDeepSleep() {
+        mDeepSleep = (SwitchPreference) findPreference("deep_sleep");
+        if (!DeepSleep.isSupported()) {
+            getPreferenceScreen().removePreference(findPreference("sleep_category"));
+            mDeepSleep = null;
+            return;
+        }
+        mDeepSleep.setOnPreferenceChangeListener((preference, value) -> {
+            DeepSleep.choose((Boolean) value);
             return true;
         });
     }
@@ -203,6 +220,9 @@ public class DetailsFragment extends PreferenceFragment {
         }
         if (mSpeed != null) {
             showSpeed(ChargeSpeed.chosen());
+        }
+        if (mDeepSleep != null) {
+            mDeepSleep.setChecked(DeepSleep.chosen());
         }
         if (mCapacity != null) {
             final int mah = Capacity.chosenMah();
