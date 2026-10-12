@@ -56,7 +56,7 @@ CR=$(printf '\r')
 F_GENUINE="Panels/Panel0 Panels/Panel1 Panels/Panel2 Panels/Panel3 Panels/Panel4 Panels/Panel5 Panels/Panel6 Panels/R36S-Plus Experimental/R36S-V21 Experimental/R36S-V21-2551-2552 Experimental/R36S-V22 Experimental/R36S-Y02-Y07 Experimental/R36S-V30 Experimental/R36S-V30-2603 Experimental/R36S-Panel3-Alt"
 F_SOY="Experimental/Soy-Panel5 Experimental/Soy-Panel5-253x Experimental/Soy-Panel6 Experimental/Soy-Panel7 Experimental/Soy-Panel7-253x Experimental/Soy-V04-Panel2 Experimental/Soy-V05-2601"
 # EE boards, stick mux enable on GPIO2_B4 (K36 style) ...
-F_EE_B4="Experimental/EE-K36-Panel1 Experimental/EE-K36-Panel4 Experimental/RX6H Experimental/EE-V12-Var2 Experimental/K36S Experimental/R36T Experimental/XF35H Experimental/R36-Max Experimental/S600 Experimental/R39-Max Experimental/T16-Max Experimental/XF40H"
+F_EE_B4="Experimental/EE-K36-Panel1 Experimental/Kinhank-K36 Experimental/EE-K36-Panel4 Experimental/RX6H Experimental/EE-V12-Var2 Experimental/K36S Experimental/R36T Experimental/XF35H Experimental/R36-Max Experimental/S600 Experimental/R39-Max Experimental/T16-Max Experimental/XF40H"
 # ... and on GPIO2_B3 (G80 style)
 F_EE_B3="Experimental/EE-G80-Panel8 Experimental/EE-V12-Var1-Panel8 Experimental/EE-G80-Panel9 Experimental/EE-V12-Var3-Panel3 Experimental/EE-V12-Var3-PanelA Experimental/R36-Ultra"
 
