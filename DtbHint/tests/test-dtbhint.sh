@@ -308,8 +308,8 @@ cases() {
 	hint "$R"
 	expect "info: no u-boot partition" grep -q -x "andr36oid.info.uboot=" "$R/test/info"
 
-	# R46H and R50S: no hint at all, nothing written on BOOT
-	for m in "Game Console R46H" "Game Console R50S"; do
+	# R46H, R50S and D-28S: no hint at all, nothing written on BOOT
+	for m in "Game Console R46H" "Game Console R50S" "Diium D-28S (EE clone, K36 board, 480x640 panel)"; do
 		fake "$R" Panels/Panel4 Panels/Panel4
 		printf '%s\000' "$m" >"$R/proc/device-tree/model"
 		hint "$R"
