@@ -97,7 +97,9 @@ run() {
 	echo >>"$WORK/$f"
 }
 
-# show <file> <path...> : appends files with their names (sysfs, proc)
+# show <file> <path...> : appends files with their names (sysfs, proc). Each read
+# gets 5 seconds: some sysfs files wait, /sys/power/wakeup_count for as long as a
+# wakeup event is in progress, which kept the report hanging on an L35 clone.
 show() {
 	local f=$1 p
 	shift
@@ -106,7 +108,7 @@ show() {
 		[ -d "$p" ] && continue
 		{
 			echo "== $p"
-			cap 1048576 <"$p" 2>&1
+			timeout 5 cat "$p" 2>&1 </dev/null | cap 1048576
 			echo
 		} >>"$WORK/$f"
 	done
