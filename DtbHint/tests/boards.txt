@@ -17,6 +17,7 @@ Experimental/EE-G80-Panel8|R36S clone G80, Panel 8 (experimental)|2B3|3C6 3C7 3C
 Experimental/EE-G80-Panel9|R36S clone G80, Panel 9 (experimental)|2B3|3C6 3C7 3C4 3C5 3C0 3C1 3C3 3C2 2B5 2B6 3B2 3B5 3B3 3D0 3B4 3B6 3D1|adc
 Experimental/EE-K36-Panel1|R36S clone K36/HG36, Panel 1 (experimental)|2B4|3C6 3C7 3C4 3C5 3C0 3C1 3C3 3C2 2B5 2B6 3B2 3B5 3B3 3D0 3B4 3B6 3D1|adc
 Experimental/EE-K36-Panel4|R36S clone K36, Panel 4 (experimental)|2B4|3C6 3C7 3C4 3C5 3C0 3C1 3C3 3C2 2B5 2B6 3B2 3B5 3B3 3D0 3B4 3B6 3D1|adc
+Experimental/RX6H|RX6H (EE clone, K36 board, Panel 4)|2B4|3C6 3C7 3C4 3C5 3C0 3C1 3C3 3C2 2B5 2B6 3B2 3B5 3B3 3D0 3B4 3B6 3D1|adc
 Experimental/EE-V12-Var1-Panel8|R36S-V12 clone variant 1, Panel 8 (experimental)|2B3|3C6 3C7 3C4 3C5 3C0 3C1 3C3 3C2 2B5 2B6 3B2 3B5 3B3 3D0 3B4 3B6 3D1|adc
 Experimental/EE-V12-Var2|R36S-V12 clone variant 2 (experimental)|2B4|3C6 3C7 3C4 3C5 3C0 3C1 3C3 3C2 2B5 2B6 3B2 3B5 3B3 3D0 3B4 3B6 3D1|adc
 Experimental/EE-V12-Var3-Panel3|R36S-V12 clone variant 3, Panel 3 (experimental)|2B3|3C6 3C7 3C4 3C5 3C0 3C1 3C3 3C2 2B5 2B6 3B2 3B5 3B3 3D0 3B4 3B6 3D1|adc
