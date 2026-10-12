@@ -58,7 +58,7 @@ F_SOY="Experimental/Soy-Panel5 Experimental/Soy-Panel5-253x Experimental/Soy-Pan
 # EE boards, stick mux enable on GPIO2_B4 (K36 style) ...
 F_EE_B4="Experimental/EE-K36-Panel1 Experimental/EE-K36-Panel4 Experimental/EE-V12-Var2 Experimental/K36S Experimental/R36T Experimental/XF35H Experimental/R36-Max Experimental/S600 Experimental/R39-Max Experimental/T16-Max Experimental/XF40H"
 # ... and on GPIO2_B3 (G80 style)
-F_EE_B3="Experimental/EE-G80-Panel8 Experimental/EE-G80-Panel9 Experimental/EE-V12-Var3-Panel3 Experimental/EE-V12-Var3-PanelA Experimental/R36-Ultra"
+F_EE_B3="Experimental/EE-G80-Panel8 Experimental/EE-V12-Var1-Panel8 Experimental/EE-G80-Panel9 Experimental/EE-V12-Var3-Panel3 Experimental/EE-V12-Var3-PanelA Experimental/R36-Ultra"
 
 log() {
 	if [ -n "$TEST" ]; then
