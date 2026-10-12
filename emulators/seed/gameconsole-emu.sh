@@ -949,6 +949,7 @@ find_easyroms() {
 		# done, when it shows up, instead of on the next start.
 		if [ -z "$EASYROMS" ] && [ -z "$GAMECONSOLE_EMU_TEST" ]; then
 			log "EASYROMS not mounted yet, its steps wait for it"
+			EASYROMS_LATE=1
 			trap easyroms_late EXIT
 		fi
 	else
@@ -1009,6 +1010,16 @@ seed_free_games() {
 	log "copied $n files (free games and their licences) to EASYROMS"
 }
 
+# setup_done ; tells StorageManagerService the first start's steps are done, so it
+# mounts the cards it held back (anything but the boot card, see
+# StorageManagerService.holdForFirstStartLocked; it gives up waiting after 10 minutes)
+SETUP_DONE_PROP=persist.andr36oid.setup_done
+release_cards() {
+	[ "$(getprop $SETUP_DONE_PROP)" = 1 ] && return 0
+	setprop $SETUP_DONE_PROP 1
+	log "first start's steps are done, other cards may be mounted now"
+}
+
 # easyroms_late: the EASYROMS steps of a start that ended before vold mounted
 # it, run from the exit trap: the ROM folders with the free games, their
 # .nomedia files, the BIOS folder, Daijishou's systems. Waits up to about 20
@@ -1024,6 +1035,7 @@ easyroms_late() {
 	done
 	if [ -z "$EASYROMS" ]; then
 		log "EASYROMS still not mounted, its steps next start"
+		release_cards
 		return 0
 	fi
 	log "EASYROMS mounted at $EASYROMS, doing its steps now"
@@ -1033,6 +1045,7 @@ easyroms_late() {
 	seed_daijishou
 	dj_new_games
 	daijishou_ready
+	release_cards
 }
 
 make_rom_folders() {
@@ -2271,3 +2284,6 @@ retroarch_players
 ppsspp_controls
 # last: the first unpack takes a while
 seed_cheats
+# the cards held back for the first start can be mounted now (the late EASYROMS
+# steps do this themselves when they finish)
+[ -n "${EASYROMS_LATE:-}" ] || release_cards
