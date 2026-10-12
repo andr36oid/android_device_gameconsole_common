@@ -1014,12 +1014,21 @@ seed_free_games() {
 	log "copied $n files (free games and their licences) to EASYROMS"
 }
 
-# setup_done ; tells StorageManagerService the first start's steps are done, so it
+# release_cards ; tells StorageManagerService the start's steps are done, so it
 # mounts the cards it held back (anything but the boot card, see
-# StorageManagerService.holdForFirstStartLocked; it gives up waiting after 10 minutes)
+# StorageManagerService.holdForFirstStartLocked; it gives up waiting after 10
+# minutes). The hold ends for good (persist.andr36oid.setup_done) only once
+# Daijishou is set up: a start cut short (setup's "Shut down now") or one that
+# left Daijishou's platforms for the next start holds the cards again next time.
 SETUP_DONE_PROP=persist.andr36oid.setup_done
+CARDS_FREE_PROP=sys.andr36oid.cards_free
 release_cards() {
 	[ "$(getprop $SETUP_DONE_PROP)" = 1 ] && return 0
+	if [ -z "$NOROMS" ] && [ -d "$DJ_DATA" ] && [ ! -e "$DJ_DONE" ]; then
+		setprop $CARDS_FREE_PROP 1
+		log "Daijishou not set up yet, other cards may be mounted now but wait again next start"
+		return 0
+	fi
 	setprop $SETUP_DONE_PROP 1
 	log "first start's steps are done, other cards may be mounted now"
 }
