@@ -349,7 +349,12 @@ install_apks() {
 				rm -f "$STATE/failed.$pkg"
 			else
 				log "installing $pkg failed: $out"
-				echo "$vc" >"$STATE/failed.$pkg"
+				# Only the package's own failures ("Failure [INSTALL_...]") are
+				# kept. When Android's package service is gone (system_server
+				# restarting) the next start tries again.
+				case $out in
+				*"Failure ["*) echo "$vc" >"$STATE/failed.$pkg" ;;
+				esac
 			fi
 		done <"$list"
 	done
