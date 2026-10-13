@@ -112,7 +112,8 @@ write_knob() {
 # apply_all paused
 apply_all() {
 	failed=
-	echo "$KNOBS" | while IFS='|' read -r key kind once paths; do
+	# fed by a here-document, not a pipe: the loop runs in this shell and keeps $failed
+	while IFS='|' read -r key kind once paths; do
 		[ -n "$key" ] || continue
 		def=$(getprop "sys.andr36oid.ktd.$key")
 		[ -n "$def" ] || continue
@@ -137,13 +138,11 @@ apply_all() {
 			}
 		fi
 		setprop "sys.andr36oid.ktc.$key" "$cur"
-		echo "$failed" >"$FAILED"
-	done
-	setprop sys.andr36oid.kt.failed "$(cat "$FAILED" 2>/dev/null)"
+	done <<EOF
+$KNOBS
+EOF
+	setprop sys.andr36oid.kt.failed "${failed# }"
 }
-
-FAILED=$(mktemp) || exit 1
-trap 'rm -f "$FAILED"' EXIT
 
 any_set() {
 	echo "$KNOBS" | while IFS='|' read -r key kind once paths; do

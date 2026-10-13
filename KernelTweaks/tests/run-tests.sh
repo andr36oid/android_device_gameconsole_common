@@ -69,7 +69,8 @@ EOF
 
 prop() { cat "$T/props/$1" 2>/dev/null; }
 setp() { printf '%s\n' "$2" >"$T/props/$1"; }
-run() { KT_ROOT=$R PATH="$T/bin:$PATH" "$MKSH" "$HERE/../helper/andr36oid-ktweaks.sh" "$@"; }
+# TMPDIR points nowhere: on Android there is no /tmp and init sets no TMPDIR
+run() { TMPDIR=$T/no-such-dir KT_ROOT=$R PATH="$T/bin:$PATH" "$MKSH" "$HERE/../helper/andr36oid-ktweaks.sh" "$@"; }
 
 # --- boot notes the defaults
 setup
