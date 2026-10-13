@@ -24,4 +24,8 @@
         <item>org.cromite.cromite</item>
     </string-array>
 
+    <!-- Status LED: a notification light in a few colours (1) that can blink (8), so
+         Settings shows the notification light colour per app. The battery colours are
+         set in Settings > Display > Status light instead. -->
+    <integer name="config_deviceLightCapabilities">9</integer>
 </resources>

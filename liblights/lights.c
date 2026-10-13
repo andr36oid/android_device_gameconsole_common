@@ -108,6 +108,118 @@ static int set_light_backlight(struct light_device_t* dev __attribute__ ((__unus
     return err;
 }
 
+/*
+ * Notification light: the status LED driver (andr36oid-status-led) blinks a
+ * colour by name, so pick the nearest colour this console's LED can show.
+ * Lineage dims a colour by scaling it, so compare hues at full brightness.
+ * The driver's first colour is the LED at rest ("off", or green on the
+ * genuine R36S, whose green LED is always on), which can't show anything.
+ */
+#define STATUS_LED "/sys/devices/platform/andr36oid-status-led/"
+
+static const struct {
+    const char *name;
+    int r, g, b;
+} led_colors[] = {
+    { "red", 255, 0, 0 },
+    { "green", 0, 255, 0 },
+    { "blue", 0, 0, 255 },
+    { "purple", 160, 0, 255 },
+    { "pink", 255, 50, 160 },
+    { "orange", 255, 128, 0 },
+    { "yellow", 255, 255, 0 },
+    { "cyan", 0, 255, 255 },
+    { "white", 255, 255, 255 },
+};
+
+static int write_str(const char *path, const char *value)
+{
+    int fd = open(path, O_WRONLY);
+    int ret;
+
+    if (fd < 0)
+        return -errno;
+    ret = write(fd, value, strlen(value)) < 0 ? -errno : 0;
+    close(fd);
+    return ret;
+}
+
+/* the colour name of this LED nearest to rgb, or NULL if it has none */
+static const char *nearest_led_color(unsigned int rgb, char *names, size_t len)
+{
+    int r = (rgb >> 16) & 0xff, g = (rgb >> 8) & 0xff, b = rgb & 0xff;
+    int max = r > g ? (r > b ? r : b) : (g > b ? g : b);
+    const char *best = NULL;
+    long best_dist = 0;
+    char *save = NULL, *name;
+    int fd = open(STATUS_LED "colors", O_RDONLY);
+    ssize_t n;
+    size_t i;
+
+    if (fd < 0)
+        return NULL;
+    n = read(fd, names, len - 1);
+    close(fd);
+    if (n <= 0)
+        return NULL;
+    names[n] = '\0';
+    if (max == 0)
+        return NULL;
+    r = r * 255 / max;
+    g = g * 255 / max;
+    b = b * 255 / max;
+
+    if (!strtok_r(names, " \n", &save))
+        return NULL;
+    for (name = strtok_r(NULL, " \n", &save); name; name = strtok_r(NULL, " \n", &save)) {
+        for (i = 0; i < sizeof(led_colors) / sizeof(led_colors[0]); i++) {
+            long dr, dg, db, dist;
+
+            if (strcmp(led_colors[i].name, name))
+                continue;
+            dr = r - led_colors[i].r;
+            dg = g - led_colors[i].g;
+            db = b - led_colors[i].b;
+            dist = dr * dr + dg * dg + db * db;
+            if (!best || dist < best_dist) {
+                best = name;
+                best_dist = dist;
+            }
+        }
+    }
+    return best;
+}
+
+static int set_light_notifications(struct light_device_t* dev __attribute__ ((__unused__)),
+        struct light_state_t const* state)
+{
+    char names[128], buf[64];
+    const char *color = NULL;
+    int on = 0, off = 0;
+
+    if (state->color & 0x00ffffff)
+        color = nearest_led_color(state->color & 0x00ffffff, names, sizeof(names));
+    if (color && state->flashMode != LIGHT_FLASH_NONE && state->flashOnMS > 0) {
+        on = state->flashOnMS < 50 ? 50 : state->flashOnMS;
+        off = state->flashOffMS < 50 ? 50 : state->flashOffMS;
+    } else if (color) {
+        on = 1000;
+    }
+    if (on > 60000)
+        on = 60000;
+    if (off > 60000)
+        off = 60000;
+    if (color)
+        snprintf(buf, sizeof(buf), "%s %d %d\n", color, on, off);
+    else
+        snprintf(buf, sizeof(buf), "none\n");
+
+    pthread_mutex_lock(&g_lock);
+    int err = write_str(STATUS_LED "notify", buf);
+    pthread_mutex_unlock(&g_lock);
+    return err;
+}
+
 static int close_lights(struct light_device_t *dev)
 {
     free(dev);
@@ -195,6 +307,9 @@ static int open_lights(const struct hw_module_t* module, char const* name, struc
             ALOGE("%s system property not set", LLP_BRIGHTNESS_FILE);
             return -EINVAL;
         }
+    } else if (0 == strcmp(LIGHT_ID_NOTIFICATIONS, name) &&
+            !access(STATUS_LED "notify", W_OK)) {
+        set_light = set_light_notifications;
     } else {
         return -EINVAL;
     }

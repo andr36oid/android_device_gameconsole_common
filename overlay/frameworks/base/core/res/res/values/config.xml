@@ -355,4 +355,8 @@
     <integer name="config_defaultRefreshRate">0</integer>
     <integer name="config_defaultPeakRefreshRate">60</integer>
     
+    <!-- Status LED (Settings > Display > Status light): Android's notification light
+         blinks it, through liblights and the andr36oid-status-led driver. Consoles
+         without the LED ignore it. -->
+    <bool name="config_intrusiveNotificationLed">true</bool>
 </resources>
