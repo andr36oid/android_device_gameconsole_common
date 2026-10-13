@@ -26,4 +26,9 @@
     <string name="step_pmic_lp_summary">Pôr o chip de energia em poupança e baixar as tensões (PMIC_LP)</string>
     <string name="wake_usb">Acordar por USB</string>
     <string name="wake_usb_summary">Ligar um cabo ou dispositivo USB pode acordar a consola (USB_WKUP_EN)</string>
+    <string name="deep_sleep_idle">Durante a utilização</string>
+    <string name="idle_core">Desligar núcleos inativos</string>
+    <string name="idle_core_summary">Os núcleos inativos desligam-se por completo. Desativado: só param o relógio, gastando um pouco mais de bateria. Aplica-se de imediato (cpu-sleep)</string>
+    <string name="idle_cluster">Desligar o grupo de núcleos inativo</string>
+    <string name="idle_cluster_summary">Quando os quatro núcleos estão inativos, todo o grupo desliga-se. Desativado: gasta um pouco mais de bateria. Aplica-se de imediato (cluster-sleep)</string>
 </resources>

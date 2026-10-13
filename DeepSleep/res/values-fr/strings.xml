@@ -26,4 +26,9 @@
     <string name="step_pmic_lp_summary">Mettre la puce d’alimentation en économie et baisser les tensions (PMIC_LP)</string>
     <string name="wake_usb">Réveil par USB</string>
     <string name="wake_usb_summary">Brancher un câble ou un appareil USB peut réveiller la console (USB_WKUP_EN)</string>
+    <string name="deep_sleep_idle">Pendant l\'utilisation</string>
+    <string name="idle_core">Éteindre les cœurs inactifs</string>
+    <string name="idle_core_summary">Les cœurs inactifs s\'éteignent complètement. Désactivé : ils arrêtent seulement leur horloge, ce qui use un peu plus la batterie. Effet immédiat (cpu-sleep)</string>
+    <string name="idle_cluster">Éteindre le groupe de cœurs inactif</string>
+    <string name="idle_cluster_summary">Quand les quatre cœurs sont inactifs, tout le groupe s\'éteint. Désactivé : use un peu plus la batterie. Effet immédiat (cluster-sleep)</string>
 </resources>

@@ -26,4 +26,9 @@
     <string name="step_pmic_lp_summary">Przełącz układ zasilania w tryb oszczędny i obniż napięcia (PMIC_LP)</string>
     <string name="wake_usb">Wybudzanie przez USB</string>
     <string name="wake_usb_summary">Podłączenie kabla lub urządzenia USB może wybudzić konsolę (USB_WKUP_EN)</string>
+    <string name="deep_sleep_idle">Podczas pracy</string>
+    <string name="idle_core">Wyłączanie bezczynnych rdzeni</string>
+    <string name="idle_core_summary">Bezczynne rdzenie wyłączają się całkowicie. Wyłączone: tylko zatrzymują zegar, co zużywa trochę więcej baterii. Działa od razu (cpu-sleep)</string>
+    <string name="idle_cluster">Wyłączanie bezczynnej grupy rdzeni</string>
+    <string name="idle_cluster_summary">Gdy wszystkie cztery rdzenie są bezczynne, wyłącza się cała grupa. Wyłączone: zużywa trochę więcej baterii. Działa od razu (cluster-sleep)</string>
 </resources>

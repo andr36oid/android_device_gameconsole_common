@@ -26,4 +26,9 @@
     <string name="step_pmic_lp_summary">让电源芯片进入低功耗模式并降低电压 (PMIC_LP)</string>
     <string name="wake_usb">USB 唤醒</string>
     <string name="wake_usb_summary">插入数据线或 USB 设备可以唤醒主机 (USB_WKUP_EN)</string>
+    <string name="deep_sleep_idle">运行时</string>
+    <string name="idle_core">空闲时关闭核心</string>
+    <string name="idle_core_summary">空闲的核心完全断电。关闭后：核心只停止时钟，耗电稍多。立即生效（cpu-sleep）</string>
+    <string name="idle_cluster">空闲时关闭核心组</string>
+    <string name="idle_cluster_summary">四个核心都空闲时，整个核心组断电。关闭后：耗电稍多。立即生效（cluster-sleep）</string>
 </resources>

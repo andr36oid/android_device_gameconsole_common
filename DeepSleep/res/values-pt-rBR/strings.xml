@@ -26,4 +26,9 @@
     <string name="step_pmic_lp_summary">Colocar o chip de energia em economia e baixar as tensões (PMIC_LP)</string>
     <string name="wake_usb">Acordar por USB</string>
     <string name="wake_usb_summary">Conectar um cabo ou dispositivo USB pode acordar o console (USB_WKUP_EN)</string>
+    <string name="deep_sleep_idle">Durante o uso</string>
+    <string name="idle_core">Desligar núcleos ociosos</string>
+    <string name="idle_core_summary">Núcleos ociosos desligam por completo. Desativado: eles só param o clock, gastando um pouco mais de bateria. Vale na hora (cpu-sleep)</string>
+    <string name="idle_cluster">Desligar o grupo de núcleos ocioso</string>
+    <string name="idle_cluster_summary">Quando os quatro núcleos estão ociosos, o grupo inteiro desliga. Desativado: gasta um pouco mais de bateria. Vale na hora (cluster-sleep)</string>
 </resources>

@@ -26,4 +26,9 @@
     <string name="step_pmic_lp_summary">Den Power-Chip in den Stromsparmodus versetzen und die Spannungen senken (PMIC_LP)</string>
     <string name="wake_usb">Bei USB aufwachen</string>
     <string name="wake_usb_summary">Ein Kabel oder USB-Gerät einzustecken kann die Konsole wecken (USB_WKUP_EN)</string>
+    <string name="deep_sleep_idle">Im Betrieb</string>
+    <string name="idle_core">Kerne im Leerlauf abschalten</string>
+    <string name="idle_core_summary">Untätige Kerne schalten sich ganz ab. Aus: Sie halten nur ihren Takt an, das braucht etwas mehr Akku. Gilt sofort (cpu-sleep)</string>
+    <string name="idle_cluster">Kerngruppe im Leerlauf abschalten</string>
+    <string name="idle_cluster_summary">Wenn alle vier Kerne untätig sind, schaltet sich die ganze Kerngruppe ab. Aus: braucht etwas mehr Akku. Gilt sofort (cluster-sleep)</string>
 </resources>

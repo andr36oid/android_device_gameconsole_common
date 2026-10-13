@@ -26,4 +26,9 @@
     <string name="step_pmic_lp_summary">Masukkan chip daya ke mode hemat dan turunkan tegangan (PMIC_LP)</string>
     <string name="wake_usb">Bangun lewat USB</string>
     <string name="wake_usb_summary">Mencolokkan kabel atau perangkat USB bisa membangunkan konsol (USB_WKUP_EN)</string>
+    <string name="deep_sleep_idle">Saat berjalan</string>
+    <string name="idle_core">Matikan inti yang menganggur</string>
+    <string name="idle_core_summary">Inti yang menganggur mati sepenuhnya. Nonaktif: inti hanya menghentikan clock-nya, sedikit lebih boros baterai. Langsung berlaku (cpu-sleep)</string>
+    <string name="idle_cluster">Matikan kelompok inti yang menganggur</string>
+    <string name="idle_cluster_summary">Saat keempat inti menganggur, seluruh kelompok inti mati. Nonaktif: sedikit lebih boros baterai. Langsung berlaku (cluster-sleep)</string>
 </resources>

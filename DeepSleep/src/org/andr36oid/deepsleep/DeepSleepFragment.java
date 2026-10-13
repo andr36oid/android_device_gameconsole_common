@@ -19,6 +19,9 @@ import java.io.IOException;
  * USB. A change is saved in persist.andr36oid.sleep_mode / sleep_wakeup; init writes it to
  * the kernel (rockchip_pm_config's sleep_mode / sleep_wakeup parameters), which hands it to
  * the firmware. "default" goes back to the DTB's value.
+ * Two more switches turn the cores' idle power-down states off while the console runs
+ * (persist.andr36oid.idle_core_off / idle_cluster_off, "1" = off; init writes them to the
+ * cpuidle "disable" files of all cores).
  */
 public class DeepSleepFragment extends PreferenceFragment {
 
@@ -41,9 +44,18 @@ public class DeepSleepFragment extends PreferenceFragment {
     };
     private static final int USB_WAKEUP_BIT = 7;
 
+    private static final String IDLE = "/sys/devices/system/cpu/cpu0/cpuidle/state";
+    /** cpuidle state, property, title, summary: state1 cpu-sleep, state2 cluster-sleep */
+    private static final Object[][] IDLE_STATES = {
+        {1, "persist.andr36oid.idle_core_off", R.string.idle_core, R.string.idle_core_summary},
+        {2, "persist.andr36oid.idle_cluster_off", R.string.idle_cluster,
+                R.string.idle_cluster_summary},
+    };
+
     private final Handler mHandler = new Handler(Looper.getMainLooper());
     private final SwitchPreference[] mSteps = new SwitchPreference[MODE_STEPS.length];
     private SwitchPreference mUsbWake;
+    private final SwitchPreference[] mIdle = new SwitchPreference[IDLE_STATES.length];
     private Preference mState;
     /** current and DTB values, {cur, dt}; null when the kernel can't change them */
     private long[] mMode;
@@ -65,6 +77,7 @@ public class DeepSleepFragment extends PreferenceFragment {
         mState.setOnPreferenceClickListener(p -> {
             SystemProperties.set(MODE_PROP, "default");
             SystemProperties.set(WAKEUP_PROP, "default");
+            for (Object[] state : IDLE_STATES) SystemProperties.set((String) state[1], "0");
             refreshSoon();
             return true;
         });
@@ -99,6 +112,24 @@ public class DeepSleepFragment extends PreferenceFragment {
             return true;
         });
         wake.addPreference(mUsbWake);
+
+        final PreferenceCategory idle = new PreferenceCategory(getActivity());
+        idle.setTitle(R.string.deep_sleep_idle);
+        screen.addPreference(idle);
+        for (int i = 0; i < IDLE_STATES.length; i++) {
+            final String prop = (String) IDLE_STATES[i][1];
+            final SwitchPreference sw = new SwitchPreference(getActivity());
+            sw.setPersistent(false);
+            sw.setTitle((Integer) IDLE_STATES[i][2]);
+            sw.setSummary((Integer) IDLE_STATES[i][3]);
+            sw.setOnPreferenceChangeListener((p, value) -> {
+                SystemProperties.set(prop, (Boolean) value ? "0" : "1");
+                refreshSoon();
+                return true;
+            });
+            idle.addPreference(sw);
+            mIdle[i] = sw;
+        }
     }
 
     @Override
@@ -135,12 +166,19 @@ public class DeepSleepFragment extends PreferenceFragment {
         }
         mUsbWake.setEnabled(mWakeup != null);
         mUsbWake.setChecked(mWakeup != null && (mWakeup[0] & (1L << USB_WAKEUP_BIT)) != 0);
+        boolean idleChanged = false;
+        for (int i = 0; i < IDLE_STATES.length; i++) {
+            final String off = readLine(IDLE + IDLE_STATES[i][0] + "/disable");
+            mIdle[i].setEnabled(off != null);
+            mIdle[i].setChecked("0".equals(off));
+            idleChanged |= "1".equals(off);
+        }
         if (mMode == null || mWakeup == null) {
             mState.setEnabled(false);
             mState.setSummary(R.string.deep_sleep_unsupported);
             return;
         }
-        mState.setEnabled(mMode[0] != mMode[1] || mWakeup[0] != mWakeup[1]);
+        mState.setEnabled(mMode[0] != mMode[1] || mWakeup[0] != mWakeup[1] || idleChanged);
         mState.setSummary(getString(R.string.deep_sleep_state,
                 hex(mMode[0]) + " / " + hex(mWakeup[0]),
                 hex(mMode[1]) + " / " + hex(mWakeup[1])));
@@ -152,11 +190,22 @@ public class DeepSleepFragment extends PreferenceFragment {
 
     /** "0x20102 default 0x20702" from the kernel, as {current, default} */
     private static long[] read(String name) {
-        try (BufferedReader r = new BufferedReader(new FileReader(PARAMS + name))) {
-            final String[] f = r.readLine().trim().split("\\s+");
+        final String line = readLine(PARAMS + name);
+        if (line == null) return null;
+        try {
+            final String[] f = line.split("\\s+");
             if (f.length < 3) return null;
             return new long[] {Long.decode(f[0]), Long.decode(f[2])};
-        } catch (IOException | RuntimeException e) {
+        } catch (RuntimeException e) {
+            return null;
+        }
+    }
+
+    private static String readLine(String path) {
+        try (BufferedReader r = new BufferedReader(new FileReader(path))) {
+            final String line = r.readLine();
+            return line == null ? null : line.trim();
+        } catch (IOException e) {
             return null;
         }
     }

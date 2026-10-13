@@ -26,4 +26,9 @@
     <string name="step_pmic_lp_summary">Переводить чип питания в режим энергосбережения и снижать напряжения (PMIC_LP)</string>
     <string name="wake_usb">Пробуждение по USB</string>
     <string name="wake_usb_summary">Подключение кабеля или USB-устройства может разбудить консоль (USB_WKUP_EN)</string>
+    <string name="deep_sleep_idle">Во время работы</string>
+    <string name="idle_core">Отключать простаивающие ядра</string>
+    <string name="idle_core_summary">Простаивающие ядра полностью отключаются. Выкл.: они только останавливают тактирование, расход батареи немного выше. Действует сразу (cpu-sleep)</string>
+    <string name="idle_cluster">Отключать простаивающую группу ядер</string>
+    <string name="idle_cluster_summary">Когда все четыре ядра простаивают, вся группа отключается. Выкл.: расход батареи немного выше. Действует сразу (cluster-sleep)</string>
 </resources>

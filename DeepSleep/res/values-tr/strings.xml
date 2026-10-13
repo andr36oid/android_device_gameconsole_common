@@ -26,4 +26,9 @@
     <string name="step_pmic_lp_summary">Güç çipini düşük güç moduna al ve gerilimleri düşür (PMIC_LP)</string>
     <string name="wake_usb">USB ile uyan</string>
     <string name="wake_usb_summary">Kablo veya USB cihaz takmak konsolu uyandırabilir (USB_WKUP_EN)</string>
+    <string name="deep_sleep_idle">Çalışırken</string>
+    <string name="idle_core">Boştaki çekirdekleri kapat</string>
+    <string name="idle_core_summary">Boştaki çekirdekler tamamen kapanır. Kapalı: yalnızca saatlerini durdururlar, biraz daha fazla pil harcar. Hemen geçerli olur (cpu-sleep)</string>
+    <string name="idle_cluster">Boştaki çekirdek grubunu kapat</string>
+    <string name="idle_cluster_summary">Dört çekirdeğin hepsi boştayken tüm grup kapanır. Kapalı: biraz daha fazla pil harcar. Hemen geçerli olur (cluster-sleep)</string>
 </resources>

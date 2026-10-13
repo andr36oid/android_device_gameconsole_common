@@ -26,4 +26,9 @@
     <string name="step_pmic_lp_summary">Put the power chip in low-power mode and lower the voltages (PMIC_LP)</string>
     <string name="wake_usb">Wake on USB</string>
     <string name="wake_usb_summary">Plugging in a cable or USB device can wake the console (USB_WKUP_EN)</string>
+    <string name="deep_sleep_idle">While running</string>
+    <string name="idle_core">Core power-down when idle</string>
+    <string name="idle_core_summary">Idle cores turn off completely. Off: they only stop their clock, using a little more battery. Counts right away (cpu-sleep)</string>
+    <string name="idle_cluster">Cluster power-down when idle</string>
+    <string name="idle_cluster_summary">When all four cores are idle, the whole core group turns off. Off: uses a little more battery. Counts right away (cluster-sleep)</string>
 </resources>

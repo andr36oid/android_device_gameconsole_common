@@ -317,6 +317,20 @@ on property:persist.andr36oid.sleep_mode=*
 on property:persist.andr36oid.sleep_wakeup=*
     write /sys/module/rockchip_pm_config/parameters/sleep_wakeup ${persist.andr36oid.sleep_wakeup}
 
+# Deep sleep page: switch the cores' idle states off while running ("1" = off).
+# state1 is core power-down, state2 cluster power-down (px30.dtsi).
+on property:persist.andr36oid.idle_core_off=*
+    write /sys/devices/system/cpu/cpu0/cpuidle/state1/disable ${persist.andr36oid.idle_core_off}
+    write /sys/devices/system/cpu/cpu1/cpuidle/state1/disable ${persist.andr36oid.idle_core_off}
+    write /sys/devices/system/cpu/cpu2/cpuidle/state1/disable ${persist.andr36oid.idle_core_off}
+    write /sys/devices/system/cpu/cpu3/cpuidle/state1/disable ${persist.andr36oid.idle_core_off}
+
+on property:persist.andr36oid.idle_cluster_off=*
+    write /sys/devices/system/cpu/cpu0/cpuidle/state2/disable ${persist.andr36oid.idle_cluster_off}
+    write /sys/devices/system/cpu/cpu1/cpuidle/state2/disable ${persist.andr36oid.idle_cluster_off}
+    write /sys/devices/system/cpu/cpu2/cpuidle/state2/disable ${persist.andr36oid.idle_cluster_off}
+    write /sys/devices/system/cpu/cpu3/cpuidle/state2/disable ${persist.andr36oid.idle_cluster_off}
+
 on property:persist.vendor.logger.enable=1
     start logger
 

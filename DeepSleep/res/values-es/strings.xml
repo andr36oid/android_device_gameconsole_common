@@ -26,4 +26,9 @@
     <string name="step_pmic_lp_summary">Poner el chip de energía en bajo consumo y bajar los voltajes (PMIC_LP)</string>
     <string name="wake_usb">Despertar por USB</string>
     <string name="wake_usb_summary">Conectar un cable o un dispositivo USB puede despertar la consola (USB_WKUP_EN)</string>
+    <string name="deep_sleep_idle">Mientras funciona</string>
+    <string name="idle_core">Apagar núcleos inactivos</string>
+    <string name="idle_core_summary">Los núcleos inactivos se apagan por completo. Desactivado: solo detienen su reloj y gastan un poco más de batería. Se aplica al momento (cpu-sleep)</string>
+    <string name="idle_cluster">Apagar el grupo de núcleos inactivo</string>
+    <string name="idle_cluster_summary">Cuando los cuatro núcleos están inactivos, se apaga todo el grupo. Desactivado: gasta un poco más de batería. Se aplica al momento (cluster-sleep)</string>
 </resources>
