@@ -811,7 +811,7 @@ seed_look() {
 
 # EASYROMS is partition 7 of the boot card (mmcblk0p7, 179:7), a public volume.
 # A card set up with .noroms on BOOT has no partition 7 at all: the first start
-# gives userdata (p6) the whole card (resizing/.../linuxrc).
+# gives userdata (p6) the whole card (firstresize/andr36oid-firstresize.sh).
 EASYROMS_ID="public:179,7"
 EASYROMS_PART=/sys/block/mmcblk0/mmcblk0p7
 # the internal storage as root sees it; apps see /storage/emulated/0

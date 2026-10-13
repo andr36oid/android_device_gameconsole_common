@@ -1,8 +1,8 @@
 #!/bin/sh
-# Checks the userdata sizing in overlay/linuxrc. Run: sh tests/plan_userdata_test.sh
-# (any POSIX sh; set SH to try another, e.g. the resizer's busybox under qemu).
+# Checks the userdata sizing in andr36oid-firstresize.sh. Run: sh tests/plan_userdata_test.sh
+# (any POSIX sh; set SH to try another, e.g. mksh).
 cd "$(dirname "$0")/.." || exit 1
-code=$(sed -n '/^# BEGIN plan_userdata/,/^# END plan_userdata/p' overlay/linuxrc)
+code=$(sed -n '/^# BEGIN plan_userdata/,/^# END plan_userdata/p' andr36oid-firstresize.sh)
 fail=0
 GB=1000000000
 

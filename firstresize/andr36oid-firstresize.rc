@@ -1,0 +1,4 @@
+# First start on a fresh card: userdata and EASYROMS, see /system/etc/andr36oid-firstresize.sh
+# Before late-fs, where /data is mounted. Later starts only look at the partition list.
+on fs
+    exec - root root -- /system/bin/sh /system/etc/andr36oid-firstresize.sh

@@ -193,6 +193,11 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
 	andr36oid-clock
 
+# First start on a fresh card: userdata and EASYROMS are added by Android itself
+# (firstresize/andr36oid-firstresize.sh), no resizer kernel and no restart
+PRODUCT_PACKAGES += \
+	andr36oid-firstresize
+
 # Need AppWidget permission to prevent Launcher[2|3] crashing
 PRODUCT_COPY_FILES += \
 	frameworks/native/data/etc/android.software.app_widgets.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.software.app_widgets.xml

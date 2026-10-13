@@ -1,0 +1,6 @@
+// Adds one partition to the running kernel, for andr36oid-firstresize.sh
+cc_binary {
+    name: "andr36oid-addpart",
+    srcs: ["andr36oid-addpart.c"],
+    cflags: ["-Wall", "-Werror"],
+}
