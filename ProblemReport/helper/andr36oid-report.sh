@@ -836,6 +836,11 @@ done
 show power.txt /sys/devices/system/cpu/cpu0/cpufreq/scaling_* \
 	/sys/devices/system/cpu/cpu0/cpufreq/stats/time_in_state \
 	/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_*_freq
+# idle states per core: Deep sleep page's switches (disable) and how often each was used
+for c in /sys/devices/system/cpu/cpu[0-9]*/cpuidle/state*; do
+	echo "$c $(cat "$c/name" 2>/dev/null) disable=$(cat "$c/disable" 2>/dev/null)" \
+		"usage=$(cat "$c/usage" 2>/dev/null) time=$(cat "$c/time" 2>/dev/null)" >>"$WORK/power.txt"
+done
 run power.txt 20 dumpsys battery
 run power.txt 20 dumpsys power
 run power.txt 20 dumpsys suspend_control_internal
