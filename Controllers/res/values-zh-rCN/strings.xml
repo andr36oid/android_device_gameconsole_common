@@ -62,4 +62,18 @@
     <string name="pair_connected">已连接，可以使用了。</string>
     <string name="pair_failed">配对失败。请让手柄重新进入配对模式，然后按 A。</string>
     <string name="pair_no_name">未命名设备（%1$s）</string>
+
+    <!-- Rumble -->
+    <string name="rumble_title">振动</string>
+    <string name="rumble_strength_title">振动强度</string>
+    <string-array name="rumble_strength_entries">
+        <item>关闭</item>
+        <item>轻柔</item>
+        <item>中等</item>
+        <item>强</item>
+        <item>最强</item>
+    </string-array>
+    <string name="rumble_test_title">试一下</string>
+    <string name="rumble_test_summary">以此强度让主机短暂振动</string>
+    <string name="rumble_help">适用于支持振动的游戏。有些模拟器还需要在它们自己的设置里打开振动，例如 PlayStation 游戏的 DualShock 手柄或 N64 的 Rumble Pak。如果马达太强或有异响，可以在这里调低。</string>
 </resources>

@@ -62,4 +62,18 @@
     <string name="pair_connected">Bağlandı. Kullanıma hazır.</string>
     <string name="pair_failed">Eşleme başarısız oldu. Kontrolcüyü yeniden eşleme moduna alın ve A\'ya basın.</string>
     <string name="pair_no_name">Adsız cihaz (%1$s)</string>
+
+    <!-- Rumble -->
+    <string name="rumble_title">Titreşim</string>
+    <string name="rumble_strength_title">Titreşim gücü</string>
+    <string-array name="rumble_strength_entries">
+        <item>Kapalı</item>
+        <item>Hafif</item>
+        <item>Orta</item>
+        <item>Güçlü</item>
+        <item>Tam</item>
+    </string-array>
+    <string name="rumble_test_title">Dene</string>
+    <string name="rumble_test_summary">Konsolu bu güçte kısa bir süre titretir</string>
+    <string name="rumble_help">Titreşimi destekleyen oyunlar için. Bazı emülatörler bunun kendi ayarlarında da açılmasını ister, örneğin PlayStation oyunları için DualShock kontrolcüsü veya N64 için Rumble Pak. Motor çok güçlüyse ya da takırdıyorsa buradan azaltın.</string>
 </resources>

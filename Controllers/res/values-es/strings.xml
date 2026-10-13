@@ -62,4 +62,18 @@
     <string name="pair_connected">Conectado. Ya puedes usarlo.</string>
     <string name="pair_failed">No se ha podido vincular. Vuelve a poner el mando en modo de vinculación y pulsa A.</string>
     <string name="pair_no_name">Dispositivo sin nombre (%1$s)</string>
+
+    <!-- Rumble -->
+    <string name="rumble_title">Vibración</string>
+    <string name="rumble_strength_title">Intensidad de la vibración</string>
+    <string-array name="rumble_strength_entries">
+        <item>Apagada</item>
+        <item>Suave</item>
+        <item>Media</item>
+        <item>Fuerte</item>
+        <item>Máxima</item>
+    </string-array>
+    <string name="rumble_test_title">Probar</string>
+    <string name="rumble_test_summary">Hace vibrar la consola un momento con esta intensidad</string>
+    <string name="rumble_help">Para juegos con vibración. Algunos emuladores también piden activarla en sus propios ajustes, como el mando DualShock en juegos de PlayStation o el Rumble Pak en N64. Si el motor vibra demasiado o hace ruido, bájala aquí.</string>
 </resources>

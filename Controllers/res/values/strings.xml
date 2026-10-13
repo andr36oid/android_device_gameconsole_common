@@ -70,4 +70,25 @@
     <string name="pair_connected">Connected. It is ready to use.</string>
     <string name="pair_failed">Pairing failed. Put the controller into pairing mode again and press A.</string>
     <string name="pair_no_name">Unnamed device (%1$s)</string>
+
+    <!-- Rumble -->
+    <string name="rumble_title">Rumble</string>
+    <string name="rumble_strength_title">Rumble strength</string>
+    <string-array name="rumble_strength_entries">
+        <item>Off</item>
+        <item>Gentle</item>
+        <item>Medium</item>
+        <item>Strong</item>
+        <item>Full</item>
+    </string-array>
+    <string-array name="rumble_strength_values" translatable="false">
+        <item>0</item>
+        <item>30</item>
+        <item>55</item>
+        <item>80</item>
+        <item>100</item>
+    </string-array>
+    <string name="rumble_test_title">Try it</string>
+    <string name="rumble_test_summary">Gives the console a short shake at this strength</string>
+    <string name="rumble_help">For games that support rumble. Some emulators also want it switched on in their own settings, like the DualShock controller for PlayStation games or the Rumble Pak for N64. If the motor is too strong or rattles, turn it down here.</string>
 </resources>

@@ -62,4 +62,18 @@
     <string name="pair_connected">Połączono. Można go używać.</string>
     <string name="pair_failed">Parowanie nie powiodło się. Ponownie przełącz kontroler w tryb parowania i naciśnij A.</string>
     <string name="pair_no_name">Urządzenie bez nazwy (%1$s)</string>
+
+    <!-- Rumble -->
+    <string name="rumble_title">Wibracje</string>
+    <string name="rumble_strength_title">Siła wibracji</string>
+    <string-array name="rumble_strength_entries">
+        <item>Wyłączone</item>
+        <item>Delikatne</item>
+        <item>Średnie</item>
+        <item>Mocne</item>
+        <item>Pełne</item>
+    </string-array>
+    <string name="rumble_test_title">Wypróbuj</string>
+    <string name="rumble_test_summary">Krótko wibruje konsolą z tą siłą</string>
+    <string name="rumble_help">Dla gier z obsługą wibracji. Niektóre emulatory chcą, żeby włączyć je też w ich własnych ustawieniach, np. kontroler DualShock w grach na PlayStation albo Rumble Pak na N64. Jeśli silnik jest za mocny albo grzechocze, zmniejsz siłę tutaj.</string>
 </resources>

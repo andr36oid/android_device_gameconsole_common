@@ -309,6 +309,10 @@ on property:persist.andr36oid.stick_deadzone=*
 on property:persist.andr36oid.stick_cal=*
     write /sys/devices/platform/odroidgo3-joypad/stick_cal ${persist.andr36oid.stick_cal}
 
+# Settings > Controls > Rumble strength, 0-100 % of what a game asks for (0: off)
+on property:persist.andr36oid.rumble_strength=*
+    write /sys/devices/platform/odroidgo3-joypad/rumble_strength ${persist.andr36oid.rumble_strength}
+
 # Settings > Battery > Deep sleep: the firmware's sleep steps and wake-up sources
 # ("default" = the DTB's). Also runs at boot when the saved values are loaded.
 on property:persist.andr36oid.sleep_mode=*

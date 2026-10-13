@@ -62,4 +62,18 @@
     <string name="pair_connected">Conectado. Já pode usar.</string>
     <string name="pair_failed">O pareamento falhou. Coloque o controle em modo de pareamento de novo e aperte A.</string>
     <string name="pair_no_name">Dispositivo sem nome (%1$s)</string>
+
+    <!-- Rumble -->
+    <string name="rumble_title">Vibração</string>
+    <string name="rumble_strength_title">Intensidade da vibração</string>
+    <string-array name="rumble_strength_entries">
+        <item>Desligada</item>
+        <item>Suave</item>
+        <item>Média</item>
+        <item>Forte</item>
+        <item>Máxima</item>
+    </string-array>
+    <string name="rumble_test_title">Experimentar</string>
+    <string name="rumble_test_summary">Faz a consola vibrar um instante com esta intensidade</string>
+    <string name="rumble_help">Para jogos com vibração. Alguns emuladores também a querem ativada nas suas próprias definições, como o comando DualShock nos jogos de PlayStation ou o Rumble Pak na N64. Se o motor for forte demais ou chocalhar, baixe-a aqui.</string>
 </resources>

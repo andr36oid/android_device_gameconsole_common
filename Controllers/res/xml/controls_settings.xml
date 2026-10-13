@@ -14,6 +14,31 @@
         <Preference android:key="org.andr36oid.touchmapper/.SettingsActivity" />
     </PreferenceCategory>
 
+    <!-- Only on consoles with a rumble motor (the built-in pad offers rumble) -->
+    <PreferenceCategory
+        android:key="rumble"
+        android:title="@string/rumble_title">
+
+        <ListPreference
+            android:key="rumble_strength"
+            android:persistent="false"
+            android:title="@string/rumble_strength_title"
+            android:dialogTitle="@string/rumble_strength_title"
+            android:summary="%s"
+            android:entries="@array/rumble_strength_entries"
+            android:entryValues="@array/rumble_strength_values" />
+
+        <Preference
+            android:key="rumble_test"
+            android:title="@string/rumble_test_title"
+            android:summary="@string/rumble_test_summary" />
+
+        <Preference
+            android:key="rumble_help"
+            android:selectable="false"
+            android:summary="@string/rumble_help" />
+    </PreferenceCategory>
+
     <PreferenceCategory
         android:key="more"
         android:title="@string/more_title">

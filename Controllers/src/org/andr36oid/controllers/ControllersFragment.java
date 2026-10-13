@@ -13,6 +13,7 @@ import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
+import android.view.InputDevice;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -30,6 +31,10 @@ public class ControllersFragment extends PreferenceFragment
     static final String PROP_PLAYER1 = "persist.andr36oid.ra_player1";
     static final String BUILTIN = "builtin";
     static final String EXTERNAL = "external";
+    /** 0-100 % of what a game asks for; init writes it to the joypad driver */
+    static final String PROP_RUMBLE = "persist.andr36oid.rumble_strength";
+    static final String RUMBLE_DEFAULT = "100";
+    static final long RUMBLE_TEST_MS = 500;
 
     private final Handler mHandler = new Handler(Looper.getMainLooper());
     private InputManager mInputManager;
@@ -46,6 +51,44 @@ public class ControllersFragment extends PreferenceFragment
         final ListPreference player1 = (ListPreference) findPreference("player1");
         player1.setValue(player1());
         player1.setOnPreferenceChangeListener(this);
+        setUpRumble();
+    }
+
+    /** The built-in pad, if it has a motor: the kernel only offers rumble where there is one */
+    private InputDevice rumblePad() {
+        for (int id : mInputManager.getInputDeviceIds()) {
+            final InputDevice device = mInputManager.getInputDevice(id);
+            if (device != null && device.getVendorId() == Pads.BUILTIN_VENDOR
+                    && !device.isExternal() && device.getVibrator().hasVibrator()) {
+                return device;
+            }
+        }
+        return null;
+    }
+
+    private void setUpRumble() {
+        if (rumblePad() == null) {
+            getPreferenceScreen().removePreference(findPreference("rumble"));
+            return;
+        }
+        final ListPreference strength = (ListPreference) findPreference("rumble_strength");
+        final String saved = SystemProperties.get(PROP_RUMBLE, RUMBLE_DEFAULT);
+        strength.setValue(strength.findIndexOfValue(saved) >= 0 ? saved : RUMBLE_DEFAULT);
+        strength.setOnPreferenceChangeListener((pref, value) -> {
+            SystemProperties.set(PROP_RUMBLE, (String) value);
+            // init writes it to the driver; try the new strength right after
+            mHandler.postDelayed(this::testRumble, 300);
+            return true;
+        });
+        findPreference("rumble_test").setOnPreferenceClickListener(pref -> {
+            testRumble();
+            return true;
+        });
+    }
+
+    private void testRumble() {
+        final InputDevice pad = rumblePad();
+        if (pad != null) pad.getVibrator().vibrate(RUMBLE_TEST_MS);
     }
 
     /** Fills in each app's entry from its activity, or drops it when the build lacks it. */
@@ -104,6 +147,12 @@ public class ControllersFragment extends PreferenceFragment
         }
         mExternal.setSummary(names.isEmpty() ? getString(R.string.external_none)
                 : String.join(getString(R.string.summary_separator), names));
+    }
+
+    @Override
+    public void onDestroy() {
+        mHandler.removeCallbacksAndMessages(null);
+        super.onDestroy();
     }
 
     @Override

@@ -62,4 +62,18 @@
     <string name="pair_connected">Подключён. Можно пользоваться.</string>
     <string name="pair_failed">Не удалось выполнить сопряжение. Снова переведите контроллер в режим сопряжения и нажмите A.</string>
     <string name="pair_no_name">Устройство без имени (%1$s)</string>
+
+    <!-- Rumble -->
+    <string name="rumble_title">Вибрация</string>
+    <string name="rumble_strength_title">Сила вибрации</string>
+    <string-array name="rumble_strength_entries">
+        <item>Выкл.</item>
+        <item>Слабая</item>
+        <item>Средняя</item>
+        <item>Сильная</item>
+        <item>Полная</item>
+    </string-array>
+    <string name="rumble_test_title">Проверить</string>
+    <string name="rumble_test_summary">Консоль коротко вибрирует с этой силой</string>
+    <string name="rumble_help">Для игр с вибрацией. Некоторые эмуляторы просят включить её ещё и в своих настройках, например контроллер DualShock для игр PlayStation или Rumble Pak для N64. Если мотор слишком сильный или дребезжит, уменьшите силу здесь.</string>
 </resources>

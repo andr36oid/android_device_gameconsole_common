@@ -62,4 +62,18 @@
     <string name="pair_connected">Connectée. Elle est prête à l\'emploi.</string>
     <string name="pair_failed">Échec de l\'association. Remettez la manette en mode association et appuyez sur A.</string>
     <string name="pair_no_name">Appareil sans nom (%1$s)</string>
+
+    <!-- Rumble -->
+    <string name="rumble_title">Vibration</string>
+    <string name="rumble_strength_title">Force de la vibration</string>
+    <string-array name="rumble_strength_entries">
+        <item>Désactivée</item>
+        <item>Douce</item>
+        <item>Moyenne</item>
+        <item>Forte</item>
+        <item>Maximale</item>
+    </string-array>
+    <string name="rumble_test_title">Essayer</string>
+    <string name="rumble_test_summary">Fait vibrer la console un instant avec cette force</string>
+    <string name="rumble_help">Pour les jeux qui gèrent la vibration. Certains émulateurs demandent aussi de l\'activer dans leurs propres réglages, comme la manette DualShock pour les jeux PlayStation ou le Rumble Pak sur N64. Si le moteur est trop fort ou fait du bruit, baissez-la ici.</string>
 </resources>

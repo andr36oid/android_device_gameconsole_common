@@ -62,4 +62,18 @@
     <string name="pair_connected">Terhubung. Siap dipakai.</string>
     <string name="pair_failed">Penyandingan gagal. Masukkan kontroler ke mode pairing lagi dan tekan A.</string>
     <string name="pair_no_name">Perangkat tanpa nama (%1$s)</string>
+
+    <!-- Rumble -->
+    <string name="rumble_title">Getaran</string>
+    <string name="rumble_strength_title">Kekuatan getaran</string>
+    <string-array name="rumble_strength_entries">
+        <item>Mati</item>
+        <item>Lembut</item>
+        <item>Sedang</item>
+        <item>Kuat</item>
+        <item>Penuh</item>
+    </string-array>
+    <string name="rumble_test_title">Coba</string>
+    <string name="rumble_test_summary">Menggetarkan konsol sebentar dengan kekuatan ini</string>
+    <string name="rumble_help">Untuk game yang mendukung getaran. Beberapa emulator juga perlu menyalakannya di pengaturannya sendiri, seperti kontroler DualShock untuk game PlayStation atau Rumble Pak untuk N64. Kalau motornya terlalu kuat atau berisik, kecilkan di sini.</string>
 </resources>
