@@ -841,6 +841,9 @@ for c in /sys/devices/system/cpu/cpu[0-9]*/cpuidle/state*; do
 	echo "$c $(cat "$c/name" 2>/dev/null) disable=$(cat "$c/disable" 2>/dev/null)" \
 		"usage=$(cat "$c/usage" 2>/dev/null) time=$(cat "$c/time" 2>/dev/null)" >>"$WORK/power.txt"
 done
+# status LED (Settings > Display > Status light): colour table, settings, what it shows
+L=/sys/devices/platform/andr36oid-status-led
+show power.txt $L/table $L/mode $L/battery $L/charging $L/full $L/notify $L/state
 run power.txt 20 dumpsys battery
 run power.txt 20 dumpsys power
 run power.txt 20 dumpsys suspend_control_internal
