@@ -317,6 +317,27 @@ on property:persist.andr36oid.sleep_mode=*
 on property:persist.andr36oid.sleep_wakeup=*
     write /sys/module/rockchip_pm_config/parameters/sleep_wakeup ${persist.andr36oid.sleep_wakeup}
 
+# Settings > Display > Status light ("default" = the DTB's). A new colour table resets
+# the other settings in the driver, so they are written again after it.
+on property:persist.andr36oid.led.table=*
+    write /sys/devices/platform/andr36oid-status-led/table ${persist.andr36oid.led.table}
+    write /sys/devices/platform/andr36oid-status-led/battery ${persist.andr36oid.led.battery}
+    write /sys/devices/platform/andr36oid-status-led/charging ${persist.andr36oid.led.charging}
+    write /sys/devices/platform/andr36oid-status-led/full ${persist.andr36oid.led.full}
+    write /sys/devices/platform/andr36oid-status-led/mode ${persist.andr36oid.led.mode}
+
+on property:persist.andr36oid.led.battery=*
+    write /sys/devices/platform/andr36oid-status-led/battery ${persist.andr36oid.led.battery}
+
+on property:persist.andr36oid.led.charging=*
+    write /sys/devices/platform/andr36oid-status-led/charging ${persist.andr36oid.led.charging}
+
+on property:persist.andr36oid.led.full=*
+    write /sys/devices/platform/andr36oid-status-led/full ${persist.andr36oid.led.full}
+
+on property:persist.andr36oid.led.mode=*
+    write /sys/devices/platform/andr36oid-status-led/mode ${persist.andr36oid.led.mode}
+
 # Deep sleep page: switch the cores' idle states off while running ("1" = off).
 # state1 is core power-down, state2 cluster power-down (px30.dtsi).
 on property:persist.andr36oid.idle_core_off=*

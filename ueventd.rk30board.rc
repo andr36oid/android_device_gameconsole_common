@@ -74,3 +74,12 @@ parallel_restorecon enabled
 #common char device files
 /dev/iio:device* 0666 system system
 /dev/input/event* 0666 system system
+
+# status LED (Settings > Display > Status light, notification light HAL)
+/sys/devices/platform/andr36oid-status-led	table	0664	system	system
+/sys/devices/platform/andr36oid-status-led	mode	0664	system	system
+/sys/devices/platform/andr36oid-status-led	battery	0664	system	system
+/sys/devices/platform/andr36oid-status-led	charging	0664	system	system
+/sys/devices/platform/andr36oid-status-led	full	0664	system	system
+/sys/devices/platform/andr36oid-status-led	notify	0664	system	system
+/sys/devices/platform/andr36oid-status-led	raw	0664	system	system
