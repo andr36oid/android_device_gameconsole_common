@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="kt_title">Kernel Ayarları</string>
+    <string name="kt_summary">Donanım sorunlarını bulmak için düşük seviyeli anahtarlar</string>
+
+    <!-- Top of the page -->
+    <string name="kt_intro">Donanım sorunlarını bulmak için düşük seviyeli anahtarlar, çoğunlukla klon konsollarda. Değişiklikler hemen devreye girer ve yeniden başlattıktan sonra da kalır. Konsol bu ayarlar açıkken üst üste iki kez açılışı tamamlayamazsa, ayarlar kendiliğinden kapanır.</string>
+    <string name="kt_use">Ayarları kullan</string>
+    <string name="kt_use_none">Hiçbir şey değişmedi, her şey varsayılanda</string>
+    <!-- e.g. "3 changed" -->
+    <plurals name="kt_use_count">
+        <item quantity="one"><xliff:g id="count">%d</xliff:g> değiştirildi</item>
+        <item quantity="other"><xliff:g id="count">%d</xliff:g> değiştirildi</item>
+    </plurals>
+    <string name="kt_use_off">Kapalı, her şey varsayılan değerle çalışıyor. Seçimlerin, bunu tekrar açtığında kullanılmak üzere saklanır.</string>
+    <string name="kt_paused_crash">Konsol üst üste iki kez açılışı bitiremediği için kapatıldı. Bunun sebebi büyük olasılıkla ayarlardan biri. Tekrar denemek için bunu yeniden aç.</string>
+    <string name="kt_show_docs">Açıklamaları göster</string>
+    <string name="kt_show_docs_summary">Her ayarın ne işe yaradığı ve neden değiştirebileceğin, doğrudan listede</string>
+    <string name="kt_reset">Her şeyi sıfırla</string>
+    <string name="kt_reset_summary">Bu konsol için varsayılanlara dön</string>
+    <string name="kt_reset_confirm">Her kernel ayarı varsayılan değerine geri döndürülsün mü?</string>
+
+    <!-- Row summaries -->
+    <!-- e.g. "Light sleep · changed, normally Deep sleep" -->
+    <string name="kt_changed"><xliff:g id="value">%1$s</xliff:g> · değiştirildi, normalde <xliff:g id="default">%2$s</xliff:g></string>
+    <string name="kt_unavailable">Bu konsolda kullanılamıyor</string>
+    <!-- e.g. "Couldn't set this, still 60" -->
+    <string name="kt_failed">Ayarlanamadı, hâlâ <xliff:g id="value">%1$s</xliff:g></string>
+    <string name="kt_once">Sadece bir sonraki yeniden başlatmaya kadar</string>
+    <string name="kt_paused_value">Durduruldu: <xliff:g id="value">%1$s</xliff:g></string>
+
+    <!-- Dialogs -->
+    <string name="kt_default_mark"><xliff:g id="value">%1$s</xliff:g> (varsayılan)</string>
+    <string name="kt_explain">Açıkla</string>
+    <string name="kt_doc_what">Ne işe yarar</string>
+    <string name="kt_doc_why">Neden değiştirirsin</string>
+    <!-- e.g. "Default on this console: Deep sleep" -->
+    <string name="kt_doc_default">Bu konsolun varsayılanı: <xliff:g id="value">%1$s</xliff:g></string>
+    <!-- e.g. "Kernel file: /sys/power/mem_sleep" -->
+    <string name="kt_doc_file">Kernel dosyası: <xliff:g id="path">%1$s</xliff:g></string>
+    <string name="kt_working">Uygulanıyor…</string>
+
+    <!-- Values -->
+    <string name="kt_on">Açık</string>
+    <string name="kt_off">Kapalı</string>
+    <!-- e.g. "10 ms" -->
+    <string name="kt_unit_ms"><xliff:g id="n">%1$s</xliff:g> ms</string>
+    <!-- e.g. "21 seconds" -->
+    <string name="kt_unit_s"><xliff:g id="n">%1$s</xliff:g> saniye</string>
+    <!-- e.g. "512 KB" -->
+    <string name="kt_unit_kb"><xliff:g id="n">%1$s</xliff:g> KB</string>
+    <!-- e.g. "85 °C" -->
+    <string name="kt_unit_c"><xliff:g id="n">%1$s</xliff:g> °C</string>
+    <!-- e.g. "3 cores" -->
+    <string name="kt_unit_cores"><xliff:g id="n">%1$s</xliff:g> çekirdek</string>
+    <string name="kt_one_core">1 çekirdek</string>
+
+    <!-- Categories -->
+    <string name="kt_cat_sleep">Uyku</string>
+    <string name="kt_cat_cpu">İşlemci ve ısı</string>
+    <string name="kt_cat_memory">Bellek</string>
+    <string name="kt_cat_storage">SD kartlar</string>
+    <string name="kt_cat_input">Kontroller ve ses</string>
+    <string name="kt_cat_debug">Çökmeler ve loglar</string>
+
+    <!-- Links to other pages -->
+    <string name="kt_link_deep_sleep">Derin uyku adımları</string>
+    <string name="kt_link_deep_sleep_summary">Çipin uykuda ne kapattığı ve boştaki çekirdeklerin kapatılması</string>
+    <string name="kt_link_performance">Hızlar ve voltaj düşürme</string>
+    <string name="kt_link_performance_summary">CPU, grafik ve bellek hızları Performans sayfasında</string>
+
+    <!-- Sleep -->
+    <string name="kt_sleep_type">Uyku türü</string>
+    <string name="kt_sleep_type_deep">Derin uyku</string>
+    <string name="kt_sleep_type_s2idle">Hafif uyku</string>
+    <string name="kt_sleep_type_what">Derin uyku çipin tamamını, neredeyse her şeyi kapatan firmware\'e teslim eder. Hafif uyku ise sadece uygulamaları dondurur ve çekirdeklerin boşta kalmasını sağlar. Firmware işin içinde değildir ve hiçbir çekirdek kapanmaz.</string>
+    <string name="kt_sleep_type_why">Konsolun uykuda donuyor veya yeniden başlıyorsa hafif uykuyu dene. Bu konsolların sıkıştığı adımı tamamen atlar. Tek sorun: pili çok daha hızlı tüketir, yani bir çözümden çok bir test.</string>
+
+    <string name="kt_sleep_test">Uyku testi modu</string>
+    <string name="kt_sleep_test_none">Kapalı, normal uyku</string>
+    <string name="kt_sleep_test_freezer">Uygulamaları dondurduktan sonra dur</string>
+    <string name="kt_sleep_test_devices">Sürücüleri duraklattıktan sonra dur</string>
+    <string name="kt_sleep_test_platform">Firmware\'den önce dur</string>
+    <string name="kt_sleep_test_processors">Çekirdekleri kapattıktan sonra dur</string>
+    <string name="kt_sleep_test_core">Uyumadan tam önce dur</string>
+    <string name="kt_sleep_test_what">Uykuya dalma adımlarından geçer, ama seçtiğin adımda durur, 5 saniye bekler ve yeniden uyanır. Bu açıkken konsol hiçbir zaman gerçekten uyumaz.</string>
+    <string name="kt_sleep_test_why">Uykunun nerede bozulduğunu bulmana yardımcı olur. "Çekirdekleri kapattıktan sonra dur"da takılıyorsa, sorun firmware\'den öncedir. "Uyumadan tam önce dur"a kadar her şey çalışıyorsa, sorun firmware veya donanımdır. Konsol yeniden başladığında sıfırlanır, böylece bununla takılıp kalmazsın.</string>
+
+    <string name="kt_sleep_console">Uyku sırasında kernel logu</string>
+    <string name="kt_sleep_console_y">Uykuda duraklatılır</string>
+    <string name="kt_sleep_console_n">Çalışmaya devam eder</string>
+    <string name="kt_sleep_console_what">Normalde kernel, sürücüler uyumaya başladığı anda logunu yazmayı bırakır. Bu, son adıma kadar yazmaya devam etmesini sağlar.</string>
+    <string name="kt_sleep_console_why">Bir konsol uykuda donduğunda, sorun raporu sadece donmadan önce kaydedilenleri gösterir. Logu çalışır tutmak son adımlardan daha fazlasını gösterir. Uyku biraz daha yavaşlar.</string>
+
+    <string name="kt_sleep_log_times">Her uyku adımını zamanla</string>
+    <string name="kt_sleep_log_times_what">Uyuyan ve uyanan her sürücü için, ne kadar sürdüğüyle birlikte bir log satırı yazar.</string>
+    <string name="kt_sleep_log_times_why">Bir çökmeden önce son çalışan sürücüyü veya hangisinin uyanmayı yavaşlattığını gösterir. Logu hızla doldurur, bitirince kapat.</string>
+
+    <string name="kt_sleep_log_debug">Uyku hata ayıklama mesajları</string>
+    <string name="kt_sleep_log_debug_what">Kernelin uyku hakkındaki ek notlarını kaydeder: hangi uyandırma kaynaklarının etkin olduğu, bir uyuma denemesinin neden vazgeçtiği ve benzeri.</string>
+    <string name="kt_sleep_log_debug_why">Konsol hiç uyumuyorsa veya hemen tekrar uyanıyorsa bu işine yarar.</string>
+
+    <!-- Processor -->
+    <string name="kt_cores">Kullanılan çekirdekler</string>
+    <string name="kt_cores_what">İşlemci çekirdeklerini kapatır. İlk çekirdek her zaman açık kalır.</string>
+    <string name="kt_cores_why">Bazı klonlarda arada bir takılan dengesiz bir çekirdek vardır. Daha az çekirdekle konsol daha kararlı oluyorsa, cevabın bu. Ayrıca uykuya girerken kapatılacak daha az çekirdek olması, uyku takılmalarını test ederken yardımcı olur. Oyunlar daha yavaş çalışır.</string>
+
+    <string name="kt_heat_limit">Isı sınırı</string>
+    <string name="kt_heat_limit_what">İşlemcinin soğumak için yavaşlamaya başladığı çip sıcaklığı.</string>
+    <string name="kt_heat_limit_why">Kötü ısı pedi veya ısı yayıcısı olmayan klonlar sınıra hızla ulaşır ve zorlu oyunlarda takılır. Yükseltmek daha sıcak bir konsolu daha az yavaşlamayla değiştirir. Düşürmek kasayı daha serin tutar. 90 °C üzeri çip için uzun vadede pek iyi değildir.</string>
+
+    <!-- Memory -->
+    <string name="kt_swappiness">Sıkıştırılmış bellek kullanımı</string>
+    <string name="kt_swappiness_what">Android\'in RAM\'i boşaltmak için boştaki uygulamaları sıkıştırılmış belleğe (zram) ne kadar hevesle taşıdığı.</string>
+    <string name="kt_swappiness_why">Daha yüksek, daha fazla uygulamayı arka planda açık tutar ama biraz işlemci zamanına mal olur. Daha düşük, bir oyun çalışırken her şeyi daha akıcı tutar ama uygulamalar daha erken kapanır. 1 GB konsollarda varsayılan genellikle en iyisidir.</string>
+
+    <string name="kt_cache_pressure">Dosya önbelleği temizliği</string>
+    <string name="kt_cache_pressure_what">Kernelin hangi dosya ve klasörleri yakın zamanda incelediğini ne kadar hızlı unuttuğu.</string>
+    <string name="kt_cache_pressure_why">Daha düşük, büyük ROM klasörlerine ikinci kez göz atmayı daha hızlı yapar. Daha yüksek, oyunlar için belleği daha çabuk boşaltır.</string>
+
+    <string name="kt_page_cluster">Sıkıştırılmış bellek önden okuma</string>
+    <string name="kt_page_cluster_what">Kernelin sıkıştırılmış bellekten tek seferde kaç sayfa geri çıkardığı: 1, 2 ya da 8.</string>
+    <string name="kt_page_cluster_why">Sıkıştırılmış bellek için alışılmış seçim 1 sayfadır ve uygulama değiştirirken küçük sıçramaları azaltır. Daha fazlası ancak bu konsollarda olmayan gerçek bir takas dosyasıyla yardımcı olur.</string>
+    <string name="kt_pages_1">1 sayfa</string>
+    <string name="kt_pages_2">2 sayfa</string>
+    <string name="kt_pages_8">8 sayfa</string>
+
+    <!-- SD cards -->
+    <string name="kt_sd1_scheduler">Sistem kartı: istek sırası</string>
+    <string name="kt_sd2_scheduler">İkinci kart: istek sırası</string>
+    <string name="kt_scheduler_deadline">Sıralı (mq-deadline)</string>
+    <string name="kt_scheduler_none">Geldiği gibi (none)</string>
+    <string name="kt_scheduler_what">Kernelin okuma ve yazmaları karta göndermeden önce sıralayıp gruplaması mı, yoksa sırayla gönderip geçmesi mi.</string>
+    <string name="kt_scheduler_why">Sıralı, büyük bir kopyalama sırasında sistemi akıcı tutar. "Geldiği gibi" daha az yük getirir ve iyi kartlarda daha hızlı olabilir. Ucuz veya sahte kartlarda sıralı genellikle daha güvenli seçimdir.</string>
+
+    <string name="kt_sd1_readahead">Sistem kartı: önden okuma</string>
+    <string name="kt_sd2_readahead">İkinci kart: önden okuma</string>
+    <string name="kt_readahead_what">Bir uygulama bir dosyayı baştan sona okurken kernelin tek seferde ne kadar fazladan okuduğu.</string>
+    <string name="kt_readahead_why">Daha fazla önden okuma büyük ROM ve ISO\'ları, özellikle yavaş kartlardan, daha hızlı yükler. Çok fazlası belleği boşa harcar ve bir dosya içinde ileri geri atlayan oyunları yavaşlatabilir. Kartı değiştirirsen, ayar bir sonraki açılışta yeniden uygulanır.</string>
+
+    <!-- Controls and sound -->
+    <string name="kt_stick_invert">Stick eksenlerini çevir</string>
+    <string name="kt_stick_normal">Normal</string>
+    <!-- e.g. "Flipped: Right stick left/right" -->
+    <string name="kt_stick_flipped">Çevrildi: <xliff:g id="axes">%1$s</xliff:g></string>
+    <string name="kt_axis_x">Sol stick sol/sağ</string>
+    <string name="kt_axis_y">Sol stick yukarı/aşağı</string>
+    <string name="kt_axis_rx">Sağ stick sol/sağ</string>
+    <string name="kt_axis_ry">Sağ stick yukarı/aşağı</string>
+    <string name="kt_stick_invert_what">Bu konsolun ekran dosyasının zaten yaptığının üzerine, bir stick yönünü tersine çevirir.</string>
+    <string name="kt_stick_invert_why">Bazı klonlar bir stick\'i ters kablolar, yani sağa itmek sola, yukarı itmek aşağı hareket ettirir. Ters olan yönü işaretle. Kumanda testinde şimdi doğru olduğunu kontrol et.</string>
+
+    <string name="kt_poll_interval">Tuş kontrol hızı</string>
+    <string name="kt_poll_interval_what">Stick\'lerin ne sıklıkla okunduğu ve tuşların yeniden kontrol edildiği.</string>
+    <string name="kt_poll_interval_why">Daha kısa, stick\'lerde biraz daha az giriş gecikmesi anlamına gelir ama biraz daha fazla pil kullanır. Tuş basışları yine de hemen iletilir. Daha uzun, stick\'ler gürültülü bir klonda titriyorsa yardımcı olur.</string>
+
+    <string name="kt_hp_det_flip">Kulaklık algılama</string>
+    <string name="kt_hp_det_normal">Normal</string>
+    <string name="kt_hp_det_flipped">Çevrildi</string>
+    <string name="kt_hp_det_flip_what">Kulaklık jakının anahtarını ters okur.</string>
+    <string name="kt_hp_det_flip_why">Bazı klonlar jakı ters kablolar: hiçbir şey takılı değilken hoparlör sessiz kalır veya ses asla kulaklığa geçmez. Bu sana tanıdık geliyorsa bunu çevir. Hemen yeniden kontrol edilir.</string>
+
+    <!-- Crashes and logs -->
+    <string name="kt_log_level">Kernel log ayrıntısı</string>
+    <string name="kt_log_level_3">Sadece hatalar</string>
+    <string name="kt_log_level_4">Uyarılar (normal)</string>
+    <string name="kt_log_level_7">Bilgi</string>
+    <string name="kt_log_level_8">Her şey</string>
+    <string name="kt_log_level_what">Kernelin bir çökme veya yeniden başlatmadan sonra da kalan loga ne kadar yazdığı.</string>
+    <string name="kt_log_level_why">Daha fazla ayrıntı, bir takılmayı açıklayan satırın sorun raporuna girme şansını artırır. "Her şey" çok gevezedir ve konsolu biraz yavaşlatabilir.</string>
+
+    <string name="kt_panic_restart">Kernel çökmesinden sonra yeniden başlat</string>
+    <string name="kt_panic_never">Asla, çökmede kal</string>
+    <string name="kt_panic_restart_what">Konsolun bir kernel çökmesinden sonra kendi kendine yeniden başlamadan önce ne kadar beklediği.</string>
+    <string name="kt_panic_restart_why">Hızlı yeniden başlatma seni oyuna daha çabuk döndürür ve sorun raporu hâlâ çökme logunu içerir. "Asla", sadece takılı kalmak yerine çöktüğünü görmen için konsolu dondurulmuş tutar ama kapatmak için Power\'ı basılı tutman gerekir.</string>
+
+    <string name="kt_oops_panic">Sürücü hatalarını çökme say</string>
+    <string name="kt_oops_panic_what">Bir sürücü ciddi bir hatayla (oops) karşılaştığında, kernel normalde onsuz devam eder. Bu, onun yerine konsolu yeniden başlatır.</string>
+    <string name="kt_oops_panic_why">Bir oops\'tan sonra şeyler sık sık tuhaf şekillerde bozulur: ses yok, tuşlar ölü, daha sonra donmuş bir ekran. Hemen yeniden başlatmak, kafa karıştırıcı bir karmaşa yerine sorun raporunda temiz bir çökme logu verir.</string>
+
+    <string name="kt_stall_report">Takılı çekirdeği şu süre sonra bildir</string>
+    <string name="kt_stall_report_what">Kernelin ne yaptığıyla ilgili bir uyarıyı kaydetmeden önce bir çekirdeğin ne kadar yanıt vermeyebileceği.</string>
+    <string name="kt_stall_report_why">Bazı klonlardaki uyku takılmaları, sessizleşen tek bir çekirdek gibi görünür. Daha kısa bir süre, sen umudu kesip Power\'ı basılı tutmadan önce bu uyarıyı loga sokar.</string>
+
+    <string name="kt_power_chip_log">Güç çipi logu</string>
+    <string name="kt_power_chip_log_what">Güç çipinin (RK817) şarj, pil göstergesi ve ses kısımlarının ne yaptığını kaydetmesine izin verir.</string>
+    <string name="kt_power_chip_log_why">Zıplayan pil yüzdeleri, duran şarj veya çatırdayan ses için. Çok gevezedir, bu yüzden sadece bir sorun raporu hazırlarken aç.</string>
+</resources>

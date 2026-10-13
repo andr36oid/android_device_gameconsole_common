@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="kt_title">Réglages du noyau</string>
+    <string name="kt_summary">Réglages bas niveau pour traquer les problèmes matériels</string>
+
+    <!-- Top of the page -->
+    <string name="kt_intro">Réglages bas niveau pour traquer les problèmes matériels, surtout sur les consoles clones. Les changements s\'appliquent tout de suite et restent après un redémarrage. Si la console échoue à démarrer deux fois de suite avec des réglages actifs, ils se désactivent tout seuls.</string>
+    <string name="kt_use">Utiliser les réglages</string>
+    <string name="kt_use_none">Rien n\'a changé, tout est aux valeurs par défaut</string>
+    <!-- e.g. "3 changed" -->
+    <plurals name="kt_use_count">
+        <item quantity="one"><xliff:g id="count">%d</xliff:g> modifié</item>
+        <item quantity="other"><xliff:g id="count">%d</xliff:g> modifiés</item>
+    </plurals>
+    <string name="kt_use_off">Désactivé, tout fonctionne aux valeurs par défaut. Tes choix sont gardés pour quand tu réactiveras ça.</string>
+    <string name="kt_paused_crash">Désactivé parce que la console n\'a pas fini de démarrer deux fois de suite. L\'un des réglages en est probablement la cause. Réactive-le pour réessayer.</string>
+    <string name="kt_show_docs">Afficher les explications</string>
+    <string name="kt_show_docs_summary">Ce que fait chaque réglage et pourquoi le changer, directement dans la liste</string>
+    <string name="kt_reset">Tout réinitialiser</string>
+    <string name="kt_reset_summary">Revenir aux valeurs par défaut de cette console</string>
+    <string name="kt_reset_confirm">Remettre chaque réglage du noyau à sa valeur par défaut ?</string>
+
+    <!-- Row summaries -->
+    <!-- e.g. "Light sleep · changed, normally Deep sleep" -->
+    <string name="kt_changed"><xliff:g id="value">%1$s</xliff:g> · modifié, normalement <xliff:g id="default">%2$s</xliff:g></string>
+    <string name="kt_unavailable">Pas disponible sur cette console</string>
+    <!-- e.g. "Couldn't set this, still 60" -->
+    <string name="kt_failed">Impossible d\'appliquer, toujours à <xliff:g id="value">%1$s</xliff:g></string>
+    <string name="kt_once">Seulement jusqu\'au prochain redémarrage</string>
+    <string name="kt_paused_value">En pause : <xliff:g id="value">%1$s</xliff:g></string>
+
+    <!-- Dialogs -->
+    <string name="kt_default_mark"><xliff:g id="value">%1$s</xliff:g> (défaut)</string>
+    <string name="kt_explain">Expliquer</string>
+    <string name="kt_doc_what">Ce que ça fait</string>
+    <string name="kt_doc_why">Pourquoi le changer</string>
+    <!-- e.g. "Default on this console: Deep sleep" -->
+    <string name="kt_doc_default">Par défaut sur cette console : <xliff:g id="value">%1$s</xliff:g></string>
+    <!-- e.g. "Kernel file: /sys/power/mem_sleep" -->
+    <string name="kt_doc_file">Fichier noyau : <xliff:g id="path">%1$s</xliff:g></string>
+    <string name="kt_working">Application…</string>
+
+    <!-- Values -->
+    <string name="kt_on">Activé</string>
+    <string name="kt_off">Désactivé</string>
+    <!-- e.g. "10 ms" -->
+    <string name="kt_unit_ms"><xliff:g id="n">%1$s</xliff:g> ms</string>
+    <!-- e.g. "21 seconds" -->
+    <string name="kt_unit_s"><xliff:g id="n">%1$s</xliff:g> secondes</string>
+    <!-- e.g. "512 KB" -->
+    <string name="kt_unit_kb"><xliff:g id="n">%1$s</xliff:g> Ko</string>
+    <!-- e.g. "85 °C" -->
+    <string name="kt_unit_c"><xliff:g id="n">%1$s</xliff:g> °C</string>
+    <!-- e.g. "3 cores" -->
+    <string name="kt_unit_cores"><xliff:g id="n">%1$s</xliff:g> cœurs</string>
+    <string name="kt_one_core">1 cœur</string>
+
+    <!-- Categories -->
+    <string name="kt_cat_sleep">Veille</string>
+    <string name="kt_cat_cpu">Processeur et chaleur</string>
+    <string name="kt_cat_memory">Mémoire</string>
+    <string name="kt_cat_storage">Cartes SD</string>
+    <string name="kt_cat_input">Commandes et son</string>
+    <string name="kt_cat_debug">Plantages et journaux</string>
+
+    <!-- Links to other pages -->
+    <string name="kt_link_deep_sleep">Étapes de veille profonde</string>
+    <string name="kt_link_deep_sleep_summary">Ce que la puce éteint pendant la veille, et l\'extinction des cœurs inactifs</string>
+    <string name="kt_link_performance">Vitesses et undervolting</string>
+    <string name="kt_link_performance_summary">Les vitesses CPU, graphique et mémoire sont sur la page Performances</string>
+
+    <!-- Sleep -->
+    <string name="kt_sleep_type">Type de veille</string>
+    <string name="kt_sleep_type_deep">Veille profonde</string>
+    <string name="kt_sleep_type_s2idle">Veille légère</string>
+    <string name="kt_sleep_type_what">La veille profonde confie toute la puce au micrologiciel, qui éteint presque tout. La veille légère se contente de figer les applis et laisse les cœurs au repos. Le micrologiciel n\'intervient pas et aucun cœur n\'est éteint.</string>
+    <string name="kt_sleep_type_why">Si ta console se fige ou redémarre en veille, essaie la veille légère. Elle évite l\'étape où ces consoles se bloquent. Le hic : elle vide la batterie bien plus vite, c\'est donc plus un test qu\'une solution.</string>
+
+    <string name="kt_sleep_test">Mode test de veille</string>
+    <string name="kt_sleep_test_none">Désactivé, veille normale</string>
+    <string name="kt_sleep_test_freezer">Arrêt après avoir figé les applis</string>
+    <string name="kt_sleep_test_devices">Arrêt après avoir mis les pilotes en pause</string>
+    <string name="kt_sleep_test_platform">Arrêt avant le micrologiciel</string>
+    <string name="kt_sleep_test_processors">Arrêt après avoir éteint les cœurs</string>
+    <string name="kt_sleep_test_core">Arrêt juste avant de dormir</string>
+    <string name="kt_sleep_test_what">Déroule les étapes de l\'endormissement, mais s\'arrête à l\'étape choisie, attend 5 secondes et se réveille. La console ne s\'endort jamais vraiment pendant que c\'est activé.</string>
+    <string name="kt_sleep_test_why">Aide à trouver où la veille échoue. Si ça bloque sur « Arrêt après avoir éteint les cœurs », le problème est avant le micrologiciel. Si tout fonctionne jusqu\'à « Arrêt juste avant de dormir », c\'est le micrologiciel ou le matériel. Se réinitialise au redémarrage, donc impossible de rester bloqué avec ça.</string>
+
+    <string name="kt_sleep_console">Journal du noyau pendant la veille</string>
+    <string name="kt_sleep_console_y">En pause pendant la veille</string>
+    <string name="kt_sleep_console_n">Continue de tourner</string>
+    <string name="kt_sleep_console_what">Normalement, le noyau arrête d\'écrire son journal dès que les pilotes s\'endorment. Ceci le garde actif jusqu\'à la dernière étape.</string>
+    <string name="kt_sleep_console_why">Quand une console se bloque en veille, le rapport de problème ne montre que ce qui a été journalisé avant le blocage. Garder le journal actif montre plus des dernières étapes. La veille devient un tout petit peu plus lente.</string>
+
+    <string name="kt_sleep_log_times">Chronométrer chaque étape de veille</string>
+    <string name="kt_sleep_log_times_what">Écrit une ligne de journal pour chaque pilote qui s\'endort et se réveille, avec le temps que ça a pris.</string>
+    <string name="kt_sleep_log_times_why">Montre quel pilote était le dernier avant un blocage, ou lequel ralentit le réveil. Remplit le journal vite, donc désactive-le une fois fini.</string>
+
+    <string name="kt_sleep_log_debug">Messages de débogage de veille</string>
+    <string name="kt_sleep_log_debug_what">Journalise les notes supplémentaires du noyau sur la veille : quelles sources de réveil sont actives, pourquoi une tentative de veille a abandonné, etc.</string>
+    <string name="kt_sleep_log_debug_why">Pour quand la console ne s\'endort pas du tout, ou se réveille tout de suite.</string>
+
+    <!-- Processor -->
+    <string name="kt_cores">Cœurs utilisés</string>
+    <string name="kt_cores_what">Éteint des cœurs du processeur. Le premier cœur reste toujours allumé.</string>
+    <string name="kt_cores_why">Certains clones ont un cœur capricieux qui bloque de temps en temps. Si la console devient plus stable avec moins de cœurs, voilà ta réponse. Ça veut aussi dire moins de cœurs à éteindre en entrant en veille, ce qui aide pour tester les blocages de veille. Les jeux tourneront plus lentement.</string>
+
+    <string name="kt_heat_limit">Limite de chaleur</string>
+    <string name="kt_heat_limit_what">La température de la puce à partir de laquelle le processeur commence à ralentir pour refroidir.</string>
+    <string name="kt_heat_limit_why">Les clones avec un mauvais pad thermique ou sans dissipateur atteignent vite la limite et saccadent dans les jeux exigeants. L\'augmenter échange une console plus chaude contre moins de ralentissements. La baisser garde la coque plus fraîche. Au-delà de 90 °C, ce n\'est pas idéal pour la puce sur la durée.</string>
+
+    <!-- Memory -->
+    <string name="kt_swappiness">Utilisation de la mémoire compressée</string>
+    <string name="kt_swappiness_what">Avec quel empressement Android déplace les applis inactives vers la mémoire compressée (zram) pour libérer de la RAM.</string>
+    <string name="kt_swappiness_why">Plus haut garde plus d\'applis ouvertes en arrière-plan, mais coûte un peu de temps processeur. Plus bas garde les choses plus fluides pendant qu\'un jeu tourne, mais les applis se ferment plus tôt. Sur les consoles à 1 Go, la valeur par défaut est généralement la meilleure.</string>
+
+    <string name="kt_cache_pressure">Nettoyage du cache de fichiers</string>
+    <string name="kt_cache_pressure_what">À quelle vitesse le noyau oublie quels fichiers et dossiers il a consultés récemment.</string>
+    <string name="kt_cache_pressure_why">Plus bas rend la navigation dans de gros dossiers de ROM plus rapide la deuxième fois. Plus haut libère de la mémoire plus vite pour les jeux.</string>
+
+    <string name="kt_page_cluster">Lecture anticipée de la mémoire compressée</string>
+    <string name="kt_page_cluster_what">Combien de pages le noyau ressort d\'un coup de la mémoire compressée : 1, 2 ou 8.</string>
+    <string name="kt_page_cluster_why">1 page est le choix habituel pour la mémoire compressée et réduit les petits à-coups en changeant d\'appli. Plus n\'aide qu\'avec un vrai fichier de swap, que ces consoles n\'ont pas.</string>
+    <string name="kt_pages_1">1 page</string>
+    <string name="kt_pages_2">2 pages</string>
+    <string name="kt_pages_8">8 pages</string>
+
+    <!-- SD cards -->
+    <string name="kt_sd1_scheduler">Carte système : ordre des requêtes</string>
+    <string name="kt_sd2_scheduler">Deuxième carte : ordre des requêtes</string>
+    <string name="kt_scheduler_deadline">Trié (mq-deadline)</string>
+    <string name="kt_scheduler_none">Dans l\'ordre d\'arrivée (none)</string>
+    <string name="kt_scheduler_what">Si le noyau trie et regroupe les lectures et écritures avant de les envoyer à la carte, ou s\'il les envoie simplement dans l\'ordre.</string>
+    <string name="kt_scheduler_why">Trié garde le système fluide pendant une grosse copie. « Dans l\'ordre d\'arrivée » a moins de surcharge et peut être plus rapide sur de bonnes cartes. Sur des cartes bon marché ou fausses, trié est généralement le choix le plus sûr.</string>
+
+    <string name="kt_sd1_readahead">Carte système : lecture anticipée</string>
+    <string name="kt_sd2_readahead">Deuxième carte : lecture anticipée</string>
+    <string name="kt_readahead_what">Combien de plus le noyau lit d\'un coup quand une appli lit un fichier du début à la fin.</string>
+    <string name="kt_readahead_why">Plus de lecture anticipée charge les gros ROM et ISO plus vite, surtout depuis des cartes lentes. Trop gaspille de la mémoire et peut ralentir les jeux qui sautent d\'un endroit à l\'autre d\'un fichier. Si tu changes de carte, le réglage est réappliqué au démarrage suivant.</string>
+
+    <!-- Controls and sound -->
+    <string name="kt_stick_invert">Inverser les axes du stick</string>
+    <string name="kt_stick_normal">Normal</string>
+    <!-- e.g. "Flipped: Right stick left/right" -->
+    <string name="kt_stick_flipped">Inversé : <xliff:g id="axes">%1$s</xliff:g></string>
+    <string name="kt_axis_x">Stick gauche gauche/droite</string>
+    <string name="kt_axis_y">Stick gauche haut/bas</string>
+    <string name="kt_axis_rx">Stick droit gauche/droite</string>
+    <string name="kt_axis_ry">Stick droit haut/bas</string>
+    <string name="kt_stick_invert_what">Inverse une direction du stick, en plus de ce que fait déjà le fichier d\'écran de cette console.</string>
+    <string name="kt_stick_invert_why">Certains clones câblent un stick à l\'envers, donc pousser à droite déplace vers la gauche, ou le haut déplace vers le bas. Coche la direction qui est inversée. Vérifie dans le test de manette que c\'est bon maintenant.</string>
+
+    <string name="kt_poll_interval">Fréquence de lecture des boutons</string>
+    <string name="kt_poll_interval_what">À quelle fréquence les sticks sont lus et les boutons revérifiés.</string>
+    <string name="kt_poll_interval_why">Plus court veut dire un peu moins de latence sur les sticks, mais utilise un peu plus de batterie. Les appuis sur les boutons arrivent tout de suite de toute façon. Plus long aide si les sticks tremblent sur un clone bruité.</string>
+
+    <string name="kt_hp_det_flip">Détection du casque</string>
+    <string name="kt_hp_det_normal">Normal</string>
+    <string name="kt_hp_det_flipped">Inversé</string>
+    <string name="kt_hp_det_flip_what">Lit l\'interrupteur de la prise casque à l\'envers.</string>
+    <string name="kt_hp_det_flip_why">Certains clones câblent la prise à l\'envers : le haut-parleur reste muet sans rien de branché, ou le son ne passe jamais au casque. Si ça te semble être ta console, inverse ça. C\'est revérifié tout de suite.</string>
+
+    <!-- Crashes and logs -->
+    <string name="kt_log_level">Détail du journal du noyau</string>
+    <string name="kt_log_level_3">Erreurs seulement</string>
+    <string name="kt_log_level_4">Avertissements (normal)</string>
+    <string name="kt_log_level_7">Infos</string>
+    <string name="kt_log_level_8">Tout</string>
+    <string name="kt_log_level_what">Combien le noyau écrit dans le journal qui survit à un plantage ou un redémarrage.</string>
+    <string name="kt_log_level_why">Plus de détail veut dire plus de chances que la ligne qui explique un blocage arrive dans le rapport de problème. « Tout » est très bavard et peut ralentir un peu la console.</string>
+
+    <string name="kt_panic_restart">Redémarrer après un plantage du noyau</string>
+    <string name="kt_panic_never">Jamais, rester planté</string>
+    <string name="kt_panic_restart_what">Combien de temps la console attend après un plantage du noyau avant de redémarrer toute seule.</string>
+    <string name="kt_panic_restart_why">Redémarrer vite te ramène au jeu, et le rapport de problème garde quand même le journal du plantage. « Jamais » garde la console figée pour que tu voies qu\'elle a planté plutôt que bloqué, mais il faudra maintenir Power pour l\'éteindre.</string>
+
+    <string name="kt_oops_panic">Traiter les erreurs de pilote comme des plantages</string>
+    <string name="kt_oops_panic_what">Quand un pilote subit une erreur grave (un « oops »), le noyau continue normalement sans lui. Ceci redémarre la console à la place.</string>
+    <string name="kt_oops_panic_why">Après un oops, les choses cassent souvent de façon bizarre : pas de son, boutons morts, écran figé plus tard. Redémarrer tout de suite te donne un journal de plantage propre dans le rapport de problème au lieu d\'un bazar confus.</string>
+
+    <string name="kt_stall_report">Signaler un cœur bloqué après</string>
+    <string name="kt_stall_report_what">Combien de temps un cœur peut ne plus répondre avant que le noyau journalise un avertissement avec ce qu\'il faisait.</string>
+    <string name="kt_stall_report_why">Les blocages de veille sur certains clones ressemblent à un cœur qui se tait. Un délai plus court fait entrer cet avertissement dans le journal avant que tu abandonnes et maintiennes Power.</string>
+
+    <string name="kt_power_chip_log">Journal de la puce d\'alimentation</string>
+    <string name="kt_power_chip_log_what">Laisse les parties chargeur, jauge de batterie et son de la puce d\'alimentation (RK817) journaliser ce qu\'elles font.</string>
+    <string name="kt_power_chip_log_why">Pour les pourcentages de batterie qui sautent, une charge qui s\'arrête ou un son qui crépite. Très bavard, donc n\'active ça que pendant que tu fais un rapport de problème.</string>
+</resources>

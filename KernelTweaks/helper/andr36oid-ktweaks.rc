@@ -1,0 +1,22 @@
+# Settings > System > Kernel Tweaks, see andr36oid-ktweaks.sh
+
+# note the defaults and apply the saved tweaks as soon as they are loaded
+on property:ro.persistent_properties.ready=true
+    start andr36oid-ktweaks-boot
+
+# the start finished: the boot protection starts counting again
+on property:sys.boot_completed=1
+    setprop persist.andr36oid.kt.tries 0
+
+service andr36oid-ktweaks-boot /system/bin/sh /system/etc/andr36oid-ktweaks.sh boot
+    user root
+    group root system
+    disabled
+    oneshot
+
+# started by the app with ctl.start after a change
+service andr36oid-ktweaks /system/bin/sh /system/etc/andr36oid-ktweaks.sh apply
+    user root
+    group root system
+    disabled
+    oneshot

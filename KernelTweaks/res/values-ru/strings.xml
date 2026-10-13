@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="kt_title">Настройки ядра</string>
+    <string name="kt_summary">Низкоуровневые переключатели для поиска проблем с оборудованием</string>
+
+    <!-- Top of the page -->
+    <string name="kt_intro">Низкоуровневые переключатели для поиска проблем с оборудованием, в основном на клонах консолей. Изменения действуют сразу и сохраняются после перезапуска. Если консоль не запускается два раза подряд при включённых настройках, они отключаются сами.</string>
+    <string name="kt_use">Использовать настройки</string>
+    <string name="kt_use_none">Ничего не изменено, всё по умолчанию</string>
+    <!-- e.g. "3 changed" -->
+    <plurals name="kt_use_count">
+        <item quantity="one"><xliff:g id="count">%d</xliff:g> изменена</item>
+        <item quantity="few"><xliff:g id="count">%d</xliff:g> изменены</item>
+        <item quantity="many"><xliff:g id="count">%d</xliff:g> изменено</item>
+        <item quantity="other"><xliff:g id="count">%d</xliff:g> изменено</item>
+    </plurals>
+    <string name="kt_use_off">Выключено, всё работает по умолчанию. Твои настройки сохраняются до тех пор, пока ты это снова не включишь.</string>
+    <string name="kt_paused_crash">Выключено, потому что консоль не запустилась два раза подряд. Вероятная причина — одна из этих настроек. Включи это снова, чтобы попробовать ещё раз.</string>
+    <string name="kt_show_docs">Показывать объяснения</string>
+    <string name="kt_show_docs_summary">Что делает каждая настройка и зачем её менять, прямо в списке</string>
+    <string name="kt_reset">Сбросить всё</string>
+    <string name="kt_reset_summary">Вернуть значения по умолчанию для этой консоли</string>
+    <string name="kt_reset_confirm">Вернуть все настройки ядра к значениям по умолчанию?</string>
+
+    <!-- Row summaries -->
+    <!-- e.g. "Light sleep · changed, normally Deep sleep" -->
+    <string name="kt_changed"><xliff:g id="value">%1$s</xliff:g> · изменено, обычно <xliff:g id="default">%2$s</xliff:g></string>
+    <string name="kt_unavailable">Недоступно на этой консоли</string>
+    <!-- e.g. "Couldn't set this, still 60" -->
+    <string name="kt_failed">Не удалось применить, по-прежнему <xliff:g id="value">%1$s</xliff:g></string>
+    <string name="kt_once">Только до следующего перезапуска</string>
+    <string name="kt_paused_value">Приостановлено: <xliff:g id="value">%1$s</xliff:g></string>
+
+    <!-- Dialogs -->
+    <string name="kt_default_mark"><xliff:g id="value">%1$s</xliff:g> (по умолчанию)</string>
+    <string name="kt_explain">Объяснить</string>
+    <string name="kt_doc_what">Что это делает</string>
+    <string name="kt_doc_why">Зачем это менять</string>
+    <!-- e.g. "Default on this console: Deep sleep" -->
+    <string name="kt_doc_default">По умолчанию на этой консоли: <xliff:g id="value">%1$s</xliff:g></string>
+    <!-- e.g. "Kernel file: /sys/power/mem_sleep" -->
+    <string name="kt_doc_file">Файл ядра: <xliff:g id="path">%1$s</xliff:g></string>
+    <string name="kt_working">Применяется…</string>
+
+    <!-- Values -->
+    <string name="kt_on">Вкл.</string>
+    <string name="kt_off">Выкл.</string>
+    <!-- e.g. "10 ms" -->
+    <string name="kt_unit_ms"><xliff:g id="n">%1$s</xliff:g> мс</string>
+    <!-- e.g. "21 seconds" -->
+    <string name="kt_unit_s"><xliff:g id="n">%1$s</xliff:g> секунд</string>
+    <!-- e.g. "512 KB" -->
+    <string name="kt_unit_kb"><xliff:g id="n">%1$s</xliff:g> КБ</string>
+    <!-- e.g. "85 °C" -->
+    <string name="kt_unit_c"><xliff:g id="n">%1$s</xliff:g> °C</string>
+    <!-- e.g. "3 cores" -->
+    <string name="kt_unit_cores"><xliff:g id="n">%1$s</xliff:g> ядра</string>
+    <string name="kt_one_core">1 ядро</string>
+
+    <!-- Categories -->
+    <string name="kt_cat_sleep">Сон</string>
+    <string name="kt_cat_cpu">Процессор и нагрев</string>
+    <string name="kt_cat_memory">Память</string>
+    <string name="kt_cat_storage">SD-карты</string>
+    <string name="kt_cat_input">Управление и звук</string>
+    <string name="kt_cat_debug">Сбои и логи</string>
+
+    <!-- Links to other pages -->
+    <string name="kt_link_deep_sleep">Шаги глубокого сна</string>
+    <string name="kt_link_deep_sleep_summary">Что чип выключает во сне, и отключение простаивающих ядер</string>
+    <string name="kt_link_performance">Частоты и андервольт</string>
+    <string name="kt_link_performance_summary">Частоты CPU, графики и памяти — на странице «Производительность»</string>
+
+    <!-- Sleep -->
+    <string name="kt_sleep_type">Тип сна</string>
+    <string name="kt_sleep_type_deep">Глубокий сон</string>
+    <string name="kt_sleep_type_s2idle">Лёгкий сон</string>
+    <string name="kt_sleep_type_what">Глубокий сон передаёт весь чип прошивке, которая выключает почти всё. Лёгкий сон просто замораживает приложения и даёт ядрам простаивать. Прошивка не участвует, и ни одно ядро не отключается.</string>
+    <string name="kt_sleep_type_why">Если твоя консоль зависает или перезапускается во сне, попробуй лёгкий сон. Он пропускает тот шаг, на котором эти консоли застревают. Но есть подвох: он расходует намного больше заряда, так что это скорее тест, чем решение.</string>
+
+    <string name="kt_sleep_test">Режим теста сна</string>
+    <string name="kt_sleep_test_none">Выкл., обычный сон</string>
+    <string name="kt_sleep_test_freezer">Стоп после заморозки приложений</string>
+    <string name="kt_sleep_test_devices">Стоп после приостановки драйверов</string>
+    <string name="kt_sleep_test_platform">Стоп перед прошивкой</string>
+    <string name="kt_sleep_test_processors">Стоп после выключения ядер</string>
+    <string name="kt_sleep_test_core">Стоп прямо перед сном</string>
+    <string name="kt_sleep_test_what">Проходит по шагам засыпания, но останавливается на выбранном шаге, ждёт 5 секунд и снова просыпается. Консоль никогда по-настоящему не засыпает, пока это включено.</string>
+    <string name="kt_sleep_test_why">Помогает сузить, где именно ломается сон. Если зависает на «Стоп после выключения ядер», проблема до прошивки. Если всё работает до «Стоп прямо перед сном» — дело в прошивке или оборудовании. Сбрасывается при перезапуске консоли, так что застрять с этим не получится.</string>
+
+    <string name="kt_sleep_console">Лог ядра во время сна</string>
+    <string name="kt_sleep_console_y">Приостановлен во сне</string>
+    <string name="kt_sleep_console_n">Продолжает работать</string>
+    <string name="kt_sleep_console_what">Обычно ядро перестаёт писать лог в тот момент, когда драйверы засыпают. Это заставляет его писать до самого последнего шага.</string>
+    <string name="kt_sleep_console_why">Когда консоль зависает во сне, отчёт о проблеме показывает только то, что было записано до зависания. Работающий лог показывает больше из последних шагов. Сон становится чуть медленнее.</string>
+
+    <string name="kt_sleep_log_times">Замерять время каждого шага сна</string>
+    <string name="kt_sleep_log_times_what">Пишет строку в лог для каждого драйвера, который засыпает и просыпается, с указанием затраченного времени.</string>
+    <string name="kt_sleep_log_times_why">Показывает, какой драйвер был последним перед зависанием, или какой делает пробуждение медленным. Быстро заполняет лог, так что выключи это, когда закончишь.</string>
+
+    <string name="kt_sleep_log_debug">Отладочные сообщения сна</string>
+    <string name="kt_sleep_log_debug_what">Записывает дополнительные заметки ядра о сне: какие источники пробуждения активны, почему попытка уснуть сдалась, и так далее.</string>
+    <string name="kt_sleep_log_debug_why">На случай, если консоль вообще не засыпает или сразу же просыпается снова.</string>
+
+    <!-- Processor -->
+    <string name="kt_cores">Используемые ядра</string>
+    <string name="kt_cores_what">Отключает ядра процессора. Первое ядро всегда остаётся включённым.</string>
+    <string name="kt_cores_why">У некоторых клонов есть нестабильное ядро, которое время от времени зависает. Если консоль становится стабильнее с меньшим числом ядер, вот тебе и ответ. Это также значит меньше ядер для отключения при входе в сон, что помогает при проверке зависаний во сне. Игры будут работать медленнее.</string>
+
+    <string name="kt_heat_limit">Предел нагрева</string>
+    <string name="kt_heat_limit_what">Температура чипа, при которой процессор начинает замедляться для охлаждения.</string>
+    <string name="kt_heat_limit_why">Клоны с плохой термопрокладкой или без радиатора быстро доходят до предела и подёргиваются в требовательных играх. Повышение предела меняет более горячую консоль на меньше подёргиваний. Снижение держит корпус холоднее. Выше 90 °C не очень хорошо для чипа в долгосрочной перспективе.</string>
+
+    <!-- Memory -->
+    <string name="kt_swappiness">Использование сжатой памяти</string>
+    <string name="kt_swappiness_what">Насколько охотно Android перемещает простаивающие приложения в сжатую память (zram), чтобы освободить ОЗУ.</string>
+    <string name="kt_swappiness_why">Выше — больше приложений остаются открытыми в фоне, но это стоит немного процессорного времени. Ниже — всё работает быстрее во время игры, но приложения закрываются раньше. На консолях с 1 ГБ значение по умолчанию обычно лучшее.</string>
+
+    <string name="kt_cache_pressure">Очистка кэша файлов</string>
+    <string name="kt_cache_pressure_what">Как быстро ядро забывает, какие файлы и папки недавно просматривались.</string>
+    <string name="kt_cache_pressure_why">Ниже — просмотр больших папок с ROM-ами во второй раз быстрее. Выше — память освобождается раньше для игр.</string>
+
+    <string name="kt_page_cluster">Опережающее чтение сжатой памяти</string>
+    <string name="kt_page_cluster_what">Сколько страниц ядро вытаскивает за раз из сжатой памяти: 1, 2 или 8.</string>
+    <string name="kt_page_cluster_why">1 страница — обычный выбор для сжатой памяти, уменьшает мелкие заминки при переключении приложений. Больше помогает только с настоящим файлом подкачки, которого у этих консолей нет.</string>
+    <string name="kt_pages_1">1 страница</string>
+    <string name="kt_pages_2">2 страницы</string>
+    <string name="kt_pages_8">8 страниц</string>
+
+    <!-- SD cards -->
+    <string name="kt_sd1_scheduler">Системная карта: порядок запросов</string>
+    <string name="kt_sd2_scheduler">Вторая карта: порядок запросов</string>
+    <string name="kt_scheduler_deadline">Сортировка (mq-deadline)</string>
+    <string name="kt_scheduler_none">Как придут (none)</string>
+    <string name="kt_scheduler_what">Сортирует и группирует ли ядро чтения и записи перед отправкой на карту, или просто отправляет их по порядку.</string>
+    <string name="kt_scheduler_why">Сортировка держит систему плавной во время большого копирования. «Как придут» имеет меньше накладных расходов и может быть быстрее на хороших картах. На дешёвых или поддельных картах сортировка обычно безопаснее.</string>
+
+    <string name="kt_sd1_readahead">Системная карта: опережающее чтение</string>
+    <string name="kt_sd2_readahead">Вторая карта: опережающее чтение</string>
+    <string name="kt_readahead_what">Сколько дополнительно ядро читает за раз, когда приложение читает файл от начала до конца.</string>
+    <string name="kt_readahead_why">Больше опережающего чтения загружает крупные ROM-ы и ISO быстрее, особенно с медленных карт. Слишком много тратит память впустую и может замедлить игры, которые прыгают по файлу. Если сменишь карту, настройка применяется снова при следующем запуске.</string>
+
+    <!-- Controls and sound -->
+    <string name="kt_stick_invert">Перевернуть оси стика</string>
+    <string name="kt_stick_normal">Обычно</string>
+    <!-- e.g. "Flipped: Right stick left/right" -->
+    <string name="kt_stick_flipped">Перевёрнуто: <xliff:g id="axes">%1$s</xliff:g></string>
+    <string name="kt_axis_x">Левый стик влево/вправо</string>
+    <string name="kt_axis_y">Левый стик вверх/вниз</string>
+    <string name="kt_axis_rx">Правый стик влево/вправо</string>
+    <string name="kt_axis_ry">Правый стик вверх/вниз</string>
+    <string name="kt_stick_invert_what">Переворачивает направление стика, в дополнение к тому, что уже делает файл экрана этой консоли.</string>
+    <string name="kt_stick_invert_why">Некоторые клоны подключают стик наоборот, так что нажатие вправо двигает влево, а вверх — вниз. Отметь то направление, которое перевёрнуто. Проверь в тесте геймпада, что теперь всё верно.</string>
+
+    <string name="kt_poll_interval">Частота опроса кнопок</string>
+    <string name="kt_poll_interval_what">Как часто считываются стики и повторно проверяются кнопки.</string>
+    <string name="kt_poll_interval_why">Короче — немного меньше задержки на стиках, но расходует немного больше заряда. Нажатия кнопок всё равно доходят мгновенно. Длиннее помогает, если стики дрожат на зашумлённом клоне.</string>
+
+    <string name="kt_hp_det_flip">Определение наушников</string>
+    <string name="kt_hp_det_normal">Обычно</string>
+    <string name="kt_hp_det_flipped">Перевёрнуто</string>
+    <string name="kt_hp_det_flip_what">Считывает переключатель разъёма для наушников наоборот.</string>
+    <string name="kt_hp_det_flip_why">Некоторые клоны подключают разъём наоборот: динамик молчит, даже если ничего не подключено, или звук никогда не переходит на наушники. Если это похоже на твою консоль, переверни это. Проверяется снова сразу же.</string>
+
+    <!-- Crashes and logs -->
+    <string name="kt_log_level">Подробность лога ядра</string>
+    <string name="kt_log_level_3">Только ошибки</string>
+    <string name="kt_log_level_4">Предупреждения (обычно)</string>
+    <string name="kt_log_level_7">Информация</string>
+    <string name="kt_log_level_8">Всё</string>
+    <string name="kt_log_level_what">Сколько ядро пишет в лог, который переживает сбой или перезапуск.</string>
+    <string name="kt_log_level_why">Больше подробностей — больше шансов, что строка, объясняющая зависание, попадёт в отчёт о проблеме. «Всё» очень болтливо и может немного замедлить консоль.</string>
+
+    <string name="kt_panic_restart">Перезапуск после сбоя ядра</string>
+    <string name="kt_panic_never">Никогда, оставаться на сбое</string>
+    <string name="kt_panic_restart_what">Сколько консоль ждёт после сбоя ядра, прежде чем перезапуститься сама.</string>
+    <string name="kt_panic_restart_why">Быстрый перезапуск быстрее возвращает тебя в игру, а отчёт о проблеме всё равно сохранит лог сбоя. «Никогда» держит консоль замороженной, чтобы ты видел, что она именно сбилась, а не просто зависла, но тогда придётся удерживать Power, чтобы её выключить.</string>
+
+    <string name="kt_oops_panic">Считать ошибки драйверов сбоями</string>
+    <string name="kt_oops_panic_what">Когда драйвер встречает серьёзную ошибку (oops), ядро обычно продолжает работу без него. Это вместо этого перезапускает консоль.</string>
+    <string name="kt_oops_panic_why">После oops часто что-то ломается странным образом: нет звука, не работают кнопки, позже замирает экран. Немедленный перезапуск даёт тебе чистый лог сбоя в отчёте о проблеме вместо запутанного беспорядка.</string>
+
+    <string name="kt_stall_report">Сообщать о зависшем ядре после</string>
+    <string name="kt_stall_report_what">Сколько процессорное ядро может не отвечать, прежде чем ядро системы запишет предупреждение с тем, что оно делало.</string>
+    <string name="kt_stall_report_why">Зависания во сне на некоторых клонах выглядят как одно ядро, которое просто замолкает. Меньшее время заносит это предупреждение в лог до того, как ты сдашься и зажмёшь Power.</string>
+
+    <string name="kt_power_chip_log">Лог чипа питания</string>
+    <string name="kt_power_chip_log_what">Позволяет частям зарядки, датчика батареи и звука чипа питания (RK817) записывать, что они делают.</string>
+    <string name="kt_power_chip_log_why">Для процентов заряда, которые скачут, зарядки, которая останавливается, или звука, который хрипит. Очень болтливо, так что включай это только во время составления отчёта о проблеме.</string>
+</resources>

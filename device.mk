@@ -543,6 +543,11 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
 	DeepSleep
 
+# Settings > System > Kernel Tweaks: low-level kernel switches for hardware trouble
+PRODUCT_PACKAGES += \
+	KernelTweaks \
+	andr36oid-ktweaks
+
 # RGB lights (Settings > Display > RGB lights), shown only on consoles with an
 # RGB LED (R36 Ultra); off unless chosen
 PRODUCT_PACKAGES += \

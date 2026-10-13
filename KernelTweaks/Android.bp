@@ -1,0 +1,14 @@
+// Settings > System > Kernel Tweaks: low-level kernel switches for tracking down hardware
+// trouble, mostly on clones. Runs as the system user so it can set
+// persist.andr36oid.kt.*; the andr36oid-ktweaks init service (Android.mk) writes them to
+// the kernel as root.
+android_app {
+    name: "KernelTweaks",
+    srcs: ["src/**/*.java"],
+    resource_dirs: ["res"],
+    certificate: "platform",
+    platform_apis: true,
+    optimize: {
+        enabled: false,
+    },
+}

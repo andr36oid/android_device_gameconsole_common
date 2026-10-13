@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="kt_title">Ustawienia jądra</string>
+    <string name="kt_summary">Przełączniki niskiego poziomu do szukania problemów ze sprzętem</string>
+
+    <!-- Top of the page -->
+    <string name="kt_intro">Przełączniki niskiego poziomu do szukania problemów ze sprzętem, głównie w konsolach klonach. Zmiany działają od razu i zostają po ponownym uruchomieniu. Jeśli konsola nie uruchomi się dwa razy pod rząd przy włączonych ustawieniach, same się wyłączą.</string>
+    <string name="kt_use">Używaj ustawień</string>
+    <string name="kt_use_none">Nic nie zmieniono, wszystko jest domyślne</string>
+    <!-- e.g. "3 changed" -->
+    <plurals name="kt_use_count">
+        <item quantity="one"><xliff:g id="count">%d</xliff:g> zmienione</item>
+        <item quantity="few"><xliff:g id="count">%d</xliff:g> zmienione</item>
+        <item quantity="many"><xliff:g id="count">%d</xliff:g> zmienionych</item>
+        <item quantity="other"><xliff:g id="count">%d</xliff:g> zmienionych</item>
+    </plurals>
+    <string name="kt_use_off">Wyłączone, wszystko działa na wartościach domyślnych. Twoje wybory zostają zapamiętane na kiedy to znów włączysz.</string>
+    <string name="kt_paused_crash">Wyłączone, bo konsola dwa razy pod rząd nie dokończyła uruchamiania. Prawdopodobnie przyczyną jest jedno z tych ustawień. Włącz to znowu, aby spróbować jeszcze raz.</string>
+    <string name="kt_show_docs">Pokaż wyjaśnienia</string>
+    <string name="kt_show_docs_summary">Co robi każde ustawienie i kiedy je zmieniać, prosto na liście</string>
+    <string name="kt_reset">Zresetuj wszystko</string>
+    <string name="kt_reset_summary">Wróć do wartości domyślnych dla tej konsoli</string>
+    <string name="kt_reset_confirm">Przywrócić każde ustawienie jądra do wartości domyślnej?</string>
+
+    <!-- Row summaries -->
+    <!-- e.g. "Light sleep · changed, normally Deep sleep" -->
+    <string name="kt_changed"><xliff:g id="value">%1$s</xliff:g> · zmienione, normalnie <xliff:g id="default">%2$s</xliff:g></string>
+    <string name="kt_unavailable">Niedostępne na tej konsoli</string>
+    <!-- e.g. "Couldn't set this, still 60" -->
+    <string name="kt_failed">Nie udało się ustawić, wciąż <xliff:g id="value">%1$s</xliff:g></string>
+    <string name="kt_once">Tylko do następnego uruchomienia</string>
+    <string name="kt_paused_value">Wstrzymane: <xliff:g id="value">%1$s</xliff:g></string>
+
+    <!-- Dialogs -->
+    <string name="kt_default_mark"><xliff:g id="value">%1$s</xliff:g> (domyślne)</string>
+    <string name="kt_explain">Wyjaśnij</string>
+    <string name="kt_doc_what">Co to robi</string>
+    <string name="kt_doc_why">Kiedy to zmieniać</string>
+    <!-- e.g. "Default on this console: Deep sleep" -->
+    <string name="kt_doc_default">Domyślnie na tej konsoli: <xliff:g id="value">%1$s</xliff:g></string>
+    <!-- e.g. "Kernel file: /sys/power/mem_sleep" -->
+    <string name="kt_doc_file">Plik jądra: <xliff:g id="path">%1$s</xliff:g></string>
+    <string name="kt_working">Stosowanie…</string>
+
+    <!-- Values -->
+    <string name="kt_on">Włączone</string>
+    <string name="kt_off">Wyłączone</string>
+    <!-- e.g. "10 ms" -->
+    <string name="kt_unit_ms"><xliff:g id="n">%1$s</xliff:g> ms</string>
+    <!-- e.g. "21 seconds" -->
+    <string name="kt_unit_s"><xliff:g id="n">%1$s</xliff:g> sekund</string>
+    <!-- e.g. "512 KB" -->
+    <string name="kt_unit_kb"><xliff:g id="n">%1$s</xliff:g> KB</string>
+    <!-- e.g. "85 °C" -->
+    <string name="kt_unit_c"><xliff:g id="n">%1$s</xliff:g> °C</string>
+    <!-- e.g. "3 cores" -->
+    <string name="kt_unit_cores"><xliff:g id="n">%1$s</xliff:g> rdzeni</string>
+    <string name="kt_one_core">1 rdzeń</string>
+
+    <!-- Categories -->
+    <string name="kt_cat_sleep">Sen</string>
+    <string name="kt_cat_cpu">Procesor i temperatura</string>
+    <string name="kt_cat_memory">Pamięć</string>
+    <string name="kt_cat_storage">Karty SD</string>
+    <string name="kt_cat_input">Sterowanie i dźwięk</string>
+    <string name="kt_cat_debug">Awarie i logi</string>
+
+    <!-- Links to other pages -->
+    <string name="kt_link_deep_sleep">Kroki głębokiego snu</string>
+    <string name="kt_link_deep_sleep_summary">Co układ wyłącza podczas snu, oraz wyłączanie bezczynnych rdzeni</string>
+    <string name="kt_link_performance">Szybkości i obniżanie napięcia</string>
+    <string name="kt_link_performance_summary">Szybkości CPU, grafiki i pamięci znajdziesz na stronie Wydajność</string>
+
+    <!-- Sleep -->
+    <string name="kt_sleep_type">Typ snu</string>
+    <string name="kt_sleep_type_deep">Głęboki sen</string>
+    <string name="kt_sleep_type_s2idle">Lekki sen</string>
+    <string name="kt_sleep_type_what">Głęboki sen oddaje cały układ firmware\'owi, który wyłącza prawie wszystko. Lekki sen tylko zamraża aplikacje i pozwala rdzeniom być bezczynnymi. Firmware nie bierze udziału i żaden rdzeń nie jest wyłączany.</string>
+    <string name="kt_sleep_type_why">Jeśli twoja konsola zawiesza się lub uruchamia ponownie podczas snu, wypróbuj lekki sen. Pomija on część, w której te konsole się zawieszają. Haczyk: zużywa dużo więcej baterii, więc to bardziej test niż rozwiązanie.</string>
+
+    <string name="kt_sleep_test">Tryb testu snu</string>
+    <string name="kt_sleep_test_none">Wyłączone, normalny sen</string>
+    <string name="kt_sleep_test_freezer">Zatrzymaj po zamrożeniu aplikacji</string>
+    <string name="kt_sleep_test_devices">Zatrzymaj po wstrzymaniu sterowników</string>
+    <string name="kt_sleep_test_platform">Zatrzymaj przed firmware\'em</string>
+    <string name="kt_sleep_test_processors">Zatrzymaj po wyłączeniu rdzeni</string>
+    <string name="kt_sleep_test_core">Zatrzymaj tuż przed zaśnięciem</string>
+    <string name="kt_sleep_test_what">Przechodzi przez kroki zasypiania, ale zatrzymuje się na wybranym kroku, czeka 5 sekund i budzi się ponownie. Konsola nigdy naprawdę nie zasypia, kiedy to jest włączone.</string>
+    <string name="kt_sleep_test_why">Pomaga zawęzić, gdzie zawodzi sen. Jeśli zawiesza się na „Zatrzymaj po wyłączeniu rdzeni”, problem jest przed firmware\'em. Jeśli wszystko działa do „Zatrzymaj tuż przed zaśnięciem”, to firmware albo sprzęt. Resetuje się po ponownym uruchomieniu konsoli, więc nie można z tym się zablokować.</string>
+
+    <string name="kt_sleep_console">Log jądra podczas snu</string>
+    <string name="kt_sleep_console_y">Wstrzymany podczas snu</string>
+    <string name="kt_sleep_console_n">Działa dalej</string>
+    <string name="kt_sleep_console_what">Normalnie jądro przestaje zapisywać log w momencie, gdy sterowniki zasypiają. To sprawia, że pisze aż do ostatniego kroku.</string>
+    <string name="kt_sleep_console_why">Gdy konsola zawiesi się podczas snu, raport problemu pokazuje tylko to, co zostało zapisane przed zawieszeniem. Działający log pokazuje więcej z ostatnich kroków. Sen staje się odrobinę wolniejszy.</string>
+
+    <string name="kt_sleep_log_times">Zapisuj czas każdego kroku snu</string>
+    <string name="kt_sleep_log_times_what">Zapisuje linię logu dla każdego sterownika, który zasypia i się budzi, wraz z czasem, który to zajęło.</string>
+    <string name="kt_sleep_log_times_why">Pokazuje, który sterownik był ostatni przed zawieszeniem, albo który spowalnia wybudzanie. Szybko zapełnia log, więc wyłącz to, gdy skończysz.</string>
+
+    <string name="kt_sleep_log_debug">Wiadomości debugowania snu</string>
+    <string name="kt_sleep_log_debug_what">Zapisuje dodatkowe notatki jądra o śnie: które źródła wybudzania są aktywne, czemu próba uśpienia poddała się, i tak dalej.</string>
+    <string name="kt_sleep_log_debug_why">Na wypadek, gdy konsola wcale nie zasypia albo budzi się natychmiast.</string>
+
+    <!-- Processor -->
+    <string name="kt_cores">Używane rdzenie</string>
+    <string name="kt_cores_what">Wyłącza rdzenie procesora. Pierwszy rdzeń zawsze zostaje włączony.</string>
+    <string name="kt_cores_why">Niektóre klony mają kapryśny rdzeń, który co jakiś czas się zawiesza. Jeśli konsola staje się stabilniejsza z mniejszą liczbą rdzeni, to twoja odpowiedź. Oznacza to też mniej rdzeni do wyłączenia przy wchodzeniu w sen, co pomaga przy testowaniu zawieszania się snu. Gry będą działać wolniej.</string>
+
+    <string name="kt_heat_limit">Limit temperatury</string>
+    <string name="kt_heat_limit_what">Temperatura układu, przy której procesor zaczyna zwalniać, żeby się ochłodzić.</string>
+    <string name="kt_heat_limit_why">Klony ze złą podkładką termiczną albo bez rozpraszacza ciepła szybko dochodzą do limitu i zacinają się w wymagających grach. Zwiększenie go wymienia gorętszą konsolę na mniej spadków wydajności. Zmniejszenie utrzymuje obudowę chłodniejszą. Powyżej 90 °C nie jest dobrze dla układu na dłuższą metę.</string>
+
+    <!-- Memory -->
+    <string name="kt_swappiness">Użycie pamięci skompresowanej</string>
+    <string name="kt_swappiness_what">Jak ochoczo Android przenosi bezczynne aplikacje do pamięci skompresowanej (zram), aby zwolnić RAM.</string>
+    <string name="kt_swappiness_why">Wyższa wartość trzyma więcej aplikacji otwartych w tle, ale kosztuje trochę czasu procesora. Niższa trzyma wszystko płynniej podczas gry, ale aplikacje są zamykane wcześniej. Na konsolach z 1 GB domyślna wartość jest zwykle najlepsza.</string>
+
+    <string name="kt_cache_pressure">Czyszczenie pamięci podręcznej plików</string>
+    <string name="kt_cache_pressure_what">Jak szybko jądro zapomina, jakie pliki i foldery niedawno sprawdzało.</string>
+    <string name="kt_cache_pressure_why">Niższa wartość przyspiesza przeglądanie dużych folderów ROM po drugim razie. Wyższa szybciej zwalnia pamięć dla gier.</string>
+
+    <string name="kt_page_cluster">Wyprzedzające czytanie pamięci skompresowanej</string>
+    <string name="kt_page_cluster_what">Ile stron jądro wyciąga jednocześnie z pamięci skompresowanej: 1, 2 albo 8.</string>
+    <string name="kt_page_cluster_why">1 strona to zwykły wybór dla pamięci skompresowanej i zmniejsza drobne zacięcia przy przełączaniu aplikacji. Więcej pomaga tylko z prawdziwym plikiem wymiany, którego te konsole nie mają.</string>
+    <string name="kt_pages_1">1 strona</string>
+    <string name="kt_pages_2">2 strony</string>
+    <string name="kt_pages_8">8 stron</string>
+
+    <!-- SD cards -->
+    <string name="kt_sd1_scheduler">Karta systemowa: porządek żądań</string>
+    <string name="kt_sd2_scheduler">Druga karta: porządek żądań</string>
+    <string name="kt_scheduler_deadline">Sortowane (mq-deadline)</string>
+    <string name="kt_scheduler_none">Tak jak przychodzą (none)</string>
+    <string name="kt_scheduler_what">Czy jądro sortuje i grupuje odczyty i zapisy przed wysłaniem ich do karty, czy po prostu wysyła je po kolei.</string>
+    <string name="kt_scheduler_why">Sortowane utrzymuje system płynnym podczas dużego kopiowania. „Tak jak przychodzą” ma mniejszy narzut i może być szybsze na dobrych kartach. Na tanich albo podróbkowych kartach sortowane jest zwykle bezpieczniejszym wyborem.</string>
+
+    <string name="kt_sd1_readahead">Karta systemowa: wyprzedzające czytanie</string>
+    <string name="kt_sd2_readahead">Druga karta: wyprzedzające czytanie</string>
+    <string name="kt_readahead_what">Jak dużo dodatkowo jądro czyta na raz, gdy aplikacja czyta plik od początku do końca.</string>
+    <string name="kt_readahead_why">Więcej wyprzedzającego czytania wczytuje duże ROMy i ISO szybciej, zwłaszcza z wolnych kart. Za dużo marnuje pamięć i może zwolnić gry, które skaczą po pliku. Jeśli zmienisz kartę, ustawienie zostanie zastosowane ponownie przy następnym uruchomieniu.</string>
+
+    <!-- Controls and sound -->
+    <string name="kt_stick_invert">Odwróć osie gałki</string>
+    <string name="kt_stick_normal">Normalnie</string>
+    <!-- e.g. "Flipped: Right stick left/right" -->
+    <string name="kt_stick_flipped">Odwrócone: <xliff:g id="axes">%1$s</xliff:g></string>
+    <string name="kt_axis_x">Lewa gałka w lewo/prawo</string>
+    <string name="kt_axis_y">Lewa gałka góra/dół</string>
+    <string name="kt_axis_rx">Prawa gałka w lewo/prawo</string>
+    <string name="kt_axis_ry">Prawa gałka góra/dół</string>
+    <string name="kt_stick_invert_what">Odwraca kierunek gałki, oprócz tego, co już robi plik ekranu tej konsoli.</string>
+    <string name="kt_stick_invert_why">Niektóre klony podłączają gałkę na odwrót, więc pchnięcie w prawo przesuwa w lewo, albo góra przesuwa w dół. Zaznacz kierunek, który jest odwrócony. Sprawdź w teście kontrolera, czy teraz jest dobrze.</string>
+
+    <string name="kt_poll_interval">Częstość sprawdzania przycisków</string>
+    <string name="kt_poll_interval_what">Jak często gałki są odczytywane, a przyciski sprawdzane ponownie.</string>
+    <string name="kt_poll_interval_why">Krótszy czas oznacza odrobinę mniejsze opóźnienie na gałkach, ale zużywa odrobinę więcej baterii. Naciśnięcia przycisków i tak docierają od razu. Dłuższy czas pomaga, jeśli gałki drgają na zaszumionym klonie.</string>
+
+    <string name="kt_hp_det_flip">Wykrywanie słuchawek</string>
+    <string name="kt_hp_det_normal">Normalnie</string>
+    <string name="kt_hp_det_flipped">Odwrócone</string>
+    <string name="kt_hp_det_flip_what">Odczytuje przełącznik gniazda słuchawkowego na odwrót.</string>
+    <string name="kt_hp_det_flip_why">Niektóre klony podłączają gniazdo na odwrót: głośnik milczy, gdy nic nie jest podłączone, albo dźwięk nigdy nie przechodzi do słuchawek. Jeśli to brzmi jak twoja konsola, odwróć to. Jest sprawdzane ponownie od razu.</string>
+
+    <!-- Crashes and logs -->
+    <string name="kt_log_level">Poziom szczegółowości logu jądra</string>
+    <string name="kt_log_level_3">Tylko błędy</string>
+    <string name="kt_log_level_4">Ostrzeżenia (normalnie)</string>
+    <string name="kt_log_level_7">Informacje</string>
+    <string name="kt_log_level_8">Wszystko</string>
+    <string name="kt_log_level_what">Jak dużo jądro zapisuje do logu, który przetrwa awarię lub ponowne uruchomienie.</string>
+    <string name="kt_log_level_why">Więcej szczegółów to większa szansa, że linia wyjaśniająca zawieszenie trafi do raportu problemu. „Wszystko” jest bardzo rozmowne i może trochę zwolnić konsolę.</string>
+
+    <string name="kt_panic_restart">Uruchom ponownie po awarii jądra</string>
+    <string name="kt_panic_never">Nigdy, zostań na awarii</string>
+    <string name="kt_panic_restart_what">Jak długo konsola czeka po awarii jądra, zanim uruchomi się ponownie sama.</string>
+    <string name="kt_panic_restart_why">Szybkie ponowne uruchomienie szybciej wraca cię do gry, a raport problemu wciąż ma log awarii. „Nigdy” trzyma konsolę zamrożoną, żebyś widział, że to awaria, a nie tylko zawieszenie, ale musisz przytrzymać Power, aby ją wyłączyć.</string>
+
+    <string name="kt_oops_panic">Traktuj błędy sterowników jak awarie</string>
+    <string name="kt_oops_panic_what">Gdy sterownik napotka poważny błąd (oops), jądro normalnie kontynuuje bez niego. To uruchamia konsolę ponownie zamiast tego.</string>
+    <string name="kt_oops_panic_why">Po oops rzeczy często łamią się w dziwny sposób: brak dźwięku, martwe przyciski, zamrożony ekran później. Natychmiastowe ponowne uruchomienie daje ci czysty log awarii w raporcie problemu, a nie zagmatwany bałagan.</string>
+
+    <string name="kt_stall_report">Zgłoś zawieszony rdzeń po</string>
+    <string name="kt_stall_report_what">Jak długo rdzeń może nie odpowiadać, zanim jądro zapisze ostrzeżenie z tym, co właśnie robił.</string>
+    <string name="kt_stall_report_why">Zawieszenia snu na niektórych klonach wyglądają jak jeden rdzeń, który po prostu zamilkł. Krótszy czas wprowadza to ostrzeżenie do logu, zanim się poddasz i przytrzymasz Power.</string>
+
+    <string name="kt_power_chip_log">Log układu zasilania</string>
+    <string name="kt_power_chip_log_what">Pozwala częściom ładowania, miernika baterii i dźwięku układu zasilania (RK817) zapisywać, co robią.</string>
+    <string name="kt_power_chip_log_why">Na wypadek skaczących procentów baterii, ładowania, które się zatrzymuje, albo dźwięku, który trzeszczy. Bardzo rozmowne, więc włącz to tylko podczas tworzenia raportu problemu.</string>
+</resources>

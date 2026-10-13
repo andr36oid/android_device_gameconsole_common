@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="org.andr36oid.kerneltweaks"
+    android:sharedUserId="android.uid.system">
+
+    <application
+        android:allowBackup="false"
+        android:icon="@drawable/ic_kernel_tweaks"
+        android:label="@string/kt_title"
+        android:supportsRtl="true">
+
+        <!-- Injected into Settings > System -->
+        <activity
+            android:name=".KernelTweaksActivity"
+            android:exported="true"
+            android:label="@string/kt_title"
+            android:theme="@android:style/Theme.DeviceDefault.Settings">
+            <intent-filter>
+                <action android:name="com.android.settings.action.IA_SETTINGS" />
+            </intent-filter>
+            <meta-data
+                android:name="com.android.settings.category"
+                android:value="com.android.settings.category.ia.system" />
+            <meta-data
+                android:name="com.android.settings.summary"
+                android:resource="@string/kt_summary" />
+            <meta-data
+                android:name="com.android.settings.icon"
+                android:resource="@drawable/ic_kernel_tweaks" />
+        </activity>
+    </application>
+</manifest>

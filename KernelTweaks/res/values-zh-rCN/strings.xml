@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="kt_title">内核调整</string>
+    <string name="kt_summary">用于排查硬件问题的底层开关</string>
+
+    <!-- Top of the page -->
+    <string name="kt_intro">用于排查硬件问题的底层开关，主要针对山寨主机。更改立即生效，重启后依然保留。如果主机在开启这些调整后连续两次启动失败，它们会自动关闭。</string>
+    <string name="kt_use">使用调整</string>
+    <string name="kt_use_none">没有改动，全部都是默认值</string>
+    <!-- e.g. "3 changed" -->
+    <plurals name="kt_use_count">
+        <item quantity="other">已更改 <xliff:g id="count">%d</xliff:g> 项</item>
+    </plurals>
+    <string name="kt_use_off">已关闭，一切都按默认值运行。你的设置会保留，等你再次打开时使用。</string>
+    <string name="kt_paused_crash">已自动关闭，因为主机连续两次启动失败。原因很可能是其中一项调整。重新打开它再试一次。</string>
+    <string name="kt_show_docs">显示说明</string>
+    <string name="kt_show_docs_summary">每个设置的作用和更改理由，直接显示在列表中</string>
+    <string name="kt_reset">重置全部</string>
+    <string name="kt_reset_summary">恢复此主机的默认值</string>
+    <string name="kt_reset_confirm">将每一项内核调整都恢复为默认值？</string>
+
+    <!-- Row summaries -->
+    <!-- e.g. "Light sleep · changed, normally Deep sleep" -->
+    <string name="kt_changed"><xliff:g id="value">%1$s</xliff:g>·已更改，正常为 <xliff:g id="default">%2$s</xliff:g></string>
+    <string name="kt_unavailable">此主机不支持</string>
+    <!-- e.g. "Couldn't set this, still 60" -->
+    <string name="kt_failed">设置失败，仍为 <xliff:g id="value">%1$s</xliff:g></string>
+    <string name="kt_once">仅到下次重启为止</string>
+    <string name="kt_paused_value">已暂停：<xliff:g id="value">%1$s</xliff:g></string>
+
+    <!-- Dialogs -->
+    <string name="kt_default_mark"><xliff:g id="value">%1$s</xliff:g>（默认）</string>
+    <string name="kt_explain">说明</string>
+    <string name="kt_doc_what">作用</string>
+    <string name="kt_doc_why">更改理由</string>
+    <!-- e.g. "Default on this console: Deep sleep" -->
+    <string name="kt_doc_default">此主机的默认值：<xliff:g id="value">%1$s</xliff:g></string>
+    <!-- e.g. "Kernel file: /sys/power/mem_sleep" -->
+    <string name="kt_doc_file">内核文件：<xliff:g id="path">%1$s</xliff:g></string>
+    <string name="kt_working">正在应用…</string>
+
+    <!-- Values -->
+    <string name="kt_on">开启</string>
+    <string name="kt_off">关闭</string>
+    <!-- e.g. "10 ms" -->
+    <string name="kt_unit_ms"><xliff:g id="n">%1$s</xliff:g> ms</string>
+    <!-- e.g. "21 seconds" -->
+    <string name="kt_unit_s"><xliff:g id="n">%1$s</xliff:g> 秒</string>
+    <!-- e.g. "512 KB" -->
+    <string name="kt_unit_kb"><xliff:g id="n">%1$s</xliff:g> KB</string>
+    <!-- e.g. "85 °C" -->
+    <string name="kt_unit_c"><xliff:g id="n">%1$s</xliff:g> °C</string>
+    <!-- e.g. "3 cores" -->
+    <string name="kt_unit_cores"><xliff:g id="n">%1$s</xliff:g> 个核心</string>
+    <string name="kt_one_core">1 个核心</string>
+
+    <!-- Categories -->
+    <string name="kt_cat_sleep">睡眠</string>
+    <string name="kt_cat_cpu">处理器与发热</string>
+    <string name="kt_cat_memory">内存</string>
+    <string name="kt_cat_storage">SD 卡</string>
+    <string name="kt_cat_input">操控与声音</string>
+    <string name="kt_cat_debug">崩溃与日志</string>
+
+    <!-- Links to other pages -->
+    <string name="kt_link_deep_sleep">深度睡眠步骤</string>
+    <string name="kt_link_deep_sleep_summary">睡眠时芯片会关闭哪些部分，以及空闲核心的断电</string>
+    <string name="kt_link_performance">频率与降压</string>
+    <string name="kt_link_performance_summary">CPU、图形和内存频率在“性能”页面</string>
+
+    <!-- Sleep -->
+    <string name="kt_sleep_type">睡眠类型</string>
+    <string name="kt_sleep_type_deep">深度睡眠</string>
+    <string name="kt_sleep_type_s2idle">轻度睡眠</string>
+    <string name="kt_sleep_type_what">深度睡眠把整个芯片交给固件处理，固件会关闭几乎所有东西。轻度睡眠只是冻结应用，让核心进入空闲。固件不参与，也不会关闭任何核心。</string>
+    <string name="kt_sleep_type_why">如果你的主机在睡眠中卡死或自动重启，试试轻度睡眠。它跳过了这些主机容易卡住的那一步。代价是：耗电快得多，所以它更像是一种排查手段，而不是解决办法。</string>
+
+    <string name="kt_sleep_test">睡眠测试模式</string>
+    <string name="kt_sleep_test_none">关闭，正常睡眠</string>
+    <string name="kt_sleep_test_freezer">冻结应用后停止</string>
+    <string name="kt_sleep_test_devices">暂停驱动后停止</string>
+    <string name="kt_sleep_test_platform">进入固件前停止</string>
+    <string name="kt_sleep_test_processors">关闭核心后停止</string>
+    <string name="kt_sleep_test_core">睡眠前一刻停止</string>
+    <string name="kt_sleep_test_what">走完入睡的各个步骤，但会在你选定的那一步停下来，等待 5 秒后再唤醒。开启此项期间主机永远不会真正睡着。</string>
+    <string name="kt_sleep_test_why">用来缩小睡眠出问题的范围。如果卡在“关闭核心后停止”，说明问题出在固件之前。如果一直正常到“睡眠前一刻停止”，那就是固件或硬件的问题。主机重启后会自动重置，所以不用担心被卡住。</string>
+
+    <string name="kt_sleep_console">睡眠期间的内核日志</string>
+    <string name="kt_sleep_console_y">睡眠时暂停</string>
+    <string name="kt_sleep_console_n">继续运行</string>
+    <string name="kt_sleep_console_what">正常情况下，驱动一开始进入睡眠，内核就会停止写日志。开启此项可以让它一直写到最后一步。</string>
+    <string name="kt_sleep_console_why">主机在睡眠中卡死时，问题报告只会显示卡死前记录的内容。让日志继续运行能看到更多最后几步的信息。睡眠会稍微变慢一点。</string>
+
+    <string name="kt_sleep_log_times">记录每个睡眠步骤的耗时</string>
+    <string name="kt_sleep_log_times_what">为每个进入睡眠和唤醒的驱动写一行日志，记录耗时。</string>
+    <string name="kt_sleep_log_times_why">能看出卡死前最后运行的是哪个驱动，或者哪个驱动拖慢了唤醒速度。日志会很快被填满，用完请记得关掉。</string>
+
+    <string name="kt_sleep_log_debug">睡眠调试信息</string>
+    <string name="kt_sleep_log_debug_what">记录内核关于睡眠的额外说明：哪些唤醒源处于活动状态、为什么一次睡眠尝试放弃了，等等。</string>
+    <string name="kt_sleep_log_debug_why">适用于主机完全无法入睡，或者一入睡就立刻醒来的情况。</string>
+
+    <!-- Processor -->
+    <string name="kt_cores">使用的核心数</string>
+    <string name="kt_cores_what">关闭处理器核心。第一个核心始终保持开启。</string>
+    <string name="kt_cores_why">有些山寨机有一个不稳定的核心，时不时会卡住。如果减少核心数后主机更稳定，那就找到答案了。这样做也意味着进入睡眠时需要关闭的核心更少，有助于排查睡眠卡死问题。不过游戏会跑得更慢。</string>
+
+    <string name="kt_heat_limit">发热上限</string>
+    <string name="kt_heat_limit_what">处理器开始降频散热时的芯片温度。</string>
+    <string name="kt_heat_limit_why">散热垫差或没有散热片的山寨机很快就会到达上限，在高负载游戏中卡顿。调高上限意味着主机更热，但卡顿更少；调低则能让机身更凉。长期保持在 90 °C 以上对芯片不是好事。</string>
+
+    <!-- Memory -->
+    <string name="kt_swappiness">压缩内存使用程度</string>
+    <string name="kt_swappiness_what">Android 为了释放内存，把空闲应用移入压缩内存（zram）的积极程度。</string>
+    <string name="kt_swappiness_why">更高会让更多应用保留在后台，但会占用一点处理器时间。更低能让游戏运行时更流畅，但应用会更早被关闭。在 1 GB 内存的主机上，默认值通常是最好的选择。</string>
+
+    <string name="kt_cache_pressure">文件缓存清理</string>
+    <string name="kt_cache_pressure_what">内核忘记最近查看过哪些文件和文件夹的速度。</string>
+    <string name="kt_cache_pressure_why">更低能让第二次浏览大型 ROM 文件夹更快。更高能更快为游戏释放内存。</string>
+
+    <string name="kt_page_cluster">压缩内存预读</string>
+    <string name="kt_page_cluster_what">内核一次从压缩内存中取出多少页：1、2 或 8。</string>
+    <string name="kt_page_cluster_why">对压缩内存来说，1 页是通常的选择，能减少切换应用时的小卡顿。更多只有在有真正交换文件时才有用，而这些主机没有交换文件。</string>
+    <string name="kt_pages_1">1 页</string>
+    <string name="kt_pages_2">2 页</string>
+    <string name="kt_pages_8">8 页</string>
+
+    <!-- SD cards -->
+    <string name="kt_sd1_scheduler">系统卡：请求顺序</string>
+    <string name="kt_sd2_scheduler">第二张卡：请求顺序</string>
+    <string name="kt_scheduler_deadline">排序（mq-deadline）</string>
+    <string name="kt_scheduler_none">先到先发（none）</string>
+    <string name="kt_scheduler_what">内核在发送读写请求到卡之前，是先排序和合并，还是直接按原样发送。</string>
+    <string name="kt_scheduler_why">排序能在大文件复制时保持系统流畅。“先到先发”开销更小，在好卡上可能更快。在便宜或山寨卡上，排序通常是更安全的选择。</string>
+
+    <string name="kt_sd1_readahead">系统卡：预读</string>
+    <string name="kt_sd2_readahead">第二张卡：预读</string>
+    <string name="kt_readahead_what">应用从头到尾读取一个文件时，内核一次额外多读多少内容。</string>
+    <string name="kt_readahead_why">更多预读能让大型 ROM 和 ISO 加载更快，尤其是在慢卡上。太多会浪费内存，还可能拖慢在文件中跳跃读取的游戏。换卡后，这项设置会在下次启动时重新应用。</string>
+
+    <!-- Controls and sound -->
+    <string name="kt_stick_invert">翻转摇杆轴</string>
+    <string name="kt_stick_normal">正常</string>
+    <!-- e.g. "Flipped: Right stick left/right" -->
+    <string name="kt_stick_flipped">已翻转：<xliff:g id="axes">%1$s</xliff:g></string>
+    <string name="kt_axis_x">左摇杆左/右</string>
+    <string name="kt_axis_y">左摇杆上/下</string>
+    <string name="kt_axis_rx">右摇杆左/右</string>
+    <string name="kt_axis_ry">右摇杆上/下</string>
+    <string name="kt_stick_invert_what">在这台主机的屏幕文件已有处理之外，再翻转一个摇杆方向。</string>
+    <string name="kt_stick_invert_why">有些山寨机把摇杆接反了，导致推右变成往左动，或推上变成往下动。勾选方向反了的那一项。在控制器测试中确认现在是对的。</string>
+
+    <string name="kt_poll_interval">按键检测频率</string>
+    <string name="kt_poll_interval_what">摇杆和按键被重新读取检查的频率。</string>
+    <string name="kt_poll_interval_why">更短意味着摇杆输入延迟略微降低，但耗电略多。按键反应反正都是即时的。更长则有助于山寨机电路噪声导致摇杆抖动的情况。</string>
+
+    <string name="kt_hp_det_flip">耳机检测</string>
+    <string name="kt_hp_det_normal">正常</string>
+    <string name="kt_hp_det_flipped">已翻转</string>
+    <string name="kt_hp_det_flip_what">反向读取耳机插孔的开关状态。</string>
+    <string name="kt_hp_det_flip_why">有些山寨机把插孔接反了：没插任何东西时扬声器也不出声，或者声音永远不会切到耳机。如果这听起来像你的主机，就翻转这项设置。它会立即重新检测。</string>
+
+    <!-- Crashes and logs -->
+    <string name="kt_log_level">内核日志详细程度</string>
+    <string name="kt_log_level_3">仅错误</string>
+    <string name="kt_log_level_4">警告（正常）</string>
+    <string name="kt_log_level_7">信息</string>
+    <string name="kt_log_level_8">全部</string>
+    <string name="kt_log_level_what">内核写入可在崩溃或重启后保留的日志的详细程度。</string>
+    <string name="kt_log_level_why">细节更多，能解释卡死原因的那一行就更有可能出现在问题报告里。“全部”非常啰嗦，还可能让主机稍微变慢。</string>
+
+    <string name="kt_panic_restart">内核崩溃后重启</string>
+    <string name="kt_panic_never">从不，停留在崩溃画面</string>
+    <string name="kt_panic_restart_what">内核崩溃后，主机等待多久才会自己重启。</string>
+    <string name="kt_panic_restart_why">快速重启能让你更快回到游戏，而问题报告里仍然会保留崩溃日志。“从不”会让主机一直冻结在那里，让你能看出它是崩溃而不是单纯卡死，但你需要长按电源键才能关机。</string>
+
+    <string name="kt_oops_panic">将驱动错误当作崩溃处理</string>
+    <string name="kt_oops_panic_what">驱动遇到严重错误（oops）时，内核通常会跳过它继续运行。开启此项会改为重启主机。</string>
+    <string name="kt_oops_panic_why">出现 oops 后，后续常会以各种奇怪的方式出问题：没有声音、按键失灵、过一会儿屏幕卡死。立即重启能在问题报告里留下一份干净的崩溃日志，而不是一堆令人费解的乱象。</string>
+
+    <string name="kt_stall_report">核心卡死超过以下时长后报告</string>
+    <string name="kt_stall_report_what">一个核心可以多久不响应，超过这个时长内核就会记录一条警告，说明它当时在做什么。</string>
+    <string name="kt_stall_report_why">有些山寨机的睡眠卡死看起来就像某个核心突然安静下来。更短的时长能让这条警告在你放弃并长按电源键之前写入日志。</string>
+
+    <string name="kt_power_chip_log">电源芯片日志</string>
+    <string name="kt_power_chip_log_what">让电源芯片（RK817）的充电、电量计和声音部分记录它们在做什么。</string>
+    <string name="kt_power_chip_log_why">适用于电量百分比乱跳、充电中断或声音出现爆音的情况。非常啰嗦，所以只在制作问题报告时才开启它。</string>
+</resources>

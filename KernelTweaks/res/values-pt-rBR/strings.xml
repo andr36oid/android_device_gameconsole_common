@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="kt_title">Ajustes do kernel</string>
+    <string name="kt_summary">Interruptores de baixo nível para rastrear problemas de hardware</string>
+
+    <!-- Top of the page -->
+    <string name="kt_intro">Interruptores de baixo nível para rastrear problemas de hardware, principalmente em consoles clone. As mudanças valem na hora e continuam depois de reiniciar. Se o console falhar ao ligar duas vezes seguidas com os ajustes ativados, eles se desligam sozinhos.</string>
+    <string name="kt_use">Usar ajustes</string>
+    <string name="kt_use_none">Nada mudou, tudo está no padrão</string>
+    <!-- e.g. "3 changed" -->
+    <plurals name="kt_use_count">
+        <item quantity="one"><xliff:g id="count">%d</xliff:g> alterado</item>
+        <item quantity="other"><xliff:g id="count">%d</xliff:g> alterados</item>
+    </plurals>
+    <string name="kt_use_off">Desativado, tudo roda no padrão. Suas escolhas ficam guardadas para quando você ativar isso de novo.</string>
+    <string name="kt_paused_crash">Desativado porque o console não terminou de ligar duas vezes seguidas. Um dos ajustes provavelmente é o motivo. Ative de novo para tentar outra vez.</string>
+    <string name="kt_show_docs">Mostrar explicações</string>
+    <string name="kt_show_docs_summary">O que cada ajuste faz e por que você mudaria, direto na lista</string>
+    <string name="kt_reset">Redefinir tudo</string>
+    <string name="kt_reset_summary">Voltar aos valores padrão deste console</string>
+    <string name="kt_reset_confirm">Voltar cada ajuste do kernel ao seu valor padrão?</string>
+
+    <!-- Row summaries -->
+    <!-- e.g. "Light sleep · changed, normally Deep sleep" -->
+    <string name="kt_changed"><xliff:g id="value">%1$s</xliff:g> · alterado, normalmente <xliff:g id="default">%2$s</xliff:g></string>
+    <string name="kt_unavailable">Não disponível neste console</string>
+    <!-- e.g. "Couldn't set this, still 60" -->
+    <string name="kt_failed">Não foi possível aplicar, continua em <xliff:g id="value">%1$s</xliff:g></string>
+    <string name="kt_once">Só até a próxima reinicialização</string>
+    <string name="kt_paused_value">Em pausa: <xliff:g id="value">%1$s</xliff:g></string>
+
+    <!-- Dialogs -->
+    <string name="kt_default_mark"><xliff:g id="value">%1$s</xliff:g> (padrão)</string>
+    <string name="kt_explain">Explicar</string>
+    <string name="kt_doc_what">O que faz</string>
+    <string name="kt_doc_why">Por que mudar isso</string>
+    <!-- e.g. "Default on this console: Deep sleep" -->
+    <string name="kt_doc_default">Padrão deste console: <xliff:g id="value">%1$s</xliff:g></string>
+    <!-- e.g. "Kernel file: /sys/power/mem_sleep" -->
+    <string name="kt_doc_file">Arquivo do kernel: <xliff:g id="path">%1$s</xliff:g></string>
+    <string name="kt_working">Aplicando…</string>
+
+    <!-- Values -->
+    <string name="kt_on">Ativado</string>
+    <string name="kt_off">Desativado</string>
+    <!-- e.g. "10 ms" -->
+    <string name="kt_unit_ms"><xliff:g id="n">%1$s</xliff:g> ms</string>
+    <!-- e.g. "21 seconds" -->
+    <string name="kt_unit_s"><xliff:g id="n">%1$s</xliff:g> segundos</string>
+    <!-- e.g. "512 KB" -->
+    <string name="kt_unit_kb"><xliff:g id="n">%1$s</xliff:g> KB</string>
+    <!-- e.g. "85 °C" -->
+    <string name="kt_unit_c"><xliff:g id="n">%1$s</xliff:g> °C</string>
+    <!-- e.g. "3 cores" -->
+    <string name="kt_unit_cores"><xliff:g id="n">%1$s</xliff:g> núcleos</string>
+    <string name="kt_one_core">1 núcleo</string>
+
+    <!-- Categories -->
+    <string name="kt_cat_sleep">Suspensão</string>
+    <string name="kt_cat_cpu">Processador e calor</string>
+    <string name="kt_cat_memory">Memória</string>
+    <string name="kt_cat_storage">Cartões SD</string>
+    <string name="kt_cat_input">Controles e som</string>
+    <string name="kt_cat_debug">Travamentos e logs</string>
+
+    <!-- Links to other pages -->
+    <string name="kt_link_deep_sleep">Etapas do sono profundo</string>
+    <string name="kt_link_deep_sleep_summary">O que o chip desliga durante o sono, e o desligamento dos núcleos ociosos</string>
+    <string name="kt_link_performance">Velocidades e undervolt</string>
+    <string name="kt_link_performance_summary">As velocidades de CPU, gráficos e memória estão na página Desempenho</string>
+
+    <!-- Sleep -->
+    <string name="kt_sleep_type">Tipo de suspensão</string>
+    <string name="kt_sleep_type_deep">Sono profundo</string>
+    <string name="kt_sleep_type_s2idle">Suspensão leve</string>
+    <string name="kt_sleep_type_what">O sono profundo entrega o chip inteiro ao firmware, que desliga quase tudo. A suspensão leve só congela os apps e deixa os núcleos ociosos. O firmware não entra em ação e nenhum núcleo é desligado.</string>
+    <string name="kt_sleep_type_why">Se o seu console trava ou reinicia na suspensão, tente a suspensão leve. Ela pula a parte onde esses consoles costumam travar. O problema: gasta muito mais bateria, então é mais um teste do que uma solução.</string>
+
+    <string name="kt_sleep_test">Modo de teste de suspensão</string>
+    <string name="kt_sleep_test_none">Desativado, suspensão normal</string>
+    <string name="kt_sleep_test_freezer">Parar depois de congelar os apps</string>
+    <string name="kt_sleep_test_devices">Parar depois de pausar os drivers</string>
+    <string name="kt_sleep_test_platform">Parar antes do firmware</string>
+    <string name="kt_sleep_test_processors">Parar depois de desligar os núcleos</string>
+    <string name="kt_sleep_test_core">Parar bem antes de dormir</string>
+    <string name="kt_sleep_test_what">Passa pelas etapas de adormecer, mas para na etapa que você escolher, espera 5 segundos e acorda de novo. O console nunca chega a dormir de fato enquanto isso está ativado.</string>
+    <string name="kt_sleep_test_why">Ajuda a descobrir onde a suspensão dá problema. Se travar em "Parar depois de desligar os núcleos", o problema está antes do firmware. Se tudo funcionar até "Parar bem antes de dormir", é o firmware ou o hardware. Reseta quando o console reinicia, então você não fica travado com isso.</string>
+
+    <string name="kt_sleep_console">Log do kernel durante a suspensão</string>
+    <string name="kt_sleep_console_y">Em pausa durante o sono</string>
+    <string name="kt_sleep_console_n">Continua funcionando</string>
+    <string name="kt_sleep_console_what">Normalmente o kernel para de escrever o log no momento em que os drivers vão dormir. Isso faz ele continuar escrevendo até a última etapa.</string>
+    <string name="kt_sleep_console_why">Quando um console trava na suspensão, o relatório de problemas só mostra o que foi registrado antes do travamento. Manter o log ativo mostra mais das últimas etapas. A suspensão fica um pouquinho mais lenta.</string>
+
+    <string name="kt_sleep_log_times">Cronometrar cada etapa da suspensão</string>
+    <string name="kt_sleep_log_times_what">Escreve uma linha de log para cada driver que dorme e acorda, com o tempo que isso levou.</string>
+    <string name="kt_sleep_log_times_why">Mostra qual driver foi o último antes de um travamento, ou qual torna o despertar lento. Enche o log rápido, então desative quando terminar.</string>
+
+    <string name="kt_sleep_log_debug">Mensagens de depuração da suspensão</string>
+    <string name="kt_sleep_log_debug_what">Registra as anotações extras do kernel sobre a suspensão: quais fontes de despertar estão ativas, por que uma tentativa de dormir desistiu, e assim por diante.</string>
+    <string name="kt_sleep_log_debug_why">Para quando o console não dorme de jeito nenhum, ou acorda de novo na hora.</string>
+
+    <!-- Processor -->
+    <string name="kt_cores">Núcleos em uso</string>
+    <string name="kt_cores_what">Desliga núcleos do processador. O primeiro núcleo fica sempre ligado.</string>
+    <string name="kt_cores_why">Alguns clones têm um núcleo instável que trava de vez em quando. Se o console ficar mais estável com menos núcleos, essa é a sua resposta. Também significa menos núcleos para desligar ao entrar na suspensão, o que ajuda ao testar travamentos no sono. Os jogos vão rodar mais lentos.</string>
+
+    <string name="kt_heat_limit">Limite de calor</string>
+    <string name="kt_heat_limit_what">A temperatura do chip em que o processador começa a desacelerar para esfriar.</string>
+    <string name="kt_heat_limit_why">Clones com uma pasta térmica ruim ou sem dissipador atingem o limite rápido e engasgam em jogos pesados. Aumentar isso troca um console mais quente por menos lentidão. Diminuir mantém a carcaça mais fria. Acima de 90 °C não é bom para o chip a longo prazo.</string>
+
+    <!-- Memory -->
+    <string name="kt_swappiness">Uso de memória compactada</string>
+    <string name="kt_swappiness_what">O quanto o Android se apressa em mover apps ociosos para a memória compactada (zram) para liberar RAM.</string>
+    <string name="kt_swappiness_why">Mais alto mantém mais apps abertos em segundo plano, mas custa um pouco de tempo de processador. Mais baixo mantém as coisas mais rápidas enquanto um jogo roda, mas os apps são fechados mais rápido. Em consoles de 1 GB, o padrão geralmente é o melhor.</string>
+
+    <string name="kt_cache_pressure">Limpeza do cache de arquivos</string>
+    <string name="kt_cache_pressure_what">A rapidez com que o kernel esquece quais arquivos e pastas ele viu recentemente.</string>
+    <string name="kt_cache_pressure_why">Mais baixo torna a navegação em pastas grandes de ROM mais rápida na segunda vez. Mais alto libera memória mais rápido para os jogos.</string>
+
+    <string name="kt_page_cluster">Leitura antecipada da memória compactada</string>
+    <string name="kt_page_cluster_what">Quantas páginas o kernel tira de uma vez da memória compactada: 1, 2 ou 8.</string>
+    <string name="kt_page_cluster_why">1 página é a escolha comum para memória compactada e reduz pequenos engasgos ao trocar de app. Mais só ajuda com um arquivo de swap de verdade, que esses consoles não têm.</string>
+    <string name="kt_pages_1">1 página</string>
+    <string name="kt_pages_2">2 páginas</string>
+    <string name="kt_pages_8">8 páginas</string>
+
+    <!-- SD cards -->
+    <string name="kt_sd1_scheduler">Cartão do sistema: ordem das solicitações</string>
+    <string name="kt_sd2_scheduler">Segundo cartão: ordem das solicitações</string>
+    <string name="kt_scheduler_deadline">Ordenado (mq-deadline)</string>
+    <string name="kt_scheduler_none">Conforme chegam (none)</string>
+    <string name="kt_scheduler_what">Se o kernel ordena e agrupa leituras e escritas antes de enviá-las ao cartão, ou simplesmente as envia na ordem.</string>
+    <string name="kt_scheduler_why">Ordenado mantém o sistema fluido durante uma cópia grande. "Conforme chegam" tem menos sobrecarga e pode ser mais rápido em cartões bons. Em cartões baratos ou falsos, ordenado costuma ser a aposta mais segura.</string>
+
+    <string name="kt_sd1_readahead">Cartão do sistema: leitura antecipada</string>
+    <string name="kt_sd2_readahead">Segundo cartão: leitura antecipada</string>
+    <string name="kt_readahead_what">Quanto extra o kernel lê de uma vez quando um app lê um arquivo do início ao fim.</string>
+    <string name="kt_readahead_why">Mais leitura antecipada carrega ROMs e ISOs grandes mais rápido, principalmente de cartões lentos. Demais desperdiça memória e pode deixar lentos os jogos que saltam de um lado para o outro de um arquivo. Se você trocar o cartão, o ajuste é aplicado de novo na próxima inicialização.</string>
+
+    <!-- Controls and sound -->
+    <string name="kt_stick_invert">Inverter eixos do analógico</string>
+    <string name="kt_stick_normal">Normal</string>
+    <!-- e.g. "Flipped: Right stick left/right" -->
+    <string name="kt_stick_flipped">Invertido: <xliff:g id="axes">%1$s</xliff:g></string>
+    <string name="kt_axis_x">Analógico esquerdo esquerda/direita</string>
+    <string name="kt_axis_y">Analógico esquerdo cima/baixo</string>
+    <string name="kt_axis_rx">Analógico direito esquerda/direita</string>
+    <string name="kt_axis_ry">Analógico direito cima/baixo</string>
+    <string name="kt_stick_invert_what">Inverte uma direção do analógico, além do que o arquivo de tela deste console já faz.</string>
+    <string name="kt_stick_invert_why">Alguns clones ligam o analógico ao contrário, então empurrar para a direita move para a esquerda, ou para cima move para baixo. Marque a direção que está invertida. Confira no teste de controle se agora está certo.</string>
+
+    <string name="kt_poll_interval">Taxa de verificação dos botões</string>
+    <string name="kt_poll_interval_what">Com que frequência os analógicos são lidos e os botões verificados de novo.</string>
+    <string name="kt_poll_interval_why">Mais curto significa um pouco menos de atraso nos analógicos, mas usa um pouco mais de bateria. Os cliques dos botões chegam na hora de qualquer jeito. Mais longo ajuda se os analógicos tremerem em um clone com interferência elétrica.</string>
+
+    <string name="kt_hp_det_flip">Detecção de fone de ouvido</string>
+    <string name="kt_hp_det_normal">Normal</string>
+    <string name="kt_hp_det_flipped">Invertido</string>
+    <string name="kt_hp_det_flip_what">Lê o interruptor da entrada de fone de ouvido ao contrário.</string>
+    <string name="kt_hp_det_flip_why">Alguns clones ligam a entrada ao contrário: o alto-falante fica mudo mesmo sem nada conectado, ou o som nunca vai para o fone. Se isso parece com o seu console, inverta. É verificado de novo na hora.</string>
+
+    <!-- Crashes and logs -->
+    <string name="kt_log_level">Detalhe do log do kernel</string>
+    <string name="kt_log_level_3">Só erros</string>
+    <string name="kt_log_level_4">Avisos (normal)</string>
+    <string name="kt_log_level_7">Informações</string>
+    <string name="kt_log_level_8">Tudo</string>
+    <string name="kt_log_level_what">O quanto o kernel escreve no log que sobrevive a um travamento ou reinicialização.</string>
+    <string name="kt_log_level_why">Mais detalhe significa mais chance de a linha que explica um travamento entrar no relatório de problemas. "Tudo" é muito falador e pode deixar o console um pouco mais lento.</string>
+
+    <string name="kt_panic_restart">Reiniciar depois de um travamento do kernel</string>
+    <string name="kt_panic_never">Nunca, ficar no travamento</string>
+    <string name="kt_panic_restart_what">Quanto tempo o console espera depois de um travamento do kernel antes de reiniciar sozinho.</string>
+    <string name="kt_panic_restart_why">Reiniciar rápido te leva de volta ao jogo mais rápido, e o relatório de problemas ainda tem o log do travamento. "Nunca" mantém o console congelado para você ver que ele travou em vez de só parar de responder, mas você precisa segurar Power para desligar.</string>
+
+    <string name="kt_oops_panic">Tratar erros de driver como travamentos</string>
+    <string name="kt_oops_panic_what">Quando um driver sofre um erro grave (um oops), o kernel normalmente continua sem ele. Isso reinicia o console em vez disso.</string>
+    <string name="kt_oops_panic_why">Depois de um oops, as coisas costumam quebrar de jeitos estranhos: sem som, botões mortos, tela congelada depois. Reiniciar na hora te dá um log de travamento limpo no relatório de problemas em vez de uma confusão sem sentido.</string>
+
+    <string name="kt_stall_report">Relatar núcleo travado depois de</string>
+    <string name="kt_stall_report_what">Quanto tempo um núcleo pode parar de responder antes do kernel registrar um aviso com o que ele estava fazendo.</string>
+    <string name="kt_stall_report_why">Os travamentos de suspensão em alguns clones parecem um núcleo que simplesmente fica quieto. Um tempo mais curto coloca esse aviso no log antes de você desistir e segurar Power.</string>
+
+    <string name="kt_power_chip_log">Log do chip de energia</string>
+    <string name="kt_power_chip_log_what">Deixa as partes de carregador, medidor de bateria e som do chip de energia (RK817) registrarem o que estão fazendo.</string>
+    <string name="kt_power_chip_log_why">Para porcentagens de bateria que pulam, carregamento que para, ou som que chia. Muito falador, então ative só enquanto você estiver fazendo um relatório de problemas.</string>
+</resources>

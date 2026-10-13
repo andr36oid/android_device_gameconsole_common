@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="kt_title">Kernel Tweaks</string>
+    <string name="kt_summary">Low-level switches for tracking down hardware trouble</string>
+
+    <!-- Top of the page -->
+    <string name="kt_intro">Low-level switches for tracking down hardware trouble, mostly on clone consoles. Changes kick in right away and stick around after a restart. If the console fails to start twice in a row with tweaks on, they switch themselves off.</string>
+    <string name="kt_use">Use tweaks</string>
+    <string name="kt_use_none">Nothing changed, everything is at the default</string>
+    <!-- e.g. "3 changed" -->
+    <plurals name="kt_use_count">
+        <item quantity="one"><xliff:g id="count">%d</xliff:g> changed</item>
+        <item quantity="other"><xliff:g id="count">%d</xliff:g> changed</item>
+    </plurals>
+    <string name="kt_use_off">Off, everything runs at the default. Your choices are kept for when you switch this back on.</string>
+    <string name="kt_paused_crash">Switched off because the console didn\'t finish starting twice in a row. One of the tweaks is probably the reason. Switch this back on to try again.</string>
+    <string name="kt_show_docs">Show explanations</string>
+    <string name="kt_show_docs_summary">What each setting does and why you\'d change it, right in the list</string>
+    <string name="kt_reset">Reset everything</string>
+    <string name="kt_reset_summary">Back to the defaults for this console</string>
+    <string name="kt_reset_confirm">Put every kernel tweak back to its default?</string>
+
+    <!-- Row summaries -->
+    <!-- e.g. "Light sleep · changed, normally Deep sleep" -->
+    <string name="kt_changed"><xliff:g id="value">%1$s</xliff:g> · changed, normally <xliff:g id="default">%2$s</xliff:g></string>
+    <string name="kt_unavailable">Not available on this console</string>
+    <!-- e.g. "Couldn't set this, still 60" -->
+    <string name="kt_failed">Couldn\'t set this, still <xliff:g id="value">%1$s</xliff:g></string>
+    <string name="kt_once">Only until the next restart</string>
+    <string name="kt_paused_value">Paused: <xliff:g id="value">%1$s</xliff:g></string>
+
+    <!-- Dialogs -->
+    <string name="kt_default_mark"><xliff:g id="value">%1$s</xliff:g> (default)</string>
+    <string name="kt_explain">Explain</string>
+    <string name="kt_doc_what">What it does</string>
+    <string name="kt_doc_why">Why you\'d change it</string>
+    <!-- e.g. "Default on this console: Deep sleep" -->
+    <string name="kt_doc_default">Default on this console: <xliff:g id="value">%1$s</xliff:g></string>
+    <!-- e.g. "Kernel file: /sys/power/mem_sleep" -->
+    <string name="kt_doc_file">Kernel file: <xliff:g id="path">%1$s</xliff:g></string>
+    <string name="kt_working">Applying…</string>
+
+    <!-- Values -->
+    <string name="kt_on">On</string>
+    <string name="kt_off">Off</string>
+    <!-- e.g. "10 ms" -->
+    <string name="kt_unit_ms"><xliff:g id="n">%1$s</xliff:g> ms</string>
+    <!-- e.g. "21 seconds" -->
+    <string name="kt_unit_s"><xliff:g id="n">%1$s</xliff:g> seconds</string>
+    <!-- e.g. "512 KB" -->
+    <string name="kt_unit_kb"><xliff:g id="n">%1$s</xliff:g> KB</string>
+    <!-- e.g. "85 °C" -->
+    <string name="kt_unit_c"><xliff:g id="n">%1$s</xliff:g> °C</string>
+    <!-- e.g. "3 cores" -->
+    <string name="kt_unit_cores"><xliff:g id="n">%1$s</xliff:g> cores</string>
+    <string name="kt_one_core">1 core</string>
+
+    <!-- Categories -->
+    <string name="kt_cat_sleep">Sleep</string>
+    <string name="kt_cat_cpu">Processor and heat</string>
+    <string name="kt_cat_memory">Memory</string>
+    <string name="kt_cat_storage">SD cards</string>
+    <string name="kt_cat_input">Controls and sound</string>
+    <string name="kt_cat_debug">Crashes and logs</string>
+
+    <!-- Links to other pages -->
+    <string name="kt_link_deep_sleep">Deep sleep steps</string>
+    <string name="kt_link_deep_sleep_summary">What the chip switches off while asleep, and the cores\' idle power-down</string>
+    <string name="kt_link_performance">Speeds and undervolt</string>
+    <string name="kt_link_performance_summary">CPU, graphics and memory speeds are on the Performance page</string>
+
+    <!-- Sleep -->
+    <string name="kt_sleep_type">Sleep type</string>
+    <string name="kt_sleep_type_deep">Deep sleep</string>
+    <string name="kt_sleep_type_s2idle">Light sleep</string>
+    <string name="kt_sleep_type_what">Deep sleep hands the whole chip over to the firmware, which switches off almost everything. Light sleep just freezes the apps and lets the cores idle. The firmware isn\'t involved and no cores get switched off.</string>
+    <string name="kt_sleep_type_why">If your console freezes or restarts in sleep, try light sleep. It skips the part where these consoles get stuck. The catch: it drains the battery a lot faster, so it\'s more of a test than a fix.</string>
+
+    <string name="kt_sleep_test">Sleep test mode</string>
+    <string name="kt_sleep_test_none">Off, sleep normally</string>
+    <string name="kt_sleep_test_freezer">Stop after freezing apps</string>
+    <string name="kt_sleep_test_devices">Stop after pausing drivers</string>
+    <string name="kt_sleep_test_platform">Stop before the firmware</string>
+    <string name="kt_sleep_test_processors">Stop after switching cores off</string>
+    <string name="kt_sleep_test_core">Stop right before sleeping</string>
+    <string name="kt_sleep_test_what">Goes through the motions of falling asleep, but stops at the step you pick, waits 5 seconds and wakes up again. The console never actually sleeps while this is on.</string>
+    <string name="kt_sleep_test_why">Narrows down where sleep goes wrong. If "Stop after switching cores off" hangs, the problem is before the firmware. If everything works up to "Stop right before sleeping", it\'s the firmware or the hardware. Resets when the console restarts, so you can\'t get stuck with it.</string>
+
+    <string name="kt_sleep_console">Kernel log during sleep</string>
+    <string name="kt_sleep_console_y">Paused while asleep</string>
+    <string name="kt_sleep_console_n">Keeps running</string>
+    <string name="kt_sleep_console_what">Normally the kernel stops writing its log the moment the drivers go to sleep. This keeps it writing right up to the last step.</string>
+    <string name="kt_sleep_console_why">When a console hangs in sleep, the problem report only shows what was logged before the hang. Keeping the log running shows more of the last steps. Sleep gets a tiny bit slower.</string>
+
+    <string name="kt_sleep_log_times">Time each sleep step</string>
+    <string name="kt_sleep_log_times_what">Writes a log line for every driver going to sleep and waking up, with how long it took.</string>
+    <string name="kt_sleep_log_times_why">Shows which driver was the last one before a hang, or which one makes waking up slow. Fills the log fast, so switch it off when you\'re done.</string>
+
+    <string name="kt_sleep_log_debug">Sleep debug messages</string>
+    <string name="kt_sleep_log_debug_what">Logs the kernel\'s extra notes about sleep: which wakeup sources are active, why a sleep attempt gave up, and so on.</string>
+    <string name="kt_sleep_log_debug_why">For when the console won\'t go to sleep at all, or wakes up again right away.</string>
+
+    <!-- Processor -->
+    <string name="kt_cores">Cores in use</string>
+    <string name="kt_cores_what">Switches processor cores off. The first core always stays on.</string>
+    <string name="kt_cores_why">Some clones have a flaky core that hangs now and then. If the console gets steadier with fewer cores, that\'s your answer. Also means fewer cores to switch off on the way into sleep, which helps when testing sleep hangs. Games will run slower.</string>
+
+    <string name="kt_heat_limit">Heat limit</string>
+    <string name="kt_heat_limit_what">The chip temperature where the processor starts slowing down to cool off.</string>
+    <string name="kt_heat_limit_why">Clones with a bad heat pad or no heat spreader hit the limit fast and stutter in heavy games. Raising it trades a hotter console for fewer slowdowns. Lowering it keeps the shell cooler. Above 90 °C isn\'t great for the chip in the long run.</string>
+
+    <!-- Memory -->
+    <string name="kt_swappiness">Compressed memory use</string>
+    <string name="kt_swappiness_what">How eagerly Android moves idle apps into compressed memory (zram) to free up RAM.</string>
+    <string name="kt_swappiness_why">Higher keeps more apps open in the background but costs a bit of processor time. Lower keeps things snappier while a game runs, but apps get closed sooner. On 1 GB consoles the default is usually best.</string>
+
+    <string name="kt_cache_pressure">File cache cleanup</string>
+    <string name="kt_cache_pressure_what">How quickly the kernel forgets which files and folders it looked at recently.</string>
+    <string name="kt_cache_pressure_why">Lower makes browsing big ROM folders faster the second time round. Higher frees memory sooner for games.</string>
+
+    <string name="kt_page_cluster">Compressed memory read-ahead</string>
+    <string name="kt_page_cluster_what">How many pages the kernel pulls back out of compressed memory at once: 1, 2 or 8.</string>
+    <string name="kt_page_cluster_why">1 page is the usual choice for compressed memory and cuts small hitches when switching apps. More only helps with a real swap file, which these consoles don\'t have.</string>
+    <string name="kt_pages_1">1 page</string>
+    <string name="kt_pages_2">2 pages</string>
+    <string name="kt_pages_8">8 pages</string>
+
+    <!-- SD cards -->
+    <string name="kt_sd1_scheduler">System card: request order</string>
+    <string name="kt_sd2_scheduler">Second card: request order</string>
+    <string name="kt_scheduler_deadline">Sorted (mq-deadline)</string>
+    <string name="kt_scheduler_none">As they come (none)</string>
+    <string name="kt_scheduler_what">Whether the kernel sorts and groups reads and writes before sending them to the card, or just sends them in order.</string>
+    <string name="kt_scheduler_why">Sorted keeps the system smooth while a big copy is running. "As they come" has less overhead and can be faster on good cards. On cheap or fake cards, sorted is usually the safer bet.</string>
+
+    <string name="kt_sd1_readahead">System card: read-ahead</string>
+    <string name="kt_sd2_readahead">Second card: read-ahead</string>
+    <string name="kt_readahead_what">How much extra the kernel reads in one go when an app reads a file from start to end.</string>
+    <string name="kt_readahead_why">More read-ahead loads big ROMs and ISOs faster, especially from slow cards. Too much wastes memory and can slow down games that jump around in a file. If you swap the card, the setting is applied again at the next start.</string>
+
+    <!-- Controls and sound -->
+    <string name="kt_stick_invert">Flip stick axes</string>
+    <string name="kt_stick_normal">Normal</string>
+    <!-- e.g. "Flipped: Right stick left/right" -->
+    <string name="kt_stick_flipped">Flipped: <xliff:g id="axes">%1$s</xliff:g></string>
+    <string name="kt_axis_x">Left stick left/right</string>
+    <string name="kt_axis_y">Left stick up/down</string>
+    <string name="kt_axis_rx">Right stick left/right</string>
+    <string name="kt_axis_ry">Right stick up/down</string>
+    <string name="kt_stick_invert_what">Turns a stick direction around, on top of what this console\'s screen file already does.</string>
+    <string name="kt_stick_invert_why">Some clones wire a stick the other way round, so pushing right moves left or up moves down. Tick the direction that\'s backwards. Check in the controller test that it\'s right now.</string>
+
+    <string name="kt_poll_interval">Button check rate</string>
+    <string name="kt_poll_interval_what">How often the sticks are read and the buttons checked again.</string>
+    <string name="kt_poll_interval_why">Shorter means a little less input lag on the sticks but uses a bit more battery. Button presses come through right away anyway. Longer helps if the sticks jitter on a noisy clone.</string>
+
+    <string name="kt_hp_det_flip">Headphone detection</string>
+    <string name="kt_hp_det_normal">Normal</string>
+    <string name="kt_hp_det_flipped">Flipped</string>
+    <string name="kt_hp_det_flip_what">Reads the headphone jack\'s switch the other way round.</string>
+    <string name="kt_hp_det_flip_why">Some clones wire the jack backwards: the speaker stays quiet with nothing plugged in, or sound never moves to the headphones. If that sounds like yours, flip it. It\'s checked again right away.</string>
+
+    <!-- Crashes and logs -->
+    <string name="kt_log_level">Kernel log detail</string>
+    <string name="kt_log_level_3">Errors only</string>
+    <string name="kt_log_level_4">Warnings (normal)</string>
+    <string name="kt_log_level_7">Info</string>
+    <string name="kt_log_level_8">Everything</string>
+    <string name="kt_log_level_what">How much the kernel writes to the log that survives a crash or restart.</string>
+    <string name="kt_log_level_why">More detail means a better chance the line that explains a hang makes it into the problem report. "Everything" is very chatty and can slow the console down a bit.</string>
+
+    <string name="kt_panic_restart">Restart after a kernel crash</string>
+    <string name="kt_panic_never">Never, stay on the crash</string>
+    <string name="kt_panic_restart_what">How long the console waits after a kernel crash before it restarts by itself.</string>
+    <string name="kt_panic_restart_why">Restarting quickly gets you back to playing, and the problem report still has the crash log. "Never" keeps the console frozen so you can see that it crashed rather than hung, but you\'ll need to hold Power to switch it off.</string>
+
+    <string name="kt_oops_panic">Treat driver errors as crashes</string>
+    <string name="kt_oops_panic_what">When a driver hits a serious error (an oops), the kernel normally carries on without it. This restarts the console instead.</string>
+    <string name="kt_oops_panic_why">After an oops things often break in odd ways: no sound, dead buttons, a frozen screen later on. Restarting right away gets you a clean crash log in the problem report instead of a confusing mess.</string>
+
+    <string name="kt_stall_report">Report a stuck core after</string>
+    <string name="kt_stall_report_what">How long a core can stop responding before the kernel logs a warning with what it was doing.</string>
+    <string name="kt_stall_report_why">The sleep hangs on some clones look like one core going quiet. A shorter time gets that warning into the log before you give up and hold Power.</string>
+
+    <string name="kt_power_chip_log">Power chip log</string>
+    <string name="kt_power_chip_log_what">Lets the charger, battery gauge and sound parts of the power chip (RK817) log what they\'re doing.</string>
+    <string name="kt_power_chip_log_why">For battery percentages that jump around, charging that stops or sound that crackles. Very chatty, so only switch it on while you\'re making a problem report.</string>
+</resources>
