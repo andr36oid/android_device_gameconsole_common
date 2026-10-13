@@ -553,6 +553,11 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
 	RgbLights
 
+# Status light (Settings > Display > Status light): battery, charging and notification
+# colours of the LED by the power button, on consoles whose DTB has the status LED
+PRODUCT_PACKAGES += \
+	StatusLight
+
 # USB mode: switches the OTG port between host and device (adb, MTP)
 # (Settings > USB mode, Quick Settings tile once used)
 PRODUCT_PACKAGES += \

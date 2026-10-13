@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="sl_title">Luz de estado</string>
+    <string name="sl_summary">O que a luzinha mostra para bateria, carregamento e notificações</string>
+    <string name="sl_intro">A luzinha ao lado do botão liga/desliga. Escolhe o que ela mostra quando a bateria fica fraca, enquanto carrega e quando chega uma notificação. Continua a funcionar enquanto a consola dorme, só deixa de piscar.</string>
+    <string name="sl_missing">A luz desta consola não é uma que sabemos controlar.</string>
+
+    <!-- What the light shows right now -->
+    <string name="sl_now">Agora mesmo</string>
+    <!-- e.g. "Red, battery at 8 %" -->
+    <string name="sl_now_battery"><xliff:g id="color">%1$s</xliff:g>, bateria a <xliff:g id="level">%2$s</xliff:g> %%</string>
+    <!-- e.g. "Red, charging" -->
+    <string name="sl_now_charging"><xliff:g id="color">%1$s</xliff:g>, a carregar</string>
+    <string name="sl_now_full"><xliff:g id="color">%1$s</xliff:g>, totalmente carregada</string>
+    <!-- e.g. "Blue, for a notification" -->
+    <string name="sl_now_notify"><xliff:g id="color">%1$s</xliff:g>, por uma notificação</string>
+    <string name="sl_now_check">A verificar cores</string>
+
+    <!-- Battery -->
+    <string name="sl_cat_battery">Bateria</string>
+    <string name="sl_style">A luz mostra</string>
+    <!-- e.g. "Red at 10 % or less" -->
+    <string name="sl_style_red_low">Vermelho a <xliff:g id="level">%1$s</xliff:g> %% ou menos</string>
+    <string name="sl_style_color_red_low"><xliff:g id="color">%1$s</xliff:g>, vermelho a <xliff:g id="level">%2$s</xliff:g> %% ou menos</string>
+    <!-- e.g. "Blue, purple below 30 %, red at 10 %" -->
+    <string name="sl_style_three"><xliff:g id="high">%1$s</xliff:g>, <xliff:g id="middle">%2$s</xliff:g> abaixo dos 30 %%, vermelho a 10 %%</string>
+    <!-- e.g. "Purple below 30 %, red at 10 %" -->
+    <string name="sl_style_two"><xliff:g id="middle">%1$s</xliff:g> abaixo dos 30 %%, vermelho a 10 %%</string>
+    <!-- e.g. "Always blue" -->
+    <string name="sl_style_always">Sempre <xliff:g id="color">%1$s</xliff:g></string>
+    <!-- e.g. "Your own: blue · red below 11 %" -->
+    <string name="sl_style_custom">À tua maneira: <xliff:g id="rules">%1$s</xliff:g></string>
+    <!-- e.g. "red below 11 %" -->
+    <string name="sl_below"><xliff:g id="color">%1$s</xliff:g> abaixo dos <xliff:g id="level">%2$s</xliff:g> %%</string>
+    <string name="sl_blink_low">Piscar quando estiver fraca</string>
+    <string name="sl_blink_low_summary">A cor de bateria fraca pisca, para ser mais difícil não reparar</string>
+    <!-- e.g. "Red, blinking" -->
+    <string name="sl_blinking"><xliff:g id="color">%1$s</xliff:g>, a piscar</string>
+    <string name="sl_hardware">Deixar ao hardware</string>
+
+    <!-- Charger -->
+    <string name="sl_cat_charger">Carregador</string>
+    <string name="sl_charging">Enquanto carrega</string>
+    <string name="sl_full">Quando totalmente carregada</string>
+    <string name="sl_follow_battery">Cores de bateria, como sem carregador</string>
+    <string name="sl_follow_charging">Igual a enquanto carrega</string>
+
+    <!-- Notifications -->
+    <string name="sl_cat_notifications">Notificações</string>
+    <string name="sl_notify">Piscar para notificações</string>
+    <string name="sl_notify_summary">Com o ecrã apagado, a luz pisca enquanto há uma notificação à espera. Em suspensão, fica acesa em vez de piscar.</string>
+    <string name="sl_notify_colors">Cores por app</string>
+    <string name="sl_notify_colors_summary">Escolhe uma cor para cada app. A luz usa a mais parecida que conseguir mostrar.</string>
+
+    <!-- Tools -->
+    <string name="sl_cat_tools">Ferramentas</string>
+    <string name="sl_check">Verificar cores</string>
+    <string name="sl_check_summary">Não estás a ver as cores que escolheste? Descobre o que a luz da tua consola consegue mesmo mostrar.</string>
+    <string name="sl_reset">Voltar ao padrão</string>
+    <string name="sl_reset_summary">Desfaz tudo nesta página, incluindo uma verificação de cores</string>
+
+    <!-- Colour check -->
+    <!-- %1$d is how many steps, e.g. 9 -->
+    <string name="sl_check_intro">A luz passa por <xliff:g id="count">%1$d</xliff:g> definições, uma a uma. De cada vez, olha para a luz e escolhe o que vês. Os clones estão ligados de maneiras muito diferentes, por isso isto descobre o que o teu consegue fazer.</string>
+    <string name="sl_check_go">Começar</string>
+    <!-- e.g. "What does the light show? (3 of 9)" -->
+    <string name="sl_check_step">O que mostra a luz? (<xliff:g id="step">%1$d</xliff:g> de <xliff:g id="count">%2$d</xliff:g>)</string>
+    <string name="sl_check_other">Outra coisa</string>
+    <!-- e.g. "Your light can show: off, blue, red, purple." -->
+    <string name="sl_check_result">A tua luz pode mostrar: <xliff:g id="colors">%1$s</xliff:g>.</string>
+    <string name="sl_check_no_off">Não consegue desligar-se, só mudar de cor. Em algumas placas, a luz está ligada diretamente ao chip de energia, e nenhum software a consegue desligar.</string>
+    <string name="sl_check_use">Usar estas cores</string>
+    <string name="sl_check_keep">Manter as antigas</string>
+
+    <!-- Colours -->
+    <string name="color_off">Desligada</string>
+    <string name="color_red">Vermelho</string>
+    <string name="color_green">Verde</string>
+    <string name="color_blue">Azul</string>
+    <string name="color_purple">Roxo</string>
+    <string name="color_pink">Rosa</string>
+    <string name="color_orange">Laranja</string>
+    <string name="color_white">Branco</string>
+</resources>

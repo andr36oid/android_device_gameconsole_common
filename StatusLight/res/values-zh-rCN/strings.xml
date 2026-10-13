@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="sl_title">状态灯</string>
+    <string name="sl_summary">这个小灯显示电量、充电和通知的方式</string>
+    <string name="sl_intro">电源键旁边的小灯。你可以设置电量低、充电时和收到通知时它显示什么颜色。主机睡眠时它还在工作，只是不再闪烁。</string>
+    <string name="sl_missing">这台主机的灯，我们还不知道怎么控制。</string>
+
+    <!-- What the light shows right now -->
+    <string name="sl_now">现在</string>
+    <!-- e.g. "Red, battery at 8 %" -->
+    <string name="sl_now_battery"><xliff:g id="color">%1$s</xliff:g>，电量 <xliff:g id="level">%2$s</xliff:g> %%</string>
+    <!-- e.g. "Red, charging" -->
+    <string name="sl_now_charging"><xliff:g id="color">%1$s</xliff:g>，正在充电</string>
+    <string name="sl_now_full"><xliff:g id="color">%1$s</xliff:g>，已充满</string>
+    <!-- e.g. "Blue, for a notification" -->
+    <string name="sl_now_notify"><xliff:g id="color">%1$s</xliff:g>，有通知</string>
+    <string name="sl_now_check">正在检测颜色</string>
+
+    <!-- Battery -->
+    <string name="sl_cat_battery">电量</string>
+    <string name="sl_style">灯显示</string>
+    <!-- e.g. "Red at 10 % or less" -->
+    <string name="sl_style_red_low"><xliff:g id="level">%1$s</xliff:g> %% 或更低时显示红色</string>
+    <string name="sl_style_color_red_low"><xliff:g id="color">%1$s</xliff:g>，<xliff:g id="level">%2$s</xliff:g> %% 或更低时显示红色</string>
+    <!-- e.g. "Blue, purple below 30 %, red at 10 %" -->
+    <string name="sl_style_three"><xliff:g id="high">%1$s</xliff:g>，低于 30 %% 显示<xliff:g id="middle">%2$s</xliff:g>，低于 10 %% 显示红色</string>
+    <!-- e.g. "Purple below 30 %, red at 10 %" -->
+    <string name="sl_style_two">低于 30 %% 显示<xliff:g id="middle">%1$s</xliff:g>，低于 10 %% 显示红色</string>
+    <!-- e.g. "Always blue" -->
+    <string name="sl_style_always">一直显示<xliff:g id="color">%1$s</xliff:g></string>
+    <!-- e.g. "Your own: blue · red below 11 %" -->
+    <string name="sl_style_custom">自定义：<xliff:g id="rules">%1$s</xliff:g></string>
+    <!-- e.g. "red below 11 %" -->
+    <string name="sl_below">低于 <xliff:g id="level">%2$s</xliff:g> %% 时显示<xliff:g id="color">%1$s</xliff:g></string>
+    <string name="sl_blink_low">电量低时闪烁</string>
+    <string name="sl_blink_low_summary">低电量颜色会闪烁，这样更容易注意到</string>
+    <!-- e.g. "Red, blinking" -->
+    <string name="sl_blinking"><xliff:g id="color">%1$s</xliff:g>，闪烁</string>
+    <string name="sl_hardware">交给硬件自己处理</string>
+
+    <!-- Charger -->
+    <string name="sl_cat_charger">充电器</string>
+    <string name="sl_charging">充电时</string>
+    <string name="sl_full">充满后</string>
+    <string name="sl_follow_battery">跟电量颜色一样，就像没插充电器</string>
+    <string name="sl_follow_charging">跟充电时一样</string>
+
+    <!-- Notifications -->
+    <string name="sl_cat_notifications">通知</string>
+    <string name="sl_notify">有通知时闪烁</string>
+    <string name="sl_notify_summary">屏幕熄灭时，有通知在等待期间灯会闪烁。睡眠时则只是常亮，不闪烁。</string>
+    <string name="sl_notify_colors">按应用设置颜色</string>
+    <string name="sl_notify_colors_summary">给每个应用选一个颜色。灯会显示它能显示的最接近的颜色。</string>
+
+    <!-- Tools -->
+    <string name="sl_cat_tools">工具</string>
+    <string name="sl_check">检测颜色</string>
+    <string name="sl_check_summary">没看到你选的颜色？来看看你主机的灯到底能显示什么。</string>
+    <string name="sl_reset">恢复默认</string>
+    <string name="sl_reset_summary">撤销这个页面上的所有设置，包括颜色检测结果</string>
+
+    <!-- Colour check -->
+    <!-- %1$d is how many steps, e.g. 9 -->
+    <string name="sl_check_intro">灯会依次切换 <xliff:g id="count">%1$d</xliff:g> 种设置。每一次，看看灯显示什么颜色，然后选出你看到的颜色。山寨机的接线五花八门，这样就能知道你这台到底能显示什么。</string>
+    <string name="sl_check_go">开始</string>
+    <!-- e.g. "What does the light show? (3 of 9)" -->
+    <string name="sl_check_step">灯显示的是什么？（<xliff:g id="step">%1$d</xliff:g>/<xliff:g id="count">%2$d</xliff:g>）</string>
+    <string name="sl_check_other">其他颜色</string>
+    <!-- e.g. "Your light can show: off, blue, red, purple." -->
+    <string name="sl_check_result">你的灯能显示：<xliff:g id="colors">%1$s</xliff:g>。</string>
+    <string name="sl_check_no_off">它没法关掉，只能换颜色。有些板子的灯是直接接在电源芯片上的，没有软件能把它关掉。</string>
+    <string name="sl_check_use">使用这些颜色</string>
+    <string name="sl_check_keep">保留原来的</string>
+
+    <!-- Colours -->
+    <string name="color_off">关闭</string>
+    <string name="color_red">红色</string>
+    <string name="color_green">绿色</string>
+    <string name="color_blue">蓝色</string>
+    <string name="color_purple">紫色</string>
+    <string name="color_pink">粉色</string>
+    <string name="color_orange">橙色</string>
+    <string name="color_white">白色</string>
+</resources>

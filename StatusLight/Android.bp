@@ -1,0 +1,14 @@
+// Settings > Display > Status light: what the LED by the power button shows for the
+// battery, the charger and notifications (kernel andr36oid-status-led driver). Runs as the
+// system user so it can set persist.andr36oid.led.* (init writes them to the driver) and
+// write the driver's raw pin states for the colour check.
+android_app {
+    name: "StatusLight",
+    srcs: ["src/**/*.java"],
+    resource_dirs: ["res"],
+    certificate: "platform",
+    platform_apis: true,
+    optimize: {
+        enabled: false,
+    },
+}
