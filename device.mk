@@ -722,7 +722,6 @@ PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
 
 PRODUCT_PROPERTY_OVERRIDES += \
 	ro.logd.auditd=false \
-	ro.logd.kernel=false \
 
 #PRODUCT_PROPERTY_OVERRIDES += \
 #	ro.logd.size=1M \
@@ -948,4 +947,12 @@ PRODUCT_PRODUCT_PROPERTIES += \
 # which this build doesn't use, so without this the setting above starts nothing
 PRODUCT_PACKAGES += \
     logpersist.start
+# The kernel log goes into logcat's kernel buffer too, so it is saved with it: a hang,
+# a watchdog restart or a power-off keeps the kernel side on the card as well, not
+# only in RAM (pstore keeps it only through a reset)
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.logd.kernel=true
+else
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.logd.kernel=false
 endif
