@@ -1,10 +1,11 @@
 #!/system/bin/sh
 # First start on a freshly flashed card. The image ends right after the system
 # partition, so this adds userdata (p6) and EASYROMS (p7) over the rest of the
-# card, before Android mounts /data. There is no restart: andr36oid-addpart tells
-# the running kernel about the two new partitions, and the by-name link for
-# userdata is made here, because the kernel only names the partitions it reads from
-# the table at start. userdata is left blank (first MiB zeroed) and Android formats
+# card, before Android mounts /data, while the boot animation shows "Resizing SD
+# card ..." (sys.andr36oid.resizing, cleared by init at post-fs-data). No restart:
+# andr36oid-addpart tells the running kernel about the two new partitions, and the
+# by-name link for userdata is made here, because the kernel only names the
+# partitions it reads from the table at start. userdata is left blank (first MiB zeroed) and Android formats
 # it itself when it mounts it (fstab: formattable). Later starts see p6 and stop.
 #
 # BOOT/resize-pending is there while the job is half done: a start that finds it
@@ -86,6 +87,7 @@ if [ -e "$SYS/$disk/${disk}p6" ]; then
     fi
     boot_umount
     boot_mount rw || exit 0
+    setprop sys.andr36oid.resizing 1 2>/dev/null
     log "a resize was cut off, setting up userdata and EASYROMS again"
 else
     # Only on the layout the image makes: system ends right before userdata, and
@@ -96,6 +98,7 @@ else
         exit 0
     fi
     boot_mount rw || { log "BOOT doesn't mount, not resizing"; exit 0; }
+    setprop sys.andr36oid.resizing 1 2>/dev/null
 
     CARD_SECTORS=$(cat "$SYS/$disk/size")
     NOROMS=0
@@ -111,12 +114,18 @@ else
     sync
 
     # The backup table moves to the end of the card first, sgdisk only places
-    # partitions inside the table's area. -a 1: exactly these sectors.
+    # partitions inside the table's area. Alignment 1: exactly these sectors.
     # sgdisk warns that the kernel keeps the old table; andr36oid-addpart is for that.
-    out=$(sgdisk -e "$DEV/$disk" 2>&1) || { log "sgdisk -e failed: $out"; boot_umount; exit 1; }
-    set -- -a 1 -n "6:$USERDATA_START:$USERDATA_END" -c 6:userdata -t 6:8300
-    [ "$NOROMS" = 1 ] || set -- "$@" -n "7:$((USERDATA_END + 1)):$LAST" -c 7:EASYROMS -t 7:0700
+    # Android's sgdisk only knows the long options, and ignores what it doesn't know.
+    out=$(sgdisk --move-second-header "$DEV/$disk" 2>&1) ||
+        { log "sgdisk --move-second-header failed: $out"; boot_umount; exit 1; }
+    set -- --set-alignment=1 --new="6:$USERDATA_START:$USERDATA_END" \
+        --change-name=6:userdata --typecode=6:8300
+    [ "$NOROMS" = 1 ] || set -- "$@" --new="7:$((USERDATA_END + 1)):$LAST" \
+        --change-name=7:EASYROMS --typecode=7:0700
     out=$(sgdisk "$@" "$DEV/$disk" 2>&1) || { log "sgdisk failed: $out"; boot_umount; exit 1; }
+    sgdisk --print "$DEV/$disk" 2>/dev/null | grep -q " $USERDATA_START .* userdata\$" ||
+        { log "userdata isn't in the table after sgdisk: $out"; boot_umount; exit 1; }
 
     out=$("$ADDPART" "$DEV/$disk" 6 "$USERDATA_START" "$USERDATA_END" 2>&1) ||
         { log "$out"; boot_umount; exit 1; }

@@ -85,7 +85,11 @@ on late-fs
     start gralloc-2-0
     start surfaceflinger
     start bootanim
-        
+
+    # First start on a fresh card: add userdata and EASYROMS before /data is mounted
+    # (/system/etc/andr36oid-firstresize.sh). It runs after bootanim is started, so the
+    # boot animation shows "Resizing SD card ..." under the logo meanwhile.
+    exec - root root -- /system/bin/sh /system/etc/andr36oid-firstresize.sh
 
     # Mount RW partitions which need run fsck    
     mount_all /vendor/etc/fstab.rk30board --late
@@ -118,6 +122,8 @@ on late-fs
     insmod /vendor/lib/modules/bfusb.ko
     
 on post-fs-data
+    # /data is formatted and mounted: the boot animation drops "Resizing SD card ..."
+    setprop sys.andr36oid.resizing 0
 
     # Full logcat dump is debug only: setprop persist.vendor.logger.enable 1
 

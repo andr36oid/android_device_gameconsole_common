@@ -9,6 +9,5 @@ LOCAL_MODULE_CLASS := ETC
 LOCAL_MODULE_TAGS := optional
 LOCAL_MODULE_STEM := andr36oid-firstresize.sh
 LOCAL_SRC_FILES := andr36oid-firstresize.sh
-LOCAL_INIT_RC := andr36oid-firstresize.rc
 LOCAL_REQUIRED_MODULES := andr36oid-addpart
 include $(BUILD_PREBUILT)

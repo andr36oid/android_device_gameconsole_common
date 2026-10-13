@@ -16,6 +16,17 @@ cleanup() {
 }
 trap cleanup EXIT
 gcc -Wall -O2 -o "$T/addpart" "$HERE/andr36oid-addpart.c" || exit 1
+# Android's sgdisk (external/gptfdisk, android_popt.cc) only takes long options and
+# quietly skips short ones, so the script gets an sgdisk that refuses them
+mkdir -p "$T/bin"
+cat > "$T/bin/sgdisk" <<'S'
+#!/bin/sh
+for a in "$@"; do
+    case $a in --*) ;; -*) echo "sgdisk: short option $a, Android's sgdisk ignores it" >&2; exit 0 ;; esac
+done
+exec /usr/sbin/sgdisk "$@"
+S
+chmod +x "$T/bin/sgdisk"
 
 check() { # <what> <command...>
     if "${@:2}" >/dev/null 2>&1; then echo "ok   $1"; else echo "FAIL $1"; fails=$((fails + 1)); fi
@@ -46,7 +57,7 @@ new_card() {
     ln -s "${LOOP}p1" "$T/byname/BOOT"
 }
 run() {
-    RESIZE_BYNAME=$T/byname RESIZE_DEV=/dev RESIZE_SYS=/sys/block RESIZE_KMSG=$T/kmsg \
+    PATH=$T/bin:$PATH RESIZE_BYNAME=$T/byname RESIZE_DEV=/dev RESIZE_SYS=/sys/block RESIZE_KMSG=$T/kmsg \
         RESIZE_BOOT_MNT=$T/boot RESIZE_ADDPART=$T/addpart sh "$HERE/andr36oid-firstresize.sh"
     echo "  (exit $?, log: $(tail -1 "$T/kmsg" 2>/dev/null))"
 }
