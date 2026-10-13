@@ -859,6 +859,9 @@ done
 # what Settings > USB devices said the last time it was open (drivers, chips)
 show devices.txt /data/data/org.andr36oid.usbmode/files/usb-check.txt
 show devices.txt /proc/bus/input/devices
+# built-in controls: rumble motor (pwm, gpio or none) and strength, stick settings
+J=/sys/devices/platform/odroidgo3-joypad
+show devices.txt $J/rumble $J/rumble_strength $J/rumble_period $J/stick_deadzone $J/stick_cal
 show devices.txt /sys/block/mmcblk*/device/name /sys/block/mmcblk*/device/manfid \
 	/sys/block/mmcblk*/device/oemid /sys/block/mmcblk*/device/date /sys/block/mmcblk*/size
 # the card's ID without its serial number and checksum (see card_id)
