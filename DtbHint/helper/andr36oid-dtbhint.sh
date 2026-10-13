@@ -706,10 +706,10 @@ main() {
 	nap "$WAIT"
 	gather
 	info uboot "$(uboot_version)"
-	# R46H, R50S and D-28S have their own DTB in BOOT/Devices; the folders and board
+	# R46H, R50S, D-28S and G350 have their own DTB in BOOT/Devices; the folders and board
 	# checks here are for R36S boards and would only point them the wrong way
 	case $MODEL in
-	*R46H* | *R50S* | *D-28S*)
+	*R46H* | *R50S* | *D-28S* | *G350*)
 		log "$MODEL: no hint for this console"
 		return 0
 		;;
