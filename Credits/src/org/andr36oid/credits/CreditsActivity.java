@@ -201,6 +201,7 @@ public class CreditsActivity extends Activity {
         project(R.drawable.logo_lineageos, "LineageOS", R.string.credits_lineageos);
         project(R.drawable.logo_android, "Android", R.string.credits_android);
         project(R.drawable.logo_sprout, "Sprout Launcher", R.string.credits_sprout);
+        project(R.drawable.logo_bfi, "BFI", R.string.credits_bfi);
     }
 
     private void section(int titleRes) {

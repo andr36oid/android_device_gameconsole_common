@@ -18,4 +18,5 @@
     <string name="credits_lineageos">自由开源的 Android ROM</string>
     <string name="credits_android">由 Google 开发</string>
     <string name="credits_sprout">Simple UI 的主屏幕，作者 Indiegesindel</string>
+    <string name="credits_bfi">插入黑帧，作者 PakoVM</string>
 </resources>

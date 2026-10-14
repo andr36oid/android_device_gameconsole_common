@@ -18,4 +18,5 @@
     <string name="credits_lineageos">Das freie Open-Source-Android-ROM</string>
     <string name="credits_android">von Google</string>
     <string name="credits_sprout">Der Startbildschirm von Simple UI, von Indiegesindel</string>
+    <string name="credits_bfi">Schwarzbild einfügen, von PakoVM</string>
 </resources>

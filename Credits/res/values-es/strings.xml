@@ -18,4 +18,5 @@
     <string name="credits_lineageos">La ROM de Android libre y de código abierto</string>
     <string name="credits_android">de Google</string>
     <string name="credits_sprout">La pantalla de inicio de Simple UI, de Indiegesindel</string>
+    <string name="credits_bfi">Inserción de fotograma negro, de PakoVM</string>
 </resources>

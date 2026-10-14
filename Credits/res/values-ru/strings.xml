@@ -18,4 +18,5 @@
     <string name="credits_lineageos">Свободная прошивка Android с открытым исходным кодом</string>
     <string name="credits_android">от Google</string>
     <string name="credits_sprout">Главный экран Simple UI, автор Indiegesindel</string>
+    <string name="credits_bfi">Вставка чёрного кадра, автор PakoVM</string>
 </resources>

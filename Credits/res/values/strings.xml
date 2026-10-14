@@ -18,4 +18,5 @@
     <string name="credits_lineageos">The free and open source Android ROM</string>
     <string name="credits_android">by Google</string>
     <string name="credits_sprout">Simple UI\'s home screen, by Indiegesindel</string>
+    <string name="credits_bfi">Black frame insertion, by PakoVM</string>
 </resources>

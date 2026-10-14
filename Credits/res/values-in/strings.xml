@@ -14,4 +14,5 @@
     <string name="credits_lineageos">ROM Android gratis dan open source</string>
     <string name="credits_android">oleh Google</string>
     <string name="credits_sprout">Layar utama Simple UI, oleh Indiegesindel</string>
+    <string name="credits_bfi">Penyisipan frame hitam, oleh PakoVM</string>
 </resources>
