@@ -1,0 +1,12 @@
+# Universal Installer 1.18.0: its onboarding (a few pages and permission requests) is hard
+# to get through with a pad. Its settings are a DataStore file, files/datastore/
+# settings.preferences_pb (dexdump: "settings" + ".preferences_pb" under "datastore/"),
+# with the boolean onboarding_completed; that file alone is "onboarding done", everything
+# else stays at the app's defaults. The permissions the onboarding asks for are given
+# instead: installing apps, and all files access to read app bundles on EASYROMS.
+# See ../../README.md, "First-start settings".
+package app.pwhs.universalinstaller
+unless data files/datastore/settings.preferences_pb
+appop REQUEST_INSTALL_PACKAGES allow
+appop MANAGE_EXTERNAL_STORAGE allow
+data settings.preferences_pb files/datastore/settings.preferences_pb

@@ -1,0 +1,5 @@
+# Droid-ify 0.7.8: allowed to install apps, so the first install doesn't stop at Android's
+# "install unknown apps" page. Only once: if the user takes it away it stays away.
+# See ../../README.md, "First-start settings".
+package com.looker.droidify
+appop REQUEST_INSTALL_PACKAGES allow

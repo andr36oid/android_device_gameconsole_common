@@ -61,6 +61,9 @@ The list, one instruction per line:
     unless data|ext <path>   skip the list while this exists (the app has run)
     data <file> <path>       copy firstrun/<name>/<file> to <path> in /data/user/0/<package>
     ext <file> <path>        the same into Android/data/<package>/files on the internal storage
+    appop <op> <mode>        e.g. REQUEST_INSTALL_PACKAGES allow: a permission the app would
+                             ask for on its first start; once per app and op, so one the
+                             user takes away stays away
 
 They land in `/system/etc/gameconsole/firstrun/`. Only missing files are
 written, in list order; a list stops at its first failure. So the file the app

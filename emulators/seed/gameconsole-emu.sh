@@ -1199,6 +1199,9 @@ refresh_rate() {
 #                           private folder (/data/user/0/<package>)
 #   ext <file> <path>       the same into its folder on the internal storage
 #                           (Android/data/<package>/files)
+#   appop <op> <mode>       e.g. REQUEST_INSTALL_PACKAGES allow, what the app
+#                           would otherwise ask for on its first start. Once per
+#                           app and op: one the user takes away stays away.
 # Only missing files are written, in list order, and a list stops at the first
 # failure, so the file the app's own "has it run" check reads goes last.
 # <path> may contain spaces.
@@ -1230,7 +1233,7 @@ firstrun_copy() {
 
 # firstrun_list <list>
 firstrun_list() {
-	local dir=${1%.list} pkg='' data='' ext='' owner='' kind src dest rc
+	local dir=${1%.list} pkg='' data='' ext='' owner='' kind src dest rc stamp out
 	local wrote_data='' wrote_ext=''
 
 	while read -r kind src dest; do
@@ -1260,6 +1263,17 @@ firstrun_list() {
 			rc=$?
 			[ $rc = 1 ] && break
 			[ $rc = 0 ] && wrote_data=1 && log "seeded $pkg's $dest"
+			;;
+		appop)
+			stamp=$STATE/appop.$pkg.$src
+			[ -e "$stamp" ] && continue
+			if out=$(appops set --user 0 "$pkg" "$src" "$dest" </dev/null 2>&1); then
+				touch "$stamp"
+				log "$pkg may $src now ($dest)"
+			else
+				log "appops set $pkg $src $dest failed: $out"
+				break
+			fi
 			;;
 		ext)
 			# vold makes Android/data when it mounts the internal storage
