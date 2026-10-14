@@ -47,6 +47,7 @@ final class ButtonActions {
             swappable("MENU", R.string.action_menu),
 
             header(R.string.section_system),
+            item(ButtonMapping.FN_ACTION, R.string.action_fn),
             item("SYSRQ", R.string.action_screenshot),
             item("POWER", R.string.action_power),
             item("VOLUME_UP", R.string.action_volume_up),

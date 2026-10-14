@@ -2,6 +2,7 @@
 #include <signal.h>
 #include <sys/inotify.h>
 #include <sys/signalfd.h>
+#include <sys/stat.h>
 #include <unistd.h>
 
 #include <algorithm>
@@ -52,6 +53,7 @@ public:
 
 private:
     Config readConfig();
+    ButtonSet readMissingButtons();
     void applyDisplaySize();
     void loadSettings(Nanos now);
     void syncActiveProperty(Nanos now);
@@ -91,6 +93,11 @@ private:
     bool quiet_ = false;  // mode changes caused by the daemon itself (pad lost, shutdown)
     bool warnedNoPad_ = false;
     Nanos nextRescan_ = 0;
+    // The missing buttons setting as last read, and the settings file it came from.
+    std::optional<std::string> missingSetting_;
+    timespec settingsTime_{};
+    off_t settingsSize_ = -1;
+    std::string missingHint_;
 };
 
 Daemon::Daemon() = default;
@@ -121,10 +128,38 @@ std::string readButtonRemap() {
     return remap;
 }
 
+// The device tree hint, NUL separated names; missing file: no hint.
+std::string readMissingHint() {
+    std::ifstream in(kMissingButtonsHint, std::ios::binary);
+    std::string hint((std::istreambuf_iterator<char>(in)), std::istreambuf_iterator<char>());
+    std::replace(hint.begin(), hint.end(), '\0', ',');
+    return hint;
+}
+
+// The setting if set, else the device tree hint. The settings file is only read again when
+// it changed; while it can't be read (being written) the last value stays.
+ButtonSet Daemon::readMissingButtons() {
+    struct stat st{};
+    if (stat(kGlobalSettingsFile, &st) == 0 && st.st_size > 0 &&
+        (st.st_size != settingsSize_ || st.st_mtim.tv_sec != settingsTime_.tv_sec ||
+         st.st_mtim.tv_nsec != settingsTime_.tv_nsec)) {
+        std::ifstream in(kGlobalSettingsFile, std::ios::binary);
+        const std::string xml((std::istreambuf_iterator<char>(in)), std::istreambuf_iterator<char>());
+        // A complete file ends with its closing tag.
+        if (in && xml.find("</settings>") != std::string::npos) {
+            missingSetting_ = findSetting(xml, kMissingButtonsSetting);
+            settingsTime_ = st.st_mtim;
+            settingsSize_ = st.st_size;
+        }
+    }
+    return parseMissingButtons(missingSetting_ ? *missingSetting_ : missingHint_);
+}
+
 Config Daemon::readConfig() {
     std::vector<std::string> warnings;
     Config c = loadConfig([](const char* name) { return getProperty(name); }, &warnings);
     c.buttonRemap = readButtonRemap();
+    c.missingButtons = readMissingButtons();
     // Properties change all the time system-wide; only repeat news.
     if (warnings != lastWarnings_) {
         for (const std::string& w : warnings) LOGW("%s", w.c_str());
@@ -356,7 +391,7 @@ Announcement Daemon::describe(bool active) const {
         const Bindings bindings = config_.bindings();
         for (size_t i = 0; i < kButtonCount; ++i) {
             const Button b = static_cast<Button>(i);
-            if (!buttons.has(b) || bindings[i] == Action::Pass || bindings[i] == Action::None) continue;
+            if (!buttons.has(b) || config_.missingButtons[i] || bindings[i] == Action::Pass || bindings[i] == Action::None) continue;
             if (!a.bindings.empty()) a.bindings += ",";
             a.bindings += std::string(buttonName(b)) + "=" + actionName(bindings[i]);
         }
@@ -405,6 +440,9 @@ int Daemon::run(bool verbose) {
         close(inotifyFd_);
         inotifyFd_ = -1;
     }
+    // The settings provider rewrites settings_global.xml after a change (no property tells).
+    if (inotifyFd_ >= 0) inotify_add_watch(inotifyFd_, kGlobalSettingsDir, IN_CLOSE_WRITE | IN_MOVED_TO);
+    missingHint_ = readMissingHint();
 
     Nanos now = monotonicNow();
     config_ = readConfig();
@@ -452,6 +490,8 @@ int Daemon::run(bool verbose) {
             } else if (p.fd == inotifyFd_) {
                 drainInotify();
                 if (!pad_) openPad(now);
+                // or the missing buttons setting changed
+                loadSettings(now);
             } else if (p.fd == watcher_.fd()) {
                 watcher_.drain();
                 loadSettings(now);

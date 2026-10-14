@@ -5,12 +5,15 @@ import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
 import android.os.SystemProperties;
 import android.preference.PreferenceDataStore;
+import android.provider.Settings;
 import android.util.Log;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -43,6 +46,32 @@ final class PropertyStore implements PreferenceDataStore {
 
     PropertyStore(Context context) {
         mDefaults = loadDefaults(context);
+        // Like the daemon: on a console without a stick click the default combination is
+        // Select + Start.
+        if (lacksStickClick(context)) mDefaults.put("toggle", "SELECT+START");
+    }
+
+    /**
+     * Whether L3 or R3 is in Settings.Global andr36oid_missing_buttons, or while that isn't
+     * set, in the device tree hint.
+     */
+    private static boolean lacksStickClick(Context context) {
+        String missing = Settings.Global.getString(context.getContentResolver(),
+                "andr36oid_missing_buttons");
+        if (missing == null) {
+            try {
+                missing = new String(Files.readAllBytes(Paths.get(
+                        "/proc/device-tree/odroidgo3-joypad/andr36oid,missing-buttons")))
+                        .replace('\0', ',');
+            } catch (IOException | SecurityException e) {
+                return false;
+            }
+        }
+        for (String name : missing.split(",")) {
+            name = name.trim();
+            if (name.equalsIgnoreCase("l3") || name.equalsIgnoreCase("r3")) return true;
+        }
+        return false;
     }
 
     /** Key to default value from the preference XML, string sets joined like "L3+R3". */

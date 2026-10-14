@@ -11,11 +11,14 @@ import android.os.Handler;
 import android.os.Looper;
 import android.provider.Settings;
 import android.text.InputFilter;
+import android.view.InputDevice;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,6 +55,9 @@ public class ButtonMappingActivity extends Activity implements ControllerView.Li
     private TextView mNameView;
     private TextView mActionView;
     private Button mProfileButton;
+    private LinearLayout mExtraList;
+    // Row of each extra button the console has, by button index; null for the others.
+    private Button[] mExtraRows;
     private AlertDialog mDialog;
 
     // A change waiting to be confirmed with the new buttons, undone when it isn't.
@@ -86,6 +92,8 @@ public class ButtonMappingActivity extends Activity implements ControllerView.Li
         mActionView = findViewById(R.id.button_action);
         mProfileButton = findViewById(R.id.profile);
         mProfileButton.setOnClickListener(v -> showProfilesDialog());
+        mExtraList = findViewById(R.id.extra_buttons);
+        mExtraRows = new Button[mMapping.buttons.length];
 
         mController.setPresent(mMapping.present);
         mController.setListener(this);
@@ -104,7 +112,8 @@ public class ButtonMappingActivity extends Activity implements ControllerView.Li
     protected void onResume() {
         super.onResume();
         for (String setting : new String[] { ButtonRemap.SETTING, ButtonMapping.SETTING_PROFILES,
-                ButtonMapping.SETTING_ACTIVE_PROFILE }) {
+                ButtonMapping.SETTING_ACTIVE_PROFILE, ButtonMapping.SETTING_MISSING,
+                ButtonMapping.SETTING_FN_STANDIN }) {
             getContentResolver().registerContentObserver(Settings.Global.getUriFor(setting),
                     false, mSettingsObserver);
         }
@@ -156,7 +165,26 @@ public class ButtonMappingActivity extends Activity implements ControllerView.Li
             mController.setSelection(index);
             return true;
         }
+        // An extra button jumps to its row in the list.
+        final Button row = findExtraRow(event);
+        if (row != null) {
+            row.requestFocus();
+            return true;
+        }
         return super.onKeyUp(keyCode, event);
+    }
+
+    private Button findExtraRow(KeyEvent event) {
+        final InputDevice device = event.getDevice();
+        if (device == null || device.isVirtual() || device.isExternal()) {
+            return null;
+        }
+        for (int i = HardwareButton.ALL.length; i < mMapping.buttons.length; i++) {
+            if (mMapping.buttons[i].scanCode == event.getScanCode()) {
+                return mExtraRows[i];
+            }
+        }
+        return null;
     }
 
     @Override
@@ -183,6 +211,9 @@ public class ButtonMappingActivity extends Activity implements ControllerView.Li
         adapter.addAction(getString(R.string.action_original, getActionTitle(defaultAction)),
                 defaultAction);
         for (ButtonActions.Item item : ButtonActions.ITEMS) {
+            if (ButtonMapping.FN_ACTION.equals(item.value) && !mMapping.canBeFn(index)) {
+                continue;
+            }
             if (item.isHeader()) {
                 adapter.addHeader(getString(item.titleRes));
             } else {
@@ -193,7 +224,7 @@ public class ButtonMappingActivity extends Activity implements ControllerView.Li
         final String action = mMapping.getAction(mRemap, index);
         final int checked = action.equals(defaultAction) ? 0 : adapter.findPosition(action, 1);
         builder.setTitle(getString(R.string.choose_title,
-                        getString(mMapping.buttons[index].nameRes)))
+                        mMapping.getName(index)))
                 .setSingleChoiceItems(adapter, checked, (dialog, which) -> {
                     dialog.dismiss();
                     onActionChosen(index, adapter.getValue(which));
@@ -205,6 +236,14 @@ public class ButtonMappingActivity extends Activity implements ControllerView.Li
     private void onActionChosen(int index, String action) {
         final String oldAction = mMapping.getAction(mRemap, index);
         if (action.equals(oldAction)) {
+            return;
+        }
+        if (ButtonMapping.FN_ACTION.equals(action)) {
+            makeFn(index);
+            return;
+        }
+        if (ButtonMapping.FN_ACTION.equals(oldAction)) {
+            stopBeingFn(index, action);
             return;
         }
 
@@ -238,6 +277,57 @@ public class ButtonMappingActivity extends Activity implements ControllerView.Li
         }
     }
 
+    /**
+     * Makes a button the Fn button (Settings.Global andr36oid_fn_standin), instead of the
+     * button or volume chord that was it. Its own job in the layout goes away.
+     */
+    private void makeFn(int index) {
+        final ButtonRemap changed = mRemap.copy();
+        changed.set(mMapping.buttons[index].scanCode, null);
+        final List<Integer> missing = mMapping.findMissing(changed, index);
+        if (!missing.isEmpty()) {
+            showBlockedDialog(getString(R.string.blocked_message, describe(missing)));
+            return;
+        }
+        final int oldStandIn = mMapping.getFnStandIn();
+        final boolean replaces = mMapping.hasOtherFnStandIn(index);
+        final String name = mMapping.getName(index);
+        if (!changed.equals(mRemap)) {
+            final ButtonProfiles.Profile created = mMapping.saveLayout(changed);
+            if (created != null) {
+                Toast.makeText(this, getString(R.string.profile_forked,
+                        mMapping.getName(created)), Toast.LENGTH_LONG).show();
+            }
+        }
+        mMapping.setFnStandIn(index);
+        updateViews();
+        final String message = !replaces ? getString(R.string.fn_set, name)
+                : oldStandIn >= 0
+                        ? getString(R.string.fn_replaced_button, name,
+                                mMapping.getName(oldStandIn))
+                        : getString(R.string.fn_replaced_volume, name);
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+    }
+
+    /** The Fn stand-in gets a job of its own again, the real Fn button is Fn again. */
+    private void stopBeingFn(int index, String action) {
+        final ButtonRemap changed = mRemap.copy();
+        mMapping.setAction(changed, index, action);
+        final List<Integer> missing = mMapping.findMissing(changed, -1);
+        if (!missing.isEmpty()) {
+            showBlockedDialog(getString(R.string.blocked_message, describe(missing)));
+            return;
+        }
+        mMapping.setFnStandIn(-1);
+        Toast.makeText(this, getString(R.string.fn_cleared, mMapping.getName(index)),
+                Toast.LENGTH_LONG).show();
+        if (changed.equals(mRemap)) {
+            updateViews();
+        } else {
+            applyLayout(changed);
+        }
+    }
+
     /** Returns the only other button that can be changed and does an action, or -1. */
     private int findOnlyOtherButton(int index, String action) {
         int found = -1;
@@ -256,8 +346,8 @@ public class ButtonMappingActivity extends Activity implements ControllerView.Li
 
     private void showSwapDialog(int index, int other, ButtonRemap changed, ButtonRemap swapped,
             List<Integer> missing) {
-        final String name = getString(mMapping.buttons[index].nameRes);
-        final String otherName = getString(mMapping.buttons[other].nameRes);
+        final String name = mMapping.getName(index);
+        final String otherName = mMapping.getName(other);
         final AlertDialog.Builder builder = new AlertDialog.Builder(this)
                 .setTitle(getString(R.string.swap_title, otherName))
                 .setPositiveButton(R.string.swap_confirm, (dialog, which) ->
@@ -458,7 +548,7 @@ public class ButtonMappingActivity extends Activity implements ControllerView.Li
         mUndoProfiles = undoProfiles;
         final int okButton = mMapping.findButtonFor(mRemap, DIALOG_OK_ACTIONS);
         final String okName = okButton >= 0
-                ? getString(mMapping.buttons[okButton].nameRes) : null;
+                ? mMapping.getName(okButton) : null;
         mConfirmDialog = new AlertDialog.Builder(this)
                 .setTitle(R.string.confirm_title)
                 .setMessage(getConfirmMessage(okName, CONFIRM_TIMEOUT_SECONDS))
@@ -519,11 +609,14 @@ public class ButtonMappingActivity extends Activity implements ControllerView.Li
         for (int i = 0; i < changed.length; i++) {
             changed[i] = !mMapping.getAction(mRemap, i).equals(mMapping.defaults[i]);
         }
-        mController.setChanged(changed);
+        // Buttons marked missing in the meantime go grey.
+        mController.setPresent(mMapping.present);
+        mController.setChanged(Arrays.copyOf(changed, HardwareButton.ALL.length));
+        updateExtraRows();
 
         final int okButton = mMapping.findButtonFor(mRemap, OK_ACTIONS);
         mController.setHint(okButton >= 0
-                ? getString(R.string.screen_hint, getString(mMapping.buttons[okButton].nameRes))
+                ? getString(R.string.screen_hint, mMapping.getName(okButton))
                 : getString(R.string.screen_hint_no_ok));
         mProfileButton.setText(getString(R.string.profile_button,
                 mMapping.getName(mMapping.getActiveProfile())));
@@ -532,26 +625,71 @@ public class ButtonMappingActivity extends Activity implements ControllerView.Li
 
     private void updatePanel() {
         final int index = mController.getSelection();
-        final String name = getString(mMapping.buttons[index].nameRes);
-        final String action = mMapping.getAction(mRemap, index);
-        final String status;
-        if (mMapping.buttons[index].locked) {
-            status = getString(R.string.status_locked, getActionTitle(action));
-        } else if (action.equals(mMapping.defaults[index])) {
-            status = getString(R.string.status_default, getActionTitle(action));
-        } else {
-            status = getString(R.string.status_changed, getActionTitle(action),
-                    getActionTitle(mMapping.defaults[index]));
-        }
+        final String name = mMapping.getName(index);
+        final String status = getStatus(index);
         mNameView.setText(name);
         mActionView.setText(status);
         mController.setContentDescription(name + ". " + status);
     }
 
+    private String getStatus(int index) {
+        final String action = mMapping.getAction(mRemap, index);
+        if (mMapping.buttons[index].locked) {
+            return getString(R.string.status_locked, getActionTitle(action));
+        } else if (action.equals(mMapping.defaults[index])) {
+            return getString(R.string.status_default, getActionTitle(action));
+        }
+        return getString(R.string.status_changed, getActionTitle(action),
+                getActionTitle(mMapping.defaults[index]));
+    }
+
+    /** The extra buttons the console has, below the drawing's panel; each opens the chooser. */
+    private void updateExtraRows() {
+        boolean any = false;
+        for (int i = HardwareButton.ALL.length; i < mMapping.buttons.length; i++) {
+            if (!mMapping.present[i]) {
+                if (mExtraRows[i] != null) {
+                    mExtraList.removeView(mExtraRows[i]);
+                    mExtraRows[i] = null;
+                }
+                continue;
+            }
+            if (mExtraRows[i] == null) {
+                final int index = i;
+                mExtraRows[i] = (Button) LayoutInflater.from(this)
+                        .inflate(R.layout.extra_button_item, mExtraList, false);
+                mExtraRows[i].setOnClickListener(v -> showChooser(index));
+                mExtraList.addView(mExtraRows[i], countRowsBefore(i) + 1);
+            }
+            mExtraRows[i].setText(mMapping.getName(i) + "\n" + getStatus(i));
+            any = true;
+        }
+        mExtraList.setVisibility(any ? View.VISIBLE : View.GONE);
+    }
+
+    // Position among the rows, after the heading.
+    private int countRowsBefore(int index) {
+        int count = 0;
+        for (int i = HardwareButton.ALL.length; i < index; i++) {
+            if (mExtraRows[i] != null) {
+                count++;
+            }
+        }
+        return count;
+    }
+
     private String getActionTitle(String action) {
         final ButtonActions.Item item = ButtonActions.find(action);
+        if (item != null) {
+            return getString(item.titleRes);
+        }
+        // What the extra buttons do by default
+        if (action.matches("BUTTON_[0-9]+")) {
+            return getString(R.string.action_button_number,
+                    Integer.parseInt(action.substring("BUTTON_".length())));
+        }
         // Something set up by hand that the list doesn't offer, show its key code.
-        return item != null ? getString(item.titleRes) : action;
+        return action;
     }
 
     private String describe(List<Integer> functions) {

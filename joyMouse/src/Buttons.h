@@ -62,6 +62,13 @@ std::optional<Action> parseAction(std::string_view name);
 using Bindings = std::array<Action, kButtonCount>;
 Bindings defaultBindings();
 
+// One flag per button.
+using ButtonSet = std::array<bool, kButtonCount>;
+// Buttons a console lacks although its pad reports them (every device tree declares all of
+// them), from the "fn,l3,r3,l2,r2,vol" list of Settings.Global andr36oid_missing_buttons.
+// Only L2, R2, L3 and R3 are pad buttons here; Fn and the volume keys aren't.
+ButtonSet parseMissingButtons(std::string_view list);
+
 // Translates the key codes one particular pad reports into logical buttons.
 class ButtonMap {
 public:
@@ -78,7 +85,8 @@ private:
     std::array<bool, kButtonCount> present_{};
 };
 
-// Button combination that toggles mouse mode when nothing is configured.
-std::vector<Button> defaultToggleChord(const ButtonMap& map);
+// Button combination that toggles mouse mode when nothing is configured: L3 + R3, or
+// Select + Start when the pad or the console (`missing`) lacks one of them.
+std::vector<Button> defaultToggleChord(const ButtonMap& map, const ButtonSet& missing = {});
 
 }  // namespace joymouse

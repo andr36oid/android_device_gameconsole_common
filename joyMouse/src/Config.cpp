@@ -50,7 +50,7 @@ bool operator==(const Config& a, const Config& b) {
            a.invert == b.invert && a.toggleEnabled == b.toggleEnabled && a.toggle == b.toggle &&
            a.toggleMs == b.toggleMs &&
            a.startActive == b.startActive && a.toast == b.toast && a.buttons == b.buttons &&
-           a.buttonRemap == b.buttonRemap &&
+           a.buttonRemap == b.buttonRemap && a.missingButtons == b.missingButtons &&
            a.rateHz == b.rateHz && a.clickFreezeMs == b.clickFreezeMs && a.device == b.device &&
            a.displaySize == b.displaySize && a.debug == b.debug;
 }
@@ -115,6 +115,20 @@ std::optional<std::pair<int, int>> parseSize(std::string_view s) {
     const auto h = parseInt(s.substr(sep + 1), 16, 16384);
     if (!w || !h) return std::nullopt;
     return std::make_pair(*w, *h);
+}
+
+std::optional<std::string> findSetting(std::string_view xml, std::string_view name) {
+    // <setting id="12" name="..." value="..." package="..." />, a null one has no value
+    const std::string key = " name=\"" + std::string(name) + "\"";
+    const size_t at = xml.find(key);
+    if (at == std::string_view::npos) return std::nullopt;
+    const std::string_view tag = xml.substr(at, xml.find('>', at) - at);
+    const size_t value = tag.find(" value=\"");
+    if (value == std::string_view::npos) return std::nullopt;
+    const std::string_view rest = tag.substr(value + 8);
+    const size_t end = rest.find('"');
+    if (end == std::string_view::npos) return std::nullopt;
+    return std::string(rest.substr(0, end));
 }
 
 Config loadConfig(const PropertyReader& read, std::vector<std::string>* warnings) {

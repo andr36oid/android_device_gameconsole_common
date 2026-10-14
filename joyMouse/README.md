@@ -19,6 +19,15 @@ mouse mode on or off. A toast confirms the switch and lists the controls; the
 pointer appears in the middle of the screen when mouse mode turns on and
 disappears when it turns off.
 
+On a console without L3 or R3 the combination is **Select + Start** instead,
+also when another combination with the missing button was set up. The device
+tree declares every button, so joyMouse also takes the list of buttons the
+console lacks into account: Settings.Global `andr36oid_missing_buttons` (Quick
+start and Settings › Controls write it; joyMouse reads it from
+`/data/system/users/0/settings_global.xml` whenever that file is rewritten),
+or, while it was never set, the `andr36oid,missing-buttons` hint of the
+joypad node in the device tree.
+
 Default controls in mouse mode:
 
 | Input | Does |

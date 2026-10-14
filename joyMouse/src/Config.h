@@ -27,6 +27,12 @@ constexpr const char kFullscreenProperty[] = "sys.joymouse.fullscreen";
 // kButtonRemapSerialProperty whenever it rewrites the file.
 constexpr const char kButtonRemapFile[] = "/data/system/hardware_button_remap";
 constexpr const char kButtonRemapSerialProperty[] = "sys.hardware_button_remap.serial";
+// Which buttons the console lacks: Settings.Global andr36oid_missing_buttons, read from the
+// settings provider's file (no property for it), else the device tree hint.
+constexpr const char kGlobalSettingsDir[] = "/data/system/users/0";
+constexpr const char kGlobalSettingsFile[] = "/data/system/users/0/settings_global.xml";
+constexpr const char kMissingButtonsSetting[] = "andr36oid_missing_buttons";
+constexpr const char kMissingButtonsHint[] = "/proc/device-tree/odroidgo3-joypad/andr36oid,missing-buttons";
 
 struct Config {
     // Classic mode: like the original joyMouse, the pad isn't grabbed. The
@@ -64,6 +70,8 @@ struct Config {
     // Hardware button remap from Settings > Button mapping, "scanCode:KEYCODE,...".
     // In mouse mode a remapped button gets the action of the button it acts as.
     std::string buttonRemap;
+    // Buttons this console doesn't have, see parseMissingButtons().
+    ButtonSet missingButtons{};
 
     int rateHz = 250;
     int clickFreezeMs = 60;
@@ -98,5 +106,8 @@ std::optional<bool> parseBool(std::string_view s);
 std::optional<std::vector<Button>> parseChord(std::string_view s);
 // "640x480"
 std::optional<std::pair<int, int>> parseSize(std::string_view s);
+// The value of a setting in the settings provider's XML file (settings_global.xml), nothing
+// when the setting is missing or null. Plain values only: no XML entities, no base64.
+std::optional<std::string> findSetting(std::string_view xml, std::string_view name);
 
 }  // namespace joymouse

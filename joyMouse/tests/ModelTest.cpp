@@ -310,6 +310,20 @@ TEST(ButtonsTest, DefaultChordNeedsBothSticks) {
     keys.set(BTN_THUMBL);
     keys.set(BTN_THUMBR);
     EXPECT_EQ(defaultToggleChord(ButtonMap(keys)), (std::vector<Button>{Button::L3, Button::R3}));
+    // The pad reports L3, the console has none.
+    EXPECT_EQ(defaultToggleChord(ButtonMap(keys), parseMissingButtons("fn,l3")),
+              (std::vector<Button>{Button::Select, Button::Start}));
+}
+
+TEST(ButtonsTest, ParseMissingButtons) {
+    const ButtonSet missing = parseMissingButtons(" FN, r3,vol,l2 ,bogus");
+    EXPECT_TRUE(missing[index(Button::R3)]);
+    EXPECT_TRUE(missing[index(Button::L2)]);
+    EXPECT_FALSE(missing[index(Button::L3)]);
+    EXPECT_FALSE(missing[index(Button::R2)]);
+    // Fn is the Home key, not the pad's MODE button.
+    EXPECT_FALSE(missing[index(Button::Mode)]);
+    EXPECT_EQ(parseMissingButtons(""), ButtonSet{});
 }
 
 // --- Chord --------------------------------------------------------------
@@ -448,6 +462,22 @@ TEST(ConfigTest, LoadsProperties) {
 TEST(ConfigTest, ButtonPropertyNames) {
     EXPECT_EQ(buttonProperty(Button::R1), "persist.sys.joymouse.btn_r1");
     EXPECT_EQ(buttonProperty(Button::Select), "persist.sys.joymouse.btn_select");
+}
+
+TEST(ConfigTest, FindSetting) {
+    const std::string xml =
+            "<?xml version='1.0' encoding='utf-8' standalone='yes' ?>\n<settings version=\"191\">\n"
+            "  <setting id=\"7\" name=\"andr36oid_fn_standin\" value=\"vol_both\" package=\"android\" />\n"
+            "  <setting id=\"8\" name=\"andr36oid_missing_buttons\" value=\"fn,l3\" package=\"x\" "
+            "defaultValue=\"\" defaultSysSet=\"false\" />\n"
+            "  <setting id=\"9\" name=\"nulled\" package=\"x\" />\n"
+            "  <setting id=\"10\" name=\"empty\" value=\"\" package=\"x\" />\n"
+            "</settings>\n";
+    EXPECT_EQ(findSetting(xml, "andr36oid_missing_buttons"), std::string("fn,l3"));
+    EXPECT_EQ(findSetting(xml, "empty"), std::string(""));
+    EXPECT_FALSE(findSetting(xml, "nulled").has_value());
+    EXPECT_FALSE(findSetting(xml, "missing").has_value());
+    EXPECT_FALSE(findSetting(xml, "andr36oid").has_value());
 }
 
 TEST(ConfigTest, Equality) {

@@ -1,5 +1,6 @@
 package org.andr36oid.buttonmapper;
 
+import android.content.Context;
 import android.graphics.RectF;
 
 import org.andr36oid.consoleart.R36s.Control;
@@ -41,9 +42,23 @@ final class HardwareButton {
     static final int KEY_VOLUMEDOWN = 114;
     static final int KEY_VOLUMEUP = 115;
 
+    // Extra buttons of newer boards: BTN_TRIGGER_HAPPY1..16, BUTTON_1..16 in the key layout.
+    // They aren't on the drawing, the screen lists the ones a console has below it.
+    static final int EXTRA_FIRST_SCAN_CODE = 704;
+    static final HardwareButton[] EXTRAS = new HardwareButton[16];
+
+    static {
+        for (int i = 0; i < EXTRAS.length; i++) {
+            EXTRAS[i] = new HardwareButton(EXTRA_FIRST_SCAN_CODE + i, i + 1);
+        }
+    }
+
     final int scanCode;
     final String defaultAction;
     final int nameRes;
+    // Extra button number, 0 for the buttons on the drawing.
+    final int extraNumber;
+    // Null for the extra buttons, as is bounds.
     final Control control;
     // Position on the drawing, in R36s units.
     final RectF bounds;
@@ -58,9 +73,25 @@ final class HardwareButton {
         this.scanCode = scanCode;
         this.defaultAction = defaultAction;
         this.nameRes = nameRes;
+        this.extraNumber = 0;
         this.control = control;
         this.bounds = new RectF(control.left, control.top, control.right, control.bottom);
         this.locked = locked;
+    }
+
+    private HardwareButton(int scanCode, int extraNumber) {
+        this.scanCode = scanCode;
+        this.defaultAction = "BUTTON_" + extraNumber;
+        this.nameRes = R.string.button_extra;
+        this.extraNumber = extraNumber;
+        this.control = null;
+        this.bounds = null;
+        this.locked = false;
+    }
+
+    String getName(Context context) {
+        return extraNumber > 0 ? context.getString(nameRes, extraNumber)
+                : context.getString(nameRes);
     }
 
     /** Returns the index of the button reporting a scan code, or -1. */
@@ -73,11 +104,11 @@ final class HardwareButton {
         return -1;
     }
 
-    static String[] defaultActions() {
-        final String[] actions = new String[ALL.length];
-        for (int i = 0; i < ALL.length; i++) {
-            actions[i] = ALL[i].defaultAction;
-        }
-        return actions;
+    /** The buttons on the drawing, then the extra buttons; ALL keeps its indexes. */
+    static HardwareButton[] withExtras() {
+        final HardwareButton[] buttons = new HardwareButton[ALL.length + EXTRAS.length];
+        System.arraycopy(ALL, 0, buttons, 0, ALL.length);
+        System.arraycopy(EXTRAS, 0, buttons, ALL.length, EXTRAS.length);
+        return buttons;
     }
 }

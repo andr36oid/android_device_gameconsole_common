@@ -64,8 +64,17 @@ void Controller::configure(const Config& config, const Environment& env, Nanos n
                 e.button ? static_cast<int8_t>(index(*e.button)) : kNotAButton;
     }
 
+    // Every device tree declares all buttons, the console may still lack some.
+    const ButtonSet& missing = config.missingButtons;
+    auto hasButton = [&](Button b) { return buttonMap_.has(b) && !missing[index(b)]; };
     std::vector<Button> chord;
-    if (config.toggleEnabled) chord = config.toggle ? *config.toggle : defaultToggleChord(buttonMap_);
+    if (config.toggleEnabled) chord = config.toggle ? *config.toggle : defaultToggleChord(buttonMap_, missing);
+    // A chord the console can't press becomes the default one.
+    const auto lacking = std::find_if(chord.begin(), chord.end(), [&](Button b) { return missing[index(b)]; });
+    if (lacking != chord.end()) {
+        LOGW("this console has no %s button, toggle chord is the default one", buttonName(*lacking));
+        chord = defaultToggleChord(buttonMap_, missing);
+    }
     for (Button b : chord) {
         if (!buttonMap_.has(b)) {
             LOGW("toggle button %s is missing on this pad, toggle chord disabled", buttonName(b));
@@ -97,7 +106,7 @@ void Controller::configure(const Config& config, const Environment& env, Nanos n
     pointerClick_.reset();
     if (pointerSide_) {
         const Button click = *pointerSide_ == StickSide::Right ? Button::R3 : Button::L3;
-        if (buttonMap_.has(click)) pointerClick_ = click;
+        if (hasButton(click)) pointerClick_ = click;
     }
 
     auto invert = [&](StickAxis axis, bool fallback) { return config.invert[axis].value_or(fallback); };

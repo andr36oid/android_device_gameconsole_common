@@ -1662,6 +1662,41 @@ retroarch_players() {
 	managed "$cfg" menu_swap_ok_cancel_buttons false "" true
 }
 
+# missing_buttons ; the buttons this console lacks, from fn,l3,r3,l2,r2,vol, comma
+# separated: Settings.Global andr36oid_missing_buttons once Quick start or Settings >
+# Controls asked, before that the hint in the joypad's device tree node (missing: none)
+missing_buttons() {
+	local m
+	m=$(settings get global andr36oid_missing_buttons </dev/null 2>/dev/null)
+	if [ "$m" = null ]; then
+		m=$(tr '\0' ',' 2>/dev/null <"$DT_ROOT/odroidgo3-joypad/andr36oid,missing-buttons")
+	fi
+	echo "$m" | tr -d ' ' | tr '[:upper:]' '[:lower:]'
+}
+
+# ra_hotkeys ; the seeded fast forward hotkey is Select + L3. On a console without L3
+# it moves to Select + R2, or Select + Right without R2 as well, and back to L3 once the
+# console has it again (the buttons check in Settings > Controls was redone). At every
+# boot, so also on the fresh install's retroarch.cfg, but only while the hotkey is still
+# what the seed or this wrote (see managed): one set in RetroArch stays.
+ra_hotkeys() {
+	local cfg=$RA_EXT/retroarch.cfg missing want=106
+	[ -f "$cfg" ] || return 0
+	missing=,$(missing_buttons),
+	case $missing in
+	*,l3,*)
+		want=105
+		case $missing in *,r2,*) want=22 ;; esac
+		;;
+	*)
+		# never moved on this console: nothing to do
+		[ -f "$MANAGED/input_toggle_fast_forward_btn" ] || return 0
+		;;
+	esac
+	mkdir -p "$MANAGED"
+	managed "$cfg" input_toggle_fast_forward_btn $want "" 106
+}
+
 # retroarch_running ; RetroArch writes all its settings back when it quits
 retroarch_running() {
 	pidof "$RA_PKG" >/dev/null 2>&1
@@ -2293,6 +2328,7 @@ seed_daijishou
 dj_new_games
 daijishou_ready
 retroarch_players
+ra_hotkeys
 # PPSSPP isn't running this early; it writes controls.ini back when it quits
 ppsspp_controls
 # last: the first unpack takes a while

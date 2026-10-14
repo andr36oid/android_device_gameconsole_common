@@ -21,7 +21,7 @@ final class LayoutValidator {
 
     // The actions that provide each function. The key character maps of the built-in devices
     // (Vendor_484b_Product_1100.kcm and Generic.kcm) let A fall back to DPAD_CENTER, and B and
-    // Escape fall back to BACK, so they count too.
+    // Escape fall back to BACK, so they count too. A button acting as Fn goes home when tapped.
     private static final String[][] PROVIDERS = {
             { "DPAD_UP" },
             { "DPAD_DOWN" },
@@ -29,7 +29,7 @@ final class LayoutValidator {
             { "DPAD_RIGHT" },
             { "BUTTON_A", "DPAD_CENTER", "ENTER" },
             { "BUTTON_B", "BACK", "ESCAPE" },
-            { "HOME" },
+            { "HOME", ButtonMapping.FN_ACTION },
             { "POWER" },
     };
 

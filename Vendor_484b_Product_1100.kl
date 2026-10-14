@@ -30,6 +30,25 @@ key 316   BUTTON_MODE
 key 158   BUTTON_THUMBL
 key 125   BUTTON_THUMBR
 
+# Extra buttons of newer boards (BTN_TRIGGER_HAPPY1..16 in the device tree), unused by
+# the stock layout. Settings > Button mapping shows the ones a console has as Extra button N.
+key 704   BUTTON_1
+key 705   BUTTON_2
+key 706   BUTTON_3
+key 707   BUTTON_4
+key 708   BUTTON_5
+key 709   BUTTON_6
+key 710   BUTTON_7
+key 711   BUTTON_8
+key 712   BUTTON_9
+key 713   BUTTON_10
+key 714   BUTTON_11
+key 715   BUTTON_12
+key 716   BUTTON_13
+key 717   BUTTON_14
+key 718   BUTTON_15
+key 719   BUTTON_16
+
 
 axis 0x00 X
 axis 0x01 Y

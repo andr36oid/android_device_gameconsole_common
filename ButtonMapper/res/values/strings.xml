@@ -25,6 +25,9 @@
     <string name="button_volume_down">Volume down button</string>
     <string name="button_volume_up">Volume up button</string>
     <string name="button_power">Power button</string>
+    <!-- Buttons some newer consoles have besides the usual ones, numbered -->
+    <string name="button_extra">Extra button <xliff:g id="number">%1$d</xliff:g></string>
+    <string name="section_extra_buttons">Extra buttons</string>
 
     <!-- What a button can do, grouped -->
     <string name="section_game">Game buttons</string>
@@ -53,6 +56,7 @@
     <string name="action_back">Back</string>
     <string name="action_home">Home screen</string>
     <string name="action_menu">App menu</string>
+    <string name="action_fn">Fn (tap for Home screen, hold for shortcuts)</string>
     <string name="action_screenshot">Take a screenshot</string>
     <string name="action_power">Power (sleep and power menu)</string>
     <string name="action_volume_up">Volume up</string>
@@ -63,6 +67,8 @@
     <string name="action_play_pause">Play / pause</string>
     <string name="action_next">Next track</string>
     <string name="action_previous">Previous track</string>
+    <!-- What an extra button does by default: a numbered game button (BUTTON_1 to 16) -->
+    <string name="action_button_number">Game button <xliff:g id="number">%1$d</xliff:g></string>
     <string name="action_nothing">Nothing (button off)</string>
 
     <!-- First choice in the list, puts the button back to what it did originally -->
@@ -79,6 +85,12 @@
     <string name="screen_hint_no_ok">Press a button to pick it.\n\nPress it again to change it.</string>
 
     <string name="rescue_tip">Buttons all mixed up? Hold both volume buttons for 5 seconds to reset them.</string>
+
+    <!-- A button picked to act as the Fn button, on consoles without one or by choice -->
+    <string name="fn_set">The <xliff:g id="button">%1$s</xliff:g> is Fn now: tap it for the Home screen, hold it and press another button for a shortcut.</string>
+    <string name="fn_replaced_button">The <xliff:g id="button">%1$s</xliff:g> is Fn now. Only one button can be Fn, so the <xliff:g id="old_button">%2$s</xliff:g> works as before again.</string>
+    <string name="fn_replaced_volume">The <xliff:g id="button">%1$s</xliff:g> is Fn now, instead of pressing both volume buttons together.</string>
+    <string name="fn_cleared">The <xliff:g id="button">%1$s</xliff:g> isn\'t Fn any more.</string>
 
     <string name="power_locked_title">The Power button stays as it is</string>
     <string name="power_locked_message">It\'s the only button that can wake up the console, so it always works as the Power button.</string>

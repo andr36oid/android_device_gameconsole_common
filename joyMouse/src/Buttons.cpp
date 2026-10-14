@@ -209,9 +209,23 @@ std::optional<Button> ButtonMap::button(int code) const {
     return static_cast<Button>(b);
 }
 
-std::vector<Button> defaultToggleChord(const ButtonMap& map) {
-    if (map.has(Button::L3) && map.has(Button::R3)) return {Button::L3, Button::R3};
-    if (map.has(Button::Select) && map.has(Button::Start)) return {Button::Select, Button::Start};
+ButtonSet parseMissingButtons(std::string_view list) {
+    ButtonSet missing{};
+    while (!list.empty()) {
+        const size_t comma = list.find(',');
+        const std::string_view name = trimView(list.substr(0, comma));
+        list.remove_prefix(comma == std::string_view::npos ? list.size() : comma + 1);
+        for (Button b : {Button::L2, Button::R2, Button::L3, Button::R3}) {
+            if (equalsIgnoreCase(name, buttonName(b))) missing[index(b)] = true;
+        }
+    }
+    return missing;
+}
+
+std::vector<Button> defaultToggleChord(const ButtonMap& map, const ButtonSet& missing) {
+    auto has = [&](Button b) { return map.has(b) && !missing[index(b)]; };
+    if (has(Button::L3) && has(Button::R3)) return {Button::L3, Button::R3};
+    if (has(Button::Select) && has(Button::Start)) return {Button::Select, Button::Start};
     return {};
 }
 

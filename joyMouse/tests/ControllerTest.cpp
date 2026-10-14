@@ -728,6 +728,21 @@ TEST_F(ControllerTest, SingleStickPad) {
     EXPECT_GT(mouse.sum(EV_REL, REL_X), 50);
 }
 
+// The device tree declares L3, the console has none (Settings.Global andr36oid_missing_buttons).
+TEST_F(ControllerTest, MissingStickClickUsesSelectStart) {
+    config.missingButtons = parseMissingButtons("l3");
+    reconfigure();
+    EXPECT_EQ(controller->chord().members(), (std::vector<Button>{Button::Select, Button::Start}));
+    // A chord set up with it falls back too.
+    config.toggle = std::vector<Button>{Button::L3, Button::R3};
+    reconfigure();
+    EXPECT_EQ(controller->chord().members(), (std::vector<Button>{Button::Select, Button::Start}));
+    key(BTN_SELECT, 1);
+    key(BTN_START, 1);
+    advance(msToNanos(config.toggleMs + 50));
+    EXPECT_NE(controller->mode(), Mode::Off);
+}
+
 TEST_F(ControllerTest, AutorepeatOnlyForPassThrough) {
     enterMouseMode();
     key(BTN_B, 1);

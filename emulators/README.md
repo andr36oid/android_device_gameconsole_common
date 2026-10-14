@@ -199,7 +199,7 @@ What the config sets:
 | Setting | Value | Why |
 |---|---|---|
 | saves and states | next to the game (`savefiles_in_content_dir`, `savestates_in_content_dir`, sorting off) | same place as ArkOS: `EASYROMS/gba/game.srm`, `game.state1` |
-| hotkeys | hold Select + Start quit (twice), R1/L1 save/load state, Up/Down state slot, X menu, A pause, B reset, Y screenshot, L3 fast forward; L1+R1+Start+Select menu | ArkOS's mapping |
+| hotkeys | hold Select + Start quit (twice), R1/L1 save/load state, Up/Down state slot, X menu, A pause, B reset, Y screenshot, L3 fast forward (R2, or Right, on a console without L3, see below); L1+R1+Start+Select menu | ArkOS's mapping |
 | `autosave_interval` | 10 s (also RetroArch's Android default) | FN (Home) only pauses RetroArch; if Android later closes it in the background, at most 10 s of in-game saving is lost |
 | `menu_driver` | `rgui` | ArkOS's menu; readable at 640x480, needs no assets (Android's default Material UI is for touch) |
 | `video_threaded` | on | as ArkOS, keeps the Cortex-A35 at full speed |
@@ -268,6 +268,13 @@ Also for every controller, not only player 1's:
 The Select hotkeys (save/load state, fast forward...) only work on player 1's pad:
 RetroArch 1.22 reads hotkeys from player 1 only (`input_keys_pressed`, "Hotkeys are only
 relevant for the first user"). Whoever wants them on the big pad makes it player 1.
+
+On a console without L3 (Settings.Global `andr36oid_missing_buttons`, written by Quick
+start and Settings > Controls, or before that the `andr36oid,missing-buttons` hint in the
+joypad's device tree node) the fast forward hotkey moves from Select + L3 to Select + R2,
+or Select + Right when R2 is missing too (`ra_hotkeys`). It runs at every boot, so it
+covers the freshly seeded retroarch.cfg and a later change of the buttons check (applied
+at the next boot), and it moves back to L3 when the console turns out to have it.
 
 These settings are changed at boot only while they are unset, RetroArch's default or
 what the service wrote last time (`/data/misc/gameconsole/retroarch-managed/<key>`), so
