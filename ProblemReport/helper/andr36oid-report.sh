@@ -454,6 +454,7 @@ crashes.txt   crash reports (tombstones, ANRs): the list and the newest few,
 power.txt     battery and charger (power_supply), sleep, temperatures
               (thermal zones), CPU speeds, dumpsys battery/power/alarm
 devices.txt   USB devices, input devices (buttons, sticks) and their events,
+              the last Find an unknown button scans (pin levels, ADC inputs),
               the SD cards (maker, name, date, ID without the serial number),
               network addresses, dumpsys input/usb/ethernet/audio/display,
               storage volumes
@@ -895,6 +896,9 @@ done
 # what Settings > USB devices said the last time it was open (drivers, chips)
 show devices.txt /data/data/org.andr36oid.usbmode/files/usb-check.txt
 show devices.txt /proc/bus/input/devices
+# Buttons on this console > Find an unknown button: the last scans, nothing touched and
+# the unknown button held (the extra_buttons setting is in the Kernel Tweaks list)
+show devices.txt /data/system/andr36oid-gpio-scan-idle.txt /data/system/andr36oid-gpio-scan-held.txt
 # built-in controls: rumble motor (pwm, gpio or none) and strength, stick settings
 J=/sys/devices/platform/odroidgo3-joypad
 show devices.txt $J/rumble $J/rumble_strength $J/rumble_period $J/stick_deadzone $J/stick_cal
