@@ -1,0 +1,12 @@
+// Settings > Display > Panel overclocking > Smoothness test: a block moving one step per
+// frame and the frame rate the app really gets, to see whether a refresh rate holds up.
+android_app {
+    name: "SmoothnessTest",
+    srcs: ["src/**/*.java"],
+    resource_dirs: ["res"],
+    certificate: "platform",
+    platform_apis: true,
+    optimize: {
+        enabled: false,
+    },
+}

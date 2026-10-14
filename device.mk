@@ -583,6 +583,10 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
 	ControllerTest
 
+# Smoothness test (Settings > Display > Panel overclocking)
+PRODUCT_PACKAGES += \
+	SmoothnessTest
+
 # Low battery warning on top of games (Settings > Battery > Low battery warning),
 # game mode: Do Not Disturb while playing (Settings > Game mode, Quick Settings tile),
 # and Continue playing: back into the last game (tile, FN + A, power menu); its root
