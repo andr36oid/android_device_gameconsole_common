@@ -3,7 +3,7 @@
     <!-- Settings > Controls > Buttons on this console: press every button once -->
     <string name="check_title">Bu konsoldaki tuşlar</string>
     <string name="check_intro">Her tuşa bir kez basın. FN ana ekranı açar, sonra bu sayfa kendiliğinden geri gelir.</string>
-    <string name="check_how_to_finish">Bitirmek için Start tuşunu 2 saniye basılı tutun ya da Bitti seçin.</string>
+    <string name="check_how_to_finish">Bitirmek için Start tuşunu 2 saniye basılı tutun ya da Bitti seçin. Kaydetmeden çıkmak için B tuşunu basılı tutun.</string>
     <string name="check_done">Bitti</string>
     <!-- At the top, e.g. "Current setting: No Fn, no L3/R3" -->
     <string name="check_saved">Mevcut ayar: %1$s</string>
@@ -17,6 +17,9 @@
     <string name="check_missing">Bu konsolda şu yok: %1$s.\n\nBunlardan biri varsa Geri seçin ve tuşa basın.</string>
     <string name="check_missing_save">Kaydet</string>
     <string name="check_missing_back">Geri</string>
+    <string name="check_leave_unsaved">Kaydetmeden çık</string>
+    <string name="check_reset">Varsayılana sıfırla</string>
+    <string name="check_reset_confirm">Bu konsolda hangi tuşların olduğu ve FN yerine ne geçtiği unutulsun mu? andr36oid\'in bu model hakkında bildiklerine geri döner ve FN yine FN tuşu olur.</string>
     <string name="check_saved_toast">Kaydedildi: %1$s</string>
 
     <!-- Summaries: "All buttons", "No Fn, no L3/R3" -->

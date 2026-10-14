@@ -3,7 +3,7 @@
     <!-- Settings > Controls > Buttons on this console: press every button once -->
     <string name="check_title">Botones de esta consola</string>
     <string name="check_intro">Pulsa cada botón una vez. FN abre la pantalla de inicio y luego esta página vuelve sola.</string>
-    <string name="check_how_to_finish">Para terminar, mantén Start 2 segundos o elige Hecho.</string>
+    <string name="check_how_to_finish">Para terminar, mantén Start 2 segundos o elige Hecho. Para salir sin guardar, mantén B.</string>
     <string name="check_done">Hecho</string>
     <!-- At the top, e.g. "Current setting: No Fn, no L3/R3" -->
     <string name="check_saved">Ajuste actual: %1$s</string>
@@ -17,6 +17,9 @@
     <string name="check_missing">Esta consola no tiene: %1$s.\n\nSi tiene alguno, elige Volver y púlsalo.</string>
     <string name="check_missing_save">Guardar</string>
     <string name="check_missing_back">Volver</string>
+    <string name="check_leave_unsaved">Salir sin guardar</string>
+    <string name="check_reset">Restablecer</string>
+    <string name="check_reset_confirm">¿Olvidar qué botones tiene esta consola y qué hace de FN? Vuelve a lo que andr36oid sabe de este modelo, y FN vuelve a ser el botón FN.</string>
     <string name="check_saved_toast">Guardado: %1$s</string>
 
     <!-- Summaries: "All buttons", "No Fn, no L3/R3" -->

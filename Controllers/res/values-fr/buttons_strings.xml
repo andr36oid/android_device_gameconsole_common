@@ -3,7 +3,7 @@
     <!-- Settings > Controls > Buttons on this console: press every button once -->
     <string name="check_title">Boutons de cette console</string>
     <string name="check_intro">Appuie une fois sur chaque bouton. FN ouvre l\'écran d\'accueil, puis cette page revient toute seule.</string>
-    <string name="check_how_to_finish">Pour finir, maintiens Start pendant 2 secondes ou choisis Terminé.</string>
+    <string name="check_how_to_finish">Pour finir, maintiens Start pendant 2 secondes ou choisis Terminé. Pour quitter sans enregistrer, maintiens B.</string>
     <string name="check_done">Terminé</string>
     <!-- At the top, e.g. "Current setting: No Fn, no L3/R3" -->
     <string name="check_saved">Réglage actuel : %1$s</string>
@@ -17,6 +17,9 @@
     <string name="check_missing">Cette console n\'a pas : %1$s.\n\nSi elle en a un, choisis Retour et appuie dessus.</string>
     <string name="check_missing_save">Enregistrer</string>
     <string name="check_missing_back">Retour</string>
+    <string name="check_leave_unsaved">Quitter sans enregistrer</string>
+    <string name="check_reset">Réinitialiser</string>
+    <string name="check_reset_confirm">Oublier quels boutons cette console a et ce qui fait office de FN ? Tout revient à ce qu\'andr36oid sait de ce modèle, et FN redevient le bouton FN.</string>
     <string name="check_saved_toast">Enregistré : %1$s</string>
 
     <!-- Summaries: "All buttons", "No Fn, no L3/R3" -->

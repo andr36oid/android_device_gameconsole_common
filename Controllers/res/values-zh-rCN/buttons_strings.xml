@@ -3,7 +3,7 @@
     <!-- Settings > Controls > Buttons on this console: press every button once -->
     <string name="check_title">本机按键</string>
     <string name="check_intro">每个按键各按一次。FN 会打开主屏幕，然后这个页面会自动返回。</string>
-    <string name="check_how_to_finish">要结束，请长按 Start 2 秒，或选择“完成”。</string>
+    <string name="check_how_to_finish">要结束，请长按 Start 2 秒，或选择“完成”。要不保存直接离开，请长按 B。</string>
     <string name="check_done">完成</string>
     <!-- At the top, e.g. "Current setting: No Fn, no L3/R3" -->
     <string name="check_saved">当前设置：%1$s</string>
@@ -17,6 +17,9 @@
     <string name="check_missing">此主机没有：%1$s。\n\n如果它其实有其中之一，请选择“返回”，然后按下该键。</string>
     <string name="check_missing_save">保存</string>
     <string name="check_missing_back">返回</string>
+    <string name="check_leave_unsaved">不保存直接离开</string>
+    <string name="check_reset">恢复默认</string>
+    <string name="check_reset_confirm">要忘掉此主机有哪些按键、以及代替 FN 的是什么吗？会恢复到 andr36oid 对这个型号的已知设置，FN 就重新是 FN 键。</string>
     <string name="check_saved_toast">已保存：%1$s</string>
 
     <!-- Summaries: "All buttons", "No Fn, no L3/R3" -->

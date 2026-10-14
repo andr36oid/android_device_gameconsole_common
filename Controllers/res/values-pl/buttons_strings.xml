@@ -3,7 +3,7 @@
     <!-- Settings > Controls > Buttons on this console: press every button once -->
     <string name="check_title">Przyciski tej konsoli</string>
     <string name="check_intro">Naciśnij każdy przycisk raz. FN otwiera ekran główny, a potem ta strona wraca sama.</string>
-    <string name="check_how_to_finish">Aby zakończyć, przytrzymaj Start przez 2 sekundy albo wybierz Gotowe.</string>
+    <string name="check_how_to_finish">Aby zakończyć, przytrzymaj Start przez 2 sekundy albo wybierz Gotowe. Aby wyjść bez zapisywania, przytrzymaj B.</string>
     <string name="check_done">Gotowe</string>
     <!-- At the top, e.g. "Current setting: No Fn, no L3/R3" -->
     <string name="check_saved">Obecne ustawienie: %1$s</string>
@@ -17,6 +17,9 @@
     <string name="check_missing">Ta konsola nie ma: %1$s.\n\nJeśli jednak ma któryś z nich, wybierz Wstecz i naciśnij go.</string>
     <string name="check_missing_save">Zapisz</string>
     <string name="check_missing_back">Wstecz</string>
+    <string name="check_leave_unsaved">Wyjdź bez zapisywania</string>
+    <string name="check_reset">Przywróć domyślne</string>
+    <string name="check_reset_confirm">Zapomnieć, jakie przyciski ma ta konsola i co zastępuje FN? Wszystko wróci do tego, co andr36oid wie o tym modelu, a FN znów będzie przyciskiem FN.</string>
     <string name="check_saved_toast">Zapisano: %1$s</string>
 
     <!-- Summaries: "All buttons", "No Fn, no L3/R3" -->

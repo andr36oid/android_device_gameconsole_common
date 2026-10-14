@@ -3,7 +3,7 @@
     <!-- Settings > Controls > Buttons on this console: press every button once -->
     <string name="check_title">Кнопки этой консоли</string>
     <string name="check_intro">Нажмите каждую кнопку один раз. FN откроет главный экран, и потом эта страница вернётся сама.</string>
-    <string name="check_how_to_finish">Чтобы закончить, держите Start 2 секунды или выберите Готово.</string>
+    <string name="check_how_to_finish">Чтобы закончить, держите Start 2 секунды или выберите Готово. Чтобы выйти без сохранения, держите B.</string>
     <string name="check_done">Готово</string>
     <!-- At the top, e.g. "Current setting: No Fn, no L3/R3" -->
     <string name="check_saved">Текущая настройка: %1$s</string>
@@ -17,6 +17,9 @@
     <string name="check_missing">На этой консоли нет: %1$s.\n\nЕсли какая-то из них есть, выберите Назад и нажмите её.</string>
     <string name="check_missing_save">Сохранить</string>
     <string name="check_missing_back">Назад</string>
+    <string name="check_leave_unsaved">Выйти без сохранения</string>
+    <string name="check_reset">Сбросить на стандартные</string>
+    <string name="check_reset_confirm">Забыть, какие кнопки есть на этой консоли и что заменяет FN? Всё вернётся к тому, что andr36oid знает про эту модель, и FN снова станет кнопкой FN.</string>
     <string name="check_saved_toast">Сохранено: %1$s</string>
 
     <!-- Summaries: "All buttons", "No Fn, no L3/R3" -->

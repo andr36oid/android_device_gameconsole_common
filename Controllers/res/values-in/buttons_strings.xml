@@ -3,7 +3,7 @@
     <!-- Settings > Controls > Buttons on this console: press every button once -->
     <string name="check_title">Tombol di konsol ini</string>
     <string name="check_intro">Tekan setiap tombol sekali. FN membuka layar utama, lalu halaman ini kembali sendiri.</string>
-    <string name="check_how_to_finish">Untuk selesai, tahan Start selama 2 detik atau pilih Selesai.</string>
+    <string name="check_how_to_finish">Untuk selesai, tahan Start selama 2 detik atau pilih Selesai. Untuk keluar tanpa menyimpan, tahan B.</string>
     <string name="check_done">Selesai</string>
     <!-- At the top, e.g. "Current setting: No Fn, no L3/R3" -->
     <string name="check_saved">Setelan sekarang: %1$s</string>
@@ -17,6 +17,9 @@
     <string name="check_missing">Konsol ini tidak punya: %1$s.\n\nJika ternyata punya salah satunya, pilih Kembali lalu tekan tombolnya.</string>
     <string name="check_missing_save">Simpan</string>
     <string name="check_missing_back">Kembali</string>
+    <string name="check_leave_unsaved">Keluar tanpa menyimpan</string>
+    <string name="check_reset">Kembalikan ke default</string>
+    <string name="check_reset_confirm">Lupakan tombol apa saja yang dimiliki konsol ini dan apa yang menggantikan FN? Semuanya kembali ke yang diketahui andr36oid tentang model ini, dan FN jadi tombol FN lagi.</string>
     <string name="check_saved_toast">Tersimpan: %1$s</string>
 
     <!-- Summaries: "All buttons", "No Fn, no L3/R3" -->

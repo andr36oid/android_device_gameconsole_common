@@ -3,7 +3,7 @@
     <!-- Settings > Controls > Buttons on this console: press every button once -->
     <string name="check_title">Buttons an dieser Konsole</string>
     <string name="check_intro">Drück jede Taste einmal. FN öffnet den Startbildschirm, danach kommt diese Seite von selbst zurück.</string>
-    <string name="check_how_to_finish">Zum Beenden Start 2 Sekunden lang halten oder Fertig wählen.</string>
+    <string name="check_how_to_finish">Zum Beenden Start 2 Sekunden lang halten oder Fertig wählen. Um ohne Speichern zu verlassen, halte B.</string>
     <string name="check_done">Fertig</string>
     <!-- At the top, e.g. "Current setting: No Fn, no L3/R3" -->
     <string name="check_saved">Aktuelle Einstellung: %1$s</string>
@@ -17,6 +17,9 @@
     <string name="check_missing">Diese Konsole hat keine: %1$s.\n\nWenn sie eine davon doch hat, wähle Zurück und drück sie.</string>
     <string name="check_missing_save">Speichern</string>
     <string name="check_missing_back">Zurück</string>
+    <string name="check_leave_unsaved">Ohne Speichern verlassen</string>
+    <string name="check_reset">Auf Standard zurücksetzen</string>
+    <string name="check_reset_confirm">Vergessen, welche Tasten diese Konsole hat und was statt FN steht? Dann geht alles zurück auf das, was andr36oid über dieses Modell weiß, und FN ist wieder die FN-Taste.</string>
     <string name="check_saved_toast">Gespeichert: %1$s</string>
 
     <!-- Summaries: "All buttons", "No Fn, no L3/R3" -->
