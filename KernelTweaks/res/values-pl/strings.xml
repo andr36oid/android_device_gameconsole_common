@@ -30,6 +30,8 @@
     <string name="kt_failed">Nie udało się ustawić, wciąż <xliff:g id="value">%1$s</xliff:g></string>
     <string name="kt_once">Tylko do następnego uruchomienia</string>
     <string name="kt_paused_value">Wstrzymane: <xliff:g id="value">%1$s</xliff:g></string>
+    <!-- e.g. "On after a restart, Off now" -->
+    <string name="kt_after_restart"><xliff:g id="next">%1$s</xliff:g> po ponownym uruchomieniu, teraz <xliff:g id="now">%2$s</xliff:g></string>
 
     <!-- Dialogs -->
     <string name="kt_default_mark"><xliff:g id="value">%1$s</xliff:g> (domyślne)</string>
@@ -40,6 +42,8 @@
     <string name="kt_doc_default">Domyślnie na tej konsoli: <xliff:g id="value">%1$s</xliff:g></string>
     <!-- e.g. "Kernel file: /sys/power/mem_sleep" -->
     <string name="kt_doc_file">Plik jądra: <xliff:g id="path">%1$s</xliff:g></string>
+    <!-- e.g. "Start option: cpuidle.off=1 (takes effect after a restart)" -->
+    <string name="kt_doc_boot_option">Opcja startowa: <xliff:g id="option">%1$s</xliff:g> (działa po ponownym uruchomieniu)</string>
     <string name="kt_working">Stosowanie…</string>
 
     <!-- Values -->
@@ -51,6 +55,8 @@
     <string name="kt_unit_s"><xliff:g id="n">%1$s</xliff:g> sekund</string>
     <!-- e.g. "512 KB" -->
     <string name="kt_unit_kb"><xliff:g id="n">%1$s</xliff:g> KB</string>
+    <!-- e.g. "128 MB" -->
+    <string name="kt_unit_mb"><xliff:g id="n">%1$s</xliff:g> MB</string>
     <!-- e.g. "85 °C" -->
     <string name="kt_unit_c"><xliff:g id="n">%1$s</xliff:g> °C</string>
     <!-- e.g. "3 cores" -->
@@ -64,6 +70,7 @@
     <string name="kt_cat_storage">Karty SD</string>
     <string name="kt_cat_input">Sterowanie i dźwięk</string>
     <string name="kt_cat_debug">Awarie i logi</string>
+    <string name="kt_cat_boot">Przy starcie (wymaga ponownego uruchomienia)</string>
 
     <!-- Links to other pages -->
     <string name="kt_link_deep_sleep">Kroki głębokiego snu</string>
@@ -187,4 +194,36 @@
     <string name="kt_power_chip_log">Log układu zasilania</string>
     <string name="kt_power_chip_log_what">Pozwala częściom ładowania, miernika baterii i dźwięku układu zasilania (RK817) zapisywać, co robią.</string>
     <string name="kt_power_chip_log_why">Na wypadek skaczących procentów baterii, ładowania, które się zatrzymuje, albo dźwięku, który trzeszczy. Bardzo rozmowne, więc włącz to tylko podczas tworzenia raportu problemu.</string>
+
+    <!-- At start (needs a restart) -->
+    <string name="kt_serial_console">Konsola szeregowa</string>
+    <string name="kt_serial_console_what">Wysyła log jądra przez szeregowy port debugowania i pozwala wpisywać tam polecenia (UART2 w R36S, UART5 w klonach EE).</string>
+    <string name="kt_serial_console_why">Przydaje się tylko z adapterem USB-szeregowym przylutowanym do płytki. Domyślnie wyłączone: w niektórych klonach niepodłączony pin szeregowy wybudza konsolę ze snu, a każda linia logu kosztuje trochę czasu, gdy to jest włączone.</string>
+
+    <string name="kt_boot_log_level">Poziom szczegółowości logu jądra przy starcie</string>
+    <string name="kt_boot_log_level_what">Ile jądro zapisuje od pierwszej chwili uruchamiania, zanim wystartuje Android. Ustawienie „Poziom szczegółowości logu jądra” wyżej zaczyna działać dopiero później.</string>
+    <string name="kt_boot_log_level_why">Dla konsol, które zawieszają się albo restartują podczas uruchamiania. Z włączoną konsolą szeregową to samo trafia też na port szeregowy.</string>
+
+    <string name="kt_cma_size">Pamięć grafiki i wideo</string>
+    <string name="kt_cma_default">Domyślne jądra</string>
+    <string name="kt_cma_size_what">Ile pamięci jest odkładane przy starcie na ekran, grafikę i dekodowanie wideo (CMA). Reszta zostaje dla aplikacji.</string>
+    <string name="kt_cma_size_why">Mniej daje grom i aplikacjom więcej miejsca, co pomaga na konsolach z 1 GB i 512 MB. Za mało i filmy albo niektóre emulatory się nie uruchomią. Jeśli tak się stanie, wróć do domyślnej wartości.</string>
+
+    <string name="kt_cpu_idle">Wyłączanie bezczynnych rdzeni</string>
+    <string name="kt_cpu_idle_what">Pozwala bezczynnym rdzeniom wejść w głębszy stan oszczędzania energii. Wyłączone trzyma je w najpłytszym.</string>
+    <string name="kt_cpu_idle_why">Jeśli konsola zawiesza się losowo albo podczas snu, wyłączenie tego wyklucza stany bezczynności. Kosztuje to trochę baterii.</string>
+
+    <string name="kt_timer_tick">Takt zegara</string>
+    <string name="kt_timer_tick_idle">Staje w bezczynności (normalnie)</string>
+    <string name="kt_timer_tick_always">Działa zawsze</string>
+    <string name="kt_timer_tick_what">Czy zegar jądra dalej tyka na bezczynnych rdzeniach, czy czeka, aż pojawi się praca.</string>
+    <string name="kt_timer_tick_why">Pauza oszczędza baterię. Ciągłe działanie może wygładzić przycięcia w niektórych emulatorach i wyklucza problemy z zegarem przy szukaniu zawieszeń. Kosztuje to trochę baterii.</string>
+
+    <string name="kt_boot_timing">Mierz czas startu</string>
+    <string name="kt_boot_timing_what">Zapisuje w logu, ile czasu zajmuje uruchomienie każdej części jądra.</string>
+    <string name="kt_boot_timing_why">Do szukania tego, co spowalnia start albo gdzie się zawiesza. Dodaje mnóstwo linii do logu, więc wyłącz to, gdy raport problemu będzie gotowy.</string>
+
+    <string name="kt_usb_autosuspend">Oszczędzanie energii USB</string>
+    <string name="kt_usb_autosuspend_what">Pozwala urządzeniom USB (kontrolery, karty Wi-Fi, klawiatury) wyłączać się, gdy nie są używane.</string>
+    <string name="kt_usb_autosuspend_why">Niektóre tanie kontrolery USB i karty Wi-Fi rozłączają się albo lagują po przerwie. Wyłączone trzyma je aktywne, kosztem trochę baterii.</string>
 </resources>

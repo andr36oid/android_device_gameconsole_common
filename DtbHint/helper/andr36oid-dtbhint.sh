@@ -268,8 +268,9 @@ gather() {
 
 # ---- BOOT ----
 
-# boot_lock <seconds> ; the same in andr36oid-report.sh, andr36oid-dtbhint.sh and
-# andr36oid-cardsetup.sh. The start-up helpers take turns with BOOT: Linux won't
+# boot_lock <seconds> ; the same in andr36oid-report.sh, andr36oid-dtbhint.sh,
+# andr36oid-ktweaks.sh and andr36oid-cardsetup.sh. The start-up helpers take turns
+# with BOOT: Linux won't
 # mount it a second time with the other ro/rw flag. The lock is a folder in /dev
 # (a restart clears it) with the holder's pid; a holder that was killed is
 # noticed by its pid, and its BOOT mount is taken away. False after waiting

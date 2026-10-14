@@ -22,6 +22,8 @@ final class Tweak {
     final String file;
     /** sys.andr36oid.kt.* instead of persist: gone after a restart */
     boolean once;
+    /** a kernel command line option: takes effect at the next start */
+    boolean atBoot;
     String[] values = {};
     /** a label per value, or 0 to use {@link #unit} */
     int[] labels;
@@ -69,6 +71,11 @@ final class Tweak {
 
     Tweak once() {
         once = true;
+        return this;
+    }
+
+    Tweak atBoot() {
+        atBoot = true;
         return this;
     }
 

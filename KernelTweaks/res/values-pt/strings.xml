@@ -28,6 +28,8 @@
     <string name="kt_failed">Não foi possível aplicar, continua em <xliff:g id="value">%1$s</xliff:g></string>
     <string name="kt_once">Só até ao próximo reinício</string>
     <string name="kt_paused_value">Em pausa: <xliff:g id="value">%1$s</xliff:g></string>
+    <!-- e.g. "On after a restart, Off now" -->
+    <string name="kt_after_restart"><xliff:g id="next">%1$s</xliff:g> depois de reiniciar, <xliff:g id="now">%2$s</xliff:g> agora</string>
 
     <!-- Dialogs -->
     <string name="kt_default_mark"><xliff:g id="value">%1$s</xliff:g> (predefinição)</string>
@@ -38,6 +40,8 @@
     <string name="kt_doc_default">Predefinição nesta consola: <xliff:g id="value">%1$s</xliff:g></string>
     <!-- e.g. "Kernel file: /sys/power/mem_sleep" -->
     <string name="kt_doc_file">Ficheiro do kernel: <xliff:g id="path">%1$s</xliff:g></string>
+    <!-- e.g. "Start option: cpuidle.off=1 (takes effect after a restart)" -->
+    <string name="kt_doc_boot_option">Opção de arranque: <xliff:g id="option">%1$s</xliff:g> (só tem efeito depois de reiniciar)</string>
     <string name="kt_working">A aplicar…</string>
 
     <!-- Values -->
@@ -49,6 +53,8 @@
     <string name="kt_unit_s"><xliff:g id="n">%1$s</xliff:g> segundos</string>
     <!-- e.g. "512 KB" -->
     <string name="kt_unit_kb"><xliff:g id="n">%1$s</xliff:g> KB</string>
+    <!-- e.g. "128 MB" -->
+    <string name="kt_unit_mb"><xliff:g id="n">%1$s</xliff:g> MB</string>
     <!-- e.g. "85 °C" -->
     <string name="kt_unit_c"><xliff:g id="n">%1$s</xliff:g> °C</string>
     <!-- e.g. "3 cores" -->
@@ -62,6 +68,7 @@
     <string name="kt_cat_storage">Cartões SD</string>
     <string name="kt_cat_input">Comandos e som</string>
     <string name="kt_cat_debug">Bloqueios e registos</string>
+    <string name="kt_cat_boot">No arranque (precisa de reiniciar)</string>
 
     <!-- Links to other pages -->
     <string name="kt_link_deep_sleep">Passos do sono profundo</string>
@@ -185,4 +192,36 @@
     <string name="kt_power_chip_log">Registo do chip de energia</string>
     <string name="kt_power_chip_log_what">Deixa as partes de carregamento, medidor de bateria e som do chip de energia (RK817) registarem o que estão a fazer.</string>
     <string name="kt_power_chip_log_why">Para percentagens de bateria que saltam, carregamento que para, ou som que crepita. Muito tagarela, por isso ativa isto só enquanto estiveres a fazer um relatório de problemas.</string>
+
+    <!-- At start (needs a restart) -->
+    <string name="kt_serial_console">Consola série</string>
+    <string name="kt_serial_console_what">Envia o registo do kernel pela porta série de depuração e deixa-te escrever comandos lá (UART2 na R36S, UART5 nos clones EE).</string>
+    <string name="kt_serial_console_why">Só é útil com um adaptador série USB soldado à placa. Desativado por predefinição: em alguns clones um pino série solto acorda a consola da suspensão, e cada linha do registo custa um pouco de tempo enquanto isto está ativo.</string>
+
+    <string name="kt_boot_log_level">Detalhe do registo do kernel no arranque</string>
+    <string name="kt_boot_log_level_what">Quanto o kernel regista desde o primeiro instante do arranque, antes de o Android estar pronto. O ajuste \"Detalhe do registo do kernel\" acima só entra em ação mais tarde.</string>
+    <string name="kt_boot_log_level_why">Para consolas que encravam ou reiniciam durante o arranque. Com a consola série ativa, isto também é o que sai pela porta série.</string>
+
+    <string name="kt_cma_size">Memória de gráficos e vídeo</string>
+    <string name="kt_cma_default">Predefinição do kernel</string>
+    <string name="kt_cma_size_what">Quanta memória é reservada no arranque para o ecrã, os gráficos e a descodificação de vídeo (CMA). O resto fica para as aplicações.</string>
+    <string name="kt_cma_size_why">Menos dá mais espaço aos jogos e aplicações, o que ajuda em consolas de 1 GB e 512 MB. Se for pouco demais, os vídeos ou alguns emuladores não arrancam. Se isso acontecer, volta à predefinição.</string>
+
+    <string name="kt_cpu_idle">Desligar núcleos inativos</string>
+    <string name="kt_cpu_idle_what">Deixa os núcleos inativos entrar num estado de poupança de energia mais profundo. Desativado mantém-nos no mais leve.</string>
+    <string name="kt_cpu_idle_why">Se a consola congelar ao acaso ou em suspensão, desativar isto exclui os estados de inatividade. Gasta alguma bateria.</string>
+
+    <string name="kt_timer_tick">Tique do temporizador</string>
+    <string name="kt_timer_tick_idle">Para quando inativo (normal)</string>
+    <string name="kt_timer_tick_always">Sempre ativo</string>
+    <string name="kt_timer_tick_what">Se o temporizador do kernel continua a contar nos núcleos inativos, ou faz uma pausa até haver trabalho.</string>
+    <string name="kt_timer_tick_why">A pausa poupa bateria. Sempre ativo pode suavizar engasgos em alguns emuladores e exclui problemas do temporizador ao procurar bloqueios. Gasta alguma bateria.</string>
+
+    <string name="kt_boot_timing">Registar tempos de arranque</string>
+    <string name="kt_boot_timing_what">Regista quanto tempo cada parte do kernel demora a arrancar.</string>
+    <string name="kt_boot_timing_why">Para descobrir o que torna um arranque lento ou onde encrava. Acrescenta muitas linhas ao registo, por isso desativa outra vez depois de fazeres o relatório de problemas.</string>
+
+    <string name="kt_usb_autosuspend">Poupança de energia USB</string>
+    <string name="kt_usb_autosuspend_what">Deixa os dispositivos USB (comandos, adaptadores Wi-Fi, teclados) desligarem-se quando não estão a ser usados.</string>
+    <string name="kt_usb_autosuspend_why">Alguns comandos USB e adaptadores Wi-Fi baratos desligam-se ou ficam lentos depois de uma pausa. Desativado mantém-nos acordados, à custa de alguma bateria.</string>
 </resources>

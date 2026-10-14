@@ -120,6 +120,50 @@ final class Tweaks {
                 .values("N", "Y")
                 .labels(R.string.kt_hp_det_normal, R.string.kt_hp_det_flipped)));
 
+        // Kernel command line options, through BOOT/kernel-tweaks.txt (boot.ini adds it)
+        list.add(new Category(R.string.kt_cat_boot, null, null, 0, 0)
+            .add(Tweak.choice("serial_console", R.string.kt_serial_console,
+                    R.string.kt_serial_console_what, R.string.kt_serial_console_why,
+                    "console=ttyS2,115200n8 fiq_debugger.disable=0")
+                .values("off", "on")
+                .labels(R.string.kt_off, R.string.kt_on)
+                .atBoot())
+            .add(Tweak.choice("boot_log_level", R.string.kt_boot_log_level,
+                    R.string.kt_boot_log_level_what, R.string.kt_boot_log_level_why,
+                    "loglevel=")
+                .values("4", "7", "8")
+                .labels(R.string.kt_log_level_4, R.string.kt_log_level_7,
+                        R.string.kt_log_level_8)
+                .atBoot())
+            .add(Tweak.choice("cma_size", R.string.kt_cma_size,
+                    R.string.kt_cma_size_what, R.string.kt_cma_size_why, "cma=")
+                .values("default", "64", "96", "128", "192")
+                .labels(R.string.kt_cma_default, 0, 0, 0, 0)
+                .unit(R.string.kt_unit_mb)
+                .atBoot())
+            .add(Tweak.choice("cpu_idle", R.string.kt_cpu_idle,
+                    R.string.kt_cpu_idle_what, R.string.kt_cpu_idle_why, "cpuidle.off=1")
+                .values("on", "off")
+                .labels(R.string.kt_on, R.string.kt_off)
+                .atBoot())
+            .add(Tweak.choice("timer_tick", R.string.kt_timer_tick,
+                    R.string.kt_timer_tick_what, R.string.kt_timer_tick_why, "nohz=off")
+                .values("on", "off")
+                .labels(R.string.kt_timer_tick_idle, R.string.kt_timer_tick_always)
+                .atBoot())
+            .add(Tweak.choice("boot_timing", R.string.kt_boot_timing,
+                    R.string.kt_boot_timing_what, R.string.kt_boot_timing_why,
+                    "initcall_debug")
+                .values("0", BOOL01_ON)
+                .labels(R.string.kt_off, R.string.kt_on)
+                .atBoot())
+            .add(Tweak.choice("usb_autosuspend", R.string.kt_usb_autosuspend,
+                    R.string.kt_usb_autosuspend_what, R.string.kt_usb_autosuspend_why,
+                    "usbcore.autosuspend=-1")
+                .values("on", "off")
+                .labels(R.string.kt_on, R.string.kt_off)
+                .atBoot()));
+
         list.add(new Category(R.string.kt_cat_debug, null, null, 0, 0)
             .add(Tweak.choice("log_level", R.string.kt_log_level,
                     R.string.kt_log_level_what, R.string.kt_log_level_why,

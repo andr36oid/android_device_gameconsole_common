@@ -116,8 +116,9 @@ show() {
 
 # ---- BOOT (partition 1, FAT) ----
 
-# boot_lock <seconds> ; the same in andr36oid-report.sh, andr36oid-dtbhint.sh and
-# andr36oid-cardsetup.sh. The start-up helpers take turns with BOOT: Linux won't
+# boot_lock <seconds> ; the same in andr36oid-report.sh, andr36oid-dtbhint.sh,
+# andr36oid-ktweaks.sh and andr36oid-cardsetup.sh. The start-up helpers take turns
+# with BOOT: Linux won't
 # mount it a second time with the other ro/rw flag. The lock is a folder in /dev
 # (a restart clears it) with the holder's pid; a holder that was killed is
 # noticed by its pid, and its BOOT mount is taken away. False after waiting
@@ -297,6 +298,34 @@ boot_result() {
 
 # dtb_info ; the DTB boot.ini loads, and which Panels/Experimental copy on BOOT
 # each top DTB is the same as (clones differ only there). BOOT must be open.
+# ktweaks_info ; the kernel command line and every Kernel Tweak that isn't the
+# default (saved, this start only, or what the kernel has now), with the start
+# options in kernel-tweaks.txt on BOOT ($BOOT when it's open)
+ktweaks_info() {
+	local key saved once now def
+	echo "Kernel command line: $(cat /proc/cmdline 2>/dev/null)"
+	echo "Kernel Tweaks: paused=$(getprop persist.andr36oid.kt.paused)," \
+		"didn't apply=$(getprop sys.andr36oid.kt.failed)"
+	echo "  start options this start: $(getprop sys.andr36oid.kt.started_with)"
+	echo "  start options for the next start: $(getprop sys.andr36oid.kt.args)"
+	if [ -n "$BOOT" ]; then
+		if [ -e "$BOOT/kernel-tweaks.txt" ]; then
+			echo "  BOOT/kernel-tweaks.txt: $(sed -n 's/^kt_args=//p' "$BOOT/kernel-tweaks.txt" | cap 4096)"
+		else
+			echo "  BOOT/kernel-tweaks.txt: none"
+		fi
+	fi
+	getprop | sed -n 's/^\[sys\.andr36oid\.ktd\.\([a-z0-9_]*\)\]: .*/\1/p' | while read -r key; do
+		saved=$(getprop "persist.andr36oid.kt.$key")
+		once=$(getprop "sys.andr36oid.kt.$key")
+		def=$(getprop "sys.andr36oid.ktd.$key")
+		now=$(getprop "sys.andr36oid.ktc.$key")
+		[ -n "$now" ] || now=$def
+		[ -n "$saved$once" ] || [ "$now" != "$def" ] || continue
+		echo "  $key: now '$now', default '$def', saved '$saved', this start only '$once'"
+	done
+}
+
 dtb_info() {
 	local f h
 	if [ -z "$BOOT" ]; then
@@ -503,9 +532,12 @@ startlog_collect() {
 		echo "Board revision (U-Boot hwrev): $(getprop ro.boot.revision)"
 		if boot_open; then
 			dtb_info
+			echo
+			ktweaks_info
 			boot_close
 		else
 			echo "BOOT: not readable"
+			ktweaks_info
 		fi
 		echo
 	} >"$WORK/summary.txt"
@@ -763,6 +795,8 @@ step 1 system
 	echo "Device tree compatible: $(tr '\0' ' ' </proc/device-tree/compatible 2>/dev/null)"
 	echo "Board revision (U-Boot hwrev): $(getprop ro.boot.revision)"
 	dtb_info
+	echo
+	ktweaks_info
 	echo
 } >>"$WORK/summary.txt"
 # not mounted while the rest is collected (minutes): other helpers use BOOT too

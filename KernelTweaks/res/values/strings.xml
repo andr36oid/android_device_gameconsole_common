@@ -28,6 +28,8 @@
     <string name="kt_failed">Couldn\'t set this, still <xliff:g id="value">%1$s</xliff:g></string>
     <string name="kt_once">Only until the next restart</string>
     <string name="kt_paused_value">Paused: <xliff:g id="value">%1$s</xliff:g></string>
+    <!-- e.g. "On after a restart, Off now" -->
+    <string name="kt_after_restart"><xliff:g id="next">%1$s</xliff:g> after a restart, <xliff:g id="now">%2$s</xliff:g> now</string>
 
     <!-- Dialogs -->
     <string name="kt_default_mark"><xliff:g id="value">%1$s</xliff:g> (default)</string>
@@ -38,6 +40,8 @@
     <string name="kt_doc_default">Default on this console: <xliff:g id="value">%1$s</xliff:g></string>
     <!-- e.g. "Kernel file: /sys/power/mem_sleep" -->
     <string name="kt_doc_file">Kernel file: <xliff:g id="path">%1$s</xliff:g></string>
+    <!-- e.g. "Start option: cpuidle.off=1 (takes effect after a restart)" -->
+    <string name="kt_doc_boot_option">Start option: <xliff:g id="option">%1$s</xliff:g> (takes effect after a restart)</string>
     <string name="kt_working">Applying…</string>
 
     <!-- Values -->
@@ -49,6 +53,8 @@
     <string name="kt_unit_s"><xliff:g id="n">%1$s</xliff:g> seconds</string>
     <!-- e.g. "512 KB" -->
     <string name="kt_unit_kb"><xliff:g id="n">%1$s</xliff:g> KB</string>
+    <!-- e.g. "128 MB" -->
+    <string name="kt_unit_mb"><xliff:g id="n">%1$s</xliff:g> MB</string>
     <!-- e.g. "85 °C" -->
     <string name="kt_unit_c"><xliff:g id="n">%1$s</xliff:g> °C</string>
     <!-- e.g. "3 cores" -->
@@ -62,6 +68,7 @@
     <string name="kt_cat_storage">SD cards</string>
     <string name="kt_cat_input">Controls and sound</string>
     <string name="kt_cat_debug">Crashes and logs</string>
+    <string name="kt_cat_boot">At start (needs a restart)</string>
 
     <!-- Links to other pages -->
     <string name="kt_link_deep_sleep">Deep sleep steps</string>
@@ -185,4 +192,36 @@
     <string name="kt_power_chip_log">Power chip log</string>
     <string name="kt_power_chip_log_what">Lets the charger, battery gauge and sound parts of the power chip (RK817) log what they\'re doing.</string>
     <string name="kt_power_chip_log_why">For battery percentages that jump around, charging that stops or sound that crackles. Very chatty, so only switch it on while you\'re making a problem report.</string>
+
+    <!-- At start (needs a restart) -->
+    <string name="kt_serial_console">Serial console</string>
+    <string name="kt_serial_console_what">Sends the kernel log out of the debug serial port and lets you type commands there (UART2 on the R36S, UART5 on EE clones).</string>
+    <string name="kt_serial_console_why">Only useful with a USB serial adapter soldered to the board. Off by default: on some clones a floating serial pin wakes the console from sleep, and every log line costs a little time while it\'s on.</string>
+
+    <string name="kt_boot_log_level">Kernel log detail at start</string>
+    <string name="kt_boot_log_level_what">How much the kernel logs from the very first moment of a start, before Android is up. The \"Kernel log detail\" setting above only kicks in later.</string>
+    <string name="kt_boot_log_level_why">For consoles that hang or restart while starting. With the serial console on, this is also what goes out of the serial port.</string>
+
+    <string name="kt_cma_size">Graphics and video memory</string>
+    <string name="kt_cma_default">Kernel default</string>
+    <string name="kt_cma_size_what">How much memory is set aside at start for the screen, graphics and video decoding (CMA). The rest is left for apps.</string>
+    <string name="kt_cma_size_why">Less gives games and apps more room, which helps on 1 GB and 512 MB consoles. Too little and videos or some emulators fail to start. If that happens, go back to the default.</string>
+
+    <string name="kt_cpu_idle">Core power-down when idle</string>
+    <string name="kt_cpu_idle_what">Lets idle cores go into a deeper power-saving state. Off keeps them in the lightest one.</string>
+    <string name="kt_cpu_idle_why">If the console freezes randomly or in sleep, switching this off rules the idle states out. It costs some battery.</string>
+
+    <string name="kt_timer_tick">Timer tick</string>
+    <string name="kt_timer_tick_idle">Stops when idle (normal)</string>
+    <string name="kt_timer_tick_always">Always runs</string>
+    <string name="kt_timer_tick_what">Whether the kernel\'s timer keeps ticking on idle cores, or pauses until there\'s work.</string>
+    <string name="kt_timer_tick_why">Pausing saves battery. Always running can smooth out stutter in some emulators and rules out timer trouble when chasing freezes. It costs some battery.</string>
+
+    <string name="kt_boot_timing">Log start timing</string>
+    <string name="kt_boot_timing_what">Logs how long each part of the kernel takes to start.</string>
+    <string name="kt_boot_timing_why">For finding what makes a start slow or where it hangs. Adds lots of lines to the log, so switch it off again once the problem report is made.</string>
+
+    <string name="kt_usb_autosuspend">USB power saving</string>
+    <string name="kt_usb_autosuspend_what">Lets USB devices (controllers, Wi-Fi sticks, keyboards) power down when they\'re not in use.</string>
+    <string name="kt_usb_autosuspend_why">Some cheap USB controllers and Wi-Fi sticks drop out or lag after a pause. Off keeps them awake, at the cost of some battery.</string>
 </resources>

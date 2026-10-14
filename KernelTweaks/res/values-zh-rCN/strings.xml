@@ -27,6 +27,8 @@
     <string name="kt_failed">设置失败，仍为 <xliff:g id="value">%1$s</xliff:g></string>
     <string name="kt_once">仅到下次重启为止</string>
     <string name="kt_paused_value">已暂停：<xliff:g id="value">%1$s</xliff:g></string>
+    <!-- e.g. "On after a restart, Off now" -->
+    <string name="kt_after_restart">重启后为<xliff:g id="next">%1$s</xliff:g>，当前为<xliff:g id="now">%2$s</xliff:g></string>
 
     <!-- Dialogs -->
     <string name="kt_default_mark"><xliff:g id="value">%1$s</xliff:g>（默认）</string>
@@ -37,6 +39,8 @@
     <string name="kt_doc_default">此主机的默认值：<xliff:g id="value">%1$s</xliff:g></string>
     <!-- e.g. "Kernel file: /sys/power/mem_sleep" -->
     <string name="kt_doc_file">内核文件：<xliff:g id="path">%1$s</xliff:g></string>
+    <!-- e.g. "Start option: cpuidle.off=1 (takes effect after a restart)" -->
+    <string name="kt_doc_boot_option">启动参数：<xliff:g id="option">%1$s</xliff:g>（重启后生效）</string>
     <string name="kt_working">正在应用…</string>
 
     <!-- Values -->
@@ -48,6 +52,8 @@
     <string name="kt_unit_s"><xliff:g id="n">%1$s</xliff:g> 秒</string>
     <!-- e.g. "512 KB" -->
     <string name="kt_unit_kb"><xliff:g id="n">%1$s</xliff:g> KB</string>
+    <!-- e.g. "128 MB" -->
+    <string name="kt_unit_mb"><xliff:g id="n">%1$s</xliff:g> MB</string>
     <!-- e.g. "85 °C" -->
     <string name="kt_unit_c"><xliff:g id="n">%1$s</xliff:g> °C</string>
     <!-- e.g. "3 cores" -->
@@ -61,6 +67,7 @@
     <string name="kt_cat_storage">SD 卡</string>
     <string name="kt_cat_input">操控与声音</string>
     <string name="kt_cat_debug">崩溃与日志</string>
+    <string name="kt_cat_boot">启动时（需要重启）</string>
 
     <!-- Links to other pages -->
     <string name="kt_link_deep_sleep">深度睡眠步骤</string>
@@ -184,4 +191,36 @@
     <string name="kt_power_chip_log">电源芯片日志</string>
     <string name="kt_power_chip_log_what">让电源芯片（RK817）的充电、电量计和声音部分记录它们在做什么。</string>
     <string name="kt_power_chip_log_why">适用于电量百分比乱跳、充电中断或声音出现爆音的情况。非常啰嗦，所以只在制作问题报告时才开启它。</string>
+
+    <!-- At start (needs a restart) -->
+    <string name="kt_serial_console">串口控制台</string>
+    <string name="kt_serial_console_what">把内核日志从调试串口输出，并让你可以在那里输入命令（R36S 上是 UART2，EE 山寨机上是 UART5）。</string>
+    <string name="kt_serial_console_why">只有在主板上焊了 USB 串口转接板时才有用。默认关闭：在有些山寨机上，悬空的串口引脚会把主机从睡眠中唤醒，而且开启时每行日志都会多花一点时间。</string>
+
+    <string name="kt_boot_log_level">启动时的内核日志详细程度</string>
+    <string name="kt_boot_log_level_what">从启动的第一刻起、Android 还没起来之前，内核记录多少日志。上面的“内核日志详细程度”设置要到之后才生效。</string>
+    <string name="kt_boot_log_level_why">适用于启动时卡住或重启的主机。开启串口控制台时，从串口输出的也是这些内容。</string>
+
+    <string name="kt_cma_size">图形和视频内存</string>
+    <string name="kt_cma_default">内核默认</string>
+    <string name="kt_cma_size_what">启动时为屏幕、图形和视频解码预留多少内存（CMA）。剩下的留给应用。</string>
+    <string name="kt_cma_size_why">少一些能给游戏和应用更多空间，对 1 GB 和 512 MB 内存的主机有帮助。太少的话视频或某些模拟器会无法启动。如果出现这种情况，就改回默认值。</string>
+
+    <string name="kt_cpu_idle">空闲核心断电</string>
+    <string name="kt_cpu_idle_what">让空闲的核心进入更深的省电状态。关闭后它们只停留在最浅的状态。</string>
+    <string name="kt_cpu_idle_why">如果主机随机卡死或在睡眠中卡死，关掉这项可以排除空闲状态的问题。会多耗一些电。</string>
+
+    <string name="kt_timer_tick">定时器节拍</string>
+    <string name="kt_timer_tick_idle">空闲时停止（正常）</string>
+    <string name="kt_timer_tick_always">始终运行</string>
+    <string name="kt_timer_tick_what">内核定时器在空闲核心上是继续跳动，还是暂停到有任务时再走。</string>
+    <string name="kt_timer_tick_why">暂停可以省电。始终运行能减轻某些模拟器里的卡顿，排查卡死时也能排除定时器的问题。会多耗一些电。</string>
+
+    <string name="kt_boot_timing">记录启动耗时</string>
+    <string name="kt_boot_timing_what">记录内核每个部分启动花了多长时间。</string>
+    <string name="kt_boot_timing_why">用来找出是什么让启动变慢，或者卡在哪里。会往日志里加很多行，所以做完问题报告后记得再关掉。</string>
+
+    <string name="kt_usb_autosuspend">USB 省电</string>
+    <string name="kt_usb_autosuspend_what">让 USB 设备（手柄、Wi-Fi 网卡、键盘）在不用时断电休眠。</string>
+    <string name="kt_usb_autosuspend_why">有些便宜的 USB 手柄和 Wi-Fi 网卡在闲置一会儿后会断开或变得迟钝。关闭后它们会一直保持唤醒，代价是多耗一些电。</string>
 </resources>

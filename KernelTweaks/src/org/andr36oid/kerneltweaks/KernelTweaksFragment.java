@@ -185,6 +185,8 @@ public class KernelTweaksFragment extends PreferenceFragment {
             final String want = get(t.prop());
             if (!want.isEmpty()) saved++;
             CharSequence summary;
+            // what the next start gets: tweaks switched off start with the defaults
+            final String next = paused || want.isEmpty() ? def : want;
             if (def.isEmpty()) {
                 row.setEnabled(false);
                 summary = getString(R.string.kt_unavailable);
@@ -192,7 +194,9 @@ public class KernelTweaksFragment extends PreferenceFragment {
                 row.setEnabled(true);
                 final String curLabel = label(t, cur);
                 if (!cur.equals(def)) changed++;
-                if (!want.isEmpty() && !want.equals(cur) && failed.contains(t.key)) {
+                if (t.atBoot && !next.equals(cur)) {
+                    summary = getString(R.string.kt_after_restart, label(t, next), curLabel);
+                } else if (!want.isEmpty() && !want.equals(cur) && failed.contains(t.key)) {
                     summary = getString(R.string.kt_failed, curLabel);
                 } else if (paused && !t.once && !want.isEmpty()) {
                     summary = getString(R.string.kt_paused_value, label(t, want));
@@ -219,6 +223,12 @@ public class KernelTweaksFragment extends PreferenceFragment {
                     changed));
         }
         mReset.setEnabled(saved > 0 || changed > 0);
+    }
+
+    /** a start option's value for the next start */
+    private String nextValue(Tweak t) {
+        final String want = get(t.prop());
+        return paused() || want.isEmpty() ? def(t) : want;
     }
 
     private String label(Tweak t, String value) {
@@ -265,7 +275,7 @@ public class KernelTweaksFragment extends PreferenceFragment {
             final String v = values.get(i);
             labels[i] = v.equals(def) ? getString(R.string.kt_default_mark, label(t, v))
                     : label(t, v);
-            if (v.equals(cur)) checked = i;
+            if (v.equals(t.atBoot ? nextValue(t) : cur)) checked = i;
         }
         new AlertDialog.Builder(getActivity())
             .setTitle(t.title)
@@ -313,7 +323,11 @@ public class KernelTweaksFragment extends PreferenceFragment {
                     ? getString(R.string.kt_stick_normal) : label(t, def))).append('\n');
         }
         if (t.once) sb.append(getString(R.string.kt_once)).append('\n');
-        sb.append(getString(R.string.kt_doc_file, t.file));
+        if (t.atBoot) {
+            sb.append(getString(R.string.kt_doc_boot_option, t.file));
+        } else {
+            sb.append(getString(R.string.kt_doc_file, t.file));
+        }
         new AlertDialog.Builder(getActivity())
             .setTitle(t.title)
             .setMessage(sb)

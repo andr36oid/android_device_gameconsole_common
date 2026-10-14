@@ -25,6 +25,8 @@ R=${KT_ROOT:-}
 #   first    first number of the file (kernel.printk)
 #   cores    how many cores are online (cpu0 always is)
 #   thermal  trip point <path> of the soc-thermal zone, in m°C
+#   boot     an option on the kernel command line (see boot_read/boot_args): it takes
+#            effect at the next start, through BOOT/kernel-tweaks.txt
 KNOBS='
 sleep_type|bracket||/sys/power/mem_sleep
 sleep_test|bracket|once|/sys/power/pm_test
@@ -48,7 +50,161 @@ panic_restart|plain||/proc/sys/kernel/panic
 oops_panic|plain||/proc/sys/kernel/panic_on_oops
 stall_report|plain||/sys/module/rcupdate/parameters/rcu_cpu_stall_timeout
 power_chip_log|plain||/sys/module/rk817_charger/parameters/dbg_level /sys/module/rk817_battery/parameters/dbg_level /sys/module/snd_soc_rk817/parameters/dbg_level
+serial_console|boot||serial_console
+boot_log_level|boot||boot_log_level
+cma_size|boot||cma_size
+cpu_idle|boot||cpu_idle
+timer_tick|boot||timer_tick
+boot_timing|boot||boot_timing
+usb_autosuspend|boot||usb_autosuspend
 '
+
+# Start options. boot.ini reads kt_args=... from BOOT/kernel-tweaks.txt and puts it at
+# the end of the kernel command line, where it wins over the same options before it.
+# CMDLINE is what this start got, BASE the same without the part kernel-tweaks.txt
+# added: the console's own default.
+KT_FILE=kernel-tweaks.txt
+BOOT_DEVS=${KT_BOOT_DEVS:-"/dev/block/by-name/BOOT /dev/block/platform/ff370000.dwmmc/by-name/BOOT /dev/block/mmcblk0p1"}
+BOOT_MNT=${KT_BOOT_MNT:-/mnt/andr36oid-ktweaks-boot}
+BOOT_LOCK=${KT_BOOT_LOCK:-/dev/andr36oid-boot.lock}
+CMDLINE=$(cat "$R/proc/cmdline" 2>/dev/null)
+BASE=$CMDLINE
+
+# arg_last <name> <cmdline> ; the value of the last name=value
+arg_last() {
+	v=
+	for a in $2; do
+		case $a in "$1="*) v=${a#"$1="} ;; esac
+	done
+	echo "$v"
+}
+
+# arg_has <name> <cmdline> ; 1 when the bare option is there
+arg_has() {
+	for a in $2; do
+		[ "$a" = "$1" ] && { echo 1; return; }
+	done
+	echo 0
+}
+
+# boot_read <key> <cmdline> ; the tweak's value as that command line has it
+boot_read() {
+	case $1 in
+	serial_console)
+		# off only when the debugger is switched off (older boot.ini had it on)
+		[ "$(arg_last fiq_debugger.disable "$2")" = 1 ] && echo off || echo on ;;
+	boot_log_level)
+		v=$(arg_last loglevel "$2")
+		echo "${v:-7}" ;;
+	cma_size)
+		v=$(arg_last cma "$2")
+		v=${v%[Mm]}
+		echo "${v:-default}" ;;
+	cpu_idle)
+		[ "$(arg_last cpuidle.off "$2")" = 1 ] && echo off || echo on ;;
+	timer_tick)
+		[ "$(arg_last nohz "$2")" = off ] && echo off || echo on ;;
+	boot_timing)
+		arg_has initcall_debug "$2" ;;
+	usb_autosuspend)
+		v=$(arg_last usbcore.autosuspend "$2")
+		[ "${v:-2}" -lt 0 ] 2>/dev/null && echo off || echo on ;;
+	esac
+}
+
+# boot_args <key> <value> ; the options that give the tweak this value
+boot_args() {
+	case $1:$2 in
+	serial_console:on) echo "fiq_debugger.disable=0 console=ttyS2,115200n8 androidboot.console=ttyS2" ;;
+	serial_console:off) echo "fiq_debugger.disable=1" ;;
+	boot_log_level:*) echo "loglevel=$2" ;;
+	cma_size:default) ;;
+	cma_size:*) echo "cma=$2M" ;;
+	cpu_idle:off) echo "cpuidle.off=1" ;;
+	timer_tick:off) echo "nohz=off" ;;
+	boot_timing:1) echo "initcall_debug" ;;
+	usb_autosuspend:off) echo "usbcore.autosuspend=-1" ;;
+	esac
+}
+
+# boot_lock <seconds> ; the same in andr36oid-report.sh, andr36oid-dtbhint.sh,
+# andr36oid-ktweaks.sh and andr36oid-cardsetup.sh. The start-up helpers take turns
+# with BOOT: Linux won't
+# mount it a second time with the other ro/rw flag. The lock is a folder in /dev
+# (a restart clears it) with the holder's pid; a holder that was killed is
+# noticed by its pid, and its BOOT mount is taken away. False after waiting
+# this long.
+boot_lock() {
+	n=0
+	while ! mkdir "$BOOT_LOCK" 2>/dev/null; do
+		pid=$(cat "$BOOT_LOCK/pid" 2>/dev/null)
+		if [ -n "$pid" ] && ! kill -0 "$pid" 2>/dev/null; then
+			rm -rf "$BOOT_LOCK"
+			continue
+		fi
+		n=$((n + 1))
+		[ "$n" -gt $(($1 * 5)) ] && return 1
+		sleep 0.2
+	done
+	echo $$ >"$BOOT_LOCK/pid"
+	grep -o ' /mnt/andr36oid-[a-z]*-boot ' /proc/mounts 2>/dev/null | while read -r m; do
+		umount "$m" 2>/dev/null
+	done
+	return 0
+}
+
+boot_unlock() {
+	[ "$(cat "$BOOT_LOCK/pid" 2>/dev/null)" = "$$" ] && rm -rf "$BOOT_LOCK"
+}
+
+# boot_mount <ro|rw> ; BOOT at $BOOT, or a test folder (KT_BOOT)
+BOOT=
+boot_mount() {
+	if [ -n "${KT_BOOT:-}" ]; then
+		BOOT=$KT_BOOT
+		return 0
+	fi
+	boot_lock 30 || return 1
+	mkdir -p "$BOOT_MNT"
+	for dev in $BOOT_DEVS; do
+		[ -e "$dev" ] || continue
+		mount -t vfat -o "$1,noatime" "$dev" "$BOOT_MNT" 2>/dev/null || continue
+		BOOT=$BOOT_MNT
+		return 0
+	done
+	boot_unlock
+	return 1
+}
+boot_umount() {
+	if [ -n "$BOOT" ] && [ -z "${KT_BOOT:-}" ]; then
+		umount "$BOOT_MNT"
+		boot_unlock
+	fi
+	BOOT=
+}
+
+# kt_args as kernel-tweaks.txt has it now
+file_args() {
+	sed -n 's/^kt_args=//p' "$BOOT/$KT_FILE" 2>/dev/null | tr -d '\r'
+}
+
+# write_boot_args <args> ; kernel-tweaks.txt for the next start, only when it changes
+write_boot_args() {
+	boot_mount rw || {
+		log -t andr36oid-ktweaks "BOOT doesn't mount, start options not saved"
+		return 1
+	}
+	if [ "$(file_args)" != "$1" ] || { [ -z "$1" ] && [ -e "$BOOT/$KT_FILE" ]; }; then
+		if [ -z "$1" ]; then
+			rm -f "$BOOT/$KT_FILE"
+		else
+			printf '# Settings > System > Kernel Tweaks: added to the kernel command line\n# at every start. Delete this file to start without them.\nkt_args=%s\n' \
+				"$1" >"$BOOT/$KT_FILE"
+		fi
+		sync
+	fi
+	boot_umount
+}
 
 thermal_path() {
 	for z in "$R"/sys/class/thermal/thermal_zone*; do
@@ -71,6 +227,10 @@ read_knob() {
 		return
 		;;
 	thermal) set -- plain "$(thermal_path "$2")" ;;
+	boot)
+		boot_read "$2" "$CMDLINE"
+		return
+		;;
 	esac
 	kind=$1
 	shift
@@ -112,6 +272,7 @@ write_knob() {
 # apply_all paused
 apply_all() {
 	failed=
+	bootargs=
 	# fed by a here-document, not a pipe: the loop runs in this shell and keeps $failed
 	while IFS='|' read -r key kind once paths; do
 		[ -n "$key" ] || continue
@@ -127,7 +288,13 @@ apply_all() {
 		[ -n "$want" ] || want=$def
 		# shellcheck disable=SC2086 # paths is a space separated list
 		cur=$(read_knob "$kind" $paths)
-		if [ "$cur" != "$want" ]; then
+		if [ "$kind" = boot ]; then
+			# for the next start; the kernel keeps what it started with
+			if [ "$want" != "$def" ]; then
+				a=$(boot_args "$key" "$want")
+				[ -n "$a" ] && bootargs="${bootargs:+$bootargs }$a"
+			fi
+		elif [ "$cur" != "$want" ]; then
 			# shellcheck disable=SC2086
 			write_knob "$kind" "$want" $paths 2>/dev/null
 			# shellcheck disable=SC2086
@@ -141,6 +308,8 @@ apply_all() {
 	done <<EOF
 $KNOBS
 EOF
+	write_boot_args "$bootargs" || failed="$failed boot"
+	setprop sys.andr36oid.kt.args "$bootargs"
 	setprop sys.andr36oid.kt.failed "${failed# }"
 }
 
@@ -164,10 +333,22 @@ is_paused() {
 paused=$(is_paused)
 
 if [ "$1" = boot ]; then
+	# The defaults of the start options: this start's command line without the part
+	# kernel-tweaks.txt added at its end
+	if boot_mount ro; then
+		added=$(file_args)
+		boot_umount
+		case $CMDLINE in *" $added") [ -n "$added" ] && BASE=${CMDLINE%" $added"} ;; esac
+	fi
+	setprop sys.andr36oid.kt.started_with "${added:-}"
 	echo "$KNOBS" | while IFS='|' read -r key kind once paths; do
 		[ -n "$key" ] || continue
-		# shellcheck disable=SC2086
-		v=$(read_knob "$kind" $paths 2>/dev/null)
+		if [ "$kind" = boot ]; then
+			v=$(boot_read "$paths" "$BASE")
+		else
+			# shellcheck disable=SC2086
+			v=$(read_knob "$kind" $paths 2>/dev/null)
+		fi
 		[ -n "$v" ] && setprop "sys.andr36oid.ktd.$key" "$v"
 	done
 	if [ "$paused" != 1 ] && [ -n "$(any_set)" ]; then

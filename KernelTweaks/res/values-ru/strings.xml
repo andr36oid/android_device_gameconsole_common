@@ -30,6 +30,8 @@
     <string name="kt_failed">Не удалось применить, по-прежнему <xliff:g id="value">%1$s</xliff:g></string>
     <string name="kt_once">Только до следующего перезапуска</string>
     <string name="kt_paused_value">Приостановлено: <xliff:g id="value">%1$s</xliff:g></string>
+    <!-- e.g. "On after a restart, Off now" -->
+    <string name="kt_after_restart"><xliff:g id="next">%1$s</xliff:g> после перезапуска, сейчас <xliff:g id="now">%2$s</xliff:g></string>
 
     <!-- Dialogs -->
     <string name="kt_default_mark"><xliff:g id="value">%1$s</xliff:g> (по умолчанию)</string>
@@ -40,6 +42,8 @@
     <string name="kt_doc_default">По умолчанию на этой консоли: <xliff:g id="value">%1$s</xliff:g></string>
     <!-- e.g. "Kernel file: /sys/power/mem_sleep" -->
     <string name="kt_doc_file">Файл ядра: <xliff:g id="path">%1$s</xliff:g></string>
+    <!-- e.g. "Start option: cpuidle.off=1 (takes effect after a restart)" -->
+    <string name="kt_doc_boot_option">Параметр запуска: <xliff:g id="option">%1$s</xliff:g> (действует после перезапуска)</string>
     <string name="kt_working">Применяется…</string>
 
     <!-- Values -->
@@ -51,6 +55,8 @@
     <string name="kt_unit_s"><xliff:g id="n">%1$s</xliff:g> секунд</string>
     <!-- e.g. "512 KB" -->
     <string name="kt_unit_kb"><xliff:g id="n">%1$s</xliff:g> КБ</string>
+    <!-- e.g. "128 MB" -->
+    <string name="kt_unit_mb"><xliff:g id="n">%1$s</xliff:g> МБ</string>
     <!-- e.g. "85 °C" -->
     <string name="kt_unit_c"><xliff:g id="n">%1$s</xliff:g> °C</string>
     <!-- e.g. "3 cores" -->
@@ -64,6 +70,7 @@
     <string name="kt_cat_storage">SD-карты</string>
     <string name="kt_cat_input">Управление и звук</string>
     <string name="kt_cat_debug">Сбои и логи</string>
+    <string name="kt_cat_boot">При запуске (нужен перезапуск)</string>
 
     <!-- Links to other pages -->
     <string name="kt_link_deep_sleep">Шаги глубокого сна</string>
@@ -187,4 +194,36 @@
     <string name="kt_power_chip_log">Лог чипа питания</string>
     <string name="kt_power_chip_log_what">Позволяет частям зарядки, датчика батареи и звука чипа питания (RK817) записывать, что они делают.</string>
     <string name="kt_power_chip_log_why">Для процентов заряда, которые скачут, зарядки, которая останавливается, или звука, который хрипит. Очень болтливо, так что включай это только во время составления отчёта о проблеме.</string>
+
+    <!-- At start (needs a restart) -->
+    <string name="kt_serial_console">Последовательная консоль</string>
+    <string name="kt_serial_console_what">Выводит лог ядра через отладочный последовательный порт и позволяет вводить там команды (UART2 на R36S, UART5 на клонах EE).</string>
+    <string name="kt_serial_console_why">Полезно только с USB-адаптером последовательного порта, припаянным к плате. По умолчанию выключено: на некоторых клонах висящий в воздухе пин последовательного порта будит консоль из сна, а каждая строка лога, пока это включено, отнимает немного времени.</string>
+
+    <string name="kt_boot_log_level">Подробность лога ядра при запуске</string>
+    <string name="kt_boot_log_level_what">Сколько ядро пишет в лог с самого первого момента запуска, ещё до того, как поднимется Android. Настройка «Подробность лога ядра» выше начинает действовать только позже.</string>
+    <string name="kt_boot_log_level_why">Для консолей, которые зависают или перезапускаются во время запуска. Если последовательная консоль включена, это же выводится и в последовательный порт.</string>
+
+    <string name="kt_cma_size">Память для графики и видео</string>
+    <string name="kt_cma_default">По умолчанию ядра</string>
+    <string name="kt_cma_size_what">Сколько памяти откладывается при запуске для экрана, графики и декодирования видео (CMA). Остальное остаётся приложениям.</string>
+    <string name="kt_cma_size_why">Меньше — больше места играм и приложениям, что помогает на консолях с 1 ГБ и 512 МБ. Слишком мало — и видео или некоторые эмуляторы не запустятся. Если так случилось, верни значение по умолчанию.</string>
+
+    <string name="kt_cpu_idle">Отключение простаивающих ядер</string>
+    <string name="kt_cpu_idle_what">Позволяет простаивающим ядрам переходить в более глубокий режим энергосбережения. Выкл. держит их в самом лёгком.</string>
+    <string name="kt_cpu_idle_why">Если консоль зависает случайно или во сне, выключение этого исключает режимы простоя. Расходует немного заряда.</string>
+
+    <string name="kt_timer_tick">Тик таймера</string>
+    <string name="kt_timer_tick_idle">Останавливается при простое (обычно)</string>
+    <string name="kt_timer_tick_always">Работает всегда</string>
+    <string name="kt_timer_tick_what">Продолжает ли таймер ядра тикать на простаивающих ядрах или замирает, пока не появится работа.</string>
+    <string name="kt_timer_tick_why">Пауза экономит заряд. Постоянная работа может сгладить подтормаживания в некоторых эмуляторах и исключает проблемы с таймером при поиске зависаний. Расходует немного заряда.</string>
+
+    <string name="kt_boot_timing">Лог времени запуска</string>
+    <string name="kt_boot_timing_what">Пишет в лог, сколько времени занимает запуск каждой части ядра.</string>
+    <string name="kt_boot_timing_why">Чтобы найти, что замедляет запуск или где он зависает. Добавляет в лог много строк, так что выключи это снова, когда отчёт о проблеме готов.</string>
+
+    <string name="kt_usb_autosuspend">Энергосбережение USB</string>
+    <string name="kt_usb_autosuspend_what">Позволяет USB-устройствам (контроллерам, Wi-Fi-адаптерам, клавиатурам) отключаться, когда они не используются.</string>
+    <string name="kt_usb_autosuspend_why">Некоторые дешёвые USB-контроллеры и Wi-Fi-адаптеры отваливаются или тормозят после паузы. Выкл. не даёт им засыпать, ценой немного заряда.</string>
 </resources>

@@ -27,6 +27,8 @@
     <string name="kt_failed">Tidak bisa diterapkan, masih <xliff:g id="value">%1$s</xliff:g></string>
     <string name="kt_once">Hanya sampai restart berikutnya</string>
     <string name="kt_paused_value">Ditangguhkan: <xliff:g id="value">%1$s</xliff:g></string>
+    <!-- e.g. "On after a restart, Off now" -->
+    <string name="kt_after_restart"><xliff:g id="next">%1$s</xliff:g> setelah restart, <xliff:g id="now">%2$s</xliff:g> sekarang</string>
 
     <!-- Dialogs -->
     <string name="kt_default_mark"><xliff:g id="value">%1$s</xliff:g> (default)</string>
@@ -37,6 +39,8 @@
     <string name="kt_doc_default">Default di konsol ini: <xliff:g id="value">%1$s</xliff:g></string>
     <!-- e.g. "Kernel file: /sys/power/mem_sleep" -->
     <string name="kt_doc_file">File kernel: <xliff:g id="path">%1$s</xliff:g></string>
+    <!-- e.g. "Start option: cpuidle.off=1 (takes effect after a restart)" -->
+    <string name="kt_doc_boot_option">Opsi saat menyala: <xliff:g id="option">%1$s</xliff:g> (berlaku setelah restart)</string>
     <string name="kt_working">Menerapkan…</string>
 
     <!-- Values -->
@@ -48,6 +52,8 @@
     <string name="kt_unit_s"><xliff:g id="n">%1$s</xliff:g> detik</string>
     <!-- e.g. "512 KB" -->
     <string name="kt_unit_kb"><xliff:g id="n">%1$s</xliff:g> KB</string>
+    <!-- e.g. "128 MB" -->
+    <string name="kt_unit_mb"><xliff:g id="n">%1$s</xliff:g> MB</string>
     <!-- e.g. "85 °C" -->
     <string name="kt_unit_c"><xliff:g id="n">%1$s</xliff:g> °C</string>
     <!-- e.g. "3 cores" -->
@@ -61,6 +67,7 @@
     <string name="kt_cat_storage">Kartu SD</string>
     <string name="kt_cat_input">Kontrol dan suara</string>
     <string name="kt_cat_debug">Crash dan log</string>
+    <string name="kt_cat_boot">Saat menyala (perlu restart)</string>
 
     <!-- Links to other pages -->
     <string name="kt_link_deep_sleep">Langkah tidur dalam</string>
@@ -184,4 +191,36 @@
     <string name="kt_power_chip_log">Log chip daya</string>
     <string name="kt_power_chip_log_what">Membiarkan bagian charger, pengukur baterai, dan suara dari chip daya (RK817) mencatat apa yang sedang dilakukannya.</string>
     <string name="kt_power_chip_log_why">Untuk persentase baterai yang melompat-lompat, pengisian yang berhenti, atau suara yang berderak. Sangat cerewet, jadi aktifkan hanya saat kamu sedang membuat laporan masalah.</string>
+
+    <!-- At start (needs a restart) -->
+    <string name="kt_serial_console">Konsol serial</string>
+    <string name="kt_serial_console_what">Mengirim log kernel lewat port serial debug dan memungkinkanmu mengetik perintah di sana (UART2 di R36S, UART5 di clone EE).</string>
+    <string name="kt_serial_console_why">Hanya berguna dengan adaptor serial USB yang disolder ke papan. Nonaktif secara default: di beberapa clone, pin serial yang mengambang membangunkan konsol dari tidur, dan setiap baris log memakan sedikit waktu selama ini aktif.</string>
+
+    <string name="kt_boot_log_level">Detail log kernel saat menyala</string>
+    <string name="kt_boot_log_level_what">Seberapa banyak yang dicatat kernel sejak detik pertama konsol menyala, sebelum Android siap. Pengaturan \"Detail log kernel\" di atas baru berlaku nanti.</string>
+    <string name="kt_boot_log_level_why">Untuk konsol yang macet atau restart saat menyala. Dengan konsol serial aktif, ini juga yang keluar lewat port serial.</string>
+
+    <string name="kt_cma_size">Memori grafis dan video</string>
+    <string name="kt_cma_default">Default kernel</string>
+    <string name="kt_cma_size_what">Seberapa banyak memori yang disisihkan saat menyala untuk layar, grafis, dan decoding video (CMA). Sisanya untuk aplikasi.</string>
+    <string name="kt_cma_size_why">Lebih sedikit memberi game dan aplikasi lebih banyak ruang, yang membantu di konsol 1 GB dan 512 MB. Terlalu sedikit dan video atau beberapa emulator gagal jalan. Jika itu terjadi, kembalikan ke default.</string>
+
+    <string name="kt_cpu_idle">Mematikan inti saat menganggur</string>
+    <string name="kt_cpu_idle_what">Membiarkan inti yang menganggur masuk ke mode hemat daya yang lebih dalam. Nonaktif membuatnya tetap di mode paling ringan.</string>
+    <string name="kt_cpu_idle_why">Jika konsol membeku secara acak atau saat tidur, menonaktifkan ini menyingkirkan mode menganggur sebagai penyebab. Memakan sedikit baterai.</string>
+
+    <string name="kt_timer_tick">Detak timer</string>
+    <string name="kt_timer_tick_idle">Berhenti saat menganggur (normal)</string>
+    <string name="kt_timer_tick_always">Selalu berjalan</string>
+    <string name="kt_timer_tick_what">Apakah timer kernel terus berdetak di inti yang menganggur, atau berhenti sampai ada pekerjaan.</string>
+    <string name="kt_timer_tick_why">Berhenti menghemat baterai. Selalu berjalan bisa mengurangi patah-patah di beberapa emulator dan menyingkirkan masalah timer saat melacak macet. Memakan sedikit baterai.</string>
+
+    <string name="kt_boot_timing">Catat waktu menyala</string>
+    <string name="kt_boot_timing_what">Mencatat berapa lama setiap bagian kernel butuh waktu untuk menyala.</string>
+    <string name="kt_boot_timing_why">Untuk mencari apa yang membuat proses menyala lambat atau di mana macetnya. Menambah banyak baris ke log, jadi matikan lagi setelah laporan masalah dibuat.</string>
+
+    <string name="kt_usb_autosuspend">Hemat daya USB</string>
+    <string name="kt_usb_autosuspend_what">Membiarkan perangkat USB (controller, dongle Wi-Fi, keyboard) mati sementara saat tidak dipakai.</string>
+    <string name="kt_usb_autosuspend_why">Beberapa controller USB dan dongle Wi-Fi murah putus atau lag setelah jeda. Nonaktif membuatnya tetap menyala, dengan biaya sedikit baterai.</string>
 </resources>

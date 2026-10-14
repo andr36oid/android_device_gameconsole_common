@@ -28,6 +28,8 @@
     <string name="kt_failed">Impossible d\'appliquer, toujours à <xliff:g id="value">%1$s</xliff:g></string>
     <string name="kt_once">Seulement jusqu\'au prochain redémarrage</string>
     <string name="kt_paused_value">En pause : <xliff:g id="value">%1$s</xliff:g></string>
+    <!-- e.g. "On after a restart, Off now" -->
+    <string name="kt_after_restart"><xliff:g id="next">%1$s</xliff:g> après un redémarrage, <xliff:g id="now">%2$s</xliff:g> maintenant</string>
 
     <!-- Dialogs -->
     <string name="kt_default_mark"><xliff:g id="value">%1$s</xliff:g> (défaut)</string>
@@ -38,6 +40,8 @@
     <string name="kt_doc_default">Par défaut sur cette console : <xliff:g id="value">%1$s</xliff:g></string>
     <!-- e.g. "Kernel file: /sys/power/mem_sleep" -->
     <string name="kt_doc_file">Fichier noyau : <xliff:g id="path">%1$s</xliff:g></string>
+    <!-- e.g. "Start option: cpuidle.off=1 (takes effect after a restart)" -->
+    <string name="kt_doc_boot_option">Option de démarrage : <xliff:g id="option">%1$s</xliff:g> (prend effet après un redémarrage)</string>
     <string name="kt_working">Application…</string>
 
     <!-- Values -->
@@ -49,6 +53,8 @@
     <string name="kt_unit_s"><xliff:g id="n">%1$s</xliff:g> secondes</string>
     <!-- e.g. "512 KB" -->
     <string name="kt_unit_kb"><xliff:g id="n">%1$s</xliff:g> Ko</string>
+    <!-- e.g. "128 MB" -->
+    <string name="kt_unit_mb"><xliff:g id="n">%1$s</xliff:g> Mo</string>
     <!-- e.g. "85 °C" -->
     <string name="kt_unit_c"><xliff:g id="n">%1$s</xliff:g> °C</string>
     <!-- e.g. "3 cores" -->
@@ -62,6 +68,7 @@
     <string name="kt_cat_storage">Cartes SD</string>
     <string name="kt_cat_input">Commandes et son</string>
     <string name="kt_cat_debug">Plantages et journaux</string>
+    <string name="kt_cat_boot">Au démarrage (redémarrage nécessaire)</string>
 
     <!-- Links to other pages -->
     <string name="kt_link_deep_sleep">Étapes de veille profonde</string>
@@ -185,4 +192,36 @@
     <string name="kt_power_chip_log">Journal de la puce d\'alimentation</string>
     <string name="kt_power_chip_log_what">Laisse les parties chargeur, jauge de batterie et son de la puce d\'alimentation (RK817) journaliser ce qu\'elles font.</string>
     <string name="kt_power_chip_log_why">Pour les pourcentages de batterie qui sautent, une charge qui s\'arrête ou un son qui crépite. Très bavard, donc n\'active ça que pendant que tu fais un rapport de problème.</string>
+
+    <!-- At start (needs a restart) -->
+    <string name="kt_serial_console">Console série</string>
+    <string name="kt_serial_console_what">Envoie le journal du noyau sur le port série de débogage et te permet d\'y taper des commandes (UART2 sur la R36S, UART5 sur les clones EE).</string>
+    <string name="kt_serial_console_why">Utile seulement avec un adaptateur série USB soudé sur la carte. Désactivé par défaut : sur certains clones, une broche série flottante sort la console de veille, et chaque ligne du journal coûte un peu de temps tant que c\'est activé.</string>
+
+    <string name="kt_boot_log_level">Détail du journal du noyau au démarrage</string>
+    <string name="kt_boot_log_level_what">Ce que le noyau journalise dès le tout premier instant du démarrage, avant qu\'Android soit lancé. Le réglage « Détail du journal du noyau » plus haut n\'entre en jeu que plus tard.</string>
+    <string name="kt_boot_log_level_why">Pour les consoles qui bloquent ou redémarrent pendant le démarrage. Avec la console série activée, c\'est aussi ce qui sort sur le port série.</string>
+
+    <string name="kt_cma_size">Mémoire graphique et vidéo</string>
+    <string name="kt_cma_default">Défaut du noyau</string>
+    <string name="kt_cma_size_what">La mémoire mise de côté au démarrage pour l\'écran, les graphismes et le décodage vidéo (CMA). Le reste est laissé aux applis.</string>
+    <string name="kt_cma_size_why">Moins laisse plus de place aux jeux et aux applis, ce qui aide sur les consoles à 1 Go et 512 Mo. Trop peu et les vidéos ou certains émulateurs ne se lancent pas. Si ça arrive, reviens à la valeur par défaut.</string>
+
+    <string name="kt_cpu_idle">Extinction des cœurs inactifs</string>
+    <string name="kt_cpu_idle_what">Laisse les cœurs inactifs passer dans un état d\'économie d\'énergie plus profond. Désactivé les garde dans le plus léger.</string>
+    <string name="kt_cpu_idle_why">Si la console se fige au hasard ou en veille, désactiver ça écarte les états d\'inactivité. Ça coûte un peu de batterie.</string>
+
+    <string name="kt_timer_tick">Tic du minuteur</string>
+    <string name="kt_timer_tick_idle">S\'arrête quand inactif (normal)</string>
+    <string name="kt_timer_tick_always">Tourne toujours</string>
+    <string name="kt_timer_tick_what">Si le minuteur du noyau continue de battre sur les cœurs inactifs, ou se met en pause jusqu\'à ce qu\'il y ait du travail.</string>
+    <string name="kt_timer_tick_why">La pause économise la batterie. Le laisser tourner peut lisser les saccades dans certains émulateurs et écarte les soucis de minuteur quand tu traques des blocages. Ça coûte un peu de batterie.</string>
+
+    <string name="kt_boot_timing">Journaliser la durée du démarrage</string>
+    <string name="kt_boot_timing_what">Journalise le temps que met chaque partie du noyau à démarrer.</string>
+    <string name="kt_boot_timing_why">Pour trouver ce qui ralentit un démarrage ou où il bloque. Ajoute beaucoup de lignes au journal, donc désactive-le une fois le rapport de problème fait.</string>
+
+    <string name="kt_usb_autosuspend">Économie d\'énergie USB</string>
+    <string name="kt_usb_autosuspend_what">Laisse les appareils USB (manettes, clés Wi-Fi, claviers) se mettre en veille quand ils ne servent pas.</string>
+    <string name="kt_usb_autosuspend_why">Certaines manettes USB et clés Wi-Fi bon marché décrochent ou traînent après une pause. Désactivé les garde éveillés, au prix d\'un peu de batterie.</string>
 </resources>

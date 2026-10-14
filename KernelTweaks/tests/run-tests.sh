@@ -54,6 +54,10 @@ setup() {
 	echo 0 >"$R"/sys/module/rk817_charger/parameters/dbg_level
 	echo 0 >"$R"/sys/module/rk817_battery/parameters/dbg_level
 	# no mmcblk1, no hp_det_flip, no codec: not on this "console"
+	# the command line boot.ini gives (no serial console), BOOT as a folder
+	echo "fw_devlink=permissive rootwait loglevel=4 printk.time=1 vt.global_cursor_default=0 fiq_debugger.disable=1" >"$R"/proc/cmdline
+	rm -rf "${T:?}/boot"
+	mkdir -p "$T/boot"
 
 	cat >"$T/bin/getprop" <<EOF
 #!/bin/sh
@@ -70,7 +74,7 @@ EOF
 prop() { cat "$T/props/$1" 2>/dev/null; }
 setp() { printf '%s\n' "$2" >"$T/props/$1"; }
 # TMPDIR points nowhere: on Android there is no /tmp and init sets no TMPDIR
-run() { TMPDIR=$T/no-such-dir KT_ROOT=$R PATH="$T/bin:$PATH" "$MKSH" "$HERE/../helper/andr36oid-ktweaks.sh" "$@"; }
+run() { TMPDIR=$T/no-such-dir KT_BOOT=$T/boot KT_ROOT=$R PATH="$T/bin:$PATH" "$MKSH" "$HERE/../helper/andr36oid-ktweaks.sh" "$@"; }
 
 # --- boot notes the defaults
 setup
@@ -149,6 +153,60 @@ check "paused by hand" 100 "$(cat "$R"/proc/sys/vm/swappiness)"
 setp persist.andr36oid.kt.paused 0
 run apply
 check "back on" 30 "$(cat "$R"/proc/sys/vm/swappiness)"
+
+# --- start options: defaults from the command line, kernel-tweaks.txt for the next start
+setup
+run boot
+check "serial default off" off "$(prop sys.andr36oid.ktd.serial_console)"
+check "loglevel default" 4 "$(prop sys.andr36oid.ktd.boot_log_level)"
+check "cma default" default "$(prop sys.andr36oid.ktd.cma_size)"
+check "cpu idle default on" on "$(prop sys.andr36oid.ktd.cpu_idle)"
+check "usb autosuspend default on" on "$(prop sys.andr36oid.ktd.usb_autosuspend)"
+check "boot timing default off" 0 "$(prop sys.andr36oid.ktd.boot_timing)"
+check "no file without tweaks" no "$([ -e "$T/boot/kernel-tweaks.txt" ] && echo yes || echo no)"
+setp persist.andr36oid.kt.serial_console on
+setp persist.andr36oid.kt.cpu_idle off
+setp persist.andr36oid.kt.cma_size 96
+run apply
+check "file written" "fiq_debugger.disable=0 console=ttyS2,115200n8 androidboot.console=ttyS2 cma=96M cpuidle.off=1" \
+	"$(sed -n 's/^kt_args=//p' "$T/boot/kernel-tweaks.txt")"
+check "args reported" "fiq_debugger.disable=0 console=ttyS2,115200n8 androidboot.console=ttyS2 cma=96M cpuidle.off=1" \
+	"$(prop sys.andr36oid.kt.args)"
+check "current stays until a restart" off "$(prop sys.andr36oid.ktc.serial_console)"
+check "start options never fail" "" "$(prop sys.andr36oid.kt.failed | tr -d ' ')"
+
+# --- the next start: U-Boot added the file's args, the defaults stay the console's own
+args=$(sed -n 's/^kt_args=//p' "$T/boot/kernel-tweaks.txt")
+echo "$(cat "$R"/proc/cmdline) $args" >"$R"/proc/cmdline
+run boot
+check "default without the added part" off "$(prop sys.andr36oid.ktd.serial_console)"
+check "current with it" on "$(prop sys.andr36oid.ktc.serial_console)"
+check "cma current" 96 "$(prop sys.andr36oid.ktc.cma_size)"
+check "cpu idle current" off "$(prop sys.andr36oid.ktc.cpu_idle)"
+check "started with" "$args" "$(prop sys.andr36oid.kt.started_with)"
+
+# --- back to the defaults: the file goes
+setp persist.andr36oid.kt.serial_console ""
+setp persist.andr36oid.kt.cpu_idle ""
+setp persist.andr36oid.kt.cma_size ""
+run apply
+check "file removed" no "$([ -e "$T/boot/kernel-tweaks.txt" ] && echo yes || echo no)"
+
+# --- paused: the start options go too, so a start that broke starts clean
+setp persist.andr36oid.kt.timer_tick off
+run apply
+check "timer tick written" "nohz=off" "$(sed -n 's/^kt_args=//p' "$T/boot/kernel-tweaks.txt")"
+setp persist.andr36oid.kt.paused crash
+run apply
+check "paused removes the file" no "$([ -e "$T/boot/kernel-tweaks.txt" ] && echo yes || echo no)"
+
+# --- an older boot.ini with the serial console on
+setup
+echo "rootwait console=ttyS2,115200n8 loglevel=4 androidboot.console=ttyS2" >"$R"/proc/cmdline
+run boot
+check "old boot.ini: serial on" on "$(prop sys.andr36oid.ktd.serial_console)"
+echo "rootwait" >"$R"/proc/cmdline; run boot
+check "no loglevel means 7" 7 "$(prop sys.andr36oid.ktd.boot_log_level)"
 
 echo "passed $pass, failed $fail (shell: $MKSH)"
 [ "$fail" = 0 ]

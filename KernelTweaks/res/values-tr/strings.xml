@@ -28,6 +28,8 @@
     <string name="kt_failed">Ayarlanamadı, hâlâ <xliff:g id="value">%1$s</xliff:g></string>
     <string name="kt_once">Sadece bir sonraki yeniden başlatmaya kadar</string>
     <string name="kt_paused_value">Durduruldu: <xliff:g id="value">%1$s</xliff:g></string>
+    <!-- e.g. "On after a restart, Off now" -->
+    <string name="kt_after_restart">Yeniden başlatınca <xliff:g id="next">%1$s</xliff:g>, şu an <xliff:g id="now">%2$s</xliff:g></string>
 
     <!-- Dialogs -->
     <string name="kt_default_mark"><xliff:g id="value">%1$s</xliff:g> (varsayılan)</string>
@@ -38,6 +40,8 @@
     <string name="kt_doc_default">Bu konsolun varsayılanı: <xliff:g id="value">%1$s</xliff:g></string>
     <!-- e.g. "Kernel file: /sys/power/mem_sleep" -->
     <string name="kt_doc_file">Kernel dosyası: <xliff:g id="path">%1$s</xliff:g></string>
+    <!-- e.g. "Start option: cpuidle.off=1 (takes effect after a restart)" -->
+    <string name="kt_doc_boot_option">Açılış seçeneği: <xliff:g id="option">%1$s</xliff:g> (yeniden başlattıktan sonra geçerli olur)</string>
     <string name="kt_working">Uygulanıyor…</string>
 
     <!-- Values -->
@@ -49,6 +53,8 @@
     <string name="kt_unit_s"><xliff:g id="n">%1$s</xliff:g> saniye</string>
     <!-- e.g. "512 KB" -->
     <string name="kt_unit_kb"><xliff:g id="n">%1$s</xliff:g> KB</string>
+    <!-- e.g. "128 MB" -->
+    <string name="kt_unit_mb"><xliff:g id="n">%1$s</xliff:g> MB</string>
     <!-- e.g. "85 °C" -->
     <string name="kt_unit_c"><xliff:g id="n">%1$s</xliff:g> °C</string>
     <!-- e.g. "3 cores" -->
@@ -62,6 +68,7 @@
     <string name="kt_cat_storage">SD kartlar</string>
     <string name="kt_cat_input">Kontroller ve ses</string>
     <string name="kt_cat_debug">Çökmeler ve loglar</string>
+    <string name="kt_cat_boot">Açılışta (yeniden başlatma gerekir)</string>
 
     <!-- Links to other pages -->
     <string name="kt_link_deep_sleep">Derin uyku adımları</string>
@@ -185,4 +192,36 @@
     <string name="kt_power_chip_log">Güç çipi logu</string>
     <string name="kt_power_chip_log_what">Güç çipinin (RK817) şarj, pil göstergesi ve ses kısımlarının ne yaptığını kaydetmesine izin verir.</string>
     <string name="kt_power_chip_log_why">Zıplayan pil yüzdeleri, duran şarj veya çatırdayan ses için. Çok gevezedir, bu yüzden sadece bir sorun raporu hazırlarken aç.</string>
+
+    <!-- At start (needs a restart) -->
+    <string name="kt_serial_console">Seri konsol</string>
+    <string name="kt_serial_console_what">Kernel logunu hata ayıklama seri portundan dışarı gönderir ve orada komut yazmana izin verir (R36S\'de UART2, EE klonlarda UART5).</string>
+    <string name="kt_serial_console_why">Sadece karta lehimlenmiş bir USB seri adaptörüyle işe yarar. Varsayılan olarak kapalı: bazı klonlarda boşta kalan bir seri pin konsolu uykudan uyandırır ve bu açıkken her log satırı biraz zaman alır.</string>
+
+    <string name="kt_boot_log_level">Açılışta kernel log ayrıntısı</string>
+    <string name="kt_boot_log_level_what">Kernel\'in bir açılışın ilk anından itibaren, Android daha açılmadan ne kadar log tuttuğu. Yukarıdaki \"Kernel log ayrıntısı\" ayarı ancak daha sonra devreye girer.</string>
+    <string name="kt_boot_log_level_why">Açılırken takılan veya yeniden başlayan konsollar için. Seri konsol açıkken seri porttan çıkan da budur.</string>
+
+    <string name="kt_cma_size">Grafik ve video belleği</string>
+    <string name="kt_cma_default">Kernel varsayılanı</string>
+    <string name="kt_cma_size_what">Açılışta ekran, grafik ve video çözme için ne kadar bellek ayrıldığı (CMA). Kalanı uygulamalara kalır.</string>
+    <string name="kt_cma_size_why">Daha az, oyunlara ve uygulamalara daha fazla yer bırakır; bu 1 GB ve 512 MB konsollarda işe yarar. Çok az olursa videolar veya bazı emülatörler açılmaz. Böyle olursa varsayılana geri dön.</string>
+
+    <string name="kt_cpu_idle">Boştaki çekirdekleri kapatma</string>
+    <string name="kt_cpu_idle_what">Boştaki çekirdeklerin daha derin bir güç tasarrufu durumuna geçmesine izin verir. Kapalı, onları en hafif durumda tutar.</string>
+    <string name="kt_cpu_idle_why">Konsol rastgele veya uykuda donuyorsa, bunu kapatmak boşta kalma durumlarını sebep olmaktan çıkarır. Biraz pile mal olur.</string>
+
+    <string name="kt_timer_tick">Zamanlayıcı tıkı</string>
+    <string name="kt_timer_tick_idle">Boştayken durur (normal)</string>
+    <string name="kt_timer_tick_always">Her zaman çalışır</string>
+    <string name="kt_timer_tick_what">Kernel zamanlayıcısının boştaki çekirdeklerde tıklamaya devam mı ettiği, yoksa iş çıkana kadar mı durduğu.</string>
+    <string name="kt_timer_tick_why">Durmak pil tasarrufu sağlar. Hep çalışması bazı emülatörlerde takılmaları azaltabilir ve donmaların peşindeyken zamanlayıcı sorunlarını eler. Biraz pile mal olur.</string>
+
+    <string name="kt_boot_timing">Açılış sürelerini logla</string>
+    <string name="kt_boot_timing_what">Kernel\'in her bölümünün açılmasının ne kadar sürdüğünü loglar.</string>
+    <string name="kt_boot_timing_why">Açılışı neyin yavaşlattığını ya da nerede takıldığını bulmak için. Loga çok satır ekler, bu yüzden sorun raporu hazırlanınca tekrar kapat.</string>
+
+    <string name="kt_usb_autosuspend">USB güç tasarrufu</string>
+    <string name="kt_usb_autosuspend_what">USB cihazların (kontrolcüler, Wi-Fi adaptörleri, klavyeler) kullanılmadıklarında kapanmasına izin verir.</string>
+    <string name="kt_usb_autosuspend_why">Bazı ucuz USB kontrolcüler ve Wi-Fi adaptörleri bir aradan sonra bağlantıyı koparır veya gecikir. Kapalı, onları uyanık tutar ama biraz pile mal olur.</string>
 </resources>
