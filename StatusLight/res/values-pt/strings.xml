@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="sl_title">Luz de estado</string>
-    <string name="sl_summary">O que a luzinha mostra para bateria, carregamento e notificações</string>
-    <string name="sl_intro">A luzinha ao lado do botão liga/desliga. Escolhe o que ela mostra quando a bateria fica fraca, enquanto carrega e quando chega uma notificação. Continua a funcionar enquanto a consola dorme, só deixa de piscar.</string>
+    <string name="sl_summary">O que a luz de estado mostra para bateria, carregamento e notificações</string>
+    <string name="sl_intro">A luz no meio da consola, abaixo de Fn. Escolhe o que ela mostra quando a bateria fica fraca, enquanto carrega e quando chega uma notificação. Continua a funcionar enquanto a consola dorme, só deixa de piscar.</string>
     <string name="sl_missing">A luz desta consola não é uma que sabemos controlar.</string>
 
     <!-- What the light shows right now -->

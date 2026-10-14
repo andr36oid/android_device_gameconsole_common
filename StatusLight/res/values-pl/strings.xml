@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="sl_title">Lampka stanu</string>
-    <string name="sl_summary">Co pokazuje mała lampka przy baterii, ładowaniu i powiadomieniach</string>
-    <string name="sl_intro">Mała lampka przy przycisku zasilania. Wybierz, co ma pokazywać, kiedy bateria się kończy, podczas ładowania i gdy przychodzi powiadomienie. Działa dalej, kiedy konsola śpi, tylko przestaje migać.</string>
+    <string name="sl_summary">Co pokazuje lampka stanu przy baterii, ładowaniu i powiadomieniach</string>
+    <string name="sl_intro">Lampka na środku konsoli, pod Fn. Wybierz, co ma pokazywać, kiedy bateria się kończy, podczas ładowania i gdy przychodzi powiadomienie. Działa dalej, kiedy konsola śpi, tylko przestaje migać.</string>
     <string name="sl_missing">Nie umiemy jeszcze sterować lampką tej konsoli.</string>
 
     <!-- What the light shows right now -->

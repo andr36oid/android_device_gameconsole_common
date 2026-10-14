@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="sl_title">Voyant d\'état</string>
-    <string name="sl_summary">Ce que montre le petit voyant pour la batterie, la charge et les notifications</string>
-    <string name="sl_intro">Le petit voyant près du bouton Marche/Arrêt. Choisis ce qu\'il montre quand la batterie est basse, pendant la charge et quand une notification arrive. Il continue de fonctionner pendant que la console dort, il arrête juste de clignoter.</string>
+    <string name="sl_summary">Ce que montre le voyant d\'état pour la batterie, la charge et les notifications</string>
+    <string name="sl_intro">Le voyant au milieu de la console, sous Fn. Choisis ce qu\'il montre quand la batterie est basse, pendant la charge et quand une notification arrive. Il continue de fonctionner pendant que la console dort, il arrête juste de clignoter.</string>
     <string name="sl_missing">On ne sait pas contrôler le voyant de cette console.</string>
 
     <!-- What the light shows right now -->

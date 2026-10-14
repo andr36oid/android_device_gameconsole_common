@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="sl_title">Status-Licht</string>
-    <string name="sl_summary">Was das kleine Licht für Akku, Laden und Benachrichtigungen zeigt</string>
-    <string name="sl_intro">Das kleine Licht neben der Ein-/Aus-Taste. Stell ein, was es zeigt, wenn der Akku schwach wird, beim Laden und wenn eine Benachrichtigung kommt. Es läuft weiter, während die Konsole schläft, es blinkt nur nicht mehr.</string>
+    <string name="sl_summary">Was das Status-Licht für Akku, Laden und Benachrichtigungen zeigt</string>
+    <string name="sl_intro">Das Licht in der Mitte der Konsole, unter Fn. Stell ein, was es zeigt, wenn der Akku schwach wird, beim Laden und wenn eine Benachrichtigung kommt. Es läuft weiter, während die Konsole schläft, es blinkt nur nicht mehr.</string>
     <string name="sl_missing">Das Licht dieser Konsole können wir nicht steuern.</string>
 
     <!-- What the light shows right now -->

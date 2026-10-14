@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="sl_title">Durum ışığı</string>
-    <string name="sl_summary">Küçük ışığın pil, şarj ve bildirimler için ne gösterdiği</string>
-    <string name="sl_intro">Güç düğmesinin yanındaki küçük ışık. Pil azaldığında, şarj olurken ve bir bildirim geldiğinde ne göstereceğini seç. Konsol uyurken çalışmayı sürdürür, sadece yanıp sönmeyi keser.</string>
+    <string name="sl_summary">Durum ışığının pil, şarj ve bildirimler için ne gösterdiği</string>
+    <string name="sl_intro">Konsolun ortasında, Fn tuşunun altındaki ışık. Pil azaldığında, şarj olurken ve bir bildirim geldiğinde ne göstereceğini seç. Konsol uyurken çalışmayı sürdürür, sadece yanıp sönmeyi keser.</string>
     <string name="sl_missing">Bu konsolun ışığını nasıl kontrol edeceğimizi bilmiyoruz.</string>
 
     <!-- What the light shows right now -->

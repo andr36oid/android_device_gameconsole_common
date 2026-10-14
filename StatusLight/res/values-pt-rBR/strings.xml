@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="sl_title">Luz de status</string>
-    <string name="sl_summary">O que a luzinha mostra para bateria, carregamento e notificações</string>
-    <string name="sl_intro">A luzinha ao lado do botão liga/desliga. Escolha o que ela mostra quando a bateria fica baixa, enquanto carrega e quando chega uma notificação. Ela continua funcionando enquanto o console dorme, só para de piscar.</string>
+    <string name="sl_summary">O que a luz de status mostra para bateria, carregamento e notificações</string>
+    <string name="sl_intro">A luz no meio do console, abaixo de Fn. Escolha o que ela mostra quando a bateria fica baixa, enquanto carrega e quando chega uma notificação. Ela continua funcionando enquanto o console dorme, só para de piscar.</string>
     <string name="sl_missing">A luz deste console não é uma que sabemos controlar.</string>
 
     <!-- What the light shows right now -->

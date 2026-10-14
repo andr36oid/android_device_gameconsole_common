@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="sl_title">Lampu status</string>
-    <string name="sl_summary">Apa yang ditunjukkan lampu kecil ini untuk baterai, pengisian, dan notifikasi</string>
-    <string name="sl_intro">Lampu kecil di sebelah tombol daya. Pilih apa yang ditunjukkannya saat baterai lemah, saat mengisi daya, dan saat ada notifikasi masuk. Lampu ini tetap bekerja saat konsol tidur, cuma berhenti berkedip.</string>
+    <string name="sl_summary">Apa yang ditunjukkan lampu status untuk baterai, pengisian, dan notifikasi</string>
+    <string name="sl_intro">Lampu di tengah konsol, di bawah Fn. Pilih apa yang ditunjukkannya saat baterai lemah, saat mengisi daya, dan saat ada notifikasi masuk. Lampu ini tetap bekerja saat konsol tidur, cuma berhenti berkedip.</string>
     <string name="sl_missing">Lampu konsol ini belum kami tahu cara mengendalikannya.</string>
 
     <!-- What the light shows right now -->

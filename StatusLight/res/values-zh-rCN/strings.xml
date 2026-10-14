@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="sl_title">状态灯</string>
-    <string name="sl_summary">这个小灯显示电量、充电和通知的方式</string>
-    <string name="sl_intro">电源键旁边的小灯。你可以设置电量低、充电时和收到通知时它显示什么颜色。主机睡眠时它还在工作，只是不再闪烁。</string>
+    <string name="sl_summary">这个状态灯显示电量、充电和通知的方式</string>
+    <string name="sl_intro">主机中间、Fn 键下方的状态灯。你可以设置电量低、充电时和收到通知时它显示什么颜色。主机睡眠时它还在工作，只是不再闪烁。</string>
     <string name="sl_missing">这台主机的灯，我们还不知道怎么控制。</string>
 
     <!-- What the light shows right now -->
