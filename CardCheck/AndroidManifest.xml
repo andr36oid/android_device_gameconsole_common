@@ -11,7 +11,8 @@
         android:label="@string/check_title"
         android:supportsRtl="true">
 
-        <!-- Injected into Settings > Storage -->
+        <!-- Injected into the top level of the Settings app, right above Storage: the card's
+             speed test and fake-card check -->
         <activity
             android:name=".CardActivity"
             android:exported="true"
@@ -22,16 +23,22 @@
             </intent-filter>
             <meta-data
                 android:name="com.android.settings.category"
-                android:value="com.android.settings.category.ia.storage" />
+                android:value="com.android.settings.category.ia.homepage" />
+            <meta-data
+                android:name="com.android.settings.order"
+                android:value="-62" />
             <meta-data
                 android:name="com.android.settings.keyhint"
-                android:value="card_check" />
+                android:value="top_level_card_check" />
             <meta-data
                 android:name="com.android.settings.summary"
                 android:resource="@string/check_summary" />
             <meta-data
                 android:name="com.android.settings.icon"
-                android:resource="@drawable/ic_card_check" />
+                android:resource="@drawable/ic_card_check_home" />
+            <meta-data
+                android:name="com.android.settings.bg.hint"
+                android:resource="@color/card_check_icon_background" />
         </activity>
 
         <!-- The check service says it's done; a long check gets a notification.
