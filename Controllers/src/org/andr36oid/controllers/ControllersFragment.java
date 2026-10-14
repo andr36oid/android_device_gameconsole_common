@@ -41,6 +41,7 @@ public class ControllersFragment extends PreferenceFragment
     private Preference mExternal;
     private Preference mButtonCheck;
     private Preference mFnStandin;
+    private PreferenceCategory mConsole;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -51,6 +52,7 @@ public class ControllersFragment extends PreferenceFragment
         mButtonCheck = findPreference("button_check");
         mButtonCheck.setIntent(new Intent(getContext(), ButtonCheckActivity.class));
         mFnStandin = findPreference("fn_standin");
+        mConsole = (PreferenceCategory) findPreference("console");
         mFnStandin.setOnPreferenceClickListener(pref -> {
             FnChooser.show(getActivity(), this::refreshButtons);
             return true;
@@ -158,6 +160,13 @@ public class ControllersFragment extends PreferenceFragment
         mButtonCheck.setSummary(ButtonSettings.summary(getContext()));
         mFnStandin.setSummary(ButtonSettings.describeStandin(getContext(),
                 ButtonSettings.fnStandin(getContext())));
+        // Keeps its place: the order from the XML stays when it's added back
+        final boolean show = ButtonSettings.showFnRow(getContext());
+        if (show && mConsole.findPreference("fn_standin") == null) {
+            mConsole.addPreference(mFnStandin);
+        } else if (!show) {
+            mConsole.removePreference(mFnStandin);
+        }
     }
 
     /** The names of the connected pads, or that there are none */

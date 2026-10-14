@@ -62,6 +62,28 @@ final class ButtonSettings {
         }
     }
 
+    /**
+     * An official console (R36S, R36S Plus, R46H, R50S): their device trees are named
+     * "Game Console ...", clones' aren't. All of them have Fn except the R46H (its device
+     * tree says so) and the R36H (same device tree as the R36S, so its owners say so in the
+     * tutorial or the button check).
+     */
+    static boolean official() {
+        try {
+            final byte[] data = Files.readAllBytes(Paths.get("/proc/device-tree/model"));
+            return new String(data, StandardCharsets.UTF_8).startsWith("Game Console ");
+        } catch (IOException | SecurityException e) {
+            return false;
+        }
+    }
+
+    /** The Fn shortcuts row: hidden on official consoles with Fn and nothing chosen */
+    static boolean showFnRow(Context context) {
+        return !official() || !hasFn(context)
+                || !TextUtils.isEmpty(Settings.Global.getString(context.getContentResolver(),
+                        FN_STANDIN));
+    }
+
     /** The saved list, or the device tree hint while nothing was saved. */
     static Set<String> missing(Context context) {
         final Set<String> saved = saved(context);
