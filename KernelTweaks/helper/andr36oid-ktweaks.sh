@@ -29,6 +29,9 @@ R=${KT_ROOT:-}
 #            effect at the next start, through BOOT/kernel-tweaks.txt
 # extra_rates isn't in the Kernel Tweaks list: Settings > Display > Panel overclocking
 # sets it, a comma list of Hz such as "70,77.5", "none" for none.
+# extra_buttons isn't in the list either: Settings > Controls > Buttons on this console >
+# Find an unknown button sets it, a comma list of pins such as "2A5,3C1H" (bank, port,
+# pin, H when pressed is high), "none" for none.
 KNOBS='
 sleep_type|bracket||/sys/power/mem_sleep
 sleep_test|bracket|once|/sys/power/pm_test
@@ -62,6 +65,7 @@ timer_tick|boot||timer_tick
 boot_timing|boot||boot_timing
 usb_autosuspend|boot||usb_autosuspend
 extra_rates|boot||extra_rates
+extra_buttons|boot||extra_buttons
 crash_log|boot||crash_log
 crash_split|boot||crash_split
 '
@@ -119,6 +123,9 @@ boot_read() {
 	extra_rates)
 		v=$(arg_last panel_simple.extra_rates "$2")
 		echo "${v:-none}" ;;
+	extra_buttons)
+		v=$(arg_last odroidgo3_joypad.extra_gpios "$2")
+		echo "${v:-none}" ;;
 	crash_log)
 		case $(arg_last ramoops.disable "$2") in
 		1 | [Yy]*) echo off ;;
@@ -167,6 +174,10 @@ boot_args() {
 	# only numbers, dots and commas get onto the command line
 	extra_rates:*[!0-9.,]*) ;;
 	extra_rates:*) echo "panel_simple.extra_rates=$2" ;;
+	extra_buttons:none) ;;
+	# only pin names (2A5, 3C1H) and commas get onto the command line
+	extra_buttons:*[!0-9A-DLH,]*) ;;
+	extra_buttons:*) echo "odroidgo3_joypad.extra_gpios=$2" ;;
 	crash_log:off) echo "ramoops.disable=1" ;;
 	crash_split:balanced) split_args "$SPLIT_BALANCED" ;;
 	crash_split:kernel) split_args "$SPLIT_KERNEL" ;;

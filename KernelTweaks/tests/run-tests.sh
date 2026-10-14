@@ -227,6 +227,34 @@ setp persist.andr36oid.kt.cpu_idle ""
 run apply
 check "extra rates removed" no "$([ -e "$T/boot/kernel-tweaks.txt" ] && echo yes || echo no)"
 
+# --- extra buttons (Controls > Buttons on this console > Find an unknown button)
+setup
+run boot
+check "extra buttons default none" none "$(prop sys.andr36oid.ktd.extra_buttons)"
+setp persist.andr36oid.kt.extra_buttons "2A5,3C1H"
+run apply
+check "extra buttons written" "odroidgo3_joypad.extra_gpios=2A5,3C1H" \
+	"$(sed -n 's/^kt_args=//p' "$T/boot/kernel-tweaks.txt")"
+args=$(sed -n 's/^kt_args=//p' "$T/boot/kernel-tweaks.txt")
+echo "$(cat "$R"/proc/cmdline) $args" >"$R"/proc/cmdline
+run boot
+check "extra buttons current" "2A5,3C1H" "$(prop sys.andr36oid.ktc.extra_buttons)"
+check "extra buttons default stays none" none "$(prop sys.andr36oid.ktd.extra_buttons)"
+for bad in "2A5 init=/bin/sh" "2a5" "2E1" "2A5;reboot" "2A5,X"; do
+	setp persist.andr36oid.kt.extra_buttons "$bad"
+	run apply
+	check "odd extra buttons '$bad' left off" no "$([ -e "$T/boot/kernel-tweaks.txt" ] && echo yes || echo no)"
+done
+setp persist.andr36oid.kt.extra_buttons "1D0L"
+setp persist.andr36oid.kt.extra_rates "75"
+run apply
+check "extra buttons with extra rates" "panel_simple.extra_rates=75 odroidgo3_joypad.extra_gpios=1D0L" \
+	"$(sed -n 's/^kt_args=//p' "$T/boot/kernel-tweaks.txt")"
+setp persist.andr36oid.kt.extra_buttons none
+setp persist.andr36oid.kt.extra_rates ""
+run apply
+check "extra buttons removed" no "$([ -e "$T/boot/kernel-tweaks.txt" ] && echo yes || echo no)"
+
 # --- crash log: two knobs while running, on/off and the split as start options
 setup
 mkdir -p "$R"/sys/module/ramoops/parameters
