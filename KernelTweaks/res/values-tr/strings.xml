@@ -193,6 +193,14 @@
     <string name="kt_power_chip_log_what">Güç çipinin (RK817) şarj, pil göstergesi ve ses kısımlarının ne yaptığını kaydetmesine izin verir.</string>
     <string name="kt_power_chip_log_why">Zıplayan pil yüzdeleri, duran şarj veya çatırdayan ses için. Çok gevezedir, bu yüzden sadece bir sorun raporu hazırlarken aç.</string>
 
+    <string name="kt_crash_oops">Sürücü hatalarını da kaydet</string>
+    <string name="kt_crash_oops_what">Bir sürücü ciddi bir hata (oops) aldığında ve çekirdek çalışmaya devam ettiğinde çökme kaydı tutar, yalnızca tüm çekirdek çöktüğünde değil.</string>
+    <string name="kt_crash_oops_why">Oops çoğu zaman sonra ortaya çıkan sorunların başlangıcıdır: ses yok, ölü tuşlar, donmuş ekran. Bu açıkken, bir sonraki yeniden başlatmadan sonraki sorun raporunda yer alır. Kapalıyken yalnızca tam çekirdek çökmeleri kaydedilir, böylece zararsız bir oops bir sonraki açılıştan sonra çökme bildirimi göstermez.</string>
+
+    <string name="kt_crash_restart_log">Her yeniden başlatmada logu kaydet</string>
+    <string name="kt_crash_restart_log_what">Konsol normal şekilde yeniden başladığında çekirdek, logunun sonunu da çökme kaydına yazar; her mesajla, log seviyesinin altındaki sessiz olanlar dahil.</string>
+    <string name="kt_crash_restart_log_why">Çökme olmayan sorunlar için, örneğin yeniden başlatana kadar takılan bir oyun. Son açılışın çekirdek logu yine de tutulur, ama yalnızca log seviyesindeki satırlar. Aynı açılıştaki bir çökme her zaman kendi kaydını tutar. Ama normal yeniden başlatma eski bir çökme kaydının yerine geçer, bu yüzden bir çökmeyle ilgili sorun raporunu önce kaydet. Kapatınca hiçbir şey tutulmaz: RAM onu kaybeder.</string>
+
     <!-- At start (needs a restart) -->
     <string name="kt_serial_console">Seri konsol</string>
     <string name="kt_serial_console_what">Kernel logunu hata ayıklama seri portundan dışarı gönderir ve orada komut yazmana izin verir (R36S\'de UART2, EE klonlarda UART5).</string>
@@ -224,4 +232,15 @@
     <string name="kt_usb_autosuspend">USB güç tasarrufu</string>
     <string name="kt_usb_autosuspend_what">USB cihazların (kontrolcüler, Wi-Fi adaptörleri, klavyeler) kullanılmadıklarında kapanmasına izin verir.</string>
     <string name="kt_usb_autosuspend_why">Bazı ucuz USB kontrolcüler ve Wi-Fi adaptörleri bir aradan sonra bağlantıyı koparır veya gecikir. Kapalı, onları uyanık tutar ama biraz pile mal olur.</string>
+
+    <string name="kt_crash_log">Çökme logu</string>
+    <string name="kt_crash_log_what">Çekirdek logunu, Android logunu ve bir çökme kaydını yeniden başlatmada kalan bir RAM parçasında tutar; böylece bir sonraki açılış bunları sorun raporuna koyabilir.</string>
+    <string name="kt_crash_log_why">Açık bırak. Kapatmak yalnızca çökme logunun kendisinin sorun çıkarıp çıkarmadığını test etmek içindir. Sorun raporunda o zaman bir önceki açılışın logu olmaz ve çekirdek çökmeleri artık çökme bildirimi göstermez. 960 KB yine de ayrılmış kalır: aygıt ağacı onları ayırır, sadece kullanılmazlar.</string>
+
+    <string name="kt_crash_split">Çökme logu bölümü</string>
+    <string name="kt_crash_split_what">Yeniden başlatmada tutulan 960 KB\'ın çökme kaydı, çekirdek logu ve Android logu arasında nasıl paylaşıldığı. Dengeli: 192 KB, 512 KB ve 256 KB. Daha fazla çekirdek logu: 320 KB, 512 KB ve 128 KB. Daha fazla Android logu: 192 KB, 256 KB ve 512 KB.</string>
+    <string name="kt_crash_split_why">Dengeli çoğu sorun için uygundur. Daha fazla çekirdek logu, öncesinde uzun bir hikâyesi olan çökmeler için tüm çekirdek logunu çökme kaydına sığdırır. Daha fazla Android logu, çekirdek çökmesi olmadan kapanan ya da donan uygulamalar ve oyunlar için Android logunun iki katını tutar. Değişiklikten önceki loglar, onu yapan yeniden başlatmada kaybolur.</string>
+    <string name="kt_crash_split_balanced">Dengeli</string>
+    <string name="kt_crash_split_kernel">Daha fazla çekirdek logu</string>
+    <string name="kt_crash_split_android">Daha fazla Android logu</string>
 </resources>

@@ -193,6 +193,14 @@
     <string name="kt_power_chip_log_what">Lässt den Lader, die Akkuanzeige und die Tonteile des Power-Chips (RK817) loggen, was sie gerade machen.</string>
     <string name="kt_power_chip_log_why">Für Akkuanzeigen, die hin- und herspringen, Laden, das abbricht, oder Ton, der knistert. Sehr geschwätzig, also nur einschalten, während du einen Problembericht erstellst.</string>
 
+    <string name="kt_crash_oops">Treiberfehler auch speichern</string>
+    <string name="kt_crash_oops_what">Speichert einen Absturzbericht, wenn ein Treiber auf einen ernsten Fehler (einen oops) stößt und der Kernel weiterläuft, nicht nur wenn der ganze Kernel abstürzt.</string>
+    <string name="kt_crash_oops_why">Ein oops ist oft der Anfang von Ärger, der später auftaucht: kein Ton, tote Tasten, ein eingefrorener Bildschirm. Ist das an, steht er nach dem nächsten Neustart im Problembericht. Aus speichert nur komplette Kernel-Abstürze, damit ein harmloser oops nach dem nächsten Start keinen Absturzhinweis zeigt.</string>
+
+    <string name="kt_crash_restart_log">Log bei jedem Neustart speichern</string>
+    <string name="kt_crash_restart_log_what">Wenn die Konsole normal neu startet, speichert der Kernel zusätzlich das Ende seines Logs im Absturzbericht, mit jeder Meldung, auch den leisen unterhalb der Log-Stufe.</string>
+    <string name="kt_crash_restart_log_why">Für Probleme ohne Absturz, etwa ein Spiel, das ruckelt, bis du neu startest. Das Kernel-Log des letzten Starts wird ohnehin behalten, aber nur die Zeilen ab der Log-Stufe. Ein Absturz im selben Start behält immer seinen eigenen Bericht. Ein normaler Neustart ersetzt aber einen älteren Absturzbericht, also speichere zuerst den Problembericht zu einem Absturz. Nach dem Ausschalten wird nichts behalten: Der RAM verliert es.</string>
+
     <!-- At start (needs a restart) -->
     <string name="kt_serial_console">Serielle Konsole</string>
     <string name="kt_serial_console_what">Schickt das Kernel-Log über den seriellen Debug-Anschluss raus und lässt dich dort Befehle eingeben (UART2 bei der R36S, UART5 bei EE-Klonen).</string>
@@ -224,4 +232,15 @@
     <string name="kt_usb_autosuspend">USB-Stromsparen</string>
     <string name="kt_usb_autosuspend_what">Lässt USB-Geräte (Controller, Wi-Fi-Sticks, Tastaturen) abschalten, wenn sie nicht benutzt werden.</string>
     <string name="kt_usb_autosuspend_why">Manche billigen USB-Controller und Wi-Fi-Sticks fallen nach einer Pause aus oder hängen hinterher. Aus hält sie wach, kostet aber etwas Akku.</string>
+
+    <string name="kt_crash_log">Absturzlog</string>
+    <string name="kt_crash_log_what">Behält das Kernel-Log, das Android-Log und einen Absturzbericht in einem Stück RAM, das einen Neustart übersteht, damit der nächste Start sie in den Problembericht packen kann.</string>
+    <string name="kt_crash_log_why">Am besten eingeschaltet lassen. Aus ist nur zum Testen, ob das Absturzlog selbst Ärger macht. Dem Problembericht fehlt dann das Log des vorherigen Starts, und Kernel-Abstürze zeigen keinen Absturzhinweis mehr. Die 960 KB bleiben ohnehin reserviert: Der Gerätebaum hält sie frei, sie werden nur nicht genutzt.</string>
+
+    <string name="kt_crash_split">Aufteilung des Absturzlogs</string>
+    <string name="kt_crash_split_what">Wie die 960 KB, die einen Neustart überstehen, auf Absturzbericht, Kernel-Log und Android-Log verteilt werden. Ausgewogen: 192 KB, 512 KB und 256 KB. Mehr Kernel-Log: 320 KB, 512 KB und 128 KB. Mehr Android-Log: 192 KB, 256 KB und 512 KB.</string>
+    <string name="kt_crash_split_why">Ausgewogen passt für die meisten Probleme. Mehr Kernel-Log passt das ganze Kernel-Log in den Absturzbericht, für Abstürze mit einer langen Vorgeschichte. Mehr Android-Log behält doppelt so viel von Androids Log, für Apps und Spiele, die ohne Kernel-Absturz schließen oder einfrieren. Die Logs von vor der Umstellung gehen beim Neustart verloren, der sie umstellt.</string>
+    <string name="kt_crash_split_balanced">Ausgewogen</string>
+    <string name="kt_crash_split_kernel">Mehr Kernel-Log</string>
+    <string name="kt_crash_split_android">Mehr Android-Log</string>
 </resources>

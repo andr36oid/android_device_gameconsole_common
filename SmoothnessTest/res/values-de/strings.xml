@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="smooth_title">Flüssigkeitstest</string>
+    <!-- %1$s: the refresh rate the screen is set to, like 75 -->
+    <string name="smooth_screen">Bildschirm: %1$s Hz</string>
+    <!-- %1$s: frames the app got in the last second, like 74.9 -->
+    <string name="smooth_measured">Gemessen: %1$s Hz</string>
+    <!-- Frames that came more than 1.5 frames late. %1$d: in the last second,
+         %2$d: since the test started -->
+    <string name="smooth_late">Verspätete Bilder: %1$d in der letzten Sekunde, %2$d insgesamt</string>
+    <string name="smooth_hint">Der Block sollte ohne Sprünge gleiten. B zum Verlassen.</string>
+</resources>

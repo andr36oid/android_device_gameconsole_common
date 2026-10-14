@@ -192,6 +192,14 @@
     <string name="kt_power_chip_log_what">让电源芯片（RK817）的充电、电量计和声音部分记录它们在做什么。</string>
     <string name="kt_power_chip_log_why">适用于电量百分比乱跳、充电中断或声音出现爆音的情况。非常啰嗦，所以只在制作问题报告时才开启它。</string>
 
+    <string name="kt_crash_oops">同时保存驱动错误</string>
+    <string name="kt_crash_oops_what">当驱动遇到严重错误（oops）且内核仍在运行时保存一份崩溃记录，而不仅在整个内核崩溃时。</string>
+    <string name="kt_crash_oops_why">oops 往往是之后才出现的麻烦的开端：没有声音、按键失灵、画面冻结。开启后，下次重启后的问题报告会包含它。关闭则只保存完整的内核崩溃，这样无害的 oops 不会在下次启动后弹出崩溃提示。</string>
+
+    <string name="kt_crash_restart_log">每次重启都保存日志</string>
+    <string name="kt_crash_restart_log_what">主机正常重启时，内核还会把日志末尾的内容连同每条消息（包括低于日志级别的安静消息）保存到崩溃记录中。</string>
+    <string name="kt_crash_restart_log_why">适用于没有崩溃的问题，比如游戏卡顿直到你重启。上一次启动的内核日志无论如何都会保留，但只保留日志级别以上的行。同一次启动中的崩溃始终保留它自己的记录。不过，正常重启会替换较早的崩溃记录，所以请先保存关于崩溃的问题报告。关闭后不会保留任何内容：内存会丢失。</string>
+
     <!-- At start (needs a restart) -->
     <string name="kt_serial_console">串口控制台</string>
     <string name="kt_serial_console_what">把内核日志从调试串口输出，并让你可以在那里输入命令（R36S 上是 UART2，EE 山寨机上是 UART5）。</string>
@@ -223,4 +231,15 @@
     <string name="kt_usb_autosuspend">USB 省电</string>
     <string name="kt_usb_autosuspend_what">让 USB 设备（手柄、Wi-Fi 网卡、键盘）在不用时断电休眠。</string>
     <string name="kt_usb_autosuspend_why">有些便宜的 USB 手柄和 Wi-Fi 网卡在闲置一会儿后会断开或变得迟钝。关闭后它们会一直保持唤醒，代价是多耗一些电。</string>
+
+    <string name="kt_crash_log">崩溃日志</string>
+    <string name="kt_crash_log_what">将内核日志、Android 日志和崩溃记录保存在一块能在重启后保留的内存中，以便下次启动时将它们放入问题报告。</string>
+    <string name="kt_crash_log_why">建议保持开启。关闭仅用于测试崩溃日志本身是否会引发问题。这样问题报告中就缺少上一次启动的日志，内核崩溃也不再弹出崩溃提示。无论如何，960 KB 都会被预留：设备树会保留它们，只是不会使用。</string>
+
+    <string name="kt_crash_split">崩溃日志分配</string>
+    <string name="kt_crash_split_what">重启时保留的 960 KB 如何在崩溃记录、内核日志和 Android 日志之间分配。均衡：192 KB、512 KB 和 256 KB。更多内核日志：320 KB、512 KB 和 128 KB。更多 Android 日志：192 KB、256 KB 和 512 KB。</string>
+    <string name="kt_crash_split_why">均衡适合大多数问题。更多内核日志可将整个内核日志放入崩溃记录，适合前面有长篇经过的崩溃。更多 Android 日志可多保留一倍的 Android 日志，适合没有内核崩溃却关闭或冻结的应用和游戏。切换前的日志会在进行切换的那次重启中丢失。</string>
+    <string name="kt_crash_split_balanced">均衡</string>
+    <string name="kt_crash_split_kernel">更多内核日志</string>
+    <string name="kt_crash_split_android">更多 Android 日志</string>
 </resources>

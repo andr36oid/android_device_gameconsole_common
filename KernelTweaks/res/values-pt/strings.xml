@@ -193,6 +193,14 @@
     <string name="kt_power_chip_log_what">Deixa as partes de carregamento, medidor de bateria e som do chip de energia (RK817) registarem o que estão a fazer.</string>
     <string name="kt_power_chip_log_why">Para percentagens de bateria que saltam, carregamento que para, ou som que crepita. Muito tagarela, por isso ativa isto só enquanto estiveres a fazer um relatório de problemas.</string>
 
+    <string name="kt_crash_oops">Guardar também erros de controladores</string>
+    <string name="kt_crash_oops_what">Guarda um registo de bloqueio quando um controlador tem um erro grave (um oops) e o kernel continua, e não só quando o kernel inteiro bloqueia.</string>
+    <string name="kt_crash_oops_why">Um oops costuma ser o início de problemas que aparecem depois: sem som, botões mortos, uma tela congelada. Com isto ligado, o relatório de problemas depois do próximo reinício tem-no. Desligado, guarda só os bloqueios completos do kernel, por isso um oops inofensivo não mostra o aviso de bloqueio depois do próximo arranque.</string>
+
+    <string name="kt_crash_restart_log">Guardar o registo em cada reinício</string>
+    <string name="kt_crash_restart_log_what">Quando a consola reinicia normalmente, o kernel também guarda o fim do seu registo no registo de bloqueios, com todas as mensagens, também as silenciosas abaixo do nível de registo.</string>
+    <string name="kt_crash_restart_log_why">Para problemas sem bloqueio, como um jogo que engasga até reiniciares. O registo do kernel do último arranque fica guardado de qualquer forma, mas só as linhas do nível de registo. Um bloqueio no mesmo arranque guarda sempre o seu próprio registo. Um reinício normal substitui, porém, um registo de bloqueio antigo, por isso guarda primeiro o relatório de problemas de um bloqueio. Depois de desligar, nada fica guardado: a RAM perde-o.</string>
+
     <!-- At start (needs a restart) -->
     <string name="kt_serial_console">Consola série</string>
     <string name="kt_serial_console_what">Envia o registo do kernel pela porta série de depuração e deixa-te escrever comandos lá (UART2 na R36S, UART5 nos clones EE).</string>
@@ -224,4 +232,15 @@
     <string name="kt_usb_autosuspend">Poupança de energia USB</string>
     <string name="kt_usb_autosuspend_what">Deixa os dispositivos USB (comandos, adaptadores Wi-Fi, teclados) desligarem-se quando não estão a ser usados.</string>
     <string name="kt_usb_autosuspend_why">Alguns comandos USB e adaptadores Wi-Fi baratos desligam-se ou ficam lentos depois de uma pausa. Desativado mantém-nos acordados, à custa de alguma bateria.</string>
+
+    <string name="kt_crash_log">Registo de bloqueios</string>
+    <string name="kt_crash_log_what">Guarda o registo do kernel, o registo do Android e um registo de bloqueio numa parte da RAM que sobrevive a um reinício, para que o próximo arranque os possa meter no relatório de problemas.</string>
+    <string name="kt_crash_log_why">Deixa ligado. Desligado serve só para testar se o próprio registo de bloqueios causa problemas. O relatório de problemas fica então sem o registo do arranque anterior, e os bloqueios do kernel deixam de mostrar o aviso de bloqueio. Os 960 KB ficam reservados de qualquer forma: a árvore de dispositivos reserva-os, só não são usados.</string>
+
+    <string name="kt_crash_split">Divisão do registo de bloqueios</string>
+    <string name="kt_crash_split_what">Como os 960 KB guardados num reinício são repartidos entre o registo de bloqueio, o registo do kernel e o registo do Android. Equilibrado: 192 KB, 512 KB e 256 KB. Mais registo do kernel: 320 KB, 512 KB e 128 KB. Mais registo do Android: 192 KB, 256 KB e 512 KB.</string>
+    <string name="kt_crash_split_why">Equilibrado serve para a maioria dos problemas. Mais registo do kernel põe o registo inteiro do kernel no registo de bloqueio, para bloqueios com uma história longa antes. Mais registo do Android guarda o dobro do registo do Android, para apps e jogos que fecham ou congelam sem bloqueio do kernel. Os registos de antes da mudança perdem-se no reinício que a faz.</string>
+    <string name="kt_crash_split_balanced">Equilibrado</string>
+    <string name="kt_crash_split_kernel">Mais registo do kernel</string>
+    <string name="kt_crash_split_android">Mais registo do Android</string>
 </resources>

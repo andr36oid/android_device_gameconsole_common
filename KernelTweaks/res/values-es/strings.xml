@@ -193,6 +193,14 @@
     <string name="kt_power_chip_log_what">Deja que las partes de carga, nivel de batería y sonido del chip de energía (RK817) registren lo que están haciendo.</string>
     <string name="kt_power_chip_log_why">Para porcentajes de batería que saltan, carga que se detiene o sonido que cruje. Muy hablador, así que activa esto solo mientras haces un informe de problemas.</string>
 
+    <string name="kt_crash_oops">Guardar también errores de controladores</string>
+    <string name="kt_crash_oops_what">Guarda un registro de cuelgue cuando un controlador tiene un error grave (un oops) y el kernel sigue funcionando, no solo cuando se cae todo el kernel.</string>
+    <string name="kt_crash_oops_why">Un oops suele ser el principio de problemas que aparecen después: sin sonido, botones muertos, una pantalla congelada. Con esto activado, el informe de problemas tras el próximo reinicio lo incluye. Desactivado guarda solo los cuelgues completos del kernel, así un oops inofensivo no muestra el aviso de cuelgue tras el siguiente inicio.</string>
+
+    <string name="kt_crash_restart_log">Guardar el registro en cada reinicio</string>
+    <string name="kt_crash_restart_log_what">Cuando la consola se reinicia normalmente, el kernel también guarda el final de su registro en el registro de cuelgues, con todos los mensajes, también los silenciosos por debajo del nivel de registro.</string>
+    <string name="kt_crash_restart_log_why">Para problemas sin cuelgue, como un juego que tartamudea hasta que reinicias. El registro del kernel del último inicio se guarda igual, pero solo las líneas del nivel de registro. Un cuelgue en el mismo inicio siempre guarda su propio registro. Pero un reinicio normal reemplaza un registro de cuelgue anterior, así que guarda antes el informe de problemas de un cuelgue. Al desactivarlo no se guarda nada: la RAM lo pierde.</string>
+
     <!-- At start (needs a restart) -->
     <string name="kt_serial_console">Consola serie</string>
     <string name="kt_serial_console_what">Envía el registro del kernel por el puerto serie de depuración y te deja escribir comandos ahí (UART2 en la R36S, UART5 en los clones EE).</string>
@@ -224,4 +232,15 @@
     <string name="kt_usb_autosuspend">Ahorro de energía USB</string>
     <string name="kt_usb_autosuspend_what">Deja que los dispositivos USB (mandos, adaptadores Wi-Fi, teclados) se apaguen cuando no se usan.</string>
     <string name="kt_usb_autosuspend_why">Algunos mandos USB y adaptadores Wi-Fi baratos se desconectan o van con retraso tras una pausa. Desactivado los mantiene despiertos, a costa de algo de batería.</string>
+
+    <string name="kt_crash_log">Registro de cuelgues</string>
+    <string name="kt_crash_log_what">Guarda el registro del kernel, el registro de Android y un registro de cuelgue en un trozo de RAM que sobrevive a un reinicio, para que el siguiente inicio pueda meterlos en el informe de problemas.</string>
+    <string name="kt_crash_log_why">Déjalo activado. Desactivado solo sirve para probar si el propio registro de cuelgues causa problemas. El informe de problemas entonces no tiene el registro del inicio anterior, y los cuelgues del kernel ya no muestran el aviso de cuelgue. Los 960 KB quedan reservados igualmente: el árbol de dispositivos los reserva, solo que no se usan.</string>
+
+    <string name="kt_crash_split">División del registro de cuelgues</string>
+    <string name="kt_crash_split_what">Cómo se reparten los 960 KB que se guardan en un reinicio entre el registro de cuelgue, el registro del kernel y el registro de Android. Equilibrado: 192 KB, 512 KB y 256 KB. Más registro del kernel: 320 KB, 512 KB y 128 KB. Más registro de Android: 192 KB, 256 KB y 512 KB.</string>
+    <string name="kt_crash_split_why">Equilibrado sirve para la mayoría de problemas. Más registro del kernel mete todo el registro del kernel en el registro de cuelgue, para cuelgues con una historia larga detrás. Más registro de Android guarda el doble del registro de Android, para apps y juegos que se cierran o se congelan sin un cuelgue del kernel. Los registros de antes del cambio se pierden en el reinicio que lo cambia.</string>
+    <string name="kt_crash_split_balanced">Equilibrado</string>
+    <string name="kt_crash_split_kernel">Más registro del kernel</string>
+    <string name="kt_crash_split_android">Más registro de Android</string>
 </resources>

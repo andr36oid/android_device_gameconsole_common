@@ -193,6 +193,14 @@
     <string name="kt_power_chip_log_what">Deixa as partes de carregador, medidor de bateria e som do chip de energia (RK817) registrarem o que estão fazendo.</string>
     <string name="kt_power_chip_log_why">Para porcentagens de bateria que pulam, carregamento que para, ou som que chia. Muito falador, então ative só enquanto você estiver fazendo um relatório de problemas.</string>
 
+    <string name="kt_crash_oops">Salvar também erros de driver</string>
+    <string name="kt_crash_oops_what">Salva um registro de travamento quando um driver tem um erro grave (um oops) e o kernel continua, e não só quando o kernel inteiro trava.</string>
+    <string name="kt_crash_oops_why">Um oops costuma ser o começo de problemas que aparecem depois: sem som, botões mortos, uma tela congelada. Com isso ligado, o relatório de problemas depois do próximo reinício traz isso. Desligado, salva só os travamentos completos do kernel, então um oops inofensivo não mostra o aviso de travamento depois da próxima inicialização.</string>
+
+    <string name="kt_crash_restart_log">Salvar o log a cada reinício</string>
+    <string name="kt_crash_restart_log_what">Quando o console reinicia normalmente, o kernel também salva o fim do log dele no registro de travamento, com todas as mensagens, inclusive as silenciosas abaixo do nível de log.</string>
+    <string name="kt_crash_restart_log_why">Para problemas sem travamento, como um jogo que engasga até você reiniciar. O log do kernel da última inicialização é mantido de qualquer forma, mas só as linhas no nível de log. Um travamento na mesma inicialização sempre guarda o próprio registro. Um reinício normal, porém, substitui um registro de travamento antigo, então salve antes o relatório de problemas de um travamento. Depois de desligar, nada é mantido: a RAM perde tudo.</string>
+
     <!-- At start (needs a restart) -->
     <string name="kt_serial_console">Console serial</string>
     <string name="kt_serial_console_what">Manda o log do kernel pela porta serial de depuração e deixa você digitar comandos nela (UART2 no R36S, UART5 nos clones EE).</string>
@@ -224,4 +232,15 @@
     <string name="kt_usb_autosuspend">Economia de energia USB</string>
     <string name="kt_usb_autosuspend_what">Deixa os dispositivos USB (controles, adaptadores Wi-Fi, teclados) desligarem quando não estão em uso.</string>
     <string name="kt_usb_autosuspend_why">Alguns controles USB e adaptadores Wi-Fi baratos caem ou ficam com atraso depois de uma pausa. Desativado mantém eles acordados, ao custo de um pouco de bateria.</string>
+
+    <string name="kt_crash_log">Log de travamentos</string>
+    <string name="kt_crash_log_what">Mantém o log do kernel, o log do Android e um registro de travamento em uma parte da RAM que sobrevive a um reinício, para que a próxima inicialização possa colocá-los no relatório de problemas.</string>
+    <string name="kt_crash_log_why">Deixe ligado. Desligado serve só para testar se o próprio log de travamentos causa problemas. O relatório de problemas fica então sem o log da inicialização anterior, e os travamentos do kernel deixam de mostrar o aviso de travamento. Os 960 KB continuam reservados de qualquer forma: a árvore de dispositivos os reserva, só que não são usados.</string>
+
+    <string name="kt_crash_split">Divisão do log de travamentos</string>
+    <string name="kt_crash_split_what">Como os 960 KB mantidos num reinício são divididos entre o registro de travamento, o log do kernel e o log do Android. Equilibrado: 192 KB, 512 KB e 256 KB. Mais log do kernel: 320 KB, 512 KB e 128 KB. Mais log do Android: 192 KB, 256 KB e 512 KB.</string>
+    <string name="kt_crash_split_why">Equilibrado serve para a maioria dos problemas. Mais log do kernel cabe o log inteiro do kernel no registro de travamento, para travamentos com uma história longa antes. Mais log do Android guarda o dobro do log do Android, para apps e jogos que fecham ou travam sem um travamento do kernel. Os logs de antes da troca se perdem no reinício que a faz.</string>
+    <string name="kt_crash_split_balanced">Equilibrado</string>
+    <string name="kt_crash_split_kernel">Mais log do kernel</string>
+    <string name="kt_crash_split_android">Mais log do Android</string>
 </resources>

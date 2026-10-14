@@ -193,6 +193,14 @@
     <string name="kt_power_chip_log_what">Laisse les parties chargeur, jauge de batterie et son de la puce d\'alimentation (RK817) journaliser ce qu\'elles font.</string>
     <string name="kt_power_chip_log_why">Pour les pourcentages de batterie qui sautent, une charge qui s\'arrête ou un son qui crépite. Très bavard, donc n\'active ça que pendant que tu fais un rapport de problème.</string>
 
+    <string name="kt_crash_oops">Enregistrer aussi les erreurs de pilote</string>
+    <string name="kt_crash_oops_what">Garde un enregistrement de plantage quand un pilote rencontre une erreur grave (un oops) et que le noyau continue, pas seulement quand tout le noyau plante.</string>
+    <string name="kt_crash_oops_why">Un oops est souvent le début de problèmes qui apparaissent plus tard : plus de son, boutons morts, écran figé. Avec cette option, le rapport de problème après le prochain redémarrage le contient. Désactivée, elle ne garde que les plantages complets du noyau, donc un oops anodin n\'affiche pas l\'avis de plantage au démarrage suivant.</string>
+
+    <string name="kt_crash_restart_log">Garder le journal à chaque redémarrage</string>
+    <string name="kt_crash_restart_log_what">Quand la console redémarre normalement, le noyau garde aussi la fin de son journal dans l\'enregistrement de plantage, avec chaque message, y compris les silencieux sous le niveau de journal.</string>
+    <string name="kt_crash_restart_log_why">Pour les problèmes sans plantage, comme un jeu qui saccade jusqu\'à ce que tu redémarres. Le journal du noyau du dernier démarrage est gardé de toute façon, mais seulement les lignes au niveau de journal. Un plantage dans le même démarrage garde toujours son propre enregistrement. Un redémarrage normal remplace toutefois un ancien enregistrement de plantage, donc enregistre d\'abord le rapport de problème d\'un plantage. Rien n\'est gardé après la désactivation : la RAM perd tout.</string>
+
     <!-- At start (needs a restart) -->
     <string name="kt_serial_console">Console série</string>
     <string name="kt_serial_console_what">Envoie le journal du noyau sur le port série de débogage et te permet d\'y taper des commandes (UART2 sur la R36S, UART5 sur les clones EE).</string>
@@ -224,4 +232,15 @@
     <string name="kt_usb_autosuspend">Économie d\'énergie USB</string>
     <string name="kt_usb_autosuspend_what">Laisse les appareils USB (manettes, clés Wi-Fi, claviers) se mettre en veille quand ils ne servent pas.</string>
     <string name="kt_usb_autosuspend_why">Certaines manettes USB et clés Wi-Fi bon marché décrochent ou traînent après une pause. Désactivé les garde éveillés, au prix d\'un peu de batterie.</string>
+
+    <string name="kt_crash_log">Journal de plantage</string>
+    <string name="kt_crash_log_what">Garde le journal du noyau, le journal d\'Android et un enregistrement de plantage dans une zone de RAM qui survit à un redémarrage, pour que le prochain démarrage puisse les mettre dans le rapport de problème.</string>
+    <string name="kt_crash_log_why">Laisse-le activé. Désactivé, ça sert seulement à tester si le journal de plantage lui-même cause des soucis. Le rapport de problème n\'a alors pas le journal du démarrage précédent, et les plantages du noyau n\'affichent plus l\'avis de plantage. Les 960 KB restent réservés de toute façon : l\'arbre de périphériques les réserve, ils ne servent simplement à rien.</string>
+
+    <string name="kt_crash_split">Répartition du journal de plantage</string>
+    <string name="kt_crash_split_what">Comment se partagent les 960 KB conservés au redémarrage entre l\'enregistrement de plantage, le journal du noyau et le journal d\'Android. Équilibré : 192 KB, 512 KB et 256 KB. Plus de journal du noyau : 320 KB, 512 KB et 128 KB. Plus de journal d\'Android : 192 KB, 256 KB et 512 KB.</string>
+    <string name="kt_crash_split_why">Équilibré convient à la plupart des problèmes. Plus de journal du noyau fait tenir tout le journal du noyau dans l\'enregistrement de plantage, pour les plantages qui ont une longue histoire avant eux. Plus de journal d\'Android garde deux fois plus du journal d\'Android, pour les applications et jeux qui se ferment ou gèlent sans plantage du noyau. Les journaux d\'avant le changement sont perdus au redémarrage qui le fait.</string>
+    <string name="kt_crash_split_balanced">Équilibré</string>
+    <string name="kt_crash_split_kernel">Plus de journal du noyau</string>
+    <string name="kt_crash_split_android">Plus de journal d\'Android</string>
 </resources>

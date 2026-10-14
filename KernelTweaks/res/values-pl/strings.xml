@@ -195,6 +195,14 @@
     <string name="kt_power_chip_log_what">Pozwala częściom ładowania, miernika baterii i dźwięku układu zasilania (RK817) zapisywać, co robią.</string>
     <string name="kt_power_chip_log_why">Na wypadek skaczących procentów baterii, ładowania, które się zatrzymuje, albo dźwięku, który trzeszczy. Bardzo rozmowne, więc włącz to tylko podczas tworzenia raportu problemu.</string>
 
+    <string name="kt_crash_oops">Zapisuj też błędy sterowników</string>
+    <string name="kt_crash_oops_what">Zachowuje zapis awarii, gdy sterownik trafi na poważny błąd (oops), a jądro działa dalej, a nie tylko wtedy, gdy całe jądro się wywali.</string>
+    <string name="kt_crash_oops_why">Oops to często początek kłopotów, które wychodzą później: brak dźwięku, martwe przyciski, zamrożony ekran. Przy włączonej opcji raport problemu po następnym restarcie to zawiera. Wyłączona zapisuje tylko pełne awarie jądra, więc niegroźny oops nie pokaże komunikatu o awarii po kolejnym starcie.</string>
+
+    <string name="kt_crash_restart_log">Zapisuj log przy każdym restarcie</string>
+    <string name="kt_crash_restart_log_what">Gdy konsola uruchamia się normalnie, jądro zapisuje też koniec swojego logu w zapisie awarii, z każdym komunikatem, także cichymi poniżej poziomu logu.</string>
+    <string name="kt_crash_restart_log_why">Dla problemów bez awarii, na przykład gry, która się zacina, dopóki nie zrestartujesz. Log jądra z poprzedniego startu i tak jest zachowany, ale tylko linie na poziomie logu. Awaria w tym samym starcie zawsze ma własny zapis. Zwykły restart zastępuje jednak starszy zapis awarii, więc najpierw zapisz raport problemu o awarii. Po wyłączeniu nic nie jest zachowywane: RAM to traci.</string>
+
     <!-- At start (needs a restart) -->
     <string name="kt_serial_console">Konsola szeregowa</string>
     <string name="kt_serial_console_what">Wysyła log jądra przez szeregowy port debugowania i pozwala wpisywać tam polecenia (UART2 w R36S, UART5 w klonach EE).</string>
@@ -226,4 +234,15 @@
     <string name="kt_usb_autosuspend">Oszczędzanie energii USB</string>
     <string name="kt_usb_autosuspend_what">Pozwala urządzeniom USB (kontrolery, karty Wi-Fi, klawiatury) wyłączać się, gdy nie są używane.</string>
     <string name="kt_usb_autosuspend_why">Niektóre tanie kontrolery USB i karty Wi-Fi rozłączają się albo lagują po przerwie. Wyłączone trzyma je aktywne, kosztem trochę baterii.</string>
+
+    <string name="kt_crash_log">Log awarii</string>
+    <string name="kt_crash_log_what">Zachowuje log jądra, log Androida i zapis awarii w kawałku pamięci RAM, który przetrwa restart, żeby następny start mógł je włożyć do raportu problemu.</string>
+    <string name="kt_crash_log_why">Zostaw włączony. Wyłączanie służy tylko do sprawdzenia, czy sam log awarii nie sprawia kłopotów. Raport problemu nie ma wtedy logu z poprzedniego startu, a awarie jądra przestają pokazywać komunikat o awarii. Te 960 KB i tak są odłożone: drzewo urządzeń je rezerwuje, po prostu się nie używają.</string>
+
+    <string name="kt_crash_split">Podział logu awarii</string>
+    <string name="kt_crash_split_what">Jak 960 KB zachowane przy restarcie dzielą się między zapis awarii, log jądra i log Androida. Zrównoważony: 192 KB, 512 KB i 256 KB. Więcej logu jądra: 320 KB, 512 KB i 128 KB. Więcej logu Androida: 192 KB, 256 KB i 512 KB.</string>
+    <string name="kt_crash_split_why">Zrównoważony pasuje do większości problemów. Więcej logu jądra mieści cały log jądra w zapisie awarii, dla awarii z długą historią przed sobą. Więcej logu Androida zachowuje dwa razy więcej logu Androida, dla aplikacji i gier, które się zamykają albo zamrażają bez awarii jądra. Logi sprzed zmiany giną przy restarcie, który ją wprowadza.</string>
+    <string name="kt_crash_split_balanced">Zrównoważony</string>
+    <string name="kt_crash_split_kernel">Więcej logu jądra</string>
+    <string name="kt_crash_split_android">Więcej logu Androida</string>
 </resources>
