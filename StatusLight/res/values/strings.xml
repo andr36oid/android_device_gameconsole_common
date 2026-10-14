@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="sl_title">Status light</string>
-    <string name="sl_summary">What the little light shows for battery, charging and notifications</string>
-    <string name="sl_intro">The little light next to the power button. Pick what it shows when the battery gets low, while charging and when a notification comes in. It keeps working while the console sleeps, it just stops blinking.</string>
+    <string name="sl_summary">What the status light shows for battery, charging and notifications</string>
+    <string name="sl_intro">The light in the middle of the console, under Fn. Pick what it shows when the battery gets low, while charging and when a notification comes in. It keeps working while the console sleeps, it just stops blinking.</string>
     <string name="sl_missing">This console\'s light isn\'t one we know how to control.</string>
 
     <!-- What the light shows right now -->
