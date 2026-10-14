@@ -4,6 +4,7 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -69,7 +70,13 @@ public class ButtonCheckActivity extends Activity {
         mSaved = findViewById(R.id.saved);
         mExtras = findViewById(R.id.extras);
         mNote = findViewById(R.id.note);
-        findViewById(R.id.done).setOnClickListener(v -> onDone());
+        final View done = findViewById(R.id.done);
+        done.setOnClickListener(v -> onDone());
+        // NO_USER_ACTION: leaving for the finder isn't Fn (see onUserLeaveHint)
+        findViewById(R.id.find_unknown).setOnClickListener(v -> startActivity(
+                new Intent(this, ButtonFinderActivity.class)
+                        .addFlags(Intent.FLAG_ACTIVITY_NO_USER_ACTION)));
+        done.requestFocus();
 
         final GridLayout grid = findViewById(R.id.grid);
         for (ButtonSettings.Button button : ButtonSettings.BUILT_IN) {

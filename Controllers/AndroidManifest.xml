@@ -63,6 +63,14 @@
             android:configChanges="keyboard|keyboardHidden|navigation"
             android:theme="@android:style/Theme.DeviceDefault.Settings" />
 
+        <!-- Buttons on this console > Find an unknown button -->
+        <activity
+            android:name=".ButtonFinderActivity"
+            android:exported="false"
+            android:label="@string/finder_title"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:theme="@android:style/Theme.DeviceDefault.Settings" />
+
         <activity
             android:name=".PairActivity"
             android:exported="false"

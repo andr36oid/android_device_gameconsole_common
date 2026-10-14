@@ -50,6 +50,14 @@
                 android:layout_marginTop="4dp"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
+            <!-- Buttons no firmware uses: finds the chip pin of one -->
+            <Button
+                android:id="@+id/find_unknown"
+                style="@android:style/Widget.DeviceDefault.Button.Borderless.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/finder_entry" />
+
             <TextView
                 android:id="@+id/note"
                 android:layout_width="match_parent"

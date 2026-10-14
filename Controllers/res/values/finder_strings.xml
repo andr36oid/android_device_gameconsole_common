@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Settings > Controls > Buttons on this console > Find an unknown button: looks for
+         the chip pin a button no firmware uses is wired to. GPIO2_A5 style pin names and
+         "ADC" stay as they are. -->
+    <string name="finder_entry">Find an unknown button</string>
+    <string name="finder_title">Find an unknown button</string>
+    <string name="finder_intro">Some consoles have a button that no firmware uses. This looks for the chip pin it is wired to.\n\nFirst put the console down and don\'t touch anything for a few seconds. Then hold the unknown button until the result shows.</string>
+    <string name="finder_start">Start</string>
+    <string name="finder_idle">Don\'t touch anything…</string>
+    <!-- %1$d counts down 3, 2, 1 -->
+    <string name="finder_get_ready">Hold the unknown button now and keep holding it. Starting in %1$d…</string>
+    <string name="finder_held">Keep holding the unknown button…</string>
+    <string name="finder_again">Scan again</string>
+    <string name="finder_missing">This system can\'t read the chip pins yet: it needs a newer kernel.</string>
+    <string name="finder_no_answer">The scan didn\'t finish. Try again.</string>
+
+    <!-- %1$s is a pin like GPIO2_A5 -->
+    <string name="finder_found">The button is on %1$s.</string>
+    <!-- %1$s is a pin like GPIO2_A5, %2$s a button like L1 -->
+    <string name="finder_known_one">The button is on %1$s, and that\'s %2$s. It works already.</string>
+    <string name="finder_already">The button is on %1$s. It\'s already added as an extra button; restart if it doesn\'t work yet.</string>
+    <string name="finder_other_use">The button is on %1$s, but the chip uses that pin for something else, so it can\'t be used as a button.</string>
+    <string name="finder_several">Several pins changed. Scan again and hold only the unknown button.</string>
+    <!-- %1$s is a pin like GPIO2_A5, %2$s a button like L1 -->
+    <string name="finder_item_known">%1$s, that\'s %2$s</string>
+    <string name="finder_item_other_use">%1$s, used for something else</string>
+    <string name="finder_nothing">Nothing changed. Some buttons are wired to the power chip or not to the main chip at all; those can\'t be found this way.</string>
+
+    <string name="finder_adc_only">No pin changed, but an ADC input moved.</string>
+    <string name="finder_adc">ADC inputs that moved:</string>
+    <!-- Channel 2: 1020 to 310 -->
+    <string name="finder_adc_item">Channel %1$s: %2$d to %3$d</string>
+    <!-- %4$s is a device tree node, e.g. odroidgo3-joypad -->
+    <string name="finder_adc_item_used">Channel %1$s: %2$d to %3$d (used by %4$s)</string>
+    <string name="finder_adc_report">A button on an ADC input can\'t be used yet. Please send us a problem report so we can add it.</string>
+
+    <string name="finder_use">Use it as a button</string>
+    <string name="finder_saving">Saving…</string>
+    <!-- %1$d is the number in "Extra button 1" -->
+    <string name="finder_added">Restart to use it; it shows up as Extra button %1$d in Button mapping.</string>
+    <string name="finder_added_paused">Saved, but Kernel Tweaks are switched off. Switch them back on in Settings > System > Kernel Tweaks and restart; it then shows up as Extra button %1$d in Button mapping.</string>
+    <string name="finder_save_failed">Couldn\'t save it for the next start. Try again.</string>
+    <string name="finder_full">There are already 8 extra buttons, that\'s the most.</string>
+</resources>
