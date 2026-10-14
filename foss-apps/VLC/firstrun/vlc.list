@@ -1,7 +1,11 @@
 # VLC for Android 3.7: the touch tutorials (swipe and tap overlays on the first video,
 # audio player and playlist) marked as seen; they need a touchscreen to get past. Its
-# settings are the default shared_prefs, which also mean "has run". Its own welcome
-# and storage permission pages still show. See ../../README.md, "First-start settings".
+# welcome pages (onboarding) are marked done too (app_onboarding_done,
+# initial_permission_asked), and the all files access they would ask for is given, so
+# it can find videos and music everywhere, EASYROMS too. The media scan stays at
+# VLC's default (on). Its settings are the default shared_prefs, which also mean "has
+# run". See ../../README.md, "First-start settings".
 package org.videolan.vlc
 unless data shared_prefs/org.videolan.vlc_preferences.xml
+appop MANAGE_EXTERNAL_STORAGE allow
 data prefs.xml shared_prefs/org.videolan.vlc_preferences.xml

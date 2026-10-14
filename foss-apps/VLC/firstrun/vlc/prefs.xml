@@ -4,4 +4,6 @@
     <boolean name="audioplayer_tips_shown" value="true" />
     <boolean name="playlist_tips_shown" value="true" />
     <boolean name="widgets_tips_shown" value="true" />
+    <boolean name="app_onboarding_done" value="true" />
+    <boolean name="initial_permission_asked" value="true" />
 </map>
