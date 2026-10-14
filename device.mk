@@ -551,7 +551,8 @@ PRODUCT_PACKAGES += \
 # Settings > System > Kernel Tweaks: low-level kernel switches for hardware trouble
 PRODUCT_PACKAGES += \
 	KernelTweaks \
-	andr36oid-ktweaks
+	andr36oid-ktweaks \
+	andr36oid-hz-preview
 
 # RGB lights (Settings > Display > RGB lights), shown only on consoles with an
 # RGB LED (R36 Ultra); off unless chosen

@@ -1,0 +1,8 @@
+# Settings > Display > Panel overclocking, "Preview for 5 seconds", see andr36oid-hz-preview.sh
+
+# started by Settings with ctl.start
+service andr36oid-hz-preview /system/bin/sh /system/etc/andr36oid-hz-preview.sh
+    user root
+    group root system
+    disabled
+    oneshot

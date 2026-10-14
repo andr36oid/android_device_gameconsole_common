@@ -293,5 +293,34 @@ check "old boot.ini: serial on" on "$(prop sys.andr36oid.ktd.serial_console)"
 echo "rootwait" >"$R"/proc/cmdline; run boot
 check "no loglevel means 7" 7 "$(prop sys.andr36oid.ktd.boot_log_level)"
 
+# --- the 5 second refresh rate preview passes the rate on and answers
+hzp() { KT_ROOT=$R PATH="$T/bin:$PATH" "$MKSH" "$HERE/../helper/andr36oid-hz-preview.sh"; }
+setup
+setp sys.andr36oid.hzp.request 11
+setp sys.andr36oid.hzp.rate 77.5
+hzp
+check "preview without the kernel file" "11 missing" "$(prop sys.andr36oid.hzp.result)"
+mkdir -p "$R"/sys/devices/platform/ff450000.dsi
+: >"$R"/sys/devices/platform/ff450000.dsi/preview_rate
+hzp
+check "preview answered" "11 ok" "$(prop sys.andr36oid.hzp.result)"
+check "preview rate written" 77.5 "$(cat "$R"/sys/devices/platform/ff450000.dsi/preview_rate)"
+for bad in "" abc 7.7.7 .5 "75; reboot" "-1"; do
+	: >"$R"/sys/devices/platform/ff450000.dsi/preview_rate
+	setp sys.andr36oid.hzp.rate "$bad"
+	hzp
+	check "preview refuses '$bad'" "11 invalid" "$(prop sys.andr36oid.hzp.result)"
+	check "preview leaves '$bad' out" "" "$(cat "$R"/sys/devices/platform/ff450000.dsi/preview_rate)"
+done
+setp sys.andr36oid.hzp.request 12
+setp sys.andr36oid.hzp.rate 0
+hzp
+check "preview ended" "12 ok" "$(prop sys.andr36oid.hzp.result)"
+rm "$R"/sys/devices/platform/ff450000.dsi/preview_rate
+mkdir "$R"/sys/devices/platform/ff450000.dsi/preview_rate
+setp sys.andr36oid.hzp.rate 90
+hzp
+check "preview write that fails" "12 failed" "$(prop sys.andr36oid.hzp.result)"
+
 echo "passed $pass, failed $fail (shell: $MKSH)"
 [ "$fail" = 0 ]
