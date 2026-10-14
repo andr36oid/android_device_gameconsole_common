@@ -56,6 +56,14 @@ state() {
 	fi
 }
 
+# is_crash_record <file> : not a dump of a normal restart, halt or power-off
+is_crash_record() {
+	case $(head -c 16 "$1") in
+	Restart#* | Halt#* | Poweroff#*) return 1 ;;
+	esac
+	return 0
+}
+
 main() {
 	local seen since now crashed=0 f fp t tag
 
@@ -69,6 +77,8 @@ main() {
 
 	for f in "$PSTORE"/dmesg-ramoops*; do
 		[ -f "$f" ] || continue
+		# Kernel Tweaks "Save the log at every restart": the log of a normal restart
+		is_crash_record "$f" || continue
 		fp=$(head -c 4096 "$f" | sha1sum | cut -d ' ' -f 1)
 		if [ -n "$fp" ] && [ "$fp" != "$seen" ]; then
 			log "kernel crash record from the last start: $f"

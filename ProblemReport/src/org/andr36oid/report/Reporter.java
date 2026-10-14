@@ -101,7 +101,14 @@ final class Reporter {
         final File[] files = PSTORE.listFiles();
         if (files == null) return null;
         for (File f : files) {
-            if (f.getName().startsWith("dmesg-ramoops")) return f;
+            if (!f.getName().startsWith("dmesg-ramoops")) continue;
+            // Kernel Tweaks "Save the log at every restart": the log of a normal restart
+            final String head = readSmall(f);
+            if (head != null && (head.startsWith("Restart#") || head.startsWith("Halt#")
+                    || head.startsWith("Poweroff#"))) {
+                continue;
+            }
+            return f;
         }
         return null;
     }

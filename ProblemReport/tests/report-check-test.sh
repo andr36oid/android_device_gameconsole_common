@@ -85,6 +85,12 @@ XML
 	grep -q "^pstore $fp\$" "$T/w/dir/boot-check" || { echo "FAIL [$SH] pstore not taken over"; fails=$((fails + 1)); }
 
 	setup
+	printf 'Restart#1 Part1\n<6>[ 1.0] a normal restart\n' >"$T/w/pstore/dmesg-ramoops-0"
+	run; expect "the log of a normal restart is no crash" 0
+	printf 'Panic#2 Part1\n<0>[ 2.0] Kernel panic\n' >"$T/w/pstore/dmesg-ramoops-0"
+	run; expect "a panic after it is" 1
+
+	setup
 	cat >"$T/w/prefs/boot.xml" <<XML
 <map>
     <long name="dropbox_time" value="$(((now - 60) * 1000))" />
