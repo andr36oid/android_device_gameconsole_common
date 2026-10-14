@@ -412,9 +412,11 @@ s/"[^"]*"-?(WPA_PSK|WPA_EAP|IEEE8021X|NONE|SAE|OWE|WEP|SUITE_B_192|WAPI_PSK|WAPI
 s/([Pp][Ss][Kk]|[Pp]ass[Ww]ord|[Pp]assphrase|[Pp]re[Ss]hared[Kk]ey|[Ww]ep[Kk]ey[s0-9]*)(["']?[[:space:]]*[:=][[:space:]]*)[^[:space:],;)}]+/\1\2<hidden>/g
 s/(Account[[:space:]]*\{name=)[^,}]*/\1<hidden>/g
 s/[A-Za-z0-9._%+-]+@[A-Za-z0-9-]*[A-Za-z][A-Za-z0-9-]*(\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}/<email>/g
+s/([Ss])erial_(console|debugger)/\1er1al_\2/g
 s/^(\[[^]]*([Ss]erial|hostname|device_name|bt\.name|ssid)[^]]*\]: \[).*\]$/\1<hidden>]/
 s/^(device_name|bluetooth_name|bluetooth_address|[a-z_]*ssid[a-z_]*)=.*/\1=<hidden>/
 s/([Ss]erial[A-Za-z_]*[[:space:]]*[=:][[:space:]]*)[^[:space:],;)}]+/\1<hidden>/g
+s/([Ss])er1al_(console|debugger)/\1erial_\2/g
 s/(([0-9A-Fa-f]{2}:){3})[0-9A-Fa-f]{2}:[0-9A-Fa-f]{2}:[0-9A-Fa-f]{2}/\1xx:xx:xx/g
 s#(content://[A-Za-z0-9._-]+)/[^[:space:]"']*#\1/<hidden>#g
 s#(primary(%3A|:))[^[:space:]"'&]+#\1<hidden>#g

@@ -77,6 +77,7 @@ ro.boot.revision=3
 ro.serialno=SERIALSECRET1
 ro.boot.serialno=SERIALSECRET1
 net.hostname=kennys-secret-console
+sys.andr36oid.ktd.serial_console=off
 sys.boot_completed=1
 EOF
 	stub logcat 'cat <<"EOF"
@@ -92,7 +93,7 @@ EOF
 09-29 10:00:00.009  1000  1000 I Mail: from bob.smith@mail.example.org
 09-29 10:00:00.010  1000  1000 E InputReader: joypad keys dead KEEPME
 EOF'
-	stub dmesg 'echo "[    1.0] mmc0: new ultra high speed SDR104 SDXC card at address 59b4 KEEPKERNEL"'
+	stub dmesg 'printf "[    0.1] serial_debugger: disabled\n[    1.0] mmc0: new ultra high speed SDR104 SDXC card at address 59b4 KEEPKERNEL\n"'
 	stub dumpsys 'case "$1" in
 activity) echo "Intent { act=android.intent.action.VIEW dat=file:///storage/ABCD-1234/snes/Secret Game 2.sfc flg=0x1 }" ;;
 audio) echo "Device: type:0x80 addr:AA:BB:CC:DD:EE:FF name:My Secret Headphones" ;;
@@ -257,6 +258,8 @@ for s in HomeNetSecret OtherNetSecret CafeSecret ExtraNetSecret PstoreNetSecret 
 done
 check "dropbox name kept (not an e-mail)" has "system_app_crash@1727000000000.txt"
 check "MAC maker half kept" has "02:aa:bb:xx:xx:xx"
+check "serial console tweak not hidden" has "serial_console\]: \[off\]"
+check "serial debugger line not hidden" has "serial_debugger: disabled"
 check "path cut, rest of quoted line kept" has '"/storage/emulated/0/<hidden>" ok, next'
 check "content uri cut" has "content://com.android.externalstorage.documents/<hidden> ok"
 check "BOOT result not written from the page" [ ! -e "$R/boot/make-report-result.txt" ]
