@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Settings > Controls > Buttons on this console > Find an unknown button: looks for
+         the chip pin a button no firmware uses is wired to. GPIO2_A5 style pin names and
+         "ADC" stay as they are. -->
+    <string name="finder_entry">Encontrar um botão desconhecido</string>
+    <string name="finder_title">Encontrar um botão desconhecido</string>
+    <string name="finder_intro">Alguns consoles têm um botão que nenhum firmware usa. Isso procura o pino do chip em que ele está ligado.\n\nPrimeiro coloque o console na mesa e não encoste em nada por alguns segundos. Depois segure o botão desconhecido até o resultado aparecer.</string>
+    <string name="finder_start">Iniciar</string>
+    <string name="finder_idle">Não encoste em nada…</string>
+    <!-- %1$d counts down 3, 2, 1 -->
+    <string name="finder_get_ready">Segure o botão desconhecido agora e continue segurando. Começando em %1$d…</string>
+    <string name="finder_held">Continue segurando o botão desconhecido…</string>
+    <string name="finder_again">Procurar de novo</string>
+    <string name="finder_missing">Este sistema ainda não consegue ler os pinos do chip: ele precisa de um kernel mais novo.</string>
+    <string name="finder_no_answer">A busca não terminou. Tente de novo.</string>
+
+    <!-- %1$s is a pin like GPIO2_A5 -->
+    <string name="finder_found">O botão está no %1$s.</string>
+    <!-- %1$s is a pin like GPIO2_A5, %2$s a button like L1 -->
+    <string name="finder_known_one">O botão está no %1$s, e esse é o %2$s. Ele já funciona.</string>
+    <string name="finder_already">O botão está no %1$s. Ele já foi adicionado como botão extra; reinicie se ainda não funcionar.</string>
+    <string name="finder_other_use">O botão está no %1$s, mas o chip usa esse pino para outra coisa, então ele não pode ser usado como botão.</string>
+    <string name="finder_several">Vários pinos mudaram. Procure de novo e segure só o botão desconhecido.</string>
+    <!-- %1$s is a pin like GPIO2_A5, %2$s a button like L1 -->
+    <string name="finder_item_known">%1$s, esse é o %2$s</string>
+    <string name="finder_item_other_use">%1$s, usado para outra coisa</string>
+    <string name="finder_nothing">Nada mudou. Alguns botões estão ligados ao chip de energia ou não estão ligados ao chip principal; esses não aparecem desse jeito.</string>
+
+    <string name="finder_adc_only">Nenhum pino mudou, mas uma entrada ADC se mexeu.</string>
+    <string name="finder_adc">Entradas ADC que se mexeram:</string>
+    <!-- Channel 2: 1020 to 310 -->
+    <string name="finder_adc_item">Canal %1$s: de %2$d para %3$d</string>
+    <!-- %4$s is a device tree node, e.g. odroidgo3-joypad -->
+    <string name="finder_adc_item_used">Canal %1$s: de %2$d para %3$d (usado por %4$s)</string>
+    <string name="finder_adc_report">Um botão em uma entrada ADC ainda não pode ser usado. Envie um relatório de problema para a gente para que possamos adicioná-lo.</string>
+
+    <string name="finder_use">Usar como botão</string>
+    <string name="finder_saving">Salvando…</string>
+    <!-- %1$d is the number in "Extra button 1" -->
+    <string name="finder_added">Reinicie para usar; ele aparece como Botão extra %1$d em Mapeamento de botões.</string>
+    <string name="finder_added_paused">Salvo, mas os Ajustes do kernel estão desativados. Ative-os de novo em Configurações > Sistema > Ajustes do kernel e reinicie; aí ele aparece como Botão extra %1$d em Mapeamento de botões.</string>
+    <string name="finder_save_failed">Não foi possível salvar para a próxima inicialização. Tente de novo.</string>
+    <string name="finder_full">Já há 8 botões extras, que é o máximo.</string>
+</resources>

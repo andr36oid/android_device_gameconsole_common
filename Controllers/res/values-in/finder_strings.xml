@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Settings > Controls > Buttons on this console > Find an unknown button: looks for
+         the chip pin a button no firmware uses is wired to. GPIO2_A5 style pin names and
+         "ADC" stay as they are. -->
+    <string name="finder_entry">Cari tombol yang tidak dikenal</string>
+    <string name="finder_title">Cari tombol yang tidak dikenal</string>
+    <string name="finder_intro">Beberapa konsol punya tombol yang tidak dipakai firmware mana pun. Ini mencari pin chip tempat tombol itu tersambung.\n\nPertama, letakkan konsol dan jangan sentuh apa pun selama beberapa detik. Lalu tahan tombol yang tidak dikenal sampai hasilnya muncul.</string>
+    <string name="finder_start">Mulai</string>
+    <string name="finder_idle">Jangan sentuh apa pun…</string>
+    <!-- %1$d counts down 3, 2, 1 -->
+    <string name="finder_get_ready">Tahan tombol yang tidak dikenal sekarang dan terus tahan. Mulai dalam %1$d…</string>
+    <string name="finder_held">Terus tahan tombol yang tidak dikenal…</string>
+    <string name="finder_again">Pindai lagi</string>
+    <string name="finder_missing">Sistem ini belum bisa membaca pin chip: perlu kernel yang lebih baru.</string>
+    <string name="finder_no_answer">Pemindaian belum selesai. Coba lagi.</string>
+
+    <!-- %1$s is a pin like GPIO2_A5 -->
+    <string name="finder_found">Tombol ada di %1$s.</string>
+    <!-- %1$s is a pin like GPIO2_A5, %2$s a button like L1 -->
+    <string name="finder_known_one">Tombol ada di %1$s, dan itu %2$s. Sudah berfungsi.</string>
+    <string name="finder_already">Tombol ada di %1$s. Tombol ini sudah ditambahkan sebagai tombol ekstra; restart jika belum berfungsi.</string>
+    <string name="finder_other_use">Tombol ada di %1$s, tetapi chip memakai pin itu untuk keperluan lain, jadi tidak bisa dipakai sebagai tombol.</string>
+    <string name="finder_several">Beberapa pin berubah. Pindai lagi dan tahan hanya tombol yang tidak dikenal.</string>
+    <!-- %1$s is a pin like GPIO2_A5, %2$s a button like L1 -->
+    <string name="finder_item_known">%1$s, itu %2$s</string>
+    <string name="finder_item_other_use">%1$s, dipakai untuk keperluan lain</string>
+    <string name="finder_nothing">Tidak ada yang berubah. Beberapa tombol tersambung ke chip daya atau tidak tersambung ke chip utama sama sekali; tombol itu tidak bisa ditemukan dengan cara ini.</string>
+
+    <string name="finder_adc_only">Tidak ada pin yang berubah, tetapi input ADC bergerak.</string>
+    <string name="finder_adc">Input ADC yang bergerak:</string>
+    <!-- Channel 2: 1020 to 310 -->
+    <string name="finder_adc_item">Kanal %1$s: %2$d ke %3$d</string>
+    <!-- %4$s is a device tree node, e.g. odroidgo3-joypad -->
+    <string name="finder_adc_item_used">Kanal %1$s: %2$d ke %3$d (dipakai oleh %4$s)</string>
+    <string name="finder_adc_report">Tombol di input ADC belum bisa dipakai. Tolong kirim laporan masalah supaya kami bisa menambahkannya.</string>
+
+    <string name="finder_use">Pakai sebagai tombol</string>
+    <string name="finder_saving">Menyimpan…</string>
+    <!-- %1$d is the number in "Extra button 1" -->
+    <string name="finder_added">Restart untuk memakainya; tombol ini muncul sebagai Tombol ekstra %1$d di Pemetaan tombol.</string>
+    <string name="finder_added_paused">Tersimpan, tetapi Kernel Tweaks dimatikan. Nyalakan lagi di Pengaturan > Sistem > Kernel Tweaks lalu restart; setelah itu tombol ini muncul sebagai Tombol ekstra %1$d di Pemetaan tombol.</string>
+    <string name="finder_save_failed">Tidak bisa disimpan untuk permulaan berikutnya. Coba lagi.</string>
+    <string name="finder_full">Sudah ada 8 tombol ekstra, itu batas maksimalnya.</string>
+</resources>

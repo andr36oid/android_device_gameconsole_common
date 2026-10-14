@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Settings > Controls > Buttons on this console > Find an unknown button: looks for
+         the chip pin a button no firmware uses is wired to. GPIO2_A5 style pin names and
+         "ADC" stay as they are. -->
+    <string name="finder_entry">Trouver un bouton inconnu</string>
+    <string name="finder_title">Trouver un bouton inconnu</string>
+    <string name="finder_intro">Certaines consoles ont un bouton qu\'aucun firmware n\'utilise. Cela cherche la broche de la puce à laquelle il est relié.\n\nPose d\'abord la console et ne touche à rien pendant quelques secondes. Ensuite, maintiens le bouton inconnu jusqu\'à l\'affichage du résultat.</string>
+    <string name="finder_start">Lancer</string>
+    <string name="finder_idle">Ne touche à rien…</string>
+    <!-- %1$d counts down 3, 2, 1 -->
+    <string name="finder_get_ready">Maintiens le bouton inconnu maintenant et continue de le tenir. Début dans %1$d…</string>
+    <string name="finder_held">Continue de maintenir le bouton inconnu…</string>
+    <string name="finder_again">Rechercher à nouveau</string>
+    <string name="finder_missing">Ce système ne peut pas encore lire les broches de la puce : il lui faut un noyau plus récent.</string>
+    <string name="finder_no_answer">La recherche ne s\'est pas terminée. Réessaie.</string>
+
+    <!-- %1$s is a pin like GPIO2_A5 -->
+    <string name="finder_found">Le bouton est sur %1$s.</string>
+    <!-- %1$s is a pin like GPIO2_A5, %2$s a button like L1 -->
+    <string name="finder_known_one">Le bouton est sur %1$s, et c\'est %2$s. Il fonctionne déjà.</string>
+    <string name="finder_already">Le bouton est sur %1$s. Il est déjà ajouté comme bouton supplémentaire ; redémarre s\'il ne marche pas encore.</string>
+    <string name="finder_other_use">Le bouton est sur %1$s, mais la puce utilise cette broche pour autre chose, donc il ne peut pas servir de bouton.</string>
+    <string name="finder_several">Plusieurs broches ont changé. Recherche à nouveau en ne maintenant que le bouton inconnu.</string>
+    <!-- %1$s is a pin like GPIO2_A5, %2$s a button like L1 -->
+    <string name="finder_item_known">%1$s, c\'est %2$s</string>
+    <string name="finder_item_other_use">%1$s, utilisée pour autre chose</string>
+    <string name="finder_nothing">Rien n\'a changé. Certains boutons sont reliés à la puce d\'alimentation, ou pas du tout à la puce principale ; ceux-là ne se trouvent pas comme ça.</string>
+
+    <string name="finder_adc_only">Aucune broche n\'a changé, mais une entrée ADC a bougé.</string>
+    <string name="finder_adc">Entrées ADC qui ont bougé :</string>
+    <!-- Channel 2: 1020 to 310 -->
+    <string name="finder_adc_item">Canal %1$s : %2$d à %3$d</string>
+    <!-- %4$s is a device tree node, e.g. odroidgo3-joypad -->
+    <string name="finder_adc_item_used">Canal %1$s : %2$d à %3$d (utilisé par %4$s)</string>
+    <string name="finder_adc_report">Un bouton sur une entrée ADC ne peut pas encore être utilisé. Envoie-nous un rapport de problème pour qu\'on puisse l\'ajouter.</string>
+
+    <string name="finder_use">L\'utiliser comme bouton</string>
+    <string name="finder_saving">Enregistrement…</string>
+    <!-- %1$d is the number in "Extra button 1" -->
+    <string name="finder_added">Redémarre pour l\'utiliser ; il apparaît comme Bouton supplémentaire %1$d dans Mappage des boutons.</string>
+    <string name="finder_added_paused">Enregistré, mais les Réglages du noyau sont désactivés. Réactive-les dans Réglages > Système > Réglages du noyau puis redémarre ; il apparaîtra alors comme Bouton supplémentaire %1$d dans Mappage des boutons.</string>
+    <string name="finder_save_failed">Impossible de l\'enregistrer pour le prochain démarrage. Réessaie.</string>
+    <string name="finder_full">Il y a déjà 8 boutons supplémentaires, c\'est le maximum.</string>
+</resources>

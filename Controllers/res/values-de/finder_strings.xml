@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Settings > Controls > Buttons on this console > Find an unknown button: looks for
+         the chip pin a button no firmware uses is wired to. GPIO2_A5 style pin names and
+         "ADC" stay as they are. -->
+    <string name="finder_entry">Unbekannte Taste finden</string>
+    <string name="finder_title">Unbekannte Taste finden</string>
+    <string name="finder_intro">Manche Konsolen haben eine Taste, die keine Firmware benutzt. Das hier sucht den Chip-Pin, an dem sie hängt.\n\nLeg die Konsole zuerst hin und fass ein paar Sekunden nichts an. Halte dann die unbekannte Taste, bis das Ergebnis erscheint.</string>
+    <string name="finder_start">Start</string>
+    <string name="finder_idle">Fass nichts an…</string>
+    <!-- %1$d counts down 3, 2, 1 -->
+    <string name="finder_get_ready">Halte jetzt die unbekannte Taste und halte sie weiter. Start in %1$d…</string>
+    <string name="finder_held">Halte die unbekannte Taste weiter gedrückt…</string>
+    <string name="finder_again">Erneut suchen</string>
+    <string name="finder_missing">Das System kann die Chip-Pins noch nicht lesen: Dafür braucht es einen neueren Kernel.</string>
+    <string name="finder_no_answer">Die Suche ist nicht fertig geworden. Versuch es nochmal.</string>
+
+    <!-- %1$s is a pin like GPIO2_A5 -->
+    <string name="finder_found">Die Taste liegt an %1$s.</string>
+    <!-- %1$s is a pin like GPIO2_A5, %2$s a button like L1 -->
+    <string name="finder_known_one">Die Taste liegt an %1$s, und das ist %2$s. Sie funktioniert schon.</string>
+    <string name="finder_already">Die Taste liegt an %1$s. Sie ist schon als Extra-Taste drin; starte neu, wenn sie noch nicht geht.</string>
+    <string name="finder_other_use">Die Taste liegt an %1$s, aber der Chip nutzt diesen Pin für etwas anderes, deshalb kann sie nicht als Taste genutzt werden.</string>
+    <string name="finder_several">Mehrere Pins haben sich geändert. Such nochmal und halte nur die unbekannte Taste.</string>
+    <!-- %1$s is a pin like GPIO2_A5, %2$s a button like L1 -->
+    <string name="finder_item_known">%1$s, das ist %2$s</string>
+    <string name="finder_item_other_use">%1$s, wird für etwas anderes genutzt</string>
+    <string name="finder_nothing">Es hat sich nichts geändert. Manche Tasten hängen am Power-Chip oder gar nicht am Hauptchip; die lassen sich so nicht finden.</string>
+
+    <string name="finder_adc_only">Kein Pin hat sich geändert, aber ein ADC-Eingang hat sich bewegt.</string>
+    <string name="finder_adc">ADC-Eingänge, die sich bewegt haben:</string>
+    <!-- Channel 2: 1020 to 310 -->
+    <string name="finder_adc_item">Kanal %1$s: %2$d zu %3$d</string>
+    <!-- %4$s is a device tree node, e.g. odroidgo3-joypad -->
+    <string name="finder_adc_item_used">Kanal %1$s: %2$d zu %3$d (genutzt von %4$s)</string>
+    <string name="finder_adc_report">Eine Taste an einem ADC-Eingang lässt sich noch nicht nutzen. Schick uns bitte einen Problembericht, dann bauen wir sie ein.</string>
+
+    <string name="finder_use">Als Taste nutzen</string>
+    <string name="finder_saving">Speichere…</string>
+    <!-- %1$d is the number in "Extra button 1" -->
+    <string name="finder_added">Starte neu, damit sie benutzt wird; sie erscheint als Extra-Taste %1$d in der Tastenbelegung.</string>
+    <string name="finder_added_paused">Gespeichert, aber die Kernel-Tweaks sind aus. Schalte sie unter Einstellungen > System > Kernel-Tweaks wieder ein und starte neu; dann erscheint sie als Extra-Taste %1$d in der Tastenbelegung.</string>
+    <string name="finder_save_failed">Konnte es nicht für den nächsten Start speichern. Versuch es nochmal.</string>
+    <string name="finder_full">Es gibt schon 8 Extra-Tasten, mehr geht nicht.</string>
+</resources>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Settings > Controls > Buttons on this console > Find an unknown button: looks for
+         the chip pin a button no firmware uses is wired to. GPIO2_A5 style pin names and
+         "ADC" stay as they are. -->
+    <string name="finder_entry">查找未知按键</string>
+    <string name="finder_title">查找未知按键</string>
+    <string name="finder_intro">有些掌机上有一个任何固件都没用到的按键。这个功能会查找它所接的芯片引脚。\n\n先把掌机放下，几秒钟内什么都别碰。然后按住未知按键，直到显示结果。</string>
+    <string name="finder_start">开始</string>
+    <string name="finder_idle">什么都别碰……</string>
+    <!-- %1$d counts down 3, 2, 1 -->
+    <string name="finder_get_ready">现在按住未知按键，并一直按着。%1$d 秒后开始……</string>
+    <string name="finder_held">继续按住未知按键……</string>
+    <string name="finder_again">重新扫描</string>
+    <string name="finder_missing">此系统还无法读取芯片引脚：需要更新的内核。</string>
+    <string name="finder_no_answer">扫描没有完成。请重试。</string>
+
+    <!-- %1$s is a pin like GPIO2_A5 -->
+    <string name="finder_found">按键在 %1$s 上。</string>
+    <!-- %1$s is a pin like GPIO2_A5, %2$s a button like L1 -->
+    <string name="finder_known_one">按键在 %1$s 上，那是 %2$s。它已经可以用了。</string>
+    <string name="finder_already">按键在 %1$s 上。它已经添加为额外按键；如果还不能用，请重启。</string>
+    <string name="finder_other_use">按键在 %1$s 上，但芯片把这个引脚用于其他用途，所以无法作为按键使用。</string>
+    <string name="finder_several">多个引脚发生了变化。请重新扫描，并且只按住未知按键。</string>
+    <!-- %1$s is a pin like GPIO2_A5, %2$s a button like L1 -->
+    <string name="finder_item_known">%1$s，那是 %2$s</string>
+    <string name="finder_item_other_use">%1$s，用于其他用途</string>
+    <string name="finder_nothing">没有任何变化。有些按键接在电源芯片上，或者根本没接到主芯片上；这些无法用这种方法找到。</string>
+
+    <string name="finder_adc_only">没有引脚变化，但有一个 ADC 输入发生了变化。</string>
+    <string name="finder_adc">发生变化的 ADC 输入：</string>
+    <!-- Channel 2: 1020 to 310 -->
+    <string name="finder_adc_item">通道 %1$s：%2$d 变为 %3$d</string>
+    <!-- %4$s is a device tree node, e.g. odroidgo3-joypad -->
+    <string name="finder_adc_item_used">通道 %1$s：%2$d 变为 %3$d（由 %4$s 使用）</string>
+    <string name="finder_adc_report">ADC 输入上的按键暂时无法使用。请给我们发送问题报告，以便我们添加它。</string>
+
+    <string name="finder_use">作为按键使用</string>
+    <string name="finder_saving">正在保存……</string>
+    <!-- %1$d is the number in "Extra button 1" -->
+    <string name="finder_added">重启后即可使用；它会在按键映射中显示为额外按键 %1$d。</string>
+    <string name="finder_added_paused">已保存，但内核调整已关闭。请到设置 > 系统 > 内核调整中重新打开，然后重启；之后它会在按键映射中显示为额外按键 %1$d。</string>
+    <string name="finder_save_failed">无法保存，以便下次启动使用。请重试。</string>
+    <string name="finder_full">已经有 8 个额外按键，这是上限。</string>
+</resources>

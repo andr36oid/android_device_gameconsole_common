@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Settings > Controls > Buttons on this console > Find an unknown button: looks for
+         the chip pin a button no firmware uses is wired to. GPIO2_A5 style pin names and
+         "ADC" stay as they are. -->
+    <string name="finder_entry">Znajdź nieznany przycisk</string>
+    <string name="finder_title">Znajdź nieznany przycisk</string>
+    <string name="finder_intro">Niektóre konsole mają przycisk, którego żadne oprogramowanie nie używa. To szuka pinu układu, do którego jest podłączony.\n\nNajpierw odłóż konsolę i przez kilka sekund niczego nie dotykaj. Potem przytrzymaj nieznany przycisk, aż pojawi się wynik.</string>
+    <string name="finder_start">Rozpocznij</string>
+    <string name="finder_idle">Niczego nie dotykaj…</string>
+    <!-- %1$d counts down 3, 2, 1 -->
+    <string name="finder_get_ready">Przytrzymaj teraz nieznany przycisk i trzymaj go dalej. Start za %1$d…</string>
+    <string name="finder_held">Trzymaj nieznany przycisk…</string>
+    <string name="finder_again">Szukaj ponownie</string>
+    <string name="finder_missing">Ten system nie może jeszcze odczytać pinów układu: potrzebuje nowszego jądra.</string>
+    <string name="finder_no_answer">Skanowanie się nie zakończyło. Spróbuj ponownie.</string>
+
+    <!-- %1$s is a pin like GPIO2_A5 -->
+    <string name="finder_found">Przycisk jest na %1$s.</string>
+    <!-- %1$s is a pin like GPIO2_A5, %2$s a button like L1 -->
+    <string name="finder_known_one">Przycisk jest na %1$s, a to %2$s. Już działa.</string>
+    <string name="finder_already">Przycisk jest na %1$s. Jest już dodany jako dodatkowy przycisk; jeśli jeszcze nie działa, uruchom ponownie.</string>
+    <string name="finder_other_use">Przycisk jest na %1$s, ale układ używa tego pinu do czegoś innego, więc nie można go użyć jako przycisku.</string>
+    <string name="finder_several">Zmieniło się kilka pinów. Szukaj ponownie i trzymaj tylko nieznany przycisk.</string>
+    <!-- %1$s is a pin like GPIO2_A5, %2$s a button like L1 -->
+    <string name="finder_item_known">%1$s, to %2$s</string>
+    <string name="finder_item_other_use">%1$s, używany do czegoś innego</string>
+    <string name="finder_nothing">Nic się nie zmieniło. Niektóre przyciski są podłączone do układu zasilania albo wcale do głównego układu; tych tą metodą nie znajdziesz.</string>
+
+    <string name="finder_adc_only">Żaden pin się nie zmienił, ale przesunęło się wejście ADC.</string>
+    <string name="finder_adc">Wejścia ADC, które się przesunęły:</string>
+    <!-- Channel 2: 1020 to 310 -->
+    <string name="finder_adc_item">Kanał %1$s: %2$d na %3$d</string>
+    <!-- %4$s is a device tree node, e.g. odroidgo3-joypad -->
+    <string name="finder_adc_item_used">Kanał %1$s: %2$d na %3$d (używany przez %4$s)</string>
+    <string name="finder_adc_report">Przycisku na wejściu ADC nie da się jeszcze użyć. Wyślij nam raport o problemie, to go dodamy.</string>
+
+    <string name="finder_use">Użyj jako przycisku</string>
+    <string name="finder_saving">Zapisywanie…</string>
+    <!-- %1$d is the number in "Extra button 1" -->
+    <string name="finder_added">Uruchom ponownie, żeby go użyć; pojawi się jako Dodatkowy przycisk %1$d w Mapowaniu przycisków.</string>
+    <string name="finder_added_paused">Zapisano, ale Ustawienia jądra są wyłączone. Włącz je z powrotem w Ustawienia > System > Ustawienia jądra i uruchom ponownie; wtedy pojawi się jako Dodatkowy przycisk %1$d w Mapowaniu przycisków.</string>
+    <string name="finder_save_failed">Nie udało się zapisać na następny start. Spróbuj ponownie.</string>
+    <string name="finder_full">Są już 8 dodatkowe przyciski, to maksimum.</string>
+</resources>
