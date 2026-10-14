@@ -53,11 +53,21 @@
     <!-- %1$s: e.g. "2 min" -->
     <string name="parental_shutdown_after">Éteindre la console après <xliff:g id="time">%1$s</xliff:g> sans le code PIN</string>
     <string name="parental_shutdown_never">Garder la page « Temps écoulé » affichée</string>
+    <string name="parental_refill_custom">Personnalisé…</string>
+    <string name="parental_refill_custom_title">Heures de repos</string>
+    <string name="parental_allowed">Applis autorisées</string>
+    <string name="parental_allowed_none">Aucune. Les applis choisies ici ne consomment pas de temps de jeu et restent ouvertes quand le temps est écoulé, comme les applis d\'apprentissage.</string>
+    <string name="parental_blocked_apps">Applis bloquées</string>
+    <string name="parental_blocked_none">Aucune. Les applis choisies ici ne peuvent pas être ouvertes quand le contrôle parental est activé.</string>
+    <!-- toast when a blocked app is opened; %1$s: the app's name -->
+    <string name="parental_blocked"><xliff:g id="app">%1$s</xliff:g> est bloquée par le contrôle parental</string>
+    <!-- time up page, above the buttons of the allowed apps -->
+    <string name="parental_still_open">Celles-ci peuvent encore être utilisées :</string>
     <string name="parental_left_title">Temps restant</string>
     <!-- %1$s left of %2$s, e.g. "42 min of 1 h" -->
     <string name="parental_left_summary">Il reste <xliff:g id="left">%1$s</xliff:g> sur <xliff:g id="allowed">%2$s</xliff:g>. Sélectionnez pour ajouter du temps.</string>
     <string name="parental_change_pin">Modifier le code PIN</string>
-    <string name="parental_about">Compte le temps pendant lequel l\'écran est allumé, avec n\'importe quelle appli. La console n\'a pas d\'horloge avec pile, donc elle ne se base pas sur l\'heure de la journée : le temps revient après un repos assez long, écran éteint ou console en veille. Éteindre la console ne compte pas comme un repos, car elle ne peut pas savoir combien de temps elle est restée éteinte. Utilisez le bouton marche/arrêt pour qu\'elle se mette en veille pendant la nuit.\n\nLes avertissements arrivent 10 et 2 minutes avant la fin du temps. Ensuite, une page recouvre l\'écran jusqu\'à la saisie du code PIN, et la console s\'éteint si le code n\'est pas saisi, selon le réglage ci-dessus. Après un redémarrage, le temps reste écoulé.\n\nCode PIN oublié ? Seule la réinstallation de la carte le supprime.</string>
+    <string name="parental_about">Compte le temps pendant lequel l\'écran est allumé, avec n\'importe quelle appli sauf les applis autorisées. La console n\'a pas d\'horloge avec pile, donc elle ne se base pas sur l\'heure de la journée : le temps revient après un repos assez long, écran éteint ou console en veille. Éteindre la console ne compte pas comme un repos, car elle ne peut pas savoir combien de temps elle est restée éteinte. Utilisez le bouton marche/arrêt pour qu\'elle se mette en veille pendant la nuit.\n\nLes avertissements arrivent 10 et 2 minutes avant la fin du temps. Ensuite, une page recouvre l\'écran jusqu\'à la saisie du code PIN, et la console s\'éteint si le code n\'est pas saisi, selon le réglage ci-dessus. Après un redémarrage, le temps reste écoulé.\n\nCode PIN oublié ? Seule la réinstallation de la carte le supprime.</string>
     <string name="parental_left">Temps de jeu restant : <xliff:g id="time">%1$s</xliff:g></string>
     <string name="parental_warning_channel">Avertissements de temps de jeu</string>
     <string name="parental_warning">Le temps de jeu se termine dans <xliff:g id="time">%1$s</xliff:g>. Sauvegardez votre partie !</string>

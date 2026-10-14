@@ -53,11 +53,21 @@
     <!-- %1$s: e.g. "2 min" -->
     <string name="parental_shutdown_after">Konsole nach <xliff:g id="time">%1$s</xliff:g> ohne PIN ausschalten</string>
     <string name="parental_shutdown_never">Seite „Zeit ist um“ bleibt an</string>
+    <string name="parental_refill_custom">Eigene Dauer…</string>
+    <string name="parental_refill_custom_title">Stunden Pause</string>
+    <string name="parental_allowed">Erlaubte Apps</string>
+    <string name="parental_allowed_none">Keine. Hier gewählte Apps verbrauchen keine Spielzeit und bleiben offen, wenn die Zeit um ist, z. B. Lern-Apps.</string>
+    <string name="parental_blocked_apps">Gesperrte Apps</string>
+    <string name="parental_blocked_none">Keine. Hier gewählte Apps lassen sich nicht öffnen, solange die Kindersicherung an ist.</string>
+    <!-- toast when a blocked app is opened; %1$s: the app's name -->
+    <string name="parental_blocked"><xliff:g id="app">%1$s</xliff:g> ist durch die Kindersicherung gesperrt</string>
+    <!-- time up page, above the buttons of the allowed apps -->
+    <string name="parental_still_open">Diese können noch genutzt werden:</string>
     <string name="parental_left_title">Restzeit</string>
     <!-- %1$s left of %2$s, e.g. "42 min of 1 h" -->
     <string name="parental_left_summary"><xliff:g id="left">%1$s</xliff:g> von <xliff:g id="allowed">%2$s</xliff:g> übrig. Zum Hinzufügen auswählen.</string>
     <string name="parental_change_pin">PIN ändern</string>
-    <string name="parental_about">Zählt, wie lange der Bildschirm an ist, bei jeder App. Die Konsole hat keine Uhr mit Batterie, deshalb zählt sie nicht die Uhrzeit: Die Zeit kommt nach einer ausreichend langen Pause zurück, mit ausgeschaltetem Bildschirm oder schlafender Konsole. Die Konsole auszuschalten zählt nicht als Pause, denn sie kann nicht wissen, wie lange sie aus war. Nutze den Power-Knopf, damit sie über Nacht schläft.\n\nWarnungen kommen 10 und 2 Minuten vor Ende der Zeit. Danach legt sich eine Seite über den Bildschirm, bis der PIN eingegeben wird. Wird er nicht eingegeben, schaltet sich die Konsole aus, wie oben eingestellt. Nach einem Neustart ist die Zeit weiter aufgebraucht.\n\nPIN vergessen? Nur wenn die Karte neu eingerichtet wird, verschwindet er.</string>
+    <string name="parental_about">Zählt, wie lange der Bildschirm an ist, bei jeder App außer den erlaubten Apps. Die Konsole hat keine Uhr mit Batterie, deshalb zählt sie nicht die Uhrzeit: Die Zeit kommt nach einer ausreichend langen Pause zurück, mit ausgeschaltetem Bildschirm oder schlafender Konsole. Die Konsole auszuschalten zählt nicht als Pause, denn sie kann nicht wissen, wie lange sie aus war. Nutze den Power-Knopf, damit sie über Nacht schläft.\n\nWarnungen kommen 10 und 2 Minuten vor Ende der Zeit. Danach legt sich eine Seite über den Bildschirm, bis der PIN eingegeben wird. Wird er nicht eingegeben, schaltet sich die Konsole aus, wie oben eingestellt. Nach einem Neustart ist die Zeit weiter aufgebraucht.\n\nPIN vergessen? Nur wenn die Karte neu eingerichtet wird, verschwindet er.</string>
     <string name="parental_left">Spielzeit übrig: <xliff:g id="time">%1$s</xliff:g></string>
     <string name="parental_warning_channel">Warnungen zur Spielzeit</string>
     <string name="parental_warning">Spielzeit endet in <xliff:g id="time">%1$s</xliff:g>. Speichere dein Spiel!</string>

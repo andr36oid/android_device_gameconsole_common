@@ -52,11 +52,21 @@
     <!-- %1$s: e.g. "2 min" -->
     <string name="parental_shutdown_after">Matikan konsol setelah <xliff:g id="time">%1$s</xliff:g> tanpa PIN</string>
     <string name="parental_shutdown_never">Biarkan halaman waktu habis tetap aktif</string>
+    <string name="parental_refill_custom">Kustom…</string>
+    <string name="parental_refill_custom_title">Jam istirahat</string>
+    <string name="parental_allowed">Aplikasi yang diizinkan</string>
+    <string name="parental_allowed_none">Tidak ada. Aplikasi yang dipilih di sini tidak memakan waktu bermain dan tetap bisa dibuka saat waktu habis, seperti aplikasi belajar.</string>
+    <string name="parental_blocked_apps">Aplikasi yang diblokir</string>
+    <string name="parental_blocked_none">Tidak ada. Aplikasi yang dipilih di sini tidak bisa dibuka saat kontrol orang tua aktif.</string>
+    <!-- toast when a blocked app is opened; %1$s: the app's name -->
+    <string name="parental_blocked"><xliff:g id="app">%1$s</xliff:g> diblokir oleh kontrol orang tua</string>
+    <!-- time up page, above the buttons of the allowed apps -->
+    <string name="parental_still_open">Ini masih bisa digunakan:</string>
     <string name="parental_left_title">Sisa waktu</string>
     <!-- %1$s left of %2$s, e.g. "42 min of 1 h" -->
     <string name="parental_left_summary">Sisa <xliff:g id="left">%1$s</xliff:g> dari <xliff:g id="allowed">%2$s</xliff:g>. Pilih untuk menambah waktu.</string>
     <string name="parental_change_pin">Ubah PIN</string>
-    <string name="parental_about">Menghitung berapa lama layar menyala, di aplikasi apa pun. Konsol tidak punya jam dengan baterai, jadi tidak berpatokan pada jam harian: waktu kembali setelah istirahat yang cukup lama, dengan layar mati atau konsol tidur. Mematikan konsol tidak dihitung sebagai istirahat, karena konsol tidak tahu berapa lama ia mati. Gunakan tombol daya agar konsol tidur semalaman.\n\nPeringatan muncul 10 dan 2 menit sebelum waktu habis. Lalu halaman menutupi layar sampai PIN dimasukkan, dan konsol mati jika PIN tidak dimasukkan, sesuai pengaturan di atas. Setelah dimulai ulang, waktu tetap habis.\n\nLupa PIN? Hanya dengan menyiapkan ulang kartu, PIN akan terhapus.</string>
+    <string name="parental_about">Menghitung berapa lama layar menyala, di aplikasi apa pun selain aplikasi yang diizinkan. Konsol tidak punya jam dengan baterai, jadi tidak berpatokan pada jam harian: waktu kembali setelah istirahat yang cukup lama, dengan layar mati atau konsol tidur. Mematikan konsol tidak dihitung sebagai istirahat, karena konsol tidak tahu berapa lama ia mati. Gunakan tombol daya agar konsol tidur semalaman.\n\nPeringatan muncul 10 dan 2 menit sebelum waktu habis. Lalu halaman menutupi layar sampai PIN dimasukkan, dan konsol mati jika PIN tidak dimasukkan, sesuai pengaturan di atas. Setelah dimulai ulang, waktu tetap habis.\n\nLupa PIN? Hanya dengan menyiapkan ulang kartu, PIN akan terhapus.</string>
     <string name="parental_left">Sisa waktu bermain: <xliff:g id="time">%1$s</xliff:g></string>
     <string name="parental_warning_channel">Peringatan waktu bermain</string>
     <string name="parental_warning">Waktu bermain berakhir dalam <xliff:g id="time">%1$s</xliff:g>. Simpan permainanmu!</string>

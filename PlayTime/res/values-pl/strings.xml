@@ -54,11 +54,21 @@
     <!-- %1$s: e.g. "2 min" -->
     <string name="parental_shutdown_after">Wyłącz konsolę po <xliff:g id="time">%1$s</xliff:g> bez PIN-u</string>
     <string name="parental_shutdown_never">Zostaw włączoną stronę z informacją o końcu czasu</string>
+    <string name="parental_refill_custom">Własne…</string>
+    <string name="parental_refill_custom_title">Godziny odpoczynku</string>
+    <string name="parental_allowed">Dozwolone aplikacje</string>
+    <string name="parental_allowed_none">Brak. Aplikacje wybrane tutaj nie zużywają czasu gry i nadal można je otworzyć, gdy czas minie, na przykład aplikacje do nauki.</string>
+    <string name="parental_blocked_apps">Zablokowane aplikacje</string>
+    <string name="parental_blocked_none">Brak. Aplikacji wybranych tutaj nie można otworzyć, gdy kontrola rodzicielska jest włączona.</string>
+    <!-- toast when a blocked app is opened; %1$s: the app's name -->
+    <string name="parental_blocked"><xliff:g id="app">%1$s</xliff:g> jest zablokowana przez kontrolę rodzicielską</string>
+    <!-- time up page, above the buttons of the allowed apps -->
+    <string name="parental_still_open">Te nadal można używać:</string>
     <string name="parental_left_title">Pozostały czas</string>
     <!-- %1$s left of %2$s, e.g. "42 min of 1 h" -->
     <string name="parental_left_summary">Zostało <xliff:g id="left">%1$s</xliff:g> z <xliff:g id="allowed">%2$s</xliff:g>. Wybierz, aby dodać czas.</string>
     <string name="parental_change_pin">Zmień PIN</string>
-    <string name="parental_about">Liczy, jak długo ekran jest włączony, przy dowolnej aplikacji. Konsola nie ma zegara z baterią, więc nie liczy według godziny w ciągu dnia: czas wraca po wystarczająco długim odpoczynku, przy wyłączonym ekranie lub uśpionej konsoli. Wyłączenie konsoli nie liczy się jako odpoczynek, bo konsola nie wie, jak długo była wyłączona. Użyj przycisku zasilania, żeby konsola zasypiała na noc.\n\nOstrzeżenia pojawiają się 10 i 2 minuty przed końcem czasu. Potem strona zasłania ekran, aż zostanie wpisany PIN, a konsola wyłączy się, jeśli PIN nie zostanie wpisany, zgodnie z ustawieniem powyżej. Po restarcie czas nadal jest wykorzystany.\n\nZapomniany PIN? Usunie go tylko ponowna konfiguracja karty.</string>
+    <string name="parental_about">Liczy, jak długo ekran jest włączony, przy dowolnej aplikacji, oprócz dozwolonych. Konsola nie ma zegara z baterią, więc nie liczy według godziny w ciągu dnia: czas wraca po wystarczająco długim odpoczynku, przy wyłączonym ekranie lub uśpionej konsoli. Wyłączenie konsoli nie liczy się jako odpoczynek, bo konsola nie wie, jak długo była wyłączona. Użyj przycisku zasilania, żeby konsola zasypiała na noc.\n\nOstrzeżenia pojawiają się 10 i 2 minuty przed końcem czasu. Potem strona zasłania ekran, aż zostanie wpisany PIN, a konsola wyłączy się, jeśli PIN nie zostanie wpisany, zgodnie z ustawieniem powyżej. Po restarcie czas nadal jest wykorzystany.\n\nZapomniany PIN? Usunie go tylko ponowna konfiguracja karty.</string>
     <string name="parental_left">Pozostały czas gry: <xliff:g id="time">%1$s</xliff:g></string>
     <string name="parental_warning_channel">Ostrzeżenia o czasie gry</string>
     <string name="parental_warning">Czas gry kończy się za <xliff:g id="time">%1$s</xliff:g>. Zapisz grę!</string>

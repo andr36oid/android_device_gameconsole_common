@@ -53,11 +53,21 @@
     <!-- %1$s: e.g. "2 min" -->
     <string name="parental_shutdown_after">PIN kodu girilmeden <xliff:g id="time">%1$s</xliff:g> sonra konsolu kapat</string>
     <string name="parental_shutdown_never">Süre doldu sayfası açık kalsın</string>
+    <string name="parental_refill_custom">Özel…</string>
+    <string name="parental_refill_custom_title">Dinlenme süresi</string>
+    <string name="parental_allowed">İzin verilen uygulamalar</string>
+    <string name="parental_allowed_none">Yok. Burada seçilen uygulamalar oyun süresini harcamaz ve süre dolduğunda da açık kalır, örneğin öğrenme uygulamaları.</string>
+    <string name="parental_blocked_apps">Engellenen uygulamalar</string>
+    <string name="parental_blocked_none">Yok. Burada seçilen uygulamalar, ebeveyn denetimi açıkken açılamaz.</string>
+    <!-- toast when a blocked app is opened; %1$s: the app's name -->
+    <string name="parental_blocked"><xliff:g id="app">%1$s</xliff:g>, ebeveyn denetimi tarafından engellendi</string>
+    <!-- time up page, above the buttons of the allowed apps -->
+    <string name="parental_still_open">Bunlar hâlâ kullanılabilir:</string>
     <string name="parental_left_title">Kalan süre</string>
     <!-- %1$s left of %2$s, e.g. "42 min of 1 h" -->
     <string name="parental_left_summary"><xliff:g id="allowed">%2$s</xliff:g> süreden <xliff:g id="left">%1$s</xliff:g> kaldı. Süre eklemek için seçin.</string>
     <string name="parental_change_pin">PIN kodunu değiştir</string>
-    <string name="parental_about">Ekranın ne kadar süre açık kaldığını, herhangi bir uygulamada sayar. Konsolda pilli saat olmadığı için gün saatine göre çalışmaz: süre, ekran kapalıyken ya da konsol uykudayken yeterince uzun bir dinlenmenin ardından geri gelir. Konsolu kapatmak dinlenme sayılmaz, çünkü konsol ne kadar süre kapalı kaldığını bilemez. Gece boyunca uyuması için güç düğmesini kullanın.\n\nSüre dolmadan 10 ve 2 dakika önce uyarılar gelir. Sonra PIN kodu girilene kadar bir sayfa ekranı kaplar; PIN kodu girilmezse, yukarıda ayarlandığı gibi konsol kapanır. Yeniden başlatıldıktan sonra süre hâlâ bitmiş olur.\n\nPIN kodunu unuttunuz mu? Yalnızca kartın yeniden kurulması onu siler.</string>
+    <string name="parental_about">Ekranın ne kadar süre açık kaldığını, izin verilen uygulamalar hariç herhangi bir uygulamada sayar. Konsolda pilli saat olmadığı için gün saatine göre çalışmaz: süre, ekran kapalıyken ya da konsol uykudayken yeterince uzun bir dinlenmenin ardından geri gelir. Konsolu kapatmak dinlenme sayılmaz, çünkü konsol ne kadar süre kapalı kaldığını bilemez. Gece boyunca uyuması için güç düğmesini kullanın.\n\nSüre dolmadan 10 ve 2 dakika önce uyarılar gelir. Sonra PIN kodu girilene kadar bir sayfa ekranı kaplar; PIN kodu girilmezse, yukarıda ayarlandığı gibi konsol kapanır. Yeniden başlatıldıktan sonra süre hâlâ bitmiş olur.\n\nPIN kodunu unuttunuz mu? Yalnızca kartın yeniden kurulması onu siler.</string>
     <string name="parental_left">Kalan oyun süresi: <xliff:g id="time">%1$s</xliff:g></string>
     <string name="parental_warning_channel">Oyun süresi uyarıları</string>
     <string name="parental_warning">Oyun süresinin bitmesine <xliff:g id="time">%1$s</xliff:g> kaldı. Oyununuzu kaydedin!</string>

@@ -53,11 +53,21 @@
     <!-- %1$s: e.g. "2 min" -->
     <string name="parental_shutdown_after">Desligar o console após <xliff:g id="time">%1$s</xliff:g> sem o PIN</string>
     <string name="parental_shutdown_never">Manter a página de tempo esgotado ativada</string>
+    <string name="parental_refill_custom">Personalizado…</string>
+    <string name="parental_refill_custom_title">Horas de descanso</string>
+    <string name="parental_allowed">Apps permitidos</string>
+    <string name="parental_allowed_none">Nenhum. Os apps escolhidos aqui não gastam tempo de jogo e continuam abertos quando o tempo acaba, como os de estudo.</string>
+    <string name="parental_blocked_apps">Apps bloqueados</string>
+    <string name="parental_blocked_none">Nenhum. Os apps escolhidos aqui não podem ser abertos enquanto o controle dos pais estiver ativado.</string>
+    <!-- toast when a blocked app is opened; %1$s: the app's name -->
+    <string name="parental_blocked"><xliff:g id="app">%1$s</xliff:g> está bloqueado pelo controle dos pais</string>
+    <!-- time up page, above the buttons of the allowed apps -->
+    <string name="parental_still_open">Estes ainda podem ser usados:</string>
     <string name="parental_left_title">Tempo restante</string>
     <!-- %1$s left of %2$s, e.g. "42 min of 1 h" -->
     <string name="parental_left_summary">Restam <xliff:g id="left">%1$s</xliff:g> de <xliff:g id="allowed">%2$s</xliff:g>. Selecione para adicionar tempo.</string>
     <string name="parental_change_pin">Alterar PIN</string>
-    <string name="parental_about">Conta por quanto tempo a tela fica ligada, em qualquer app. O console não tem relógio com bateria, então não se baseia na hora do dia: o tempo volta depois de um descanso longo o suficiente, com a tela desligada ou o console em suspensão. Desligar o console não conta como descanso, pois ele não sabe por quanto tempo ficou desligado. Use o botão liga/desliga para que ele entre em suspensão durante a noite.\n\nOs avisos aparecem 10 e 2 minutos antes do fim do tempo. Depois, uma página cobre a tela até o PIN ser digitado, e o console desliga se ele não for digitado, conforme definido acima. Depois de reiniciar, o tempo continua esgotado.\n\nEsqueceu o PIN? Só refazer a configuração do cartão remove o PIN.</string>
+    <string name="parental_about">Conta por quanto tempo a tela fica ligada, em qualquer app, exceto os apps permitidos. O console não tem relógio com bateria, então não se baseia na hora do dia: o tempo volta depois de um descanso longo o suficiente, com a tela desligada ou o console em suspensão. Desligar o console não conta como descanso, pois ele não sabe por quanto tempo ficou desligado. Use o botão liga/desliga para que ele entre em suspensão durante a noite.\n\nOs avisos aparecem 10 e 2 minutos antes do fim do tempo. Depois, uma página cobre a tela até o PIN ser digitado, e o console desliga se ele não for digitado, conforme definido acima. Depois de reiniciar, o tempo continua esgotado.\n\nEsqueceu o PIN? Só refazer a configuração do cartão remove o PIN.</string>
     <string name="parental_left">Tempo de jogo restante: <xliff:g id="time">%1$s</xliff:g></string>
     <string name="parental_warning_channel">Avisos de tempo de jogo</string>
     <string name="parental_warning">O tempo de jogo acaba em <xliff:g id="time">%1$s</xliff:g>. Salve seu jogo!</string>

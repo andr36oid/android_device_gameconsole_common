@@ -53,11 +53,21 @@
     <!-- %1$s: e.g. "2 min" -->
     <string name="parental_shutdown_after">Apagar la consola tras <xliff:g id="time">%1$s</xliff:g> sin el PIN</string>
     <string name="parental_shutdown_never">Mantener activada la página de tiempo agotado</string>
+    <string name="parental_refill_custom">Personalizado…</string>
+    <string name="parental_refill_custom_title">Horas de descanso</string>
+    <string name="parental_allowed">Apps permitidas</string>
+    <string name="parental_allowed_none">Ninguna. Las apps elegidas aquí no gastan tiempo de juego y siguen abiertas cuando se acaba el tiempo, como las de aprendizaje.</string>
+    <string name="parental_blocked_apps">Apps bloqueadas</string>
+    <string name="parental_blocked_none">Ninguna. Las apps elegidas aquí no se pueden abrir mientras el control parental esté activado.</string>
+    <!-- toast when a blocked app is opened; %1$s: the app's name -->
+    <string name="parental_blocked"><xliff:g id="app">%1$s</xliff:g> está bloqueada por el control parental</string>
+    <!-- time up page, above the buttons of the allowed apps -->
+    <string name="parental_still_open">Estas todavía se pueden usar:</string>
     <string name="parental_left_title">Tiempo restante</string>
     <!-- %1$s left of %2$s, e.g. "42 min of 1 h" -->
     <string name="parental_left_summary">Quedan <xliff:g id="left">%1$s</xliff:g> de <xliff:g id="allowed">%2$s</xliff:g>. Selecciona para añadir tiempo.</string>
     <string name="parental_change_pin">Cambiar PIN</string>
-    <string name="parental_about">Cuenta cuánto tiempo está encendida la pantalla, con cualquier app. La consola no tiene reloj con batería, así que no se guía por la hora del día: el tiempo vuelve tras un descanso lo bastante largo, con la pantalla apagada o la consola en reposo. Apagar la consola no cuenta como descanso, porque no puede saber cuánto tiempo estuvo apagada. Usa el botón de encendido para que se duerma por la noche.\n\nLos avisos llegan 10 y 2 minutos antes de que se acabe el tiempo. Luego, una página cubre la pantalla hasta que se introduce el PIN, y la consola se apaga si no se introduce, como se ha configurado arriba. Tras reiniciar, el tiempo sigue agotado.\n\n¿Olvidaste el PIN? Solo se borra si se vuelve a preparar la tarjeta.</string>
+    <string name="parental_about">Cuenta cuánto tiempo está encendida la pantalla, con cualquier app excepto las apps permitidas. La consola no tiene reloj con batería, así que no se guía por la hora del día: el tiempo vuelve tras un descanso lo bastante largo, con la pantalla apagada o la consola en reposo. Apagar la consola no cuenta como descanso, porque no puede saber cuánto tiempo estuvo apagada. Usa el botón de encendido para que se duerma por la noche.\n\nLos avisos llegan 10 y 2 minutos antes de que se acabe el tiempo. Luego, una página cubre la pantalla hasta que se introduce el PIN, y la consola se apaga si no se introduce, como se ha configurado arriba. Tras reiniciar, el tiempo sigue agotado.\n\n¿Olvidaste el PIN? Solo se borra si se vuelve a preparar la tarjeta.</string>
     <string name="parental_left">Tiempo de juego restante: <xliff:g id="time">%1$s</xliff:g></string>
     <string name="parental_warning_channel">Avisos de tiempo de juego</string>
     <string name="parental_warning">El tiempo de juego termina en <xliff:g id="time">%1$s</xliff:g>. ¡Guarda tu partida!</string>
