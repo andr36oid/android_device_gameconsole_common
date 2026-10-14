@@ -143,4 +143,12 @@
     <string name="confirm_keep">Mantener</string>
     <string name="confirm_undo">Deshacer</string>
 
+    <string name="section_extra_buttons">Botones extra</string>
+    <string name="button_extra">Botón extra <xliff:g id="number">%1$d</xliff:g></string>
+    <string name="action_fn">FN (pulsar para pantalla de inicio, mantener para atajos)</string>
+    <string name="action_button_number">Botón de juego <xliff:g id="number">%1$d</xliff:g></string>
+    <string name="fn_set">El <xliff:g id="button">%1$s</xliff:g> es FN ahora: púlsalo para la pantalla de inicio, mantenlo y pulsa otro botón para un atajo.</string>
+    <string name="fn_replaced_button">El <xliff:g id="button">%1$s</xliff:g> es FN ahora. Solo un botón puede ser FN, así que el <xliff:g id="old_button">%2$s</xliff:g> vuelve a funcionar como antes.</string>
+    <string name="fn_replaced_volume">El <xliff:g id="button">%1$s</xliff:g> es FN ahora, en lugar de pulsar los dos botones de volumen a la vez.</string>
+    <string name="fn_cleared">El <xliff:g id="button">%1$s</xliff:g> ya no es FN.</string>
 </resources>

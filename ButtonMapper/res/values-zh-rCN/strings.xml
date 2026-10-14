@@ -141,4 +141,12 @@
     <string name="confirm_keep">保留</string>
     <string name="confirm_undo">撤消</string>
 
+    <string name="section_extra_buttons">额外按键</string>
+    <string name="button_extra">额外按键 <xliff:g id="number">%1$d</xliff:g></string>
+    <string name="action_fn">FN（轻按打开主屏幕，长按使用快捷键）</string>
+    <string name="action_button_number">游戏按键 <xliff:g id="number">%1$d</xliff:g></string>
+    <string name="fn_set"><xliff:g id="button">%1$s</xliff:g> 现在是 FN：轻按打开主屏幕，按住再按其他键即可使用快捷键。</string>
+    <string name="fn_replaced_button"><xliff:g id="button">%1$s</xliff:g> 现在是 FN。只能有一个按键作为 FN，因此 <xliff:g id="old_button">%2$s</xliff:g> 已恢复原来的功能。</string>
+    <string name="fn_replaced_volume"><xliff:g id="button">%1$s</xliff:g> 现在是 FN，不再需要同时按两个音量键。</string>
+    <string name="fn_cleared"><xliff:g id="button">%1$s</xliff:g> 不再是 FN。</string>
 </resources>

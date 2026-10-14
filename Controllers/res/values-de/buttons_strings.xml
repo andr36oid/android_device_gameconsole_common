@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Settings > Controls > Buttons on this console: press every button once -->
+    <string name="check_title">Buttons an dieser Konsole</string>
+    <string name="check_intro">Drück jede Taste einmal. FN öffnet den Startbildschirm, danach kommt diese Seite von selbst zurück.</string>
+    <string name="check_how_to_finish">Zum Beenden Start 2 Sekunden lang halten oder Fertig wählen.</string>
+    <string name="check_done">Fertig</string>
+    <!-- At the top, e.g. "Current setting: No Fn, no L3/R3" -->
+    <string name="check_saved">Aktuelle Einstellung: %1$s</string>
+    <string name="check_extras_none">Zusätzliche Tasten gefunden: keine</string>
+    <!-- e.g. "Extra buttons found: Extra button 1, Extra button 2" -->
+    <string name="check_extras">Zusätzliche Tasten gefunden: %1$s</string>
+    <!-- %1$s is a button, e.g. "L3" -->
+    <string name="check_standin_note">%1$s funktioniert gerade als FN, es öffnet also auch den Startbildschirm.</string>
+    <string name="check_missing_title">Speichern?</string>
+    <!-- %1$s is a list like "Fn, L3/R3" -->
+    <string name="check_missing">Diese Konsole hat keine: %1$s.\n\nWenn sie eine davon doch hat, wähle Zurück und drück sie.</string>
+    <string name="check_missing_save">Speichern</string>
+    <string name="check_missing_back">Zurück</string>
+    <string name="check_saved_toast">Gespeichert: %1$s</string>
+
+    <!-- Summaries: "All buttons", "No Fn, no L3/R3" -->
+    <string name="buttons_all">Alle Tasten</string>
+    <string name="buttons_missing_first">Kein %1$s</string>
+    <string name="buttons_missing_more">, kein %1$s</string>
+    <string name="buttons_missing_volume">Lautstärketasten</string>
+    <string name="buttons_not_checked">Noch nicht geprüft</string>
+    <!-- Before the check, from what is known about this console model -->
+    <string name="buttons_hint">%1$s (für dieses Modell bekannt, noch nicht geprüft)</string>
+
+    <!-- Button names -->
+    <string name="button_a" translatable="false">A</string>
+    <string name="button_b" translatable="false">B</string>
+    <string name="button_x" translatable="false">X</string>
+    <string name="button_y" translatable="false">Y</string>
+    <string name="button_l1" translatable="false">L1</string>
+    <string name="button_r1" translatable="false">R1</string>
+    <string name="button_l2" translatable="false">L2</string>
+    <string name="button_r2" translatable="false">R2</string>
+    <string name="button_l3" translatable="false">L3</string>
+    <string name="button_r3" translatable="false">R3</string>
+    <string name="button_fn" translatable="false">Fn</string>
+    <string name="button_vol_up" translatable="false">Vol+</string>
+    <string name="button_vol_down" translatable="false">Vol−</string>
+    <string name="button_select">Select-Taste</string>
+    <string name="button_start">Start-Taste</string>
+    <string name="button_up">Hoch</string>
+    <string name="button_down">Runter</string>
+    <string name="button_left">Links</string>
+    <string name="button_right">Rechts</string>
+    <string name="button_extra">Extra-Taste %1$d</string>
+    <!-- A button the console reports with an unknown code -->
+    <string name="button_other">Taste %1$d</string>
+
+    <!-- What does the Fn button's job (Settings > Controls, and the tutorial on consoles
+         without Fn) -->
+    <string name="fn_standin_row">FN-Kurzbefehle</string>
+    <string name="fn_standin_title">Was funktioniert als FN?</string>
+    <string name="fn_standin_fn">Die FN-Taste</string>
+    <string name="fn_standin_vol_both">Vol+ und Vol− zusammen</string>
+    <string name="fn_standin_vol_both_recommended">Vol+ und Vol− zusammen (empfohlen)</string>
+    <string name="fn_standin_other">Eine andere Taste als FN nutzen</string>
+    <!-- %1$s is a button, e.g. "L3" -->
+    <string name="fn_standin_button">%1$s funktioniert als FN</string>
+    <string name="fn_standin_press">Taste jetzt drücken…</string>
+    <string name="fn_standin_press_now">Drück die Taste, die als FN funktionieren soll. Es kann auch eine Extra-Taste sein. B bricht ab.</string>
+    <string name="fn_standin_refused">%1$s kann nicht FN sein: Die Taste braucht man zum Bewegen in den Menüs oder für die Lautstärke. Drück eine andere Taste oder B zum Abbrechen.</string>
+    <string name="fn_standin_confirm_title">%1$s als FN nutzen?</string>
+    <string name="fn_standin_confirm">%1$s übernimmt dann die Aufgabe der FN-Taste: Drückt man sie allein, öffnet sich der Startbildschirm, hält man sie und drückt eine andere Taste, gibt es eine Verknüpfung. Sie verliert überall ihre eigene Aufgabe, auch in Spielen. Du kannst das unter Einstellungen &gt; Steuerung &gt; FN-Kurzbefehle ändern.</string>
+    <string name="fn_standin_confirm_ok">Als FN nutzen</string>
+</resources>

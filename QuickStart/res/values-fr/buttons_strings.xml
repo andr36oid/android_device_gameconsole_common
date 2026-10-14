@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Used by ButtonSettings and FnChooser, copies of the Controls app's classes. The
+         check page itself is in the Controls app. -->
+
+    <!-- Summaries: "All buttons", "No Fn, no L3/R3" -->
+    <string name="buttons_all">Tous les boutons</string>
+    <string name="buttons_missing_first">Pas de %1$s</string>
+    <string name="buttons_missing_more">, pas de %1$s</string>
+    <string name="buttons_missing_volume">boutons de volume</string>
+    <string name="buttons_not_checked">Pas encore vérifié</string>
+    <!-- Before the check, from what is known about this console model -->
+    <string name="buttons_hint">%1$s (connu pour ce modèle, pas encore vérifié)</string>
+
+    <!-- Button names -->
+    <string name="button_a" translatable="false">A</string>
+    <string name="button_b" translatable="false">B</string>
+    <string name="button_x" translatable="false">X</string>
+    <string name="button_y" translatable="false">Y</string>
+    <string name="button_l1" translatable="false">L1</string>
+    <string name="button_r1" translatable="false">R1</string>
+    <string name="button_l2" translatable="false">L2</string>
+    <string name="button_r2" translatable="false">R2</string>
+    <string name="button_l3" translatable="false">L3</string>
+    <string name="button_r3" translatable="false">R3</string>
+    <string name="button_fn" translatable="false">Fn</string>
+    <string name="button_vol_up" translatable="false">Vol+</string>
+    <string name="button_vol_down" translatable="false">Vol−</string>
+    <string name="button_select">Bouton Select</string>
+    <string name="button_start">Bouton Start</string>
+    <string name="button_up">Haut</string>
+    <string name="button_down">Bas</string>
+    <string name="button_left">Gauche</string>
+    <string name="button_right">Droite</string>
+    <string name="button_extra">Bouton supplémentaire %1$d</string>
+    <!-- A button the console reports with an unknown code -->
+    <string name="button_other">Bouton %1$d</string>
+
+    <!-- What does the Fn button's job (Settings > Controls, and the tutorial on consoles
+         without Fn) -->
+    <string name="fn_standin_row">Raccourcis FN</string>
+    <string name="fn_standin_title">Qu\'est-ce qui fait office de FN ?</string>
+    <string name="fn_standin_fn">Le bouton FN</string>
+    <string name="fn_standin_vol_both">Vol+ et Vol− ensemble</string>
+    <string name="fn_standin_vol_both_recommended">Vol+ et Vol− ensemble (conseillé)</string>
+    <string name="fn_standin_other">Utiliser un autre bouton comme FN</string>
+    <!-- %1$s is a button, e.g. "L3" -->
+    <string name="fn_standin_button">%1$s fait office de FN</string>
+    <string name="fn_standin_press">Appuie sur le bouton maintenant…</string>
+    <string name="fn_standin_press_now">Appuie sur le bouton qui doit faire office de FN. Ça peut aussi être un bouton supplémentaire. B annule.</string>
+    <string name="fn_standin_refused">%1$s ne peut pas être FN : il sert à se déplacer dans les menus ou pour le volume. Appuie sur un autre bouton, ou sur B pour annuler.</string>
+    <string name="fn_standin_confirm_title">Utiliser %1$s comme FN ?</string>
+    <string name="fn_standin_confirm">%1$s fait alors le travail du bouton FN : appuyé seul, il ouvre l\'écran d\'accueil ; maintenu avec un autre bouton, il ouvre un raccourci. Il perd son rôle habituel partout, y compris dans les jeux. Tu peux changer ça dans Paramètres &gt; Commandes &gt; Raccourcis FN.</string>
+    <string name="fn_standin_confirm_ok">Utiliser comme FN</string>
+
+    <!-- Tutorial on consoles without FN: what the FN steps say instead of FN -->
+    <string name="tutorial_standin_vol">Vol+ + Vol−</string>
+    <!-- At the top of the Home step; %1$s is "Vol+ + Vol−" or a button like "L3" -->
+    <string name="tutorial_standin_intro">Cette console n\'a pas de bouton FN, donc %1$s fait son travail. Tu peux changer ça dans Paramètres &gt; Commandes &gt; Raccourcis FN.</string>
+    <!-- Tutorial, shoulder buttons step: opens Settings > Controls > Buttons on this console -->
+    <string name="tutorial_check_buttons">Des boutons manquent ?</string>
+</resources>

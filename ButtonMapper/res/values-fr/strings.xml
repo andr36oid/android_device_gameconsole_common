@@ -143,4 +143,12 @@
     <string name="confirm_keep">Garder</string>
     <string name="confirm_undo">Annuler</string>
 
+    <string name="section_extra_buttons">Boutons supplémentaires</string>
+    <string name="button_extra">Bouton supplémentaire <xliff:g id="number">%1$d</xliff:g></string>
+    <string name="action_fn">FN (appui court pour l\'écran d\'accueil, appui long pour les raccourcis)</string>
+    <string name="action_button_number">Bouton de jeu <xliff:g id="number">%1$d</xliff:g></string>
+    <string name="fn_set">La <xliff:g id="button">%1$s</xliff:g> est FN maintenant : appui court pour l\'écran d\'accueil, appui long puis un autre bouton pour un raccourci.</string>
+    <string name="fn_replaced_button">La <xliff:g id="button">%1$s</xliff:g> est FN maintenant. Une seule touche peut être FN, donc la <xliff:g id="old_button">%2$s</xliff:g> refonctionne comme avant.</string>
+    <string name="fn_replaced_volume">La <xliff:g id="button">%1$s</xliff:g> est FN maintenant, à la place d\'appuyer sur les deux boutons de volume ensemble.</string>
+    <string name="fn_cleared">La <xliff:g id="button">%1$s</xliff:g> n\'est plus FN.</string>
 </resources>

@@ -141,4 +141,12 @@
     <string name="confirm_keep">Pakai</string>
     <string name="confirm_undo">Urungkan</string>
 
+    <string name="section_extra_buttons">Tombol ekstra</string>
+    <string name="button_extra">Tombol ekstra <xliff:g id="number">%1$d</xliff:g></string>
+    <string name="action_fn">FN (tekan untuk layar utama, tahan untuk pintasan)</string>
+    <string name="action_button_number">Tombol game <xliff:g id="number">%1$d</xliff:g></string>
+    <string name="fn_set"><xliff:g id="button">%1$s</xliff:g> sekarang FN: tekan untuk layar utama, tahan lalu tekan tombol lain untuk pintasan.</string>
+    <string name="fn_replaced_button"><xliff:g id="button">%1$s</xliff:g> sekarang FN. Hanya satu tombol yang bisa jadi FN, jadi <xliff:g id="old_button">%2$s</xliff:g> kembali berfungsi seperti semula.</string>
+    <string name="fn_replaced_volume"><xliff:g id="button">%1$s</xliff:g> sekarang FN, menggantikan menekan kedua tombol volume bersamaan.</string>
+    <string name="fn_cleared"><xliff:g id="button">%1$s</xliff:g> tidak lagi FN.</string>
 </resources>

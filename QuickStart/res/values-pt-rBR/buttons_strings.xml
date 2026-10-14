@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Used by ButtonSettings and FnChooser, copies of the Controls app's classes. The
+         check page itself is in the Controls app. -->
+
+    <!-- Summaries: "All buttons", "No Fn, no L3/R3" -->
+    <string name="buttons_all">Todos os botões</string>
+    <string name="buttons_missing_first">Sem %1$s</string>
+    <string name="buttons_missing_more">, sem %1$s</string>
+    <string name="buttons_missing_volume">botões de volume</string>
+    <string name="buttons_not_checked">Ainda não verificado</string>
+    <!-- Before the check, from what is known about this console model -->
+    <string name="buttons_hint">%1$s (conhecido para este modelo, ainda não verificado)</string>
+
+    <!-- Button names -->
+    <string name="button_a" translatable="false">A</string>
+    <string name="button_b" translatable="false">B</string>
+    <string name="button_x" translatable="false">X</string>
+    <string name="button_y" translatable="false">Y</string>
+    <string name="button_l1" translatable="false">L1</string>
+    <string name="button_r1" translatable="false">R1</string>
+    <string name="button_l2" translatable="false">L2</string>
+    <string name="button_r2" translatable="false">R2</string>
+    <string name="button_l3" translatable="false">L3</string>
+    <string name="button_r3" translatable="false">R3</string>
+    <string name="button_fn" translatable="false">Fn</string>
+    <string name="button_vol_up" translatable="false">Vol+</string>
+    <string name="button_vol_down" translatable="false">Vol−</string>
+    <string name="button_select">Botão Select</string>
+    <string name="button_start">Botão Start</string>
+    <string name="button_up">Cima</string>
+    <string name="button_down">Baixo</string>
+    <string name="button_left">Esquerda</string>
+    <string name="button_right">Direita</string>
+    <string name="button_extra">Botão extra %1$d</string>
+    <!-- A button the console reports with an unknown code -->
+    <string name="button_other">Botão %1$d</string>
+
+    <!-- What does the Fn button's job (Settings > Controls, and the tutorial on consoles
+         without Fn) -->
+    <string name="fn_standin_row">Atalhos com FN</string>
+    <string name="fn_standin_title">O que funciona como FN?</string>
+    <string name="fn_standin_fn">O botão FN</string>
+    <string name="fn_standin_vol_both">Vol+ e Vol− juntos</string>
+    <string name="fn_standin_vol_both_recommended">Vol+ e Vol− juntos (recomendado)</string>
+    <string name="fn_standin_other">Usar outro botão como FN</string>
+    <!-- %1$s is a button, e.g. "L3" -->
+    <string name="fn_standin_button">%1$s funciona como FN</string>
+    <string name="fn_standin_press">Aperte o botão agora…</string>
+    <string name="fn_standin_press_now">Aperte o botão que deve funcionar como FN. Pode ser também um botão extra. B cancela.</string>
+    <string name="fn_standin_refused">%1$s não pode ser FN: ele serve para navegar pelos menus ou para o volume. Aperte outro botão, ou B para cancelar.</string>
+    <string name="fn_standin_confirm_title">Usar %1$s como FN?</string>
+    <string name="fn_standin_confirm">%1$s passa a fazer o trabalho do botão FN: apertado sozinho abre a tela inicial, segurado com outro botão abre um atalho. Ele perde a função própria em todo lugar, inclusive nos jogos. Você pode mudar isso em Configurações &gt; Controles &gt; Atalhos com FN.</string>
+    <string name="fn_standin_confirm_ok">Usar como FN</string>
+
+    <!-- Tutorial on consoles without FN: what the FN steps say instead of FN -->
+    <string name="tutorial_standin_vol">Vol+ + Vol−</string>
+    <!-- At the top of the Home step; %1$s is "Vol+ + Vol−" or a button like "L3" -->
+    <string name="tutorial_standin_intro">Este console não tem o botão FN, então %1$s faz o trabalho dele. Você pode mudar isso em Configurações &gt; Controles &gt; Atalhos com FN.</string>
+    <!-- Tutorial, shoulder buttons step: opens Settings > Controls > Buttons on this console -->
+    <string name="tutorial_check_buttons">Faltam botões?</string>
+</resources>

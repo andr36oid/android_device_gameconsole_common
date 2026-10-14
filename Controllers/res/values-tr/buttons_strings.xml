@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Settings > Controls > Buttons on this console: press every button once -->
+    <string name="check_title">Bu konsoldaki tuşlar</string>
+    <string name="check_intro">Her tuşa bir kez basın. FN ana ekranı açar, sonra bu sayfa kendiliğinden geri gelir.</string>
+    <string name="check_how_to_finish">Bitirmek için Start tuşunu 2 saniye basılı tutun ya da Bitti seçin.</string>
+    <string name="check_done">Bitti</string>
+    <!-- At the top, e.g. "Current setting: No Fn, no L3/R3" -->
+    <string name="check_saved">Mevcut ayar: %1$s</string>
+    <string name="check_extras_none">Ekstra tuş bulunamadı</string>
+    <!-- e.g. "Extra buttons found: Extra button 1, Extra button 2" -->
+    <string name="check_extras">Bulunan ekstra tuşlar: %1$s</string>
+    <!-- %1$s is a button, e.g. "L3" -->
+    <string name="check_standin_note">%1$s şu an FN gibi çalışıyor, bu yüzden ana ekranı da açar.</string>
+    <string name="check_missing_title">Kaydedilsin mi?</string>
+    <!-- %1$s is a list like "Fn, L3/R3" -->
+    <string name="check_missing">Bu konsolda şu yok: %1$s.\n\nBunlardan biri varsa Geri seçin ve tuşa basın.</string>
+    <string name="check_missing_save">Kaydet</string>
+    <string name="check_missing_back">Geri</string>
+    <string name="check_saved_toast">Kaydedildi: %1$s</string>
+
+    <!-- Summaries: "All buttons", "No Fn, no L3/R3" -->
+    <string name="buttons_all">Tüm tuşlar</string>
+    <string name="buttons_missing_first">%1$s yok</string>
+    <string name="buttons_missing_more">, %1$s yok</string>
+    <string name="buttons_missing_volume">ses tuşları</string>
+    <string name="buttons_not_checked">Henüz kontrol edilmedi</string>
+    <!-- Before the check, from what is known about this console model -->
+    <string name="buttons_hint">%1$s (bu model için biliniyor, henüz kontrol edilmedi)</string>
+
+    <!-- Button names -->
+    <string name="button_a" translatable="false">A</string>
+    <string name="button_b" translatable="false">B</string>
+    <string name="button_x" translatable="false">X</string>
+    <string name="button_y" translatable="false">Y</string>
+    <string name="button_l1" translatable="false">L1</string>
+    <string name="button_r1" translatable="false">R1</string>
+    <string name="button_l2" translatable="false">L2</string>
+    <string name="button_r2" translatable="false">R2</string>
+    <string name="button_l3" translatable="false">L3</string>
+    <string name="button_r3" translatable="false">R3</string>
+    <string name="button_fn" translatable="false">Fn</string>
+    <string name="button_vol_up" translatable="false">Vol+</string>
+    <string name="button_vol_down" translatable="false">Vol−</string>
+    <string name="button_select">Select tuşu</string>
+    <string name="button_start">Start tuşu</string>
+    <string name="button_up">Yukarı</string>
+    <string name="button_down">Aşağı</string>
+    <string name="button_left">Sol</string>
+    <string name="button_right">Sağ</string>
+    <string name="button_extra">Ekstra tuş %1$d</string>
+    <!-- A button the console reports with an unknown code -->
+    <string name="button_other">Tuş %1$d</string>
+
+    <!-- What does the Fn button's job (Settings > Controls, and the tutorial on consoles
+         without Fn) -->
+    <string name="fn_standin_row">FN kısayolları</string>
+    <string name="fn_standin_title">FN olarak ne çalışsın?</string>
+    <string name="fn_standin_fn">FN tuşu</string>
+    <string name="fn_standin_vol_both">Vol+ ve Vol− birlikte</string>
+    <string name="fn_standin_vol_both_recommended">Vol+ ve Vol− birlikte (önerilen)</string>
+    <string name="fn_standin_other">FN olarak başka bir tuş kullan</string>
+    <!-- %1$s is a button, e.g. "L3" -->
+    <string name="fn_standin_button">%1$s FN gibi çalışır</string>
+    <string name="fn_standin_press">Tuşa şimdi basın…</string>
+    <string name="fn_standin_press_now">FN gibi çalışacak tuşa basın. Ekstra bir tuş da olabilir. İptal için B.</string>
+    <string name="fn_standin_refused">%1$s FN olamaz: menülerde gezinmek ya da ses için gerekiyor. Başka bir tuşa basın ya da iptal için B.</string>
+    <string name="fn_standin_confirm_title">%1$s FN olarak kullanılsın mı?</string>
+    <string name="fn_standin_confirm">%1$s, FN tuşunun işini yapar: tek başına basılınca ana ekranı açar, basılı tutulup başka bir tuşa basılınca kısayol çalışır. Her yerde kendi görevini kaybeder, oyunlarda da. Bunu Ayarlar &gt; Kontrol &gt; FN kısayolları bölümünden değiştirebilirsiniz.</string>
+    <string name="fn_standin_confirm_ok">FN olarak kullan</string>
+</resources>

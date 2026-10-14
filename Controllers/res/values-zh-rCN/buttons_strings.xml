@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Settings > Controls > Buttons on this console: press every button once -->
+    <string name="check_title">本机按键</string>
+    <string name="check_intro">每个按键各按一次。FN 会打开主屏幕，然后这个页面会自动返回。</string>
+    <string name="check_how_to_finish">要结束，请长按 Start 2 秒，或选择“完成”。</string>
+    <string name="check_done">完成</string>
+    <!-- At the top, e.g. "Current setting: No Fn, no L3/R3" -->
+    <string name="check_saved">当前设置：%1$s</string>
+    <string name="check_extras_none">找到的额外按键：无</string>
+    <!-- e.g. "Extra buttons found: Extra button 1, Extra button 2" -->
+    <string name="check_extras">找到的额外按键：%1$s</string>
+    <!-- %1$s is a button, e.g. "L3" -->
+    <string name="check_standin_note">%1$s 现在可以当 FN 用，所以它也会打开主屏幕。</string>
+    <string name="check_missing_title">保存这个设置？</string>
+    <!-- %1$s is a list like "Fn, L3/R3" -->
+    <string name="check_missing">此主机没有：%1$s。\n\n如果它其实有其中之一，请选择“返回”，然后按下该键。</string>
+    <string name="check_missing_save">保存</string>
+    <string name="check_missing_back">返回</string>
+    <string name="check_saved_toast">已保存：%1$s</string>
+
+    <!-- Summaries: "All buttons", "No Fn, no L3/R3" -->
+    <string name="buttons_all">所有按键</string>
+    <string name="buttons_missing_first">无 %1$s</string>
+    <string name="buttons_missing_more">，无 %1$s</string>
+    <string name="buttons_missing_volume">音量键</string>
+    <string name="buttons_not_checked">尚未检查</string>
+    <!-- Before the check, from what is known about this console model -->
+    <string name="buttons_hint">%1$s（根据此机型已知，尚未检查）</string>
+
+    <!-- Button names -->
+    <string name="button_a" translatable="false">A</string>
+    <string name="button_b" translatable="false">B</string>
+    <string name="button_x" translatable="false">X</string>
+    <string name="button_y" translatable="false">Y</string>
+    <string name="button_l1" translatable="false">L1</string>
+    <string name="button_r1" translatable="false">R1</string>
+    <string name="button_l2" translatable="false">L2</string>
+    <string name="button_r2" translatable="false">R2</string>
+    <string name="button_l3" translatable="false">L3</string>
+    <string name="button_r3" translatable="false">R3</string>
+    <string name="button_fn" translatable="false">Fn</string>
+    <string name="button_vol_up" translatable="false">Vol+</string>
+    <string name="button_vol_down" translatable="false">Vol−</string>
+    <string name="button_select">Select 键</string>
+    <string name="button_start">Start 键</string>
+    <string name="button_up">上</string>
+    <string name="button_down">下</string>
+    <string name="button_left">左</string>
+    <string name="button_right">右</string>
+    <string name="button_extra">额外按键 %1$d</string>
+    <!-- A button the console reports with an unknown code -->
+    <string name="button_other">按键 %1$d</string>
+
+    <!-- What does the Fn button's job (Settings > Controls, and the tutorial on consoles
+         without Fn) -->
+    <string name="fn_standin_row">FN 快捷键</string>
+    <string name="fn_standin_title">哪个按键作为 FN？</string>
+    <string name="fn_standin_fn">FN 键</string>
+    <string name="fn_standin_vol_both">同时按 Vol+ 和 Vol−</string>
+    <string name="fn_standin_vol_both_recommended">同时按 Vol+ 和 Vol−（推荐）</string>
+    <string name="fn_standin_other">使用其他按键作为 FN</string>
+    <!-- %1$s is a button, e.g. "L3" -->
+    <string name="fn_standin_button">%1$s 作为 FN</string>
+    <string name="fn_standin_press">现在按下按键…</string>
+    <string name="fn_standin_press_now">请按下要作为 FN 的按键，也可以是额外按键。按 B 取消。</string>
+    <string name="fn_standin_refused">%1$s 不能作为 FN：它用于菜单导航或音量控制。请按其他按键，或按 B 取消。</string>
+    <string name="fn_standin_confirm_title">将 %1$s 用作 FN？</string>
+    <string name="fn_standin_confirm">之后 %1$s 将承担 FN 键的功能：单独按下打开主屏幕，按住它再按其他键即可使用快捷键。它在所有地方都会失去原有功能，包括游戏中。可在 设置 &gt; 控制 &gt; FN 快捷键 中更改。</string>
+    <string name="fn_standin_confirm_ok">用作 FN</string>
+</resources>

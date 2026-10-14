@@ -143,4 +143,12 @@
     <string name="confirm_keep">Behalten</string>
     <string name="confirm_undo">Rückgängig</string>
 
+    <string name="section_extra_buttons">Extra-Tasten</string>
+    <string name="button_extra">Extra-Taste <xliff:g id="number">%1$d</xliff:g></string>
+    <string name="action_fn">FN (kurz drücken für Startbildschirm, halten für Kurzbefehle)</string>
+    <string name="action_button_number">Spieltaste <xliff:g id="number">%1$d</xliff:g></string>
+    <string name="fn_set">Die <xliff:g id="button">%1$s</xliff:g> ist jetzt FN: kurz drücken für den Startbildschirm, halten und eine andere Taste drücken für eine Verknüpfung.</string>
+    <string name="fn_replaced_button">Die <xliff:g id="button">%1$s</xliff:g> ist jetzt FN. Es kann nur eine Taste FN sein, daher funktioniert die <xliff:g id="old_button">%2$s</xliff:g> wieder wie vorher.</string>
+    <string name="fn_replaced_volume">Die <xliff:g id="button">%1$s</xliff:g> ist jetzt FN, statt beide Lautstärketasten zusammen zu drücken.</string>
+    <string name="fn_cleared">Die <xliff:g id="button">%1$s</xliff:g> ist nicht mehr FN.</string>
 </resources>

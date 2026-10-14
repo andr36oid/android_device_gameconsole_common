@@ -147,4 +147,12 @@
     <string name="confirm_keep">Оставить</string>
     <string name="confirm_undo">Отменить</string>
 
+    <string name="section_extra_buttons">Доп. кнопки</string>
+    <string name="button_extra">Доп. кнопка <xliff:g id="number">%1$d</xliff:g></string>
+    <string name="action_fn">FN (нажать для главного экрана, удержать для сочетаний)</string>
+    <string name="action_button_number">Игровая кнопка <xliff:g id="number">%1$d</xliff:g></string>
+    <string name="fn_set">Кнопка <xliff:g id="button">%1$s</xliff:g> теперь FN: нажмите для главного экрана, удержите и нажмите другую кнопку для сочетания.</string>
+    <string name="fn_replaced_button">Кнопка <xliff:g id="button">%1$s</xliff:g> теперь FN. FN может быть только одна кнопка, поэтому <xliff:g id="old_button">%2$s</xliff:g> снова работает как раньше.</string>
+    <string name="fn_replaced_volume">Кнопка <xliff:g id="button">%1$s</xliff:g> теперь FN, вместо одновременного нажатия обеих кнопок громкости.</string>
+    <string name="fn_cleared">Кнопка <xliff:g id="button">%1$s</xliff:g> больше не FN.</string>
 </resources>

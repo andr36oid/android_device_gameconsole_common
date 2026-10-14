@@ -143,4 +143,12 @@
     <string name="confirm_keep">Koru</string>
     <string name="confirm_undo">Geri al</string>
 
+    <string name="section_extra_buttons">Ekstra tuşlar</string>
+    <string name="button_extra">Ekstra tuş <xliff:g id="number">%1$d</xliff:g></string>
+    <string name="action_fn">FN (kısa bas: ana ekran, basılı tut: kısayollar)</string>
+    <string name="action_button_number">Oyun tuşu <xliff:g id="number">%1$d</xliff:g></string>
+    <string name="fn_set"><xliff:g id="button">%1$s</xliff:g> artık FN: kısa basınca ana ekran açılır, basılı tutup başka bir tuşa basınca kısayol çalışır.</string>
+    <string name="fn_replaced_button"><xliff:g id="button">%1$s</xliff:g> artık FN. Yalnızca bir tuş FN olabilir, bu yüzden <xliff:g id="old_button">%2$s</xliff:g> yeniden eski işine döndü.</string>
+    <string name="fn_replaced_volume"><xliff:g id="button">%1$s</xliff:g> artık FN, iki ses tuşuna birlikte basmak yerine.</string>
+    <string name="fn_cleared"><xliff:g id="button">%1$s</xliff:g> artık FN değil.</string>
 </resources>
