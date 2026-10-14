@@ -12,7 +12,7 @@
     <string name="tutorial_next">Next</string>
     <string name="tutorial_skip_step">Skip step</string>
     <string name="tutorial_skip_all">Skip tutorial</string>
-    <!-- On the FN steps, for consoles without an FN button: skips all of them -->
+    <!-- On the FN steps, for consoles without an FN button: asks what stands in for it -->
     <string name="tutorial_no_fn">No FN button</string>
     <string name="tutorial_done">Done</string>
     <string name="tutorial_open_guide">Open the full guide</string>

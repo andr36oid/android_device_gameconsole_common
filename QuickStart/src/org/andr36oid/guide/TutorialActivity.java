@@ -1,6 +1,7 @@
 package org.andr36oid.guide;
 
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -39,6 +40,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.regex.Matcher;
 
 /**
  * A hands-on tutorial that runs once after the setup wizard, and from the guide (X). Each step
@@ -75,6 +77,11 @@ public class TutorialActivity extends Activity {
     private static final long MOUSE_POLL_MS = 300;
     private static final long FOCUS_CHECK_MS = 300;
     private static final float STICK_THRESHOLD = 0.6f;
+
+    /** Settings > Controls > Buttons on this console, in the Controls app */
+    private static final String CHECK_PACKAGE = "org.andr36oid.controllers";
+    private static final String CHECK_ACTIVITY = CHECK_PACKAGE + ".ButtonCheckActivity";
+    private static final int REQUEST_CHECK = 1;
 
     private static final int STEP_WELCOME = 0;
     private static final int STEP_FACE = 1;
@@ -134,8 +141,15 @@ public class TutorialActivity extends Activity {
     private int mIndex;
     // Where Back goes from the last page after Skip tutorial
     private int mSkippedFrom = -1;
-    /** The user said the console has no FN button: the FN steps are left out. */
+    /**
+     * The console has no FN button (the user said so, or ButtonSettings knows): the FN steps
+     * teach what stands in for it instead (FnChooser), see fnText.
+     */
     private boolean mNoFn;
+    // What the FN steps say instead of FN, while mNoFn
+    private String mFnLabel;
+    // Buttons on this console is open on top
+    private boolean mCheckOpen;
     private boolean mResumed;
     private boolean mReturnPending;
     // The first start: the first-start launcher is home and tells us about FN
@@ -158,6 +172,7 @@ public class TutorialActivity extends Activity {
     private Button mBack;
     private Button mSecondary;
     private Button mNoFnButton;
+    private Button mCheckButton;
     private Button mNext;
     private StickView mStickView;
 
@@ -236,6 +251,7 @@ public class TutorialActivity extends Activity {
         mBack = findViewById(R.id.back);
         mSecondary = findViewById(R.id.secondary);
         mNoFnButton = findViewById(R.id.no_fn);
+        mCheckButton = findViewById(R.id.check_buttons);
         mNext = findViewById(R.id.next);
 
         mBack.setOnClickListener(v -> goBack());
@@ -248,13 +264,14 @@ public class TutorialActivity extends Activity {
         });
         mNext.setOnClickListener(v -> goNext());
         mNoFnButton.setOnClickListener(v -> {
+            // Saved for the whole system; Vol+ and Vol- together stand in unless the user
+            // picks something else
+            ButtonSettings.addMissing(this, "fn");
             mNoFn = true;
-            int next = mIndex + 1;
-            while (next < mSteps.size() - 1 && isFnStep(mSteps.get(next).id)) {
-                next++;
-            }
-            showStep(next);
+            showStep(skipForward(mIndex));
+            FnChooser.show(this, () -> showStep(skipForward(mIndex)));
         });
+        mCheckButton.setOnClickListener(v -> openButtonCheck());
         mProgress.setMax(mSteps.size() - 1);
 
         int start = 0;
@@ -272,7 +289,10 @@ public class TutorialActivity extends Activity {
                 }
             }
         }
-        showStep(Math.max(0, Math.min(start, mSteps.size() - 1)));
+        if (!ButtonSettings.hasFn(this)) {
+            mNoFn = true;
+        }
+        showStep(skipForward(Math.max(0, Math.min(start, mSteps.size() - 1))));
     }
 
     // ---- First start: progress kept across restarts and crashes
@@ -491,15 +511,9 @@ public class TutorialActivity extends Activity {
         }
         mStepLabel.setText(getString(R.string.tutorial_step, index + 1, mSteps.size()));
         mProgress.setProgress(index);
-        mTitle.setText(step.title);
+        mFnLabel = mNoFn ? standinLabel() : null;
+        mTitle.setText(fnText(getText(step.title)));
         int bodyRes = step.body;
-        if (mNoFn && step.id == STEP_MOUSE) {
-            bodyRes = R.string.tutorial_mouse_body;
-        } else if (mNoFn && step.id == STEP_GAMES) {
-            bodyRes = R.string.tutorial_games_body_no_fn;
-        } else if (mNoFn && step.id == STEP_DONE) {
-            bodyRes = R.string.tutorial_done_body;
-        }
         // Simple UI shows apps, not games: Daijishou (if it's still there) is one of them
         final boolean simpleUiGames = step.id == STEP_GAMES && HomeChoice.isSimpleUi(this);
         if (simpleUiGames) {
@@ -515,11 +529,15 @@ public class TutorialActivity extends Activity {
                 // card with EASYROMS, see gameconsole-emu.sh)
                 if (!simpleUiGames && SystemProperties.getBoolean(
                         "ro.andr36oid.daijishou_platforms", false)) {
-                    body = getText(mNoFn ? R.string.tutorial_games_body_ready_no_fn
-                            : R.string.tutorial_games_body_ready);
+                    body = getText(R.string.tutorial_games_body_ready);
                 }
                 body = TextUtils.concat(body, "\n\n", space);
             }
+        }
+        body = fnText(body);
+        if (mNoFn && step.id == STEP_HOME) {
+            body = TextUtils.concat(getString(R.string.tutorial_standin_intro, mFnLabel),
+                    "\n\n", body);
         }
         mBody.setText(body);
         mTextScroll.scrollTo(0, 0);
@@ -527,7 +545,7 @@ public class TutorialActivity extends Activity {
         mTasks.removeAllViews();
         for (int i = 0; i < step.tasks.length; i++) {
             final CheckBox box = new CheckBox(this);
-            box.setText(step.tasks[i]);
+            box.setText(fnText(getText(step.tasks[i])));
             box.setTextAppearance(android.R.style.TextAppearance_DeviceDefault_Medium);
             box.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
             // Only a tick mark: the buttons below are the only things to focus
@@ -551,7 +569,11 @@ public class TutorialActivity extends Activity {
                 ? View.VISIBLE : View.GONE);
 
         mBack.setVisibility(index == 0 ? View.INVISIBLE : View.VISIBLE);
-        mNoFnButton.setVisibility(isFnStep(step.id) ? View.VISIBLE : View.GONE);
+        mNoFnButton.setVisibility(isFnStep(step.id) && !mNoFn ? View.VISIBLE : View.GONE);
+        // Consoles without L2/R2 (or others) can say so here, once
+        mCheckButton.setVisibility(step.id == STEP_SHOULDERS
+                && ButtonSettings.saved(this) == null && hasButtonCheck()
+                ? View.VISIBLE : View.GONE);
         mSecondary.setText(step.id == STEP_DONE
                 ? R.string.tutorial_open_guide : R.string.tutorial_skip_all);
         startDetectors();
@@ -610,10 +632,7 @@ public class TutorialActivity extends Activity {
             finishTutorial();
         } else if (mIndex < mSteps.size() - 1) {
             int next = mIndex + 1;
-            while (mNoFn && next < mSteps.size() - 1 && isFnStep(mSteps.get(next).id)) {
-                next++;
-            }
-            showStep(next);
+            showStep(skipForward(next));
         }
     }
 
@@ -624,7 +643,7 @@ public class TutorialActivity extends Activity {
             showStep(from);
         } else if (mIndex > 0) {
             int previous = mIndex - 1;
-            while (mNoFn && previous > 0 && isFnStep(mSteps.get(previous).id)) {
+            while (previous > 0 && isSkipped(mSteps.get(previous).id)) {
                 previous--;
             }
             showStep(previous);
@@ -639,6 +658,74 @@ public class TutorialActivity extends Activity {
     /** The steps that only work with an FN button. */
     private static boolean isFnStep(int id) {
         return id == STEP_HOME || id == STEP_BRIGHTNESS || id == STEP_SHADE;
+    }
+
+    /**
+     * Steps left out: FN + Vol for the brightness when Vol+ and Vol- together are the FN.
+     */
+    private boolean isSkipped(int id) {
+        return mNoFn && id == STEP_BRIGHTNESS
+                && ButtonSettings.VOL_BOTH.equals(ButtonSettings.fnStandin(this));
+    }
+
+    /** The step at index, or the first one after it that isn't left out. */
+    private int skipForward(int index) {
+        while (index < mSteps.size() - 1 && isSkipped(mSteps.get(index).id)) {
+            index++;
+        }
+        return index;
+    }
+
+    /** "Vol+ + Vol−" or the name of the button that stands in for FN */
+    private String standinLabel() {
+        final String standin = ButtonSettings.fnStandin(this);
+        final int scanCode = ButtonSettings.standinScanCode(standin);
+        if (scanCode >= 0) {
+            return ButtonSettings.buttonName(this, scanCode);
+        }
+        return getString(R.string.tutorial_standin_vol);
+    }
+
+    /** The text with FN replaced by its stand-in, on consoles without FN. */
+    private CharSequence fnText(CharSequence text) {
+        if (mFnLabel == null || text == null) {
+            return text;
+        }
+        return text.toString().replaceAll("\\bFN\\b", Matcher.quoteReplacement(mFnLabel));
+    }
+
+    // ---- Buttons on this console (Controls app)
+
+    private Intent buttonCheckIntent() {
+        // Not a user leaving: the tutorial stays where it is underneath
+        return new Intent().setClassName(CHECK_PACKAGE, CHECK_ACTIVITY)
+                .addFlags(Intent.FLAG_ACTIVITY_NO_USER_ACTION);
+    }
+
+    private boolean hasButtonCheck() {
+        return buttonCheckIntent().resolveActivityInfo(getPackageManager(), 0) != null;
+    }
+
+    private void openButtonCheck() {
+        try {
+            startActivityForResult(buttonCheckIntent(), REQUEST_CHECK);
+            mCheckOpen = true;
+        } catch (ActivityNotFoundException | SecurityException e) {
+            Log.w(TAG, "Couldn't open the button check", e);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode != REQUEST_CHECK) {
+            return;
+        }
+        mCheckOpen = false;
+        if (!ButtonSettings.hasFn(this)) {
+            mNoFn = true;
+        }
+        showStep(skipForward(mIndex));
     }
 
     /** Straight to the last page, which says where the guide is. */
@@ -802,14 +889,15 @@ public class TutorialActivity extends Activity {
      * real home screen.
      */
     private void onHomePressed() {
-        if (mResumed || mReturnPending) {
+        // With the button check on top, Fn is part of that check: it comes back by itself
+        if (mResumed || mReturnPending || mCheckOpen) {
             return;
         }
         final Step step = current();
         if (step.id == STEP_HOME) {
             markDone(0);
         } else if (step.usesFn()) {
-            mNote = getText(R.string.tutorial_fn_alone);
+            mNote = fnText(getText(R.string.tutorial_fn_alone));
             updateState();
         }
         mReturnPending = true;
@@ -830,7 +918,7 @@ public class TutorialActivity extends Activity {
     protected void onStop() {
         super.onStop();
         // Not when the screen just went off: that's the power step
-        if (mFirstStart || mInSetup || isFinishing() || !isInteractive()) {
+        if (mFirstStart || mInSetup || mCheckOpen || isFinishing() || !isInteractive()) {
             return;
         }
         if (current().id == STEP_HOME) {
@@ -859,7 +947,7 @@ public class TutorialActivity extends Activity {
      * per step. Anywhere else, or after that, the user left on purpose: stay in the background.
      */
     private void onLeft() {
-        if (isFinishing() || mReturnPending) {
+        if (isFinishing() || mReturnPending || mCheckOpen) {
             return;
         }
         final Step step = current();
@@ -868,7 +956,7 @@ public class TutorialActivity extends Activity {
             if (step.id == STEP_HOME) {
                 markDone(0);
             } else {
-                mNote = getText(R.string.tutorial_fn_alone);
+                mNote = fnText(getText(R.string.tutorial_fn_alone));
                 updateState();
             }
             mReturnPending = true;

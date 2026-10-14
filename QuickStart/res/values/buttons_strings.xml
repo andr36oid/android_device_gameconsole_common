@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Used by ButtonSettings and FnChooser, copies of the Controls app's classes. The
+         check page itself is in the Controls app. -->
+
+    <!-- Summaries: "All buttons", "No Fn, no L3/R3" -->
+    <string name="buttons_all">All buttons</string>
+    <string name="buttons_missing_first">No %1$s</string>
+    <string name="buttons_missing_more">, no %1$s</string>
+    <string name="buttons_missing_volume">volume buttons</string>
+    <string name="buttons_not_checked">Not checked yet</string>
+    <!-- Before the check, from what is known about this console model -->
+    <string name="buttons_hint">%1$s (known for this model, not checked yet)</string>
+
+    <!-- Button names -->
+    <string name="button_a" translatable="false">A</string>
+    <string name="button_b" translatable="false">B</string>
+    <string name="button_x" translatable="false">X</string>
+    <string name="button_y" translatable="false">Y</string>
+    <string name="button_l1" translatable="false">L1</string>
+    <string name="button_r1" translatable="false">R1</string>
+    <string name="button_l2" translatable="false">L2</string>
+    <string name="button_r2" translatable="false">R2</string>
+    <string name="button_l3" translatable="false">L3</string>
+    <string name="button_r3" translatable="false">R3</string>
+    <string name="button_fn" translatable="false">Fn</string>
+    <string name="button_vol_up" translatable="false">Vol+</string>
+    <string name="button_vol_down" translatable="false">Vol−</string>
+    <string name="button_select">Select</string>
+    <string name="button_start">Start</string>
+    <string name="button_up">Up</string>
+    <string name="button_down">Down</string>
+    <string name="button_left">Left</string>
+    <string name="button_right">Right</string>
+    <string name="button_extra">Extra button %1$d</string>
+    <!-- A button the console reports with an unknown code -->
+    <string name="button_other">Button %1$d</string>
+
+    <!-- What does the Fn button's job (Settings > Controls, and the tutorial on consoles
+         without Fn) -->
+    <string name="fn_standin_row">Fn shortcuts</string>
+    <string name="fn_standin_title">What works as Fn?</string>
+    <string name="fn_standin_fn">The Fn button</string>
+    <string name="fn_standin_vol_both">Vol+ and Vol− together</string>
+    <string name="fn_standin_vol_both_recommended">Vol+ and Vol− together (recommended)</string>
+    <string name="fn_standin_other">Use another button as Fn</string>
+    <!-- %1$s is a button, e.g. "L3" -->
+    <string name="fn_standin_button">%1$s works as Fn</string>
+    <string name="fn_standin_press">Press the button now…</string>
+    <string name="fn_standin_press_now">Press the button that should work as Fn. It can also be an extra button. B cancels.</string>
+    <string name="fn_standin_refused">%1$s can\'t be Fn: it\'s needed to move around the menus or for the volume. Press another button, or B to cancel.</string>
+    <string name="fn_standin_confirm_title">Use %1$s as Fn?</string>
+    <string name="fn_standin_confirm">%1$s then does the Fn button\'s job: press it on its own for the home screen, hold it and press another button for a shortcut. It loses its own job everywhere, in games too. You can change this in Settings &gt; Controls &gt; Fn shortcuts.</string>
+    <string name="fn_standin_confirm_ok">Use as Fn</string>
+
+    <!-- Tutorial on consoles without FN: what the FN steps say instead of FN -->
+    <string name="tutorial_standin_vol">Vol+ + Vol−</string>
+    <!-- At the top of the Home step; %1$s is "Vol+ + Vol−" or a button like "L3" -->
+    <string name="tutorial_standin_intro">This console has no FN button, so %1$s does its job. You can change that in Settings &gt; Controls &gt; Fn shortcuts.</string>
+    <!-- Tutorial, shoulder buttons step: opens Settings > Controls > Buttons on this console -->
+    <string name="tutorial_check_buttons">Some buttons missing?</string>
+</resources>

@@ -39,6 +39,8 @@ public class ControllersFragment extends PreferenceFragment
     private final Handler mHandler = new Handler(Looper.getMainLooper());
     private InputManager mInputManager;
     private Preference mExternal;
+    private Preference mButtonCheck;
+    private Preference mFnStandin;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -46,6 +48,13 @@ public class ControllersFragment extends PreferenceFragment
         addPreferencesFromResource(R.xml.controls_settings);
         mInputManager = getContext().getSystemService(InputManager.class);
         addApps((PreferenceCategory) findPreference("console"));
+        mButtonCheck = findPreference("button_check");
+        mButtonCheck.setIntent(new Intent(getContext(), ButtonCheckActivity.class));
+        mFnStandin = findPreference("fn_standin");
+        mFnStandin.setOnPreferenceClickListener(pref -> {
+            FnChooser.show(getActivity(), this::refreshButtons);
+            return true;
+        });
         mExternal = findPreference("external");
         mExternal.setIntent(new Intent(getContext(), ExternalActivity.class));
         final ListPreference player1 = (ListPreference) findPreference("player1");
@@ -100,6 +109,10 @@ public class ControllersFragment extends PreferenceFragment
         }
         for (Preference entry : entries) {
             final ComponentName component = ComponentName.unflattenFromString(entry.getKey());
+            if (component == null) {
+                // One of this page's own entries
+                continue;
+            }
             try {
                 final ActivityInfo info = pm.getActivityInfo(component, 0);
                 entry.setTitle(info.loadLabel(pm));
@@ -115,6 +128,7 @@ public class ControllersFragment extends PreferenceFragment
         super.onResume();
         mInputManager.registerInputDeviceListener(this, mHandler);
         refreshExternal();
+        refreshButtons();
     }
 
     @Override
@@ -136,6 +150,14 @@ public class ControllersFragment extends PreferenceFragment
     @Override
     public void onInputDeviceChanged(int deviceId) {
         refreshExternal();
+    }
+
+    /** "No Fn, no L3/R3" and "Fn shortcuts: Vol+ and Vol- together" */
+    private void refreshButtons() {
+        if (getActivity() == null) return;
+        mButtonCheck.setSummary(ButtonSettings.summary(getContext()));
+        mFnStandin.setSummary(ButtonSettings.describeStandin(getContext(),
+                ButtonSettings.fnStandin(getContext())));
     }
 
     /** The names of the connected pads, or that there are none */

@@ -8,6 +8,14 @@
         android:title="@string/console_title">
 
         <Preference android:key="org.andr36oid.buttonmapper/.ButtonMappingActivity" />
+        <!-- Which buttons the console has (summary from the saved check), and what does the
+             Fn button's job: filled in by ControllersFragment -->
+        <Preference
+            android:key="button_check"
+            android:title="@string/check_title" />
+        <Preference
+            android:key="fn_standin"
+            android:title="@string/fn_standin_row" />
         <Preference android:key="org.andr36oid.stickcalibration/.StickCalibrationActivity" />
         <Preference android:key="org.andr36oid.controllertest/.ControllerTestActivity" />
         <Preference android:key="com.gameconsole.joymouse/.SettingsActivity" />

@@ -120,6 +120,18 @@
             android:text="@string/tutorial_no_fn"
             android:visibility="gone" />
 
+        <!-- On the shoulder buttons step, until the buttons were checked: opens Buttons on
+             this console in the Controls app -->
+        <Button
+            android:id="@+id/check_buttons"
+            style="?android:attr/borderlessButtonStyle"
+            android:foreground="@drawable/tutorial_button_focus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@string/tutorial_check_buttons"
+            android:visibility="gone" />
+
         <Space
             android:layout_width="0dp"
             android:layout_height="0dp"

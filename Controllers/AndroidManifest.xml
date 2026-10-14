@@ -10,6 +10,8 @@
     <uses-permission android:name="android.permission.RADIO_SCAN_WITHOUT_LOCATION" />
     <!-- Rumble > Try it -->
     <uses-permission android:name="android.permission.VIBRATE" />
+    <!-- Buttons on this console comes back to the front after Fn took the user home -->
+    <uses-permission android:name="android.permission.REORDER_TASKS" />
 
     <application
         android:allowBackup="false"
@@ -51,6 +53,14 @@
             android:name=".ExternalActivity"
             android:exported="false"
             android:label="@string/external_title"
+            android:theme="@android:style/Theme.DeviceDefault.Settings" />
+
+        <!-- Buttons on this console; QuickStart's tutorial opens it too -->
+        <activity
+            android:name=".ButtonCheckActivity"
+            android:exported="true"
+            android:label="@string/check_title"
+            android:configChanges="keyboard|keyboardHidden|navigation"
             android:theme="@android:style/Theme.DeviceDefault.Settings" />
 
         <activity
