@@ -19,7 +19,7 @@ public class ParentalActivity extends Activity {
         if (actionBar != null) actionBar.setDisplayHomeAsUpEnabled(true);
         mOpen = savedInstanceState != null && savedInstanceState.getBoolean(STATE_OPEN);
         if (mOpen) return;
-        if (Parental.hasPin(this)) {
+        if (Parental.hasPin(this) && !Parental.isUnlocked(this)) {
             startActivityForResult(new Intent(this, PinActivity.class), REQUEST_PIN);
         } else {
             open();

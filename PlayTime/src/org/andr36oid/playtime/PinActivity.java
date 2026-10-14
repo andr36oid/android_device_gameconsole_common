@@ -44,6 +44,7 @@ public class PinActivity extends Activity implements PinPad.Listener {
     public void onPin(String pin) {
         if (mMode == MODE_CHECK) {
             if (Parental.checkPin(this, pin)) {
+                Parental.setUnlocked(this, true);
                 setResult(RESULT_OK);
                 finish();
                 return;
@@ -59,6 +60,7 @@ public class PinActivity extends Activity implements PinPad.Listener {
             mPad.setMessage("");
         } else if (mFirst.equals(pin)) {
             Parental.setPin(this, pin);
+            Parental.setUnlocked(this, true);
             setResult(RESULT_OK);
             finish();
         } else {

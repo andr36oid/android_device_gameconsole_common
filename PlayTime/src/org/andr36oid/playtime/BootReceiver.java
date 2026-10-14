@@ -15,6 +15,7 @@ public class BootReceiver extends BroadcastReceiver {
         if (Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {
             Breaks.schedule(context, Breaks.getMinutes(context));
             // the time left was saved: a restart doesn't give any back
+            Parental.setUnlocked(context, false);
             if (Parental.isOn(context)) {
                 context.startForegroundService(new Intent(context, ParentalService.class));
             }

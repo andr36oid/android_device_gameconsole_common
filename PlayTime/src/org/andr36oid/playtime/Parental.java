@@ -26,6 +26,9 @@ final class Parental {
 
     /** Settings.Global, read by Settings to keep Force stop and Disable greyed out */
     static final String GLOBAL_ON = "andr36oid_parental_controls";
+    /** Settings.Global: the PIN was entered; Settings (ParentalGate) and the parental page
+     *  don't ask again until the screen goes off or another app comes to the front */
+    static final String GLOBAL_UNLOCKED = "andr36oid_parental_unlocked";
 
     static final int PIN_LENGTH = 4;
     static final int[] LIMIT_MINUTES = {15, 30, 45, 60, 90, 120, 180, 240};
@@ -82,6 +85,24 @@ final class Parental {
     }
 
     // ---- PIN
+
+    static boolean isUnlocked(Context context) {
+        return Settings.Global.getInt(context.getContentResolver(), GLOBAL_UNLOCKED, 0) != 0;
+    }
+
+    static void setUnlocked(Context context, boolean unlocked) {
+        if (isUnlocked(context) != unlocked) {
+            Settings.Global.putInt(context.getContentResolver(), GLOBAL_UNLOCKED,
+                    unlocked ? 1 : 0);
+        }
+    }
+
+    /** Settings and our own pages opened from it: the unlock lasts while one is in front. */
+    static boolean keepsUnlock(String pkg) {
+        return pkg.isEmpty() || "com.android.settings".equals(pkg)
+                || pkg.startsWith("org.andr36oid.") || "android".equals(pkg)
+                || "com.android.permissioncontroller".equals(pkg);
+    }
 
     static boolean hasPin(Context context) {
         return prefs(context).contains(KEY_PIN);

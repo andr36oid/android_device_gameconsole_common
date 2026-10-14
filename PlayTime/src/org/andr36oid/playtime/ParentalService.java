@@ -161,6 +161,7 @@ public class ParentalService extends Service {
     }
 
     private void screenOff() {
+        Parental.setUnlocked(this, false);
         count();
         mLastCount = -1;
         mOffAt = SystemClock.elapsedRealtime();
@@ -191,6 +192,9 @@ public class ParentalService extends Service {
             Toast.makeText(this, getString(R.string.parental_blocked, label(top)),
                     Toast.LENGTH_LONG).show();
             return;
+        }
+        if (!Parental.keepsUnlock(top)) {
+            Parental.setUnlocked(this, false);
         }
         final boolean allowed = Parental.allowedApps(this).contains(top);
         if (top.equals(mTop) && allowed == mTopAllowed) return;
