@@ -48,7 +48,7 @@ final class Breaks {
     /** Starts or stops the checks. 0 minutes means no reminders. */
     static void schedule(Context context, int minutes) {
         // Only needed at boot to set the alarm again
-        BootStart.set(context, minutes > 0);
+        BootStart.set(context, minutes > 0 || Parental.isOn(context));
         final AlarmManager am = context.getSystemService(AlarmManager.class);
         final PendingIntent check = PendingIntent.getBroadcast(context, 0,
                 new Intent(context, BreakReceiver.class), PendingIntent.FLAG_IMMUTABLE);

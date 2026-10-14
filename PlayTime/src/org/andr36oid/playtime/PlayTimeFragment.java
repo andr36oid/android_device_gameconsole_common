@@ -34,6 +34,11 @@ public class PlayTimeFragment extends PreferenceFragment
     @Override
     public void onResume() {
         super.onResume();
+        final Preference parental = findPreference("parental");
+        parental.setSummary(Parental.isOn(getActivity())
+                ? getString(R.string.parental_on_summary,
+                        Usage.format(getActivity(), Parental.leftMs(getActivity())))
+                : getString(R.string.parental_off_summary));
         // Reading a week of usage events takes a moment on this CPU, so off the main thread.
         final Context context = getActivity().getApplicationContext();
         mLoader = new Thread(() -> {

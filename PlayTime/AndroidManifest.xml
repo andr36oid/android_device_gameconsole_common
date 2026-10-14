@@ -4,9 +4,15 @@
     android:sharedUserId="android.uid.system">
 
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <!-- parental controls: counting in the foreground, the time up page coming back right
+         after Home, and turning the console off when no PIN comes -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.STOP_APP_SWITCHES" />
+    <uses-permission android:name="android.permission.REBOOT" />
 
     <application
         android:allowBackup="false"
+        android:allowClearUserData="false"
         android:icon="@drawable/ic_play_time"
         android:label="@string/play_time_title"
         android:supportsRtl="true">
@@ -41,6 +47,29 @@
                 android:name="com.android.settings.bg.hint"
                 android:resource="@color/play_time_icon_background" />
         </activity>
+
+        <!-- Parental controls (Parental.java) -->
+        <activity
+            android:name=".ParentalActivity"
+            android:exported="false"
+            android:label="@string/parental_title"
+            android:theme="@android:style/Theme.DeviceDefault.Settings" />
+        <activity
+            android:name=".PinActivity"
+            android:exported="false"
+            android:excludeFromRecents="true"
+            android:theme="@android:style/Theme.DeviceDefault.NoActionBar.Fullscreen" />
+        <activity
+            android:name=".TimeUpActivity"
+            android:exported="false"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:taskAffinity="org.andr36oid.playtime.timeup"
+            android:showWhenLocked="true"
+            android:theme="@android:style/Theme.DeviceDefault.NoActionBar.Fullscreen" />
+        <service
+            android:name=".ParentalService"
+            android:exported="false" />
 
         <!-- Break reminder check, every few minutes while the console is awake -->
         <receiver

@@ -25,4 +25,17 @@
             android:selectable="false"
             android:summary="@string/about" />
     </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="parental_category"
+        android:title="@string/parental_title">
+
+        <Preference
+            android:key="parental"
+            android:title="@string/parental_title">
+            <intent
+                android:targetPackage="org.andr36oid.playtime"
+                android:targetClass="org.andr36oid.playtime.ParentalActivity" />
+        </Preference>
+    </PreferenceCategory>
 </PreferenceScreen>

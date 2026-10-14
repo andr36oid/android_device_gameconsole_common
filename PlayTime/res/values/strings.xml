@@ -43,4 +43,54 @@
     <string name="break_title">You\'ve been playing for <xliff:g id="time">%1$s</xliff:g></string>
     <string name="break_text">Time for a short break? Rest your eyes and stretch a bit, your game will wait.</string>
     <string name="break_text_battery">Time for a short break? Rest your eyes and stretch a bit. Battery at <xliff:g id="percent">%1$d</xliff:g>%%.</string>
+
+    <!-- Parental controls (Settings > Play time > Parental controls) -->
+    <string name="parental_title">Parental controls</string>
+    <string name="parental_off_summary">Off. Limit how long the console can be played, with a PIN.</string>
+    <!-- %1$s: time left, e.g. "42 min" -->
+    <string name="parental_on_summary">On · <xliff:g id="time">%1$s</xliff:g> left</string>
+    <string name="parental_switch_summary">Limits how long the console can be played, and only a PIN lets it go on</string>
+    <string name="parental_limit">Play time allowed</string>
+    <string name="parental_refill">Time comes back after</string>
+    <plurals name="parental_refill_hours">
+        <item quantity="one"><xliff:g id="hours">%1$d</xliff:g> hour of rest</item>
+        <item quantity="other"><xliff:g id="hours">%1$d</xliff:g> hours of rest</item>
+    </plurals>
+    <string name="parental_refill_pin">Only with the PIN</string>
+    <string name="parental_shutdown">When the time is up</string>
+    <!-- %1$s: e.g. "2 min" -->
+    <string name="parental_shutdown_after">Turn the console off after <xliff:g id="time">%1$s</xliff:g> without the PIN</string>
+    <string name="parental_shutdown_never">Keep the time up page on</string>
+    <string name="parental_left_title">Time left</string>
+    <!-- %1$s left of %2$s, e.g. "42 min of 1 h" -->
+    <string name="parental_left_summary"><xliff:g id="left">%1$s</xliff:g> of <xliff:g id="allowed">%2$s</xliff:g> left. Select to add time.</string>
+    <string name="parental_change_pin">Change PIN</string>
+    <string name="parental_about">Counts how long the screen is on, with any app. The console has no clock battery, so this doesn\'t go by the time of day: the time comes back after a long enough rest, with the screen off or the console asleep. Turning the console off doesn\'t count as rest, it can\'t tell how long it was off. Use the power button to let it sleep overnight.\n\nWarnings come 10 and 2 minutes before the time is up. Then a page covers the screen until the PIN is entered, and the console turns off if it isn\'t, as set above. After a restart the time is still up.\n\nForgot the PIN? Only setting up the card again removes it.</string>
+    <string name="parental_left">Play time left: <xliff:g id="time">%1$s</xliff:g></string>
+    <string name="parental_warning_channel">Play time warnings</string>
+    <string name="parental_warning">Play time ends in <xliff:g id="time">%1$s</xliff:g>. Save your game!</string>
+    <string name="parental_up_title">Play time is up</string>
+    <plurals name="parental_up_text_rest">
+        <item quantity="one">Time for a break! Play time comes back after <xliff:g id="hours">%1$d</xliff:g> hour with the console asleep, or a parent can add time with the PIN.</item>
+        <item quantity="other">Time for a break! Play time comes back after <xliff:g id="hours">%1$d</xliff:g> hours with the console asleep, or a parent can add time with the PIN.</item>
+    </plurals>
+    <string name="parental_up_text_pin">Time for a break! A parent can add time with the PIN.</string>
+    <!-- %1$s: minutes:seconds, e.g. "1:45" -->
+    <string name="parental_shutdown_in">The console turns off in <xliff:g id="time">%1$s</xliff:g>.</string>
+    <string name="parental_more_time">More play time</string>
+    <!-- %1$s: e.g. "30 min" -->
+    <string name="parental_add">Add <xliff:g id="time">%1$s</xliff:g></string>
+    <!-- %1$s: the whole allowance, e.g. "1 h" -->
+    <string name="parental_start_over">Start over (<xliff:g id="time">%1$s</xliff:g>)</string>
+
+    <!-- PIN pad: A, B and Start are the console's buttons -->
+    <string name="pin_hint">A: press · B: delete · Start: OK</string>
+    <string name="pin_check_title">Enter the PIN</string>
+    <string name="pin_check_text">Parental controls are protected with a PIN.</string>
+    <string name="pin_new_title">Choose a PIN</string>
+    <string name="pin_new_text">4 digits. Only a parent should know it: it changes these settings and adds play time.</string>
+    <string name="pin_again_title">Enter it again</string>
+    <string name="pin_mismatch">The two didn\'t match. Choose again.</string>
+    <string name="pin_wrong">Wrong PIN</string>
+    <string name="pin_wait">Too many tries. Wait <xliff:g id="seconds">%1$d</xliff:g> s.</string>
 </resources>
