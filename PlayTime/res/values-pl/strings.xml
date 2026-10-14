@@ -34,4 +34,58 @@
     <string name="break_title">Grasz już <xliff:g id="time">%1$s</xliff:g></string>
     <string name="break_text">Czas na krótką przerwę? Daj odpocząć oczom i trochę się rozciągnij, gra poczeka.</string>
     <string name="break_text_battery">Czas na krótką przerwę? Daj odpocząć oczom i trochę się rozciągnij. Bateria: <xliff:g id="percent">%1$d</xliff:g>%%.</string>
+
+    <!-- Parental controls (Settings > Play time > Parental controls) -->
+    <string name="parental_title">Kontrola rodzicielska</string>
+    <string name="parental_off_summary">Wyłączona. Ogranicz, ile czasu można grać na konsoli, z kodem PIN.</string>
+    <!-- %1$s: time left, e.g. "42 min" -->
+    <string name="parental_on_summary">Włączona · zostało <xliff:g id="time">%1$s</xliff:g></string>
+    <string name="parental_switch_summary">Ogranicza czas grania na konsoli, a dalej można grać tylko po wpisaniu PIN-u</string>
+    <string name="parental_limit">Dozwolony czas gry</string>
+    <string name="parental_refill">Czas wraca po</string>
+    <plurals name="parental_refill_hours">
+        <item quantity="one"><xliff:g id="hours">%1$d</xliff:g> godzinie odpoczynku</item>
+        <item quantity="few"><xliff:g id="hours">%1$d</xliff:g> godzinach odpoczynku</item>
+        <item quantity="many"><xliff:g id="hours">%1$d</xliff:g> godzinach odpoczynku</item>
+        <item quantity="other"><xliff:g id="hours">%1$d</xliff:g> godzinach odpoczynku</item>
+    </plurals>
+    <string name="parental_refill_pin">Tylko z PIN-em</string>
+    <string name="parental_shutdown">Gdy czas minie</string>
+    <!-- %1$s: e.g. "2 min" -->
+    <string name="parental_shutdown_after">Wyłącz konsolę po <xliff:g id="time">%1$s</xliff:g> bez PIN-u</string>
+    <string name="parental_shutdown_never">Zostaw włączoną stronę z informacją o końcu czasu</string>
+    <string name="parental_left_title">Pozostały czas</string>
+    <!-- %1$s left of %2$s, e.g. "42 min of 1 h" -->
+    <string name="parental_left_summary">Zostało <xliff:g id="left">%1$s</xliff:g> z <xliff:g id="allowed">%2$s</xliff:g>. Wybierz, aby dodać czas.</string>
+    <string name="parental_change_pin">Zmień PIN</string>
+    <string name="parental_about">Liczy, jak długo ekran jest włączony, przy dowolnej aplikacji. Konsola nie ma zegara z baterią, więc nie liczy według godziny w ciągu dnia: czas wraca po wystarczająco długim odpoczynku, przy wyłączonym ekranie lub uśpionej konsoli. Wyłączenie konsoli nie liczy się jako odpoczynek, bo konsola nie wie, jak długo była wyłączona. Użyj przycisku zasilania, żeby konsola zasypiała na noc.\n\nOstrzeżenia pojawiają się 10 i 2 minuty przed końcem czasu. Potem strona zasłania ekran, aż zostanie wpisany PIN, a konsola wyłączy się, jeśli PIN nie zostanie wpisany, zgodnie z ustawieniem powyżej. Po restarcie czas nadal jest wykorzystany.\n\nZapomniany PIN? Usunie go tylko ponowna konfiguracja karty.</string>
+    <string name="parental_left">Pozostały czas gry: <xliff:g id="time">%1$s</xliff:g></string>
+    <string name="parental_warning_channel">Ostrzeżenia o czasie gry</string>
+    <string name="parental_warning">Czas gry kończy się za <xliff:g id="time">%1$s</xliff:g>. Zapisz grę!</string>
+    <string name="parental_up_title">Czas gry minął</string>
+    <plurals name="parental_up_text_rest">
+        <item quantity="one">Czas na przerwę! Czas gry wróci po <xliff:g id="hours">%1$d</xliff:g> godzinie odpoczynku, gdy konsola śpi, albo rodzic może dodać czas z PIN-em.</item>
+        <item quantity="few">Czas na przerwę! Czas gry wróci po <xliff:g id="hours">%1$d</xliff:g> godzinach odpoczynku, gdy konsola śpi, albo rodzic może dodać czas z PIN-em.</item>
+        <item quantity="many">Czas na przerwę! Czas gry wróci po <xliff:g id="hours">%1$d</xliff:g> godzinach odpoczynku, gdy konsola śpi, albo rodzic może dodać czas z PIN-em.</item>
+        <item quantity="other">Czas na przerwę! Czas gry wróci po <xliff:g id="hours">%1$d</xliff:g> godzinach odpoczynku, gdy konsola śpi, albo rodzic może dodać czas z PIN-em.</item>
+    </plurals>
+    <string name="parental_up_text_pin">Czas na przerwę! Rodzic może dodać czas, podając PIN.</string>
+    <!-- %1$s: minutes:seconds, e.g. "1:45" -->
+    <string name="parental_shutdown_in">Konsola wyłączy się za <xliff:g id="time">%1$s</xliff:g>.</string>
+    <string name="parental_more_time">Więcej czasu gry</string>
+    <!-- %1$s: e.g. "30 min" -->
+    <string name="parental_add">Dodaj <xliff:g id="time">%1$s</xliff:g></string>
+    <!-- %1$s: the whole allowance, e.g. "1 h" -->
+    <string name="parental_start_over">Zacznij od nowa (<xliff:g id="time">%1$s</xliff:g>)</string>
+
+    <!-- PIN pad: A, B and Start are the console's buttons -->
+    <string name="pin_hint">A: naciśnij · B: usuń · Start: OK</string>
+    <string name="pin_check_title">Wpisz PIN</string>
+    <string name="pin_check_text">Kontrola rodzicielska jest chroniona PIN-em.</string>
+    <string name="pin_new_title">Wybierz PIN</string>
+    <string name="pin_new_text">4 cyfry. Zna go tylko rodzic: PIN zmienia te ustawienia i dodaje czas gry.</string>
+    <string name="pin_again_title">Wpisz go ponownie</string>
+    <string name="pin_mismatch">Kody się nie zgadzają. Wybierz ponownie.</string>
+    <string name="pin_wrong">Błędny PIN</string>
+    <string name="pin_wait">Zbyt wiele prób. Poczekaj <xliff:g id="seconds">%1$d</xliff:g> s.</string>
 </resources>

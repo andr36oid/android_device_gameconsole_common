@@ -35,4 +35,54 @@
     <string name="break_title"><xliff:g id="time">%1$s</xliff:g> süredir oynuyorsunuz</string>
     <string name="break_text">Kısa bir mola vermeye ne dersiniz? Gözlerinizi dinlendirin ve biraz gerinin, oyununuz bekler.</string>
     <string name="break_text_battery">Kısa bir mola vermeye ne dersiniz? Gözlerinizi dinlendirin ve biraz gerinin. Pil: %%<xliff:g id="percent">%1$d</xliff:g>.</string>
+
+    <!-- Parental controls (Settings > Play time > Parental controls) -->
+    <string name="parental_title">Ebeveyn denetimi</string>
+    <string name="parental_off_summary">Kapalı. Konsolun ne kadar süre oynanabileceğini bir PIN kodu ile sınırlayın.</string>
+    <!-- %1$s: time left, e.g. "42 min" -->
+    <string name="parental_on_summary">Açık · <xliff:g id="time">%1$s</xliff:g> kaldı</string>
+    <string name="parental_switch_summary">Konsolun ne kadar süre oynanabileceğini sınırlar, devam etmek için yalnızca PIN kodu girilebilir</string>
+    <string name="parental_limit">İzin verilen oyun süresi</string>
+    <string name="parental_refill">Süre şundan sonra geri gelir</string>
+    <plurals name="parental_refill_hours">
+        <item quantity="one"><xliff:g id="hours">%1$d</xliff:g> saat dinlenme</item>
+        <item quantity="other"><xliff:g id="hours">%1$d</xliff:g> saat dinlenme</item>
+    </plurals>
+    <string name="parental_refill_pin">Yalnızca PIN kodu ile</string>
+    <string name="parental_shutdown">Süre dolduğunda</string>
+    <!-- %1$s: e.g. "2 min" -->
+    <string name="parental_shutdown_after">PIN kodu girilmeden <xliff:g id="time">%1$s</xliff:g> sonra konsolu kapat</string>
+    <string name="parental_shutdown_never">Süre doldu sayfası açık kalsın</string>
+    <string name="parental_left_title">Kalan süre</string>
+    <!-- %1$s left of %2$s, e.g. "42 min of 1 h" -->
+    <string name="parental_left_summary"><xliff:g id="allowed">%2$s</xliff:g> süreden <xliff:g id="left">%1$s</xliff:g> kaldı. Süre eklemek için seçin.</string>
+    <string name="parental_change_pin">PIN kodunu değiştir</string>
+    <string name="parental_about">Ekranın ne kadar süre açık kaldığını, herhangi bir uygulamada sayar. Konsolda pilli saat olmadığı için gün saatine göre çalışmaz: süre, ekran kapalıyken ya da konsol uykudayken yeterince uzun bir dinlenmenin ardından geri gelir. Konsolu kapatmak dinlenme sayılmaz, çünkü konsol ne kadar süre kapalı kaldığını bilemez. Gece boyunca uyuması için güç düğmesini kullanın.\n\nSüre dolmadan 10 ve 2 dakika önce uyarılar gelir. Sonra PIN kodu girilene kadar bir sayfa ekranı kaplar; PIN kodu girilmezse, yukarıda ayarlandığı gibi konsol kapanır. Yeniden başlatıldıktan sonra süre hâlâ bitmiş olur.\n\nPIN kodunu unuttunuz mu? Yalnızca kartın yeniden kurulması onu siler.</string>
+    <string name="parental_left">Kalan oyun süresi: <xliff:g id="time">%1$s</xliff:g></string>
+    <string name="parental_warning_channel">Oyun süresi uyarıları</string>
+    <string name="parental_warning">Oyun süresinin bitmesine <xliff:g id="time">%1$s</xliff:g> kaldı. Oyununuzu kaydedin!</string>
+    <string name="parental_up_title">Oyun süresi doldu</string>
+    <plurals name="parental_up_text_rest">
+        <item quantity="one">Mola zamanı! Konsol uykudayken oyun süresi <xliff:g id="hours">%1$d</xliff:g> saat dinlenmenin ardından geri gelir ya da bir ebeveyn PIN kodu ile süre ekleyebilir.</item>
+        <item quantity="other">Mola zamanı! Konsol uykudayken oyun süresi <xliff:g id="hours">%1$d</xliff:g> saat dinlenmenin ardından geri gelir ya da bir ebeveyn PIN kodu ile süre ekleyebilir.</item>
+    </plurals>
+    <string name="parental_up_text_pin">Mola zamanı! Bir ebeveyn PIN kodu ile süre ekleyebilir.</string>
+    <!-- %1$s: minutes:seconds, e.g. "1:45" -->
+    <string name="parental_shutdown_in">Konsol <xliff:g id="time">%1$s</xliff:g> sonra kapanacak.</string>
+    <string name="parental_more_time">Daha fazla oyun süresi</string>
+    <!-- %1$s: e.g. "30 min" -->
+    <string name="parental_add"><xliff:g id="time">%1$s</xliff:g> ekle</string>
+    <!-- %1$s: the whole allowance, e.g. "1 h" -->
+    <string name="parental_start_over">Baştan başla (<xliff:g id="time">%1$s</xliff:g>)</string>
+
+    <!-- PIN pad: A, B and Start are the console's buttons -->
+    <string name="pin_hint">A: basın · B: silin · Start: OK</string>
+    <string name="pin_check_title">PIN kodunu girin</string>
+    <string name="pin_check_text">Ebeveyn denetimi bir PIN kodu ile korunuyor.</string>
+    <string name="pin_new_title">Bir PIN kodu seçin</string>
+    <string name="pin_new_text">4 haneli. Yalnızca bir ebeveyn bilmeli: bu ayarları değiştirmek ve oyun süresi eklemek için kullanılır.</string>
+    <string name="pin_again_title">Yeniden girin</string>
+    <string name="pin_mismatch">İki kod eşleşmedi. Yeniden seçin.</string>
+    <string name="pin_wrong">Yanlış PIN kodu</string>
+    <string name="pin_wait">Çok fazla deneme. <xliff:g id="seconds">%1$d</xliff:g> sn bekleyin.</string>
 </resources>

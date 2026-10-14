@@ -35,4 +35,54 @@
     <string name="break_title">Vous jouez depuis <xliff:g id="time">%1$s</xliff:g></string>
     <string name="break_text">C\'est l\'heure d\'une petite pause ? Reposez vos yeux et étirez-vous un peu, votre jeu vous attendra.</string>
     <string name="break_text_battery">C\'est l\'heure d\'une petite pause ? Reposez vos yeux et étirez-vous un peu. Batterie à <xliff:g id="percent">%1$d</xliff:g> %%.</string>
+
+    <!-- Parental controls (Settings > Play time > Parental controls) -->
+    <string name="parental_title">Contrôle parental</string>
+    <string name="parental_off_summary">Désactivé. Limitez la durée de jeu de la console, avec un code PIN.</string>
+    <!-- %1$s: time left, e.g. "42 min" -->
+    <string name="parental_on_summary">Activé · il reste <xliff:g id="time">%1$s</xliff:g></string>
+    <string name="parental_switch_summary">Limite la durée de jeu de la console. Seul le code PIN permet de continuer.</string>
+    <string name="parental_limit">Temps de jeu autorisé</string>
+    <string name="parental_refill">Le temps revient après</string>
+    <plurals name="parental_refill_hours">
+        <item quantity="one"><xliff:g id="hours">%1$d</xliff:g> heure de repos</item>
+        <item quantity="other"><xliff:g id="hours">%1$d</xliff:g> heures de repos</item>
+    </plurals>
+    <string name="parental_refill_pin">Seulement avec le code PIN</string>
+    <string name="parental_shutdown">Quand le temps est écoulé</string>
+    <!-- %1$s: e.g. "2 min" -->
+    <string name="parental_shutdown_after">Éteindre la console après <xliff:g id="time">%1$s</xliff:g> sans le code PIN</string>
+    <string name="parental_shutdown_never">Garder la page « Temps écoulé » affichée</string>
+    <string name="parental_left_title">Temps restant</string>
+    <!-- %1$s left of %2$s, e.g. "42 min of 1 h" -->
+    <string name="parental_left_summary">Il reste <xliff:g id="left">%1$s</xliff:g> sur <xliff:g id="allowed">%2$s</xliff:g>. Sélectionnez pour ajouter du temps.</string>
+    <string name="parental_change_pin">Modifier le code PIN</string>
+    <string name="parental_about">Compte le temps pendant lequel l\'écran est allumé, avec n\'importe quelle appli. La console n\'a pas d\'horloge avec pile, donc elle ne se base pas sur l\'heure de la journée : le temps revient après un repos assez long, écran éteint ou console en veille. Éteindre la console ne compte pas comme un repos, car elle ne peut pas savoir combien de temps elle est restée éteinte. Utilisez le bouton marche/arrêt pour qu\'elle se mette en veille pendant la nuit.\n\nLes avertissements arrivent 10 et 2 minutes avant la fin du temps. Ensuite, une page recouvre l\'écran jusqu\'à la saisie du code PIN, et la console s\'éteint si le code n\'est pas saisi, selon le réglage ci-dessus. Après un redémarrage, le temps reste écoulé.\n\nCode PIN oublié ? Seule la réinstallation de la carte le supprime.</string>
+    <string name="parental_left">Temps de jeu restant : <xliff:g id="time">%1$s</xliff:g></string>
+    <string name="parental_warning_channel">Avertissements de temps de jeu</string>
+    <string name="parental_warning">Le temps de jeu se termine dans <xliff:g id="time">%1$s</xliff:g>. Sauvegardez votre partie !</string>
+    <string name="parental_up_title">Le temps de jeu est écoulé</string>
+    <plurals name="parental_up_text_rest">
+        <item quantity="one">C\'est l\'heure de faire une pause ! Le temps de jeu revient après <xliff:g id="hours">%1$d</xliff:g> heure de repos, console en veille, ou un parent peut ajouter du temps avec le code PIN.</item>
+        <item quantity="other">C\'est l\'heure de faire une pause ! Le temps de jeu revient après <xliff:g id="hours">%1$d</xliff:g> heures de repos, console en veille, ou un parent peut ajouter du temps avec le code PIN.</item>
+    </plurals>
+    <string name="parental_up_text_pin">C\'est l\'heure de faire une pause ! Un parent peut ajouter du temps avec le code PIN.</string>
+    <!-- %1$s: minutes:seconds, e.g. "1:45" -->
+    <string name="parental_shutdown_in">La console s\'éteint dans <xliff:g id="time">%1$s</xliff:g>.</string>
+    <string name="parental_more_time">Plus de temps de jeu</string>
+    <!-- %1$s: e.g. "30 min" -->
+    <string name="parental_add">Ajouter <xliff:g id="time">%1$s</xliff:g></string>
+    <!-- %1$s: the whole allowance, e.g. "1 h" -->
+    <string name="parental_start_over">Recommencer (<xliff:g id="time">%1$s</xliff:g>)</string>
+
+    <!-- PIN pad: A, B and Start are the console's buttons -->
+    <string name="pin_hint">A : appuyer · B : effacer · Start : OK</string>
+    <string name="pin_check_title">Saisissez le code PIN</string>
+    <string name="pin_check_text">Le contrôle parental est protégé par un code PIN.</string>
+    <string name="pin_new_title">Choisissez un code PIN</string>
+    <string name="pin_new_text">4 chiffres. Seul un parent doit le connaître : il sert à modifier ces réglages et à ajouter du temps de jeu.</string>
+    <string name="pin_again_title">Saisissez-le à nouveau</string>
+    <string name="pin_mismatch">Les deux codes ne correspondent pas. Choisissez à nouveau.</string>
+    <string name="pin_wrong">Code PIN incorrect</string>
+    <string name="pin_wait">Trop d\'essais. Attendez <xliff:g id="seconds">%1$d</xliff:g> s.</string>
 </resources>

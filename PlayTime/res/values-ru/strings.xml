@@ -35,4 +35,58 @@
     <string name="break_title">Вы играете уже <xliff:g id="time">%1$s</xliff:g></string>
     <string name="break_text">Может, небольшой перерыв? Дайте глазам отдохнуть и немного разомнитесь, игра подождёт.</string>
     <string name="break_text_battery">Может, небольшой перерыв? Дайте глазам отдохнуть и немного разомнитесь. Заряд батареи: <xliff:g id="percent">%1$d</xliff:g>%%.</string>
+
+    <!-- Parental controls (Settings > Play time > Parental controls) -->
+    <string name="parental_title">Родительский контроль</string>
+    <string name="parental_off_summary">Выключен. Ограничьте время игры на консоли с помощью PIN-кода.</string>
+    <!-- %1$s: time left, e.g. "42 min" -->
+    <string name="parental_on_summary">Включён · осталось <xliff:g id="time">%1$s</xliff:g></string>
+    <string name="parental_switch_summary">Ограничивает время игры на консоли, и продолжить можно только с PIN-кодом</string>
+    <string name="parental_limit">Разрешённое время игры</string>
+    <string name="parental_refill">Время вернётся после</string>
+    <plurals name="parental_refill_hours">
+        <item quantity="one"><xliff:g id="hours">%1$d</xliff:g> часа отдыха</item>
+        <item quantity="few"><xliff:g id="hours">%1$d</xliff:g> часов отдыха</item>
+        <item quantity="many"><xliff:g id="hours">%1$d</xliff:g> часов отдыха</item>
+        <item quantity="other"><xliff:g id="hours">%1$d</xliff:g> часа отдыха</item>
+    </plurals>
+    <string name="parental_refill_pin">Только с PIN-кодом</string>
+    <string name="parental_shutdown">Когда время выйдет</string>
+    <!-- %1$s: e.g. "2 min" -->
+    <string name="parental_shutdown_after">Выключить консоль через <xliff:g id="time">%1$s</xliff:g> без PIN-кода</string>
+    <string name="parental_shutdown_never">Оставить страницу «Время вышло» включённой</string>
+    <string name="parental_left_title">Оставшееся время</string>
+    <!-- %1$s left of %2$s, e.g. "42 min of 1 h" -->
+    <string name="parental_left_summary">Осталось <xliff:g id="left">%1$s</xliff:g> из <xliff:g id="allowed">%2$s</xliff:g>. Выберите, чтобы добавить время.</string>
+    <string name="parental_change_pin">Сменить PIN-код</string>
+    <string name="parental_about">Считает, сколько времени экран включён, в любом приложении. У консоли нет часов с батарейкой, поэтому она не считает по времени суток: время возвращается после достаточно долгого отдыха, когда экран выключен или консоль спит. Выключение консоли не считается отдыхом, так как консоль не может узнать, сколько она была выключена. Используйте кнопку питания, чтобы консоль уходила в сон на ночь.\n\nПредупреждения приходят за 10 и за 2 минуты до конца времени. Затем страница закрывает экран, пока не будет введён PIN-код, а если его не ввести, консоль выключится, как указано выше. После перезапуска время остаётся истёкшим.\n\nЗабыли PIN-код? Его удалит только повторная настройка карты.</string>
+    <string name="parental_left">Осталось игрового времени: <xliff:g id="time">%1$s</xliff:g></string>
+    <string name="parental_warning_channel">Предупреждения об игровом времени</string>
+    <string name="parental_warning">Игровое время заканчивается через <xliff:g id="time">%1$s</xliff:g>. Сохраните игру!</string>
+    <string name="parental_up_title">Игровое время вышло</string>
+    <plurals name="parental_up_text_rest">
+        <item quantity="one">Пора отдохнуть! Игровое время вернётся после <xliff:g id="hours">%1$d</xliff:g> часа отдыха, когда консоль спит, или родитель может добавить время с помощью PIN-кода.</item>
+        <item quantity="few">Пора отдохнуть! Игровое время вернётся после <xliff:g id="hours">%1$d</xliff:g> часов отдыха, когда консоль спит, или родитель может добавить время с помощью PIN-кода.</item>
+        <item quantity="many">Пора отдохнуть! Игровое время вернётся после <xliff:g id="hours">%1$d</xliff:g> часов отдыха, когда консоль спит, или родитель может добавить время с помощью PIN-кода.</item>
+        <item quantity="other">Пора отдохнуть! Игровое время вернётся после <xliff:g id="hours">%1$d</xliff:g> часа отдыха, когда консоль спит, или родитель может добавить время с помощью PIN-кода.</item>
+    </plurals>
+    <string name="parental_up_text_pin">Пора отдохнуть! Родитель может добавить время с помощью PIN-кода.</string>
+    <!-- %1$s: minutes:seconds, e.g. "1:45" -->
+    <string name="parental_shutdown_in">Консоль выключится через <xliff:g id="time">%1$s</xliff:g>.</string>
+    <string name="parental_more_time">Больше игрового времени</string>
+    <!-- %1$s: e.g. "30 min" -->
+    <string name="parental_add">Добавить <xliff:g id="time">%1$s</xliff:g></string>
+    <!-- %1$s: the whole allowance, e.g. "1 h" -->
+    <string name="parental_start_over">Начать сначала (<xliff:g id="time">%1$s</xliff:g>)</string>
+
+    <!-- PIN pad: A, B and Start are the console's buttons -->
+    <string name="pin_hint">A: нажмите · B: удалить · Start: OK</string>
+    <string name="pin_check_title">Введите PIN-код</string>
+    <string name="pin_check_text">Родительский контроль защищён PIN-кодом.</string>
+    <string name="pin_new_title">Выберите PIN-код</string>
+    <string name="pin_new_text">4 цифры. Знать его должен только родитель: с его помощью меняются эти настройки и добавляется игровое время.</string>
+    <string name="pin_again_title">Введите ещё раз</string>
+    <string name="pin_mismatch">Коды не совпали. Выберите снова.</string>
+    <string name="pin_wrong">Неверный PIN-код</string>
+    <string name="pin_wait">Слишком много попыток. Подождите <xliff:g id="seconds">%1$d</xliff:g> с.</string>
 </resources>

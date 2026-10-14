@@ -35,4 +35,54 @@
     <string name="break_title">Você está jogando há <xliff:g id="time">%1$s</xliff:g></string>
     <string name="break_text">Que tal uma pausa curta? Descanse os olhos e se alongue um pouco, seu jogo vai esperar.</string>
     <string name="break_text_battery">Que tal uma pausa curta? Descanse os olhos e se alongue um pouco. Bateria em <xliff:g id="percent">%1$d</xliff:g>%%.</string>
+
+    <!-- Parental controls (Settings > Play time > Parental controls) -->
+    <string name="parental_title">Controle dos pais</string>
+    <string name="parental_off_summary">Desativado. Limite por quanto tempo o console pode ser usado, com um PIN.</string>
+    <!-- %1$s: time left, e.g. "42 min" -->
+    <string name="parental_on_summary">Ativado · restam <xliff:g id="time">%1$s</xliff:g></string>
+    <string name="parental_switch_summary">Limita por quanto tempo o console pode ser usado, e só um PIN permite continuar</string>
+    <string name="parental_limit">Tempo de jogo permitido</string>
+    <string name="parental_refill">O tempo volta depois de</string>
+    <plurals name="parental_refill_hours">
+        <item quantity="one"><xliff:g id="hours">%1$d</xliff:g> hora de descanso</item>
+        <item quantity="other"><xliff:g id="hours">%1$d</xliff:g> horas de descanso</item>
+    </plurals>
+    <string name="parental_refill_pin">Só com o PIN</string>
+    <string name="parental_shutdown">Quando o tempo acabar</string>
+    <!-- %1$s: e.g. "2 min" -->
+    <string name="parental_shutdown_after">Desligar o console após <xliff:g id="time">%1$s</xliff:g> sem o PIN</string>
+    <string name="parental_shutdown_never">Manter a página de tempo esgotado ativada</string>
+    <string name="parental_left_title">Tempo restante</string>
+    <!-- %1$s left of %2$s, e.g. "42 min of 1 h" -->
+    <string name="parental_left_summary">Restam <xliff:g id="left">%1$s</xliff:g> de <xliff:g id="allowed">%2$s</xliff:g>. Selecione para adicionar tempo.</string>
+    <string name="parental_change_pin">Alterar PIN</string>
+    <string name="parental_about">Conta por quanto tempo a tela fica ligada, em qualquer app. O console não tem relógio com bateria, então não se baseia na hora do dia: o tempo volta depois de um descanso longo o suficiente, com a tela desligada ou o console em suspensão. Desligar o console não conta como descanso, pois ele não sabe por quanto tempo ficou desligado. Use o botão liga/desliga para que ele entre em suspensão durante a noite.\n\nOs avisos aparecem 10 e 2 minutos antes do fim do tempo. Depois, uma página cobre a tela até o PIN ser digitado, e o console desliga se ele não for digitado, conforme definido acima. Depois de reiniciar, o tempo continua esgotado.\n\nEsqueceu o PIN? Só refazer a configuração do cartão remove o PIN.</string>
+    <string name="parental_left">Tempo de jogo restante: <xliff:g id="time">%1$s</xliff:g></string>
+    <string name="parental_warning_channel">Avisos de tempo de jogo</string>
+    <string name="parental_warning">O tempo de jogo acaba em <xliff:g id="time">%1$s</xliff:g>. Salve seu jogo!</string>
+    <string name="parental_up_title">O tempo de jogo acabou</string>
+    <plurals name="parental_up_text_rest">
+        <item quantity="one">Hora de uma pausa! O tempo de jogo volta depois de <xliff:g id="hours">%1$d</xliff:g> hora com o console em suspensão, ou um responsável pode adicionar tempo com o PIN.</item>
+        <item quantity="other">Hora de uma pausa! O tempo de jogo volta depois de <xliff:g id="hours">%1$d</xliff:g> horas com o console em suspensão, ou um responsável pode adicionar tempo com o PIN.</item>
+    </plurals>
+    <string name="parental_up_text_pin">Hora de uma pausa! Um responsável pode adicionar tempo com o PIN.</string>
+    <!-- %1$s: minutes:seconds, e.g. "1:45" -->
+    <string name="parental_shutdown_in">O console desliga em <xliff:g id="time">%1$s</xliff:g>.</string>
+    <string name="parental_more_time">Mais tempo de jogo</string>
+    <!-- %1$s: e.g. "30 min" -->
+    <string name="parental_add">Adicionar <xliff:g id="time">%1$s</xliff:g></string>
+    <!-- %1$s: the whole allowance, e.g. "1 h" -->
+    <string name="parental_start_over">Começar de novo (<xliff:g id="time">%1$s</xliff:g>)</string>
+
+    <!-- PIN pad: A, B and Start are the console's buttons -->
+    <string name="pin_hint">A: pressione · B: apague · Start: OK</string>
+    <string name="pin_check_title">Digite o PIN</string>
+    <string name="pin_check_text">O controle dos pais é protegido com um PIN.</string>
+    <string name="pin_new_title">Escolha um PIN</string>
+    <string name="pin_new_text">4 dígitos. Só um responsável deve saber: ele altera estas configurações e adiciona tempo de jogo.</string>
+    <string name="pin_again_title">Digite de novo</string>
+    <string name="pin_mismatch">Os dois não coincidem. Escolha de novo.</string>
+    <string name="pin_wrong">PIN incorreto</string>
+    <string name="pin_wait">Muitas tentativas. Aguarde <xliff:g id="seconds">%1$d</xliff:g> s.</string>
 </resources>

@@ -35,4 +35,52 @@
     <string name="break_title">Anda sudah bermain selama <xliff:g id="time">%1$s</xliff:g></string>
     <string name="break_text">Waktunya istirahat sebentar? Istirahatkan mata dan lakukan sedikit peregangan, game Anda akan menunggu.</string>
     <string name="break_text_battery">Waktunya istirahat sebentar? Istirahatkan mata dan lakukan sedikit peregangan. Baterai <xliff:g id="percent">%1$d</xliff:g>%%.</string>
+
+    <!-- Parental controls (Settings > Play time > Parental controls) -->
+    <string name="parental_title">Kontrol orang tua</string>
+    <string name="parental_off_summary">Nonaktif. Batasi berapa lama konsol bisa dimainkan, dengan PIN.</string>
+    <!-- %1$s: time left, e.g. "42 min" -->
+    <string name="parental_on_summary">Aktif · sisa <xliff:g id="time">%1$s</xliff:g></string>
+    <string name="parental_switch_summary">Membatasi berapa lama konsol bisa dimainkan, dan hanya PIN yang bisa melanjutkannya</string>
+    <string name="parental_limit">Waktu bermain yang diizinkan</string>
+    <string name="parental_refill">Waktu kembali setelah</string>
+    <plurals name="parental_refill_hours">
+        <item quantity="other"><xliff:g id="hours">%1$d</xliff:g> jam istirahat</item>
+    </plurals>
+    <string name="parental_refill_pin">Hanya dengan PIN</string>
+    <string name="parental_shutdown">Saat waktu habis</string>
+    <!-- %1$s: e.g. "2 min" -->
+    <string name="parental_shutdown_after">Matikan konsol setelah <xliff:g id="time">%1$s</xliff:g> tanpa PIN</string>
+    <string name="parental_shutdown_never">Biarkan halaman waktu habis tetap aktif</string>
+    <string name="parental_left_title">Sisa waktu</string>
+    <!-- %1$s left of %2$s, e.g. "42 min of 1 h" -->
+    <string name="parental_left_summary">Sisa <xliff:g id="left">%1$s</xliff:g> dari <xliff:g id="allowed">%2$s</xliff:g>. Pilih untuk menambah waktu.</string>
+    <string name="parental_change_pin">Ubah PIN</string>
+    <string name="parental_about">Menghitung berapa lama layar menyala, di aplikasi apa pun. Konsol tidak punya jam dengan baterai, jadi tidak berpatokan pada jam harian: waktu kembali setelah istirahat yang cukup lama, dengan layar mati atau konsol tidur. Mematikan konsol tidak dihitung sebagai istirahat, karena konsol tidak tahu berapa lama ia mati. Gunakan tombol daya agar konsol tidur semalaman.\n\nPeringatan muncul 10 dan 2 menit sebelum waktu habis. Lalu halaman menutupi layar sampai PIN dimasukkan, dan konsol mati jika PIN tidak dimasukkan, sesuai pengaturan di atas. Setelah dimulai ulang, waktu tetap habis.\n\nLupa PIN? Hanya dengan menyiapkan ulang kartu, PIN akan terhapus.</string>
+    <string name="parental_left">Sisa waktu bermain: <xliff:g id="time">%1$s</xliff:g></string>
+    <string name="parental_warning_channel">Peringatan waktu bermain</string>
+    <string name="parental_warning">Waktu bermain berakhir dalam <xliff:g id="time">%1$s</xliff:g>. Simpan permainanmu!</string>
+    <string name="parental_up_title">Waktu bermain habis</string>
+    <plurals name="parental_up_text_rest">
+        <item quantity="other">Waktunya istirahat! Waktu bermain kembali setelah <xliff:g id="hours">%1$d</xliff:g> jam dengan konsol tidur, atau orang tua dapat menambah waktu dengan PIN.</item>
+    </plurals>
+    <string name="parental_up_text_pin">Waktunya istirahat! Orang tua dapat menambah waktu dengan PIN.</string>
+    <!-- %1$s: minutes:seconds, e.g. "1:45" -->
+    <string name="parental_shutdown_in">Konsol akan mati dalam <xliff:g id="time">%1$s</xliff:g>.</string>
+    <string name="parental_more_time">Tambah waktu bermain</string>
+    <!-- %1$s: e.g. "30 min" -->
+    <string name="parental_add">Tambah <xliff:g id="time">%1$s</xliff:g></string>
+    <!-- %1$s: the whole allowance, e.g. "1 h" -->
+    <string name="parental_start_over">Mulai dari awal (<xliff:g id="time">%1$s</xliff:g>)</string>
+
+    <!-- PIN pad: A, B and Start are the console's buttons -->
+    <string name="pin_hint">A: tekan · B: hapus · Start: OK</string>
+    <string name="pin_check_title">Masukkan PIN</string>
+    <string name="pin_check_text">Kontrol orang tua dilindungi dengan PIN.</string>
+    <string name="pin_new_title">Pilih PIN</string>
+    <string name="pin_new_text">4 digit. Hanya orang tua yang boleh tahu: PIN ini untuk mengubah pengaturan dan menambah waktu bermain.</string>
+    <string name="pin_again_title">Masukkan lagi</string>
+    <string name="pin_mismatch">Keduanya tidak sama. Pilih lagi.</string>
+    <string name="pin_wrong">PIN salah</string>
+    <string name="pin_wait">Terlalu banyak percobaan. Tunggu <xliff:g id="seconds">%1$d</xliff:g> detik.</string>
 </resources>
