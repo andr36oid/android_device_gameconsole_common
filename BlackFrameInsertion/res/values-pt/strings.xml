@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bfi_title">Inserção de fotograma preto (beta, pode reduzir o desempenho)</string>
+    <string name="bfi_summary">Um fotograma preto entre os normais para um movimento mais nítido</string>
+    <string name="bfi_switch">Inserção de fotograma preto</string>
+    <string name="bfi_switch_on">Ligado. O ecrã fica mais escuro e pode tremeluzir.</string>
+    <string name="bfi_switch_off">Desligado</string>
+    <string name="bfi_about">Mostra um fotograma preto entre os normais, como num antigo ecrã CRT. As imagens em movimento ficam mais nítidas, mas o ecrã fica mais escuro e pode tremeluzir. Precisa de uma taxa de atualização de 100 Hz ou mais. Desliga quando a taxa cai abaixo disso, e ao reiniciar. Enquanto o ecrã estiver desligado, fica em pausa.</string>
+    <string name="bfi_normal_frames">Fotogramas normais seguidos</string>
+    <string name="bfi_black_frames">Fotogramas pretos seguidos</string>
+    <string name="bfi_pattern_hint">1 normal, 1 preto é o que foi testado. Mais fotogramas pretos deixam o ecrã mais escuro e a tremeluzir mais.</string>
+    <string name="bfi_warning_title">Imagens a piscar</string>
+    <string name="bfi_warning">A inserção de fotograma preto faz o ecrã inteiro piscar muitas vezes por segundo. Não a uses se luzes intermitentes te podem causar convulsões ou dores de cabeça. Para já se te sentires mal.\n\nTambém escurece o ecrã e, em alguns painéis, tremeluz ou deixa uma imagem residual. Pode tornar os jogos mais lentos.</string>
+    <string name="bfi_warning_ok">Ativar</string>
+    <string name="bfi_low_rate">Precisa de 100 Hz ou mais. Primeiro define Ecrã > Taxa de atualização máxima mais alta.</string>
+    <string name="bfi_stopped_rate">Inserção de fotograma preto desligada: o ecrã está agora abaixo de 100 Hz.</string>
+    <string name="bfi_credit">Baseado no BFI de PakoVM (github.com/pakovm-git/BFI), MIT License</string>
+    <string name="bfi_channel">Inserção de fotograma preto</string>
+    <string name="bfi_notification">A inserção de fotograma preto está ativa</string>
+    <string name="bfi_stop">Desligar</string>
+</resources>

@@ -157,8 +157,6 @@ public class BfiService extends Service {
                         | WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN
                         | WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
                 PixelFormat.TRANSLUCENT);
-        // stay on this mode: the pattern's timing is built on its refresh rate
-        params.preferredDisplayModeId = mModeId;
         params.setTitle("BlackFrameInsertion");
         try {
             mWindows.addView(overlay, params);

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bfi_title">Вставка чёрного кадра (бета, может снизить производительность)</string>
+    <string name="bfi_summary">Чёрный кадр между обычными для более чёткого движения</string>
+    <string name="bfi_switch">Вставка чёрного кадра</string>
+    <string name="bfi_switch_on">Вкл. Экран темнее и может мерцать.</string>
+    <string name="bfi_switch_off">Выкл.</string>
+    <string name="bfi_about">Вставляет чёрный кадр между обычными, как на старых ЭЛТ-мониторах. Движущиеся картинки выглядят чётче, но экран темнеет и может мерцать. Нужна частота обновления 100 Гц или выше. Выключается, если частота падает ниже, и при перезапуске. Когда экран выключен, работа приостанавливается.</string>
+    <string name="bfi_normal_frames">Обычные кадры подряд</string>
+    <string name="bfi_black_frames">Чёрные кадры подряд</string>
+    <string name="bfi_pattern_hint">1 обычный, 1 чёрный — это вариант, который уже проверяли. Больше чёрных кадров делают экран темнее и мерцание сильнее.</string>
+    <string name="bfi_warning_title">Мигающие изображения</string>
+    <string name="bfi_warning">Вставка чёрного кадра заставляет весь экран мигать много раз в секунду. Не используйте, если мигающий свет может вызвать у вас приступы или головную боль. Если вам стало плохо, сразу прекратите.\n\nЭкран также становится темнее, а на некоторых панелях он может мерцать или оставлять след от изображения. Игры могут работать медленнее.</string>
+    <string name="bfi_warning_ok">Включить</string>
+    <string name="bfi_low_rate">Нужно 100 Гц или выше. Сначала поставьте в Дисплей > Максимальная частота обновления большее значение.</string>
+    <string name="bfi_stopped_rate">Вставка чёрного кадра выключена: частота экрана сейчас ниже 100 Гц.</string>
+    <string name="bfi_credit">Основано на BFI от PakoVM (github.com/pakovm-git/BFI), MIT License</string>
+    <string name="bfi_channel">Вставка чёрного кадра</string>
+    <string name="bfi_notification">Вставка чёрного кадра включена</string>
+    <string name="bfi_stop">Выключить</string>
+</resources>

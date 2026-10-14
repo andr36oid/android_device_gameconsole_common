@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bfi_title">Schwarzbild einfügen (Beta, kann die Leistung senken)</string>
+    <string name="bfi_summary">Ein schwarzes Bild zwischen den normalen für schärfere Bewegung</string>
+    <string name="bfi_switch">Schwarzbild einfügen</string>
+    <string name="bfi_switch_on">An. Der Bildschirm wird dunkler und kann flackern.</string>
+    <string name="bfi_switch_off">Aus</string>
+    <string name="bfi_about">Zeigt zwischen normalen Bildern ein schwarzes Bild, wie bei einem alten Röhrenbildschirm. Bewegte Bilder wirken schärfer, aber der Bildschirm wird dunkler und kann flackern. Braucht eine Bildwiederholrate von 100 Hz oder mehr. Schaltet sich ab, wenn die Rate darunter fällt, und beim Neustart. Solange der Bildschirm aus ist, pausiert es.</string>
+    <string name="bfi_normal_frames">Normale Bilder hintereinander</string>
+    <string name="bfi_black_frames">Schwarze Bilder hintereinander</string>
+    <string name="bfi_pattern_hint">1 normal, 1 schwarz ist die Einstellung, die getestet wurde. Mehr schwarze Bilder machen es dunkler und flackernder.</string>
+    <string name="bfi_warning_title">Blinkende Bilder</string>
+    <string name="bfi_warning">Schwarzbild einfügen lässt den ganzen Bildschirm viele Male pro Sekunde blinken. Nicht benutzen, wenn Blinklichter bei dir Anfälle oder Kopfschmerzen auslösen können. Bei Unwohlsein sofort aufhören.\n\nAußerdem wird der Bildschirm dunkler, und auf manchen Panels flackert er oder hinterlässt ein Nachbild. Spiele laufen eventuell langsamer.</string>
+    <string name="bfi_warning_ok">Einschalten</string>
+    <string name="bfi_low_rate">Braucht 100 Hz oder mehr. Stell zuerst Display > Maximale Bildwiederholrate höher ein.</string>
+    <string name="bfi_stopped_rate">Schwarzbild einfügen ist aus: Der Bildschirm ist jetzt unter 100 Hz.</string>
+    <string name="bfi_credit">Basiert auf BFI von PakoVM (github.com/pakovm-git/BFI), MIT License</string>
+    <string name="bfi_channel">Schwarzbild einfügen</string>
+    <string name="bfi_notification">Schwarzbild einfügen ist an</string>
+    <string name="bfi_stop">Ausschalten</string>
+</resources>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bfi_title">插入黑帧（测试版，可能降低性能）</string>
+    <string name="bfi_summary">在正常帧之间插入一帧黑屏，让动态画面更清晰</string>
+    <string name="bfi_switch">插入黑帧</string>
+    <string name="bfi_switch_on">开启。屏幕会变暗，可能会闪烁。</string>
+    <string name="bfi_switch_off">关闭</string>
+    <string name="bfi_about">在正常帧之间插入一帧黑屏，类似老式 CRT 显示器。动态画面更清晰，但屏幕会变暗，还可能闪烁。需要 100 Hz 或更高的刷新率。刷新率低于此值时会自动关闭，重启后也会关闭。屏幕关闭时会暂停。</string>
+    <string name="bfi_normal_frames">连续正常帧数</string>
+    <string name="bfi_black_frames">连续黑帧数</string>
+    <string name="bfi_pattern_hint">目前测试过的是 1 个正常帧、1 个黑帧。黑帧越多，屏幕越暗，闪烁也越明显。</string>
+    <string name="bfi_warning_title">闪烁画面</string>
+    <string name="bfi_warning">插入黑帧会让整个屏幕每秒闪烁很多次。如果闪光可能让你癫痫发作或头痛，请不要使用。感觉不舒服请立即停止。\n\n它还会让屏幕变暗，在某些面板上可能闪烁或残留影像。游戏也可能变慢。</string>
+    <string name="bfi_warning_ok">开启</string>
+    <string name="bfi_low_rate">需要 100 Hz 或更高。请先把显示 > 峰值刷新率调高。</string>
+    <string name="bfi_stopped_rate">已关闭插入黑帧：屏幕当前刷新率低于 100 Hz。</string>
+    <string name="bfi_credit">基于 PakoVM 的 BFI（github.com/pakovm-git/BFI），MIT License</string>
+    <string name="bfi_channel">插入黑帧</string>
+    <string name="bfi_notification">插入黑帧已开启</string>
+    <string name="bfi_stop">关闭</string>
+</resources>

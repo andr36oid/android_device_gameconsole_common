@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bfi_title">Penyisipan frame hitam (beta, bisa menurunkan performa)</string>
+    <string name="bfi_summary">Frame hitam di antara frame normal agar gerakan lebih tajam</string>
+    <string name="bfi_switch">Penyisipan frame hitam</string>
+    <string name="bfi_switch_on">Aktif. Layar jadi lebih gelap dan bisa berkedip.</string>
+    <string name="bfi_switch_off">Mati</string>
+    <string name="bfi_about">Menampilkan frame hitam di antara frame normal, seperti layar CRT lama. Gambar bergerak jadi lebih tajam, tapi layar jadi lebih gelap dan bisa berkedip. Butuh refresh rate 100 Hz atau lebih. Mati otomatis jika rate turun di bawah itu, dan saat restart. Saat layar mati, fitur ini dijeda.</string>
+    <string name="bfi_normal_frames">Frame normal berurutan</string>
+    <string name="bfi_black_frames">Frame hitam berurutan</string>
+    <string name="bfi_pattern_hint">1 normal, 1 hitam adalah yang sudah dicoba. Lebih banyak frame hitam membuat layar makin gelap dan makin berkedip.</string>
+    <string name="bfi_warning_title">Gambar berkedip</string>
+    <string name="bfi_warning">Penyisipan frame hitam membuat seluruh layar berkedip banyak kali per detik. Jangan pakai jika lampu berkedip bisa memicu kejang atau sakit kepala. Berhenti segera jika kamu merasa tidak enak badan.\n\nFitur ini juga membuat layar lebih gelap, dan di beberapa panel layar bisa berkedip atau meninggalkan bayangan. Game mungkin jadi lebih lambat.</string>
+    <string name="bfi_warning_ok">Aktifkan</string>
+    <string name="bfi_low_rate">Butuh 100 Hz atau lebih. Atur Tampilan > Refresh rate maksimum lebih tinggi dulu.</string>
+    <string name="bfi_stopped_rate">Penyisipan frame hitam dimatikan: layar sekarang di bawah 100 Hz.</string>
+    <string name="bfi_credit">Berdasarkan BFI oleh PakoVM (github.com/pakovm-git/BFI), MIT License</string>
+    <string name="bfi_channel">Penyisipan frame hitam</string>
+    <string name="bfi_notification">Penyisipan frame hitam aktif</string>
+    <string name="bfi_stop">Matikan</string>
+</resources>

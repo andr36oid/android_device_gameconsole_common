@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bfi_title">Siyah kare ekleme (beta, performansı düşürebilir)</string>
+    <string name="bfi_summary">Daha keskin hareket için normal karelerin arasına siyah kare</string>
+    <string name="bfi_switch">Siyah kare ekleme</string>
+    <string name="bfi_switch_on">Açık. Ekran daha karanlık olur ve titreyebilir.</string>
+    <string name="bfi_switch_off">Kapalı</string>
+    <string name="bfi_about">Normal karelerin arasına siyah kare ekler, eski bir CRT ekran gibi. Hareketli görüntüler daha keskin görünür, ama ekran daha karanlık olur ve titreyebilir. 100 Hz veya daha yüksek yenileme hızı gerekir. Hız bunun altına düşerse ve yeniden başlatınca kapanır. Ekran kapalıyken duraklatılır.</string>
+    <string name="bfi_normal_frames">Arka arkaya normal kareler</string>
+    <string name="bfi_black_frames">Arka arkaya siyah kareler</string>
+    <string name="bfi_pattern_hint">Denenen ayar 1 normal, 1 siyah. Daha fazla siyah kare ekranı daha karanlık yapar ve daha çok titretir.</string>
+    <string name="bfi_warning_title">Yanıp sönen görüntüler</string>
+    <string name="bfi_warning">Siyah kare ekleme tüm ekranı saniyede çok kez yanıp söndürür. Yanıp sönen ışıklar sende nöbete veya baş ağrısına yol açabiliyorsa kullanma. Kendini iyi hissetmiyorsan hemen dur.\n\nAyrıca ekranı karartır, bazı panellerde titreme yapabilir ya da görüntü izi bırakabilir. Oyunları yavaşlatabilir.</string>
+    <string name="bfi_warning_ok">Aç</string>
+    <string name="bfi_low_rate">100 Hz veya daha fazlası gerekir. Önce Ekran > Maksimum yenileme hızı değerini yükselt.</string>
+    <string name="bfi_stopped_rate">Siyah kare ekleme kapatıldı: ekran şu an 100 Hz\'in altında.</string>
+    <string name="bfi_credit">PakoVM\'in BFI\'sına dayanır (github.com/pakovm-git/BFI), MIT License</string>
+    <string name="bfi_channel">Siyah kare ekleme</string>
+    <string name="bfi_notification">Siyah kare ekleme açık</string>
+    <string name="bfi_stop">Kapat</string>
+</resources>

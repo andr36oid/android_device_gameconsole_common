@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bfi_title">Insertion d\'image noire (bêta, peut réduire les performances)</string>
+    <string name="bfi_summary">Une image noire entre les normales pour un mouvement plus net</string>
+    <string name="bfi_switch">Insertion d\'image noire</string>
+    <string name="bfi_switch_on">Activé. L\'écran est plus sombre et peut scintiller.</string>
+    <string name="bfi_switch_off">Désactivé</string>
+    <string name="bfi_about">Affiche une image noire entre les images normales, comme un vieil écran CRT. Les images animées sont plus nettes, mais l\'écran est plus sombre et peut scintiller. Il faut un taux de rafraîchissement d\'au moins 100 Hz. Ça se désactive si le taux descend en dessous, et au redémarrage. Quand l\'écran est éteint, ça se met en pause.</string>
+    <string name="bfi_normal_frames">Images normales d\'affilée</string>
+    <string name="bfi_black_frames">Images noires d\'affilée</string>
+    <string name="bfi_pattern_hint">1 normale, 1 noire, c\'est la combinaison qui a été testée. Plus d\'images noires rendent l\'écran plus sombre et plus scintillant.</string>
+    <string name="bfi_warning_title">Images clignotantes</string>
+    <string name="bfi_warning">L\'insertion d\'image noire fait clignoter tout l\'écran plusieurs fois par seconde. Ne l\'utilise pas si les lumières clignotantes peuvent te donner des crises ou des maux de tête. Arrête tout de suite si tu te sens mal.\n\nElle assombrit aussi l\'écran, et sur certaines dalles il scintille ou laisse une image rémanente. Elle peut ralentir les jeux.</string>
+    <string name="bfi_warning_ok">Activer</string>
+    <string name="bfi_low_rate">Il faut 100 Hz ou plus. Règle d\'abord Affichage > Taux de rafraîchissement maximal plus haut.</string>
+    <string name="bfi_stopped_rate">Insertion d\'image noire désactivée : l\'écran est passé sous 100 Hz.</string>
+    <string name="bfi_credit">Basé sur BFI de PakoVM (github.com/pakovm-git/BFI), MIT License</string>
+    <string name="bfi_channel">Insertion d\'image noire</string>
+    <string name="bfi_notification">L\'insertion d\'image noire est activée</string>
+    <string name="bfi_stop">Désactiver</string>
+</resources>
