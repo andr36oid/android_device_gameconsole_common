@@ -58,6 +58,14 @@
                 android:layout_height="wrap_content"
                 android:text="@string/finder_entry" />
 
+            <!-- Back to "not checked yet" and the real Fn button -->
+            <Button
+                android:id="@+id/reset"
+                style="@android:style/Widget.DeviceDefault.Button.Borderless.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/check_reset" />
+
             <TextView
                 android:id="@+id/note"
                 android:layout_width="match_parent"

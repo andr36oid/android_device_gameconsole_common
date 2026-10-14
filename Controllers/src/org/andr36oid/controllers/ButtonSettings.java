@@ -2,6 +2,7 @@ package org.andr36oid.controllers;
 
 import android.content.Context;
 import android.provider.Settings;
+import android.text.TextUtils;
 import android.util.Log;
 
 import java.io.IOException;
@@ -104,6 +105,20 @@ final class ButtonSettings {
             return hasFn(context) ? "" : VOL_BOTH;
         }
         return value;
+    }
+
+    /** Back to "not checked yet" (the device tree's hint) and the real Fn button */
+    static void reset(Context context) {
+        Log.i(TAG, "buttons reset to the defaults");
+        Settings.Global.putString(context.getContentResolver(), MISSING, null);
+        Settings.Global.putString(context.getContentResolver(), FN_STANDIN, null);
+    }
+
+    /** True when the check or the Fn stand-in saved something */
+    static boolean changed(Context context) {
+        return Settings.Global.getString(context.getContentResolver(), MISSING) != null
+                || !TextUtils.isEmpty(Settings.Global.getString(context.getContentResolver(),
+                        FN_STANDIN));
     }
 
     static void setFnStandin(Context context, String value) {

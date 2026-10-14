@@ -3,7 +3,7 @@
     <!-- Settings > Controls > Buttons on this console: press every button once -->
     <string name="check_title">Buttons on this console</string>
     <string name="check_intro">Press every button once. Fn opens the home screen, then this page comes back by itself.</string>
-    <string name="check_how_to_finish">To finish, hold Start for 2 seconds or choose Done.</string>
+    <string name="check_how_to_finish">To finish, hold Start for 2 seconds or choose Done. To leave without saving, hold B.</string>
     <string name="check_done">Done</string>
     <!-- At the top, e.g. "Current setting: No Fn, no L3/R3" -->
     <string name="check_saved">Current setting: %1$s</string>
@@ -17,6 +17,9 @@
     <string name="check_missing">This console doesn\'t have: %1$s.\n\nIf it does have one of them, choose Go back and press it.</string>
     <string name="check_missing_save">Save</string>
     <string name="check_missing_back">Go back</string>
+    <string name="check_leave_unsaved">Leave without saving</string>
+    <string name="check_reset">Reset to default</string>
+    <string name="check_reset_confirm">Forget which buttons this console has and what stands in for Fn? It goes back to what andr36oid knows about this model, and Fn is the Fn button again.</string>
     <string name="check_saved_toast">Saved: %1$s</string>
 
     <!-- Summaries: "All buttons", "No Fn, no L3/R3" -->

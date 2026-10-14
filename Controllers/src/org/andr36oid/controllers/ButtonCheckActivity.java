@@ -42,6 +42,7 @@ import java.util.TreeSet;
 public class ButtonCheckActivity extends Activity {
 
     private static final long START_HOLD_MS = 2000;
+    private static final long BACK_HOLD_MS = 1000;
     private static final long RETURN_DELAY_MS = 1500;
     /** A volume press this shortly before going home was Vol+ and Vol- together, not Fn */
     private static final long VOLUME_CHORD_MS = 1500;
@@ -57,6 +58,7 @@ public class ButtonCheckActivity extends Activity {
     private TextView mSaved;
     private TextView mExtras;
     private TextView mNote;
+    private View mReset;
     private long mLastVolumeDown;
     private int mReturns;
     private boolean mLeaving;
@@ -76,6 +78,16 @@ public class ButtonCheckActivity extends Activity {
         findViewById(R.id.find_unknown).setOnClickListener(v -> startActivity(
                 new Intent(this, ButtonFinderActivity.class)
                         .addFlags(Intent.FLAG_ACTIVITY_NO_USER_ACTION)));
+        mReset = findViewById(R.id.reset);
+        mReset.setOnClickListener(v -> new AlertDialog.Builder(this)
+                .setTitle(R.string.check_reset)
+                .setMessage(R.string.check_reset_confirm)
+                .setPositiveButton(R.string.check_reset, (dialog, which) -> {
+                    ButtonSettings.reset(this);
+                    refresh();
+                })
+                .setNegativeButton(android.R.string.cancel, null)
+                .show());
         done.requestFocus();
 
         final GridLayout grid = findViewById(R.id.grid);
@@ -141,6 +153,7 @@ public class ButtonCheckActivity extends Activity {
 
     private void refresh() {
         mSaved.setText(getString(R.string.check_saved, ButtonSettings.summary(this)));
+        mReset.setEnabled(ButtonSettings.changed(this));
         for (int i = 0; i < mBoxes.size(); i++) {
             mBoxes.get(i).setChecked(mPressed.contains(ButtonSettings.BUILT_IN[i].scanCode));
         }
@@ -167,6 +180,16 @@ public class ButtonCheckActivity extends Activity {
         }
         if (mSwallowUp.get(key) && (!down || event.getRepeatCount() > 0)) {
             if (!down) mSwallowUp.delete(key);
+            return true;
+        }
+        // B (or Back): a tap ticks it, holding it leaves without saving
+        if (key == KeyEvent.KEYCODE_BUTTON_B || key == KeyEvent.KEYCODE_BACK) {
+            if (first) {
+                press(event);
+                mHandler.postDelayed(mBackHeld, BACK_HOLD_MS);
+            } else if (!down) {
+                mHandler.removeCallbacks(mBackHeld);
+            }
             return true;
         }
         if (key == KeyEvent.KEYCODE_BUTTON_START) {
@@ -215,6 +238,12 @@ public class ButtonCheckActivity extends Activity {
     }
 
     private final Runnable mStartHeld = this::onDone;
+
+    private final Runnable mBackHeld = () -> {
+        setResult(RESULT_CANCELED);
+        mLeaving = true;
+        finish();
+    };
 
     // ---- Fn: seen as going home
 
@@ -272,6 +301,8 @@ public class ButtonCheckActivity extends Activity {
                 .setPositiveButton(R.string.check_missing_save, (dialog, which) ->
                         save(missing))
                 .setNegativeButton(R.string.check_missing_back, null)
+                .setNeutralButton(R.string.check_leave_unsaved, (dialog, which) ->
+                        mBackHeld.run())
                 .show();
     }
 
