@@ -27,6 +27,8 @@ R=${KT_ROOT:-}
 #   thermal  trip point <path> of the soc-thermal zone, in m°C
 #   boot     an option on the kernel command line (see boot_read/boot_args): it takes
 #            effect at the next start, through BOOT/kernel-tweaks.txt
+# extra_rates isn't in the Kernel Tweaks list: Settings > Display > Panel overclocking
+# sets it, a comma list of Hz such as "70,77.5", "none" for none.
 KNOBS='
 sleep_type|bracket||/sys/power/mem_sleep
 sleep_test|bracket|once|/sys/power/pm_test
@@ -57,6 +59,7 @@ cpu_idle|boot||cpu_idle
 timer_tick|boot||timer_tick
 boot_timing|boot||boot_timing
 usb_autosuspend|boot||usb_autosuspend
+extra_rates|boot||extra_rates
 '
 
 # Start options. boot.ini reads kt_args=... from BOOT/kernel-tweaks.txt and puts it at
@@ -109,6 +112,9 @@ boot_read() {
 	usb_autosuspend)
 		v=$(arg_last usbcore.autosuspend "$2")
 		[ "${v:-2}" -lt 0 ] 2>/dev/null && echo off || echo on ;;
+	extra_rates)
+		v=$(arg_last panel_simple.extra_rates "$2")
+		echo "${v:-none}" ;;
 	esac
 }
 
@@ -124,6 +130,10 @@ boot_args() {
 	timer_tick:off) echo "nohz=off" ;;
 	boot_timing:1) echo "initcall_debug" ;;
 	usb_autosuspend:off) echo "usbcore.autosuspend=-1" ;;
+	extra_rates:none) ;;
+	# only numbers, dots and commas get onto the command line
+	extra_rates:*[!0-9.,]*) ;;
+	extra_rates:*) echo "panel_simple.extra_rates=$2" ;;
 	esac
 }
 

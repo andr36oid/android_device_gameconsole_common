@@ -200,6 +200,33 @@ setp persist.andr36oid.kt.paused crash
 run apply
 check "paused removes the file" no "$([ -e "$T/boot/kernel-tweaks.txt" ] && echo yes || echo no)"
 
+# --- extra refresh rates (Settings > Display > Panel overclocking)
+setup
+run boot
+check "extra rates default none" none "$(prop sys.andr36oid.ktd.extra_rates)"
+setp persist.andr36oid.kt.extra_rates "70,77.5,90"
+run apply
+check "extra rates written" "panel_simple.extra_rates=70,77.5,90" \
+	"$(sed -n 's/^kt_args=//p' "$T/boot/kernel-tweaks.txt")"
+args=$(sed -n 's/^kt_args=//p' "$T/boot/kernel-tweaks.txt")
+echo "$(cat "$R"/proc/cmdline) $args" >"$R"/proc/cmdline
+run boot
+check "extra rates current" "70,77.5,90" "$(prop sys.andr36oid.ktc.extra_rates)"
+check "extra rates default stays none" none "$(prop sys.andr36oid.ktd.extra_rates)"
+check "extra rates count as a tweak" 1 "$(prop persist.andr36oid.kt.tries)"
+setp persist.andr36oid.kt.extra_rates "75 quiet init=/bin/sh"
+run apply
+check "odd extra rates left off" no "$([ -e "$T/boot/kernel-tweaks.txt" ] && echo yes || echo no)"
+setp persist.andr36oid.kt.extra_rates "75"
+setp persist.andr36oid.kt.cpu_idle off
+run apply
+check "extra rates with another option" "cpuidle.off=1 panel_simple.extra_rates=75" \
+	"$(sed -n 's/^kt_args=//p' "$T/boot/kernel-tweaks.txt")"
+setp persist.andr36oid.kt.extra_rates none
+setp persist.andr36oid.kt.cpu_idle ""
+run apply
+check "extra rates removed" no "$([ -e "$T/boot/kernel-tweaks.txt" ] && echo yes || echo no)"
+
 # --- an older boot.ini with the serial console on
 setup
 echo "rootwait console=ttyS2,115200n8 loglevel=4 androidboot.console=ttyS2" >"$R"/proc/cmdline
