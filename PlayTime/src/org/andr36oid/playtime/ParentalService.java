@@ -177,7 +177,8 @@ public class ParentalService extends Service {
 
     private void warn(long left) {
         int warned = Parental.warned(this);
-        for (int i = 0; i < WARN_MINUTES.length; i++) {
+        // the shortest first, so a cut to under 2 minutes doesn't show the 10 minute one too
+        for (int i = WARN_MINUTES.length - 1; i >= 0; i--) {
             final int bit = 1 << i;
             if (left > 0 && left <= WARN_MINUTES[i] * 60_000L && (warned & bit) == 0) {
                 // the earlier, longer warnings count as shown too
