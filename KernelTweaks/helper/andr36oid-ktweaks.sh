@@ -52,6 +52,8 @@ panic_restart|plain||/proc/sys/kernel/panic
 oops_panic|plain||/proc/sys/kernel/panic_on_oops
 stall_report|plain||/sys/module/rcupdate/parameters/rcu_cpu_stall_timeout
 power_chip_log|plain||/sys/module/rk817_charger/parameters/dbg_level /sys/module/rk817_battery/parameters/dbg_level /sys/module/snd_soc_rk817/parameters/dbg_level
+crash_oops|plain||/sys/module/ramoops/parameters/dump_oops
+crash_restart_log|plain||/sys/module/printk/parameters/always_kmsg_dump
 serial_console|boot||serial_console
 boot_log_level|boot||boot_log_level
 cma_size|boot||cma_size
@@ -60,6 +62,8 @@ timer_tick|boot||timer_tick
 boot_timing|boot||boot_timing
 usb_autosuspend|boot||usb_autosuspend
 extra_rates|boot||extra_rates
+crash_log|boot||crash_log
+crash_split|boot||crash_split
 '
 
 # Start options. boot.ini reads kt_args=... from BOOT/kernel-tweaks.txt and puts it at
@@ -115,7 +119,36 @@ boot_read() {
 	extra_rates)
 		v=$(arg_last panel_simple.extra_rates "$2")
 		echo "${v:-none}" ;;
+	crash_log)
+		case $(arg_last ramoops.disable "$2") in
+		1 | [Yy]*) echo off ;;
+		*) echo on ;;
+		esac ;;
+	crash_split)
+		# no sizes: the device tree's, which is "balanced"
+		case "$(arg_last ramoops.record_size "$2") $(arg_last ramoops.console_size "$2") $(arg_last ramoops.pmsg_size "$2")" in
+		"  " | "$SPLIT_BALANCED") echo balanced ;;
+		"$SPLIT_KERNEL") echo kernel ;;
+		"$SPLIT_ANDROID") echo android ;;
+		*) echo custom ;;
+		esac ;;
 	esac
+}
+
+# Crash log split: crash record, kernel log and Android log (pmsg) sizes in the 960 KB
+# ramoops area of the device tree. ramoops rounds each down to a power of two (the DT's
+# 320 KB Android log is 256 KB) and gives the crash record what is left, so balanced is
+# 192+512+256, kernel 320+512+128 (the whole 256 KB kernel log fits the crash record) and
+# android 192+256+512.
+SPLIT_BALANCED="0x20000 0x80000 0x40000"
+SPLIT_KERNEL="0x40000 0x80000 0x20000"
+SPLIT_ANDROID="0x20000 0x40000 0x80000"
+
+# split_args <sizes> ; "record console pmsg" as ramoops options
+split_args() {
+	# shellcheck disable=SC2086 # three sizes, split on spaces
+	set -- $1
+	echo "ramoops.record_size=$1 ramoops.console_size=$2 ramoops.pmsg_size=$3"
 }
 
 # boot_args <key> <value> ; the options that give the tweak this value
@@ -134,6 +167,10 @@ boot_args() {
 	# only numbers, dots and commas get onto the command line
 	extra_rates:*[!0-9.,]*) ;;
 	extra_rates:*) echo "panel_simple.extra_rates=$2" ;;
+	crash_log:off) echo "ramoops.disable=1" ;;
+	crash_split:balanced) split_args "$SPLIT_BALANCED" ;;
+	crash_split:kernel) split_args "$SPLIT_KERNEL" ;;
+	crash_split:android) split_args "$SPLIT_ANDROID" ;;
 	esac
 }
 

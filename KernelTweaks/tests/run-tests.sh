@@ -227,6 +227,64 @@ setp persist.andr36oid.kt.cpu_idle ""
 run apply
 check "extra rates removed" no "$([ -e "$T/boot/kernel-tweaks.txt" ] && echo yes || echo no)"
 
+# --- crash log: two knobs while running, on/off and the split as start options
+setup
+mkdir -p "$R"/sys/module/ramoops/parameters
+echo 1 >"$R"/sys/module/ramoops/parameters/dump_oops
+echo N >"$R"/sys/module/printk/parameters/always_kmsg_dump
+run boot
+check "crash oops default" 1 "$(prop sys.andr36oid.ktd.crash_oops)"
+check "restart log default" N "$(prop sys.andr36oid.ktd.crash_restart_log)"
+check "crash log default on" on "$(prop sys.andr36oid.ktd.crash_log)"
+check "crash split default balanced" balanced "$(prop sys.andr36oid.ktd.crash_split)"
+setp persist.andr36oid.kt.crash_oops 0
+setp persist.andr36oid.kt.crash_restart_log Y
+run apply
+check "dump_oops written" 0 "$(cat "$R"/sys/module/ramoops/parameters/dump_oops)"
+check "always_kmsg_dump written" Y "$(cat "$R"/sys/module/printk/parameters/always_kmsg_dump)"
+check "no start options for them" no "$([ -e "$T/boot/kernel-tweaks.txt" ] && echo yes || echo no)"
+setp persist.andr36oid.kt.crash_split kernel
+run apply
+check "more kernel log written" "ramoops.record_size=0x40000 ramoops.console_size=0x80000 ramoops.pmsg_size=0x20000" \
+	"$(sed -n 's/^kt_args=//p' "$T/boot/kernel-tweaks.txt")"
+args=$(sed -n 's/^kt_args=//p' "$T/boot/kernel-tweaks.txt")
+echo "$(cat "$R"/proc/cmdline) $args" >"$R"/proc/cmdline
+# a restart: the kernel starts with its own values again
+echo 1 >"$R"/sys/module/ramoops/parameters/dump_oops
+echo N >"$R"/sys/module/printk/parameters/always_kmsg_dump
+run boot
+check "runtime tweaks applied again" 0 "$(cat "$R"/sys/module/ramoops/parameters/dump_oops)"
+check "split current kernel" kernel "$(prop sys.andr36oid.ktc.crash_split)"
+check "split default stays balanced" balanced "$(prop sys.andr36oid.ktd.crash_split)"
+setp persist.andr36oid.kt.crash_split android
+setp persist.andr36oid.kt.crash_log off
+run apply
+check "more android log and off written" \
+	"ramoops.disable=1 ramoops.record_size=0x20000 ramoops.console_size=0x40000 ramoops.pmsg_size=0x80000" \
+	"$(sed -n 's/^kt_args=//p' "$T/boot/kernel-tweaks.txt")"
+args=$(sed -n 's/^kt_args=//p' "$T/boot/kernel-tweaks.txt")
+echo "fw_devlink=permissive rootwait loglevel=4 $args" >"$R"/proc/cmdline
+echo 1 >"$R"/sys/module/ramoops/parameters/dump_oops
+echo N >"$R"/sys/module/printk/parameters/always_kmsg_dump
+run boot
+check "crash log current off" off "$(prop sys.andr36oid.ktc.crash_log)"
+check "split current android" android "$(prop sys.andr36oid.ktc.crash_split)"
+setp persist.andr36oid.kt.crash_split ""
+setp persist.andr36oid.kt.crash_log ""
+setp persist.andr36oid.kt.crash_oops ""
+setp persist.andr36oid.kt.crash_restart_log ""
+run apply
+check "crash options removed" no "$([ -e "$T/boot/kernel-tweaks.txt" ] && echo yes || echo no)"
+check "dump_oops back" 1 "$(cat "$R"/sys/module/ramoops/parameters/dump_oops)"
+check "always_kmsg_dump back" N "$(cat "$R"/sys/module/printk/parameters/always_kmsg_dump)"
+# sizes boot.ini put there itself: shown as they are, none of the three
+echo "rootwait ramoops.record_size=0x10000" >"$R"/proc/cmdline
+run boot
+check "other sizes are custom" custom "$(prop sys.andr36oid.ktd.crash_split)"
+echo "rootwait ramoops.disable=Y" >"$R"/proc/cmdline
+run boot
+check "disable=Y is off" off "$(prop sys.andr36oid.ktd.crash_log)"
+
 # --- an older boot.ini with the serial console on
 setup
 echo "rootwait console=ttyS2,115200n8 loglevel=4 androidboot.console=ttyS2" >"$R"/proc/cmdline

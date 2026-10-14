@@ -162,6 +162,19 @@ final class Tweaks {
                     "usbcore.autosuspend=-1")
                 .values("on", "off")
                 .labels(R.string.kt_on, R.string.kt_off)
+                .atBoot())
+            .add(Tweak.choice("crash_log", R.string.kt_crash_log,
+                    R.string.kt_crash_log_what, R.string.kt_crash_log_why,
+                    "ramoops.disable=1")
+                .values("on", "off")
+                .labels(R.string.kt_on, R.string.kt_off)
+                .atBoot())
+            .add(Tweak.choice("crash_split", R.string.kt_crash_split,
+                    R.string.kt_crash_split_what, R.string.kt_crash_split_why,
+                    "ramoops.record_size= ramoops.console_size= ramoops.pmsg_size=")
+                .values("balanced", "kernel", "android")
+                .labels(R.string.kt_crash_split_balanced, R.string.kt_crash_split_kernel,
+                        R.string.kt_crash_split_android)
                 .atBoot()));
 
         list.add(new Category(R.string.kt_cat_debug, null, null, 0, 0)
@@ -184,6 +197,13 @@ final class Tweaks {
                     "/sys/module/rcupdate/parameters/rcu_cpu_stall_timeout")
                 .values("10", "21", "60")
                 .unit(R.string.kt_unit_s))
+            .add(onOff("crash_oops", R.string.kt_crash_oops, R.string.kt_crash_oops_what,
+                    R.string.kt_crash_oops_why, "/sys/module/ramoops/parameters/dump_oops"))
+            .add(Tweak.choice("crash_restart_log", R.string.kt_crash_restart_log,
+                    R.string.kt_crash_restart_log_what, R.string.kt_crash_restart_log_why,
+                    "/sys/module/printk/parameters/always_kmsg_dump")
+                .values("N", "Y")
+                .labels(R.string.kt_off, R.string.kt_on))
             .add(onOff("power_chip_log", R.string.kt_power_chip_log,
                     R.string.kt_power_chip_log_what, R.string.kt_power_chip_log_why,
                     "/sys/module/{rk817_charger,rk817_battery,snd_soc_rk817}/parameters/dbg_level")));

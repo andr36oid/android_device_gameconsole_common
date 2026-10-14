@@ -193,6 +193,14 @@
     <string name="kt_power_chip_log_what">Lets the charger, battery gauge and sound parts of the power chip (RK817) log what they\'re doing.</string>
     <string name="kt_power_chip_log_why">For battery percentages that jump around, charging that stops or sound that crackles. Very chatty, so only switch it on while you\'re making a problem report.</string>
 
+    <string name="kt_crash_oops">Save driver errors too</string>
+    <string name="kt_crash_oops_what">Keeps a crash record when a driver hits a serious error (an oops) and the kernel carries on, not only when the whole kernel crashes.</string>
+    <string name="kt_crash_oops_why">An oops is often the start of trouble that shows up later: no sound, dead buttons, a frozen screen. With this on, the problem report after the next restart has it. Off saves only full kernel crashes, so a harmless oops doesn\'t bring up the crash notice after the next start.</string>
+
+    <string name="kt_crash_restart_log">Save the log at every restart</string>
+    <string name="kt_crash_restart_log_what">When the console restarts normally, the kernel also saves the end of its log in the crash record, with every message, also the quiet ones below the log level.</string>
+    <string name="kt_crash_restart_log_why">For problems without a crash, such as a game that stutters until you restart. The last start\'s kernel log is kept anyway, but only the lines at the log level. A crash in the same start always keeps its own record. A normal restart replaces an older crash record though, so save the problem report about a crash first. Nothing is kept after switching off: the RAM loses it.</string>
+
     <!-- At start (needs a restart) -->
     <string name="kt_serial_console">Serial console</string>
     <string name="kt_serial_console_what">Sends the kernel log out of the debug serial port and lets you type commands there (UART2 on the R36S, UART5 on EE clones).</string>
@@ -224,4 +232,15 @@
     <string name="kt_usb_autosuspend">USB power saving</string>
     <string name="kt_usb_autosuspend_what">Lets USB devices (controllers, Wi-Fi sticks, keyboards) power down when they\'re not in use.</string>
     <string name="kt_usb_autosuspend_why">Some cheap USB controllers and Wi-Fi sticks drop out or lag after a pause. Off keeps them awake, at the cost of some battery.</string>
+
+    <string name="kt_crash_log">Crash log</string>
+    <string name="kt_crash_log_what">Keeps the kernel log, the Android log and a crash record in a piece of RAM that survives a restart, so the next start can put them into the problem report.</string>
+    <string name="kt_crash_log_why">Leave it on. Off is only for testing whether the crash log itself causes trouble. The problem report then lacks the log of the start before, and kernel crashes no longer bring up the crash notice. The 960 KB stay set aside anyway: the device tree reserves them, they just go unused.</string>
+
+    <string name="kt_crash_split">Crash log split</string>
+    <string name="kt_crash_split_what">How the 960 KB kept across a restart are shared between the crash record, the kernel log and the Android log. Balanced: 192 KB, 512 KB and 256 KB. More kernel log: 320 KB, 512 KB and 128 KB. More Android log: 192 KB, 256 KB and 512 KB.</string>
+    <string name="kt_crash_split_why">Balanced suits most problems. More kernel log fits the whole kernel log into the crash record, for crashes with a long story before them. More Android log keeps twice as much of Android\'s log, for apps and games that close or freeze without a kernel crash. The logs from before the switch are lost at the restart that changes it.</string>
+    <string name="kt_crash_split_balanced">Balanced</string>
+    <string name="kt_crash_split_kernel">More kernel log</string>
+    <string name="kt_crash_split_android">More Android log</string>
 </resources>
