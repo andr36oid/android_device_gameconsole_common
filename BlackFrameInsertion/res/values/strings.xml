@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bfi_title">Black frame insertion (beta, may reduce performance)</string>
+    <string name="bfi_summary">A black frame between normal ones for sharper motion</string>
+    <string name="bfi_switch">Black frame insertion</string>
+    <string name="bfi_switch_on">On. The screen is darker and may flicker.</string>
+    <string name="bfi_switch_off">Off</string>
+    <string name="bfi_about">Shows a black frame between normal frames, like an old CRT screen. Moving pictures look sharper, but the screen gets darker and can flicker. Needs a refresh rate of 100 Hz or more. Turns off when the rate goes below that, and on restart. While the screen is off it pauses.</string>
+    <string name="bfi_normal_frames">Normal frames in a row</string>
+    <string name="bfi_black_frames">Black frames in a row</string>
+    <string name="bfi_pattern_hint">1 normal, 1 black is the one that has been tried. More black frames make it darker and flicker more.</string>
+    <string name="bfi_warning_title">Flashing images</string>
+    <string name="bfi_warning">Black frame insertion flashes the whole screen many times a second. Don\'t use it if flashing lights can give you seizures or headaches. Stop at once if you feel unwell.\n\nIt also makes the screen darker, and on some panels it flickers or leaves an image behind. It may make games run slower.</string>
+    <string name="bfi_warning_ok">Turn it on</string>
+    <string name="bfi_low_rate">Needs 100 Hz or more. Set Display > Peak refresh rate higher first.</string>
+    <string name="bfi_stopped_rate">Black frame insertion turned off: the screen is below 100 Hz now.</string>
+    <string name="bfi_credit">Based on BFI by PakoVM (github.com/pakovm-git/BFI), MIT License</string>
+    <string name="bfi_channel">Black frame insertion</string>
+    <string name="bfi_notification">Black frame insertion is on</string>
+    <string name="bfi_stop">Turn off</string>
+</resources>

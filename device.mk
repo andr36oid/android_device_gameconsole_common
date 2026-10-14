@@ -565,6 +565,10 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
 	StatusLight
 
+# Black frame insertion (Settings > Display, only at 100 Hz or more): after PakoVM's BFI
+PRODUCT_PACKAGES += \
+	BlackFrameInsertion
+
 # USB mode: switches the OTG port between host and device (adb, MTP)
 # (Settings > USB mode, Quick Settings tile once used)
 PRODUCT_PACKAGES += \

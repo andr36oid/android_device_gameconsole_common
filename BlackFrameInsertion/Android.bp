@@ -1,0 +1,14 @@
+// Settings > Display > Black frame insertion: a black frame shown between normal ones on
+// screens running at 100 Hz or more, after PakoVM's BFI app (MIT, see NOTICE). The entry
+// only shows while Peak refresh rate is 100 Hz or more; Settings and the boot receiver
+// switch it on and off. System user, so it may draw over other apps.
+android_app {
+    name: "BlackFrameInsertion",
+    srcs: ["src/**/*.java"],
+    resource_dirs: ["res"],
+    certificate: "platform",
+    platform_apis: true,
+    optimize: {
+        enabled: false,
+    },
+}
