@@ -459,7 +459,7 @@ devices.txt   USB devices, input devices (buttons, sticks) and their events,
               network addresses, dumpsys input/usb/ethernet/audio/display,
               storage volumes
 apps.txt      installed apps and versions, open screens, memory use, Magisk
-              modules, system settings (global, system)
+              modules, system settings (global, system), the first start's setup log
 roms.txt      how many files are in each ROM folder on EASYROMS
 start-log-*   the logs of a start that didn't finish, if one was saved
               while BOOT couldn't be written
@@ -929,6 +929,10 @@ run apps.txt 20 pm list packages -f --show-versioncode
 run apps.txt 20 dumpsys activity activities
 run apps.txt 30 dumpsys meminfo
 run apps.txt 10 ls -la /data/adb/modules /data/misc/gameconsole
+# the first start's setup (gameconsole-emu.sh) and the second card held back until it's done
+run apps.txt 5 getprop persist.andr36oid.setup_done
+run apps.txt 5 getprop sys.andr36oid.cards_free
+run apps.txt 10 tail -n 300 /data/misc/gameconsole/gameconsole-emu.log
 run apps.txt 10 settings list global
 run apps.txt 10 settings list system
 rom_counts >"$WORK/roms.txt"
