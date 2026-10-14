@@ -117,10 +117,11 @@ else
     # partitions inside the table's area. Alignment 1: exactly these sectors.
     # sgdisk warns that the kernel keeps the old table; andr36oid-addpart is for that.
     # Android's sgdisk only knows the long options, and ignores what it doesn't know.
+    # Bit 63 on userdata: Windows gives it no drive letter, so no "format disk?" popup.
     out=$(sgdisk --move-second-header "$DEV/$disk" 2>&1) ||
         { log "sgdisk --move-second-header failed: $out"; boot_umount; exit 1; }
     set -- --set-alignment=1 --new="6:$USERDATA_START:$USERDATA_END" \
-        --change-name=6:userdata --typecode=6:8300
+        --change-name=6:userdata --typecode=6:8300 --attributes=6:set:63
     [ "$NOROMS" = 1 ] || set -- "$@" --new="7:$((USERDATA_END + 1)):$LAST" \
         --change-name=7:EASYROMS --typecode=7:0700
     out=$(sgdisk "$@" "$DEV/$disk" 2>&1) || { log "sgdisk failed: $out"; boot_umount; exit 1; }
