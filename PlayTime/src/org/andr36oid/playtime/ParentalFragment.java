@@ -3,7 +3,18 @@ package org.andr36oid.playtime;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.app.AlertDialog;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.preference.ListPreference;
+import android.preference.MultiSelectListPreference;
+import android.widget.NumberPicker;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeMap;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
@@ -14,11 +25,15 @@ public class ParentalFragment extends PreferenceFragment {
 
     private static final int REQUEST_NEW_PIN = 1;
     private static final int REQUEST_CHANGE_PIN = 2;
+    /** the "Custom" entry of the rest hours */
+    private static final int CUSTOM = -1;
 
     private SwitchPreference mOn;
     private ListPreference mLimit;
     private ListPreference mRefill;
     private ListPreference mShutdown;
+    private MultiSelectListPreference mAllowed;
+    private MultiSelectListPreference mBlocked;
     private Preference mLeft;
     private Preference mPin;
 
@@ -75,21 +90,14 @@ public class ParentalFragment extends PreferenceFragment {
         mRefill.setPersistent(false);
         mRefill.setTitle(R.string.parental_refill);
         mRefill.setDialogTitle(R.string.parental_refill);
-        final int[] hours = Parental.REFILL_HOURS;
-        final CharSequence[] refillNames = new CharSequence[hours.length];
-        final CharSequence[] refillValues = new CharSequence[hours.length];
-        for (int i = 0; i < hours.length; i++) {
-            refillNames[i] = hours[i] > 0
-                    ? getResources().getQuantityString(R.plurals.parental_refill_hours,
-                            hours[i], hours[i])
-                    : getString(R.string.parental_refill_pin);
-            refillValues[i] = String.valueOf(hours[i]);
-        }
-        mRefill.setEntries(refillNames);
-        mRefill.setEntryValues(refillValues);
         mRefill.setOnPreferenceChangeListener((p, v) -> {
-            Parental.setRefillHours(c, Integer.parseInt((String) v));
-            refresh();
+            final int hours = Integer.parseInt((String) v);
+            if (hours == CUSTOM) {
+                pickHours(c);
+            } else {
+                Parental.setRefillHours(c, hours);
+                refresh();
+            }
             return false;
         });
         screen.addPreference(mRefill);
@@ -116,6 +124,11 @@ public class ParentalFragment extends PreferenceFragment {
             return false;
         });
         screen.addPreference(mShutdown);
+
+        mAllowed = apps(c, true);
+        screen.addPreference(mAllowed);
+        mBlocked = apps(c, false);
+        screen.addPreference(mBlocked);
 
         mLeft = new Preference(c);
         mLeft.setTitle(R.string.parental_left_title);
@@ -154,6 +167,105 @@ public class ParentalFragment extends PreferenceFragment {
         refresh();
     }
 
+    private CharSequence hoursName(int hours) {
+        return hours > 0
+                ? getResources().getQuantityString(R.plurals.parental_refill_hours, hours, hours)
+                : getString(R.string.parental_refill_pin);
+    }
+
+    /** The usual rest times, a custom one if that is set, and Custom to set one. */
+    private void refillEntries(Context c) {
+        final List<CharSequence> names = new ArrayList<>();
+        final List<CharSequence> values = new ArrayList<>();
+        final int current = Parental.refillHours(c);
+        boolean listed = false;
+        for (int h : Parental.REFILL_HOURS) {
+            listed |= h == current;
+        }
+        for (int h : Parental.REFILL_HOURS) {
+            if (!listed && (h == 0 || h > current)) {
+                names.add(hoursName(current));
+                values.add(String.valueOf(current));
+                listed = true;
+            }
+            names.add(hoursName(h));
+            values.add(String.valueOf(h));
+        }
+        names.add(getString(R.string.parental_refill_custom));
+        values.add(String.valueOf(CUSTOM));
+        mRefill.setEntries(names.toArray(new CharSequence[0]));
+        mRefill.setEntryValues(values.toArray(new CharSequence[0]));
+    }
+
+    /** Any number of hours, picked with up and down on the D-pad. */
+    private void pickHours(Context c) {
+        final NumberPicker picker = new NumberPicker(c);
+        picker.setMinValue(1);
+        picker.setMaxValue(Parental.CUSTOM_HOURS_MAX);
+        picker.setValue(Math.max(1, Parental.refillHours(c)));
+        picker.setWrapSelectorWheel(false);
+        picker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+        new AlertDialog.Builder(c)
+                .setTitle(R.string.parental_refill_custom_title)
+                .setView(picker)
+                .setPositiveButton(android.R.string.ok, (d, w) -> {
+                    Parental.setRefillHours(c, picker.getValue());
+                    refresh();
+                })
+                .setNegativeButton(android.R.string.cancel, null)
+                .show();
+        picker.requestFocus();
+    }
+
+    /** The apps on the home screen to pick from, by name; not Settings or home screens. */
+    private MultiSelectListPreference apps(Context c, boolean allowed) {
+        final PackageManager pm = c.getPackageManager();
+        final Set<String> skip = new HashSet<>();
+        skip.add(c.getPackageName());
+        skip.add("com.android.settings");
+        for (ResolveInfo r : pm.queryIntentActivities(new Intent(Intent.ACTION_MAIN)
+                .addCategory(Intent.CATEGORY_HOME), 0)) {
+            skip.add(r.activityInfo.packageName);
+        }
+        final TreeMap<String, String> byName = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+        for (String category : new String[] {Intent.CATEGORY_LAUNCHER,
+                Intent.CATEGORY_LEANBACK_LAUNCHER}) {
+            for (ResolveInfo r : pm.queryIntentActivities(new Intent(Intent.ACTION_MAIN)
+                    .addCategory(category), 0)) {
+                final String pkg = r.activityInfo.packageName;
+                if (!skip.contains(pkg) && !byName.containsValue(pkg)) {
+                    byName.put(r.activityInfo.applicationInfo.loadLabel(pm).toString(), pkg);
+                }
+            }
+        }
+        final MultiSelectListPreference p = new MultiSelectListPreference(c);
+        p.setPersistent(false);
+        p.setTitle(allowed ? R.string.parental_allowed : R.string.parental_blocked_apps);
+        p.setDialogTitle(allowed ? R.string.parental_allowed : R.string.parental_blocked_apps);
+        p.setEntries(byName.keySet().toArray(new CharSequence[0]));
+        p.setEntryValues(byName.values().toArray(new CharSequence[0]));
+        p.setOnPreferenceChangeListener((pref, v) -> {
+            @SuppressWarnings("unchecked")
+            final Set<String> apps = (Set<String>) v;
+            Parental.setApps(c, allowed, apps);
+            refresh();
+            return false;
+        });
+        return p;
+    }
+
+    private void appsSummary(Context c, MultiSelectListPreference p, Set<String> apps,
+            int none) {
+        p.setValues(apps);
+        final List<String> names = new ArrayList<>();
+        final CharSequence[] entries = p.getEntries();
+        final CharSequence[] values = p.getEntryValues();
+        for (int i = 0; i < values.length; i++) {
+            if (apps.contains(values[i].toString())) names.add(entries[i].toString());
+        }
+        p.setSummary(names.isEmpty() ? getString(none) : String.join(", ", names));
+    }
+
     private void refresh() {
         final Context c = getContext();
         if (c == null) return;
@@ -161,8 +273,11 @@ public class ParentalFragment extends PreferenceFragment {
         mOn.setChecked(on);
         mLimit.setValue(String.valueOf(Parental.limitMinutes(c)));
         mLimit.setSummary(mLimit.getEntry());
+        refillEntries(c);
         mRefill.setValue(String.valueOf(Parental.refillHours(c)));
         mRefill.setSummary(mRefill.getEntry());
+        appsSummary(c, mAllowed, Parental.allowedApps(c), R.string.parental_allowed_none);
+        appsSummary(c, mBlocked, Parental.blockedApps(c), R.string.parental_blocked_none);
         mShutdown.setValue(String.valueOf(Parental.shutdownMinutes(c)));
         mShutdown.setSummary(mShutdown.getEntry());
         mLeft.setEnabled(on);

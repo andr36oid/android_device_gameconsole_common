@@ -10,6 +10,9 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Parental controls: a daily play time allowance behind a PIN. The console has no clock
@@ -26,8 +29,10 @@ final class Parental {
 
     static final int PIN_LENGTH = 4;
     static final int[] LIMIT_MINUTES = {15, 30, 45, 60, 90, 120, 180, 240};
-    /** hours of rest before the time comes back; 0: only with the PIN */
+    /** hours of rest before the time comes back; 0: only with the PIN. Any other number of
+     *  hours can be set too (Custom) */
     static final int[] REFILL_HOURS = {6, 8, 10, 12, 16, 0};
+    static final int CUSTOM_HOURS_MAX = 168;
     /** minutes the time up page waits for the PIN before the console shuts down; 0: never */
     static final int[] SHUTDOWN_MINUTES = {1, 2, 5, 0};
     /** what the PIN can add on the time is up page and the settings page, in minutes */
@@ -43,6 +48,8 @@ final class Parental {
     private static final String KEY_WARNED = "warned";
     private static final String KEY_SHUTDOWN = "shutdown_minutes";
     private static final String KEY_FAILS = "fails";
+    private static final String KEY_ALLOWED = "allowed_apps";
+    private static final String KEY_BLOCKED = "blocked_apps";
 
     private static final int MAX_FAILS = 5;
     private static final long FAIL_WAIT_MS = 60 * 1000L;
@@ -158,6 +165,32 @@ final class Parental {
 
     static void setShutdownMinutes(Context context, int minutes) {
         prefs(context).edit().putInt(KEY_SHUTDOWN, minutes).commit();
+    }
+
+    // ---- apps
+
+    /** Apps that don't count and still open when the time is up, e.g. learning apps. */
+    static Set<String> allowedApps(Context context) {
+        return Collections.unmodifiableSet(
+                prefs(context).getStringSet(KEY_ALLOWED, Collections.emptySet()));
+    }
+
+    /** Apps that don't open at all while parental controls are on. */
+    static Set<String> blockedApps(Context context) {
+        return Collections.unmodifiableSet(
+                prefs(context).getStringSet(KEY_BLOCKED, Collections.emptySet()));
+    }
+
+    /** An app is either allowed or blocked: setting one list takes its apps off the other. */
+    static void setApps(Context context, boolean allowed, Set<String> apps) {
+        final Set<String> other = new HashSet<>(allowed ? blockedApps(context)
+                : allowedApps(context));
+        other.removeAll(apps);
+        prefs(context).edit()
+                .putStringSet(allowed ? KEY_ALLOWED : KEY_BLOCKED, new HashSet<>(apps))
+                .putStringSet(allowed ? KEY_BLOCKED : KEY_ALLOWED, other)
+                .commit();
+        refresh(context);
     }
 
     // ---- the allowance

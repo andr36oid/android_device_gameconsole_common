@@ -5,6 +5,7 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 /**
@@ -15,6 +16,8 @@ final class PinScreen {
 
     final TextView title;
     final TextView text;
+    /** the column with the title and text, for more on the page */
+    final LinearLayout left;
 
     PinScreen(Activity activity, PinPad pad) {
         final float density = activity.getResources().getDisplayMetrics().density;
@@ -24,7 +27,7 @@ final class PinScreen {
         root.setGravity(Gravity.CENTER_VERTICAL);
         root.setPadding(pad16 * 2, pad16, pad16 * 2, pad16);
 
-        final LinearLayout left = new LinearLayout(activity);
+        left = new LinearLayout(activity);
         left.setOrientation(LinearLayout.VERTICAL);
         title = new TextView(activity);
         title.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24);
@@ -33,7 +36,10 @@ final class PinScreen {
         text.setPadding(0, pad16, 0, 0);
         left.addView(title);
         left.addView(text);
-        root.addView(left, new LinearLayout.LayoutParams(0,
+        // scrolls when there are many allowed apps under the text
+        final ScrollView scroll = new ScrollView(activity);
+        scroll.addView(left);
+        root.addView(scroll, new LinearLayout.LayoutParams(0,
                 ViewGroup.LayoutParams.WRAP_CONTENT, 1));
         root.addView(pad, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT));

@@ -3,17 +3,20 @@ package org.andr36oid.playtime;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.SystemClock;
+import android.widget.Button;
 import android.widget.TextView;
 import android.view.KeyEvent;
 import android.view.WindowManager;
 
 /**
  * Covers the screen when the play time is up. Only the PIN gets past it: then a parent
- * picks more time or a fresh allowance. ParentalService brings it back whenever something
+ * picks more time or a fresh allowance. The allowed apps can still be opened from it. ParentalService brings it back whenever something
  * else comes in front of it; the power button still puts the console to sleep.
  */
 public class TimeUpActivity extends Activity implements PinPad.Listener {
@@ -53,7 +56,37 @@ public class TimeUpActivity extends Activity implements PinPad.Listener {
                 ? getResources().getQuantityString(R.plurals.parental_up_text_rest, hours, hours)
                 : getString(R.string.parental_up_text_pin);
         mText.setText(mBaseText);
+        addAllowedApps(screen);
         mPad.focus();
+    }
+
+    /** A button for each allowed app, e.g. learning apps, which still open. */
+    private void addAllowedApps(PinScreen screen) {
+        final PackageManager pm = getPackageManager();
+        boolean first = true;
+        for (String pkg : Parental.allowedApps(this)) {
+            Intent launch = pm.getLaunchIntentForPackage(pkg);
+            if (launch == null) launch = pm.getLeanbackLaunchIntentForPackage(pkg);
+            if (launch == null) continue;
+            final Intent open = launch;
+            if (first) {
+                final TextView still = new TextView(this);
+                still.setText(R.string.parental_still_open);
+                still.setPadding(0, Math.round(16 * getResources().getDisplayMetrics().density),
+                        0, 0);
+                screen.left.addView(still);
+                first = false;
+            }
+            final Button b = new Button(this);
+            try {
+                b.setText(pm.getApplicationLabel(pm.getApplicationInfo(pkg, 0)));
+            } catch (PackageManager.NameNotFoundException e) {
+                continue;
+            }
+            b.setAllCaps(false);
+            b.setOnClickListener(v -> startActivity(open.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)));
+            screen.left.addView(b);
+        }
     }
 
     @Override

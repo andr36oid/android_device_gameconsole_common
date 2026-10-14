@@ -61,11 +61,21 @@
     <!-- %1$s: e.g. "2 min" -->
     <string name="parental_shutdown_after">Turn the console off after <xliff:g id="time">%1$s</xliff:g> without the PIN</string>
     <string name="parental_shutdown_never">Keep the time up page on</string>
+    <string name="parental_refill_custom">Custom…</string>
+    <string name="parental_refill_custom_title">Hours of rest</string>
+    <string name="parental_allowed">Allowed apps</string>
+    <string name="parental_allowed_none">None. Apps picked here don\'t use up play time and still open when it\'s up, like learning apps.</string>
+    <string name="parental_blocked_apps">Blocked apps</string>
+    <string name="parental_blocked_none">None. Apps picked here can\'t be opened while parental controls are on.</string>
+    <!-- toast when a blocked app is opened; %1$s: the app's name -->
+    <string name="parental_blocked"><xliff:g id="app">%1$s</xliff:g> is blocked by parental controls</string>
+    <!-- time up page, above the buttons of the allowed apps -->
+    <string name="parental_still_open">These can still be used:</string>
     <string name="parental_left_title">Time left</string>
     <!-- %1$s left of %2$s, e.g. "42 min of 1 h" -->
     <string name="parental_left_summary"><xliff:g id="left">%1$s</xliff:g> of <xliff:g id="allowed">%2$s</xliff:g> left. Select to add time.</string>
     <string name="parental_change_pin">Change PIN</string>
-    <string name="parental_about">Counts how long the screen is on, with any app. The console has no clock battery, so this doesn\'t go by the time of day: the time comes back after a long enough rest, with the screen off or the console asleep. Turning the console off doesn\'t count as rest, it can\'t tell how long it was off. Use the power button to let it sleep overnight.\n\nWarnings come 10 and 2 minutes before the time is up. Then a page covers the screen until the PIN is entered, and the console turns off if it isn\'t, as set above. After a restart the time is still up.\n\nForgot the PIN? Only setting up the card again removes it.</string>
+    <string name="parental_about">Counts how long the screen is on, with any app except the allowed ones. The console has no clock battery, so this doesn\'t go by the time of day: the time comes back after a long enough rest, with the screen off or the console asleep. Turning the console off doesn\'t count as rest, it can\'t tell how long it was off. Use the power button to let it sleep overnight.\n\nWarnings come 10 and 2 minutes before the time is up. Then a page covers the screen until the PIN is entered, and the console turns off if it isn\'t, as set above. After a restart the time is still up.\n\nForgot the PIN? Only setting up the card again removes it.</string>
     <string name="parental_left">Play time left: <xliff:g id="time">%1$s</xliff:g></string>
     <string name="parental_warning_channel">Play time warnings</string>
     <string name="parental_warning">Play time ends in <xliff:g id="time">%1$s</xliff:g>. Save your game!</string>

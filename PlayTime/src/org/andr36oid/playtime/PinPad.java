@@ -160,7 +160,8 @@ final class PinPad extends LinearLayout {
         }
         switch (code) {
             case KeyEvent.KEYCODE_BUTTON_A: {
-                final View focused = findFocus();
+                // the page may have more buttons next to the pad
+                final View focused = getRootView().findFocus();
                 if (down && event.getRepeatCount() == 0 && focused != null) {
                     focused.performClick();
                 }
