@@ -538,7 +538,8 @@ PRODUCT_PACKAGES += \
 # Controllers: connected pads with battery and RetroArch player, who is player 1 in
 # RetroArch, Bluetooth pairing with the buttons only (Settings > Controllers)
 PRODUCT_PACKAGES += \
-	Andr36oidControllers
+	Andr36oidControllers \
+	andr36oid-gpio-scan
 
 # CPU overclock (Settings > CPU overclock, Quick Settings tile once used)
 PRODUCT_PACKAGES += \

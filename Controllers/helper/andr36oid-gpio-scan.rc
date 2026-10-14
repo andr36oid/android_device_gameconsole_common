@@ -1,0 +1,9 @@
+# Settings > Controls > Buttons on this console > Find an unknown button, see
+# andr36oid-gpio-scan.sh
+
+# started by the Controllers app with ctl.start
+service andr36oid-gpio-scan /system/bin/sh /system/etc/andr36oid-gpio-scan.sh
+    user root
+    group root system
+    disabled
+    oneshot
