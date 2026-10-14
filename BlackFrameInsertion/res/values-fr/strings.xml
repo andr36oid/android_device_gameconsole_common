@@ -9,13 +9,10 @@
     <string name="bfi_normal_frames">Images normales d\'affilée</string>
     <string name="bfi_black_frames">Images noires d\'affilée</string>
     <string name="bfi_pattern_hint">1 normale, 1 noire, c\'est la combinaison qui a été testée. Plus d\'images noires rendent l\'écran plus sombre et plus scintillant.</string>
+    <string name="bfi_fps_hint">Astuce : les jeux à 60 fps s\'accordent le mieux à 120 Hz avec 1 normale, 1 noire. Chaque image du jeu a alors exactement une image normale.</string>
     <string name="bfi_warning_title">Images clignotantes</string>
     <string name="bfi_warning">L\'insertion d\'image noire fait clignoter tout l\'écran plusieurs fois par seconde. Ne l\'utilise pas si les lumières clignotantes peuvent te donner des crises ou des maux de tête. Arrête tout de suite si tu te sens mal.\n\nElle assombrit aussi l\'écran, et sur certaines dalles il scintille ou laisse une image rémanente. Elle peut ralentir les jeux.</string>
     <string name="bfi_warning_ok">Activer</string>
     <string name="bfi_low_rate">Il faut 100 Hz ou plus. Règle d\'abord Affichage > Taux de rafraîchissement maximal plus haut.</string>
-    <string name="bfi_stopped_rate">Insertion d\'image noire désactivée : l\'écran est passé sous 100 Hz.</string>
     <string name="bfi_credit">Basé sur BFI de PakoVM (github.com/pakovm-git/BFI), MIT License</string>
-    <string name="bfi_channel">Insertion d\'image noire</string>
-    <string name="bfi_notification">L\'insertion d\'image noire est activée</string>
-    <string name="bfi_stop">Désactiver</string>
 </resources>

@@ -3,8 +3,6 @@
     package="org.andr36oid.bfi"
     android:sharedUserId="android.uid.system">
 
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
@@ -34,10 +32,6 @@
                 android:name="com.android.settings.icon"
                 android:resource="@drawable/ic_bfi" />
         </activity>
-
-        <service
-            android:name=".BfiService"
-            android:exported="false" />
 
         <receiver
             android:name=".BootReceiver"

@@ -1,5 +1,6 @@
-The black frame insertion here is a Java port of the overlay and frame pattern of
-BFI by PakoVM, https://github.com/pakovm-git/BFI, under the MIT License:
+The black frame insertion here and its frame patterns are based on BFI by PakoVM,
+https://github.com/pakovm-git/BFI, under the MIT License. The black frames now come from
+the display controller instead of an overlay.
 
 MIT License
 

@@ -171,6 +171,9 @@ on boot
     # Settings > Performance > CPU undervolt, the kernel resets it on every boot
     chown root system /sys/module/rockchip_cpufreq/parameters/undervolt_uv
     chmod 0664 /sys/module/rockchip_cpufreq/parameters/undervolt_uv
+    # Settings > Display > Black frame insertion (BlackFrameInsertion app), off on every boot
+    chown root system /sys/module/rockchipdrm/parameters/bfi
+    chmod 0664 /sys/module/rockchipdrm/parameters/bfi
 
     chown system system /sys/class/thermal/thermal_zone0/policy
     chown system system /sys/class/thermal/thermal_zone1/policy

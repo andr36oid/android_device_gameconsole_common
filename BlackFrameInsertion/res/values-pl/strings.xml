@@ -9,13 +9,10 @@
     <string name="bfi_normal_frames">Zwykłe klatki pod rząd</string>
     <string name="bfi_black_frames">Czarne klatki pod rząd</string>
     <string name="bfi_pattern_hint">1 zwykła, 1 czarna to ustawienie, które wypróbowano. Więcej czarnych klatek sprawia, że ekran jest ciemniejszy i bardziej migocze.</string>
+    <string name="bfi_fps_hint">Wskazówka: gry 60 fps najlepiej pasują do 120 Hz z 1 zwykłą, 1 czarną. Każda klatka gry dostaje wtedy dokładnie jedną zwykłą klatkę.</string>
     <string name="bfi_warning_title">Migające obrazy</string>
     <string name="bfi_warning">Wstawianie czarnej klatki powoduje, że cały ekran miga wiele razy na sekundę. Nie używaj, jeśli migające światła mogą wywołać u Ciebie napady lub bóle głowy. Jeśli źle się czujesz, od razu przestań.\n\nEkran też jest ciemniejszy, a na niektórych panelach migocze lub zostawia obraz widmowy. Gry mogą działać wolniej.</string>
     <string name="bfi_warning_ok">Włącz</string>
     <string name="bfi_low_rate">Wymaga 100 Hz lub więcej. Najpierw ustaw Wyświetlacz > Maksymalna częstotliwość odświeżania wyżej.</string>
-    <string name="bfi_stopped_rate">Wstawianie czarnej klatki wyłączone: ekran działa teraz poniżej 100 Hz.</string>
     <string name="bfi_credit">Oparte na BFI autorstwa PakoVM (github.com/pakovm-git/BFI), MIT License</string>
-    <string name="bfi_channel">Wstawianie czarnej klatki</string>
-    <string name="bfi_notification">Wstawianie czarnej klatki jest włączone</string>
-    <string name="bfi_stop">Wyłącz</string>
 </resources>

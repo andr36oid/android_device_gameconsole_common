@@ -9,13 +9,10 @@
     <string name="bfi_normal_frames">Fotogramas normales seguidos</string>
     <string name="bfi_black_frames">Fotogramas negros seguidos</string>
     <string name="bfi_pattern_hint">1 normal, 1 negro es la combinación que se ha probado. Más fotogramas negros la oscurecen y hacen que parpadee más.</string>
+    <string name="bfi_fps_hint">Consejo: los juegos a 60 fps encajan mejor a 120 Hz con 1 normal, 1 negro. Así cada fotograma del juego recibe exactamente un fotograma normal.</string>
     <string name="bfi_warning_title">Imágenes parpadeantes</string>
     <string name="bfi_warning">La inserción de fotograma negro hace parpadear toda la pantalla muchas veces por segundo. No la uses si las luces intermitentes pueden provocarte convulsiones o dolor de cabeza. Para de inmediato si te sientes mal.\n\nAdemás, oscurece la pantalla, y en algunos paneles parpadea o deja una imagen residual. Puede hacer que los juegos vayan más lentos.</string>
     <string name="bfi_warning_ok">Activar</string>
     <string name="bfi_low_rate">Necesita 100 Hz o más. Antes sube Pantalla > Frecuencia de actualización máxima.</string>
-    <string name="bfi_stopped_rate">Inserción de fotograma negro desactivada: la pantalla está por debajo de 100 Hz ahora.</string>
     <string name="bfi_credit">Basado en BFI de PakoVM (github.com/pakovm-git/BFI), MIT License</string>
-    <string name="bfi_channel">Inserción de fotograma negro</string>
-    <string name="bfi_notification">La inserción de fotograma negro está activada</string>
-    <string name="bfi_stop">Desactivar</string>
 </resources>

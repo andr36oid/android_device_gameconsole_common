@@ -9,13 +9,10 @@
     <string name="bfi_normal_frames">Quadros normais seguidos</string>
     <string name="bfi_black_frames">Quadros pretos seguidos</string>
     <string name="bfi_pattern_hint">1 normal, 1 preto é o que foi testado. Mais quadros pretos deixam a tela mais escura e piscando mais.</string>
+    <string name="bfi_fps_hint">Dica: jogos a 60 fps se encaixam melhor em 120 Hz com 1 normal, 1 preto. Cada quadro do jogo fica então com exatamente um quadro normal.</string>
     <string name="bfi_warning_title">Imagens piscando</string>
     <string name="bfi_warning">A inserção de quadro preto faz a tela inteira piscar muitas vezes por segundo. Não use se luzes piscando podem causar convulsões ou dor de cabeça. Pare na hora se você se sentir mal.\n\nAlém disso, ela escurece a tela, e em alguns painéis pode piscar ou deixar imagem residual. Pode deixar os jogos mais lentos.</string>
     <string name="bfi_warning_ok">Ativar</string>
     <string name="bfi_low_rate">Precisa de 100 Hz ou mais. Primeiro coloque Tela > Taxa de atualização máxima mais alta.</string>
-    <string name="bfi_stopped_rate">Inserção de quadro preto desligada: a tela está abaixo de 100 Hz agora.</string>
     <string name="bfi_credit">Baseado no BFI de PakoVM (github.com/pakovm-git/BFI), MIT License</string>
-    <string name="bfi_channel">Inserção de quadro preto</string>
-    <string name="bfi_notification">A inserção de quadro preto está ligada</string>
-    <string name="bfi_stop">Desligar</string>
 </resources>

@@ -9,13 +9,10 @@
     <string name="bfi_normal_frames">Normale Bilder hintereinander</string>
     <string name="bfi_black_frames">Schwarze Bilder hintereinander</string>
     <string name="bfi_pattern_hint">1 normal, 1 schwarz ist die Einstellung, die getestet wurde. Mehr schwarze Bilder machen es dunkler und flackernder.</string>
+    <string name="bfi_fps_hint">Tipp: 60-fps-Spiele passen am besten zu 120 Hz mit 1 normal, 1 schwarz. Jedes Spielbild bekommt dann genau ein normales Bild.</string>
     <string name="bfi_warning_title">Blinkende Bilder</string>
     <string name="bfi_warning">Schwarzbild einfügen lässt den ganzen Bildschirm viele Male pro Sekunde blinken. Nicht benutzen, wenn Blinklichter bei dir Anfälle oder Kopfschmerzen auslösen können. Bei Unwohlsein sofort aufhören.\n\nAußerdem wird der Bildschirm dunkler, und auf manchen Panels flackert er oder hinterlässt ein Nachbild. Spiele laufen eventuell langsamer.</string>
     <string name="bfi_warning_ok">Einschalten</string>
     <string name="bfi_low_rate">Braucht 100 Hz oder mehr. Stell zuerst Display > Maximale Bildwiederholrate höher ein.</string>
-    <string name="bfi_stopped_rate">Schwarzbild einfügen ist aus: Der Bildschirm ist jetzt unter 100 Hz.</string>
     <string name="bfi_credit">Basiert auf BFI von PakoVM (github.com/pakovm-git/BFI), MIT License</string>
-    <string name="bfi_channel">Schwarzbild einfügen</string>
-    <string name="bfi_notification">Schwarzbild einfügen ist an</string>
-    <string name="bfi_stop">Ausschalten</string>
 </resources>
