@@ -13,6 +13,11 @@
     <string name="details_card">%1$s %2$s, produkcja %3$s</string>
     <string name="details_free">Wolne: %1$s</string>
     <string name="maker_unknown">Nieznany producent (ID %1$s)</string>
+    <!-- %1$s the maker and model the card reports, e.g. "SanDisk SR256, made 2025-03" -->
+    <string name="details_model">Model: %1$s</string>
+    <!-- when the card reports no model name -->
+    <string name="details_no_name">(brak nazwy modelu)</string>
+    <string name="details_compare">Porównaj to z napisem na karcie. Jeśli marki nadrukowanej na karcie nie ma tutaj, karta jest prawdopodobnie podrobiona.</string>
 
     <string name="speed_category">Szybkość</string>
     <string name="speed_title">Sprawdź szybkość</string>

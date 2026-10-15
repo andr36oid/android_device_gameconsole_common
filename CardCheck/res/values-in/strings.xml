@@ -13,6 +13,11 @@
     <string name="details_card">%1$s %2$s, dibuat %3$s</string>
     <string name="details_free">%1$s kosong</string>
     <string name="maker_unknown">Pembuat tidak dikenal (ID %1$s)</string>
+    <!-- %1$s the maker and model the card reports, e.g. "SanDisk SR256, made 2025-03" -->
+    <string name="details_model">Model: %1$s</string>
+    <!-- when the card reports no model name -->
+    <string name="details_no_name">(tidak ada nama model)</string>
+    <string name="details_compare">Bandingkan dengan label di kartu. Jika merek yang tercetak di situ tidak ada di sini, kartu tersebut kemungkinan palsu.</string>
 
     <string name="speed_category">Kecepatan</string>
     <string name="speed_title">Uji kecepatan</string>

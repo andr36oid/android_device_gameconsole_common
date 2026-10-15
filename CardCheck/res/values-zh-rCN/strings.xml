@@ -13,6 +13,11 @@
     <string name="details_card">%1$s %2$s，生产于 %3$s</string>
     <string name="details_free">可用空间 %1$s</string>
     <string name="maker_unknown">未知厂商（ID %1$s）</string>
+    <!-- %1$s the maker and model the card reports, e.g. "SanDisk SR256, made 2025-03" -->
+    <string name="details_model">型号：%1$s</string>
+    <!-- when the card reports no model name -->
+    <string name="details_no_name">（无型号名称）</string>
+    <string name="details_compare">请与卡上的标签对比。如果卡上印的品牌没有出现在这里，这张卡很可能是假的。</string>
 
     <string name="speed_category">速度</string>
     <string name="speed_title">测试速度</string>

@@ -272,11 +272,16 @@ public class CardFragment extends PreferenceFragment {
             final String mid = snap.manfid;
             String maker = Card.maker(mid);
             if (maker == null && mid != null) maker = c.getString(R.string.maker_unknown, mid);
-            final String product = snap.product;
+            String product = snap.product != null ? snap.product.trim() : "";
+            if (product.isEmpty()) product = c.getString(R.string.details_no_name);
+            if (maker == null) maker = c.getString(R.string.maker_unknown, "?");
             final String date = snap.date;
-            if (maker != null && product != null && date != null) {
-                sb.append(c.getString(R.string.details_card, maker, product, date)).append('\n');
-            }
+            // Always shown, first: the model the card reports, to hold against its label
+            final String model = date != null
+                    ? c.getString(R.string.details_card, maker, product, date)
+                    : maker + " " + product;
+            sb.append(c.getString(R.string.details_model, model)).append('\n');
+            sb.append(c.getString(R.string.details_compare)).append('\n');
         }
         final String lines = Texts.cardLines(c, snap.id, speed);
         if (!lines.isEmpty()) sb.append(lines).append('\n');
