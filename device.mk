@@ -884,7 +884,9 @@ PRODUCT_SYSTEM_SERVER_COMPILER_FILTER := speed-profile
 # until the idle compile runs. +6.5 MB on /system. After updating Daijishou.apk,
 # refresh it with: unzip -p apps/Daijishou/Daijishou.apk assets/dexopt/baseline.prof
 # > dexpreopt-profiles/Daijishou.prof (an old one only prints "Profile out of date"
-# and the app is compiled as before).
+# and the app is compiled as before), then run apps/Daijishou/unbind-apps-hotkeys.py
+# dexpreopt-profiles/Daijishou.prof apps/Daijishou/Daijishou.apk (R2 and Y off on the
+# Apps page; it updates the profile to match).
 PRODUCT_DEX_PREOPT_PROFILE_DIR := device/gameconsole/common/dexpreopt-profiles
 
 # Always preopt extracted APKs to prevent extracting out of the APK for gms
