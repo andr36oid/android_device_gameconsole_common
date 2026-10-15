@@ -449,3 +449,9 @@ on property:persist.sys.rgb_lights=white
 # Screen density of the console's BOOT profile (e.g. R46H), the Android default otherwise
 on property:ro.boot.lcd_density=*
     setprop ro.sf.lcd_density ${ro.boot.lcd_density}
+
+# andr36oid: the sleep watchdog also watches the shutdown. One that hangs (black screen,
+# console still on) dumps the cores to the crash log and restarts instead of staying on
+# until the battery is flat. See andr36oid_sleep_wdt.c.
+on shutdown
+    write /sys/module/andr36oid_sleep_wdt/parameters/shutdown_watch 1
