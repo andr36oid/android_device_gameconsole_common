@@ -67,6 +67,7 @@
     <string name="kt_cat_memory">Mémoire</string>
     <string name="kt_cat_storage">Cartes SD</string>
     <string name="kt_cat_input">Commandes et son</string>
+    <string name="kt_cat_power">Batterie et charge</string>
     <string name="kt_cat_debug">Plantages et journaux</string>
     <string name="kt_cat_boot">Au démarrage (redémarrage nécessaire)</string>
 
@@ -93,6 +94,12 @@
     <string name="kt_sleep_test_what">Déroule les étapes de l\'endormissement, mais s\'arrête à l\'étape choisie, attend 5 secondes et se réveille. La console ne s\'endort jamais vraiment pendant que c\'est activé.</string>
     <string name="kt_sleep_test_why">Aide à trouver où la veille échoue. Si ça bloque sur « Arrêt après avoir éteint les cœurs », le problème est avant le micrologiciel. Si tout fonctionne jusqu\'à « Arrêt juste avant de dormir », c\'est le micrologiciel ou le matériel. Se réinitialise au redémarrage, donc impossible de rester bloqué avec ça.</string>
 
+    <string name="kt_dc_det">Détection du chargeur</string>
+    <string name="kt_dc_det_auto">Le réglage par défaut de cette console</string>
+    <string name="kt_dc_det_pin">Broche de charge seulement</string>
+    <string name="kt_dc_det_power">Broche et puce d\'alimentation</string>
+    <string name="kt_dc_det_what">Comment la console sait qu\'un chargeur est branché. La plupart des consoles ont une broche qui le signale. Sur certains clones, cette broche dit « branché » tout le temps, donc là, la puce d\'alimentation doit aussi voir le courant.</string>
+    <string name="kt_dc_det_why">Si la console ne remarque pas le chargeur, ou affiche « en charge » alors que rien n\'est branché, essaie l\'autre réglage. La valeur par défaut est choisie pour chaque console.</string>
     <string name="kt_sleep_console">Journal du noyau pendant la veille</string>
     <string name="kt_sleep_console_y">En pause pendant la veille</string>
     <string name="kt_sleep_console_n">Continue de tourner</string>

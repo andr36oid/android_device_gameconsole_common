@@ -67,6 +67,7 @@
     <string name="kt_cat_memory">Memoria</string>
     <string name="kt_cat_storage">Tarjetas SD</string>
     <string name="kt_cat_input">Controles y sonido</string>
+    <string name="kt_cat_power">Batería y carga</string>
     <string name="kt_cat_debug">Cuelgues y registros</string>
     <string name="kt_cat_boot">Al arrancar (necesita reiniciar)</string>
 
@@ -93,6 +94,12 @@
     <string name="kt_sleep_test_what">Recorre los pasos para dormirse, pero se detiene en el paso que elijas, espera 5 segundos y despierta de nuevo. La consola nunca llega a dormirse realmente mientras esto está activado.</string>
     <string name="kt_sleep_test_why">Ayuda a encontrar dónde falla el reposo. Si se cuelga en "Parar tras apagar los núcleos", el problema está antes del firmware. Si todo funciona hasta "Parar justo antes de dormir", es el firmware o el hardware. Se restablece al reiniciar la consola, así que no puedes quedarte atascado con esto.</string>
 
+    <string name="kt_dc_det">Detección del cargador</string>
+    <string name="kt_dc_det_auto">Lo predeterminado de esta consola</string>
+    <string name="kt_dc_det_pin">Solo el pin de carga</string>
+    <string name="kt_dc_det_power">Pin y chip de energía</string>
+    <string name="kt_dc_det_what">Cómo sabe la consola que hay un cargador conectado. La mayoría de consolas tiene un pin que lo indica. En algunos clones ese pin dice «conectado» todo el tiempo, así que ahí el chip de energía también tiene que ver la corriente.</string>
+    <string name="kt_dc_det_why">Si la consola no detecta el cargador, o muestra «cargando» sin nada conectado, prueba la otra opción. El predeterminado se elige para cada consola.</string>
     <string name="kt_sleep_console">Registro del kernel durante el reposo</string>
     <string name="kt_sleep_console_y">En pausa mientras duerme</string>
     <string name="kt_sleep_console_n">Sigue funcionando</string>

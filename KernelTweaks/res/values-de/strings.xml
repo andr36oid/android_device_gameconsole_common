@@ -67,6 +67,7 @@
     <string name="kt_cat_memory">Speicher</string>
     <string name="kt_cat_storage">SD-Karten</string>
     <string name="kt_cat_input">Steuerung und Ton</string>
+    <string name="kt_cat_power">Akku und Laden</string>
     <string name="kt_cat_debug">Abstürze und Logs</string>
     <string name="kt_cat_boot">Beim Start (braucht einen Neustart)</string>
 
@@ -93,6 +94,12 @@
     <string name="kt_sleep_test_what">Geht die Schritte des Einschlafens durch, hält aber beim gewählten Schritt an, wartet 5 Sekunden und wacht wieder auf. Die Konsole schläft dabei nie wirklich ein.</string>
     <string name="kt_sleep_test_why">Grenzt ein, wo der Schlaf schiefgeht. Hängt es bei „Stopp nach dem Abschalten der Kerne“, liegt das Problem vor der Firmware. Läuft alles bis „Stopp direkt vor dem Schlafen“, liegt es an der Firmware oder der Hardware. Setzt sich beim Neustart zurück, damit du dich damit nicht aussperrst.</string>
 
+    <string name="kt_dc_det">Ladegerät-Erkennung</string>
+    <string name="kt_dc_det_auto">Standard dieser Konsole</string>
+    <string name="kt_dc_det_pin">Nur der Ladepin</string>
+    <string name="kt_dc_det_power">Pin und Power-Chip</string>
+    <string name="kt_dc_det_what">Woran die Konsole erkennt, dass ein Ladegerät angeschlossen ist. Die meisten Konsolen haben dafür einen Pin. Bei manchen Klonen sagt dieser Pin aber immer \"angeschlossen\", dort muss der Power-Chip zusätzlich den Strom sehen.</string>
+    <string name="kt_dc_det_why">Wenn die Konsole das Ladegerät nicht bemerkt oder \"lädt\" anzeigt, obwohl nichts angeschlossen ist, probier die andere Einstellung. Der Standard wird für jede Konsole passend gewählt.</string>
     <string name="kt_sleep_console">Kernel-Log im Schlaf</string>
     <string name="kt_sleep_console_y">Pausiert im Schlaf</string>
     <string name="kt_sleep_console_n">Läuft weiter</string>

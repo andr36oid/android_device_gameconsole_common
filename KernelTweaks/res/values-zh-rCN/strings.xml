@@ -66,6 +66,7 @@
     <string name="kt_cat_memory">内存</string>
     <string name="kt_cat_storage">SD 卡</string>
     <string name="kt_cat_input">操控与声音</string>
+    <string name="kt_cat_power">电池与充电</string>
     <string name="kt_cat_debug">崩溃与日志</string>
     <string name="kt_cat_boot">启动时（需要重启）</string>
 
@@ -92,6 +93,12 @@
     <string name="kt_sleep_test_what">走完入睡的各个步骤，但会在你选定的那一步停下来，等待 5 秒后再唤醒。开启此项期间主机永远不会真正睡着。</string>
     <string name="kt_sleep_test_why">用来缩小睡眠出问题的范围。如果卡在“关闭核心后停止”，说明问题出在固件之前。如果一直正常到“睡眠前一刻停止”，那就是固件或硬件的问题。主机重启后会自动重置，所以不用担心被卡住。</string>
 
+    <string name="kt_dc_det">充电器检测</string>
+    <string name="kt_dc_det_auto">此主机的默认值</string>
+    <string name="kt_dc_det_pin">仅充电引脚</string>
+    <string name="kt_dc_det_power">引脚和电源芯片</string>
+    <string name="kt_dc_det_what">主机如何判断充电器已插上。大多数主机有一个引脚来指示这一点。在某些克隆机上，这个引脚一直显示\"已插入\"，所以这种情况下电源芯片也必须检测到供电。</string>
+    <string name="kt_dc_det_why">如果主机没有检测到充电器，或者没插电却显示\"正在充电\"，试试另一个设置。默认值是针对每台主机单独选定的。</string>
     <string name="kt_sleep_console">睡眠期间的内核日志</string>
     <string name="kt_sleep_console_y">睡眠时暂停</string>
     <string name="kt_sleep_console_n">继续运行</string>

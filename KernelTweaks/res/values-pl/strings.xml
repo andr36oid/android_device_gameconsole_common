@@ -69,6 +69,7 @@
     <string name="kt_cat_memory">Pamięć</string>
     <string name="kt_cat_storage">Karty SD</string>
     <string name="kt_cat_input">Sterowanie i dźwięk</string>
+    <string name="kt_cat_power">Bateria i ładowanie</string>
     <string name="kt_cat_debug">Awarie i logi</string>
     <string name="kt_cat_boot">Przy starcie (wymaga ponownego uruchomienia)</string>
 
@@ -95,6 +96,12 @@
     <string name="kt_sleep_test_what">Przechodzi przez kroki zasypiania, ale zatrzymuje się na wybranym kroku, czeka 5 sekund i budzi się ponownie. Konsola nigdy naprawdę nie zasypia, kiedy to jest włączone.</string>
     <string name="kt_sleep_test_why">Pomaga zawęzić, gdzie zawodzi sen. Jeśli zawiesza się na „Zatrzymaj po wyłączeniu rdzeni”, problem jest przed firmware\'em. Jeśli wszystko działa do „Zatrzymaj tuż przed zaśnięciem”, to firmware albo sprzęt. Resetuje się po ponownym uruchomieniu konsoli, więc nie można z tym się zablokować.</string>
 
+    <string name="kt_dc_det">Wykrywanie ładowarki</string>
+    <string name="kt_dc_det_auto">Domyślne dla tej konsoli</string>
+    <string name="kt_dc_det_pin">Tylko pin ładowania</string>
+    <string name="kt_dc_det_power">Pin i układ zasilania</string>
+    <string name="kt_dc_det_what">Jak konsola rozpoznaje, że podłączono ładowarkę. Większość konsol ma pin, który to sygnalizuje. W niektórych klonach ten pin cały czas pokazuje \"podłączone\", więc tam układ zasilania też musi widzieć prąd.</string>
+    <string name="kt_dc_det_why">Jeśli konsola nie wykrywa ładowarki albo pokazuje \"ładowanie\", mimo że nic nie jest podłączone, spróbuj drugiego ustawienia. Domyślne jest dobierane osobno dla każdej konsoli.</string>
     <string name="kt_sleep_console">Log jądra podczas snu</string>
     <string name="kt_sleep_console_y">Wstrzymany podczas snu</string>
     <string name="kt_sleep_console_n">Działa dalej</string>

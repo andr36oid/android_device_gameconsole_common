@@ -84,6 +84,14 @@ final class Tweaks {
                 .unit(R.string.kt_unit_c)
                 .scale(1000)));
 
+        list.add(new Category(R.string.kt_cat_power, null, null, 0, 0)
+            .add(Tweak.choice("dc_det", R.string.kt_dc_det,
+                    R.string.kt_dc_det_what, R.string.kt_dc_det_why,
+                    "/sys/module/rk817_charger/parameters/dc_det_mode")
+                .values("auto", "pin", "power")
+                .labels(R.string.kt_dc_det_auto, R.string.kt_dc_det_pin,
+                        R.string.kt_dc_det_power)));
+
         list.add(new Category(R.string.kt_cat_memory, null, null, 0, 0)
             .add(Tweak.choice("swappiness", R.string.kt_swappiness,
                     R.string.kt_swappiness_what, R.string.kt_swappiness_why,

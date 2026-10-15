@@ -67,6 +67,7 @@
     <string name="kt_cat_memory">Memória</string>
     <string name="kt_cat_storage">Cartões SD</string>
     <string name="kt_cat_input">Comandos e som</string>
+    <string name="kt_cat_power">Bateria e carregamento</string>
     <string name="kt_cat_debug">Bloqueios e registos</string>
     <string name="kt_cat_boot">No arranque (precisa de reiniciar)</string>
 
@@ -93,6 +94,12 @@
     <string name="kt_sleep_test_what">Percorre os passos de adormecer, mas para no passo que escolheres, espera 5 segundos e acorda de novo. A consola nunca chega a adormecer de facto enquanto isto está ativado.</string>
     <string name="kt_sleep_test_why">Ajuda a descobrir onde a suspensão falha. Se encravar em "Parar depois de desligar os núcleos", o problema está antes do firmware. Se tudo funcionar até "Parar mesmo antes de adormecer", é o firmware ou o hardware. Repõe-se quando a consola reinicia, por isso não ficas preso com isto.</string>
 
+    <string name="kt_dc_det">Deteção do carregador</string>
+    <string name="kt_dc_det_auto">Predefinição desta consola</string>
+    <string name="kt_dc_det_pin">Só o pino de carregamento</string>
+    <string name="kt_dc_det_power">Pino e chip de energia</string>
+    <string name="kt_dc_det_what">Como a consola percebe que um carregador está ligado. A maioria das consolas tem um pino que o indica. Em alguns clones esse pino diz \"ligado\" o tempo todo, por isso aí o chip de energia também tem de ver a corrente.</string>
+    <string name="kt_dc_det_why">Se a consola não reparar no carregador, ou mostrar \"a carregar\" sem nada ligado, experimenta a outra opção. A predefinição é escolhida para cada consola.</string>
     <string name="kt_sleep_console">Registo do kernel durante a suspensão</string>
     <string name="kt_sleep_console_y">Em pausa durante o sono</string>
     <string name="kt_sleep_console_n">Continua a funcionar</string>

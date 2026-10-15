@@ -66,6 +66,7 @@
     <string name="kt_cat_memory">Memori</string>
     <string name="kt_cat_storage">Kartu SD</string>
     <string name="kt_cat_input">Kontrol dan suara</string>
+    <string name="kt_cat_power">Baterai dan pengisian</string>
     <string name="kt_cat_debug">Crash dan log</string>
     <string name="kt_cat_boot">Saat menyala (perlu restart)</string>
 
@@ -92,6 +93,12 @@
     <string name="kt_sleep_test_what">Menjalani langkah-langkah untuk tidur, tetapi berhenti di langkah yang kamu pilih, menunggu 5 detik, lalu bangun lagi. Konsol tidak pernah benar-benar tidur selama ini aktif.</string>
     <string name="kt_sleep_test_why">Membantu mempersempit titik masalah tidur. Jika macet di "Berhenti setelah mematikan inti", masalahnya ada sebelum firmware. Jika semua berjalan lancar hingga "Berhenti tepat sebelum tidur", masalahnya di firmware atau perangkat keras. Tereset saat konsol restart, jadi kamu tidak akan terjebak dengan ini.</string>
 
+    <string name="kt_dc_det">Deteksi charger</string>
+    <string name="kt_dc_det_auto">Default konsol ini</string>
+    <string name="kt_dc_det_pin">Hanya pin charger</string>
+    <string name="kt_dc_det_power">Pin dan chip daya</string>
+    <string name="kt_dc_det_what">Cara konsol mengetahui bahwa charger sedang terpasang. Kebanyakan konsol punya pin yang memberi tahu itu. Di beberapa clone, pin itu selalu bilang \"terpasang\", jadi di sana chip daya juga harus melihat arus listrik.</string>
+    <string name="kt_dc_det_why">Jika konsol tidak menyadari charger, atau menampilkan \"mengisi\" padahal tidak ada yang terpasang, coba pengaturan lainnya. Default dipilih sesuai masing-masing konsol.</string>
     <string name="kt_sleep_console">Log kernel saat tidur</string>
     <string name="kt_sleep_console_y">Dijeda saat tidur</string>
     <string name="kt_sleep_console_n">Tetap berjalan</string>

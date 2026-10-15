@@ -67,6 +67,7 @@
     <string name="kt_cat_memory">Memory</string>
     <string name="kt_cat_storage">SD cards</string>
     <string name="kt_cat_input">Controls and sound</string>
+    <string name="kt_cat_power">Battery and charging</string>
     <string name="kt_cat_debug">Crashes and logs</string>
     <string name="kt_cat_boot">At start (needs a restart)</string>
 
@@ -93,6 +94,12 @@
     <string name="kt_sleep_test_what">Goes through the motions of falling asleep, but stops at the step you pick, waits 5 seconds and wakes up again. The console never actually sleeps while this is on.</string>
     <string name="kt_sleep_test_why">Narrows down where sleep goes wrong. If "Stop after switching cores off" hangs, the problem is before the firmware. If everything works up to "Stop right before sleeping", it\'s the firmware or the hardware. Resets when the console restarts, so you can\'t get stuck with it.</string>
 
+    <string name="kt_dc_det">Charger detection</string>
+    <string name="kt_dc_det_auto">This console\'s default</string>
+    <string name="kt_dc_det_pin">Charger pin only</string>
+    <string name="kt_dc_det_power">Pin and power chip</string>
+    <string name="kt_dc_det_what">How the console tells that a charger is plugged in. Most consoles have a pin that says so. On some clones that pin says \"plugged in\" all the time, so there the power chip has to see power as well.</string>
+    <string name="kt_dc_det_why">If the console doesn\'t notice the charger, or shows \"charging\" with nothing plugged in, try the other setting. The default is picked for each console.</string>
     <string name="kt_sleep_console">Kernel log during sleep</string>
     <string name="kt_sleep_console_y">Paused while asleep</string>
     <string name="kt_sleep_console_n">Keeps running</string>

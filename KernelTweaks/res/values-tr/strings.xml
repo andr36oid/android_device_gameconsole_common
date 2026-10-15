@@ -67,6 +67,7 @@
     <string name="kt_cat_memory">Bellek</string>
     <string name="kt_cat_storage">SD kartlar</string>
     <string name="kt_cat_input">Kontroller ve ses</string>
+    <string name="kt_cat_power">Pil ve şarj</string>
     <string name="kt_cat_debug">Çökmeler ve loglar</string>
     <string name="kt_cat_boot">Açılışta (yeniden başlatma gerekir)</string>
 
@@ -93,6 +94,12 @@
     <string name="kt_sleep_test_what">Uykuya dalma adımlarından geçer, ama seçtiğin adımda durur, 5 saniye bekler ve yeniden uyanır. Bu açıkken konsol hiçbir zaman gerçekten uyumaz.</string>
     <string name="kt_sleep_test_why">Uykunun nerede bozulduğunu bulmana yardımcı olur. "Çekirdekleri kapattıktan sonra dur"da takılıyorsa, sorun firmware\'den öncedir. "Uyumadan tam önce dur"a kadar her şey çalışıyorsa, sorun firmware veya donanımdır. Konsol yeniden başladığında sıfırlanır, böylece bununla takılıp kalmazsın.</string>
 
+    <string name="kt_dc_det">Şarj cihazı algılama</string>
+    <string name="kt_dc_det_auto">Bu konsolun varsayılanı</string>
+    <string name="kt_dc_det_pin">Yalnızca şarj pini</string>
+    <string name="kt_dc_det_power">Pin ve güç çipi</string>
+    <string name="kt_dc_det_what">Konsol, bir şarj cihazının takılı olduğunu nasıl anlar? Çoğu konsolda bunu söyleyen bir pin var. Bazı klonlarda bu pin sürekli \"takılı\" der, bu yüzden orada güç çipinin gücü de görmesi gerekir.</string>
+    <string name="kt_dc_det_why">Konsol şarj cihazını fark etmiyorsa ya da hiçbir şey takılı değilken \"şarj ediliyor\" gösteriyorsa, diğer ayarı dene. Varsayılan her konsol için ayrı seçilir.</string>
     <string name="kt_sleep_console">Uyku sırasında kernel logu</string>
     <string name="kt_sleep_console_y">Uykuda duraklatılır</string>
     <string name="kt_sleep_console_n">Çalışmaya devam eder</string>
