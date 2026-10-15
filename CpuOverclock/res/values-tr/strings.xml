@@ -62,6 +62,19 @@
     <!-- An undervolt step, e.g. "−25 mV" -->
     <string name="undervolt_step">−<xliff:g id="mv">%1$d</xliff:g> mV</string>
     <string name="undervolt_about">CPU\'yu aynı hızda biraz daha düşük voltajla çalıştırır; böylece özellikle yüksek hızlarda biraz daha az güç harcar ve biraz daha serin kalır. 816 MHz ve altında kazanç azdır.\n\nHer çip farklıdır. Bir oyun çökerse ya da konsol donar veya yeniden başlarsa Kapalı\'ya geri dönün. Bir şey kaydedilirken yaşanan bir çökme karttaki dosyalara zarar verebilir; bu yüzden her seferinde bir adım ilerleyin ve daha aşağı inmeden önce bir süre oynayın.\n\nKonsol her zaman voltaj düşürme kapalı olarak açılır, yeniden başlatmak onu kapatır.</string>
+    <string name="gpu_ram_category">GPU ve bellek hız aşırtma (deneysel)</string>
+    <string name="gpu_oc_title">GPU hız aşırtma</string>
+    <string name="gpu_oc_on">Açık: en fazla <xliff:g id="stock">%2$s</xliff:g> yerine <xliff:g id="fast">%1$s</xliff:g></string>
+    <string name="gpu_oc_off">Kapalı: en fazla <xliff:g id="stock">%2$s</xliff:g>, hız aşırtmayla <xliff:g id="fast">%1$s</xliff:g></string>
+    <string name="ram_oc_title">Bellek hızı</string>
+    <string name="ram_oc_off">Standart (<xliff:g id="speed">%1$s</xliff:g>)</string>
+    <string name="ram_oc_experimental"><xliff:g id="speed">%1$s</xliff:g> (deneysel)</string>
+    <string name="ram_oc_warning_title">Deneysel bellek hızı</string>
+    <string name="ram_oc_warning">Bu hız, GPU ve bellek güç hattını en yüksek voltajda çalıştırır. Bazı bellek çipleri bunu kaldırır, bazıları oyunların çökmesine, konsolun donmasına ya da görüntünün bozulmasına neden olur.\n\nBelleğe zarar vermez, ama bir şey kaydedilirken yaşanan çökme karttaki dosyalara zarar verebilir. Bir sorun olursa daha düşük bir hıza dönün. Yeniden başlatmak onu kapatır.</string>
+    <string name="ram_oc_warning_ok">Kullan</string>
+    <string name="gpu_ram_about">Zorlu oyunlar için daha hızlı grafik ve bellek. GPU hız aşırtma, GPU\'yu 520 MHz yerine 600 MHz\'de çalıştırır. Daha hızlı bellek hızları en çok PPSSPP gibi emülatörlere yardımcı olur. İkisi de GPU ve belleğin paylaştığı güç hattının voltajını yükseltir; bu yüzden konsol biraz daha çok ısınır ve pil biraz daha hızlı biter.\n\nHer çip farklıdır. Bir oyun çökerse ya da konsol donarsa bunları kapatın. Konsol her zaman bunlar olmadan açılır, yeniden başlatmak onları kapatır.\n\nR36 Tuner Next (zenmode-adri) temel alınarak yapıldı.</string>
+    <string name="gpu_ram_unsupported">Bu konsolun sistemi bu hızı desteklemiyor</string>
+    <string name="gpu_ram_failed">GPU veya bellek hızı değiştirilemedi</string>
     <string name="undervolt_failed">CPU voltajı değiştirilemedi</string>
 
     <!-- Quick Settings tile -->

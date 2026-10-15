@@ -62,6 +62,19 @@
     <!-- An undervolt step, e.g. "−25 mV" -->
     <string name="undervolt_step">−<xliff:g id="mv">%1$d</xliff:g> mV</string>
     <string name="undervolt_about">以稍低的电压让 CPU 跑同样的频率，因此耗电略少、温度略低，在较高频率下效果最明显。816 MHz 及以下时收益很小。\n\n每颗芯片都不一样。如果游戏崩溃，或掌机卡死、重启，请改回“关闭”。在保存数据时崩溃可能会损坏卡上的文件，所以请一次只降一档，玩一段时间后再继续降低。\n\n掌机每次启动时降压都处于关闭状态，重启即可关闭降压。</string>
+    <string name="gpu_ram_category">GPU 和内存超频（实验性）</string>
+    <string name="gpu_oc_title">GPU 超频</string>
+    <string name="gpu_oc_on">开启：最高 <xliff:g id="fast">%1$s</xliff:g>，而不是 <xliff:g id="stock">%2$s</xliff:g></string>
+    <string name="gpu_oc_off">关闭：最高 <xliff:g id="stock">%2$s</xliff:g>，超频后为 <xliff:g id="fast">%1$s</xliff:g></string>
+    <string name="ram_oc_title">内存频率</string>
+    <string name="ram_oc_off">默认（<xliff:g id="speed">%1$s</xliff:g>）</string>
+    <string name="ram_oc_experimental"><xliff:g id="speed">%1$s</xliff:g>（实验性）</string>
+    <string name="ram_oc_warning_title">实验性内存频率</string>
+    <string name="ram_oc_warning">此频率会让 GPU 和内存的供电线路使用最高电压。部分内存芯片能扛住，其他的会导致游戏崩溃、掌机卡死或画面出错。\n\n这不会损坏内存，但保存数据时崩溃可能会损坏卡上的文件。如果出现问题，请改用较低的频率。重启即可关闭。</string>
+    <string name="ram_oc_warning_ok">使用</string>
+    <string name="gpu_ram_about">为要求高的游戏提供更快的图形和内存。GPU 超频会把 GPU 的运行频率从 520 MHz 提到 600 MHz。更高的内存频率对 PPSSPP 等模拟器帮助最大。两者都会提高 GPU 和内存共用的供电线路电压，因此掌机会稍微更热，耗电也更快。\n\n每颗芯片都不一样。如果游戏崩溃或掌机卡死，请关闭它们。掌机每次启动时都不会开启这些设置，重启即可关闭。\n\n基于 zenmode-adri 的 R36 Tuner Next。</string>
+    <string name="gpu_ram_unsupported">此掌机的系统不支持该频率</string>
+    <string name="gpu_ram_failed">无法更改 GPU 或内存频率</string>
     <string name="undervolt_failed">无法更改 CPU 电压</string>
 
     <!-- Quick Settings tile -->

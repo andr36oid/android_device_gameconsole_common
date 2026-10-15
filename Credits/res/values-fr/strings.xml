@@ -19,4 +19,5 @@
     <string name="credits_android">par Google</string>
     <string name="credits_sprout">L\'écran d\'accueil de Simple UI, par Indiegesindel</string>
     <string name="credits_bfi">Insertion d\'image noire, par PakoVM</string>
+    <string name="credits_r36tuner">Overclock du GPU et de la mémoire, par zenmode-adri</string>
 </resources>

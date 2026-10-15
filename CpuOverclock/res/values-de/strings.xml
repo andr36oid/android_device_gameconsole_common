@@ -62,6 +62,19 @@
     <!-- An undervolt step, e.g. "−25 mV" -->
     <string name="undervolt_step">−<xliff:g id="mv">%1$d</xliff:g> mV</string>
     <string name="undervolt_about">Betreibt die CPU bei gleichem Takt mit etwas niedrigerer Spannung. So verbraucht sie etwas weniger Strom und bleibt etwas kühler, vor allem bei höheren Takten. Bei 816 MHz und darunter bringt es kaum etwas.\n\nJeder Chip ist anders. Wenn ein Spiel abstürzt oder die Konsole einfriert oder neu startet, stell wieder auf „Aus“. Ein Absturz während des Speicherns kann Dateien auf der Karte beschädigen. Geh also Schritt für Schritt vor und spiel eine Weile, bevor du weiter runtergehst.\n\nDie Konsole startet immer ohne Undervolting, ein Neustart schaltet es aus.</string>
+    <string name="gpu_ram_category">GPU- und Speicher-Übertaktung (experimentell)</string>
+    <string name="gpu_oc_title">GPU-Übertaktung</string>
+    <string name="gpu_oc_on">An: bis zu <xliff:g id="fast">%1$s</xliff:g> statt <xliff:g id="stock">%2$s</xliff:g></string>
+    <string name="gpu_oc_off">Aus: bis zu <xliff:g id="stock">%2$s</xliff:g>, <xliff:g id="fast">%1$s</xliff:g> mit Übertaktung</string>
+    <string name="ram_oc_title">Speichertakt</string>
+    <string name="ram_oc_off">Serienmäßig (<xliff:g id="speed">%1$s</xliff:g>)</string>
+    <string name="ram_oc_experimental"><xliff:g id="speed">%1$s</xliff:g> (experimentell)</string>
+    <string name="ram_oc_warning_title">Experimenteller Speichertakt</string>
+    <string name="ram_oc_warning">Dieser Takt setzt die Stromleitung von GPU und Speicher auf die höchste Spannung. Manche Speicherchips kommen damit klar, bei anderen stürzen Spiele ab, die Konsole friert ein oder das Bild wird kaputt.\n\nDer Speicher wird dadurch nicht beschädigt, aber ein Absturz während des Speicherns kann Dateien auf der Karte beschädigen. Wenn etwas nicht stimmt, wähle einen niedrigeren Takt. Ein Neustart schaltet ihn aus.</string>
+    <string name="ram_oc_warning_ok">Verwenden</string>
+    <string name="gpu_ram_about">Schnellere Grafik und Speicher für anspruchsvolle Spiele. Die GPU-Übertaktung taktet die GPU auf 600 MHz statt 520 MHz. Die schnelleren Speichertakte helfen Emulatoren wie PPSSPP am meisten. Beides erhöht die Spannung der Stromleitung, die sich GPU und Speicher teilen. Die Konsole wird dadurch etwas wärmer und der Akku leert sich etwas schneller.\n\nJeder Chip ist anders. Wenn ein Spiel abstürzt oder die Konsole einfriert, schalte sie aus. Die Konsole startet immer ohne diese Einstellungen, ein Neustart schaltet sie aus.\n\nBasiert auf R36 Tuner Next von zenmode-adri.</string>
+    <string name="gpu_ram_unsupported">Das System dieser Konsole hat diesen Takt nicht</string>
+    <string name="gpu_ram_failed">GPU- oder Speichertakt konnte nicht geändert werden</string>
     <string name="undervolt_failed">CPU-Spannung konnte nicht geändert werden</string>
 
     <!-- Quick Settings tile -->

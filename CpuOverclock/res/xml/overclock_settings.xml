@@ -49,6 +49,23 @@
             android:summary="@string/overclock_about" />
     </PreferenceCategory>
 
+    <!-- Removed when the kernel lists no GPU or memory overclock speeds -->
+    <PreferenceCategory
+        android:key="gpu_ram_category"
+        android:title="@string/gpu_ram_category">
+        <SwitchPreference
+            android:key="gpu_oc"
+            android:persistent="false"
+            android:title="@string/gpu_oc_title" />
+        <ListPreference
+            android:key="ram_oc"
+            android:persistent="false"
+            android:title="@string/ram_oc_title" />
+        <Preference
+            android:key="gpu_ram_about"
+            android:selectable="false"
+            android:summary="@string/gpu_ram_about" />
+    </PreferenceCategory>
     <!-- Removed when the kernel has no undervolt parameter -->
     <PreferenceCategory
         android:key="undervolt_category"

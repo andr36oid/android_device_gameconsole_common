@@ -63,6 +63,25 @@
     <!-- An undervolt step, e.g. "−25 mV" -->
     <string name="undervolt_step">\u2212<xliff:g id="mv">%1$d</xliff:g> mV</string>
     <string name="undervolt_about">Runs the CPU at a slightly lower voltage for the same speed, so it uses a bit less power and stays a bit cooler, mostly at the higher speeds. At 816 MHz and below there is little to gain.\n\nEvery chip is different. If a game crashes or the console freezes or restarts, go back to Off. A crash while something is being saved can damage files on the card, so go one step at a time and play for a while before going lower.\n\nThe console always starts with the undervolt off, a restart turns it off.</string>
+    <string name="gpu_ram_category">GPU and memory overclock (experimental)</string>
+    <string name="gpu_oc_title">GPU overclock</string>
+    <string name="gpu_oc_on">On: up to <xliff:g id="fast">%1$s</xliff:g> instead of <xliff:g id="stock">%2$s</xliff:g></string>
+    <string name="gpu_oc_off">Off: up to <xliff:g id="stock">%2$s</xliff:g>, <xliff:g id="fast">%1$s</xliff:g> with the overclock</string>
+    <string name="ram_oc_title">Memory speed</string>
+    <string name="ram_oc_off">Stock (<xliff:g id="speed">%1$s</xliff:g>)</string>
+    <string name="ram_oc_experimental"><xliff:g id="speed">%1$s</xliff:g> (experimental)</string>
+    <string name="ram_oc_warning_title">Experimental memory speed</string>
+    <string name="ram_oc_warning">This speed runs the GPU and memory power line at its highest voltage. Some memory chips handle it, others make games crash, freeze the console or mess up the picture.
+
+It can\'t damage the memory, but a crash while something is being saved can damage files on the card. If anything acts up, go back to a lower speed. A restart turns it off.</string>
+    <string name="ram_oc_warning_ok">Use it</string>
+    <string name="gpu_ram_about">Faster graphics and memory for demanding games. The GPU overclock runs the GPU at 600 MHz instead of 520 MHz. The faster memory speeds help emulators like PPSSPP the most. Both raise the voltage of the power line the GPU and memory share, so the console gets a bit warmer and the battery drains a bit faster.
+
+Every chip is different. If a game crashes or the console freezes, turn them off. The console always starts without them, a restart turns them off.
+
+Based on R36 Tuner Next by zenmode-adri.</string>
+    <string name="gpu_ram_unsupported">This console\'s system doesn\'t have this speed</string>
+    <string name="gpu_ram_failed">Couldn\'t change the GPU or memory speed</string>
     <string name="undervolt_failed">Couldn\'t change the CPU voltage</string>
 
     <!-- Quick Settings tile -->

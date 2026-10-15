@@ -19,4 +19,5 @@
     <string name="credits_android">от Google</string>
     <string name="credits_sprout">Главный экран Simple UI, автор Indiegesindel</string>
     <string name="credits_bfi">Вставка чёрного кадра, автор PakoVM</string>
+    <string name="credits_r36tuner">Разгон GPU и памяти, автор zenmode-adri</string>
 </resources>

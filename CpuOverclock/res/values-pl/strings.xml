@@ -51,6 +51,19 @@
     <string name="undervolt_off">Wył.</string>
     <string name="undervolt_step">−<xliff:g id="mv">%1$d</xliff:g> mV</string>
     <string name="undervolt_about">CPU pracuje z nieco niższym napięciem przy tej samej szybkości, więc zużywa trochę mniej energii i jest trochę chłodniejszy, głównie przy wyższych szybkościach. Przy 816 MHz i niżej zysk jest niewielki.\n\nKażdy układ jest inny. Jeśli gra się wysypuje albo konsola się zawiesza lub uruchamia ponownie, wróć do Wył. Awaria w trakcie zapisywania może uszkodzić pliki na karcie, więc zmieniaj po jednym kroku i pograj chwilę, zanim zejdziesz niżej.\n\nKonsola zawsze uruchamia się bez obniżonego napięcia, ponowne uruchomienie je wyłącza.</string>
+    <string name="gpu_ram_category">Podkręcanie GPU i pamięci (eksperymentalne)</string>
+    <string name="gpu_oc_title">Podkręcanie GPU</string>
+    <string name="gpu_oc_on">Wł.: do <xliff:g id="fast">%1$s</xliff:g> zamiast <xliff:g id="stock">%2$s</xliff:g></string>
+    <string name="gpu_oc_off">Wył.: do <xliff:g id="stock">%2$s</xliff:g>, <xliff:g id="fast">%1$s</xliff:g> z podkręceniem</string>
+    <string name="ram_oc_title">Szybkość pamięci</string>
+    <string name="ram_oc_off">Fabryczna (<xliff:g id="speed">%1$s</xliff:g>)</string>
+    <string name="ram_oc_experimental"><xliff:g id="speed">%1$s</xliff:g> (eksperymentalna)</string>
+    <string name="ram_oc_warning_title">Eksperymentalna szybkość pamięci</string>
+    <string name="ram_oc_warning">Ta szybkość ustawia linię zasilania GPU i pamięci na najwyższe napięcie. Niektóre kości pamięci to wytrzymują, inne powodują wysypywanie się gier, zawieszanie konsoli albo psucie obrazu.\n\nNie uszkodzi to pamięci, ale awaria w trakcie zapisywania może uszkodzić pliki na karcie. Jeśli coś szwankuje, wróć do niższej szybkości. Ponowne uruchomienie je wyłącza.</string>
+    <string name="ram_oc_warning_ok">Użyj</string>
+    <string name="gpu_ram_about">Szybsza grafika i pamięć w wymagających grach. Podkręcenie GPU ustawia GPU na 600 MHz zamiast 520 MHz. Wyższe szybkości pamięci najbardziej pomagają emulatorom, na przykład PPSSPP. Oba zwiększają napięcie linii zasilania, którą dzielą GPU i pamięć, więc konsola trochę bardziej się grzeje, a bateria szybciej się rozładowuje.\n\nKażdy układ jest inny. Jeśli gra się wysypuje albo konsola się zawiesza, wyłącz je. Konsola zawsze uruchamia się bez nich, ponowne uruchomienie je wyłącza.\n\nOparte na R36 Tuner Next autorstwa zenmode-adri.</string>
+    <string name="gpu_ram_unsupported">System tej konsoli nie obsługuje tej szybkości</string>
+    <string name="gpu_ram_failed">Nie udało się zmienić szybkości GPU ani pamięci</string>
     <string name="undervolt_failed">Nie udało się zmienić napięcia CPU</string>
 
     <!-- Quick Settings tile -->

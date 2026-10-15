@@ -1,5 +1,6 @@
 package org.andr36oid.cpuoverclock;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.os.SystemProperties;
 import android.preference.ListPreference;
@@ -19,6 +20,9 @@ public class OverclockFragment extends PreferenceFragment
     private static final String KEY_SPEED = "speed";
     private static final String KEY_UNDERVOLT_CATEGORY = "undervolt_category";
     private static final String KEY_UNDERVOLT = "undervolt";
+    private static final String KEY_GPU_RAM_CATEGORY = "gpu_ram_category";
+    private static final String KEY_GPU_OC = "gpu_oc";
+    private static final String KEY_RAM_OC = "ram_oc";
 
     private Overclock mOverclock;
     private PerformanceProfiles mProfiles;
@@ -29,6 +33,9 @@ public class OverclockFragment extends PreferenceFragment
     private ListPreference mSpeed;
     private Undervolt mUndervolt;
     private ListPreference mUndervoltLevel;
+    private GpuRamOverclock mGpuRam;
+    private SwitchPreference mGpuOc;
+    private ListPreference mRamOc;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -42,6 +49,7 @@ public class OverclockFragment extends PreferenceFragment
         mEnabled = (SwitchPreference) findPreference(KEY_ENABLED);
         mSpeed = (ListPreference) findPreference(KEY_SPEED);
         setUpUndervolt();
+        setUpGpuRam();
 
         final CharSequence[] profileValues = new CharSequence[PerformanceProfiles.COUNT];
         for (int i = 0; i < profileValues.length; i++) {
@@ -97,6 +105,25 @@ public class OverclockFragment extends PreferenceFragment
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
         final boolean done;
+        if (preference == mGpuOc || preference == mRamOc) {
+            final String dev = preference == mGpuOc ? GpuRamOverclock.GPU : GpuRamOverclock.DMC;
+            final int hz = preference == mGpuOc
+                    ? ((Boolean) newValue ? GpuRamOverclock.getSpeeds(dev)[0] : 0)
+                    : Integer.parseInt((String) newValue);
+            if (GpuRamOverclock.isExperimental(hz)) {
+                // The experimental memory speed only after the warning
+                new AlertDialog.Builder(getActivity())
+                        .setTitle(R.string.ram_oc_warning_title)
+                        .setMessage(R.string.ram_oc_warning)
+                        .setPositiveButton(R.string.ram_oc_warning_ok,
+                                (d, w) -> setGpuRam(dev, hz))
+                        .setNegativeButton(android.R.string.cancel, null)
+                        .show();
+            } else {
+                setGpuRam(dev, hz);
+            }
+            return false;
+        }
         if (preference == mProfile) {
             done = mProfiles.set(Integer.parseInt((String) newValue));
         } else if (preference == mCpuCap) {
@@ -126,6 +153,7 @@ public class OverclockFragment extends PreferenceFragment
         mProfileAbout.setSummary(describe(profile));
         updateCpuCap();
         updateUndervolt();
+        updateGpuRam();
         updateAppProfiles();
 
         if (!mOverclock.isSupported()) {
@@ -141,6 +169,82 @@ public class OverclockFragment extends PreferenceFragment
         final int chosen = mOverclock.getChosenSpeed();
         mSpeed.setValue(String.valueOf(chosen));
         mSpeed.setSummary(mOverclock.formatSpeed(chosen));
+    }
+
+    private void setUpGpuRam() {
+        mGpuRam = new GpuRamOverclock(getActivity());
+        final int[] gpu = GpuRamOverclock.getSpeeds(GpuRamOverclock.GPU);
+        final int[] ram = GpuRamOverclock.getSpeeds(GpuRamOverclock.DMC);
+        if (gpu.length == 0 && ram.length == 0) {
+            getPreferenceScreen().removePreference(findPreference(KEY_GPU_RAM_CATEGORY));
+            return;
+        }
+        mGpuOc = (SwitchPreference) findPreference(KEY_GPU_OC);
+        mRamOc = (ListPreference) findPreference(KEY_RAM_OC);
+        if (gpu.length == 0) {
+            mGpuOc.setEnabled(false);
+            mGpuOc.setSummary(R.string.gpu_ram_unsupported);
+        } else {
+            mGpuOc.setOnPreferenceChangeListener(this);
+        }
+        if (ram.length == 0) {
+            mRamOc.setEnabled(false);
+            mRamOc.setSummary(R.string.gpu_ram_unsupported);
+            return;
+        }
+        // Off (the stock top), then the overclock speeds, lowest first
+        final CharSequence[] entries = new CharSequence[ram.length + 1];
+        final CharSequence[] values = new CharSequence[ram.length + 1];
+        entries[0] = getString(R.string.ram_oc_off, ramStockMhz());
+        values[0] = "0";
+        for (int i = 0; i < ram.length; i++) {
+            entries[i + 1] = ramLabel(ram[i]);
+            values[i + 1] = String.valueOf(ram[i]);
+        }
+        mRamOc.setEntries(entries);
+        mRamOc.setEntryValues(values);
+        mRamOc.setOnPreferenceChangeListener(this);
+    }
+
+    private String ramLabel(int hz) {
+        final String mhz = getString(R.string.speed_mhz, GpuRamOverclock.realMhz(hz));
+        return GpuRamOverclock.isExperimental(hz)
+                ? getString(R.string.ram_oc_experimental, mhz) : mhz;
+    }
+
+    private String ramStockMhz() {
+        return getString(R.string.speed_mhz, GpuRamOverclock.getStockMax(GpuRamOverclock.DMC,
+                PerformanceProfiles.readAvailable(GpuRamOverclock.DMC)) / 1000000);
+    }
+
+    private void setGpuRam(String dev, int hz) {
+        mGpuRam.setChosen(dev, hz);
+        if (!mProfiles.apply()) {
+            Toast.makeText(getActivity(), R.string.gpu_ram_failed, Toast.LENGTH_SHORT).show();
+        }
+        update();
+    }
+
+    private void updateGpuRam() {
+        if (mGpuRam == null) {
+            return;
+        }
+        if (mGpuOc != null && mGpuOc.isEnabled()) {
+            final int[] gpu = GpuRamOverclock.getSpeeds(GpuRamOverclock.GPU);
+            final int stock = GpuRamOverclock.getStockMax(GpuRamOverclock.GPU,
+                    PerformanceProfiles.readAvailable(GpuRamOverclock.GPU));
+            final boolean on = mGpuRam.getChosen(GpuRamOverclock.GPU) > 0;
+            mGpuOc.setChecked(on);
+            mGpuOc.setSummary(getString(on ? R.string.gpu_oc_on : R.string.gpu_oc_off,
+                    getString(R.string.speed_mhz, gpu[gpu.length - 1] / 1000000),
+                    getString(R.string.speed_mhz, stock / 1000000)));
+        }
+        if (mRamOc != null && mRamOc.isEnabled()) {
+            final int hz = mGpuRam.getChosen(GpuRamOverclock.DMC);
+            mRamOc.setValue(String.valueOf(hz));
+            mRamOc.setSummary(hz == 0 ? getString(R.string.ram_oc_off, ramStockMhz())
+                    : ramLabel(hz));
+        }
     }
 
     private void setUpUndervolt() {

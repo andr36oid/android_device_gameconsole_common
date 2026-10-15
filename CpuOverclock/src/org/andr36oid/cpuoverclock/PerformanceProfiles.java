@@ -204,7 +204,9 @@ final class PerformanceProfiles {
             }
         }
 
-        final int[] gpu = readFrequencies(GPU + "available_frequencies");
+        // The GPU and memory overclock speeds only when one was chosen (GpuRamOverclock)
+        final GpuRamOverclock oc = new GpuRamOverclock(mContext);
+        final int[] gpu = oc.allowed(GPU, readFrequencies(GPU + "available_frequencies"));
         if (gpu.length > 0) {
             final int lowest = gpu[0];
             final int highest = gpu[gpu.length - 1];
@@ -219,9 +221,12 @@ final class PerformanceProfiles {
             }
         }
 
-        final int[] dmc = readFrequencies(DMC + "available_frequencies");
+        final int[] dmc = oc.allowed(DMC, readFrequencies(DMC + "available_frequencies"));
         if (dmc.length > 0) {
             try {
+                // The kernel refuses a max below the min: the min to the lowest first
+                write(DMC_MIN, 0);
+                write(DMC + "max_freq", dmc[dmc.length - 1]);
                 // 0 means the lowest; the memory clock then scales with the load again.
                 final boolean hold = profile == PERFORMANCE
                         || ProfileCommandReceiver.isMemoryHeld(mContext);
@@ -321,6 +326,11 @@ final class PerformanceProfiles {
 
     private SharedPreferences prefs() {
         return mContext.getSharedPreferences(PREFS, Context.MODE_PRIVATE);
+    }
+
+    /** The available speeds of a devfreq device, lowest first. */
+    static int[] readAvailable(String dev) {
+        return readFrequencies(dev + "available_frequencies");
     }
 
     private static int[] readFrequencies(String path) {

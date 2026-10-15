@@ -61,6 +61,19 @@
     <!-- An undervolt step -->
     <string name="undervolt_step">−<xliff:g id="mv">%1$d</xliff:g> mV</string>
     <string name="undervolt_about">Menjalankan CPU dengan tegangan sedikit lebih rendah pada kecepatan yang sama, sehingga daya yang dipakai sedikit lebih kecil dan suhunya sedikit lebih dingin, terutama di kecepatan tinggi. Di 816 MHz ke bawah, manfaatnya kecil.\n\nSetiap chip berbeda. Jika game crash atau konsol macet atau memulai ulang sendiri, kembali ke Nonaktif. Crash saat sesuatu sedang disimpan bisa merusak file di kartu, jadi turunkan satu langkah demi satu langkah dan bermainlah sebentar sebelum menurunkan lagi.\n\nKonsol selalu menyala dengan undervolt nonaktif, memulai ulang akan mematikannya.</string>
+    <string name="gpu_ram_category">Overclock GPU dan memori (eksperimental)</string>
+    <string name="gpu_oc_title">Overclock GPU</string>
+    <string name="gpu_oc_on">Aktif: hingga <xliff:g id="fast">%1$s</xliff:g>, bukan <xliff:g id="stock">%2$s</xliff:g></string>
+    <string name="gpu_oc_off">Nonaktif: hingga <xliff:g id="stock">%2$s</xliff:g>, <xliff:g id="fast">%1$s</xliff:g> dengan overclock</string>
+    <string name="ram_oc_title">Kecepatan memori</string>
+    <string name="ram_oc_off">Standar (<xliff:g id="speed">%1$s</xliff:g>)</string>
+    <string name="ram_oc_experimental"><xliff:g id="speed">%1$s</xliff:g> (eksperimental)</string>
+    <string name="ram_oc_warning_title">Kecepatan memori eksperimental</string>
+    <string name="ram_oc_warning">Kecepatan ini membuat jalur daya GPU dan memori berada di tegangan tertinggi. Beberapa chip memori kuat menanganinya, sementara yang lain membuat game crash, konsol macet, atau gambarnya rusak.\n\nIni tidak merusak memori, tetapi crash saat sesuatu sedang disimpan bisa merusak file di kartu. Jika ada yang bermasalah, kembali ke kecepatan yang lebih rendah. Memulai ulang akan mematikannya.</string>
+    <string name="ram_oc_warning_ok">Gunakan</string>
+    <string name="gpu_ram_about">GPU dan memori lebih cepat untuk game berat. Overclock GPU menjalankan GPU pada 600 MHz, bukan 520 MHz. Kecepatan memori yang lebih cepat paling membantu emulator seperti PPSSPP. Keduanya menaikkan tegangan jalur daya yang dipakai bersama oleh GPU dan memori, jadi konsol menjadi sedikit lebih panas dan baterai habis sedikit lebih cepat.\n\nSetiap chip berbeda. Jika game crash atau konsol macet, matikan. Konsol selalu menyala tanpa ini, memulai ulang akan mematikannya.\n\nBerdasarkan R36 Tuner Next oleh zenmode-adri.</string>
+    <string name="gpu_ram_unsupported">Sistem konsol ini tidak mendukung kecepatan ini</string>
+    <string name="gpu_ram_failed">Tidak bisa mengubah kecepatan GPU atau memori</string>
     <string name="undervolt_failed">Tidak bisa mengubah tegangan CPU</string>
 
     <!-- Quick Settings tile -->

@@ -61,6 +61,19 @@
     <!-- An undervolt step, e.g. "−25 mV" -->
     <string name="undervolt_step">−<xliff:g id="mv">%1$d</xliff:g> mV</string>
     <string name="undervolt_about">Roda a CPU com uma tensão um pouco menor na mesma velocidade, então ela gasta um pouco menos de energia e esquenta um pouco menos, principalmente nas velocidades mais altas. Em 816 MHz ou menos, há pouco a ganhar.\n\nCada chip é diferente. Se um jogo fechar sozinho ou o console travar ou reiniciar, volte para Desativado. Uma falha enquanto algo está sendo salvo pode danificar arquivos no cartão, então vá um passo por vez e jogue um pouco antes de baixar mais.\n\nO console sempre inicia com o undervolt desativado; reiniciar desativa o undervolt.</string>
+    <string name="gpu_ram_category">Overclock da GPU e da memória (experimental)</string>
+    <string name="gpu_oc_title">Overclock da GPU</string>
+    <string name="gpu_oc_on">Ativado: até <xliff:g id="fast">%1$s</xliff:g> em vez de <xliff:g id="stock">%2$s</xliff:g></string>
+    <string name="gpu_oc_off">Desativado: até <xliff:g id="stock">%2$s</xliff:g>, <xliff:g id="fast">%1$s</xliff:g> com o overclock</string>
+    <string name="ram_oc_title">Velocidade da memória</string>
+    <string name="ram_oc_off">Padrão (<xliff:g id="speed">%1$s</xliff:g>)</string>
+    <string name="ram_oc_experimental"><xliff:g id="speed">%1$s</xliff:g> (experimental)</string>
+    <string name="ram_oc_warning_title">Velocidade de memória experimental</string>
+    <string name="ram_oc_warning">Esta velocidade coloca a linha de energia da GPU e da memória na tensão mais alta. Alguns chips de memória aguentam, outros fazem os jogos travarem, o console congelar ou a imagem ficar bagunçada.\n\nIsso não danifica a memória, mas uma falha enquanto algo está sendo salvo pode danificar arquivos no cartão. Se algo der errado, volte para uma velocidade mais baixa. Reiniciar desativa.</string>
+    <string name="ram_oc_warning_ok">Usar</string>
+    <string name="gpu_ram_about">Gráficos e memória mais rápidos para jogos pesados. O overclock da GPU faz a GPU rodar a 600 MHz em vez de 520 MHz. As velocidades de memória mais altas ajudam mais emuladores como o PPSSPP. Os dois aumentam a tensão da linha de energia que a GPU e a memória dividem, então o console esquenta um pouco mais e a bateria acaba um pouco mais rápido.\n\nCada chip é diferente. Se um jogo travar ou o console congelar, desative. O console sempre inicia sem eles; reiniciar desativa.\n\nBaseado em R36 Tuner Next, de zenmode-adri.</string>
+    <string name="gpu_ram_unsupported">O sistema deste console não tem esta velocidade</string>
+    <string name="gpu_ram_failed">Não foi possível mudar a velocidade da GPU ou da memória</string>
     <string name="undervolt_failed">Não foi possível mudar a tensão da CPU</string>
 
     <!-- Quick Settings tile -->

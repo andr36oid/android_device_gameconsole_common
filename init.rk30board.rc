@@ -168,6 +168,9 @@ on boot
     # Performance also holds the memory clock at its top speed
     chown root system /sys/class/devfreq/dmc/min_freq
     chmod 0664 /sys/class/devfreq/dmc/min_freq
+    # Settings > Performance > Memory overclock raises it above the stock top
+    chown root system /sys/class/devfreq/dmc/max_freq
+    chmod 0664 /sys/class/devfreq/dmc/max_freq
     # Settings > Performance > CPU undervolt, the kernel resets it on every boot
     chown root system /sys/module/rockchip_cpufreq/parameters/undervolt_uv
     chmod 0664 /sys/module/rockchip_cpufreq/parameters/undervolt_uv

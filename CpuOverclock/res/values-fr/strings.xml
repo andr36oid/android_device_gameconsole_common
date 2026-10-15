@@ -60,6 +60,19 @@
     <!-- An undervolt step, e.g. "−25 mV" -->
     <string name="undervolt_step">−<xliff:g id="mv">%1$d</xliff:g> mV</string>
     <string name="undervolt_about">Fait tourner le CPU à une tension un peu plus basse pour la même vitesse : il consomme un peu moins et chauffe un peu moins, surtout aux vitesses élevées. À 816 MHz et moins, le gain est faible.\n\nChaque puce est différente. Si un jeu plante ou si la console se fige ou redémarre, revenez à Désactivé. Un plantage pendant un enregistrement peut endommager des fichiers sur la carte : descendez d\'un cran à la fois et jouez un moment avant d\'aller plus bas.\n\nLa console démarre toujours sans undervolting, un redémarrage le désactive.</string>
+    <string name="gpu_ram_category">Overclocking GPU et mémoire (expérimental)</string>
+    <string name="gpu_oc_title">Overclocking GPU</string>
+    <string name="gpu_oc_on">Activé : jusqu\'à <xliff:g id="fast">%1$s</xliff:g> au lieu de <xliff:g id="stock">%2$s</xliff:g></string>
+    <string name="gpu_oc_off">Désactivé : jusqu\'à <xliff:g id="stock">%2$s</xliff:g>, <xliff:g id="fast">%1$s</xliff:g> avec l\'overclocking</string>
+    <string name="ram_oc_title">Vitesse de la mémoire</string>
+    <string name="ram_oc_off">Par défaut (<xliff:g id="speed">%1$s</xliff:g>)</string>
+    <string name="ram_oc_experimental"><xliff:g id="speed">%1$s</xliff:g> (expérimental)</string>
+    <string name="ram_oc_warning_title">Vitesse de mémoire expérimentale</string>
+    <string name="ram_oc_warning">Cette vitesse met la ligne d\'alimentation du GPU et de la mémoire à sa tension maximale. Certaines puces de mémoire la supportent, d\'autres font planter les jeux, figer la console ou abîment l\'image.\n\nElle ne peut pas endommager la mémoire, mais un plantage pendant une sauvegarde peut abîmer des fichiers sur la carte. En cas de problème, repassez à une vitesse plus basse. Un redémarrage la désactive.</string>
+    <string name="ram_oc_warning_ok">Utiliser</string>
+    <string name="gpu_ram_about">Graphismes et mémoire plus rapides pour les jeux exigeants. L\'overclocking GPU fait tourner le GPU à 600 MHz au lieu de 520 MHz. Les vitesses de mémoire plus élevées aident surtout les émulateurs comme PPSSPP. Les deux augmentent la tension de la ligne d\'alimentation que se partagent le GPU et la mémoire : la console chauffe donc un peu plus et la batterie se vide un peu plus vite.\n\nChaque puce est différente. Si un jeu plante ou si la console se fige, désactivez-les. La console démarre toujours sans eux, un redémarrage les désactive.\n\nBasé sur R36 Tuner Next de zenmode-adri.</string>
+    <string name="gpu_ram_unsupported">Le système de cette console ne prend pas en charge cette vitesse</string>
+    <string name="gpu_ram_failed">Impossible de changer la vitesse du GPU ou de la mémoire</string>
     <string name="undervolt_failed">Impossible de changer la tension du CPU</string>
 
     <!-- Quick Settings tile -->
