@@ -114,7 +114,7 @@
 
     <string name="kt_heat_limit">Limite de chaleur</string>
     <string name="kt_heat_limit_what">La température de la puce à partir de laquelle le processeur commence à ralentir pour refroidir.</string>
-    <string name="kt_heat_limit_why">Les clones avec un mauvais pad thermique ou sans dissipateur atteignent vite la limite et saccadent dans les jeux exigeants. L\'augmenter échange une console plus chaude contre moins de ralentissements. La baisser garde la coque plus fraîche. Au-delà de 90 °C, ce n\'est pas idéal pour la puce sur la durée.</string>
+    <string name="kt_heat_limit_why">Aucune de ces consoles n\'a de refroidissement, la puce est nue, donc les jeux exigeants atteignent vite la limite et saccadent. Un dissipateur ou un pad thermique (une modification très répandue) aide le plus. Augmenter la limite échange une console plus chaude contre moins de ralentissements. La baisser garde la coque plus fraîche. Au-delà de 90 °C, ce n\'est pas idéal pour la puce sur la durée.</string>
 
     <!-- Memory -->
     <string name="kt_swappiness">Utilisation de la mémoire compressée</string>

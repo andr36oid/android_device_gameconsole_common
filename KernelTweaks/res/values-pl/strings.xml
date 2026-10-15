@@ -116,7 +116,7 @@
 
     <string name="kt_heat_limit">Limit temperatury</string>
     <string name="kt_heat_limit_what">Temperatura układu, przy której procesor zaczyna zwalniać, żeby się ochłodzić.</string>
-    <string name="kt_heat_limit_why">Klony ze złą podkładką termiczną albo bez rozpraszacza ciepła szybko dochodzą do limitu i zacinają się w wymagających grach. Zwiększenie go wymienia gorętszą konsolę na mniej spadków wydajności. Zmniejszenie utrzymuje obudowę chłodniejszą. Powyżej 90 °C nie jest dobrze dla układu na dłuższą metę.</string>
+    <string name="kt_heat_limit_why">Żadna z tych konsol nie ma chłodzenia, układ jest goły, więc wymagające gry szybko dobijają do limitu i się zacinają. Radiator albo podkładka termiczna (popularna modyfikacja) pomaga najbardziej. Zwiększenie limitu wymienia gorętszą konsolę na mniej spadków wydajności. Zmniejszenie utrzymuje obudowę chłodniejszą. Powyżej 90 °C nie jest dobrze dla układu na dłuższą metę.</string>
 
     <!-- Memory -->
     <string name="kt_swappiness">Użycie pamięci skompresowanej</string>

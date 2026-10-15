@@ -114,7 +114,7 @@
 
     <string name="kt_heat_limit">Límite de calor</string>
     <string name="kt_heat_limit_what">La temperatura del chip a partir de la cual el procesador empieza a ir más lento para enfriarse.</string>
-    <string name="kt_heat_limit_why">Los clones con una almohadilla térmica mala o sin disipador llegan rápido al límite y se traban en juegos exigentes. Subirlo cambia una consola más caliente por menos ralentizaciones. Bajarlo mantiene la carcasa más fresca. Por encima de 90 °C no es bueno para el chip a largo plazo.</string>
+    <string name="kt_heat_limit_why">Ninguna de estas consolas tiene refrigeración, el chip queda al descubierto, así que los juegos exigentes llegan rápido al límite y se traban. Un disipador o una almohadilla térmica (una modificación popular) ayuda más. Subir el límite cambia una consola más caliente por menos ralentizaciones. Bajarlo mantiene la carcasa más fresca. Por encima de 90 °C no es bueno para el chip a largo plazo.</string>
 
     <!-- Memory -->
     <string name="kt_swappiness">Uso de memoria comprimida</string>

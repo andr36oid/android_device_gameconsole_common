@@ -113,7 +113,7 @@
 
     <string name="kt_heat_limit">发热上限</string>
     <string name="kt_heat_limit_what">处理器开始降频散热时的芯片温度。</string>
-    <string name="kt_heat_limit_why">散热垫差或没有散热片的山寨机很快就会到达上限，在高负载游戏中卡顿。调高上限意味着主机更热，但卡顿更少；调低则能让机身更凉。长期保持在 90 °C 以上对芯片不是好事。</string>
+    <string name="kt_heat_limit_why">这些主机都没有任何散热，芯片裸露，因此大型游戏很快就会到达上限并卡顿。散热片或导热垫（一种流行的改装）帮助最大。调高上限意味着主机更热，但卡顿更少；调低则能让机身更凉。长期保持在 90 °C 以上对芯片不是好事。</string>
 
     <!-- Memory -->
     <string name="kt_swappiness">压缩内存使用程度</string>

@@ -114,7 +114,7 @@
 
     <string name="kt_heat_limit">Hitzegrenze</string>
     <string name="kt_heat_limit_what">Die Chiptemperatur, bei der der Prozessor anfängt, zum Abkühlen langsamer zu werden.</string>
-    <string name="kt_heat_limit_why">Klone mit schlechtem Wärmepad oder ohne Kühlblech erreichen die Grenze schnell und stottern bei anspruchsvollen Spielen. Höher einstellen heißt heißere Konsole gegen weniger Slowdowns. Niedriger einstellen hält das Gehäuse kühler. Über 90 °C ist auf Dauer nicht gut für den Chip.</string>
+    <string name="kt_heat_limit_why">Keine dieser Konsolen hat eine Kühlung, der Chip liegt frei, daher erreichen anspruchsvolle Spiele die Grenze schnell und stottern. Ein Kühlkörper oder Wärmepad (eine beliebte Modifikation) hilft am meisten. Höher einstellen heißt heißere Konsole gegen weniger Slowdowns. Niedriger einstellen hält das Gehäuse kühler. Über 90 °C ist auf Dauer nicht gut für den Chip.</string>
 
     <!-- Memory -->
     <string name="kt_swappiness">Nutzung des komprimierten Speichers</string>

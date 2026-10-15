@@ -114,7 +114,7 @@
 
     <string name="kt_heat_limit">Isı sınırı</string>
     <string name="kt_heat_limit_what">İşlemcinin soğumak için yavaşlamaya başladığı çip sıcaklığı.</string>
-    <string name="kt_heat_limit_why">Kötü ısı pedi veya ısı yayıcısı olmayan klonlar sınıra hızla ulaşır ve zorlu oyunlarda takılır. Yükseltmek daha sıcak bir konsolu daha az yavaşlamayla değiştirir. Düşürmek kasayı daha serin tutar. 90 °C üzeri çip için uzun vadede pek iyi değildir.</string>
+    <string name="kt_heat_limit_why">Bu konsolların hiçbirinde soğutma yok, çip çıplak, bu yüzden ağır oyunlar sınıra çabuk ulaşır ve takılır. Bir soğutucu veya ısı pedi (popüler bir modifikasyon) en çok yardımcı olur. Sınırı yükseltmek daha sıcak bir konsolu daha az yavaşlamayla değiştirir. Düşürmek kasayı daha serin tutar. 90 °C üzeri çip için uzun vadede pek iyi değildir.</string>
 
     <!-- Memory -->
     <string name="kt_swappiness">Sıkıştırılmış bellek kullanımı</string>

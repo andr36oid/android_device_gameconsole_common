@@ -113,7 +113,7 @@
 
     <string name="kt_heat_limit">Batas panas</string>
     <string name="kt_heat_limit_what">Suhu chip saat prosesor mulai melambat agar lebih dingin.</string>
-    <string name="kt_heat_limit_why">Clone dengan heat pad buruk atau tanpa heat spreader cepat mencapai batas dan tersendat di game berat. Menaikkannya menukar konsol yang lebih panas dengan lebih sedikit perlambatan. Menurunkannya membuat bodi lebih dingin. Di atas 90 °C tidak bagus untuk chip dalam jangka panjang.</string>
+    <string name="kt_heat_limit_why">Tidak ada konsol ini yang memiliki pendingin, chip-nya terbuka, jadi game berat cepat mencapai batas dan tersendat. Heatsink atau heat pad (modifikasi populer) paling membantu. Menaikkan batas menukar konsol yang lebih panas dengan lebih sedikit perlambatan. Menurunkannya membuat bodi lebih dingin. Di atas 90 °C tidak bagus untuk chip dalam jangka panjang.</string>
 
     <!-- Memory -->
     <string name="kt_swappiness">Penggunaan memori terkompresi</string>

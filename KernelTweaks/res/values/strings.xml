@@ -114,7 +114,7 @@
 
     <string name="kt_heat_limit">Heat limit</string>
     <string name="kt_heat_limit_what">The chip temperature where the processor starts slowing down to cool off.</string>
-    <string name="kt_heat_limit_why">Clones with a bad heat pad or no heat spreader hit the limit fast and stutter in heavy games. Raising it trades a hotter console for fewer slowdowns. Lowering it keeps the shell cooler. Above 90 °C isn\'t great for the chip in the long run.</string>
+    <string name="kt_heat_limit_why">None of these consoles have any cooling, the chip is bare, so heavy games hit the limit fast and stutter. A heatsink or heat pad (a popular mod) helps the most. Raising the limit trades a hotter console for fewer slowdowns. Lowering it keeps the shell cooler. Above 90 °C isn\'t great for the chip in the long run.</string>
 
     <!-- Memory -->
     <string name="kt_swappiness">Compressed memory use</string>
