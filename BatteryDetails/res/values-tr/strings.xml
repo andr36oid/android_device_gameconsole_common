@@ -34,6 +34,27 @@
     <string name="capacity_hint">Pilin üzerinde yazar. Yanlış değer, yüzdenin kaymasına yol açar.</string>
     <string name="capacity_reset"><xliff:g id="mah">%1$d</xliff:g> mAh değerine sıfırla</string>
     <string name="capacity">Pil ölçerin kullandığı</string>
+    <string name="measure_title">Kapasiteyi ölç</string>
+    <string name="measure_summary">Pilin gerçekte ne kadar tuttuğunu bulur: bir kez tam şarj, sonra konsol kendiliğinden kapanana kadar oynayın</string>
+    <string name="measure_how">Bu, pilin gerçekte ne kadar şarj tuttuğunu bulur, böylece yüzde daha doğru olur.\n\n1. Konsol dolu deyene kadar şarj edin.\n2. Fişi çekin ve konsol kendi kendine kapanana kadar her zamanki gibi kullanın. Uyku ve yeniden başlatmalar sorun değil, ama bu arada şarj etmeyin.\n3. Şarj edin ve yeniden açın. Sonuç burada görünür.\n\nBir bildirim ne kadar kaldığını gösterir.</string>
+    <string name="measure_start">Başlat</string>
+    <string name="measure_limit_on">Şarj sınırı açık, bu yüzden pil hiç dolmaz. Önce şarj sınırını kapatın.</string>
+    <string name="measure_charge">Bekleniyor: dolana kadar şarj edin, sonra fişi çekin</string>
+    <string name="measure_unplug">Dolu. Başlamak için şarj cihazını çıkarın</string>
+    <string name="measure_running">Şimdiye kadar <xliff:g id="mah">%1$d</xliff:g> mAh kullanıldı. Konsol kapanana kadar devam edin.</string>
+    <string name="measure_channel">Pil ölçümü</string>
+    <string name="measure_stop_question">Ölçüm durdurulsun mu? Şimdiye kadar sayılanlar kaybolur.</string>
+    <string name="measure_stop">Durdur</string>
+    <string name="measure_keep_going">Devam et</string>
+    <string name="measure_done_title">Pil ölçüldü</string>
+    <string name="measure_done_text">Pil yaklaşık <xliff:g id="mah">%1$d</xliff:g> mAh tutuyor. Kullanmak için dokunun.</string>
+    <string name="measure_use_question">Pil, konsol kapanana kadar tam dolu halinden <xliff:g id="measured">%1$d</xliff:g> mAh verdi. Kapasitesi olarak <xliff:g id="mah">%2$d</xliff:g> mAh kullanılsın mı?</string>
+    <string name="measure_use">Kullan</string>
+    <string name="measure_discard">At</string>
+    <string name="measure_failed_title">Pil ölçümü durdu</string>
+    <string name="measure_fail_plugged">Durduruldu: pil bitmeden şarj cihazı takıldı. Yeniden denemek için dokunun.</string>
+    <string name="measure_fail_charged">Durduruldu: pil bitmeden konsol şarj edildi. Yeniden denemek için dokunun.</string>
+    <string name="measure_fail_short">Durduruldu: sayım doğru olamayacak kadar düşük çıktı. Yeniden denemek için dokunun.</string>
 
     <string name="value_voltage"><xliff:g id="volts">%1$.2f</xliff:g> V</string>
     <string name="value_current_in"><xliff:g id="ma">%1$d</xliff:g> mA giriyor</string>

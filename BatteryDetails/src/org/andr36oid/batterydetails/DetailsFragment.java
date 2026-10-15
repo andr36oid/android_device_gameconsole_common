@@ -38,6 +38,8 @@ public class DetailsFragment extends PreferenceFragment {
     /** Both null when the kernel can't change the capacity */
     private CapacityPreference mCapacity;
     private Preference mCapacityReset;
+    /** Null when the kernel can't count the charge or change the capacity */
+    private Preference mMeasure;
     /** Null when the kernel has no charge limit */
     private ListPreference mLimit;
     /** Null when the kernel has no charging speed setting */
@@ -65,10 +67,12 @@ public class DetailsFragment extends PreferenceFragment {
                     (PreferenceCategory) findPreference("capacity_category");
             category.removePreference(mCapacity);
             category.removePreference(mCapacityReset);
+            category.removePreference(findPreference("measure"));
             mCapacity = null;
             mCapacityReset = null;
             return;
         }
+        setUpMeasure();
         mCapacity.setOnPreferenceChangeListener((preference, value) -> {
             Capacity.choose((Integer) value);
             showReset((Integer) value);
@@ -81,6 +85,91 @@ public class DetailsFragment extends PreferenceFragment {
             showReset(mah);
             return true;
         });
+    }
+
+    private void setUpMeasure() {
+        mMeasure = findPreference("measure");
+        if (!Measure.isSupported()) {
+            ((PreferenceCategory) findPreference("capacity_category")).removePreference(mMeasure);
+            mMeasure = null;
+            return;
+        }
+        mMeasure.setOnPreferenceClickListener(preference -> {
+            final Context context = getActivity();
+            final AlertDialog.Builder dialog = new AlertDialog.Builder(context)
+                    .setTitle(R.string.measure_title);
+            switch (Measure.state(context)) {
+                case Measure.WAITING:
+                case Measure.RUNNING:
+                    dialog.setMessage(R.string.measure_stop_question)
+                            .setPositiveButton(R.string.measure_stop, (d, w) -> {
+                                Measure.stop(context);
+                                showMeasure();
+                            })
+                            .setNegativeButton(R.string.measure_keep_going, null);
+                    break;
+                case Measure.DONE:
+                    final int mah = Capacity.clamp(Measure.resultMah(context));
+                    dialog.setMessage(getString(R.string.measure_use_question,
+                                    Measure.resultMah(context), mah))
+                            .setPositiveButton(R.string.measure_use, (d, w) -> {
+                                Capacity.choose(mah);
+                                Measure.clear(context);
+                                mCapacity.setValue(mah, Capacity.defaultMah());
+                                showReset(mah);
+                                showMeasure();
+                            })
+                            .setNeutralButton(R.string.measure_discard, (d, w) -> {
+                                Measure.clear(context);
+                                showMeasure();
+                            })
+                            .setNegativeButton(android.R.string.cancel, null);
+                    break;
+                default:
+                    if (mLimit != null && ChargeLimit.chosen() != 0) {
+                        // The battery has to get full, which the limit stops
+                        dialog.setMessage(R.string.measure_limit_on)
+                                .setPositiveButton(android.R.string.ok, null);
+                        break;
+                    }
+                    dialog.setMessage(R.string.measure_how)
+                            .setPositiveButton(R.string.measure_start, (d, w) -> {
+                                Measure.start(context);
+                                showMeasure();
+                            })
+                            .setNegativeButton(android.R.string.cancel, null);
+                    break;
+            }
+            dialog.show();
+            return true;
+        });
+    }
+
+    private void showMeasure() {
+        if (mMeasure == null) {
+            return;
+        }
+        final Context context = getActivity();
+        switch (Measure.state(context)) {
+            case Measure.WAITING:
+                mMeasure.setSummary(Measure.fullSeen(context) ? R.string.measure_unplug
+                        : R.string.measure_charge);
+                break;
+            case Measure.RUNNING:
+                mMeasure.setSummary(getString(R.string.measure_running,
+                        Measure.soFarMah(context)));
+                break;
+            case Measure.DONE:
+                mMeasure.setSummary(getString(R.string.measure_done_text,
+                        Measure.resultMah(context)));
+                break;
+            case Measure.FAILED:
+                mMeasure.setSummary(Measure.failureText(context, Measure.failure(context)));
+                break;
+            default:
+                mMeasure.setSummary(R.string.measure_summary);
+                break;
+        }
     }
 
     private void setUpChargeLimit() {
@@ -284,6 +373,7 @@ public class DetailsFragment extends PreferenceFragment {
                 : R.string.charger_usb));
         set("capacity", g.capacity == Gauge.UNKNOWN || g.capacity <= 0 ? null
                 : getString(R.string.value_capacity, g.capacity));
+        showMeasure();
     }
 
     private void set(String key, String value) {

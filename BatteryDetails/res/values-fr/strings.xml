@@ -32,6 +32,27 @@
     <string name="capacity_hint">Inscrite sur la batterie. Une valeur fausse fait dériver le pourcentage.</string>
     <string name="capacity_reset">Rétablir <xliff:g id="mah">%1$d</xliff:g> mAh</string>
     <string name="capacity">La jauge utilise</string>
+    <string name="measure_title">Mesurer la capacité</string>
+    <string name="measure_summary">Découvre ce que la batterie contient vraiment : une charge complète, puis jouez jusqu\'à ce que la console s\'éteigne</string>
+    <string name="measure_how">Cela permet de savoir quelle charge la batterie contient vraiment, pour que le pourcentage soit plus précis.\n\n1. Chargez jusqu\'à ce que la console affiche « Chargée ».\n2. Débranchez et utilisez la console normalement jusqu\'à ce qu\'elle s\'éteigne toute seule. La mise en veille et les redémarrages ne posent pas de problème, mais ne la rechargez pas entre-temps.\n3. Rechargez-la puis rallumez-la. Le résultat s\'affiche ici.\n\nUne notification indique où en est la mesure.</string>
+    <string name="measure_start">Démarrer</string>
+    <string name="measure_limit_on">La limite de charge est activée, donc la batterie ne se remplit jamais. Désactivez d\'abord la limite de charge.</string>
+    <string name="measure_charge">En attente : chargez jusqu\'à pleine charge, puis débranchez</string>
+    <string name="measure_unplug">Pleine. Débranchez le chargeur pour commencer</string>
+    <string name="measure_running"><xliff:g id="mah">%1$d</xliff:g> mAh consommés jusqu\'ici. Continuez jusqu\'à ce que la console s\'éteigne.</string>
+    <string name="measure_channel">Mesure de la batterie</string>
+    <string name="measure_stop_question">Arrêter la mesure ? Ce qui a été compté jusqu\'ici sera perdu.</string>
+    <string name="measure_stop">Arrêter</string>
+    <string name="measure_keep_going">Continuer</string>
+    <string name="measure_done_title">Batterie mesurée</string>
+    <string name="measure_done_text">La batterie contient environ <xliff:g id="mah">%1$d</xliff:g> mAh. Appuyez pour l\'utiliser.</string>
+    <string name="measure_use_question">La batterie a fourni <xliff:g id="measured">%1$d</xliff:g> mAh de pleine charge jusqu\'à l\'extinction de la console. Utiliser <xliff:g id="mah">%2$d</xliff:g> mAh comme capacité ?</string>
+    <string name="measure_use">Utiliser</string>
+    <string name="measure_discard">Ignorer</string>
+    <string name="measure_failed_title">Mesure de la batterie interrompue</string>
+    <string name="measure_fail_plugged">Interrompue : le chargeur a été branché avant que la batterie soit vide. Appuyez pour réessayer.</string>
+    <string name="measure_fail_charged">Interrompue : la console a été rechargée avant que la batterie soit vide. Appuyez pour réessayer.</string>
+    <string name="measure_fail_short">Interrompue : le résultat est trop faible pour être juste. Appuyez pour réessayer.</string>
 
     <string name="value_voltage"><xliff:g id="volts">%1$.2f</xliff:g> V</string>
     <string name="value_current_in"><xliff:g id="ma">%1$d</xliff:g> mA en entrée</string>

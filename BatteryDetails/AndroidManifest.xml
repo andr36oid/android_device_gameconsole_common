@@ -4,6 +4,7 @@
     android:sharedUserId="android.uid.system">
 
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
         android:allowBackup="false"
@@ -44,6 +45,11 @@
             android:name=".SampleJob"
             android:exported="false"
             android:permission="android.permission.BIND_JOB_SERVICE" />
+
+        <!-- Follows a battery capacity measurement, see Measure -->
+        <service
+            android:name=".MeasureService"
+            android:exported="false" />
 
         <receiver
             android:name=".BootReceiver"

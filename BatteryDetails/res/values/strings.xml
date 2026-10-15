@@ -34,6 +34,27 @@
     <string name="capacity_hint">Printed on the battery. Wrong values make the percentage drift.</string>
     <string name="capacity_reset">Reset to <xliff:g id="mah">%1$d</xliff:g> mAh</string>
     <string name="capacity">Fuel gauge is using</string>
+    <string name="measure_title">Measure capacity</string>
+    <string name="measure_summary">Finds out how much the battery really holds: one full charge, then play until the console turns off</string>
+    <string name="measure_how">This finds out how much charge the battery really holds, so the percentage gets more accurate.\n\n1. Charge until the console says full.\n2. Unplug and use the console as usual until it turns off by itself. Sleep and restarts are fine, but don\'t charge in between.\n3. Charge it and turn it on again. The result shows up here.\n\nA notification shows how far it is.</string>
+    <string name="measure_start">Start</string>
+    <string name="measure_limit_on">The charge limit is on, so the battery never gets full. Turn the charge limit off first.</string>
+    <string name="measure_charge">Waiting: charge until full, then unplug</string>
+    <string name="measure_unplug">Full. Unplug the charger to start</string>
+    <string name="measure_running"><xliff:g id="mah">%1$d</xliff:g> mAh used so far. Keep going until the console turns off.</string>
+    <string name="measure_channel">Battery measurement</string>
+    <string name="measure_stop_question">Stop measuring? What was counted so far is lost.</string>
+    <string name="measure_stop">Stop</string>
+    <string name="measure_keep_going">Keep going</string>
+    <string name="measure_done_title">Battery measured</string>
+    <string name="measure_done_text">The battery holds about <xliff:g id="mah">%1$d</xliff:g> mAh. Tap to use it.</string>
+    <string name="measure_use_question">The battery gave <xliff:g id="measured">%1$d</xliff:g> mAh from full until the console turned off. Use <xliff:g id="mah">%2$d</xliff:g> mAh as its capacity?</string>
+    <string name="measure_use">Use it</string>
+    <string name="measure_discard">Discard</string>
+    <string name="measure_failed_title">Battery measurement stopped</string>
+    <string name="measure_fail_plugged">Stopped: the charger went in before the battery was empty. Tap to try again.</string>
+    <string name="measure_fail_charged">Stopped: the console was charged before the battery was empty. Tap to try again.</string>
+    <string name="measure_fail_short">Stopped: the count came out too low to be right. Tap to try again.</string>
 
     <!-- Charge limit setting -->
     <string name="limit_title">Battery care</string>

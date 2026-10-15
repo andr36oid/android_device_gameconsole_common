@@ -34,6 +34,8 @@
             android:title="@string/capacity_setting"
             android:summary="@string/capacity_hint" />
         <Preference android:key="capacity_reset" />
+        <!-- Removed when the kernel can't count the charge (drained_uah) -->
+        <Preference android:key="measure" android:title="@string/measure_title" />
         <!-- What the fuel gauge reports back, so it shows the setting took effect -->
         <Preference android:key="capacity" android:title="@string/capacity" android:selectable="false" />
     </PreferenceCategory>

@@ -32,6 +32,27 @@
     <string name="capacity_hint">Tertera pada baterai. Nilai yang salah membuat persentase meleset.</string>
     <string name="capacity_reset">Reset ke <xliff:g id="mah">%1$d</xliff:g> mAh</string>
     <string name="capacity">Pengukur baterai memakai</string>
+    <string name="measure_title">Ukur kapasitas</string>
+    <string name="measure_summary">Mencari tahu seberapa besar kapasitas baterai sebenarnya: isi penuh sekali, lalu main sampai konsol mati</string>
+    <string name="measure_how">Ini untuk mencari tahu seberapa besar isi daya baterai yang sebenarnya, supaya persentasenya lebih akurat.\n\n1. Isi daya sampai konsol bilang penuh.\n2. Cabut charger dan pakai konsol seperti biasa sampai mati sendiri. Tidur dan restart tidak masalah, tapi jangan isi daya di tengah jalan.\n3. Isi daya lagi lalu nyalakan. Hasilnya muncul di sini.\n\nNotifikasi menunjukkan sudah sampai mana prosesnya.</string>
+    <string name="measure_start">Mulai</string>
+    <string name="measure_limit_on">Batas pengisian aktif, jadi baterai tidak pernah penuh. Matikan batas pengisian dulu.</string>
+    <string name="measure_charge">Menunggu: isi penuh dulu, lalu cabut charger</string>
+    <string name="measure_unplug">Sudah penuh. Cabut charger untuk mulai</string>
+    <string name="measure_running"><xliff:g id="mah">%1$d</xliff:g> mAh terpakai sejauh ini. Terus main sampai konsol mati.</string>
+    <string name="measure_channel">Pengukuran baterai</string>
+    <string name="measure_stop_question">Hentikan pengukuran? Yang sudah terhitung akan hilang.</string>
+    <string name="measure_stop">Berhenti</string>
+    <string name="measure_keep_going">Lanjutkan</string>
+    <string name="measure_done_title">Baterai sudah diukur</string>
+    <string name="measure_done_text">Baterai menyimpan sekitar <xliff:g id="mah">%1$d</xliff:g> mAh. Ketuk untuk memakainya.</string>
+    <string name="measure_use_question">Baterai memberi <xliff:g id="measured">%1$d</xliff:g> mAh dari penuh sampai konsol mati. Pakai <xliff:g id="mah">%2$d</xliff:g> mAh sebagai kapasitasnya?</string>
+    <string name="measure_use">Pakai</string>
+    <string name="measure_discard">Buang</string>
+    <string name="measure_failed_title">Pengukuran baterai dihentikan</string>
+    <string name="measure_fail_plugged">Dihentikan: charger dicolok sebelum baterai habis. Ketuk untuk coba lagi.</string>
+    <string name="measure_fail_charged">Dihentikan: konsol diisi daya sebelum baterai habis. Ketuk untuk coba lagi.</string>
+    <string name="measure_fail_short">Dihentikan: hitungannya terlalu kecil untuk akurat. Ketuk untuk coba lagi.</string>
 
     <string name="value_voltage"><xliff:g id="volts">%1$.2f</xliff:g> V</string>
     <string name="value_current_in"><xliff:g id="ma">%1$d</xliff:g> mA masuk</string>

@@ -34,6 +34,27 @@
     <string name="capacity_hint">印在电池上。数值不对会导致电量百分比不准。</string>
     <string name="capacity_reset">重置为 <xliff:g id="mah">%1$d</xliff:g> mAh</string>
     <string name="capacity">电量计当前使用</string>
+    <string name="measure_title">测量电池容量</string>
+    <string name="measure_summary">测出电池真正能存多少电：充满一次，然后一直玩到主机关机</string>
+    <string name="measure_how">这样可以测出电池实际能充进多少电，让百分比更准确。\n\n1. 充电直到主机显示已充满。\n2. 拔掉充电器，正常使用主机，直到它自己关机。休眠和重启没关系，但中间不要充电。\n3. 充满电后重新开机，结果会显示在这里。\n\n通知会显示测量进度。</string>
+    <string name="measure_start">开始</string>
+    <string name="measure_limit_on">充电上限已开启，所以电池永远充不满。请先关闭充电上限。</string>
+    <string name="measure_charge">等待中：充满电，然后拔掉充电器</string>
+    <string name="measure_unplug">已充满。拔掉充电器即可开始</string>
+    <string name="measure_running">目前已耗用 <xliff:g id="mah">%1$d</xliff:g> mAh。请继续使用，直到主机关机。</string>
+    <string name="measure_channel">电池测量</string>
+    <string name="measure_stop_question">停止测量？目前已统计的数据将会丢失。</string>
+    <string name="measure_stop">停止</string>
+    <string name="measure_keep_going">继续</string>
+    <string name="measure_done_title">电池测量完成</string>
+    <string name="measure_done_text">电池容量约为 <xliff:g id="mah">%1$d</xliff:g> mAh。点按即可使用。</string>
+    <string name="measure_use_question">从充满到主机关机，电池共放出 <xliff:g id="measured">%1$d</xliff:g> mAh。要将电池容量设为 <xliff:g id="mah">%2$d</xliff:g> mAh 吗？</string>
+    <string name="measure_use">使用</string>
+    <string name="measure_discard">放弃</string>
+    <string name="measure_failed_title">电池测量已停止</string>
+    <string name="measure_fail_plugged">已停止：电池还没耗尽时就接上了充电器。点按可重试。</string>
+    <string name="measure_fail_charged">已停止：电池还没耗尽时就给主机充了电。点按可重试。</string>
+    <string name="measure_fail_short">已停止：计数过低，结果不可靠。点按可重试。</string>
 
     <string name="value_voltage"><xliff:g id="volts">%1$.2f</xliff:g> V</string>
     <string name="value_current_in">流入 <xliff:g id="ma">%1$d</xliff:g> mA</string>

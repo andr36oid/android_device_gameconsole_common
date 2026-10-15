@@ -34,6 +34,27 @@
     <string name="capacity_hint">Vem impressa na bateria. Valores errados fazem a porcentagem sair do lugar.</string>
     <string name="capacity_reset">Voltar para <xliff:g id="mah">%1$d</xliff:g> mAh</string>
     <string name="capacity">Medidor usa</string>
+    <string name="measure_title">Medir capacidade</string>
+    <string name="measure_summary">Descubre quanto a bateria realmente guarda: uma carga completa e depois jogue até o console desligar</string>
+    <string name="measure_how">Isso descobre quanta carga a bateria realmente guarda, para a porcentagem ficar mais precisa.\n\n1. Carregue até o console dizer que está cheio.\n2. Desconecte e use o console normalmente até ele desligar sozinho. Suspensão e reinícios são tranquilos, mas não carregue no meio do caminho.\n3. Carregue e ligue de novo. O resultado aparece aqui.\n\nUma notificação mostra quanto falta.</string>
+    <string name="measure_start">Iniciar</string>
+    <string name="measure_limit_on">O limite de carga está ativado, então a bateria nunca fica cheia. Desative o limite de carga primeiro.</string>
+    <string name="measure_charge">Aguardando: carregue até cheio e depois desconecte</string>
+    <string name="measure_unplug">Cheio. Desconecte o carregador para começar</string>
+    <string name="measure_running"><xliff:g id="mah">%1$d</xliff:g> mAh usados até agora. Continue até o console desligar.</string>
+    <string name="measure_channel">Medição da bateria</string>
+    <string name="measure_stop_question">Parar a medição? O que foi contado até agora será perdido.</string>
+    <string name="measure_stop">Parar</string>
+    <string name="measure_keep_going">Continuar</string>
+    <string name="measure_done_title">Bateria medida</string>
+    <string name="measure_done_text">A bateria guarda cerca de <xliff:g id="mah">%1$d</xliff:g> mAh. Toque para usar.</string>
+    <string name="measure_use_question">A bateria deu <xliff:g id="measured">%1$d</xliff:g> mAh do cheio até o console desligar. Usar <xliff:g id="mah">%2$d</xliff:g> mAh como capacidade?</string>
+    <string name="measure_use">Usar</string>
+    <string name="measure_discard">Descartar</string>
+    <string name="measure_failed_title">Medição da bateria parada</string>
+    <string name="measure_fail_plugged">Parado: o carregador foi conectado antes de a bateria acabar. Toque para tentar de novo.</string>
+    <string name="measure_fail_charged">Parado: o console foi carregado antes de a bateria acabar. Toque para tentar de novo.</string>
+    <string name="measure_fail_short">Parado: a contagem ficou baixa demais para estar certa. Toque para tentar de novo.</string>
 
     <string name="value_voltage"><xliff:g id="volts">%1$.2f</xliff:g> V</string>
     <string name="value_current_in"><xliff:g id="ma">%1$d</xliff:g> mA entrando</string>
