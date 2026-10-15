@@ -1,6 +1,7 @@
 package org.andr36oid.playtime;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 
@@ -13,6 +14,8 @@ public class PinActivity extends Activity implements PinPad.Listener {
     static final String EXTRA_MODE = "mode";
     static final int MODE_CHECK = 0;
     static final int MODE_NEW = 1;
+    /** In a cancelled result when the user backed out (not when the page was cleared away). */
+    static final String EXTRA_CANCELLED_BY_USER = "cancelled_by_user";
 
     private PinPad mPad;
     private PinScreen mScreen;
@@ -72,7 +75,12 @@ public class PinActivity extends Activity implements PinPad.Listener {
 
     @Override
     public void onCancel() {
-        setResult(RESULT_CANCELED);
+        setResult(RESULT_CANCELED, new Intent().putExtra(EXTRA_CANCELLED_BY_USER, true));
         finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        onCancel();
     }
 }
