@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- What each bundled app does, on the setup's app page (SetupAppsActivity). Named
+     app_desc_ + the package with the dots as underscores; an app without one shows its
+     name only. -->
+<resources>
+    <string name="app_desc_com_blockdrop_game">Jogo de blocos que caem com controlos de pad</string>
+    <string name="app_desc_org_blockinger_game">Jogo clássico de blocos que caem</string>
+    <string name="app_desc_org_cromite_cromite">Navegador web com bloqueio de anúncios</string>
+    <string name="app_desc_com_example_dpadplayer">Leitor de música para as músicas do teu cartão</string>
+    <string name="app_desc_com_looker_droidify">Loja de apps gratuitas e de código aberto (F-Droid)</string>
+    <string name="app_desc_org_easyrpg_player">Joga jogos de RPG Maker 2000 e 2003</string>
+    <string name="app_desc_com_flycast_emulator">Emulador de Dreamcast, Naomi e Atomiswave</string>
+    <string name="app_desc_org_jfedor_frozenbubble">Dispara bolhas coloridas para limpar o tabuleiro</string>
+    <string name="app_desc_net_minetest_minetest">Jogos de construir com blocos e de aventura, 15 jogos incluídos</string>
+    <string name="app_desc_com_limelight">Transmite jogos do teu PC através de Wi-Fi</string>
+    <string name="app_desc_org_mupen64plusae_v3_alpha">Emulador de Nintendo 64</string>
+    <string name="app_desc_org_secuso_privacyfriendly2048">Desliza peças numeradas para chegar a 2048</string>
+    <string name="app_desc_com_shatteredpixel_shatteredpixeldungeon">Dungeon crawler em que cada partida é diferente</string>
+    <string name="app_desc_com_github_catfriend1_syncthingfork">Mantém os teus jogos guardados e ficheiros sincronizados com os teus outros dispositivos</string>
+    <string name="app_desc_com_yet_tetris_release">Jogo de blocos que caem</string>
+    <string name="app_desc_app_pwhs_universalinstaller">Instala ficheiros de apps (APK, XAPK, APKS) do teu cartão</string>
+    <string name="app_desc_org_videolan_vlc">Reproduz vídeos e música em quase qualquer formato</string>
+</resources>

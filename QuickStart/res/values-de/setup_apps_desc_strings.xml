@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- What each bundled app does, on the setup's app page (SetupAppsActivity). Named
+     app_desc_ + the package with the dots as underscores; an app without one shows its
+     name only. -->
+<resources>
+    <string name="app_desc_com_blockdrop_game">Fallende-Blöcke-Spiel mit Pad-Steuerung</string>
+    <string name="app_desc_org_blockinger_game">Klassisches Fallende-Blöcke-Spiel</string>
+    <string name="app_desc_org_cromite_cromite">Webbrowser mit Werbeblocker</string>
+    <string name="app_desc_com_example_dpadplayer">Musikplayer für die Songs auf deiner Karte</string>
+    <string name="app_desc_com_looker_droidify">App-Store für kostenlose Open-Source-Apps (F-Droid)</string>
+    <string name="app_desc_org_easyrpg_player">Spielt RPG Maker 2000- und 2003-Spiele</string>
+    <string name="app_desc_com_flycast_emulator">Dreamcast-, Naomi- und Atomiswave-Emulator</string>
+    <string name="app_desc_org_jfedor_frozenbubble">Schieße bunte Blasen, um das Feld zu leeren</string>
+    <string name="app_desc_net_minetest_minetest">Bau- und Abenteuerspiele mit Blöcken, 15 Spiele dabei</string>
+    <string name="app_desc_com_limelight">Streame Spiele von deinem PC über WLAN</string>
+    <string name="app_desc_org_mupen64plusae_v3_alpha">Nintendo-64-Emulator</string>
+    <string name="app_desc_org_secuso_privacyfriendly2048">Schiebe nummerierte Kacheln zusammen, um 2048 zu erreichen</string>
+    <string name="app_desc_com_shatteredpixel_shatteredpixeldungeon">Dungeon-Crawler, bei dem jeder Durchgang anders ist</string>
+    <string name="app_desc_com_github_catfriend1_syncthingfork">Hält Spielstände und Dateien mit deinen anderen Geräten synchron</string>
+    <string name="app_desc_com_yet_tetris_release">Fallende-Blöcke-Spiel</string>
+    <string name="app_desc_app_pwhs_universalinstaller">Installiert App-Dateien (APK, XAPK, APKS) von deiner Karte</string>
+    <string name="app_desc_org_videolan_vlc">Spielt Videos und Musik in fast jedem Format</string>
+</resources>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- What each bundled app does, on the setup's app page (SetupAppsActivity). Named
+     app_desc_ + the package with the dots as underscores; an app without one shows its
+     name only. -->
+<resources>
+    <string name="app_desc_com_blockdrop_game">带手柄操作的方块下落游戏</string>
+    <string name="app_desc_org_blockinger_game">经典方块下落游戏</string>
+    <string name="app_desc_org_cromite_cromite">带广告拦截的网页浏览器</string>
+    <string name="app_desc_com_example_dpadplayer">播放存储卡里歌曲的音乐播放器</string>
+    <string name="app_desc_com_looker_droidify">免费开源应用商店（F-Droid）</string>
+    <string name="app_desc_org_easyrpg_player">可玩 RPG Maker 2000 和 2003 游戏</string>
+    <string name="app_desc_com_flycast_emulator">Dreamcast、Naomi 和 Atomiswave 模拟器</string>
+    <string name="app_desc_org_jfedor_frozenbubble">射出彩色泡泡，清空游戏面板</string>
+    <string name="app_desc_net_minetest_minetest">方块建造和冒险游戏，内含 15 款游戏</string>
+    <string name="app_desc_com_limelight">通过 Wi-Fi 串流电脑上的游戏</string>
+    <string name="app_desc_org_mupen64plusae_v3_alpha">Nintendo 64 模拟器</string>
+    <string name="app_desc_org_secuso_privacyfriendly2048">滑动数字方块，拼出 2048</string>
+    <string name="app_desc_com_shatteredpixel_shatteredpixeldungeon">每次都不一样的地下城探险游戏</string>
+    <string name="app_desc_com_github_catfriend1_syncthingfork">让存档和文件与你的其他设备保持同步</string>
+    <string name="app_desc_com_yet_tetris_release">方块下落游戏</string>
+    <string name="app_desc_app_pwhs_universalinstaller">从存储卡安装应用文件（APK、XAPK、APKS）</string>
+    <string name="app_desc_org_videolan_vlc">几乎支持所有格式的视频和音乐播放器</string>
+</resources>

@@ -8,7 +8,11 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.SystemProperties;
 import android.provider.Settings;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.RelativeSizeSpan;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
@@ -128,7 +132,7 @@ public class SetupAppsActivity extends Activity {
         for (App app : apps) {
             final CheckBox box = (CheckBox) getLayoutInflater().inflate(
                     R.layout.setup_apps_item, mList, false);
-            box.setText(app.label);
+            box.setText(describe(app));
             box.setTag(app.pkg);
             // Ticked unless it was left out before (back on this page)
             box.setChecked(!skipped.contains(app.pkg));
@@ -140,6 +144,28 @@ public class SetupAppsActivity extends Activity {
             mBoxes.add(box);
         }
         mBoxes.get(0).requestFocus();
+    }
+
+    /** The app's name, and on a second line in small what it does (app_desc_<package>) */
+    private CharSequence describe(App app) {
+        final int id = getResources().getIdentifier(
+                "app_desc_" + app.pkg.replace('.', '_'), "string", getPackageName());
+        if (id == 0) {
+            return app.label;
+        }
+        final SpannableStringBuilder text = new SpannableStringBuilder(app.label).append('\n');
+        final int start = text.length();
+        text.append(getString(id));
+        text.setSpan(new RelativeSizeSpan(0.8f), start, text.length(),
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        final TypedValue color = new TypedValue();
+        if (getTheme().resolveAttribute(android.R.attr.textColorSecondary, color, true)) {
+            final int c = color.resourceId != 0
+                    ? getColorStateList(color.resourceId).getDefaultColor() : color.data;
+            text.setSpan(new ForegroundColorSpan(c), start, text.length(),
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+        return text;
     }
 
     private void tickAll() {

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- What each bundled app does, on the setup's app page (SetupAppsActivity). Named
+     app_desc_ + the package with the dots as underscores; an app without one shows its
+     name only. -->
+<resources>
+    <string name="app_desc_com_blockdrop_game">Game balok jatuh dengan kontrol pad</string>
+    <string name="app_desc_org_blockinger_game">Game balok jatuh klasik</string>
+    <string name="app_desc_org_cromite_cromite">Browser web dengan pemblokir iklan</string>
+    <string name="app_desc_com_example_dpadplayer">Pemutar musik untuk lagu di kartumu</string>
+    <string name="app_desc_com_looker_droidify">Toko aplikasi untuk aplikasi gratis dan open source (F-Droid)</string>
+    <string name="app_desc_org_easyrpg_player">Memainkan game RPG Maker 2000 dan 2003</string>
+    <string name="app_desc_com_flycast_emulator">Emulator Dreamcast, Naomi dan Atomiswave</string>
+    <string name="app_desc_org_jfedor_frozenbubble">Tembak gelembung berwarna untuk membersihkan papan</string>
+    <string name="app_desc_net_minetest_minetest">Game membangun blok dan petualangan, 15 game disertakan</string>
+    <string name="app_desc_com_limelight">Streaming game dari PC-mu lewat Wi-Fi</string>
+    <string name="app_desc_org_mupen64plusae_v3_alpha">Emulator Nintendo 64</string>
+    <string name="app_desc_org_secuso_privacyfriendly2048">Geser ubin bernomor untuk mencapai 2048</string>
+    <string name="app_desc_com_shatteredpixel_shatteredpixeldungeon">Dungeon crawler yang setiap permainannya berbeda</string>
+    <string name="app_desc_com_github_catfriend1_syncthingfork">Menjaga save dan file tetap sinkron dengan perangkat lainmu</string>
+    <string name="app_desc_com_yet_tetris_release">Game balok jatuh</string>
+    <string name="app_desc_app_pwhs_universalinstaller">Memasang file aplikasi (APK, XAPK, APKS) dari kartumu</string>
+    <string name="app_desc_org_videolan_vlc">Memutar video dan musik dalam hampir semua format</string>
+</resources>

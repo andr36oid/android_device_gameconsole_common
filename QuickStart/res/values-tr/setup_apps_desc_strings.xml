@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- What each bundled app does, on the setup's app page (SetupAppsActivity). Named
+     app_desc_ + the package with the dots as underscores; an app without one shows its
+     name only. -->
+<resources>
+    <string name="app_desc_com_blockdrop_game">Pad kontrollü düşen bloklar oyunu</string>
+    <string name="app_desc_org_blockinger_game">Klasik düşen bloklar oyunu</string>
+    <string name="app_desc_org_cromite_cromite">Reklam engelleyicili web tarayıcı</string>
+    <string name="app_desc_com_example_dpadplayer">Kartındaki şarkılar için müzik çalar</string>
+    <string name="app_desc_com_looker_droidify">Ücretsiz ve açık kaynaklı uygulamalar için uygulama mağazası (F-Droid)</string>
+    <string name="app_desc_org_easyrpg_player">RPG Maker 2000 ve 2003 oyunlarını oynatır</string>
+    <string name="app_desc_com_flycast_emulator">Dreamcast, Naomi ve Atomiswave emülatörü</string>
+    <string name="app_desc_org_jfedor_frozenbubble">Tahtayı temizlemek için renkli balonları ateşle</string>
+    <string name="app_desc_net_minetest_minetest">Blok kurma ve macera oyunları, 15 oyun dahil</string>
+    <string name="app_desc_com_limelight">PC\'nden Wi-Fi üzerinden oyun yayınla</string>
+    <string name="app_desc_org_mupen64plusae_v3_alpha">Nintendo 64 emülatörü</string>
+    <string name="app_desc_org_secuso_privacyfriendly2048">Numaralı kareleri kaydırarak 2048\'e ulaş</string>
+    <string name="app_desc_com_shatteredpixel_shatteredpixeldungeon">Her oyunu farklı olan bir zindan oyunu</string>
+    <string name="app_desc_com_github_catfriend1_syncthingfork">Kayıtlarını ve dosyalarını diğer cihazlarınla senkron tutar</string>
+    <string name="app_desc_com_yet_tetris_release">Düşen bloklar oyunu</string>
+    <string name="app_desc_app_pwhs_universalinstaller">Karttan uygulama dosyalarını (APK, XAPK, APKS) yükler</string>
+    <string name="app_desc_org_videolan_vlc">Videoları ve müzikleri neredeyse her formatta oynatır</string>
+</resources>
