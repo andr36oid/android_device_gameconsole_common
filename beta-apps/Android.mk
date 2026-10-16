@@ -6,7 +6,7 @@ LOCAL_PATH := $(call my-dir)
 
 include $(CLEAR_VARS)
 LOCAL_MODULE := andr36oid-beta-apps
-LOCAL_REQUIRED_MODULES := TrebleInfo-beta CPU-Z-beta UsbDeviceInfo-beta F-Droid-beta QuickShortcutMaker-beta Haven-beta Athena-beta TotalCommander-beta TotalCommanderLAN-beta TotalCommanderSFTP-beta FreeOTP-beta Obtainium-beta R1HA-beta ActivityLauncher-beta ScreenStream-beta NewPipe-beta
+LOCAL_REQUIRED_MODULES := TrebleInfo-beta CPU-Z-beta UsbDeviceInfo-beta F-Droid-beta QuickShortcutMaker-beta Haven-beta Athena-beta TotalCommander-beta TotalCommanderLAN-beta TotalCommanderSFTP-beta FreeOTP-beta Obtainium-beta R1HA-beta ActivityLauncher-beta ScreenStream-beta
 include $(BUILD_PHONY_PACKAGE)
 
 # Treble Info by Kevin Tresuelo (GPL-3.0), shows the Treble/GSI details of the device
@@ -307,24 +307,4 @@ LOCAL_MODULE_TAGS := optional
 LOCAL_MODULE_PATH := $(PRODUCT_OUT)/autoapk
 LOCAL_MODULE_STEM := ScreenStream.yml
 LOCAL_SRC_FILES := ScreenStream.yml
-include $(BUILD_PREBUILT)
-
-# NewPipe by Team NewPipe (GPL-3.0), YouTube and PeerTube player
-include $(CLEAR_VARS)
-LOCAL_MODULE := NewPipe-beta
-LOCAL_MODULE_CLASS := ETC
-LOCAL_MODULE_TAGS := optional
-LOCAL_MODULE_PATH := $(PRODUCT_OUT)/autoapk
-LOCAL_MODULE_STEM := NewPipe.apk
-LOCAL_SRC_FILES := NewPipe.apk
-LOCAL_REQUIRED_MODULES := NewPipe-beta-yml
-include $(BUILD_PREBUILT)
-
-include $(CLEAR_VARS)
-LOCAL_MODULE := NewPipe-beta-yml
-LOCAL_MODULE_CLASS := ETC
-LOCAL_MODULE_TAGS := optional
-LOCAL_MODULE_PATH := $(PRODUCT_OUT)/autoapk
-LOCAL_MODULE_STEM := NewPipe.yml
-LOCAL_SRC_FILES := NewPipe.yml
 include $(BUILD_PREBUILT)

@@ -1,0 +1,15 @@
+package: org.schabi.newpipe
+version_code: 1015
+checked: false
+description:
+  en: "Watches YouTube and PeerTube videos without ads or a Google account"
+  de: "YouTube- und PeerTube-Videos ohne Werbung und ohne Google-Konto"
+  es: "Ve vídeos de YouTube y PeerTube sin anuncios ni cuenta de Google"
+  fr: "Regardez des vidéos YouTube et PeerTube sans pub ni compte Google"
+  in: "Tonton video YouTube dan PeerTube tanpa iklan atau akun Google"
+  pl: "Filmy z YouTube i PeerTube bez reklam i konta Google"
+  pt: "Vê vídeos do YouTube e PeerTube sem anúncios nem conta Google"
+  pt-BR: "Assista a vídeos do YouTube e PeerTube sem anúncios nem conta Google"
+  ru: "Видео с YouTube и PeerTube без рекламы и аккаунта Google"
+  tr: "Reklamsız ve Google hesabı olmadan YouTube ve PeerTube videoları"
+  zh-CN: "无广告、无需 Google 帐号观看 YouTube 和 PeerTube 视频"
