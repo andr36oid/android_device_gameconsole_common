@@ -30,11 +30,18 @@ final class Helper {
         final String name;
         final long size;
         final long mtime;
+        /** ask, silent (ours: installed without asking) or current (ours, nothing to do) */
+        final String mode;
 
         Apk(String name, long size, long mtime) {
+            this(name, size, mtime, "ask");
+        }
+
+        Apk(String name, long size, long mtime, String mode) {
             this.name = name;
             this.size = size;
             this.mtime = mtime;
+            this.mode = mode;
         }
 
         /** Changes when the file is replaced, so a new version is offered again. */
@@ -71,10 +78,10 @@ final class Helper {
             return list;
         }
         for (String line : lines(new File(DIR, "list"))) {
-            final String[] f = line.split("\t", 3);
-            if (f.length < 3) continue;
+            final String[] f = line.split("\t", 4);
+            if (f.length < 4) continue;
             try {
-                list.add(new Apk(f[2], Long.parseLong(f[0]), Long.parseLong(f[1])));
+                list.add(new Apk(f[3], Long.parseLong(f[0]), Long.parseLong(f[1]), f[2]));
             } catch (NumberFormatException e) {
                 Log.w(TAG, "bad list line: " + line);
             }

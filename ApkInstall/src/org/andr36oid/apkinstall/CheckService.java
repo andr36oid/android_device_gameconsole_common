@@ -11,8 +11,10 @@ import java.util.List;
 
 /**
  * Lists EASYROMS/apk (waiting for EASYROMS to mount, its file system check can take a
- * while) and asks about the APKs not answered yet. Not during the first start's setup:
- * the console's own pages come first, the question waits for the next start.
+ * while), installs ours right away without asking (an APK with our .yml: updates and
+ * new apps that are ticked, see the helper), and asks about the other APKs not answered
+ * yet. Not during the first start's
+ * setup: the console's own pages come first, all of it waits for the next start.
  */
 public class CheckService extends Service {
 
@@ -34,7 +36,23 @@ public class CheckService extends Service {
                 Log.i(TAG, "setup not finished, not asking yet");
                 return;
             }
-            final List<Helper.Apk> apks = Handled.unanswered(this, Helper.scan());
+            final List<Helper.Apk> silent = new ArrayList<>();
+            final List<Helper.Apk> apks = new ArrayList<>();
+            for (Helper.Apk a : Handled.unanswered(this, Helper.scan())) {
+                if ("silent".equals(a.mode)) {
+                    silent.add(a);
+                } else if (!"current".equals(a.mode)) {
+                    apks.add(a);
+                }
+            }
+            if (!silent.isEmpty()) {
+                // a failed one isn't tried again until the file changes
+                for (Helper.Result r : Helper.install(silent, null)) {
+                    Log.i(TAG, (r.ok ? "installed " : "couldn't install ") + r.name
+                            + (r.ok ? "" : ": " + r.reason));
+                }
+                Handled.add(this, silent);
+            }
             if (apks.isEmpty()) return;
             Log.i(TAG, apks.size() + " APKs to ask about");
             final ArrayList<String> names = new ArrayList<>();

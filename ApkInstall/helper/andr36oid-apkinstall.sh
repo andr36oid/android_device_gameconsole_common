@@ -6,7 +6,15 @@
 #
 # The app writes $DIR/request and starts us with ctl.start:
 #   action=scan     wait up to 90 s for EASYROMS, then write $DIR/list:
-#                   "SIZE<tab>MTIME<tab>NAME" per APK (top level of apk/ only)
+#                   "SIZE<tab>MTIME<tab>MODE<tab>NAME" per APK (top level of apk/
+#                   only). MODE: "ask" for someone's own APK. One with a <Name>.yml
+#                   next to it giving its package and version_code is ours (the
+#                   bundled apps' .yml, see foss-apps/README.md) and never asked
+#                   about: "silent" when it updates an installed older version, or
+#                   is new and ticked ("checked: false" isn't); "current" when there
+#                   is nothing to do: that version or a newer one is installed, it is
+#                   unticked, or the console had it before and the user removed it
+#                   or left it out in the setup (gameconsole-emu's installed. mark)
 #   action=install  install every NAME in $DIR/install (one per line), writing
 #                   "ok<tab>NAME" or "fail<tab>NAME<tab>REASON" per APK to $DIR/result
 # $DIR/status says "running …", "done" or "error CODE" (noeasyroms, request).
@@ -73,6 +81,32 @@ plain_name() {
 	return 0
 }
 
+# yml_get <file> <key> ; a top-level value of a .yml, without quotes
+yml_get() {
+	sed -n "s/^$2:[ 	]*//p" "$1" 2>/dev/null | head -n 1 | sed 's/[ 	]*$//; s/^"\(.*\)"$/\1/'
+}
+
+SEEN=${APKINSTALL_SEEN:-/data/misc/gameconsole}
+
+# apk_mode <apk> ; ask, silent or current (see the top)
+apk_mode() {
+	local yml=${1%.*}.yml pkg vc cur
+	[ -f "$yml" ] || { echo ask; return 0; }
+	pkg=$(yml_get "$yml" package)
+	vc=$(yml_get "$yml" version_code)
+	case $vc in '' | *[!0-9]*) echo ask; return 0 ;; esac
+	[ -n "$pkg" ] || { echo ask; return 0; }
+	cur=$(pm_cmd list packages --show-versioncode "$pkg" </dev/null 2>/dev/null |
+		sed -n "s/^package:$pkg versionCode:\([0-9]*\).*/\1/p" | head -n 1)
+	if [ -n "$cur" ]; then
+		[ "$cur" -ge "$vc" ] && echo current || echo silent
+	elif [ -e "$SEEN/installed.$pkg" ] || [ "$(yml_get "$yml" checked)" = false ]; then
+		echo current
+	else
+		echo silent
+	fi
+}
+
 scan() {
 	local e="" i=0 dir f name
 	while [ $i -lt $WAIT_S ]; do
@@ -98,8 +132,8 @@ scan() {
 			esac
 			case $name in .*) continue ;; esac
 			plain_name "$name" || continue
-			printf '%s\t%s\t%s\n' "$(stat -c %s "$f")" "$(stat -c %Y "$f")" "$name" \
-				>>"$DIR/list.tmp"
+			printf '%s\t%s\t%s\t%s\n' "$(stat -c %s "$f")" "$(stat -c %Y "$f")" \
+				"$(apk_mode "$f")" "$name" >>"$DIR/list.tmp"
 		done
 	fi
 	mv -f "$DIR/list.tmp" "$DIR/list"
