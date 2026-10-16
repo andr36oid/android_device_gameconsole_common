@@ -206,6 +206,9 @@ public class HudService extends Service
             if (s.ramPercent >= 0) {
                 label(out, R.string.hud_ram);
                 append(out, s.ramPercent + "%", s.ramPercent >= 90 ? mOkColor : mValueColor);
+                if (s.memMhz > 0) {
+                    append(out, " " + s.memMhz + "MHz", mValueColor);
+                }
             }
             append(out, "  " + DateFormat.getTimeFormat(this).format(
                     System.currentTimeMillis()), mLabelColor);

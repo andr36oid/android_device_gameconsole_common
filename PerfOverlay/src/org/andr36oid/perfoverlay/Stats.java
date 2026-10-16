@@ -28,12 +28,15 @@ final class Stats {
 
     private static final String CPU_FREQ =
             "/sys/devices/system/cpu/cpufreq/policy0/scaling_cur_freq";
+    /** The memory controller's clock, in Hz. */
+    private static final String MEM_FREQ = "/sys/class/devfreq/dmc/cur_freq";
 
     /** -1 or NaN where a value couldn't be read. */
     int fps = -1;
     int cpuPercent = -1;
     int cpuMhz = -1;
     int gpuMhz = -1;
+    int memMhz = -1;
     float tempC = Float.NaN;
     int batteryPercent = -1;
     float batteryWatts = Float.NaN;
@@ -66,6 +69,7 @@ final class Stats {
         sampleCpu();
         cpuMhz = readInt(CPU_FREQ, 1000);
         gpuMhz = mGpuFreqPath == null ? -1 : readInt(mGpuFreqPath, 1000000);
+        memMhz = readInt(MEM_FREQ, 1000000);
         final int milliC = mTempPath == null ? Integer.MIN_VALUE : readInt(mTempPath, 1);
         tempC = milliC == Integer.MIN_VALUE || milliC < 0 ? Float.NaN : milliC / 1000f;
         sampleBattery();

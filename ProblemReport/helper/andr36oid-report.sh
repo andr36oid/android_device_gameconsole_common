@@ -452,7 +452,8 @@ previous-start-*.txt  the kernel log and crash record of the start before,
 crashes.txt   crash reports (tombstones, ANRs): the list and the newest few,
               and Android's crash records (dropbox)
 power.txt     battery and charger (power_supply), sleep, temperatures
-              (thermal zones), CPU speeds, dumpsys battery/power/alarm
+              (thermal zones), CPU, GPU and memory speeds,
+              dumpsys battery/power/alarm
 devices.txt   USB devices, input devices (buttons, sticks) and their events,
               the last Find an unknown button scans (pin levels, ADC inputs),
               the SD cards (maker, name, date, ID without the serial number),
@@ -873,6 +874,11 @@ done
 show power.txt /sys/devices/system/cpu/cpu0/cpufreq/scaling_* \
 	/sys/devices/system/cpu/cpu0/cpufreq/stats/time_in_state \
 	/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_*_freq
+# GPU and memory speeds (devfreq), with the overclock speeds when one was turned on
+show power.txt /sys/class/devfreq/*/governor /sys/class/devfreq/*/cur_freq \
+	/sys/class/devfreq/*/min_freq /sys/class/devfreq/*/max_freq \
+	/sys/class/devfreq/*/available_frequencies /sys/class/devfreq/*/overclock_frequencies \
+	/sys/class/devfreq/*/trans_stat
 # idle states per core: Deep sleep page's switches (disable) and how often each was used
 for c in /sys/devices/system/cpu/cpu[0-9]*/cpuidle/state*; do
 	echo "$c $(cat "$c/name" 2>/dev/null) disable=$(cat "$c/disable" 2>/dev/null)" \
