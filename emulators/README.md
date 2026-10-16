@@ -30,13 +30,15 @@ outline-atomics helpers, which test for LSE at run time, are allowed.
 
 ## How it works
 
-Nothing is installed as a system app. Everything lands in `/system/etc/gameconsole/` and
+Nothing is installed as a system app. The APKs go on the AUTOAPK partition with the other
+bundled apps (see `../foss-apps/README.md`), the rest lands in `/system/etc/gameconsole/`, and
 the `gameconsole-emu` service (`seed/`) runs once `sys.boot_completed=1`:
 
-1. `pm install -g` every APK in `preinstall/*.list` as a normal user app (`preinstall.list` is ours, `magisk.list` comes from `../magisk`).
-   The APKs are byte-identical to F-Droid's, so F-Droid can update them and users can
-   uninstall them. A removed app stays removed, an older installed version gets upgraded
-   when the ROM ships a newer one, a failing version isn't retried every boot.
+1. `pm install -g` the APKs as normal user apps, each described by its `.yml` in `preinstall/`.
+   RetroArch (`required: true`) always, PPSSPP when it's ticked on the setup's app page (it
+   is at first). The APKs are byte-identical to F-Droid's, so F-Droid can update them and
+   users can uninstall them. A removed app stays removed, a failing version isn't retried
+   every boot.
 2. Set up RetroArch, see [RetroArch defaults](#retroarch-defaults) below, and on a fresh
    PPSSPP install its data folder and settings, see [PPSSPP defaults](#ppsspp-defaults).
 3. Unpack `libretro/cores-*.tar.gz` into `/data/user/0/com.retroarch/cores`, which is
