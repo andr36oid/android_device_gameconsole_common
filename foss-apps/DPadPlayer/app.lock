@@ -11,3 +11,4 @@ apk_url=https://github.com/jbriones95/D-PAD-Player/releases/download/v0.9.6/dpad
 source_url=https://github.com/jbriones95/D-PAD-Player/tree/v0.9.6
 license_url=https://raw.githubusercontent.com/jbriones95/D-PAD-Player/v0.9.6/LICENSE
 published_by=its developer (GitHub release v0.9.6)
+modified=the app is named Music instead of DPAD Music and DPad Player (rename.py on github.com/andr36oid/android_device_gameconsole_common, foss-apps/DPadPlayer), and signed with the ROM's key

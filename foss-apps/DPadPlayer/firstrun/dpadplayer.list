@@ -1,0 +1,7 @@
+# D-PAD Player (Music) 0.9.6: the Retro accent instead of its default blue (the
+# "accent" setting, Settings > Accent color). Its settings are the default
+# shared_prefs, written while it has never run. See ../../README.md, "First-start
+# settings".
+package com.example.dpadplayer
+unless data shared_prefs/com.example.dpadplayer_preferences.xml
+data prefs.xml shared_prefs/com.example.dpadplayer_preferences.xml

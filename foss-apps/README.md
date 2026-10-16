@@ -5,7 +5,7 @@ emulators for RetroArch/Daijishou's core set: game streaming, a video player,
 stand-alone emulators. They are in every build (release too).
 
 They are installed the same way as RetroArch and PPSSPP (see
-`../emulators/README.md`): the APK sits unmodified in
+`../emulators/README.md`): the APK sits unmodified (except Music, below) in
 `/system/etc/gameconsole/preinstall/`, and the `gameconsole-emu` service
 installs it on boot as a normal app with `pm install -g`. So the user can
 uninstall it, a removed app stays removed, and a newer ROM upgrades an older
@@ -41,8 +41,16 @@ Apps from F-Droid keep F-Droid's signature, so F-Droid can update them. Apps
 from their own project site keep the project's signature; F-Droid can't
 update those, the project's own releases can.
 
-Nothing needs uploading with a release: the APKs are unmodified upstream
-builds and NOTICE.txt points at the source for that version.
+One exception: D-PAD Player is the console's Music app. `DPadPlayer/rename.py`
+renames it at build time ("DPAD Music" becomes "Music") and the build signs
+it with the ROM's key (`DPadPlayer/Android.mk`), so only our builds can update
+it. Its developer, jbriones95, is credited in the Credits app, and its
+NOTICE.txt says what was changed (`modified=` in `app.lock`). It starts with
+the Retro accent (`DPadPlayer/firstrun`).
+
+Nothing needs uploading with a release: the APKs are upstream builds (Music
+renamed by a script in this repo) and NOTICE.txt points at the source for
+that version.
 
 ## First-start settings (button maps, hotkeys)
 

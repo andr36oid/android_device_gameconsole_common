@@ -1,6 +1,7 @@
 DPadPlayer 0.9.6 (com.example.dpadplayer, versionCode 15) - MIT
 
-Shipped unmodified as published by its developer (GitHub release v0.9.6) (sha256 6c337f3aa71ed64803f91915452777de1893349deff8075e139cc18c1f1eff71).
+Published by its developer (GitHub release v0.9.6) (sha256 6c337f3aa71ed64803f91915452777de1893349deff8075e139cc18c1f1eff71).
+Changed for andr36oid: the app is named Music instead of DPAD Music and DPad Player (rename.py on github.com/andr36oid/android_device_gameconsole_common, foss-apps/DPadPlayer), and signed with the ROM's key
 Download: https://github.com/jbriones95/D-PAD-Player/releases/download/v0.9.6/dpadmp3.apk
 Source: https://github.com/jbriones95/D-PAD-Player/tree/v0.9.6
 

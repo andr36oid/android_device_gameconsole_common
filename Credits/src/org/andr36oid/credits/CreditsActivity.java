@@ -203,6 +203,7 @@ public class CreditsActivity extends Activity {
         project(R.drawable.logo_sprout, "Sprout Launcher", R.string.credits_sprout);
         project(R.drawable.logo_bfi, "BFI", R.string.credits_bfi);
         project(R.drawable.logo_r36tuner, "R36 Tuner Next", R.string.credits_r36tuner);
+        project(R.drawable.logo_dpadplayer, "D-PAD Player", R.string.credits_dpadplayer);
     }
 
     private void section(int titleRes) {

@@ -4,6 +4,8 @@
 # regenerates the files the build needs:
 #
 #   <app>/<name>.apk          untouched upstream APK (git LFS)
+#
+# app.lock may say modified=<what the build changes>, for NOTICE.txt.
 #   <app>/NOTICE.txt          license + where the source is
 #   <app>/z-foss-<name>.list  what the first-boot service installs
 #
@@ -18,13 +20,13 @@ die() { echo "error: $*" >&2; exit 1; }
 fetch_app() {
 	local dir=$1 lock=$1/app.lock
 	local name='' package='' version_code='' version_name='' spdx='' sha256=''
-	local apk_url='' source_url='' license_url='' published_by='' key value apk lname
+	local apk_url='' source_url='' license_url='' published_by='' modified='' key value apk lname
 
 	[ -f "$lock" ] || die "$dir: no app.lock"
 	while IFS='=' read -r key value; do
 		case $key in
 			''|\#*) ;;
-			name|package|version_code|version_name|spdx|sha256|apk_url|source_url|license_url|published_by)
+			name|package|version_code|version_name|spdx|sha256|apk_url|source_url|license_url|published_by|modified)
 				printf -v "$key" '%s' "$value" ;;
 			*) die "$lock: unknown key $key" ;;
 		esac
@@ -46,7 +48,12 @@ fetch_app() {
 	{
 		echo "$name $version_name ($package, versionCode $version_code) - $spdx"
 		echo
-		echo "Shipped unmodified as published by $published_by (sha256 $sha256)."
+		if [ -n "$modified" ]; then
+			echo "Published by $published_by (sha256 $sha256)."
+			echo "Changed for andr36oid: $modified"
+		else
+			echo "Shipped unmodified as published by $published_by (sha256 $sha256)."
+		fi
 		echo "Download: $apk_url"
 		echo "Source: $source_url"
 		echo
