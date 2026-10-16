@@ -2,4 +2,4 @@ package: sh.haven.app
 version_code: 8651
 checked: false
 description:
-  en: "SSH, VNC and RDP client with a local Linux terminal"
+  en: "SSH, Mosh, SFTP and VNC client with a local Linux terminal"
