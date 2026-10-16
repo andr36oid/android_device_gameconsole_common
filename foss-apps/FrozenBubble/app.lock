@@ -1,0 +1,12 @@
+# Frozen Bubble, F-Droid build from F-Droid's archive (the app is no longer updated there;
+# F-Droid signs it). sha256 from index-v2.json of F-Droid's archive.
+name=FrozenBubble
+package=org.jfedor.frozenbubble
+version_code=54
+version_name=4.4
+spdx=GPL-2.0-or-later
+sha256=bf291a12e88c84e559bd4f0faf99163a6a5b55da995df69ef10f888c6bba77e4
+apk_url=https://f-droid.org/archive/org.jfedor.frozenbubble_54.apk
+source_url=https://github.com/videogameboy76/frozenbubbleandroid (F-Droid's source tarball: https://f-droid.org/archive/org.jfedor.frozenbubble_54_src.tar.gz)
+license_url=https://raw.githubusercontent.com/videogameboy76/frozenbubbleandroid/master/COPYING
+published_by=F-Droid
