@@ -1,0 +1,12 @@
+# Shattered Pixel Dungeon, F-Droid build (F-Droid signs it, so F-Droid can update it).
+# sha256 from the F-Droid index (index-v2.json).
+name=ShatteredPD
+package=com.shatteredpixel.shatteredpixeldungeon
+version_code=922
+version_name=4.0.2
+spdx=GPL-3.0-only
+sha256=ceef4cdd4beddcb3d85379ac004cb4ab5d918b89dc7366b4ce9c4a3585a5e78e
+apk_url=https://f-droid.org/repo/com.shatteredpixel.shatteredpixeldungeon_922.apk
+source_url=https://github.com/00-Evan/shattered-pixel-dungeon/tree/v4.0.2 (F-Droid's source tarball: https://f-droid.org/repo/com.shatteredpixel.shatteredpixeldungeon_922_src.tar.gz)
+license_url=https://raw.githubusercontent.com/00-Evan/shattered-pixel-dungeon/v4.0.2/LICENSE.txt
+published_by=F-Droid

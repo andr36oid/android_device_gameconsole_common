@@ -1,0 +1,12 @@
+# 2048, F-Droid build from F-Droid's archive (the app is no longer updated there; F-Droid signs it).
+# sha256 from index-v2.json of F-Droid's archive.
+name=Game2048
+package=com.uberspot.a2048
+version_code=25
+version_name=2.2
+spdx=MIT
+sha256=7c66ccdf3d1fb9fd18d2a088f34bde4069c1107e4fc4b787b18012d7021df17f
+apk_url=https://f-droid.org/archive/com.uberspot.a2048_25.apk
+source_url=https://github.com/uberspot/2048-android (F-Droid's source tarball: https://f-droid.org/archive/com.uberspot.a2048_25_src.tar.gz)
+license_url=https://raw.githubusercontent.com/uberspot/2048-android/master/LICENSE
+published_by=F-Droid
