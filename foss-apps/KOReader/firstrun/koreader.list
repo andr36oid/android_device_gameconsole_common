@@ -1,0 +1,6 @@
+# KOReader v2026.07.1: all files access given, so it can open books anywhere on the cards
+# (EASYROMS too) without stopping at Android's "All files access" page on the first start.
+# Only once: if the user takes it away it stays away. See ../../README.md,
+# "First-start settings".
+package org.koreader.launcher.fdroid
+appop MANAGE_EXTERNAL_STORAGE allow

@@ -1,0 +1,12 @@
+# KOReader, e-book and document reader, F-Droid build (F-Droid signs it, so F-Droid can
+# update it). The arm64 build of v2026.07.1; sha256 from the F-Droid index (index-v2.json).
+name=KOReader
+package=org.koreader.launcher.fdroid
+version_code=119462
+version_name=v2026.07.1
+spdx=AGPL-3.0-only
+sha256=1e740b6a964032f67bd8235f98a3f12d229f3427d23e2486d6a0ede6dd3dba7c
+apk_url=https://f-droid.org/repo/org.koreader.launcher.fdroid_119462.apk
+source_url=https://github.com/koreader/koreader/tree/v2026.07.1 (F-Droid's source tarball: https://f-droid.org/repo/org.koreader.launcher.fdroid_119462_src.tar.gz)
+license_url=https://raw.githubusercontent.com/koreader/koreader/v2026.07.1/COPYING
+published_by=F-Droid
