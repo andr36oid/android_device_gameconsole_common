@@ -5,4 +5,5 @@
     <string name="setup_apps_body">Ces applis sont fournies avec andr36oid et s\'installent directement depuis la carte, sans internet. Décoche celles que tu ne veux pas.</string>
     <string name="setup_apps_all">Toutes ou aucune</string>
     <string name="setup_apps_next">Installer</string>
+    <string name="setup_apps_needs_mouse">Il faut le mode souris pour lancer une partie, le tutoriel montre comment</string>
 </resources>

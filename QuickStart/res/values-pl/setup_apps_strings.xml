@@ -5,4 +5,5 @@
     <string name="setup_apps_body">Te aplikacje są w andr36oid i instalują się prosto z karty, bez internetu. Odznacz te, których nie chcesz.</string>
     <string name="setup_apps_all">Wszystkie lub żadna</string>
     <string name="setup_apps_next">Zainstaluj</string>
+    <string name="setup_apps_needs_mouse">Do rozpoczęcia gry potrzebny jest tryb myszy, samouczek pokazuje jak</string>
 </resources>

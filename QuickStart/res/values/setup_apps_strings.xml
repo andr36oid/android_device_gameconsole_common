@@ -5,4 +5,5 @@
     <string name="setup_apps_body">These apps come with andr36oid and install straight from the card, no internet needed. Untick the ones you don\'t want.</string>
     <string name="setup_apps_all">All or none</string>
     <string name="setup_apps_next">Install</string>
+    <string name="setup_apps_needs_mouse">Needs mouse mode to start a game, the tutorial shows how</string>
 </resources>

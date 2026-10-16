@@ -34,8 +34,9 @@ import java.util.Set;
 /**
  * The setup wizard page after the home screen choice (org.lineageos.setupwizard,
  * lineage_wizard_script.xml): which of the bundled apps to install. They are the ones in
- * the gameconsole-emu service's z-foss-*.list files; all are ticked at first. The names and
- * icons come from the APKs themselves.
+ * the gameconsole-emu service's z-foss-*.list files; all are ticked at first, except the
+ * ones that need mouse mode (NEEDS_MOUSE), which also say so. The names and icons come
+ * from the APKs themselves.
  *
  * Next writes the unticked packages to SETTING_SKIP, sets SETTING_CHOSEN and starts the
  * install (sys.andr36oid.apps_chosen, gameconsole-apps). The service keeps the bundled
@@ -51,6 +52,13 @@ public class SetupAppsActivity extends Activity {
     /** Settings.Global, read by gameconsole-emu.sh: the unticked packages, comma separated */
     static final String SETTING_SKIP = "andr36oid_apps_skip";
     private static final String PROP_CHOSEN = "sys.andr36oid.apps_chosen";
+    /** Games whose menus only work with a pointer: unticked at first, with a warning */
+    private static final Set<String> NEEDS_MOUSE = new HashSet<>(Arrays.asList(
+            "net.minetest.minetest",
+            "com.shatteredpixel.shatteredpixeldungeon"));
+
+    /** Amber, for the mouse mode warning */
+    private static final int WARNING = 0xffffb74d;
 
     private static final class App {
         String pkg;
@@ -134,7 +142,7 @@ public class SetupAppsActivity extends Activity {
                     R.layout.setup_apps_item, mList, false);
             box.setText(describe(app));
             box.setTag(app.pkg);
-            // Ticked unless it was left out before (back on this page)
+            // Ticked unless it was left out before (back on this page) or needs mouse mode
             box.setChecked(!skipped.contains(app.pkg));
             if (app.icon != null) {
                 app.icon.setBounds(0, 0, iconSize, iconSize);
@@ -150,19 +158,28 @@ public class SetupAppsActivity extends Activity {
     private CharSequence describe(App app) {
         final int id = getResources().getIdentifier(
                 "app_desc_" + app.pkg.replace('.', '_'), "string", getPackageName());
-        if (id == 0) {
+        final boolean needsMouse = NEEDS_MOUSE.contains(app.pkg);
+        if (id == 0 && !needsMouse) {
             return app.label;
         }
-        final SpannableStringBuilder text = new SpannableStringBuilder(app.label).append('\n');
+        final SpannableStringBuilder text = new SpannableStringBuilder(app.label);
         final int start = text.length();
-        text.append(getString(id));
+        if (id != 0) {
+            text.append('\n').append(getString(id));
+        }
+        final int end = text.length();
+        if (needsMouse) {
+            text.append('\n').append("\u26a0 ").append(getString(R.string.setup_apps_needs_mouse));
+            text.setSpan(new ForegroundColorSpan(WARNING), end, text.length(),
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
         text.setSpan(new RelativeSizeSpan(0.8f), start, text.length(),
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         final TypedValue color = new TypedValue();
         if (getTheme().resolveAttribute(android.R.attr.textColorSecondary, color, true)) {
             final int c = color.resourceId != 0
                     ? getColorStateList(color.resourceId).getDefaultColor() : color.data;
-            text.setSpan(new ForegroundColorSpan(c), start, text.length(),
+            text.setSpan(new ForegroundColorSpan(c), start, end,
                     Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
         return text;
@@ -181,7 +198,7 @@ public class SetupAppsActivity extends Activity {
 
     private Set<String> skipped() {
         final String value = Settings.Global.getString(getContentResolver(), SETTING_SKIP);
-        return value == null ? new HashSet<>() : new HashSet<>(Arrays.asList(value.split(",")));
+        return value == null ? NEEDS_MOUSE : new HashSet<>(Arrays.asList(value.split(",")));
     }
 
     private void done() {

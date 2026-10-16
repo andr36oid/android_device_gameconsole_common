@@ -5,4 +5,5 @@
     <string name="setup_apps_body">Aplikasi ini sudah ada di andr36oid dan dipasang langsung dari kartu, tanpa internet. Hapus centang yang tidak kamu inginkan.</string>
     <string name="setup_apps_all">Semua atau tidak ada</string>
     <string name="setup_apps_next">Pasang</string>
+    <string name="setup_apps_needs_mouse">Perlu mode mouse untuk memulai permainan, tutorial menunjukkan caranya</string>
 </resources>

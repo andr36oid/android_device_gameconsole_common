@@ -5,4 +5,5 @@
     <string name="setup_apps_body">Эти приложения входят в andr36oid и устанавливаются прямо с карты, интернет не нужен. Снимите отметку с ненужных.</string>
     <string name="setup_apps_all">Все или ничего</string>
     <string name="setup_apps_next">Установить</string>
+    <string name="setup_apps_needs_mouse">Чтобы начать игру, нужен режим мыши, обучение покажет как</string>
 </resources>

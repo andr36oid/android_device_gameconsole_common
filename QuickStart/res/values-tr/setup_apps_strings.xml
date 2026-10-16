@@ -5,4 +5,5 @@
     <string name="setup_apps_body">Bu uygulamalar andr36oid ile gelir ve doğrudan karttan yüklenir, internet gerekmez. İstemediklerinin işaretini kaldır.</string>
     <string name="setup_apps_all">Hepsi ya da hiçbiri</string>
     <string name="setup_apps_next">Yükle</string>
+    <string name="setup_apps_needs_mouse">Oyun başlatmak için fare modu gerekir, eğitim nasıl yapılacağını gösterir</string>
 </resources>
