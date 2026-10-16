@@ -97,7 +97,7 @@
     <!-- Internet -->
     <string name="internet_title">Выход в интернет</string>
     <string name="internet_wifi">У большинства консолей R36S нет встроенного Wi-Fi, но у некоторых моделей, например R36XX, он есть. Если он есть у вашей, просто включите Wi-Fi в разделе Настройки &gt; Сеть и Интернет. Если нет, подключите USB-адаптер Wi-Fi к порту OTG (через переходник USB-C, если нужно), затем включите Wi-Fi там же.</string>
-    <string name="internet_browser">Веб-браузер — Cromite.</string>
+    <string name="internet_browser">Веб-браузер — Thorium.</string>
 
     <!-- Troubleshooting -->
     <string name="trouble_title">Решение проблем</string>

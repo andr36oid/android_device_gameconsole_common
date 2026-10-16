@@ -1,0 +1,14 @@
+package: org.chromium.thorium
+version_code: 807802804
+description:
+  en: "Fast web browser based on Chromium"
+  de: "Schneller Webbrowser auf Chromium-Basis"
+  es: "Navegador web rápido basado en Chromium"
+  fr: "Navigateur web rapide basé sur Chromium"
+  in: "Browser web cepat berbasis Chromium"
+  pl: "Szybka przeglądarka oparta na Chromium"
+  pt: "Navegador web rápido baseado no Chromium"
+  pt-BR: "Navegador web rápido baseado no Chromium"
+  ru: "Быстрый веб-браузер на основе Chromium"
+  tr: "Chromium tabanlı hızlı web tarayıcı"
+  zh-CN: "基于 Chromium 的快速网页浏览器"

@@ -97,7 +97,7 @@
     <!-- Internet -->
     <string name="internet_title">Se connecter</string>
     <string name="internet_wifi">La plupart des consoles R36S n\'ont pas de Wi-Fi intégré, mais certains modèles, comme la R36XX, en ont. Si c\'est le cas de la vôtre, activez simplement le Wi-Fi dans Paramètres &gt; Réseau et Internet. Sinon, branchez un adaptateur Wi-Fi USB sur le port OTG, avec un adaptateur USB-C si nécessaire, puis activez le Wi-Fi au même endroit.</string>
-    <string name="internet_browser">Cromite est le navigateur Web.</string>
+    <string name="internet_browser">Thorium est le navigateur Web.</string>
 
     <!-- Troubleshooting -->
     <string name="trouble_title">Dépannage</string>

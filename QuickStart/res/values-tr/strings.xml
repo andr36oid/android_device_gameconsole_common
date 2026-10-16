@@ -97,7 +97,7 @@
     <!-- Internet -->
     <string name="internet_title">İnternete bağlanma</string>
     <string name="internet_wifi">Çoğu R36S konsolunda dahili Wi-Fi yoktur, ama R36XX gibi bazı modellerde vardır. Sizinkinde varsa Wi-Fi\'ı Ayarlar &gt; Ağ ve internet bölümünden açmanız yeterli. Yoksa OTG portuna bir USB Wi-Fi adaptörü takın (gerekirse bir USB-C adaptörüyle), sonra Wi-Fi\'ı orada açın.</string>
-    <string name="internet_browser">Web tarayıcısı Cromite\'tir.</string>
+    <string name="internet_browser">Web tarayıcısı Thorium\'dur.</string>
 
     <!-- Troubleshooting -->
     <string name="trouble_title">Sorun giderme</string>

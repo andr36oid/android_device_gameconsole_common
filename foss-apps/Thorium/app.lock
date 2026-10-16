@@ -1,0 +1,13 @@
+# Thorium, Alex313031's Chromium fork, Android build by gz83 from their GitHub
+# release (arm64). sha256 is the release asset's digest on GitHub. The default
+# browser, ticked on the setup's app page.
+name=Thorium
+package=org.chromium.thorium
+version_code=807802804
+version_name=156.0.8078.28
+spdx=BSD-3-Clause
+sha256=3ea050c04d5460153f6f308d76f4bdde587be74788df8447b49e4627126cc92a
+apk_url=https://github.com/gz83/thorium/releases/download/M156.0.8078.28/Thorium_Public_arm64.apk
+source_url=https://github.com/gz83/thorium/tree/de9a1bc6199297443eda50f965c4b22a0b37bae3 (Thorium by Alex313031, Android build by gz83)
+license_url=https://raw.githubusercontent.com/gz83/thorium/de9a1bc6199297443eda50f965c4b22a0b37bae3/LICENSE.md
+published_by=gz83 (GitHub release M156.0.8078.28)

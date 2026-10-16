@@ -97,7 +97,7 @@
     <!-- Internet -->
     <string name="internet_title">Ficar on-line</string>
     <string name="internet_wifi">A maioria dos consoles R36S não tem Wi-Fi embutido, mas alguns modelos, como o R36XX, têm. Se o seu tiver, é só ativar o Wi-Fi em Configurações &gt; Rede e Internet. Se não, conecte um adaptador Wi-Fi USB na porta OTG, com um adaptador USB-C se precisar, e ative o Wi-Fi lá.</string>
-    <string name="internet_browser">O navegador é o Cromite.</string>
+    <string name="internet_browser">O navegador é o Thorium.</string>
 
     <!-- Troubleshooting -->
     <string name="trouble_title">Solução de problemas</string>

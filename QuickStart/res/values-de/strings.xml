@@ -97,7 +97,7 @@
     <!-- Internet -->
     <string name="internet_title">Online gehen</string>
     <string name="internet_wifi">Die meisten R36S-Konsolen haben kein eingebautes WLAN, manche Modelle wie die R36XX aber schon. Hat deine WLAN, schalte es einfach unter Einstellungen &gt; Netzwerk &amp; Internet ein. Wenn nicht, steck einen USB-WLAN-Adapter in den OTG-Anschluss, bei Bedarf mit USB-C-Adapter, und schalte dort WLAN ein.</string>
-    <string name="internet_browser">Cromite ist der Webbrowser.</string>
+    <string name="internet_browser">Thorium ist der Webbrowser.</string>
 
     <!-- Troubleshooting -->
     <string name="trouble_title">Fehlerbehebung</string>

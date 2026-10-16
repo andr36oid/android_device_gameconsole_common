@@ -271,14 +271,20 @@ seed_cromite_gamepad() {
 	return 0
 }
 
-# Cromite's default search engine: DuckDuckGo Light, one of its built-in
-# engines. Chromium keeps the choice in its profile's Preferences file, so one
-# is written before Cromite's first start (no app_chrome folder yet). After
-# that the file is Cromite's and never touched; the user changes the engine in
-# Cromite's settings.
-CROMITE_PKG=org.cromite.cromite
+# The browsers' default search engine (Thorium, Cromite): DuckDuckGo Light, one
+# of Chromium's built-in engines. Chromium keeps the choice in its profile's
+# Preferences file, so one is written before the browser's first start (no
+# app_chrome folder yet). After that the file is the browser's and never
+# touched; the user changes the engine in its settings.
+CHROMIUM_PKGS='org.chromium.thorium org.cromite.cromite'
 seed_cromite_search() {
-	local data=/data/user/0/$CROMITE_PKG owner dir
+	local pkg
+	for pkg in $CHROMIUM_PKGS; do
+		chromium_search "$pkg"
+	done
+}
+chromium_search() {
+	local data=/data/user/0/$1 owner dir
 	[ -d "$data" ] || return 0
 	[ -e "$data/app_chrome" ] && return 0
 	owner=$(stat -c %u:%g "$data") || return 0
@@ -288,14 +294,14 @@ seed_cromite_search() {
 PREFS
 	then
 		rm -rf "$data/app_chrome"
-		log "couldn't set the browser's search engine"
+		log "couldn't set $1's search engine"
 		return 0
 	fi
 	chown -R "$owner" "$data/app_chrome"
 	chmod 700 "$data/app_chrome" "$dir"
 	chmod 600 "$dir/Preferences"
 	restorecon -R "$data/app_chrome" 2>/dev/null
-	log "browser searches with DuckDuckGo Light"
+	log "$1 searches with DuckDuckGo Light"
 }
 
 # The network speed in the status bar (LineageOS' indicator): upload and
@@ -2500,7 +2506,7 @@ seed_cromite_gamepad
 seed_net_traffic
 first_start
 install_apks
-# after the installs: Cromite is a normal app installed by install_apks
+# after the installs: the browsers are normal apps installed by install_apks
 seed_cromite_search
 seed_ppsspp
 seed_retroarch

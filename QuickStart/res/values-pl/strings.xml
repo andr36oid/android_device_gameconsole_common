@@ -95,7 +95,7 @@
     <!-- Internet -->
     <string name="internet_title">Internet</string>
     <string name="internet_wifi">Większość konsol R36S nie ma wbudowanego Wi-Fi, ale niektóre modele, np. R36XX, mają. Jeśli twoja ma, po prostu włącz Wi-Fi w Ustawienia &gt; Sieć i internet. Jeśli nie, podłącz adapter Wi-Fi na USB do portu OTG, w razie potrzeby przez przejściówkę USB-C, a potem tam włącz Wi-Fi.</string>
-    <string name="internet_browser">Przeglądarką internetową jest Cromite.</string>
+    <string name="internet_browser">Przeglądarką internetową jest Thorium.</string>
 
     <!-- Troubleshooting -->
     <string name="trouble_title">Rozwiązywanie problemów</string>

@@ -97,7 +97,7 @@
     <!-- Internet -->
     <string name="internet_title">Terhubung ke internet</string>
     <string name="internet_wifi">Sebagian besar konsol R36S tidak punya Wi-Fi bawaan, tetapi beberapa model, seperti R36XX, punya. Jika konsol Anda punya, cukup aktifkan Wi-Fi di Setelan &gt; Jaringan &amp; internet. Jika tidak, colokkan adaptor Wi-Fi USB ke port OTG, dengan adaptor USB-C jika perlu, lalu aktifkan Wi-Fi di sana.</string>
-    <string name="internet_browser">Cromite adalah browser web-nya.</string>
+    <string name="internet_browser">Thorium adalah browser web-nya.</string>
 
     <!-- Troubleshooting -->
     <string name="trouble_title">Pemecahan masalah</string>

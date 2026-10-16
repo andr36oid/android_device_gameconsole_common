@@ -97,7 +97,7 @@
     <!-- Internet -->
     <string name="internet_title">上网</string>
     <string name="internet_wifi">大多数 R36S 掌机没有内置 Wi-Fi，但有些型号（例如 R36XX）有。如果您的掌机有，只需在“设置 &gt; 网络和互联网”中开启 WLAN。如果没有，请将 USB Wi-Fi 适配器插入 OTG 接口（如有需要，可配一个 USB-C 转接头），然后在同一位置开启 WLAN。</string>
-    <string name="internet_browser">网页浏览器是 Cromite。</string>
+    <string name="internet_browser">网页浏览器是 Thorium。</string>
 
     <!-- Troubleshooting -->
     <string name="trouble_title">故障排除</string>
