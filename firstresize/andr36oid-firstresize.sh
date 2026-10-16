@@ -138,7 +138,7 @@ apps_move() {
     wait_node 13 || { log "no $DEV/${disk}p13"; return 1; }
     out=$(mkfs.exfat -L AUTOAPK "$DEV/${disk}p13" 2>&1) || { log "mkfs.exfat AUTOAPK failed: $out"; return 1; }
     mkdir -p "$TMP_MNT/old" "$TMP_MNT/new"
-    out=$(mount -t vfat -o ro "$DEV/${disk}p12" "$TMP_MNT/old" 2>&1) ||
+    out=$(mount -t vfat -o ro,utf8 "$DEV/${disk}p12" "$TMP_MNT/old" 2>&1) ||
         { log "the image's AUTOAPK doesn't mount: $out"; return 1; }
     out=$(mount -t exfat "$DEV/${disk}p13" "$TMP_MNT/new" 2>&1) ||
         { log "the new AUTOAPK doesn't mount: $out"; umount "$TMP_MNT/old"; return 1; }
