@@ -1,0 +1,13 @@
+# D-PAD Player, a music player made for phones with a D-pad, from the project's own GitHub
+# release (signed by the project; F-Droid doesn't have it). sha256 from the release's
+# asset digest. Takes the place of LineageOS's Eleven (Android.mk).
+name=DPadPlayer
+package=com.example.dpadplayer
+version_code=15
+version_name=0.9.6
+spdx=MIT
+sha256=6c337f3aa71ed64803f91915452777de1893349deff8075e139cc18c1f1eff71
+apk_url=https://github.com/jbriones95/D-PAD-Player/releases/download/v0.9.6/dpadmp3.apk
+source_url=https://github.com/jbriones95/D-PAD-Player/tree/v0.9.6
+license_url=https://raw.githubusercontent.com/jbriones95/D-PAD-Player/v0.9.6/LICENSE
+published_by=its developer (GitHub release v0.9.6)
