@@ -28,6 +28,8 @@ Each APK has a `<Name>.yml` next to it:
     checked: false                 unticked on the setup's app page (default: ticked)
     required: true                 always installed, not on the page (RetroArch, Magisk)
     needs: org.example.other       ticking this one ticks that one too (plugins)
+    author: github:someone         credit line "by someone", with GitHub's icon for
+                                   a github: account; plain text otherwise (VideoLAN)
     description:                   the page's second line, per language; English is
       en: "What it does"           used when the user's language is missing
       de: "Was es macht"

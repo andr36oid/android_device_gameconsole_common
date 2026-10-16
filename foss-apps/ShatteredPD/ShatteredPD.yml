@@ -1,5 +1,6 @@
 package: com.shatteredpixel.shatteredpixeldungeon
 version_code: 922
+author: github:00-Evan
 checked: false
 description:
   en: "Dungeon crawler where every run is different"

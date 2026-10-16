@@ -1,5 +1,6 @@
 package: com.yet.tetris.release
 version_code: 5
+author: github:yet300
 description:
   en: "Falling blocks game"
   de: "Fallende-Blöcke-Spiel"

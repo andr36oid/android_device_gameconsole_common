@@ -1,5 +1,6 @@
 package: net.minetest.minetest
 version_code: 5170000
+author: github:luanti-org
 checked: false
 description:
   en: "Block building and adventure games, 15 games included"

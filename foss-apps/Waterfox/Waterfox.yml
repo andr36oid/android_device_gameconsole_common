@@ -1,5 +1,6 @@
 package: net.waterfox.android.release
 version_code: 2026380627
+author: github:BrowserWorks
 checked: false
 description:
   en: "Web browser based on Firefox, with extensions"

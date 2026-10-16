@@ -6,4 +6,7 @@
     <string name="setup_apps_all">All or none</string>
     <string name="setup_apps_next">Install</string>
     <string name="setup_apps_space">These apps take up 2 GB of your SD card for now. Once they\'re installed, the next start gives that space back to Android and the apps you leave out are gone from the card, so pick everything you want now.</string>
+    <!-- who made an app, under its description; %1$s is the name, with a GitHub icon
+         before it when the name is a GitHub account -->
+    <string name="setup_apps_by">by %1$s</string>
 </resources>

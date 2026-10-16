@@ -1,5 +1,6 @@
 package: com.limelight
 version_code: 314
+author: github:moonlight-stream
 description:
   en: "Stream games from your PC over Wi-Fi"
   de: "Streame Spiele von deinem PC über WLAN"

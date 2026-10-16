@@ -1,5 +1,6 @@
 package: app.pwhs.universalinstaller
 version_code: 42
+author: github:pass-with-high-score
 description:
   en: "Installs app files (APK, XAPK, APKS) from your card"
   de: "Installiert App-Dateien (APK, XAPK, APKS) von deiner Karte"

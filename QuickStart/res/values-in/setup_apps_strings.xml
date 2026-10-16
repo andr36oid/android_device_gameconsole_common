@@ -6,4 +6,5 @@
     <string name="setup_apps_all">Semua atau tidak ada</string>
     <string name="setup_apps_next">Pasang</string>
     <string name="setup_apps_space">Aplikasi ini memakai 2 GB kartu SD-mu untuk sementara. Setelah terpasang, saat menyala berikutnya ruang itu dikembalikan ke Android dan aplikasi yang tidak kamu pilih hilang dari kartu, jadi pilih semua yang kamu mau sekarang.</string>
+    <string name="setup_apps_by">oleh %1$s</string>
 </resources>

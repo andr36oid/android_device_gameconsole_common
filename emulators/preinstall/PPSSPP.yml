@@ -1,5 +1,6 @@
 package: org.ppsspp.ppsspp
 version_code: 119030000
+author: github:hrydgard
 description:
   en: "PSP emulator, plays PlayStation Portable games"
   de: "PSP-Emulator, spielt PlayStation-Portable-Spiele"

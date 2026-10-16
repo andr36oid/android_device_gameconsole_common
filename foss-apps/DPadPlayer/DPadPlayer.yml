@@ -1,5 +1,6 @@
 package: com.example.dpadplayer
 version_code: 15
+author: github:jbriones95
 description:
   en: "Music player for the songs on your card"
   de: "Musikplayer für die Songs auf deiner Karte"

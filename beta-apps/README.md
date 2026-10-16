@@ -15,8 +15,9 @@ themselves before the first start.
 To add one:
 
 1. Put the APK here.
-2. Add `<Name>.yml` next to it: `package`, `version_code`, `checked: false`, and a
-   one-sentence `description` (`en:` is enough). For a plugin, `needs: <package>`
+2. Add `<Name>.yml` next to it: `package`, `version_code`, `checked: false`,
+   `author` (`github:<account>` or a name) and a one-sentence `description`
+   (`en:` is enough). For a plugin, `needs: <package>`
    ticks the app it needs too.
 3. Add the two modules to `Android.mk` (copy one of the `*-beta` pairs) and the
    module name to `LOCAL_REQUIRED_MODULES` of `andr36oid-beta-apps`.

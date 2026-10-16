@@ -1,5 +1,6 @@
 package: org.mupen64plusae.v3.alpha
 version_code: 246
+author: github:mupen64plus-ae
 description:
   en: "Nintendo 64 emulator"
   de: "Nintendo-64-Emulator"

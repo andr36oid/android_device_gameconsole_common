@@ -1,5 +1,6 @@
 package: dev.imranr.obtainium.fdroid
 version_code: 23563
+author: github:ImranR98
 checked: false
 description:
   en: "Installs and updates apps straight from their release pages, like GitHub"

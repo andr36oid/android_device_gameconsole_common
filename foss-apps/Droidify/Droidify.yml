@@ -1,5 +1,6 @@
 package: com.looker.droidify
 version_code: 780
+author: github:Droid-ify
 description:
   en: "App store for free and open source apps (F-Droid)"
   de: "App-Store für kostenlose Open-Source-Apps (F-Droid)"

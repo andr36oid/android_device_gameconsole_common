@@ -1,5 +1,6 @@
 package: org.jfedor.frozenbubble
 version_code: 54
+author: github:videogameboy76
 description:
   en: "Shoot coloured bubbles to clear the board"
   de: "Schieße bunte Blasen, um das Feld zu leeren"

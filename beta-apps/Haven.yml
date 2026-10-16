@@ -1,5 +1,6 @@
 package: sh.haven.app
 version_code: 8651
+author: github:GlassHaven
 checked: false
 description:
   en: "SSH, Mosh, SFTP and VNC client with a local Linux terminal"

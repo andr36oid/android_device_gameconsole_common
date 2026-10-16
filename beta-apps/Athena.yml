@@ -1,5 +1,6 @@
 package: dev.sebaubuntu.athena
 version_code: 17
+author: github:SebaUbuntu
 checked: false
 description:
   en: "Shows detailed hardware and system information"

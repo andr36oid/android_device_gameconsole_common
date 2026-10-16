@@ -1,5 +1,6 @@
 package: org.videolan.vlc
 version_code: 13070106
+author: VideoLAN
 description:
   en: "Plays videos and music in almost any format"
   de: "Spielt Videos und Musik in fast jedem Format"

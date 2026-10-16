@@ -6,4 +6,5 @@
     <string name="setup_apps_all">Todos ou nenhum</string>
     <string name="setup_apps_next">Instalar</string>
     <string name="setup_apps_space">Estes apps ocupam por enquanto 2 GB do seu cartão SD. Depois de instalados, a próxima inicialização devolve esse espaço ao Android e os que você não escolher somem do cartão, então escolha agora tudo o que quiser.</string>
+    <string name="setup_apps_by">por %1$s</string>
 </resources>

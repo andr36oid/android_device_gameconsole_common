@@ -12,6 +12,7 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
+import android.text.style.ImageSpan;
 import android.text.style.RelativeSizeSpan;
 import android.util.Log;
 import android.util.TypedValue;
@@ -40,7 +41,8 @@ import java.util.Set;
  * the AUTOAPK partition (APPS, mounted by the first start's resizer), each described by
  * the <Name>.yml next to it: the description and a warning in the user's language,
  * "checked: false" for one that starts unticked, "needs: <package>" to tick the app a
- * plugin needs too, and "required: true" for the ones always installed, not shown here.
+ * plugin needs too, "required: true" for the ones always installed, not shown here, and
+ * "author:" for the credit line ("github:<account>" shows GitHub's icon before it).
  * APKs people added themselves without a .yml are shown too, unticked. The names and
  * icons come from the APKs.
  *
@@ -70,6 +72,8 @@ public class SetupAppsActivity extends Activity {
         Drawable icon;
         String description;
         String warning;
+        /** who made it, "github:<account>" for a GitHub account */
+        String author;
         /** the package ticked along with this one */
         String needs;
         /** ticked at first: with a .yml unless it says "checked: false" */
@@ -125,6 +129,7 @@ public class SetupAppsActivity extends Activity {
             app.icon = ai.loadIcon(pm);
             app.description = localized(yml.get("description"));
             app.warning = localized(yml.get("warning"));
+            app.author = yml.get("author") instanceof String ? (String) yml.get("author") : null;
             app.needs = yml.get("needs") instanceof String ? (String) yml.get("needs") : null;
             app.checked = !yml.isEmpty() && !"false".equals(yml.get("checked"));
             apps.add(app);
@@ -226,7 +231,7 @@ public class SetupAppsActivity extends Activity {
             final CheckBox box = (CheckBox) getLayoutInflater().inflate(
                     R.layout.setup_apps_item, mList, false);
             app.box = box;
-            box.setText(describe(app));
+            box.setText(describe(app, box.getTextSize()));
             box.setTag(app.name);
             // Back on this page: as it was left; otherwise as its .yml says
             box.setChecked(skipped != null ? !skipped.contains(app.name) : app.checked);
@@ -254,15 +259,18 @@ public class SetupAppsActivity extends Activity {
         mBoxes.get(0).requestFocus();
     }
 
-    /** The app's name, and on a second line in small what it does, then its warning */
-    private CharSequence describe(App app) {
-        if (app.description == null && app.warning == null) {
+    /** The app's name, and below it in small what it does, who made it, then its warning */
+    private CharSequence describe(App app, float textSize) {
+        if (app.description == null && app.warning == null && app.author == null) {
             return app.label;
         }
         final SpannableStringBuilder text = new SpannableStringBuilder(app.label);
         final int start = text.length();
         if (app.description != null) {
             text.append('\n').append(app.description);
+        }
+        if (app.author != null) {
+            credit(text.append('\n'), app.author, Math.round(textSize * 0.8f));
         }
         final int end = text.length();
         if (app.warning != null) {
@@ -280,6 +288,36 @@ public class SetupAppsActivity extends Activity {
                     Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
         return text;
+    }
+
+    /** "by <name>", with GitHub's icon before a "github:<account>" name */
+    private void credit(SpannableStringBuilder text, String author, int iconSize) {
+        final String github = "github:";
+        final boolean onGithub = author.startsWith(github);
+        final String name = onGithub ? author.substring(github.length()).trim() : author;
+        final String line = getString(R.string.setup_apps_by, "\u0000");
+        final int at = line.indexOf('\u0000');
+        text.append(line, 0, at);
+        if (onGithub) {
+            final Drawable icon = getDrawable(R.drawable.ic_github).mutate();
+            icon.setTint(textColor(android.R.attr.textColorSecondary));
+            icon.setBounds(0, 0, iconSize, iconSize);
+            final int s = text.length();
+            text.append('\ufffc');
+            text.setSpan(new ImageSpan(icon, ImageSpan.ALIGN_BOTTOM), s, text.length(),
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            text.append('\u00a0');
+        }
+        text.append(name).append(line, at + 1, line.length());
+    }
+
+    private int textColor(int attr) {
+        final TypedValue color = new TypedValue();
+        if (!getTheme().resolveAttribute(attr, color, true)) {
+            return 0xff9e9e9e;
+        }
+        return color.resourceId != 0
+                ? getColorStateList(color.resourceId).getDefaultColor() : color.data;
     }
 
     private void tickAll() {

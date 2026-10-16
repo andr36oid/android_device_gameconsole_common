@@ -1,5 +1,6 @@
 package: org.schabi.newpipe
 version_code: 1015
+author: github:TeamNewPipe
 checked: false
 description:
   en: "Watches YouTube and PeerTube videos without ads or a Google account"

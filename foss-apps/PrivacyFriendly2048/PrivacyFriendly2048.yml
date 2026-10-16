@@ -1,5 +1,6 @@
 package: org.secuso.privacyfriendly2048
 version_code: 100
+author: github:SecUSo
 description:
   en: "Slide numbered tiles together to reach 2048"
   de: "Schiebe nummerierte Kacheln zusammen, um 2048 zu erreichen"

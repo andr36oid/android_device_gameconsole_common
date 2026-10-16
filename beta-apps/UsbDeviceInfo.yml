@@ -1,5 +1,6 @@
 package: aws.apps.usbDeviceEnumerator
 version_code: 81
+author: github:alt236
 checked: false
 description:
   en: "Lists the USB devices plugged into the console"

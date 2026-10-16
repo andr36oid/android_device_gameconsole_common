@@ -1,5 +1,6 @@
 package: org.easyrpg.player
 version_code: 9777
+author: github:EasyRPG
 description:
   en: "Plays RPG Maker 2000 and 2003 games"
   de: "Spielt RPG Maker 2000- und 2003-Spiele"

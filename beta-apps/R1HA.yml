@@ -1,5 +1,6 @@
 package: com.github.itskenny0.r1ha
 version_code: 103510688
+author: github:itskenny0
 checked: false
 description:
   en: "Home Assistant client for controlling your smart home"

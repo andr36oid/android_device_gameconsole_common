@@ -1,5 +1,6 @@
 package: org.cromite.cromite
 version_code: 763212002
+author: github:uazo
 checked: false
 description:
   en: "Web browser with ad blocking"

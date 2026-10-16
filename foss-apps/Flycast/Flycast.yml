@@ -1,5 +1,6 @@
 package: com.flycast.emulator
 version_code: 3302
+author: github:flyinghead
 description:
   en: "Dreamcast, Naomi and Atomiswave emulator"
   de: "Dreamcast-, Naomi- und Atomiswave-Emulator"

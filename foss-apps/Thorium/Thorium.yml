@@ -1,5 +1,6 @@
 package: org.chromium.thorium
 version_code: 807802804
+author: github:gz83
 description:
   en: "Fast web browser based on Chromium"
   de: "Schneller Webbrowser auf Chromium-Basis"

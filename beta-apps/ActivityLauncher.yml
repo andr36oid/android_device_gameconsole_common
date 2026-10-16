@@ -1,5 +1,6 @@
 package: de.szalkowski.activitylauncher
 version_code: 20500
+author: github:ActivityLauncher
 checked: false
 description:
   en: "Opens hidden screens of apps and makes shortcuts to them"
