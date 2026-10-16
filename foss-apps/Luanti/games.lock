@@ -1,0 +1,9 @@
+# Luanti games unpacked into Luanti's games folder at first start (firstrun/luanti.list),
+# the games from luanti.org's gallery. ContentDB release zips, unmodified; sha256 taken
+# at download (ContentDB publishes none). fetch-games.sh downloads and checks them and
+# writes firstrun/luanti/NOTICE-<game>.txt (the game's license file and README, which
+# has its credits).
+# game  release (ContentDB author/package/release id)  sha256  license (code/media)  source
+minetest_game Minetest/minetest_game/38214 5b364f6b0cf31ec336319492e14106d932eb86b65a91ded99f4b25f4876519dc LGPL-2.1-or-later/CC-BY-SA-3.0 https://github.com/luanti-org/minetest_game/tree/c42e4d0c0ff9d27ff7b9b308c3cfc14098dd3a0f
+glitch Wuzzy/glitch/38310 e39195347782b14c70595c2a4f71abbf288fc7e212a7d678eb098fec596cb776 GPL-3.0-or-later/CC-BY-4.0 https://codeberg.org/Wuzzy/Glitch/src/commit/aac3f400c1d855ba7f13e9ceca59eb71a9baa49d
+backroomtest Sumianvoice/backroomtest/36294 0f03774bea8f31761f7480d34350a853957f07318cb1b28e9afa40504eddcbcd MIT/CC-BY-4.0 https://codeberg.org/SumianVoice/backroomtest/src/commit/53d9f838ffc510e8bbee449532b70d3e374df258

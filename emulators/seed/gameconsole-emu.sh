@@ -1202,6 +1202,11 @@ refresh_rate() {
 #   appop <op> <mode>       e.g. REQUEST_INSTALL_PACKAGES allow, what the app
 #                           would otherwise ask for on its first start. Once per
 #                           app and op: one the user takes away stays away.
+#   extzip <zip> <dir>      unpack $FIRSTRUN/<name>/<zip> into <dir> in its folder
+#                           on the internal storage (e.g. a Luanti game). Once
+#                           per app and zip, also after the app has run, so a
+#                           deleted game stays deleted; folders that are there
+#                           already are kept.
 # Only missing files are written, in list order, and a list stops at the first
 # failure, so the file the app's own "has it run" check reads goes last.
 # <path> may contain spaces.
@@ -1229,6 +1234,35 @@ firstrun_copy() {
 	fi
 	chown "$3" "$2"
 	chmod 0660 "$2"
+}
+
+# firstrun_unzip <zip> <dir> <owner> ; unpacks zip into dir, leaving every
+# top-level entry that is there already alone. Returns 1 on failure.
+firstrun_unzip() {
+	local tmp=$2/.firstrun-unzip top
+	[ -f "$1" ] || { log "first-start file $1 is missing"; return 1; }
+	mkdirs_as "$2" "$3" 2770 || { log "making $2 failed"; return 1; }
+	rm -rf "$tmp"
+	mkdir "$tmp" || { log "making $tmp failed"; return 1; }
+	if ! unzip -q -d "$tmp" "$1" </dev/null >/dev/null 2>&1; then
+		log "unpacking $1 failed"
+		rm -rf "$tmp"
+		return 1
+	fi
+	chown -R "$3" "$tmp"
+	find "$tmp" -type d -exec chmod 2770 {} +
+	find "$tmp" -type f -exec chmod 0660 {} +
+	for top in "$tmp"/* "$tmp"/.[!.]*; do
+		[ -e "$top" ] || continue
+		if [ -e "$2/${top##*/}" ]; then
+			log "kept the existing $2/${top##*/}"
+		elif ! mv "$top" "$2/"; then
+			log "moving ${top##*/} into $2 failed"
+			rm -rf "$tmp"
+			return 1
+		fi
+	done
+	rm -rf "$tmp"
 }
 
 # firstrun_list <list>
@@ -1274,6 +1308,15 @@ firstrun_list() {
 				log "appops set $pkg $src $dest failed: $out"
 				break
 			fi
+			;;
+		extzip)
+			[ -d "$MEDIA/Android/data" ] || break
+			stamp=$STATE/extzip.$pkg.$src
+			[ -e "$stamp" ] && continue
+			firstrun_unzip "$dir/$src" "$ext/$dest" "${owner%:*}:$AID_EXT_DATA_RW" || break
+			touch "$stamp"
+			wrote_ext=1
+			log "unpacked $src into $pkg's $dest (internal storage)"
 			;;
 		ext)
 			# vold makes Android/data when it mounts the internal storage

@@ -1,3 +1,4 @@
 *.apk filter=lfs diff=lfs merge=lfs -text
 emulators/libretro/*.tar.gz filter=lfs diff=lfs merge=lfs -text
 mali/g2p0/**/*.so filter=lfs diff=lfs merge=lfs -text
+foss-apps/*/firstrun/**/*.zip filter=lfs diff=lfs merge=lfs -text

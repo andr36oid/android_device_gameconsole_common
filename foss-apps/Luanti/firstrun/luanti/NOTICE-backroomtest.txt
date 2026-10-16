@@ -1,0 +1,75 @@
+Luanti game backroomtest (MIT/CC-BY-4.0)
+
+Shipped unmodified as published on ContentDB (sha256 0f03774bea8f31761f7480d34350a853957f07318cb1b28e9afa40504eddcbcd).
+Download: https://content.luanti.org/packages/Sumianvoice/backroomtest/releases/36294/download/
+Source: https://codeberg.org/SumianVoice/backroomtest/src/commit/53d9f838ffc510e8bbee449532b70d3e374df258
+
+================================================================================
+backroomtest/LICENSE
+
+Except where otherwise stated in submodule license files; 
+
+MIT License
+
+Copyright (c) 2025 Sumi, SumianVoice <info[at]sumianvoice.com> <https://codeberg.org/SumianVoice/backroomtest>
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+Media contained within is under CC-BY-4.0. https://creativecommons.org/licenses/by/4.0/
+================================================================================
+backroomtest/README.md
+
+# Backrooms Test
+
+What would it be like if you no-clipped into the backrooms? What would your journey be like?
+
+The game is about wandering, and collecting sights. There is no victory nor defeat, just an expansive mess of uncanny liminal spaces.
+
+This isn't a game in the usual sense. There isn't much in the way of progression, you can't build, mine, collect items, or anything else you would normally do and this is intentional. It's meant to mimic some of the backrooms found footage videos and other stories various people have created, and so typical game features like digging and building wouldn't work at all. The player needs to be helpless and lost.
+
+## How to play
+- normal controls, plus aux1 (E by default) to sprint
+- look for portals or portal doors to go to the next, or a random level
+- there's no fall damage unless it's not supported by engine version (MT 5.4 has fall damage)
+
+## Mission statement
+To create liminal spaces that are familiar yet disconcerting for the player to be trapped in and explore.
+
+Although inspiration is taken from various storied others have created, it isn't based on any particular canon, and so levels and features present on whatever wiki / video / etc can be added or not freely. It is its own canon. 
+
+## Contributing and licenses
+See `contributing.md`.
+
+## Planned features
+- more levels
+- more variation to existing levels
+- more reason to explore
+- more sounds, triggers, biomes
+- items and APIs for making it into a survival game (survival will not be added to the base game except as an opt-in mode)
+
+## What it isn't
+- a horror game
+- a survival game
+- a simulation
+
+## Features it will never have
+- survival mechanics, hunger, thirst, etc etc etc unless there's a REALLY good way to do it that doesn't destroy immersion or punish the player / give them chores
+- entities spawning all over the place
+- any of the cringe lore which isn't in line with the original concept (partygoers, smilers, almond water, etc)
+- a way "out" obviously

@@ -1,0 +1,10 @@
+# Luanti 5.17: it comes without games, so the games from luanti.org's gallery
+# (Minetest Game, Glitch, Backrooms Test, see ../games.lock) are unpacked into its
+# games folder, Android/data/net.minetest.minetest/files/Minetest/games (its user
+# folder is getExternalFilesDir + "Minetest"; its own first-start unpacking only adds
+# builtin, client and textures there). Each zip once, so a game the user deletes stays
+# deleted. See ../../README.md, "First-start settings".
+package net.minetest.minetest
+extzip minetest_game.zip Minetest/games
+extzip glitch.zip Minetest/games
+extzip backroomtest.zip Minetest/games

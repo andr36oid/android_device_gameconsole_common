@@ -1,0 +1,207 @@
+Luanti game glitch (GPL-3.0-or-later/CC-BY-4.0)
+
+Shipped unmodified as published on ContentDB (sha256 e39195347782b14c70595c2a4f71abbf288fc7e212a7d678eb098fec596cb776).
+Download: https://content.luanti.org/packages/Wuzzy/glitch/releases/38310/download/
+Source: https://codeberg.org/Wuzzy/Glitch/src/commit/aac3f400c1d855ba7f13e9ceca59eb71a9baa49d
+
+================================================================================
+glitch/README.md
+
+# Glitch
+
+A singleplayer platformer game for Luanti, created for the
+2022 Minetest Game Jam by Wuzzy, featuring music by Visager.
+
+You’re One, a bit who’s lost in cyberspace after a mysterious distortion
+interrupts a typical data transmission. Can you figure out what caused
+this and get back on track?
+
+Explore the System, collect electrons to unlock new sectors, learn new
+abilities to become more powerful and maybe you will find the path to
+your true destination.
+
+Official website: https://wuzzy.codeberg.page/Glitch/
+
+Version: 1.3.8
+
+## Version history
+
+* 1.3.8: Improve tooltip type in inventory screen (Luanti 5.17+)
+* 1.3.7: Fix `visual_scale` warnings in Luanti 5.17+
+         Fix some levels generating out-of-bounds
+         Make screen overlays non-hidable (Luanti 5.17+)
+         Disable automatic skybox dimming (Luanti 5.16+)
+         Minor translation updates
+* 1.3.6: New translations: Finnish, Toki Pona.
+         Converted translation file format to gettext PO.
+         Fix inventory height to small right after startup.
+* 1.3.5: New translation: Portuguese (Brazil)
+* 1.3.4: Fix game not working with low `mapgen_limit` setting
+* 1.3.3: Translation updates: Chinese (Simplified), French, Polish, Ukrainian
+         Make initial sky gray
+         Minor maintenance updates
+         Set `view_bobbing_amount` to 0 by default
+* 1.3.2: Translation updates: French, Russian, Spanish
+         Fix `hud_elem_type` deprecation warning in engine version 5.9.0.
+* 1.3.1: Display warning if launching game with non-default player
+         movement settings, hide Creative Mode again
+* 1.3.0: New accessibility setting to disable animation of the noise blocks,
+         French translation update,
+         Game name and description now translatable
+* 1.2.4: Spanish translation completed.
+* 1.2.3: New partial translations: Russian, French, Polish.
+         Make noise background sound and powerslide sound
+         easier on the ears.
+         Fix launchpad sometimes not working w/ high FPS.
+* 1.2.2: German translation fix
+* 1.2.1: The map is no longer stored on disk (saving disk space),
+         the selection box of helpers rotates now,
+         fix a few typos and translation mistakes,
+         other technical changes for engine version 5.7.0.
+* 1.2.0: Added German translation
+* 1.1.0: Usability improvements and bugfixes, partial Spanish translation
+* 1.0.1: Version submitted for the 2022 Minetest Game Jam
+* 1.0.0: First public release
+
+## System requirements
+
+You need Luanti to play. Get it at <https://luanti.org>.
+Luanti Version 5.10.0 or later is recommended.
+The game also works in versions 5.6 to 5.9, but translations
+aren’t availble before Luanti version 5.10.0.
+
+### A note about game physics
+
+For the best game experience, you should not use modified player
+movement settings in Luanti (`movement_speed_walk`, etc.).
+Glitch was carefully designed with the game’s chosen player physics.
+Any change breaks the intended game design and may even make levels
+unwinnable.
+
+If there are problems, the game will show you a warning beforehand.
+If this happens, go to the Luanti settings menu, search for offending
+setting names (starting with `movement_`) and reset them to the default
+value.
+
+You may ignore this warning, but then there is NO guarantee the
+game functions properly.
+
+## Basic controls
+
+* Move mouse: Look around
+* Place key [right mouse click]: Interact with beings
+* Movement keys [WASD]: Slide on flat ground or small slopes
+* Aux1 key [E]: Use gateway (hold key pressed)
+* Inventory key [I]: Show your electrons and abilities
+
+You will learn more abilities along the way.
+Check the tooltips in your inventory for a reminder.
+
+If the music is too loud/quiet, you can change it in the settings.
+(`glitch_music_gain`).
+
+
+## Credits
+
+* Idea, design, coding, graphics, 3D models, sounds effects, story, writing and testing by Wuzzy (2022).
+* Music by Visager (2016).
+* 1 bugfix and 1 minor sound improvement by Minisleep for version 1.2.3 (2023).
+
+Translations:
+
+* French
+    * Vulcain <akheron@zaclys.net>
+    * NeoSlugman <neoslugman+codeberg+org@gmail.com>
+    * mondstern <mondstern@monocles.de>
+    * Hēlios <akheron@zaclys.net>
+    * NeoSlugman <neoslugman+codeberg+org@gmail.com>
+* German
+    * Wuzzy <wuzzy@disroot.org>
+    * Dirkfried
+* Polish
+    * Eryk Michalak <gnu.ewm@protonmail.com>
+    * mondstern <mondstern@monocles.de>
+    * matsob0123 <matsob0123@gmail.com>
+    * Coral Pink <coral.pink@disr.it>
+    * Sourka <sourka.aszcx@simplelogin.fr>
+    * DoktorZieluch <drzieluch777@gmail.com>
+    * kkrawczyk <krawczykkamil343@gmail.com>
+* Russian
+    * Maks\_kor13 <korneevdima65@gmail.com>
+    * vintprox <vintprox@gmail.com>
+    * nekoedges <nekoedges@disroot.org>
+    * NaumovSN <st250492@yandex.ru>
+* Spanish
+    * gallegonovato <fran-carro@hotmail.es>
+    * Gabri06 <rangelg2908@gmail.com>
+    * turbotopia <thomasalarsen10@gmail.com>
+    * caroline-coxta <caroline.coxta@gmail.com>
+    * ost1
+* Chinese (Simplified)
+    * bright <3243254963@qq.com>
+* Turkish
+    * birdlover32767 (birdlover32767) <ysaksoylar@gmail.com>
+* Ukrainian
+    * FromKaniv <fromkaniv@gmail.com>
+* Portuguese (Brazil)
+    * newrizen <obsidianover@gmail.com>
+* Finnish
+    * jopaSuomi
+* Toki Pona
+    * jopaSuomi
+
+### Track list
+
+All songs from from the album "Songs From An Unmade World 2" by Visager.
+
+- We Can Do It! [Loop]
+- Eerie Mausoleum [Loop]
+- Welcome Player [Loop]
+- The Plateau at Night [Loop]
+
+### Mods
+
+All mods were created by Wuzzy.
+Almost all mods were created from scratch specifically for Glitch
+during the 2022 Minetest Game Jam.
+
+The following minimal library mod (which previously existed) is used:
+
+* `playerphysics`: Player Physics API (by Wuzzy)
+
+### Licensing
+
+Summary:
+
+* This game is 100% free software! Enjoy. :-)
+* Media is licensed CC BY 4.0
+* Source code is licensed GPL v3.0+
+* See credits above for a list of authors
+
+### Website
+
+Glitch has its own website at https://wuzzy.codeberg.page/Glitch/
+
+Its source code can be found in the Glitch git repository under
+the `pages` branch.
+
+#### License for code
+
+Copyright (C) 2022 Wuzzy
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+#### License for the music and other media files
+
+Creative Commons Attribution 4.0 <https://creativecommons.org/licenses/by/4.0/>.
