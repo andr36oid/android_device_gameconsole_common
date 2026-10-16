@@ -165,6 +165,11 @@
     <string name="kt_axis_ry">Правый стик вверх/вниз</string>
     <string name="kt_stick_invert_what">Переворачивает направление стика, в дополнение к тому, что уже делает файл экрана этой консоли.</string>
     <string name="kt_stick_invert_why">Некоторые клоны подключают стик наоборот, так что нажатие вправо двигает влево, а вверх — вниз. Отметь то направление, которое перевёрнуто. Проверь в тесте геймпада, что теперь всё верно.</string>
+    <string name="kt_stick_swap">Поменять стики местами</string>
+    <string name="kt_stick_swap_off">Обычно</string>
+    <string name="kt_stick_swap_on">Поменяны</string>
+    <string name="kt_stick_swap_what">Левый стик работает как правый, а правый как левый.</string>
+    <string name="kt_stick_swap_why">Для клонов с перепутанными стиками или если удобнее управлять другим стиком. Направления, перевёрнутые выше, остаются у того стика, на котором вы их перевернули.</string>
 
     <string name="kt_poll_interval">Частота опроса кнопок</string>
     <string name="kt_poll_interval_what">Как часто считываются стики и повторно проверяются кнопки.</string>

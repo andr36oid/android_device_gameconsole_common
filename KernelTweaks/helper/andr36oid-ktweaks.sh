@@ -48,6 +48,7 @@ sd1_readahead|plain||/sys/block/mmcblk0/queue/read_ahead_kb
 sd2_scheduler|bracket||/sys/block/mmcblk1/queue/scheduler
 sd2_readahead|plain||/sys/block/mmcblk1/queue/read_ahead_kb
 stick_invert|plain||/sys/devices/platform/odroidgo3-joypad/stick_invert
+stick_swap|plain||/sys/devices/platform/odroidgo3-joypad/stick_swap
 poll_interval|plain||/sys/devices/platform/odroidgo3-joypad/poll_interval
 hp_det_flip|plain||/sys/module/snd_soc_simple_card_utils/parameters/hp_det_flip
 log_level|first||/proc/sys/kernel/printk

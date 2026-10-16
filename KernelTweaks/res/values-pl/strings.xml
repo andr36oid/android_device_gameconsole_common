@@ -165,6 +165,11 @@
     <string name="kt_axis_ry">Prawa gałka góra/dół</string>
     <string name="kt_stick_invert_what">Odwraca kierunek gałki, oprócz tego, co już robi plik ekranu tej konsoli.</string>
     <string name="kt_stick_invert_why">Niektóre klony podłączają gałkę na odwrót, więc pchnięcie w prawo przesuwa w lewo, albo góra przesuwa w dół. Zaznacz kierunek, który jest odwrócony. Sprawdź w teście kontrolera, czy teraz jest dobrze.</string>
+    <string name="kt_stick_swap">Zamień gałki</string>
+    <string name="kt_stick_swap_off">Normalnie</string>
+    <string name="kt_stick_swap_on">Zamienione</string>
+    <string name="kt_stick_swap_what">Lewa gałka działa jak prawa, a prawa jak lewa.</string>
+    <string name="kt_stick_swap_why">Dla klonów z zamienionymi gałkami albo jeśli wolisz sterować drugą gałką. Kierunki odwrócone wyżej zostają przy gałce, na której je odwróciłeś.</string>
 
     <string name="kt_poll_interval">Częstość sprawdzania przycisków</string>
     <string name="kt_poll_interval_what">Jak często gałki są odczytywane, a przyciski sprawdzane ponownie.</string>

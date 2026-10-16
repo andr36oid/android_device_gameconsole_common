@@ -117,6 +117,11 @@ final class Tweaks {
             .add(Tweak.axes("stick_invert", R.string.kt_stick_invert,
                     R.string.kt_stick_invert_what, R.string.kt_stick_invert_why,
                     "/sys/devices/platform/odroidgo3-joypad/stick_invert"))
+            .add(Tweak.choice("stick_swap", R.string.kt_stick_swap,
+                    R.string.kt_stick_swap_what, R.string.kt_stick_swap_why,
+                    "/sys/devices/platform/odroidgo3-joypad/stick_swap")
+                .values("0", "1")
+                .labels(R.string.kt_stick_swap_off, R.string.kt_stick_swap_on))
             .add(Tweak.choice("poll_interval", R.string.kt_poll_interval,
                     R.string.kt_poll_interval_what, R.string.kt_poll_interval_why,
                     "/sys/devices/platform/odroidgo3-joypad/poll_interval")

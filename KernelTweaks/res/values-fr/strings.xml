@@ -163,6 +163,11 @@
     <string name="kt_axis_ry">Stick droit haut/bas</string>
     <string name="kt_stick_invert_what">Inverse une direction du stick, en plus de ce que fait déjà le fichier d\'écran de cette console.</string>
     <string name="kt_stick_invert_why">Certains clones câblent un stick à l\'envers, donc pousser à droite déplace vers la gauche, ou le haut déplace vers le bas. Coche la direction qui est inversée. Vérifie dans le test de manette que c\'est bon maintenant.</string>
+    <string name="kt_stick_swap">Inverser les sticks</string>
+    <string name="kt_stick_swap_off">Normal</string>
+    <string name="kt_stick_swap_on">Inversés</string>
+    <string name="kt_stick_swap_what">Le stick gauche agit comme le droit et le droit comme le gauche.</string>
+    <string name="kt_stick_swap_why">Pour les clones aux sticks inversés, ou si tu préfères diriger avec l\'autre stick. Les directions retournées plus haut restent sur le stick où tu les as retournées.</string>
 
     <string name="kt_poll_interval">Fréquence de lecture des boutons</string>
     <string name="kt_poll_interval_what">À quelle fréquence les sticks sont lus et les boutons revérifiés.</string>
