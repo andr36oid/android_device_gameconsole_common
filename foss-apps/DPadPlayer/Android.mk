@@ -11,7 +11,7 @@ LOCAL_MODULE_CLASS := ETC
 LOCAL_MODULE_TAGS := optional
 LOCAL_MODULE_RELATIVE_PATH := gameconsole/preinstall
 LOCAL_MODULE_STEM := DPadPlayer.apk
-dpadplayer_apk := $(call local-intermediates-dir)/DPadPlayer.apk
+dpadplayer_apk := $(call local-intermediates-dir)/renamed/DPadPlayer.apk
 $(dpadplayer_apk): PRIVATE_CERT := $(DEFAULT_SYSTEM_DEV_CERTIFICATE)
 $(dpadplayer_apk): $(LOCAL_PATH)/DPadPlayer.apk $(LOCAL_PATH)/rename.py $(SIGNAPK_JAR) \
 		$(SIGNAPK_JNI_LIBRARY_PATH)
