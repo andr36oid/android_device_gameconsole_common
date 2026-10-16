@@ -10,7 +10,6 @@ aws.apps.usbDeviceEnumerator 81 UsbDeviceInfo.apk Lists the USB devices plugged 
 org.fdroid.fdroid 1023052 F-Droid.apk App store for free and open source apps. Allow it as an install source when it asks.
 com.sika524.android.quickshortcut 20400 QuickShortcutMaker.apk Makes home screen shortcuts to any screen of any app.
 sh.haven.app 8651 Haven.apk SSH, VNC and RDP client with a local Linux terminal.
-com.termux 1002 Termux.apk Linux terminal with a package manager for command line tools.
 dev.sebaubuntu.athena 17 Athena.apk Shows detailed hardware and system information.
 com.ghisler.android.TotalCommander 2490 TotalCommander.apk Two-pane file manager.
 com.ghisler.tcplugins.LAN 106 TotalCommanderLAN.apk needs=com.ghisler.android.TotalCommander Plugin for Total Commander: opens Windows (SMB) network shares.
