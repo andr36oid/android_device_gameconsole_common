@@ -26,6 +26,16 @@
         android:textColor="?android:attr/textColorSecondary"
         android:textSize="14sp" />
 
+    <!-- the 2 GB AUTOAPK area is only there until the apps are installed -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:lineSpacingMultiplier="1.1"
+        android:text="@string/setup_apps_space"
+        android:textColor="#ffffb74d"
+        android:textSize="13sp" />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"

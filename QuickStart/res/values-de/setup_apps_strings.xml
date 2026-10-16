@@ -5,5 +5,5 @@
     <string name="setup_apps_body">Diese Apps sind bei andr36oid dabei und werden direkt von der Karte installiert, ganz ohne Internet. Entferne den Haken bei denen, die du nicht willst.</string>
     <string name="setup_apps_all">Alle oder keine</string>
     <string name="setup_apps_next">Installieren</string>
-    <string name="setup_apps_needs_mouse">Braucht den Mausmodus, um ein Spiel zu starten, das Tutorial zeigt wie</string>
+    <string name="setup_apps_space">Diese Apps belegen vorerst 2 GB deiner SD-Karte. Sind sie installiert, gibt der nächste Start den Platz an Android zurück und die nicht gewählten Apps sind dann weg. Wähle also jetzt alles, was du willst.</string>
 </resources>

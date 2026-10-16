@@ -5,5 +5,5 @@
     <string name="setup_apps_body">Ces applis sont fournies avec andr36oid et s\'installent directement depuis la carte, sans internet. Décoche celles que tu ne veux pas.</string>
     <string name="setup_apps_all">Toutes ou aucune</string>
     <string name="setup_apps_next">Installer</string>
-    <string name="setup_apps_needs_mouse">Il faut le mode souris pour lancer une partie, le tutoriel montre comment</string>
+    <string name="setup_apps_space">Ces applis occupent pour l\'instant 2 Go de ta carte SD. Une fois installées, le prochain démarrage rend cet espace à Android et celles que tu n\'as pas cochées disparaissent de la carte. Choisis donc maintenant tout ce que tu veux.</string>
 </resources>
