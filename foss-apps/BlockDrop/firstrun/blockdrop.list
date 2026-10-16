@@ -1,8 +1,0 @@
-# BlockDrop 1.0.69: "Fullscreen board" on, so the board takes the screen's whole
-# height instead of about half (its wide layout needs a screen wider than 1.4:1, ours
-# is 4:3). Flutter keeps its settings in FlutterSharedPreferences.xml, keys prefixed
-# "flutter."; written while it has never run. See ../../README.md, "First-start
-# settings".
-package com.blockdrop.game
-unless data shared_prefs/FlutterSharedPreferences.xml
-data prefs.xml shared_prefs/FlutterSharedPreferences.xml

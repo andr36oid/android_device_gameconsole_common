@@ -3,8 +3,6 @@
      app_desc_ + the package with the dots as underscores; an app without one shows its
      name only. -->
 <resources>
-    <string name="app_desc_com_blockdrop_game">带手柄操作的方块下落游戏</string>
-    <string name="app_desc_org_blockinger_game">经典方块下落游戏</string>
     <string name="app_desc_org_cromite_cromite">带广告拦截的网页浏览器</string>
     <string name="app_desc_com_example_dpadplayer">播放存储卡里歌曲的音乐播放器</string>
     <string name="app_desc_com_looker_droidify">免费开源应用商店（F-Droid）</string>

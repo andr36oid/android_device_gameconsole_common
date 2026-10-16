@@ -3,8 +3,6 @@
      app_desc_ + the package with the dots as underscores; an app without one shows its
      name only. -->
 <resources>
-    <string name="app_desc_com_blockdrop_game">Fallende-Blöcke-Spiel mit Pad-Steuerung</string>
-    <string name="app_desc_org_blockinger_game">Klassisches Fallende-Blöcke-Spiel</string>
     <string name="app_desc_org_cromite_cromite">Webbrowser mit Werbeblocker</string>
     <string name="app_desc_com_example_dpadplayer">Musikplayer für die Songs auf deiner Karte</string>
     <string name="app_desc_com_looker_droidify">App-Store für kostenlose Open-Source-Apps (F-Droid)</string>

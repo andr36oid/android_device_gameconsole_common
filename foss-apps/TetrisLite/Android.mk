@@ -1,6 +1,6 @@
 LOCAL_PATH := $(call my-dir)
 
-# TetrisLite: falling blocks, on test next to BlockDrop. Installed on first boot as a
+# TetrisLite: the falling blocks game. Installed on first boot as a
 # normal app by the gameconsole-emu service, see ../README.md.
 include $(CLEAR_VARS)
 LOCAL_MODULE := foss-TetrisLite
