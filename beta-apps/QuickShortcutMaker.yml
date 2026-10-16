@@ -1,0 +1,5 @@
+package: com.sika524.android.quickshortcut
+version_code: 20400
+checked: false
+description:
+  en: "Makes home screen shortcuts to any screen of any app"

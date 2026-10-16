@@ -1,0 +1,5 @@
+package: org.fedorahosted.freeotp
+version_code: 48
+checked: false
+description:
+  en: "Makes two-factor login codes"

@@ -495,12 +495,11 @@ PRODUCT_PRODUCT_PROPERTIES += \
 PRODUCT_PRODUCT_PROPERTIES += \
 	ro.andr36oid.fn_overlay=true
 
-# Apps for beta testers (beta-apps/README.md) and the Beta apps app that offers
-# them to the tester, in every build but release builds
+# Apps for beta testers (beta-apps/README.md), on AUTOAPK, offered unticked on the
+# setup's app page, in every build but release builds
 ifeq ($(filter %-release,$(ANDR36OID_VERSION)),)
 PRODUCT_PACKAGES += \
-	andr36oid-beta-apps \
-	Andr36oidBetaApps
+	andr36oid-beta-apps
 endif
 
 # Joystick as mouse

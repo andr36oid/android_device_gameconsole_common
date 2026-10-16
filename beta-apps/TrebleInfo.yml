@@ -1,0 +1,5 @@
+package: com.kevintresuelo.treble
+version_code: 500004
+checked: false
+description:
+  en: "Shows whether the system supports Treble and which GSI images fit it"

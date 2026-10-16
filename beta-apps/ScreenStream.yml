@@ -1,0 +1,5 @@
+package: info.dvkr.screenstream
+version_code: 44002
+checked: false
+description:
+  en: "Streams the console's screen to a web browser on your network"

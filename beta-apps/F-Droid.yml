@@ -1,0 +1,5 @@
+package: org.fdroid.fdroid
+version_code: 1023052
+checked: false
+description:
+  en: "App store for free and open source apps. Allow it as an install source when it asks"

@@ -1,0 +1,5 @@
+package: dev.sebaubuntu.athena
+version_code: 17
+checked: false
+description:
+  en: "Shows detailed hardware and system information"
