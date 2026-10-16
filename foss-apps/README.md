@@ -47,15 +47,21 @@ Apps from F-Droid keep F-Droid's signature, so F-Droid can update them. Apps
 from their own project site keep the project's signature; F-Droid can't
 update those, the project's own releases can.
 
-One exception: D-PAD Player is the console's Music app. `DPadPlayer/rename.py`
+Two exceptions. D-PAD Player is the console's Music app. `DPadPlayer/rename.py`
 renames it at build time ("DPAD Music" becomes "Music") and the build signs
 it with the ROM's key (`DPadPlayer/Android.mk`), so only our builds can update
 it. Its developer, jbriones95, is credited in the Credits app, and its
 NOTICE.txt says what was changed (`modified=` in `app.lock`). It starts with
 the Retro accent (`DPadPlayer/firstrun`).
 
+The other one: TetrisLite comes from andr36oid's fork
+(github.com/andr36oid/TetrisLite, branch `andr36oid`), with a start screen that
+fits the console's screen and gamepad buttons in the game. Its APK is the fork's
+unsigned release build, signed with the ROM's key by `TetrisLite/Android.mk`;
+`TetrisLite/app.lock` says how to build it (fetch.sh can't fetch it).
+
 Nothing needs uploading with a release: the APKs are upstream builds (Music
-renamed by a script in this repo) and NOTICE.txt points at the source for
+renamed by a script in this repo, TetrisLite built from our public fork) and NOTICE.txt points at the source for
 that version.
 
 ## First-start settings (button maps, hotkeys)
