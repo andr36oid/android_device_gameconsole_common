@@ -691,7 +691,6 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
 	usb_modeswitch \
 	Daijishou \
-	Cromite \
 	LeanbackIME \
 
 # On-screen keyboard made for the controller (key grid or stick typing), a second

@@ -1,0 +1,14 @@
+# Cromite, its developer's GitHub release (arm64). sha256 is the release asset's
+# digest on GitHub. It used to be a system app; as a normal app its APK stays
+# compressed on the system partition (about 115 MB less) and the browser can be
+# updated or uninstalled like the other apps.
+name=Cromite
+package=org.cromite.cromite
+version_code=763212002
+version_name=145.0.7632.120
+spdx=GPL-3.0-only AND BSD-3-Clause
+sha256=10865abed522d7b93ccae79d8db9ad1eec474332befefa808bda61c0016d90b2
+apk_url=https://github.com/uazo/cromite/releases/download/v145.0.7632.120-d133d52d09c925b6542ff00e368d18d74df85e7c/arm64_ChromePublic.apk
+source_url=https://github.com/uazo/cromite/tree/d133d52d09c925b6542ff00e368d18d74df85e7c (Cromite's patches on Chromium 145.0.7632.120)
+license_url=https://raw.githubusercontent.com/uazo/cromite/d133d52d09c925b6542ff00e368d18d74df85e7c/LICENSE
+published_by=its developer (GitHub release v145.0.7632.120)

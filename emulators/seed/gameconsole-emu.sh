@@ -2361,10 +2361,11 @@ until pm path android </dev/null >/dev/null 2>&1; do
 done
 
 seed_cromite_gamepad
-seed_cromite_search
 seed_net_traffic
 first_start
 install_apks
+# after the installs: Cromite is a normal app installed by install_apks
+seed_cromite_search
 seed_ppsspp
 seed_retroarch
 seed_core_options
