@@ -4,27 +4,49 @@ Free and open source apps that are useful on the console but are not
 emulators for RetroArch/Daijishou's core set: game streaming, a video player,
 stand-alone emulators. They are in every build (release too).
 
+## AUTOAPK
+
 They are installed the same way as RetroArch and PPSSPP (see
-`../emulators/README.md`): the APK sits unmodified (except Music, below) in
-`/system/etc/gameconsole/preinstall/`, and the `gameconsole-emu` service
-installs it on boot as a normal app with `pm install -g`. So the user can
-uninstall it, a removed app stays removed, and a newer ROM upgrades an older
-install. The list files are called `z-foss-*.list` so they sort after
-`preinstall.list`: RetroArch and PPSSPP get installed first.
+`../emulators/README.md`): the APK sits unmodified (except Music, below) on the
+AUTOAPK partition, and the `gameconsole-emu` service installs it as a normal app
+with `pm install -g`. So the user can uninstall it, and a removed app stays
+removed.
+
+AUTOAPK is a 2 GiB FAT32 partition in the image right after system, made by
+`mkimg.sh` (device/gameconsole/r36s) from `$OUT/autoapk`, where these modules
+install. People can copy their own APKs onto it from a PC before the first start.
+The first start (`../firstresize`) moves it behind userdata as exFAT and mounts it
+read-only at `/mnt/andr36oid-apps`. Once the installer is done with it (every app
+installed, left out or failed for good, and the first-start settings written), it
+leaves `/metadata/andr36oid/apps-done`, and the next start gives the space to
+userdata.
+
+Each APK has a `<Name>.yml` next to it:
+
+    package: org.example.app       the package, for the installer
+    version_code: 123
+    checked: false                 unticked on the setup's app page (default: ticked)
+    required: true                 always installed, not on the page (RetroArch, Magisk)
+    needs: org.example.other       ticking this one ticks that one too (plugins)
+    description:                   the page's second line, per language; English is
+      en: "What it does"           used when the user's language is missing
+      de: "Was es macht"
+    warning:                       shown in amber under it, per language
+      en: "Needs mouse mode"
 
 The setup wizard has a page to pick which of these get installed
-(`../QuickStart`, SetupAppsActivity), all ticked at first; the installs are
-offline, from the card. Until it was left with Next the service keeps these apps
-back (on consoles set up before, they install as always). The unticked ones are
-treated like apps the user uninstalled: never installed later.
+(`../QuickStart`, SetupAppsActivity); the installs are offline, from the card.
+APKs without a `.yml` (someone's own) are shown unticked. Until the page was left
+with Next the service keeps the apps back, except the required ones. The unticked
+ones are treated like apps the user uninstalled: never installed later.
 
 Every app has its own folder, so each one can be added or dropped alone:
 
     <App>/app.lock            what to download, pinned by sha256
     <App>/<App>.apk           the upstream APK, byte for byte (git LFS)
     <App>/NOTICE.txt          license, download and source link (Settings > About > Legal)
-    <App>/z-foss-<app>.list   package, versionCode, file for the installer
-    <App>/Android.mk          the two ETC modules
+    <App>/<App>.yml           package, versionCode and the setup page's texts
+    <App>/Android.mk          the ETC modules
     <App>/product.mk          adds them to PRODUCT_PACKAGES
 
 `foss-apps.mk` pulls in every `*/product.mk`. To drop an app, delete its
@@ -37,8 +59,8 @@ Edit `app.lock` (version, versionCode, URL, sha256), then run
 
     foss-apps/fetch.sh foss-apps/<App>
 
-It downloads the APK, checks the sha256 and writes NOTICE.txt and the list
-file again. Commit them together. Take the sha256 from the upstream's own
+It downloads the APK, checks the sha256, writes NOTICE.txt again and the package
+and version_code in `<App>.yml`. Commit them together. Take the sha256 from the upstream's own
 checksum (F-Droid index, GitHub release digest, `.sha256` file) and check the
 APK with `aapt2 dump badging` (package, versionCode, minSdk <= 30, has
 arm64-v8a).
@@ -88,7 +110,7 @@ The list, one instruction per line:
                              once per app and zip (also after the app has run), keeping
                              folders that are there; Luanti's games come this way
 
-They land in `/system/etc/gameconsole/firstrun/`. Only missing files are
+They land in AUTOAPK's `.andr36oid/firstrun/`. Only missing files are
 written, in list order; a list stops at its first failure. So the file the app
 itself uses to tell whether it ran before (usually its shared_prefs) goes last.
 `<path>` may contain spaces. Files get the app's owner (group ext_data_rw on
