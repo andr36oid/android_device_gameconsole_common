@@ -36,20 +36,33 @@
         android:textColor="#ffffb74d"
         android:textSize="13sp" />
 
-    <ScrollView
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:focusable="false"
-        android:fadingEdgeLength="16dp"
-        android:requiresFadingEdge="vertical">
+        android:layout_weight="1">
 
-        <LinearLayout
-            android:id="@+id/apps"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" />
-    </ScrollView>
+            android:layout_height="match_parent"
+            android:focusable="false"
+            android:fadingEdgeLength="16dp"
+            android:requiresFadingEdge="vertical">
+
+            <LinearLayout
+                android:id="@+id/apps"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+        </ScrollView>
+
+        <!-- while the APKs are read -->
+        <ProgressBar
+            android:id="@+id/loading"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center"
+            android:indeterminate="true" />
+    </FrameLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -74,6 +87,7 @@
         <Button
             android:id="@+id/all"
             style="?android:attr/borderlessButtonStyle"
+            android:enabled="false"
             android:foreground="@drawable/tutorial_button_focus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -82,6 +96,7 @@
         <Button
             android:id="@+id/next"
             style="?android:attr/borderlessButtonStyle"
+            android:enabled="false"
             android:foreground="@drawable/tutorial_button_focus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

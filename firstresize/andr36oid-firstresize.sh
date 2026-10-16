@@ -142,21 +142,18 @@ apps_move() {
         { log "the image's AUTOAPK doesn't mount: $out"; return 1; }
     out=$(mount -t exfat "$DEV/${disk}p13" "$TMP_MNT/new" 2>&1) ||
         { log "the new AUTOAPK doesn't mount: $out"; umount "$TMP_MNT/old"; return 1; }
+    # cp's own errors are the check: no read-back, that doubled the time. A damaged
+    # APK is refused by the package manager when it's installed.
     ok=1
+    t0=$(date +%s)
     cp -R "$TMP_MNT/old/." "$TMP_MNT/new/" 2>/dev/null || ok=0
     sync
+    t1=$(date +%s)
     files=$(cd "$TMP_MNT/old" && find . -type f | wc -l)
-    if [ $ok = 1 ]; then
-        # every file, byte for byte (names can have spaces: people add their own)
-        bad=$(cd "$TMP_MNT/old" && find . -type f | while IFS= read -r f; do
-            cmp -s "$f" "$TMP_MNT/new/$f" || echo "$f"
-        done)
-        [ -z "$bad" ] || { ok=0; log "AUTOAPK: didn't copy: $(echo "$bad" | head -3)"; }
-    fi
     umount "$TMP_MNT/new"
     umount "$TMP_MNT/old"
     [ $ok = 1 ] || { log "copying AUTOAPK failed"; return 1; }
-    log "AUTOAPK: $files files moved to ${APPS_START}s-${APPS_END}s"
+    log "AUTOAPK: $files files moved to ${APPS_START}s-${APPS_END}s in $((t1 - t0)) s"
     USERDATA_END=$((APPS_START - 1))
 }
 

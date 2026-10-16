@@ -88,8 +88,9 @@ public class SetupAppsActivity extends Activity {
         findViewById(R.id.back).setOnClickListener(v -> finish());
         findViewById(R.id.all).setOnClickListener(v -> tickAll());
         findViewById(R.id.next).setOnClickListener(v -> done());
-        findViewById(R.id.next).requestFocus();
-        // Reading 20 APKs takes a moment: off the main thread
+        findViewById(R.id.back).requestFocus();
+        // Reading 20 APKs takes a moment: off the main thread, with a spinner and
+        // Continue off until the list is there (left early, nothing would be left out)
         new Thread(() -> {
             final List<App> apps = readApps();
             runOnUiThread(() -> show(apps));
@@ -236,6 +237,9 @@ public class SetupAppsActivity extends Activity {
             mList.addView(box);
             mBoxes.add(box);
         }
+        findViewById(R.id.loading).setVisibility(View.GONE);
+        findViewById(R.id.all).setEnabled(true);
+        findViewById(R.id.next).setEnabled(true);
         // a plugin ticks the app it needs
         for (App app : apps) {
             final App needed = app.needs == null ? null : byPackage.get(app.needs);
