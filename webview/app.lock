@@ -1,0 +1,12 @@
+# Thorium WebView, Alex313031's Chromium fork, Android build by gz83 from their
+# GitHub release (arm64 and arm). sha256 is the release asset's digest on GitHub.
+name=ThoriumWebView
+package=com.thorium.webview
+version_code=807802801
+version_name=156.0.8078.28
+spdx=BSD-3-Clause
+sha256=b51edf41fd3a28287c3ee7113df284fea40e79c46a6ec9879ce46d21bddd1ab3
+apk_url=https://github.com/gz83/thorium/releases/download/M156.0.8078.28/SystemWebView_arm64.apk
+source_url=https://github.com/gz83/thorium/tree/de9a1bc6199297443eda50f965c4b22a0b37bae3 (Thorium by Alex313031, Android build by gz83)
+license_url=https://raw.githubusercontent.com/gz83/thorium/de9a1bc6199297443eda50f965c4b22a0b37bae3/LICENSE.md
+published_by=gz83 (GitHub release M156.0.8078.28)

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- andr36oid: Thorium WebView (webview/) is the only WebView. No signature: as a
+     system app it is taken as it is, and an update must carry the same signature
+     as the one on the system partition anyway. -->
+<webviewproviders>
+    <webviewprovider description="Thorium WebView" packageName="com.thorium.webview" availableByDefault="true" />
+</webviewproviders>

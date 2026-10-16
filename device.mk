@@ -502,6 +502,10 @@ PRODUCT_PACKAGES += \
 	andr36oid-beta-apps
 endif
 
+# The system WebView: Thorium's, instead of LineageOS's (webview/)
+PRODUCT_PACKAGES += \
+	ThoriumWebView
+
 # Joystick as mouse
 PRODUCT_PACKAGES += \
 	joyMouse \
