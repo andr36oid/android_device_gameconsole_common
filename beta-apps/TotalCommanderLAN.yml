@@ -1,6 +1,0 @@
-package: com.ghisler.tcplugins.LAN
-version_code: 106
-checked: false
-needs: com.ghisler.android.TotalCommander
-description:
-  en: "Plugin for Total Commander: opens Windows (SMB) network shares"

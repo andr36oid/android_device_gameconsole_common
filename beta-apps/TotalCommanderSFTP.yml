@@ -1,6 +1,0 @@
-package: com.ghisler.tcplugins.SFTP
-version_code: 60
-checked: false
-needs: com.ghisler.android.TotalCommander
-description:
-  en: "Plugin for Total Commander: opens SFTP servers"
