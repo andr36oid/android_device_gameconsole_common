@@ -1,0 +1,12 @@
+# HyperRogue, F-Droid build (F-Droid signs it, so F-Droid can update it).
+# sha256 from the F-Droid index (index-v2.json).
+name=HyperRogue
+package=com.roguetemple.hyperroid
+version_code=13105
+version_name=13.1e
+spdx=GPL-2.0-only
+sha256=496cc9c0a2366aa8a2c30ae1f4dc9f7b75c2e493b24a3520d50f082308bebed0
+apk_url=https://f-droid.org/repo/com.roguetemple.hyperroid_13105.apk
+source_url=https://github.com/zenorogue/hyperrogue/tree/v13.1e (F-Droid's source tarball: https://f-droid.org/repo/com.roguetemple.hyperroid_13105_src.tar.gz)
+license_url=https://raw.githubusercontent.com/zenorogue/hyperrogue/v13.1e/COPYING
+published_by=F-Droid
