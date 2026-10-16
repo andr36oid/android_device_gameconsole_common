@@ -1,13 +1,13 @@
-Game2048 2.2 (com.uberspot.a2048, versionCode 25) - MIT
+BlockDrop 1.0.69 (com.blockdrop.game, versionCode 662) - MIT
 
-Shipped unmodified as published by F-Droid (sha256 7c66ccdf3d1fb9fd18d2a088f34bde4069c1107e4fc4b787b18012d7021df17f).
-Download: https://f-droid.org/archive/com.uberspot.a2048_25.apk
-Source: https://github.com/uberspot/2048-android (F-Droid's source tarball: https://f-droid.org/archive/com.uberspot.a2048_25_src.tar.gz)
+Shipped unmodified as published by F-Droid (sha256 90c5b66b3092bd9641f3265e42cb3957f25693900555dda64efc7e1c04a5e820).
+Download: https://f-droid.org/repo/com.blockdrop.game_662.apk
+Source: https://github.com/brandonp2412/BlockDrop/tree/58689da36d182a2c6675b93faedeb09d9d6e7d39 (F-Droid's source tarball: https://f-droid.org/repo/com.blockdrop.game_662_src.tar.gz)
 
 ================================================================================
-The MIT License (MIT)
+MIT License
 
-Copyright (c) 2014 Paul Sarbinowski
+Copyright (c) 2025 Brandon Dick
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

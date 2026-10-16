@@ -1,8 +1,8 @@
-Blockinger 1.8.2 (org.blockinger.game, versionCode 14) - GPL-3.0-or-later
+PrivacyFriendly2048 1.4.2 (org.secuso.privacyfriendly2048, versionCode 100) - GPL-3.0-or-later
 
-Shipped unmodified as published by F-Droid (sha256 0c51e2255401eeb16ada6ea4eaa8aec1c2b715a789b12a004355a3812fe1c111).
-Download: https://f-droid.org/archive/org.blockinger.game_14.apk
-Source: https://github.com/vocollapse/Blockinger (F-Droid's source tarball: https://f-droid.org/archive/org.blockinger.game_14_src.tar.gz)
+Shipped unmodified as published by F-Droid (sha256 02c799d3d582669daf2acf920093c68d2933f60aa937bb72fa2a805557233fe8).
+Download: https://f-droid.org/repo/org.secuso.privacyfriendly2048_100.apk
+Source: https://github.com/SecUSo/privacy-friendly-2048/tree/4ee3cf356376c1f8905f81a02ffc9f37b3db6c96 (F-Droid's source tarball: https://f-droid.org/repo/org.secuso.privacyfriendly2048_100_src.tar.gz)
 
 ================================================================================
                     GNU GENERAL PUBLIC LICENSE
@@ -638,8 +638,9 @@ to attach them to the start of each source file to most effectively
 state the exclusion of warranty; and each file should have at least
 the "copyright" line and a pointer to where the full notice is found.
 
-    <one line to give the program's name and a brief idea of what it does.>
-    Copyright (C) <year>  <name of author>
+    Privacy Friendly Example App. The Android application demonstrate the design 
+    of a Privacy Friendly App. 
+    Copyright (C) 2016-2018 Karola Marky
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -659,7 +660,7 @@ Also add information on how to contact you by electronic and paper mail.
   If the program does terminal interaction, make it output a short
 notice like this when it starts in an interactive mode:
 
-    <program>  Copyright (C) <year>  <name of author>
+    Privacy Friendly Apps Copyright (C) 2016-2018 Karola Marky
     This program comes with ABSOLUTELY NO WARRANTY; for details type `show w'.
     This is free software, and you are welcome to redistribute it
     under certain conditions; type `show c' for details.
@@ -679,3 +680,4 @@ may consider it more useful to permit linking proprietary applications with
 the library.  If this is what you want to do, use the GNU Lesser General
 Public License instead of this License.  But first, please read
 <http://www.gnu.org/philosophy/why-not-lgpl.html>.
+

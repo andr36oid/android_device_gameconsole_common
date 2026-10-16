@@ -1,0 +1,12 @@
+# Privacy Friendly 2048 by SECUSO, F-Droid build (F-Droid signs it, so F-Droid can
+# update it). sha256 from the F-Droid index (index-v2.json).
+name=PrivacyFriendly2048
+package=org.secuso.privacyfriendly2048
+version_code=100
+version_name=1.4.2
+spdx=GPL-3.0-or-later
+sha256=02c799d3d582669daf2acf920093c68d2933f60aa937bb72fa2a805557233fe8
+apk_url=https://f-droid.org/repo/org.secuso.privacyfriendly2048_100.apk
+source_url=https://github.com/SecUSo/privacy-friendly-2048/tree/4ee3cf356376c1f8905f81a02ffc9f37b3db6c96 (F-Droid's source tarball: https://f-droid.org/repo/org.secuso.privacyfriendly2048_100_src.tar.gz)
+license_url=https://raw.githubusercontent.com/SecUSo/privacy-friendly-2048/4ee3cf356376c1f8905f81a02ffc9f37b3db6c96/LICENSE
+published_by=F-Droid

@@ -1,0 +1,13 @@
+# BlockDrop, F-Droid build (F-Droid signs it, so F-Droid can update it). versionCode
+# 662 is the arm64 build of 1.0.69 (663 is x86_64 only). sha256 from the F-Droid index
+# (index-v2.json).
+name=BlockDrop
+package=com.blockdrop.game
+version_code=662
+version_name=1.0.69
+spdx=MIT
+sha256=90c5b66b3092bd9641f3265e42cb3957f25693900555dda64efc7e1c04a5e820
+apk_url=https://f-droid.org/repo/com.blockdrop.game_662.apk
+source_url=https://github.com/brandonp2412/BlockDrop/tree/58689da36d182a2c6675b93faedeb09d9d6e7d39 (F-Droid's source tarball: https://f-droid.org/repo/com.blockdrop.game_662_src.tar.gz)
+license_url=https://raw.githubusercontent.com/brandonp2412/BlockDrop/58689da36d182a2c6675b93faedeb09d9d6e7d39/LICENSE
+published_by=F-Droid
