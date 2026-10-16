@@ -1,0 +1,27 @@
+package: net.minetest.minetest
+version_code: 5170000
+checked: false
+description:
+  en: "Block building and adventure games, 15 games included"
+  de: "Bau- und Abenteuerspiele mit Blöcken, 15 Spiele dabei"
+  es: "Juegos de construir con bloques y de aventura, 15 juegos incluidos"
+  fr: "Jeux de construction et d'aventure en blocs, 15 jeux inclus"
+  in: "Game membangun blok dan petualangan, 15 game disertakan"
+  pl: "Gry budowania z klocków i przygodowe, w zestawie 15 gier"
+  pt: "Jogos de construir com blocos e de aventura, 15 jogos incluídos"
+  pt-BR: "Jogos de construir com blocos e de aventura, 15 jogos incluídos"
+  ru: "Игры на строительство из блоков и приключения, в комплекте 15 игр"
+  tr: "Blok kurma ve macera oyunları, 15 oyun dahil"
+  zh-CN: "方块建造和冒险游戏，内含 15 款游戏"
+warning:
+  en: "Needs mouse mode to start a game, the tutorial shows how"
+  de: "Braucht den Mausmodus, um ein Spiel zu starten, das Tutorial zeigt wie"
+  es: "Necesita el modo ratón para empezar una partida, el tutorial te enseña cómo"
+  fr: "Il faut le mode souris pour lancer une partie, le tutoriel montre comment"
+  in: "Perlu mode mouse untuk memulai permainan, tutorial menunjukkan caranya"
+  pl: "Do rozpoczęcia gry potrzebny jest tryb myszy, samouczek pokazuje jak"
+  pt: "Precisa do modo rato para começar um jogo, o tutorial mostra como"
+  pt-BR: "Precisa do modo mouse para começar um jogo, o tutorial mostra como"
+  ru: "Чтобы начать игру, нужен режим мыши, обучение покажет как"
+  tr: "Oyun başlatmak için fare modu gerekir, eğitim nasıl yapılacağını gösterir"
+  zh-CN: "需要鼠标模式才能开始游戏，教程会教你怎么用"

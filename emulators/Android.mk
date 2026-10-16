@@ -17,7 +17,7 @@ LOCAL_MODULE_RELATIVE_PATH := gameconsole
 LOCAL_MODULE_STEM := gameconsole-emu.sh
 LOCAL_SRC_FILES := seed/gameconsole-emu.sh
 LOCAL_INIT_RC := seed/gameconsole-emu.rc
-LOCAL_REQUIRED_MODULES := gameconsole-preinstall-list gameconsole-rom-folders \
+LOCAL_REQUIRED_MODULES := gameconsole-preinstall-yml-RetroArch gameconsole-preinstall-yml-PPSSPP gameconsole-rom-folders \
     gameconsole-daijishou-seed gameconsole-daijishou-schema \
     gameconsole-daijishou-widget-schema
 include $(BUILD_PREBUILT)
@@ -65,12 +65,21 @@ LOCAL_SRC_FILES := daijishou/widget-schema.sql
 include $(BUILD_PREBUILT)
 
 include $(CLEAR_VARS)
-LOCAL_MODULE := gameconsole-preinstall-list
+LOCAL_MODULE := gameconsole-preinstall-yml-RetroArch
 LOCAL_MODULE_CLASS := ETC
 LOCAL_MODULE_TAGS := optional
-LOCAL_MODULE_RELATIVE_PATH := gameconsole/preinstall
-LOCAL_MODULE_STEM := preinstall.list
-LOCAL_SRC_FILES := preinstall/preinstall.list
+LOCAL_MODULE_PATH := $(PRODUCT_OUT)/autoapk
+LOCAL_MODULE_STEM := RetroArch.yml
+LOCAL_SRC_FILES := preinstall/RetroArch.yml
+include $(BUILD_PREBUILT)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := gameconsole-preinstall-yml-PPSSPP
+LOCAL_MODULE_CLASS := ETC
+LOCAL_MODULE_TAGS := optional
+LOCAL_MODULE_PATH := $(PRODUCT_OUT)/autoapk
+LOCAL_MODULE_STEM := PPSSPP.yml
+LOCAL_SRC_FILES := preinstall/PPSSPP.yml
 include $(BUILD_PREBUILT)
 
 # Emulator APKs. Shipped as plain files (not as system apps) on purpose: the
@@ -80,7 +89,7 @@ include $(CLEAR_VARS)
 LOCAL_MODULE := RetroArch-preinstall
 LOCAL_MODULE_CLASS := ETC
 LOCAL_MODULE_TAGS := optional
-LOCAL_MODULE_RELATIVE_PATH := gameconsole/preinstall
+LOCAL_MODULE_PATH := $(PRODUCT_OUT)/autoapk
 LOCAL_MODULE_STEM := RetroArch.apk
 LOCAL_SRC_FILES := preinstall/RetroArch.apk
 LOCAL_NOTICE_FILE := $(LOCAL_PATH)/preinstall/NOTICE-RetroArch.txt
@@ -124,7 +133,7 @@ include $(CLEAR_VARS)
 LOCAL_MODULE := PPSSPP-preinstall
 LOCAL_MODULE_CLASS := ETC
 LOCAL_MODULE_TAGS := optional
-LOCAL_MODULE_RELATIVE_PATH := gameconsole/preinstall
+LOCAL_MODULE_PATH := $(PRODUCT_OUT)/autoapk
 LOCAL_MODULE_STEM := PPSSPP.apk
 LOCAL_SRC_FILES := preinstall/PPSSPP.apk
 LOCAL_NOTICE_FILE := $(LOCAL_PATH)/preinstall/NOTICE-PPSSPP.txt

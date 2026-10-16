@@ -1,0 +1,14 @@
+package: com.example.dpadplayer
+version_code: 15
+description:
+  en: "Music player for the songs on your card"
+  de: "Musikplayer für die Songs auf deiner Karte"
+  es: "Reproductor de música para las canciones de tu tarjeta"
+  fr: "Lecteur de musique pour les morceaux de ta carte"
+  in: "Pemutar musik untuk lagu di kartumu"
+  pl: "Odtwarzacz muzyki z piosenkami z karty"
+  pt: "Leitor de música para as músicas do teu cartão"
+  pt-BR: "Player de música para as músicas do seu cartão"
+  ru: "Музыкальный плеер для песен на карте"
+  tr: "Kartındaki şarkılar için müzik çalar"
+  zh-CN: "播放存储卡里歌曲的音乐播放器"

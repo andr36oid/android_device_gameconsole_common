@@ -1,0 +1,14 @@
+package: com.flycast.emulator
+version_code: 3302
+description:
+  en: "Dreamcast, Naomi and Atomiswave emulator"
+  de: "Dreamcast-, Naomi- und Atomiswave-Emulator"
+  es: "Emulador de Dreamcast, Naomi y Atomiswave"
+  fr: "Émulateur Dreamcast, Naomi et Atomiswave"
+  in: "Emulator Dreamcast, Naomi dan Atomiswave"
+  pl: "Emulator Dreamcast, Naomi i Atomiswave"
+  pt: "Emulador de Dreamcast, Naomi e Atomiswave"
+  pt-BR: "Emulador de Dreamcast, Naomi e Atomiswave"
+  ru: "Эмулятор Dreamcast, Naomi и Atomiswave"
+  tr: "Dreamcast, Naomi ve Atomiswave emülatörü"
+  zh-CN: "Dreamcast、Naomi 和 Atomiswave 模拟器"

@@ -1,0 +1,27 @@
+package: com.shatteredpixel.shatteredpixeldungeon
+version_code: 922
+checked: false
+description:
+  en: "Dungeon crawler where every run is different"
+  de: "Dungeon-Crawler, bei dem jeder Durchgang anders ist"
+  es: "Dungeon crawler en el que cada partida es distinta"
+  fr: "Dungeon crawler où chaque partie est différente"
+  in: "Dungeon crawler yang setiap permainannya berbeda"
+  pl: "Dungeon crawler, w którym każda rozgrywka jest inna"
+  pt: "Dungeon crawler em que cada partida é diferente"
+  pt-BR: "Dungeon crawler em que cada partida é diferente"
+  ru: "Рогалик, где каждое прохождение не похоже на другое"
+  tr: "Her oyunu farklı olan bir zindan oyunu"
+  zh-CN: "每次都不一样的地下城探险游戏"
+warning:
+  en: "Needs mouse mode to start a game, the tutorial shows how"
+  de: "Braucht den Mausmodus, um ein Spiel zu starten, das Tutorial zeigt wie"
+  es: "Necesita el modo ratón para empezar una partida, el tutorial te enseña cómo"
+  fr: "Il faut le mode souris pour lancer une partie, le tutoriel montre comment"
+  in: "Perlu mode mouse untuk memulai permainan, tutorial menunjukkan caranya"
+  pl: "Do rozpoczęcia gry potrzebny jest tryb myszy, samouczek pokazuje jak"
+  pt: "Precisa do modo rato para começar um jogo, o tutorial mostra como"
+  pt-BR: "Precisa do modo mouse para começar um jogo, o tutorial mostra como"
+  ru: "Чтобы начать игру, нужен режим мыши, обучение покажет как"
+  tr: "Oyun başlatmak için fare modu gerekir, eğitim nasıl yapılacağını gösterir"
+  zh-CN: "需要鼠标模式才能开始游戏，教程会教你怎么用"

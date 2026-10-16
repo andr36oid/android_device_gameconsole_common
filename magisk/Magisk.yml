@@ -1,0 +1,4 @@
+# Magisk: root, always installed, not on the setup's app page.
+package: com.topjohnwu.magisk
+version_code: 29000
+required: true

@@ -1,0 +1,14 @@
+package: com.yet.tetris.release
+version_code: 5
+description:
+  en: "Falling blocks game"
+  de: "Fallende-Blöcke-Spiel"
+  es: "Juego de bloques que caen"
+  fr: "Jeu de blocs qui tombent"
+  in: "Game balok jatuh"
+  pl: "Gra ze spadającymi klockami"
+  pt: "Jogo de blocos que caem"
+  pt-BR: "Jogo de blocos que caem"
+  ru: "Игра с падающими блоками"
+  tr: "Düşen bloklar oyunu"
+  zh-CN: "方块下落游戏"

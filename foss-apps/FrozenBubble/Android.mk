@@ -6,18 +6,18 @@ include $(CLEAR_VARS)
 LOCAL_MODULE := foss-FrozenBubble
 LOCAL_MODULE_CLASS := ETC
 LOCAL_MODULE_TAGS := optional
-LOCAL_MODULE_RELATIVE_PATH := gameconsole/preinstall
+LOCAL_MODULE_PATH := $(PRODUCT_OUT)/autoapk
 LOCAL_MODULE_STEM := FrozenBubble.apk
 LOCAL_SRC_FILES := FrozenBubble.apk
 LOCAL_NOTICE_FILE := $(LOCAL_PATH)/NOTICE.txt
-LOCAL_REQUIRED_MODULES := gameconsole-emu foss-FrozenBubble-list
+LOCAL_REQUIRED_MODULES := gameconsole-emu foss-FrozenBubble-yml
 include $(BUILD_PREBUILT)
 
 include $(CLEAR_VARS)
-LOCAL_MODULE := foss-FrozenBubble-list
+LOCAL_MODULE := foss-FrozenBubble-yml
 LOCAL_MODULE_CLASS := ETC
 LOCAL_MODULE_TAGS := optional
-LOCAL_MODULE_RELATIVE_PATH := gameconsole/preinstall
-LOCAL_MODULE_STEM := z-foss-frozenbubble.list
-LOCAL_SRC_FILES := z-foss-frozenbubble.list
+LOCAL_MODULE_PATH := $(PRODUCT_OUT)/autoapk
+LOCAL_MODULE_STEM := FrozenBubble.yml
+LOCAL_SRC_FILES := FrozenBubble.yml
 include $(BUILD_PREBUILT)

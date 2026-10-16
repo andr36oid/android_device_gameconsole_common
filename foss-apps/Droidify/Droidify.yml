@@ -1,0 +1,14 @@
+package: com.looker.droidify
+version_code: 780
+description:
+  en: "App store for free and open source apps (F-Droid)"
+  de: "App-Store für kostenlose Open-Source-Apps (F-Droid)"
+  es: "Tienda de apps gratis y de código abierto (F-Droid)"
+  fr: "Magasin d'applis gratuites et libres (F-Droid)"
+  in: "Toko aplikasi untuk aplikasi gratis dan open source (F-Droid)"
+  pl: "Sklep z darmowymi aplikacjami open source (F-Droid)"
+  pt: "Loja de apps gratuitas e de código aberto (F-Droid)"
+  pt-BR: "Loja de apps gratuitos e de código aberto (F-Droid)"
+  ru: "Магазин бесплатных приложений с открытым кодом (F-Droid)"
+  tr: "Ücretsiz ve açık kaynaklı uygulamalar için uygulama mağazası (F-Droid)"
+  zh-CN: "免费开源应用商店（F-Droid）"

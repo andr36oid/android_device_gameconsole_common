@@ -1,0 +1,4 @@
+# PPSSPP: PSP, always installed, not on the app page.
+package: org.ppsspp.ppsspp
+version_code: 119030000
+required: true

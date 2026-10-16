@@ -10,18 +10,18 @@ include $(CLEAR_VARS)
 LOCAL_MODULE := MagiskApp
 LOCAL_MODULE_CLASS := ETC
 LOCAL_MODULE_TAGS := optional
-LOCAL_MODULE_RELATIVE_PATH := gameconsole/preinstall
+LOCAL_MODULE_PATH := $(PRODUCT_OUT)/autoapk
 LOCAL_MODULE_STEM := Magisk.apk
 LOCAL_SRC_FILES := Magisk.apk
-LOCAL_REQUIRED_MODULES := gameconsole-emu MagiskApp-list
+LOCAL_REQUIRED_MODULES := gameconsole-emu MagiskApp-yml
 include $(BUILD_PREBUILT)
 
 include $(CLEAR_VARS)
-LOCAL_MODULE := MagiskApp-list
+LOCAL_MODULE := MagiskApp-yml
 LOCAL_MODULE_CLASS := ETC
 LOCAL_MODULE_TAGS := optional
-LOCAL_MODULE_RELATIVE_PATH := gameconsole/preinstall
-LOCAL_MODULE_STEM := magisk.list
-LOCAL_SRC_FILES := magisk.list
+LOCAL_MODULE_PATH := $(PRODUCT_OUT)/autoapk
+LOCAL_MODULE_STEM := Magisk.yml
+LOCAL_SRC_FILES := Magisk.yml
 include $(BUILD_PREBUILT)
 endif

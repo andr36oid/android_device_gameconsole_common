@@ -1,0 +1,14 @@
+package: org.jfedor.frozenbubble
+version_code: 54
+description:
+  en: "Shoot coloured bubbles to clear the board"
+  de: "Schieße bunte Blasen, um das Feld zu leeren"
+  es: "Dispara burbujas de colores para limpiar el tablero"
+  fr: "Tire des bulles colorées pour vider le plateau"
+  in: "Tembak gelembung berwarna untuk membersihkan papan"
+  pl: "Strzelaj kolorowymi bańkami, żeby wyczyścić planszę"
+  pt: "Dispara bolhas coloridas para limpar o tabuleiro"
+  pt-BR: "Atire bolhas coloridas para limpar o tabuleiro"
+  ru: "Стреляй цветными шариками, чтобы очистить поле"
+  tr: "Tahtayı temizlemek için renkli balonları ateşle"
+  zh-CN: "射出彩色泡泡，清空游戏面板"

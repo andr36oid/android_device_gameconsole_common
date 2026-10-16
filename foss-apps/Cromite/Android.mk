@@ -6,19 +6,19 @@ include $(CLEAR_VARS)
 LOCAL_MODULE := foss-Cromite
 LOCAL_MODULE_CLASS := ETC
 LOCAL_MODULE_TAGS := optional
-LOCAL_MODULE_RELATIVE_PATH := gameconsole/preinstall
+LOCAL_MODULE_PATH := $(PRODUCT_OUT)/autoapk
 LOCAL_MODULE_STEM := Cromite.apk
 LOCAL_SRC_FILES := Cromite.apk
 LOCAL_NOTICE_FILE := $(LOCAL_PATH)/NOTICE.txt
-LOCAL_REQUIRED_MODULES := gameconsole-emu foss-Cromite-list
+LOCAL_REQUIRED_MODULES := gameconsole-emu foss-Cromite-yml
 LOCAL_OVERRIDES_MODULES := Jelly
 include $(BUILD_PREBUILT)
 
 include $(CLEAR_VARS)
-LOCAL_MODULE := foss-Cromite-list
+LOCAL_MODULE := foss-Cromite-yml
 LOCAL_MODULE_CLASS := ETC
 LOCAL_MODULE_TAGS := optional
-LOCAL_MODULE_RELATIVE_PATH := gameconsole/preinstall
-LOCAL_MODULE_STEM := z-foss-cromite.list
-LOCAL_SRC_FILES := z-foss-cromite.list
+LOCAL_MODULE_PATH := $(PRODUCT_OUT)/autoapk
+LOCAL_MODULE_STEM := Cromite.yml
+LOCAL_SRC_FILES := Cromite.yml
 include $(BUILD_PREBUILT)

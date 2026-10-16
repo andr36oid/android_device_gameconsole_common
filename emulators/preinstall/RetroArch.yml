@@ -1,0 +1,4 @@
+# RetroArch: the emulators behind Daijishou, always installed, not on the app page.
+package: com.retroarch
+version_code: 1597175267
+required: true

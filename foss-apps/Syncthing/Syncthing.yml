@@ -1,0 +1,14 @@
+package: com.github.catfriend1.syncthingfork
+version_code: 2010500
+description:
+  en: "Keeps saves and files in sync with your other devices"
+  de: "Hält Spielstände und Dateien mit deinen anderen Geräten synchron"
+  es: "Mantiene tus partidas guardadas y archivos sincronizados con tus otros dispositivos"
+  fr: "Garde tes sauvegardes et fichiers synchronisés avec tes autres appareils"
+  in: "Menjaga save dan file tetap sinkron dengan perangkat lainmu"
+  pl: "Trzyma zapisy i pliki w synchronizacji z twoimi innymi urządzeniami"
+  pt: "Mantém os teus jogos guardados e ficheiros sincronizados com os teus outros dispositivos"
+  pt-BR: "Mantém seus jogos salvos e arquivos sincronizados com seus outros dispositivos"
+  ru: "Синхронизирует сохранения и файлы с твоими другими устройствами"
+  tr: "Kayıtlarını ve dosyalarını diğer cihazlarınla senkron tutar"
+  zh-CN: "让存档和文件与你的其他设备保持同步"

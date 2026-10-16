@@ -1,0 +1,14 @@
+package: org.cromite.cromite
+version_code: 763212002
+description:
+  en: "Web browser with ad blocking"
+  de: "Webbrowser mit Werbeblocker"
+  es: "Navegador web con bloqueo de anuncios"
+  fr: "Navigateur web avec blocage des pubs"
+  in: "Browser web dengan pemblokir iklan"
+  pl: "Przeglądarka z blokowaniem reklam"
+  pt: "Navegador web com bloqueio de anúncios"
+  pt-BR: "Navegador web com bloqueio de anúncios"
+  ru: "Веб-браузер с блокировкой рекламы"
+  tr: "Reklam engelleyicili web tarayıcı"
+  zh-CN: "带广告拦截的网页浏览器"

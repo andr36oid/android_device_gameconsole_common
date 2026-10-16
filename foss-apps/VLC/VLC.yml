@@ -1,0 +1,14 @@
+package: org.videolan.vlc
+version_code: 13070106
+description:
+  en: "Plays videos and music in almost any format"
+  de: "Spielt Videos und Musik in fast jedem Format"
+  es: "Reproduce videos y música en casi cualquier formato"
+  fr: "Lit vidéos et musiques dans presque tous les formats"
+  in: "Memutar video dan musik dalam hampir semua format"
+  pl: "Odtwarza filmy i muzykę w prawie każdym formacie"
+  pt: "Reproduz vídeos e música em quase qualquer formato"
+  pt-BR: "Reproduz vídeos e músicas em quase qualquer formato"
+  ru: "Воспроизводит видео и музыку почти любого формата"
+  tr: "Videoları ve müzikleri neredeyse her formatta oynatır"
+  zh-CN: "几乎支持所有格式的视频和音乐播放器"

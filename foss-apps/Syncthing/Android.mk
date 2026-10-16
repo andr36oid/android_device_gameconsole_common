@@ -8,20 +8,20 @@ include $(CLEAR_VARS)
 LOCAL_MODULE := foss-Syncthing
 LOCAL_MODULE_CLASS := ETC
 LOCAL_MODULE_TAGS := optional
-LOCAL_MODULE_RELATIVE_PATH := gameconsole/preinstall
+LOCAL_MODULE_PATH := $(PRODUCT_OUT)/autoapk
 LOCAL_MODULE_STEM := Syncthing.apk
 LOCAL_SRC_FILES := Syncthing.apk
 LOCAL_NOTICE_FILE := $(LOCAL_PATH)/NOTICE.txt
-LOCAL_REQUIRED_MODULES := gameconsole-emu foss-Syncthing-list
+LOCAL_REQUIRED_MODULES := gameconsole-emu foss-Syncthing-yml
 include $(BUILD_PREBUILT)
 
 include $(CLEAR_VARS)
-LOCAL_MODULE := foss-Syncthing-list
+LOCAL_MODULE := foss-Syncthing-yml
 LOCAL_MODULE_CLASS := ETC
 LOCAL_MODULE_TAGS := optional
-LOCAL_MODULE_RELATIVE_PATH := gameconsole/preinstall
-LOCAL_MODULE_STEM := z-foss-syncthing.list
-LOCAL_SRC_FILES := z-foss-syncthing.list
+LOCAL_MODULE_PATH := $(PRODUCT_OUT)/autoapk
+LOCAL_MODULE_STEM := Syncthing.yml
+LOCAL_SRC_FILES := Syncthing.yml
 include $(BUILD_PREBUILT)
 
 # "Syncthing" instead of "Syncthing-Fork" as the app's name, in every language the

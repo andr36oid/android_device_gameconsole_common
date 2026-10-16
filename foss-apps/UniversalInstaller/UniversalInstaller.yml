@@ -1,0 +1,14 @@
+package: app.pwhs.universalinstaller
+version_code: 42
+description:
+  en: "Installs app files (APK, XAPK, APKS) from your card"
+  de: "Installiert App-Dateien (APK, XAPK, APKS) von deiner Karte"
+  es: "Instala archivos de apps (APK, XAPK, APKS) de tu tarjeta"
+  fr: "Installe les fichiers d'applis (APK, XAPK, APKS) depuis ta carte"
+  in: "Memasang file aplikasi (APK, XAPK, APKS) dari kartumu"
+  pl: "Instaluje pliki aplikacji (APK, XAPK, APKS) z karty"
+  pt: "Instala ficheiros de apps (APK, XAPK, APKS) do teu cartão"
+  pt-BR: "Instala arquivos de apps (APK, XAPK, APKS) do seu cartão"
+  ru: "Устанавливает файлы приложений (APK, XAPK, APKS) с карты"
+  tr: "Karttan uygulama dosyalarını (APK, XAPK, APKS) yükler"
+  zh-CN: "从存储卡安装应用文件（APK、XAPK、APKS）"

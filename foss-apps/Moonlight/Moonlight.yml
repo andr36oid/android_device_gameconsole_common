@@ -1,0 +1,14 @@
+package: com.limelight
+version_code: 314
+description:
+  en: "Stream games from your PC over Wi-Fi"
+  de: "Streame Spiele von deinem PC über WLAN"
+  es: "Transmite juegos desde tu PC por Wi-Fi"
+  fr: "Joue à tes jeux du PC en streaming via le Wi-Fi"
+  in: "Streaming game dari PC-mu lewat Wi-Fi"
+  pl: "Strumieniuj gry z komputera przez Wi-Fi"
+  pt: "Transmite jogos do teu PC através de Wi-Fi"
+  pt-BR: "Transmita jogos do seu PC pelo Wi-Fi"
+  ru: "Трансляция игр с ПК по Wi-Fi"
+  tr: "PC'nden Wi-Fi üzerinden oyun yayınla"
+  zh-CN: "通过 Wi-Fi 串流电脑上的游戏"

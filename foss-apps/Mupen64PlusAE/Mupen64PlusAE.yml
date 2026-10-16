@@ -1,0 +1,14 @@
+package: org.mupen64plusae.v3.alpha
+version_code: 246
+description:
+  en: "Nintendo 64 emulator"
+  de: "Nintendo-64-Emulator"
+  es: "Emulador de Nintendo 64"
+  fr: "Émulateur Nintendo 64"
+  in: "Emulator Nintendo 64"
+  pl: "Emulator Nintendo 64"
+  pt: "Emulador de Nintendo 64"
+  pt-BR: "Emulador de Nintendo 64"
+  ru: "Эмулятор Nintendo 64"
+  tr: "Nintendo 64 emülatörü"
+  zh-CN: "Nintendo 64 模拟器"
