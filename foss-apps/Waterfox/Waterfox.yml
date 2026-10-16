@@ -1,0 +1,15 @@
+package: net.waterfox.android.release
+version_code: 2026380627
+checked: false
+description:
+  en: "Web browser based on Firefox, with extensions"
+  de: "Webbrowser auf Firefox-Basis, mit Erweiterungen"
+  es: "Navegador web basado en Firefox, con extensiones"
+  fr: "Navigateur web basé sur Firefox, avec extensions"
+  in: "Browser web berbasis Firefox, dengan ekstensi"
+  pl: "Przeglądarka oparta na Firefoksie, z rozszerzeniami"
+  pt: "Navegador web baseado no Firefox, com extensões"
+  pt-BR: "Navegador web baseado no Firefox, com extensões"
+  ru: "Веб-браузер на основе Firefox, с расширениями"
+  tr: "Firefox tabanlı, eklenti destekli web tarayıcı"
+  zh-CN: "基于 Firefox 的网页浏览器，支持扩展"
