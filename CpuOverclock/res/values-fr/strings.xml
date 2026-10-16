@@ -78,4 +78,8 @@
     <!-- Quick Settings tile -->
     <string name="tile_label">Overclocking CPU</string>
     <string name="tile_off">Désactivé</string>
+    <string name="gpu_tile_label">Overclocking GPU</string>
+    <string name="ram_tile_label">Overclocking mémoire</string>
+    <string name="tile_added_gpu">Raccourci Overclocking GPU ajouté au volet des notifications</string>
+    <string name="tile_added_ram">Raccourci Overclocking mémoire ajouté au volet des notifications</string>
 </resources>

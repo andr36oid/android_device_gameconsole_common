@@ -79,4 +79,8 @@
     <!-- Quick Settings tile -->
     <string name="tile_label">Overclock CPU</string>
     <string name="tile_off">Nonaktif</string>
+    <string name="gpu_tile_label">Overclock GPU</string>
+    <string name="ram_tile_label">Overclock memori</string>
+    <string name="tile_added_gpu">Tombol cepat Overclock GPU ditambahkan ke panel notifikasi</string>
+    <string name="tile_added_ram">Tombol cepat Overclock memori ditambahkan ke panel notifikasi</string>
 </resources>

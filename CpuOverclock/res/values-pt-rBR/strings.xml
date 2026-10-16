@@ -79,4 +79,8 @@
     <!-- Quick Settings tile -->
     <string name="tile_label">Overclock da CPU</string>
     <string name="tile_off">Desativado</string>
+    <string name="gpu_tile_label">Overclock da GPU</string>
+    <string name="ram_tile_label">Overclock da memória</string>
+    <string name="tile_added_gpu">Bloco rápido de overclock da GPU adicionado à aba de notificações</string>
+    <string name="tile_added_ram">Bloco rápido de overclock da memória adicionado à aba de notificações</string>
 </resources>

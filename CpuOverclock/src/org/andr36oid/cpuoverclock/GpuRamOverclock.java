@@ -1,8 +1,10 @@
 package org.andr36oid.cpuoverclock;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.provider.Settings;
+import android.service.quicksettings.TileService;
 import android.text.TextUtils;
 
 import java.io.IOException;
@@ -24,6 +26,8 @@ final class GpuRamOverclock {
 
     private static final String PREFS = "gpu_ram_overclock";
     private static final String PREF_BOOT = "boot_count";
+    /** The last speed picked, kept across restarts, for the tiles to switch back on to */
+    private static final String LAST_PREFS = "gpu_ram_last";
 
     /** What the memory speeds really run at: the DDR firmware rounds them to its PLL. */
     private static final int[][] REAL_MHZ = { { 928, 924 }, { 1040, 1032 } };
@@ -73,6 +77,25 @@ final class GpuRamOverclock {
             edit.clear().putInt(PREF_BOOT, bootCount());
         }
         edit.putInt(dev, hz).apply();
+        final Class<?> tile = GPU.equals(dev) ? GpuTileService.class : RamTileService.class;
+        if (hz > 0) {
+            mContext.getSharedPreferences(LAST_PREFS, Context.MODE_PRIVATE).edit()
+                    .putInt(dev, hz).apply();
+            Overclock.showTile(mContext, tile, GPU.equals(dev)
+                    ? R.string.tile_added_gpu : R.string.tile_added_ram);
+        }
+        TileService.requestListeningState(mContext, new ComponentName(mContext, tile));
+    }
+
+    /** The speed the tile switches on to: the last one picked if still there, else the lowest. */
+    int getLastOrLowest(String dev) {
+        final int[] speeds = getSpeeds(dev);
+        if (speeds.length == 0) {
+            return 0;
+        }
+        final int last = mContext.getSharedPreferences(LAST_PREFS, Context.MODE_PRIVATE)
+                .getInt(dev, 0);
+        return Arrays.stream(speeds).anyMatch(s -> s == last) ? last : speeds[0];
     }
 
     /** The highest speed without the overclock, in Hz, from the sorted available speeds. */

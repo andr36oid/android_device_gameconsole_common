@@ -69,4 +69,8 @@
     <!-- Quick Settings tile -->
     <string name="tile_label">Podkręcanie CPU</string>
     <string name="tile_off">Wył.</string>
+    <string name="gpu_tile_label">Podkręcanie GPU</string>
+    <string name="ram_tile_label">Podkręcanie pamięci</string>
+    <string name="tile_added_gpu">Kafelek Podkręcanie GPU dodany do panelu powiadomień</string>
+    <string name="tile_added_ram">Kafelek Podkręcanie pamięci dodany do panelu powiadomień</string>
 </resources>

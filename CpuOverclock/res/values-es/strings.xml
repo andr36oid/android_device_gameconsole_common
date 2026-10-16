@@ -80,4 +80,8 @@
     <!-- Quick Settings tile -->
     <string name="tile_label">Overclock de CPU</string>
     <string name="tile_off">Desactivado</string>
+    <string name="gpu_tile_label">Overclock de GPU</string>
+    <string name="ram_tile_label">Overclock de memoria</string>
+    <string name="tile_added_gpu">Botón rápido de overclock de GPU añadido al panel de notificaciones</string>
+    <string name="tile_added_ram">Botón rápido de overclock de memoria añadido al panel de notificaciones</string>
 </resources>

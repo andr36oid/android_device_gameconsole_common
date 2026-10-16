@@ -80,4 +80,8 @@
     <!-- Quick Settings tile -->
     <string name="tile_label">Разгон CPU</string>
     <string name="tile_off">Выкл.</string>
+    <string name="gpu_tile_label">Разгон GPU</string>
+    <string name="ram_tile_label">Разгон памяти</string>
+    <string name="tile_added_gpu">Плитка «Разгон GPU» добавлена в панель уведомлений</string>
+    <string name="tile_added_ram">Плитка «Разгон памяти» добавлена в панель уведомлений</string>
 </resources>

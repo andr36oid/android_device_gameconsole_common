@@ -55,6 +55,32 @@
             </intent-filter>
         </service>
 
+        <!-- The GPU overclock, off until it's used once (GpuRamOverclock.setChosen) -->
+        <service
+            android:name=".GpuTileService"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@drawable/ic_gpu_overclock"
+            android:label="@string/gpu_tile_label"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
+
+        <!-- The memory overclock, off until it's used once (GpuRamOverclock.setChosen) -->
+        <service
+            android:name=".RamTileService"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@drawable/ic_ram_overclock"
+            android:label="@string/ram_tile_label"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
+
         <!-- Battery saver / Balanced / Performance. Always there, and added to Quick Settings
              once, on the first boot. -->
         <service

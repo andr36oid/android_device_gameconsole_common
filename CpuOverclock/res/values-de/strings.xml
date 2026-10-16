@@ -80,4 +80,8 @@
     <!-- Quick Settings tile -->
     <string name="tile_label">CPU-Übertaktung</string>
     <string name="tile_off">Aus</string>
+    <string name="gpu_tile_label">GPU-Übertaktung</string>
+    <string name="ram_tile_label">Speicher-Übertaktung</string>
+    <string name="tile_added_gpu">Schnelleinstellung GPU-Übertaktung zur Benachrichtigungsleiste hinzugefügt</string>
+    <string name="tile_added_ram">Schnelleinstellung Speicher-Übertaktung zur Benachrichtigungsleiste hinzugefügt</string>
 </resources>

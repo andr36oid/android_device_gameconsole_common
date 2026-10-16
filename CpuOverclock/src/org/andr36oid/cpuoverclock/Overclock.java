@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -101,7 +102,7 @@ final class Overclock {
                 // Boost on first, before that the kernel refuses anything above standard.
                 write(BOOST, "1");
                 write(POLICY + "scaling_max_freq", String.valueOf(getChosenSpeed()));
-                showTile();
+                showTile(mContext, OverclockTileService.class, 0);
             } else {
                 // Also puts scaling_max_freq back to the standard top speed, the profile
                 // then lowers it again for Battery saver.
@@ -121,10 +122,13 @@ final class Overclock {
         return mContext.getString(R.string.speed_ghz, khz / 1000000f);
     }
 
-    /** The first time the overclock is used, its tile appears in Quick Settings. */
-    private void showTile() {
-        final PackageManager pm = mContext.getPackageManager();
-        final ComponentName tile = new ComponentName(mContext, OverclockTileService.class);
+    /**
+     * The first time an overclock is used, its tile appears in Quick Settings, with a toast
+     * saying so unless addedToast is 0.
+     */
+    static void showTile(Context context, Class<?> service, int addedToast) {
+        final PackageManager pm = context.getPackageManager();
+        final ComponentName tile = new ComponentName(context, service);
         if (pm.getComponentEnabledSetting(tile)
                 == PackageManager.COMPONENT_ENABLED_STATE_ENABLED) {
             return;
@@ -132,7 +136,7 @@ final class Overclock {
         pm.setComponentEnabledSetting(tile, PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
                 PackageManager.DONT_KILL_APP);
 
-        final ContentResolver resolver = mContext.getContentResolver();
+        final ContentResolver resolver = context.getContentResolver();
         final String spec = "custom(" + tile.flattenToShortString() + ")";
         String tiles = Settings.Secure.getString(resolver, Settings.Secure.QS_TILES);
         if (TextUtils.isEmpty(tiles)) {
@@ -141,6 +145,9 @@ final class Overclock {
         }
         if (!Arrays.asList(tiles.split(",")).contains(spec)) {
             Settings.Secure.putString(resolver, Settings.Secure.QS_TILES, tiles + "," + spec);
+            if (addedToast != 0) {
+                Toast.makeText(context, addedToast, Toast.LENGTH_LONG).show();
+            }
         }
     }
 

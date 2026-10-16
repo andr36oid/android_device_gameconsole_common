@@ -87,6 +87,10 @@ Based on R36 Tuner Next by zenmode-adri.</string>
     <!-- Quick Settings tile -->
     <string name="tile_label">CPU overclock</string>
     <string name="tile_off">Off</string>
+    <string name="gpu_tile_label">GPU overclock</string>
+    <string name="ram_tile_label">Memory overclock</string>
+    <string name="tile_added_gpu">GPU Overclocking Quick Tile added to the notification shade</string>
+    <string name="tile_added_ram">Memory Overclocking Quick Tile added to the notification shade</string>
 
     <!-- Per-app profiles -->
     <string name="app_profiles_title">Per-app profiles</string>
