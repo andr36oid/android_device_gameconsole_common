@@ -1,9 +1,22 @@
-# Luanti games unpacked into Luanti's games folder at first start (firstrun/luanti.list),
-# the games from luanti.org's gallery. ContentDB release zips, unmodified; sha256 taken
+# Luanti games unpacked into Luanti's games folder at first start (firstrun/luanti.list):
+# the games from luanti.org's gallery, then well-rated complete FOSS games from ContentDB
+# (no jam entries, test stubs or horror). ContentDB release zips, unmodified; sha256 taken
 # at download (ContentDB publishes none). fetch-games.sh downloads and checks them and
-# writes firstrun/luanti/NOTICE-<game>.txt (the game's license file and README, which
+# writes firstrun/luanti/NOTICE-<game>.txt (every license file in the game and its README, which
 # has its credits).
 # game  release (ContentDB author/package/release id)  sha256  license (code/media)  source
 minetest_game Minetest/minetest_game/38214 5b364f6b0cf31ec336319492e14106d932eb86b65a91ded99f4b25f4876519dc LGPL-2.1-or-later/CC-BY-SA-3.0 https://github.com/luanti-org/minetest_game/tree/c42e4d0c0ff9d27ff7b9b308c3cfc14098dd3a0f
 glitch Wuzzy/glitch/38310 e39195347782b14c70595c2a4f71abbf288fc7e212a7d678eb098fec596cb776 GPL-3.0-or-later/CC-BY-4.0 https://codeberg.org/Wuzzy/Glitch/src/commit/aac3f400c1d855ba7f13e9ceca59eb71a9baa49d
 backroomtest Sumianvoice/backroomtest/36294 0f03774bea8f31761f7480d34350a853957f07318cb1b28e9afa40504eddcbcd MIT/CC-BY-4.0 https://codeberg.org/SumianVoice/backroomtest/src/commit/53d9f838ffc510e8bbee449532b70d3e374df258
+mineclonia ryvnf/mineclonia/39338 74f5c392496c3a7736f39a282d20ccda082ff70e0577fbe1df1eb6c23c9e051f GPL-3.0-or-later/CC-BY-SA-4.0 https://codeberg.org/mineclonia/mineclonia/src/commit/20d5bbca48ffbeeb7cc6b008bdcebc9ab595b3d1
+voxelgarden Casimir/voxelgarden/36639 abb6f182bc78adb3e6a213502611b34168eeebf3aa13d0f45ea41ed462969ecf LGPL-2.1-or-later/CC-BY-SA-3.0 https://codeberg.org/voxelgarden/voxelgarden/src/commit/6b7e12abab3b43aad2b5f86f3b9a80d596051033
+minetest_classic sfan5/minetest_classic/33427 7ea7469725a03aa60c057a414b25c34f18e08894abe2d15ddeea8c314e41fe05 LGPL-2.1-or-later/CC-BY-SA-3.0 https://github.com/sfan5/minetest_classic/tree/31c250254fd784cc10f08aec757248045243c26b
+nodecore Warr1024/nodecore/39354 f7d939103f9c5033411e7661a17d0375fd2170e8bdf1306502a30abb76bf722f MIT/MIT https://gitlab.com/sztest/nodecore
+pmb_core Sumianvoice/pmb_core/38692 cb287b810df8f099e77db67826f2d8eb00d705cef3b0e6a451b69fea8cfb7a21 MIT/CC-BY-4.0 https://codeberg.org/Age_of_Mending/Age_of_Mending/src/commit/c57d63c20ee26d315e27b61591062f20c3f1447c
+tutorial Wuzzy/tutorial/28723 50fb06476c18528a7f80cae19d4fc63a6b35fd1245944a134dd32e0a8afcd47c GPL-2.0-only/GPL-2.0-only https://codeberg.org/Wuzzy/Minetest_Tutorial/src/commit/602f05132b7bb1d35822f8cc97880a5e5198d147
+alter yaman/alter/23340 d72e4f6684772bedc5c9f3e8a3ade444e5cc1a9089c15324a7758166878f12bd AGPL-3.0-or-later/CC-BY-3.0 https://gitlab.com/yamanq/alter
+klots Warr1024/klots/33098 36808d46382f788893fc98049b98ef5675dd451621307927e0e0590ef4f169fb MIT/CC-BY-SA-3.0 https://gitlab.com/sztest/klots
+sokoblox_game jgordon510/sokoblox_game/28500 6611f3f78790720cfe48f3a3bb0247ca72e5db7a4d62ea8b92bb36bc71f1a8e9 CC0-1.0/CC0-1.0 https://github.com/jgordon510/luanti_sokoblox/tree/6aaa44795d491d4f8a9614d620e4d9b09cc14e1d
+cow Wuzzy/cow/34619 2869fc02aa02a6c6e68172e4c36af6f92ebbaa9c00b370424dd8258c7efde400 GPL-3.0-or-later/CC-BY-SA-4.0 https://codeberg.org/Wuzzy/C.O.W./src/commit/d7724ddacfb59cd172de452687d70899017c0219
+blockbomber MisterE/blockbomber/22276 26d72e17ba241877b312f307fc7d4a70b7296a493ecac768188203a69d6b7e37 MIT/CC0-1.0 https://gitlab.com/blocknerd-games/blockbomber
+prang luk3yx/prang/29528 5c85318f19a5aec09c97b721953f9d57ac8c7332a47694900ab6a1f506bea007 MIT/CC-BY-SA-4.0 https://gitlab.com/luk3yx/minetest-prang

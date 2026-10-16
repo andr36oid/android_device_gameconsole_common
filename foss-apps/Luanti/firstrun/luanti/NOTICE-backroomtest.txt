@@ -73,3 +73,614 @@ See `contributing.md`.
 - entities spawning all over the place
 - any of the cringe lore which isn't in line with the original concept (partygoers, smilers, almond water, etc)
 - a way "out" obviously
+
+================================================================================
+backroomtest/mods/apis/aom_settings/LICENSE
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+Copyright (c) 2025 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+
+===
+Media Licenses
+===
+Copyright (c) 2025 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: Creative Commons 0 <https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt>
+Files:
+aom_settings_tick.png
+aom_settings_reset.png
+aom_inv_btn.png
+aom_inv_btn_press.png
+
+aom_settings_click.ogg
+===
+================================================================================
+backroomtest/mods/apis/aom_tcraft/LICENSE
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+================================================================================
+backroomtest/mods/apis/itemextensions/LICENSE
+
+Copyright (c) 2025 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
+================================================================================
+backroomtest/mods/apis/multinode/LICENSE
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+Copyright (c) 2025 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+================================================================================
+backroomtest/mods/apis/node_updates/LICENSE
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+Copyright (c) 2025 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+================================================================================
+backroomtest/mods/core/aom_util/LICENSE
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+================================================================================
+backroomtest/mods/core/br_survival/LICENSE
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+Copyright (c) 2025 Sumi, SumianVoice <info[at]sumianvoice.com> <https://github.com/SumianVoice> <https://codeberg.org/SumianVoice>
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+
+================================================================================
+backroomtest/mods/core/br_version/LICENSE
+
+Copyright (c) 2025 Sumi, SumianVoice <info[at]sumianvoice.com> <https://github.com/SumianVoice> <https://codeberg.org/SumianVoice>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+
+================================================================================
+backroomtest/mods/core/br_weather/LICENSE
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+
+===
+Media Licenses
+===
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: Creative Commons 0 <https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt>
+Files:
+br_weather_rain.png
+br_weather_rain_heavy.png
+br_weather_rain_medium.png
+br_weather_snow_1.png
+br_weather_snow_2.png
+br_weather_snow_sheet_1.png
+br_weather_snow_sheet_2.png
+br_weather_snow_sheet_3.png
+
+br_weather_rain_medium.ogg
+===
+Rain.wav by inchadney <https://freesound.org/people/inchadney/sounds/58835/>
+License: CC-BY 4.0 <https://creativecommons.org/licenses/by/4.0/legalcode.txt>
+Files:
+br_weather_rain_ambient.ogg (modifications: cut, filter curve applied)
+===
+Thunder Clap OWB KY 441x16.wav by Dave Welsh <https://freesound.org/people/Dave%20Welsh/sounds/194364/>
+License: Creative Commons 0 <https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt>
+Files:
+br_weather_thunder.ogg (modifications: cut)
+===
+sfx_thunder blast.wav by bajko <https://freesound.org/people/bajko/sounds/399656/>
+License: Creative Commons 0 <https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt>
+Files:
+br_weather_thunder.0.ogg (modifications: cut)
+===
+================================================================================
+backroomtest/mods/packs/aom_admin_tools/LICENSE
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+
+===
+Media Licenses
+===
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: Creative Commons 0 <https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt>
+Files:
+aom_admin_tools_camera.png
+aom_admin_tools_fill.png
+aom_admin_tools_fill_ENTITY.png
+aom_admin_tools_teleport_to.png
+aom_admin_tools_util.png
+
+aom_admin_tools_click.ogg
+===
+================================================================================
+backroomtest/mods/packs/aom_wrench/LICENSE
+
+
+MIT License
+
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose
+with or without fee is hereby granted to the person(s) and/or legal entities listed
+in the above copyright notice.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+===
+Media Licenses
+===
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: CC-BY-4.0. <https://creativecommons.org/licenses/by/4.0/legalcode.txt>
+Files:
+aom_wrench.png
+aom_wrench_hud_bg.png
+aom_wrench_wrench_ENTITY.png
+
+aom_wrench_clicks.ogg
+aom_wrench_plip.ogg
+aom_wrench_not_allowed.ogg
+===
+================================================================================
+backroomtest/mods/packs/backrooms/LICENSE
+
+
+MIT License
+
+Copyright (c) 2025 Sumi, SumianVoice <info[at]sumianvoice.com> <https://codeberg.org/SumianVoice/backroomtest>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose
+with or without fee is hereby granted to the person(s) and/or legal entities listed
+in the above copyright notice.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+===
+Media Licenses
+===
+Copyright (c) 2025 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.minetest.net/packages/Sumianvoice>
+License: CC-BY-4.0. <https://creativecommons.org/licenses/by/4.0/>
+Files:
+br_achieve_bg.png
+br_achieve_bg_shadow.png
+br_achievement_button.png
+br_achievement_rebirth.png
+br_achievement_visit_0.png
+br_achievement_visit_1.png
+br_achievement_visit_2.png
+br_achievement_visit_5.png
+br_achievement_visit_12.png
+br_achievement_visit_17.png
+br_achievement_visit_31.png
+br_achievement_visit_37.png
+br_achievement_visit_45.png
+br_achievement_visit_51.png
+br_achievement_visit_62.png
+br_achievement_visit_84.png
+br_achievement_visit_96.png
+br_achievement_visit_167.png
+br_achievement_visit_180.png
+br_achievement_whatwasthat.png
+br_barrier.png
+br_bottle.png
+br_bottle_cap.png
+br_bottle_fill.png
+br_bottle_label.png
+br_bottle_shine.png
+br_can_base.png
+br_canned_beans_0.png
+br_canned_beans_1.png
+br_canned_fruit_0.png
+br_canned_fruit_1.png
+br_carpet_0.png
+br_carton_banana_juice.png
+br_carton_orange_juice.png
+br_ceiling_light_0.png
+br_ceiling_light_1.png
+br_ceiling_tiles_0.png
+br_concrete_meta_0.png
+br_concrete_meta_2.png
+br_concrete_meta_3.png
+br_core_placeholder_16x.png
+br_crate_background.png
+br_credits.png
+br_degrotator.png
+br_door_0.png
+br_door_handle_0.png
+br_door_overlay_0.png
+br_drawers_0.png
+br_duct_0.png
+br_duct_tape.png
+br_dust_particle.png
+br_emergency_light_0.png
+br_emergency_light_0_side.png
+br_fire_alarm.png
+br_flashlight.png
+br_flashlight_off.png
+br_fridge_0.png
+br_inv_hotbar_bg.png
+br_inv_itemslot_bg.png
+br_key_2.png
+br_key_3.png
+br_key_4.png
+br_key_tool.png
+br_ladder_steel_0.png
+br_locker_side_0.png
+br_locker_top_0.png
+br_loot_area.png
+br_meta_baseplate_0.png
+br_meta_blank.png
+br_meta_catwalk.png
+br_meta_grass.png
+br_meta_overlay_carpet_1.png
+br_meta_overlay_crisscross_0.png
+br_meta_overlay_crisscross_1.png
+br_meta_overlay_crisscross_2.png
+br_meta_overlay_dirt_0.png
+br_meta_overlay_dirt_1.png
+br_meta_overlay_dirt_2.png
+br_meta_overlay_dirt_3.png
+br_meta_overlay_dirt_4.png
+br_meta_overlay_dirt_5.png
+br_meta_overlay_flowers.png
+br_meta_overlay_holes_0.png
+br_meta_overlay_rebar_0.png
+br_meta_overlay_wallpaper_1.png
+br_meta_overlay_wallpaper_2.png
+br_number.png
+br_portal_0.png
+br_power_socket.png
+br_rag.png
+br_sign_exclaim.png
+br_sign_exit.png
+br_sign_exit_side.png
+br_sign_no_entry.png
+br_sign_phone.png
+br_sign_various_0.png
+br_sign_various_1.png
+br_sign_x.png
+br_skirting_board_0.png
+br_tiles_0.png
+br_tiles_1.png
+br_tiles_2.png
+br_ui_achievement_background.png
+br_use_when_stuck.png
+br_wallpaper_0.png
+br_white.png
+crosshair.png
+crosshair2.png
+hand.png
+
+mods/packs/backrooms/schematics/*.mts
+
+br_concrete_step.0.ogg
+br_concrete_step.1.ogg
+br_concrete_step.2.ogg
+br_concrete_step.3.ogg
+br_concrete_step.4.ogg
+br_concrete_step.5.ogg
+br_door_closing_wood_delay.ogg
+br_door_opening_wood.ogg
+br_d_stamina_low.ogg
+br_d_trigger_water_push.0.ogg
+br_d_trigger_water_push.ogg
+br_flashlight_click.ogg
+br_fluorescent_hum.ogg
+br_key_rattle_0.0.ogg
+br_key_rattle_0.1.ogg
+br_key_rattle_1.0.ogg
+br_key_rattle_1.1.ogg
+br_level_0_beep.ogg
+br_m_portal_beep.ogg
+br_m_trigger_drip.0.ogg
+br_m_trigger_drip.ogg
+br_m_trigger_footsteps_concrete.0.ogg
+br_m_trigger_footsteps_concrete.1.ogg
+br_m_trigger_footsteps_concrete.2.ogg
+br_m_trigger_footsteps_concrete.ogg
+br_noclip.ogg
+br_step_carpet.0.ogg
+br_step_carpet.1.ogg
+br_step_carpet.2.ogg
+br_step_carpet.3.ogg
+br_step_carpet.4.ogg
+br_tile_step.0.ogg
+br_tile_step.1.ogg
+br_water_sploosh.0.ogg
+br_water_step.0.ogg
+br_water_step.1.ogg
+br_water_step.2.ogg
+br_water_step.3.ogg
+br_water_step.4.ogg
+br_wind_noise_heavy_WTFPL_Sumianvoice.ogg
+br_wind_noise_WTFPL_Sumianvoice.ogg
+
+br_door_left_0.b3d
+br_door_left_1.b3d
+br_door_left_2.b3d
+br_door_left_3.b3d
+br_door_right_0.b3d
+br_door_right_1.b3d
+br_door_right_2.b3d
+br_door_right_3.b3d
+br_blinds_1x1_0.obj
+br_blinds_2x1_0.obj
+br_blinds_2x2_0.obj
+br_blinds_2x2_0_broken_0.obj
+br_blinds_2x2_0_broken_1.obj
+br_blinds_2x2_0_broken_2.obj
+br_chair_0.obj
+br_door_left_open_0.obj
+br_door_left_open_1.obj
+br_door_left_open_2.obj
+br_door_left_open_3.obj
+br_door_right_open_0.obj
+br_door_right_open_1.obj
+br_door_right_open_2.obj
+br_door_right_open_3.obj
+br_drawers_0.obj
+br_fridge_0.obj
+br_handrail_diagonal_left.obj
+br_handrail_diagonal_right.obj
+br_oven_0.obj
+br_window_0.obj
+br_window_2x2_0.obj
+br_window_2x2_0_broken_0.obj
+br_window_broken_0.obj
+===
+JamesMontour 2012, <https://freesound.org/people/JamesMontour>
+License: CC0 1.0 <https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt>
+Files:
+br_photo_click_cc0_JamesMontour.ogg <https://freesound.org/people/JamesMontour/sounds/151795/>
+===
+klangfabrik , <https://freesound.org/people/klangfabrik>
+License: CC0 1.0 <https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt>
+Files:
+br_traffic_distant_cc0_klangfabrik.ogg <https://freesound.org/people/klangfabrik/sounds/570535/>
+===
+================================================================================
+backroomtest/mods/packs/br_154/LICENSE
+
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+
+===
+Media Licenses
+===
+Copyright (c) 2025 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.minetest.net/packages/Sumianvoice>
+License: CC-BY-4.0. <https://creativecommons.org/licenses/by/4.0/>
+Files:
+br_achievement_visit_154.png
+
+mods/packs/br_154/schematics/*.mts
+===
+================================================================================
+backroomtest/mods/packs/br_credits/LICENSE
+
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+
+===
+Media Licenses
+===
+Copyright (c) 2025 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.minetest.net/packages/Sumianvoice>
+License: CC-BY-4.0. <https://creativecommons.org/licenses/by/4.0/>
+Files:
+sumi.png
+===
+================================================================================
+backroomtest/mods/packs/br_sprint/LICENSE
+
+Copyright (c) 2025 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+================================================================================
+backroomtest/mods/player/br_creative_helpers/LICENSE
+
+
+MIT License
+
+Copyright (c) 2022 Sumi, SumianVoice <info[at]sumianvoice.com> <https://github.com/SumianVoice>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose
+with or without fee is hereby granted to the person(s) and/or legal entities listed
+in the above copyright notice.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+===
+Media Licenses
+===
+===
+================================================================================
+backroomtest/mods/player/br_player_info/LICENSE
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+================================================================================
+backroomtest/mods/player/br_player_model/LICENSE
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+SOFTWARE.
+
+===
+Media Licenses
+===
+Copyright (c) 2025 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.minetest.net/packages/Sumianvoice>
+License: CC-BY-4.0. <https://creativecommons.org/licenses/by/4.0/>
+Files:
+clive.png
+clive_overlay.png
+humanoid.png
+
+humanoid.b3d
+===
+================================================================================
+backroomtest/mods/player/playerphysics/LICENSE.txt
+
+The MIT License (MIT)
+
+Copyright © 2024 Wuzzy
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+================================================================================
+backroomtest/mods/player/wield3d/LICENSE
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.minetest.net/packages/Sumianvoice>
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.

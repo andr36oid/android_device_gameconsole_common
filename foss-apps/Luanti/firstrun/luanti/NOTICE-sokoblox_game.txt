@@ -1,0 +1,85 @@
+Luanti game sokoblox_game (CC0-1.0/CC0-1.0)
+
+Shipped unmodified as published on ContentDB (sha256 6611f3f78790720cfe48f3a3bb0247ca72e5db7a4d62ea8b92bb36bc71f1a8e9).
+Download: https://content.luanti.org/packages/jgordon510/sokoblox_game/releases/28500/download/
+Source: https://github.com/jgordon510/luanti_sokoblox/tree/6aaa44795d491d4f8a9614d620e4d9b09cc14e1d
+
+================================================================================
+sokoblox_game/LICENSE.txt
+
+All media and source code is published under a CC0 1.0 Universal license unless noted
+below.
+
+Sources for audio:
+sokoblox_activate, sokoblox_loss, and sokoblox_win are by wobbleboxx https://opengameart.org/content/level-up-power-up-coin-get-13-sounds
+sokoblox_thud1 is by NenadSimic https://opengameart.org/content/muffled-distant-explosion
+sokoblox_twinkle is by Kevin McAuliffe who made it for this project
+sokoblox_thud2 and sokoblox_thud3 were created by me from sokoblox_thud1 (see above)
+
+https://creativecommons.org/publicdomain/zero/1.0/
+
+No Copyright
+
+The person who associated a work with this deed has dedicated the work to the public 
+domain by waiving all of his or her rights to the work worldwide under copyright law, 
+including all related and neighboring rights, to the extent allowed by law.
+
+You can copy, modify, distribute and perform the work, even for commercial purposes, 
+all without asking permission. See Other Information below.
+Other Information
+
+In no way are the patent or trademark rights of any person affected by CC0, nor are 
+the rights that other persons may have in the work or in how the work is used, such 
+as publicity or privacy rights.
+
+Unless expressly stated otherwise, the person who associated a work with this deed 
+makes no warranties about the work, and disclaims liability for all uses of the work, 
+to the fullest extent permitted by applicable law.
+
+When using or citing the work, you should not imply endorsement by the author or the 
+affirmer.
+================================================================================
+sokoblox_game/README.md
+
+# Sokoblox Luanti
+## created for the 2024 Luanti Game Jam
+### a rolling/push block puzzle game
+
+This is a puzzle game for the Luanti game engine.  It is a rolling block game, similar to Bloxorz.  It is also a push block game, similar to Sokoban.
+
+The object of the game is to cover the colored targets with a block that has the same color on top. Completing targets will open bridges, which allows access to further puzzles.
+
+================================================================================
+sokoblox_game/mods/sokoblox/LICENSE.txt
+
+All media and source code is published under a CC0 1.0 Universal license unless noted
+below.
+
+Sources for audio:
+sokoblox_activate, sokoblox_loss, and sokoblox_win are by wobbleboxx https://opengameart.org/content/level-up-power-up-coin-get-13-sounds
+sokoblox_thud1 is by NenadSimic https://opengameart.org/content/muffled-distant-explosion
+sokoblox_twinkle is by Kevin McAuliffe who made it for this project
+sokoblox_thud2 and sokoblox_thud3 were created by me from sokoblox_thud1 (see above)
+
+https://creativecommons.org/publicdomain/zero/1.0/
+
+No Copyright
+
+The person who associated a work with this deed has dedicated the work to the public 
+domain by waiving all of his or her rights to the work worldwide under copyright law, 
+including all related and neighboring rights, to the extent allowed by law.
+
+You can copy, modify, distribute and perform the work, even for commercial purposes, 
+all without asking permission. See Other Information below.
+Other Information
+
+In no way are the patent or trademark rights of any person affected by CC0, nor are 
+the rights that other persons may have in the work or in how the work is used, such 
+as publicity or privacy rights.
+
+Unless expressly stated otherwise, the person who associated a work with this deed 
+makes no warranties about the work, and disclaims liability for all uses of the work, 
+to the fullest extent permitted by applicable law.
+
+When using or citing the work, you should not imply endorsement by the author or the 
+affirmer.

@@ -1,0 +1,445 @@
+Luanti game blockbomber (MIT/CC0-1.0)
+
+Shipped unmodified as published on ContentDB (sha256 26d72e17ba241877b312f307fc7d4a70b7296a493ecac768188203a69d6b7e37).
+Download: https://content.luanti.org/packages/MisterE/blockbomber/releases/22276/download/
+Source: https://gitlab.com/blocknerd-games/blockbomber
+
+================================================================================
+blockbomber/license.txt
+
+All media is licensed CC0, but please give attribution (honor system, not license system). See individual mod licenses for attribution info.
+
+
+(C) 2021 - 2023 MisterE, Threehymns, Polysaken, and contributers
+
+
+MIT License
+
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+================================================================================
+blockbomber/mods/bb_bomb/license.txt
+
+Copyright 2021 MisterE 
+Copyright 2021 threehymns
+
+
+
+THE MIT LICENSE
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+
+Media
+%%%%%%%%%%%%%%%
+
+Textures
+-------------
+CC0 MisterE
+
+bb_bomb_explosion
+bb_bomb_side
+bb_bomb_texture
+bb_bomb_top
+
+CC0 threehymns
+
+bb_bomb_particle
+
+
+Sounds
+-------------
+CC0 SubspaceAudio https://opengameart.org/content/512-sound-effects-8-bit-style
+
+sfx_exp_medium
+================================================================================
+blockbomber/mods/bb_deathmessages/license.txt
+
+Copyright 2021 MisterE
+
+There were many contributors to the deathmessages contained here, notably: MisterE and family, Oakenshield, threehymns, Warr1024, polysaken. If I forgot you let me know!
+
+THE MIT LICENSE
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+================================================================================
+blockbomber/mods/bb_loop/license.txt
+
+Copyright 2021 MisterE 
+Copyright 2021 threehymns
+
+THE MIT LICENSE
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+
+MEDIA
+%%%%%%%%%%%%%%%%%
+
+sounds
+---------------
+
+CC0 yd
+
+alarm.ogg https://opengameart.org/content/short-alarm
+
+
+
+CC0 FunWithSound
+
+win.ogg (modified) https://freesound.org/people/FunWithSound/sounds/456966/
+================================================================================
+blockbomber/mods/bb_menu/license.txt
+
+Copyright 2022 MisterE
+
+There were many contributors to the deathmessages contained here, notably: MisterE and family, Oakenshield, threehymns, Warr1024, polysaken. If I forgot you let me know!
+
+THE MIT LICENSE
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+================================================================================
+blockbomber/mods/bb_noafk/license.txt
+
+Copyright 2021 PolySaken 
+
+THE MIT LICENSE
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+================================================================================
+blockbomber/mods/bb_nodes/license.txt
+
+Copyright 2021 MisterE 
+Copyright 2021 threehymns
+
+THE MIT LICENSE
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+Media
+%%%%%%%%%%%%%%%
+
+Textures
+-------------
+CC0 MisterE
+
+bb_nodes_breaker
+bb_nodes_crate
+bb_nodes_ice
+
+CC0 threehymns
+
+bb_nodes_brick
+bb_nodes_crate_old
+bb_nodes_floor_with_arrow
+bb_nodes_floor_with_mortar
+bb_nodes_floor
+bb_nodes_ice_old
+bb_nodes_wall
+================================================================================
+blockbomber/mods/bb_player/license.txt
+
+Copyright 2021 MisterE 
+Copyright 2021 threehymns
+
+THE MIT LICENSE
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+Media
+%%%%%%%%%%%%%%%
+
+Textures
+-------------
+CC0 MisterE
+
+player_parts
+white
+spawn_particle
+respawn_particle
+
+
+
+
+CC0 threehymns
+
+Back
+Down
+Front
+Left
+Right
+Up
+bb_player_gui_hotbar, etc
+
+
+
+Models 
+-------------
+CC0 MisterE 
+
+bb_character.b3d
+bb_character.blend
+
+
+
+Sounds
+-------------
+CC0 MisterE
+
+yippee.ogg
+ew.ogg
+death.ogg
+
+CC0 phoenix1291 Credit "phoenix1291" or "SwissArcadeGameEntertainment"
+
+respawn.ogg
+respawn2.ogg
+
+
+
+CC0 SubspaceAudio 
+
+sfx_sounds_impact               https://opengameart.org/content/512-sound-effects-8-bit-style
+theme (originally "Stage 1")    https://opengameart.org/content/4-chiptunes-adventure
+
+
+
+CC0 den_yes
+
+GameOver                        https://opengameart.org/content/game-over-soundold-school
+================================================================================
+blockbomber/mods/bb_playermodel/license.txt
+
+Copyright 2021 MisterE
+
+THE MIT LICENSE
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+================================================================================
+blockbomber/mods/bb_powerup/license.txt
+
+Copyright 2021 MisterE 
+Copyright 2021 threehymns
+
+THE MIT LICENSE
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+
+
+Media
+%%%%%%%%%%%%%%%
+
+Textures
+-------------
+CC0 MisterE
+
+bb_powerup_extra_life
+bb_powerup_fast
+bb_powerup_kick
+bb_powerup_multidir
+bb_powerup_party
+bb_powerup_power
+bb_powerup_slow
+bb_powerup_throw
+bb_powerup_weird_control
+
+CC0 threehymns
+
+bb_powerup_bomb
+bb_powerup_no_placebomb
+bb_powerup_superfast
+
+
+================================================================================
+blockbomber/mods/bb_schems/license.txt
+
+Copyright 2021 MisterE 
+Copyright 2021 threehymns
+
+THE MIT LICENSE
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+Media
+%%%%%%%%%%%%%%%
+
+Schems
+-------------
+CC0 MisterE
+4_leaf_clover
+Aech
+asterisk
+bombasticsix
+Classic
+clear
+diamond
+fourways
+iheartbb
+nineisles
+tothepoint
+================================================================================
+blockbomber/mods/misteresarenas/license.txt
+
+BSD Zero Clause License
+
+Copyright (C) 2022 by MisterE
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+
+================================================================================
+blockbomber/readme.md
+
+# Blockbomber
+
+> **Note:** this is a multiplayer-only game. You can run it on a local server or play on an online server
+# Overview
+
+![Banner](menu/banner.png)
+
+**Blockbomber** is a Minetest arcade-like game where the goal is to be the last player standing. Collect power-ups to increase your abilities, avoid the bad ones, place bombs strategically and avoid falling (falling is based on center, not on hitbox, so watch out!). You can move through other players, but not through bombs.
+
+Make your own arenas using [**Blockbomber Editor**](https://content.minetest.net/packages/MisterE/blockbomber_editor/)!  Arenas are distributed as mods. If you have made arenas, [**contact maintainer**](https://gitlab.com/mistere123.coding) to add them on the server and possibly in the game.
+
+### Links
+- [**Website**](https://www.blockbomber.org/)
+- [**Discord**](https://discord.gg/fqcEMNenhA)
+- [**Source (GitLab)**](https://gitlab.com/blocknerd-games/blockbomber)
+
+### Credits
+- [**threehymns**](https://gitlab.com/threehymns1) — Code/Textures
+- [**MisterE**](https://gitlab.com/mistere123.coding) — Code/Textures
+- [**temhotaokeaha**](https://gitlab.com/temhotaokeaha) — Banner/Readme improvements
+- [**PolySaken**](https://gitlab.com/PolySaken-I-Am) — Code/Textures
+# **Controls**
+- Movement: [arrow keys]
+- Drop bomb: [sneak] (configurable with `/place jump` or `/place sneak`)
+- Throw a bomb that you are standing in: [jump] (if player has Spring)
+- Punch bomb: [LMB] (with Fist)
+
+# Content
+
+## Powerups
+
+### GOOD
+
+*Stackable*:
+- **Bomb**: The more bombs player has, the more they can place at once
+- **TNT**: The more TNTs player has, the larger the blast
+- **Shoes**: You start out a bit slow. Get shoes to get faster, but take care you don't get too fast and fall off!
+
+*Permanent*: 
+- **Spring**: Allows throwing bombs player just placed or is standing in with jump key
+- **Fist**: Allows punching bombs the player is next to (but not *in*)
+
+*Temporary*:
+- **Compass**: Makes explosions go diagonally as well as orthogonally
+- **Heart**: Grants one extra life against bomb blasts, one at a time!
+
+*Other*:
+- **Phoenix**: Resurrects dead players
+
+### BAD 
+(*bad power-ups are temporary and can be removed by getting another power-up or waiting*)
+- **Confused Frog**: Inverts player's movements
+- **Snail**: Makes player super slow
+- **Coffee**: Makes player *too* fast
+- **X-Bomb**: Player can't place bombs til its gone!
+- **Party**: Bomb fest!
+
+## Floor blocks
+- **Floor**: Regular block
+- **Ice**: Slippery block
+- **Arrow**: Pushes bombs in its direction
+- **Mortar**: Throws bombs to a random location on the board
+- **Air**: Players can fall thru holes if they're not careful!
+
+## Wall blocks
+- **Crate**: Always drops an item when blasted
+- **Brick**: Has a chance to drop an item when blasted
+- **Wall**: Can't be broken
+
+================================================================================
+blockbomber/mods/controls/license
+
+License of source code
+----------------------
+
+The MIT License (MIT)
+
+Copyright (c) 2023 wsor4035(aka wsor)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+================================================================================
+blockbomber/mods/sn_expansion/license.txt
+
+CC0 by StarNinjas

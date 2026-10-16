@@ -1,0 +1,3404 @@
+Luanti game pmb_core (MIT/CC-BY-4.0)
+
+Shipped unmodified as published on ContentDB (sha256 cb287b810df8f099e77db67826f2d8eb00d705cef3b0e6a451b69fea8cfb7a21).
+Download: https://content.luanti.org/packages/Sumianvoice/pmb_core/releases/38692/download/
+Source: https://codeberg.org/Age_of_Mending/Age_of_Mending/src/commit/c57d63c20ee26d315e27b61591062f20c3f1447c
+
+================================================================================
+pmb_core/LICENSE
+
+
+
+
+Except where otherwise stated in submodule LICENSE files,
+
+
+Media is licensed under:
+CC-BY-4.0. https://creativecommons.org/licenses/by/4.0/
+
+
+Code is licensed under:
+MIT License
+
+Copyright (c) 2022 PMB contributors <https://codeberg.org/Possible_MT_Blockgame/Possible_MT_Blockgame>
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.minetest.net/packages/Sumianvoice>
+Copyright (c) 2026 Sumi, SumianVoice <info[at]sumianvoice.com> <https://codeberg.org/Age_of_Mending/Age_of_Mending>
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+===
+For the following files/folders, the following license is granted. The character * represents a wildcard.
+- api_docs.md
+- CONTRIBUTING.md
+- game guide.md
+- LICENSE
+- lua_line_count.sh
+- minetest.conf
+- README.md
+- settingtypes.txt
+- .gitattributes
+- .gitignore
+- docs/*
+- screenshot.png
+- menu/*.png
+
+Copyright (c) 2026 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+===
+
+================================================================================
+pmb_core/README.md
+
+# Age of Mending
+A game about worldbuilding, homeliness, exploration and more.
+
+[![ContentDB](https://content.luanti.org/packages/Sumianvoice/pmb_core/shields/title/)](https://content.luanti.org/packages/Sumianvoice/pmb_core/)
+
+
+# Notice
+This game is partly experimental. Expect **sporadic**, game-breaking, potentially world corrupting updates to happen **indiscriminately**. Make backups. The entire design and structure of the game may change without notice depending on the direction I choose to take it.
+
+You have been warned!
+
+Until it reaches a final release state, you can readily assume any individual part of the game is a **placeholder** and many things will be unpolished and jank.
+
+
+# What kind of game is it?
+It is a game which aims to encourage and facilitate **world building**. That is, the player should feel like they want to make a world for themselves that is meaningful and engaging, such as **building towns or machines or environments**. It is a sandbox, mechanics-over-content world building game, meaning it would prefer to have a feature that allows the player to gain status effects that interact with eachother, than to have 20 different swords and 10 more mob types that are all just reskins.
+
+The style or setting is early gunpowder era with low fantasy elements (think LoTR level magic at most). The focus is on the player **building**, exploring and defending their own **home and world**. **World building** and creating a place for yourself is what it should be best at. It is not about mining for materials or grinding for better gear, it is about constructing an immersive and meaningful place in a world.
+
+There is a minimal amount of reward or progression. The playing of the game **_is_** the reward. The activities in the game **_are_** *the reason to play it*.
+
+
+### Compatible with mte 5.8+. Other versions unknown.
+Definitely doesn't work on 4.x. Always using the newest version, assume no backwards compatibility. The game may be adapted when leaving alpha to work with other versions, but for now it is too much overhead to test multiple versions every time a change is made.
+
+
+# Contributing
+## Bug Reports and Issues
+For bug reports, use the format below and copy it into a new issue. Bug report titles should describe the problem, and suggestions should provide the affirmative future tense. Examples are (bug) "Opening storage with armor equipped causes crash" and (suggestion) "Animals will be afraid of powerful creatures".
+For bug reports:
+
+```md
+## Version
+
+VERSION_OR_GIT_TAG_OR_COMMIT_HERE
+
+## Crash error if applicable
+
+\```
+[ERROR GOES HERE]
+> remove the \ in both sets of [\```] to enable the code block
+\```
+
+## Expected behavior
+- 
+
+## Current behavior and steps to reproduce it
+- 
+
+[your description and extra details here if you want]
+```
+
+
+## Contributing Code
+Code contributions outside the core development team are currently **not endorsed**.
+
+If you want a feature, please make an issue instead of making a PR. This is a game designed and built mostly by a single person, **and with a very specific goal and direction in mind**. If you want to be a part of the team, please contact Sumi directly. It is very much a creative endeavour with an existing artistic direction. It *is* open source but it isn't open *development*.
+
+The rest of this readme is mostly just info specifically for team members / contributors.
+
+
+# Licenses for Contributions
+By contributing code to a submodule and offering this modified version of the project in a pull request, it is taken that you offer those changes under both the project license AND the submodule's license if present. This is reflected in the statement you provide by including the license grant of permissions within the submodule itself. If a submodule has in its contents a LICENSE file or any grant of permissions, it is taken that you understand and agree to offer any changes to that submodule under that same license and grant of permissions as is contained within that submodule.
+
+For example, if the project license is MIT, and you provide changes to a submodule which contains the 0BSD license, it is taken that you understand and agree to offer those changes under the same 0BSD license. Similarly if there is a submodule that contains an MIT license, but which lists different attribution sources / copyright notices, it is taken that you offer the changes under the submodule's MIT license and copyright notices, not just the project's.
+
+For clarity, when making a pull request which modifies existing code (adding new modules is exempt), the body should contain a statement acknowledging the above, like so. Any such pull request not containing the below statement will be not be merged, and changes will not be viewed in order to prevent any similar future changes from being considered derivative of the PR contents.
+```
+For each change made to a submodule, I offer those changes under the license of the submodule the change affects, and seperately offer those changes under the project's license. All changes to top level files, such as `game.conf` and `minetest.conf` are provided under 0BSD license.
+```
+
+## Why all this trouble?
+Some people believe that you can nullify a grant of permissions by "feeling" like you added changes under a different license. That is, that someone could add changes to a 0BSD licensed submodule while in their mind imagining they are offering the changes under the project's MIT license, and then sue for not attributing them under MIT for those changes to the 0BSD licensed code. This, if true (doubtful but still worth avoiding) would mean submodule licenses are lying almost all the time and are null and void, and the project is always breaking copyright by not observing the conditions of the imagined license when granting permissions under those more permissive licenses. This is to ignore the explicit grant of permissions tied to all licenses (and essentially making "takesies backsies" a legal precedent), and it's almost certainly not how it works, but it is better to document all license details and make completely impossible the idea of being sued or blackmailed, rather than be optimistic and trust in a law that is essentially just a soup made of popular opinion and feelings. If the project somehow explodes in popularity, it should be impossible for anyone, including the authors of the project itself, to exert power over the project by threat of legal action, especially through abuse of copyright law, no matter how absurd and unreasonable that possibility may seem. To this end, the above over-the-top solution is needed.
+
+
+# Copyleft
+If a commit contains copyleft licensed material, or any licensed material that would require use to re-license this entire project under someone else's copyright, that commit will be reverted. If in a PR it will be rejected. Developers of the project should be able to fork at any point without legal problems and use the code for any purpose.
+
+No licenses with restrictions on use; no CC-BY-SA-NC for example. MIT, 0BSD or CC0 is preferred.
+Avoid BY-SA. It is legally difficult, and no-one really knows for sure if it's copyleft or not, so just don't use it.
+
+Free and open source. Free as in freedom, not free as in "free but you do as we tell you".
+
+
+# Design Information and Guide
+As a general design philosophy:
+> **all player activity in the game** should contain reward which is **inherent** to the activity itself, and not injected by the designer
+
+or:
+
+> the reason the player wants to do X is because they want to do X, not because they want Y
+
+> **never** intentionally add **promise of reward** for doing some activity, instead make that activity enjoyable **without reward** given
+
+This could also be phrased as hypotheticals. There are a few levels, 1 being best:
+
+> 1. could I do this activity for some time, then delete the world and still feel like the whole thing was enjoyable?
+> 2. if I did this activity for a while, and then left it in the world and moved on to somewhere else without taking anything with me, would it still feel like it was an enjoyable time spent? (e.g. build a house and then leave)
+> 3. would I open the game to do specifically this activity rather than it being just a necessary step to another thing which itself is the real goal? (e.g. mining, but you don't open the game for mining, you open it to mine only to *get better tools*)
+
+If it fails (3) then it's not good enough. Passing (1) is best. If at any stage of playtesting we think (3) and the answer is no, we should remove or redesign whatever activity it is.
+
+For example, solving a puzzle is fun in its own right and fits this principle, but solving a puzzle because it gives you a better item does not fit this principle.
+Do not reward the player extrinsically; it should be that the playing of the game **_is_** the reward. The activities in the game **are** *the reason to play it*.
+
+
+
+## Main Design Principles
+1. Sandbox
+	- every part of the game should be at least mostly optional, have multiple ways to achieve the same thing, no arbitrary goals set by the devs
+	- avoid items and resources that are clearly necessary but hard to get (no cases of Terraria's rod of discord!)
+2. Fun
+	- design and mechanics should encourage behaviors in the player that are fun
+	- don’t add things that encourage the player to do boring tasks or that encourage the game to be exploited in a boring way
+	- exploiting the game in fun, fair ways = good
+3. Emergent
+	- features should interact due to being independent and generalized instead of specific (content vs mechanics)
+	- adding something that has interactions with two other things means we get very rich gameplay possibilities just from adding one thing, because those two things each interact with two other things and so on
+4. Fair
+	- there should be an obvious cause --> effect, rather than random inconveniences
+	- don't punish the player, but have obvious and foreseeable consequences
+5. Abstracted
+	- simulation should be avoided unless *absolutely necessary* for the mechanic to work (i.e. wiring is simulated, but we don’t need to simulate air pressure so we know if the player is hot and needs to drink more water - that would be oversimulated)
+	- needing to drink water at all is also oversimulated
+	- ask "does this make gameplay more interesting" and not from a developer standpoint but from a player's perspective
+
+
+
+## More Design Principles
+1. features should be generalised and interact with other features
+	- instead of adding an arrow shooter node, add nodes which can shoot anything that’s a projectile
+	- to prevent you from shooting all projectiles, allow the projectile definition to choose whether it can be shot from a node
+2. specific mechanics that only have one use can be made a branching feature
+	- if we have a mob in the game meant to just be a threat and nothing more, we could make it drop something useful like leather
+3. the player should not be encouraged by the game to play in a boring or monotonous way
+	- no grinding
+4. the player should not be forced to play in a varied way
+	- e.g. making a crafting recipe for a powerful item that arbitrarily makes the player need to go to every biome in the game
+	- making the world varied is good, but there should not be progression tree spaghetti, nor any real progression tree at all
+5. mechanics that require the player to complete more tasks should be interrogated
+	- this should not be arbitrary, it should interact with other parts of the game and for a reason and be inherently enjoyable
+	- example, don't add crafting recipes just to slow the player down on the way to crafting something cool, instead, make the items be interactive within the game
+6. the player should not be punished by the game for wanting to do something
+	- obstacles are fine, but just "making things harder" for no reason adds nothing
+	- never try to prevent behavior by punishment; people can't play it "the wrong way" unless it's boring (see Main Design Principles)
+
+
+# Contributors
+### Sumi / [Sumianvoice](https://codeberg.org/SumianVoice)
+- project direction
+- game design
+- systems/APIs
+- world generation
+- structures
+- art design and direction
+- textures, models, animation
+- worldbuilding / lore design
+- sound design, sound production, music
+
+Made almost every gameplay feature, system, node, item, tool, biome, sound, and texture. Designed the world, the gameplay and the aesthetic. Made most of the present APIs except for a few licensed externally and a few from other earlier contributors.
+
+### [opfromthestart](https://codeberg.org/opfromthestart)
+- systems/APIs
+- early groundwork
+
+Made the first version of the mob API, implemented A\* for pathfinding, coded the first mob, introduced tools, early creative mode, and got the project actually moving when it first started.
+
+### [cora](https://codeberg.org/cora)
+Added the first weather system.
+
+### iliekprogrammar
+Got mapgen working for the first time.
+
+================================================================================
+pmb_core/menu/LICENSE
+
+
+Copyright (c) 2022 PMB contributors <https://codeberg.org/Possible_MT_Blockgame/Possible_MT_Blockgame>
+
+Media contained within is under CC-BY-4.0. https://creativecommons.org/licenses/by/4.0/ --> attribution to PMB contributors.
+
+================================================================================
+pmb_core/mods/aom_core/age_of_mending/LICENSE
+
+Copyright (c) 2026 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+
+===
+Media Licenses
+===
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: CC-BY-4.0. <https://creativecommons.org/licenses/by/4.0/legalcode.txt>
+Files:
+aom_sumi.png
+aom_sumi_outline.png
+aom_title.png
+aom_title_2x1.png
+===
+
+================================================================================
+pmb_core/mods/aom_core/aom_ambience/LICENSE
+
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+
+===
+Media Licenses
+===
+Sound of crickets at night by joanaseabra <https://freesound.org/people/joanaseabra/sounds/424871/>
+License: Creative Commons 0 <https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt>
+Files:
+crickets_joanaseabra_CC0_freesound.ogg (modifications: cut, filtered by frequency curves)
+===
+================================================================================
+pmb_core/mods/aom_core/aom_climate/LICENSE
+
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+
+===
+Media Licenses
+===
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: CC-BY-4.0. <https://creativecommons.org/licenses/by/4.0/legalcode.txt>
+Files:
+aom_climate_particle_wind.png
+aom_climate_particle_wind_2.png
+aom_climate_particle_wind_flat.png
+
+aom_climate_wind.0.ogg
+aom_climate_wind.1.ogg
+===
+================================================================================
+pmb_core/mods/aom_core/aom_combat/LICENSE
+
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+
+===
+Media Licenses
+===
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: CC-BY-4.0. <https://creativecommons.org/licenses/by/4.0/legalcode.txt>
+Files:
+aom_combat_bronze_sword.png
+aom_combat_iron_spear.png
+aom_combat_iron_sword.png
+aom_combat_test_pants.png
+aom_combat_test_sword.png
+
+aom_combat_block_start.ogg
+aom_combat_metal_hit.ogg
+aom_whap.0.ogg
+aom_whap.1.ogg
+aom_whap.2.ogg
+aom_whap.3.ogg
+===
+================================================================================
+pmb_core/mods/aom_core/aom_creative/LICENSE
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+================================================================================
+pmb_core/mods/aom_core/aom_credits/LICENSE
+
+Copyright (c) 2026 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+================================================================================
+pmb_core/mods/aom_core/aom_dimensions/LICENSE
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+================================================================================
+pmb_core/mods/aom_core/aom_fixes/LICENSE
+
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+================================================================================
+pmb_core/mods/aom_core/aom_fluidapi/LICENSE
+
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+================================================================================
+pmb_core/mods/aom_core/aom_food/LICENSE
+
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+
+===
+Media Licenses
+===
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: CC-BY-4.0. <https://creativecommons.org/licenses/by/4.0/legalcode.txt>
+Files:
+aom_baked_potato.png
+aom_cooked_animal_meat.png
+aom_glowroot_soup.png
+aom_mushroom_soup.png
+aom_pumpkin_cooked.png
+aom_pumpkin_soup.png
+===
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: Creative Commons 0 <https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt>
+Files:
+aom_food_gulp.0.ogg
+aom_food_gulp.1.ogg
+aom_food_gulp.ogg
+aom_food_munch.ogg
+===
+================================================================================
+pmb_core/mods/aom_core/aom_hand/LICENSE
+
+MIT License
+
+Copyright (c) 2022 PMB contributors <https://codeberg.org/Possible_MT_Blockgame/Possible_MT_Blockgame>
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+===
+Media Licenses
+===
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: CC-BY-4.0. <https://creativecommons.org/licenses/by/4.0/legalcode.txt>
+Files:
+hand.png
+===
+================================================================================
+pmb_core/mods/aom_core/aom_hud/LICENSE
+
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+
+===
+Media Licenses
+===
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: CC-BY-4.0. <https://creativecommons.org/licenses/by/4.0/legalcode.txt>
+Files:
+crosshair.png
+aom_breath_empty.png
+aom_breath_full.png
+aom_health_bg.png
+aom_health_empty.png
+aom_health_full.png
+aom_hotbar_bg.png
+===
+================================================================================
+pmb_core/mods/aom_core/aom_ingame_menu/LICENSE
+
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+
+===
+Media Licenses
+===
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: CC-BY-4.0. <https://creativecommons.org/licenses/by/4.0/legalcode.txt>
+Files:
+aom_igm_click.ogg
+===
+================================================================================
+pmb_core/mods/aom_core/aom_inventory/LICENSE
+
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+
+===
+Media Licenses
+===
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: CC-BY-4.0. <https://creativecommons.org/licenses/by/4.0/legalcode.txt>
+Files:
+aom_inv_arrow.png
+aom_inv_backpack.png
+aom_inv_bangle.png
+aom_inv_bg.png
+aom_inv_bg_outline.png
+aom_inv_boots.png
+aom_inv_btn.png
+aom_inv_btn_press.png
+aom_inv_head.png
+aom_inv_hotbar_background.png
+aom_inv_hotbar_select.png
+aom_inv_itemslot_bg.png
+aom_inv_legs.png
+aom_inv_necklace.png
+aom_inv_panel_end.png
+aom_inv_ring.png
+aom_inv_tagbg.png
+aom_inv_tagbg_hover.png
+aom_inv_tagbg_sel.png
+aom_inv_tblocks.png
+aom_inv_tdecor.png
+aom_inv_tfood.png
+aom_inv_tfurniture.png
+aom_inv_tgoods.png
+aom_inv_tmech.png
+aom_inv_tmisc.png
+aom_inv_torso.png
+aom_inv_trash.png
+aom_inv_tshapes.png
+aom_inv_ttools.png
+aom_inv_ttransmute.png
+aom_tcraft_bg.png
+aom_tcraft_circle.png
+aom_tcraft_panel.png
+aom_tcraft_panel_middle.png
+aom_tcraft_panel_overlay.png
+aom_tcraft_panel_overlay_middle.png
+aom_tcraft_panel_overlay_right.png
+aom_tcraft_panel_right.png
+aom_tcraft_x10.png
+aom_tcraft_x10_hover.png
+===
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: Creative Commons 0 <https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt>
+Files:
+aom_not_allowed.ogg
+aom_page_turn.ogg
+aom_pickup_item.ogg
+===
+================================================================================
+pmb_core/mods/aom_core/aom_item_entity/LICENSE
+
+Copyright (c) 2026 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+================================================================================
+pmb_core/mods/aom_core/aom_itemdesc/LICENSE
+
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
+================================================================================
+pmb_core/mods/aom_core/aom_kits/LICENSE
+
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+================================================================================
+pmb_core/mods/aom_core/aom_materials/LICENSE
+
+Copyright (c) 2026 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+================================================================================
+pmb_core/mods/aom_core/aom_music/LICENSE
+
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+
+===
+Media Licenses
+===
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: CC-BY-4.0. <https://creativecommons.org/licenses/by/4.0/legalcode.txt>
+Files:
+aom_music_fin.ogg
+aom_music_hills.ogg
+aom_music_spark.ogg
+aom_music_tighten.ogg
+aom_music_walden.ogg
+===
+================================================================================
+pmb_core/mods/aom_core/aom_picknode/LICENSE
+
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+================================================================================
+pmb_core/mods/aom_core/aom_pmb_bridge/LICENSE
+
+Copyright (c) 2025 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+================================================================================
+pmb_core/mods/aom_core/aom_radial/LICENSE
+
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+
+===
+Media Licenses
+===
+Copyright (c) 2026 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: Creative Commons 0 <https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt>
+Files:
+aom_icon_beam.png
+aom_icon_full.png
+aom_icon_post.png
+aom_icon_quarter.png
+aom_icon_slab.png
+aom_icon_stair.png
+===
+================================================================================
+pmb_core/mods/aom_core/aom_sounds/LICENSE
+
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+
+===
+Media Licenses
+===
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: CC-BY-4.0. <https://creativecommons.org/licenses/by/4.0/legalcode.txt>
+Files:
+aom_fire_cc0.ogg
+aom_fire_extinguish.ogg
+aom_grass_dug.ogg
+aom_grass_place.ogg
+aom_grass_step.1.ogg
+aom_grass_step.2.ogg
+aom_grass_step.ogg
+aom_metal_dig.0.ogg
+aom_metal_dig.1.ogg
+aom_plant_dig.ogg
+aom_snow_step.ogg
+aom_snow_step_2.ogg
+aom_soil_dug.ogg
+aom_soil_place.ogg
+aom_sounds_pickup.ogg
+aom_sounds_thud.ogg
+aom_stone_dig.0.ogg
+aom_stone_dig.1.ogg
+aom_stone_dug.ogg
+aom_stone_place.0.ogg
+aom_stone_place.1.ogg
+aom_stone_place.ogg
+aom_stone_step.0.ogg
+aom_stone_step.1.ogg
+aom_stone_step.2.ogg
+aom_stone_step.3.ogg
+aom_stone_step.4.ogg
+aom_stone_step.5.ogg
+aom_stone_step.6.ogg
+aom_stone_step.ogg
+aom_wind_rush_loop.ogg
+aom_wind_rush_loop_high.ogg
+aom_wood_dig.0.ogg
+aom_wood_dig.1.ogg
+aom_wood_dig.2.ogg
+aom_wood_dig.3.ogg
+aom_wood_dig.4.ogg
+aom_wood_dig.5.ogg
+aom_wood_dig.6.ogg
+aom_wood_step.0.ogg
+aom_wood_step.1.ogg
+aom_wood_step.2.ogg
+aom_wood_step.3.ogg
+===
+================================================================================
+pmb_core/mods/aom_core/aom_statusfx/LICENSE
+
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+
+===
+Media Licenses
+===
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: CC-BY-4.0. <https://creativecommons.org/licenses/by/4.0/legalcode.txt>
+Files:
+aom_status_blind.png
+aom_status_blindness_bg.png
+aom_status_blindness_noise_1.png
+aom_status_blindness_noise_2.png
+aom_status_blindness_noise_3.png
+aom_status_burning.png
+aom_status_featherfalling.png
+aom_status_glowing.png
+aom_status_poison_1.png
+aom_status_poison_3.png
+aom_status_regeneration.png
+aom_status_regeneration_1.png
+aom_status_regeneration_3.png
+aom_status_slow.png
+aom_status_speed.png
+aom_status_woozy.png
+===
+================================================================================
+pmb_core/mods/aom_core/aom_util/LICENSE
+
+Copyright (c) 2026 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+================================================================================
+pmb_core/mods/aom_core/aom_vars/LICENSE
+
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+================================================================================
+pmb_core/mods/aom_core/aom_warning/LICENSE
+
+Copyright (c) 2026 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+
+===
+Media Licenses
+===
+Copyright (c) 2026 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: Creative Commons 0 <https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt>
+Files:
+aom_warning.png
+===
+================================================================================
+pmb_core/mods/aom_core/aom_weather/LICENSE
+
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+
+===
+Media Licenses
+===
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: Creative Commons 0 <https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt>
+Files:
+aom_weather_rain.png
+aom_weather_rain_heavy.png
+aom_weather_rain_medium.png
+aom_weather_snow_1.png
+aom_weather_snow_2.png
+aom_weather_snow_sheet_1.png
+aom_weather_snow_sheet_2.png
+aom_weather_snow_sheet_3.png
+
+aom_weather_rain_medium.ogg
+===
+Rain.wav by inchadney <https://freesound.org/people/inchadney/sounds/58835/>
+License: CC-BY 4.0 <https://creativecommons.org/licenses/by/4.0/legalcode.txt>
+Files:
+aom_weather_rain_ambient.ogg (modifications: cut, filter curve applied)
+===
+Thunder Clap OWB KY 441x16.wav by Dave Welsh <https://freesound.org/people/Dave%20Welsh/sounds/194364/>
+License: Creative Commons 0 <https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt>
+Files:
+aom_weather_thunder.ogg (modifications: cut)
+===
+sfx_thunder blast.wav by bajko <https://freesound.org/people/bajko/sounds/399656/>
+License: Creative Commons 0 <https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt>
+Files:
+aom_weather_thunder.0.ogg (modifications: cut)
+===
+================================================================================
+pmb_core/mods/aom_core/node_shapes/LICENSE
+
+
+Copyright (c) 2026 Sumi, SumianVoice <info[at]sumianvoice.com> <https://codeberg.org/SumianVoice>
+
+
+Permission to use, copy, modify, and/or distribute this software for any purpose
+with or without fee is hereby granted to the person(s) and/or legal entities listed
+in the above copyright notice.
+
+
+MIT License
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+================================================================================
+pmb_core/mods/aom_craftitems/aom_dyes/LICENSE
+
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+
+===
+Media Licenses
+===
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: CC-BY-4.0. <https://creativecommons.org/licenses/by/4.0/legalcode.txt>
+Files:
+aom_dyes_base.png
+===
+================================================================================
+pmb_core/mods/aom_craftitems/aom_items/LICENSE
+
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+
+===
+Media Licenses
+===
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: CC-BY-4.0. <https://creativecommons.org/licenses/by/4.0/legalcode.txt>
+Files:
+aom_bronze_bar.png
+aom_bronze_nugget.png
+aom_bronze_sheet.png
+aom_charcoal.png
+aom_clay_ball.png
+aom_coal.png
+aom_copper_bar.png
+aom_copper_nugget.png
+aom_copper_sheet.png
+aom_diamond.png
+aom_gold_bar.png
+aom_gold_nugget.png
+aom_gold_sheet.png
+aom_ignis_nugget.png
+aom_iron_bar.png
+aom_iron_nugget.png
+aom_iron_sheet.png
+aom_items_gunpowder.png
+aom_items_nitrite.png
+aom_items_sulphur.png
+aom_lapis.png
+aom_plant_fibre.png
+aom_stick.png
+aom_tin_bar.png
+aom_tin_nugget.png
+aom_tin_sheet.png
+aom_wooden_bowl.png
+aom_wooden_bucket.png
+aom_wooden_bucket_water.png
+aom_wooden_cup.png
+aom_wooden_cup_water.png
+===
+================================================================================
+pmb_core/mods/aom_craftitems/aom_tools/LICENSE
+
+MIT License
+
+Copyright (c) 2022 PMB contributors <https://codeberg.org/Possible_MT_Blockgame/Possible_MT_Blockgame>
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+===
+Media Licenses
+===
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: CC-BY-4.0. <https://creativecommons.org/licenses/by/4.0/legalcode.txt>
+Files:
+aom_bronze_axe.png
+aom_bronze_pickaxe.png
+aom_diamond_axe.png
+aom_diamond_pickaxe.png
+aom_iron_axe.png
+aom_iron_pickaxe.png
+aom_stone_axe.png
+aom_stone_pickaxe.png
+===
+================================================================================
+pmb_core/mods/aom_entities/aom_animals/LICENSE
+
+Copyright (c) 2026 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+
+===
+Media Licenses
+===
+Copyright (c) 2026 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: CC-BY-4.0. <https://creativecommons.org/licenses/by/4.0/legalcode.txt>
+Files:
+aom_animal_meat.png
+aom_animals_pipslug.png
+aom_animals_pipslug_spit.png
+aom_deer.png
+aom_wolf.png
+aom_wolf_fang.png
+aom_wolf_pelt.png
+
+aom_animals_pipslug.b3d
+aom_animals_pipslug_spit.b3d
+
+aom_wolf.b3d
+
+aom_animals_pipslug_*.ogg
+===
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+Copyright (c) 2024 epCode, Seugy <https://content.minetest.net/packages/epCode>
+License: CC-BY-4.0.<https://creativecommons.org/licenses/by/4.0/legalcode.txt>
+Files:
+aom_deer.b3d (modifications: changed some animations and added new ones)
+===
+Dog growl.wav by strongbot, 2018 <https://freesound.org/people/strongbot/sounds/266897/>
+License: Creative Commons 0 <https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt>
+Files:
+aom_animals_dog_growl_bite.ogg (modifications: cropped, stitched)
+===
+================================================================================
+pmb_core/mods/aom_entities/aom_elementals/LICENSE
+
+
+Copyright (c) 2026 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose
+with or without fee is hereby granted to the person(s) and/or legal entities listed
+in the above copyright notice.
+
+MIT License
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+Media contained within is under CC-BY-4.0. https://creativecommons.org/licenses/by/4.0/
+
+===
+Media Licenses
+===
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: CC-BY-4.0. <https://creativecommons.org/licenses/by/4.0/legalcode.txt>
+Files:
+aom_elemental_core_magma.png
+aom_elemental_core_stone.png
+aom_elemental_magma.png
+aom_elemental_stone.png
+
+aom_elemental.b3d
+===
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: Creative Commons 0 <https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt>
+Files:
+aom_elementals_charge.ogg
+aom_elementals_charge_start.ogg
+aom_elementals_hurt_0.ogg
+aom_elementals_hurt_1.ogg
+aom_elementals_hurt_2.ogg
+aom_elementals_idle.ogg
+aom_elementals_smash.ogg
+aom_elementals_step.ogg
+aom_elementals_steps.ogg
+aom_elementals_windup.ogg
+aom_elementals_windup_start.ogg
+===
+================================================================================
+pmb_core/mods/aom_entities/aom_entity_api/LICENSE
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+================================================================================
+pmb_core/mods/aom_entities/aom_fenn/LICENSE
+
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+
+===
+Media Licenses
+===
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: CC-BY-4.0. <https://creativecommons.org/licenses/by/4.0/legalcode.txt>
+Files:
+aom_fenn.png
+aom_fenn_spear.png
+aom_fenn_spear_inv.png
+
+aom_fenn_spear.b3d
+===
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: Creative Commons 0 <https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt>
+Files:
+aom_fenn_spear_draw.ogg
+aom_fenn_spear_hit.ogg
+aom_fenn_spear_throw.0.ogg
+aom_fenn_spear_throw.1.ogg
+aom_fenn_spear_throw.ogg
+===
+================================================================================
+pmb_core/mods/aom_entities/aom_goblins/LICENSE
+
+Copyright (c) 2026 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+
+===
+Media Licenses
+===
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: CC-BY-4.0. <https://creativecommons.org/licenses/by/4.0/legalcode.txt>
+Files:
+aom_goblins_goblin.png
+aom_goblins_particle.png
+
+aom_goblins_attack.0.ogg
+aom_goblins_attack.1.ogg
+aom_goblins_attack.2.ogg
+aom_goblins_hurt.0.ogg
+aom_goblins_hurt.1.ogg
+
+aom_goblins_goblin.b3d
+===
+================================================================================
+pmb_core/mods/aom_entities/aom_kelar/LICENSE
+
+Copyright (c) 2026 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+
+===
+Media Licenses
+===
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: CC-BY-4.0. <https://creativecommons.org/licenses/by/4.0/legalcode.txt>
+Files:
+aom_kelar.png
+aom_kelar_particle.png
+aom_kelar_rock.png
+
+aom_kelar.b3d
+aom_kelar_rock.b3d
+===
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: Creative Commons 0 <https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt>
+Files:
+aom_kelar_hurt_0.ogg
+aom_kelar_lunge_0.ogg
+aom_kelar_lunge_1.ogg
+aom_kelar_lunge_2.ogg
+aom_kelar_lunge_3.ogg
+===
+================================================================================
+pmb_core/mods/aom_entities/aom_mob_spawn/LICENSE
+
+Copyright (c) 2026 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+================================================================================
+pmb_core/mods/aom_entities/aom_seelie/LICENSE
+
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+
+===
+Media Licenses
+===
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: CC-BY-4.0. <https://creativecommons.org/licenses/by/4.0/legalcode.txt>
+Files:
+aom_seelie_shrine.png
+aom_seelie_shrine_inv_image.png
+aom_seelie_shrine_orb.png
+aom_seelie_shrine_particle.png
+
+aom_seelie_inhabit.ogg
+
+aom_seelie_shrine.b3d
+aom_seelie_shrine_orb.b3d
+===
+================================================================================
+pmb_core/mods/aom_entities/aom_spawn_inhibitors/LICENSE
+
+Copyright (c) 2026 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+================================================================================
+pmb_core/mods/aom_nodes/aom_compost/LICENSE
+
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+
+===
+Media Licenses
+===
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: CC-BY-4.0. <https://creativecommons.org/licenses/by/4.0/legalcode.txt>
+Files:
+aom_compost_0.png
+aom_compost_1.png
+aom_compost_2.png
+aom_compost_3.png
+===
+================================================================================
+pmb_core/mods/aom_nodes/aom_crafters/LICENSE
+
+
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose
+with or without fee is hereby granted to the person(s) and/or legal entities listed
+in the above copyright notice.
+
+MIT License
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+===
+Media Licenses
+===
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: CC-BY-4.0. <https://creativecommons.org/licenses/by/4.0/legalcode.txt>
+Files:
+aom_crafters_crafting_bench.png
+
+aom_crafting_bench.b3d
+===
+================================================================================
+pmb_core/mods/aom_nodes/aom_flora/LICENSE
+
+Copyright (c) 2026 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+
+===
+Media Licenses
+===
+Copyright (c) 2026 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: CC-BY-4.0. <https://creativecommons.org/licenses/by/4.0/legalcode.txt>
+Files:
+aom_aelum_0.png
+aom_aelum_1.png
+aom_aelum_2.png
+aom_aelum_3.png
+aom_aelum_seeds.png
+aom_fern_0.png
+aom_fern_1.png
+aom_flax_0.png
+aom_flax_1.png
+aom_flax_2.png
+aom_flax_3.png
+aom_flax_4.png
+aom_flax_bundle.png
+aom_flax_seeds.png
+aom_flower_red.png
+aom_flower_white.png
+aom_flower_yellow.png
+aom_glowroot.png
+aom_glowroot_mature.png
+aom_glowroot_plant_0.png
+aom_glowroot_plant_1.png
+aom_glowroot_plant_2.png
+aom_glowroot_plant_3.png
+aom_glowroot_seeds.png
+aom_grass_0.png
+aom_grass_1.png
+aom_grass_2.png
+aom_grass_3.png
+aom_mushroom_brown.png
+aom_mushroom_glow_blue_0.png
+aom_mushroom_glow_blue_1.png
+aom_mushroom_glow_green.png
+aom_mushroom_glow_green_0.png
+aom_mushroom_glow_green_1.png
+aom_mushroom_glow_yellow.png
+aom_mushroom_glow_yellow_0.png
+aom_mushroom_glow_yellow_1.png
+aom_mushroom_red.png
+aom_mushroom_white.png
+aom_potato_0.png
+aom_potato_1.png
+aom_potato_2.png
+aom_potato_3.png
+aom_potato_4.png
+aom_potato_seeds.png
+aom_pumpkin_1_bottom.png
+aom_pumpkin_1_side.png
+aom_pumpkin_1_top.png
+aom_pumpkin_bottom.png
+aom_pumpkin_plant.png
+aom_pumpkin_plant_dead.png
+aom_pumpkin_seed.png
+aom_pumpkin_side.png
+aom_pumpkin_top.png
+aom_rush_grass_0.png
+aom_rush_grass_1.png
+aom_rush_grass_2.png
+aom_rush_grass_3.png
+aom_rush_grass_seeds.png
+aom_shrub_0.png
+aom_shrub_1.png
+aom_warpberry.png
+aom_warpberry_bush.png
+aom_warpberry_bush_fruit.png
+aom_warpberry_gold.png
+aom_warpberry_purple.png
+aom_warpberry_seeds.png
+aom_warpberry_stem.png
+
+aom_flora_warpberry_teleport_long.ogg
+aom_flora_warpberry_teleport_pre.ogg
+
+2node_3poly_foliage.b3d
+2node_4poly_foliage.b3d
+aom_flora_shrub_0.b3d
+aom_glowroot_mature.b3d
+===
+================================================================================
+pmb_core/mods/aom_nodes/aom_furniture/LICENSE
+
+Copyright (c) 2026 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+
+===
+Media Licenses
+===
+Copyright (c) 2026 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: CC-BY-4.0. <https://creativecommons.org/licenses/by/4.0/legalcode.txt>
+Files:
+aom_furniture_player_beacon_bottom.png
+aom_furniture_player_beacon_side.png
+aom_furniture_player_beacon_top.png
+
+aom_furniture_whip.ogg
+===
+================================================================================
+pmb_core/mods/aom_nodes/aom_glass/LICENSE
+
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+
+===
+Media Licenses
+===
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: CC-BY-4.0. <https://creativecommons.org/licenses/by/4.0/legalcode.txt>
+Files:
+aom_glass.png
+aom_glass_frame.png
+===
+================================================================================
+pmb_core/mods/aom_nodes/aom_lights/LICENSE
+
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+
+===
+Media Licenses
+===
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: CC-BY-4.0. <https://creativecommons.org/licenses/by/4.0/legalcode.txt>
+Files:
+aom_lights_lantern.png
+aom_lights_torch.png
+aom_lights_torch_top.png
+
+aom_lantern.b3d
+aom_lantern_ceiling.b3d
+aom_torch.b3d
+aom_torch_wall.b3d
+===
+================================================================================
+pmb_core/mods/aom_nodes/aom_liquids/LICENSE
+
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+
+===
+Media Licenses
+===
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: CC-BY-4.0. <https://creativecommons.org/licenses/by/4.0/legalcode.txt>
+Files:
+aom_ice.png
+aom_liquids_lava.png
+aom_liquids_water_animated.png
+===
+================================================================================
+pmb_core/mods/aom_nodes/aom_rope/LICENSE
+
+
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose
+with or without fee is hereby granted to the person(s) and/or legal entities listed
+in the above copyright notice.
+
+MIT License
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+===
+Media Licenses
+===
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: CC-BY-4.0. <https://creativecommons.org/licenses/by/4.0/legalcode.txt>
+Files:
+aom_rope.png
+aom_rope_anchor.png
+aom_rope_chain.png
+aom_rope_coil.png
+===
+================================================================================
+pmb_core/mods/aom_nodes/aom_soil/LICENSE
+
+Copyright (c) 2026 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+
+===
+Media Licenses
+===
+Copyright (c) 2026 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: CC-BY-4.0. <https://creativecommons.org/licenses/by/4.0/legalcode.txt>
+Files:
+aom_clay.png
+aom_dirt.png
+aom_dirt_mud.png
+aom_forest_dirt.png
+aom_forest_dirt_side.png
+aom_forest_grass.png
+aom_forest_grass_1.png
+aom_forest_grass_2.png
+aom_forest_grass_3.png
+aom_forest_grass_4.png
+aom_forest_grass_side.png
+aom_forest_grass_side_1.png
+aom_forest_grass_side_2.png
+aom_forest_grass_side_3.png
+aom_forest_grass_side_4.png
+aom_grass.png
+aom_grass_side.png
+aom_grass_side_variant_1.png
+aom_grass_side_variant_2.png
+aom_grass_side_variant_3.png
+aom_grass_side_variant_4.png
+aom_grass_snow_side.png
+aom_grass_variant_1.png
+aom_grass_variant_2.png
+aom_grass_variant_3.png
+aom_grass_variant_4.png
+aom_gravel.png
+aom_moss.png
+aom_sand.png
+aom_snow.png
+aom_soil_dirt_coarse_1.png
+aom_soil_dirt_coarse_2.png
+aom_soil_dirt_coarse_3.png
+===
+================================================================================
+pmb_core/mods/aom_nodes/aom_spawnnodes/LICENSE
+
+Copyright (c) 2026 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+
+===
+Media Licenses
+===
+Copyright (c) 2026 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: CC-BY-4.0. <https://creativecommons.org/licenses/by/4.0/legalcode.txt>
+Files:
+aom_spawnnodes_burning_ash.png
+aom_spawnnodes_concerning_clover.png
+aom_spawnnodes_crystal_geodes.png
+aom_spawnnodes_freshly_dug_holes.png
+aom_spawnnodes_mossy_rubble.png
+===
+================================================================================
+pmb_core/mods/aom_nodes/aom_stone/LICENSE
+
+Copyright (c) 2026 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+
+===
+Media Licenses
+===
+Copyright (c) 2026 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: CC-BY-4.0. <https://creativecommons.org/licenses/by/4.0/legalcode.txt>
+Files:
+aom_bedrock.png
+aom_coal_overlay.png
+aom_copper_overlay.png
+aom_diamond_overlay.png
+aom_gold_overlay.png
+aom_ignis_overlay.png
+aom_iron_overlay.png
+aom_lapis_overlay.png
+aom_loose_stone.png
+aom_obsidian.png
+aom_stone_brick.png
+aom_stone_brick_fine.png
+aom_stone_brick_long_end.png
+aom_stone_brick_long_end_left.png
+aom_stone_brick_long_end_right.png
+aom_stone_brick_long_inv.png
+aom_stone_brick_long_inv_L.png
+aom_stone_brick_long_inv_R.png
+aom_stone_brick_long_top.png
+aom_stone_brick_ornate.png
+aom_stone_brick_pillar.png
+aom_stone_brick_pillar_top.png
+aom_stone_brick_ruin.png
+aom_stone_cobble.png
+aom_stone_cobble_moss_1.png
+aom_stone_cobble_moss_2.png
+aom_stone_granite.png
+aom_stone_granite_brick.png
+aom_stone_granite_brick_fine.png
+aom_stone_granite_brick_lamp.png
+aom_stone_granite_brick_long_end_left.png
+aom_stone_granite_brick_long_end_right.png
+aom_stone_granite_brick_long_inv.png
+aom_stone_granite_brick_long_top.png
+aom_stone_granite_brick_ornate.png
+aom_stone_granite_brick_pillar.png
+aom_stone_granite_brick_pillar_top.png
+aom_stone_granite_cobble.png
+aom_stone_ignis_block.png
+aom_stone_ironstone.png
+aom_stone_ironstone_brick.png
+aom_stone_ironstone_brick_fine.png
+aom_stone_ironstone_brick_lamp.png
+aom_stone_ironstone_brick_long_end_left.png
+aom_stone_ironstone_brick_long_end_right.png
+aom_stone_ironstone_brick_long_inv.png
+aom_stone_ironstone_brick_long_top.png
+aom_stone_ironstone_brick_ornate.png
+aom_stone_ironstone_brick_pillar.png
+aom_stone_ironstone_brick_pillar_top.png
+aom_stone_ironstone_cobble.png
+aom_stone_limestone.png
+aom_stone_limestone_brick.png
+aom_stone_limestone_brick_fine.png
+aom_stone_limestone_brick_lamp.png
+aom_stone_limestone_brick_long_end_left.png
+aom_stone_limestone_brick_long_end_right.png
+aom_stone_limestone_brick_long_inv.png
+aom_stone_limestone_brick_long_top.png
+aom_stone_limestone_brick_ornate.png
+aom_stone_limestone_brick_pillar.png
+aom_stone_limestone_brick_pillar_top.png
+aom_stone_limestone_cobble.png
+aom_stone_obsidian_brick.png
+aom_stone_obsidian_brick_fine.png
+aom_stone_obsidian_brick_lamp.png
+aom_stone_obsidian_brick_long_end_left.png
+aom_stone_obsidian_brick_long_end_right.png
+aom_stone_obsidian_brick_long_inv.png
+aom_stone_obsidian_brick_long_top.png
+aom_stone_obsidian_brick_ornate.png
+aom_stone_obsidian_brick_pillar.png
+aom_stone_obsidian_brick_pillar_top.png
+aom_stone_sandstone.png
+aom_stone_sandstone_brick.png
+aom_stone_sandstone_brick_fine.png
+aom_stone_sandstone_brick_lamp.png
+aom_stone_sandstone_brick_long_end_left.png
+aom_stone_sandstone_brick_long_end_right.png
+aom_stone_sandstone_brick_long_inv.png
+aom_stone_sandstone_brick_long_top.png
+aom_stone_sandstone_brick_ornate.png
+aom_stone_sandstone_brick_pillar.png
+aom_stone_sandstone_brick_pillar_top.png
+aom_stone_sandstone_cobble.png
+aom_stone_stone.png
+aom_stone_stone_brick_lamp.png
+aom_tin_overlay.png
+===
+================================================================================
+pmb_core/mods/aom_nodes/aom_terracotta/LICENSE
+
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+
+===
+Media Licenses
+===
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: CC-BY-4.0. <https://creativecommons.org/licenses/by/4.0/legalcode.txt>
+Files:
+aom_terracotta_base.png
+===
+================================================================================
+pmb_core/mods/aom_nodes/aom_trees/LICENSE
+
+Copyright (c) 2026 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+
+===
+Media Licenses
+===
+Copyright (c) 2026 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: CC-BY-4.0. <https://creativecommons.org/licenses/by/4.0/legalcode.txt>
+Files:
+aom_sapling_ash.png
+aom_sapling_hem.png
+aom_sapling_oak.png
+aom_sapling_spruce.png
+===
+================================================================================
+pmb_core/mods/aom_nodes/aom_wood/LICENSE
+
+Copyright (c) 2026 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+
+===
+Media Licenses
+===
+Copyright (c) 2026 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: CC-BY-4.0. <https://creativecommons.org/licenses/by/4.0/legalcode.txt>
+Files:
+aom_charcoal_block.png
+aom_crude_ladder.png
+aom_hot_coals.png
+aom_panelling.png
+aom_scaffolding_side.png
+aom_scaffolding_top.png
+aom_wood_ash_leaves.png
+aom_wood_ash_log_side.png
+aom_wood_ash_log_top.png
+aom_wood_ash_plank.png
+aom_wood_hem_leaves.png
+aom_wood_hem_log_side.png
+aom_wood_hem_log_top.png
+aom_wood_oak_leaves.png
+aom_wood_oak_log_side.png
+aom_wood_oak_log_top.png
+aom_wood_oak_plank.png
+aom_wood_planks_16x4.png
+aom_wood_roof_ash.png
+aom_wood_roof_hem.png
+aom_wood_roof_oak.png
+aom_wood_roof_spruce.png
+aom_wood_spruce_leaves.png
+aom_wood_spruce_log_side.png
+aom_wood_spruce_log_top.png
+aom_wood_spruce_plank.png
+===
+Copyright (c) 2026 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: Creative Commons 0 <https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt>
+Files:
+aom_meshleaves_3poly.obj
+aom_meshleaves_3poly_bend.obj
+===
+================================================================================
+pmb_core/mods/aom_packs/aom_admin_tools/LICENSE
+
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+
+===
+Media Licenses
+===
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: Creative Commons 0 <https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt>
+Files:
+aom_admin_tools_camera.png
+aom_admin_tools_fill.png
+aom_admin_tools_fill_ENTITY.png
+aom_admin_tools_paint.png
+aom_admin_tools_ruler.png
+aom_admin_tools_teleport_to.png
+aom_admin_tools_util.png
+
+aom_admin_tools_click.ogg
+===
+================================================================================
+pmb_core/mods/aom_packs/aom_bow/LICENSE
+
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+
+===
+Media Licenses
+===
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: Creative Commons 0 <https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt>
+Files:
+aom_bow_0.png
+aom_bow_1.png
+aom_bow_2.png
+aom_bow_3.png
+aom_bow_arrow.png
+
+aom_bow_arrow.b3d
+===
+Bow.wav by Hanbaal <https://freesound.org/people/Hanbaal/sounds/178872/>
+License: Creative Commons 0 <https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt>
+Files:
+aom_bow_shoot.ogg (modifications: cut)
+===
+Quiet Creak by LoafDV <https://freesound.org/people/LoafDV/sounds/238288/>
+License: Creative Commons 0 <https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt>
+Files:
+aom_bow_draw.ogg (modifications: cut)
+aom_bow_draw_complete.ogg (modifications: cut)
+===
+================================================================================
+pmb_core/mods/aom_packs/aom_cooking/LICENSE
+
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+
+===
+Media Licenses
+===
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: CC-BY-4.0. <https://creativecommons.org/licenses/by/4.0/legalcode.txt>
+Files:
+aom_anvil.png
+aom_cooking_oven_front.png
+aom_cooking_oven_front_on.png
+aom_cooking_oven_mesh.png
+aom_cooking_oven_side.png
+aom_cooking_oven_top.png
+aom_cooking_particle_finished_cooking.png
+aom_cooking_particle_sparks.png
+aom_cooking_pot.png
+aom_cooking_pot_clay.png
+aom_cooking_spit.png
+aom_fire.png
+aom_fire_pit.png
+aom_furnace.png
+aom_furnace_fire_off.png
+aom_furnace_fire_on.png
+
+aom_anvil.b3d
+aom_clay_crucible.b3d
+aom_cooking_oven_top.b3d
+aom_cooking_pot.b3d
+aom_cooking_spit.b3d
+aom_cooking_spit_meat.b3d
+aom_fire_pit.b3d
+aom_fire_pit_active.b3d
+aom_furnace.b3d
+===
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: Creative Commons 0 <https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt>
+Files:
+aom_anvil_craft.ogg
+aom_burner_add_fuel.ogg
+aom_cooking_finished_all.ogg
+aom_cooking_finished_boil.ogg
+aom_furnace_fire_cc0.ogg
+===
+================================================================================
+pmb_core/mods/aom_packs/aom_doors/LICENSE
+
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+
+===
+Media Licenses
+===
+Copyright (c) 2026 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: CC-BY-4.0. <https://creativecommons.org/licenses/by/4.0/legalcode.txt>
+Files:
+aom_doors_ash.png
+aom_doors_hem.png
+aom_doors_oak.png
+aom_doors_spruce.png
+===
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: Creative Commons 0 <https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt>
+Files:
+aom_doors_closed.b3d
+aom_doors_open.b3d
+
+aom_door_closing_wood.ogg
+aom_door_opening_wood.ogg
+===
+================================================================================
+pmb_core/mods/aom_packs/aom_explosives/LICENSE
+
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+
+===
+Media Licenses
+===
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: Creative Commons 0 <https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt>
+Files:
+aom_explosives_dynamite.png
+
+aom_explosives_lighter.0.ogg
+aom_explosives_lighter.1.ogg
+aom_explosives_lighter.2.ogg
+===
+fuse2.wav by j1987 <https://freesound.org/people/j1987/sounds/140715/>
+License: Creative Commons 0 <https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt>
+Files:
+aom_explosives_fuse.0.ogg (modifications: cut)
+===
+================================================================================
+pmb_core/mods/aom_packs/aom_fengold/LICENSE
+
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+
+===
+Media Licenses
+===
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: CC-BY-4.0. <https://creativecommons.org/licenses/by/4.0/legalcode.txt>
+Files:
+aom_fengold_stone_brick_gold.png
+aom_fengold_stone_ornate_gold.png
+aom_fengold_stone_ornate_gold_top.png
+aom_fengold_stone_pillar_gold.png
+aom_fengold_stone_pillar_gold_top.png
+aom_gold_gilding.png
+===
+================================================================================
+pmb_core/mods/aom_packs/aom_fire/LICENSE
+
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+
+===
+Media Licenses
+===
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: CC-BY-4.0. <https://creativecommons.org/licenses/by/4.0/legalcode.txt>
+Files:
+aom_flint_and_steel.png
+aom_fire_smoke.png
+
+aom_fire.b3d
+===
+================================================================================
+pmb_core/mods/aom_packs/aom_fonts/LICENSE
+
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+
+===
+Media Licenses
+===
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: Creative Commons 0 <https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt>
+Files:
+F3x5_*.png
+F5x8_*.png
+F_VK_3x5_*.png
+null.png
+===
+================================================================================
+pmb_core/mods/aom_packs/aom_gates/LICENSE
+
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+================================================================================
+pmb_core/mods/aom_packs/aom_hammer/LICENSE
+
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+
+===
+Media Licenses
+===
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: CC-BY-4.0. <https://creativecommons.org/licenses/by/4.0/legalcode.txt>
+Files:
+aom_hammer_iron_hammer.png
+===
+================================================================================
+pmb_core/mods/aom_packs/aom_itemframe/LICENSE
+
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+
+===
+Media Licenses
+===
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: Creative Commons 0 <https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt>
+Files:
+aom_itemframe_inventory.png
+===
+================================================================================
+pmb_core/mods/aom_packs/aom_lantern/LICENSE
+
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+Media contained within is under CC-BY-4.0. https://creativecommons.org/licenses/by/4.0/
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+
+===
+Media Licenses
+===
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: CC-BY-4.0. <https://creativecommons.org/licenses/by/4.0/legalcode.txt>
+Files:
+aom_lantern_iron.png
+===
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: Creative Commons 0 <https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt>
+Files:
+aom_lantern_put_away.ogg
+aom_lantern_take_out.ogg
+===
+================================================================================
+pmb_core/mods/aom_packs/aom_longship/LICENSE
+
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+
+===
+Media Licenses
+===
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: CC-BY-4.0. <https://creativecommons.org/licenses/by/4.0/legalcode.txt>
+Files:
+aom_longship.png
+aom_longship_bronze_nails.png
+aom_longship_gui_sail_0.png
+aom_longship_gui_sail_1.png
+aom_longship_gui_sail_2.png
+aom_longship_gui_sail_3.png
+aom_longship_gui_sail_rev.png
+aom_longship_hull_planks.png
+aom_longship_inv.png
+
+aom_longship_creaking.ogg
+
+aom_longship.b3d
+===
+Sailing boat, bow wave (close perspective) by Pfannkuchn <https://freesound.org/people/Pfannkuchn/sounds/360631/>
+License: Creative Commons 0 <https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt>
+Files:
+aom_longship_bow_waves.ogg (modifications: cut, filtered by frequency curves)
+===
+================================================================================
+pmb_core/mods/aom_packs/aom_machines/LICENSE
+
+
+Copyright (c) 2026 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose
+with or without fee is hereby granted to the person(s) and/or legal entities listed
+in the above copyright notice.
+
+MIT License
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+===
+Media Licenses
+===
+Copyright (c) 2026 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: CC-BY-4.0. <https://creativecommons.org/licenses/by/4.0/legalcode.txt>
+Files:
+aom_gates_controller.png
+aom_gates_controller_stone_overlay.png
+aom_gates_drawbridge.png
+aom_gates_drawbridge_top.png
+aom_gates_iron.png
+aom_machines_detector.png
+aom_machines_detector_back.png
+aom_machines_detector_front.png
+aom_machines_digger.png
+aom_machines_digger_back.png
+aom_machines_digger_front.png
+aom_machines_digger_large.png
+aom_machines_digger_large_back.png
+aom_machines_digger_large_front.png
+aom_machines_digger_mythril.png
+aom_machines_digger_mythril_back.png
+aom_machines_digger_mythril_front.png
+aom_machines_indicator_off.png
+aom_machines_indicator_on.png
+aom_machines_piston_back.png
+aom_machines_piston_front.png
+aom_machines_piston_side.png
+aom_machines_placer.png
+aom_machines_placer_back.png
+aom_machines_placer_front.png
+aom_machines_relay.png
+aom_machines_same.png
+aom_machines_swapper.png
+aom_machines_swapper_back.png
+aom_machines_swapper_front.png
+aom_wire_gear_lever.png
+aom_wire_gui_repeat.png
+aom_wire_gui_save.png
+aom_wire_particle_highlight.png
+aom_wire_welder.png
+aom_wire_wirecutters.png
+
+aom_wire_gear_lever.b3d
+aom_wire_gear_lever_node.obj
+aom_wire_gear_lever_node_empty.obj
+===
+Chain pulley 750kg - Pulled up and down 4 by ldezem, 2017 <https://freesound.org/people/ldezem/sounds/386170/>
+License: Creative Commons 0 <https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt>
+Files:
+aom_gates_chain_pulley.ogg (modifications: cropped, fade in and out, pitch filter)
+aom_gates_chain_pulley_heavy.ogg (modifications: cropped, fade in and out, pitch filter)
+===
+machine hydraulic metal cutter close crunch2.flac by kyles, 2018 <https://freesound.org/people/kyles/sounds/453304/>
+License: Creative Commons 0 <https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt>
+Files:
+aom_machines_piston.ogg (modifications: cropped, stitched, fade in/out, filter curves)
+===
+================================================================================
+pmb_core/mods/aom_packs/aom_mirecaves/LICENSE
+
+Copyright (c) 2026 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+
+===
+Media Licenses
+===
+Copyright (c) 2026 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: CC-BY-4.0. <https://creativecommons.org/licenses/by/4.0/legalcode.txt>
+Files:
+aom_mirecaves_cave_lily_1.png
+aom_mirecaves_mirestone_brick.png
+aom_mirecaves_mirestone_brick_fine.png
+aom_mirecaves_mirestone_brick_lamp.png
+aom_mirecaves_mirestone_brick_ornate.png
+aom_mirecaves_mirestone_brick_pillar.png
+aom_mirecaves_mirestone_brick_pillar_top.png
+aom_mirecaves_nolmer.png
+aom_mirecaves_nolmera_1.png
+aom_mirecaves_nolmera_2.png
+aom_mirecaves_nolmera_vine_1.png
+aom_mirecaves_nolmer_green.png
+aom_mirecaves_nolmer_stem.png
+aom_mirecaves_nolmer_stem_top.png
+aom_mirecaves_stone.png
+aom_mirecaves_stone_moss_side.png
+aom_mirecaves_stone_moss_top.png
+===
+================================================================================
+pmb_core/mods/aom_packs/aom_muskets/LICENSE
+
+
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose
+with or without fee is hereby granted to the person(s) and/or legal entities listed
+in the above copyright notice.
+
+MIT License
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+===
+Media Licenses
+===
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: CC-BY-4.0. <https://creativecommons.org/licenses/by/4.0/legalcode.txt>
+Files:
+aom_muskets_blunderbuss.png
+aom_muskets_blunderbuss_loaded.png
+aom_muskets_blunderbuss_wield.png
+aom_muskets_mechanism.png
+aom_muskets_pistol.png
+aom_muskets_pistol_loaded.png
+aom_muskets_pistol_wield.png
+aom_muskets_rifle.png
+aom_muskets_rifle_loading.png
+aom_muskets_rifle_wield.png
+aom_muskets_shot.png
+aom_muskets_smoke.png
+
+aom_muskets_pistol_empty.ogg
+aom_muskets_pistol_cocked.ogg
+===
+musket_fire_3.wav by J8054, 2022 <https://freesound.org/people/J8054/sounds/648748/>
+License: CC-BY-4.0. <https://creativecommons.org/licenses/by/4.0/legalcode.txt>
+Files:
+aom_muskets_pistol.ogg (modifications: cut, frequency curves to reduce noise)
+===
+Whizzby by Daleonfire, 2020 <https://freesound.org/people/Daleonfire/sounds/505238/>
+License: Creative Commons 0 <https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt>
+Files:
+aom_muskets_hit_ricochet.ogg (modifications: cut)
+===
+
+
+================================================================================
+pmb_core/mods/aom_packs/aom_pipes/LICENSE
+
+
+Copyright (c) 2026 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose
+with or without fee is hereby granted to the person(s) and/or legal entities listed
+in the above copyright notice.
+
+MIT License
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+===
+Media Licenses
+===
+Copyright (c) 2026 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: CC-BY-4.0. <https://creativecommons.org/licenses/by/4.0/legalcode.txt>
+Files:
+aom_pipes_distributor.png
+aom_pipes_distributor_back.png
+aom_pipes_distributor_front.png
+aom_pipes_pipe.png
+aom_pipes_pipe_end.png
+aom_pipes_siphon.png
+aom_pipes_siphon_bottom.png
+aom_pipes_siphon_top.png
+aom_pipes_text_filter.png
+===
+================================================================================
+pmb_core/mods/aom_packs/aom_scrap/LICENSE
+
+Copyright (c) 2026 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+
+================================================================================
+pmb_core/mods/aom_packs/aom_storage/LICENSE
+
+Copyright (c) 2026 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+
+===
+Media Licenses
+===
+Copyright (c) 2026 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: CC-BY-4.0. <https://creativecommons.org/licenses/by/4.0/legalcode.txt>
+Files:
+aom_storage_chest.png
+
+aom_storage_chest.obj
+===
+================================================================================
+pmb_core/mods/aom_packs/aom_transit/LICENSE
+
+Copyright (c) 2026 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+
+===
+Media Licenses
+===
+Copyright (c) 2026 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: CC-BY-4.0. <https://creativecommons.org/licenses/by/4.0/legalcode.txt>
+Files:
+aom_transit_btn.png
+aom_transit_btn_press.png
+aom_transit_core.png
+aom_transit_gui_delete.png
+aom_transit_icon_0.png
+aom_transit_icon_1.png
+aom_transit_icon_2.png
+aom_transit_icon_3.png
+aom_transit_icon_4.png
+aom_transit_icon_5.png
+aom_transit_icon_6.png
+aom_transit_icon_7.png
+aom_transit_icon_8.png
+aom_transit_icon_9.png
+aom_transit_icon_10.png
+aom_transit_icon_11.png
+aom_transit_icon_12.png
+aom_transit_icon_13.png
+aom_transit_obsidian_dais.png
+aom_transit_obsidian_dais_side.png
+aom_transit_particle_fail.png
+aom_transit_particle_link.png
+aom_transit_particle_link_start.png
+aom_transit_particle_success.png
+aom_transit_spire.png
+aom_transit_spire_beacon.png
+
+aom_transit_warp_disallow.ogg
+aom_transit_warp_end.ogg
+aom_transit_warp_idle.ogg
+aom_transit_warp_ready.ogg
+aom_transit_warp_start.ogg
+aom_transit_warp_tick.ogg
+
+aom_transit_spire.obj
+aom_transit_spire_beacon.b3d
+===
+================================================================================
+pmb_core/mods/aom_packs/aom_underworld/LICENSE
+
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+
+===
+Media Licenses
+===
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: CC-BY-4.0. <https://creativecommons.org/licenses/by/4.0/legalcode.txt>
+Files:
+aom_underworld_arlior.png
+aom_underworld_arlioran_node.png
+aom_underworld_arlioran_side.png
+aom_underworld_arlioran_top.png
+aom_underworld_arlior_brick.png
+aom_underworld_arlior_brick_fine.png
+aom_underworld_arlior_brick_lamp.png
+aom_underworld_arlior_brick_ornate.png
+aom_underworld_arlior_brick_ornate_top.png
+aom_underworld_arlior_fola.png
+aom_underworld_arlior_growth.png
+aom_underworld_arlior_growth_purple.png
+aom_underworld_arlior_mushroom_blue.png
+aom_underworld_arlior_stem.png
+aom_underworld_ash.png
+aom_underworld_coral_bug.png
+aom_underworld_coral_overlay.png
+aom_underworld_cortite.png
+aom_underworld_cortite_ore.png
+aom_underworld_cortite_rod.png
+aom_underworld_cortite_sceptre.png
+aom_underworld_cortite_sceptre_orb.png
+aom_underworld_cortite_sceptre_orb_particle.png
+aom_underworld_fog.png
+aom_underworld_glowrock.png
+aom_underworld_lava_brick.png
+aom_underworld_lava_brick_coral.png
+aom_underworld_lava_brick_fine.png
+aom_underworld_lava_brick_lamp.png
+aom_underworld_lava_brick_ornate.png
+aom_underworld_lava_brick_pillar.png
+aom_underworld_lava_brick_pillar_top.png
+aom_underworld_lava_coral.png
+aom_underworld_lava_coral_bulb.png
+aom_underworld_lava_coral_particle.png
+aom_underworld_lava_coral_side.png
+aom_underworld_lava_coral_sparse.png
+aom_underworld_lava_coral_top.png
+aom_underworld_lava_rock.png
+aom_underworld_lava_rock_coral.png
+aom_underworld_mythril.png
+aom_underworld_mythril_hammer.png
+aom_underworld_mythril_ore.png
+aom_underworld_mythril_pickaxe.png
+aom_underworld_mythril_strand.png
+aom_underworld_mythrite.png
+aom_underworld_mythrite_brick.png
+aom_underworld_mythrite_brick_fine.png
+aom_underworld_mythrite_brick_pillar.png
+aom_underworld_mythrite_brick_pillar_top.png
+aom_underworld_mythrite_lamp.png
+
+aom_underworld_coral_bug.b3d
+aom_underworld_cube.b3d
+===
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: Creative Commons 0 <https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt>
+Files:
+aom_underworld_orb_whoosh.ogg
+aom_underworld_soul_escape.ogg
+===
+================================================================================
+pmb_core/mods/aom_packs/aom_wings/LICENSE
+
+
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose
+with or without fee is hereby granted to the person(s) and/or legal entities listed
+in the above copyright notice.
+
+MIT License
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+===
+Media Licenses
+===
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: CC-BY-4.0. <https://creativecommons.org/licenses/by/4.0/legalcode.txt>
+Files:
+aom_wings_canvas.png
+aom_wings_glowfibre.png
+aom_wings_hud_bar.png
+aom_wings_hud_bg.png
+
+aom_wings_open.ogg
+aom_wings_wind.ogg
+===
+================================================================================
+pmb_core/mods/aom_packs/aom_wrench/LICENSE
+
+
+Copyright (c) 2026 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose
+with or without fee is hereby granted to the person(s) and/or legal entities listed
+in the above copyright notice.
+
+MIT License
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+===
+Media Licenses
+===
+Copyright (c) 2026 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: CC-BY-4.0. <https://creativecommons.org/licenses/by/4.0/legalcode.txt>
+Files:
+aom_wrench.png
+aom_wrench_hud_bg.png
+aom_wrench_wrench_ENTITY_64.png
+
+aom_wrench_clicks.ogg
+aom_wrench_plip.ogg
+aom_wrench_not_allowed.ogg
+
+aom_wrench_outline.glb
+===
+================================================================================
+pmb_core/mods/aom_packs/gm_windmills/LICENSE
+
+
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose
+with or without fee is hereby granted to the person(s) and/or legal entities listed
+in the above copyright notice.
+
+MIT License
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+===
+Media Licenses
+===
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: CC-BY-4.0. <https://creativecommons.org/licenses/by/4.0/legalcode.txt>
+Files:
+gm_windmills_button_start.png
+gm_windmills_icon.png
+gm_windmills_rocket.png
+gm_windmills_rocket_flame.png
+gm_windmills_rocket_smoke.png
+gm_windmills_rocket_spark.png
+gm_windmills_windmill.png
+gm_windmills_windmill_blades.png
+
+gm_windmills_rocket.b3d
+gm_windmills_windmill.obj
+gm_windmills_windmill_head.b3d
+===
+Horn002.wav by freefire66, 2013 <https://freesound.org/people/freefire66/sounds/175946/>
+License: Creative Commons 0 <https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt>
+Files:
+gm_windmills_start_horn.ogg (modifications: cut, reverb)
+===
+explosion_03.wav by derplayer, 2021 <https://freesound.org/people/derplayer/sounds/587183/>
+License: Creative Commons 0 <https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt>
+Files:
+gm_windmills_rocket_explode.ogg (modifications: cut, pitch filter, frequency curves, fade in/out)
+===
+Flame Loop by magnuswaker, 2021 <https://freesound.org/s/581078/>
+License: Creative Commons 0 <https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt>
+Files:
+gm_windmills_rocket_fire.ogg (modifications: pitch filter, frequency curves filter)
+===
+================================================================================
+pmb_core/mods/aom_packs/sum_airship/LICENSE
+
+
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose
+with or without fee is hereby granted to the person(s) and/or legal entities listed
+in the above copyright notice.
+
+MIT License
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+===
+Media Licenses
+===
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: CC-BY-4.0. <https://creativecommons.org/licenses/by/4.0/legalcode.txt>
+Files:
+sum_airship.png
+sum_airship_canvas.png
+sum_airship_hull.png
+sum_airship_smoke.png
+sum_airship_texture.png
+
+sum_airship_fire.ogg
+sum_airship_lip_trill.ogg
+sum_airship_lip_trill_end.ogg
+
+sum_airship.b3d
+===
+================================================================================
+pmb_core/mods/aom_player/aom_humanoid/LICENSE
+
+
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose
+with or without fee is hereby granted to the person(s) and/or legal entities listed
+in the above copyright notice.
+
+MIT License
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+===
+Media Licenses
+===
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: CC-BY-4.0. <https://creativecommons.org/licenses/by/4.0/legalcode.txt>
+Files:
+aom_humanoid_template.png
+aom_nolan.png
+aom_tim.png
+===
+================================================================================
+pmb_core/mods/aom_player/aom_player/LICENSE
+
+Copyright (c) 2025 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+
+===
+Media Licenses
+===
+Copyright (c) 2025 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: Creative Commons 0 <https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt>
+Files:
+aom_player_hurt.0.ogg
+aom_player_hurt.1.ogg
+aom_player_hurt.2.ogg
+===
+================================================================================
+pmb_core/mods/aom_player/aom_playerapi/LICENSE
+
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+================================================================================
+pmb_core/mods/aom_player/aom_spawn/LICENSE
+
+Copyright (c) 2026 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+
+===
+Media Licenses
+===
+Copyright (c) 2026 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: CC-BY-4.0. <https://creativecommons.org/licenses/by/4.0/legalcode.txt>
+Files:
+aom_spawn_player_beacon_bottom.png
+aom_spawn_player_beacon_side.png
+aom_spawn_player_beacon_top.png
+===
+================================================================================
+pmb_core/mods/aom_player/attachto_player/LICENSE
+
+
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose
+with or without fee is hereby granted to the person(s) and/or legal entities listed
+in the above copyright notice.
+
+MIT License
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+================================================================================
+pmb_core/mods/aom_player/player_info/LICENSE
+
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+
+===
+Media Licenses
+===
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: Creative Commons 0 <https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt>
+Files:
+white.png
+===
+================================================================================
+pmb_core/mods/aom_player/player_init/LICENSE
+
+Copyright (c) 2026 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+================================================================================
+pmb_core/mods/aom_player/player_model/LICENSE
+
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+
+===
+Media Licenses
+===
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: CC-BY-4.0. <https://creativecommons.org/licenses/by/4.0/legalcode.txt>
+Files:
+clive.png
+clive_overlay.png
+humanoid.png
+
+humanoid.b3d
+===
+================================================================================
+pmb_core/mods/aom_player/player_sprint/LICENSE
+
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+================================================================================
+pmb_core/mods/aom_player/playerphysics/LICENSE.txt
+
+The MIT License (MIT)
+
+Copyright © 2024 Wuzzy
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+================================================================================
+pmb_core/mods/aom_player/wield3d/LICENSE
+
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+================================================================================
+pmb_core/mods/apis/COMPAT/LICENSE
+
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+================================================================================
+pmb_core/mods/apis/SIGNALS/LICENSE
+
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+================================================================================
+pmb_core/mods/apis/aom_bform/LICENSE
+
+Copyright (c) 2026 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+
+===
+Media Licenses
+===
+Copyright (c) 2026 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: CC-BY-4.0. <https://creativecommons.org/licenses/by/4.0/legalcode.txt>
+Files:
+bform_bg.png
+bform_bg_opaque.png
+bform_bg_outline.png
+bform_btn.png
+bform_btn_press.png
+===
+================================================================================
+pmb_core/mods/apis/aom_gamemodes/LICENSE
+
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+================================================================================
+pmb_core/mods/apis/aom_settings/LICENSE
+
+Copyright (c) 2025 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+
+===
+Media Licenses
+===
+Copyright (c) 2025 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: Creative Commons 0 <https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt>
+Files:
+aom_settings_tick.png
+aom_settings_reset.png
+aom_inv_btn.png
+aom_inv_btn_press.png
+
+aom_settings_click.ogg
+===
+================================================================================
+pmb_core/mods/apis/aom_tcraft/LICENSE
+
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+================================================================================
+pmb_core/mods/apis/aom_vehicleapi/LICENSE
+
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+===
+Media Licenses
+===
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: CC-BY-4.0. <https://creativecommons.org/licenses/by/4.0/legalcode.txt>
+Files:
+blank.obj
+===
+================================================================================
+pmb_core/mods/apis/aom_wire/LICENSE
+
+
+Copyright (c) 2026 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose
+with or without fee is hereby granted to the person(s) and/or legal entities listed
+in the above copyright notice.
+
+MIT License
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+===
+Media Licenses
+===
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: CC-BY-4.0. <https://creativecommons.org/licenses/by/4.0/legalcode.txt>
+Files:
+aom_wire_weld_indicator.png
+
+aom_wire_weld_indicator.b3d
+===
+================================================================================
+pmb_core/mods/apis/chunk_version/LICENSE
+
+Copyright (c) 2026 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+================================================================================
+pmb_core/mods/apis/extraclasses/LICENSE
+
+Copyright (c) 2026 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+================================================================================
+pmb_core/mods/apis/itemextensions/LICENSE
+
+Copyright (c) 2026 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
+================================================================================
+pmb_core/mods/apis/mfsm/LICENSE
+
+Copyright (c) 2023 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+================================================================================
+pmb_core/mods/apis/node_updates/LICENSE
+
+Copyright (c) 2026 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+================================================================================
+pmb_core/mods/apis/nodeextensions/LICENSE
+
+Copyright (c) 2026 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+================================================================================
+pmb_core/mods/mapgen/aom_map_base/LICENSE
+
+Copyright (c) 2026 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+================================================================================
+pmb_core/mods/mapgen/aom_mapgen_fixes/LICENSE
+
+Copyright (c) 2026 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+================================================================================
+pmb_core/mods/mapgen/aom_on_generated/LICENSE
+
+Copyright (c) 2026 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+================================================================================
+pmb_core/mods/mapgen/aom_sch/LICENSE
+
+Copyright (c) 2026 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, 
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER 
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE.
+
+===
+Media Licenses
+===
+Copyright (c) 2026 Sumi, SumianVoice <info[at]sumianvoice.com> <https://content.luanti.org/users/Sumianvoice/>
+License: CC-BY-4.0. <https://creativecommons.org/licenses/by/4.0/legalcode.txt>
+Files:
+aom_*.mts
+===

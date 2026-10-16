@@ -1,5 +1,5 @@
-# Luanti 5.17: it comes without games, so the games from luanti.org's gallery
-# (Minetest Game, Glitch, Backrooms Test, see ../games.lock) are unpacked into its
+# Luanti 5.17: it comes without games, so the games in ../games.lock (luanti.org's
+# gallery and more from ContentDB) are unpacked into its
 # games folder, Android/data/net.minetest.minetest/files/Minetest/games (its user
 # folder is getExternalFilesDir + "Minetest"; its own first-start unpacking only adds
 # builtin, client and textures there). Each zip once, so a game the user deletes stays
@@ -8,3 +8,15 @@ package net.minetest.minetest
 extzip minetest_game.zip Minetest/games
 extzip glitch.zip Minetest/games
 extzip backroomtest.zip Minetest/games
+extzip mineclonia.zip Minetest/games
+extzip voxelgarden.zip Minetest/games
+extzip minetest_classic.zip Minetest/games
+extzip nodecore.zip Minetest/games
+extzip pmb_core.zip Minetest/games
+extzip tutorial.zip Minetest/games
+extzip alter.zip Minetest/games
+extzip klots.zip Minetest/games
+extzip sokoblox_game.zip Minetest/games
+extzip cow.zip Minetest/games
+extzip blockbomber.zip Minetest/games
+extzip prang.zip Minetest/games

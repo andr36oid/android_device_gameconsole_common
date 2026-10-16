@@ -1,0 +1,185 @@
+Luanti game nodecore (MIT/MIT)
+
+Shipped unmodified as published on ContentDB (sha256 f7d939103f9c5033411e7661a17d0375fd2170e8bdf1306502a30abb76bf722f).
+Download: https://content.luanti.org/packages/Warr1024/nodecore/releases/39354/download/
+Source: https://gitlab.com/sztest/nodecore
+
+================================================================================
+nodecore/LICENSE
+
+Copyright (C)2018-2025 Aaron Suen <warr1024@gmail.com>
+Portions Copyright (C)2019-2020 LoneWolfHT <lonewolf04361@gmail.com>
+Portions Copyright (C)2019 Magik Eh
+Portions Copyright (C)2019-2021 GreenXenith
+Portions Copyright (C)2019-2024 Dmitriy Tillyaev (Kimapr) <kimapr@mail.ru>
+Portions Copyright (C)2019 Elkien
+Portions Copyright (C)2020 WintersKnight94 <wintersknight94@gmail.com>
+Portions Copyright (C)2019 Avicennia G
+Portions Copyright (C)2022 MisterE <gbrrudmin@gmail.com>
+Portions Copyright (C)2022 Giuseppe Bilotta <giuseppe.bilotta@gmail.com>
+Portions Copyright (C)2020 Yaman Qalieh <ybq987@gmail.com>
+Portions Copyright (C)2022 NoComment
+
+Translations (mods/nc_api/locale):
+Portions Copyright (C)2019-2023 Terifo <terifo1590@gmail.com>
+Portions Copyright (C)2020 Elon_Satoshi
+Portions Copyright (C)2020 heshman
+Portions Copyright (C)2021 Walter Frost <divided0303@gmail.com>
+Portions Copyright (C)2021 Krzysztof Jeszke <krzysztofjesz@gmail.com>
+Portions Copyright (C)2021 luatic <appgurulars@gmx.de>
+Portions Copyright (C)2021-2022 Lesha Vel <lesha.programmer@gmail.com>
+Portions Copyright (C)2022-2026 Wuzzy <almikes@aol.com>
+Portions Copyright (C)2021-2022 kuboid <community@radtournetz.de>
+Portions Copyright (C)2022 ianc <cisnerosalenian@protonmail.com>
+Portions Copyright (C)2022 Atrate <https://hosted.weblate.org/user/Atrate/>
+Portions Copyright (C)2022 Andrij Mizyk <https://hosted.weblate.org/user/andmizyk/>
+Portions Copyright (C)2022 DeadManWalking <https://hosted.weblate.org/user/DeadManWalkingTO/>
+Portions Copyright (C)2022 Gao Tiesuan <https://hosted.weblate.org/user/materia-cccp/>
+Portions Copyright (C)2022-2023 Pexauteau Santander <https://hosted.weblate.org/user/pexauteau/>
+Portions Copyright (C)2022-2025 Yic95 <https://hosted.weblate.org/user/Yic95/>
+Portions Copyright (C)2022-2024 3raven <https://hosted.weblate.org/user/3raven/>
+Portions Copyright (C)2022-2023 Arsenicus <https://hosted.weblate.org/user/Arsenicus/>
+Portions Copyright (C)2022 Ezilei Correia <https://hosted.weblate.org/user/ezileicorreia/>
+Portions Copyright (C)2022 Andrij Mizyk <https://hosted.weblate.org/user/andm/>
+Portions Copyright (C)2022 Kauã Maia <https://hosted.weblate.org/user/bainloko/>
+Portions Copyright (C)2022 Ian Giestas Pauli <https://hosted.weblate.org/user/iangiestaspauli/>
+Portions Copyright (C)2022 Nikita Epifanov <https://hosted.weblate.org/user/Nikets/>
+Portions Copyright (C)2022 William <https://hosted.weblate.org/user/eduardo.957/>
+Portions Copyright (C)2022-2024 Giuseppe Bilotta <giuseppe.bilotta@gmail.com>
+Portions Copyright (C)2022 FavoritoHJS <https://hosted.weblate.org/user/FavoritoHJS/>
+Portions Copyright (C)2023 Thisaccountis42 <https://hosted.weblate.org/user/Thisaccountis42/>
+Portions Copyright (C)2023 Julien Maulny <https://hosted.weblate.org/user/alcalyn/>
+Portions Copyright (C)2023-2024 ElonSatoshi <https://hosted.weblate.org/user/ElonSatoshi/>
+Portions Copyright (C)2023 Filippo Alfieri <https://hosted.weblate.org/user/AlphaT/>
+Portions Copyright (C)2023 Астафьев Сергей <https://hosted.weblate.org/user/Sotis-Oph/>
+Portions Copyright (C)2023 Lemente <https://hosted.weblate.org/user/Lemente/>
+Portions Copyright (C)2023-2025 chocomint <https://hosted.weblate.org/user/Methro/>
+Portions Copyright (C)2023 capitalthree <https://hosted.weblate.org/user/capitalthree/>
+Portions Copyright (C)2023 sotis.oph <https://hosted.weblate.org/user/sotis.oph/>
+Portions Copyright (C)2024-2025 Unacceptium <https://hosted.weblate.org/user/Unacceptium/>
+Portions Copyright (C)2024 JUST PLAYING <https://hosted.weblate.org/user/JPlay/>
+Portions Copyright (C)2024 dog <https://hosted.weblate.org/user/+@.@+/>
+Portions Copyright (C)2024 Leo <https://hosted.weblate.org/user/resistancelion/>
+Portions Copyright (C)2024 yue weikai <https://hosted.weblate.org/user/yueweikai/>
+Portions Copyright (C)2024 Indigo Ray <https://hosted.weblate.org/user/Indigo_Ray/>
+Portions Copyright (C)2024 复予 <https://hosted.weblate.org/user/clonewith/>
+Portions Copyright (C)2024-2025 BlackImpostor <https://hosted.weblate.org/user/SkyBuilder1717/>
+Portions Copyright (C)2024 孙鑫然 <https://hosted.weblate.org/user/The_Knight/>
+Portions Copyright (C)2024 Mateusz Malinowski <https://hosted.weblate.org/user/bohopicasso/>
+Portions Copyright (C)2024-2026 Jamil Mohamad Alhussein <https://hosted.weblate.org/user/jamilmohamadalhoseen/>
+Portions Copyright (C)2024 thereisno anderson <https://hosted.weblate.org/user/thereisnoanderson/>
+Portions Copyright (C)2024 minitob-qwq <https://hosted.weblate.org/user/minitob/>
+Portions Copyright (C)2024 hugoalh <https://hosted.weblate.org/user/hugoalh/>
+Portions Copyright (C)2024-2025 Jorge Rodríguez <https://hosted.weblate.org/user/Mr.JRodriguez/>
+Portions Copyright (C)2024-2025 alasa ala <https://hosted.weblate.org/user/@.-_-.@/>
+Portions Copyright (C)2024 MeepyMeeper123 <https://hosted.weblate.org/user/MeepyMeeper123/>
+Portions Copyright (C)2024 Honzapkcz <https://hosted.weblate.org/user/Honzapkcz/>
+Portions Copyright (C)2024 Oleg <https://hosted.weblate.org/user/Oge/>
+Portions Copyright (C)2024-2026 Lukáš Lizák <https://hosted.weblate.org/user/FRoTY/>
+Portions Copyright (C)2024 Linerly <https://hosted.weblate.org/user/Linerly/>
+Portions Copyright (C)2025 mineplayer <https://hosted.weblate.org/user/realmineplayer/>
+Portions Copyright (C)2025 reimu105 <https://hosted.weblate.org/user/reimu105/>
+Portions Copyright (C)2025 anon <https://hosted.weblate.org/user/anon0000000000/>
+Portions Copyright (C)2025 Balázs Kovács <https://hosted.weblate.org/user/kovacs.balazs.ktk/>
+Portions Copyright (C)2025 Ilia <https://hosted.weblate.org/user/ilia-abbasi/>
+Portions Copyright (C)2025 Tanavit MINETEST <https://hosted.weblate.org/user/tanavit/>
+Portions Copyright (C)2025 AlanSCorreia <https://hosted.weblate.org/user/AlanSCorreia/>
+Portions Copyright (C)2025 nauta-turbidus <https://hosted.weblate.org/user/nauta-turbidus/>
+Portions Copyright (C)2025 தமிழ்நேரம் <https://hosted.weblate.org/user/TamilNeram/>
+Portions Copyright (C)2025 jhon game <https://hosted.weblate.org/user/jhongamepc2/>
+Portions Copyright (C)2025 Divarrek <https://hosted.weblate.org/user/Divarrek/>
+Portions Copyright (C)2026 builderofthecake <https://hosted.weblate.org/user/builderofthecake/>
+Portions Copyright (C)2026 GeekSteak <https://hosted.weblate.org/user/GeekSteak/>
+Portions Copyright (C)2025 Marco Ciampa <https://hosted.weblate.org/user/ciampix/>
+Portions Copyright (C)2025 Neil Rizen <https://hosted.weblate.org/user/newrizen/>
+Portions Copyright (C)2025 Matt Williams <https://hosted.weblate.org/user/eRRoRed/>
+Portions Copyright (C)2025-2026 Tarás Lavrentiev <https://hosted.weblate.org/user/fromkaniv/>
+Portions Copyright (C)2026 Ogurazer <https://hosted.weblate.org/user/Oguraser/>
+Portions Copyright (C)2025 GiorgeGi <https://hosted.weblate.org/user/giorgegi729/>
+Portions Copyright (C)2026 Poesty Li <https://hosted.weblate.org/user/poesty/>
+Portions Copyright (C)2024 JPlyz21 <https://hosted.weblate.org/user/JPlyz/>
+Portions Copyright (C)2025 Vesel Sem <https://hosted.weblate.org/user/Veselsem/>
+Portions Copyright (C)2025 Zaman Hüseynli <https://hosted.weblate.org/user/Zamanhuseyinli/>
+Portions Copyright (C)2025 Artur Ajvazjan <https://hosted.weblate.org/user/arbtttrn6/>
+Portions Copyright (C)2025 qwoper tite <https://hosted.weblate.org/user/wrhse4t/>
+Portions Copyright (C)2026 Flynn <https://hosted.weblate.org/user/Flynn/>
+Portions Copyright (C)2026 Nicolas Vyčas Nery <https://hosted.weblate.org/user/NicolasVycas/>
+Portions Copyright (C)2025 Loumardes <https://hosted.weblate.org/user/loumardes00/>
+Portions Copyright (C)2025 Karol1165 <https://hosted.weblate.org/user/Karol1165/>
+Portions Copyright (C)2025 FedonT <https://hosted.weblate.org/user/Fedon/>
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject
+to the following conditions:
+
+The above copyright notice and this permission notice shall be included
+in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY
+KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+================================================================================
+nodecore/README
+
+========================================================================
+
+             \                           /\
+              \                         /  \
+          /\   \     /\    |\      /   /    \    /\    |\     /
+         |  \   |   /  \   | \    /   |         /  \   | \   /
+         |   \  |  |    |  |  |  |__  |        |    |  | /  |__
+          \   \/   |    |  |  |  |     \    /  |    |  |/   |
+           \        \  /   | /    \     \  /    \  /   |\    \
+            \        \/    |/      \     \/      \/    | \    \
+
+========================================================================
+             NodeCore - Discover and invent in a surreal,
+        unsympathetic world of cubes, patterns, and abstractions
+------------------------------------------------------------------------
+
+A surreal dream-world where everything is possible but nothing is easy.
+Peaceful and Zen.  Brutally obstinate.  Prepare to unlearn everything
+you thought you knew about voxel sandbox games.
+
+Visit the official ContentDB Listing (below) for more details.
+
+------------------------------------------------------------------------
+
+(C) by Aaron Suen <warr1024@gmail.com> (and other contributors)
+MIT License (http://www.opensource.org/licenses/MIT)
+See included LICENSE file for full details and credits
+
+ContentDB Listing:
+	https://content.luanti.org/packages/Warr1024/nodecore/
+
+GitLab:
+	https://gitlab.com/sztest/nodecore
+
+Chat Networks (all bridged):
+	Discord:
+		https://discord.gg/NNYeF6f
+	Matrix:
+		#+nodecore:matrix.org
+	IRC:
+		#nodecore on irc.libera.chat
+
+Donate:
+	https://liberapay.com/NodeCore
+
+Semi-Unofficial Wiki:
+	https://nodecore.mine.nu/
+
+Forum Topic:
+	https://forum.luanti.org/viewtopic.php?t=24857
+
+------------------------------------------------------------------------
+========================================================================

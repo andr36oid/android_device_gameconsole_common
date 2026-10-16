@@ -1,0 +1,201 @@
+Luanti game minetest_classic (LGPL-2.1-or-later/CC-BY-SA-3.0)
+
+Shipped unmodified as published on ContentDB (sha256 7ea7469725a03aa60c057a414b25c34f18e08894abe2d15ddeea8c314e41fe05).
+Download: https://content.luanti.org/packages/sfan5/minetest_classic/releases/33427/download/
+Source: https://github.com/sfan5/minetest_classic/tree/31c250254fd784cc10f08aec757248045243c26b
+
+================================================================================
+minetest_classic/LICENSE.md
+
+While the code of the `cl_default` mod was written from scratch it often follows the
+original C++ code closely, so out of caution **LGPLv2.1 (or later)** was chosen as license.
+Most media files were directly copied from Minetest-c55 0.3.1 which is **CC BY-SA 3.0**.
+
+For details please check the LICENSE.txt files in individual mods, notably [cl_default](mods/cl_default/LICENSE.txt).
+
+================================================================================
+minetest_classic/README.md
+
+# Minetest Classic
+
+[![ContentDB](https://content.luanti.org/packages/sfan5/minetest_classic/shields/downloads/)](https://content.luanti.org/packages/sfan5/minetest_classic/)
+
+This game is a recreation of the classic Minetest-c55 0.3 gameplay, including:
+
+* Original textures
+* All four mobs¹
+* Identical items, crafting recipes, dig times; closely matched ore distribution
+
+Unlike the original it has (optional) support for:
+
+* Sounds
+* PvP
+* Localization
+* Engine features such as the modern skybox, waving or shadows
+* Modern creative inventory and per-player creative mode
+
+To control some of the modern features check out "Modernize flags" in the settings menu.
+For an experience faithful to 0.3 you should disable Fancy leaves and 3D Clouds on your client.
+
+This is a game for the [Luanti engine](https://www.luanti.org/), install
+at least version 5.6.0 to play it.
+
+**¹**: Fireflies do not spawn naturally and are only available in creative mode.
+
+## Credits
+
+Thanks to Perttu Ahola (celeron55) `<celeron55@gmail.com>` and other random contributors
+for making Minetest-c55 0.3 what it is.
+
+This game was written by sfan5 `<sfan5@live.de>` in exactly three weeks up to
+the initial commit in this git repo.
+
+================================================================================
+minetest_classic/mods/cl_default/LICENSE.txt
+
+License of code
+---------------
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along
+with this program; if not, write to the Free Software Foundation, Inc.,
+51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+
+License of original Minetest-c55 textures
+-----------------------------------------
+
+All textures not otherwise mentioned were taken or derived from Minetest-c55 0.3.1.
+
+Attribution-ShareAlike 3.0 Unported (CC BY-SA 3.0)
+<https://creativecommons.org/licenses/by-sa/3.0/>
+
+
+
+License of media files
+----------------------
+
+Cisoun's texture pack (WTFPL):
+  chest_lock.png
+
+sfan5 (CC0):
+  firefly.obj
+  oerkki1.obj
+  rat.obj
+
+Originating from work by kddekadenz/Dogers (CC BY-SA 3.0):
+  default_grass_footstep.*.ogg
+  default_dig_crumbly.*.ogg
+
+celeron55 (CC BY-SA 3.0):
+  default_dig_choppy.ogg
+  default_dig_cracky.ogg
+  default_dig_dig_immediate.ogg
+  default_gravel_footstep.*.ogg
+  default_hard_footstep.*.ogg
+  default_place_node.*.ogg
+
+For default_break_glass.*.ogg (CC BY 3.0):
+  1: <https://www.freesound.org/people/cmusounddesign/sounds/71947/>
+  2: <https://www.freesound.org/people/Tomlija/sounds/97669/>
+  3: <https://www.freesound.org/people/lsprice/sounds/88808/>
+
+Mito551 (CC BY-SA):
+  default_dirt_footstep.*.ogg
+
+Added by sofar (CC BY 3.0)
+  default_tool_breaks.*.ogg <https://www.freesound.org/people/HerbertBoland/sounds/33206/>
+
+AGFX <https://www.freesound.org/people/AGFX/> (CC BY 3.0):
+  default_water_footstep.*.ogg
+
+Zabuhailo (CC0):
+  rat.*.ogg <https://freesound.org/s/143125/>
+
+steveygos93 (CC0 1.0):
+  explode.ogg <https://freesound.org/s/80401/>
+
+sophiehall3535 (CC0):
+  fireball.ogg <https://freesound.org/s/245933/>
+
+Worldmaxter (CC0):
+  leaves.*.ogg <https://freesound.org/s/471133/>
+
+Osiruswaltz (CC0):
+  oerkki.*.ogg <https://freesound.org/s/362678/>
+
+Augdog (CC-BY 4.0):
+  dungeon_master.*.ogg <https://freesound.org/s/210170/>
+
+Vanessa Ezekowitz, Auke Kok, celeron55 (CC BY 4.0):
+  "PB&J Pup" concept
+  nc_back.png
+  nc_front.png
+  nc_side.png
+  nc_rb.png
+
+================================================================================
+minetest_classic/mods/creative/LICENSE.txt
+
+License of source code
+----------------------
+
+The MIT License (MIT)
+Copyright (C) 2012-2016 Perttu Ahola (celeron55) <celeron55@gmail.com>
+Copyright (C) 2015-2016 Jean-Patrick G. (kilbith) <jeanpatrick.guerrero@gmail.com>
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this
+software and associated documentation files (the "Software"), to deal in the Software
+without restriction, including without limitation the rights to use, copy, modify, merge,
+publish, distribute, sublicense, and/or sell copies of the Software, and to permit
+persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or
+substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
+PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE
+FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+DEALINGS IN THE SOFTWARE.
+
+For more details:
+https://opensource.org/licenses/MIT
+
+================================================================================
+minetest_classic/mods/sfinv/LICENSE.txt
+
+License of source code
+----------------------
+
+The MIT License (MIT)
+Copyright (C) 2016-2018 rubenwardy <rubenwardy@gmail.com>
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this
+software and associated documentation files (the "Software"), to deal in the Software
+without restriction, including without limitation the rights to use, copy, modify, merge,
+publish, distribute, sublicense, and/or sell copies of the Software, and to permit
+persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or
+substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
+PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE
+FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+DEALINGS IN THE SOFTWARE.
+
+For more details:
+https://opensource.org/licenses/MIT

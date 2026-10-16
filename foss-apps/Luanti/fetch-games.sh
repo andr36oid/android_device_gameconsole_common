@@ -30,12 +30,17 @@ while read -r game release sha256 license source; do
 		echo "Shipped unmodified as published on ContentDB (sha256 $sha256)."
 		echo "Download: $url"
 		echo "Source: $source"
-		for f in $(unzip -Z1 "$zip" | grep -iE "^$game/(LICENSE|COPYING)[^/]*$|^$game/README[^/]*$"); do
+		for f in $(unzip -Z1 "$zip" | grep -iE "^$game/README[^/]*$|^$game/(.*/)?(LICENSE|COPYING)[^/]*$"); do
 			echo
 			echo "================================================================================"
 			echo "$f"
 			echo
-			unzip -p "$zip" "$f"
+			# a few license files are Latin-1; the notice is UTF-8
+			if unzip -p "$zip" "$f" | iconv -f UTF-8 -t UTF-8 >/dev/null 2>&1; then
+				unzip -p "$zip" "$f"
+			else
+				unzip -p "$zip" "$f" | iconv -f ISO-8859-1 -t UTF-8
+			fi
 		done
 	} >"$OUT/NOTICE-$game.txt.new"
 	mv "$OUT/NOTICE-$game.txt.new" "$OUT/NOTICE-$game.txt"

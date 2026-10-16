@@ -22,6 +22,9 @@ LOCAL_MODULE_STEM := z-foss-luanti.list
 LOCAL_SRC_FILES := z-foss-luanti.list
 include $(BUILD_PREBUILT)
 
+# the games in games.lock, in the order of firstrun/luanti.list
+luanti_games := minetest_game glitch backroomtest mineclonia voxelgarden minetest_classic nodecore pmb_core tutorial alter klots sokoblox_game cow blockbomber prang
+
 include $(CLEAR_VARS)
 LOCAL_MODULE := foss-Luanti-firstrun
 LOCAL_MODULE_CLASS := ETC
@@ -29,8 +32,7 @@ LOCAL_MODULE_TAGS := optional
 LOCAL_MODULE_RELATIVE_PATH := gameconsole/firstrun
 LOCAL_MODULE_STEM := luanti.list
 LOCAL_SRC_FILES := firstrun/luanti.list
-LOCAL_REQUIRED_MODULES := foss-Luanti-game-minetest_game foss-Luanti-game-glitch \
-	foss-Luanti-game-backroomtest
+LOCAL_REQUIRED_MODULES := $(foreach game,$(luanti_games),foss-Luanti-game-$(game))
 include $(BUILD_PREBUILT)
 
 # The games themselves, each with its own license notice (fetch-games.sh)
@@ -45,4 +47,4 @@ LOCAL_SRC_FILES := firstrun/luanti/$(1).zip
 LOCAL_NOTICE_FILE := $$(LOCAL_PATH)/firstrun/luanti/NOTICE-$(1).txt
 include $$(BUILD_PREBUILT)
 endef
-$(foreach game,minetest_game glitch backroomtest,$(eval $(call luanti-game,$(game))))
+$(foreach game,$(luanti_games),$(eval $(call luanti-game,$(game))))
