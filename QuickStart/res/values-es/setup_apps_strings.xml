@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The setup's app page (SetupAppsActivity) -->
+<resources>
+    <string name="setup_apps_title">Apps para instalar</string>
+    <string name="setup_apps_body">Estas apps vienen con andr36oid y se instalan directamente desde la tarjeta, sin internet. Desmarca las que no quieras.</string>
+    <string name="setup_apps_all">Todas o ninguna</string>
+    <string name="setup_apps_next">Instalar</string>
+</resources>

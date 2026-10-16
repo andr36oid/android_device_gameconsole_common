@@ -110,6 +110,22 @@
             </intent-filter>
         </activity>
 
+        <!-- The setup wizard's page after the home screen choice: which bundled apps to
+             install (all offline, from the card) -->
+        <activity
+            android:name=".SetupAppsActivity"
+            android:exported="true"
+            android:label="@string/setup_apps_title"
+            android:excludeFromRecents="true"
+            android:screenOrientation="nosensor"
+            android:configChanges="keyboard|keyboardHidden|navigation|touchscreen|orientation|screenSize|screenLayout|smallestScreenSize"
+            android:theme="@style/TutorialTheme">
+            <intent-filter>
+                <action android:name="org.andr36oid.guide.action.SETUP_APPS" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
         <!-- The setup wizard's page after the tutorial: shut down now to copy games onto
              EASYROMS -->
         <activity

@@ -12,6 +12,12 @@ uninstall it, a removed app stays removed, and a newer ROM upgrades an older
 install. The list files are called `z-foss-*.list` so they sort after
 `preinstall.list`: RetroArch and PPSSPP get installed first.
 
+The setup wizard has a page to pick which of these get installed
+(`../QuickStart`, SetupAppsActivity), all ticked at first; the installs are
+offline, from the card. Until it was left with Next the service keeps these apps
+back (on consoles set up before, they install as always). The unticked ones are
+treated like apps the user uninstalled: never installed later.
+
 Every app has its own folder, so each one can be added or dropped alone:
 
     <App>/app.lock            what to download, pinned by sha256

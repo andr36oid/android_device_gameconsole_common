@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The setup's app page (SetupAppsActivity) -->
+<resources>
+    <string name="setup_apps_title">Aplikasi untuk dipasang</string>
+    <string name="setup_apps_body">Aplikasi ini sudah ada di andr36oid dan dipasang langsung dari kartu, tanpa internet. Hapus centang yang tidak kamu inginkan.</string>
+    <string name="setup_apps_all">Semua atau tidak ada</string>
+    <string name="setup_apps_next">Pasang</string>
+</resources>

@@ -321,12 +321,56 @@ seed_net_traffic() {
 	[ -z "$failed" ] && touch "$STATE/net-traffic.done"
 }
 
-install_apks() {
-	local list pkg vc apk cur out
+# The setup's app page (QuickStart, SetupAppsActivity) picks which of the bundled
+# apps (the z-foss-*.list ones) get installed. Settings.Global:
+APPS_CHOSEN=andr36oid_apps_chosen # 1 once the page was left with Next
+APPS_SKIP=andr36oid_apps_skip     # the packages left unticked, comma separated
+# Until then (and while the setup isn't done) those apps wait; the page starts
+# gameconsole-apps (sys.andr36oid.apps_chosen=1) to install them right away. An app left
+# out gets the "seen" mark, so like one the user uninstalled it never comes back.
 
+# apps_wait ; whether the bundled apps still wait for the setup's choice
+apps_wait() {
+	setup_done && return 1
+	[ "$(settings get global $APPS_CHOSEN </dev/null 2>/dev/null)" = 1 ] && return 1
+	return 0
+}
+
+# One install or first-start step at a time: the main run and gameconsole-apps can
+# overlap. In /dev, so a power cut can't leave it behind.
+INSTALL_LOCK=/dev/gameconsole-install.lock
+install_lock() {
+	local i=0
+	until mkdir "$INSTALL_LOCK" 2>/dev/null; do
+		i=$((i + 1))
+		# a run that died holding it: an install takes a minute at most
+		if [ $i -gt 450 ]; then
+			log "the install lock was held for 15 minutes, taking it"
+			rmdir "$INSTALL_LOCK" 2>/dev/null
+		fi
+		sleep 2
+	done
+}
+install_unlock() {
+	rmdir "$INSTALL_LOCK" 2>/dev/null
+}
+
+install_apks() {
+	local list pkg vc apk cur out bundled wait='' skip
+
+	apps_wait && wait=1
+	skip=",$(settings get global $APPS_SKIP </dev/null 2>/dev/null),"
+	install_lock
 	# preinstall.list is the emulators', other packages bring their own list
 	for list in "$BASE"/preinstall/*.list; do
 		[ -f "$list" ] || continue
+		bundled=''
+		case ${list##*/} in
+		z-foss-*)
+			bundled=1
+			[ -n "$wait" ] && continue
+			;;
+		esac
 		while read -r pkg vc apk; do
 			case $pkg in ''|\#*) continue ;; esac
 			[ -f "$BASE/preinstall/$apk" ] || continue
@@ -338,6 +382,14 @@ install_apks() {
 				[ "$cur" -ge "$vc" ] && continue
 			elif [ -e "$STATE/installed.$pkg" ]; then
 				continue
+			elif [ -n "$bundled" ]; then
+				case $skip in
+				*",$pkg,"*)
+					log "not installing $pkg, it was left out in the setup"
+					touch "$STATE/installed.$pkg"
+					continue
+					;;
+				esac
 			fi
 			# don't retry a version that failed before (e.g. a differently
 			# signed build of the same package is installed)
@@ -362,6 +414,8 @@ install_apks() {
 			fi
 		done <"$list"
 	done
+	[ -n "$wait" ] && log "the bundled apps wait for the setup's app page"
+	install_unlock
 }
 
 PP_PKG=org.ppsspp.ppsspp
@@ -1345,9 +1399,11 @@ firstrun_list() {
 
 seed_firstrun() {
 	local list
+	install_lock
 	for list in "$FIRSTRUN"/*.list; do
 		[ -f "$list" ] && firstrun_list "$list"
 	done
+	install_unlock
 }
 
 # what we last wrote into RetroArch's system_directory
@@ -2359,6 +2415,15 @@ until pm path android </dev/null >/dev/null 2>&1; do
 	[ $i -gt 60 ] && { log "package manager not up, giving up"; exit 1; }
 	sleep 2
 done
+
+# gameconsole-apps: the setup's app page was left with Next, install what was picked
+if [ "${1:-}" = apps ]; then
+	log "installing the apps picked in the setup"
+	install_apks
+	seed_cromite_search
+	seed_firstrun
+	exit 0
+fi
 
 seed_cromite_gamepad
 seed_net_traffic

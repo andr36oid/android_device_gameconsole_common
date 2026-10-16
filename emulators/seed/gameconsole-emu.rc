@@ -31,3 +31,15 @@ service gameconsole-ra-players /system/bin/sh /system/etc/gameconsole/gameconsol
 
 on property:persist.andr36oid.ra_player1=*
     start gameconsole-ra-players
+
+# The setup's app page (QuickStart) was left with Next: install the picked bundled
+# apps now instead of at the next start (gameconsole-emu.sh, install_apks)
+service gameconsole-apps /system/bin/sh /system/etc/gameconsole/gameconsole-emu.sh apps
+    class main
+    user root
+    group root system
+    disabled
+    oneshot
+
+on property:sys.andr36oid.apps_chosen=1
+    start gameconsole-apps
