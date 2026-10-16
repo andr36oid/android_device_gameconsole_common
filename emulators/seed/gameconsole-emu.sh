@@ -6,10 +6,12 @@
 # 0. On the very first start only, while the setup wizard is still on screen:
 #    installs the first-start launcher and makes it the only home app, so the
 #    tutorial comes up when the wizard ends. See first_start below.
-# 1. Installs the APKs from /system/etc/gameconsole/preinstall as regular user
-#    apps. They keep their F-Droid signature, so F-Droid can update them, and
-#    the user can uninstall them. An app the user removed stays removed, an
-#    older installed version gets upgraded when the ROM ships a newer one.
+# 1. Installs the APKs from the AUTOAPK partition (/mnt/andr36oid-apps, there
+#    until the first start's apps are installed) as regular user apps. They keep
+#    their own signature, so F-Droid can update them, and the user can uninstall
+#    them. An app the user removed stays removed. Once nothing is left to do with
+#    them, /metadata/andr36oid/apps-done lets the next start give AUTOAPK's space
+#    to userdata (common/firstresize).
 # 2. Gives RetroArch profiles for the built-in pad and external pads and, on a fresh install
 #    only, ArkOS-like settings (hotkeys, saves next to the game). A
 #    retroarch.cfg that exists is never touched. Core option defaults for
@@ -321,10 +323,19 @@ seed_net_traffic() {
 	[ -z "$failed" ] && touch "$STATE/net-traffic.done"
 }
 
-# The setup's app page (QuickStart, SetupAppsActivity) picks which of the bundled
-# apps (the z-foss-*.list ones) get installed. Settings.Global:
+# AUTOAPK: <Name>.apk, most with a <Name>.yml (package, version_code, required,
+# checked, and the setup's description), and the first-start settings in
+# .andr36oid/firstrun. People can add their own APKs from a PC, without a .yml.
+APPS=/mnt/andr36oid-apps
+APPS_DONE=/metadata/andr36oid/apps-done
+# The setup's app page (QuickStart, SetupAppsActivity) picks which of them get
+# installed; the "required: true" ones (RetroArch, PPSSPP, Magisk) always are.
+# Settings.Global:
 APPS_CHOSEN=andr36oid_apps_chosen # 1 once the page was left with Next
-APPS_SKIP=andr36oid_apps_skip     # the packages left unticked, comma separated
+APPS_SKIP=andr36oid_apps_skip     # the apps left unticked, by file name without .apk,
+                                  # comma separated. Unset (setup done some other
+                                  # way): the ones unticked at first, "checked: false"
+                                  # and the ones without a .yml.
 # Until then (and while the setup isn't done) those apps wait; the page starts
 # gameconsole-apps (sys.andr36oid.apps_chosen=1) to install them right away. An app left
 # out gets the "seen" mark, so like one the user uninstalled it never comes back.
@@ -355,67 +366,123 @@ install_unlock() {
 	rmdir "$INSTALL_LOCK" 2>/dev/null
 }
 
-install_apks() {
-	local list pkg vc apk cur out bundled wait='' skip
+# yml_get <file> <key> ; a top-level value of a .yml, without quotes
+yml_get() {
+	sed -n "s/^$2:[ 	]*//p" "$1" 2>/dev/null | head -n 1 | sed 's/[ 	]*$//; s/^"\(.*\)"$/\1/'
+}
 
-	apps_wait && wait=1
-	skip=",$(settings get global $APPS_SKIP </dev/null 2>/dev/null),"
-	install_lock
-	# preinstall.list is the emulators', other packages bring their own list
-	for list in "$BASE"/preinstall/*.list; do
-		[ -f "$list" ] || continue
-		bundled=''
-		case ${list##*/} in
-		z-foss-*)
-			bundled=1
-			[ -n "$wait" ] && continue
+# install_one <apk> <marker> <version> ; pm install, then the installed. or failed. mark
+install_one() {
+	local out
+	if out=$(pm install -r -g --user 0 "$1" </dev/null 2>&1); then
+		touch "$STATE/installed.$2"
+		rm -f "$STATE/failed.$2"
+	else
+		log "installing ${1##*/} failed: $out"
+		# Only the package's own failures ("Failure [INSTALL_...]") are kept.
+		# When Android's package service is gone (system_server restarting) or
+		# the console is shutting down (setup's "Shut down now"), the next start
+		# tries again.
+		case $out in
+		*"Failure ["*)
+			[ -n "$(getprop sys.shutdown.requested)" ] || echo "$3" >"$STATE/failed.$2"
 			;;
 		esac
-		while read -r pkg vc apk; do
-			case $pkg in ''|\#*) continue ;; esac
-			[ -f "$BASE/preinstall/$apk" ] || continue
+	fi
+}
 
-			cur=$(installed_vc "$pkg")
-			if [ -n "$cur" ]; then
-				# remember we have seen it, so an uninstall later on sticks
-				touch "$STATE/installed.$pkg"
-				[ "$cur" -ge "$vc" ] && continue
-			elif [ -e "$STATE/installed.$pkg" ]; then
+# APPS_LEFT: 1 when install_apks left an app on AUTOAPK for later
+APPS_LEFT=''
+
+install_apks() {
+	local apk name yml pkg vc cur wait='' skip chosen=1 required
+
+	APPS_LEFT=''
+	[ -d "$APPS" ] && ls "$APPS"/*.apk >/dev/null 2>&1 || return 0
+	apps_wait && wait=1
+	skip=$(settings get global $APPS_SKIP </dev/null 2>/dev/null)
+	[ "$skip" = null ] || [ -z "$skip" ] && [ "$(settings get global $APPS_CHOSEN </dev/null 2>/dev/null)" != 1 ] && chosen=''
+	skip=",$skip,"
+	install_lock
+	# the required ones first (RetroArch, PPSSPP, Magisk), then the others in name
+	# order, then the ones without a .yml. One per line: names may have spaces.
+	while IFS= read -r apk; do
+		[ -f "$apk" ] || continue
+		name=${apk##*/}
+		name=${name%.apk}
+		yml=${apk%.apk}.yml
+
+		if [ ! -f "$yml" ]; then
+			# someone's own APK: only when ticked on the setup's page
+			[ -e "$STATE/installed.apk.$name" ] && continue
+			[ -e "$STATE/failed.apk.$name" ] && continue
+			if [ -n "$wait" ]; then
+				APPS_LEFT=1
 				continue
-			elif [ -n "$bundled" ]; then
-				case $skip in
-				*",$pkg,"*)
-					log "not installing $pkg, it was left out in the setup"
-					touch "$STATE/installed.$pkg"
-					continue
-					;;
-				esac
 			fi
-			# don't retry a version that failed before (e.g. a differently
-			# signed build of the same package is installed)
-			[ "$(cat "$STATE/failed.$pkg" 2>/dev/null)" = "$vc" ] && continue
+			case $skip in *",$name,"*) continue ;; esac
+			[ -n "$chosen" ] || continue
+			log "installing $name.apk (added to AUTOAPK, no .yml)"
+			install_one "$apk" "apk.$name" 0
+			[ -e "$STATE/installed.apk.$name" ] || [ -e "$STATE/failed.apk.$name" ] || APPS_LEFT=1
+			continue
+		fi
 
-			log "installing $apk ($pkg $vc, currently: ${cur:-not installed})"
-			if out=$(pm install -r -g --user 0 "$BASE/preinstall/$apk" </dev/null 2>&1); then
-				touch "$STATE/installed.$pkg"
-				rm -f "$STATE/failed.$pkg"
-			else
-				log "installing $pkg failed: $out"
-				# Only the package's own failures ("Failure [INSTALL_...]") are
-				# kept. When Android's package service is gone (system_server
-				# restarting) or the console is shutting down (setup's "Shut
-				# down now"), the next start tries again.
-				case $out in
-				*"Failure ["*)
-					[ -n "$(getprop sys.shutdown.requested)" ] ||
-						echo "$vc" >"$STATE/failed.$pkg"
-					;;
-				esac
+		pkg=$(yml_get "$yml" package)
+		vc=$(yml_get "$yml" version_code)
+		required=$(yml_get "$yml" required)
+		if [ -z "$pkg" ] || [ -z "$vc" ]; then
+			log "$name.yml has no package or version_code, skipping $name.apk"
+			continue
+		fi
+		cur=$(installed_vc "$pkg")
+		if [ -n "$cur" ]; then
+			# remember we have seen it, so an uninstall later on sticks
+			touch "$STATE/installed.$pkg"
+			[ "$cur" -ge "$vc" ] && continue
+		elif [ -e "$STATE/installed.$pkg" ]; then
+			continue
+		elif [ "$required" != true ]; then
+			if [ -n "$wait" ]; then
+				APPS_LEFT=1
+				continue
 			fi
-		done <"$list"
-	done
+			if [ -n "$chosen" ]; then
+				case $skip in *",$name,"*) false ;; *) true ;; esac
+			else
+				[ "$(yml_get "$yml" checked)" != false ]
+			fi || {
+				log "not installing $pkg, it was left out in the setup"
+				touch "$STATE/installed.$pkg"
+				continue
+			}
+		fi
+		# don't retry a version that failed before (e.g. a differently signed
+		# build of the same package is installed)
+		[ "$(cat "$STATE/failed.$pkg" 2>/dev/null)" = "$vc" ] && continue
+
+		log "installing $name.apk ($pkg $vc, currently: ${cur:-not installed})"
+		install_one "$apk" "$pkg" "$vc"
+		[ -e "$STATE/installed.$pkg" ] || [ -e "$STATE/failed.$pkg" ] || APPS_LEFT=1
+	done <<EOF
+$(grep -l '^required:[ 	]*true' "$APPS"/*.yml 2>/dev/null | sed 's/\.yml$/.apk/'
+grep -L '^required:[ 	]*true' "$APPS"/*.yml 2>/dev/null | sed 's/\.yml$/.apk/'
+for apk in "$APPS"/*.apk; do [ -f "${apk%.apk}.yml" ] || echo "$apk"; done)
+EOF
 	[ -n "$wait" ] && log "the bundled apps wait for the setup's app page"
 	install_unlock
+}
+
+# apps_done ; after the installs and first-start settings: when nothing on AUTOAPK
+# waits any more, the next start may give its space to userdata
+apps_done() {
+	[ -d "$APPS" ] && ls "$APPS"/*.apk >/dev/null 2>&1 || return 0
+	[ -e "$APPS_DONE" ] && return 0
+	apps_wait && return 0
+	[ -z "$APPS_LEFT" ] || return 0
+	[ -z "$FIRSTRUN_LEFT" ] || { log "first-start settings not all written yet, AUTOAPK stays"; return 0; }
+	mkdir -p "${APPS_DONE%/*}" && touch "$APPS_DONE" &&
+		log "the apps are done, the next start gives AUTOAPK's space to userdata"
 }
 
 PP_PKG=org.ppsspp.ppsspp
@@ -1264,7 +1331,9 @@ refresh_rate() {
 # Only missing files are written, in list order, and a list stops at the first
 # failure, so the file the app's own "has it run" check reads goes last.
 # <path> may contain spaces.
-FIRSTRUN=$BASE/firstrun
+FIRSTRUN=$APPS/.andr36oid/firstrun
+# FIRSTRUN_LEFT: 1 when a list stopped before its end (e.g. the storage wasn't up)
+FIRSTRUN_LEFT=''
 APP_DATA=/data/user/0
 
 # mkdirs_as <dir> <owner> <mode> ; makes dir and its missing parents
@@ -1349,7 +1418,7 @@ firstrun_list() {
 		data)
 			firstrun_copy "$dir/$src" "$data/$dest" "$owner" 0771
 			rc=$?
-			[ $rc = 1 ] && break
+			[ $rc = 1 ] && { FIRSTRUN_LEFT=1; break; }
 			[ $rc = 0 ] && wrote_data=1 && log "seeded $pkg's $dest"
 			;;
 		appop)
@@ -1360,24 +1429,25 @@ firstrun_list() {
 				log "$pkg may $src now ($dest)"
 			else
 				log "appops set $pkg $src $dest failed: $out"
+				FIRSTRUN_LEFT=1
 				break
 			fi
 			;;
 		extzip)
-			[ -d "$MEDIA/Android/data" ] || break
+			[ -d "$MEDIA/Android/data" ] || { FIRSTRUN_LEFT=1; break; }
 			stamp=$STATE/extzip.$pkg.$src
 			[ -e "$stamp" ] && continue
-			firstrun_unzip "$dir/$src" "$ext/$dest" "${owner%:*}:$AID_EXT_DATA_RW" || break
+			firstrun_unzip "$dir/$src" "$ext/$dest" "${owner%:*}:$AID_EXT_DATA_RW" || { FIRSTRUN_LEFT=1; break; }
 			touch "$stamp"
 			wrote_ext=1
 			log "unpacked $src into $pkg's $dest (internal storage)"
 			;;
 		ext)
 			# vold makes Android/data when it mounts the internal storage
-			[ -d "$MEDIA/Android/data" ] || break
+			[ -d "$MEDIA/Android/data" ] || { FIRSTRUN_LEFT=1; break; }
 			firstrun_copy "$dir/$src" "$ext/$dest" "${owner%:*}:$AID_EXT_DATA_RW" 2770
 			rc=$?
-			[ $rc = 1 ] && break
+			[ $rc = 1 ] && { FIRSTRUN_LEFT=1; break; }
 			[ $rc = 0 ] && wrote_ext=1 && log "seeded $pkg's $dest (internal storage)"
 			;;
 		*)
@@ -2422,6 +2492,7 @@ if [ "${1:-}" = apps ]; then
 	install_apks
 	seed_cromite_search
 	seed_firstrun
+	apps_done
 	exit 0
 fi
 
@@ -2443,6 +2514,7 @@ ra_fonts
 make_rom_folders
 # stand-alone apps' first-start settings, after the installs
 seed_firstrun
+apps_done
 rom_nomedia
 # after the ROM folders: they are only made on a card without any of them
 bios_folder
