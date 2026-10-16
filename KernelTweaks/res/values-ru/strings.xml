@@ -168,7 +168,7 @@
     <string name="kt_stick_swap">Поменять стики местами</string>
     <string name="kt_stick_swap_off">Обычно</string>
     <string name="kt_stick_swap_on">Поменяны</string>
-    <string name="kt_stick_swap_what">Левый стик работает как правый, а правый как левый.</string>
+    <string name="kt_stick_swap_what">Левый стик работает как правый, а правый как левый, нажатие на них (L3/R3) тоже.</string>
     <string name="kt_stick_swap_why">Для клонов с перепутанными стиками или если удобнее управлять другим стиком. Направления, перевёрнутые выше, остаются у того стика, на котором вы их перевернули.</string>
 
     <string name="kt_poll_interval">Частота опроса кнопок</string>

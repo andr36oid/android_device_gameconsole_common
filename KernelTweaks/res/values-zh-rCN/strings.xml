@@ -165,7 +165,7 @@
     <string name="kt_stick_swap">交换摇杆</string>
     <string name="kt_stick_swap_off">正常</string>
     <string name="kt_stick_swap_on">已交换</string>
-    <string name="kt_stick_swap_what">左摇杆当作右摇杆用，右摇杆当作左摇杆用。</string>
+    <string name="kt_stick_swap_what">左摇杆当作右摇杆用，右摇杆当作左摇杆用，按下摇杆（L3/R3）也一样。</string>
     <string name="kt_stick_swap_why">适用于摇杆装反的克隆机，或者你更想用另一个摇杆操作。上面翻转过的方向仍跟随你翻转它的那个摇杆。</string>
 
     <string name="kt_poll_interval">按键检测频率</string>

@@ -166,7 +166,7 @@
     <string name="kt_stick_swap">Trocar manípulos</string>
     <string name="kt_stick_swap_off">Normal</string>
     <string name="kt_stick_swap_on">Trocados</string>
-    <string name="kt_stick_swap_what">O manípulo esquerdo funciona como o direito e o direito como o esquerdo.</string>
+    <string name="kt_stick_swap_what">O manípulo esquerdo funciona como o direito e o direito como o esquerdo, também ao carregar neles (L3/R3).</string>
     <string name="kt_stick_swap_why">Para clones com os manípulos trocados, ou se preferires usar o outro manípulo. As direções que inverteste acima ficam com o manípulo em que as inverteste.</string>
 
     <string name="kt_poll_interval">Taxa de verificação dos botões</string>

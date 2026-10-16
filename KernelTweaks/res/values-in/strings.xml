@@ -165,7 +165,7 @@
     <string name="kt_stick_swap">Tukar stik</string>
     <string name="kt_stick_swap_off">Normal</string>
     <string name="kt_stick_swap_on">Ditukar</string>
-    <string name="kt_stick_swap_what">Stik kiri bekerja sebagai stik kanan, dan stik kanan sebagai stik kiri.</string>
+    <string name="kt_stick_swap_what">Stik kiri bekerja sebagai stik kanan, dan stik kanan sebagai stik kiri, termasuk saat ditekan (L3/R3).</string>
     <string name="kt_stick_swap_why">Untuk klon yang stiknya terbalik, atau kalau kamu lebih suka mengarahkan dengan stik yang lain. Arah yang kamu balik di atas tetap ikut stik tempat kamu membaliknya.</string>
 
     <string name="kt_poll_interval">Laju pengecekan tombol</string>

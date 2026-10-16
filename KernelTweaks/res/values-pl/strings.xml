@@ -168,7 +168,7 @@
     <string name="kt_stick_swap">Zamień gałki</string>
     <string name="kt_stick_swap_off">Normalnie</string>
     <string name="kt_stick_swap_on">Zamienione</string>
-    <string name="kt_stick_swap_what">Lewa gałka działa jak prawa, a prawa jak lewa.</string>
+    <string name="kt_stick_swap_what">Lewa gałka działa jak prawa, a prawa jak lewa, także przy wciśnięciu (L3/R3).</string>
     <string name="kt_stick_swap_why">Dla klonów z zamienionymi gałkami albo jeśli wolisz sterować drugą gałką. Kierunki odwrócone wyżej zostają przy gałce, na której je odwróciłeś.</string>
 
     <string name="kt_poll_interval">Częstość sprawdzania przycisków</string>

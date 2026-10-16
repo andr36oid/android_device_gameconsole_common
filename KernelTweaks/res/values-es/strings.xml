@@ -166,7 +166,7 @@
     <string name="kt_stick_swap">Intercambiar sticks</string>
     <string name="kt_stick_swap_off">Normal</string>
     <string name="kt_stick_swap_on">Intercambiados</string>
-    <string name="kt_stick_swap_what">El stick izquierdo funciona como el derecho y el derecho como el izquierdo.</string>
+    <string name="kt_stick_swap_what">El stick izquierdo funciona como el derecho y el derecho como el izquierdo, también al pulsarlos (L3/R3).</string>
     <string name="kt_stick_swap_why">Para clones con los sticks al revés, o si prefieres usar el otro stick. Las direcciones que invertiste arriba siguen con el stick en el que las invertiste.</string>
 
     <string name="kt_poll_interval">Frecuencia de lectura de botones</string>
