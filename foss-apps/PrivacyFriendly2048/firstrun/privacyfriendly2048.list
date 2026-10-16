@@ -1,0 +1,8 @@
+# Privacy Friendly 2048 1.4.2: no tutorial at the first start, its pages are swiped
+# and its buttons can't be reached with the D-pad. SplashActivity opens it while
+# IsFirstTimeLaunch in privacy_friendly_apps.xml isn't false (helpers/
+# FirstLaunchManager); written while it has never run. See ../../README.md,
+# "First-start settings".
+package org.secuso.privacyfriendly2048
+unless data shared_prefs/privacy_friendly_apps.xml
+data prefs.xml shared_prefs/privacy_friendly_apps.xml
