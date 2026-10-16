@@ -412,6 +412,7 @@ install_apks() {
 	install_lock
 	# the required ones first (RetroArch, PPSSPP, Magisk), then the others in name
 	# order, then the ones without a .yml. One per line: names may have spaces.
+	# No grep -L: toybox's grep doesn't have it (the list came out empty).
 	while IFS= read -r apk; do
 		[ -f "$apk" ] || continue
 		name=${apk##*/}
@@ -472,7 +473,7 @@ install_apks() {
 		[ -e "$STATE/installed.$pkg" ] || [ -e "$STATE/failed.$pkg" ] || APPS_LEFT=1
 	done <<EOF
 $(grep -l '^required:[ 	]*true' "$APPS"/*.yml 2>/dev/null | sed 's/\.yml$/.apk/'
-grep -L '^required:[ 	]*true' "$APPS"/*.yml 2>/dev/null | sed 's/\.yml$/.apk/'
+for yml in "$APPS"/*.yml; do [ -f "$yml" ] && ! grep -q '^required:[ 	]*true' "$yml" && echo "${yml%.yml}.apk"; done
 for apk in "$APPS"/*.apk; do [ -f "${apk%.apk}.yml" ] || echo "$apk"; done)
 EOF
 	[ -n "$wait" ] && log "the bundled apps wait for the setup's app page"
