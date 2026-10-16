@@ -12,7 +12,7 @@ LOCAL_MODULE_TAGS := optional
 LOCAL_MODULE_RELATIVE_PATH := gameconsole/beta
 LOCAL_MODULE_STEM := beta.list
 LOCAL_SRC_FILES := beta.list
-LOCAL_REQUIRED_MODULES := Andr36oidBetaApps TrebleInfo-beta CPU-Z-beta UsbDeviceInfo-beta F-Droid-beta QuickShortcutMaker-beta Haven-beta Termux-beta Athena-beta TotalCommander-beta TotalCommanderLAN-beta TotalCommanderSFTP-beta FreeOTP-beta Obtainium-beta R1HA-beta ActivityLauncher-beta ScreenStream-beta NewPipe-beta
+LOCAL_REQUIRED_MODULES := Andr36oidBetaApps TrebleInfo-beta CPU-Z-beta UsbDeviceInfo-beta F-Droid-beta QuickShortcutMaker-beta Haven-beta Athena-beta TotalCommander-beta TotalCommanderLAN-beta TotalCommanderSFTP-beta FreeOTP-beta Obtainium-beta R1HA-beta ActivityLauncher-beta ScreenStream-beta NewPipe-beta
 include $(BUILD_PREBUILT)
 
 # Treble Info by Kevin Tresuelo (GPL-3.0), shows the Treble/GSI details of the device
@@ -73,16 +73,6 @@ LOCAL_MODULE_TAGS := optional
 LOCAL_MODULE_RELATIVE_PATH := gameconsole/beta
 LOCAL_MODULE_STEM := Haven.apk
 LOCAL_SRC_FILES := Haven.apk
-include $(BUILD_PREBUILT)
-
-# Termux (GPL-3.0, from F-Droid), a Linux terminal with its own package manager
-include $(CLEAR_VARS)
-LOCAL_MODULE := Termux-beta
-LOCAL_MODULE_CLASS := ETC
-LOCAL_MODULE_TAGS := optional
-LOCAL_MODULE_RELATIVE_PATH := gameconsole/beta
-LOCAL_MODULE_STEM := Termux.apk
-LOCAL_SRC_FILES := Termux.apk
 include $(BUILD_PREBUILT)
 
 # Athena by SebaUbuntu (Apache-2.0, from F-Droid), shows detailed device and hardware info
