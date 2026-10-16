@@ -16,7 +16,9 @@
 #                   unticked, or the console had it before and the user removed it
 #                   or left it out in the setup (gameconsole-emu's installed. mark)
 #   action=install  install every NAME in $DIR/install (one per line), writing
-#                   "ok<tab>NAME" or "fail<tab>NAME<tab>REASON" per APK to $DIR/result
+#                   "ok<tab>NAME" or "fail<tab>NAME<tab>REASON" per APK to $DIR/result.
+#                   An installed APK is deleted from EASYROMS with its .yml; a failed
+#                   one stays for another try.
 # $DIR/status says "running …", "done" or "error CODE" (noeasyroms, request).
 #
 # APKINSTALL_* variables are for testing on a PC (tests/run-tests.sh):
@@ -163,7 +165,8 @@ install() {
 		if out=$(pm_cmd install -r --user 0 -S "$size" <"$dir/$name" 2>&1) &&
 			echo "$out" | grep -q '^Success'; then
 			printf 'ok\t%s\n' "$name" >>"$DIR/result.tmp"
-			log "installed $name"
+			rm -f "$dir/$name" "$dir/${name%.*}.yml" "$dir/${name%.*}.YML"
+			log "installed $name, deleted it from EASYROMS"
 		else
 			out=$(echo "$out" | grep -v '^$' | tail -n 1 | tr '\t' ' ')
 			printf 'fail\t%s\t%s\n' "$name" "${out:-pm failed}" >>"$DIR/result.tmp"

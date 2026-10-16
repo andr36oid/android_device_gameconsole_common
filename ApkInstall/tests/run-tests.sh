@@ -62,6 +62,7 @@ check ".yml without version_code: ask" 'grep -q "	ask	NoVersion.apk$" "$T/dir/li
 check "scan skips hidden, other files, sub folders" '! grep -qE "hidden|readme|inner" "$T/dir/list"'
 
 printf 'Game One.apk\nTOOL.APK\n../escape.apk\nmissing.apk\n' >"$T/dir/install"
+printf 'x' >"$E/apk/Game One.yml"
 echo action=install >"$T/dir/request"
 bash "$HELPER"
 check "install status done" '[ "$(cat "$T/dir/status")" = done ]'
@@ -71,6 +72,8 @@ check "install refuses paths" 'grep -q "^fail	../escape.apk	missing$" "$T/dir/re
 check "install missing file" 'grep -q "^fail	missing.apk	missing$" "$T/dir/result"'
 check "pm streamed the file with its size" 'grep -q "install -r --user 0 -S 4|4" "$T/pmlog"'
 check "pm ran twice" '[ "$(wc -l <"$T/pmlog")" = 2 ]'
+check "installed APK and its .yml deleted" '[ ! -e "$E/apk/Game One.apk" ] && [ ! -e "$E/apk/Game One.yml" ]'
+check "failed APK kept" '[ -f "$E/apk/TOOL.APK" ]'
 
 APKINSTALL_EASYROMS="" bash -c 'echo action=scan >"$APKINSTALL_DIR/request"; bash "$0"' "$HELPER"
 check "no EASYROMS: error, empty list" '[ "$(cat "$T/dir/status")" = "error noeasyroms" ] && [ ! -s "$T/dir/list" ]'
