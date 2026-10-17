@@ -2,7 +2,7 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- While Daijishou's library is still being made on the first start -->
     <string name="preparing_title">Preparing your games…</string>
-    <string name="preparing_body">Daijishou, your home screen, opens by itself as soon as your game systems are set up. On the first start this takes a few minutes.</string>
+    <string name="preparing_body">Daijishou, your home screen, opens by itself as soon as your game systems are set up. On the first start this takes a few minutes.\n\nGrab a coffee – this might take 10 minutes on slower cards.</string>
 
     <string name="preparing_starting">Getting things ready…</string>
     <string name="preparing_apps">Installing your chosen apps…</string>

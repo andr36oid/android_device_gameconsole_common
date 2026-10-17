@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="preparing_title">Подготовка игр…</string>
-    <string name="preparing_body">Daijishou, ваш главный экран, откроется сам, как только игровые системы будут настроены. При первом запуске это занимает несколько минут.</string>
+    <string name="preparing_body">Daijishou, ваш главный экран, откроется сам, как только игровые системы будут настроены. При первом запуске это занимает несколько минут.\n\nСходите за кофе – на медленных картах это может занять 10 минут.</string>
 
     <string name="preparing_starting">Подготовка…</string>
     <string name="preparing_apps">Установка выбранных приложений…</string>

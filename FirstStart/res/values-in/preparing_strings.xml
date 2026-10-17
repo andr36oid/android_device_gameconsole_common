@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="preparing_title">Menyiapkan game Anda…</string>
-    <string name="preparing_body">Daijishou, layar utama Anda, terbuka sendiri setelah sistem game Anda siap. Saat pertama kali dinyalakan, ini perlu beberapa menit.</string>
+    <string name="preparing_body">Daijishou, layar utama Anda, terbuka sendiri setelah sistem game Anda siap. Saat pertama kali dinyalakan, ini perlu beberapa menit.\n\nAmbil kopi dulu – di kartu yang lebih lambat, ini bisa makan waktu 10 menit.</string>
 
     <string name="preparing_starting">Menyiapkan semuanya…</string>
     <string name="preparing_apps">Menginstal aplikasi pilihanmu…</string>

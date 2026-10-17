@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="preparing_title">正在准备游戏…</string>
-    <string name="preparing_body">游戏系统设置好后，主屏幕 Daijishou 会自动打开。首次启动需要几分钟。</string>
+    <string name="preparing_body">游戏系统设置好后，主屏幕 Daijishou 会自动打开。首次启动需要几分钟。\n\n去喝杯咖啡吧——在较慢的存储卡上，这可能需要 10 分钟。</string>
 
     <string name="preparing_starting">正在准备…</string>
     <string name="preparing_apps">正在安装你选择的应用…</string>

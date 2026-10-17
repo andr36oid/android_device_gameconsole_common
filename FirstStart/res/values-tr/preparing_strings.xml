@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="preparing_title">Oyunlarınız hazırlanıyor…</string>
-    <string name="preparing_body">Ana ekranınız Daijishou, oyun sistemleriniz hazır olur olmaz kendiliğinden açılır. İlk açılışta bu birkaç dakika sürer.</string>
+    <string name="preparing_body">Ana ekranınız Daijishou, oyun sistemleriniz hazır olur olmaz kendiliğinden açılır. İlk açılışta bu birkaç dakika sürer.\n\nBir kahve alın – yavaş kartlarda bu 10 dakika sürebilir.</string>
 
     <string name="preparing_starting">Hazırlanıyor…</string>
     <string name="preparing_apps">Seçtiğin uygulamalar yükleniyor…</string>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="preparing_title">Préparation de vos jeux…</string>
-    <string name="preparing_body">Daijishou, votre écran d\'accueil, s\'ouvre tout seul dès que vos systèmes de jeu sont prêts. Au premier démarrage, cela prend quelques minutes.</string>
+    <string name="preparing_body">Daijishou, votre écran d\'accueil, s\'ouvre tout seul dès que vos systèmes de jeu sont prêts. Au premier démarrage, cela prend quelques minutes.\n\nPrenez un café : sur les cartes plus lentes, cela peut prendre 10 minutes.</string>
 
     <string name="preparing_starting">Préparation en cours…</string>
     <string name="preparing_apps">Installation des applis choisies…</string>
