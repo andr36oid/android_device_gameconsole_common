@@ -498,12 +498,14 @@ EOF
 # waits any more, the next start may give its space to userdata
 apps_done() {
 	[ -d "$APPS" ] && ls "$APPS"/*.apk >/dev/null 2>&1 || return 0
-	[ -e "$APPS_DONE" ] && return 0
+	[ -e "$APPS_DONE" ] && { preparation_ready; return 0; }
 	apps_wait && return 0
 	[ -z "$APPS_LEFT" ] || return 0
 	[ -z "$FIRSTRUN_LEFT" ] || { log "first-start settings not all written yet, AUTOAPK stays"; return 0; }
-	mkdir -p "${APPS_DONE%/*}" && touch "$APPS_DONE" &&
+	if mkdir -p "${APPS_DONE%/*}" && touch "$APPS_DONE"; then
 		log "the apps are done, the next start gives AUTOAPK's space to userdata"
+		preparation_ready
+	fi
 }
 
 PP_PKG=org.ppsspp.ppsspp
@@ -2204,13 +2206,20 @@ dj_prefs() {
 EOF
 }
 
-# daijishou_ready ; Daijishou's library is made, or there won't be one (no EASYROMS:
-# then it's made when the card mounts, see easyroms_late): the quick start guide
-# makes Daijishou the home screen only after this, so its first start already asks
-# to look for games (QuickStart FirstStart.java, FirstStart/HomeActivity.java)
-daijishou_ready() {
+# Both provisioning runs can finish first. Keep the preparation page until the
+# library and the chosen apps (including their first-start settings) are ready.
+preparation_ready() {
+	[ -e "$STATE/preparation-library-ready" ] || return 0
+	if [ -d "$APPS" ] && ls "$APPS"/*.apk >/dev/null 2>&1; then
+		[ -e "$APPS_DONE" ] || { setup_progress apps; return 0; }
+	fi
 	settings put global andr36oid_daijishou_ready 1 </dev/null >/dev/null 2>&1 ||
-		log "couldn't tell the guide that Daijishou is ready"
+		log "couldn't tell the guide that game preparation is done"
+}
+
+# Daijishou's library is made, or will be made when EASYROMS mounts later.
+daijishou_ready() {
+	touch "$STATE/preparation-library-ready" && preparation_ready
 }
 
 # dj_widgets <tmp dir> <owner> ; Daijishou's widgets (DJ_WIDGETS) in a new Widget.db,
@@ -2542,8 +2551,10 @@ fi
 
 if [ "${1:-}" = apps ]; then
 	log "installing the apps picked in the setup"
+	setup_progress apps
 	install_apks
 	seed_cromite_search
+	setup_progress appsettings
 	seed_firstrun
 	apps_done
 	exit 0
@@ -2581,7 +2592,6 @@ bios_folder
 setup_progress library
 seed_daijishou
 dj_new_games
-daijishou_ready
 retroarch_players
 ra_hotkeys
 # PPSSPP isn't running this early; it writes controls.ini back when it quits
@@ -2589,6 +2599,7 @@ ppsspp_controls
 # last: the first unpack takes a while
 setup_progress cheats
 seed_cheats
+daijishou_ready
 # the cards held back for the first start can be mounted now (the late EASYROMS
 # steps do this themselves when they finish)
 [ -n "${EASYROMS_LATE:-}" ] || release_cards
