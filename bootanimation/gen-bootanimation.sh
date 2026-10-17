@@ -40,9 +40,9 @@ mkdir -p "$INTERMEDIATES"
 tar xfp "$PARAM_BOOTANIMATION_TAR" -C "$INTERMEDIATES"
 
 # desc.txt: after the intro the dots (part1) circle until Android is up, however long
-# the start takes (the first start's card setup can take minutes). The logo forming
-# (part2) and its fade are left out: the home screen comes straight after the dots.
-rm -rf $INTERMEDIATES/part2 $INTERMEDIATES/part3
+# the start takes (the first start's card setup can take minutes). Then the logo forms
+# (part2, a "c" part, so it plays to the end once Android is up). The fade is left out.
+rm -rf $INTERMEDIATES/part3
 
 # All supported consoles run in landscape (panels mounted in portrait are
 # rotated by SurfaceFlinger), so the canvas is always long side x short side.
