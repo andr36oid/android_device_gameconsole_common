@@ -245,6 +245,10 @@
     <string name="kt_usb_autosuspend_what">Deja que los dispositivos USB (mandos, adaptadores Wi-Fi, teclados) se apaguen cuando no se usan.</string>
     <string name="kt_usb_autosuspend_why">Algunos mandos USB y adaptadores Wi-Fi baratos se desconectan o van con retraso tras una pausa. Desactivado los mantiene despiertos, a costa de algo de batería.</string>
 
+    <string name="kt_radios">Controladores de Wi-Fi y Bluetooth</string>
+    <string name="kt_radios_what">Desactivado impide que se cargue cualquier controlador de Wi-Fi o Bluetooth, tanto para un chip integrado en la consola como para adaptadores USB. Entonces el Wi-Fi y el Bluetooth no funcionan en absoluto.</string>
+    <string name="kt_radios_why">Para consolas con Wi-Fi integrado. En la mayoría el chip está conectado al puerto USB y, mientras su controlador funciona, los dispositivos USB OTG como mandos, memorias y teclados no funcionan ahí. Desactivado deja el puerto libre para OTG.</string>
+
     <string name="kt_crash_log">Registro de cuelgues</string>
     <string name="kt_crash_log_what">Guarda el registro del kernel, el registro de Android y un registro de cuelgue en un trozo de RAM que sobrevive a un reinicio, para que el siguiente inicio pueda meterlos en el informe de problemas.</string>
     <string name="kt_crash_log_why">Déjalo activado. Desactivado solo sirve para probar si el propio registro de cuelgues causa problemas. El informe de problemas entonces no tiene el registro del inicio anterior, y los cuelgues del kernel ya no muestran el aviso de cuelgue. Los 960 KB quedan reservados igualmente: el árbol de dispositivos los reserva, solo que no se usan.</string>

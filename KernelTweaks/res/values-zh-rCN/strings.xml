@@ -244,6 +244,10 @@
     <string name="kt_usb_autosuspend_what">让 USB 设备（手柄、Wi-Fi 网卡、键盘）在不用时断电休眠。</string>
     <string name="kt_usb_autosuspend_why">有些便宜的 USB 手柄和 Wi-Fi 网卡在闲置一会儿后会断开或变得迟钝。关闭后它们会一直保持唤醒，代价是多耗一些电。</string>
 
+    <string name="kt_radios">Wi-Fi 和蓝牙驱动</string>
+    <string name="kt_radios_what">关闭后，任何 Wi-Fi 或蓝牙驱动都不会加载，无论是掌机内置的芯片还是 USB 网卡。Wi-Fi 和蓝牙将完全无法使用。</string>
+    <string name="kt_radios_why">适用于内置 Wi-Fi 的掌机。大多数这类掌机的芯片接在 USB 口上，只要它的驱动在运行，手柄、U 盘、键盘等 USB OTG 设备就无法在该接口使用。关闭后该接口即可用于 OTG。</string>
+
     <string name="kt_crash_log">崩溃日志</string>
     <string name="kt_crash_log_what">将内核日志、Android 日志和崩溃记录保存在一块能在重启后保留的内存中，以便下次启动时将它们放入问题报告。</string>
     <string name="kt_crash_log_why">建议保持开启。关闭仅用于测试崩溃日志本身是否会引发问题。这样问题报告中就缺少上一次启动的日志，内核崩溃也不再弹出崩溃提示。无论如何，960 KB 都会被预留：设备树会保留它们，只是不会使用。</string>

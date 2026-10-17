@@ -176,6 +176,11 @@ final class Tweaks {
                 .values("on", "off")
                 .labels(R.string.kt_on, R.string.kt_off)
                 .atBoot())
+            .add(Tweak.choice("radios", R.string.kt_radios,
+                    R.string.kt_radios_what, R.string.kt_radios_why, "module.no_radios=1")
+                .values("on", "off")
+                .labels(R.string.kt_on, R.string.kt_off)
+                .atBoot())
             .add(Tweak.choice("crash_log", R.string.kt_crash_log,
                     R.string.kt_crash_log_what, R.string.kt_crash_log_why,
                     "ramoops.disable=1")

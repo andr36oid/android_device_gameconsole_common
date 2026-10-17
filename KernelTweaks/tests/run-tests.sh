@@ -255,6 +255,30 @@ setp persist.andr36oid.kt.extra_rates ""
 run apply
 check "extra buttons removed" no "$([ -e "$T/boot/kernel-tweaks.txt" ] && echo yes || echo no)"
 
+# --- second SD card slot (Settings > Storage) and Wi-Fi/Bluetooth drivers: start options
+setup
+run boot
+check "sd2 slot default on" on "$(prop sys.andr36oid.ktd.sd2_slot)"
+check "radios default on" on "$(prop sys.andr36oid.ktd.radios)"
+setp persist.andr36oid.kt.sd2_slot off
+run apply
+check "sd2 slot off written" "dw_mmc_rockchip.second_slot=0" \
+	"$(sed -n 's/^kt_args=//p' "$T/boot/kernel-tweaks.txt")"
+setp persist.andr36oid.kt.radios off
+run apply
+check "radios off with sd2 off" "module.no_radios=1 dw_mmc_rockchip.second_slot=0" \
+	"$(sed -n 's/^kt_args=//p' "$T/boot/kernel-tweaks.txt")"
+args=$(sed -n 's/^kt_args=//p' "$T/boot/kernel-tweaks.txt")
+echo "$(cat "$R"/proc/cmdline) $args" >"$R"/proc/cmdline
+run boot
+check "sd2 slot current off" off "$(prop sys.andr36oid.ktc.sd2_slot)"
+check "radios current off" off "$(prop sys.andr36oid.ktc.radios)"
+check "sd2 slot default stays on" on "$(prop sys.andr36oid.ktd.sd2_slot)"
+setp persist.andr36oid.kt.sd2_slot on
+setp persist.andr36oid.kt.radios ""
+run apply
+check "sd2 slot and radios back on" no "$([ -e "$T/boot/kernel-tweaks.txt" ] && echo yes || echo no)"
+
 # --- crash log: two knobs while running, on/off and the split as start options
 setup
 mkdir -p "$R"/sys/module/ramoops/parameters

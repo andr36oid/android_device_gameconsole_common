@@ -245,6 +245,10 @@
     <string name="kt_usb_autosuspend_what">Deixa os dispositivos USB (comandos, adaptadores Wi-Fi, teclados) desligarem-se quando não estão a ser usados.</string>
     <string name="kt_usb_autosuspend_why">Alguns comandos USB e adaptadores Wi-Fi baratos desligam-se ou ficam lentos depois de uma pausa. Desativado mantém-nos acordados, à custa de alguma bateria.</string>
 
+    <string name="kt_radios">Controladores de Wi-Fi e Bluetooth</string>
+    <string name="kt_radios_what">Desativado impede que qualquer controlador de Wi-Fi ou Bluetooth seja carregado, tanto para um chip integrado na consola como para adaptadores USB. O Wi-Fi e o Bluetooth deixam de funcionar por completo.</string>
+    <string name="kt_radios_why">Para consolas com Wi-Fi integrado. Na maioria, o chip está ligado à porta USB e, enquanto o controlador dele corre, os dispositivos USB OTG como comandos, pens e teclados não funcionam ali. Desativado liberta a porta para OTG.</string>
+
     <string name="kt_crash_log">Registo de bloqueios</string>
     <string name="kt_crash_log_what">Guarda o registo do kernel, o registo do Android e um registo de bloqueio numa parte da RAM que sobrevive a um reinício, para que o próximo arranque os possa meter no relatório de problemas.</string>
     <string name="kt_crash_log_why">Deixe ligado. Desligado serve só para testar se o próprio registo de bloqueios causa problemas. O relatório de problemas fica então sem o registo do arranque anterior, e os bloqueios do kernel deixam de mostrar o aviso de bloqueio. Os 960 KB ficam reservados de qualquer forma: a árvore de dispositivos reserva-os, só não são usados.</string>

@@ -245,6 +245,10 @@
     <string name="kt_usb_autosuspend_what">Lässt USB-Geräte (Controller, WLAN-Sticks, Tastaturen) abschalten, wenn sie nicht benutzt werden.</string>
     <string name="kt_usb_autosuspend_why">Manche billigen USB-Controller und WLAN-Sticks fallen nach einer Pause aus oder reagieren danach verzögert. Aus hält sie wach, kostet aber etwas Akku.</string>
 
+    <string name="kt_radios">WLAN- und Bluetooth-Treiber</string>
+    <string name="kt_radios_what">Aus verhindert, dass irgendein WLAN- oder Bluetooth-Treiber geladen wird, für einen in der Konsole eingebauten Chip genauso wie für USB-Sticks. WLAN und Bluetooth funktionieren dann gar nicht.</string>
+    <string name="kt_radios_why">Für Konsolen mit eingebautem WLAN. Bei den meisten hängt der Chip am USB-Anschluss, und solange sein Treiber läuft, gehen dort keine USB-OTG-Geräte wie Controller, Sticks oder Tastaturen. Aus macht den Anschluss für OTG frei.</string>
+
     <string name="kt_crash_log">Absturzlog</string>
     <string name="kt_crash_log_what">Behält das Kernel-Log, das Android-Log und einen Absturzbericht in einem Stück RAM, das einen Neustart übersteht, damit der nächste Start sie in den Fehlerbericht packen kann.</string>
     <string name="kt_crash_log_why">Am besten anlassen. Aus ist nur zum Testen, ob das Absturzlog selbst Probleme macht. Dem Fehlerbericht fehlt dann das Log des vorherigen Starts, und Kernel-Abstürze zeigen keinen Absturzhinweis mehr. Die 960 KB bleiben ohnehin reserviert: Der Gerätebaum hält sie frei, sie werden nur nicht genutzt.</string>

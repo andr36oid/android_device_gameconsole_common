@@ -245,6 +245,10 @@
     <string name="kt_usb_autosuspend_what">USB cihazların (kontrolcüler, Wi-Fi adaptörleri, klavyeler) kullanılmadıklarında kapanmasına izin verir.</string>
     <string name="kt_usb_autosuspend_why">Bazı ucuz USB kontrolcüler ve Wi-Fi adaptörleri bir aradan sonra bağlantıyı koparır veya gecikir. Kapalı, onları uyanık tutar ama biraz pile mal olur.</string>
 
+    <string name="kt_radios">Wi-Fi ve Bluetooth sürücüleri</string>
+    <string name="kt_radios_what">Kapalı, konsola gömülü çip için de USB adaptörler için de hiçbir Wi-Fi veya Bluetooth sürücüsünün yüklenmesine izin vermez. Wi-Fi ve Bluetooth o zaman hiç çalışmaz.</string>
+    <string name="kt_radios_why">Dahili Wi-Fi\'lı konsollar için. Çoğunda çip USB bağlantı noktasına bağlıdır ve sürücüsü çalıştığı sürece kontrolcü, bellek ve klavye gibi USB OTG cihazları orada çalışmaz. Kapalı, bağlantı noktasını OTG için boşaltır.</string>
+
     <string name="kt_crash_log">Çökme logu</string>
     <string name="kt_crash_log_what">Çekirdek logunu, Android logunu ve bir çökme kaydını yeniden başlatmada kalan bir RAM parçasında tutar; böylece bir sonraki açılış bunları sorun raporuna koyabilir.</string>
     <string name="kt_crash_log_why">Açık bırakın. Kapatmak yalnızca çökme logunun kendisinin sorun çıkarıp çıkarmadığını test etmek içindir. Sorun raporunda o zaman bir önceki açılışın logu olmaz ve çekirdek çökmeleri artık çökme bildirimi göstermez. 960 KB yine de ayrılmış kalır: aygıt ağacı onları ayırır, sadece kullanılmazlar.</string>

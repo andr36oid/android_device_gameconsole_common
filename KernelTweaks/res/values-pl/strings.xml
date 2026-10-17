@@ -247,6 +247,10 @@
     <string name="kt_usb_autosuspend_what">Pozwala urządzeniom USB (kontrolery, karty Wi-Fi, klawiatury) wyłączać się, gdy nie są używane.</string>
     <string name="kt_usb_autosuspend_why">Niektóre tanie kontrolery USB i karty Wi-Fi rozłączają się albo lagują po przerwie. Wyłączone trzyma je aktywne, kosztem trochę baterii.</string>
 
+    <string name="kt_radios">Sterowniki Wi-Fi i Bluetooth</string>
+    <string name="kt_radios_what">Wyłączone nie pozwala załadować żadnego sterownika Wi-Fi ani Bluetooth, zarówno dla układu wbudowanego w konsolę, jak i dla kart USB. Wi-Fi i Bluetooth wtedy w ogóle nie działają.</string>
+    <string name="kt_radios_why">Dla konsol z wbudowanym Wi-Fi. W większości z nich układ jest podłączony do portu USB i dopóki działa jego sterownik, urządzenia USB OTG, takie jak kontrolery, pendrive\'y i klawiatury, nie działają na tym porcie. Wyłączone zwalnia port dla OTG.</string>
+
     <string name="kt_crash_log">Log awarii</string>
     <string name="kt_crash_log_what">Zachowuje log jądra, log Androida i zapis awarii w kawałku pamięci RAM, który przetrwa restart, żeby następny start mógł je włożyć do raportu problemu.</string>
     <string name="kt_crash_log_why">Zostaw włączony. Wyłączanie służy tylko do sprawdzenia, czy sam log awarii nie sprawia kłopotów. Raport problemu nie ma wtedy logu z poprzedniego startu, a awarie jądra przestają pokazywać komunikat o awarii. Te 960 KB i tak są odłożone: drzewo urządzeń je rezerwuje, po prostu nie są używane.</string>

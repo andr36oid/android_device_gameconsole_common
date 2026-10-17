@@ -32,6 +32,8 @@ R=${KT_ROOT:-}
 # extra_buttons isn't in the list either: Settings > Controls > Buttons on this console >
 # Find an unknown button sets it, a comma list of pins such as "2A5,3C1H" (bank, port,
 # pin, H when pressed is high), "none" for none.
+# sd2_slot isn't in the list either: Settings > Storage > Second SD card off sets it to
+# "off", and the kernel doesn't register the second card slot at the next start.
 KNOBS='
 sleep_type|bracket||/sys/power/mem_sleep
 sleep_test|bracket|once|/sys/power/pm_test
@@ -70,6 +72,8 @@ extra_rates|boot||extra_rates
 extra_buttons|boot||extra_buttons
 crash_log|boot||crash_log
 crash_split|boot||crash_split
+radios|boot||radios
+sd2_slot|boot||sd2_slot
 '
 
 # Start options. boot.ini reads kt_args=... from BOOT/kernel-tweaks.txt and puts it at
@@ -128,6 +132,10 @@ boot_read() {
 	extra_buttons)
 		v=$(arg_last odroidgo3_joypad.extra_gpios "$2")
 		echo "${v:-none}" ;;
+	radios)
+		[ "$(arg_last module.no_radios "$2")" = 1 ] && echo off || echo on ;;
+	sd2_slot)
+		[ "$(arg_last dw_mmc_rockchip.second_slot "$2")" = 0 ] && echo off || echo on ;;
 	crash_log)
 		case $(arg_last ramoops.disable "$2") in
 		1 | [Yy]*) echo off ;;
@@ -181,6 +189,8 @@ boot_args() {
 	extra_buttons:*[!0-9A-DLH,]*) ;;
 	extra_buttons:*) echo "odroidgo3_joypad.extra_gpios=$2" ;;
 	crash_log:off) echo "ramoops.disable=1" ;;
+	radios:off) echo "module.no_radios=1" ;;
+	sd2_slot:off) echo "dw_mmc_rockchip.second_slot=0" ;;
 	crash_split:balanced) split_args "$SPLIT_BALANCED" ;;
 	crash_split:kernel) split_args "$SPLIT_KERNEL" ;;
 	crash_split:android) split_args "$SPLIT_ANDROID" ;;

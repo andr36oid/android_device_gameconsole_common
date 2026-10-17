@@ -245,6 +245,10 @@
     <string name="kt_usb_autosuspend_what">Lets USB devices (controllers, Wi-Fi sticks, keyboards) power down when they\'re not in use.</string>
     <string name="kt_usb_autosuspend_why">Some cheap USB controllers and Wi-Fi sticks drop out or lag after a pause. Off keeps them awake, at the cost of some battery.</string>
 
+    <string name="kt_radios">Wi-Fi and Bluetooth drivers</string>
+    <string name="kt_radios_what">Off keeps every Wi-Fi and Bluetooth driver from loading, for a chip built into the console and for USB sticks alike. Wi-Fi and Bluetooth don\'t work at all then.</string>
+    <string name="kt_radios_why">For consoles with built-in Wi-Fi. On most of them the chip is wired to the USB port, and while its driver runs, USB OTG devices like controllers, sticks and keyboards don\'t work there. Off frees the port for OTG.</string>
+
     <string name="kt_crash_log">Crash log</string>
     <string name="kt_crash_log_what">Keeps the kernel log, the Android log and a crash record in a piece of RAM that survives a restart, so the next start can put them into the problem report.</string>
     <string name="kt_crash_log_why">Leave it on. Off is only for testing whether the crash log itself causes trouble. The problem report then lacks the log of the start before, and kernel crashes no longer bring up the crash notice. The 960 KB stay set aside anyway: the device tree reserves them, they just go unused.</string>

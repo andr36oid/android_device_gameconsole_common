@@ -244,6 +244,10 @@
     <string name="kt_usb_autosuspend_what">Membiarkan perangkat USB (controller, dongle Wi-Fi, keyboard) mati sementara saat tidak dipakai.</string>
     <string name="kt_usb_autosuspend_why">Beberapa controller USB dan dongle Wi-Fi murah putus atau lag setelah jeda. Nonaktif membuatnya tetap menyala, dengan biaya sedikit baterai.</string>
 
+    <string name="kt_radios">Driver Wi-Fi dan Bluetooth</string>
+    <string name="kt_radios_what">Nonaktif mencegah semua driver Wi-Fi dan Bluetooth dimuat, baik untuk chip bawaan konsol maupun dongle USB. Wi-Fi dan Bluetooth sama sekali tidak berfungsi.</string>
+    <string name="kt_radios_why">Untuk konsol dengan Wi-Fi bawaan. Pada kebanyakan konsol, chipnya tersambung ke port USB, dan selama drivernya berjalan, perangkat USB OTG seperti controller, flashdisk, dan keyboard tidak berfungsi di sana. Nonaktif membebaskan port untuk OTG.</string>
+
     <string name="kt_crash_log">Log crash</string>
     <string name="kt_crash_log_what">Menyimpan log kernel, log Android, dan catatan crash di bagian RAM yang bertahan saat mulai ulang, agar start berikutnya bisa memasukkannya ke laporan masalah.</string>
     <string name="kt_crash_log_why">Biarkan aktif. Mati hanya untuk menguji apakah log crash itu sendiri yang menyebabkan masalah. Laporan masalah kemudian tidak punya log start sebelumnya, dan crash kernel tidak lagi memunculkan pemberitahuan crash. 960 KB tetap disisihkan: device tree memesannya, hanya saja tidak terpakai.</string>

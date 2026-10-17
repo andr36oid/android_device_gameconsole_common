@@ -245,6 +245,10 @@
     <string name="kt_usb_autosuspend_what">Laisse les appareils USB (manettes, clés Wi-Fi, claviers) se mettre en veille quand ils ne servent pas.</string>
     <string name="kt_usb_autosuspend_why">Certaines manettes USB et clés Wi-Fi bon marché décrochent ou traînent après une pause. Désactivé les garde éveillés, au prix d\'un peu de batterie.</string>
 
+    <string name="kt_radios">Pilotes Wi-Fi et Bluetooth</string>
+    <string name="kt_radios_what">Désactivé empêche le chargement de tout pilote Wi-Fi ou Bluetooth, aussi bien pour une puce intégrée à la console que pour les clés USB. Le Wi-Fi et le Bluetooth ne fonctionnent alors plus du tout.</string>
+    <string name="kt_radios_why">Pour les consoles avec Wi-Fi intégré. Sur la plupart, la puce est reliée au port USB et, tant que son pilote tourne, les appareils USB OTG comme les manettes, clés et claviers n\'y fonctionnent pas. Désactivé libère le port pour l\'OTG.</string>
+
     <string name="kt_crash_log">Journal de plantage</string>
     <string name="kt_crash_log_what">Garde le journal du noyau, le journal d\'Android et un enregistrement de plantage dans une zone de RAM qui survit à un redémarrage, pour que le prochain démarrage puisse les mettre dans le rapport de problème.</string>
     <string name="kt_crash_log_why">Laissez-le activé. Désactivé, ça sert seulement à tester si le journal de plantage lui-même cause des soucis. Le rapport de problème n\'a alors pas le journal du démarrage précédent, et les plantages du noyau n\'affichent plus l\'avis de plantage. Les 960 Ko restent réservés de toute façon : l\'arbre de périphériques les réserve, ils ne servent simplement à rien.</string>
