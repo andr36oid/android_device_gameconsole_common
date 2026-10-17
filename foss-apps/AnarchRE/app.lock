@@ -1,11 +1,16 @@
-# Pinned F-Droid build; SHA-256 from the F-Droid repository index.
+# AnarchRE by Marcin Serwin, built from andr36oid's fork (github.com/andr36oid/anarch-re-android,
+# branch andr36oid): no touch controls on devices without a touchscreen. Not fetched
+# (fetch.sh can't): built with ./gradlew assembleRelease (JDK 21, NDK 28.2.13676358) and
+# AnarchRE.apk is app/build/outputs/apk/release/app-release-unsigned.apk. Android.mk signs
+# it with the ROM's key. After a new build, update source_url, sha256 and NOTICE.txt.
 name=AnarchRE
 package=dev.serwin.AnarchRE
 version_code=4
-version_name=4
+version_name=4-andr36oid
 spdx=CC0-1.0
-sha256=55fd3ec1aeb953de7c933a835a96ed40ad9579a66ff65ba07f0279e283cb65cd
-apk_url=https://f-droid.org/repo/dev.serwin.AnarchRE_4.apk
-source_url=https://git.sr.ht/~marcin-serwin/anarch-re-android (F-Droid's source tarball: https://f-droid.org/repo/dev.serwin.AnarchRE_4_src.tar.gz)
+sha256=1f4d1b02ac3a628f15d8e5b338d613c9bdcc2c81cd66773db7ca6cdbd8871768
+source_url=https://github.com/andr36oid/anarch-re-android/tree/625c25f
+upstream_url=https://git.sr.ht/~marcin-serwin/anarch-re-android/tree/z4
 license_url=https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt
-published_by=F-Droid
+published_by=built by andr36oid from its fork
+modified=starts the game with --touch never when no touchscreen is present; signed with the ROM's key

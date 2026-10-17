@@ -1,6 +1,6 @@
-AnarchRE 4 (dev.serwin.AnarchRE, versionCode 4) - CC0-1.0
+AnarchRE 4-andr36oid (dev.serwin.AnarchRE, versionCode 4) - CC0-1.0
 
-Shipped unmodified as published by F-Droid (sha256 55fd3ec1aeb953de7c933a835a96ed40ad9579a66ff65ba07f0279e283cb65cd).
+Built by andr36oid from its fork of AnarchRE 4 by Marcin Serwin (sha256 1f4d1b02ac3a628f15d8e5b338d613c9bdcc2c81cd66773db7ca6cdbd8871768): no touch controls on devices without a touchscreen.
 Download: https://f-droid.org/repo/dev.serwin.AnarchRE_4.apk
 Source: https://git.sr.ht/~marcin-serwin/anarch-re-android (F-Droid's source tarball: https://f-droid.org/repo/dev.serwin.AnarchRE_4_src.tar.gz)
 
