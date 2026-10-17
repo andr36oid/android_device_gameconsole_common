@@ -36,10 +36,46 @@ final class Card {
         internalPath = vol.getInternalPath().getAbsolutePath();
         // "disk:179,0" -> "179:0"
         disk = d.id.substring(d.id.indexOf(':') + 1).replace(',', ':');
-        diskBytes = d.size;
         sd = d.isSd();
         path = vol.getPath();
-        sysPath = d.sysPath;
+        // vold never sends the size and sysfs path of the boot card: EASYROMS is set up
+        // as one partition of it (voldmanaged=sdcard1:7, a DiskPartition), which skips
+        // reading the disk's metadata. So look the disk up in sysfs ourselves.
+        final File dir = diskDir(disk);
+        sysPath = dir != null ? dir.getPath() : d.sysPath;
+        final long bytes = sectors(dir) * 512;
+        diskBytes = bytes > 0 ? bytes : d.size;
+    }
+
+    /** The disk's folder in sysfs (/sys/devices/.../block/mmcblk0), null if not found. */
+    static File diskDir(String majMin) {
+        try {
+            final File dir = new File("/sys/dev/block/" + majMin).getCanonicalFile();
+            return dir.isDirectory() ? dir : null;
+        } catch (IOException e) {
+            return null;
+        }
+    }
+
+    /** The disk's size in 512 byte sectors, 0 if not known. */
+    private static long sectors(File dir) {
+        if (dir == null) return 0;
+        try {
+            return Long.parseLong(read(new File(dir, "size")));
+        } catch (NumberFormatException e) {
+            return 0;
+        }
+    }
+
+    /** A short sysfs file, trimmed; null if it can't be read. */
+    static String read(File f) {
+        try (InputStream in = new FileInputStream(f)) {
+            final byte[] buf = new byte[256];
+            final int n = in.read(buf);
+            return n > 0 ? new String(buf, 0, n, StandardCharsets.US_ASCII).trim() : null;
+        } catch (IOException e) {
+            return null;
+        }
     }
 
     /** Mounted cards and drives, EASYROMS first. */
@@ -72,13 +108,7 @@ final class Card {
     /** The card's own ID fields (SD cards only), null if not readable. */
     String attr(String name) {
         if (sysPath == null) return null;
-        try (InputStream in = new FileInputStream(new File(sysPath, "device/" + name))) {
-            final byte[] buf = new byte[256];
-            final int n = in.read(buf);
-            return n > 0 ? new String(buf, 0, n, StandardCharsets.US_ASCII).trim() : null;
-        } catch (IOException e) {
-            return null;
-        }
+        return read(new File(sysPath, "device/" + name));
     }
 
     /** The card's ID registers (SD cards only), null if they can't be read. */
