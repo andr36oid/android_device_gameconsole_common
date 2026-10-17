@@ -1,0 +1,16 @@
+package: org.opensurge2d.surgeengine
+version_code: 30650
+author: github:alemart
+checked: false
+description:
+  en: "Sonic-style platform game and game engine"
+  de: "Jump ’n’ Run im Stil von Sonic und Spiele-Engine"
+  es: "Juego de plataformas al estilo de Sonic y motor de juegos"
+  fr: "Jeu de plateforme dans le style de Sonic et moteur de jeu"
+  in: "Gim platform bergaya Sonic dan mesin pembuat gim"
+  pl: "Platformówka w stylu Sonica i silnik do tworzenia gier"
+  pt: "Jogo de plataformas ao estilo do Sonic e motor de jogos"
+  pt-BR: "Jogo de plataforma no estilo do Sonic e motor de jogos"
+  ru: "Платформер в духе Соника и игровой движок"
+  tr: "Sonic tarzı platform oyunu ve oyun motoru"
+  zh-CN: "索尼克风格的平台游戏及游戏引擎"

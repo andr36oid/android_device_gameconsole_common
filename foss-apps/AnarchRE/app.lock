@@ -1,0 +1,11 @@
+# Pinned F-Droid build; SHA-256 from the F-Droid repository index.
+name=AnarchRE
+package=dev.serwin.AnarchRE
+version_code=4
+version_name=4
+spdx=CC0-1.0
+sha256=55fd3ec1aeb953de7c933a835a96ed40ad9579a66ff65ba07f0279e283cb65cd
+apk_url=https://f-droid.org/repo/dev.serwin.AnarchRE_4.apk
+source_url=https://git.sr.ht/~marcin-serwin/anarch-re-android (F-Droid's source tarball: https://f-droid.org/repo/dev.serwin.AnarchRE_4_src.tar.gz)
+license_url=https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt
+published_by=F-Droid

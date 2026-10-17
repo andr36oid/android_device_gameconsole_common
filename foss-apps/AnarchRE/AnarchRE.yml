@@ -1,0 +1,16 @@
+package: dev.serwin.AnarchRE
+version_code: 4
+author: Marcin Serwin
+checked: true
+description:
+  en: "Retro first-person shooter with 10 levels"
+  de: "Retro-Ego-Shooter mit 10 Leveln"
+  es: "Juego de disparos retro en primera persona con 10 niveles"
+  fr: "Jeu de tir rétro à la première personne avec 10 niveaux"
+  in: "Gim tembak-menembak orang pertama bergaya retro dengan 10 level"
+  pl: "Strzelanka retro z perspektywy pierwszej osoby z 10 poziomami"
+  pt: "Jogo de tiros retro na primeira pessoa com 10 níveis"
+  pt-BR: "Jogo de tiro retrô em primeira pessoa com 10 fases"
+  ru: "Ретрошутер от первого лица с 10 уровнями"
+  tr: "10 bölümlük retro birinci şahıs nişancı oyunu"
+  zh-CN: "含 10 个关卡的复古第一人称射击游戏"

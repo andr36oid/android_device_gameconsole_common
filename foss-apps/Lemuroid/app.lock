@@ -1,0 +1,11 @@
+# Pinned F-Droid build; SHA-256 from the F-Droid repository index.
+name=Lemuroid
+package=com.swordfish.lemuroid
+version_code=252
+version_name=1.17.0
+spdx=GPL-3.0-or-later
+sha256=f83912a5c276f3616833fcf1b44a8e40c61d5a20f76db3f4297d6c1f63805c42
+apk_url=https://f-droid.org/repo/com.swordfish.lemuroid_252.apk
+source_url=https://github.com/Swordfish90/Lemuroid (F-Droid's source tarball: https://f-droid.org/repo/com.swordfish.lemuroid_252_src.tar.gz)
+license_url=https://www.gnu.org/licenses/gpl-3.0.txt
+published_by=F-Droid

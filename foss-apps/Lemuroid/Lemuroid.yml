@@ -1,0 +1,16 @@
+package: com.swordfish.lemuroid
+version_code: 252
+author: github:Swordfish90
+checked: false
+description:
+  en: "Multi-system emulator with a game library"
+  de: "Emulator für mehrere Systeme mit Spielebibliothek"
+  es: "Emulador de varios sistemas con biblioteca de juegos"
+  fr: "Émulateur multisystème avec bibliothèque de jeux"
+  in: "Emulator berbagai sistem dengan pustaka gim"
+  pl: "Emulator wielu systemów z biblioteką gier"
+  pt: "Emulador de vários sistemas com biblioteca de jogos"
+  pt-BR: "Emulador de vários sistemas com biblioteca de jogos"
+  ru: "Эмулятор разных систем с библиотекой игр"
+  tr: "Oyun kitaplığı olan çoklu sistem emülatörü"
+  zh-CN: "带游戏库的多系统模拟器"

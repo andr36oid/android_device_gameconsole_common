@@ -1,0 +1,16 @@
+package: org.pipoypipagames.cowsrevenge
+version_code: 9
+author: Daniel Darias & Yanara Aristiguieta
+checked: true
+description:
+  en: "Platform game: rescue hens and fight butchers"
+  de: "Jump ’n’ Run: Rette Hühner und bekämpfe Metzger"
+  es: "Juego de plataformas: rescata gallinas y lucha contra carniceros"
+  fr: "Jeu de plateforme : sauvez les poules et combattez les bouchers"
+  in: "Gim platform: selamatkan ayam dan lawan para tukang jagal"
+  pl: "Platformówka: ratuj kury i walcz z rzeźnikami"
+  pt: "Jogo de plataformas: salve galinhas e enfrente talhantes"
+  pt-BR: "Jogo de plataforma: salve galinhas e enfrente açougueiros"
+  ru: "Платформер: спасайте кур и сражайтесь с мясниками"
+  tr: "Platform oyunu: tavukları kurtarın ve kasaplarla savaşın"
+  zh-CN: "拯救母鸡、对抗屠夫的平台游戏"

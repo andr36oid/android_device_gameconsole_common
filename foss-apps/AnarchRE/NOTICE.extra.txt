@@ -1,0 +1,4 @@
+Anarch was created by Miloslav Číž (drummyfish).
+Anarch RE and its Android port were created by Marcin Serwin.
+Anarch RE uses SDL3, originally created by Sam Lantinga.
+See the linked source archive for bundled dependency notices.

@@ -74,6 +74,11 @@ fetch_app() {
 		echo
 		echo "================================================================================"
 		curl -fsSL "$license_url" || die "$name: could not fetch license text"
+		if [ -f "$dir/NOTICE.extra.txt" ]; then
+			echo
+			echo "================================================================================"
+			cat "$dir/NOTICE.extra.txt"
+		fi
 	} >"$dir/NOTICE.txt.new"
 	mv "$dir/NOTICE.txt.new" "$dir/NOTICE.txt"
 

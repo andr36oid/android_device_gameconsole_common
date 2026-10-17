@@ -1,0 +1,11 @@
+# Pinned F-Droid build; SHA-256 from the F-Droid repository index.
+name=CowsRevenge
+package=org.pipoypipagames.cowsrevenge
+version_code=9
+version_name=1.0.5
+spdx=GPL-3.0-only AND CC-BY-NC-SA-4.0
+sha256=547969e22c448071494202a5505e9676ee828432e1d67656b877506075ccfe04
+apk_url=https://f-droid.org/repo/org.pipoypipagames.cowsrevenge_9.apk
+source_url=https://github.com/Dariasteam/Cows-Revenge (F-Droid's source tarball: https://f-droid.org/repo/org.pipoypipagames.cowsrevenge_9_src.tar.gz)
+license_url=https://raw.githubusercontent.com/Dariasteam/Cows-Revenge/master/LICENSE_CODE
+published_by=F-Droid

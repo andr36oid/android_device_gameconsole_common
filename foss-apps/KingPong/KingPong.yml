@@ -1,0 +1,16 @@
+package: com.kingalex.kingpong
+version_code: 7
+author: github:KingAlexGilbert
+checked: true
+description:
+  en: "Pong with a campaign and multiplayer"
+  de: "Pong mit Kampagne und Mehrspielermodus"
+  es: "Pong con campaña y multijugador"
+  fr: "Pong avec une campagne et un mode multijoueur"
+  in: "Pong dengan mode kampanye dan multipemain"
+  pl: "Pong z kampanią i trybem wieloosobowym"
+  pt: "Pong com campanha e modo multijogador"
+  pt-BR: "Pong com campanha e modo multijogador"
+  ru: "Pong с кампанией и многопользовательским режимом"
+  tr: "Hikâye ve çok oyunculu modları olan Pong"
+  zh-CN: "含战役和多人模式的 Pong 游戏"

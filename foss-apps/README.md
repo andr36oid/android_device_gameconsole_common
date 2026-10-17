@@ -47,6 +47,7 @@ Every app has its own folder, so each one can be added or dropped alone:
     <App>/app.lock            what to download, pinned by sha256
     <App>/<App>.apk           the upstream APK, byte for byte (git LFS)
     <App>/NOTICE.txt          license, download and source link (Settings > About > Legal)
+    <App>/NOTICE.extra.txt    optional additional attribution or asset licenses
     <App>/<App>.yml           package, versionCode and the setup page's texts
     <App>/Android.mk          the ETC modules
     <App>/product.mk          adds them to PRODUCT_PACKAGES
@@ -65,7 +66,7 @@ It downloads the APK, checks the sha256, writes NOTICE.txt again and the package
 and version_code in `<App>.yml`. Commit them together. Take the sha256 from the upstream's own
 checksum (F-Droid index, GitHub release digest, `.sha256` file) and check the
 APK with `aapt2 dump badging` (package, versionCode, minSdk <= 30, has
-arm64-v8a).
+arm64-v8a or armeabi-v7a; the console supports both).
 
 Apps from F-Droid keep F-Droid's signature, so F-Droid can update them. Apps
 from their own project site keep the project's signature; F-Droid can't
