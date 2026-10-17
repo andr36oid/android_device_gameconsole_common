@@ -125,6 +125,14 @@ on post-fs-data
     # /data is formatted and mounted: the boot animation drops "Resizing SD card ..."
     setprop sys.andr36oid.resizing 0
 
+    # Storage through sdcardfs instead of FUSE: with FUSE every file read and write on
+    # the cards (ROMs, saves) goes through MediaProvider, whose CPU time then shows up as
+    # "Media Storage" battery use. init.rc sets persist.sys.fuse true in this same trigger
+    # and runs first; StorageManagerService reboots when the settings flag disagrees with
+    # it, so both are set.
+    setprop persist.sys.fuse false
+    setprop persist.sys.fflag.override.settings_fuse false
+
     # Full logcat dump is debug only: setprop persist.vendor.logger.enable 1
 
     # Create directory for hostapd
