@@ -231,8 +231,8 @@ first_start() {
 	log "first-start launcher installed, it is the home app until the tutorial is done"
 }
 
-# Cromite blocks the Gamepad API (its RestrictGamepadAccess feature, on by
-# default), so browser games don't see the pad, and opens with a welcome screen
+# Thorium and Cromite block the Gamepad API (Chromium's RestrictGamepadAccess
+# feature, on by default), so browser games don't see the pad, and open with a welcome screen
 # that is no use on a console (--disable-fre skips it). Chromium on Android reads extra
 # switches from /data/local/chrome-command-line on any build (only root can
 # write there); the first word is a placeholder for the program name. Written
@@ -250,7 +250,7 @@ cromite_cmdline_write() {
 	local tmp=$CHROME_CMDLINE.tmp
 	rm -f "$tmp"
 	# a temp file and a rename, so the file is never there half written.
-	# Cromite reads it as its own app user: 644.
+	# the browsers read it as their own app user: 644. Both read this file name.
 	if ! echo "_ $CROMITE_SWITCHES" >"$tmp" ||
 		! chmod 644 "$tmp" || ! mv -f "$tmp" "$CHROME_CMDLINE"; then
 		rm -f "$tmp"
