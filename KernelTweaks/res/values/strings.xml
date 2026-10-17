@@ -104,7 +104,7 @@
     <string name="kt_sleep_test_processors">Stop after switching cores off</string>
     <string name="kt_sleep_test_core">Stop right before sleeping</string>
     <string name="kt_sleep_test_what">Goes through the motions of falling asleep, but stops at the step you pick, waits 5 seconds and wakes up again. The console never actually sleeps while this is on.</string>
-    <string name="kt_sleep_test_why">Narrows down where sleep goes wrong. If "Stop after switching cores off" hangs, the problem is before the firmware. If everything works up to "Stop right before sleeping", it\'s the firmware or the hardware. Resets when the console restarts, so you can\'t get stuck with it.</string>
+    <string name="kt_sleep_test_why">Narrows down where sleep goes wrong. If \"Stop after switching cores off\" hangs, the problem is before the firmware. If everything works up to \"Stop right before sleeping\", it\'s the firmware or the hardware. Resets when the console restarts, so you can\'t get stuck with it.</string>
 
     <string name="kt_dc_det">Charger detection</string>
     <string name="kt_dc_det_auto">This console\'s default</string>
@@ -157,7 +157,7 @@
     <string name="kt_scheduler_deadline">Sorted (mq-deadline)</string>
     <string name="kt_scheduler_none">As they come (none)</string>
     <string name="kt_scheduler_what">Whether the kernel sorts and groups reads and writes before sending them to the card, or just sends them in order.</string>
-    <string name="kt_scheduler_why">Sorted keeps the system smooth while a big copy is running. "As they come" has less overhead and can be faster on good cards. On cheap or fake cards, sorted is usually the safer bet.</string>
+    <string name="kt_scheduler_why">Sorted keeps the system smooth while a big copy is running. \"As they come\" has less overhead and can be faster on good cards. On cheap or fake cards, sorted is usually the safer bet.</string>
 
     <string name="kt_sd1_readahead">System card: read-ahead</string>
     <string name="kt_sd2_readahead">Second card: read-ahead</string>
@@ -198,12 +198,12 @@
     <string name="kt_log_level_7">Info</string>
     <string name="kt_log_level_8">Everything</string>
     <string name="kt_log_level_what">How much the kernel writes to the log that survives a crash or restart.</string>
-    <string name="kt_log_level_why">More detail means a better chance the line that explains a hang makes it into the problem report. "Everything" is very chatty and can slow the console down a bit.</string>
+    <string name="kt_log_level_why">More detail means a better chance the line that explains a hang makes it into the problem report. \"Everything\" is very chatty and can slow the console down a bit.</string>
 
     <string name="kt_panic_restart">Restart after a kernel crash</string>
     <string name="kt_panic_never">Never, stay on the crash</string>
     <string name="kt_panic_restart_what">How long the console waits after a kernel crash before it restarts by itself.</string>
-    <string name="kt_panic_restart_why">Restarting quickly gets you back to playing, and the problem report still has the crash log. "Never" keeps the console frozen so you can see that it crashed rather than hung, but you\'ll need to hold Power to switch it off.</string>
+    <string name="kt_panic_restart_why">Restarting quickly gets you back to playing, and the problem report still has the crash log. \"Never\" keeps the console frozen so you can see that it crashed rather than hung, but you\'ll need to hold Power to switch it off.</string>
 
     <string name="kt_oops_panic">Treat driver errors as crashes</string>
     <string name="kt_oops_panic_what">When a driver hits a serious error (an oops), the kernel normally carries on without it. This restarts the console instead.</string>
