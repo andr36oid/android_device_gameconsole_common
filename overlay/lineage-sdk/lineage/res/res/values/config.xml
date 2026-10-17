@@ -19,9 +19,8 @@
 
     <!-- Pinned to the power menu out of the box, so people find the feature -->
     <string-array name="config_powerMenuDefaultPinnedApps" translatable="false">
-        <item>com.google.android.apps.nbu.files</item>
         <item>com.retroarch</item>
-        <item>org.chromium.thorium</item>
+        <item>com.android.documentsui</item>
     </string-array>
 
     <!-- Status LED: a notification light in a few colours (1) that can blink (8), so
