@@ -6,7 +6,7 @@ What ships, and how it gets onto the device:
 |---|---|---|---|
 | RetroArch (F-Droid, `com.retroarch`) | 1.22.2 | GPL-3.0-only | 30.9 MB (APK) |
 | PPSSPP (F-Droid, `org.ppsspp.ppsspp`) | 1.19.3 | GPL-2.0-or-later | 41.3 MB (APK) |
-| libretro cores, FOSS tier (29) | pinned commits | GPL/LGPL/AGPL/MPL/MIT/Zlib/Artistic | 22.6 MB (tar.gz), 93 MB unpacked |
+| libretro cores, FOSS tier (30) | pinned commits | GPL/LGPL/AGPL/MPL/MIT/Zlib/Artistic | 23.1 MB (tar.gz), 95 MB unpacked |
 | libretro cores, non-commercial tier (9, opt-in) | pinned commits | non-commercial | 30.0 MB (tar.gz), 128 MB unpacked |
 
 FOSS cores: nestopia + fceumm (NES/FDS), gambatte (GB/GBC), mgba + gpsp (GBA),
@@ -16,12 +16,24 @@ mednafen_ngp (NGP/NGPC), mednafen_wswan (WS/WSC), mednafen_vb (Virtual Boy), pok
 gw (Game & Watch), stella2014 (2600), a5200 (5200), prosystem (7800), handy (Lynx),
 o2em (Videopac/Odyssey 2), freeintv (Intellivision), bluemsx (MSX/ColecoVision),
 fuse (ZX Spectrum), puae2021 (Amiga), dosbox_pure (DOS), prboom (Doom), fake08 (PICO-8),
-easyrpg (RPG Maker 2000/2003).
+easyrpg (RPG Maker 2000/2003), yabasanshiro (Saturn).
 
 Non-commercial cores (`GAMECONSOLE_EMU_NONCOMMERCIAL_CORES := true`): snes9x2010 and
 snes9x (SNES), genesis_plus_gx and picodrive (MD/SMS/GG/Sega CD/32X), fbneo (arcade,
 Neo Geo, CPS), mame2003_plus (arcade), neocd (Neo Geo CD; MAME Z80 core), vice_x64 (C64;
 built-in Commodore ROMs), vecx (Vectrex; built-in system ROM).
+
+yabasanshiro is pirry's Yaba Sanshiro for the R36S
+([pirrypirrypirry/yabasanshiro-pirry](https://github.com/pirrypirrypirry/yabasanshiro-pirry),
+made for ArkOS, based on devMiyax's Yaba Sanshiro), built as a libretro core from our fork
+[andr36oid/yabasanshiro-pirry](https://github.com/andr36oid/yabasanshiro-pirry), branch
+`andr36oid`: pirry's 1.6.0 plus the fixes its libretro build needed (bundled libchdr for
+CHD, GLES 3.1 constants, glue for pirry's core changes). The SH-2 dynarec (devMiyax's
+AArch64 one) is the default. It needs a real Saturn BIOS (`saturn_bios.bin`,
+`sega_101.bin` or `mpr-17933.bin` in the bios folder); without one it won't start a game.
+RetroArch's own core info (`yabasanshiro_libretro.info`) names it, so it shows up as
+"Sega - Saturn (YabaSanshiro)". A Yaba Sanshiro the user downloads with RetroArch's online
+updater replaces ours like any other core (same file name).
 
 Every core is checked by `scripts/check-armv80.py` when it is built: no ARMv8.1+
 instructions (LSE atomics and friends; the Cortex-A35 is ARMv8.0). Compiler
@@ -545,10 +557,14 @@ commit always gives the same bytes.
 
 ## Source
 
-Nothing needs uploading with a release. The APKs are unmodified upstream releases and
+The APKs are unmodified upstream releases and
 their NOTICE files point at the upstream repository at the release tag; the cores'
 NOTICE lists the repository and commit each one is built from. The NOTICE files show
 up in Settings > About > Legal information.
+
+One exception: yabasanshiro is built from our fork, so before a release that ships it,
+github.com/andr36oid/yabasanshiro-pirry has to be public with the commit in `cores.lock`
+(branch `andr36oid`). `build-cores.sh` also fetches it from there.
 
 ## RetroArch menu languages
 

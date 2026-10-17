@@ -20,6 +20,7 @@ gamegear            SegaGameGear.json                       genesis_plus_gx,gear
 segacd              SegaCD.json                             genesis_plus_gx,picodrive,clownmdemu
 sega32x             Sega32X.json                            picodrive
 psx                 SonyPlayStation.json                    pcsx_rearmed
+saturn              SegaSaturn.json                         yabasanshiro
 psp                 SonyPSP.json                            app:org.ppsspp.ppsspp
 pcengine            TurboGrafx16.json                       mednafen_pce_fast
 pcenginecd          TurboGrafxCD.json                       mednafen_pce_fast

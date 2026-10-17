@@ -21,4 +21,5 @@
     <string name="credits_bfi">Inserción de fotograma negro, de PakoVM</string>
     <string name="credits_r36tuner">Overclock de GPU y memoria, de zenmode-adri</string>
     <string name="credits_dpadplayer">La app Music, de jbriones95</string>
+    <string name="credits_yabasanshiro">El emulador de Saturn, de pirry y devMiyax</string>
 </resources>

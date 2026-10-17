@@ -9964,3 +9964,865 @@ version = d82954e4adcb6c1b223bd3cb2e953b6bbf54dfcd
 url = "https://github.com/carstene1ns/freeimage-easyrpg/archive/${version}.zip"
 directory = "freeimage-easyrpg-${version}"
 
+
+================================================================================
+yabasanshiro  (GPL-2.0-or-later)
+source: https://github.com/andr36oid/yabasanshiro-pirry.git
+commit: 0bea2d25f1587f639134101a2694e8424eaaf73f
+sha256: 4943f1618d5dcc3830fb2c448b98bfc4a718bd25d76fabfb08b7c8587b9f6909
+================================================================================
+GNU GENERAL PUBLIC LICENSE
+		       Version 2, June 1991
+
+ Copyright (C) 1989, 1991 Free Software Foundation, Inc.,
+ 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+ Everyone is permitted to copy and distribute verbatim copies
+ of this license document, but changing it is not allowed.
+
+			    Preamble
+
+  The licenses for most software are designed to take away your
+freedom to share and change it.  By contrast, the GNU General Public
+License is intended to guarantee your freedom to share and change free
+software--to make sure the software is free for all its users.  This
+General Public License applies to most of the Free Software
+Foundation's software and to any other program whose authors commit to
+using it.  (Some other Free Software Foundation software is covered by
+the GNU Lesser General Public License instead.)  You can apply it to
+your programs, too.
+
+  When we speak of free software, we are referring to freedom, not
+price.  Our General Public Licenses are designed to make sure that you
+have the freedom to distribute copies of free software (and charge for
+this service if you wish), that you receive source code or can get it
+if you want it, that you can change the software or use pieces of it
+in new free programs; and that you know you can do these things.
+
+  To protect your rights, we need to make restrictions that forbid
+anyone to deny you these rights or to ask you to surrender the rights.
+These restrictions translate to certain responsibilities for you if you
+distribute copies of the software, or if you modify it.
+
+  For example, if you distribute copies of such a program, whether
+gratis or for a fee, you must give the recipients all the rights that
+you have.  You must make sure that they, too, receive or can get the
+source code.  And you must show them these terms so they know their
+rights.
+
+  We protect your rights with two steps: (1) copyright the software, and
+(2) offer you this license which gives you legal permission to copy,
+distribute and/or modify the software.
+
+  Also, for each author's protection and ours, we want to make certain
+that everyone understands that there is no warranty for this free
+software.  If the software is modified by someone else and passed on, we
+want its recipients to know that what they have is not the original, so
+that any problems introduced by others will not reflect on the original
+authors' reputations.
+
+  Finally, any free program is threatened constantly by software
+patents.  We wish to avoid the danger that redistributors of a free
+program will individually obtain patent licenses, in effect making the
+program proprietary.  To prevent this, we have made it clear that any
+patent must be licensed for everyone's free use or not licensed at all.
+
+  The precise terms and conditions for copying, distribution and
+modification follow.
+
+		    GNU GENERAL PUBLIC LICENSE
+   TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
+
+  0. This License applies to any program or other work which contains
+a notice placed by the copyright holder saying it may be distributed
+under the terms of this General Public License.  The "Program", below,
+refers to any such program or work, and a "work based on the Program"
+means either the Program or any derivative work under copyright law:
+that is to say, a work containing the Program or a portion of it,
+either verbatim or with modifications and/or translated into another
+language.  (Hereinafter, translation is included without limitation in
+the term "modification".)  Each licensee is addressed as "you".
+
+Activities other than copying, distribution and modification are not
+covered by this License; they are outside its scope.  The act of
+running the Program is not restricted, and the output from the Program
+is covered only if its contents constitute a work based on the
+Program (independent of having been made by running the Program).
+Whether that is true depends on what the Program does.
+
+  1. You may copy and distribute verbatim copies of the Program's
+source code as you receive it, in any medium, provided that you
+conspicuously and appropriately publish on each copy an appropriate
+copyright notice and disclaimer of warranty; keep intact all the
+notices that refer to this License and to the absence of any warranty;
+and give any other recipients of the Program a copy of this License
+along with the Program.
+
+You may charge a fee for the physical act of transferring a copy, and
+you may at your option offer warranty protection in exchange for a fee.
+
+  2. You may modify your copy or copies of the Program or any portion
+of it, thus forming a work based on the Program, and copy and
+distribute such modifications or work under the terms of Section 1
+above, provided that you also meet all of these conditions:
+
+    a) You must cause the modified files to carry prominent notices
+    stating that you changed the files and the date of any change.
+
+    b) You must cause any work that you distribute or publish, that in
+    whole or in part contains or is derived from the Program or any
+    part thereof, to be licensed as a whole at no charge to all third
+    parties under the terms of this License.
+
+    c) If the modified program normally reads commands interactively
+    when run, you must cause it, when started running for such
+    interactive use in the most ordinary way, to print or display an
+    announcement including an appropriate copyright notice and a
+    notice that there is no warranty (or else, saying that you provide
+    a warranty) and that users may redistribute the program under
+    these conditions, and telling the user how to view a copy of this
+    License.  (Exception: if the Program itself is interactive but
+    does not normally print such an announcement, your work based on
+    the Program is not required to print an announcement.)
+
+These requirements apply to the modified work as a whole.  If
+identifiable sections of that work are not derived from the Program,
+and can be reasonably considered independent and separate works in
+themselves, then this License, and its terms, do not apply to those
+sections when you distribute them as separate works.  But when you
+distribute the same sections as part of a whole which is a work based
+on the Program, the distribution of the whole must be on the terms of
+this License, whose permissions for other licensees extend to the
+entire whole, and thus to each and every part regardless of who wrote it.
+
+Thus, it is not the intent of this section to claim rights or contest
+your rights to work written entirely by you; rather, the intent is to
+exercise the right to control the distribution of derivative or
+collective works based on the Program.
+
+In addition, mere aggregation of another work not based on the Program
+with the Program (or with a work based on the Program) on a volume of
+a storage or distribution medium does not bring the other work under
+the scope of this License.
+
+  3. You may copy and distribute the Program (or a work based on it,
+under Section 2) in object code or executable form under the terms of
+Sections 1 and 2 above provided that you also do one of the following:
+
+    a) Accompany it with the complete corresponding machine-readable
+    source code, which must be distributed under the terms of Sections
+    1 and 2 above on a medium customarily used for software interchange; or,
+
+    b) Accompany it with a written offer, valid for at least three
+    years, to give any third party, for a charge no more than your
+    cost of physically performing source distribution, a complete
+    machine-readable copy of the corresponding source code, to be
+    distributed under the terms of Sections 1 and 2 above on a medium
+    customarily used for software interchange; or,
+
+    c) Accompany it with the information you received as to the offer
+    to distribute corresponding source code.  (This alternative is
+    allowed only for noncommercial distribution and only if you
+    received the program in object code or executable form with such
+    an offer, in accord with Subsection b above.)
+
+The source code for a work means the preferred form of the work for
+making modifications to it.  For an executable work, complete source
+code means all the source code for all modules it contains, plus any
+associated interface definition files, plus the scripts used to
+control compilation and installation of the executable.  However, as a
+special exception, the source code distributed need not include
+anything that is normally distributed (in either source or binary
+form) with the major components (compiler, kernel, and so on) of the
+operating system on which the executable runs, unless that component
+itself accompanies the executable.
+
+If distribution of executable or object code is made by offering
+access to copy from a designated place, then offering equivalent
+access to copy the source code from the same place counts as
+distribution of the source code, even though third parties are not
+compelled to copy the source along with the object code.
+
+  4. You may not copy, modify, sublicense, or distribute the Program
+except as expressly provided under this License.  Any attempt
+otherwise to copy, modify, sublicense or distribute the Program is
+void, and will automatically terminate your rights under this License.
+However, parties who have received copies, or rights, from you under
+this License will not have their licenses terminated so long as such
+parties remain in full compliance.
+
+  5. You are not required to accept this License, since you have not
+signed it.  However, nothing else grants you permission to modify or
+distribute the Program or its derivative works.  These actions are
+prohibited by law if you do not accept this License.  Therefore, by
+modifying or distributing the Program (or any work based on the
+Program), you indicate your acceptance of this License to do so, and
+all its terms and conditions for copying, distributing or modifying
+the Program or works based on it.
+
+  6. Each time you redistribute the Program (or any work based on the
+Program), the recipient automatically receives a license from the
+original licensor to copy, distribute or modify the Program subject to
+these terms and conditions.  You may not impose any further
+restrictions on the recipients' exercise of the rights granted herein.
+You are not responsible for enforcing compliance by third parties to
+this License.
+
+  7. If, as a consequence of a court judgment or allegation of patent
+infringement or for any other reason (not limited to patent issues),
+conditions are imposed on you (whether by court order, agreement or
+otherwise) that contradict the conditions of this License, they do not
+excuse you from the conditions of this License.  If you cannot
+distribute so as to satisfy simultaneously your obligations under this
+License and any other pertinent obligations, then as a consequence you
+may not distribute the Program at all.  For example, if a patent
+license would not permit royalty-free redistribution of the Program by
+all those who receive copies directly or indirectly through you, then
+the only way you could satisfy both it and this License would be to
+refrain entirely from distribution of the Program.
+
+If any portion of this section is held invalid or unenforceable under
+any particular circumstance, the balance of the section is intended to
+apply and the section as a whole is intended to apply in other
+circumstances.
+
+It is not the purpose of this section to induce you to infringe any
+patents or other property right claims or to contest validity of any
+such claims; this section has the sole purpose of protecting the
+integrity of the free software distribution system, which is
+implemented by public license practices.  Many people have made
+generous contributions to the wide range of software distributed
+through that system in reliance on consistent application of that
+system; it is up to the author/donor to decide if he or she is willing
+to distribute software through any other system and a licensee cannot
+impose that choice.
+
+This section is intended to make thoroughly clear what is believed to
+be a consequence of the rest of this License.
+
+  8. If the distribution and/or use of the Program is restricted in
+certain countries either by patents or by copyrighted interfaces, the
+original copyright holder who places the Program under this License
+may add an explicit geographical distribution limitation excluding
+those countries, so that distribution is permitted only in or among
+countries not thus excluded.  In such case, this License incorporates
+the limitation as if written in the body of this License.
+
+  9. The Free Software Foundation may publish revised and/or new versions
+of the General Public License from time to time.  Such new versions will
+be similar in spirit to the present version, but may differ in detail to
+address new problems or concerns.
+
+Each version is given a distinguishing version number.  If the Program
+specifies a version number of this License which applies to it and "any
+later version", you have the option of following the terms and conditions
+either of that version or of any later version published by the Free
+Software Foundation.  If the Program does not specify a version number of
+this License, you may choose any version ever published by the Free Software
+Foundation.
+
+  10. If you wish to incorporate parts of the Program into other free
+programs whose distribution conditions are different, write to the author
+to ask for permission.  For software which is copyrighted by the Free
+Software Foundation, write to the Free Software Foundation; we sometimes
+make exceptions for this.  Our decision will be guided by the two goals
+of preserving the free status of all derivatives of our free software and
+of promoting the sharing and reuse of software generally.
+
+			    NO WARRANTY
+
+  11. BECAUSE THE PROGRAM IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY
+FOR THE PROGRAM, TO THE EXTENT PERMITTED BY APPLICABLE LAW.  EXCEPT WHEN
+OTHERWISE STATED IN WRITING THE COPYRIGHT HOLDERS AND/OR OTHER PARTIES
+PROVIDE THE PROGRAM "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESSED
+OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.  THE ENTIRE RISK AS
+TO THE QUALITY AND PERFORMANCE OF THE PROGRAM IS WITH YOU.  SHOULD THE
+PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF ALL NECESSARY SERVICING,
+REPAIR OR CORRECTION.
+
+  12. IN NO EVENT UNLESS REQUIRED BY APPLICABLE LAW OR AGREED TO IN WRITING
+WILL ANY COPYRIGHT HOLDER, OR ANY OTHER PARTY WHO MAY MODIFY AND/OR
+REDISTRIBUTE THE PROGRAM AS PERMITTED ABOVE, BE LIABLE TO YOU FOR DAMAGES,
+INCLUDING ANY GENERAL, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES ARISING
+OUT OF THE USE OR INABILITY TO USE THE PROGRAM (INCLUDING BUT NOT LIMITED
+TO LOSS OF DATA OR DATA BEING RENDERED INACCURATE OR LOSSES SUSTAINED BY
+YOU OR THIRD PARTIES OR A FAILURE OF THE PROGRAM TO OPERATE WITH ANY OTHER
+PROGRAMS), EVEN IF SUCH HOLDER OR OTHER PARTY HAS BEEN ADVISED OF THE
+POSSIBILITY OF SUCH DAMAGES.
+
+		     END OF TERMS AND CONDITIONS
+
+	    How to Apply These Terms to Your New Programs
+
+  If you develop a new program, and you want it to be of the greatest
+possible use to the public, the best way to achieve this is to make it
+free software which everyone can redistribute and change under these terms.
+
+  To do so, attach the following notices to the program.  It is safest
+to attach them to the start of each source file to most effectively
+convey the exclusion of warranty; and each file should have at least
+the "copyright" line and a pointer to where the full notice is found.
+
+    <one line to give the program's name and a brief idea of what it does.>
+    Copyright (C) <year>  <name of author>
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License along
+    with this program; if not, write to the Free Software Foundation, Inc.,
+    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+Also add information on how to contact you by electronic and paper mail.
+
+If the program is interactive, make it output a short notice like this
+when it starts in an interactive mode:
+
+    Gnomovision version 69, Copyright (C) year name of author
+    Gnomovision comes with ABSOLUTELY NO WARRANTY; for details type `show w'.
+    This is free software, and you are welcome to redistribute it
+    under certain conditions; type `show c' for details.
+
+The hypothetical commands `show w' and `show c' should show the appropriate
+parts of the General Public License.  Of course, the commands you use may
+be called something other than `show w' and `show c'; they could even be
+mouse-clicks or menu items--whatever suits your program.
+
+You should also get your employer (if you work as a programmer) or your
+school, if any, to sign a "copyright disclaimer" for the program, if
+necessary.  Here is a sample; alter the names:
+
+  Yoyodyne, Inc., hereby disclaims all copyright interest in the program
+  `Gnomovision' (which makes passes at compilers) written by James Hacker.
+
+  <signature of Ty Coon>, 1 April 1989
+  Ty Coon, President of Vice
+
+This General Public License does not permit incorporating your program into
+proprietary programs.  If your program is a subroutine library, you may
+consider it more useful to permit linking proprietary applications with the
+library.  If this is what you want to do, use the GNU Lesser General
+Public License instead of this License.
+# Third-party components
+
+Yaba Sanshiro Pirry Edition is distributed under the GNU General Public License
+version 2 or later (see `LICENSE`). The binary for the R36S contains or uses the
+following components. Their license texts are in the source tree at the paths given.
+
+| Component | Use | License | Source / path |
+|---|---|---|---|
+| Yaba Sanshiro (devMiyax) | emulator, base of this fork | GPL-2.0-or-later | https://github.com/devmiyax/yabause |
+| Yabause | emulator core | GPL-2.0-or-later | https://yabause.org, `yabause/` |
+| Musashi (Karl Stenerud) | 68000 CPU core of the sound CPU | MIT | `yabause/src/musashi/readme.txt` |
+| rcheevos | RetroAchievements client | MIT | https://github.com/RetroAchievements/rcheevos, `yabause/src/retro_arena/rcheevos/LICENSE` |
+| nanogui-sdl (Wenzel Jakob, SDL port) | menu | BSD-3-Clause | `yabause/src/retro_arena/nanogui-sdl/LICENSE.txt` |
+| NanoVG and fontstash (Mikko Mononen) | menu and on-screen text rendering | zlib | license in the header of `yabause/src/nanovg/nanovg.h`, `fontstash.h` |
+| Eigen | used by nanogui (git submodule) | MPL-2.0 | https://gitlab.com/libeigen/eigen, `yabause/src/retro_arena/nanogui-sdl/ext/eigen` |
+| MD5 (L. Peter Deutsch) | disc hash for RetroAchievements, inside rcheevos | zlib-style (see file header) | `yabause/src/retro_arena/rcheevos/src/rhash/md5.c` |
+| stb_image, stb_truetype (Sean Barrett) | image and font loading inside NanoVG | public domain / MIT | `yabause/src/retro_arena/nanogui-sdl/ext/nanovg` |
+| Roboto font | menu font | Apache-2.0 | `yabause/src/retro_arena/nanogui-sdl/resources` |
+| Entypo icon font (Daniel Bruce) | menu icons | CC BY-SA 4.0 | `yabause/src/retro_arena/nanogui-sdl/resources/entypo.ttf`, http://www.entypo.com |
+| pugixml | XML parsing | MIT | `yabause/src/retro_arena/pugixml/pugixml_license.txt` |
+| nlohmann/json | JSON (input configuration) | MIT | https://github.com/nlohmann/json (fetched at build time) |
+| JsonCpp | JSON | MIT / public domain | `yabause/src/json/json.h` |
+| libchdr (devMiyax fork) | CHD disc images; bundles LZMA (public domain) and FLAC (BSD-3-Clause) decoders | BSD-3-Clause | https://github.com/devmiyax/libchdr (fetched at build time) |
+| zlib | compression | zlib | fetched at build time |
+| libpng | PNG images | libpng license | fetched at build time |
+| SDL2 | input, window (shared system library) | zlib | system library |
+| Boost | filesystem, locale (shared system library) | BSL-1.0 | system library |
+| libcurl | HTTPS for RetroAchievements, loaded at run time if installed | curl license | system library |
+
+The libretro core (`yabause/src/libretro`, built for Android by andr36oid) does not use
+the menu, RetroAchievements, SDL2, Boost, libcurl or libpng. Instead of the fetched
+libchdr and zlib it builds the copy in `yabause/src/libchdr` (taken from the
+libretro/yabause `yabasanshiro` branch), and it contains parts of libretro-common:
+
+| Component | License | Path |
+|---|---|---|
+| libchdr (Romain Tisserand) | BSD-3-Clause | `yabause/src/libchdr/LICENSE.txt` |
+| FLAC decoder (Xiph.Org) | BSD-3-Clause | `yabause/src/libchdr/deps/flac-1.3.3/COPYING.Xiph` |
+| LZMA SDK (Igor Pavlov) | public domain | `yabause/src/libchdr/deps/lzma-19.00/LICENSE` |
+| zlib (Jean-loup Gailly, Mark Adler) | zlib | `yabause/src/libchdr/deps/zlib-1.2.11/README` |
+| libretro-common | MIT | license in the file headers, `yabause/src/libretro/libretro-common` |
+                                    MUSASHI
+                                    =======
+
+                                  Version 3.4
+
+             A portable Motorola M680x0 processor emulation engine.
+            Copyright 1998-2002 Karl Stenerud.  All rights reserved.
+
+
+
+INTRODUCTION:
+------------
+
+Musashi is a Motorola 68000, 68010, 68EC020, and 68020 emulator written in C.
+This emulator was written with two goals in mind: portability and speed.
+
+The emulator is written to ANSI C89 specifications.  It also uses inline
+functions, which are C9X compliant.
+
+It has been successfully running in the MAME project (www.mame.net) for years
+and so has had time to mature.
+
+
+
+LICENSE AND COPYRIGHT:
+---------------------
+
+Copyright © 1998-2001 Karl Stenerud
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+
+
+AVAILABILITY:
+------------
+The latest version of this code can be obtained at:
+https://github.com/kstenerud/Musashi
+
+
+
+CONTACTING THE AUTHOR:
+---------------------
+I can be reached at kstenerud@gmail.com
+
+
+
+BASIC CONFIGURATION:
+-------------------
+The basic configuration will give you a standard 68000 that has sufficient
+functionality to work in a primitive environment.
+
+This setup assumes that you only have 1 device interrupting it, that the
+device will always request an autovectored interrupt, and it will always clear
+the interrupt before the interrupt service routine finishes (but could
+possibly re-assert the interrupt).
+You will have only one address space, no tracing, and no instruction prefetch.
+
+To implement the basic configuration:
+
+- Open m68kconf.h and verify that the settings for INLINE will work with your
+  compiler. (Currently set to "static __inline__", which works in gcc 2.9.
+  For C9X compliance, it should be "inline")
+
+- In your host program, implement the following functions:
+    unsigned int  m68k_read_memory_8(unsigned int address);
+    unsigned int  m68k_read_memory_16(unsigned int address);
+    unsigned int  m68k_read_memory_32(unsigned int address);
+    void m68k_write_memory_8(unsigned int address, unsigned int value);
+    void m68k_write_memory_16(unsigned int address, unsigned int value);
+    void m68k_write_memory_32(unsigned int address, unsigned int value);
+
+- In your host program, be sure to call m68k_pulse_reset() once before calling
+  any of the other functions as this initializes the core.
+
+- Use m68k_execute() to execute instructions and m68k_set_irq() to cause an
+  interrupt.
+
+
+
+ADDING PROPER INTERRUPT HANDLING:
+--------------------------------
+The interrupt handling in the basic configuration doesn't emulate the
+interrupt acknowledge phase of the CPU and automatically clears an interrupt
+request during interrupt processing.
+While this works for most systems, you may need more accurate interrupt
+handling.
+
+To add proper interrupt handling:
+
+- In m68kconf.h, set M68K_EMULATE_INT_ACK to OPT_SPECIFY_HANDLER
+
+- In m68kconf.h, set M68K_INT_ACK_CALLBACK(A) to your interrupt acknowledge
+  routine
+
+- Your interrupt acknowledge routine must return an interrupt vector,
+  M68K_INT_ACK_AUTOVECTOR, or M68K_INT_ACK_SPURIOUS.  most m68k
+  implementations just use autovectored interrupts.
+
+- When the interrupting device is satisfied, you must call m68k_set_irq(0) to
+  remove the interrupt request.
+
+
+
+MULTIPLE INTERRUPTS:
+-------------------
+The above system will work if you have only one device interrupting the CPU,
+but if you have more than one device, you must do a bit more.
+
+To add multiple interrupts:
+
+- You must make an interrupt arbitration device that will take the highest
+  priority interrupt and encode it onto the IRQ pins on the CPU.
+
+- The interrupt arbitration device should use m68k_set_irq() to set the
+  highest pending interrupt, or 0 for no interrupts pending.
+
+
+
+SEPARATE IMMEDIATE READS:
+------------------------
+You can write faster memory access functions if you know whether you are
+fetching from ROM or RAM.  Immediate reads are always from the program space
+(Always in ROM unless it is running self-modifying code).
+
+To enable separate immediate reads:
+
+- In m68kconf.h, turn on M68K_SEPARATE_READ_IMM.
+
+- In your host program, implement the following functions:
+    unsigned int  m68k_read_immediate_16(unsigned int address);
+    unsigned int  m68k_read_immediate_32(unsigned int address);
+
+- If you need to know the current PC (for banking and such), set
+  M68K_MONITOR_PC to OPT_SPECIFY_HANDLER, and set M68K_SET_PC_CALLBACK(A) to
+  your routine.
+
+
+
+ADDRESS SPACES:
+--------------
+Most systems will only implement one address space, placing ROM at the lower
+addresses and RAM at the higher.  However, there is the possibility that a
+system will implement ROM and RAM in the same address range, but in different
+address spaces.
+
+In this case, you might get away with assuming that immediate reads are in the
+program space and all other reads are in the data space, if it weren't for the
+fact that the exception vectors are fetched from the data space.  As a result,
+anyone implementing this kind of system will have to copy the vector table
+from ROM to RAM using pc-relative instructions.
+
+This makes things bad for emulation, because this means that a non-immediate
+read is not necessarily in the data space.
+The m68k deals with this by encoding the requested address space on the
+function code pins:
+
+                       FC
+    Address Space      210
+    ------------------ ---
+    USER DATA          001
+    USER PROGRAM       010
+    SUPERVISOR DATA    101
+    SUPERVISOR PROGRAM 110
+    CPU SPACE          111 <-- not emulated in this core since we emulate
+                               interrupt acknowledge in another way.
+
+To emulate the function code pins:
+
+- In m68kconf.h, set M68K_EMULATE_FC to OPT_SPECIFY_HANDLER and set
+  M68K_SET_FC_CALLBACK(A) to your function code handler function.
+
+- Your function code handler should select the proper address space for
+  subsequent calls to m68k_read_xx (and m68k_write_xx for 68010+).
+
+Note: immediate reads are always done from program space, so technically you
+      don't need to implement the separate immediate reads, although you could
+      gain more speed improvements leaving them in and doing some clever
+      programming.
+
+
+
+USING DIFFERENT CPU TYPES:
+-------------------------
+The default is to enable only the 68000 cpu type.  To change this, change the
+settings for M68K_EMULATE_010 etc in m68kconf.h.
+
+To set the CPU type you want to use:
+
+- Make sure it is enabled in m68kconf.h.  Current switches are:
+    M68K_EMULATE_010
+    M68K_EMULATE_EC020
+    M68K_EMULATE_020
+
+- In your host program, call m68k_set_cpu_type() and then call
+  m68k_pulse_reset().  Valid CPU types are:
+    M68K_CPU_TYPE_68000,
+    M68K_CPU_TYPE_68010,
+    M68K_CPU_TYPE_68EC020,
+    M68K_CPU_TYPE_68020
+
+
+
+CLOCK FREQUENCY:
+---------------
+In order to emulate the correct clock frequency, you will have to calculate
+how long it takes the emulation to execute a certain number of "cycles" and
+vary your calls to m68k_execute() accordingly.
+As well, it is a good idea to take away the CPU's timeslice when it writes to
+a memory-mapped port in order to give the device it wrote to a chance to
+react.
+
+You can use the functions m68k_cycles_run(), m68k_cycles_remaining(),
+m68k_modify_timeslice(), and m68k_end_timeslice() to do this.
+Try to use large cycle values in your calls to m68k_execute() since it will
+increase throughput.  You can always take away the timeslice later.
+
+
+
+MORE CORRECT EMULATION:
+----------------------
+You may need to enable these in order to properly emulate some of the more
+obscure functions of the m68k:
+
+- M68K_EMULATE_BKPT_ACK causes the CPU to call a breakpoint handler on a BKPT
+  instruction
+
+- M68K_EMULATE_TRACE causes the CPU to generate trace exceptions when the
+  trace bits are set
+
+- M68K_EMULATE_RESET causes the CPU to call a reset handler on a RESET
+  instruction.
+
+- M68K_EMULATE_PREFETCH emulates the 4-word instruction prefetch that is part
+  of the 68000/68010 (needed for Amiga emulation).
+  NOTE: if the CPU fetches a word or longword at an odd address when this
+  option is on, it will yield unpredictable results, which is why a real
+  68000 will generate an address error exception.
+
+- M68K_EMULATE_ADDRESS_ERROR will cause the CPU to generate address error
+  exceptions if it attempts to read a word or longword at an odd address.
+
+- call m68k_pulse_halt() to emulate the HALT pin.
+
+
+
+CONVENIENCE FUNCTIONS:
+---------------------
+These are in here for programmer convenience:
+
+- M68K_INSTRUCTION_HOOK lets you call a handler before each instruction.
+
+- M68K_LOG_ENABLE and M68K_LOG_1010_1111 lets you log illegal and A/F-line
+  instructions.
+
+
+
+MULTIPLE CPU EMULATION:
+----------------------
+The default is to use only one CPU.  To use more than one CPU in this core,
+there are some things to keep in mind:
+
+- To have different cpus call different functions, use OPT_ON instead of
+  OPT_SPECIFY_HANDLER, and use the m68k_set_xxx_callback() functions to set
+  your callback handlers on a per-cpu basis.
+
+- Be sure to call set_cpu_type() for each CPU you use.
+
+- Use m68k_set_context() and m68k_get_context() to switch to another CPU.
+
+
+
+LOAD AND SAVE CPU CONTEXTS FROM DISK:
+------------------------------------
+You can use them68k_load_context() and m68k_save_context() functions to load
+and save the CPU state to disk.
+
+
+
+GET/SET INFORMATION FROM THE CPU:
+--------------------------------
+You can use m68k_get_reg() and m68k_set_reg() to gain access to the internals
+of the CPU.
+
+
+
+EXAMPLE:
+-------
+
+The subdir example contains a full example (currently DOS only).
+Copyright Romain Tisserand
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+    * Redistributions of source code must retain the above copyright
+      notice, this list of conditions and the following disclaimer.
+    * Redistributions in binary form must reproduce the above copyright
+      notice, this list of conditions and the following disclaimer in the
+      documentation and/or other materials provided with the distribution.
+    * Neither the name of the <organization> nor the
+      names of its contributors may be used to endorse or promote products
+      derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> BE LIABLE FOR ANY
+DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+Copyright (C) 2000-2009  Josh Coalson
+Copyright (C) 2011-2016  Xiph.Org Foundation
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met:
+
+- Redistributions of source code must retain the above copyright
+notice, this list of conditions and the following disclaimer.
+
+- Redistributions in binary form must reproduce the above copyright
+notice, this list of conditions and the following disclaimer in the
+documentation and/or other materials provided with the distribution.
+
+- Neither the name of the Xiph.org Foundation nor the names of its
+contributors may be used to endorse or promote products derived from
+this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE FOUNDATION OR
+CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+LZMA SDK is placed in the public domain.
+
+Anyone is free to copy, modify, publish, use, compile, sell, or distribute the original LZMA SDK code, either in source code form or as a compiled binary, for any purpose, commercial or non-commercial, and by any means.ZLIB DATA COMPRESSION LIBRARY
+
+zlib 1.2.11 is a general purpose data compression library.  All the code is
+thread safe.  The data format used by the zlib library is described by RFCs
+(Request for Comments) 1950 to 1952 in the files
+http://tools.ietf.org/html/rfc1950 (zlib format), rfc1951 (deflate format) and
+rfc1952 (gzip format).
+
+All functions of the compression library are documented in the file zlib.h
+(volunteer to write man pages welcome, contact zlib@gzip.org).  A usage example
+of the library is given in the file test/example.c which also tests that
+the library is working correctly.  Another example is given in the file
+test/minigzip.c.  The compression library itself is composed of all source
+files in the root directory.
+
+To compile all files and run the test program, follow the instructions given at
+the top of Makefile.in.  In short "./configure; make test", and if that goes
+well, "make install" should work for most flavors of Unix.  For Windows, use
+one of the special makefiles in win32/ or contrib/vstudio/ .  For VMS, use
+make_vms.com.
+
+Questions about zlib should be sent to <zlib@gzip.org>, or to Gilles Vollant
+<info@winimage.com> for the Windows DLL version.  The zlib home page is
+http://zlib.net/ .  Before reporting a problem, please check this site to
+verify that you have the latest version of zlib; otherwise get the latest
+version and check whether the problem still exists or not.
+
+PLEASE read the zlib FAQ http://zlib.net/zlib_faq.html before asking for help.
+
+Mark Nelson <markn@ieee.org> wrote an article about zlib for the Jan.  1997
+issue of Dr.  Dobb's Journal; a copy of the article is available at
+http://marknelson.us/1997/01/01/zlib-engine/ .
+
+The changes made in version 1.2.11 are documented in the file ChangeLog.
+
+Unsupported third party contributions are provided in directory contrib/ .
+
+zlib is available in Java using the java.util.zip package, documented at
+http://java.sun.com/developer/technicalArticles/Programming/compression/ .
+
+A Perl interface to zlib written by Paul Marquess <pmqs@cpan.org> is available
+at CPAN (Comprehensive Perl Archive Network) sites, including
+http://search.cpan.org/~pmqs/IO-Compress-Zlib/ .
+
+A Python interface to zlib written by A.M. Kuchling <amk@amk.ca> is
+available in Python 1.5 and later versions, see
+http://docs.python.org/library/zlib.html .
+
+zlib is built into tcl: http://wiki.tcl.tk/4610 .
+
+An experimental package to read and write files in .zip format, written on top
+of zlib by Gilles Vollant <info@winimage.com>, is available in the
+contrib/minizip directory of zlib.
+
+
+Notes for some targets:
+
+- For Windows DLL versions, please see win32/DLL_FAQ.txt
+
+- For 64-bit Irix, deflate.c must be compiled without any optimization. With
+  -O, one libpng test fails. The test works in 32 bit mode (with the -n32
+  compiler flag). The compiler bug has been reported to SGI.
+
+- zlib doesn't work with gcc 2.6.3 on a DEC 3000/300LX under OSF/1 2.1 it works
+  when compiled with cc.
+
+- On Digital Unix 4.0D (formely OSF/1) on AlphaServer, the cc option -std1 is
+  necessary to get gzprintf working correctly. This is done by configure.
+
+- zlib doesn't work on HP-UX 9.05 with some versions of /bin/cc. It works with
+  other compilers. Use "make test" to check your compiler.
+
+- gzdopen is not supported on RISCOS or BEOS.
+
+- For PalmOs, see http://palmzlib.sourceforge.net/
+
+
+Acknowledgments:
+
+  The deflate format used by zlib was defined by Phil Katz.  The deflate and
+  zlib specifications were written by L.  Peter Deutsch.  Thanks to all the
+  people who reported problems and suggested various improvements in zlib; they
+  are too numerous to cite here.
+
+Copyright notice:
+
+ (C) 1995-2017 Jean-loup Gailly and Mark Adler
+
+  This software is provided 'as-is', without any express or implied
+  warranty.  In no event will the authors be held liable for any damages
+  arising from the use of this software.
+
+  Permission is granted to anyone to use this software for any purpose,
+  including commercial applications, and to alter it and redistribute it
+  freely, subject to the following restrictions:
+
+  1. The origin of this software must not be misrepresented; you must not
+     claim that you wrote the original software. If you use this software
+     in a product, an acknowledgment in the product documentation would be
+     appreciated but is not required.
+  2. Altered source versions must be plainly marked as such, and must not be
+     misrepresented as being the original software.
+  3. This notice may not be removed or altered from any source distribution.
+
+  Jean-loup Gailly        Mark Adler
+  jloup@gzip.org          madler@alumni.caltech.edu
+
+If you use the zlib library in a product, we would appreciate *not* receiving
+lengthy legal documents to sign.  The sources are provided for free but without
+warranty of any kind.  The library has been entirely written by Jean-loup
+Gailly and Mark Adler; it does not include third-party code.
+
+If you redistribute modified sources, we would appreciate that you include in
+the file ChangeLog history information documenting your changes.  Please read
+the FAQ for more information on the distribution of modified source versions.

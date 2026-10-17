@@ -34,6 +34,11 @@ file|psx|scph7001.bin|oneof|1e68c231d0896b7eadcad1d7d8e76129|US BIOS, version 4.
 file|psx|scph101.bin|oneof|6e3735ff4c7dc899ee98981385f6f3d0|PS one BIOS, version 4.4|
 file|psx|psxonpsp660.bin|oneof|c53ca5908936d412331790f4426c6c33|BIOS taken from a PSP|
 
+system|saturn|Sega Saturn|yabasanshiro|shipped|Games don't start without a real BIOS. One is enough; Yaba Sanshiro looks for saturn_bios.bin first, then sega_101.bin, then mpr-17933.bin.
+file|saturn|saturn_bios.bin|oneof|af5828fdff51384f99b3c4926be27762 85ec9ca47d8f6807718151cbcca8b964 3240872c70984b6cbfda1586cab68dbe|Saturn BIOS (any region; Japanese 1.00 is the usual one)|
+file|saturn|sega_101.bin|oneof|85ec9ca47d8f6807718151cbcca8b964|Japanese BIOS, version 1.01|
+file|saturn|mpr-17933.bin|oneof|3240872c70984b6cbfda1586cab68dbe|US / European BIOS, version 1.00|
+
 system|segacd|Sega CD / Mega CD|clownmdemu genesis_plus_gx picodrive|shipped|ClownMDEmu starts games without a BIOS. Genesis Plus GX and PicoDrive need the one for the game's region.
 file|segacd|bios_CD_U.bin|oneof|2efd74e3232ff260e371b99f84024f7f|Sega CD BIOS (US)|
 file|segacd|bios_CD_E.bin|oneof|e66fa1dc5820d254611fdcdba0662372|Mega CD BIOS (Europe)|

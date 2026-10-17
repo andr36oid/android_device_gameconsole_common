@@ -16,6 +16,7 @@ gamegear          Sega Game Gear - RetroArch (Gearsystem)
 segacd            Sega CD / Mega CD - RetroArch (Genesis Plus GX, ClownMDEmu)
 sega32x           Sega 32X - RetroArch (PicoDrive)
 psx               Sony PlayStation - RetroArch (PCSX ReARMed)
+saturn            Sega Saturn (saturn_bios.bin in bios) - RetroArch (Yaba Sanshiro)
 psp               Sony PSP - PPSSPP
 pcengine          PC Engine / TurboGrafx-16 - RetroArch (Beetle PCE Fast)
 ngp               Neo Geo Pocket - RetroArch (Beetle NeoPop)
