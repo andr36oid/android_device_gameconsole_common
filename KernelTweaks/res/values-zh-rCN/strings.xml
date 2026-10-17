@@ -222,7 +222,7 @@
     <string name="kt_boot_log_level_why">适用于启动时卡住或重启的掌机。开启串口控制台时，从串口输出的也是这些内容。</string>
 
     <string name="kt_cma_size">图形和视频内存</string>
-    <string name="kt_cma_default">内核默认</string>
+    <string name="kt_cma_default">内核默认 (<xliff:g id="size">%1$s</xliff:g>)</string>
     <string name="kt_cma_size_what">启动时为屏幕、图形和视频解码预留多少内存（CMA）。剩下的留给应用。</string>
     <string name="kt_cma_size_why">少一些能给游戏和应用更多空间，对 1 GB 和 512 MB 内存的掌机有帮助。太少的话视频或某些模拟器会无法启动。如果出现这种情况，就改回默认值。</string>
 

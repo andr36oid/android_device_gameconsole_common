@@ -222,7 +222,7 @@
     <string name="kt_boot_log_level_why">Untuk konsol yang macet atau restart saat menyala. Dengan konsol serial aktif, ini juga yang keluar lewat port serial.</string>
 
     <string name="kt_cma_size">Memori grafis dan video</string>
-    <string name="kt_cma_default">Default kernel</string>
+    <string name="kt_cma_default">Default kernel (<xliff:g id="size">%1$s</xliff:g>)</string>
     <string name="kt_cma_size_what">Seberapa banyak memori yang disisihkan saat menyala untuk layar, grafis, dan decoding video (CMA). Sisanya untuk aplikasi.</string>
     <string name="kt_cma_size_why">Lebih sedikit memberi game dan aplikasi lebih banyak ruang, yang membantu di konsol 1 GB dan 512 MB. Terlalu sedikit dan video atau beberapa emulator gagal jalan. Jika itu terjadi, kembalikan ke default.</string>
 

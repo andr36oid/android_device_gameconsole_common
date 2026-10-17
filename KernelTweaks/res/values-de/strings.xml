@@ -223,7 +223,7 @@
     <string name="kt_boot_log_level_why">Für Konsolen, die beim Starten hängen bleiben oder neu starten. Ist die serielle Konsole an, geht genau das auch über den seriellen Anschluss raus.</string>
 
     <string name="kt_cma_size">Grafik- und Videospeicher</string>
-    <string name="kt_cma_default">Kernel-Standard</string>
+    <string name="kt_cma_default">Kernel-Standard (<xliff:g id="size">%1$s</xliff:g>)</string>
     <string name="kt_cma_size_what">Wie viel Speicher beim Start für Bildschirm, Grafik und Videodekodierung reserviert wird (CMA). Der Rest bleibt für Apps.</string>
     <string name="kt_cma_size_why">Weniger gibt Spielen und Apps mehr Platz, was auf Konsolen mit 1 GB oder 512 MB hilft. Zu wenig, und Videos oder manche Emulatoren starten nicht mehr. Passiert das, geh zurück zum Standard.</string>
 

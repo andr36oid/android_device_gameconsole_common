@@ -223,7 +223,7 @@
     <string name="kt_boot_log_level_why">For consoles that hang or restart while starting. With the serial console on, this is also what goes out of the serial port.</string>
 
     <string name="kt_cma_size">Graphics and video memory</string>
-    <string name="kt_cma_default">Kernel default</string>
+    <string name="kt_cma_default">Kernel default (<xliff:g id="size">%1$s</xliff:g>)</string>
     <string name="kt_cma_size_what">How much memory is set aside at start for the screen, graphics and video decoding (CMA). The rest is left for apps.</string>
     <string name="kt_cma_size_why">Less gives games and apps more room, which helps on 1 GB and 512 MB consoles. Too little and videos or some emulators fail to start. If that happens, go back to the default.</string>
 

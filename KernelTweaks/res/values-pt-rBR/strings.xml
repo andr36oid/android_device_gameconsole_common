@@ -223,7 +223,7 @@
     <string name="kt_boot_log_level_why">Para consoles que travam ou reiniciam enquanto ligam. Com o console serial ativado, isso também é o que sai pela porta serial.</string>
 
     <string name="kt_cma_size">Memória de gráficos e vídeo</string>
-    <string name="kt_cma_default">Padrão do kernel</string>
+    <string name="kt_cma_default">Padrão do kernel (<xliff:g id="size">%1$s</xliff:g>)</string>
     <string name="kt_cma_size_what">Quanta memória é reservada na inicialização para a tela, os gráficos e a decodificação de vídeo (CMA). O resto fica para os apps.</string>
     <string name="kt_cma_size_why">Menos dá mais espaço para jogos e apps, o que ajuda em consoles de 1 GB e 512 MB. Pouco demais e vídeos ou alguns emuladores não abrem. Se isso acontecer, volte ao padrão.</string>
 

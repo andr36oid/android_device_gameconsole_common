@@ -225,7 +225,7 @@
     <string name="kt_boot_log_level_why">Dla konsol, które zawieszają się albo restartują podczas uruchamiania. Z włączoną konsolą szeregową to samo trafia też na port szeregowy.</string>
 
     <string name="kt_cma_size">Pamięć grafiki i wideo</string>
-    <string name="kt_cma_default">Domyślne jądra</string>
+    <string name="kt_cma_default">Domyślne jądra (<xliff:g id="size">%1$s</xliff:g>)</string>
     <string name="kt_cma_size_what">Ile pamięci jest odkładane przy starcie na ekran, grafikę i dekodowanie wideo (CMA). Reszta zostaje dla aplikacji.</string>
     <string name="kt_cma_size_why">Mniej daje grom i aplikacjom więcej miejsca, co pomaga na konsolach z 1 GB i 512 MB. Za mało i filmy albo niektóre emulatory się nie uruchomią. Jeśli tak się stanie, wróć do domyślnej wartości.</string>
 

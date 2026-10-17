@@ -233,6 +233,13 @@ public class KernelTweaksFragment extends PreferenceFragment {
 
     private String label(Tweak t, String value) {
         if (t.kind == Tweak.AXES) return Tweaks.axesLabel(getActivity(), value, def(t));
+        if ("cma_size".equals(t.key) && "default".equals(value)) {
+            // The kernel config reserves 128 MB. boot.ini uses 64 MB on 512 MB
+            // consoles; the helper keeps that base value separate from tweaks.
+            final String base = def(t);
+            final String size = base.isEmpty() || "default".equals(base) ? "128" : base;
+            return getString(R.string.kt_cma_default, getString(R.string.kt_unit_mb, size));
+        }
         return t.label(getActivity(), value);
     }
 

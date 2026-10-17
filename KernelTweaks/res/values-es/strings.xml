@@ -223,7 +223,7 @@
     <string name="kt_boot_log_level_why">Para consolas que se cuelgan o se reinician mientras arrancan. Con la consola serie activada, esto también es lo que sale por el puerto serie.</string>
 
     <string name="kt_cma_size">Memoria de gráficos y vídeo</string>
-    <string name="kt_cma_default">Predeterminado del kernel</string>
+    <string name="kt_cma_default">Predeterminado del kernel (<xliff:g id="size">%1$s</xliff:g>)</string>
     <string name="kt_cma_size_what">Cuánta memoria se reserva al arrancar para la pantalla, los gráficos y la decodificación de vídeo (CMA). El resto queda para las apps.</string>
     <string name="kt_cma_size_why">Menos da más espacio a juegos y apps, lo que ayuda en consolas de 1 GB y 512 MB. Si es demasiado poco, los vídeos o algunos emuladores no arrancan. Si pasa eso, vuelve al valor predeterminado.</string>
 

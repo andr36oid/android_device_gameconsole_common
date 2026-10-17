@@ -223,7 +223,7 @@
     <string name="kt_boot_log_level_why">Açılırken takılan veya yeniden başlayan konsollar için. Seri konsol açıkken seri porttan çıkan da budur.</string>
 
     <string name="kt_cma_size">Grafik ve video belleği</string>
-    <string name="kt_cma_default">Kernel varsayılanı</string>
+    <string name="kt_cma_default">Kernel varsayılanı (<xliff:g id="size">%1$s</xliff:g>)</string>
     <string name="kt_cma_size_what">Açılışta ekran, grafik ve video çözme için ne kadar bellek ayrıldığı (CMA). Kalanı uygulamalara kalır.</string>
     <string name="kt_cma_size_why">Daha az, oyunlara ve uygulamalara daha fazla yer bırakır; bu 1 GB ve 512 MB konsollarda işe yarar. Çok az olursa videolar veya bazı emülatörler açılmaz. Böyle olursa varsayılana geri dönün.</string>
 

@@ -223,7 +223,7 @@
     <string name="kt_boot_log_level_why">Pour les consoles qui bloquent ou redémarrent pendant le démarrage. Avec la console série activée, c\'est aussi ce qui sort sur le port série.</string>
 
     <string name="kt_cma_size">Mémoire graphique et vidéo</string>
-    <string name="kt_cma_default">Valeur par défaut du noyau</string>
+    <string name="kt_cma_default">Valeur par défaut du noyau (<xliff:g id="size">%1$s</xliff:g>)</string>
     <string name="kt_cma_size_what">La mémoire mise de côté au démarrage pour l\'écran, les graphismes et le décodage vidéo (CMA). Le reste est laissé aux applis.</string>
     <string name="kt_cma_size_why">Moins laisse plus de place aux jeux et aux applis, ce qui aide sur les consoles à 1 Go et 512 Mo. Trop peu et les vidéos ou certains émulateurs ne se lancent pas. Si cela arrive, revenez à la valeur par défaut.</string>
 
