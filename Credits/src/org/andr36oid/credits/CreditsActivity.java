@@ -205,6 +205,7 @@ public class CreditsActivity extends Activity {
         project(R.drawable.logo_r36tuner, "R36 Tuner Next", R.string.credits_r36tuner);
         project(R.drawable.logo_dpadplayer, "D-PAD Player", R.string.credits_dpadplayer);
         project(R.drawable.logo_yabasanshiro, "Yaba Sanshiro", R.string.credits_yabasanshiro);
+        project(R.drawable.logo_gammaos, "GammaOS", R.string.credits_gammaos);
     }
 
     private void section(int titleRes) {
