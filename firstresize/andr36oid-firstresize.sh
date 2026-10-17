@@ -18,7 +18,7 @@
 # start mounts it read-only at /mnt/andr36oid-apps for the setup's app page and the
 # installer (gameconsole-emu.sh). Once the installer is done with it, it leaves
 # /metadata/andr36oid/apps-done, and the next start removes p13 and grows userdata
-# over it (resize.f2fs), "Reclaiming SD card space ..." on the boot animation. Only
+# over it (resize.f2fs), "Cleaning up first boot partitions ..." on the boot animation. Only
 # when fsck finds userdata fine, otherwise nothing changes and the start after tries
 # again. BOOT/reclaim-pending is there while that is under way.
 #
