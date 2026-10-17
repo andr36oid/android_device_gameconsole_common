@@ -1,7 +1,7 @@
 package: dev.lucanlm.antimine
 version_code: 1706031
 author: github:lucasnlm
-checked: true
+checked: false
 description:
   en: "Minesweeper with puzzles that need no guessing"
   de: "Minesweeper mit Rätseln, die du ohne Raten lösen kannst"

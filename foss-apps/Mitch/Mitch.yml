@@ -1,7 +1,7 @@
 package: ua.gardenapple.itchupdater
 version_code: 20303
 author: gardenapple
-checked: true
+checked: false
 description:
   en: "Browse, install and update games from itch.io"
   de: "Spiele auf itch.io entdecken, installieren und aktualisieren"

@@ -1,6 +1,7 @@
 package: com.github.catfriend1.syncthingfork
 version_code: 2010500
 author: github:researchxxl
+checked: false
 description:
   en: "Keeps saves and files in sync with your other devices"
   de: "Hält Spielstände und Dateien mit deinen anderen Geräten synchron"
