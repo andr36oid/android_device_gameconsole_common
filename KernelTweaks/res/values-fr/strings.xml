@@ -249,6 +249,12 @@
     <string name="kt_radios_what">Désactivé empêche le chargement de tout pilote Wi-Fi ou Bluetooth, aussi bien pour une puce intégrée à la console que pour les clés USB. Le Wi-Fi et le Bluetooth ne fonctionnent alors plus du tout.</string>
     <string name="kt_radios_why">Pour les consoles avec Wi-Fi intégré. Sur la plupart, la puce est reliée au port USB et, tant que son pilote tourne, les appareils USB OTG comme les manettes, clés et claviers n\'y fonctionnent pas. Désactivé libère le port pour l\'OTG.</string>
 
+    <string name="kt_storage">Couche de stockage</string>
+    <string name="kt_storage_sdcardfs">sdcardfs</string>
+    <string name="kt_storage_fuse">FUSE</string>
+    <string name="kt_storage_what">La façon dont les applis accèdent au stockage interne et aux cartes SD. sdcardfs transmet chaque lecture et écriture directement au noyau. FUSE, la méthode habituelle d\'Android, les fait d\'abord passer par l\'appli Stockage multimédia, ce qui coûte du temps processeur et de la batterie sur cette puce.</string>
+    <string name="kt_storage_why">Laissez sdcardfs, sauf si une appli a des problèmes avec ses fichiers. Les jeux, les sauvegardes et les téléchargements restent en place dans les deux cas. Mais les deux modes marquent différemment les dossiers que les applis gardent pour elles (Android/data) : juste après un changement, une appli peut ne plus pouvoir lire ses propres réglages ou téléchargements. Android corrige généralement cela tout seul. Si une appli ne marche plus ou a perdu ses réglages après le changement, revenez au réglage précédent.</string>
+
     <string name="kt_crash_log">Journal de plantage</string>
     <string name="kt_crash_log_what">Garde le journal du noyau, le journal d\'Android et un enregistrement de plantage dans une zone de RAM qui survit à un redémarrage, pour que le prochain démarrage puisse les mettre dans le rapport de problème.</string>
     <string name="kt_crash_log_why">Laissez-le activé. Désactivé, ça sert seulement à tester si le journal de plantage lui-même cause des soucis. Le rapport de problème n\'a alors pas le journal du démarrage précédent, et les plantages du noyau n\'affichent plus l\'avis de plantage. Les 960 Ko restent réservés de toute façon : l\'arbre de périphériques les réserve, ils ne servent simplement à rien.</string>

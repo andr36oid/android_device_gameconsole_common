@@ -181,6 +181,12 @@ final class Tweaks {
                 .values("on", "off")
                 .labels(R.string.kt_on, R.string.kt_off)
                 .atBoot())
+            .add(Tweak.choice("storage", R.string.kt_storage,
+                    R.string.kt_storage_what, R.string.kt_storage_why,
+                    "androidboot.storage_fuse=1")
+                .values("sdcardfs", "fuse")
+                .labels(R.string.kt_storage_sdcardfs, R.string.kt_storage_fuse)
+                .atBoot())
             .add(Tweak.choice("crash_log", R.string.kt_crash_log,
                     R.string.kt_crash_log_what, R.string.kt_crash_log_why,
                     "ramoops.disable=1")

@@ -248,6 +248,12 @@
     <string name="kt_radios_what">Nonaktif mencegah semua driver Wi-Fi dan Bluetooth dimuat, baik untuk chip bawaan konsol maupun dongle USB. Wi-Fi dan Bluetooth sama sekali tidak berfungsi.</string>
     <string name="kt_radios_why">Untuk konsol dengan Wi-Fi bawaan. Pada kebanyakan konsol, chipnya tersambung ke port USB, dan selama drivernya berjalan, perangkat USB OTG seperti controller, flashdisk, dan keyboard tidak berfungsi di sana. Nonaktif membebaskan port untuk OTG.</string>
 
+    <string name="kt_storage">Lapisan penyimpanan</string>
+    <string name="kt_storage_sdcardfs">sdcardfs</string>
+    <string name="kt_storage_fuse">FUSE</string>
+    <string name="kt_storage_what">Cara aplikasi mengakses penyimpanan internal dan kartu SD. sdcardfs meneruskan setiap baca dan tulis langsung ke kernel. FUSE, cara bawaan Android, melewatkannya dulu melalui aplikasi Penyimpanan Media, yang memakan waktu CPU dan baterai di chip ini.</string>
+    <string name="kt_storage_why">Biarkan di sdcardfs kecuali ada aplikasi yang bermasalah dengan file-nya. Game, simpanan, dan unduhan tetap di tempatnya dalam kedua mode. Tetapi kedua mode menandai folder milik aplikasi sendiri (Android/data) secara berbeda, jadi tepat setelah beralih, aplikasi mungkin tidak bisa membaca pengaturan atau unduhannya sendiri. Biasanya Android memperbaikinya sendiri. Jika aplikasi rusak atau lupa pengaturannya setelah Anda beralih, kembalikan pengaturan ini.</string>
+
     <string name="kt_crash_log">Log crash</string>
     <string name="kt_crash_log_what">Menyimpan log kernel, log Android, dan catatan crash di bagian RAM yang bertahan saat mulai ulang, agar start berikutnya bisa memasukkannya ke laporan masalah.</string>
     <string name="kt_crash_log_why">Biarkan aktif. Mati hanya untuk menguji apakah log crash itu sendiri yang menyebabkan masalah. Laporan masalah kemudian tidak punya log start sebelumnya, dan crash kernel tidak lagi memunculkan pemberitahuan crash. 960 KB tetap disisihkan: device tree memesannya, hanya saja tidak terpakai.</string>

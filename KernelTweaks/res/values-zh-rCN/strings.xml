@@ -248,6 +248,12 @@
     <string name="kt_radios_what">关闭后，任何 Wi-Fi 或蓝牙驱动都不会加载，无论是掌机内置的芯片还是 USB 网卡。Wi-Fi 和蓝牙将完全无法使用。</string>
     <string name="kt_radios_why">适用于内置 Wi-Fi 的掌机。大多数这类掌机的芯片接在 USB 口上，只要它的驱动在运行，手柄、U 盘、键盘等 USB OTG 设备就无法在该接口使用。关闭后该接口即可用于 OTG。</string>
 
+    <string name="kt_storage">存储层</string>
+    <string name="kt_storage_sdcardfs">sdcardfs</string>
+    <string name="kt_storage_fuse">FUSE</string>
+    <string name="kt_storage_what">应用访问内部存储和 SD 卡的方式。sdcardfs 把每次读写直接交给内核。FUSE 是 Android 的常规方式，每次读写都要先经过“媒体存储”应用，在这颗芯片上会耗费 CPU 时间和电量。</string>
+    <string name="kt_storage_why">除非某个应用读写文件出问题，否则请保持 sdcardfs。两种模式下，游戏、存档和下载内容都不会动。但两种模式给应用自用文件夹（Android/data）的标记不同，所以刚切换后，应用可能读不到自己的设置或下载内容。Android 通常会自己修好。如果切换后某个应用出错或丢了设置，请切换回来。</string>
+
     <string name="kt_crash_log">崩溃日志</string>
     <string name="kt_crash_log_what">将内核日志、Android 日志和崩溃记录保存在一块能在重启后保留的内存中，以便下次启动时将它们放入问题报告。</string>
     <string name="kt_crash_log_why">建议保持开启。关闭仅用于测试崩溃日志本身是否会引发问题。这样问题报告中就缺少上一次启动的日志，内核崩溃也不再弹出崩溃提示。无论如何，960 KB 都会被预留：设备树会保留它们，只是不会使用。</string>

@@ -73,6 +73,7 @@ extra_buttons|boot||extra_buttons
 crash_log|boot||crash_log
 crash_split|boot||crash_split
 radios|boot||radios
+storage|boot||storage
 sd2_slot|boot||sd2_slot
 '
 
@@ -134,6 +135,8 @@ boot_read() {
 		echo "${v:-none}" ;;
 	radios)
 		[ "$(arg_last module.no_radios "$2")" = 1 ] && echo off || echo on ;;
+	storage)
+		[ "$(arg_last androidboot.storage_fuse "$2")" = 1 ] && echo fuse || echo sdcardfs ;;
 	sd2_slot)
 		[ "$(arg_last dw_mmc_rockchip.second_slot "$2")" = 0 ] && echo off || echo on ;;
 	crash_log)
@@ -190,6 +193,7 @@ boot_args() {
 	extra_buttons:*) echo "odroidgo3_joypad.extra_gpios=$2" ;;
 	crash_log:off) echo "ramoops.disable=1" ;;
 	radios:off) echo "module.no_radios=1" ;;
+	storage:fuse) echo "androidboot.storage_fuse=1" ;;
 	sd2_slot:off) echo "dw_mmc_rockchip.second_slot=0" ;;
 	crash_split:balanced) split_args "$SPLIT_BALANCED" ;;
 	crash_split:kernel) split_args "$SPLIT_KERNEL" ;;

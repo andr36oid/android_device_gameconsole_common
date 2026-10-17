@@ -249,6 +249,12 @@
     <string name="kt_radios_what">Kapalı, konsola gömülü çip için de USB adaptörler için de hiçbir Wi-Fi veya Bluetooth sürücüsünün yüklenmesine izin vermez. Wi-Fi ve Bluetooth o zaman hiç çalışmaz.</string>
     <string name="kt_radios_why">Dahili Wi-Fi\'lı konsollar için. Çoğunda çip USB bağlantı noktasına bağlıdır ve sürücüsü çalıştığı sürece kontrolcü, bellek ve klavye gibi USB OTG cihazları orada çalışmaz. Kapalı, bağlantı noktasını OTG için boşaltır.</string>
 
+    <string name="kt_storage">Depolama katmanı</string>
+    <string name="kt_storage_sdcardfs">sdcardfs</string>
+    <string name="kt_storage_fuse">FUSE</string>
+    <string name="kt_storage_what">Uygulamaların dahili depolamaya ve SD kartlara nasıl eriştiği. sdcardfs her okuma ve yazmayı doğrudan çekirdeğe iletir. Android\'in olağan yolu olan FUSE ise her birini önce Medya Depolama uygulamasından geçirir; bu da bu çipte işlemci zamanı ve pil harcar.</string>
+    <string name="kt_storage_why">Bir uygulama dosyalarıyla sorun yaşamadıkça sdcardfs\'te bırakın. Oyunlar, kayıtlar ve indirilenler iki modda da yerinde kalır. Ancak iki mod, uygulamaların kendileri için tuttuğu klasörleri (Android/data) farklı işaretler; bu yüzden geçişten hemen sonra bir uygulama kendi ayarlarını veya indirdiklerini okuyamayabilir. Android bunu genellikle kendisi düzeltir. Geçişten sonra bir uygulama bozulursa ya da ayarlarını unutursa, ayarı geri alın.</string>
+
     <string name="kt_crash_log">Çökme logu</string>
     <string name="kt_crash_log_what">Çekirdek logunu, Android logunu ve bir çökme kaydını yeniden başlatmada kalan bir RAM parçasında tutar; böylece bir sonraki açılış bunları sorun raporuna koyabilir.</string>
     <string name="kt_crash_log_why">Açık bırakın. Kapatmak yalnızca çökme logunun kendisinin sorun çıkarıp çıkarmadığını test etmek içindir. Sorun raporunda o zaman bir önceki açılışın logu olmaz ve çekirdek çökmeleri artık çökme bildirimi göstermez. 960 KB yine de ayrılmış kalır: aygıt ağacı onları ayırır, sadece kullanılmazlar.</string>

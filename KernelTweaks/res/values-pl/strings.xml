@@ -251,6 +251,12 @@
     <string name="kt_radios_what">Wyłączone nie pozwala załadować żadnego sterownika Wi-Fi ani Bluetooth, zarówno dla układu wbudowanego w konsolę, jak i dla kart USB. Wi-Fi i Bluetooth wtedy w ogóle nie działają.</string>
     <string name="kt_radios_why">Dla konsol z wbudowanym Wi-Fi. W większości z nich układ jest podłączony do portu USB i dopóki działa jego sterownik, urządzenia USB OTG, takie jak kontrolery, pendrive\'y i klawiatury, nie działają na tym porcie. Wyłączone zwalnia port dla OTG.</string>
 
+    <string name="kt_storage">Warstwa pamięci</string>
+    <string name="kt_storage_sdcardfs">sdcardfs</string>
+    <string name="kt_storage_fuse">FUSE</string>
+    <string name="kt_storage_what">Sposób, w jaki aplikacje dostają się do pamięci wewnętrznej i kart SD. sdcardfs przekazuje każdy odczyt i zapis prosto do jądra. FUSE, zwykła metoda Androida, przepuszcza każdy najpierw przez aplikację Pamięć multimediów, co na tym układzie kosztuje czas procesora i baterię.</string>
+    <string name="kt_storage_why">Zostaw sdcardfs, chyba że któraś aplikacja ma problem ze swoimi plikami. Gry, zapisy i pobrane pliki zostają na miejscu w obu trybach. Oba tryby jednak inaczej oznaczają foldery, które aplikacje trzymają dla siebie (Android/data), więc zaraz po zmianie aplikacja może nie móc odczytać swoich ustawień lub pobranych plików. Zwykle Android sam to naprawia. Jeśli po zmianie aplikacja przestanie działać albo zapomni ustawienia, przełącz z powrotem.</string>
+
     <string name="kt_crash_log">Log awarii</string>
     <string name="kt_crash_log_what">Zachowuje log jądra, log Androida i zapis awarii w kawałku pamięci RAM, który przetrwa restart, żeby następny start mógł je włożyć do raportu problemu.</string>
     <string name="kt_crash_log_why">Zostaw włączony. Wyłączanie służy tylko do sprawdzenia, czy sam log awarii nie sprawia kłopotów. Raport problemu nie ma wtedy logu z poprzedniego startu, a awarie jądra przestają pokazywać komunikat o awarii. Te 960 KB i tak są odłożone: drzewo urządzeń je rezerwuje, po prostu nie są używane.</string>

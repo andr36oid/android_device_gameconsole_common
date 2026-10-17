@@ -249,6 +249,12 @@
     <string name="kt_radios_what">Desativado impede que qualquer driver de Wi-Fi ou Bluetooth seja carregado, tanto para um chip embutido no console quanto para adaptadores USB. Wi-Fi e Bluetooth deixam de funcionar por completo.</string>
     <string name="kt_radios_why">Para consoles com Wi-Fi embutido. Na maioria deles o chip está ligado à porta USB e, enquanto o driver dele roda, dispositivos USB OTG como controles, pendrives e teclados não funcionam nela. Desativado libera a porta para OTG.</string>
 
+    <string name="kt_storage">Camada de armazenamento</string>
+    <string name="kt_storage_sdcardfs">sdcardfs</string>
+    <string name="kt_storage_fuse">FUSE</string>
+    <string name="kt_storage_what">Como os apps acessam o armazenamento interno e os cartões SD. O sdcardfs passa cada leitura e gravação direto para o kernel. O FUSE, o jeito padrão do Android, manda cada uma primeiro pelo app Armazenamento de mídia, o que neste chip gasta CPU e bateria.</string>
+    <string name="kt_storage_why">Deixe em sdcardfs, a menos que algum app tenha problemas com os arquivos dele. Jogos, saves e downloads continuam onde estão nos dois modos. Mas os dois modos marcam de jeito diferente as pastas que os apps guardam para si (Android/data), então logo depois de trocar um app pode não conseguir ler as próprias configurações ou downloads. Normalmente o Android resolve isso sozinho. Se um app parar de funcionar ou esquecer as configurações depois da troca, volte para a opção anterior.</string>
+
     <string name="kt_crash_log">Log de travamentos</string>
     <string name="kt_crash_log_what">Mantém o log do kernel, o log do Android e um registro de travamento em uma parte da RAM que sobrevive a um reinício, para que a próxima inicialização possa colocá-los no relatório de problemas.</string>
     <string name="kt_crash_log_why">Deixe ligado. Desligado serve só para testar se o próprio log de travamentos causa problemas. O relatório de problemas fica então sem o log da inicialização anterior, e os travamentos do kernel deixam de mostrar o aviso de travamento. Os 960 KB continuam reservados de qualquer forma: a árvore de dispositivos os reserva, só que não são usados.</string>

@@ -291,6 +291,21 @@ setp persist.andr36oid.kt.sd2_slot on
 run boot
 check "sd2 switch set since is kept" on "$(prop persist.andr36oid.kt.sd2_slot)"
 
+# --- storage layer: sdcardfs by default, FUSE as a start option
+setup
+run boot
+check "storage default sdcardfs" sdcardfs "$(prop sys.andr36oid.ktd.storage)"
+setp persist.andr36oid.kt.storage fuse
+run apply
+check "storage fuse written" "androidboot.storage_fuse=1" \
+	"$(sed -n 's/^kt_args=//p' "$T/boot/kernel-tweaks.txt")"
+echo "$(cat "$R"/proc/cmdline) androidboot.storage_fuse=1" >"$R"/proc/cmdline
+run boot
+check "storage current fuse" fuse "$(prop sys.andr36oid.ktc.storage)"
+setp persist.andr36oid.kt.storage sdcardfs
+run apply
+check "storage back to sdcardfs" no "$([ -e "$T/boot/kernel-tweaks.txt" ] && echo yes || echo no)"
+
 # --- crash log: two knobs while running, on/off and the split as start options
 setup
 mkdir -p "$R"/sys/module/ramoops/parameters

@@ -466,3 +466,9 @@ on property:ro.boot.lcd_density=*
 # until the battery is flat. See andr36oid_sleep_wdt.c.
 on shutdown
     write /sys/module/andr36oid_sleep_wdt/parameters/shutdown_watch 1
+
+# Kernel Tweaks > Storage layer set to FUSE (androidboot.storage_fuse=1 from
+# kernel-tweaks.txt): Android's own FUSE storage again. Runs after the action above.
+on post-fs-data && property:ro.boot.storage_fuse=1
+    setprop persist.sys.fuse true
+    setprop persist.sys.fflag.override.settings_fuse true

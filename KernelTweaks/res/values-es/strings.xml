@@ -249,6 +249,12 @@
     <string name="kt_radios_what">Desactivado impide que se cargue cualquier controlador de Wi-Fi o Bluetooth, tanto para un chip integrado en la consola como para adaptadores USB. Entonces el Wi-Fi y el Bluetooth no funcionan en absoluto.</string>
     <string name="kt_radios_why">Para consolas con Wi-Fi integrado. En la mayoría el chip está conectado al puerto USB y, mientras su controlador funciona, los dispositivos USB OTG como mandos, memorias y teclados no funcionan ahí. Desactivado deja el puerto libre para OTG.</string>
 
+    <string name="kt_storage">Capa de almacenamiento</string>
+    <string name="kt_storage_sdcardfs">sdcardfs</string>
+    <string name="kt_storage_fuse">FUSE</string>
+    <string name="kt_storage_what">Cómo acceden las apps al almacenamiento interno y a las tarjetas SD. sdcardfs pasa cada lectura y escritura directamente al kernel. FUSE, la forma habitual de Android, la envía primero a través de la app Almacenamiento multimedia, lo que en este chip cuesta CPU y batería.</string>
+    <string name="kt_storage_why">Déjalo en sdcardfs salvo que una app tenga problemas con sus archivos. Los juegos, las partidas guardadas y las descargas se quedan donde están en ambos casos. Pero los dos modos marcan de forma distinta las carpetas que las apps guardan para sí mismas (Android/data), así que justo después de cambiar puede que una app no pueda leer sus ajustes o descargas. Android suele arreglarlo solo. Si una app falla o pierde sus ajustes después del cambio, vuelve a la opción anterior.</string>
+
     <string name="kt_crash_log">Registro de cuelgues</string>
     <string name="kt_crash_log_what">Guarda el registro del kernel, el registro de Android y un registro de cuelgue en un trozo de RAM que sobrevive a un reinicio, para que el siguiente inicio pueda meterlos en el informe de problemas.</string>
     <string name="kt_crash_log_why">Déjalo activado. Desactivado solo sirve para probar si el propio registro de cuelgues causa problemas. El informe de problemas entonces no tiene el registro del inicio anterior, y los cuelgues del kernel ya no muestran el aviso de cuelgue. Los 960 KB quedan reservados igualmente: el árbol de dispositivos los reserva, solo que no se usan.</string>

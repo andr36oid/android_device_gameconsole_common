@@ -249,6 +249,12 @@
     <string name="kt_radios_what">Off keeps every Wi-Fi and Bluetooth driver from loading, for a chip built into the console and for USB sticks alike. Wi-Fi and Bluetooth don\'t work at all then.</string>
     <string name="kt_radios_why">For consoles with built-in Wi-Fi. On most of them the chip is wired to the USB port, and while its driver runs, USB OTG devices like controllers, sticks and keyboards don\'t work there. Off frees the port for OTG.</string>
 
+    <string name="kt_storage">Storage layer</string>
+    <string name="kt_storage_sdcardfs">sdcardfs</string>
+    <string name="kt_storage_fuse">FUSE</string>
+    <string name="kt_storage_what">How apps reach the internal storage and the SD cards. sdcardfs hands every file read and write straight to the kernel. FUSE, Android\'s usual way, sends each one through the Media Storage app first, which costs CPU time and battery on this chip.</string>
+    <string name="kt_storage_why">Leave it on sdcardfs unless an app has trouble with its files. Games, saves and downloads stay where they are either way. But the two modes mark the folders apps keep for themselves (Android/data) differently, so right after a switch an app may not be able to read its own settings or downloads. Android usually sorts this out by itself. If an app breaks or forgets its settings after you switch, switch back.</string>
+
     <string name="kt_crash_log">Crash log</string>
     <string name="kt_crash_log_what">Keeps the kernel log, the Android log and a crash record in a piece of RAM that survives a restart, so the next start can put them into the problem report.</string>
     <string name="kt_crash_log_why">Leave it on. Off is only for testing whether the crash log itself causes trouble. The problem report then lacks the log of the start before, and kernel crashes no longer bring up the crash notice. The 960 KB stay set aside anyway: the device tree reserves them, they just go unused.</string>
