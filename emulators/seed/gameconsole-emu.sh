@@ -532,8 +532,7 @@ seed_ppsspp() {
 	[ -d "$PP_DATA" ] || return 0
 	[ -e "$PP_DATA/files/memstick_dir.txt" ] && return 0
 	[ -f "$BASE/ppsspp/ppsspp.ini" ] || return 0
-	# vold makes Android/data when it mounts the internal storage
-	[ -d "${PP_EXT%/*/*}" ] || return 0
+	android_data || return 0
 	owner=$(stat -c %u:%g "$PP_DATA")
 	uid=${owner%:*}
 
@@ -643,8 +642,7 @@ seed_retroarch() {
 
 	[ -f "$BASE/retroarch/retroarch.cfg" ] || return 0
 	[ -e "$cfg" ] && return 0
-	# vold makes Android/data when it mounts the internal storage
-	[ -d "${RA_EXT%/*/*}" ] || return 0
+	android_data || return 0
 
 	# RetroArch hasn't run yet: make its folder the way vold does (owner the
 	# app, group ext_data_rw, setgid), only for what we create here
@@ -965,6 +963,23 @@ EASYROMS_ID="public:179,7"
 EASYROMS_PART=/sys/block/mmcblk0/mmcblk0p7
 # the internal storage as root sees it; apps see /storage/emulated/0
 MEDIA=/data/media/0
+
+# android_data ; makes sure $MEDIA/Android/data exists. vold only makes it when it mounts
+# the internal storage through FUSE; with sdcardfs it waits for the first app, so the
+# setup's app settings waited for it forever. Made the way vold makes it (media_rw,
+# 0771 + setgid). Fails only while the internal storage isn't there yet.
+android_data() {
+	local d
+	[ -d "$MEDIA/Android/data" ] && return 0
+	[ -d "$MEDIA" ] || return 1
+	for d in "$MEDIA/Android" "$MEDIA/Android/data"; do
+		[ -d "$d" ] && continue
+		mkdir "$d" && chown 1023:1023 "$d" && chmod 2771 "$d" ||
+			{ log "making $d failed"; return 1; }
+	done
+	restorecon -R "$MEDIA/Android" </dev/null >/dev/null 2>&1
+	log "made $MEDIA/Android/data (sdcardfs doesn't make it before an app does)"
+}
 ROM_FOLDERS=$BASE/rom-folders.txt
 
 # RetroArch's menu (RGUI) draws Russian, Chinese, Polish and Turkish only with
@@ -1485,7 +1500,7 @@ firstrun_list() {
 			fi
 			;;
 		extzip)
-			[ -d "$MEDIA/Android/data" ] || { FIRSTRUN_LEFT=1; break; }
+			android_data || { FIRSTRUN_LEFT=1; break; }
 			stamp=$STATE/extzip.$pkg.$src
 			[ -e "$stamp" ] && continue
 			firstrun_unzip "$dir/$src" "$ext/$dest" "${owner%:*}:$AID_EXT_DATA_RW" || { FIRSTRUN_LEFT=1; break; }
@@ -1494,8 +1509,7 @@ firstrun_list() {
 			log "unpacked $src into $pkg's $dest (internal storage)"
 			;;
 		ext)
-			# vold makes Android/data when it mounts the internal storage
-			[ -d "$MEDIA/Android/data" ] || { FIRSTRUN_LEFT=1; break; }
+			android_data || { FIRSTRUN_LEFT=1; break; }
 			firstrun_copy "$dir/$src" "$ext/$dest" "${owner%:*}:$AID_EXT_DATA_RW" 2770
 			rc=$?
 			[ $rc = 1 ] && { FIRSTRUN_LEFT=1; break; }
