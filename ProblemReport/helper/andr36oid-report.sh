@@ -550,7 +550,7 @@ startlog_collect() {
 	run system.txt 5 cat /proc/meminfo
 	run system.txt 5 cat /proc/mounts
 	run system.txt 10 df -h
-	run system.txt 10 ps -A -o USER,PID,PPID,VSZ,RSS,PCY,S,TIME,NAME
+	run system.txt 10 ps -A -o USER,PID,PPID,VSZ,RSS,PCY,S,WCHAN,TIME,NAME
 	run logcat.txt 60 logcat -d -b main,system,crash -v threadtime
 	run logcat-previous-start.txt 30 logcat -L -b main,system,crash -v threadtime
 	run kernel.txt 10 dmesg
@@ -821,7 +821,20 @@ show memory.txt /sys/block/zram*/disksize /sys/block/zram*/comp_algorithm \
 	/sys/block/zram*/mem_limit /sys/block/zram*/debug_stat
 run system.txt 5 cat /proc/mounts
 run system.txt 10 df -h
-run system.txt 10 ps -A -o USER,PID,PPID,VSZ,RSS,PCY,S,TIME,NAME
+run system.txt 10 ps -A -o USER,PID,PPID,VSZ,RSS,PCY,S,WCHAN,TIME,NAME
+# Tasks waiting on disk or a lock (state D) and where in the kernel they wait: a hang
+# with an idle CPU shows up here
+run system.txt 10 sh -c 'for d in /proc/[0-9]*; do
+	grep -q "^State:.*D" "$d/status" 2>/dev/null || continue
+	echo "== ${d#/proc/} $(cat "$d/comm" 2>/dev/null)"
+	cat "$d/stack" 2>/dev/null
+	for t in "$d"/task/[0-9]*; do
+		[ "$t" = "$d/task/${d#/proc/}" ] && continue
+		grep -q "^State:.*D" "$t/status" 2>/dev/null || continue
+		echo "-- thread ${t##*/} $(cat "$t/comm" 2>/dev/null)"
+		cat "$t/stack" 2>/dev/null
+	done
+done'
 run system.txt 15 top -b -n 1 -m 30
 run system.txt 5 cat /proc/interrupts
 run system.txt 5 cat /proc/zoneinfo
