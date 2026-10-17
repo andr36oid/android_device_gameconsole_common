@@ -1,14 +1,18 @@
 package org.andr36oid.kerneltweaks;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.PowerManager;
 import android.os.SystemClock;
 import android.os.SystemProperties;
 import android.preference.Preference;
@@ -18,6 +22,7 @@ import android.preference.PreferenceScreen;
 import android.preference.SwitchPreference;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
+import android.text.style.ImageSpan;
 import android.text.style.StyleSpan;
 
 import java.util.ArrayList;
@@ -43,6 +48,13 @@ public class KernelTweaksFragment extends PreferenceFragment {
     private static final String PREF_DOCS = "show_docs";
     private static final long POLL_MS = 200;
     private static final long WAIT_MS = 5000;
+    /** how long Restart waits for the helper to save the start options */
+    private static final long REBOOT_WAIT_MS = 15000;
+    /** risk dot colors, light enough for the dark theme: green, amber, red */
+    private static final int[] LEVEL_COLORS = {0xff66bb6a, 0xffffca28, 0xffef5350};
+    private static final int[] LEVEL_TEXTS = {
+        R.string.kt_level_safe, R.string.kt_level_last_resort, R.string.kt_level_risky,
+    };
 
     private final Handler mHandler = new Handler(Looper.getMainLooper());
     private final Map<Tweak, Preference> mRows = new HashMap<>();
@@ -51,6 +63,10 @@ public class KernelTweaksFragment extends PreferenceFragment {
     private SwitchPreference mUse;
     private SwitchPreference mDocs;
     private Preference mReset;
+    /** "storage", for the FUSE driver row, which stays on while storage uses FUSE */
+    private Tweak mStorage;
+    /** something was changed since the page opened or the restart question was asked */
+    private boolean mChanged;
     private String mWaitingFor;
     private long mWaitUntil;
 
@@ -72,6 +88,7 @@ public class KernelTweaksFragment extends PreferenceFragment {
         mUse.setTitle(R.string.kt_use);
         mUse.setOnPreferenceChangeListener((p, value) -> {
             SystemProperties.set(PAUSED_PROP, (Boolean) value ? "0" : "1");
+            mChanged = true;
             apply();
             return true;
         });
@@ -97,6 +114,7 @@ public class KernelTweaksFragment extends PreferenceFragment {
                 .setMessage(R.string.kt_reset_confirm)
                 .setPositiveButton(R.string.kt_reset, (d, w) -> {
                     for (Tweak t : mTweaks) SystemProperties.set(t.prop(), "");
+                    mChanged = true;
                     apply();
                 })
                 .setNegativeButton(android.R.string.cancel, null)
@@ -104,6 +122,18 @@ public class KernelTweaksFragment extends PreferenceFragment {
             return true;
         });
         screen.addPreference(mReset);
+
+        // what the dots left of each tweak mean
+        final Preference legend = new Preference(c);
+        legend.setTitle(R.string.kt_legend);
+        final SpannableStringBuilder sb = new SpannableStringBuilder();
+        for (int level = Tweak.SAFE; level <= Tweak.RISKY; level++) {
+            if (sb.length() > 0) sb.append('\n');
+            levelLine(c, sb, level);
+        }
+        legend.setSummary(sb);
+        legend.setSelectable(false);
+        screen.addPreference(legend);
 
         for (Tweaks.Category cat : Tweaks.all()) {
             final PreferenceCategory group = new PreferenceCategory(c);
@@ -117,12 +147,15 @@ public class KernelTweaksFragment extends PreferenceFragment {
                     link.setTitle(cat.linkTitle);
                     link.setSummary(cat.linkSummary);
                     link.setIntent(intent);
+                    // lined up with the tweaks below it, which have a risk dot
+                    link.setIconSpaceReserved(true);
                     group.addPreference(link);
                 }
             }
             for (Tweak t : cat.tweaks) {
                 final Preference row = new Preference(c);
                 row.setTitle(t.title);
+                row.setIcon(levelDot(c, t.level));
                 row.setOnPreferenceClickListener(p -> {
                     if (t.kind == Tweak.AXES) showAxes(t);
                     else showChoice(t);
@@ -131,6 +164,7 @@ public class KernelTweaksFragment extends PreferenceFragment {
                 group.addPreference(row);
                 mRows.put(t, row);
                 mTweaks.add(t);
+                if ("storage".equals(t.key)) mStorage = t;
             }
         }
     }
@@ -186,7 +220,7 @@ public class KernelTweaksFragment extends PreferenceFragment {
             if (!want.isEmpty()) saved++;
             CharSequence summary;
             // what the next start gets: tweaks switched off start with the defaults
-            final String next = paused || want.isEmpty() ? def : want;
+            final String next = nextValue(t);
             if (def.isEmpty()) {
                 row.setEnabled(false);
                 summary = getString(R.string.kt_unavailable);
@@ -207,6 +241,10 @@ public class KernelTweaksFragment extends PreferenceFragment {
                 } else {
                     summary = curLabel;
                 }
+                if (fuseLocked(t)) {
+                    row.setEnabled(false);
+                    summary = getString(R.string.kt_fuse_needed) + "\n" + summary;
+                }
             }
             if (docs) summary = summary + "\n" + getString(t.why);
             row.setSummary(summary);
@@ -225,10 +263,25 @@ public class KernelTweaksFragment extends PreferenceFragment {
         mReset.setEnabled(saved > 0 || changed > 0);
     }
 
-    /** a start option's value for the next start */
+    /** the value for the next start (for start options; the others take it right away) */
     private String nextValue(Tweak t) {
+        // the helper keeps the FUSE driver on while the next start uses FUSE storage
+        if (fuseLocked(t)) return "on";
         final String want = get(t.prop());
         return paused() || want.isEmpty() ? def(t) : want;
+    }
+
+    /** the FUSE driver row while storage is set to FUSE: FUSE storage can't do without it */
+    private boolean fuseLocked(Tweak t) {
+        return "fuse".equals(t.key) && mStorage != null && "fuse".equals(nextValue(mStorage));
+    }
+
+    /** a start option whose value for the next start isn't the one running now */
+    private boolean restartPending() {
+        for (Tweak t : mTweaks) {
+            if (t.atBoot && !def(t).isEmpty() && !nextValue(t).equals(cur(t))) return true;
+        }
+        return false;
     }
 
     private String label(Tweak t, String value) {
@@ -248,6 +301,7 @@ public class KernelTweaksFragment extends PreferenceFragment {
     /** save one tweak; the default is saved as "" so it follows the kernel */
     private void save(Tweak t, String value) {
         SystemProperties.set(t.prop(), value.equals(def(t)) ? "" : value);
+        mChanged = true;
         apply();
     }
 
@@ -324,6 +378,8 @@ public class KernelTweaksFragment extends PreferenceFragment {
         sb.append(getString(t.what)).append("\n\n");
         heading(sb, getString(R.string.kt_doc_why));
         sb.append(getString(t.why)).append("\n\n");
+        levelLine(getActivity(), sb, t.level);
+        sb.append("\n\n");
         final String def = def(t);
         if (!def.isEmpty()) {
             sb.append(getString(R.string.kt_doc_default, t.kind == Tweak.AXES
@@ -340,6 +396,69 @@ public class KernelTweaksFragment extends PreferenceFragment {
             .setMessage(sb)
             .setPositiveButton(android.R.string.ok, null)
             .show();
+    }
+
+    // ---------------------------------------------------------------------------- restart
+
+    /**
+     * Leaving the page (Back or Up) after a change that needs a restart: asks whether to
+     * restart now. True when the question is up, the activity then finishes or restarts.
+     */
+    boolean askRestart() {
+        final Activity a = getActivity();
+        if (a == null || !mChanged || !restartPending()) return false;
+        // asked once per change: Back on the question, then Back again, leaves
+        mChanged = false;
+        final AlertDialog d = new AlertDialog.Builder(a)
+            .setTitle(R.string.kt_restart_title)
+            .setMessage(R.string.kt_restart_message)
+            .setPositiveButton(R.string.kt_restart, (x, w) -> rebootWhenSaved())
+            .setNegativeButton(R.string.kt_restart_later, (x, w) -> a.finish())
+            .show();
+        // the gamepad starts on Restart
+        d.getButton(AlertDialog.BUTTON_POSITIVE).requestFocus();
+        return true;
+    }
+
+    /** restart once the helper has written the start options to BOOT, or after a while */
+    private void rebootWhenSaved() {
+        final Context app = getActivity().getApplicationContext();
+        final String waitingFor = mWaitingFor;
+        final long until = SystemClock.uptimeMillis() + REBOOT_WAIT_MS;
+        final Handler h = new Handler(Looper.getMainLooper());
+        h.post(new Runnable() {
+            @Override
+            public void run() {
+                if (waitingFor != null && !waitingFor.equals(get(DONE_PROP))
+                        && SystemClock.uptimeMillis() < until) {
+                    h.postDelayed(this, POLL_MS);
+                    return;
+                }
+                app.getSystemService(PowerManager.class).reboot(null);
+            }
+        });
+    }
+
+    // ---------------------------------------------------------------------------- risk
+
+    /** a filled circle in the level's color, 12 dp across */
+    private static Drawable levelDot(Context c, int level) {
+        final int size = Math.round(12 * c.getResources().getDisplayMetrics().density);
+        final GradientDrawable d = new GradientDrawable();
+        d.setShape(GradientDrawable.OVAL);
+        d.setColor(LEVEL_COLORS[level - Tweak.SAFE]);
+        d.setSize(size, size);
+        d.setBounds(0, 0, size, size);
+        return d;
+    }
+
+    /** the level's dot and its explanation, e.g. "(green) Safe: fine to try on any console" */
+    private static void levelLine(Context c, SpannableStringBuilder sb, int level) {
+        final int start = sb.length();
+        sb.append(' ');
+        sb.setSpan(new ImageSpan(levelDot(c, level), ImageSpan.ALIGN_BASELINE), start,
+                sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        sb.append("  ").append(c.getString(LEVEL_TEXTS[level - Tweak.SAFE]));
     }
 
     private static void heading(SpannableStringBuilder sb, String text) {

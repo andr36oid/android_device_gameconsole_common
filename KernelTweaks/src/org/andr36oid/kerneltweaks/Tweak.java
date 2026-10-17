@@ -13,6 +13,11 @@ final class Tweak {
     /** stick_invert: four 0/1 flags, shown as checkboxes flipped against the default */
     static final int AXES = 1;
 
+    /** risk levels, shown as a colored dot left of the title; every tweak needs one */
+    static final int SAFE = 1;
+    static final int LAST_RESORT = 2;
+    static final int RISKY = 3;
+
     final String key;
     final int kind;
     final int title;
@@ -31,6 +36,8 @@ final class Tweak {
     int unit;
     /** the kernel's number is this many units, e.g. 1000 for m°C shown as °C */
     int scale = 1;
+    /** {@link #SAFE}, {@link #LAST_RESORT} or {@link #RISKY}; 0 until set */
+    int level;
 
     private Tweak(String key, int kind, int title, int what, int why, String file) {
         this.key = key;
@@ -66,6 +73,11 @@ final class Tweak {
 
     Tweak scale(int s) {
         scale = s;
+        return this;
+    }
+
+    Tweak level(int l) {
+        level = l;
         return this;
     }
 

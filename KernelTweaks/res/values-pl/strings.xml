@@ -22,6 +22,18 @@
     <string name="kt_reset_summary">Wróć do wartości domyślnych dla tej konsoli</string>
     <string name="kt_reset_confirm">Przywrócić każde ustawienie jądra do wartości domyślnej?</string>
 
+    <!-- Risk dots: legend at the top of the list, and each tweak's level -->
+    <string name="kt_legend">Co oznaczają kropki</string>
+    <string name="kt_level_safe">Bezpieczne: możesz spokojnie wypróbować na każdej konsoli</string>
+    <string name="kt_level_last_resort">Ostateczność: próbuj tylko wtedy, gdy nic innego nie pomogło</string>
+    <string name="kt_level_risky">Ryzykowne: może sprawić, że coś przestanie działać, na własną odpowiedzialność</string>
+
+    <!-- Leaving the page after changing a start option -->
+    <string name="kt_restart_title">Uruchomić ponownie teraz?</string>
+    <string name="kt_restart_message">Niektóre zmiany działają dopiero po ponownym uruchomieniu.</string>
+    <string name="kt_restart">Uruchom ponownie</string>
+    <string name="kt_restart_later">Później</string>
+
     <!-- Row summaries -->
     <!-- e.g. "Light sleep · changed, normally Deep sleep" -->
     <string name="kt_changed"><xliff:g id="value">%1$s</xliff:g> · zmienione, normalnie <xliff:g id="default">%2$s</xliff:g></string>
@@ -256,6 +268,11 @@
     <string name="kt_storage_fuse">FUSE</string>
     <string name="kt_storage_what">Sposób, w jaki aplikacje dostają się do pamięci wewnętrznej i kart SD. sdcardfs przekazuje każdy odczyt i zapis prosto do jądra. FUSE, zwykła metoda Androida, przepuszcza każdy najpierw przez aplikację Pamięć multimediów, co na tym układzie kosztuje czas procesora i baterię.</string>
     <string name="kt_storage_why">Zostaw sdcardfs, chyba że któraś aplikacja ma problem ze swoimi plikami. Gry, zapisy i pobrane pliki zostają na miejscu w obu trybach. Oba tryby jednak inaczej oznaczają foldery, które aplikacje trzymają dla siebie (Android/data), więc zaraz po zmianie aplikacja może nie móc odczytać swoich ustawień lub pobranych plików. Zwykle Android sam to naprawia. Jeśli po zmianie aplikacja przestanie działać albo zapomni ustawienia, przełącz z powrotem.</string>
+
+    <string name="kt_fuse">Sterownik FUSE</string>
+    <string name="kt_fuse_what">Wyłączone nie pozwala uruchomić się sterownikowi FUSE w jądrze, co oszczędza około 100 KB pamięci. Z sdcardfs Android nie potrzebuje FUSE do obsługi pamięci.</string>
+    <string name="kt_fuse_why">Opłaca się tylko wtedy, gdy liczy się każdy kawałek pamięci. Android nadal używa FUSE do appfuse: otwierania w aplikacji Pliki plików z telefonu lub aparatu podłączonego przez USB (MTP) oraz w aplikacjach, które udostępniają pliki wirtualne. To nie działa, dopóki sterownik jest wyłączony. Jeśli po wyłączeniu coś nie może otworzyć plików, włącz go z powrotem.</string>
+    <string name="kt_fuse_needed">Zostaje włączony, dopóki warstwa pamięci jest ustawiona na FUSE: pamięć działa wtedy przez niego.</string>
 
     <string name="kt_crash_log">Log awarii</string>
     <string name="kt_crash_log_what">Zachowuje log jądra, log Androida i zapis awarii w kawałku pamięci RAM, który przetrwa restart, żeby następny start mógł je włożyć do raportu problemu.</string>

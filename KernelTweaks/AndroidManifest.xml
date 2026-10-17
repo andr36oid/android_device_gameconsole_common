@@ -3,6 +3,9 @@
     package="org.andr36oid.kerneltweaks"
     android:sharedUserId="android.uid.system">
 
+    <!-- Restart after changing a start option (the system user has it anyway) -->
+    <uses-permission android:name="android.permission.REBOOT" />
+
     <application
         android:allowBackup="false"
         android:icon="@drawable/ic_kernel_tweaks"

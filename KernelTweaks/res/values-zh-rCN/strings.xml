@@ -19,6 +19,18 @@
     <string name="kt_reset_summary">恢复此掌机的默认值</string>
     <string name="kt_reset_confirm">将每一项内核调整都恢复为默认值？</string>
 
+    <!-- Risk dots: legend at the top of the list, and each tweak's level -->
+    <string name="kt_legend">圆点颜色的含义</string>
+    <string name="kt_level_safe">安全：任何掌机都可以放心尝试</string>
+    <string name="kt_level_last_resort">最后手段：其他办法都不管用时再试</string>
+    <string name="kt_level_risky">有风险：可能导致某些功能失效，后果自负</string>
+
+    <!-- Leaving the page after changing a start option -->
+    <string name="kt_restart_title">现在重启？</string>
+    <string name="kt_restart_message">部分更改需要重启后才会生效。</string>
+    <string name="kt_restart">重启</string>
+    <string name="kt_restart_later">稍后</string>
+
     <!-- Row summaries -->
     <!-- e.g. "Light sleep · changed, normally Deep sleep" -->
     <string name="kt_changed"><xliff:g id="value">%1$s</xliff:g> · 已更改，正常为 <xliff:g id="default">%2$s</xliff:g></string>
@@ -253,6 +265,11 @@
     <string name="kt_storage_fuse">FUSE</string>
     <string name="kt_storage_what">应用访问内部存储和 SD 卡的方式。sdcardfs 把每次读写直接交给内核。FUSE 是 Android 的常规方式，每次读写都要先经过“媒体存储”应用，在这颗芯片上会耗费 CPU 时间和电量。</string>
     <string name="kt_storage_why">除非某个应用读写文件出问题，否则请保持 sdcardfs。两种模式下，游戏、存档和下载内容都不会动。但两种模式给应用自用文件夹（Android/data）的标记不同，所以刚切换后，应用可能读不到自己的设置或下载内容。Android 通常会自己修好。如果切换后某个应用出错或丢了设置，请切换回来。</string>
+
+    <string name="kt_fuse">FUSE 驱动</string>
+    <string name="kt_fuse_what">关闭后内核的 FUSE 驱动不会启动，可省下约 100 KB 内存。使用 sdcardfs 时，Android 的存储不需要 FUSE。</string>
+    <string name="kt_fuse_why">只有在每一点内存都很重要时才值得关闭。Android 仍会把 FUSE 用于 appfuse：在“文件”应用中打开通过 USB（MTP）连接的手机或相机里的文件，以及提供虚拟文件的应用。关闭后这些都会失败。如果关闭后有东西打不开文件，请重新开启。</string>
+    <string name="kt_fuse_needed">存储层设为 FUSE 时保持开启：此时存储依赖它运行。</string>
 
     <string name="kt_crash_log">崩溃日志</string>
     <string name="kt_crash_log_what">将内核日志、Android 日志和崩溃记录保存在一块能在重启后保留的内存中，以便下次启动时将它们放入问题报告。</string>

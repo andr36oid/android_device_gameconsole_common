@@ -20,6 +20,18 @@
     <string name="kt_reset_summary">Back to the defaults for this console</string>
     <string name="kt_reset_confirm">Put every kernel tweak back to its default?</string>
 
+    <!-- Risk dots: legend at the top of the list, and each tweak's level -->
+    <string name="kt_legend">What the dots mean</string>
+    <string name="kt_level_safe">Safe: fine to try on any console</string>
+    <string name="kt_level_last_resort">Last resort: try this only when nothing else helped</string>
+    <string name="kt_level_risky">Risky: can stop things from working, you\'re on your own</string>
+
+    <!-- Leaving the page after changing a start option -->
+    <string name="kt_restart_title">Restart now?</string>
+    <string name="kt_restart_message">Some changes only take effect after a restart.</string>
+    <string name="kt_restart">Restart</string>
+    <string name="kt_restart_later">Later</string>
+
     <!-- Row summaries -->
     <!-- e.g. "Light sleep · changed, normally Deep sleep" -->
     <string name="kt_changed"><xliff:g id="value">%1$s</xliff:g> · changed, normally <xliff:g id="default">%2$s</xliff:g></string>
@@ -254,6 +266,11 @@
     <string name="kt_storage_fuse">FUSE</string>
     <string name="kt_storage_what">How apps reach the internal storage and the SD cards. sdcardfs hands every file read and write straight to the kernel. FUSE, Android\'s usual way, sends each one through the Media Storage app first, which costs CPU time and battery on this chip.</string>
     <string name="kt_storage_why">Leave it on sdcardfs unless an app has trouble with its files. Games, saves and downloads stay where they are either way. But the two modes mark the folders apps keep for themselves (Android/data) differently, so right after a switch an app may not be able to read its own settings or downloads. Android usually sorts this out by itself. If an app breaks or forgets its settings after you switch, switch back.</string>
+
+    <string name="kt_fuse">FUSE driver</string>
+    <string name="kt_fuse_what">Off keeps the kernel\'s FUSE driver from starting, which saves about 100 KB of memory. With sdcardfs, Android doesn\'t need FUSE for storage.</string>
+    <string name="kt_fuse_why">Only worth it when every bit of memory counts. Android still uses FUSE for appfuse: opening files from a phone or camera connected over USB (MTP) in the Files app, and apps that hand out virtual files. Those fail while it\'s off. If something can\'t open files after you switch it off, switch it back on.</string>
+    <string name="kt_fuse_needed">Stays on while the storage layer is FUSE: storage runs on it then.</string>
 
     <string name="kt_crash_log">Crash log</string>
     <string name="kt_crash_log_what">Keeps the kernel log, the Android log and a crash record in a piece of RAM that survives a restart, so the next start can put them into the problem report.</string>

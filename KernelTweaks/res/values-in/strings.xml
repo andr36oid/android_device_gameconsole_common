@@ -19,6 +19,18 @@
     <string name="kt_reset_summary">Kembali ke nilai default untuk konsol ini</string>
     <string name="kt_reset_confirm">Kembalikan setiap kernel tweak ke nilai defaultnya?</string>
 
+    <!-- Risk dots: legend at the top of the list, and each tweak's level -->
+    <string name="kt_legend">Arti titik warna</string>
+    <string name="kt_level_safe">Aman: boleh dicoba di konsol mana pun</string>
+    <string name="kt_level_last_resort">Pilihan terakhir: coba hanya jika cara lain tidak membantu</string>
+    <string name="kt_level_risky">Berisiko: bisa membuat sesuatu tidak berfungsi, risiko ditanggung sendiri</string>
+
+    <!-- Leaving the page after changing a start option -->
+    <string name="kt_restart_title">Restart sekarang?</string>
+    <string name="kt_restart_message">Beberapa perubahan baru berlaku setelah restart.</string>
+    <string name="kt_restart">Restart</string>
+    <string name="kt_restart_later">Nanti</string>
+
     <!-- Row summaries -->
     <!-- e.g. "Light sleep · changed, normally Deep sleep" -->
     <string name="kt_changed"><xliff:g id="value">%1$s</xliff:g> · diubah, biasanya <xliff:g id="default">%2$s</xliff:g></string>
@@ -253,6 +265,11 @@
     <string name="kt_storage_fuse">FUSE</string>
     <string name="kt_storage_what">Cara aplikasi mengakses penyimpanan internal dan kartu SD. sdcardfs meneruskan setiap baca dan tulis langsung ke kernel. FUSE, cara bawaan Android, melewatkannya dulu melalui aplikasi Penyimpanan Media, yang memakan waktu CPU dan baterai di chip ini.</string>
     <string name="kt_storage_why">Biarkan di sdcardfs kecuali ada aplikasi yang bermasalah dengan file-nya. Game, simpanan, dan unduhan tetap di tempatnya dalam kedua mode. Tetapi kedua mode menandai folder milik aplikasi sendiri (Android/data) secara berbeda, jadi tepat setelah beralih, aplikasi mungkin tidak bisa membaca pengaturan atau unduhannya sendiri. Biasanya Android memperbaikinya sendiri. Jika aplikasi rusak atau lupa pengaturannya setelah Anda beralih, kembalikan pengaturan ini.</string>
+
+    <string name="kt_fuse">Driver FUSE</string>
+    <string name="kt_fuse_what">Nonaktif mencegah driver FUSE milik kernel berjalan, sehingga menghemat sekitar 100 KB memori. Dengan sdcardfs, Android tidak memerlukan FUSE untuk penyimpanan.</string>
+    <string name="kt_fuse_why">Hanya berguna jika setiap sedikit memori berarti. Android masih memakai FUSE untuk appfuse: membuka file dari ponsel atau kamera yang tersambung lewat USB (MTP) di aplikasi File, dan aplikasi yang menyediakan file virtual. Semua itu gagal selama driver ini nonaktif. Jika ada yang tidak bisa membuka file setelah Anda menonaktifkannya, aktifkan lagi.</string>
+    <string name="kt_fuse_needed">Tetap aktif selama lapisan penyimpanan memakai FUSE: penyimpanan berjalan di atasnya.</string>
 
     <string name="kt_crash_log">Log crash</string>
     <string name="kt_crash_log_what">Menyimpan log kernel, log Android, dan catatan crash di bagian RAM yang bertahan saat mulai ulang, agar start berikutnya bisa memasukkannya ke laporan masalah.</string>

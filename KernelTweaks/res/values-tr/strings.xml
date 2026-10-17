@@ -20,6 +20,18 @@
     <string name="kt_reset_summary">Bu konsol için varsayılanlara dön</string>
     <string name="kt_reset_confirm">Her kernel ayarı varsayılan değerine geri döndürülsün mü?</string>
 
+    <!-- Risk dots: legend at the top of the list, and each tweak's level -->
+    <string name="kt_legend">Noktaların anlamı</string>
+    <string name="kt_level_safe">Güvenli: her konsolda rahatça deneyebilirsiniz</string>
+    <string name="kt_level_last_resort">Son çare: bunu yalnızca başka hiçbir şey işe yaramadıysa deneyin</string>
+    <string name="kt_level_risky">Riskli: bazı şeylerin çalışmamasına yol açabilir, sorumluluk sizde</string>
+
+    <!-- Leaving the page after changing a start option -->
+    <string name="kt_restart_title">Şimdi yeniden başlatılsın mı?</string>
+    <string name="kt_restart_message">Bazı değişiklikler ancak yeniden başlattıktan sonra geçerli olur.</string>
+    <string name="kt_restart">Yeniden başlat</string>
+    <string name="kt_restart_later">Sonra</string>
+
     <!-- Row summaries -->
     <!-- e.g. "Light sleep · changed, normally Deep sleep" -->
     <string name="kt_changed"><xliff:g id="value">%1$s</xliff:g> · değiştirildi, normalde <xliff:g id="default">%2$s</xliff:g></string>
@@ -254,6 +266,11 @@
     <string name="kt_storage_fuse">FUSE</string>
     <string name="kt_storage_what">Uygulamaların dahili depolamaya ve SD kartlara nasıl eriştiği. sdcardfs her okuma ve yazmayı doğrudan çekirdeğe iletir. Android\'in olağan yolu olan FUSE ise her birini önce Medya Depolama uygulamasından geçirir; bu da bu çipte işlemci zamanı ve pil harcar.</string>
     <string name="kt_storage_why">Bir uygulama dosyalarıyla sorun yaşamadıkça sdcardfs\'te bırakın. Oyunlar, kayıtlar ve indirilenler iki modda da yerinde kalır. Ancak iki mod, uygulamaların kendileri için tuttuğu klasörleri (Android/data) farklı işaretler; bu yüzden geçişten hemen sonra bir uygulama kendi ayarlarını veya indirdiklerini okuyamayabilir. Android bunu genellikle kendisi düzeltir. Geçişten sonra bir uygulama bozulursa ya da ayarlarını unutursa, ayarı geri alın.</string>
+
+    <string name="kt_fuse">FUSE sürücüsü</string>
+    <string name="kt_fuse_what">Kapalı, kernelin FUSE sürücüsünün başlamasını engeller ve yaklaşık 100 KB bellek kazandırır. sdcardfs ile Android\'in depolama için FUSE\'a ihtiyacı yoktur.</string>
+    <string name="kt_fuse_why">Yalnızca her bir parça bellek önemliyse değer. Android, appfuse için FUSE\'u yine de kullanır: USB (MTP) ile bağlı bir telefondan veya kameradan dosyaları Dosyalar uygulamasında açmak ve sanal dosya sunan uygulamalar. Bunlar sürücü kapalıyken çalışmaz. Kapattıktan sonra bir şey dosya açamıyorsa, yeniden açın.</string>
+    <string name="kt_fuse_needed">Depolama katmanı FUSE olduğu sürece açık kalır: depolama o zaman onun üzerinden çalışır.</string>
 
     <string name="kt_crash_log">Çökme logu</string>
     <string name="kt_crash_log_what">Çekirdek logunu, Android logunu ve bir çökme kaydını yeniden başlatmada kalan bir RAM parçasında tutar; böylece bir sonraki açılış bunları sorun raporuna koyabilir.</string>

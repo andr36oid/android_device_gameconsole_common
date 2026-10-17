@@ -74,6 +74,7 @@ crash_log|boot||crash_log
 crash_split|boot||crash_split
 radios|boot||radios
 storage|boot||storage
+fuse|boot||fuse
 sd2_slot|boot||sd2_slot
 '
 
@@ -137,6 +138,8 @@ boot_read() {
 		[ "$(arg_last module.no_radios "$2")" = 1 ] && echo off || echo on ;;
 	storage)
 		[ "$(arg_last androidboot.storage_fuse "$2")" = 1 ] && echo fuse || echo sdcardfs ;;
+	fuse)
+		[ "$(arg_last fuse.disable "$2")" = 1 ] && echo off || echo on ;;
 	sd2_slot)
 		[ "$(arg_last dw_mmc_rockchip.second_slot "$2")" = 0 ] && echo off || echo on ;;
 	crash_log)
@@ -194,6 +197,8 @@ boot_args() {
 	crash_log:off) echo "ramoops.disable=1" ;;
 	radios:off) echo "module.no_radios=1" ;;
 	storage:fuse) echo "androidboot.storage_fuse=1" ;;
+	fuse:off) echo "fuse.disable=1" ;;
+	fuse:on) echo "fuse.disable=0" ;;
 	sd2_slot:off) echo "dw_mmc_rockchip.second_slot=0" ;;
 	crash_split:balanced) split_args "$SPLIT_BALANCED" ;;
 	crash_split:kernel) split_args "$SPLIT_KERNEL" ;;
@@ -347,6 +352,7 @@ write_knob() {
 apply_all() {
 	failed=
 	bootargs=
+	storage_next=
 	# fed by a here-document, not a pipe: the loop runs in this shell and keeps $failed
 	while IFS='|' read -r key kind once paths; do
 		[ -n "$key" ] || continue
@@ -362,6 +368,10 @@ apply_all() {
 		[ -n "$want" ] || want=$def
 		# shellcheck disable=SC2086 # paths is a space separated list
 		cur=$(read_knob "$kind" $paths)
+		# storage comes before fuse in KNOBS: FUSE storage needs the FUSE driver, so
+		# fuse.disable=1 stays off the command line while the next start uses it
+		[ "$key" = storage ] && storage_next=$want
+		[ "$key" = fuse ] && [ "$storage_next" = fuse ] && want=on
 		if [ "$kind" = boot ]; then
 			# for the next start; the kernel keeps what it started with
 			if [ "$want" != "$def" ]; then

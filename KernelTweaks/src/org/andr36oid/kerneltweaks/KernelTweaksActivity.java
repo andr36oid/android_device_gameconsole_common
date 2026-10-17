@@ -2,6 +2,7 @@ package org.andr36oid.kerneltweaks;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.Fragment;
 import android.os.Bundle;
 
 public class KernelTweaksActivity extends Activity {
@@ -20,7 +21,18 @@ public class KernelTweaksActivity extends Activity {
 
     @Override
     public boolean onNavigateUp() {
-        finish();
+        if (!askRestart()) finish();
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (!askRestart()) super.onBackPressed();
+    }
+
+    /** true when the page asks whether to restart now, before it is left */
+    private boolean askRestart() {
+        final Fragment f = getFragmentManager().findFragmentById(android.R.id.content);
+        return f instanceof KernelTweaksFragment && ((KernelTweaksFragment) f).askRestart();
     }
 }

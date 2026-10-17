@@ -20,6 +20,18 @@
     <string name="kt_reset">Сбросить всё</string>
     <string name="kt_reset_summary">Вернуть значения по умолчанию для этой консоли</string>
     <string name="kt_reset_confirm">Вернуть все настройки ядра к значениям по умолчанию?</string>
+
+    <!-- Risk dots: legend at the top of the list, and each tweak's level -->
+    <string name="kt_legend">Что значат точки</string>
+    <string name="kt_level_safe">Безопасно: можно пробовать на любой консоли</string>
+    <string name="kt_level_last_resort">Крайняя мера: пробуйте, только если больше ничего не помогло</string>
+    <string name="kt_level_risky">Рискованно: что-то может перестать работать, на ваш страх и риск</string>
+
+    <!-- Leaving the page after changing a start option -->
+    <string name="kt_restart_title">Перезапустить сейчас?</string>
+    <string name="kt_restart_message">Некоторые изменения вступят в силу только после перезапуска.</string>
+    <string name="kt_restart">Перезапустить</string>
+    <string name="kt_restart_later">Позже</string>
     <!-- Row summaries -->
     <!-- e.g. "Light sleep · changed, normally Deep sleep" -->
     <string name="kt_changed"><xliff:g id="value">%1$s</xliff:g> · изменено, обычно <xliff:g id="default">%2$s</xliff:g></string>
@@ -220,6 +232,11 @@
     <string name="kt_storage_fuse">FUSE</string>
     <string name="kt_storage_what">Как приложения обращаются к внутренней памяти и SD-картам. sdcardfs передаёт каждое чтение и запись прямо ядру. FUSE, обычный способ Android, сначала пропускает каждое обращение через приложение «Хранилище мультимедиа», а на этом чипе это стоит процессорного времени и заряда.</string>
     <string name="kt_storage_why">Оставьте sdcardfs, если только у какого-то приложения нет проблем с файлами. Игры, сохранения и загрузки в обоих режимах остаются на месте. Но режимы по-разному помечают папки, которые приложения держат для себя (Android/data), поэтому сразу после переключения приложение может не прочитать свои настройки или загрузки. Обычно Android исправляет это сам. Если после переключения приложение сломалось или забыло настройки, переключите обратно.</string>
+
+    <string name="kt_fuse">Драйвер FUSE</string>
+    <string name="kt_fuse_what">Выключение не даёт запуститься драйверу FUSE в ядре и экономит около 100 КБ памяти. С sdcardfs Android не нужен FUSE для хранилища.</string>
+    <string name="kt_fuse_why">Имеет смысл, только когда на счету каждый кусочек памяти. Android всё равно использует FUSE для appfuse: открытия в приложении «Файлы» файлов с телефона или камеры, подключённых по USB (MTP), и приложений, которые отдают виртуальные файлы. Пока драйвер выключен, это не работает. Если после выключения что-то не может открыть файлы, включите его обратно.</string>
+    <string name="kt_fuse_needed">Остаётся включённым, пока слой хранилища стоит на FUSE: хранилище тогда работает через него.</string>
 
     <string name="kt_crash_log">Лог сбоев</string>
     <string name="kt_crash_log_what">Хранит лог ядра, лог Android и запись о сбое в участке ОЗУ, который переживает перезапуск, чтобы при следующем запуске они попали в отчёт о проблеме.</string>

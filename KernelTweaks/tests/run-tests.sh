@@ -306,6 +306,38 @@ setp persist.andr36oid.kt.storage sdcardfs
 run apply
 check "storage back to sdcardfs" no "$([ -e "$T/boot/kernel-tweaks.txt" ] && echo yes || echo no)"
 
+# --- FUSE driver: on by default, off as a start option, never off with FUSE storage
+setup
+run boot
+check "fuse default on" on "$(prop sys.andr36oid.ktd.fuse)"
+setp persist.andr36oid.kt.fuse off
+run apply
+check "fuse off written" "fuse.disable=1" \
+	"$(sed -n 's/^kt_args=//p' "$T/boot/kernel-tweaks.txt")"
+echo "$(cat "$R"/proc/cmdline) fuse.disable=1" >"$R"/proc/cmdline
+run boot
+check "fuse current off" off "$(prop sys.andr36oid.ktc.fuse)"
+check "fuse default stays on" on "$(prop sys.andr36oid.ktd.fuse)"
+setp persist.andr36oid.kt.storage fuse
+run apply
+check "fuse stays on with FUSE storage" "androidboot.storage_fuse=1" \
+	"$(sed -n 's/^kt_args=//p' "$T/boot/kernel-tweaks.txt")"
+setp persist.andr36oid.kt.storage ""
+run apply
+check "fuse off again with sdcardfs" "fuse.disable=1" \
+	"$(sed -n 's/^kt_args=//p' "$T/boot/kernel-tweaks.txt")"
+setp persist.andr36oid.kt.fuse ""
+run apply
+check "fuse back on" no "$([ -e "$T/boot/kernel-tweaks.txt" ] && echo yes || echo no)"
+# a console whose own command line has FUSE storage: fuse off isn't written either
+setup
+echo "$(cat "$R"/proc/cmdline) androidboot.storage_fuse=1" >"$R"/proc/cmdline
+run boot
+setp persist.andr36oid.kt.fuse off
+run apply
+check "fuse stays on with FUSE storage by default" no \
+	"$([ -e "$T/boot/kernel-tweaks.txt" ] && echo yes || echo no)"
+
 # --- crash log: two knobs while running, on/off and the split as start options
 setup
 mkdir -p "$R"/sys/module/ramoops/parameters
@@ -400,6 +432,11 @@ mkdir "$R"/sys/devices/platform/ff450000.dsi/preview_rate
 setp sys.andr36oid.hzp.rate 90
 hzp
 check "preview write that fails" "12 failed" "$(prop sys.andr36oid.hzp.result)"
+
+# --- the app: every tweak in Tweaks.java has a risk level (the app throws without one)
+J=$HERE/../src/org/andr36oid/kerneltweaks/Tweaks.java
+check "every tweak has a level" "$(grep -c '^ *\.add(' "$J")" \
+	"$(grep -c '^ *\.level(Tweak\.\(SAFE\|LAST_RESORT\|RISKY\))' "$J")"
 
 echo "passed $pass, failed $fail (shell: $MKSH)"
 [ "$fail" = 0 ]

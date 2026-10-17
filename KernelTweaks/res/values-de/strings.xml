@@ -20,6 +20,18 @@
     <string name="kt_reset_summary">Zurück zu den Standardwerten für diese Konsole</string>
     <string name="kt_reset_confirm">Jeden Kernel-Tweak auf seinen Standardwert zurücksetzen?</string>
 
+    <!-- Risk dots: legend at the top of the list, and each tweak's level -->
+    <string name="kt_legend">Was die Punkte bedeuten</string>
+    <string name="kt_level_safe">Sicher: kannst du auf jeder Konsole gefahrlos ausprobieren</string>
+    <string name="kt_level_last_resort">Letzter Ausweg: probier das nur, wenn sonst nichts geholfen hat</string>
+    <string name="kt_level_risky">Riskant: kann dafür sorgen, dass Dinge nicht mehr funktionieren, auf eigene Gefahr</string>
+
+    <!-- Leaving the page after changing a start option -->
+    <string name="kt_restart_title">Jetzt neu starten?</string>
+    <string name="kt_restart_message">Einige Änderungen wirken erst nach einem Neustart.</string>
+    <string name="kt_restart">Neu starten</string>
+    <string name="kt_restart_later">Später</string>
+
     <!-- Row summaries -->
     <!-- e.g. "Light sleep · changed, normally Deep sleep" -->
     <string name="kt_changed"><xliff:g id="value">%1$s</xliff:g> · geändert, Standard: <xliff:g id="default">%2$s</xliff:g></string>
@@ -254,6 +266,11 @@
     <string name="kt_storage_fuse">FUSE</string>
     <string name="kt_storage_what">Wie Apps auf den internen Speicher und die SD-Karten zugreifen. sdcardfs gibt jeden Lese- und Schreibzugriff direkt an den Kernel weiter. FUSE, der übliche Weg von Android, schickt jeden erst durch die App „Medienspeicher“. Das kostet auf diesem Chip Rechenzeit und Akku.</string>
     <string name="kt_storage_why">Lass es auf sdcardfs, außer eine App hat Probleme mit ihren Dateien. Spiele, Spielstände und Downloads bleiben in jedem Fall, wo sie sind. Die beiden Modi kennzeichnen aber die Ordner, die Apps für sich selbst anlegen (Android/data), unterschiedlich. Direkt nach einem Wechsel kann eine App deshalb ihre eigenen Einstellungen oder Downloads eventuell nicht lesen. Meist bringt Android das von selbst in Ordnung. Wenn eine App nach dem Wechsel nicht mehr richtig läuft oder ihre Einstellungen vergessen hat, stell es wieder zurück.</string>
+
+    <string name="kt_fuse">FUSE-Treiber</string>
+    <string name="kt_fuse_what">Aus verhindert, dass der FUSE-Treiber des Kernels startet, und spart so etwa 100 KB Speicher. Mit sdcardfs braucht Android FUSE nicht für den Speicher.</string>
+    <string name="kt_fuse_why">Lohnt sich nur, wenn jedes bisschen Speicher zählt. Android nutzt FUSE weiterhin für appfuse: zum Öffnen von Dateien eines Handys oder einer Kamera, die per USB (MTP) verbunden sind, in der App „Dateien“, und für Apps, die virtuelle Dateien bereitstellen. Das klappt nicht, solange er aus ist. Wenn danach etwas keine Dateien mehr öffnen kann, schalt ihn wieder ein.</string>
+    <string name="kt_fuse_needed">Bleibt an, solange die Speicherschicht auf FUSE steht: Der Speicher läuft dann darüber.</string>
 
     <string name="kt_crash_log">Absturzlog</string>
     <string name="kt_crash_log_what">Behält das Kernel-Log, das Android-Log und einen Absturzbericht in einem Stück RAM, das einen Neustart übersteht, damit der nächste Start sie in den Fehlerbericht packen kann.</string>
