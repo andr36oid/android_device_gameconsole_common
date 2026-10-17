@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="rgb_title">RGB ışıkları</string>
+    <string name="rgb_summary">Işık rengini seçin veya ışıkları kapatın</string>
+    <string name="rgb_colour_title">Renk</string>
+    <string name="rgb_about">Buradan bir renk seçene kadar ışıklar kapalı kalır. Seçiminiz yeniden başlatmadan sonra da korunur.</string>
+    <string name="rgb_missing">Bu konsolda RGB ışıkları yok</string>
+    <string-array name="rgb_colour_names">
+        <item>Kapalı</item>
+        <item>Kırmızı</item>
+        <item>Yeşil</item>
+        <item>Mavi</item>
+        <item>Sarı</item>
+        <item>Camgöbeği</item>
+        <item>Mor</item>
+        <item>Beyaz</item>
+    </string-array>
+</resources>

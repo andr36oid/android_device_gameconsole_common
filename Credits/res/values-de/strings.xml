@@ -15,10 +15,10 @@
 
     <string name="credits_based_on">Basiert auf früheren Arbeiten von</string>
     <string name="credits_351droid">Android für den RG351MP</string>
-    <string name="credits_lineageos">Das freie Open-Source-Android-ROM</string>
+    <string name="credits_lineageos">Das freie, quelloffene Android-ROM</string>
     <string name="credits_android">von Google</string>
     <string name="credits_sprout">Der Startbildschirm von Simple UI, von Indiegesindel</string>
-    <string name="credits_bfi">Schwarzbild einfügen, von PakoVM</string>
+    <string name="credits_bfi">Schwarzbildeinfügung, von PakoVM</string>
     <string name="credits_r36tuner">GPU- und Speicher-Übertaktung, von zenmode-adri</string>
-    <string name="credits_dpadplayer">Die App Music, von jbriones95</string>
+    <string name="credits_dpadplayer">Die Music-App, von jbriones95</string>
 </resources>

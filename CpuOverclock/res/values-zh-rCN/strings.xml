@@ -70,7 +70,7 @@
     <string name="ram_oc_off">默认（<xliff:g id="speed">%1$s</xliff:g>）</string>
     <string name="ram_oc_experimental"><xliff:g id="speed">%1$s</xliff:g>（实验性）</string>
     <string name="ram_oc_warning_title">实验性内存频率</string>
-    <string name="ram_oc_warning">此频率会让 GPU 和内存的供电线路使用最高电压。部分内存芯片能扛住，其他的会导致游戏崩溃、掌机卡死或画面出错。\n\n这不会损坏内存，但保存数据时崩溃可能会损坏卡上的文件。如果出现问题，请改用较低的频率。重启即可关闭。</string>
+    <string name="ram_oc_warning">此频率会让 GPU 和内存的供电线路使用最高电压。部分内存芯片能稳定运行，其他的可能导致游戏崩溃、掌机卡死或画面出错。\n\n这不会损坏内存，但保存数据时崩溃可能会损坏卡上的文件。如果出现问题，请改用较低的频率。重启即可关闭。</string>
     <string name="ram_oc_warning_ok">使用</string>
     <string name="gpu_ram_about">为要求高的游戏提供更快的图形和内存。GPU 超频会把 GPU 的运行频率从 520 MHz 提到 600 MHz。更高的内存频率对 PPSSPP 等模拟器帮助最大。两者都会提高 GPU 和内存共用的供电线路电压，因此掌机会稍微更热，耗电也更快。\n\n每颗芯片都不一样。如果游戏崩溃或掌机卡死，请关闭它们。掌机每次启动时都不会开启这些设置，重启即可关闭。\n\n基于 zenmode-adri 的 R36 Tuner Next。</string>
     <string name="gpu_ram_unsupported">此掌机的系统不支持该频率</string>

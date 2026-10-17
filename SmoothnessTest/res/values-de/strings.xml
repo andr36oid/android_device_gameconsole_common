@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="smooth_title">Flüssigkeitstest</string>
+    <string name="smooth_title">Ruckeltest</string>
     <!-- %1$s: the refresh rate the screen is set to, like 75 -->
     <string name="smooth_screen">Bildschirm: %1$s Hz</string>
     <!-- %1$s: frames the app got in the last second, like 74.9 -->

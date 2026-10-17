@@ -2,13 +2,13 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
     <string name="usb_mode_title">USB-Modus (Beta)</string>
-    <string name="usb_mode_summary">OTG-Anschluss für Zubehör nutzen oder mit einem Computer verbinden</string>
+    <string name="usb_mode_summary">Den OTG-Anschluss für Zubehör nutzen oder die Konsole mit einem Computer verbinden</string>
 
     <string name="usb_mode_switch">Mit Computer verbinden</string>
-    <string name="usb_mode_switch_on">Der OTG-Anschluss arbeitet als Gerät für einen Computer</string>
+    <string name="usb_mode_switch_on">Der OTG-Anschluss meldet sich bei einem Computer als Gerät</string>
     <string name="usb_mode_switch_off">Der OTG-Anschluss versorgt Zubehör wie Controller, Laufwerke und Netzwerkadapter</string>
 
-    <string name="usb_mode_about">Schalte das ein, um die Konsole über den OTG-Anschluss von einem Computer aus zu erreichen: Dateiübertragung (MTP) oder Fotoübertragung (PTP) und adb, sobald USB-Debugging in den Entwickleroptionen an ist.\n\nSolange es an ist, funktioniert Zubehör am OTG-Anschluss nicht. Die Konsole startet immer mit ausgeschalteter Option, ein Neustart schaltet den Anschluss zurück auf Zubehör.\n\nBei manchen Konsolen ist der Anschluss dafür nicht verdrahtet. Wenn der Computer mit einem guten Datenkabel nichts erkennt, kann die Konsole es nicht.\n\nSchalte das nie ein, wenn deine Konsole eingebautes WLAN hat, wie die R36XX. Diese Konsolen nutzen denselben USB-Anschluss für ihr WLAN.\n\nNutze das nie, während die Konsole über ihren anderen Anschluss lädt. Zieh zuerst das Ladegerät ab. Wird ein Ladegerät angeschlossen, während es an ist, schaltet der Anschluss sofort zurück auf Zubehör.</string>
+    <string name="usb_mode_about">Schalte das ein, um die Konsole über den OTG-Anschluss von einem Computer aus zu erreichen: Dateiübertragung (MTP) oder Fotoübertragung (PTP) und adb, sobald USB-Debugging in den Entwickleroptionen an ist.\n\nSolange es an ist, funktioniert Zubehör am OTG-Anschluss nicht. Nach jedem Start ist es aus, ein Neustart schaltet den Anschluss also zurück auf Zubehör.\n\nBei manchen Konsolen ist der Anschluss dafür nicht verdrahtet. Wenn der Computer trotz gutem Datenkabel nichts erkennt, kann deine Konsole das nicht.\n\nSchalte das nie ein, wenn deine Konsole eingebautes WLAN hat, wie die R36XX. Diese Konsolen nutzen denselben USB-Anschluss für ihr WLAN.\n\nNutze das nie, während die Konsole über ihren anderen Anschluss lädt. Zieh zuerst das Ladegerät ab. Wird ein Ladegerät angeschlossen, während es an ist, schaltet der Anschluss sofort zurück auf Zubehör.</string>
 
     <!-- Asked before the port becomes a device for a computer -->
     <string name="warning_title">Mit Computer verbinden?</string>
@@ -19,14 +19,14 @@
     <!-- Charging and device mode never go together -->
     <string name="charging_warning">Nutze das nie, während die Konsole über ihren anderen Anschluss lädt. Zieh zuerst das Ladegerät ab.</string>
     <string name="charging_refused">Die Konsole lädt gerade. Nutze das nie, während die Konsole über ihren anderen Anschluss lädt. Zieh zuerst das Ladegerät ab.</string>
-    <string name="charging_toast">MACH DAS NICHT! Nie gleichzeitig laden und USB-Client nutzen.</string>
+    <string name="charging_toast">MACH DAS NICHT! Nie gleichzeitig laden und mit einem Computer verbunden sein.</string>
     <string name="channel_on">Mit Computer verbunden</string>
     <string name="channel_alert">USB-Modus ausgeschaltet</string>
     <string name="notification_on_title">USB-Anschluss: mit Computer verbunden</string>
     <string name="notification_alert_title">USB-Modus ausgeschaltet</string>
-    <string name="notification_alert_text">Ein Ladegerät wurde angeschlossen, deshalb ist der OTG-Anschluss zurück auf Zubehör. Nie gleichzeitig laden und USB-Client nutzen.</string>
+    <string name="notification_alert_text">Ein Ladegerät wurde angeschlossen, deshalb ist der OTG-Anschluss zurück auf Zubehör. Nie gleichzeitig laden und mit einem Computer verbunden sein.</string>
 
-    <string name="usb_mode_functions">USB verwenden für</string>
+    <string name="usb_mode_functions">USB nutzen für</string>
 
     <string name="usb_mode_unsupported">Diese Konsole kann ihren USB-Anschluss nicht umschalten.</string>
     <string name="usb_mode_failed">USB-Anschluss konnte nicht umgeschaltet werden</string>

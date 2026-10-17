@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="rgb_title">Éclairage RVB</string>
+    <string name="rgb_summary">Choisissez la couleur des lumières ou éteignez-les</string>
+    <string name="rgb_colour_title">Couleur</string>
+    <string name="rgb_about">Les lumières restent éteintes tant que vous ne choisissez pas de couleur ici. Votre choix est conservé après un redémarrage.</string>
+    <string name="rgb_missing">Cette console ne possède pas d’éclairage RVB</string>
+    <string-array name="rgb_colour_names">
+        <item>Éteint</item>
+        <item>Rouge</item>
+        <item>Vert</item>
+        <item>Bleu</item>
+        <item>Jaune</item>
+        <item>Cyan</item>
+        <item>Violet</item>
+        <item>Blanc</item>
+    </string-array>
+</resources>

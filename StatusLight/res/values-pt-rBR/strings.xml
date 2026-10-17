@@ -3,7 +3,7 @@
     <string name="sl_title">Luz de status</string>
     <string name="sl_summary">O que a luz de status mostra para bateria, carregamento e notificações</string>
     <string name="sl_intro">A luz no meio do console, abaixo de Fn. Escolha o que ela mostra quando a bateria fica baixa, enquanto carrega e quando chega uma notificação. Ela continua funcionando enquanto o console dorme, só para de piscar.</string>
-    <string name="sl_missing">A luz deste console não é uma que sabemos controlar.</string>
+    <string name="sl_missing">Ainda não sabemos controlar a luz deste console.</string>
 
     <!-- What the light shows right now -->
     <string name="sl_now">Agora</string>
@@ -29,7 +29,7 @@
     <!-- e.g. "Always blue" -->
     <string name="sl_style_always">Sempre <xliff:g id="color">%1$s</xliff:g></string>
     <!-- e.g. "Your own: blue · red below 11 %" -->
-    <string name="sl_style_custom">Do seu jeito: <xliff:g id="rules">%1$s</xliff:g></string>
+    <string name="sl_style_custom">Personalizado: <xliff:g id="rules">%1$s</xliff:g></string>
     <!-- e.g. "red below 11 %" -->
     <string name="sl_below"><xliff:g id="color">%1$s</xliff:g> abaixo de <xliff:g id="level">%2$s</xliff:g> %%</string>
     <string name="sl_blink_low">Piscar quando estiver baixa</string>

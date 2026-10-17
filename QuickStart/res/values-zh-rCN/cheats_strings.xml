@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="emulators_cheats">许多游戏的金手指已经在掌机里了，无需联网。在 RetroArch 游戏中按 Select + X 打开菜单，然后选择 快捷菜单 &gt; 金手指 &gt; 加载金手指文件 (覆盖)。先选主机，再选游戏。打开想用的金手指，然后选择 应用更改。</string>
+    <string name="emulators_cheats">许多游戏的金手指已经在掌机里了，无需联网。在 RetroArch 游戏中按 Select + X 打开菜单，然后选择 快捷菜单 &gt; 金手指 &gt; 加载金手指文件 (覆盖)。先选游戏平台，再选游戏。打开想用的金手指，然后选择 应用更改。</string>
 </resources>

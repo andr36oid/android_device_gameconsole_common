@@ -2,33 +2,33 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
     <string name="usb_mode_title">Modo USB (beta)</string>
-    <string name="usb_mode_summary">Use a porta OTG para acessórios ou para conectar a um computador</string>
+    <string name="usb_mode_summary">Use a porta OTG para acessórios ou para ligar a um computador</string>
 
-    <string name="usb_mode_switch">Conectar a um computador</string>
+    <string name="usb_mode_switch">Ligar a um computador</string>
     <string name="usb_mode_switch_on">A porta OTG funciona como dispositivo para um computador</string>
-    <string name="usb_mode_switch_off">A porta OTG alimenta acessórios como controles, pen drives e adaptadores de rede</string>
+    <string name="usb_mode_switch_off">A porta OTG alimenta acessórios como comandos, pens USB e adaptadores de rede</string>
 
-    <string name="usb_mode_about">Ative isto para acessar o console de um computador pela porta OTG: transferência de arquivos (MTP) ou de fotos (PTP), e adb quando a depuração USB estiver ativada nas Opções do desenvolvedor.\n\nEnquanto estiver ativado, acessórios conectados à porta OTG não funcionam. O console sempre inicia com isto desativado; reiniciar volta a porta para acessórios.\n\nAlguns consoles não têm a porta ligada para isso. Se o computador não detectar nada com um bom cabo de dados, o console não consegue fazer isso.\n\nNunca ative isto se o seu console tiver Wi-Fi embutido, como o R36XX. Esses consoles usam esta mesma porta USB para o Wi-Fi.\n\nNunca use isto enquanto o console estiver carregando pela outra porta. Desconecte o carregador primeiro. Se um carregador for conectado com isto ativado, a porta volta para acessórios na hora.</string>
+    <string name="usb_mode_about">Ative isto para aceder à consola a partir de um computador pela porta OTG: transferência de ficheiros (MTP) ou de fotos (PTP), e adb depois de ativar a Depuração USB nas Opções de programador.\n\nEnquanto estiver ativado, os acessórios ligados à porta OTG não funcionam. A consola arranca sempre com isto desativado; reiniciar devolve a porta aos acessórios.\n\nAlgumas consolas não têm a porta ligada para isto. Se o computador não detetar nada com um bom cabo de dados, a consola não o consegue fazer.\n\nNunca ative isto se a sua consola tiver Wi-Fi integrado, como a R36XX. Essas consolas usam esta mesma porta USB para o Wi-Fi.\n\nNunca use isto enquanto a consola estiver a carregar pela outra porta. Desligue primeiro o carregador. Se ligar um carregador com isto ativado, a porta volta de imediato aos acessórios.</string>
 
     <!-- Asked before the port becomes a device for a computer -->
-    <string name="warning_title">Conectar a um computador?</string>
-    <string name="warning_wifi">Não ative isto se o seu console tiver Wi-Fi embutido, como o R36XX. Esses consoles usam esta mesma porta USB para o Wi-Fi. O Wi-Fi para de funcionar, pode não voltar até você reiniciar, e outras coisas podem dar errado.\n\nA maioria dos consoles R36S não tem Wi-Fi embutido. Neles, isto é seguro.</string>
-    <string name="warning_wifi_found">Wi-Fi foi encontrado nesta porta USB agora (%1$s). Se ele for embutido no seu console, escolha Cancelar.</string>
-    <string name="warning_confirm">Conectar</string>
+    <string name="warning_title">Ligar a um computador?</string>
+    <string name="warning_wifi">Não ative isto se a sua consola tiver Wi-Fi integrado, como a R36XX. Essas consolas usam esta mesma porta USB para o Wi-Fi. O Wi-Fi deixa de funcionar, pode não voltar até reiniciar, e outras coisas podem correr mal.\n\nA maioria das consolas R36S não tem Wi-Fi integrado. Nelas, isto é seguro.</string>
+    <string name="warning_wifi_found">Foi encontrado Wi-Fi nesta porta USB agora (%1$s). Se for o Wi-Fi integrado da sua consola, escolha Cancelar.</string>
+    <string name="warning_confirm">Ligar</string>
 
     <!-- Charging and device mode never go together -->
-    <string name="charging_warning">Nunca use isto enquanto o console estiver carregando pela outra porta. Desconecte o carregador primeiro.</string>
-    <string name="charging_refused">O console está carregando. Nunca use isto enquanto o console estiver carregando pela outra porta. Desconecte o carregador primeiro.</string>
+    <string name="charging_warning">Nunca use isto enquanto a consola estiver a carregar pela outra porta. Desligue primeiro o carregador.</string>
+    <string name="charging_refused">A consola está a carregar. Nunca use isto enquanto a consola estiver a carregar pela outra porta. Desligue primeiro o carregador.</string>
     <string name="charging_toast">NÃO FAÇA ISSO! Nunca carregue e use o modo cliente USB ao mesmo tempo.</string>
-    <string name="channel_on">Conectado a um computador</string>
+    <string name="channel_on">Ligada a um computador</string>
     <string name="channel_alert">Modo USB desativado</string>
-    <string name="notification_on_title">Porta USB: conectada a um computador</string>
+    <string name="notification_on_title">Porta USB: ligada a um computador</string>
     <string name="notification_alert_title">Modo USB desativado</string>
-    <string name="notification_alert_text">Um carregador foi conectado, então a porta OTG voltou para acessórios. Nunca carregue e use o modo cliente USB ao mesmo tempo.</string>
+    <string name="notification_alert_text">Foi ligado um carregador, por isso a porta OTG voltou aos acessórios. Nunca carregue e use o modo cliente USB ao mesmo tempo.</string>
 
-    <string name="usb_mode_functions">Usar USB para</string>
+    <string name="usb_mode_functions">Utilizar USB para</string>
 
-    <string name="usb_mode_unsupported">Este console não consegue alternar a porta USB.</string>
+    <string name="usb_mode_unsupported">Esta consola não consegue alternar a porta USB.</string>
     <string name="usb_mode_failed">Não foi possível alternar a porta USB</string>
 
     <!-- Quick Settings tile -->

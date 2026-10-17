@@ -1,30 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="cal_title">Calibrar analógicos</string>
-    <string name="cal_summary">Para analógicos com drift ou que não chegam até a borda</string>
+    <string name="cal_summary">Para analógicos que se movem sozinhos ou não chegam ao limite</string>
     <string name="cal_left">Analógico esquerdo</string>
     <string name="cal_right">Analógico direito</string>
-    <string name="cal_status_factory">Usando o padrão de fábrica</string>
+    <string name="cal_status_factory">A usar a predefinição de fábrica</string>
     <string name="cal_status_calibrated">Calibrado</string>
-    <string name="cal_status_unsupported">O driver dos analógicos deste sistema não pode ser calibrado</string>
+    <string name="cal_status_unsupported">O controlador dos analógicos deste sistema não pode ser calibrado</string>
     <!-- %1$d is a percentage of the stick's travel -->
     <string name="cal_deadzone">Zona morta: <xliff:g id="percent">%1$d</xliff:g> %%</string>
-    <string name="cal_hint_idle">A  Calibrar     X  Padrão de fábrica     ◀ ▶  Zona morta     B  Voltar</string>
+    <string name="cal_hint_idle">A  Calibrar     X  Fábrica     ◀ ▶  Zona morta     B  Voltar</string>
     <string name="cal_hint_idle_factory">A  Calibrar     B  Voltar</string>
     <string name="cal_hint_back">B  Voltar</string>
-    <string name="cal_hint_capture">A  Pronto     B  Cancelar</string>
-    <string name="cal_step_circles">Gire os dois analógicos em círculos completos, devagar, até encostar na borda. Três vezes cada um.</string>
-    <string name="cal_step_release">Depois solte os dois analógicos e aperte A.</string>
+    <string name="cal_hint_capture">A  Concluído     B  Cancelar</string>
+    <string name="cal_step_circles">Rode os dois analógicos em círculos completos, devagar, até ao limite. Três vezes cada um.</string>
+    <string name="cal_step_release">Depois solte os dois analógicos e prima A.</string>
     <!-- %1$d directions reached so far, out of 4 -->
     <string name="cal_directions"><xliff:g id="done">%1$d</xliff:g> de 4 direções</string>
     <string name="cal_directions_done">Todas as direções alcançadas</string>
-    <string name="cal_measuring">Medindo o centro, não toque nos analógicos…</string>
-    <string name="cal_saved">Salvo. Jogos e apps já usam a nova calibração.</string>
-    <string name="cal_not_applied">Salvo, mas o driver não aceitou. Reinicie o console e confira de novo.</string>
-    <string name="cal_left_short">O analógico esquerdo não chegou até a borda em todas as direções. Continue girando, depois solte e aperte A.</string>
-    <string name="cal_right_short">O analógico direito não chegou até a borda em todas as direções. Continue girando, depois solte e aperte A.</string>
-    <string name="cal_not_still">Um analógico se mexeu enquanto o centro era medido. Solte os dois analógicos e aperte A de novo.</string>
-    <string name="cal_reset_confirm">Aperte X de novo para voltar ao padrão de fábrica</string>
-    <string name="cal_reset_done">De volta ao padrão de fábrica</string>
-    <string name="cal_deadzone_needs_cal">Calibre primeiro; depois dá para mudar a zona morta</string>
+    <string name="cal_measuring">A medir o centro, não toque nos analógicos…</string>
+    <string name="cal_saved">Guardado. Os jogos e as apps já usam a nova calibração.</string>
+    <string name="cal_not_applied">Guardado, mas o controlador não a aceitou. Reinicie a consola e verifique novamente.</string>
+    <string name="cal_left_short">O analógico esquerdo não chegou ao limite em todas as direções. Continue a rodar, depois solte e prima A.</string>
+    <string name="cal_right_short">O analógico direito não chegou ao limite em todas as direções. Continue a rodar, depois solte e prima A.</string>
+    <string name="cal_not_still">Um analógico mexeu-se enquanto o centro era medido. Solte os dois analógicos e prima A novamente.</string>
+    <string name="cal_reset_confirm">Prima X novamente para voltar à predefinição de fábrica</string>
+    <string name="cal_reset_done">De volta à predefinição de fábrica</string>
+    <string name="cal_deadzone_needs_cal">Calibre primeiro; depois pode alterar a zona morta</string>
 </resources>

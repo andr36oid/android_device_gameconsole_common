@@ -2,7 +2,7 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="sl_title">Durum ışığı</string>
     <string name="sl_summary">Durum ışığının pil, şarj ve bildirimler için ne gösterdiği</string>
-    <string name="sl_intro">Konsolun ortasında, Fn tuşunun altındaki ışık. Pil azaldığında, şarj olurken ve bir bildirim geldiğinde ne göstereceğini seç. Konsol uyurken çalışmayı sürdürür, sadece yanıp sönmeyi keser.</string>
+    <string name="sl_intro">Konsolun ortasında, Fn tuşunun altındaki ışık. Pil azaldığında, şarj olurken ve bir bildirim geldiğinde ne göstereceğini seçin. Konsol uyurken çalışmayı sürdürür, sadece yanıp sönmeyi keser.</string>
     <string name="sl_missing">Bu konsolun ışığını nasıl kontrol edeceğimizi bilmiyoruz.</string>
 
     <!-- What the light shows right now -->
@@ -29,7 +29,7 @@
     <!-- e.g. "Always blue" -->
     <string name="sl_style_always">Her zaman <xliff:g id="color">%1$s</xliff:g></string>
     <!-- e.g. "Your own: blue · red below 11 %" -->
-    <string name="sl_style_custom">Kendi ayarın: <xliff:g id="rules">%1$s</xliff:g></string>
+    <string name="sl_style_custom">Özel: <xliff:g id="rules">%1$s</xliff:g></string>
     <!-- e.g. "red below 11 %" -->
     <string name="sl_below"><xliff:g id="color">%1$s</xliff:g>, <xliff:g id="level">%2$s</xliff:g> %% altında</string>
     <string name="sl_blink_low">Azaldığında yanıp sönsün</string>
@@ -50,24 +50,24 @@
     <string name="sl_notify">Bildirimler için yanıp sönsün</string>
     <string name="sl_notify_summary">Ekran kapalıyken, bir bildirim beklerken ışık yanıp söner. Uykuda ise sadece yanık kalır.</string>
     <string name="sl_notify_colors">Uygulama başına renk</string>
-    <string name="sl_notify_colors_summary">Her uygulama için bir renk seç. Işık gösterebildiği en yakın rengi kullanır.</string>
+    <string name="sl_notify_colors_summary">Her uygulama için bir renk seçin. Işık gösterebildiği en yakın rengi kullanır.</string>
 
     <!-- Tools -->
     <string name="sl_cat_tools">Araçlar</string>
     <string name="sl_check">Renkleri kontrol et</string>
-    <string name="sl_check_summary">Seçtiğin renkleri görmüyor musun? Konsolunun ışığının gerçekte ne gösterebildiğini öğren.</string>
+    <string name="sl_check_summary">Seçtiğiniz renkleri görmüyor musunuz? Konsolunuzun ışığının gerçekte ne gösterebildiğini öğrenin.</string>
     <string name="sl_reset">Varsayılana dön</string>
     <string name="sl_reset_summary">Bu sayfadaki her şeyi geri alır, renk kontrolü dahil</string>
 
     <!-- Colour check -->
     <!-- %1$d is how many steps, e.g. 9 -->
-    <string name="sl_check_intro">Işık, <xliff:g id="count">%1$d</xliff:g> ayardan birer birer geçer. Her seferinde ışığa bak ve gördüğünü seç. Klonlar türlü türlü bağlanır, bu yüzden bu, seninkinin ne yapabildiğini bulur.</string>
+    <string name="sl_check_intro">Işık, <xliff:g id="count">%1$d</xliff:g> ayardan birer birer geçer. Her seferinde ışığa bakın ve gördüğünüzü seçin. Klonlar çok farklı şekillerde bağlanır, bu yüzden bu test sizinkinin ne yapabildiğini bulur.</string>
     <string name="sl_check_go">Başlat</string>
     <!-- e.g. "What does the light show? (3 of 9)" -->
     <string name="sl_check_step">Işık ne gösteriyor? (<xliff:g id="step">%1$d</xliff:g>/<xliff:g id="count">%2$d</xliff:g>)</string>
     <string name="sl_check_other">Başka bir şey</string>
     <!-- e.g. "Your light can show: off, blue, red, purple." -->
-    <string name="sl_check_result">Işığın şunları gösterebilir: <xliff:g id="colors">%1$s</xliff:g>.</string>
+    <string name="sl_check_result">Işığınız şunları gösterebilir: <xliff:g id="colors">%1$s</xliff:g>.</string>
     <string name="sl_check_no_off">Kapanamaz, sadece renk değiştirir. Bazı kartlarda ışık doğrudan güç çipine bağlıdır ve hiçbir yazılım onu kapatamaz.</string>
     <string name="sl_check_use">Bu renkleri kullan</string>
     <string name="sl_check_keep">Eskilerini tut</string>

@@ -2,12 +2,12 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
     <string name="guide_title">Guia de início rápido</string>
-    <string name="guide_summary">Botões, atalhos, seus jogos e ajuda quando algo dá errado</string>
+    <string name="guide_summary">Botões, atalhos, os seus jogos e ajuda quando algo corre mal</string>
 
     <!-- Bottom bar: what the buttons do in the guide -->
     <string name="hint_choose">Escolher</string>
     <string name="hint_read">Ler</string>
-    <string name="hint_scroll">Rolar</string>
+    <string name="hint_scroll">Deslocar</string>
     <string name="hint_page">Tópico</string>
     <string name="hint_back">Tópicos</string>
     <string name="hint_close">Fechar</string>
@@ -17,154 +17,154 @@
     <string name="key_or">/</string>
 
     <!-- Welcome -->
-    <string name="welcome_title">Boas-vindas</string>
-    <string name="welcome_intro">O andr36oid transforma este console em um portátil Android. Jogos, emuladores e apps, tudo funciona com os botões, sem precisar de tela touch.</string>
+    <string name="welcome_title">Bem-vindo</string>
+    <string name="welcome_intro">O andr36oid transforma esta consola numa portátil Android. Jogos, emuladores e apps, tudo funciona com os botões, sem precisar de ecrã tátil.</string>
     <string name="welcome_choose">Escolha um tópico</string>
-    <string name="welcome_read">Leia; o direcional então rola o texto</string>
-    <string name="welcome_page">Tópico anterior ou próximo</string>
-    <string name="welcome_tutorial">Teste os botões de novo no tutorial prático</string>
+    <string name="welcome_read">Leia; o D-pad desloca então o texto</string>
+    <string name="welcome_page">Tópico anterior ou seguinte</string>
+    <string name="welcome_tutorial">Experimente os botões novamente no tutorial prático</string>
     <string name="welcome_close">Fechar o guia</string>
-    <string name="welcome_again">Você pode abrir este guia de novo quando quiser em Configurações &gt; Guia de início rápido.</string>
+    <string name="welcome_again">Pode abrir este guia novamente quando quiser em Definições &gt; Guia de início rápido.</string>
 
     <!-- Buttons -->
     <string name="buttons_title">Botões</string>
     <string name="buttons_a">Selecionar, confirmar</string>
-    <string name="buttons_b">Voltar</string>
-    <string name="buttons_fn">Tela inicial</string>
-    <string name="buttons_power_tap">Apertar: suspender e acordar</string>
-    <string name="buttons_power_hold">Segurar: menu liga/desliga com Início, Alternar apps, Fechar apps em segundo plano, Desligar e Reiniciar</string>
+    <string name="buttons_b">Anterior</string>
+    <string name="buttons_fn">Ecrã principal</string>
+    <string name="buttons_power_tap">Premir: suspender e acordar</string>
+    <string name="buttons_power_hold">Manter premido: menu de energia com Ecrã principal, Mudar de app, Fechar apps em segundo plano, Desligar e Reiniciar</string>
     <string name="buttons_volume">Volume</string>
-    <string name="buttons_select">Menu nos apps que têm um</string>
-    <string name="buttons_stick">O analógico esquerdo navega como o direcional</string>
+    <string name="buttons_select">Menu nas apps que o têm</string>
+    <string name="buttons_stick">O analógico esquerdo navega como o D-pad</string>
 
     <!-- FN shortcuts -->
     <string name="shortcuts_title">Atalhos com FN</string>
-    <string name="shortcuts_intro">Segure FN e aperte um segundo botão. FN sozinho continua indo para a tela inicial.</string>
-    <string name="shortcuts_brightness">Tela mais clara ou mais escura</string>
-    <string name="shortcuts_screenshot">Captura de tela, salva em Pictures/Screenshots</string>
-    <string name="shortcuts_last_app">Voltar ao app usado antes</string>
-    <string name="shortcuts_panel">Notificações e Configurações rápidas</string>
-    <string name="shortcuts_mouse">Liga/desliga mouse com analógico</string>
-    <string name="shortcuts_profile">Próximo perfil de desempenho</string>
-    <string name="shortcuts_overlay">Liga/desliga sobreposição de desempenho</string>
-    <string name="shortcuts_touch">Editor de controles de toque, em um jogo</string>
-    <string name="shortcuts_hold_help">Esqueceu algum? Segure só o FN por um momento, em qualquer app ou jogo, e esta lista aparece. Solte o FN para fechá-la.</string>
+    <string name="shortcuts_intro">Mantenha FN premido e prima um segundo botão. FN sozinho continua a ir para o ecrã principal.</string>
+    <string name="shortcuts_brightness">Ecrã mais claro ou mais escuro</string>
+    <string name="shortcuts_screenshot">Captura de ecrã, guardada em Pictures/Screenshots</string>
+    <string name="shortcuts_last_app">Voltar à app usada antes</string>
+    <string name="shortcuts_panel">Notificações e Definições rápidas</string>
+    <string name="shortcuts_mouse">Rato por analógico ligado ou desligado</string>
+    <string name="shortcuts_profile">Perfil de desempenho seguinte</string>
+    <string name="shortcuts_overlay">Sobreposição de desempenho ligada ou desligada</string>
+    <string name="shortcuts_touch">Editor de controlos táteis, dentro de um jogo</string>
+    <string name="shortcuts_hold_help">Esqueceu-se de algum? Mantenha só o FN premido por um momento, em qualquer app ou jogo, e esta lista aparece. Solte o FN para a fechar.</string>
 
     <!-- Games -->
-    <string name="games_title">Seus jogos</string>
-    <string name="games_where">Os jogos ficam na partição EASYROMS do cartão SD. No computador, o cartão aparece como uma unidade chamada EASYROMS. No console, é o armazenamento EASYROMS no app Arquivos.</string>
-    <string name="games_folders">Dê a cada sistema sua própria pasta, com nomes como nes, snes, gb, gba, megadrive ou psx. Cartões preparados para ArkOS ou dArkOS já usam esses nomes, então os jogos deles funcionam como estão.</string>
-    <string name="games_folders_ready">O console cria essas pastas no EASYROMS sozinho, com um README que lista qual sistema vai em qual pasta.</string>
-    <string name="games_wifi_transfer">Sem computador ou leitor de cartão por perto? Abra o Wi-Fi transfer no console e leia o QR code com o celular, ou digite o endereço mostrado em qualquer navegador na mesma rede, para mandar jogos direto para o EASYROMS.</string>
-    <string name="games_library">O Daijishou, a tela inicial, transforma essas pastas em uma biblioteca de jogos: adicione uma plataforma e escolha a pasta dela no EASYROMS.</string>
+    <string name="games_title">Os seus jogos</string>
+    <string name="games_where">Os jogos ficam na partição EASYROMS do cartão SD. No computador, o cartão aparece como uma unidade chamada EASYROMS. Na consola, é o armazenamento EASYROMS na app Ficheiros.</string>
+    <string name="games_folders">Dê a cada sistema a sua própria pasta, com nomes como nes, snes, gb, gba, megadrive ou psx. Os cartões preparados para ArkOS ou dArkOS já usam estes nomes, por isso os seus jogos funcionam tal como estão.</string>
+    <string name="games_folders_ready">A consola cria estas pastas no EASYROMS sozinha, com um README que indica que sistema vai em que pasta.</string>
+    <string name="games_wifi_transfer">Sem computador ou leitor de cartões à mão? Abra o Wi-Fi transfer na consola e leia o código QR com o telemóvel, ou escreva o endereço mostrado em qualquer navegador na mesma rede, para enviar jogos diretamente para o EASYROMS.</string>
+    <string name="games_library">O Daijishou, o ecrã principal, transforma essas pastas numa biblioteca de jogos: adicione uma plataforma e escolha a pasta dela no EASYROMS.</string>
 
     <!-- Emulators -->
     <string name="emulators_title">Emuladores</string>
-    <string name="emulators_included">RetroArch e PPSSPP já vêm instalados, junto com Flycast (Dreamcast), Mupen64Plus AE (N64) e EasyRPG Player. O RetroArch já tem cores para Nintendo, Sega, PlayStation, N64, arcade, Neo Geo, PC Engine, Atari, MSX, DOS, Amiga, ZX Spectrum, C64, PICO-8 e mais. O README no EASYROMS diz qual pasta é de qual sistema.</string>
-    <string name="emulators_psp">Jogos de PSP rodam no PPSSPP. Jogos de PlayStation abrem sem BIOS, mas funcionam melhor com uma na pasta bios do EASYROMS.</string>
-    <string name="emulators_updates">Os emuladores são apps comuns: você pode desinstalá-los e, se instalar o F-Droid, ele pode atualizá-los.</string>
+    <string name="emulators_included">O RetroArch e o PPSSPP já vêm instalados, juntamente com o Flycast (Dreamcast), o Mupen64Plus AE (N64) e o EasyRPG Player. O RetroArch já tem cores para Nintendo, Sega, PlayStation, N64, arcade, Neo Geo, PC Engine, Atari, MSX, DOS, Amiga, ZX Spectrum, C64, PICO-8 e mais. O README no EASYROMS indica que pasta é de que sistema.</string>
+    <string name="emulators_psp">Os jogos de PSP correm no PPSSPP. Os jogos de PlayStation abrem sem BIOS, mas funcionam melhor com uma na pasta bios do EASYROMS.</string>
+    <string name="emulators_updates">Os emuladores são apps normais: pode desinstalá-los e, se instalar o F-Droid, ele pode atualizá-los.</string>
 
     <!-- Speed and battery -->
     <string name="speed_title">Velocidade e bateria</string>
-    <string name="speed_profiles">Configurações &gt; Desempenho tem três perfis. Economia de bateria para sessões longas com sistemas mais antigos, Equilibrado para o dia a dia, Desempenho para PS1, N64 e PSP. O bloco nas Configurações rápidas também alterna entre eles.</string>
-    <string name="speed_overclock_alone">Configurações &gt; Overclock da CPU (experimental) faz o processador rodar mais rápido que o padrão em jogos pesados. Reiniciar desativa o overclock. Se o console travar, escolha uma velocidade mais baixa.</string>
-    <string name="speed_overclock">Overclock da CPU (experimental), na mesma página, faz o processador rodar mais rápido que o padrão em jogos pesados. Reiniciar desativa o overclock. Se o console travar, escolha uma velocidade mais baixa.</string>
-    <string name="speed_screen">A tela é o que mais gasta energia. Brilho mais baixo significa mais tempo de jogo.</string>
+    <string name="speed_profiles">Definições &gt; Desempenho tem três perfis. Poupança de bateria para sessões longas com sistemas mais antigos, Equilibrado para o dia a dia, Desempenho para PS1, N64 e PSP. O mosaico nas Definições rápidas também alterna entre eles.</string>
+    <string name="speed_overclock_alone">Definições &gt; Overclock da CPU (experimental) faz o processador correr mais depressa do que o normal em jogos pesados. Reiniciar desativa-o. Se a consola bloquear, escolha uma velocidade mais baixa.</string>
+    <string name="speed_overclock">Overclock da CPU (experimental), na mesma página, faz o processador correr mais depressa do que o normal em jogos pesados. Reiniciar desativa-o. Se a consola bloquear, escolha uma velocidade mais baixa.</string>
+    <string name="speed_screen">O ecrã é o que mais energia gasta. Menos luminosidade significa mais tempo de jogo.</string>
 
     <!-- Mouse and button mapping -->
-    <string name="mouse_title">Mouse e botões</string>
-    <string name="mouse_toggle">Segure os dois analógicos apertados por 1 segundo: liga/desliga o mouse</string>
+    <string name="mouse_title">Rato e botões</string>
+    <string name="mouse_toggle">Mantenha os dois analógicos premidos durante 1 segundo: rato por analógico ligado ou desligado</string>
     <string name="mouse_pointer">Mover o ponteiro</string>
-    <string name="mouse_click">Clique; segure R1 e arraste</string>
+    <string name="mouse_click">Clique; mantenha R1 premido para arrastar</string>
     <string name="mouse_right_click">Clique direito</string>
-    <string name="mouse_scroll">Rolar</string>
-    <string name="mouse_settings">Configurações &gt; Controlos &gt; Mouse com analógico muda a velocidade, os botões e a combinação.</string>
-    <string name="mapping_settings">Configurações &gt; Controlos &gt; Mapeamento de botões troca botões, com perfis para jogos diferentes.</string>
-    <string name="mapping_reset">Ficou sem controle? Segure os dois botões de volume por 5 segundos e todos os botões voltam ao normal.</string>
+    <string name="mouse_scroll">Deslocar</string>
+    <string name="mouse_settings">Definições &gt; Comandos &gt; Rato por analógico altera a velocidade, os botões e a combinação.</string>
+    <string name="mapping_settings">Definições &gt; Comandos &gt; Mapeamento de botões troca botões, com perfis para jogos diferentes.</string>
+    <string name="mapping_reset">Ficou sem controlo? Mantenha os dois botões de volume premidos durante 5 segundos e todos os botões voltam ao normal.</string>
 
     <!-- Touch controls -->
-    <string name="touch_title">Controles de toque</string>
-    <string name="touch_intro">Alguns jogos só funcionam com tela touch. Os controles de toque dão a um jogo assim um layout próprio: cada botão ou analógico toca um ponto da tela. Eles ligam sozinhos enquanto esse jogo está em primeiro plano; todos os outros apps continuam com os botões normais.</string>
-    <string name="touch_open">No jogo: abre o editor por cima dele</string>
-    <string name="touch_settings">Ou vá em Configurações &gt; Controlos &gt; Controles de toque &gt; Adicionar um app. O jogo abre e o editor aparece por cima.</string>
+    <string name="touch_title">Controlos táteis</string>
+    <string name="touch_intro">Alguns jogos só funcionam com ecrã tátil. Os controlos táteis dão a um jogo desses uma disposição própria: cada botão ou analógico toca num ponto do ecrã. Ligam-se sozinhos enquanto esse jogo está em primeiro plano; todas as outras apps continuam com os botões normais.</string>
+    <string name="touch_open">Dentro do jogo: abre o editor por cima dele</string>
+    <string name="touch_settings">Ou vá a Definições &gt; Comandos &gt; Controlos táteis &gt; Adicionar uma app. O jogo abre e o editor aparece por cima.</string>
     <string name="touch_move">Mova a mira até um ponto</string>
-    <string name="touch_add">Adicione um controle ali e depois aperte o botão ou mova o analógico dele</string>
-    <string name="touch_size">Deixa o controle selecionado menor ou maior</string>
-    <string name="touch_save">Salva e volta para o jogo</string>
-    <string name="touch_kinds">Um controle pode tocar, segurar, deslizar, funcionar como joystick na tela ou olhar em volta como uma câmera. Select no editor tem mais: um botão Shift para um segundo conjunto de controles e os rótulos na tela.</string>
-    <string name="touch_other_buttons">Botões sem controle continuam funcionando como botões normais, e o FN com seus atalhos sempre funciona.</string>
+    <string name="touch_add">Adicione lá um controlo e depois prima o botão ou mova o analógico correspondente</string>
+    <string name="touch_size">Torna o controlo selecionado mais pequeno ou maior</string>
+    <string name="touch_save">Guarda e volta ao jogo</string>
+    <string name="touch_kinds">Um controlo pode tocar, manter, deslizar, funcionar como joystick no ecrã ou olhar em volta como uma câmara. Select no editor tem mais: um botão Shift para um segundo conjunto de controlos e as etiquetas no ecrã.</string>
+    <string name="touch_other_buttons">Os botões sem controlo continuam a funcionar como botões normais, e o FN com os seus atalhos funciona sempre.</string>
 
     <!-- Internet -->
-    <string name="internet_title">Ficar on-line</string>
-    <string name="internet_wifi">A maioria dos consoles R36S não tem Wi-Fi embutido, mas alguns modelos, como o R36XX, têm. Se o seu tiver, é só ativar o Wi-Fi em Configurações &gt; Rede e Internet. Se não, conecte um adaptador Wi-Fi USB na porta OTG, com um adaptador USB-C se precisar, e ative o Wi-Fi lá.</string>
+    <string name="internet_title">Ligar à Internet</string>
+    <string name="internet_wifi">A maioria das consolas R36S não tem Wi-Fi integrado, mas alguns modelos, como a R36XX, têm. Se a sua tiver, basta ativar o Wi-Fi em Definições &gt; Rede e Internet. Se não, ligue um adaptador Wi-Fi USB à porta OTG, com um adaptador USB-C se for preciso, e ative o Wi-Fi aí.</string>
     <string name="internet_browser">O navegador é o Thorium.</string>
 
     <!-- Troubleshooting -->
-    <string name="trouble_title">Solução de problemas</string>
-    <string name="trouble_intro">A maioria dos problemas pode ser resolvida com um computador e o cartão SD. No computador, o cartão mostra uma unidade pequena chamada BOOT (os arquivos de inicialização) e uma grande chamada EASYROMS (seus jogos).</string>
-    <string name="trouble_first_boot_q">O primeiro início demora muito</string>
-    <string name="trouble_first_boot_a">Isso é normal. O primeiro início prepara o cartão SD e reinicia sozinho, depois o Android prepara os apps. Espere alguns minutos e não desligue.</string>
-    <string name="trouble_panel_q">A tela fica preta no primeiro início, mas o console está ligado</string>
-    <string name="trouble_stuck_q">Parou de iniciar depois de uma atualização ou de um módulo do Magisk</string>
-    <string name="trouble_stuck_a">Inicie sem root. No computador, abra BOOT e renomeie ramdisk.uimg para ramdisk-magisk.uimg, depois renomeie ramdisk-stock.uimg para ramdisk.uimg. Seus apps e jogos continuam lá. Renomeie de volta depois para ter root de novo.</string>
-    <string name="trouble_frozen_q">O console travou</string>
-    <string name="trouble_frozen_a">Segure o botão liga/desliga por cerca de 10 segundos até ele desligar e depois ligue de novo. Se travou com o overclock da CPU ativado, escolha uma velocidade mais baixa da próxima vez. Reiniciar sempre desativa o overclock.</string>
-    <string name="trouble_bios_q">Um jogo não abre ou abre com a tela preta</string>
-    <string name="trouble_bios_a">Alguns sistemas, como Sega CD e PC Engine CD, precisam de um arquivo do console original (uma BIOS), e jogos de PlayStation funcionam melhor com uma. Coloque esses arquivos na pasta bios do EASYROMS. Configurações &gt; Arquivos dos emuladores mostra o que está faltando.</string>
+    <string name="trouble_title">Resolução de problemas</string>
+    <string name="trouble_intro">A maioria dos problemas resolve-se com um computador e o cartão SD. No computador, o cartão mostra uma unidade pequena chamada BOOT (os ficheiros de arranque) e uma grande chamada EASYROMS (os seus jogos).</string>
+    <string name="trouble_first_boot_q">O primeiro arranque demora muito</string>
+    <string name="trouble_first_boot_a">É normal. O primeiro arranque prepara o cartão SD e reinicia sozinho, depois o Android prepara as apps. Dê-lhe alguns minutos e não desligue.</string>
+    <string name="trouble_panel_q">O ecrã fica preto no primeiro arranque, mas a consola está ligada</string>
+    <string name="trouble_stuck_q">Deixou de arrancar depois de uma atualização ou de um módulo do Magisk</string>
+    <string name="trouble_stuck_a">Arranque sem root. No computador, abra BOOT e mude o nome de ramdisk.uimg para ramdisk-magisk.uimg, depois mude ramdisk-stock.uimg para ramdisk.uimg. As suas apps e jogos ficam lá. Volte a mudar os nomes mais tarde para ter root novamente.</string>
+    <string name="trouble_frozen_q">A consola bloqueou</string>
+    <string name="trouble_frozen_a">Mantenha o botão ligar/desligar premido cerca de 10 segundos até ela se desligar e depois ligue-a novamente. Se bloqueou com o overclock da CPU ativado, escolha uma velocidade mais baixa da próxima vez. Reiniciar desativa sempre o overclock.</string>
+    <string name="trouble_bios_q">Um jogo não abre ou fica com o ecrã preto</string>
+    <string name="trouble_bios_a">Alguns sistemas, como Sega CD e PC Engine CD, precisam de um ficheiro da consola original (uma BIOS), e os jogos de PlayStation funcionam melhor com uma. Coloque esses ficheiros na pasta bios do EASYROMS. Definições &gt; Ficheiros dos emuladores mostra o que falta.</string>
     <string name="trouble_buttons_q">Os botões fazem a coisa errada</string>
-    <string name="trouble_recovery_q">Recovery e redefinição de fábrica</string>
-    <string name="trouble_recovery_a">Segure FN enquanto liga o console</string>
+    <string name="trouble_recovery_q">Recovery e reposição de fábrica</string>
+    <string name="trouble_recovery_a">Mantenha FN premido enquanto liga a consola</string>
     <string name="trouble_clock_q">A data ou a hora está errada</string>
-    <string name="trouble_clock_a">O console esquece a hora quando a bateria acaba totalmente. Ajuste em Configurações &gt; Sistema &gt; Data e hora. Com uma conexão de rede, ela se ajusta sozinha, desde que “Usar horário fornecido pela rede” esteja ativado.</string>
+    <string name="trouble_clock_a">A consola esquece a hora quando a bateria se esgota totalmente. Acerte-a em Definições &gt; Sistema &gt; Data e hora. Com uma ligação de rede, acerta-se sozinha, desde que «Utilizar a hora fornecida pela rede» esteja ativado.</string>
 
     <!-- USB and computers -->
     <string name="usb_title">USB e computadores</string>
-    <string name="usb_card">O jeito mais fácil de copiar jogos é colocar o cartão SD em um computador e copiá-los para o EASYROMS. Coloque o cartão de volta antes de ligar o console.</string>
-    <string name="usb_mode_q">Conectar o console a um computador</string>
-    <string name="usb_mode_a">Ative Configurações &gt; Modo USB &gt; Conectar a um computador e depois ligue um cabo de dados na porta OTG e em uma porta USB-A do computador. A transferência de arquivos já vem ativada; “Usar USB para”, na mesma página, muda para transferência de fotos ou só adb. Controles e adaptadores na porta OTG não funcionam enquanto isso estiver ativado, e reiniciar desativa.</string>
-    <string name="usb_mode_wifi">Nunca ative isso se o seu console tiver Wi-Fi embutido, como o R36XX. Esses consoles usam esta mesma porta USB para o Wi-Fi, então o Wi-Fi para de funcionar e pode não voltar até você reiniciar. O Modo USB pergunta antes de alternar.</string>
-    <string name="usb_mode_charging">Nunca use isso enquanto o console estiver carregando pela outra porta. Desconecte o carregador primeiro. Se um carregador for conectado com isso ativado, o Modo USB volta para acessórios.</string>
-    <string name="usb_adb">Para o adb, ative também a Depuração USB em Configurações &gt; Sistema &gt; Opções do desenvolvedor. Para mostrar as Opções do desenvolvedor, aperte A 7 vezes em Número da versão em Configurações &gt; Sobre o console.</string>
-    <string name="usb_host_only">A porta OTG é para acessórios: controles, pen drives e adaptadores de rede. Ela não consegue se conectar a um computador nesta versão.</string>
+    <string name="usb_card">A forma mais fácil de copiar jogos é colocar o cartão SD num computador e copiá-los para o EASYROMS. Volte a inserir o cartão antes de ligar a consola.</string>
+    <string name="usb_mode_q">Ligar a consola a um computador</string>
+    <string name="usb_mode_a">Ative Definições &gt; Modo USB &gt; Ligar a um computador e depois ligue um cabo de dados à porta OTG e a uma porta USB-A do computador. A transferência de ficheiros já vem ativada; «Utilizar USB para», na mesma página, muda para transferência de fotos ou só adb. Os comandos e adaptadores na porta OTG não funcionam enquanto isto estiver ativado, e reiniciar desativa-o.</string>
+    <string name="usb_mode_wifi">Nunca ative isto se a sua consola tiver Wi-Fi integrado, como a R36XX. Essas consolas usam esta mesma porta USB para o Wi-Fi, por isso o Wi-Fi deixa de funcionar e pode não voltar até reiniciar. O Modo USB pergunta antes de alternar.</string>
+    <string name="usb_mode_charging">Nunca use isto enquanto a consola estiver a carregar pela outra porta. Desligue primeiro o carregador. Se ligar um carregador com isto ativado, o Modo USB volta aos acessórios.</string>
+    <string name="usb_adb">Para o adb, ative também a Depuração USB em Definições &gt; Sistema &gt; Opções de programador. Para mostrar as Opções de programador, prima A 7 vezes em Número de compilação em Definições &gt; Acerca da consola.</string>
+    <string name="usb_host_only">A porta OTG é para acessórios: comandos, pens USB e adaptadores de rede. Não consegue ligar-se a um computador nesta versão.</string>
     <string name="usb_dongles_q">Acessórios</string>
-    <string name="usb_dongles_a">Conecte os acessórios na porta OTG, com um adaptador USB-C ou um hub pequeno se precisar. Controles USB, teclados, mouses, pen drives e adaptadores Wi-Fi, Bluetooth e Ethernet funcionam se o Android tiver driver para o chip deles. Adaptadores com chips Realtek comuns funcionam melhor. Em consoles com Wi-Fi embutido, como o R36XX, algo conectado na porta OTG pode desligar o Wi-Fi embutido.</string>
-    <string name="usb_dongles_trouble">Nada acontece? Desconecte, espere alguns segundos e conecte de novo. Alguns adaptadores precisam de mais energia do que a porta fornece; um hub com fonte própria ajuda.</string>
+    <string name="usb_dongles_a">Ligue os acessórios à porta OTG, com um adaptador USB-C ou um pequeno hub se for preciso. Comandos USB, teclados, ratos, pens USB e adaptadores Wi-Fi, Bluetooth e Ethernet funcionam se o Android tiver controlador para o chip deles. Os adaptadores com chips Realtek comuns funcionam melhor. Em consolas com Wi-Fi integrado, como a R36XX, algo ligado à porta OTG pode desligar o Wi-Fi integrado.</string>
+    <string name="usb_dongles_trouble">Não acontece nada? Desligue, espere alguns segundos e volte a ligar. Alguns adaptadores precisam de mais energia do que a porta fornece; um hub com alimentação própria ajuda.</string>
 
     <!-- SD card -->
     <string name="card_title">Cartão SD</string>
-    <string name="card_layout">O cartão guarda tudo: o Android, seus apps e dados (metade do cartão, entre 16 e 64 GB) e o EASYROMS, que fica com o resto. Em um cartão de 16 GB ou menos, o Android fica com o cartão inteiro e não há EASYROMS. O EASYROMS usa exFAT, então Windows, macOS e Linux conseguem ler.</string>
+    <string name="card_layout">O cartão guarda tudo: o Android, as suas apps e dados (metade do cartão, entre 16 e 64 GB) e o EASYROMS, que fica com o resto. Num cartão de 16 GB ou menos, o Android fica com o cartão inteiro e não há EASYROMS. O EASYROMS usa exFAT, por isso Windows, macOS e Linux conseguem lê-lo.</string>
     <string name="card_noroms_q">Todo o espaço para apps, sem EASYROMS</string>
-    <string name="card_noroms_a">Antes do primeiro início de todos, crie um arquivo vazio chamado .noroms no BOOT. Aí o primeiro início dá o cartão inteiro para os apps. Ou, para escolher o tamanho, escreva um número de GB (ou all) em um arquivo chamado userdata-size.txt no BOOT. Isso só funciona em um cartão recém-gravado. Os arquivos de BIOS então vão na pasta bios do armazenamento interno.</string>
-    <string name="card_backup_q">Backup dos saves</string>
-    <string name="card_backup_a">Saves feitos ao lado dos jogos no EASYROMS são fáceis de copiar no computador. Saves dentro de um app ficam com esse app na parte Android do cartão, então veja nas configurações de cada emulador onde ele os guarda.</string>
+    <string name="card_noroms_a">Antes do primeiríssimo arranque, crie um ficheiro vazio chamado .noroms no BOOT. O primeiro arranque dá então o cartão inteiro às apps. Ou, para escolher o tamanho, escreva um número de GB (ou all) num ficheiro chamado userdata-size.txt no BOOT. Isto só funciona num cartão acabado de gravar. Os ficheiros de BIOS vão então para a pasta bios do armazenamento interno.</string>
+    <string name="card_backup_q">Cópia dos seus saves</string>
+    <string name="card_backup_a">Os saves feitos ao lado dos jogos no EASYROMS são fáceis de copiar no computador. Os saves dentro de uma app ficam com essa app na parte Android do cartão, por isso veja nas definições de cada emulador onde os guarda.</string>
 
     <!-- Battery -->
     <string name="battery_title">Cuidados com a bateria</string>
-    <string name="battery_percent_q">A porcentagem da bateria parece errada</string>
-    <string name="battery_percent_a">O medidor de bateria estima a carga e vai aprendendo com o uso. Depois que a bateria acabou ou o console ficou muito tempo sem uso, carregue o console ligado até chegar a 100%. Depois deixe no carregador por mais meia hora. Assim o medidor encontra o nível certo de novo. Se você definiu um limite de carga em Configurações &gt; Bateria &gt; Detalhes da bateria, desative-o para isso.</string>
-    <string name="battery_details">Configurações &gt; Bateria &gt; Detalhes da bateria mostra a tensão da bateria: cerca de 4,2 V é carga completa, abaixo de 3,5 V está quase vazia.</string>
+    <string name="battery_percent_q">A percentagem da bateria parece errada</string>
+    <string name="battery_percent_a">O medidor da bateria estima a carga e vai aprendendo com o uso. Depois de a bateria se esgotar ou de a consola ficar muito tempo sem uso, carregue-a até 100% com a consola ligada e deixe-a no carregador mais meia hora. Assim o medidor volta a encontrar o nível certo. Se definiu um limite de carga em Definições &gt; Bateria &gt; Detalhes da bateria, desative-o para isto.</string>
+    <string name="battery_details">Definições &gt; Bateria &gt; Detalhes da bateria mostra a tensão da bateria: cerca de 4,2 V é carga completa, abaixo de 3,5 V está quase vazia.</string>
     <string name="battery_sleep_q">Suspender ou desligar?</string>
-    <string name="battery_sleep_a">Suspender (apertar o botão liga/desliga) serve para pausas, mas ainda gasta um pouco de bateria. Para mais de um dia, desligue pelo menu liga/desliga.</string>
-    <string name="battery_storage_q">Guardar por um tempo</string>
-    <string name="battery_storage_a">Carregue até mais ou menos a metade e desligue. Complete a carga a cada poucos meses. Uma bateria deixada totalmente vazia por muito tempo pode se desgastar.</string>
+    <string name="battery_sleep_a">Suspender (premir o botão ligar/desligar) serve para pausas, mas continua a gastar um pouco de bateria. Para mais de um dia, desligue pelo menu de energia.</string>
+    <string name="battery_storage_q">Guardar a consola durante algum tempo</string>
+    <string name="battery_storage_a">Carregue até cerca de metade e desligue. Recarregue de poucos em poucos meses. Uma bateria deixada totalmente vazia durante muito tempo pode degradar-se.</string>
 
     <!-- Community -->
     <string name="community_title">Comunidade</string>
-    <string name="community_text">Dúvidas, dicas ou só quer mostrar seu console? A comunidade andr36oid está no Telegram: t.me/andr36oid\n\nLeia o código com o celular para entrar.</string>
-    <string name="community_qr_description">QR code para t.me/andr36oid</string>
+    <string name="community_text">Dúvidas, dicas ou só quer mostrar a sua consola? A comunidade andr36oid está no Telegram: t.me/andr36oid\n\nLeia o código com o telemóvel para entrar.</string>
+    <string name="community_qr_description">Código QR para t.me/andr36oid</string>
 
     <string name="magisk_title">Root (Magisk)</string>
-    <string name="magisk_intro">O console vem com root pelo Magisk, mas ele fica desativado até você configurá-lo uma vez.</string>
-    <string name="magisk_setup_q">Ativar o root: abra o Magisk uma vez primeiro</string>
-    <string name="magisk_setup_a">Abra o app Magisk e deixe ele terminar a configuração. Ele pede para reiniciar o console: aceite. Só depois dessa reinicialização você tem root.</string>
-    <string name="magisk_use">A partir daí, apps que pedem root mostram um aviso: permita ou negue com os botões. O app Magisk gerencia o acesso root e os módulos.</string>
-    <string name="magisk_modules">O root fica na parte BOOT do cartão, então ele continua quando o sistema é atualizado.</string>
-    <string name="magisk_broken_q">Um módulo impediu o início</string>
-    <string name="magisk_broken_a">Veja Solução de problemas: no BOOT, troque ramdisk.uimg por ramdisk-stock.uimg, e o console inicia sem root e sem módulos.</string>
+    <string name="magisk_intro">A consola vem com root pelo Magisk, mas fica desativado até o configurar uma vez.</string>
+    <string name="magisk_setup_q">Ativar o root: abra primeiro o Magisk uma vez</string>
+    <string name="magisk_setup_a">Abra a app Magisk e deixe-a terminar a configuração. Pede para reiniciar a consola: aceite. Só depois desse reinício tem root.</string>
+    <string name="magisk_use">A partir daí, as apps que pedem root mostram um pedido: permita ou recuse com os botões. A app Magisk gere o acesso root e os módulos.</string>
+    <string name="magisk_modules">O root fica na parte BOOT do cartão, por isso mantém-se quando o sistema é atualizado.</string>
+    <string name="magisk_broken_q">Um módulo impediu o arranque</string>
+    <string name="magisk_broken_a">Veja Resolução de problemas: no BOOT, troque ramdisk.uimg por ramdisk-stock.uimg, e a consola arranca sem root e sem módulos.</string>
 
     <!-- Key names drawn in the badges that aren't just the printed label -->
-    <string name="key_dpad">Direcional</string>
-    <string name="key_power">Energia</string>
+    <string name="key_dpad">D-pad</string>
+    <string name="key_power">Ligar/desl.</string>
     <string name="key_volume">Vol</string>
     <string name="key_right_stick">Analóg. D</string>
     <string name="key_left_stick">Analóg. E</string>

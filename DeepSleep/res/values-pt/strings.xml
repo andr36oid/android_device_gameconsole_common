@@ -3,7 +3,7 @@
     <string name="deep_sleep_title">Sono profundo</string>
     <string name="deep_sleep_summary">Passos de poupança de energia em suspensão, para encontrar problemas de suspensão</string>
     <string name="deep_sleep_intro">Estes passos decidem quão profundamente a consola dorme. Desligar alguns pode impedir que a consola congele em suspensão, mas gasta mais bateria enquanto dorme. Uma alteração conta a partir da próxima suspensão e mantém-se após reiniciar. Se a consola não acordar, mantenha Power premido durante 7 segundos.</string>
-    <string name="deep_sleep_reset">Repor predefinição</string>
+    <string name="deep_sleep_reset">Repor predefinições</string>
     <string name="deep_sleep_state">Agora: %1$s. Predefinição desta consola: %2$s</string>
     <string name="deep_sleep_unsupported">Este sistema não consegue alterar os passos de suspensão.</string>
     <string name="deep_sleep_steps">Passos de suspensão</string>

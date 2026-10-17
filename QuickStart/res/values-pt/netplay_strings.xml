@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="netplay_title">Jogar junto</string>
-    <string name="netplay_intro">Dois consoles podem jogar o mesmo jogo juntos pelo Wi-Fi, mesmo sem roteador por perto: um console cria um ponto de acesso Wi-Fi e o outro se conecta a ele. Os dois precisam de Wi-Fi (embutido ou um adaptador Wi-Fi USB) e do mesmo jogo.</string>
-    <string name="netplay_hotspot_q">1. Crie um ponto de acesso no primeiro console</string>
-    <string name="netplay_hotspot_a">Conecte o adaptador Wi-Fi e vá em Configurações &gt; Rede e Internet &gt; Ponto de acesso e tethering &gt; Ponto de acesso Wi-Fi e ative. O nome e a senha do ponto de acesso ficam na mesma página. No segundo console, conecte-se a esse ponto de acesso em Configurações &gt; Rede e Internet &gt; Wi-Fi. Vai aparecer que não há internet. Tudo bem.</string>
-    <string name="netplay_hotspot_fail">O ponto de acesso não liga? Nem todo adaptador consegue criar um. Troque os adaptadores entre os consoles, ou coloque os dois consoles no mesmo Wi-Fi de casa ou no ponto de acesso de um celular.</string>
-    <string name="netplay_game_q">2. Abra o mesmo jogo nos dois</string>
-    <string name="netplay_game_a">Use o mesmo arquivo do jogo (mesma versão e região) com o mesmo emulador nos dois consoles. Senão eles não se conectam, ou o jogo sai de sincronia.</string>
-    <string name="netplay_host_q">3. Primeiro console: comece a hospedar</string>
+    <string name="netplay_title">Jogar em conjunto</string>
+    <string name="netplay_intro">Duas consolas podem jogar o mesmo jogo por Wi-Fi, mesmo sem um router por perto: uma cria um ponto de acesso e a outra liga-se a ele. Ambas precisam de Wi-Fi (integrado ou com um adaptador USB) e do mesmo jogo.</string>
+    <string name="netplay_hotspot_q">1. Crie um ponto de acesso na primeira consola</string>
+    <string name="netplay_hotspot_a">Ligue o adaptador Wi-Fi e ative Definições &gt; Rede e Internet &gt; Ponto de acesso e ligação via telemóvel &gt; Zona Wi-Fi. O nome e a palavra-passe aparecem nessa página. Na segunda consola, ligue-se a esse ponto de acesso em Definições &gt; Rede e Internet &gt; Wi-Fi. É normal aparecer um aviso de que não há internet.</string>
+    <string name="netplay_hotspot_fail">O ponto de acesso não liga? Nem todos os adaptadores permitem criá-lo. Troque os adaptadores entre as consolas, ou ligue ambas à rede Wi-Fi de casa ou ao ponto de acesso de um telemóvel.</string>
+    <string name="netplay_game_q">2. Abra o mesmo jogo nas duas consolas</string>
+    <string name="netplay_game_a">Use o mesmo ficheiro do jogo (mesma versão e região) e o mesmo emulador nas duas consolas. Caso contrário, a ligação pode falhar ou o jogo ficar dessincronizado.</string>
+    <string name="netplay_host_q">3. Primeira consola: inicie a sessão</string>
     <string name="netplay_menu">Abrir o menu do RetroArch</string>
-    <string name="netplay_host_a">Aperte B até chegar ao Menu principal, abra Netplay e escolha Iniciar hospedagem. Depois feche o menu e espere.</string>
-    <string name="netplay_join_q">4. Segundo console: entre</string>
-    <string name="netplay_join_a">Abra o menu do mesmo jeito, abra Netplay e escolha Atualizar rede local (LAN). Escolha o primeiro console na lista. O jogo reinicia nos dois consoles, e o segundo console é o jogador 2.</string>
-    <string name="netplay_join_ip">Não aparece na lista? Veja o endereço do primeiro console no segundo console: Configurações &gt; Rede e Internet &gt; Wi-Fi, escolha o ponto de acesso e depois Avançado &gt; Gateway. Em Netplay, escolha Conectar a um servidor e digite esse endereço.</string>
+    <string name="netplay_host_a">Prima B até chegar ao Menu principal, abra Netplay e escolha Iniciar hospedagem. Depois feche o menu e espere.</string>
+    <string name="netplay_join_q">4. Segunda consola: entre na sessão</string>
+    <string name="netplay_join_a">Abra o menu da mesma forma, entre em Netplay e escolha Atualizar rede local (LAN). Selecione a primeira consola na lista. O jogo reinicia nas duas consolas, e a segunda passa a ser o jogador 2.</string>
+    <string name="netplay_join_ip">Não aparece na lista? Na segunda consola, consulte o endereço da primeira: em Definições &gt; Rede e Internet &gt; Wi-Fi, escolha o ponto de acesso e depois Avançado &gt; Gateway. Em Netplay, escolha Conectar a um servidor e introduza esse endereço.</string>
     <string name="netplay_games_q">Quais jogos funcionam melhor</string>
-    <string name="netplay_games_a">Jogos de NES, Master System, Mega Drive e PC Engine rodam bem. SNES funciona, com um pouco mais de atraso nos botões. Jogos de Game Boy e GBA não têm modo para dois jogadores em um console, então não há o que compartilhar. PlayStation é pesado demais para este console jogar pela rede.</string>
-    <string name="netplay_tips">Deixe os consoles perto um do outro. O ponto de acesso gasta mais bateria, então desligue quando terminar. Seu nome no netplay vem do nome do dispositivo; mude no RetroArch em Configurações &gt; Usuário &gt; Usuário.</string>
+    <string name="netplay_games_a">Os jogos de NES, Master System, Mega Drive e PC Engine correm bem. SNES funciona, mas com um pouco mais de atraso nos botões. Os jogos de Game Boy e GBA não permitem dois jogadores na mesma consola, por isso não funcionam desta forma. PlayStation é demasiado exigente para jogar em rede nesta consola.</string>
+    <string name="netplay_tips">Mantenha as consolas perto uma da outra. O ponto de acesso consome mais bateria; desligue-o quando terminar. O seu nome no netplay vem do nome do dispositivo e pode ser alterado no RetroArch em Definições &gt; Usuário &gt; Usuário.</string>
 </resources>

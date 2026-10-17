@@ -4,14 +4,14 @@
     <string name="kt_summary">Pengaturan tingkat rendah untuk melacak masalah perangkat keras</string>
 
     <!-- Top of the page -->
-    <string name="kt_intro">Pengaturan tingkat rendah untuk melacak masalah perangkat keras, terutama di konsol clone. Perubahan langsung berlaku dan tetap bertahan setelah restart. Jika konsol gagal menyala dua kali berturut-turut saat tweak aktif, tweak akan menonaktifkan dirinya sendiri.</string>
+    <string name="kt_intro">Pengaturan tingkat rendah untuk melacak masalah perangkat keras, terutama di konsol klon. Perubahan langsung berlaku dan tetap bertahan setelah restart. Jika konsol gagal menyala dua kali berturut-turut saat tweak aktif, tweak akan menonaktifkan dirinya sendiri.</string>
     <string name="kt_use">Gunakan tweak</string>
     <string name="kt_use_none">Tidak ada yang diubah, semua masih default</string>
     <!-- e.g. "3 changed" -->
     <plurals name="kt_use_count">
         <item quantity="other"><xliff:g id="count">%d</xliff:g> diubah</item>
     </plurals>
-    <string name="kt_use_off">Nonaktif, semua berjalan dengan nilai default. Pilihanmu tetap tersimpan untuk saat kamu mengaktifkannya lagi.</string>
+    <string name="kt_use_off">Nonaktif, semua berjalan dengan nilai default. Pilihan Anda tetap tersimpan untuk saat Anda mengaktifkannya lagi.</string>
     <string name="kt_paused_crash">Dinonaktifkan karena konsol gagal menyala dua kali berturut-turut. Salah satu tweak kemungkinan jadi penyebabnya. Aktifkan lagi untuk mencoba sekali lagi.</string>
     <string name="kt_show_docs">Tampilkan penjelasan</string>
     <string name="kt_show_docs_summary">Fungsi setiap pengaturan dan alasan mengubahnya, langsung di daftar</string>
@@ -81,7 +81,7 @@
     <string name="kt_sleep_type_deep">Tidur dalam</string>
     <string name="kt_sleep_type_s2idle">Tidur ringan</string>
     <string name="kt_sleep_type_what">Tidur dalam menyerahkan seluruh chip ke firmware, yang mematikan hampir semuanya. Tidur ringan hanya membekukan aplikasi dan membiarkan inti menganggur. Firmware tidak ikut terlibat dan tidak ada inti yang dimatikan.</string>
-    <string name="kt_sleep_type_why">Jika konsolmu macet atau restart sendiri saat tidur, coba tidur ringan. Ini melewati bagian yang biasanya membuat konsol-konsol ini macet. Kekurangannya: baterai terkuras jauh lebih cepat, jadi ini lebih cocok sebagai alat uji daripada solusi.</string>
+    <string name="kt_sleep_type_why">Jika konsol Anda macet atau restart sendiri saat tidur, coba tidur ringan. Ini melewati bagian yang biasanya membuat konsol-konsol ini macet. Kekurangannya: baterai terkuras jauh lebih cepat, jadi ini lebih cocok sebagai alat uji daripada solusi.</string>
 
     <string name="kt_sleep_test">Mode uji tidur</string>
     <string name="kt_sleep_test_none">Nonaktif, tidur normal</string>
@@ -90,14 +90,14 @@
     <string name="kt_sleep_test_platform">Berhenti sebelum firmware</string>
     <string name="kt_sleep_test_processors">Berhenti setelah mematikan inti</string>
     <string name="kt_sleep_test_core">Berhenti tepat sebelum tidur</string>
-    <string name="kt_sleep_test_what">Menjalani langkah-langkah untuk tidur, tetapi berhenti di langkah yang kamu pilih, menunggu 5 detik, lalu bangun lagi. Konsol tidak pernah benar-benar tidur selama ini aktif.</string>
-    <string name="kt_sleep_test_why">Membantu mempersempit titik masalah tidur. Jika macet di "Berhenti setelah mematikan inti", masalahnya ada sebelum firmware. Jika semua berjalan lancar hingga "Berhenti tepat sebelum tidur", masalahnya di firmware atau perangkat keras. Tereset saat konsol restart, jadi kamu tidak akan terjebak dengan ini.</string>
+    <string name="kt_sleep_test_what">Menjalani langkah-langkah untuk tidur, tetapi berhenti di langkah yang Anda pilih, menunggu 5 detik, lalu bangun lagi. Konsol tidak pernah benar-benar tidur selama ini aktif.</string>
+    <string name="kt_sleep_test_why">Membantu mempersempit titik masalah tidur. Jika macet di \"Berhenti setelah mematikan inti\", masalahnya ada sebelum firmware. Jika semua berjalan lancar hingga \"Berhenti tepat sebelum tidur\", masalahnya di firmware atau perangkat keras. Tereset saat konsol restart, jadi Anda tidak akan terjebak dengan ini.</string>
 
     <string name="kt_dc_det">Deteksi charger</string>
     <string name="kt_dc_det_auto">Default konsol ini</string>
     <string name="kt_dc_det_pin">Hanya pin charger</string>
     <string name="kt_dc_det_power">Pin dan chip daya</string>
-    <string name="kt_dc_det_what">Cara konsol mengetahui bahwa charger sedang terpasang. Kebanyakan konsol punya pin yang memberi tahu itu. Di beberapa clone, pin itu selalu bilang \"terpasang\", jadi di sana chip daya juga harus melihat arus listrik.</string>
+    <string name="kt_dc_det_what">Cara konsol mengetahui bahwa charger sedang terpasang. Kebanyakan konsol punya pin yang memberi tahu itu. Di beberapa klon, pin itu selalu bilang \"terpasang\", jadi di sana chip daya juga harus melihat arus listrik.</string>
     <string name="kt_dc_det_why">Jika konsol tidak menyadari charger, atau menampilkan \"mengisi\" padahal tidak ada yang terpasang, coba pengaturan lainnya. Default dipilih sesuai masing-masing konsol.</string>
     <string name="kt_sleep_console">Log kernel saat tidur</string>
     <string name="kt_sleep_console_y">Dijeda saat tidur</string>
@@ -116,7 +116,7 @@
     <!-- Processor -->
     <string name="kt_cores">Inti yang dipakai</string>
     <string name="kt_cores_what">Mematikan inti prosesor. Inti pertama selalu tetap aktif.</string>
-    <string name="kt_cores_why">Beberapa clone punya inti yang labil dan kadang macet. Jika konsol jadi lebih stabil dengan inti lebih sedikit, itulah jawabannya. Ini juga berarti lebih sedikit inti yang harus dimatikan saat masuk tidur, yang membantu saat menguji masalah macet di tidur. Game akan berjalan lebih lambat.</string>
+    <string name="kt_cores_why">Beberapa klon punya inti yang labil dan kadang macet. Jika konsol jadi lebih stabil dengan inti lebih sedikit, itulah jawabannya. Ini juga berarti lebih sedikit inti yang harus dimatikan saat masuk tidur, yang membantu saat menguji masalah macet di tidur. Game akan berjalan lebih lambat.</string>
 
     <string name="kt_heat_limit">Batas panas</string>
     <string name="kt_heat_limit_what">Suhu chip saat prosesor mulai melambat agar lebih dingin.</string>
@@ -127,8 +127,8 @@
     <string name="kt_swappiness_what">Seberapa agresif Android memindahkan aplikasi yang menganggur ke memori terkompresi (zram) untuk membebaskan RAM.</string>
     <string name="kt_swappiness_why">Lebih tinggi membuat lebih banyak aplikasi tetap terbuka di latar belakang, tetapi memakan sedikit waktu prosesor. Lebih rendah membuat semuanya lebih responsif saat game berjalan, tetapi aplikasi ditutup lebih cepat. Di konsol 1 GB, nilai default biasanya yang terbaik.</string>
 
-    <string name="kt_cache_pressure">Pembersihan cache berkas</string>
-    <string name="kt_cache_pressure_what">Seberapa cepat kernel melupakan berkas dan folder yang baru saja dilihat.</string>
+    <string name="kt_cache_pressure">Pembersihan cache file</string>
+    <string name="kt_cache_pressure_what">Seberapa cepat kernel melupakan file dan folder yang baru saja dilihat.</string>
     <string name="kt_cache_pressure_why">Lebih rendah membuat menjelajahi folder ROM besar lebih cepat untuk kedua kalinya. Lebih tinggi membebaskan memori lebih cepat untuk game.</string>
 
     <string name="kt_page_cluster">Read-ahead memori terkompresi</string>
@@ -144,12 +144,12 @@
     <string name="kt_scheduler_deadline">Terurut (mq-deadline)</string>
     <string name="kt_scheduler_none">Sesuai urutan masuk (none)</string>
     <string name="kt_scheduler_what">Apakah kernel mengurutkan dan mengelompokkan baca dan tulis sebelum mengirimkannya ke kartu, atau hanya mengirimkannya berurutan.</string>
-    <string name="kt_scheduler_why">Terurut membuat sistem tetap lancar saat ada penyalinan besar. "Sesuai urutan masuk" punya overhead lebih kecil dan bisa lebih cepat di kartu bagus. Di kartu murah atau palsu, terurut biasanya pilihan yang lebih aman.</string>
+    <string name="kt_scheduler_why">Terurut membuat sistem tetap lancar saat ada penyalinan besar. \"Sesuai urutan masuk\" punya overhead lebih kecil dan bisa lebih cepat di kartu bagus. Di kartu murah atau palsu, terurut biasanya pilihan yang lebih aman.</string>
 
     <string name="kt_sd1_readahead">Kartu sistem: read-ahead</string>
     <string name="kt_sd2_readahead">Kartu kedua: read-ahead</string>
-    <string name="kt_readahead_what">Berapa banyak tambahan yang dibaca kernel sekaligus saat aplikasi membaca berkas dari awal sampai akhir.</string>
-    <string name="kt_readahead_why">Read-ahead lebih besar memuat ROM dan ISO besar lebih cepat, terutama dari kartu lambat. Terlalu besar membuang-buang memori dan bisa memperlambat game yang melompat-lompat di dalam berkas. Jika kamu ganti kartu, pengaturan ini diterapkan lagi saat nyala berikutnya.</string>
+    <string name="kt_readahead_what">Berapa banyak tambahan yang dibaca kernel sekaligus saat aplikasi membaca file dari awal sampai akhir.</string>
+    <string name="kt_readahead_why">Read-ahead lebih besar memuat ROM dan ISO besar lebih cepat, terutama dari kartu lambat. Terlalu besar membuang-buang memori dan bisa memperlambat game yang melompat-lompat di dalam file. Jika Anda ganti kartu, pengaturan ini diterapkan lagi saat nyala berikutnya.</string>
 
     <!-- Controls and sound -->
     <string name="kt_stick_invert">Balik sumbu stik</string>
@@ -161,22 +161,22 @@
     <string name="kt_axis_rx">Stik kanan kiri/kanan</string>
     <string name="kt_axis_ry">Stik kanan atas/bawah</string>
     <string name="kt_stick_invert_what">Membalik satu arah stik, selain apa yang sudah dilakukan file layar konsol ini.</string>
-    <string name="kt_stick_invert_why">Beberapa clone memasang kabel stik secara terbalik, jadi menekan kanan malah bergerak ke kiri, atau atas malah ke bawah. Centang arah yang terbalik itu. Cek di tes kontroler apakah sekarang sudah benar.</string>
+    <string name="kt_stick_invert_why">Beberapa klon memasang kabel stik secara terbalik, jadi menekan kanan malah bergerak ke kiri, atau atas malah ke bawah. Centang arah yang terbalik itu. Cek di tes kontroler apakah sekarang sudah benar.</string>
     <string name="kt_stick_swap">Tukar stik</string>
     <string name="kt_stick_swap_off">Normal</string>
     <string name="kt_stick_swap_on">Ditukar</string>
     <string name="kt_stick_swap_what">Stik kiri bekerja sebagai stik kanan, dan stik kanan sebagai stik kiri, termasuk saat ditekan (L3/R3).</string>
-    <string name="kt_stick_swap_why">Untuk klon yang stiknya terbalik, atau kalau kamu lebih suka mengarahkan dengan stik yang lain. Arah yang kamu balik di atas tetap ikut stik tempat kamu membaliknya.</string>
+    <string name="kt_stick_swap_why">Untuk klon yang stiknya terbalik, atau kalau Anda lebih suka mengarahkan dengan stik yang lain. Arah yang Anda balik di atas tetap ikut stik tempat Anda membaliknya.</string>
 
     <string name="kt_poll_interval">Laju pengecekan tombol</string>
     <string name="kt_poll_interval_what">Seberapa sering stik dibaca dan tombol dicek ulang.</string>
-    <string name="kt_poll_interval_why">Lebih pendek berarti sedikit lebih sedikit lag input pada stik tapi memakai sedikit lebih banyak baterai. Penekanan tombol tetap langsung masuk kok. Lebih panjang membantu jika stik bergetar di clone yang bising secara listrik.</string>
+    <string name="kt_poll_interval_why">Lebih pendek berarti sedikit lebih sedikit lag input pada stik tapi memakai sedikit lebih banyak baterai. Penekanan tombol tetap langsung masuk. Lebih panjang membantu jika stik bergetar di klon yang bising secara listrik.</string>
 
     <string name="kt_hp_det_flip">Deteksi headphone</string>
     <string name="kt_hp_det_normal">Normal</string>
     <string name="kt_hp_det_flipped">Dibalik</string>
     <string name="kt_hp_det_flip_what">Membaca saklar jack headphone secara terbalik.</string>
-    <string name="kt_hp_det_flip_why">Beberapa clone memasang kabel jack secara terbalik: speaker tetap diam walau tidak ada yang dicolok, atau suara tidak pernah pindah ke headphone. Jika itu kedengarannya seperti konsolmu, balik ini. Langsung dicek ulang.</string>
+    <string name="kt_hp_det_flip_why">Beberapa klon memasang kabel jack secara terbalik: speaker tetap diam walau tidak ada yang dicolok, atau suara tidak pernah pindah ke headphone. Jika itu terdengar seperti konsol Anda, balik ini. Langsung dicek ulang.</string>
 
     <!-- Crashes and logs -->
     <string name="kt_log_level">Detail log kernel</string>
@@ -185,24 +185,24 @@
     <string name="kt_log_level_7">Info</string>
     <string name="kt_log_level_8">Semua</string>
     <string name="kt_log_level_what">Seberapa banyak kernel menulis ke log yang bertahan setelah crash atau restart.</string>
-    <string name="kt_log_level_why">Detail lebih banyak berarti kemungkinan lebih besar baris yang menjelaskan macet masuk ke laporan masalah. "Semua" sangat cerewet dan bisa membuat konsol sedikit lebih lambat.</string>
+    <string name="kt_log_level_why">Detail lebih banyak berarti kemungkinan lebih besar baris yang menjelaskan macet masuk ke laporan masalah. \"Semua\" sangat cerewet dan bisa membuat konsol sedikit lebih lambat.</string>
 
     <string name="kt_panic_restart">Restart setelah kernel crash</string>
     <string name="kt_panic_never">Tidak pernah, tetap di kondisi crash</string>
     <string name="kt_panic_restart_what">Berapa lama konsol menunggu setelah kernel crash sebelum restart sendiri.</string>
-    <string name="kt_panic_restart_why">Restart cepat membuatmu kembali bermain lebih cepat, dan laporan masalah masih punya log crash-nya. "Tidak pernah" membuat konsol tetap beku agar kamu tahu itu crash bukan sekadar macet, tapi kamu harus menahan Power untuk mematikannya.</string>
+    <string name="kt_panic_restart_why">Restart cepat membuat Anda kembali bermain lebih cepat, dan laporan masalah masih punya log crash-nya. \"Tidak pernah\" membuat konsol tetap beku agar Anda tahu itu crash bukan sekadar macet, tapi Anda harus menahan Power untuk mematikannya.</string>
 
     <string name="kt_oops_panic">Anggap error driver sebagai crash</string>
     <string name="kt_oops_panic_what">Saat driver mengalami error serius (oops), kernel biasanya tetap berjalan tanpa driver itu. Ini membuat konsol restart sebagai gantinya.</string>
-    <string name="kt_oops_panic_why">Setelah oops, hal-hal sering rusak dengan cara aneh: tidak ada suara, tombol mati, layar beku belakangan. Restart langsung memberimu log crash yang bersih di laporan masalah, bukan kekacauan yang membingungkan.</string>
+    <string name="kt_oops_panic_why">Setelah oops, hal-hal sering rusak dengan cara aneh: tidak ada suara, tombol mati, layar beku belakangan. Restart langsung memberi Anda log crash yang bersih di laporan masalah, bukan kekacauan yang membingungkan.</string>
 
     <string name="kt_stall_report">Laporkan inti yang macet setelah</string>
     <string name="kt_stall_report_what">Berapa lama satu inti boleh berhenti merespons sebelum kernel mencatat peringatan beserta apa yang sedang dilakukannya.</string>
-    <string name="kt_stall_report_why">Macet saat tidur di beberapa clone terlihat seperti satu inti yang tiba-tiba diam. Waktu yang lebih pendek membuat peringatan itu masuk ke log sebelum kamu menyerah dan menahan Power.</string>
+    <string name="kt_stall_report_why">Macet saat tidur di beberapa klon terlihat seperti satu inti yang tiba-tiba diam. Waktu yang lebih pendek membuat peringatan itu masuk ke log sebelum Anda menyerah dan menahan Power.</string>
 
     <string name="kt_power_chip_log">Log chip daya</string>
     <string name="kt_power_chip_log_what">Membiarkan bagian charger, pengukur baterai, dan suara dari chip daya (RK817) mencatat apa yang sedang dilakukannya.</string>
-    <string name="kt_power_chip_log_why">Untuk persentase baterai yang melompat-lompat, pengisian yang berhenti, atau suara yang berderak. Sangat cerewet, jadi aktifkan hanya saat kamu sedang membuat laporan masalah.</string>
+    <string name="kt_power_chip_log_why">Untuk persentase baterai yang melompat-lompat, pengisian yang berhenti, atau suara yang berderak. Sangat cerewet, jadi aktifkan hanya saat Anda sedang membuat laporan masalah.</string>
 
     <string name="kt_crash_oops">Simpan juga error driver</string>
     <string name="kt_crash_oops_what">Menyimpan catatan crash saat driver mengalami error serius (oops) dan kernel tetap berjalan, bukan hanya saat seluruh kernel crash.</string>
@@ -210,12 +210,12 @@
 
     <string name="kt_crash_restart_log">Simpan log di setiap restart</string>
     <string name="kt_crash_restart_log_what">Saat konsol mulai ulang normal, kernel juga menyimpan bagian akhir log-nya di catatan crash, dengan setiap pesan, termasuk pesan senyap di bawah level log.</string>
-    <string name="kt_crash_restart_log_why">Untuk masalah tanpa crash, misalnya game yang patah-patah sampai kamu mulai ulang. Log kernel dari start terakhir tetap disimpan, tapi hanya baris pada level log. Crash dalam start yang sama selalu menyimpan catatannya sendiri. Namun mulai ulang normal menggantikan catatan crash yang lebih lama, jadi simpan laporan masalah tentang crash dulu. Tidak ada yang disimpan setelah dimatikan: RAM kehilangannya.</string>
+    <string name="kt_crash_restart_log_why">Untuk masalah tanpa crash, misalnya game yang patah-patah sampai Anda mulai ulang. Log kernel dari start terakhir tetap disimpan, tapi hanya baris pada level log. Crash dalam start yang sama selalu menyimpan catatannya sendiri. Namun mulai ulang normal menggantikan catatan crash yang lebih lama, jadi simpan laporan masalah tentang crash dulu. Tidak ada yang disimpan setelah dimatikan: RAM kehilangannya.</string>
 
     <!-- At start (needs a restart) -->
     <string name="kt_serial_console">Konsol serial</string>
-    <string name="kt_serial_console_what">Mengirim log kernel lewat port serial debug dan memungkinkanmu mengetik perintah di sana (UART2 di R36S, UART5 di clone EE).</string>
-    <string name="kt_serial_console_why">Hanya berguna dengan adaptor serial USB yang disolder ke papan. Nonaktif secara default: di beberapa clone, pin serial yang mengambang membangunkan konsol dari tidur, dan setiap baris log memakan sedikit waktu selama ini aktif.</string>
+    <string name="kt_serial_console_what">Mengirim log kernel lewat port serial debug dan memungkinkan Anda mengetik perintah di sana (UART2 di R36S, UART5 di klon EE).</string>
+    <string name="kt_serial_console_why">Hanya berguna dengan adaptor serial USB yang disolder ke papan. Nonaktif secara default: di beberapa klon, pin serial yang mengambang membangunkan konsol dari tidur, dan setiap baris log memakan sedikit waktu selama ini aktif.</string>
 
     <string name="kt_boot_log_level">Detail log kernel saat menyala</string>
     <string name="kt_boot_log_level_what">Seberapa banyak yang dicatat kernel sejak detik pertama konsol menyala, sebelum Android siap. Pengaturan \"Detail log kernel\" di atas baru berlaku nanti.</string>

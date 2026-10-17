@@ -38,10 +38,10 @@
 
     <!-- Parental controls (Settings > Play time > Parental controls) -->
     <string name="parental_title">家长控制</string>
-    <string name="parental_off_summary">已关闭。用 PIN 码限制主机的游戏时长。</string>
+    <string name="parental_off_summary">已关闭。用 PIN 码限制掌机的游戏时长。</string>
     <!-- %1$s: time left, e.g. "42 min" -->
     <string name="parental_on_summary">已开启 · 剩余 <xliff:g id="time">%1$s</xliff:g></string>
-    <string name="parental_switch_summary">限制主机的游戏时长，超时后只有输入 PIN 码才能继续玩</string>
+    <string name="parental_switch_summary">限制掌机的游戏时长，超时后只有输入 PIN 码才能继续玩</string>
     <string name="parental_limit">允许的游戏时长</string>
     <string name="parental_refill">时间在此之后恢复</string>
     <plurals name="parental_refill_hours">
@@ -50,7 +50,7 @@
     <string name="parental_refill_pin">仅限 PIN 码</string>
     <string name="parental_shutdown">时间用完时</string>
     <!-- %1$s: e.g. "2 min" -->
-    <string name="parental_shutdown_after">无 PIN 码输入超过 <xliff:g id="time">%1$s</xliff:g> 后关闭主机</string>
+    <string name="parental_shutdown_after">无 PIN 码输入超过 <xliff:g id="time">%1$s</xliff:g> 后关闭掌机</string>
     <string name="parental_shutdown_never">保持「时间已到」页面开启</string>
     <string name="parental_refill_custom">自定义…</string>
     <string name="parental_refill_custom_title">休息时长</string>
@@ -66,17 +66,17 @@
     <!-- %1$s left of %2$s, e.g. "42 min of 1 h" -->
     <string name="parental_left_summary">还剩 <xliff:g id="left">%1$s</xliff:g>，共 <xliff:g id="allowed">%2$s</xliff:g>。选择即可增加时间。</string>
     <string name="parental_change_pin">更改 PIN 码</string>
-    <string name="parental_about">统计屏幕亮着的时间，适用于除允许的应用以外的所有应用。主机没有带电池的时钟，所以不按一天中的时间计算：在屏幕关闭或主机休眠的情况下，经过足够长的休息后时间会恢复。关闭主机不算休息，因为主机无法得知它被关了多久。如需整夜休眠，请使用电源键。\n\n时间快用完前 10 分钟和 2 分钟会发出提醒。之后会有一个页面盖住屏幕，直到输入 PIN 码；如果没有输入，主机会按上述设置关机。重启后，时间仍然是用完的。\n\n忘记 PIN 码？只有重新设置存储卡才能清除。</string>
+    <string name="parental_about">统计屏幕亮着的时间，适用于除允许的应用以外的所有应用。掌机没有带电池的时钟，所以不按一天中的时间计算：在屏幕关闭或掌机休眠的情况下，经过足够长的休息后时间会恢复。关闭掌机不算休息，因为掌机无法得知它被关了多久。如需整夜休眠，请使用电源键。\n\n时间快用完前 10 分钟和 2 分钟会发出提醒。之后会有一个页面盖住屏幕，直到输入 PIN 码；如果没有输入，掌机会按上述设置关机。重启后，时间仍然是用完的。\n\n忘记 PIN 码？只有重新设置存储卡才能清除。</string>
     <string name="parental_left">剩余游戏时间：<xliff:g id="time">%1$s</xliff:g></string>
     <string name="parental_warning_channel">游戏时间提醒</string>
     <string name="parental_warning">游戏时间将在 <xliff:g id="time">%1$s</xliff:g> 后结束。记得保存游戏！</string>
     <string name="parental_up_title">游戏时间已到</string>
     <plurals name="parental_up_text_rest">
-        <item quantity="other">该休息啦！主机休眠后，游戏时间会在休息 <xliff:g id="hours">%1$d</xliff:g> 小时后恢复，或家长可以输入 PIN 码增加时间。</item>
+        <item quantity="other">该休息啦！掌机休眠后，游戏时间会在休息 <xliff:g id="hours">%1$d</xliff:g> 小时后恢复，或家长可以输入 PIN 码增加时间。</item>
     </plurals>
     <string name="parental_up_text_pin">该休息啦！家长可以输入 PIN 码增加时间。</string>
     <!-- %1$s: minutes:seconds, e.g. "1:45" -->
-    <string name="parental_shutdown_in">主机将在 <xliff:g id="time">%1$s</xliff:g> 后关机。</string>
+    <string name="parental_shutdown_in">掌机将在 <xliff:g id="time">%1$s</xliff:g> 后关机。</string>
     <string name="parental_more_time">更多游戏时间</string>
     <!-- %1$s: e.g. "30 min" -->
     <string name="parental_add">增加 <xliff:g id="time">%1$s</xliff:g></string>

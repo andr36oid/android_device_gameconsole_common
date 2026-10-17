@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="rgb_title">Podświetlenie RGB</string>
+    <string name="rgb_summary">Wybierz kolor podświetlenia lub je wyłącz</string>
+    <string name="rgb_colour_title">Kolor</string>
+    <string name="rgb_about">Podświetlenie pozostanie wyłączone, dopóki nie wybierzesz tu koloru. Wybór zostanie zachowany po ponownym uruchomieniu.</string>
+    <string name="rgb_missing">Ta konsola nie ma podświetlenia RGB</string>
+    <string-array name="rgb_colour_names">
+        <item>Wyłączone</item>
+        <item>Czerwony</item>
+        <item>Zielony</item>
+        <item>Niebieski</item>
+        <item>Żółty</item>
+        <item>Cyjan</item>
+        <item>Fioletowy</item>
+        <item>Biały</item>
+    </string-array>
+</resources>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="deep_sleep_title">Sueño profundo</string>
+    <string name="deep_sleep_title">Reposo profundo</string>
     <string name="deep_sleep_summary">Pasos de ahorro de energía en reposo, para encontrar problemas de reposo</string>
     <string name="deep_sleep_intro">Estos pasos deciden lo profundo que duerme la consola. Desactivar algunos puede evitar que la consola se congele en reposo, pero gasta más batería mientras duerme. Un cambio cuenta desde el siguiente reposo y se mantiene tras reiniciar. Si la consola no despierta, mantén pulsado Power 7 segundos.</string>
     <string name="deep_sleep_reset">Restablecer</string>

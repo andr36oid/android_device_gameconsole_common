@@ -2,24 +2,24 @@
 <resources>
     <string name="deep_sleep_title">Глубокий сон</string>
     <string name="deep_sleep_summary">Шаги энергосбережения во сне, для поиска проблем со сном</string>
-    <string name="deep_sleep_intro">Эти шаги определяют, насколько глубоко спит консоль. Отключение некоторых может избавить консоль от зависаний во сне, но во сне она расходует больше заряда. Изменение действует со следующего сна и сохраняется после перезапуска. Если консоль не просыпается, удерживайте Power 7 секунд.</string>
+    <string name="deep_sleep_intro">Эти шаги определяют, насколько глубоко спит консоль. Если отключить некоторые из них, консоль может перестать зависать во сне, но во сне она будет расходовать больше заряда. Изменение действует со следующего сна и сохраняется после перезапуска. Если консоль не просыпается, удерживайте кнопку питания 7 секунд.</string>
     <string name="deep_sleep_reset">Вернуть по умолчанию</string>
     <string name="deep_sleep_state">Сейчас: %1$s. По умолчанию для этой консоли: %2$s</string>
-    <string name="deep_sleep_unsupported">Эта система не может менять шаги сна.</string>
+    <string name="deep_sleep_unsupported">Эта система не умеет менять шаги сна.</string>
     <string name="deep_sleep_steps">Шаги сна</string>
     <string name="deep_sleep_wake">Пробуждение</string>
-    <string name="step_armoff">Ядра выключены</string>
+    <string name="step_armoff">Отключение ядер</string>
     <string name="step_armoff_summary">Выключать ядра процессора (ARMOFF)</string>
-    <string name="step_logoff">Логика выключена</string>
+    <string name="step_logoff">Отключение логики</string>
     <string name="step_logoff_summary">Выключать также домен питания логики (ARMOFF_LOGOFF)</string>
     <string name="step_ddrpd">Энергосбережение памяти</string>
     <string name="step_ddrpd_summary">Переводить ОЗУ в режим power-down (ARMOFF_DDRPD)</string>
-    <string name="step_plls">Генераторы частоты выключены</string>
+    <string name="step_plls">Отключение генераторов частоты</string>
     <string name="step_plls_summary">Выключать PLL (PMU_HW_PLLS_PD)</string>
-    <string name="step_32k">Частота 32 кГц</string>
+    <string name="step_32k">Тактирование 32 кГц</string>
     <string name="step_32k_summary">Переводить контроллер питания на медленную частоту 32 кГц (PMU_PMUALIVE_32K)</string>
-    <string name="step_osc">Кварц 24 МГц выключен</string>
-    <string name="step_osc_summary">Останавливать основной кварц (PMU_DIS_OSC)</string>
+    <string name="step_osc">Отключение кварца 24 МГц</string>
+    <string name="step_osc_summary">Останавливать основной кварцевый генератор (PMU_DIS_OSC)</string>
     <string name="step_clk_gt">Отключение тактирования</string>
     <string name="step_clk_gt_summary">Останавливать тактирование неиспользуемых частей чипа (CLK_GT)</string>
     <string name="step_pmic_lp">Энергосбережение чипа питания</string>
@@ -28,7 +28,7 @@
     <string name="wake_usb_summary">Подключение кабеля или USB-устройства может разбудить консоль (USB_WKUP_EN)</string>
     <string name="deep_sleep_idle">Во время работы</string>
     <string name="idle_core">Отключать простаивающие ядра</string>
-    <string name="idle_core_summary">Простаивающие ядра полностью отключаются. Выкл.: они только останавливают тактирование, расход батареи немного выше. Действует сразу (cpu-sleep)</string>
+    <string name="idle_core_summary">Простаивающие ядра отключаются полностью. Выкл.: они только останавливают тактирование и расходуют чуть больше заряда. Действует сразу (cpu-sleep)</string>
     <string name="idle_cluster">Отключать простаивающую группу ядер</string>
-    <string name="idle_cluster_summary">Когда все четыре ядра простаивают, вся группа отключается. Выкл.: расход батареи немного выше. Действует сразу (cluster-sleep)</string>
+    <string name="idle_cluster_summary">Когда простаивают все четыре ядра, отключается вся группа. Выкл.: расходует чуть больше заряда. Действует сразу (cluster-sleep)</string>
 </resources>

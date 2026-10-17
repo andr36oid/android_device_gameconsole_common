@@ -29,14 +29,14 @@
     <!-- e.g. "Always blue" -->
     <string name="sl_style_always">Siempre <xliff:g id="color">%1$s</xliff:g></string>
     <!-- e.g. "Your own: blue · red below 11 %" -->
-    <string name="sl_style_custom">Lo tuyo: <xliff:g id="rules">%1$s</xliff:g></string>
+    <string name="sl_style_custom">Personalizado: <xliff:g id="rules">%1$s</xliff:g></string>
     <!-- e.g. "red below 11 %" -->
     <string name="sl_below"><xliff:g id="color">%1$s</xliff:g> por debajo del <xliff:g id="level">%2$s</xliff:g> %%</string>
     <string name="sl_blink_low">Parpadear cuando esté baja</string>
     <string name="sl_blink_low_summary">El color de batería baja parpadea, para que sea más difícil no verlo</string>
     <!-- e.g. "Red, blinking" -->
     <string name="sl_blinking"><xliff:g id="color">%1$s</xliff:g>, parpadeando</string>
-    <string name="sl_hardware">Dejárselo al hardware</string>
+    <string name="sl_hardware">Dejarlo al hardware</string>
 
     <!-- Charger -->
     <string name="sl_cat_charger">Cargador</string>
@@ -56,7 +56,7 @@
     <string name="sl_cat_tools">Herramientas</string>
     <string name="sl_check">Comprobar colores</string>
     <string name="sl_check_summary">¿No ves los colores que elegiste? Descubre qué puede mostrar en realidad la luz de tu consola.</string>
-    <string name="sl_reset">Volver al valor por defecto</string>
+    <string name="sl_reset">Restablecer</string>
     <string name="sl_reset_summary">Deshace todo en esta página, incluida una comprobación de colores</string>
 
     <!-- Colour check -->

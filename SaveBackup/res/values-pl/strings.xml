@@ -63,7 +63,7 @@
     <string name="usb_none">Podłącz pendrive, aby trzymać kopię poza kartą SD</string>
     <string name="auto_category">Automatyczna kopia</string>
     <string name="auto_title">Twórz kopie automatycznie</string>
-    <string name="auto_summary">Raz dziennie podczas ładowania i po zamknięciu gry. Pomijana, gdy nic się nie zmieniło. Po grze stany gry powyżej 16 MB (PSP) czekają na codzienną kopię.</string>
+    <string name="auto_summary">Raz dziennie podczas ładowania i po zamknięciu gry. Pomijana, gdy nic się nie zmieniło. Po grze stany zapisu powyżej 16 MB (PSP) czekają na codzienną kopię.</string>
     <string name="keep_title">Ile kopii zachować</string>
     <!-- %1$s: a number -->
     <string name="keep_summary">Zachowywane są najnowsze kopie (%1$s), w tym co najmniej jedna z każdego z ostatnich dni. Starsze są usuwane.</string>

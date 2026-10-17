@@ -5,6 +5,6 @@
     <string name="setup_apps_body">Bu uygulamalar andr36oid ile gelir ve doğrudan karttan yüklenir, internet gerekmez. İstemediklerinin işaretini kaldır.</string>
     <string name="setup_apps_all">Hepsi ya da hiçbiri</string>
     <string name="setup_apps_next">Yükle</string>
-    <string name="setup_apps_space">Bu uygulamalar şimdilik SD kartında 2 GB yer kaplıyor. Yüklendikten sonra bir sonraki açılışta bu alan Android\'e geri verilir ve seçmediğin uygulamalar karttan silinir, bu yüzden istediğin her şeyi şimdi seç.</string>
+    <string name="setup_apps_space">Bu uygulamalar geçici olarak SD kartınızda 2 GB yer kaplar. Kurulumdan sonraki açılışta bu alan Android’e geri verilir ve seçmediğiniz uygulamalar karttan silinir. Yüklemek istediğiniz tüm uygulamaları şimdi seçin.</string>
     <string name="setup_apps_by">%1$s tarafından</string>
 </resources>

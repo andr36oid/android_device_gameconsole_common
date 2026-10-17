@@ -2,22 +2,22 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
     <string name="overclock_title">Desempenho</string>
-    <string name="overclock_summary">Economia de bateria ou velocidade máxima, limite da CPU e overclock</string>
+    <string name="overclock_summary">Poupança de bateria ou velocidade máxima, limite da CPU e overclock</string>
 
     <!-- Performance profiles -->
     <string name="profile_category">Perfil de desempenho</string>
     <string name="profile_title">Perfil</string>
     <string-array name="profile_names">
-        <item>Economia de bateria</item>
+        <item>Poupança de bateria</item>
         <item>Equilibrado</item>
         <item>Desempenho</item>
     </string-array>
     <!-- What each profile does. cpu is a CPU speed like "1.01 GHz", gpu a GPU speed in MHz. -->
-    <string name="profile_about_saver">Mais tempo de jogo. A CPU fica em até <xliff:g id="cpu">%1$s</xliff:g> e a parte gráfica em <xliff:g id="gpu">%2$d</xliff:g> MHz. É mais que suficiente para jogos de 8 e 16 bits.</string>
-    <string name="profile_about_balanced">Velocidades padrão. O processador acelera quando um jogo precisa e desacelera quando não precisa.</string>
-    <string name="profile_about_footer">\n\nO perfil é mantido quando o console reinicia. O bloco nas Configurações rápidas muda para o próximo.</string>
-    <string name="profile_about_footer_fn">\n\nO perfil é mantido quando o console reinicia. FN + R1 e o bloco nas Configurações rápidas mudam para o próximo.</string>
-    <string name="profile_failed">Não foi possível mudar o perfil de desempenho</string>
+    <string name="profile_about_saver">Mais tempo de jogo. A CPU fica em <xliff:g id="cpu">%1$s</xliff:g> ou menos e os gráficos a <xliff:g id="gpu">%2$d</xliff:g> MHz. Mais do que suficiente para jogos de 8 e 16 bits.</string>
+    <string name="profile_about_balanced">Velocidades normais. O processador acelera quando um jogo precisa e abranda quando não precisa.</string>
+    <string name="profile_about_footer">\n\nO perfil mantém-se quando a consola reinicia. O mosaico nas Definições rápidas passa ao seguinte.</string>
+    <string name="profile_about_footer_fn">\n\nO perfil mantém-se quando a consola reinicia. FN + R1 e o mosaico nas Definições rápidas passam ao seguinte.</string>
+    <string name="profile_failed">Não foi possível alterar o perfil de desempenho</string>
     <!-- Toast after FN + R1, e.g. "Performance profile: Battery saver" -->
     <string name="profile_switched">Perfil de desempenho: <xliff:g id="profile">%1$s</xliff:g></string>
     <string name="profile_tile_label">Desempenho</string>
@@ -29,30 +29,30 @@
     <!-- Maximum CPU speed (underclock) -->
     <string name="cpu_cap_title">Velocidade máxima da CPU</string>
     <!-- First entry of the list, no limit. speed is the standard top speed, e.g. "1296 MHz" -->
-    <string name="cpu_cap_stock">Original (<xliff:g id="speed">%1$s</xliff:g>)</string>
-    <string name="cpu_cap_note">Mais baixa significa bateria durando mais e console mais frio, mas jogos mais lentos. Se um jogo ficar lento, escolha uma velocidade mais alta. Mantida quando o console reinicia.</string>
+    <string name="cpu_cap_stock">De origem (<xliff:g id="speed">%1$s</xliff:g>)</string>
+    <string name="cpu_cap_note">Mais baixa significa mais bateria e uma consola mais fresca, mas jogos mais lentos. Se um jogo ficar lento, escolha uma velocidade mais alta. Mantém-se quando a consola reinicia.</string>
     <!-- The cap is lower than what the profile allows, speed e.g. "816 MHz" -->
-    <string name="cpu_cap_active">Até <xliff:g id="speed">%1$s</xliff:g>, qualquer que seja o perfil.</string>
+    <string name="cpu_cap_active">Até <xliff:g id="speed">%1$s</xliff:g>, seja qual for o perfil.</string>
     <!-- The profile already stays lower than the cap -->
-    <string name="cpu_cap_profile_lower"><xliff:g id="speed">%1$s</xliff:g>. O perfil mantém a CPU em <xliff:g id="profile_speed">%2$s</xliff:g> ou menos agora.</string>
-    <string name="cpu_cap_on_hold"><xliff:g id="speed">%1$s</xliff:g>. Suspenso enquanto o overclock estiver ativado.</string>
+    <string name="cpu_cap_profile_lower"><xliff:g id="speed">%1$s</xliff:g>. O perfil mantém agora a CPU em <xliff:g id="profile_speed">%2$s</xliff:g> ou menos.</string>
+    <string name="cpu_cap_on_hold"><xliff:g id="speed">%1$s</xliff:g>. Em pausa enquanto o overclock estiver ativado.</string>
     <string name="cpu_cap_none">Sem limite além do perfil.</string>
     <!-- A CPU speed, e.g. "816 MHz" -->
     <string name="speed_mhz"><xliff:g id="mhz">%1$d</xliff:g> MHz</string>
 
     <string name="overclock_category">Overclock da CPU (experimental)</string>
     <string name="overclock_switch">Overclock</string>
-    <string name="overclock_switch_on">Rodando a até <xliff:g id="speed">%1$s</xliff:g></string>
-    <string name="overclock_switch_off">Desativado, a CPU roda a até <xliff:g id="speed">%1$s</xliff:g></string>
+    <string name="overclock_switch_on">A correr até <xliff:g id="speed">%1$s</xliff:g></string>
+    <string name="overclock_switch_off">Desativado, a CPU corre até <xliff:g id="speed">%1$s</xliff:g></string>
     <string name="overclock_speed">Velocidade</string>
 
     <!-- A CPU speed, e.g. "1.51 GHz" -->
     <string name="speed_ghz"><xliff:g id="ghz">%1$.2f</xliff:g> GHz</string>
 
-    <string name="overclock_about">Emulação mais rápida para jogos pesados, com um custo: o console esquenta mais, a bateria acaba mais rápido e alguns consoles travam ou falham nas velocidades mais altas. Se isso acontecer, escolha uma velocidade mais baixa.\n\nO console sempre inicia sem o overclock; reiniciar desativa o overclock. Enquanto ele está ativado, a velocidade máxima da CPU fica suspensa. O console também desacelera sozinho quando esquenta demais.</string>
+    <string name="overclock_about">Emulação mais rápida para jogos pesados, com um custo: a consola aquece mais, a bateria acaba mais depressa e algumas consolas bloqueiam ou falham nas velocidades mais altas. Se isso acontecer, escolha uma velocidade mais baixa.\n\nA consola arranca sempre sem o overclock; reiniciar desativa-o. Enquanto está ativado, a velocidade máxima da CPU fica em pausa. A consola também abranda sozinha quando aquece demasiado.</string>
 
-    <string name="overclock_unsupported">Este console não aceita overclock.</string>
-    <string name="overclock_failed">Não foi possível mudar a velocidade da CPU</string>
+    <string name="overclock_unsupported">Esta consola não aceita overclock.</string>
+    <string name="overclock_failed">Não foi possível alterar a velocidade da CPU</string>
 
     <!-- CPU undervolt -->
     <string name="undervolt_category">Undervolt da CPU (experimental)</string>
@@ -60,27 +60,27 @@
     <string name="undervolt_off">Desativado</string>
     <!-- An undervolt step, e.g. "−25 mV" -->
     <string name="undervolt_step">−<xliff:g id="mv">%1$d</xliff:g> mV</string>
-    <string name="undervolt_about">Roda a CPU com uma tensão um pouco menor na mesma velocidade, então ela gasta um pouco menos de energia e esquenta um pouco menos, principalmente nas velocidades mais altas. Em 816 MHz ou menos, há pouco a ganhar.\n\nCada chip é diferente. Se um jogo fechar sozinho ou o console travar ou reiniciar, volte para Desativado. Uma falha enquanto algo está sendo salvo pode danificar arquivos no cartão, então vá um passo por vez e jogue um pouco antes de baixar mais.\n\nO console sempre inicia com o undervolt desativado; reiniciar desativa o undervolt.</string>
+    <string name="undervolt_about">Faz a CPU correr com uma tensão ligeiramente mais baixa à mesma velocidade, por isso gasta um pouco menos de energia e aquece um pouco menos, sobretudo nas velocidades mais altas. A 816 MHz ou menos, há pouco a ganhar.\n\nCada chip é diferente. Se um jogo fechar sozinho ou a consola bloquear ou reiniciar, volte a Desativado. Uma falha enquanto algo está a ser guardado pode danificar ficheiros no cartão, por isso desça um passo de cada vez e jogue um pouco antes de descer mais.\n\nA consola arranca sempre com o undervolt desativado; reiniciar desativa-o.</string>
     <string name="gpu_ram_category">Overclock da GPU e da memória (experimental)</string>
     <string name="gpu_oc_title">Overclock da GPU</string>
     <string name="gpu_oc_on">Ativado: até <xliff:g id="fast">%1$s</xliff:g> em vez de <xliff:g id="stock">%2$s</xliff:g></string>
     <string name="gpu_oc_off">Desativado: até <xliff:g id="stock">%2$s</xliff:g>, <xliff:g id="fast">%1$s</xliff:g> com o overclock</string>
     <string name="ram_oc_title">Velocidade da memória</string>
-    <string name="ram_oc_off">Padrão (<xliff:g id="speed">%1$s</xliff:g>)</string>
+    <string name="ram_oc_off">Normal (<xliff:g id="speed">%1$s</xliff:g>)</string>
     <string name="ram_oc_experimental"><xliff:g id="speed">%1$s</xliff:g> (experimental)</string>
     <string name="ram_oc_warning_title">Velocidade de memória experimental</string>
-    <string name="ram_oc_warning">Esta velocidade coloca a linha de energia da GPU e da memória na tensão mais alta. Alguns chips de memória aguentam, outros fazem os jogos travarem, o console congelar ou a imagem ficar bagunçada.\n\nIsso não danifica a memória, mas uma falha enquanto algo está sendo salvo pode danificar arquivos no cartão. Se algo der errado, volte para uma velocidade mais baixa. Reiniciar desativa.</string>
+    <string name="ram_oc_warning">Esta velocidade põe a linha de alimentação da GPU e da memória na tensão mais alta. Alguns chips de memória aguentam, outros fazem os jogos falhar, a consola bloquear ou a imagem ficar corrompida.\n\nIsto não danifica a memória, mas uma falha enquanto algo está a ser guardado pode danificar ficheiros no cartão. Se algo correr mal, volte a uma velocidade mais baixa. Reiniciar desativa-a.</string>
     <string name="ram_oc_warning_ok">Usar</string>
-    <string name="gpu_ram_about">Gráficos e memória mais rápidos para jogos pesados. O overclock da GPU faz a GPU rodar a 600 MHz em vez de 520 MHz. As velocidades de memória mais altas ajudam mais emuladores como o PPSSPP. Os dois aumentam a tensão da linha de energia que a GPU e a memória dividem, então o console esquenta um pouco mais e a bateria acaba um pouco mais rápido.\n\nCada chip é diferente. Se um jogo travar ou o console congelar, desative. O console sempre inicia sem eles; reiniciar desativa.\n\nBaseado em R36 Tuner Next, de zenmode-adri.</string>
-    <string name="gpu_ram_unsupported">O sistema deste console não tem esta velocidade</string>
-    <string name="gpu_ram_failed">Não foi possível mudar a velocidade da GPU ou da memória</string>
-    <string name="undervolt_failed">Não foi possível mudar a tensão da CPU</string>
+    <string name="gpu_ram_about">Gráficos e memória mais rápidos para jogos pesados. O overclock da GPU faz a GPU correr a 600 MHz em vez de 520 MHz. As velocidades de memória mais altas ajudam sobretudo emuladores como o PPSSPP. Ambos aumentam a tensão da linha de alimentação que a GPU e a memória partilham, por isso a consola aquece um pouco mais e a bateria acaba um pouco mais depressa.\n\nCada chip é diferente. Se um jogo falhar ou a consola bloquear, desative. A consola arranca sempre sem eles; reiniciar desativa-os.\n\nBaseado no R36 Tuner Next, de zenmode-adri.</string>
+    <string name="gpu_ram_unsupported">O sistema desta consola não tem esta velocidade</string>
+    <string name="gpu_ram_failed">Não foi possível alterar a velocidade da GPU ou da memória</string>
+    <string name="undervolt_failed">Não foi possível alterar a tensão da CPU</string>
 
     <!-- Quick Settings tile -->
     <string name="tile_label">Overclock da CPU</string>
     <string name="tile_off">Desativado</string>
     <string name="gpu_tile_label">Overclock da GPU</string>
     <string name="ram_tile_label">Overclock da memória</string>
-    <string name="tile_added_gpu">Bloco rápido de overclock da GPU adicionado ao painel de notificações</string>
-    <string name="tile_added_ram">Bloco rápido de overclock da memória adicionado ao painel de notificações</string>
+    <string name="tile_added_gpu">Mosaico Overclock da GPU adicionado ao painel de notificações</string>
+    <string name="tile_added_ram">Mosaico Overclock da memória adicionado ao painel de notificações</string>
 </resources>

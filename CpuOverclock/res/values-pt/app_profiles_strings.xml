@@ -9,13 +9,13 @@
         <item quantity="other">Ativado, <xliff:g id="count">%d</xliff:g> apps têm perfil próprio</item>
     </plurals>
     <string name="app_profiles_switch">Mudar o perfil por app</string>
-    <string name="app_profiles_switch_summary">Um app com perfil próprio usa esse perfil enquanto está aberto. O perfil escolhido em Desempenho volta quando você sai do app.</string>
+    <string name="app_profiles_switch_summary">Uma aplicação com perfil próprio usa-o enquanto está aberta. O perfil escolhido em Desempenho é reposto quando sair da aplicação.</string>
     <string name="app_profiles_apps">Apps</string>
     <!-- First choice of every app, profile is the chosen profile, e.g. "Default (Balanced)" -->
     <string name="app_profile_default">Padrão (<xliff:g id="profile">%1$s</xliff:g>)</string>
-    <string name="app_profiles_about">Padrão significa que o app segue o perfil escolhido em Desempenho. Alguns emuladores já vêm com Desempenho e alguns apps com Equilibrado ou Economia de bateria. Mude qualquer um deles aqui.\n\nO bloco nas Configurações rápidas e FN + R1 continuam funcionando em um app com perfil próprio. O que você escolher vale até você sair do app.\n\nEnquanto isto está ativado, um pequeno ajudante observa qual app está aberto. Ele não roda quando isto está desativado ou quando nenhum app tem perfil próprio.</string>
+    <string name="app_profiles_about">Predefinido significa que a aplicação segue o perfil escolhido em Desempenho. Alguns emuladores usam inicialmente Desempenho, e algumas aplicações usam Equilibrado ou Poupança de bateria. Pode alterar qualquer um deles aqui.\n\nO bloco nas Definições rápidas e FN + R1 continuam a funcionar numa aplicação com perfil próprio. A escolha mantém-se até sair dessa aplicação.\n\nEnquanto esta opção estiver ativa, um pequeno serviço verifica qual é a aplicação aberta. Não é executado quando a opção está desativada ou nenhuma aplicação tem perfil próprio.</string>
     <!-- Second line of the FN + R1 message in an app with its own profile, app is its name -->
-    <string name="app_profile_until_left">Até você sair de <xliff:g id="app">%1$s</xliff:g></string>
+    <string name="app_profile_until_left">Até sair de <xliff:g id="app">%1$s</xliff:g></string>
     <!-- Tile subtitle in an app with its own profile, e.g. "Performance, PPSSPP" -->
     <string name="app_profile_tile"><xliff:g id="profile">%1$s</xliff:g>, <xliff:g id="app">%2$s</xliff:g></string>
 </resources>

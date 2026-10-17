@@ -2,8 +2,8 @@
 <resources>
     <!-- Settings > Controls > Buttons on this console: press every button once -->
     <string name="check_title">Boutons de cette console</string>
-    <string name="check_intro">Appuie une fois sur chaque bouton. FN ouvre l\'écran d\'accueil, puis cette page revient toute seule.</string>
-    <string name="check_how_to_finish">Pour finir, maintiens Start pendant 2 secondes ou choisis Terminé. Pour quitter sans enregistrer, maintiens B.</string>
+    <string name="check_intro">Appuyez une fois sur chaque bouton. FN ouvre l’écran d’accueil, puis cette page revient automatiquement.</string>
+    <string name="check_how_to_finish">Pour terminer, maintenez Start pendant 2 secondes ou choisissez Terminé. Pour quitter sans enregistrer, maintenez B.</string>
     <string name="check_done">Terminé</string>
     <!-- At the top, e.g. "Current setting: No Fn, no L3/R3" -->
     <string name="check_saved">Réglage actuel : %1$s</string>
@@ -14,7 +14,7 @@
     <string name="check_standin_note">%1$s fait office de FN pour l\'instant, il ouvre donc aussi l\'écran d\'accueil.</string>
     <string name="check_missing_title">Enregistrer ?</string>
     <!-- %1$s is a list like "Fn, L3/R3" -->
-    <string name="check_missing">Cette console n\'a pas : %1$s.\n\nSi elle en a un, choisis Retour et appuie dessus.</string>
+    <string name="check_missing">Cette console n’a pas les boutons suivants : %1$s.\n\nSi l’un d’eux est présent, choisissez Retour et appuyez dessus.</string>
     <string name="check_missing_save">Enregistrer</string>
     <string name="check_missing_back">Retour</string>
     <string name="check_leave_unsaved">Quitter sans enregistrer</string>
@@ -65,10 +65,10 @@
     <string name="fn_standin_other">Utiliser un autre bouton comme FN</string>
     <!-- %1$s is a button, e.g. "L3" -->
     <string name="fn_standin_button">%1$s fait office de FN</string>
-    <string name="fn_standin_press">Appuie sur le bouton maintenant…</string>
-    <string name="fn_standin_press_now">Appuie sur le bouton qui doit faire office de FN. Ça peut aussi être un bouton supplémentaire. B annule.</string>
-    <string name="fn_standin_refused">%1$s ne peut pas être FN : il sert à se déplacer dans les menus ou pour le volume. Appuie sur un autre bouton, ou sur B pour annuler.</string>
+    <string name="fn_standin_press">Appuyez sur le bouton maintenant…</string>
+    <string name="fn_standin_press_now">Appuyez sur le bouton qui doit remplacer FN. Vous pouvez aussi utiliser un bouton supplémentaire. B pour annuler.</string>
+    <string name="fn_standin_refused">%1$s ne peut pas remplacer FN : il sert à naviguer dans les menus ou à régler le volume. Appuyez sur un autre bouton, ou sur B pour annuler.</string>
     <string name="fn_standin_confirm_title">Utiliser %1$s comme FN ?</string>
-    <string name="fn_standin_confirm">%1$s fait alors le travail du bouton FN : appuyé seul, il ouvre l\'écran d\'accueil ; maintenu avec un autre bouton, il ouvre un raccourci. Il perd son rôle habituel partout, y compris dans les jeux. Tu peux changer ça dans Paramètres &gt; Commandes &gt; Raccourcis FN.</string>
+    <string name="fn_standin_confirm">%1$s remplace le bouton FN : un appui bref ouvre l’écran d’accueil, un appui maintenu avec un autre bouton lance un raccourci. Il perd sa fonction habituelle partout, y compris dans les jeux. Vous pouvez modifier ce choix dans Paramètres &gt; Commandes &gt; Raccourcis FN.</string>
     <string name="fn_standin_confirm_ok">Utiliser comme FN</string>
 </resources>

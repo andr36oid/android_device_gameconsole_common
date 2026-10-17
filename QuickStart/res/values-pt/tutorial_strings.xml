@@ -18,23 +18,23 @@
     <string name="tutorial_open_guide">Abrir o guia completo</string>
 
     <!-- Shown under the list once everything on a step was done -->
-    <string name="tutorial_well_done">Muito bem. Aperte A para continuar.</string>
+    <string name="tutorial_well_done">Muito bem. Prima A para continuar.</string>
 
     <!-- Welcome -->
     <string name="tutorial_welcome_title">Vamos testar os botões</string>
-    <string name="tutorial_welcome_body">Este console não tem tela touch. Tudo funciona com os botões, e este tutorial curto deixa você testar cada um deles. Leva cerca de três minutos.\n\nAperte A para continuar e B para voltar. Aperte Select para pular uma etapa que você já conhece.</string>
+    <string name="tutorial_welcome_body">Esta consola não tem ecrã tátil. Tudo funciona com os botões, e este breve tutorial permite experimentar cada um. Demora cerca de três minutos.\n\nPrima A para continuar e B para voltar. Prima Select para saltar um passo que já conheça.</string>
 
     <!-- A, B, X, Y -->
     <string name="tutorial_face_title">A, B, X e Y</string>
-    <string name="tutorial_face_body">A confirma: abre o que está selecionado e aperta botões na tela.\n\nB volta, uma tela por vez.\n\nX e Y fazem coisas diferentes em cada app e jogo.\n\nAperte cada um deles uma vez.</string>
-    <string name="tutorial_press_a">Aperte A</string>
-    <string name="tutorial_press_b">Aperte B</string>
-    <string name="tutorial_press_x">Aperte X</string>
-    <string name="tutorial_press_y">Aperte Y</string>
+    <string name="tutorial_face_body">A confirma: abre o que está selecionado e prime botões no ecrã.\n\nB volta, um ecrã por vez.\n\nX e Y fazem coisas diferentes em cada app e jogo.\n\nAperte cada um deles uma vez.</string>
+    <string name="tutorial_press_a">Prima A</string>
+    <string name="tutorial_press_b">Prima B</string>
+    <string name="tutorial_press_x">Prima X</string>
+    <string name="tutorial_press_y">Prima Y</string>
 
     <!-- D-pad -->
     <string name="tutorial_dpad_title">Direcional</string>
-    <string name="tutorial_dpad_body">O direcional move a seleção pela tela: por listas, menus e botões. O analógico esquerdo faz o mesmo nos menus.\n\nAperte cada direção uma vez.</string>
+    <string name="tutorial_dpad_body">O direcional move a seleção pelo ecrã: por listas, menus e botões. O analógico esquerdo faz o mesmo nos menus.\n\nAperte cada direção uma vez.</string>
     <string name="tutorial_dpad_up">Cima</string>
     <string name="tutorial_dpad_down">Baixo</string>
     <string name="tutorial_dpad_left">Esquerda</string>
@@ -42,64 +42,64 @@
 
     <!-- Sticks -->
     <string name="tutorial_sticks_title">Analógicos</string>
-    <string name="tutorial_sticks_body">Os jogos usam os dois analógicos. Você também pode apertar cada analógico para baixo, como um botão: isso é o L3 e o R3.\n\nMova os dois analógicos e veja os pontos seguirem, depois aperte um analógico para baixo.</string>
+    <string name="tutorial_sticks_body">Os jogos usam os dois analógicos. Também pode premir cada um para baixo, como um botão: são L3 e R3.\n\nMova os dois analógicos e observe os pontos a acompanhá-los; depois prima um analógico para baixo.</string>
     <string name="tutorial_stick_left">Mova o analógico esquerdo</string>
     <string name="tutorial_stick_right">Mova o analógico direito</string>
-    <string name="tutorial_stick_click">Aperte um analógico (L3 ou R3)</string>
+    <string name="tutorial_stick_click">Prima um analógico (L3 ou R3)</string>
 
     <!-- Shoulder buttons -->
     <string name="tutorial_shoulder_title">Gatilhos</string>
     <string name="tutorial_shoulder_body">Os gatilhos ficam atrás: L1 e R1 por fora, L2 e R2 ao lado, por dentro. Muitos apps usam L1 e R1 para trocar de aba ou de página.\n\nAperte cada um deles uma vez.</string>
-    <string name="tutorial_press_l1">Aperte L1</string>
-    <string name="tutorial_press_r1">Aperte R1</string>
-    <string name="tutorial_press_l2">Aperte L2</string>
-    <string name="tutorial_press_r2">Aperte R2</string>
+    <string name="tutorial_press_l1">Prima L1</string>
+    <string name="tutorial_press_r1">Prima R1</string>
+    <string name="tutorial_press_l2">Prima L2</string>
+    <string name="tutorial_press_r2">Prima R2</string>
 
     <!-- FN = home -->
     <string name="tutorial_home_title">FN é o botão Início</string>
-    <string name="tutorial_home_body">Aperte só o FN para ir à tela inicial de qualquer lugar, até de um jogo. A tela inicial é o Daijishou, onde ficam seus jogos e apps.\n\nTeste agora: aperte FN. Este tutorial volta sozinho alguns segundos depois.</string>
-    <string name="tutorial_home_body_simple">Aperte só o FN para ir à tela inicial de qualquer lugar, até de um jogo. A tela inicial é o Simple UI: seus apps favoritos em “Fixados”, todos os apps em “Apps”.\n\nTeste agora: aperte FN. Este tutorial volta sozinho alguns segundos depois.</string>
-    <string name="tutorial_home_task">Aperte FN</string>
+    <string name="tutorial_home_body">Prima só o FN para ir à ecrã inicial de qualquer lugar, até de um jogo. O ecrã inicial é o Daijishou, onde ficam seus jogos e apps.\n\nTeste agora: prima FN. Este tutorial volta sozinho alguns segundos depois.</string>
+    <string name="tutorial_home_body_simple">Prima só o FN para ir à ecrã inicial de qualquer lugar, até de um jogo. O ecrã inicial é o Simple UI: seus apps favoritos em “Fixados”, todos os apps em “Apps”.\n\nTeste agora: prima FN. Este tutorial volta sozinho alguns segundos depois.</string>
+    <string name="tutorial_home_task">Prima FN</string>
     <string name="tutorial_home_back">Bem-vindo de volta. É só isso.</string>
 
     <!-- FN + volume -->
     <string name="tutorial_brightness_title">Atalhos com FN: brilho</string>
-    <string name="tutorial_brightness_body">O FN tem uma segunda função: segure-o e aperte outro botão para usar um atalho.\n\nSegure FN e aperte Vol+ para deixar a tela mais clara. Segure FN e aperte Vol− para deixá-la mais escura. Os botões de volume sozinhos continuam mudando o volume.</string>
+    <string name="tutorial_brightness_body">O FN tem uma segunda função: mantenha-o premido e prima outro botão para usar um atalho.\n\nMantenha FN premido e prima Vol+ para aumentar o brilho do ecrã, ou Vol− para o reduzir. Os botões de volume, quando usados sozinhos, continuam a ajustar o volume.</string>
     <string name="tutorial_brightness_up">Mais claro: FN + Vol+</string>
     <string name="tutorial_brightness_down">Mais escuro: FN + Vol−</string>
     <string name="tutorial_brightness_hint">Já está no máximo? Comece pelo mais escuro.</string>
     <!-- After FN alone was pressed on a step that wants FN plus another button -->
-    <string name="tutorial_fn_alone">Isso foi o FN sozinho, então a tela inicial abriu. Segure o FN e aperte o segundo botão enquanto continua segurando o FN.</string>
+    <string name="tutorial_fn_alone">Isso foi o FN sozinho, então o ecrã inicial abriu. Mantenha premido o FN e prima o segundo botão enquanto continua segurando o FN.</string>
 
     <!-- FN + Y -->
-    <string name="tutorial_shade_title">Atalhos com FN: Configurações rápidas</string>
-    <string name="tutorial_shade_body">Segure FN e aperte Y para abrir suas notificações e as Configurações rápidas, com blocos para coisas como Wi-Fi e Bluetooth.\n\nAbra agora. FN + Y de novo fecha.</string>
+    <string name="tutorial_shade_title">Atalhos com FN: Definições rápidas</string>
+    <string name="tutorial_shade_body">Mantenha premido FN e prima Y para abrir suas notificações e as Definições rápidas, com blocos para coisas como Wi-Fi e Bluetooth.\n\nAbra agora. FN + Y de novo fecha.</string>
     <string name="tutorial_shade_open">Abrir: FN + Y</string>
 
     <!-- Joystick mouse -->
     <string name="tutorial_mouse_title">Mouse com analógico</string>
-    <string name="tutorial_mouse_body">Alguns apps esperam uma tela touch. Para eles, o analógico direito pode mover um ponteiro de mouse. A clica, L1 é o clique direito e o analógico esquerdo rola a tela.\n\nPara ativar ou desativar, segure os dois analógicos pressionados (L3 + R3) por um segundo.</string>
-    <string name="tutorial_mouse_body_fn">Alguns apps esperam uma tela touch. Para eles, o analógico direito pode mover um ponteiro de mouse. A clica, L1 é o clique direito e o analógico esquerdo rola a tela.\n\nPara ativar ou desativar, segure os dois analógicos pressionados (L3 + R3) por um segundo ou aperte FN + X.</string>
+    <string name="tutorial_mouse_body">Alguns apps esperam uma ecrã tátil. Para eles, o analógico direito pode mover um ponteiro do rato. A clica, L1 é o clique direito e o analógico esquerdo rola o ecrã.\n\nPara ativar ou desativar, mantenha premido os dois analógicos pressionados (L3 + R3) por um segundo.</string>
+    <string name="tutorial_mouse_body_fn">Alguns apps esperam uma ecrã tátil. Para eles, o analógico direito pode mover um ponteiro do rato. A clica, L1 é o clique direito e o analógico esquerdo rola o ecrã.\n\nPara ativar ou desativar, mantenha premido os dois analógicos pressionados (L3 + R3) por um segundo ou prima FN + X.</string>
     <string name="tutorial_mouse_on">Ative o mouse</string>
     <string name="tutorial_mouse_off">Desative de novo</string>
 
     <!-- Power -->
     <string name="tutorial_power_title">Botão liga/desliga</string>
-    <string name="tutorial_power_body">Aperte rápido o botão liga/desliga para suspender o console e aperte de novo para acordá-lo.\n\nSegure o botão liga/desliga por um segundo para abrir o menu liga/desliga: desligar, reiniciar e mais. Aperte B para fechar o menu.</string>
-    <string name="tutorial_power_sleep">Aperte liga/desliga para suspender e de novo para acordar</string>
-    <string name="tutorial_power_menu">Segure o liga/desliga para abrir o menu, depois B para fechar</string>
+    <string name="tutorial_power_body">Prima brevemente o botão de energia para suspender a consola e volte a premir para a reativar.\n\nMantenha o botão de energia premido durante um segundo para abrir o menu de energia: desligar, reiniciar e outras opções. Prima B para fechar o menu.</string>
+    <string name="tutorial_power_sleep">Prima liga/desliga para suspender e de novo para acordar</string>
+    <string name="tutorial_power_menu">Mantenha premido o liga/desliga para abrir o menu, depois B para fechar</string>
 
     <!-- Games -->
     <string name="tutorial_games_title">Onde ficam seus jogos</string>
-    <string name="tutorial_games_body">Coloque o cartão SD em um computador. Além de uma unidade pequena BOOT, ele mostra uma unidade grande chamada EASYROMS: ela é para seus jogos.\n\nDê a cada sistema sua própria pasta, com nomes como nes, snes, gba, megadrive ou psx.\n\nDepois abra o Daijishou (aperte FN), adicione uma plataforma e escolha a pasta dela no EASYROMS. O Daijishou lista os jogos e os abre no RetroArch ou no PPSSPP.</string>
-    <string name="tutorial_games_body_no_fn">Coloque o cartão SD em um computador. Além de uma unidade pequena BOOT, ele mostra uma unidade grande chamada EASYROMS: ela é para seus jogos.\n\nDê a cada sistema sua própria pasta, com nomes como nes, snes, gba, megadrive ou psx.\n\nDepois abra o Daijishou, adicione uma plataforma e escolha a pasta dela no EASYROMS. O Daijishou lista os jogos e os abre no RetroArch ou no PPSSPP.</string>
+    <string name="tutorial_games_body">Coloque o cartão SD em um computador. Além de uma unidade pequena BOOT, aparecem uma unidade grande chamada EASYROMS: ela é para seus jogos.\n\nDê a cada sistema sua própria pasta, com nomes como nes, snes, gba, megadrive ou psx.\n\nDepois abra o Daijishou (prima FN), adicione uma plataforma e escolha a pasta dela no EASYROMS. O Daijishou lista os jogos e os abre no RetroArch ou no PPSSPP.</string>
+    <string name="tutorial_games_body_no_fn">Coloque o cartão SD em um computador. Além de uma unidade pequena BOOT, aparecem uma unidade grande chamada EASYROMS: ela é para seus jogos.\n\nDê a cada sistema sua própria pasta, com nomes como nes, snes, gba, megadrive ou psx.\n\nDepois abra o Daijishou, adicione uma plataforma e escolha a pasta dela no EASYROMS. O Daijishou lista os jogos e os abre no RetroArch ou no PPSSPP.</string>
     <!-- Under the games text, when the EASYROMS partition was found -->
     <string name="tutorial_games_space">EASYROMS neste cartão: <xliff:g id="free">%1$s</xliff:g> livres de <xliff:g id="total">%2$s</xliff:g>.</string>
 
     <!-- Finish -->
     <string name="tutorial_done_title">Tudo pronto</string>
-    <string name="tutorial_done_body">Esse é o básico.\n\nO guia de início rápido explica mais: emuladores, velocidade e bateria, ficar on-line e o que fazer se algo der errado. Abra aqui ou quando quiser em Configurações &gt; Guia de início rápido.</string>
-    <string name="tutorial_done_body_fn_help">Esse é o básico. Esqueceu um atalho? Segure só o FN por um momento, em qualquer app ou jogo, para ver todos.\n\nO guia de início rápido explica mais: emuladores, velocidade e bateria, ficar on-line e o que fazer se algo der errado. Abra aqui ou quando quiser em Configurações &gt; Guia de início rápido.</string>
+    <string name="tutorial_done_body">Esse é o básico.\n\nO guia de início rápido explica mais: emuladores, velocidade e bateria, ficar on-line e o que fazer se algo der errado. Abra aqui ou quando quiser em Definições &gt; Guia de início rápido.</string>
+    <string name="tutorial_done_body_fn_help">Esse é o básico. Esqueceu um atalho? Mantenha premido só o FN por um momento, em qualquer app ou jogo, para ver todos.\n\nO guia de início rápido explica mais: emuladores, velocidade e bateria, ficar on-line e o que fazer se algo der errado. Abra aqui ou quando quiser em Definições &gt; Guia de início rápido.</string>
 
     <!-- Guide bottom bar: X opens the tutorial -->
     <string name="hint_tutorial">Tutorial</string>

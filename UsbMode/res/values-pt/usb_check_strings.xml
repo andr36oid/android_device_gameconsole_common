@@ -7,13 +7,13 @@
     <string name="usb_check_plugged_in">Conectado agora</string>
     <string name="usb_check_none">Nada conectado</string>
     <string name="usb_check_none_summary">Conecte o dispositivo na porta OTG, com um adaptador OTG ou um hub. Esta página se atualiza sozinha.</string>
-    <string name="usb_check_port_device">A porta OTG está configurada para conectar a um computador (Modo USB). Acessórios não funcionam até você voltar.</string>
+    <string name="usb_check_port_device">A porta OTG está configurada para ligar a um computador (Modo USB). Os acessórios não funcionam até voltar ao modo anterior.</string>
     <string name="usb_check_works">Funciona</string>
     <string name="usb_check_wifi_off">Compatível. Ligue o Wi-Fi para usar.</string>
     <string name="usb_check_not_started">Compatível, mas o driver não iniciou. Desconecte e conecte de novo.</string>
     <string name="usb_check_no_power">Detectado, mas não iniciou. Pode precisar de mais energia do que a porta fornece. Tente um hub com fonte própria.</string>
-    <string name="usb_check_cd_mode">No modo CD de driver. O console o troca sozinho em alguns segundos. Se continuar assim, desconecte e conecte de novo.</string>
-    <string name="usb_check_cd_unknown">No modo CD de driver, e o console não sabe como trocá-lo (chip <xliff:g id="chip_id" example="0bda:1a2b">%1$s</xliff:g>).</string>
+    <string name="usb_check_cd_mode">Em modo de CD de controladores. A consola muda de modo automaticamente em poucos segundos. Se não mudar, desligue e volte a ligar o dispositivo.</string>
+    <string name="usb_check_cd_unknown">Em modo de CD de controladores, mas a consola não sabe como mudar de modo (chip <xliff:g id="chip_id" example="0bda:1a2b">%1$s</xliff:g>).</string>
     <string name="usb_check_not_supported">Não compatível (chip <xliff:g id="chip_id" example="0bda:885a">%1$s</xliff:g>)</string>
     <string name="usb_check_not_supported_named">Não compatível: <xliff:g id="chip_name" example="Realtek RTL8852AU">%1$s</xliff:g> (chip <xliff:g id="chip_id" example="0bda:885a">%2$s</xliff:g>)</string>
     <string name="usb_check_bt_only">O Bluetooth funciona. O Wi-Fi dele não é compatível (chip <xliff:g id="chip" example="0bda:d723">%1$s</xliff:g>).</string>
@@ -26,7 +26,7 @@
     <string name="usb_check_kind_keyboard">Teclado</string>
     <string name="usb_check_kind_mouse">Mouse</string>
     <string name="usb_check_kind_input">Controle, teclado ou mouse</string>
-    <string name="usb_check_kind_storage">Pen drive ou leitor de cartão</string>
+    <string name="usb_check_kind_storage">Pen unidade ou leitor de cartão</string>
     <string name="usb_check_kind_serial">Adaptador serial</string>
     <string name="usb_check_kind_video">Câmera ou sintonizador de TV</string>
     <string name="usb_check_kind_hub">Hub USB</string>
@@ -34,5 +34,5 @@
     <string name="usb_check_copy">Copiar detalhes</string>
     <string name="usb_check_copy_summary">Para uma pergunta no chat da comunidade. O relatório de problema também os inclui.</string>
     <string name="usb_check_copied">Detalhes copiados</string>
-    <string name="usb_check_about">O chip é a identificação do dispositivo (fabricante:modelo). Ao pedir ajuda, informe o chip. Aperte A em um dispositivo para ver tudo o que o console sabe sobre ele.</string>
+    <string name="usb_check_about">O chip identifica o dispositivo (fabricante:modelo). Indique-o ao pedir ajuda. Prima A num dispositivo para ver todas as informações disponíveis na consola.</string>
 </resources>

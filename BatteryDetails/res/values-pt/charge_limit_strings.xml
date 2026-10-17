@@ -5,7 +5,7 @@
     <string name="limit_setting">Limite de carga</string>
     <string name="limit_off">Desativado, carrega até 100%</string>
     <string name="limit_choice">Parar em <xliff:g id="percent">%1$d</xliff:g>%%</string>
-    <string name="limit_summary_off">Desativado. Se o console fica sempre no carregador, um limite faz a bateria durar mais anos.</string>
-    <string name="limit_summary">Para de carregar em <xliff:g id="limit">%1$d</xliff:g>%% e volta a carregar em <xliff:g id="resume">%2$d</xliff:g>%%. Nesse intervalo, o console funciona pelo carregador. Desative antes de uma viagem longa para ter a carga completa.</string>
+    <string name="limit_summary_off">Desativado. Se a consola está sempre ligada ao carregador, um limite ajuda a prolongar a vida útil da bateria.</string>
+    <string name="limit_summary">Para de carregar aos <xliff:g id="limit">%1$d</xliff:g>%% e retoma aos <xliff:g id="resume">%2$d</xliff:g>%%. Nesse intervalo, a consola recebe energia do carregador. Desative antes de uma viagem longa para carregar a bateria por completo.</string>
     <string name="status_limit_hold">Conectado, carga pausada no limite</string>
 </resources>

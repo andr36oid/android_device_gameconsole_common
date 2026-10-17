@@ -49,7 +49,7 @@
     <string name="error_not_found">Esta copia ya no está.</string>
     <string name="error_safety_failed">No se ha restaurado nada: no se ha podido hacer antes una copia de las partidas que se reemplazarían. Libera algo de espacio y vuelve a intentarlo.</string>
     <string name="error_busy">Hay una copia en curso. Vuelve a intentarlo en un momento.</string>
-    <string name="error_start">Copia de partidas no ha podido ejecutarse. Reinicia la consola y vuelve a intentarlo.</string>
+    <string name="error_start">No se ha podido iniciar Copia de partidas. Reinicia la consola y vuelve a intentarlo.</string>
 
     <!-- The main page -->
     <string name="backup_now_title">Hacer copia ahora</string>
@@ -114,7 +114,7 @@
     <string name="plan_nothing">No hay nada que restaurar.</string>
     <string name="plan_note">Todo lo que se reemplace se copia antes. Cierra RetroArch y PPSSPP antes de restaurar; si no, al cerrarse podrían sobrescribir las partidas restauradas.</string>
     <string name="restore_button">Restaurar</string>
-    <string name="replace_newer_button">Reemplazar todas</string>
+    <string name="replace_newer_button">Reemplazar también las recientes</string>
     <string name="replace_newer_title">¿Reemplazar las más recientes?</string>
     <plurals name="replace_newer_message">
         <item quantity="one">%1$d partida de la consola es más reciente que la copia. Si la reemplazas, ese juego vuelve al progreso anterior. Antes se hace una copia de la partida más reciente.</item>

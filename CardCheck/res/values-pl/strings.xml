@@ -4,7 +4,7 @@
     <string name="check_summary">Sprawdź szybkość i czy karta nie jest podróbką</string>
 
     <string name="card_title">Karta lub dysk</string>
-    <string name="no_card">Żadna karta SD ani pendrive nie jest gotowa. Włóż ją lub poczekaj, aż pojawi się w ustawieniach Pamięć wewnętrzna.</string>
+    <string name="no_card">Żadna karta SD ani pendrive nie jest gotowa. Włóż ją lub poczekaj, aż pojawi się w ustawieniach pamięci.</string>
 
     <!-- details: %1$s name (EASYROMS), %2$s size of the whole card -->
     <string name="details_title">%1$s, karta %2$s</string>

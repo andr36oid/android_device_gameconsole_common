@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="trouble_sticks_q">Os analógicos têm drift ou não chegam até a borda</string>
-    <string name="trouble_sticks_a">Abra Configurações &gt; Controlos &gt; Calibrar analógicos e aperte A. Gire os dois analógicos em círculos completos, devagar e encostando na borda. Depois solte-os e aperte A. A partir daí, todos os jogos e apps usam os analógicos corrigidos, mesmo depois de reiniciar.</string>
-    <string name="trouble_sticks_more">Ainda se mexe um pouquinho sozinho? Esquerda e direita no direcional mudam a zona morta, a área em volta do centro que é ignorada. Aperte X duas vezes para voltar ao padrão de fábrica.</string>
+    <string name="trouble_sticks_a">Abra Definições &gt; Controlos &gt; Calibrar analógicos e prima A. Gire os dois analógicos em círculos completos, devagar e encostando na borda. Depois solte-os e prima A. A partir daí, todos os jogos e apps usam os analógicos corrigidos, mesmo depois de reiniciar.</string>
+    <string name="trouble_sticks_more">Ainda se mexe um pouquinho sozinho? Esquerda e direita no direcional mudam a zona morta, a área em volta do centro que é ignorada. Prima X duas vezes para voltar ao padrão de fábrica.</string>
 </resources>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_title">Файлы эмуляторов</string>
-    <string name="app_summary">Игра не запускается? Проверьте файлы BIOS для систем</string>
+    <string name="app_summary">Игра не запускается? Проверьте файлы BIOS, которые нужны некоторым системам</string>
 
     <!-- The main page -->
     <string name="intro">Некоторым системам для запуска игр нужен файл с оригинальной консоли (BIOS). Положите эти файлы в папку bios на EASYROMS.</string>
@@ -44,16 +44,16 @@
     <!-- A system's summary. %1$s: file names -->
     <string name="level_ready">Готово</string>
     <string name="level_not_needed">Необязательно: для игры не нужен</string>
-    <string name="level_missing">Нет файла: %1$s</string>
-    <string name="level_missing_one_of">Нет файла: %1$s или аналога</string>
+    <string name="level_missing">Отсутствует: %1$s</string>
+    <string name="level_missing_one_of">Отсутствует: %1$s или похожий</string>
     <string name="level_wrong_version">Не та версия: %1$s. Игры могут не запуститься</string>
     <string name="level_wrong_name">У файла неверное имя. Нажмите «Исправить имена файлов»</string>
 
     <!-- A file on the system page -->
     <string name="state_found">Найден</string>
-    <string name="state_missing_needed">Нет, нужен</string>
-    <string name="state_missing_one_of">Нет. Хватит одного из этих</string>
-    <string name="state_missing_optional">Нет, необязателен</string>
+    <string name="state_missing_needed">Отсутствует, нужен</string>
+    <string name="state_missing_one_of">Отсутствует. Достаточно одного из этих</string>
+    <string name="state_missing_optional">Отсутствует, необязателен</string>
     <string name="state_wrong_version">Не та версия: игры могут не запуститься</string>
     <!-- %1$s: what the file really is -->
     <string name="state_wrong_version_is">Не тот файл: это %1$s. Нажмите «Исправить имена файлов»</string>
@@ -62,12 +62,12 @@
 
     <!-- A file's details (A on a file) -->
     <string name="details_what">Что это: %1$s</string>
-    <string name="details_cores">Используется в: %1$s</string>
-    <string name="details_md5">MD5 нужного файла: %1$s</string>
-    <string name="details_md5_any">Подойдёт любой файл с этим именем</string>
+    <string name="details_cores">Нужен для: %1$s</string>
+    <string name="details_md5">MD5 правильного файла: %1$s</string>
+    <string name="details_md5_any">Подойдёт любой файл с таким именем</string>
     <!-- %1$s: path, %2$s: its MD5 -->
     <string name="details_file">Ваш файл: %1$s\nЕго MD5: %2$s</string>
-    <string name="details_file_big">Ваш файл: %1$s\nСлишком большой для этого файла</string>
+    <string name="details_file_big">Ваш файл: %1$s\nСлишком большой, чтобы быть этим файлом</string>
     <string name="close">Закрыть</string>
 
     <string name="path_easyroms">EASYROMS</string>

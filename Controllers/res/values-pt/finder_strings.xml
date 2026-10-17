@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Settings > Controls > Buttons on this console > Find an unknown button: looks for
+    <!-- Settings > Controls > Buttons on this consola > Find an unknown button: looks for
          the chip pin a button no firmware uses is wired to. GPIO2_A5 style pin names and
          "ADC" stay as they are. -->
     <string name="finder_entry">Encontrar um botão desconhecido</string>

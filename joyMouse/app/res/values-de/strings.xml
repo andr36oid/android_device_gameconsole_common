@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">Joystick-Maus</string>
-    <string name="settings_summary">Zeigertempo, Scrollen und Tastenbelegung</string>
+    <string name="settings_summary">Zeigergeschwindigkeit, Scrollen und Tastenbelegung</string>
 
     <string name="active_title">Mausmodus</string>
-    <string name="active_summary">Die Analogsticks als Maus verwenden</string>
+    <string name="active_summary">Die Analogsticks als Maus nutzen</string>
     <string name="classic_title">Klassischer Mausmodus</string>
     <string name="classic_summary">Wie in früheren Versionen: Der Zeiger-Stick bewegt den Zeiger und sein Klick ist ein Linksklick, während Spiele weiterhin alle Tasten und den anderen Stick bekommen</string>
 
@@ -16,32 +16,32 @@
     <string name="toggle_too_few">Wähle mindestens zwei Tasten, damit der Mausmodus nicht versehentlich umgeschaltet wird</string>
     <string name="toggle_ms_title">Haltedauer</string>
     <string name="start_active_title">Im Mausmodus starten</string>
-    <string name="start_active_summary">Mausmodus nach dem Hochfahren einschalten</string>
+    <string name="start_active_summary">Mausmodus nach dem Start einschalten</string>
     <string name="toast_title">Bildschirmmeldung</string>
-    <string name="toast_summary">Steuerung anzeigen, wenn der Mausmodus umschaltet</string>
+    <string name="toast_summary">Die Steuerung einblenden, wenn der Mausmodus wechselt</string>
 
     <string name="category_pointer">Zeiger</string>
-    <string name="speed_title">Zeigertempo</string>
+    <string name="speed_title">Zeigergeschwindigkeit</string>
     <string name="curve_title">Feinsteuerung</string>
     <string name="curve_summary">%s. Höhere Werte verlangsamen den Zeiger nahe der Stickmitte</string>
     <string name="deadzone_title">Stick-Totzone</string>
     <string name="deadzone_summary">%s. Erhöhe sie, wenn der Zeiger von selbst wandert</string>
-    <string name="precision_title">Präzisionstempo</string>
-    <string name="precision_summary">%s des normalen Tempos, solange die Präzisionstaste gehalten wird</string>
+    <string name="precision_title">Präzisionsgeschwindigkeit</string>
+    <string name="precision_summary">%s der normalen Geschwindigkeit, solange die Präzisionstaste gehalten wird</string>
     <string name="pointer_stick_title">Zeiger-Stick</string>
     <string name="pointer_stick_summary">%s. Der andere Stick scrollt</string>
     <string name="pointer_invert_x_title">Horizontale Bewegung umkehren</string>
     <string name="pointer_invert_y_title">Vertikale Bewegung umkehren</string>
 
     <string name="category_scrolling">Scrollen</string>
-    <string name="scroll_speed_title">Scrolltempo</string>
+    <string name="scroll_speed_title">Scrollgeschwindigkeit</string>
     <string name="natural_scroll_title">Natürliches Scrollen</string>
     <string name="natural_scroll_summary">Inhalte bewegen sich mit dem Stick, wie beim Ziehen auf einem Touchscreen</string>
 
     <string name="category_buttons">Tasten</string>
     <string name="buttons_title">Tastenbelegung</string>
     <string name="buttons_summary">Was jede Taste im Mausmodus tut</string>
-    <string name="buttons_hint">Tasten aus der Umschaltkombination reagieren, wenn sie allein kurz gedrückt oder gehalten werden.</string>
+    <string name="buttons_hint">Tasten aus der Umschaltkombination wirken auch einzeln, kurz gedrückt oder gehalten.</string>
 
     <string name="category_controls">Steuerung</string>
     <string name="controls_title">Aktuelle Steuerung</string>
@@ -55,8 +55,8 @@
     <string name="stick_right">Rechter Stick</string>
     <string name="sticks_pointer">%1$s: Zeiger</string>
     <string name="sticks_pointer_scroll">%1$s: Zeiger · %2$s: Scrollen</string>
-    <string name="hold_to_switch_off">%1$s halten zum Ausschalten</string>
-    <string name="hold_to_switch_on">%1$s %2$s lang halten zum Einschalten</string>
+    <string name="hold_to_switch_off">Zum Ausschalten %1$s halten</string>
+    <string name="hold_to_switch_on">Zum Einschalten %1$s %2$s lang halten</string>
     <string name="switch_in_settings">Einschalten unter Einstellungen › Steuerung › Joystick-Maus</string>
     <string name="seconds">%1$s s</string>
     <string name="binding">%1$s: %2$s</string>

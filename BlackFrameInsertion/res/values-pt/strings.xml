@@ -11,8 +11,8 @@
     <string name="bfi_pattern_hint">1 normal, 1 preto é o que foi testado. Mais fotogramas pretos deixam o ecrã mais escuro e a tremeluzir mais.</string>
     <string name="bfi_fps_hint">Dica: jogos a 60 fps encaixam melhor a 120 Hz com 1 normal, 1 preto. Cada fotograma do jogo fica então com exatamente um fotograma normal.</string>
     <string name="bfi_warning_title">Imagens a piscar</string>
-    <string name="bfi_warning">A inserção de fotograma preto faz o ecrã inteiro piscar muitas vezes por segundo. Não a uses se luzes intermitentes te podem causar convulsões ou dores de cabeça. Para já se te sentires mal.\n\nTambém escurece o ecrã e, em alguns painéis, tremeluz ou deixa uma imagem residual. Pode tornar os jogos mais lentos.</string>
+    <string name="bfi_warning">A inserção de fotograma preto faz o ecrã inteiro piscar muitas vezes por segundo. Não a use se luzes intermitentes lhe puderem causar convulsões ou dores de cabeça. Pare de imediato se se sentir mal.\n\nTambém escurece o ecrã e, em alguns painéis, tremeluz ou deixa uma imagem residual. Pode tornar os jogos mais lentos.</string>
     <string name="bfi_warning_ok">Ativar</string>
-    <string name="bfi_low_rate">Precisa de 100 Hz ou mais. Primeiro define Ecrã > Taxa de atualização máxima mais alta.</string>
+    <string name="bfi_low_rate">Precisa de 100 Hz ou mais. Primeiro defina Ecrã > Taxa de atualização máxima mais alta.</string>
     <string name="bfi_credit">Baseado no BFI de PakoVM (github.com/pakovm-git/BFI), MIT License</string>
 </resources>

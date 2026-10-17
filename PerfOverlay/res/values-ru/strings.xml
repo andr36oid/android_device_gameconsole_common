@@ -2,7 +2,7 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
     <string name="overlay_title">Оверлей производительности</string>
-    <string name="overlay_summary">FPS, CPU, температура и батарея поверх игр</string>
+    <string name="overlay_summary">Показывать FPS, CPU, температуру и батарею поверх игр</string>
 
     <string name="overlay_switch">Показывать оверлей</string>
     <string name="overlay_style">Что показывать</string>
@@ -26,7 +26,7 @@
     <!-- Foreground service notification -->
     <string name="channel_name">Оверлей производительности</string>
     <string name="notification_title">Оверлей производительности включён</string>
-    <string name="notification_text">Нажмите, чтобы изменить, что он показывает</string>
+    <string name="notification_text">Нажмите, чтобы выбрать, что показывать</string>
     <string name="notification_turn_off">Выключить</string>
 
     <!-- Quick Settings tile -->

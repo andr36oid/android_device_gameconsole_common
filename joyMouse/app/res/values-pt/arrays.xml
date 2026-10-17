@@ -9,8 +9,8 @@
         <item>Voltar</item>
         <item>Avançar</item>
         <item>Clique esquerdo com o ponteiro visível, senão botão normal</item>
-        <item>Precisão: ponteiro lento enquanto segurado</item>
-        <item>Rolagem: o analógico do ponteiro rola enquanto segurado</item>
+        <item>Precisão: ponteiro lento enquanto mantido premido</item>
+        <item>Rolagem: o analógico do ponteiro rola enquanto mantido premido</item>
     </string-array>
 
     <string-array name="toggle_ms_labels">

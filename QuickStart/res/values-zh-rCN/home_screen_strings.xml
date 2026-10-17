@@ -3,7 +3,7 @@
     <string name="home_screen_title">主屏幕</string>
     <string name="home_screen_summary">Daijishou 或 Simple UI</string>
     <string name="home_screen_intro">按 FN 即可回到主屏幕。</string>
-    <string name="home_screen_daijishou_description">更像一台安卓游戏机。\n按主机分类的游戏，带封面</string>
+    <string name="home_screen_daijishou_description">更像一台 Android 游戏机。\n按游戏平台分类，展示游戏封面。</string>
     <string name="home_screen_launcher_description">更像 Android TV。\n简洁的应用网格。开源。</string>
     <string name="home_screen_state_home">当前主屏幕</string>
     <string name="home_screen_state_installed">已安装</string>
@@ -14,5 +14,5 @@
     <string name="home_screen_remove_confirm">要移除“<xliff:g id="app">%1$s</xliff:g>”吗？它的设置和游戏库将被删除。之后可以在此页面恢复。</string>
     <string name="home_screen_restored">“<xliff:g id="app">%1$s</xliff:g>”已恢复。它会像新应用一样从空白开始。</string>
     <string name="home_screen_now_home">“<xliff:g id="app">%1$s</xliff:g>”现在是您的主屏幕</string>
-    <string name="home_screen_failed">操作失败。请重启主机后重试。</string>
+    <string name="home_screen_failed">操作失败。请重启掌机后重试。</string>
 </resources>

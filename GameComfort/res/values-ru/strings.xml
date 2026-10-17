@@ -1,39 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-
     <string name="app_name">Игровой комфорт</string>
-
     <!-- Low battery warning, Settings > Battery -->
-    <string name="warning_title">Предупреждение о заряде</string>
-    <string name="warning_summary">Предупреждать поверх игры, чтобы успеть сохраниться</string>
+    <string name="warning_title">Предупреждение о низком заряде</string>
+    <string name="warning_summary">Предупреждать поверх игры, чтобы вы успели сохраниться</string>
     <string name="warning_when">Предупреждать при</string>
     <string-array name="warning_entries">
         <item>Выкл.</item>
         <item>15 % и 5 %</item>
         <item>Только 5 %</item>
     </string-array>
-    <string name="warning_preview">Тестовое предупреждение</string>
-    <string name="warning_about">Собственное уведомление Android о низком заряде легко пропустить во время полноэкранной игры. Вместо него здесь показывается короткая полоса вверху экрана, по разу на каждый уровень, пока консоль работает от батареи. Кнопки у игры она не забирает.\n\nКогда батарея садится полностью, консоль выключается, и всё несохранённое теряется.</string>
-
+    <string name="warning_preview">Показать пробное предупреждение</string>
+    <string name="warning_about">Собственное уведомление Android о низком заряде легко пропустить в полноэкранной игре. Вместо него вверху экрана ненадолго появляется полоска, по одному разу на каждый уровень, пока консоль работает от батареи. Кнопки у игры она не отбирает.\n\nКогда батарея садится полностью, консоль выключается, и всё несохранённое пропадает.</string>
     <!-- The banner on top of the game -->
-    <string name="banner_text">Батарея <xliff:g id="percent">%1$d</xliff:g> %% – сохраните игру</string>
-
+    <string name="banner_text">Батарея <xliff:g id="percent">%1$d</xliff:g> %% — сохраните игру</string>
     <!-- Game mode, Settings home page and Quick Settings tile -->
     <string name="game_mode_title">Игровой режим</string>
-    <string name="game_mode_summary">Режим «Не беспокоить» и без всплывающих уведомлений во время игры</string>
+    <string name="game_mode_summary">Режим «Не беспокоить» и никаких всплывающих уведомлений во время игры</string>
     <string name="game_mode_now">Игровой режим</string>
     <string name="game_mode_now_summary">Включает «Не беспокоить» (только важные) и не даёт уведомлениям всплывать поверх игры</string>
     <string name="game_mode_automatic">Включать автоматически</string>
-    <string name="game_mode_automatic_summary">Включён, пока открыта игра или эмулятор, выключается, когда вы из них выходите</string>
-    <string name="game_mode_profile">Профиль производительности в игре</string>
+    <string name="game_mode_automatic_summary">Включён, пока открыта игра или эмулятор, и выключается, когда вы выходите</string>
+    <string name="game_mode_profile">Профиль производительности во время игры</string>
     <string-array name="game_mode_profile_entries">
         <item>Не менять</item>
         <item>Производительность</item>
         <item>Баланс</item>
         <item>Энергосбережение</item>
     </string-array>
-    <string name="game_mode_about">Когда игровой режим заканчивается, «Не беспокоить» и всплывающие уведомления возвращаются в прежнее состояние. Если вы сами изменили «Не беспокоить» за это время, ваше изменение сохранится.\n\nПриложение считается игрой, если оно само так о себе сообщает или если это один из распространённых эмуляторов, например RetroArch или PPSSPP.\n\nПрежний профиль производительности тоже вернётся, если вы не выбрали другой во время игры.\n\nЧто пропускает режим «Не беспокоить», настраивается в разделе Настройки &gt; Звук &gt; Не беспокоить.</string>
+    <string name="game_mode_about">Когда игровой режим заканчивается, «Не беспокоить» и всплывающие уведомления возвращаются в прежнее состояние. Если вы за это время сами изменили «Не беспокоить», ваш выбор сохранится.\n\nПриложение считается игрой, если само так себя называет или если это один из популярных эмуляторов, например RetroArch или PPSSPP.\n\nПрежний профиль производительности тоже вернётся, если только вы не выбрали другой во время игры.\n\nЧто пропускает режим «Не беспокоить», настраивается в разделе Настройки &gt; Звук &gt; Не беспокоить.</string>
     <string name="tile_on">Вкл.</string>
     <string name="tile_off">Выкл.</string>
     <string name="tile_automatic">Автоматически</string>
+    <!-- Continue playing: Quick Settings tile, FN + A, power menu, and the Game mode page -->
 </resources>

@@ -29,7 +29,7 @@
     <!-- e.g. "Always blue" -->
     <string name="sl_style_always">Selalu <xliff:g id="color">%1$s</xliff:g></string>
     <!-- e.g. "Your own: blue · red below 11 %" -->
-    <string name="sl_style_custom">Punyamu: <xliff:g id="rules">%1$s</xliff:g></string>
+    <string name="sl_style_custom">Kustom: <xliff:g id="rules">%1$s</xliff:g></string>
     <!-- e.g. "red below 11 %" -->
     <string name="sl_below"><xliff:g id="color">%1$s</xliff:g> di bawah <xliff:g id="level">%2$s</xliff:g> %%</string>
     <string name="sl_blink_low">Berkedip saat lemah</string>
@@ -49,25 +49,25 @@
     <string name="sl_cat_notifications">Notifikasi</string>
     <string name="sl_notify">Berkedip untuk notifikasi</string>
     <string name="sl_notify_summary">Saat layar mati, lampu berkedip selagi ada notifikasi yang menunggu. Saat tidur, lampu tetap menyala saja.</string>
-    <string name="sl_notify_colors">Warna per app</string>
-    <string name="sl_notify_colors_summary">Pilih warna untuk setiap app. Lampu memakai warna yang paling mendekati yang bisa ditunjukkannya.</string>
+    <string name="sl_notify_colors">Warna per aplikasi</string>
+    <string name="sl_notify_colors_summary">Pilih warna untuk setiap aplikasi. Lampu memakai warna yang paling mendekati yang bisa ditunjukkannya.</string>
 
     <!-- Tools -->
     <string name="sl_cat_tools">Alat</string>
     <string name="sl_check">Periksa warna</string>
-    <string name="sl_check_summary">Tidak melihat warna yang kamu pilih? Cari tahu apa yang sebenarnya bisa ditunjukkan lampu konsolmu.</string>
+    <string name="sl_check_summary">Tidak melihat warna yang Anda pilih? Cari tahu apa yang sebenarnya bisa ditunjukkan lampu konsol Anda.</string>
     <string name="sl_reset">Kembali ke default</string>
     <string name="sl_reset_summary">Membatalkan semua di halaman ini, termasuk pemeriksaan warna</string>
 
     <!-- Colour check -->
     <!-- %1$d is how many steps, e.g. 9 -->
-    <string name="sl_check_intro">Lampu akan melewati <xliff:g id="count">%1$d</xliff:g> pengaturan, satu per satu. Setiap kali, lihat lampunya dan pilih apa yang kamu lihat. Clone dipasang dengan berbagai cara, jadi ini mencari tahu apa yang bisa dilakukan milikmu.</string>
+    <string name="sl_check_intro">Lampu akan melewati <xliff:g id="count">%1$d</xliff:g> pengaturan, satu per satu. Setiap kali, lihat lampunya dan pilih apa yang Anda lihat. Konsol klon dirakit dengan berbagai cara, jadi ini mencari tahu apa yang bisa dilakukan lampu Anda.</string>
     <string name="sl_check_go">Mulai</string>
     <!-- e.g. "What does the light show? (3 of 9)" -->
     <string name="sl_check_step">Apa yang ditunjukkan lampu? (<xliff:g id="step">%1$d</xliff:g> dari <xliff:g id="count">%2$d</xliff:g>)</string>
     <string name="sl_check_other">Yang lain</string>
     <!-- e.g. "Your light can show: off, blue, red, purple." -->
-    <string name="sl_check_result">Lampumu bisa menunjukkan: <xliff:g id="colors">%1$s</xliff:g>.</string>
+    <string name="sl_check_result">Lampu Anda bisa menunjukkan: <xliff:g id="colors">%1$s</xliff:g>.</string>
     <string name="sl_check_no_off">Lampu ini tidak bisa mati, hanya bisa berganti warna. Di beberapa board, lampu terhubung langsung ke chip daya, dan tidak ada software yang bisa mematikannya.</string>
     <string name="sl_check_use">Pakai warna ini</string>
     <string name="sl_check_keep">Pertahankan yang lama</string>

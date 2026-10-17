@@ -17,7 +17,7 @@
     <string name="key_or">/</string>
 
     <!-- Welcome -->
-    <string name="welcome_title">Bienvenida</string>
+    <string name="welcome_title">Te damos la bienvenida</string>
     <string name="welcome_intro">andr36oid convierte esta consola en una portátil Android. Juegos, emuladores y apps, todo se maneja con los botones, sin necesidad de pantalla táctil.</string>
     <string name="welcome_choose">Elegir un tema</string>
     <string name="welcome_read">Leerlo; luego la cruceta desplaza</string>

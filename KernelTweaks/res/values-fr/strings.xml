@@ -12,8 +12,8 @@
         <item quantity="one"><xliff:g id="count">%d</xliff:g> modifié</item>
         <item quantity="other"><xliff:g id="count">%d</xliff:g> modifiés</item>
     </plurals>
-    <string name="kt_use_off">Désactivé, tout fonctionne aux valeurs par défaut. Tes choix sont gardés pour quand tu réactiveras ça.</string>
-    <string name="kt_paused_crash">Désactivé parce que la console n\'a pas fini de démarrer deux fois de suite. L\'un des réglages en est probablement la cause. Réactive-le pour réessayer.</string>
+    <string name="kt_use_off">Désactivé, tout fonctionne aux valeurs par défaut. Vos choix sont gardés pour quand vous le réactiverez.</string>
+    <string name="kt_paused_crash">Désactivé parce que la console n\'a pas fini de démarrer deux fois de suite. L\'un des réglages en est probablement la cause. Réactivez-le pour réessayer.</string>
     <string name="kt_show_docs">Afficher les explications</string>
     <string name="kt_show_docs_summary">Ce que fait chaque réglage et pourquoi le changer, directement dans la liste</string>
     <string name="kt_reset">Tout réinitialiser</string>
@@ -32,7 +32,7 @@
     <string name="kt_after_restart"><xliff:g id="next">%1$s</xliff:g> après un redémarrage, <xliff:g id="now">%2$s</xliff:g> maintenant</string>
 
     <!-- Dialogs -->
-    <string name="kt_default_mark"><xliff:g id="value">%1$s</xliff:g> (défaut)</string>
+    <string name="kt_default_mark"><xliff:g id="value">%1$s</xliff:g> (par défaut)</string>
     <string name="kt_explain">Expliquer</string>
     <string name="kt_doc_what">Ce que ça fait</string>
     <string name="kt_doc_why">Pourquoi le changer</string>
@@ -82,7 +82,7 @@
     <string name="kt_sleep_type_deep">Veille profonde</string>
     <string name="kt_sleep_type_s2idle">Veille légère</string>
     <string name="kt_sleep_type_what">La veille profonde confie toute la puce au micrologiciel, qui éteint presque tout. La veille légère se contente de figer les applis et laisse les cœurs au repos. Le micrologiciel n\'intervient pas et aucun cœur n\'est éteint.</string>
-    <string name="kt_sleep_type_why">Si ta console se fige ou redémarre en veille, essaie la veille légère. Elle évite l\'étape où ces consoles se bloquent. Le hic : elle vide la batterie bien plus vite, c\'est donc plus un test qu\'une solution.</string>
+    <string name="kt_sleep_type_why">Si votre console se fige ou redémarre en veille, essayez la veille légère. Elle évite l\'étape où ces consoles se bloquent. Le hic : elle vide la batterie bien plus vite, c\'est donc plus un test qu\'une solution.</string>
 
     <string name="kt_sleep_test">Mode test de veille</string>
     <string name="kt_sleep_test_none">Désactivé, veille normale</string>
@@ -99,7 +99,7 @@
     <string name="kt_dc_det_pin">Broche de charge seulement</string>
     <string name="kt_dc_det_power">Broche et puce d\'alimentation</string>
     <string name="kt_dc_det_what">Comment la console sait qu\'un chargeur est branché. La plupart des consoles ont une broche qui le signale. Sur certains clones, cette broche dit « branché » tout le temps, donc là, la puce d\'alimentation doit aussi voir le courant.</string>
-    <string name="kt_dc_det_why">Si la console ne remarque pas le chargeur, ou affiche « en charge » alors que rien n\'est branché, essaie l\'autre réglage. La valeur par défaut est choisie pour chaque console.</string>
+    <string name="kt_dc_det_why">Si la console ne remarque pas le chargeur, ou affiche « en charge » alors que rien n\'est branché, essayez l\'autre réglage. La valeur par défaut est choisie pour chaque console.</string>
     <string name="kt_sleep_console">Journal du noyau pendant la veille</string>
     <string name="kt_sleep_console_y">En pause pendant la veille</string>
     <string name="kt_sleep_console_n">Continue de tourner</string>
@@ -108,7 +108,7 @@
 
     <string name="kt_sleep_log_times">Chronométrer chaque étape de veille</string>
     <string name="kt_sleep_log_times_what">Écrit une ligne de journal pour chaque pilote qui s\'endort et se réveille, avec le temps que ça a pris.</string>
-    <string name="kt_sleep_log_times_why">Montre quel pilote était le dernier avant un blocage, ou lequel ralentit le réveil. Remplit le journal vite, donc désactive-le une fois fini.</string>
+    <string name="kt_sleep_log_times_why">Montre quel pilote était le dernier avant un blocage, ou lequel ralentit le réveil. Remplit le journal vite, donc désactivez-le une fois fini.</string>
 
     <string name="kt_sleep_log_debug">Messages de débogage de veille</string>
     <string name="kt_sleep_log_debug_what">Journalise les notes supplémentaires du noyau sur la veille : quelles sources de réveil sont actives, pourquoi une tentative de veille a abandonné, etc.</string>
@@ -117,7 +117,7 @@
     <!-- Processor -->
     <string name="kt_cores">Cœurs utilisés</string>
     <string name="kt_cores_what">Éteint des cœurs du processeur. Le premier cœur reste toujours allumé.</string>
-    <string name="kt_cores_why">Certains clones ont un cœur capricieux qui bloque de temps en temps. Si la console devient plus stable avec moins de cœurs, voilà ta réponse. Ça veut aussi dire moins de cœurs à éteindre en entrant en veille, ce qui aide pour tester les blocages de veille. Les jeux tourneront plus lentement.</string>
+    <string name="kt_cores_why">Certains clones ont un cœur capricieux qui bloque de temps en temps. Si la console devient plus stable avec moins de cœurs, vous avez votre réponse. Ça veut aussi dire moins de cœurs à éteindre en entrant en veille, ce qui aide pour tester les blocages de veille. Les jeux tourneront plus lentement.</string>
 
     <string name="kt_heat_limit">Limite de chaleur</string>
     <string name="kt_heat_limit_what">La température de la puce à partir de laquelle le processeur commence à ralentir pour refroidir.</string>
@@ -150,7 +150,7 @@
     <string name="kt_sd1_readahead">Carte système : lecture anticipée</string>
     <string name="kt_sd2_readahead">Deuxième carte : lecture anticipée</string>
     <string name="kt_readahead_what">Combien de plus le noyau lit d\'un coup quand une appli lit un fichier du début à la fin.</string>
-    <string name="kt_readahead_why">Plus de lecture anticipée charge les gros ROM et ISO plus vite, surtout depuis des cartes lentes. Trop gaspille de la mémoire et peut ralentir les jeux qui sautent d\'un endroit à l\'autre d\'un fichier. Si tu changes de carte, le réglage est réappliqué au démarrage suivant.</string>
+    <string name="kt_readahead_why">Plus de lecture anticipée charge les gros ROM et ISO plus vite, surtout depuis des cartes lentes. Trop gaspille de la mémoire et peut ralentir les jeux qui sautent d\'un endroit à l\'autre d\'un fichier. Si vous changez de carte, le réglage est réappliqué au démarrage suivant.</string>
 
     <!-- Controls and sound -->
     <string name="kt_stick_invert">Inverser les axes du stick</string>
@@ -162,12 +162,12 @@
     <string name="kt_axis_rx">Stick droit gauche/droite</string>
     <string name="kt_axis_ry">Stick droit haut/bas</string>
     <string name="kt_stick_invert_what">Inverse une direction du stick, en plus de ce que fait déjà le fichier d\'écran de cette console.</string>
-    <string name="kt_stick_invert_why">Certains clones câblent un stick à l\'envers, donc pousser à droite déplace vers la gauche, ou le haut déplace vers le bas. Coche la direction qui est inversée. Vérifie dans le test de manette que c\'est bon maintenant.</string>
+    <string name="kt_stick_invert_why">Certains clones câblent un stick à l\'envers, donc pousser à droite déplace vers la gauche, ou le haut déplace vers le bas. Cochez la direction qui est inversée. Vérifiez dans le test des commandes que c\'est bon maintenant.</string>
     <string name="kt_stick_swap">Inverser les sticks</string>
     <string name="kt_stick_swap_off">Normal</string>
     <string name="kt_stick_swap_on">Inversés</string>
     <string name="kt_stick_swap_what">Le stick gauche agit comme le droit et le droit comme le gauche, y compris quand on les enfonce (L3/R3).</string>
-    <string name="kt_stick_swap_why">Pour les clones aux sticks inversés, ou si tu préfères diriger avec l\'autre stick. Les directions retournées plus haut restent sur le stick où tu les as retournées.</string>
+    <string name="kt_stick_swap_why">Pour les clones aux sticks inversés, ou si vous préférez diriger avec l\'autre stick. Les directions inversées plus haut restent sur le stick où vous les avez inversées.</string>
 
     <string name="kt_poll_interval">Fréquence de lecture des boutons</string>
     <string name="kt_poll_interval_what">À quelle fréquence les sticks sont lus et les boutons revérifiés.</string>
@@ -177,7 +177,7 @@
     <string name="kt_hp_det_normal">Normal</string>
     <string name="kt_hp_det_flipped">Inversé</string>
     <string name="kt_hp_det_flip_what">Lit l\'interrupteur de la prise casque à l\'envers.</string>
-    <string name="kt_hp_det_flip_why">Certains clones câblent la prise à l\'envers : le haut-parleur reste muet sans rien de branché, ou le son ne passe jamais au casque. Si ça te semble être ta console, inverse ça. C\'est revérifié tout de suite.</string>
+    <string name="kt_hp_det_flip_why">Certains clones câblent la prise à l\'envers : le haut-parleur reste muet sans rien de branché, ou le son ne passe jamais au casque. Si cela ressemble à votre console, inversez-la. C\'est revérifié tout de suite.</string>
 
     <!-- Crashes and logs -->
     <string name="kt_log_level">Détail du journal du noyau</string>
@@ -191,19 +191,19 @@
     <string name="kt_panic_restart">Redémarrer après un plantage du noyau</string>
     <string name="kt_panic_never">Jamais, rester planté</string>
     <string name="kt_panic_restart_what">Combien de temps la console attend après un plantage du noyau avant de redémarrer toute seule.</string>
-    <string name="kt_panic_restart_why">Redémarrer vite te ramène au jeu, et le rapport de problème garde quand même le journal du plantage. « Jamais » garde la console figée pour que tu voies qu\'elle a planté plutôt que bloqué, mais il faudra maintenir Power pour l\'éteindre.</string>
+    <string name="kt_panic_restart_why">Redémarrer vite vous ramène au jeu, et le rapport de problème garde quand même le journal du plantage. « Jamais » garde la console figée pour que vous voyiez qu\'elle a planté plutôt que bloqué, mais il faudra maintenir Power pour l\'éteindre.</string>
 
     <string name="kt_oops_panic">Traiter les erreurs de pilote comme des plantages</string>
     <string name="kt_oops_panic_what">Quand un pilote subit une erreur grave (un « oops »), le noyau continue normalement sans lui. Ceci redémarre la console à la place.</string>
-    <string name="kt_oops_panic_why">Après un oops, les choses cassent souvent de façon bizarre : pas de son, boutons morts, écran figé plus tard. Redémarrer tout de suite te donne un journal de plantage propre dans le rapport de problème au lieu d\'un bazar confus.</string>
+    <string name="kt_oops_panic_why">Après un oops, les choses cassent souvent de façon bizarre : pas de son, boutons morts, écran figé plus tard. Redémarrer tout de suite vous donne un journal de plantage propre dans le rapport de problème au lieu d\'un bazar confus.</string>
 
     <string name="kt_stall_report">Signaler un cœur bloqué après</string>
     <string name="kt_stall_report_what">Combien de temps un cœur peut ne plus répondre avant que le noyau journalise un avertissement avec ce qu\'il faisait.</string>
-    <string name="kt_stall_report_why">Les blocages de veille sur certains clones ressemblent à un cœur qui se tait. Un délai plus court fait entrer cet avertissement dans le journal avant que tu abandonnes et maintiennes Power.</string>
+    <string name="kt_stall_report_why">Les blocages de veille sur certains clones ressemblent à un cœur qui se tait. Un délai plus court fait entrer cet avertissement dans le journal avant que vous abandonniez et mainteniez Power.</string>
 
     <string name="kt_power_chip_log">Journal de la puce d\'alimentation</string>
     <string name="kt_power_chip_log_what">Laisse les parties chargeur, jauge de batterie et son de la puce d\'alimentation (RK817) journaliser ce qu\'elles font.</string>
-    <string name="kt_power_chip_log_why">Pour les pourcentages de batterie qui sautent, une charge qui s\'arrête ou un son qui crépite. Très bavard, donc n\'active ça que pendant que tu fais un rapport de problème.</string>
+    <string name="kt_power_chip_log_why">Pour les pourcentages de batterie qui sautent, une charge qui s\'arrête ou un son qui crépite. Très bavard, donc ne l\'activez que pendant que vous faites un rapport de problème.</string>
 
     <string name="kt_crash_oops">Enregistrer aussi les erreurs de pilote</string>
     <string name="kt_crash_oops_what">Garde un enregistrement de plantage quand un pilote rencontre une erreur grave (un oops) et que le noyau continue, pas seulement quand tout le noyau plante.</string>
@@ -211,11 +211,11 @@
 
     <string name="kt_crash_restart_log">Garder le journal à chaque redémarrage</string>
     <string name="kt_crash_restart_log_what">Quand la console redémarre normalement, le noyau garde aussi la fin de son journal dans l\'enregistrement de plantage, avec chaque message, y compris les silencieux sous le niveau de journal.</string>
-    <string name="kt_crash_restart_log_why">Pour les problèmes sans plantage, comme un jeu qui saccade jusqu\'à ce que tu redémarres. Le journal du noyau du dernier démarrage est gardé de toute façon, mais seulement les lignes au niveau de journal. Un plantage dans le même démarrage garde toujours son propre enregistrement. Un redémarrage normal remplace toutefois un ancien enregistrement de plantage, donc enregistre d\'abord le rapport de problème d\'un plantage. Rien n\'est gardé après la désactivation : la RAM perd tout.</string>
+    <string name="kt_crash_restart_log_why">Pour les problèmes sans plantage, comme un jeu qui saccade jusqu\'à ce que vous redémarriez. Le journal du noyau du dernier démarrage est gardé de toute façon, mais seulement les lignes au niveau de journal. Un plantage dans le même démarrage garde toujours son propre enregistrement. Un redémarrage normal remplace toutefois un ancien enregistrement de plantage, donc enregistrez d\'abord le rapport de problème d\'un plantage. Rien n\'est gardé après la désactivation : la RAM perd tout.</string>
 
     <!-- At start (needs a restart) -->
     <string name="kt_serial_console">Console série</string>
-    <string name="kt_serial_console_what">Envoie le journal du noyau sur le port série de débogage et te permet d\'y taper des commandes (UART2 sur la R36S, UART5 sur les clones EE).</string>
+    <string name="kt_serial_console_what">Envoie le journal du noyau sur le port série de débogage et vous permet d\'y taper des commandes (UART2 sur la R36S, UART5 sur les clones EE).</string>
     <string name="kt_serial_console_why">Utile seulement avec un adaptateur série USB soudé sur la carte. Désactivé par défaut : sur certains clones, une broche série flottante sort la console de veille, et chaque ligne du journal coûte un peu de temps tant que c\'est activé.</string>
 
     <string name="kt_boot_log_level">Détail du journal du noyau au démarrage</string>
@@ -223,9 +223,9 @@
     <string name="kt_boot_log_level_why">Pour les consoles qui bloquent ou redémarrent pendant le démarrage. Avec la console série activée, c\'est aussi ce qui sort sur le port série.</string>
 
     <string name="kt_cma_size">Mémoire graphique et vidéo</string>
-    <string name="kt_cma_default">Défaut du noyau</string>
+    <string name="kt_cma_default">Valeur par défaut du noyau</string>
     <string name="kt_cma_size_what">La mémoire mise de côté au démarrage pour l\'écran, les graphismes et le décodage vidéo (CMA). Le reste est laissé aux applis.</string>
-    <string name="kt_cma_size_why">Moins laisse plus de place aux jeux et aux applis, ce qui aide sur les consoles à 1 Go et 512 Mo. Trop peu et les vidéos ou certains émulateurs ne se lancent pas. Si ça arrive, reviens à la valeur par défaut.</string>
+    <string name="kt_cma_size_why">Moins laisse plus de place aux jeux et aux applis, ce qui aide sur les consoles à 1 Go et 512 Mo. Trop peu et les vidéos ou certains émulateurs ne se lancent pas. Si cela arrive, revenez à la valeur par défaut.</string>
 
     <string name="kt_cpu_idle">Extinction des cœurs inactifs</string>
     <string name="kt_cpu_idle_what">Laisse les cœurs inactifs passer dans un état d\'économie d\'énergie plus profond. Désactivé les garde dans le plus léger.</string>
@@ -235,11 +235,11 @@
     <string name="kt_timer_tick_idle">S\'arrête quand inactif (normal)</string>
     <string name="kt_timer_tick_always">Tourne toujours</string>
     <string name="kt_timer_tick_what">Si le minuteur du noyau continue de battre sur les cœurs inactifs, ou se met en pause jusqu\'à ce qu\'il y ait du travail.</string>
-    <string name="kt_timer_tick_why">La pause économise la batterie. Le laisser tourner peut lisser les saccades dans certains émulateurs et écarte les soucis de minuteur quand tu traques des blocages. Ça coûte un peu de batterie.</string>
+    <string name="kt_timer_tick_why">La pause économise la batterie. Le laisser tourner peut lisser les saccades dans certains émulateurs et écarte les soucis de minuteur quand vous traquez des blocages. Ça coûte un peu de batterie.</string>
 
     <string name="kt_boot_timing">Journaliser la durée du démarrage</string>
     <string name="kt_boot_timing_what">Journalise le temps que met chaque partie du noyau à démarrer.</string>
-    <string name="kt_boot_timing_why">Pour trouver ce qui ralentit un démarrage ou où il bloque. Ajoute beaucoup de lignes au journal, donc désactive-le une fois le rapport de problème fait.</string>
+    <string name="kt_boot_timing_why">Pour trouver ce qui ralentit un démarrage ou où il bloque. Ajoute beaucoup de lignes au journal, donc désactivez-le une fois le rapport de problème fait.</string>
 
     <string name="kt_usb_autosuspend">Économie d\'énergie USB</string>
     <string name="kt_usb_autosuspend_what">Laisse les appareils USB (manettes, clés Wi-Fi, claviers) se mettre en veille quand ils ne servent pas.</string>
@@ -247,11 +247,11 @@
 
     <string name="kt_crash_log">Journal de plantage</string>
     <string name="kt_crash_log_what">Garde le journal du noyau, le journal d\'Android et un enregistrement de plantage dans une zone de RAM qui survit à un redémarrage, pour que le prochain démarrage puisse les mettre dans le rapport de problème.</string>
-    <string name="kt_crash_log_why">Laisse-le activé. Désactivé, ça sert seulement à tester si le journal de plantage lui-même cause des soucis. Le rapport de problème n\'a alors pas le journal du démarrage précédent, et les plantages du noyau n\'affichent plus l\'avis de plantage. Les 960 KB restent réservés de toute façon : l\'arbre de périphériques les réserve, ils ne servent simplement à rien.</string>
+    <string name="kt_crash_log_why">Laissez-le activé. Désactivé, ça sert seulement à tester si le journal de plantage lui-même cause des soucis. Le rapport de problème n\'a alors pas le journal du démarrage précédent, et les plantages du noyau n\'affichent plus l\'avis de plantage. Les 960 Ko restent réservés de toute façon : l\'arbre de périphériques les réserve, ils ne servent simplement à rien.</string>
 
     <string name="kt_crash_split">Répartition du journal de plantage</string>
-    <string name="kt_crash_split_what">Comment se partagent les 960 KB conservés au redémarrage entre l\'enregistrement de plantage, le journal du noyau et le journal d\'Android. Équilibré : 192 KB, 512 KB et 256 KB. Plus de journal du noyau : 320 KB, 512 KB et 128 KB. Plus de journal d\'Android : 192 KB, 256 KB et 512 KB.</string>
-    <string name="kt_crash_split_why">Équilibré convient à la plupart des problèmes. Plus de journal du noyau fait tenir tout le journal du noyau dans l\'enregistrement de plantage, pour les plantages qui ont une longue histoire avant eux. Plus de journal d\'Android garde deux fois plus du journal d\'Android, pour les applications et jeux qui se ferment ou gèlent sans plantage du noyau. Les journaux d\'avant le changement sont perdus au redémarrage qui le fait.</string>
+    <string name="kt_crash_split_what">Comment se partagent les 960 Ko conservés au redémarrage entre l\'enregistrement de plantage, le journal du noyau et le journal d\'Android. Équilibré : 192 Ko, 512 Ko et 256 Ko. Plus de journal du noyau : 320 Ko, 512 Ko et 128 Ko. Plus de journal d\'Android : 192 Ko, 256 Ko et 512 Ko.</string>
+    <string name="kt_crash_split_why">Équilibré convient à la plupart des problèmes. Plus de journal du noyau fait tenir tout le journal du noyau dans l\'enregistrement de plantage, pour les plantages qui ont une longue histoire avant eux. Plus de journal d\'Android garde deux fois plus du journal d\'Android, pour les applis et jeux qui se ferment ou gèlent sans plantage du noyau. Les journaux d\'avant le changement sont perdus au redémarrage qui le fait.</string>
     <string name="kt_crash_split_balanced">Équilibré</string>
     <string name="kt_crash_split_kernel">Plus de journal du noyau</string>
     <string name="kt_crash_split_android">Plus de journal d\'Android</string>

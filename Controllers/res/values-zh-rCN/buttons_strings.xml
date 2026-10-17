@@ -14,12 +14,12 @@
     <string name="check_standin_note">%1$s 现在可以当 FN 用，所以它也会打开主屏幕。</string>
     <string name="check_missing_title">保存这个设置？</string>
     <!-- %1$s is a list like "Fn, L3/R3" -->
-    <string name="check_missing">此主机没有：%1$s。\n\n如果它其实有其中之一，请选择“返回”，然后按下该键。</string>
+    <string name="check_missing">此掌机没有以下按键：%1$s。\n\n如果掌机上有其中某个按键，请选择“返回”，然后按下该键。</string>
     <string name="check_missing_save">保存</string>
     <string name="check_missing_back">返回</string>
     <string name="check_leave_unsaved">不保存直接离开</string>
     <string name="check_reset">恢复默认</string>
-    <string name="check_reset_confirm">要忘掉此主机有哪些按键、以及代替 FN 的是什么吗？会恢复到 andr36oid 对这个型号的已知设置，FN 就重新是 FN 键。</string>
+    <string name="check_reset_confirm">要清除已识别的按键和 FN 替代键设置吗？这会恢复 andr36oid 为此型号预设的按键设置，并重新使用 FN 键。</string>
     <string name="check_saved_toast">已保存：%1$s</string>
 
     <!-- Summaries: "All buttons", "No Fn, no L3/R3" -->

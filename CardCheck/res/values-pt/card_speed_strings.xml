@@ -9,7 +9,7 @@
     <string name="details_bus_normal">Roda no modo normal (até %1$d MB/s)</string>
     <string name="details_bus_slow">Roda no modo lento (até %1$d MB/s)</string>
     <string name="advice_category">O que isso significa</string>
-    <string name="advice_paused">Uma verificação do tamanho real está pausada. Os dados de teste ocupam o cartão, então os jogos podem não conseguir salvar. Continue a verificação ou apague os dados de teste abaixo.</string>
+    <string name="advice_paused">Uma verificação do tamanho real está pausada. Os dados de teste ocupam o cartão, então os jogos podem não conseguir guardar. Continue a verificação ou apague os dados de teste abaixo.</string>
     <string name="advice_fake">Este cartão é falso ou está danificado (veja a verificação do tamanho real abaixo). Copie seus jogos e saves para outro cartão logo.</string>
     <string name="advice_write_error">O cartão informou um erro durante a gravação. Ele pode estar gasto ou ser falso. Faça backup dos seus saves.</string>
     <!-- %1$s one or more of the sign_ texts, joined with "; " -->
@@ -28,32 +28,32 @@
     <!-- %1$d 1 or 2 (A1, A2) -->
     <string name="advice_claim_small">O cartão é marcado como A%1$d, mas lida com blocos pequenos muito mais devagar do que isso promete. Ele pode ser falso ou estar gasto.</string>
     <!-- %1$d top speed of the mode in MB/s -->
-    <string name="advice_bus_slow">O console usa este cartão em um modo mais lento (até %1$d MB/s) do que o cartão aceita. Reiniciar pode ajudar. Se continuar assim, o cartão ou o slot pode estar sujo ou gasto.</string>
+    <string name="advice_bus_slow">A consola usa este cartão em um modo mais lento (até %1$d MB/s) do que o cartão aceita. Reiniciar pode ajudar. Se continuar assim, o cartão ou o slot pode estar sujo ou gasto.</string>
     <string name="advice_slow">Este cartão é lento: os jogos podem demorar para carregar. Um cartão marcado como A1 ou U3 será mais rápido.</string>
     <string name="advice_untested">Teste a velocidade para ver o quão rápido os jogos vão carregar.</string>
     <string name="advice_good">Nenhum problema encontrado.</string>
-    <string name="speed_summary_small">Grava e lê um arquivo de 256 MB e depois blocos pequenos de 4 KB. Leva cerca de um minuto e precisa de 1 GB de espaço livre.</string>
+    <string name="speed_summary_small">Grava e lê um ficheiro de 256 MB e depois blocos pequenos de 4 KB. Leva cerca de um minuto e precisa de 1 GB de espaço livre.</string>
     <string name="speed_running_small">Testando blocos pequenos…</string>
     <!-- %1$s and %2$s whole numbers, e.g. 1,850 and 410 -->
     <string name="speed_small">Blocos pequenos: %1$s leituras e %2$s gravações por segundo</string>
     <string name="marks_title">O que as marcas de um cartão significam</string>
-    <string name="marks_text">Class 10, U1 e V10: grava a pelo menos 10 MB/s. U3 e V30: pelo menos 30 MB/s. A1: pelo menos 1500 leituras e 500 gravações pequenas por segundo, o que ajuda jogos feitos de muitos arquivos. A2 promete mais, mas este console usa cartões A2 como cartões A1.</string>
+    <string name="marks_text">Class 10, U1 e V10: grava a pelo menos 10 MB/s. U3 e V30: pelo menos 30 MB/s. A1: pelo menos 1500 leituras e 500 gravações pequenas por segundo, o que ajuda jogos feitos de muitos ficheiros. A2 promete mais, mas esta consola usa cartões A2 como cartões A1.</string>
     <string name="error_paused">Uma verificação do tamanho real está pausada neste cartão. Primeiro continue a verificação ou apague os dados de teste dela.</string>
     <string name="full_title_continue">Continuar a verificação</string>
     <!-- %1$s done, %2$s total -->
-    <string name="full_paused_write">Pausada durante a gravação, %1$s de %2$s. Os dados de teste ficam no cartão até você continuar ou apagá-los, então os jogos podem não conseguir salvar até lá.</string>
-    <string name="full_paused_verify">Pausada durante a leitura, %1$s de %2$s. Os dados de teste ficam no cartão até você continuar ou apagá-los, então os jogos podem não conseguir salvar até lá.</string>
+    <string name="full_paused_write">Escrita em pausa: %1$s de %2$s. Os dados de teste ficam no cartão até continuar ou apagá-los. Até lá, os jogos podem não conseguir guardar.</string>
+    <string name="full_paused_verify">Leitura em pausa: %1$s de %2$s. Os dados de teste ficam no cartão até continuar ou apagá-los. Até lá, os jogos podem não conseguir guardar.</string>
     <string name="full_delete_title">Apagar os dados de teste</string>
     <!-- %1$s size -->
     <string name="full_delete_summary">Libera %1$s. A próxima verificação começa do início.</string>
     <string name="stop_title">Parar a verificação?</string>
-    <string name="stop_text">Pausar mantém os dados de teste no cartão para você continuar depois. Até lá, os jogos podem não conseguir salvar. Parar apaga os dados de teste.</string>
+    <string name="stop_text">Pausar mantém os dados de teste no cartão para poder continuar mais tarde. Até lá, os jogos podem não conseguir guardar. Parar apaga os dados de teste.</string>
     <string name="stop_pause">Pausar</string>
     <string name="stop_delete">Parar</string>
     <!-- %1$s card name, %2$s how long -->
-    <string name="confirm_text_pause">Isto ocupa todo o espaço livre de %1$s por cerca de %2$s, então os jogos não conseguem salvar lá até terminar. Conecte o carregador: o console fica ligado. Você pode pausar e continuar depois, ou parar a qualquer momento. Seus jogos e arquivos não são alterados.</string>
+    <string name="confirm_text_pause">Este teste ocupa todo o espaço livre de %1$s durante cerca de %2$s. Até terminar, os jogos não conseguem guardar nesse espaço. Ligue o carregador: a consola mantém-se ativa. Pode pausar e continuar mais tarde, ou parar a qualquer momento. Os seus jogos e ficheiros não são alterados.</string>
     <string name="paused_channel">Verificação do SD pausada</string>
     <string name="paused_title">Verificação do SD pausada</string>
     <!-- %1$s size of the test data -->
-    <string name="paused_text">%1$s de dados de teste ocupam o cartão. Continue a verificação ou apague os dados de teste para os jogos poderem salvar de novo.</string>
+    <string name="paused_text">%1$s de dados de teste ocupam o cartão. Continue a verificação ou apague os dados de teste para os jogos poderem guardar de novo.</string>
 </resources>

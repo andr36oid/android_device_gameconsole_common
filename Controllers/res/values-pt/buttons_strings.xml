@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Settings > Controls > Buttons on this console: press every button once -->
-    <string name="check_title">Botões deste console</string>
-    <string name="check_intro">Aperte cada botão uma vez. O FN abre a tela inicial, e depois esta página volta sozinha.</string>
-    <string name="check_how_to_finish">Para terminar, segure Start por 2 segundos ou escolha Concluir. Para sair sem salvar, segure B.</string>
+    <!-- Settings > Controls > Buttons on this consola: press every button once -->
+    <string name="check_title">Botões desta consola</string>
+    <string name="check_intro">Prima cada botão uma vez. O FN abre o ecrã inicial e esta página volta a aparecer automaticamente.</string>
+    <string name="check_how_to_finish">Para terminar, mantenha premido Start por 2 segundos ou escolha Concluir. Para sair sem guardar, mantenha premido B.</string>
     <string name="check_done">Concluir</string>
     <!-- At the top, e.g. "Current setting: No Fn, no L3/R3" -->
     <string name="check_saved">Configuração atual: %1$s</string>
@@ -11,15 +11,15 @@
     <!-- e.g. "Extra buttons found: Extra button 1, Extra button 2" -->
     <string name="check_extras">Botões extras encontrados: %1$s</string>
     <!-- %1$s is a button, e.g. "L3" -->
-    <string name="check_standin_note">%1$s funciona como FN agora, então também abre a tela inicial.</string>
+    <string name="check_standin_note">%1$s funciona agora como FN, por isso também abre o ecrã inicial.</string>
     <string name="check_missing_title">Salvar isso?</string>
     <!-- %1$s is a list like "Fn, L3/R3" -->
-    <string name="check_missing">Este console não tem: %1$s.\n\nSe ele tiver algum deles, escolha Voltar e aperte o botão.</string>
+    <string name="check_missing">Esta consola não tem os seguintes botões: %1$s.\n\nSe algum deles existir, escolha Voltar e prima esse botão.</string>
     <string name="check_missing_save">Salvar</string>
     <string name="check_missing_back">Voltar</string>
-    <string name="check_leave_unsaved">Sair sem salvar</string>
+    <string name="check_leave_unsaved">Sair sem guardar</string>
     <string name="check_reset">Restaurar padrão</string>
-    <string name="check_reset_confirm">Esquecer quais botões este console tem e o que faz o papel do FN? Volta ao que o andr36oid sabe sobre este modelo, e o FN volta a ser o botão FN.</string>
+    <string name="check_reset_confirm">Repor os botões desta consola e o substituto de FN? Serão usadas as definições do andr36oid para este modelo, e FN volta a ser o botão FN.</string>
     <string name="check_saved_toast">Salvo: %1$s</string>
 
     <!-- Summaries: "All buttons", "No Fn, no L3/R3" -->
@@ -55,7 +55,7 @@
     <!-- A button the console reports with an unknown code -->
     <string name="button_other">Botão %1$d</string>
 
-    <!-- What does the Fn button's job (Settings > Controls, and the tutorial on consoles
+    <!-- What does the Fn button's job (Settings > Controls, and the tutorial on consolas
          without Fn) -->
     <string name="fn_standin_row">Atalhos com FN</string>
     <string name="fn_standin_title">O que funciona como FN?</string>
@@ -65,10 +65,10 @@
     <string name="fn_standin_other">Usar outro botão como FN</string>
     <!-- %1$s is a button, e.g. "L3" -->
     <string name="fn_standin_button">%1$s funciona como FN</string>
-    <string name="fn_standin_press">Aperte o botão agora…</string>
-    <string name="fn_standin_press_now">Aperte o botão que deve funcionar como FN. Pode ser também um botão extra. B cancela.</string>
-    <string name="fn_standin_refused">%1$s não pode ser FN: ele serve para navegar pelos menus ou para o volume. Aperte outro botão, ou B para cancelar.</string>
+    <string name="fn_standin_press">Prima o botão agora…</string>
+    <string name="fn_standin_press_now">Prima o botão que deve funcionar como FN. Pode ser também um botão extra. B cancela.</string>
+    <string name="fn_standin_refused">%1$s não pode ser FN: ele serve para navegar pelos menus ou para o volume. Prima outro botão, ou B para cancelar.</string>
     <string name="fn_standin_confirm_title">Usar %1$s como FN?</string>
-    <string name="fn_standin_confirm">%1$s passa a fazer o trabalho do botão FN: apertado sozinho abre a tela inicial, segurado com outro botão abre um atalho. Ele perde a função própria em todo lugar, inclusive nos jogos. Você pode mudar isso em Configurações &gt; Controlos &gt; Atalhos com FN.</string>
+    <string name="fn_standin_confirm">%1$s passa a substituir FN: um toque abre o ecrã inicial; mantendo-o premido com outro botão, ativa um atalho. Perde a sua função habitual em todo o sistema, incluindo nos jogos. Pode alterar esta escolha em Definições &gt; Controlos &gt; Atalhos com FN.</string>
     <string name="fn_standin_confirm_ok">Usar como FN</string>
 </resources>

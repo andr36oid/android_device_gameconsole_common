@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="rgb_title">RGB 灯光</string>
+    <string name="rgb_summary">选择灯光颜色，或关闭灯光</string>
+    <string name="rgb_colour_title">颜色</string>
+    <string name="rgb_about">在此选择颜色后灯光才会亮起。重启后仍会保留您的选择。</string>
+    <string name="rgb_missing">此掌机没有 RGB 灯光</string>
+    <string-array name="rgb_colour_names">
+        <item>关闭</item>
+        <item>红色</item>
+        <item>绿色</item>
+        <item>蓝色</item>
+        <item>黄色</item>
+        <item>青色</item>
+        <item>紫色</item>
+        <item>白色</item>
+    </string-array>
+</resources>

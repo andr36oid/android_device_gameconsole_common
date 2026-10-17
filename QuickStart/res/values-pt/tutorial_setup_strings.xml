@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="tutorial_home_body_setup">Aperte só o FN para ir à tela inicial de qualquer lugar, até de um jogo. A tela inicial é o Daijishou, onde ficam seus jogos e apps.\n\nIsso funciona depois que a configuração terminar, então ainda não há nada para testar aqui.</string>
-    <string name="tutorial_home_body_setup_simple">Aperte só o FN para ir à tela inicial de qualquer lugar, até de um jogo. A tela inicial é o Simple UI: seus apps favoritos em “Fixados”, todos os apps em “Apps”.\n\nIsso funciona depois que a configuração terminar, então ainda não há nada para testar aqui.</string>
-    <string name="tutorial_shade_body_setup">Segure FN e aperte Y para abrir suas notificações e as Configurações rápidas, com blocos para coisas como Wi-Fi e Bluetooth. FN + Y de novo fecha.\n\nIsso funciona depois que a configuração terminar, então ainda não há nada para testar aqui.</string>
+    <string name="tutorial_home_body_setup">Prima só o FN para ir à ecrã inicial de qualquer lugar, até de um jogo. O ecrã inicial é o Daijishou, onde ficam seus jogos e apps.\n\nIsso funciona depois que a configuração terminar, então ainda não há nada para testar aqui.</string>
+    <string name="tutorial_home_body_setup_simple">Prima só o FN para ir à ecrã inicial de qualquer lugar, até de um jogo. O ecrã inicial é o Simple UI: seus apps favoritos em “Fixados”, todos os apps em “Apps”.\n\nIsso funciona depois que a configuração terminar, então ainda não há nada para testar aqui.</string>
+    <string name="tutorial_shade_body_setup">Mantenha premido FN e prima Y para abrir suas notificações e as Definições rápidas, com blocos para coisas como Wi-Fi e Bluetooth. FN + Y de novo fecha.\n\nIsso funciona depois que a configuração terminar, então ainda não há nada para testar aqui.</string>
 </resources>

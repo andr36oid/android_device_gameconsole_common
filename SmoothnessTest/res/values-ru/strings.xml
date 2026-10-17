@@ -2,11 +2,11 @@
 <resources>
     <string name="smooth_title">Тест плавности</string>
     <!-- %1$s: the refresh rate the screen is set to, like 75 -->
-    <string name="smooth_screen">Экран: %1$s Hz</string>
+    <string name="smooth_screen">Экран: %1$s Гц</string>
     <!-- %1$s: frames the app got in the last second, like 74.9 -->
-    <string name="smooth_measured">Измерено: %1$s Hz</string>
+    <string name="smooth_measured">Измерено: %1$s Гц</string>
     <!-- Frames that came more than 1.5 frames late. %1$d: in the last second,
          %2$d: since the test started -->
-    <string name="smooth_late">Поздние кадры: %1$d за последнюю секунду, %2$d всего</string>
-    <string name="smooth_hint">Блок должен плавно ехать без рывков. B — выйти.</string>
+    <string name="smooth_late">Опоздавшие кадры: %1$d за последнюю секунду, %2$d всего</string>
+    <string name="smooth_hint">Блок должен плавно скользить без рывков. B — выйти.</string>
 </resources>

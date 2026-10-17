@@ -2,7 +2,7 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Sync saves (Syncthing) -->
     <string name="sync_title">Sincronizar saves</string>
-    <string name="sync_row_off">Desativado. Mantenha seus saves iguais neste console e no seu PC, celular ou outros consoles.</string>
+    <string name="sync_row_off">Desativado. Sincronize os saves entre esta consola e o seu PC, telemóvel ou outras consolas.</string>
     <!-- %1$d: number of devices -->
     <plurals name="sync_row_on">
         <item quantity="one">Ativado, com %1$d dispositivo</item>
@@ -11,17 +11,17 @@
     <string name="sync_switch_title">Sincronizar saves</string>
     <string name="sync_switch_off">Desativado</string>
     <string name="sync_switch_on">Ativado. Sincroniza pelo Wi-Fi durante a carga e enquanto esta página está aberta.</string>
-    <string name="sync_status_off">Seus saves e save states ficam iguais em todos os dispositivos que você adicionar, pelo Wi-Fi, sem nuvem. As ROMs nunca são copiadas. Usa o app Syncthing.</string>
+    <string name="sync_status_off">Sincroniza os saves e save states entre os dispositivos que adicionar, por Wi-Fi e sem usar a nuvem. Nunca copia ROMs. Usa a aplicação Syncthing.</string>
     <string name="sync_status_starting">Iniciando o Syncthing…</string>
     <string name="sync_status_no_devices">Nenhum dispositivo ainda. Adicione um abaixo.</string>
     <string name="sync_status_scanning">Procurando saves alterados…</string>
     <plurals name="sync_status_syncing">
-        <item quantity="one">Sincronizando, falta %1$d arquivo…</item>
-        <item quantity="other">Sincronizando, faltam %1$d arquivos…</item>
+        <item quantity="one">A sincronizar, falta %1$d ficheiro…</item>
+        <item quantity="other">A sincronizar, faltam %1$d ficheiros…</item>
     </plurals>
     <plurals name="sync_status_errors">
-        <item quantity="one">Não foi possível sincronizar %1$d arquivo. Abra o Syncthing para ver detalhes.</item>
-        <item quantity="other">Não foi possível sincronizar %1$d arquivos. Abra o Syncthing para ver detalhes.</item>
+        <item quantity="one">Não foi possível sincronizar %1$d ficheiro. Abra o Syncthing para ver detalhes.</item>
+        <item quantity="other">Não foi possível sincronizar %1$d ficheiros. Abra o Syncthing para ver detalhes.</item>
     </plurals>
     <string name="sync_status_folder_error">Não foi possível sincronizar uma pasta de saves. O EASYROMS está montado? Abra o Syncthing para ver detalhes.</string>
     <string name="sync_status_waiting">Tudo atualizado aqui. Esperando seus dispositivos ficarem on-line.</string>
@@ -30,10 +30,10 @@
     <string name="sync_step_start">Iniciando o Syncthing. A primeira vez leva até dois minutos…</string>
     <string name="sync_step_folders">Adicionando as pastas de saves…</string>
     <string name="sync_step_stop">Parando…</string>
-    <string name="sync_my_id_title">ID deste console</string>
+    <string name="sync_my_id_title">ID desta consola</string>
     <string name="sync_my_id_none">Aparece com o Syncthing rodando</string>
-    <string name="sync_my_id_message">No PC ou no celular, abra o Syncthing, escolha Adicionar dispositivo remoto (Add Remote Device) e digite este ID ou leia o código. O PC então aparece abaixo, em Adicionar um dispositivo.</string>
-    <string name="sync_devices_category">Sincronizando com</string>
+    <string name="sync_my_id_message">No PC ou telemóvel, abra o Syncthing, escolha Adicionar dispositivo remoto (Add Remote Device) e introduza este ID ou leia o código. O PC aparece depois em Adicionar um dispositivo, abaixo.</string>
+    <string name="sync_devices_category">A sincronizar com</string>
     <string name="sync_devices_none">Nenhum dispositivo ainda</string>
     <string name="sync_device_connected">Conectado</string>
     <string name="sync_device_offline">Não conectado agora</string>
@@ -41,22 +41,22 @@
     <string name="sync_remove_message">Os saves continuam nos dois dispositivos. Eles só não são mais mantidos iguais.</string>
     <string name="sync_remove_button">Parar</string>
     <string name="sync_add_category">Adicionar um dispositivo</string>
-    <string name="sync_pending_summary">Quer sincronizar com este console</string>
+    <string name="sync_pending_summary">Pretende sincronizar com esta consola</string>
     <!-- %1$s: the first 7 characters of a device ID -->
     <string name="sync_nearby_title">Dispositivo %1$s</string>
     <string name="sync_nearby_summary">Encontrado neste Wi-Fi</string>
-    <string name="sync_add_hint">PC ou celular: instale o Syncthing nele e adicione o ID deste console (acima). Outro console: ative Sincronizar saves nele e depois escolha-o aqui.</string>
+    <string name="sync_add_hint">PC ou telemóvel: instale o Syncthing e adicione o ID desta consola (acima). Outra consola: ative Sincronizar saves nessa consola e depois selecione-a aqui.</string>
     <!-- %1$s: device name -->
     <string name="sync_add_title">Sincronizar saves com %1$s?</string>
     <!-- %1$s: the full device ID -->
-    <string name="sync_add_message">Só adicione dispositivos que são seus. Ele recebe os saves deste console e pode alterá-los.\n\nID: %1$s</string>
+    <string name="sync_add_message">Adicione apenas dispositivos seus. O dispositivo recebe os saves desta consola e pode alterá-los.\n\nID: %1$s</string>
     <string name="sync_add_button">Sincronizar</string>
     <string name="sync_change_failed">Não funcionou. O Syncthing está rodando? Tente de novo daqui a pouco.</string>
     <string name="sync_open_title">Abrir o Syncthing</string>
-    <string name="sync_open_summary">Todas as configurações, outras pastas e o que foi sincronizado</string>
-    <string name="sync_note">Feche o jogo antes de jogá-lo em outro dispositivo. Se os dois alterarem o mesmo save, o mais novo vence e o outro é guardado ao lado como um arquivo .sync-conflict. Saves substituídos também são guardados em .stversions (os últimos 5) e nos seus backups.</string>
+    <string name="sync_open_summary">Todas as definições, outras pastas e o que foi sincronizado</string>
+    <string name="sync_note">Feche o jogo antes de jogar noutro dispositivo. Se ambos alterarem o mesmo save, é mantido o mais recente; o outro fica ao lado, num ficheiro .sync-conflict. Os saves substituídos também são guardados em .stversions (os últimos 5) e nas suas cópias de segurança.</string>
     <string name="sync_off_title">Desativar Sincronizar saves?</string>
-    <string name="sync_off_message">Seus saves continuam neste console e nos seus outros dispositivos. As mudanças deixam de ser sincronizadas. Seus dispositivos ficam guardados para a próxima vez.</string>
+    <string name="sync_off_message">Os saves permanecem nesta consola e nos outros dispositivos, mas deixam de ser sincronizados. Os dispositivos ficam guardados para a próxima vez.</string>
     <string name="sync_off_button">Desativar</string>
     <string name="sync_failed_title">Não foi possível ativar Sincronizar saves</string>
     <string name="sync_error_missing">O app Syncthing não está instalado.</string>

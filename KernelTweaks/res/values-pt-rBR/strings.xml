@@ -92,7 +92,7 @@
     <string name="kt_sleep_test_processors">Parar depois de desligar os núcleos</string>
     <string name="kt_sleep_test_core">Parar bem antes de dormir</string>
     <string name="kt_sleep_test_what">Passa pelas etapas de adormecer, mas para na etapa que você escolher, espera 5 segundos e acorda de novo. O console nunca chega a dormir de fato enquanto isso está ativado.</string>
-    <string name="kt_sleep_test_why">Ajuda a descobrir onde a suspensão dá problema. Se travar em "Parar depois de desligar os núcleos", o problema está antes do firmware. Se tudo funcionar até "Parar bem antes de dormir", é o firmware ou o hardware. Reseta quando o console reinicia, então você não fica travado com isso.</string>
+    <string name="kt_sleep_test_why">Ajuda a descobrir onde a suspensão dá problema. Se travar em \"Parar depois de desligar os núcleos\", o problema está antes do firmware. Se tudo funcionar até \"Parar bem antes de dormir\", é o firmware ou o hardware. Reseta quando o console reinicia, então você não fica travado com isso.</string>
 
     <string name="kt_dc_det">Detecção do carregador</string>
     <string name="kt_dc_det_auto">Padrão deste console</string>
@@ -145,7 +145,7 @@
     <string name="kt_scheduler_deadline">Ordenado (mq-deadline)</string>
     <string name="kt_scheduler_none">Conforme chegam (none)</string>
     <string name="kt_scheduler_what">Se o kernel ordena e agrupa leituras e escritas antes de enviá-las ao cartão, ou simplesmente as envia na ordem.</string>
-    <string name="kt_scheduler_why">Ordenado mantém o sistema fluido durante uma cópia grande. "Conforme chegam" tem menos sobrecarga e pode ser mais rápido em cartões bons. Em cartões baratos ou falsos, ordenado costuma ser a aposta mais segura.</string>
+    <string name="kt_scheduler_why">Ordenado mantém o sistema fluido durante uma cópia grande. \"Conforme chegam\" tem menos sobrecarga e pode ser mais rápido em cartões bons. Em cartões baratos ou falsos, ordenado costuma ser a aposta mais segura.</string>
 
     <string name="kt_sd1_readahead">Cartão do sistema: leitura antecipada</string>
     <string name="kt_sd2_readahead">Segundo cartão: leitura antecipada</string>
@@ -186,12 +186,12 @@
     <string name="kt_log_level_7">Informações</string>
     <string name="kt_log_level_8">Tudo</string>
     <string name="kt_log_level_what">O quanto o kernel escreve no log que sobrevive a um travamento ou reinicialização.</string>
-    <string name="kt_log_level_why">Mais detalhe significa mais chance de a linha que explica um travamento entrar no relatório de problemas. "Tudo" é muito falador e pode deixar o console um pouco mais lento.</string>
+    <string name="kt_log_level_why">Mais detalhe significa mais chance de a linha que explica um travamento entrar no relatório de problemas. \"Tudo\" é muito falador e pode deixar o console um pouco mais lento.</string>
 
     <string name="kt_panic_restart">Reiniciar depois de um travamento do kernel</string>
     <string name="kt_panic_never">Nunca, ficar no travamento</string>
     <string name="kt_panic_restart_what">Quanto tempo o console espera depois de um travamento do kernel antes de reiniciar sozinho.</string>
-    <string name="kt_panic_restart_why">Reiniciar rápido te leva de volta ao jogo mais rápido, e o relatório de problemas ainda tem o log do travamento. "Nunca" mantém o console congelado para você ver que ele travou em vez de só parar de responder, mas você precisa segurar Power para desligar.</string>
+    <string name="kt_panic_restart_why">Reiniciar rápido leva você de volta ao jogo mais rápido, e o relatório de problemas ainda tem o log do travamento. \"Nunca\" mantém o console congelado para você ver que ele travou em vez de só parar de responder, mas você precisa segurar Power para desligar.</string>
 
     <string name="kt_oops_panic">Tratar erros de driver como travamentos</string>
     <string name="kt_oops_panic_what">Quando um driver sofre um erro grave (um oops), o kernel normalmente continua sem ele. Isso reinicia o console em vez disso.</string>

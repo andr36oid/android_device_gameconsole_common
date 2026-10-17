@@ -138,4 +138,6 @@
 
     <string name="help_title">编辑器帮助</string>
     <string name="help_text">用左摇杆或方向键移动十字准星。\n\n在空白位置按 A 可在此添加控件：先选择类型，再按下对应按键或推动对应摇杆。在控件上按 A 可更改它：移动、换一个按键或删除。\n\n类型：\n• 点按：短按一下\n• 按住：按住按键期间一直触摸\n• 摇杆：用摇杆或方向键让手指围绕该位置拖动，用于屏幕上的虚拟摇杆\n• 视角：用摇杆在一个区域内滑动，用于转动视角和瞄准\n• 滑动：朝一个方向快速滑动\n\nL1 和 R1 或右摇杆可缩小或放大所选控件。L2 和 R2 在控件之间跳转。X 删除。\n\nShift 键（按 Select，再选“Shift 键”）：按住它时，使用第二套控件。Y 在两套控件之间切换。\n\nStart 保存并关闭。B 关闭。FN 不保存直接退出。\n\n没有设置控件的按键仍作为普通按键使用。FN 及所有 FN 快捷键始终有效。</string>
+    <string name="editor_replaced_stick"><xliff:g id="stick">%1$s</xliff:g> 原先作为一个控件使用。该控件已移除，现在各个方向分别生效。</string>
+    <string name="editor_replaced_stick_directions"><xliff:g id="stick">%1$s</xliff:g> 各个方向的独立控件已移除，现在作为一个控件使用。</string>
 </resources>

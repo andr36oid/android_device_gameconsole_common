@@ -2,9 +2,9 @@
 <resources>
     <string name="deep_sleep_title">深度睡眠</string>
     <string name="deep_sleep_summary">睡眠时的省电步骤，用于排查睡眠问题</string>
-    <string name="deep_sleep_intro">这些步骤决定主机睡得多深。关闭其中一些可以避免主机在睡眠中卡死，但睡眠时更耗电。更改从下一次睡眠起生效，重启后仍然保留。如果主机无法唤醒，请按住电源键 7 秒。</string>
+    <string name="deep_sleep_intro">这些步骤决定掌机睡得多深。关闭其中一些可以避免掌机在睡眠中卡死，但睡眠时更耗电。更改从下一次睡眠起生效，重启后仍然保留。如果掌机无法唤醒，请按住电源键 7 秒。</string>
     <string name="deep_sleep_reset">恢复默认</string>
-    <string name="deep_sleep_state">当前：%1$s。此主机的默认值：%2$s</string>
+    <string name="deep_sleep_state">当前：%1$s。此掌机的默认值：%2$s</string>
     <string name="deep_sleep_unsupported">此系统无法更改睡眠步骤。</string>
     <string name="deep_sleep_steps">睡眠步骤</string>
     <string name="deep_sleep_wake">唤醒</string>
@@ -25,7 +25,7 @@
     <string name="step_pmic_lp">电源芯片低功耗模式</string>
     <string name="step_pmic_lp_summary">让电源芯片进入低功耗模式并降低电压 (PMIC_LP)</string>
     <string name="wake_usb">USB 唤醒</string>
-    <string name="wake_usb_summary">插入数据线或 USB 设备可以唤醒主机 (USB_WKUP_EN)</string>
+    <string name="wake_usb_summary">插入数据线或 USB 设备可以唤醒掌机 (USB_WKUP_EN)</string>
     <string name="deep_sleep_idle">运行时</string>
     <string name="idle_core">空闲时关闭核心</string>
     <string name="idle_core_summary">空闲的核心完全断电。关闭后：核心只停止时钟，耗电稍多。立即生效（cpu-sleep）</string>

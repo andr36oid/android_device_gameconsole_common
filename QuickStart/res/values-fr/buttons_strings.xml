@@ -46,17 +46,17 @@
     <string name="fn_standin_other">Utiliser un autre bouton comme FN</string>
     <!-- %1$s is a button, e.g. "L3" -->
     <string name="fn_standin_button">%1$s fait office de FN</string>
-    <string name="fn_standin_press">Appuie sur le bouton maintenant…</string>
-    <string name="fn_standin_press_now">Appuie sur le bouton qui doit faire office de FN. Ça peut aussi être un bouton supplémentaire. B annule.</string>
-    <string name="fn_standin_refused">%1$s ne peut pas être FN : il sert à se déplacer dans les menus ou pour le volume. Appuie sur un autre bouton, ou sur B pour annuler.</string>
+    <string name="fn_standin_press">Appuyez sur le bouton maintenant…</string>
+    <string name="fn_standin_press_now">Appuyez sur le bouton qui doit remplacer FN. Vous pouvez aussi utiliser un bouton supplémentaire. B pour annuler.</string>
+    <string name="fn_standin_refused">%1$s ne peut pas remplacer FN : il sert à naviguer dans les menus ou à régler le volume. Appuyez sur un autre bouton, ou sur B pour annuler.</string>
     <string name="fn_standin_confirm_title">Utiliser %1$s comme FN ?</string>
-    <string name="fn_standin_confirm">%1$s fait alors le travail du bouton FN : appuyé seul, il ouvre l\'écran d\'accueil ; maintenu avec un autre bouton, il ouvre un raccourci. Il perd son rôle habituel partout, y compris dans les jeux. Tu peux changer ça dans Paramètres &gt; Commandes &gt; Raccourcis FN.</string>
+    <string name="fn_standin_confirm">%1$s remplace le bouton FN : un appui bref ouvre l’écran d’accueil, un appui maintenu avec un autre bouton lance un raccourci. Il perd sa fonction habituelle partout, y compris dans les jeux. Vous pouvez modifier ce choix dans Paramètres &gt; Commandes &gt; Raccourcis FN.</string>
     <string name="fn_standin_confirm_ok">Utiliser comme FN</string>
 
     <!-- Tutorial on consoles without FN: what the FN steps say instead of FN -->
     <string name="tutorial_standin_vol">Vol+ + Vol−</string>
     <!-- At the top of the Home step; %1$s is "Vol+ + Vol−" or a button like "L3" -->
-    <string name="tutorial_standin_intro">Cette console n\'a pas de bouton FN, donc %1$s fait son travail. Tu peux changer ça dans Paramètres &gt; Commandes &gt; Raccourcis FN.</string>
+    <string name="tutorial_standin_intro">Cette console n’a pas de bouton FN. %1$s le remplace. Vous pouvez modifier ce choix dans Paramètres &gt; Commandes &gt; Raccourcis FN.</string>
     <!-- Tutorial, shoulder buttons step: opens Settings > Controls > Buttons on this console -->
     <string name="tutorial_check_buttons">Des boutons manquent ?</string>
 </resources>

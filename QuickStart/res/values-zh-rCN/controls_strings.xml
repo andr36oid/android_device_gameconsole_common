@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- The guide's button chapters. See values/controls_strings.xml -->
 <resources>
-    <string name="controls_topic_console">主机</string>
+    <string name="controls_topic_console">掌机</string>
     <string name="controls_topic_system">系统</string>
     <string name="controls_topic_retroarch">游戏中（RetroArch）</string>
     <string name="controls_topic_emulators">其他模拟器</string>
     <string name="controls_topic_mouse">鼠标模式</string>
-    <string name="controls_console_top">画在主机周围的按键位于其边缘：肩键在背面，电源键在左侧，音量键在右侧。</string>
-    <string name="controls_console_labels">按键名称以主机上印的为准。部分克隆机的按键位置不同。</string>
+    <string name="controls_console_top">画在掌机周围的按键位于其边缘：肩键在背面，电源键在左侧，音量键在右侧。</string>
+    <string name="controls_console_labels">按键名称以掌机上印的为准。部分仿制机的按键位置不同。</string>
     <string name="controls_start">确认，和 A 一样</string>
     <string name="controls_dpad">在菜单和列表中移动</string>
-    <string name="controls_console_swap">部分 Soy Sauce 克隆机（253x 批次）的 FN 和 SELECT 是反的。如果 FN 的作用像 SELECT，SD 卡需要 253x 文件：请查看 BOOT 盘中的 Experimental/README.txt。</string>
+    <string name="controls_console_swap">部分 Soy Sauce 仿制机（253x 批次）的 FN 和 SELECT 是反的。如果 FN 的作用像 SELECT，SD 卡需要 253x 文件：请查看 BOOT 盘中的 Experimental/README.txt。</string>
     <string name="controls_continue">继续上次玩的游戏</string>
     <string name="controls_fn_hold">单独按住：显示 FN 快捷键</string>
     <string name="controls_heading_power">电源和音量</string>
-    <string name="controls_power_off">按住约 10 秒：关闭卡死的主机</string>
+    <string name="controls_power_off">按住约 10 秒：关闭卡死的掌机</string>
     <string name="controls_remap_reset">同时按住 5 秒：所有按键恢复正常</string>
     <string name="controls_screen_record">开始 / 停止屏幕录制，保存到 Movies</string>
     <string name="controls_ra_intro">按住 Select，再按第二个按键。RetroArch 首次设置时会获得这些快捷键。您自己改过的快捷键会保留。</string>

@@ -36,7 +36,7 @@
     <string name="sl_blink_low_summary">Kolor niskiej baterii miga, więc trudniej go przegapić</string>
     <!-- e.g. "Red, blinking" -->
     <string name="sl_blinking"><xliff:g id="color">%1$s</xliff:g>, miga</string>
-    <string name="sl_hardware">Zostawić to sprzętowi</string>
+    <string name="sl_hardware">Zostaw to sprzętowi</string>
 
     <!-- Charger -->
     <string name="sl_cat_charger">Ładowarka</string>
@@ -61,7 +61,7 @@
 
     <!-- Colour check -->
     <!-- %1$d is how many steps, e.g. 9 -->
-    <string name="sl_check_intro">Lampka przejdzie przez <xliff:g id="count">%1$d</xliff:g> ustawień, jedno po drugim. Każdym razem patrz na lampkę i wybierz, co widzisz. Klony są okablowane w różny sposób, więc to sprawdzi, co umie twoja.</string>
+    <string name="sl_check_intro">Lampka przejdzie przez <xliff:g id="count">%1$d</xliff:g> ustawień, jedno po drugim. Za każdym razem patrz na lampkę i wybierz, co widzisz. Klony są okablowane w różny sposób, więc to sprawdzi, co umie twoja.</string>
     <string name="sl_check_go">Start</string>
     <!-- e.g. "What does the light show? (3 of 9)" -->
     <string name="sl_check_step">Co pokazuje lampka? (<xliff:g id="step">%1$d</xliff:g> z <xliff:g id="count">%2$d</xliff:g>)</string>

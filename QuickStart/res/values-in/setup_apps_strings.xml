@@ -2,9 +2,9 @@
 <!-- The setup's app page (SetupAppsActivity) -->
 <resources>
     <string name="setup_apps_title">Aplikasi untuk dipasang</string>
-    <string name="setup_apps_body">Aplikasi ini sudah ada di andr36oid dan dipasang langsung dari kartu, tanpa internet. Hapus centang yang tidak kamu inginkan.</string>
+    <string name="setup_apps_body">Aplikasi ini disertakan dengan andr36oid dan dipasang langsung dari kartu, tanpa internet. Hapus centang aplikasi yang tidak Anda perlukan.</string>
     <string name="setup_apps_all">Semua atau tidak ada</string>
     <string name="setup_apps_next">Pasang</string>
-    <string name="setup_apps_space">Aplikasi ini memakai 2 GB kartu SD-mu untuk sementara. Setelah terpasang, saat menyala berikutnya ruang itu dikembalikan ke Android dan aplikasi yang tidak kamu pilih hilang dari kartu, jadi pilih semua yang kamu mau sekarang.</string>
+    <string name="setup_apps_space">Aplikasi ini sementara memakai 2 GB ruang di kartu SD Anda. Setelah pemasangan selesai, ruang ini akan diberikan ke Android saat konsol dinyalakan lagi. Aplikasi yang tidak dipilih juga akan dihapus dari kartu, jadi pilih semua aplikasi yang Anda inginkan sekarang.</string>
     <string name="setup_apps_by">oleh %1$s</string>
 </resources>

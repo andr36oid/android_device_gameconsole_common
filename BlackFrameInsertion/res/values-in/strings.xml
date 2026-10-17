@@ -11,7 +11,7 @@
     <string name="bfi_pattern_hint">1 normal, 1 hitam adalah yang sudah dicoba. Lebih banyak frame hitam membuat layar makin gelap dan makin berkedip.</string>
     <string name="bfi_fps_hint">Tips: game 60 fps paling pas di 120 Hz dengan 1 normal, 1 hitam. Setiap frame game lalu dapat tepat satu frame normal.</string>
     <string name="bfi_warning_title">Gambar berkedip</string>
-    <string name="bfi_warning">Penyisipan frame hitam membuat seluruh layar berkedip banyak kali per detik. Jangan pakai jika lampu berkedip bisa memicu kejang atau sakit kepala. Berhenti segera jika kamu merasa tidak enak badan.\n\nFitur ini juga membuat layar lebih gelap, dan di beberapa panel layar bisa berkedip atau meninggalkan bayangan. Game mungkin jadi lebih lambat.</string>
+    <string name="bfi_warning">Penyisipan frame hitam membuat seluruh layar berkedip banyak kali per detik. Jangan pakai jika lampu berkedip bisa memicu kejang atau sakit kepala. Berhenti segera jika Anda merasa tidak enak badan.\n\nFitur ini juga membuat layar lebih gelap, dan di beberapa panel layar bisa berkedip atau meninggalkan bayangan. Game mungkin jadi lebih lambat.</string>
     <string name="bfi_warning_ok">Aktifkan</string>
     <string name="bfi_low_rate">Butuh 100 Hz atau lebih. Atur Tampilan > Refresh rate maksimum lebih tinggi dulu.</string>
     <string name="bfi_credit">Berdasarkan BFI oleh PakoVM (github.com/pakovm-git/BFI), MIT License</string>

@@ -5,7 +5,7 @@
     <string name="overlay_summary">FPS, CPU, Temperatur und Akku über Spielen anzeigen</string>
 
     <string name="overlay_switch">Overlay anzeigen</string>
-    <string name="overlay_style">Zeigt</string>
+    <string name="overlay_style">Anzeige</string>
     <string name="overlay_position">Position</string>
 
     <string-array name="style_entries">
@@ -26,7 +26,7 @@
     <!-- Foreground service notification -->
     <string name="channel_name">Leistungs-Overlay</string>
     <string name="notification_title">Leistungs-Overlay ist an</string>
-    <string name="notification_text">Tippen, um die Anzeige zu ändern</string>
+    <string name="notification_text">Antippen, um die Anzeige zu ändern</string>
     <string name="notification_turn_off">Ausschalten</string>
 
     <!-- Quick Settings tile -->

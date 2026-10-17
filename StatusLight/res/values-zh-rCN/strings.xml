@@ -2,8 +2,8 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="sl_title">状态灯</string>
     <string name="sl_summary">这个状态灯显示电量、充电和通知的方式</string>
-    <string name="sl_intro">主机中间、Fn 键下方的状态灯。你可以设置电量低、充电时和收到通知时它显示什么颜色。主机睡眠时它还在工作，只是不再闪烁。</string>
-    <string name="sl_missing">这台主机的灯，我们还不知道怎么控制。</string>
+    <string name="sl_intro">掌机中间、Fn 键下方的状态灯。您可以设置电量低、充电时和收到通知时它显示什么颜色。掌机睡眠时它还在工作，只是不再闪烁。</string>
+    <string name="sl_missing">暂不支持控制这台掌机的状态灯。</string>
 
     <!-- What the light shows right now -->
     <string name="sl_now">现在</string>
@@ -55,19 +55,19 @@
     <!-- Tools -->
     <string name="sl_cat_tools">工具</string>
     <string name="sl_check">检测颜色</string>
-    <string name="sl_check_summary">没看到你选的颜色？来看看你主机的灯到底能显示什么。</string>
+    <string name="sl_check_summary">没有显示所选颜色？检查这台掌机的状态灯支持哪些颜色。</string>
     <string name="sl_reset">恢复默认</string>
     <string name="sl_reset_summary">撤销这个页面上的所有设置，包括颜色检测结果</string>
 
     <!-- Colour check -->
     <!-- %1$d is how many steps, e.g. 9 -->
-    <string name="sl_check_intro">灯会依次切换 <xliff:g id="count">%1$d</xliff:g> 种设置。每一次，看看灯显示什么颜色，然后选出你看到的颜色。山寨机的接线五花八门，这样就能知道你这台到底能显示什么。</string>
+    <string name="sl_check_intro">灯会依次切换 <xliff:g id="count">%1$d</xliff:g> 种设置。每一次，看看灯显示什么颜色，然后选出您看到的颜色。仿制机的接线各不相同，这样可以确认您的掌机支持哪些颜色。</string>
     <string name="sl_check_go">开始</string>
     <!-- e.g. "What does the light show? (3 of 9)" -->
     <string name="sl_check_step">灯显示的是什么？（<xliff:g id="step">%1$d</xliff:g>/<xliff:g id="count">%2$d</xliff:g>）</string>
     <string name="sl_check_other">其他颜色</string>
     <!-- e.g. "Your light can show: off, blue, red, purple." -->
-    <string name="sl_check_result">你的灯能显示：<xliff:g id="colors">%1$s</xliff:g>。</string>
+    <string name="sl_check_result">您的灯能显示：<xliff:g id="colors">%1$s</xliff:g>。</string>
     <string name="sl_check_no_off">它没法关掉，只能换颜色。有些板子的灯是直接接在电源芯片上的，没有软件能把它关掉。</string>
     <string name="sl_check_use">使用这些颜色</string>
     <string name="sl_check_keep">保留原来的</string>

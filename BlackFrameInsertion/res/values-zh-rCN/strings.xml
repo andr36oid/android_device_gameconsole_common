@@ -11,7 +11,7 @@
     <string name="bfi_pattern_hint">目前测试过的是 1 个正常帧、1 个黑帧。黑帧越多，屏幕越暗，闪烁也越明显。</string>
     <string name="bfi_fps_hint">提示：60 fps 的游戏在 120 Hz、1 个正常帧、1 个黑帧时最合拍，每个游戏帧正好对应一个正常帧。</string>
     <string name="bfi_warning_title">闪烁画面</string>
-    <string name="bfi_warning">插入黑帧会让整个屏幕每秒闪烁很多次。如果闪光可能让你癫痫发作或头痛，请不要使用。感觉不舒服请立即停止。\n\n它还会让屏幕变暗，在某些面板上可能闪烁或残留影像。游戏也可能变慢。</string>
+    <string name="bfi_warning">插入黑帧会让整个屏幕每秒闪烁很多次。如果闪光可能让您癫痫发作或头痛，请不要使用。感觉不舒服请立即停止。\n\n它还会让屏幕变暗，在某些面板上可能闪烁或残留影像。游戏也可能变慢。</string>
     <string name="bfi_warning_ok">开启</string>
     <string name="bfi_low_rate">需要 100 Hz 或更高。请先把显示 > 峰值刷新率调高。</string>
     <string name="bfi_credit">基于 PakoVM 的 BFI（github.com/pakovm-git/BFI），MIT License</string>

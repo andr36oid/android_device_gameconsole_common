@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="sl_title">Status-Licht</string>
-    <string name="sl_summary">Was das Status-Licht für Akku, Laden und Benachrichtigungen zeigt</string>
-    <string name="sl_intro">Das Licht in der Mitte der Konsole, unter Fn. Stell ein, was es zeigt, wenn der Akku schwach wird, beim Laden und wenn eine Benachrichtigung kommt. Es läuft weiter, während die Konsole schläft, es blinkt nur nicht mehr.</string>
-    <string name="sl_missing">Das Licht dieser Konsole können wir nicht steuern.</string>
+    <string name="sl_title">Statuslicht</string>
+    <string name="sl_summary">Was das Statuslicht bei Akku, Laden und Benachrichtigungen zeigt</string>
+    <string name="sl_intro">Das Licht in der Mitte der Konsole, unter Fn. Stell ein, was es zeigt, wenn der Akku schwach wird, beim Laden und wenn eine Benachrichtigung kommt. Im Ruhezustand der Konsole leuchtet es weiter, es blinkt dann nur nicht mehr.</string>
+    <string name="sl_missing">Das Licht dieser Konsole kennen wir nicht und können es nicht steuern.</string>
 
     <!-- What the light shows right now -->
-    <string name="sl_now">Gerade jetzt</string>
+    <string name="sl_now">Aktuell</string>
     <!-- e.g. "Red, battery at 8 %" -->
     <string name="sl_now_battery"><xliff:g id="color">%1$s</xliff:g>, Akku bei <xliff:g id="level">%2$s</xliff:g> %%</string>
     <!-- e.g. "Red, charging" -->
@@ -18,22 +18,22 @@
 
     <!-- Battery -->
     <string name="sl_cat_battery">Akku</string>
-    <string name="sl_style">Licht zeigt</string>
+    <string name="sl_style">Das Licht zeigt</string>
     <!-- e.g. "Red at 10 % or less" -->
     <string name="sl_style_red_low">Rot bei <xliff:g id="level">%1$s</xliff:g> %% oder weniger</string>
     <string name="sl_style_color_red_low"><xliff:g id="color">%1$s</xliff:g>, rot bei <xliff:g id="level">%2$s</xliff:g> %% oder weniger</string>
     <!-- e.g. "Blue, purple below 30 %, red at 10 %" -->
-    <string name="sl_style_three"><xliff:g id="high">%1$s</xliff:g>, <xliff:g id="middle">%2$s</xliff:g> unter 30 %%, Rot bei 10 %%</string>
+    <string name="sl_style_three"><xliff:g id="high">%1$s</xliff:g>, <xliff:g id="middle">%2$s</xliff:g> unter 30 %%, rot bei 10 %%</string>
     <!-- e.g. "Purple below 30 %, red at 10 %" -->
-    <string name="sl_style_two"><xliff:g id="middle">%1$s</xliff:g> unter 30 %%, Rot bei 10 %%</string>
+    <string name="sl_style_two"><xliff:g id="middle">%1$s</xliff:g> unter 30 %%, rot bei 10 %%</string>
     <!-- e.g. "Always blue" -->
     <string name="sl_style_always">Immer <xliff:g id="color">%1$s</xliff:g></string>
     <!-- e.g. "Your own: blue · red below 11 %" -->
     <string name="sl_style_custom">Eigene: <xliff:g id="rules">%1$s</xliff:g></string>
     <!-- e.g. "red below 11 %" -->
     <string name="sl_below"><xliff:g id="color">%1$s</xliff:g> unter <xliff:g id="level">%2$s</xliff:g> %%</string>
-    <string name="sl_blink_low">Blinken, wenn niedrig</string>
-    <string name="sl_blink_low_summary">Die Farbe für niedrigen Akku blinkt, damit du sie nicht übersiehst</string>
+    <string name="sl_blink_low">Blinken bei niedrigem Akkustand</string>
+    <string name="sl_blink_low_summary">Die Farbe für niedrigen Akkustand blinkt, damit du sie nicht übersiehst</string>
     <!-- e.g. "Red, blinking" -->
     <string name="sl_blinking"><xliff:g id="color">%1$s</xliff:g>, blinkt</string>
     <string name="sl_hardware">Der Hardware überlassen</string>
@@ -41,35 +41,35 @@
     <!-- Charger -->
     <string name="sl_cat_charger">Ladegerät</string>
     <string name="sl_charging">Beim Laden</string>
-    <string name="sl_full">Wenn voll geladen</string>
+    <string name="sl_full">Bei vollem Akku</string>
     <string name="sl_follow_battery">Akkufarben, wie ohne Ladegerät</string>
     <string name="sl_follow_charging">Wie beim Laden</string>
 
     <!-- Notifications -->
     <string name="sl_cat_notifications">Benachrichtigungen</string>
     <string name="sl_notify">Für Benachrichtigungen blinken</string>
-    <string name="sl_notify_summary">Bei ausgeschaltetem Bildschirm blinkt das Licht, solange eine Benachrichtigung wartet. Im Schlaf bleibt es stattdessen an.</string>
+    <string name="sl_notify_summary">Bei ausgeschaltetem Bildschirm blinkt das Licht, solange eine Benachrichtigung wartet. Im Ruhezustand leuchtet es stattdessen dauerhaft.</string>
     <string name="sl_notify_colors">Farben pro App</string>
-    <string name="sl_notify_colors_summary">Wähl eine Farbe für jede App. Das Licht nimmt die, die am nächsten kommt.</string>
+    <string name="sl_notify_colors_summary">Wähl für jede App eine Farbe. Das Licht nimmt die ähnlichste, die es zeigen kann.</string>
 
     <!-- Tools -->
-    <string name="sl_cat_tools">Werkzeuge</string>
+    <string name="sl_cat_tools">Tools</string>
     <string name="sl_check">Farben prüfen</string>
     <string name="sl_check_summary">Siehst du nicht die Farben, die du gewählt hast? Finde heraus, was das Licht deiner Konsole wirklich zeigen kann.</string>
-    <string name="sl_reset">Auf Standard zurück</string>
+    <string name="sl_reset">Auf Standard zurücksetzen</string>
     <string name="sl_reset_summary">Setzt alles auf dieser Seite zurück, auch eine Farbprüfung</string>
 
     <!-- Colour check -->
     <!-- %1$d is how many steps, e.g. 9 -->
-    <string name="sl_check_intro">Das Licht geht <xliff:g id="count">%1$d</xliff:g> Einstellungen durch, eine nach der anderen. Schau dir jedes Mal das Licht an und wähl, was du siehst. Klone sind ganz unterschiedlich verdrahtet, so findet das heraus, was deins kann.</string>
+    <string name="sl_check_intro">Das Licht geht <xliff:g id="count">%1$d</xliff:g> Einstellungen durch, eine nach der anderen. Schau dir jedes Mal das Licht an und wähl, was du siehst. Klone sind ganz unterschiedlich verdrahtet, so findest du heraus, was deine Konsole kann.</string>
     <string name="sl_check_go">Start</string>
     <!-- e.g. "What does the light show? (3 of 9)" -->
     <string name="sl_check_step">Was zeigt das Licht? (<xliff:g id="step">%1$d</xliff:g> von <xliff:g id="count">%2$d</xliff:g>)</string>
     <string name="sl_check_other">Etwas anderes</string>
     <!-- e.g. "Your light can show: off, blue, red, purple." -->
     <string name="sl_check_result">Dein Licht kann zeigen: <xliff:g id="colors">%1$s</xliff:g>.</string>
-    <string name="sl_check_no_off">Es kann nicht ausgehen, nur die Farbe wechseln. Bei manchen Boards ist das Licht direkt mit dem Power-Chip verdrahtet, keine Software kann es ausschalten.</string>
-    <string name="sl_check_use">Diese Farben benutzen</string>
+    <string name="sl_check_no_off">Es lässt sich nicht ausschalten, nur die Farbe wechseln. Bei manchen Platinen hängt das Licht direkt am Power-Management-Chip, da kann keine Software es ausschalten.</string>
+    <string name="sl_check_use">Diese Farben übernehmen</string>
     <string name="sl_check_keep">Die alten behalten</string>
 
     <!-- Colours -->

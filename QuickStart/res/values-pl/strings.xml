@@ -60,7 +60,7 @@
     <string name="emulators_title">Emulatory</string>
     <string name="emulators_included">RetroArch i PPSSPP są zainstalowane fabrycznie, razem z Flycast (Dreamcast), Mupen64Plus AE (N64) i EasyRPG Player. RetroArch ma już rdzenie dla Nintendo, Segi, PlayStation, N64, automatów, Neo Geo, PC Engine, Atari, MSX, DOS, Amigi, ZX Spectrum, C64, PICO-8 i innych. README na EASYROMS mówi, który folder jest dla którego systemu.</string>
     <string name="emulators_psp">Gry PSP działają w PPSSPP. Gry PlayStation uruchamiają się bez BIOS-u, ale najlepiej działają z nim w folderze bios na EASYROMS.</string>
-    <string name="emulators_updates">Emulatory to zwykłe aplikacje: możesz je odinstalować, a jeśli zainstalujesz F-Droid, może je aktualizować.</string>
+    <string name="emulators_updates">Emulatory to zwykłe aplikacje: możesz je odinstalować, a jeśli zainstalujesz F-Droid, będzie mógł je aktualizować.</string>
 
     <!-- Speed and battery -->
     <string name="speed_title">Szybkość i bateria</string>

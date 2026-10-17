@@ -36,7 +36,7 @@
     <!-- A button the console reports with an unknown code -->
     <string name="button_other">Botão %1$d</string>
 
-    <!-- What does the Fn button's job (Settings > Controls, and the tutorial on consoles
+    <!-- What does the Fn button's job (Settings > Controls, and the tutorial on consolas
          without Fn) -->
     <string name="fn_standin_row">Atalhos com FN</string>
     <string name="fn_standin_title">O que funciona como FN?</string>
@@ -46,17 +46,17 @@
     <string name="fn_standin_other">Usar outro botão como FN</string>
     <!-- %1$s is a button, e.g. "L3" -->
     <string name="fn_standin_button">%1$s funciona como FN</string>
-    <string name="fn_standin_press">Aperte o botão agora…</string>
-    <string name="fn_standin_press_now">Aperte o botão que deve funcionar como FN. Pode ser também um botão extra. B cancela.</string>
-    <string name="fn_standin_refused">%1$s não pode ser FN: ele serve para navegar pelos menus ou para o volume. Aperte outro botão, ou B para cancelar.</string>
+    <string name="fn_standin_press">Prima o botão agora…</string>
+    <string name="fn_standin_press_now">Prima o botão que deve funcionar como FN. Pode ser também um botão extra. B cancela.</string>
+    <string name="fn_standin_refused">%1$s não pode ser FN: ele serve para navegar pelos menus ou para o volume. Prima outro botão, ou B para cancelar.</string>
     <string name="fn_standin_confirm_title">Usar %1$s como FN?</string>
-    <string name="fn_standin_confirm">%1$s passa a fazer o trabalho do botão FN: apertado sozinho abre a tela inicial, segurado com outro botão abre um atalho. Ele perde a função própria em todo lugar, inclusive nos jogos. Você pode mudar isso em Configurações &gt; Controlos &gt; Atalhos com FN.</string>
+    <string name="fn_standin_confirm">%1$s passa a substituir FN: um toque abre o ecrã inicial; mantendo-o premido com outro botão, ativa um atalho. Perde a sua função habitual em todo o sistema, incluindo nos jogos. Pode alterar esta escolha em Definições &gt; Controlos &gt; Atalhos com FN.</string>
     <string name="fn_standin_confirm_ok">Usar como FN</string>
 
     <!-- Tutorial on consoles without FN: what the FN steps say instead of FN -->
     <string name="tutorial_standin_vol">Vol+ + Vol−</string>
     <!-- At the top of the Home step; %1$s is "Vol+ + Vol−" or a button like "L3" -->
-    <string name="tutorial_standin_intro">Este console não tem o botão FN, então %1$s faz o trabalho dele. Você pode mudar isso em Configurações &gt; Controlos &gt; Atalhos com FN.</string>
-    <!-- Tutorial, shoulder buttons step: opens Settings > Controls > Buttons on this console -->
+    <string name="tutorial_standin_intro">Esta consola não tem botão FN, por isso %1$s o substitui. Pode alterar esta escolha em Definições &gt; Controlos &gt; Atalhos com FN.</string>
+    <!-- Tutorial, shoulder buttons step: opens Settings > Controls > Buttons on this consola -->
     <string name="tutorial_check_buttons">Faltam botões?</string>
 </resources>

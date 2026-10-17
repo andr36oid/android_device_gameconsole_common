@@ -9,10 +9,10 @@
     <string name="continue_now_ppsspp">PPSSPP</string>
     <string name="continue_now_app">Jogo Android</string>
     <string name="continue_on_boot">Abrir de novo depois de reiniciar</string>
-    <string name="continue_on_boot_summary">Se um jogo estava aberto quando o console desligou, mesmo que a bateria tenha acabado, ele abre de novo uns 10 segundos depois da tela inicial</string>
-    <string name="continue_about">Continuar traz de volta o último jogo que você jogou, com um só botão: o bloco Continuar nas Configurações rápidas, FN + A ou o menu liga/desliga.\n\nUm jogo que ainda está aberto volta exatamente onde você parou. Se não estiver, o RetroArch e o PPSSPP abrem o mesmo jogo de novo, o RetroArch com o mesmo core; outros jogos só abrem de novo.\n\nVocê continua a partir do último save do próprio jogo. O RetroArch grava esse save a cada 10 segundos quando ele muda. Esse recurso nunca carrega nem grava save states por você: se o seu save state mais recente for mais novo que o save do jogo, uma mensagem avisa.</string>
+    <string name="continue_on_boot_summary">Se havia um jogo aberto quando a consola se desligou, mesmo por falta de bateria, volta a abrir cerca de 10 segundos depois do ecrã inicial</string>
+    <string name="continue_about">Continuar permite regressar ao último jogo com um só botão: o bloco Continuar nas Definições rápidas, FN + A ou o menu de energia.\n\nSe o jogo ainda estiver aberto, regressa exatamente ao ponto onde parou. Caso contrário, o RetroArch e o PPSSPP voltam a abrir o mesmo jogo, com o mesmo core no RetroArch; os outros jogos apenas voltam a abrir.\n\nPode continuar a partir do último save do próprio jogo. O RetroArch guarda esse save a cada 10 segundos, se tiver mudado. Esta função nunca carrega nem guarda save states por si: se o save state mais recente for posterior ao save do jogo, aparece um aviso.</string>
     <string name="continue_nothing">Nenhum jogo para continuar ainda</string>
-    <string name="continue_game_missing">Não foi possível encontrar o arquivo do jogo <xliff:g id="game">%1$s</xliff:g>. O cartão SD está no console?</string>
+    <string name="continue_game_missing">Não foi possível encontrar o ficheiro do jogo <xliff:g id="game">%1$s</xliff:g>. O cartão SD está na consola?</string>
     <string name="continue_core_missing">O core do RetroArch para <xliff:g id="game">%1$s</xliff:g> não está mais instalado</string>
     <string name="continue_failed">Não foi possível abrir <xliff:g id="game">%1$s</xliff:g></string>
     <string name="continue_starting">Continuando <xliff:g id="game">%1$s</xliff:g></string>

@@ -2,13 +2,13 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
     <string name="play_time_title">Игровое время</string>
-    <string name="play_time_summary">Сколько вы играли, любимые игры и напоминания о перерыве</string>
+    <string name="play_time_summary">Сколько вы играли, самые частые игры и напоминания о перерывах</string>
 
     <!-- Header above the week chart -->
     <string name="today">Сегодня: <xliff:g id="time">%1$s</xliff:g></string>
-    <string name="this_week">За 7 дней: <xliff:g id="time">%1$s</xliff:g></string>
+    <string name="this_week">Последние 7 дней: <xliff:g id="time">%1$s</xliff:g></string>
 
-    <string name="most_played">Чаще всего за 7 дней</string>
+    <string name="most_played">Чаще всего за последние 7 дней</string>
     <string name="nothing_played">Пока ничего. Самое время поиграть!</string>
     <!-- Summary of an app in the most played list: time, and the share of all play time -->
     <string name="app_time"><xliff:g id="time">%1$s</xliff:g> · <xliff:g id="percent">%2$d</xliff:g>%%</string>
@@ -23,7 +23,7 @@
         <item>Через 1 час 30 минут</item>
         <item>Через 2 часа</item>
     </string-array>
-    <string name="about">Игровое время — это время, пока приложение открыто на экране. Главный экран, настройки и выключенный экран не считаются.\n\nНапоминание о перерыве считает, сколько времени включён экран. Пауза от 2 минут начинает отсчёт заново.</string>
+    <string name="about">Игровое время — это время, пока приложение открыто на экране. Главный экран, настройки и время с выключенным экраном не считаются.\n\nНапоминание о перерыве считает, сколько времени включён экран. Пауза от 2 минут начинает отсчёт заново.</string>
 
     <!-- Durations -->
     <string name="duration_min"><xliff:g id="minutes">%1$d</xliff:g> мин</string>
@@ -33,15 +33,15 @@
     <!-- Break reminder notification -->
     <string name="channel_name">Напоминания о перерыве</string>
     <string name="break_title">Вы играете уже <xliff:g id="time">%1$s</xliff:g></string>
-    <string name="break_text">Может, небольшой перерыв? Дайте глазам отдохнуть и немного разомнитесь, игра подождёт.</string>
-    <string name="break_text_battery">Может, небольшой перерыв? Дайте глазам отдохнуть и немного разомнитесь. Заряд батареи: <xliff:g id="percent">%1$d</xliff:g>%%.</string>
+    <string name="break_text">Не пора ли сделать перерыв? Дайте глазам отдохнуть и немного разомнитесь — игра подождёт.</string>
+    <string name="break_text_battery">Не пора ли сделать перерыв? Дайте глазам отдохнуть и немного разомнитесь. Заряд батареи: <xliff:g id="percent">%1$d</xliff:g>%%.</string>
 
     <!-- Parental controls (Settings > Play time > Parental controls) -->
     <string name="parental_title">Родительский контроль</string>
-    <string name="parental_off_summary">Выключен. Ограничьте время игры на консоли с помощью PIN-кода.</string>
+    <string name="parental_off_summary">Выключен. Ограничивает время игры на консоли, защищено PIN-кодом.</string>
     <!-- %1$s: time left, e.g. "42 min" -->
     <string name="parental_on_summary">Включён · осталось <xliff:g id="time">%1$s</xliff:g></string>
-    <string name="parental_switch_summary">Ограничивает время игры на консоли, и продолжить можно только с PIN-кодом</string>
+    <string name="parental_switch_summary">Ограничивает время игры на консоли; продолжить можно только по PIN-коду</string>
     <string name="parental_limit">Разрешённое время игры</string>
     <string name="parental_refill">Время вернётся после</string>
     <plurals name="parental_refill_hours">
@@ -54,22 +54,22 @@
     <string name="parental_shutdown">Когда время выйдет</string>
     <!-- %1$s: e.g. "2 min" -->
     <string name="parental_shutdown_after">Выключить консоль через <xliff:g id="time">%1$s</xliff:g> без PIN-кода</string>
-    <string name="parental_shutdown_never">Оставить страницу «Время вышло» включённой</string>
+    <string name="parental_shutdown_never">Оставить на экране страницу «Время вышло»</string>
     <string name="parental_refill_custom">Своё…</string>
     <string name="parental_refill_custom_title">Часы отдыха</string>
     <string name="parental_allowed">Разрешённые приложения</string>
-    <string name="parental_allowed_none">Нет. Приложения, выбранные здесь, не тратят игровое время и остаются открытыми, когда время выходит, например обучающие.</string>
+    <string name="parental_allowed_none">Нет. Выбранные здесь приложения не тратят игровое время и открываются даже после его окончания, например обучающие.</string>
     <string name="parental_blocked_apps">Заблокированные приложения</string>
-    <string name="parental_blocked_none">Нет. Приложения, выбранные здесь, нельзя открыть, пока включён родительский контроль.</string>
+    <string name="parental_blocked_none">Нет. Выбранные здесь приложения нельзя открыть, пока включён родительский контроль.</string>
     <!-- toast when a blocked app is opened; %1$s: the app's name -->
     <string name="parental_blocked"><xliff:g id="app">%1$s</xliff:g> заблокировано родительским контролем</string>
     <!-- time up page, above the buttons of the allowed apps -->
-    <string name="parental_still_open">Их всё ещё можно использовать:</string>
+    <string name="parental_still_open">Этим по-прежнему можно пользоваться:</string>
     <string name="parental_left_title">Оставшееся время</string>
     <!-- %1$s left of %2$s, e.g. "42 min of 1 h" -->
     <string name="parental_left_summary">Осталось <xliff:g id="left">%1$s</xliff:g> из <xliff:g id="allowed">%2$s</xliff:g>. Выберите, чтобы добавить время.</string>
     <string name="parental_change_pin">Сменить PIN-код</string>
-    <string name="parental_about">Считает, сколько времени экран включён, в любом приложении, кроме разрешённых. У консоли нет часов с батарейкой, поэтому она не считает по времени суток: время возвращается после достаточно долгого отдыха, когда экран выключен или консоль спит. Выключение консоли не считается отдыхом, так как консоль не может узнать, сколько она была выключена. Используйте кнопку питания, чтобы консоль уходила в сон на ночь.\n\nПредупреждения приходят за 10 и за 2 минуты до конца времени. Затем страница закрывает экран, пока не будет введён PIN-код, а если его не ввести, консоль выключится, как указано выше. После перезапуска время остаётся истёкшим.\n\nЗабыли PIN-код? Его удалит только повторная настройка карты.</string>
+    <string name="parental_about">Считает, сколько времени экран включён в любом приложении, кроме разрешённых. У консоли нет часов с батарейкой, поэтому по времени суток она не ориентируется: время возвращается после достаточно долгого отдыха с выключенным экраном или в спящем режиме. Выключение консоли отдыхом не считается: она не знает, сколько была выключена. Чтобы консоль спала ночью, усыпляйте её кнопкой питания.\n\nПредупреждения приходят за 10 и за 2 минуты до конца времени. Затем экран закрывает страница, пока не будет введён PIN-код, а если его не ввести, консоль выключится, как задано выше. После перезапуска время остаётся истёкшим.\n\nЗабыли PIN-код? Убрать его можно, только заново настроив карту.</string>
     <string name="parental_left">Осталось игрового времени: <xliff:g id="time">%1$s</xliff:g></string>
     <string name="parental_warning_channel">Предупреждения об игровом времени</string>
     <string name="parental_warning">Игровое время заканчивается через <xliff:g id="time">%1$s</xliff:g>. Сохраните игру!</string>
@@ -90,13 +90,13 @@
     <string name="parental_start_over">Начать сначала (<xliff:g id="time">%1$s</xliff:g>)</string>
 
     <!-- PIN pad: A, B and Start are the console's buttons -->
-    <string name="pin_hint">A: нажмите · B: удалить · Start: OK</string>
+    <string name="pin_hint">A: ввод · B: стереть · Start: OK</string>
     <string name="pin_check_title">Введите PIN-код</string>
     <string name="pin_check_text">Родительский контроль защищён PIN-кодом.</string>
     <string name="pin_new_title">Выберите PIN-код</string>
-    <string name="pin_new_text">4 цифры. Знать его должен только родитель: с его помощью меняются эти настройки и добавляется игровое время.</string>
+    <string name="pin_new_text">4 цифры. Знать его должен только родитель: он открывает эти настройки и добавляет игровое время.</string>
     <string name="pin_again_title">Введите ещё раз</string>
-    <string name="pin_mismatch">Коды не совпали. Выберите снова.</string>
+    <string name="pin_mismatch">Коды не совпали. Попробуйте ещё раз.</string>
     <string name="pin_wrong">Неверный PIN-код</string>
     <string name="pin_wait">Слишком много попыток. Подождите <xliff:g id="seconds">%1$d</xliff:g> с.</string>
 </resources>

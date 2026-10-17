@@ -2,9 +2,9 @@
 <!-- The setup's app page (SetupAppsActivity) -->
 <resources>
     <string name="setup_apps_title">Apps a instalar</string>
-    <string name="setup_apps_body">Estas apps vêm com o andr36oid e são instaladas diretamente do cartão, sem internet. Desmarca as que não queres.</string>
+    <string name="setup_apps_body">Estas aplicações são fornecidas com o andr36oid e instaladas diretamente a partir do cartão, sem internet. Desmarque as que não pretende instalar.</string>
     <string name="setup_apps_all">Todas ou nenhuma</string>
     <string name="setup_apps_next">Instalar</string>
-    <string name="setup_apps_space">Estas apps ocupam por agora 2 GB do teu cartão SD. Depois de instaladas, o próximo arranque devolve esse espaço ao Android e as que não escolheres desaparecem do cartão, por isso escolhe agora tudo o que queres.</string>
+    <string name="setup_apps_space">Estas aplicações ocupam temporariamente 2 GB do cartão SD. Depois de instaladas, o próximo arranque devolve esse espaço ao Android e remove do cartão as aplicações não escolhidas. Escolha agora todas as que pretende instalar.</string>
     <string name="setup_apps_by">por %1$s</string>
 </resources>

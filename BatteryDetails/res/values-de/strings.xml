@@ -20,7 +20,7 @@
     <string name="graph_ago">vor 24 h</string>
     <string name="graph_now">jetzt</string>
 
-    <string name="now_title">Gerade jetzt</string>
+    <string name="now_title">Aktuell</string>
     <string name="voltage">Spannung</string>
     <string name="current">Strom</string>
     <string name="power">Leistung</string>
@@ -33,18 +33,18 @@
     <string name="capacity_setting">Kapazität</string>
     <string name="capacity_hint">Steht auf dem Akku. Falsche Werte lassen die Prozentanzeige abdriften.</string>
     <string name="capacity_reset">Auf <xliff:g id="mah">%1$d</xliff:g> mAh zurücksetzen</string>
-    <string name="capacity">Ladestandsmesser nutzt</string>
+    <string name="capacity">Die Ladestandsanzeige rechnet mit</string>
     <string name="measure_title">Kapazität messen</string>
     <string name="measure_summary">Findet heraus, wie viel der Akku wirklich speichert: einmal voll laden, dann spielen, bis sich die Konsole ausschaltet</string>
-    <string name="measure_how">So wird herausgefunden, wie viel Ladung der Akku wirklich speichert, damit die Prozentanzeige genauer wird.\n\n1. Lade, bis die Konsole „Voll“ meldet.\n2. Ziehe das Ladegerät ab und benutze die Konsole ganz normal, bis sie sich von selbst ausschaltet. Ruhezustand und Neustarts sind okay, aber lade dazwischen nicht.\n3. Lade sie wieder auf und schalte sie ein. Das Ergebnis erscheint hier.\n\nEine Benachrichtigung zeigt, wie weit die Messung ist.</string>
+    <string name="measure_how">Damit findest du heraus, wie viel Ladung der Akku wirklich speichert, und die Prozentanzeige wird genauer.\n\n1. Lade, bis die Konsole „Voll“ meldet.\n2. Zieh das Ladegerät ab und benutze die Konsole ganz normal, bis sie sich von selbst ausschaltet. Ruhezustand und Neustarts sind okay, aber lade dazwischen nicht.\n3. Lade sie wieder auf und schalte sie ein. Das Ergebnis erscheint hier.\n\nEine Benachrichtigung zeigt, wie weit die Messung ist.</string>
     <string name="measure_start">Starten</string>
-    <string name="measure_limit_on">Das Ladelimit ist an, daher wird der Akku nie voll. Schalte zuerst das Ladelimit aus.</string>
+    <string name="measure_limit_on">Das Ladelimit ist an, daher wird der Akku nie ganz voll. Schalte zuerst das Ladelimit aus.</string>
     <string name="measure_charge">Warten: voll laden, dann Ladegerät abziehen</string>
     <string name="measure_unplug">Voll. Ladegerät abziehen, dann geht es los</string>
     <string name="measure_running"><xliff:g id="mah">%1$d</xliff:g> mAh bisher verbraucht. Weiterspielen, bis sich die Konsole ausschaltet.</string>
     <string name="measure_channel">Akkumessung</string>
     <string name="measure_stop_question">Messung abbrechen? Was bisher gezählt wurde, geht verloren.</string>
-    <string name="measure_stop">Beenden</string>
+    <string name="measure_stop">Abbrechen</string>
     <string name="measure_keep_going">Weitermachen</string>
     <string name="measure_done_title">Akku gemessen</string>
     <string name="measure_done_text">Der Akku speichert etwa <xliff:g id="mah">%1$d</xliff:g> mAh. Tippen, um ihn zu übernehmen.</string>
@@ -54,11 +54,11 @@
     <string name="measure_failed_title">Akkumessung abgebrochen</string>
     <string name="measure_fail_plugged">Abgebrochen: Das Ladegerät wurde angesteckt, bevor der Akku leer war. Tippen, um es erneut zu versuchen.</string>
     <string name="measure_fail_charged">Abgebrochen: Die Konsole wurde geladen, bevor der Akku leer war. Tippen, um es erneut zu versuchen.</string>
-    <string name="measure_fail_short">Abgebrochen: Der Wert ist zu niedrig, um richtig zu sein. Tippen, um es erneut zu versuchen.</string>
+    <string name="measure_fail_short">Abgebrochen: Der gemessene Wert ist zu niedrig, um zu stimmen. Tippen, um es erneut zu versuchen.</string>
 
     <string name="value_voltage"><xliff:g id="volts">%1$.2f</xliff:g> V</string>
-    <string name="value_current_in"><xliff:g id="ma">%1$d</xliff:g> mA fließen hinein</string>
-    <string name="value_current_out"><xliff:g id="ma">%1$d</xliff:g> mA fließen heraus</string>
+    <string name="value_current_in"><xliff:g id="ma">%1$d</xliff:g> mA Ladestrom</string>
+    <string name="value_current_out"><xliff:g id="ma">%1$d</xliff:g> mA Entladestrom</string>
     <string name="value_power"><xliff:g id="watts">%1$.2f</xliff:g> W</string>
     <string name="value_temperature"><xliff:g id="celsius">%1$.1f</xliff:g> °C</string>
     <string name="value_capacity"><xliff:g id="mah">%1$d</xliff:g> mAh</string>
@@ -68,7 +68,7 @@
     <string name="charger_ac">Netzteil</string>
     <string name="unknown">Unbekannt</string>
 
-    <string name="about">Die Prozentzahl ist eine Schätzung des Ladestandsmessers. Die Spannung wird direkt gemessen: etwa 4,2 V ist voll, 3,7 V ist ungefähr die Mitte und bei etwa 3,4 V schaltet sich die Konsole aus. Während ein Spiel läuft, sinkt die Spannung, in Ruhe steigt sie wieder.\n\nWenn Prozentzahl und Spannung nicht zusammenpassen, lade die Konsole, bis sie „Voll“ anzeigt. Dann korrigiert sich der Messer selbst.\n\nDie Zeiten sind grobe Schätzungen anhand des aktuellen Stroms.</string>
+    <string name="about">Die Prozentzahl ist eine Schätzung der Ladestandsanzeige. Die Spannung wird direkt gemessen: etwa 4,2 V ist voll, 3,7 V ist ungefähr die Mitte und bei etwa 3,4 V schaltet sich die Konsole aus. Während ein Spiel läuft, sinkt die Spannung, in Ruhe erholt sie sich wieder.\n\nWenn Prozentzahl und Spannung nicht zusammenpassen, lade die Konsole, bis sie „Voll“ anzeigt. Dann kann sich die Anzeige selbst korrigieren.\n\nDie Zeiten sind grobe Schätzungen auf Basis des aktuellen Stroms.</string>
 
     <!-- Durations -->
     <string name="duration_min"><xliff:g id="minutes">%1$d</xliff:g> min</string>

@@ -5,11 +5,11 @@
          "ADC" stay as they are. -->
     <string name="finder_entry">Bilinmeyen tuşu bul</string>
     <string name="finder_title">Bilinmeyen tuşu bul</string>
-    <string name="finder_intro">Bazı konsollarda hiçbir yazılımın kullanmadığı bir tuş olur. Bu, tuşun bağlı olduğu çip pinini arar.\n\nÖnce konsolu yere koy ve birkaç saniye hiçbir şeye dokunma. Sonra sonuç çıkana kadar bilinmeyen tuşu basılı tut.</string>
+    <string name="finder_intro">Bazı konsollarda hiçbir yazılımın kullanmadığı bir tuş bulunur. Bu özellik, tuşun bağlı olduğu çip pinini arar.\n\nÖnce konsolu yere koyun ve birkaç saniye hiçbir şeye dokunmayın. Sonra sonuç çıkana kadar bilinmeyen tuşu basılı tutun.</string>
     <string name="finder_start">Başlat</string>
     <string name="finder_idle">Hiçbir şeye dokunma…</string>
     <!-- %1$d counts down 3, 2, 1 -->
-    <string name="finder_get_ready">Şimdi bilinmeyen tuşu basılı tut ve basılı tutmaya devam et. %1$d içinde başlıyor…</string>
+    <string name="finder_get_ready">Şimdi bilinmeyen tuşu basılı tutun ve bırakmayın. %1$d içinde başlıyor…</string>
     <string name="finder_held">Bilinmeyen tuşu basılı tutmaya devam et…</string>
     <string name="finder_again">Yeniden tara</string>
     <string name="finder_missing">Bu sistem çip pinlerini henüz okuyamıyor: daha yeni bir çekirdek gerekiyor.</string>
@@ -21,7 +21,7 @@
     <string name="finder_known_one">Tuş %1$s üzerinde, bu da %2$s. Zaten çalışıyor.</string>
     <string name="finder_already">Tuş %1$s üzerinde. Zaten ekstra tuş olarak eklenmiş; hâlâ çalışmıyorsa yeniden başlat.</string>
     <string name="finder_other_use">Tuş %1$s üzerinde, ama çip bu pini başka bir şey için kullanıyor, bu yüzden tuş olarak kullanılamaz.</string>
-    <string name="finder_several">Birkaç pin değişti. Yeniden tara ve yalnızca bilinmeyen tuşu basılı tut.</string>
+    <string name="finder_several">Birden fazla pin değişti. Yeniden tarayın ve yalnızca bilinmeyen tuşu basılı tutun.</string>
     <!-- %1$s is a pin like GPIO2_A5, %2$s a button like L1 -->
     <string name="finder_item_known">%1$s, bu %2$s</string>
     <string name="finder_item_other_use">%1$s, başka bir şey için kullanılıyor</string>
@@ -39,7 +39,7 @@
     <string name="finder_saving">Kaydediliyor…</string>
     <!-- %1$d is the number in "Extra button 1" -->
     <string name="finder_added">Kullanmak için yeniden başlat; Tuş eşleme içinde Ekstra tuş %1$d olarak görünecek.</string>
-    <string name="finder_added_paused">Kaydedildi, ama Kernel Ayarları kapalı. Ayarlar > Sistem > Kernel Ayarları yolundan yeniden aç ve yeniden başlat; o zaman Tuş eşleme içinde Ekstra tuş %1$d olarak görünecek.</string>
+    <string name="finder_added_paused">Kaydedildi, ancak Kernel Ayarları kapalı. Ayarlar &gt; Sistem &gt; Kernel Ayarları bölümünden yeniden açıp konsolu yeniden başlatın. Ardından Tuş eşleme bölümünde Ekstra tuş %1$d olarak görünecek.</string>
     <string name="finder_save_failed">Bir sonraki başlatma için kaydedilemedi. Tekrar dene.</string>
     <string name="finder_full">Zaten 8 ekstra tuş var, bu en fazlası.</string>
 </resources>

@@ -1,27 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="sl_title">Индикатор состояния</string>
-    <string name="sl_summary">Что показывает индикатор состояния: заряд, зарядку и уведомления</string>
-    <string name="sl_intro">Индикатор посередине консоли, под клавишей Fn. Выбери, что он показывает, когда батарея садится, во время зарядки и когда приходит уведомление. Он продолжает работать, пока консоль спит, просто перестаёт мигать.</string>
-    <string name="sl_missing">Индикатор этой консоли мы пока не умеем настраивать.</string>
-
+    <string name="sl_title">Индикатор</string>
+    <string name="sl_summary">Что индикатор показывает о заряде, зарядке и уведомлениях</string>
+    <string name="sl_intro">Светодиод посередине консоли, под кнопкой Fn. Выберите, что он показывает, когда батарея садится, во время зарядки и когда приходит уведомление. Во сне он продолжает работать, только перестаёт мигать.</string>
+    <string name="sl_missing">Индикатором этой консоли мы пока не умеем управлять.</string>
     <!-- What the light shows right now -->
     <string name="sl_now">Сейчас</string>
     <!-- e.g. "Red, battery at 8 %" -->
     <string name="sl_now_battery"><xliff:g id="color">%1$s</xliff:g>, заряд <xliff:g id="level">%2$s</xliff:g> %%</string>
     <!-- e.g. "Red, charging" -->
-    <string name="sl_now_charging"><xliff:g id="color">%1$s</xliff:g>, зарядка</string>
+    <string name="sl_now_charging"><xliff:g id="color">%1$s</xliff:g>, заряжается</string>
     <string name="sl_now_full"><xliff:g id="color">%1$s</xliff:g>, полностью заряжена</string>
     <!-- e.g. "Blue, for a notification" -->
-    <string name="sl_now_notify"><xliff:g id="color">%1$s</xliff:g>, для уведомления</string>
+    <string name="sl_now_notify"><xliff:g id="color">%1$s</xliff:g>, есть уведомление</string>
     <string name="sl_now_check">Проверка цветов</string>
-
     <!-- Battery -->
     <string name="sl_cat_battery">Батарея</string>
     <string name="sl_style">Индикатор показывает</string>
     <!-- e.g. "Red at 10 % or less" -->
-    <string name="sl_style_red_low">Красный при <xliff:g id="level">%1$s</xliff:g> %% или меньше</string>
-    <string name="sl_style_color_red_low"><xliff:g id="color">%1$s</xliff:g>, красный при <xliff:g id="level">%2$s</xliff:g> %% или меньше</string>
+    <string name="sl_style_red_low">Красный при <xliff:g id="level">%1$s</xliff:g> %% и ниже</string>
+    <!-- e.g. "Blue, red at 10 % or less" -->
+    <string name="sl_style_color_red_low"><xliff:g id="color">%1$s</xliff:g>, красный при <xliff:g id="level">%2$s</xliff:g> %% и ниже</string>
     <!-- e.g. "Blue, purple below 30 %, red at 10 %" -->
     <string name="sl_style_three"><xliff:g id="high">%1$s</xliff:g>, <xliff:g id="middle">%2$s</xliff:g> ниже 30 %%, красный при 10 %%</string>
     <!-- e.g. "Purple below 30 %, red at 10 %" -->
@@ -29,49 +28,44 @@
     <!-- e.g. "Always blue" -->
     <string name="sl_style_always">Всегда <xliff:g id="color">%1$s</xliff:g></string>
     <!-- e.g. "Your own: blue · red below 11 %" -->
-    <string name="sl_style_custom">Свои настройки: <xliff:g id="rules">%1$s</xliff:g></string>
+    <string name="sl_style_custom">Свои: <xliff:g id="rules">%1$s</xliff:g></string>
     <!-- e.g. "red below 11 %" -->
     <string name="sl_below"><xliff:g id="color">%1$s</xliff:g> ниже <xliff:g id="level">%2$s</xliff:g> %%</string>
     <string name="sl_blink_low">Мигать при низком заряде</string>
-    <string name="sl_blink_low_summary">Цвет низкого заряда мигает, чтобы его было проще заметить</string>
+    <string name="sl_blink_low_summary">Цвет низкого заряда мигает, чтобы его было труднее пропустить</string>
     <!-- e.g. "Red, blinking" -->
     <string name="sl_blinking"><xliff:g id="color">%1$s</xliff:g>, мигает</string>
-    <string name="sl_hardware">Оставить это железу</string>
-
+    <string name="sl_hardware">Аппаратное управление</string>
     <!-- Charger -->
     <string name="sl_cat_charger">Зарядка</string>
     <string name="sl_charging">Во время зарядки</string>
     <string name="sl_full">Когда полностью заряжена</string>
     <string name="sl_follow_battery">Цвета заряда, как без зарядки</string>
     <string name="sl_follow_charging">Так же, как во время зарядки</string>
-
     <!-- Notifications -->
     <string name="sl_cat_notifications">Уведомления</string>
-    <string name="sl_notify">Мигать для уведомлений</string>
-    <string name="sl_notify_summary">При выключенном экране индикатор мигает, пока ждёт уведомление. Во сне он просто горит без мигания.</string>
-    <string name="sl_notify_colors">Цвета для каждого приложения</string>
-    <string name="sl_notify_colors_summary">Выбери цвет для каждого приложения. Индикатор покажет самый близкий из доступных.</string>
-
+    <string name="sl_notify">Мигать при уведомлениях</string>
+    <string name="sl_notify_summary">При выключенном экране индикатор мигает, пока есть непрочитанное уведомление. Во сне он просто горит.</string>
+    <string name="sl_notify_colors">Цвета для приложений</string>
+    <string name="sl_notify_colors_summary">Выберите цвет для каждого приложения. Индикатор покажет самый близкий из тех, что умеет.</string>
     <!-- Tools -->
     <string name="sl_cat_tools">Инструменты</string>
     <string name="sl_check">Проверить цвета</string>
-    <string name="sl_check_summary">Не видишь выбранные цвета? Узнай, что на самом деле может показать индикатор твоей консоли.</string>
+    <string name="sl_check_summary">Не видите выбранные цвета? Узнайте, что на самом деле умеет показывать индикатор вашей консоли.</string>
     <string name="sl_reset">Вернуть по умолчанию</string>
-    <string name="sl_reset_summary">Отменяет всё на этой странице, включая проверку цветов</string>
-
+    <string name="sl_reset_summary">Отменяет всё на этой странице, включая результат проверки цветов</string>
     <!-- Colour check -->
     <!-- %1$d is how many steps, e.g. 9 -->
-    <string name="sl_check_intro">Индикатор пройдёт через <xliff:g id="count">%1$d</xliff:g> настроек одну за другой. Каждый раз смотри на индикатор и выбирай, что видишь. Клоны собраны по-разному, так что это покажет, на что способен твой.</string>
+    <string name="sl_check_intro">Индикатор по очереди переберёт <xliff:g id="count">%1$d</xliff:g> вариантов. Каждый раз смотрите на индикатор и выбирайте, что видите. Клоны собраны по-разному, так что это покажет, на что способен ваш.</string>
     <string name="sl_check_go">Начать</string>
     <!-- e.g. "What does the light show? (3 of 9)" -->
     <string name="sl_check_step">Что показывает индикатор? (<xliff:g id="step">%1$d</xliff:g> из <xliff:g id="count">%2$d</xliff:g>)</string>
     <string name="sl_check_other">Что-то другое</string>
     <!-- e.g. "Your light can show: off, blue, red, purple." -->
-    <string name="sl_check_result">Твой индикатор может показывать: <xliff:g id="colors">%1$s</xliff:g>.</string>
-    <string name="sl_check_no_off">Он не может выключаться, только менять цвет. На некоторых платах индикатор подключён прямо к чипу питания, и никакое ПО не может его выключить.</string>
+    <string name="sl_check_result">Ваш индикатор умеет показывать: <xliff:g id="colors">%1$s</xliff:g>.</string>
+    <string name="sl_check_no_off">Он не умеет выключаться, только менять цвет. На некоторых платах индикатор подключён напрямую к чипу питания, и никакая программа не может его погасить.</string>
     <string name="sl_check_use">Использовать эти цвета</string>
     <string name="sl_check_keep">Оставить старые</string>
-
     <!-- Colours -->
     <string name="color_off">Выключен</string>
     <string name="color_red">Красный</string>

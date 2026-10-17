@@ -2,7 +2,7 @@
 <!-- The setup's app page (SetupAppsActivity) -->
 <resources>
     <string name="setup_apps_title">要安装的应用</string>
-    <string name="setup_apps_body">这些应用随 andr36oid 提供，直接从存储卡安装，无需联网。取消勾选你不需要的应用。</string>
+    <string name="setup_apps_body">这些应用随 andr36oid 提供，直接从存储卡安装，无需联网。取消勾选您不需要的应用。</string>
     <string name="setup_apps_all">全选或全不选</string>
     <string name="setup_apps_next">安装</string>
     <string name="setup_apps_space">这些应用暂时占用 SD 卡上的 2 GB 空间。安装完成后，下次启动时这部分空间会还给 Android，没选的应用也会从卡上消失，所以请现在选好所有想要的应用。</string>

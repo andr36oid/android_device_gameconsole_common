@@ -1,36 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="ethernet_title">Ethernet</string>
-    <string name="ethernet_summary">Adaptadores Ethernet USB, tethering USB de um celular e modems USB</string>
+    <string name="ethernet_summary">Adaptadores Ethernet USB, partilha de ligação USB de um telemóvel e modems USB</string>
 
-    <string name="ethernet_unavailable">Ethernet não está disponível nesta versão</string>
-    <string name="ethernet_none_title">Nada conectado</string>
-    <string name="ethernet_none_summary">Conecte um adaptador Ethernet USB ou um celular com o tethering USB ativado. No iPhone, ative o Acesso Pessoal.</string>
+    <string name="ethernet_unavailable">A Ethernet não está disponível nesta versão</string>
+    <string name="ethernet_none_title">Nada ligado</string>
+    <string name="ethernet_none_summary">Ligue um adaptador Ethernet USB ou um telemóvel com a partilha de ligação USB ativada. No iPhone, ative a Partilha Pessoal.</string>
 
     <!-- Category titles, %1$s is the interface name, e.g. eth0 -->
-    <string name="ethernet_iface_adapter">Adaptador com fio (%1$s)</string>
-    <string name="ethernet_iface_phone">Celular, tethering USB (%1$s)</string>
+    <string name="ethernet_iface_adapter">Adaptador com fios (%1$s)</string>
+    <string name="ethernet_iface_phone">Telemóvel, partilha de ligação USB (%1$s)</string>
     <string name="ethernet_iface_modem">Modem de banda larga móvel USB (%1$s)</string>
 
-    <string name="ethernet_status">Status</string>
-    <string name="ethernet_status_connected">Conectado</string>
-    <string name="ethernet_status_no_internet">Conectado, sem internet</string>
-    <string name="ethernet_status_connecting">Conectando…</string>
-    <string name="ethernet_status_unplugged">Cabo desconectado</string>
-    <string name="ethernet_status_phone_waiting">Aguardando o celular</string>
-    <string name="ethernet_status_modem_waiting">Aguardando a rede móvel</string>
+    <string name="ethernet_status">Estado</string>
+    <string name="ethernet_status_connected">Ligado</string>
+    <string name="ethernet_status_no_internet">Ligado, sem Internet</string>
+    <string name="ethernet_status_connecting">A ligar…</string>
+    <string name="ethernet_status_unplugged">Cabo desligado</string>
+    <string name="ethernet_status_phone_waiting">À espera do telemóvel</string>
+    <string name="ethernet_status_modem_waiting">À espera da rede móvel</string>
 
     <string name="ethernet_ip_address">Endereço IP</string>
     <string name="ethernet_gateway">Gateway</string>
     <string name="ethernet_dns">Servidores DNS</string>
     <string name="ethernet_mac">Endereço MAC</string>
-    <string name="ethernet_speed">Velocidade do link</string>
+    <string name="ethernet_speed">Velocidade da ligação</string>
     <!-- %1$d is the speed in Mbit/s -->
     <string name="ethernet_speed_value">%1$d Mbps</string>
     <string name="ethernet_unknown">Indisponível</string>
     <string name="ethernet_not_set">Não definido</string>
 
-    <string name="ethernet_ip_settings">Configurações de IP</string>
+    <string name="ethernet_ip_settings">Definições de IP</string>
     <string name="ethernet_ip_dhcp">DHCP</string>
     <string name="ethernet_ip_static">Estático</string>
 
@@ -40,10 +40,10 @@
     <string name="ethernet_static_gateway_hint">Por exemplo 192.168.1.1, vazio para nenhum</string>
     <string name="ethernet_static_dns">Servidores DNS estáticos</string>
     <string name="ethernet_static_dns_hint">Por exemplo 1.1.1.1, 8.8.8.8</string>
-    <string name="ethernet_static_needs_ip">Defina o endereço IP primeiro</string>
+    <string name="ethernet_static_needs_ip">Defina primeiro o endereço IP</string>
 
-    <string name="ethernet_invalid_ip">Digite um endereço IPv4, opcionalmente com um prefixo como /24</string>
-    <string name="ethernet_invalid_gateway">Digite um endereço IPv4 ou deixe em branco</string>
-    <string name="ethernet_invalid_dns">Digite endereços IP separados por vírgulas</string>
-    <string name="ethernet_save_failed">Não foi possível mudar as configurações de IP</string>
+    <string name="ethernet_invalid_ip">Introduza um endereço IPv4, opcionalmente com um prefixo como /24</string>
+    <string name="ethernet_invalid_gateway">Introduza um endereço IPv4 ou deixe em branco</string>
+    <string name="ethernet_invalid_dns">Introduza endereços IP separados por vírgulas</string>
+    <string name="ethernet_save_failed">Não foi possível alterar as definições de IP</string>
 </resources>

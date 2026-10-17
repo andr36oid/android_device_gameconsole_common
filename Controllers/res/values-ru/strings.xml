@@ -2,7 +2,6 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="controllers_title">Управление</string>
     <string name="controllers_summary">Переназначение кнопок, стики, мышь, контроллеры</string>
-
     <!-- The Controls page -->
     <string name="console_title">Эта консоль</string>
     <string name="more_title">Другие контроллеры</string>
@@ -10,7 +9,7 @@
     <string name="external_none">Ничего не подключено</string>
     <!-- Connected pads -->
     <string name="connected_title">Подключённые контроллеры</string>
-    <string name="connected_none">Только встроенное управление. Подключите геймпад к порту OTG (при необходимости через переходник) или подключите его по Bluetooth.</string>
+    <string name="connected_none">Только встроенное управление. Подключите геймпад к порту OTG (через переходник, если нужно) или по Bluetooth.</string>
     <string name="bus_builtin">Встроенный</string>
     <string name="bus_usb">USB</string>
     <string name="bus_bluetooth">Bluetooth</string>
@@ -22,7 +21,7 @@
     <string name="player_builtin_1">RetroArch: игрок 1</string>
     <string name="player_builtin_2">RetroArch: игрок 2</string>
     <string name="player_external_2">RetroArch: игрок 2 и далее</string>
-    <string name="player_external_1">RetroArch: игрок 1, если нажат первым</string>
+    <string name="player_external_1">RetroArch: игрок 1, если нажать на нём первым</string>
     <!-- joined with " · " -->
     <string name="summary_separator">" · "</string>
     <!-- RetroArch -->
@@ -35,17 +34,17 @@
     <!-- Bluetooth -->
     <string name="bluetooth_title">Bluetooth</string>
     <string name="pair_title">Подключить Bluetooth-контроллер</string>
-    <string name="pair_summary">Поиск контроллера в режиме сопряжения</string>
+    <string name="pair_summary">Найти контроллер в режиме сопряжения</string>
     <string name="bluetooth_off">Включить Bluetooth</string>
     <string name="bluetooth_off_summary">Bluetooth выключен</string>
     <string name="bluetooth_turning_on">Включение Bluetooth…</string>
     <string name="bluetooth_missing">Нет Bluetooth</string>
-    <string name="bluetooth_missing_summary">В этой консоли нет Bluetooth. Подключите USB-адаптер Bluetooth к порту OTG, чтобы пользоваться беспроводными контроллерами, или используйте USB-геймпад.</string>
+    <string name="bluetooth_missing_summary">В этой консоли нет Bluetooth. Чтобы пользоваться беспроводными контроллерами, подключите USB-адаптер Bluetooth к порту OTG, или возьмите USB-геймпад.</string>
     <string name="paired_connected">Сопряжён, подключён</string>
     <string name="paired_not_connected">Сопряжён, не подключён. Включите контроллер или нажмите A.</string>
     <string name="paired_dialog_connect">Подключить</string>
-    <string name="paired_dialog_forget">Забыть</string>
-    <string name="paired_forget_title">Забыть %1$s?</string>
+    <string name="paired_dialog_forget">Удалить</string>
+    <string name="paired_forget_title">Удалить %1$s?</string>
     <string name="paired_forget_message">Чтобы снова им пользоваться, придётся заново выполнить сопряжение.</string>
     <!-- Pairing page -->
     <string name="pair_how_title">Переведите контроллер в режим сопряжения</string>
@@ -55,14 +54,13 @@
     <string name="pair_search_again">Искать снова</string>
     <string name="pair_search_again_summary">Больше ничего не найдено. Нажмите A, чтобы искать снова.</string>
     <string name="pair_show_all">Показать все Bluetooth-устройства</string>
-    <string name="pair_show_all_summary">Включая устройства, которые не сообщают, что они контроллеры</string>
+    <string name="pair_show_all_summary">В том числе устройства, которые не называют себя контроллерами</string>
     <string name="pair_device_summary">Нажмите A для сопряжения</string>
-    <string name="pair_pairing">Сопряжение… Если появится вопрос, выберите «Добавить».</string>
+    <string name="pair_pairing">Сопряжение… Если появится запрос, выберите «Добавить».</string>
     <string name="pair_connecting">Сопряжён. Подключение…</string>
     <string name="pair_connected">Подключён. Можно пользоваться.</string>
-    <string name="pair_failed">Не удалось выполнить сопряжение. Снова переведите контроллер в режим сопряжения и нажмите A.</string>
+    <string name="pair_failed">Сопряжение не удалось. Снова переведите контроллер в режим сопряжения и нажмите A.</string>
     <string name="pair_no_name">Устройство без имени (%1$s)</string>
-
     <!-- Rumble -->
     <string name="rumble_title">Вибрация</string>
     <string name="rumble_strength_title">Сила вибрации</string>
@@ -71,9 +69,9 @@
         <item>Слабая</item>
         <item>Средняя</item>
         <item>Сильная</item>
-        <item>Полная</item>
+        <item>Максимальная</item>
     </string-array>
-    <string name="rumble_test_title">Проверить</string>
+    <string name="rumble_test_title">Попробовать</string>
     <string name="rumble_test_summary">Консоль коротко вибрирует с этой силой</string>
-    <string name="rumble_help">Для игр с вибрацией. Некоторые эмуляторы просят включить её ещё и в своих настройках, например контроллер DualShock для игр PlayStation или Rumble Pak для N64. Если мотор слишком сильный или дребезжит, уменьшите силу здесь.</string>
+    <string name="rumble_help">Для игр с поддержкой вибрации. В некоторых эмуляторах её нужно включить ещё и в их собственных настройках, например контроллер DualShock для игр PlayStation или Rumble Pak для N64. Если мотор слишком сильный или дребезжит, убавьте силу здесь.</string>
 </resources>

@@ -53,7 +53,7 @@
     <string name="editor_cancelled">Abgebrochen</string>
     <string name="editor_no_shift">Noch keine Umschalttaste: Select, dann Umschalttaste</string>
     <string name="editor_is_shift"><xliff:g id="button">%1$s</xliff:g> ist die Umschalttaste. Drück eine andere.</string>
-    <string name="editor_replaced"><xliff:g id="input">%1$s</xliff:g> hatte vorher eine andere Aufgabe. Dieses Steuerelement ist weg.</string>
+    <string name="editor_replaced"><xliff:g id="input">%1$s</xliff:g> war vorher anders belegt. Dieses Steuerelement ist weg.</string>
     <string name="editor_replaced_dpad">Der Steuerkreuz-Joystick ist weg: Die Steuerkreuz-Tasten funktionieren jetzt einzeln.</string>
     <string name="editor_replaced_dpad_buttons">Die einzelnen Steuerkreuz-Tasten sind weg: Das Steuerkreuz ist jetzt ein Joystick.</string>
     <string name="editor_unsaved_title">Änderungen speichern?</string>
@@ -79,7 +79,7 @@
 
     <!-- Waiting for a button or stick; %1$s is a control type in lower case, e.g. "tap" -->
     <string name="capture_button">Drück die Taste für dieses Steuerelement (<xliff:g id="type">%1$s</xliff:g>)</string>
-    <string name="capture_button_cancel">Jede Taste geht, auch B. Halte B zum Abbrechen.</string>
+    <string name="capture_button_cancel">Jede Taste geht, auch B, oder ein Stick in eine Richtung. Halte B zum Abbrechen.</string>
     <string name="capture_stick">Beweg den Stick für dieses Steuerelement (<xliff:g id="type">%1$s</xliff:g>)</string>
     <string name="capture_stick_detail">Linker Stick, rechter Stick oder Steuerkreuz drücken</string>
 
@@ -91,11 +91,11 @@
     <string name="editor_menu_stick">Stick: <xliff:g id="stick">%1$s</xliff:g></string>
     <string name="editor_menu_type">Art: <xliff:g id="type">%1$s</xliff:g></string>
     <string name="editor_menu_direction">Richtung: <xliff:g id="direction">%1$s</xliff:g></string>
-    <string name="editor_menu_speed">Tempo: <xliff:g id="percent">%1$d</xliff:g>%%</string>
+    <string name="editor_menu_speed">Geschwindigkeit: <xliff:g id="percent">%1$d</xliff:g>%%</string>
     <string name="editor_menu_delete">Löschen</string>
     <string name="editor_type_title">Art des Steuerelements</string>
     <string name="editor_direction_title">Wischrichtung</string>
-    <string name="editor_speed_title">Umsehtempo</string>
+    <string name="editor_speed_title">Umsehgeschwindigkeit</string>
     <string name="percent"><xliff:g id="percent">%1$d</xliff:g>%%</string>
 
     <string name="type_tap">Tippen</string>
@@ -139,5 +139,7 @@
     <string name="deadzone_title">Stick-Totzone</string>
 
     <string name="help_title">Editor-Hilfe</string>
-    <string name="help_text">Beweg das Fadenkreuz mit dem linken Stick oder dem Steuerkreuz.\n\nA auf einer freien Stelle fügt dort ein Steuerelement hinzu: Wähle die Art, dann drück seine Taste oder beweg seinen Stick. A auf einem Steuerelement ändert es: verschieben, eine andere Taste geben oder löschen.\n\nArten:\n• Tippen: ein kurzes Tippen\n• Halten: berührt, solange die Taste gehalten wird\n• Joystick: Ein Stick oder das Steuerkreuz zieht einen Finger um die Stelle, für Bildschirm-Sticks\n• Umsehen: Ein Stick wischt über einen Bereich, für Kamera und Zielen\n• Wischen: ein schnelles Wischen in eine Richtung\n\nL1 und R1 oder der rechte Stick machen das gewählte Steuerelement kleiner oder größer. L2 und R2 springen zwischen Steuerelementen. X löscht.\n\nUmschalttaste (Select, dann Umschalttaste): Solange sie gehalten wird, gilt ein zweiter Satz Steuerelemente. Y wechselt zwischen den beiden Sätzen.\n\nStart speichert und schließt. B schließt. FN verlässt den Editor ohne Speichern.\n\nTasten ohne Steuerelement funktionieren weiter als normale Tasten. FN und alle FN-Shortcuts funktionieren immer.</string>
+    <string name="help_text">Beweg das Fadenkreuz mit dem linken Stick oder dem Steuerkreuz.\n\nA auf einer freien Stelle fügt dort ein Steuerelement hinzu: Wähle die Art, dann drück seine Taste oder beweg seinen Stick. A auf einem Steuerelement ändert es: verschieben, eine andere Taste geben oder löschen.\n\nArten:\n• Tippen: ein kurzes Tippen\n• Halten: berührt, solange die Taste gehalten wird\n• Joystick: Ein Stick oder das Steuerkreuz zieht einen Finger um die Stelle, für Bildschirm-Sticks\n• Umsehen: Ein Stick wischt über einen Bereich, für Kamera und Zielen\n• Wischen: ein schnelles Wischen in eine Richtung\n\nL1 und R1 oder der rechte Stick machen das gewählte Steuerelement kleiner oder größer. L2 und R2 springen zwischen Steuerelementen. X löscht.\n\nUmschalttaste (Select, dann Umschalttaste): Solange sie gehalten wird, gilt ein zweiter Satz Steuerelemente. Y wechselt zwischen den beiden Sätzen.\n\nStart speichert und schließt. B schließt. FN verlässt den Editor ohne Speichern.\n\nTasten ohne Steuerelement funktionieren weiter als normale Tasten. FN und alle FN-Kurzbefehle funktionieren immer.</string>
+    <string name="editor_replaced_stick">Die bisherige gemeinsame Belegung von „<xliff:g id="stick">%1$s</xliff:g>“ wurde entfernt. Die Richtungen sind jetzt einzeln belegt.</string>
+    <string name="editor_replaced_stick_directions">Die einzelnen Richtungsbelegungen von „<xliff:g id="stick">%1$s</xliff:g>“ wurden entfernt. Der Stick ist jetzt ein gemeinsames Steuerelement.</string>
 </resources>

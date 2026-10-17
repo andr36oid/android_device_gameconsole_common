@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="report_title">Fehlerbericht</string>
-    <string name="report_summary">Logs für eine Fehlermeldung auf der SD-Karte speichern</string>
+    <string name="report_summary">Logs auf der SD-Karte speichern und mit deiner Fehlermeldung mitschicken</string>
 
-    <string name="intro">Ist etwas schiefgelaufen? Speichere einen Bericht und hänge ihn an, wenn du uns das Problem meldest. Er enthält die Systemlogs von jetzt und vom letzten Start, Absturzberichte und eine Beschreibung dieser Konsole. Das dauert etwa eine Minute.</string>
+    <string name="intro">Ist etwas schiefgelaufen? Speichere einen Bericht und häng ihn an, wenn du uns das Problem meldest. Er enthält die Systemlogs von jetzt und vom letzten Start, Absturzberichte und eine Beschreibung dieser Konsole. Das dauert etwa eine Minute.</string>
 
     <string name="note_title">Was ist schiefgelaufen?</string>
     <string name="note_hint">Optional. Was hast du gemacht und was ist passiert?</string>
@@ -11,7 +11,7 @@
 
     <string name="save_title">Bericht speichern</string>
     <string name="save_summary">Wird auf EASYROMS im Ordner andr36oid-reports gespeichert</string>
-    <string name="save_running">Speichere %1$s (Schritt %2$d von %3$d)…</string>
+    <string name="save_running">Wird gespeichert: %1$s (Schritt %2$d von %3$d)…</string>
     <string name="save_done">Gespeichert: %1$s</string>
     <string name="save_done_toast">Bericht gespeichert unter %1$s</string>
     <string name="save_failed">Nicht gespeichert. %1$s</string>
@@ -24,13 +24,13 @@
     <string name="step_logcat">das Android-Log</string>
     <string name="step_kernel">das Kernel-Log</string>
     <string name="step_crashes">Absturzberichte</string>
-    <string name="step_power">Akku- und Standby-Informationen</string>
+    <string name="step_power">Infos zu Akku und Ruhezustand</string>
     <string name="step_devices">Geräte und Verbindungen</string>
     <string name="step_apps">die App-Liste</string>
     <string name="step_saving">die Datei</string>
 
     <string name="last_start_title">Logs vom letzten Start</string>
-    <string name="last_start_crash">Der letzte Start endete mit einem Systemabsturz. Sein Log wurde aufbewahrt und kommt in den Bericht.</string>
+    <string name="last_start_crash">Der letzte Start endete mit einem Systemabsturz. Das Log davon wurde aufbewahrt und kommt in den Bericht.</string>
     <string name="last_start_kept">Aufbewahrt, sie kommen in den Bericht.</string>
     <string name="last_start_none">Keine. Sie werden nur aufbewahrt, wenn die Konsole neu startet, nicht wenn sie ausgeschaltet wurde oder der Akku leer war.</string>
 
@@ -38,6 +38,6 @@
 
     <string name="channel_name">Fehlerberichte</string>
     <string name="crash_title">Die Konsole wurde nach einem Fehler neu gestartet</string>
-    <string name="crash_text">Speichere jetzt einen Fehlerbericht, solange die Logs noch da sind, und sende ihn mit einer Beschreibung des Vorfalls.</string>
+    <string name="crash_text">Speichere jetzt einen Fehlerbericht, solange die Logs noch da sind, und schick ihn uns mit einer Beschreibung, was passiert ist.</string>
     <string name="crash_action">Bericht speichern</string>
 </resources>

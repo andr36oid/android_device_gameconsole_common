@@ -2,7 +2,7 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
     <string name="overclock_title">Leistung</string>
-    <string name="overclock_summary">Energiesparen oder volle Geschwindigkeit, CPU-Limit und Übertakten</string>
+    <string name="overclock_summary">Energiesparen oder volle Leistung, CPU-Taktlimit und Übertaktung</string>
 
     <!-- Performance profiles -->
     <string name="profile_category">Leistungsprofil</string>
@@ -13,7 +13,7 @@
         <item>Leistung</item>
     </string-array>
     <!-- What each profile does. cpu is a CPU speed like "1.01 GHz", gpu a GPU speed in MHz. -->
-    <string name="profile_about_saver">Längere Spielzeit. Die CPU bleibt bei höchstens <xliff:g id="cpu">%1$s</xliff:g>, die Grafik bei <xliff:g id="gpu">%2$d</xliff:g> MHz. Reicht locker für 8- und 16-Bit-Spiele.</string>
+    <string name="profile_about_saver">Längere Akkulaufzeit. Die CPU bleibt bei höchstens <xliff:g id="cpu">%1$s</xliff:g>, die Grafik bei <xliff:g id="gpu">%2$d</xliff:g> MHz. Reicht locker für 8- und 16-Bit-Spiele.</string>
     <string name="profile_about_balanced">Normale Geschwindigkeiten. Der Prozessor wird schneller, wenn ein Spiel es braucht, und langsamer, wenn nicht.</string>
     <string name="profile_about_footer">\n\nDas Profil bleibt nach einem Neustart erhalten. Die Kachel in den Schnelleinstellungen wechselt zum nächsten.</string>
     <string name="profile_about_footer_fn">\n\nDas Profil bleibt nach einem Neustart erhalten. FN + R1 und die Kachel in den Schnelleinstellungen wechseln zum nächsten.</string>
@@ -31,13 +31,13 @@
     <string name="cpu_cap_title">Maximaler CPU-Takt</string>
     <!-- First entry of the list, no limit. speed is the standard top speed, e.g. "1296 MHz" -->
     <string name="cpu_cap_stock">Standard (<xliff:g id="speed">%1$s</xliff:g>)</string>
-    <string name="cpu_cap_note">Weniger bedeutet längere Akkulaufzeit und eine kühlere Konsole, aber langsamere Spiele. Wenn ein Spiel ruckelt, wähle einen höheren Takt. Bleibt nach einem Neustart erhalten.</string>
+    <string name="cpu_cap_note">Niedriger heißt längere Akkulaufzeit und eine kühlere Konsole, aber langsamere Spiele. Wenn ein Spiel ruckelt, wähle einen höheren Takt. Bleibt nach einem Neustart erhalten.</string>
     <!-- The cap is lower than what the profile allows, speed e.g. "816 MHz" -->
     <string name="cpu_cap_active">Bis <xliff:g id="speed">%1$s</xliff:g>, egal welches Profil.</string>
     <!-- The profile already stays lower than the cap -->
     <string name="cpu_cap_profile_lower"><xliff:g id="speed">%1$s</xliff:g>. Das Profil hält die CPU gerade bei <xliff:g id="profile_speed">%2$s</xliff:g> oder darunter.</string>
     <string name="cpu_cap_on_hold"><xliff:g id="speed">%1$s</xliff:g>. Pausiert, solange die Übertaktung an ist.</string>
-    <string name="cpu_cap_none">Kein Limit außer dem Profil.</string>
+    <string name="cpu_cap_none">Kein Limit über das Profil hinaus.</string>
     <!-- A CPU speed, e.g. "816 MHz" -->
     <string name="speed_mhz"><xliff:g id="mhz">%1$d</xliff:g> MHz</string>
 
@@ -67,13 +67,13 @@
     <string name="gpu_oc_on">An: bis zu <xliff:g id="fast">%1$s</xliff:g> statt <xliff:g id="stock">%2$s</xliff:g></string>
     <string name="gpu_oc_off">Aus: bis zu <xliff:g id="stock">%2$s</xliff:g>, <xliff:g id="fast">%1$s</xliff:g> mit Übertaktung</string>
     <string name="ram_oc_title">Speichertakt</string>
-    <string name="ram_oc_off">Serienmäßig (<xliff:g id="speed">%1$s</xliff:g>)</string>
+    <string name="ram_oc_off">Standard (<xliff:g id="speed">%1$s</xliff:g>)</string>
     <string name="ram_oc_experimental"><xliff:g id="speed">%1$s</xliff:g> (experimentell)</string>
     <string name="ram_oc_warning_title">Experimenteller Speichertakt</string>
-    <string name="ram_oc_warning">Dieser Takt setzt die Stromleitung von GPU und Speicher auf die höchste Spannung. Manche Speicherchips kommen damit klar, bei anderen stürzen Spiele ab, die Konsole friert ein oder das Bild wird kaputt.\n\nDer Speicher wird dadurch nicht beschädigt, aber ein Absturz während des Speicherns kann Dateien auf der Karte beschädigen. Wenn etwas nicht stimmt, wähle einen niedrigeren Takt. Ein Neustart schaltet ihn aus.</string>
+    <string name="ram_oc_warning">Bei diesem Takt läuft die gemeinsame Stromversorgung von GPU und Speicher mit der höchsten Spannung. Manche Speicherchips kommen damit klar, bei anderen stürzen Spiele ab, die Konsole friert ein oder es gibt Bildfehler.\n\nDer Speicher wird dadurch nicht beschädigt, aber ein Absturz während des Speicherns kann Dateien auf der Karte beschädigen. Wenn etwas nicht stimmt, wähle einen niedrigeren Takt. Ein Neustart schaltet ihn aus.</string>
     <string name="ram_oc_warning_ok">Verwenden</string>
-    <string name="gpu_ram_about">Schnellere Grafik und Speicher für anspruchsvolle Spiele. Die GPU-Übertaktung taktet die GPU auf 600 MHz statt 520 MHz. Die schnelleren Speichertakte helfen Emulatoren wie PPSSPP am meisten. Beides erhöht die Spannung der Stromleitung, die sich GPU und Speicher teilen. Die Konsole wird dadurch etwas wärmer und der Akku leert sich etwas schneller.\n\nJeder Chip ist anders. Wenn ein Spiel abstürzt oder die Konsole einfriert, schalte sie aus. Die Konsole startet immer ohne diese Einstellungen, ein Neustart schaltet sie aus.\n\nBasiert auf R36 Tuner Next von zenmode-adri.</string>
-    <string name="gpu_ram_unsupported">Das System dieser Konsole hat diesen Takt nicht</string>
+    <string name="gpu_ram_about">Schnellere Grafik und schnellerer Speicher für anspruchsvolle Spiele. Die GPU-Übertaktung lässt die GPU mit 600 MHz statt 520 MHz laufen. Die höheren Speichertakte helfen Emulatoren wie PPSSPP am meisten. Beides erhöht die Spannung der Stromversorgung, die sich GPU und Speicher teilen. Die Konsole wird dadurch etwas wärmer und der Akku leert sich etwas schneller.\n\nJeder Chip ist anders. Wenn ein Spiel abstürzt oder die Konsole einfriert, schalte beides aus. Die Konsole startet immer ohne diese Einstellungen, ein Neustart schaltet sie aus.\n\nBasiert auf R36 Tuner Next von zenmode-adri.</string>
+    <string name="gpu_ram_unsupported">Das System dieser Konsole kennt diesen Takt nicht</string>
     <string name="gpu_ram_failed">GPU- oder Speichertakt konnte nicht geändert werden</string>
     <string name="undervolt_failed">CPU-Spannung konnte nicht geändert werden</string>
 
@@ -82,6 +82,6 @@
     <string name="tile_off">Aus</string>
     <string name="gpu_tile_label">GPU-Übertaktung</string>
     <string name="ram_tile_label">Speicher-Übertaktung</string>
-    <string name="tile_added_gpu">Schnelleinstellung GPU-Übertaktung zur Benachrichtigungsleiste hinzugefügt</string>
-    <string name="tile_added_ram">Schnelleinstellung Speicher-Übertaktung zur Benachrichtigungsleiste hinzugefügt</string>
+    <string name="tile_added_gpu">Kachel „GPU-Übertaktung“ zu den Schnelleinstellungen hinzugefügt</string>
+    <string name="tile_added_ram">Kachel „Speicher-Übertaktung“ zu den Schnelleinstellungen hinzugefügt</string>
 </resources>

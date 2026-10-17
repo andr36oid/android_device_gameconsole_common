@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="rgb_title">RGB-подсветка</string>
+    <string name="rgb_summary">Выберите цвет подсветки или выключите её</string>
+    <string name="rgb_colour_title">Цвет</string>
+    <string name="rgb_about">Подсветка выключена, пока вы не выберете здесь цвет. Выбор сохраняется после перезапуска.</string>
+    <string name="rgb_missing">У этой консоли нет RGB-подсветки</string>
+    <string-array name="rgb_colour_names">
+        <item>Выключено</item>
+        <item>Красный</item>
+        <item>Зелёный</item>
+        <item>Синий</item>
+        <item>Жёлтый</item>
+        <item>Голубой</item>
+        <item>Фиолетовый</item>
+        <item>Белый</item>
+    </string-array>
+</resources>

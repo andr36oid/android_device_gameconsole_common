@@ -38,45 +38,45 @@
 
     <!-- Parental controls (Settings > Play time > Parental controls) -->
     <string name="parental_title">Kindersicherung</string>
-    <string name="parental_off_summary">Aus. Begrenze, wie lange die Konsole mit PIN gespielt werden kann.</string>
+    <string name="parental_off_summary">Aus. Begrenzt mit einer PIN, wie lange an der Konsole gespielt werden darf.</string>
     <!-- %1$s: time left, e.g. "42 min" -->
     <string name="parental_on_summary">An · noch <xliff:g id="time">%1$s</xliff:g> übrig</string>
-    <string name="parental_switch_summary">Begrenzt die Spielzeit. Danach geht es nur mit PIN weiter.</string>
+    <string name="parental_switch_summary">Begrenzt, wie lange an der Konsole gespielt werden darf; weiter geht es nur mit der PIN</string>
     <string name="parental_limit">Erlaubte Spielzeit</string>
     <string name="parental_refill">Spielzeit kommt zurück nach</string>
     <plurals name="parental_refill_hours">
         <item quantity="one"><xliff:g id="hours">%1$d</xliff:g> Stunde Pause</item>
         <item quantity="other"><xliff:g id="hours">%1$d</xliff:g> Stunden Pause</item>
     </plurals>
-    <string name="parental_refill_pin">Nur mit PIN</string>
+    <string name="parental_refill_pin">Nur mit der PIN</string>
     <string name="parental_shutdown">Wenn die Zeit um ist</string>
     <!-- %1$s: e.g. "2 min" -->
     <string name="parental_shutdown_after">Konsole nach <xliff:g id="time">%1$s</xliff:g> ohne PIN ausschalten</string>
-    <string name="parental_shutdown_never">Seite „Zeit ist um“ bleibt an</string>
+    <string name="parental_shutdown_never">Seite „Spielzeit ist um“ anzeigen lassen</string>
     <string name="parental_refill_custom">Eigene Dauer…</string>
     <string name="parental_refill_custom_title">Stunden Pause</string>
     <string name="parental_allowed">Erlaubte Apps</string>
-    <string name="parental_allowed_none">Keine. Hier gewählte Apps verbrauchen keine Spielzeit und bleiben offen, wenn die Zeit um ist, z. B. Lern-Apps.</string>
+    <string name="parental_allowed_none">Keine. Hier gewählte Apps verbrauchen keine Spielzeit und gehen auch noch, wenn die Zeit um ist, zum Beispiel Lern-Apps.</string>
     <string name="parental_blocked_apps">Gesperrte Apps</string>
     <string name="parental_blocked_none">Keine. Hier gewählte Apps lassen sich nicht öffnen, solange die Kindersicherung an ist.</string>
     <!-- toast when a blocked app is opened; %1$s: the app's name -->
     <string name="parental_blocked"><xliff:g id="app">%1$s</xliff:g> ist durch die Kindersicherung gesperrt</string>
     <!-- time up page, above the buttons of the allowed apps -->
-    <string name="parental_still_open">Diese können noch genutzt werden:</string>
+    <string name="parental_still_open">Diese Apps gehen weiterhin:</string>
     <string name="parental_left_title">Restzeit</string>
     <!-- %1$s left of %2$s, e.g. "42 min of 1 h" -->
-    <string name="parental_left_summary"><xliff:g id="left">%1$s</xliff:g> von <xliff:g id="allowed">%2$s</xliff:g> übrig. Zum Hinzufügen auswählen.</string>
+    <string name="parental_left_summary"><xliff:g id="left">%1$s</xliff:g> von <xliff:g id="allowed">%2$s</xliff:g> übrig. Auswählen, um Zeit hinzuzufügen.</string>
     <string name="parental_change_pin">PIN ändern</string>
-    <string name="parental_about">Zählt, wie lange der Bildschirm an ist, bei jeder App außer den erlaubten Apps. Die Konsole hat keine Uhr mit Batterie, deshalb zählt sie nicht die Uhrzeit: Die Zeit kommt nach einer ausreichend langen Pause zurück, mit ausgeschaltetem Bildschirm oder schlafender Konsole. Die Konsole auszuschalten zählt nicht als Pause, denn sie kann nicht wissen, wie lange sie aus war. Nutze den Power-Knopf, damit sie über Nacht schläft.\n\nWarnungen kommen 10 und 2 Minuten vor Ende der Zeit. Danach legt sich eine Seite über den Bildschirm, bis der PIN eingegeben wird. Wird er nicht eingegeben, schaltet sich die Konsole aus, wie oben eingestellt. Nach einem Neustart ist die Zeit weiter aufgebraucht.\n\nPIN vergessen? Nur wenn die Karte neu eingerichtet wird, verschwindet er.</string>
+    <string name="parental_about">Zählt, wie lange der Bildschirm an ist, mit jeder App außer den erlaubten. Die Konsole hat keine Pufferbatterie für die Uhr, deshalb richtet sich das nicht nach der Uhrzeit: Die Zeit kommt nach einer ausreichend langen Pause zurück, mit ausgeschaltetem Bildschirm oder im Ruhezustand. Die Konsole auszuschalten zählt nicht als Pause, denn sie kann nicht wissen, wie lange sie aus war. Nutze die Power-Taste, damit sie über Nacht in den Ruhezustand geht.\n\nWarnungen kommen 10 und 2 Minuten vor Ende der Zeit. Danach legt sich eine Seite über den Bildschirm, bis die PIN eingegeben wird. Wird sie nicht eingegeben, schaltet sich die Konsole aus, wie oben eingestellt. Auch nach einem Neustart bleibt die Zeit aufgebraucht.\n\nPIN vergessen? Nur das Neueinrichten der Karte entfernt sie.</string>
     <string name="parental_left">Spielzeit übrig: <xliff:g id="time">%1$s</xliff:g></string>
     <string name="parental_warning_channel">Warnungen zur Spielzeit</string>
     <string name="parental_warning">Spielzeit endet in <xliff:g id="time">%1$s</xliff:g>. Speichere dein Spiel!</string>
     <string name="parental_up_title">Spielzeit ist um</string>
     <plurals name="parental_up_text_rest">
-        <item quantity="one">Zeit für eine Pause! Die Spielzeit kommt nach <xliff:g id="hours">%1$d</xliff:g> Stunde zurück, während die Konsole schläft. Oder ein Elternteil kann mit dem PIN Zeit hinzufügen.</item>
-        <item quantity="other">Zeit für eine Pause! Die Spielzeit kommt nach <xliff:g id="hours">%1$d</xliff:g> Stunden zurück, während die Konsole schläft. Oder ein Elternteil kann mit dem PIN Zeit hinzufügen.</item>
+        <item quantity="one">Zeit für eine Pause! Die Spielzeit kommt zurück, wenn die Konsole <xliff:g id="hours">%1$d</xliff:g> Stunde im Ruhezustand war. Oder ein Elternteil fügt mit der PIN Zeit hinzu.</item>
+        <item quantity="other">Zeit für eine Pause! Die Spielzeit kommt zurück, wenn die Konsole <xliff:g id="hours">%1$d</xliff:g> Stunden im Ruhezustand war. Oder ein Elternteil fügt mit der PIN Zeit hinzu.</item>
     </plurals>
-    <string name="parental_up_text_pin">Zeit für eine Pause! Ein Elternteil kann mit dem PIN Zeit hinzufügen.</string>
+    <string name="parental_up_text_pin">Zeit für eine Pause! Ein Elternteil kann mit der PIN Zeit hinzufügen.</string>
     <!-- %1$s: minutes:seconds, e.g. "1:45" -->
     <string name="parental_shutdown_in">Die Konsole schaltet sich in <xliff:g id="time">%1$s</xliff:g> aus.</string>
     <string name="parental_more_time">Mehr Spielzeit</string>
@@ -88,11 +88,11 @@
     <!-- PIN pad: A, B and Start are the console's buttons -->
     <string name="pin_hint">A: drücken · B: löschen · Start: OK</string>
     <string name="pin_check_title">PIN eingeben</string>
-    <string name="pin_check_text">Die Kindersicherung ist mit einem PIN geschützt.</string>
+    <string name="pin_check_text">Die Kindersicherung ist mit einer PIN geschützt.</string>
     <string name="pin_new_title">PIN wählen</string>
-    <string name="pin_new_text">4 Ziffern. Nur ein Elternteil sollte ihn kennen: Damit ändert man diese Einstellungen und fügt Spielzeit hinzu.</string>
+    <string name="pin_new_text">4 Ziffern. Nur ein Elternteil sollte sie kennen: Damit ändert man diese Einstellungen und fügt Spielzeit hinzu.</string>
     <string name="pin_again_title">Noch einmal eingeben</string>
-    <string name="pin_mismatch">Die beiden stimmen nicht überein. Wähle noch einmal.</string>
-    <string name="pin_wrong">Falscher PIN</string>
+    <string name="pin_mismatch">Die beiden stimmen nicht überein. Versuch es noch einmal.</string>
+    <string name="pin_wrong">Falsche PIN</string>
     <string name="pin_wait">Zu viele Versuche. Warte <xliff:g id="seconds">%1$d</xliff:g> s.</string>
 </resources>

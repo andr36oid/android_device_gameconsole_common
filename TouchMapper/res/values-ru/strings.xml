@@ -2,7 +2,7 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
     <string name="app_name">Сенсорное управление</string>
-    <string name="settings_summary">Игры для сенсорного экрана на кнопках, для каждого приложения</string>
+    <string name="settings_summary">Играйте в игры для сенсорного экрана на кнопках, отдельно для каждого приложения</string>
 
     <!-- Settings > Touch controls -->
     <string name="settings_intro">Некоторые игры работают только с сенсорным экраном. Здесь можно задать такой игре свою раскладку: каждая кнопка или стик касается точки на экране. Раскладка включается сама, пока эта игра на экране, а все остальные приложения получают обычные кнопки.</string>
@@ -57,6 +57,8 @@
     <string name="editor_is_shift"><xliff:g id="button">%1$s</xliff:g> — кнопка Shift. Нажмите другую.</string>
     <string name="editor_replaced"><xliff:g id="input">%1$s</xliff:g>: раньше использовалось для другого элемента, он удалён.</string>
     <string name="editor_replaced_dpad">Джойстик на крестовине удалён: кнопки крестовины теперь работают по отдельности.</string>
+    <string name="editor_replaced_stick"><xliff:g id="stick">%1$s</xliff:g> раньше был одним элементом. Этот элемент удалён: теперь его направления работают по отдельности.</string>
+    <string name="editor_replaced_stick_directions">Отдельные направления элемента «<xliff:g id="stick">%1$s</xliff:g>» удалены: теперь это один элемент.</string>
     <string name="editor_replaced_dpad_buttons">Отдельные кнопки крестовины удалены: теперь крестовина — джойстик.</string>
     <string name="editor_unsaved_title">Сохранить изменения?</string>
     <string name="editor_unsaved_message">Раскладка изменена, но не сохранена.</string>
@@ -71,17 +73,17 @@
     <string name="hint_size">Размер</string>
     <string name="hint_next">Далее</string>
     <string name="hint_layer">Слой Shift</string>
-    <string name="hint_options">Опции</string>
+    <string name="hint_options">Параметры</string>
     <string name="hint_save">Сохранить</string>
     <string name="hint_close">Закрыть</string>
     <string name="hint_move">Двигать</string>
     <string name="hint_place">Поставить</string>
     <string name="hint_cancel">Отмена</string>
-    <string name="hint_hold_cancel">Удерж. — отмена</string>
+    <string name="hint_hold_cancel">Удерживать: отмена</string>
 
     <!-- Waiting for a button or stick; %1$s is a control type in lower case, e.g. "tap" -->
     <string name="capture_button">Нажмите кнопку для элемента «<xliff:g id="type">%1$s</xliff:g>»</string>
-    <string name="capture_button_cancel">Подойдёт любая кнопка, и B тоже. Удерживайте B для отмены.</string>
+    <string name="capture_button_cancel">Подойдёт любая кнопка, даже B, или наклон стика в одну сторону. Удерживайте B для отмены.</string>
     <string name="capture_stick">Наклоните стик для элемента «<xliff:g id="type">%1$s</xliff:g>»</string>
     <string name="capture_stick_detail">Левый стик, правый стик или нажмите крестовину</string>
 
@@ -121,7 +123,7 @@
     <string name="direction_down_right">Вниз и вправо</string>
     <string name="direction_degrees"><xliff:g id="degrees">%1$d</xliff:g>°</string>
 
-    <string name="options_title">Опции</string>
+    <string name="options_title">Параметры</string>
     <string name="options_enabled_on">Сенсорное управление для приложения: вкл.</string>
     <string name="options_enabled_off">Сенсорное управление для приложения: выкл.</string>
     <string name="options_hints_on">Показывать кнопки в игре: вкл.</string>

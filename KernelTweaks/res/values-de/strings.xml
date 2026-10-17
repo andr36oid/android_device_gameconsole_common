@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="kt_title">Kernel-Tweaks</string>
-    <string name="kt_summary">Schalter auf niedriger Ebene, um Hardwareproblemen nachzugehen</string>
+    <string name="kt_summary">Systemnahe Schalter zum Aufspüren von Hardwareproblemen</string>
 
     <!-- Top of the page -->
-    <string name="kt_intro">Schalter auf niedriger Ebene, um Hardwareproblemen nachzugehen, vor allem bei Klonkonsolen. Änderungen gelten sofort und bleiben nach einem Neustart erhalten. Startet die Konsole zweimal hintereinander nicht fertig, während Tweaks an sind, schalten sie sich selbst wieder aus.</string>
-    <string name="kt_use">Tweaks verwenden</string>
-    <string name="kt_use_none">Nichts geändert, alles ist beim Standard</string>
+    <string name="kt_intro">Systemnahe Schalter zum Aufspüren von Hardwareproblemen, vor allem bei Klonkonsolen. Änderungen gelten sofort und bleiben nach einem Neustart erhalten. Bleibt die Konsole mit aktiven Tweaks zweimal hintereinander beim Start hängen, schalten sie sich selbst wieder aus.</string>
+    <string name="kt_use">Tweaks nutzen</string>
+    <string name="kt_use_none">Nichts geändert, alles steht auf Standard</string>
     <!-- e.g. "3 changed" -->
     <plurals name="kt_use_count">
         <item quantity="one"><xliff:g id="count">%d</xliff:g> geändert</item>
         <item quantity="other"><xliff:g id="count">%d</xliff:g> geändert</item>
     </plurals>
-    <string name="kt_use_off">Aus, alles läuft beim Standard. Deine Einstellungen bleiben erhalten, bis du das wieder einschaltest.</string>
-    <string name="kt_paused_crash">Ausgeschaltet, weil die Konsole zweimal hintereinander nicht fertig gestartet ist. Einer der Tweaks ist vermutlich der Grund. Schalte das wieder ein, um es erneut zu versuchen.</string>
+    <string name="kt_use_off">Aus, alles läuft mit Standardwerten. Deine Einstellungen bleiben gespeichert, bis du das wieder einschaltest.</string>
+    <string name="kt_paused_crash">Ausgeschaltet, weil die Konsole zweimal hintereinander nicht vollständig gestartet ist. Vermutlich ist einer der Tweaks der Grund. Schalte das wieder ein, um es erneut zu versuchen.</string>
     <string name="kt_show_docs">Erklärungen anzeigen</string>
     <string name="kt_show_docs_summary">Was jede Einstellung macht und warum du sie ändern würdest, direkt in der Liste</string>
     <string name="kt_reset">Alles zurücksetzen</string>
@@ -22,10 +22,10 @@
 
     <!-- Row summaries -->
     <!-- e.g. "Light sleep · changed, normally Deep sleep" -->
-    <string name="kt_changed"><xliff:g id="value">%1$s</xliff:g> · geändert, normal <xliff:g id="default">%2$s</xliff:g></string>
+    <string name="kt_changed"><xliff:g id="value">%1$s</xliff:g> · geändert, Standard: <xliff:g id="default">%2$s</xliff:g></string>
     <string name="kt_unavailable">Auf dieser Konsole nicht verfügbar</string>
     <!-- e.g. "Couldn't set this, still 60" -->
-    <string name="kt_failed">Konnte nicht gesetzt werden, weiterhin <xliff:g id="value">%1$s</xliff:g></string>
+    <string name="kt_failed">Ließ sich nicht setzen, weiterhin <xliff:g id="value">%1$s</xliff:g></string>
     <string name="kt_once">Nur bis zum nächsten Neustart</string>
     <string name="kt_paused_value">Pausiert: <xliff:g id="value">%1$s</xliff:g></string>
     <!-- e.g. "On after a restart, Off now" -->
@@ -62,7 +62,7 @@
     <string name="kt_one_core">1 Kern</string>
 
     <!-- Categories -->
-    <string name="kt_cat_sleep">Schlaf</string>
+    <string name="kt_cat_sleep">Ruhezustand</string>
     <string name="kt_cat_cpu">Prozessor und Hitze</string>
     <string name="kt_cat_memory">Speicher</string>
     <string name="kt_cat_storage">SD-Karten</string>
@@ -72,85 +72,85 @@
     <string name="kt_cat_boot">Beim Start (braucht einen Neustart)</string>
 
     <!-- Links to other pages -->
-    <string name="kt_link_deep_sleep">Tiefschlaf-Schritte</string>
-    <string name="kt_link_deep_sleep_summary">Was der Chip im Schlaf abschaltet, und das Abschalten der Kerne im Leerlauf</string>
+    <string name="kt_link_deep_sleep">Tiefschlaf-Stufen</string>
+    <string name="kt_link_deep_sleep_summary">Was der Chip im Ruhezustand abschaltet, und das Abschalten der Kerne im Leerlauf</string>
     <string name="kt_link_performance">Takt und Undervolting</string>
-    <string name="kt_link_performance_summary">CPU-, Grafik- und Speichertakt findest du auf der Leistungsseite</string>
+    <string name="kt_link_performance_summary">CPU-, Grafik- und Speichertakt findest du auf der Seite „Leistung“</string>
 
     <!-- Sleep -->
-    <string name="kt_sleep_type">Schlafart</string>
+    <string name="kt_sleep_type">Art des Ruhezustands</string>
     <string name="kt_sleep_type_deep">Tiefschlaf</string>
     <string name="kt_sleep_type_s2idle">Leichter Schlaf</string>
-    <string name="kt_sleep_type_what">Tiefschlaf übergibt den ganzen Chip an die Firmware, die fast alles abschaltet. Leichter Schlaf friert nur die Apps ein und lässt die Kerne in den Leerlauf gehen. Die Firmware ist nicht beteiligt, und keine Kerne werden abgeschaltet.</string>
-    <string name="kt_sleep_type_why">Wenn deine Konsole im Schlaf einfriert oder neu startet, probier leichten Schlaf. Er überspringt den Teil, an dem diese Konsolen hängen bleiben. Der Haken: Er zieht deutlich mehr Akku, ist also eher ein Test als eine Lösung.</string>
+    <string name="kt_sleep_type_what">Tiefschlaf übergibt den ganzen Chip an die Firmware, die fast alles abschaltet. Leichter Schlaf friert nur die Apps ein und lässt die Kerne in den Leerlauf gehen. Die Firmware ist nicht beteiligt, und es werden keine Kerne abgeschaltet.</string>
+    <string name="kt_sleep_type_why">Wenn deine Konsole im Ruhezustand einfriert oder neu startet, probier den leichten Schlaf. Er überspringt den Teil, an dem diese Konsolen hängen bleiben. Der Haken: Er zieht deutlich mehr Akku, ist also eher ein Test als eine Lösung.</string>
 
-    <string name="kt_sleep_test">Schlaftest-Modus</string>
-    <string name="kt_sleep_test_none">Aus, normal schlafen</string>
+    <string name="kt_sleep_test">Testmodus für den Ruhezustand</string>
+    <string name="kt_sleep_test_none">Aus, normaler Ruhezustand</string>
     <string name="kt_sleep_test_freezer">Stopp nach dem Einfrieren der Apps</string>
     <string name="kt_sleep_test_devices">Stopp nach dem Pausieren der Treiber</string>
     <string name="kt_sleep_test_platform">Stopp vor der Firmware</string>
     <string name="kt_sleep_test_processors">Stopp nach dem Abschalten der Kerne</string>
-    <string name="kt_sleep_test_core">Stopp direkt vor dem Schlafen</string>
-    <string name="kt_sleep_test_what">Geht die Schritte des Einschlafens durch, hält aber beim gewählten Schritt an, wartet 5 Sekunden und wacht wieder auf. Die Konsole schläft dabei nie wirklich ein.</string>
-    <string name="kt_sleep_test_why">Grenzt ein, wo der Schlaf schiefgeht. Hängt es bei „Stopp nach dem Abschalten der Kerne“, liegt das Problem vor der Firmware. Läuft alles bis „Stopp direkt vor dem Schlafen“, liegt es an der Firmware oder der Hardware. Setzt sich beim Neustart zurück, damit du dich damit nicht aussperrst.</string>
+    <string name="kt_sleep_test_core">Stopp direkt vor dem Einschlafen</string>
+    <string name="kt_sleep_test_what">Geht alle Schritte des Einschlafens durch, hält aber beim gewählten Schritt an, wartet 5 Sekunden und wacht wieder auf. Die Konsole geht dabei nie wirklich in den Ruhezustand.</string>
+    <string name="kt_sleep_test_why">Grenzt ein, wo es beim Einschlafen hakt. Hängt es bei „Stopp nach dem Abschalten der Kerne“, liegt das Problem vor der Firmware. Läuft alles bis „Stopp direkt vor dem Einschlafen“, liegt es an der Firmware oder der Hardware. Setzt sich beim Neustart zurück, du kannst dich damit also nicht aussperren.</string>
 
-    <string name="kt_dc_det">Ladegerät-Erkennung</string>
+    <string name="kt_dc_det">Ladegeräterkennung</string>
     <string name="kt_dc_det_auto">Standard dieser Konsole</string>
-    <string name="kt_dc_det_pin">Nur der Ladepin</string>
-    <string name="kt_dc_det_power">Pin und Power-Chip</string>
-    <string name="kt_dc_det_what">Woran die Konsole erkennt, dass ein Ladegerät angeschlossen ist. Die meisten Konsolen haben dafür einen Pin. Bei manchen Klonen sagt dieser Pin aber immer \"angeschlossen\", dort muss der Power-Chip zusätzlich den Strom sehen.</string>
-    <string name="kt_dc_det_why">Wenn die Konsole das Ladegerät nicht bemerkt oder \"lädt\" anzeigt, obwohl nichts angeschlossen ist, probier die andere Einstellung. Der Standard wird für jede Konsole passend gewählt.</string>
-    <string name="kt_sleep_console">Kernel-Log im Schlaf</string>
-    <string name="kt_sleep_console_y">Pausiert im Schlaf</string>
+    <string name="kt_dc_det_pin">Nur der Ladegerät-Pin</string>
+    <string name="kt_dc_det_power">Pin und Power-Management-Chip</string>
+    <string name="kt_dc_det_what">Woran die Konsole erkennt, dass ein Ladegerät angeschlossen ist. Die meisten Konsolen haben dafür einen Pin. Bei manchen Klonen meldet dieser Pin aber dauerhaft „angeschlossen“, dort muss der Power-Management-Chip zusätzlich Strom sehen.</string>
+    <string name="kt_dc_det_why">Wenn die Konsole das Ladegerät nicht bemerkt oder „lädt“ anzeigt, obwohl nichts angeschlossen ist, probier die andere Einstellung. Der Standard wird für jede Konsole passend gewählt.</string>
+    <string name="kt_sleep_console">Kernel-Log im Ruhezustand</string>
+    <string name="kt_sleep_console_y">Pausiert im Ruhezustand</string>
     <string name="kt_sleep_console_n">Läuft weiter</string>
-    <string name="kt_sleep_console_what">Normalerweise hört der Kernel auf, sein Log zu schreiben, sobald die Treiber einschlafen. Das lässt es bis zum letzten Schritt weiterlaufen.</string>
-    <string name="kt_sleep_console_why">Hängt sich eine Konsole im Schlaf auf, zeigt der Problembericht nur, was vor dem Hängenbleiben geloggt wurde. Mit laufendem Log siehst du mehr von den letzten Schritten. Der Schlaf wird dadurch ein kleines bisschen langsamer.</string>
+    <string name="kt_sleep_console_what">Normalerweise hört der Kernel auf, sein Log zu schreiben, sobald die Treiber einschlafen. Hiermit schreibt er bis zum letzten Schritt weiter.</string>
+    <string name="kt_sleep_console_why">Bleibt eine Konsole im Ruhezustand hängen, zeigt der Fehlerbericht nur, was vor dem Hänger geloggt wurde. Läuft das Log weiter, siehst du mehr von den letzten Schritten. Das Einschlafen dauert dadurch ein kleines bisschen länger.</string>
 
-    <string name="kt_sleep_log_times">Jeden Schlafschritt zeitmessen</string>
-    <string name="kt_sleep_log_times_what">Schreibt eine Logzeile für jeden Treiber, der einschläft und aufwacht, mit der dafür gebrauchten Zeit.</string>
-    <string name="kt_sleep_log_times_why">Zeigt, welcher Treiber zuletzt vor einem Hängenbleiben lief, oder welcher das Aufwachen verlangsamt. Füllt das Log schnell, also schalte es wieder aus, wenn du fertig bist.</string>
+    <string name="kt_sleep_log_times">Dauer jedes Einschlafschritts loggen</string>
+    <string name="kt_sleep_log_times_what">Schreibt für jeden Treiber, der einschläft und aufwacht, eine Logzeile mit der benötigten Zeit.</string>
+    <string name="kt_sleep_log_times_why">Zeigt, welcher Treiber vor einem Hänger als letzter dran war oder welcher das Aufwachen verlangsamt. Füllt das Log schnell, also schalte es wieder aus, wenn du fertig bist.</string>
 
-    <string name="kt_sleep_log_debug">Schlaf-Debug-Meldungen</string>
-    <string name="kt_sleep_log_debug_what">Loggt die zusätzlichen Notizen des Kernels zum Schlaf: welche Aufwachquellen aktiv sind, warum ein Schlafversuch aufgegeben hat, und so weiter.</string>
-    <string name="kt_sleep_log_debug_why">Für den Fall, dass die Konsole gar nicht einschläft oder sofort wieder aufwacht.</string>
+    <string name="kt_sleep_log_debug">Debug-Meldungen zum Ruhezustand</string>
+    <string name="kt_sleep_log_debug_what">Loggt die zusätzlichen Hinweise des Kernels zum Ruhezustand: welche Aufwachquellen aktiv sind, warum ein Einschlafversuch abgebrochen wurde und so weiter.</string>
+    <string name="kt_sleep_log_debug_why">Für den Fall, dass die Konsole gar nicht in den Ruhezustand geht oder sofort wieder aufwacht.</string>
 
     <!-- Processor -->
     <string name="kt_cores">Genutzte Kerne</string>
     <string name="kt_cores_what">Schaltet Prozessorkerne ab. Der erste Kern bleibt immer an.</string>
-    <string name="kt_cores_why">Manche Klone haben einen wackligen Kern, der ab und zu hängt. Wird die Konsole mit weniger Kernen stabiler, hast du deine Antwort. Außerdem gibt es weniger Kerne, die beim Einschlafen abgeschaltet werden müssen, was beim Testen von Schlafhängern hilft. Spiele laufen dafür langsamer.</string>
+    <string name="kt_cores_why">Manche Klone haben einen unzuverlässigen Kern, der ab und zu hängt. Wird die Konsole mit weniger Kernen stabiler, hast du den Schuldigen. Außerdem müssen beim Einschlafen weniger Kerne abgeschaltet werden, was beim Testen von Hängern im Ruhezustand hilft. Spiele laufen dafür langsamer.</string>
 
-    <string name="kt_heat_limit">Hitzegrenze</string>
-    <string name="kt_heat_limit_what">Die Chiptemperatur, bei der der Prozessor anfängt, zum Abkühlen langsamer zu werden.</string>
-    <string name="kt_heat_limit_why">Keine dieser Konsolen hat eine Kühlung, der Chip liegt frei, daher erreichen anspruchsvolle Spiele die Grenze schnell und stottern. Ein Kühlkörper oder Wärmepad (eine beliebte Modifikation) hilft am meisten. Höher einstellen heißt heißere Konsole gegen weniger Slowdowns. Niedriger einstellen hält das Gehäuse kühler. Über 90 °C ist auf Dauer nicht gut für den Chip.</string>
+    <string name="kt_heat_limit">Temperaturgrenze</string>
+    <string name="kt_heat_limit_what">Die Chiptemperatur, ab der der Prozessor zum Abkühlen langsamer wird.</string>
+    <string name="kt_heat_limit_why">Keine dieser Konsolen hat eine Kühlung, der Chip liegt frei, daher erreichen anspruchsvolle Spiele die Grenze schnell und ruckeln. Ein Kühlkörper oder Wärmeleitpad (ein beliebter Umbau) hilft am meisten. Eine höhere Grenze bedeutet eine heißere Konsole, aber weniger Drosselung. Eine niedrigere hält das Gehäuse kühler. Über 90 °C ist auf Dauer nicht gut für den Chip.</string>
 
     <!-- Memory -->
     <string name="kt_swappiness">Nutzung des komprimierten Speichers</string>
-    <string name="kt_swappiness_what">Wie eifrig Android untätige Apps in komprimierten Speicher (zram) verschiebt, um RAM freizugeben.</string>
-    <string name="kt_swappiness_why">Höher hält mehr Apps im Hintergrund offen, kostet aber etwas Prozessorzeit. Niedriger hält die Dinge flotter, während ein Spiel läuft, aber Apps werden früher geschlossen. Auf 1-GB-Konsolen ist der Standard meist am besten.</string>
+    <string name="kt_swappiness_what">Wie bereitwillig Android inaktive Apps in den komprimierten Speicher (zram) auslagert, um RAM freizugeben.</string>
+    <string name="kt_swappiness_why">Höher hält mehr Apps im Hintergrund offen, kostet aber etwas Prozessorzeit. Niedriger hält alles flüssiger, während ein Spiel läuft, aber Apps werden früher beendet. Auf 1-GB-Konsolen ist der Standard meist am besten.</string>
 
-    <string name="kt_cache_pressure">Dateicache-Aufräumen</string>
+    <string name="kt_cache_pressure">Aufräumen des Dateicaches</string>
     <string name="kt_cache_pressure_what">Wie schnell der Kernel vergisst, welche Dateien und Ordner er kürzlich angesehen hat.</string>
-    <string name="kt_cache_pressure_why">Niedriger macht das Durchblättern großer ROM-Ordner beim zweiten Mal schneller. Höher gibt Speicher früher für Spiele frei.</string>
+    <string name="kt_cache_pressure_why">Niedriger macht das Durchstöbern großer ROM-Ordner beim zweiten Mal schneller. Höher gibt Speicher früher für Spiele frei.</string>
 
-    <string name="kt_page_cluster">Lesevoraus bei komprimiertem Speicher</string>
+    <string name="kt_page_cluster">Vorauslesen aus komprimiertem Speicher</string>
     <string name="kt_page_cluster_what">Wie viele Seiten der Kernel auf einmal aus dem komprimierten Speicher zurückholt: 1, 2 oder 8.</string>
-    <string name="kt_page_cluster_why">1 Seite ist die übliche Wahl für komprimierten Speicher und verringert kleine Ruckler beim App-Wechsel. Mehr hilft nur mit einer echten Swap-Datei, die diese Konsolen nicht haben.</string>
+    <string name="kt_page_cluster_why">1 Seite ist für komprimierten Speicher die übliche Wahl und verringert kleine Ruckler beim App-Wechsel. Mehr hilft nur mit einer echten Swap-Datei, die diese Konsolen nicht haben.</string>
     <string name="kt_pages_1">1 Seite</string>
     <string name="kt_pages_2">2 Seiten</string>
     <string name="kt_pages_8">8 Seiten</string>
 
     <!-- SD cards -->
-    <string name="kt_sd1_scheduler">Systemkarte: Reihenfolge der Anfragen</string>
-    <string name="kt_sd2_scheduler">Zweite Karte: Reihenfolge der Anfragen</string>
+    <string name="kt_sd1_scheduler">Systemkarte: Reihenfolge der Zugriffe</string>
+    <string name="kt_sd2_scheduler">Zweite Karte: Reihenfolge der Zugriffe</string>
     <string name="kt_scheduler_deadline">Sortiert (mq-deadline)</string>
     <string name="kt_scheduler_none">Wie sie kommen (none)</string>
-    <string name="kt_scheduler_what">Ob der Kernel Lese- und Schreibzugriffe sortiert und zusammenfasst, bevor er sie an die Karte schickt, oder sie einfach in der Reihenfolge sendet.</string>
-    <string name="kt_scheduler_why">Sortiert hält das System während einer großen Kopieraktion ruhig. „Wie sie kommen“ hat weniger Overhead und kann auf guten Karten schneller sein. Bei billigen oder gefälschten Karten ist sortiert meist die sicherere Wahl.</string>
+    <string name="kt_scheduler_what">Ob der Kernel Lese- und Schreibzugriffe sortiert und zusammenfasst, bevor er sie an die Karte schickt, oder sie einfach der Reihe nach sendet.</string>
+    <string name="kt_scheduler_why">Sortiert hält das System während einer großen Kopieraktion flüssig. „Wie sie kommen“ hat weniger Overhead und kann auf guten Karten schneller sein. Bei billigen oder gefälschten Karten ist „Sortiert“ meist die sicherere Wahl.</string>
 
-    <string name="kt_sd1_readahead">Systemkarte: Lesevoraus</string>
-    <string name="kt_sd2_readahead">Zweite Karte: Lesevoraus</string>
-    <string name="kt_readahead_what">Wie viel zusätzlich der Kernel auf einmal liest, wenn eine App eine Datei von Anfang bis Ende liest.</string>
-    <string name="kt_readahead_why">Mehr Lesevoraus lädt große ROMs und ISOs schneller, vor allem von langsamen Karten. Zu viel verschwendet Speicher und kann Spiele verlangsamen, die in einer Datei herumspringen. Wechselst du die Karte, wird die Einstellung beim nächsten Start erneut angewendet.</string>
+    <string name="kt_sd1_readahead">Systemkarte: Vorauslesen</string>
+    <string name="kt_sd2_readahead">Zweite Karte: Vorauslesen</string>
+    <string name="kt_readahead_what">Wie viel der Kernel zusätzlich auf einmal liest, wenn eine App eine Datei von Anfang bis Ende liest.</string>
+    <string name="kt_readahead_why">Mehr Vorauslesen lädt große ROMs und ISOs schneller, vor allem von langsamen Karten. Zu viel verschwendet Speicher und kann Spiele verlangsamen, die in einer Datei herumspringen. Wechselst du die Karte, wird die Einstellung beim nächsten Start erneut angewendet.</string>
 
     <!-- Controls and sound -->
     <string name="kt_stick_invert">Stick-Achsen umdrehen</string>
@@ -161,97 +161,97 @@
     <string name="kt_axis_y">Linker Stick hoch/runter</string>
     <string name="kt_axis_rx">Rechter Stick links/rechts</string>
     <string name="kt_axis_ry">Rechter Stick hoch/runter</string>
-    <string name="kt_stick_invert_what">Dreht eine Stick-Richtung um, zusätzlich zu dem, was die Bildschirmdatei dieser Konsole schon macht.</string>
-    <string name="kt_stick_invert_why">Manche Klone verdrahten einen Stick andersrum, sodass Rechtsdrücken nach links bewegt oder Hoch nach unten. Hak die Richtung an, die verkehrt ist. Prüfe im Controllertest, ob es jetzt stimmt.</string>
+    <string name="kt_stick_invert_what">Dreht eine Stick-Richtung um, zusätzlich zu dem, was die Gerätedatei dieser Konsole schon macht.</string>
+    <string name="kt_stick_invert_why">Manche Klone verdrahten einen Stick andersherum, sodass Rechts nach links bewegt oder Hoch nach unten. Hak die Richtung an, die verkehrt ist. Prüf im Controller-Test, ob es jetzt stimmt.</string>
     <string name="kt_stick_swap">Sticks tauschen</string>
     <string name="kt_stick_swap_off">Normal</string>
     <string name="kt_stick_swap_on">Getauscht</string>
-    <string name="kt_stick_swap_what">Der linke Stick arbeitet als rechter und der rechte als linker, auch beim Reindrücken (L3/R3).</string>
+    <string name="kt_stick_swap_what">Der linke Stick verhält sich wie der rechte und umgekehrt, auch beim Hineindrücken (L3/R3).</string>
     <string name="kt_stick_swap_why">Für Klone mit vertauschten Sticks, oder wenn du lieber mit dem anderen Stick steuerst. Oben umgedrehte Richtungen bleiben bei dem Stick, für den du sie umgedreht hast.</string>
 
     <string name="kt_poll_interval">Abfragerate der Tasten</string>
     <string name="kt_poll_interval_what">Wie oft die Sticks gelesen und die Tasten erneut abgefragt werden.</string>
-    <string name="kt_poll_interval_why">Kürzer bedeutet etwas weniger Eingabeverzögerung bei den Sticks, braucht aber etwas mehr Akku. Tastendrücke kommen ohnehin sofort durch. Länger hilft, wenn die Sticks bei einem verrauschten Klon zittern.</string>
+    <string name="kt_poll_interval_why">Kürzer heißt etwas weniger Eingabeverzögerung bei den Sticks, braucht aber etwas mehr Akku. Tastendrücke kommen ohnehin sofort durch. Länger hilft, wenn die Sticks bei einem störanfälligen Klon zittern.</string>
 
     <string name="kt_hp_det_flip">Kopfhörererkennung</string>
     <string name="kt_hp_det_normal">Normal</string>
     <string name="kt_hp_det_flipped">Umgedreht</string>
-    <string name="kt_hp_det_flip_what">Liest den Schalter der Kopfhörerbuchse andersrum.</string>
-    <string name="kt_hp_det_flip_why">Manche Klone verdrahten die Buchse verkehrt: Der Lautsprecher bleibt still, wenn nichts eingesteckt ist, oder der Ton wandert nie zum Kopfhörer. Klingt das nach deiner Konsole, dreh es um. Es wird sofort erneut geprüft.</string>
+    <string name="kt_hp_det_flip_what">Liest den Schalter der Kopfhörerbuchse andersherum.</string>
+    <string name="kt_hp_det_flip_why">Manche Klone verdrahten die Buchse verkehrt herum: Der Lautsprecher bleibt stumm, obwohl nichts eingesteckt ist, oder der Ton wechselt nie zum Kopfhörer. Klingt das nach deiner Konsole, dreh es um. Es wird sofort neu geprüft.</string>
 
     <!-- Crashes and logs -->
-    <string name="kt_log_level">Kernel-Log-Detail</string>
+    <string name="kt_log_level">Detailgrad des Kernel-Logs</string>
     <string name="kt_log_level_3">Nur Fehler</string>
     <string name="kt_log_level_4">Warnungen (normal)</string>
     <string name="kt_log_level_7">Info</string>
     <string name="kt_log_level_8">Alles</string>
     <string name="kt_log_level_what">Wie viel der Kernel in das Log schreibt, das einen Absturz oder Neustart überlebt.</string>
-    <string name="kt_log_level_why">Mehr Detail bedeutet eine bessere Chance, dass die Zeile, die einen Hänger erklärt, in den Problembericht kommt. „Alles“ ist sehr geschwätzig und kann die Konsole etwas verlangsamen.</string>
+    <string name="kt_log_level_why">Mehr Details heißt eine bessere Chance, dass die Zeile, die einen Hänger erklärt, im Fehlerbericht landet. „Alles“ ist sehr gesprächig und kann die Konsole etwas verlangsamen.</string>
 
     <string name="kt_panic_restart">Neustart nach einem Kernel-Absturz</string>
-    <string name="kt_panic_never">Nie, beim Absturz bleiben</string>
+    <string name="kt_panic_never">Nie, beim Absturz stehen bleiben</string>
     <string name="kt_panic_restart_what">Wie lange die Konsole nach einem Kernel-Absturz wartet, bevor sie sich selbst neu startet.</string>
-    <string name="kt_panic_restart_why">Schnell neu starten bringt dich schnell zurück ins Spiel, und der Problembericht enthält trotzdem das Absturzlog. „Nie“ hält die Konsole eingefroren, damit du siehst, dass sie abgestürzt und nicht nur hängen geblieben ist, aber du musst dann Power gedrückt halten, um sie auszuschalten.</string>
+    <string name="kt_panic_restart_why">Ein schneller Neustart bringt dich zurück ins Spiel, und der Fehlerbericht enthält trotzdem das Absturzlog. „Nie“ lässt die Konsole eingefroren, damit du siehst, dass sie abgestürzt und nicht nur hängen geblieben ist; zum Ausschalten musst du dann aber die Power-Taste gedrückt halten.</string>
 
     <string name="kt_oops_panic">Treiberfehler wie Abstürze behandeln</string>
-    <string name="kt_oops_panic_what">Wenn ein Treiber auf einen ernsten Fehler trifft (ein „oops“), macht der Kernel normalerweise ohne ihn weiter. Das startet die Konsole statt neu.</string>
-    <string name="kt_oops_panic_why">Nach einem oops geht oft etwas auf merkwürdige Weise kaputt: kein Ton, totes Gamepad, ein eingefrorener Bildschirm später. Sofort neu zu starten bringt dir ein saubereres Absturzlog im Problembericht statt eines verwirrenden Durcheinanders.</string>
+    <string name="kt_oops_panic_what">Trifft ein Treiber auf einen schweren Fehler (ein „Oops“), macht der Kernel normalerweise ohne ihn weiter. Hiermit startet die Konsole stattdessen neu.</string>
+    <string name="kt_oops_panic_why">Nach einem Oops geht oft etwas auf seltsame Weise kaputt: kein Ton, tote Tasten, später ein eingefrorener Bildschirm. Ein sofortiger Neustart bringt dir ein sauberes Absturzlog im Fehlerbericht statt eines verwirrenden Durcheinanders.</string>
 
     <string name="kt_stall_report">Hängenden Kern melden nach</string>
-    <string name="kt_stall_report_what">Wie lange ein Kern nicht reagieren kann, bevor der Kernel eine Warnung mit dem loggt, was er gerade gemacht hat.</string>
-    <string name="kt_stall_report_why">Die Schlafhänger bei manchen Klonen sehen aus wie ein Kern, der einfach ruhig wird. Eine kürzere Zeit bringt diese Warnung ins Log, bevor du aufgibst und Power gedrückt hältst.</string>
+    <string name="kt_stall_report_what">Wie lange ein Kern nicht reagieren darf, bevor der Kernel eine Warnung loggt, samt dem, was er gerade getan hat.</string>
+    <string name="kt_stall_report_why">Die Hänger im Ruhezustand sehen bei manchen Klonen so aus, als würde ein Kern einfach verstummen. Eine kürzere Zeit bringt diese Warnung ins Log, bevor du aufgibst und die Power-Taste gedrückt hältst.</string>
 
-    <string name="kt_power_chip_log">Power-Chip-Log</string>
-    <string name="kt_power_chip_log_what">Lässt den Lader, die Akkuanzeige und die Tonteile des Power-Chips (RK817) loggen, was sie gerade machen.</string>
-    <string name="kt_power_chip_log_why">Für Akkuanzeigen, die hin- und herspringen, Laden, das abbricht, oder Ton, der knistert. Sehr geschwätzig, also nur einschalten, während du einen Problembericht erstellst.</string>
+    <string name="kt_power_chip_log">Log des Power-Management-Chips</string>
+    <string name="kt_power_chip_log_what">Lässt Lader, Ladestandsanzeige und Tonteil des Power-Management-Chips (RK817) loggen, was sie gerade tun.</string>
+    <string name="kt_power_chip_log_why">Für Akkuanzeigen, die hin- und herspringen, Laden, das abbricht, oder knisternden Ton. Sehr gesprächig, also nur einschalten, während du einen Fehlerbericht erstellst.</string>
 
     <string name="kt_crash_oops">Treiberfehler auch speichern</string>
-    <string name="kt_crash_oops_what">Speichert einen Absturzbericht, wenn ein Treiber auf einen ernsten Fehler (einen oops) stößt und der Kernel weiterläuft, nicht nur wenn der ganze Kernel abstürzt.</string>
-    <string name="kt_crash_oops_why">Ein oops ist oft der Anfang von Ärger, der später auftaucht: kein Ton, tote Tasten, ein eingefrorener Bildschirm. Ist das an, steht er nach dem nächsten Neustart im Problembericht. Aus speichert nur komplette Kernel-Abstürze, damit ein harmloser oops nach dem nächsten Start keinen Absturzhinweis zeigt.</string>
+    <string name="kt_crash_oops_what">Speichert auch dann einen Absturzbericht, wenn ein Treiber auf einen schweren Fehler (einen Oops) trifft und der Kernel weiterläuft, nicht nur, wenn der ganze Kernel abstürzt.</string>
+    <string name="kt_crash_oops_why">Ein Oops ist oft der Anfang von Ärger, der später auftaucht: kein Ton, tote Tasten, ein eingefrorener Bildschirm. Ist das an, steht er nach dem nächsten Neustart im Fehlerbericht. Aus speichert nur komplette Kernel-Abstürze, damit ein harmloser Oops nach dem nächsten Start keinen Absturzhinweis auslöst.</string>
 
     <string name="kt_crash_restart_log">Log bei jedem Neustart speichern</string>
-    <string name="kt_crash_restart_log_what">Wenn die Konsole normal neu startet, speichert der Kernel zusätzlich das Ende seines Logs im Absturzbericht, mit jeder Meldung, auch den leisen unterhalb der Log-Stufe.</string>
-    <string name="kt_crash_restart_log_why">Für Probleme ohne Absturz, etwa ein Spiel, das ruckelt, bis du neu startest. Das Kernel-Log des letzten Starts wird ohnehin behalten, aber nur die Zeilen ab der Log-Stufe. Ein Absturz im selben Start behält immer seinen eigenen Bericht. Ein normaler Neustart ersetzt aber einen älteren Absturzbericht, also speichere zuerst den Problembericht zu einem Absturz. Nach dem Ausschalten wird nichts behalten: Der RAM verliert es.</string>
+    <string name="kt_crash_restart_log_what">Wenn die Konsole normal neu startet, speichert der Kernel zusätzlich das Ende seines Logs im Absturzbericht, mit jeder Meldung, auch den leisen unterhalb des Detailgrads.</string>
+    <string name="kt_crash_restart_log_why">Für Probleme ohne Absturz, etwa ein Spiel, das ruckelt, bis du neu startest. Das Kernel-Log des letzten Starts wird ohnehin behalten, aber nur die Zeilen ab dem eingestellten Detailgrad. Ein Absturz im selben Start behält immer seinen eigenen Bericht. Ein normaler Neustart ersetzt aber einen älteren Absturzbericht, also speichere zuerst den Fehlerbericht zu einem Absturz. Nach dem Ausschalten bleibt nichts erhalten: Der RAM verliert es.</string>
 
     <!-- At start (needs a restart) -->
     <string name="kt_serial_console">Serielle Konsole</string>
-    <string name="kt_serial_console_what">Schickt das Kernel-Log über den seriellen Debug-Anschluss raus und lässt dich dort Befehle eingeben (UART2 bei der R36S, UART5 bei EE-Klonen).</string>
-    <string name="kt_serial_console_why">Nur nützlich mit einem USB-Seriell-Adapter, der an die Platine gelötet ist. Standardmäßig aus: Bei manchen Klonen weckt ein offener serieller Pin die Konsole aus dem Schlaf, und jede Logzeile kostet etwas Zeit, solange es an ist.</string>
+    <string name="kt_serial_console_what">Gibt das Kernel-Log über den seriellen Debug-Anschluss aus und lässt dich dort Befehle eingeben (UART2 beim R36S, UART5 bei EE-Klonen).</string>
+    <string name="kt_serial_console_why">Nur nützlich mit einem USB-Seriell-Adapter, der an die Platine gelötet ist. Standardmäßig aus: Bei manchen Klonen weckt ein offener serieller Pin die Konsole aus dem Ruhezustand, und jede Logzeile kostet etwas Zeit, solange es an ist.</string>
 
-    <string name="kt_boot_log_level">Kernel-Log-Detail beim Start</string>
-    <string name="kt_boot_log_level_what">Wie viel der Kernel ab dem allerersten Moment eines Starts loggt, noch bevor Android läuft. Die Einstellung „Kernel-Log-Detail“ weiter oben greift erst später.</string>
-    <string name="kt_boot_log_level_why">Für Konsolen, die beim Starten hängen oder neu starten. Mit serieller Konsole an geht genau das auch über den seriellen Anschluss raus.</string>
+    <string name="kt_boot_log_level">Detailgrad des Kernel-Logs beim Start</string>
+    <string name="kt_boot_log_level_what">Wie viel der Kernel ab dem allerersten Moment eines Starts loggt, noch bevor Android läuft. Die Einstellung „Detailgrad des Kernel-Logs“ weiter oben greift erst später.</string>
+    <string name="kt_boot_log_level_why">Für Konsolen, die beim Starten hängen bleiben oder neu starten. Ist die serielle Konsole an, geht genau das auch über den seriellen Anschluss raus.</string>
 
     <string name="kt_cma_size">Grafik- und Videospeicher</string>
     <string name="kt_cma_default">Kernel-Standard</string>
     <string name="kt_cma_size_what">Wie viel Speicher beim Start für Bildschirm, Grafik und Videodekodierung reserviert wird (CMA). Der Rest bleibt für Apps.</string>
-    <string name="kt_cma_size_why">Weniger gibt Spielen und Apps mehr Platz, was auf 1-GB- und 512-MB-Konsolen hilft. Zu wenig, und Videos oder manche Emulatoren starten nicht. Passiert das, geh zurück zum Standard.</string>
+    <string name="kt_cma_size_why">Weniger gibt Spielen und Apps mehr Platz, was auf Konsolen mit 1 GB oder 512 MB hilft. Zu wenig, und Videos oder manche Emulatoren starten nicht mehr. Passiert das, geh zurück zum Standard.</string>
 
     <string name="kt_cpu_idle">Kerne im Leerlauf abschalten</string>
     <string name="kt_cpu_idle_what">Lässt Kerne im Leerlauf in einen tieferen Stromsparzustand gehen. Aus hält sie im leichtesten.</string>
-    <string name="kt_cpu_idle_why">Friert die Konsole zufällig oder im Schlaf ein, schließt Ausschalten die Leerlaufzustände als Ursache aus. Kostet etwas Akku.</string>
+    <string name="kt_cpu_idle_why">Friert die Konsole zufällig oder im Ruhezustand ein, schließt das Ausschalten die Leerlaufzustände als Ursache aus. Kostet etwas Akku.</string>
 
     <string name="kt_timer_tick">Timer-Takt</string>
     <string name="kt_timer_tick_idle">Stoppt im Leerlauf (normal)</string>
     <string name="kt_timer_tick_always">Läuft immer</string>
     <string name="kt_timer_tick_what">Ob der Timer des Kernels auf Kernen im Leerlauf weitertickt oder pausiert, bis es Arbeit gibt.</string>
-    <string name="kt_timer_tick_why">Pausieren spart Akku. Immer laufen lassen kann Ruckler in manchen Emulatoren glätten und schließt Timer-Probleme aus, wenn du Einfrierern nachgehst. Kostet etwas Akku.</string>
+    <string name="kt_timer_tick_why">Pausieren spart Akku. Immer laufen lassen kann Ruckler in manchen Emulatoren glätten und schließt Timer-Probleme aus, wenn du Hängern auf der Spur bist. Kostet etwas Akku.</string>
 
     <string name="kt_boot_timing">Startzeiten loggen</string>
     <string name="kt_boot_timing_what">Loggt, wie lange jeder Teil des Kernels zum Starten braucht.</string>
-    <string name="kt_boot_timing_why">Um herauszufinden, was einen Start langsam macht oder wo er hängt. Fügt dem Log viele Zeilen hinzu, also schalte es wieder aus, sobald der Problembericht erstellt ist.</string>
+    <string name="kt_boot_timing_why">Um herauszufinden, was einen Start langsam macht oder wo er hängt. Fügt dem Log viele Zeilen hinzu, also schalte es wieder aus, sobald der Fehlerbericht erstellt ist.</string>
 
     <string name="kt_usb_autosuspend">USB-Stromsparen</string>
-    <string name="kt_usb_autosuspend_what">Lässt USB-Geräte (Controller, Wi-Fi-Sticks, Tastaturen) abschalten, wenn sie nicht benutzt werden.</string>
-    <string name="kt_usb_autosuspend_why">Manche billigen USB-Controller und Wi-Fi-Sticks fallen nach einer Pause aus oder hängen hinterher. Aus hält sie wach, kostet aber etwas Akku.</string>
+    <string name="kt_usb_autosuspend_what">Lässt USB-Geräte (Controller, WLAN-Sticks, Tastaturen) abschalten, wenn sie nicht benutzt werden.</string>
+    <string name="kt_usb_autosuspend_why">Manche billigen USB-Controller und WLAN-Sticks fallen nach einer Pause aus oder reagieren danach verzögert. Aus hält sie wach, kostet aber etwas Akku.</string>
 
     <string name="kt_crash_log">Absturzlog</string>
-    <string name="kt_crash_log_what">Behält das Kernel-Log, das Android-Log und einen Absturzbericht in einem Stück RAM, das einen Neustart übersteht, damit der nächste Start sie in den Problembericht packen kann.</string>
-    <string name="kt_crash_log_why">Am besten eingeschaltet lassen. Aus ist nur zum Testen, ob das Absturzlog selbst Ärger macht. Dem Problembericht fehlt dann das Log des vorherigen Starts, und Kernel-Abstürze zeigen keinen Absturzhinweis mehr. Die 960 KB bleiben ohnehin reserviert: Der Gerätebaum hält sie frei, sie werden nur nicht genutzt.</string>
+    <string name="kt_crash_log_what">Behält das Kernel-Log, das Android-Log und einen Absturzbericht in einem Stück RAM, das einen Neustart übersteht, damit der nächste Start sie in den Fehlerbericht packen kann.</string>
+    <string name="kt_crash_log_why">Am besten anlassen. Aus ist nur zum Testen, ob das Absturzlog selbst Probleme macht. Dem Fehlerbericht fehlt dann das Log des vorherigen Starts, und Kernel-Abstürze zeigen keinen Absturzhinweis mehr. Die 960 KB bleiben ohnehin reserviert: Der Gerätebaum hält sie frei, sie werden nur nicht genutzt.</string>
 
     <string name="kt_crash_split">Aufteilung des Absturzlogs</string>
     <string name="kt_crash_split_what">Wie die 960 KB, die einen Neustart überstehen, auf Absturzbericht, Kernel-Log und Android-Log verteilt werden. Ausgewogen: 192 KB, 512 KB und 256 KB. Mehr Kernel-Log: 320 KB, 512 KB und 128 KB. Mehr Android-Log: 192 KB, 256 KB und 512 KB.</string>
-    <string name="kt_crash_split_why">Ausgewogen passt für die meisten Probleme. Mehr Kernel-Log passt das ganze Kernel-Log in den Absturzbericht, für Abstürze mit einer langen Vorgeschichte. Mehr Android-Log behält doppelt so viel von Androids Log, für Apps und Spiele, die ohne Kernel-Absturz schließen oder einfrieren. Die Logs von vor der Umstellung gehen beim Neustart verloren, der sie umstellt.</string>
+    <string name="kt_crash_split_why">Ausgewogen passt für die meisten Probleme. Mit „Mehr Kernel-Log“ passt das ganze Kernel-Log in den Absturzbericht, für Abstürze mit langer Vorgeschichte. „Mehr Android-Log“ behält doppelt so viel vom Android-Log, für Apps und Spiele, die ohne Kernel-Absturz schließen oder einfrieren. Die Logs von vor der Umstellung gehen bei dem Neustart verloren, der sie umstellt.</string>
     <string name="kt_crash_split_balanced">Ausgewogen</string>
     <string name="kt_crash_split_kernel">Mehr Kernel-Log</string>
     <string name="kt_crash_split_android">Mehr Android-Log</string>

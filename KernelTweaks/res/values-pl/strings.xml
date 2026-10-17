@@ -14,7 +14,7 @@
         <item quantity="many"><xliff:g id="count">%d</xliff:g> zmienionych</item>
         <item quantity="other"><xliff:g id="count">%d</xliff:g> zmienionych</item>
     </plurals>
-    <string name="kt_use_off">Wyłączone, wszystko działa na wartościach domyślnych. Twoje wybory zostają zapamiętane na kiedy to znów włączysz.</string>
+    <string name="kt_use_off">Wyłączone, wszystko działa na wartościach domyślnych. Twoje wybory zostaną zapamiętane do czasu, aż to znów włączysz.</string>
     <string name="kt_paused_crash">Wyłączone, bo konsola dwa razy pod rząd nie dokończyła uruchamiania. Prawdopodobnie przyczyną jest jedno z tych ustawień. Włącz to znowu, aby spróbować jeszcze raz.</string>
     <string name="kt_show_docs">Pokaż wyjaśnienia</string>
     <string name="kt_show_docs_summary">Co robi każde ustawienie i kiedy je zmieniać, prosto na liście</string>
@@ -94,7 +94,7 @@
     <string name="kt_sleep_test_processors">Zatrzymaj po wyłączeniu rdzeni</string>
     <string name="kt_sleep_test_core">Zatrzymaj tuż przed zaśnięciem</string>
     <string name="kt_sleep_test_what">Przechodzi przez kroki zasypiania, ale zatrzymuje się na wybranym kroku, czeka 5 sekund i budzi się ponownie. Konsola nigdy naprawdę nie zasypia, kiedy to jest włączone.</string>
-    <string name="kt_sleep_test_why">Pomaga zawęzić, gdzie zawodzi sen. Jeśli zawiesza się na „Zatrzymaj po wyłączeniu rdzeni”, problem jest przed firmware\'em. Jeśli wszystko działa do „Zatrzymaj tuż przed zaśnięciem”, to firmware albo sprzęt. Resetuje się po ponownym uruchomieniu konsoli, więc nie można z tym się zablokować.</string>
+    <string name="kt_sleep_test_why">Pomaga zawęzić, gdzie zawodzi sen. Jeśli zawiesza się na „Zatrzymaj po wyłączeniu rdzeni”, problem jest przed firmware\'em. Jeśli wszystko działa do „Zatrzymaj tuż przed zaśnięciem”, to firmware albo sprzęt. Resetuje się po ponownym uruchomieniu konsoli, więc nie da się tym zablokować konsoli.</string>
 
     <string name="kt_dc_det">Wykrywanie ładowarki</string>
     <string name="kt_dc_det_auto">Domyślne dla tej konsoli</string>
@@ -127,7 +127,7 @@
 
     <!-- Memory -->
     <string name="kt_swappiness">Użycie pamięci skompresowanej</string>
-    <string name="kt_swappiness_what">Jak ochoczo Android przenosi bezczynne aplikacje do pamięci skompresowanej (zram), aby zwolnić RAM.</string>
+    <string name="kt_swappiness_what">Jak chętnie Android przenosi bezczynne aplikacje do pamięci skompresowanej (zram), aby zwolnić RAM.</string>
     <string name="kt_swappiness_why">Wyższa wartość trzyma więcej aplikacji otwartych w tle, ale kosztuje trochę czasu procesora. Niższa trzyma wszystko płynniej podczas gry, ale aplikacje są zamykane wcześniej. Na konsolach z 1 GB domyślna wartość jest zwykle najlepsza.</string>
 
     <string name="kt_cache_pressure">Czyszczenie pamięci podręcznej plików</string>
@@ -147,12 +147,12 @@
     <string name="kt_scheduler_deadline">Sortowane (mq-deadline)</string>
     <string name="kt_scheduler_none">Tak jak przychodzą (none)</string>
     <string name="kt_scheduler_what">Czy jądro sortuje i grupuje odczyty i zapisy przed wysłaniem ich do karty, czy po prostu wysyła je po kolei.</string>
-    <string name="kt_scheduler_why">Sortowane utrzymuje system płynnym podczas dużego kopiowania. „Tak jak przychodzą” ma mniejszy narzut i może być szybsze na dobrych kartach. Na tanich albo podróbkowych kartach sortowane jest zwykle bezpieczniejszym wyborem.</string>
+    <string name="kt_scheduler_why">Sortowane utrzymuje system płynnym podczas dużego kopiowania. „Tak jak przychodzą” ma mniejszy narzut i może być szybsze na dobrych kartach. Na tanich albo podrobionych kartach sortowane jest zwykle bezpieczniejszym wyborem.</string>
 
     <string name="kt_sd1_readahead">Karta systemowa: wyprzedzające czytanie</string>
     <string name="kt_sd2_readahead">Druga karta: wyprzedzające czytanie</string>
     <string name="kt_readahead_what">Jak dużo dodatkowo jądro czyta na raz, gdy aplikacja czyta plik od początku do końca.</string>
-    <string name="kt_readahead_why">Więcej wyprzedzającego czytania wczytuje duże ROMy i ISO szybciej, zwłaszcza z wolnych kart. Za dużo marnuje pamięć i może zwolnić gry, które skaczą po pliku. Jeśli zmienisz kartę, ustawienie zostanie zastosowane ponownie przy następnym uruchomieniu.</string>
+    <string name="kt_readahead_why">Więcej wyprzedzającego czytania wczytuje duże ROM-y i ISO szybciej, zwłaszcza z wolnych kart. Za dużo marnuje pamięć i może zwolnić gry, które skaczą po pliku. Jeśli zmienisz kartę, ustawienie zostanie zastosowane ponownie przy następnym uruchomieniu.</string>
 
     <!-- Controls and sound -->
     <string name="kt_stick_invert">Odwróć osie gałki</string>
@@ -169,7 +169,7 @@
     <string name="kt_stick_swap_off">Normalnie</string>
     <string name="kt_stick_swap_on">Zamienione</string>
     <string name="kt_stick_swap_what">Lewa gałka działa jak prawa, a prawa jak lewa, także przy wciśnięciu (L3/R3).</string>
-    <string name="kt_stick_swap_why">Dla klonów z zamienionymi gałkami albo jeśli wolisz sterować drugą gałką. Kierunki odwrócone wyżej zostają przy gałce, na której je odwróciłeś.</string>
+    <string name="kt_stick_swap_why">Dla klonów z zamienionymi gałkami albo jeśli wolisz sterować drugą gałką. Kierunki odwrócone wyżej zostają przy gałce, na której zostały odwrócone.</string>
 
     <string name="kt_poll_interval">Częstość sprawdzania przycisków</string>
     <string name="kt_poll_interval_what">Jak często gałki są odczytywane, a przyciski sprawdzane ponownie.</string>
@@ -188,24 +188,24 @@
     <string name="kt_log_level_7">Informacje</string>
     <string name="kt_log_level_8">Wszystko</string>
     <string name="kt_log_level_what">Jak dużo jądro zapisuje do logu, który przetrwa awarię lub ponowne uruchomienie.</string>
-    <string name="kt_log_level_why">Więcej szczegółów to większa szansa, że linia wyjaśniająca zawieszenie trafi do raportu problemu. „Wszystko” jest bardzo rozmowne i może trochę zwolnić konsolę.</string>
+    <string name="kt_log_level_why">Więcej szczegółów to większa szansa, że linia wyjaśniająca zawieszenie trafi do raportu problemu. „Wszystko” jest bardzo gadatliwe i może trochę zwolnić konsolę.</string>
 
     <string name="kt_panic_restart">Uruchom ponownie po awarii jądra</string>
     <string name="kt_panic_never">Nigdy, zostań na awarii</string>
     <string name="kt_panic_restart_what">Jak długo konsola czeka po awarii jądra, zanim uruchomi się ponownie sama.</string>
-    <string name="kt_panic_restart_why">Szybkie ponowne uruchomienie szybciej wraca cię do gry, a raport problemu wciąż ma log awarii. „Nigdy” trzyma konsolę zamrożoną, żebyś widział, że to awaria, a nie tylko zawieszenie, ale musisz przytrzymać Power, aby ją wyłączyć.</string>
+    <string name="kt_panic_restart_why">Szybkie ponowne uruchomienie szybciej wraca cię do gry, a raport problemu wciąż ma log awarii. „Nigdy” trzyma konsolę zamrożoną, żeby było widać, że to awaria, a nie tylko zawieszenie, ale musisz przytrzymać Power, aby ją wyłączyć.</string>
 
     <string name="kt_oops_panic">Traktuj błędy sterowników jak awarie</string>
-    <string name="kt_oops_panic_what">Gdy sterownik napotka poważny błąd (oops), jądro normalnie kontynuuje bez niego. To uruchamia konsolę ponownie zamiast tego.</string>
-    <string name="kt_oops_panic_why">Po oops rzeczy często łamią się w dziwny sposób: brak dźwięku, martwe przyciski, zamrożony ekran później. Natychmiastowe ponowne uruchomienie daje ci czysty log awarii w raporcie problemu, a nie zagmatwany bałagan.</string>
+    <string name="kt_oops_panic_what">Gdy sterownik napotka poważny błąd (oops), jądro normalnie kontynuuje bez niego. Z tą opcją konsola zamiast tego uruchamia się ponownie.</string>
+    <string name="kt_oops_panic_why">Po oops często psują się dziwne rzeczy: brak dźwięku, martwe przyciski, zamrożony ekran później. Natychmiastowe ponowne uruchomienie daje ci czysty log awarii w raporcie problemu, zamiast zagmatwanego bałaganu.</string>
 
     <string name="kt_stall_report">Zgłoś zawieszony rdzeń po</string>
     <string name="kt_stall_report_what">Jak długo rdzeń może nie odpowiadać, zanim jądro zapisze ostrzeżenie z tym, co właśnie robił.</string>
-    <string name="kt_stall_report_why">Zawieszenia snu na niektórych klonach wyglądają jak jeden rdzeń, który po prostu zamilkł. Krótszy czas wprowadza to ostrzeżenie do logu, zanim się poddasz i przytrzymasz Power.</string>
+    <string name="kt_stall_report_why">Zawieszenia snu na niektórych klonach wyglądają jak jeden rdzeń, który po prostu zamilkł. Krótszy czas sprawia, że to ostrzeżenie trafia do logu, zanim się poddasz i przytrzymasz Power.</string>
 
     <string name="kt_power_chip_log">Log układu zasilania</string>
-    <string name="kt_power_chip_log_what">Pozwala częściom ładowania, miernika baterii i dźwięku układu zasilania (RK817) zapisywać, co robią.</string>
-    <string name="kt_power_chip_log_why">Na wypadek skaczących procentów baterii, ładowania, które się zatrzymuje, albo dźwięku, który trzeszczy. Bardzo rozmowne, więc włącz to tylko podczas tworzenia raportu problemu.</string>
+    <string name="kt_power_chip_log_what">Pozwala układowi zasilania (RK817) zapisywać, co robią jego części: ładowarka, miernik baterii i dźwięk.</string>
+    <string name="kt_power_chip_log_why">Na wypadek skaczących procentów baterii, ładowania, które się zatrzymuje, albo dźwięku, który trzeszczy. Bardzo gadatliwe, więc włącz to tylko podczas tworzenia raportu problemu.</string>
 
     <string name="kt_crash_oops">Zapisuj też błędy sterowników</string>
     <string name="kt_crash_oops_what">Zachowuje zapis awarii, gdy sterownik trafi na poważny błąd (oops), a jądro działa dalej, a nie tylko wtedy, gdy całe jądro się wywali.</string>
@@ -249,7 +249,7 @@
 
     <string name="kt_crash_log">Log awarii</string>
     <string name="kt_crash_log_what">Zachowuje log jądra, log Androida i zapis awarii w kawałku pamięci RAM, który przetrwa restart, żeby następny start mógł je włożyć do raportu problemu.</string>
-    <string name="kt_crash_log_why">Zostaw włączony. Wyłączanie służy tylko do sprawdzenia, czy sam log awarii nie sprawia kłopotów. Raport problemu nie ma wtedy logu z poprzedniego startu, a awarie jądra przestają pokazywać komunikat o awarii. Te 960 KB i tak są odłożone: drzewo urządzeń je rezerwuje, po prostu się nie używają.</string>
+    <string name="kt_crash_log_why">Zostaw włączony. Wyłączanie służy tylko do sprawdzenia, czy sam log awarii nie sprawia kłopotów. Raport problemu nie ma wtedy logu z poprzedniego startu, a awarie jądra przestają pokazywać komunikat o awarii. Te 960 KB i tak są odłożone: drzewo urządzeń je rezerwuje, po prostu nie są używane.</string>
 
     <string name="kt_crash_split">Podział logu awarii</string>
     <string name="kt_crash_split_what">Jak 960 KB zachowane przy restarcie dzielą się między zapis awarii, log jądra i log Androida. Zrównoważony: 192 KB, 512 KB i 256 KB. Więcej logu jądra: 320 KB, 512 KB i 128 KB. Więcej logu Androida: 192 KB, 256 KB i 512 KB.</string>

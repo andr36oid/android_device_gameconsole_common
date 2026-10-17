@@ -72,16 +72,16 @@
     <string name="kt_cat_boot">Al arrancar (necesita reiniciar)</string>
 
     <!-- Links to other pages -->
-    <string name="kt_link_deep_sleep">Pasos de sueño profundo</string>
+    <string name="kt_link_deep_sleep">Pasos de reposo profundo</string>
     <string name="kt_link_deep_sleep_summary">Qué apaga el chip mientras duerme, y el apagado de núcleos inactivos</string>
     <string name="kt_link_performance">Velocidades y undervolt</string>
     <string name="kt_link_performance_summary">Las velocidades de CPU, gráficos y memoria están en la página de Rendimiento</string>
 
     <!-- Sleep -->
     <string name="kt_sleep_type">Tipo de reposo</string>
-    <string name="kt_sleep_type_deep">Sueño profundo</string>
+    <string name="kt_sleep_type_deep">Reposo profundo</string>
     <string name="kt_sleep_type_s2idle">Reposo ligero</string>
-    <string name="kt_sleep_type_what">El sueño profundo le entrega todo el chip al firmware, que apaga casi todo. El reposo ligero solo congela las apps y deja los núcleos en reposo. El firmware no interviene y ningún núcleo se apaga.</string>
+    <string name="kt_sleep_type_what">El reposo profundo le entrega todo el chip al firmware, que apaga casi todo. El reposo ligero solo congela las apps y deja los núcleos en reposo. El firmware no interviene y ningún núcleo se apaga.</string>
     <string name="kt_sleep_type_why">Si tu consola se congela o se reinicia en reposo, prueba el reposo ligero. Se salta la parte donde estas consolas se quedan atascadas. La pega: gasta mucha más batería, así que es más una prueba que una solución.</string>
 
     <string name="kt_sleep_test">Modo de prueba de reposo</string>
@@ -92,7 +92,7 @@
     <string name="kt_sleep_test_processors">Parar tras apagar los núcleos</string>
     <string name="kt_sleep_test_core">Parar justo antes de dormir</string>
     <string name="kt_sleep_test_what">Recorre los pasos para dormirse, pero se detiene en el paso que elijas, espera 5 segundos y despierta de nuevo. La consola nunca llega a dormirse realmente mientras esto está activado.</string>
-    <string name="kt_sleep_test_why">Ayuda a encontrar dónde falla el reposo. Si se cuelga en "Parar tras apagar los núcleos", el problema está antes del firmware. Si todo funciona hasta "Parar justo antes de dormir", es el firmware o el hardware. Se restablece al reiniciar la consola, así que no puedes quedarte atascado con esto.</string>
+    <string name="kt_sleep_test_why">Ayuda a encontrar dónde falla el reposo. Si se cuelga en \"Parar tras apagar los núcleos\", el problema está antes del firmware. Si todo funciona hasta \"Parar justo antes de dormir\", es el firmware o el hardware. Se restablece al reiniciar la consola, así que no puedes quedarte atascado con esto.</string>
 
     <string name="kt_dc_det">Detección del cargador</string>
     <string name="kt_dc_det_auto">Lo predeterminado de esta consola</string>
@@ -145,7 +145,7 @@
     <string name="kt_scheduler_deadline">Ordenado (mq-deadline)</string>
     <string name="kt_scheduler_none">Según llegan (none)</string>
     <string name="kt_scheduler_what">Si el kernel ordena y agrupa las lecturas y escrituras antes de enviarlas a la tarjeta, o simplemente las envía en orden.</string>
-    <string name="kt_scheduler_why">Ordenado mantiene el sistema fluido mientras se hace una copia grande. "Según llegan" tiene menos sobrecarga y puede ser más rápido en tarjetas buenas. En tarjetas baratas o falsas, ordenado suele ser la opción más segura.</string>
+    <string name="kt_scheduler_why">Ordenado mantiene el sistema fluido mientras se hace una copia grande. \"Según llegan\" tiene menos sobrecarga y puede ser más rápido en tarjetas buenas. En tarjetas baratas o falsas, ordenado suele ser la opción más segura.</string>
 
     <string name="kt_sd1_readahead">Tarjeta del sistema: lectura anticipada</string>
     <string name="kt_sd2_readahead">Segunda tarjeta: lectura anticipada</string>
@@ -153,25 +153,25 @@
     <string name="kt_readahead_why">Más lectura anticipada carga ROMs e ISOs grandes más rápido, sobre todo desde tarjetas lentas. Demasiada desperdicia memoria y puede ralentizar juegos que saltan de un lado a otro de un archivo. Si cambias la tarjeta, el ajuste se aplica de nuevo en el siguiente arranque.</string>
 
     <!-- Controls and sound -->
-    <string name="kt_stick_invert">Invertir ejes del stick</string>
+    <string name="kt_stick_invert">Invertir ejes del joystick</string>
     <string name="kt_stick_normal">Normal</string>
     <!-- e.g. "Flipped: Right stick left/right" -->
     <string name="kt_stick_flipped">Invertido: <xliff:g id="axes">%1$s</xliff:g></string>
-    <string name="kt_axis_x">Stick izquierdo izquierda/derecha</string>
-    <string name="kt_axis_y">Stick izquierdo arriba/abajo</string>
-    <string name="kt_axis_rx">Stick derecho izquierda/derecha</string>
-    <string name="kt_axis_ry">Stick derecho arriba/abajo</string>
-    <string name="kt_stick_invert_what">Invierte una dirección del stick, además de lo que ya hace el archivo de pantalla de esta consola.</string>
-    <string name="kt_stick_invert_why">Algunos clones conectan un stick al revés, así que empujar a la derecha mueve a la izquierda, o arriba mueve hacia abajo. Marca la dirección que esté invertida. Comprueba en la prueba de mandos que ahora va bien.</string>
-    <string name="kt_stick_swap">Intercambiar sticks</string>
+    <string name="kt_axis_x">Joystick izquierdo izquierda/derecha</string>
+    <string name="kt_axis_y">Joystick izquierdo arriba/abajo</string>
+    <string name="kt_axis_rx">Joystick derecho izquierda/derecha</string>
+    <string name="kt_axis_ry">Joystick derecho arriba/abajo</string>
+    <string name="kt_stick_invert_what">Invierte una dirección del joystick, además de lo que ya hace el archivo de pantalla de esta consola.</string>
+    <string name="kt_stick_invert_why">Algunos clones conectan un joystick al revés, así que empujar a la derecha mueve a la izquierda, o arriba mueve hacia abajo. Marca la dirección que esté invertida. Comprueba en la prueba de mandos que ahora va bien.</string>
+    <string name="kt_stick_swap">Intercambiar joysticks</string>
     <string name="kt_stick_swap_off">Normal</string>
     <string name="kt_stick_swap_on">Intercambiados</string>
-    <string name="kt_stick_swap_what">El stick izquierdo funciona como el derecho y el derecho como el izquierdo, también al pulsarlos (L3/R3).</string>
-    <string name="kt_stick_swap_why">Para clones con los sticks al revés, o si prefieres usar el otro stick. Las direcciones que invertiste arriba siguen con el stick en el que las invertiste.</string>
+    <string name="kt_stick_swap_what">El joystick izquierdo funciona como el derecho y el derecho como el izquierdo, también al pulsarlos (L3/R3).</string>
+    <string name="kt_stick_swap_why">Para clones con los joysticks al revés, o si prefieres usar el otro joystick. Las direcciones que invertiste arriba siguen con el joystick en el que las invertiste.</string>
 
     <string name="kt_poll_interval">Frecuencia de lectura de botones</string>
-    <string name="kt_poll_interval_what">Con qué frecuencia se leen los sticks y se comprueban de nuevo los botones.</string>
-    <string name="kt_poll_interval_why">Más corto significa un poco menos de retraso en los sticks, pero gasta algo más de batería. Las pulsaciones de botones llegan de inmediato de todos modos. Más largo ayuda si los sticks tiemblan en un clon con ruido eléctrico.</string>
+    <string name="kt_poll_interval_what">Con qué frecuencia se leen los joysticks y se comprueban de nuevo los botones.</string>
+    <string name="kt_poll_interval_why">Más corto significa un poco menos de retraso en los joysticks, pero gasta algo más de batería. Las pulsaciones de botones llegan de inmediato de todos modos. Más largo ayuda si los joysticks tiemblan en un clon con ruido eléctrico.</string>
 
     <string name="kt_hp_det_flip">Detección de auriculares</string>
     <string name="kt_hp_det_normal">Normal</string>
@@ -186,15 +186,15 @@
     <string name="kt_log_level_7">Información</string>
     <string name="kt_log_level_8">Todo</string>
     <string name="kt_log_level_what">Cuánto escribe el kernel en el registro que sobrevive a un cuelgue o reinicio.</string>
-    <string name="kt_log_level_why">Más detalle significa más posibilidades de que la línea que explica un cuelgue llegue al informe de problemas. "Todo" es muy hablador y puede ralentizar algo la consola.</string>
+    <string name="kt_log_level_why">Más detalle significa más posibilidades de que la línea que explica un cuelgue llegue al informe de problemas. \"Todo\" genera muchísimos mensajes y puede ralentizar algo la consola.</string>
 
     <string name="kt_panic_restart">Reiniciar tras un cuelgue del kernel</string>
     <string name="kt_panic_never">Nunca, quedarse en el cuelgue</string>
     <string name="kt_panic_restart_what">Cuánto espera la consola tras un cuelgue del kernel antes de reiniciarse sola.</string>
-    <string name="kt_panic_restart_why">Reiniciar rápido te devuelve al juego antes, y el informe de problemas sigue teniendo el registro del cuelgue. "Nunca" mantiene la consola congelada para que veas que se colgó en vez de bloquearse sin más, pero tendrás que mantener pulsado Power para apagarla.</string>
+    <string name="kt_panic_restart_why">Reiniciar rápido te devuelve al juego antes, y el informe de problemas sigue teniendo el registro del cuelgue. \"Nunca\" mantiene la consola congelada para que veas que se colgó en vez de bloquearse sin más, pero tendrás que mantener pulsado Power para apagarla.</string>
 
     <string name="kt_oops_panic">Tratar errores de controladores como cuelgues</string>
-    <string name="kt_oops_panic_what">Cuando un controlador sufre un error grave (un "oops"), el kernel normalmente sigue adelante sin él. Esto reinicia la consola en su lugar.</string>
+    <string name="kt_oops_panic_what">Cuando un controlador sufre un error grave (un \"oops\"), el kernel normalmente sigue adelante sin él. Esto reinicia la consola en su lugar.</string>
     <string name="kt_oops_panic_why">Tras un oops, las cosas suelen romperse de formas raras: sin sonido, botones muertos, una pantalla congelada después. Reiniciar de inmediato te da un registro de cuelgue limpio en el informe de problemas en lugar de un lío confuso.</string>
 
     <string name="kt_stall_report">Avisar de un núcleo atascado tras</string>
@@ -203,7 +203,7 @@
 
     <string name="kt_power_chip_log">Registro del chip de energía</string>
     <string name="kt_power_chip_log_what">Deja que las partes de carga, nivel de batería y sonido del chip de energía (RK817) registren lo que están haciendo.</string>
-    <string name="kt_power_chip_log_why">Para porcentajes de batería que saltan, carga que se detiene o sonido que cruje. Muy hablador, así que activa esto solo mientras haces un informe de problemas.</string>
+    <string name="kt_power_chip_log_why">Para porcentajes de batería que saltan, carga que se detiene o sonido que cruje. Genera muchísimos mensajes, así que actívalo solo mientras haces un informe de problemas.</string>
 
     <string name="kt_crash_oops">Guardar también errores de controladores</string>
     <string name="kt_crash_oops_what">Guarda un registro de cuelgue cuando un controlador tiene un error grave (un oops) y el kernel sigue funcionando, no solo cuando se cae todo el kernel.</string>

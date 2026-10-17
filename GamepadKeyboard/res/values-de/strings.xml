@@ -14,12 +14,12 @@
     <string name="key_done">Fertig</string>
     <string name="key_previous">Zurück</string>
     <string name="no_other_keyboard">Es ist keine andere Tastatur installiert.</string>
-    <string name="switched_to_tv">Android TV-Tastatur an. Zurück geht es über Einstellungen &gt; System &gt; Sprachen und Eingabe &gt; Bildschirmtastatur &gt; Gamepad-Tastatur.</string>
+    <string name="switched_to_tv">Android-TV-Tastatur ist an. Zurück geht es über Einstellungen &gt; System &gt; Sprachen und Eingabe &gt; Bildschirmtastatur &gt; Gamepad-Tastatur.</string>
     <string name="which_self">Aktive Tastatur: Gamepad-Tastatur</string>
-    <string name="which_self_summary">Auswählen, um stattdessen die Android TV-Tastatur zu nutzen (die aus älteren Builds)</string>
+    <string name="which_self_summary">Auswählen, um stattdessen die Android-TV-Tastatur zu nutzen (die aus älteren Builds)</string>
     <string name="which_other">Aktive Tastatur: eine andere Tastatur</string>
     <string name="which_other_summary">Auswählen, um wieder die Gamepad-Tastatur zu nutzen</string>
-    <string name="pref_layout">Tastaturlayout</string>
+    <string name="pref_layout">Buchstabenlayout</string>
     <string-array name="layout_entries">
         <item>Automatisch (nach Systemsprache)</item>
         <item>QWERTY</item>
@@ -31,7 +31,7 @@
     <string name="pref_auto_big">Text zeigen, wenn die Tastatur ihn verdeckt</string>
     <string name="pref_auto_big_summary">Landet das Textfeld unter der Tastatur, wird der Text in einer großen Zeile darüber gezeigt. R2 macht das von Hand.</string>
     <string name="pref_hints">Tastenhinweise zeigen</string>
-    <string name="pref_hints_summary">Die Zeile über den Tasten und die Tastennamen auf den Tasten</string>
+    <string name="pref_hints_summary">Die Zeile über den Tasten und die Tastennamen auf den Tasten selbst</string>
     <string name="buttons_title">Tasten</string>
-    <string name="buttons_help">Steuerkreuz oder linker Stick: bewegen\nA: tippen (halten für Akzente: é, ü, ß…)\nB: löschen (bei leerem Feld: schließen)\nX: Leerzeichen\nY: Umschalt (zweimal: Feststelltaste)\nL1 / R1: Textcursor bewegen\nL2: Tastatur schließen\nR2: große Textzeile an oder aus\nStart: Enter / fertig\nSelect: Buchstaben oder Symbole\nL3: zur Android TV-Tastatur wechseln\nR3: Tastenfeld oder Stick-Tippen\n\nStick-Tippen: Der linke Stick wählt eine Vierergruppe, der rechte zeigt auf ein Zeichen, loslassen tippt es.</string>
+    <string name="buttons_help">Steuerkreuz oder linker Stick: bewegen\nA: tippen (halten für Akzente: é, ü, ß…)\nB: löschen (bei leerem Feld: schließen)\nX: Leerzeichen\nY: Umschalt (zweimal: Feststelltaste)\nL1 / R1: Textcursor bewegen\nL2: Tastatur schließen\nR2: große Textzeile an oder aus\nStart: Enter / fertig\nSelect: Buchstaben oder Symbole\nL3: zur Android-TV-Tastatur wechseln\nR3: Tastenfeld oder Stick-Tippen\n\nStick-Tippen: Der linke Stick wählt eine Vierergruppe, der rechte zeigt auf ein Zeichen, loslassen tippt es.</string>
 </resources>

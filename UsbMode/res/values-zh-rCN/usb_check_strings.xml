@@ -12,8 +12,8 @@
     <string name="usb_check_wifi_off">支持。打开 WLAN 即可使用。</string>
     <string name="usb_check_not_started">支持，但驱动没有启动。请拔下后重新插入。</string>
     <string name="usb_check_no_power">已识别，但没有启动。它可能需要比接口更多的供电。请试试带独立电源的集线器。</string>
-    <string name="usb_check_cd_mode">处于驱动光盘模式。主机会在几秒内自动切换。如果一直这样，请拔下后重新插入。</string>
-    <string name="usb_check_cd_unknown">处于驱动光盘模式，主机不知道如何切换（芯片 <xliff:g id="chip_id" example="0bda:1a2b">%1$s</xliff:g>）。</string>
+    <string name="usb_check_cd_mode">处于驱动光盘模式。掌机会在几秒内自动切换。如果一直这样，请拔下后重新插入。</string>
+    <string name="usb_check_cd_unknown">处于驱动光盘模式，掌机不知道如何切换（芯片 <xliff:g id="chip_id" example="0bda:1a2b">%1$s</xliff:g>）。</string>
     <string name="usb_check_not_supported">不支持（芯片 <xliff:g id="chip_id" example="0bda:885a">%1$s</xliff:g>）</string>
     <string name="usb_check_not_supported_named">不支持：<xliff:g id="chip_name" example="Realtek RTL8852AU">%1$s</xliff:g>（芯片 <xliff:g id="chip_id" example="0bda:885a">%2$s</xliff:g>）</string>
     <string name="usb_check_bt_only">蓝牙可用。它的 WLAN 不受支持（芯片 <xliff:g id="chip" example="0bda:d723">%1$s</xliff:g>）。</string>
@@ -34,5 +34,5 @@
     <string name="usb_check_copy">复制详细信息</string>
     <string name="usb_check_copy_summary">用于在社区群里提问。问题报告中也包含这些信息。</string>
     <string name="usb_check_copied">已复制详细信息</string>
-    <string name="usb_check_about">芯片是设备的 ID（厂商:型号）。求助时请提供芯片。在设备上按 A 可查看主机了解到的全部信息。</string>
+    <string name="usb_check_about">芯片是设备的 ID（厂商:型号）。求助时请提供芯片。在设备上按 A 可查看掌机了解到的全部信息。</string>
 </resources>

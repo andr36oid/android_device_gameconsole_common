@@ -47,9 +47,9 @@
     <string name="error_write_failed">Das Backup konnte nicht geschrieben werden. Die SD-Karte ist eventuell defekt: Kopiere deine Spielstände auf einen PC.</string>
     <string name="error_no_usb">Kein USB-Stick gefunden. Steck einen ein und versuch es noch einmal.</string>
     <string name="error_not_found">Dieses Backup ist nicht mehr da.</string>
-    <string name="error_safety_failed">Nichts wurde wiederhergestellt: Die Spielstände, die ersetzt würden, konnten nicht vorher gesichert werden. Schaffe etwas Platz und versuch es noch einmal.</string>
+    <string name="error_safety_failed">Nichts wurde wiederhergestellt: Die Spielstände, die ersetzt würden, konnten nicht vorher gesichert werden. Schaff etwas Platz und versuch es noch einmal.</string>
     <string name="error_busy">Ein Backup läuft. Versuch es gleich noch einmal.</string>
-    <string name="error_start">Spielstand-Backup konnte nicht laufen. Starte die Konsole neu und versuch es noch einmal.</string>
+    <string name="error_start">Spielstand-Backup konnte nicht gestartet werden. Starte die Konsole neu und versuch es noch einmal.</string>
 
     <!-- The main page -->
     <string name="backup_now_title">Jetzt sichern</string>
@@ -61,11 +61,11 @@
     <string name="usb_none">Steck einen USB-Stick ein, um eine Kopie außerhalb der SD-Karte zu haben</string>
     <string name="auto_category">Automatisches Backup</string>
     <string name="auto_title">Automatisch sichern</string>
-    <string name="auto_summary">Einmal am Tag beim Laden und nachdem du ein Spiel schließt. Wird übersprungen, wenn sich nichts geändert hat. Nach einem Spiel warten Spielstände über 16 MB (PSP) auf das tägliche Backup.</string>
+    <string name="auto_summary">Einmal am Tag beim Laden und nachdem du ein Spiel schließt. Wird übersprungen, wenn sich nichts geändert hat. Nach einem Spiel warten Savestates über 16 MB (PSP) auf das tägliche Backup.</string>
     <string name="keep_title">Backups behalten</string>
     <!-- %1$s: a number -->
     <string name="keep_summary">Die neuesten %1$s werden behalten, mit mindestens einem von jedem der letzten Tage. Ältere werden gelöscht.</string>
-    <string name="where_summary">Backups kommen an zwei Orte: interner Speicher unter Backups/Saves und EASYROMS/backups/saves, dazu auf einen USB-Stick, wenn einer eingesteckt ist. Beide Orte liegen auf derselben SD-Karte, kopiere die Backups also ab und zu auf einen PC oder USB-Stick. Spielstände von RetroArch, PPSSPP und Speicherdateien neben deinen Spielen sind dabei.</string>
+    <string name="where_summary">Backups kommen an zwei Orte: interner Speicher unter Backups/Saves und EASYROMS/backups/saves, dazu auf einen USB-Stick, wenn einer eingesteckt ist. Beide Orte liegen auf derselben SD-Karte, kopiere die Backups also ab und zu auf einen PC oder USB-Stick. Dabei sind Spielstände von RetroArch und PPSSPP sowie Spielstanddateien neben deinen Spielen.</string>
 
     <!-- The list of backups -->
     <!-- %1$s: what's running -->
@@ -88,8 +88,8 @@
     <!-- %1$s: the game -->
     <string name="plan_title_game">%1$s wiederherstellen?</string>
     <plurals name="plan_missing">
-        <item quantity="one">%1$d Datei fehlt auf der Konsole und wird zurückgelegt.</item>
-        <item quantity="other">%1$d Dateien fehlen auf der Konsole und werden zurückgelegt.</item>
+        <item quantity="one">%1$d Datei fehlt auf der Konsole und wird wiederhergestellt.</item>
+        <item quantity="other">%1$d Dateien fehlen auf der Konsole und werden wiederhergestellt.</item>
     </plurals>
     <plurals name="plan_older">
         <item quantity="one">%1$d älterer Spielstand auf der Konsole wird durch das Backup ersetzt.</item>
@@ -104,8 +104,8 @@
     <!-- %1$d: how many more -->
     <string name="plan_more">• und %1$d weitere</string>
     <plurals name="plan_same">
-        <item quantity="one">%1$d Datei ist bereits gleich.</item>
-        <item quantity="other">%1$d Dateien sind bereits gleich.</item>
+        <item quantity="one">%1$d Datei ist bereits identisch.</item>
+        <item quantity="other">%1$d Dateien sind bereits identisch.</item>
     </plurals>
     <plurals name="plan_unavailable">
         <item quantity="one">%1$d Datei gehört auf EASYROMS, das nicht eingebunden ist, und kann gerade nicht wiederhergestellt werden.</item>
@@ -122,7 +122,7 @@
     </plurals>
     <string name="replace_button">Ersetzen</string>
 
-    <string name="result_title">Wiederhergestellt</string>
+    <string name="result_title">Wiederherstellung abgeschlossen</string>
     <plurals name="result_restored">
         <item quantity="one">%1$d Datei wiederhergestellt.</item>
         <item quantity="other">%1$d Dateien wiederhergestellt.</item>

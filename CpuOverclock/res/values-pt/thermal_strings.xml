@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="profile_about_performance">Emulação mais fluida. A CPU nunca fica abaixo de <xliff:g id="cpu">%1$s</xliff:g>, a parte gráfica roda a <xliff:g id="gpu">%2$d</xliff:g> MHz e a memória em velocidade máxima o tempo todo. Para jogos de PS1, N64 e PSP. A bateria acaba mais rápido.</string>
+    <string name="profile_about_performance">Emulação mais fluida. A CPU nunca fica abaixo de <xliff:g id="cpu">%1$s</xliff:g>, a parte gráfica roda a <xliff:g id="gpu">%2$d</xliff:g> MHz e a memória à velocidade máxima o tempo todo. Para jogos de PS1, N64 e PSP. A bateria acaba mais rápido.</string>
 </resources>

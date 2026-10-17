@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- A second controller -->
-    <string name="pads_title">Jogar com um segundo controle</string>
-    <string name="pads_connect">Conecte um controle USB na porta OTG, com um adaptador se precisar. Para um controle Bluetooth, abra Configurações &gt; Controlos &gt; Comandos externos &gt; Parear um controle Bluetooth, coloque o controle em modo de pareamento e aperte A nele na lista. A página explica como ativar o modo de pareamento em controles de Xbox, PlayStation, Switch e 8BitDo.</string>
-    <string name="pads_players">No RetroArch, os botões do próprio console continuam sendo o jogador 1. Os controles extras são os jogadores 2, 3 e assim por diante, na ordem em que você aperta um botão neles pela primeira vez.</string>
-    <string name="pads_alone">Quer jogar sozinho no controle maior? Em Configurações &gt; Controlos &gt; Jogador 1 no RetroArch, escolha Controle externo. Feche o RetroArch antes; a mudança vale a partir da próxima vez que ele abrir.</string>
-    <string name="pads_menu">Em qualquer controle, L1 + R1 + Start + Select, ou o botão Xbox, PS ou Capture, abre o menu do RetroArch. Start + Select apertados duas vezes fecham o jogo. Jogos de PSP têm só um jogador, e todos os controles comandam ele.</string>
+    <string name="pads_title">Jogar com um segundo controlo</string>
+    <string name="pads_connect">Conecte um controlo USB na porta OTG, com um adaptador se precisar. Para um controlo Bluetooth, abra Definições &gt; Controlos &gt; Comandos externos &gt; Parear um controlo Bluetooth, coloque o controlo em modo de pareamento e prima A nele na lista. A página explica como ativar o modo de pareamento em comandos de Xbox, PlayStation, Switch e 8BitDo.</string>
+    <string name="pads_players">No RetroArch, os botões da própria consola continuam a controlar o jogador 1. Os comandos adicionais controlam os jogadores 2, 3 e seguintes, pela ordem em que premir um botão em cada um pela primeira vez.</string>
+    <string name="pads_alone">Quer jogar sozinho no controlo maior? Em Definições &gt; Controlos &gt; Jogador 1 no RetroArch, escolha Controle externo. Feche o RetroArch antes; a mudança vale a partir da próxima vez que ele abrir.</string>
+    <string name="pads_menu">Em qualquer controlo, L1 + R1 + Start + Select, ou o botão Xbox, PS ou Capture, abre o menu do RetroArch. Start + Select apertados duas vezes fecham o jogo. Jogos de PSP têm só um jogador, e todos os comandos comandam ele.</string>
 </resources>

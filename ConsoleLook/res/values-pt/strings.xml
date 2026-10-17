@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="look_title">Personalização</string>
-    <string name="look_summary">Cor de destaque, sons, animação de inicialização</string>
+    <string name="look_summary">Cor de destaque, sons, animação de arranque</string>
     <string name="accent_title">Cor de destaque</string>
-    <string name="accent_default">Azul-petróleo do LineageOS (padrão)</string>
+    <string name="accent_default">Azul-petróleo do LineageOS (predefinição)</string>
     <string name="sounds_title">Sons da interface</string>
-    <string name="sounds_android">Android (padrão)</string>
-    <string name="sounds_retro">Retrô</string>
-    <string name="sounds_summary">%1$s. Toca quando Sons de toque está ativado (Som &gt; Avançado).</string>
-    <string name="bootanim_title">Animação de inicialização</string>
-    <string name="bootanim_lineage">LineageOS (padrão)</string>
-    <string name="bootanim_retro">andr36oid retrô</string>
-    <string name="bootanim_summary">%1$s. Aparece a partir do próximo início.</string>
+    <string name="sounds_android">Android (predefinição)</string>
+    <string name="sounds_retro">Retro</string>
+    <string name="sounds_summary">%1$s. Ouvem-se quando os Sons de toque estão ativados (Som &gt; Avançadas).</string>
+    <string name="bootanim_title">Animação de arranque</string>
+    <string name="bootanim_lineage">LineageOS (predefinição)</string>
+    <string name="bootanim_retro">andr36oid retro</string>
+    <string name="bootanim_summary">%1$s. Aparece a partir do próximo arranque.</string>
 </resources>

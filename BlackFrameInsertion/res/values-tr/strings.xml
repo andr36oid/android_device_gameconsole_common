@@ -11,8 +11,8 @@
     <string name="bfi_pattern_hint">Denenen ayar 1 normal, 1 siyah. Daha fazla siyah kare ekranı daha karanlık yapar ve daha çok titretir.</string>
     <string name="bfi_fps_hint">İpucu: 60 fps oyunlar en iyi 120 Hz ile 1 normal, 1 siyah ayarında oturur. Her oyun karesi o zaman tam olarak bir normal kare alır.</string>
     <string name="bfi_warning_title">Yanıp sönen görüntüler</string>
-    <string name="bfi_warning">Siyah kare ekleme tüm ekranı saniyede çok kez yanıp söndürür. Yanıp sönen ışıklar sende nöbete veya baş ağrısına yol açabiliyorsa kullanma. Kendini iyi hissetmiyorsan hemen dur.\n\nAyrıca ekranı karartır, bazı panellerde titreme yapabilir ya da görüntü izi bırakabilir. Oyunları yavaşlatabilir.</string>
+    <string name="bfi_warning">Siyah kare ekleme tüm ekranı saniyede çok kez yanıp söndürür. Yanıp sönen ışıklar sizde nöbete veya baş ağrısına yol açabiliyorsa kullanmayın. Kendinizi iyi hissetmiyorsanız hemen durun.\n\nAyrıca ekranı karartır, bazı panellerde titreme yapabilir ya da görüntü izi bırakabilir. Oyunları yavaşlatabilir.</string>
     <string name="bfi_warning_ok">Aç</string>
-    <string name="bfi_low_rate">100 Hz veya daha fazlası gerekir. Önce Ekran > Maksimum yenileme hızı değerini yükselt.</string>
+    <string name="bfi_low_rate">100 Hz veya daha fazlası gerekir. Önce Ekran > Maksimum yenileme hızı değerini yükseltin.</string>
     <string name="bfi_credit">PakoVM\'in BFI\'sına dayanır (github.com/pakovm-git/BFI), MIT License</string>
 </resources>

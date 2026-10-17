@@ -2,73 +2,75 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
     <string name="details_title">Сведения о батарее</string>
-    <string name="details_summary">Напряжение, ток, время заряда и график за 24 часа</string>
+    <string name="details_summary">Напряжение, ток, время зарядки и график за 24 часа</string>
 
     <!-- Header -->
     <string name="percent"><xliff:g id="percent">%1$d</xliff:g>%%</string>
     <string name="status_charging">Заряжается</string>
     <string name="status_full">Заряжена</string>
-    <string name="status_discharging">От батареи</string>
-    <string name="status_not_charging">Подключено, не заряжается</string>
+    <string name="status_discharging">Работает от батареи</string>
+    <string name="status_not_charging">Питание подключено, зарядка не идёт</string>
     <string name="time_to_full">до полной зарядки около <xliff:g id="time">%1$s</xliff:g></string>
-    <string name="time_left">при таком расходе осталось около <xliff:g id="time">%1$s</xliff:g></string>
+    <string name="time_left">при таком расходе хватит ещё примерно на <xliff:g id="time">%1$s</xliff:g></string>
     <!-- Joins status and time, e.g. "Charging · about 1 h 10 min until full" -->
     <string name="status_and_time"><xliff:g id="status">%1$s</xliff:g> · <xliff:g id="time">%2$s</xliff:g></string>
 
     <string name="graph_title">Последние 24 часа</string>
-    <string name="graph_empty">График заполняется, пока вы пользуетесь консолью. Пока она не спит, каждые 15 минут добавляется точка.</string>
+    <string name="graph_empty">График заполняется по мере использования консоли: пока она не спит, каждые 15 минут добавляется точка.</string>
     <string name="graph_ago">24 ч назад</string>
     <string name="graph_now">сейчас</string>
 
-    <string name="now_title">Прямо сейчас</string>
+    <string name="now_title">Сейчас</string>
     <string name="voltage">Напряжение</string>
     <string name="current">Ток</string>
     <string name="power">Мощность</string>
     <!-- The RK817 has no battery temperature sensor (the driver reports a fixed 18.8 °C), so this is the processor's -->
     <string name="temperature">Температура процессора</string>
-    <string name="charger">Зарядное устройство</string>
+    <string name="charger">Зарядка</string>
 
     <!-- Battery capacity setting -->
     <string name="capacity_title">Ёмкость батареи</string>
     <string name="capacity_setting">Ёмкость</string>
-    <string name="capacity_hint">Указана на батарее. При неверном значении процент будет уплывать.</string>
-    <string name="capacity_reset">Сбросить на <xliff:g id="mah">%1$d</xliff:g> mAh</string>
-    <string name="capacity">Контроллер учитывает</string>
+    <string name="capacity_hint">Указана на батарее. При неверном значении процент заряда будет неточным.</string>
+    <string name="capacity_reset">Вернуть <xliff:g id="mah">%1$d</xliff:g> мА·ч</string>
+    <string name="capacity">Контроллер заряда считает</string>
     <string name="measure_title">Измерить ёмкость</string>
-    <string name="measure_summary">Показывает, сколько батарея реально держит: одна полная зарядка, затем играйте, пока консоль не выключится</string>
-    <string name="measure_how">Так выясняется, сколько заряда батарея реально держит, чтобы процент был точнее.\n\n1. Заряжайте, пока консоль не покажет, что заряд полный.\n2. Отключите зарядку и пользуйтесь консолью как обычно, пока она сама не выключится. Сон и перезагрузки допустимы, но между ними не заряжайте.\n3. Зарядите её и включите снова. Результат появится здесь.\n\nУведомление покажет, сколько осталось.</string>
+    <string name="measure_summary">Узнайте, сколько батарея вмещает на самом деле: одна полная зарядка, потом играйте, пока консоль не выключится</string>
+    <string name="measure_how">Так можно узнать, сколько заряда батарея вмещает на самом деле, и процент станет точнее.\n\n1. Заряжайте консоль, пока она не сообщит о полном заряде.\n2. Отключите зарядку и пользуйтесь консолью как обычно, пока она сама не выключится. Спящий режим и перезапуски не мешают, но заряжать в это время нельзя.\n3. Зарядите консоль и включите её снова. Результат появится здесь.\n\nЗа ходом измерения можно следить в уведомлении.</string>
     <string name="measure_start">Начать</string>
-    <string name="measure_limit_on">Ограничение заряда включено, поэтому батарея никогда не заряжается полностью. Сначала выключите ограничение заряда.</string>
-    <string name="measure_charge">Ждём: зарядите до полной, затем отключите зарядку</string>
+    <string name="measure_limit_on">Включено ограничение заряда, поэтому батарея никогда не заряжается до конца. Сначала выключите его.</string>
+    <string name="measure_charge">Ожидание: зарядите до конца, затем отключите зарядку</string>
     <string name="measure_unplug">Заряд полный. Отключите зарядку, чтобы начать</string>
-    <string name="measure_running">Израсходовано <xliff:g id="mah">%1$d</xliff:g> mAh. Продолжайте, пока консоль не выключится.</string>
-    <string name="measure_channel">Измерение батареи</string>
-    <string name="measure_stop_question">Остановить измерение? Всё, что уже посчитано, будет потеряно.</string>
+    <string name="measure_running">Пока израсходовано <xliff:g id="mah">%1$d</xliff:g> мА·ч. Продолжайте, пока консоль не выключится.</string>
+    <string name="measure_channel">Измерение ёмкости</string>
+    <string name="measure_stop_question">Остановить измерение? Всё, что уже насчитано, пропадёт.</string>
     <string name="measure_stop">Остановить</string>
     <string name="measure_keep_going">Продолжить</string>
-    <string name="measure_done_title">Батарея измерена</string>
-    <string name="measure_done_text">Батарея держит примерно <xliff:g id="mah">%1$d</xliff:g> mAh. Нажмите, чтобы использовать.</string>
-    <string name="measure_use_question">Батарея отдала <xliff:g id="measured">%1$d</xliff:g> mAh от полного заряда до выключения консоли. Использовать <xliff:g id="mah">%2$d</xliff:g> mAh как ёмкость?</string>
-    <string name="measure_use">Использовать</string>
-    <string name="measure_discard">Отменить</string>
-    <string name="measure_failed_title">Измерение батареи остановлено</string>
-    <string name="measure_fail_plugged">Остановлено: зарядка подключилась раньше, чем батарея села. Нажмите, чтобы попробовать снова.</string>
-    <string name="measure_fail_charged">Остановлено: консоль зарядили раньше, чем батарея села. Нажмите, чтобы попробовать снова.</string>
-    <string name="measure_fail_short">Остановлено: результат получился слишком низким, чтобы быть верным. Нажмите, чтобы попробовать снова.</string>
+    <string name="measure_done_title">Ёмкость измерена</string>
+    <string name="measure_done_text">Батарея вмещает около <xliff:g id="mah">%1$d</xliff:g> мА·ч. Нажмите, чтобы применить.</string>
+    <string name="measure_use_question">От полного заряда до выключения консоли батарея отдала <xliff:g id="measured">%1$d</xliff:g> мА·ч. Считать её ёмкостью <xliff:g id="mah">%2$d</xliff:g> мА·ч?</string>
+    <string name="measure_use">Применить</string>
+    <string name="measure_discard">Отклонить</string>
+    <string name="measure_failed_title">Измерение прервано</string>
+    <string name="measure_fail_plugged">Прервано: зарядку подключили раньше, чем батарея села. Нажмите, чтобы попробовать ещё раз.</string>
+    <string name="measure_fail_charged">Прервано: консоль зарядили раньше, чем батарея села. Нажмите, чтобы попробовать ещё раз.</string>
+    <string name="measure_fail_short">Прервано: результат слишком мал, чтобы быть верным. Нажмите, чтобы попробовать ещё раз.</string>
 
-    <string name="value_voltage"><xliff:g id="volts">%1$.2f</xliff:g> V</string>
-    <string name="value_current_in">поступает <xliff:g id="ma">%1$d</xliff:g> mA</string>
-    <string name="value_current_out">расходуется <xliff:g id="ma">%1$d</xliff:g> mA</string>
-    <string name="value_power"><xliff:g id="watts">%1$.2f</xliff:g> W</string>
+    <!-- Charge limit setting -->
+
+    <string name="value_voltage"><xliff:g id="volts">%1$.2f</xliff:g> В</string>
+    <string name="value_current_in">поступает <xliff:g id="ma">%1$d</xliff:g> мА</string>
+    <string name="value_current_out">расходуется <xliff:g id="ma">%1$d</xliff:g> мА</string>
+    <string name="value_power"><xliff:g id="watts">%1$.2f</xliff:g> Вт</string>
     <string name="value_temperature"><xliff:g id="celsius">%1$.1f</xliff:g> °C</string>
-    <string name="value_capacity"><xliff:g id="mah">%1$d</xliff:g> mAh</string>
-    <string name="value_capacity_default"><xliff:g id="mah">%1$d</xliff:g> mAh (по умолчанию)</string>
-    <string name="charger_none">Не подключено</string>
+    <string name="value_capacity"><xliff:g id="mah">%1$d</xliff:g> мА·ч</string>
+    <string name="value_capacity_default"><xliff:g id="mah">%1$d</xliff:g> мА·ч (по умолчанию)</string>
+    <string name="charger_none">Не подключена</string>
     <string name="charger_usb">USB</string>
-    <string name="charger_ac">Сетевое зарядное</string>
+    <string name="charger_ac">Сетевой адаптер</string>
     <string name="unknown">Неизвестно</string>
 
-    <string name="about">Процент — это оценка контроллера заряда. Напряжение измеряется напрямую: около 4,2 V — полный заряд, 3,7 V — примерно середина, а около 3,4 V консоль выключается. Во время игры напряжение проседает и восстанавливается в покое.\n\nЕсли процент и напряжение не совпадают, зарядите консоль, пока она не покажет полный заряд. Так контроллер сам себя исправит.\n\nВремя — грубая оценка по текущему току.</string>
+    <string name="about">Процент — это оценка контроллера заряда. Напряжение измеряется напрямую: около 4,2 В — полный заряд, 3,7 В — примерно половина, а около 3,4 В консоль выключается. Во время игры напряжение проседает, а в покое восстанавливается.\n\nЕсли процент не сходится с напряжением, зарядите консоль до полного заряда. Так контроллер откалибруется заново.\n\nВремя — грубая прикидка по текущему току.</string>
 
     <!-- Durations -->
     <string name="duration_min"><xliff:g id="minutes">%1$d</xliff:g> мин</string>

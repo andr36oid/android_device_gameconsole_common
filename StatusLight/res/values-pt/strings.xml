@@ -2,8 +2,8 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="sl_title">Luz de estado</string>
     <string name="sl_summary">O que a luz de estado mostra para bateria, carregamento e notificações</string>
-    <string name="sl_intro">A luz no meio da consola, abaixo de Fn. Escolhe o que ela mostra quando a bateria fica fraca, enquanto carrega e quando chega uma notificação. Continua a funcionar enquanto a consola dorme, só deixa de piscar.</string>
-    <string name="sl_missing">A luz desta consola não é uma que sabemos controlar.</string>
+    <string name="sl_intro">A luz no meio da consola, abaixo de Fn. Escolha o que ela mostra quando a bateria fica fraca, enquanto carrega e quando chega uma notificação. Continua a funcionar enquanto a consola dorme, só deixa de piscar.</string>
+    <string name="sl_missing">Ainda não sabemos controlar a luz desta consola.</string>
 
     <!-- What the light shows right now -->
     <string name="sl_now">Agora mesmo</string>
@@ -29,7 +29,7 @@
     <!-- e.g. "Always blue" -->
     <string name="sl_style_always">Sempre <xliff:g id="color">%1$s</xliff:g></string>
     <!-- e.g. "Your own: blue · red below 11 %" -->
-    <string name="sl_style_custom">À tua maneira: <xliff:g id="rules">%1$s</xliff:g></string>
+    <string name="sl_style_custom">Personalizado: <xliff:g id="rules">%1$s</xliff:g></string>
     <!-- e.g. "red below 11 %" -->
     <string name="sl_below"><xliff:g id="color">%1$s</xliff:g> abaixo dos <xliff:g id="level">%2$s</xliff:g> %%</string>
     <string name="sl_blink_low">Piscar quando estiver fraca</string>
@@ -50,24 +50,24 @@
     <string name="sl_notify">Piscar para notificações</string>
     <string name="sl_notify_summary">Com o ecrã apagado, a luz pisca enquanto há uma notificação à espera. Em suspensão, fica acesa em vez de piscar.</string>
     <string name="sl_notify_colors">Cores por app</string>
-    <string name="sl_notify_colors_summary">Escolhe uma cor para cada app. A luz usa a mais parecida que conseguir mostrar.</string>
+    <string name="sl_notify_colors_summary">Escolha uma cor para cada app. A luz usa a mais parecida que conseguir mostrar.</string>
 
     <!-- Tools -->
     <string name="sl_cat_tools">Ferramentas</string>
     <string name="sl_check">Verificar cores</string>
-    <string name="sl_check_summary">Não estás a ver as cores que escolheste? Descobre o que a luz da tua consola consegue mesmo mostrar.</string>
-    <string name="sl_reset">Voltar ao padrão</string>
+    <string name="sl_check_summary">Não vê as cores que escolheu? Descubra o que a luz da sua consola consegue mesmo mostrar.</string>
+    <string name="sl_reset">Repor predefinições</string>
     <string name="sl_reset_summary">Desfaz tudo nesta página, incluindo uma verificação de cores</string>
 
     <!-- Colour check -->
     <!-- %1$d is how many steps, e.g. 9 -->
-    <string name="sl_check_intro">A luz passa por <xliff:g id="count">%1$d</xliff:g> definições, uma a uma. De cada vez, olha para a luz e escolhe o que vês. Os clones estão ligados de maneiras muito diferentes, por isso isto descobre o que o teu consegue fazer.</string>
+    <string name="sl_check_intro">A luz passa por <xliff:g id="count">%1$d</xliff:g> definições, uma a uma. De cada vez, olhe para a luz e escolha o que vê. Os clones estão ligados de maneiras muito diferentes, por isso isto descobre o que a sua consegue fazer.</string>
     <string name="sl_check_go">Começar</string>
     <!-- e.g. "What does the light show? (3 of 9)" -->
     <string name="sl_check_step">O que mostra a luz? (<xliff:g id="step">%1$d</xliff:g> de <xliff:g id="count">%2$d</xliff:g>)</string>
     <string name="sl_check_other">Outra coisa</string>
     <!-- e.g. "Your light can show: off, blue, red, purple." -->
-    <string name="sl_check_result">A tua luz pode mostrar: <xliff:g id="colors">%1$s</xliff:g>.</string>
+    <string name="sl_check_result">A sua luz pode mostrar: <xliff:g id="colors">%1$s</xliff:g>.</string>
     <string name="sl_check_no_off">Não consegue desligar-se, só mudar de cor. Em algumas placas, a luz está ligada diretamente ao chip de energia, e nenhum software a consegue desligar.</string>
     <string name="sl_check_use">Usar estas cores</string>
     <string name="sl_check_keep">Manter as antigas</string>

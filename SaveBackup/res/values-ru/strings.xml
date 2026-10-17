@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_title">Копии сохранений</string>
-
     <!-- %1$s: a time, e.g. 14:02 -->
     <string name="today">Сегодня, %1$s</string>
     <string name="yesterday">Вчера, %1$s</string>
@@ -17,7 +16,6 @@
         <item quantity="many">%1$d игр</item>
         <item quantity="other">%1$d игры</item>
     </plurals>
-
     <!-- The summary in Settings and under Back up now -->
     <!-- %1$s: when, e.g. Today, 14:02; %2$s: e.g. 123 files -->
     <string name="last_backup">Последняя копия: %1$s, %2$s</string>
@@ -25,11 +23,9 @@
     <string name="last_no_saves">Файлы сохранений пока не найдены</string>
     <!-- %1$s: the summary above, %2$s: what went wrong -->
     <string name="last_failed">%1$s\nПоследняя попытка не удалась: %2$s</string>
-
     <string name="where_internal">внутренняя память</string>
     <string name="where_easyroms">EASYROMS</string>
     <string name="where_usb">USB-накопитель</string>
-
     <!-- Progress, on the page and in the notification -->
     <string name="step_start">Запуск…</string>
     <string name="step_scan">Поиск файлов сохранений…</string>
@@ -40,62 +36,56 @@
     <string name="step_list">Чтение копий…</string>
     <string name="step_plan">Сравнение с сохранениями на консоли…</string>
     <string name="step_restore">Восстановление…</string>
-
     <!-- %1$s: e.g. 123 files -->
     <string name="backup_done">Скопировано: %1$s</string>
     <string name="backup_unchanged">С последней копии ничего не изменилось</string>
     <string name="backup_nothing">Файлы сохранений не найдены. Сначала поиграйте и сохранитесь.</string>
-
     <string name="error_no_storage">Некуда сохранить копию: внутренняя память и EASYROMS недоступны.</string>
-    <string name="error_no_space">Не хватает свободного места для копии во внутренней памяти или на EASYROMS.</string>
+    <string name="error_no_space">Для копии не хватает свободного места во внутренней памяти или на EASYROMS.</string>
     <string name="error_write_failed">Не удалось записать копию. Возможно, SD-карта выходит из строя: скопируйте сохранения на компьютер.</string>
     <string name="error_no_usb">USB-накопитель не найден. Подключите его и попробуйте ещё раз.</string>
     <string name="error_not_found">Этой копии больше нет.</string>
     <string name="error_safety_failed">Ничего не восстановлено: не удалось сначала сделать копию сохранений, которые были бы заменены. Освободите место и попробуйте ещё раз.</string>
     <string name="error_busy">Идёт создание копии. Попробуйте чуть позже.</string>
     <string name="error_start">Не удалось запустить копирование сохранений. Перезапустите консоль и попробуйте ещё раз.</string>
-
     <!-- The main page -->
-    <string name="backup_now_title">Создать копию</string>
+    <string name="backup_now_title">Создать копию сейчас</string>
     <string name="restore_title">Восстановить сохранения</string>
     <string name="restore_summary">Выберите копию, затем всё или одну игру. Перед записью вы увидите, что изменится.</string>
-    <string name="usb_title">Копировать на USB-накопитель</string>
+    <string name="usb_title">Скопировать на USB-накопитель сейчас</string>
     <!-- %1$s: the drive's name -->
     <string name="usb_summary">Копирует последнюю копию на %1$s</string>
     <string name="usb_none">Подключите USB-накопитель, чтобы хранить копию отдельно от SD-карты</string>
-    <string name="auto_category">Автокопирование</string>
-    <string name="auto_title">Копировать автоматически</string>
-    <string name="auto_summary">Раз в день во время зарядки и после закрытия игры. Пропускается, если ничего не изменилось. После игры сохранения состояния больше 16 МБ (PSP) ждут ежедневной копии.</string>
+    <string name="auto_category">Автоматические копии</string>
+    <string name="auto_title">Создавать копии автоматически</string>
+    <string name="auto_summary">Раз в день во время зарядки и после закрытия игры. Пропускается, если ничего не изменилось. После игры быстрые сохранения больше 16 МБ (PSP) ждут ежедневной копии.</string>
     <string name="keep_title">Сколько копий хранить</string>
     <!-- %1$s: a number -->
-    <string name="keep_summary">Хранятся последние копии (%1$s), минимум по одной за каждый из недавних дней. Более старые удаляются.</string>
-    <string name="where_summary">Копии хранятся в двух местах: Внутренняя память/Backups/Saves и EASYROMS/backups/saves, а также на USB-накопителе, если он подключён. Оба места находятся на одной SD-карте, поэтому время от времени копируйте их на компьютер или USB-накопитель. Копируются сохранения RetroArch, PPSSPP и файлы сохранений рядом с играми.</string>
-
+    <string name="keep_summary">Хранятся последние %1$s, и минимум по одной за каждый из недавних дней. Более старые удаляются.</string>
+    <string name="where_summary">Копии лежат в двух местах: Внутренняя память/Backups/Saves и EASYROMS/backups/saves, а также на USB-накопителе, если он подключён. Оба места на одной SD-карте, поэтому время от времени копируйте их на компьютер или USB-накопитель. Включены сохранения RetroArch, PPSSPP и файлы сохранений рядом с играми.</string>
     <!-- The list of backups -->
     <!-- %1$s: what's running -->
     <string name="waiting_for_backup">Идёт создание копии. %1$s</string>
-    <string name="no_backups">Копий пока нет. Нажмите «Создать копию» или дождитесь ежедневной копии во время зарядки.</string>
+    <string name="no_backups">Копий пока нет. Нажмите «Создать копию сейчас» или дождитесь ежедневной копии во время зарядки.</string>
     <!-- %1$s: e.g. 12 games, %2$s: e.g. 123 files, %3$s: size, %4$s: where -->
     <string name="backup_summary">%1$s, %2$s, %3$s\nГде: %4$s</string>
     <!-- %1$s: where -->
     <string name="backup_broken">Эта копия повреждена и не читается (%1$s)</string>
-
     <!-- One backup -->
     <string name="restore_all_title">Восстановить всё</string>
     <!-- %1$s: e.g. 123 files -->
     <string name="restore_all_summary">Всё из этой копии (%1$s). Сначала вы увидите, что изменится.</string>
     <!-- %1$s: e.g. 3 files, %2$s: folders, %3$s: when -->
-    <string name="game_summary">%1$s в %2$s, сохранение: %3$s</string>
-
+    <string name="game_summary">%1$s в %2$s, сохранено %3$s</string>
     <!-- What restoring would do -->
     <string name="plan_title_all">Восстановить всё?</string>
     <!-- %1$s: the game -->
     <string name="plan_title_game">Восстановить %1$s?</string>
     <plurals name="plan_missing">
-        <item quantity="one">%1$d файл отсутствует на консоли и будет возвращён.</item>
-        <item quantity="few">%1$d файла отсутствуют на консоли и будут возвращены.</item>
-        <item quantity="many">%1$d файлов отсутствуют на консоли и будут возвращены.</item>
-        <item quantity="other">%1$d файла отсутствуют на консоли и будут возвращены.</item>
+        <item quantity="one">%1$d файла нет на консоли, он будет возвращён.</item>
+        <item quantity="few">%1$d файлов нет на консоли, они будут возвращены.</item>
+        <item quantity="many">%1$d файлов нет на консоли, они будут возвращены.</item>
+        <item quantity="other">%1$d файла нет на консоли, они будут возвращены.</item>
     </plurals>
     <plurals name="plan_older">
         <item quantity="one">%1$d более старое сохранение на консоли будет заменено копией.</item>
@@ -120,24 +110,23 @@
         <item quantity="other">%1$d файла уже совпадают.</item>
     </plurals>
     <plurals name="plan_unavailable">
-        <item quantity="one">%1$d файл должен быть на EASYROMS, но раздел не подключён, поэтому сейчас его не восстановить.</item>
-        <item quantity="few">%1$d файла должны быть на EASYROMS, но раздел не подключён, поэтому сейчас их не восстановить.</item>
-        <item quantity="many">%1$d файлов должны быть на EASYROMS, но раздел не подключён, поэтому сейчас их не восстановить.</item>
-        <item quantity="other">%1$d файла должны быть на EASYROMS, но раздел не подключён, поэтому сейчас их не восстановить.</item>
+        <item quantity="one">%1$d файл должен лежать на EASYROMS, но раздел не подключён, поэтому сейчас его не восстановить.</item>
+        <item quantity="few">%1$d файла должны лежать на EASYROMS, но раздел не подключён, поэтому сейчас их не восстановить.</item>
+        <item quantity="many">%1$d файлов должны лежать на EASYROMS, но раздел не подключён, поэтому сейчас их не восстановить.</item>
+        <item quantity="other">%1$d файла должны лежать на EASYROMS, но раздел не подключён, поэтому сейчас их не восстановить.</item>
     </plurals>
     <string name="plan_nothing">Нечего восстанавливать.</string>
-    <string name="plan_note">Всё, что будет заменено, сначала копируется. Перед восстановлением закройте RetroArch и PPSSPP, иначе при закрытии они могут перезаписать восстановленные сохранения.</string>
+    <string name="plan_note">Всё, что будет заменено, сначала копируется. Перед восстановлением выйдите из RetroArch и PPSSPP, иначе при закрытии они могут перезаписать восстановленные сохранения.</string>
     <string name="restore_button">Восстановить</string>
-    <string name="replace_newer_button">Заменить и новые</string>
-    <string name="replace_newer_title">Заменить новые сохранения?</string>
+    <string name="replace_newer_button">Заменить и более новые</string>
+    <string name="replace_newer_title">Заменить более новые сохранения?</string>
     <plurals name="replace_newer_message">
-        <item quantity="one">%1$d сохранение на консоли новее копии. Если его заменить, игра вернётся к более раннему прогрессу. Новое сохранение сначала копируется.</item>
-        <item quantity="few">%1$d сохранения на консоли новее копии. Если их заменить, эти игры вернутся к более раннему прогрессу. Новые сохранения сначала копируются.</item>
-        <item quantity="many">%1$d сохранений на консоли новее копии. Если их заменить, эти игры вернутся к более раннему прогрессу. Новые сохранения сначала копируются.</item>
-        <item quantity="other">%1$d сохранения на консоли новее копии. Если их заменить, эти игры вернутся к более раннему прогрессу. Новые сохранения сначала копируются.</item>
+        <item quantity="one">%1$d сохранение на консоли новее копии. Если его заменить, игра откатится к более раннему прогрессу. Более новое сохранение сначала копируется.</item>
+        <item quantity="few">%1$d сохранения на консоли новее копии. Если их заменить, эти игры откатятся к более раннему прогрессу. Более новые сохранения сначала копируются.</item>
+        <item quantity="many">%1$d сохранений на консоли новее копии. Если их заменить, эти игры откатятся к более раннему прогрессу. Более новые сохранения сначала копируются.</item>
+        <item quantity="other">%1$d сохранения на консоли новее копии. Если их заменить, эти игры откатятся к более раннему прогрессу. Более новые сохранения сначала копируются.</item>
     </plurals>
     <string name="replace_button">Заменить</string>
-
     <string name="result_title">Восстановление завершено</string>
     <plurals name="result_restored">
         <item quantity="one">Восстановлен %1$d файл.</item>
@@ -157,8 +146,12 @@
         <item quantity="many">Не удалось записать %1$d файлов. Возможно, SD-карта заполнена или выходит из строя.</item>
         <item quantity="other">Не удалось записать %1$d файла. Возможно, SD-карта заполнена или выходит из строя.</item>
     </plurals>
-
     <!-- The notification while an automatic backup runs -->
-    <string name="channel_name">Копирование сохранений</string>
+    <string name="channel_name">Создание копии сохранений</string>
     <string name="notification_title">Копирование сохранений</string>
+    <!-- Sync saves (Syncthing) -->
+    <!-- %1$d: number of devices -->
+    <!-- %1$s: the first 7 characters of a device ID -->
+    <!-- %1$s: device name -->
+    <!-- %1$s: the full device ID -->
 </resources>

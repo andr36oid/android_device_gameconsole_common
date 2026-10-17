@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="controllers_title">Controlos</string>
+    <string name="controllers_title">Comandos</string>
     <string name="controllers_summary">Mapeamento de botões, analógicos, rato, comandos</string>
 
     <!-- The Controls page -->
@@ -9,58 +9,58 @@
     <string name="external_title">Comandos externos</string>
     <string name="external_none">Nenhum ligado</string>
     <!-- Connected pads -->
-    <string name="connected_title">Controles conectados</string>
-    <string name="connected_none">Só os controles do console. Conecte um controle na porta OTG (com um adaptador, se precisar) ou pareie um por Bluetooth.</string>
-    <string name="bus_builtin">Embutido</string>
+    <string name="connected_title">Comandos ligados</string>
+    <string name="connected_none">Só os comandos da consola. Ligue um comando à porta OTG (com um adaptador, se necessário) ou sincronize um por Bluetooth.</string>
+    <string name="bus_builtin">Integrado</string>
     <string name="bus_usb">USB</string>
     <string name="bus_bluetooth">Bluetooth</string>
     <string name="bus_other">Externo</string>
     <string name="battery_percent">Bateria %1$d %%</string>
     <string name="battery_level">Bateria %1$s</string>
-    <string name="battery_charging">carregando</string>
+    <string name="battery_charging">a carregar</string>
     <string name="battery_none">Sem leitura da bateria</string>
     <string name="player_builtin_1">Jogador 1 no RetroArch</string>
     <string name="player_builtin_2">Jogador 2 no RetroArch</string>
     <string name="player_external_2">Jogador 2 em diante no RetroArch</string>
-    <string name="player_external_1">Jogador 1 no RetroArch, se apertado primeiro</string>
+    <string name="player_external_1">Jogador 1 no RetroArch, se for premido primeiro</string>
     <!-- joined with " · " -->
     <string name="summary_separator">" · "</string>
     <!-- RetroArch -->
     <string name="player1_title">Jogador 1 no RetroArch</string>
     <string-array name="player1_entries">
-        <item>Controles do console</item>
-        <item>Controle externo</item>
+        <item>Comandos da consola</item>
+        <item>Comando externo</item>
     </string-array>
-    <string name="player1_later">A mudança vale a partir da próxima vez que o RetroArch abrir. Se ele estiver aberto, feche-o primeiro (Select + Start duas vezes).</string>
+    <string name="player1_later">A alteração aplica-se da próxima vez que o RetroArch abrir. Se estiver aberto, feche-o primeiro (Select + Start duas vezes).</string>
     <!-- Bluetooth -->
     <string name="bluetooth_title">Bluetooth</string>
-    <string name="pair_title">Parear um controle Bluetooth</string>
-    <string name="pair_summary">Procurar um controle em modo de pareamento</string>
+    <string name="pair_title">Sincronizar um comando Bluetooth</string>
+    <string name="pair_summary">Procurar um comando em modo de sincronização</string>
     <string name="bluetooth_off">Ativar o Bluetooth</string>
     <string name="bluetooth_off_summary">O Bluetooth está desativado</string>
-    <string name="bluetooth_turning_on">Ativando o Bluetooth…</string>
+    <string name="bluetooth_turning_on">A ativar o Bluetooth…</string>
     <string name="bluetooth_missing">Sem Bluetooth</string>
-    <string name="bluetooth_missing_summary">Este console não tem Bluetooth. Conecte um adaptador Bluetooth USB na porta OTG para usar controles sem fio, ou use um controle USB.</string>
-    <string name="paired_connected">Pareado, conectado</string>
-    <string name="paired_not_connected">Pareado, não conectado. Ligue o controle ou aperte A.</string>
-    <string name="paired_dialog_connect">Conectar</string>
+    <string name="bluetooth_missing_summary">Esta consola não tem Bluetooth. Ligue um adaptador Bluetooth USB à porta OTG para usar comandos sem fios, ou use um comando USB.</string>
+    <string name="paired_connected">Sincronizado, ligado</string>
+    <string name="paired_not_connected">Sincronizado, não ligado. Ligue o comando ou prima A.</string>
+    <string name="paired_dialog_connect">Ligar</string>
     <string name="paired_dialog_forget">Esquecer</string>
     <string name="paired_forget_title">Esquecer %1$s?</string>
-    <string name="paired_forget_message">Para usá-lo de novo, você vai ter que pareá-lo de novo.</string>
+    <string name="paired_forget_message">Para o usar novamente, terá de o sincronizar outra vez.</string>
     <!-- Pairing page -->
-    <string name="pair_how_title">Coloque o controle em modo de pareamento</string>
-    <string name="pair_how">Xbox: segure o botãozinho de pareamento em cima até o botão Xbox piscar rápido.\nPlayStation 4 ou 5: segure Share (Create) e PS até a luz piscar.\nSwitch Pro: segure o botãozinho em cima, ao lado da porta USB.\n8BitDo: escolha o modo na chave ou com Start + um botão, depois segure Pair por 3 segundos.</string>
-    <string name="pair_found_title">Controles encontrados</string>
-    <string name="pair_searching">Procurando…</string>
-    <string name="pair_search_again">Procurar de novo</string>
-    <string name="pair_search_again_summary">Nada mais encontrado. Aperte A para procurar de novo.</string>
+    <string name="pair_how_title">Ponha o comando em modo de sincronização</string>
+    <string name="pair_how">Xbox: mantenha premido o pequeno botão de sincronização em cima até o botão Xbox piscar depressa.\nPlayStation 4 ou 5: mantenha premidos Share (Create) e PS até a luz piscar.\nSwitch Pro: mantenha premido o pequeno botão em cima, ao lado da porta USB.\n8BitDo: escolha o modo no interruptor ou com Start + um botão, depois mantenha Pair premido 3 segundos.</string>
+    <string name="pair_found_title">Comandos encontrados</string>
+    <string name="pair_searching">A procurar…</string>
+    <string name="pair_search_again">Procurar novamente</string>
+    <string name="pair_search_again_summary">Nada mais encontrado. Prima A para procurar novamente.</string>
     <string name="pair_show_all">Mostrar todos os dispositivos Bluetooth</string>
-    <string name="pair_show_all_summary">Inclusive os que não dizem que são controles</string>
-    <string name="pair_device_summary">Aperte A para parear</string>
-    <string name="pair_pairing">Pareando… Se aparecer uma pergunta, escolha Parear.</string>
-    <string name="pair_connecting">Pareado. Conectando…</string>
-    <string name="pair_connected">Conectado. Já pode usar.</string>
-    <string name="pair_failed">O pareamento falhou. Coloque o controle em modo de pareamento de novo e aperte A.</string>
+    <string name="pair_show_all_summary">Incluindo os que não dizem ser comandos</string>
+    <string name="pair_device_summary">Prima A para sincronizar</string>
+    <string name="pair_pairing">A sincronizar… Se aparecer uma pergunta, escolha Sincronizar.</string>
+    <string name="pair_connecting">Sincronizado. A ligar…</string>
+    <string name="pair_connected">Ligado. Pronto a usar.</string>
+    <string name="pair_failed">A sincronização falhou. Ponha o comando novamente em modo de sincronização e prima A.</string>
     <string name="pair_no_name">Dispositivo sem nome (%1$s)</string>
 
     <!-- Rumble -->
@@ -75,5 +75,5 @@
     </string-array>
     <string name="rumble_test_title">Experimentar</string>
     <string name="rumble_test_summary">Faz a consola vibrar um instante com esta intensidade</string>
-    <string name="rumble_help">Para jogos com vibração. Alguns emuladores também a querem ativada nas suas próprias definições, como o comando DualShock nos jogos de PlayStation ou o Rumble Pak na N64. Se o motor for forte demais ou chocalhar, baixe-a aqui.</string>
+    <string name="rumble_help">Para jogos com vibração. Alguns emuladores também precisam de a ter ativada nas suas próprias definições, como o comando DualShock nos jogos de PlayStation ou o Rumble Pak na N64. Se o motor for forte demais ou chocalhar, baixe-a aqui.</string>
 </resources>

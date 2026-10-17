@@ -3,7 +3,7 @@
     <string name="look_title">Персонализация</string>
     <string name="look_summary">Цвет акцента, звуки, анимация загрузки</string>
     <string name="accent_title">Цвет акцента</string>
-    <string name="accent_default">Бирюзовый LineageOS (по умолч.)</string>
+    <string name="accent_default">Бирюзовый LineageOS (по умолчанию)</string>
     <string name="sounds_title">Звуки интерфейса</string>
     <string name="sounds_android">Android (по умолчанию)</string>
     <string name="sounds_retro">Ретро</string>

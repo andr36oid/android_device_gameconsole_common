@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="warning_last">Último aviso em 3 %</string>
-    <string name="warning_last_summary">Sempre ativado quando o aviso está ativado. Fica mais tempo na tela, porque o console se desliga logo depois.</string>
-    <string name="banner_last_text">Bateria em <xliff:g id="percent">%1$d</xliff:g> %% – salve o jogo agora. O console vai se desligar em breve.</string>
+    <string name="warning_last_summary">Sempre ativo quando o aviso está ativo. Permanece mais tempo no ecrã, porque a consola desliga-se pouco depois.</string>
+    <string name="banner_last_text">Bateria a <xliff:g id="percent">%1$d</xliff:g> %% — guarde o jogo agora. A consola vai desligar-se em breve.</string>
 </resources>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="rgb_title">Iluminación RGB</string>
+    <string name="rgb_summary">Elige el color de las luces o apágalas</string>
+    <string name="rgb_colour_title">Color</string>
+    <string name="rgb_about">Las luces están apagadas hasta que elijas un color aquí. Tu elección se mantiene al reiniciar.</string>
+    <string name="rgb_missing">Esta consola no tiene luces RGB</string>
+    <string-array name="rgb_colour_names">
+        <item>Apagadas</item>
+        <item>Rojo</item>
+        <item>Verde</item>
+        <item>Azul</item>
+        <item>Amarillo</item>
+        <item>Cian</item>
+        <item>Morado</item>
+        <item>Blanco</item>
+    </string-array>
+</resources>

@@ -2,7 +2,7 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="sl_title">Voyant d\'état</string>
     <string name="sl_summary">Ce que montre le voyant d\'état pour la batterie, la charge et les notifications</string>
-    <string name="sl_intro">Le voyant au milieu de la console, sous Fn. Choisis ce qu\'il montre quand la batterie est basse, pendant la charge et quand une notification arrive. Il continue de fonctionner pendant que la console dort, il arrête juste de clignoter.</string>
+    <string name="sl_intro">Le voyant au milieu de la console, sous Fn. Choisissez ce qu\'il montre quand la batterie est basse, pendant la charge et quand une notification arrive. Il continue de fonctionner pendant que la console dort, il arrête juste de clignoter.</string>
     <string name="sl_missing">On ne sait pas contrôler le voyant de cette console.</string>
 
     <!-- What the light shows right now -->
@@ -29,11 +29,11 @@
     <!-- e.g. "Always blue" -->
     <string name="sl_style_always">Toujours <xliff:g id="color">%1$s</xliff:g></string>
     <!-- e.g. "Your own: blue · red below 11 %" -->
-    <string name="sl_style_custom">À toi : <xliff:g id="rules">%1$s</xliff:g></string>
+    <string name="sl_style_custom">Personnalisé : <xliff:g id="rules">%1$s</xliff:g></string>
     <!-- e.g. "red below 11 %" -->
     <string name="sl_below"><xliff:g id="color">%1$s</xliff:g> sous <xliff:g id="level">%2$s</xliff:g> %%</string>
     <string name="sl_blink_low">Clignoter si basse</string>
-    <string name="sl_blink_low_summary">La couleur de batterie basse clignote, pour que tu ne la rates pas</string>
+    <string name="sl_blink_low_summary">La couleur de batterie basse clignote, pour qu\'elle soit plus difficile à rater</string>
     <!-- e.g. "Red, blinking" -->
     <string name="sl_blinking"><xliff:g id="color">%1$s</xliff:g>, clignote</string>
     <string name="sl_hardware">Laisser faire le matériel</string>
@@ -50,24 +50,24 @@
     <string name="sl_notify">Clignoter pour les notifications</string>
     <string name="sl_notify_summary">Écran éteint, le voyant clignote tant qu\'une notification attend. En veille, il reste allumé à la place.</string>
     <string name="sl_notify_colors">Couleurs par appli</string>
-    <string name="sl_notify_colors_summary">Choisis une couleur pour chaque appli. Le voyant prend la plus proche qu\'il puisse montrer.</string>
+    <string name="sl_notify_colors_summary">Choisissez une couleur pour chaque appli. Le voyant prend la plus proche qu\'il puisse montrer.</string>
 
     <!-- Tools -->
     <string name="sl_cat_tools">Outils</string>
     <string name="sl_check">Vérifier les couleurs</string>
-    <string name="sl_check_summary">Tu ne vois pas les couleurs choisies ? Découvre ce que le voyant de ta console peut vraiment montrer.</string>
-    <string name="sl_reset">Revenir au défaut</string>
+    <string name="sl_check_summary">Vous ne voyez pas les couleurs choisies ? Découvrez ce que le voyant de votre console peut vraiment montrer.</string>
+    <string name="sl_reset">Valeurs par défaut</string>
     <string name="sl_reset_summary">Annule tout sur cette page, y compris une vérification de couleurs</string>
 
     <!-- Colour check -->
     <!-- %1$d is how many steps, e.g. 9 -->
-    <string name="sl_check_intro">Le voyant passe par <xliff:g id="count">%1$d</xliff:g> réglages, un par un. Chaque fois, regarde le voyant et choisis ce que tu vois. Les clones sont câblés de toutes sortes de façons, donc ça découvre ce que le tien peut faire.</string>
+    <string name="sl_check_intro">Le voyant passe par <xliff:g id="count">%1$d</xliff:g> réglages, un par un. Chaque fois, regardez le voyant et choisissez ce que vous voyez. Les clones sont câblés de toutes sortes de façons, donc ceci découvre ce que le vôtre peut faire.</string>
     <string name="sl_check_go">Démarrer</string>
     <!-- e.g. "What does the light show? (3 of 9)" -->
     <string name="sl_check_step">Qu\'est-ce que le voyant montre ? (<xliff:g id="step">%1$d</xliff:g> sur <xliff:g id="count">%2$d</xliff:g>)</string>
     <string name="sl_check_other">Autre chose</string>
     <!-- e.g. "Your light can show: off, blue, red, purple." -->
-    <string name="sl_check_result">Ton voyant peut montrer : <xliff:g id="colors">%1$s</xliff:g>.</string>
+    <string name="sl_check_result">Votre voyant peut montrer : <xliff:g id="colors">%1$s</xliff:g>.</string>
     <string name="sl_check_no_off">Il ne peut pas s\'éteindre, seulement changer de couleur. Sur certaines cartes, le voyant est câblé directement à la puce d\'alimentation, et aucun logiciel ne peut l\'éteindre.</string>
     <string name="sl_check_use">Utiliser ces couleurs</string>
     <string name="sl_check_keep">Garder les anciennes</string>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="rgb_title">Luzes RGB</string>
+    <string name="rgb_summary">Escolha a cor das luzes ou desligue-as</string>
+    <string name="rgb_colour_title">Cor</string>
+    <string name="rgb_about">As luzes ficam apagadas até você escolher uma cor aqui. Sua escolha é mantida após reiniciar.</string>
+    <string name="rgb_missing">Este console não tem luzes RGB</string>
+    <string-array name="rgb_colour_names">
+        <item>Desligadas</item>
+        <item>Vermelho</item>
+        <item>Verde</item>
+        <item>Azul</item>
+        <item>Amarelo</item>
+        <item>Ciano</item>
+        <item>Roxo</item>
+        <item>Branco</item>
+    </string-array>
+</resources>

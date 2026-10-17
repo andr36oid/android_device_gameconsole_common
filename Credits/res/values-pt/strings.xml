@@ -3,21 +3,21 @@
 
     <string name="credits_title">Créditos</string>
 
-    <string name="credits_tagline">Android 11 para o R36S</string>
+    <string name="credits_tagline">Android 11 para a R36S</string>
 
-    <string name="credits_team">A equipe</string>
+    <string name="credits_team">A equipa</string>
     <string name="credits_role_port">Port inicial</string>
     <string name="credits_role_ux">Extensões e UX</string>
-    <string name="credits_role_clones">Suporte aos clones</string>
-    <string name="credits_role_legend">Revisões, feedback e lenda absoluta</string>
+    <string name="credits_role_clones">Suporte a clones</string>
+    <string name="credits_role_legend">Análises, feedback e lenda absoluta</string>
     <string name="credits_role_beta">Feedback do beta</string>
     <string name="credits_on_youtube">no YouTube</string>
 
     <string name="credits_based_on">Baseado no trabalho de</string>
-    <string name="credits_351droid">Android para o RG351MP</string>
+    <string name="credits_351droid">Android para a RG351MP</string>
     <string name="credits_lineageos">A ROM Android livre e de código aberto</string>
-    <string name="credits_android">do Google</string>
-    <string name="credits_sprout">A tela inicial do Simple UI, por Indiegesindel</string>
+    <string name="credits_android">da Google</string>
+    <string name="credits_sprout">O ecrã principal Simple UI, por Indiegesindel</string>
     <string name="credits_bfi">Inserção de fotograma preto, por PakoVM</string>
     <string name="credits_r36tuner">Overclock da GPU e da memória, por zenmode-adri</string>
     <string name="credits_dpadplayer">A app Music, por jbriones95</string>

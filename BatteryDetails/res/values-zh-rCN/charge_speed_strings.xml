@@ -8,6 +8,6 @@
     <string name="speed_summary_slower"><xliff:g id="ma">%1$d</xliff:g> mA，约 <xliff:g id="watts">%2$s</xliff:g> W。比默认慢：发热更少，对电池更友好。</string>
     <string name="speed_summary_faster"><xliff:g id="ma">%1$d</xliff:g> mA，约 <xliff:g id="watts">%2$s</xliff:g> W。比默认快：需要至少 <xliff:g id="amps">%3$s</xliff:g> A（<xliff:g id="charger_watts">%4$s</xliff:g> W）的充电器。</string>
     <string name="speed_warning_title">以高于默认的速度充电？</string>
-    <string name="speed_warning">以 <xliff:g id="ma">%1$d</xliff:g> mA 充电（约 <xliff:g id="watts">%2$s</xliff:g> W 进入电池）会让电池和主机更热，电池也会更快老化。充电器需要至少提供 <xliff:g id="amps">%3$s</xliff:g> A（<xliff:g id="charger_watts">%4$s</xliff:g> W）。使用较弱的充电器、电脑的 USB 接口或细线时，充电可能时断时续，主机也可能断电。在最高几档速度下，建议给电源芯片（RK817）加装散热片。请只在使用优质充电器时开启，并且不要在主机发热时使用。</string>
+    <string name="speed_warning">以 <xliff:g id="ma">%1$d</xliff:g> mA 充电（约 <xliff:g id="watts">%2$s</xliff:g> W 进入电池）会让电池和掌机更热，电池也会更快老化。充电器需要至少提供 <xliff:g id="amps">%3$s</xliff:g> A（<xliff:g id="charger_watts">%4$s</xliff:g> W）。使用较弱的充电器、电脑的 USB 接口或细线时，充电可能时断时续，掌机也可能断电。在最高几档速度下，建议给电源芯片（RK817）加装散热片。请只在使用优质充电器时开启，并且不要在掌机发热时使用。</string>
     <string name="speed_warning_ok">更快充电</string>
 </resources>

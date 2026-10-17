@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_title">Backup de saves</string>
+    <string name="app_title">Cópia de saves</string>
 
     <!-- %1$s: a time, e.g. 14:02 -->
     <string name="today">Hoje, %1$s</string>
     <string name="yesterday">Ontem, %1$s</string>
     <plurals name="files">
-        <item quantity="one">%1$d arquivo</item>
-        <item quantity="other">%1$d arquivos</item>
+        <item quantity="one">%1$d ficheiro</item>
+        <item quantity="other">%1$d ficheiros</item>
     </plurals>
     <plurals name="games">
         <item quantity="one">%1$d jogo</item>
@@ -16,127 +16,127 @@
 
     <!-- The summary in Settings and under Back up now -->
     <!-- %1$s: when, e.g. Today, 14:02; %2$s: e.g. 123 files -->
-    <string name="last_backup">Último backup: %1$s, %2$s</string>
-    <string name="last_none">Nenhum backup ainda</string>
-    <string name="last_no_saves">Nenhum save encontrado ainda</string>
+    <string name="last_backup">Última cópia: %1$s, %2$s</string>
+    <string name="last_none">Ainda sem cópias</string>
+    <string name="last_no_saves">Ainda não foram encontrados ficheiros de save</string>
     <!-- %1$s: the summary above, %2$s: what went wrong -->
     <string name="last_failed">%1$s\nA última tentativa falhou: %2$s</string>
 
     <string name="where_internal">armazenamento interno</string>
     <string name="where_easyroms">EASYROMS</string>
-    <string name="where_usb">pen drive USB</string>
+    <string name="where_usb">pen USB</string>
 
     <!-- Progress, on the page and in the notification -->
-    <string name="step_start">Iniciando…</string>
-    <string name="step_scan">Procurando arquivos de save…</string>
+    <string name="step_start">A iniciar…</string>
+    <string name="step_scan">A procurar ficheiros de save…</string>
     <!-- %1$d: file number, %2$d: all files -->
-    <string name="step_backup">Fazendo backup do arquivo %1$d de %2$d…</string>
-    <string name="step_backup_plain">Fazendo backup…</string>
-    <string name="step_copy">Copiando o backup para os outros locais…</string>
-    <string name="step_list">Lendo os backups…</string>
-    <string name="step_plan">Comparando com os saves do console…</string>
-    <string name="step_restore">Restaurando…</string>
+    <string name="step_backup">A copiar o ficheiro %1$d de %2$d…</string>
+    <string name="step_backup_plain">A fazer a cópia…</string>
+    <string name="step_copy">A copiar a cópia para os outros locais…</string>
+    <string name="step_list">A ler as cópias…</string>
+    <string name="step_plan">A comparar com os saves da consola…</string>
+    <string name="step_restore">A restaurar…</string>
 
     <!-- %1$s: e.g. 123 files -->
-    <string name="backup_done">Backup feito: %1$s</string>
-    <string name="backup_unchanged">Nada mudou desde o último backup</string>
-    <string name="backup_nothing">Nenhum arquivo de save encontrado. Jogue e salve um jogo primeiro.</string>
+    <string name="backup_done">Cópia feita: %1$s</string>
+    <string name="backup_unchanged">Nada mudou desde a última cópia</string>
+    <string name="backup_nothing">Nenhum ficheiro de save encontrado. Jogue e guarde um jogo primeiro.</string>
 
-    <string name="error_no_storage">Não há onde fazer o backup: o armazenamento interno e o EASYROMS não estão disponíveis.</string>
-    <string name="error_no_space">Não há espaço livre suficiente para um backup no armazenamento interno nem no EASYROMS.</string>
-    <string name="error_write_failed">Não foi possível gravar o backup. O cartão SD pode estar falhando: copie seus saves para um PC.</string>
-    <string name="error_no_usb">Nenhum pen drive USB encontrado. Conecte um e tente de novo.</string>
-    <string name="error_not_found">Este backup não existe mais.</string>
-    <string name="error_safety_failed">Nada foi restaurado: não foi possível fazer backup antes dos saves que seriam substituídos. Libere algum espaço e tente de novo.</string>
-    <string name="error_busy">Um backup está em andamento. Tente de novo daqui a pouco.</string>
-    <string name="error_start">Não foi possível executar o Backup de saves. Reinicie o console e tente de novo.</string>
+    <string name="error_no_storage">Não há onde fazer a cópia: o armazenamento interno e o EASYROMS não estão disponíveis.</string>
+    <string name="error_no_space">Não há espaço livre suficiente para uma cópia no armazenamento interno nem no EASYROMS.</string>
+    <string name="error_write_failed">Não foi possível escrever a cópia. O cartão SD pode estar a falhar: copie os seus saves para um PC.</string>
+    <string name="error_no_usb">Nenhuma pen USB encontrada. Ligue uma e tente novamente.</string>
+    <string name="error_not_found">Esta cópia já não existe.</string>
+    <string name="error_safety_failed">Nada foi restaurado: não foi possível copiar primeiro os saves que seriam substituídos. Liberte algum espaço e tente novamente.</string>
+    <string name="error_busy">Está uma cópia em curso. Tente novamente daqui a pouco.</string>
+    <string name="error_start">Não foi possível iniciar a Cópia de saves. Reinicie a consola e tente novamente.</string>
 
     <!-- The main page -->
-    <string name="backup_now_title">Fazer backup agora</string>
+    <string name="backup_now_title">Fazer cópia agora</string>
     <string name="restore_title">Restaurar saves</string>
-    <string name="restore_summary">Escolha um backup e depois tudo ou um jogo só. Você vê o que muda antes de qualquer coisa ser gravada.</string>
-    <string name="usb_title">Fazer backup no pen drive agora</string>
+    <string name="restore_summary">Escolha uma cópia e depois tudo ou só um jogo. Vê o que muda antes de algo ser escrito.</string>
+    <string name="usb_title">Copiar para a pen USB agora</string>
     <!-- %1$s: the drive's name -->
-    <string name="usb_summary">Copia o backup mais recente para %1$s</string>
-    <string name="usb_none">Conecte um pen drive USB para guardar uma cópia fora do cartão SD</string>
-    <string name="auto_category">Backup automático</string>
-    <string name="auto_title">Fazer backup automaticamente</string>
-    <string name="auto_summary">Uma vez por dia durante a carga e depois que você fecha um jogo. Pulado quando nada mudou. Depois de um jogo, save states acima de 16 MB (PSP) esperam o backup diário.</string>
-    <string name="keep_title">Backups a manter</string>
+    <string name="usb_summary">Copia a cópia mais recente para %1$s</string>
+    <string name="usb_none">Ligue uma pen USB para guardar uma cópia fora do cartão SD</string>
+    <string name="auto_category">Cópia automática</string>
+    <string name="auto_title">Fazer cópias automaticamente</string>
+    <string name="auto_summary">Uma vez por dia durante o carregamento e depois de fechar um jogo. Saltada quando nada mudou. Depois de um jogo, os save states acima de 16 MB (PSP) esperam pela cópia diária.</string>
+    <string name="keep_title">Cópias a manter</string>
     <!-- %1$s: a number -->
-    <string name="keep_summary">Os %1$s mais recentes são mantidos, com pelo menos um de cada dia recente. Os mais antigos são excluídos.</string>
-    <string name="where_summary">Os backups vão para dois lugares: Backups/Saves no armazenamento interno e EASYROMS/backups/saves, além de um pen drive USB quando houver um conectado. Os dois lugares ficam no mesmo cartão SD, então copie os backups para um PC ou pen drive de vez em quando. Inclui saves do RetroArch, do PPSSPP e arquivos de save ao lado dos seus jogos.</string>
+    <string name="keep_summary">As %1$s mais recentes são mantidas, com pelo menos uma de cada dia recente. As mais antigas são eliminadas.</string>
+    <string name="where_summary">As cópias vão para dois locais: Backups/Saves no armazenamento interno e EASYROMS/backups/saves, mais uma pen USB quando estiver ligada. Os dois locais ficam no mesmo cartão SD, por isso copie as cópias para um PC ou pen USB de vez em quando. Inclui saves do RetroArch, do PPSSPP e ficheiros de save ao lado dos seus jogos.</string>
 
     <!-- The list of backups -->
     <!-- %1$s: what's running -->
-    <string name="waiting_for_backup">Um backup está em andamento. %1$s</string>
-    <string name="no_backups">Nenhum backup ainda. Use Fazer backup agora ou espere o backup diário durante a carga.</string>
+    <string name="waiting_for_backup">Está uma cópia em curso. %1$s</string>
+    <string name="no_backups">Ainda sem cópias. Use Fazer cópia agora ou espere pela cópia diária durante o carregamento.</string>
     <!-- %1$s: e.g. 12 games, %2$s: e.g. 123 files, %3$s: size, %4$s: where -->
     <string name="backup_summary">%1$s, %2$s, %3$s\nEm %4$s</string>
     <!-- %1$s: where -->
-    <string name="backup_broken">Este backup está danificado e não pode ser lido (em %1$s)</string>
+    <string name="backup_broken">Esta cópia está danificada e não pode ser lida (em %1$s)</string>
 
     <!-- One backup -->
     <string name="restore_all_title">Restaurar tudo</string>
     <!-- %1$s: e.g. 123 files -->
-    <string name="restore_all_summary">Todos os %1$s deste backup. Você vê o que muda primeiro.</string>
+    <string name="restore_all_summary">Todos os %1$s desta cópia. Vê primeiro o que muda.</string>
     <!-- %1$s: e.g. 3 files, %2$s: folders, %3$s: when -->
-    <string name="game_summary">%1$s em %2$s, salvo %3$s</string>
+    <string name="game_summary">%1$s em %2$s, guardado %3$s</string>
 
     <!-- What restoring would do -->
     <string name="plan_title_all">Restaurar tudo?</string>
     <!-- %1$s: the game -->
     <string name="plan_title_game">Restaurar %1$s?</string>
     <plurals name="plan_missing">
-        <item quantity="one">%1$d arquivo está faltando no console e será colocado de volta.</item>
-        <item quantity="other">%1$d arquivos estão faltando no console e serão colocados de volta.</item>
+        <item quantity="one">%1$d ficheiro está em falta na consola e será reposto.</item>
+        <item quantity="other">%1$d ficheiros estão em falta na consola e serão repostos.</item>
     </plurals>
     <plurals name="plan_older">
-        <item quantity="one">%1$d save mais antigo no console será substituído pelo backup.</item>
-        <item quantity="other">%1$d saves mais antigos no console serão substituídos pelo backup.</item>
+        <item quantity="one">%1$d save mais antigo na consola será substituído pela cópia.</item>
+        <item quantity="other">%1$d saves mais antigos na consola serão substituídos pela cópia.</item>
     </plurals>
     <plurals name="plan_newer">
-        <item quantity="one">%1$d save no console é mais novo que o backup. Ele será mantido:</item>
-        <item quantity="other">%1$d saves no console são mais novos que o backup. Eles serão mantidos:</item>
+        <item quantity="one">%1$d save na consola é mais recente do que a cópia. Será mantido:</item>
+        <item quantity="other">%1$d saves na consola são mais recentes do que a cópia. Serão mantidos:</item>
     </plurals>
     <!-- %1$s: file name, %2$s: its time on the console, %3$s: its time in the backup -->
-    <string name="plan_newer_item">• %1$s (console: %2$s, backup: %3$s)</string>
+    <string name="plan_newer_item">• %1$s (consola: %2$s, cópia: %3$s)</string>
     <!-- %1$d: how many more -->
     <string name="plan_more">• e mais %1$d</string>
     <plurals name="plan_same">
-        <item quantity="one">%1$d arquivo já é igual.</item>
-        <item quantity="other">%1$d arquivos já são iguais.</item>
+        <item quantity="one">%1$d ficheiro já é igual.</item>
+        <item quantity="other">%1$d ficheiros já são iguais.</item>
     </plurals>
     <plurals name="plan_unavailable">
-        <item quantity="one">%1$d arquivo pertence ao EASYROMS, que não está montado, e não pode ser restaurado agora.</item>
-        <item quantity="other">%1$d arquivos pertencem ao EASYROMS, que não está montado, e não podem ser restaurados agora.</item>
+        <item quantity="one">%1$d ficheiro pertence ao EASYROMS, que não está montado, e não pode ser restaurado agora.</item>
+        <item quantity="other">%1$d ficheiros pertencem ao EASYROMS, que não está montado, e não podem ser restaurados agora.</item>
     </plurals>
     <string name="plan_nothing">Nada para restaurar.</string>
-    <string name="plan_note">Tudo o que for substituído tem backup feito antes. Feche o RetroArch e o PPSSPP antes de restaurar, ou eles podem gravar por cima dos saves restaurados ao fechar.</string>
+    <string name="plan_note">Tudo o que for substituído é copiado primeiro. Feche o RetroArch e o PPSSPP antes de restaurar, ou podem escrever por cima dos saves restaurados ao fechar.</string>
     <string name="restore_button">Restaurar</string>
-    <string name="replace_newer_button">Substituir os mais novos</string>
-    <string name="replace_newer_title">Substituir saves mais novos?</string>
+    <string name="replace_newer_button">Substituir também os mais recentes</string>
+    <string name="replace_newer_title">Substituir saves mais recentes?</string>
     <plurals name="replace_newer_message">
-        <item quantity="one">%1$d save no console é mais novo que o backup. Substituí-lo leva esse jogo de volta ao progresso anterior. O save mais novo tem backup feito antes.</item>
-        <item quantity="other">%1$d saves no console são mais novos que o backup. Substituí-los leva esses jogos de volta ao progresso anterior. Os saves mais novos têm backup feito antes.</item>
+        <item quantity="one">%1$d save na consola é mais recente do que a cópia. Substituí-lo leva esse jogo de volta ao progresso anterior. O save mais recente é copiado primeiro.</item>
+        <item quantity="other">%1$d saves na consola são mais recentes do que a cópia. Substituí-los leva esses jogos de volta ao progresso anterior. Os saves mais recentes são copiados primeiro.</item>
     </plurals>
     <string name="replace_button">Substituir</string>
 
-    <string name="result_title">Restauração concluída</string>
+    <string name="result_title">Restauro concluído</string>
     <plurals name="result_restored">
-        <item quantity="one">%1$d arquivo restaurado.</item>
-        <item quantity="other">%1$d arquivos restaurados.</item>
+        <item quantity="one">%1$d ficheiro restaurado.</item>
+        <item quantity="other">%1$d ficheiros restaurados.</item>
     </plurals>
     <plurals name="result_kept">
-        <item quantity="one">%1$d save mais novo mantido.</item>
-        <item quantity="other">%1$d saves mais novos mantidos.</item>
+        <item quantity="one">%1$d save mais recente mantido.</item>
+        <item quantity="other">%1$d saves mais recentes mantidos.</item>
     </plurals>
     <plurals name="result_failed">
-        <item quantity="one">Não foi possível gravar %1$d arquivo. O cartão SD pode estar cheio ou falhando.</item>
-        <item quantity="other">Não foi possível gravar %1$d arquivos. O cartão SD pode estar cheio ou falhando.</item>
+        <item quantity="one">Não foi possível escrever %1$d ficheiro. O cartão SD pode estar cheio ou a falhar.</item>
+        <item quantity="other">Não foi possível escrever %1$d ficheiros. O cartão SD pode estar cheio ou a falhar.</item>
     </plurals>
 
     <!-- The notification while an automatic backup runs -->
-    <string name="channel_name">Backup de saves rodando</string>
-    <string name="notification_title">Fazendo backup dos saves</string>
+    <string name="channel_name">Cópia de saves em curso</string>
+    <string name="notification_title">A copiar os saves</string>
 </resources>

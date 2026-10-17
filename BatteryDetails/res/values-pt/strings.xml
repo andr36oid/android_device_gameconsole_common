@@ -6,18 +6,18 @@
 
     <!-- Header -->
     <string name="percent"><xliff:g id="percent">%1$d</xliff:g>%%</string>
-    <string name="status_charging">Carregando</string>
+    <string name="status_charging">A carregar</string>
     <string name="status_full">Carregada</string>
-    <string name="status_discharging">Na bateria</string>
-    <string name="status_not_charging">Conectado, sem carregar</string>
+    <string name="status_discharging">A bateria</string>
+    <string name="status_not_charging">Ligada, sem carregar</string>
     <string name="time_to_full">cerca de <xliff:g id="time">%1$s</xliff:g> até carregar</string>
-    <string name="time_left">cerca de <xliff:g id="time">%1$s</xliff:g> restantes neste ritmo</string>
+    <string name="time_left">cerca de <xliff:g id="time">%1$s</xliff:g> restantes a este ritmo</string>
     <!-- Joins status and time, e.g. "Charging · about 1 h 10 min until full" -->
     <string name="status_and_time"><xliff:g id="status">%1$s</xliff:g> · <xliff:g id="time">%2$s</xliff:g></string>
 
     <string name="graph_title">Últimas 24 horas</string>
-    <string name="graph_empty">O gráfico vai sendo preenchido conforme você usa o console. Um ponto é adicionado a cada 15 minutos enquanto ele está ligado.</string>
-    <string name="graph_ago">24 h atrás</string>
+    <string name="graph_empty">O gráfico vai-se preenchendo à medida que usa a consola. É adicionado um ponto a cada 15 minutos enquanto ela está ligada.</string>
+    <string name="graph_ago">há 24 h</string>
     <string name="graph_now">agora</string>
 
     <string name="now_title">Agora</string>
@@ -31,44 +31,44 @@
     <!-- Battery capacity setting -->
     <string name="capacity_title">Capacidade da bateria</string>
     <string name="capacity_setting">Capacidade</string>
-    <string name="capacity_hint">Vem impressa na bateria. Valores errados fazem a porcentagem sair do lugar.</string>
-    <string name="capacity_reset">Voltar para <xliff:g id="mah">%1$d</xliff:g> mAh</string>
-    <string name="capacity">Medidor usa</string>
-    <string name="measure_title">Medir capacidade</string>
-    <string name="measure_summary">Descubre quanto a bateria realmente guarda: uma carga completa e depois jogue até o console desligar</string>
-    <string name="measure_how">Isso descobre quanta carga a bateria realmente guarda, para a porcentagem ficar mais precisa.\n\n1. Carregue até o console dizer que está cheio.\n2. Desconecte e use o console normalmente até ele desligar sozinho. Suspensão e reinícios são tranquilos, mas não carregue no meio do caminho.\n3. Carregue e ligue de novo. O resultado aparece aqui.\n\nUma notificação mostra quanto falta.</string>
+    <string name="capacity_hint">Vem impressa na bateria. Um valor errado faz a percentagem descalibrar.</string>
+    <string name="capacity_reset">Repor <xliff:g id="mah">%1$d</xliff:g> mAh</string>
+    <string name="capacity">O medidor usa</string>
+    <string name="measure_title">Medir a capacidade</string>
+    <string name="measure_summary">Descobre quanto a bateria realmente guarda: uma carga completa e depois jogue até a consola se desligar</string>
+    <string name="measure_how">Isto descobre quanta carga a bateria realmente guarda, para a percentagem ficar mais precisa.\n\n1. Carregue até a consola indicar que está cheia.\n2. Desligue o carregador e use a consola normalmente até ela se desligar sozinha. Suspensão e reinícios não fazem mal, mas não carregue pelo meio.\n3. Carregue e ligue novamente. O resultado aparece aqui.\n\nUma notificação mostra em que ponto vai.</string>
     <string name="measure_start">Iniciar</string>
-    <string name="measure_limit_on">O limite de carga está ativado, então a bateria nunca fica cheia. Desative o limite de carga primeiro.</string>
-    <string name="measure_charge">Aguardando: carregue até cheio e depois desconecte</string>
-    <string name="measure_unplug">Cheio. Desconecte o carregador para começar</string>
-    <string name="measure_running"><xliff:g id="mah">%1$d</xliff:g> mAh usados até agora. Continue até o console desligar.</string>
+    <string name="measure_limit_on">O limite de carga está ativado, por isso a bateria nunca fica cheia. Desative primeiro o limite de carga.</string>
+    <string name="measure_charge">À espera: carregue até ficar cheia e depois desligue o carregador</string>
+    <string name="measure_unplug">Cheia. Desligue o carregador para começar</string>
+    <string name="measure_running"><xliff:g id="mah">%1$d</xliff:g> mAh usados até agora. Continue até a consola se desligar.</string>
     <string name="measure_channel">Medição da bateria</string>
-    <string name="measure_stop_question">Parar a medição? O que foi contado até agora será perdido.</string>
+    <string name="measure_stop_question">Parar a medição? O que foi contado até agora perde-se.</string>
     <string name="measure_stop">Parar</string>
     <string name="measure_keep_going">Continuar</string>
     <string name="measure_done_title">Bateria medida</string>
-    <string name="measure_done_text">A bateria guarda cerca de <xliff:g id="mah">%1$d</xliff:g> mAh. Toque para usar.</string>
-    <string name="measure_use_question">A bateria deu <xliff:g id="measured">%1$d</xliff:g> mAh do cheio até o console desligar. Usar <xliff:g id="mah">%2$d</xliff:g> mAh como capacidade?</string>
+    <string name="measure_done_text">A bateria guarda cerca de <xliff:g id="mah">%1$d</xliff:g> mAh. Toque para usar este valor.</string>
+    <string name="measure_use_question">A bateria deu <xliff:g id="measured">%1$d</xliff:g> mAh desde cheia até a consola se desligar. Usar <xliff:g id="mah">%2$d</xliff:g> mAh como capacidade?</string>
     <string name="measure_use">Usar</string>
-    <string name="measure_discard">Descartar</string>
-    <string name="measure_failed_title">Medição da bateria parada</string>
-    <string name="measure_fail_plugged">Parado: o carregador foi conectado antes de a bateria acabar. Toque para tentar de novo.</string>
-    <string name="measure_fail_charged">Parado: o console foi carregado antes de a bateria acabar. Toque para tentar de novo.</string>
-    <string name="measure_fail_short">Parado: a contagem ficou baixa demais para estar certa. Toque para tentar de novo.</string>
+    <string name="measure_discard">Rejeitar</string>
+    <string name="measure_failed_title">Medição da bateria interrompida</string>
+    <string name="measure_fail_plugged">Parada: o carregador foi ligado antes de a bateria acabar. Toque para tentar novamente.</string>
+    <string name="measure_fail_charged">Parada: a consola foi carregada antes de a bateria acabar. Toque para tentar novamente.</string>
+    <string name="measure_fail_short">Parada: a contagem ficou baixa demais para estar certa. Toque para tentar novamente.</string>
 
     <string name="value_voltage"><xliff:g id="volts">%1$.2f</xliff:g> V</string>
-    <string name="value_current_in"><xliff:g id="ma">%1$d</xliff:g> mA entrando</string>
-    <string name="value_current_out"><xliff:g id="ma">%1$d</xliff:g> mA saindo</string>
+    <string name="value_current_in"><xliff:g id="ma">%1$d</xliff:g> mA a entrar</string>
+    <string name="value_current_out"><xliff:g id="ma">%1$d</xliff:g> mA a sair</string>
     <string name="value_power"><xliff:g id="watts">%1$.2f</xliff:g> W</string>
     <string name="value_temperature"><xliff:g id="celsius">%1$.1f</xliff:g> °C</string>
     <string name="value_capacity"><xliff:g id="mah">%1$d</xliff:g> mAh</string>
-    <string name="value_capacity_default"><xliff:g id="mah">%1$d</xliff:g> mAh (padrão)</string>
-    <string name="charger_none">Não conectado</string>
+    <string name="value_capacity_default"><xliff:g id="mah">%1$d</xliff:g> mAh (predefinição)</string>
+    <string name="charger_none">Não ligado</string>
     <string name="charger_usb">USB</string>
-    <string name="charger_ac">Carregador de tomada</string>
+    <string name="charger_ac">Carregador de parede</string>
     <string name="unknown">Desconhecido</string>
 
-    <string name="about">A porcentagem é uma estimativa do medidor de carga. A tensão é medida diretamente: cerca de 4,2 V é carga completa, 3,7 V é mais ou menos a metade e o console desliga perto de 3,4 V. A tensão cai enquanto um jogo está rodando e se recupera em repouso.\n\nSe a porcentagem e a tensão não baterem, carregue até o console indicar carga completa. Assim o medidor se corrige sozinho.\n\nOs tempos são estimativas aproximadas com base na corrente atual.</string>
+    <string name="about">A percentagem é uma estimativa do medidor de carga. A tensão é medida diretamente: cerca de 4,2 V é carga completa, 3,7 V é mais ou menos metade e a consola desliga-se perto dos 3,4 V. A tensão desce enquanto um jogo está a correr e recupera em repouso.\n\nSe a percentagem e a tensão não baterem certo, carregue até a consola indicar carga completa. Assim o medidor corrige-se sozinho.\n\nOs tempos são estimativas aproximadas com base na corrente atual.</string>
 
     <!-- Durations -->
     <string name="duration_min"><xliff:g id="minutes">%1$d</xliff:g> min</string>

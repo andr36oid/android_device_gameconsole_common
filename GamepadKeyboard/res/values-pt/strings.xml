@@ -1,37 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="ime_name">Teclado para controle</string>
+    <string name="ime_name">Teclado para comando</string>
     <!-- Hint line above the keys. Buttons on keys (B, X, Y, START, SELECT, L3) are shown on the keys themselves. -->
-    <string name="hint_grid">Segure A: acentos · L1/R1 movem o cursor · L2 oculta · R2 texto grande · R3 modo analógico</string>
-    <string name="hint_sticks">Analógico esq.: grupo · direito: letra, solte para digitar · B apaga · X espaço · Y shift · START enter · R3 teclas</string>
+    <string name="hint_grid">Mantenha A: acentos · L1/R1 movem o cursor · L2 oculta · R2 texto grande · R3 modo analógico</string>
+    <string name="hint_sticks">Analógico esq.: grupo · direito: letra, solte para escrever · B apaga · X espaço · Y shift · START enter · R3 teclas</string>
     <string name="stick_left">grupo</string>
-    <string name="stick_right">solte para digitar</string>
+    <string name="stick_right">solte para escrever</string>
     <string name="key_space">espaço</string>
     <string name="key_go">Ir</string>
-    <string name="key_search">Buscar</string>
+    <string name="key_search">Pesquisar</string>
     <string name="key_send">Enviar</string>
-    <string name="key_next">Avançar</string>
-    <string name="key_done">Pronto</string>
-    <string name="key_previous">Voltar</string>
-    <string name="no_other_keyboard">Nenhum outro teclado instalado.</string>
-    <string name="switched_to_tv">Teclado do Android TV ativado. Para voltar: Configurações &gt; Sistema &gt; Idiomas e entrada &gt; Teclado na tela &gt; Teclado para controle.</string>
-    <string name="which_self">Teclado em uso: Teclado para controle</string>
-    <string name="which_self_summary">Selecione para usar o teclado do Android TV (o que as versões antigas tinham)</string>
+    <string name="key_next">Seguinte</string>
+    <string name="key_done">Concluído</string>
+    <string name="key_previous">Anterior</string>
+    <string name="no_other_keyboard">Não há outro teclado instalado.</string>
+    <string name="switched_to_tv">Teclado do Android TV ativado. Para voltar: Definições &gt; Sistema &gt; Idiomas e introdução &gt; Teclado no ecrã &gt; Teclado para comando.</string>
+    <string name="which_self">Teclado em uso: Teclado para comando</string>
+    <string name="which_self_summary">Selecione para usar o teclado do Android TV (o das versões antigas)</string>
     <string name="which_other">Teclado em uso: outro teclado</string>
-    <string name="which_other_summary">Selecione para voltar a usar o Teclado para controle</string>
-    <string name="pref_layout">Layout das letras</string>
+    <string name="which_other_summary">Selecione para voltar a usar o Teclado para comando</string>
+    <string name="pref_layout">Disposição das letras</string>
     <string-array name="layout_entries">
-        <item>Automático (pelo idioma do sistema)</item>
+        <item>Automática (pelo idioma do sistema)</item>
         <item>QWERTY</item>
         <item>QWERTZ</item>
         <item>AZERTY</item>
     </string-array>
     <string name="pref_sticks">Começar no modo analógico</string>
     <string name="pref_sticks_summary">Abre o teclado com os dois círculos dos analógicos em vez das teclas. R3 alterna a qualquer momento.</string>
-    <string name="pref_auto_big">Mostrar o texto quando o teclado o cobrir</string>
-    <string name="pref_auto_big_summary">Se o campo de texto ficar embaixo do teclado, mostra o texto em uma linha grande acima dele. O R2 faz isso manualmente.</string>
+    <string name="pref_auto_big">Mostrar o texto quando o teclado o tapa</string>
+    <string name="pref_auto_big_summary">Se o campo de texto ficar debaixo do teclado, mostra o texto numa linha grande por cima. O R2 fá-lo manualmente.</string>
     <string name="pref_hints">Mostrar dicas dos botões</string>
-    <string name="pref_hints_summary">A linha acima das teclas e os nomes dos botões nas teclas</string>
+    <string name="pref_hints_summary">A linha por cima das teclas e os nomes dos botões nas teclas</string>
     <string name="buttons_title">Botões</string>
-    <string name="buttons_help">Direcional ou analógico esquerdo: mover\nA: digitar (segure para acentos: é, ã, ç…)\nB: apagar (com o campo vazio: fechar)\nX: espaço\nY: shift (duas vezes: caps lock)\nL1 / R1: mover o cursor do texto\nL2: fechar o teclado\nR2: liga/desliga a linha de texto grande\nStart: enter / pronto\nSelect: letras ou símbolos\nL3: mudar para o teclado do Android TV\nR3: grade de teclas ou modo analógico\n\nModo analógico: o analógico esquerdo escolhe um grupo de quatro, o direito aponta para uma letra; solte-o para digitá-la.</string>
+    <string name="buttons_help">D-pad ou analógico esquerdo: mover\nA: escrever (mantenha premido para acentos: é, ã, ç…)\nB: apagar (com o campo vazio: fechar)\nX: espaço\nY: shift (duas vezes: caps lock)\nL1 / R1: mover o cursor do texto\nL2: fechar o teclado\nR2: ativa/desativa a linha de texto grande\nStart: enter / concluído\nSelect: letras ou símbolos\nL3: mudar para o teclado do Android TV\nR3: grelha de teclas ou modo analógico\n\nModo analógico: o analógico esquerdo escolhe um grupo de quatro, o direito aponta para uma letra; solte-o para a escrever.</string>
 </resources>

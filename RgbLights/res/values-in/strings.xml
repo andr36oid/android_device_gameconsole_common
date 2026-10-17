@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="rgb_title">Lampu RGB</string>
+    <string name="rgb_summary">Pilih warna lampu atau matikan</string>
+    <string name="rgb_colour_title">Warna</string>
+    <string name="rgb_about">Lampu tetap mati sampai Anda memilih warna di sini. Pilihan Anda tetap tersimpan setelah konsol dimulai ulang.</string>
+    <string name="rgb_missing">Konsol ini tidak memiliki lampu RGB</string>
+    <string-array name="rgb_colour_names">
+        <item>Mati</item>
+        <item>Merah</item>
+        <item>Hijau</item>
+        <item>Biru</item>
+        <item>Kuning</item>
+        <item>Sian</item>
+        <item>Ungu</item>
+        <item>Putih</item>
+    </string-array>
+</resources>

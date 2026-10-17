@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="rgb_title">RGB-Beleuchtung</string>
+    <string name="rgb_summary">Farbe der Beleuchtung wählen oder ausschalten</string>
+    <string name="rgb_colour_title">Farbe</string>
+    <string name="rgb_about">Die Beleuchtung bleibt aus, bis du hier eine Farbe wählst. Deine Auswahl bleibt nach einem Neustart erhalten.</string>
+    <string name="rgb_missing">Diese Konsole hat keine RGB-Beleuchtung</string>
+    <string-array name="rgb_colour_names">
+        <item>Aus</item>
+        <item>Rot</item>
+        <item>Grün</item>
+        <item>Blau</item>
+        <item>Gelb</item>
+        <item>Cyan</item>
+        <item>Violett</item>
+        <item>Weiß</item>
+    </string-array>
+</resources>
