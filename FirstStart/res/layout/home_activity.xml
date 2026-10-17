@@ -26,6 +26,45 @@
         android:textSize="16sp" />
 
     <LinearLayout
+        android:id="@+id/preparing_progress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/preparing_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:accessibilityLiveRegion="polite"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/preparing_app"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textColor="?android:attr/textColorSecondary"
+            android:textSize="15sp" />
+
+        <ProgressBar
+            style="@android:style/Widget.Material.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:layout_marginTop="12dp"
+            android:indeterminate="true" />
+
+        <TextView
+            android:id="@+id/preparing_elapsed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textColor="?android:attr/textColorSecondary"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/buttons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -35,7 +74,7 @@
 
         <Button
             android:id="@+id/skip"
-            style="?android:attr/borderlessButtonStyle"
+            style="@style/Andr36oidSetupButton.Secondary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
@@ -43,7 +82,7 @@
 
         <Button
             android:id="@+id/back"
-            style="@android:style/Widget.DeviceDefault.Button.Colored"
+            style="@style/Andr36oidSetupButton.Primary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/home_back" />

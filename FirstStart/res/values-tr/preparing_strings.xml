@@ -1,5 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="preparing_title">Oyunlarınız hazırlanıyor…</string>
     <string name="preparing_body">Ana ekranınız Daijishou, oyun sistemleriniz hazır olur olmaz kendiliğinden açılır. İlk açılışta bu birkaç dakika sürer.</string>
+
+    <string name="preparing_starting">Hazırlanıyor…</string>
+    <string name="preparing_apps">Seçtiğin uygulamalar yükleniyor…</string>
+    <string name="preparing_controls">Kontroller ayarlanıyor…</string>
+    <string name="preparing_cores">Emülatörler hazırlanıyor…</string>
+    <string name="preparing_cores_count">Emülatörler hazırlanıyor (<xliff:g id="current">%1$d</xliff:g> / <xliff:g id="total">%2$d</xliff:g>)…</string>
+    <string name="preparing_storage">Oyun sürücüsü bekleniyor…</string>
+    <string name="preparing_folders">Oyun klasörlerin oluşturuluyor…</string>
+    <string name="preparing_games">Hazır gelen oyunlar kopyalanıyor…</string>
+    <string name="preparing_appsettings">Uygulama ayarları uygulanıyor…</string>
+    <string name="preparing_library">Oyun kütüphanen oluşturuluyor…</string>
+    <string name="preparing_cheats">Hile kodları hazırlanıyor…</string>
+    <string name="preparing_installing"><xliff:g id="value">%1$s</xliff:g> yükleniyor…</string>
+    <string name="preparing_elapsed">Geçen süre: <xliff:g id="value">%1$s</xliff:g></string>
 </resources>

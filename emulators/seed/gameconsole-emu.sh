@@ -48,6 +48,18 @@ RA_DATA=/data/user/0/$RA_PKG
 FS_PKG=org.andr36oid.firststart
 FS_APK=$BASE/firststart/FirstStart.apk
 
+# Short status codes for FirstStart's translated progress screen. Native property
+# writes avoid starting a Java VM for each update. No updates after first setup.
+SETUP_PROGRESS_ENABLED=0
+setup_progress() {
+	[ "$SETUP_PROGRESS_ENABLED" = 1 ] || return 0
+	setprop sys.andr36oid.setup_stage "$1"
+}
+setup_installing() {
+	[ "$SETUP_PROGRESS_ENABLED" = 1 ] || return 0
+	setprop sys.andr36oid.setup_app "${1%.apk}"
+}
+
 log() {
 	/system/bin/log -t gameconsole-emu "$*"
 	echo "$*"
@@ -380,6 +392,7 @@ yml_get() {
 # install_one <apk> <marker> <version> ; pm install, then the installed. or failed. mark
 install_one() {
 	local out
+	setup_installing "${1##*/}"
 	if out=$(pm install -r -g --user 0 "$1" </dev/null 2>&1); then
 		touch "$STATE/installed.$2"
 		rm -f "$STATE/failed.$2"
@@ -395,6 +408,7 @@ install_one() {
 			;;
 		esac
 	fi
+	setup_installing ""
 }
 
 # APPS_LEFT: 1 when install_apks left an app on AUTOAPK for later
@@ -695,7 +709,7 @@ seed_core_options() {
 
 seed_cores() {
 	local cores=$RA_DATA/cores own=$RA_DATA/.gameconsole
-	local manifest archive sum stamp tmp so f dest
+	local manifest archive sum stamp tmp so f dest part=0 total=0
 
 	[ -d "$RA_DATA" ] || return 0
 
@@ -706,10 +720,15 @@ seed_cores() {
 	touch "$manifest"
 
 	for archive in "$BASE"/libretro/cores-*.tar.gz; do
+		[ -f "$archive" ] && total=$((total + 1))
+	done
+	for archive in "$BASE"/libretro/cores-*.tar.gz; do
 		[ -f "$archive" ] || continue
+		part=$((part + 1))
 		sum=$(sha1 "$archive")
 		stamp=$own/${archive##*/}.sha1
 		[ "$(cat "$stamp" 2>/dev/null)" = "$sum" ] && continue
+		setup_progress "cores:$part:$total"
 
 		tmp=$own/tmp
 		rm -rf "$tmp"
@@ -1102,6 +1121,7 @@ FREE_GAMES_MIN_FREE=65536
 seed_free_games() {
 	local root=$1 m dir free n=0
 	[ -f "$FREE_GAMES" ] && [ -n "$root" ] && [ -d "$root" ] || return 0
+	setup_progress games
 	free=$(df -k "$root" 2>/dev/null | awk 'NR == 2 { print $4 }')
 	case $free in
 	''|*[!0-9]*) ;;
@@ -1169,6 +1189,7 @@ EASYROMS_LATE_TRIES=20
 easyroms_late() {
 	local i=0
 	trap - EXIT
+	setup_progress storage
 	while [ $i -lt $EASYROMS_LATE_TRIES ]; do
 		EASYROMS=$(easyroms_path) && break
 		EASYROMS=
@@ -1180,9 +1201,11 @@ easyroms_late() {
 		return 0
 	fi
 	log "EASYROMS mounted at $EASYROMS, doing its steps now"
+	setup_progress folders
 	make_rom_folders
 	command -v rom_nomedia >/dev/null && rom_nomedia
 	bios_folder
+	setup_progress library
 	seed_daijishou
 	dj_new_games
 	daijishou_ready
@@ -2494,6 +2517,10 @@ until pm path android </dev/null >/dev/null 2>&1; do
 done
 
 # gameconsole-apps: the setup's app page was left with Next, install what was picked
+if [ "$(getprop persist.andr36oid.setup_done)" != 1 ]; then
+	SETUP_PROGRESS_ENABLED=1
+fi
+
 if [ "${1:-}" = apps ]; then
 	log "installing the apps picked in the setup"
 	install_apks
@@ -2503,29 +2530,36 @@ if [ "${1:-}" = apps ]; then
 	exit 0
 fi
 
+setup_progress apps
 seed_cromite_gamepad
 seed_net_traffic
 first_start
 install_apks
 # after the installs: the browsers are normal apps installed by install_apks
 seed_cromite_search
+setup_progress controls
 seed_ppsspp
 seed_retroarch
 seed_core_options
+setup_progress cores
 seed_cores
 seed_game_options
 seed_look
+setup_progress storage
 find_easyroms
 refresh_rate
 ra_fonts
+setup_progress folders
 make_rom_folders
 # stand-alone apps' first-start settings, after the installs
+setup_progress appsettings
 seed_firstrun
 apps_done
 rom_nomedia
 # after the ROM folders: they are only made on a card without any of them
 bios_folder
 # after the cores and ROM folders: a platform needs both
+setup_progress library
 seed_daijishou
 dj_new_games
 daijishou_ready
@@ -2534,6 +2568,7 @@ ra_hotkeys
 # PPSSPP isn't running this early; it writes controls.ini back when it quits
 ppsspp_controls
 # last: the first unpack takes a while
+setup_progress cheats
 seed_cheats
 # the cards held back for the first start can be mounted now (the late EASYROMS
 # steps do this themselves when they finish)

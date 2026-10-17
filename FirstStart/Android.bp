@@ -8,7 +8,8 @@ android_app {
     name: "Andr36oidFirstStart",
     srcs: ["src/**/*.java"],
     resource_dirs: ["res"],
-    sdk_version: "current",
+    platform_apis: true,
+    static_libs: ["andr36oid-setup-theme"],
     // Signed like the guide, so it gets the guide's signature permission to talk to it
     certificate: "platform",
     // pm install needs the dex inside the APK

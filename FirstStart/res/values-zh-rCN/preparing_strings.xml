@@ -1,5 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="preparing_title">正在准备游戏…</string>
     <string name="preparing_body">游戏系统设置好后，主屏幕 Daijishou 会自动打开。首次启动需要几分钟。</string>
+
+    <string name="preparing_starting">正在准备…</string>
+    <string name="preparing_apps">正在安装你选择的应用…</string>
+    <string name="preparing_controls">正在设置按键…</string>
+    <string name="preparing_cores">正在准备模拟器…</string>
+    <string name="preparing_cores_count">正在准备模拟器（<xliff:g id="current">%1$d</xliff:g>/<xliff:g id="total">%2$d</xliff:g>）…</string>
+    <string name="preparing_storage">正在等待游戏盘就绪…</string>
+    <string name="preparing_folders">正在创建游戏文件夹…</string>
+    <string name="preparing_games">正在复制附带的游戏…</string>
+    <string name="preparing_appsettings">正在配置应用…</string>
+    <string name="preparing_library">正在创建游戏库…</string>
+    <string name="preparing_cheats">正在准备金手指…</string>
+    <string name="preparing_installing">正在安装 <xliff:g id="value">%1$s</xliff:g>…</string>
+    <string name="preparing_elapsed">已用时：<xliff:g id="value">%1$s</xliff:g></string>
 </resources>

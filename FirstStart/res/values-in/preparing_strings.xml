@@ -1,5 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="preparing_title">Menyiapkan game Anda…</string>
     <string name="preparing_body">Daijishou, layar utama Anda, terbuka sendiri setelah sistem game Anda siap. Saat pertama kali dinyalakan, ini perlu beberapa menit.</string>
+
+    <string name="preparing_starting">Menyiapkan semuanya…</string>
+    <string name="preparing_apps">Menginstal aplikasi pilihanmu…</string>
+    <string name="preparing_controls">Menyiapkan kontrol…</string>
+    <string name="preparing_cores">Menyiapkan emulator…</string>
+    <string name="preparing_cores_count">Menyiapkan emulator (<xliff:g id="current">%1$d</xliff:g> dari <xliff:g id="total">%2$d</xliff:g>)…</string>
+    <string name="preparing_storage">Menunggu penyimpanan game…</string>
+    <string name="preparing_folders">Membuat folder game…</string>
+    <string name="preparing_games">Menyalin game bawaan…</string>
+    <string name="preparing_appsettings">Menerapkan pengaturan aplikasi…</string>
+    <string name="preparing_library">Membuat koleksi game…</string>
+    <string name="preparing_cheats">Menyiapkan kode cheat…</string>
+    <string name="preparing_installing">Menginstal <xliff:g id="value">%1$s</xliff:g>…</string>
+    <string name="preparing_elapsed">Waktu berlalu: <xliff:g id="value">%1$s</xliff:g></string>
 </resources>

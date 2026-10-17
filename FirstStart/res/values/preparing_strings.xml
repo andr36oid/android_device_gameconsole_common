@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- While Daijishou's library is still being made on the first start -->
     <string name="preparing_title">Preparing your games…</string>
     <string name="preparing_body">Daijishou, your home screen, opens by itself as soon as your game systems are set up. On the first start this takes a few minutes.</string>
+
+    <string name="preparing_starting">Getting things ready…</string>
+    <string name="preparing_apps">Installing your chosen apps…</string>
+    <string name="preparing_controls">Setting up the controls…</string>
+    <string name="preparing_cores">Preparing emulators…</string>
+    <string name="preparing_cores_count">Preparing emulators (<xliff:g id="current">%1$d</xliff:g> of <xliff:g id="total">%2$d</xliff:g>)…</string>
+    <string name="preparing_storage">Waiting for the games drive…</string>
+    <string name="preparing_folders">Creating your game folders…</string>
+    <string name="preparing_games">Copying the included games…</string>
+    <string name="preparing_appsettings">Applying the app settings…</string>
+    <string name="preparing_library">Building your game library…</string>
+    <string name="preparing_cheats">Preparing game cheats…</string>
+    <string name="preparing_installing">Installing <xliff:g id="value">%1$s</xliff:g>…</string>
+    <string name="preparing_elapsed">Elapsed: <xliff:g id="value">%1$s</xliff:g></string>
 </resources>

@@ -7,7 +7,10 @@ import android.database.ContentObserver;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.SystemClock;
+import android.os.SystemProperties;
 import android.provider.Settings;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -43,6 +46,17 @@ public class HomeActivity extends Activity {
     private static final String DAIJISHOU = "com.magneticchen.daijishou";
 
     private final Handler mHandler = new Handler(Looper.getMainLooper());
+    private final long mWaitingSince = SystemClock.elapsedRealtime();
+    private boolean mResumed;
+    private boolean mReady;
+    private final Runnable mProgress = new Runnable() {
+        @Override
+        public void run() {
+            if (!mResumed || mReady) return;
+            updateProgress();
+            mHandler.postDelayed(this, 1000);
+        }
+    };
     private final ContentObserver mReadyObserver = new ContentObserver(mHandler) {
         @Override
         public void onChange(boolean selfChange) {
@@ -63,6 +77,7 @@ public class HomeActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
+        mResumed = true;
         getContentResolver().registerContentObserver(
                 Settings.Global.getUriFor(SETTING_DAIJISHOU_READY), false, mReadyObserver);
         showState();
@@ -72,6 +87,8 @@ public class HomeActivity extends Activity {
 
     @Override
     protected void onPause() {
+        mResumed = false;
+        mHandler.removeCallbacks(mProgress);
         super.onPause();
         getContentResolver().unregisterContentObserver(mReadyObserver);
     }
@@ -86,7 +103,53 @@ public class HomeActivity extends Activity {
         ((TextView) findViewById(R.id.body)).setText(
                 ready ? R.string.home_body : R.string.preparing_body);
         findViewById(R.id.buttons).setVisibility(ready ? View.VISIBLE : View.INVISIBLE);
+        mReady = ready;
+        findViewById(R.id.preparing_progress).setVisibility(ready ? View.GONE : View.VISIBLE);
+        mHandler.removeCallbacks(mProgress);
+        if (!ready) mHandler.post(mProgress);
         return ready;
+    }
+
+    private void updateProgress() {
+        final String stage = SystemProperties.get("sys.andr36oid.setup_stage", "");
+        int message;
+        switch (stage.split(":", 2)[0]) {
+            case "apps": message = R.string.preparing_apps; break;
+            case "controls": message = R.string.preparing_controls; break;
+            case "cores": message = R.string.preparing_cores; break;
+            case "storage": message = R.string.preparing_storage; break;
+            case "folders": message = R.string.preparing_folders; break;
+            case "games": message = R.string.preparing_games; break;
+            case "appsettings": message = R.string.preparing_appsettings; break;
+            case "library": message = R.string.preparing_library; break;
+            case "cheats": message = R.string.preparing_cheats; break;
+            default: message = R.string.preparing_starting;
+        }
+        String text = getString(message);
+        if (stage.startsWith("cores:")) {
+            final String[] parts = stage.split(":");
+            try {
+                final int done = Integer.parseInt(parts[1]);
+                final int total = Integer.parseInt(parts[2]);
+                if (done > 0 && done <= total && total <= 128) {
+                    text = getString(R.string.preparing_cores_count, done, total);
+                }
+            } catch (NumberFormatException | IndexOutOfBoundsException e) {
+                // A partial or older status still has the generic stage text.
+            }
+        }
+        final TextView status = findViewById(R.id.preparing_status);
+        if (!text.contentEquals(status.getText())) status.setText(text);
+        final String name = SystemProperties.get("sys.andr36oid.setup_app", "");
+        final TextView app = findViewById(R.id.preparing_app);
+        app.setVisibility(name.isEmpty() ? View.GONE : View.VISIBLE);
+        if (!name.isEmpty()) {
+            final String installing = getString(R.string.preparing_installing, name);
+            if (!installing.contentEquals(app.getText())) app.setText(installing);
+        }
+        ((TextView) findViewById(R.id.preparing_elapsed)).setText(getString(
+                R.string.preparing_elapsed, DateUtils.formatElapsedTime(
+                        (SystemClock.elapsedRealtime() - mWaitingSince) / 1000)));
     }
 
     @Override

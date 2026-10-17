@@ -1,5 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="preparing_title">Preparando seus jogos…</string>
     <string name="preparing_body">O Daijishou, o seu ecrã inicial, abre automaticamente quando os sistemas de jogo estiverem prontos. No primeiro arranque, isto demora alguns minutos.</string>
+
+    <string name="preparing_starting">A preparar tudo…</string>
+    <string name="preparing_apps">A instalar as aplicações que escolheste…</string>
+    <string name="preparing_controls">A configurar os controlos…</string>
+    <string name="preparing_cores">A preparar os emuladores…</string>
+    <string name="preparing_cores_count">A preparar os emuladores (<xliff:g id="current">%1$d</xliff:g> de <xliff:g id="total">%2$d</xliff:g>)…</string>
+    <string name="preparing_storage">À espera da unidade dos jogos…</string>
+    <string name="preparing_folders">A criar as pastas dos jogos…</string>
+    <string name="preparing_games">A copiar os jogos incluídos…</string>
+    <string name="preparing_appsettings">A aplicar as definições das aplicações…</string>
+    <string name="preparing_library">A criar a tua biblioteca de jogos…</string>
+    <string name="preparing_cheats">A preparar os códigos de batota…</string>
+    <string name="preparing_installing">A instalar <xliff:g id="value">%1$s</xliff:g>…</string>
+    <string name="preparing_elapsed">Tempo decorrido: <xliff:g id="value">%1$s</xliff:g></string>
 </resources>
