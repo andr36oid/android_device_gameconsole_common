@@ -506,6 +506,19 @@ TEST_F(ControllerTest, UnmappedButtonsPassThrough) {
     EXPECT_TRUE(mouse.keys().empty());
 }
 
+TEST_F(ControllerTest, ButtonsWithFnGoToAndroid) {
+    // FN + L2 (performance overlay) and FN + R1 reach Android's FN shortcuts instead of
+    // scrolling and clicking.
+    enterMouseMode();
+    key(BTN_MODE, 1);
+    tap(BTN_TL2);
+    tap(BTN_TR);
+    key(BTN_MODE, 0);
+    EXPECT_EQ(pass.keys(), (Keys{{BTN_MODE, 1}, {BTN_TL2, 1}, {BTN_TL2, 0}, {BTN_TR, 1},
+                                 {BTN_TR, 0}, {BTN_MODE, 0}}));
+    EXPECT_TRUE(mouse.keys().empty());
+}
+
 TEST_F(ControllerTest, RemappedButtonsActLikeTheirTarget) {
     // R1 and B swapped in Settings > Button mapping, X disabled.
     config.buttonRemap = "311:BUTTON_B, 305:BUTTON_R1, 307:NONE";

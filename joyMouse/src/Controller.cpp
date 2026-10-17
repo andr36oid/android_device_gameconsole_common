@@ -10,6 +10,9 @@ namespace joymouse {
 namespace {
 
 constexpr uint16_t kMouseCodes[] = {BTN_LEFT, BTN_RIGHT, BTN_MIDDLE, BTN_SIDE, BTN_EXTRA};
+// FN's key codes: 172 on the built-in pads (PhoneWindowManager's FN_SCAN_CODE), BTN_MODE on
+// other pads
+constexpr int kFnCodes[] = {KEY_HOMEPAGE, BTN_MODE};
 
 StickSide opposite(StickSide s) {
     return s == StickSide::Left ? StickSide::Right : StickSide::Left;
@@ -244,7 +247,14 @@ void Controller::handleKeyOn(int code, int value, std::optional<Button> button, 
         return;
     }
     if (down) {
-        route = routeFor(bindingFor(code, button), now);
+        // While FN is held and goes through to Android, so does every button pressed with
+        // it: the FN shortcuts (performance overlay, screenshot, ...) work in mouse mode too.
+        bool fnShortcut = false;
+        for (int fn : kFnCodes) {
+            fnShortcut = fnShortcut || (code != fn && keysDown_.test(static_cast<size_t>(fn))
+                    && routes_[static_cast<size_t>(fn)].route == Route::Passthrough);
+        }
+        route = routeFor(fnShortcut ? Action::Pass : bindingFor(code, button), now);
         press(code, route, now);
     }
 }
