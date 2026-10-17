@@ -1,0 +1,28 @@
+package: dev.lucanlm.antimine
+version_code: 1706031
+author: github:lucasnlm
+checked: true
+description:
+  en: "Minesweeper with puzzles that need no guessing"
+  de: "Minesweeper mit Rätseln, die du ohne Raten lösen kannst"
+  es: "Buscaminas con puzles que se resuelven sin adivinar"
+  fr: "Démineur avec des grilles à résoudre sans deviner"
+  in: "Penyapu ranjau dengan teka-teki yang tidak perlu ditebak"
+  pl: "Saper z planszami, które można rozwiązać bez zgadywania"
+  pt: "Campo minado com puzzles que não exigem adivinhação"
+  pt-BR: "Campo minado com desafios que não exigem adivinhação"
+  ru: "Сапёр с головоломками, где не нужно угадывать"
+  tr: "Tahmin gerektirmeyen bulmacalarla mayın tarlası"
+  zh-CN: "无需猜测的扫雷游戏"
+warning:
+  en: "Untested on this console"
+  de: "Auf dieser Konsole noch nicht getestet"
+  es: "Sin probar en esta consola"
+  fr: "Pas encore testé sur cette console"
+  in: "Belum diuji di konsol ini"
+  pl: "Jeszcze nie przetestowano na tej konsoli"
+  pt: "Ainda não testado nesta consola"
+  pt-BR: "Ainda não testado neste console"
+  ru: "Ещё не проверено на этой консоли"
+  tr: "Bu konsolda henüz test edilmedi"
+  zh-CN: "尚未在此掌机上测试"

@@ -1,0 +1,11 @@
+# Pinned F-Droid build; SHA-256 from the F-Droid repository index.
+name=AndorsTrail
+package=com.gpl.rpg.AndorsTrail
+version_code=89
+version_name=0.8.18
+spdx=GPL-2.0-only
+sha256=25d69bf0171f9bf5cf32cb64538427df3422e094048e0393f2377ba3430ad609
+apk_url=https://f-droid.org/repo/com.gpl.rpg.AndorsTrail_89.apk
+source_url=https://github.com/AndorsTrailRelease/andors-trail (F-Droid's source tarball: https://f-droid.org/repo/com.gpl.rpg.AndorsTrail_89_src.tar.gz)
+license_url=https://raw.githubusercontent.com/spdx/license-list-data/main/text/GPL-2.0-only.txt
+published_by=F-Droid

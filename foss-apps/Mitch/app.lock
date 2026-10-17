@@ -1,0 +1,11 @@
+# Pinned F-Droid build; SHA-256 from the F-Droid repository index.
+name=Mitch
+package=ua.gardenapple.itchupdater
+version_code=20303
+version_name=2.3.3
+spdx=GPL-3.0-only
+sha256=5ab1a0a3a041efc997cfa4de53d39c89e19da20b820fc9e3e91f014266b632ed
+apk_url=https://f-droid.org/repo/ua.gardenapple.itchupdater_20303.apk
+source_url=https://sr.ht/~gardenapple/mitch/ (F-Droid's source tarball: https://f-droid.org/repo/ua.gardenapple.itchupdater_20303_src.tar.gz)
+license_url=https://raw.githubusercontent.com/spdx/license-list-data/main/text/GPL-3.0-only.txt
+published_by=F-Droid

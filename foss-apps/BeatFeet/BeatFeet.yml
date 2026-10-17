@@ -1,0 +1,28 @@
+package: com.serwylo.beatgame
+version_code: 35
+author: github:pserwylo
+checked: true
+description:
+  en: "Jump across rooftops to the beat of the music"
+  de: "Spring im Takt der Musik über Dächer"
+  es: "Salta entre tejados al ritmo de la música"
+  fr: "Sautez de toit en toit au rythme de la musique"
+  in: "Lompat dari atap ke atap mengikuti irama musik"
+  pl: "Skacz po dachach w rytm muzyki"
+  pt: "Salte de telhado em telhado ao ritmo da música"
+  pt-BR: "Pule de telhado em telhado no ritmo da música"
+  ru: "Прыгайте по крышам в такт музыке"
+  tr: "Müziğin ritmine göre çatılarda zıplayın"
+  zh-CN: "跟随音乐节奏在屋顶间跳跃"
+warning:
+  en: "Untested on this console"
+  de: "Auf dieser Konsole noch nicht getestet"
+  es: "Sin probar en esta consola"
+  fr: "Pas encore testé sur cette console"
+  in: "Belum diuji di konsol ini"
+  pl: "Jeszcze nie przetestowano na tej konsoli"
+  pt: "Ainda não testado nesta consola"
+  pt-BR: "Ainda não testado neste console"
+  ru: "Ещё не проверено на этой консоли"
+  tr: "Bu konsolda henüz test edilmedi"
+  zh-CN: "尚未在此掌机上测试"

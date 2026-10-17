@@ -1,0 +1,28 @@
+package: xyz.deepdaikon.xeonjia
+version_code: 21
+author: DeepDaikon
+checked: true
+description:
+  en: "Adventure with ice puzzles and battles"
+  de: "Abenteuer mit Eisrätseln und Kämpfen"
+  es: "Aventura con puzles de hielo y combates"
+  fr: "Aventure avec énigmes sur glace et combats"
+  in: "Petualangan dengan teka-teki es dan pertarungan"
+  pl: "Przygoda z lodowymi zagadkami i walką"
+  pt: "Aventura com puzzles no gelo e combates"
+  pt-BR: "Aventura com quebra-cabeças no gelo e batalhas"
+  ru: "Приключение с ледяными головоломками и боями"
+  tr: "Buz bulmacaları ve savaşlarla dolu bir macera"
+  zh-CN: "包含冰面谜题和战斗的冒险游戏"
+warning:
+  en: "Untested on this console"
+  de: "Auf dieser Konsole noch nicht getestet"
+  es: "Sin probar en esta consola"
+  fr: "Pas encore testé sur cette console"
+  in: "Belum diuji di konsol ini"
+  pl: "Jeszcze nie przetestowano na tej konsoli"
+  pt: "Ainda não testado nesta consola"
+  pt-BR: "Ainda não testado neste console"
+  ru: "Ещё не проверено на этой консоли"
+  tr: "Bu konsolda henüz test edilmedi"
+  zh-CN: "尚未在此掌机上测试"

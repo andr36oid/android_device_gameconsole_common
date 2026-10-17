@@ -1,0 +1,11 @@
+# Pinned F-Droid build; SHA-256 from the F-Droid repository index.
+name=PySolFC
+package=org.lufebe16.pysolfc
+version_code=102130601
+version_name=3.6.1
+spdx=GPL-3.0-only
+sha256=5b8ba9abc4c11ba0ebcc75d663f2b472704c00840ab564631feb0c84feb45664
+apk_url=https://f-droid.org/repo/org.lufebe16.pysolfc_102130601.apk
+source_url=https://github.com/shlomif/PySolFC (F-Droid's source tarball: https://f-droid.org/repo/org.lufebe16.pysolfc_102130601_src.tar.gz)
+license_url=https://raw.githubusercontent.com/spdx/license-list-data/main/text/GPL-3.0-only.txt
+published_by=F-Droid

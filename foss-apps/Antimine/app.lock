@@ -1,0 +1,12 @@
+# Pinned F-Droid build; SHA-256 from the F-Droid repository index.
+# The suggested 17.7 build is absent from the repository; use published 17.6.3 F.
+name=Antimine
+package=dev.lucanlm.antimine
+version_code=1706031
+version_name=17.6.3 F
+spdx=GPL-3.0-only
+sha256=e7b635b6629bc5b0f59c2700a82079386a90f3a04b39e92e0cf0bb090979e974
+apk_url=https://f-droid.org/repo/dev.lucanlm.antimine_1706031.apk
+source_url=https://github.com/lucasnlm/antimine-android (F-Droid's source tarball: https://f-droid.org/repo/dev.lucanlm.antimine_1706031_src.tar.gz)
+license_url=https://raw.githubusercontent.com/spdx/license-list-data/main/text/GPL-3.0-only.txt
+published_by=F-Droid

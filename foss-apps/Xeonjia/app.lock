@@ -1,0 +1,11 @@
+# Pinned F-Droid build; SHA-256 from the F-Droid repository index.
+name=Xeonjia
+package=xyz.deepdaikon.xeonjia
+version_code=21
+version_name=3.0.4
+spdx=GPL-3.0-or-later
+sha256=166ebdca75a1d171717ce1aa12571b0b627ebde7c3006058a704288cbe1aa413
+apk_url=https://f-droid.org/repo/xyz.deepdaikon.xeonjia_21.apk
+source_url=https://gitlab.com/deepdaikon/Xeonjia/tree/HEAD (F-Droid's source tarball: https://f-droid.org/repo/xyz.deepdaikon.xeonjia_21_src.tar.gz)
+license_url=https://raw.githubusercontent.com/spdx/license-list-data/main/text/GPL-3.0-or-later.txt
+published_by=F-Droid

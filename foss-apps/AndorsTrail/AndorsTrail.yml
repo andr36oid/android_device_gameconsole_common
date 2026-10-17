@@ -1,0 +1,28 @@
+package: com.gpl.rpg.AndorsTrail
+version_code: 89
+author: Andor's Trail Project Team
+checked: true
+description:
+  en: "Fantasy role-playing game with quests and turn-based battles"
+  de: "Fantasy-Rollenspiel mit Quests und rundenbasierten Kämpfen"
+  es: "Juego de rol de fantasía con misiones y combates por turnos"
+  fr: "Jeu de rôle fantastique avec quêtes et combats au tour par tour"
+  in: "Gim bermain peran fantasi dengan misi dan pertarungan bergiliran"
+  pl: "Gra RPG fantasy z zadaniami i walką turową"
+  pt: "RPG de fantasia com missões e combates por turnos"
+  pt-BR: "RPG de fantasia com missões e batalhas por turnos"
+  ru: "Фэнтезийная ролевая игра с заданиями и пошаговыми боями"
+  tr: "Görevler ve sıra tabanlı savaşlar içeren fantastik rol yapma oyunu"
+  zh-CN: "包含任务和回合制战斗的奇幻角色扮演游戏"
+warning:
+  en: "Untested on this console"
+  de: "Auf dieser Konsole noch nicht getestet"
+  es: "Sin probar en esta consola"
+  fr: "Pas encore testé sur cette console"
+  in: "Belum diuji di konsol ini"
+  pl: "Jeszcze nie przetestowano na tej konsoli"
+  pt: "Ainda não testado nesta consola"
+  pt-BR: "Ainda não testado neste console"
+  ru: "Ещё не проверено на этой консоли"
+  tr: "Bu konsolda henüz test edilmedi"
+  zh-CN: "尚未在此掌机上测试"
