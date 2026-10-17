@@ -3,3 +3,5 @@
 # See ../../README.md, "First-start settings".
 package com.looker.droidify
 appop REQUEST_INSTALL_PACKAGES allow
+# Quiet by default. A later change in Settings is kept on subsequent starts.
+notifications off

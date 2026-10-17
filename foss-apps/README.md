@@ -109,6 +109,8 @@ The list, one instruction per line:
     appop <op> <mode>        e.g. REQUEST_INSTALL_PACKAGES allow: a permission the app would
                              ask for on its first start; once per app and op, so one the
                              user takes away stays away
+    notifications on|off    set the initial notification switch once; later user changes
+                             are kept on subsequent starts
     extzip <zip> <dir>       unpack firstrun/<name>/<zip> into <dir> in Android/data/<package>/files,
                              once per app and zip (also after the app has run), keeping
                              folders that are there; Luanti's games come this way

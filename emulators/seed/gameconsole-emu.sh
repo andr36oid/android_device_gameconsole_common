@@ -1353,6 +1353,8 @@ refresh_rate() {
 #   appop <op> <mode>       e.g. REQUEST_INSTALL_PACKAGES allow, what the app
 #                           would otherwise ask for on its first start. Once per
 #                           app and op: one the user takes away stays away.
+#   notifications on|off   set the app's notification default once; later user
+#                           choices are kept, including on subsequent starts.
 #   extzip <zip> <dir>      unpack $FIRSTRUN/<name>/<zip> into <dir> in its folder
 #                           on the internal storage (e.g. a Luanti game). Once
 #                           per app and zip, also after the app has run, so a
@@ -1421,7 +1423,7 @@ firstrun_unzip() {
 # firstrun_list <list>
 firstrun_list() {
 	local dir=${1%.list} pkg='' data='' ext='' owner='' kind src dest rc stamp out
-	local wrote_data='' wrote_ext=''
+	local wrote_data='' wrote_ext='' enabled
 
 	while read -r kind src dest; do
 		case $kind in
@@ -1450,6 +1452,23 @@ firstrun_list() {
 			rc=$?
 			[ $rc = 1 ] && { FIRSTRUN_LEFT=1; break; }
 			[ $rc = 0 ] && wrote_data=1 && log "seeded $pkg's $dest"
+			;;
+		notifications)
+			stamp=$STATE/notifications.$pkg
+			[ -e "$stamp" ] && continue
+			case $src in
+			on) enabled=true ;;
+			off) enabled=false ;;
+			*) log "${1##*/}: invalid notification default $src"; FIRSTRUN_LEFT=1; break ;;
+			esac
+			if out=$(cmd notification set_notifications_enabled "$pkg" "$enabled" 0 </dev/null 2>&1); then
+				touch "$stamp"
+				log "$pkg notification default set ($src)"
+			else
+				log "setting $pkg notifications failed: $out"
+				FIRSTRUN_LEFT=1
+				break
+			fi
 			;;
 		appop)
 			stamp=$STATE/appop.$pkg.$src
