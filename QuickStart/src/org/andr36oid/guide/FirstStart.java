@@ -135,12 +135,12 @@ final class FirstStart {
 
     /**
      * Whether Daijishou's library is written (gameconsole-emu sets SETTING_DAIJISHOU_READY
-     * once it made it, or decided not to). Only matters when Daijishou becomes home.
+     * once it made it, or decided not to). Both home screens also need the apps,
+     * emulator cores and game folders prepared before this signal.
      */
     static boolean isDaijishouReady(Context context) {
-        return !HomeChoice.DAIJISHOU.equals(HomeChoice.chosen(context))
-                || Settings.Global.getInt(context.getContentResolver(),
-                        SETTING_DAIJISHOU_READY, 0) == 1;
+        return Settings.Global.getInt(context.getContentResolver(),
+                SETTING_DAIJISHOU_READY, 0) == 1;
     }
 
     /** Runs then once Daijishou is ready, or after READY_TIMEOUT_MS in case it never is. */

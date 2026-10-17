@@ -41,10 +41,6 @@ public class HomeActivity extends Activity {
     private static final String ACTION_SKIP = GUIDE_PACKAGE + ".action.FIRST_START_SKIP";
     /** Settings.Global, set by gameconsole-emu once Daijishou's library is written. */
     private static final String SETTING_DAIJISHOU_READY = "andr36oid_daijishou_ready";
-    /** Settings.Global, the home screen chosen in the setup wizard (empty: Daijishou). */
-    private static final String SETTING_HOME = "andr36oid_home";
-    private static final String DAIJISHOU = "com.magneticchen.daijishou";
-
     private final Handler mHandler = new Handler(Looper.getMainLooper());
     private final long mWaitingSince = SystemClock.elapsedRealtime();
     private boolean mResumed;
@@ -95,9 +91,9 @@ public class HomeActivity extends Activity {
 
     /** The page for now: "preparing" while Daijishou isn't ready. Returns whether it is. */
     private boolean showState() {
-        final String home = Settings.Global.getString(getContentResolver(), SETTING_HOME);
-        final boolean ready = (home != null && !home.isEmpty() && !DAIJISHOU.equals(home))
-                || Settings.Global.getInt(getContentResolver(), SETTING_DAIJISHOU_READY, 0) == 1;
+        // Both home screens need the installed apps, emulator cores and game folders.
+        final boolean ready = Settings.Global.getInt(getContentResolver(),
+                SETTING_DAIJISHOU_READY, 0) == 1;
         ((TextView) findViewById(R.id.title)).setText(
                 ready ? R.string.home_title : R.string.preparing_title);
         ((TextView) findViewById(R.id.body)).setText(
