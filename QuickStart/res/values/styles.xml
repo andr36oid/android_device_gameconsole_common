@@ -6,12 +6,10 @@
         <item name="android:windowActionBar">false</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:defaultFocusHighlightEnabled">false</item>
+        <item name="android:windowBackground">@color/andr36oid_setup_background</item>
+        <item name="android:colorBackground">@color/andr36oid_setup_background</item>
     </style>
 
-    <!-- The tutorial looks like the rest of the system: the stock device theme, light or dark
-         like Settings, with the stock focus highlight -->
-    <style name="TutorialTheme" parent="@android:style/Theme.DeviceDefault.DayNight">
-        <item name="android:windowActionBar">false</item>
-        <item name="android:windowNoTitle">true</item>
-    </style>
+    <!-- Setup's app selection, tutorial and add-games pages use the wizard's theme. -->
+    <style name="TutorialTheme" parent="Andr36oidSetupTheme" />
 </resources>

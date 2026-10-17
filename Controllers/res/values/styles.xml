@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Normal Settings entry points keep their device theme; setup chooses the
+         shared wizard theme before inflating the same layouts. -->
+    <style name="ButtonCheckTheme" parent="android:style/Theme.DeviceDefault.Settings">
+        <item name="andr36oidPrimaryButtonStyle">@android:style/Widget.DeviceDefault.Button.Colored</item>
+        <item name="andr36oidSecondaryButtonStyle">@android:style/Widget.DeviceDefault.Button.Borderless.Colored</item>
+    </style>
+</resources>

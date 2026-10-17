@@ -61,7 +61,7 @@
             android:exported="true"
             android:label="@string/check_title"
             android:configChanges="keyboard|keyboardHidden|navigation"
-            android:theme="@android:style/Theme.DeviceDefault.Settings" />
+            android:theme="@style/ButtonCheckTheme" />
 
         <!-- Buttons on this console > Find an unknown button -->
         <activity
@@ -69,7 +69,7 @@
             android:exported="false"
             android:label="@string/finder_title"
             android:configChanges="keyboard|keyboardHidden|navigation"
-            android:theme="@android:style/Theme.DeviceDefault.Settings" />
+            android:theme="@style/ButtonCheckTheme" />
 
         <activity
             android:name=".PairActivity"

@@ -11,6 +11,16 @@
     android:paddingBottom="8dp">
 
     <TextView
+        android:id="@+id/setup_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="@string/check_title"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:accessibilityHeading="true"
+        android:visibility="gone" />
+
+    <TextView
         android:id="@+id/saved"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -53,7 +63,7 @@
             <!-- Buttons no firmware uses: finds the chip pin of one -->
             <Button
                 android:id="@+id/find_unknown"
-                style="@android:style/Widget.DeviceDefault.Button.Borderless.Colored"
+                style="?attr/andr36oidSecondaryButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/finder_entry" />
@@ -61,7 +71,7 @@
             <!-- Back to "not checked yet" and the real Fn button -->
             <Button
                 android:id="@+id/reset"
-                style="@android:style/Widget.DeviceDefault.Button.Borderless.Colored"
+                style="?attr/andr36oidSecondaryButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/check_reset" />
@@ -93,7 +103,7 @@
 
         <Button
             android:id="@+id/done"
-            style="@android:style/Widget.DeviceDefault.Button.Colored"
+            style="?attr/andr36oidPrimaryButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/check_done" />

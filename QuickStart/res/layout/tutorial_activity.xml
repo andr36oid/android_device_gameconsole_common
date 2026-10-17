@@ -103,8 +103,7 @@
 
         <Button
             android:id="@+id/back"
-            style="?android:attr/borderlessButtonStyle"
-            android:foreground="@drawable/tutorial_button_focus"
+            style="@style/Andr36oidSetupButton.Secondary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/tutorial_back" />
@@ -112,8 +111,7 @@
         <!-- Only on the FN steps, for consoles that don't have one -->
         <Button
             android:id="@+id/no_fn"
-            style="?android:attr/borderlessButtonStyle"
-            android:foreground="@drawable/tutorial_button_focus"
+            style="@style/Andr36oidSetupButton.Secondary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -124,8 +122,7 @@
              this console in the Controls app -->
         <Button
             android:id="@+id/check_buttons"
-            style="?android:attr/borderlessButtonStyle"
-            android:foreground="@drawable/tutorial_button_focus"
+            style="@style/Andr36oidSetupButton.Secondary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -139,17 +136,15 @@
 
         <Button
             android:id="@+id/secondary"
-            style="?android:attr/borderlessButtonStyle"
-            android:foreground="@drawable/tutorial_button_focus"
+            style="@style/Andr36oidSetupButton.Secondary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp" />
 
         <Button
             android:id="@+id/next"
-            style="@android:style/Widget.DeviceDefault.Button.Colored"
+            style="@style/Andr36oidSetupButton.Primary"
             android:focusedByDefault="true"
-            android:foreground="@drawable/tutorial_button_focus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>

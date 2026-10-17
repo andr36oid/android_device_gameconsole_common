@@ -51,8 +51,7 @@
 
         <Button
             android:id="@+id/back"
-            style="?android:attr/borderlessButtonStyle"
-            android:foreground="@drawable/tutorial_button_focus"
+            style="@style/Andr36oidSetupButton.Secondary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/tutorial_back" />
@@ -64,16 +63,14 @@
 
         <Button
             android:id="@+id/shut_down"
-            style="?android:attr/borderlessButtonStyle"
-            android:foreground="@drawable/tutorial_button_focus"
+            style="@style/Andr36oidSetupButton.Secondary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/add_games_shut_down" />
 
         <Button
             android:id="@+id/next"
-            style="?android:attr/borderlessButtonStyle"
-            android:foreground="@drawable/tutorial_button_focus"
+            style="@style/Andr36oidSetupButton.Primary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"

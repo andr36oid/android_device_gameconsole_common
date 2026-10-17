@@ -65,10 +65,14 @@ public class ButtonCheckActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        final boolean setup = getIntent().getBooleanExtra(
+                com.google.android.setupcompat.util.WizardManagerHelper.EXTRA_IS_SETUP_FLOW, false);
+        if (setup) setTheme(R.style.Andr36oidSetupTheme);
         super.onCreate(savedInstanceState);
         final ActionBar actionBar = getActionBar();
         if (actionBar != null) actionBar.setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.button_check);
+        if (setup) findViewById(R.id.setup_title).setVisibility(View.VISIBLE);
         mSaved = findViewById(R.id.saved);
         mExtras = findViewById(R.id.extras);
         mNote = findViewById(R.id.note);
@@ -77,6 +81,8 @@ public class ButtonCheckActivity extends Activity {
         // NO_USER_ACTION: leaving for the finder isn't Fn (see onUserLeaveHint)
         findViewById(R.id.find_unknown).setOnClickListener(v -> startActivity(
                 new Intent(this, ButtonFinderActivity.class)
+                        .putExtra(com.google.android.setupcompat.util.WizardManagerHelper.EXTRA_IS_SETUP_FLOW,
+                                setup)
                         .addFlags(Intent.FLAG_ACTIVITY_NO_USER_ACTION)));
         mReset = findViewById(R.id.reset);
         mReset.setOnClickListener(v -> new AlertDialog.Builder(this)

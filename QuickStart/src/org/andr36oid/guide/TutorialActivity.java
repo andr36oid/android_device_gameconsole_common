@@ -699,6 +699,8 @@ public class TutorialActivity extends Activity {
     private Intent buttonCheckIntent() {
         // Not a user leaving: the tutorial stays where it is underneath
         return new Intent().setClassName(CHECK_PACKAGE, CHECK_ACTIVITY)
+                .putExtra(com.google.android.setupcompat.util.WizardManagerHelper.EXTRA_IS_SETUP_FLOW,
+                        SetupPages.isPage(this))
                 .addFlags(Intent.FLAG_ACTIVITY_NO_USER_ACTION);
     }
 

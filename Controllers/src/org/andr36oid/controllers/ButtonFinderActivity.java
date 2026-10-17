@@ -70,10 +70,14 @@ public class ButtonFinderActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        final boolean setup = getIntent().getBooleanExtra(
+                com.google.android.setupcompat.util.WizardManagerHelper.EXTRA_IS_SETUP_FLOW, false);
+        if (setup) setTheme(R.style.Andr36oidSetupTheme);
         super.onCreate(savedInstanceState);
         final ActionBar actionBar = getActionBar();
         if (actionBar != null) actionBar.setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.button_finder);
+        if (setup) findViewById(R.id.setup_title).setVisibility(View.VISIBLE);
         mMessage = findViewById(R.id.message);
         mDetails = findViewById(R.id.details);
         mProgress = findViewById(R.id.progress);

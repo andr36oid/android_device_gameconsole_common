@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Andr36oidSetupTheme" parent="SudThemeGlifV3.DayNight">
+        <item name="android:windowBackground">@color/andr36oid_setup_background</item>
+        <item name="android:colorBackground">@color/andr36oid_setup_background</item>
+        <item name="android:colorBackgroundFloating">@color/andr36oid_setup_background</item>
+        <item name="colorBackgroundFloating">@color/andr36oid_setup_background</item>
+        <item name="android:colorAccent">@color/andr36oid_setup_accent</item>
+        <item name="colorAccent">@color/andr36oid_setup_accent</item>
+        <item name="android:textColorLink">@color/andr36oid_setup_accent</item>
+        <item name="android:alertDialogTheme">@style/Andr36oidSetupDialogTheme</item>
+        <item name="android:buttonStyle">@style/Andr36oidSetupButton.Secondary</item>
+        <item name="android:borderlessButtonStyle">@style/Andr36oidSetupButton.Secondary</item>
+        <item name="android:datePickerDialogTheme">@style/Andr36oidSetupDialogTheme</item>
+        <item name="android:timePickerDialogTheme">@style/Andr36oidSetupDialogTheme</item>
+        <item name="andr36oidPrimaryButtonStyle">@style/Andr36oidSetupButton.Primary</item>
+        <item name="andr36oidSecondaryButtonStyle">@style/Andr36oidSetupButton.Secondary</item>
+    </style>
+
+    <style name="Andr36oidSetupButton.Primary" parent="SudGlifButton.Primary">
+        <item name="android:foreground">@drawable/andr36oid_setup_focus</item>
+    </style>
+    <style name="Andr36oidSetupButton.Secondary" parent="SudGlifButton.Secondary">
+        <item name="android:foreground">@drawable/andr36oid_setup_focus</item>
+    </style>
+
+    <!-- Keep the platform dialog's padding and rounded window, with the same surface
+         and button styles as the page below it. -->
+    <style name="Andr36oidSetupDialogBase" parent="SudAlertDialogTheme.Light" />
+    <style name="Andr36oidSetupDialogTheme" parent="Andr36oidSetupDialogBase">
+        <item name="android:colorBackground">@color/andr36oid_setup_background</item>
+        <item name="android:colorBackgroundFloating">@color/andr36oid_setup_background</item>
+        <item name="android:colorAccent">@color/andr36oid_setup_accent</item>
+        <item name="android:textColorLink">@color/andr36oid_setup_accent</item>
+        <item name="android:buttonBarPositiveButtonStyle">@style/Andr36oidSetupButton.Primary</item>
+        <item name="android:buttonBarNegativeButtonStyle">@style/Andr36oidSetupButton.Secondary</item>
+        <item name="android:buttonBarNeutralButtonStyle">@style/Andr36oidSetupButton.Secondary</item>
+        <item name="sudButtonAllCaps">false</item>
+        <item name="sudButtonCornerRadius">@dimen/sud_glif_v3_button_corner_radius</item>
+        <item name="sudButtonFontFamily">@string/sudFontSecondaryMedium</item>
+    </style>
+</resources>

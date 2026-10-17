@@ -1,0 +1,9 @@
+// Shared appearance for the wizard and the apps it opens during setup.
+android_library {
+    name: "andr36oid-setup-theme",
+    manifest: "AndroidManifest.xml",
+    resource_dirs: ["res"],
+    static_libs: ["setupcompat", "setupdesign"],
+    sdk_version: "current",
+    min_sdk_version: "30",
+}

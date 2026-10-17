@@ -73,8 +73,7 @@
 
         <Button
             android:id="@+id/back"
-            style="?android:attr/borderlessButtonStyle"
-            android:foreground="@drawable/tutorial_button_focus"
+            style="@style/Andr36oidSetupButton.Secondary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/tutorial_back" />
@@ -86,18 +85,16 @@
 
         <Button
             android:id="@+id/all"
-            style="?android:attr/borderlessButtonStyle"
+            style="@style/Andr36oidSetupButton.Secondary"
             android:enabled="false"
-            android:foreground="@drawable/tutorial_button_focus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/setup_apps_all" />
 
         <Button
             android:id="@+id/next"
-            style="?android:attr/borderlessButtonStyle"
+            style="@style/Andr36oidSetupButton.Primary"
             android:enabled="false"
-            android:foreground="@drawable/tutorial_button_focus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
