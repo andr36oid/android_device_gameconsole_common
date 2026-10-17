@@ -1,7 +1,8 @@
 # VLC for Android 3.7: the touch tutorials (swipe and tap overlays on the first video,
 # audio player and playlist) marked as seen; they need a touchscreen to get past. Its
 # welcome pages (onboarding) are marked done too (app_onboarding_done,
-# initial_permission_asked), and the all files access they would ask for is given, so
+# initial_permission_asked), dark theme is on (app_theme 2 = night mode yes), and the
+# all files access they would ask for is given, so
 # it can find videos and music everywhere, EASYROMS too. The media scan stays at
 # VLC's default (on). Its settings are the default shared_prefs, which also mean "has
 # run". See ../../README.md, "First-start settings".

@@ -6,4 +6,5 @@
     <boolean name="widgets_tips_shown" value="true" />
     <boolean name="app_onboarding_done" value="true" />
     <boolean name="initial_permission_asked" value="true" />
+    <string name="app_theme">2</string>
 </map>
