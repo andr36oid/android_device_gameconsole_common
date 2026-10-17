@@ -75,4 +75,7 @@
 
     <string name="channel_name">Test karty SD</string>
     <string name="done_title">Test karty SD zakończony</string>
+
+    <string name="userdata_name">Pamięć wewnętrzna</string>
+    <string name="details_userdata">Ta karta nie ma partycji EASYROMS, więc testy korzystają z jej pamięci wewnętrznej. Sprawdzanie rzeczywistej pojemności zostawia 1 GB wolnego miejsca dla Androida.</string>
 </resources>

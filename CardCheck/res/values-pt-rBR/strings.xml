@@ -75,4 +75,7 @@
 
     <string name="channel_name">Verificar cartão SD</string>
     <string name="done_title">Verificação do SD concluída</string>
+
+    <string name="userdata_name">Armazenamento interno</string>
+    <string name="details_userdata">Este cartão não tem partição EASYROMS, então os testes usam o armazenamento interno dele. A verificação do tamanho real deixa 1 GB livre para o Android.</string>
 </resources>

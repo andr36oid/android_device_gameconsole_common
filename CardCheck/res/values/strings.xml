@@ -135,4 +135,9 @@
     <string name="paused_title">SD card check paused</string>
     <!-- %1$s size of the test data -->
     <string name="paused_text">%1$s of test data fills the card. Continue the check or delete the test data, so games can save again.</string>
+
+    <!-- Boot card without EASYROMS: the tests run on Android's internal storage (userdata) -->
+    <!-- the name shown for the card then, e.g. "Internal storage, 64 GB card" -->
+    <string name="userdata_name">Internal storage</string>
+    <string name="details_userdata">This card has no EASYROMS partition, so the tests use the internal storage on it. The real size check leaves 1 GB free for Android.</string>
 </resources>

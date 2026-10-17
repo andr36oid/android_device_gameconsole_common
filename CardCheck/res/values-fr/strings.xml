@@ -75,4 +75,7 @@
 
     <string name="channel_name">Test de la carte SD</string>
     <string name="done_title">Test de la carte SD terminé</string>
+
+    <string name="userdata_name">Stockage interne</string>
+    <string name="details_userdata">Cette carte n\'a pas de partition EASYROMS, donc les tests utilisent le stockage interne de la carte. La vérification de la taille réelle laisse 1 Go libre pour Android.</string>
 </resources>

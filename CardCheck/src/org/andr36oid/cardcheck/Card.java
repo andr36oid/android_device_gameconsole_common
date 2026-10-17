@@ -1,6 +1,7 @@
 package org.andr36oid.cardcheck;
 
 import android.content.Context;
+import android.os.Environment;
 import android.os.storage.DiskInfo;
 import android.os.storage.StorageManager;
 import android.os.storage.VolumeInfo;
@@ -13,11 +14,23 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
-/** A mounted SD card or USB drive partition (a public volume), as vold sees it. */
+/**
+ * A mounted SD card or USB drive partition (a public volume), as vold sees it; or the boot
+ * card's userdata when it has no EASYROMS.
+ */
 final class Card {
 
     /** EASYROMS: partition 7 of the boot card. */
     private static final String EASYROMS_ID = "public:179,7";
+    /**
+     * The boot card without EASYROMS (the user chose not to make it): the tests write to a
+     * folder on userdata instead. The helper knows this exact folder; its name is the uuid.
+     */
+    static final String USERDATA = "userdata";
+    private static final File USERDATA_DIR =
+            new File("/data/misc/andr36oid-cardcheck/" + USERDATA);
+    /** SD cards and eMMC */
+    private static final String MMC_MAJOR = "179";
 
     final String uuid;
     final String name;
@@ -29,6 +42,8 @@ final class Card {
     final boolean sd;
     final File path;
     final String sysPath;
+    /** The tests run on userdata, there is no EASYROMS. */
+    final boolean userdata;
 
     private Card(VolumeInfo vol, DiskInfo d, String name) {
         uuid = vol.getFsUuid();
@@ -45,6 +60,46 @@ final class Card {
         sysPath = dir != null ? dir.getPath() : d.sysPath;
         final long bytes = sectors(dir) * 512;
         diskBytes = bytes > 0 ? bytes : d.size;
+        userdata = false;
+    }
+
+    private Card(String name, String disk, File dir) {
+        uuid = USERDATA;
+        this.name = name;
+        internalPath = USERDATA_DIR.getPath();
+        this.disk = disk;
+        diskBytes = sectors(dir) * 512;
+        sd = disk.startsWith(MMC_MAJOR + ":");
+        path = Environment.getDataDirectory();
+        sysPath = dir.getPath();
+        userdata = true;
+    }
+
+    /**
+     * The boot card as userdata, or null if it has EASYROMS or userdata can't be found in
+     * sysfs.
+     */
+    private static Card userdataCard(Context context) {
+        final File[] blocks = new File("/sys/class/block").listFiles();
+        if (blocks == null) return null;
+        for (File block : blocks) {
+            final String uevent = read(new File(block, "uevent"));
+            if (uevent == null || !uevent.contains("PARTNAME=userdata")) continue;
+            try {
+                // a partition sits in its disk's folder in sysfs
+                final File dir = block.getCanonicalFile().getParentFile();
+                if (dir == null) return null;
+                final String disk = read(new File(dir, "dev"));
+                if (disk == null) return null;
+                // EASYROMS (p7) is there, just not mounted yet (vold may still be
+                // checking it): wait for it rather than test userdata
+                if (new File(dir, dir.getName() + "p7").exists()) return null;
+                return new Card(context.getString(R.string.userdata_name), disk, dir);
+            } catch (IOException e) {
+                return null;
+            }
+        }
+        return null;
     }
 
     /** The disk's folder in sysfs (/sys/devices/.../block/mmcblk0), null if not found. */
@@ -78,7 +133,10 @@ final class Card {
         }
     }
 
-    /** Mounted cards and drives, EASYROMS first. */
+    /**
+     * Mounted cards and drives, EASYROMS first. With no EASYROMS the boot card comes first
+     * as userdata.
+     */
     static List<Card> list(Context context) {
         final StorageManager sm = context.getSystemService(StorageManager.class);
         final List<Card> cards = new ArrayList<>();
@@ -98,6 +156,12 @@ final class Card {
                 cards.add(card);
             }
         }
+        final Card boot = userdataCard(context);
+        if (boot == null) return cards;
+        for (Card card : cards) {
+            if (card.disk.equals(boot.disk)) return cards;
+        }
+        cards.add(0, boot);
         return cards;
     }
 

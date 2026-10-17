@@ -75,4 +75,7 @@
 
     <string name="channel_name">SD kart kontrolü</string>
     <string name="done_title">SD kart kontrolü bitti</string>
+
+    <string name="userdata_name">Dahili depolama</string>
+    <string name="details_userdata">Bu kartta EASYROMS bölümü yok, bu yüzden testler kartın dahili depolamasını kullanır. Gerçek boyut kontrolü Android için 1 GB boş alan bırakır.</string>
 </resources>

@@ -79,4 +79,7 @@
     <!-- %1$s size -->
     <!-- %1$s card name, %2$s how long -->
     <!-- %1$s size of the test data -->
+
+    <string name="userdata_name">Внутренняя память</string>
+    <string name="details_userdata">На этой карте нет раздела EASYROMS, поэтому тесты используют её внутреннюю память. Проверка реального объёма оставляет 1 ГБ свободного места для Android.</string>
 </resources>

@@ -75,4 +75,7 @@
 
     <string name="channel_name">Comprobar tarjeta SD</string>
     <string name="done_title">Comprobación de SD terminada</string>
+
+    <string name="userdata_name">Almacenamiento interno</string>
+    <string name="details_userdata">Esta tarjeta no tiene partición EASYROMS, así que las pruebas usan su almacenamiento interno. La comprobación del tamaño real deja 1 GB libre para Android.</string>
 </resources>

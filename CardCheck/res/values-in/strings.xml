@@ -75,4 +75,7 @@
 
     <string name="channel_name">Cek kartu SD</string>
     <string name="done_title">Cek kartu SD selesai</string>
+
+    <string name="userdata_name">Penyimpanan internal</string>
+    <string name="details_userdata">Kartu ini tidak memiliki partisi EASYROMS, jadi pengujian menggunakan penyimpanan internal di kartu ini. Cek ukuran asli menyisakan ruang kosong 1 GB untuk Android.</string>
 </resources>

@@ -75,4 +75,7 @@
 
     <string name="channel_name">SD 卡检测</string>
     <string name="done_title">SD 卡检测已完成</string>
+
+    <string name="userdata_name">内部存储</string>
+    <string name="details_userdata">此存储卡没有 EASYROMS 分区，因此测试将使用卡上的内部存储。实际容量检查会为 Android 预留 1 GB 可用空间。</string>
 </resources>

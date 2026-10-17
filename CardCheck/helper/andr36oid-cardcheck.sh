@@ -23,8 +23,10 @@
 #
 # The app writes $DIR/request (action=, path=/mnt/media_rw/<uuid>, disk=<maj>:<min>,
 # disk_mb=<size of the whole card>)
-# and starts us with ctl.start. We write key=value lines to $DIR/status; the times
-# are "seconds.nanoseconds" strings because mksh only does 32-bit integers.
+# and starts us with ctl.start. A boot card without EASYROMS (the whole card is
+# userdata) is tested in path=$DIR/userdata instead, uuid "userdata".
+# We write key=value lines to $DIR/status; the times are "seconds.nanoseconds"
+# strings because mksh only does 32-bit integers.
 # $DIR/stop asks a running check to stop; if it holds "pause", a full check keeps its
 # test data and $DIR/progress-<uuid> so it can be resumed. Nothing here runs at boot.
 
@@ -35,6 +37,7 @@ MEDIA=${CARDCHECK_MEDIA:-/mnt/media_rw}
 SYS=${CARDCHECK_SYS:-/sys}
 DEVDIR=${CARDCHECK_DEVDIR:-/dev/block}
 STATUS=$DIR/status
+USERDATA=$DIR/userdata
 STOP=$DIR/stop
 FILE_MB=16
 FILES_PER_DIR=64
@@ -43,6 +46,8 @@ SPEED_FREE_MB=1024
 RAND_SECONDS=${CARDCHECK_RAND_SECONDS:-8}
 CARDSPEED=${CARDCHECK_CARDSPEED:-/system/bin/andr36oid-cardspeed}
 KEEP_FREE_MB=64
+# Android itself runs from userdata and needs room while a size check fills it
+USERDATA_KEEP_FREE_MB=1024
 HEAD_MB=64
 PROBE_STEP_MB=256
 WAKELOCK=andr36oid-cardcheck
@@ -289,6 +294,11 @@ rm -f "$STOP"
 
 case $ROOT in
 "$MEDIA"/*) ;;
+"$USERDATA")
+	mkdir -p "$ROOT"
+	chmod 0700 "$ROOT"
+	KEEP_FREE_MB=$USERDATA_KEEP_FREE_MB
+	;;
 *) ACTION=${ACTION:-none}; UUID=none; finish state=failed error=bad_request ;;
 esac
 case $UUID in

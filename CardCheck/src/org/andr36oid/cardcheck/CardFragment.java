@@ -283,6 +283,7 @@ public class CardFragment extends PreferenceFragment {
             sb.append(c.getString(R.string.details_model, model)).append('\n');
             sb.append(c.getString(R.string.details_compare)).append('\n');
         }
+        if (card.userdata) sb.append(c.getString(R.string.details_userdata)).append('\n');
         final String lines = Texts.cardLines(c, snap.id, speed);
         if (!lines.isEmpty()) sb.append(lines).append('\n');
         sb.append(c.getString(R.string.details_free,
