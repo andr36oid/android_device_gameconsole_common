@@ -403,6 +403,11 @@ is_paused() {
 paused=$(is_paused)
 
 if [ "$1" = boot ]; then
+	# Second SD card switched off before the slot had a kernel option: carry it over
+	if [ "$(getprop persist.andr36oid.sd2_mount)" = 0 ] &&
+		[ -z "$(getprop persist.andr36oid.kt.sd2_slot)" ]; then
+		setprop persist.andr36oid.kt.sd2_slot off
+	fi
 	# The defaults of the start options: this start's command line without the part
 	# kernel-tweaks.txt added at its end
 	if boot_mount ro; then

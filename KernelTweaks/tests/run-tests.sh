@@ -278,6 +278,18 @@ setp persist.andr36oid.kt.sd2_slot on
 setp persist.andr36oid.kt.radios ""
 run apply
 check "sd2 slot and radios back on" no "$([ -e "$T/boot/kernel-tweaks.txt" ] && echo yes || echo no)"
+# switched off before the slot had a kernel option: carried over at start
+setup
+setp persist.andr36oid.sd2_mount 0
+run boot
+check "old sd2 switch carried over" off "$(prop persist.andr36oid.kt.sd2_slot)"
+check "old sd2 switch written" "dw_mmc_rockchip.second_slot=0" \
+	"$(sed -n 's/^kt_args=//p' "$T/boot/kernel-tweaks.txt")"
+setup
+setp persist.andr36oid.sd2_mount 0
+setp persist.andr36oid.kt.sd2_slot on
+run boot
+check "sd2 switch set since is kept" on "$(prop persist.andr36oid.kt.sd2_slot)"
 
 # --- crash log: two knobs while running, on/off and the split as start options
 setup
