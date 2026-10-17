@@ -88,6 +88,9 @@ TARGET_KERNEL_CROSS_COMPILE_PREFIX := /opt/toolchains/gcc-linaro-6.3.1-2017.05-x
 # The kernel's version line names the project server, not the build machine:
 # "Linux version ... (kenny@andr36oid-server)"
 TARGET_KERNEL_ADDITIONAL_FLAGS += KBUILD_BUILD_USER=kenny KBUILD_BUILD_HOST=andr36oid-server
+# An empty LOCALVERSION keeps the kernel from adding "+" for a tree with commits on top
+# of its tag, so the version ends in the defconfig's -rk3326-andr36oid-itskenny0
+TARGET_KERNEL_ADDITIONAL_FLAGS += LOCALVERSION=
 
 #BOARD_KERNEL_PAGESIZE := 4096
 #BOARD_KERNEL_BASE 	:= 0x10000000
