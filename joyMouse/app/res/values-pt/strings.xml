@@ -58,6 +58,8 @@
     <string name="hold_to_switch_off">Mantenha %1$s premido para desativar</string>
     <string name="hold_to_switch_on">Mantenha %1$s premido durante %2$s para ativar</string>
     <string name="switch_in_settings">Ative em Definições › Comandos › Rato por analógico</string>
+    <string name="press_to_switch_off">Prima %1$s para desativar</string>
+    <string name="press_to_switch_on">Prima %1$s para ativar</string>
     <string name="seconds">%1$s s</string>
     <string name="binding">%1$s: %2$s</string>
     <string name="list_separator">" · "</string>

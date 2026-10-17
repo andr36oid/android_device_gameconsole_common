@@ -5,6 +5,7 @@ import android.content.res.Resources;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,19 +37,27 @@ final class ControlsText {
     static String announcement(Context context, Setup setup, boolean active) {
         final Resources res = context.getResources();
         final List<String> lines = new ArrayList<>();
+        final String fnShortcut = FnShortcut.available(context)
+                ? chord(context, Arrays.asList("MODE", "X")) : null;
         if (active) {
             lines.add(res.getString(R.string.mode_on));
             lines.addAll(controlLines(context, setup));
             if (!setup.toggle.isEmpty()) {
                 lines.add(res.getString(R.string.hold_to_switch_off, chord(context, setup.toggle)));
             }
+            if (fnShortcut != null) {
+                lines.add(res.getString(R.string.press_to_switch_off, fnShortcut));
+            }
         } else {
             lines.add(res.getString(R.string.mode_off));
-            if (setup.toggle.isEmpty()) {
-                lines.add(res.getString(R.string.switch_in_settings));
-            } else {
+            if (!setup.toggle.isEmpty()) {
                 lines.add(res.getString(R.string.hold_to_switch_on, chord(context, setup.toggle),
                         seconds(context, setup.holdMs)));
+            }
+            if (fnShortcut != null) {
+                lines.add(res.getString(R.string.press_to_switch_on, fnShortcut));
+            } else if (setup.toggle.isEmpty()) {
+                lines.add(res.getString(R.string.switch_in_settings));
             }
         }
         return String.join("\n", lines);

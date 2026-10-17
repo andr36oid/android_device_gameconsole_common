@@ -58,6 +58,8 @@
     <string name="hold_to_switch_off">Kapatmak için %1$s basılı tutun</string>
     <string name="hold_to_switch_on">Açmak için %1$s tuşlarını %2$s basılı tutun</string>
     <string name="switch_in_settings">Ayarlar › Kontroller › Joystick fare bölümünden açın</string>
+    <string name="press_to_switch_off">Kapatmak için %1$s tuşlarına basın</string>
+    <string name="press_to_switch_on">Açmak için %1$s tuşlarına basın</string>
     <string name="seconds">%1$s sn</string>
     <string name="binding">%1$s: %2$s</string>
     <string name="list_separator">" · "</string>

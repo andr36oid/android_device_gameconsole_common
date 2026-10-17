@@ -58,6 +58,8 @@
     <string name="hold_to_switch_off">Удерживайте %1$s, чтобы выключить</string>
     <string name="hold_to_switch_on">Удерживайте %1$s (%2$s), чтобы включить</string>
     <string name="switch_in_settings">Включите в разделе Настройки › Управление › Мышь-джойстик</string>
+    <string name="press_to_switch_off">Нажмите %1$s, чтобы выключить</string>
+    <string name="press_to_switch_on">Нажмите %1$s, чтобы включить</string>
     <string name="seconds">%1$s с</string>
     <string name="binding">%1$s: %2$s</string>
     <string name="list_separator">" · "</string>

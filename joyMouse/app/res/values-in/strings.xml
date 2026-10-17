@@ -58,6 +58,8 @@
     <string name="hold_to_switch_off">Tahan %1$s untuk menonaktifkan</string>
     <string name="hold_to_switch_on">Tahan %1$s selama %2$s untuk mengaktifkan</string>
     <string name="switch_in_settings">Aktifkan di Setelan › Kontrol › Mouse joystick</string>
+    <string name="press_to_switch_off">Tekan %1$s untuk menonaktifkan</string>
+    <string name="press_to_switch_on">Tekan %1$s untuk mengaktifkan</string>
     <string name="seconds">%1$s dtk</string>
     <string name="binding">%1$s: %2$s</string>
     <string name="list_separator">" · "</string>
