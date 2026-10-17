@@ -15,4 +15,8 @@
     <string name="bootanim_lineage">LineageOS (default)</string>
     <string name="bootanim_retro">andr36oid retro</string>
     <string name="bootanim_summary">%1$s. Shows from the next start.</string>
+    <string name="bootanim_orbit">andr36oid Orbit</string>
+    <string name="bootanim_signal">andr36oid Signal</string>
+    <string name="bootanim_cartridge">andr36oid Cartridge</string>
+    <string name="bootanim_xp" translatable="false">Windows XP</string>
 </resources>

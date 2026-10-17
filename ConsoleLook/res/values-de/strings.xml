@@ -12,4 +12,7 @@
     <string name="bootanim_lineage">LineageOS (Standard)</string>
     <string name="bootanim_retro">andr36oid Retro</string>
     <string name="bootanim_summary">%1$s. Ab dem nächsten Start zu sehen.</string>
+    <string name="bootanim_orbit">andr36oid Umlaufbahn</string>
+    <string name="bootanim_signal">andr36oid Signal</string>
+    <string name="bootanim_cartridge">andr36oid Spielmodul</string>
 </resources>

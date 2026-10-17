@@ -12,4 +12,7 @@
     <string name="bootanim_lineage">LineageOS (padrão)</string>
     <string name="bootanim_retro">andr36oid retrô</string>
     <string name="bootanim_summary">%1$s. Aparece a partir do próximo início.</string>
+    <string name="bootanim_orbit">andr36oid Órbita</string>
+    <string name="bootanim_signal">andr36oid Sinal</string>
+    <string name="bootanim_cartridge">andr36oid Cartucho</string>
 </resources>

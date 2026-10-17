@@ -21,9 +21,23 @@ public class LookFragment extends PreferenceFragment {
     private static final String DEFAULT = "";
 
     /** The boot animations, with a frame of each for the picker */
-    private static final String[] BOOTANIM_VALUES = {Looks.BOOTANIM_LINEAGE, Looks.BOOTANIM_RETRO};
-    private static final int[] BOOTANIM_LABELS = {R.string.bootanim_lineage, R.string.bootanim_retro};
-    private static final int[] BOOTANIM_PREVIEWS = {R.drawable.bootanim_lineage, R.drawable.bootanim_retro};
+    private static final String[] BOOTANIM_VALUES = {Looks.BOOTANIM_LINEAGE,
+            Looks.BOOTANIM_RETRO, Looks.BOOTANIM_ORBIT, Looks.BOOTANIM_SIGNAL,
+            Looks.BOOTANIM_CARTRIDGE, Looks.BOOTANIM_XP};
+    private static final int[] BOOTANIM_LABELS = {R.string.bootanim_lineage,
+            R.string.bootanim_retro, R.string.bootanim_orbit, R.string.bootanim_signal,
+            R.string.bootanim_cartridge, R.string.bootanim_xp};
+    private static final int[] BOOTANIM_PREVIEWS = {R.drawable.bootanim_lineage,
+            R.drawable.bootanim_retro, R.drawable.bootanim_orbit, R.drawable.bootanim_signal,
+            R.drawable.bootanim_cartridge, R.drawable.bootanim_xp};
+
+    private static int bootAnimationIndex() {
+        final String current = Looks.bootAnimation();
+        for (int i = 0; i < BOOTANIM_VALUES.length; i++) {
+            if (BOOTANIM_VALUES[i].equals(current)) return i;
+        }
+        return 0;
+    }
 
     private ListPreference mAccent, mSounds;
     private Preference mBootAnim;
@@ -63,10 +77,12 @@ public class LookFragment extends PreferenceFragment {
     /** A list like the other rows', with a frame of each animation next to its name. */
     private void showBootAnimations() {
         final Context context = getContext();
-        final int current = Looks.retroBootAnimation() ? 1 : 0;
+        final int current = bootAnimationIndex();
+        final String[] labels = new String[BOOTANIM_LABELS.length];
+        for (int i = 0; i < labels.length; i++) labels[i] = getString(BOOTANIM_LABELS[i]);
         final LayoutInflater inflater = LayoutInflater.from(context);
         final ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, 0,
-                new String[] {getString(BOOTANIM_LABELS[0]), getString(BOOTANIM_LABELS[1])}) {
+                labels) {
             @Override
             public View getView(int position, View view, ViewGroup parent) {
                 if (view == null) view = inflater.inflate(R.layout.bootanim_item, parent, false);
@@ -81,8 +97,7 @@ public class LookFragment extends PreferenceFragment {
         new AlertDialog.Builder(context)
                 .setTitle(R.string.bootanim_title)
                 .setSingleChoiceItems(adapter, current, (dialog, which) -> {
-                    Looks.setRetroBootAnimation(Looks.BOOTANIM_RETRO.equals(
-                            BOOTANIM_VALUES[which]));
+                    Looks.setBootAnimation(BOOTANIM_VALUES[which]);
                     dialog.dismiss();
                     refresh();
                 })
@@ -122,8 +137,7 @@ public class LookFragment extends PreferenceFragment {
                 getString(retro ? R.string.sounds_retro : R.string.sounds_android)));
 
         // Boot animation
-        final boolean retroAnim = Looks.retroBootAnimation();
         mBootAnim.setSummary(getString(R.string.bootanim_summary,
-                getString(retroAnim ? R.string.bootanim_retro : R.string.bootanim_lineage)));
+                getString(BOOTANIM_LABELS[bootAnimationIndex()])));
     }
 }

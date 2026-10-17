@@ -1,0 +1,15 @@
+Windows XP boot animation, adapted for the handheld display.
+
+Source: https://xdaforums.com/attachments/bootanimation-zip.5930035/
+The maintainer supplied the attachment as bootanimation.zip.
+Original SHA-256: ba53805fbaf3447b95187d8a3416c88bb587d619ec0b64e40cb774ff27baeebb
+
+The source archive identifies no animation author or license. Its original
+Microsoft copyright and branding remain visible in the adapted frames:
+Copyright (c) 1985-2001 Microsoft Corporation.
+Windows and the Windows logo belong to Microsoft Corporation.
+
+Changes: crop the portrait canvas into its logo, loading bar and footer;
+resize them proportionally and place them on a black 640x480 canvas. Preserve
+all 18 frames and the original 10 fps timing. Remove the reference to the
+missing outro directory and make the loop interruptible when Android is ready.

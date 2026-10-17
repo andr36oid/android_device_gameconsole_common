@@ -12,4 +12,7 @@
     <string name="bootanim_lineage">LineageOS（默认）</string>
     <string name="bootanim_retro">andr36oid 复古</string>
     <string name="bootanim_summary">%1$s。下次启动时显示。</string>
+    <string name="bootanim_orbit">andr36oid 轨道</string>
+    <string name="bootanim_signal">andr36oid 信号</string>
+    <string name="bootanim_cartridge">andr36oid 卡带</string>
 </resources>

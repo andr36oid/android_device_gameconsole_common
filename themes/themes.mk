@@ -28,10 +28,10 @@ PRODUCT_COPY_FILES += \
 	$(foreach f,move select key key_space key_delete key_return key_invalid charging,\
 		device/gameconsole/common/themes/sounds/audio/$(f).ogg:$(TARGET_COPY_OUT_PRODUCT)/media/audio/ui/andr36oid/$(f).ogg)
 
-# Retro boot animation, chosen in Settings > Personalization
-# (persist.andr36oid.bootanimation=retro; stock LineageOS animation otherwise)
+# Optional boot animations, chosen in Settings > Personalization.
 PRODUCT_COPY_FILES += \
-	device/gameconsole/common/themes/bootanimation/bootanimation-retro.zip:$(TARGET_COPY_OUT_SYSTEM)/media/bootanimation-retro.zip \
+	$(foreach boot_style,retro orbit signal cartridge xp,device/gameconsole/common/themes/bootanimation/bootanimation-$(boot_style).zip:$(TARGET_COPY_OUT_SYSTEM)/media/bootanimation-$(boot_style).zip) \
+	device/gameconsole/common/themes/bootanimation/NOTICE-xp.txt:$(TARGET_COPY_OUT_SYSTEM)/etc/andr36oid/bootanimation-xp-NOTICE.txt \
 	device/gameconsole/common/themes/bootanimation/andr36oid-bootanim.rc:$(TARGET_COPY_OUT_SYSTEM)/etc/init/andr36oid-bootanim.rc
 
 # Settings > Personalization: accent colour, UI sounds, boot animation

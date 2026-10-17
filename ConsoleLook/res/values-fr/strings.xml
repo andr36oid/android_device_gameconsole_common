@@ -12,4 +12,7 @@
     <string name="bootanim_lineage">LineageOS (par défaut)</string>
     <string name="bootanim_retro">andr36oid rétro</string>
     <string name="bootanim_summary">%1$s. Visible au prochain démarrage.</string>
+    <string name="bootanim_orbit">andr36oid Orbite</string>
+    <string name="bootanim_signal">andr36oid Signal</string>
+    <string name="bootanim_cartridge">andr36oid Cartouche</string>
 </resources>

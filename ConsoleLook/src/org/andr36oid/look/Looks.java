@@ -40,6 +40,10 @@ final class Looks {
     static final String BOOTANIM_PROP = "persist.andr36oid.bootanimation";
     static final String BOOTANIM_RETRO = "retro";
     static final String BOOTANIM_LINEAGE = "lineage";
+    static final String BOOTANIM_ORBIT = "orbit";
+    static final String BOOTANIM_SIGNAL = "signal";
+    static final String BOOTANIM_CARTRIDGE = "cartridge";
+    static final String BOOTANIM_XP = "xp";
 
     private Looks() {}
 
@@ -162,12 +166,22 @@ final class Looks {
 
     // ------------------------------------------------------------------ boot animation
 
-    static boolean retroBootAnimation() {
-        return BOOTANIM_RETRO.equals(SystemProperties.get(BOOTANIM_PROP, ""));
+    static String bootAnimation() {
+        final String value = SystemProperties.get(BOOTANIM_PROP, BOOTANIM_LINEAGE);
+        switch (value) {
+            case BOOTANIM_RETRO:
+            case BOOTANIM_ORBIT:
+            case BOOTANIM_SIGNAL:
+            case BOOTANIM_CARTRIDGE:
+            case BOOTANIM_XP:
+                return value;
+            default:
+                return BOOTANIM_LINEAGE;
+        }
     }
 
-    static void setRetroBootAnimation(boolean on) {
-        SystemProperties.set(BOOTANIM_PROP, on ? BOOTANIM_RETRO : BOOTANIM_LINEAGE);
+    static void setBootAnimation(String value) {
+        SystemProperties.set(BOOTANIM_PROP, value);
     }
 
     private static android.content.SharedPreferences prefs(Context context) {

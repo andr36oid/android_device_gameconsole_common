@@ -2,7 +2,7 @@
 # The boot animation starts at late-fs, before /data (and so persist.*) is
 # mounted. The choice is therefore kept as a symlink on /cache, which is up
 # since fs: at post-fs the chosen zip is bind-mounted over the stock one.
-# Values: "retro"; anything else (or unset) keeps the LineageOS animation.
+# Values: retro, orbit, signal, cartridge, xp; unset keeps LineageOS.
 # A wiped /cache just means the stock animation again until the next boot.
 
 on post-fs
@@ -14,3 +14,15 @@ on property:persist.andr36oid.bootanimation=*
 
 on property:persist.andr36oid.bootanimation=retro
     symlink /system/media/bootanimation-retro.zip /cache/andr36oid/bootanimation.zip
+
+on property:persist.andr36oid.bootanimation=orbit
+    symlink /system/media/bootanimation-orbit.zip /cache/andr36oid/bootanimation.zip
+
+on property:persist.andr36oid.bootanimation=signal
+    symlink /system/media/bootanimation-signal.zip /cache/andr36oid/bootanimation.zip
+
+on property:persist.andr36oid.bootanimation=cartridge
+    symlink /system/media/bootanimation-cartridge.zip /cache/andr36oid/bootanimation.zip
+
+on property:persist.andr36oid.bootanimation=xp
+    symlink /system/media/bootanimation-xp.zip /cache/andr36oid/bootanimation.zip
