@@ -702,6 +702,67 @@ notify() {
 	fi
 }
 
+# console_name ; what Settings > About console > Device name says, from the BOOT
+# folder the DTB came from (or the device tree's model for consoles with their own DTB)
+console_name() {
+	local f
+	case $FOLDER in
+	Panels/Panel[0-9]*) echo "R36S P${FOLDER#Panels/Panel}" ;;
+	Panels/R36S-Plus) echo "R36S Plus" ;;
+	Experimental/R36S-V21* | Experimental/R36S-V22 | Experimental/R36S-V30*)
+		f=${FOLDER#Experimental/R36S-}
+		echo "R36S ${f%%-*}"
+		;;
+	Experimental/R36S-Y02-Y07) echo "R36S Y02" ;;
+	Experimental/R36S-Panel3-Alt) echo "R36S P3" ;;
+	Experimental/EE-G80-Panel8) echo "Clone G80C" ;;
+	Experimental/EE-G80-Panel9) echo "Clone G80CA" ;;
+	Experimental/EE-K36-*) echo "Clone K36" ;;
+	Experimental/Kinhank-K36) echo "Kinhank K36" ;;
+	Experimental/EE-V12-*) echo "Clone R36S V12" ;;
+	Experimental/Soy-*) echo "Clone Soy Sauce" ;;
+	Experimental/R36-Ultra) echo "R36 Ultra" ;;
+	Experimental/R36-Max) echo "R36 Max" ;;
+	Experimental/R39-Max) echo "R39 Max" ;;
+	Experimental/T16-Max) echo "T16 Max" ;;
+	Experimental/*) echo "${FOLDER#Experimental/}" ;;
+	*)
+		case $MODEL in
+		*R46H*) echo "R46H" ;;
+		*R50S*) echo "R50S" ;;
+		*D-28S*) echo "Diium D-28S" ;;
+		*G350*) echo "BatleXP G350" ;;
+		*) echo "R36S" ;;
+		esac
+		;;
+	esac
+}
+
+# device_name ; names the console "andr36oid on <console>" while the name is still
+# Android's default or one this set before, so a new DTB renames it too; a name
+# picked in Settings stays
+device_name() {
+	local want cur
+	want="andr36oid on $(console_name)"
+	if [ -n "$TEST" ]; then
+		cur=$(cat "$TEST/device_name" 2>/dev/null)
+	else
+		cur=$(settings get global device_name 2>/dev/null)
+	fi
+	case $cur in
+	"" | null | "LineageOS on "* | "andr36oid on "*) ;;
+	*) return 0 ;;
+	esac
+	[ "$cur" = "$want" ] && return 0
+	if [ -n "$TEST" ]; then
+		echo "$want" >"$TEST/device_name"
+	elif settings put global device_name "$want" 2>/dev/null; then
+		log "device name: $want"
+	else
+		log "could not set the device name"
+	fi
+}
+
 main() {
 	local new
 	nap "$WAIT"
@@ -712,6 +773,8 @@ main() {
 	case $MODEL in
 	*R46H* | *R50S* | *D-28S* | *G350*)
 		log "$MODEL: no hint for this console"
+		FOLDER=
+		device_name
 		return 0
 		;;
 	esac
@@ -727,6 +790,7 @@ main() {
 		FOLDER=
 		log "BOOT not found"
 	fi
+	device_name
 	decide
 	log "result $VERDICT: dt=$DT_WIRING hw=$HW ($HW_FROM) folder=${FOLDER:-?} joypad=$JOY_UP stuck=$STUCK_N vol=$VOL_STUCK rail=$RAIL"
 	compose | sed "s/\$/$CR/" >"$new"

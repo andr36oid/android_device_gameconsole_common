@@ -295,6 +295,20 @@ cases() {
 	expect "right dtb: CRLF" [ "$(grep -c "$(printf '\r')\$" "$h")" = "$(wc -l <"$h" | tr -d ' ')" ]
 	expect "right dtb: data copy" [ -s "$R/data/dtb-hint.txt" ]
 	expect "right dtb: exit 0" [ "$(cat "$R/test/rc")" = 0 ]
+	# the device name says which console this is, a name picked in Settings stays
+	expect "device name: default replaced" [ "$(cat "$R/test/device_name")" = "andr36oid on R36S P4" ]
+	fake "$R" Panels/Panel4 Panels/Panel4
+	echo "LineageOS on GameConsole R36S" >"$R/test/device_name"
+	hint "$R"
+	expect "device name: LineageOS default replaced" [ "$(cat "$R/test/device_name")" = "andr36oid on R36S P4" ]
+	fake "$R" Panels/Panel4 Panels/Panel4
+	echo "andr36oid on R36 Ultra" >"$R/test/device_name"
+	hint "$R"
+	expect "device name: ours follows the DTB" [ "$(cat "$R/test/device_name")" = "andr36oid on R36S P4" ]
+	fake "$R" Panels/Panel4 Panels/Panel4
+	echo "my console" >"$R/test/device_name"
+	hint "$R"
+	expect "device name: own name kept" [ "$(cat "$R/test/device_name")" = "my console" ]
 	# Console details in Settings: board, panel folder, U-Boot version
 	fake "$R" Panels/Panel4 Panels/Panel4 adc0=165
 	printf 'junk\000U-Boot 2017.09-gf293360118 (Sep 20 2026)\000more' >"$R/uboot.img"
@@ -317,6 +331,10 @@ cases() {
 		expect "$m: exit 0" [ "$(cat "$R/test/rc")" = 0 ]
 		expect "$m: logged" contains "$R/test/log" "no hint for this console"
 		expect "$m: no board info" lacks "$R/test/info" "andr36oid.info.board"
+		case $m in
+		*R46H*) n=R46H ;; *R50S*) n=R50S ;; *D-28S*) n="Diium D-28S" ;; *) n="BatleXP G350" ;;
+		esac
+		expect "$m: device name" [ "$(cat "$R/test/device_name")" = "andr36oid on $n" ]
 	done
 	fake "$R" Panels/Panel4 Panels/Panel4
 	hint "$R"
