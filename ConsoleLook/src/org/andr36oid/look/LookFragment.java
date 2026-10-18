@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
+import android.preference.SwitchPreference;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,6 +42,7 @@ public class LookFragment extends PreferenceFragment {
 
     private ListPreference mAccent, mSounds;
     private Preference mBootAnim;
+    private SwitchPreference mBootProgress, mBootDetails;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -64,6 +66,16 @@ public class LookFragment extends PreferenceFragment {
         });
         mBootAnim.setOnPreferenceClickListener(pref -> {
             showBootAnimations();
+            return true;
+        });
+        mBootProgress = (SwitchPreference) findPreference("boot_progress");
+        mBootProgress.setOnPreferenceChangeListener((pref, value) -> {
+            Looks.setBootFlag(Looks.BOOT_PROGRESS_PROP, (Boolean) value);
+            return true;
+        });
+        mBootDetails = (SwitchPreference) findPreference("boot_details");
+        mBootDetails.setOnPreferenceChangeListener((pref, value) -> {
+            Looks.setBootFlag(Looks.BOOT_DETAILS_PROP, (Boolean) value);
             return true;
         });
     }
@@ -139,5 +151,7 @@ public class LookFragment extends PreferenceFragment {
         // Boot animation
         mBootAnim.setSummary(getString(R.string.bootanim_summary,
                 getString(BOOTANIM_LABELS[bootAnimationIndex()])));
+        mBootProgress.setChecked(Looks.bootFlag(Looks.BOOT_PROGRESS_PROP));
+        mBootDetails.setChecked(Looks.bootFlag(Looks.BOOT_DETAILS_PROP));
     }
 }

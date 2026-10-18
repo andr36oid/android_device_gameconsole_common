@@ -1,1 +1,4 @@
 allow bootanim dri_device:chr_file rw_file_perms;
+# The boot progress markers on /cache (themes/bootanimation/andr36oid-bootanim.rc)
+allow bootanim cache_file:dir search;
+allow bootanim cache_file:file getattr;

@@ -26,3 +26,21 @@ on property:persist.andr36oid.bootanimation=cartridge
 
 on property:persist.andr36oid.bootanimation=xp
     symlink /system/media/bootanimation-xp.zip /cache/andr36oid/bootanimation.zip
+
+# Settings > Personalization > Boot progress bar / Show boot details. Like the animation
+# choice they have to be known before /data is up, so they are kept as marker files on
+# /cache that the boot animation checks once (BootLogScreen.cpp). These triggers also run
+# at every start when persist.* loads, which puts the markers back after a wiped /cache.
+on property:persist.andr36oid.bootprogress=1
+    mkdir /cache/andr36oid 0755 root root
+    write /cache/andr36oid/bootprogress 1
+
+on property:persist.andr36oid.bootprogress=0
+    rm /cache/andr36oid/bootprogress
+
+on property:persist.andr36oid.bootdetails=1
+    mkdir /cache/andr36oid 0755 root root
+    write /cache/andr36oid/bootdetails 1
+
+on property:persist.andr36oid.bootdetails=0
+    rm /cache/andr36oid/bootdetails

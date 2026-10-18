@@ -14,4 +14,16 @@
     <Preference
         android:key="bootanim"
         android:title="@string/bootanim_title" />
+
+    <SwitchPreference
+        android:key="boot_progress"
+        android:title="@string/boot_progress_title"
+        android:summary="@string/boot_progress_summary"
+        android:persistent="false" />
+
+    <SwitchPreference
+        android:key="boot_details"
+        android:title="@string/boot_details_title"
+        android:summary="@string/boot_details_summary"
+        android:persistent="false" />
 </PreferenceScreen>

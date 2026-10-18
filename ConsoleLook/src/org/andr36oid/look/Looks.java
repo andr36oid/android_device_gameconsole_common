@@ -45,6 +45,11 @@ final class Looks {
     static final String BOOTANIM_CARTRIDGE = "cartridge";
     static final String BOOTANIM_XP = "xp";
 
+    // ---- boot progress bar and boot details: andr36oid-bootanim.rc keeps them on /cache
+    // for the boot animation, the system server sets the phases it follows while one is on
+    static final String BOOT_PROGRESS_PROP = "persist.andr36oid.bootprogress";
+    static final String BOOT_DETAILS_PROP = "persist.andr36oid.bootdetails";
+
     private Looks() {}
 
     /** An installed accent overlay. */
@@ -178,6 +183,14 @@ final class Looks {
             default:
                 return BOOTANIM_LINEAGE;
         }
+    }
+
+    static boolean bootFlag(String prop) {
+        return SystemProperties.getBoolean(prop, false);
+    }
+
+    static void setBootFlag(String prop, boolean on) {
+        SystemProperties.set(prop, on ? "1" : "0");
     }
 
     static void setBootAnimation(String value) {

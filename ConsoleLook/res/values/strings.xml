@@ -19,4 +19,9 @@
     <string name="bootanim_signal">andr36oid Signal</string>
     <string name="bootanim_cartridge">andr36oid Cartridge</string>
     <string name="bootanim_xp" translatable="false">Windows XP</string>
+
+    <string name="boot_progress_title">Boot progress bar</string>
+    <string name="boot_progress_summary">A thin bar under the logo that moves along as the console starts. Shows from the next start.</string>
+    <string name="boot_details_title">Show boot details</string>
+    <string name="boot_details_summary">A line under the logo that says what the console is doing, like \"Mounting partitions\". Shows from the next start.</string>
 </resources>
