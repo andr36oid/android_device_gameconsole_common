@@ -302,6 +302,10 @@ cases() {
 	hint "$R"
 	expect "device name: LineageOS default replaced" [ "$(cat "$R/test/device_name")" = "andr36oid on R36S P4" ]
 	fake "$R" Panels/Panel4 Panels/Panel4
+	echo "andr36oid" >"$R/test/device_name"
+	hint "$R"
+	expect "device name: model default replaced" [ "$(cat "$R/test/device_name")" = "andr36oid on R36S P4" ]
+	fake "$R" Panels/Panel4 Panels/Panel4
 	echo "andr36oid on R36 Ultra" >"$R/test/device_name"
 	hint "$R"
 	expect "device name: ours follows the DTB" [ "$(cat "$R/test/device_name")" = "andr36oid on R36S P4" ]

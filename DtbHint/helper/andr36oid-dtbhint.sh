@@ -739,7 +739,8 @@ console_name() {
 }
 
 # device_name ; names the console "andr36oid on <console>" while the name is still
-# Android's default or one this set before, so a new DTB renames it too; a name
+# Android's default (the model, andr36oid; LineageOS on GameConsole R36S before) or one
+# this set before, so a new DTB renames it too; a name
 # picked in Settings stays
 device_name() {
 	local want cur
@@ -750,7 +751,7 @@ device_name() {
 		cur=$(settings get global device_name 2>/dev/null)
 	fi
 	case $cur in
-	"" | null | "LineageOS on "* | "andr36oid on "*) ;;
+	"" | null | andr36oid | "LineageOS on "* | "andr36oid on "*) ;;
 	*) return 0 ;;
 	esac
 	[ "$cur" = "$want" ] && return 0
