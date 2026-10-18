@@ -92,7 +92,7 @@ public class HomeActivity extends Activity {
         mStepViews = new TextView[STEP_LABELS.length];
         for (int i = 0; i < STEP_LABELS.length; i++) {
             final TextView row = new TextView(this);
-            row.setTextSize(14);
+            row.setTextSize(13);
             row.setPadding(0, 1, 0, 1);
             steps.addView(row);
             mStepViews[i] = row;
@@ -127,7 +127,8 @@ public class HomeActivity extends Activity {
                 ready ? R.string.home_title : R.string.preparing_title);
         ((TextView) findViewById(R.id.body)).setText(
                 ready ? R.string.home_body : R.string.preparing_body);
-        findViewById(R.id.buttons).setVisibility(ready ? View.VISIBLE : View.INVISIBLE);
+        // while preparing the buttons take no room: the page needs all of 640x480
+        findViewById(R.id.buttons).setVisibility(ready ? View.VISIBLE : View.GONE);
         mReady = ready;
         findViewById(R.id.preparing_progress).setVisibility(ready ? View.GONE : View.VISIBLE);
         mHandler.removeCallbacks(mProgress);
@@ -267,9 +268,9 @@ public class HomeActivity extends Activity {
             }
         }
         final String text = String.format(Locale.ROOT,
-                "sd card read  %-11s written  %s\n"
-                        + "apps          %-11s free     %s\n"
-                        + "elapsed       %-11s stage    %s",
+                "card %-10s wrote %s\n"
+                        + "apps %-10s free  %s\n"
+                        + "time %-10s stage %s",
                 card, wr, apps, free, t, stage.isEmpty() ? "-" : stage);
         if (!text.contentEquals(view.getText())) view.setText(text);
         view.setVisibility(View.VISIBLE);
