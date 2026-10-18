@@ -224,6 +224,11 @@ public class HudService extends Service
                     append(out, " " + s.memMhz + "MHz", mValueColor);
                 }
             }
+            if (s.storagePercent >= 0) {
+                label(out, R.string.hud_storage);
+                append(out, s.storagePercent + "%", s.storagePercent >= 90 ? mOkColor
+                        : mValueColor);
+            }
             append(out, "  " + DateFormat.getTimeFormat(this).format(
                     System.currentTimeMillis()), mLabelColor);
         }

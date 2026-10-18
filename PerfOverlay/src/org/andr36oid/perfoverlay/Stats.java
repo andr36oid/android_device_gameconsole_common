@@ -34,6 +34,8 @@ final class Stats {
     /** The memory controller's clock, in Hz. */
     private static final String MEM_FREQ = "/sys/class/devfreq/dmc/cur_freq";
 
+    private static final String STORAGE_STAT = "/sys/block/mmcblk0/stat";
+
     /** -1 or NaN where a value couldn't be read. */
     int fps = -1;
     /** Screen updates per second, whatever changed on screen. */
@@ -47,6 +49,8 @@ final class Stats {
     float batteryWatts = Float.NaN;
     boolean charging;
     int ramPercent = -1;
+    /** How busy the SD card was since the last sample, 0..100. */
+    int storagePercent = -1;
 
     private final String mGpuFreqPath = findGpuFreq();
     private final String mTempPath = findTemperature();
@@ -58,6 +62,8 @@ final class Stats {
     private long mLastFlipTime;
     private long mLastCpuBusy = -1;
     private long mLastCpuTotal;
+    private long mLastIoTicks = -1;
+    private long mLastIoTime;
 
     Stats(Context context) {
         mAppFrames = new AppFrames(context);
@@ -68,6 +74,8 @@ final class Stats {
         mAppFrames.reset();
         mLastFlips = -1;
         mLastCpuBusy = -1;
+        mLastIoTicks = -1;
+        storagePercent = -1;
         fps = -1;
         screenFps = -1;
         cpuPercent = -1;
@@ -86,6 +94,7 @@ final class Stats {
         tempC = milliC == Integer.MIN_VALUE || milliC < 0 ? Float.NaN : milliC / 1000f;
         sampleBattery();
         sampleRam();
+        sampleStorage();
     }
 
     private void sampleFps() {
@@ -162,6 +171,35 @@ final class Stats {
         }
         mLastCpuBusy = busy;
         mLastCpuTotal = total;
+    }
+
+    /**
+     * How much of the time since the last sample the SD card was busy, like iostat's %util:
+     * field 10 of its stat file (io_ticks, milliseconds spent doing I/O) over the wall clock.
+     */
+    private void sampleStorage() {
+        final String stat = read(STORAGE_STAT);
+        final String[] fields = stat == null ? new String[0] : stat.split("\\s+");
+        long ticks = -1;
+        if (fields.length > 9) {
+            try {
+                ticks = Long.parseLong(fields[9]);
+            } catch (NumberFormatException e) {
+                // Stays unknown
+            }
+        }
+        if (ticks < 0) {
+            storagePercent = -1;
+            mLastIoTicks = -1;
+            return;
+        }
+        final long now = SystemClock.elapsedRealtime();
+        if (mLastIoTicks >= 0 && now > mLastIoTime && ticks >= mLastIoTicks) {
+            storagePercent = (int) Math.max(0, Math.min(100,
+                    100 * (ticks - mLastIoTicks) / (now - mLastIoTime)));
+        }
+        mLastIoTicks = ticks;
+        mLastIoTime = now;
     }
 
     private void sampleBattery() {

@@ -52,4 +52,5 @@
     <string name="hud_temp">TEMP</string>
     <string name="hud_bat">BAT</string>
     <string name="hud_ram">RAM</string>
+    <string name="hud_storage">STOR</string>
 </resources>
