@@ -4,4 +4,8 @@
     <string name="about_settings" product="tablet">Konsol hakkında</string>
     <string name="about_settings" product="default">Konsol hakkında</string>
     <string name="about_settings" product="device">Konsol hakkında</string>
+    <!-- Hotspot and tethering texts say console, not tablet -->
+    <string name="wifi_hotspot_tethering_on_subtext" product="tablet">Bu konsolun internet bağlantısı hotspot ile paylaşılıyor</string>
+    <string name="usb_tethering_subtext" product="tablet">Konsolun internet bağlantısını USB ile paylaş</string>
+    <string name="bluetooth_tethering_subtext" product="tablet">Konsolun internet bağlantısını Bluetooth ile paylaş</string>
 </resources>

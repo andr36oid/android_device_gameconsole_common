@@ -6,4 +6,8 @@
     <string name="about_settings" product="tablet">關於掌機</string>
     <string name="about_settings" product="default">關於掌機</string>
     <string name="about_settings" product="device">關於掌機</string>
+    <!-- Hotspot and tethering texts say console, not tablet -->
+    <string name="wifi_hotspot_tethering_on_subtext" product="tablet">正在透過無線基地台分享此掌機的網際網路連線</string>
+    <string name="usb_tethering_subtext" product="tablet">透過 USB 分享掌機的網際網路連線</string>
+    <string name="bluetooth_tethering_subtext" product="tablet">透過藍牙分享掌機的網際網路連線</string>
 </resources>

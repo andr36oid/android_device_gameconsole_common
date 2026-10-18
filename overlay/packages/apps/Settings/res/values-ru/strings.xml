@@ -4,4 +4,8 @@
     <string name="about_settings" product="tablet">О консоли</string>
     <string name="about_settings" product="default">О консоли</string>
     <string name="about_settings" product="device">О консоли</string>
+    <!-- Hotspot and tethering texts say console, not tablet -->
+    <string name="wifi_hotspot_tethering_on_subtext" product="tablet">Интернет этой консоли раздаётся через точку доступа</string>
+    <string name="usb_tethering_subtext" product="tablet">Раздать интернет консоли по USB</string>
+    <string name="bluetooth_tethering_subtext" product="tablet">Раздать интернет консоли по Bluetooth</string>
 </resources>

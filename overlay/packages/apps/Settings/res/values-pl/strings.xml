@@ -4,4 +4,8 @@
     <string name="about_settings" product="tablet">Informacje o konsoli</string>
     <string name="about_settings" product="default">Informacje o konsoli</string>
     <string name="about_settings" product="device">Informacje o konsoli</string>
+    <!-- Hotspot and tethering texts say console, not tablet -->
+    <string name="wifi_hotspot_tethering_on_subtext" product="tablet">Udostępnianie internetu z tej konsoli przez hotspot</string>
+    <string name="usb_tethering_subtext" product="tablet">Udostępnij internet z konsoli przez USB</string>
+    <string name="bluetooth_tethering_subtext" product="tablet">Udostępnij internet z konsoli przez Bluetooth</string>
 </resources>

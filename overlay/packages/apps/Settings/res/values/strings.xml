@@ -19,4 +19,8 @@
     <string name="about_settings" product="tablet">About console</string>
     <string name="about_settings" product="default">About console</string>
     <string name="about_settings" product="device">About console</string>
+    <!-- Hotspot and tethering texts say console, not tablet -->
+    <string name="wifi_hotspot_tethering_on_subtext" product="tablet">Sharing this console’s internet connection via hotspot</string>
+    <string name="usb_tethering_subtext" product="tablet">Share console’s internet connection via USB</string>
+    <string name="bluetooth_tethering_subtext" product="tablet">Share console’s internet connection via Bluetooth</string>
 </resources>

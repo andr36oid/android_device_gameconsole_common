@@ -7,4 +7,10 @@
     <string name="about_settings" product="tablet">À propos de la console</string>
     <string name="about_settings" product="default">À propos de la console</string>
     <string name="about_settings" product="device">À propos de la console</string>
+    <!-- from values-fr -->
+    <string name="bluetooth_tethering_subtext" product="tablet">Partager la connexion Internet de la console via Bluetooth</string>
+    <!-- from values-fr -->
+    <string name="usb_tethering_subtext" product="tablet">Partager la connexion Internet de la console via USB</string>
+    <!-- from values-fr -->
+    <string name="wifi_hotspot_tethering_on_subtext" product="tablet">Connexion Internet de cette console partagée via un point d\'accès</string>
 </resources>

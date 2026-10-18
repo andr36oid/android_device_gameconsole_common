@@ -4,7 +4,13 @@
      for these keys. Edit the source folder named below and re-run. -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- from values-pt -->
-    <string name="about_settings" product="tablet">Sobre o console</string>
-    <string name="about_settings" product="default">Sobre o console</string>
-    <string name="about_settings" product="device">Sobre o console</string>
+    <string name="about_settings" product="tablet">Acerca da consola</string>
+    <string name="about_settings" product="default">Acerca da consola</string>
+    <string name="about_settings" product="device">Acerca da consola</string>
+    <!-- from values-pt -->
+    <string name="bluetooth_tethering_subtext" product="tablet">Compartilhar a conexão de internet do console via Bluetooth</string>
+    <!-- from values-pt -->
+    <string name="usb_tethering_subtext" product="tablet">Compartilhar a conexão de internet do console via USB</string>
+    <!-- from values-pt -->
+    <string name="wifi_hotspot_tethering_on_subtext" product="tablet">Compartilhando a conexão de internet deste console via hotspot</string>
 </resources>

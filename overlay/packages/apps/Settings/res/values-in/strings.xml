@@ -4,4 +4,8 @@
     <string name="about_settings" product="tablet">Tentang konsol</string>
     <string name="about_settings" product="default">Tentang konsol</string>
     <string name="about_settings" product="device">Tentang konsol</string>
+    <!-- Hotspot and tethering texts say console, not tablet -->
+    <string name="wifi_hotspot_tethering_on_subtext" product="tablet">Berbagi koneksi internet konsol ini melalui hotspot</string>
+    <string name="usb_tethering_subtext" product="tablet">Bagikan koneksi internet konsol melalui USB</string>
+    <string name="bluetooth_tethering_subtext" product="tablet">Bagikan koneksi internet konsol melalui Bluetooth</string>
 </resources>

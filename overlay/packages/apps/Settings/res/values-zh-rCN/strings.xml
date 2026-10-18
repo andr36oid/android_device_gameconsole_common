@@ -4,4 +4,8 @@
     <string name="about_settings" product="tablet">关于掌机</string>
     <string name="about_settings" product="default">关于掌机</string>
     <string name="about_settings" product="device">关于掌机</string>
+    <!-- Hotspot and tethering texts say console, not tablet -->
+    <string name="wifi_hotspot_tethering_on_subtext" product="tablet">正在通过热点共享此掌机的互联网连接</string>
+    <string name="usb_tethering_subtext" product="tablet">通过 USB 共享掌机的互联网连接</string>
+    <string name="bluetooth_tethering_subtext" product="tablet">通过蓝牙共享掌机的互联网连接</string>
 </resources>
