@@ -15,4 +15,8 @@
     <string name="bootanim_orbit">andr36oid Umlaufbahn</string>
     <string name="bootanim_signal">andr36oid Signal</string>
     <string name="bootanim_cartridge">andr36oid Spielmodul</string>
+    <string name="boot_progress_title">Startfortschrittsbalken</string>
+    <string name="boot_progress_summary">Ein schmaler Balken unter dem Logo, der sich beim Starten der Konsole bewegt. Ab dem nächsten Start zu sehen.</string>
+    <string name="boot_details_title">Startdetails anzeigen</string>
+    <string name="boot_details_summary">Eine Zeile unter dem Logo, die zeigt, was die Konsole gerade tut, z. B. „Partitionen werden eingehängt“. Ab dem nächsten Start zu sehen.</string>
 </resources>

@@ -15,4 +15,8 @@
     <string name="bootanim_orbit">andr36oid Órbita</string>
     <string name="bootanim_signal">andr36oid Sinal</string>
     <string name="bootanim_cartridge">andr36oid Cartucho</string>
+    <string name="boot_progress_title">Barra de progresso do arranque</string>
+    <string name="boot_progress_summary">Uma barra fina sob o logótipo que avança enquanto a consola arranca. Aparece a partir do próximo arranque.</string>
+    <string name="boot_details_title">Mostrar detalhes do arranque</string>
+    <string name="boot_details_summary">Uma linha sob o logótipo que mostra o que a consola está a fazer, como "A montar partições". Aparece a partir do próximo arranque.</string>
 </resources>

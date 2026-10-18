@@ -15,4 +15,8 @@
     <string name="bootanim_orbit">andr36oid Orbita</string>
     <string name="bootanim_signal">andr36oid Sygnał</string>
     <string name="bootanim_cartridge">andr36oid Kartridż</string>
+    <string name="boot_progress_title">Pasek postępu uruchamiania</string>
+    <string name="boot_progress_summary">Cienki pasek pod logo, który przesuwa się podczas uruchamiania konsoli. Widoczny od następnego uruchomienia.</string>
+    <string name="boot_details_title">Pokaż szczegóły uruchamiania</string>
+    <string name="boot_details_summary">Wiersz pod logo, który pokazuje, co robi konsola, np. „Montowanie partycji”. Widoczny od następnego uruchomienia.</string>
 </resources>

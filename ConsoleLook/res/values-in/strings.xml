@@ -15,4 +15,8 @@
     <string name="bootanim_orbit">andr36oid Orbit</string>
     <string name="bootanim_signal">andr36oid Sinyal</string>
     <string name="bootanim_cartridge">andr36oid Kartrid</string>
+    <string name="boot_progress_title">Bilah progres boot</string>
+    <string name="boot_progress_summary">Bilah tipis di bawah logo yang bergerak saat konsol menyala. Tampil mulai penyalaan berikutnya.</string>
+    <string name="boot_details_title">Tampilkan detail boot</string>
+    <string name="boot_details_summary">Satu baris di bawah logo yang menampilkan apa yang sedang dilakukan konsol, misalnya "Memasang partisi". Tampil mulai penyalaan berikutnya.</string>
 </resources>

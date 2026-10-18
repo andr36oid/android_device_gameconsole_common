@@ -15,4 +15,8 @@
     <string name="bootanim_orbit">andr36oid 轨道</string>
     <string name="bootanim_signal">andr36oid 信号</string>
     <string name="bootanim_cartridge">andr36oid 卡带</string>
+    <string name="boot_progress_title">启动进度条</string>
+    <string name="boot_progress_summary">位于 logo 下方的细进度条，随主机启动而移动。下次启动时显示。</string>
+    <string name="boot_details_title">显示启动详情</string>
+    <string name="boot_details_summary">位于 logo 下方的一行文字，显示主机正在执行的操作，例如“正在挂载分区”。下次启动时显示。</string>
 </resources>
