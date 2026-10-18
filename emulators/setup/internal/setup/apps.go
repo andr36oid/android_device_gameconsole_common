@@ -299,6 +299,8 @@ func (s *Setup) preparationReady() {
 		s.Progress.Stage("apps")
 		return
 	}
+	// the very end: every app is installed, Daijishou opens next
+	s.djWidgetsAtEnd()
 	if err := s.Settings.Put("global", "andr36oid_daijishou_ready", "1"); err != nil {
 		s.Log("couldn't tell the guide that game preparation is done")
 	}

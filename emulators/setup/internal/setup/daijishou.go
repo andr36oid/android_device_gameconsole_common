@@ -457,12 +457,18 @@ func xmlEscape(s string) string {
 // djWidgetsMake puts Daijishou's widgets into a new Widget.db, with Daijishou stopped. A
 // Widget.db with widgets in it, or one that can't be read, is the user's and stays.
 func (s *Setup) djWidgetsMake(tmp string, owner fsx.Owner) {
+	s.djWidgetsWrite(tmp, owner, false)
+}
+
+// djWidgetsWrite is djWidgetsMake; replace also writes over a Widget.db that has widgets
+// (the caller checked they are only ours).
+func (s *Setup) djWidgetsWrite(tmp string, owner fsx.Owner, replace bool) {
 	schema := s.Base + "/daijishou/widget-schema.sql"
 	if !sys.IsFile(schema) {
 		return
 	}
 	live := s.djWidgetDB()
-	if sys.Exists(live) {
+	if sys.Exists(live) && !replace {
 		// read on a copy: sqlite as root would leave root's -shm next to Daijishou's
 		if copyPlain(live, tmp+"/check.db") != nil {
 			return
@@ -529,6 +535,77 @@ func moveInto(src, dst string, owner fsx.Owner) error {
 	}
 	_ = os.Remove(src)
 	return fsx.SetOwnerMode(dst, owner, 0o660)
+}
+
+// djWidgetsAtEnd makes Daijishou's home page (app shortcuts) at the very end of the first
+// setup, once the apps picked on the setup's app page (VLC) are installed too. Only with
+// the library we made, while Daijishou isn't running (it keeps the page in memory and would
+// write it back), and over a page that has nothing or just our shortcuts in our order.
+func (s *Setup) djWidgetsAtEnd() {
+	// once: a shortcut the user removes later stays removed
+	done := s.state("daijishou-widgets.done")
+	if sys.Exists(done) || !sys.Exists(s.djSeeded()) || s.djRunning() {
+		return
+	}
+	defer fsx.Touch(done)
+	owner, err := fsx.OwnerOf(s.djData())
+	if err != nil {
+		return
+	}
+	live := s.djWidgetDB()
+	tmp := s.state("daijishou-widgets.tmp")
+	_ = os.RemoveAll(tmp)
+	if os.MkdirAll(tmp, 0o700) != nil {
+		return
+	}
+	defer os.RemoveAll(tmp)
+	if !sys.Exists(live) {
+		s.djWidgetsMake(tmp, owner)
+		s.restorecon(true, dirOf(live))
+		return
+	}
+	if copyPlain(live, tmp+"/check.db") != nil {
+		return
+	}
+	if sys.Exists(live + "-wal") {
+		_ = copyPlain(live+"-wal", tmp+"/check.db-wal")
+	}
+	all, err := s.sqlQuery(tmp+"/check.db", "SELECT count(*) FROM WidgetInstanceEntity;")
+	if err != nil {
+		return
+	}
+	have, err := s.sqlQuery(tmp+"/check.db", "SELECT a.resolve_info_string_id FROM WidgetInstanceEntity w JOIN AppShortcutWidgetInstanceEntity a ON a.id = w.widget_instance_id WHERE w.widget_id = 'app_shortcut' ORDER BY w.position;")
+	if err != nil {
+		return
+	}
+	var got []string
+	if have != "" {
+		got = strings.Split(have, "\n")
+	}
+	if all != strconv.Itoa(len(got)) {
+		return // other widgets: the user's page
+	}
+	var want []string
+	for _, c := range djWidgets {
+		if s.installedVC(pkgOf(c)) != "" {
+			want = append(want, c)
+		}
+	}
+	if strings.Join(got, "\n") == strings.Join(want, "\n") {
+		return
+	}
+	// ours only if what is there is our list in our order with some left out
+	i := 0
+	for _, c := range djWidgets {
+		if i < len(got) && got[i] == c {
+			i++
+		}
+	}
+	if i != len(got) {
+		return
+	}
+	s.djWidgetsWrite(tmp, owner, true)
+	s.restorecon(true, dirOf(live))
 }
 
 // djOnTop: Daijishou is the app in front.
@@ -682,7 +759,6 @@ func (s *Setup) SeedDaijishou() {
 		return
 	}
 	s.djCopyArt(arts, owner)
-	s.djWidgetsMake(tmp, owner)
 	prefs := s.djPrefs()
 	prefsDir := dirOf(prefs)
 	if !sys.Exists(prefs) {

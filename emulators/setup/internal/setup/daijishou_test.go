@@ -627,6 +627,7 @@ func TestDaijishouWidgets(t *testing.T) {
 	}
 	c := newDJ(t, "", "")
 	c.run()
+	c.s.djWidgetsAtEnd()
 	if w := widgets(c); w != "0 com.retroarch/com.retroarch.browser.mainmenu.MainMenuActivity 1 com.android.documentsui/com.android.documentsui.LauncherActivity 2 org.videolan.vlc/org.videolan.vlc.StartActivity 3 com.android.settings/com.android.settings.Settings" {
 		c.fail("widgets: %s", w)
 	}
@@ -636,6 +637,7 @@ func TestDaijishouWidgets(t *testing.T) {
 	c = newDJ(t, "", "")
 	c.widgets = []string{"com.retroarch", "com.android.documentsui", "com.android.settings"}
 	c.run()
+	c.s.djWidgetsAtEnd()
 	if w := widgets(c); w != "0 com.retroarch/com.retroarch.browser.mainmenu.MainMenuActivity 1 com.android.documentsui/com.android.documentsui.LauncherActivity 2 com.android.settings/com.android.settings.Settings" {
 		c.fail("widgets without VLC: %s", w)
 	}
@@ -650,7 +652,28 @@ func TestDaijishouWidgets(t *testing.T) {
 	}
 	before := read(t, db)
 	c.run()
+	c.s.djWidgetsAtEnd()
 	if read(t, db) != before || c.exists(db+"-shm") {
 		c.fail("the user's widgets changed")
+	}
+
+	// VLC picked on the app page installs after the library: the home page is made at
+	// the end, and a page with only some of our shortcuts gets the late ones added
+	c = newDJ(t, "", "")
+	c.widgets = []string{"com.retroarch", "com.android.documentsui", "com.android.settings"}
+	c.run()
+	if c.exists(c.s.djWidgetDB()) {
+		c.fail("home page made before the end of the setup")
+	}
+	c.widgets = append(c.widgets, "org.videolan.vlc")
+	c.s.djWidgetsAtEnd()
+	if w := widgets(c); w != "0 com.retroarch/com.retroarch.browser.mainmenu.MainMenuActivity 1 com.android.documentsui/com.android.documentsui.LauncherActivity 2 org.videolan.vlc/org.videolan.vlc.StartActivity 3 com.android.settings/com.android.settings.Settings" {
+		c.fail("late VLC: %s", w)
+	}
+	// only once: a shortcut removed later isn't put back on the next start
+	must(t, exec.Command("sqlite3", c.s.djWidgetDB(), "DELETE FROM WidgetInstanceEntity WHERE position = 2").Run())
+	c.s.djWidgetsAtEnd()
+	if w := widgets(c); strings.Contains(w, "vlc") {
+		c.fail("removed shortcut came back: %s", w)
 	}
 }
