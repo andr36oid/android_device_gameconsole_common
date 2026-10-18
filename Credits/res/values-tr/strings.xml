@@ -25,4 +25,5 @@
     <string name="credits_gammaos">Fikirler ve ilham, TheGammaSqueeze tarafından</string>
 
     <string name="credits_example_music">Örnek müzikler</string>
+    <string name="credits_now_playing">Şimdi çalıyor: %2$s – %1$s</string>
 </resources>

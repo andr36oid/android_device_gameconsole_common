@@ -8,7 +8,12 @@ import android.graphics.Matrix;
 import android.graphics.Shader;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
+import android.media.AudioAttributes;
+import android.media.AudioFocusRequest;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.SystemProperties;
@@ -26,6 +31,8 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import java.io.File;
+
 /**
  * The credits, an easter egg: tapping the andr36oid version in Settings > About console
  * opens them. They roll by themselves like film credits and can't be scrolled.
@@ -41,6 +48,14 @@ public class CreditsActivity extends Activity {
     private ScrollView mScroll;
     private LinearLayout mContent;
     private ValueAnimator mShimmer;
+    // Lucid by HoliznaCC0 plays while the credits roll, if it is still in Music (one of the
+    // example tracks the first start copies there). Deleted: the credits stay silent.
+    private static final String SONG_FILE = "holiznacc0-lucid.mp3";
+    private static final String SONG_TITLE = "Lucid";
+    private static final String SONG_ARTIST = "HoliznaCC0";
+
+    private MediaPlayer mPlayer;
+    private AudioFocusRequest mFocus;
     private float mRollSpeed;
     private float mOffset;
     private long mLastFrameNanos;
@@ -81,6 +96,7 @@ public class CreditsActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mRollSpeed = dp(ROLL_DP_PER_SECOND);
+        mPlayer = openSong();
 
         mContent = new LinearLayout(this);
         mContent.setOrientation(LinearLayout.VERTICAL);
@@ -105,6 +121,10 @@ public class CreditsActivity extends Activity {
         super.onResume();
         rollAfter(START_DELAY_MS);
         if (mShimmer != null) mShimmer.start();
+        if (mPlayer != null) {
+            getSystemService(AudioManager.class).requestAudioFocus(mFocus);
+            mPlayer.start();
+        }
     }
 
     @Override
@@ -112,6 +132,47 @@ public class CreditsActivity extends Activity {
         super.onPause();
         stopRolling();
         if (mShimmer != null) mShimmer.cancel();
+        if (mPlayer != null) {
+            mPlayer.pause();
+            getSystemService(AudioManager.class).abandonAudioFocusRequest(mFocus);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mPlayer != null) {
+            mPlayer.release();
+            mPlayer = null;
+        }
+    }
+
+    /** The song, looping, or null when it is gone from Music or can't be read. */
+    private MediaPlayer openSong() {
+        final File song = new File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_MUSIC), SONG_FILE);
+        if (!song.isFile()) return null;
+        final AudioAttributes attributes = new AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_MEDIA)
+                .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build();
+        final MediaPlayer player = new MediaPlayer();
+        try {
+            player.setAudioAttributes(attributes);
+            player.setDataSource(song.getPath());
+            player.setLooping(true);
+            player.prepare();
+        } catch (Exception e) {
+            player.release();
+            return null;
+        }
+        mFocus = new AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN)
+                .setAudioAttributes(attributes)
+                .setOnAudioFocusChangeListener(change -> {
+                    if (change == AudioManager.AUDIOFOCUS_LOSS && mPlayer != null) {
+                        mPlayer.pause();
+                    }
+                }).build();
+        return player;
     }
 
     // The credits roll by themselves; only back (B) does anything, and leaves.
@@ -212,6 +273,12 @@ public class CreditsActivity extends Activity {
         artist("HoliznaCC0", null);
         artist("Ketsa", "CC BY 4.0");
         artist("Loyalty Freak Music", null);
+
+        if (mPlayer != null) {
+            mContent.addView(text(getString(R.string.credits_now_playing, SONG_TITLE,
+                    SONG_ARTIST), 13, getColor(R.color.credits_detail), Typeface.ITALIC),
+                    margins(0, 48, 0, 0));
+        }
     }
 
     /** An artist's name, and the license when it asks for credit. */

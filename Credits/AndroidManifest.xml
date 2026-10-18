@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.andr36oid.credits">
 
+    <!-- Lucid from the Music folder plays during the credits; granted at the first start
+         by etc/default-permissions/andr36oid-credits.xml -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="false"
         android:label="@string/credits_title"

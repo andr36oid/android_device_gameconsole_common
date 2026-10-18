@@ -25,4 +25,5 @@
     <string name="credits_gammaos">Idées et inspiration, par TheGammaSqueeze</string>
 
     <string name="credits_example_music">Musique d\'exemple par</string>
+    <string name="credits_now_playing">En cours de lecture : %1$s par %2$s</string>
 </resources>

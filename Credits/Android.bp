@@ -4,8 +4,17 @@ android_app {
     srcs: ["src/**/*.java"],
     resource_dirs: ["res"],
     certificate: "platform",
+    required: ["andr36oid-credits-permissions"],
     platform_apis: true,
     optimize: {
         enabled: false,
     },
+}
+
+// Gives the credits read access to Music without asking, for the song they play
+prebuilt_etc {
+    name: "andr36oid-credits-permissions",
+    src: "andr36oid-credits-permissions.xml",
+    filename: "andr36oid-credits.xml",
+    sub_dir: "default-permissions",
 }

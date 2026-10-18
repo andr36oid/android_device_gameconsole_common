@@ -25,4 +25,5 @@
     <string name="credits_gammaos">创意与灵感，来自 TheGammaSqueeze</string>
 
     <string name="credits_example_music">示例音乐作者</string>
+    <string name="credits_now_playing">正在播放：%2$s 的《%1$s》</string>
 </resources>
