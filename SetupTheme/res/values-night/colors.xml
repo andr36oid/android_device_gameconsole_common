@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="andr36oid_setup_background">#ff000000</color>
-    <color name="andr36oid_setup_accent">#ffc8a2f0</color>
+    <color name="andr36oid_setup_accent">#ffffab5e</color>
 </resources>
