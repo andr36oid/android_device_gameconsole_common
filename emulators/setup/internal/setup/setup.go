@@ -31,6 +31,7 @@ type Paths struct {
 	EasyromsPart  string // /sys/block/mmcblk0/mmcblk0p7: the card has EASYROMS
 	EasyromsDev   string // /dev/block/mmcblk0p7
 	DTRoot        string // /proc/device-tree
+	BlockStat     string // /sys/block/mmcblk0/stat: the card's I/O counters
 	URIGrants     string // /data/system/urigrants.xml
 	ChromeCmdline string // /data/local/chrome-command-line
 	FirstStartAPK string
@@ -53,6 +54,7 @@ func Defaults() Paths {
 		EasyromsPart:  "/sys/block/mmcblk0/mmcblk0p7",
 		EasyromsDev:   "/dev/block/mmcblk0p7",
 		DTRoot:        "/proc/device-tree",
+		BlockStat:     "/sys/block/mmcblk0/stat",
 		URIGrants:     "/data/system/urigrants.xml",
 		ChromeCmdline: "/data/local/chrome-command-line",
 		FirstStartAPK: base + "/firststart/FirstStart.apk",

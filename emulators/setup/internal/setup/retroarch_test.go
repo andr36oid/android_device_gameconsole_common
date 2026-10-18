@@ -2,7 +2,9 @@ package setup
 
 import (
 	"encoding/binary"
+	"fmt"
 	"os"
+	"path/filepath"
 	"strings"
 	"syscall"
 	"testing"
@@ -248,10 +250,45 @@ func TestProgressETA(t *testing.T) {
 		t.Fatal("done: not 0")
 	}
 	stats := f.props["sys.andr36oid.setup_stats"]
-	if !strings.HasPrefix(stats, "card=20.0 wr=0 apps=1/3 t=10 free=") || len(stats) >= 92 {
+	if !strings.HasPrefix(stats, "card=20.0 rd=0.0 wrs=0.0 wr=0 apps=1/3 t=10 free=") || len(stats) >= 92 {
 		t.Fatalf("stats %q", stats)
 	}
 	if f.props["sys.andr36oid.setup_pct"] != "100" {
 		t.Fatalf("pct %s", f.props["sys.andr36oid.setup_pct"])
 	}
+}
+
+// The live read and write speed comes from the card's sector counters, so it moves while pm
+// reads the APKs, not only for what the setup writes itself.
+func TestProgressLiveIO(t *testing.T) {
+	dir := t.TempDir()
+	stat := filepath.Join(dir, "stat")
+	write := func(rd, wr int) {
+		line := fmt.Sprintf("  100 0 %d 50 20 0 %d 40 0 90 90\n", rd, wr)
+		if err := os.WriteFile(stat, []byte(line), 0o644); err != nil {
+			t.Fatal(err)
+		}
+	}
+	now := time.Unix(1000, 0)
+	s := &Setup{Paths: Paths{BlockStat: stat}, Now: func() time.Time { return now }}
+	p := &Progress{s: s, Enabled: true}
+	write(0, 0)
+	p.mu.Lock()
+	p.sampleIOLocked(now)
+	p.mu.Unlock()
+	// 2 s later: 40000 sectors read (20.48 MB), 10000 written (5.12 MB)
+	now = now.Add(2 * time.Second)
+	write(40000, 10000)
+	p.mu.Lock()
+	p.sampleIOLocked(now)
+	rd, wr := p.rdMBs, p.wrMBs
+	p.mu.Unlock()
+	if fmt.Sprintf("%.2f %.2f", rd, wr) != "10.24 2.56" {
+		t.Fatalf("rd %.2f wr %.2f", rd, wr)
+	}
+	// no file (an emulator, a USB boot): stays at the last value, no panic
+	s.BlockStat = filepath.Join(dir, "none")
+	p.mu.Lock()
+	p.sampleIOLocked(now.Add(time.Second))
+	p.mu.Unlock()
 }

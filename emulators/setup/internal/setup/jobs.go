@@ -22,6 +22,15 @@ func (s *Setup) Prepare() {
 	_ = os.MkdirAll(s.State, 0o700)
 	s.LogTrim()
 	s.Progress.Enabled = s.Props.Get("persist.andr36oid.setup_done") != "1"
+	s.Progress.Tick()
+}
+
+// measureCard reads the start of the APKs once for the card's speed (the screen's first time
+// left), in every job that installs: the app page's job runs in a process of its own.
+func (s *Setup) measureCard() {
+	if s.Progress.Enabled && s.Progress.cardSpeed() == 0 {
+		s.Progress.CardSpeed(MeasureCard(s.apksOnAutoapk(), 16<<20, s.Now))
+	}
 }
 
 // WaitPackageManager waits up to two minutes for the package manager (boot_completed is
@@ -42,6 +51,7 @@ func (s *Setup) WaitPackageManager() bool {
 // AppsJob: the setup's app page was left with Next, install what was picked.
 func (s *Setup) AppsJob() {
 	s.Log("installing the apps picked in the setup")
+	s.measureCard()
 	s.Progress.Stage("apps")
 	s.InstallAPKs()
 	s.SeedCromiteSearch()
@@ -60,7 +70,7 @@ func (s *Setup) Players() {
 // Main is every start's work, after boot_completed.
 func (s *Setup) Main() {
 	if s.Progress.Enabled {
-		s.Progress.CardSpeed(MeasureCard(s.apksOnAutoapk(), 16<<20, s.Now))
+		s.measureCard()
 		s.Estimate()
 	}
 	s.Progress.Stage("apps")

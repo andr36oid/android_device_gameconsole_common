@@ -240,13 +240,15 @@ public class HomeActivity extends Activity {
             view.setVisibility(View.GONE);
             return;
         }
-        String card = "-", wr = "-", apps = "-", t = "-", free = "-";
+        String rd = "-", wrs = "-", wr = "-", apps = "-", t = "-", free = "-";
         for (String part : stats.split(" ")) {
             final int eq = part.indexOf('=');
             if (eq <= 0) continue;
             final String key = part.substring(0, eq), value = part.substring(eq + 1);
             switch (key) {
-                case "card": if (!value.startsWith("0.0")) card = value + " MB/s"; break;
+                // what the card reads and writes right now, all of it (pm reading the APKs too)
+                case "rd": rd = value + " MB/s"; break;
+                case "wrs": wrs = value + " MB/s"; break;
                 case "wr": wr = value + " MB"; break;
                 case "apps": apps = value; break;
                 case "t":
@@ -268,10 +270,10 @@ public class HomeActivity extends Activity {
             }
         }
         final String text = String.format(Locale.ROOT,
-                "card %-10s wrote %s\n"
+                "read %-10s write %s\n"
                         + "apps %-10s free  %s\n"
-                        + "time %-10s stage %s",
-                card, wr, apps, free, t, stage.isEmpty() ? "-" : stage);
+                        + "time %-10s wrote %s",
+                rd, wrs, apps, free, t, wr);
         if (!text.contentEquals(view.getText())) view.setText(text);
         view.setVisibility(View.VISIBLE);
     }

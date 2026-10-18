@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"strconv"
 	"strings"
 	"sync"
 	"time"
@@ -18,7 +19,10 @@ import (
 //	sys.andr36oid.setup_app    the app being installed, by file name
 //	sys.andr36oid.setup_pct    0-100 of the planned work, by bytes
 //	sys.andr36oid.setup_eta    seconds left, -1 while unknown
-//	sys.andr36oid.setup_stats  "card=<MB/s> wr=<MB> apps=<done>/<all> t=<s> free=<MB>"
+//	sys.andr36oid.setup_stats  "card=<MB/s> rd=<MB/s> wrs=<MB/s> wr=<MB> apps=<done>/<all>
+//	                           t=<s> free=<MB>": card is the speed measured once at the
+//	                           start, rd and wrs what the card reads and writes right now
+//	                           (all of it, also pm's and the system's), wr what we wrote
 //
 // The work is planned in bytes (APKs to install, archives to unpack, files to copy): the
 // card's speed decides how long all of it takes, on a slow card as on a fast one.
@@ -38,6 +42,80 @@ type Progress struct {
 	appsDone  int
 	cardMBs   float64
 	lastPub   time.Time
+	// the card's sector counters at the last sample, for the live read and write speed
+	lastIO  time.Time
+	lastRd  int64
+	lastWr  int64
+	rdMBs   float64
+	wrMBs   float64
+	ticking bool
+}
+
+// blockSectors reads the sectors read and written (fields 3 and 7, 512 bytes each) from a
+// block device's stat file.
+func blockSectors(path string) (rd, wr int64, ok bool) {
+	b, err := os.ReadFile(path)
+	if err != nil {
+		return 0, 0, false
+	}
+	f := strings.Fields(string(b))
+	if len(f) < 7 {
+		return 0, 0, false
+	}
+	rd, err1 := strconv.ParseInt(f[2], 10, 64)
+	wr, err2 := strconv.ParseInt(f[6], 10, 64)
+	return rd, wr, err1 == nil && err2 == nil
+}
+
+// sampleIOLocked updates the live read and write speed of the card since the last sample.
+func (p *Progress) sampleIOLocked(now time.Time) {
+	if p.s.BlockStat == "" {
+		return
+	}
+	rd, wr, ok := blockSectors(p.s.BlockStat)
+	if !ok {
+		return
+	}
+	if !p.lastIO.IsZero() {
+		if d := now.Sub(p.lastIO).Seconds(); d >= 0.5 {
+			p.rdMBs = float64(rd-p.lastRd) * 512 / 1e6 / d
+			p.wrMBs = float64(wr-p.lastWr) * 512 / 1e6 / d
+		} else {
+			return
+		}
+	}
+	p.lastIO, p.lastRd, p.lastWr = now, rd, wr
+}
+
+// Tick publishes once a second while the setup runs, so the screen's live numbers move
+// during a long install too. Stopped by Stop.
+func (p *Progress) Tick() {
+	p.mu.Lock()
+	if !p.Enabled || p.ticking {
+		p.mu.Unlock()
+		return
+	}
+	p.ticking = true
+	p.mu.Unlock()
+	go func() {
+		for {
+			time.Sleep(time.Second)
+			p.mu.Lock()
+			on := p.ticking
+			p.mu.Unlock()
+			if !on {
+				return
+			}
+			p.publish(true)
+		}
+	}()
+}
+
+// Stop ends Tick.
+func (p *Progress) Stop() {
+	p.mu.Lock()
+	p.ticking = false
+	p.mu.Unlock()
 }
 
 func NewProgress(s *Setup) *Progress {
@@ -153,6 +231,12 @@ func (p *Progress) CardSpeed(mbs float64) {
 	p.publish(true)
 }
 
+func (p *Progress) cardSpeed() float64 {
+	p.mu.Lock()
+	defer p.mu.Unlock()
+	return p.cardMBs
+}
+
 // ETA is the seconds left for the planned work, -1 while there isn't enough to go by.
 func (p *Progress) ETA() int {
 	p.mu.Lock()
@@ -199,8 +283,9 @@ func (p *Progress) publish(force bool) {
 		elapsed = int(now.Sub(p.started).Seconds())
 	}
 	free, _ := p.s.freeKB(p.s.Media)
-	stats := fmt.Sprintf("card=%.1f wr=%d apps=%d/%d t=%d free=%d",
-		p.cardMBs, p.written>>20, p.appsDone, p.appsAll, elapsed, free>>10)
+	p.sampleIOLocked(now)
+	stats := fmt.Sprintf("card=%.1f rd=%.1f wrs=%.1f wr=%d apps=%d/%d t=%d free=%d",
+		p.cardMBs, p.rdMBs, p.wrMBs, p.written>>20, p.appsDone, p.appsAll, elapsed, free>>10)
 	p.mu.Unlock()
 	p.set("sys.andr36oid.setup_pct", fmt.Sprint(pct))
 	p.set("sys.andr36oid.setup_eta", fmt.Sprint(eta))
