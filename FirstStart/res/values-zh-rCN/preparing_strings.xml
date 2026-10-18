@@ -15,5 +15,15 @@
     <string name="preparing_library">正在创建游戏库…</string>
     <string name="preparing_cheats">正在准备金手指…</string>
     <string name="preparing_installing">正在安装 <xliff:g id="value">%1$s</xliff:g>…</string>
-    <string name="preparing_elapsed">已用时：<xliff:g id="value">%1$s</xliff:g></string>
+
+    <!-- The steps of the first setup, ticked off as they are done -->
+    <string name="step_apps">应用</string>
+    <string name="step_emulators">按键和模拟器</string>
+    <string name="step_folders">游戏文件夹</string>
+    <string name="step_appsettings">应用设置</string>
+    <string name="step_library">游戏库</string>
+    <string name="step_cheats">金手指</string>
+    <!-- The time left, e.g. "About 3:05 left" -->
+    <string name="preparing_eta">约剩 <xliff:g id="time">%1$s</xliff:g></string>
+    <string name="preparing_eta_unknown">正在计算剩余时间…</string>
 </resources>

@@ -15,5 +15,15 @@
     <string name="preparing_library">Membuat koleksi game…</string>
     <string name="preparing_cheats">Menyiapkan kode cheat…</string>
     <string name="preparing_installing">Menginstal <xliff:g id="value">%1$s</xliff:g>…</string>
-    <string name="preparing_elapsed">Waktu berlalu: <xliff:g id="value">%1$s</xliff:g></string>
+
+    <!-- The steps of the first setup, ticked off as they are done -->
+    <string name="step_apps">Aplikasi</string>
+    <string name="step_emulators">Kontrol dan emulator</string>
+    <string name="step_folders">Folder game</string>
+    <string name="step_appsettings">Pengaturan aplikasi</string>
+    <string name="step_library">Koleksi game</string>
+    <string name="step_cheats">Kode cheat</string>
+    <!-- The time left, e.g. "About 3:05 left" -->
+    <string name="preparing_eta">Sisa sekitar <xliff:g id="time">%1$s</xliff:g></string>
+    <string name="preparing_eta_unknown">Menghitung sisa waktu…</string>
 </resources>

@@ -1,6 +1,6 @@
 // The first-start launcher: a tiny home app that is the home screen only while the first-start
 // tutorial runs. It is not a system app. gameconsole-emu installs it as a user app while the
-// setup wizard runs and makes it the home app (see emulators/seed/gameconsole-emu.sh). Each
+// setup wizard runs and makes it the home app (see emulators/setup). Each
 // time it becomes the front app (the wizard ended, or FN was pressed) it tells the quick start
 // guide, which shows its tutorial. When the tutorial is done the guide gives the home role back
 // to Daijishou and uninstalls this app.

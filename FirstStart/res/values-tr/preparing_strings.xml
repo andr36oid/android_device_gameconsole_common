@@ -15,5 +15,15 @@
     <string name="preparing_library">Oyun kütüphanen oluşturuluyor…</string>
     <string name="preparing_cheats">Hile kodları hazırlanıyor…</string>
     <string name="preparing_installing"><xliff:g id="value">%1$s</xliff:g> yükleniyor…</string>
-    <string name="preparing_elapsed">Geçen süre: <xliff:g id="value">%1$s</xliff:g></string>
+
+    <!-- The steps of the first setup, ticked off as they are done -->
+    <string name="step_apps">Uygulamalar</string>
+    <string name="step_emulators">Kontroller ve emülatörler</string>
+    <string name="step_folders">Oyun klasörleri</string>
+    <string name="step_appsettings">Uygulama ayarları</string>
+    <string name="step_library">Oyun kütüphanesi</string>
+    <string name="step_cheats">Hileler</string>
+    <!-- The time left, e.g. "About 3:05 left" -->
+    <string name="preparing_eta">Yaklaşık <xliff:g id="time">%1$s</xliff:g> kaldı</string>
+    <string name="preparing_eta_unknown">Kalan süre hesaplanıyor…</string>
 </resources>

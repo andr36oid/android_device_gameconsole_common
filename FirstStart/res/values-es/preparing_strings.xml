@@ -15,5 +15,15 @@
     <string name="preparing_library">Creando tu biblioteca de juegos…</string>
     <string name="preparing_cheats">Preparando los trucos…</string>
     <string name="preparing_installing">Instalando <xliff:g id="value">%1$s</xliff:g>…</string>
-    <string name="preparing_elapsed">Tiempo transcurrido: <xliff:g id="value">%1$s</xliff:g></string>
+
+    <!-- The steps of the first setup, ticked off as they are done -->
+    <string name="step_apps">Apps</string>
+    <string name="step_emulators">Controles y emuladores</string>
+    <string name="step_folders">Carpetas de juegos</string>
+    <string name="step_appsettings">Ajustes de las apps</string>
+    <string name="step_library">Biblioteca de juegos</string>
+    <string name="step_cheats">Trucos</string>
+    <!-- The time left, e.g. "About 3:05 left" -->
+    <string name="preparing_eta">Quedan unos <xliff:g id="time">%1$s</xliff:g></string>
+    <string name="preparing_eta_unknown">Calculando el tiempo restante…</string>
 </resources>
