@@ -29,6 +29,8 @@
     <string name="profile_tile_capped"><xliff:g id="profile">%1$s</xliff:g>, <xliff:g id="speed">%2$s</xliff:g></string>
 
     <!-- Maximum CPU speed (underclock) -->
+    <string name="close_apps_on_game_title">Close background apps when opening any game</string>
+    <string name="close_apps_on_game_summary">Frees memory for the game, the same as Close background apps in the power menu</string>
     <string name="cpu_cap_title">Maximum CPU speed</string>
     <!-- First entry of the list, no limit. speed is the standard top speed, e.g. "1296 MHz" -->
     <string name="cpu_cap_stock">Stock (<xliff:g id="speed">%1$s</xliff:g>)</string>

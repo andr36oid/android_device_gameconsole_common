@@ -3,6 +3,14 @@
 
     <string name="app_name">Game comfort</string>
 
+    <!-- Toast when a game opens and the background apps are closed (Settings > Performance) [CHAR LIMIT=NONE] -->
+    <plurals name="close_apps_done">
+        <item quantity="one">Closed <xliff:g id="count" example="1">%d</xliff:g> background app</item>
+        <item quantity="other">Closed <xliff:g id="count" example="3">%d</xliff:g> background apps</item>
+    </plurals>
+    <!-- Toast when a game opens and there was nothing to close [CHAR LIMIT=NONE] -->
+    <string name="close_apps_none">No background apps to close</string>
+
     <!-- Low battery warning, Settings > Battery -->
     <string name="warning_title">Low battery warning</string>
     <string name="warning_summary">Warn on top of games so you can save in time</string>

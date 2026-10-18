@@ -89,6 +89,7 @@ final class GameWatcher {
         if (pkg == null || pkg.equals(mForeground) || pkg.equals(mContext.getPackageName())) {
             return;
         }
+        final boolean first = mForeground == null;
         mForeground = pkg;
         final boolean game = mGames.isGame(pkg);
         Continue.onForeground(mContext, pkg, game);
@@ -98,7 +99,12 @@ final class GameWatcher {
         } else if (mGameInFront) {
             mHandler.post(mLookUp);
         }
+        final boolean fromGame = mGameInFront;
         mGameInFront = game;
+        // A game opened from home or another app, not a switch between games
+        if (game && !fromGame && !first && BackgroundApps.isOn(mContext)) {
+            BackgroundApps.closeForGame(mContext, pkg);
+        }
 
         if (!GameMode.isAutomatic(mContext)) {
             return;

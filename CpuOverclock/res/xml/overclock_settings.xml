@@ -27,6 +27,12 @@
                 android:targetClass="org.andr36oid.cpuoverclock.AppProfilesActivity"
                 android:targetPackage="org.andr36oid.cpuoverclock" />
         </Preference>
+
+        <SwitchPreference
+            android:key="close_apps_on_game"
+            android:persistent="false"
+            android:title="@string/close_apps_on_game_title"
+            android:summary="@string/close_apps_on_game_summary" />
     </PreferenceCategory>
 
     <PreferenceCategory

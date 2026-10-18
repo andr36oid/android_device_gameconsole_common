@@ -7,6 +7,7 @@ import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.SwitchPreference;
+import android.provider.Settings;
 import android.widget.Toast;
 
 public class OverclockFragment extends PreferenceFragment
@@ -16,6 +17,9 @@ public class OverclockFragment extends PreferenceFragment
     private static final String KEY_PROFILE_ABOUT = "profile_about";
     private static final String KEY_CPU_CAP = "cpu_cap";
     private static final String KEY_APP_PROFILES = "app_profiles";
+    private static final String KEY_CLOSE_APPS = "close_apps_on_game";
+    /** Read by GameComfort when a game comes to the front */
+    private static final String SETTING_CLOSE_APPS = "andr36oid_close_apps_on_game";
     private static final String KEY_ENABLED = "enabled";
     private static final String KEY_SPEED = "speed";
     private static final String KEY_UNDERVOLT_CATEGORY = "undervolt_category";
@@ -50,6 +54,7 @@ public class OverclockFragment extends PreferenceFragment
         mSpeed = (ListPreference) findPreference(KEY_SPEED);
         setUpUndervolt();
         setUpGpuRam();
+        findPreference(KEY_CLOSE_APPS).setOnPreferenceChangeListener(this);
 
         final CharSequence[] profileValues = new CharSequence[PerformanceProfiles.COUNT];
         for (int i = 0; i < profileValues.length; i++) {
@@ -105,6 +110,12 @@ public class OverclockFragment extends PreferenceFragment
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
         final boolean done;
+        if (KEY_CLOSE_APPS.equals(preference.getKey())) {
+            Settings.Global.putInt(getActivity().getContentResolver(), SETTING_CLOSE_APPS,
+                    (Boolean) newValue ? 1 : 0);
+            update();
+            return false;
+        }
         if (preference == mGpuOc || preference == mRamOc) {
             final String dev = preference == mGpuOc ? GpuRamOverclock.GPU : GpuRamOverclock.DMC;
             final int hz = preference == mGpuOc
@@ -155,6 +166,9 @@ public class OverclockFragment extends PreferenceFragment
         updateUndervolt();
         updateGpuRam();
         updateAppProfiles();
+        ((SwitchPreference) findPreference(KEY_CLOSE_APPS)).setChecked(
+                Settings.Global.getInt(getActivity().getContentResolver(), SETTING_CLOSE_APPS,
+                        0) != 0);
 
         if (!mOverclock.isSupported()) {
             return;
