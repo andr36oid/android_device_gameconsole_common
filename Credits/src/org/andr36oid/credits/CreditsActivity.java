@@ -51,6 +51,10 @@ public class CreditsActivity extends Activity {
     // Lucid by HoliznaCC0 plays while the credits roll, if it is still in Music (one of the
     // example tracks the first start copies there). Deleted: the credits stay silent.
     private static final String SONG_FILE = "holiznacc0-lucid.mp3";
+    // During the first setup the track isn't in Music yet: it is still on AUTOAPK, which the
+    // first start mounts read-only for everyone until the setup is done with it.
+    private static final File SONG_ON_AUTOAPK =
+            new File("/mnt/andr36oid-apps/examplemusic", SONG_FILE);
     private static final String SONG_TITLE = "Lucid";
     private static final String SONG_ARTIST = "HoliznaCC0";
 
@@ -149,9 +153,12 @@ public class CreditsActivity extends Activity {
 
     /** The song, looping, or null when it is gone from Music or can't be read. */
     private MediaPlayer openSong() {
-        final File song = new File(Environment.getExternalStoragePublicDirectory(
+        File song = new File(Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_MUSIC), SONG_FILE);
-        if (!song.isFile()) return null;
+        if (!song.isFile()) {
+            song = SONG_ON_AUTOAPK;
+            if (!song.isFile()) return null;
+        }
         final AudioAttributes attributes = new AudioAttributes.Builder()
                 .setUsage(AudioAttributes.USAGE_MEDIA)
                 .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build();
