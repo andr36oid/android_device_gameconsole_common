@@ -421,7 +421,8 @@ func (c *djConsole) prefsAsk() bool {
 	return strings.Count(p, `name="sync_entirely_on_start"`) == 1 &&
 		strings.Contains(p, `<boolean name="sync_entirely_on_start" value="true" />`) &&
 		strings.Count(p, `name="sync_entirely_on_start_hint"`) == 1 && strings.Contains(p, "changed") &&
-		strings.Contains(p, `name="uuid"`) && strings.Contains(p, `name="upgraded_version"`)
+		strings.Contains(p, `name="uuid"`) && strings.Contains(p, `name="upgraded_version"`) &&
+		strings.Count(p, `<string name="theme_id">yellow</string>`) == 1
 }
 
 func (c *djConsole) hint() string {

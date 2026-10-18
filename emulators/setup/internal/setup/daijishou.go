@@ -401,11 +401,16 @@ func (s *Setup) djCopyArt(arts []djArtItem, owner fsx.Owner) {
 	s.restorecon(true, files)
 }
 
+// djTheme is Daijishou's theme color on the first start. It has no orange (the system's
+// accent); yellow is the nearest of its purple, yellow, red, blue, pink, grey and green.
+const djTheme = "yellow"
+
 // djPrefsText is Daijishou's settings file for its first start: it asks once to sync the
 // whole library, which finds the games in the folders.
 const djPrefsText = `<?xml version='1.0' encoding='utf-8' standalone='yes' ?>
 <map>
     <boolean name="sync_entirely_on_start" value="true" />
+    <string name="theme_id">` + djTheme + `</string>
     <string name="sync_entirely_on_start_hint">` + djHint + `</string>
     <string name="sync_entirely_on_start_cancel_hint">Canceled. Sync entirely in the library settings looks for games later.</string>
 </map>
@@ -446,6 +451,12 @@ func djAskSync(p, hint string) bool {
 	if t, ok := djPref(text, "string", "sync_entirely_on_start_hint",
 		`<string name="sync_entirely_on_start_hint">`+xmlEscape(hint)+`</string>`); ok {
 		text = t
+	}
+	// a theme color picked already stays
+	if !strings.Contains(text, `name="theme_id"`) {
+		if t, ok := djPref(text, "string", "theme_id", `<string name="theme_id">`+djTheme+`</string>`); ok {
+			text = t
+		}
 	}
 	return fsx.WriteFileAtomic(p, []byte(text)) == nil
 }
