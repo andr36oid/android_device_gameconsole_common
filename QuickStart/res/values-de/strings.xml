@@ -152,6 +152,7 @@
     <!-- Community -->
     <string name="community_title">Community</string>
     <string name="community_text">Fragen, Tipps oder willst du einfach deine Konsole zeigen? Die andr36oid-Community findest du auf Telegram: t.me/andr36oid\n\nScanne den Code mit deinem Smartphone, um beizutreten.</string>
+    <string name="community_disclaimer">Das andr36oid-Projekt hat nichts mit dem Discord-Server „LineageOS for Clones“ zu tun, und unser OS-Kernteam ist dort nicht Mitglied.</string>
     <string name="community_qr_description">QR-Code für t.me/andr36oid</string>
 
     <string name="magisk_title">Root (Magisk)</string>

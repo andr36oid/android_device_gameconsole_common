@@ -152,6 +152,7 @@
     <!-- Community -->
     <string name="community_title">Topluluk</string>
     <string name="community_text">Sorularınız, ipuçlarınız mı var ya da konsolunuzu göstermek mi istiyorsunuz? andr36oid topluluğunu Telegram\'da bulabilirsiniz: t.me/andr36oid\n\nKatılmak için kodu telefonunuzla tarayın.</string>
+    <string name="community_disclaimer">andr36oid projesinin \"LineageOS for Clones\" Discord sunucusuyla hiçbir bağlantısı yoktur ve sistemin ana geliştirici ekibi bu sunucunun üyesi değildir.</string>
     <string name="community_qr_description">t.me/andr36oid için QR kodu</string>
 
     <string name="magisk_title">Root (Magisk)</string>

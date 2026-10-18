@@ -233,6 +233,7 @@ final class Chapters {
         c = chapter(R.string.community_title, chapters);
         para(c, R.string.community_text);
         image(c, R.drawable.community_qr, R.string.community_qr_description);
+        para(c, R.string.community_disclaimer);
 
         c = chapter(R.string.usb_title, chapters);
         para(c, R.string.usb_card);
