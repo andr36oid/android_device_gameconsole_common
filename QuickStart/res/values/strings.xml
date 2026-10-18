@@ -24,7 +24,8 @@
     <string name="welcome_page">Previous or next topic</string>
     <string name="welcome_tutorial">Try the buttons again in the hands-on tutorial</string>
     <string name="welcome_close">Close the guide</string>
-    <string name="welcome_again">You can open this guide again any time from Settings &gt; Quick start guide.</string>
+    <string name="welcome_settings_search">In Settings: search for a setting</string>
+    <string name="welcome_again">You can open this guide again any time: it is the first entry in Settings.</string>
 
     <!-- Buttons -->
     <string name="buttons_title">Buttons</string>
@@ -79,6 +80,9 @@
     <string name="speed_profiles">Settings &gt; Performance has three profiles. Battery saver for long sessions with older systems, Balanced for everyday use, Performance for PS1, N64 and PSP. The Quick Settings tile switches between them too.</string>
     <string name="speed_overclock_alone">Settings &gt; CPU overclock (experimental) runs the processor faster than standard for demanding games. A restart turns it off. If the console freezes, pick a lower speed.</string>
     <string name="speed_overclock">CPU overclock (experimental), on the same page, runs the processor faster than standard for demanding games. A restart turns it off. If the console freezes, pick a lower speed.</string>
+    <string name="speed_close_apps">Short on memory? Switch on Close background apps when opening any game in Settings &gt; Performance. It closes your other apps when a game starts and tells you how many. The power menu has Close background apps too.</string>
+    <string name="speed_stats">The power menu shows how the console is doing along the top: CPU, TEMP, BAT, RAM and SD. SD is how busy the card is in %, with its read and write speed: a green up arrow while it mostly reads, a red down arrow while it mostly writes.</string>
+    <string name="speed_overlay_stor">In the Performance overlay, set to show everything, STOR is how busy the SD card is in %. It is not how full the card is.</string>
     <string name="speed_screen">The screen uses the most power. Lower brightness means longer play time.</string>
 
     <!-- Mouse and button mapping -->
@@ -106,14 +110,14 @@
 
     <!-- Internet -->
     <string name="internet_title">Going online</string>
-    <string name="internet_wifi">Most R36S consoles have no Wi-Fi built in, but some models, such as the R36XX, do. If yours has it, just turn on Wi-Fi in Settings &gt; Network &amp; internet. If not, plug a USB Wi-Fi adapter into the OTG port, with a USB-C adapter if it needs one, then turn on Wi-Fi there.</string>
+    <string name="internet_wifi">Most R36S consoles have no Wi-Fi built in, but some models, such as the R36XX, do. If yours has it, just turn on Wi-Fi in Settings &gt; Wi-Fi &amp; Bluetooth. If not, plug a USB Wi-Fi adapter into the OTG port, with a USB-C adapter if it needs one, then turn on Wi-Fi there. Bluetooth devices are on the same page, under Bluetooth &amp; devices.</string>
     <string name="internet_browser">Thorium is the web browser.</string>
 
     <!-- Troubleshooting -->
     <string name="trouble_title">Troubleshooting</string>
     <string name="trouble_intro">Most problems can be fixed with a computer and the SD card. On a computer, the card shows a small drive called BOOT (the start files) and a big one called EASYROMS (your games).</string>
     <string name="trouble_first_boot_q">The first start takes a long time</string>
-    <string name="trouble_first_boot_a">That\'s normal. The first start sets up the SD card and restarts on its own, then Android prepares its apps. Give it a few minutes and don\'t switch it off.</string>
+    <string name="trouble_first_boot_a">That\'s normal. The first start sets up the SD card and restarts on its own, then Android prepares its apps. A setup screen shows the steps, a progress bar and the time left, and the home screen opens when it\'s done. Give it a few minutes, up to 10 on a slow card, and don\'t switch it off.</string>
     <string name="trouble_panel_q">The screen stays black on the first start, but the console is on</string>
     <string name="trouble_panel_a">Your console has a different screen than the one this card was set up for. On a computer, open BOOT, then Panels. Copy all files from one of the Panel folders to the top of BOOT and replace the files there. Panel4 is the default, so try the others one at a time.</string>
     <string name="trouble_stuck_q">It stopped starting after an update or a Magisk module</string>
@@ -191,6 +195,7 @@
     <!-- Community -->
     <string name="community_title">Community</string>
     <string name="community_text">Questions, tips or just want to show off your console? You can find the andr36oid community on Telegram: t.me/andr36oid\n\nScan the code with your phone to join.</string>
+    <string name="community_free">andr36oid is free software. If you paid for it, ask the seller for your money back.</string>
     <string name="community_disclaimer">The andr36oid project has no affiliation with the LineageOS for Clones Discord server, and none of our core OS developers are members there. Advice given there is not from us and may not apply to andr36oid. andr36oid has no Discord server. GitHub and Telegram remain the only official communication channels.</string>
     <string name="community_qr_description">QR code for t.me/andr36oid</string>
 

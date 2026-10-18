@@ -4,7 +4,7 @@
     <string name="netplay_title">Play together</string>
     <string name="netplay_intro">Two consoles can play one game together over Wi-Fi, even with no router nearby: one console makes a Wi-Fi hotspot and the other joins it. Both need Wi-Fi (built in or a USB Wi-Fi adapter) and the same game.</string>
     <string name="netplay_hotspot_q">1. Make a hotspot on the first console</string>
-    <string name="netplay_hotspot_a">Plug in the Wi-Fi adapter, then go to Settings &gt; Network &amp; internet &gt; Hotspot &amp; tethering &gt; Wi-Fi hotspot and turn it on. The hotspot name and password are on the same page. On the second console, join that hotspot in Settings &gt; Network &amp; internet &gt; Wi-Fi. It will say there is no internet. That is fine.</string>
+    <string name="netplay_hotspot_a">Plug in the Wi-Fi adapter, then go to Settings &gt; Wi-Fi &amp; Bluetooth &gt; Hotspot &amp; tethering &gt; Wi-Fi hotspot and turn it on. The hotspot name and password are on the same page. On the second console, join that hotspot in Settings &gt; Wi-Fi &amp; Bluetooth &gt; Wi-Fi. It will say there is no internet. That is fine.</string>
     <string name="netplay_hotspot_fail">The hotspot doesn\'t turn on? Not every adapter can make one. Swap the adapters between the consoles, or put both consoles on the same home Wi-Fi or phone hotspot instead.</string>
     <string name="netplay_game_q">2. Start the same game on both</string>
     <string name="netplay_game_a">Use the same game file (same version and region) with the same emulator on both consoles. Otherwise they can\'t connect, or the game goes out of step.</string>
@@ -13,7 +13,7 @@
     <string name="netplay_host_a">Press B until you are in the Main Menu, open Netplay and choose Start Netplay Host. Then close the menu and wait.</string>
     <string name="netplay_join_q">4. Second console: join</string>
     <string name="netplay_join_a">Open the menu the same way, open Netplay and choose Refresh Netplay LAN List. Pick the first console in the list. The game restarts on both consoles, and the second console is player 2.</string>
-    <string name="netplay_join_ip">Not in the list? Find the first console\'s address on the second console: Settings &gt; Network &amp; internet &gt; Wi-Fi, choose the hotspot, then Advanced &gt; Gateway. In Netplay, choose Connect to Netplay Host and type that address.</string>
+    <string name="netplay_join_ip">Not in the list? Find the first console\'s address on the second console: Settings &gt; Wi-Fi &amp; Bluetooth &gt; Wi-Fi, choose the hotspot, then Advanced &gt; Gateway. In Netplay, choose Connect to Netplay Host and type that address.</string>
     <string name="netplay_games_q">Which games work best</string>
     <string name="netplay_games_a">NES, Master System, Mega Drive and PC Engine games run well. SNES works, with a little more button lag. Game Boy and GBA games have no two-player mode on one console, so there is nothing to share. PlayStation is too heavy for this console to play over netplay.</string>
     <string name="netplay_tips">Keep the consoles close to each other. The hotspot uses extra battery, so turn it off when you are done. Your name in netplay comes from the device name; change it in RetroArch under Settings &gt; User &gt; Username.</string>

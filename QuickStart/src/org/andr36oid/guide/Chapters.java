@@ -85,6 +85,8 @@ final class Chapters {
         final boolean romFolders = SystemProperties.getBoolean("ro.andr36oid.rom_folders", false);
         final boolean daijishouPlatforms =
                 SystemProperties.getBoolean("ro.andr36oid.daijishou_platforms", false);
+        final boolean powerMenuStats =
+                SystemProperties.getBoolean("ro.andr36oid.power_menu_stats", false);
         final boolean profiles = hasComponent(new ComponentName("org.andr36oid.cpuoverclock",
                 "org.andr36oid.cpuoverclock.ProfileTileService"));
         final boolean usbMode = hasPackage("org.andr36oid.usbmode");
@@ -106,6 +108,7 @@ final class Chapters {
         row(c, R.string.welcome_tutorial, "X");
         row(c, R.string.welcome_close, "B");
         para(c, R.string.welcome_again);
+        row(c, R.string.welcome_settings_search, "Y");
 
         // The buttons, the FN shortcuts, the emulator hotkeys and mouse mode, with a drawing of
         // the console: res/raw/controls.txt, checked against the build
@@ -146,8 +149,15 @@ final class Chapters {
         if (profiles) {
             para(c, R.string.speed_profiles);
             para(c, R.string.speed_overclock);
+            para(c, R.string.speed_close_apps);
         } else {
             para(c, R.string.speed_overclock_alone);
+        }
+        if (powerMenuStats) {
+            para(c, R.string.speed_stats);
+        }
+        if (hasPackage("org.andr36oid.perfoverlay")) {
+            para(c, R.string.speed_overlay_stor);
         }
         para(c, R.string.speed_screen);
 
@@ -233,6 +243,7 @@ final class Chapters {
         c = chapter(R.string.community_title, chapters);
         para(c, R.string.community_text);
         image(c, R.drawable.community_qr, R.string.community_qr_description);
+        para(c, R.string.community_free);
         para(c, R.string.community_disclaimer);
 
         c = chapter(R.string.usb_title, chapters);
