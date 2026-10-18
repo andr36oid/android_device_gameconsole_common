@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <!-- Line under the on-screen keyboard. The keyboard already handles these buttons
-         (LeanbackKeyboardController); this only tells the user. -->
-    <string name="andr36oid_button_hints">A escribir · X borrar · Y espacio · L1/R1 mover · L3 símbolos · R3 mayúsculas · B cerrar</string>
-</resources>
