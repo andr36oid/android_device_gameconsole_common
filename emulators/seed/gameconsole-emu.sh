@@ -517,7 +517,16 @@ apps_done() {
 EXAMPLE_MUSIC=$APPS/examplemusic
 EXAMPLE_MUSIC_DONE=$STATE/example-music.done
 
+# The setup's apps run and the main run both get here, often at the same time: one at a
+# time, or both copy into the same .tmp file, one fails and keeps AUTOAPK, the other may
+# not release it (it started before the choice) and the setup waited for ever.
 seed_example_music() {
+	install_lock
+	seed_example_music_locked
+	install_unlock
+}
+
+seed_example_music_locked() {
 	local dir=$MEDIA/Music f
 	[ -d "$EXAMPLE_MUSIC" ] || return 0
 	[ -e "$EXAMPLE_MUSIC_DONE" ] && return 0
