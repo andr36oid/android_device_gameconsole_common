@@ -526,7 +526,7 @@ public class TutorialActivity extends Activity {
             final CharSequence space = describeEasyroms();
             if (space != null) {
                 // Daijishou gets its platforms and folders on the first start (only on a
-                // card with EASYROMS, see gameconsole-emu.sh)
+                // card with EASYROMS, see emulators/setup)
                 if (!simpleUiGames && SystemProperties.getBoolean(
                         "ro.andr36oid.daijishou_platforms", false)) {
                     body = getText(R.string.tutorial_games_body_ready);

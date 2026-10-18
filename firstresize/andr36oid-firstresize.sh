@@ -16,7 +16,7 @@
 # where userdata goes. The first start makes it again as p13 (exFAT) at the end of
 # userdata's space, copies the files over, and only then sets up userdata. Every
 # start mounts it read-only at /mnt/andr36oid-apps for the setup's app page and the
-# installer (gameconsole-emu.sh). Once the installer is done with it, it leaves
+# installer (gameconsole-setup). Once the installer is done with it, it leaves
 # /metadata/andr36oid/apps-done, and the next start removes p13 and grows userdata
 # over it (resize.f2fs), "Cleaning up first boot partitions ..." on the boot animation. Only
 # when fsck finds userdata fine, otherwise nothing changes and the start after tries

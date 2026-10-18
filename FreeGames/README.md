@@ -3,7 +3,7 @@
 A new console has nothing to play until the user copies games. So the image
 carries a few games whose authors allow anyone to share them, and the
 gameconsole-emu service copies them into the ROM folders it makes on a fresh
-EASYROMS partition (`seed_free_games` in `emulators/seed/gameconsole-emu.sh`).
+EASYROMS partition (`seedFreeGames` in `emulators/setup/internal/setup/easyroms.go`).
 
 - Only on a card where the service just made the ROM folders. A card with an
   ArkOS or own folder layout gets nothing.

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Checks a Daijishou library made by seed_daijishou (tests/seedtest.sh) the way
+"""Checks a Daijishou library made by the setup (setup/internal/setup/daijishou_test.go) the way
 Daijishou 1.5.0 would read it, and compares it with what daijishou-seed.txt says it
 should contain for the fake card and cores.
 

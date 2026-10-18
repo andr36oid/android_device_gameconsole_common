@@ -948,7 +948,7 @@ run apps.txt 20 pm list packages -f --show-versioncode
 run apps.txt 20 dumpsys activity activities
 run apps.txt 30 dumpsys meminfo
 run apps.txt 10 ls -la /data/adb/modules /data/misc/gameconsole
-# the first start's setup (gameconsole-emu.sh) and the second card held back until it's done
+# the first start's setup (gameconsole-setup) and the second card held back until it's done
 run apps.txt 5 getprop persist.andr36oid.setup_done
 run apps.txt 5 getprop sys.andr36oid.cards_free
 run apps.txt 10 tail -n 300 /data/misc/gameconsole/gameconsole-emu.log

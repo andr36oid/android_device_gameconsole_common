@@ -55,9 +55,9 @@ public class SetupAppsActivity extends Activity {
     private static final String TAG = "SetupApps";
 
     private static final File APPS = new File("/mnt/andr36oid-apps");
-    /** Settings.Global, read by gameconsole-emu.sh: 1 once this page was left with Next */
+    /** Settings.Global, read by gameconsole-setup: 1 once this page was left with Next */
     static final String SETTING_CHOSEN = "andr36oid_apps_chosen";
-    /** Settings.Global, read by gameconsole-emu.sh: the unticked apps by file name, comma separated */
+    /** Settings.Global, read by gameconsole-setup: the unticked apps by file name, comma separated */
     static final String SETTING_SKIP = "andr36oid_apps_skip";
     private static final String PROP_CHOSEN = "sys.andr36oid.apps_chosen";
 

@@ -4,25 +4,27 @@ on post-fs-data
     # Daijishou only then. Waits for it; the step is a blkid call and a small file.
     exec_start gameconsole-emu-early
 
-service gameconsole-emu /system/bin/sh /system/etc/gameconsole/gameconsole-emu.sh
+service gameconsole-emu /system/bin/gameconsole-setup main
     class main
     user root
     group root system
     disabled
     oneshot
 
-service gameconsole-emu-early /system/bin/sh /system/etc/gameconsole/gameconsole-emu.sh post-fs-data
+service gameconsole-emu-early /system/bin/gameconsole-setup early
     user root
     group root system
     disabled
     oneshot
 
+# All of these but the early one go through one worker (setup/internal/worker): a
+# start while another works leaves its request and exits, the worker runs it next.
 on property:sys.boot_completed=1
     start gameconsole-emu
 
 # Settings > Controllers changed who is player 1 in RetroArch: written into
-# retroarch.cfg once RetroArch is closed (gameconsole-emu.sh, retroarch_players)
-service gameconsole-ra-players /system/bin/sh /system/etc/gameconsole/gameconsole-emu.sh players
+# retroarch.cfg once RetroArch is closed (gameconsole-setup, RetroArchPlayers)
+service gameconsole-ra-players /system/bin/gameconsole-setup players
     class main
     user root
     group root system
@@ -33,8 +35,8 @@ on property:persist.andr36oid.ra_player1=*
     start gameconsole-ra-players
 
 # The setup's app page (QuickStart) was left with Next: install the picked bundled
-# apps now instead of at the next start (gameconsole-emu.sh, install_apks)
-service gameconsole-apps /system/bin/sh /system/etc/gameconsole/gameconsole-emu.sh apps
+# apps now instead of at the next start (gameconsole-setup, InstallAPKs)
+service gameconsole-apps /system/bin/gameconsole-setup apps
     class main
     user root
     group root system

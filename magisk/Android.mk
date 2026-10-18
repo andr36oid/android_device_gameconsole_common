@@ -2,7 +2,7 @@ LOCAL_PATH := $(call my-dir)
 
 # The Magisk app, the same APK the device mkimg.sh takes magiskinit and the
 # payload from. It is installed as a normal app on first boot (see
-# emulators/seed/gameconsole-emu.sh): a system app gets no native libs
+# emulators/setup): a system app gets no native libs
 # extracted, and Magisk runs its binaries from there. As a normal app it also
 # updates itself.
 ifneq ($(wildcard $(LOCAL_PATH)/Magisk.apk),)

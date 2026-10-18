@@ -4,13 +4,12 @@
 #     rom-folders.txt, cores.lock and the official platform files
 #  2. schema.sql is exactly what the shipped Daijishou.apk creates (every statement and
 #     the identity hash are strings in its dex)
-#  3. the seed functions of seed/gameconsole-emu.sh, run in a fake /data with a real
-#     sqlite3, under bash, busybox ash, dash and mksh (MKSH=, if found), and with
-#     TOYBIN= (a folder of toybox and one-true-awk links) under bash with the
-#     console's tools: the library they make is one Daijishou opens (checked with checklib.py), the URI grants are well formed and match the library's
-#     folders, and every "leave it alone" case leaves it alone
+#  3. the setup's Daijishou steps (Go tests in setup/), in a fake /data with a real
+#     sqlite3: the library they make is one Daijishou opens (checked with checklib.py),
+#     the URI grants are well formed and match the library's folders, and every
+#     "leave it alone" case leaves it alone
 #
-# Needs python3, and sqlite3 (the Android host build in $ANDROID_BUILD_TOP/out/host is
+# Needs python3, Go, and sqlite3 (the Android host build in $ANDROID_BUILD_TOP/out/host is
 # used if it's there).
 # Usage: tests/run-daijishou-tests.sh [path to Daijishou.apk]
 
@@ -51,36 +50,13 @@ else
 	echo "skip schema check, no $APK"
 fi
 
-# 3. the shell part
-run_shell() {
-	local sh=$1 name=${2:-${1##*/}} out
-	# shellcheck disable=SC2086 # "busybox ash" is two words
-	out=$($sh "$HERE/seedtest.sh" "$EMU" 2>&1)
-	local rc=$?
-	# shellcheck disable=SC2001 # multi-line prefix
-	echo "$out" | sed "s|^|  [$name] |"
-	if [ $rc -eq 0 ]; then
-		pass "seed functions under $name"
-	else
-		fail "seed functions under $name"
-	fi
-}
-run_shell bash
-if command -v busybox >/dev/null; then
-	run_shell "busybox ash"
-fi
-if command -v dash >/dev/null; then
-	run_shell dash
-fi
-# mksh is the console's shell; MKSH=/path/to/mksh if it isn't in PATH
-MKSH=${MKSH:-$(command -v mksh)}
-if [ -n "$MKSH" ]; then
-	run_shell "$MKSH"
-fi
-# the console's awk (one-true-awk) and toybox, from the tree's prebuilts
-TOYBIN=${TOYBIN:-}
-if [ -n "$TOYBIN" ] && [ -d "$TOYBIN" ]; then
-	PATH=$TOYBIN:$PATH run_shell bash "bash + toybox"
+# 3. the setup's Daijishou steps (setup/internal/setup/daijishou_test.go): a fake /data,
+# a real sqlite3, the library checked with checklib.py
+GO=${GO:-$(command -v go || echo /usr/local/go/bin/go)}
+if (cd "$EMU/setup" && "$GO" test ./internal/setup/ -run Daijishou); then
+	pass "setup's Daijishou steps"
+else
+	fail "setup's Daijishou steps"
 fi
 
 if [ $fails -eq 0 ]; then

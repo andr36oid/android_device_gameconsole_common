@@ -443,7 +443,7 @@ its library the way Daijishou itself stores it, once, before it first runs:
   get no platform: we ship nothing that plays them.
 - `daijishou/schema.sql`: Daijishou's Room schema (version 17, identity hash) exactly as
   its `DaijishouDatabase_Impl.createAllTables` makes it.
-- post-fs-data (`gameconsole-emu.sh post-fs-data`, run with `exec_start` before
+- post-fs-data (`gameconsole-setup early`, run with `exec_start` before
   system_server starts): Daijishou reads games only through the storage access
   framework, i.e. folders the user picked in the file picker, which Android remembers as
   persisted URI grants in `/data/system/urigrants.xml`. We add the same entry the picker
@@ -503,14 +503,36 @@ Daijishou keeps the ones it downloads. After changing `platforms.txt`, run the f
 script before the generator.
 
 Widgets: Daijishou's home page starts with four app shortcuts, RetroArch, Files, VLC and
-Settings, in that order (`DJ_WIDGETS` in the script; an app that isn't installed is left
+Settings, in that order (`djWidgets` in `setup/internal/setup/daijishou.go`; an app that isn't installed is left
 out). The service writes them into a new `Widget.db`, built from
 `daijishou/widget-schema.sql` (Daijishou's own widget schema, checked against the APK by
 the host test). A `Widget.db` that already has widgets, or can't be read, is left alone.
 
 Tests: `ANDROID_BUILD_TOP=... emulators/tests/run-daijishou-tests.sh` (generator up to date,
-schema vs. the APK's dex, the shell steps in a fake /data under bash and busybox ash with
-a real sqlite3, checked by `tests/checklib.py`).
+schema vs. the APK's dex, the setup's Daijishou steps in a fake /data with a real sqlite3,
+checked by `tests/checklib.py`).
+
+## The setup service
+
+`gameconsole-setup` (`setup/`, Go) does all of the above on the console. It was the shell
+script `seed/gameconsole-emu.sh`; it keeps the same marker files, so a console set up by
+the script carries on where it was. init starts it from `seed/gameconsole-emu.rc`:
+`early` at post-fs-data, `main` at boot_completed, `apps` when the setup's app page is
+left, `players` when Settings > Controllers changes player 1.
+
+Only one of them works at a time: each start leaves a request in `/dev/gameconsole-setup/`
+and takes an flock on `/dev/gameconsole-setup.lock`; one that doesn't get it exits, and the
+worker runs its request between its own steps. The kernel drops the lock when its holder
+dies, so there are no stale locks and no time limits, on a slow card or a fast one.
+
+While the first setup runs it tells the setup screen how far it is, in system properties:
+`sys.andr36oid.setup_stage`, `setup_app`, `setup_pct`, `setup_eta` (seconds, -1 while
+unknown) and `setup_stats` (card read speed, MB written, apps, time, free space).
+
+Android's Go is too old for it, so the binary is built on the host and committed:
+`setup/build.sh` runs the tests and builds `setup/prebuilt/gameconsole-setup` (static,
+arm64, reproducible); `setup/build.sh --check` (run by build-image.sh) fails when the
+sources changed since. Tests: `cd setup && go test ./...`.
 
 ## Updating
 

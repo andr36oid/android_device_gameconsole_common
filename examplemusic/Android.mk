@@ -1,6 +1,6 @@
 # Example music: a few free lo-fi tracks (CC0 and CC BY 4.0, see CREDITS.txt) in
 # examplemusic/ on AUTOAPK. The first start copies them into the Music folder on
-# the internal storage (gameconsole-emu.sh, seed_example_music) before AUTOAPK
+# the internal storage (gameconsole-setup, SeedExampleMusic) before AUTOAPK
 # goes to userdata, so they don't take space twice.
 LOCAL_PATH := $(call my-dir)
 

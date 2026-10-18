@@ -8,14 +8,16 @@
 
 LOCAL_PATH := $(call my-dir)
 
-# First-boot installer and core seeder
+# First-boot installer and core seeder: gameconsole-setup, a static Go program
+# (setup/, built by setup/build.sh into setup/prebuilt), started by init
 include $(CLEAR_VARS)
 LOCAL_MODULE := gameconsole-emu
-LOCAL_MODULE_CLASS := ETC
+LOCAL_MODULE_CLASS := EXECUTABLES
 LOCAL_MODULE_TAGS := optional
-LOCAL_MODULE_RELATIVE_PATH := gameconsole
-LOCAL_MODULE_STEM := gameconsole-emu.sh
-LOCAL_SRC_FILES := seed/gameconsole-emu.sh
+LOCAL_MODULE_STEM := gameconsole-setup
+LOCAL_SRC_FILES := setup/prebuilt/gameconsole-setup
+LOCAL_STRIP_MODULE := false
+LOCAL_CHECK_ELF_FILES := false
 LOCAL_INIT_RC := seed/gameconsole-emu.rc
 LOCAL_REQUIRED_MODULES := gameconsole-preinstall-yml-RetroArch gameconsole-preinstall-yml-PPSSPP gameconsole-rom-folders \
     gameconsole-daijishou-seed gameconsole-daijishou-schema \
