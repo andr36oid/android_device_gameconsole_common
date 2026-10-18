@@ -151,7 +151,7 @@
     <!-- Community -->
     <string name="community_title">Communauté</string>
     <string name="community_text">Des questions, des astuces, ou envie de montrer votre console ? Retrouvez la communauté andr36oid sur Telegram : t.me/andr36oid\n\nScannez le code avec votre téléphone pour la rejoindre.</string>
-    <string name="community_disclaimer">Le projet andr36oid n\'a aucun lien avec le serveur Discord « LineageOS for Clones », et l\'équipe principale de développement du système n\'en est pas membre.</string>
+    <string name="community_disclaimer">Le projet andr36oid n\'a aucun lien avec le serveur Discord « LineageOS for Clones », et aucun de nos principaux développeurs du système n\'en est membre. Les conseils qu\'on y donne ne viennent pas de nous et peuvent ne pas s\'appliquer à andr36oid. Pour de l\'aide, passe par notre groupe Telegram.</string>
     <string name="community_qr_description">QR code pour t.me/andr36oid</string>
 
     <string name="magisk_title">Root (Magisk)</string>

@@ -191,7 +191,7 @@
     <!-- Community -->
     <string name="community_title">Community</string>
     <string name="community_text">Questions, tips or just want to show off your console? You can find the andr36oid community on Telegram: t.me/andr36oid\n\nScan the code with your phone to join.</string>
-    <string name="community_disclaimer">The andr36oid project has no affiliation with the LineageOS for Clones Discord server and our core OS development team are not members.</string>
+    <string name="community_disclaimer">The andr36oid project has no affiliation with the LineageOS for Clones Discord server, and none of our core OS developers are members there. Advice given there is not from us and may not apply to andr36oid. For help, please use our Telegram group.</string>
     <string name="community_qr_description">QR code for t.me/andr36oid</string>
 
     <string name="magisk_title">Root (Magisk)</string>

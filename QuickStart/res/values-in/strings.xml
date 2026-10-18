@@ -151,7 +151,7 @@
     <!-- Community -->
     <string name="community_title">Komunitas</string>
     <string name="community_text">Ada pertanyaan, tips, atau sekadar ingin memamerkan konsol Anda? Komunitas andr36oid ada di Telegram: t.me/andr36oid\n\nPindai kode dengan ponsel Anda untuk bergabung.</string>
-    <string name="community_disclaimer">Proyek andr36oid tidak berafiliasi dengan server Discord LineageOS for Clones, dan tim inti pengembang OS kami bukan anggotanya.</string>
+    <string name="community_disclaimer">Proyek andr36oid tidak berafiliasi dengan server Discord LineageOS for Clones, dan tidak ada pengembang inti OS kami yang menjadi anggotanya. Saran dari sana bukan dari kami dan mungkin tidak cocok untuk andr36oid. Untuk bantuan, gunakan grup Telegram kami.</string>
     <string name="community_qr_description">Kode QR untuk t.me/andr36oid</string>
 
     <string name="magisk_title">Root (Magisk)</string>
