@@ -152,7 +152,7 @@
     <!-- Community -->
     <string name="community_title">社区</string>
     <string name="community_text">有问题、有技巧，或者只是想秀一下您的掌机？andr36oid 社区在 Telegram 上：t.me/andr36oid\n\n用手机扫描二维码即可加入。</string>
-    <string name="community_disclaimer">andr36oid 项目与“LineageOS for Clones”Discord 服务器没有任何关系，我们的系统核心开发者也都不是其成员。那里给出的建议并非来自我们，可能不适用于 andr36oid。如需帮助，请到我们的 Telegram 群组。</string>
+    <string name="community_disclaimer">andr36oid 项目与“LineageOS for Clones”Discord 服务器没有任何关系，我们的系统核心开发者也都不是其成员。那里给出的建议并非来自我们，可能不适用于 andr36oid。andr36oid 没有 Discord 服务器。GitHub 和 Telegram 仍是我们唯一的官方交流渠道。</string>
     <string name="community_qr_description">t.me/andr36oid 的二维码</string>
 
     <string name="magisk_title">Root（Magisk）</string>

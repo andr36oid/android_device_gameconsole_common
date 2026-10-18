@@ -139,7 +139,7 @@
     <!-- Community -->
     <string name="community_title">Сообщество</string>
     <string name="community_text">Есть вопросы, советы или хотите похвастаться консолью? Сообщество andr36oid в Telegram: t.me/andr36oid\n\nОтсканируйте код телефоном, чтобы присоединиться.</string>
-    <string name="community_disclaimer">Проект andr36oid никак не связан с Discord-сервером «LineageOS for Clones», и никто из основных разработчиков нашей системы в нём не состоит. Советы оттуда даём не мы, и к andr36oid они могут не подходить. За помощью обращайся в нашу группу в Telegram.</string>
+    <string name="community_disclaimer">Проект andr36oid никак не связан с Discord-сервером «LineageOS for Clones», и никто из основных разработчиков нашей системы в нём не состоит. Советы оттуда даём не мы, и к andr36oid они могут не подходить. У andr36oid нет Discord-сервера. GitHub и Telegram остаются единственными официальными каналами.</string>
     <string name="community_qr_description">QR-код для t.me/andr36oid</string>
     <string name="magisk_title">Root (Magisk)</string>
     <string name="magisk_intro">В консоли есть root через Magisk, но он не работает, пока вы один раз его не настроите.</string>
