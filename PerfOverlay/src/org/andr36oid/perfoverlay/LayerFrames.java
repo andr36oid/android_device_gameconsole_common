@@ -68,6 +68,18 @@ final class LayerFrames {
         return result;
     }
 
+    /** Frames drawn but not on the screen yet (present time INT64_MAX), for the log. */
+    static int pending(String latency) {
+        int n = 0;
+        for (String line : latency.split("\n")) {
+            final String[] columns = line.trim().split("\\s+");
+            if (columns.length >= 3 && String.valueOf(Long.MAX_VALUE).equals(columns[1])) {
+                n++;
+            }
+        }
+        return n;
+    }
+
     /** Whether "--latency" had frame lines at all; it has none for a layer that is gone. */
     static boolean hasRecords(String latency) {
         final String[] lines = latency.split("\n");

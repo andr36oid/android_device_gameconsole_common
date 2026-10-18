@@ -51,6 +51,8 @@ final class AppFrames {
     /** The newest frame counted so far. */
     private long mLastPresent;
     private int mIdle;
+    private int mLogCount;
+    private static final int LOG_EVERY = 10;
 
     AppFrames(Context context) {
         mContext = context;
@@ -114,6 +116,15 @@ final class AppFrames {
             fps = LayerFrames.perSecond(LayerFrames.countAfter(presents, mLastPresent),
                     now - mLastNanos);
         }
+        if (++mLogCount % LOG_EVERY == 0) {
+            // A line every 10 s, so a problem report shows what the number is made of
+            Log.i(TAG, "fps " + fps + " for " + pkg + " from " + mLayer + ": " + presents.length
+                    + " frames with a present time, " + LayerFrames.pending(latency)
+                    + " pending, period " + latency.split("\n", 2)[0].trim()
+                    + ", newest " + (LayerFrames.newest(presents, 0) - now) / 1_000_000
+                    + " ms from now, last sample " + (mLastNanos == 0 ? -1
+                    : (now - mLastNanos) / 1_000_000) + " ms ago");
+        }
         mLastPresent = LayerFrames.newest(presents, mLastPresent);
         mLastNanos = now;
         mIdle = fps == 0 ? mIdle + 1 : 0;
@@ -136,6 +147,7 @@ final class AppFrames {
             }
             final int frames = LayerFrames.countBetween(LayerFrames.presentTimes(latency),
                     now - SECOND_NS, now);
+            Log.i(TAG, "Layer " + layers.get(i) + ": " + frames + " frames in the last second");
             // SurfaceViews come first, so on a tie they win
             if (frames > bestFrames) {
                 best = layers.get(i);
