@@ -9,7 +9,6 @@
         <item quantity="other">Closed <xliff:g id="count" example="3">%d</xliff:g> background apps</item>
     </plurals>
     <!-- Toast when a game opens and there was nothing to close [CHAR LIMIT=NONE] -->
-    <string name="close_apps_none">No background apps to close</string>
 
     <!-- Low battery warning, Settings > Battery -->
     <string name="warning_title">Low battery warning</string>

@@ -52,12 +52,14 @@ final class BackgroundApps {
         sLastMs = now;
         Continue.BACKGROUND.execute(() -> {
             final int closed = close(context, game);
+            // nothing closed: no toast on every game start
+            if (closed == 0) return;
             android.os.Handler main = new android.os.Handler(android.os.Looper.getMainLooper());
             main.post(() -> {
                 final Resources res = context.getResources();
-                Toast.makeText(context, closed > 0
-                        ? res.getQuantityString(R.plurals.close_apps_done, closed, closed)
-                        : res.getString(R.string.close_apps_none), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context,
+                        res.getQuantityString(R.plurals.close_apps_done, closed, closed),
+                        Toast.LENGTH_SHORT).show();
             });
         });
     }
