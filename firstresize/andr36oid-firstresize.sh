@@ -63,7 +63,12 @@ boot_umount() {
 # than 1 GiB (every card of 16 GB or less), userdata gets the whole card.
 # BEGIN plan_userdata
 GIB=2097152
-USERDATA_START=5701009
+# system ends at 5701008s; userdata starts on the next 1 MiB boundary (5701632 = 2784 * 2048).
+# Cards flashed from images before the alignment have AUTOAPK (and so userdata) at
+# 5701009 instead: the layout check below takes the start from the card's own table.
+SYSTEM_END=5701008
+USERDATA_START=5701632
+OLD_USERDATA_START=5701009
 plan_userdata() {
     # $1: card size in 512-byte sectors, $2: wish ("" / "all" / GiB number)
     # Sets USERDATA_END and NOROMS. The backup GPT needs the last 34 sectors.
@@ -234,8 +239,19 @@ else
     # Only on the layout the image makes: system ends right before userdata, and
     # nothing after it but the image's AUTOAPK right behind system
     p2_end=$(( $(cat "$SYS/$disk/${disk}p2/start") + $(cat "$SYS/$disk/${disk}p2/size") - 1 ))
-    if [ "$p2_end" != $((USERDATA_START - 1)) ] || [ -e "$SYS/$disk/${disk}p7" ] ||
-            { [ -e "$SYS/$disk/${disk}p12" ] && [ "$(part_first 12)" != "$USERDATA_START" ]; }; then
+    # Where userdata goes: where the image's AUTOAPK starts (the aligned start, or the
+    # old 5701009 of earlier images); without it (a start cut off after AUTOAPK moved)
+    # where the table already has userdata; else the aligned start.
+    if [ -e "$SYS/$disk/${disk}p12" ]; then
+        found=$(part_first 12)
+    else
+        found=$(sgdisk --print "$DEV/$disk" 2>/dev/null | awk '$1 == 6 { print $2 }')
+    fi
+    case "${found:-$USERDATA_START}" in
+        "$USERDATA_START" | "$OLD_USERDATA_START") USERDATA_START=${found:-$USERDATA_START} ;;
+        *) found=bad ;;
+    esac
+    if [ "$p2_end" != "$SYSTEM_END" ] || [ "$found" = bad ] || [ -e "$SYS/$disk/${disk}p7" ]; then
         log "$disk has no userdata and an unknown layout (system ends at ${p2_end}s), leaving it alone"
         exit 0
     fi

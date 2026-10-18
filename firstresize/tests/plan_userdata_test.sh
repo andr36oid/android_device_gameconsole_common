@@ -14,8 +14,8 @@ NOROMS=$3; plan_userdata $sectors '$2' >/dev/null; echo \$NOROMS \$USERDATA_END"
     noroms=${out% *}; end=${out#* }
     last=$((sectors - 34))
     if [ "$5" = all ]; then exp_end=$last
-    elif [ "$5" = half ]; then exp_end=$(( (5701009 + (last - 5701009 + 1) / 2) / 2048 * 2048 - 1 ))
-    else exp_end=$(( (5701009 + $5 * 2097152) / 2048 * 2048 - 1 )); fi
+    elif [ "$5" = half ]; then exp_end=$(( (5701632 + (last - 5701632 + 1) / 2) / 2048 * 2048 - 1 ))
+    else exp_end=$(( (5701632 + $5 * 2097152) / 2048 * 2048 - 1 )); fi
     ok=1
     [ "$noroms" = "$4" ] || ok=0
     [ "$end" = "$exp_end" ] || ok=0

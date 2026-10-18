@@ -10,7 +10,7 @@ T=$(mktemp -d)
 LOOP=
 fails=0
 cleanup() {
-    umount "$T/sys-mnt" "$T/boot" 2>/dev/null
+    umount "$T/sys-mnt" "$T/boot" "$T/apps" "$T/tmpapps/old" "$T/tmpapps/new" 2>/dev/null
     [ -n "$LOOP" ] && losetup -d "$LOOP"
     rm -rf "$T"
 }
@@ -32,10 +32,10 @@ check() { # <what> <command...>
     if "${@:2}" >/dev/null 2>&1; then echo "ok   $1"; else echo "FAIL $1"; fails=$((fails + 1)); fi
 }
 
-# new_card <GB> : the image's table (mkimg.sh) in a 3 GiB image, then the card is
+# new_card <GB> [<AUTOAPK start>] : the image's table (mkimg.sh) in a 3 GiB image, then the card is
 # made bigger, so the backup table sits in the middle like on a flashed card
 new_card() {
-    [ -n "$LOOP" ] && { umount "$T/sys-mnt" 2>/dev/null; losetup -d "$LOOP"; }
+    [ -n "$LOOP" ] && { umount "$T/sys-mnt" "$T/apps" 2>/dev/null; losetup -d "$LOOP"; }
     rm -f "$T/card"
     truncate -s 3G "$T/card"
     sgdisk -a 1 -o \
@@ -43,13 +43,27 @@ new_card() {
         -n 3:64:16383 -c 3:idbloader -n 4:16384:24575 -c 4:uboot -n 5:24576:32767 -c 5:trust \
         -n 8:557056:884735 -c 8:vendor -n 9:884736:917503 -c 9:metadata \
         -n 10:917504:925695 -c 10:misc -n 11:925696:1081343 -c 11:cache "$T/card" >/dev/null
+    # the image's AUTOAPK (p12); images before the alignment start it at 5701009
+    [ -n "${2:-}" ] && sgdisk -a 1 -n "12:$2:$(($2 + 4194303))" -c 12:AUTOAPK "$T/card" >/dev/null
+    # the image's AUTOAPK (p12): earlier images start it at 5701009
+    [ -n "${2:-}" ] && sgdisk -a 1 -n "12:$2:$(($2 + 4194303))" -c 12:AUTOAPK "$T/card" >/dev/null
     truncate -s "${1}000000000" "$T/card"
     # old data where userdata will go
-    printf 'old card data' | dd of="$T/card" bs=512 seek=5701009 conv=notrunc status=none
+    printf 'old card data' | dd of="$T/card" bs=512 seek=5701632 conv=notrunc status=none
     LOOP=$(losetup -f --show -P "$T/card")
     udevadm settle
     mkfs.vfat -n BOOT "${LOOP}p1" >/dev/null
     mkfs.ext4 -q -F "${LOOP}p2"
+    if [ -n "${2:-}" ]; then
+        mkfs.vfat -n AUTOAPK "${LOOP}p12" >/dev/null
+        mkdir -p "$T/tmpapps/old"
+        mount "${LOOP}p12" "$T/tmpapps/old" && echo apk > "$T/tmpapps/old/app.apk"; umount "$T/tmpapps/old"
+    fi
+    if [ -n "${2:-}" ]; then
+        mkfs.vfat -n AUTOAPK "${LOOP}p12" >/dev/null
+        mkdir -p "$T/tmpapps/old"
+        mount "${LOOP}p12" "$T/tmpapps/old" && echo apk > "$T/tmpapps/old/app.apk"; umount "$T/tmpapps/old"
+    fi
     mkdir -p "$T/sys-mnt" "$T/byname"
     mount "${LOOP}p2" "$T/sys-mnt"
     rm -f "$T/byname"/*
@@ -76,13 +90,13 @@ new_card 64
 d=${LOOP##*/}
 run
 SECT=$((64000000000 / 512))
-END=$(( (5701009 + (SECT - 34 - 5701009 + 1) / 2) / 2048 * 2048 - 1 ))
-check "userdata p6 in the table" part_is 6 5701009 $END userdata
+END=$(( (5701632 + (SECT - 34 - 5701632 + 1) / 2) / 2048 * 2048 - 1 ))
+check "userdata p6 in the table" part_is 6 5701632 $END userdata
 check "EASYROMS p7 to the end" part_is 7 $((END + 1)) $((SECT - 34)) EASYROMS
 check "backup table at the end" sh -c "sgdisk -v '$T/card' | grep -q 'No problems found'"
 check "kernel has p6" test -e /sys/block/$d/${d}p6
 check "kernel has p7" test -e /sys/block/$d/${d}p7
-check "p6 size in the kernel" test "$(cat /sys/block/$d/${d}p6/size)" = $((END - 5701009 + 1))
+check "p6 size in the kernel" test "$(cat /sys/block/$d/${d}p6/size)" = $((END - 5701632 + 1))
 check "by-name/userdata" test "$(readlink "$T/byname/userdata")" = "/dev/${d}p6"
 check "userdata blanked" blank "/dev/${d}p6"
 check "EASYROMS is exFAT" sh -c "blkid -o export /dev/${d}p7 | grep -qx 'TYPE=exfat'"
@@ -109,8 +123,8 @@ new_card 64
 d=${LOOP##*/}
 boot "echo 20GiB > $T/boot/userdata-size.txt"
 run
-END=$(( (5701009 + 20 * 2097152) / 2048 * 2048 - 1 ))
-check "userdata 20 GiB" part_is 6 5701009 $END userdata
+END=$(( (5701632 + 20 * 2097152) / 2048 * 2048 - 1 ))
+check "userdata 20 GiB" part_is 6 5701632 $END userdata
 check "EASYROMS after it" part_is 7 $((END + 1)) $((SECT - 34)) EASYROMS
 
 echo "== 64 GB card with .noroms"
@@ -118,7 +132,7 @@ new_card 64
 d=${LOOP##*/}
 boot ": > $T/boot/.noroms"
 run
-check "userdata to the end" part_is 6 5701009 $((SECT - 34)) userdata
+check "userdata to the end" part_is 6 5701632 $((SECT - 34)) userdata
 check "no p7" sh -c "! sgdisk -i 7 '$T/card' | grep -q 'Partition name'"
 check "kernel has no p7" test ! -e /sys/block/$d/${d}p7
 check "userdata blanked" blank "/dev/${d}p6"
@@ -127,7 +141,7 @@ echo "== 16 GB card: no EASYROMS"
 new_card 16
 d=${LOOP##*/}
 run
-check "userdata to the end" part_is 6 5701009 $((16000000000 / 512 - 34)) userdata
+check "userdata to the end" part_is 6 5701632 $((16000000000 / 512 - 34)) userdata
 check "no p7" test ! -e /sys/block/$d/${d}p7
 
 echo "== card with another layout is left alone"
@@ -139,6 +153,46 @@ d=${LOOP##*/}
 ln -sf "${LOOP}p2" "$T/byname/system"; ln -sf "${LOOP}p1" "$T/byname/BOOT"
 run
 check "no p6" test ! -e /sys/block/$d/${d}p6
+
+# Cards with the image's AUTOAPK: first start, reclaim after the apps are installed,
+# and a resume. Aligned start for new images, 5701009 for cards flashed from earlier
+# ones: userdata must keep whichever start the card has.
+export RESIZE_APPS_MNT=$T/apps RESIZE_TMP_MNT=$T/tmpapps RESIZE_APPS_DONE=$T/apps-done
+printf '#!/bin/sh\nexit 0\n' > "$T/fsck"; printf '#!/bin/sh\necho resized\n' > "$T/resize"
+chmod +x "$T/fsck" "$T/resize"
+export RESIZE_FSCK_F2FS=$T/fsck RESIZE_F2FS=$T/resize
+for ST in 5701632 5701009; do
+    echo "== 64 GB card, image AUTOAPK at ${ST}s"
+    rm -f "$T/apps-done"
+    new_card 64 $ST
+    d=${LOOP##*/}
+    run
+    check "userdata starts at $ST" sh -c "sgdisk -i 6 '$T/card' | grep -q 'First sector: $ST '"
+    check "EASYROMS exists" sh -c "sgdisk -i 7 '$T/card' | grep -q 'Partition name'"
+    check "AUTOAPK moved to p13" sh -c "sgdisk -i 13 '$T/card' | grep -q \"Partition name: 'AUTOAPK'\""
+    check "p12 gone" test ! -e /sys/block/$d/${d}p12
+    check "AUTOAPK p13 is 1 MiB aligned" sh -c "[ \$(( \$(cat /sys/block/$d/${d}p13/start) % 2048 )) = 0 ]"
+    check "AUTOAPK has the files" sh -c "mount -o ro ${LOOP}p13 '$T/tmpapps/new' && test -f '$T/tmpapps/new/app.apk'; r=\$?; umount '$T/tmpapps/new'; exit \$r"
+    check "userdata blanked" blank "/dev/${d}p6"
+    check "no resize-pending" boot "test ! -e $T/boot/resize-pending"
+
+    echo "-- reclaim: apps installed"
+    umount "$T/apps" 2>/dev/null
+    : > "$T/apps-done"
+    P13_LAST=$(( $(cat /sys/block/$d/${d}p13/start) + $(cat /sys/block/$d/${d}p13/size) - 1 ))
+    run
+    check "userdata still starts at $ST, ends at AUTOAPK's end" sh -c "sgdisk -i 6 '$T/card' | grep -q 'First sector: $ST ' && sgdisk -i 6 '$T/card' | grep -q 'Last sector: $P13_LAST '"
+    check "p13 gone" test ! -e /sys/block/$d/${d}p13
+    check "kernel p6 start" test "$(cat /sys/block/$d/${d}p6/start)" = $ST
+    check "apps-done removed" test ! -e "$T/apps-done"
+    check "no reclaim-pending" boot "test ! -e $T/boot/reclaim-pending"
+
+    echo "-- resume: resize-pending with p6 there"
+    boot ": > $T/boot/resize-pending"
+    run
+    check "userdata still starts at $ST" sh -c "sgdisk -i 6 '$T/card' | grep -q 'First sector: $ST '"
+    check "pending removed" boot "test ! -e $T/boot/resize-pending"
+done
 
 echo
 [ $fails = 0 ] && echo "all passed" || echo "$fails failed"
