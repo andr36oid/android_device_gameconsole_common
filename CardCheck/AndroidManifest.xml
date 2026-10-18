@@ -37,8 +37,8 @@
                 android:name="com.android.settings.icon"
                 android:resource="@drawable/ic_card_check_home" />
             <meta-data
-                android:name="com.android.settings.icon_tintable"
-                android:value="true" />
+                android:name="com.android.settings.bg.hint"
+                android:resource="@color/card_check_icon_background" />
         </activity>
 
         <!-- The check service says it's done; a long check gets a notification.

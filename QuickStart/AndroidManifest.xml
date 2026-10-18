@@ -41,8 +41,8 @@
                 android:name="com.android.settings.icon"
                 android:resource="@drawable/ic_quick_start" />
             <meta-data
-                android:name="com.android.settings.icon_tintable"
-                android:value="true" />
+                android:name="com.android.settings.bg.hint"
+                android:resource="@color/guide_icon_background" />
         </activity>
 
         <!-- Hands-on tutorial: the first-start launcher opens it once after setup, through

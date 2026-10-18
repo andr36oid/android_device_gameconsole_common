@@ -72,8 +72,8 @@
                 android:name="com.android.settings.icon"
                 android:resource="@drawable/ic_game_mode" />
             <meta-data
-                android:name="com.android.settings.icon_tintable"
-                android:value="true" />
+                android:name="com.android.settings.bg.hint"
+                android:resource="@color/game_mode_icon_background" />
         </activity>
 
         <!-- Added to Quick Settings once, on the first boot -->

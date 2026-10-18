@@ -40,8 +40,8 @@
                 android:name="com.android.settings.icon"
                 android:resource="@drawable/ic_usb_mode" />
             <meta-data
-                android:name="com.android.settings.icon_tintable"
-                android:value="true" />
+                android:name="com.android.settings.bg.hint"
+                android:resource="@color/usb_mode_icon_background" />
         </activity>
 
         <!-- "What did I plug in?": every USB device with a plain name and whether it

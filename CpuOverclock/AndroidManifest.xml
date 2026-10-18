@@ -38,8 +38,8 @@
                 android:name="com.android.settings.icon"
                 android:resource="@drawable/ic_cpu_overclock" />
             <meta-data
-                android:name="com.android.settings.icon_tintable"
-                android:value="true" />
+                android:name="com.android.settings.bg.hint"
+                android:resource="@color/overclock_icon_background" />
         </activity>
 
         <!-- Off until the overclock is used for the first time, see Overclock.showTile() -->

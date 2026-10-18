@@ -44,8 +44,8 @@
                 android:name="com.android.settings.icon"
                 android:resource="@drawable/ic_save_backup" />
             <meta-data
-                android:name="com.android.settings.icon_tintable"
-                android:value="true" />
+                android:name="com.android.settings.bg.hint"
+                android:resource="@color/save_backup_icon_background" />
         </activity>
 
         <activity

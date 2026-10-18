@@ -45,8 +45,8 @@
                 android:name="com.android.settings.icon"
                 android:resource="@drawable/ic_controllers" />
             <meta-data
-                android:name="com.android.settings.icon_tintable"
-                android:value="true" />
+                android:name="com.android.settings.bg.hint"
+                android:resource="@color/controllers_icon_background" />
         </activity>
 
         <activity
