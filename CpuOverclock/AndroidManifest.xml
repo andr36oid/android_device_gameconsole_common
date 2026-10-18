@@ -27,7 +27,7 @@
                 android:value="com.android.settings.category.ia.homepage" />
             <meta-data
                 android:name="com.android.settings.order"
-                android:value="-63" />
+                android:value="-112" />
             <meta-data
                 android:name="com.android.settings.keyhint"
                 android:value="top_level_cpu_overclock" />
@@ -38,8 +38,8 @@
                 android:name="com.android.settings.icon"
                 android:resource="@drawable/ic_cpu_overclock" />
             <meta-data
-                android:name="com.android.settings.bg.hint"
-                android:resource="@color/overclock_icon_background" />
+                android:name="com.android.settings.icon_tintable"
+                android:value="true" />
         </activity>
 
         <!-- Off until the overclock is used for the first time, see Overclock.showTile() -->

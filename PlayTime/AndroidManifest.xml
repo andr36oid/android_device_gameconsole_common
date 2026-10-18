@@ -44,8 +44,8 @@
                 android:name="com.android.settings.icon"
                 android:resource="@drawable/ic_play_time" />
             <meta-data
-                android:name="com.android.settings.bg.hint"
-                android:resource="@color/play_time_icon_background" />
+                android:name="com.android.settings.icon_tintable"
+                android:value="true" />
         </activity>
 
         <!-- Parental controls (Parental.java) -->

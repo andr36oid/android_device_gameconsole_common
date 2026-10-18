@@ -34,8 +34,8 @@
                 android:name="com.android.settings.icon"
                 android:resource="@drawable/ic_console_look" />
             <meta-data
-                android:name="com.android.settings.bg.hint"
-                android:resource="@color/look_icon_background" />
+                android:name="com.android.settings.icon_tintable"
+                android:value="true" />
         </activity>
     </application>
 </manifest>

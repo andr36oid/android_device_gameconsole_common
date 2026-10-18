@@ -30,7 +30,7 @@
                 android:value="com.android.settings.category.ia.homepage" />
             <meta-data
                 android:name="com.android.settings.order"
-                android:value="-66" />
+                android:value="-130" />
             <meta-data
                 android:name="com.android.settings.keyhint"
                 android:value="top_level_quick_start" />
@@ -41,8 +41,8 @@
                 android:name="com.android.settings.icon"
                 android:resource="@drawable/ic_quick_start" />
             <meta-data
-                android:name="com.android.settings.bg.hint"
-                android:resource="@color/guide_icon_background" />
+                android:name="com.android.settings.icon_tintable"
+                android:value="true" />
         </activity>
 
         <!-- Hands-on tutorial: the first-start launcher opens it once after setup, through

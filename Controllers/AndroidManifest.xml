@@ -34,7 +34,7 @@
                 android:value="com.android.settings.category.ia.homepage" />
             <meta-data
                 android:name="com.android.settings.order"
-                android:value="-65" />
+                android:value="-115" />
             <meta-data
                 android:name="com.android.settings.keyhint"
                 android:value="top_level_controllers" />
@@ -45,8 +45,8 @@
                 android:name="com.android.settings.icon"
                 android:resource="@drawable/ic_controllers" />
             <meta-data
-                android:name="com.android.settings.bg.hint"
-                android:resource="@color/controllers_icon_background" />
+                android:name="com.android.settings.icon_tintable"
+                android:value="true" />
         </activity>
 
         <activity

@@ -43,8 +43,8 @@
                 android:name="com.android.settings.icon"
                 android:resource="@drawable/ic_perf_overlay" />
             <meta-data
-                android:name="com.android.settings.bg.hint"
-                android:resource="@color/overlay_icon_background" />
+                android:name="com.android.settings.icon_tintable"
+                android:value="true" />
         </activity>
 
         <service
