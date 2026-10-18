@@ -1,6 +1,6 @@
 // Settings > Performance overlay: a small FPS / CPU / temperature / battery readout on top
 // of games, with a Quick Settings tile. Runs as the system user, which may read
-// SurfaceFlinger's frame counter and draw a system overlay window.
+// SurfaceFlinger's frame counter and dumps and draw a system overlay window.
 android_app {
     name: "PerfOverlay",
     srcs: ["src/**/*.java"],

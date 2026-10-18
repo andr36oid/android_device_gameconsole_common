@@ -1,5 +1,6 @@
 package org.andr36oid.perfoverlay;
 
+import android.content.Context;
 import android.os.IBinder;
 import android.os.Parcel;
 import android.os.RemoteException;
@@ -15,9 +16,11 @@ import java.nio.file.Paths;
 
 /**
  * Reads what the overlay shows. Everything comes from sysfs and procfs, except the frame
- * rate: SurfaceFlinger counts every frame it puts on the screen (its "page flips") and
- * hands the count out to the system user through debug transaction 1013, the same one
- * "dumpsys SurfaceFlinger" shows as "flips". Frames per second is that count's growth.
+ * rate. That is the app in front's own frame rate (see AppFrames), or where there is no
+ * app to measure, how often the screen changes: SurfaceFlinger counts every frame it puts
+ * on the screen (its "page flips") and hands the count out to the system user through
+ * debug transaction 1013, the same one "dumpsys SurfaceFlinger" shows as "flips".
+ * Runs on the overlay's worker thread, never the main thread.
  */
 final class Stats {
 
@@ -33,6 +36,8 @@ final class Stats {
 
     /** -1 or NaN where a value couldn't be read. */
     int fps = -1;
+    /** Screen updates per second, whatever changed on screen. */
+    int screenFps = -1;
     int cpuPercent = -1;
     int cpuMhz = -1;
     int gpuMhz = -1;
@@ -47,17 +52,24 @@ final class Stats {
     private final String mTempPath = findTemperature();
     private final String mBatteryPath = findBattery();
 
+    private final AppFrames mAppFrames;
     private IBinder mSurfaceFlinger;
     private long mLastFlips = -1;
     private long mLastFlipTime;
     private long mLastCpuBusy = -1;
     private long mLastCpuTotal;
 
+    Stats(Context context) {
+        mAppFrames = new AppFrames(context);
+    }
+
     /** Forget the last sample, e.g. after the screen was off. */
     void reset() {
+        mAppFrames.reset();
         mLastFlips = -1;
         mLastCpuBusy = -1;
         fps = -1;
+        screenFps = -1;
         cpuPercent = -1;
     }
 
@@ -77,16 +89,25 @@ final class Stats {
     }
 
     private void sampleFps() {
+        sampleScreenFps();
+        final int app = mAppFrames.sample();
+        fps = app >= 0 ? app : screenFps;
+        if (Log.isLoggable(TAG, Log.DEBUG)) {
+            Log.d(TAG, "fps: app " + app + " (" + mAppFrames.layer() + "), screen " + screenFps);
+        }
+    }
+
+    private void sampleScreenFps() {
         final long flips = readPageFlips();
         final long now = SystemClock.elapsedRealtime();
         if (flips < 0) {
-            fps = -1;
+            screenFps = -1;
             return;
         }
         if (mLastFlips >= 0 && now > mLastFlipTime) {
             // The counter is a uint32 that may wrap.
             final long frames = (flips - mLastFlips) & 0xffffffffL;
-            fps = Math.round(frames * 1000f / (now - mLastFlipTime));
+            screenFps = Math.round(frames * 1000f / (now - mLastFlipTime));
         }
         mLastFlips = flips;
         mLastFlipTime = now;

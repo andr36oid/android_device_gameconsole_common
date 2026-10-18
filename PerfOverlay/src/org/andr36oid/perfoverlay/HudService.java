@@ -13,6 +13,7 @@ import android.content.SharedPreferences;
 import android.graphics.PixelFormat;
 import android.graphics.Typeface;
 import android.os.Handler;
+import android.os.HandlerThread;
 import android.os.IBinder;
 import android.os.Looper;
 import android.os.PowerManager;
@@ -31,7 +32,8 @@ import java.util.Locale;
 /**
  * Draws the overlay: a small non-focusable, non-touchable system window in a screen corner,
  * so it never takes buttons away from the game. Updates once a second while the screen is
- * on and stops completely while it is off.
+ * on and stops completely while it is off. The readings are taken on a worker thread,
+ * reading SurfaceFlinger's dumps can take a moment; only the text is set on the main thread.
  */
 public class HudService extends Service
         implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -43,7 +45,9 @@ public class HudService extends Service
     private static final long INTERVAL_MS = 1000;
 
     private final Handler mHandler = new Handler(Looper.getMainLooper());
-    private final Stats mStats = new Stats();
+    private HandlerThread mWorker;
+    private Handler mWorkerHandler;
+    private Stats mStats;
 
     private WindowManager mWindowManager;
     private TextView mView;
@@ -60,7 +64,7 @@ public class HudService extends Service
         @Override
         public void run() {
             update();
-            mHandler.postDelayed(this, INTERVAL_MS);
+            mWorkerHandler.postDelayed(this, INTERVAL_MS);
         }
     };
 
@@ -75,6 +79,10 @@ public class HudService extends Service
     public void onCreate() {
         super.onCreate();
         startForeground(NOTIFICATION_ID, buildNotification());
+        mStats = new Stats(this);
+        mWorker = new HandlerThread("PerfOverlay");
+        mWorker.start();
+        mWorkerHandler = new Handler(mWorker.getLooper());
 
         mLabelColor = getColor(R.color.hud_label);
         mValueColor = getColor(R.color.hud_value);
@@ -118,6 +126,7 @@ public class HudService extends Service
         Hud.prefs(this).unregisterOnSharedPreferenceChangeListener(this);
         unregisterReceiver(mScreenReceiver);
         mWindowManager.removeViewImmediate(mView);
+        mWorker.quitSafely();
         super.onDestroy();
     }
 
@@ -130,8 +139,10 @@ public class HudService extends Service
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
         if (Hud.KEY_POSITION.equals(key)) {
             mWindowManager.updateViewLayout(mView, layoutParams());
-        } else if (Hud.KEY_STYLE.equals(key)) {
-            update();
+        } else if (Hud.KEY_STYLE.equals(key) && mTicking) {
+            // Show the new style right away
+            mWorkerHandler.removeCallbacks(mTick);
+            mWorkerHandler.post(mTick);
         }
     }
 
@@ -140,23 +151,26 @@ public class HudService extends Service
             return;
         }
         mTicking = ticking;
-        mHandler.removeCallbacks(mTick);
+        mWorkerHandler.removeCallbacks(mTick);
         if (ticking) {
             // A first sample now, so the second one a second later has something to compare to.
-            mStats.reset();
-            mHandler.post(mTick);
+            mWorkerHandler.post(() -> mStats.reset());
+            mWorkerHandler.post(mTick);
         }
     }
 
+    /** On the worker thread: takes the readings and hands the text to the main thread. */
     private void update() {
         final String style = Hud.getStyle(this);
         mStats.sample(!Hud.STYLE_FPS.equals(style));
         final CharSequence text = format(style);
-        // Only redraw on changes, every redraw is a frame SurfaceFlinger has to put up.
-        if (!TextUtils.equals(text, mShown)) {
-            mShown = text;
-            mView.setText(text);
-        }
+        mHandler.post(() -> {
+            // Only redraw on changes, every redraw is a frame SurfaceFlinger has to put up.
+            if (mTicking && !TextUtils.equals(text, mShown)) {
+                mShown = text;
+                mView.setText(text);
+            }
+        });
     }
 
     private CharSequence format(String style) {
