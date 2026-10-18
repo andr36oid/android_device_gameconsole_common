@@ -267,6 +267,7 @@ public class CreditsActivity extends Activity {
         project(R.drawable.logo_dpadplayer, "D-PAD Player", R.string.credits_dpadplayer);
         project(R.drawable.logo_yabasanshiro, "Yaba Sanshiro", R.string.credits_yabasanshiro);
         project(R.drawable.logo_gammaos, "GammaOS", R.string.credits_gammaos);
+        project(R.drawable.logo_fpsmeter, "FPS Meter", R.string.credits_fpsmeter);
 
         // The free tracks the first start puts into Music (examplemusic/CREDITS.txt)
         section(R.string.credits_example_music);

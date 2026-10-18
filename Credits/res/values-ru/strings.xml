@@ -23,6 +23,7 @@
     <string name="credits_dpadplayer">Приложение Music, автор jbriones95</string>
     <string name="credits_yabasanshiro">Эмулятор Saturn, авторы pirry и devMiyax</string>
     <string name="credits_gammaos">Идеи и вдохновение, автор TheGammaSqueeze</string>
+    <string name="credits_fpsmeter">Как оверлей производительности измеряет FPS в играх, от rdevz-ph</string>
 
     <string name="credits_example_music">Музыка для примера</string>
     <string name="credits_now_playing">Сейчас играет: %1$s — %2$s</string>

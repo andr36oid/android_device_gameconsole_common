@@ -23,6 +23,7 @@
     <string name="credits_dpadplayer">La app Music, de jbriones95</string>
     <string name="credits_yabasanshiro">El emulador de Saturn, de pirry y devMiyax</string>
     <string name="credits_gammaos">Ideas e inspiración, de TheGammaSqueeze</string>
+    <string name="credits_fpsmeter">Cómo el overlay de rendimiento mide los FPS de los juegos, de rdevz-ph</string>
 
     <string name="credits_example_music">Música de ejemplo de</string>
     <string name="credits_now_playing">Suena: %1$s de %2$s</string>

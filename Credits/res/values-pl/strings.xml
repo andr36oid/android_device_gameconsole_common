@@ -23,6 +23,7 @@
     <string name="credits_dpadplayer">Aplikacja Music, autorstwa jbriones95</string>
     <string name="credits_yabasanshiro">Emulator Saturn, autorstwa pirry i devMiyax</string>
     <string name="credits_gammaos">Pomysły i inspiracja, autorstwa TheGammaSqueeze</string>
+    <string name="credits_fpsmeter">Sposób, w jaki nakładka wydajności mierzy FPS w grach, od rdevz-ph</string>
 
     <string name="credits_example_music">Przykładowa muzyka</string>
     <string name="credits_now_playing">Teraz gra: %1$s – %2$s</string>
