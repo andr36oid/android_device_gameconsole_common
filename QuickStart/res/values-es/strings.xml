@@ -24,7 +24,7 @@
     <string name="welcome_page">Tema anterior o siguiente</string>
     <string name="welcome_tutorial">Volver a probar los botones en el tutorial práctico</string>
     <string name="welcome_close">Cerrar la guía</string>
-    <string name="welcome_again">Puedes volver a abrir esta guía cuando quieras desde Ajustes &gt; Guía de inicio rápido.</string>
+    <string name="welcome_again">Puedes volver a abrir esta guía cuando quieras: es la primera entrada de Ajustes.</string>
 
     <!-- Buttons -->
     <string name="buttons_title">Botones</string>
@@ -96,14 +96,14 @@
 
     <!-- Internet -->
     <string name="internet_title">Conectarse a Internet</string>
-    <string name="internet_wifi">La mayoría de las consolas R36S no tienen Wi-Fi integrado, pero algunos modelos, como la R36XX, sí. Si la tuya lo tiene, activa el Wi-Fi en Ajustes &gt; Redes e Internet. Si no, conecta un adaptador Wi-Fi USB al puerto OTG, con un adaptador USB-C si hace falta, y luego activa ahí el Wi-Fi.</string>
+    <string name="internet_wifi">La mayoría de las consolas R36S no tienen Wi-Fi integrado, pero algunos modelos, como la R36XX, sí. Si la tuya lo tiene, activa el Wi-Fi en Ajustes &gt; Wi-Fi y Bluetooth. Si no, conecta un adaptador Wi-Fi USB al puerto OTG, con un adaptador USB-C si hace falta, y luego activa ahí el Wi-Fi. Los dispositivos Bluetooth están en la misma página, en Bluetooth y dispositivos.</string>
     <string name="internet_browser">Thorium es el navegador web.</string>
 
     <!-- Troubleshooting -->
     <string name="trouble_title">Solución de problemas</string>
     <string name="trouble_intro">La mayoría de los problemas se pueden solucionar con un ordenador y la tarjeta SD. En un ordenador, la tarjeta muestra una unidad pequeña llamada BOOT (los archivos de arranque) y una grande llamada EASYROMS (tus juegos).</string>
     <string name="trouble_first_boot_q">El primer inicio tarda mucho</string>
-    <string name="trouble_first_boot_a">Es normal. El primer inicio prepara la tarjeta SD y se reinicia solo; después Android prepara sus apps. Espera unos minutos y no la apagues.</string>
+    <string name="trouble_first_boot_a">Es normal. El primer inicio prepara la tarjeta SD y se reinicia solo; después Android prepara sus apps. Una pantalla de configuración muestra los pasos, una barra de progreso y el tiempo restante, y al terminar se abre el inicio. Espera unos minutos, hasta 10 con una tarjeta lenta, y no la apagues.</string>
     <string name="trouble_panel_q">La pantalla se queda en negro en el primer inicio, pero la consola está encendida</string>
     <string name="trouble_stuck_q">Dejó de arrancar tras una actualización o un módulo de Magisk</string>
     <string name="trouble_stuck_a">Arráncala sin root. En un ordenador, abre BOOT y cambia el nombre de ramdisk.uimg a ramdisk-magisk.uimg; luego cambia el de ramdisk-stock.uimg a ramdisk.uimg. Tus apps y juegos se conservan. Más adelante, devuélveles su nombre para volver a tener root.</string>
@@ -170,4 +170,9 @@
     <string name="key_volume">Vol</string>
     <string name="key_right_stick">Joy. der.</string>
     <string name="key_left_stick">Joy. izq.</string>
+    <string name="welcome_settings_search">En Ajustes: busca un ajuste</string>
+    <string name="speed_close_apps">¿Poca memoria? Activa Cerrar apps en segundo plano al abrir cualquier juego en Ajustes &gt; Rendimiento. Así se cierran tus otras apps cuando empieza un juego y te dice cuántas. El menú de encendido también tiene Cerrar apps en segundo plano.</string>
+    <string name="speed_stats">El menú de encendido muestra arriba cómo va la consola: CPU, TEMP, BAT, RAM y SD. SD indica cuánto trabaja la tarjeta en %, con su velocidad de lectura y escritura: una flecha verde hacia arriba mientras sobre todo lee, y una roja hacia abajo mientras sobre todo escribe.</string>
+    <string name="speed_overlay_stor">En la superposición de rendimiento, con todo activado, STOR indica cuánto trabaja la tarjeta SD en %. No indica lo llena que está.</string>
+    <string name="community_free">andr36oid es software libre. Si lo pagaste, pide el dinero de vuelta al vendedor.</string>
 </resources>

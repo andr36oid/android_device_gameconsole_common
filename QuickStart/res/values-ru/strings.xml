@@ -21,7 +21,7 @@
     <string name="welcome_page">Предыдущая или следующая тема</string>
     <string name="welcome_tutorial">Ещё раз попробовать кнопки в обучении</string>
     <string name="welcome_close">Закрыть руководство</string>
-    <string name="welcome_again">Это руководство можно открыть в любой момент: Настройки &gt; Краткое руководство.</string>
+    <string name="welcome_again">Это руководство можно открыть снова в любой момент: оно первым пунктом в настройках.</string>
     <!-- Buttons -->
     <string name="buttons_title">Кнопки</string>
     <string name="buttons_a">Выбрать, подтвердить</string>
@@ -86,13 +86,13 @@
     <string name="touch_other_buttons">Кнопки без элемента работают как обычно, а FN и её сочетания работают всегда.</string>
     <!-- Internet -->
     <string name="internet_title">Выход в интернет</string>
-    <string name="internet_wifi">У большинства консолей R36S нет встроенного Wi-Fi, но у некоторых моделей, например R36XX, он есть. Если у вашей он есть, просто включите Wi-Fi в разделе Настройки &gt; Сеть и Интернет. Если нет, подключите USB-адаптер Wi-Fi к порту OTG (через переходник USB-C, если нужно) и включите Wi-Fi там же.</string>
+    <string name="internet_wifi">У большинства консолей R36S нет встроенного Wi-Fi, но у некоторых моделей, например R36XX, он есть. Если у вашей он есть, просто включите Wi-Fi в разделе Настройки &gt; Wi-Fi и Bluetooth. Если нет, подключите USB-адаптер Wi-Fi к порту OTG (через переходник USB-C, если нужно) и включите Wi-Fi там же. Устройства Bluetooth находятся на той же странице, в разделе Bluetooth и устройства.</string>
     <string name="internet_browser">Веб-браузер — Thorium.</string>
     <!-- Troubleshooting -->
     <string name="trouble_title">Решение проблем</string>
     <string name="trouble_intro">Большинство проблем решается с помощью компьютера и SD-карты. На компьютере карта видна как маленький диск BOOT (файлы запуска) и большой EASYROMS (ваши игры).</string>
     <string name="trouble_first_boot_q">Первый запуск идёт очень долго</string>
-    <string name="trouble_first_boot_a">Это нормально. При первом запуске консоль готовит SD-карту и сама перезапускается, затем Android подготавливает приложения. Подождите несколько минут и не выключайте её.</string>
+    <string name="trouble_first_boot_a">Это нормально. При первом запуске консоль готовит SD-карту и сама перезапускается, затем Android подготавливает приложения. На экране настройки видны шаги, индикатор хода и оставшееся время, а после окончания открывается главный экран. Подождите несколько минут (на медленной карте до 10) и не выключайте консоль.</string>
     <string name="trouble_panel_q">При первом запуске экран остаётся чёрным, хотя консоль включена</string>
     <string name="trouble_stuck_q">Перестала запускаться после обновления или модуля Magisk</string>
     <string name="trouble_stuck_a">Запустите её без root. На компьютере откройте BOOT и переименуйте ramdisk.uimg в ramdisk-magisk.uimg, а затем ramdisk-stock.uimg в ramdisk.uimg. Приложения и игры останутся. Чтобы вернуть root, позже переименуйте их обратно.</string>
@@ -155,4 +155,9 @@
     <string name="key_volume">Громк.</string>
     <string name="key_right_stick">R-стик</string>
     <string name="key_left_stick">L-стик</string>
+    <string name="welcome_settings_search">В настройках: найдите нужный пункт</string>
+    <string name="speed_close_apps">Мало памяти? Включите «Закрыть фоновые приложения» при запуске игр в Настройки &gt; Производительность. Тогда при старте игры другие приложения закроются, и консоль скажет, сколько их было. В меню питания тоже есть «Закрыть фоновые приложения».</string>
+    <string name="speed_stats">В меню питания вверху показано состояние консоли: CPU, TEMP, BAT, RAM и SD. SD — загрузка карты в %, а также скорость чтения и записи: зелёная стрелка вверх, когда карта в основном читает, и красная стрелка вниз, когда в основном пишет.</string>
+    <string name="speed_overlay_stor">В оверлее производительности при полном отображении STOR показывает загрузку карты SD в %. Это не то, насколько карта заполнена.</string>
+    <string name="community_free">andr36oid — свободное программное обеспечение. Если вы за него заплатили, попросите продавца вернуть деньги.</string>
 </resources>

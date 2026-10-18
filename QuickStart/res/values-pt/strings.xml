@@ -24,7 +24,7 @@
     <string name="welcome_page">Tópico anterior ou seguinte</string>
     <string name="welcome_tutorial">Experimente os botões novamente no tutorial prático</string>
     <string name="welcome_close">Fechar o guia</string>
-    <string name="welcome_again">Pode abrir este guia novamente quando quiser em Definições &gt; Guia de início rápido.</string>
+    <string name="welcome_again">Pode abrir este guia novamente quando quiser: é a primeira entrada em Definições.</string>
 
     <!-- Buttons -->
     <string name="buttons_title">Botões</string>
@@ -96,14 +96,14 @@
 
     <!-- Internet -->
     <string name="internet_title">Ligar à Internet</string>
-    <string name="internet_wifi">A maioria das consolas R36S não tem Wi-Fi integrado, mas alguns modelos, como a R36XX, têm. Se a sua tiver, basta ativar o Wi-Fi em Definições &gt; Rede e Internet. Se não, ligue um adaptador Wi-Fi USB à porta OTG, com um adaptador USB-C se for preciso, e ative o Wi-Fi aí.</string>
+    <string name="internet_wifi">A maioria das consolas R36S não tem Wi-Fi integrado, mas alguns modelos, como a R36XX, têm. Se a sua tiver, basta ativar o Wi-Fi em Definições &gt; Wi-Fi e Bluetooth. Se não, ligue um adaptador Wi-Fi USB à porta OTG, com um adaptador USB-C se for preciso, e ative o Wi-Fi aí. Os dispositivos Bluetooth estão na mesma página, em Bluetooth e dispositivos.</string>
     <string name="internet_browser">O navegador é o Thorium.</string>
 
     <!-- Troubleshooting -->
     <string name="trouble_title">Resolução de problemas</string>
     <string name="trouble_intro">A maioria dos problemas resolve-se com um computador e o cartão SD. No computador, o cartão mostra uma unidade pequena chamada BOOT (os ficheiros de arranque) e uma grande chamada EASYROMS (os seus jogos).</string>
     <string name="trouble_first_boot_q">O primeiro arranque demora muito</string>
-    <string name="trouble_first_boot_a">É normal. O primeiro arranque prepara o cartão SD e reinicia sozinho, depois o Android prepara as apps. Dê-lhe alguns minutos e não desligue.</string>
+    <string name="trouble_first_boot_a">É normal. O primeiro arranque prepara o cartão SD e reinicia sozinho, depois o Android prepara as apps. Um ecrã de configuração mostra os passos, uma barra de progresso e o tempo restante, e o ecrã principal abre quando terminar. Dê-lhe alguns minutos, até 10 num cartão lento, e não desligue.</string>
     <string name="trouble_panel_q">O ecrã fica preto no primeiro arranque, mas a consola está ligada</string>
     <string name="trouble_stuck_q">Deixou de arrancar depois de uma atualização ou de um módulo do Magisk</string>
     <string name="trouble_stuck_a">Arranque sem root. No computador, abra BOOT e mude o nome de ramdisk.uimg para ramdisk-magisk.uimg, depois mude ramdisk-stock.uimg para ramdisk.uimg. As suas apps e jogos ficam lá. Volte a mudar os nomes mais tarde para ter root novamente.</string>
@@ -169,4 +169,9 @@
     <string name="key_volume">Vol</string>
     <string name="key_right_stick">Analóg. D</string>
     <string name="key_left_stick">Analóg. E</string>
+    <string name="welcome_settings_search">Em Definições: pesquise uma definição</string>
+    <string name="speed_close_apps">Pouca memória? Ative Fechar apps em segundo plano ao abrir qualquer jogo em Definições &gt; Desempenho. Ele fecha os outros apps quando um jogo começa e diz quantos foram. O menu de energia também tem Fechar apps em segundo plano.</string>
+    <string name="speed_stats">O menu de energia mostra o estado da consola no topo: CPU, TEMP, BAT, RAM e SD. SD é a ocupação do cartão em %, com as velocidades de leitura e escrita: uma seta verde para cima quando lê sobretudo, e uma seta vermelha para baixo quando escreve sobretudo.</string>
+    <string name="speed_overlay_stor">Na sobreposição de desempenho, com tudo ativado, STOR indica a ocupação do cartão SD em %. Não indica quão cheio está.</string>
+    <string name="community_free">O andr36oid é software livre. Se pagou por ele, peça o dinheiro de volta ao vendedor.</string>
 </resources>

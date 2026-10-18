@@ -24,7 +24,7 @@
     <string name="welcome_page">Önceki veya sonraki konu</string>
     <string name="welcome_tutorial">Uygulamalı eğitimde tuşları yeniden deneyin</string>
     <string name="welcome_close">Kılavuzu kapatın</string>
-    <string name="welcome_again">Bu kılavuzu istediğiniz zaman Ayarlar &gt; Hızlı başlangıç kılavuzu bölümünden yeniden açabilirsiniz.</string>
+    <string name="welcome_again">Bu kılavuzu istediğiniz zaman yeniden açabilirsiniz: Ayarlar\'ın ilk öğesidir.</string>
 
     <!-- Buttons -->
     <string name="buttons_title">Tuşlar</string>
@@ -96,14 +96,14 @@
 
     <!-- Internet -->
     <string name="internet_title">İnternete bağlanma</string>
-    <string name="internet_wifi">Çoğu R36S konsolunda dahili Wi-Fi yoktur, ama R36XX gibi bazı modellerde vardır. Sizinkinde varsa Wi-Fi\'ı Ayarlar &gt; Ağ ve internet bölümünden açmanız yeterli. Yoksa OTG portuna bir USB Wi-Fi adaptörü takın (gerekirse bir USB-C adaptörüyle), sonra Wi-Fi\'ı orada açın.</string>
+    <string name="internet_wifi">Çoğu R36S konsolunda dahili Wi-Fi yoktur, ama R36XX gibi bazı modellerde vardır. Sizinkinde varsa Wi-Fi\'ı Ayarlar &gt; Wi-Fi ve Bluetooth bölümünden açmanız yeterli. Yoksa OTG portuna bir USB Wi-Fi adaptörü takın (gerekirse bir USB-C adaptörüyle), sonra Wi-Fi\'ı orada açın. Bluetooth cihazları aynı sayfada, Bluetooth ve cihazlar bölümündedir.</string>
     <string name="internet_browser">Web tarayıcısı Thorium\'dur.</string>
 
     <!-- Troubleshooting -->
     <string name="trouble_title">Sorun giderme</string>
     <string name="trouble_intro">Çoğu sorun bir bilgisayar ve SD kartla çözülebilir. Bilgisayarda kart, BOOT adlı küçük bir sürücü (başlangıç dosyaları) ve EASYROMS adlı büyük bir sürücü (oyunlarınız) gösterir.</string>
     <string name="trouble_first_boot_q">İlk açılış uzun sürüyor</string>
-    <string name="trouble_first_boot_a">Bu normaldir. İlk açılış SD kartı hazırlar ve kendiliğinden yeniden başlar, ardından Android uygulamalarını hazırlar. Birkaç dakika bekleyin ve konsolu kapatmayın.</string>
+    <string name="trouble_first_boot_a">Bu normaldir. İlk açılış SD kartı hazırlar ve kendiliğinden yeniden başlar, ardından Android uygulamalarını hazırlar. Bir kurulum ekranı adımları, ilerleme çubuğunu ve kalan süreyi gösterir; bitince ana ekran açılır. Birkaç dakika bekleyin, yavaş bir kartta 10 dakikaya kadar, ve konsolu kapatmayın.</string>
     <string name="trouble_panel_q">İlk açılışta ekran siyah kalıyor ama konsol açık</string>
     <string name="trouble_stuck_q">Bir güncellemeden veya Magisk modülünden sonra açılmıyor</string>
     <string name="trouble_stuck_a">Root olmadan başlatın. Bilgisayarda BOOT\'u açın ve ramdisk.uimg dosyasının adını ramdisk-magisk.uimg yapın, ardından ramdisk-stock.uimg dosyasının adını ramdisk.uimg yapın. Uygulamalarınız ve oyunlarınız kalır. Root\'u geri almak için adları daha sonra eski haline getirin.</string>
@@ -170,4 +170,9 @@
     <string name="key_volume">Ses</string>
     <string name="key_right_stick">Sağ analog</string>
     <string name="key_left_stick">Sol analog</string>
+    <string name="welcome_settings_search">Ayarlar\'da: bir ayar ara</string>
+    <string name="speed_close_apps">Bellek azaldı mı? Ayarlar &gt; Performans\'ta, bir oyun açıldığında Arka plan uygulamalarını kapat seçeneğini açın. Oyun başladığında diğer uygulamalarınızı kapatır ve kaç tane kapattığını söyler. Güç menüsünde de Arka plan uygulamalarını kapat vardır.</string>
+    <string name="speed_stats">Güç menüsü üstte konsolun durumunu gösterir: CPU, TEMP, BAT, RAM ve SD. SD, kartın yüzde kaç meşgul olduğunu ve okuma ile yazma hızını gösterir: çoğunlukla okuduğunda yeşil yukarı ok, çoğunlukla yazdığında kırmızı aşağı ok.</string>
+    <string name="speed_overlay_stor">Performans katmanında her şey açıkken STOR, SD kartın yüzde kaç meşgul olduğunu gösterir. Kartın ne kadar dolu olduğunu göstermez.</string>
+    <string name="community_free">andr36oid özgür bir yazılımdır. Bunun için para ödediyseniz paranızı satıcıdan geri isteyin.</string>
 </resources>

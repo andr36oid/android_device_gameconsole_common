@@ -24,7 +24,7 @@
     <string name="welcome_page">上一个或下一个主题</string>
     <string name="welcome_tutorial">在互动教程中再试一遍按键</string>
     <string name="welcome_close">关闭指南</string>
-    <string name="welcome_again">您随时可以从“设置 &gt; 快速入门指南”再次打开本指南。</string>
+    <string name="welcome_again">您随时可以从“设置”中再次打开本指南，它是设置中的第一项。</string>
 
     <!-- Buttons -->
     <string name="buttons_title">按键</string>
@@ -96,14 +96,14 @@
 
     <!-- Internet -->
     <string name="internet_title">上网</string>
-    <string name="internet_wifi">大多数 R36S 掌机没有内置 Wi-Fi，但有些型号（例如 R36XX）有。如果您的掌机有，只需在“设置 &gt; 网络和互联网”中开启 WLAN。如果没有，请将 USB Wi-Fi 适配器插入 OTG 接口（如有需要，可配一个 USB-C 转接头），然后在同一位置开启 WLAN。</string>
+    <string name="internet_wifi">大多数 R36S 掌机没有内置 Wi-Fi，但有些型号（例如 R36XX）有。如果您的掌机有，只需在“设置 &gt; WLAN 和蓝牙”中开启 WLAN。如果没有，请将 USB Wi-Fi 适配器插入 OTG 接口（如有需要，可配一个 USB-C 转接头），然后在同一位置开启 WLAN。蓝牙设备在同一页面的“蓝牙和设备”中。</string>
     <string name="internet_browser">网页浏览器是 Thorium。</string>
 
     <!-- Troubleshooting -->
     <string name="trouble_title">故障排除</string>
     <string name="trouble_intro">大多数问题都可以用电脑和 SD 卡解决。在电脑上，这张卡会显示一个名为 BOOT 的小磁盘（启动文件）和一个名为 EASYROMS 的大磁盘（您的游戏）。</string>
     <string name="trouble_first_boot_q">首次启动需要很长时间</string>
-    <string name="trouble_first_boot_a">这是正常的。首次启动会设置 SD 卡并自动重启，然后 Android 会准备应用。请等待几分钟，不要关机。</string>
+    <string name="trouble_first_boot_a">这是正常的。首次启动会设置 SD 卡并自动重启，然后 Android 会准备应用。设置屏幕会显示步骤、进度条和剩余时间，完成后会打开主屏幕。请等待几分钟（SD 卡较慢时最多 10 分钟），不要关机。</string>
     <string name="trouble_panel_q">首次启动时屏幕一直黑屏，但掌机已开机</string>
     <string name="trouble_stuck_q">更新或安装 Magisk 模块后无法启动</string>
     <string name="trouble_stuck_a">不使用 root 启动。在电脑上打开 BOOT，把 ramdisk.uimg 重命名为 ramdisk-magisk.uimg，再把 ramdisk-stock.uimg 重命名为 ramdisk.uimg。您的应用和游戏都会保留。之后把名称改回来即可重新获得 root。</string>
@@ -170,4 +170,9 @@
     <string name="key_volume">音量</string>
     <string name="key_right_stick">右摇杆</string>
     <string name="key_left_stick">左摇杆</string>
+    <string name="welcome_settings_search">在“设置”中：搜索某个设置</string>
+    <string name="speed_close_apps">内存不足？在“设置 &gt; 性能”中开启“启动游戏时关闭后台应用”，每次打开游戏时，其他应用都会被关闭，并提示关闭了多少个。电源菜单中也有“关闭后台应用”。</string>
+    <string name="speed_stats">电源菜单顶部显示主机状态：CPU、TEMP、BAT、RAM 和 SD。SD 表示存储卡的繁忙程度（百分比）以及读写速度：主要在读取时显示绿色向上箭头，主要在写入时显示红色向下箭头。</string>
+    <string name="speed_overlay_stor">在性能悬浮窗中全部显示时，STOR 表示 SD 卡的繁忙程度（百分比），而不是存储卡的占用空间。</string>
+    <string name="community_free">andr36oid 是免费软件。如果您为它付了钱，请向卖家要回退款。</string>
 </resources>

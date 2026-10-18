@@ -3,7 +3,7 @@
     <string name="netplay_title">Gra we dwoje</string>
     <string name="netplay_intro">Dwie konsole mogą grać razem w jedną grę przez Wi-Fi, nawet bez routera w pobliżu: jedna konsola tworzy hotspot Wi-Fi, a druga się z nim łączy. Obie potrzebują Wi-Fi (wbudowanego albo adaptera Wi-Fi na USB) i tej samej gry.</string>
     <string name="netplay_hotspot_q">1. Utwórz hotspot na pierwszej konsoli</string>
-    <string name="netplay_hotspot_a">Podłącz adapter Wi-Fi, przejdź do Ustawienia &gt; Sieć i internet &gt; Hotspot i tethering &gt; Hotspot Wi-Fi i włącz go. Nazwa i hasło hotspota są na tej samej stronie. Na drugiej konsoli połącz się z tym hotspotem w Ustawienia &gt; Sieć i internet &gt; Wi-Fi. Pojawi się informacja, że nie ma internetu. To normalne.</string>
+    <string name="netplay_hotspot_a">Podłącz adapter Wi-Fi, przejdź do Ustawienia &gt; Wi-Fi i Bluetooth &gt; Hotspot i tethering &gt; Hotspot Wi-Fi i włącz go. Nazwa i hasło hotspota są na tej samej stronie. Na drugiej konsoli połącz się z tym hotspotem w Ustawienia &gt; Wi-Fi i Bluetooth &gt; Wi-Fi. Pojawi się informacja, że nie ma internetu. To normalne.</string>
     <string name="netplay_hotspot_fail">Hotspot się nie włącza? Nie każdy adapter to potrafi. Zamień adaptery między konsolami albo połącz obie konsole z tym samym domowym Wi-Fi lub z hotspotem telefonu.</string>
     <string name="netplay_game_q">2. Uruchom tę samą grę na obu</string>
     <string name="netplay_game_a">Na obu konsolach użyj tego samego pliku gry (ta sama wersja i region) z tym samym emulatorem. Inaczej konsole się nie połączą albo gra się rozjedzie.</string>
@@ -12,7 +12,7 @@
     <string name="netplay_host_a">Naciskaj B, aż dojdziesz do Menu główne, otwórz Gra sieciowa i wybierz Uruchom hosta gry sieciowej. Potem zamknij menu i poczekaj.</string>
     <string name="netplay_join_q">4. Druga konsola: dołącz</string>
     <string name="netplay_join_a">Otwórz menu tak samo, otwórz Gra sieciowa i wybierz Refresh Netplay LAN List. Wybierz pierwszą konsolę z listy. Gra uruchomi się od nowa na obu konsolach, a druga konsola będzie graczem 2.</string>
-    <string name="netplay_join_ip">Nie ma jej na liście? Adres pierwszej konsoli sprawdzisz na drugiej: Ustawienia &gt; Sieć i internet &gt; Wi-Fi, wybierz hotspot, potem Zaawansowane &gt; Brama. W Gra sieciowa wybierz Połącz się z hostem gry sieciowej i wpisz ten adres.</string>
+    <string name="netplay_join_ip">Nie ma jej na liście? Adres pierwszej konsoli sprawdzisz na drugiej: Ustawienia &gt; Wi-Fi i Bluetooth &gt; Wi-Fi, wybierz hotspot, potem Zaawansowane &gt; Brama. W Gra sieciowa wybierz Połącz się z hostem gry sieciowej i wpisz ten adres.</string>
     <string name="netplay_games_q">Które gry działają najlepiej</string>
     <string name="netplay_games_a">Gry z NES, Master System, Mega Drive i PC Engine działają dobrze. SNES działa, ale przyciski reagują trochę wolniej. Gry z Game Boya i GBA nie mają trybu dla dwóch graczy na jednej konsoli, więc nie ma czego dzielić. PlayStation jest dla tej konsoli za ciężkie do gry przez sieć.</string>
     <string name="netplay_tips">Trzymaj konsole blisko siebie. Hotspot zużywa więcej baterii, więc wyłącz go po grze. Twoja nazwa w grze sieciowej pochodzi z nazwy urządzenia; zmienisz ją w RetroArch w Ustawienia &gt; Użytkownik &gt; Nazwa użytkownika.</string>

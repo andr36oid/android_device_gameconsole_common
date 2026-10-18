@@ -22,7 +22,7 @@
     <string name="welcome_page">Poprzedni lub następny temat</string>
     <string name="welcome_tutorial">Wypróbuj przyciski jeszcze raz w samouczku</string>
     <string name="welcome_close">Zamknij przewodnik</string>
-    <string name="welcome_again">Ten przewodnik otworzysz w każdej chwili w Ustawienia &gt; Szybki start.</string>
+    <string name="welcome_again">Ten przewodnik otworzysz w każdej chwili: jest pierwszy w Ustawieniach.</string>
 
     <!-- Buttons -->
     <string name="buttons_title">Przyciski</string>
@@ -94,14 +94,14 @@
 
     <!-- Internet -->
     <string name="internet_title">Internet</string>
-    <string name="internet_wifi">Większość konsol R36S nie ma wbudowanego Wi-Fi, ale niektóre modele, np. R36XX, mają. Jeśli twoja ma, po prostu włącz Wi-Fi w Ustawienia &gt; Sieć i internet. Jeśli nie, podłącz adapter Wi-Fi na USB do portu OTG, w razie potrzeby przez przejściówkę USB-C, a potem tam włącz Wi-Fi.</string>
+    <string name="internet_wifi">Większość konsol R36S nie ma wbudowanego Wi-Fi, ale niektóre modele, np. R36XX, mają. Jeśli twoja ma, włącz po prostu Wi-Fi w Ustawienia &gt; Wi-Fi i Bluetooth. Jeśli nie, podłącz adapter Wi-Fi na USB do portu OTG, w razie potrzeby przez przejściówkę USB-C, a potem włącz tam Wi-Fi. Urządzenia Bluetooth są na tej samej stronie, w sekcji Bluetooth i urządzenia.</string>
     <string name="internet_browser">Przeglądarką internetową jest Thorium.</string>
 
     <!-- Troubleshooting -->
     <string name="trouble_title">Rozwiązywanie problemów</string>
     <string name="trouble_intro">Większość problemów da się naprawić przy użyciu komputera i karty SD. W komputerze karta pokazuje mały dysk o nazwie BOOT (pliki startowe) i duży o nazwie EASYROMS (twoje gry).</string>
     <string name="trouble_first_boot_q">Pierwsze uruchomienie trwa długo</string>
-    <string name="trouble_first_boot_a">To normalne. Pierwsze uruchomienie przygotowuje kartę SD i samo uruchamia konsolę ponownie, potem Android przygotowuje aplikacje. Daj mu kilka minut i nie wyłączaj konsoli.</string>
+    <string name="trouble_first_boot_a">To normalne. Pierwsze uruchomienie przygotowuje kartę SD i samo uruchamia konsolę ponownie, potem Android przygotowuje aplikacje. Ekran konfiguracji pokazuje kroki, pasek postępu i pozostały czas, a po zakończeniu otworzy się ekran główny. Daj mu kilka minut, na wolnej karcie nawet 10, i nie wyłączaj konsoli.</string>
     <string name="trouble_panel_q">Przy pierwszym uruchomieniu ekran jest czarny, ale konsola jest włączona</string>
     <string name="trouble_stuck_q">Konsola przestała się uruchamiać po aktualizacji lub module Magisk</string>
     <string name="trouble_stuck_a">Uruchom ją bez roota. W komputerze otwórz BOOT i zmień nazwę ramdisk.uimg na ramdisk-magisk.uimg, a potem ramdisk-stock.uimg na ramdisk.uimg. Aplikacje i gry zostają. Później przywróć nazwy, aby znów mieć roota.</string>
@@ -167,4 +167,9 @@
     <string name="key_volume">Głoś.</string>
     <string name="key_right_stick">P. gałka</string>
     <string name="key_left_stick">L. gałka</string>
+    <string name="welcome_settings_search">W Ustawieniach: wyszukaj ustawienie</string>
+    <string name="speed_close_apps">Mało pamięci? Włącz opcję Zamknij aplikacje w tle przy uruchamianiu gier w Ustawienia &gt; Wydajność. Po starcie gry twoje inne aplikacje się zamkną, a konsola powie, ile ich było. Menu zasilania też ma Zamknij aplikacje w tle.</string>
+    <string name="speed_stats">Menu zasilania pokazuje u góry stan konsoli: CPU, TEMP, BAT, RAM i SD. SD to obciążenie karty w %, wraz z prędkością odczytu i zapisu: zielona strzałka w górę, gdy karta głównie czyta, czerwona strzałka w dół, gdy głównie zapisuje.</string>
+    <string name="speed_overlay_stor">W nakładce wydajności, po włączeniu wszystkiego, STOR pokazuje obciążenie karty SD w %. Nie pokazuje, jak jest zapełniona.</string>
+    <string name="community_free">andr36oid jest darmowym oprogramowaniem. Jeśli za nie zapłaciłeś, poproś sprzedawcę o zwrot pieniędzy.</string>
 </resources>

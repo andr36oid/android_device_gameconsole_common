@@ -24,7 +24,7 @@
     <string name="welcome_page">Sujet précédent ou suivant</string>
     <string name="welcome_tutorial">Réessayer les boutons dans le tutoriel pratique</string>
     <string name="welcome_close">Fermer le guide</string>
-    <string name="welcome_again">Vous pouvez rouvrir ce guide à tout moment depuis Paramètres &gt; Guide de démarrage rapide.</string>
+    <string name="welcome_again">Vous pouvez rouvrir ce guide à tout moment : il est la première entrée des Paramètres.</string>
 
     <!-- Buttons -->
     <string name="buttons_title">Boutons</string>
@@ -96,14 +96,14 @@
 
     <!-- Internet -->
     <string name="internet_title">Se connecter</string>
-    <string name="internet_wifi">La plupart des consoles R36S n\'ont pas de Wi-Fi intégré, mais certains modèles, comme la R36XX, en ont. Si c\'est le cas de la vôtre, activez simplement le Wi-Fi dans Paramètres &gt; Réseau et Internet. Sinon, branchez un adaptateur Wi-Fi USB sur le port OTG, avec un adaptateur USB-C si nécessaire, puis activez le Wi-Fi au même endroit.</string>
+    <string name="internet_wifi">La plupart des consoles R36S n\'ont pas de Wi-Fi intégré, mais certains modèles, comme la R36XX, en ont. Si c\'est le cas de la vôtre, activez le Wi-Fi dans Paramètres &gt; Wi-Fi et Bluetooth. Sinon, branchez un adaptateur Wi-Fi USB sur le port OTG, avec un adaptateur USB-C si nécessaire, puis activez le Wi-Fi à cet endroit. Les appareils Bluetooth se trouvent sur la même page, sous Bluetooth et appareils.</string>
     <string name="internet_browser">Thorium est le navigateur Web.</string>
 
     <!-- Troubleshooting -->
     <string name="trouble_title">Dépannage</string>
     <string name="trouble_intro">La plupart des problèmes se règlent avec un ordinateur et la carte SD. Sur un ordinateur, la carte affiche un petit lecteur nommé BOOT (les fichiers de démarrage) et un grand nommé EASYROMS (vos jeux).</string>
     <string name="trouble_first_boot_q">Le premier démarrage est très long</string>
-    <string name="trouble_first_boot_a">C\'est normal. Le premier démarrage prépare la carte SD et redémarre tout seul, puis Android prépare ses applis. Patientez quelques minutes et n\'éteignez pas la console.</string>
+    <string name="trouble_first_boot_a">C\'est normal. Le premier démarrage prépare la carte SD et redémarre tout seul, puis Android prépare ses applis. Un écran de configuration affiche les étapes, une barre de progression et le temps restant, et l\'accueil s\'ouvre à la fin. Patientez quelques minutes, jusqu\'à 10 sur une carte lente, et n\'éteignez pas la console.</string>
     <string name="trouble_panel_q">L\'écran reste noir au premier démarrage, mais la console est allumée</string>
     <string name="trouble_stuck_q">Elle ne démarre plus après une mise à jour ou un module Magisk</string>
     <string name="trouble_stuck_a">Démarrez-la sans root. Sur un ordinateur, ouvrez BOOT et renommez ramdisk.uimg en ramdisk-magisk.uimg, puis ramdisk-stock.uimg en ramdisk.uimg. Vos applis et jeux sont conservés. Renommez-les plus tard dans l\'autre sens pour retrouver le root.</string>
@@ -169,4 +169,9 @@
     <string name="key_volume">Vol</string>
     <string name="key_right_stick">Stick D</string>
     <string name="key_left_stick">Stick G</string>
+    <string name="welcome_settings_search">Dans Paramètres : cherchez un réglage</string>
+    <string name="speed_close_apps">Peu de mémoire ? Activez Fermer les autres applis au lancement d\'un jeu dans Paramètres &gt; Performances. Vos autres applis se ferment quand un jeu démarre, et la console indique combien. Le menu d\'alimentation propose aussi Fermer les autres applis.</string>
+    <string name="speed_stats">Le menu d\'alimentation affiche en haut l\'état de la console : CPU, TEMP, BAT, RAM et SD. SD indique la charge de la carte en %, avec sa vitesse de lecture et d\'écriture : une flèche verte vers le haut quand elle lit surtout, une flèche rouge vers le bas quand elle écrit surtout.</string>
+    <string name="speed_overlay_stor">Dans la superposition des performances, réglée sur tout afficher, STOR indique la charge de la carte SD en %. Ce n\'est pas son taux de remplissage.</string>
+    <string name="community_free">andr36oid est un logiciel libre. Si vous l\'avez payé, demandez au vendeur de vous rembourser.</string>
 </resources>

@@ -3,7 +3,7 @@
     <string name="netplay_title">Birlikte oynayın</string>
     <string name="netplay_intro">İki konsol, yakında modem olmasa bile Wi-Fi üzerinden aynı oyunu birlikte oynayabilir: bir konsol Wi-Fi hotspot açar, diğeri ona bağlanır. İkisinin de Wi-Fi\'ı (dahili ya da USB Wi-Fi adaptörü) ve aynı oyunu olmalıdır.</string>
     <string name="netplay_hotspot_q">1. İlk konsolda hotspot açın</string>
-    <string name="netplay_hotspot_a">Wi-Fi adaptörünü takın, Ayarlar &gt; Ağ ve internet &gt; Hotspot ve tethering &gt; Kablosuz hotspot bölümüne gidin ve açın. Hotspot adı ve şifresi aynı sayfadadır. İkinci konsolda bu hotspot\'a Ayarlar &gt; Ağ ve internet &gt; Kablosuz bölümünden bağlanın. İnternet yok diyecektir. Sorun değil.</string>
+    <string name="netplay_hotspot_a">Wi-Fi adaptörünü takın, Ayarlar &gt; Wi-Fi ve Bluetooth &gt; Hotspot ve tethering &gt; Kablosuz hotspot bölümüne gidin ve açın. Hotspot adı ve şifresi aynı sayfadadır. İkinci konsolda bu hotspot\'a Ayarlar &gt; Wi-Fi ve Bluetooth &gt; Wi-Fi bölümünden bağlanın. İnternet yok diyecektir. Sorun değil.</string>
     <string name="netplay_hotspot_fail">Hotspot açılmıyor mu? Her adaptör hotspot açamaz. Adaptörleri konsollar arasında değiştirin ya da iki konsolu da evdeki aynı Wi-Fi\'a veya bir telefonun hotspot\'una bağlayın.</string>
     <string name="netplay_game_q">2. İkisinde de aynı oyunu başlatın</string>
     <string name="netplay_game_a">İki konsolda da aynı oyun dosyasını (aynı sürüm ve bölge) aynı emülatörle kullanın. Yoksa bağlanamazlar ya da oyun senkrondan çıkar.</string>
@@ -12,7 +12,7 @@
     <string name="netplay_host_a">Ana Menü\'ye gelene kadar B\'ye basın, Netplay\'i açın ve Netplay Sunucusu Başlat\'ı seçin. Sonra menüyü kapatıp bekleyin.</string>
     <string name="netplay_join_q">4. İkinci konsol: katılın</string>
     <string name="netplay_join_a">Menüyü aynı şekilde açın, Netplay\'i açın ve Netplay LAN Listesini Yenile\'yi seçin. Listeden ilk konsolu seçin. Oyun iki konsolda da yeniden başlar ve ikinci konsol 2. oyuncu olur.</string>
-    <string name="netplay_join_ip">Listede yok mu? İlk konsolun adresini ikinci konsolda bulun: Ayarlar &gt; Ağ ve internet &gt; Kablosuz, hotspot\'u seçin, sonra Gelişmiş &gt; Ağ geçidi. Netplay\'de Netplay Sunucusuna Bağlan\'ı seçin ve bu adresi yazın.</string>
+    <string name="netplay_join_ip">Listede yok mu? İlk konsolun adresini ikinci konsolda bulun: Ayarlar &gt; Wi-Fi ve Bluetooth &gt; Wi-Fi, hotspot\'u seçin, sonra Gelişmiş &gt; Ağ geçidi. Netplay\'de Netplay Sunucusuna Bağlan\'ı seçin ve bu adresi yazın.</string>
     <string name="netplay_games_q">En iyi çalışan oyunlar</string>
     <string name="netplay_games_a">NES, Master System, Mega Drive ve PC Engine oyunları iyi çalışır. SNES de çalışır, ama tuşlarda biraz daha gecikme olur. Game Boy ve GBA oyunlarında tek konsolda iki kişilik mod yoktur, yani paylaşacak bir şey yoktur. PlayStation bu konsolda ağ üzerinden oynamak için fazla ağırdır.</string>
     <string name="netplay_tips">Konsolları birbirine yakın tutun. Hotspot daha fazla pil harcar, işiniz bitince kapatın. Netplay\'deki adınız cihaz adından gelir; RetroArch\'ta Ayarlar &gt; Kullanıcı &gt; Kullanıcı Adı bölümünden değiştirebilirsiniz.</string>

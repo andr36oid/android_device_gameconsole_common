@@ -24,7 +24,7 @@
     <string name="welcome_page">Vorheriges oder nächstes Thema</string>
     <string name="welcome_tutorial">Die Tasten noch einmal im Tutorial ausprobieren</string>
     <string name="welcome_close">Anleitung schließen</string>
-    <string name="welcome_again">Du kannst diese Anleitung jederzeit wieder über Einstellungen &gt; Kurzanleitung öffnen.</string>
+    <string name="welcome_again">Du kannst diese Anleitung jederzeit wieder öffnen. Sie steht ganz oben in den Einstellungen.</string>
 
     <!-- Buttons -->
     <string name="buttons_title">Tasten</string>
@@ -96,14 +96,14 @@
 
     <!-- Internet -->
     <string name="internet_title">Online gehen</string>
-    <string name="internet_wifi">Die meisten R36S-Konsolen haben kein eingebautes WLAN, manche Modelle wie die R36XX aber schon. Hat deine WLAN, schalte es einfach unter Einstellungen &gt; Netzwerk &amp; Internet ein. Wenn nicht, steck einen USB-WLAN-Adapter in den OTG-Anschluss, bei Bedarf mit USB-C-Adapter, und schalte dort WLAN ein.</string>
+    <string name="internet_wifi">Die meisten R36S-Konsolen haben kein eingebautes WLAN, manche Modelle wie die R36XX aber schon. Hat deine WLAN, schalte es einfach unter Einstellungen &gt; WLAN &amp; Bluetooth ein. Wenn nicht, steck einen USB-WLAN-Adapter in den OTG-Anschluss, bei Bedarf mit USB-C-Adapter, und schalte dort WLAN ein. Bluetooth-Geräte findest du auf derselben Seite unter Bluetooth &amp; Geräte.</string>
     <string name="internet_browser">Thorium ist der Webbrowser.</string>
 
     <!-- Troubleshooting -->
     <string name="trouble_title">Fehlerbehebung</string>
     <string name="trouble_intro">Die meisten Probleme lassen sich mit einem Computer und der SD-Karte beheben. Am Computer zeigt die Karte ein kleines Laufwerk namens BOOT (die Startdateien) und ein großes namens EASYROMS (deine Spiele).</string>
     <string name="trouble_first_boot_q">Der erste Start dauert lange</string>
-    <string name="trouble_first_boot_a">Das ist normal. Beim ersten Start wird die SD-Karte eingerichtet und die Konsole startet von selbst neu, danach bereitet Android seine Apps vor. Gib ihr ein paar Minuten und schalte sie nicht aus.</string>
+    <string name="trouble_first_boot_a">Das ist normal. Beim ersten Start wird die SD-Karte eingerichtet und die Konsole startet von selbst neu. Danach bereitet Android seine Apps vor. Ein Einrichtungsbildschirm zeigt die Schritte, einen Fortschrittsbalken und die verbleibende Zeit, und der Startbildschirm öffnet sich, wenn alles fertig ist. Gib ihr ein paar Minuten, auf einer langsamen Karte bis zu 10, und schalte sie nicht aus.</string>
     <string name="trouble_panel_q">Beim ersten Start bleibt der Bildschirm schwarz, aber die Konsole ist an</string>
     <string name="trouble_stuck_q">Sie startet nach einem Update oder einem Magisk-Modul nicht mehr</string>
     <string name="trouble_stuck_a">Starte sie ohne Root. Öffne am Computer BOOT und benenne ramdisk.uimg in ramdisk-magisk.uimg um, dann ramdisk-stock.uimg in ramdisk.uimg. Deine Apps und Spiele bleiben erhalten. Benenne sie später zurück, um wieder Root zu haben.</string>
@@ -170,4 +170,9 @@
     <string name="key_volume">Lautst.</string>
     <string name="key_right_stick">R-Stick</string>
     <string name="key_left_stick">L-Stick</string>
+    <string name="welcome_settings_search">In Einstellungen: nach einer Einstellung suchen</string>
+    <string name="speed_close_apps">Wenig Speicher? Schalte unter Einstellungen &gt; Leistung „Hintergrund-Apps schließen“ ein, wenn du ein Spiel öffnest. Dann schließt die Konsole beim Start eines Spiels deine anderen Apps und sagt dir, wie viele es waren. Auch das Ein-/Aus-Menü hat „Hintergrund-Apps schließen“.</string>
+    <string name="speed_stats">Das Ein-/Aus-Menü zeigt oben, wie es der Konsole geht: CPU, TEMP, BAT, RAM und SD. SD ist die Auslastung der Karte in %, mit Lese- und Schreibgeschwindigkeit: ein grüner Pfeil nach oben, wenn sie meist liest, ein roter Pfeil nach unten, wenn sie meist schreibt.</string>
+    <string name="speed_overlay_stor">Wenn im Leistungs-Overlay alles eingeschaltet ist, zeigt STOR, wie stark die SD-Karte in % ausgelastet ist. Nicht, wie voll sie ist.</string>
+    <string name="community_free">andr36oid ist freie Software. Wenn du dafür bezahlt hast, bitte den Verkäufer um dein Geld zurück.</string>
 </resources>
