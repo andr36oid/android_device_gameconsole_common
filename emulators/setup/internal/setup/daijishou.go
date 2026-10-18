@@ -499,19 +499,36 @@ func (s *Setup) djWidgetsMake(tmp string, owner fsx.Owner) {
 	}
 	sqlFile := tmp + "/widgets.sql"
 	db := tmp + "/Widget.db"
-	if os.WriteFile(sqlFile, []byte(b.String()), 0o600) != nil || s.sqlRun(db, sqlFile) != nil {
-		s.Log("making Daijishou's widgets failed")
+	if err := os.WriteFile(sqlFile, []byte(b.String()), 0o600); err != nil {
+		s.Log("making Daijishou's widgets failed: %v", err)
 		return
 	}
-	_ = fsx.SetOwnerMode(db, owner, 0o660)
+	if err := s.sqlRun(db, sqlFile); err != nil {
+		s.Log("making Daijishou's widgets failed: %v", err)
+		return
+	}
 	for _, x := range []string{"-wal", "-shm", "-journal"} {
 		_ = os.Remove(live + x)
 	}
-	if err := os.Rename(db, live); err != nil {
-		s.Log("making Daijishou's widgets failed")
+	if err := moveInto(db, live, owner); err != nil {
+		s.Log("making Daijishou's widgets failed (moving them in): %v", err)
 		return
 	}
 	s.Log("added %d app shortcuts to Daijishou's home page", pos)
+}
+
+// moveInto puts a database made in our temp folder into an app's folder, owned by the app
+// and 0660. A rename that fails (another file system, for one) becomes a copy, like mv.
+func moveInto(src, dst string, owner fsx.Owner) error {
+	_ = fsx.SetOwnerMode(src, owner, 0o660)
+	if err := os.Rename(src, dst); err == nil {
+		return nil
+	}
+	if err := fsx.CopyAtomic(src, dst); err != nil {
+		return err
+	}
+	_ = os.Remove(src)
+	return fsx.SetOwnerMode(dst, owner, 0o660)
 }
 
 // djOnTop: Daijishou is the app in front.
@@ -604,9 +621,16 @@ func (s *Setup) SeedDaijishou() {
 	defer os.RemoveAll(tmp)
 	rows, arts := s.djSQL(s.easyroms, uuid)
 	db := tmp + "/Daijishou.db"
-	if os.WriteFile(tmp+"/rows.sql", []byte(rows), 0o600) != nil ||
-		s.sqlRun(db, schema) != nil || s.sqlRun(db, tmp+"/rows.sql") != nil {
-		s.Log("making Daijishou's library failed")
+	if err := os.WriteFile(tmp+"/rows.sql", []byte(rows), 0o600); err != nil {
+		s.Log("making Daijishou's library failed: %v", err)
+		return
+	}
+	if err := s.sqlRun(db, schema); err != nil {
+		s.Log("making Daijishou's library failed (schema): %v", err)
+		return
+	}
+	if err := s.sqlRun(db, tmp+"/rows.sql"); err != nil {
+		s.Log("making Daijishou's library failed (platforms): %v", err)
 		return
 	}
 	countText, _ := s.sqlQuery(db, "SELECT count(*) FROM PlatformEntity;")
@@ -653,9 +677,8 @@ func (s *Setup) SeedDaijishou() {
 	dbs := data + "/databases"
 	_ = os.MkdirAll(dbs, 0o771)
 	_ = fsx.SetOwnerMode(dbs, owner, 0o771)
-	_ = fsx.SetOwnerMode(db, owner, 0o660)
-	if err := os.Rename(db, s.djDB()); err != nil {
-		s.Log("making Daijishou's library failed")
+	if err := moveInto(db, s.djDB(), owner); err != nil {
+		s.Log("making Daijishou's library failed (moving it in): %v", err)
 		return
 	}
 	s.djCopyArt(arts, owner)
