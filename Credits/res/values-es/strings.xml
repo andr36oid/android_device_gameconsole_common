@@ -23,4 +23,6 @@
     <string name="credits_dpadplayer">La app Music, de jbriones95</string>
     <string name="credits_yabasanshiro">El emulador de Saturn, de pirry y devMiyax</string>
     <string name="credits_gammaos">Ideas e inspiración, de TheGammaSqueeze</string>
+
+    <string name="credits_example_music">Música de ejemplo de</string>
 </resources>

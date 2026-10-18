@@ -1,0 +1,65 @@
+Example music
+=============
+
+A few lo-fi tracks so the music player has something to play. They are yours to
+keep or delete; andr36oid copies them here only once, on the first start.
+
+All of them are from the Free Music Archive (freemusicarchive.org). The CC0
+tracks are in the public domain. The CC BY 4.0 tracks may be shared and changed
+as long as the artist is credited. andr36oid changed them all the same way: they
+were re-encoded to 128 kbit/s MP3 to save space, and the tags were tidied.
+
+holiznacc0-one-night-in-france.mp3
+  "One Night in France" by HoliznaCC0, from "Public Domain Lofi"
+  License: CC0 1.0 (public domain), https://creativecommons.org/publicdomain/zero/1.0/
+  Source: https://freemusicarchive.org/music/holiznacc0/public-domain-lofi/one-night-in-france-lofi-nostalgic-chill/
+
+holiznacc0-bubbles.mp3
+  "Bubbles" by HoliznaCC0, from "Public Domain Lofi"
+  License: CC0 1.0 (public domain), https://creativecommons.org/publicdomain/zero/1.0/
+  Source: https://freemusicarchive.org/music/holiznacc0/public-domain-lofi/bubbles-lofi-bright-relaxed/
+
+holiznacc0-still-life.mp3
+  "Still Life" by HoliznaCC0, from "Public Domain Lofi"
+  License: CC0 1.0 (public domain), https://creativecommons.org/publicdomain/zero/1.0/
+  Source: https://freemusicarchive.org/music/holiznacc0/public-domain-lofi/still-life-lofi-chill-nostalgic/
+
+holiznacc0-lucid.mp3
+  "Lucid" by HoliznaCC0, from "Public Domain Lofi"
+  License: CC0 1.0 (public domain), https://creativecommons.org/publicdomain/zero/1.0/
+  Source: https://freemusicarchive.org/music/holiznacc0/public-domain-lofi/lucid-lofi-dreamy-chill/
+
+holiznacc0-tokyo-sunset.mp3
+  "Tokyo Sunset" by HoliznaCC0, from "Public Domain Lofi"
+  License: CC0 1.0 (public domain), https://creativecommons.org/publicdomain/zero/1.0/
+  Source: https://freemusicarchive.org/music/holiznacc0/public-domain-lofi/tokyo-sunset-lofi-peaceful-soft/
+
+holiznacc0-the-last-long-day.mp3
+  "The Last Long Day" by HoliznaCC0, from "Summer Air"
+  License: CC0 1.0 (public domain), https://creativecommons.org/publicdomain/zero/1.0/
+  Source: https://freemusicarchive.org/music/holiznacc0/summer-air-lo-fi/the-last-long-day/
+
+ketsa-sunday.mp3
+  "Sunday" by Ketsa, from "Jazz Hop"
+  License: CC BY 4.0, https://creativecommons.org/licenses/by/4.0/
+  Source: https://freemusicarchive.org/music/Ketsa/jazz-hop-1/sunday-4/
+
+ketsa-glorious-winter.mp3
+  "Glorious Winter" by Ketsa, from "Jazz Hop"
+  License: CC BY 4.0, https://creativecommons.org/licenses/by/4.0/
+  Source: https://freemusicarchive.org/music/Ketsa/jazz-hop-1/glorious-winter/
+
+ketsa-night-soul.mp3
+  "Night Soul" by Ketsa, from "Jazz Hop"
+  License: CC BY 4.0, https://creativecommons.org/licenses/by/4.0/
+  Source: https://freemusicarchive.org/music/Ketsa/jazz-hop-1/night-soul/
+
+loyalty-freak-music-coexistenz.mp3
+  "Coexistenz" by Loyalty Freak Music, from "TO CHILL AND STAY AWAKE"
+  License: CC0 1.0 (public domain), https://creativecommons.org/publicdomain/zero/1.0/
+  Source: https://freemusicarchive.org/music/Loyalty_Freak_Music/TO_CHILL_AND_STAY_AWAKE/Loyalty_Freak_Music_-_TO_CHILL_AND_STAY_AWAKE_-_01_Coexistenz/
+
+loyalty-freak-music-traveling-in-your-mind.mp3
+  "Traveling in your mind" by Loyalty Freak Music, from "TO CHILL AND STAY AWAKE"
+  License: CC0 1.0 (public domain), https://creativecommons.org/publicdomain/zero/1.0/
+  Source: https://freemusicarchive.org/music/Loyalty_Freak_Music/TO_CHILL_AND_STAY_AWAKE/Loyalty_Freak_Music_-_TO_CHILL_AND_STAY_AWAKE_-_05_Traveling_in_your_mind/

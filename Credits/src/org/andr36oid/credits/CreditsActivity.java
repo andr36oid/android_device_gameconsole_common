@@ -206,6 +206,22 @@ public class CreditsActivity extends Activity {
         project(R.drawable.logo_dpadplayer, "D-PAD Player", R.string.credits_dpadplayer);
         project(R.drawable.logo_yabasanshiro, "Yaba Sanshiro", R.string.credits_yabasanshiro);
         project(R.drawable.logo_gammaos, "GammaOS", R.string.credits_gammaos);
+
+        // The free tracks the first start puts into Music (examplemusic/CREDITS.txt)
+        section(R.string.credits_example_music);
+        artist("HoliznaCC0", null);
+        artist("Ketsa", "CC BY 4.0");
+        artist("Loyalty Freak Music", null);
+    }
+
+    /** An artist's name, and the license when it asks for credit. */
+    private void artist(String name, String license) {
+        mContent.addView(text(name, 18, getColor(R.color.credits_name), Typeface.BOLD),
+                margins(0, 16, 0, 0));
+        if (license != null) {
+            mContent.addView(text(license, 13, getColor(R.color.credits_detail),
+                    Typeface.NORMAL));
+        }
     }
 
     private void section(int titleRes) {

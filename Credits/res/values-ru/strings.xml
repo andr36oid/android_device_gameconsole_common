@@ -23,4 +23,6 @@
     <string name="credits_dpadplayer">Приложение Music, автор jbriones95</string>
     <string name="credits_yabasanshiro">Эмулятор Saturn, авторы pirry и devMiyax</string>
     <string name="credits_gammaos">Идеи и вдохновение, автор TheGammaSqueeze</string>
+
+    <string name="credits_example_music">Музыка для примера</string>
 </resources>

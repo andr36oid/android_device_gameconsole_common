@@ -19,4 +19,6 @@
     <string name="credits_dpadplayer">Aplikasi Music, oleh jbriones95</string>
     <string name="credits_yabasanshiro">Emulator Saturn, oleh pirry dan devMiyax</string>
     <string name="credits_gammaos">Ide dan inspirasi, oleh TheGammaSqueeze</string>
+
+    <string name="credits_example_music">Musik contoh oleh</string>
 </resources>

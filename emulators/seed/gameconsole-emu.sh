@@ -502,10 +502,50 @@ apps_done() {
 	apps_wait && return 0
 	[ -z "$APPS_LEFT" ] || return 0
 	[ -z "$FIRSTRUN_LEFT" ] || { log "first-start settings not all written yet, AUTOAPK stays"; return 0; }
+	[ ! -d "$EXAMPLE_MUSIC" ] || [ -e "$EXAMPLE_MUSIC_DONE" ] ||
+		{ log "example music not copied yet, AUTOAPK stays"; return 0; }
 	if mkdir -p "${APPS_DONE%/*}" && touch "$APPS_DONE"; then
 		log "the apps are done, the next start gives AUTOAPK's space to userdata"
 		preparation_ready
 	fi
+}
+
+# Example music (examplemusic/ in the device tree): a few free tracks and their
+# CREDITS.txt on AUTOAPK, copied into Music on the internal storage once, before
+# apps_done gives AUTOAPK away. Files that are there already are kept, and a
+# deleted track stays deleted.
+EXAMPLE_MUSIC=$APPS/examplemusic
+EXAMPLE_MUSIC_DONE=$STATE/example-music.done
+
+seed_example_music() {
+	local dir=$MEDIA/Music f
+	[ -d "$EXAMPLE_MUSIC" ] || return 0
+	[ -e "$EXAMPLE_MUSIC_DONE" ] && return 0
+	# the internal storage isn't there yet: next time
+	[ -d "$MEDIA" ] || return 0
+	if [ ! -d "$dir" ]; then
+		# owner and mode like its parent, as if the user had made it
+		mkdir "$dir" || { log "couldn't make $dir"; return 0; }
+		chown "$(stat -c %u:%g "$MEDIA")" "$dir"
+		chmod "$(stat -c %a "$MEDIA")" "$dir"
+	fi
+	for f in "$EXAMPLE_MUSIC"/*; do
+		[ -f "$f" ] || continue
+		[ -e "$dir/${f##*/}" ] && continue
+		if ! { cp "$f" "$dir/${f##*/}.tmp" && mv -f "$dir/${f##*/}.tmp" "$dir/${f##*/}"; }; then
+			log "copying the example music failed at ${f##*/}"
+			rm -f "$dir/${f##*/}.tmp"
+			return 0
+		fi
+		chown "$(stat -c %u:%g "$MEDIA")" "$dir/${f##*/}"
+		chmod 0660 "$dir/${f##*/}"
+	done
+	restorecon -R "$dir" </dev/null >/dev/null 2>&1
+	touch "$EXAMPLE_MUSIC_DONE"
+	log "copied the example music into Music"
+	# the music player sees it now instead of after the next start's scan
+	am broadcast --receiver-include-background -a android.intent.action.MEDIA_SCANNER_SCAN_FILE \
+		-d file:///storage/emulated/0/Music </dev/null >/dev/null 2>&1
 }
 
 PP_PKG=org.ppsspp.ppsspp
@@ -2570,6 +2610,7 @@ if [ "${1:-}" = apps ]; then
 	seed_cromite_search
 	setup_progress appsettings
 	seed_firstrun
+	seed_example_music
 	apps_done
 	exit 0
 fi
@@ -2598,6 +2639,7 @@ make_rom_folders
 # stand-alone apps' first-start settings, after the installs
 setup_progress appsettings
 seed_firstrun
+seed_example_music
 apps_done
 rom_nomedia
 # after the ROM folders: they are only made on a card without any of them

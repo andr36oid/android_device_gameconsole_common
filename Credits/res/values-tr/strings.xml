@@ -23,4 +23,6 @@
     <string name="credits_dpadplayer">Music uygulaması, jbriones95 tarafından</string>
     <string name="credits_yabasanshiro">Saturn emülatörü, pirry ve devMiyax tarafından</string>
     <string name="credits_gammaos">Fikirler ve ilham, TheGammaSqueeze tarafından</string>
+
+    <string name="credits_example_music">Örnek müzikler</string>
 </resources>

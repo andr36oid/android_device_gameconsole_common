@@ -23,4 +23,6 @@
     <string name="credits_dpadplayer">The Music app, by jbriones95</string>
     <string name="credits_yabasanshiro">Saturn emulator, by pirry and devMiyax</string>
     <string name="credits_gammaos">Ideas and inspiration, by TheGammaSqueeze</string>
+
+    <string name="credits_example_music">Example music by</string>
 </resources>

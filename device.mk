@@ -710,6 +710,11 @@ $(call inherit-product, device/gameconsole/common/emulators/emulators.mk)
 # installed on first boot like the emulators, see foss-apps/README.md.
 $(call inherit-product, device/gameconsole/common/foss-apps/foss-apps.mk)
 
+# A few free lo-fi tracks for the music player, on AUTOAPK until the first start
+# copies them into Music, see examplemusic/Android.mk.
+PRODUCT_PACKAGES += \
+	example-music
+
 # Root is Magisk, baked into the ramdisk by the device mkimg.sh (see magisk/README.md).
 # The app is preinstalled so it works offline from the first boot.
 PRODUCT_PACKAGES += \
