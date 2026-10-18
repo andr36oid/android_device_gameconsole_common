@@ -95,6 +95,7 @@ func TestMainTwice(t *testing.T) {
 		"progress at 100":        f.props["sys.andr36oid.setup_pct"] == "100" && f.props["sys.andr36oid.setup_eta"] == "0",
 		"stats with both apps":   strings.Contains(f.props["sys.andr36oid.setup_stats"], "apps=2/2"),
 		"stage ends with cheats": f.props["sys.andr36oid.setup_stage"] == "cheats",
+		"main done for screen":   f.props["sys.andr36oid.setup_main_done"] == "1",
 	}
 	for name, ok := range checks {
 		if !ok {

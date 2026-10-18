@@ -193,6 +193,11 @@ public class HomeActivity extends Activity {
     private void showSteps(String stage) {
         final int current = stepOf(stage);
         if (current > mFurthestStep) mFurthestStep = current;
+        // the start steps all ran (often while the wizard was still open): only the app
+        // page's installs are left, every other step is ticked off
+        if (SystemProperties.getBoolean("sys.andr36oid.setup_main_done", false)) {
+            mFurthestStep = mStepViews.length - 1;
+        }
         for (int i = 0; i < mStepViews.length; i++) {
             final boolean now = i == current;
             final boolean done = !now && i <= mFurthestStep;

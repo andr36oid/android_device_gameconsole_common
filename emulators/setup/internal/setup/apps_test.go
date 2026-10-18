@@ -267,3 +267,29 @@ func TestInstallAPKs(t *testing.T) {
 		t.Fatalf("update pass installed %v", order)
 	}
 }
+
+// The app page's installs run after the main job, often once the first setup already
+// counts as done; the setup screen still waits for them, so they report progress.
+func TestAppsJobReportsAfterSetupDone(t *testing.T) {
+	f := newFake()
+	s, _ := newSetup(t, f)
+	f.props["persist.andr36oid.setup_done"] = "1"
+	s.Prepare()
+	defer s.Progress.Stop()
+	if s.Progress.Enabled {
+		t.Fatal("progress on after the setup is done")
+	}
+	s.AppsJob()
+	if !s.Progress.Enabled {
+		t.Fatal("the app page's job reports no progress")
+	}
+	var stages []string
+	for _, l := range f.propLog {
+		if strings.HasPrefix(l, "sys.andr36oid.setup_stage") {
+			stages = append(stages, l)
+		}
+	}
+	if len(stages) == 0 || stages[0] != "sys.andr36oid.setup_stage\tapps" {
+		t.Fatalf("stages %v", stages)
+	}
+}

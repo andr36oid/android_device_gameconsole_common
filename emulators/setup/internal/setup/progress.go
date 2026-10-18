@@ -132,6 +132,10 @@ func (p *Progress) set(name, value string) {
 // Stage is the step code for the screen.
 func (p *Progress) Stage(code string) { p.set("sys.andr36oid.setup_stage", code) }
 
+// MainDone tells the screen that every start step is done, so only the app page's installs
+// can still be running: it ticks off the other steps then.
+func (p *Progress) MainDone() { p.set("sys.andr36oid.setup_main_done", "1") }
+
 // App is the app being installed, "" when none.
 func (p *Progress) App(file string) {
 	file = strings.TrimSuffix(file, ".apk")

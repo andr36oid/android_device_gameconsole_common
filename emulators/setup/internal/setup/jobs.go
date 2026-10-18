@@ -51,6 +51,13 @@ func (s *Setup) WaitPackageManager() bool {
 // AppsJob: the setup's app page was left with Next, install what was picked.
 func (s *Setup) AppsJob() {
 	s.Log("installing the apps picked in the setup")
+	// The app page only comes once, in the first setup, and the setup screen waits for these
+	// installs: report them even when the first setup already counts as done (the main job
+	// often finishes while the wizard is still open)
+	if !s.Progress.Enabled {
+		s.Progress.Enabled = true
+		s.Progress.Tick()
+	}
 	s.measureCard()
 	s.Progress.Stage("apps")
 	s.InstallAPKs()
@@ -125,4 +132,5 @@ func (s *Setup) Main() {
 	for _, part := range []string{"apps", "cores", "cheats"} {
 		s.Progress.Done(part)
 	}
+	s.Progress.MainDone()
 }
