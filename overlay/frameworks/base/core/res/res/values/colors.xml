@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Default accent when no accent overlay is picked: R36S clear purple instead of
+         Lineage teal. Notifications, switches, Settings and apps all read these. -->
+    <color name="accent_device_default_700">#7B3FB3</color>
+    <color name="accent_device_default_dark">#C8A2F0</color>
+    <color name="accent_device_default_light">#7B3FB3</color>
+    <color name="material_deep_teal_200">#C8A2F0</color>
+    <color name="material_deep_teal_500">#7B3FB3</color>
+</resources>
