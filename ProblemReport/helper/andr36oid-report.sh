@@ -838,6 +838,7 @@ run system.txt 10 sh -c 'for d in /proc/[0-9]*; do
 done'
 run system.txt 15 top -b -n 1 -m 30
 run system.txt 5 cat /proc/interrupts
+run system.txt 5 cat /sys/kernel/debug/gpio
 run system.txt 5 cat /proc/zoneinfo
 run system.txt 5 lsmod
 
