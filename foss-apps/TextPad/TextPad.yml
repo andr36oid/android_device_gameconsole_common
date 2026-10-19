@@ -1,0 +1,6 @@
+# TextPad: opens text files from Files. Always installed, not on the setup's app page and
+# not in the launchers.
+package: com.maxistar.textpad
+version_code: 63
+author: github:maxistar
+required: true
