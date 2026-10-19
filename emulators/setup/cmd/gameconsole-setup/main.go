@@ -5,6 +5,7 @@
 //	gameconsole-setup main      boot_completed: everything else
 //	gameconsole-setup apps      the setup's app page was left with Next
 //	gameconsole-setup players   Settings > Controllers changed who is player 1 in RetroArch
+//	gameconsole-setup magisk    the boot animation is up: root as new as the Magisk app
 //
 // All but early go through one worker (package worker): a start that finds another one
 // working leaves its request and exits, and the worker runs it next. So no two of them
@@ -16,6 +17,7 @@ import (
 	"os"
 	"time"
 
+	"andr36oid/gcsetup/internal/magisk"
 	"andr36oid/gcsetup/internal/setup"
 	"andr36oid/gcsetup/internal/worker"
 )
@@ -27,7 +29,7 @@ const (
 
 func main() {
 	if len(os.Args) != 2 {
-		fmt.Fprintln(os.Stderr, "usage: gameconsole-setup early|main|apps|players")
+		fmt.Fprintln(os.Stderr, "usage: gameconsole-setup early|main|apps|players|magisk")
 		os.Exit(2)
 	}
 	s := setup.New()
@@ -35,6 +37,20 @@ func main() {
 	switch job {
 	case "early":
 		s.Early()
+		return
+	case "magisk":
+		// the boot animation also runs while the console shuts down: only while it starts
+		if s.Props.Get("sys.boot_completed") == "1" || s.Props.Get("sys.powerctl") != "" {
+			return
+		}
+		done, err := magisk.New(s.Log, s.Props.Set).Check()
+		if err != nil {
+			s.Log("magisk: rebuild failed, root stays as it was: %v", err)
+		}
+		if done {
+			// the new root only starts with a new start
+			s.Props.Set("sys.powerctl", "reboot,magisk")
+		}
 		return
 	case "main", "apps":
 	case "players":

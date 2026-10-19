@@ -45,3 +45,14 @@ service gameconsole-apps /system/bin/gameconsole-setup apps
 
 on property:sys.andr36oid.apps_chosen=1
     start gameconsole-apps
+
+# The Magisk app was updated past the root in ramdisk.uimg: rebuild it while the boot
+# animation says so ("Rebuilding Magisk RAM disk ..."), then restart (setup/internal/magisk)
+service gameconsole-magisk /system/bin/gameconsole-setup magisk
+    user root
+    group root system
+    disabled
+    oneshot
+
+on property:init.svc.bootanim=running
+    start gameconsole-magisk
