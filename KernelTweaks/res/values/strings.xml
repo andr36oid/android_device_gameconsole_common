@@ -53,6 +53,7 @@
     <!-- e.g. "Kernel file: /sys/power/mem_sleep" -->
     <string name="kt_doc_file">Kernel file: <xliff:g id="path">%1$s</xliff:g></string>
     <!-- e.g. "Start option: cpuidle.off=1 (takes effect after a restart)" -->
+    <string name="kt_doc_property">System setting: <xliff:g id="name">%1$s</xliff:g></string>
     <string name="kt_doc_boot_option">Start option: <xliff:g id="option">%1$s</xliff:g> (takes effect after a restart)</string>
     <string name="kt_working">Applying…</string>
 
@@ -136,6 +137,9 @@
     <string name="kt_heat_limit_why">None of these consoles have any cooling, the chip is bare, so heavy games hit the limit fast and stutter. A heatsink or heat pad (a popular mod) helps the most. Raising the limit trades a hotter console for fewer slowdowns. Lowering it keeps the shell cooler. Above 90 °C isn\'t great for the chip in the long run.</string>
 
     <!-- Memory -->
+    <string name="kt_perf_metrics_off">Disable performance metric gathering</string>
+    <string name="kt_perf_metrics_off_what">Turns off the Performance overlay and the graphs in the power menu, and stops reading the numbers behind them (frame rate, CPU, temperature, battery, memory and SD card) in the background.</string>
+    <string name="kt_perf_metrics_off_why">Saves the little bit of processor time the readings take, for squeezing out the last frames in a heavy game. Without it there are no numbers to see what a game is doing.</string>
     <string name="kt_swappiness">Compressed memory use</string>
     <string name="kt_swappiness_what">How eagerly Android moves idle apps into compressed memory (zram) to free up RAM.</string>
     <string name="kt_swappiness_why">Higher keeps more apps open in the background but costs a bit of processor time. Lower keeps things snappier while a game runs, but apps get closed sooner. On 1 GB consoles the default is usually best.</string>

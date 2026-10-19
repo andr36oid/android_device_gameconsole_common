@@ -5,6 +5,7 @@
     <string name="overlay_summary">Show FPS, CPU, temperature and battery on top of games</string>
 
     <string name="overlay_switch">Show the overlay</string>
+    <string name="overlay_blocked">Turned off in Kernel Tweaks (Disable performance metric gathering)</string>
     <string name="overlay_position">Position</string>
 
     <!-- What it shows: one checkbox per reading -->
@@ -133,6 +134,7 @@
     <string name="tile_label">Perf overlay</string>
     <string name="tile_on">On</string>
     <string name="tile_off">Off</string>
+    <string name="tile_blocked">Off in Kernel Tweaks</string>
 
     <!-- Overlay labels. Kept short, the screen is 640 pixels wide. -->
     <string name="hud_fps">FPS</string>

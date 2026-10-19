@@ -53,6 +53,7 @@
     <!-- e.g. "Kernel file: /sys/power/mem_sleep" -->
     <string name="kt_doc_file">Fichier noyau : <xliff:g id="path">%1$s</xliff:g></string>
     <!-- e.g. "Start option: cpuidle.off=1 (takes effect after a restart)" -->
+    <string name="kt_doc_property">Paramètre système : <xliff:g id="name">%1$s</xliff:g></string>
     <string name="kt_doc_boot_option">Option de démarrage : <xliff:g id="option">%1$s</xliff:g> (prend effet après un redémarrage)</string>
     <string name="kt_working">Application…</string>
 
@@ -136,6 +137,9 @@
     <string name="kt_heat_limit_why">Aucune de ces consoles n\'a de refroidissement, la puce est nue, donc les jeux exigeants atteignent vite la limite et saccadent. Un dissipateur ou un pad thermique (une modification très répandue) aide le plus. Augmenter la limite échange une console plus chaude contre moins de ralentissements. La baisser garde la coque plus fraîche. Au-delà de 90 °C, ce n\'est pas idéal pour la puce sur la durée.</string>
 
     <!-- Memory -->
+    <string name="kt_perf_metrics_off">Désactiver les mesures de performance</string>
+    <string name="kt_perf_metrics_off_what">Éteint l\'overlay de performance et les graphiques du menu power, et arrête la lecture en arrière-plan des valeurs qui s\'y affichent (images/s, processeur, température, batterie, mémoire et carte SD).</string>
+    <string name="kt_perf_metrics_off_why">Économise le peu de temps processeur que prennent les relevés, pour gagner les dernières images dans un jeu exigeant. Sans eux, impossible de voir ce que fait le jeu.</string>
     <string name="kt_swappiness">Utilisation de la mémoire compressée</string>
     <string name="kt_swappiness_what">Avec quel empressement Android déplace les applis inactives vers la mémoire compressée (zram) pour libérer de la RAM.</string>
     <string name="kt_swappiness_why">Plus haut garde plus d\'applis ouvertes en arrière-plan, mais coûte un peu de temps processeur. Plus bas garde les choses plus fluides pendant qu\'un jeu tourne, mais les applis se ferment plus tôt. Sur les consoles à 1 Go, la valeur par défaut est généralement la meilleure.</string>

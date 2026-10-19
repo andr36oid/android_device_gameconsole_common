@@ -5,6 +5,7 @@
     <string name="overlay_summary">Afficher FPS, CPU, température et batterie par-dessus les jeux</string>
 
     <string name="overlay_switch">Activer l\'affichage</string>
+    <string name="overlay_blocked">Désactivé dans Réglages du noyau (Désactiver les mesures de performance)</string>
     <string name="overlay_position">Position</string>
 
 
@@ -29,6 +30,7 @@
     <string name="tile_label">Perfs à l\'écran</string>
     <string name="tile_on">Activé</string>
     <string name="tile_off">Désactivé</string>
+    <string name="tile_blocked">Désactivé dans Réglages du noyau</string>
 
     <!-- Overlay labels. Kept short, the screen is 640 pixels wide. -->
     <string name="hud_fps">FPS</string>

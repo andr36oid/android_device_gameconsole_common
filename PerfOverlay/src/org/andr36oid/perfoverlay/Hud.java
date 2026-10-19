@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.os.SystemProperties;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.service.quicksettings.TileService;
@@ -64,6 +65,14 @@ final class Hud {
 
     static boolean isEnabled(Context context) {
         return prefs(context).getBoolean(KEY_ENABLED, false);
+    }
+
+    /**
+     * Kernel Tweaks > Disable performance metric gathering: no overlay and no readings. The
+     * saved on/off choice stays, it comes back with the tweak off.
+     */
+    static boolean isBlocked() {
+        return SystemProperties.getBoolean("sys.andr36oid.perf_metrics_off", false);
     }
 
     /** FPS, CPU, temperature and battery are on until changed, like the old "compact". */
@@ -139,6 +148,7 @@ final class Hud {
 
     /** Remembers the choice and starts or stops the overlay to match. */
     static void setEnabled(Context context, boolean on) {
+        if (on && isBlocked()) return;
         prefs(context).edit().putBoolean(KEY_ENABLED, on).apply();
         apply(context, on);
     }
@@ -148,7 +158,7 @@ final class Hud {
         // Only needed at boot to put the overlay back
         BootStart.set(context, on);
         final Intent service = new Intent(context, HudService.class);
-        if (on) {
+        if (on && !isBlocked()) {
             context.startForegroundService(service);
             showTile(context);
         } else {

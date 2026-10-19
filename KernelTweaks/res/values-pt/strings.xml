@@ -53,6 +53,7 @@
     <!-- e.g. "Kernel file: /sys/power/mem_sleep" -->
     <string name="kt_doc_file">Ficheiro do kernel: <xliff:g id="path">%1$s</xliff:g></string>
     <!-- e.g. "Start option: cpuidle.off=1 (takes effect after a restart)" -->
+    <string name="kt_doc_property">Definição do sistema: <xliff:g id="name">%1$s</xliff:g></string>
     <string name="kt_doc_boot_option">Opção de arranque: <xliff:g id="option">%1$s</xliff:g> (só tem efeito depois de reiniciar)</string>
     <string name="kt_working">A aplicar…</string>
 
@@ -136,6 +137,9 @@
     <string name="kt_heat_limit_why">Nenhuma destas consolas tem qualquer arrefecimento, o chip fica exposto, por isso os jogos pesados atingem o limite rapidamente e engasgam. Um dissipador ou uma almofada térmica (um mod popular) ajuda mais. Aumentar o limite troca uma consola mais quente por menos abrandamentos. Diminuí-lo mantém a caixa mais fresca. Acima de 90 °C não é bom para o chip a longo prazo.</string>
 
     <!-- Memory -->
+    <string name="kt_perf_metrics_off">Desativar as métricas de desempenho</string>
+    <string name="kt_perf_metrics_off_what">Desliga a sobreposição de desempenho e os gráficos do menu de energia, e deixa de ler em segundo plano os números por trás deles (taxa de imagens, CPU, temperatura, bateria, memória e cartão SD).</string>
+    <string name="kt_perf_metrics_off_why">Poupa o pouco tempo de processador que as leituras gastam, útil para espremer as últimas imagens num jogo pesado. Sem isto não há números para ver o que o jogo está a fazer.</string>
     <string name="kt_swappiness">Utilização de memória comprimida</string>
     <string name="kt_swappiness_what">Com que avidez o Android move aplicações inativas para memória comprimida (zram) para libertar RAM.</string>
     <string name="kt_swappiness_why">Mais alto mantém mais aplicações abertas em segundo plano, mas custa algum tempo de processador. Mais baixo mantém as coisas mais ágeis enquanto um jogo está a correr, mas as aplicações são fechadas mais cedo. Em consolas de 1 GB, a predefinição costuma ser a melhor.</string>

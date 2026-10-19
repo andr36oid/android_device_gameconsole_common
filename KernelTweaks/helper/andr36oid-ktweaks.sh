@@ -25,6 +25,7 @@ R=${KT_ROOT:-}
 #   first    first number of the file (kernel.printk)
 #   cores    how many cores are online (cpu0 always is)
 #   thermal  trip point <path> of the soc-thermal zone, in m°C
+#   prop     a system property, not a kernel file (the value, 0 while unset)
 #   boot     an option on the kernel command line (see boot_read/boot_args): it takes
 #            effect at the next start, through BOOT/kernel-tweaks.txt
 # extra_rates isn't in the Kernel Tweaks list: Settings > Display > Panel overclocking
@@ -42,6 +43,7 @@ sleep_log_times|plain||/sys/power/pm_print_times
 sleep_log_debug|plain||/sys/power/pm_debug_messages
 cores|cores||
 heat_limit|thermal||1
+perf_metrics_off|prop||sys.andr36oid.perf_metrics_off
 swappiness|plain||/proc/sys/vm/swappiness
 cache_pressure|plain||/proc/sys/vm/vfs_cache_pressure
 page_cluster|plain||/proc/sys/vm/page-cluster
@@ -306,6 +308,11 @@ read_knob() {
 		return
 		;;
 	thermal) set -- plain "$(thermal_path "$2")" ;;
+	prop)
+		v=$(getprop "$2")
+		echo "${v:-0}"
+		return
+		;;
 	boot)
 		boot_read "$2" "$CMDLINE"
 		return
@@ -339,6 +346,10 @@ write_knob() {
 		for c in 3 2 1; do
 			[ $c -ge "$v" ] && echo 0 >"$R/sys/devices/system/cpu/cpu$c/online"
 		done
+		return
+		;;
+	prop)
+		setprop "$1" "$v"
 		return
 		;;
 	thermal) set -- "$(thermal_path "$1")" ;;

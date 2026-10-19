@@ -5,6 +5,7 @@
     <string name="overlay_summary">Oyunların üstünde FPS, CPU, sıcaklık ve pili gösterin</string>
 
     <string name="overlay_switch">Katmanı göster</string>
+    <string name="overlay_blocked">Kernel Ayarları\'nda kapalı (Performans ölçümlerini kapat)</string>
     <string name="overlay_position">Konum</string>
 
 
@@ -29,6 +30,7 @@
     <string name="tile_label">Perf. katmanı</string>
     <string name="tile_on">Açık</string>
     <string name="tile_off">Kapalı</string>
+    <string name="tile_blocked">Kernel Ayarları\'nda kapalı</string>
 
     <!-- Overlay labels. Kept short, the screen is 640 pixels wide. -->
     <string name="hud_fps">FPS</string>

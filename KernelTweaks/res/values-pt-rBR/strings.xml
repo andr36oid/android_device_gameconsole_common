@@ -53,6 +53,7 @@
     <!-- e.g. "Kernel file: /sys/power/mem_sleep" -->
     <string name="kt_doc_file">Arquivo do kernel: <xliff:g id="path">%1$s</xliff:g></string>
     <!-- e.g. "Start option: cpuidle.off=1 (takes effect after a restart)" -->
+    <string name="kt_doc_property">Configuração do sistema: <xliff:g id="name">%1$s</xliff:g></string>
     <string name="kt_doc_boot_option">Opção de inicialização: <xliff:g id="option">%1$s</xliff:g> (vale depois de reiniciar)</string>
     <string name="kt_working">Aplicando…</string>
 
@@ -136,6 +137,9 @@
     <string name="kt_heat_limit_why">Nenhum desses consoles tem qualquer resfriamento, o chip fica exposto, então jogos pesados atingem o limite rápido e engasgam. Um dissipador ou um pad térmico (um mod popular) ajuda mais. Aumentar o limite troca um console mais quente por menos lentidão. Diminuir mantém a carcaça mais fria. Acima de 90 °C não é bom para o chip a longo prazo.</string>
 
     <!-- Memory -->
+    <string name="kt_perf_metrics_off">Desativar as métricas de desempenho</string>
+    <string name="kt_perf_metrics_off_what">Desliga a sobreposição de desempenho e os gráficos do menu de energia, e para de ler em segundo plano os números por trás deles (taxa de quadros, CPU, temperatura, bateria, memória e cartão SD).</string>
+    <string name="kt_perf_metrics_off_why">Economiza o pouco tempo de processador que as leituras consomem, útil para arrancar os últimos quadros de um jogo pesado. Sem isso não há números para ver o que o jogo está fazendo.</string>
     <string name="kt_swappiness">Uso de memória compactada</string>
     <string name="kt_swappiness_what">O quanto o Android se apressa em mover apps ociosos para a memória compactada (zram) para liberar RAM.</string>
     <string name="kt_swappiness_why">Mais alto mantém mais apps abertos em segundo plano, mas custa um pouco de tempo de processador. Mais baixo mantém as coisas mais rápidas enquanto um jogo roda, mas os apps são fechados mais rápido. Em consoles de 1 GB, o padrão geralmente é o melhor.</string>

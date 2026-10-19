@@ -5,6 +5,7 @@
     <string name="overlay_summary">Mostra FPS, CPU, temperatura e bateria por cima dos jogos</string>
 
     <string name="overlay_switch">Mostrar a sobreposição</string>
+    <string name="overlay_blocked">Desativado em Ajustes do kernel (Desativar as métricas de desempenho)</string>
     <string name="overlay_position">Posição</string>
 
 
@@ -29,6 +30,7 @@
     <string name="tile_label">Sobrep. desemp.</string>
     <string name="tile_on">Ativada</string>
     <string name="tile_off">Desativada</string>
+    <string name="tile_blocked">Desativado em Ajustes do kernel</string>
 
     <!-- Overlay labels. Kept short, the screen is 640 pixels wide. -->
     <string name="hud_fps">FPS</string>

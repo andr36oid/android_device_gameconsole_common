@@ -388,6 +388,8 @@ public class KernelTweaksFragment extends PreferenceFragment {
         if (t.once) sb.append(getString(R.string.kt_once)).append('\n');
         if (t.atBoot) {
             sb.append(getString(R.string.kt_doc_boot_option, t.file));
+        } else if (t.prop) {
+            sb.append(getString(R.string.kt_doc_property, t.file));
         } else {
             sb.append(getString(R.string.kt_doc_file, t.file));
         }

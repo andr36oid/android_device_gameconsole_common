@@ -52,6 +52,7 @@
     <!-- e.g. "Kernel file: /sys/power/mem_sleep" -->
     <string name="kt_doc_file">File kernel: <xliff:g id="path">%1$s</xliff:g></string>
     <!-- e.g. "Start option: cpuidle.off=1 (takes effect after a restart)" -->
+    <string name="kt_doc_property">Pengaturan sistem: <xliff:g id="name">%1$s</xliff:g></string>
     <string name="kt_doc_boot_option">Opsi saat menyala: <xliff:g id="option">%1$s</xliff:g> (berlaku setelah restart)</string>
     <string name="kt_working">Menerapkan…</string>
 
@@ -135,6 +136,9 @@
     <string name="kt_heat_limit_why">Tidak ada konsol ini yang memiliki pendingin, chip-nya terbuka, jadi game berat cepat mencapai batas dan tersendat. Heatsink atau heat pad (modifikasi populer) paling membantu. Menaikkan batas menukar konsol yang lebih panas dengan lebih sedikit perlambatan. Menurunkannya membuat bodi lebih dingin. Di atas 90 °C tidak bagus untuk chip dalam jangka panjang.</string>
 
     <!-- Memory -->
+    <string name="kt_perf_metrics_off">Nonaktifkan pengumpulan metrik performa</string>
+    <string name="kt_perf_metrics_off_what">Mematikan overlay performa dan grafik di menu daya, serta menghentikan pembacaan angka di baliknya (frame rate, CPU, suhu, baterai, memori, dan kartu SD) di latar belakang.</string>
+    <string name="kt_perf_metrics_off_why">Menghemat sedikit waktu prosesor yang dipakai untuk pembacaan, berguna untuk memeras frame terakhir di game berat. Tanpa ini tidak ada angka untuk melihat apa yang dilakukan game.</string>
     <string name="kt_swappiness">Penggunaan memori terkompresi</string>
     <string name="kt_swappiness_what">Seberapa agresif Android memindahkan aplikasi yang menganggur ke memori terkompresi (zram) untuk membebaskan RAM.</string>
     <string name="kt_swappiness_why">Lebih tinggi membuat lebih banyak aplikasi tetap terbuka di latar belakang, tetapi memakan sedikit waktu prosesor. Lebih rendah membuat semuanya lebih responsif saat game berjalan, tetapi aplikasi ditutup lebih cepat. Di konsol 1 GB, nilai default biasanya yang terbaik.</string>

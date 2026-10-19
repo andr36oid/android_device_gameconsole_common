@@ -55,6 +55,7 @@
     <!-- e.g. "Kernel file: /sys/power/mem_sleep" -->
     <string name="kt_doc_file">Plik jądra: <xliff:g id="path">%1$s</xliff:g></string>
     <!-- e.g. "Start option: cpuidle.off=1 (takes effect after a restart)" -->
+    <string name="kt_doc_property">Ustawienie systemowe: <xliff:g id="name">%1$s</xliff:g></string>
     <string name="kt_doc_boot_option">Opcja startowa: <xliff:g id="option">%1$s</xliff:g> (działa po ponownym uruchomieniu)</string>
     <string name="kt_working">Stosowanie…</string>
 
@@ -138,6 +139,9 @@
     <string name="kt_heat_limit_why">Żadna z tych konsol nie ma chłodzenia, układ jest goły, więc wymagające gry szybko dobijają do limitu i się zacinają. Radiator albo podkładka termiczna (popularna modyfikacja) pomaga najbardziej. Zwiększenie limitu wymienia gorętszą konsolę na mniej spadków wydajności. Zmniejszenie utrzymuje obudowę chłodniejszą. Powyżej 90 °C nie jest dobrze dla układu na dłuższą metę.</string>
 
     <!-- Memory -->
+    <string name="kt_perf_metrics_off">Wyłącz zbieranie danych o wydajności</string>
+    <string name="kt_perf_metrics_off_what">Wyłącza nakładkę wydajności i wykresy w menu zasilania oraz przestaje w tle odczytywać liczby, na których się opierają (liczba klatek, procesor, temperatura, bateria, pamięć i karta SD).</string>
+    <string name="kt_perf_metrics_off_why">Oszczędza odrobinę czasu procesora zużywanego na odczyty, przydatne przy wyciskaniu ostatnich klatek z ciężkiej gry. Bez tego nie ma liczb, które pokazałyby, co robi gra.</string>
     <string name="kt_swappiness">Użycie pamięci skompresowanej</string>
     <string name="kt_swappiness_what">Jak chętnie Android przenosi bezczynne aplikacje do pamięci skompresowanej (zram), aby zwolnić RAM.</string>
     <string name="kt_swappiness_why">Wyższa wartość trzyma więcej aplikacji otwartych w tle, ale kosztuje trochę czasu procesora. Niższa trzyma wszystko płynniej podczas gry, ale aplikacje są zamykane wcześniej. Na konsolach z 1 GB domyślna wartość jest zwykle najlepsza.</string>

@@ -5,6 +5,7 @@
     <string name="overlay_summary">Pokazuj FPS, CPU, temperaturę i baterię nad grami</string>
 
     <string name="overlay_switch">Pokazuj nakładkę</string>
+    <string name="overlay_blocked">Wyłączone w Ustawieniach jądra (Wyłącz zbieranie danych o wydajności)</string>
     <string name="overlay_position">Położenie</string>
 
 
@@ -29,6 +30,7 @@
     <string name="tile_label">Nakładka wyd.</string>
     <string name="tile_on">Wł.</string>
     <string name="tile_off">Wył.</string>
+    <string name="tile_blocked">Wyłączone w Ustawieniach jądra</string>
 
     <!-- Overlay labels. Kept short, the screen is 640 pixels wide. -->
     <string name="hud_fps">FPS</string>

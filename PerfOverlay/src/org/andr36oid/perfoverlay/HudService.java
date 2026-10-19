@@ -53,6 +53,11 @@ public class HudService extends Service
     private final Runnable mTick = new Runnable() {
         @Override
         public void run() {
+            if (Hud.isBlocked()) {
+                // Switched off in Kernel Tweaks while running
+                mHandler.post(() -> stopSelf());
+                return;
+            }
             update();
             mWorkerHandler.postDelayed(this, mIntervalMs);
         }

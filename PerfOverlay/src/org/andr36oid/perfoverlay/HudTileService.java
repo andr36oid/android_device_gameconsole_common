@@ -22,10 +22,13 @@ public class HudTileService extends TileService {
         if (tile == null) {
             return;
         }
-        final boolean on = Hud.isEnabled(this);
+        final boolean blocked = Hud.isBlocked();
+        final boolean on = !blocked && Hud.isEnabled(this);
         tile.setLabel(getString(R.string.tile_label));
-        tile.setSubtitle(getString(on ? R.string.tile_on : R.string.tile_off));
-        tile.setState(on ? Tile.STATE_ACTIVE : Tile.STATE_INACTIVE);
+        tile.setSubtitle(getString(blocked ? R.string.tile_blocked
+                : on ? R.string.tile_on : R.string.tile_off));
+        tile.setState(blocked ? Tile.STATE_UNAVAILABLE
+                : on ? Tile.STATE_ACTIVE : Tile.STATE_INACTIVE);
         tile.updateTile();
     }
 }

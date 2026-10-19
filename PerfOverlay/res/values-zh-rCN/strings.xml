@@ -5,6 +5,7 @@
     <string name="overlay_summary">在游戏画面上显示 FPS、CPU、温度和电量</string>
 
     <string name="overlay_switch">显示浮窗</string>
+    <string name="overlay_blocked">已在内核调整中关闭（关闭性能指标收集）</string>
     <string name="overlay_position">位置</string>
 
 
@@ -29,6 +30,7 @@
     <string name="tile_label">性能浮窗</string>
     <string name="tile_on">开启</string>
     <string name="tile_off">关闭</string>
+    <string name="tile_blocked">已在内核调整中关闭</string>
 
     <!-- Overlay labels. Kept short, the screen is 640 pixels wide. -->
     <string name="hud_fps">FPS</string>

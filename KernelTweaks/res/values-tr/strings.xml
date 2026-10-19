@@ -53,6 +53,7 @@
     <!-- e.g. "Kernel file: /sys/power/mem_sleep" -->
     <string name="kt_doc_file">Kernel dosyası: <xliff:g id="path">%1$s</xliff:g></string>
     <!-- e.g. "Start option: cpuidle.off=1 (takes effect after a restart)" -->
+    <string name="kt_doc_property">Sistem ayarı: <xliff:g id="name">%1$s</xliff:g></string>
     <string name="kt_doc_boot_option">Açılış seçeneği: <xliff:g id="option">%1$s</xliff:g> (yeniden başlattıktan sonra geçerli olur)</string>
     <string name="kt_working">Uygulanıyor…</string>
 
@@ -136,6 +137,9 @@
     <string name="kt_heat_limit_why">Bu konsolların hiçbirinde soğutma yok, çip çıplak, bu yüzden ağır oyunlar sınıra çabuk ulaşır ve takılır. Bir soğutucu veya ısı pedi (popüler bir modifikasyon) en çok yardımcı olur. Sınırı yükseltmek daha sıcak bir konsolu daha az yavaşlamayla değiştirir. Düşürmek kasayı daha serin tutar. 90 °C üzeri çip için uzun vadede pek iyi değildir.</string>
 
     <!-- Memory -->
+    <string name="kt_perf_metrics_off">Performans ölçümlerini kapat</string>
+    <string name="kt_perf_metrics_off_what">Performans katmanını ve güç menüsündeki grafikleri kapatır; bunların arkasındaki değerlerin (kare hızı, işlemci, sıcaklık, pil, bellek ve SD kart) arka planda okunmasını durdurur.</string>
+    <string name="kt_perf_metrics_off_why">Okumaların harcadığı küçük işlemci süresinden tasarruf sağlar; ağır bir oyunda son kareleri zorlamak için yararlıdır. Bu olmadan oyunun ne yaptığını gösteren sayılar da olmaz.</string>
     <string name="kt_swappiness">Sıkıştırılmış bellek kullanımı</string>
     <string name="kt_swappiness_what">Android\'in RAM\'i boşaltmak için boştaki uygulamaları sıkıştırılmış belleğe (zram) ne kadar hevesle taşıdığı.</string>
     <string name="kt_swappiness_why">Daha yüksek, daha fazla uygulamayı arka planda açık tutar ama biraz işlemci zamanına mal olur. Daha düşük, bir oyun çalışırken her şeyi daha akıcı tutar ama uygulamalar daha erken kapanır. 1 GB konsollarda varsayılan genellikle en iyisidir.</string>

@@ -5,6 +5,7 @@
     <string name="overlay_summary">Tampilkan FPS, CPU, suhu, dan baterai di atas game</string>
 
     <string name="overlay_switch">Tampilkan overlay</string>
+    <string name="overlay_blocked">Dimatikan di Kernel Tweaks (Nonaktifkan pengumpulan metrik performa)</string>
     <string name="overlay_position">Posisi</string>
 
 
@@ -29,6 +30,7 @@
     <string name="tile_label">Overlay perf</string>
     <string name="tile_on">Aktif</string>
     <string name="tile_off">Nonaktif</string>
+    <string name="tile_blocked">Mati di Kernel Tweaks</string>
 
     <!-- Overlay labels. Kept short, the screen is 640 pixels wide. -->
     <string name="hud_fps">FPS</string>

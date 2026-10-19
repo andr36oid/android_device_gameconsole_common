@@ -52,6 +52,7 @@
     <!-- e.g. "Kernel file: /sys/power/mem_sleep" -->
     <string name="kt_doc_file">内核文件：<xliff:g id="path">%1$s</xliff:g></string>
     <!-- e.g. "Start option: cpuidle.off=1 (takes effect after a restart)" -->
+    <string name="kt_doc_property">系统设置：<xliff:g id="name">%1$s</xliff:g></string>
     <string name="kt_doc_boot_option">启动参数：<xliff:g id="option">%1$s</xliff:g>（重启后生效）</string>
     <string name="kt_working">正在应用…</string>
 
@@ -135,6 +136,9 @@
     <string name="kt_heat_limit_why">这些掌机都没有任何散热，芯片裸露，因此大型游戏很快就会到达上限并卡顿。散热片或导热垫（一种流行的改装）帮助最大。调高上限意味着掌机更热，但卡顿更少；调低则能让机身更凉。长期保持在 90 °C 以上对芯片不是好事。</string>
 
     <!-- Memory -->
+    <string name="kt_perf_metrics_off">关闭性能指标收集</string>
+    <string name="kt_perf_metrics_off_what">关闭性能浮层和电源菜单中的图表，并停止在后台读取它们所依据的数值（帧率、CPU、温度、电池、内存和 SD 卡）。</string>
+    <string name="kt_perf_metrics_off_why">省下读取数据所占用的一点处理器时间，适合在大型游戏中榨取最后几帧。关闭后就看不到数值，无法了解游戏在做什么。</string>
     <string name="kt_swappiness">压缩内存使用程度</string>
     <string name="kt_swappiness_what">Android 为了释放内存，把空闲应用移入压缩内存（zram）的积极程度。</string>
     <string name="kt_swappiness_why">更高会让更多应用保留在后台，但会占用一点处理器时间。更低能让游戏运行时更流畅，但应用会更早被关闭。在 1 GB 内存的掌机上，默认值通常是最好的选择。</string>

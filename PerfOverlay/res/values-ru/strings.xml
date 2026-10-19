@@ -5,6 +5,7 @@
     <string name="overlay_summary">Показывать FPS, CPU, температуру и батарею поверх игр</string>
 
     <string name="overlay_switch">Показывать оверлей</string>
+    <string name="overlay_blocked">Выключено в настройках ядра (Отключить сбор показателей производительности)</string>
     <string name="overlay_position">Положение</string>
 
 
@@ -29,6 +30,7 @@
     <string name="tile_label">Оверлей</string>
     <string name="tile_on">Вкл.</string>
     <string name="tile_off">Выкл.</string>
+    <string name="tile_blocked">Выключено в настройках ядра</string>
 
     <!-- Overlay labels. Kept short, the screen is 640 pixels wide. -->
     <string name="hud_fps">FPS</string>

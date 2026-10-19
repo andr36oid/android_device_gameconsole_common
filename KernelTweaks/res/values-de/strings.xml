@@ -53,6 +53,7 @@
     <!-- e.g. "Kernel file: /sys/power/mem_sleep" -->
     <string name="kt_doc_file">Kernel-Datei: <xliff:g id="path">%1$s</xliff:g></string>
     <!-- e.g. "Start option: cpuidle.off=1 (takes effect after a restart)" -->
+    <string name="kt_doc_property">Systemeinstellung: <xliff:g id="name">%1$s</xliff:g></string>
     <string name="kt_doc_boot_option">Startoption: <xliff:g id="option">%1$s</xliff:g> (wirkt erst nach einem Neustart)</string>
     <string name="kt_working">Wird angewendet…</string>
 
@@ -136,6 +137,9 @@
     <string name="kt_heat_limit_why">Keine dieser Konsolen hat eine Kühlung, der Chip liegt frei, daher erreichen anspruchsvolle Spiele die Grenze schnell und ruckeln. Ein Kühlkörper oder Wärmeleitpad (ein beliebter Umbau) hilft am meisten. Eine höhere Grenze bedeutet eine heißere Konsole, aber weniger Drosselung. Eine niedrigere hält das Gehäuse kühler. Über 90 °C ist auf Dauer nicht gut für den Chip.</string>
 
     <!-- Memory -->
+    <string name="kt_perf_metrics_off">Leistungsmessung deaktivieren</string>
+    <string name="kt_perf_metrics_off_what">Schaltet das Leistungs-Overlay und die Diagramme im Ausschaltmenü ab und beendet das Auslesen der Werte dahinter (Bildrate, Prozessor, Temperatur, Akku, Speicher und SD-Karte) im Hintergrund.</string>
+    <string name="kt_perf_metrics_off_why">Spart die kleine Rechenzeit, die das Auslesen kostet, und hilft, in anspruchsvollen Spielen die letzten Bilder herauszuholen. Ohne Anzeige siehst du aber nicht, was ein Spiel gerade tut.</string>
     <string name="kt_swappiness">Nutzung des komprimierten Speichers</string>
     <string name="kt_swappiness_what">Wie bereitwillig Android inaktive Apps in den komprimierten Speicher (zram) auslagert, um RAM freizugeben.</string>
     <string name="kt_swappiness_why">Höher hält mehr Apps im Hintergrund offen, kostet aber etwas Prozessorzeit. Niedriger hält alles flüssiger, während ein Spiel läuft, aber Apps werden früher beendet. Auf 1-GB-Konsolen ist der Standard meist am besten.</string>

@@ -93,7 +93,12 @@ final class Tweaks {
                 .values("75000", "80000", "85000", "90000", "95000")
                 .unit(R.string.kt_unit_c)
                 .scale(1000)
-                .level(Tweak.RISKY)));
+                .level(Tweak.RISKY))
+            .add(onOff("perf_metrics_off", R.string.kt_perf_metrics_off,
+                    R.string.kt_perf_metrics_off_what, R.string.kt_perf_metrics_off_why,
+                    "sys.andr36oid.perf_metrics_off")
+                .prop()
+                .level(Tweak.SAFE)));
 
         list.add(new Category(R.string.kt_cat_power, null, null, 0, 0)
             .add(Tweak.choice("dc_det", R.string.kt_dc_det,

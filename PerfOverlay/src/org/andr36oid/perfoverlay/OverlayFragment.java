@@ -36,6 +36,9 @@ public class OverlayFragment extends PreferenceFragment
         super.onResume();
         // The tile or the notification may have switched it in the meantime.
         mEnabled.setChecked(Hud.isEnabled(getActivity()));
+        final boolean blocked = Hud.isBlocked();
+        mEnabled.setEnabled(!blocked);
+        mEnabled.setSummary(blocked ? getString(R.string.overlay_blocked) : null);
     }
 
     @Override

@@ -29,6 +29,8 @@ final class Tweak {
     boolean once;
     /** a kernel command line option: takes effect at the next start */
     boolean atBoot;
+    /** a system property instead of a kernel file, {@link #file} is its name */
+    boolean prop;
     String[] values = {};
     /** a label per value, or 0 to use {@link #unit} */
     int[] labels;
@@ -78,6 +80,11 @@ final class Tweak {
 
     Tweak level(int l) {
         level = l;
+        return this;
+    }
+
+    Tweak prop() {
+        prop = true;
         return this;
     }
 
