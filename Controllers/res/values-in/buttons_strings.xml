@@ -60,8 +60,19 @@
     <string name="fn_standin_row">Pintasan FN</string>
     <string name="fn_standin_title">Apa yang berfungsi sebagai FN?</string>
     <string name="fn_standin_fn">Tombol FN</string>
-    <string name="fn_standin_vol_both">Vol+ dan Vol− bersamaan</string>
-    <string name="fn_standin_vol_both_recommended">Vol+ dan Vol− bersamaan (disarankan)</string>
+    <string name="fn_standin_start_vol_down_recommended">Tahan Start + Vol− (disarankan)</string>
+    <string name="fn_standin_start_vol_up">Tahan Start + Vol+</string>
+    <string name="fn_standin_l2_r2">L2 + R2 bersamaan</string>
+    <string name="fn_standin_own_combo">Kombinasi tombol sendiri…</string>
+    <string name="fn_standin_combo">%1$s + %2$s</string>
+    <string name="fn_combo_press_now">Tahan satu tombol lalu tekan tombol kedua. Tombol pertama tetap berfungsi seperti biasa, juga di game; hanya tekanan kedua yang membuka FN. B saja untuk batal.</string>
+    <string name="fn_combo_refused_single">Itu hanya satu tombol. Tahan lalu tekan tombol kedua, atau pilih \"Pakai tombol lain sebagai FN\" untuk satu tombol. B saja untuk batal.</string>
+    <string name="fn_combo_refused_power">Power tidak bisa jadi bagian kombinasi. Coba dua tombol lain, atau B saja untuk batal.</string>
+    <string name="fn_combo_refused_fn">Tombol FN sudah menjadi FN. Coba dua tombol lain, atau B saja untuk batal.</string>
+    <string name="fn_combo_refused_reset">Menahan %1$s + %2$s bersamaan mereset pemetaan tombol. Coba dua tombol lain, atau B saja untuk batal.</string>
+    <string name="fn_combo_refused_mouse">%1$s + %2$s mengganti mode mouse. Coba dua tombol lain, atau B saja untuk batal.</string>
+    <string name="fn_combo_confirm_title">Pakai %1$s + %2$s untuk FN?</string>
+    <string name="fn_combo_confirm">Tahan %1$s lalu tekan %2$s (atau sebaliknya) untuk membuka pintasan FN. Tombol yang ditahan tetap berfungsi seperti biasa, juga di game; tombol kedua hanya membuka FN selama tombol pertama ditahan. Anda bisa mengubahnya di Setelan &gt; Kontrol &gt; Pintasan FN.</string>
     <string name="fn_standin_other">Pakai tombol lain sebagai FN</string>
     <!-- %1$s is a button, e.g. "L3" -->
     <string name="fn_standin_button">%1$s berfungsi sebagai FN</string>

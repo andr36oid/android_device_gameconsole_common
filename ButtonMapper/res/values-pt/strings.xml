@@ -149,6 +149,6 @@
     <string name="action_button_number">Botão de jogo <xliff:g id="number">%1$d</xliff:g></string>
     <string name="fn_set"><xliff:g id="button">%1$s</xliff:g> é agora o FN: prima para o ecrã principal, mantenha premido e prima outro botão para um atalho.</string>
     <string name="fn_replaced_button"><xliff:g id="button">%1$s</xliff:g> é agora o FN. Só um botão pode ser FN, por isso <xliff:g id="old_button">%2$s</xliff:g> volta a funcionar como antes.</string>
-    <string name="fn_replaced_volume"><xliff:g id="button">%1$s</xliff:g> é agora o FN, em vez de premir os dois botões de volume ao mesmo tempo.</string>
+    <string name="fn_replaced_volume"><xliff:g id="button">%1$s</xliff:g> é agora o FN, em vez da combinação de botões FN.</string>
     <string name="fn_cleared"><xliff:g id="button">%1$s</xliff:g> já não é o FN.</string>
 </resources>

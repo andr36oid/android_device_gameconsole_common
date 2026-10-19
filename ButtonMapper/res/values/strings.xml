@@ -89,7 +89,7 @@
     <!-- A button picked to act as the Fn button, on consoles without one or by choice -->
     <string name="fn_set">The <xliff:g id="button">%1$s</xliff:g> is Fn now: tap it for the Home screen, hold it and press another button for a shortcut.</string>
     <string name="fn_replaced_button">The <xliff:g id="button">%1$s</xliff:g> is Fn now. Only one button can be Fn, so the <xliff:g id="old_button">%2$s</xliff:g> works as before again.</string>
-    <string name="fn_replaced_volume">The <xliff:g id="button">%1$s</xliff:g> is Fn now, instead of pressing both volume buttons together.</string>
+    <string name="fn_replaced_volume">The <xliff:g id="button">%1$s</xliff:g> is Fn now, instead of the Fn button combo.</string>
     <string name="fn_cleared">The <xliff:g id="button">%1$s</xliff:g> isn\'t Fn any more.</string>
 
     <string name="power_locked_title">The Power button stays as it is</string>

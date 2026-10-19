@@ -60,8 +60,19 @@
     <string name="fn_standin_row">Atalhos com FN</string>
     <string name="fn_standin_title">O que funciona como FN?</string>
     <string name="fn_standin_fn">O botão FN</string>
-    <string name="fn_standin_vol_both">Vol+ e Vol− juntos</string>
-    <string name="fn_standin_vol_both_recommended">Vol+ e Vol− juntos (recomendado)</string>
+    <string name="fn_standin_start_vol_down_recommended">Manter Start + Vol− (recomendado)</string>
+    <string name="fn_standin_start_vol_up">Manter Start + Vol+</string>
+    <string name="fn_standin_l2_r2">L2 + R2 em simultâneo</string>
+    <string name="fn_standin_own_combo">A sua própria combinação…</string>
+    <string name="fn_standin_combo">%1$s + %2$s</string>
+    <string name="fn_combo_press_now">Mantenha um botão premido e prima um segundo. O primeiro continua a funcionar como sempre, também nos jogos; só o segundo toque abre o FN. B sozinho cancela.</string>
+    <string name="fn_combo_refused_single">Isso foi só um botão. Mantenha-o premido e prima um segundo, ou escolha \"Usar outro botão como FN\" para um só botão. B sozinho cancela.</string>
+    <string name="fn_combo_refused_power">O Power não pode fazer parte da combinação. Experimente outros dois botões, ou B sozinho para cancelar.</string>
+    <string name="fn_combo_refused_fn">O botão FN já é o FN. Experimente outros dois botões, ou B sozinho para cancelar.</string>
+    <string name="fn_combo_refused_reset">Manter %1$s + %2$s repõe o mapeamento dos botões. Experimente outros dois botões, ou B sozinho para cancelar.</string>
+    <string name="fn_combo_refused_mouse">%1$s + %2$s alterna o modo rato. Experimente outros dois botões, ou B sozinho para cancelar.</string>
+    <string name="fn_combo_confirm_title">Usar %1$s + %2$s como FN?</string>
+    <string name="fn_combo_confirm">Mantenha %1$s premido e prima %2$s (ou ao contrário) para abrir os atalhos com FN. O botão que mantém premido funciona como sempre, também nos jogos; o segundo só abre o FN enquanto o primeiro está premido. Pode alterar esta escolha em Definições &gt; Controlos &gt; Atalhos com FN.</string>
     <string name="fn_standin_other">Usar outro botão como FN</string>
     <!-- %1$s is a button, e.g. "L3" -->
     <string name="fn_standin_button">%1$s funciona como FN</string>

@@ -80,7 +80,7 @@
     <!-- A button picked to act as the Fn button, on consoles without one or by choice -->
     <string name="fn_set"><xliff:g id="button">%1$s</xliff:g> теперь работает как FN: нажмите — главный экран, удерживайте и нажмите другую кнопку — сочетание.</string>
     <string name="fn_replaced_button"><xliff:g id="button">%1$s</xliff:g> теперь работает как FN. Кнопка FN может быть только одна, поэтому <xliff:g id="old_button">%2$s</xliff:g> снова работает как раньше.</string>
-    <string name="fn_replaced_volume"><xliff:g id="button">%1$s</xliff:g> теперь работает как FN вместо нажатия обеих кнопок громкости вместе.</string>
+    <string name="fn_replaced_volume"><xliff:g id="button">%1$s</xliff:g> теперь работает как FN вместо комбинации кнопок FN.</string>
     <string name="fn_cleared"><xliff:g id="button">%1$s</xliff:g> больше не работает как FN.</string>
     <string name="power_locked_title">Кнопка питания не меняется</string>
     <string name="power_locked_message">Только она может разбудить консоль, поэтому она всегда остаётся кнопкой питания.</string>

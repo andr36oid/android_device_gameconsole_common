@@ -60,8 +60,19 @@
     <string name="fn_standin_row">FN kısayolları</string>
     <string name="fn_standin_title">FN olarak ne çalışsın?</string>
     <string name="fn_standin_fn">FN tuşu</string>
-    <string name="fn_standin_vol_both">Vol+ ve Vol− birlikte</string>
-    <string name="fn_standin_vol_both_recommended">Vol+ ve Vol− birlikte (önerilen)</string>
+    <string name="fn_standin_start_vol_down_recommended">Start basılı + Vol− (önerilen)</string>
+    <string name="fn_standin_start_vol_up">Start basılı + Vol+</string>
+    <string name="fn_standin_l2_r2">L2 + R2 birlikte</string>
+    <string name="fn_standin_own_combo">Kendi tuş kombinasyonunuz…</string>
+    <string name="fn_standin_combo">%1$s + %2$s</string>
+    <string name="fn_combo_press_now">Bir tuşu basılı tutun ve ikinci bir tuşa basın. İlki her zamanki gibi çalışır, oyunlarda da; FN\'yi yalnızca ikinci basış açar. Tek başına B iptal eder.</string>
+    <string name="fn_combo_refused_single">Bu tek bir tuştu. Basılı tutup ikinci bir tuşa basın ya da tek tuş için \"FN olarak başka bir tuş kullan\" seçeneğini seçin. Tek başına B iptal eder.</string>
+    <string name="fn_combo_refused_power">Power kombinasyonun parçası olamaz. Başka iki tuş deneyin ya da iptal için tek başına B.</string>
+    <string name="fn_combo_refused_fn">FN tuşu zaten FN. Başka iki tuş deneyin ya da iptal için tek başına B.</string>
+    <string name="fn_combo_refused_reset">%1$s + %2$s birlikte basılı tutulunca tuş atamaları sıfırlanır. Başka iki tuş deneyin ya da iptal için tek başına B.</string>
+    <string name="fn_combo_refused_mouse">%1$s + %2$s fare modunu açıp kapatır. Başka iki tuş deneyin ya da iptal için tek başına B.</string>
+    <string name="fn_combo_confirm_title">FN için %1$s + %2$s kullanılsın mı?</string>
+    <string name="fn_combo_confirm">FN kısayollarını açmak için %1$s tuşunu basılı tutun ve %2$s tuşuna basın (ya da tersi). Basılı tuttuğunuz tuş her zamanki gibi çalışır, oyunlarda da; ikincisi yalnızca ilki basılıyken FN\'yi açar. Bunu Ayarlar &gt; Kontrol &gt; FN kısayolları bölümünden değiştirebilirsiniz.</string>
     <string name="fn_standin_other">FN olarak başka bir tuş kullan</string>
     <!-- %1$s is a button, e.g. "L3" -->
     <string name="fn_standin_button">%1$s FN gibi çalışır</string>

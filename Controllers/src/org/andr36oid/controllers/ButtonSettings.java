@@ -30,8 +30,15 @@ final class ButtonSettings {
     static final String MISSING = "andr36oid_missing_buttons";
     /** Unset or "": the real Fn button. "vol_both", or "scan:<scan code>" of the stand-in. */
     static final String FN_STANDIN = "andr36oid_fn_standin";
+    /** Vol+ and Vol- together, before the combos: reads as START_VOL_DOWN now */
     static final String VOL_BOTH = "vol_both";
     static final String SCAN_PREFIX = "scan:";
+    /** "combo:<a>+<b>": hold one of the two buttons and press the other to open Fn */
+    static final String COMBO_PREFIX = "combo:";
+    static final String START_VOL_DOWN = "combo:315+114";
+    static final String START_VOL_UP = "combo:315+115";
+    static final String L2_R2 = "combo:312+313";
+    static final int SCAN_POWER = 116;
     /** Known boards: andr36oid,missing-buttons = "fn", "l3"; in the joypad node */
     private static final String DT_HINT =
             "/proc/device-tree/odroidgo3-joypad/andr36oid,missing-buttons";
@@ -119,14 +126,17 @@ final class ButtonSettings {
         return names;
     }
 
-    /** "", VOL_BOTH or "scan:<code>", with a missing Fn and nothing chosen as VOL_BOTH. */
+    /**
+     * "", "combo:<a>+<b>" or "scan:<code>"; with a missing Fn and nothing chosen, and for the
+     * old VOL_BOTH, START_VOL_DOWN.
+     */
     static String fnStandin(Context context) {
         final String value = Settings.Global.getString(context.getContentResolver(),
                 FN_STANDIN);
         if (value == null || value.isEmpty()) {
-            return hasFn(context) ? "" : VOL_BOTH;
+            return hasFn(context) ? "" : START_VOL_DOWN;
         }
-        return value;
+        return VOL_BOTH.equals(value) ? START_VOL_DOWN : value;
     }
 
     /** Back to "not checked yet" (the device tree's hint) and the real Fn button */
@@ -146,6 +156,42 @@ final class ButtonSettings {
     static void setFnStandin(Context context, String value) {
         Log.i(TAG, "Fn stand-in: " + value);
         Settings.Global.putString(context.getContentResolver(), FN_STANDIN, value);
+    }
+
+    /** The two scan codes of a "combo:<a>+<b>" stand-in, or null. */
+    static int[] comboScanCodes(String standin) {
+        if (VOL_BOTH.equals(standin)) standin = START_VOL_DOWN;
+        if (standin == null || !standin.startsWith(COMBO_PREFIX)) return null;
+        final String[] parts = standin.substring(COMBO_PREFIX.length()).split("\\+");
+        if (parts.length != 2) return null;
+        try {
+            final int a = Integer.parseInt(parts[0].trim());
+            final int b = Integer.parseInt(parts[1].trim());
+            return a > 0 && b > 0 && a != b ? new int[] {a, b} : null;
+        } catch (NumberFormatException e) {
+            return null;
+        }
+    }
+
+    static String combo(int a, int b) {
+        return COMBO_PREFIX + a + "+" + b;
+    }
+
+    /**
+     * Why two buttons can't be the Fn combo, as a string with the two names as %1$s and %2$s,
+     * or 0 when they can. The system already uses some pairs.
+     */
+    static int comboRefusal(int a, int b) {
+        if (a == SCAN_POWER || b == SCAN_POWER) return R.string.fn_combo_refused_power;
+        if (a == SCAN_FN || b == SCAN_FN) return R.string.fn_combo_refused_fn;
+        if (pair(a, b, 114, 115)) return R.string.fn_combo_refused_reset;
+        // joyMouse's mouse mode switch, Select + Start or L3 + R3 depending on the console
+        if (pair(a, b, 314, 315) || pair(a, b, 317, 318)) return R.string.fn_combo_refused_mouse;
+        return 0;
+    }
+
+    private static boolean pair(int a, int b, int x, int y) {
+        return (a == x && b == y) || (a == y && b == x);
     }
 
     /** The scan code of a "scan:<code>" stand-in, or -1. */
@@ -260,9 +306,13 @@ final class ButtonSettings {
                 : context.getString(R.string.buttons_hint, describeMissing(context, hint));
     }
 
-    /** "The Fn button", "Vol+ and Vol− together", "L3" */
+    /** "The Fn button", "Start + Vol−", "L3 works as Fn" */
     static String describeStandin(Context context, String standin) {
-        if (VOL_BOTH.equals(standin)) return context.getString(R.string.fn_standin_vol_both);
+        final int[] combo = comboScanCodes(standin);
+        if (combo != null) {
+            return context.getString(R.string.fn_standin_combo, buttonName(context, combo[0]),
+                    buttonName(context, combo[1]));
+        }
         final int scanCode = standinScanCode(standin);
         if (scanCode >= 0) {
             return context.getString(R.string.fn_standin_button, buttonName(context, scanCode));

@@ -60,8 +60,19 @@
     <string name="fn_standin_row">Skróty FN</string>
     <string name="fn_standin_title">Co działa jako FN?</string>
     <string name="fn_standin_fn">Przycisk FN</string>
-    <string name="fn_standin_vol_both">Vol+ i Vol− razem</string>
-    <string name="fn_standin_vol_both_recommended">Vol+ i Vol− razem (zalecane)</string>
+    <string name="fn_standin_start_vol_down_recommended">Przytrzymaj Start + Vol− (zalecane)</string>
+    <string name="fn_standin_start_vol_up">Przytrzymaj Start + Vol+</string>
+    <string name="fn_standin_l2_r2">L2 + R2 razem</string>
+    <string name="fn_standin_own_combo">Własna kombinacja przycisków…</string>
+    <string name="fn_standin_combo">%1$s + %2$s</string>
+    <string name="fn_combo_press_now">Przytrzymaj jeden przycisk i naciśnij drugi. Pierwszy działa jak zwykle, także w grach; tylko drugie naciśnięcie otwiera FN. Samo B anuluje.</string>
+    <string name="fn_combo_refused_single">To był jeden przycisk. Przytrzymaj go i naciśnij drugi albo wybierz „Użyj innego przycisku jako FN” dla jednego przycisku. Samo B anuluje.</string>
+    <string name="fn_combo_refused_power">Power nie może być częścią kombinacji. Spróbuj dwóch innych przycisków albo naciśnij samo B, aby anulować.</string>
+    <string name="fn_combo_refused_fn">Przycisk FN już jest FN. Spróbuj dwóch innych przycisków albo naciśnij samo B, aby anulować.</string>
+    <string name="fn_combo_refused_reset">Przytrzymanie %1$s + %2$s resetuje przypisanie przycisków. Spróbuj dwóch innych przycisków albo naciśnij samo B, aby anulować.</string>
+    <string name="fn_combo_refused_mouse">%1$s + %2$s przełącza tryb myszy. Spróbuj dwóch innych przycisków albo naciśnij samo B, aby anulować.</string>
+    <string name="fn_combo_confirm_title">Użyć %1$s + %2$s jako FN?</string>
+    <string name="fn_combo_confirm">Przytrzymaj %1$s i naciśnij %2$s (lub odwrotnie), aby otworzyć skróty FN. Przytrzymany przycisk działa jak zwykle, także w grach; drugi otwiera FN tylko wtedy, gdy pierwszy jest przytrzymany. Możesz to zmienić w Ustawienia &gt; Sterowanie &gt; Skróty FN.</string>
     <string name="fn_standin_other">Użyj innego przycisku jako FN</string>
     <!-- %1$s is a button, e.g. "L3" -->
     <string name="fn_standin_button">%1$s działa jako FN</string>

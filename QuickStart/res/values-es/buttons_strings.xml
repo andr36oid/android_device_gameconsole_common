@@ -41,8 +41,19 @@
     <string name="fn_standin_row">Atajos con FN</string>
     <string name="fn_standin_title">¿Qué funciona como FN?</string>
     <string name="fn_standin_fn">El botón FN</string>
-    <string name="fn_standin_vol_both">Vol+ y Vol− juntos</string>
-    <string name="fn_standin_vol_both_recommended">Vol+ y Vol− juntos (recomendado)</string>
+    <string name="fn_standin_start_vol_down_recommended">Mantener Start + Vol− (recomendado)</string>
+    <string name="fn_standin_start_vol_up">Mantener Start + Vol+</string>
+    <string name="fn_standin_l2_r2">L2 + R2 a la vez</string>
+    <string name="fn_standin_own_combo">Tu propia combinación…</string>
+    <string name="fn_standin_combo">%1$s + %2$s</string>
+    <string name="fn_combo_press_now">Mantén un botón y pulsa otro. El primero sigue funcionando como siempre, también en los juegos; solo la segunda pulsación abre FN. B solo cancela.</string>
+    <string name="fn_combo_refused_single">Eso fue un solo botón. Mantenlo y pulsa otro, o elige \"Usar otro botón como FN\" para un solo botón. B solo cancela.</string>
+    <string name="fn_combo_refused_power">Power no puede formar parte de la combinación. Prueba con otros dos botones, o B solo para cancelar.</string>
+    <string name="fn_combo_refused_fn">El botón FN ya es FN. Prueba con otros dos botones, o B solo para cancelar.</string>
+    <string name="fn_combo_refused_reset">Mantener %1$s + %2$s restablece la asignación de botones. Prueba con otros dos botones, o B solo para cancelar.</string>
+    <string name="fn_combo_refused_mouse">%1$s + %2$s activa o desactiva el modo ratón. Prueba con otros dos botones, o B solo para cancelar.</string>
+    <string name="fn_combo_confirm_title">¿Usar %1$s + %2$s como FN?</string>
+    <string name="fn_combo_confirm">Mantén %1$s y pulsa %2$s (o al revés) para abrir los atajos con FN. El botón que mantienes funciona como siempre, también en los juegos; el segundo solo abre FN mientras mantienes el primero. Puedes cambiarlo en Ajustes &gt; Controles &gt; Atajos con FN.</string>
     <string name="fn_standin_other">Usar otro botón como FN</string>
     <!-- %1$s is a button, e.g. "L3" -->
     <string name="fn_standin_button">%1$s funciona como FN</string>
@@ -54,7 +65,6 @@
     <string name="fn_standin_confirm_ok">Usar como FN</string>
 
     <!-- Tutorial on consoles without FN: what the FN steps say instead of FN -->
-    <string name="tutorial_standin_vol">Vol+ + Vol−</string>
     <!-- At the top of the Home step; %1$s is "Vol+ + Vol−" or a button like "L3" -->
     <string name="tutorial_standin_intro">Esta consola no tiene botón FN, así que %1$s hace su función. Puedes cambiarlo en Ajustes &gt; Controles &gt; Atajos con FN.</string>
     <!-- Tutorial, shoulder buttons step: opens Settings > Controls > Buttons on this console -->

@@ -41,8 +41,21 @@
     <string name="fn_standin_row">Fn shortcuts</string>
     <string name="fn_standin_title">What works as Fn?</string>
     <string name="fn_standin_fn">The Fn button</string>
-    <string name="fn_standin_vol_both">Vol+ and Vol− together</string>
-    <string name="fn_standin_vol_both_recommended">Vol+ and Vol− together (recommended)</string>
+    <!-- Fn stand-in combos: hold one button, press the other. %1$s and %2$s are button
+         names like "Start" and "Vol−". -->
+    <string name="fn_standin_start_vol_down_recommended">Hold Start + Vol− (recommended)</string>
+    <string name="fn_standin_start_vol_up">Hold Start + Vol+</string>
+    <string name="fn_standin_l2_r2">L2 + R2 together</string>
+    <string name="fn_standin_own_combo">Your own button combo…</string>
+    <string name="fn_standin_combo">%1$s + %2$s</string>
+    <string name="fn_combo_press_now">Hold one button and press a second one. The first one keeps working as usual, in games too; only the second press opens Fn. B on its own cancels.</string>
+    <string name="fn_combo_refused_single">That was one button. Hold it and press a second one, or pick \"Use another button as Fn\" for a single button. B on its own cancels.</string>
+    <string name="fn_combo_refused_power">Power can\'t be part of the combo. Try two other buttons, or B on its own to cancel.</string>
+    <string name="fn_combo_refused_fn">The Fn button is Fn already. Try two other buttons, or B on its own to cancel.</string>
+    <string name="fn_combo_refused_reset">%1$s + %2$s held together resets the button mapping. Try two other buttons, or B on its own to cancel.</string>
+    <string name="fn_combo_refused_mouse">%1$s + %2$s switches mouse mode. Try two other buttons, or B on its own to cancel.</string>
+    <string name="fn_combo_confirm_title">Use %1$s + %2$s for Fn?</string>
+    <string name="fn_combo_confirm">Hold %1$s and press %2$s (or the other way round) to open the Fn shortcuts. The button you hold works as usual, in games too; the second one only opens Fn while the first is held. You can change this in Settings &gt; Controls &gt; Fn shortcuts.</string>
     <string name="fn_standin_other">Use another button as Fn</string>
     <!-- %1$s is a button, e.g. "L3" -->
     <string name="fn_standin_button">%1$s works as Fn</string>
@@ -54,7 +67,6 @@
     <string name="fn_standin_confirm_ok">Use as Fn</string>
 
     <!-- Tutorial on consoles without FN: what the FN steps say instead of FN -->
-    <string name="tutorial_standin_vol">Vol+ + Vol−</string>
     <!-- At the top of the Home step; %1$s is "Vol+ + Vol−" or a button like "L3" -->
     <string name="tutorial_standin_intro">This console has no FN button, so %1$s does its job. You can change that in Settings &gt; Controls &gt; Fn shortcuts.</string>
     <!-- Tutorial, shoulder buttons step: opens Settings > Controls > Buttons on this console -->

@@ -41,8 +41,19 @@
     <string name="fn_standin_row">Сочетания с FN</string>
     <string name="fn_standin_title">Что работает как FN?</string>
     <string name="fn_standin_fn">Кнопка FN</string>
-    <string name="fn_standin_vol_both">Vol+ и Vol− вместе</string>
-    <string name="fn_standin_vol_both_recommended">Vol+ и Vol− вместе (рекомендуется)</string>
+    <string name="fn_standin_start_vol_down_recommended">Удерживать Start + Vol− (рекомендуется)</string>
+    <string name="fn_standin_start_vol_up">Удерживать Start + Vol+</string>
+    <string name="fn_standin_l2_r2">L2 + R2 вместе</string>
+    <string name="fn_standin_own_combo">Своя комбинация кнопок…</string>
+    <string name="fn_standin_combo">%1$s + %2$s</string>
+    <string name="fn_combo_press_now">Удерживайте одну кнопку и нажмите вторую. Первая работает как обычно, и в играх тоже; FN открывает только второе нажатие. Одна B — отмена.</string>
+    <string name="fn_combo_refused_single">Это была одна кнопка. Удерживайте её и нажмите вторую или выберите «Использовать другую кнопку как FN» для одной кнопки. Одна B — отмена.</string>
+    <string name="fn_combo_refused_power">Power не может входить в комбинацию. Попробуйте две другие кнопки или одну B для отмены.</string>
+    <string name="fn_combo_refused_fn">Кнопка FN уже работает как FN. Попробуйте две другие кнопки или одну B для отмены.</string>
+    <string name="fn_combo_refused_reset">Удержание %1$s + %2$s сбрасывает назначение кнопок. Попробуйте две другие кнопки или одну B для отмены.</string>
+    <string name="fn_combo_refused_mouse">%1$s + %2$s переключает режим мыши. Попробуйте две другие кнопки или одну B для отмены.</string>
+    <string name="fn_combo_confirm_title">Использовать %1$s + %2$s для FN?</string>
+    <string name="fn_combo_confirm">Удерживайте %1$s и нажмите %2$s (или наоборот), чтобы открыть сочетания с FN. Удерживаемая кнопка работает как обычно, и в играх тоже; вторая открывает FN, только пока удерживается первая. Изменить это можно в Настройки &gt; Управление &gt; Сочетания с FN.</string>
     <string name="fn_standin_other">Использовать другую кнопку как FN</string>
     <!-- %1$s is a button, e.g. "L3" -->
     <string name="fn_standin_button">%1$s работает как FN</string>
@@ -54,7 +65,6 @@
     <string name="fn_standin_confirm_ok">Использовать как FN</string>
 
     <!-- Tutorial on consoles without FN: what the FN steps say instead of FN -->
-    <string name="tutorial_standin_vol">Vol+ + Vol−</string>
     <!-- At the top of the Home step; %1$s is "Vol+ + Vol−" or a button like "L3" -->
     <string name="tutorial_standin_intro">На этой консоли нет кнопки FN, поэтому её задачу выполняет %1$s. Это можно изменить в Настройки &gt; Управление &gt; Сочетания с FN.</string>
     <!-- Tutorial, shoulder buttons step: opens Settings > Controls > Buttons on this console -->

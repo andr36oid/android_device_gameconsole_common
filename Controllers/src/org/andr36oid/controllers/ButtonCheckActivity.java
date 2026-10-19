@@ -319,7 +319,7 @@ public class ButtonCheckActivity extends Activity {
                 ButtonSettings.describeMissing(this, missing)), Toast.LENGTH_SHORT).show();
         final String standin = Settings.Global.getString(getContentResolver(),
                 ButtonSettings.FN_STANDIN);
-        final boolean chosen = ButtonSettings.VOL_BOTH.equals(standin)
+        final boolean chosen = ButtonSettings.comboScanCodes(standin) != null
                 || ButtonSettings.standinScanCode(standin) >= 0;
         if (missing.contains("fn") && !chosen) {
             // No Fn: ask what does its job, then leave

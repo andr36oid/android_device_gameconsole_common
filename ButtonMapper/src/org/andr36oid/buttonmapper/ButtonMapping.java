@@ -31,6 +31,8 @@ final class ButtonMapping {
     // What acts as the Fn button: "" the real one, "vol_both", or "scan:<scan code>" a button.
     static final String SETTING_FN_STANDIN = "andr36oid_fn_standin";
     static final String FN_STANDIN_VOL_BOTH = "vol_both";
+    // "combo:<a>+<b>": hold one button and press the other for Fn
+    static final String FN_STANDIN_COMBO = "combo:";
     private static final String FN_STANDIN_SCAN = "scan:";
     private static final String MISSING_HINT =
             "/proc/device-tree/odroidgo3-joypad/andr36oid,missing-buttons";
@@ -168,14 +170,15 @@ final class ButtonMapping {
     }
 
     /**
-     * Returns whether something else acts as Fn now: another button, or both volume buttons
-     * together (also when the console has no Fn button and nothing is set).
+     * Returns whether something else acts as Fn now: another button, or a button combo (also
+     * when the console has no Fn button and nothing is set).
      */
     boolean hasOtherFnStandIn(int index) {
         if (mFnStandIn >= 0) {
             return mFnStandIn != index;
         }
         return FN_STANDIN_VOL_BOTH.equals(mFnStandInSetting)
+                || (mFnStandInSetting != null && mFnStandInSetting.startsWith(FN_STANDIN_COMBO))
                 || (mFnMissing && TextUtils.isEmpty(mFnStandInSetting));
     }
 

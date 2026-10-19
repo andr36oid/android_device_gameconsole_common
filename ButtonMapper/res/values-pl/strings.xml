@@ -152,6 +152,6 @@
     <string name="action_button_number">Przycisk gry <xliff:g id="number">%1$d</xliff:g></string>
     <string name="fn_set"><xliff:g id="button">%1$s</xliff:g> jest teraz FN: naciśnij krótko dla ekranu głównego, przytrzymaj i naciśnij inny przycisk, żeby użyć skrótu.</string>
     <string name="fn_replaced_button"><xliff:g id="button">%1$s</xliff:g> jest teraz FN. Tylko jeden przycisk może być FN, więc <xliff:g id="old_button">%2$s</xliff:g> znów działa jak wcześniej.</string>
-    <string name="fn_replaced_volume"><xliff:g id="button">%1$s</xliff:g> jest teraz FN, zamiast naciskania obu przycisków głośności razem.</string>
+    <string name="fn_replaced_volume"><xliff:g id="button">%1$s</xliff:g> jest teraz FN, zamiast kombinacji przycisków FN.</string>
     <string name="fn_cleared"><xliff:g id="button">%1$s</xliff:g> nie jest już FN.</string>
 </resources>

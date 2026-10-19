@@ -149,6 +149,6 @@
     <string name="action_button_number">Spieltaste <xliff:g id="number">%1$d</xliff:g></string>
     <string name="fn_set">„<xliff:g id="button">%1$s</xliff:g>“ ist jetzt FN: kurz drücken für den Startbildschirm, halten und eine andere Taste drücken für einen Kurzbefehl.</string>
     <string name="fn_replaced_button">„<xliff:g id="button">%1$s</xliff:g>“ ist jetzt FN. Es kann nur eine Taste FN sein, daher funktioniert „<xliff:g id="old_button">%2$s</xliff:g>“ wieder wie vorher.</string>
-    <string name="fn_replaced_volume">„<xliff:g id="button">%1$s</xliff:g>“ ist jetzt FN und ersetzt das gleichzeitige Drücken beider Lautstärketasten.</string>
+    <string name="fn_replaced_volume">„<xliff:g id="button">%1$s</xliff:g>“ ist jetzt FN und ersetzt die FN-Tastenkombination.</string>
     <string name="fn_cleared">„<xliff:g id="button">%1$s</xliff:g>“ ist nicht mehr FN.</string>
 </resources>

@@ -60,8 +60,19 @@
     <string name="fn_standin_row">FN-Kurzbefehle</string>
     <string name="fn_standin_title">Was funktioniert als FN?</string>
     <string name="fn_standin_fn">Die FN-Taste</string>
-    <string name="fn_standin_vol_both">Vol+ und Vol− zusammen</string>
-    <string name="fn_standin_vol_both_recommended">Vol+ und Vol− zusammen (empfohlen)</string>
+    <string name="fn_standin_start_vol_down_recommended">Start halten + Vol− (empfohlen)</string>
+    <string name="fn_standin_start_vol_up">Start halten + Vol+</string>
+    <string name="fn_standin_l2_r2">L2 + R2 zusammen</string>
+    <string name="fn_standin_own_combo">Eigene Tastenkombination…</string>
+    <string name="fn_standin_combo">%1$s + %2$s</string>
+    <string name="fn_combo_press_now">Halte eine Taste und drück eine zweite. Die erste funktioniert weiter wie immer, auch in Spielen; nur der zweite Druck öffnet FN. B allein bricht ab.</string>
+    <string name="fn_combo_refused_single">Das war nur eine Taste. Halte sie und drück eine zweite, oder nimm „Eine andere Taste als FN nutzen“ für eine einzelne Taste. B allein bricht ab.</string>
+    <string name="fn_combo_refused_power">Power kann nicht Teil der Kombination sein. Versuch zwei andere Tasten, oder B allein zum Abbrechen.</string>
+    <string name="fn_combo_refused_fn">Die FN-Taste ist schon FN. Versuch zwei andere Tasten, oder B allein zum Abbrechen.</string>
+    <string name="fn_combo_refused_reset">%1$s + %2$s zusammen gehalten setzt die Tastenbelegung zurück. Versuch zwei andere Tasten, oder B allein zum Abbrechen.</string>
+    <string name="fn_combo_refused_mouse">%1$s + %2$s schaltet den Mausmodus um. Versuch zwei andere Tasten, oder B allein zum Abbrechen.</string>
+    <string name="fn_combo_confirm_title">%1$s + %2$s als FN nutzen?</string>
+    <string name="fn_combo_confirm">Halte %1$s und drück %2$s (oder umgekehrt), um die FN-Kurzbefehle zu öffnen. Die gehaltene Taste funktioniert wie immer, auch in Spielen; die zweite öffnet FN nur, solange die erste gehalten wird. Du kannst das unter Einstellungen &gt; Steuerung &gt; FN-Kurzbefehle ändern.</string>
     <string name="fn_standin_other">Eine andere Taste als FN nutzen</string>
     <!-- %1$s is a button, e.g. "L3" -->
     <string name="fn_standin_button">%1$s funktioniert als FN</string>

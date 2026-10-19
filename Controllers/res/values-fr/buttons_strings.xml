@@ -60,8 +60,19 @@
     <string name="fn_standin_row">Raccourcis FN</string>
     <string name="fn_standin_title">Qu\'est-ce qui fait office de FN ?</string>
     <string name="fn_standin_fn">Le bouton FN</string>
-    <string name="fn_standin_vol_both">Vol+ et Vol− ensemble</string>
-    <string name="fn_standin_vol_both_recommended">Vol+ et Vol− ensemble (conseillé)</string>
+    <string name="fn_standin_start_vol_down_recommended">Maintenir Start + Vol− (recommandé)</string>
+    <string name="fn_standin_start_vol_up">Maintenir Start + Vol+</string>
+    <string name="fn_standin_l2_r2">L2 + R2 ensemble</string>
+    <string name="fn_standin_own_combo">Votre propre combinaison…</string>
+    <string name="fn_standin_combo">%1$s + %2$s</string>
+    <string name="fn_combo_press_now">Maintenez un bouton et appuyez sur un second. Le premier fonctionne comme d\'habitude, en jeu aussi ; seul le second appui ouvre FN. B seul annule.</string>
+    <string name="fn_combo_refused_single">C\'était un seul bouton. Maintenez-le et appuyez sur un second, ou choisissez « Utiliser un autre bouton comme FN » pour un seul bouton. B seul annule.</string>
+    <string name="fn_combo_refused_power">Power ne peut pas faire partie de la combinaison. Essayez deux autres boutons, ou B seul pour annuler.</string>
+    <string name="fn_combo_refused_fn">Le bouton FN est déjà FN. Essayez deux autres boutons, ou B seul pour annuler.</string>
+    <string name="fn_combo_refused_reset">Maintenir %1$s + %2$s réinitialise l\'attribution des boutons. Essayez deux autres boutons, ou B seul pour annuler.</string>
+    <string name="fn_combo_refused_mouse">%1$s + %2$s active ou désactive le mode souris. Essayez deux autres boutons, ou B seul pour annuler.</string>
+    <string name="fn_combo_confirm_title">Utiliser %1$s + %2$s pour FN ?</string>
+    <string name="fn_combo_confirm">Maintenez %1$s et appuyez sur %2$s (ou l\'inverse) pour ouvrir les raccourcis FN. Le bouton maintenu fonctionne comme d\'habitude, en jeu aussi ; le second n\'ouvre FN que pendant que le premier est maintenu. Vous pouvez modifier ce choix dans Paramètres &gt; Commandes &gt; Raccourcis FN.</string>
     <string name="fn_standin_other">Utiliser un autre bouton comme FN</string>
     <!-- %1$s is a button, e.g. "L3" -->
     <string name="fn_standin_button">%1$s fait office de FN</string>

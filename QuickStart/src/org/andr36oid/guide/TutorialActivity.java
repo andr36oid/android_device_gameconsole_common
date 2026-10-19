@@ -661,11 +661,11 @@ public class TutorialActivity extends Activity {
     }
 
     /**
-     * Steps left out: FN + Vol for the brightness when Vol+ and Vol- together are the FN.
+     * Steps left out: FN + Vol for the brightness when a button combo is the FN.
      */
     private boolean isSkipped(int id) {
         return mNoFn && id == STEP_BRIGHTNESS
-                && ButtonSettings.VOL_BOTH.equals(ButtonSettings.fnStandin(this));
+                && ButtonSettings.comboScanCodes(ButtonSettings.fnStandin(this)) != null;
     }
 
     /** The step at index, or the first one after it that isn't left out. */
@@ -676,14 +676,17 @@ public class TutorialActivity extends Activity {
         return index;
     }
 
-    /** "Vol+ + Vol−" or the name of the button that stands in for FN */
+    /** "Start + Vol−" or the name of the button that stands in for FN */
     private String standinLabel() {
         final String standin = ButtonSettings.fnStandin(this);
         final int scanCode = ButtonSettings.standinScanCode(standin);
         if (scanCode >= 0) {
             return ButtonSettings.buttonName(this, scanCode);
         }
-        return getString(R.string.tutorial_standin_vol);
+        int[] combo = ButtonSettings.comboScanCodes(standin);
+        if (combo == null) combo = ButtonSettings.comboScanCodes(ButtonSettings.START_VOL_DOWN);
+        return getString(R.string.fn_standin_combo, ButtonSettings.buttonName(this, combo[0]),
+                ButtonSettings.buttonName(this, combo[1]));
     }
 
     /** The text with FN replaced by its stand-in, on consoles without FN. */

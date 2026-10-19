@@ -41,8 +41,19 @@
     <string name="fn_standin_row">FN 快捷键</string>
     <string name="fn_standin_title">哪个按键作为 FN？</string>
     <string name="fn_standin_fn">FN 键</string>
-    <string name="fn_standin_vol_both">同时按 Vol+ 和 Vol−</string>
-    <string name="fn_standin_vol_both_recommended">同时按 Vol+ 和 Vol−（推荐）</string>
+    <string name="fn_standin_start_vol_down_recommended">按住 Start + Vol−（推荐）</string>
+    <string name="fn_standin_start_vol_up">按住 Start + Vol+</string>
+    <string name="fn_standin_l2_r2">同时按 L2 + R2</string>
+    <string name="fn_standin_own_combo">自定义按键组合…</string>
+    <string name="fn_standin_combo">%1$s + %2$s</string>
+    <string name="fn_combo_press_now">按住一个按键，再按第二个。第一个按键照常工作，游戏中也一样；只有第二次按下会打开 FN。单独按 B 取消。</string>
+    <string name="fn_combo_refused_single">这只是一个按键。按住它再按第二个，或选择“使用其他按键作为 FN”来用单个按键。单独按 B 取消。</string>
+    <string name="fn_combo_refused_power">Power 键不能用于组合。请换两个按键，或单独按 B 取消。</string>
+    <string name="fn_combo_refused_fn">FN 键本身就是 FN。请换两个按键，或单独按 B 取消。</string>
+    <string name="fn_combo_refused_reset">同时按住 %1$s + %2$s 会重置按键映射。请换两个按键，或单独按 B 取消。</string>
+    <string name="fn_combo_refused_mouse">%1$s + %2$s 用于切换鼠标模式。请换两个按键，或单独按 B 取消。</string>
+    <string name="fn_combo_confirm_title">使用 %1$s + %2$s 作为 FN？</string>
+    <string name="fn_combo_confirm">按住 %1$s 再按 %2$s（反过来也行）即可打开 FN 快捷键。按住的按键照常工作，游戏中也一样；第二个按键只在第一个按住时打开 FN。可在 设置 &gt; 控制 &gt; FN 快捷键 中更改。</string>
     <string name="fn_standin_other">使用其他按键作为 FN</string>
     <!-- %1$s is a button, e.g. "L3" -->
     <string name="fn_standin_button">%1$s 作为 FN</string>
@@ -54,7 +65,6 @@
     <string name="fn_standin_confirm_ok">用作 FN</string>
 
     <!-- Tutorial on consoles without FN: what the FN steps say instead of FN -->
-    <string name="tutorial_standin_vol">Vol+ + Vol−</string>
     <!-- At the top of the Home step; %1$s is "Vol+ + Vol−" or a button like "L3" -->
     <string name="tutorial_standin_intro">本机没有 FN 键，因此由 %1$s 承担其功能。可在 设置 &gt; 控制 &gt; FN 快捷键 中更改。</string>
     <!-- Tutorial, shoulder buttons step: opens Settings > Controls > Buttons on this console -->
