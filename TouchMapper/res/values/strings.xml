@@ -142,4 +142,6 @@
 
     <string name="help_title">Editor help</string>
     <string name="help_text">Move the crosshair with the left stick or the D-pad.\n\nA on an empty spot adds a control there: pick the kind, then press its button or move its stick. A on a control changes it: move it, give it another button, or delete it.\n\nKinds:\n• Tap: a short tap\n• Hold: touches while the button is held\n• Joystick: a stick or the D-pad drags a finger around the spot, for on-screen sticks\n• Look around: a stick swipes across an area, for cameras and aiming\n• Swipe: a quick swipe in one direction\n\nL1 and R1, or the right stick, make the selected control smaller or bigger. L2 and R2 jump between controls. X deletes.\n\nShift button (Select, then Shift button): while it is held, a second set of controls applies. Y switches between the two sets.\n\nStart saves and closes. B closes. FN leaves without saving.\n\nButtons without a control keep working as normal buttons. FN and every FN shortcut always work.</string>
+    <!-- Toast: the game with touch controls is no longer in front -->
+    <string name="touch_overlay_off">Touch overlay disabled - gamepad restored</string>
 </resources>

@@ -16,6 +16,7 @@ import android.os.RemoteException;
 import android.os.SystemClock;
 import android.util.Log;
 import android.view.Display;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -37,7 +38,7 @@ public class WatcherService extends Service {
     private static final long EDIT_TIMEOUT_MS = 60_000;
     /** While touch controls are on, look again this often: a missed task change must not
      *  leave them mapping a game that is gone. */
-    private static final long POLL_MS = 2000;
+    private static final long POLL_MS = 1000;
 
     private final Handler mHandler = new Handler(Looper.getMainLooper());
     private final Runnable mCheck = this::check;
@@ -207,7 +208,13 @@ public class WatcherService extends Service {
         // open, the pad belongs to it.
         final Profile profile = getPackageName().equals(pkg) ? null : Profiles.load(pkg);
         if (profile == null || !profile.enabled || profile.controls.isEmpty()) {
-            if (Profiles.setActive(null)) Log.i(TAG, "Touch controls off, in front: " + pkg);
+            if (Profiles.setActive(null)) {
+                Log.i(TAG, "Touch controls off, in front: " + pkg);
+                // not when the editor takes over the game's controls
+                if (!getPackageName().equals(pkg)) {
+                    Toast.makeText(this, R.string.touch_overlay_off, Toast.LENGTH_SHORT).show();
+                }
+            }
             mHints.hide();
             return;
         }
