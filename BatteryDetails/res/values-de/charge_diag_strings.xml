@@ -55,4 +55,19 @@
     <string name="diag_limits">Ladegrenzen</string>
     <string name="diag_limits_value"><xliff:g id="charge">%1$d</xliff:g> mA in den Akku, <xliff:g id="input">%2$d</xliff:g> mA vom Ladegerät</string>
     <string name="diag_regs">Ladegerät-Register</string>
+    <string name="dia_port">USB-C-Port</string>
+    <string name="dia_boost">5-V-Boost</string>
+    <string name="dia_pin">Erkennungs-Pin</string>
+    <string name="dia_pmic">Power-Chip</string>
+    <string name="dia_vbus">USB-5-V-Messung</string>
+    <string name="dia_driver">Ladetreiber</string>
+    <string name="dia_android">Android</string>
+    <string name="dia_battery">Akku</string>
+    <string name="dia_power">Strom</string>
+    <string name="dia_nothing">nichts</string>
+    <string name="dia_no_pin">kein Pin</string>
+    <string name="dia_gives_5v">gibt 5 V ab</string>
+    <string name="dia_on">an</string>
+    <string name="dia_off">aus</string>
+    <string name="dia_caption">Leuchtende Teile sehen das Ladegerät. Rot: Der 5-V-Boost ist an, ohne dass ein USB-Gerät steckt. Dann hält ein Ladegerät die Konsole vielleicht für eine Stromquelle und schaltet seine 5 V ab.</string>
 </resources>

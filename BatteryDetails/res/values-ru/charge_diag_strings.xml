@@ -55,4 +55,19 @@
     <string name="diag_limits">Пределы зарядки</string>
     <string name="diag_limits_value"><xliff:g id="charge">%1$d</xliff:g> мА в аккумулятор, <xliff:g id="input">%2$d</xliff:g> мА от зарядного устройства</string>
     <string name="diag_regs">Регистры зарядного устройства</string>
+    <string name="dia_port">Порт USB-C</string>
+    <string name="dia_boost">Буст 5 V</string>
+    <string name="dia_pin">Вывод детекции</string>
+    <string name="dia_pmic">Чип питания</string>
+    <string name="dia_vbus">Датчик USB 5 V</string>
+    <string name="dia_driver">Драйвер</string>
+    <string name="dia_android">Android</string>
+    <string name="dia_battery">Батарея</string>
+    <string name="dia_power">питание</string>
+    <string name="dia_nothing">ничего</string>
+    <string name="dia_no_pin">нет вывода</string>
+    <string name="dia_gives_5v">отдаёт 5 V</string>
+    <string name="dia_on">вкл.</string>
+    <string name="dia_off">выкл.</string>
+    <string name="dia_caption">Подсвеченные части видят зарядное устройство. Красный: буст 5 V включён без USB-устройства, поэтому зарядное устройство может принять консоль за источник питания и отключить своё 5 V.</string>
 </resources>

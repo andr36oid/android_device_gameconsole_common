@@ -55,4 +55,19 @@
     <string name="diag_limits">Limites de carga</string>
     <string name="diag_limits_value"><xliff:g id="charge">%1$d</xliff:g> mA para a bateria, <xliff:g id="input">%2$d</xliff:g> mA do carregador</string>
     <string name="diag_regs">Registradores do carregador</string>
+    <string name="dia_port">Porta USB-C</string>
+    <string name="dia_boost">Boost de 5 V</string>
+    <string name="dia_pin">Pino de detecção</string>
+    <string name="dia_pmic">Chip de energia</string>
+    <string name="dia_vbus">Sensor USB 5 V</string>
+    <string name="dia_driver">Driver</string>
+    <string name="dia_android">Android</string>
+    <string name="dia_battery">Bateria</string>
+    <string name="dia_power">energia</string>
+    <string name="dia_nothing">nada</string>
+    <string name="dia_no_pin">sem pino</string>
+    <string name="dia_gives_5v">dá 5 V</string>
+    <string name="dia_on">ligado</string>
+    <string name="dia_off">desligado</string>
+    <string name="dia_caption">As partes acesas veem o carregador. Vermelho: o boost de 5 V está ligado sem nenhum dispositivo USB conectado, então um carregador pode achar que o console é uma fonte de energia e desligar os 5 V dele.</string>
 </resources>

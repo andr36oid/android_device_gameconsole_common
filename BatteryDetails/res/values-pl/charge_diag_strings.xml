@@ -55,4 +55,19 @@
     <string name="diag_limits">Limity ładowania</string>
     <string name="diag_limits_value"><xliff:g id="charge">%1$d</xliff:g> mA do baterii, <xliff:g id="input">%2$d</xliff:g> mA z ładowarki</string>
     <string name="diag_regs">Rejestry ładowarki</string>
+    <string name="dia_port">Port USB-C</string>
+    <string name="dia_boost">Boost 5 V</string>
+    <string name="dia_pin">Pin wykrywania</string>
+    <string name="dia_pmic">Układ zasilania</string>
+    <string name="dia_vbus">Pomiar USB 5 V</string>
+    <string name="dia_driver">Sterownik</string>
+    <string name="dia_android">Android</string>
+    <string name="dia_battery">Bateria</string>
+    <string name="dia_power">zasilanie</string>
+    <string name="dia_nothing">nic</string>
+    <string name="dia_no_pin">brak pinu</string>
+    <string name="dia_gives_5v">daje 5 V</string>
+    <string name="dia_on">włączony</string>
+    <string name="dia_off">wyłączony</string>
+    <string name="dia_caption">Podświetlone części widzą ładowarkę. Czerwony: boost 5 V jest włączony bez podłączonego urządzenia USB, więc ładowarka może uznać konsolę za źródło zasilania i wyłączyć swoje 5 V.</string>
 </resources>

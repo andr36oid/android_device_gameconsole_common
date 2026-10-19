@@ -43,6 +43,7 @@ public class ChargeDiagFragment extends PreferenceFragment {
         }
     };
 
+    private ChargeDiagramPreference mDiagram;
     private PreferenceCategory mTestCategory;
     private Preference mResult;
     private Test mTest;
@@ -53,6 +54,9 @@ public class ChargeDiagFragment extends PreferenceFragment {
         final Context context = getActivity();
         final PreferenceScreen screen = getPreferenceManager().createPreferenceScreen(context);
         setPreferenceScreen(screen);
+
+        mDiagram = new ChargeDiagramPreference(context);
+        screen.addPreference(mDiagram);
 
         mTestCategory = new PreferenceCategory(context);
         mTestCategory.setTitle(R.string.diag_test_category);
@@ -109,6 +113,7 @@ public class ChargeDiagFragment extends PreferenceFragment {
                 : getString(current >= 0 ? R.string.value_current_in
                         : R.string.value_current_out, Math.abs(current)));
         final int plugged = plugged(getActivity());
+        mDiagram.update(d, plugged);
         set("android", getString(plugged == 0 ? R.string.charger_none
                 : plugged == BatteryManager.BATTERY_PLUGGED_AC ? R.string.charger_ac
                 : R.string.charger_usb));

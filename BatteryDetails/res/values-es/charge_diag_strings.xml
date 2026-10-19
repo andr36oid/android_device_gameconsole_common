@@ -55,4 +55,19 @@
     <string name="diag_limits">Límites de carga</string>
     <string name="diag_limits_value"><xliff:g id="charge">%1$d</xliff:g> mA a la batería, <xliff:g id="input">%2$d</xliff:g> mA desde el cargador</string>
     <string name="diag_regs">Registros del cargador</string>
+    <string name="dia_port">Puerto USB-C</string>
+    <string name="dia_boost">Boost de 5 V</string>
+    <string name="dia_pin">Pin de detección</string>
+    <string name="dia_pmic">Chip de energía</string>
+    <string name="dia_vbus">Sensor USB 5 V</string>
+    <string name="dia_driver">Controlador</string>
+    <string name="dia_android">Android</string>
+    <string name="dia_battery">Batería</string>
+    <string name="dia_power">energía</string>
+    <string name="dia_nothing">nada</string>
+    <string name="dia_no_pin">sin pin</string>
+    <string name="dia_gives_5v">da 5 V</string>
+    <string name="dia_on">encendido</string>
+    <string name="dia_off">apagado</string>
+    <string name="dia_caption">Las partes iluminadas ven el cargador. Rojo: el boost de 5 V está activo sin ningún dispositivo USB conectado, así que un cargador puede tomar la consola por una fuente de energía y apagar sus 5 V.</string>
 </resources>

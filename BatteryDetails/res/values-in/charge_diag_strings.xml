@@ -55,4 +55,19 @@
     <string name="diag_limits">Batas pengisian</string>
     <string name="diag_limits_value"><xliff:g id="charge">%1$d</xliff:g> mA ke baterai, <xliff:g id="input">%2$d</xliff:g> mA dari pengisi daya</string>
     <string name="diag_regs">Register pengisi daya</string>
+    <string name="dia_port">Port USB-C</string>
+    <string name="dia_boost">Boost 5 V</string>
+    <string name="dia_pin">Pin deteksi</string>
+    <string name="dia_pmic">Chip daya</string>
+    <string name="dia_vbus">Sensor USB 5 V</string>
+    <string name="dia_driver">Driver</string>
+    <string name="dia_android">Android</string>
+    <string name="dia_battery">Baterai</string>
+    <string name="dia_power">daya</string>
+    <string name="dia_nothing">tidak ada</string>
+    <string name="dia_no_pin">tanpa pin</string>
+    <string name="dia_gives_5v">beri 5 V</string>
+    <string name="dia_on">nyala</string>
+    <string name="dia_off">mati</string>
+    <string name="dia_caption">Bagian yang menyala melihat pengisi daya. Merah: boost 5 V menyala tanpa perangkat USB tercolok, jadi pengisi daya mungkin mengira konsol adalah sumber daya dan mematikan 5 V-nya.</string>
 </resources>

@@ -55,4 +55,19 @@
     <string name="diag_limits">充电限制</string>
     <string name="diag_limits_value">进入电池 <xliff:g id="charge">%1$d</xliff:g> mA，来自充电器 <xliff:g id="input">%2$d</xliff:g> mA</string>
     <string name="diag_regs">充电器寄存器</string>
+    <string name="dia_port">USB-C 接口</string>
+    <string name="dia_boost">5 V 升压</string>
+    <string name="dia_pin">检测引脚</string>
+    <string name="dia_pmic">电源芯片</string>
+    <string name="dia_vbus">USB 5 V 检测</string>
+    <string name="dia_driver">驱动</string>
+    <string name="dia_android">Android</string>
+    <string name="dia_battery">电池</string>
+    <string name="dia_power">供电</string>
+    <string name="dia_nothing">无</string>
+    <string name="dia_no_pin">无引脚</string>
+    <string name="dia_gives_5v">输出 5 V</string>
+    <string name="dia_on">开</string>
+    <string name="dia_off">关</string>
+    <string name="dia_caption">亮起的部分能检测到充电器。红色：USB 设备未连接时 5 V 升压已开启，充电器可能把主机当作电源，从而关闭其 5 V 输出。</string>
 </resources>

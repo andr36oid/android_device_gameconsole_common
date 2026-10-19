@@ -1,5 +1,6 @@
 package org.andr36oid.batterydetails;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -22,10 +23,13 @@ final class ChargeDiag {
 
     private final Map<String, String> mValues;
     final Gauge gauge;
+    /** The USB phy sees 5 V on the port (1/0), Gauge.UNKNOWN without its extcon */
+    final int vbus;
 
-    private ChargeDiag(Map<String, String> values, Gauge gauge) {
+    private ChargeDiag(Map<String, String> values, Gauge gauge, int vbus) {
         mValues = values;
         this.gauge = gauge;
+        this.vbus = vbus;
     }
 
     static boolean isSupported() {
@@ -43,7 +47,34 @@ final class ChargeDiag {
         } catch (IOException | SecurityException e) {
             // all unknown
         }
-        return new ChargeDiag(values, Gauge.read());
+        return new ChargeDiag(values, Gauge.read(), readVbus());
+    }
+
+    /**
+     * The USB phy's extcon (the one with a USB_HOST cable) says USB or a USB charger type
+     * while it sees 5 V coming in on the port.
+     */
+    private static int readVbus() {
+        final File[] devices = new File("/sys/class/extcon").listFiles();
+        if (devices == null) return Gauge.UNKNOWN;
+        for (File device : devices) {
+            final String state;
+            try {
+                state = new String(Files.readAllBytes(new File(device, "state").toPath()),
+                        StandardCharsets.UTF_8);
+            } catch (IOException | SecurityException e) {
+                continue;
+            }
+            if (!state.contains("USB_HOST=")) continue;
+            for (String line : state.split("\n")) {
+                if ((line.startsWith("USB=") || line.startsWith("CHG_USB"))
+                        && line.endsWith("=1")) {
+                    return 1;
+                }
+            }
+            return 0;
+        }
+        return Gauge.UNKNOWN;
     }
 
     String raw(String key) {

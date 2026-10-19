@@ -55,4 +55,22 @@
     <string name="diag_limits">Charging limits</string>
     <string name="diag_limits_value"><xliff:g id="charge">%1$d</xliff:g> mA into the battery, <xliff:g id="input">%2$d</xliff:g> mA from the charger</string>
     <string name="diag_regs">Charger registers</string>
+
+    <!-- Live diagram of the charging path at the top of Charging diagnostics; boxes are
+         narrow, keep the words short -->
+    <string name="dia_port">USB-C port</string>
+    <string name="dia_boost">5 V boost</string>
+    <string name="dia_pin">Detect pin</string>
+    <string name="dia_pmic">Power chip</string>
+    <string name="dia_vbus">USB 5 V sense</string>
+    <string name="dia_driver">Driver</string>
+    <string name="dia_android">Android</string>
+    <string name="dia_battery">Battery</string>
+    <string name="dia_power">power</string>
+    <string name="dia_nothing">nothing</string>
+    <string name="dia_no_pin">no pin</string>
+    <string name="dia_gives_5v">gives 5 V</string>
+    <string name="dia_on">on</string>
+    <string name="dia_off">off</string>
+    <string name="dia_caption">Lit parts see the charger. Red: the 5 V boost is on with no USB device plugged in, so a charger may take the console for a power source and keep its 5 V off.</string>
 </resources>

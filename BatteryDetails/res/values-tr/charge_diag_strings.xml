@@ -55,4 +55,19 @@
     <string name="diag_limits">Şarj sınırları</string>
     <string name="diag_limits_value">Pile <xliff:g id="charge">%1$d</xliff:g> mA, şarj cihazından <xliff:g id="input">%2$d</xliff:g> mA</string>
     <string name="diag_regs">Şarj cihazı kayıtları</string>
+    <string name="dia_port">USB-C portu</string>
+    <string name="dia_boost">5 V boost</string>
+    <string name="dia_pin">Algılama pini</string>
+    <string name="dia_pmic">Güç çipi</string>
+    <string name="dia_vbus">USB 5 V sensörü</string>
+    <string name="dia_driver">Sürücü</string>
+    <string name="dia_android">Android</string>
+    <string name="dia_battery">Pil</string>
+    <string name="dia_power">güç</string>
+    <string name="dia_nothing">yok</string>
+    <string name="dia_no_pin">pin yok</string>
+    <string name="dia_gives_5v">5 V verir</string>
+    <string name="dia_on">açık</string>
+    <string name="dia_off">kapalı</string>
+    <string name="dia_caption">Yanan parçalar şarj cihazını görür. Kırmızı: USB aygıtı takılı değilken 5 V boost açık, bu yüzden şarj cihazı konsolu güç kaynağı sanıp 5 V\'sini kapatabilir.</string>
 </resources>
