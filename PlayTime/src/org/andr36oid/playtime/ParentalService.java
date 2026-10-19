@@ -61,6 +61,8 @@ public class ParentalService extends Service {
     /** the app in front, and whether it is an allowed one (its time isn't counted) */
     private String mTop = "";
     private boolean mTopAllowed;
+    /** Settings is in front: its time isn't counted either, but it isn't an allowed app */
+    private boolean mTopFree;
 
     private final TaskStackListener mTasks = new TaskStackListener() {
         @Override
@@ -168,11 +170,12 @@ public class ParentalService extends Service {
         mHandler.removeCallbacks(mTick);
     }
 
-    /** Adds the screen-on time since the last count, unless an allowed app was in front. */
+    /** Adds the screen-on time since the last count, unless an allowed app or Settings was in
+     *  front. */
     private void count() {
         if (mLastCount < 0) return;
         final long now = SystemClock.elapsedRealtime();
-        if (!mTopAllowed) {
+        if (!mTopAllowed && !mTopFree) {
             Parental.setUsedMs(this, Parental.usedMs(this) + (now - mLastCount));
         }
         mLastCount = now;
@@ -201,6 +204,7 @@ public class ParentalService extends Service {
         count();
         mTop = top;
         mTopAllowed = allowed;
+        mTopFree = "com.android.settings".equals(top);
         if (mLastCount >= 0) tick();
     }
 
