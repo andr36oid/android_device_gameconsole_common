@@ -40,8 +40,9 @@ mkdir -p "$INTERMEDIATES"
 tar xfp "$PARAM_BOOTANIMATION_TAR" -C "$INTERMEDIATES"
 
 # desc.txt: after the intro the dots (part1) circle until Android is up, however long
-# the start takes (the first start's card setup can take minutes). Then the logo forms
-# (part2, a "c" part, so it plays to the end once Android is up). The fade is left out.
+# the start takes (the first start's card setup can take minutes). part1 is a "c" part
+# too, so the circle that is under way finishes and the dots are where part2 starts.
+# Then the logo forms (part2, played to the end). The fade is left out.
 rm -rf $INTERMEDIATES/part3
 
 # All supported consoles run in landscape (panels mounted in portrait are
