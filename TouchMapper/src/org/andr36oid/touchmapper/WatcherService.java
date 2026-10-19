@@ -35,6 +35,9 @@ public class WatcherService extends Service {
     /** Opened from Settings: wait for the game to show something before the editor comes up. */
     private static final long EDIT_DELAY_MS = 2500;
     private static final long EDIT_TIMEOUT_MS = 60_000;
+    /** While touch controls are on, look again this often: a missed task change must not
+     *  leave them mapping a game that is gone. */
+    private static final long POLL_MS = 2000;
 
     private final Handler mHandler = new Handler(Looper.getMainLooper());
     private final Runnable mCheck = this::check;
@@ -93,6 +96,9 @@ public class WatcherService extends Service {
         super.onCreate();
         mHints = new HintOverlay(this);
         mDisplayManager = getSystemService(DisplayManager.class);
+        // A watcher that was killed left its last app named to the daemon: off until the
+        // first look says otherwise
+        Profiles.setActive(null);
     }
 
     @Override
@@ -178,8 +184,10 @@ public class WatcherService extends Service {
         if (!mListening) {
             return;
         }
+        mHandler.removeCallbacks(mCheck);
         final String pkg = foregroundPackage();
         if (pkg == null) {
+            if (mActive != null) mHandler.postDelayed(mCheck, POLL_MS);
             return;
         }
         if (mPendingEdit != null) {
@@ -191,6 +199,7 @@ public class WatcherService extends Service {
             }
         }
         if (pkg.equals(mActive)) {
+            if (Profiles.isActive(pkg)) mHandler.postDelayed(mCheck, POLL_MS);
             return;
         }
         mActive = pkg;
@@ -198,11 +207,12 @@ public class WatcherService extends Service {
         // open, the pad belongs to it.
         final Profile profile = getPackageName().equals(pkg) ? null : Profiles.load(pkg);
         if (profile == null || !profile.enabled || profile.controls.isEmpty()) {
-            Profiles.setActive(null);
+            if (Profiles.setActive(null)) Log.i(TAG, "Touch controls off, in front: " + pkg);
             mHints.hide();
             return;
         }
-        Profiles.setActive(pkg);
+        if (Profiles.setActive(pkg)) Log.i(TAG, "Touch controls on for " + pkg);
+        mHandler.postDelayed(mCheck, POLL_MS);
         if (profile.hints) {
             mHints.show(profile);
         } else {

@@ -116,11 +116,18 @@ final class Profiles {
         WatcherService.refresh(context);
     }
 
-    static void setActive(String packageName) {
+    /** Names the app whose touch controls the daemon uses; true if that changed. */
+    static boolean setActive(String packageName) {
         final String value = packageName == null ? "" : packageName;
-        if (!value.equals(SystemProperties.get(PROP_PROFILE, ""))) {
-            setProperty(PROP_PROFILE, value);
+        if (value.equals(SystemProperties.get(PROP_PROFILE, ""))) {
+            return false;
         }
+        setProperty(PROP_PROFILE, value);
+        return true;
+    }
+
+    static boolean isActive(String packageName) {
+        return packageName.equals(SystemProperties.get(PROP_PROFILE, ""));
     }
 
     static void setProperty(String name, String value) {
