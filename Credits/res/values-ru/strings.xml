@@ -3,11 +3,11 @@
 
     <string name="credits_title">Авторы</string>
 
-    <string name="credits_tagline">Android 11 для R36S</string>
+    <string name="credits_tagline">Android 11 для RK3326</string>
 
     <string name="credits_team">Команда</string>
     <string name="credits_role_port">Первоначальный порт</string>
-    <string name="credits_role_ux">Расширения и UX</string>
+    <string name="credits_role_ux">Удобство и поддержка устройств</string>
     <string name="credits_role_clones">Поддержка клонов</string>
     <string name="credits_role_legend">Отзывы, советы и просто легенда</string>
     <string name="credits_role_beta">Отзывы о бета-версиях</string>

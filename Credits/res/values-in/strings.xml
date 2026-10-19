@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="credits_title">Kredit</string>
-    <string name="credits_tagline">Android 11 untuk R36S</string>
+    <string name="credits_tagline">Android 11 untuk RK3326</string>
     <string name="credits_team">Tim</string>
     <string name="credits_role_port">Port awal</string>
-    <string name="credits_role_ux">Ekstensi &amp; UX</string>
+    <string name="credits_role_ux">Pengalaman Pengguna &amp; Dukungan Perangkat</string>
     <string name="credits_role_clones">Dukungan perangkat klon</string>
     <string name="credits_role_legend">Ulasan, masukan, dan legenda sejati</string>
     <string name="credits_role_beta">Masukan beta</string>

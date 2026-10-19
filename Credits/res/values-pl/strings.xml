@@ -3,11 +3,11 @@
 
     <string name="credits_title">Twórcy</string>
 
-    <string name="credits_tagline">Android 11 dla R36S</string>
+    <string name="credits_tagline">Android 11 dla RK3326</string>
 
     <string name="credits_team">Zespół</string>
     <string name="credits_role_port">Pierwszy port</string>
-    <string name="credits_role_ux">Rozszerzenia i UX</string>
+    <string name="credits_role_ux">Wygoda obsługi i obsługa urządzeń</string>
     <string name="credits_role_clones">Obsługa klonów</string>
     <string name="credits_role_legend">Recenzje, opinie i absolutna legenda</string>
     <string name="credits_role_beta">Opinie z testów beta</string>

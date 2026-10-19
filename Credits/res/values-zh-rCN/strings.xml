@@ -3,11 +3,11 @@
 
     <string name="credits_title">致谢</string>
 
-    <string name="credits_tagline">适用于 R36S 的 Android 11</string>
+    <string name="credits_tagline">适用于 RK3326 的 Android 11</string>
 
     <string name="credits_team">团队</string>
     <string name="credits_role_port">初始移植</string>
-    <string name="credits_role_ux">扩展功能与用户体验</string>
+    <string name="credits_role_ux">用户体验与设备支持</string>
     <string name="credits_role_clones">仿制机型支持</string>
     <string name="credits_role_legend">审阅、反馈，绝对的传奇</string>
     <string name="credits_role_beta">Beta 版反馈</string>

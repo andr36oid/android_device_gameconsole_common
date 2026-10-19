@@ -3,11 +3,11 @@
 
     <string name="credits_title">Emeği geçenler</string>
 
-    <string name="credits_tagline">R36S için Android 11</string>
+    <string name="credits_tagline">RK3326 için Android 11</string>
 
     <string name="credits_team">Ekip</string>
     <string name="credits_role_port">İlk port</string>
-    <string name="credits_role_ux">Eklentiler &amp; UX</string>
+    <string name="credits_role_ux">Kullanıcı Deneyimi &amp; Cihaz Desteği</string>
     <string name="credits_role_clones">Klon desteği çalışmaları</string>
     <string name="credits_role_legend">İncelemeler, geri bildirim ve tam bir efsane</string>
     <string name="credits_role_beta">Beta geri bildirimi</string>
