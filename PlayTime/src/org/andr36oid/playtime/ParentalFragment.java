@@ -8,6 +8,8 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.preference.ListPreference;
 import android.preference.MultiSelectListPreference;
+import android.content.DialogInterface;
+import android.view.KeyEvent;
 import android.widget.NumberPicker;
 
 import java.util.ArrayList;
@@ -205,7 +207,7 @@ public class ParentalFragment extends PreferenceFragment {
         picker.setValue(Math.max(1, Parental.refillHours(c)));
         picker.setWrapSelectorWheel(false);
         picker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
-        new AlertDialog.Builder(c)
+        final AlertDialog dialog = new AlertDialog.Builder(c)
                 .setTitle(R.string.parental_refill_custom_title)
                 .setView(picker)
                 .setPositiveButton(android.R.string.ok, (d, w) -> {
@@ -214,6 +216,24 @@ public class ParentalFragment extends PreferenceFragment {
                 })
                 .setNegativeButton(android.R.string.cancel, null)
                 .show();
+        // Up and down change the number, so they can't reach the buttons: A takes the number,
+        // left or right goes to the buttons
+        picker.setOnKeyListener((v, keyCode, event) -> {
+            if (event.getAction() != KeyEvent.ACTION_DOWN) return false;
+            switch (keyCode) {
+                case KeyEvent.KEYCODE_DPAD_CENTER:
+                case KeyEvent.KEYCODE_ENTER:
+                case KeyEvent.KEYCODE_BUTTON_A:
+                    dialog.getButton(DialogInterface.BUTTON_POSITIVE).performClick();
+                    return true;
+                case KeyEvent.KEYCODE_DPAD_LEFT:
+                case KeyEvent.KEYCODE_DPAD_RIGHT:
+                    dialog.getButton(DialogInterface.BUTTON_POSITIVE).requestFocus();
+                    return true;
+                default:
+                    return false;
+            }
+        });
         picker.requestFocus();
     }
 
