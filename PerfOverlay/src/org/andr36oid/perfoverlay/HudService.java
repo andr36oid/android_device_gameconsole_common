@@ -10,29 +10,22 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.PixelFormat;
-import android.graphics.Typeface;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.IBinder;
 import android.os.Looper;
 import android.os.PowerManager;
-import android.text.SpannableStringBuilder;
-import android.text.Spanned;
 import android.text.TextUtils;
-import android.text.format.DateFormat;
-import android.text.style.ForegroundColorSpan;
-import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.WindowManager;
 import android.widget.TextView;
 
-import java.util.Locale;
-
 /**
  * Draws the overlay: a small non-focusable, non-touchable system window in a screen corner,
- * so it never takes buttons away from the game. Updates once a second while the screen is
- * on and stops completely while it is off. The readings are taken on a worker thread,
+ * so it never takes buttons away from the game. Updates once a second (or as set) while the
+ * screen is on and stops completely while it is off. The readings are taken on a worker thread,
  * reading SurfaceFlinger's dumps can take a moment; only the text is set on the main thread.
  */
 public class HudService extends Service
@@ -42,7 +35,6 @@ public class HudService extends Service
 
     private static final String CHANNEL = "overlay";
     private static final int NOTIFICATION_ID = 1;
-    private static final long INTERVAL_MS = 1000;
 
     private final Handler mHandler = new Handler(Looper.getMainLooper());
     private HandlerThread mWorker;
@@ -54,17 +46,15 @@ public class HudService extends Service
     private boolean mTicking;
     private CharSequence mShown;
 
-    private int mLabelColor;
-    private int mValueColor;
-    private int mGoodColor;
-    private int mOkColor;
-    private int mBadColor;
+    /** Replaced on every settings change, read on the worker thread. */
+    private volatile HudFormat mFormat;
+    private volatile long mIntervalMs;
 
     private final Runnable mTick = new Runnable() {
         @Override
         public void run() {
             update();
-            mWorkerHandler.postDelayed(this, INTERVAL_MS);
+            mWorkerHandler.postDelayed(this, mIntervalMs);
         }
     };
 
@@ -84,22 +74,10 @@ public class HudService extends Service
         mWorker.start();
         mWorkerHandler = new Handler(mWorker.getLooper());
 
-        mLabelColor = getColor(R.color.hud_label);
-        mValueColor = getColor(R.color.hud_value);
-        mGoodColor = getColor(R.color.hud_good);
-        mOkColor = getColor(R.color.hud_ok);
-        mBadColor = getColor(R.color.hud_bad);
-
+        Hud.migrate(this);
         mWindowManager = getSystemService(WindowManager.class);
         mView = new TextView(this);
-        mView.setBackgroundResource(R.drawable.hud_background);
-        mView.setTypeface(Typeface.create(Typeface.MONOSPACE, Typeface.BOLD));
-        mView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 11);
-        mView.setIncludeFontPadding(false);
-        mView.setShadowLayer(2, 1, 1, 0xFF000000);
-        final int padX = dp(5);
-        final int padY = dp(3);
-        mView.setPadding(padX, padY, padX, padY);
+        loadSettings();
         mWindowManager.addView(mView, layoutParams());
 
         final IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_ON);
@@ -137,13 +115,33 @@ public class HudService extends Service
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
-        if (Hud.KEY_POSITION.equals(key)) {
-            mWindowManager.updateViewLayout(mView, layoutParams());
-        } else if (Hud.KEY_STYLE.equals(key) && mTicking) {
-            // Show the new style right away
+        if (Hud.KEY_ENABLED.equals(key)) return;
+        settingsChanged();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        // A new accent colour comes as a configuration change
+        settingsChanged();
+    }
+
+    private void settingsChanged() {
+        loadSettings();
+        mWindowManager.updateViewLayout(mView, layoutParams());
+        if (mTicking) {
+            // Show the change right away
+            mShown = null;
             mWorkerHandler.removeCallbacks(mTick);
             mWorkerHandler.post(mTick);
         }
+    }
+
+    private void loadSettings() {
+        final HudFormat format = new HudFormat(this);
+        format.style(mView);
+        mIntervalMs = Hud.intervalMs(Hud.prefs(this));
+        mFormat = format;
     }
 
     private void setTicking(boolean ticking) {
@@ -161,9 +159,9 @@ public class HudService extends Service
 
     /** On the worker thread: takes the readings and hands the text to the main thread. */
     private void update() {
-        final String style = Hud.getStyle(this);
-        mStats.sample(!Hud.STYLE_FPS.equals(style));
-        final CharSequence text = format(style);
+        final HudFormat format = mFormat;
+        mStats.sample(format.needsMoreThanFps());
+        final CharSequence text = format.format(mStats);
         mHandler.post(() -> {
             // Only redraw on changes, every redraw is a frame SurfaceFlinger has to put up.
             if (mTicking && !TextUtils.equals(text, mShown)) {
@@ -171,93 +169,6 @@ public class HudService extends Service
                 mView.setText(text);
             }
         });
-    }
-
-    private CharSequence format(String style) {
-        final SpannableStringBuilder out = new SpannableStringBuilder();
-        final Stats s = mStats;
-        final int fpsColor = s.fps < 0 ? mValueColor
-                : s.fps >= 50 ? mGoodColor : s.fps >= 25 ? mOkColor : mBadColor;
-        final String fps = s.fps < 0 ? "--" : String.valueOf(s.fps);
-        if (Hud.STYLE_FPS.equals(style)) {
-            append(out, fps, fpsColor);
-            append(out, " " + getString(R.string.hud_fps), mLabelColor);
-            return out;
-        }
-        final boolean full = Hud.STYLE_FULL.equals(style);
-
-        label(out, R.string.hud_fps);
-        append(out, pad(fps, 3), fpsColor);
-
-        label(out, R.string.hud_cpu);
-        append(out, s.cpuPercent < 0 ? "--" : pad(s.cpuPercent + "%", 4), mValueColor);
-        if (full && s.cpuMhz > 0) {
-            append(out, String.format(Locale.US, " %.2fGHz", s.cpuMhz / 1000f), mValueColor);
-        }
-        if (full && s.gpuMhz > 0) {
-            label(out, R.string.hud_gpu);
-            append(out, s.gpuMhz + "MHz", mValueColor);
-        }
-        if (full) {
-            out.append('\n');
-        }
-
-        if (!Float.isNaN(s.tempC)) {
-            label(out, R.string.hud_temp, full);
-            append(out, Math.round(s.tempC) + "°C", s.tempC >= 75 ? mBadColor
-                    : s.tempC >= 65 ? mOkColor : mValueColor);
-        }
-        if (s.batteryPercent >= 0) {
-            label(out, R.string.hud_bat, full && Float.isNaN(s.tempC));
-            append(out, s.batteryPercent + "%", s.charging ? mGoodColor
-                    : s.batteryPercent <= 15 ? mBadColor : mValueColor);
-            if (full && !Float.isNaN(s.batteryWatts)) {
-                append(out, String.format(Locale.US, " %s%.1fW",
-                        s.charging ? "+" : "-", s.batteryWatts), mValueColor);
-            }
-        }
-        if (full) {
-            if (s.ramPercent >= 0) {
-                label(out, R.string.hud_ram);
-                append(out, s.ramPercent + "%", s.ramPercent >= 90 ? mOkColor : mValueColor);
-                if (s.memMhz > 0) {
-                    append(out, " " + s.memMhz + "MHz", mValueColor);
-                }
-            }
-            if (s.storagePercent >= 0) {
-                label(out, R.string.hud_storage);
-                append(out, s.storagePercent + "%", s.storagePercent >= 90 ? mOkColor
-                        : mValueColor);
-            }
-            append(out, "  " + DateFormat.getTimeFormat(this).format(
-                    System.currentTimeMillis()), mLabelColor);
-        }
-        return out;
-    }
-
-    private void label(SpannableStringBuilder out, int label) {
-        label(out, label, out.length() == 0);
-    }
-
-    /** A label, with a gap before it unless it starts a line. */
-    private void label(SpannableStringBuilder out, int label, boolean first) {
-        append(out, (first ? "" : "  ") + getString(label) + " ", mLabelColor);
-    }
-
-    private static void append(SpannableStringBuilder out, String text, int color) {
-        final int start = out.length();
-        out.append(text);
-        out.setSpan(new ForegroundColorSpan(color), start, out.length(),
-                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-    }
-
-    /** Right-aligns short numbers so the rest of the line doesn't jump around. */
-    private static String pad(String text, int width) {
-        final StringBuilder padded = new StringBuilder();
-        for (int i = text.length(); i < width; i++) {
-            padded.append(' ');
-        }
-        return padded.append(text).toString();
     }
 
     private WindowManager.LayoutParams layoutParams() {
@@ -276,10 +187,10 @@ public class HudService extends Service
         lp.setFitInsetsTypes(0);
         lp.layoutInDisplayCutoutMode =
                 WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_ALWAYS;
-        final String position = Hud.getPosition(this);
-        lp.gravity = (position.startsWith("bottom") ? Gravity.BOTTOM : Gravity.TOP)
-                | (position.endsWith("right") ? Gravity.RIGHT : Gravity.LEFT);
-        lp.x = dp(4);
+        lp.gravity = mFormat.gravity();
+        // x is an offset from the centre for centred positions
+        lp.x = (lp.gravity & Gravity.HORIZONTAL_GRAVITY_MASK) == Gravity.CENTER_HORIZONTAL
+                ? 0 : dp(4);
         lp.y = dp(4);
         return lp;
     }

@@ -6,24 +6,126 @@
         android:defaultValue="false"
         android:title="@string/overlay_switch" />
 
-    <ListPreference
-        android:key="style"
-        android:defaultValue="compact"
-        android:entries="@array/style_entries"
-        android:entryValues="@array/style_values"
-        android:summary="%s"
-        android:title="@string/overlay_style" />
+    <PreferenceCategory
+        android:key="shows"
+        android:title="@string/overlay_shows">
 
-    <ListPreference
-        android:key="position"
-        android:defaultValue="top_left"
-        android:entries="@array/position_entries"
-        android:entryValues="@array/position_values"
-        android:summary="%s"
-        android:title="@string/overlay_position" />
+        <CheckBoxPreference
+            android:key="show_fps"
+            android:defaultValue="true"
+            android:title="@string/show_fps"
+            android:summary="@string/show_fps_summary" />
+        <CheckBoxPreference
+            android:key="show_cpu"
+            android:defaultValue="true"
+            android:title="@string/show_cpu" />
+        <CheckBoxPreference
+            android:key="show_speeds"
+            android:defaultValue="false"
+            android:title="@string/show_speeds" />
+        <CheckBoxPreference
+            android:key="show_temp"
+            android:defaultValue="true"
+            android:title="@string/show_temp" />
+        <CheckBoxPreference
+            android:key="show_battery"
+            android:defaultValue="true"
+            android:title="@string/show_battery" />
+        <CheckBoxPreference
+            android:key="show_power"
+            android:defaultValue="false"
+            android:title="@string/show_power" />
+        <CheckBoxPreference
+            android:key="show_ram"
+            android:defaultValue="false"
+            android:title="@string/show_ram" />
+        <CheckBoxPreference
+            android:key="show_storage"
+            android:defaultValue="false"
+            android:title="@string/show_storage" />
+        <CheckBoxPreference
+            android:key="show_time"
+            android:defaultValue="false"
+            android:title="@string/show_time" />
+    </PreferenceCategory>
 
-    <Preference
-        android:key="about"
-        android:selectable="false"
-        android:summary="@string/overlay_about" />
+    <PreferenceCategory
+        android:key="layout_group"
+        android:title="@string/overlay_layout_group">
+
+        <ListPreference
+            android:key="position"
+            android:defaultValue="top_left"
+            android:entries="@array/position_entries"
+            android:entryValues="@array/position_values"
+            android:summary="%s"
+            android:title="@string/overlay_position" />
+        <ListPreference
+            android:key="layout"
+            android:defaultValue="row"
+            android:entries="@array/layout_entries"
+            android:entryValues="@array/layout_values"
+            android:summary="%s"
+            android:title="@string/overlay_layout" />
+        <ListPreference
+            android:key="size"
+            android:defaultValue="11"
+            android:entries="@array/size_entries"
+            android:entryValues="@array/size_values"
+            android:summary="%s"
+            android:title="@string/overlay_size" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="colors_group"
+        android:title="@string/overlay_colors_group">
+
+        <ListPreference
+            android:key="label_color"
+            android:defaultValue="accent"
+            android:entries="@array/color_entries"
+            android:entryValues="@array/color_values"
+            android:summary="%s"
+            android:title="@string/overlay_label_color" />
+        <ListPreference
+            android:key="value_color"
+            android:defaultValue="white"
+            android:entries="@array/color_entries"
+            android:entryValues="@array/color_values"
+            android:summary="%s"
+            android:title="@string/overlay_value_color" />
+        <SwitchPreference
+            android:key="warning_colors"
+            android:defaultValue="true"
+            android:title="@string/overlay_warning_colors"
+            android:summary="@string/overlay_warning_colors_summary" />
+        <ListPreference
+            android:key="background"
+            android:defaultValue="b3"
+            android:entries="@array/background_entries"
+            android:entryValues="@array/background_values"
+            android:summary="%s"
+            android:title="@string/overlay_background" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="more_group"
+        android:title="@string/overlay_more_group">
+
+        <ListPreference
+            android:key="interval"
+            android:defaultValue="1000"
+            android:entries="@array/interval_entries"
+            android:entryValues="@array/interval_values"
+            android:summary="%s"
+            android:title="@string/overlay_interval" />
+        <Preference
+            android:key="reset"
+            android:title="@string/overlay_reset"
+            android:summary="@string/overlay_reset_summary" />
+        <Preference
+            android:key="about"
+            android:selectable="false"
+            android:summary="@string/overlay_about" />
+    </PreferenceCategory>
 </PreferenceScreen>

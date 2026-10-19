@@ -173,6 +173,6 @@
     <string name="welcome_settings_search">在“设置”中：搜索某个设置</string>
     <string name="speed_close_apps">内存不足？在“设置 &gt; 性能”中开启“启动游戏时关闭后台应用”，每次打开游戏时，其他应用都会被关闭，并提示关闭了多少个。电源菜单中也有“关闭后台应用”。</string>
     <string name="speed_stats">电源菜单顶部显示主机状态：CPU、TEMP、BAT、RAM 和 SD。SD 表示存储卡的繁忙程度（百分比）以及读写速度：主要在读取时显示绿色向上箭头，主要在写入时显示红色向下箭头。</string>
-    <string name="speed_overlay_stor">在性能悬浮窗中全部显示时，STOR 表示 SD 卡的繁忙程度（百分比），而不是存储卡的占用空间。</string>
+    <string name="speed_overlay_stor">在性能悬浮窗中勾选 SD 卡读写时，STOR 表示 SD 卡的繁忙程度（百分比），而不是存储卡的占用空间。</string>
     <string name="community_free">andr36oid 是免费软件。如果您为它付了钱，请向卖家要回退款。</string>
 </resources>

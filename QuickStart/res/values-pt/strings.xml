@@ -172,6 +172,6 @@
     <string name="welcome_settings_search">Em Definições: pesquise uma definição</string>
     <string name="speed_close_apps">Pouca memória? Ative Fechar apps em segundo plano ao abrir qualquer jogo em Definições &gt; Desempenho. Ele fecha os outros apps quando um jogo começa e diz quantos foram. O menu de energia também tem Fechar apps em segundo plano.</string>
     <string name="speed_stats">O menu de energia mostra o estado da consola no topo: CPU, TEMP, BAT, RAM e SD. SD é a ocupação do cartão em %, com as velocidades de leitura e escrita: uma seta verde para cima quando lê sobretudo, e uma seta vermelha para baixo quando escreve sobretudo.</string>
-    <string name="speed_overlay_stor">Na sobreposição de desempenho, com tudo ativado, STOR indica a ocupação do cartão SD em %. Não indica quão cheio está.</string>
+    <string name="speed_overlay_stor">Na sobreposição de desempenho, com a atividade do cartão SD ativada, STOR indica a ocupação do cartão SD em %. Não indica quão cheio está.</string>
     <string name="community_free">O andr36oid é software livre. Se pagou por ele, peça o dinheiro de volta ao vendedor.</string>
 </resources>

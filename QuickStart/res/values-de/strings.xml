@@ -173,6 +173,6 @@
     <string name="welcome_settings_search">In Einstellungen: nach einer Einstellung suchen</string>
     <string name="speed_close_apps">Wenig Speicher? Schalte unter Einstellungen &gt; Leistung „Hintergrund-Apps schließen“ ein, wenn du ein Spiel öffnest. Dann schließt die Konsole beim Start eines Spiels deine anderen Apps und sagt dir, wie viele es waren. Auch das Ein-/Aus-Menü hat „Hintergrund-Apps schließen“.</string>
     <string name="speed_stats">Das Ein-/Aus-Menü zeigt oben, wie es der Konsole geht: CPU, TEMP, BAT, RAM und SD. SD ist die Auslastung der Karte in %, mit Lese- und Schreibgeschwindigkeit: ein grüner Pfeil nach oben, wenn sie meist liest, ein roter Pfeil nach unten, wenn sie meist schreibt.</string>
-    <string name="speed_overlay_stor">Wenn im Leistungs-Overlay alles eingeschaltet ist, zeigt STOR, wie stark die SD-Karte in % ausgelastet ist. Nicht, wie voll sie ist.</string>
+    <string name="speed_overlay_stor">Wenn im Leistungs-Overlay die SD-Karten-Aktivität angehakt ist, zeigt STOR, wie stark die SD-Karte in % ausgelastet ist. Nicht, wie voll sie ist.</string>
     <string name="community_free">andr36oid ist freie Software. Wenn du dafür bezahlt hast, bitte den Verkäufer um dein Geld zurück.</string>
 </resources>

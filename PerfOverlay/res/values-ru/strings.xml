@@ -5,23 +5,19 @@
     <string name="overlay_summary">Показывать FPS, CPU, температуру и батарею поверх игр</string>
 
     <string name="overlay_switch">Показывать оверлей</string>
-    <string name="overlay_style">Что показывать</string>
     <string name="overlay_position">Положение</string>
 
-    <string-array name="style_entries">
-        <item>Только FPS</item>
-        <item>FPS, CPU, температура и батарея</item>
-        <item>Всё, с частотами, памятью и временем</item>
-    </string-array>
 
     <string-array name="position_entries">
         <item>Вверху слева</item>
+        <item>Вверху по центру</item>
         <item>Вверху справа</item>
         <item>Внизу слева</item>
+        <item>Внизу по центру</item>
         <item>Внизу справа</item>
     </string-array>
 
-    <string name="overlay_about">FPS — сколько кадров экран показал за последнюю секунду. Если на экране ничего не движется, значение падает до 0, это нормально.\n\nЦифры обновляются раз в секунду и почти не нагружают консоль. Если с оверлеем игра стала медленнее, выключите его или выберите «Только FPS».\n\nПосле первого использования оверлея в быстрых настройках появится плитка «Оверлей производительности».</string>
+    <string name="overlay_about">FPS — сколько кадров экран показал за последнюю секунду. Если на экране ничего не движется, значение падает до 0, это нормально.\n\nЦифры обновляются раз в секунду (см. «Обновление») и почти не нагружают консоль. Если с оверлеем игра стала медленнее, выключите его или оставьте только FPS.\n\nПосле первого использования оверлея в быстрых настройках появится плитка «Оверлей производительности».</string>
 
     <!-- Foreground service notification -->
     <string name="channel_name">Оверлей производительности</string>
@@ -41,4 +37,63 @@
     <string name="hud_temp">ТЕМП</string>
     <string name="hud_bat">БАТ</string>
     <string name="hud_ram">RAM</string>
+    <string name="overlay_shows">Показывает</string>
+    <string name="show_fps">Частота кадров (FPS)</string>
+    <string name="show_fps_summary">Если отмечен только этот пункт, оверлей показывает только «60 FPS»</string>
+    <string name="show_cpu">Загрузка CPU</string>
+    <string name="show_speeds">Частоты CPU, GPU и памяти</string>
+    <string name="show_temp">Температура</string>
+    <string name="show_battery">Уровень батареи</string>
+    <string name="show_power">Потребление батареи</string>
+    <string name="show_ram">Использование RAM</string>
+    <string name="show_storage">Активность SD-карты</string>
+    <string name="show_time">Часы</string>
+    <string name="overlay_layout_group">Макет</string>
+    <string name="overlay_layout">Расположение</string>
+    <string name="overlay_size">Размер текста</string>
+    <string name="overlay_colors_group">Цвета</string>
+    <string name="overlay_label_color">Цвет подписей</string>
+    <string name="overlay_value_color">Цвет цифр</string>
+    <string name="overlay_warning_colors">Цвета предупреждений</string>
+    <string name="overlay_warning_colors_summary">Зелёный, жёлтый или красный при низкой частоте кадров, нагреве и низком заряде</string>
+    <string name="overlay_background">Фон</string>
+    <string name="overlay_more_group">Дополнительно</string>
+    <string name="overlay_interval">Обновление</string>
+    <string name="overlay_reset">Сбросить настройки</string>
+    <string name="overlay_reset_summary">Вернуть FPS, CPU, температуру и батарею в левый верхний угол, акцентным цветом</string>
+    <string-array name="layout_entries">
+        <item>В одну строку</item>
+        <item>В две строки</item>
+        <item>По одному значению в строке</item>
+    </string-array>
+    <string-array name="size_entries">
+        <item>Маленький</item>
+        <item>Обычный</item>
+        <item>Большой</item>
+        <item>Очень большой</item>
+    </string-array>
+    <string-array name="color_entries">
+        <item>Акцентный</item>
+        <item>Белый</item>
+        <item>Серый</item>
+        <item>Бирюзовый</item>
+        <item>Синий</item>
+        <item>Зелёный</item>
+        <item>Жёлтый</item>
+        <item>Оранжевый</item>
+        <item>Красный</item>
+        <item>Розовый</item>
+        <item>Фиолетовый</item>
+    </string-array>
+    <string-array name="background_entries">
+        <item>Нет</item>
+        <item>Полупрозрачный</item>
+        <item>Тёмный</item>
+        <item>Чёрный</item>
+    </string-array>
+    <string-array name="interval_entries">
+        <item>Два раза в секунду</item>
+        <item>Каждую секунду</item>
+        <item>Каждые 2 секунды</item>
+    </string-array>
 </resources>

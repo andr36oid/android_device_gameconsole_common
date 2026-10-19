@@ -172,6 +172,6 @@
     <string name="welcome_settings_search">Dans Paramètres : cherchez un réglage</string>
     <string name="speed_close_apps">Peu de mémoire ? Activez Fermer les autres applis au lancement d\'un jeu dans Paramètres &gt; Performances. Vos autres applis se ferment quand un jeu démarre, et la console indique combien. Le menu d\'alimentation propose aussi Fermer les autres applis.</string>
     <string name="speed_stats">Le menu d\'alimentation affiche en haut l\'état de la console : CPU, TEMP, BAT, RAM et SD. SD indique la charge de la carte en %, avec sa vitesse de lecture et d\'écriture : une flèche verte vers le haut quand elle lit surtout, une flèche rouge vers le bas quand elle écrit surtout.</string>
-    <string name="speed_overlay_stor">Dans la superposition des performances, réglée sur tout afficher, STOR indique la charge de la carte SD en %. Ce n\'est pas son taux de remplissage.</string>
+    <string name="speed_overlay_stor">Dans la superposition des performances, avec l\'activité de la carte SD cochée, STOR indique la charge de la carte SD en %. Ce n\'est pas son taux de remplissage.</string>
     <string name="community_free">andr36oid est un logiciel libre. Si vous l\'avez payé, demandez au vendeur de vous rembourser.</string>
 </resources>

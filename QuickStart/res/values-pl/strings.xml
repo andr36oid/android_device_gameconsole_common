@@ -170,6 +170,6 @@
     <string name="welcome_settings_search">W Ustawieniach: wyszukaj ustawienie</string>
     <string name="speed_close_apps">Mało pamięci? Włącz opcję Zamknij aplikacje w tle przy uruchamianiu gier w Ustawienia &gt; Wydajność. Po starcie gry twoje inne aplikacje się zamkną, a konsola powie, ile ich było. Menu zasilania też ma Zamknij aplikacje w tle.</string>
     <string name="speed_stats">Menu zasilania pokazuje u góry stan konsoli: CPU, TEMP, BAT, RAM i SD. SD to obciążenie karty w %, wraz z prędkością odczytu i zapisu: zielona strzałka w górę, gdy karta głównie czyta, czerwona strzałka w dół, gdy głównie zapisuje.</string>
-    <string name="speed_overlay_stor">W nakładce wydajności, po włączeniu wszystkiego, STOR pokazuje obciążenie karty SD w %. Nie pokazuje, jak jest zapełniona.</string>
+    <string name="speed_overlay_stor">W nakładce wydajności, przy zaznaczonej aktywności karty SD, STOR pokazuje obciążenie karty SD w %. Nie pokazuje, jak jest zapełniona.</string>
     <string name="community_free">andr36oid jest darmowym oprogramowaniem. Jeśli za nie zapłaciłeś, poproś sprzedawcę o zwrot pieniędzy.</string>
 </resources>

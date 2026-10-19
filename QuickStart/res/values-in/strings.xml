@@ -172,6 +172,6 @@
     <string name="welcome_settings_search">Di Setelan: cari sebuah pengaturan</string>
     <string name="speed_close_apps">Memori hampir penuh? Aktifkan Tutup aplikasi latar belakang saat membuka game di Setelan &gt; Performa. Aplikasi lain akan ditutup saat game dimulai, dan konsol memberi tahu jumlahnya. Menu daya juga punya Tutup aplikasi latar belakang.</string>
     <string name="speed_stats">Menu daya menampilkan kondisi konsol di bagian atas: CPU, TEMP, BAT, RAM, dan SD. SD menunjukkan seberapa sibuk kartu dalam %, dengan kecepatan baca dan tulisnya: panah hijau ke atas saat kartu lebih banyak membaca, panah merah ke bawah saat lebih banyak menulis.</string>
-    <string name="speed_overlay_stor">Di overlay performa, saat diatur menampilkan semua, STOR menunjukkan seberapa sibuk kartu SD dalam %. Ini bukan seberapa penuh kartunya.</string>
+    <string name="speed_overlay_stor">Di overlay performa, saat aktivitas kartu SD dicentang, STOR menunjukkan seberapa sibuk kartu SD dalam %. Ini bukan seberapa penuh kartunya.</string>
     <string name="community_free">andr36oid adalah perangkat lunak gratis. Jika Anda membayarnya, minta uang Anda kembali kepada penjual.</string>
 </resources>

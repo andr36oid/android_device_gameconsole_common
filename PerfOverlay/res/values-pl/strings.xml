@@ -5,23 +5,19 @@
     <string name="overlay_summary">Pokazuj FPS, CPU, temperaturę i baterię nad grami</string>
 
     <string name="overlay_switch">Pokazuj nakładkę</string>
-    <string name="overlay_style">Pokazuje</string>
     <string name="overlay_position">Położenie</string>
 
-    <string-array name="style_entries">
-        <item>Tylko FPS</item>
-        <item>FPS, CPU, temperatura i bateria</item>
-        <item>Wszystko, z taktowaniem, pamięcią i godziną</item>
-    </string-array>
 
     <string-array name="position_entries">
         <item>Lewy górny róg</item>
+        <item>Górny środek</item>
         <item>Prawy górny róg</item>
         <item>Lewy dolny róg</item>
+        <item>Dolny środek</item>
         <item>Prawy dolny róg</item>
     </string-array>
 
-    <string name="overlay_about">FPS to liczba klatek, które ekran pokazał w ostatniej sekundzie. Spada do 0, gdy nic na ekranie się nie rusza, to normalne.\n\nLiczby odświeżają się raz na sekundę i prawie nic nie kosztują. Jeśli gra zwalnia z włączoną nakładką, wyłącz ją lub wybierz Tylko FPS.\n\nPo pierwszym użyciu nakładki w Szybkich ustawieniach pojawi się kafelek Nakładka wydajności.</string>
+    <string name="overlay_about">FPS to liczba klatek, które ekran pokazał w ostatniej sekundzie. Spada do 0, gdy nic na ekranie się nie rusza, to normalne.\n\nLiczby odświeżają się raz na sekundę (patrz Odświeżanie) i prawie nic nie kosztują. Jeśli gra zwalnia z włączoną nakładką, wyłącz ją albo pokazuj tylko FPS.\n\nPo pierwszym użyciu nakładki w Szybkich ustawieniach pojawi się kafelek Nakładka wydajności.</string>
 
     <!-- Foreground service notification -->
     <string name="channel_name">Nakładka wydajności</string>
@@ -41,4 +37,63 @@
     <string name="hud_temp">TEMP</string>
     <string name="hud_bat">BAT</string>
     <string name="hud_ram">RAM</string>
+    <string name="overlay_shows">Pokazuje</string>
+    <string name="show_fps">Liczba klatek (FPS)</string>
+    <string name="show_fps_summary">Przy zaznaczeniu tylko tej opcji nakładka pokazuje samo „60 FPS”</string>
+    <string name="show_cpu">Obciążenie CPU</string>
+    <string name="show_speeds">Taktowanie CPU, GPU i pamięci</string>
+    <string name="show_temp">Temperatura</string>
+    <string name="show_battery">Poziom baterii</string>
+    <string name="show_power">Pobór mocy z baterii</string>
+    <string name="show_ram">Zużycie RAM</string>
+    <string name="show_storage">Aktywność karty SD</string>
+    <string name="show_time">Zegar</string>
+    <string name="overlay_layout_group">Układ</string>
+    <string name="overlay_layout">Rozmieszczenie</string>
+    <string name="overlay_size">Rozmiar tekstu</string>
+    <string name="overlay_colors_group">Kolory</string>
+    <string name="overlay_label_color">Kolor etykiet</string>
+    <string name="overlay_value_color">Kolor liczb</string>
+    <string name="overlay_warning_colors">Kolory ostrzeżeń</string>
+    <string name="overlay_warning_colors_summary">Zielony, żółty lub czerwony przy niskiej liczbie klatek, wysokiej temperaturze i niskim poziomie baterii</string>
+    <string name="overlay_background">Tło</string>
+    <string name="overlay_more_group">Więcej</string>
+    <string name="overlay_interval">Odświeżanie</string>
+    <string name="overlay_reset">Przywróć domyślne</string>
+    <string name="overlay_reset_summary">Wraca do FPS, CPU, temperatury i baterii w lewym górnym rogu, w kolorze akcentu</string>
+    <string-array name="layout_entries">
+        <item>Jedna linia</item>
+        <item>Dwie linie</item>
+        <item>Jedna wartość w wierszu</item>
+    </string-array>
+    <string-array name="size_entries">
+        <item>Mały</item>
+        <item>Normalny</item>
+        <item>Duży</item>
+        <item>Bardzo duży</item>
+    </string-array>
+    <string-array name="color_entries">
+        <item>Kolor akcentu</item>
+        <item>Biały</item>
+        <item>Szary</item>
+        <item>Morski</item>
+        <item>Niebieski</item>
+        <item>Zielony</item>
+        <item>Żółty</item>
+        <item>Pomarańczowy</item>
+        <item>Czerwony</item>
+        <item>Różowy</item>
+        <item>Fioletowy</item>
+    </string-array>
+    <string-array name="background_entries">
+        <item>Brak</item>
+        <item>Półprzezroczyste</item>
+        <item>Ciemne</item>
+        <item>Czarne</item>
+    </string-array>
+    <string-array name="interval_entries">
+        <item>Dwa razy na sekundę</item>
+        <item>Co sekundę</item>
+        <item>Co 2 sekundy</item>
+    </string-array>
 </resources>

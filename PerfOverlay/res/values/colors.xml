@@ -3,11 +3,21 @@
     <!-- Background of the round icon on the Settings home page -->
     <color name="overlay_icon_background">#43A047</color>
 
-    <!-- The overlay itself -->
-    <color name="hud_background">#B3000000</color>
-    <color name="hud_label">#80DEEA</color>
-    <color name="hud_value">#FFFFFF</color>
+    <!-- Warnings in the overlay: good, take care, bad -->
     <color name="hud_good">#69F0AE</color>
     <color name="hud_ok">#FFD740</color>
     <color name="hud_bad">#FF5252</color>
+
+    <!-- The colour choices for labels and values (HudFormat.color, color_values) -->
+    <color name="hud_accent">@*android:color/accent_device_default_dark</color>
+    <color name="hud_color_white">#FFFFFF</color>
+    <color name="hud_color_grey">#B0BEC5</color>
+    <color name="hud_color_teal">#80DEEA</color>
+    <color name="hud_color_blue">#82B1FF</color>
+    <color name="hud_color_green">#69F0AE</color>
+    <color name="hud_color_yellow">#FFD740</color>
+    <color name="hud_color_orange">#FFAB5E</color>
+    <color name="hud_color_red">#FF5252</color>
+    <color name="hud_color_pink">#FF80AB</color>
+    <color name="hud_color_purple">#B388FF</color>
 </resources>

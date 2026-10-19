@@ -173,6 +173,6 @@
     <string name="welcome_settings_search">En Ajustes: busca un ajuste</string>
     <string name="speed_close_apps">¿Poca memoria? Activa Cerrar apps en segundo plano al abrir cualquier juego en Ajustes &gt; Rendimiento. Así se cierran tus otras apps cuando empieza un juego y te dice cuántas. El menú de encendido también tiene Cerrar apps en segundo plano.</string>
     <string name="speed_stats">El menú de encendido muestra arriba cómo va la consola: CPU, TEMP, BAT, RAM y SD. SD indica cuánto trabaja la tarjeta en %, con su velocidad de lectura y escritura: una flecha verde hacia arriba mientras sobre todo lee, y una roja hacia abajo mientras sobre todo escribe.</string>
-    <string name="speed_overlay_stor">En la superposición de rendimiento, con todo activado, STOR indica cuánto trabaja la tarjeta SD en %. No indica lo llena que está.</string>
+    <string name="speed_overlay_stor">En la superposición de rendimiento, con la actividad de la tarjeta SD marcada, STOR indica cuánto trabaja la tarjeta SD en %. No indica lo llena que está.</string>
     <string name="community_free">andr36oid es software libre. Si lo pagaste, pide el dinero de vuelta al vendedor.</string>
 </resources>

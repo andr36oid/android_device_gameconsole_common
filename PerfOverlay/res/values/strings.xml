@@ -5,34 +5,123 @@
     <string name="overlay_summary">Show FPS, CPU, temperature and battery on top of games</string>
 
     <string name="overlay_switch">Show the overlay</string>
-    <string name="overlay_style">Shows</string>
     <string name="overlay_position">Position</string>
 
-    <string-array name="style_entries">
-        <item>FPS only</item>
-        <item>FPS, CPU, temperature and battery</item>
-        <item>Everything, with speeds, memory and the time</item>
-    </string-array>
-    <string-array name="style_values" translatable="false">
-        <item>fps</item>
-        <item>compact</item>
-        <item>full</item>
-    </string-array>
+    <!-- What it shows: one checkbox per reading -->
+    <string name="overlay_shows">Shows</string>
+    <string name="show_fps">Frame rate (FPS)</string>
+    <string name="show_fps_summary">With only this ticked, the overlay is just \"60 FPS\"</string>
+    <string name="show_cpu">CPU load</string>
+    <string name="show_speeds">CPU, GPU and memory speeds</string>
+    <string name="show_temp">Temperature</string>
+    <string name="show_battery">Battery level</string>
+    <string name="show_power">Battery power draw</string>
+    <string name="show_ram">RAM use</string>
+    <string name="show_storage">SD card activity</string>
+    <string name="show_time">Clock</string>
 
+    <string name="overlay_layout_group">Layout</string>
+    <string name="overlay_layout">Arrangement</string>
+    <string-array name="layout_entries">
+        <item>One line</item>
+        <item>Two lines</item>
+        <item>One reading per line</item>
+    </string-array>
+    <string-array name="layout_values" translatable="false">
+        <item>row</item>
+        <item>two_rows</item>
+        <item>column</item>
+    </string-array>
     <string-array name="position_entries">
         <item>Top left</item>
+        <item>Top centre</item>
         <item>Top right</item>
         <item>Bottom left</item>
+        <item>Bottom centre</item>
         <item>Bottom right</item>
     </string-array>
     <string-array name="position_values" translatable="false">
         <item>top_left</item>
+        <item>top_center</item>
         <item>top_right</item>
         <item>bottom_left</item>
+        <item>bottom_center</item>
         <item>bottom_right</item>
     </string-array>
+    <string name="overlay_size">Text size</string>
+    <string-array name="size_entries">
+        <item>Small</item>
+        <item>Normal</item>
+        <item>Large</item>
+        <item>Extra large</item>
+    </string-array>
+    <string-array name="size_values" translatable="false">
+        <item>9</item>
+        <item>11</item>
+        <item>14</item>
+        <item>18</item>
+    </string-array>
 
-    <string name="overlay_about">FPS is how many frames the screen showed in the last second. It drops to 0 when nothing on screen moves, that\'s normal.\n\nThe numbers update once a second and cost next to nothing. If a game gets slower with the overlay on, turn it off or pick FPS only.\n\nQuick Settings gets a Performance overlay tile once you have used the overlay.</string>
+    <string name="overlay_colors_group">Colours</string>
+    <string name="overlay_label_color">Label colour</string>
+    <string name="overlay_value_color">Number colour</string>
+    <string-array name="color_entries">
+        <item>Accent colour</item>
+        <item>White</item>
+        <item>Grey</item>
+        <item>Teal</item>
+        <item>Blue</item>
+        <item>Green</item>
+        <item>Yellow</item>
+        <item>Orange</item>
+        <item>Red</item>
+        <item>Pink</item>
+        <item>Purple</item>
+    </string-array>
+    <string-array name="color_values" translatable="false">
+        <item>accent</item>
+        <item>white</item>
+        <item>grey</item>
+        <item>teal</item>
+        <item>blue</item>
+        <item>green</item>
+        <item>yellow</item>
+        <item>orange</item>
+        <item>red</item>
+        <item>pink</item>
+        <item>purple</item>
+    </string-array>
+    <string name="overlay_warning_colors">Warning colours</string>
+    <string name="overlay_warning_colors_summary">Green, yellow or red for low frame rates, heat and low battery</string>
+    <string name="overlay_background">Background</string>
+    <string-array name="background_entries">
+        <item>None</item>
+        <item>See-through</item>
+        <item>Dark</item>
+        <item>Solid black</item>
+    </string-array>
+    <string-array name="background_values" translatable="false">
+        <item>00</item>
+        <item>66</item>
+        <item>b3</item>
+        <item>ff</item>
+    </string-array>
+
+    <string name="overlay_more_group">More</string>
+    <string name="overlay_interval">Updates</string>
+    <string-array name="interval_entries">
+        <item>Twice a second</item>
+        <item>Every second</item>
+        <item>Every 2 seconds</item>
+    </string-array>
+    <string-array name="interval_values" translatable="false">
+        <item>500</item>
+        <item>1000</item>
+        <item>2000</item>
+    </string-array>
+    <string name="overlay_reset">Reset to defaults</string>
+    <string name="overlay_reset_summary">Back to FPS, CPU, temperature and battery in the top left, in the accent colour</string>
+    <string name="overlay_about">FPS is how many frames the screen showed in the last second. It drops to 0 when nothing on screen moves, that\'s normal.\n\nThe numbers update once a second (see Updates) and cost next to nothing. If a game gets slower with the overlay on, turn it off or show only the frame rate.\n\nQuick Settings gets a Performance overlay tile once you have used the overlay.</string>
 
     <!-- Foreground service notification -->
     <string name="channel_name">Performance overlay</string>

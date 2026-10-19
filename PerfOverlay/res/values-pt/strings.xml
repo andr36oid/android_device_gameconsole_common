@@ -5,23 +5,19 @@
     <string name="overlay_summary">Mostra FPS, CPU, temperatura e bateria por cima dos jogos</string>
 
     <string name="overlay_switch">Mostrar a sobreposição</string>
-    <string name="overlay_style">Mostra</string>
     <string name="overlay_position">Posição</string>
 
-    <string-array name="style_entries">
-        <item>Só FPS</item>
-        <item>FPS, CPU, temperatura e bateria</item>
-        <item>Tudo, com velocidades, memória e hora</item>
-    </string-array>
 
     <string-array name="position_entries">
         <item>Superior esquerdo</item>
+        <item>Superior centro</item>
         <item>Superior direito</item>
         <item>Inferior esquerdo</item>
+        <item>Inferior centro</item>
         <item>Inferior direito</item>
     </string-array>
 
-    <string name="overlay_about">FPS é o número de fotogramas que o ecrã mostrou no último segundo. Cai para 0 quando nada se mexe no ecrã, o que é normal.\n\nOs números atualizam-se uma vez por segundo e quase não pesam. Se um jogo ficar mais lento com a sobreposição ativada, desative-a ou escolha Só FPS.\n\nAs Definições rápidas ganham um mosaico Sobreposição de desempenho depois de usar a sobreposição.</string>
+    <string name="overlay_about">FPS é o número de imagens que o ecrã mostrou no último segundo. Desce para 0 quando nada se mexe no ecrã, o que é normal.\n\nOs valores atualizam-se uma vez por segundo (ver Atualizações) e quase não pesam. Se um jogo ficar mais lento com a sobreposição ativa, desative-a ou mostre só os FPS.\n\nDepois de usar a sobreposição, as Definições rápidas ganham um mosaico Sobreposição de desempenho.</string>
 
     <!-- Foreground service notification -->
     <string name="channel_name">Sobreposição de desempenho</string>
@@ -41,4 +37,63 @@
     <string name="hud_temp">TEMP</string>
     <string name="hud_bat">BAT</string>
     <string name="hud_ram">RAM</string>
+    <string name="overlay_shows">Mostra</string>
+    <string name="show_fps">Frequência de imagens (FPS)</string>
+    <string name="show_fps_summary">Com só esta opção ativa, a sobreposição mostra apenas \"60 FPS\"</string>
+    <string name="show_cpu">Carga da CPU</string>
+    <string name="show_speeds">Velocidades da CPU, GPU e memória</string>
+    <string name="show_temp">Temperatura</string>
+    <string name="show_battery">Nível da bateria</string>
+    <string name="show_power">Consumo da bateria</string>
+    <string name="show_ram">Utilização da RAM</string>
+    <string name="show_storage">Atividade do cartão SD</string>
+    <string name="show_time">Relógio</string>
+    <string name="overlay_layout_group">Disposição</string>
+    <string name="overlay_layout">Organização</string>
+    <string name="overlay_size">Tamanho do texto</string>
+    <string name="overlay_colors_group">Cores</string>
+    <string name="overlay_label_color">Cor das etiquetas</string>
+    <string name="overlay_value_color">Cor dos números</string>
+    <string name="overlay_warning_colors">Cores de aviso</string>
+    <string name="overlay_warning_colors_summary">Verde, amarelo ou vermelho para frequência de imagens baixa, calor e bateria fraca</string>
+    <string name="overlay_background">Fundo</string>
+    <string name="overlay_more_group">Mais</string>
+    <string name="overlay_interval">Atualizações</string>
+    <string name="overlay_reset">Repor predefinições</string>
+    <string name="overlay_reset_summary">Volta a FPS, CPU, temperatura e bateria no canto superior esquerdo, na cor de destaque</string>
+    <string-array name="layout_entries">
+        <item>Uma linha</item>
+        <item>Duas linhas</item>
+        <item>Um valor por linha</item>
+    </string-array>
+    <string-array name="size_entries">
+        <item>Pequeno</item>
+        <item>Normal</item>
+        <item>Grande</item>
+        <item>Extra grande</item>
+    </string-array>
+    <string-array name="color_entries">
+        <item>Cor de destaque</item>
+        <item>Branco</item>
+        <item>Cinzento</item>
+        <item>Azul-petróleo</item>
+        <item>Azul</item>
+        <item>Verde</item>
+        <item>Amarelo</item>
+        <item>Laranja</item>
+        <item>Vermelho</item>
+        <item>Rosa</item>
+        <item>Roxo</item>
+    </string-array>
+    <string-array name="background_entries">
+        <item>Nenhum</item>
+        <item>Translúcido</item>
+        <item>Escuro</item>
+        <item>Preto sólido</item>
+    </string-array>
+    <string-array name="interval_entries">
+        <item>Duas vezes por segundo</item>
+        <item>A cada segundo</item>
+        <item>A cada 2 segundos</item>
+    </string-array>
 </resources>

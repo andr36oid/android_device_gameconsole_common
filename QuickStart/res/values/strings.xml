@@ -82,7 +82,7 @@
     <string name="speed_overclock">CPU overclock (experimental), on the same page, runs the processor faster than standard for demanding games. A restart turns it off. If the console freezes, pick a lower speed.</string>
     <string name="speed_close_apps">Short on memory? Switch on Close background apps when opening any game in Settings &gt; Performance. It closes your other apps when a game starts and tells you how many. The power menu has Close background apps too.</string>
     <string name="speed_stats">The power menu shows how the console is doing along the top: CPU, TEMP, BAT, RAM and SD. SD is how busy the card is in %, with its read and write speed: a green up arrow while it mostly reads, a red down arrow while it mostly writes.</string>
-    <string name="speed_overlay_stor">In the Performance overlay, set to show everything, STOR is how busy the SD card is in %. It is not how full the card is.</string>
+    <string name="speed_overlay_stor">In the Performance overlay, with SD card activity ticked, STOR is how busy the SD card is in %. It is not how full the card is.</string>
     <string name="speed_screen">The screen uses the most power. Lower brightness means longer play time.</string>
 
     <!-- Mouse and button mapping -->

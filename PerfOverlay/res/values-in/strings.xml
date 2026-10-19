@@ -5,23 +5,19 @@
     <string name="overlay_summary">Tampilkan FPS, CPU, suhu, dan baterai di atas game</string>
 
     <string name="overlay_switch">Tampilkan overlay</string>
-    <string name="overlay_style">Menampilkan</string>
     <string name="overlay_position">Posisi</string>
 
-    <string-array name="style_entries">
-        <item>Hanya FPS</item>
-        <item>FPS, CPU, suhu, dan baterai</item>
-        <item>Semuanya, dengan kecepatan, memori, dan jam</item>
-    </string-array>
 
     <string-array name="position_entries">
         <item>Kiri atas</item>
+        <item>Tengah atas</item>
         <item>Kanan atas</item>
         <item>Kiri bawah</item>
+        <item>Tengah bawah</item>
         <item>Kanan bawah</item>
     </string-array>
 
-    <string name="overlay_about">FPS adalah jumlah frame yang ditampilkan layar dalam satu detik terakhir. Nilainya turun ke 0 saat tidak ada yang bergerak di layar, itu normal.\n\nAngka diperbarui sekali per detik dan hampir tidak membebani. Jika game jadi lebih lambat saat overlay aktif, matikan atau pilih Hanya FPS.\n\nSetelan Cepat mendapat kartu Overlay performa setelah Anda pernah memakai overlay.</string>
+    <string name="overlay_about">FPS adalah jumlah frame yang ditampilkan layar dalam satu detik terakhir. Nilainya turun ke 0 saat tidak ada yang bergerak di layar, itu normal.\n\nAngka diperbarui sekali per detik (lihat Pembaruan) dan hampir tidak membebani. Jika game jadi lebih lambat saat overlay aktif, matikan atau tampilkan hanya FPS.\n\nSetelan Cepat mendapat kartu Overlay performa setelah Anda pernah memakai overlay.</string>
 
     <!-- Foreground service notification -->
     <string name="channel_name">Overlay performa</string>
@@ -41,4 +37,63 @@
     <string name="hud_temp">SUHU</string>
     <string name="hud_bat">BAT</string>
     <string name="hud_ram">RAM</string>
+    <string name="overlay_shows">Menampilkan</string>
+    <string name="show_fps">Frame rate (FPS)</string>
+    <string name="show_fps_summary">Jika hanya ini yang dicentang, overlay hanya menampilkan \"60 FPS\"</string>
+    <string name="show_cpu">Beban CPU</string>
+    <string name="show_speeds">Kecepatan CPU, GPU, dan memori</string>
+    <string name="show_temp">Suhu</string>
+    <string name="show_battery">Level baterai</string>
+    <string name="show_power">Konsumsi daya baterai</string>
+    <string name="show_ram">Pemakaian RAM</string>
+    <string name="show_storage">Aktivitas kartu SD</string>
+    <string name="show_time">Jam</string>
+    <string name="overlay_layout_group">Tata letak</string>
+    <string name="overlay_layout">Susunan</string>
+    <string name="overlay_size">Ukuran teks</string>
+    <string name="overlay_colors_group">Warna</string>
+    <string name="overlay_label_color">Warna label</string>
+    <string name="overlay_value_color">Warna angka</string>
+    <string name="overlay_warning_colors">Warna peringatan</string>
+    <string name="overlay_warning_colors_summary">Hijau, kuning, atau merah untuk frame rate rendah, panas, dan baterai lemah</string>
+    <string name="overlay_background">Latar belakang</string>
+    <string name="overlay_more_group">Lainnya</string>
+    <string name="overlay_interval">Pembaruan</string>
+    <string name="overlay_reset">Atur ulang ke default</string>
+    <string name="overlay_reset_summary">Kembali ke FPS, CPU, suhu, dan baterai di kiri atas, dengan warna aksen</string>
+    <string-array name="layout_entries">
+        <item>Satu baris</item>
+        <item>Dua baris</item>
+        <item>Satu nilai per baris</item>
+    </string-array>
+    <string-array name="size_entries">
+        <item>Kecil</item>
+        <item>Normal</item>
+        <item>Besar</item>
+        <item>Sangat besar</item>
+    </string-array>
+    <string-array name="color_entries">
+        <item>Warna aksen</item>
+        <item>Putih</item>
+        <item>Abu-abu</item>
+        <item>Toska</item>
+        <item>Biru</item>
+        <item>Hijau</item>
+        <item>Kuning</item>
+        <item>Oranye</item>
+        <item>Merah</item>
+        <item>Merah muda</item>
+        <item>Ungu</item>
+    </string-array>
+    <string-array name="background_entries">
+        <item>Tidak ada</item>
+        <item>Transparan</item>
+        <item>Gelap</item>
+        <item>Hitam pekat</item>
+    </string-array>
+    <string-array name="interval_entries">
+        <item>Dua kali per detik</item>
+        <item>Setiap detik</item>
+        <item>Setiap 2 detik</item>
+    </string-array>
 </resources>

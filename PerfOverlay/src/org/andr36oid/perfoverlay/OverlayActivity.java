@@ -11,9 +11,10 @@ public class OverlayActivity extends Activity {
         super.onCreate(savedInstanceState);
         final ActionBar actionBar = getActionBar();
         if (actionBar != null) actionBar.setDisplayHomeAsUpEnabled(true);
+        setContentView(R.layout.overlay_activity);
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()
-                    .replace(android.R.id.content, new OverlayFragment())
+                    .replace(R.id.settings, new OverlayFragment())
                     .commit();
         }
     }

@@ -172,6 +172,6 @@
     <string name="welcome_settings_search">Em Configurações: pesquise uma configuração</string>
     <string name="speed_close_apps">Pouca memória? Ative Fechar apps em segundo plano ao abrir qualquer jogo em Configurações &gt; Desempenho. Ele fecha seus outros apps quando um jogo começa e mostra quantos foram. O menu liga/desliga também tem Fechar apps em segundo plano.</string>
     <string name="speed_stats">O menu liga/desliga mostra como o console está no topo: CPU, TEMP, BAT, RAM e SD. SD é o quanto o cartão está ocupado em %, com a velocidade de leitura e de gravação: uma seta verde para cima quando ele lê na maior parte do tempo, e uma seta vermelha para baixo quando grava na maior parte do tempo.</string>
-    <string name="speed_overlay_stor">No overlay de desempenho, configurado para mostrar tudo, STOR indica o quanto o cartão SD está ocupado em %. Não indica o quanto ele está cheio.</string>
+    <string name="speed_overlay_stor">No overlay de desempenho, com a atividade do cartão SD marcada, STOR indica o quanto o cartão SD está ocupado em %. Não indica o quanto ele está cheio.</string>
     <string name="community_free">O andr36oid é software livre. Se você pagou por ele, peça o seu dinheiro de volta ao vendedor.</string>
 </resources>

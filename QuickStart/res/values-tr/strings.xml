@@ -173,6 +173,6 @@
     <string name="welcome_settings_search">Ayarlar\'da: bir ayar ara</string>
     <string name="speed_close_apps">Bellek azaldı mı? Ayarlar &gt; Performans\'ta, bir oyun açıldığında Arka plan uygulamalarını kapat seçeneğini açın. Oyun başladığında diğer uygulamalarınızı kapatır ve kaç tane kapattığını söyler. Güç menüsünde de Arka plan uygulamalarını kapat vardır.</string>
     <string name="speed_stats">Güç menüsü üstte konsolun durumunu gösterir: CPU, TEMP, BAT, RAM ve SD. SD, kartın yüzde kaç meşgul olduğunu ve okuma ile yazma hızını gösterir: çoğunlukla okuduğunda yeşil yukarı ok, çoğunlukla yazdığında kırmızı aşağı ok.</string>
-    <string name="speed_overlay_stor">Performans katmanında her şey açıkken STOR, SD kartın yüzde kaç meşgul olduğunu gösterir. Kartın ne kadar dolu olduğunu göstermez.</string>
+    <string name="speed_overlay_stor">Performans katmanında SD kart etkinliği açıkken STOR, SD kartın yüzde kaç meşgul olduğunu gösterir. Kartın ne kadar dolu olduğunu göstermez.</string>
     <string name="community_free">andr36oid özgür bir yazılımdır. Bunun için para ödediyseniz paranızı satıcıdan geri isteyin.</string>
 </resources>

@@ -5,23 +5,19 @@
     <string name="overlay_summary">Muestra FPS, CPU, temperatura y batería encima de los juegos</string>
 
     <string name="overlay_switch">Mostrar el monitor</string>
-    <string name="overlay_style">Muestra</string>
     <string name="overlay_position">Posición</string>
 
-    <string-array name="style_entries">
-        <item>Solo FPS</item>
-        <item>FPS, CPU, temperatura y batería</item>
-        <item>Todo, con velocidades, memoria y hora</item>
-    </string-array>
 
     <string-array name="position_entries">
         <item>Arriba a la izquierda</item>
+        <item>Arriba en el centro</item>
         <item>Arriba a la derecha</item>
         <item>Abajo a la izquierda</item>
+        <item>Abajo en el centro</item>
         <item>Abajo a la derecha</item>
     </string-array>
 
-    <string name="overlay_about">Los FPS son los fotogramas que ha mostrado la pantalla en el último segundo. Bajan a 0 cuando no se mueve nada en pantalla; es normal.\n\nLos números se actualizan una vez por segundo y casi no consumen nada. Si un juego va más lento con el monitor activado, desactívalo o elige Solo FPS.\n\nLos Ajustes rápidos tendrán un icono de Monitor de rendimiento cuando hayas usado el monitor.</string>
+    <string name="overlay_about">Los FPS son los fotogramas que ha mostrado la pantalla en el último segundo. Bajan a 0 cuando no se mueve nada en pantalla; es normal.\n\nLos números se actualizan una vez por segundo (ver Actualizaciones) y casi no consumen nada. Si un juego va más lento con el monitor activado, desactívalo o muestra solo los FPS.\n\nLos Ajustes rápidos tendrán un icono de Monitor de rendimiento cuando hayas usado el monitor.</string>
 
     <!-- Foreground service notification -->
     <string name="channel_name">Monitor de rendimiento</string>
@@ -41,4 +37,63 @@
     <string name="hud_temp">TEMP</string>
     <string name="hud_bat">BAT</string>
     <string name="hud_ram">RAM</string>
+    <string name="overlay_shows">Muestra</string>
+    <string name="show_fps">Tasa de fotogramas (FPS)</string>
+    <string name="show_fps_summary">Con solo esta casilla marcada, el monitor muestra solo \"60 FPS\"</string>
+    <string name="show_cpu">Carga de la CPU</string>
+    <string name="show_speeds">Velocidades de CPU, GPU y memoria</string>
+    <string name="show_temp">Temperatura</string>
+    <string name="show_battery">Nivel de batería</string>
+    <string name="show_power">Consumo de batería</string>
+    <string name="show_ram">Uso de RAM</string>
+    <string name="show_storage">Actividad de la tarjeta SD</string>
+    <string name="show_time">Reloj</string>
+    <string name="overlay_layout_group">Diseño</string>
+    <string name="overlay_layout">Disposición</string>
+    <string name="overlay_size">Tamaño del texto</string>
+    <string name="overlay_colors_group">Colores</string>
+    <string name="overlay_label_color">Color de las etiquetas</string>
+    <string name="overlay_value_color">Color de los números</string>
+    <string name="overlay_warning_colors">Colores de aviso</string>
+    <string name="overlay_warning_colors_summary">Verde, amarillo o rojo con pocos FPS, calor o batería baja</string>
+    <string name="overlay_background">Fondo</string>
+    <string name="overlay_more_group">Más</string>
+    <string name="overlay_interval">Actualizaciones</string>
+    <string name="overlay_reset">Restablecer</string>
+    <string name="overlay_reset_summary">Vuelve a FPS, CPU, temperatura y batería arriba a la izquierda, en color de acento</string>
+    <string-array name="layout_entries">
+        <item>Una línea</item>
+        <item>Dos líneas</item>
+        <item>Un valor por línea</item>
+    </string-array>
+    <string-array name="size_entries">
+        <item>Pequeño</item>
+        <item>Normal</item>
+        <item>Grande</item>
+        <item>Muy grande</item>
+    </string-array>
+    <string-array name="color_entries">
+        <item>Color de acento</item>
+        <item>Blanco</item>
+        <item>Gris</item>
+        <item>Verde azulado</item>
+        <item>Azul</item>
+        <item>Verde</item>
+        <item>Amarillo</item>
+        <item>Naranja</item>
+        <item>Rojo</item>
+        <item>Rosa</item>
+        <item>Morado</item>
+    </string-array>
+    <string-array name="background_entries">
+        <item>Ninguno</item>
+        <item>Semitransparente</item>
+        <item>Oscuro</item>
+        <item>Negro sólido</item>
+    </string-array>
+    <string-array name="interval_entries">
+        <item>Dos veces por segundo</item>
+        <item>Cada segundo</item>
+        <item>Cada 2 segundos</item>
+    </string-array>
 </resources>

@@ -5,23 +5,19 @@
     <string name="overlay_summary">Afficher FPS, CPU, température et batterie par-dessus les jeux</string>
 
     <string name="overlay_switch">Activer l\'affichage</string>
-    <string name="overlay_style">Contenu</string>
     <string name="overlay_position">Position</string>
 
-    <string-array name="style_entries">
-        <item>FPS uniquement</item>
-        <item>FPS, CPU, température et batterie</item>
-        <item>Tout, avec fréquences, mémoire et heure</item>
-    </string-array>
 
     <string-array name="position_entries">
         <item>En haut à gauche</item>
+        <item>En haut au centre</item>
         <item>En haut à droite</item>
         <item>En bas à gauche</item>
+        <item>En bas au centre</item>
         <item>En bas à droite</item>
     </string-array>
 
-    <string name="overlay_about">Les FPS indiquent combien d\'images l\'écran a affichées pendant la dernière seconde. Ils tombent à 0 quand rien ne bouge à l\'écran, c\'est normal.\n\nLes valeurs sont mises à jour une fois par seconde et ne coûtent presque rien. Si un jeu ralentit quand l\'affichage est activé, désactivez-le ou choisissez FPS uniquement.\n\nUne tuile Affichage des performances apparaît dans les Réglages rapides une fois que vous l\'avez utilisé.</string>
+    <string name="overlay_about">Les FPS indiquent combien d\'images l\'écran a affichées pendant la dernière seconde. Ils tombent à 0 quand rien ne bouge à l\'écran, c\'est normal.\n\nLes valeurs sont mises à jour une fois par seconde (voir Mises à jour) et ne coûtent presque rien. Si un jeu ralentit quand l\'affichage est activé, désactivez-le ou gardez seulement les FPS.\n\nUne fois l\'affichage utilisé, une tuile Affichage des performances apparaît dans les Réglages rapides.</string>
 
     <!-- Foreground service notification -->
     <string name="channel_name">Affichage des performances</string>
@@ -41,4 +37,63 @@
     <string name="hud_temp">TEMP</string>
     <string name="hud_bat">BAT</string>
     <string name="hud_ram">RAM</string>
+    <string name="overlay_shows">Affiche</string>
+    <string name="show_fps">Fréquence d\'images (FPS)</string>
+    <string name="show_fps_summary">Avec seulement cette case cochée, l\'affichage indique juste « 60 FPS »</string>
+    <string name="show_cpu">Charge du CPU</string>
+    <string name="show_speeds">Fréquences du CPU, du GPU et de la mémoire</string>
+    <string name="show_temp">Température</string>
+    <string name="show_battery">Niveau de batterie</string>
+    <string name="show_power">Consommation de la batterie</string>
+    <string name="show_ram">Utilisation de la RAM</string>
+    <string name="show_storage">Activité de la carte SD</string>
+    <string name="show_time">Heure</string>
+    <string name="overlay_layout_group">Disposition</string>
+    <string name="overlay_layout">Organisation</string>
+    <string name="overlay_size">Taille du texte</string>
+    <string name="overlay_colors_group">Couleurs</string>
+    <string name="overlay_label_color">Couleur des libellés</string>
+    <string name="overlay_value_color">Couleur des chiffres</string>
+    <string name="overlay_warning_colors">Couleurs d\'alerte</string>
+    <string name="overlay_warning_colors_summary">Vert, jaune ou rouge pour une fréquence d\'images basse, la chaleur et une batterie faible</string>
+    <string name="overlay_background">Fond</string>
+    <string name="overlay_more_group">Plus</string>
+    <string name="overlay_interval">Mises à jour</string>
+    <string name="overlay_reset">Rétablir les valeurs par défaut</string>
+    <string name="overlay_reset_summary">Retour à FPS, CPU, température et batterie en haut à gauche, en couleur d\'accent</string>
+    <string-array name="layout_entries">
+        <item>Une ligne</item>
+        <item>Deux lignes</item>
+        <item>Une valeur par ligne</item>
+    </string-array>
+    <string-array name="size_entries">
+        <item>Petit</item>
+        <item>Normal</item>
+        <item>Grand</item>
+        <item>Très grand</item>
+    </string-array>
+    <string-array name="color_entries">
+        <item>Couleur d\'accent</item>
+        <item>Blanc</item>
+        <item>Gris</item>
+        <item>Sarcelle</item>
+        <item>Bleu</item>
+        <item>Vert</item>
+        <item>Jaune</item>
+        <item>Orange</item>
+        <item>Rouge</item>
+        <item>Rose</item>
+        <item>Violet</item>
+    </string-array>
+    <string-array name="background_entries">
+        <item>Aucun</item>
+        <item>Semi-transparent</item>
+        <item>Sombre</item>
+        <item>Noir uni</item>
+    </string-array>
+    <string-array name="interval_entries">
+        <item>Deux fois par seconde</item>
+        <item>Chaque seconde</item>
+        <item>Toutes les 2 secondes</item>
+    </string-array>
 </resources>

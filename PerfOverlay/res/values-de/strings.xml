@@ -5,23 +5,19 @@
     <string name="overlay_summary">FPS, CPU, Temperatur und Akku über Spielen anzeigen</string>
 
     <string name="overlay_switch">Overlay anzeigen</string>
-    <string name="overlay_style">Anzeige</string>
     <string name="overlay_position">Position</string>
 
-    <string-array name="style_entries">
-        <item>Nur FPS</item>
-        <item>FPS, CPU, Temperatur und Akku</item>
-        <item>Alles, mit Takt, Speicher und Uhrzeit</item>
-    </string-array>
 
     <string-array name="position_entries">
         <item>Oben links</item>
+        <item>Oben Mitte</item>
         <item>Oben rechts</item>
         <item>Unten links</item>
+        <item>Unten Mitte</item>
         <item>Unten rechts</item>
     </string-array>
 
-    <string name="overlay_about">FPS gibt an, wie viele Bilder der Bildschirm in der letzten Sekunde gezeigt hat. Bewegt sich nichts auf dem Bildschirm, fällt der Wert auf 0, das ist normal.\n\nDie Werte werden einmal pro Sekunde aktualisiert und kosten so gut wie nichts. Wird ein Spiel mit dem Overlay langsamer, schalte es aus oder wähle „Nur FPS“.\n\nSobald du das Overlay einmal benutzt hast, gibt es in den Schnelleinstellungen eine Kachel „Leistungs-Overlay“.</string>
+    <string name="overlay_about">FPS gibt an, wie viele Bilder der Bildschirm in der letzten Sekunde gezeigt hat. Bewegt sich nichts auf dem Bildschirm, fällt der Wert auf 0, das ist normal.\n\nDie Werte werden einmal pro Sekunde aktualisiert (siehe Aktualisierung) und kosten so gut wie nichts. Wird ein Spiel mit dem Overlay langsamer, schalte es aus oder zeig nur die Bildrate.\n\nSobald du das Overlay einmal benutzt hast, gibt es in den Schnelleinstellungen eine Kachel „Leistungs-Overlay“.</string>
 
     <!-- Foreground service notification -->
     <string name="channel_name">Leistungs-Overlay</string>
@@ -41,4 +37,63 @@
     <string name="hud_temp">TEMP</string>
     <string name="hud_bat">AKKU</string>
     <string name="hud_ram">RAM</string>
+    <string name="overlay_shows">Zeigt</string>
+    <string name="show_fps">Bildrate (FPS)</string>
+    <string name="show_fps_summary">Ist nur das angehakt, zeigt das Overlay einfach „60 FPS“</string>
+    <string name="show_cpu">CPU-Last</string>
+    <string name="show_speeds">CPU-, GPU- und Speichertakt</string>
+    <string name="show_temp">Temperatur</string>
+    <string name="show_battery">Akkustand</string>
+    <string name="show_power">Akkuleistung</string>
+    <string name="show_ram">RAM-Nutzung</string>
+    <string name="show_storage">SD-Karten-Aktivität</string>
+    <string name="show_time">Uhrzeit</string>
+    <string name="overlay_layout_group">Layout</string>
+    <string name="overlay_layout">Anordnung</string>
+    <string name="overlay_size">Textgröße</string>
+    <string name="overlay_colors_group">Farben</string>
+    <string name="overlay_label_color">Farbe der Beschriftung</string>
+    <string name="overlay_value_color">Farbe der Zahlen</string>
+    <string name="overlay_warning_colors">Warnfarben</string>
+    <string name="overlay_warning_colors_summary">Grün, Gelb oder Rot bei niedriger Bildrate, Hitze und leerem Akku</string>
+    <string name="overlay_background">Hintergrund</string>
+    <string name="overlay_more_group">Mehr</string>
+    <string name="overlay_interval">Aktualisierung</string>
+    <string name="overlay_reset">Auf Standard zurücksetzen</string>
+    <string name="overlay_reset_summary">Zurück zu FPS, CPU, Temperatur und Akku oben links, in der Akzentfarbe</string>
+    <string-array name="layout_entries">
+        <item>Eine Zeile</item>
+        <item>Zwei Zeilen</item>
+        <item>Ein Wert pro Zeile</item>
+    </string-array>
+    <string-array name="size_entries">
+        <item>Klein</item>
+        <item>Normal</item>
+        <item>Groß</item>
+        <item>Sehr groß</item>
+    </string-array>
+    <string-array name="color_entries">
+        <item>Akzentfarbe</item>
+        <item>Weiß</item>
+        <item>Grau</item>
+        <item>Türkis</item>
+        <item>Blau</item>
+        <item>Grün</item>
+        <item>Gelb</item>
+        <item>Orange</item>
+        <item>Rot</item>
+        <item>Pink</item>
+        <item>Lila</item>
+    </string-array>
+    <string-array name="background_entries">
+        <item>Keiner</item>
+        <item>Durchsichtig</item>
+        <item>Dunkel</item>
+        <item>Volles Schwarz</item>
+    </string-array>
+    <string-array name="interval_entries">
+        <item>Zweimal pro Sekunde</item>
+        <item>Jede Sekunde</item>
+        <item>Alle 2 Sekunden</item>
+    </string-array>
 </resources>
