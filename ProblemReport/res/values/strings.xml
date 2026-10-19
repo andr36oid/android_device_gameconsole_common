@@ -3,7 +3,7 @@
     <string name="report_title">Problem report</string>
     <string name="report_summary">Save logs to the SD card to send with a bug report</string>
 
-    <string name="intro">Something went wrong? Save a report and attach it when you tell us about the problem. It holds the system logs from now and from the last start, crash reports and a description of this console. It takes about a minute.</string>
+    <string name="intro">Something went wrong? Save a report and attach it when you tell us about the problem. It holds the system logs from now and from the last start, crash reports and a description of this console. It takes about a minute.\n\nCan\'t get here, e.g. during setup? Hold A, B, X and Y together for 10 seconds on any screen.</string>
 
     <string name="note_title">What went wrong?</string>
     <string name="note_hint">Optional. What were you doing, and what happened?</string>

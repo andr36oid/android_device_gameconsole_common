@@ -3,7 +3,7 @@
     <string name="report_title">Rapport de problème</string>
     <string name="report_summary">Enregistrer les journaux sur la carte SD pour un rapport de bug</string>
 
-    <string name="intro">Un problème ? Enregistrez un rapport et joignez-le quand vous nous signalez le problème. Il contient les journaux système actuels et ceux du dernier démarrage, les rapports de plantage et une description de cette console. Cela prend environ une minute.</string>
+    <string name="intro">Un problème ? Enregistrez un rapport et joignez-le quand vous nous signalez le problème. Il contient les journaux système actuels et ceux du dernier démarrage, les rapports de plantage et une description de cette console. Cela prend environ une minute.\n\nImpossible d\'arriver ici, par exemple pendant la configuration ? Maintenez A, B, X et Y enfoncés ensemble pendant 10 secondes, sur n\'importe quel écran.</string>
 
     <string name="note_title">Que s\'est-il passé ?</string>
     <string name="note_hint">Facultatif. Que faisiez-vous, et que s\'est-il passé ?</string>

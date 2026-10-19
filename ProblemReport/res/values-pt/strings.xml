@@ -3,7 +3,7 @@
     <string name="report_title">Relatório de problema</string>
     <string name="report_summary">Guarde os registos no cartão SD para enviar com um relatório de erro</string>
 
-    <string name="intro">Algo correu mal? Guarde um relatório e anexe-o quando nos falar do problema. Contém os registos do sistema de agora e do último arranque, relatórios de falhas e uma descrição desta consola. Demora cerca de um minuto.</string>
+    <string name="intro">Algo correu mal? Guarde um relatório e anexe-o quando nos falar do problema. Contém os registos do sistema de agora e do último arranque, relatórios de falhas e uma descrição desta consola. Demora cerca de um minuto.\n\nNão consegue chegar aqui, por exemplo durante a configuração? Mantenha A, B, X e Y premidos em simultâneo durante 10 segundos, em qualquer ecrã.</string>
 
     <string name="note_title">O que correu mal?</string>
     <string name="note_hint">Opcional. O que estava a fazer e o que aconteceu?</string>

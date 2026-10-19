@@ -3,7 +3,7 @@
     <string name="report_title">Zgłoszenie problemu</string>
     <string name="report_summary">Zapisz logi na karcie SD, aby dołączyć je do zgłoszenia błędu</string>
 
-    <string name="intro">Coś poszło nie tak? Zapisz raport i dołącz go, gdy opiszesz nam problem. Zawiera logi systemu z teraz i z poprzedniego uruchomienia, raporty awarii i opis tej konsoli. Trwa to około minuty.</string>
+    <string name="intro">Coś poszło nie tak? Zapisz raport i dołącz go, gdy opiszesz nam problem. Zawiera logi systemu z teraz i z poprzedniego uruchomienia, raporty awarii i opis tej konsoli. Trwa to około minuty.\n\nNie możesz tu dotrzeć, np. podczas konfiguracji? Przytrzymaj razem A, B, X i Y przez 10 sekund na dowolnym ekranie.</string>
 
     <string name="note_title">Co poszło nie tak?</string>
     <string name="note_hint">Opcjonalnie. Co się działo i co poszło nie tak?</string>

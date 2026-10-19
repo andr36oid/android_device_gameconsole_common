@@ -3,7 +3,7 @@
     <string name="report_title">Laporan masalah</string>
     <string name="report_summary">Simpan log ke kartu SD untuk dikirim bersama laporan bug</string>
 
-    <string name="intro">Ada yang tidak beres? Simpan laporan dan lampirkan saat Anda memberi tahu kami tentang masalahnya. Laporan berisi log sistem dari saat ini dan dari penyalaan terakhir, laporan crash, dan deskripsi konsol ini. Butuh sekitar satu menit.</string>
+    <string name="intro">Ada yang tidak beres? Simpan laporan dan lampirkan saat Anda memberi tahu kami tentang masalahnya. Laporan berisi log sistem dari saat ini dan dari penyalaan terakhir, laporan crash, dan deskripsi konsol ini. Butuh sekitar satu menit.\n\nTidak bisa membuka halaman ini, misalnya saat penyiapan? Tahan A, B, X, dan Y bersamaan selama 10 detik di layar mana pun.</string>
 
     <string name="note_title">Apa yang salah?</string>
     <string name="note_hint">Opsional. Apa yang sedang Anda lakukan, dan apa yang terjadi?</string>

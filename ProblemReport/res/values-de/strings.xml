@@ -3,7 +3,7 @@
     <string name="report_title">Fehlerbericht</string>
     <string name="report_summary">Logs auf der SD-Karte speichern und mit deiner Fehlermeldung mitschicken</string>
 
-    <string name="intro">Ist etwas schiefgelaufen? Speichere einen Bericht und häng ihn an, wenn du uns das Problem meldest. Er enthält die Systemlogs von jetzt und vom letzten Start, Absturzberichte und eine Beschreibung dieser Konsole. Das dauert etwa eine Minute.</string>
+    <string name="intro">Ist etwas schiefgelaufen? Speichere einen Bericht und häng ihn an, wenn du uns das Problem meldest. Er enthält die Systemlogs von jetzt und vom letzten Start, Absturzberichte und eine Beschreibung dieser Konsole. Das dauert etwa eine Minute.\n\nDu kommst nicht hierher, etwa während der Einrichtung? Halte auf jedem Bildschirm A, B, X und Y 10 Sekunden lang zusammen gedrückt.</string>
 
     <string name="note_title">Was ist schiefgelaufen?</string>
     <string name="note_hint">Optional. Was hast du gemacht und was ist passiert?</string>

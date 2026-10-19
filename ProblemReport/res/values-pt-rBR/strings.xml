@@ -3,7 +3,7 @@
     <string name="report_title">Relatório de problema</string>
     <string name="report_summary">Salve os logs no cartão SD para enviar com um relato de bug</string>
 
-    <string name="intro">Deu algo errado? Salve um relatório e anexe-o quando nos contar sobre o problema. Ele contém os logs do sistema de agora e do último início, relatórios de falhas e uma descrição deste console. Leva cerca de um minuto.</string>
+    <string name="intro">Deu algo errado? Salve um relatório e anexe-o quando nos contar sobre o problema. Ele contém os logs do sistema de agora e do último início, relatórios de falhas e uma descrição deste console. Leva cerca de um minuto.\n\nNão consegue chegar aqui, por exemplo durante a configuração? Mantenha A, B, X e Y pressionados juntos por 10 segundos, em qualquer tela.</string>
 
     <string name="note_title">O que deu errado?</string>
     <string name="note_hint">Opcional. O que você estava fazendo e o que aconteceu?</string>

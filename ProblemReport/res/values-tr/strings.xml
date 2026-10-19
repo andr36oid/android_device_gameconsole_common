@@ -3,7 +3,7 @@
     <string name="report_title">Sorun raporu</string>
     <string name="report_summary">Hata bildirimiyle göndermek için günlükleri SD karta kaydedin</string>
 
-    <string name="intro">Bir şeyler mi ters gitti? Bir rapor kaydedin ve sorunu bize anlatırken ekleyin. Rapor, şu anki ve son açılıştaki sistem günlüklerini, çökme raporlarını ve bu konsolun bir tanımını içerir. Yaklaşık bir dakika sürer.</string>
+    <string name="intro">Bir şeyler mi ters gitti? Bir rapor kaydedin ve sorunu bize anlatırken ekleyin. Rapor, şu anki ve son açılıştaki sistem günlüklerini, çökme raporlarını ve bu konsolun bir tanımını içerir. Yaklaşık bir dakika sürer.\n\nBuraya ulaşamıyor musunuz, örneğin kurulum sırasında? Herhangi bir ekranda A, B, X ve Y\'yi birlikte 10 saniye basılı tutun.</string>
 
     <string name="note_title">Ne ters gitti?</string>
     <string name="note_hint">İsteğe bağlı. Ne yapıyordunuz ve ne oldu?</string>

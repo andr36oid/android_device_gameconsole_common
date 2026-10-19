@@ -3,7 +3,7 @@
     <string name="report_title">Informe de problemas</string>
     <string name="report_summary">Guarda registros en la tarjeta SD para enviarlos con un informe de errores</string>
 
-    <string name="intro">¿Algo ha fallado? Guarda un informe y adjúntalo cuando nos cuentes el problema. Contiene los registros del sistema de ahora y del último inicio, los informes de fallos y una descripción de esta consola. Tarda alrededor de un minuto.</string>
+    <string name="intro">¿Algo ha fallado? Guarda un informe y adjúntalo cuando nos cuentes el problema. Contiene los registros del sistema de ahora y del último inicio, los informes de fallos y una descripción de esta consola. Tarda alrededor de un minuto.\n\n¿No puedes llegar aquí, por ejemplo durante la configuración? Mantén pulsados A, B, X e Y a la vez durante 10 segundos en cualquier pantalla.</string>
 
     <string name="note_title">¿Qué ha fallado?</string>
     <string name="note_hint">Opcional. ¿Qué estabas haciendo y qué ha pasado?</string>
