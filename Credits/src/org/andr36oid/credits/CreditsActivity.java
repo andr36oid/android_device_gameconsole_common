@@ -253,10 +253,11 @@ public class CreditsActivity extends Activity {
         role(R.string.credits_role_port);
         people(person(R.drawable.avatar_snaccy, "snaccy", R.drawable.ic_github, "sonic011gamer"));
         role(R.string.credits_role_ux);
-        people(person(R.drawable.avatar_snaccy, "snaccy", R.drawable.ic_github, "sonic011gamer"),
-                person(R.drawable.avatar_kenny, "kenny", R.drawable.ic_github, "itskenny0"));
+        people(person(R.drawable.avatar_kenny, "kenny", R.drawable.ic_github, "itskenny0"),
+                person(R.drawable.avatar_snaccy, "snaccy", R.drawable.ic_github, "sonic011gamer"));
         role(R.string.credits_role_clones);
-        people(person(R.drawable.avatar_kauan, "Kauan", R.drawable.ic_github, "K4uanGP"));
+        people(person(R.drawable.avatar_kenny, "kenny", R.drawable.ic_github, "itskenny0"),
+                person(R.drawable.avatar_kauan, "Kauan", R.drawable.ic_github, "K4uanGP"));
         role(R.string.credits_role_legend);
         people(person(R.drawable.avatar_sjsltech, "SjslTech", R.drawable.ic_youtube,
                 getString(R.string.credits_on_youtube)));
@@ -421,12 +422,16 @@ public class CreditsActivity extends Activity {
         });
     }
 
+    /** The console's accent (orange until one is picked), light to full to light. */
     private int[] gradientColors() {
-        return new int[] {
-                getColor(R.color.credits_gradient_1),
-                getColor(R.color.credits_gradient_2),
-                getColor(R.color.credits_gradient_3),
-        };
+        final int accent = getColor(R.color.credits_accent);
+        return new int[] { towardWhite(accent, 0.55f), accent, towardWhite(accent, 0.3f) };
+    }
+
+    private static int towardWhite(int color, float amount) {
+        final int r = Color.red(color), g = Color.green(color), b = Color.blue(color);
+        return Color.rgb(r + Math.round((255 - r) * amount), g + Math.round((255 - g) * amount),
+                b + Math.round((255 - b) * amount));
     }
 
     private void clipTo(ImageView view, int shapeRes) {
