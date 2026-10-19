@@ -291,6 +291,32 @@ setp persist.andr36oid.kt.sd2_slot on
 run boot
 check "sd2 switch set since is kept" on "$(prop persist.andr36oid.kt.sd2_slot)"
 
+# --- built-in eMMC: a start option only where the device tree marks it
+setup
+run boot
+check "eMMC not offered without the DT mark" "" "$(prop sys.andr36oid.ktd.builtin_emmc)"
+setp persist.andr36oid.kt.builtin_emmc on
+run apply
+check "eMMC not written without the DT mark" no "$([ -e "$T/boot/kernel-tweaks.txt" ] && echo yes || echo no)"
+setup
+mkdir -p "$R/proc/device-tree/dwmmc@ff390000"
+: >"$R/proc/device-tree/dwmmc@ff390000/andr36oid,builtin-emmc"
+run boot
+check "eMMC default off" off "$(prop sys.andr36oid.ktd.builtin_emmc)"
+setp persist.andr36oid.kt.builtin_emmc on
+run apply
+check "eMMC on written" "dw_mmc_rockchip.builtin_emmc=1" \
+	"$(sed -n 's/^kt_args=//p' "$T/boot/kernel-tweaks.txt")"
+args=$(sed -n 's/^kt_args=//p' "$T/boot/kernel-tweaks.txt")
+echo "$(cat "$R"/proc/cmdline) $args" >"$R"/proc/cmdline
+run boot
+check "eMMC current on" on "$(prop sys.andr36oid.ktc.builtin_emmc)"
+check "eMMC default stays off" off "$(prop sys.andr36oid.ktd.builtin_emmc)"
+setp persist.andr36oid.kt.builtin_emmc off
+run apply
+check "eMMC back off" no "$([ -e "$T/boot/kernel-tweaks.txt" ] && echo yes || echo no)"
+rm -rf "$R/proc/device-tree/dwmmc@ff390000"
+
 # --- storage layer: sdcardfs by default, FUSE as a start option
 setup
 run boot

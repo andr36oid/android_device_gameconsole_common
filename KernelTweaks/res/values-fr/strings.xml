@@ -274,6 +274,9 @@
     <string name="kt_fuse">Pilote FUSE</string>
     <string name="kt_fuse_what">Désactivé empêche le pilote FUSE du noyau de démarrer, ce qui économise environ 100 Ko de mémoire. Avec sdcardfs, Android n\'a pas besoin de FUSE pour le stockage.</string>
     <string name="kt_fuse_why">Utile seulement quand chaque bout de mémoire compte. Android utilise encore FUSE pour appfuse : ouvrir dans l\'appli Fichiers des fichiers d\'un téléphone ou d\'un appareil photo branché en USB (MTP), et les applis qui fournissent des fichiers virtuels. Tout cela échoue tant qu\'il est désactivé. Si quelque chose n\'arrive plus à ouvrir des fichiers après l\'avoir désactivé, réactivez-le.</string>
+    <string name="kt_builtin_emmc">Stockage eMMC intégré (expérimental)</string>
+    <string name="kt_builtin_emmc_what">Activé allume, dès le prochain démarrage, la puce de stockage eMMC que certaines consoles ont intégrée, pour qu\'un rapport de problème puisse montrer ce qu\'elle contient : sa taille, ses partitions et leurs noms. Le noyau ne fait que la lire et refuse toute écriture : le système livré avec la console reste tel quel. Elle n\'apparaît ni comme stockage ni dans l\'appli Fichiers.</string>
+    <string name="kt_builtin_emmc_why">Un premier coup d\'œil au stockage intégré, pour y installer andr36oid un jour. Seulement pour les consoles dont les broches sont libres ; les autres ne l\'ont pas. Expérimental : si la console ne démarre pas avec ce réglage, les réglages se désactivent d\'eux-mêmes après deux démarrages ratés.</string>
     <string name="kt_fuse_needed">Reste activé tant que la couche de stockage est sur FUSE : le stockage passe alors par lui.</string>
 
     <string name="kt_crash_log">Journal de plantage</string>

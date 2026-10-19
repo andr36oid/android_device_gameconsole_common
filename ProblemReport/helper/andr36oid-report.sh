@@ -457,6 +457,7 @@ power.txt     battery and charger (power_supply), sleep, temperatures
 devices.txt   USB devices, input devices (buttons, sticks) and their events,
               the last Find an unknown button scans (pin levels, ADC inputs),
               the SD cards (maker, name, date, ID without the serial number),
+              the built-in eMMC's partitions if Kernel Tweaks switched it on,
               network addresses, dumpsys input/usb/ethernet/audio/display,
               storage volumes
 apps.txt      installed apps and versions, open screens, memory use, Magisk
@@ -935,6 +936,28 @@ done
 show devices.txt /sys/block/mmcblk*/device/csd /sys/block/mmcblk*/device/scr \
 	/sys/block/mmcblk*/device/type /sys/block/mmcblk*/device/hwrev \
 	/sys/block/mmcblk*/device/fwrev /sys/block/mmcblk*/device/preferred_erase_size
+# The built-in eMMC some clones carry (Kernel Tweaks > Built-in eMMC storage, which the
+# kernel only reads): its partitions with their names, and file system types and labels
+# from blkid, no UUIDs. Only read, like everything here.
+for d in /sys/block/mmcblk*; do
+	case $(readlink -f "$d") in */ff390000.dwmmc/*) ;; *) continue ;; esac
+	n=${d##*/}
+	{
+		echo "== built-in eMMC $n: $(cat "$d/size" 2>/dev/null) sectors, read-only $(cat "$d/ro" 2>/dev/null)"
+		for p in "$d/$n"p*; do
+			[ -d "$p" ] || continue
+			pn=${p##*/}
+			echo "$pn start $(cat "$p/start" 2>/dev/null) size $(cat "$p/size" 2>/dev/null)" \
+				"$(sed -n 's/^PARTNAME=/name /p' "$p/uevent" 2>/dev/null)" \
+				"$(timeout 5 blkid "/dev/block/$pn" </dev/null 2>/dev/null |
+					grep -o '\(LABEL\|TYPE\)="[^"]*"' | tr '\n' ' ')"
+		done
+		for b in /sys/block/"$n"boot*; do
+			[ -d "$b" ] && echo "${b##*/} size $(cat "$b/size" 2>/dev/null)"
+		done
+		echo
+	} >>"$WORK/devices.txt"
+done
 run devices.txt 10 getevent -lp
 run devices.txt 10 ip addr
 run devices.txt 20 dumpsys input

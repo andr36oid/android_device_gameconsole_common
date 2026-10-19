@@ -274,6 +274,9 @@
     <string name="kt_fuse">Driver FUSE</string>
     <string name="kt_fuse_what">Desativado impede que o driver FUSE do kernel seja iniciado, o que economiza cerca de 100 KB de memória. Com sdcardfs, o Android não precisa do FUSE para o armazenamento.</string>
     <string name="kt_fuse_why">Só vale a pena quando cada pedacinho de memória conta. O Android ainda usa o FUSE para o appfuse: abrir no app Arquivos arquivos de um celular ou de uma câmera conectados por USB (MTP), e apps que oferecem arquivos virtuais. Isso falha enquanto ele estiver desativado. Se algo não conseguir abrir arquivos depois de desativar, ative de novo.</string>
+    <string name="kt_builtin_emmc">Armazenamento eMMC embutido (experimental)</string>
+    <string name="kt_builtin_emmc_what">Ativado liga, a partir da próxima inicialização, o chip de armazenamento eMMC que alguns consoles têm embutido, para que um relatório de problemas possa mostrar o que tem nele: o tamanho, as partições e os nomes delas. O kernel só lê e recusa qualquer gravação, então o sistema que veio com o console fica como está. Ele não aparece como armazenamento nem no app Arquivos.</string>
+    <string name="kt_builtin_emmc_why">Uma primeira olhada no armazenamento embutido, para um dia instalar o andr36oid nele. Só para consoles com os pinos livres; os outros não têm. Experimental: se o console não iniciar com isso ativado, os ajustes se desligam sozinhos depois de duas inicializações com falha.</string>
     <string name="kt_fuse_needed">Fica ativado enquanto a camada de armazenamento estiver em FUSE: o armazenamento roda nele.</string>
 
     <string name="kt_crash_log">Log de travamentos</string>

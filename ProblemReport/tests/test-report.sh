@@ -111,6 +111,9 @@ esac'
 	stub pm 'echo "package:/system/app/Settings/Settings.apk=com.android.settings versionCode:30"'
 	stub am 'true'
 	stub lsusb 'echo "Bus 001 Device 001: ID 1d6b:0002"'
+	stub blkid 'case "$1" in
+		*mmcblk2p2) echo "$1: LABEL=\"STOCKROOT\" UUID=\"EMMCUUIDSECRET\" TYPE=\"ext4\"" ;;
+		esac'
 	stub getevent 'echo "add device 1: /dev/input/event2"; echo "  name:     \"odroidgo3-joypad\""'
 	stub ip 'echo "3: wlan0: <UP> link/ether 02:11:22:33:44:55 brd ff:ff:ff:ff:ff:ff"'
 	stub lsmod 'echo "Module Size Used"'
@@ -156,6 +159,20 @@ else /bin/df "$@"; fi'
 	echo 124735488 >"$R"/sys/block/mmcblk0/size
 	echo SECRETSERIALFILE >"$R"/sys/block/mmcblk0/device/serial
 	echo short >"$R"/sys/block/mmcblk1/device/cid
+	# the built-in eMMC (Kernel Tweaks switched it on): a disk under ff390000.dwmmc
+	M=$R/sys/devices/platform/ff390000.dwmmc/mmc_host/mmc2/mmc2:0001/block/mmcblk2
+	mkdir -p "$M/mmcblk2p1" "$M/mmcblk2p2" "$R"/sys/block/mmcblk2boot0
+	echo 15269888 >"$M/size"
+	echo 1 >"$M/ro"
+	echo 16384 >"$M/mmcblk2p1/start"
+	echo 8192 >"$M/mmcblk2p1/size"
+	printf 'PARTNAME=uboot\n' >"$M/mmcblk2p1/uevent"
+	echo 32768 >"$M/mmcblk2p2/start"
+	echo 4194304 >"$M/mmcblk2p2/size"
+	printf 'PARTNAME=rootfs\n' >"$M/mmcblk2p2/uevent"
+	echo 8192 >"$R"/sys/block/mmcblk2boot0/size
+	ln -s ../devices/platform/ff390000.dwmmc/mmc_host/mmc2/mmc2:0001/block/mmcblk2 \
+		"$R"/sys/block/mmcblk2
 
 	# /data
 	mkdir -p "$R"/data/data/org.andr36oid.usbmode/files
@@ -243,6 +260,12 @@ check "hwrev" has "Board revision (U-Boot hwrev): 3"
 check "CID masked" has "035344534336344780xxxxxxxx016axx"
 check "CID serial gone" hasnt "12345678"
 check "short CID refused" has "(not a CID)"
+check "eMMC listed" has "== built-in eMMC mmcblk2: 15269888 sectors, read-only 1"
+check "eMMC partition name" has "mmcblk2p1 start 16384 size 8192 name uboot"
+check "eMMC file system" has 'mmcblk2p2 start 32768 size 4194304 name rootfs LABEL="STOCKROOT" TYPE="ext4"'
+check "eMMC boot area" has "mmcblk2boot0 size 8192"
+check "eMMC UUID left out" hasnt EMMCUUIDSECRET
+check "SD card not taken for the eMMC" hasnt "built-in eMMC mmcblk0"
 check "ROM counts" has "^snes: 3$"
 check "ROM counts gba" has "^gba: 1$"
 check "other folders count" has "other folders: 1"

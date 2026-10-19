@@ -274,6 +274,9 @@
     <string name="kt_fuse">FUSE driver</string>
     <string name="kt_fuse_what">Off keeps the kernel\'s FUSE driver from starting, which saves about 100 KB of memory. With sdcardfs, Android doesn\'t need FUSE for storage.</string>
     <string name="kt_fuse_why">Only worth it when every bit of memory counts. Android still uses FUSE for appfuse: opening files from a phone or camera connected over USB (MTP) in the Files app, and apps that hand out virtual files. Those fail while it\'s off. If something can\'t open files after you switch it off, switch it back on.</string>
+    <string name="kt_builtin_emmc">Built-in eMMC storage (experimental)</string>
+    <string name="kt_builtin_emmc_what">On switches on the eMMC storage chip some consoles have built in, from the next start, so a problem report can show what is on it: its size, partitions and their names. The kernel only reads it and refuses every write, so the system that came with the console stays as it is. It doesn\'t show up as storage or in the Files app.</string>
+    <string name="kt_builtin_emmc_why">A first look at the built-in storage, for installing andr36oid there one day. Only for consoles where its pins are free, the others don\'t have it. Experimental: if the console doesn\'t start with it on, the tweaks switch themselves off after two failed starts.</string>
     <string name="kt_fuse_needed">Stays on while the storage layer is FUSE: storage runs on it then.</string>
 
     <string name="kt_crash_log">Crash log</string>

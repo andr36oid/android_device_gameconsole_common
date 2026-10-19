@@ -230,6 +230,13 @@ final class Tweaks {
                 .labels(R.string.kt_on, R.string.kt_off)
                 .atBoot()
                 .level(Tweak.RISKY))
+            .add(Tweak.choice("builtin_emmc", R.string.kt_builtin_emmc,
+                    R.string.kt_builtin_emmc_what, R.string.kt_builtin_emmc_why,
+                    "dw_mmc_rockchip.builtin_emmc=1")
+                .values("off", "on")
+                .labels(R.string.kt_off, R.string.kt_on)
+                .atBoot()
+                .level(Tweak.RISKY))
             .add(Tweak.choice("crash_log", R.string.kt_crash_log,
                     R.string.kt_crash_log_what, R.string.kt_crash_log_why,
                     "ramoops.disable=1")

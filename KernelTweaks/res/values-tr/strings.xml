@@ -274,6 +274,9 @@
     <string name="kt_fuse">FUSE sürücüsü</string>
     <string name="kt_fuse_what">Kapalı, kernelin FUSE sürücüsünün başlamasını engeller ve yaklaşık 100 KB bellek kazandırır. sdcardfs ile Android\'in depolama için FUSE\'a ihtiyacı yoktur.</string>
     <string name="kt_fuse_why">Yalnızca her bir parça bellek önemliyse değer. Android, appfuse için FUSE\'u yine de kullanır: USB (MTP) ile bağlı bir telefondan veya kameradan dosyaları Dosyalar uygulamasında açmak ve sanal dosya sunan uygulamalar. Bunlar sürücü kapalıyken çalışmaz. Kapattıktan sonra bir şey dosya açamıyorsa, yeniden açın.</string>
+    <string name="kt_builtin_emmc">Dahili eMMC depolama (deneysel)</string>
+    <string name="kt_builtin_emmc_what">Açık, bir sonraki açılıştan itibaren bazı konsollarda dahili olan eMMC depolama çipini açar; böylece bir sorun raporu üzerinde ne olduğunu gösterebilir: boyutu, bölümleri ve adları. Çekirdek onu yalnızca okur ve her yazmayı reddeder, yani konsolla gelen sistem olduğu gibi kalır. Depolama olarak ya da Dosyalar uygulamasında görünmez.</string>
+    <string name="kt_builtin_emmc_why">Dahili depolamaya ilk bakış; bir gün andr36oid\'i oraya kurmak için. Yalnızca pinleri boşta olan konsollar için, diğerlerinde yok. Deneysel: konsol bu açıkken başlamazsa, ayarlar iki başarısız açılıştan sonra kendiliğinden kapanır.</string>
     <string name="kt_fuse_needed">Depolama katmanı FUSE olduğu sürece açık kalır: depolama o zaman onun üzerinden çalışır.</string>
 
     <string name="kt_crash_log">Çökme logu</string>

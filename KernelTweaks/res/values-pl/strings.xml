@@ -276,6 +276,9 @@
     <string name="kt_fuse">Sterownik FUSE</string>
     <string name="kt_fuse_what">Wyłączone nie pozwala uruchomić się sterownikowi FUSE w jądrze, co oszczędza około 100 KB pamięci. Z sdcardfs Android nie potrzebuje FUSE do obsługi pamięci.</string>
     <string name="kt_fuse_why">Opłaca się tylko wtedy, gdy liczy się każdy kawałek pamięci. Android nadal używa FUSE do appfuse: otwierania w aplikacji Pliki plików z telefonu lub aparatu podłączonego przez USB (MTP) oraz w aplikacjach, które udostępniają pliki wirtualne. To nie działa, dopóki sterownik jest wyłączony. Jeśli po wyłączeniu coś nie może otworzyć plików, włącz go z powrotem.</string>
+    <string name="kt_builtin_emmc">Wbudowana pamięć eMMC (eksperymentalne)</string>
+    <string name="kt_builtin_emmc_what">Włączone uruchamia od następnego startu wbudowany układ pamięci eMMC, który mają niektóre konsole, żeby raport o problemie mógł pokazać, co na nim jest: rozmiar, partycje i ich nazwy. Jądro tylko go odczytuje i odmawia każdego zapisu, więc system, z którym przyszła konsola, zostaje nietknięty. Nie pojawia się jako pamięć ani w aplikacji Pliki.</string>
+    <string name="kt_builtin_emmc_why">Pierwsze spojrzenie na wbudowaną pamięć, żeby kiedyś zainstalować na niej andr36oid. Tylko dla konsol, w których jej piny są wolne; inne jej nie mają. Eksperymentalne: jeśli konsola z tym nie wystartuje, poprawki same się wyłączą po dwóch nieudanych startach.</string>
     <string name="kt_fuse_needed">Zostaje włączony, dopóki warstwa pamięci jest ustawiona na FUSE: pamięć działa wtedy przez niego.</string>
 
     <string name="kt_crash_log">Log awarii</string>

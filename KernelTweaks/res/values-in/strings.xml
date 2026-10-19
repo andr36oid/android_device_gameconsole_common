@@ -273,6 +273,9 @@
     <string name="kt_fuse">Driver FUSE</string>
     <string name="kt_fuse_what">Nonaktif mencegah driver FUSE milik kernel berjalan, sehingga menghemat sekitar 100 KB memori. Dengan sdcardfs, Android tidak memerlukan FUSE untuk penyimpanan.</string>
     <string name="kt_fuse_why">Hanya berguna jika setiap sedikit memori berarti. Android masih memakai FUSE untuk appfuse: membuka file dari ponsel atau kamera yang tersambung lewat USB (MTP) di aplikasi File, dan aplikasi yang menyediakan file virtual. Semua itu gagal selama driver ini nonaktif. Jika ada yang tidak bisa membuka file setelah Anda menonaktifkannya, aktifkan lagi.</string>
+    <string name="kt_builtin_emmc">Penyimpanan eMMC bawaan (eksperimental)</string>
+    <string name="kt_builtin_emmc_what">Aktif menyalakan chip penyimpanan eMMC yang terpasang di sebagian konsol, mulai dari start berikutnya, agar laporan masalah bisa menunjukkan isinya: ukuran, partisi, dan nama-namanya. Kernel hanya membacanya dan menolak setiap penulisan, jadi sistem bawaan konsol tetap seperti semula. Penyimpanan ini tidak muncul sebagai penyimpanan atau di aplikasi File.</string>
+    <string name="kt_builtin_emmc_why">Langkah pertama untuk melihat penyimpanan bawaan, agar suatu hari andr36oid bisa dipasang di sana. Hanya untuk konsol yang pin-nya bebas; konsol lain tidak memilikinya. Eksperimental: jika konsol tidak mau menyala dengan ini aktif, tweak akan mati sendiri setelah dua kali gagal menyala.</string>
     <string name="kt_fuse_needed">Tetap aktif selama lapisan penyimpanan memakai FUSE: penyimpanan berjalan di atasnya.</string>
 
     <string name="kt_crash_log">Log crash</string>

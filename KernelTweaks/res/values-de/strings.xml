@@ -274,6 +274,9 @@
     <string name="kt_fuse">FUSE-Treiber</string>
     <string name="kt_fuse_what">Aus verhindert, dass der FUSE-Treiber des Kernels startet, und spart so etwa 100 KB Speicher. Mit sdcardfs braucht Android FUSE nicht für den Speicher.</string>
     <string name="kt_fuse_why">Lohnt sich nur, wenn jedes bisschen Speicher zählt. Android nutzt FUSE weiterhin für appfuse: zum Öffnen von Dateien eines Handys oder einer Kamera, die per USB (MTP) verbunden sind, in der App „Dateien“, und für Apps, die virtuelle Dateien bereitstellen. Das klappt nicht, solange er aus ist. Wenn danach etwas keine Dateien mehr öffnen kann, schalt ihn wieder ein.</string>
+    <string name="kt_builtin_emmc">Eingebauter eMMC-Speicher (experimentell)</string>
+    <string name="kt_builtin_emmc_what">An schaltet ab dem nächsten Start den eMMC-Speicherchip ein, den manche Konsolen eingebaut haben, damit ein Fehlerbericht zeigen kann, was darauf ist: Größe, Partitionen und ihre Namen. Der Kernel liest ihn nur und verweigert jedes Schreiben, das System, mit dem die Konsole kam, bleibt also, wie es ist. Er taucht weder als Speicher noch in der Dateien-App auf.</string>
+    <string name="kt_builtin_emmc_why">Ein erster Blick auf den eingebauten Speicher, um andr36oid eines Tages dort zu installieren. Nur für Konsolen, bei denen seine Pins frei sind, die anderen haben ihn nicht. Experimentell: Startet die Konsole damit nicht, schalten sich die Tweaks nach zwei fehlgeschlagenen Starts selbst aus.</string>
     <string name="kt_fuse_needed">Bleibt an, solange die Speicherschicht auf FUSE steht: Der Speicher läuft dann darüber.</string>
 
     <string name="kt_crash_log">Absturzlog</string>

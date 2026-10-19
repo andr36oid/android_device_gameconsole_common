@@ -273,6 +273,9 @@
     <string name="kt_fuse">FUSE 驱动</string>
     <string name="kt_fuse_what">关闭后内核的 FUSE 驱动不会启动，可省下约 100 KB 内存。使用 sdcardfs 时，Android 的存储不需要 FUSE。</string>
     <string name="kt_fuse_why">只有在每一点内存都很重要时才值得关闭。Android 仍会把 FUSE 用于 appfuse：在“文件”应用中打开通过 USB（MTP）连接的手机或相机里的文件，以及提供虚拟文件的应用。关闭后这些都会失败。如果关闭后有东西打不开文件，请重新开启。</string>
+    <string name="kt_builtin_emmc">内置 eMMC 存储（实验性）</string>
+    <string name="kt_builtin_emmc_what">开启后，从下次启动起会启用部分掌机内置的 eMMC 存储芯片，这样问题报告就能显示上面有什么：容量、分区及分区名。内核只读取它，并拒绝任何写入，所以掌机自带的系统会保持原样。它不会作为存储设备出现，也不会出现在“文件”应用中。</string>
+    <string name="kt_builtin_emmc_why">先看一眼内置存储，为以后把 andr36oid 装到上面做准备。只适用于这块存储引脚空闲的掌机，其他掌机没有它。实验性：如果开启后掌机无法启动，这些调整会在连续两次启动失败后自动关闭。</string>
     <string name="kt_fuse_needed">存储层设为 FUSE 时保持开启：此时存储依赖它运行。</string>
 
     <string name="kt_crash_log">崩溃日志</string>
