@@ -233,6 +233,9 @@ public class SetupAppsActivity extends Activity {
             app.box = box;
             box.setText(describe(app, box.getTextSize()));
             box.setTag(app.name);
+            // D-pad right jumps to Install (left from there: All or none), no scrolling
+            // through the whole list
+            box.setNextFocusRightId(R.id.next);
             // Back on this page: as it was left; otherwise as its .yml says
             box.setChecked(skipped != null ? !skipped.contains(app.name) : app.checked);
             if (app.icon != null) {
