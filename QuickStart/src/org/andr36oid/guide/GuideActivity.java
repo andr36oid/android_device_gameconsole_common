@@ -2,6 +2,7 @@ package org.andr36oid.guide;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.TypedValue;
@@ -159,7 +160,11 @@ public class GuideActivity extends Activity {
             mChapterViews.get(mShown).setSelected(false);
         }
         mShown = index;
-        mChapterViews.get(index).setSelected(true);
+        final View selected = mChapterViews.get(index);
+        selected.setSelected(true);
+        // L1/R1 from inside the page don't move the focus, so the list scrolls by itself
+        selected.post(() -> selected.requestRectangleOnScreen(
+                new Rect(0, 0, selected.getWidth(), selected.getHeight()), false));
 
         final Chapters.Chapter chapter = mChapters.get(index);
         mPageContent.removeAllViews();
