@@ -99,6 +99,7 @@ public class CreditsActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        tintBackground();
         mRollSpeed = dp(ROLL_DP_PER_SECOND);
         mPlayer = openSong();
 
@@ -426,6 +427,24 @@ public class CreditsActivity extends Activity {
     private int[] gradientColors() {
         final int accent = getColor(R.color.credits_accent);
         return new int[] { towardWhite(accent, 0.55f), accent, towardWhite(accent, 0.3f) };
+    }
+
+    /**
+     * The glow at the top in a dark shade of the accent (wooden brown for the orange),
+     * fading into black.
+     */
+    private void tintBackground() {
+        final int accent = getColor(R.color.credits_accent);
+        final GradientDrawable background =
+                (GradientDrawable) getDrawable(R.drawable.credits_background).mutate();
+        background.setColors(new int[] { dim(accent, 0.26f), dim(accent, 0.1f), Color.BLACK });
+        getWindow().setBackgroundDrawable(background);
+    }
+
+    /** The colour at the given brightness, 0 = black. */
+    private static int dim(int color, float amount) {
+        return Color.rgb(Math.round(Color.red(color) * amount),
+                Math.round(Color.green(color) * amount), Math.round(Color.blue(color) * amount));
     }
 
     private static int towardWhite(int color, float amount) {
