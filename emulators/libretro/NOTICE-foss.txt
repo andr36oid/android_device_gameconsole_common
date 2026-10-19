@@ -9968,8 +9968,8 @@ directory = "freeimage-easyrpg-${version}"
 ================================================================================
 yabasanshiro  (GPL-2.0-or-later)
 source: https://github.com/andr36oid/yabasanshiro-pirry.git
-commit: 0bea2d25f1587f639134101a2694e8424eaaf73f
-sha256: 4943f1618d5dcc3830fb2c448b98bfc4a718bd25d76fabfb08b7c8587b9f6909
+commit: 7907b5be6a2cb8241453c02c65bbbe829f476df5
+sha256: 461bd3a4d5c528512d7445433250c647c0890ceed52f665b256d227a71933781
 ================================================================================
 GNU GENERAL PUBLIC LICENSE
 		       Version 2, June 1991
