@@ -30,7 +30,7 @@ final class Tweak {
     /** a kernel command line option: takes effect at the next start */
     boolean atBoot;
     /** a system property instead of a kernel file, {@link #file} is its name */
-    boolean prop;
+    boolean systemSetting;
     String[] values = {};
     /** a label per value, or 0 to use {@link #unit} */
     int[] labels;
@@ -83,8 +83,8 @@ final class Tweak {
         return this;
     }
 
-    Tweak prop() {
-        prop = true;
+    Tweak systemSetting() {
+        systemSetting = true;
         return this;
     }
 

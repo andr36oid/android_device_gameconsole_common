@@ -97,7 +97,7 @@ final class Tweaks {
             .add(onOff("perf_metrics_off", R.string.kt_perf_metrics_off,
                     R.string.kt_perf_metrics_off_what, R.string.kt_perf_metrics_off_why,
                     "sys.andr36oid.perf_metrics_off")
-                .prop()
+                .systemSetting()
                 .level(Tweak.SAFE)));
 
         list.add(new Category(R.string.kt_cat_power, null, null, 0, 0)
