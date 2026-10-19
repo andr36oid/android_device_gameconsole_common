@@ -16,9 +16,9 @@ while it builds the image, with `inject_magisk.sh`:
 `ramdisk-stock.uimg`. If Magisk ever keeps the console from booting, rename it
 to `ramdisk.uimg` on a PC.
 
-`Magisk.apk` is the unmodified Magisk v29.0 release
-(https://github.com/topjohnwu/Magisk/releases/tag/v29.0, sha256
-`99d40df1a68a05a5e78452a9cd4f2d753434d7622baeeb44ea14ae8238c1a9ca`), GPLv3.
+`Magisk.apk` is the unmodified Magisk v31.0 release
+(https://github.com/topjohnwu/Magisk/releases/tag/v31.0, sha256
+`2c8a488b9a5293e578e95ae4f07e3c57aba4feec4a52ca4dd852a2692d6dd4e8`), GPLv3.
 To update, replace it with a newer release and bump the version_code in
 `Magisk.yml`. The same file is installed as a normal app on first boot, by the
 emulator preinstaller (a system app would get no native libs extracted).
