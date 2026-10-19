@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Battery details > Charging diagnostics -->
+    <string name="diag_category">Fehlersuche</string>
+    <string name="diag_title">Lade-Diagnose</string>
+    <string name="diag_summary">Was die Konsole sieht, wenn ein Ladegerät angesteckt ist. Hilft, wenn sie nicht lädt.</string>
+
+    <string name="diag_test_category">Steckertest</string>
+    <string name="diag_test_title">Steckertest starten</string>
+    <string name="diag_test_summary">Beobachtet 15 Sekunden lang den Ladeweg, während du das Ladegerät ansteckst, und sagt dann, welcher Teil es nicht bemerkt hat.</string>
+    <string name="diag_test_unplug">Trenne das Ladegerät und alle USB-Geräte, dann drücke Start.</string>
+    <string name="diag_test_start">Start</string>
+    <string name="diag_test_plug">Stecke jetzt das Ladegerät ein.\n\n<xliff:g id="seconds">%1$d</xliff:g> s übrig</string>
+    <string name="diag_test_result">Ergebnis des Steckertests</string>
+    <string name="diag_test_last">Letztes Ergebnis</string>
+
+    <string name="diag_verdict_charging">Laden funktioniert: bis zu <xliff:g id="ma">%1$d</xliff:g> mA sind in den Akku geflossen.</string>
+    <string name="diag_verdict_no_current">Die Konsole sieht das Ladegerät, aber es fließt kein Strom in den Akku. Ladegerät-Status: <xliff:g id="state">%1$s</xliff:g>.</string>
+    <string name="diag_verdict_driver_missed">Der Power-Chip (RK817) sieht Strom ankommen, aber der Ladetreiber hat ihn nicht als Ladegerät erkannt. Probiere eine andere Ladegerät-Erkennung in den Kernel Tweaks.</string>
+    <string name="diag_verdict_pin_only">Der Pin für die Ladegerät-Erkennung hat sich geändert, aber kein Strom ist beim Power-Chip (RK817) angekommen.</string>
+    <string name="diag_verdict_nothing">Nichts an der Konsole hat das Ladegerät bemerkt: Kein Strom erreicht den Power-Chip (RK817). Probiere ein anderes Kabel und Ladegerät. Lädt die Konsole ausgeschaltet, muss ihr Anschluss in andr36oid repariert werden.</string>
+    <string name="diag_verdict_boost">Der 5-V-Boost für USB-Geräte war an, obwohl nichts angesteckt war. Der Anschluss gibt dann vielleicht Strom ab, statt ihn aufzunehmen.</string>
+    <string name="diag_verdict_report">Um das an das andr36oid-Team zu schicken, erstelle einen Problembericht (A+B+X+Y 10 Sekunden gedrückt halten). Er enthält diese Werte.</string>
+    <string name="diag_verdict_seen">Erkennungs-Pin geändert: <xliff:g id="pin">%1$s</xliff:g>\nPower-Chip hat Strom gesehen: <xliff:g id="pmic">%2$s</xliff:g>\nTreiber hat ein Ladegerät gesehen: <xliff:g id="driver">%3$s</xliff:g>\nHöchster Strom in den Akku: <xliff:g id="ma">%4$s</xliff:g> mA</string>
+    <string name="diag_yes">ja</string>
+    <string name="diag_no">nein</string>
+
+    <string name="diag_now_category">Gerade jetzt</string>
+    <string name="diag_android">Android sieht</string>
+    <string name="diag_driver">Ladetreiber</string>
+    <string name="diag_driver_dc">DC-Ladegerät angesteckt</string>
+    <string name="diag_driver_usb">USB-Ladegerät angesteckt</string>
+    <string name="diag_driver_none">Kein Ladegerät</string>
+    <string name="diag_pmic">Eingang Power-Chip (RK817)</string>
+    <string name="diag_pmic_yes">Strom kommt an</string>
+    <string name="diag_pmic_no">Kein Strom kommt an</string>
+    <string name="diag_pin">Pin für Ladegerät-Erkennung</string>
+    <string name="diag_pin_value"><xliff:g id="level">%1$d</xliff:g> (Erkennung: <xliff:g id="mode">%2$s</xliff:g>)</string>
+    <string name="diag_pin_none">Diese Konsole hat keinen</string>
+    <string name="diag_state">Ladegerät-Status</string>
+    <string name="diag_state_off">Lädt nicht</string>
+    <string name="diag_state_dead">Leeren Akku aufwecken</string>
+    <string name="diag_state_trickle">Erhaltungsladung</string>
+    <string name="diag_state_charging">Lädt</string>
+    <string name="diag_state_done">Fertig</string>
+    <string name="diag_state_over_voltage">Ladespannung zu hoch</string>
+    <string name="diag_state_temperature">Fehler bei der Akkutemperatur</string>
+    <string name="diag_state_timer">Gestoppt, Laden hat zu lange gedauert</string>
+    <string name="diag_otg">Strom für USB-Geräte</string>
+    <string name="diag_otg_on">An</string>
+    <string name="diag_otg_off">Aus</string>
+    <string name="diag_otg_boost_only">Aus, aber der 5-V-Boost ist an</string>
+    <string name="diag_irqs">Steck-Signale seit Start</string>
+    <string name="diag_irqs_value">Rein <xliff:g id="in">%1$d</xliff:g>, raus <xliff:g id="out">%2$d</xliff:g>, Erkennungs-Pin <xliff:g id="pin">%3$d</xliff:g></string>
+    <string name="diag_limits">Ladegrenzen</string>
+    <string name="diag_limits_value"><xliff:g id="charge">%1$d</xliff:g> mA in den Akku, <xliff:g id="input">%2$d</xliff:g> mA vom Ladegerät</string>
+    <string name="diag_regs">Ladegerät-Register</string>
+</resources>

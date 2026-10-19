@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Battery details > Charging diagnostics -->
+    <string name="diag_category">Pemecahan masalah</string>
+    <string name="diag_title">Diagnostik pengisian</string>
+    <string name="diag_summary">Apa yang dilihat konsol saat pengisi daya terpasang. Membantu jika konsol tidak mengisi daya.</string>
+
+    <string name="diag_test_category">Tes colokan</string>
+    <string name="diag_test_title">Jalankan tes colokan</string>
+    <string name="diag_test_summary">Memantau jalur pengisian selama 15 detik saat kamu memasang pengisi daya, lalu memberi tahu bagian mana yang tidak menyadarinya.</string>
+    <string name="diag_test_unplug">Cabut pengisi daya dan perangkat USB apa pun, lalu tekan Mulai.</string>
+    <string name="diag_test_start">Mulai</string>
+    <string name="diag_test_plug">Pasang pengisi daya sekarang.\n\n<xliff:g id="seconds">%1$d</xliff:g> dtk tersisa</string>
+    <string name="diag_test_result">Hasil tes colokan</string>
+    <string name="diag_test_last">Hasil terakhir</string>
+
+    <string name="diag_verdict_charging">Pengisian berfungsi: hingga <xliff:g id="ma">%1$d</xliff:g> mA masuk ke baterai.</string>
+    <string name="diag_verdict_no_current">Konsol melihat pengisi daya, tetapi tidak ada arus yang masuk ke baterai. Status pengisi daya: <xliff:g id="state">%1$s</xliff:g>.</string>
+    <string name="diag_verdict_driver_missed">Chip daya (RK817) melihat daya masuk, tetapi driver pengisian tidak menganggapnya sebagai pengisi daya. Coba pengaturan Deteksi pengisi daya lain di Kernel Tweaks.</string>
+    <string name="diag_verdict_pin_only">Pin deteksi pengisi daya berubah, tetapi tidak ada daya yang sampai ke chip daya (RK817).</string>
+    <string name="diag_verdict_nothing">Tidak ada yang di konsol mendeteksi pengisi daya: tidak ada daya yang sampai ke chip daya (RK817). Coba kabel dan pengisi daya lain. Jika konsol mengisi saat mati, portnya perlu diperbaiki di andr36oid.</string>
+    <string name="diag_verdict_boost">Boost 5 V untuk perangkat USB menyala tanpa ada yang terpasang, jadi port mungkin memberi daya keluar, bukan menerima.</string>
+    <string name="diag_verdict_report">Untuk mengirim ini ke tim andr36oid, buat laporan masalah (tahan A+B+X+Y selama 10 detik). Laporan ini menyertakan data berikut.</string>
+    <string name="diag_verdict_seen">Pin deteksi berubah: <xliff:g id="pin">%1$s</xliff:g>\nChip daya melihat daya: <xliff:g id="pmic">%2$s</xliff:g>\nDriver melihat pengisi daya: <xliff:g id="driver">%3$s</xliff:g>\nArus terbesar ke baterai: <xliff:g id="ma">%4$s</xliff:g> mA</string>
+    <string name="diag_yes">ya</string>
+    <string name="diag_no">tidak</string>
+
+    <string name="diag_now_category">Saat ini</string>
+    <string name="diag_android">Android melihat</string>
+    <string name="diag_driver">Driver pengisian</string>
+    <string name="diag_driver_dc">Pengisi daya DC terpasang</string>
+    <string name="diag_driver_usb">Pengisi daya USB terpasang</string>
+    <string name="diag_driver_none">Tidak ada pengisi daya</string>
+    <string name="diag_pmic">Input chip daya (RK817)</string>
+    <string name="diag_pmic_yes">Daya masuk</string>
+    <string name="diag_pmic_no">Tidak ada daya masuk</string>
+    <string name="diag_pin">Pin deteksi pengisi daya</string>
+    <string name="diag_pin_value"><xliff:g id="level">%1$d</xliff:g> (deteksi: <xliff:g id="mode">%2$s</xliff:g>)</string>
+    <string name="diag_pin_none">Konsol ini tidak punya</string>
+    <string name="diag_state">Status pengisi daya</string>
+    <string name="diag_state_off">Tidak mengisi</string>
+    <string name="diag_state_dead">Membangunkan baterai kosong</string>
+    <string name="diag_state_trickle">Pengisian tetes</string>
+    <string name="diag_state_charging">Mengisi</string>
+    <string name="diag_state_done">Selesai</string>
+    <string name="diag_state_over_voltage">Tegangan pengisi daya terlalu tinggi</string>
+    <string name="diag_state_temperature">Error suhu baterai</string>
+    <string name="diag_state_timer">Berhenti, pengisian terlalu lama</string>
+    <string name="diag_otg">Daya untuk perangkat USB</string>
+    <string name="diag_otg_on">Nyala</string>
+    <string name="diag_otg_off">Mati</string>
+    <string name="diag_otg_boost_only">Mati, tetapi boost 5 V menyala</string>
+    <string name="diag_irqs">Sinyal colokan sejak mulai</string>
+    <string name="diag_irqs_value">Masuk <xliff:g id="in">%1$d</xliff:g>, keluar <xliff:g id="out">%2$d</xliff:g>, pin deteksi <xliff:g id="pin">%3$d</xliff:g></string>
+    <string name="diag_limits">Batas pengisian</string>
+    <string name="diag_limits_value"><xliff:g id="charge">%1$d</xliff:g> mA ke baterai, <xliff:g id="input">%2$d</xliff:g> mA dari pengisi daya</string>
+    <string name="diag_regs">Register pengisi daya</string>
+</resources>

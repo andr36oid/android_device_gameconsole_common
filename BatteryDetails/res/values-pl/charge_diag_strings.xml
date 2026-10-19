@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Battery details > Charging diagnostics -->
+    <string name="diag_category">Rozwiązywanie problemów</string>
+    <string name="diag_title">Diagnostyka ładowania</string>
+    <string name="diag_summary">Co konsola widzi, gdy podłączona jest ładowarka. Pomaga, gdy konsola się nie ładuje.</string>
+
+    <string name="diag_test_category">Test podłączenia</string>
+    <string name="diag_test_title">Uruchom test podłączenia</string>
+    <string name="diag_test_summary">Przez 15 sekund obserwuje drogę ładowania, gdy podłączasz ładowarkę, a potem mówi, która część jej nie zauważyła.</string>
+    <string name="diag_test_unplug">Odłącz ładowarkę i wszystkie urządzenia USB, potem naciśnij Start.</string>
+    <string name="diag_test_start">Start</string>
+    <string name="diag_test_plug">Podłącz teraz ładowarkę.\n\nPozostało: <xliff:g id="seconds">%1$d</xliff:g> s</string>
+    <string name="diag_test_result">Wynik testu podłączenia</string>
+    <string name="diag_test_last">Ostatni wynik</string>
+
+    <string name="diag_verdict_charging">Ładowanie działa: do baterii trafiło do <xliff:g id="ma">%1$d</xliff:g> mA.</string>
+    <string name="diag_verdict_no_current">Konsola widzi ładowarkę, ale do baterii nie płynie prąd. Stan ładowarki: <xliff:g id="state">%1$s</xliff:g>.</string>
+    <string name="diag_verdict_driver_missed">Układ zasilania (RK817) widzi napływ prądu, ale sterownik ładowania nie uznał go za ładowarkę. Spróbuj innego ustawienia Wykrywanie ładowarki w Kernel Tweaks.</string>
+    <string name="diag_verdict_pin_only">Pin wykrywania ładowarki się zmienił, ale do układu zasilania (RK817) nie dotarło zasilanie.</string>
+    <string name="diag_verdict_nothing">Nic w konsoli nie zauważyło ładowarki: zasilanie nie dociera do układu zasilania (RK817). Spróbuj innego kabla i ładowarki. Jeśli konsola ładuje się wyłączona, jej port wymaga poprawki w andr36oid.</string>
+    <string name="diag_verdict_boost">Zasilanie 5 V dla urządzeń USB było włączone bez niczego podłączonego, więc port może oddawać prąd zamiast go pobierać.</string>
+    <string name="diag_verdict_report">Aby wysłać to zespołowi andr36oid, utwórz raport problemu (przytrzymaj A+B+X+Y przez 10 sekund). Zawiera on te odczyty.</string>
+    <string name="diag_verdict_seen">Pin wykrywania zmieniony: <xliff:g id="pin">%1$s</xliff:g>\nUkład zasilania widział prąd: <xliff:g id="pmic">%2$s</xliff:g>\nSterownik widział ładowarkę: <xliff:g id="driver">%3$s</xliff:g>\nNajwiększy prąd do baterii: <xliff:g id="ma">%4$s</xliff:g> mA</string>
+    <string name="diag_yes">tak</string>
+    <string name="diag_no">nie</string>
+
+    <string name="diag_now_category">Teraz</string>
+    <string name="diag_android">Android widzi</string>
+    <string name="diag_driver">Sterownik ładowania</string>
+    <string name="diag_driver_dc">Podłączona ładowarka DC</string>
+    <string name="diag_driver_usb">Podłączona ładowarka USB</string>
+    <string name="diag_driver_none">Brak ładowarki</string>
+    <string name="diag_pmic">Wejście układu zasilania (RK817)</string>
+    <string name="diag_pmic_yes">Prąd wchodzi</string>
+    <string name="diag_pmic_no">Brak prądu na wejściu</string>
+    <string name="diag_pin">Pin wykrywania ładowarki</string>
+    <string name="diag_pin_value"><xliff:g id="level">%1$d</xliff:g> (wykrywanie: <xliff:g id="mode">%2$s</xliff:g>)</string>
+    <string name="diag_pin_none">Ta konsola go nie ma</string>
+    <string name="diag_state">Stan ładowarki</string>
+    <string name="diag_state_off">Nie ładuje</string>
+    <string name="diag_state_dead">Wybudzanie rozładowanej baterii</string>
+    <string name="diag_state_trickle">Ładowanie podtrzymujące</string>
+    <string name="diag_state_charging">Ładuje</string>
+    <string name="diag_state_done">Gotowe</string>
+    <string name="diag_state_over_voltage">Napięcie ładowarki za wysokie</string>
+    <string name="diag_state_temperature">Błąd temperatury baterii</string>
+    <string name="diag_state_timer">Zatrzymano, ładowanie trwało zbyt długo</string>
+    <string name="diag_otg">Zasilanie urządzeń USB</string>
+    <string name="diag_otg_on">Włączone</string>
+    <string name="diag_otg_off">Wyłączone</string>
+    <string name="diag_otg_boost_only">Wyłączone, ale zasilanie 5 V jest włączone</string>
+    <string name="diag_irqs">Sygnały podłączenia od startu</string>
+    <string name="diag_irqs_value">Wejście <xliff:g id="in">%1$d</xliff:g>, wyjście <xliff:g id="out">%2$d</xliff:g>, pin wykrywania <xliff:g id="pin">%3$d</xliff:g></string>
+    <string name="diag_limits">Limity ładowania</string>
+    <string name="diag_limits_value"><xliff:g id="charge">%1$d</xliff:g> mA do baterii, <xliff:g id="input">%2$d</xliff:g> mA z ładowarki</string>
+    <string name="diag_regs">Rejestry ładowarki</string>
+</resources>

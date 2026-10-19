@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Battery details > Charging diagnostics -->
+    <string name="diag_category">Sorun giderme</string>
+    <string name="diag_title">Şarj tanılama</string>
+    <string name="diag_summary">Şarj cihazı takılıyken konsolun gördükleri. Konsol şarj olmadığında yardımcı olur.</string>
+
+    <string name="diag_test_category">Priz testi</string>
+    <string name="diag_test_title">Priz testini çalıştır</string>
+    <string name="diag_test_summary">Şarj cihazını takarken 15 saniye boyunca şarj yolunu izler, sonra hangi parçanın fark etmediğini söyler.</string>
+    <string name="diag_test_unplug">Şarj cihazını ve tüm USB aygıtlarını çıkarın, sonra Başlat\'a basın.</string>
+    <string name="diag_test_start">Başlat</string>
+    <string name="diag_test_plug">Şarj cihazını şimdi takın.\n\nKalan süre: <xliff:g id="seconds">%1$d</xliff:g> sn</string>
+    <string name="diag_test_result">Priz testi sonucu</string>
+    <string name="diag_test_last">Son sonuç</string>
+
+    <string name="diag_verdict_charging">Şarj çalışıyor: pile en fazla <xliff:g id="ma">%1$d</xliff:g> mA girdi.</string>
+    <string name="diag_verdict_no_current">Konsol şarj cihazını görüyor ama pile akım girmiyor. Şarj cihazı durumu: <xliff:g id="state">%1$s</xliff:g>.</string>
+    <string name="diag_verdict_driver_missed">Güç çipi (RK817) gelen gücü görüyor, ama şarj sürücüsü bunu şarj cihazı olarak almadı. Kernel Tweaks içinde başka bir Şarj cihazı algılama ayarını deneyin.</string>
+    <string name="diag_verdict_pin_only">Şarj cihazı algılama pini değişti, ama güç çipine (RK817) hiç güç ulaşmadı.</string>
+    <string name="diag_verdict_nothing">Konsoldaki hiçbir şey şarj cihazını fark etmedi: güç çipine (RK817) güç ulaşmıyor. Başka bir kablo ve şarj cihazı deneyin. Konsol kapalıyken şarj oluyorsa, portunun andr36oid içinde düzeltilmesi gerekir.</string>
+    <string name="diag_verdict_boost">USB aygıtları için 5 V boost, hiçbir şey takılı değilken açıktı; bu yüzden port güç almak yerine güç veriyor olabilir.</string>
+    <string name="diag_verdict_report">Bunu andr36oid ekibine göndermek için bir sorun raporu oluşturun (A+B+X+Y tuşlarını 10 saniye basılı tutun). Rapor bu değerleri içerir.</string>
+    <string name="diag_verdict_seen">Algılama pini değişti: <xliff:g id="pin">%1$s</xliff:g>\nGüç çipi güç gördü: <xliff:g id="pmic">%2$s</xliff:g>\nSürücü şarj cihazı gördü: <xliff:g id="driver">%3$s</xliff:g>\nPile giren en yüksek akım: <xliff:g id="ma">%4$s</xliff:g> mA</string>
+    <string name="diag_yes">evet</string>
+    <string name="diag_no">hayır</string>
+
+    <string name="diag_now_category">Şu an</string>
+    <string name="diag_android">Android görüyor</string>
+    <string name="diag_driver">Şarj sürücüsü</string>
+    <string name="diag_driver_dc">DC şarj cihazı takılı</string>
+    <string name="diag_driver_usb">USB şarj cihazı takılı</string>
+    <string name="diag_driver_none">Şarj cihazı yok</string>
+    <string name="diag_pmic">Güç çipi girişi (RK817)</string>
+    <string name="diag_pmic_yes">Güç geliyor</string>
+    <string name="diag_pmic_no">Güç gelmiyor</string>
+    <string name="diag_pin">Şarj cihazı algılama pini</string>
+    <string name="diag_pin_value"><xliff:g id="level">%1$d</xliff:g> (algılama: <xliff:g id="mode">%2$s</xliff:g>)</string>
+    <string name="diag_pin_none">Bu konsolda yok</string>
+    <string name="diag_state">Şarj durumu</string>
+    <string name="diag_state_off">Şarj olmuyor</string>
+    <string name="diag_state_dead">Boş pil uyandırılıyor</string>
+    <string name="diag_state_trickle">Damlatma şarjı</string>
+    <string name="diag_state_charging">Şarj oluyor</string>
+    <string name="diag_state_done">Tamamlandı</string>
+    <string name="diag_state_over_voltage">Şarj cihazı gerilimi çok yüksek</string>
+    <string name="diag_state_temperature">Pil sıcaklık hatası</string>
+    <string name="diag_state_timer">Durduruldu, şarj çok uzun sürdü</string>
+    <string name="diag_otg">USB aygıtlar için güç</string>
+    <string name="diag_otg_on">Açık</string>
+    <string name="diag_otg_off">Kapalı</string>
+    <string name="diag_otg_boost_only">Kapalı, ama 5 V boost açık</string>
+    <string name="diag_irqs">Açılıştan beri takma sinyalleri</string>
+    <string name="diag_irqs_value">Giriş <xliff:g id="in">%1$d</xliff:g>, çıkış <xliff:g id="out">%2$d</xliff:g>, algılama pini <xliff:g id="pin">%3$d</xliff:g></string>
+    <string name="diag_limits">Şarj sınırları</string>
+    <string name="diag_limits_value">Pile <xliff:g id="charge">%1$d</xliff:g> mA, şarj cihazından <xliff:g id="input">%2$d</xliff:g> mA</string>
+    <string name="diag_regs">Şarj cihazı kayıtları</string>
+</resources>

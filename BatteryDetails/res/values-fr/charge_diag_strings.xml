@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Battery details > Charging diagnostics -->
+    <string name="diag_category">Dépannage</string>
+    <string name="diag_title">Diagnostic de charge</string>
+    <string name="diag_summary">Ce que voit la console quand un chargeur est branché. Aide quand elle ne charge pas.</string>
+
+    <string name="diag_test_category">Test de branchement</string>
+    <string name="diag_test_title">Lancer le test de branchement</string>
+    <string name="diag_test_summary">Surveille le trajet de la charge pendant 15 secondes pendant que vous branchez le chargeur, puis indique quelle partie ne l\'a pas remarqué.</string>
+    <string name="diag_test_unplug">Débranchez le chargeur et tout appareil USB, puis appuyez sur Démarrer.</string>
+    <string name="diag_test_start">Démarrer</string>
+    <string name="diag_test_plug">Branchez le chargeur maintenant.\n\n<xliff:g id="seconds">%1$d</xliff:g> s restantes</string>
+    <string name="diag_test_result">Résultat du test de branchement</string>
+    <string name="diag_test_last">Dernier résultat</string>
+
+    <string name="diag_verdict_charging">La charge fonctionne : jusqu\'à <xliff:g id="ma">%1$d</xliff:g> mA sont entrés dans la batterie.</string>
+    <string name="diag_verdict_no_current">La console voit le chargeur, mais aucun courant n\'entre dans la batterie. État du chargeur : <xliff:g id="state">%1$s</xliff:g>.</string>
+    <string name="diag_verdict_driver_missed">La puce d\'alimentation (RK817) voit du courant arriver, mais le pilote de charge ne l\'a pas reconnu comme chargeur. Essayez un autre réglage de Détection du chargeur dans Kernel Tweaks.</string>
+    <string name="diag_verdict_pin_only">La broche de détection du chargeur a changé, mais aucun courant n\'est arrivé à la puce d\'alimentation (RK817).</string>
+    <string name="diag_verdict_nothing">Rien dans la console n\'a remarqué le chargeur : aucun courant n\'atteint la puce d\'alimentation (RK817). Essayez un autre câble et un autre chargeur. Si la console charge éteinte, son port doit être corrigé dans andr36oid.</string>
+    <string name="diag_verdict_boost">Le boost 5 V pour les appareils USB était actif sans rien de branché, donc le port fournit peut-être du courant au lieu d\'en recevoir.</string>
+    <string name="diag_verdict_report">Pour envoyer ceci à l\'équipe andr36oid, créez un rapport de problème (maintenez A+B+X+Y pendant 10 secondes). Il contient ces valeurs.</string>
+    <string name="diag_verdict_seen">Broche de détection changée : <xliff:g id="pin">%1$s</xliff:g>\nLa puce d\'alimentation a vu du courant : <xliff:g id="pmic">%2$s</xliff:g>\nLe pilote a vu un chargeur : <xliff:g id="driver">%3$s</xliff:g>\nCourant maximal vers la batterie : <xliff:g id="ma">%4$s</xliff:g> mA</string>
+    <string name="diag_yes">oui</string>
+    <string name="diag_no">non</string>
+
+    <string name="diag_now_category">En ce moment</string>
+    <string name="diag_android">Android voit</string>
+    <string name="diag_driver">Pilote de charge</string>
+    <string name="diag_driver_dc">Chargeur DC branché</string>
+    <string name="diag_driver_usb">Chargeur USB branché</string>
+    <string name="diag_driver_none">Aucun chargeur</string>
+    <string name="diag_pmic">Entrée de la puce d\'alimentation (RK817)</string>
+    <string name="diag_pmic_yes">Courant entrant</string>
+    <string name="diag_pmic_no">Aucun courant entrant</string>
+    <string name="diag_pin">Broche de détection du chargeur</string>
+    <string name="diag_pin_value"><xliff:g id="level">%1$d</xliff:g> (détection : <xliff:g id="mode">%2$s</xliff:g>)</string>
+    <string name="diag_pin_none">Cette console n\'en a pas</string>
+    <string name="diag_state">État du chargeur</string>
+    <string name="diag_state_off">Ne charge pas</string>
+    <string name="diag_state_dead">Réveil d\'une batterie vide</string>
+    <string name="diag_state_trickle">Charge d\'entretien</string>
+    <string name="diag_state_charging">En charge</string>
+    <string name="diag_state_done">Terminé</string>
+    <string name="diag_state_over_voltage">Tension du chargeur trop élevée</string>
+    <string name="diag_state_temperature">Erreur de température de la batterie</string>
+    <string name="diag_state_timer">Arrêtée, la charge a duré trop longtemps</string>
+    <string name="diag_otg">Alimentation des appareils USB</string>
+    <string name="diag_otg_on">Activée</string>
+    <string name="diag_otg_off">Désactivée</string>
+    <string name="diag_otg_boost_only">Désactivée, mais le boost 5 V est actif</string>
+    <string name="diag_irqs">Signaux de branchement depuis le démarrage</string>
+    <string name="diag_irqs_value">Entrées <xliff:g id="in">%1$d</xliff:g>, sorties <xliff:g id="out">%2$d</xliff:g>, broche de détection <xliff:g id="pin">%3$d</xliff:g></string>
+    <string name="diag_limits">Limites de charge</string>
+    <string name="diag_limits_value"><xliff:g id="charge">%1$d</xliff:g> mA vers la batterie, <xliff:g id="input">%2$d</xliff:g> mA depuis le chargeur</string>
+    <string name="diag_regs">Registres du chargeur</string>
+</resources>

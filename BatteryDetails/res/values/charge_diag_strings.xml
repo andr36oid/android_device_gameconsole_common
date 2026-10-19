@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Battery details > Charging diagnostics -->
+    <string name="diag_category">Troubleshooting</string>
+    <string name="diag_title">Charging diagnostics</string>
+    <string name="diag_summary">What the console sees when a charger is plugged in. Helps when it doesn\'t charge.</string>
+
+    <string name="diag_test_category">Plug test</string>
+    <string name="diag_test_title">Run the plug test</string>
+    <string name="diag_test_summary">Watches the charging path for 15 seconds while you plug the charger in, then says which part didn\'t notice it.</string>
+    <string name="diag_test_unplug">Unplug the charger and any USB device, then press Start.</string>
+    <string name="diag_test_start">Start</string>
+    <string name="diag_test_plug">Plug the charger in now.\n\n<xliff:g id="seconds">%1$d</xliff:g> s left</string>
+    <string name="diag_test_result">Plug test result</string>
+    <string name="diag_test_last">Last result</string>
+
+    <string name="diag_verdict_charging">Charging works: up to <xliff:g id="ma">%1$d</xliff:g> mA went into the battery.</string>
+    <string name="diag_verdict_no_current">The console sees the charger, but no current goes into the battery. Charger state: <xliff:g id="state">%1$s</xliff:g>.</string>
+    <string name="diag_verdict_driver_missed">The power chip (RK817) sees power coming in, but the charger driver didn\'t take it as a charger. Try another Charger detection setting in Kernel Tweaks.</string>
+    <string name="diag_verdict_pin_only">The charger detect pin changed, but no power reached the power chip (RK817).</string>
+    <string name="diag_verdict_nothing">Nothing on the console noticed the charger: no power reaches the power chip (RK817). Try another cable and charger. If the console charges while it\'s off, its port needs a fix in andr36oid.</string>
+    <string name="diag_verdict_boost">The 5 V boost for USB devices was on with nothing plugged in, so the port may be giving power out instead of taking it in.</string>
+    <string name="diag_verdict_report">To send this to the andr36oid team, create a problem report (hold A+B+X+Y for 10 seconds). It includes these readings.</string>
+    <string name="diag_verdict_seen">Detect pin changed: <xliff:g id="pin">%1$s</xliff:g>\nPower chip saw power: <xliff:g id="pmic">%2$s</xliff:g>\nDriver saw a charger: <xliff:g id="driver">%3$s</xliff:g>\nMost current into the battery: <xliff:g id="ma">%4$s</xliff:g> mA</string>
+    <string name="diag_yes">yes</string>
+    <string name="diag_no">no</string>
+
+    <string name="diag_now_category">Right now</string>
+    <string name="diag_android">Android sees</string>
+    <string name="diag_driver">Charger driver</string>
+    <string name="diag_driver_dc">DC charger plugged in</string>
+    <string name="diag_driver_usb">USB charger plugged in</string>
+    <string name="diag_driver_none">No charger</string>
+    <string name="diag_pmic">Power chip input (RK817)</string>
+    <string name="diag_pmic_yes">Power coming in</string>
+    <string name="diag_pmic_no">No power coming in</string>
+    <string name="diag_pin">Charger detect pin</string>
+    <string name="diag_pin_value"><xliff:g id="level">%1$d</xliff:g> (detection: <xliff:g id="mode">%2$s</xliff:g>)</string>
+    <string name="diag_pin_none">This console has none</string>
+    <string name="diag_state">Charger state</string>
+    <string name="diag_state_off">Not charging</string>
+    <string name="diag_state_dead">Waking up an empty battery</string>
+    <string name="diag_state_trickle">Trickle charging</string>
+    <string name="diag_state_charging">Charging</string>
+    <string name="diag_state_done">Done</string>
+    <string name="diag_state_over_voltage">Charger voltage too high</string>
+    <string name="diag_state_temperature">Battery temperature error</string>
+    <string name="diag_state_timer">Stopped, charging took too long</string>
+    <string name="diag_otg">Power for USB devices</string>
+    <string name="diag_otg_on">On</string>
+    <string name="diag_otg_off">Off</string>
+    <string name="diag_otg_boost_only">Off, but the 5 V boost is on</string>
+    <string name="diag_irqs">Plug signals since start</string>
+    <string name="diag_irqs_value">In <xliff:g id="in">%1$d</xliff:g>, out <xliff:g id="out">%2$d</xliff:g>, detect pin <xliff:g id="pin">%3$d</xliff:g></string>
+    <string name="diag_limits">Charging limits</string>
+    <string name="diag_limits_value"><xliff:g id="charge">%1$d</xliff:g> mA into the battery, <xliff:g id="input">%2$d</xliff:g> mA from the charger</string>
+    <string name="diag_regs">Charger registers</string>
+</resources>

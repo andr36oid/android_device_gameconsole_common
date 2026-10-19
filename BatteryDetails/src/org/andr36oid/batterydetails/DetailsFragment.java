@@ -59,6 +59,9 @@ public class DetailsFragment extends PreferenceFragment {
             getPreferenceScreen().removePreference(findPreference("limit_category"));
         }
         setUpDeepSleep();
+        if (!ChargeDiag.isSupported()) {
+            getPreferenceScreen().removePreference(findPreference("diag_category"));
+        }
 
         mCapacity = (CapacityPreference) findPreference("capacity_slider");
         mCapacityReset = findPreference("capacity_reset");

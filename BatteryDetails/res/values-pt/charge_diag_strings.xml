@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Battery details > Charging diagnostics -->
+    <string name="diag_category">Resolução de problemas</string>
+    <string name="diag_title">Diagnóstico de carregamento</string>
+    <string name="diag_summary">O que a consola vê quando um carregador está ligado. Ajuda quando não carrega.</string>
+
+    <string name="diag_test_category">Teste de ligação</string>
+    <string name="diag_test_title">Fazer o teste de ligação</string>
+    <string name="diag_test_summary">Vigia o caminho de carregamento durante 15 segundos enquanto ligas o carregador e depois diz qual parte não o detetou.</string>
+    <string name="diag_test_unplug">Desligar o carregador e qualquer dispositivo USB e depois premir Iniciar.</string>
+    <string name="diag_test_start">Iniciar</string>
+    <string name="diag_test_plug">Liga o carregador agora.\n\nFaltam <xliff:g id="seconds">%1$d</xliff:g> s</string>
+    <string name="diag_test_result">Resultado do teste de ligação</string>
+    <string name="diag_test_last">Último resultado</string>
+
+    <string name="diag_verdict_charging">A carga funciona: entraram até <xliff:g id="ma">%1$d</xliff:g> mA na bateria.</string>
+    <string name="diag_verdict_no_current">A consola vê o carregador, mas nenhuma corrente entra na bateria. Estado do carregador: <xliff:g id="state">%1$s</xliff:g>.</string>
+    <string name="diag_verdict_driver_missed">O chip de energia (RK817) vê energia a chegar, mas o controlador de carga não a reconheceu como carregador. Experimenta outra opção de Deteção de carregador em Kernel Tweaks.</string>
+    <string name="diag_verdict_pin_only">O pino de deteção do carregador mudou, mas não chegou energia ao chip de energia (RK817).</string>
+    <string name="diag_verdict_nothing">Nada na consola detetou o carregador: não chega energia ao chip de energia (RK817). Experimenta outro cabo e outro carregador. Se a consola carrega desligada, a porta precisa de uma correção no andr36oid.</string>
+    <string name="diag_verdict_boost">O boost de 5 V para dispositivos USB estava ligado sem nada ligado, por isso a porta pode estar a dar energia em vez de a receber.</string>
+    <string name="diag_verdict_report">Para enviar isto à equipa do andr36oid, cria um relatório de problema (mantém A+B+X+Y durante 10 segundos). Inclui estes valores.</string>
+    <string name="diag_verdict_seen">Pino de deteção mudou: <xliff:g id="pin">%1$s</xliff:g>\nChip de energia viu energia: <xliff:g id="pmic">%2$s</xliff:g>\nO controlador viu um carregador: <xliff:g id="driver">%3$s</xliff:g>\nCorrente máxima para a bateria: <xliff:g id="ma">%4$s</xliff:g> mA</string>
+    <string name="diag_yes">sim</string>
+    <string name="diag_no">não</string>
+
+    <string name="diag_now_category">Neste momento</string>
+    <string name="diag_android">Android vê</string>
+    <string name="diag_driver">Controlador de carga</string>
+    <string name="diag_driver_dc">Carregador DC ligado</string>
+    <string name="diag_driver_usb">Carregador USB ligado</string>
+    <string name="diag_driver_none">Sem carregador</string>
+    <string name="diag_pmic">Entrada do chip de energia (RK817)</string>
+    <string name="diag_pmic_yes">Energia a chegar</string>
+    <string name="diag_pmic_no">Sem energia a chegar</string>
+    <string name="diag_pin">Pino de deteção do carregador</string>
+    <string name="diag_pin_value"><xliff:g id="level">%1$d</xliff:g> (deteção: <xliff:g id="mode">%2$s</xliff:g>)</string>
+    <string name="diag_pin_none">Esta consola não tem</string>
+    <string name="diag_state">Estado do carregador</string>
+    <string name="diag_state_off">Não está a carregar</string>
+    <string name="diag_state_dead">A acordar uma bateria vazia</string>
+    <string name="diag_state_trickle">Carga de manutenção</string>
+    <string name="diag_state_charging">A carregar</string>
+    <string name="diag_state_done">Concluído</string>
+    <string name="diag_state_over_voltage">Tensão do carregador demasiado alta</string>
+    <string name="diag_state_temperature">Erro de temperatura da bateria</string>
+    <string name="diag_state_timer">Parado, a carga demorou demasiado</string>
+    <string name="diag_otg">Energia para dispositivos USB</string>
+    <string name="diag_otg_on">Ligada</string>
+    <string name="diag_otg_off">Desligada</string>
+    <string name="diag_otg_boost_only">Desligada, mas o boost de 5 V está ligado</string>
+    <string name="diag_irqs">Sinais de ligação desde o arranque</string>
+    <string name="diag_irqs_value">Entrada <xliff:g id="in">%1$d</xliff:g>, saída <xliff:g id="out">%2$d</xliff:g>, pino de deteção <xliff:g id="pin">%3$d</xliff:g></string>
+    <string name="diag_limits">Limites de carga</string>
+    <string name="diag_limits_value"><xliff:g id="charge">%1$d</xliff:g> mA para a bateria, <xliff:g id="input">%2$d</xliff:g> mA do carregador</string>
+    <string name="diag_regs">Registos do carregador</string>
+</resources>

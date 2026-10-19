@@ -72,6 +72,21 @@
             android:persistent="false" />
     </PreferenceCategory>
 
+    <PreferenceCategory
+        android:key="diag_category"
+        android:title="@string/diag_category">
+
+        <!-- Removed when the charger driver has no andr36oid_diag file -->
+        <Preference
+            android:key="charge_diag"
+            android:title="@string/diag_title"
+            android:summary="@string/diag_summary">
+            <intent
+                android:targetPackage="org.andr36oid.batterydetails"
+                android:targetClass="org.andr36oid.batterydetails.ChargeDiagActivity" />
+        </Preference>
+    </PreferenceCategory>
+
     <Preference
         android:key="about"
         android:selectable="false"

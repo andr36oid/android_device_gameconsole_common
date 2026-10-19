@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Battery details > Charging diagnostics -->
+    <string name="diag_category">故障排查</string>
+    <string name="diag_title">充电诊断</string>
+    <string name="diag_summary">插上充电器时主机能看到的情况。充不进电时可以用来排查。</string>
+
+    <string name="diag_test_category">插入测试</string>
+    <string name="diag_test_title">运行插入测试</string>
+    <string name="diag_test_summary">在你插入充电器的 15 秒内监测充电路径，然后说明哪一部分没有察觉到充电器。</string>
+    <string name="diag_test_unplug">拔掉充电器和所有 USB 设备，然后按“开始”。</string>
+    <string name="diag_test_start">开始</string>
+    <string name="diag_test_plug">现在插入充电器。\n\n剩余 <xliff:g id="seconds">%1$d</xliff:g> 秒</string>
+    <string name="diag_test_result">插入测试结果</string>
+    <string name="diag_test_last">上次结果</string>
+
+    <string name="diag_verdict_charging">充电正常：最多有 <xliff:g id="ma">%1$d</xliff:g> mA 进入了电池。</string>
+    <string name="diag_verdict_no_current">主机能检测到充电器，但没有电流进入电池。充电器状态：<xliff:g id="state">%1$s</xliff:g>。</string>
+    <string name="diag_verdict_driver_missed">电源芯片（RK817）检测到有电流输入，但充电驱动没有把它识别为充电器。请在 Kernel Tweaks 中尝试其他“充电器检测”设置。</string>
+    <string name="diag_verdict_pin_only">充电器检测引脚有变化，但没有电流到达电源芯片（RK817）。</string>
+    <string name="diag_verdict_nothing">主机上没有任何部分检测到充电器：没有电流到达电源芯片（RK817）。请换一根线和充电器试试。如果主机关机时也能充电，则需要在 andr36oid 中修复其接口。</string>
+    <string name="diag_verdict_boost">没有连接任何设备时，USB 设备的 5 V 升压却是开启的，因此接口可能在输出电力而不是输入电力。</string>
+    <string name="diag_verdict_report">要把这些信息发送给 andr36oid 团队，请创建问题报告（按住 A+B+X+Y 10 秒）。报告会包含这些读数。</string>
+    <string name="diag_verdict_seen">检测引脚变化：<xliff:g id="pin">%1$s</xliff:g>\n电源芯片看到电力：<xliff:g id="pmic">%2$s</xliff:g>\n驱动看到充电器：<xliff:g id="driver">%3$s</xliff:g>\n进入电池的最大电流：<xliff:g id="ma">%4$s</xliff:g> mA</string>
+    <string name="diag_yes">是</string>
+    <string name="diag_no">否</string>
+
+    <string name="diag_now_category">当前状态</string>
+    <string name="diag_android">Android 看到</string>
+    <string name="diag_driver">充电驱动</string>
+    <string name="diag_driver_dc">已插入 DC 充电器</string>
+    <string name="diag_driver_usb">已插入 USB 充电器</string>
+    <string name="diag_driver_none">无充电器</string>
+    <string name="diag_pmic">电源芯片输入（RK817）</string>
+    <string name="diag_pmic_yes">有电力输入</string>
+    <string name="diag_pmic_no">无电力输入</string>
+    <string name="diag_pin">充电器检测引脚</string>
+    <string name="diag_pin_value"><xliff:g id="level">%1$d</xliff:g>（检测：<xliff:g id="mode">%2$s</xliff:g>）</string>
+    <string name="diag_pin_none">此主机没有该引脚</string>
+    <string name="diag_state">充电器状态</string>
+    <string name="diag_state_off">未充电</string>
+    <string name="diag_state_dead">正在唤醒亏电电池</string>
+    <string name="diag_state_trickle">涓流充电</string>
+    <string name="diag_state_charging">充电中</string>
+    <string name="diag_state_done">已完成</string>
+    <string name="diag_state_over_voltage">充电器电压过高</string>
+    <string name="diag_state_temperature">电池温度错误</string>
+    <string name="diag_state_timer">已停止，充电时间过长</string>
+    <string name="diag_otg">USB 设备供电</string>
+    <string name="diag_otg_on">开</string>
+    <string name="diag_otg_off">关</string>
+    <string name="diag_otg_boost_only">关，但 5 V 升压已开启</string>
+    <string name="diag_irqs">启动后的插拔信号</string>
+    <string name="diag_irqs_value">输入 <xliff:g id="in">%1$d</xliff:g>，输出 <xliff:g id="out">%2$d</xliff:g>，检测引脚 <xliff:g id="pin">%3$d</xliff:g></string>
+    <string name="diag_limits">充电限制</string>
+    <string name="diag_limits_value">进入电池 <xliff:g id="charge">%1$d</xliff:g> mA，来自充电器 <xliff:g id="input">%2$d</xliff:g> mA</string>
+    <string name="diag_regs">充电器寄存器</string>
+</resources>

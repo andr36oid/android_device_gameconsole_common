@@ -881,6 +881,11 @@ show power.txt $B/gauge_boot $B/design_capacity_mah $B/charge_limit_percent \
 # uevent is the real charge current, ac or usb online says which charger type
 show power.txt /sys/class/power_supply/ac/device/charge_current_ma \
 	/sys/class/power_supply/ac/device/charge_current_default_ma
+# charging diagnostics (Battery details > Charging diagnostics): what the PMIC and
+# the detect pin see, plug interrupt counts, charger registers; then the plug
+# interrupt lines, the PMIC's and the USB PHY's (bvalid = 5 V on the USB port)
+show power.txt /sys/class/power_supply/ac/device/andr36oid_diag
+run power.txt 5 grep -iE 'rk817|plug|dc_det|bvalid|otg|usb2phy|linestate' /proc/interrupts
 for z in /sys/class/thermal/thermal_zone*; do
 	echo "$z $(cat "$z/type" 2>/dev/null) $(cat "$z/temp" 2>/dev/null)" >>"$WORK/power.txt"
 done

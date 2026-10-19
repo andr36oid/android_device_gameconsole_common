@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Battery details > Charging diagnostics -->
+    <string name="diag_category">Устранение неполадок</string>
+    <string name="diag_title">Диагностика зарядки</string>
+    <string name="diag_summary">Что консоль видит, когда подключено зарядное устройство. Помогает, если консоль не заряжается.</string>
+
+    <string name="diag_test_category">Проверка подключения</string>
+    <string name="diag_test_title">Запустить проверку подключения</string>
+    <string name="diag_test_summary">В течение 15 секунд следит за путём зарядки, пока вы подключаете зарядное устройство, а затем сообщает, какая часть его не заметила.</string>
+    <string name="diag_test_unplug">Отключите зарядное устройство и все USB-устройства, затем нажмите «Старт».</string>
+    <string name="diag_test_start">Старт</string>
+    <string name="diag_test_plug">Подключите зарядное устройство сейчас.\n\nОсталось <xliff:g id="seconds">%1$d</xliff:g> с</string>
+    <string name="diag_test_result">Результат проверки подключения</string>
+    <string name="diag_test_last">Последний результат</string>
+
+    <string name="diag_verdict_charging">Зарядка работает: в аккумулятор поступило до <xliff:g id="ma">%1$d</xliff:g> мА.</string>
+    <string name="diag_verdict_no_current">Консоль видит зарядное устройство, но ток в аккумулятор не поступает. Состояние зарядки: <xliff:g id="state">%1$s</xliff:g>.</string>
+    <string name="diag_verdict_driver_missed">Микросхема питания (RK817) видит поступающее питание, но драйвер зарядки не принял его за зарядное устройство. Попробуйте другой вариант параметра «Определение зарядного устройства» в Kernel Tweaks.</string>
+    <string name="diag_verdict_pin_only">Вывод определения зарядного устройства изменился, но питание до микросхемы (RK817) не дошло.</string>
+    <string name="diag_verdict_nothing">Консоль не заметила зарядное устройство: питание до микросхемы питания (RK817) не доходит. Попробуйте другой кабель и зарядное устройство. Если консоль заряжается выключенной, порт нужно исправить в andr36oid.</string>
+    <string name="diag_verdict_boost">Повышающий преобразователь 5 В для USB-устройств был включён, хотя ничего не подключено, поэтому порт, возможно, отдаёт питание вместо того, чтобы принимать его.</string>
+    <string name="diag_verdict_report">Чтобы отправить это команде andr36oid, создайте отчёт о проблеме (удерживайте A+B+X+Y 10 секунд). В него войдут эти показания.</string>
+    <string name="diag_verdict_seen">Вывод определения изменён: <xliff:g id="pin">%1$s</xliff:g>\nМикросхема питания увидела питание: <xliff:g id="pmic">%2$s</xliff:g>\nДрайвер увидел зарядное устройство: <xliff:g id="driver">%3$s</xliff:g>\nМаксимальный ток в аккумулятор: <xliff:g id="ma">%4$s</xliff:g> мА</string>
+    <string name="diag_yes">да</string>
+    <string name="diag_no">нет</string>
+
+    <string name="diag_now_category">Сейчас</string>
+    <string name="diag_android">Android видит</string>
+    <string name="diag_driver">Драйвер зарядки</string>
+    <string name="diag_driver_dc">Подключено DC-зарядное устройство</string>
+    <string name="diag_driver_usb">Подключено USB-зарядное устройство</string>
+    <string name="diag_driver_none">Зарядное устройство не подключено</string>
+    <string name="diag_pmic">Вход микросхемы питания (RK817)</string>
+    <string name="diag_pmic_yes">Питание поступает</string>
+    <string name="diag_pmic_no">Питание не поступает</string>
+    <string name="diag_pin">Вывод определения зарядного устройства</string>
+    <string name="diag_pin_value"><xliff:g id="level">%1$d</xliff:g> (определение: <xliff:g id="mode">%2$s</xliff:g>)</string>
+    <string name="diag_pin_none">В этой консоли его нет</string>
+    <string name="diag_state">Состояние зарядки</string>
+    <string name="diag_state_off">Не заряжается</string>
+    <string name="diag_state_dead">Пробуждение разряженного аккумулятора</string>
+    <string name="diag_state_trickle">Подзарядка малым током</string>
+    <string name="diag_state_charging">Заряжается</string>
+    <string name="diag_state_done">Готово</string>
+    <string name="diag_state_over_voltage">Напряжение зарядного устройства слишком высокое</string>
+    <string name="diag_state_temperature">Ошибка температуры аккумулятора</string>
+    <string name="diag_state_timer">Остановлено, зарядка заняла слишком много времени</string>
+    <string name="diag_otg">Питание USB-устройств</string>
+    <string name="diag_otg_on">Вкл.</string>
+    <string name="diag_otg_off">Выкл.</string>
+    <string name="diag_otg_boost_only">Выкл., но преобразователь 5 В включён</string>
+    <string name="diag_irqs">Сигналы подключения с запуска</string>
+    <string name="diag_irqs_value">Вход <xliff:g id="in">%1$d</xliff:g>, выход <xliff:g id="out">%2$d</xliff:g>, вывод определения <xliff:g id="pin">%3$d</xliff:g></string>
+    <string name="diag_limits">Пределы зарядки</string>
+    <string name="diag_limits_value"><xliff:g id="charge">%1$d</xliff:g> мА в аккумулятор, <xliff:g id="input">%2$d</xliff:g> мА от зарядного устройства</string>
+    <string name="diag_regs">Регистры зарядного устройства</string>
+</resources>
