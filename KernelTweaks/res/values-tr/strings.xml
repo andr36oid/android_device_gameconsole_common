@@ -286,6 +286,12 @@
     <string name="kt_crash_log_what">Çekirdek logunu, Android logunu ve bir çökme kaydını yeniden başlatmada kalan bir RAM parçasında tutar; böylece bir sonraki açılış bunları sorun raporuna koyabilir.</string>
     <string name="kt_crash_log_why">Açık bırakın. Kapatmak yalnızca çökme logunun kendisinin sorun çıkarıp çıkarmadığını test etmek içindir. Sorun raporunda o zaman bir önceki açılışın logu olmaz ve çekirdek çökmeleri artık çökme bildirimi göstermez. 960 KB yine de ayrılmış kalır: aygıt ağacı onları ayırır, sadece kullanılmazlar.</string>
 
+    <string name="kt_emmc_speed">eMMC hızı (deneysel)</string>
+    <string name="kt_emmc_speed_what">Konsolun dahili eMMC\'siyle iletişim hızı; Dahili eMMC depolama açıkken bir sonraki açılıştan itibaren geçerli olur. Yüksek hız, konsolla birlikte gelen sistemin kullandığı hızdır. DDR52 her saat darbesinde iki kez veri gönderir, yaklaşık iki kat daha hızlı. HS200, saati destekleyen çiplerde üç kata kadar hızlandırır; diğerleri DDR52 hızında kalır.</string>
+    <string name="kt_emmc_speed_why">Daha hızlı yedeklemeler ve bir gün eMMC\'de daha hızlı bir sistem. Diium D-28S\'te yüksek hız yaklaşık 40 MB/s, DDR52 yaklaşık 75 MB/s okuma yapar. eMMC görünmezse veya okumalar başarısız olursa daha yavaş bir hız seçin. eMMC yalnızca okunur, bu yüzden çalışmayan bir hız ona zarar veremez.</string>
+    <string name="kt_emmc_speed_hs">Yüksek hız</string>
+    <string name="kt_emmc_speed_ddr52">DDR52</string>
+    <string name="kt_emmc_speed_hs200">HS200</string>
     <string name="kt_crash_split">Çökme logu bölümü</string>
     <string name="kt_crash_split_what">Yeniden başlatmada tutulan 960 KB\'ın çökme kaydı, çekirdek logu ve Android logu arasında nasıl paylaşıldığı. Dengeli: 192 KB, 512 KB ve 256 KB. Daha fazla çekirdek logu: 320 KB, 512 KB ve 128 KB. Daha fazla Android logu: 192 KB, 256 KB ve 512 KB.</string>
     <string name="kt_crash_split_why">Dengeli çoğu sorun için uygundur. Daha fazla çekirdek logu, öncesinde uzun bir hikâyesi olan çökmeler için tüm çekirdek logunu çökme kaydına sığdırır. Daha fazla Android logu, çekirdek çökmesi olmadan kapanan ya da donan uygulamalar ve oyunlar için Android logunun iki katını tutar. Değişiklikten önceki loglar, onu yapan yeniden başlatmada kaybolur.</string>

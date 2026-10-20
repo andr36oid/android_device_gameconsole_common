@@ -285,6 +285,12 @@
     <string name="kt_crash_log_what">将内核日志、Android 日志和崩溃记录保存在一块能在重启后保留的内存中，以便下次启动时将它们放入问题报告。</string>
     <string name="kt_crash_log_why">建议保持开启。关闭仅用于测试崩溃日志本身是否会引发问题。这样问题报告中就缺少上一次启动的日志，内核崩溃也不再弹出崩溃提示。无论如何，960 KB 都会被预留：设备树会保留它们，只是不会使用。</string>
 
+    <string name="kt_emmc_speed">eMMC 速度（实验性）</string>
+    <string name="kt_emmc_speed_what">控制台与内置 eMMC 通信的速度，从下次开机起生效，前提是已开启“内置 eMMC 存储”。“高速”是出厂系统所用的速度。DDR52 每个时钟周期传输两次数据，速度约快一倍。HS200 在支持的芯片上可将时钟提速至三倍；其他芯片则保持 DDR52。</string>
+    <string name="kt_emmc_speed_why">备份更快，将来也可能让 eMMC 上的系统更快。在 Diium D-28S 上，高速读取约 40 MB/s，DDR52 约 75 MB/s。如果 eMMC 无法识别或读取失败，请选择较慢的速度。eMMC 只做读取，因此无法正常工作的速度不会损坏它。</string>
+    <string name="kt_emmc_speed_hs">高速</string>
+    <string name="kt_emmc_speed_ddr52">DDR52</string>
+    <string name="kt_emmc_speed_hs200">HS200</string>
     <string name="kt_crash_split">崩溃日志分配</string>
     <string name="kt_crash_split_what">重启时保留的 960 KB 如何在崩溃记录、内核日志和 Android 日志之间分配。均衡：192 KB、512 KB 和 256 KB。更多内核日志：320 KB、512 KB 和 128 KB。更多 Android 日志：192 KB、256 KB 和 512 KB。</string>
     <string name="kt_crash_split_why">均衡适合大多数问题。更多内核日志可将整个内核日志放入崩溃记录，适合前面有长篇经过的崩溃。更多 Android 日志可多保留一倍的 Android 日志，适合没有内核崩溃却关闭或冻结的应用和游戏。切换前的日志会在进行切换的那次重启中丢失。</string>

@@ -286,6 +286,12 @@
     <string name="kt_crash_log_what">Mantém o log do kernel, o log do Android e um registro de travamento em uma parte da RAM que sobrevive a um reinício, para que a próxima inicialização possa colocá-los no relatório de problemas.</string>
     <string name="kt_crash_log_why">Deixe ligado. Desligado serve só para testar se o próprio log de travamentos causa problemas. O relatório de problemas fica então sem o log da inicialização anterior, e os travamentos do kernel deixam de mostrar o aviso de travamento. Os 960 KB continuam reservados de qualquer forma: a árvore de dispositivos os reserva, só que não são usados.</string>
 
+    <string name="kt_emmc_speed">Velocidade da eMMC (experimental)</string>
+    <string name="kt_emmc_speed_what">A velocidade com que o console se comunica com a eMMC embutida, a partir da próxima inicialização, quando o Armazenamento eMMC embutido está ativado. A velocidade alta é a que o sistema que vem com o console usa. O DDR52 envia dados duas vezes por ciclo do clock, cerca de duas vezes mais rápido. O HS200 acelera o clock em até três vezes, nos chips que suportam isso; os outros continuam no DDR52.</string>
+    <string name="kt_emmc_speed_why">Backups mais rápidos e, um dia, um sistema mais rápido na eMMC. No Diium D-28S, a velocidade alta lê cerca de 40 MB/s e o DDR52 cerca de 75 MB/s. Se a eMMC não aparecer ou as leituras falharem, escolha uma velocidade mais lenta. A eMMC só é lida, então uma velocidade que não funcione não pode prejudicá-la.</string>
+    <string name="kt_emmc_speed_hs">Velocidade alta</string>
+    <string name="kt_emmc_speed_ddr52">DDR52</string>
+    <string name="kt_emmc_speed_hs200">HS200</string>
     <string name="kt_crash_split">Divisão do log de travamentos</string>
     <string name="kt_crash_split_what">Como os 960 KB mantidos num reinício são divididos entre o registro de travamento, o log do kernel e o log do Android. Equilibrado: 192 KB, 512 KB e 256 KB. Mais log do kernel: 320 KB, 512 KB e 128 KB. Mais log do Android: 192 KB, 256 KB e 512 KB.</string>
     <string name="kt_crash_split_why">Equilibrado serve para a maioria dos problemas. Mais log do kernel cabe o log inteiro do kernel no registro de travamento, para travamentos com uma história longa antes. Mais log do Android guarda o dobro do log do Android, para apps e jogos que fecham ou travam sem um travamento do kernel. Os logs de antes da troca se perdem no reinício que a faz.</string>

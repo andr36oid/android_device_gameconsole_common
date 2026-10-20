@@ -80,6 +80,7 @@ storage|boot||storage
 fuse|boot||fuse
 sd2_slot|boot||sd2_slot
 builtin_emmc|boot||builtin_emmc
+emmc_speed|boot||emmc_speed
 '
 
 # Start options. boot.ini reads kt_args=... from BOOT/kernel-tweaks.txt and puts it at
@@ -153,6 +154,14 @@ boot_read() {
 		1 | [Yy]*) echo on ;;
 		*) echo off ;;
 		esac ;;
+	emmc_speed)
+		# the same consoles as builtin_emmc
+		[ -e "$R/proc/device-tree/dwmmc@ff390000/andr36oid,builtin-emmc" ] || return 0
+		case $(arg_last dw_mmc_rockchip.emmc_speed "$2") in
+		hs) echo hs ;;
+		hs200) echo hs200 ;;
+		*) echo ddr52 ;;
+		esac ;;
 	crash_log)
 		case $(arg_last ramoops.disable "$2") in
 		1 | [Yy]*) echo off ;;
@@ -212,6 +221,7 @@ boot_args() {
 	fuse:on) echo "fuse.disable=0" ;;
 	sd2_slot:off) echo "dw_mmc_rockchip.second_slot=0" ;;
 	builtin_emmc:on) echo "dw_mmc_rockchip.builtin_emmc=1" ;;
+	emmc_speed:hs | emmc_speed:hs200) echo "dw_mmc_rockchip.emmc_speed=$2" ;;
 	crash_split:balanced) split_args "$SPLIT_BALANCED" ;;
 	crash_split:kernel) split_args "$SPLIT_KERNEL" ;;
 	crash_split:android) split_args "$SPLIT_ANDROID" ;;

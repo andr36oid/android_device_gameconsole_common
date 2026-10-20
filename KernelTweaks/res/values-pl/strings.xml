@@ -288,6 +288,12 @@
     <string name="kt_crash_log_what">Zachowuje log jądra, log Androida i zapis awarii w kawałku pamięci RAM, który przetrwa restart, żeby następny start mógł je włożyć do raportu problemu.</string>
     <string name="kt_crash_log_why">Zostaw włączony. Wyłączanie służy tylko do sprawdzenia, czy sam log awarii nie sprawia kłopotów. Raport problemu nie ma wtedy logu z poprzedniego startu, a awarie jądra przestają pokazywać komunikat o awarii. Te 960 KB i tak są odłożone: drzewo urządzeń je rezerwuje, po prostu nie są używane.</string>
 
+    <string name="kt_emmc_speed">Szybkość eMMC (eksperymentalne)</string>
+    <string name="kt_emmc_speed_what">Jak szybko konsola komunikuje się z wbudowaną pamięcią eMMC, od następnego uruchomienia, gdy włączona jest opcja Wbudowana pamięć eMMC. Wysoka szybkość to ta, której używa fabryczny system konsoli. DDR52 przesyła dane dwa razy na takt zegara, czyli mniej więcej dwa razy szybciej. HS200 podkręca zegar nawet trzykrotnie, w układach, które to obsługują; pozostałe zostają przy DDR52.</string>
+    <string name="kt_emmc_speed_why">Szybsze kopie zapasowe i, kiedyś, szybszy system na pamięci eMMC. Na Diium D-28S wysoka szybkość odczytuje ok. 40 MB/s, a DDR52 ok. 75 MB/s. Jeśli eMMC się nie pojawia lub odczyty się nie udają, wybierz niższą szybkość. Pamięć eMMC jest tylko odczytywana, więc szybkość, która nie działa, nie może jej zaszkodzić.</string>
+    <string name="kt_emmc_speed_hs">Wysoka szybkość</string>
+    <string name="kt_emmc_speed_ddr52">DDR52</string>
+    <string name="kt_emmc_speed_hs200">HS200</string>
     <string name="kt_crash_split">Podział logu awarii</string>
     <string name="kt_crash_split_what">Jak 960 KB zachowane przy restarcie dzielą się między zapis awarii, log jądra i log Androida. Zrównoważony: 192 KB, 512 KB i 256 KB. Więcej logu jądra: 320 KB, 512 KB i 128 KB. Więcej logu Androida: 192 KB, 256 KB i 512 KB.</string>
     <string name="kt_crash_split_why">Zrównoważony pasuje do większości problemów. Więcej logu jądra mieści cały log jądra w zapisie awarii, dla awarii z długą historią przed sobą. Więcej logu Androida zachowuje dwa razy więcej logu Androida, dla aplikacji i gier, które się zamykają albo zamrażają bez awarii jądra. Logi sprzed zmiany giną przy restarcie, który ją wprowadza.</string>

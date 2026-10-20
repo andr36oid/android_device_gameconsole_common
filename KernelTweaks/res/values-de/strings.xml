@@ -286,6 +286,12 @@
     <string name="kt_crash_log_what">Behält das Kernel-Log, das Android-Log und einen Absturzbericht in einem Stück RAM, das einen Neustart übersteht, damit der nächste Start sie in den Fehlerbericht packen kann.</string>
     <string name="kt_crash_log_why">Am besten anlassen. Aus ist nur zum Testen, ob das Absturzlog selbst Probleme macht. Dem Fehlerbericht fehlt dann das Log des vorherigen Starts, und Kernel-Abstürze zeigen keinen Absturzhinweis mehr. Die 960 KB bleiben ohnehin reserviert: Der Gerätebaum hält sie frei, sie werden nur nicht genutzt.</string>
 
+    <string name="kt_emmc_speed">eMMC-Geschwindigkeit (experimentell)</string>
+    <string name="kt_emmc_speed_what">Wie schnell die Konsole mit ihrem eingebauten eMMC spricht, ab dem nächsten Start, wenn Eingebauter eMMC-Speicher aktiviert ist. Hohe Geschwindigkeit nutzt das System, das ab Werk auf der Konsole ist. DDR52 überträgt bei jedem Takt zweimal Daten, also etwa doppelt so schnell. HS200 taktet bis zu dreimal schneller, bei Chips, die das unterstützen; die anderen bleiben bei DDR52.</string>
+    <string name="kt_emmc_speed_why">Schnellere Backups und irgendwann ein schnelleres System auf dem eMMC. Auf dem Diium D-28S liest hohe Geschwindigkeit mit etwa 40 MB/s und DDR52 mit etwa 75 MB/s. Wenn das eMMC nicht erscheint oder Lesefehler auftreten, wähle eine langsamere Geschwindigkeit. Das eMMC wird nur gelesen, daher kann eine Geschwindigkeit, die nicht funktioniert, ihm nicht schaden.</string>
+    <string name="kt_emmc_speed_hs">Hohe Geschwindigkeit</string>
+    <string name="kt_emmc_speed_ddr52">DDR52</string>
+    <string name="kt_emmc_speed_hs200">HS200</string>
     <string name="kt_crash_split">Aufteilung des Absturzlogs</string>
     <string name="kt_crash_split_what">Wie die 960 KB, die einen Neustart überstehen, auf Absturzbericht, Kernel-Log und Android-Log verteilt werden. Ausgewogen: 192 KB, 512 KB und 256 KB. Mehr Kernel-Log: 320 KB, 512 KB und 128 KB. Mehr Android-Log: 192 KB, 256 KB und 512 KB.</string>
     <string name="kt_crash_split_why">Ausgewogen passt für die meisten Probleme. Mit „Mehr Kernel-Log“ passt das ganze Kernel-Log in den Absturzbericht, für Abstürze mit langer Vorgeschichte. „Mehr Android-Log“ behält doppelt so viel vom Android-Log, für Apps und Spiele, die ohne Kernel-Absturz schließen oder einfrieren. Die Logs von vor der Umstellung gehen bei dem Neustart verloren, der sie umstellt.</string>

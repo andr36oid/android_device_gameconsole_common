@@ -286,6 +286,12 @@
     <string name="kt_crash_log_what">Keeps the kernel log, the Android log and a crash record in a piece of RAM that survives a restart, so the next start can put them into the problem report.</string>
     <string name="kt_crash_log_why">Leave it on. Off is only for testing whether the crash log itself causes trouble. The problem report then lacks the log of the start before, and kernel crashes no longer bring up the crash notice. The 960 KB stay set aside anyway: the device tree reserves them, they just go unused.</string>
 
+    <string name="kt_emmc_speed">eMMC speed (experimental)</string>
+    <string name="kt_emmc_speed_what">How fast the console talks to its built-in eMMC, from the next start, when Built-in eMMC storage is on. High speed is what the system that came with the console uses. DDR52 sends data twice per clock tick, about twice as fast. HS200 runs the clock up to three times faster, on chips that have it; the others stay at DDR52.</string>
+    <string name="kt_emmc_speed_why">Faster backups and, one day, a faster system on the eMMC. On the Diium D-28S, high speed reads about 40 MB/s and DDR52 about 75 MB/s. If the eMMC doesn\'t show up or reads fail, pick a slower speed. The eMMC is only read, so a speed that doesn\'t work can\'t harm it.</string>
+    <string name="kt_emmc_speed_hs">High speed</string>
+    <string name="kt_emmc_speed_ddr52">DDR52</string>
+    <string name="kt_emmc_speed_hs200">HS200</string>
     <string name="kt_crash_split">Crash log split</string>
     <string name="kt_crash_split_what">How the 960 KB kept across a restart are shared between the crash record, the kernel log and the Android log. Balanced: 192 KB, 512 KB and 256 KB. More kernel log: 320 KB, 512 KB and 128 KB. More Android log: 192 KB, 256 KB and 512 KB.</string>
     <string name="kt_crash_split_why">Balanced suits most problems. More kernel log fits the whole kernel log into the crash record, for crashes with a long story before them. More Android log keeps twice as much of Android\'s log, for apps and games that close or freeze without a kernel crash. The logs from before the switch are lost at the restart that changes it.</string>

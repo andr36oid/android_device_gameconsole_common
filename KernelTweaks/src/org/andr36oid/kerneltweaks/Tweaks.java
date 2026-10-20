@@ -243,6 +243,14 @@ final class Tweaks {
                 .labels(R.string.kt_off, R.string.kt_on)
                 .atBoot()
                 .level(Tweak.RISKY))
+            .add(Tweak.choice("emmc_speed", R.string.kt_emmc_speed,
+                    R.string.kt_emmc_speed_what, R.string.kt_emmc_speed_why,
+                    "dw_mmc_rockchip.emmc_speed=")
+                .values("hs", "ddr52", "hs200")
+                .labels(R.string.kt_emmc_speed_hs, R.string.kt_emmc_speed_ddr52,
+                        R.string.kt_emmc_speed_hs200)
+                .atBoot()
+                .level(Tweak.RISKY))
             .add(Tweak.choice("crash_log", R.string.kt_crash_log,
                     R.string.kt_crash_log_what, R.string.kt_crash_log_why,
                     "ramoops.disable=1")
