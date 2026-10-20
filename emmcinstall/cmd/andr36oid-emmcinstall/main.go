@@ -40,6 +40,7 @@ import (
 )
 
 func main() {
+	emmc.ProcessSetup()
 	args := os.Args[1:]
 	cfg := emmc.DefaultConfig()
 	progress := filepath.Join(cfg.StateDir, "progress.jsonl")

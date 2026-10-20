@@ -6,11 +6,38 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"io/fs"
 	"os"
 	"path/filepath"
 	"strconv"
 	"strings"
+	"syscall"
 )
+
+// ProcessSetup undoes init's umask 077 for services: Settings runs as the
+// system user and must read the state folder's files (result, progress,
+// state).
+func ProcessSetup() {
+	syscall.Umask(0o022)
+}
+
+// mediaUID owns everything on internal storage (/data/media), so a backup
+// there shows up for the user and can be copied off.
+const mediaUID = 1023
+
+// shareWithUser hands a folder on internal storage to the user; elsewhere
+// (SD cards: FAT or exFAT) the mount decides, and nothing is changed.
+func shareWithUser(dir string) {
+	if !strings.HasPrefix(dir, "/data/media/") {
+		return
+	}
+	filepath.WalkDir(dir, func(path string, _ fs.DirEntry, err error) error {
+		if err == nil {
+			os.Lchown(path, mediaUID, mediaUID)
+		}
+		return nil
+	})
+}
 
 // The bootloader area: idbloader at sector 64, U-Boot at 16384, trust at
 // 24576, up to 32768 (16 MiB), where the first partition starts. The kernel

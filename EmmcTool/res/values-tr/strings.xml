@@ -76,7 +76,6 @@
     <string name="inst_close">Kapat</string>
     <string name="inst_cancel">İptal</string>
     <string name="inst_continue">Devam</string>
-    <string name="inst_later">Sonra</string>
     <string name="inst_start">Başlat</string>
     <string name="inst_working">Çalışıyor…</string>
     <string name="inst_details">Ayrıntılar</string>
@@ -104,7 +103,6 @@
     <string name="inst_chk_battery">Pil %1$d%% (60%% veya şarj cihazı gerekir)</string>
     <string name="inst_chk_no_target">Yedek için depolama alanı yok</string>
     <string name="inst_chk_room">%1$s üzerinde yedek: %2$s boş, %3$s gerekiyor</string>
-    <string name="inst_change_target">Yedeği başka bir depolama alanına alın</string>
 
     <string name="inst_warn1_title">Fabrika sistemi silinecek</string>
     <string name="inst_warn1">Dahili eMMC\'deki her şey değiştirilecek: konsolla birlikte gelen sistem, oyunları ve ayarları. Önce tam bir kopya alınır ve buradan geri yükleyebilirsiniz; ancak bunu yalnızca bu SD kartla ve yalnızca konsol hâlâ açılıyorsa yapabilirsiniz.</string>
@@ -156,4 +154,19 @@
     <string name="inst_restore">Fabrika eMMC\'sini geri yükle</string>
     <string name="inst_restore_text">andr36oid\'in eMMC\'ye yazdığı her şey, %1$s konumundaki yedekle değiştirilir. Yedek önce denetlenir, sonra eMMC onunla karşılaştırılır. Bu birkaç dakika sürer.</string>
     <string name="inst_restore_go">Geri yükle</string>
+    <string name="inst_steps">Adımlar</string>
+    <string name="inst_st_todo">Henüz değil</string>
+    <string name="inst_now">Şimdi</string>
+    <string name="inst_finished">Şimdiye kadar tamamlanan</string>
+    <string name="inst_log">Günlük</string>
+    <string name="inst_next">Sonraki</string>
+    <string name="inst_problems">Neyi durduruyor</string>
+    <string name="inst_starting">Başlatılıyor…</string>
+    <string name="inst_start_summary">0. adım yalnızca eMMC\'yi okur. Henüz eMMC\'ye hiçbir şey yazılmaz.</string>
+    <string name="inst_sectors">%1$s, sektör %2$d-%3$d</string>
+    <string name="inst_op_run">%1$s / %2$s, %3$s/sn</string>
+    <string name="inst_op_ok">Tamam: %1$s, %2$s sürede</string>
+    <string name="inst_op_ok_sha">Tamam: %1$s, %2$s sürede, sağlama toplamı %3$s</string>
+    <string name="inst_op_failed">Hata: %1$s</string>
+    <string name="inst_write_loader">Önyükleyiciyi eMMC\'ye yaz</string>
 </resources>

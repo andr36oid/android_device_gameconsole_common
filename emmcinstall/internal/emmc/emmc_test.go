@@ -522,6 +522,9 @@ func TestInstallAndRestore(t *testing.T) {
 	if !bytes.Equal(f.emmc(0, mib(64)), f.stock) {
 		t.Fatal("restore didn't bring the stock eMMC back")
 	}
+	if f.writes[0] != LoaderStart*Sector {
+		t.Fatalf("restore didn't clear the andr36oid loader's header first (sector %d)", f.writes[0]/Sector)
+	}
 	if f.writes[len(f.writes)-1] != LoaderStart*Sector {
 		t.Fatal("restore didn't write the idbloader header last")
 	}
@@ -768,6 +771,44 @@ func TestHardStops(t *testing.T) {
 			t.Fatal("not restored")
 		}
 	})
+	t.Run("restore cut off before the stock loader is back", func(t *testing.T) {
+		f := newFake(t)
+		f.installTo2(t)
+		must(t, f.cfg.WriteLoader(f.progress(), f.state().LoaderSHA[:12]))
+		dir := f.state().Backup.Dir
+		w := testHooks.write
+		testHooks.write = func(d *Disk, b []byte, off int64) ([]byte, error) {
+			if d.Path == f.cfg.EmmcDev && off == UbootStart*Sector {
+				return nil, syscall.EIO
+			}
+			return w(d, b, off)
+		}
+		mustFail(t, f.cfg.Restore(f.progress(), dir), "input/output error")
+		// the boot ROM must find no loader on the eMMC and go on to the SD card
+		if !bytes.Equal(f.emmc(LoaderStart, 1), make([]byte, Sector)) {
+			t.Fatal("an idbloader header is left over a half restored loader")
+		}
+		testHooks.write = w
+		must(t, f.cfg.Restore(f.progress(), dir))
+		if !bytes.Equal(f.emmc(0, mib(64)), f.stock) {
+			t.Fatal("second restore didn't bring the stock eMMC back")
+		}
+	})
+	t.Run("restore leaves a stock loader alone", func(t *testing.T) {
+		f := newFake(t)
+		dir, err := f.cfg.Backup(f.progress(), roms(f))
+		must(t, err)
+		f.writes = nil
+		must(t, f.cfg.Restore(f.progress(), dir))
+		for _, w := range f.writes {
+			if w >= LoaderStart*Sector && w < LoaderEnd*Sector {
+				t.Fatalf("restore wrote the loader area (sector %d) though it was stock", w/Sector)
+			}
+		}
+		if !bytes.Equal(f.emmc(0, mib(64)), f.stock) {
+			t.Fatal("restore changed the eMMC")
+		}
+	})
 	t.Run("cut off, then leave", func(t *testing.T) {
 		f := newFake(t)
 		_, err := f.cfg.Backup(f.progress(), roms(f))
@@ -827,5 +868,25 @@ func TestProgressEvents(t *testing.T) {
 	h := sha256.Sum256(f.stock)
 	if !bytes.Contains(b, []byte(sum(h[:]))) {
 		t.Error("progress doesn't carry the eMMC's checksum")
+	}
+}
+
+// init starts services with umask 077; Settings (the system user) has to read
+// what the installer writes for it.
+func TestFilesReadableUnderInitUmask(t *testing.T) {
+	old := syscall.Umask(0o077)
+	defer syscall.Umask(old)
+	ProcessSetup()
+	f := newFake(t)
+	_, err := f.cfg.Backup(f.progress(), filepath.Join(f.dir, "roms"))
+	must(t, err)
+	for _, path := range []string{filepath.Join(f.cfg.StateDir, "state.json"), filepath.Join(f.dir, "progress.jsonl")} {
+		fi, err := os.Stat(path)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if fi.Mode().Perm()&0o044 != 0o044 {
+			t.Fatalf("%s is %v", filepath.Base(path), fi.Mode())
+		}
 	}
 }

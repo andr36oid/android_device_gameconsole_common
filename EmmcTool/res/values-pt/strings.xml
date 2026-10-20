@@ -76,7 +76,6 @@
     <string name="inst_close">Fechar</string>
     <string name="inst_cancel">Cancelar</string>
     <string name="inst_continue">Continuar</string>
-    <string name="inst_later">Mais tarde</string>
     <string name="inst_start">Iniciar</string>
     <string name="inst_working">A trabalhar…</string>
     <string name="inst_details">Detalhes</string>
@@ -104,7 +103,6 @@
     <string name="inst_chk_battery">Bateria a %1$d%% (precisa de 60%% ou de carregador)</string>
     <string name="inst_chk_no_target">Sem armazenamento para a cópia de segurança</string>
     <string name="inst_chk_room">Cópia de segurança em %1$s: %2$s livres, precisa de %3$s</string>
-    <string name="inst_change_target">Fazer a cópia noutro armazenamento</string>
 
     <string name="inst_warn1_title">O sistema de fábrica vai desaparecer</string>
     <string name="inst_warn1">Tudo na eMMC integrada é substituído: o sistema com que a consola veio, os seus jogos e as suas definições. Primeiro é feita uma cópia completa e pode repô-la daqui, mas só com este cartão SD e só enquanto a consola ainda arrancar.</string>
@@ -156,4 +154,19 @@
     <string name="inst_restore">Repor a eMMC de fábrica</string>
     <string name="inst_restore_text">Tudo o que o andr36oid escreveu na eMMC é substituído pela cópia de segurança em %1$s. A cópia é verificada primeiro e depois a eMMC é comparada com ela. Isto demora uns minutos.</string>
     <string name="inst_restore_go">Repor</string>
+    <string name="inst_steps">Passos</string>
+    <string name="inst_st_todo">Ainda não</string>
+    <string name="inst_now">Agora</string>
+    <string name="inst_finished">Concluído até agora</string>
+    <string name="inst_log">Registo</string>
+    <string name="inst_next">Seguinte</string>
+    <string name="inst_problems">O que o trava</string>
+    <string name="inst_starting">A iniciar…</string>
+    <string name="inst_start_summary">O passo 0 só lê a eMMC. Ainda não se escreve nada nela.</string>
+    <string name="inst_sectors">%1$s, setores %2$d-%3$d</string>
+    <string name="inst_op_run">%1$s de %2$s, %3$s/s</string>
+    <string name="inst_op_ok">OK: %1$s em %2$s</string>
+    <string name="inst_op_ok_sha">OK: %1$s em %2$s, soma de verificação %3$s</string>
+    <string name="inst_op_failed">Falhou: %1$s</string>
+    <string name="inst_write_loader">Escrever o carregador na eMMC</string>
 </resources>

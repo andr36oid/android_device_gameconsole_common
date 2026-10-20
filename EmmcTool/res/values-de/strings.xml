@@ -76,7 +76,6 @@
     <string name="inst_close">Schließen</string>
     <string name="inst_cancel">Abbrechen</string>
     <string name="inst_continue">Weiter</string>
-    <string name="inst_later">Später</string>
     <string name="inst_start">Starten</string>
     <string name="inst_working">Läuft…</string>
     <string name="inst_details">Details</string>
@@ -104,7 +103,6 @@
     <string name="inst_chk_battery">Akku bei %1$d%% (braucht 60%% oder ein Ladegerät)</string>
     <string name="inst_chk_no_target">Kein Speicher für die Sicherung</string>
     <string name="inst_chk_room">Sicherung auf %1$s: %2$s frei, benötigt %3$s</string>
-    <string name="inst_change_target">Auf einen anderen Speicher sichern</string>
 
     <string name="inst_warn1_title">Das Originalsystem wird gelöscht</string>
     <string name="inst_warn1">Alles auf dem eingebauten eMMC wird ersetzt: das System, mit dem die Konsole ausgeliefert wurde, ihre Spiele und ihre Einstellungen. Vorher wird eine vollständige Kopie angelegt, und du kannst sie von hier aus zurückspielen, aber nur mit dieser SD-Karte und nur solange die Konsole noch startet.</string>
@@ -156,4 +154,19 @@
     <string name="inst_restore">Original-eMMC zurückspielen</string>
     <string name="inst_restore_text">Alles, was andr36oid auf den eMMC geschrieben hat, wird durch die Sicherung in %1$s ersetzt. Die Sicherung wird zuerst geprüft, danach wird der eMMC damit verglichen. Das dauert einige Minuten.</string>
     <string name="inst_restore_go">Zurückspielen</string>
+    <string name="inst_steps">Schritte</string>
+    <string name="inst_st_todo">Noch nicht</string>
+    <string name="inst_now">Jetzt</string>
+    <string name="inst_finished">Bisher fertig</string>
+    <string name="inst_log">Protokoll</string>
+    <string name="inst_next">Als Nächstes</string>
+    <string name="inst_problems">Was es verhindert</string>
+    <string name="inst_starting">Wird gestartet…</string>
+    <string name="inst_start_summary">Schritt 0 liest nur den eMMC. Auf den eMMC wird noch nichts geschrieben.</string>
+    <string name="inst_sectors">%1$s, Sektoren %2$d-%3$d</string>
+    <string name="inst_op_run">%1$s von %2$s, %3$s/s</string>
+    <string name="inst_op_ok">OK: %1$s in %2$s</string>
+    <string name="inst_op_ok_sha">OK: %1$s in %2$s, Prüfsumme %3$s</string>
+    <string name="inst_op_failed">Fehler: %1$s</string>
+    <string name="inst_write_loader">Loader auf den eMMC schreiben</string>
 </resources>

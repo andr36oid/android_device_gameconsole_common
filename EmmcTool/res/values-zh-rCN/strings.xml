@@ -76,7 +76,6 @@
     <string name="inst_close">关闭</string>
     <string name="inst_cancel">取消</string>
     <string name="inst_continue">继续</string>
-    <string name="inst_later">稍后</string>
     <string name="inst_start">开始</string>
     <string name="inst_working">处理中…</string>
     <string name="inst_details">详细信息</string>
@@ -104,7 +103,6 @@
     <string name="inst_chk_battery">电量 %1$d%%（需要 60%% 或已连接充电器）</string>
     <string name="inst_chk_no_target">没有可用于备份的存储</string>
     <string name="inst_chk_room">%1$s 上的备份：可用 %2$s，需要 %3$s</string>
-    <string name="inst_change_target">备份到其他存储</string>
 
     <string name="inst_warn1_title">原厂系统将会被删除</string>
     <string name="inst_warn1">内置 eMMC 上的所有内容都将被替换：主机出厂时的系统、游戏和设置。系统会先制作完整副本，你可以在这里恢复，但只能使用这张 SD 卡，并且只能在主机仍能启动时恢复。</string>
@@ -156,4 +154,19 @@
     <string name="inst_restore">恢复原厂 eMMC</string>
     <string name="inst_restore_text">andr36oid 写入 eMMC 的所有内容都将替换为 %1$s 中的备份。系统会先检查备份，然后再将 eMMC 与备份进行比对。这需要几分钟。</string>
     <string name="inst_restore_go">恢复</string>
+    <string name="inst_steps">步骤</string>
+    <string name="inst_st_todo">尚未</string>
+    <string name="inst_now">当前</string>
+    <string name="inst_finished">已完成</string>
+    <string name="inst_log">日志</string>
+    <string name="inst_next">下一步</string>
+    <string name="inst_problems">阻碍因素</string>
+    <string name="inst_starting">正在启动…</string>
+    <string name="inst_start_summary">第 0 步仅读取 eMMC，目前不会向其写入任何内容。</string>
+    <string name="inst_sectors">%1$s，扇区 %2$d-%3$d</string>
+    <string name="inst_op_run">%1$s / %2$s，%3$s/秒</string>
+    <string name="inst_op_ok">成功：%1$s，用时 %2$s</string>
+    <string name="inst_op_ok_sha">成功：%1$s，用时 %2$s，校验和 %3$s</string>
+    <string name="inst_op_failed">失败：%1$s</string>
+    <string name="inst_write_loader">将引导加载器写入 eMMC</string>
 </resources>

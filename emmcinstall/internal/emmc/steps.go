@@ -463,6 +463,7 @@ func (c *Config) Backup(p *Progress, parent string) (string, error) {
 	if err := os.Mkdir(dir, 0755); err != nil {
 		return "", err
 	}
+	defer shareWithUser(filepath.Dir(dir))
 	p.AddLog(filepath.Join(dir, "install.log"))
 	p.Logf("backup to %s", dir)
 
@@ -1031,21 +1032,46 @@ func (c *Config) Restore(p *Progress, dir string) error {
 		return op.Fail(errors.New("the backup files don't add up to the backed up eMMC"))
 	}
 	op.OK(info.SHA, "%d files, all good", len(info.Files))
+	stockLoader, err := backupSpanSHA(dir, info, spanLoader)
+	if err != nil {
+		return err
+	}
 	if err := r.mark("restore"); err != nil {
 		return err
 	}
 	err = r.unlocked(func(e *Disk) error {
 		end := info.Sectors
-		for _, s := range []struct {
+		spans := []struct {
 			what string
 			s    span
 		}{
 			{"partitions", span{LoaderEnd, end}},
 			{"partition table", span{0, LoaderStart}},
-			{"U-Boot and trust", spanUboot},
-			{"idbloader", spanIdb},
-			{"idbloader header", spanHeader},
-		} {
+		}
+		now, err := e.HashRange(spanLoader.off(), spanLoader.n(), nil)
+		if err != nil {
+			return err
+		}
+		if now == stockLoader {
+			p.Logf("the eMMC's loader area is already the stock one: not written")
+		} else {
+			// A loader that starts while the stock one is half written back
+			// would hang the console with no way to the SD card: without its
+			// header the boot ROM skips the eMMC until the stock header is
+			// back, written last.
+			if err := zeroSpan(p, "idbloader header", e, spanHeader); err != nil {
+				return err
+			}
+			spans = append(spans, []struct {
+				what string
+				s    span
+			}{
+				{"U-Boot and trust", spanUboot},
+				{"idbloader", spanIdb},
+				{"idbloader header", spanHeader},
+			}...)
+		}
+		for _, s := range spans {
 			op := p.Start("Write back the "+s.what, "eMMC", s.s.lo, s.s.hi, s.s.n())
 			if err := writeFromBackup(dir, info, e, s.s, op.Tick); err != nil {
 				return op.Fail(err)
@@ -1084,8 +1110,9 @@ func (c *Config) Restore(p *Progress, dir string) error {
 	return c.Save(r.st)
 }
 
-// writeFromBackup writes span s of the eMMC from the backup files.
-func writeFromBackup(dir string, info *backupInfo, e *Disk, s span, tick Ticker) error {
+// eachBackupChunk hands span s of the backed up eMMC to fn, chunk by chunk,
+// with each chunk's byte offset on the eMMC.
+func eachBackupChunk(dir string, info *backupInfo, s span, fn func(b []byte, pos int64) error) error {
 	b := buf(chunk)
 	var at int64 // byte offset of the current file on the eMMC
 	for _, f := range info.Files {
@@ -1101,18 +1128,42 @@ func writeFromBackup(dir string, info *backupInfo, e *Disk, s span, tick Ticker)
 					fh.Close()
 					return err
 				}
-				if err := e.WriteAt(b[:m], pos); err != nil {
+				if err := fn(b[:m], pos); err != nil {
 					fh.Close()
 					return err
 				}
 				pos += m
-				if tick != nil {
-					tick(pos - s.off())
-				}
 			}
 			fh.Close()
 		}
 		at += f.Bytes
+	}
+	return nil
+}
+
+// backupSpanSHA is the sha256 of span s of the backed up eMMC.
+func backupSpanSHA(dir string, info *backupInfo, s span) (string, error) {
+	h := sha256.New()
+	err := eachBackupChunk(dir, info, s, func(b []byte, _ int64) error {
+		h.Write(b)
+		return nil
+	})
+	return sum(h.Sum(nil)), err
+}
+
+// writeFromBackup writes span s of the eMMC from the backup files.
+func writeFromBackup(dir string, info *backupInfo, e *Disk, s span, tick Ticker) error {
+	err := eachBackupChunk(dir, info, s, func(b []byte, pos int64) error {
+		if err := e.WriteAt(b, pos); err != nil {
+			return err
+		}
+		if tick != nil {
+			tick(pos + int64(len(b)) - s.off())
+		}
+		return nil
+	})
+	if err != nil {
+		return err
 	}
 	return e.Sync()
 }

@@ -76,7 +76,6 @@
     <string name="inst_close">Закрыть</string>
     <string name="inst_cancel">Отмена</string>
     <string name="inst_continue">Продолжить</string>
-    <string name="inst_later">Позже</string>
     <string name="inst_start">Начать</string>
     <string name="inst_working">Выполняется…</string>
     <string name="inst_details">Подробности</string>
@@ -104,7 +103,6 @@
     <string name="inst_chk_battery">Аккумулятор %1$d%% (нужно 60%% или зарядное устройство)</string>
     <string name="inst_chk_no_target">Нет накопителя для резервной копии</string>
     <string name="inst_chk_room">Резервная копия на %1$s: свободно %2$s, нужно %3$s</string>
-    <string name="inst_change_target">Сохранить резервную копию на другой накопитель</string>
 
     <string name="inst_warn1_title">Заводская система будет удалена</string>
     <string name="inst_warn1">Всё во встроенной eMMC будет заменено: система, с которой консоль поставлялась, её игры и настройки. Сначала создаётся полная копия, и её можно вернуть отсюда, но только с этой SD-картой и только пока консоль ещё запускается.</string>
@@ -156,4 +154,19 @@
     <string name="inst_restore">Вернуть заводскую eMMC</string>
     <string name="inst_restore_text">Всё, что andr36oid записал на eMMC, заменяется резервной копией в %1$s. Сначала проверяется копия, затем eMMC сравнивается с ней. Это займёт несколько минут.</string>
     <string name="inst_restore_go">Вернуть</string>
+    <string name="inst_steps">Шаги</string>
+    <string name="inst_st_todo">Ещё нет</string>
+    <string name="inst_now">Сейчас</string>
+    <string name="inst_finished">Готово</string>
+    <string name="inst_log">Журнал</string>
+    <string name="inst_next">Далее</string>
+    <string name="inst_problems">Что мешает</string>
+    <string name="inst_starting">Запуск…</string>
+    <string name="inst_start_summary">Шаг 0 только читает eMMC. Пока на eMMC ничего не записывается.</string>
+    <string name="inst_sectors">%1$s, сектора %2$d-%3$d</string>
+    <string name="inst_op_run">%1$s из %2$s, %3$s/с</string>
+    <string name="inst_op_ok">OK: %1$s за %2$s</string>
+    <string name="inst_op_ok_sha">OK: %1$s за %2$s, контрольная сумма %3$s</string>
+    <string name="inst_op_failed">Ошибка: %1$s</string>
+    <string name="inst_write_loader">Записать загрузчик на eMMC</string>
 </resources>

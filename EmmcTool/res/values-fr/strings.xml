@@ -76,7 +76,6 @@
     <string name="inst_close">Fermer</string>
     <string name="inst_cancel">Annuler</string>
     <string name="inst_continue">Continuer</string>
-    <string name="inst_later">Plus tard</string>
     <string name="inst_start">Démarrer</string>
     <string name="inst_working">Traitement en cours…</string>
     <string name="inst_details">Détails</string>
@@ -104,7 +103,6 @@
     <string name="inst_chk_battery">Batterie à %1$d%% (il faut 60%% ou un chargeur)</string>
     <string name="inst_chk_no_target">Aucun stockage pour la sauvegarde</string>
     <string name="inst_chk_room">Sauvegarde sur %1$s : %2$s libres, %3$s nécessaires</string>
-    <string name="inst_change_target">Sauvegarder sur un autre stockage</string>
 
     <string name="inst_warn1_title">Le système d\'origine va disparaître</string>
     <string name="inst_warn1">Tout ce qui se trouve sur l\'eMMC intégrée est remplacé : le système avec lequel la console est livrée, ses jeux et ses réglages. Une copie complète est faite avant, et vous pourrez la remettre en place depuis ici, mais seulement avec cette carte SD et seulement tant que la console démarre encore.</string>
@@ -156,4 +154,19 @@
     <string name="inst_restore">Remettre l\'eMMC d\'origine</string>
     <string name="inst_restore_text">Tout ce qu\'andr36oid a écrit sur l\'eMMC est remplacé par la sauvegarde dans %1$s. La sauvegarde est vérifiée d\'abord, puis l\'eMMC est comparée avec elle. Cela prend quelques minutes.</string>
     <string name="inst_restore_go">Remettre en place</string>
+    <string name="inst_steps">Étapes</string>
+    <string name="inst_st_todo">Pas encore</string>
+    <string name="inst_now">Maintenant</string>
+    <string name="inst_finished">Terminé jusqu\'ici</string>
+    <string name="inst_log">Journal</string>
+    <string name="inst_next">Suivant</string>
+    <string name="inst_problems">Ce qui bloque</string>
+    <string name="inst_starting">Démarrage…</string>
+    <string name="inst_start_summary">L\'étape 0 lit seulement l\'eMMC. Rien n\'est encore écrit dessus.</string>
+    <string name="inst_sectors">%1$s, secteurs %2$d-%3$d</string>
+    <string name="inst_op_run">%1$s sur %2$s, %3$s/s</string>
+    <string name="inst_op_ok">OK : %1$s en %2$s</string>
+    <string name="inst_op_ok_sha">OK : %1$s en %2$s, somme de contrôle %3$s</string>
+    <string name="inst_op_failed">Échec : %1$s</string>
+    <string name="inst_write_loader">Écrire le chargeur sur l\'eMMC</string>
 </resources>

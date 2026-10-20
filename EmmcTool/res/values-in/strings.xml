@@ -76,7 +76,6 @@
     <string name="inst_close">Tutup</string>
     <string name="inst_cancel">Batal</string>
     <string name="inst_continue">Lanjut</string>
-    <string name="inst_later">Nanti</string>
     <string name="inst_start">Mulai</string>
     <string name="inst_working">Sedang bekerja…</string>
     <string name="inst_details">Detail</string>
@@ -104,7 +103,6 @@
     <string name="inst_chk_battery">Baterai %1$d%% (butuh 60%% atau pengisi daya)</string>
     <string name="inst_chk_no_target">Tidak ada penyimpanan untuk cadangan</string>
     <string name="inst_chk_room">Cadangan di %1$s: %2$s kosong, butuh %3$s</string>
-    <string name="inst_change_target">Cadangkan ke penyimpanan lain</string>
 
     <string name="inst_warn1_title">Sistem asli akan hilang</string>
     <string name="inst_warn1">Semua yang ada di eMMC bawaan akan diganti: sistem yang dibawa konsol saat dibeli, game, dan pengaturannya. Salinan lengkap dibuat lebih dulu dan kamu bisa mengembalikannya dari sini, tapi hanya dengan kartu SD ini dan hanya selama konsol masih bisa menyala.</string>
@@ -156,4 +154,19 @@
     <string name="inst_restore">Kembalikan eMMC asli</string>
     <string name="inst_restore_text">Semua yang ditulis andr36oid ke eMMC akan diganti dengan cadangan di %1$s. Cadangan dicek dulu, lalu eMMC dibandingkan dengan cadangan itu. Ini butuh beberapa menit.</string>
     <string name="inst_restore_go">Kembalikan</string>
+    <string name="inst_steps">Langkah</string>
+    <string name="inst_st_todo">Belum</string>
+    <string name="inst_now">Sekarang</string>
+    <string name="inst_finished">Selesai sejauh ini</string>
+    <string name="inst_log">Log</string>
+    <string name="inst_next">Berikutnya</string>
+    <string name="inst_problems">Yang menghalangi</string>
+    <string name="inst_starting">Memulai…</string>
+    <string name="inst_start_summary">Langkah 0 hanya membaca eMMC. Belum ada yang ditulis ke eMMC.</string>
+    <string name="inst_sectors">%1$s, sektor %2$d-%3$d</string>
+    <string name="inst_op_run">%1$s dari %2$s, %3$s/s</string>
+    <string name="inst_op_ok">OK: %1$s dalam %2$s</string>
+    <string name="inst_op_ok_sha">OK: %1$s dalam %2$s, checksum %3$s</string>
+    <string name="inst_op_failed">Gagal: %1$s</string>
+    <string name="inst_write_loader">Tulis loader ke eMMC</string>
 </resources>

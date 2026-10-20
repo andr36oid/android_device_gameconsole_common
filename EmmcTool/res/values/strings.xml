@@ -76,7 +76,6 @@
     <string name="inst_close">Close</string>
     <string name="inst_cancel">Cancel</string>
     <string name="inst_continue">Continue</string>
-    <string name="inst_later">Later</string>
     <string name="inst_start">Start</string>
     <string name="inst_working">Working…</string>
     <string name="inst_details">Details</string>
@@ -104,7 +103,6 @@
     <string name="inst_chk_battery">Battery at %1$d%% (needs 60%% or a charger)</string>
     <string name="inst_chk_no_target">No storage for the backup</string>
     <string name="inst_chk_room">Backup on %1$s: %2$s free, needs %3$s</string>
-    <string name="inst_change_target">Back up to another storage</string>
 
     <string name="inst_warn1_title">The stock system will be gone</string>
     <string name="inst_warn1">Everything on the built-in eMMC is replaced: the system the console came with, its games and its settings. A full copy is made first and you can put it back from here, but only with this SD card and only while the console still starts.</string>
@@ -156,4 +154,19 @@
     <string name="inst_restore">Put the stock eMMC back</string>
     <string name="inst_restore_text">Everything andr36oid wrote to the eMMC is replaced by the backup in %1$s. The backup is checked first, and the eMMC is compared with it afterwards. This takes a few minutes.</string>
     <string name="inst_restore_go">Put it back</string>
+    <string name="inst_steps">Steps</string>
+    <string name="inst_st_todo">Not yet</string>
+    <string name="inst_now">Now</string>
+    <string name="inst_finished">Done so far</string>
+    <string name="inst_log">Log</string>
+    <string name="inst_next">Next</string>
+    <string name="inst_problems">What stops it</string>
+    <string name="inst_starting">Starting…</string>
+    <string name="inst_start_summary">Step 0 only reads the eMMC. Nothing is written to it yet.</string>
+    <string name="inst_sectors">%1$s, sectors %2$d-%3$d</string>
+    <string name="inst_op_run">%1$s of %2$s, %3$s/s</string>
+    <string name="inst_op_ok">OK: %1$s in %2$s</string>
+    <string name="inst_op_ok_sha">OK: %1$s in %2$s, checksum %3$s</string>
+    <string name="inst_op_failed">Failed: %1$s</string>
+    <string name="inst_write_loader">Write the loader to the eMMC</string>
 </resources>
