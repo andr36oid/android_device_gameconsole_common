@@ -68,6 +68,8 @@ EOF
 printf '%s\n' "\$2" >"$T/props/\$1"
 EOF
 	printf '#!/bin/sh\nexit 0\n' >"$T/bin/log"
+	# the real sync can hang for minutes on a busy build host
+	printf '#!/bin/sh\nexit 0\n' >"$T/bin/sync"
 	chmod +x "$T/bin/"*
 }
 
@@ -312,6 +314,12 @@ echo "$(cat "$R"/proc/cmdline) $args" >"$R"/proc/cmdline
 run boot
 check "eMMC current on" on "$(prop sys.andr36oid.ktc.builtin_emmc)"
 check "eMMC default stays off" off "$(prop sys.andr36oid.ktd.builtin_emmc)"
+# boot.ini puts the boot log options (or just a space) after kernel-tweaks.txt's
+echo "$(cat "$R"/proc/cmdline) loglevel=7 " >"$R"/proc/cmdline
+run boot
+check "eMMC default off, options not last" off "$(prop sys.andr36oid.ktd.builtin_emmc)"
+check "eMMC still written, options not last" "dw_mmc_rockchip.builtin_emmc=1" \
+	"$(sed -n 's/^kt_args=//p' "$T/boot/kernel-tweaks.txt")"
 setp persist.andr36oid.kt.builtin_emmc off
 run apply
 check "eMMC back off" no "$([ -e "$T/boot/kernel-tweaks.txt" ] && echo yes || echo no)"

@@ -444,11 +444,15 @@ if [ "$1" = boot ]; then
 		setprop persist.andr36oid.kt.sd2_slot off
 	fi
 	# The defaults of the start options: this start's command line without the part
-	# kernel-tweaks.txt added at its end
+	# kernel-tweaks.txt added. boot.ini puts it near the end, but more can follow
+	# (the boot log options, or just a space): take out its last match anywhere.
 	if boot_mount ro; then
 		added=$(file_args)
 		boot_umount
-		case $CMDLINE in *" $added") [ -n "$added" ] && BASE=${CMDLINE%" $added"} ;; esac
+		c=" $CMDLINE "
+		case $c in *" $added "*)
+			[ -n "$added" ] && BASE="${c%" $added "*} ${c##*" $added "}" ;;
+		esac
 	fi
 	setprop sys.andr36oid.kt.started_with "${added:-}"
 	echo "$KNOBS" | while IFS='|' read -r key kind once paths; do
