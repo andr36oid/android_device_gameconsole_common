@@ -288,7 +288,7 @@
 
     <string name="kt_emmc_speed">Velocidad de eMMC (experimental)</string>
     <string name="kt_emmc_speed_what">Qué tan rápido se comunica la consola con su eMMC integrado, a partir del siguiente inicio, cuando Almacenamiento eMMC integrado está activado. Alta velocidad es la que usa el sistema que venía con la consola. DDR52 envía datos dos veces por cada pulso del reloj, unas dos veces más rápido. HS200 acelera el reloj hasta tres veces, en los chips que lo soportan; los demás se quedan en DDR52.</string>
-    <string name="kt_emmc_speed_why">Copias de seguridad más rápidas y, algún día, un sistema más rápido en la eMMC. En la Diium D-28S, la alta velocidad lee a unos 40 MB/s y DDR52 a unos 75 MB/s. Si la eMMC no aparece o las lecturas fallan, elige una velocidad más lenta. La eMMC solo se lee, así que una velocidad que no funcione no puede dañarla.</string>
+    <string name="kt_emmc_speed_why">Copias de seguridad más rápidas y, algún día, un sistema más rápido en la eMMC. En la Diium D-28S, la alta velocidad lee a unos 40 MB/s, DDR52 a unos 75 MB/s y HS200 a unos 107 MB/s. Si la eMMC no aparece o las lecturas fallan, elige una velocidad más lenta. La eMMC solo se lee, así que una velocidad que no funcione no puede dañarla.</string>
     <string name="kt_emmc_speed_hs">Alta velocidad</string>
     <string name="kt_emmc_speed_ddr52">DDR52</string>
     <string name="kt_emmc_speed_hs200">HS200</string>

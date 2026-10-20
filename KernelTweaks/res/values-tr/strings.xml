@@ -288,7 +288,7 @@
 
     <string name="kt_emmc_speed">eMMC hızı (deneysel)</string>
     <string name="kt_emmc_speed_what">Konsolun dahili eMMC\'siyle iletişim hızı; Dahili eMMC depolama açıkken bir sonraki açılıştan itibaren geçerli olur. Yüksek hız, konsolla birlikte gelen sistemin kullandığı hızdır. DDR52 her saat darbesinde iki kez veri gönderir, yaklaşık iki kat daha hızlı. HS200, saati destekleyen çiplerde üç kata kadar hızlandırır; diğerleri DDR52 hızında kalır.</string>
-    <string name="kt_emmc_speed_why">Daha hızlı yedeklemeler ve bir gün eMMC\'de daha hızlı bir sistem. Diium D-28S\'te yüksek hız yaklaşık 40 MB/s, DDR52 yaklaşık 75 MB/s okuma yapar. eMMC görünmezse veya okumalar başarısız olursa daha yavaş bir hız seçin. eMMC yalnızca okunur, bu yüzden çalışmayan bir hız ona zarar veremez.</string>
+    <string name="kt_emmc_speed_why">Daha hızlı yedeklemeler ve bir gün eMMC\'de daha hızlı bir sistem. Diium D-28S\'te yüksek hız yaklaşık 40 MB/s, DDR52 yaklaşık 75 MB/s ve HS200 yaklaşık 107 MB/s okuma yapar. eMMC görünmezse veya okumalar başarısız olursa daha yavaş bir hız seçin. eMMC yalnızca okunur, bu yüzden çalışmayan bir hız ona zarar veremez.</string>
     <string name="kt_emmc_speed_hs">Yüksek hız</string>
     <string name="kt_emmc_speed_ddr52">DDR52</string>
     <string name="kt_emmc_speed_hs200">HS200</string>

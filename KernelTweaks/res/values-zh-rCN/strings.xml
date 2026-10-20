@@ -287,7 +287,7 @@
 
     <string name="kt_emmc_speed">eMMC 速度（实验性）</string>
     <string name="kt_emmc_speed_what">控制台与内置 eMMC 通信的速度，从下次开机起生效，前提是已开启“内置 eMMC 存储”。“高速”是出厂系统所用的速度。DDR52 每个时钟周期传输两次数据，速度约快一倍。HS200 在支持的芯片上可将时钟提速至三倍；其他芯片则保持 DDR52。</string>
-    <string name="kt_emmc_speed_why">备份更快，将来也可能让 eMMC 上的系统更快。在 Diium D-28S 上，高速读取约 40 MB/s，DDR52 约 75 MB/s。如果 eMMC 无法识别或读取失败，请选择较慢的速度。eMMC 只做读取，因此无法正常工作的速度不会损坏它。</string>
+    <string name="kt_emmc_speed_why">备份更快，将来也可能让 eMMC 上的系统更快。在 Diium D-28S 上，高速读取约 40 MB/s，DDR52 约 75 MB/s，HS200 约 107 MB/s。如果 eMMC 无法识别或读取失败，请选择较慢的速度。eMMC 只做读取，因此无法正常工作的速度不会损坏它。</string>
     <string name="kt_emmc_speed_hs">高速</string>
     <string name="kt_emmc_speed_ddr52">DDR52</string>
     <string name="kt_emmc_speed_hs200">HS200</string>

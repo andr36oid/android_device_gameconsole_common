@@ -290,7 +290,7 @@
 
     <string name="kt_emmc_speed">Szybkość eMMC (eksperymentalne)</string>
     <string name="kt_emmc_speed_what">Jak szybko konsola komunikuje się z wbudowaną pamięcią eMMC, od następnego uruchomienia, gdy włączona jest opcja Wbudowana pamięć eMMC. Wysoka szybkość to ta, której używa fabryczny system konsoli. DDR52 przesyła dane dwa razy na takt zegara, czyli mniej więcej dwa razy szybciej. HS200 podkręca zegar nawet trzykrotnie, w układach, które to obsługują; pozostałe zostają przy DDR52.</string>
-    <string name="kt_emmc_speed_why">Szybsze kopie zapasowe i, kiedyś, szybszy system na pamięci eMMC. Na Diium D-28S wysoka szybkość odczytuje ok. 40 MB/s, a DDR52 ok. 75 MB/s. Jeśli eMMC się nie pojawia lub odczyty się nie udają, wybierz niższą szybkość. Pamięć eMMC jest tylko odczytywana, więc szybkość, która nie działa, nie może jej zaszkodzić.</string>
+    <string name="kt_emmc_speed_why">Szybsze kopie zapasowe i, kiedyś, szybszy system na pamięci eMMC. Na Diium D-28S wysoka szybkość odczytuje ok. 40 MB/s, DDR52 ok. 75 MB/s, a HS200 ok. 107 MB/s. Jeśli eMMC się nie pojawia lub odczyty się nie udają, wybierz niższą szybkość. Pamięć eMMC jest tylko odczytywana, więc szybkość, która nie działa, nie może jej zaszkodzić.</string>
     <string name="kt_emmc_speed_hs">Wysoka szybkość</string>
     <string name="kt_emmc_speed_ddr52">DDR52</string>
     <string name="kt_emmc_speed_hs200">HS200</string>

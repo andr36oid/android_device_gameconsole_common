@@ -288,7 +288,7 @@
 
     <string name="kt_emmc_speed">eMMC speed (experimental)</string>
     <string name="kt_emmc_speed_what">How fast the console talks to its built-in eMMC, from the next start, when Built-in eMMC storage is on. High speed is what the system that came with the console uses. DDR52 sends data twice per clock tick, about twice as fast. HS200 runs the clock up to three times faster, on chips that have it; the others stay at DDR52.</string>
-    <string name="kt_emmc_speed_why">Faster backups and, one day, a faster system on the eMMC. On the Diium D-28S, high speed reads about 40 MB/s and DDR52 about 75 MB/s. If the eMMC doesn\'t show up or reads fail, pick a slower speed. The eMMC is only read, so a speed that doesn\'t work can\'t harm it.</string>
+    <string name="kt_emmc_speed_why">Faster backups and, one day, a faster system on the eMMC. On the Diium D-28S, high speed reads about 40 MB/s, DDR52 about 75 MB/s and HS200 about 107 MB/s. If the eMMC doesn\'t show up or reads fail, pick a slower speed. The eMMC is only read, so a speed that doesn\'t work can\'t harm it.</string>
     <string name="kt_emmc_speed_hs">High speed</string>
     <string name="kt_emmc_speed_ddr52">DDR52</string>
     <string name="kt_emmc_speed_hs200">HS200</string>

@@ -288,7 +288,7 @@
 
     <string name="kt_emmc_speed">Velocidade da eMMC (experimental)</string>
     <string name="kt_emmc_speed_what">A velocidade com que o console se comunica com a eMMC embutida, a partir da próxima inicialização, quando o Armazenamento eMMC embutido está ativado. A velocidade alta é a que o sistema que vem com o console usa. O DDR52 envia dados duas vezes por ciclo do clock, cerca de duas vezes mais rápido. O HS200 acelera o clock em até três vezes, nos chips que suportam isso; os outros continuam no DDR52.</string>
-    <string name="kt_emmc_speed_why">Backups mais rápidos e, um dia, um sistema mais rápido na eMMC. No Diium D-28S, a velocidade alta lê cerca de 40 MB/s e o DDR52 cerca de 75 MB/s. Se a eMMC não aparecer ou as leituras falharem, escolha uma velocidade mais lenta. A eMMC só é lida, então uma velocidade que não funcione não pode prejudicá-la.</string>
+    <string name="kt_emmc_speed_why">Backups mais rápidos e, um dia, um sistema mais rápido na eMMC. No Diium D-28S, a velocidade alta lê cerca de 40 MB/s, o DDR52 cerca de 75 MB/s e o HS200 cerca de 107 MB/s. Se a eMMC não aparecer ou as leituras falharem, escolha uma velocidade mais lenta. A eMMC só é lida, então uma velocidade que não funcione não pode prejudicá-la.</string>
     <string name="kt_emmc_speed_hs">Velocidade alta</string>
     <string name="kt_emmc_speed_ddr52">DDR52</string>
     <string name="kt_emmc_speed_hs200">HS200</string>
