@@ -66,4 +66,94 @@
     <string name="result_no_space">Nicht genug Platz auf %1$s.</string>
     <string name="result_read_error">Der eMMC konnte nicht bis zum Ende gelesen werden. %2$s auf %1$s enthält eine unvollständige Kopie.</string>
     <string name="result_failed">Die Sicherung konnte nicht starten.</string>
+
+    <!-- eMMC Installation (InstallActivity) -->
+    <string name="inst_title">eMMC-Installation</string>
+    <string name="inst_summary">andr36oid auf den eingebauten eMMC-Speicher bringen, damit die Konsole ohne SD-Karte startet</string>
+    <string name="inst_not_sd">andr36oid kann nur auf den eMMC installiert werden, wenn es von der SD-Karte läuft.</string>
+    <string name="inst_on_emmc">andr36oid läuft vom eingebauten eMMC-Speicher. Um die Installation zu ändern oder das Originalsystem zurückzuholen, starte von der andr36oid-SD-Karte.</string>
+    <string name="inst_test_worked">Der Test hat funktioniert: andr36oid wurde vom eMMC gestartet.\n\nStarte jetzt neu. Die Konsole startet dann wieder von der SD-Karte, wo die Installation fertig wird. Lass die SD-Karte stecken.</string>
+    <string name="inst_close">Schließen</string>
+    <string name="inst_cancel">Abbrechen</string>
+    <string name="inst_continue">Weiter</string>
+    <string name="inst_later">Später</string>
+    <string name="inst_start">Starten</string>
+    <string name="inst_working">Läuft…</string>
+    <string name="inst_details">Details</string>
+    <string name="inst_elapsed">Läuft seit %1$s. Lass die Konsole eingeschaltet.</string>
+    <string name="inst_left">noch %1$s</string>
+
+    <string name="inst_step0">0 Original-eMMC sichern</string>
+    <string name="inst_step1">1 Loader der SD-Karte prüfen</string>
+    <string name="inst_step2">2 andr36oid auf dem eMMC prüfen</string>
+    <string name="inst_step3">3 Loader auf den eMMC schreiben</string>
+    <string name="inst_st_running">läuft</string>
+    <string name="inst_st_done">fertig</string>
+    <string name="inst_st_failed">fehlgeschlagen</string>
+    <string name="inst_st_restart">wartet auf einen Neustart</string>
+
+    <string name="inst_checking">Konsole wird geprüft…</string>
+    <string name="inst_checks">Bevor etwas geschrieben wird</string>
+    <string name="inst_inspect_failed">Das Installationsprogramm konnte die Konsole nicht prüfen.</string>
+    <string name="inst_check_again">Erneut prüfen</string>
+    <string name="inst_chk_sd">Läuft von der SD-Karte</string>
+    <string name="inst_chk_no_emmc">Kein eingebauter eMMC gefunden. Schalte ihn in Kernel Tweaks > Integrierter eMMC-Speicher ein und starte neu.</string>
+    <string name="inst_chk_emmc">Eingebauter eMMC: %1$s, %2$s</string>
+    <string name="inst_chk_size">Groß genug für andr36oid (8 GB oder mehr)</string>
+    <string name="inst_chk_charger">Ladegerät angeschlossen</string>
+    <string name="inst_chk_battery">Akku bei %1$d%% (braucht 60%% oder ein Ladegerät)</string>
+    <string name="inst_chk_no_target">Kein Speicher für die Sicherung</string>
+    <string name="inst_chk_room">Sicherung auf %1$s: %2$s frei, benötigt %3$s</string>
+    <string name="inst_change_target">Auf einen anderen Speicher sichern</string>
+
+    <string name="inst_warn1_title">Das Originalsystem wird gelöscht</string>
+    <string name="inst_warn1">Alles auf dem eingebauten eMMC wird ersetzt: das System, mit dem die Konsole ausgeliefert wurde, ihre Spiele und ihre Einstellungen. Vorher wird eine vollständige Kopie angelegt, und du kannst sie von hier aus zurückspielen, aber nur mit dieser SD-Karte und nur solange die Konsole noch startet.</string>
+    <string name="inst_warn2_title">Das kann deine Konsole unbrauchbar machen</string>
+    <string name="inst_warn2">Den Loader zu schreiben, der die Konsole startet, ist das Gefährlichste, was du ihr antun kannst. Wenn etwas schiefgeht, lässt sich die Konsole vielleicht gar nicht mehr einschalten, und nichts, was andr36oid tun kann, hilft dann.\n\nKonsolen, bei denen eMMC und Arbeitsspeicher ein Chip sind (eMCP), sind am schlimmsten: Es gibt keinen einfachen Weg, sie in den Wiederherstellungsmodus zu zwingen. Sie wieder zum Laufen zu bringen kann heißen, das Gehäuse zu öffnen und zu löten, oder es geht gar nicht.</string>
+    <string name="inst_warn3_title">Du bist auf dich allein gestellt</string>
+    <string name="inst_warn3">Das ist experimentell. Niemand kann versprechen, dass es auf deiner Konsole funktioniert, und niemand kann es für dich reparieren, falls nicht.\n\nDie Partitionsgrößen sind jetzt festgelegt. Spätere andr36oid-Versionen können nur auf den eMMC gebracht werden, wenn sie hineinpassen.</string>
+    <string name="inst_understand">Ich habe verstanden</string>
+
+    <string name="inst_layout_title">So wird der eMMC aufgeteilt</string>
+    <string name="inst_layout_text">system und vendor bekommen Platz zum Wachsen für spätere Versionen, deine Apps und Daten bekommen den Rest.</string>
+    <string name="inst_summary_title">Jeder Schreibvorgang, in Reihenfolge</string>
+    <string name="inst_sum_backup">Sicherung: alle %1$s des eMMC (Sektoren 0-%2$d) und seine zwei Boot-Bereiche werden gelesen, zum Vergleich noch einmal gelesen, auf %3$s kopiert und zurückgelesen. Auf den eMMC wird nichts geschrieben.</string>
+    <string name="inst_sum_step1">Schritt 1: eMMC-Sektoren 64-32767 (der Original-Loader, 16 MiB) werden gelöscht. Dann startest du neu: Die Konsole muss selbstständig vom Loader der SD-Karte starten.</string>
+    <string name="inst_sum_step2">Schritt 2: eine neue Partitionstabelle (eMMC-Sektoren 0-33 und %1$d-%2$d); BOOT, system und vendor werden von der SD-Karte kopiert; der Anfang von metadata, misc, cache und userdata wird gelöscht:\n%3$sDann startet andr36oid einmal als Test vom eMMC.</string>
+    <string name="inst_sum_step3">Schritt 3: die Sektoren 64-32767 der SD-Karte (ihr Loader) werden auf den eMMC kopiert, nach einer weiteren Warnung.</string>
+    <string name="inst_sum_risk">Jeder Schreibvorgang wird zurückgelesen und verglichen. Passt etwas nicht, bricht das Installationsprogramm ab und schreibt nichts mehr. Schritt 1 und 2 werden jeweils durch einen Neustart bestätigt, bevor der nächste folgt. Schritt 3 ist der einzige Schreibvorgang, der sich vorher nicht ausprobieren lässt.</string>
+
+    <string name="inst_backup_kept">Der Original-eMMC ist gesichert. Als Nächstes kommt Schritt 1: Sein Loader wird gelöscht, dann startest du neu.</string>
+    <string name="inst_step1_passed">Schritt 1 bestanden: Die Konsole ist selbstständig vom Loader der SD-Karte gestartet.\n\nAls Nächstes kommt Schritt 2: andr36oid wird auf den eMMC kopiert (einige Minuten), dann startet es einmal von dort.</string>
+    <string name="inst_step2_passed">Schritt 2 bestanden: andr36oid ist vom eMMC gestartet.\n\nAls Nächstes kommt Schritt 3: Der Loader wird auf den eMMC geschrieben.</string>
+
+    <string name="inst_restart_title">Neustart</string>
+    <string name="inst_restart_step1">Der Loader des eMMC ist leer. Starte jetzt neu: Die Konsole muss selbstständig vom Loader der SD-Karte starten, und diese Seite öffnet sich danach wieder.\n\nWenn sie nicht zurückkommt: Halte die Ein-/Aus-Taste 7 Sekunden lang gedrückt und schalte sie wieder ein. Startet sie immer noch nicht, braucht diese Konsole ihren Original-Loader. Die Sicherung liegt in %1$s auf dieser SD-Karte.</string>
+    <string name="inst_restart_test">andr36oid liegt auf dem eMMC. Starte jetzt neu: Es startet dann einmal vom eMMC, als Test. Der erste Start richtet alles ein und dauert einige Minuten. Sobald da steht, dass der Test geklappt hat, startest du noch einmal neu.\n\nWenn es hängt: Halte die Ein-/Aus-Taste 7 Sekunden lang gedrückt und schalte die Konsole wieder ein. Dann startet sie wie gewohnt von der SD-Karte, und diese Seite sagt, was passiert ist.</string>
+    <string name="inst_restart_done">Fertig. Nimm die SD-Karte heraus und starte neu: andr36oid startet jetzt vom eMMC.\n\nWenn eine andr36oid-SD-Karte drinsteckt, startet die Konsole wie bisher von der Karte.</string>
+    <string name="inst_restart_stock">Der Original-eMMC ist zurück. Nimm die SD-Karte heraus und starte neu, um das Originalsystem zu verwenden.</string>
+    <string name="inst_restart_now">Jetzt neu starten</string>
+    <string name="inst_test_later">Jetzt nicht testen</string>
+
+    <string name="inst_final_title">Letzte Chance zum Abbrechen</string>
+    <string name="inst_final_text">Das schreibt den Loader, der die Konsole startet, auf den eMMC. Alles davor wurde getestet. Das hier nicht: Der Loader muss U-Boot vom eMMC lesen, und der Original-Loader zeigt, dass das auf diesem Board klappt, aber genau diese Bytes sind noch nie vom eMMC gelaufen.\n\nSchlägt es fehl, lässt sich die Konsole nicht mehr einschalten, mit oder ohne SD-Karte.</string>
+    <string name="inst_final_loader">Loader: %1$s</string>
+    <string name="inst_my_fault">Wenn das schiefgeht, ist das meine Schuld</string>
+    <string name="inst_hold">Halten</string>
+    <string name="inst_hold_hint">Halte A 10 Sekunden lang gedrückt. Loslassen fängt von vorn an.</string>
+    <string name="inst_no_loader_code">Das Installationsprogramm hat keine Loader-Prüfsumme aus Schritt 1.</string>
+    <string name="inst_done">andr36oid ist auf dem eMMC installiert. Ohne SD-Karte startet die Konsole vom eMMC; mit einer andr36oid-SD-Karte drin startet sie von der Karte.</string>
+
+    <string name="inst_failed_title">Gestoppt</string>
+    <string name="inst_failed_choice">Danach wurde nichts mehr geschrieben. Dein Original-eMMC ist in %1$s gesichert.\n\nSoll der Original-eMMC zurückgespielt werden oder bleibt er, wie er ist?</string>
+    <string name="inst_failed_nothing">Auf den eMMC wurde nichts geschrieben.</string>
+    <string name="inst_cut_off">%1$s wurde unterbrochen, bevor es fertig war (Stromverlust?).</string>
+    <string name="inst_test_failed">andr36oid startete im Test nicht vom eMMC.</string>
+    <string name="inst_no_result">Das Installationsprogramm hat ohne Ergebnis aufgehört.</string>
+    <string name="inst_cant_start">Das Installationsprogramm konnte nicht gestartet werden.</string>
+    <string name="inst_leave">So lassen</string>
+    <string name="inst_show_log">Protokoll anzeigen</string>
+    <string name="inst_restore">Original-eMMC zurückspielen</string>
+    <string name="inst_restore_text">Alles, was andr36oid auf den eMMC geschrieben hat, wird durch die Sicherung in %1$s ersetzt. Die Sicherung wird zuerst geprüft, danach wird der eMMC damit verglichen. Das dauert einige Minuten.</string>
+    <string name="inst_restore_go">Zurückspielen</string>
 </resources>

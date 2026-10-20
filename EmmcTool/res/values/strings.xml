@@ -66,4 +66,94 @@
     <string name="result_no_space">Not enough space on %1$s.</string>
     <string name="result_read_error">The eMMC couldn\'t be read to the end. %2$s on %1$s holds an incomplete copy.</string>
     <string name="result_failed">The backup couldn\'t start.</string>
+
+    <!-- eMMC Installation (InstallActivity) -->
+    <string name="inst_title">eMMC Installation</string>
+    <string name="inst_summary">Put andr36oid on the built-in eMMC, so the console starts without the SD card</string>
+    <string name="inst_not_sd">andr36oid only installs onto the eMMC when it runs from the SD card.</string>
+    <string name="inst_on_emmc">andr36oid is running from the built-in eMMC. To change the installation or put the stock system back, start from the andr36oid SD card.</string>
+    <string name="inst_test_worked">The test worked: andr36oid started from the eMMC.\n\nRestart now. The console starts from the SD card again, where the installation finishes. Leave the SD card in.</string>
+    <string name="inst_close">Close</string>
+    <string name="inst_cancel">Cancel</string>
+    <string name="inst_continue">Continue</string>
+    <string name="inst_later">Later</string>
+    <string name="inst_start">Start</string>
+    <string name="inst_working">Working…</string>
+    <string name="inst_details">Details</string>
+    <string name="inst_elapsed">Running for %1$s. Keep the console on.</string>
+    <string name="inst_left">%1$s left</string>
+
+    <string name="inst_step0">0 Back up the stock eMMC</string>
+    <string name="inst_step1">1 Prove the SD card\'s loader</string>
+    <string name="inst_step2">2 Prove andr36oid on the eMMC</string>
+    <string name="inst_step3">3 Put the loader on the eMMC</string>
+    <string name="inst_st_running">running</string>
+    <string name="inst_st_done">done</string>
+    <string name="inst_st_failed">failed</string>
+    <string name="inst_st_restart">waiting for a restart</string>
+
+    <string name="inst_checking">Checking the console…</string>
+    <string name="inst_checks">Before anything is written</string>
+    <string name="inst_inspect_failed">The installer couldn\'t look at the console.</string>
+    <string name="inst_check_again">Check again</string>
+    <string name="inst_chk_sd">Running from the SD card</string>
+    <string name="inst_chk_no_emmc">No built-in eMMC found. Switch it on in Kernel Tweaks > Built-in eMMC storage and restart.</string>
+    <string name="inst_chk_emmc">Built-in eMMC: %1$s, %2$s</string>
+    <string name="inst_chk_size">Big enough for andr36oid (8 GB or more)</string>
+    <string name="inst_chk_charger">Charger connected</string>
+    <string name="inst_chk_battery">Battery at %1$d%% (needs 60%% or a charger)</string>
+    <string name="inst_chk_no_target">No storage for the backup</string>
+    <string name="inst_chk_room">Backup on %1$s: %2$s free, needs %3$s</string>
+    <string name="inst_change_target">Back up to another storage</string>
+
+    <string name="inst_warn1_title">The stock system will be gone</string>
+    <string name="inst_warn1">Everything on the built-in eMMC is replaced: the system the console came with, its games and its settings. A full copy is made first and you can put it back from here, but only with this SD card and only while the console still starts.</string>
+    <string name="inst_warn2_title">This can brick your console</string>
+    <string name="inst_warn2">Writing the loader that starts the console is the most dangerous thing you can do to it. If it goes wrong, the console may not switch on at all, and nothing andr36oid can do will help.\n\nConsoles whose eMMC and memory are one chip (eMCP) are the worst: they have no easy way to force them into recovery. Getting them back can mean opening the case and soldering, or may not be possible.</string>
+    <string name="inst_warn3_title">You are on your own</string>
+    <string name="inst_warn3">This is experimental. Nobody can promise it works on your console, and nobody can fix it for you if it doesn\'t.\n\nThe partition sizes are fixed now. Later andr36oid versions can only be put on the eMMC if they fit.</string>
+    <string name="inst_understand">I understand</string>
+
+    <string name="inst_layout_title">How the eMMC is split up</string>
+    <string name="inst_layout_text">system and vendor get room to grow for later versions, your apps and data get the rest.</string>
+    <string name="inst_summary_title">Every write, in order</string>
+    <string name="inst_sum_backup">Backup: all %1$s of the eMMC (sectors 0-%2$d) and its two boot areas are read, read again to compare, copied to %3$s, and read back. Nothing is written to the eMMC.</string>
+    <string name="inst_sum_step1">Step 1: eMMC sectors 64-32767 (the stock loader, 16 MiB) are blanked. Then you restart: the console has to start from the SD card\'s loader on its own.</string>
+    <string name="inst_sum_step2">Step 2: a new partition table (eMMC sectors 0-33 and %1$d-%2$d); BOOT, system and vendor copied from the SD card; the start of metadata, misc, cache and userdata blanked:\n%3$sThen andr36oid starts from the eMMC once, as a test.</string>
+    <string name="inst_sum_step3">Step 3: the SD card\'s sectors 64-32767 (its loader) are copied to the eMMC, after one more warning.</string>
+    <string name="inst_sum_risk">Every write is read back and compared. If anything doesn\'t match, the installer stops and writes nothing more. Steps 1 and 2 are each proven by a restart before the next one. Step 3 is the only write that can\'t be tried out first.</string>
+
+    <string name="inst_backup_kept">The stock eMMC is backed up. Next is step 1: its loader is blanked, then you restart.</string>
+    <string name="inst_step1_passed">Step 1 passed: the console started from the SD card\'s loader on its own.\n\nNext is step 2: andr36oid is copied to the eMMC (a few minutes), then it starts from there once.</string>
+    <string name="inst_step2_passed">Step 2 passed: andr36oid started from the eMMC.\n\nNext is step 3: the loader goes onto the eMMC.</string>
+
+    <string name="inst_restart_title">Restart</string>
+    <string name="inst_restart_step1">The eMMC\'s loader is blank. Restart now: the console has to start from the SD card\'s loader on its own, and this page opens again.\n\nIf it doesn\'t come back: hold power for 7 seconds and switch it on again. If it still doesn\'t start, this console needs its stock loader. The backup is in %1$s on this SD card.</string>
+    <string name="inst_restart_test">andr36oid is on the eMMC. Restart now: it starts from the eMMC once, as a test. Its first start sets things up and takes a few minutes. When it says the test worked, restart again.\n\nIf it hangs: hold power for 7 seconds and switch it on again. It then starts from the SD card as usual, and this page says what happened.</string>
+    <string name="inst_restart_done">Done. Take the SD card out and restart: andr36oid now starts from the eMMC.\n\nWith an andr36oid SD card in, the console starts from the card, as before.</string>
+    <string name="inst_restart_stock">The stock eMMC is back. Take the SD card out and restart to use the stock system.</string>
+    <string name="inst_restart_now">Restart now</string>
+    <string name="inst_test_later">Don\'t test now</string>
+
+    <string name="inst_final_title">Last chance to stop</string>
+    <string name="inst_final_text">This writes the loader that starts the console onto the eMMC. Everything before this was tested. This is not: the loader has to read U-Boot from the eMMC, which the stock loader shows works on this board, but these exact bytes never ran from the eMMC.\n\nIf it fails, the console doesn\'t switch on any more, with or without an SD card.</string>
+    <string name="inst_final_loader">Loader: %1$s</string>
+    <string name="inst_my_fault">It\'s my fault if this goes wrong</string>
+    <string name="inst_hold">Hold</string>
+    <string name="inst_hold_hint">Hold A for 10 seconds. Letting go starts over.</string>
+    <string name="inst_no_loader_code">The installer has no loader checksum from step 1.</string>
+    <string name="inst_done">andr36oid is installed on the eMMC. Without an SD card the console starts from the eMMC; with an andr36oid SD card in, it starts from the card.</string>
+
+    <string name="inst_failed_title">Stopped</string>
+    <string name="inst_failed_choice">Nothing more was written after this. Your stock eMMC is backed up in %1$s.\n\nPut the stock eMMC back, or leave it as it is?</string>
+    <string name="inst_failed_nothing">Nothing was written to the eMMC.</string>
+    <string name="inst_cut_off">%1$s was cut off before it finished (power lost?).</string>
+    <string name="inst_test_failed">andr36oid didn\'t start from the eMMC in the test.</string>
+    <string name="inst_no_result">The installer stopped without saying how it went.</string>
+    <string name="inst_cant_start">The installer couldn\'t be started.</string>
+    <string name="inst_leave">Leave it as it is</string>
+    <string name="inst_show_log">Show the log</string>
+    <string name="inst_restore">Put the stock eMMC back</string>
+    <string name="inst_restore_text">Everything andr36oid wrote to the eMMC is replaced by the backup in %1$s. The backup is checked first, and the eMMC is compared with it afterwards. This takes a few minutes.</string>
+    <string name="inst_restore_go">Put it back</string>
 </resources>

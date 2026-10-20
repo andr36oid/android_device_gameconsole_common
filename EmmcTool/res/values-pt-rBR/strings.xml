@@ -66,4 +66,94 @@
     <string name="result_no_space">Espaço insuficiente em %1$s.</string>
     <string name="result_read_error">Não foi possível ler a eMMC até o fim. %2$s em %1$s tem uma cópia incompleta.</string>
     <string name="result_failed">Não foi possível iniciar o backup.</string>
+
+    <!-- eMMC Installation (InstallActivity) -->
+    <string name="inst_title">Instalação na eMMC</string>
+    <string name="inst_summary">Coloque o andr36oid na eMMC integrada para o console iniciar sem o cartão SD</string>
+    <string name="inst_not_sd">O andr36oid só instala na eMMC quando está rodando a partir do cartão SD.</string>
+    <string name="inst_on_emmc">O andr36oid está rodando a partir da eMMC integrada. Para mudar a instalação ou restaurar o sistema original, inicie pelo cartão SD do andr36oid.</string>
+    <string name="inst_test_worked">O teste funcionou: o andr36oid iniciou a partir da eMMC.\n\nReinicie agora. O console volta a iniciar pelo cartão SD, onde a instalação termina. Deixe o cartão SD inserido.</string>
+    <string name="inst_close">Fechar</string>
+    <string name="inst_cancel">Cancelar</string>
+    <string name="inst_continue">Continuar</string>
+    <string name="inst_later">Depois</string>
+    <string name="inst_start">Iniciar</string>
+    <string name="inst_working">Trabalhando…</string>
+    <string name="inst_details">Detalhes</string>
+    <string name="inst_elapsed">Em execução há %1$s. Mantenha o console ligado.</string>
+    <string name="inst_left">faltam %1$s</string>
+
+    <string name="inst_step0">0 Fazer backup da eMMC original</string>
+    <string name="inst_step1">1 Testar o carregador do cartão SD</string>
+    <string name="inst_step2">2 Testar o andr36oid na eMMC</string>
+    <string name="inst_step3">3 Colocar o carregador na eMMC</string>
+    <string name="inst_st_running">em execução</string>
+    <string name="inst_st_done">concluído</string>
+    <string name="inst_st_failed">falhou</string>
+    <string name="inst_st_restart">aguardando reinicialização</string>
+
+    <string name="inst_checking">Verificando o console…</string>
+    <string name="inst_checks">Antes de gravar qualquer coisa</string>
+    <string name="inst_inspect_failed">O instalador não conseguiu examinar o console.</string>
+    <string name="inst_check_again">Verificar novamente</string>
+    <string name="inst_chk_sd">Rodando pelo cartão SD</string>
+    <string name="inst_chk_no_emmc">Nenhuma eMMC integrada encontrada. Ative em Kernel Tweaks > Armazenamento eMMC integrado e reinicie.</string>
+    <string name="inst_chk_emmc">eMMC integrada: %1$s, %2$s</string>
+    <string name="inst_chk_size">Grande o suficiente para o andr36oid (8 GB ou mais)</string>
+    <string name="inst_chk_charger">Carregador conectado</string>
+    <string name="inst_chk_battery">Bateria em %1$d%% (precisa de 60%% ou de um carregador)</string>
+    <string name="inst_chk_no_target">Sem armazenamento para o backup</string>
+    <string name="inst_chk_room">Backup em %1$s: %2$s livres, precisa de %3$s</string>
+    <string name="inst_change_target">Fazer backup em outro armazenamento</string>
+
+    <string name="inst_warn1_title">O sistema original vai sumir</string>
+    <string name="inst_warn1">Tudo na eMMC integrada é substituído: o sistema que veio com o console, os jogos e as configurações. Antes é feita uma cópia completa, e você pode restaurá-la daqui, mas só com este cartão SD e só enquanto o console ainda iniciar.</string>
+    <string name="inst_warn2_title">Isso pode deixar o seu console inutilizável</string>
+    <string name="inst_warn2">Gravar o carregador que inicia o console é o que há de mais perigoso que você pode fazer com ele. Se der errado, o console pode nem ligar, e nada que o andr36oid faça vai ajudar.\n\nOs consoles em que a eMMC e a memória são um único chip (eMCP) são os piores: não há um jeito fácil de forçá-los ao modo de recuperação. Recuperá-los pode exigir abrir o case e soldar, ou pode não ser possível.</string>
+    <string name="inst_warn3_title">Você está por conta própria</string>
+    <string name="inst_warn3">Isto é experimental. Ninguém pode garantir que funciona no seu console, e ninguém pode consertá-lo para você se não funcionar.\n\nOs tamanhos das partições agora estão fixos. Versões futuras do andr36oid só poderão ser colocadas na eMMC se couberem.</string>
+    <string name="inst_understand">Entendi</string>
+
+    <string name="inst_layout_title">Como a eMMC é dividida</string>
+    <string name="inst_layout_text">system e vendor terão espaço para crescer em versões futuras; seus apps e dados ficam com o resto.</string>
+    <string name="inst_summary_title">Cada gravação, em ordem</string>
+    <string name="inst_sum_backup">Backup: toda a eMMC (%1$s, setores 0-%2$d) e suas duas áreas de boot são lidas, lidas de novo para comparar, copiadas para %3$s e relidas. Nada é gravado na eMMC.</string>
+    <string name="inst_sum_step1">Passo 1: os setores 64-32767 da eMMC (o carregador original, 16 MiB) são apagados. Depois você reinicia: o console precisa iniciar sozinho pelo carregador do cartão SD.</string>
+    <string name="inst_sum_step2">Passo 2: uma nova tabela de partições (setores 0-33 e %1$d-%2$d da eMMC); BOOT, system e vendor copiados do cartão SD; o início de metadata, misc, cache e userdata são apagados:\n%3$sDepois o andr36oid inicia pela eMMC uma vez, como teste.</string>
+    <string name="inst_sum_step3">Passo 3: os setores 64-32767 do cartão SD (o carregador dele) são copiados para a eMMC, depois de mais um aviso.</string>
+    <string name="inst_sum_risk">Cada gravação é relida e comparada. Se algo não bater, o instalador para e não grava mais nada. Os passos 1 e 2 são comprovados, cada um, por uma reinicialização antes do próximo. O passo 3 é a única gravação que não dá para testar antes.</string>
+
+    <string name="inst_backup_kept">A eMMC original teve backup feito. Agora vem o passo 1: o carregador dela é apagado e depois você reinicia.</string>
+    <string name="inst_step1_passed">Passo 1 concluído: o console iniciou sozinho pelo carregador do cartão SD.\n\nAgora vem o passo 2: o andr36oid é copiado para a eMMC (alguns minutos) e depois inicia a partir dela uma vez.</string>
+    <string name="inst_step2_passed">Passo 2 concluído: o andr36oid iniciou pela eMMC.\n\nAgora vem o passo 3: o carregador vai para a eMMC.</string>
+
+    <string name="inst_restart_title">Reiniciar</string>
+    <string name="inst_restart_step1">O carregador da eMMC está apagado. Reinicie agora: o console precisa iniciar sozinho pelo carregador do cartão SD, e esta página vai abrir de novo.\n\nSe ele não voltar: segure o botão de energia por 7 segundos e ligue de novo. Se mesmo assim não iniciar, este console precisa do carregador original. O backup está em %1$s, neste cartão SD.</string>
+    <string name="inst_restart_test">O andr36oid está na eMMC. Reinicie agora: ele inicia pela eMMC uma vez, como teste. A primeira inicialização configura tudo e leva alguns minutos. Quando disser que o teste funcionou, reinicie de novo.\n\nSe travar: segure o botão de energia por 7 segundos e ligue de novo. Ele então inicia pelo cartão SD, como de costume, e esta página mostra o que aconteceu.</string>
+    <string name="inst_restart_done">Pronto. Tire o cartão SD e reinicie: o andr36oid agora inicia pela eMMC.\n\nCom um cartão SD do andr36oid inserido, o console inicia pelo cartão, como antes.</string>
+    <string name="inst_restart_stock">A eMMC original voltou. Tire o cartão SD e reinicie para usar o sistema original.</string>
+    <string name="inst_restart_now">Reiniciar agora</string>
+    <string name="inst_test_later">Não testar agora</string>
+
+    <string name="inst_final_title">Última chance de parar</string>
+    <string name="inst_final_text">Isto grava na eMMC o carregador que inicia o console. Tudo antes disso foi testado. Isto não: o carregador precisa ler o U-Boot da eMMC, o que o carregador original mostra que funciona nesta placa, mas esses bytes exatos nunca rodaram a partir da eMMC.\n\nSe falhar, o console não liga mais, com ou sem cartão SD.</string>
+    <string name="inst_final_loader">Carregador de inicialização: %1$s</string>
+    <string name="inst_my_fault">Se der errado, a culpa é minha</string>
+    <string name="inst_hold">Segurar</string>
+    <string name="inst_hold_hint">Segure A por 10 segundos. Soltar recomeça do zero.</string>
+    <string name="inst_no_loader_code">O instalador não tem a soma de verificação do carregador do passo 1.</string>
+    <string name="inst_done">O andr36oid está instalado na eMMC. Sem cartão SD, o console inicia pela eMMC; com um cartão SD do andr36oid inserido, inicia pelo cartão.</string>
+
+    <string name="inst_failed_title">Parado</string>
+    <string name="inst_failed_choice">Nada mais foi gravado depois disso. A sua eMMC original tem backup em %1$s.\n\nRestaurar a eMMC original ou deixar como está?</string>
+    <string name="inst_failed_nothing">Nada foi gravado na eMMC.</string>
+    <string name="inst_cut_off">%1$s foi interrompido antes de terminar (faltou energia?).</string>
+    <string name="inst_test_failed">O andr36oid não iniciou pela eMMC no teste.</string>
+    <string name="inst_no_result">O instalador parou sem dizer como foi.</string>
+    <string name="inst_cant_start">Não foi possível iniciar o instalador.</string>
+    <string name="inst_leave">Deixar como está</string>
+    <string name="inst_show_log">Mostrar o log</string>
+    <string name="inst_restore">Restaurar a eMMC original</string>
+    <string name="inst_restore_text">Tudo o que o andr36oid gravou na eMMC é substituído pelo backup em %1$s. O backup é verificado primeiro, e depois a eMMC é comparada com ele. Isso leva alguns minutos.</string>
+    <string name="inst_restore_go">Restaurar</string>
 </resources>

@@ -66,4 +66,94 @@
     <string name="result_no_space">%1$s 上的空间不足。</string>
     <string name="result_read_error">无法将 eMMC 读取到末尾。%2$s 位于 %1$s，是不完整的副本。</string>
     <string name="result_failed">无法开始备份。</string>
+
+    <!-- eMMC Installation (InstallActivity) -->
+    <string name="inst_title">eMMC 安装</string>
+    <string name="inst_summary">将 andr36oid 安装到内置 eMMC，让主机无需 SD 卡即可启动</string>
+    <string name="inst_not_sd">andr36oid 只有在从 SD 卡运行时才会安装到 eMMC。</string>
+    <string name="inst_on_emmc">andr36oid 正在从内置 eMMC 运行。要更改安装或恢复原厂系统，请从 andr36oid SD 卡启动。</string>
+    <string name="inst_test_worked">测试成功：andr36oid 已从 eMMC 启动。\n\n现在重启。主机会再次从 SD 卡启动，安装将在那里完成。请保持 SD 卡插着。</string>
+    <string name="inst_close">关闭</string>
+    <string name="inst_cancel">取消</string>
+    <string name="inst_continue">继续</string>
+    <string name="inst_later">稍后</string>
+    <string name="inst_start">开始</string>
+    <string name="inst_working">处理中…</string>
+    <string name="inst_details">详细信息</string>
+    <string name="inst_elapsed">已运行 %1$s。请保持主机开机。</string>
+    <string name="inst_left">剩余 %1$s</string>
+
+    <string name="inst_step0">0 备份原厂 eMMC</string>
+    <string name="inst_step1">1 验证 SD 卡的引导加载器</string>
+    <string name="inst_step2">2 验证 eMMC 上的 andr36oid</string>
+    <string name="inst_step3">3 将引导加载器写入 eMMC</string>
+    <string name="inst_st_running">进行中</string>
+    <string name="inst_st_done">完成</string>
+    <string name="inst_st_failed">失败</string>
+    <string name="inst_st_restart">等待重启</string>
+
+    <string name="inst_checking">正在检查主机…</string>
+    <string name="inst_checks">写入任何内容之前</string>
+    <string name="inst_inspect_failed">安装程序无法检查主机。</string>
+    <string name="inst_check_again">重新检查</string>
+    <string name="inst_chk_sd">正在从 SD 卡运行</string>
+    <string name="inst_chk_no_emmc">未找到内置 eMMC。请在 Kernel Tweaks > 内置 eMMC 存储中开启，然后重启。</string>
+    <string name="inst_chk_emmc">内置 eMMC：%1$s，%2$s</string>
+    <string name="inst_chk_size">容量足够安装 andr36oid（8 GB 或以上）</string>
+    <string name="inst_chk_charger">已连接充电器</string>
+    <string name="inst_chk_battery">电量 %1$d%%（需要 60%% 或已连接充电器）</string>
+    <string name="inst_chk_no_target">没有可用于备份的存储</string>
+    <string name="inst_chk_room">%1$s 上的备份：可用 %2$s，需要 %3$s</string>
+    <string name="inst_change_target">备份到其他存储</string>
+
+    <string name="inst_warn1_title">原厂系统将会被删除</string>
+    <string name="inst_warn1">内置 eMMC 上的所有内容都将被替换：主机出厂时的系统、游戏和设置。系统会先制作完整副本，你可以在这里恢复，但只能使用这张 SD 卡，并且只能在主机仍能启动时恢复。</string>
+    <string name="inst_warn2_title">这可能会让主机变砖</string>
+    <string name="inst_warn2">写入用于启动主机的引导加载器，是对主机最危险的操作。如果出错，主机可能根本无法开机，andr36oid 也无法挽救。\n\neMMC 和内存是同一颗芯片（eMCP）的主机风险最大：没有简单的方法强制它们进入恢复模式。要恢复它们，可能需要打开外壳并焊接，也可能无法恢复。</string>
+    <string name="inst_warn3_title">风险自负</string>
+    <string name="inst_warn3">这是实验性功能。没有人能保证它能在你的主机上运行；如果无法运行，也没有人能替你修复。\n\n分区大小现已固定。之后的 andr36oid 版本只有在能放得下时，才能安装到 eMMC 上。</string>
+    <string name="inst_understand">我已了解</string>
+
+    <string name="inst_layout_title">eMMC 如何划分</string>
+    <string name="inst_layout_text">system 和 vendor 会保留空间，供以后的版本扩展；你的应用和数据使用剩下的空间。</string>
+    <string name="inst_summary_title">每次写入，按顺序</string>
+    <string name="inst_sum_backup">备份：读取 eMMC 的全部 %1$s（扇区 0-%2$d）及其两个引导区，再次读取以进行比对，复制到 %3$s，然后回读。不会向 eMMC 写入任何内容。</string>
+    <string name="inst_sum_step1">第 1 步：eMMC 扇区 64-32767（原厂引导加载器，16 MiB）被清空。然后重启：主机必须自行从 SD 卡的引导加载器启动。</string>
+    <string name="inst_sum_step2">第 2 步：新的分区表（eMMC 扇区 0-33 和 %1$d-%2$d）；从 SD 卡复制 BOOT、system 和 vendor；清空 metadata、misc、cache 和 userdata 的起始部分：\n%3$s然后 andr36oid 从 eMMC 启动一次，作为测试。</string>
+    <string name="inst_sum_step3">第 3 步：SD 卡的扇区 64-32767（其引导加载器）在再次警告后复制到 eMMC。</string>
+    <string name="inst_sum_risk">每次写入后都会回读并比对。如有任何不一致，安装程序将停止，不再写入。第 1 步和第 2 步各自都要在下一步之前通过一次重启来验证。第 3 步是唯一无法提前测试的写入。</string>
+
+    <string name="inst_backup_kept">原厂 eMMC 已备份。下一步是第 1 步：清空其引导加载器，然后重启。</string>
+    <string name="inst_step1_passed">第 1 步通过：主机已自行从 SD 卡的引导加载器启动。\n\n下一步是第 2 步：将 andr36oid 复制到 eMMC（几分钟），然后从那里启动一次。</string>
+    <string name="inst_step2_passed">第 2 步通过：andr36oid 已从 eMMC 启动。\n\n下一步是第 3 步：将引导加载器写入 eMMC。</string>
+
+    <string name="inst_restart_title">重启</string>
+    <string name="inst_restart_step1">eMMC 的引导加载器已清空。现在重启：主机必须自行从 SD 卡的引导加载器启动，此页面会再次打开。\n\n如果主机没有恢复：按住电源键 7 秒，然后重新开机。如果仍然无法启动，此主机需要原厂引导加载器。备份位于此 SD 卡的 %1$s 中。</string>
+    <string name="inst_restart_test">andr36oid 已在 eMMC 上。现在重启：它会从 eMMC 启动一次，作为测试。首次启动会进行设置，需要几分钟。当显示测试成功时，再次重启。\n\n如果卡住：按住电源键 7 秒，然后重新开机。之后它会像平时一样从 SD 卡启动，此页面会说明发生了什么。</string>
+    <string name="inst_restart_done">完成。取出 SD 卡并重启：andr36oid 现在从 eMMC 启动。\n\n插着 andr36oid SD 卡时，主机会像以前一样从卡启动。</string>
+    <string name="inst_restart_stock">原厂 eMMC 已恢复。取出 SD 卡并重启，即可使用原厂系统。</string>
+    <string name="inst_restart_now">立即重启</string>
+    <string name="inst_test_later">暂不测试</string>
+
+    <string name="inst_final_title">最后一次停止机会</string>
+    <string name="inst_final_text">此操作会将启动主机的引导加载器写入 eMMC。之前的所有步骤都已测试。此步骤没有测试：引导加载器必须从 eMMC 读取 U-Boot，原厂引导加载器表明这在此主板上可行，但这些确切的字节从未从 eMMC 运行过。\n\n如果失败，无论是否插着 SD 卡，主机都将无法再开机。</string>
+    <string name="inst_final_loader">引导加载器：%1$s</string>
+    <string name="inst_my_fault">如果出错，责任由我承担</string>
+    <string name="inst_hold">按住</string>
+    <string name="inst_hold_hint">按住 A 键 10 秒。松开将重新开始。</string>
+    <string name="inst_no_loader_code">安装程序没有第 1 步的引导加载器校验和。</string>
+    <string name="inst_done">andr36oid 已安装到 eMMC。没有 SD 卡时，主机从 eMMC 启动；插入 andr36oid SD 卡时，则从卡启动。</string>
+
+    <string name="inst_failed_title">已停止</string>
+    <string name="inst_failed_choice">此后未再写入任何内容。你的原厂 eMMC 已备份到 %1$s。\n\n要恢复原厂 eMMC，还是保持现状？</string>
+    <string name="inst_failed_nothing">eMMC 上没有写入任何内容。</string>
+    <string name="inst_cut_off">%1$s 在完成前被中断（断电了？）。</string>
+    <string name="inst_test_failed">测试中 andr36oid 未能从 eMMC 启动。</string>
+    <string name="inst_no_result">安装程序已停止，未说明结果。</string>
+    <string name="inst_cant_start">无法启动安装程序。</string>
+    <string name="inst_leave">保持现状</string>
+    <string name="inst_show_log">显示日志</string>
+    <string name="inst_restore">恢复原厂 eMMC</string>
+    <string name="inst_restore_text">andr36oid 写入 eMMC 的所有内容都将替换为 %1$s 中的备份。系统会先检查备份，然后再将 eMMC 与备份进行比对。这需要几分钟。</string>
+    <string name="inst_restore_go">恢复</string>
 </resources>

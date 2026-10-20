@@ -66,4 +66,94 @@
     <string name="result_no_space">Недостаточно места на %1$s.</string>
     <string name="result_read_error">Не удалось прочитать eMMC до конца. %2$s на %1$s содержит неполную копию.</string>
     <string name="result_failed">Не удалось начать резервное копирование.</string>
+
+    <!-- eMMC Installation (InstallActivity) -->
+    <string name="inst_title">Установка на eMMC</string>
+    <string name="inst_summary">Установите andr36oid во встроенную eMMC, чтобы консоль запускалась без SD-карты</string>
+    <string name="inst_not_sd">andr36oid устанавливается на eMMC, только если он запущен с SD-карты.</string>
+    <string name="inst_on_emmc">andr36oid запущен со встроенной eMMC. Чтобы изменить установку или вернуть заводскую систему, запустите консоль с SD-карты andr36oid.</string>
+    <string name="inst_test_worked">Тест прошёл успешно: andr36oid запустился с eMMC.\n\nПерезапустите консоль сейчас. Она снова запустится с SD-карты, и там установка завершится. Оставьте SD-карту вставленной.</string>
+    <string name="inst_close">Закрыть</string>
+    <string name="inst_cancel">Отмена</string>
+    <string name="inst_continue">Продолжить</string>
+    <string name="inst_later">Позже</string>
+    <string name="inst_start">Начать</string>
+    <string name="inst_working">Выполняется…</string>
+    <string name="inst_details">Подробности</string>
+    <string name="inst_elapsed">Работает уже %1$s. Не выключайте консоль.</string>
+    <string name="inst_left">осталось %1$s</string>
+
+    <string name="inst_step0">0 Резервная копия заводской eMMC</string>
+    <string name="inst_step1">1 Проверка загрузчика SD-карты</string>
+    <string name="inst_step2">2 Проверка andr36oid на eMMC</string>
+    <string name="inst_step3">3 Запись загрузчика на eMMC</string>
+    <string name="inst_st_running">выполняется</string>
+    <string name="inst_st_done">готово</string>
+    <string name="inst_st_failed">ошибка</string>
+    <string name="inst_st_restart">ожидание перезапуска</string>
+
+    <string name="inst_checking">Проверка консоли…</string>
+    <string name="inst_checks">Перед любой записью</string>
+    <string name="inst_inspect_failed">Установщик не смог проверить консоль.</string>
+    <string name="inst_check_again">Проверить снова</string>
+    <string name="inst_chk_sd">Запущено с SD-карты</string>
+    <string name="inst_chk_no_emmc">Встроенная eMMC не найдена. Включите её в Kernel Tweaks > Встроенная память eMMC и перезапустите консоль.</string>
+    <string name="inst_chk_emmc">Встроенная eMMC: %1$s, %2$s</string>
+    <string name="inst_chk_size">Достаточно большая для andr36oid (8 GB или больше)</string>
+    <string name="inst_chk_charger">Зарядное устройство подключено</string>
+    <string name="inst_chk_battery">Аккумулятор %1$d%% (нужно 60%% или зарядное устройство)</string>
+    <string name="inst_chk_no_target">Нет накопителя для резервной копии</string>
+    <string name="inst_chk_room">Резервная копия на %1$s: свободно %2$s, нужно %3$s</string>
+    <string name="inst_change_target">Сохранить резервную копию на другой накопитель</string>
+
+    <string name="inst_warn1_title">Заводская система будет удалена</string>
+    <string name="inst_warn1">Всё во встроенной eMMC будет заменено: система, с которой консоль поставлялась, её игры и настройки. Сначала создаётся полная копия, и её можно вернуть отсюда, но только с этой SD-картой и только пока консоль ещё запускается.</string>
+    <string name="inst_warn2_title">Это может вывести консоль из строя</string>
+    <string name="inst_warn2">Запись загрузчика, который запускает консоль, — самое опасное, что можно с ней сделать. Если что-то пойдёт не так, консоль может вообще не включиться, и ничто из того, что может andr36oid, не поможет.\n\nХуже всего консоли, у которых eMMC и память — один чип (eMCP): у них нет простого способа принудительно перевести их в режим восстановления. Вернуть их к жизни может потребовать вскрытия корпуса и пайки, а может быть и невозможно.</string>
+    <string name="inst_warn3_title">Вы действуете на свой страх и риск</string>
+    <string name="inst_warn3">Это экспериментальная функция. Никто не может гарантировать, что она заработает на вашей консоли, и никто не сможет её исправить, если не заработает.\n\nРазмеры разделов теперь фиксированы. Более новые версии andr36oid можно будет записать на eMMC, только если они в них поместятся.</string>
+    <string name="inst_understand">Понятно</string>
+
+    <string name="inst_layout_title">Как разделена eMMC</string>
+    <string name="inst_layout_text">system и vendor получают место для роста в будущих версиях, а ваши приложения и данные получают остальное.</string>
+    <string name="inst_summary_title">Каждая запись, по порядку</string>
+    <string name="inst_sum_backup">Резервная копия: вся eMMC (%1$s, сектора 0-%2$d) и её две загрузочные области читаются, читаются ещё раз для сравнения, копируются в %3$s и проверяются чтением. На eMMC ничего не записывается.</string>
+    <string name="inst_sum_step1">Шаг 1: сектора eMMC 64-32767 (заводской загрузчик, 16 MiB) очищаются. Затем вы перезапускаете консоль: она должна сама запуститься с загрузчика SD-карты.</string>
+    <string name="inst_sum_step2">Шаг 2: новая таблица разделов (сектора eMMC 0-33 и %1$d-%2$d); BOOT, system и vendor копируются с SD-карты; начало metadata, misc, cache и userdata очищается:\n%3$sЗатем andr36oid один раз запускается с eMMC в качестве теста.</string>
+    <string name="inst_sum_step3">Шаг 3: сектора 64-32767 SD-карты (её загрузчик) копируются на eMMC после ещё одного предупреждения.</string>
+    <string name="inst_sum_risk">Каждая запись проверяется чтением и сравнением. Если что-то не совпадает, установщик останавливается и больше ничего не записывает. Шаги 1 и 2 подтверждаются перезапуском каждый раз, прежде чем начнётся следующий. Шаг 3 — единственная запись, которую нельзя сначала проверить.</string>
+
+    <string name="inst_backup_kept">Резервная копия заводской eMMC создана. Далее шаг 1: её загрузчик очищается, затем вы перезапускаете консоль.</string>
+    <string name="inst_step1_passed">Шаг 1 пройден: консоль сама запустилась с загрузчика SD-карты.\n\nДалее шаг 2: andr36oid копируется на eMMC (несколько минут), затем один раз запускается с неё.</string>
+    <string name="inst_step2_passed">Шаг 2 пройден: andr36oid запустился с eMMC.\n\nДалее шаг 3: загрузчик записывается на eMMC.</string>
+
+    <string name="inst_restart_title">Перезапуск</string>
+    <string name="inst_restart_step1">Загрузчик eMMC очищен. Перезапустите консоль сейчас: она должна сама запуститься с загрузчика SD-карты, и эта страница откроется снова.\n\nЕсли консоль не вернулась: удерживайте кнопку питания 7 секунд и включите её снова. Если она всё равно не запускается, этой консоли нужен заводской загрузчик. Резервная копия находится в %1$s на этой SD-карте.</string>
+    <string name="inst_restart_test">andr36oid находится на eMMC. Перезапустите консоль сейчас: она один раз запустится с eMMC как тест. При первом запуске всё настраивается, это займёт несколько минут. Когда появится сообщение, что тест прошёл успешно, перезапустите консоль снова.\n\nЕсли она зависла: удерживайте кнопку питания 7 секунд и включите её снова. Тогда она запустится с SD-карты как обычно, а на этой странице будет написано, что произошло.</string>
+    <string name="inst_restart_done">Готово. Извлеките SD-карту и перезапустите консоль: andr36oid теперь запускается с eMMC.\n\nЕсли SD-карта andr36oid вставлена, консоль запускается с карты, как и раньше.</string>
+    <string name="inst_restart_stock">Заводская eMMC возвращена. Извлеките SD-карту и перезапустите консоль, чтобы использовать заводскую систему.</string>
+    <string name="inst_restart_now">Перезапустить сейчас</string>
+    <string name="inst_test_later">Не тестировать сейчас</string>
+
+    <string name="inst_final_title">Последний шанс остановиться</string>
+    <string name="inst_final_text">Сейчас на eMMC будет записан загрузчик, который запускает консоль. Всё, что было до этого, проверено. Это — нет: загрузчик должен читать U-Boot с eMMC. Заводской загрузчик показывает, что это работает на этой плате, но именно эти байты никогда не запускались с eMMC.\n\nЕсли что-то пойдёт не так, консоль больше не включится, с SD-картой или без неё.</string>
+    <string name="inst_final_loader">Загрузчик: %1$s</string>
+    <string name="inst_my_fault">Если что-то пойдёт не так, это моя вина</string>
+    <string name="inst_hold">Удерживать</string>
+    <string name="inst_hold_hint">Удерживайте A 10 секунд. Если отпустить, нужно начать заново.</string>
+    <string name="inst_no_loader_code">У установщика нет контрольной суммы загрузчика из шага 1.</string>
+    <string name="inst_done">andr36oid установлен на eMMC. Без SD-карты консоль запускается с eMMC; если вставлена SD-карта andr36oid, она запускается с карты.</string>
+
+    <string name="inst_failed_title">Остановлено</string>
+    <string name="inst_failed_choice">После этого ничего больше не записывалось. Заводская eMMC сохранена в резервной копии в %1$s.\n\nВернуть заводскую eMMC или оставить как есть?</string>
+    <string name="inst_failed_nothing">На eMMC ничего не записано.</string>
+    <string name="inst_cut_off">%1$s было прервано до завершения (пропало питание?).</string>
+    <string name="inst_test_failed">andr36oid не запустился с eMMC во время теста.</string>
+    <string name="inst_no_result">Установщик остановился, не сообщив, как всё прошло.</string>
+    <string name="inst_cant_start">Не удалось запустить установщик.</string>
+    <string name="inst_leave">Оставить как есть</string>
+    <string name="inst_show_log">Показать журнал</string>
+    <string name="inst_restore">Вернуть заводскую eMMC</string>
+    <string name="inst_restore_text">Всё, что andr36oid записал на eMMC, заменяется резервной копией в %1$s. Сначала проверяется копия, затем eMMC сравнивается с ней. Это займёт несколько минут.</string>
+    <string name="inst_restore_go">Вернуть</string>
 </resources>
