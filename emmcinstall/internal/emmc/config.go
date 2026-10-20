@@ -67,7 +67,7 @@ func DefaultConfig() *Config {
 		WakeUnlk:    "/sys/power/wake_unlock",
 		StateDir:    "/data/misc/andr36oid-emmcinstall",
 		Direct:      true,
-		MinEmmc:     7 << 30 / Sector,  // "8 GB" eMMCs have about 7.3 GiB
+		MinEmmc:     7 << 30 / Sector, // "8 GB" eMMCs have about 7.3 GiB
 		MinUserdata: 2 << 30 / Sector,
 		BigEmmc:     14 << 30 / Sector, // "16 GB" and up
 		BackupChunk: 1 << 30,           // fits FAT32 too

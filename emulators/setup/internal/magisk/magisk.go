@@ -41,12 +41,14 @@ type Paths struct {
 	Tried    string // marker: the app versionCode last tried
 }
 
-// Defaults are the console's paths.
+// Defaults are the console's paths. BOOT is the one of the disk Android started
+// from (androidboot.boot_devices): the SD card's, or the eMMC's for andr36oid
+// installed there.
 func Defaults() Paths {
 	return Paths{
 		Magisk:   "/debug_ramdisk/magisk",
 		Packages: "/data/system/packages.xml",
-		BootDev:  "/dev/block/platform/ff370000.dwmmc/by-name/BOOT",
+		BootDev:  "/dev/block/by-name/BOOT",
 		BootMnt:  "/mnt/andr36oid-magisk-boot",
 		Work:     "/data/local/tmp/andr36oid-magisk",
 		Tried:    "/data/misc/gameconsole/magisk-rebuild.tried",

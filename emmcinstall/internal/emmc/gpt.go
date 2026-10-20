@@ -13,9 +13,9 @@ import (
 // GPT with the usual 128 entries of 128 bytes: protective MBR in sector 0,
 // header in 1, entries in 2-33, and the same backwards at the end of the disk.
 const (
-	gptEntries    = 128
-	gptEntrySize  = 128
-	gptTableSecs  = gptEntries * gptEntrySize / Sector // 32
+	gptEntries     = 128
+	gptEntrySize   = 128
+	gptTableSecs   = gptEntries * gptEntrySize / Sector // 32
 	gptFirstUsable = 2 + gptTableSecs                   // 34
 )
 

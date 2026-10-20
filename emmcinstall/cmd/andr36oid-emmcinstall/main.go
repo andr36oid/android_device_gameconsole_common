@@ -84,7 +84,9 @@ func main() {
 		release = func() { cfg.Wake(false) }
 	}
 	if cmd == "confirm" {
+		// for the eMMC system's Settings: did the test start get confirmed?
 		progress = ""
+		resultFile, requestCmd = filepath.Join(cfg.StateDir, "confirm.json"), cmd
 	} else if err := os.MkdirAll(cfg.StateDir, 0770); err != nil {
 		fail(err)
 	}

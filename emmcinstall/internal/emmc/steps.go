@@ -63,6 +63,12 @@ func (c *Config) begin(p *Progress, cmd string) (*run, error) {
 	if st.Running != "" && st.Running != cmd && cmd != "restore" {
 		return nil, fmt.Errorf("%s was cut off: restore the stock system, or run %s again", st.Running, st.Running)
 	}
+	if st.Backup != nil && cmd != "backup" && cmd != "restore" {
+		// every step's events also go to the log next to the backup
+		if err := p.AddLog(filepath.Join(st.Backup.Dir, "install.log")); err != nil {
+			return nil, fmt.Errorf("the backup folder isn't there: %w", err)
+		}
+	}
 	p.Logf("eMMC %s, CID %s, %d MiB; battery %d%%, charger %v",
 		info.Name, info.CID, info.Sectors*Sector>>20, c.Battery().Capacity, c.Battery().Charger)
 	return &run{c: c, p: p, st: st, info: info}, nil
