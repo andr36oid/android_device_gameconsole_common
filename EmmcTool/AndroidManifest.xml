@@ -12,7 +12,7 @@
         android:supportsRtl="true">
 
         <!-- Injected into Settings > System (under Advanced). Off until BootReceiver finds
-             the eMMC in the device tree, so consoles without one never show it. -->
+             the eMMC switched on by Kernel Tweaks for this start. -->
         <activity
             android:name=".EmmcActivity"
             android:enabled="false"

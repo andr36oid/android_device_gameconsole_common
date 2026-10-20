@@ -64,7 +64,7 @@ public class EmmcFragment extends PreferenceFragment {
     }
 
     /** Kernel Tweaks switched it on for this start. */
-    private static boolean switchedOn() {
+    static boolean switchedOn() {
         final String v = Helper.read(new File(PARAM));
         return v != null && (v.startsWith("Y") || v.startsWith("1"));
     }
