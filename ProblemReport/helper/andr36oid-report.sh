@@ -33,6 +33,8 @@ WORK=$DIR/$NAME
 MODE=${1:-app}
 BOOT_MNT=${REPORT_BOOT_MNT:-/mnt/andr36oid-report-boot}
 BOOT_DEVS=${REPORT_BOOT_DEVS:-"/dev/block/by-name/BOOT /dev/block/platform/ff370000.dwmmc/by-name/BOOT /dev/block/mmcblk0p1"}
+# BOOT of andr36oid installed on the built-in eMMC, looked at from an SD start
+EMMC_BOOT_DEV=${REPORT_EMMC_BOOT_DEV:-/dev/block/platform/ff390000.dwmmc/by-name/BOOT}
 # a folder that stands in for BOOT in the test (nothing is mounted then)
 BOOT_TEST=${REPORT_TEST_BOOT:-}
 # BOOT keeps this much free after the report (kernel and DTB updates need room)
@@ -465,6 +467,8 @@ apps.txt      installed apps and versions, open screens, memory use, Magisk
 roms.txt      how many files are in each ROM folder on EASYROMS
 start-log-*   the logs of a start that didn't finish, if one was saved
               while BOOT couldn't be written
+emmc-boot/    andr36oid installed on the built-in eMMC: the start logs and
+              newest report its own starts saved on the eMMC's BOOT
 
 What is left out or blanked
 ---------------------------
@@ -509,6 +513,32 @@ crashes.txt   the list of crash reports (tombstones, ANRs) and the newest
 Wi-Fi names and keys, e-mail addresses, serial numbers and the names of your
 games and files are taken out, like in the problem report.
 EOT
+}
+
+# emmc_boot_logs <folder> ; from an SD start: the start logs and the newest report
+# that andr36oid installed on the built-in eMMC saved on its own BOOT (its starts
+# can't reach the SD card's). Read-only, the eMMC is read-only on SD starts anyway.
+emmc_boot_logs() {
+	local m=$DIR/emmc-boot-mnt f
+	[ -e "$EMMC_BOOT_DEV" ] || return 0
+	# started from the eMMC: that BOOT is this start's own
+	[ "$(readlink -f "$EMMC_BOOT_DEV")" = "$(readlink -f /dev/block/by-name/BOOT 2>/dev/null)" ] && return 0
+	mkdir -p "$m" || return 0
+	if ! mount -t vfat -o ro,noatime "$EMMC_BOOT_DEV" "$m" 2>/dev/null; then
+		rmdir "$m"
+		return 0
+	fi
+	mkdir -p "$1/emmc-boot"
+	# shellcheck disable=SC2012 # names carry the date, sorted by name
+	for f in $(ls "$m"/andr36oid-reports/start-log-* 2>/dev/null | sort | tail -n 2) \
+		$(ls "$m"/andr36oid-reports/report-*.zip 2>/dev/null | sort | tail -n 1) \
+		"$m"/andr36oid-start-log.txt "$m"/make-report-result.txt "$m"/kernel-tweaks.txt; do
+		[ -f "$f" ] && cp "$f" "$1/emmc-boot/"
+	done
+	ls -la "$m" "$m"/andr36oid-reports >"$1/emmc-boot/files.txt" 2>&1
+	umount "$m"
+	rmdir "$m"
+	log "built-in eMMC BOOT: $(ls "$1/emmc-boot" | wc -l) files"
 }
 
 # startlog_collect <minutes> <first start: yes|no> ; the logs of this start into
@@ -1003,6 +1033,7 @@ readme >"$WORK/README.txt"
 # shellcheck disable=SC2012 # names are start-log-<date>, sorted by name
 f=$(ls "$START_KEPT"/start-log-* 2>/dev/null | sort | tail -n 1)
 [ -n "$f" ] && cp "$f" "$WORK/"
+emmc_boot_logs "$WORK"
 
 if command -v zip >/dev/null 2>&1; then
 	FILE=$NAME.zip
