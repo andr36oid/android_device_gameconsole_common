@@ -807,6 +807,12 @@ PRODUCT_PACKAGES += \
 	CardCheck \
 	andr36oid-cardcheck
 
+# Built-in eMMC (Settings > System): the chip's details and backups of it, on consoles whose
+# eMMC Kernel Tweaks can switch on
+PRODUCT_PACKAGES += \
+	EmmcTool \
+	andr36oid-emmc
+
 # Free up space (Settings > Storage): old save states, backups, caches, screenshots,
 # APKs and duplicate ROMs; low space and EASYROMS error notifications
 PRODUCT_PACKAGES += \

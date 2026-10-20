@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="emmc_title">内置 eMMC</string>
+    <string name="emmc_summary">主机内置存储芯片：详细信息和备份</string>
+
+    <string name="state_no_emmc">此主机没有 andr36oid 能开启的内置 eMMC。</string>
+    <string name="state_open_tweaks">打开 Kernel Tweaks</string>
+    <string name="state_off">内置 eMMC 已关闭。请开启 Kernel Tweaks > 内置 eMMC 存储，然后重启主机。</string>
+    <string name="state_reading">正在读取 eMMC…</string>
+    <string name="state_failed">无法读取 eMMC 的信息。</string>
+    <string name="state_missing">已开启，但没有 eMMC 响应。此主机可能没有 eMMC，或者内核因其引脚被其他功能占用而将其关闭。问题报告中有详细信息。</string>
+
+    <string name="chip_category">芯片</string>
+    <string name="model_title">型号</string>
+    <string name="model_maker">%1$s，%2$s 制造</string>
+    <string name="size_title">容量</string>
+    <string name="size_version">%1$s，eMMC %2$s</string>
+    <string name="made_title">生产</string>
+    <string name="made_firmware">%1$s，固件 %2$s</string>
+    <string name="unknown">未知</string>
+    <string name="wear_title">磨损</string>
+    <string name="wear_used">已用掉额定寿命的 %1$d–%2$d%%</string>
+    <string name="wear_worn_out">已磨损：超过额定寿命</string>
+    <string name="wear_unknown">芯片未报告此项</string>
+    <string name="wear_spare_low">备用块即将用完</string>
+    <string name="wear_spare_urgent">备用块几乎用完：请尽快备份</string>
+
+    <string name="speed_category">读取速度</string>
+    <string name="speed_title">测试读取速度</string>
+    <string name="speed_summary">约需 16 秒，仅读取数据</string>
+    <string name="speed_running">正在测试…</string>
+    <string name="speed_result">大文件：%1$s/秒\n小文件：%2$d 次读取/秒（%3$s/秒）</string>
+    <string name="speed_failed">速度测试无法读取 eMMC。</string>
+
+    <string name="backup_category">备份</string>
+    <string name="backup_hint">将 eMMC 或其中一部分复制为镜像文件，保存到所选存储中的 \"eMMC backup\" 文件夹。eMMC 仅被读取，其上的系统保持不变。</string>
+    <string name="dest_title">保存到</string>
+    <string name="dest_free">%1$s（剩余 %2$s）</string>
+    <string name="internal_storage">内部存储</string>
+    <string name="whole_title">整个 eMMC</string>
+    <string name="whole_summary">%1$s：所有分区、分区表和启动区，可原样恢复</string>
+    <string name="part_title">分区 %1$d</string>
+    <string name="part_title_name">分区 %1$d：%2$s</string>
+    <string name="part_summary_type">%1$s，%2$s</string>
+    <string name="part_summary_label">%1$s，%2$s \"%3$s\"</string>
+    <string name="boot_title">启动区 %1$d</string>
+    <string name="boot_summary">%1$s，与分区分开保存</string>
+
+    <string name="confirm_title">备份 %1$s？</string>
+    <string name="confirm_text">%1$s 将保存到 %2$s 上的 \"eMMC backup\" 文件夹。完成前主机将保持唤醒。</string>
+    <string name="confirm_split">该存储使用 FAT32，最大只支持 4 GB 的文件，因此镜像会分成编号的分段（.001、.002…）。使用镜像前请在电脑上合并。</string>
+    <string name="confirm_ok">备份</string>
+    <string name="no_space_title">空间不足</string>
+    <string name="no_space_text">%1$s 需要 %2$s 可用空间，目前只有 %3$s。</string>
+
+    <string name="progress_title">正在备份…</string>
+    <string name="progress_starting">正在开始。点按可停止。</string>
+    <string name="progress_summary">%1$s / %2$s，剩余 %3$s。点按可停止。</string>
+    <string name="stop_title">停止备份？</string>
+    <string name="stop_text">已复制的内容会保留在文件夹中，但它不是完整的镜像。</string>
+    <string name="stop_ok">停止</string>
+
+    <string name="result_title">上次备份</string>
+    <string name="result_done">已于 %1$s 保存到 %2$s</string>
+    <string name="result_stopped">已停止。%2$s 位于 %1$s，是不完整的副本。</string>
+    <string name="result_no_space">%1$s 上的空间不足。</string>
+    <string name="result_read_error">无法将 eMMC 读取到末尾。%2$s 位于 %1$s，是不完整的副本。</string>
+    <string name="result_failed">无法开始备份。</string>
+</resources>

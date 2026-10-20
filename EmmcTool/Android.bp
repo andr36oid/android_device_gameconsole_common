@@ -1,0 +1,26 @@
+// Settings > System > Built-in eMMC: the chip's details and wear, its read speed, and
+// backups of all of it or single partitions to image files. Runs as the system user like
+// the other console apps; the reading is done by the andr36oid-emmc init service
+// (Android.mk), which needs root for the eMMC.
+android_app {
+    name: "EmmcTool",
+    srcs: ["src/**/*.java"],
+    resource_dirs: ["res"],
+    certificate: "platform",
+    platform_apis: true,
+    optimize: {
+        enabled: false,
+    },
+}
+
+// The read speed test: 1 MB and random 4 KB reads with O_DIRECT, read-only. Run by the
+// helper as root; pulled in by andr36oid-emmc in Android.mk.
+cc_binary {
+    name: "andr36oid-emmcspeed",
+    srcs: ["speed/emmcspeed.c"],
+    cflags: [
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+    ],
+}

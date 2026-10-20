@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="emmc_title">Wbudowany eMMC</string>
+    <string name="emmc_summary">Wbudowany chip pamięci konsoli: szczegóły i kopie zapasowe</string>
+
+    <string name="state_no_emmc">Ta konsola nie ma wbudowanego eMMC, który andr36oid może włączyć.</string>
+    <string name="state_open_tweaks">Otwórz Kernel Tweaks</string>
+    <string name="state_off">Wbudowany eMMC jest wyłączony. Włącz Kernel Tweaks > Wbudowana pamięć eMMC, a potem uruchom konsolę ponownie.</string>
+    <string name="state_reading">Odczytywanie eMMC…</string>
+    <string name="state_failed">Nie udało się odczytać danych eMMC.</string>
+    <string name="state_missing">Włączono, ale żaden eMMC nie odpowiedział. Ta konsola może go nie mieć, albo jądro zostawiło go wyłączonego, bo jego piny używa coś innego. Raport o problemie zawiera szczegóły.</string>
+
+    <string name="chip_category">Układ</string>
+    <string name="model_title">Model</string>
+    <string name="model_maker">%1$s, producent: %2$s</string>
+    <string name="size_title">Rozmiar</string>
+    <string name="size_version">%1$s, eMMC %2$s</string>
+    <string name="made_title">Wyprodukowano</string>
+    <string name="made_firmware">%1$s, firmware %2$s</string>
+    <string name="unknown">Nieznany</string>
+    <string name="wear_title">Zużycie</string>
+    <string name="wear_used">Zużyto %1$d–%2$d%% znamionowej żywotności</string>
+    <string name="wear_worn_out">Zużyty: przekroczono znamionową żywotność</string>
+    <string name="wear_unknown">Układ tego nie podaje</string>
+    <string name="wear_spare_low">Bloki zapasowe się kończą</string>
+    <string name="wear_spare_urgent">Bloki zapasowe prawie wyczerpane: zrób szybko kopię zapasową</string>
+
+    <string name="speed_category">Szybkość odczytu</string>
+    <string name="speed_title">Testuj szybkość odczytu</string>
+    <string name="speed_summary">Trwa około 16 sekund i tylko odczytuje</string>
+    <string name="speed_running">Testowanie…</string>
+    <string name="speed_result">Duże pliki: %1$s/s\nMałe pliki: %2$d odczytów/s (%3$s/s)</string>
+    <string name="speed_failed">Test szybkości nie mógł odczytać eMMC.</string>
+
+    <string name="backup_category">Kopia zapasowa</string>
+    <string name="backup_hint">Kopiuje eMMC lub jego część do plików obrazu w folderze \"eMMC backup\" na wybranym nośniku. eMMC jest tylko odczytywany: system na nim pozostaje bez zmian.</string>
+    <string name="dest_title">Zapisz w</string>
+    <string name="dest_free">%1$s (wolne: %2$s)</string>
+    <string name="internal_storage">Pamięć wewnętrzna</string>
+    <string name="whole_title">Cały eMMC</string>
+    <string name="whole_summary">%1$s: wszystkie partycje, tablica partycji i obszary rozruchowe, żeby przywrócić wszystko dokładnie tak, jak jest</string>
+    <string name="part_title">Partycja %1$d</string>
+    <string name="part_title_name">Partycja %1$d: %2$s</string>
+    <string name="part_summary_type">%1$s, %2$s</string>
+    <string name="part_summary_label">%1$s, %2$s \"%3$s\"</string>
+    <string name="boot_title">Obszar rozruchowy %1$d</string>
+    <string name="boot_summary">%1$s, trzymany osobno od partycji</string>
+
+    <string name="confirm_title">Wykonać kopię: %1$s?</string>
+    <string name="confirm_text">%1$s trafi do folderu \"eMMC backup\" na %2$s. Konsola pozostanie włączona do końca.</string>
+    <string name="confirm_split">Ten nośnik używa FAT32, który obsługuje pliki do 4 GB, więc obraz zostanie podzielony na numerowane części (.001, .002…). Przed użyciem obrazu połącz je na komputerze.</string>
+    <string name="confirm_ok">Wykonaj kopię</string>
+    <string name="no_space_title">Za mało miejsca</string>
+    <string name="no_space_text">%1$s potrzebuje %2$s wolnego miejsca, a jest %3$s.</string>
+
+    <string name="progress_title">Tworzenie kopii…</string>
+    <string name="progress_starting">Uruchamianie. Dotknij, aby zatrzymać.</string>
+    <string name="progress_summary">%1$s z %2$s, pozostało %3$s. Dotknij, aby zatrzymać.</string>
+    <string name="stop_title">Zatrzymać kopiowanie?</string>
+    <string name="stop_text">To, co zostało już skopiowane, zostanie w folderze, ale nie jest pełnym obrazem.</string>
+    <string name="stop_ok">Zatrzymaj</string>
+
+    <string name="result_title">Ostatnia kopia</string>
+    <string name="result_done">Zapisano %1$s w %2$s</string>
+    <string name="result_stopped">Zatrzymano. %2$s na %1$s zawiera niepełną kopię.</string>
+    <string name="result_no_space">Za mało miejsca na %1$s.</string>
+    <string name="result_read_error">Nie udało się odczytać eMMC do końca. %2$s na %1$s zawiera niepełną kopię.</string>
+    <string name="result_failed">Kopii nie udało się rozpocząć.</string>
+</resources>

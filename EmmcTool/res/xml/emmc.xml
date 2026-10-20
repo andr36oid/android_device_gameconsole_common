@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Switched off, no eMMC, or still reading it -->
+    <Preference
+        android:key="state"
+        android:selectable="false" />
+
+    <PreferenceCategory
+        android:key="chip_category"
+        android:title="@string/chip_category">
+
+        <Preference
+            android:key="model"
+            android:selectable="false"
+            android:title="@string/model_title" />
+
+        <Preference
+            android:key="size"
+            android:selectable="false"
+            android:title="@string/size_title" />
+
+        <Preference
+            android:key="made"
+            android:selectable="false"
+            android:title="@string/made_title" />
+
+        <Preference
+            android:key="wear"
+            android:selectable="false"
+            android:title="@string/wear_title" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="speed_category"
+        android:title="@string/speed_category">
+
+        <Preference
+            android:key="speed"
+            android:title="@string/speed_title" />
+    </PreferenceCategory>
+
+    <!-- The rows to back up (whole eMMC, partitions, boot areas) are added after these -->
+    <PreferenceCategory
+        android:key="backup_category"
+        android:title="@string/backup_category">
+
+        <Preference
+            android:key="backup_hint"
+            android:selectable="false"
+            android:summary="@string/backup_hint" />
+
+        <ListPreference
+            android:key="dest"
+            android:title="@string/dest_title"
+            android:persistent="false" />
+
+        <Preference
+            android:key="progress"
+            android:title="@string/progress_title" />
+
+        <Preference
+            android:key="result"
+            android:selectable="false"
+            android:title="@string/result_title" />
+    </PreferenceCategory>
+</PreferenceScreen>

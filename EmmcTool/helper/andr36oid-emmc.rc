@@ -1,0 +1,9 @@
+on post-fs-data
+    mkdir /data/misc/andr36oid-emmc 0770 system system
+
+# Started by Settings > System > Built-in eMMC with ctl.start, see andr36oid-emmc.sh
+service andr36oid-emmc /system/bin/sh /system/etc/andr36oid-emmc.sh
+    user root
+    group root system media_rw
+    disabled
+    oneshot

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="emmc_title">eMMC integrada</string>
+    <string name="emmc_summary">O chip de armazenamento interno do console: detalhes e backups</string>
+
+    <string name="state_no_emmc">Este console não tem uma eMMC integrada que o andr36oid consiga ativar.</string>
+    <string name="state_open_tweaks">Abrir Kernel Tweaks</string>
+    <string name="state_off">A eMMC integrada está desativada. Ative Kernel Tweaks > Armazenamento eMMC integrado e depois reinicie o console.</string>
+    <string name="state_reading">Lendo a eMMC…</string>
+    <string name="state_failed">Não foi possível ler os detalhes da eMMC.</string>
+    <string name="state_missing">Ativada, mas nenhuma eMMC respondeu. Este console pode não ter uma, ou o kernel a deixou desligada porque outra coisa usa os pinos dela. Um relatório de problema tem os detalhes.</string>
+
+    <string name="chip_category">Chip</string>
+    <string name="model_title">Modelo</string>
+    <string name="model_maker">%1$s por %2$s</string>
+    <string name="size_title">Tamanho</string>
+    <string name="size_version">%1$s, eMMC %2$s</string>
+    <string name="made_title">Fabricação</string>
+    <string name="made_firmware">%1$s, firmware %2$s</string>
+    <string name="unknown">Desconhecido</string>
+    <string name="wear_title">Desgaste</string>
+    <string name="wear_used">%1$d–%2$d%% da vida útil nominal usada</string>
+    <string name="wear_worn_out">Gasta: passou da vida útil nominal</string>
+    <string name="wear_unknown">O chip não informa isso</string>
+    <string name="wear_spare_low">Blocos reserva acabando</string>
+    <string name="wear_spare_urgent">Blocos reserva quase no fim: faça um backup logo</string>
+
+    <string name="speed_category">Velocidade de leitura</string>
+    <string name="speed_title">Testar a velocidade de leitura</string>
+    <string name="speed_summary">Leva cerca de 16 segundos e só lê</string>
+    <string name="speed_running">Testando…</string>
+    <string name="speed_result">Arquivos grandes: %1$s/s\nArquivos pequenos: %2$d leituras/s (%3$s/s)</string>
+    <string name="speed_failed">O teste de velocidade não conseguiu ler a eMMC.</string>
+
+    <string name="backup_category">Backup</string>
+    <string name="backup_hint">Copia a eMMC, ou uma parte dela, para arquivos de imagem na pasta \"eMMC backup\" do armazenamento escolhido. A eMMC só é lida: o sistema nela continua como está.</string>
+    <string name="dest_title">Salvar em</string>
+    <string name="dest_free">%1$s (%2$s livres)</string>
+    <string name="internal_storage">Armazenamento interno</string>
+    <string name="whole_title">eMMC inteira</string>
+    <string name="whole_summary">%1$s: todas as partições, a tabela de partições e as áreas de boot, para restaurar tudo exatamente como está</string>
+    <string name="part_title">Partição %1$d</string>
+    <string name="part_title_name">Partição %1$d: %2$s</string>
+    <string name="part_summary_type">%1$s, %2$s</string>
+    <string name="part_summary_label">%1$s, %2$s \"%3$s\"</string>
+    <string name="boot_title">Área de boot %1$d</string>
+    <string name="boot_summary">%1$s, separada das partições</string>
+
+    <string name="confirm_title">Fazer backup de %1$s?</string>
+    <string name="confirm_text">O backup de %1$s vai para a pasta \"eMMC backup\" em %2$s. O console fica ligado até terminar.</string>
+    <string name="confirm_split">Esse armazenamento usa FAT32, que aceita arquivos de até 4 GB, então a imagem é dividida em partes numeradas (.001, .002…). Junte as partes em um computador antes de usar a imagem.</string>
+    <string name="confirm_ok">Fazer backup</string>
+    <string name="no_space_title">Espaço insuficiente</string>
+    <string name="no_space_text">%1$s precisa de %2$s livres para isso, mas tem %3$s.</string>
+
+    <string name="progress_title">Fazendo backup…</string>
+    <string name="progress_starting">Iniciando. Toque para parar.</string>
+    <string name="progress_summary">%1$s de %2$s, faltam %3$s. Toque para parar.</string>
+    <string name="stop_title">Parar o backup?</string>
+    <string name="stop_text">O que já foi copiado fica na pasta, mas não é uma imagem completa.</string>
+    <string name="stop_ok">Parar</string>
+
+    <string name="result_title">Último backup</string>
+    <string name="result_done">Salvo em %1$s, em %2$s</string>
+    <string name="result_stopped">Parado. %2$s em %1$s tem uma cópia incompleta.</string>
+    <string name="result_no_space">Espaço insuficiente em %1$s.</string>
+    <string name="result_read_error">Não foi possível ler a eMMC até o fim. %2$s em %1$s tem uma cópia incompleta.</string>
+    <string name="result_failed">Não foi possível iniciar o backup.</string>
+</resources>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="emmc_title">eMMC bawaan</string>
+    <string name="emmc_summary">Chip penyimpanan bawaan konsol: detail dan cadangan</string>
+
+    <string name="state_no_emmc">Konsol ini tidak punya eMMC bawaan yang bisa dinyalakan andr36oid.</string>
+    <string name="state_open_tweaks">Buka Kernel Tweaks</string>
+    <string name="state_off">eMMC bawaan dimatikan. Nyalakan Kernel Tweaks > Penyimpanan eMMC bawaan, lalu mulai ulang konsol.</string>
+    <string name="state_reading">Membaca eMMC…</string>
+    <string name="state_failed">Detail eMMC tidak dapat dibaca.</string>
+    <string name="state_missing">Sudah dinyalakan, tetapi tidak ada eMMC yang merespons. Konsol ini mungkin tidak punya, atau kernel membiarkannya mati karena ada yang lain memakai pin-nya. Laporan masalah berisi detailnya.</string>
+
+    <string name="chip_category">Chip</string>
+    <string name="model_title">Model</string>
+    <string name="model_maker">%1$s oleh %2$s</string>
+    <string name="size_title">Ukuran</string>
+    <string name="size_version">%1$s, eMMC %2$s</string>
+    <string name="made_title">Dibuat</string>
+    <string name="made_firmware">%1$s, firmware %2$s</string>
+    <string name="unknown">Tidak diketahui</string>
+    <string name="wear_title">Keausan</string>
+    <string name="wear_used">%1$d–%2$d%% dari masa pakai yang tertera sudah terpakai</string>
+    <string name="wear_worn_out">Aus: melewati masa pakai yang tertera</string>
+    <string name="wear_unknown">Chip tidak melaporkannya</string>
+    <string name="wear_spare_low">Blok cadangan hampir habis</string>
+    <string name="wear_spare_urgent">Blok cadangan hampir habis: segera cadangkan</string>
+
+    <string name="speed_category">Kecepatan baca</string>
+    <string name="speed_title">Uji kecepatan baca</string>
+    <string name="speed_summary">Butuh sekitar 16 detik dan hanya membaca</string>
+    <string name="speed_running">Menguji…</string>
+    <string name="speed_result">File besar: %1$s/s\nFile kecil: %2$d pembacaan/s (%3$s/s)</string>
+    <string name="speed_failed">Uji kecepatan tidak dapat membaca eMMC.</string>
+
+    <string name="backup_category">Cadangan</string>
+    <string name="backup_hint">Menyalin eMMC, atau sebagiannya, ke file image di folder \"eMMC backup\" pada penyimpanan yang kamu pilih. eMMC hanya dibaca: sistem di dalamnya tetap seperti semula.</string>
+    <string name="dest_title">Simpan ke</string>
+    <string name="dest_free">%1$s (%2$s kosong)</string>
+    <string name="internal_storage">Penyimpanan internal</string>
+    <string name="whole_title">Seluruh eMMC</string>
+    <string name="whole_summary">%1$s: semua partisi, tabel partisi, dan area boot, agar bisa dikembalikan persis seperti semula</string>
+    <string name="part_title">Partisi %1$d</string>
+    <string name="part_title_name">Partisi %1$d: %2$s</string>
+    <string name="part_summary_type">%1$s, %2$s</string>
+    <string name="part_summary_label">%1$s, %2$s \"%3$s\"</string>
+    <string name="boot_title">Area boot %1$d</string>
+    <string name="boot_summary">%1$s, dipisahkan dari partisi</string>
+
+    <string name="confirm_title">Cadangkan %1$s?</string>
+    <string name="confirm_text">Cadangan %1$s disimpan di folder \"eMMC backup\" pada %2$s. Konsol tetap aktif sampai selesai.</string>
+    <string name="confirm_split">Penyimpanan itu memakai FAT32, yang hanya mendukung file hingga 4 GB, jadi image dibagi menjadi beberapa bagian bernomor (.001, .002…). Gabungkan di komputer sebelum memakai image.</string>
+    <string name="confirm_ok">Cadangkan</string>
+    <string name="no_space_title">Ruang tidak cukup</string>
+    <string name="no_space_text">%1$s butuh %2$s kosong untuk ini, sedangkan yang tersedia %3$s.</string>
+
+    <string name="progress_title">Mencadangkan…</string>
+    <string name="progress_starting">Memulai. Ketuk untuk berhenti.</string>
+    <string name="progress_summary">%1$s dari %2$s, sisa %3$s. Ketuk untuk berhenti.</string>
+    <string name="stop_title">Hentikan pencadangan?</string>
+    <string name="stop_text">Yang sudah disalin tetap ada di folder, tetapi bukan image yang lengkap.</string>
+    <string name="stop_ok">Hentikan</string>
+
+    <string name="result_title">Cadangan terakhir</string>
+    <string name="result_done">Disimpan pada %1$s di %2$s</string>
+    <string name="result_stopped">Dihentikan. %2$s di %1$s berisi salinan yang belum lengkap.</string>
+    <string name="result_no_space">Ruang tidak cukup di %1$s.</string>
+    <string name="result_read_error">eMMC tidak bisa dibaca sampai habis. %2$s di %1$s berisi salinan yang belum lengkap.</string>
+    <string name="result_failed">Pencadangan tidak bisa dimulai.</string>
+</resources>

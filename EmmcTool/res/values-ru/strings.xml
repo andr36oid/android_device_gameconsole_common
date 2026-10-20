@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="emmc_title">Встроенная eMMC</string>
+    <string name="emmc_summary">Встроенный накопитель консоли: сведения и резервные копии</string>
+
+    <string name="state_no_emmc">В этой консоли нет встроенной eMMC, которую andr36oid может включить.</string>
+    <string name="state_open_tweaks">Открыть Kernel Tweaks</string>
+    <string name="state_off">Встроенная eMMC выключена. Включите Kernel Tweaks > Встроенная память eMMC, затем перезапустите консоль.</string>
+    <string name="state_reading">Чтение eMMC…</string>
+    <string name="state_failed">Не удалось прочитать данные eMMC.</string>
+    <string name="state_missing">Включено, но eMMC не отвечает. Возможно, в этой консоли её нет, или ядро оставило её выключенной, потому что её контакты заняты другим. Подробности есть в отчёте о проблеме.</string>
+
+    <string name="chip_category">Микросхема</string>
+    <string name="model_title">Модель</string>
+    <string name="model_maker">%1$s от %2$s</string>
+    <string name="size_title">Размер</string>
+    <string name="size_version">%1$s, eMMC %2$s</string>
+    <string name="made_title">Выпуск</string>
+    <string name="made_firmware">%1$s, прошивка %2$s</string>
+    <string name="unknown">Неизвестно</string>
+    <string name="wear_title">Износ</string>
+    <string name="wear_used">Использовано %1$d–%2$d%% от номинального ресурса</string>
+    <string name="wear_worn_out">Изношена: превышен номинальный ресурс</string>
+    <string name="wear_unknown">Микросхема этого не сообщает</string>
+    <string name="wear_spare_low">Резервные блоки заканчиваются</string>
+    <string name="wear_spare_urgent">Резервные блоки почти кончились: скоро сделайте копию</string>
+
+    <string name="speed_category">Скорость чтения</string>
+    <string name="speed_title">Проверить скорость чтения</string>
+    <string name="speed_summary">Занимает около 16 секунд и только читает</string>
+    <string name="speed_running">Проверка…</string>
+    <string name="speed_result">Большие файлы: %1$s/с\nМаленькие файлы: %2$d чтений/с (%3$s/с)</string>
+    <string name="speed_failed">Тест скорости не смог прочитать eMMC.</string>
+
+    <string name="backup_category">Резервное копирование</string>
+    <string name="backup_hint">Копирует eMMC или её часть в файлы образов в папке \"eMMC backup\" на выбранном накопителе. eMMC только читается: система на ней остаётся без изменений.</string>
+    <string name="dest_title">Сохранить в</string>
+    <string name="dest_free">%1$s (свободно: %2$s)</string>
+    <string name="internal_storage">Внутренняя память</string>
+    <string name="whole_title">Вся eMMC</string>
+    <string name="whole_summary">%1$s: все разделы, таблица разделов и загрузочные области, чтобы восстановить всё точно как было</string>
+    <string name="part_title">Раздел %1$d</string>
+    <string name="part_title_name">Раздел %1$d: %2$s</string>
+    <string name="part_summary_type">%1$s, %2$s</string>
+    <string name="part_summary_label">%1$s, %2$s \"%3$s\"</string>
+    <string name="boot_title">Загрузочная область %1$d</string>
+    <string name="boot_summary">%1$s, хранится отдельно от разделов</string>
+
+    <string name="confirm_title">Создать резервную копию: %1$s?</string>
+    <string name="confirm_text">%1$s сохранится в папку \"eMMC backup\" на %2$s. Консоль не уснёт, пока копирование не закончится.</string>
+    <string name="confirm_split">На этом накопителе файлы FAT32 не могут быть больше 4 ГБ, поэтому образ разбит на пронумерованные части (.001, .002…). Перед использованием образа соедините их на компьютере.</string>
+    <string name="confirm_ok">Создать копию</string>
+    <string name="no_space_title">Недостаточно места</string>
+    <string name="no_space_text">%1$s требует %2$s свободного места, доступно %3$s.</string>
+
+    <string name="progress_title">Идёт резервное копирование…</string>
+    <string name="progress_starting">Запуск. Нажмите, чтобы остановить.</string>
+    <string name="progress_summary">%1$s из %2$s, осталось %3$s. Нажмите, чтобы остановить.</string>
+    <string name="stop_title">Остановить копирование?</string>
+    <string name="stop_text">Уже скопированное останется в папке, но это не полный образ.</string>
+    <string name="stop_ok">Остановить</string>
+
+    <string name="result_title">Последняя копия</string>
+    <string name="result_done">Сохранено %1$s в %2$s</string>
+    <string name="result_stopped">Остановлено. %2$s на %1$s содержит неполную копию.</string>
+    <string name="result_no_space">Недостаточно места на %1$s.</string>
+    <string name="result_read_error">Не удалось прочитать eMMC до конца. %2$s на %1$s содержит неполную копию.</string>
+    <string name="result_failed">Не удалось начать резервное копирование.</string>
+</resources>
