@@ -298,6 +298,7 @@ setup
 run boot
 check "eMMC not offered without the DT mark" "" "$(prop sys.andr36oid.ktd.builtin_emmc)"
 check "eMMC speed not offered without the DT mark" "" "$(prop sys.andr36oid.ktd.emmc_speed)"
+check "eMMC power not offered without the DT mark" "" "$(prop sys.andr36oid.ktd.emmc_power)"
 setp persist.andr36oid.kt.builtin_emmc on
 run apply
 check "eMMC not written without the DT mark" no "$([ -e "$T/boot/kernel-tweaks.txt" ] && echo yes || echo no)"
@@ -321,6 +322,12 @@ run apply
 check "eMMC speed written" "dw_mmc_rockchip.builtin_emmc=1 dw_mmc_rockchip.emmc_speed=hs200" \
 	"$(sed -n 's/^kt_args=//p' "$T/boot/kernel-tweaks.txt")"
 setp persist.andr36oid.kt.emmc_speed ddr52
+check "eMMC power default" off "$(prop sys.andr36oid.ktd.emmc_power)"
+setp persist.andr36oid.kt.emmc_power on
+run apply
+check "eMMC power written" "dw_mmc_rockchip.builtin_emmc=1 dw_mmc_rockchip.emmc_power=1" \
+	"$(sed -n 's/^kt_args=//p' "$T/boot/kernel-tweaks.txt")"
+setp persist.andr36oid.kt.emmc_power off
 run apply
 # boot.ini puts the boot log options (or just a space) after kernel-tweaks.txt's
 echo "$(cat "$R"/proc/cmdline) loglevel=7 " >"$R"/proc/cmdline

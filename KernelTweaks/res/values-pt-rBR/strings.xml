@@ -292,6 +292,9 @@
     <string name="kt_emmc_speed_hs">Velocidade alta</string>
     <string name="kt_emmc_speed_ddr52">DDR52</string>
     <string name="kt_emmc_speed_hs200">HS200</string>
+    <string name="kt_emmc_power">Pinos de alimentação da eMMC (experimental)</string>
+    <string name="kt_emmc_power_what">Ativado também usa os pinos de alimentação e de reset da eMMC, a partir da próxima inicialização, quando o Armazenamento eMMC embutido está ativado. Alguns consoles ligam a alimentação da eMMC com um desses pinos; sem ele, o chip fica desligado.</string>
+    <string name="kt_emmc_power_why">Experimente quando o Armazenamento eMMC embutido indicar que nenhuma eMMC respondeu, em um console que tenha uma: normalmente um com um único chip de RAM, em que a RAM e a eMMC dividem o mesmo encapsulamento (eMCP). Desativado é o certo para o Diium D-28S. Experimental: se o console não iniciar com isso ativado, os ajustes se desligam sozinhos depois de duas inicializações com falha.</string>
     <string name="kt_crash_split">Divisão do log de travamentos</string>
     <string name="kt_crash_split_what">Como os 960 KB mantidos num reinício são divididos entre o registro de travamento, o log do kernel e o log do Android. Equilibrado: 192 KB, 512 KB e 256 KB. Mais log do kernel: 320 KB, 512 KB e 128 KB. Mais log do Android: 192 KB, 256 KB e 512 KB.</string>
     <string name="kt_crash_split_why">Equilibrado serve para a maioria dos problemas. Mais log do kernel cabe o log inteiro do kernel no registro de travamento, para travamentos com uma história longa antes. Mais log do Android guarda o dobro do log do Android, para apps e jogos que fecham ou travam sem um travamento do kernel. Os logs de antes da troca se perdem no reinício que a faz.</string>

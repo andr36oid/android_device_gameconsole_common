@@ -294,6 +294,9 @@
     <string name="kt_emmc_speed_hs">Wysoka szybkość</string>
     <string name="kt_emmc_speed_ddr52">DDR52</string>
     <string name="kt_emmc_speed_hs200">HS200</string>
+    <string name="kt_emmc_power">Piny zasilania eMMC (eksperymentalne)</string>
+    <string name="kt_emmc_power_what">Włączone używa też pinów zasilania i resetu eMMC, od następnego startu, gdy włączona jest Wbudowana pamięć eMMC. Niektóre konsole włączają zasilanie eMMC jednym z tych pinów, więc bez niego układ pozostaje wyłączony.</string>
+    <string name="kt_emmc_power_why">Wypróbuj, gdy Wbudowana pamięć eMMC zgłasza brak odpowiedzi z eMMC, na konsoli, która ma eMMC: zwykle takiej z jednym układem RAM, gdzie RAM i eMMC są w jednej obudowie (eMCP). Dla Diium D-28S właściwe jest wyłączenie. Eksperymentalne: jeśli konsola z tym nie wystartuje, poprawki same się wyłączą po dwóch nieudanych startach.</string>
     <string name="kt_crash_split">Podział logu awarii</string>
     <string name="kt_crash_split_what">Jak 960 KB zachowane przy restarcie dzielą się między zapis awarii, log jądra i log Androida. Zrównoważony: 192 KB, 512 KB i 256 KB. Więcej logu jądra: 320 KB, 512 KB i 128 KB. Więcej logu Androida: 192 KB, 256 KB i 512 KB.</string>
     <string name="kt_crash_split_why">Zrównoważony pasuje do większości problemów. Więcej logu jądra mieści cały log jądra w zapisie awarii, dla awarii z długą historią przed sobą. Więcej logu Androida zachowuje dwa razy więcej logu Androida, dla aplikacji i gier, które się zamykają albo zamrażają bez awarii jądra. Logi sprzed zmiany giną przy restarcie, który ją wprowadza.</string>

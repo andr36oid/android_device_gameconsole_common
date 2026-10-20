@@ -292,6 +292,9 @@
     <string name="kt_emmc_speed_hs">Alta velocidad</string>
     <string name="kt_emmc_speed_ddr52">DDR52</string>
     <string name="kt_emmc_speed_hs200">HS200</string>
+    <string name="kt_emmc_power">Pines de alimentación de eMMC (experimental)</string>
+    <string name="kt_emmc_power_what">Activado también usa los pines de alimentación y de reinicio de su eMMC, a partir del próximo arranque, cuando Almacenamiento eMMC integrado está activado. Algunas consolas encienden la alimentación de su eMMC con uno de estos pines; sin ese pin, el chip se queda apagado.</string>
+    <string name="kt_emmc_power_why">Pruébalo cuando Almacenamiento eMMC integrado diga que ningún eMMC respondió, en una consola que tenga uno: normalmente una con un solo chip de RAM, donde la RAM y el eMMC comparten encapsulado (eMCP). Desactivado es lo correcto para el Diium D-28S. Experimental: si la consola no arranca con esto activado, los ajustes se desactivan solos tras dos arranques fallidos.</string>
     <string name="kt_crash_split">División del registro de cuelgues</string>
     <string name="kt_crash_split_what">Cómo se reparten los 960 KB que se guardan en un reinicio entre el registro de cuelgue, el registro del kernel y el registro de Android. Equilibrado: 192 KB, 512 KB y 256 KB. Más registro del kernel: 320 KB, 512 KB y 128 KB. Más registro de Android: 192 KB, 256 KB y 512 KB.</string>
     <string name="kt_crash_split_why">Equilibrado sirve para la mayoría de problemas. Más registro del kernel mete todo el registro del kernel en el registro de cuelgue, para cuelgues con una historia larga detrás. Más registro de Android guarda el doble del registro de Android, para apps y juegos que se cierran o se congelan sin un cuelgue del kernel. Los registros de antes del cambio se pierden en el reinicio que lo cambia.</string>

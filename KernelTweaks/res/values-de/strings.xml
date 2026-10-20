@@ -292,6 +292,9 @@
     <string name="kt_emmc_speed_hs">Hohe Geschwindigkeit</string>
     <string name="kt_emmc_speed_ddr52">DDR52</string>
     <string name="kt_emmc_speed_hs200">HS200</string>
+    <string name="kt_emmc_power">eMMC-Strom-Pins (experimentell)</string>
+    <string name="kt_emmc_power_what">An nutzt außerdem die Strom- und Reset-Pins des eMMC, ab dem nächsten Start, wenn Eingebauter eMMC-Speicher aktiviert ist. Manche Konsolen schalten den Strom ihres eMMC mit einem dieser Pins ein. Ohne ihn bleibt der Chip aus.</string>
+    <string name="kt_emmc_power_why">Probier das, wenn Eingebauter eMMC-Speicher meldet, dass kein eMMC antwortet, bei einer Konsole, die eines hat: meist eine mit nur einem RAM-Chip, bei der RAM und eMMC im selben Gehäuse sitzen (eMCP). Für das Diium D-28S ist Aus richtig. Experimentell: Startet die Konsole damit nicht, schalten sich die Tweaks nach zwei fehlgeschlagenen Starts selbst aus.</string>
     <string name="kt_crash_split">Aufteilung des Absturzlogs</string>
     <string name="kt_crash_split_what">Wie die 960 KB, die einen Neustart überstehen, auf Absturzbericht, Kernel-Log und Android-Log verteilt werden. Ausgewogen: 192 KB, 512 KB und 256 KB. Mehr Kernel-Log: 320 KB, 512 KB und 128 KB. Mehr Android-Log: 192 KB, 256 KB und 512 KB.</string>
     <string name="kt_crash_split_why">Ausgewogen passt für die meisten Probleme. Mit „Mehr Kernel-Log“ passt das ganze Kernel-Log in den Absturzbericht, für Abstürze mit langer Vorgeschichte. „Mehr Android-Log“ behält doppelt so viel vom Android-Log, für Apps und Spiele, die ohne Kernel-Absturz schließen oder einfrieren. Die Logs von vor der Umstellung gehen bei dem Neustart verloren, der sie umstellt.</string>

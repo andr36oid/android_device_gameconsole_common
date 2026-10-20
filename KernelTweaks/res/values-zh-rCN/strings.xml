@@ -291,6 +291,9 @@
     <string name="kt_emmc_speed_hs">高速</string>
     <string name="kt_emmc_speed_ddr52">DDR52</string>
     <string name="kt_emmc_speed_hs200">HS200</string>
+    <string name="kt_emmc_power">eMMC 电源引脚（实验性）</string>
+    <string name="kt_emmc_power_what">开启后还会使用 eMMC 的电源和复位引脚，从下次启动起生效，前提是已开启“内置 eMMC 存储”。部分掌机用其中一个引脚给 eMMC 供电，没有它，芯片就保持关闭。</string>
+    <string name="kt_emmc_power_why">如果“内置 eMMC 存储”提示没有 eMMC 应答，可以在带 eMMC 的掌机上试试。通常是只有一颗 RAM 芯片、且 RAM 与 eMMC 封装在一起（eMCP）的掌机。Diium D-28S 应保持关闭。实验性：如果开启后掌机无法启动，这些调整会在连续两次启动失败后自动关闭。</string>
     <string name="kt_crash_split">崩溃日志分配</string>
     <string name="kt_crash_split_what">重启时保留的 960 KB 如何在崩溃记录、内核日志和 Android 日志之间分配。均衡：192 KB、512 KB 和 256 KB。更多内核日志：320 KB、512 KB 和 128 KB。更多 Android 日志：192 KB、256 KB 和 512 KB。</string>
     <string name="kt_crash_split_why">均衡适合大多数问题。更多内核日志可将整个内核日志放入崩溃记录，适合前面有长篇经过的崩溃。更多 Android 日志可多保留一倍的 Android 日志，适合没有内核崩溃却关闭或冻结的应用和游戏。切换前的日志会在进行切换的那次重启中丢失。</string>

@@ -292,6 +292,9 @@
     <string name="kt_emmc_speed_hs">High speed</string>
     <string name="kt_emmc_speed_ddr52">DDR52</string>
     <string name="kt_emmc_speed_hs200">HS200</string>
+    <string name="kt_emmc_power">eMMC power pins (experimental)</string>
+    <string name="kt_emmc_power_what">On also uses the eMMC\'s power and reset pins, from the next start, when Built-in eMMC storage is on. Some consoles switch the power of their eMMC with one of these pins, so without it the chip stays off.</string>
+    <string name="kt_emmc_power_why">Try this when Built-in eMMC says no eMMC answered, on a console that has one: usually one with a single RAM chip, where RAM and eMMC share a package (eMCP). Off is right for the Diium D-28S. Experimental: if the console doesn\'t start with it on, the tweaks switch themselves off after two failed starts.</string>
     <string name="kt_crash_split">Crash log split</string>
     <string name="kt_crash_split_what">How the 960 KB kept across a restart are shared between the crash record, the kernel log and the Android log. Balanced: 192 KB, 512 KB and 256 KB. More kernel log: 320 KB, 512 KB and 128 KB. More Android log: 192 KB, 256 KB and 512 KB.</string>
     <string name="kt_crash_split_why">Balanced suits most problems. More kernel log fits the whole kernel log into the crash record, for crashes with a long story before them. More Android log keeps twice as much of Android\'s log, for apps and games that close or freeze without a kernel crash. The logs from before the switch are lost at the restart that changes it.</string>

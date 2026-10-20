@@ -292,6 +292,9 @@
     <string name="kt_emmc_speed_hs">Vitesse élevée</string>
     <string name="kt_emmc_speed_ddr52">DDR52</string>
     <string name="kt_emmc_speed_hs200">HS200</string>
+    <string name="kt_emmc_power">Broches d\'alimentation eMMC (expérimental)</string>
+    <string name="kt_emmc_power_what">Activé utilise aussi les broches d\'alimentation et de réinitialisation de l\'eMMC, dès le prochain démarrage, lorsque Stockage eMMC intégré est activé. Certaines consoles allument l\'alimentation de leur eMMC avec l\'une de ces broches : sans elle, la puce reste éteinte.</string>
+    <string name="kt_emmc_power_why">Essayez ceci quand Stockage eMMC intégré indique qu\'aucun eMMC n\'a répondu, sur une console qui en a un : en général une console avec une seule puce de RAM, où la RAM et l\'eMMC partagent un même boîtier (eMCP). Désactivé est le bon réglage pour le Diium D-28S. Expérimental : si la console ne démarre pas avec ce réglage activé, les réglages se désactivent d\'eux-mêmes après deux démarrages ratés.</string>
     <string name="kt_crash_split">Répartition du journal de plantage</string>
     <string name="kt_crash_split_what">Comment se partagent les 960 Ko conservés au redémarrage entre l\'enregistrement de plantage, le journal du noyau et le journal d\'Android. Équilibré : 192 Ko, 512 Ko et 256 Ko. Plus de journal du noyau : 320 Ko, 512 Ko et 128 Ko. Plus de journal d\'Android : 192 Ko, 256 Ko et 512 Ko.</string>
     <string name="kt_crash_split_why">Équilibré convient à la plupart des problèmes. Plus de journal du noyau fait tenir tout le journal du noyau dans l\'enregistrement de plantage, pour les plantages qui ont une longue histoire avant eux. Plus de journal d\'Android garde deux fois plus du journal d\'Android, pour les applis et jeux qui se ferment ou gèlent sans plantage du noyau. Les journaux d\'avant le changement sont perdus au redémarrage qui le fait.</string>

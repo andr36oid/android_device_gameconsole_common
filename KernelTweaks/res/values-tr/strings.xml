@@ -292,6 +292,9 @@
     <string name="kt_emmc_speed_hs">Yüksek hız</string>
     <string name="kt_emmc_speed_ddr52">DDR52</string>
     <string name="kt_emmc_speed_hs200">HS200</string>
+    <string name="kt_emmc_power">eMMC güç pinleri (deneysel)</string>
+    <string name="kt_emmc_power_what">Açık, bir sonraki açılıştan itibaren, Dahili eMMC depolama açıkken eMMC\'nin güç ve sıfırlama pinlerini de kullanır. Bazı konsollar eMMC\'sinin gücünü bu pinlerden biriyle açar; onsuz çip kapalı kalır.</string>
+    <string name="kt_emmc_power_why">Dahili eMMC depolama, hiçbir eMMC yanıt vermedi diyorsa, eMMC\'si olan bir konsolda deneyin: genellikle tek RAM çipli olanlarda, RAM ve eMMC aynı pakette olduğunda (eMCP). Diium D-28S için Kapalı doğrudur. Deneysel: konsol bu açıkken başlamazsa, ayarlar iki başarısız açılıştan sonra kendiliğinden kapanır.</string>
     <string name="kt_crash_split">Çökme logu bölümü</string>
     <string name="kt_crash_split_what">Yeniden başlatmada tutulan 960 KB\'ın çökme kaydı, çekirdek logu ve Android logu arasında nasıl paylaşıldığı. Dengeli: 192 KB, 512 KB ve 256 KB. Daha fazla çekirdek logu: 320 KB, 512 KB ve 128 KB. Daha fazla Android logu: 192 KB, 256 KB ve 512 KB.</string>
     <string name="kt_crash_split_why">Dengeli çoğu sorun için uygundur. Daha fazla çekirdek logu, öncesinde uzun bir hikâyesi olan çökmeler için tüm çekirdek logunu çökme kaydına sığdırır. Daha fazla Android logu, çekirdek çökmesi olmadan kapanan ya da donan uygulamalar ve oyunlar için Android logunun iki katını tutar. Değişiklikten önceki loglar, onu yapan yeniden başlatmada kaybolur.</string>

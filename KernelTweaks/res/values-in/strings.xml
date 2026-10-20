@@ -291,6 +291,9 @@
     <string name="kt_emmc_speed_hs">Kecepatan tinggi</string>
     <string name="kt_emmc_speed_ddr52">DDR52</string>
     <string name="kt_emmc_speed_hs200">HS200</string>
+    <string name="kt_emmc_power">Pin daya eMMC (eksperimental)</string>
+    <string name="kt_emmc_power_what">Aktif juga memakai pin daya dan reset eMMC, mulai dari start berikutnya, saat Penyimpanan eMMC bawaan aktif. Sebagian konsol menyalakan daya eMMC-nya lewat salah satu pin ini, jadi tanpa pin itu chip tetap mati.</string>
+    <string name="kt_emmc_power_why">Coba ini saat Penyimpanan eMMC bawaan melaporkan tidak ada eMMC yang merespons, pada konsol yang punya eMMC: biasanya yang hanya punya satu chip RAM, tempat RAM dan eMMC berbagi satu kemasan (eMCP). Nonaktif adalah pilihan yang tepat untuk Diium D-28S. Eksperimental: jika konsol tidak mau menyala dengan ini aktif, tweak akan mati sendiri setelah dua kali gagal menyala.</string>
     <string name="kt_crash_split">Pembagian log crash</string>
     <string name="kt_crash_split_what">Cara 960 KB yang disimpan saat mulai ulang dibagi antara catatan crash, log kernel, dan log Android. Seimbang: 192 KB, 512 KB, dan 256 KB. Lebih banyak log kernel: 320 KB, 512 KB, dan 128 KB. Lebih banyak log Android: 192 KB, 256 KB, dan 512 KB.</string>
     <string name="kt_crash_split_why">Seimbang cocok untuk sebagian besar masalah. Lebih banyak log kernel memasukkan seluruh log kernel ke catatan crash, untuk crash yang punya riwayat panjang sebelumnya. Lebih banyak log Android menyimpan dua kali lipat log Android, untuk aplikasi dan game yang tertutup atau beku tanpa crash kernel. Log dari sebelum perubahan hilang pada mulai ulang yang mengubahnya.</string>

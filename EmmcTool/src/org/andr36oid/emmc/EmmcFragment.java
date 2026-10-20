@@ -64,9 +64,12 @@ public class EmmcFragment extends PreferenceFragment {
     }
 
     /** Kernel Tweaks switched it on for this start. */
+    /** The kernel's builtin_emmc: 1 (read-only, Kernel Tweaks) or system (andr36oid on it). */
     static boolean switchedOn() {
         final String v = Helper.read(new File(PARAM));
-        return v != null && (v.startsWith("Y") || v.startsWith("1"));
+        if (v == null) return false;
+        final String t = v.trim();
+        return !t.isEmpty() && !t.equals("0") && !t.equalsIgnoreCase("n") && !t.equals("off");
     }
 
     @Override
