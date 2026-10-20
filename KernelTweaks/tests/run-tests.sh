@@ -351,6 +351,22 @@ setp persist.andr36oid.kt.emmc_speed hs200
 run apply
 check "eMMC switch never written on an eMMC install" "dw_mmc_rockchip.emmc_speed=hs200" \
 	"$(sed -n 's/^kt_args=//p' "$T/boot/kernel-tweaks.txt")"
+# fresh data with kernel-tweaks.txt on BOOT (an eMMC install's first start): kept
+setup
+mkdir -p "$R/proc/device-tree/dwmmc@ff390000"
+: >"$R/proc/device-tree/dwmmc@ff390000/andr36oid,builtin-emmc"
+mkdir -p "$T/boot"
+printf 'kt_args=dw_mmc_rockchip.emmc_speed=hs200\n' >"$T/boot/kernel-tweaks.txt"
+echo "$(cat "$R"/proc/cmdline) dw_mmc_rockchip.emmc_speed=hs200 dw_mmc_rockchip.builtin_emmc=system" >"$R"/proc/cmdline
+run boot
+check "fresh data takes kernel-tweaks.txt over" hs200 "$(prop persist.andr36oid.kt.emmc_speed)"
+check "fresh data keeps kernel-tweaks.txt" "dw_mmc_rockchip.emmc_speed=hs200" \
+	"$(sed -n 's/^kt_args=//p' "$T/boot/kernel-tweaks.txt")"
+# with tweaks saved, the saved ones win as before
+setp persist.andr36oid.kt.emmc_speed ddr52
+run boot
+check "saved tweaks win over the file" "dw_mmc_rockchip.emmc_speed=ddr52" \
+	"$(sed -n 's/^kt_args=//p' "$T/boot/kernel-tweaks.txt")"
 rm -rf "$R/proc/device-tree/dwmmc@ff390000"
 
 # --- storage layer: sdcardfs by default, FUSE as a start option

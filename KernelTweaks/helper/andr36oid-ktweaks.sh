@@ -231,7 +231,7 @@ boot_args() {
 	fuse:on) echo "fuse.disable=0" ;;
 	sd2_slot:off) echo "dw_mmc_rockchip.second_slot=0" ;;
 	builtin_emmc:on) echo "dw_mmc_rockchip.builtin_emmc=1" ;;
-	emmc_speed:hs | emmc_speed:hs200) echo "dw_mmc_rockchip.emmc_speed=$2" ;;
+	emmc_speed:ddr52 | emmc_speed:hs | emmc_speed:hs200) echo "dw_mmc_rockchip.emmc_speed=$2" ;;
 	emmc_power:on) echo "dw_mmc_rockchip.emmc_power=1" ;;
 	crash_split:balanced) split_args "$SPLIT_BALANCED" ;;
 	crash_split:kernel) split_args "$SPLIT_KERNEL" ;;
@@ -486,6 +486,19 @@ if [ "$1" = boot ]; then
 		fi
 		[ -n "$v" ] && setprop "sys.andr36oid.ktd.$key" "$v"
 	done
+	# Data with no tweaks saved but a kernel-tweaks.txt on BOOT: the first start of
+	# andr36oid installed on the eMMC (its BOOT is a copy of the SD card's) or after
+	# a reset. Take the start options over, apply_all would drop the file otherwise.
+	if [ -n "$added" ] && [ -z "$(any_set)" ] && [ -z "$(getprop persist.andr36oid.kt.paused)" ]; then
+		echo "$KNOBS" | while IFS='|' read -r key kind once paths; do
+			[ "$kind" = boot ] || continue
+			def=$(getprop "sys.andr36oid.ktd.$key")
+			[ -n "$def" ] || continue
+			v=$(boot_read "$paths" "$CMDLINE")
+			[ -n "$v" ] && [ "$v" != "$def" ] && setprop "persist.andr36oid.kt.$key" "$v"
+		done
+		log -t andr36oid-ktweaks "no tweaks saved: took over kernel-tweaks.txt ($added)"
+	fi
 	if [ "$paused" != 1 ] && [ -n "$(any_set)" ]; then
 		tries=$(getprop persist.andr36oid.kt.tries)
 		if [ "${tries:-0}" -ge 2 ]; then
