@@ -155,7 +155,7 @@
     <string name="inst_update_emmc_sum">From this SD card, after you updated it. Apps and data stay.</string>
     <string name="inst_update_emmc_text">Copies this SD card\'s andr36oid to the eMMC: its BOOT files, system and vendor, and U-Boot if it changed. Apps, data and settings on the eMMC stay.\n\nKeep the console charging. If the update is cut off, the console starts from the SD card until you run it again.</string>
     <string name="inst_update_emmc_go">Update</string>
-Put the stock eMMC back</string>
+    <string name="inst_restore">Put the stock eMMC back</string>
     <string name="inst_restore_text">Everything andr36oid wrote to the eMMC is replaced by the backup in %1$s. The backup is checked first, and the eMMC is compared with it afterwards. This takes a few minutes.</string>
     <string name="inst_restore_go">Put it back</string>
     <string name="inst_steps">Steps</string>
