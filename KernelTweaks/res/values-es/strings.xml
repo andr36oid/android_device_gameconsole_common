@@ -113,6 +113,9 @@
     <string name="kt_dc_det_power">Pin y chip de energía</string>
     <string name="kt_dc_det_what">Cómo sabe la consola que hay un cargador conectado. La mayoría de consolas tiene un pin que lo indica. En algunos clones ese pin dice «conectado» todo el tiempo, así que ahí el chip de energía también tiene que ver la corriente.</string>
     <string name="kt_dc_det_why">Si la consola no detecta el cargador, o muestra «cargando» sin nada conectado, prueba la otra opción. El predeterminado se elige para cada consola.</string>
+    <string name="kt_input_nearest_step">Entrada del cargador: paso más cercano</string>
+    <string name="kt_input_nearest_step_what">El chip de alimentación solo admite unos pocos límites de corriente de entrada (450, 850 o 1500 mA y más). Normalmente la consola elige el paso inferior a lo que pide, así que 800 mA se convierte en 450 mA. Con «Activado» elige el paso más cercano, así que 800 mA se convierte en 850 mA. Se aplica la próxima vez que se conecte un cargador.</string>
+    <string name="kt_input_nearest_step_why">Pruébalo si tu consola carga muy despacio o no carga con un buen cargador. «Desactivado» es como la consola siempre ha cargado.</string>
     <string name="kt_sleep_console">Registro del kernel durante el reposo</string>
     <string name="kt_sleep_console_y">En pausa mientras duerme</string>
     <string name="kt_sleep_console_n">Sigue funcionando</string>

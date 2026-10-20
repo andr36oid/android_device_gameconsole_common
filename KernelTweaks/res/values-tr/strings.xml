@@ -113,6 +113,9 @@
     <string name="kt_dc_det_power">Pin ve güç çipi</string>
     <string name="kt_dc_det_what">Konsol, bir şarj cihazının takılı olduğunu nasıl anlar? Çoğu konsolda bunu söyleyen bir pin var. Bazı klonlarda bu pin sürekli \"takılı\" der, bu yüzden orada güç çipinin gücü de görmesi gerekir.</string>
     <string name="kt_dc_det_why">Konsol şarj cihazını fark etmiyorsa ya da hiçbir şey takılı değilken \"şarj ediliyor\" gösteriyorsa, diğer ayarı deneyin. Varsayılan her konsol için ayrı seçilir.</string>
+    <string name="kt_input_nearest_step">Şarj girişi: en yakın adım</string>
+    <string name="kt_input_nearest_step_what">Güç çipi yalnızca birkaç giriş akımı sınırını kabul eder (450, 850 veya 1500 mA ve üzeri). Normalde konsol istenenin altındaki adımı seçer, bu yüzden 800 mA 450 mA olur. Açık olduğunda bunun yerine en yakın adımı seçer, bu yüzden 800 mA 850 mA olur. Bir sonraki şarj cihazı takıldığında geçerli olur.</string>
+    <string name="kt_input_nearest_step_why">İyi bir şarj cihazında konsol çok yavaş şarj oluyorsa ya da hiç şarj olmuyorsa deneyin. Kapalı, konsolun her zaman şarj olduğu yoldur.</string>
     <string name="kt_sleep_console">Uyku sırasında kernel logu</string>
     <string name="kt_sleep_console_y">Uykuda duraklatılır</string>
     <string name="kt_sleep_console_n">Çalışmaya devam eder</string>

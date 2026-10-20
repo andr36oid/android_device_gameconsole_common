@@ -115,6 +115,9 @@
     <string name="kt_dc_det_power">Pin i układ zasilania</string>
     <string name="kt_dc_det_what">Jak konsola rozpoznaje, że podłączono ładowarkę. Większość konsol ma pin, który to sygnalizuje. W niektórych klonach ten pin cały czas pokazuje \"podłączone\", więc tam układ zasilania też musi widzieć prąd.</string>
     <string name="kt_dc_det_why">Jeśli konsola nie wykrywa ładowarki albo pokazuje \"ładowanie\", mimo że nic nie jest podłączone, spróbuj drugiego ustawienia. Domyślne jest dobierane osobno dla każdej konsoli.</string>
+    <string name="kt_input_nearest_step">Wejście ładowarki: najbliższy krok</string>
+    <string name="kt_input_nearest_step_what">Układ zasilania przyjmuje tylko kilka limitów prądu wejściowego (450, 850 lub 1500 mA i więcej). Zwykle konsola wybiera krok poniżej tego, o co prosi, więc 800 mA staje się 450 mA. Po włączeniu wybiera najbliższy krok, więc 800 mA staje się 850 mA. Działa przy następnym podłączeniu ładowarki.</string>
+    <string name="kt_input_nearest_step_why">Wypróbuj, jeśli konsola ładuje bardzo wolno albo wcale na dobrej ładowarce. Wyłączone to sposób, w jaki konsola zawsze ładowała.</string>
     <string name="kt_sleep_console">Log jądra podczas snu</string>
     <string name="kt_sleep_console_y">Wstrzymany podczas snu</string>
     <string name="kt_sleep_console_n">Działa dalej</string>

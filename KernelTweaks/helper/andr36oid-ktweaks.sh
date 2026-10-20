@@ -60,6 +60,7 @@ panic_restart|plain||/proc/sys/kernel/panic
 oops_panic|plain||/proc/sys/kernel/panic_on_oops
 stall_report|plain||/sys/module/rcupdate/parameters/rcu_cpu_stall_timeout
 dc_det|plain||/sys/module/rk817_charger/parameters/dc_det_mode
+input_nearest_step|plain||/sys/module/rk817_charger/parameters/input_nearest_step
 power_chip_log|plain||/sys/module/rk817_charger/parameters/dbg_level /sys/module/rk817_battery/parameters/dbg_level /sys/module/snd_soc_rk817/parameters/dbg_level
 crash_oops|plain||/sys/module/ramoops/parameters/dump_oops
 crash_restart_log|plain||/sys/module/printk/parameters/always_kmsg_dump

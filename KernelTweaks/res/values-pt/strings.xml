@@ -113,6 +113,9 @@
     <string name="kt_dc_det_power">Pino e chip de energia</string>
     <string name="kt_dc_det_what">Como a consola percebe que um carregador está ligado. A maioria das consolas tem um pino que o indica. Em alguns clones esse pino diz \"ligado\" o tempo todo, por isso aí o chip de energia também tem de ver a corrente.</string>
     <string name="kt_dc_det_why">Se a consola não reparar no carregador, ou mostrar \"a carregar\" sem nada ligado, experimente a outra opção. A predefinição é escolhida para cada consola.</string>
+    <string name="kt_input_nearest_step">Entrada do carregador: passo mais próximo</string>
+    <string name="kt_input_nearest_step_what">O chip de energia só aceita alguns limites de corrente de entrada (450, 850 ou 1500 mA e mais). Normalmente a consola escolhe o passo abaixo do que pede, por isso 800 mA passa a 450 mA. Com \"Ativado\", escolhe o passo mais próximo, por isso 800 mA passa a 850 mA. Entra em vigor da próxima vez que um carregador for ligado.</string>
+    <string name="kt_input_nearest_step_why">Experimente se a consola carregar muito devagar ou nada com um bom carregador. \"Desativado\" é como a consola sempre carregou.</string>
     <string name="kt_sleep_console">Registo do kernel durante a suspensão</string>
     <string name="kt_sleep_console_y">Em pausa durante o sono</string>
     <string name="kt_sleep_console_n">Continua a funcionar</string>

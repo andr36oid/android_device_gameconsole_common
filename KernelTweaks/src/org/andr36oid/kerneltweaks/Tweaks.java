@@ -107,7 +107,13 @@ final class Tweaks {
                 .values("auto", "pin", "power")
                 .labels(R.string.kt_dc_det_auto, R.string.kt_dc_det_pin,
                         R.string.kt_dc_det_power)
-                .level(Tweak.LAST_RESORT)));
+                .level(Tweak.LAST_RESORT))
+            .add(Tweak.choice("input_nearest_step", R.string.kt_input_nearest_step,
+                    R.string.kt_input_nearest_step_what, R.string.kt_input_nearest_step_why,
+                    "/sys/module/rk817_charger/parameters/input_nearest_step")
+                .values("N", "Y")
+                .labels(R.string.kt_off, R.string.kt_on)
+                .level(Tweak.RISKY)));
 
         list.add(new Category(R.string.kt_cat_memory, null, null, 0, 0)
             .add(Tweak.choice("swappiness", R.string.kt_swappiness,

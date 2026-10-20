@@ -112,6 +112,9 @@
     <string name="kt_dc_det_power">Pin dan chip daya</string>
     <string name="kt_dc_det_what">Cara konsol mengetahui bahwa charger sedang terpasang. Kebanyakan konsol punya pin yang memberi tahu itu. Di beberapa klon, pin itu selalu bilang \"terpasang\", jadi di sana chip daya juga harus melihat arus listrik.</string>
     <string name="kt_dc_det_why">Jika konsol tidak menyadari charger, atau menampilkan \"mengisi\" padahal tidak ada yang terpasang, coba pengaturan lainnya. Default dipilih sesuai masing-masing konsol.</string>
+    <string name="kt_input_nearest_step">Input charger: langkah terdekat</string>
+    <string name="kt_input_nearest_step_what">Chip daya hanya menerima beberapa batas arus masuk (450, 850 atau 1500 mA dan seterusnya). Biasanya konsol memilih langkah di bawah permintaannya, jadi 800 mA menjadi 450 mA. Saat Aktif, konsol memilih langkah terdekat, jadi 800 mA menjadi 850 mA. Berlaku saat charger berikutnya dicolokkan.</string>
+    <string name="kt_input_nearest_step_why">Coba ini jika konsol mengisi daya sangat lambat atau tidak sama sekali dengan charger yang bagus. Nonaktif adalah cara konsol selalu mengisi daya.</string>
     <string name="kt_sleep_console">Log kernel saat tidur</string>
     <string name="kt_sleep_console_y">Dijeda saat tidur</string>
     <string name="kt_sleep_console_n">Tetap berjalan</string>

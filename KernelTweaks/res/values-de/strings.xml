@@ -113,6 +113,9 @@
     <string name="kt_dc_det_power">Pin und Power-Management-Chip</string>
     <string name="kt_dc_det_what">Woran die Konsole erkennt, dass ein Ladegerät angeschlossen ist. Die meisten Konsolen haben dafür einen Pin. Bei manchen Klonen meldet dieser Pin aber dauerhaft „angeschlossen“, dort muss der Power-Management-Chip zusätzlich Strom sehen.</string>
     <string name="kt_dc_det_why">Wenn die Konsole das Ladegerät nicht bemerkt oder „lädt“ anzeigt, obwohl nichts angeschlossen ist, probier die andere Einstellung. Der Standard wird für jede Konsole passend gewählt.</string>
+    <string name="kt_input_nearest_step">Ladegerät-Eingang: nächster Schritt</string>
+    <string name="kt_input_nearest_step_what">Der Stromchip kennt nur wenige Eingangsstromgrenzen (450, 850 oder 1500 mA und mehr). Normalerweise nimmt die Konsole die Stufe unter dem Wunschwert, aus 800 mA werden also 450 mA. Mit „An“ nimmt sie stattdessen die nächste Stufe, aus 800 mA werden 850 mA. Wirkt beim nächsten Anstecken eines Ladegeräts.</string>
+    <string name="kt_input_nearest_step_why">Probier es aus, wenn deine Konsole an einem guten Ladegerät sehr langsam oder gar nicht lädt. „Aus“ ist so, wie die Konsole schon immer geladen hat.</string>
     <string name="kt_sleep_console">Kernel-Log im Ruhezustand</string>
     <string name="kt_sleep_console_y">Pausiert im Ruhezustand</string>
     <string name="kt_sleep_console_n">Läuft weiter</string>

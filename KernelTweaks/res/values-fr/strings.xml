@@ -113,6 +113,9 @@
     <string name="kt_dc_det_power">Broche et puce d\'alimentation</string>
     <string name="kt_dc_det_what">Comment la console sait qu\'un chargeur est branché. La plupart des consoles ont une broche qui le signale. Sur certains clones, cette broche dit « branché » tout le temps, donc là, la puce d\'alimentation doit aussi voir le courant.</string>
     <string name="kt_dc_det_why">Si la console ne remarque pas le chargeur, ou affiche « en charge » alors que rien n\'est branché, essayez l\'autre réglage. La valeur par défaut est choisie pour chaque console.</string>
+    <string name="kt_input_nearest_step">Entrée du chargeur : palier le plus proche</string>
+    <string name="kt_input_nearest_step_what">La puce d\'alimentation n\'accepte que quelques limites de courant d\'entrée (450, 850 ou 1500 mA et plus). Normalement, la console choisit le palier inférieur à ce qu\'elle demande, donc 800 mA devient 450 mA. Sur « Activé », elle prend le palier le plus proche à la place, donc 800 mA devient 850 mA. Ça prend effet la prochaine fois qu\'un chargeur est branché.</string>
+    <string name="kt_input_nearest_step_why">Essayez si votre console charge très lentement, ou pas du tout, avec un bon chargeur. « Désactivé » correspond à la façon dont la console a toujours chargé.</string>
     <string name="kt_sleep_console">Journal du noyau pendant la veille</string>
     <string name="kt_sleep_console_y">En pause pendant la veille</string>
     <string name="kt_sleep_console_n">Continue de tourner</string>

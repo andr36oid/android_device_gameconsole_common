@@ -113,6 +113,9 @@
     <string name="kt_dc_det_power">Pin and power chip</string>
     <string name="kt_dc_det_what">How the console tells that a charger is plugged in. Most consoles have a pin that says so. On some clones that pin says \"plugged in\" all the time, so there the power chip has to see power as well.</string>
     <string name="kt_dc_det_why">If the console doesn\'t notice the charger, or shows \"charging\" with nothing plugged in, try the other setting. The default is picked for each console.</string>
+    <string name="kt_input_nearest_step">Charger input: nearest step</string>
+    <string name="kt_input_nearest_step_what">The power chip only takes a few input current limits (450, 850 or 1500 mA and more). Normally the console picks the step below what it asks for, so 800 mA becomes 450 mA. On picks the nearest step instead, so 800 mA becomes 850 mA. Takes effect the next time a charger is plugged in.</string>
+    <string name="kt_input_nearest_step_why">Try it if your console charges very slowly or not at all on a good charger. Off is how the console has always charged.</string>
     <string name="kt_sleep_console">Kernel log during sleep</string>
     <string name="kt_sleep_console_y">Paused while asleep</string>
     <string name="kt_sleep_console_n">Keeps running</string>

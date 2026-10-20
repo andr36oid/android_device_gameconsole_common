@@ -112,6 +112,9 @@
     <string name="kt_dc_det_power">引脚和电源芯片</string>
     <string name="kt_dc_det_what">掌机如何判断充电器已插上。大多数掌机有一个引脚来指示这一点。在某些仿制机上，这个引脚一直显示\"已插入\"，所以这种情况下电源芯片也必须检测到供电。</string>
     <string name="kt_dc_det_why">如果掌机没有检测到充电器，或者没插电却显示\"正在充电\"，试试另一个设置。默认值是针对每台掌机单独选定的。</string>
+    <string name="kt_input_nearest_step">充电器输入：最接近的档位</string>
+    <string name="kt_input_nearest_step_what">电源芯片只支持几个输入电流档位（450、850、1500 mA 等）。通常掌机会选比请求值低的那一档，所以 800 mA 会变成 450 mA。开启后，掌机改选最接近的档位，所以 800 mA 会变成 850 mA。下次插入充电器时生效。</string>
+    <string name="kt_input_nearest_step_why">如果掌机用好充电器充电很慢甚至不充电，可以试试。关闭就是掌机一直以来的充电方式。</string>
     <string name="kt_sleep_console">睡眠期间的内核日志</string>
     <string name="kt_sleep_console_y">睡眠时暂停</string>
     <string name="kt_sleep_console_n">继续运行</string>
