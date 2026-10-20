@@ -460,26 +460,20 @@ public class InstallFragment extends PreferenceFragment {
     }
 
     private void showDone() {
-        run("inspect", true, () -> {
-            final JSONObject r = Installer.result();
-            final JSONObject in = r == null ? null : r.optJSONObject("result");
-            final PreferenceScreen s = screen(R.string.inst_title);
-            steps(s);
-            final PreferenceCategory c = category(s, getString(R.string.inst_st_done));
-            text(c, null, getString(R.string.inst_done));
-            // a newer U-Boot on the SD card (an updated image): the eMMC's can follow it
-            if (in != null && !"andr36oid".equals(in.optString("emmc_loader"))) {
-                row(c, getString(R.string.inst_update_uboot), getString(R.string.inst_update_uboot_sum),
-                        () -> new AlertDialog.Builder(getActivity())
-                                .setTitle(R.string.inst_update_uboot)
-                                .setMessage(R.string.inst_update_uboot_text)
-                                .setPositiveButton(R.string.inst_update_uboot_go,
-                                        (d, x) -> run("update-uboot", false, this::showDone))
-                                .setNegativeButton(R.string.inst_cancel, null)
-                                .show());
-            }
-            restoreRow(c);
-        });
+        final PreferenceScreen s = screen(R.string.inst_title);
+        steps(s);
+        final PreferenceCategory c = category(s, getString(R.string.inst_st_done));
+        text(c, null, getString(R.string.inst_done));
+        // an updated image on the SD card: the eMMC's andr36oid can follow it
+        row(c, getString(R.string.inst_update_emmc), getString(R.string.inst_update_emmc_sum),
+                () -> new AlertDialog.Builder(getActivity())
+                        .setTitle(R.string.inst_update_emmc)
+                        .setMessage(R.string.inst_update_emmc_text)
+                        .setPositiveButton(R.string.inst_update_emmc_go,
+                                (d, x) -> run("update-emmc", false, this::showDone))
+                        .setNegativeButton(R.string.inst_cancel, null)
+                        .show());
+        restoreRow(c);
     }
 
     private void showEmmcSystem() {

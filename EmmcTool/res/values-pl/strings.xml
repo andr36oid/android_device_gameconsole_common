@@ -151,10 +151,10 @@
     <string name="inst_cant_start">Nie udało się uruchomić instalatora.</string>
     <string name="inst_leave">Zostaw, jak jest</string>
     <string name="inst_show_log">Pokaż dziennik</string>
-    <string name="inst_update_uboot">Zaktualizuj U-Boot na eMMC</string>
-    <string name="inst_update_uboot_sum">Karta SD ma nowszy U-Boot niż eMMC</string>
-    <string name="inst_update_uboot_text">Kopiuje U-Boot z karty SD na eMMC. Loader pierwszego etapu i trust pozostają bez zmian.\n\nU-Boot jest zapisany w czterech kopiach, zapisywanych po kolei, więc po nagłym odcięciu zasilania zawsze zostaje jedna pełna kopia, z której konsola może wystartować.</string>
-    <string name="inst_update_uboot_go">Zaktualizuj</string>
+    <string name="inst_update_emmc">Zaktualizuj andr36oid na eMMC</string>
+    <string name="inst_update_emmc_sum">Z tej karty SD, po jej zaktualizowaniu. Aplikacje i dane zostają.</string>
+    <string name="inst_update_emmc_text">Kopiuje andr36oid z tej karty SD na eMMC: jej pliki BOOT, system i vendor oraz U-Boot, jeśli się zmienił. Aplikacje, dane i ustawienia na eMMC zostają.\n\nZostaw konsolę podłączoną do ładowania. Jeśli aktualizacja zostanie przerwana, konsola uruchomi się z karty SD, dopóki nie uruchomisz jej ponownie.</string>
+    <string name="inst_update_emmc_go">Zaktualizuj</string>
     <string name="inst_restore">Przywróć fabryczne eMMC</string>
     <string name="inst_restore_text">Wszystko, co andr36oid zapisał na eMMC, zostanie zastąpione kopią zapasową w %1$s. Kopia jest najpierw sprawdzana, a potem eMMC jest z nią porównywane. To trwa kilka minut.</string>
     <string name="inst_restore_go">Przywróć</string>

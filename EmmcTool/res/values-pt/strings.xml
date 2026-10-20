@@ -151,10 +151,10 @@
     <string name="inst_cant_start">Não foi possível iniciar o instalador.</string>
     <string name="inst_leave">Deixar como está</string>
     <string name="inst_show_log">Mostrar o registo</string>
-    <string name="inst_update_uboot">Atualizar o U-Boot na eMMC</string>
-    <string name="inst_update_uboot_sum">O cartão SD tem um U-Boot mais recente do que a eMMC</string>
-    <string name="inst_update_uboot_text">Copia o U-Boot do cartão SD para a eMMC. O carregador de primeira fase e o trust mantêm-se como estão.\n\nO U-Boot é guardado quatro vezes e escrito uma cópia de cada vez, por isso, se houver um corte de energia, continua a existir uma cópia completa a partir da qual a consola pode arrancar.</string>
-    <string name="inst_update_uboot_go">Atualizar</string>
+    <string name="inst_update_emmc">Atualizar o andr36oid na eMMC</string>
+    <string name="inst_update_emmc_sum">Desde este cartão SD, depois de o atualizar. As aplicações e os dados mantêm-se.</string>
+    <string name="inst_update_emmc_text">Copia o andr36oid deste cartão SD para a eMMC: os ficheiros BOOT, system e vendor e o U-Boot, se tiver mudado. As aplicações, os dados e as definições da eMMC mantêm-se.\n\nMantenha a consola a carregar. Se a atualização for interrompida, a consola arranca a partir do cartão SD até a executar novamente.</string>
+    <string name="inst_update_emmc_go">Atualizar</string>
     <string name="inst_restore">Repor a eMMC de fábrica</string>
     <string name="inst_restore_text">Tudo o que o andr36oid escreveu na eMMC é substituído pela cópia de segurança em %1$s. A cópia é verificada primeiro e depois a eMMC é comparada com ela. Isto demora uns minutos.</string>
     <string name="inst_restore_go">Repor</string>

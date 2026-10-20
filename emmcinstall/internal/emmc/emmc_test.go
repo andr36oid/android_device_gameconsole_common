@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"crypto/sha256"
 	"encoding/binary"
+	"encoding/hex"
 	"errors"
 	"fmt"
 	"math/rand"
@@ -1011,5 +1012,60 @@ func TestUpdateUboot(t *testing.T) {
 	mustFail(t, f.cfg.UpdateUboot(f.progress()), "idbloader differs")
 	if len(f.writes) != 0 {
 		t.Fatal("wrote after refusing")
+	}
+}
+
+func TestUpdateEmmc(t *testing.T) {
+	f := newFake(t)
+	f.installTo2(t)
+	mustFail(t, f.cfg.UpdateEmmc(f.progress()), "no andr36oid loader yet")
+	must(t, f.cfg.WriteLoader(f.progress(), f.state().LoaderSHA[:12]))
+
+	// apps and data on the eMMC: must stay as they are
+	plan := f.state().Plan
+	ud, _ := Find(plan, "userdata")
+	n := ud.Sectors()
+	if n > mib(1) {
+		n = mib(1)
+	}
+	sd, err := os.OpenFile(f.cfg.SDDev, os.O_WRONLY, 0)
+	must(t, err)
+	e, err := os.OpenFile(f.cfg.EmmcDev, os.O_WRONLY, 0)
+	must(t, err)
+	data := randBytes(rand.New(rand.NewSource(9)), n*Sector)
+	_, err = e.WriteAt(data, ud.First*Sector)
+	must(t, err)
+	must(t, e.Close())
+
+	// a new image on the SD card: BOOT and system changed
+	parts, err := ReadGPT(must2(OpenDisk(f.cfg.SDDev, false, false)))
+	must(t, err)
+	for _, name := range []string{"BOOT", "system"} {
+		q, _ := Find(parts, name)
+		_, err = sd.WriteAt([]byte("new "+name), q.First*Sector+4096)
+		must(t, err)
+	}
+	must(t, sd.Close())
+
+	must(t, f.cfg.UpdateEmmc(f.progress()))
+	for _, name := range []string{"BOOT", "system", "vendor"} {
+		src, _ := Find(parts, name)
+		dst, _ := Find(plan, name)
+		if !bytes.Equal(f.emmc(dst.First, src.Sectors()), f.sd(src.First, src.Sectors())) {
+			t.Fatalf("%s on the eMMC isn't the SD card's", name)
+		}
+	}
+	if !bytes.Equal(f.emmc(ud.First, n), data) {
+		t.Fatal("userdata changed")
+	}
+	st := f.state()
+	if st.Running != "" || st.Failed != "" || st.Step3 != "done" {
+		t.Fatalf("after the update: %+v", st)
+	}
+	// the records follow: step 3's checks of system and vendor still pass
+	sys, _ := Find(parts, "system")
+	h := sha256.Sum256(f.sd(sys.First, sys.Sectors()))
+	if st.Copied["system"] != hex.EncodeToString(h[:]) {
+		t.Fatal("system's record not updated")
 	}
 }

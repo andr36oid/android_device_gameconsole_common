@@ -151,10 +151,10 @@
     <string name="inst_cant_start">Kurulum programı başlatılamadı.</string>
     <string name="inst_leave">Olduğu gibi bırak</string>
     <string name="inst_show_log">Günlüğü göster</string>
-    <string name="inst_update_uboot">eMMC\'deki U-Boot\'u güncelle</string>
-    <string name="inst_update_uboot_sum">SD kartta eMMC\'dekinden daha yeni bir U-Boot var</string>
-    <string name="inst_update_uboot_text">SD kartın U-Boot\'unu eMMC\'ye kopyalar. İlk aşama yükleyicisi ve trust olduğu gibi kalır.\n\nU-Boot dört kez saklanır ve her seferinde bir kopyası yazılır; böylece elektrik kesilirse konsolun açılabileceği tam bir kopya yine kalır.</string>
-    <string name="inst_update_uboot_go">Güncelle</string>
+    <string name="inst_update_emmc">andr36oid\'i eMMC\'de güncelle</string>
+    <string name="inst_update_emmc_sum">Bu SD karttan, güncelledikten sonra. Uygulamalar ve veriler kalır.</string>
+    <string name="inst_update_emmc_text">Bu SD kartın andr36oid\'ini eMMC\'ye kopyalar: BOOT dosyalarını, system ve vendor\'ı ve değiştiyse U-Boot\'u. eMMC\'deki uygulamalar, veriler ve ayarlar kalır.\n\nKonsolu şarjda tutun. Güncelleme yarıda kesilirse, siz tekrar çalıştırana kadar konsol SD karttan açılır.</string>
+    <string name="inst_update_emmc_go">Güncelle</string>
     <string name="inst_restore">Fabrika eMMC\'sini geri yükle</string>
     <string name="inst_restore_text">andr36oid\'in eMMC\'ye yazdığı her şey, %1$s konumundaki yedekle değiştirilir. Yedek önce denetlenir, sonra eMMC onunla karşılaştırılır. Bu birkaç dakika sürer.</string>
     <string name="inst_restore_go">Geri yükle</string>
