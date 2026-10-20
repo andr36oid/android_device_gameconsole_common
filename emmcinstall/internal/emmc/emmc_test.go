@@ -3,6 +3,7 @@ package emmc
 import (
 	"bytes"
 	"crypto/sha256"
+	"encoding/binary"
 	"errors"
 	"fmt"
 	"math/rand"
@@ -888,5 +889,56 @@ func TestFilesReadableUnderInitUmask(t *testing.T) {
 		if fi.Mode().Perm()&0o044 != 0o044 {
 			t.Fatalf("%s is %v", filepath.Base(path), fi.Mode())
 		}
+	}
+}
+
+// A stock eMMC with an MBR table (as EmuELEC images have): the install puts a
+// whole GPT in its place, protective MBR included, and restore brings the
+// MBR disk back byte for byte, its end too (where the GPT keeps its copy).
+func TestStockMBR(t *testing.T) {
+	f := newFake(t)
+	mbr := f.stock[:Sector]
+	for i := range mbr[446:] {
+		mbr[446+i] = 0
+	}
+	part := func(n int, typ byte, first, count uint32) {
+		e := mbr[446+16*n:]
+		e[4] = typ
+		binary.LittleEndian.PutUint32(e[8:], first)
+		binary.LittleEndian.PutUint32(e[12:], count)
+	}
+	part(0, 0x0c, LoaderEnd, uint32(mib(16)))                           // FAT32 LBA
+	part(1, 0x83, uint32(LoaderEnd+mib(16)), uint32(mib(48)-LoaderEnd)) // Linux
+	mbr[510], mbr[511] = 0x55, 0xAA
+	if err := os.WriteFile(f.cfg.EmmcDev, f.stock, 0644); err != nil {
+		t.Fatal(err)
+	}
+	if in := f.cfg.Inspect(); len(in.Problems) != 0 || in.EmmcTable != nil {
+		t.Fatalf("inspect of an MBR eMMC: %+v", in)
+	}
+
+	f.installTo2(t)
+	s0 := f.emmc(0, 1)
+	if s0[446+4] != 0xEE || s0[510] != 0x55 || s0[511] != 0xAA {
+		t.Fatalf("sector 0 isn't a protective MBR: % x", s0[446:])
+	}
+	if !bytes.Equal(s0[446+16:510], make([]byte, 48)) || !bytes.Equal(s0[:446], make([]byte, 446)) {
+		t.Fatal("old MBR entries or boot code left in sector 0")
+	}
+	out, err := exec.Command(sgdisk, "-v", f.cfg.EmmcDev).CombinedOutput()
+	if err != nil || !strings.Contains(string(out), "No problems found") {
+		t.Fatalf("eMMC table after the install: %v\n%s", err, out)
+	}
+	must(t, f.cfg.WriteLoader(f.progress(), f.state().LoaderSHA[:12]))
+
+	must(t, f.cfg.Restore(f.progress(), f.state().Backup.Dir))
+	if !bytes.Equal(f.emmc(0, mib(64)), f.stock) {
+		t.Fatal("restore didn't bring the MBR eMMC back byte for byte")
+	}
+	if b := f.emmc(1, 1); bytes.HasPrefix(b, []byte("EFI PART")) {
+		t.Fatal("a GPT header is left after restore")
+	}
+	if b := f.emmc(mib(64)-1, 1); bytes.HasPrefix(b, []byte("EFI PART")) {
+		t.Fatal("the GPT's backup header is left at the end after restore")
 	}
 }
