@@ -6,6 +6,7 @@ import android.os.Parcel;
 import android.os.RemoteException;
 import android.os.ServiceManager;
 import android.os.SystemClock;
+import android.os.SystemProperties;
 import android.util.Log;
 
 import java.io.File;
@@ -35,6 +36,8 @@ final class Stats {
     private static final String MEM_FREQ = "/sys/class/devfreq/dmc/cur_freq";
 
     private static final String STORAGE_STAT = "/sys/block/mmcblk0/stat";
+    /** The disk Android started from: the SD card, or the built-in eMMC on an eMMC install. */
+    private final String mStoragePath = findStorage(SystemProperties.get("ro.boot.boot_devices", ""));
 
     /** -1 or NaN where a value couldn't be read. */
     int fps = -1;
@@ -178,7 +181,7 @@ final class Stats {
      * field 10 of its stat file (io_ticks, milliseconds spent doing I/O) over the wall clock.
      */
     private void sampleStorage() {
-        final String stat = read(STORAGE_STAT);
+        final String stat = read(mStoragePath);
         final String[] fields = stat == null ? new String[0] : stat.split("\\s+");
         long ticks = -1;
         if (fields.length > 9) {
@@ -298,6 +301,29 @@ final class Stats {
         } catch (NumberFormatException e) {
             return Integer.MIN_VALUE;
         }
+    }
+
+    /** The stat file of the mmcblkN whose sysfs path has a boot device's name in it. */
+    private static String findStorage(String bootDevices) {
+        final File[] disks = new File("/sys/block").listFiles();
+        if (disks != null && !bootDevices.isEmpty()) {
+            for (File disk : disks) {
+                if (!disk.getName().matches("mmcblk\\d+")) {
+                    continue;
+                }
+                try {
+                    final String path = disk.getCanonicalPath();
+                    for (String dev : bootDevices.split(",")) {
+                        if (!dev.isEmpty() && path.contains("/" + dev + "/")) {
+                            return disk.getPath() + "/stat";
+                        }
+                    }
+                } catch (IOException e) {
+                    // not this one
+                }
+            }
+        }
+        return STORAGE_STAT;
     }
 
     private static String read(String path) {
