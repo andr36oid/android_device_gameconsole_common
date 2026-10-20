@@ -151,6 +151,10 @@
     <string name="inst_cant_start">L\'installateur n\'a pas pu être lancé.</string>
     <string name="inst_leave">La laisser telle quelle</string>
     <string name="inst_show_log">Afficher le journal</string>
+    <string name="inst_update_uboot">Mettre à jour U-Boot sur l\'eMMC</string>
+    <string name="inst_update_uboot_sum">La carte SD contient un U-Boot plus récent que l\'eMMC</string>
+    <string name="inst_update_uboot_text">Copie le U-Boot de la carte SD sur l\'eMMC. Son chargeur de premier étage et le trust restent inchangés.\n\nLe U-Boot est stocké en quatre exemplaires, écrits un par un : en cas de coupure de courant, il reste toujours un exemplaire complet pour démarrer la console.</string>
+    <string name="inst_update_uboot_go">Mettre à jour</string>
     <string name="inst_restore">Remettre l\'eMMC d\'origine</string>
     <string name="inst_restore_text">Tout ce qu\'andr36oid a écrit sur l\'eMMC est remplacé par la sauvegarde dans %1$s. La sauvegarde est vérifiée d\'abord, puis l\'eMMC est comparée avec elle. Cela prend quelques minutes.</string>
     <string name="inst_restore_go">Remettre en place</string>

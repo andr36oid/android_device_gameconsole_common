@@ -151,6 +151,10 @@
     <string name="inst_cant_start">Das Installationsprogramm konnte nicht gestartet werden.</string>
     <string name="inst_leave">So lassen</string>
     <string name="inst_show_log">Protokoll anzeigen</string>
+    <string name="inst_update_uboot">U-Boot auf dem eMMC aktualisieren</string>
+    <string name="inst_update_uboot_sum">Die SD-Karte hat ein neueres U-Boot als das eMMC</string>
+    <string name="inst_update_uboot_text">Kopiert das U-Boot der SD-Karte auf das eMMC. Der First-Stage-Loader und der Trust bleiben unverändert.\n\nDas U-Boot wird viermal gespeichert und jeweils eine Kopie nach der anderen geschrieben. So bleibt bei einem Stromausfall immer eine vollständige Kopie übrig, von der die Konsole starten kann.</string>
+    <string name="inst_update_uboot_go">Aktualisieren</string>
     <string name="inst_restore">Original-eMMC zurückspielen</string>
     <string name="inst_restore_text">Alles, was andr36oid auf den eMMC geschrieben hat, wird durch die Sicherung in %1$s ersetzt. Die Sicherung wird zuerst geprüft, danach wird der eMMC damit verglichen. Das dauert einige Minuten.</string>
     <string name="inst_restore_go">Zurückspielen</string>

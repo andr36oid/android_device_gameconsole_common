@@ -812,6 +812,106 @@ func (c *Config) WriteOS(p *Progress) error {
 	return c.Save(r.st)
 }
 
+// U-Boot's part of the loader area holds ubootCopies identical copies, and the
+// idbloader starts the first one that checks out. UpdateUboot writes them last
+// to first, so a cut-off write always leaves one whole copy, old or new.
+const ubootCopies = 4
+
+// UpdateUboot brings U-Boot on the eMMC up to the SD card's after step 3, for
+// a U-Boot update (an update of the SD card's image). The idbloader and trust
+// must be the same on both: those are never written here.
+func (c *Config) UpdateUboot(p *Progress) error {
+	r, err := c.begin(p, "update-uboot")
+	if err != nil {
+		return err
+	}
+	if r.st.Step3 != "done" {
+		return errors.New("the eMMC has no andr36oid loader yet (step 3)")
+	}
+	sd, err := r.openSD()
+	if err != nil {
+		return err
+	}
+	defer sd.Close()
+	sha, err := checkLoader(p, sd)
+	if err != nil {
+		return err
+	}
+	e, err := r.openEmmc()
+	if err != nil {
+		return err
+	}
+	esha, err := e.HashRange(spanLoader.off(), spanLoader.n(), nil)
+	if err != nil {
+		e.Close()
+		return err
+	}
+	if esha == sha {
+		e.Close()
+		r.st.LoaderSHA = sha
+		p.Logf("U-Boot on the eMMC is already the SD card's")
+		return c.Save(r.st)
+	}
+	ub := spanUboot.lo
+	copySectors := int64(TrustStart-UbootStart) / ubootCopies
+	for _, s := range []struct {
+		what string
+		s    span
+	}{{"idbloader", spanIdb}, {"idbloader header", spanHeader}, {"trust", span{TrustStart, LoaderEnd}}} {
+		a, err := sd.HashRange(s.s.off(), s.s.n(), nil)
+		if err == nil {
+			var b string
+			if b, err = e.HashRange(s.s.off(), s.s.n(), nil); err == nil && a != b {
+				err = fmt.Errorf("the %s differs from the SD card's: only U-Boot can be updated here", s.what)
+			}
+		}
+		if err != nil {
+			e.Close()
+			return err
+		}
+	}
+	for i := int64(0); i < ubootCopies; i++ {
+		for _, d := range []*Disk{sd, e} {
+			b, err := d.ReadBytes((ub+i*copySectors)*Sector, Sector)
+			if err == nil && !bytes.HasPrefix(b, []byte("LOADER  ")) {
+				err = fmt.Errorf("U-Boot copy %d isn't where it should be (sector %d)", i+1, ub+i*copySectors)
+			}
+			if err != nil {
+				e.Close()
+				return err
+			}
+		}
+	}
+	e.Close()
+	if err := r.mark("update-uboot"); err != nil {
+		return err
+	}
+	err = r.unlocked(func(e *Disk) error {
+		for i := int64(ubootCopies - 1); i >= 0; i-- {
+			s := span{ub + i*copySectors, ub + (i+1)*copySectors}
+			if _, err := copySpan(p, fmt.Sprintf("U-Boot copy %d", i+1), sd, s, e, s); err != nil {
+				return err
+			}
+		}
+		op := p.Start("Check the whole loader on the eMMC", "eMMC", spanLoader.lo, spanLoader.hi, spanLoader.n())
+		h, err := e.HashRange(spanLoader.off(), spanLoader.n(), op.Tick)
+		if err != nil {
+			return op.Fail(err)
+		}
+		if h != sha {
+			return op.Fail(errors.New("the loader on the eMMC differs from the SD card's"))
+		}
+		op.OK(h, "same as the SD card's")
+		return nil
+	})
+	if err != nil {
+		return r.stop(err)
+	}
+	r.st.LoaderSHA, r.st.Running = sha, ""
+	p.Logf("U-Boot on the eMMC updated")
+	return c.Save(r.st)
+}
+
 // StartTest sets up the eMMC test start again (after it was put off).
 func (c *Config) StartTest(p *Progress) error {
 	if err := c.needSD(); err != nil {

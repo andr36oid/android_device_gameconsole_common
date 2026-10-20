@@ -12,6 +12,7 @@
 //	check-test              after the test start: did the eMMC system come up?
 //	confirm                 run by the eMMC system at every start
 //	write-loader <code>     step 3: the SD card's loader onto the eMMC
+//	update-uboot            after step 3: the SD card's U-Boot onto the eMMC
 //	restore <backup folder> the stock eMMC back
 //	leave                   forget a stop or a cut-off write, write nothing
 //	request                 run what the state folder's request file asks
@@ -77,7 +78,7 @@ func main() {
 	}
 
 	writes := map[string]bool{"backup": true, "blank-loader": true, "write-os": true,
-		"write-loader": true, "restore": true}
+		"write-loader": true, "update-uboot": true, "restore": true}
 	if writes[cmd] {
 		// a stray signal must not cut a write short
 		signal.Ignore(syscall.SIGINT, syscall.SIGTERM, syscall.SIGHUP)
@@ -115,6 +116,8 @@ func main() {
 		result, err = cfg.Confirm(p)
 	case "write-loader":
 		err = cfg.WriteLoader(p, arg())
+	case "update-uboot":
+		err = cfg.UpdateUboot(p)
 	case "restore":
 		err = cfg.Restore(p, arg())
 	case "leave":
@@ -191,6 +194,6 @@ func usage() {
 	if resultFile != "" {
 		fail(fmt.Errorf("request %q not understood", requestCmd))
 	}
-	fmt.Fprintln(os.Stderr, "usage: andr36oid-emmcinstall [--progress file] inspect|status|backup <folder>|blank-loader|check-loader|write-os|start-test|cancel-test|check-test|confirm|write-loader <code>|restore <folder>|leave")
+	fmt.Fprintln(os.Stderr, "usage: andr36oid-emmcinstall [--progress file] inspect|status|backup <folder>|blank-loader|check-loader|write-os|start-test|cancel-test|check-test|confirm|write-loader <code>|update-uboot|restore <folder>|leave")
 	os.Exit(2)
 }

@@ -151,6 +151,10 @@
     <string name="inst_cant_start">The installer couldn\'t be started.</string>
     <string name="inst_leave">Leave it as it is</string>
     <string name="inst_show_log">Show the log</string>
+    <string name="inst_update_uboot">Update U-Boot on the eMMC</string>
+    <string name="inst_update_uboot_sum">The SD card has a newer U-Boot than the eMMC</string>
+    <string name="inst_update_uboot_text">Copies the SD card\'s U-Boot to the eMMC. Its first-stage loader and trust stay as they are.\n\nU-Boot is stored four times and is written one copy at a time, so a power cut still leaves a whole copy for the console to start from.</string>
+    <string name="inst_update_uboot_go">Update</string>
     <string name="inst_restore">Put the stock eMMC back</string>
     <string name="inst_restore_text">Everything andr36oid wrote to the eMMC is replaced by the backup in %1$s. The backup is checked first, and the eMMC is compared with it afterwards. This takes a few minutes.</string>
     <string name="inst_restore_go">Put it back</string>

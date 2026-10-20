@@ -151,6 +151,10 @@
     <string name="inst_cant_start">无法启动安装程序。</string>
     <string name="inst_leave">保持现状</string>
     <string name="inst_show_log">显示日志</string>
+    <string name="inst_update_uboot">更新 eMMC 上的 U-Boot</string>
+    <string name="inst_update_uboot_sum">SD 卡上的 U-Boot 比 eMMC 上的更新</string>
+    <string name="inst_update_uboot_text">将 SD 卡上的 U-Boot 复制到 eMMC。第一阶段加载程序和 trust 保持不变。\n\nU-Boot 会保存四份，并且一次只写入一份，因此即使突然断电，也至少会留下一份完整的副本供掌机启动。</string>
+    <string name="inst_update_uboot_go">更新</string>
     <string name="inst_restore">恢复原厂 eMMC</string>
     <string name="inst_restore_text">andr36oid 写入 eMMC 的所有内容都将替换为 %1$s 中的备份。系统会先检查备份，然后再将 eMMC 与备份进行比对。这需要几分钟。</string>
     <string name="inst_restore_go">恢复</string>

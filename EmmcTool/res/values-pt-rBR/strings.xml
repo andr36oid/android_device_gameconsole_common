@@ -151,6 +151,10 @@
     <string name="inst_cant_start">Não foi possível iniciar o instalador.</string>
     <string name="inst_leave">Deixar como está</string>
     <string name="inst_show_log">Mostrar o log</string>
+    <string name="inst_update_uboot">Atualizar o U-Boot na eMMC</string>
+    <string name="inst_update_uboot_sum">O cartão SD tem um U-Boot mais novo que a eMMC</string>
+    <string name="inst_update_uboot_text">Copia o U-Boot do cartão SD para a eMMC. O carregador de primeiro estágio e o trust continuam como estão.\n\nO U-Boot é guardado quatro vezes e gravado uma cópia por vez, então, se a energia cair, ainda sobra uma cópia inteira para o console iniciar.</string>
+    <string name="inst_update_uboot_go">Atualizar</string>
     <string name="inst_restore">Restaurar a eMMC original</string>
     <string name="inst_restore_text">Tudo o que o andr36oid gravou na eMMC é substituído pelo backup em %1$s. O backup é verificado primeiro, e depois a eMMC é comparada com ele. Isso leva alguns minutos.</string>
     <string name="inst_restore_go">Restaurar</string>

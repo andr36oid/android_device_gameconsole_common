@@ -151,6 +151,10 @@
     <string name="inst_cant_start">Installer tidak bisa dijalankan.</string>
     <string name="inst_leave">Biarkan seperti sekarang</string>
     <string name="inst_show_log">Tampilkan log</string>
+    <string name="inst_update_uboot">Perbarui U-Boot di eMMC</string>
+    <string name="inst_update_uboot_sum">Kartu SD memiliki U-Boot yang lebih baru daripada eMMC</string>
+    <string name="inst_update_uboot_text">Menyalin U-Boot dari kartu SD ke eMMC. Loader tahap pertama dan trust tetap seperti semula.\n\nU-Boot disimpan empat kali dan ditulis satu salinan per satu, sehingga jika daya terputus, tetap ada satu salinan utuh untuk konsol melakukan booting.</string>
+    <string name="inst_update_uboot_go">Perbarui</string>
     <string name="inst_restore">Kembalikan eMMC asli</string>
     <string name="inst_restore_text">Semua yang ditulis andr36oid ke eMMC akan diganti dengan cadangan di %1$s. Cadangan dicek dulu, lalu eMMC dibandingkan dengan cadangan itu. Ini butuh beberapa menit.</string>
     <string name="inst_restore_go">Kembalikan</string>

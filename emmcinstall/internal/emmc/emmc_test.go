@@ -106,7 +106,10 @@ func newFake(t *testing.T) *fake {
 	sdSecs := mib(48)
 	sd := make([]byte, sdSecs*Sector)
 	copy(sd[LoaderStart*Sector:], append([]byte{0x3b, 0x8c, 0xdc, 0xfc}, randBytes(r, 176*1024)...))
-	copy(sd[UbootStart*Sector:], append([]byte("LOADER  "), randBytes(r, 1<<20)...))
+	ub := append([]byte("LOADER  "), randBytes(r, 1<<20-8)...)
+	for i := 0; i < ubootCopies; i++ { // like loaderimage packs it
+		copy(sd[UbootStart*Sector+int64(i)<<20:], ub)
+	}
 	copy(sd[TrustStart*Sector:], append([]byte("BL3X"), randBytes(r, 1<<20)...))
 	parts := []struct {
 		num        int
@@ -940,5 +943,73 @@ func TestStockMBR(t *testing.T) {
 	}
 	if b := f.emmc(mib(64)-1, 1); bytes.HasPrefix(b, []byte("EFI PART")) {
 		t.Fatal("the GPT's backup header is left at the end after restore")
+	}
+}
+
+func TestUpdateUboot(t *testing.T) {
+	f := newFake(t)
+	f.installTo2(t)
+	mustFail(t, f.cfg.UpdateUboot(f.progress()), "no andr36oid loader yet")
+	must(t, f.cfg.WriteLoader(f.progress(), f.state().LoaderSHA[:12]))
+	f.writes = nil
+	must(t, f.cfg.UpdateUboot(f.progress()))
+	if len(f.writes) != 0 {
+		t.Fatalf("U-Boot already the same, still %d writes", len(f.writes))
+	}
+
+	// a new image on the SD card: U-Boot changed, idbloader and trust not
+	copySecs := int64(TrustStart-UbootStart) / ubootCopies
+	old := f.emmc(UbootStart, copySecs)
+	nu := append([]byte("LOADER  "), randBytes(rand.New(rand.NewSource(7)), copySecs*Sector-8)...)
+	sd, err := os.OpenFile(f.cfg.SDDev, os.O_WRONLY, 0)
+	must(t, err)
+	for i := int64(0); i < ubootCopies; i++ {
+		_, err = sd.WriteAt(nu, (UbootStart+i*copySecs)*Sector)
+		must(t, err)
+	}
+	must(t, sd.Close())
+
+	// cut off at copy 2: copies 4 and 3 are new, 2 and 1 still the old ones
+	w := testHooks.write
+	testHooks.write = func(d *Disk, b []byte, off int64) ([]byte, error) {
+		if d.Path == f.cfg.EmmcDev && off == (UbootStart+copySecs)*Sector {
+			return nil, syscall.EIO
+		}
+		return w(d, b, off)
+	}
+	mustFail(t, f.cfg.UpdateUboot(f.progress()), "input/output error")
+	for i, want := range [][]byte{old, old, nu, nu} {
+		if !bytes.Equal(f.emmc(UbootStart+int64(i)*copySecs, copySecs), want) {
+			t.Fatalf("after the cut, U-Boot copy %d is neither whole and as expected", i+1)
+		}
+	}
+	if st := f.state(); st.Running != "update-uboot" || !f.locked {
+		t.Fatalf("after the cut: %+v", st)
+	}
+	testHooks.write = w
+	f.writes = nil
+	must(t, f.cfg.UpdateUboot(f.progress()))
+	if !bytes.Equal(f.emmc(LoaderStart, LoaderEnd-LoaderStart), f.sd(LoaderStart, LoaderEnd-LoaderStart)) {
+		t.Fatal("U-Boot not updated")
+	}
+	for _, off := range f.writes {
+		if off < UbootStart*Sector || off >= TrustStart*Sector {
+			t.Fatalf("wrote outside U-Boot, at sector %d", off/Sector)
+		}
+	}
+	if st := f.state(); st.Running != "" || st.Failed != "" || st.Step3 != "done" {
+		t.Fatalf("after the update: %+v", st)
+	}
+
+	// a different idbloader on the SD card: refused, nothing written
+	sd, err = os.OpenFile(f.cfg.SDDev, os.O_WRONLY, 0)
+	must(t, err)
+	_, err = sd.WriteAt([]byte{1, 2, 3}, (LoaderStart+5)*Sector)
+	must(t, err)
+	must(t, sd.Close())
+	f.writes = nil
+	mustFail(t, f.cfg.UpdateUboot(f.progress()), "idbloader differs")
+	if len(f.writes) != 0 {
+		t.Fatal("wrote after refusing")
 	}
 }
