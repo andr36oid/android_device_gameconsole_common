@@ -316,12 +316,12 @@ echo "$(cat "$R"/proc/cmdline) $args" >"$R"/proc/cmdline
 run boot
 check "eMMC current on" on "$(prop sys.andr36oid.ktc.builtin_emmc)"
 check "eMMC default stays off" off "$(prop sys.andr36oid.ktd.builtin_emmc)"
-check "eMMC speed default" ddr52 "$(prop sys.andr36oid.ktd.emmc_speed)"
+check "eMMC speed default" hs "$(prop sys.andr36oid.ktd.emmc_speed)"
 setp persist.andr36oid.kt.emmc_speed hs200
 run apply
 check "eMMC speed written" "dw_mmc_rockchip.builtin_emmc=1 dw_mmc_rockchip.emmc_speed=hs200" \
 	"$(sed -n 's/^kt_args=//p' "$T/boot/kernel-tweaks.txt")"
-setp persist.andr36oid.kt.emmc_speed ddr52
+setp persist.andr36oid.kt.emmc_speed hs
 check "eMMC power default" off "$(prop sys.andr36oid.ktd.emmc_power)"
 setp persist.andr36oid.kt.emmc_power on
 run apply
@@ -345,7 +345,7 @@ mkdir -p "$R/proc/device-tree/dwmmc@ff390000"
 echo "$(cat "$R"/proc/cmdline) dw_mmc_rockchip.builtin_emmc=system" >"$R"/proc/cmdline
 run boot
 check "eMMC switch not offered on an eMMC install" "" "$(prop sys.andr36oid.ktd.builtin_emmc)"
-check "eMMC speed still offered on an eMMC install" ddr52 "$(prop sys.andr36oid.ktd.emmc_speed)"
+check "eMMC speed still offered on an eMMC install" hs "$(prop sys.andr36oid.ktd.emmc_speed)"
 setp persist.andr36oid.kt.builtin_emmc on
 setp persist.andr36oid.kt.emmc_speed hs200
 run apply

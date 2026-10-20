@@ -161,9 +161,9 @@ boot_read() {
 		# the same consoles as builtin_emmc
 		[ -e "$R/proc/device-tree/dwmmc@ff390000/andr36oid,builtin-emmc" ] || return 0
 		case $(arg_last dw_mmc_rockchip.emmc_speed "$2") in
-		hs) echo hs ;;
+		ddr52) echo ddr52 ;;
 		hs200) echo hs200 ;;
-		*) echo ddr52 ;;
+		*) echo hs ;;
 		esac ;;
 	emmc_power)
 		# the same consoles as builtin_emmc
