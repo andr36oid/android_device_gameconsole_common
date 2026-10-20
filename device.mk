@@ -101,7 +101,11 @@ PRODUCT_COPY_FILES += \
     	$(LOCAL_PATH)/fstab.rk30board:$(TARGET_COPY_OUT_RAMDISK)/fstab.rk30board \
     	$(LOCAL_PATH)/fstab.rk30board:$(TARGET_COPY_OUT_ROOT)/fstab.rk30board \
     	$(LOCAL_PATH)/fstab.rk30board:$(TARGET_COPY_OUT_VENDOR)/fstab.rk30board \
-    	$(LOCAL_PATH)/fstab.rk30board:$(TARGET_COPY_OUT_VENDOR)/etc/fstab.rk30board
+    	$(LOCAL_PATH)/fstab.rk30board:$(TARGET_COPY_OUT_VENDOR)/etc/fstab.rk30board \
+    	$(LOCAL_PATH)/fstab.emmc:$(TARGET_COPY_OUT_RAMDISK)/fstab.emmc \
+    	$(LOCAL_PATH)/fstab.emmc:$(TARGET_COPY_OUT_ROOT)/fstab.emmc \
+    	$(LOCAL_PATH)/fstab.emmc:$(TARGET_COPY_OUT_VENDOR)/fstab.emmc \
+    	$(LOCAL_PATH)/fstab.emmc:$(TARGET_COPY_OUT_VENDOR)/etc/fstab.emmc
     	
 PRODUCT_COPY_FILES += \
     	$(LOCAL_PATH)/init.rk30board.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.rk30board.rc \

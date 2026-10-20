@@ -152,6 +152,8 @@ boot_read() {
 		# only consoles whose device tree has the eMMC with its pins free
 		[ -e "$R/proc/device-tree/dwmmc@ff390000/andr36oid,builtin-emmc" ] || return 0
 		case $(arg_last dw_mmc_rockchip.builtin_emmc "$2") in
+		# andr36oid installed on it: always on (its boot.ini), no switch to offer
+		system) return 0 ;;
 		1 | [Yy]*) echo on ;;
 		*) echo off ;;
 		esac ;;

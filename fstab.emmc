@@ -1,0 +1,26 @@
+# andr36oid installed on the built-in eMMC (Settings > System > eMMC Installation): its
+# boot.ini sets androidboot.fstab_suffix=emmc. As fstab.rk30board with the eMMC's
+# partitions, and both SD card slots are plain cards: an andr36oid card in the slot is
+# not the system here.
+#<src>                 <mnt_point>  <type>   <mnt_flags and options>                              <fs_mgr_flags>
+# system and vendor are mounted by the first-stage ramdisk, which then switches root into
+# /system. A GSI flashed to the system partition may be ext4 or EROFS, and vendor may be
+# EROFS too (erofs/erofs-test-image.sh in the r36s repo). The first line that
+# mounts wins. No avb/verify flags: there is no verified boot on this device.
+/dev/block/platform/ff390000.dwmmc/by-name/system       /system     ext4       ro,barrier=1                                        wait,first_stage_mount
+/dev/block/platform/ff390000.dwmmc/by-name/system       /system     erofs      ro                                                  wait,first_stage_mount
+/dev/block/platform/ff390000.dwmmc/by-name/vendor       /vendor     ext4       ro,barrier=1                                        wait,first_stage_mount
+/dev/block/platform/ff390000.dwmmc/by-name/vendor       /vendor     erofs      ro                                                  wait,first_stage_mount
+/dev/block/platform/ff390000.dwmmc/by-name/metadata     /metadata   ext4       noatime,nosuid,nodev,discard                        wait,check,formattable
+/dev/block/platform/ff390000.dwmmc/by-name/userdata     /data       f2fs       noatime,nosuid,nodev,nodiratime,inline_data         wait,latemount,check,quota,formattable,reservedsize=128M
+/dev/block/platform/ff390000.dwmmc/by-name/userdata     /data       ext4       noatime,nosuid,nodev,barrier=1,noauto_da_alloc	   quota,latemount,formattable,reservedsize=128M
+# /cache only holds recovery logs and commands: no fsck on every boot, the kernel replays its journal when mounting
+/dev/block/platform/ff390000.dwmmc/by-name/cache        /cache      ext4       noatime,nosuid,nodev,barrier=1,data=ordered,nomblk_io_submit,noauto_da_alloc wait,formattable
+/dev/block/platform/ff390000.dwmmc/by-name/misc         /misc       emmc       defaults                                            defaults
+*/block/mmcblk2*  	     /boot           emmc    defaults                                                        defaults
+
+*/block/mmcblk0*  	     auto        auto       defaults                                            voldmanaged=sdcard1:auto
+*/block/mmcblk1*  	     auto        auto       defaults                      	                    voldmanaged=sdcard2:auto
+*/block/sd*              auto        auto       defaults        			                        voldmanaged=usb:auto
+
+/dev/block/zram0         none        swap       defaults                                            zramsize=75%,max_comp_streams=4

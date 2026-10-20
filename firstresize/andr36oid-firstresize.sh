@@ -92,6 +92,12 @@ plan_userdata() {
 }
 # END plan_userdata
 
+# Only on a start from the SD card. andr36oid installed on the built-in eMMC got its
+# partitions from the installer, and an andr36oid card in the slot is just a card there.
+case " $(cat "${RESIZE_CMDLINE:-/proc/cmdline}" 2>/dev/null) " in
+*" androidboot.boot_devices=ff390000.dwmmc "*) exit 0 ;;
+esac
+
 # The card Android started from: the disk that holds the system partition
 sysdev=$(readlink -f "$BYNAME/system") || exit 0
 disk=${sysdev##*/}

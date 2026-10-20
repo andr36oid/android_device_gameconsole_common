@@ -338,6 +338,19 @@ check "eMMC still written, options not last" "dw_mmc_rockchip.builtin_emmc=1" \
 setp persist.andr36oid.kt.builtin_emmc off
 run apply
 check "eMMC back off" no "$([ -e "$T/boot/kernel-tweaks.txt" ] && echo yes || echo no)"
+# an eMMC install: its boot.ini switches the eMMC on for good, no switch for it here
+setup
+mkdir -p "$R/proc/device-tree/dwmmc@ff390000"
+: >"$R/proc/device-tree/dwmmc@ff390000/andr36oid,builtin-emmc"
+echo "$(cat "$R"/proc/cmdline) dw_mmc_rockchip.builtin_emmc=system" >"$R"/proc/cmdline
+run boot
+check "eMMC switch not offered on an eMMC install" "" "$(prop sys.andr36oid.ktd.builtin_emmc)"
+check "eMMC speed still offered on an eMMC install" ddr52 "$(prop sys.andr36oid.ktd.emmc_speed)"
+setp persist.andr36oid.kt.builtin_emmc on
+setp persist.andr36oid.kt.emmc_speed hs200
+run apply
+check "eMMC switch never written on an eMMC install" "dw_mmc_rockchip.emmc_speed=hs200" \
+	"$(sed -n 's/^kt_args=//p' "$T/boot/kernel-tweaks.txt")"
 rm -rf "$R/proc/device-tree/dwmmc@ff390000"
 
 # --- storage layer: sdcardfs by default, FUSE as a start option
