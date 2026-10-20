@@ -1,0 +1,22 @@
+# Settings > System > eMMC Installation, see cmd/andr36oid-emmcinstall
+
+on post-fs-data
+    mkdir /data/misc/andr36oid-emmcinstall 0770 system system
+
+# started by Settings with ctl.start after writing the request file
+service andr36oid-emmcinstall /system/bin/andr36oid-emmcinstall request
+    user root
+    group root system media_rw
+    disabled
+    oneshot
+
+# andr36oid started from the eMMC: if this is the installer's test start, tell
+# the SD card it came up
+on property:sys.boot_completed=1 && property:ro.boot.boot_devices=ff390000.dwmmc
+    start andr36oid-emmcinstall-confirm
+
+service andr36oid-emmcinstall-confirm /system/bin/andr36oid-emmcinstall confirm
+    user root
+    group root system
+    disabled
+    oneshot

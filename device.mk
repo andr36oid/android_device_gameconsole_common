@@ -817,6 +817,11 @@ PRODUCT_PACKAGES += \
 	EmmcTool \
 	andr36oid-emmc
 
+# eMMC Installation (Settings > System): andr36oid from the SD card onto the built-in eMMC,
+# with a backup of the stock one, each step proven before the next (emmcinstall/)
+PRODUCT_PACKAGES += \
+	andr36oid-emmcinstall
+
 # Free up space (Settings > Storage): old save states, backups, caches, screenshots,
 # APKs and duplicate ROMs; low space and EASYROMS error notifications
 PRODUCT_PACKAGES += \
