@@ -51,6 +51,8 @@ final class UsbMode {
     private static final String KEY_DEVICE_BOOT = "device_boot";
 
     private static final String POWER_SUPPLIES = "/sys/class/power_supply";
+    private static final String DEVICE_TREE = "/proc/device-tree";
+    private static final String OTG_PORT_NODE = "usb2-phy@100/otg-port";
     static final String FUNCTIONS_MTP = "mtp";
     static final String FUNCTIONS_PTP = "ptp";
     static final String FUNCTIONS_NONE = "none";
@@ -72,12 +74,12 @@ final class UsbMode {
     }
 
     /**
-     * Callers check {@link #isCharging()} first to explain why. Device mode is refused while
-     * charging: the OTG port's 5 V is always on, and a computer adds its own 5 V on the same line
-     * while the charger feeds the other port. The kernel refuses it too.
+     * Callers check {@link #chargingBlocksDevice()} first to explain why. Device mode is refused
+     * while charging: the OTG port's 5 V is always on, and a computer adds its own 5 V on the same
+     * line while the charger feeds the other port. The kernel refuses it too.
      */
     boolean setDevice(boolean device) {
-        if (device && isCharging()) {
+        if (device && chargingBlocksDevice()) {
             Log.w(TAG, "Not switching to device mode while charging");
             return false;
         }
@@ -108,6 +110,30 @@ final class UsbMode {
         }
         showTile();
         return ok;
+    }
+
+    /**
+     * True when a charger is in and this console must not be a device for a computer then.
+     * Consoles with one port for charging and OTG (Diium D-28S) are the exception: the computer
+     * is the charger there. The device tree says which: the kernel refuses device mode while
+     * charging only where the OTG port has rockchip,host-while-charging, so this follows it.
+     */
+    boolean chargingBlocksDevice() {
+        return deviceTreeBlocksDevice() && isCharging();
+    }
+
+    private static boolean deviceTreeBlocksDevice() {
+        final File[] nodes = new File(DEVICE_TREE).listFiles();
+        if (nodes != null) {
+            for (File node : nodes) {
+                final File port = new File(node, OTG_PORT_NODE);
+                if (port.isDirectory()) {
+                    return new File(port, "rockchip,host-while-charging").exists();
+                }
+            }
+        }
+        // No OTG port found: keep the rule
+        return true;
     }
 
     /**

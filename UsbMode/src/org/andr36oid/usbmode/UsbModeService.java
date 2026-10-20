@@ -81,7 +81,7 @@ public class UsbModeService extends Service {
 
     private void check() {
         final boolean device = mUsbMode.isDevice();
-        if (mUsbMode.isCharging()) {
+        if (mUsbMode.chargingBlocksDevice()) {
             // The kernel has usually switched the port back already; make sure, then tell.
             final boolean wasDevice = device || mUsbMode.wasDeviceThisBoot();
             if (wasDevice) {

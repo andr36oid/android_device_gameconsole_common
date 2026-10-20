@@ -84,7 +84,7 @@ public class UsbModeFragment extends PreferenceFragment
         if (mWarning != null) {
             return;
         }
-        if (mUsbMode.isCharging()) {
+        if (mUsbMode.chargingBlocksDevice()) {
             Toast.makeText(getActivity(), R.string.charging_refused, Toast.LENGTH_LONG).show();
             if (fromTile) {
                 getActivity().finish();
@@ -113,7 +113,7 @@ public class UsbModeFragment extends PreferenceFragment
         if (getActivity() == null) {
             return;
         }
-        if (device && mUsbMode.isCharging()) {
+        if (device && mUsbMode.chargingBlocksDevice()) {
             // Plugged in while the warning was open.
             Toast.makeText(getActivity(), R.string.charging_refused, Toast.LENGTH_LONG).show();
         } else if (!mUsbMode.setDevice(device)) {

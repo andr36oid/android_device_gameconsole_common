@@ -20,7 +20,7 @@ public class UsbModeTileService extends TileService {
             return;
         }
         final boolean device = !usbMode.isDevice();
-        if (device && usbMode.isCharging()) {
+        if (device && usbMode.chargingBlocksDevice()) {
             Toast.makeText(this, R.string.charging_refused, Toast.LENGTH_LONG).show();
             return;
         }
