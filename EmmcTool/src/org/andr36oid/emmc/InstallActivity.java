@@ -2,7 +2,12 @@ package org.andr36oid.emmc;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Typeface;
+import android.os.BatteryManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -80,6 +85,8 @@ public class InstallActivity extends Activity {
     /** Something on the right takes the D-pad (the checkbox, the hold ring). */
     private boolean mSideFocus;
     private int mTitleColor;
+    /** On the checks page: redraws it when a charger comes or goes, or the level changes. */
+    private BroadcastReceiver mPowerWatch;
 
     // The progress page's views, null on other pages
     private TextView mCurName, mCurLine;
@@ -126,6 +133,45 @@ public class InstallActivity extends Activity {
     protected void onPause() {
         super.onPause();
         mHandler.removeCallbacks(mPoll);
+        stopPowerWatch();
+    }
+
+    private void stopPowerWatch() {
+        if (mPowerWatch == null) return;
+        unregisterReceiver(mPowerWatch);
+        mPowerWatch = null;
+    }
+
+    /** Keeps the checks' power line live: the result of inspect, updated from the battery. */
+    private void watchPower() {
+        if (mPowerWatch != null) return;
+        mPowerWatch = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context c, Intent i) {
+                final JSONObject power = mInspect == null ? null : mInspect.optJSONObject("power");
+                if (power == null) return;
+                final int scale = i.getIntExtra(BatteryManager.EXTRA_SCALE, 100);
+                final int level = i.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
+                final int cap = level < 0 || scale <= 0 ? -1 : level * 100 / scale;
+                final boolean charger = i.getIntExtra(BatteryManager.EXTRA_PLUGGED, 0) != 0;
+                final int oldCap = power.optInt("capacity", -1);
+                final boolean oldCharger = power.optBoolean("charger");
+                if (cap == oldCap && charger == oldCharger) return;
+                if ((charger || cap >= 60) != (oldCharger || oldCap >= 60)) {
+                    // passes or fails now: the installer checks again, its problems too
+                    showChecks();
+                    return;
+                }
+                try {
+                    power.put("capacity", cap);
+                    power.put("charger", charger);
+                } catch (org.json.JSONException e) {
+                    return;
+                }
+                showCheckResults();
+            }
+        };
+        registerReceiver(mPowerWatch, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
     }
 
     @Override
@@ -209,6 +255,7 @@ public class InstallActivity extends Activity {
     /** A new page; label null: none, at: how far along of 1000, -1 no bar. */
     private void page(String label, int at, CharSequence title, CharSequence body) {
         mHandler.removeCallbacks(mPoll);
+        stopPowerWatch();
         mCurName = mCurLine = null;
         mCurBar = null;
         mFinished = null;
@@ -390,6 +437,7 @@ public class InstallActivity extends Activity {
                 : getString(R.string.inst_chk_battery, cap), null);
         ok &= destRow();
         ok &= problems.isEmpty();
+        watchPower();
 
         button(mBack, getString(R.string.inst_close), this::finish);
         button(mMore, getString(R.string.inst_check_again), this::showChecks);
