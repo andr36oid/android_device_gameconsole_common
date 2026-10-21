@@ -194,4 +194,33 @@
     <string name="inst_retry">Spróbuj ponownie</string>
     <string name="inst_not_exact_title">Oryginalne eMMC przywrócone, ale nie dokładnie</string>
     <string name="inst_not_exact">Wszystko, co zapisał andr36oid, wróciło do stanu z kopii i zostało sprawdzone. Obszary rozruchowe jednak się różnią, a andr36oid nigdy ich nie zapisuje. Wyłącz konsolę, wyjmij kartę SD, gdy będzie wyłączona, i włącz ją, aby sprawdzić, czy oryginalny system wystartuje.</string>
+    <string name="inst_adv_entry">Zaawansowane: zapisz dowolny obraz</string>
+    <string name="inst_lbl_advanced">Zaawansowane</string>
+    <string name="inst_adv_warn_title">Od tego miejsca na własną odpowiedzialność</string>
+    <string name="inst_adv_warn">To zapisze na eMMC wybrany przez ciebie obraz karty SD w miejsce oryginalnego systemu. To nie jest andr36oid i nic tutaj nie jest przetestowane.
+
+Program rozruchowy obrazu zastąpi ten z konsoli. Jeśli nie pasuje do tej konsoli, może ona już nigdy nie wystartować, nawet z karty SD. Jeśli eMMC jest przylutowane (eMCP), uratować ją może tylko lutowanie.
+
+Najpierw powstaje kopia oryginalnego eMMC, jeśli jeszcze jej nie ma. andr36oid może ją przywrócić tylko, dopóki konsola startuje z karty SD.</string>
+    <string name="inst_adv_pick_title">Wybierz obraz</string>
+    <string name="inst_adv_pick">Obrazy (.img, .img.gz, .img.xz lub .zip z jednym .img) w pamięci wewnętrznej, w Download i na partycji BOOT karty SD.</string>
+    <string name="inst_adv_none">Nie znaleziono obrazów. Skopiuj jeden do pamięci wewnętrznej lub do Download i poszukaj ponownie.</string>
+    <string name="inst_adv_look_again">Szukaj ponownie</string>
+    <string name="inst_adv_on_boot">na BOOT</string>
+    <string name="inst_adv_final_title">Zapisać %1$s?</string>
+    <string name="inst_adv_final">%1$s: %2$s. eMMC: %3$s. Spakowany obraz po rozpakowaniu jest większy; jest to sprawdzane, zanim cokolwiek zostanie zapisane.
+
+Cała zawartość eMMC zostanie zastąpiona tym obrazem.</string>
+    <string name="inst_adv_too_big">Ten obraz jest większy niż eMMC, więc nie można go zapisać.</string>
+    <string name="inst_adv_write">Zapisz obraz</string>
+    <string name="inst_adv_title">Zapis obrazu</string>
+    <string name="inst_adv_working">Obraz jest raz odczytywany do sprawdzenia, zapisywany na eMMC, a potem odczytywany z niej ponownie.</string>
+    <string name="inst_adv_done_title">Obraz zapisany</string>
+    <string name="inst_adv_done">%1$s jest na eMMC i odczytuje się tak samo. Wyłącz konsolę, wyjmij kartę SD, gdy będzie wyłączona, a potem ją włącz.</string>
+    <string name="inst_custom_title">Twój własny obraz jest na eMMC</string>
+    <string name="inst_custom">%1$s (%2$s) zapisano na eMMC w trybie zaawansowanym. To nie jest andr36oid. Możesz zainstalować andr36oid, przywrócić oryginalny system lub zapisać inny obraz.</string>
+    <string name="inst_custom_install">Zainstaluj andr36oid</string>
+    <string name="inst_adv_another">Zapisz inny obraz</string>
+    <string name="inst_adv_write_again">Zapisz obraz</string>
+    <string name="inst_incomplete_image">Zapis obrazu na eMMC nie został dokończony. eMMC zawiera tylko jego część i nie wystartuje. Zapisz obraz ponownie lub przywróć oryginalny system.</string>
 </resources>

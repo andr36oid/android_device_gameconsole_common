@@ -194,4 +194,33 @@
     <string name="inst_retry">Coba lagi</string>
     <string name="inst_not_exact_title">eMMC bawaan kembali, tapi tidak persis</string>
     <string name="inst_not_exact">Semua yang ditulis andr36oid sudah kembali seperti di cadangan dan sudah diperiksa. Namun area boot berbeda, dan andr36oid tidak pernah menulisnya. Matikan konsol, cabut kartu SD setelah mati, lalu nyalakan untuk melihat apakah sistem bawaan bisa start.</string>
+    <string name="inst_adv_entry">Lanjutan: tulis image apa saja</string>
+    <string name="inst_lbl_advanced">Lanjutan</string>
+    <string name="inst_adv_warn_title">Mulai sini, risiko ditanggung sendiri</string>
+    <string name="inst_adv_warn">Ini menulis image kartu SD pilihanmu ke eMMC, menggantikan sistem bawaan. Ini bukan andr36oid, dan tidak ada yang diuji.
+
+Loader milik image menggantikan loader konsol. Jika tidak cocok untuk konsol ini, konsol mungkin tidak akan pernah start lagi, bahkan dari kartu SD. Jika eMMC disolder (eMCP), hanya pekerjaan solder yang bisa memulihkannya.
+
+Cadangan eMMC bawaan dibuat dulu jika belum ada. andr36oid hanya bisa memulihkannya selama konsol masih bisa start dari kartu SD.</string>
+    <string name="inst_adv_pick_title">Pilih image</string>
+    <string name="inst_adv_pick">Image (.img, .img.gz, .img.xz, atau .zip berisi satu .img) di penyimpanan internal, di Download, dan di partisi BOOT kartu SD.</string>
+    <string name="inst_adv_none">Tidak ada image. Salin satu ke penyimpanan internal atau ke Download, lalu cari lagi.</string>
+    <string name="inst_adv_look_again">Cari lagi</string>
+    <string name="inst_adv_on_boot">di BOOT</string>
+    <string name="inst_adv_final_title">Tulis %1$s?</string>
+    <string name="inst_adv_final">%1$s: %2$s. eMMC: %3$s. Image terkompresi lebih besar setelah diekstrak; ini diperiksa sebelum apa pun ditulis.
+
+Semua isi eMMC diganti dengan image ini.</string>
+    <string name="inst_adv_too_big">Image ini lebih besar dari eMMC, jadi tidak bisa ditulis.</string>
+    <string name="inst_adv_write">Tulis image</string>
+    <string name="inst_adv_title">Tulis image</string>
+    <string name="inst_adv_working">Image dibaca sekali untuk diperiksa, ditulis ke eMMC, lalu dibaca kembali dari eMMC.</string>
+    <string name="inst_adv_done_title">Image ditulis</string>
+    <string name="inst_adv_done">%1$s sudah ada di eMMC dan terbaca sama. Matikan konsol, cabut kartu SD setelah mati, lalu nyalakan.</string>
+    <string name="inst_custom_title">Image milikmu ada di eMMC</string>
+    <string name="inst_custom">%1$s (%2$s) ditulis ke eMMC dalam mode lanjutan. Ini bukan andr36oid. Kamu bisa memasang andr36oid, memulihkan sistem bawaan, atau menulis image lain.</string>
+    <string name="inst_custom_install">Pasang andr36oid</string>
+    <string name="inst_adv_another">Tulis image lain</string>
+    <string name="inst_adv_write_again">Tulis image</string>
+    <string name="inst_incomplete_image">Penulisan image ke eMMC tidak selesai. eMMC hanya berisi sebagian dan tidak akan bisa start. Tulis image lagi, atau pulihkan sistem bawaan.</string>
 </resources>

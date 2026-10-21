@@ -196,4 +196,28 @@
     <string name="inst_retry">Try again</string>
     <string name="inst_not_exact_title">Stock eMMC back, but not exactly</string>
     <string name="inst_not_exact">Everything andr36oid wrote is back as it was in the backup and checked. The boot areas differ, though, and andr36oid never writes them. Shut the console down, take the SD card out once it is off, then switch it on to see if the stock system starts.</string>
+    <!-- Advanced: any SD card image on the eMMC, at the user's own risk -->
+    <string name="inst_adv_entry">Advanced: write any image</string>
+    <string name="inst_lbl_advanced">Advanced</string>
+    <string name="inst_adv_warn_title">You are on your own</string>
+    <string name="inst_adv_warn">This writes an SD card image of your choice to the eMMC, in place of the stock system. It is not andr36oid, and nothing here is tested.\n\nThe image\'s own loader replaces the console\'s. If it doesn\'t suit this console, the console may never start again, not even from an SD card. If the eMMC is soldered on (eMCP), only soldering work can bring it back.\n\nA backup of the stock eMMC is made first, if there isn\'t one yet. andr36oid can put it back only while the console still starts from an SD card.</string>
+    <string name="inst_adv_pick_title">Pick the image</string>
+    <string name="inst_adv_pick">Images (.img, .img.gz, .img.xz, or .zip with one .img) in internal storage, in Download and on the SD card\'s BOOT partition.</string>
+    <string name="inst_adv_none">No images found. Copy one to internal storage or to Download, then look again.</string>
+    <string name="inst_adv_look_again">Look again</string>
+    <string name="inst_adv_on_boot">on BOOT</string>
+    <string name="inst_adv_final_title">Write %1$s?</string>
+    <string name="inst_adv_final">%1$s: %2$s. The eMMC: %3$s. A packed image is bigger once unpacked; it is checked before anything is written.\n\nEverything on the eMMC is replaced by this image.</string>
+    <string name="inst_adv_too_big">This image is bigger than the eMMC, so it can\'t be written.</string>
+    <string name="inst_adv_write">Write image</string>
+    <string name="inst_adv_title">Write an image</string>
+    <string name="inst_adv_working">The image is read once to check it, written to the eMMC, then read back from it.</string>
+    <string name="inst_adv_done_title">Image written</string>
+    <string name="inst_adv_done">%1$s is on the eMMC and reads back the same. Shut the console down, take the SD card out once it is off, then switch it on.</string>
+    <string name="inst_custom_title">Your own image is on the eMMC</string>
+    <string name="inst_custom">%1$s (%2$s) was written to the eMMC in the advanced mode. It is not andr36oid. You can install andr36oid, put the stock system back, or write another image.</string>
+    <string name="inst_custom_install">Install andr36oid</string>
+    <string name="inst_adv_another">Write another image</string>
+    <string name="inst_adv_write_again">Write an image</string>
+    <string name="inst_incomplete_image">Writing an image to the eMMC didn\'t finish. The eMMC holds only part of it and won\'t start. Write an image again, or put the stock system back.</string>
 </resources>

@@ -194,4 +194,33 @@
     <string name="inst_retry">Повторить</string>
     <string name="inst_not_exact_title">Заводская eMMC возвращена, но не точно</string>
     <string name="inst_not_exact">Всё, что записал andr36oid, возвращено как в резервной копии и проверено. Но загрузочные области отличаются, а andr36oid их никогда не записывает. Выключи консоль, вынь SD-карту, когда она выключится, и включи, чтобы проверить, запускается ли заводская система.</string>
+    <string name="inst_adv_entry">Дополнительно: записать любой образ</string>
+    <string name="inst_lbl_advanced">Дополнительно</string>
+    <string name="inst_adv_warn_title">Дальше — на свой страх и риск</string>
+    <string name="inst_adv_warn">Будет записан на eMMC выбранный тобой образ SD-карты вместо заводской системы. Это не andr36oid, и ничего здесь не проверено.
+
+Загрузчик образа заменит загрузчик консоли. Если он не подходит этой консоли, она может больше никогда не запуститься, даже с SD-карты. Если eMMC припаяна (eMCP), вернуть её можно будет только пайкой.
+
+Сначала делается резервная копия заводской eMMC, если её ещё нет. andr36oid сможет вернуть её, только пока консоль ещё запускается с SD-карты.</string>
+    <string name="inst_adv_pick_title">Выбери образ</string>
+    <string name="inst_adv_pick">Образы (.img, .img.gz, .img.xz или .zip с одним .img) во внутренней памяти, в Download и в разделе BOOT SD-карты.</string>
+    <string name="inst_adv_none">Образы не найдены. Скопируй образ во внутреннюю память или в Download и поищи снова.</string>
+    <string name="inst_adv_look_again">Искать снова</string>
+    <string name="inst_adv_on_boot">в BOOT</string>
+    <string name="inst_adv_final_title">Записать %1$s?</string>
+    <string name="inst_adv_final">%1$s: %2$s. eMMC: %3$s. Сжатый образ после распаковки больше; это проверяется до того, как что-либо будет записано.
+
+Всё на eMMC будет заменено этим образом.</string>
+    <string name="inst_adv_too_big">Этот образ больше eMMC, поэтому его нельзя записать.</string>
+    <string name="inst_adv_write">Записать образ</string>
+    <string name="inst_adv_title">Запись образа</string>
+    <string name="inst_adv_working">Образ один раз читается для проверки, записывается на eMMC, а затем читается с неё обратно.</string>
+    <string name="inst_adv_done_title">Образ записан</string>
+    <string name="inst_adv_done">%1$s на eMMC и читается обратно без отличий. Выключи консоль, вынь SD-карту, когда она выключится, и затем включи её.</string>
+    <string name="inst_custom_title">На eMMC твой собственный образ</string>
+    <string name="inst_custom">%1$s (%2$s) записан на eMMC в дополнительном режиме. Это не andr36oid. Можно установить andr36oid, вернуть заводскую систему или записать другой образ.</string>
+    <string name="inst_custom_install">Установить andr36oid</string>
+    <string name="inst_adv_another">Записать другой образ</string>
+    <string name="inst_adv_write_again">Записать образ</string>
+    <string name="inst_incomplete_image">Запись образа на eMMC не завершилась. На eMMC только его часть, и она не запустится. Запиши образ снова или верни заводскую систему.</string>
 </resources>

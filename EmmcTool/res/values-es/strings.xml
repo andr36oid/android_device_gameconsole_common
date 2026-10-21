@@ -194,4 +194,33 @@
     <string name="inst_retry">Reintentar</string>
     <string name="inst_not_exact_title">eMMC original restaurada, pero no exacta</string>
     <string name="inst_not_exact">Todo lo que escribió andr36oid ha vuelto a estar como en la copia y se ha comprobado. Sin embargo, las áreas de arranque son distintas, y andr36oid nunca las escribe. Apaga la consola, saca la tarjeta SD cuando esté apagada y enciéndela para ver si arranca el sistema original.</string>
+    <string name="inst_adv_entry">Avanzado: escribir cualquier imagen</string>
+    <string name="inst_lbl_advanced">Avanzado</string>
+    <string name="inst_adv_warn_title">Desde aquí, por tu cuenta</string>
+    <string name="inst_adv_warn">Esto escribe en la eMMC una imagen de tarjeta SD que elijas, en lugar del sistema original. No es andr36oid y nada de esto está probado.
+
+El cargador de la imagen sustituye al de la consola. Si no es adecuado para esta consola, puede que no vuelva a arrancar nunca, ni siquiera desde una tarjeta SD. Si la eMMC está soldada (eMCP), solo un trabajo de soldadura puede recuperarla.
+
+Antes se hace una copia de la eMMC original, si aún no hay ninguna. andr36oid solo puede restaurarla mientras la consola siga arrancando desde una tarjeta SD.</string>
+    <string name="inst_adv_pick_title">Elige la imagen</string>
+    <string name="inst_adv_pick">Imágenes (.img, .img.gz, .img.xz o .zip con un .img) en el almacenamiento interno, en Download y en la partición BOOT de la tarjeta SD.</string>
+    <string name="inst_adv_none">No se encontraron imágenes. Copia una al almacenamiento interno o a Download y vuelve a buscar.</string>
+    <string name="inst_adv_look_again">Buscar de nuevo</string>
+    <string name="inst_adv_on_boot">en BOOT</string>
+    <string name="inst_adv_final_title">¿Escribir %1$s?</string>
+    <string name="inst_adv_final">%1$s: %2$s. La eMMC: %3$s. Una imagen comprimida es más grande al descomprimirse; se comprueba antes de escribir nada.
+
+Todo lo que hay en la eMMC se sustituye por esta imagen.</string>
+    <string name="inst_adv_too_big">Esta imagen es más grande que la eMMC, así que no se puede escribir.</string>
+    <string name="inst_adv_write">Escribir imagen</string>
+    <string name="inst_adv_title">Escribir una imagen</string>
+    <string name="inst_adv_working">La imagen se lee una vez para comprobarla, se escribe en la eMMC y luego se vuelve a leer desde ella.</string>
+    <string name="inst_adv_done_title">Imagen escrita</string>
+    <string name="inst_adv_done">%1$s está en la eMMC y se lee igual al comprobarla. Apaga la consola, saca la tarjeta SD cuando esté apagada y luego enciéndela.</string>
+    <string name="inst_custom_title">Tu propia imagen está en la eMMC</string>
+    <string name="inst_custom">%1$s (%2$s) se escribió en la eMMC en el modo avanzado. No es andr36oid. Puedes instalar andr36oid, restaurar el sistema original o escribir otra imagen.</string>
+    <string name="inst_custom_install">Instalar andr36oid</string>
+    <string name="inst_adv_another">Escribir otra imagen</string>
+    <string name="inst_adv_write_again">Escribir una imagen</string>
+    <string name="inst_incomplete_image">La escritura de una imagen en la eMMC no terminó. La eMMC solo tiene una parte y no arrancará. Escribe de nuevo una imagen o restaura el sistema original.</string>
 </resources>

@@ -194,4 +194,33 @@
     <string name="inst_retry">重试</string>
     <string name="inst_not_exact_title">原厂 eMMC 已恢复，但不完全一致</string>
     <string name="inst_not_exact">andr36oid 写入的所有内容都已按备份恢复并校验。但引导区与备份不同，而 andr36oid 从不写入引导区。请关闭主机，关机后取出 SD 卡，再开机查看原厂系统能否启动。</string>
+    <string name="inst_adv_entry">高级：写入任意镜像</string>
+    <string name="inst_lbl_advanced">高级</string>
+    <string name="inst_adv_warn_title">此后风险自负</string>
+    <string name="inst_adv_warn">这会把你选择的 SD 卡镜像写入 eMMC，替换原厂系统。它不是 andr36oid，这里的一切都未经测试。
+
+镜像自带的引导程序会替换主机的引导程序。如果它不适合这台主机，主机可能再也无法启动，连从 SD 卡也不行。如果 eMMC 是焊在板上的（eMCP），只有焊接维修才能救回。
+
+如果还没有原厂 eMMC 的备份，会先做一份。只有在主机仍能从 SD 卡启动时，andr36oid 才能恢复它。</string>
+    <string name="inst_adv_pick_title">选择镜像</string>
+    <string name="inst_adv_pick">内部存储、Download 文件夹和 SD 卡 BOOT 分区中的镜像（.img、.img.gz、.img.xz，或只含一个 .img 的 .zip）。</string>
+    <string name="inst_adv_none">未找到镜像。请复制一个到内部存储或 Download 文件夹，然后重新查找。</string>
+    <string name="inst_adv_look_again">重新查找</string>
+    <string name="inst_adv_on_boot">位于 BOOT</string>
+    <string name="inst_adv_final_title">写入 %1$s？</string>
+    <string name="inst_adv_final">%1$s：%2$s。eMMC：%3$s。压缩镜像解压后会更大；写入任何内容之前都会检查这一点。
+
+eMMC 上的所有内容都会被此镜像替换。</string>
+    <string name="inst_adv_too_big">此镜像比 eMMC 大，无法写入。</string>
+    <string name="inst_adv_write">写入镜像</string>
+    <string name="inst_adv_title">写入镜像</string>
+    <string name="inst_adv_working">镜像会先读取一次进行检查，然后写入 eMMC，再从 eMMC 读回校验。</string>
+    <string name="inst_adv_done_title">镜像已写入</string>
+    <string name="inst_adv_done">%1$s 已写入 eMMC，读回校验一致。请关闭主机，关机后取出 SD 卡，然后开机。</string>
+    <string name="inst_custom_title">eMMC 上是你自己的镜像</string>
+    <string name="inst_custom">%1$s（%2$s）已在高级模式下写入 eMMC。它不是 andr36oid。你可以安装 andr36oid、恢复原厂系统，或写入其他镜像。</string>
+    <string name="inst_custom_install">安装 andr36oid</string>
+    <string name="inst_adv_another">写入其他镜像</string>
+    <string name="inst_adv_write_again">写入镜像</string>
+    <string name="inst_incomplete_image">向 eMMC 写入镜像未完成。eMMC 上只有部分内容，无法启动。请重新写入镜像，或恢复原厂系统。</string>
 </resources>

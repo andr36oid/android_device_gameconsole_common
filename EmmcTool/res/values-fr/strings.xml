@@ -194,4 +194,33 @@
     <string name="inst_retry">Réessayer</string>
     <string name="inst_not_exact_title">eMMC d\'origine remise, mais pas à l\'identique</string>
     <string name="inst_not_exact">Tout ce qu\'andr36oid a écrit est revenu comme dans la sauvegarde et a été vérifié. Les zones de démarrage diffèrent toutefois, et andr36oid ne les écrit jamais. Éteignez la console, retirez la carte SD une fois éteinte, puis rallumez-la pour voir si le système d\'origine démarre.</string>
+    <string name="inst_adv_entry">Avancé : écrire n\'importe quelle image</string>
+    <string name="inst_lbl_advanced">Avancé</string>
+    <string name="inst_adv_warn_title">À partir d\'ici, à vos risques</string>
+    <string name="inst_adv_warn">Ceci écrit sur l\'eMMC une image de carte SD de votre choix, à la place du système d\'origine. Ce n\'est pas andr36oid, et rien ici n\'est testé.
+
+Le chargeur de l\'image remplace celui de la console. S\'il ne convient pas à cette console, elle risque de ne plus jamais démarrer, même depuis une carte SD. Si l\'eMMC est soudée (eMCP), seul un travail de soudure peut la récupérer.
+
+Une sauvegarde de l\'eMMC d\'origine est faite d\'abord, s\'il n\'y en a pas encore. andr36oid ne peut la remettre que tant que la console démarre encore depuis une carte SD.</string>
+    <string name="inst_adv_pick_title">Choisissez l\'image</string>
+    <string name="inst_adv_pick">Images (.img, .img.gz, .img.xz ou .zip contenant un .img) dans le stockage interne, dans Download et sur la partition BOOT de la carte SD.</string>
+    <string name="inst_adv_none">Aucune image trouvée. Copiez-en une dans le stockage interne ou dans Download, puis cherchez à nouveau.</string>
+    <string name="inst_adv_look_again">Chercher à nouveau</string>
+    <string name="inst_adv_on_boot">sur BOOT</string>
+    <string name="inst_adv_final_title">Écrire %1$s ?</string>
+    <string name="inst_adv_final">%1$s : %2$s. L\'eMMC : %3$s. Une image compressée est plus grande une fois décompressée ; c\'est vérifié avant toute écriture.
+
+Tout le contenu de l\'eMMC est remplacé par cette image.</string>
+    <string name="inst_adv_too_big">Cette image est plus grande que l\'eMMC, elle ne peut donc pas être écrite.</string>
+    <string name="inst_adv_write">Écrire l\'image</string>
+    <string name="inst_adv_title">Écrire une image</string>
+    <string name="inst_adv_working">L\'image est lue une fois pour la vérifier, écrite sur l\'eMMC, puis relue depuis celle-ci.</string>
+    <string name="inst_adv_done_title">Image écrite</string>
+    <string name="inst_adv_done">%1$s est sur l\'eMMC et se relit à l\'identique. Éteignez la console, retirez la carte SD une fois éteinte, puis rallumez-la.</string>
+    <string name="inst_custom_title">Votre propre image est sur l\'eMMC</string>
+    <string name="inst_custom">%1$s (%2$s) a été écrite sur l\'eMMC en mode avancé. Ce n\'est pas andr36oid. Vous pouvez installer andr36oid, remettre le système d\'origine ou écrire une autre image.</string>
+    <string name="inst_custom_install">Installer andr36oid</string>
+    <string name="inst_adv_another">Écrire une autre image</string>
+    <string name="inst_adv_write_again">Écrire une image</string>
+    <string name="inst_incomplete_image">L\'écriture d\'une image sur l\'eMMC ne s\'est pas terminée. L\'eMMC n\'en contient qu\'une partie et ne démarrera pas. Écrivez à nouveau une image ou remettez le système d\'origine.</string>
 </resources>

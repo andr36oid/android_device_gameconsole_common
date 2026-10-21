@@ -14,6 +14,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.PowerManager;
 import android.os.SystemClock;
+import android.os.UserHandle;
 import android.text.format.DateUtils;
 import android.text.format.Formatter;
 import android.util.TypedValue;
@@ -24,6 +25,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -86,6 +89,11 @@ public class InstallActivity extends Activity {
     private Button mBack, mMore, mSecondary, mNext;
     /** Something on the right takes the D-pad (the checkbox, the hold ring). */
     private boolean mSideFocus;
+    /** A button at the end of the list on the right that up from the buttons reaches. */
+    private View mSideEntry;
+    /** The advanced mode: the images found, where it goes back to. */
+    private List<JSONObject> mImages = new ArrayList<>();
+    private Runnable mAdvBack;
     private int mTitleColor;
     /** The user left on purpose (Home): don't come back by ourselves. */
     private boolean mUserLeft;
@@ -237,6 +245,20 @@ public class InstallActivity extends Activity {
             ensureFocus();
             return true;
         }
+        if (mSideEntry != null && mSideEntry.isShown() && mSideEntry.isEnabled()
+                && event.getAction() == KeyEvent.ACTION_DOWN) {
+            // up from the buttons reaches the entry once the text is at its top, down
+            // goes back to the buttons
+            if (focus == mSideEntry && key == KeyEvent.KEYCODE_DPAD_DOWN) {
+                focusButtons();
+                return true;
+            }
+            if (focus != mSideEntry && key == KeyEvent.KEYCODE_DPAD_UP
+                    && !mTextScroll.canScrollVertically(-1)) {
+                mSideEntry.requestFocus();
+                return true;
+            }
+        }
         if (!mSideFocus && (key == KeyEvent.KEYCODE_DPAD_UP || key == KeyEvent.KEYCODE_DPAD_DOWN)) {
             // The buttons are all in one row, so up and down scroll both sides instead
             if (event.getAction() == KeyEvent.ACTION_DOWN) {
@@ -273,6 +295,8 @@ public class InstallActivity extends Activity {
             showFailed(failed.isEmpty() ? getString(R.string.inst_cut_off, running) : failed, true);
         } else if (!st.optString("incomplete").isEmpty()) {
             showIncomplete(st.optString("incomplete"));
+        } else if (st.optJSONObject("custom") != null) {
+            showCustom(st.optJSONObject("custom"));
         } else if ("done".equals(st.optString("step3"))) {
             showDone();
         } else if ("passed".equals(step2)) {
@@ -316,6 +340,7 @@ public class InstallActivity extends Activity {
         mCurBar = null;
         mFinished = null;
         mSideFocus = false;
+        mSideEntry = null;
         mStepLabel.setText(label);
         mStepLabel.setVisibility(label == null ? View.GONE : View.VISIBLE);
         mProgress.setVisibility(at < 0 ? View.INVISIBLE : View.VISIBLE);
@@ -345,6 +370,10 @@ public class InstallActivity extends Activity {
     private void ensureFocus() {
         final View f = getCurrentFocus();
         if (f != null && f.isShown() && f.isEnabled()) return;
+        focusButtons();
+    }
+
+    private void focusButtons() {
         for (Button b : new Button[] {mNext, mSecondary, mMore, mBack}) {
             if (b.getVisibility() == View.VISIBLE && b.isEnabled()) {
                 b.requestFocus();
@@ -501,6 +530,7 @@ public class InstallActivity extends Activity {
         if (mTargets.size() > 1) button(mSecondary, getString(R.string.inst_change), this::pickTarget);
         button(mNext, getString(R.string.inst_continue), () -> showWarning(0));
         mNext.setEnabled(ok);
+        sideEntry(getString(R.string.inst_adv_entry), this::showCheckResults).setEnabled(ok);
         if (!ok) mMore.requestFocus();
     }
 
@@ -694,6 +724,7 @@ public class InstallActivity extends Activity {
                 .show());
         restoreButton(mSecondary);
         button(mNext, getString(R.string.inst_close), this::finish);
+        sideEntry(getString(R.string.inst_adv_entry), this::showDone);
     }
 
     /** Step 2 is written, but its test start was put off. */
@@ -710,13 +741,18 @@ public class InstallActivity extends Activity {
     /** An update or restore stopped and was left as it is: neither installed nor stock. */
     private void showIncomplete(String cmd) {
         final boolean restore = "restore".equals(cmd);
+        final boolean image = "write-image".equals(cmd);
         page(null, -1, getString(R.string.inst_incomplete_title), getString(restore
-                ? R.string.inst_incomplete_restore : R.string.inst_incomplete_update));
+                ? R.string.inst_incomplete_restore : image ? R.string.inst_incomplete_image
+                : R.string.inst_incomplete_update));
         warn();
-        steps();
+        if (!image) steps();
         button(mBack, getString(R.string.inst_close), this::finish);
         final JSONObject b = Installer.state().optJSONObject("backup");
-        if (restore) {
+        if (image) {
+            restoreButton(mSecondary);
+            button(mNext, getString(R.string.inst_adv_write_again), () -> showAdvWarning(this::route));
+        } else if (restore) {
             if (b != null) {
                 final String dir = b.optString("dir");
                 button(mNext, getString(R.string.inst_retry),
@@ -735,6 +771,155 @@ public class InstallActivity extends Activity {
         warn();
         if (!mLogLines.isEmpty()) button(mMore, getString(R.string.inst_show_log), this::showLog);
         button(mNext, getString(R.string.inst_shut_down), this::shutDown);
+    }
+
+    // Advanced: any SD card image on the eMMC, at the user's own risk
+
+    /** A button at the end of the list on the right; up from the buttons reaches it. */
+    private Button sideEntry(CharSequence text, Runnable back) {
+        final Button b = new Button(this, null, 0, R.style.Andr36oidSetupButton_Secondary);
+        b.setText(text);
+        b.setOnClickListener(v -> showAdvWarning(back));
+        final LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        lp.topMargin = dp(12);
+        mSide.addView(b, lp);
+        mSideEntry = b;
+        return b;
+    }
+
+    /** The eMMC's size, from the checks or the records. */
+    private long advEmmcBytes() {
+        final long b = emmcBytes();
+        return b > 0 ? b : Installer.state().optLong("sectors") * 512;
+    }
+
+    private void showAdvWarning(Runnable back) {
+        mAdvBack = back;
+        page(getString(R.string.inst_lbl_advanced), -1, getString(R.string.inst_adv_warn_title),
+                getString(R.string.inst_adv_warn));
+        warn();
+        button(mBack, getString(R.string.inst_back), back);
+        button(mNext, getString(R.string.inst_understand), this::findImages);
+    }
+
+    private void findImages() {
+        final String media = "/data/media/" + UserHandle.myUserId();
+        run("list-images", true, () -> {
+            final JSONObject r = Installer.result();
+            mImages = r == null ? new ArrayList<>() : Installer.list(r, "result");
+            showImages();
+        }, media, media + "/Download");
+    }
+
+    private void showImages() {
+        page(getString(R.string.inst_lbl_advanced), -1, getString(R.string.inst_adv_pick_title),
+                getString(mImages.isEmpty() ? R.string.inst_adv_none : R.string.inst_adv_pick));
+        warn();
+        button(mBack, getString(R.string.inst_back), () -> showAdvWarning(mAdvBack));
+        button(mMore, getString(R.string.inst_adv_look_again), this::findImages);
+        if (mImages.isEmpty()) {
+            mMore.requestFocus();
+            return;
+        }
+        final RadioGroup group = new RadioGroup(this);
+        RadioButton last = null;
+        for (int i = 0; i < mImages.size(); i++) {
+            final JSONObject img = mImages.get(i);
+            final RadioButton rb = new RadioButton(this);
+            final boolean boot = img.optString("path").startsWith("sdboot:");
+            rb.setText(img.optString("name") + "\n" + size(img.optLong("size"))
+                    + (boot ? " · " + getString(R.string.inst_adv_on_boot) : ""));
+            rb.setTextAppearance(android.R.style.TextAppearance_Material_Body1);
+            rb.setId(View.generateViewId());
+            rb.setTag(i);
+            group.addView(rb);
+            last = rb;
+        }
+        mSide.addView(group);
+        mSideFocus = true;
+        // down from the last image goes to Next, up from Next comes back
+        last.setNextFocusDownId(R.id.next);
+        mNext.setNextFocusUpId(last.getId());
+        button(mNext, getString(R.string.inst_continue), () -> {
+            final View c = group.findViewById(group.getCheckedRadioButtonId());
+            if (c != null) showAdvFinal(mImages.get((Integer) c.getTag()));
+        });
+        mNext.setEnabled(false);
+        group.setOnCheckedChangeListener((g, id) -> mNext.setEnabled(id != View.NO_ID));
+        group.getChildAt(0).requestFocus();
+    }
+
+    private void showAdvFinal(JSONObject img) {
+        final String name = img.optString("name");
+        final long bytes = img.optLong("size"), emmc = advEmmcBytes();
+        // a plain .img is as big as its file; packed ones are checked once unpacked
+        final boolean tooBig = name.toLowerCase(Locale.ROOT).endsWith(".img") && emmc > 0 && bytes > emmc;
+        page(getString(R.string.inst_lbl_advanced), -1, getString(R.string.inst_adv_final_title, name),
+                getString(R.string.inst_adv_final, name, size(bytes), size(emmc))
+                        + (tooBig ? "\n\n" + getString(R.string.inst_adv_too_big) : ""));
+        warn();
+        button(mBack, getString(R.string.inst_back), this::showImages);
+        button(mNext, getString(R.string.inst_adv_write), () -> showAdvHold(img));
+        mNext.setEnabled(false);
+        if (tooBig) return;
+        final CheckBox fault = new CheckBox(this);
+        fault.setText(R.string.inst_my_fault);
+        fault.setTextAppearance(android.R.style.TextAppearance_Material_Body1);
+        mSide.addView(fault);
+        mSideFocus = true;
+        fault.setOnCheckedChangeListener((v, on) -> mNext.setEnabled(on));
+        fault.setId(View.generateViewId());
+        fault.setNextFocusDownId(R.id.next);
+        fault.setNextFocusRightId(R.id.next);
+        mNext.setNextFocusUpId(fault.getId());
+        fault.requestFocus();
+    }
+
+    private void showAdvHold(JSONObject img) {
+        page(getString(R.string.inst_lbl_advanced), -1, getString(R.string.inst_adv_write),
+                getString(R.string.inst_hold_hint));
+        warn();
+        final HoldButton hold = new HoldButton(this, getString(R.string.inst_hold));
+        mSide.addView(hold, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, dp(150)));
+        hold.setId(View.generateViewId());
+        hold.setNextFocusDownId(R.id.back);
+        mBack.setNextFocusUpId(hold.getId());
+        mSideFocus = true;
+        final String path = img.optString("path"), name = img.optString("name");
+        hold.setListener(() -> {
+            final JSONObject b = Installer.state().optJSONObject("backup");
+            if (b != null && b.optBoolean("verified")) {
+                run("write-image", false, () -> showAdvDone(name), path);
+            } else if (!mTargets.isEmpty()) {
+                // from the start: the stock eMMC's backup first, so restore stays possible
+                run("backup", false, () -> run("write-image", false, () -> showAdvDone(name), path),
+                        mTargets.get(mTarget).path);
+            } else {
+                showFailed(getString(R.string.inst_chk_no_target), false);
+            }
+        });
+        button(mBack, getString(R.string.inst_cancel), () -> showAdvFinal(img));
+        hold.requestFocus();
+    }
+
+    private void showAdvDone(String name) {
+        page(null, -1, getString(R.string.inst_adv_done_title), getString(R.string.inst_adv_done, name));
+        // Android runs from the SD card: it only comes out once the console is off
+        button(mBack, getString(R.string.inst_close), this::finish);
+        button(mNext, getString(R.string.inst_shut_down), this::shutDown);
+    }
+
+    /** The eMMC holds an image written in the advanced mode. */
+    private void showCustom(JSONObject img) {
+        page(null, -1, getString(R.string.inst_custom_title),
+                getString(R.string.inst_custom, img.optString("name"), size(img.optLong("size"))));
+        restoreButton(mSecondary);
+        button(mMore, getString(R.string.inst_custom_install), () -> showNext(1,
+                getString(R.string.inst_backup_kept),
+                () -> run("blank-loader", false, () -> showRestart(Restart.STEP1))));
+        button(mNext, getString(R.string.inst_close), this::finish);
+        sideEntry(getString(R.string.inst_adv_another), this::route);
     }
 
     private void showEmmcSystem() {
@@ -766,7 +951,7 @@ public class InstallActivity extends Activity {
             // next start offers to run it again
             final String running = Installer.state().optString("running");
             final boolean half = running.equals("update-emmc") || running.equals("update-uboot")
-                    || running.equals("restore");
+                    || running.equals("restore") || running.equals("write-image");
             button(mNext, getString(R.string.inst_leave),
                     () -> run("leave", true, half ? this::finish : this::route));
         } else {
@@ -833,6 +1018,9 @@ public class InstallActivity extends Activity {
         } else if ("update-emmc".equals(mCmd)) {
             title = getString(R.string.inst_update_emmc);
             body = getString(R.string.inst_update_working) + "\n\n" + body;
+        } else if ("write-image".equals(mCmd)) {
+            title = getString(R.string.inst_adv_title);
+            body = getString(R.string.inst_adv_working) + "\n\n" + body;
         }
         page(step < 0 ? null : stepLabel(step), step < 0 ? -1 : stepAt(step), title, body);
         // One pane that fits without scrolling: what runs now, then the last parts finished.

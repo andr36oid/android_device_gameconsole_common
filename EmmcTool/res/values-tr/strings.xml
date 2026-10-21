@@ -194,4 +194,33 @@
     <string name="inst_retry">Tekrar dene</string>
     <string name="inst_not_exact_title">Orijinal eMMC geri yüklendi, ama birebir değil</string>
     <string name="inst_not_exact">andr36oid\'in yazdığı her şey yedekteki haline döndü ve kontrol edildi. Ancak önyükleme alanları farklı ve andr36oid bunlara hiç yazmaz. Konsolu kapat, kapandığında SD kartı çıkar, sonra orijinal sistemin açılıp açılmadığını görmek için aç.</string>
+    <string name="inst_adv_entry">Gelişmiş: herhangi bir imaj yaz</string>
+    <string name="inst_lbl_advanced">Gelişmiş</string>
+    <string name="inst_adv_warn_title">Buradan sonrası tamamen senin sorumluluğunda</string>
+    <string name="inst_adv_warn">Bu, seçtiğin bir SD kart imajını orijinal sistemin yerine eMMC\'ye yazar. Bu andr36oid değildir ve burada hiçbir şey test edilmemiştir.
+
+İmajın kendi yükleyicisi konsolunkinin yerini alır. Bu konsola uymazsa konsol bir daha hiç açılmayabilir, SD karttan bile. eMMC lehimliyse (eMCP), onu ancak lehim işi kurtarabilir.
+
+Henüz yoksa önce orijinal eMMC\'nin yedeği alınır. andr36oid onu ancak konsol SD karttan açılabildiği sürece geri yükleyebilir.</string>
+    <string name="inst_adv_pick_title">İmajı seç</string>
+    <string name="inst_adv_pick">Dahili depolamada, Download klasöründe ve SD kartın BOOT bölümündeki imajlar (.img, .img.gz, .img.xz veya tek .img içeren .zip).</string>
+    <string name="inst_adv_none">İmaj bulunamadı. Dahili depolamaya veya Download klasörüne bir tane kopyala, sonra tekrar ara.</string>
+    <string name="inst_adv_look_again">Tekrar ara</string>
+    <string name="inst_adv_on_boot">BOOT\'ta</string>
+    <string name="inst_adv_final_title">%1$s yazılsın mı?</string>
+    <string name="inst_adv_final">%1$s: %2$s. eMMC: %3$s. Sıkıştırılmış bir imaj açılınca daha büyüktür; bu, herhangi bir şey yazılmadan önce kontrol edilir.
+
+eMMC\'deki her şey bu imajla değiştirilir.</string>
+    <string name="inst_adv_too_big">Bu imaj eMMC\'den büyük, bu yüzden yazılamaz.</string>
+    <string name="inst_adv_write">İmajı yaz</string>
+    <string name="inst_adv_title">İmaj yazma</string>
+    <string name="inst_adv_working">İmaj kontrol için bir kez okunur, eMMC\'ye yazılır, sonra oradan geri okunur.</string>
+    <string name="inst_adv_done_title">İmaj yazıldı</string>
+    <string name="inst_adv_done">%1$s eMMC\'de ve aynı şekilde geri okunuyor. Konsolu kapat, kapandığında SD kartı çıkar, sonra aç.</string>
+    <string name="inst_custom_title">Kendi imajın eMMC\'de</string>
+    <string name="inst_custom">%1$s (%2$s) gelişmiş modda eMMC\'ye yazıldı. Bu andr36oid değil. andr36oid\'i kurabilir, orijinal sistemi geri yükleyebilir veya başka bir imaj yazabilirsin.</string>
+    <string name="inst_custom_install">andr36oid\'i kur</string>
+    <string name="inst_adv_another">Başka imaj yaz</string>
+    <string name="inst_adv_write_again">İmaj yaz</string>
+    <string name="inst_incomplete_image">eMMC\'ye imaj yazma işlemi tamamlanmadı. eMMC\'de yalnızca bir kısmı var ve açılmaz. Tekrar bir imaj yaz veya orijinal sistemi geri yükle.</string>
 </resources>
