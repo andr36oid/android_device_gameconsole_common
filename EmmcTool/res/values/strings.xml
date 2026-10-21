@@ -82,10 +82,10 @@
     <string name="inst_elapsed">Running for %1$s. Keep the console on.</string>
     <string name="inst_left">%1$s left</string>
 
-    <string name="inst_step0">0 Back up the stock eMMC</string>
-    <string name="inst_step1">1 Prove the SD card\'s loader</string>
-    <string name="inst_step2">2 Prove andr36oid on the eMMC</string>
-    <string name="inst_step3">3 Put the loader on the eMMC</string>
+    <string name="inst_step0">Step 0: Back up the stock eMMC</string>
+    <string name="inst_step1">Step 1: Prove the SD card\'s loader</string>
+    <string name="inst_step2">Step 2: Prove andr36oid on the eMMC</string>
+    <string name="inst_step3">Step 3: Put the loader on the eMMC</string>
     <string name="inst_st_running">running</string>
     <string name="inst_st_done">done</string>
     <string name="inst_st_failed">failed</string>
@@ -115,10 +115,10 @@
     <string name="inst_layout_title">How the eMMC is split up</string>
     <string name="inst_layout_text">system and vendor get room to grow for later versions, your apps and data get the rest.</string>
     <string name="inst_summary_title">Every write, in order</string>
-    <string name="inst_sum_backup">Backup: all %1$s of the eMMC (sectors 0-%2$d) and its two boot areas are read, read again to compare, copied to %3$s, and read back. Nothing is written to the eMMC.</string>
-    <string name="inst_sum_step1">Step 1: eMMC sectors 64-32767 (the stock loader, 16 MiB) are blanked. Then you restart: the console has to start from the SD card\'s loader on its own.</string>
-    <string name="inst_sum_step2">Step 2: a new partition table (eMMC sectors 0-33 and %1$d-%2$d); BOOT, system and vendor copied from the SD card; the start of metadata, misc, cache and userdata blanked:\n%3$sThen andr36oid starts from the eMMC once, as a test.</string>
-    <string name="inst_sum_step3">Step 3: the SD card\'s sectors 64-32767 (its loader) are copied to the eMMC, after one more warning.</string>
+    <string name="inst_sum_backup">All %1$s of the eMMC (sectors 0-%2$d) and its two boot areas are read, read again to compare, copied to %3$s, and read back. Nothing is written to the eMMC.</string>
+    <string name="inst_sum_step1">eMMC sectors 64-32767 (the stock loader, 16 MiB) are blanked. Then you restart: the console has to start from the SD card\'s loader on its own.</string>
+    <string name="inst_sum_step2">A new partition table (eMMC sectors 0-33 and %1$d-%2$d); BOOT, system and vendor copied from the SD card; the start of metadata, misc, cache and userdata blanked:\n%3$sThen andr36oid starts from the eMMC once, as a test.</string>
+    <string name="inst_sum_step3">The SD card\'s sectors 64-32767 (its loader) are copied to the eMMC, after one more warning.</string>
     <string name="inst_sum_risk">Every write is read back and compared. If anything doesn\'t match, the installer stops and writes nothing more. Steps 1 and 2 are each proven by a restart before the next one. Step 3 is the only write that can\'t be tried out first.</string>
 
     <string name="inst_backup_kept">The stock eMMC is backed up. Next is step 1: its loader is blanked, then you restart.</string>
@@ -179,7 +179,7 @@
     <string name="inst_lbl_checks">Before you start</string>
     <string name="inst_lbl_warning">Warning %1$d of %2$d</string>
     <string name="inst_lbl_plan">What will be written</string>
-    <string name="inst_lbl_step">Install step %1$s</string>
+    <string name="inst_lbl_step">Installing</string>
     <string name="inst_lbl_done">Installed</string>
     <string name="inst_done_title">andr36oid is on the eMMC</string>
     <string name="inst_intro">Installing on the eMMC takes a while: everything written is read back and compared with the original before the wizard moves on. That\'s deliberate. One bad write in the wrong place can leave the console unable to start at all, so each step has to be proven correct before the next one begins.</string>

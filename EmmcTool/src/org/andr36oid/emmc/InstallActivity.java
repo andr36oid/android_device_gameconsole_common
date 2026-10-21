@@ -382,7 +382,7 @@ public class InstallActivity extends Activity {
     }
 
     private String stepLabel(int step) {
-        return getString(R.string.inst_lbl_step, getString(stepName(step)));
+        return getString(R.string.inst_lbl_step);
     }
 
     private static int stepAt(int step) {
