@@ -15,7 +15,9 @@
 #
 
 # Boot animation from LineageOS 23.2 (vendor/lineage@10b4c2b) with the
-# andr36oid version text at the bottom. Installed by vendor/lineage through
+# andr36oid version text at the bottom. The logo's teal (#167C80) is
+# recoloured in bootanimation.tar to the orange that replaces it everywhere
+# else (#B34700), keeping its soft edges. Installed by vendor/lineage through
 # TARGET_BOOTANIMATION, set in BoardConfig.mk.
 
 LOCAL_PATH := $(call my-dir)
