@@ -70,6 +70,8 @@ public class InstallActivity extends Activity {
     private final Handler mHandler = new Handler(Looper.getMainLooper());
     private final Runnable mPoll = this::poll;
     private final Installer.ProgressReader mReader = new Installer.ProgressReader();
+    /** Progress events from before this run are the last command's, see run(). */
+    private long mSkipBefore;
 
     /** The command running, what follows when it ends well. */
     private String mCmd;
@@ -596,8 +598,9 @@ public class InstallActivity extends Activity {
                     p.optLong("First"), p.optLong("Last")));
         }
         button(mBack, getString(R.string.inst_back), () -> showWarning(2));
-        button(mNext, getString(R.string.inst_start), () -> run("backup", false,
-                () -> run("blank-loader", false, () -> showRestart(Restart.STEP1)), t.path));
+        // the backup only: the next page says what step 1 writes before it does
+        button(mNext, getString(R.string.inst_start), () -> run("backup", false, this::route,
+                t.path));
     }
 
     /** A step passed: what comes next. */
@@ -984,6 +987,9 @@ public class InstallActivity extends Activity {
         mOps.clear();
         mLogLines.clear();
         mReader.reset();
+        // the progress file still holds the last command's lines until the installer
+        // starts and clears it: those must not show as this command's
+        mSkipBefore = System.currentTimeMillis() - 2000;
         if (!Installer.start(cmd, args)) {
             showFailed(getString(R.string.inst_cant_start), false);
             return;
@@ -993,6 +999,7 @@ public class InstallActivity extends Activity {
 
     /** Shows the progress of cmd (null: whatever runs) and then does after. */
     private void follow(String cmd, boolean quick, Runnable after) {
+        if (cmd == null) mSkipBefore = 0;
         mCmd = cmd == null ? "" : cmd;
         mAfter = after;
         mStartedAt = SystemClock.elapsedRealtime();
@@ -1084,6 +1091,8 @@ public class InstallActivity extends Activity {
     }
 
     private void apply(JSONObject e) {
+        if (!mCmd.isEmpty() && !mCmd.equals(e.optString("step"))) return;
+        if (mSkipBefore > 0 && eventTime(e) < mSkipBefore) return;
         if (mCmd.isEmpty()) mCmd = e.optString("step");
         final String state = e.optString("state");
         final String name = e.optString("op");
@@ -1129,6 +1138,15 @@ public class InstallActivity extends Activity {
         if (line != null) {
             mLogLines.add(line.trim());
             if (mLogLines.size() > LOG_LINES) mLogLines.remove(0);
+        }
+    }
+
+    /** When the installer wrote the event (UTC, ms), 0 if it can't be read. */
+    private static long eventTime(JSONObject e) {
+        try {
+            return java.time.Instant.parse(e.optString("time")).toEpochMilli();
+        } catch (RuntimeException ex) {
+            return 0;
         }
     }
 

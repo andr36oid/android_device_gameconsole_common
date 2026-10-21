@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"path/filepath"
 	"sync"
 	"time"
 )
@@ -41,10 +42,15 @@ type Progress struct {
 	now  func() time.Time
 }
 
-// NewProgress starts a fresh progress file at path ("" = none).
+// pastRuns is how many earlier runs' progress files are kept in past/.
+const pastRuns = 20
+
+// NewProgress starts a fresh progress file at path ("" = none). The last run's
+// file goes to past/ next to it first, so it can't be read as this run's.
 func NewProgress(path, step string) (*Progress, error) {
 	p := &Progress{step: step, now: time.Now}
 	if path != "" {
+		archiveProgress(path)
 		f, err := os.OpenFile(path, os.O_CREATE|os.O_TRUNC|os.O_WRONLY, 0644)
 		if err != nil {
 			return nil, err
@@ -140,4 +146,37 @@ func (o *Op) Fail(err error) error {
 	e.Log = err.Error()
 	o.p.emit(e)
 	return err
+}
+
+// archiveProgress moves the last run's progress file to past/<time>-<step>.jsonl,
+// keeping the newest pastRuns of them. Errors only mean less history.
+func archiveProgress(path string) {
+	fi, err := os.Stat(path)
+	if err != nil || fi.Size() == 0 {
+		return
+	}
+	step := "run"
+	if f, err := os.Open(path); err == nil {
+		var e Event
+		if json.NewDecoder(f).Decode(&e) == nil && e.Step != "" {
+			step = e.Step
+		}
+		f.Close()
+	}
+	dir := filepath.Join(filepath.Dir(path), "past")
+	if os.MkdirAll(dir, 0770) != nil {
+		return
+	}
+	name := fi.ModTime().UTC().Format("20060102-150405.000") + "-" + step + ".jsonl"
+	if os.Rename(path, filepath.Join(dir, name)) != nil {
+		return
+	}
+	old, err := os.ReadDir(dir)
+	if err != nil {
+		return
+	}
+	// names start with the time: sorted oldest first
+	for i := 0; i < len(old)-pastRuns; i++ {
+		os.Remove(filepath.Join(dir, old[i].Name()))
+	}
 }
