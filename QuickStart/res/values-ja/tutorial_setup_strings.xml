@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tutorial_home_body_setup">FNだけを押すと、ゲーム中でもどこからでもホーム画面に移動します。ホーム画面はDaijishouで、ゲームやアプリが並んでいます。\n\nこれはセットアップが完了してから使えるので、ここで試せることはまだありません。</string>
+    <string name="tutorial_home_body_setup_simple">FNだけを押すと、ゲーム中でもどこからでもホーム画面に移動します。ホーム画面はSimple UIです。お気に入りのアプリは「ピン留め」に、すべてのアプリは「アプリ」に並んでいます。\n\nこれはセットアップが完了してから使えるので、ここで試せることはまだありません。</string>
+    <string name="tutorial_shade_body_setup">FNを押したままYを押すと、通知とクイック設定が開きます。Wi-FiやBluetoothなどのタイルがあります。もう一度FN + Yを押すと閉じます。\n\nこれはセットアップが完了してから使えるので、ここで試せることはまだありません。</string>
+</resources>

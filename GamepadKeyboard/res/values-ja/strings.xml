@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ime_name">ゲームパッドキーボード</string>
+    <string name="hint_grid">A 長押し: アクセント · L1/R1 カーソル · L2 非表示 · R2 大きい文字 · R3 スティック入力</string>
+    <string name="hint_sticks">左スティック: グループ · 右スティック: 文字（離すと入力） · B 削除 · X スペース · Y シフト · START 決定 · R3 キー</string>
+    <string name="stick_left">グループ</string>
+    <string name="stick_right">離すと入力</string>
+    <string name="key_space">スペース</string>
+    <string name="key_go">移動</string>
+    <string name="key_search">検索</string>
+    <string name="key_send">送信</string>
+    <string name="key_next">次へ</string>
+    <string name="key_done">完了</string>
+    <string name="key_previous">戻る</string>
+    <string name="no_other_keyboard">ほかのキーボードはインストールされていません。</string>
+    <string name="switched_to_tv">Android TV のキーボードがオンになりました。元に戻すには: 設定 &gt; システム &gt; 言語と入力 &gt; 画面キーボード &gt; ゲームパッドキーボード</string>
+    <string name="which_self">使用中のキーボード: ゲームパッドキーボード</string>
+    <string name="which_self_summary">選ぶと、代わりに Android TV のキーボードを使います（古いビルドにあったもの）</string>
+    <string name="which_other">使用中のキーボード: 別のキーボード</string>
+    <string name="which_other_summary">選ぶと、ゲームパッドキーボードをもう一度使います</string>
+    <string name="pref_layout">文字の配列</string>
+    <string-array name="layout_entries">
+        <item>自動（システムの言語に合わせる）</item>
+        <item>QWERTY</item>
+        <item>QWERTZ</item>
+        <item>AZERTY</item>
+    </string-array>
+    <string name="pref_sticks">スティック入力で開始</string>
+    <string name="pref_sticks_summary">キーの代わりに 2 つのスティックの円でキーボードを開きます。R3 でいつでも切り替えられます。</string>
+    <string name="pref_auto_big">キーボードで隠れたとき文字を表示</string>
+    <string name="pref_auto_big_summary">テキスト欄がキーボードの下に隠れたら、その上の大きな行に文字を表示します。R2 でも手動で切り替えられます。</string>
+    <string name="pref_hints">ボタンのヒントを表示</string>
+    <string name="pref_hints_summary">キーの上の行と、キーに表示されるボタン名</string>
+    <string name="buttons_title">ボタン</string>
+    <string name="buttons_help">十字キーまたは左スティック: 移動\nA: 入力（長押しでアクセント: é、ü、ß…）\nB: 削除（入力欄が空なら閉じる）\nX: スペース\nY: シフト（2 回押すと大文字固定）\nL1 / R1: テキストカーソルを移動\nL2: キーボードを閉じる\nR2: 大きいテキスト行のオン/オフ\nStart: 決定 / 完了\nSelect: 文字と記号の切り替え\nL3: Android TV のキーボードに切り替え\nR3: キー配列またはスティック入力\n\nスティック入力: 左スティックで 4 文字のグループを選び、右スティックで文字を指して、離すと入力されます。</string>
+</resources>

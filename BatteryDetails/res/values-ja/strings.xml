@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="details_title">バッテリーの詳細</string>
+    <string name="details_summary">電圧、電流、充電時間、24 時間のグラフ</string>
+
+    <!-- Header -->
+    <string name="percent"><xliff:g id="percent">%1$d</xliff:g>%%</string>
+    <string name="status_charging">充電中</string>
+    <string name="status_full">満充電</string>
+    <string name="status_discharging">バッテリー駆動</string>
+    <string name="status_not_charging">接続中、充電していません</string>
+    <string name="time_to_full">満充電まで約 <xliff:g id="time">%1$s</xliff:g></string>
+    <string name="time_left">この消費ペースであと約 <xliff:g id="time">%1$s</xliff:g></string>
+    <!-- Joins status and time, e.g. "Charging · about 1 h 10 min until full" -->
+    <string name="status_and_time"><xliff:g id="status">%1$s</xliff:g> · <xliff:g id="time">%2$s</xliff:g></string>
+
+    <string name="graph_title">直近 24 時間</string>
+    <string name="graph_empty">本体を使うとグラフが埋まっていきます。起動している間は 15 分ごとに点が追加されます。</string>
+    <string name="graph_ago">24 時間前</string>
+    <string name="graph_now">現在</string>
+
+    <string name="now_title">現在の状態</string>
+    <string name="voltage">電圧</string>
+    <string name="current">電流</string>
+    <string name="power">電力</string>
+    <!-- The RK817 has no battery temperature sensor (the driver reports a fixed 18.8 °C), so this is the processor's -->
+    <string name="temperature">プロセッサーの温度</string>
+    <string name="charger">充電器</string>
+
+    <!-- Battery capacity setting -->
+    <string name="capacity_title">バッテリー容量</string>
+    <string name="capacity_setting">容量</string>
+    <string name="capacity_hint">バッテリーに記載されています。間違った値にすると、残量の表示がずれていきます。</string>
+    <string name="capacity_reset"><xliff:g id="mah">%1$d</xliff:g> mAh に戻す</string>
+    <string name="capacity">残量計の使用値</string>
+    <string name="measure_title">容量を測定</string>
+    <string name="measure_summary">バッテリーが実際にどれだけ蓄えられるかを調べます。満充電してから、本体の電源が切れるまで遊んでください</string>
+    <string name="measure_how">バッテリーが実際に蓄えられる量を調べ、残量の表示をより正確にします。\n\n1. 本体が満充電と表示するまで充電します。\n2. 充電器を外し、本体が自然に電源を切るまでいつもどおり使います。スリープや再起動は問題ありませんが、途中で充電しないでください。\n3. 充電して、もう一度電源を入れます。結果がここに表示されます。\n\n通知で進み具合が分かります。</string>
+    <string name="measure_start">開始</string>
+    <string name="measure_limit_on">充電上限がオンのため、バッテリーは満充電になりません。先に充電上限をオフにしてください。</string>
+    <string name="measure_charge">待機中: 満充電まで充電してから、充電器を外してください</string>
+    <string name="measure_unplug">満充電です。充電器を外すと開始します</string>
+    <string name="measure_running">ここまでに <xliff:g id="mah">%1$d</xliff:g> mAh 使用しました。本体の電源が切れるまで続けてください。</string>
+    <string name="measure_channel">バッテリー測定</string>
+    <string name="measure_stop_question">測定を中止しますか？ ここまでのカウントは失われます。</string>
+    <string name="measure_stop">中止</string>
+    <string name="measure_keep_going">続ける</string>
+    <string name="measure_done_title">バッテリーの測定が完了</string>
+    <string name="measure_done_text">バッテリーの容量は約 <xliff:g id="mah">%1$d</xliff:g> mAh です。タップして使用します。</string>
+    <string name="measure_use_question">満充電から本体の電源が切れるまでに <xliff:g id="measured">%1$d</xliff:g> mAh 使えました。容量として <xliff:g id="mah">%2$d</xliff:g> mAh を使いますか？</string>
+    <string name="measure_use">使用する</string>
+    <string name="measure_discard">破棄</string>
+    <string name="measure_failed_title">バッテリー測定が中止されました</string>
+    <string name="measure_fail_plugged">中止: バッテリーが空になる前に充電器が接続されました。タップして、もう一度試してください。</string>
+    <string name="measure_fail_charged">中止: バッテリーが空になる前に本体が充電されました。タップして、もう一度試してください。</string>
+    <string name="measure_fail_short">中止: 数値が低すぎて正しくないようです。タップして、もう一度試してください。</string>
+
+    <string name="value_voltage"><xliff:g id="volts">%1$.2f</xliff:g> V</string>
+    <string name="value_current_in"><xliff:g id="ma">%1$d</xliff:g> mA 流入</string>
+    <string name="value_current_out"><xliff:g id="ma">%1$d</xliff:g> mA 流出</string>
+    <string name="value_power"><xliff:g id="watts">%1$.2f</xliff:g> W</string>
+    <string name="value_temperature"><xliff:g id="celsius">%1$.1f</xliff:g> °C</string>
+    <string name="value_capacity"><xliff:g id="mah">%1$d</xliff:g> mAh</string>
+    <string name="value_capacity_default"><xliff:g id="mah">%1$d</xliff:g> mAh（初期値）</string>
+    <string name="charger_none">接続されていません</string>
+    <string name="charger_usb">USB</string>
+    <string name="charger_ac">AC アダプター</string>
+    <string name="unknown">不明</string>
+
+    <string name="about">表示されるパーセントは残量計の推定値です。電圧は直接測定されます。約 4.2 V で満充電、約 3.7 V が中間、約 3.4 V で本体の電源が切れます。ゲーム中は電圧が下がり、休止すると回復します。\n\nパーセントと電圧が合わない場合は、本体が満充電と表示するまで充電してください。残量計が自動で補正されます。\n\n時間は、現在の電流から計算したおおよその目安です。</string>
+
+    <!-- Durations -->
+    <string name="duration_min"><xliff:g id="minutes">%1$d</xliff:g> 分</string>
+    <string name="duration_h_min"><xliff:g id="hours">%1$d</xliff:g> 時間 <xliff:g id="minutes">%2$d</xliff:g> 分</string>
+</resources>

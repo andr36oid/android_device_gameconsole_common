@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="wallpaper_titles">
+        <item>ピクセルの夕焼け</item>
+        <item>夜の丘</item>
+        <item>本体のシルエット</item>
+        <item>ボタンのパターン</item>
+        <item>透明な紫のケース</item>
+        <item>緑のモニター</item>
+    </string-array>
+</resources>

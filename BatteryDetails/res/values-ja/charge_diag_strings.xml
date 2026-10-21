@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Battery details > Charging diagnostics -->
+    <string name="diag_category">トラブルシューティング</string>
+    <string name="diag_title">充電の診断</string>
+    <string name="diag_summary">充電器を接続したときに本体が何を検出しているかを表示します。充電されないときに役立ちます。</string>
+
+    <string name="diag_test_category">接続テスト</string>
+    <string name="diag_test_title">接続テストを実行</string>
+    <string name="diag_test_summary">充電器を接続している間、15 秒間充電経路を監視し、どの部分が接続に気づかなかったかを表示します。</string>
+    <string name="diag_test_unplug">充電器と USB 機器をすべて外してから、Start を押してください。</string>
+    <string name="diag_test_start">開始</string>
+    <string name="diag_test_plug">今すぐ充電器を接続してください。\n\n残り <xliff:g id="seconds">%1$d</xliff:g> 秒</string>
+    <string name="diag_test_result">接続テストの結果</string>
+    <string name="diag_test_last">前回の結果</string>
+
+    <string name="diag_verdict_charging">充電できています。最大 <xliff:g id="ma">%1$d</xliff:g> mA がバッテリーに流れました。</string>
+    <string name="diag_verdict_no_current">本体は充電器を検出していますが、バッテリーに電流が流れていません。充電器の状態: <xliff:g id="state">%1$s</xliff:g>。</string>
+    <string name="diag_verdict_driver_missed">電源チップ（RK817）は電力の入力を検出していますが、充電器ドライバーはそれを充電器として認識しませんでした。カーネル調整で別の充電器検出設定を試してください。</string>
+    <string name="diag_verdict_pin_only">充電器検出ピンは変化しましたが、電力は電源チップ（RK817）に届いていません。</string>
+    <string name="diag_verdict_nothing">本体のどこも充電器に気づいていません。電源チップ（RK817）に電力が届いていません。別のケーブルと充電器を試してください。電源を切った状態で充電される場合は、andr36oid で端子の修正が必要です。</string>
+    <string name="diag_verdict_boost">USB 機器用の 5 V ブーストが機器未接続でオンになっていました。そのため、端子が電力を取り込まず出力している可能性があります。</string>
+    <string name="diag_verdict_report">この結果を andr36oid チームに送るには、問題レポートを作成してください（A+B+X+Y を 10 秒間押し続ける）。レポートにはこれらの値が含まれます。</string>
+    <string name="diag_verdict_seen">検出ピンの変化: <xliff:g id="pin">%1$s</xliff:g>\n電源チップが検出した電力: <xliff:g id="pmic">%2$s</xliff:g>\nドライバーが検出した充電器: <xliff:g id="driver">%3$s</xliff:g>\nバッテリーへの最大電流: <xliff:g id="ma">%4$s</xliff:g> mA</string>
+    <string name="diag_yes">はい</string>
+    <string name="diag_no">いいえ</string>
+
+    <string name="diag_now_category">現在の状態</string>
+    <string name="diag_android">Android の検出</string>
+    <string name="diag_driver">充電器ドライバー</string>
+    <string name="diag_driver_dc">DC 充電器を接続中</string>
+    <string name="diag_driver_usb">USB 充電器を接続中</string>
+    <string name="diag_driver_none">充電器なし</string>
+    <string name="diag_pmic">電源チップの入力（RK817）</string>
+    <string name="diag_pmic_yes">電力が入力中</string>
+    <string name="diag_pmic_no">電力の入力なし</string>
+    <string name="diag_pin">充電器検出ピン</string>
+    <string name="diag_pin_value"><xliff:g id="level">%1$d</xliff:g>（検出: <xliff:g id="mode">%2$s</xliff:g>）</string>
+    <string name="diag_pin_none">この本体にはありません</string>
+    <string name="diag_state">充電器の状態</string>
+    <string name="diag_state_off">充電していません</string>
+    <string name="diag_state_dead">空のバッテリーを起こしています</string>
+    <string name="diag_state_trickle">トリクル充電中</string>
+    <string name="diag_state_charging">充電中</string>
+    <string name="diag_state_done">完了</string>
+    <string name="diag_state_over_voltage">充電器の電圧が高すぎます</string>
+    <string name="diag_state_temperature">バッテリー温度エラー</string>
+    <string name="diag_state_timer">停止: 充電に時間がかかりすぎました</string>
+    <string name="diag_otg">USB 機器への給電</string>
+    <string name="diag_otg_on">オン</string>
+    <string name="diag_otg_off">オフ</string>
+    <string name="diag_otg_boost_only">オフですが、5 V ブーストはオンです</string>
+    <string name="diag_irqs">起動後の接続信号</string>
+    <string name="diag_irqs_value">入力 <xliff:g id="in">%1$d</xliff:g>、出力 <xliff:g id="out">%2$d</xliff:g>、検出ピン <xliff:g id="pin">%3$d</xliff:g></string>
+    <string name="diag_limits">充電の上限</string>
+    <string name="diag_limits_value">バッテリーへ <xliff:g id="charge">%1$d</xliff:g> mA、充電器から <xliff:g id="input">%2$d</xliff:g> mA</string>
+    <string name="diag_regs">充電器のレジスタ</string>
+
+    <!-- Live diagram of the charging path at the top of Charging diagnostics; boxes are
+         narrow, keep the words short -->
+    <string name="dia_port">USB-C 端子</string>
+    <string name="dia_boost">5 V ブースト</string>
+    <string name="dia_pin">検出ピン</string>
+    <string name="dia_pmic">電源チップ</string>
+    <string name="dia_vbus">USB 5 V 検出</string>
+    <string name="dia_driver">ドライバー</string>
+    <string name="dia_android">Android</string>
+    <string name="dia_battery">バッテリー</string>
+    <string name="dia_power">電力</string>
+    <string name="dia_nothing">なし</string>
+    <string name="dia_no_pin">ピンなし</string>
+    <string name="dia_gives_5v">5 V を出力</string>
+    <string name="dia_on">オン</string>
+    <string name="dia_off">オフ</string>
+    <string name="dia_caption">点灯している部分は充電器を検出しています。赤: USB 機器が未接続なのに 5 V ブーストがオンです。そのため、充電器が本体を電源と見なし、5 V をオフのままにすることがあります。</string>
+</resources>

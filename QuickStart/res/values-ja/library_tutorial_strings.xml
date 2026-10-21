@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="tutorial_games_body_ready">SDカードをパソコンに差し込んでください。小さなBOOTドライブのほかに、EASYROMSという大きなドライブが表示されます。ここがゲームの保存先です。\n\n各ゲームを、そのシステムのフォルダに入れてください（nes、snes、gba、megadrive、psx など）。\n\nDaijishou（FNを押します）には、これらのシステムが最初から登録されていて、フォルダも分かっています。初めて開くと、ゲームを探すか尋ねられます。OKを押してください。後からゲームを追加した場合は、次回の起動時にもう一度尋ねられます。本体の電源が入った状態で追加したゲームは、ライブラリ設定の「Sync entirely」を実行すると表示されます。ゲームはRetroArchまたはPPSSPPで起動します。</string>
+    <string name="tutorial_games_body_ready_no_fn">SDカードをパソコンに差し込んでください。小さなBOOTドライブのほかに、EASYROMSという大きなドライブが表示されます。ここがゲームの保存先です。\n\n各ゲームを、そのシステムのフォルダに入れてください（nes、snes、gba、megadrive、psx など）。\n\nホーム画面のDaijishouには、これらのシステムが最初から登録されていて、フォルダも分かっています。初めて開くと、ゲームを探すか尋ねられます。OKを押してください。後からゲームを追加した場合は、次回の起動時にもう一度尋ねられます。本体の電源が入った状態で追加したゲームは、ライブラリ設定の「Sync entirely」を実行すると表示されます。ゲームはRetroArchまたはPPSSPPで起動します。</string>
+    <string name="tutorial_games_body_simple">SDカードをパソコンに差し込んでください。小さなBOOTドライブのほかに、EASYROMSという大きなドライブが表示されます。ここがゲームの保存先です。\n\n各ゲームを、そのシステムのフォルダに入れてください（nes、snes、gba、megadrive、psx など）。\n\nゲームライブラリを使うには、Simple UIのアプリからDaijishouを開いてください。Daijishouはこれらのフォルダを知っており、開くとゲームを探すか尋ねてきます。または、RetroArchの「Load Content」から、あるいはPPSSPPのゲーム一覧から直接ゲームを起動できます。</string>
+    <string name="tutorial_games_body_simple_no_daijishou">SDカードをパソコンに差し込んでください。小さなBOOTドライブのほかに、EASYROMSという大きなドライブが表示されます。ここがゲームの保存先です。\n\n各ゲームを、そのシステムのフォルダに入れてください（nes、snes、gba、megadrive、psx など）。\n\nその後、RetroArchの「Load Content」、またはPPSSPPのゲーム一覧からゲームを起動し、EASYROMS上のフォルダから選んでください。</string>
+</resources>

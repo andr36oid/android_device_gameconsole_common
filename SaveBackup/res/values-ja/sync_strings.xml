@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sync_title">セーブの同期</string>
+    <string name="sync_row_off">オフ。この本体と PC、スマホ、ほかの本体との間でセーブを同じ状態に保ちます。</string>
+    <plurals name="sync_row_on">
+        <item quantity="other">オン、デバイス %1$d 台と接続</item>
+    </plurals>
+    <string name="sync_switch_title">セーブを同期</string>
+    <string name="sync_switch_off">オフ</string>
+    <string name="sync_switch_on">オン。Wi-Fi 接続中に充電しているとき、またはこのページを開いている間に同期します。</string>
+    <string name="sync_status_off">セーブデータとセーブステートを、追加した各デバイスと Wi-Fi 経由で同じ状態に保ちます。クラウドは使いません。ROM はコピーされません。Syncthing アプリを使用します。</string>
+    <string name="sync_status_starting">Syncthing を起動しています…</string>
+    <string name="sync_status_no_devices">デバイスがまだありません。下から追加してください。</string>
+    <string name="sync_status_scanning">変更されたセーブを探しています…</string>
+    <plurals name="sync_status_syncing">
+        <item quantity="other">同期中、残り %1$d ファイル…</item>
+    </plurals>
+    <plurals name="sync_status_errors">
+        <item quantity="other">%1$d 件のファイルを同期できませんでした。詳細は Syncthing を開いてください。</item>
+    </plurals>
+    <string name="sync_status_folder_error">セーブのフォルダーを同期できません。EASYROMS はマウントされていますか？ 詳細は Syncthing を開いてください。</string>
+    <string name="sync_status_waiting">この本体は最新です。デバイスがオンラインになるのを待っています。</string>
+    <string name="sync_status_done">最新の状態です</string>
+    <string name="sync_step_prepare">Syncthing を準備しています…</string>
+    <string name="sync_step_start">Syncthing を起動しています。初回起動には最大2分かかります…</string>
+    <string name="sync_step_folders">セーブのフォルダーを追加しています…</string>
+    <string name="sync_step_stop">停止しています…</string>
+
+    <string name="sync_my_id_title">この本体の ID</string>
+    <string name="sync_my_id_none">Syncthing の起動後に表示されます</string>
+    <string name="sync_my_id_message">PC またはスマホで Syncthing を開き、「リモートデバイスを追加」を選んで、この ID を入力するか、コードをスキャンしてください。その後、PC が下の「デバイスを追加」に表示されます。</string>
+
+    <string name="sync_devices_category">同期先</string>
+    <string name="sync_devices_none">デバイスがまだありません</string>
+    <string name="sync_device_connected">接続中</string>
+    <string name="sync_device_offline">現在接続されていません</string>
+    <string name="sync_remove_title">%1$s との同期を停止しますか？</string>
+    <string name="sync_remove_message">セーブは両方のデバイスに残ります。ただし、今後は同じ状態に保たれません。</string>
+    <string name="sync_remove_button">同期を停止</string>
+
+    <string name="sync_add_category">デバイスを追加</string>
+    <string name="sync_pending_summary">この本体との同期を求めています</string>
+    <string name="sync_nearby_title">デバイス %1$s</string>
+    <string name="sync_nearby_summary">この Wi-Fi で見つかりました</string>
+    <string name="sync_add_hint">PC またはスマホ: そこに Syncthing をインストールして、この本体の ID (上記) を追加します。別の本体: そちらでセーブの同期をオンにしてから、ここで選択します。</string>
+    <string name="sync_add_title">%1$s とセーブを同期しますか？</string>
+    <string name="sync_add_message">自分のデバイスだけを追加してください。そのデバイスはこの本体のセーブを受け取り、変更することもできます。\n\nID: %1$s</string>
+    <string name="sync_add_button">同期</string>
+    <string name="sync_change_failed">うまくいきませんでした。Syncthing は動いていますか？ 少し待ってから、もう一度お試しください。</string>
+
+    <string name="sync_open_title">Syncthing を開く</string>
+    <string name="sync_open_summary">すべての設定、ほかのフォルダー、同期された内容</string>
+    <string name="sync_note">別のデバイスでゲームを遊ぶ前に、ゲームを終了してください。両方で同じセーブを変更した場合は新しい方が残り、もう一方は隣に .sync-conflict ファイルとして保存されます。置き換えられたセーブは .stversions (直近5件) とバックアップにも残ります。</string>
+
+    <string name="sync_off_title">セーブの同期をオフにしますか？</string>
+    <string name="sync_off_message">セーブはこの本体とほかのデバイスに残ります。変更はもう同期されません。デバイスは次回のために記憶されます。</string>
+    <string name="sync_off_button">オフにする</string>
+    <string name="sync_failed_title">セーブの同期をオンにできませんでした</string>
+    <string name="sync_error_missing">Syncthing アプリがインストールされていません。</string>
+    <string name="sync_error_not_running">Syncthing が起動しませんでした。Syncthing を一度開いてから、もう一度お試しください。</string>
+    <string name="sync_error_other">Syncthing の設定中に問題が発生しました。もう一度試すか、Syncthing を開いて手動で設定してください。</string>
+    <string name="sync_label_easyroms">EASYROMS 上のゲームのセーブ</string>
+    <string name="sync_label_internal">内部ストレージ上のゲームのセーブ</string>
+</resources>

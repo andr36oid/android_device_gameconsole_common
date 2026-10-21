@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="setup_apps_all">すべて選択または解除</string>
+    <string name="setup_apps_body">これらのアプリは andr36oid に同梱されており、インターネットがなくてもカードから直接インストールされます。不要なアプリはチェックを外してください。</string>
+    <string name="setup_apps_by">作者: %1$s</string>
+    <string name="setup_apps_next">インストール</string>
+    <string name="setup_apps_space">これらのアプリは、今のところ SDカードの 2 GB を使います。インストールすると、次回の起動時にその領域がAndroidに返され、選ばなかったアプリはカードから削除されます。そのため、必要なものは今すべて選んでください。</string>
+    <string name="setup_apps_title">インストールするアプリ</string>
+</resources>

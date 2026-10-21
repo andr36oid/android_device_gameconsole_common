@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_title">エミュレーターのファイル</string>
+    <string name="app_summary">ゲームが起動しない？ 一部のシステムに必要な BIOS ファイルを確認しましょう</string>
+    <string name="intro">一部のシステムでは、ゲームを起動する前に元の本体のファイル（BIOS）が必要です。これらのファイルを EASYROMS の bios フォルダーに入れてください。</string>
+    <string name="intro_internal">一部のシステムでは、ゲームを起動する前に元の本体のファイル（BIOS）が必要です。これらのファイルを内部ストレージの bios フォルダーに入れてください。</string>
+    <string name="checking">確認中…</string>
+    <string name="check_failed">確認を実行できませんでした。端末を再起動してから、もう一度お試しください。</string>
+    <string name="no_easyroms_title">EASYROMS は現在利用できません</string>
+    <string name="no_easyroms_summary">EASYROMS パーティションのある SD カードを挿し直してから、このページをもう一度開いてください。</string>
+    <string name="systems_category">システム</string>
+    <string name="fix_title">ファイル名を修正</string>
+    <plurals name="fix_summary"><item quantity="other">%1$d 件のファイルは名前が間違っているため、エミュレーターが見つけられません</item></plurals>
+    <string name="fix_dialog_title">これらのファイルの名前を変更しますか？</string>
+    <string name="fix_dialog_message">EASYROMS の bios フォルダー内:\n\n%1$s</string>
+    <string name="fix_dialog_message_internal">内部ストレージの bios フォルダー内:\n\n%1$s</string>
+    <string name="fix_line">%1$s → %2$s\n</string>
+    <string name="fix_button">名前を変更</string>
+    <plurals name="fix_done"><item quantity="other">%1$d 件のファイルの名前を変更しました。</item></plurals>
+    <plurals name="fix_failed"><item quantity="other">%1$d 件のファイルは名前を変更できませんでした。</item></plurals>
+    <string name="level_ready">準備完了</string>
+    <string name="level_not_needed">任意: プレイに必要ありません</string>
+    <string name="level_missing">不足: %1$s</string>
+    <string name="level_missing_one_of">不足: %1$s または類似のファイル</string>
+    <string name="level_wrong_version">バージョンが違います: %1$s。ゲームが起動しない場合があります</string>
+    <string name="level_wrong_name">ファイルの名前が間違っています。「ファイル名を修正」を使ってください</string>
+    <string name="state_found">見つかりました</string>
+    <string name="state_missing_needed">不足（必要）</string>
+    <string name="state_missing_one_of">不足。いずれか 1 つで足ります</string>
+    <string name="state_missing_optional">不足（任意）</string>
+    <string name="state_wrong_version">バージョンが違います。ゲームが起動しない場合があります</string>
+    <string name="state_wrong_version_is">ファイルが違います。これは %1$s です。「ファイル名を修正」を使ってください</string>
+    <string name="state_wrong_name">%1$s として見つかりました。「ファイル名を修正」を使ってください</string>
+    <string name="details_what">内容: %1$s</string>
+    <string name="details_cores">使用元: %1$s</string>
+    <string name="details_md5">正しいファイルの MD5: %1$s</string>
+    <string name="details_md5_any">この名前のファイルならどれでも使えます</string>
+    <string name="details_file">お持ちのファイル: %1$s\nそのMD5: %2$s</string>
+    <string name="details_file_big">お持ちのファイル: %1$s\nこのファイルにしては大きすぎます</string>
+    <string name="close">閉じる</string>
+    <string name="path_easyroms">EASYROMS</string>
+    <string name="path_internal">内部ストレージ</string>
+</resources>

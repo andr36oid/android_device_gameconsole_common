@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="emulators_cheats">多くのゲームのチートは、インターネットに接続しなくても本体に最初から入っています。RetroArchでゲーム中に Select + X でメニューを開き、クイックメニュー > チート > チートファイルを読み込む（置き換え）の順に選んでください。システム、次にゲームを選びます。使いたいチートをオンにして、変更を適用を選んでください。</string>
+</resources>

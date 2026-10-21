@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="test_title">コントローラーテスト</string>
+    <string name="test_summary">すべてのボタンとスティックを試して、バッテリーを確認します</string>
+    <string name="test_hint">START + SELECT を長押しで終了 · FN でホーム · <xliff:g id="done">%1$d</xliff:g>/<xliff:g id="total">%2$d</xliff:g> 個のボタンをテスト済み</string>
+    <string name="test_all_tested">すべてのボタンが動作します</string>
+    <string name="test_leaving">終了しています…</string>
+    <string name="test_no_key">どれかボタンを押してください</string>
+    <string name="test_no_stick">アナログスティックが見つかりません</string>
+    <string name="test_battery_unknown">バッテリー: データなし</string>
+</resources>

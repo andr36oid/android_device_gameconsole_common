@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Settings > Touch controls: layouts to and from the touchmap folder on EASYROMS.
+     Kept apart from strings.xml so the translation branches don't collide. -->
+<resources>
+    <string name="share_category">SDカード</string>
+    <string name="share_export">レイアウトをSDカードに保存</string>
+    <string name="share_export_summary">すべてのレイアウトを EASYROMS の touchmap フォルダにコピーします。新しいイメージをインストールしても残り、共有することもできます。</string>
+    <string name="share_import">レイアウトをSDカードから読み込む</string>
+    <string name="share_import_summary">EASYROMS の touchmap フォルダのレイアウトを追加します。すでにレイアウトがあるアプリは、自分のレイアウトを残します。</string>
+    <string name="share_working">コピーしています…</string>
+    <string name="share_exported">保存したレイアウト: %1$d\nフォルダ: EASYROMS/touchmap</string>
+    <string name="share_imported">新しいレイアウト: %1$d\n自分のレイアウトを残したアプリ: %2$d\n使えなかったファイル: %3$d</string>
+    <string name="share_error_nocard">EASYROMS が見つかりません。SDカードを確認してから、もう一度お試しください。</string>
+    <string name="share_error_none">保存するレイアウトがまだありません。</string>
+    <string name="share_error_empty">レイアウトが見つかりません。EASYROMS の touchmap フォルダに .json ファイルを入れてから、もう一度お試しください。</string>
+    <string name="share_error_failed">うまくいきませんでした。もう一度お試しください。</string>
+</resources>

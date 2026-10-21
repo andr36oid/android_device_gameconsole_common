@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="warning_last">最後の警告は 3% のとき</string>
+    <string name="warning_last_summary">警告がオンの間は常にオンです。本体がまもなく切れるため、画面に長めに表示されます。</string>
+    <string name="banner_last_text">バッテリー <xliff:g id="percent">%1$d</xliff:g> %% – 今すぐゲームを保存してください。本体はまもなく電源が切れます。</string>
+</resources>

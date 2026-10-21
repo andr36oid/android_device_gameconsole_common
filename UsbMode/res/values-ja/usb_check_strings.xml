@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="usb_check_about">チップは機器の ID（メーカー:機種）です。サポートに問い合わせるときは、このチップを伝えてください。機器で A を押すと、本体が把握しているすべての情報を表示します。</string>
+    <string name="usb_check_bt_only">Bluetooth は動作します。その Wi-Fi はサポートされていません（チップ <xliff:g id="chip" example="0bda:d723">%1$s</xliff:g>）。</string>
+    <string name="usb_check_cd_mode">ドライバー CD モードになっています。本体が数秒で自動的に切り替えます。そのままの場合は、抜いてから差し直してください。</string>
+    <string name="usb_check_cd_unknown">ドライバー CD モードになっていて、本体は切り替え方法がわかりません（チップ <xliff:g id="chip_id" example="0bda:1a2b">%1$s</xliff:g>）。</string>
+    <string name="usb_check_copied">詳細をコピーしました</string>
+    <string name="usb_check_copy">詳細をコピー</string>
+    <string name="usb_check_copy_summary">コミュニティのチャットで質問するときに使えます。問題レポートにも含まれます。</string>
+    <string name="usb_check_kind_audio">サウンドカードまたはヘッドセット</string>
+    <string name="usb_check_kind_bluetooth">Bluetooth アダプター</string>
+    <string name="usb_check_kind_gamepad">ゲームコントローラー</string>
+    <string name="usb_check_kind_hub">USB ハブ</string>
+    <string name="usb_check_kind_input">コントローラー、キーボード、マウス</string>
+    <string name="usb_check_kind_keyboard">キーボード</string>
+    <string name="usb_check_kind_mouse">マウス</string>
+    <string name="usb_check_kind_network">ネットワークアダプターまたはモデム</string>
+    <string name="usb_check_kind_other">USB 機器</string>
+    <string name="usb_check_kind_serial">シリアルアダプター</string>
+    <string name="usb_check_kind_storage">USB メモリーまたはカードリーダー</string>
+    <string name="usb_check_kind_video">カメラまたは TV チューナー</string>
+    <string name="usb_check_kind_wifi">Wi-Fi アダプター</string>
+    <string name="usb_check_link_summary">OTG ポートに何が接続されているか、動作するかを確認します</string>
+    <string name="usb_check_no_power">検出されましたが起動しませんでした。ポートの供給電力より多くの電力が必要かもしれません。専用の電源がついた USB ハブを試してください。</string>
+    <string name="usb_check_none">何も接続されていません</string>
+    <string name="usb_check_none_summary">機器を OTG アダプターまたはハブ経由で OTG ポートに接続してください。このページは自動で更新されます。</string>
+    <string name="usb_check_not_started">対応していますが、ドライバーが起動しませんでした。抜いてから差し直してください。</string>
+    <string name="usb_check_not_supported">非対応（チップ <xliff:g id="chip_id" example="0bda:885a">%1$s</xliff:g>）</string>
+    <string name="usb_check_not_supported_named">非対応: <xliff:g id="chip_name" example="Realtek RTL8852AU">%1$s</xliff:g>（チップ <xliff:g id="chip_id" example="0bda:885a">%2$s</xliff:g>）</string>
+    <string name="usb_check_plugged_in">現在接続中</string>
+    <string name="usb_check_port_device">OTG ポートはパソコンに接続するように設定されています（USB モード）。元に戻すまでアクセサリーは動作しません。</string>
+    <string name="usb_check_summary">何が接続されていて、動作しているか？</string>
+    <string name="usb_check_title">USB 機器</string>
+    <string name="usb_check_wifi_hint">RTL8188、RTL8811CU/8821CU、RTL8812BU、MT7601U チップのアダプターが動作します。</string>
+    <string name="usb_check_wifi_off">対応しています。使うには Wi-Fi をオンにしてください。</string>
+    <string name="usb_check_works">動作中</string>
+</resources>

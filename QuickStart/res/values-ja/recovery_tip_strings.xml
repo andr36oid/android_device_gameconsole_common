@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="trouble_recovery_more">これでリカバリーメニューが開きます。FNを押し続けても何も起こらない場合（Soy Sauceなど一部のクローン）は、代わりにパソコンでBOOTに空のファイル「recovery.txt」を作成してください。作業後は必ず削除してください。ファイルがある間は、起動のたびにリカバリーに入ります。リカバリーメニューでは、十字キーまたは音量ボタンで移動し、Aまたは電源ボタンで選びます。初期化するには、「Factory reset」、「Format data/factory reset」、「Reboot system now」の順に選びます。これでアプリ、設定、内部ストレージのすべてのファイルは消えますが、EASYROMSのゲームは消えません。ほかの項目は使わないでください。このリカバリーは本体のシステムより古く、アップデートをインストールできません。</string>
+</resources>

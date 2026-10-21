@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="app_name">タッチ操作</string>
+    <string name="settings_summary">アプリごとに、ボタンでタッチスクリーンのゲームを遊べます</string>
+
+    <!-- Settings > Touch controls -->
+    <string name="settings_intro">タッチスクリーンでしか遊べないゲームがあります。ここでは、そのようなゲームに専用の配置を設定できます。ボタンやスティックが、画面上のそれぞれの場所に触れるようになります。配置は、そのゲームが前面にあるときだけ自動で切り替わり、ほかのアプリは通常のボタンのままです。</string>
+    <string name="settings_apps">タッチ操作のあるアプリ</string>
+    <string name="settings_add">アプリを追加</string>
+    <string name="settings_add_summary">ゲームを選ぶと起動し、その上に編集画面が開きます</string>
+    <string name="settings_add_none">すべてのアプリにタッチ操作が設定されています</string>
+    <string name="settings_how">使い方</string>
+    <string name="settings_shortcut_title">プレイ中に編集: FN + L1</string>
+    <string name="settings_shortcut_summary">ゲーム中にFNを押したままL1を押します。編集画面がゲームの上に開きます。FNは通常どおりホーム画面に戻ります。</string>
+    <string name="settings_help_summary">編集画面で各ボタンが何をするか</string>
+
+    <!-- Summary of an app in the list; %1$s is e.g. "5 controls" -->
+    <string name="profile_on">オン · <xliff:g id="count">%1$s</xliff:g></string>
+    <string name="profile_off">オフ · <xliff:g id="count">%1$s</xliff:g></string>
+    <string name="profile_empty">まだ操作がありません</string>
+    <string name="profile_unreadable">読み込めません。編集してやり直してください</string>
+    <plurals name="control_count">
+        <item quantity="other"><xliff:g id="n">%d</xliff:g> 個の操作</item>
+    </plurals>
+
+    <!-- One app's page -->
+    <string name="profile_enabled">タッチ操作を使う</string>
+    <string name="profile_enabled_summary">このアプリが前面にあるとき</string>
+    <string name="profile_hints">画面にボタンを表示する</string>
+    <string name="profile_hints_summary">各ボタンが触れる場所に薄いラベルを表示します</string>
+    <string name="profile_edit">配置を編集</string>
+    <string name="profile_edit_summary"><xliff:g id="app">%1$s</xliff:g> を起動し、その上に編集画面を開きます</string>
+    <string name="profile_edit_starting">アプリを起動しています。まもなく編集画面が開きます。</string>
+    <string name="profile_cant_start">このアプリはここからは起動できません。開いてから FN + L1 を押してください。</string>
+    <string name="profile_controls">操作</string>
+    <string name="profile_delete">タッチ操作を削除</string>
+    <string name="profile_delete_message">このアプリの配置は削除されます。アプリは再び通常のボタンで操作します。</string>
+    <string name="profile_delete_confirm">削除</string>
+
+    <!-- FN + L1 where there is nothing to edit -->
+    <string name="edit_needs_app">先にゲームを開き、FN + L1 を押すと、そのタッチ操作を設定できます。</string>
+
+    <!-- Editor -->
+    <string name="editor_title">タッチ操作: <xliff:g id="app">%1$s</xliff:g></string>
+    <string name="editor_layer_normal">通常のボタン</string>
+    <string name="editor_layer_shift"><xliff:g id="button">%1$s</xliff:g> を押している間</string>
+    <string name="editor_profile_off">オフ中</string>
+    <string name="editor_saved"><xliff:g id="app">%1$s</xliff:g> のタッチ操作を保存しました</string>
+    <string name="editor_save_failed">保存できませんでした。もう一度お試しください。</string>
+    <string name="editor_deleted">削除しました</string>
+    <string name="editor_cancelled">キャンセルしました</string>
+    <string name="editor_no_shift">シフトボタンがまだありません: Select を押してから、シフトボタンを選んでください</string>
+    <string name="editor_is_shift"><xliff:g id="button">%1$s</xliff:g> はシフトボタンです。別のボタンを押してください。</string>
+    <string name="editor_replaced"><xliff:g id="input">%1$s</xliff:g> は以前は別の動きをしていました。その操作は削除されました。</string>
+    <string name="editor_replaced_dpad">十字キーのジョイスティックは削除されました。十字キーのボタンは、今は1つずつ動きます。</string>
+    <string name="editor_replaced_stick"><xliff:g id="stick">%1$s</xliff:g> は以前は1つの操作でした。その操作は削除され、各方向が1つずつ動きます。</string>
+    <string name="editor_replaced_stick_directions"><xliff:g id="stick">%1$s</xliff:g> の個別の方向は削除されました。今は1つの操作です。</string>
+    <string name="editor_replaced_dpad_buttons">十字キーの個別のボタンは削除されました。十字キーは今ではジョイスティックです。</string>
+    <string name="editor_unsaved_title">変更を保存しますか？</string>
+    <string name="editor_unsaved_message">配置は変更されましたが、まだ保存されていません。</string>
+    <string name="editor_save">保存</string>
+    <string name="editor_discard">保存しない</string>
+    <string name="editor_keep_editing">編集を続ける</string>
+
+    <!-- Bottom strip of the editor: what each button does right now -->
+    <string name="hint_add">ここに追加</string>
+    <string name="hint_change">変更</string>
+    <string name="hint_delete">削除</string>
+    <string name="hint_size">サイズ</string>
+    <string name="hint_next">次へ</string>
+    <string name="hint_layer">シフト層</string>
+    <string name="hint_options">オプション</string>
+    <string name="hint_save">保存</string>
+    <string name="hint_close">閉じる</string>
+    <string name="hint_move">移動</string>
+    <string name="hint_place">配置</string>
+    <string name="hint_cancel">キャンセル</string>
+    <string name="hint_hold_cancel">長押しでキャンセル</string>
+
+    <!-- Waiting for a button or stick; %1$s is a control type in lower case, e.g. "tap" -->
+    <string name="capture_button">この<xliff:g id="type">%1$s</xliff:g>に使うボタンを押してください</string>
+    <string name="capture_button_cancel">どのボタンでも使えます（Bも可）。スティックを一方向に倒しても構いません。Bを長押しするとキャンセルします。</string>
+    <string name="capture_stick">この<xliff:g id="type">%1$s</xliff:g>に使うスティックを動かしてください</string>
+    <string name="capture_stick_detail">左スティック、右スティック、または十字キーを押してください</string>
+
+    <!-- Menus -->
+    <string name="editor_add_title">ここに操作を追加</string>
+    <string name="editor_control_title">この操作</string>
+    <string name="editor_menu_move">移動</string>
+    <string name="editor_menu_button">ボタン: <xliff:g id="button">%1$s</xliff:g></string>
+    <string name="editor_menu_stick">スティック: <xliff:g id="stick">%1$s</xliff:g></string>
+    <string name="editor_menu_type">種類: <xliff:g id="type">%1$s</xliff:g></string>
+    <string name="editor_menu_direction">方向: <xliff:g id="direction">%1$s</xliff:g></string>
+    <string name="editor_menu_speed">速さ: <xliff:g id="percent">%1$d</xliff:g>%%</string>
+    <string name="editor_menu_delete">削除</string>
+    <string name="editor_type_title">操作の種類</string>
+    <string name="editor_direction_title">スワイプの方向</string>
+    <string name="editor_speed_title">視点の速さ</string>
+    <string name="percent"><xliff:g id="percent">%1$d</xliff:g>%%</string>
+
+    <string name="type_tap">タップ</string>
+    <string name="type_hold">長押し</string>
+    <string name="type_joystick">ジョイスティック</string>
+    <string name="type_camera">視点操作</string>
+    <string name="type_swipe">スワイプ</string>
+    <string name="type_tap_long">タップ: ボタンを押すと短くタップします</string>
+    <string name="type_hold_long">長押し: ボタンを押している間、指をその場所に置いたままにします</string>
+    <string name="type_joystick_long">ジョイスティック: スティックか十字キーで、この場所の指を動かします</string>
+    <string name="type_camera_long">視点操作: スティックで、この範囲をなぞります。カメラや照準向けです</string>
+    <string name="type_swipe_long">スワイプ: ボタンを押すと、ここから素早くスワイプします</string>
+
+    <string name="direction_up">上</string>
+    <string name="direction_down">下</string>
+    <string name="direction_left">左</string>
+    <string name="direction_right">右</string>
+    <string name="direction_up_left">左上</string>
+    <string name="direction_up_right">右上</string>
+    <string name="direction_down_left">左下</string>
+    <string name="direction_down_right">右下</string>
+    <string name="direction_degrees"><xliff:g id="degrees">%1$d</xliff:g>°</string>
+
+    <string name="options_title">オプション</string>
+    <string name="options_enabled_on">このアプリのタッチ操作: オン</string>
+    <string name="options_enabled_off">このアプリのタッチ操作: オフ</string>
+    <string name="options_hints_on">プレイ中にボタンを表示: オン</string>
+    <string name="options_hints_off">プレイ中にボタンを表示: オフ</string>
+    <string name="options_shift">シフトボタン: <xliff:g id="button">%1$s</xliff:g></string>
+    <string name="options_deadzone">スティックのデッドゾーン: <xliff:g id="percent">%1$d</xliff:g>%%</string>
+    <string name="options_help">ヘルプ</string>
+    <string name="options_clear">すべての操作を削除</string>
+    <string name="options_clear_message">このアプリのすべての操作が削除されます。スタートを押すまで、何も保存されません。</string>
+    <string name="options_clear_confirm">削除</string>
+    <string name="shift_title">シフトボタン</string>
+    <string name="shift_none">なし</string>
+    <plurals name="shift_removed">
+        <item quantity="other">そのボタンを使っていた操作を <xliff:g id="n">%d</xliff:g> 個削除しました</item>
+    </plurals>
+    <string name="deadzone_title">スティックのデッドゾーン</string>
+
+    <string name="help_title">編集画面のヘルプ</string>
+    <string name="help_text">十字キーか左スティックで照準を動かします。\n\n何もない場所で A を押すと、そこに操作を追加します。種類を選んでから、そのボタンを押すか、スティックを動かしてください。操作の上で A を押すと、動かす、別のボタンを割り当てる、削除するができます。\n\n種類:\n• タップ: 短くタップします\n• 長押し: ボタンを押している間、触れたままにします\n• ジョイスティック: スティックか十字キーで、この場所の指を動かします。画面上のスティック向けです\n• 視点操作: スティックで範囲をなぞります。カメラや照準向けです\n• スワイプ: 1方向へ素早くスワイプします\n\nL1 と R1、または右スティックで、選んだ操作を小さく・大きくできます。L2 と R2 で操作を切り替えます。X で削除します。\n\nシフトボタン（Select、次にシフトボタン）: 押している間、2つ目の操作セットが有効になります。Y で2つのセットを切り替えます。\n\nStart で保存して閉じます。B で閉じます。FN は保存せずに終了します。\n\n操作のないボタンは通常のボタンとして動きます。FN と、すべての FN ショートカットは常に使えます。</string>
+    <!-- Toast: the game with touch controls is no longer in front -->
+    <string name="touch_overlay_off">タッチ操作のオーバーレイを無効にしました。ゲームパッドを元に戻しました</string>
+</resources>

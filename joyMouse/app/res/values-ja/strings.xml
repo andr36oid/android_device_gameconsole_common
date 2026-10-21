@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ジョイスティックマウス</string>
+    <string name="settings_summary">ポインターの速さ、スクロール、ボタン割り当て</string>
+
+    <string name="active_title">マウスモード</string>
+    <string name="active_summary">アナログスティックをマウスとして使います</string>
+    <string name="classic_title">クラシックマウスモード</string>
+    <string name="classic_summary">以前のバージョンと同じ動きです。ポインター用スティックでポインターを動かし、その押し込みは左クリックになります。ゲームには引き続きすべてのボタンともう一方のスティックが届きます</string>
+
+    <string name="category_switching">切り替え</string>
+    <string name="toggle_enabled_title">ボタンの組み合わせで切り替える</string>
+    <string name="toggle_enabled_summary">組み合わせを押し続けると、マウスモードのオンとオフを切り替えます</string>
+    <string name="toggle_title">ボタンの組み合わせ</string>
+    <string name="toggle_dialog_title">ボタンを2つ以上選んでください</string>
+    <string name="toggle_too_few">誤ってマウスモードが切り替わらないように、ボタンを2つ以上選んでください</string>
+    <string name="toggle_ms_title">長押しの時間</string>
+    <string name="start_active_title">マウスモードで起動</string>
+    <string name="start_active_summary">起動後にマウスモードをオンにします</string>
+    <string name="toast_title">画面上のメッセージ</string>
+    <string name="toast_summary">マウスモードが切り替わるたびに操作方法を表示します</string>
+
+    <string name="category_pointer">ポインター</string>
+    <string name="speed_title">ポインターの速さ</string>
+    <string name="curve_title">微調整</string>
+    <string name="curve_summary">%s。値を大きくすると、スティックの中央付近でポインターがゆっくり動くようになります</string>
+    <string name="deadzone_title">スティックのデッドゾーン</string>
+    <string name="deadzone_summary">%s。ポインターが勝手に動く場合は上げてください</string>
+    <string name="precision_title">精密モードの速さ</string>
+    <string name="precision_summary">精密ボタンを押している間は、通常の速さの %s になります</string>
+    <string name="pointer_stick_title">ポインター用スティック</string>
+    <string name="pointer_stick_summary">%s。もう一方のスティックでスクロールします</string>
+    <string name="pointer_invert_x_title">左右の動きを反転</string>
+    <string name="pointer_invert_y_title">上下の動きを反転</string>
+
+    <string name="category_scrolling">スクロール</string>
+    <string name="scroll_speed_title">スクロールの速さ</string>
+    <string name="natural_scroll_title">ナチュラルスクロール</string>
+    <string name="natural_scroll_summary">タッチスクリーンをドラッグするように、スティックの向きに内容が動きます</string>
+
+    <string name="category_buttons">ボタン</string>
+    <string name="buttons_title">ボタン割り当て</string>
+    <string name="buttons_summary">マウスモードの間、各ボタンが何をするか</string>
+    <string name="buttons_hint">切り替えの組み合わせに使うボタンは、単独で押すか長押しすると通常どおり動作します。</string>
+
+    <string name="category_controls">操作</string>
+    <string name="controls_title">現在の操作</string>
+    <string name="reset_title">初期設定に戻す</string>
+    <string name="reset_confirm">ジョイスティックマウスの設定をすべて初期設定に戻しますか？</string>
+
+    <!-- Toast and control summary. -->
+    <string name="mode_on">マウスモードがオンです</string>
+    <string name="mode_off">マウスモードがオフです</string>
+    <string name="stick_left">左スティック</string>
+    <string name="stick_right">右スティック</string>
+    <string name="sticks_pointer">%1$s: ポインター</string>
+    <string name="sticks_pointer_scroll">%1$s: ポインター · %2$s: スクロール</string>
+    <string name="hold_to_switch_off">%1$s を押し続けるとオフになります</string>
+    <string name="hold_to_switch_on">%1$s を %2$s 押し続けるとオンになります</string>
+    <string name="switch_in_settings">設定 › 操作 › ジョイスティックマウス でオンにしてください</string>
+    <!-- The FN shortcut, shown while FN + X switches mouse mode -->
+    <string name="press_to_switch_off">%1$s を押すとオフになります</string>
+    <string name="press_to_switch_on">%1$s を押すとオンになります</string>
+    <string name="seconds">%1$s 秒</string>
+    <string name="binding">%1$s: %2$s</string>
+    <string name="list_separator">" · "</string>
+    <string name="button_separator">", "</string>
+    <string name="chord_separator">" + "</string>
+
+    <string name="does_click">クリック</string>
+    <string name="does_right_click">右クリック</string>
+    <string name="does_middle_click">中クリック</string>
+    <string name="does_back">戻る</string>
+    <string name="does_forward">進む</string>
+    <string name="does_precision">精密（長押し）</string>
+    <string name="does_scroll">スクロール（長押し）</string>
+
+    <string name="button_a">A</string>
+    <string name="button_b">B</string>
+    <string name="button_x">X</string>
+    <string name="button_y">Y</string>
+    <string name="button_l1">L1</string>
+    <string name="button_r1">R1</string>
+    <string name="button_l2">L2</string>
+    <string name="button_r2">R2</string>
+    <string name="button_l3">L3</string>
+    <string name="button_r3">R3</string>
+    <string name="button_select">Select</string>
+    <string name="button_start">Start</string>
+    <string name="button_mode">Fn</string>
+    <string name="button_up">上</string>
+    <string name="button_down">下</string>
+    <string name="button_left">左</string>
+    <string name="button_right">右</string>
+
+    <string name="button_title_l3">L3（左スティックを押す）</string>
+    <string name="button_title_r3">R3（右スティックを押す）</string>
+    <string name="button_title_mode">Fn / モード</string>
+    <string name="button_title_up">十字キー 上</string>
+    <string name="button_title_down">十字キー 下</string>
+    <string name="button_title_left">十字キー 左</string>
+    <string name="button_title_right">十字キー 右</string>
+</resources>

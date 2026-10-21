@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_profile_default">標準 (<xliff:g id="profile">%1$s</xliff:g>)</string>
+    <string name="app_profile_tile"><xliff:g id="profile">%1$s</xliff:g>、<xliff:g id="app">%2$s</xliff:g></string>
+    <string name="app_profile_until_left"><xliff:g id="app">%1$s</xliff:g> を終了するまで</string>
+    <string name="app_profiles_about">「標準」は、アプリが「パフォーマンス」で選んだプロファイルに従うことを意味します。エミュレーターの中には「パフォーマンス」で起動するものもあれば、アプリによっては「バランス」や「省電力」で起動するものもあります。ここでそれぞれ変更できます。\n\nクイック設定のタイルと FN + R1 は、独自のプロファイルを持つアプリでも使えます。選んだプロファイルは、そのアプリを終了するまで有効です。\n\nこれがオンの間、小さなヘルパーが開いているアプリを監視します。オフのとき、または独自のプロファイルを持つアプリがないときは動作しません。</string>
+    <string name="app_profiles_apps">アプリ</string>
+    <string name="app_profiles_off">オフ</string>
+    <plurals name="app_profiles_on">
+        <item quantity="other">オン、<xliff:g id="count">%d</xliff:g> 個のアプリが独自のプロファイルを持っています</item>
+    </plurals>
+    <string name="app_profiles_switch">アプリごとにプロファイルを切り替える</string>
+    <string name="app_profiles_switch_summary">独自のプロファイルを持つアプリは、開いている間そのプロファイルになります。アプリを終了すると、「パフォーマンス」で選んだプロファイルに戻ります。</string>
+    <string name="app_profiles_title">アプリ別プロファイル</string>
+</resources>

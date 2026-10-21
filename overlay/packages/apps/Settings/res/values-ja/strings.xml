@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="about_settings" product="tablet">本体について</string>
+    <string name="bluetooth_tethering_subtext" product="tablet">本体のインターネット接続を Bluetooth で共有</string>
+    <string name="usb_tethering_subtext" product="tablet">本体のインターネット接続を USB で共有</string>
+    <string name="wifi_hotspot_tethering_on_subtext" product="tablet">この本体のインターネット接続をホットスポット経由で共有中</string>
+</resources>

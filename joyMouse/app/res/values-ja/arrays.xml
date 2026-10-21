@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="toggle_ms_labels">
+        <item>0.5秒</item>
+        <item>0.75秒</item>
+        <item>1秒</item>
+        <item>1.5秒</item>
+        <item>2秒</item>
+        <item>3秒</item>
+        <item>5秒</item>
+        <item>10秒</item>
+    </string-array>
+
+    <string-array name="action_labels">
+        <item>通常のボタン</item>
+        <item>なし</item>
+        <item>左クリック</item>
+        <item>右クリック</item>
+        <item>中クリック</item>
+        <item>戻る</item>
+        <item>進む</item>
+        <item>ポインター表示中は左クリック、それ以外は通常のボタン</item>
+        <item>精密: 押している間はポインターをゆっくり動かします</item>
+        <item>スクロール: 押している間はポインター用スティックでスクロールします</item>
+    </string-array>
+
+    <string-array name="speed_labels">
+        <item>25%</item>
+        <item>40%</item>
+        <item>60%</item>
+        <item>80%</item>
+        <item>100%（初期値）</item>
+        <item>125%</item>
+        <item>150%</item>
+        <item>200%</item>
+        <item>250%</item>
+        <item>300%</item>
+    </string-array>
+
+    <string-array name="curve_labels">
+        <item>オフ（直線）</item>
+        <item>低</item>
+        <item>中（初期値）</item>
+        <item>高</item>
+        <item>非常に高</item>
+    </string-array>
+
+    <string-array name="deadzone_labels">
+        <item>4%</item>
+        <item>6%</item>
+        <item>8%</item>
+        <item>10%（初期値）</item>
+        <item>12%</item>
+        <item>15%</item>
+        <item>20%</item>
+        <item>25%</item>
+    </string-array>
+
+    <string-array name="precision_labels">
+        <item>15%</item>
+        <item>25%</item>
+        <item>35%（初期値）</item>
+        <item>50%</item>
+        <item>70%</item>
+    </string-array>
+
+    <string-array name="scroll_speed_labels">
+        <item>25%</item>
+        <item>50%</item>
+        <item>75%</item>
+        <item>100%（初期値）</item>
+        <item>150%</item>
+        <item>200%</item>
+        <item>300%</item>
+    </string-array>
+</resources>

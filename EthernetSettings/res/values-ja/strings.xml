@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ethernet_title">イーサネット</string>
+    <string name="ethernet_summary">USB 有線 LAN アダプター、スマートフォンの USB テザリング、USB モデム</string>
+    <string name="ethernet_unavailable">このビルドではイーサネットを利用できません</string>
+    <string name="ethernet_none_title">何も接続されていません</string>
+    <string name="ethernet_none_summary">USB 有線 LAN アダプターを挿すか、USB テザリングをオンにしたスマートフォンを接続してください。iPhone では「パーソナルホットスポット」をオンにします。</string>
+    <string name="ethernet_iface_adapter">有線アダプター (%1$s)</string>
+    <string name="ethernet_iface_phone">スマートフォン、USB テザリング (%1$s)</string>
+    <string name="ethernet_iface_modem">USB モバイル通信モデム (%1$s)</string>
+    <string name="ethernet_status">状態</string>
+    <string name="ethernet_status_connected">接続済み</string>
+    <string name="ethernet_status_no_internet">接続済み、インターネットに接続できません</string>
+    <string name="ethernet_status_connecting">接続中…</string>
+    <string name="ethernet_status_unplugged">ケーブルが抜けています</string>
+    <string name="ethernet_status_phone_waiting">スマートフォンを待っています</string>
+    <string name="ethernet_status_modem_waiting">モバイル回線を待っています</string>
+    <string name="ethernet_ip_address">IP アドレス</string>
+    <string name="ethernet_gateway">ゲートウェイ</string>
+    <string name="ethernet_dns">DNS サーバー</string>
+    <string name="ethernet_mac">MAC アドレス</string>
+    <string name="ethernet_speed">リンク速度</string>
+    <string name="ethernet_speed_value">%1$d Mbps</string>
+    <string name="ethernet_unknown">利用できません</string>
+    <string name="ethernet_not_set">未設定</string>
+    <string name="ethernet_ip_settings">IP 設定</string>
+    <string name="ethernet_ip_dhcp">DHCP</string>
+    <string name="ethernet_ip_static">固定</string>
+    <string name="ethernet_static_ip">固定の IP アドレス</string>
+    <string name="ethernet_static_ip_hint">例: 192.168.1.50/24</string>
+    <string name="ethernet_static_gateway">固定のゲートウェイ</string>
+    <string name="ethernet_static_gateway_hint">例: 192.168.1.1、なしの場合は空欄</string>
+    <string name="ethernet_static_dns">固定の DNS サーバー</string>
+    <string name="ethernet_static_dns_hint">例: 1.1.1.1, 8.8.8.8</string>
+    <string name="ethernet_static_needs_ip">先に IP アドレスを設定してください</string>
+    <string name="ethernet_invalid_ip">IPv4 アドレスを入力してください。必要に応じて /24 のようなプレフィックス長も付けられます</string>
+    <string name="ethernet_invalid_gateway">IPv4 アドレスを入力するか、空欄のままにしてください</string>
+    <string name="ethernet_invalid_dns">IP アドレスをカンマで区切って入力してください</string>
+    <string name="ethernet_save_failed">IP 設定を変更できませんでした</string>
+</resources>

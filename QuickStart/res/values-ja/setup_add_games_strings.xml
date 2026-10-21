@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="add_games_body">ゲームは、このSDカードのEASYROMSドライブに入れます。今すぐ追加する場合は、Daijishouが初めて開いたときに見つけてくれます:\n\n1. 「今すぐシャットダウン」を選びます。\n2. SDカードをパソコンに差し込み、各ゲームを、EASYROMS内のシステムごとのフォルダ（nes、snes、gba、psxなど）にコピーします。\n3. BIOSファイル（PlayStation、Sega CDなど一部のシステムで必要です）がある場合は、EASYROMS内のbiosフォルダにコピーします。\n4. Androidアプリ（.apkファイル）がある場合は、EASYROMS内のapkという名前のフォルダにコピーします。本体の起動時にインストールするか尋ねられます。\n5. カードを戻して本体を起動します。Daijishouが開き、ゲームを探すか尋ねてきたら、OKを押します。\n\nまたは、今は進めて、後でゲームを追加することもできます。</string>
+    <string name="add_games_later">今はしない</string>
+    <string name="add_games_shut_down">今すぐシャットダウン</string>
+    <string name="add_games_title">今すぐゲームを追加しますか？</string>
+</resources>

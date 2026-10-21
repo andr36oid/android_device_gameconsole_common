@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Settings > Controls > Buttons on this console: press every button once -->
+    <string name="check_title">この本体のボタン</string>
+    <string name="check_intro">すべてのボタンを一度ずつ押してください。Fn でホーム画面が開き、その後このページに自動で戻ります。</string>
+    <string name="check_how_to_finish">終了するには、Start を 2 秒間押し続けるか「完了」を選んでください。保存せずに離れるには、B を押し続けてください。</string>
+    <string name="check_done">完了</string>
+    <!-- At the top, e.g. "Current setting: No Fn, no L3/R3" -->
+    <string name="check_saved">現在の設定: %1$s</string>
+    <string name="check_extras_none">見つかった追加ボタン: なし</string>
+    <!-- e.g. "Extra buttons found: Extra button 1, Extra button 2" -->
+    <string name="check_extras">見つかった追加ボタン: %1$s</string>
+    <!-- %1$s is a button, e.g. "L3" -->
+    <string name="check_standin_note">%1$s は今 Fn として働くので、ホーム画面も開きます。</string>
+    <string name="check_missing_title">保存しますか？</string>
+    <!-- %1$s is a list like "Fn, L3/R3" -->
+    <string name="check_missing">この本体にはありません: %1$s。\n\nもし実際にある場合は「戻る」を選んでから、そのボタンを押してください。</string>
+    <string name="check_missing_save">保存</string>
+    <string name="check_missing_back">戻る</string>
+    <string name="check_leave_unsaved">保存せずに終了</string>
+    <string name="check_reset">初期設定に戻す</string>
+    <string name="check_reset_confirm">この本体のボタン構成と、Fn の代わりの設定を消去しますか？ andr36oid がこの機種について知っている内容に戻り、Fn は再び Fn ボタンになります。</string>
+    <string name="check_saved_toast">保存しました: %1$s</string>
+
+    <!-- Summaries: "All buttons", "No Fn, no L3/R3" -->
+    <string name="buttons_all">すべてのボタン</string>
+    <string name="buttons_missing_first">%1$s なし</string>
+    <string name="buttons_missing_more">、%1$s なし</string>
+    <string name="buttons_missing_volume">音量ボタン</string>
+    <string name="buttons_not_checked">まだ確認していません</string>
+    <!-- Before the check, from what is known about this console model -->
+    <string name="buttons_hint">%1$s（この機種では既知、まだ確認していません）</string>
+
+    <!-- Button names -->
+    <string name="button_select">Select</string>
+    <string name="button_start">Start</string>
+    <string name="button_up">上</string>
+    <string name="button_down">下</string>
+    <string name="button_left">左</string>
+    <string name="button_right">右</string>
+    <string name="button_extra">追加ボタン %1$d</string>
+    <!-- A button the console reports with an unknown code -->
+    <string name="button_other">ボタン %1$d</string>
+
+    <!-- What does the Fn button's job (Settings > Controls, and the tutorial on consoles
+         without Fn) -->
+    <string name="fn_standin_row">Fn ショートカット</string>
+    <string name="fn_standin_title">何を Fn として使いますか？</string>
+    <string name="fn_standin_fn">Fn ボタン</string>
+    <!-- Fn stand-in combos: hold one button, press the other. %1$s and %2$s are button
+         names like "Start" and "Vol−". -->
+    <string name="fn_standin_start_vol_down_recommended">Start を押したまま Vol−（おすすめ）</string>
+    <string name="fn_standin_start_vol_up">Start を押したまま Vol+</string>
+    <string name="fn_standin_l2_r2">L2 + R2 を同時に</string>
+    <string name="fn_standin_own_combo">自分で組み合わせるボタン…</string>
+    <string name="fn_standin_combo">%1$s + %2$s</string>
+    <string name="fn_combo_press_now">1 つ目のボタンを押したまま、2 つ目のボタンを押してください。1 つ目のボタンはゲーム中も含めて普段どおり動きます。2 つ目を押したときだけ Fn が開きます。B だけを押すとキャンセルします。</string>
+    <string name="fn_combo_refused_single">これは 1 つのボタンでした。そのボタンを押したまま 2 つ目を押すか、1 つのボタンだけを使う場合は「別のボタンを Fn として使う」を選んでください。B だけを押すとキャンセルします。</string>
+    <string name="fn_combo_refused_power">電源ボタンは組み合わせに使えません。ほかの 2 つのボタンを試すか、B だけを押してキャンセルしてください。</string>
+    <string name="fn_combo_refused_fn">Fn ボタンはすでに Fn です。ほかの 2 つのボタンを試すか、B だけを押してキャンセルしてください。</string>
+    <string name="fn_combo_refused_reset">%1$s + %2$s を同時に押すと、ボタン割り当てがリセットされます。ほかの 2 つのボタンを試すか、B だけを押してキャンセルしてください。</string>
+    <string name="fn_combo_refused_mouse">%1$s + %2$s はマウスモードを切り替えます。ほかの 2 つのボタンを試すか、B だけを押してキャンセルしてください。</string>
+    <string name="fn_combo_confirm_title">%1$s + %2$s を Fn に使いますか？</string>
+    <string name="fn_combo_confirm">%1$s を押したまま %2$s を押す（逆でも可）と Fn ショートカットが開きます。押し続けているボタンはゲーム中も含めて普段どおり動きます。2 つ目のボタンは、1 つ目を押している間だけ Fn を開きます。設定 &gt; 操作 &gt; Fn ショートカットで変更できます。</string>
+    <string name="fn_standin_other">別のボタンを Fn として使う</string>
+    <!-- %1$s is a button, e.g. "L3" -->
+    <string name="fn_standin_button">%1$s は Fn として動作</string>
+    <string name="fn_standin_press">今すぐボタンを押してください…</string>
+    <string name="fn_standin_press_now">Fn として使いたいボタンを押してください。追加ボタンでも構いません。B でキャンセルします。</string>
+    <string name="fn_standin_refused">%1$s は Fn にできません。メニューの操作や音量に必要なボタンです。ほかのボタンを押すか、B でキャンセルしてください。</string>
+    <string name="fn_standin_confirm_title">%1$s を Fn として使いますか？</string>
+    <string name="fn_standin_confirm">%1$s は Fn ボタンの役割を担います。単独で押すとホーム画面が開き、押したままほかのボタンを押すとショートカットになります。ゲーム中も含めて、本来の役割は使えなくなります。設定 &gt; 操作 &gt; Fn ショートカットで変更できます。</string>
+    <string name="fn_standin_confirm_ok">Fn として使う</string>
+</resources>

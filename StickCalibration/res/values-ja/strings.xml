@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="cal_deadzone">デッドゾーン: <xliff:g id="percent">%1$d</xliff:g> %%</string>
+    <string name="cal_deadzone_needs_cal">先に校正してください。その後デッドゾーンを変更できます</string>
+    <string name="cal_directions">4 方向のうち <xliff:g id="done">%1$d</xliff:g> 方向</string>
+    <string name="cal_directions_done">すべての方向に到達しました</string>
+    <string name="cal_hint_back">B  戻る</string>
+    <string name="cal_hint_capture">A  完了     B  キャンセル</string>
+    <string name="cal_hint_idle">A  校正     X  初期設定     ◀ ▶  デッドゾーン     B  戻る</string>
+    <string name="cal_hint_idle_factory">A  校正     B  戻る</string>
+    <string name="cal_left">左スティック</string>
+    <string name="cal_left_short">左スティックが全方向で端まで届きませんでした。円を描くように動かし続け、離してから A を押してください。</string>
+    <string name="cal_measuring">中央位置を測定中です。スティックには触れないでください…</string>
+    <string name="cal_not_applied">保存しましたが、ドライバーに反映されませんでした。本体を再起動して、もう一度確認してください。</string>
+    <string name="cal_not_still">中央位置の測定中にスティックが動きました。両方のスティックを離して、もう一度 A を押してください。</string>
+    <string name="cal_reset_confirm">初期設定に戻すには、もう一度 X を押してください</string>
+    <string name="cal_reset_done">初期設定に戻しました</string>
+    <string name="cal_right">右スティック</string>
+    <string name="cal_right_short">右スティックが全方向で端まで届きませんでした。円を描くように動かし続け、離してから A を押してください。</string>
+    <string name="cal_saved">保存しました。ゲームとアプリで新しい校正値を使います。</string>
+    <string name="cal_status_calibrated">校正済み</string>
+    <string name="cal_status_factory">初期設定を使用中</string>
+    <string name="cal_status_unsupported">このシステムのスティックドライバーは校正できません</string>
+    <string name="cal_step_circles">両方のスティックを、端までゆっくり大きな円を描くように動かしてください。それぞれ 3 回ずつ。</string>
+    <string name="cal_step_release">その後、両方のスティックを離して A を押してください。</string>
+    <string name="cal_summary">ずれる、または端まで届かないスティック向け</string>
+    <string name="cal_title">スティックを校正</string>
+</resources>

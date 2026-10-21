@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="channel_alert">USB モードはオフになりました</string>
+    <string name="channel_on">パソコンに接続中</string>
+    <string name="charging_refused">本体は充電中です。もう一方のポートで充電している間は、絶対に使用しないでください。先に充電器を抜いてください。</string>
+    <string name="charging_toast">やってはいけません！充電と USB クライアントを同時に使わないでください。</string>
+    <string name="charging_warning">もう一方のポートで充電している間は、絶対に使用しないでください。先に充電器を抜いてください。</string>
+    <string name="notification_alert_text">充電器が接続されたため、OTG ポートはアクセサリー用に戻りました。充電と USB クライアントを同時に使わないでください。</string>
+    <string name="notification_alert_title">USB モードはオフになりました</string>
+    <string name="notification_on_title">USB ポート: パソコンに接続中</string>
+    <string name="tile_device">パソコン</string>
+    <string name="tile_host">アクセサリー</string>
+    <string name="tile_label">USB モード（ベータ）</string>
+    <string name="usb_mode_about">これをオンにすると、OTG ポート経由でパソコンから本体にアクセスできます。ファイル転送（MTP）または写真転送（PTP）、そして開発者向けオプションで USB デバッグがオンのときは adb が使えます。\n\nオンの間は、OTG ポートに接続したアクセサリーは動きません。本体は起動時に必ずオフになり、再起動するとポートはアクセサリー用に戻ります。\n\n機種によっては、このための配線がされていません。良好なデータケーブルを使ってもパソコンが何も認識しない場合、その本体では使えません。\n\nR36XX のように Wi-Fi を内蔵した本体では、絶対にオンにしないでください。その本体は同じ USB ポートを Wi-Fi に使っています。\n\nもう一方のポートで充電している間は、絶対に使用しないでください。先に充電器を抜いてください。オンの間に充電器を接続すると、ポートはすぐにアクセサリー用に戻ります。</string>
+    <string name="usb_mode_failed">USB ポートを切り替えられませんでした</string>
+    <string name="usb_mode_functions">USB の用途</string>
+    <string name="usb_mode_summary">OTG ポートをアクセサリー用に使うか、パソコンに接続します</string>
+    <string name="usb_mode_switch">パソコンに接続</string>
+    <string name="usb_mode_switch_off">OTG ポートは、パッド、ドライブ、ネットワークアダプターなどのアクセサリーに電源を供給します</string>
+    <string name="usb_mode_switch_on">OTG ポートがパソコンから見て機器として動作します</string>
+    <string name="usb_mode_title">USB モード（ベータ）</string>
+    <string name="usb_mode_unsupported">この本体は USB ポートを切り替えられません。</string>
+    <string name="warning_confirm">接続</string>
+    <string name="warning_title">パソコンに接続しますか？</string>
+    <string name="warning_wifi">R36XX のように Wi-Fi を内蔵した本体では、オンにしないでください。その本体は同じ USB ポートを Wi-Fi に使っています。Wi-Fi が使えなくなり、再起動するまで戻らない場合があるほか、ほかの問題も起きるおそれがあります。\n\nほとんどの R36S は Wi-Fi を内蔵していません。その場合は安全です。</string>
+    <string name="warning_wifi_found">この USB ポートで今 Wi-Fi が見つかりました（%1$s）。本体に内蔵されている場合は、キャンセルを選んでください。</string>
+</resources>

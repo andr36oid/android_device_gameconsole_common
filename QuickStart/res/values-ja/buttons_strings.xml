@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="button_down">下</string>
+    <string name="button_extra">追加ボタン %1$d</string>
+    <string name="button_left">左</string>
+    <string name="button_other">ボタン %1$d</string>
+    <string name="button_right">右</string>
+    <string name="button_select">Selectボタン</string>
+    <string name="button_start">Startボタン</string>
+    <string name="button_up">上</string>
+    <string name="buttons_all">すべてのボタン</string>
+    <string name="buttons_hint">%1$s（このモデルでは既知ですが、まだ確認されていません）</string>
+    <string name="buttons_missing_first">%1$s がありません</string>
+    <string name="buttons_missing_more">、%1$s がありません</string>
+    <string name="buttons_missing_volume">音量ボタン</string>
+    <string name="buttons_not_checked">まだ確認されていません</string>
+    <string name="fn_combo_confirm">%1$s を押し続けてから %2$s を押すと（逆でも可）、FNショートカットが開きます。押し続けたボタンは、ゲーム中も含めて通常どおり動作します。2つ目のボタンは、1つ目を押し続けている間だけFNを開きます。これは 設定 > 操作 > FNショートカット で変更できます。</string>
+    <string name="fn_combo_confirm_title">%1$s + %2$s をFNとして使いますか？</string>
+    <string name="fn_combo_press_now">1つのボタンを押し続けて、もう1つのボタンを押してください。最初のボタンは、ゲーム中も含めて通常どおり動作します。2つ目を押したときだけFNが開きます。Bだけを押すとキャンセルされます。</string>
+    <string name="fn_combo_refused_fn">FNボタンはすでにFNです。ほかの2つのボタンを試すか、Bだけを押してキャンセルしてください。</string>
+    <string name="fn_combo_refused_mouse">%1$s + %2$s はマウスモードを切り替えます。ほかの2つのボタンを試すか、Bだけを押してキャンセルしてください。</string>
+    <string name="fn_combo_refused_power">Power は組み合わせに使えません。ほかの2つのボタンを試すか、Bだけを押してキャンセルしてください。</string>
+    <string name="fn_combo_refused_reset">%1$s + %2$s を同時に押し続けると、ボタン割り当てがリセットされます。ほかの2つのボタンを試すか、Bだけを押してキャンセルしてください。</string>
+    <string name="fn_combo_refused_single">それは1つのボタンでした。そのボタンを押し続けてから2つ目を押すか、1つのボタンだけを使う場合は「別のボタンをFNとして使う」を選んでください。Bだけを押すとキャンセルされます。</string>
+    <string name="fn_standin_button">%1$s がFNとして動作</string>
+    <string name="fn_standin_combo">%1$s + %2$s</string>
+    <string name="fn_standin_confirm">%1$s がFNボタンの役割を果たします。単独で押すとホーム画面が開き、押し続けながら別のボタンを押すとショートカットになります。ゲーム中も含め、本来の役割は失われます。これは 設定 > 操作 > FNショートカット で変更できます。</string>
+    <string name="fn_standin_confirm_ok">FNとして使う</string>
+    <string name="fn_standin_confirm_title">%1$s をFNとして使いますか？</string>
+    <string name="fn_standin_fn">FNボタン</string>
+    <string name="fn_standin_l2_r2">L2 + R2 同時押し</string>
+    <string name="fn_standin_other">別のボタンをFNとして使う</string>
+    <string name="fn_standin_own_combo">自分で決めるボタンの組み合わせ…</string>
+    <string name="fn_standin_press">今ボタンを押してください…</string>
+    <string name="fn_standin_press_now">FNとして動作させたいボタンを押してください。追加ボタンでもかまいません。Bを押すとキャンセルされます。</string>
+    <string name="fn_standin_refused">%1$s はFNにできません。メニューの操作や音量に必要なボタンだからです。別のボタンを押すか、Bを押してキャンセルしてください。</string>
+    <string name="fn_standin_row">FNショートカット</string>
+    <string name="fn_standin_start_vol_down_recommended">Startを押し続けながら Vol−（おすすめ）</string>
+    <string name="fn_standin_start_vol_up">Startを押し続けながら Vol+</string>
+    <string name="fn_standin_title">FNとして何を使いますか？</string>
+    <string name="tutorial_check_buttons">ボタンが足りませんか？</string>
+    <string name="tutorial_standin_intro">この本体にはFNボタンがないため、%1$s がその役割を果たします。これは 設定 > 操作 > FNショートカット で変更できます。</string>
+</resources>

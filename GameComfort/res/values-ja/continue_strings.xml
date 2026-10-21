@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="continue_title">続きから</string>
+    <string name="continue_tile_none">まだゲームがありません</string>
+    <string name="continue_category">続きから遊ぶ</string>
+    <string name="continue_now">続きから: <xliff:g id="game">%1$s</xliff:g></string>
+    <string name="continue_now_none">まだゲームをプレイしていません</string>
+    <string name="continue_now_ppsspp">PPSSPP</string>
+    <string name="continue_now_app">Android ゲーム</string>
+    <string name="continue_on_boot">再起動後にもう一度開く</string>
+    <string name="continue_on_boot_summary">電源が切れた時点（バッテリー切れを含む）でゲームが開いていた場合、ホーム画面の約 10 秒後にもう一度開きます</string>
+    <string name="continue_about">「続きから」を使うと、最後に遊んだゲームを 1 回の操作で再開できます。クイック設定の「続きから」タイル、FN + A、電源メニューから使えます。\n\nまだ開いているゲームは、中断したところから戻ります。それ以外の場合、RetroArch と PPSSPP は同じゲームを起動し直します（RetroArch は同じコアを使います）。ほかのゲームは、もう一度開くだけです。\n\nゲーム自身の最新のセーブデータから続きます。RetroArch は内容が変わると 10 秒ごとに書き出します。セーブステートは自動で読み込まれたり書き込まれたりすることはありません。ゲーム自身のセーブデータより新しいセーブステートがある場合は、メッセージでお知らせします。</string>
+    <string name="continue_nothing">続きから遊べるゲームはまだありません</string>
+    <string name="continue_game_missing"><xliff:g id="game">%1$s</xliff:g> のゲームファイルが見つかりません。SD カードは挿さっていますか？</string>
+    <string name="continue_core_missing"><xliff:g id="game">%1$s</xliff:g> の RetroArch コアはもうインストールされていません</string>
+    <string name="continue_failed"><xliff:g id="game">%1$s</xliff:g> を起動できませんでした</string>
+    <string name="continue_starting"><xliff:g id="game">%1$s</xliff:g> を再開しています</string>
+    <string name="continue_state_hint"><xliff:g id="game">%1$s</xliff:g> を再開しています。最新のセーブステート（<xliff:g id="slot">%2$s</xliff:g>）は、ゲーム自身のセーブデータより新しいです。使うには、RetroArch のメニューで読み込んでください（Select + X）。</string>
+    <string name="continue_slot">スロット <xliff:g id="slot">%1$d</xliff:g></string>
+    <string name="continue_slot_auto">自動のもの</string>
+</resources>

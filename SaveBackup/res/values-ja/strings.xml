@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_title">セーブのバックアップ</string>
+
+    <string name="today">今日 %1$s</string>
+    <string name="yesterday">昨日 %1$s</string>
+    <plurals name="files">
+        <item quantity="other">%1$d ファイル</item>
+    </plurals>
+    <plurals name="games">
+        <item quantity="other">%1$d 本のゲーム</item>
+    </plurals>
+
+    <string name="last_backup">最後のバックアップ: %1$s、%2$s</string>
+    <string name="last_none">まだバックアップがありません</string>
+    <string name="last_no_saves">セーブデータがまだ見つかりません</string>
+    <string name="last_failed">%1$s\n前回の試行に失敗しました: %2$s</string>
+
+    <string name="where_internal">内部ストレージ</string>
+    <string name="where_easyroms">EASYROMS</string>
+    <string name="where_usb">USBドライブ</string>
+
+    <string name="step_start">開始しています…</string>
+    <string name="step_scan">セーブデータを探しています…</string>
+    <string name="step_backup">ファイル %1$d / %2$d をバックアップしています…</string>
+    <string name="step_backup_plain">バックアップしています…</string>
+    <string name="step_copy">バックアップを別の保存先にコピーしています…</string>
+    <string name="step_list">バックアップを読み込んでいます…</string>
+    <string name="step_plan">本体上のセーブデータと比べています…</string>
+    <string name="step_restore">復元しています…</string>
+
+    <string name="backup_done">%1$s をバックアップしました</string>
+    <string name="backup_unchanged">前回のバックアップから変更はありません</string>
+    <string name="backup_nothing">セーブデータが見つかりません。ゲームを遊んでセーブしてください。</string>
+
+    <string name="error_no_storage">バックアップ先がありません。内部ストレージと EASYROMS が利用できません。</string>
+    <string name="error_no_space">内部ストレージまたは EASYROMS に、バックアップ用の空き容量が足りません。</string>
+    <string name="error_write_failed">バックアップを書き込めませんでした。SD カードが故障している可能性があります。セーブデータを PC にコピーしてください。</string>
+    <string name="error_no_usb">USBドライブが見つかりません。接続してから、もう一度お試しください。</string>
+    <string name="error_not_found">このバックアップはもうありません。</string>
+    <string name="error_safety_failed">復元は行われませんでした。置き換えられるセーブデータを先にバックアップできませんでした。空き容量を確保してから、もう一度お試しください。</string>
+    <string name="error_busy">バックアップを実行中です。少し待ってから、もう一度お試しください。</string>
+    <string name="error_start">セーブのバックアップを開始できませんでした。本体を再起動して、もう一度お試しください。</string>
+
+    <string name="backup_now_title">今すぐバックアップ</string>
+    <string name="restore_title">セーブを復元</string>
+    <string name="restore_summary">バックアップを選び、すべてか1本のゲームかを選択します。書き込みの前に変更内容を確認できます。</string>
+    <string name="usb_title">今すぐUSBドライブにバックアップ</string>
+    <string name="usb_summary">最新のバックアップを %1$s にコピーします</string>
+    <string name="usb_none">USBドライブを接続すると、SD カード以外にもコピーを保存できます</string>
+    <string name="auto_category">自動バックアップ</string>
+    <string name="auto_title">自動でバックアップ</string>
+    <string name="auto_summary">充電中に1日1回、およびゲームを終了した後に実行します。変更がなければスキップします。ゲーム終了後は、16 MB を超えるセーブステート (PSP) は毎日のバックアップまで待ちます。</string>
+    <string name="keep_title">保持するバックアップ数</string>
+    <string name="keep_summary">新しいものから %1$s 件を保持します。直近の各日から少なくとも1件を残します。古いものは削除されます。</string>
+    <string name="where_summary">バックアップは内部ストレージの Backups/Saves と EASYROMS/backups/saves の2か所に保存され、USBドライブが接続されていればそこにも保存されます。両方とも同じ SD カードにあるため、時々バックアップを PC や USBドライブにコピーしてください。RetroArch や PPSSPP のセーブ、ゲームの隣にあるセーブファイルも含まれます。</string>
+
+    <string name="waiting_for_backup">バックアップを実行中です。%1$s</string>
+    <string name="no_backups">まだバックアップがありません。「今すぐバックアップ」を使うか、充電中の毎日のバックアップをお待ちください。</string>
+    <string name="backup_summary">%1$s、%2$s、%3$s\n保存先: %4$s</string>
+    <string name="backup_broken">このバックアップは破損しており、読み取れません (%1$s)</string>
+
+    <string name="restore_all_title">すべて復元</string>
+    <string name="restore_all_summary">このバックアップの %1$s すべて。先に変更内容を確認できます。</string>
+    <string name="game_summary">%1$s（フォルダー %2$s）、保存: %3$s</string>
+
+    <string name="plan_title_all">すべて復元しますか？</string>
+    <string name="plan_title_game">%1$s を復元しますか？</string>
+    <plurals name="plan_missing">
+        <item quantity="other">本体にないファイルが %1$d 件あり、復元されます。</item>
+    </plurals>
+    <plurals name="plan_older">
+        <item quantity="other">本体にある古いセーブ %1$d 件を、バックアップで置き換えます。</item>
+    </plurals>
+    <plurals name="plan_newer">
+        <item quantity="other">本体にあるセーブ %1$d 件はバックアップより新しいため、残されます:</item>
+    </plurals>
+    <string name="plan_newer_item">• %1$s（本体: %2$s、バックアップ: %3$s）</string>
+    <string name="plan_more">• ほか %1$d 件</string>
+    <plurals name="plan_same">
+        <item quantity="other">%1$d 件のファイルは既に同じ内容です。</item>
+    </plurals>
+    <plurals name="plan_unavailable">
+        <item quantity="other">%1$d 件のファイルは EASYROMS に属していますが、EASYROMS がマウントされていないため、今は復元できません。</item>
+    </plurals>
+    <string name="plan_nothing">復元するものはありません。</string>
+    <string name="plan_note">置き換えられるものは先にバックアップされます。復元する前に RetroArch と PPSSPP を終了してください。終了時に復元したセーブを上書きすることがあります。</string>
+    <string name="restore_button">復元</string>
+    <string name="replace_newer_button">新しいものも置き換える</string>
+    <string name="replace_newer_title">新しいセーブも置き換えますか？</string>
+    <plurals name="replace_newer_message">
+        <item quantity="other">本体にあるセーブ %1$d 件はバックアップより新しいです。置き換えると、そのゲームは古い進行状態に戻ります。新しいセーブは先にバックアップされます。</item>
+    </plurals>
+    <string name="replace_button">置き換える</string>
+
+    <string name="result_title">復元が完了しました</string>
+    <plurals name="result_restored">
+        <item quantity="other">%1$d 件のファイルを復元しました。</item>
+    </plurals>
+    <plurals name="result_kept">
+        <item quantity="other">新しいセーブ %1$d 件を残しました。</item>
+    </plurals>
+    <plurals name="result_failed">
+        <item quantity="other">%1$d 件のファイルを書き込めませんでした。SD カードが満杯か、故障している可能性があります。</item>
+    </plurals>
+
+    <string name="channel_name">セーブのバックアップ実行中</string>
+    <string name="notification_title">セーブをバックアップしています</string>
+</resources>

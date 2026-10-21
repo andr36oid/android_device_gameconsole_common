@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="credits_title">クレジット</string>
+
+    <string name="credits_tagline">RK3326 向け Android 11</string>
+
+    <string name="credits_team">チーム</string>
+    <string name="credits_role_port">初期移植</string>
+    <string name="credits_role_ux">ユーザー体験と端末サポート</string>
+    <string name="credits_role_clones">クローン機のサポート</string>
+    <string name="credits_role_legend">レビュー、フィードバック、そして伝説的な支え</string>
+    <string name="credits_role_beta">ベータ版のフィードバック</string>
+    <string name="credits_on_youtube">YouTube で</string>
+
+    <string name="credits_based_on">以下の先行作品をもとにしています</string>
+    <string name="credits_351droid">RG351MP 向け Android</string>
+    <string name="credits_lineageos">自由でオープンソースの Android ROM</string>
+    <string name="credits_android">Google 製</string>
+    <string name="credits_sprout">Simple UI のホーム画面、作者は Indiegesindel</string>
+    <string name="credits_bfi">黒フレーム挿入、作者は PakoVM</string>
+    <string name="credits_r36tuner">GPU とメモリのオーバークロック、作者は zenmode-adri</string>
+    <string name="credits_dpadplayer">Music アプリ、作者は jbriones95</string>
+    <string name="credits_yabasanshiro">Saturn エミュレーター、作者は pirry と devMiyax</string>
+    <string name="credits_gammaos">アイデアとインスピレーション、作者は TheGammaSqueeze</string>
+    <string name="credits_fpsmeter">パフォーマンス表示でゲームの FPS を測る仕組み、作者は rdevz-ph</string>
+
+    <string name="credits_example_music">サンプル音楽:</string>
+    <string name="credits_now_playing">再生中: %2$s の %1$s</string>
+</resources>

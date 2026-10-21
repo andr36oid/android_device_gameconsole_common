@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="check_title">SD カードのチェック</string>
+    <string name="check_summary">速度をテストし、偽物のカードかどうかを確認します</string>
+
+    <string name="card_title">カードまたはドライブ</string>
+    <string name="no_card">SD カードも USB ドライブも準備できていません。差し込むか、「ストレージ」に表示されるまでお待ちください。</string>
+
+    <string name="details_title">%1$s、%2$s のカード</string>
+    <string name="details_title_usb">%1$s、%2$s の USB ドライブ</string>
+    <string name="details_card">%1$s %2$s、製造 %3$s</string>
+    <string name="details_free">空き %1$s</string>
+    <string name="maker_unknown">不明なメーカー (ID %1$s)</string>
+    <string name="details_model">モデル: %1$s</string>
+    <string name="details_no_name">(モデル名なし)</string>
+    <string name="details_compare">カードに印刷されているラベルと比べてください。印刷されたブランドがここに表示されない場合、そのカードは偽物の可能性が高いです。</string>
+
+    <string name="speed_category">速度</string>
+    <string name="speed_title">速度をテスト</string>
+    <string name="speed_summary">256 MB のファイルを書き込んで読み込みます。約1分かかります。</string>
+    <string name="speed_running_write">書き込み中…</string>
+    <string name="speed_running_read">読み込み中…</string>
+    <string name="speed_result">書き込み %1$s、読み込み %2$s</string>
+    <string name="speed_good">すべてのシステムで快適です。</string>
+    <string name="speed_ok">ゲームには十分です。大きなファイルのコピーや保存は遅くなります。</string>
+    <string name="speed_slow">低速です: 特に PSP、ドリームキャスト、N64 のゲームは読み込みに長い時間がかかります。</string>
+    <string name="mb_per_s">%1$.1f MB/s</string>
+
+    <string name="full_category">実容量</string>
+    <string name="full_title">実容量をチェック</string>
+    <string name="full_title_stop">チェックを停止</string>
+    <string name="full_summary">空き領域 (%1$s) をテストデータで埋め、すべて読み戻してから削除します。容量を実際より多く偽っている偽物のカードはここで失敗します。約 %2$s かかります。</string>
+    <string name="full_summary_unknown_time">空き領域 (%1$s) をテストデータで埋め、すべて読み戻してから削除します。容量を実際より多く偽っている偽物のカードはここで失敗します。大容量のカードでは数時間かかります。より正確な見積もりのため、先に速度をテストしてください。</string>
+    <string name="full_probe">偽物のカードの兆候を探しています…</string>
+    <string name="full_writing">テストデータを書き込み中: %1$s / %2$s、残り約 %3$s</string>
+    <string name="full_reading">読み戻し中: %1$s / %2$s、残り約 %3$s</string>
+    <string name="full_writing_start">テストデータを書き込み中: %1$s / %2$s</string>
+    <string name="full_reading_start">読み戻し中: %1$s / %2$s</string>
+    <string name="full_stopping">停止してテストデータを削除しています…</string>
+
+    <string name="full_pass">合格。書き込んだ %1$s のテストデータがすべて正しく読み戻されました。このカードは本物です。</string>
+    <string name="full_bad_data">不合格。約 %2$s の位置から後のテストデータ %1$s が、正しく読み戻されませんでした。カードは偽物か破損しており、実際には約 %3$s しか入りません。ゲームをカードからコピーして、別のカードを使ってください。</string>
+    <string name="full_wraps">不合格。このカードは偽物です。約 %1$s を過ぎると先頭に戻ってしまうため、実際にはその容量しか入りません。ゲームはそれ以下に抑えるか、できれば別のカードを使ってください。</string>
+    <string name="full_wraps_restored">チェック中の書き込みで検出され、カードの先頭を元に戻しました。</string>
+    <string name="full_wraps_not_restored">チェック中の書き込みで検出されましたが、カードの先頭を元に戻せませんでした。このカードからは本体が起動しなくなる可能性があります。ゲームをバックアップしてください。</string>
+    <string name="full_write_error">不合格。テストデータ %1$s の後で、カードがエラーを報告しました。破損しているか偽物の可能性があります。</string>
+    <string name="full_stopped">停止しました。テストデータは削除されました。</string>
+
+    <string name="error_prefix">完了しませんでした。%1$s</string>
+    <string name="error_no_space">テストに十分な空き容量がありません。</string>
+    <string name="error_not_mounted">カードが準備できていません。</string>
+    <string name="error_write">カードが書き込みエラーを報告しました。</string>
+    <string name="error_read">カードが読み込みエラーを報告しました。</string>
+    <string name="error_other">チェックを実行できませんでした。</string>
+
+    <string name="confirm_title">実容量をチェックしますか？</string>
+    <string name="confirm_text">%1$s の空き領域すべてを約 %2$s の間テストデータで埋めるため、完了するまでそこにゲームのセーブはできません。充電器を接続してください。接続しておくと本体がスリープしません。いつでも停止できます。ゲームとファイルには影響しません。</string>
+    <string name="confirm_time_unknown">数時間</string>
+    <string name="confirm_start">開始</string>
+
+    <string name="busy">別のチェックが実行中です。</string>
+
+    <string name="about">本体はよく、偽物や劣化したカードと一緒に販売されています。偽物のカードは実際より大きいと主張し、その実際の終端を超えてコピーされたゲームは壊れて戻ってきます。チェックは空き領域にのみ書き込みます。</string>
+
+    <string name="hours_minutes">%1$d 時間 %2$d 分</string>
+    <string name="minutes">%1$d 分</string>
+
+    <string name="channel_name">SD カードのチェック</string>
+    <string name="done_title">SD カードのチェックが完了しました</string>
+
+    <string name="details_userdata">このカードには EASYROMS のパーティションがないため、テストはカード上の内部ストレージを使います。実容量のチェックでは、Android 用に 1 GB が空けられます。</string>
+    <string name="userdata_name">内部ストレージ</string>
+</resources>

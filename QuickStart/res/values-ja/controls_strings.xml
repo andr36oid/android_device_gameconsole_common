@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="controls_console_labels">ボタンの名前は、本体に印字されているとおりに表記しています。一部のクローン本体では、別の位置にあります。</string>
+    <string name="controls_console_swap">一部のSoy Sauceクローン（バッチ253x）は、FNとSELECTが入れ替わっています。FNがSELECTと同じように動く場合は、SDカードに253x用のファイルが必要です。BOOTドライブの Experimental/README.txt を参照してください。</string>
+    <string name="controls_console_top">本体の周囲に描かれたボタンは、本体の縁にあります。ショルダーボタンは背面、電源は左側面、音量は右側面です。</string>
+    <string name="controls_continue">最後にプレイしたゲームを続ける</string>
+    <string name="controls_dpad">メニューやリストを移動する</string>
+    <string name="controls_emulators_changed">これらのボタンは、各アプリを初めて開いたときに設定されます。アプリ内で変更したボタンの設定は残ります。</string>
+    <string name="controls_emulators_intro">アプリが対応している場合、ボタンはRetroArchと同じになります。Selectを押したまま、2つ目のボタンを押してください。</string>
+    <string name="controls_ff_hold">押している間、早送り</string>
+    <string name="controls_ff_toggle">早送りのオン／オフ</string>
+    <string name="controls_flycast_note">Flycastにはリセットボタンがありません。アーケードゲームでは、Selectがコインボタンにもなります。</string>
+    <string name="controls_fn_hold">単独で押し続ける: FNショートカットを表示</string>
+    <string name="controls_heading_power">電源と音量</string>
+    <string name="controls_load_state">ステートをロード</string>
+    <string name="controls_menu">エミュレーターのメニュー</string>
+    <string name="controls_menu_easyrpg">メニュー（「Exit Game」あり）</string>
+    <string name="controls_menu_n64">メニュー: 保存、ロード、再起動、終了</string>
+    <string name="controls_mouse_intro">マウスモードは、タッチスクリーン向けに作られたアプリで使えるように、画面上にポインターを表示します。</string>
+    <string name="controls_mouse_precision">押し続ける: 小さな目標用に遅いポインター</string>
+    <string name="controls_mouse_scroll">押し続ける: ポインタースティックでスクロール</string>
+    <string name="controls_pause">一時停止／再開</string>
+    <string name="controls_power_off">約10秒押し続ける: フリーズした本体の電源を切る</string>
+    <string name="controls_ppsspp_passthrough">ゲームにも Select と2つ目のボタンが届きます。</string>
+    <string name="controls_quit">ゲームを終了する</string>
+    <string name="controls_quit_ask">終了（ゲームが保存されていない場合は、先に確認します）</string>
+    <string name="controls_quit_twice">ゲームを終了する（Startを2回押す）</string>
+    <string name="controls_ra_fn">FNを押すとホーム画面に移動し、ゲームが一時停止します。先に保存してください。メモリが少なくなると、Androidが一時停止中のゲームを閉じることがあります。</string>
+    <string name="controls_ra_intro">Selectを押したまま、2つ目のボタンを押してください。RetroArchには、初めて設定するときにこれらが割り当てられます。自分で変更したホットキーは残ります。</string>
+    <string name="controls_remap_reset">両方を5秒間押し続ける: すべてのボタンを通常に戻す</string>
+    <string name="controls_reset">ゲームを再起動する</string>
+    <string name="controls_reset_twice">ゲームを再起動する（Bを2回押す）</string>
+    <string name="controls_save_state">ステートを保存</string>
+    <string name="controls_screen_record">画面録画の開始／停止（Moviesに保存）</string>
+    <string name="controls_screenshot">スクリーンショット</string>
+    <string name="controls_slot">前／次のステートスロット</string>
+    <string name="controls_start">Aと同じく決定</string>
+    <string name="controls_topic_console">本体</string>
+    <string name="controls_topic_emulators">ほかのエミュレーター</string>
+    <string name="controls_topic_mouse">マウスモード</string>
+    <string name="controls_topic_retroarch">ゲーム内（RetroArch）</string>
+    <string name="controls_topic_system">システム</string>
+</resources>

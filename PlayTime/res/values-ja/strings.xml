@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="about">プレイ時間は、アプリが画面に開かれている時間を数えます。ホーム画面、設定、画面がオフの時間は数えません。\n\n休憩のお知らせは、画面がついている時間を数えます。2 分以上の一時停止があると、また最初から数え直します。</string>
+    <string name="app_time"><xliff:g id="time">%1$s</xliff:g> · <xliff:g id="percent">%2$d</xliff:g>%%</string>
+    <string-array name="break_entries">
+        <item>しない</item>
+        <item>30 分後</item>
+        <item>45 分後</item>
+        <item>1 時間後</item>
+        <item>1 時間 30 分後</item>
+        <item>2 時間後</item>
+    </string-array>
+    <string name="break_reminder">休憩をお知らせ</string>
+    <string name="break_text">少し休憩しませんか？目を休めて、軽く体を伸ばしましょう。ゲームは待っていてくれます。</string>
+    <string name="break_text_battery">少し休憩しませんか？目を休めて、軽く体を伸ばしましょう。電池残量は <xliff:g id="percent">%1$d</xliff:g>%% です。</string>
+    <string name="break_title"><xliff:g id="time">%1$s</xliff:g> 続けてプレイしています</string>
+    <string name="breaks">休憩</string>
+    <string name="channel_name">休憩のお知らせ</string>
+    <string name="duration_h"><xliff:g id="hours">%1$d</xliff:g> 時間</string>
+    <string name="duration_h_min"><xliff:g id="hours">%1$d</xliff:g> 時間 <xliff:g id="minutes">%2$d</xliff:g> 分</string>
+    <string name="duration_min"><xliff:g id="minutes">%1$d</xliff:g> 分</string>
+    <string name="most_played">よく遊んだゲーム（直近 7 日間）</string>
+    <string name="nothing_played">まだ記録がありません。遊んでみましょう！</string>
+    <string name="parental_about">許可されたアプリ以外で、画面がついている時間を数えます。本体には時計用のバックアップ電池がないため、時刻とは関係なく数えます。画面がオフの状態か本体がスリープしている状態で十分に休むと、プレイ時間が戻ります。本体の電源を切った時間は休憩とみなされません。電源を切っていた時間はわからないからです。夜通しスリープさせたい場合は、電源ボタンを使ってください。\n\n時間が終わる 10 分前と 2 分前に警告が出ます。その後、PIN を入力するまでページが画面を覆い、入力されなければ上の設定どおり本体の電源が切れます。再起動後も時間切れの状態は続きます。\n\nPIN を忘れた場合は、SD カードを設定し直すと削除できます。</string>
+    <string name="parental_add"><xliff:g id="time">%1$s</xliff:g> を追加</string>
+    <string name="parental_allowed">許可されたアプリ</string>
+    <string name="parental_allowed_none">設定していません。ここで選んだアプリはプレイ時間を消費せず、時間切れのあとも開けます。学習アプリなどに使えます。</string>
+    <string name="parental_blocked"><xliff:g id="app">%1$s</xliff:g> はペアレンタルコントロールでブロックされています</string>
+    <string name="parental_blocked_apps">ブロックされたアプリ</string>
+    <string name="parental_blocked_none">設定していません。ここで選んだアプリは、ペアレンタルコントロールがオンの間は開けません。</string>
+    <string name="parental_change_pin">PIN を変更</string>
+    <string name="parental_left">残りのプレイ時間: <xliff:g id="time">%1$s</xliff:g></string>
+    <string name="parental_left_summary">許可時間 <xliff:g id="allowed">%2$s</xliff:g> のうち <xliff:g id="left">%1$s</xliff:g> が残っています。選択すると時間を追加できます。</string>
+    <string name="parental_left_title">残り時間</string>
+    <string name="parental_limit">許可されるプレイ時間</string>
+    <string name="parental_more_time">プレイ時間を追加</string>
+    <string name="parental_off_summary">オフ。PIN を使って、本体でプレイできる時間を制限します。</string>
+    <string name="parental_on_summary">オン · 残り <xliff:g id="time">%1$s</xliff:g></string>
+    <string name="parental_refill">プレイ時間が戻るまでの休憩</string>
+    <string name="parental_refill_custom">カスタム…</string>
+    <string name="parental_refill_custom_title">休憩時間</string>
+    <plurals name="parental_refill_hours">
+        <item quantity="other"><xliff:g id="hours">%1$d</xliff:g> 時間の休憩</item>
+    </plurals>
+    <string name="parental_refill_pin">PIN を入力したときだけ</string>
+    <string name="parental_shutdown">時間切れのとき</string>
+    <string name="parental_shutdown_after">PIN がないまま <xliff:g id="time">%1$s</xliff:g> たったら本体の電源を切る</string>
+    <string name="parental_shutdown_in"><xliff:g id="time">%1$s</xliff:g> 後に本体の電源が切れます。</string>
+    <string name="parental_shutdown_never">「プレイ時間が終わりました」の画面を表示し続ける</string>
+    <string name="parental_start_over">やり直す（<xliff:g id="time">%1$s</xliff:g>）</string>
+    <string name="parental_still_open">以下は引き続き使えます:</string>
+    <string name="parental_switch_summary">プレイできる時間を制限します。PIN を入力したときだけ続けられます</string>
+    <string name="parental_title">ペアレンタルコントロール</string>
+    <string name="parental_up_text_pin">休憩の時間です！保護者は PIN を使って時間を追加できます。</string>
+    <plurals name="parental_up_text_rest">
+        <item quantity="other">休憩の時間です！本体がスリープ中に <xliff:g id="hours">%1$d</xliff:g> 時間休むとプレイ時間が戻ります。または保護者が PIN で時間を追加できます。</item>
+    </plurals>
+    <string name="parental_up_title">プレイ時間が終わりました</string>
+    <string name="parental_warning">プレイ時間はあと <xliff:g id="time">%1$s</xliff:g> で終わります。ゲームを保存してください！</string>
+    <string name="parental_warning_channel">プレイ時間の警告</string>
+    <string name="pin_again_title">もう一度入力</string>
+    <string name="pin_check_text">ペアレンタルコントロールは PIN で保護されています。</string>
+    <string name="pin_check_title">PIN を入力</string>
+    <string name="pin_hint">A: 押す · B: 削除 · Start: OK</string>
+    <string name="pin_mismatch">2 回の入力が一致しません。もう一度選んでください。</string>
+    <string name="pin_new_text">4 桁の数字です。保護者だけが知っておくべき番号です。この PIN で、これらの設定を変更したりプレイ時間を追加したりします。</string>
+    <string name="pin_new_title">PIN を設定</string>
+    <string name="pin_wait">試行回数が多すぎます。<xliff:g id="seconds">%1$d</xliff:g> 秒待ってください。</string>
+    <string name="pin_wrong">PIN が違います</string>
+    <string name="play_time_summary">プレイした時間、よく遊んだゲーム、休憩のお知らせ</string>
+    <string name="play_time_title">プレイ時間</string>
+    <string name="this_week">直近 7 日間: <xliff:g id="time">%1$s</xliff:g></string>
+    <string name="today">今日: <xliff:g id="time">%1$s</xliff:g></string>
+</resources>

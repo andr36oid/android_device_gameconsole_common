@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="smooth_hint">ブロックがつかえずになめらかに動けば成功です。</string>
+    <string name="smooth_late">遅れたフレーム: 直近 1 秒で %1$d、合計 %2$d</string>
+    <string name="smooth_measured">計測値: %1$s Hz</string>
+    <string name="smooth_screen">画面: %1$s Hz</string>
+    <string name="smooth_title">なめらかさテスト</string>
+</resources>

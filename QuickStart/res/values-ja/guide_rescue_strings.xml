@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="rescue_intro">次の手順を順番に試してください。どの手順も EASYROMS のゲームには触れません。</string>
+    <string name="rescue_magisk_a">電源を切ってから入れ直してください。最大3回まで繰り返します。起動が完了しないことが2回続くと、Magisk がすべてのモジュールを自動でオフにします。セーフモードでもモジュールはオフになります。Magisk アプリで1つずつ再度オンにするまで、オフのままです。</string>
+    <string name="rescue_magisk_q">Magiskモジュールの後に起動しなくなった</string>
+    <string name="rescue_safe_a">まず電源を切ってください。動かない場合は電源ボタンを10秒間押します。セーフモードでは、左下に「Safe mode」と表示され、自分でインストールしたアプリは、RetroArch と PPSSPP も含めて動きません。トラブルの原因となったアプリをアンインストールするか、設定を元に戻してください。通常どおり再起動すると、セーフモードを終了できます。</string>
+    <string name="rescue_safe_q">セーフモード</string>
+    <string name="rescue_safe_row">本体の電源を入れるときに Vol− を押し続け、ホーム画面が表示されるまで押し続ける</string>
+    <string name="rescue_title">本体が起動しない場合</string>
+</resources>

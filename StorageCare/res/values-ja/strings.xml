@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_title">空き容量を増やす</string>
+    <string name="app_summary">古いセーブステート、スクリーンショット、キャッシュ、カードの問題</string>
+
+    <string name="cat_space">空き容量</string>
+    <string name="space_internal">内部ストレージ</string>
+    <string name="space_easyroms">EASYROMS（ゲーム）</string>
+    <string name="space_free_of">%2$s 中 %1$s 空き</string>
+    <string name="space_easyroms_missing">現在利用できません</string>
+
+    <string name="cat_health">カードの状態</string>
+    <string name="health_ok">EASYROMS に問題は見つかりませんでした</string>
+    <string name="health_ok_text">カードは開いたときにチェックされ、その後システムからエラーは報告されていません。</string>
+    <string name="health_unmountable">EASYROMS を開けません</string>
+    <string name="health_unmountable_text">ゲームとセーブデータはおそらくまだカードにあります。フォーマットしないでください。本体を一度再起動してください。それでも改善しない場合は、カードを PC に差し込んでチェックしてください（Windows: ドライブを右クリック、プロパティ、ツール、チェック）。</string>
+    <string name="health_read_only">EASYROMS は読み取り専用です</string>
+    <string name="health_read_only_text">カードでファイルシステムのエラーがあったため、システムは書き込みを停止しました。ゲームは起動しますが、新しいセーブやセーブステートは保存されません。本体を再起動してください。再び起きる場合は、PC でカードをチェックし、セーブデータをコピーしてください。</string>
+    <string name="health_errors">EASYROMS にファイルシステムのエラーがあります</string>
+    <string name="health_errors_text">本体を再起動して、カードがチェックされ修復されるようにしてください。再び表示される場合は、PC でカードをチェックし、セーブデータをコピーしてください。</string>
+    <string name="health_fixed">EASYROMS を修復しました</string>
+    <string name="health_fixed_text">前回はカードが正しく取り外されませんでした（バッテリー切れや電源断）。エラーは開いたときに修復されました。その直前にコピーしたゲームが起動しない場合は、もう一度コピーしてください。</string>
+
+    <string name="scan_title">削除できるファイルを探す</string>
+    <string name="scan_summary">選んで確定するまで何も削除されません。いっぱいのカードでは最大1分かかります。</string>
+    <string name="scan_again_summary">もう一度探す</string>
+    <string name="scan_running">探しています…</string>
+    <string name="scan_running_files">%1$s 個のファイルを確認しました…</string>
+    <string name="scan_running_dups">同じサイズの ROM を比較しています…</string>
+    <string name="delete_running">%2$s 中 %1$s を削除しています…</string>
+    <string name="busy">ほかの処理を実行中です。少し待ってからお試しください</string>
+    <string name="failed">うまくいきませんでした（%1$s）</string>
+
+    <string name="cat_found">削除できます</string>
+    <string name="group_title_size">%1$s: %2$s</string>
+    <string name="group_states">古いセーブステート</string>
+    <string name="group_backups">古いセーブのバックアップ</string>
+    <string name="group_racache">RetroArch のキャッシュ</string>
+    <string name="group_thumbs">RetroArch のボックスアート</string>
+    <string name="group_shots">スクリーンショット</string>
+    <string name="group_apks">ダウンロードしたアプリのインストーラー</string>
+    <string name="group_dups">同じ ROM が2つ</string>
+    <string name="group_caches">アプリのキャッシュ</string>
+    <string name="picked_all">%1$d 件すべて選択済み</string>
+    <string name="picked_none">%1$d 件見つかりました。選択なし</string>
+    <string name="picked_some">%2$d 件中 %1$d 件を選択（%3$s）</string>
+    <string name="caches_picked">消去されます。アプリは必要なときに再び作成します。</string>
+    <string name="caches_not_picked">選択されていません</string>
+    <string name="remove_title">選んだファイルを削除</string>
+    <string name="remove_summary">%1$d 個のファイルとフォルダー、%2$s</string>
+    <string name="remove_summary_caches">、およびアプリのキャッシュ</string>
+    <string name="remove_nothing">何も選択されていません</string>
+
+    <string name="about_states">各ゲームの新しい %1$d 件を超えるセーブステート。ゲーム内セーブ（.srm、.sav）と自動セーブステートは一覧に表示されません。</string>
+    <string name="about_backups">各場所（内部ストレージ、EASYROMS）で新しい %1$d 件を超えるセーブのバックアップのコピー。新しいものは残ります。セーブのバックアップ自体は、そこで設定された数まで保持します。</string>
+    <string name="about_racache">RetroArch がゲームを速く起動するために展開・保持したファイル。再び作成されます。</string>
+    <string name="about_thumbs">RetroArch がゲーム一覧用にダウンロードしたボックスアートとタイトル画像。再取得には Wi-Fi が必要です。</string>
+    <string name="about_shots">RetroArch、PPSSPP、Android のスクリーンショット。カメラの写真やその他の画像は一覧に表示されません。</string>
+    <string name="about_apks">ダウンロードフォルダーと EASYROMS の最上位にあるアプリのインストーラー。インストール済みのアプリはそのまま残ります。</string>
+    <string name="about_dups">別のフォルダーにある ROM とバイト単位で完全に同じ ROM。「同じもの」として表示されるコピーは残ります。</string>
+    <string name="group_more">表示されていない、さらに %1$d 件の小さなもの。「すべて選択」または「選択なし」がそれらにも適用されます。</string>
+    <string name="pick_all">すべて選択</string>
+    <string name="pick_none">選択を解除</string>
+    <string name="item_summary">%1$s · %2$s · %3$s</string>
+    <string name="item_same_as">%1$s と同じ</string>
+
+    <string name="cat_folders">EASYROMS の大きいフォルダー</string>
+    <string name="folder_summary">%1$s、ファイル %2$d 件</string>
+
+    <string name="confirm_title">完全に削除しますか？</string>
+    <string name="confirm_files">%1$d 個のファイルとフォルダー（%2$s）を削除します。この操作は元に戻せません。</string>
+    <string name="confirm_caches">アプリのキャッシュを消去します。</string>
+    <string name="confirm_safe">ゲーム内セーブは削除されず、各ゲームの新しい %1$d 件のセーブステートは残ります。先に RetroArch と PPSSPP を終了してください。</string>
+    <string name="confirm_remove">削除</string>
+
+    <string name="result_title">完了</string>
+    <string name="result_removed">%1$d 個のファイルとフォルダー、%2$s を削除しました。</string>
+    <string name="result_caches">アプリのキャッシュ: %1$s を解放しました。</string>
+    <string name="result_skipped">検索後に変更されたか、使用中のため、%1$d 件は削除されませんでした。</string>
+
+    <string name="cat_options">オプション</string>
+    <string name="opt_keep_states">ゲームごとに保持するセーブステート</string>
+    <string name="opt_keep_backups">各場所に保持するセーブのバックアップ</string>
+    <string name="opt_dups">同じ ROM が2つないか探す</string>
+    <string name="opt_dups_summary">同じサイズの ROM を比較します。検索が遅くなります。</string>
+    <string name="opt_warn">空き容量が少ないとき警告する</string>
+    <string name="opt_warn_summary">内部ストレージまたは EASYROMS がほぼいっぱいのとき、または EASYROMS にエラーがあるときに通知します</string>
+
+    <string name="channel_warnings">ストレージの警告</string>
+    <string name="warn_internal_low">内部ストレージがほぼいっぱいです</string>
+    <string name="warn_internal_low_text">残り %1$s。いっぱいになると、アプリ、ダウンロード、スクリーンショットが動かなくなります。タップして空き容量を増やしてください。</string>
+    <string name="warn_internal_full">内部ストレージがいっぱいです</string>
+    <string name="warn_internal_full_text">残り %1$s。アプリが動かなくなることがあります。タップして空き容量を増やしてください。</string>
+    <string name="warn_easyroms_low">EASYROMS がほぼいっぱいです</string>
+    <string name="warn_easyroms_low_text">ゲーム用カードの残りは %1$s です。ゲームのセーブはそこに行われ、いっぱいになるとセーブやセーブステートが失敗します。タップして空き容量を増やしてください。</string>
+    <string name="warn_easyroms_full">EASYROMS がいっぱいです</string>
+    <string name="warn_easyroms_full_text">残り %1$s。新しいセーブやセーブステートは書き込めません。タップして空き容量を増やすか、ゲームをいくつか PC に移してください。</string>
+</resources>

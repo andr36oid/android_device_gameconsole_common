@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string-array name="background_entries">
+        <item>なし</item>
+        <item>透過</item>
+        <item>暗め</item>
+        <item>ベタ黒</item>
+    </string-array>
+    <string name="channel_name">性能オーバーレイ</string>
+    <string-array name="color_entries">
+        <item>アクセントカラー</item>
+        <item>白</item>
+        <item>グレー</item>
+        <item>ティール</item>
+        <item>青</item>
+        <item>緑</item>
+        <item>黄色</item>
+        <item>オレンジ</item>
+        <item>赤</item>
+        <item>ピンク</item>
+        <item>紫</item>
+    </string-array>
+    <string name="hud_bat">電池</string>
+    <string name="hud_cpu">CPU</string>
+    <string name="hud_fps">FPS</string>
+    <string name="hud_gpu">GPU</string>
+    <string name="hud_ram">RAM</string>
+    <string name="hud_temp">温度</string>
+    <string-array name="interval_entries">
+        <item>1秒に2回</item>
+        <item>1秒ごと</item>
+        <item>2秒ごと</item>
+    </string-array>
+    <string-array name="layout_entries">
+        <item>1行</item>
+        <item>2行</item>
+        <item>1項目ごとに1行</item>
+    </string-array>
+    <string name="notification_text">タップして表示内容を変更</string>
+    <string name="notification_title">性能オーバーレイはオンです</string>
+    <string name="notification_turn_off">オフにする</string>
+    <string name="overlay_about">FPS は、直前の 1 秒間に画面が表示したフレーム数です。画面に動きがないと 0 になりますが、これは正常です。\n\n数値は 1 秒ごとに更新され（「更新」を参照）、負荷はほとんどありません。オーバーレイを表示するとゲームが遅くなる場合は、オフにするか、フレームレートだけを表示してください。\n\nオーバーレイを一度使うと、クイック設定に「性能オーバーレイ」タイルが表示されます。</string>
+    <string name="overlay_background">背景</string>
+    <string name="overlay_blocked">カーネル調整でオフ（性能指標の収集を無効化）</string>
+    <string name="overlay_colors_group">色</string>
+    <string name="overlay_interval">更新</string>
+    <string name="overlay_label_color">ラベルの色</string>
+    <string name="overlay_layout">配置</string>
+    <string name="overlay_layout_group">レイアウト</string>
+    <string name="overlay_more_group">その他</string>
+    <string name="overlay_position">表示位置</string>
+    <string name="overlay_reset">初期設定に戻す</string>
+    <string name="overlay_reset_summary">左上に FPS、CPU、温度、電池を表示し、アクセントカラーで表示する初期状態に戻します</string>
+    <string name="overlay_shows">表示項目</string>
+    <string name="overlay_size">文字サイズ</string>
+    <string name="overlay_summary">ゲームの上に FPS、CPU、温度、電池を表示</string>
+    <string name="overlay_switch">オーバーレイを表示</string>
+    <string name="overlay_title">性能オーバーレイ</string>
+    <string name="overlay_value_color">数値の色</string>
+    <string name="overlay_warning_colors">警告色</string>
+    <string name="overlay_warning_colors_summary">フレームレートの低下、発熱、電池残量の少なさを緑、黄、赤で表示</string>
+    <string-array name="position_entries">
+        <item>左上</item>
+        <item>上の中央</item>
+        <item>右上</item>
+        <item>左下</item>
+        <item>下の中央</item>
+        <item>右下</item>
+    </string-array>
+    <string name="show_battery">電池残量</string>
+    <string name="show_cpu">CPU 負荷</string>
+    <string name="show_fps">フレームレート (FPS)</string>
+    <string name="show_fps_summary">これだけにチェックを入れると、オーバーレイには「60 FPS」とだけ表示されます</string>
+    <string name="show_power">電池の消費電力</string>
+    <string name="show_ram">RAM 使用量</string>
+    <string name="show_speeds">CPU、GPU、メモリの速度</string>
+    <string name="show_storage">SD カードの動作</string>
+    <string name="show_temp">温度</string>
+    <string name="show_time">時計</string>
+    <string-array name="size_entries">
+        <item>小</item>
+        <item>標準</item>
+        <item>大</item>
+        <item>特大</item>
+    </string-array>
+    <string name="tile_blocked">カーネル調整でオフ</string>
+    <string name="tile_label">性能表示</string>
+    <string name="tile_off">オフ</string>
+    <string name="tile_on">オン</string>
+</resources>

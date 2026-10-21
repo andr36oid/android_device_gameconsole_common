@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="look_title">パーソナライズ</string>
+    <string name="look_summary">アクセントカラー、音、起動アニメーション</string>
+    <string name="accent_title">アクセントカラー</string>
+    <string name="accent_default">LineageOS のティール（標準）</string>
+    <string name="sounds_title">UI の音</string>
+    <string name="sounds_android">Android（標準）</string>
+    <string name="sounds_retro">レトロ</string>
+    <string name="sounds_summary">%1$s。「タッチ時の音」がオンのとき（サウンド > 詳細）に鳴ります。</string>
+    <string name="bootanim_title">起動アニメーション</string>
+    <string name="bootanim_lineage">LineageOS（標準）</string>
+    <string name="bootanim_retro">andr36oid レトロ</string>
+    <string name="bootanim_summary">%1$s。次回の起動から表示されます。</string>
+    <string name="bootanim_orbit">andr36oid オービット</string>
+    <string name="bootanim_signal">andr36oid シグナル</string>
+    <string name="bootanim_cartridge">andr36oid カートリッジ</string>
+    <string name="boot_progress_title">起動の進行バー</string>
+    <string name="boot_progress_summary">ロゴの下に、本体の起動に合わせて動く細いバーを表示します。次回の起動から表示されます。</string>
+    <string name="boot_details_title">起動の詳細を表示</string>
+    <string name="boot_details_summary">ロゴの下に、本体が今何をしているかを表示します（例:「パーティションをマウント中」）。次回の起動から表示されます。</string>
+</resources>

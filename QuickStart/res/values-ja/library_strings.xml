@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="games_library_ready">ホーム画面のDaijishouには、これらのシステムそれぞれのプラットフォームが、EASYROMS上の対応フォルダとともに最初から登録されています。初めて開くと、ゲームを探すか尋ねられます。OKを押してください。後からゲームを追加した場合は、次回の起動時にもう一度尋ねられます。本体の電源が入った状態で追加したゲームは、Daijishouのライブラリ設定で「Sync entirely」を実行すると表示されます。ほかのシステムや、.noroms で設定したカードの場合は、Daijishouでプラットフォームを追加し、そのフォルダを選んでください。</string>
+    <string name="games_library_simple">ホーム画面は Simple UI で、アプリは表示されますがゲームは表示されません。ゲームのライブラリを使うには、アプリから Daijishou を開いてください。Daijishouはこれらのフォルダを知っており、開くとゲームを探すか尋ねてきます。または、RetroArchの「Load Content」から、あるいはPPSSPPのゲーム一覧から直接ゲームを起動できます。</string>
+    <string name="games_library_simple_no_daijishou">ホーム画面は Simple UI で、アプリは表示されますがゲームは表示されません。RetroArchの「Load Content」、またはPPSSPPのゲーム一覧からゲームを起動し、EASYROMS上のフォルダから選んでください。Daijishouのゲームライブラリを元に戻すには、設定 > アプリと通知 > ホーム画面 に進んでください。</string>
+</resources>

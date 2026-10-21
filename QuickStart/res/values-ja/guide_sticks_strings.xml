@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="trouble_sticks_a">設定 > 操作 > スティックのキャリブレーション を開き、Aを押してください。両方のスティックをゆっくりと、端まで大きく円を描くように動かしてください。その後、手を離してからAを押します。それ以降は、再起動後も含め、すべてのゲームとアプリで補正されたスティックが使われます。</string>
+    <string name="trouble_sticks_more">まだ少しずれますか？ 十字キーの左右で、デッドゾーン（中央付近の無視される範囲）を変更できます。Xを2回押すと、工場出荷時の設定に戻ります。</string>
+    <string name="trouble_sticks_q">スティックがずれる、または端まで届かない</string>
+</resources>

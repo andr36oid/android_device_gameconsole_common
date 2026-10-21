@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="emmc_title">内蔵 eMMC</string>
+    <string name="emmc_summary">本体の内蔵ストレージチップ: 詳細とバックアップ</string>
+
+    <string name="state_no_emmc">この本体には、andr36oid で有効にできる内蔵 eMMC がありません。</string>
+    <string name="state_open_tweaks">Kernel Tweaks を開く</string>
+    <string name="state_off">内蔵 eMMC は無効になっています。Kernel Tweaks > 内蔵 eMMC ストレージ で有効にしてから、本体を再起動してください。</string>
+    <string name="state_reading">eMMC を読み取っています…</string>
+    <string name="state_failed">eMMC の詳細を読み取れませんでした。</string>
+    <string name="state_missing">有効になっていますが、eMMC から応答がありません。この本体には eMMC がないか、別の機能がピンを使っているためカーネルが無効のままにしている可能性があります。問題レポートに詳細があります。</string>
+
+    <string name="chip_category">チップ</string>
+    <string name="model_title">モデル</string>
+    <string name="model_maker">%1$s（製造元: %2$s）</string>
+    <string name="size_title">容量</string>
+    <string name="size_version">%1$s、eMMC %2$s</string>
+    <string name="made_title">製造</string>
+    <string name="made_firmware">%1$s、ファームウェア %2$s</string>
+    <string name="unknown">不明</string>
+    <string name="wear_title">摩耗</string>
+    <string name="wear_used">定格寿命の %1$d～%2$d%% を使用済み</string>
+    <string name="wear_worn_out">摩耗: 定格寿命を超えています</string>
+    <string name="wear_unknown">チップはこの情報を報告しません</string>
+    <string name="wear_spare_low">予備ブロックが少なくなっています</string>
+    <string name="wear_spare_urgent">予備ブロックがほぼなくなっています。早めにバックアップしてください</string>
+
+    <string name="speed_category">読み取り速度</string>
+    <string name="speed_title">読み取り速度をテスト</string>
+    <string name="speed_summary">約 16 秒かかります。読み取りだけを行います</string>
+    <string name="speed_running">テスト中…</string>
+    <string name="speed_result">大きいファイル: %1$s/秒\n小さいファイル: %2$d 回/秒（%3$s/秒）</string>
+    <string name="speed_failed">速度テストで eMMC を読み取れませんでした。</string>
+
+    <string name="backup_category">バックアップ</string>
+    <string name="backup_hint">eMMC 全体、またはその一部を、選んだストレージの「eMMC backup」フォルダーにイメージファイルとしてコピーします。eMMC は読み取るだけです。内部のシステムはそのまま残ります。</string>
+    <string name="dest_title">保存先</string>
+    <string name="dest_free">%1$s（空き %2$s）</string>
+    <string name="internal_storage">内部ストレージ</string>
+    <string name="whole_title">eMMC 全体</string>
+    <string name="whole_summary">%1$s: すべてのパーティション、パーティションテーブル、ブート領域。そのまま元に戻すためのものです</string>
+    <string name="part_title">パーティション %1$d</string>
+    <string name="part_title_name">パーティション %1$d: %2$s</string>
+    <string name="part_summary_type">%1$s、%2$s</string>
+    <string name="part_summary_label">%1$s、%2$s「%3$s」</string>
+    <string name="boot_title">ブート領域 %1$d</string>
+    <string name="boot_summary">%1$s。パーティションとは別に保存されています</string>
+
+    <string name="confirm_title">%1$s をバックアップしますか?</string>
+    <string name="confirm_text">%1$s を %2$s の「eMMC backup」フォルダーに保存します。完了するまで本体はスリープしません。</string>
+    <string name="confirm_split">この保存先は FAT32 を使用しており、1 ファイルは 4 GB までです。そのためイメージは番号付きの部分（.001、.002…）に分けて保存されます。イメージを使う前に、パソコンで結合してください。</string>
+    <string name="confirm_ok">バックアップ</string>
+    <string name="no_space_title">空き容量が足りません</string>
+    <string name="no_space_text">%1$s には %2$s の空き容量が必要ですが、空きは %3$s しかありません。</string>
+
+    <string name="progress_title">バックアップ中…</string>
+    <string name="progress_starting">開始しています。タップで停止</string>
+    <string name="progress_summary">%1$s / %2$s、残り %3$s。タップで停止</string>
+    <string name="stop_title">バックアップを停止しますか?</string>
+    <string name="stop_text">ここまでにコピーされた分はフォルダーに残りますが、完全なイメージにはなっていません。</string>
+    <string name="stop_ok">停止</string>
+
+    <string name="result_title">前回のバックアップ</string>
+    <string name="result_done">%1$s の %2$s に保存しました</string>
+    <string name="result_stopped">停止しました。%1$s の %2$s には不完全なコピーがあります。</string>
+    <string name="result_no_space">%1$s の空き容量が足りません。</string>
+    <string name="result_read_error">eMMC を最後まで読み取れませんでした。%1$s の %2$s には不完全なコピーがあります。</string>
+    <string name="result_failed">バックアップを開始できませんでした。</string>
+
+    <!-- eMMC Installation (InstallActivity) -->
+    <string name="inst_title">eMMC インストール</string>
+    <!-- Its entry in Settings > System: still marked as a beta -->
+    <string name="inst_entry_title">eMMC インストール（ベータ）</string>
+    <string name="inst_summary">andr36oid を内蔵 eMMC に入れ、SD カードなしで本体を起動できるようにします</string>
+    <string name="inst_not_sd">andr36oid を eMMC にインストールできるのは、SD カードから起動しているときだけです。</string>
+    <string name="inst_on_emmc">andr36oid は内蔵 eMMC から起動しています。インストールを変更する、または純正システムに戻すには、andr36oid の SD カードから起動してください。</string>
+    <string name="inst_test_worked">テストは成功しました。andr36oid は eMMC から起動しました。\n\nここで再起動してください。本体は再び SD カードから起動し、そこでインストールが完了します。SD カードは挿したままにしてください。</string>
+    <string name="inst_close">閉じる</string>
+    <string name="inst_cancel">キャンセル</string>
+    <string name="inst_continue">続ける</string>
+    <string name="inst_start">開始</string>
+    <string name="inst_working">処理中…</string>
+    <string name="inst_details">詳細</string>
+    <string name="inst_elapsed">%1$s 経過</string>
+    <string name="inst_left">残り %1$s</string>
+
+    <string name="inst_step0">ステップ 0: 純正 eMMC をバックアップ</string>
+    <string name="inst_step1">ステップ 1: SD カードのローダーを確認</string>
+    <string name="inst_step2">ステップ 2: eMMC 上の andr36oid を確認</string>
+    <string name="inst_step3">ステップ 3: ローダーを eMMC に書き込む</string>
+    <string name="inst_st_done">完了</string>
+    <string name="inst_st_failed">失敗</string>
+    <string name="inst_st_restart">再起動を待っています</string>
+
+    <string name="inst_checking">本体を確認しています…</string>
+    <string name="inst_checks">何かを書き込む前に</string>
+    <string name="inst_inspect_failed">インストーラーは本体を確認できませんでした。</string>
+    <string name="inst_check_again">もう一度確認</string>
+    <string name="inst_chk_sd">SD カードから起動しています</string>
+    <string name="inst_chk_no_emmc">内蔵 eMMC が見つかりません。Kernel Tweaks > 内蔵 eMMC ストレージ で有効にしてから、再起動してください。</string>
+    <string name="inst_chk_emmc">内蔵 eMMC: %1$s、%2$s</string>
+    <string name="inst_chk_size">andr36oid に十分な容量があります（8 GB 以上）</string>
+    <string name="inst_chk_charger">充電器が接続されています</string>
+    <string name="inst_chk_battery">バッテリー %1$d%%（60%% 以上か、充電器の接続が必要です）</string>
+    <string name="inst_chk_no_target">バックアップ用のストレージがありません</string>
+    <string name="inst_chk_room">%1$s へのバックアップ: 空き %2$s、必要 %3$s</string>
+
+    <string name="inst_warn1_title">純正システムは消去されます</string>
+    <string name="inst_warn1">内蔵 eMMC のすべてが置き換えられます。本体に入っていたシステム、ゲーム、設定がすべて失われます。先に完全なコピーを作りますが、そこから元に戻せるのは、この SD カードを使っていて、かつ本体がまだ起動する場合だけです。</string>
+    <string name="inst_warn2_title">本体が起動しなくなる可能性があります</string>
+    <string name="inst_warn2">本体を起動させるローダーを書き込むことは、本体に対して行える最も危険な操作です。失敗すると、本体がまったく起動しなくなる可能性があり、andr36oid ではどうすることもできません。\n\neMMC とメモリが 1 つのチップになっている本体（eMCP）は特に危険です。リカバリーモードに入れる簡単な方法がありません。復旧には筐体を開けてのはんだ付けが必要になるか、そもそも復旧できない場合があります。</string>
+    <string name="inst_warn3_title">自己責任でお願いします</string>
+    <string name="inst_warn3">これは実験的な機能です。お使いの本体で動く保証はできず、動かなかった場合にこちらで直すこともできません。\n\nパーティションのサイズは今後固定されます。以降の andr36oid は、収まる場合にだけ eMMC に入れられます。</string>
+    <string name="inst_understand">内容を理解しました</string>
+
+    <string name="inst_layout_title">eMMC の分割</string>
+    <string name="inst_layout_text">system と vendor は今後のバージョン向けに余裕を持たせ、アプリとデータには残りの容量が割り当てられます。</string>
+    <string name="inst_summary_title">書き込みの順番（すべて）</string>
+    <string name="inst_sum_backup">eMMC の %1$s すべて（セクター 0～%2$d）と 2 つのブート領域を読み取り、比較のためにもう一度読み取り、%3$s にコピーして、読み戻します。eMMC には何も書き込みません。</string>
+    <string name="inst_sum_step1">eMMC のセクター 64～32767（純正ローダー、16 MiB）を消去します。その後、再起動します。本体は SD カードのローダーから自力で起動しなければなりません。</string>
+    <string name="inst_sum_step2">新しいパーティションテーブル（eMMC のセクター 0～33 と %1$d～%2$d）を書き込み、BOOT、system、vendor を SD カードからコピーし、metadata、misc、cache、userdata の先頭部分を消去します:\n%3$sその後、テストとして andr36oid が eMMC から一度起動します。</string>
+    <string name="inst_sum_step3">もう一度警告を表示した後、SD カードのセクター 64～32767（そのローダー）を eMMC にコピーします。</string>
+    <string name="inst_sum_risk">書き込みはすべて読み戻して比較します。一致しなければ、インストーラーは停止し、それ以上何も書き込みません。ステップ 1 と 2 は、それぞれ次に進む前に再起動で動作を確認します。ステップ 3 は、事前に試すことができない唯一の書き込みです。</string>
+
+    <string name="inst_backup_kept">純正 eMMC のバックアップが完了しました。次はステップ 1 です。そのローダーを消去してから再起動します。</string>
+    <string name="inst_step1_passed">ステップ 1 成功: 本体は SD カードのローダーから自力で起動しました。\n\n次はステップ 2 です。andr36oid を eMMC にコピーし（数分かかります）、その後一度そこから起動します。</string>
+    <string name="inst_step2_passed">ステップ 2 成功: andr36oid は eMMC から起動しました。\n\n次はステップ 3 です。ローダーを eMMC に書き込みます。</string>
+
+    <string name="inst_restart_title">再起動</string>
+    <string name="inst_restart_step1">eMMC のローダーは空になっています。今すぐ再起動してください。本体は SD カードのローダーから自力で起動しなければならず、起動後にこのページが再び開きます。\n\n戻ってこない場合は、電源ボタンを 7 秒間押し続けてから、もう一度電源を入れてください。それでも起動しない場合、この本体には純正ローダーが必要です。バックアップは、この SD カードの %1$s にあります。</string>
+    <string name="inst_restart_test">andr36oid は eMMC 上にあります。今すぐ再起動してください。テストとして、eMMC から一度起動します。初回起動では設定が行われ、数分かかります。テスト成功と表示されたら、もう一度再起動してください。\n\n止まってしまった場合は、電源ボタンを 7 秒間押し続けてから、もう一度電源を入れてください。通常どおり SD カードから起動し、このページに何が起きたかが表示されます。</string>
+    <string name="inst_restart_done">本体の電源を切り、電源が切れてから SD カードを抜いて、電源を入れてください。andr36oid が eMMC から起動するようになります。\n\n別の起動可能な SD カードを挿した場合、本体は従来どおりそのカードから起動します。</string>
+    <string name="inst_restart_stock">本体の電源を切り、電源が切れてから SD カードを抜いて、電源を入れると純正システムが使われます。</string>
+    <string name="inst_restart_now">今すぐ再起動</string>
+    <string name="inst_test_later">今はテストしない</string>
+
+    <string name="inst_final_title">中止できる最後の機会です</string>
+    <string name="inst_final_text">これは、本体を起動させるローダーを eMMC に書き込みます。ここまでの手順はすべてテスト済みです。ただし、この手順はテストされていません。ローダーは eMMC から U-Boot を読み込む必要があります。純正ローダーによって、このボードでそれが可能なことは確認されていますが、このまったく同じバイト列が eMMC から実行されたことはありません。\n\n失敗した場合、SD カードの有無にかかわらず、本体はもう起動しなくなります。</string>
+    <string name="inst_final_loader">ローダー: %1$s</string>
+    <string name="inst_my_fault">失敗しても、それは自分の責任です</string>
+    <string name="inst_hold">長押し</string>
+    <string name="inst_hold_hint">A ボタンを 10 秒間押し続けてください。途中で離すと、最初からやり直しになります。</string>
+    <string name="inst_no_loader_code">インストーラーには、ステップ 1 のローダーのチェックサムがありません。</string>
+    <string name="inst_done">andr36oid を eMMC にインストールしました。SD カードがなければ、本体は eMMC から起動します。別の起動可能な SD カードを挿している場合は、そのカードから起動します。</string>
+
+    <string name="inst_failed_title">停止しました</string>
+    <string name="inst_failed_choice">この後、何も書き込まれていません。純正 eMMC は %1$s にバックアップされています。\n\n純正 eMMC を元に戻しますか、それともそのままにしますか?</string>
+    <string name="inst_failed_nothing">eMMC には何も書き込まれていません。</string>
+    <string name="inst_cut_off">%1$s は完了前に中断されました（電源が切れた可能性があります）。</string>
+    <string name="inst_test_failed">テストで andr36oid は eMMC から起動しませんでした。</string>
+    <string name="inst_no_result">インストーラーは結果を示さずに停止しました。</string>
+    <string name="inst_cant_start">インストーラーを起動できませんでした。</string>
+    <string name="inst_leave">そのままにする</string>
+    <string name="inst_show_log">ログを表示</string>
+    <string name="inst_update_emmc">eMMC 上の andr36oid を更新</string>
+    <string name="inst_update_emmc_text">この SD カードの andr36oid を eMMC にコピーします。BOOT のファイル、system、vendor、そして変更があれば U-Boot をコピーします。eMMC 上のアプリ、データ、設定は残ります。\n\n本体は充電したままにしてください。更新が中断された場合、もう一度実行するまで本体は SD カードから起動します。</string>
+    <string name="inst_update_emmc_go">更新</string>
+    <string name="inst_restore">純正 eMMC を元に戻す</string>
+    <string name="inst_restore_text">andr36oid が eMMC に書き込んだものは、すべて %1$s のバックアップで置き換えられます。バックアップは先に検査され、その後 eMMC と照合されます。数分かかります。</string>
+    <string name="inst_restore_go">元に戻す</string>
+    <string name="inst_steps">ステップ</string>
+    <string name="inst_st_todo">未実行</string>
+    <string name="inst_finished">ここまでの完了分</string>
+    <!-- Above the last few finished parts on the progress page, the count is always 2 or more -->
+    <string name="inst_finished_earlier">この前の %1$d 件はすべて確認済み</string>
+    <string name="inst_log">ログ</string>
+    <string name="inst_problems">中止の理由</string>
+    <string name="inst_starting">開始しています…</string>
+    <string name="inst_start_summary">ステップ 0 は eMMC を読み取るだけです。まだ何も書き込みません。</string>
+    <string name="inst_sectors">%1$s、セクター %2$d～%3$d</string>
+    <string name="inst_op_run">%1$s / %2$s、%3$s/秒</string>
+    <string name="inst_op_ok">成功: %1$s（%2$s）</string>
+    <string name="inst_op_ok_sha">成功: %1$s（%2$s）、チェックサム %3$s</string>
+    <string name="inst_op_failed">失敗: %1$s</string>
+    <string name="inst_write_loader">ローダーを eMMC に書き込む</string>
+    <!-- The installer wizard: buttons, and the line above the progress bar on each page -->
+    <string name="inst_back">戻る</string>
+    <string name="inst_change">変更</string>
+    <string name="inst_lbl_checks">開始前の確認</string>
+    <string name="inst_lbl_warning">警告 %1$d / %2$d</string>
+    <string name="inst_lbl_plan">書き込む内容</string>
+    <string name="inst_lbl_step">インストール中</string>
+    <string name="inst_lbl_done">インストール済み</string>
+    <string name="inst_done_title">andr36oid は eMMC に入りました</string>
+    <string name="inst_intro">eMMC へのインストールには時間がかかります。書き込んだ内容はすべて読み戻して元のデータと比較してから、ウィザードが次に進みます。これは意図的な仕様です。1 回でも誤った場所に書き込むと、本体がまったく起動しなくなる可能性があります。そのため、各ステップが正しいと確認されてから次に進みます。</string>
+    <string name="inst_restore_working">バックアップを eMMC に少しずつ書き戻しています。その後、eMMC 全体を読み戻してバックアップと照合し、純正の eMMC と完全に一致することを確認します。</string>
+    <string name="inst_update_working">新しい andr36oid を SD カードから eMMC へ、1 つずつコピーしています。各部分は、次に進む前に読み戻して SD カードと照合します。</string>
+    <string name="inst_shut_down">電源を切る</string>
+    <string name="inst_stock_back_title">純正 eMMC に戻りました</string>
+    <string name="inst_keep_on">これが終わるまで、本体の電源を入れたままにし、SD カードを挿したままにしてください。</string>
+    <!-- After the installer review: a put-off test, a half-done update or restore, a restore that isn't exact -->
+    <string name="inst_test_deferred">andr36oid は eMMC 上にありますが、テスト起動はまだ行われていません。今すぐテストしてください。本体は再起動し、テストとして一度 eMMC から起動します。</string>
+    <string name="inst_test_now">今すぐテスト</string>
+    <string name="inst_st_deferred">テスト未実施</string>
+    <string name="inst_incomplete_title">未完了</string>
+    <string name="inst_incomplete_update">eMMC 上の andr36oid の前回の更新は完了していません。更新をもう一度実行するまで、eMMC は起動しない可能性があります。SD カードでは引き続き本体が起動します。</string>
+    <string name="inst_incomplete_restore">純正 eMMC への復元が完了していません。eMMC は一部が純正、一部が andr36oid の状態で、起動しない可能性があります。もう一度実行して完了させてください。</string>
+    <string name="inst_retry">再試行</string>
+    <string name="inst_not_exact_title">純正 eMMC に戻りましたが、完全一致ではありません</string>
+    <string name="inst_not_exact">andr36oid が書き込んだ内容は、すべてバックアップどおりに戻り、確認済みです。ただしブート領域は異なります。andr36oid はブート領域には決して書き込まないため、この差は残ります。本体の電源を切り、電源が切れてから SD カードを抜いて、電源を入れると、純正システムが起動するかを確認できます。</string>
+    <!-- Advanced: any SD card image on the eMMC, at the user's own risk -->
+    <string name="inst_adv_entry">詳細設定: 任意のイメージを書き込む</string>
+    <string name="inst_lbl_advanced">詳細設定</string>
+    <string name="inst_adv_warn_title">自己責任でお願いします</string>
+    <string name="inst_adv_warn">選んだ SD カードのイメージを、純正システムの代わりに eMMC へ書き込みます。これは andr36oid ではなく、ここでは何もテストされていません。\n\nイメージ側のローダーが、本体のローダーを置き換えます。この本体に合わなければ、SD カードからも含めて、本体が二度と起動しなくなる可能性があります。eMMC が基板にはんだ付けされている場合（eMCP）、復旧にははんだ付け作業が必要です。\n\n純正 eMMC のバックアップがまだなければ、先に作成されます。andr36oid がバックアップを元に戻せるのは、本体がまだ SD カードから起動する間だけです。</string>
+    <string name="inst_adv_pick_title">イメージを選択</string>
+    <string name="inst_adv_pick">内部ストレージ、Download フォルダー、および SD カードの BOOT パーティションにあるイメージ（.img、.img.gz、.img.xz、または 1 つの .img を含む .zip）。</string>
+    <string name="inst_adv_none">イメージが見つかりません。イメージを内部ストレージか Download フォルダーにコピーしてから、もう一度探してください。</string>
+    <string name="inst_adv_look_again">もう一度探す</string>
+    <string name="inst_adv_on_boot">BOOT 上</string>
+    <string name="inst_adv_final_title">%1$s を書き込みますか?</string>
+    <string name="inst_adv_final">%1$s: %2$s。eMMC: %3$s。圧縮されたイメージは展開すると大きくなります。書き込みの前に検査されます。\n\neMMC 上のすべてが、このイメージで置き換えられます。</string>
+    <string name="inst_adv_too_big">このイメージは eMMC より大きいため、書き込めません。</string>
+    <string name="inst_adv_write">イメージを書き込む</string>
+    <string name="inst_adv_title">イメージを書き込む</string>
+    <string name="inst_adv_working">イメージは確認のため一度読み取られ、eMMC に書き込まれて、その後 eMMC から読み戻されます。</string>
+    <string name="inst_adv_done_title">イメージを書き込みました</string>
+    <string name="inst_adv_done">%1$s が eMMC に入り、読み戻しても同じ内容です。本体の電源を切り、電源が切れてから SD カードを抜いて、電源を入れてください。</string>
+    <string name="inst_custom_title">独自のイメージが eMMC にあります</string>
+    <string name="inst_custom">%1$s（%2$s）は詳細設定モードで eMMC に書き込まれました。andr36oid ではありません。andr36oid をインストールする、純正システムに戻す、または別のイメージを書き込むことができます。</string>
+    <string name="inst_custom_install">andr36oid をインストール</string>
+    <string name="inst_adv_another">別のイメージを書き込む</string>
+    <string name="inst_adv_write_again">イメージを書き込む</string>
+    <string name="inst_incomplete_image">イメージの eMMC への書き込みが完了しませんでした。eMMC には一部しか入っていないため、起動しません。もう一度イメージを書き込むか、純正システムに戻してください。</string>
+
+    <!-- The data card: Android's data on an SD card (datacard.go in emmcinstall) -->
+    <string name="inst_lbl_data">Android のデータ</string>
+    <string name="inst_dc_where_title">Android はデータをどこに保存しますか?</string>
+    <string name="inst_dc_where">Android のデータとは、アプリ、そのセーブデータと設定、そしてファイルのことです。eMMC の代わりに SD カードに置くこともでき、eMMC の容量が少ない場合に役立ちます。データカードは本体に挿したままにしなければなりません。ないと Android は起動しません。\n\n今選んでください。データカードは最後に作成されます。eMMC からのテスト起動が成功した後です。</string>
+    <string name="inst_dc_emmc">eMMC に保存</string>
+    <string name="inst_dc_emmc_sub">通常のインストールと同じです。最後に SD カードを抜いてかまいません。</string>
+    <string name="inst_dc_original">この SD カードに保存</string>
+    <string name="inst_dc_original_sub">データ（%1$s）はそのまま残ります。eMMC は SD カードが止まった場所から続けます。このカードだけでは本体を起動できなくなるため、挿したままにしなければなりません。</string>
+    <string name="inst_dc_new">スロット 2 の新しいカードに保存</string>
+    <string name="inst_dc_new_sub">スロット 2 の %1$s のカードは消去され、Android のデータが入ります。この SD カードはそのままです。</string>
+    <string name="inst_dc_new_none">スロット 2 にカードを挿して、このページをもう一度開くと、これを選べます。</string>
+    <string name="inst_dc_what_title">新しいカードには何を入れますか?</string>
+    <string name="inst_dc_what">スロット 2 のカード（%1$s、%2$s）の内容はすべて消去されます。\n\nこの SD カードのレイアウト、選んだ Android のデータ、そしてゲーム用の EASYROMS が入ります。カード単体では本体を起動できません。本体は eMMC から起動し、データ用にこのカードを使います。</string>
+    <string name="inst_dc_a">すべてコピー</string>
+    <string name="inst_dc_a_sub">インストール済みのすべてのアプリを含む Android のデータと、EASYROMS（%1$s）。必要な容量は %2$s。</string>
+    <string name="inst_dc_b">Android のデータのみ</string>
+    <string name="inst_dc_b_sub">インストール済みのアプリとそのデータは引き継がれます。EASYROMS は空の状態で始まります。必要な容量は %1$s。</string>
+    <string name="inst_dc_c">最初から始める</string>
+    <string name="inst_dc_c_sub">Android は新規の状態で始まり、EASYROMS は空です。インストール済みのアプリは引き継がれません。必要な容量は %1$s。</string>
+    <string name="inst_dc_too_small">容量不足: %1$s が必要ですが、カードの容量は %2$s です。</string>
+    <string name="inst_dc_autoapk">andr36oid に付属するアプリもコピーする（AUTOAPK、%1$s）</string>
+    <string name="inst_dc_autoapk_off">このコピーがないと、andr36oid に付属するアプリはこの SD カードにだけ残り、AUTOAPK パーティションがある間だけ使えます。</string>
+    <string name="inst_dc_autoapk_gone">andr36oid に付属するアプリは、もうこの SD カードにありません（インストール後に AUTOAPK は削除されます）。最初からの開始では引き継げません。</string>
+    <string name="inst_dc_lbl_last">最後の手順: データカード</string>
+    <string name="inst_dc_orig_title">この SD カードをデータカードにする</string>
+    <string name="inst_dc_orig">eMMC に、このカードのデータを使うようにという指示が書き込まれます。その後、このカードでは本体を起動できなくなります。起動ファイルの名前が変更され、ローダーが消去されます。システムパーティションは、eMMC からの最初の起動時に消去されます。\n\nその後、電源を切り、カードを挿したまま電源を入れてください。andr36oid は eMMC から起動し、データをこのカードに保存します。\n\nandr36oid の SD カード書き込みツールで、カードから本体を再び起動できます。その際、eMMC を更新してカードをデータカードに戻すかどうか尋ねられます。</string>
+    <string name="inst_dc_orig_go">データカードにする</string>
+    <string name="inst_dc_new_title">新しいカードを準備</string>
+    <string name="inst_dc_new_copy">スロット 2 のカードは消去され、データカードになります。Android のデータは、eMMC から起動したときに、どちらも使われていない状態でコピーされます。本体は再起動してコピーし、完了のためにこの SD カードへ戻ります。両方のカードを挿したままにしてください。</string>
+    <string name="inst_dc_new_fresh">スロット 2 のカードは消去され、データカードになります。Android はそのカード上で新規に始まります。</string>
+    <string name="inst_dc_new_go">消去して作成</string>
+    <string name="inst_dc_finish_title">データカードを完成させる</string>
+    <string name="inst_dc_finish">eMMC からの起動時のコピーが完了していれば、eMMC に新しいカードのデータを使うよう指示されます。完了していなければ、もう一度コピーしてください。</string>
+    <string name="inst_dc_finish_fresh">新しいカードの準備ができました。完了すると、eMMC がそのカードを使うようになります。</string>
+    <string name="inst_dc_finish_go">完了</string>
+    <string name="inst_dc_copy_again">もう一度コピー</string>
+    <string name="inst_restart_copy">今すぐ再起動してください。本体は一度 eMMC から起動し、そこで Android のデータを新しいカードにコピーします。時間がかかる場合があります。その後、完了のためこの SD カードから再び起動します。</string>
+    <string name="inst_dc_ready_title">データカードの準備ができました</string>
+    <string name="inst_dc_done_orig">本体の電源を切り、カードを挿したまま電源を入れ直してください。andr36oid は eMMC から起動し、データをカードに保存します。カードがないと Android は起動しません。</string>
+    <string name="inst_dc_done_new">本体の電源を切り、この SD カードをスロット 1 から抜いてください。新しいカードは挿したままにしてください（どちらのスロットでも可）。andr36oid は eMMC から起動し、データを新しいカードに保存します。\n\nこの SD カードは変更されていません。スロット 1 に入れると、従来どおり本体を起動します。</string>
+    <string name="inst_dc_copy_title">Android のデータをコピー</string>
+    <string name="inst_dc_copy">andr36oid は eMMC から起動しました。現在、どちらのカードも使われていない状態で、Android のデータを SD カードから新しいカードへコピーしています。本体の電源は入れたままにしてください。</string>
+    <string name="inst_dc_copy_go">コピー</string>
+    <string name="inst_dc_copied">コピーが完了しました。今すぐ再起動してください。本体はデータカードを完成させるため、もう一度 SD カードから起動します。両方のカードを挿したままにしてください。</string>
+    <string name="inst_dc_working">データカードを作成中</string>
+    <string name="inst_dc_working_text">カードと Android のデータを準備しています。時間がかかる場合があります。</string>
+    <string name="inst_dc_return_title">eMMC をこのバージョンに更新して、このカードをデータカードに戻しますか?</string>
+    <string name="inst_dc_return">このカードは、eMMC 上の andr36oid のデータカードです。andr36oid の SD カード書き込みツールがこれを更新したため、本体はカードから起動しました。\n\n「eMMC を更新」を選ぶと、このカードの andr36oid が eMMC にコピーされ（アプリとデータは残ります）、カードはデータカードに戻ります。その後、本体は eMMC から起動します。\n\n今はしない: 本体はこのカードから起動し続け、この質問は次回の起動時にもう一度表示されます。</string>
+    <string name="inst_dc_not_now">今はしない</string>
+    <string name="inst_dc_return_go">eMMC を更新</string>
+    <string name="inst_dc_returned">eMMC の更新が完了し、このカードは再びデータカードになりました。今すぐ再起動してください。andr36oid は eMMC から起動します。</string>
+</resources>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Deep sleep setting -->
+    <string name="sleep_title">スリープ</string>
+    <string name="deep_sleep">ディープスリープ</string>
+    <string name="deep_sleep_on">オン: 画面オフ中に最も電池を節約します。本体がスリープから起きないことがある場合は、オフにしてください。</string>
+    <string name="deep_sleep_off">オフ: 画面オフ中は本体が軽く休止するだけです。その場合、バッテリーの減りが早くなります。</string>
+</resources>

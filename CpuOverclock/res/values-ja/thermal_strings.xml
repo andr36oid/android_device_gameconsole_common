@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="profile_about_performance">最も滑らかなエミュレーションです。CPUは <xliff:g id="cpu">%1$s</xliff:g> を下回らず、グラフィックは常に <xliff:g id="gpu">%2$d</xliff:g> MHz、メモリも常にフルスピードで動作します。PS1、N64、PSPのゲーム向けです。バッテリーは早く減ります。</string>
+</resources>

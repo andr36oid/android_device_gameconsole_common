@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="button_mapping_title">ボタン割り当て（ベータ）</string>
+    <string name="button_mapping_summary">本体のボタンの動きを変更します</string>
+
+    <!-- The buttons of the console -->
+    <string name="button_dpad_up">十字キー 上</string>
+    <string name="button_dpad_down">十字キー 下</string>
+    <string name="button_dpad_left">十字キー 左</string>
+    <string name="button_dpad_right">十字キー 右</string>
+    <string name="button_a">Aボタン</string>
+    <string name="button_b">Bボタン</string>
+    <string name="button_x">Xボタン</string>
+    <string name="button_y">Yボタン</string>
+    <string name="button_l1">L1ボタン</string>
+    <string name="button_r1">R1ボタン</string>
+    <string name="button_l2">L2ボタン</string>
+    <string name="button_r2">R2ボタン</string>
+    <string name="button_l3">左スティックを押す (L3)</string>
+    <string name="button_r3">右スティックを押す (R3)</string>
+    <string name="button_select">Selectボタン</string>
+    <string name="button_start">Startボタン</string>
+    <string name="button_function">FNボタン</string>
+    <string name="button_volume_down">音量を下げるボタン</string>
+    <string name="button_volume_up">音量を上げるボタン</string>
+    <string name="button_power">電源ボタン</string>
+    <!-- Buttons some newer consoles have besides the usual ones, numbered -->
+    <string name="button_extra">追加ボタン <xliff:g id="number">%1$d</xliff:g></string>
+    <string name="section_extra_buttons">追加ボタン</string>
+
+    <!-- What a button can do, grouped -->
+    <string name="section_game">ゲームボタン</string>
+    <string name="section_menu">メニュー操作</string>
+    <string name="section_system">システム</string>
+    <string name="section_media">音楽と動画</string>
+    <string name="section_off">電源を切る</string>
+
+    <string name="action_button_a">Aボタン</string>
+    <string name="action_button_b">Bボタン</string>
+    <string name="action_button_x">Xボタン</string>
+    <string name="action_button_y">Yボタン</string>
+    <string name="action_button_l1">L1ボタン</string>
+    <string name="action_button_r1">R1ボタン</string>
+    <string name="action_button_l2">L2ボタン</string>
+    <string name="action_button_r2">R2ボタン</string>
+    <string name="action_button_l3">左スティックを押す (L3)</string>
+    <string name="action_button_r3">右スティックを押す (R3)</string>
+    <string name="action_button_select">Selectボタン</string>
+    <string name="action_button_start">Startボタン</string>
+    <string name="action_up">上</string>
+    <string name="action_down">下</string>
+    <string name="action_left">左</string>
+    <string name="action_right">右</string>
+    <string name="action_ok">OK</string>
+    <string name="action_back">戻る</string>
+    <string name="action_home">ホーム画面</string>
+    <string name="action_menu">アプリメニュー</string>
+    <string name="action_fn">Fn（短く押すとホーム画面、長押しでショートカット）</string>
+    <string name="action_screenshot">スクリーンショットを撮る</string>
+    <string name="action_power">電源（スリープと電源メニュー）</string>
+    <string name="action_volume_up">音量を上げる</string>
+    <string name="action_volume_down">音量を下げる</string>
+    <string name="action_mute">ミュート</string>
+    <string name="action_brightness_up">明るくする</string>
+    <string name="action_brightness_down">暗くする</string>
+    <string name="action_play_pause">再生 / 一時停止</string>
+    <string name="action_next">次のトラック</string>
+    <string name="action_previous">前のトラック</string>
+    <!-- What an extra button does by default: a numbered game button (BUTTON_1 to 16) -->
+    <string name="action_button_number">ゲームボタン <xliff:g id="number">%1$d</xliff:g></string>
+    <string name="action_nothing">なし（ボタンオフ）</string>
+
+    <!-- First choice in the list, puts the button back to what it did originally -->
+    <string name="action_original">元の設定: <xliff:g id="action">%1$s</xliff:g></string>
+    <string name="choose_title"><xliff:g id="button">%1$s</xliff:g>の動作を選んでください</string>
+
+    <!-- Next to the drawing, about the selected button -->
+    <string name="status_default">動作: <xliff:g id="action">%1$s</xliff:g></string>
+    <string name="status_changed">動作: <xliff:g id="action">%1$s</xliff:g>（元は <xliff:g id="default_action">%2$s</xliff:g>）</string>
+    <string name="status_locked">動作: <xliff:g id="action">%1$s</xliff:g>。このボタンは変更できません。</string>
+
+    <!-- Shown on the screen of the drawn console -->
+    <string name="screen_hint">十字キーでボタンを選ぶか、そのまま押してください。\n\n次に「<xliff:g id="button">%1$s</xliff:g>」を押すと変更できます。</string>
+    <string name="screen_hint_no_ok">ボタンを押して選びます。\n\nもう一度押すと変更できます。</string>
+
+    <string name="rescue_tip">ボタンがめちゃくちゃになった場合は、音量ボタンの両方を5秒間押し続けるとリセットされます。</string>
+
+    <!-- A button picked to act as the Fn button, on consoles without one or by choice -->
+    <string name="fn_set">「<xliff:g id="button">%1$s</xliff:g>」がFNになりました。短く押すとホーム画面、押したまま別のボタンを押すとショートカットが使えます。</string>
+    <string name="fn_replaced_button">「<xliff:g id="button">%1$s</xliff:g>」がFNになりました。FNにできるボタンは1つだけなので、「<xliff:g id="old_button">%2$s</xliff:g>」は元の動作に戻ります。</string>
+    <string name="fn_replaced_volume">「<xliff:g id="button">%1$s</xliff:g>」がFNになり、FNのボタンの組み合わせの代わりになりました。</string>
+    <string name="fn_cleared">「<xliff:g id="button">%1$s</xliff:g>」はもうFNではありません。</string>
+
+    <string name="power_locked_title">電源ボタンはこのままです</string>
+    <string name="power_locked_message">本体を起こせるのはこのボタンだけなので、常に電源ボタンとして動作します。</string>
+
+    <!-- Things the console always needs a button for -->
+    <string name="function_up">上</string>
+    <string name="function_down">下</string>
+    <string name="function_left">左</string>
+    <string name="function_right">右</string>
+    <string name="function_select">OK</string>
+    <string name="function_back">戻る</string>
+    <string name="function_home">ホーム画面</string>
+    <string name="function_power">電源</string>
+
+    <string name="blocked_title">このままだと操作できなくなります</string>
+    <string name="blocked_message">そうすると、次の操作に使えるボタンがなくなります: <xliff:g id="functions">%1$s</xliff:g>。\n\n先に別のボタンにこの操作を割り当ててください。</string>
+
+    <string name="swap_title">「<xliff:g id="other_button">%1$s</xliff:g>」と入れ替えますか？</string>
+    <string name="swap_message">「<xliff:g id="other_button">%1$s</xliff:g>」が今この動作をしています。2つのボタンを入れ替えますか、それとも「<xliff:g id="button">%2$s</xliff:g>」だけを変更しますか？</string>
+    <string name="swap_needed_message">「<xliff:g id="other_button">%1$s</xliff:g>」が今この動作をしています。「<xliff:g id="button">%2$s</xliff:g>」だけを変更すると、次の操作に使えるボタンがなくなります: <xliff:g id="functions">%3$s</xliff:g>。\n\n代わりに2つのボタンを入れ替えますか？</string>
+    <string name="swap_confirm">入れ替える</string>
+    <string name="swap_only_this">このボタンだけ</string>
+
+    <string name="problem_title">一部のボタンが未設定です</string>
+    <string name="problem_message">次の操作に割り当てられたボタンがありません: <xliff:g id="functions">%1$s</xliff:g>。\n\n標準の割り当てに切り替えて直しますか？</string>
+    <string name="problem_fix">標準を使う</string>
+    <string name="problem_later">今はしない</string>
+
+    <!-- Profiles: button layouts to switch between -->
+    <string name="profile_standard">標準</string>
+    <string name="profile_default_name">プロファイル %d</string>
+    <string name="profile_button">プロファイル: <xliff:g id="profile">%1$s</xliff:g></string>
+    <string name="profiles_title">ボタンプロファイル</string>
+    <string name="profile_new">新しいプロファイル</string>
+    <string name="profiles_close">閉じる</string>
+    <string name="profile_rename">名前を変更</string>
+    <string name="profile_rename_title">プロファイルの名前を変更</string>
+    <string name="profile_rename_save">保存</string>
+    <string name="profile_delete">削除</string>
+    <string name="profile_delete_title">「<xliff:g id="profile">%1$s</xliff:g>」を削除しますか？</string>
+    <string name="profile_delete_message">中のボタン変更は消去され、標準の割り当てが再び使われます。</string>
+    <string name="profile_delete_message_inactive">中のボタン変更は消去されます。今使っているボタンはそのままです。</string>
+    <string name="profile_delete_choose">プロファイルを削除…</string>
+    <string name="profile_delete_choose_title">どのプロファイルを削除しますか？</string>
+    <string name="profile_created">新しいプロファイル「<xliff:g id="profile">%1$s</xliff:g>」を作成しました。ボタンの変更はこのプロファイルに保存されます。</string>
+    <string name="profile_forked">標準の割り当てはそのままで、変更は新しいプロファイル「<xliff:g id="profile">%1$s</xliff:g>」に保存されます。</string>
+    <string name="profile_blocked_message">「<xliff:g id="profile">%1$s</xliff:g>」では、次の操作に使えるボタンがなくなります: <xliff:g id="functions">%2$s</xliff:g>。</string>
+
+    <!-- Quick Settings tile that switches to the next profile -->
+    <string name="tile_label">ボタンプロファイル</string>
+
+    <!-- Shown after a change to the buttons used in menus -->
+    <string name="confirm_title">新しいボタン設定を残しますか？</string>
+    <plurals name="confirm_message">
+        <item quantity="other">「<xliff:g id="button">%1$s</xliff:g>」で「保持」を押してください。押さないと、<xliff:g id="seconds">%2$d</xliff:g>秒後にすべて元に戻ります。</item>
+    </plurals>
+    <plurals name="confirm_message_generic">
+        <item quantity="other">「保持」を押してください。押さないと、<xliff:g id="seconds">%d</xliff:g>秒後にすべて元に戻ります。</item>
+    </plurals>
+    <string name="confirm_keep">保持</string>
+    <string name="confirm_undo">元に戻す</string>
+
+</resources>

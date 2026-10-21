@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- While Daijishou's library is still being made on the first start -->
+    <string name="preparing_title">ゲームを準備しています…</string>
+    <string name="preparing_body">ホーム画面の Daijishou は、ゲームのシステムの準備が終わると自動的に開きます。初回起動では数分かかります。\n\nコーヒーでも飲みながらお待ちください。低速なカードでは 10 分ほどかかる場合があります。</string>
+
+    <string name="preparing_starting">準備しています…</string>
+    <string name="preparing_apps">選択したアプリをインストールしています…</string>
+    <string name="preparing_controls">操作を設定しています…</string>
+    <string name="preparing_cores">エミュレーターを準備しています…</string>
+    <string name="preparing_cores_count">エミュレーターを準備しています（<xliff:g id="total">%2$d</xliff:g> 件中 <xliff:g id="current">%1$d</xliff:g> 件）…</string>
+    <string name="preparing_storage">ゲーム用ドライブを待っています…</string>
+    <string name="preparing_folders">ゲーム用フォルダーを作成しています…</string>
+    <string name="preparing_games">付属のゲームをコピーしています…</string>
+    <string name="preparing_appsettings">アプリの設定を適用しています…</string>
+    <string name="preparing_library">ゲームライブラリを作成しています…</string>
+    <string name="preparing_cheats">ゲームのチートを準備しています…</string>
+    <string name="preparing_installing"><xliff:g id="value">%1$s</xliff:g> をインストールしています…</string>
+
+    <!-- The steps of the first setup, ticked off as they are done -->
+    <string name="step_apps">アプリ</string>
+    <string name="step_emulators">操作とエミュレーター</string>
+    <string name="step_folders">ゲーム用フォルダー</string>
+    <string name="step_appsettings">アプリの設定</string>
+    <string name="step_library">ゲームライブラリ</string>
+    <string name="step_cheats">チート</string>
+    <!-- The time left, e.g. "About 3:05 left" -->
+    <string name="preparing_eta">残り約 <xliff:g id="time">%1$s</xliff:g></string>
+    <string name="preparing_eta_unknown">残り時間を計算しています…</string>
+</resources>

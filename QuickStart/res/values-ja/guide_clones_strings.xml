@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="clone_black_a">本体に合いそうな次のフォルダを試してください。起動ロゴだけが黒いままでAndroidが起動する場合は、そのままにしてください。元に戻すには、バックアップフォルダか Panels/Panel4 のファイルを、BOOTの一番上にコピーしてください。</string>
+    <string name="clone_black_q">画面が黒いままか、ボタンが動かない</string>
+    <string name="clone_copy_a">まず BOOT に Backup という名前のフォルダを作り、BOOT の一番上にあるこれらのファイルをそこにコピーしてください: rk3326-r36s-android.dtb、6つの rg351 ファイル、logo.bmp、logo_kernel.bmp、battery_*.bmp ファイル。その後、フォルダ内のすべてのファイルを BOOT の一番上にコピーし、同名のファイルは置き換えてください。本当にすべてです。6つの rg351 ファイルは同じファイルに6つの名前が付いたもので、本体が必要なものを自動で選びます。</string>
+    <string name="clone_copy_q">すべてのファイルをコピーする</string>
+    <string name="clone_emmc">R36 Ultra、R36 Max、R39 Max などの一部のクローンは、まず内蔵メモリーから起動し、SDカードを見ない場合があります。</string>
+    <string name="clone_intro">多くの本体はR36Sに似ていますが、内部の作りが異なります。カードには、本物のR36S用のファイルが入っています。クローンでは、通常、SDカードのBOOTドライブにある別のファイルが必要です。</string>
+    <string name="clone_soy">Soy Sauce の基板（基板に Y3506 と印字されたもの）は、画面が正しく見えても、Panel5 や Panel6 を使ってはいけません。Experimental 内の Soy フォルダを使ってください。</string>
+    <string name="clone_title">クローン本体を使う</string>
+    <string name="clone_which_a">パソコンで BOOT を開いてください。Panels には、本物の R36S と R36S Plus のそれぞれの画面用フォルダがあります。Experimental には、K36、G80、R36 Max、R36 Ultra、Soy Sauce 基板など、既知のクローンごとのフォルダがあります。Panels と Experimental の README.txt に、どの本体がどのフォルダに対応するかが書かれています。Experimental のファイルは未テストなので、Panels がうまく動かない場合だけ使ってください。</string>
+    <string name="clone_which_q">どのフォルダか</string>
+    <string name="trouble_panel_a">本体の画面が、このカード用に設定されたものと違います。パソコンで BOOT を開き、次に Panels を開いてください。いずれかの Panel フォルダのファイルをすべて BOOT の一番上にコピーし、同名のファイルを置き換えてください。Panel4 がデフォルトなので、ほかのフォルダを1つずつ試してください。</string>
+</resources>

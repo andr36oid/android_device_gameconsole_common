@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="android_start_title" product="tablet">本体を起動中…</string>
+</resources>

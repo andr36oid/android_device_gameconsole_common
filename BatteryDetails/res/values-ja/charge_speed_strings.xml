@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Charging speed setting -->
+    <string name="speed_setting">充電速度</string>
+    <string name="speed_default">初期値（<xliff:g id="ma">%1$d</xliff:g> mA、約 <xliff:g id="watts">%2$s</xliff:g> W）</string>
+    <string name="speed_choice"><xliff:g id="ma">%1$d</xliff:g> mA、約 <xliff:g id="watts">%2$s</xliff:g> W</string>
+    <string name="speed_summary_default">本体の初期値: <xliff:g id="ma">%1$d</xliff:g> mA、約 <xliff:g id="watts">%2$s</xliff:g> W をバッテリーへ。</string>
+    <string name="speed_summary_slower"><xliff:g id="ma">%1$d</xliff:g> mA、約 <xliff:g id="watts">%2$s</xliff:g> W。初期値より遅く、熱くなりにくく、バッテリーにもやさしいです。</string>
+    <string name="speed_summary_faster"><xliff:g id="ma">%1$d</xliff:g> mA、約 <xliff:g id="watts">%2$s</xliff:g> W。初期値より速い設定です。<xliff:g id="amps">%3$s</xliff:g> A 以上（<xliff:g id="charger_watts">%4$s</xliff:g> W）を出力できる充電器が必要です。</string>
+    <string name="speed_warning_title">初期値より速く充電しますか？</string>
+    <string name="speed_warning"><xliff:g id="ma">%1$d</xliff:g> mA（バッテリーへ約 <xliff:g id="watts">%2$s</xliff:g> W）で充電すると、バッテリーと本体が熱くなり、バッテリーの劣化も早まります。充電器は <xliff:g id="amps">%3$s</xliff:g> A 以上（<xliff:g id="charger_watts">%4$s</xliff:g> W）を出力する必要があります。弱い充電器、パソコンの USB ポート、細いケーブルを使うと、充電が止まったり再開したりすることがあり、本体の電源が切れることもあります。最も速い設定では、電源チップ（RK817）にヒートシンクを付けるのがおすすめです。良い充電器だけを使い、本体が熱いときは使わないでください。</string>
+    <string name="speed_warning_ok">速く充電</string>
+</resources>

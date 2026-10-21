@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bfi_title">黒画像の挿入（ベータ版、性能が下がることがあります）</string>
+    <string name="bfi_summary">動きをくっきりさせるため、通常の画像の間に黒い画像を 1 枚挟みます</string>
+    <string name="bfi_switch">黒画像の挿入</string>
+    <string name="bfi_switch_on">オン。画面が暗くなり、ちらつくことがあります。</string>
+    <string name="bfi_switch_off">オフ</string>
+    <string name="bfi_about">通常の画像の間に黒い画像を挟み、昔のブラウン管の画面のように表示します。動く映像はくっきり見えますが、画面は暗くなり、ちらつくことがあります。100 Hz 以上のリフレッシュレートが必要です。レートがこれを下回ると、また再起動すると、オフになります。画面がオフの間は一時停止します。</string>
+    <string name="bfi_normal_frames">通常の画像の連続数</string>
+    <string name="bfi_black_frames">黒い画像の連続数</string>
+    <string name="bfi_pattern_hint">テスト済みの設定は、通常 1 枚・黒 1 枚です。黒い画像を増やすと、画面はさらに暗くなり、ちらつきも強くなります。</string>
+    <string name="bfi_fps_hint">ヒント: 60 fps のゲームは、通常 1 枚・黒 1 枚の 120 Hz が最も合います。この場合、ゲームの各フレームに通常の画像が 1 枚ずつ割り当てられます。</string>
+    <string name="bfi_warning_title">点滅する画像</string>
+    <string name="bfi_warning">黒画像の挿入は、画面全体を毎秒何度も点滅させます。点滅する光で発作や頭痛が起きる場合は、使わないでください。体調が悪くなったら、すぐに中止してください。\n\nまた、画面が暗くなり、パネルによってはちらつきや残像が出ることがあります。ゲームの動作が遅くなる場合もあります。</string>
+    <string name="bfi_warning_ok">オンにする</string>
+    <string name="bfi_low_rate">100 Hz 以上が必要です。先に「ディスプレイ > 最大リフレッシュレート」を高く設定してください。</string>
+    <string name="bfi_credit">PakoVM 氏の BFI (github.com/pakovm-git/BFI) をもとにしています。MIT ライセンス</string>
+</resources>

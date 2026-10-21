@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="rgb_about">ここで色を選ぶまでライトは消えたままです。選んだ色は再起動後も残ります。</string>
+    <string-array name="rgb_colour_names">
+        <item>オフ</item>
+        <item>赤</item>
+        <item>緑</item>
+        <item>青</item>
+        <item>黄色</item>
+        <item>シアン</item>
+        <item>紫</item>
+        <item>白</item>
+    </string-array>
+    <string name="rgb_colour_title">色</string>
+    <string name="rgb_missing">この本体にはRGBライトがありません</string>
+    <string name="rgb_summary">ライトの色、またはオフ</string>
+    <string name="rgb_title">RGBライト</string>
+</resources>

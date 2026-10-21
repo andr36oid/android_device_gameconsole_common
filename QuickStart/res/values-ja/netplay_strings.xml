@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="netplay_game_a">2台の本体で、同じエミュレーターと同じゲームファイル（同じバージョンと地域）を使ってください。そうしないと接続できなかったり、ゲームの進行がずれたりします。</string>
+    <string name="netplay_game_q">2. 両方で同じゲームを起動する</string>
+    <string name="netplay_games_a">NES、マスターシステム、メガドライブ、PCエンジンのゲームは快適に動きます。SNESも動きますが、ボタンの反応がやや遅れます。ゲームボーイとGBAのゲームは、1台の本体で2人プレイする仕組みがないため、共有できません。PlayStationは、この本体でネットプレイするには負荷が高すぎます。</string>
+    <string name="netplay_games_q">動作が良好なゲーム</string>
+    <string name="netplay_host_a">Bを押してメインメニューに戻り、ネットプレイを開いて「Start Netplay Host」を選んでください。その後メニューを閉じて待ちます。</string>
+    <string name="netplay_host_q">3. 1台目: ホストを開始する</string>
+    <string name="netplay_hotspot_a">Wi-Fiアダプターを差し込み、設定 > Wi-Fi &amp; Bluetooth > テザリング &amp; ホットスポット > Wi-Fiホットスポット へ進んでオンにしてください。ホットスポットの名前とパスワードも同じ画面にあります。2台目の本体では、設定 > Wi-Fi &amp; Bluetooth > Wi-Fi でそのホットスポットに接続します。インターネットに接続できないと表示されますが、問題ありません。</string>
+    <string name="netplay_hotspot_fail">ホットスポットがオンになりませんか？ すべてのアダプターがホットスポットを作れるわけではありません。本体同士でアダプターを入れ替えるか、両方の本体を自宅のWi-Fiやスマートフォンのホットスポットに接続してください。</string>
+    <string name="netplay_hotspot_q">1. 1台目の本体でホットスポットを作る</string>
+    <string name="netplay_intro">ルーターが近くになくても、2台の本体がWi-Fi経由で1つのゲームを一緒にプレイできます。1台がWi-Fiホットスポットを作り、もう1台がそれに接続します。どちらも Wi-Fi（内蔵またはUSB Wi-Fiアダプター）と同じゲームが必要です。</string>
+    <string name="netplay_join_a">同じようにメニューを開き、ネットプレイを開いて「Refresh Netplay LAN List」を選んでください。一覧から1台目の本体を選びます。両方の本体でゲームが再起動し、2台目の本体がプレイヤー2になります。</string>
+    <string name="netplay_join_ip">一覧に表示されない場合は、2台目の本体で1台目のアドレスを確認してください。設定 > Wi-Fi &amp; Bluetooth > Wi-Fi で、ホットスポットを選び、詳細設定 > ゲートウェイ を確認します。ネットプレイで「Connect to Netplay Host」を選び、そのアドレスを入力してください。</string>
+    <string name="netplay_join_q">4. 2台目: 参加する</string>
+    <string name="netplay_menu">RetroArchのメニューを開く</string>
+    <string name="netplay_tips">2台の本体は近くに置いてください。ホットスポットは余分にバッテリーを消費するので、終わったらオフにしてください。ネットプレイでの名前は端末名から取られます。変更するには、RetroArchの 設定 > ユーザー > ユーザー名 で設定してください。</string>
+    <string name="netplay_title">一緒に遊ぶ</string>
+</resources>

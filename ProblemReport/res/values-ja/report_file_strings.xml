@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="confirm_message">PC で、SD カードの BOOT ドライブを開き、andr36oid-reports フォルダの .zip ファイルを送ってください。\n\n含まれるもの: Android とカーネルのログ（前回の起動時のものも含む）、クラッシュレポート、本体の機種と DTB、ボタンとスティック、電池、温度、SD カード、音とディスプレイ、アプリ一覧、各 ROM フォルダのゲーム数。\n\n含まれないもの: Wi-Fi 名とパスワード、アカウント、連絡先、ゲームやファイルの名前、シリアル番号。</string>
+    <string name="confirm_save">保存</string>
+    <string name="confirm_title">問題レポートを保存しますか？</string>
+    <string name="error_no_room">BOOT、EASYROMS、内部ストレージのどこにも空きがありません。</string>
+    <string name="pc_text">PC で、SD カードの BOOT ドライブに make-report.txt という名前のファイルを作ってください。中に何が起きたかを書いてもかまいません。カードを戻して電源を入れ、5 分待ってください。レポートは BOOT に保存され、そのファイルは削除されます。</string>
+    <string name="pc_title">ボタンや画面が動かないときは？</string>
+    <string name="privacy_file">含まれないもの: Wi-Fi 名とパスワード、アカウント、連絡先、ゲームやファイルの名前、シリアル番号。アプリ一覧は含まれ、ログには Bluetooth 機器名が残る場合があります。公開する前に内容を確認してください。</string>
+    <string name="save_busy">起動時にレポートを作成中です（make-report.txt）。保存されるまでお待ちください。</string>
+    <string name="save_summary_file">SD カードの BOOT ドライブ（どの PC からも見えるドライブ）に .zip ファイルとして、andr36oid-reports フォルダに保存されます</string>
+</resources>

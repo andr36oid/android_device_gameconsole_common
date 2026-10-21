@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="details_marks">表記: %1$s</string>
+    <string name="details_bus_fast">高速モードで動作 (UHS-I %1$s)</string>
+    <string name="details_bus_normal">通常モードで動作 (最大 %1$d MB/s)</string>
+    <string name="details_bus_slow">低速モードで動作 (最大 %1$d MB/s)</string>
+    <string name="advice_category">この意味</string>
+    <string name="advice_paused">実容量のチェックが一時停止中です。テストデータがカードを埋めているため、ゲームのセーブができない可能性があります。チェックを再開するか、下のテストデータを削除してください。</string>
+    <string name="advice_fake">このカードは偽物か破損しています（下の実容量チェックを参照）。ゲームとセーブデータを早めに別のカードへコピーしてください。</string>
+    <string name="advice_write_error">書き込み中にカードがエラーを報告しました。劣化しているか偽物の可能性があります。セーブデータをバックアップしてください。</string>
+    <string name="advice_signs">カード自身の ID がおかしく見えます: %1$s。偽物のカードにはこのような特徴がよく見られます。確かめるには実容量をチェックしてください。</string>
+    <string name="advice_signs_but_real">カード自身の ID がおかしく見えます（%1$s）が、実容量のチェックは合格したため、容量は本物です。</string>
+    <string name="sign_no_maker">正しいメーカー ID がありません</string>
+    <string name="sign_brand_mismatch">メーカー ID と OEM ID が別のブランドに属しています</string>
+    <string name="sign_size_mismatch">2 つの異なる容量を報告しています</string>
+    <string name="sign_spec_too_old">容量に対して古すぎる SD カードの規格を名乗っています</string>
+    <string name="sign_bad_date">日付 (%1$s) がありえない値です</string>
+    <string name="sign_too_old">%1$d 年製と表示されていますが、これほど大容量のカードが存在する前の年です</string>
+    <string name="advice_claim_write">表記では書き込みが少なくとも %1$d MB/s とされていますが、実測は %2$s でした。偽物か劣化している可能性があります。</string>
+    <string name="advice_claim_small">カードには A%1$d と表記されていますが、小さなブロックの処理が表記よりずっと遅いです。偽物か劣化している可能性があります。</string>
+    <string name="advice_bus_slow">本体はこのカードを、カードが対応しているより低速なモード（最大 %1$d MB/s）で動かしています。再起動で改善することがあります。改善しない場合は、カードかスロットが汚れているか劣化している可能性があります。</string>
+    <string name="advice_slow">このカードは低速です。ゲームの読み込みが遅くなることがあります。A1 または U3 の表記があるカードのほうが速いです。</string>
+    <string name="advice_untested">速度をテストして、ゲームの読み込み速度を確認してください。</string>
+    <string name="advice_good">問題は見つかりませんでした。</string>
+
+    <string name="speed_summary_small">256 MB のファイルを書き込んで読み込み、その後 4 KB の小さなブロックで処理します。約1分かかり、1 GB の空き容量が必要です。</string>
+    <string name="speed_running_small">小さなブロックをテスト中…</string>
+    <string name="speed_small">小さなブロック: 1 秒あたり %1$s 回読み込み、%2$s 回書き込み</string>
+    <string name="marks_title">カードの表記の意味</string>
+    <string name="marks_text">Class 10、U1、V10: 少なくとも 10 MB/s で書き込みます。U3 と V30: 少なくとも 30 MB/s。A1: 1 秒あたり少なくとも 1500 回の小さな読み込みと 500 回の小さな書き込みを行い、多くのファイルで構成されるゲームに役立ちます。A2 はさらに多くを約束しますが、この本体では A2 のカードも A1 のカードと同じように扱います。</string>
+    <string name="error_paused">このカードでは実容量のチェックが一時停止中です。再開するか、先にそのテストデータを削除してください。</string>
+
+    <string name="full_title_continue">チェックを再開</string>
+    <string name="full_paused_write">書き込み中に一時停止（%1$s / %2$s）。再開するか削除するまで、テストデータはカードに残ります。それまでゲームのセーブができない可能性があります。</string>
+    <string name="full_paused_verify">読み戻し中に一時停止（%1$s / %2$s）。再開するか削除するまで、テストデータはカードに残ります。それまでゲームのセーブができない可能性があります。</string>
+    <string name="full_delete_title">テストデータを削除</string>
+    <string name="full_delete_summary">%1$s を解放します。次のチェックは最初から始まります。</string>
+    <string name="stop_title">チェックを停止しますか？</string>
+    <string name="stop_text">「一時停止」は、後で再開できるようテストデータをカードに残します。それまでゲームのセーブができない可能性があります。「停止」はテストデータを削除します。</string>
+    <string name="stop_pause">一時停止</string>
+    <string name="stop_delete">停止</string>
+    <string name="confirm_text_pause">%1$s の空き領域すべてを約 %2$s の間テストデータで埋めるため、完了するまでそこにゲームのセーブはできません。充電器を接続してください。接続しておくと本体がスリープしません。一時停止して後で再開するか、いつでも停止できます。ゲームとファイルには影響しません。</string>
+    <string name="paused_channel">一時停止中の SD カードチェック</string>
+    <string name="paused_title">SD カードのチェックを一時停止しました</string>
+    <string name="paused_text">%1$s のテストデータがカードを埋めています。チェックを再開するか、テストデータを削除すると、ゲームのセーブが再びできるようになります。</string>
+</resources>

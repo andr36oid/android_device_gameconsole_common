@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Charge limit setting -->
+    <string name="limit_title">バッテリーケア</string>
+    <string name="limit_setting">充電上限</string>
+    <string name="limit_off">オフ、100% まで充電</string>
+    <string name="limit_choice"><xliff:g id="percent">%1$d</xliff:g>%% で停止</string>
+    <string name="limit_summary_off">オフ。本体を充電器につないだままにすることが多い場合、上限を設定するとバッテリーをより長く使えます。</string>
+    <string name="limit_summary"><xliff:g id="limit">%1$d</xliff:g>%% で充電を止め、<xliff:g id="resume">%2$d</xliff:g>%% で再開します。その間は本体が充電器から動作します。長旅の前はオフにすると満充電になります。</string>
+    <string name="status_limit_hold">接続中、充電上限で保持しています</string>
+</resources>

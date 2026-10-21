@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="pads_alone">大きいパッドで1人でプレイしたいですか？ RetroArch の 設定 > 操作 > プレイヤー1 を「外部コントローラー」に設定してください。先に RetroArch を終了してください。変更は次回の起動から有効になります。</string>
+    <string name="pads_connect">USBパッドを、必要に応じてアダプターを使ってOTGポートに差し込みます。Bluetoothパッドの場合は、設定 > 操作 > 外部コントローラー > Bluetoothコントローラーをペアリング を開き、パッドをペアリングモードにして、リスト内でAを押してください。XboxやPlayStation、Switch、8BitDoのパッドでのペアリングモードの方法は、そのページに書かれています。</string>
+    <string name="pads_menu">どのパッドでも、L1 + R1 + Start + Select、またはXbox、PS、キャプチャーのボタンで RetroArch のメニューが開きます。Start + Select を2回押すと、ゲームを終了します。PSPのゲームはプレイヤーが1人だけで、どのパッドでも操作できます。</string>
+    <string name="pads_players">RetroArch では、本体のボタンはプレイヤー1のままです。追加のパッドは、そのパッドで最初にボタンを押した順に、プレイヤー2、3…になります。</string>
+    <string name="pads_title">2つ目のコントローラーでプレイする</string>
+</resources>

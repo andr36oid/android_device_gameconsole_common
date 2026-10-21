@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="home_screen_daijishou_description">Android機器らしい使い心地です。\nシステムごとに分けたゲームを、ジャケット画像付きで表示します</string>
+    <string name="home_screen_failed">うまくいきませんでした。本体を再起動して、もう一度お試しください。</string>
+    <string name="home_screen_intro">FNを押すと、ホーム画面に移動します。</string>
+    <string name="home_screen_launcher_description">Android TVに近い使い心地です。\nアプリを並べたシンプルなグリッド表示。オープンソース。</string>
+    <string name="home_screen_now_home"><xliff:g id="app">%1$s</xliff:g> がホーム画面になりました</string>
+    <string name="home_screen_remove">削除</string>
+    <string name="home_screen_remove_confirm"><xliff:g id="app">%1$s</xliff:g> を削除しますか？ 設定とゲームライブラリが削除されます。このページから元に戻せます。</string>
+    <string name="home_screen_restore">元に戻す</string>
+    <string name="home_screen_restored"><xliff:g id="app">%1$s</xliff:g> が戻りました。新しいアプリと同じく、空の状態から始まります。</string>
+    <string name="home_screen_state_home">現在のホーム画面</string>
+    <string name="home_screen_state_installed">インストール済み</string>
+    <string name="home_screen_state_removed">削除済み</string>
+    <string name="home_screen_summary">Daijishou または Simple UI</string>
+    <string name="home_screen_title">ホーム画面</string>
+    <string name="home_screen_use">ホーム画面として使う</string>
+</resources>

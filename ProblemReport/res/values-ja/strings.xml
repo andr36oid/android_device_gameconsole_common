@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="channel_name">問題レポート</string>
+    <string name="crash_action">レポートを保存</string>
+    <string name="crash_text">ログが残っているうちに、今すぐ問題レポートを保存し、何が起きたかの説明と一緒に送ってください。</string>
+    <string name="crash_title">エラーのあと本体が再起動しました</string>
+    <string name="error_cant_write">ファイルを書き込めませんでした。SD カードがいっぱいではありませんか？</string>
+    <string name="error_no_storage">レポートを保存できる EASYROMS パーティションも、内部の Download フォルダもありません。</string>
+    <string name="error_start">レポートを開始できませんでした。</string>
+    <string name="error_stopped">レポートが完了する前に停止しました。</string>
+    <string name="intro">問題が起きましたか？レポートを保存し、問題を報告するときに添付してください。今回と前回の起動時のシステムログ、クラッシュレポート、本体の情報が含まれます。所要時間は約 1 分です。\n\nセットアップ中などでこの画面に来られない場合は、どの画面でも A、B、X、Y を同時に 10 秒間押してください。</string>
+    <string name="last_start_crash">前回の起動はシステムのクラッシュで終わりました。そのログは保存され、レポートに含まれます。</string>
+    <string name="last_start_kept">保存されています。レポートに含まれます。</string>
+    <string name="last_start_none">なし。本体が再起動したときだけ保存され、電源を切ったときや電池切れのときは保存されません。</string>
+    <string name="last_start_title">前回の起動のログ</string>
+    <string name="note_dialog">問題を説明してください。レポートに含まれます。</string>
+    <string name="note_hint">任意。何をしていて、どうなりましたか？</string>
+    <string name="note_title">何が問題でしたか？</string>
+    <string name="privacy">レポートにはインストール済みのアプリ一覧が含まれ、Wi-Fi ネットワーク名や Bluetooth 機器名が含まれることがあります。ゲームやファイルは含まれません。公開する前に内容を確認してください。</string>
+    <string name="report_summary">不具合報告に添付するため、ログを SD カードに保存します</string>
+    <string name="report_title">問題レポート</string>
+    <string name="save_done">保存しました: %1$s</string>
+    <string name="save_done_toast">レポートを %1$s に保存しました</string>
+    <string name="save_failed">保存されませんでした。%1$s</string>
+    <string name="save_running">%1$s を保存中（ステップ %2$d / %3$d）…</string>
+    <string name="save_summary">EASYROMS の andr36oid-reports フォルダに保存されます</string>
+    <string name="save_title">レポートを保存</string>
+    <string name="step_apps">アプリ一覧</string>
+    <string name="step_crashes">クラッシュレポート</string>
+    <string name="step_devices">機器と接続</string>
+    <string name="step_kernel">カーネルログ</string>
+    <string name="step_logcat">Android ログ</string>
+    <string name="step_power">電池とスリープの情報</string>
+    <string name="step_saving">ファイル</string>
+    <string name="step_system">システム情報</string>
+</resources>

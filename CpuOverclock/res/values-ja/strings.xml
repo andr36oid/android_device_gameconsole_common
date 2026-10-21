@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="cpu_cap_active">最大 <xliff:g id="speed">%1$s</xliff:g>、プロファイルに関係なく。</string>
+    <string name="cpu_cap_none">プロファイル以上の制限はありません。</string>
+    <string name="cpu_cap_note">低くするとバッテリーが長持ちし、コンソールも冷えますが、ゲームは遅くなります。ゲームがカクつく場合は、より高いクロックを選んでください。コンソールを再起動しても保持されます。</string>
+    <string name="cpu_cap_on_hold"><xliff:g id="speed">%1$s</xliff:g>。オーバークロックがオンの間は一時停止されます。</string>
+    <string name="cpu_cap_profile_lower"><xliff:g id="speed">%1$s</xliff:g>。プロファイルにより、現在CPUは <xliff:g id="profile_speed">%2$s</xliff:g> 以下に抑えられています。</string>
+    <string name="cpu_cap_stock">標準 (<xliff:g id="speed">%1$s</xliff:g>)</string>
+    <string name="cpu_cap_title">CPUの最大クロック</string>
+    <string name="gpu_oc_off">オフ: 最大 <xliff:g id="stock">%2$s</xliff:g>、オーバークロック時は <xliff:g id="fast">%1$s</xliff:g></string>
+    <string name="gpu_oc_on">オン: 標準の <xliff:g id="stock">%2$s</xliff:g> ではなく、最大 <xliff:g id="fast">%1$s</xliff:g></string>
+    <string name="gpu_oc_title">GPUオーバークロック</string>
+    <string name="gpu_ram_about">負荷の高いゲームのために、グラフィックとメモリを速くします。GPUオーバークロックはGPUを520 MHzではなく600 MHzで動かします。メモリの高速化は、PPSSPPなどのエミュレーターに特に効果があります。どちらもGPUとメモリが共有する電源ラインの電圧を上げるため、コンソールは少し熱くなり、バッテリーも少し早く減ります。\n\nチップには個体差があります。ゲームがクラッシュしたり、コンソールがフリーズしたりする場合は、どちらもオフにしてください。コンソールは起動時には常にこれらなしで起動し、再起動するとオフになります。\n\nR36 Tuner Next（zenmode-adri 作）をもとにしています。</string>
+    <string name="gpu_ram_category">GPU・メモリのオーバークロック（実験的）</string>
+    <string name="gpu_ram_failed">GPUまたはメモリのクロックを変更できませんでした</string>
+    <string name="gpu_ram_unsupported">この機種のシステムは、このクロックに対応していません</string>
+    <string name="gpu_tile_label">GPUオーバークロック</string>
+    <string name="overclock_about">負荷の高いゲームのエミュレーションを速くしますが、代償があります。コンソールは熱くなり、バッテリーは早く減り、機種によっては高いクロックでフリーズしたりクラッシュしたりします。そうなった場合は、より低いクロックを選んでください。\n\nコンソールは起動時には常にオーバークロックなしで起動し、再起動するとオフになります。オンの間、CPUの最大クロックは一時停止されます。コンソールが熱くなりすぎた場合は、自動的に速度も落ちます。</string>
+    <string name="overclock_category">CPUオーバークロック（実験的）</string>
+    <string name="overclock_failed">CPUのクロックを変更できませんでした</string>
+    <string name="overclock_speed">クロック</string>
+    <string name="overclock_summary">省電力またはフルスピード、CPUクロックの上限、オーバークロック</string>
+    <string name="overclock_switch">オーバークロック</string>
+    <string name="overclock_switch_off">オフ。CPUは最大 <xliff:g id="speed">%1$s</xliff:g> で動作します</string>
+    <string name="overclock_switch_on">最大 <xliff:g id="speed">%1$s</xliff:g> で動作中</string>
+    <string name="overclock_title">パフォーマンス</string>
+    <string name="overclock_unsupported">この機種はオーバークロックできません。</string>
+    <string name="profile_about_balanced">標準のクロックです。プロセッサーは、ゲームが必要とするときに速くなり、必要ないときは遅くなります。</string>
+    <string name="profile_about_footer">\n\nプロファイルはコンソールを再起動しても保持されます。クイック設定のタイルで次のプロファイルに切り替わります。</string>
+    <string name="profile_about_footer_fn">\n\nプロファイルはコンソールを再起動しても保持されます。FN + R1 とクイック設定のタイルで次のプロファイルに切り替わります。</string>
+    <string name="profile_about_saver">長時間プレイできます。CPUは <xliff:g id="cpu">%1$s</xliff:g> 以下、グラフィックは <xliff:g id="gpu">%2$d</xliff:g> MHz 以下に抑えられます。8ビットや16ビットのゲームには十分です。</string>
+    <string name="profile_category">パフォーマンスプロファイル</string>
+    <string name="profile_failed">パフォーマンスプロファイルを変更できませんでした</string>
+    <string-array name="profile_names">
+        <item>省電力</item>
+        <item>バランス</item>
+        <item>パフォーマンス</item>
+    </string-array>
+    <string name="profile_switched">パフォーマンスプロファイル: <xliff:g id="profile">%1$s</xliff:g></string>
+    <string name="profile_switched_capped">パフォーマンスプロファイル: <xliff:g id="profile">%1$s</xliff:g>、CPUは最大 <xliff:g id="speed">%2$s</xliff:g></string>
+    <string name="profile_tile_capped"><xliff:g id="profile">%1$s</xliff:g>、<xliff:g id="speed">%2$s</xliff:g></string>
+    <string name="profile_tile_label">パフォーマンス</string>
+    <string name="profile_title">プロファイル</string>
+    <string name="ram_oc_experimental"><xliff:g id="speed">%1$s</xliff:g>（実験的）</string>
+    <string name="ram_oc_off">標準 (<xliff:g id="speed">%1$s</xliff:g>)</string>
+    <string name="ram_oc_title">メモリクロック</string>
+    <string name="ram_oc_warning">このクロックでは、GPUとメモリの電源ラインが最高電圧で動作します。対応しているメモリチップもあれば、ゲームがクラッシュしたり、コンソールがフリーズしたり、画面が乱れたりするチップもあります。\n\nメモリ自体が壊れることはありませんが、保存中にクラッシュすると、カード上のファイルが壊れることがあります。おかしな動作があれば、より低いクロックに戻してください。再起動するとオフになります。</string>
+    <string name="ram_oc_warning_ok">使用する</string>
+    <string name="ram_oc_warning_title">実験的なメモリクロック</string>
+    <string name="ram_tile_label">メモリのオーバークロック</string>
+    <string name="speed_ghz"><xliff:g id="ghz">%1$.2f</xliff:g> GHz</string>
+    <string name="speed_mhz"><xliff:g id="mhz">%1$d</xliff:g> MHz</string>
+    <string name="tile_added_gpu">GPUオーバークロックのクイック設定タイルを通知パネルに追加しました</string>
+    <string name="tile_added_ram">メモリオーバークロックのクイック設定タイルを通知パネルに追加しました</string>
+    <string name="tile_label">CPUオーバークロック</string>
+    <string name="tile_off">オフ</string>
+    <string name="undervolt_about">同じクロックのまま、CPUをわずかに低い電圧で動かします。消費電力が少し減り、特に高いクロックで冷えやすくなります。816 MHz以下ではほとんど効果がありません。\n\nチップには個体差があります。ゲームがクラッシュしたり、コンソールがフリーズしたり再起動したりする場合は、オフに戻してください。保存中のクラッシュはカード上のファイルを壊すことがあるため、一段ずつ下げ、しばらく遊んでから次に進んでください。\n\nコンソールは起動時には常に低電圧化なしで起動し、再起動するとオフになります。</string>
+    <string name="undervolt_category">CPU低電圧化（実験的）</string>
+    <string name="undervolt_failed">CPUの電圧を変更できませんでした</string>
+    <string name="undervolt_off">オフ</string>
+    <string name="undervolt_step">−<xliff:g id="mv">%1$d</xliff:g> mV</string>
+    <string name="undervolt_title">低電圧化</string>
+</resources>

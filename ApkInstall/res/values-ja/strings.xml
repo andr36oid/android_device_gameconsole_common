@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">APK インストーラー</string>
+    <plurals name="ask_title"><item quantity="other">EASYROMS から %d 個のアプリをインストールしますか？</item></plurals>
+    <string name="install">インストール</string>
+    <string name="not_now">今はしない</string>
+    <string name="installing_title">アプリをインストール中</string>
+    <string name="installing">%3$s をインストール中（%1$d / %2$d）…</string>
+    <string name="done_title">完了</string>
+    <plurals name="installed"><item quantity="other">%d 個のアプリをインストールしました。</item></plurals>
+    <string name="failed">インストールできなかったもの:</string>
+</resources>

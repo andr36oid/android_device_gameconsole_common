@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="controllers_title">操作</string>
+    <string name="controllers_summary">ボタン割り当て、スティック、マウス、コントローラー</string>
+
+    <!-- The Controls page -->
+    <string name="console_title">この本体</string>
+    <string name="more_title">その他のコントローラー</string>
+    <string name="external_title">外部コントローラー</string>
+    <string name="external_none">接続されていません</string>
+
+    <!-- Connected pads -->
+    <string name="connected_title">接続中のコントローラー</string>
+    <string name="connected_none">本体のボタンだけです。コントローラーを OTG ポートに接続する（必要に応じてアダプターを使用）か、Bluetooth でペアリングしてください。</string>
+    <string name="bus_builtin">内蔵</string>
+    <string name="bus_usb">USB</string>
+    <string name="bus_bluetooth">Bluetooth</string>
+    <string name="bus_other">外部</string>
+    <string name="battery_percent">バッテリー %1$d%%</string>
+    <string name="battery_level">バッテリー %1$s</string>
+    <string name="battery_charging">充電中</string>
+    <string name="battery_none">バッテリー残量を取得できません</string>
+    <string name="player_builtin_1">RetroArch プレイヤー 1</string>
+    <string name="player_builtin_2">RetroArch プレイヤー 2</string>
+    <string name="player_external_2">RetroArch プレイヤー 2 以降</string>
+    <string name="player_external_1">最初に押したら RetroArch プレイヤー 1</string>
+    <!-- joined with " · " -->
+    <string name="summary_separator">" · "</string>
+
+    <!-- RetroArch -->
+    <string name="player1_title">RetroArch でのプレイヤー 1</string>
+    <string-array name="player1_entries">
+        <item>内蔵の操作</item>
+        <item>外部コントローラー</item>
+    </string-array>
+    <string name="player1_later">変更は次回 RetroArch を起動したときに反映されます。起動中の場合は、先に終了してください（Select + Start を 2 回押す）。</string>
+
+    <!-- Bluetooth -->
+    <string name="bluetooth_title">Bluetooth</string>
+    <string name="pair_title">Bluetooth コントローラーをペアリング</string>
+    <string name="pair_summary">ペアリングモードのコントローラーを検索</string>
+    <string name="bluetooth_off">Bluetooth をオンにする</string>
+    <string name="bluetooth_off_summary">Bluetooth はオフです</string>
+    <string name="bluetooth_turning_on">Bluetooth をオンにしています…</string>
+    <string name="bluetooth_missing">Bluetooth がありません</string>
+    <string name="bluetooth_missing_summary">この本体には Bluetooth がありません。ワイヤレスコントローラーを使うには USB Bluetooth アダプターを OTG ポートに接続するか、USB コントローラーを使ってください。</string>
+    <string name="paired_connected">ペアリング済み、接続中</string>
+    <string name="paired_not_connected">ペアリング済みですが未接続です。コントローラーの電源を入れるか、A を押してください。</string>
+    <string name="paired_dialog_connect">接続</string>
+    <string name="paired_dialog_forget">削除</string>
+    <string name="paired_forget_title">%1$s を削除しますか？</string>
+    <string name="paired_forget_message">再び使うには、もう一度ペアリングしてください。</string>
+
+    <!-- Pairing page -->
+    <string name="pair_how_title">コントローラーをペアリングモードにする</string>
+    <string name="pair_how">Xbox: 上の小さなペアリングボタンを、Xbox ボタンが速く点滅するまで押し続けます。\nPlayStation 4 または 5: Share（Create）と PS を、ライトが点滅するまで押し続けます。\nSwitch Pro: USB ポートの横にある上の小さなボタンを押し続けます。\n8BitDo: スイッチ、または Start + 任意のボタンでモードを選び、Pair を 3 秒間押し続けます。</string>
+    <string name="pair_found_title">見つかったコントローラー</string>
+    <string name="pair_searching">検索中…</string>
+    <string name="pair_search_again">再検索</string>
+    <string name="pair_search_again_summary">これ以上見つかりません。A を押すと再検索します。</string>
+    <string name="pair_show_all">すべての Bluetooth 機器を表示</string>
+    <string name="pair_show_all_summary">コントローラーと名乗らない機器も表示します</string>
+    <string name="pair_device_summary">A を押してペアリング</string>
+    <string name="pair_pairing">ペアリング中… 確認が表示されたら「ペアリング」を選んでください。</string>
+    <string name="pair_connecting">ペアリング済み。接続中…</string>
+    <string name="pair_connected">接続しました。すぐに使えます。</string>
+    <string name="pair_failed">ペアリングに失敗しました。コントローラーをもう一度ペアリングモードにして、A を押してください。</string>
+    <string name="pair_no_name">名前のない機器（%1$s）</string>
+
+    <!-- Rumble -->
+    <string name="rumble_title">振動</string>
+    <string name="rumble_strength_title">振動の強さ</string>
+    <string-array name="rumble_strength_entries">
+        <item>オフ</item>
+        <item>弱</item>
+        <item>中</item>
+        <item>強</item>
+        <item>最大</item>
+    </string-array>
+    <string name="rumble_test_title">試す</string>
+    <string name="rumble_test_summary">この強さで本体を短く振動させます</string>
+    <string name="rumble_help">振動に対応したゲーム向けです。エミュレーターによっては、それぞれの設定でも振動を有効にする必要があります（PlayStation ゲーム用の DualShock コントローラー、N64 の Rumble Pak など）。モーターが強すぎたり、ガタガタ音がしたりする場合は、ここで弱めてください。</string>
+</resources>
