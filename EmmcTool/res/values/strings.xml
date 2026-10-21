@@ -128,8 +128,8 @@
     <string name="inst_restart_title">Restart</string>
     <string name="inst_restart_step1">The eMMC\'s loader is blank. Restart now: the console has to start from the SD card\'s loader on its own, and this page opens again.\n\nIf it doesn\'t come back: hold power for 7 seconds and switch it on again. If it still doesn\'t start, this console needs its stock loader. The backup is in %1$s on this SD card.</string>
     <string name="inst_restart_test">andr36oid is on the eMMC. Restart now: it starts from the eMMC once, as a test. Its first start sets things up and takes a few minutes. When it says the test worked, restart again.\n\nIf it hangs: hold power for 7 seconds and switch it on again. It then starts from the SD card as usual, and this page says what happened.</string>
-    <string name="inst_restart_done">Done. Take the SD card out and restart: andr36oid now starts from the eMMC.\n\nWith an andr36oid SD card in, the console starts from the card, as before.</string>
-    <string name="inst_restart_stock">The stock eMMC is back. Take the SD card out and restart to use the stock system.</string>
+    <string name="inst_restart_done">Done. Shut the console down, take the SD card out once it is off, then switch it on: andr36oid now starts from the eMMC.\n\nWith an andr36oid SD card in, the console starts from the card, as before.</string>
+    <string name="inst_restart_stock">The stock eMMC is back. Shut the console down, take the SD card out once it is off, then switch it on to use the stock system.</string>
     <string name="inst_restart_now">Restart now</string>
     <string name="inst_test_later">Don\'t test now</string>
 
@@ -185,5 +185,6 @@
     <string name="inst_intro">Installing on the eMMC takes a while: everything written is read back and compared with the original before the wizard moves on. That\'s deliberate. One bad write in the wrong place can leave the console unable to start at all, so each step has to be proven correct before the next one begins.</string>
     <string name="inst_restore_working">The backup is written back to the eMMC part by part. Then the whole eMMC is read back and compared with the backup, so you know it is exactly the stock eMMC again.</string>
     <string name="inst_update_working">The new andr36oid is copied from the SD card to the eMMC one part at a time. Each part is read back and compared with the SD card before the next one starts.</string>
+    <string name="inst_shut_down">Shut down</string>
     <string name="inst_keep_on">Keep the console switched on and the SD card in until this is done.</string>
 </resources>

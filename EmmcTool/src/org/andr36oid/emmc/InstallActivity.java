@@ -547,11 +547,20 @@ public class InstallActivity extends Activity {
             button(mSecondary, getString(R.string.inst_test_later),
                     () -> run("cancel-test", true, this::finish));
         }
-        button(mNext, getString(R.string.inst_restart_now), this::reboot);
+        if (kind == Restart.DONE || kind == Restart.STOCK) {
+            // Android runs from the SD card: it only comes out once the console is off
+            button(mNext, getString(R.string.inst_shut_down), this::shutDown);
+        } else {
+            button(mNext, getString(R.string.inst_restart_now), this::reboot);
+        }
     }
 
     private void reboot() {
         getSystemService(PowerManager.class).reboot(null);
+    }
+
+    private void shutDown() {
+        getSystemService(PowerManager.class).shutdown(false, null, false);
     }
 
     private void showDone() {
