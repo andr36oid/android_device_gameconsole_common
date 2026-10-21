@@ -20,6 +20,7 @@ import android.text.format.Formatter;
 import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -153,6 +154,19 @@ public class InstallActivity extends Activity {
         mTextScroll.setFocusable(false);
         mSideScroll.setFocusable(false);
         mSide = findViewById(R.id.side);
+        // the right pane only while something is in it: a page of text alone gets the
+        // whole width, and the D-pad has no empty half to cross
+        mSide.setOnHierarchyChangeListener(new ViewGroup.OnHierarchyChangeListener() {
+            @Override
+            public void onChildViewAdded(View parent, View child) {
+                mSideScroll.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onChildViewRemoved(View parent, View child) {
+                if (mSide.getChildCount() == 0) mSideScroll.setVisibility(View.GONE);
+            }
+        });
         mBodyExtra = findViewById(R.id.body_extra);
         mFixedExtra = findViewById(R.id.fixed_extra);
         mBack = findViewById(R.id.back);
@@ -409,7 +423,7 @@ public class InstallActivity extends Activity {
         mTextScroll.scrollTo(0, 0);
         mSideScroll.scrollTo(0, 0);
         mSide.removeAllViews();
-        mSideScroll.setVisibility(View.VISIBLE);
+        mSideScroll.setVisibility(View.GONE);
         mBodyExtra.removeAllViews();
         for (Button b : new Button[] {mBack, mMore, mSecondary, mNext}) {
             b.setVisibility(View.GONE);
