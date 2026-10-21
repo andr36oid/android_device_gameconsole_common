@@ -1,4 +1,6 @@
 <?xml version='1.0' encoding='utf-8' standalone='yes' ?>
 <map>
     <boolean name="checkbox_flip_face_buttons" value="true" />
+    <string name="list_resolution">@SCREEN@</string>
+    <boolean name="checkbox_stretch_video" value="true" />
 </map>

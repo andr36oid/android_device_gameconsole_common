@@ -2,6 +2,7 @@ package setup
 
 import (
 	"archive/zip"
+	"fmt"
 	"io"
 	"os"
 	"path/filepath"
@@ -18,6 +19,8 @@ import (
 //	package <pkg>               first; the list stops if the app isn't installed
 //	unless data|ext <path>      stop if that file exists (the app was used already)
 //	data <src> <path>           copy into /data/user/0/<pkg>/<path> unless it exists
+//	datafill <src> <path>       the same, with @SCREEN@ in src made the screen's size in
+//	                            landscape, like 640x480 (Moonlight's native resolution)
 //	ext <src> <path>            the same into the app's folder on the internal storage
 //	extzip <zip> <path>         unpack into that folder, once, existing top-level entries kept
 //	notifications on|off        the app's notification default, once
@@ -218,6 +221,30 @@ lines:
 				wroteData = true
 				s.Log("seeded %s's %s", pkg, dest)
 			}
+		case "datafill":
+			if sys.Exists(data + "/" + dest) {
+				continue
+			}
+			text, err := os.ReadFile(dir + "/" + src)
+			screen := s.screenSize()
+			if err != nil || screen == "" {
+				s.Log("%s: can't fill in %s (screen %q)", name, src, screen)
+				left()
+				break lines
+			}
+			tmp := s.state("firstrun-fill.tmp")
+			if err := fsx.WriteFileAtomic(tmp, []byte(strings.ReplaceAll(string(text), "@SCREEN@", screen))); err != nil {
+				left()
+				break lines
+			}
+			res := s.firstrunCopy(tmp, data+"/"+dest, owner, 0o771)
+			_ = os.Remove(tmp)
+			if res == copyFailed {
+				left()
+				break lines
+			}
+			wroteData = true
+			s.Log("seeded %s's %s for a %s screen", pkg, dest, screen)
 		case "notifications":
 			stamp := s.state("notifications." + pkg)
 			if sys.Exists(stamp) {
@@ -309,4 +336,34 @@ func (s *Setup) SeedFirstrun() {
 			s.firstrunList(l)
 		}
 	}
+}
+
+// screenSize is the screen's size in landscape ("640x480", "720x720") from wm size, ""
+// if it can't tell. The panel's own size is portrait on some consoles (480x640).
+func (s *Setup) screenSize() string {
+	out, err := s.R.Run("wm", "size")
+	if err != nil {
+		return ""
+	}
+	return landscapeSize(out)
+}
+
+// landscapeSize reads "Physical size: 480x640" (an "Override size" line wins).
+func landscapeSize(out string) string {
+	size := ""
+	for _, l := range splitLines(out) {
+		k, v, ok := strings.Cut(l, ":")
+		if !ok || !strings.HasSuffix(strings.TrimSpace(k), "size") {
+			continue
+		}
+		var w, h int
+		if n, _ := fmt.Sscanf(strings.TrimSpace(v), "%dx%d", &w, &h); n != 2 || w <= 0 || h <= 0 {
+			continue
+		}
+		if h > w {
+			w, h = h, w
+		}
+		size = fmt.Sprintf("%dx%d", w, h)
+	}
+	return size
 }

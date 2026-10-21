@@ -105,6 +105,8 @@ The list, one instruction per line:
     package <package>
     unless data|ext <path>   skip the list while this exists (the app has run)
     data <file> <path>       copy firstrun/<name>/<file> to <path> in /data/user/0/<package>
+    datafill <file> <path>   the same, with @SCREEN@ in the file made the screen's size in
+                             landscape (640x480, 720x720)
     ext <file> <path>        the same into Android/data/<package>/files on the internal storage
     appop <op> <mode>        e.g. REQUEST_INSTALL_PACKAGES allow: a permission the app would
                              ask for on its first start; once per app and op, so one the

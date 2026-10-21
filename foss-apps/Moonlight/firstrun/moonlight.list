@@ -3,4 +3,5 @@
 # "First-start settings".
 package com.limelight
 unless data shared_prefs/com.limelight_preferences.xml
-data prefs.xml shared_prefs/com.limelight_preferences.xml
+# the stream at the screen's own size, stretched to fill it
+datafill prefs.xml shared_prefs/com.limelight_preferences.xml

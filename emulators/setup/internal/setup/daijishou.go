@@ -405,12 +405,17 @@ func (s *Setup) djCopyArt(arts []djArtItem, owner fsx.Owner) {
 // accent); yellow is the nearest of its purple, yellow, red, blue, pink, grey and green.
 const djTheme = "yellow"
 
+// djNoKillWarning is Daijishou's "Disable player warnings" (Library settings): without
+// it, starting a game asks first whether the player app may be stopped.
+const djNoKillWarning = "disable_player_kill_package_processes_warning"
+
 // djPrefsText is Daijishou's settings file for its first start: it asks once to sync the
 // whole library, which finds the games in the folders.
 const djPrefsText = `<?xml version='1.0' encoding='utf-8' standalone='yes' ?>
 <map>
     <boolean name="sync_entirely_on_start" value="true" />
     <string name="theme_id">` + djTheme + `</string>
+    <boolean name="` + djNoKillWarning + `" value="true" />
     <string name="sync_entirely_on_start_hint">` + djHint + `</string>
     <string name="sync_entirely_on_start_cancel_hint">Canceled. Sync entirely in the library settings looks for games later.</string>
 </map>
@@ -451,6 +456,12 @@ func djAskSync(p, hint string) bool {
 	if t, ok := djPref(text, "string", "sync_entirely_on_start_hint",
 		`<string name="sync_entirely_on_start_hint">`+xmlEscape(hint)+`</string>`); ok {
 		text = t
+	}
+	// player warnings off, unless the user set them already
+	if !strings.Contains(text, `name="`+djNoKillWarning+`"`) {
+		if t, ok := djPref(text, "boolean", djNoKillWarning, `<boolean name="`+djNoKillWarning+`" value="true" />`); ok {
+			text = t
+		}
 	}
 	// a theme color picked already stays
 	if !strings.Contains(text, `name="theme_id"`) {
