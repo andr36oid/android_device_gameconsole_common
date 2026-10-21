@@ -1173,7 +1173,7 @@ func (c *Config) WriteLoader(p *Progress, confirm string) error {
 		return r.stop(err)
 	}
 	r.st.Step3, r.st.Running = "done", ""
-	p.Logf("step 3 done: the eMMC has the SD card's loader; take the SD card out and restart")
+	p.Logf("step 3 done: the eMMC has the SD card's loader; shut down, then take the SD card out")
 	return c.Save(r.st)
 }
 
