@@ -21,6 +21,9 @@
 #
 # Talks to the app through /data/misc/andr36oid-report:
 #   note.txt  what the user typed (optional, written by the app)
+#   errdetect what went wrong, written by an andr36oid service that hit an error (the
+#             eMMC installer) just before it starts this: the report is named
+#             report-<date>-ERRDETECT and says that instead of the note
 #   status    one line: "running <step> <steps> <name>", "done <where>" or "error <why>"
 #
 # REPORT_* variables are only for the test on a PC (tests/test-report.sh).
@@ -31,6 +34,13 @@ STEPS=8
 NAME=report-$(date +%Y%m%d-%H%M%S)
 WORK=$DIR/$NAME
 MODE=${1:-app}
+ERRDETECT=
+if [ "$MODE" = app ] && [ -s "$DIR/errdetect" ]; then
+	ERRDETECT=$(head -c 4096 "$DIR/errdetect")
+	NAME=$NAME-ERRDETECT
+	WORK=$DIR/$NAME
+fi
+[ "$MODE" = app ] && rm -f "$DIR/errdetect"
 BOOT_MNT=${REPORT_BOOT_MNT:-/mnt/andr36oid-report-boot}
 BOOT_DEVS=${REPORT_BOOT_DEVS:-"/dev/block/by-name/BOOT /dev/block/platform/ff370000.dwmmc/by-name/BOOT /dev/block/mmcblk0p1"}
 # BOOT of andr36oid installed on the built-in eMMC, looked at from an SD start
@@ -819,8 +829,14 @@ step 1 system
 		"$(cat /sys/class/power_supply/battery/status 2>/dev/null)," \
 		"$(cat /sys/class/power_supply/battery/voltage_now 2>/dev/null) uV"
 	echo
-	echo "What went wrong (typed by the user):"
-	if [ -s "$DIR/note.txt" ]; then cap 65536 <"$DIR/note.txt"; else echo "(nothing typed)"; fi
+	if [ -n "$ERRDETECT" ]; then
+		# made without the user: note.txt is from some earlier report
+		echo "What went wrong (an error andr36oid found, the report was made by itself):"
+		printf '%s\n' "$ERRDETECT"
+	else
+		echo "What went wrong (typed by the user):"
+		if [ -s "$DIR/note.txt" ]; then cap 65536 <"$DIR/note.txt"; else echo "(nothing typed)"; fi
+	fi
 	echo
 } >"$WORK/summary.txt"
 # Which console and which DTB: clones differ only there
@@ -1034,6 +1050,15 @@ readme >"$WORK/README.txt"
 f=$(ls "$START_KEPT"/start-log-* 2>/dev/null | sort | tail -n 1)
 [ -n "$f" ] && cp "$f" "$WORK/"
 emmc_boot_logs "$WORK"
+# the eMMC installer's records, its last answer and the end of its progress
+if [ -d /data/misc/andr36oid-emmcinstall ]; then
+	mkdir -p "$WORK/emmc-install"
+	for f in /data/misc/andr36oid-emmcinstall/state*.json /data/misc/andr36oid-emmcinstall/result.json; do
+		[ -f "$f" ] && cp "$f" "$WORK/emmc-install/"
+	done
+	tail -n 600 /data/misc/andr36oid-emmcinstall/progress.jsonl \
+		>"$WORK/emmc-install/progress-end.jsonl" 2>/dev/null
+fi
 
 if command -v zip >/dev/null 2>&1; then
 	FILE=$NAME.zip

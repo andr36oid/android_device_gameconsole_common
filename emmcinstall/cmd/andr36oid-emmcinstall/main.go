@@ -50,6 +50,7 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"os/exec"
 	"os/signal"
 	"path/filepath"
 	"strings"
@@ -192,6 +193,7 @@ func main() {
 			// wizard says so instead of "stopped"
 			print(map[string]any{"ok": false, "error": err.Error(), "not_exact": true})
 			release()
+			errDetect(err)
 			os.Exit(1)
 		}
 		fail(err)
@@ -259,7 +261,26 @@ func print(v any) {
 func fail(err error) {
 	print(map[string]any{"ok": false, "error": err.Error()})
 	release()
+	errDetect(err)
 	os.Exit(1)
+}
+
+// errDetect has the problem report service save a report named -ERRDETECT
+// after a command the wizard ran failed, unless a report is being made already.
+func errDetect(err error) {
+	if resultFile == "" || requestCmd == "" {
+		return // run by hand, or the request itself was broken
+	}
+	if out, _ := exec.Command("/system/bin/getprop", "init.svc.andr36oid-report").Output(); strings.TrimSpace(string(out)) == "running" {
+		return
+	}
+	const dir = "/data/misc/andr36oid-report"
+	msg := fmt.Sprintf("eMMC installer, %s: %v\n", requestCmd, err)
+	if os.WriteFile(dir+"/errdetect.tmp", []byte(msg), 0644) != nil ||
+		os.Rename(dir+"/errdetect.tmp", dir+"/errdetect") != nil {
+		return
+	}
+	exec.Command("/system/bin/setprop", "ctl.start", "andr36oid-report").Run()
 }
 
 func usage() {
