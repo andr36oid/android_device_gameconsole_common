@@ -647,9 +647,17 @@ public class InstallActivity extends Activity {
 
     private void showProgress() {
         final int step = stepOf(mCmd);
-        page(step < 0 ? null : stepLabel(step), step < 0 ? -1 : stepAt(step),
-                step < 0 ? getString(R.string.inst_working) : getString(stepName(step)),
-                getString(R.string.inst_keep_on));
+        // what this is and why it takes its time, then what runs now
+        CharSequence title = step < 0 ? getString(R.string.inst_working) : getString(stepName(step));
+        String body = getString(R.string.inst_keep_on);
+        if ("restore".equals(mCmd)) {
+            title = getString(R.string.inst_restore);
+            body = getString(R.string.inst_restore_working) + "\n\n" + body;
+        } else if ("update-emmc".equals(mCmd)) {
+            title = getString(R.string.inst_update_emmc);
+            body = getString(R.string.inst_update_working) + "\n\n" + body;
+        }
+        page(step < 0 ? null : stepLabel(step), step < 0 ? -1 : stepAt(step), title, body);
         // left: what runs now; right: what is finished
         mCurName = row(mBodyExtra, 0, getString(R.string.inst_starting), null);
         mCurName.setTextAppearance(android.R.style.TextAppearance_Material_Subhead);
