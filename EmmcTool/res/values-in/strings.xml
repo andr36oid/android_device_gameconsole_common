@@ -173,4 +173,13 @@
     <string name="inst_op_ok_sha">OK: %1$s dalam %2$s, checksum %3$s</string>
     <string name="inst_op_failed">Gagal: %1$s</string>
     <string name="inst_write_loader">Tulis loader ke eMMC</string>
+    <!-- The installer wizard: buttons, and the line above the progress bar on each page -->
+    <string name="inst_back">Kembali</string>
+    <string name="inst_change">Ubah</string>
+    <string name="inst_lbl_checks">Sebelum mulai</string>
+    <string name="inst_lbl_warning">Peringatan %1$d dari %2$d</string>
+    <string name="inst_lbl_plan">Yang akan ditulis</string>
+    <string name="inst_lbl_step">Langkah instalasi %1$s</string>
+    <string name="inst_lbl_done">Terpasang</string>
+    <string name="inst_done_title">andr36oid ada di eMMC</string>
 </resources>

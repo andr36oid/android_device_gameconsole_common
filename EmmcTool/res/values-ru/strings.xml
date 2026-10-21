@@ -173,4 +173,13 @@
     <string name="inst_op_ok_sha">OK: %1$s за %2$s, контрольная сумма %3$s</string>
     <string name="inst_op_failed">Ошибка: %1$s</string>
     <string name="inst_write_loader">Записать загрузчик на eMMC</string>
+    <!-- The installer wizard: buttons, and the line above the progress bar on each page -->
+    <string name="inst_back">Назад</string>
+    <string name="inst_change">Изменить</string>
+    <string name="inst_lbl_checks">Перед началом</string>
+    <string name="inst_lbl_warning">Предупреждение %1$d из %2$d</string>
+    <string name="inst_lbl_plan">Что будет записано</string>
+    <string name="inst_lbl_step">Шаг установки %1$s</string>
+    <string name="inst_lbl_done">Установлено</string>
+    <string name="inst_done_title">andr36oid находится на eMMC</string>
 </resources>

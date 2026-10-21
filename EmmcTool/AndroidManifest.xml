@@ -40,7 +40,7 @@
             android:name=".InstallActivity"
             android:exported="false"
             android:label="@string/inst_title"
-            android:theme="@android:style/Theme.DeviceDefault.Settings" />
+            android:theme="@style/Andr36oidSetupTheme" />
 
         <!-- Injected into Settings > System (under Advanced). Off until BootReceiver finds
              the eMMC switched on and andr36oid started from the SD card. -->

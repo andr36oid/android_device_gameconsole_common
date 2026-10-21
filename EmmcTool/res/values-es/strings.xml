@@ -173,4 +173,13 @@
     <string name="inst_op_ok_sha">OK: %1$s en %2$s, suma de comprobación %3$s</string>
     <string name="inst_op_failed">Error: %1$s</string>
     <string name="inst_write_loader">Escribir el cargador en la eMMC</string>
+    <!-- The installer wizard: buttons, and the line above the progress bar on each page -->
+    <string name="inst_back">Atrás</string>
+    <string name="inst_change">Cambiar</string>
+    <string name="inst_lbl_checks">Antes de empezar</string>
+    <string name="inst_lbl_warning">Advertencia %1$d de %2$d</string>
+    <string name="inst_lbl_plan">Lo que se escribirá</string>
+    <string name="inst_lbl_step">Paso de instalación %1$s</string>
+    <string name="inst_lbl_done">Instalado</string>
+    <string name="inst_done_title">andr36oid está en la eMMC</string>
 </resources>

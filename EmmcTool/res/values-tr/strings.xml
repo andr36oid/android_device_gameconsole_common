@@ -173,4 +173,13 @@
     <string name="inst_op_ok_sha">Tamam: %1$s, %2$s sürede, sağlama toplamı %3$s</string>
     <string name="inst_op_failed">Hata: %1$s</string>
     <string name="inst_write_loader">Önyükleyiciyi eMMC\'ye yaz</string>
+    <!-- The installer wizard: buttons, and the line above the progress bar on each page -->
+    <string name="inst_back">Geri</string>
+    <string name="inst_change">Değiştir</string>
+    <string name="inst_lbl_checks">Başlamadan önce</string>
+    <string name="inst_lbl_warning">Uyarı %1$d / %2$d</string>
+    <string name="inst_lbl_plan">Yazılacaklar</string>
+    <string name="inst_lbl_step">Kurulum adımı %1$s</string>
+    <string name="inst_lbl_done">Kuruldu</string>
+    <string name="inst_done_title">andr36oid eMMC üzerinde</string>
 </resources>

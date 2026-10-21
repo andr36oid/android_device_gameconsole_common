@@ -173,4 +173,13 @@
     <string name="inst_op_ok_sha">成功：%1$s，用时 %2$s，校验和 %3$s</string>
     <string name="inst_op_failed">失败：%1$s</string>
     <string name="inst_write_loader">将引导加载器写入 eMMC</string>
+    <!-- The installer wizard: buttons, and the line above the progress bar on each page -->
+    <string name="inst_back">返回</string>
+    <string name="inst_change">更改</string>
+    <string name="inst_lbl_checks">开始之前</string>
+    <string name="inst_lbl_warning">警告 %1$d / %2$d</string>
+    <string name="inst_lbl_plan">将写入的内容</string>
+    <string name="inst_lbl_step">安装步骤 %1$s</string>
+    <string name="inst_lbl_done">已安装</string>
+    <string name="inst_done_title">andr36oid 已安装到 eMMC 上</string>
 </resources>

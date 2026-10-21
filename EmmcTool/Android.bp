@@ -6,6 +6,7 @@ android_app {
     name: "EmmcTool",
     srcs: ["src/**/*.java"],
     resource_dirs: ["res"],
+    static_libs: ["andr36oid-setup-theme"],
     certificate: "platform",
     platform_apis: true,
     optimize: {
