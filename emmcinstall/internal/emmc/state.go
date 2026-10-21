@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"strings"
 )
 
 // State is what the installer has done on this console, kept on the SD card's
@@ -50,26 +51,75 @@ type Backup struct {
 	Verified bool   `json:"verified"`
 }
 
-func (c *Config) statePath() string { return filepath.Join(c.StateDir, "state.json") }
+// The records are kept per eMMC, in state-<CID>.json, so one SD card can
+// install on several consoles: each console's eMMC only ever sees its own.
 
-// LoadState reads the state; none yet is an empty one.
-func (c *Config) LoadState() (*State, error) {
-	b, err := os.ReadFile(c.statePath())
+// stateCID is the built-in eMMC's CID, which names its records.
+func (c *Config) stateCID() (string, error) {
+	cid, err := readTrim(filepath.Join(c.EmmcSys, "device/cid"))
+	if err != nil || len(cid) != 32 {
+		return "", fmt.Errorf("built-in eMMC: can't read its CID (%q), so there are no records for it", cid)
+	}
+	return strings.ToLower(cid), nil
+}
+
+func (c *Config) statePath(cid string) string {
+	return filepath.Join(c.StateDir, "state-"+cid+".json")
+}
+
+// legacyStatePath is where the records were before they were kept per eMMC.
+func (c *Config) legacyStatePath() string { return filepath.Join(c.StateDir, "state.json") }
+
+func readState(path string) (*State, error) {
+	b, err := os.ReadFile(path)
 	if errors.Is(err, os.ErrNotExist) {
-		return &State{}, nil
+		return nil, nil
 	}
 	if err != nil {
 		return nil, err
 	}
 	var s State
 	if err := json.Unmarshal(b, &s); err != nil {
-		return nil, fmt.Errorf("state file broken: %w", err)
+		return nil, fmt.Errorf("state file %s broken: %w", filepath.Base(path), err)
 	}
 	return &s, nil
 }
 
-// Save writes the state so that a power cut leaves the old or the new one.
+// LoadState reads this eMMC's records; none yet is an empty one. Records from
+// before they were kept per eMMC are taken over when they are this eMMC's.
+func (c *Config) LoadState() (*State, error) {
+	cid, err := c.stateCID()
+	if err != nil {
+		return nil, err
+	}
+	st, err := readState(c.statePath(cid))
+	if st != nil || err != nil {
+		return st, err
+	}
+	old, err := readState(c.legacyStatePath())
+	if err != nil || old == nil || old.CID != cid {
+		// another console's, or broken: left alone
+		return &State{}, nil
+	}
+	if err := c.Save(old); err != nil {
+		return nil, err
+	}
+	if err := os.Rename(c.legacyStatePath(), c.legacyStatePath()+".migrated"); err != nil {
+		return nil, err
+	}
+	return old, nil
+}
+
+// Save writes this eMMC's records so that a power cut leaves the old or the
+// new ones.
 func (c *Config) Save(s *State) error {
+	cid, err := c.stateCID()
+	if err != nil {
+		return err
+	}
+	if s.CID != "" && s.CID != cid {
+		return fmt.Errorf("records of eMMC %s not saved over those of eMMC %s", s.CID, cid)
+	}
 	if err := os.MkdirAll(c.StateDir, 0770); err != nil {
 		return err
 	}
@@ -77,7 +127,7 @@ func (c *Config) Save(s *State) error {
 	if err != nil {
 		return err
 	}
-	return writeFileSync(c.statePath(), b)
+	return writeFileSync(c.statePath(cid), b)
 }
 
 func writeFileSync(path string, b []byte) error {

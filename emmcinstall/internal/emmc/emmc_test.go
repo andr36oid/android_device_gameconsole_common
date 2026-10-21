@@ -5,6 +5,7 @@ import (
 	"crypto/sha256"
 	"encoding/binary"
 	"encoding/hex"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"math/rand"
@@ -419,7 +420,7 @@ func TestInstallAndRestore(t *testing.T) {
 
 	dir, err := f.cfg.Backup(f.progress(), filepath.Join(f.dir, "roms"))
 	must(t, err)
-	if !strings.HasPrefix(dir, filepath.Join(f.dir, "roms", "eMMC backup", "stock-")) {
+	if !strings.HasPrefix(dir, filepath.Join(f.dir, "roms", "eMMC backup", "P1J95K-ccdd0e00", "stock-")) {
 		t.Fatalf("backup in %s", dir)
 	}
 	var got []byte
@@ -606,7 +607,8 @@ func TestRefusals(t *testing.T) {
 		_, err := f.cfg.Backup(f.progress(), roms(f))
 		must(t, err)
 		writeFile(t, filepath.Join(f.cfg.EmmcSys, "device/cid"), strings.Repeat("1", 32))
-		mustFail(t, f.cfg.BlankLoader(f.progress()), "another eMMC")
+		// its records are its own: it has no backup yet
+		mustFail(t, f.cfg.BlankLoader(f.progress()), "no checked backup")
 	})
 	t.Run("no loader on the SD card", func(t *testing.T) {
 		f := newFake(t)
@@ -697,7 +699,6 @@ func TestRefusals(t *testing.T) {
 		f := newFake(t)
 		dir, err := f.cfg.Backup(f.progress(), roms(f))
 		must(t, err)
-		os.Remove(f.cfg.statePath())
 		writeFile(t, filepath.Join(f.cfg.EmmcSys, "device/cid"), strings.Repeat("2", 32))
 		mustFail(t, f.cfg.Restore(f.progress(), dir), "another eMMC")
 	})
@@ -885,7 +886,7 @@ func TestFilesReadableUnderInitUmask(t *testing.T) {
 	f := newFake(t)
 	_, err := f.cfg.Backup(f.progress(), filepath.Join(f.dir, "roms"))
 	must(t, err)
-	for _, path := range []string{filepath.Join(f.cfg.StateDir, "state.json"), filepath.Join(f.dir, "progress.jsonl")} {
+	for _, path := range []string{filepath.Join(f.cfg.StateDir, "state-"+testCID+".json"), filepath.Join(f.dir, "progress.jsonl")} {
 		fi, err := os.Stat(path)
 		if err != nil {
 			t.Fatal(err)
@@ -1252,6 +1253,67 @@ func TestReviewFixes(t *testing.T) {
 		res, err = f.cfg.CheckTest(f.progress())
 		if err != nil || res != "passed" {
 			t.Fatalf("check-test: %s %v", res, err)
+		}
+	})
+}
+
+func TestStatePerEmmc(t *testing.T) {
+	const otherCID = "150100503142454c0000112233445566"
+	cidFile := func(f *fake) string { return filepath.Join(f.cfg.EmmcSys, "device/cid") }
+	t.Run("two consoles, one SD card", func(t *testing.T) {
+		f := newFake(t)
+		_, err := f.cfg.Backup(f.progress(), filepath.Join(f.dir, "roms"))
+		must(t, err)
+		mine := filepath.Join(f.cfg.StateDir, "state-"+testCID+".json")
+		before, err := os.ReadFile(mine)
+		must(t, err)
+		if _, err := os.Stat(filepath.Join(f.cfg.StateDir, "state.json")); !errors.Is(err, os.ErrNotExist) {
+			t.Fatal("a shared state.json was written")
+		}
+		// the same SD card in a second console
+		writeFile(t, cidFile(f), otherCID+"\n")
+		st := f.state()
+		if st.Backup != nil || st.CID != "" {
+			t.Fatalf("the second console sees the first one's records: %+v", st)
+		}
+		mustFail(t, f.cfg.BlankLoader(f.progress()), "no checked backup")
+		st.Step1 = "passed" // anything, saved for the second console
+		must(t, f.cfg.Save(st))
+		if after, _ := os.ReadFile(mine); !bytes.Equal(before, after) {
+			t.Fatal("the first console's records changed")
+		}
+		// a record of the first eMMC can't be saved over the second's
+		mustFail(t, f.cfg.Save(&State{CID: testCID}), "not saved over")
+		// back in the first console
+		writeFile(t, cidFile(f), testCID+"\n")
+		if st := f.state(); st.Backup == nil || st.Step1 != "" {
+			t.Fatalf("the first console's records after the second: %+v", st)
+		}
+	})
+	t.Run("records from before are taken over by their eMMC only", func(t *testing.T) {
+		f := newFake(t)
+		legacy := filepath.Join(f.cfg.StateDir, "state.json")
+		b, _ := json.Marshal(&State{CID: otherCID, Step1: "passed"})
+		writeFile(t, legacy, string(b))
+		if st := f.state(); st.Step1 != "" {
+			t.Fatalf("another eMMC's old records were taken: %+v", st)
+		}
+		if got, _ := os.ReadFile(legacy); !bytes.Equal(got, b) {
+			t.Fatal("another eMMC's old records were touched")
+		}
+		b, _ = json.Marshal(&State{CID: testCID, Step1: "passed"})
+		writeFile(t, legacy, string(b))
+		if st := f.state(); st.Step1 != "passed" || st.CID != testCID {
+			t.Fatalf("this eMMC's old records weren't taken over: %+v", st)
+		}
+		if _, err := os.Stat(legacy); !errors.Is(err, os.ErrNotExist) {
+			t.Fatal("the old records are still there to be taken again")
+		}
+		if _, err := os.Stat(filepath.Join(f.cfg.StateDir, "state-"+testCID+".json")); err != nil {
+			t.Fatal(err)
+		}
+		if st := f.state(); st.Step1 != "passed" {
+			t.Fatalf("records after taking them over: %+v", st)
 		}
 	})
 }

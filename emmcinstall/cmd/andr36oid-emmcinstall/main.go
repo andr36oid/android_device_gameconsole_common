@@ -4,7 +4,7 @@
 //
 //	inspect                 what is there; writes nothing
 //	status                  the installer's records
-//	backup <folder>         step 0: the whole stock eMMC into <folder>/eMMC backup/
+//	backup <folder>         step 0: the whole stock eMMC into <folder>/eMMC backup/<eMMC>/
 //	blank-loader            step 1: clear the eMMC's loader, then restart
 //	check-loader            after that restart: the SD card's loader started it
 //	write-os                step 2: andr36oid onto the eMMC, test start set up

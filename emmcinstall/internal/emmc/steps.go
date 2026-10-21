@@ -420,9 +420,24 @@ func readToFile(d *Disk, dir, prefix string, per int64, all io.Writer, tick Tick
 	return out, nil
 }
 
+// backupLabel names a console's backup folder: the eMMC's model name and the
+// end of its CID, such as P1J95K-dd0e00ab.
+func backupLabel(info *EmmcInfo) string {
+	name := strings.Map(func(r rune) rune {
+		if r >= 'A' && r <= 'Z' || r >= 'a' && r <= 'z' || r >= '0' && r <= '9' || r == '-' || r == '_' {
+			return r
+		}
+		return -1
+	}, info.Name)
+	if name == "" {
+		name = "eMMC"
+	}
+	return name + "-" + info.CID[len(info.CID)-8:]
+}
+
 // Backup copies the whole eMMC (user area and boot areas) into a new folder
-// "eMMC backup/stock-<time>" under parent, reads the eMMC a second time to
-// make sure it reads the same, and reads the copy back.
+// "eMMC backup/<backupLabel>/stock-<time>" under parent, reads the eMMC a
+// second time to make sure it reads the same, and reads the copy back.
 func (c *Config) Backup(p *Progress, parent string) (string, error) {
 	r, err := c.begin(p, "backup")
 	if err != nil {
@@ -460,14 +475,16 @@ func (c *Config) Backup(p *Progress, parent string) (string, error) {
 	if free := int64(fs.Bavail) * int64(fs.Bsize); free < need {
 		return "", fmt.Errorf("the backup needs %d MiB free on %s, there are %d MiB", need>>20, parent, free>>20)
 	}
-	dir := filepath.Join(parent, "eMMC backup", "stock-"+time.Now().Format("20060102-150405"))
+	// one folder per console's eMMC, so backups from several consoles made
+	// with one SD card can't be mixed up
+	dir := filepath.Join(parent, "eMMC backup", backupLabel(r.info), "stock-"+time.Now().Format("20060102-150405"))
 	if err := os.MkdirAll(filepath.Dir(dir), 0755); err != nil {
 		return "", err
 	}
 	if err := os.Mkdir(dir, 0755); err != nil {
 		return "", err
 	}
-	defer shareWithUser(filepath.Dir(dir))
+	defer shareWithUser(filepath.Join(parent, "eMMC backup"))
 	p.AddLog(filepath.Join(dir, "install.log"))
 	p.Logf("backup to %s", dir)
 

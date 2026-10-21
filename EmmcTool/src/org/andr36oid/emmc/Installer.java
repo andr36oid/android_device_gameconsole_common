@@ -15,17 +15,19 @@ import java.io.RandomAccessFile;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Talks to andr36oid-emmcinstall (the eMMC installer, emmcinstall/ in this repo), which
  * runs as root as an init service: we write a request and start it, it writes JSON progress
- * lines, its result and its records (state.json).
+ * lines, its result and its records (state-<CID>.json).
  */
 final class Installer {
     private static final String TAG = "EmmcInstall";
     static final String SERVICE = "andr36oid-emmcinstall";
     private static final File DIR = new File("/data/misc/andr36oid-emmcinstall");
-    private static final File STATE = new File(DIR, "state.json");
+    /** Records from before they were kept per eMMC (state-<CID>.json). */
+    private static final File LEGACY_STATE = new File(DIR, "state.json");
     private static final File RESULT = new File(DIR, "result.json");
     private static final File PROGRESS = new File(DIR, "progress.jsonl");
     private static final File CONFIRM = new File(DIR, "confirm.json");
@@ -69,10 +71,49 @@ final class Installer {
         return json(RESULT);
     }
 
-    /** What the installer has done (State in steps.go); empty when nothing yet. */
+    /**
+     * What the installer has done on this console's eMMC (State in steps.go); empty when
+     * nothing yet. One SD card can install on several consoles: each has its own records.
+     */
     static JSONObject state() {
-        final JSONObject s = json(STATE);
+        final String cid = emmcCid();
+        if (cid.isEmpty()) return new JSONObject();
+        JSONObject s = json(new File(DIR, "state-" + cid + ".json"));
+        if (s == null) {
+            // older records, until the installer's next run takes them over
+            final JSONObject old = json(LEGACY_STATE);
+            if (old != null && cid.equals(old.optString("cid"))) s = old;
+        }
         return s == null ? new JSONObject() : s;
+    }
+
+    /** The built-in eMMC's CID in lower case, "" when it isn't there or can't be read. */
+    static String emmcCid() {
+        final File[] blocks = new File("/sys/block").listFiles();
+        if (blocks != null) {
+            for (File b : blocks) {
+                final String n = b.getName();
+                if (!n.startsWith("mmcblk") || n.contains("boot") || n.contains("rpmb")) continue;
+                try {
+                    if (!b.getCanonicalPath().contains("/ff390000.")) continue;
+                } catch (IOException e) {
+                    continue;
+                }
+                final String type = read(new File(b, "device/type"), 16);
+                final String cid = clean(read(new File(b, "device/cid"), 64));
+                if (type != null && "MMC".equals(type.trim()) && cid != null) return cid;
+            }
+        }
+        // the helper's last look at the eMMC, made as root
+        final String info = read(Helper.INFO, 1 << 16);
+        final String cid = info == null ? null : clean(EmmcInfo.parse(info).field("cid"));
+        return cid == null ? "" : cid;
+    }
+
+    private static String clean(String cid) {
+        if (cid == null) return null;
+        final String c = cid.trim().toLowerCase(Locale.ROOT);
+        return c.matches("[0-9a-f]{32}") ? c : null;
     }
 
     /** On the eMMC system: what the test start check said, null until it ran. */
