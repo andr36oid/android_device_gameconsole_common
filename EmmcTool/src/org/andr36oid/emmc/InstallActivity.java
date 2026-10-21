@@ -102,6 +102,10 @@ public class InstallActivity extends Activity {
         mBody = findViewById(R.id.body);
         mTextScroll = findViewById(R.id.text_scroll);
         mSideScroll = findViewById(R.id.side_scroll);
+        // Only status: the D-pad goes to the buttons. ScrollView makes itself focusable in
+        // code, over the layout's focusable="false".
+        mTextScroll.setFocusable(false);
+        mSideScroll.setFocusable(false);
         mSide = findViewById(R.id.side);
         mBodyExtra = findViewById(R.id.body_extra);
         mBack = findViewById(R.id.back);
@@ -662,6 +666,7 @@ public class InstallActivity extends Activity {
         mCurName = row(mBodyExtra, 0, getString(R.string.inst_starting), null);
         mCurName.setTextAppearance(android.R.style.TextAppearance_Material_Subhead);
         mCurBar = new ProgressBar(this, null, android.R.attr.progressBarStyleHorizontal);
+        mCurBar.setFocusable(false);
         mCurBar.setMax(1000);
         mBodyExtra.addView(mCurBar);
         mCurLine = row(mBodyExtra, 0, "", null);
