@@ -74,7 +74,7 @@ public class InstallActivity extends Activity {
 
     private TextView mStepLabel, mTitle, mBody;
     private ProgressBar mProgress;
-    private ScrollView mTextScroll;
+    private ScrollView mTextScroll, mSideScroll;
     private LinearLayout mSide, mBodyExtra;
     private Button mBack, mMore, mSecondary, mNext;
     /** Something on the right takes the D-pad (the checkbox, the hold ring). */
@@ -101,6 +101,7 @@ public class InstallActivity extends Activity {
         mTitle = findViewById(R.id.title);
         mBody = findViewById(R.id.body);
         mTextScroll = findViewById(R.id.text_scroll);
+        mSideScroll = findViewById(R.id.side_scroll);
         mSide = findViewById(R.id.side);
         mBodyExtra = findViewById(R.id.body_extra);
         mBack = findViewById(R.id.back);
@@ -135,10 +136,11 @@ public class InstallActivity extends Activity {
             return true;
         }
         if (!mSideFocus && (key == KeyEvent.KEYCODE_DPAD_UP || key == KeyEvent.KEYCODE_DPAD_DOWN)) {
-            // The buttons are all in one row, so up and down scroll the text instead
+            // The buttons are all in one row, so up and down scroll both sides instead
             if (event.getAction() == KeyEvent.ACTION_DOWN) {
                 final int direction = key == KeyEvent.KEYCODE_DPAD_UP ? -1 : 1;
                 mTextScroll.smoothScrollBy(0, direction * mTextScroll.getHeight() / 3);
+                mSideScroll.smoothScrollBy(0, direction * mSideScroll.getHeight() / 3);
             }
             return true;
         }
@@ -216,6 +218,7 @@ public class InstallActivity extends Activity {
         mTitle.setTextColor(mTitleColor);
         mBody.setText(body);
         mTextScroll.scrollTo(0, 0);
+        mSideScroll.scrollTo(0, 0);
         mSide.removeAllViews();
         mBodyExtra.removeAllViews();
         for (Button b : new Button[] {mBack, mMore, mSecondary, mNext}) {
