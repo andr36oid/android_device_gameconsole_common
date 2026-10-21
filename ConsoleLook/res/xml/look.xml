@@ -26,4 +26,10 @@
         android:title="@string/boot_details_title"
         android:summary="@string/boot_details_summary"
         android:persistent="false" />
+
+    <SwitchPreference
+        android:key="boot_log"
+        android:title="@string/boot_log_title"
+        android:summary="@string/boot_log_summary"
+        android:persistent="false" />
 </PreferenceScreen>

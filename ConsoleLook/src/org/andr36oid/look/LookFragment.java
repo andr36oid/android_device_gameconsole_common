@@ -42,7 +42,7 @@ public class LookFragment extends PreferenceFragment {
 
     private ListPreference mAccent, mSounds;
     private Preference mBootAnim;
-    private SwitchPreference mBootProgress, mBootDetails;
+    private SwitchPreference mBootProgress, mBootDetails, mBootLog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -76,6 +76,11 @@ public class LookFragment extends PreferenceFragment {
         mBootDetails = (SwitchPreference) findPreference("boot_details");
         mBootDetails.setOnPreferenceChangeListener((pref, value) -> {
             Looks.setBootFlag(Looks.BOOT_DETAILS_PROP, (Boolean) value);
+            return true;
+        });
+        mBootLog = (SwitchPreference) findPreference("boot_log");
+        mBootLog.setOnPreferenceChangeListener((pref, value) -> {
+            Looks.setBootLog((Boolean) value);
             return true;
         });
     }
@@ -153,5 +158,6 @@ public class LookFragment extends PreferenceFragment {
                 getString(BOOTANIM_LABELS[bootAnimationIndex()])));
         mBootProgress.setChecked(Looks.bootFlag(Looks.BOOT_PROGRESS_PROP));
         mBootDetails.setChecked(Looks.bootFlag(Looks.BOOT_DETAILS_PROP));
+        mBootLog.setChecked(Looks.bootLogOn());
     }
 }

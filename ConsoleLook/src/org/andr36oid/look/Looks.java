@@ -7,6 +7,7 @@ import android.content.om.OverlayManager;
 import android.content.pm.PackageManager;
 import android.media.AudioManager;
 import android.os.Process;
+import android.os.SystemClock;
 import android.os.SystemProperties;
 import android.provider.Settings;
 import android.text.TextUtils;
@@ -49,6 +50,9 @@ final class Looks {
     // for the boot animation, the system server sets the phases it follows while one is on
     static final String BOOT_PROGRESS_PROP = "persist.andr36oid.bootprogress";
     static final String BOOT_DETAILS_PROP = "persist.andr36oid.bootdetails";
+    static final String BOOT_LOG_PROP = "persist.andr36oid.kt.boot_log";
+    private static final String KT_REQUEST_PROP = "sys.andr36oid.kt.request";
+    private static final String KT_SERVICE = "andr36oid-ktweaks";
 
     private Looks() {}
 
@@ -191,6 +195,22 @@ final class Looks {
 
     static void setBootFlag(String prop, boolean on) {
         SystemProperties.set(prop, on ? "1" : "0");
+    }
+
+    /**
+     * Always start with the boot log: a Kernel Tweaks start option (not in its list), so
+     * the kernel log is on the screen from the kernel's start, as with Select held, and
+     * the boot animation shows its log screen. The root helper writes it to
+     * BOOT/kernel-tweaks.txt.
+     */
+    static boolean bootLogOn() {
+        return "on".equals(SystemProperties.get(BOOT_LOG_PROP));
+    }
+
+    static void setBootLog(boolean on) {
+        SystemProperties.set(BOOT_LOG_PROP, on ? "on" : "off");
+        SystemProperties.set(KT_REQUEST_PROP, Long.toString(SystemClock.elapsedRealtime()));
+        SystemProperties.set("ctl.start", KT_SERVICE);
     }
 
     static void setBootAnimation(String value) {

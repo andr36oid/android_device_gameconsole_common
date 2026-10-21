@@ -257,6 +257,23 @@ setp persist.andr36oid.kt.extra_rates ""
 run apply
 check "extra buttons removed" no "$([ -e "$T/boot/kernel-tweaks.txt" ] && echo yes || echo no)"
 
+# --- always start with the boot log (Settings > Personalization): a start option
+setup
+run boot
+check "boot log default off" off "$(prop sys.andr36oid.ktd.boot_log)"
+setp persist.andr36oid.kt.boot_log on
+run apply
+check "boot log on written" "console=tty0 ignore_loglevel printk.devkmsg=on androidboot.bootlog=1" \
+	"$(sed -n 's/^kt_args=//p' "$T/boot/kernel-tweaks.txt")"
+args=$(sed -n 's/^kt_args=//p' "$T/boot/kernel-tweaks.txt")
+echo "$(cat "$R"/proc/cmdline) $args" >"$R"/proc/cmdline
+run boot
+check "boot log current on" on "$(prop sys.andr36oid.ktc.boot_log)"
+check "boot log default stays off" off "$(prop sys.andr36oid.ktd.boot_log)"
+setp persist.andr36oid.kt.boot_log off
+run apply
+check "boot log off removes the file" no "$([ -e "$T/boot/kernel-tweaks.txt" ] && echo yes || echo no)"
+
 # --- second SD card slot (Settings > Storage) and Wi-Fi/Bluetooth drivers: start options
 setup
 run boot

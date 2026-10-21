@@ -23,5 +23,7 @@
     <string name="boot_progress_title">Boot progress bar</string>
     <string name="boot_progress_summary">A thin bar under the logo that moves along as the console starts. Shows from the next start.</string>
     <string name="boot_details_title">Show boot details</string>
+    <string name="boot_log_title">Always start with the boot log</string>
+    <string name="boot_log_summary">Scrolling text of what the console does instead of the logo and the boot animation, at every start. Shows from the next start.</string>
     <string name="boot_details_summary">A line under the logo that says what the console is doing, like \"Mounting partitions\". Shows from the next start.</string>
 </resources>

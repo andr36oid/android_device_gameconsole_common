@@ -33,6 +33,9 @@ R=${KT_ROOT:-}
 # extra_buttons isn't in the list either: Settings > Controls > Buttons on this console >
 # Find an unknown button sets it, a comma list of pins such as "2A5,3C1H" (bank, port,
 # pin, H when pressed is high), "none" for none.
+# boot_log isn't in the list either: Settings > Personalization > Always start with the
+# boot log sets it to "on": the kernel log on the screen from the kernel's start, and
+# the boot animation's log screen (ro.boot.bootlog) instead of the animation.
 # sd2_slot isn't in the list either: Settings > Storage > Second SD card off sets it to
 # "off", and the kernel doesn't register the second card slot at the next start.
 KNOBS='
@@ -66,6 +69,7 @@ crash_oops|plain||/sys/module/ramoops/parameters/dump_oops
 crash_restart_log|plain||/sys/module/printk/parameters/always_kmsg_dump
 serial_console|boot||serial_console
 boot_log_level|boot||boot_log_level
+boot_log|boot||boot_log
 cma_size|boot||cma_size
 cpu_idle|boot||cpu_idle
 timer_tick|boot||timer_tick
@@ -121,6 +125,8 @@ boot_read() {
 	boot_log_level)
 		v=$(arg_last loglevel "$2")
 		echo "${v:-7}" ;;
+	boot_log)
+		[ "$(arg_last androidboot.bootlog "$2")" = 1 ] && echo on || echo off ;;
 	cma_size)
 		v=$(arg_last cma "$2")
 		v=${v%[Mm]}
@@ -210,6 +216,8 @@ boot_args() {
 	serial_console:on) echo "fiq_debugger.disable=0 console=ttyS2,115200n8 androidboot.console=ttyS2" ;;
 	serial_console:off) echo "fiq_debugger.disable=1" ;;
 	boot_log_level:*) echo "loglevel=$2" ;;
+	# as Select held at power-on, without stopping on a crash
+	boot_log:on) echo "console=tty0 ignore_loglevel printk.devkmsg=on androidboot.bootlog=1" ;;
 	cma_size:default) ;;
 	cma_size:*) echo "cma=$2M" ;;
 	cpu_idle:off) echo "cpuidle.off=1" ;;
