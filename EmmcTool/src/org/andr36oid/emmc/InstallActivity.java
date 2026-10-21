@@ -1,6 +1,7 @@
 package org.andr36oid.emmc;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -85,6 +86,12 @@ public class InstallActivity extends Activity {
     /** Something on the right takes the D-pad (the checkbox, the hold ring). */
     private boolean mSideFocus;
     private int mTitleColor;
+    /** The user left on purpose (Home): don't come back by ourselves. */
+    private boolean mUserLeft;
+    /** How often we came back after something else took the screen, see onStop. */
+    private int mRefronts;
+    private static final int MAX_REFRONTS = 5;
+
     /** On the checks page: redraws it when a charger comes or goes, or the level changes. */
     private BroadcastReceiver mPowerWatch;
 
@@ -127,6 +134,38 @@ public class InstallActivity extends Activity {
         super.onResume();
         if (mCmd == null) route();
         else poll();
+    }
+
+    @Override
+    protected void onUserLeaveHint() {
+        super.onUserLeaveHint();
+        mUserLeft = true;
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mUserLeft = false;
+    }
+
+    /**
+     * Something else took the screen without the user leaving: after the restarts the home
+     * app (Daijishou) finishes starting late and comes up over the installer, in the middle
+     * of a step. Come back on top, a few times at most so two apps can't fight over it.
+     */
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (mUserLeft || isFinishing() || isChangingConfigurations() || mRefronts >= MAX_REFRONTS) {
+            return;
+        }
+        mRefronts++;
+        final int task = getTaskId();
+        mHandler.postDelayed(() -> {
+            if (!isFinishing() && !isDestroyed() && !mUserLeft) {
+                getSystemService(ActivityManager.class).moveTaskToFront(task, 0);
+            }
+        }, 300);
     }
 
     @Override
