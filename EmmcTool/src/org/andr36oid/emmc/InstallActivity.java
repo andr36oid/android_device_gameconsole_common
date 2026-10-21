@@ -101,7 +101,13 @@ public class InstallActivity extends Activity {
     private boolean mUserLeft;
     /** How often we came back after something else took the screen, see onStop. */
     private int mRefronts;
-    private static final int MAX_REFRONTS = 5;
+    private static final int MAX_REFRONTS = 8;
+    /**
+     * After a restart, the home app (Daijishou) starts its main screen over ours once it has
+     * loaded, and Android reports any app starting over us as the user leaving
+     * (onUserLeaveHint). Until this long after boot, that doesn't count as leaving.
+     */
+    private static final long BOOT_SETTLE_MS = 3 * 60 * 1000;
 
     /** On the checks page: redraws it when a charger comes or goes, or the level changes. */
     private BroadcastReceiver mPowerWatch;
@@ -153,6 +159,7 @@ public class InstallActivity extends Activity {
     @Override
     protected void onUserLeaveHint() {
         super.onUserLeaveHint();
+        if (SystemClock.elapsedRealtime() < BOOT_SETTLE_MS) return;
         mUserLeft = true;
     }
 
