@@ -765,6 +765,7 @@ public class InstallActivity extends Activity {
                     mSide.removeView(row);
                     mFinished.addView(row);
                     mFinishedRows.put(op.name, row);
+                    mSideScroll.post(() -> mSideScroll.fullScroll(View.FOCUS_DOWN));
                 }
             } else {
                 current = op;
