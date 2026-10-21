@@ -2,6 +2,7 @@ package org.andr36oid.hints;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -135,12 +136,17 @@ public class HintBar extends LinearLayout {
         return text;
     }
 
+    /**
+     * The app's own background where it is dark; a light theme (the video player's) would
+     * hide the light text, so dark grey there.
+     */
     private static int backgroundOf(Context context) {
         final TypedValue v = new TypedValue();
         if (context.getTheme().resolveAttribute(android.R.attr.colorBackground, v, true)
                 && v.type >= TypedValue.TYPE_FIRST_COLOR_INT
-                && v.type <= TypedValue.TYPE_LAST_COLOR_INT) {
-            return v.data;
+                && v.type <= TypedValue.TYPE_LAST_COLOR_INT
+                && Color.luminance(v.data | 0xff000000) < 0.3f) {
+            return v.data | 0xff000000;
         }
         return 0xff101010;
     }
