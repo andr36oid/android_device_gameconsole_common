@@ -1451,8 +1451,9 @@ public class InstallActivity extends Activity {
             showNotExact(r.optString("error"));
         } else if (!r.optBoolean("ok")) {
             final JSONObject st = Installer.state();
-            showFailed(r.optString("error"),
-                    !st.optString("failed").isEmpty() || !st.optString("running").isEmpty());
+            // emmc_written: a chained run stopped after its eMMC part was done
+            showFailed(r.optString("error"), r.optBoolean("emmc_written")
+                    || !st.optString("failed").isEmpty() || !st.optString("running").isEmpty());
         } else if (after != null) {
             after.run();
         } else {

@@ -52,23 +52,24 @@ const (
 // Config says where everything is. The host tests point it at image files and
 // a temporary directory.
 type Config struct {
-	Cmdline   string // kernel command line
-	Mountinfo string
-	BootID    string // changes at every start
-	EmmcSys   string // the built-in eMMC in sysfs
-	EmmcDev   string
-	SDSys     string // the SD card the system runs from
-	SDDev     string
-	SD2Sys    string // the card in slot 2
-	SD2Dev    string
-	DataDir   string // Android's /data
-	SDBoot    string // the SD card's BOOT partition (vfat)
-	SDBootDir string // tests: a directory standing in for the SD card's BOOT
-	BootMnt   string // where SDBoot is mounted while the installer uses it
-	PowerDir  string
-	WakeLock  string
-	WakeUnlk  string
-	StateDir  string
+	powerChecked bool   // the battery was fine at this run's start (powerOK)
+	Cmdline      string // kernel command line
+	Mountinfo    string
+	BootID       string // changes at every start
+	EmmcSys      string // the built-in eMMC in sysfs
+	EmmcDev      string
+	SDSys        string // the SD card the system runs from
+	SDDev        string
+	SD2Sys       string // the card in slot 2
+	SD2Dev       string
+	DataDir      string // Android's /data
+	SDBoot       string // the SD card's BOOT partition (vfat)
+	SDBootDir    string // tests: a directory standing in for the SD card's BOOT
+	BootMnt      string // where SDBoot is mounted while the installer uses it
+	PowerDir     string
+	WakeLock     string
+	WakeUnlk     string
+	StateDir     string
 	// BackupGlob finds the stock eMMC's backups on the cards' storage when
 	// the records don't name one (a data card made fresh)
 	BackupGlob string
@@ -294,9 +295,16 @@ func (c *Config) Battery() Power {
 	return p
 }
 
+// powerOK checks the battery once, at the start of a run: a run that chains
+// steps (datacard-return: update-emmc, then datacard-finish) must never stop
+// halfway because the battery went down while it wrote.
 func (c *Config) powerOK() error {
+	if c.powerChecked {
+		return nil
+	}
 	p := c.Battery()
 	if p.Charger || p.Capacity >= 60 {
+		c.powerChecked = true
 		return nil
 	}
 	return fmt.Errorf("battery at %d%% and no charger: connect the charger or charge to 60%% first", p.Capacity)

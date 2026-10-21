@@ -1018,8 +1018,18 @@ func (c *Config) DatacardReturn(p *Progress) error {
 	if err := c.UpdateEmmc(p); err != nil {
 		return err
 	}
-	return c.DatacardFinish(p)
+	if err := c.DatacardFinish(p); err != nil {
+		return &WroteError{fmt.Errorf("the eMMC is updated, but making this card its data card again stopped: %w; choose Update eMMC again", err)}
+	}
+	return nil
 }
+
+// WroteError: a run stopped after it had written to the eMMC (the wizard must
+// not say that nothing was written).
+type WroteError struct{ Err error }
+
+func (e *WroteError) Error() string { return e.Err.Error() }
+func (e *WroteError) Unwrap() error { return e.Err }
 
 // DatacardKeep is the answer no to DatacardReturn: this card, the eMMC's
 // data card made to start again, stays a normal SD card. Its marker goes, so

@@ -271,7 +271,12 @@ func print(v any) {
 }
 
 func fail(err error) {
-	print(map[string]any{"ok": false, "error": err.Error()})
+	out := map[string]any{"ok": false, "error": err.Error()}
+	var we *emmc.WroteError
+	if errors.As(err, &we) {
+		out["emmc_written"] = true
+	}
+	print(out)
 	release()
 	errDetect(err)
 	os.Exit(1)
