@@ -32,10 +32,14 @@ type State struct {
 	// Step 3: the SD card's loader on the eMMC.
 	Step3 string `json:"step3,omitempty"` // done
 
+	// Custom is an SD card image the advanced mode wrote in place of
+	// andr36oid (the steps above are then all clear).
+	Custom *CustomImage `json:"custom,omitempty"`
+
 	// Incomplete is an update or restore that stopped or was cut off and was
 	// then left as it is: the eMMC is half old, half new until that command
 	// runs again and finishes.
-	Incomplete string `json:"incomplete,omitempty"` // update-emmc, update-uboot, restore
+	Incomplete string `json:"incomplete,omitempty"` // update-emmc, update-uboot, restore, write-image
 
 	// Running is the write under way: still set at the next start means it
 	// was cut off (power lost).

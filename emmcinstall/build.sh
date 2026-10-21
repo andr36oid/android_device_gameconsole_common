@@ -9,13 +9,17 @@
 #   build.sh --check   only check prebuilt/ matches the sources (no Go needed);
 #                      build-image.sh runs this before every build
 #
+# Libraries are vendored (vendor/), so it builds offline: after changing
+# go.mod, run go mod vendor.
+#
 # GO=/path/to/go to pick a Go (default: go in PATH, then /usr/local/go/bin/go).
 # The tests need sgdisk (read-only use) and python3.
 set -euo pipefail
 cd "$(dirname "$0")"
 
 sources() {
-	find go.mod cmd internal -type f -name '*.go' -o -type f -name go.mod |
+	find go.mod go.sum cmd internal vendor -type f -name '*.go' -o -type f -name go.mod \
+		-o -type f -name go.sum -o -type f -name modules.txt |
 		LC_ALL=C sort | xargs sha1sum | sha1sum | cut -d' ' -f1
 }
 

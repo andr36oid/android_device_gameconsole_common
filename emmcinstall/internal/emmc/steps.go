@@ -699,6 +699,7 @@ func (c *Config) BlankLoader(p *Progress) error {
 	}
 	r.st.LoaderSHA, r.st.Step1, r.st.Step1BootID = sha, "blanked", c.bootID()
 	r.st.Step2, r.st.Plan, r.st.Copied, r.st.CopiedLn, r.st.Step3 = "", nil, nil, nil, ""
+	r.st.Custom = nil
 	r.st.Running = ""
 	p.Logf("step 1: the eMMC's loader area is blank; restart, the SD card's loader must start the console")
 	return c.Save(r.st)
@@ -898,6 +899,9 @@ func (c *Config) update(p *Progress, cmd string, system bool) error {
 	r, err := c.begin(p, cmd)
 	if err != nil {
 		return err
+	}
+	if r.st.Custom != nil {
+		return fmt.Errorf("the eMMC holds %s, not andr36oid: install andr36oid on it first", r.st.Custom.Name)
 	}
 	if r.st.Step3 != "done" {
 		return errors.New("the eMMC has no andr36oid loader yet (step 3)")
@@ -1500,7 +1504,7 @@ func (c *Config) Leave(p *Progress) error {
 	}
 	p.Logf("left as it is: running %q, failed %q", st.Running, st.Failed)
 	switch st.Running {
-	case "update-emmc", "update-uboot", "restore":
+	case "update-emmc", "update-uboot", "restore", "write-image":
 		// half old, half new: not installed, not stock, until it runs again
 		st.Incomplete = st.Running
 	}

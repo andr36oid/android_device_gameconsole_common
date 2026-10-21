@@ -16,6 +16,7 @@
 //	update-emmc             after step 3: the SD card's BOOT, system, vendor and
 //	                        U-Boot onto the eMMC, apps and data kept
 //	restore <backup folder> the stock eMMC back
+//	write-image <file>      advanced: any SD card image (.img, .img.gz, .img.xz, .zip) to the eMMC
 //	leave                   forget a stop or a cut-off write, write nothing
 //	request                 run what the state folder's request file asks
 //	                        (cmd=..., arg=...), the result to result.json
@@ -81,7 +82,7 @@ func main() {
 	}
 
 	writes := map[string]bool{"backup": true, "blank-loader": true, "write-os": true,
-		"write-loader": true, "update-uboot": true, "update-emmc": true, "restore": true}
+		"write-loader": true, "update-uboot": true, "update-emmc": true, "restore": true, "write-image": true}
 	if writes[cmd] {
 		// a stray signal must not cut a write short
 		signal.Ignore(syscall.SIGINT, syscall.SIGTERM, syscall.SIGHUP)
@@ -125,6 +126,8 @@ func main() {
 		err = cfg.UpdateEmmc(p)
 	case "restore":
 		err = cfg.Restore(p, arg())
+	case "write-image":
+		err = cfg.WriteImage(p, arg())
 	case "leave":
 		err = cfg.Leave(p)
 	default:
