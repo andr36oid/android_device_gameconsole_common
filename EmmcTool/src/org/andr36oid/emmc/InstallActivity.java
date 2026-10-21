@@ -123,6 +123,7 @@ public class InstallActivity extends Activity {
 
     /** On the checks page: redraws it when a charger comes or goes, or the level changes. */
     private BroadcastReceiver mPowerWatch;
+    private HintBar mHints;
     /** The page asking for the charger: Try again shows once it is in. */
     private BroadcastReceiver mChargeWatch;
     /** The last command run, to start it again (after the charger went in). */
@@ -146,7 +147,7 @@ public class InstallActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.install_wizard);
-        HintBar.attachDefault(this);
+        mHints = HintBar.attachDefault(this);
         mStepLabel = findViewById(R.id.step_label);
         mProgress = findViewById(R.id.progress);
         mTitle = findViewById(R.id.title);
@@ -275,6 +276,8 @@ public class InstallActivity extends Activity {
         final int key = event.getKeyCode();
         final boolean first = event.getAction() == KeyEvent.ACTION_DOWN && event.getRepeatCount() == 0;
         if (key == KeyEvent.KEYCODE_BUTTON_B || key == KeyEvent.KEYCODE_BACK) {
+            // while a command runs (a restore, a step) nothing leaves the wizard
+            if (mCmd != null) return true;
             if (first) {
                 if (mBack.getVisibility() == View.VISIBLE) mBack.performClick();
                 else finish();
@@ -1431,11 +1434,23 @@ public class InstallActivity extends Activity {
         follow(cmd, quick, after);
     }
 
+    /** While a command runs B does nothing, so the hints don't offer it. */
+    private void lockHints(boolean running) {
+        if (mHints == null) return;
+        if (running) {
+            mHints.set("A", getString(org.andr36oid.hints.R.string.andr36oid_hint_select));
+        } else {
+            mHints.set("A", getString(org.andr36oid.hints.R.string.andr36oid_hint_select),
+                    "B", getString(org.andr36oid.hints.R.string.andr36oid_hint_back));
+        }
+    }
+
     /** Shows the progress of cmd (null: whatever runs) and then does after. */
     private void follow(String cmd, boolean quick, Runnable after) {
         if (cmd == null) mSkipBefore = 0;
         mCmd = cmd == null ? "" : cmd;
         mAfter = after;
+        lockHints(true);
         mStartedAt = SystemClock.elapsedRealtime();
         mCmdStart = System.currentTimeMillis();
         if (quick) {
@@ -1502,6 +1517,7 @@ public class InstallActivity extends Activity {
         if (!running && SystemClock.elapsedRealtime() - mStartedAt > START_GRACE_MS) {
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
             mCmd = null;
+            lockHints(false);
             if (mAfter == null) route();
             else showFailed(getString(R.string.inst_no_result), true);
             return;
@@ -1513,6 +1529,7 @@ public class InstallActivity extends Activity {
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         final Runnable after = mAfter;
         mCmd = null;
+        lockHints(false);
         mAfter = null;
         if (!r.optBoolean("ok") && r.optBoolean("not_exact")) {
             showNotExact(r.optString("error"));
