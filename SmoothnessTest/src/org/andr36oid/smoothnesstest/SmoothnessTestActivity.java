@@ -8,6 +8,8 @@ import android.view.KeyEvent;
 import android.view.WindowInsets;
 import android.view.WindowManager;
 
+import org.andr36oid.hints.HintBar;
+
 /**
  * A block moves one step per frame, so a frame that comes late shows as a jump. Choreographer
  * gives the time of every frame: the rate over the last second and the frames that took more
@@ -44,6 +46,7 @@ public class SmoothnessTestActivity extends Activity implements Choreographer.Fr
         }
         mView = new SmoothnessView(this);
         setContentView(mView);
+        HintBar.attach(this, "B", getString(org.andr36oid.hints.R.string.andr36oid_hint_back));
     }
 
     @Override

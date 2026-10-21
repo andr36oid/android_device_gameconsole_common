@@ -2,6 +2,7 @@
 // frame and the frame rate the app really gets, to see whether a refresh rate holds up.
 android_app {
     name: "SmoothnessTest",
+    static_libs: ["andr36oid-hint-bar"],
     srcs: ["src/**/*.java"],
     resource_dirs: ["res"],
     certificate: "platform",

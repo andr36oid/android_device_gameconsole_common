@@ -80,6 +80,18 @@ public class HintBar extends LinearLayout {
         }
     }
 
+    /**
+     * Shows hints written as one line, "A  Calibrate     B  Back": hints three or more
+     * spaces apart, each a button and two spaces then what it does.
+     */
+    public void setLine(String line) {
+        mKeys.removeAllViews();
+        for (String hint : line.trim().split("\\s{3,}")) {
+            final int gap = hint.indexOf("  ");
+            if (gap > 0) add(hint.substring(0, gap).trim(), hint.substring(gap).trim());
+        }
+    }
+
     /** One more hint at the end. */
     public void add(CharSequence key, CharSequence label) {
         mKeys.addView(key(getContext(), key));

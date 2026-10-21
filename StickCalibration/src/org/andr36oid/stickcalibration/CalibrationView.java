@@ -32,7 +32,6 @@ class CalibrationView extends View {
 
     private final int mFg;
     private final int mSecondary;
-    private final int mAccent;
 
     /** Left X/Y, right X/Y as the framework reports them, -1..1 */
     private final float[] mAxes = new float[4];
@@ -47,7 +46,6 @@ class CalibrationView extends View {
     private String mMessage = "";
     private String mLeftLabel = "";
     private String mRightLabel = "";
-    private String mHint = "";
     private String mFootnote = "";
 
     CalibrationView(Context context) {
@@ -57,7 +55,6 @@ class CalibrationView extends View {
                 android.R.attr.colorAccent});
         mFg = a.getColor(0, 0xFFFFFFFF);
         mSecondary = a.getColor(1, 0xFF9E9E9E);
-        mAccent = a.getColor(2, 0xFF80CBC4);
         a.recycle();
 
         mStickColors = new Palette(context).stick;
@@ -107,13 +104,11 @@ class CalibrationView extends View {
         invalidate();
     }
 
-    void setTexts(String title, String message, String left, String right, String hint,
-            String footnote) {
+    void setTexts(String title, String message, String left, String right, String footnote) {
         mTitleText = title;
         mMessage = message;
         mLeftLabel = left;
         mRightLabel = right;
-        mHint = hint;
         mFootnote = footnote;
         invalidate();
     }
@@ -142,11 +137,7 @@ class CalibrationView extends View {
         msg.draw(canvas);
         canvas.restore();
 
-        // Hints and footnote at the bottom
-        final float hintY = h - pad - sp(4) - (mFootnote.isEmpty() ? 0 : sp(18));
-        mText.setColor(mAccent);
-        canvas.drawText(mHint, pad, hintY, mText);
-        mText.setColor(mFg);
+        // Footnote at the bottom, the button hints are in the bar under the view
         if (!mFootnote.isEmpty()) {
             canvas.drawText(mFootnote, pad, h - pad, mDim);
         }

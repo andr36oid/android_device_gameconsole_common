@@ -5,7 +5,7 @@ android_app {
     name: "StickCalibration",
     srcs: ["src/**/*.java"],
     resource_dirs: ["res"],
-    static_libs: ["andr36oid-console-art"],
+    static_libs: ["andr36oid-console-art", "andr36oid-hint-bar"],
     certificate: "platform",
     platform_apis: true,
     optimize: {

@@ -8,5 +8,5 @@
     <!-- Frames that came more than 1.5 frames late. %1$d: in the last second,
          %2$d: since the test started -->
     <string name="smooth_late">Images en retard : %1$d dans la dernière seconde, %2$d au total</string>
-    <string name="smooth_hint">Le bloc doit glisser sans à-coups. B pour quitter.</string>
+    <string name="smooth_hint">Le bloc doit glisser sans à-coups.</string>
 </resources>

@@ -8,5 +8,5 @@
     <!-- Frames that came more than 1.5 frames late. %1$d: in the last second,
          %2$d: since the test started -->
     <string name="smooth_late">Verspätete Bilder: %1$d in der letzten Sekunde, %2$d insgesamt</string>
-    <string name="smooth_hint">Der Block sollte ohne Sprünge gleiten. B zum Verlassen.</string>
+    <string name="smooth_hint">Der Block sollte ohne Sprünge gleiten.</string>
 </resources>

@@ -8,5 +8,5 @@
     <!-- Frames that came more than 1.5 frames late. %1$d: in the last second,
          %2$d: since the test started -->
     <string name="smooth_late">Frame terlambat: %1$d dalam detik terakhir, %2$d seluruhnya</string>
-    <string name="smooth_hint">Blok seharusnya meluncur tanpa loncatan. B untuk keluar.</string>
+    <string name="smooth_hint">Blok seharusnya meluncur tanpa loncatan.</string>
 </resources>

@@ -10,6 +10,8 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.WindowManager;
 
+import org.andr36oid.hints.HintBar;
+
 import java.util.Locale;
 
 /**
@@ -32,6 +34,7 @@ public class StickCalibrationActivity extends Activity {
 
     private final Handler mHandler = new Handler(Looper.getMainLooper());
     private CalibrationView mView;
+    private HintBar mHints;
     private StickDriver mDriver;
     private State mState = State.IDLE;
 
@@ -57,6 +60,7 @@ public class StickCalibrationActivity extends Activity {
         mView = new CalibrationView(this);
         mView.setFocusable(true);
         setContentView(mView);
+        mHints = HintBar.attach(this);
     }
 
     @Override
@@ -253,7 +257,8 @@ public class StickCalibrationActivity extends Activity {
         if (!mMessage.isEmpty()) {
             msg.append("\n\n").append(mMessage);
         }
-        mView.setTexts(title, msg.toString(), left, right, hint, footnote());
+        mView.setTexts(title, msg.toString(), left, right, footnote());
+        mHints.setLine(hint);
     }
 
     private String directions(int stick) {

@@ -8,5 +8,5 @@
     <!-- Frames that came more than 1.5 frames late. %1$d: in the last second,
          %2$d: since the test started -->
     <string name="smooth_late">Geç kare: son saniyede %1$d, toplamda %2$d</string>
-    <string name="smooth_hint">Blok sıçramadan kaymalı. Çıkmak için B.</string>
+    <string name="smooth_hint">Blok sıçramadan kaymalı.</string>
 </resources>
