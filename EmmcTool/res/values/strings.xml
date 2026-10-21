@@ -131,6 +131,13 @@
     <string name="inst_restart_test">andr36oid is on the eMMC. Restart now: it starts from the eMMC once, as a test. Its first start sets things up and takes a few minutes. When it says the test worked, restart again.\n\nIf it hangs: hold power for 7 seconds and switch it on again. It then starts from the SD card as usual, and this page says what happened.</string>
     <string name="inst_restart_done">Shut the console down, take the SD card out once it is off, then switch it on: andr36oid now starts from the eMMC.\n\nWith a different bootable SD card in, the console starts from the card, as before.</string>
     <string name="inst_test_hands_off">Don\'t press anything while it starts from the eMMC. Wait until this wizard comes back up at step 2.</string>
+    <string name="inst_revive_title">Make the data card start again?</string>
+    <string name="inst_revive">andr36oid on the eMMC kept Android\'s data on an SD card, and that card can\'t start the console by itself. It can become a normal andr36oid SD card again: your apps, saves and settings stay on it.\n\nIf it isn\'t the card in the console now, put it in slot 2 first.</string>
+    <string name="inst_revive_go">Make it start</string>
+    <string name="inst_revive_leave">Leave it</string>
+    <string name="inst_revive_done_title">The data card starts again</string>
+    <string name="inst_revive_done_this">This SD card starts andr36oid as before, with your apps and data. Shut the console down. Without the card, it starts the stock system.</string>
+    <string name="inst_revive_done_slot2">The card in slot 2 starts andr36oid now, with your apps and data. Shut the console down and put that card in slot 1 instead of this one. Without an SD card, the console starts the stock system.</string>
     <string name="inst_restart_stock">Shut the console down, take the SD card out once it is off, then switch it on to use the stock system.</string>
     <string name="inst_restart_now">Restart now</string>
     <string name="inst_test_later">Don\'t test now</string>

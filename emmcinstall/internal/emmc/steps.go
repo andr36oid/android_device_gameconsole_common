@@ -1455,7 +1455,12 @@ func (c *Config) Restore(p *Progress, dir string) error {
 	if err != nil {
 		return r.stop(err)
 	}
-	*r.st = State{CID: r.st.CID, Sectors: r.st.Sectors, Backup: r.st.Backup}
+	revive := r.st.Revive
+	if d := r.st.Datacard; d != nil && d.UUID != "" && (d.Kind == "original" || d.Kind == "new") &&
+		(d.Stage == "blank" || d.Stage == "done") {
+		revive = &Datacard{Kind: d.Kind, UUID: d.UUID}
+	}
+	*r.st = State{CID: r.st.CID, Sectors: r.st.Sectors, Backup: r.st.Backup, Revive: revive}
 	if err := c.Save(r.st); err != nil {
 		return err
 	}

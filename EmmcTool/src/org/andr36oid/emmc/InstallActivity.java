@@ -339,6 +339,8 @@ public class InstallActivity extends Activity {
             showIncomplete(st.optString("incomplete"));
         } else if (st.optJSONObject("custom") != null) {
             showCustom(st.optJSONObject("custom"));
+        } else if (st.optJSONObject("revive") != null) {
+            showRevive();
         } else if ("done".equals(st.optString("step3"))) {
             if (datacardDue(st)) showDatacard(st.optJSONObject("datacard"));
             else showDone();
@@ -825,7 +827,7 @@ public class InstallActivity extends Activity {
             if (b != null) {
                 final String dir = b.optString("dir");
                 button(mNext, getString(R.string.inst_retry),
-                        () -> run("restore", false, () -> showRestart(Restart.STOCK), dir));
+                        () -> run("restore", false, this::afterRestore, dir));
             }
         } else {
             restoreButton(mSecondary);
@@ -1188,6 +1190,26 @@ public class InstallActivity extends Activity {
         });
     }
 
+    /** After a restore: the data card can start the console again, if there was one. */
+    private void afterRestore() {
+        if (Installer.state().optJSONObject("revive") != null) showRevive();
+        else showRestart(Restart.STOCK);
+    }
+
+    /** The stock eMMC is back, and andr36oid's data card can't start by itself. */
+    private void showRevive() {
+        page(null, -1, getString(R.string.inst_revive_title), getString(R.string.inst_revive));
+        button(mSecondary, getString(R.string.inst_revive_leave),
+                () -> run("datacard-revive", true, () -> showRestart(Restart.STOCK), "forget"));
+        button(mNext, getString(R.string.inst_revive_go), () -> run("datacard-revive", false, () -> {
+            final JSONObject r = Installer.result();
+            final boolean thisCard = r != null && "this card".equals(r.optString("result"));
+            page(null, -1, getString(R.string.inst_revive_done_title),
+                    getString(thisCard ? R.string.inst_revive_done_this : R.string.inst_revive_done_slot2));
+            button(mNext, getString(R.string.inst_shut_down), this::shutDown);
+        }));
+    }
+
     // Stops and the way back
 
     private void showFailed(String why, boolean wrote) {
@@ -1222,7 +1244,7 @@ public class InstallActivity extends Activity {
                 .setTitle(R.string.inst_restore)
                 .setMessage(getString(R.string.inst_restore_text, dir))
                 .setPositiveButton(R.string.inst_restore_go,
-                        (d, x) -> run("restore", false, () -> showRestart(Restart.STOCK), dir))
+                        (d, x) -> run("restore", false, this::afterRestore, dir))
                 .setNegativeButton(R.string.inst_cancel, null)
                 .show());
     }

@@ -251,6 +251,39 @@ func TestDatacardNewCard(t *testing.T) {
 		!exists(filepath.Join(f.cfg.SDBootDir, "boot.ini")) {
 		t.Fatal("the old SD card's BOOT not left as it was")
 	}
+
+	// the stock eMMC back: the new card starts the console again, data kept
+	mustFail(t, func() error { _, err := f.cfg.DatacardRevive(f.progress(), false); return err }(), "no data card")
+	must(t, f.cfg.Restore(f.progress(), f.state().Backup.Dir))
+	if r := f.state().Revive; r == nil || r.UUID != d.UUID || r.Kind != "new" || f.state().Datacard != nil {
+		t.Fatalf("after restore %+v", f.state())
+	}
+	userdata := read(f.cfg.SD2Dev, ud, ud.Sectors())
+	writeFile(t, filepath.Join(f.dir, "mountinfo"), "20 1 179:2 / /system ro,relatime - ext4 /dev/block/dm-0 ro\n"+
+		"23 1 179:33 / /mnt/media_rw/OLD rw,relatime - vfat /dev/block/vold/public:179,33 rw\n")
+	if res, err := f.cfg.DatacardRevive(f.progress(), false); err != nil || res != "slot 2" {
+		t.Fatalf("revive %q %v", res, err)
+	}
+	if f.state().Revive != nil {
+		t.Fatal("still offered after revive")
+	}
+	if !bytes.Equal(f.read(f.cfg.SD2Dev, LoaderStart, LoaderEnd-LoaderStart), f.sd(LoaderStart, LoaderEnd-LoaderStart)) {
+		t.Fatal("the card has no loader")
+	}
+	for _, name := range []string{"system", "vendor"} {
+		a, _ := Find(sdParts, name)
+		b, _ := Find(card, name)
+		if !bytes.Equal(read(f.cfg.SDDev, a, a.Sectors()), read(f.cfg.SD2Dev, b, b.Sectors())) {
+			t.Fatalf("%s not copied", name)
+		}
+	}
+	if !bytes.Equal(read(f.cfg.SD2Dev, ud, ud.Sectors()), userdata) {
+		t.Fatal("userdata changed")
+	}
+	if !exists(filepath.Join(boot, "boot.ini")) || exists(filepath.Join(boot, "boot.ini.datacard")) ||
+		exists(filepath.Join(boot, DatacardMarker)) {
+		t.Fatal("the card's BOOT can't start, or still has the marker")
+	}
 }
 
 // installFromStep1: the install from step 1 (the backup is made).
@@ -272,7 +305,7 @@ func (f *fake) installFromStep1(t *testing.T) {
 
 func TestDatacardOriginalAndBack(t *testing.T) {
 	f := newDatacardFake(t)
-	_, err := f.cfg.Backup(f.progress(), filepath.Join(f.dir, "roms"))
+	backup, err := f.cfg.Backup(f.progress(), filepath.Join(f.dir, "roms"))
 	must(t, err)
 	must(t, f.cfg.DatacardChoose(f.progress(), "original", "", false))
 	mustFail(t, f.cfg.DatacardFinish(f.progress()), "fully installed")
@@ -335,6 +368,35 @@ func TestDatacardOriginalAndBack(t *testing.T) {
 	}
 	if b, _ := os.ReadFile(filepath.Join(emmcBoot, DatacardFile)); string(b) != "datacard="+ud.PartUUID()+"\n" {
 		t.Fatalf("eMMC datacard.txt after return %q", b)
+	}
+
+	// the stock eMMC back, from this card the flasher made start: only the
+	// marker goes
+	st.Running = ""
+	must(t, f.cfg.Save(st))
+	f.sdWritable = true
+	must(t, f.cfg.Restore(f.progress(), backup))
+	if r := f.state().Revive; r == nil || r.UUID != ud.PartUUID() || r.Kind != "original" {
+		t.Fatalf("after restore %+v", f.state())
+	}
+	writeFile(t, filepath.Join(f.cfg.SDBootDir, "boot.ini.datacard"), "old\n")
+	writeFile(t, filepath.Join(f.cfg.SDBootDir, "boot.ini"), "odroidgoa-uboot-config\n")
+	if res, err := f.cfg.DatacardRevive(f.progress(), false); err != nil || res != "this card" {
+		t.Fatalf("revive %q %v", res, err)
+	}
+	if b, _ := os.ReadFile(filepath.Join(f.cfg.SDBootDir, "boot.ini")); string(b) != "odroidgoa-uboot-config\n" ||
+		exists(filepath.Join(f.cfg.SDBootDir, "boot.ini.datacard")) || exists(filepath.Join(f.cfg.SDBootDir, DatacardMarker)) ||
+		f.state().Revive != nil {
+		t.Fatal("this card's BOOT not cleaned up")
+	}
+	writeFile(t, filepath.Join(emmcBoot, DatacardFile), "datacard="+ud.PartUUID()+"\n")
+	st = f.state()
+	st.Revive = &Datacard{Kind: "original", UUID: ud.PartUUID()}
+	must(t, f.cfg.Save(st))
+	_, err = f.cfg.DatacardRevive(f.progress(), true)
+	must(t, err)
+	if st := f.state(); st.Revive != nil {
+		t.Fatalf("after forget %+v", st)
 	}
 
 	// another card's marker isn't this eMMC's data card

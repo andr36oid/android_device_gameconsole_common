@@ -1047,3 +1047,149 @@ func (c *Config) DatacardCopyPending() bool {
 	})
 	return pending
 }
+
+// After a restore
+
+// DatacardRevive makes the data card a restore left behind (State.Revive)
+// start the console again, Android's data on it kept. The SD card this runs
+// from may be that card already (the flasher made it start again): then only
+// the marker goes. A card in slot 2 gets this SD card's system: BOOT, system
+// and vendor copied, the other system partitions blanked for Android to set
+// up, and the loader last, so a cut-off copy leaves a card that doesn't start
+// rather than one that starts half. Forget leaves the card as it is and
+// stops offering it. The result: "this card" or "slot 2".
+func (c *Config) DatacardRevive(p *Progress, forget bool) (string, error) {
+	r, err := c.begin(p, "datacard-revive")
+	if err != nil {
+		return "", err
+	}
+	d := r.st.Revive
+	if d == nil {
+		return "", errors.New("there is no data card to make start again")
+	}
+	if forget {
+		p.Logf("the data card is left as it is")
+		return "", c.clearRevive(r)
+	}
+	card, ud, sys, err := c.findPart(d.UUID, false)
+	if err != nil {
+		return "", fmt.Errorf("the data card isn't in the console: put it in slot 2 (%v)", err)
+	}
+	card.Close()
+	if ud.Name != "userdata" {
+		return "", fmt.Errorf("the data card's partition %s is %s, not userdata", d.UUID, ud.Name)
+	}
+	if sys == c.SDSys {
+		if err := c.withSDBoot(true, reviveBoot); err != nil {
+			return "", err
+		}
+		p.Logf("this SD card is the data card and starts already: its marker is gone")
+		return "this card", c.clearRevive(r)
+	}
+	if err := c.releaseSlot2(p); err != nil {
+		return "", err
+	}
+	if card, err = OpenDisk(c.SD2Dev, true, c.Direct); err != nil {
+		return "", err
+	}
+	defer card.Close()
+	sd, err := OpenDisk(c.SDDev, false, c.Direct)
+	if err != nil {
+		return "", err
+	}
+	defer sd.Close()
+	sdParts, err := ReadGPT(sd)
+	if err != nil {
+		return "", fmt.Errorf("SD card: %w", err)
+	}
+	parts, err := ReadGPT(card)
+	if err != nil {
+		return "", fmt.Errorf("data card: %w", err)
+	}
+	copied := map[string]bool{"BOOT": true, "system": true, "vendor": true}
+	for _, name := range []string{"BOOT", "system", "vendor"} {
+		src, ok := Find(sdParts, name)
+		dst, ok2 := Find(parts, name)
+		if !ok || !ok2 {
+			return "", fmt.Errorf("the SD card or the data card has no %s partition", name)
+		}
+		if dst.Sectors() < src.Sectors() {
+			return "", fmt.Errorf("the data card's %s is smaller than this SD card's", name)
+		}
+	}
+	if err := r.mark("datacard-revive"); err != nil {
+		return "", err
+	}
+	for _, name := range []string{"BOOT", "system", "vendor"} {
+		src, _ := Find(sdParts, name)
+		dst, _ := Find(parts, name)
+		to := span{dst.First, dst.First + src.Sectors()}
+		if _, err := copySpanAs(p, name, sd, spanOf(src), "SD card", card, to, "data card"); err != nil {
+			return "", r.stop(err)
+		}
+	}
+	if err := card.Sync(); err != nil {
+		return "", r.stop(err)
+	}
+	boot, _ := Find(parts, "BOOT")
+	if err := c.fsops().mount(c, c.SD2Dev, spanOf(boot), "vfat", true, func(dir string) error {
+		for _, f := range []string{TestFile, DatacardCopy, DatacardFile} {
+			if err := removeBootFile(dir, f); err != nil {
+				return err
+			}
+		}
+		return reviveBoot(dir)
+	}); err != nil {
+		return "", r.stop(fmt.Errorf("the data card's BOOT: %w", err))
+	}
+	for _, x := range parts {
+		if dataParts[x.Name] || copied[x.Name] || x.Last < LoaderEnd {
+			continue
+		}
+		s := spanOf(x)
+		if s.hi-s.lo > blankHead {
+			s.hi = s.lo + blankHead
+		}
+		if err := zeroOn(p, x.Name, "data card", card, s); err != nil {
+			return "", r.stop(err)
+		}
+	}
+	if _, err := copySpanAs(p, "the loader", sd, spanLoader, "SD card", card, spanLoader, "data card"); err != nil {
+		return "", r.stop(err)
+	}
+	if err := card.Sync(); err != nil {
+		return "", r.stop(err)
+	}
+	r.st.Running = ""
+	p.Logf("the data card starts the console again, with this SD card's andr36oid and its own data")
+	return "slot 2", c.clearRevive(r)
+}
+
+func (c *Config) clearRevive(r *run) error {
+	r.st.Revive = nil
+	return c.Save(r.st)
+}
+
+// reviveBoot undoes makeDatacardBoot on a BOOT folder: the start scripts
+// back (unless the flasher wrote new ones) and the marker gone.
+func reviveBoot(dir string) error {
+	for _, f := range bootScripts {
+		from := filepath.Join(dir, f+".datacard")
+		if _, err := os.Stat(from); err != nil {
+			continue
+		}
+		if _, err := os.Stat(filepath.Join(dir, f)); err == nil {
+			if err := removeBootFile(dir, f+".datacard"); err != nil {
+				return err
+			}
+			continue
+		}
+		if err := os.Rename(from, filepath.Join(dir, f)); err != nil {
+			return err
+		}
+	}
+	if err := removeBootFile(dir, DatacardMarker); err != nil {
+		return err
+	}
+	return syncDir(dir)
+}

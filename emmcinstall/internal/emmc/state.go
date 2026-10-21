@@ -35,6 +35,11 @@ type State struct {
 	// Datacard is where Android keeps its data once installed (datacard.go).
 	Datacard *Datacard `json:"datacard,omitempty"`
 
+	// Revive is the data card of the andr36oid a restore took off the eMMC:
+	// it can't start the console by itself, so the wizard offers to make it
+	// an SD card that starts again, its data kept (DatacardRevive).
+	Revive *Datacard `json:"revive,omitempty"`
+
 	// Custom is an SD card image the advanced mode wrote in place of
 	// andr36oid (the steps above are then all clear).
 	Custom *CustomImage `json:"custom,omitempty"`
