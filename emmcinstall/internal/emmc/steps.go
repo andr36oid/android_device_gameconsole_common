@@ -39,6 +39,13 @@ type run struct {
 	info *EmmcInfo
 }
 
+// wizardStart: the commands a wizard starts with, the only ones that check the
+// battery. Steps 1 to 3, the data card's steps and the restore (the way out after
+// a stop, or the end of going back to stock) never stop for it.
+var wizardStart = map[string]bool{
+	"backup": true, "update-emmc": true, "update-uboot": true, "write-image": true,
+}
+
 func (c *Config) begin(p *Progress, cmd string) (*run, error) {
 	if err := c.needSD(); err != nil {
 		return nil, err
@@ -50,8 +57,12 @@ func (c *Config) begin(p *Progress, cmd string) (*run, error) {
 	if err := c.emmcUnused(); err != nil {
 		return nil, err
 	}
-	if err := c.powerOK(); err != nil {
-		return nil, err
+	// the battery only where a wizard starts: 60% carries it through all its steps,
+	// so no later step stops for the battery
+	if wizardStart[cmd] {
+		if err := c.powerOK(); err != nil {
+			return nil, err
+		}
 	}
 	st, err := c.LoadState()
 	if err != nil {

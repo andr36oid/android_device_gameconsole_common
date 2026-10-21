@@ -621,9 +621,6 @@ func (c *Config) DatacardCopy(p *Progress) (string, error) {
 	if c.BootedFrom() != "emmc" {
 		return "", errors.New("the copy runs on andr36oid started from the eMMC")
 	}
-	if err := c.powerOK(); err != nil {
-		return "", err
-	}
 	var f map[string]string
 	if err := c.withSDBoot(false, func(dir string) error {
 		b, err := os.ReadFile(filepath.Join(dir, DatacardCopy))
