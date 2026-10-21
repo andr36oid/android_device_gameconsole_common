@@ -319,3 +319,51 @@ func treeBytes(dir string) (int64, error) {
 	})
 	return n, err
 }
+
+// KernelTweaksFile on BOOT: Kernel Tweaks' start options, kt_args=... for boot.ini.
+const KernelTweaksFile = "kernel-tweaks.txt"
+
+const emmcSwitch = "dw_mmc_rockchip.builtin_emmc=1"
+
+// emmcSwitchOn makes BOOT's kernel-tweaks.txt switch the built-in eMMC on at an
+// SD card start (Kernel Tweaks' eMMC option), keeping the other options.
+func emmcSwitchOn(dir string) error {
+	b, err := os.ReadFile(filepath.Join(dir, KernelTweaksFile))
+	if err != nil && !os.IsNotExist(err) {
+		return err
+	}
+	text, done := setEmmcSwitch(string(b))
+	if done {
+		return nil
+	}
+	return writeBootFile(dir, KernelTweaksFile, text)
+}
+
+// setEmmcSwitch puts the eMMC switch into a kernel-tweaks.txt text; true when it
+// was there already.
+func setEmmcSwitch(text string) (string, bool) {
+	lines := strings.Split(strings.ReplaceAll(text, "\r", ""), "\n")
+	for i, l := range lines {
+		v, ok := strings.CutPrefix(l, "kt_args=")
+		if !ok {
+			continue
+		}
+		var args []string
+		for _, a := range strings.Fields(v) {
+			if a == emmcSwitch {
+				return text, true
+			}
+			if !strings.HasPrefix(a, "dw_mmc_rockchip.builtin_emmc=") {
+				args = append(args, a)
+			}
+		}
+		lines[i] = "kt_args=" + strings.Join(append([]string{emmcSwitch}, args...), " ")
+		return strings.Join(lines, "\n"), false
+	}
+	if strings.TrimSpace(text) == "" {
+		text = "# Settings > System > Kernel Tweaks: added to the kernel command line\n# at every start. Delete this file to start without them.\n"
+	} else if !strings.HasSuffix(text, "\n") {
+		text += "\n"
+	}
+	return text + "kt_args=" + emmcSwitch + "\n", false
+}

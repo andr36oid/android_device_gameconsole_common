@@ -1166,6 +1166,11 @@ func (c *Config) DatacardBack(p *Progress) (string, error) {
 				return err
 			}
 		}
+		// the eMMC's own tweaks don't switch the eMMC on (its boot.ini does): an SD
+		// start without the switch can't see the eMMC to put the stock one back
+		if err := emmcSwitchOn(dir); err != nil {
+			return err
+		}
 		if err := writeBootFile(dir, DatacardMarker, DatacardMarkerText); err != nil {
 			return err
 		}
