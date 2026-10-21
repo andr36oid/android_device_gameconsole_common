@@ -4,6 +4,7 @@
 // write the driver's raw pin states for the colour check.
 android_app {
     name: "StatusLight",
+    static_libs: ["andr36oid-hint-bar"],
     srcs: ["src/**/*.java"],
     resource_dirs: ["res"],
     certificate: "platform",

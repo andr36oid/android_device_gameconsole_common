@@ -5,6 +5,7 @@
 // which needs root for EASYROMS.
 android_app {
     name: "BiosCheck",
+    static_libs: ["andr36oid-hint-bar"],
     srcs: ["src/**/*.java"],
     resource_dirs: ["res"],
     certificate: "platform",

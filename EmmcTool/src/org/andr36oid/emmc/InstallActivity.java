@@ -30,6 +30,7 @@ import android.widget.RadioGroup;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import org.andr36oid.hints.HintBar;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -133,6 +134,7 @@ public class InstallActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.install_wizard);
+        HintBar.attachDefault(this);
         mStepLabel = findViewById(R.id.step_label);
         mProgress = findViewById(R.id.progress);
         mTitle = findViewById(R.id.title);

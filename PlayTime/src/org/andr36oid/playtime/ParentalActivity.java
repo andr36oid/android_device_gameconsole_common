@@ -5,6 +5,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import org.andr36oid.hints.HintBar;
+
 /** Settings > Play time > Parental controls; behind the PIN once one is set. */
 public class ParentalActivity extends Activity {
 
@@ -15,6 +17,7 @@ public class ParentalActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        HintBar.attachDefault(this);
         final ActionBar actionBar = getActionBar();
         if (actionBar != null) actionBar.setDisplayHomeAsUpEnabled(true);
         mOpen = savedInstanceState != null && savedInstanceState.getBoolean(STATE_OPEN);

@@ -6,7 +6,7 @@ android_app {
     name: "Andr36oidControllers",
     srcs: ["src/**/*.java"],
     resource_dirs: ["res"],
-    static_libs: ["andr36oid-setup-theme"],
+    static_libs: ["andr36oid-setup-theme", "andr36oid-hint-bar"],
     certificate: "platform",
     platform_apis: true,
     optimize: {

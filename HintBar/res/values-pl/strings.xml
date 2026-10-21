@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="andr36oid_hint_select">Wybierz</string>
+    <string name="andr36oid_hint_back">Wstecz</string>
+    <string name="andr36oid_hint_close">Zamknij</string>
+    <string name="andr36oid_hint_scroll">Przewiń</string>
+</resources>

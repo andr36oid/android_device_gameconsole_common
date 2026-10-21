@@ -3,6 +3,7 @@
 // persist.andr36oid.sleep_*; init writes them to the kernel (init.rk30board.rc).
 android_app {
     name: "DeepSleep",
+    static_libs: ["andr36oid-hint-bar"],
     srcs: ["src/**/*.java"],
     resource_dirs: ["res"],
     certificate: "platform",

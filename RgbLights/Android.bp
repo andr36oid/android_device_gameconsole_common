@@ -2,6 +2,7 @@
 // The colour is a persistent property; init.rk30board.rc turns it into LED writes.
 android_app {
     name: "RgbLights",
+    static_libs: ["andr36oid-hint-bar"],
     srcs: ["src/**/*.java"],
     resource_dirs: ["res"],
     certificate: "platform",

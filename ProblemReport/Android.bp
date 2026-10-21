@@ -5,6 +5,7 @@
 // need root.
 android_app {
     name: "ProblemReport",
+    static_libs: ["andr36oid-hint-bar"],
     srcs: ["src/**/*.java"],
     resource_dirs: ["res"],
     certificate: "platform",

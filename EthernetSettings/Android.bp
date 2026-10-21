@@ -4,6 +4,7 @@
 // must be platform signed.
 android_app {
     name: "EthernetSettings",
+    static_libs: ["andr36oid-hint-bar"],
     srcs: ["src/**/*.java"],
     resource_dirs: ["res"],
     certificate: "platform",

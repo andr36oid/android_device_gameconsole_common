@@ -5,6 +5,7 @@
 // set sys.touchmap.*, write /data/system and draw system overlay windows.
 android_app {
     name: "TouchMapper",
+    static_libs: ["andr36oid-hint-bar"],
     srcs: ["src/**/*.java"],
     resource_dirs: ["res"],
     certificate: "platform",

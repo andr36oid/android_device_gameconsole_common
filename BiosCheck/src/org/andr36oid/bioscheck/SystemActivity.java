@@ -4,6 +4,8 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.os.Bundle;
 
+import org.andr36oid.hints.HintBar;
+
 /** One system's BIOS files, opened from the main page. B goes back. */
 public class SystemActivity extends Activity {
 
@@ -12,6 +14,7 @@ public class SystemActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        HintBar.attachDefault(this);
         final ActionBar actionBar = getActionBar();
         if (actionBar != null) actionBar.setDisplayHomeAsUpEnabled(true);
         if (savedInstanceState == null) {

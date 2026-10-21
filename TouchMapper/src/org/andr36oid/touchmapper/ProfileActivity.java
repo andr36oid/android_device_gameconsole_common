@@ -13,12 +13,15 @@ import android.preference.PreferenceScreen;
 import android.preference.SwitchPreference;
 import android.widget.Toast;
 
+import org.andr36oid.hints.HintBar;
+
 /** One app's touch controls: on or off, hints, edit, delete. */
 public class ProfileActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        HintBar.attachDefault(this);
         final String pkg = getIntent().getStringExtra(EditorActivity.EXTRA_PACKAGE);
         if (pkg == null) {
             finish();

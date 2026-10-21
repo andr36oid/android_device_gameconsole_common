@@ -5,11 +5,14 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 
+import org.andr36oid.hints.HintBar;
+
 public class KernelTweaksActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        HintBar.attachDefault(this);
         final ActionBar actionBar = getActionBar();
         if (actionBar != null) actionBar.setDisplayHomeAsUpEnabled(true);
         if (savedInstanceState == null) {

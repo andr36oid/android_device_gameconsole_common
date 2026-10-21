@@ -15,6 +15,8 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import org.andr36oid.hints.HintBar;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,9 +70,9 @@ public class GuideActivity extends Activity {
         mHints = new LinearLayout(this);
         mHints.setOrientation(LinearLayout.HORIZONTAL);
         mHints.setGravity(Gravity.CENTER_VERTICAL | Gravity.END);
-        mHints.setPadding(0, dp(8), 0, 0);
+        mHints.setPadding(0, 0, dp(12), 0);
         root.addView(mHints, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT));
+                dp(24)));
 
         setContentView(root);
 
@@ -300,12 +302,14 @@ public class GuideActivity extends Activity {
             if (i > 0) {
                 mHints.addView(joiner(getString(R.string.key_or)));
             }
-            mHints.addView(badge(alternatives[i]));
+            final TextView key = HintBar.key(this, alternatives[i]);
+            if (i > 0) ((LinearLayout.LayoutParams) key.getLayoutParams()).setMarginStart(0);
+            mHints.addView(key);
         }
-        final TextView text = text(getString(label), 13, R.color.guide_dim);
-        text.setPadding(dp(6), 0, dp(16), 0);
+        final TextView text = HintBar.label(this, getString(label));
         mHints.addView(text);
     }
+
 
     private void enterPage() {
         mPage.requestFocus();

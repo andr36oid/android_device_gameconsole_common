@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- A console button in the hint bar: a filled pill, the launcher's look -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <corners android:radius="9dp" />
+    <solid android:color="#e6e6e6" />
+</shape>

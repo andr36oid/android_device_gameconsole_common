@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Button hints along the bottom: what A, B and so on do on this screen -->
+    <string name="andr36oid_hint_select">Select</string>
+    <string name="andr36oid_hint_back">Back</string>
+    <string name="andr36oid_hint_close">Close</string>
+    <string name="andr36oid_hint_scroll">Scroll</string>
+</resources>

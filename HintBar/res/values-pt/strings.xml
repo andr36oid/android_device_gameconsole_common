@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="andr36oid_hint_select">Selecionar</string>
+    <string name="andr36oid_hint_back">Voltar</string>
+    <string name="andr36oid_hint_close">Fechar</string>
+    <string name="andr36oid_hint_scroll">Percorrer</string>
+</resources>

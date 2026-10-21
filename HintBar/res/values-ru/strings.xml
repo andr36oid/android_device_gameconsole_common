@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="andr36oid_hint_select">Выбрать</string>
+    <string name="andr36oid_hint_back">Назад</string>
+    <string name="andr36oid_hint_close">Закрыть</string>
+    <string name="andr36oid_hint_scroll">Прокрутка</string>
+</resources>

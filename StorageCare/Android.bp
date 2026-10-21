@@ -6,6 +6,7 @@
 // init service (Android.mk) with app_process.
 android_app {
     name: "StorageCare",
+    static_libs: ["andr36oid-hint-bar"],
     srcs: ["src/**/*.java"],
     resource_dirs: ["res"],
     certificate: "platform",

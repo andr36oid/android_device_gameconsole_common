@@ -2,6 +2,7 @@
 // which init gives the usb2 phy's otg_mode file to.
 android_app {
     name: "UsbMode",
+    static_libs: ["andr36oid-hint-bar"],
     srcs: ["src/**/*.java"],
     resource_dirs: ["res"],
     certificate: "platform",

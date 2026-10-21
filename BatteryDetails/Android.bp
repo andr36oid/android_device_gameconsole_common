@@ -2,6 +2,7 @@
 // charge graph, from the fuel gauge in sysfs and a small sampler job.
 android_app {
     name: "BatteryDetails",
+    static_libs: ["andr36oid-hint-bar"],
     srcs: ["src/**/*.java"],
     resource_dirs: ["res"],
     certificate: "platform",

@@ -2,6 +2,7 @@
 // d-pad friendly page (the pieces live in ../themes).
 android_app {
     name: "ConsoleLook",
+    static_libs: ["andr36oid-hint-bar"],
     srcs: ["src/**/*.java"],
     resource_dirs: ["res"],
     certificate: "platform",

@@ -4,12 +4,15 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.os.Bundle;
 
+import org.andr36oid.hints.HintBar;
+
 /** Settings > Touch controls: the apps with touch controls, and adding one. */
 public class SettingsActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        HintBar.attachDefault(this);
         final ActionBar actionBar = getActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);

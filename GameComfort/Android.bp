@@ -9,6 +9,7 @@
 // and watch the task stack.
 android_app {
     name: "GameComfort",
+    static_libs: ["andr36oid-hint-bar"],
     srcs: ["src/**/*.java"],
     resource_dirs: ["res"],
     certificate: "platform",

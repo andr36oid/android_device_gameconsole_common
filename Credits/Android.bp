@@ -1,6 +1,7 @@
 // The credits, opened by tapping the andr36oid version in Settings > About console
 android_app {
     name: "Andr36oidCredits",
+    static_libs: ["andr36oid-hint-bar"],
     srcs: ["src/**/*.java"],
     resource_dirs: ["res"],
     certificate: "platform",

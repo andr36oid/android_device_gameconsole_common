@@ -4,6 +4,7 @@
 // the kernel as root.
 android_app {
     name: "KernelTweaks",
+    static_libs: ["andr36oid-hint-bar"],
     srcs: ["src/**/*.java"],
     resource_dirs: ["res"],
     certificate: "platform",

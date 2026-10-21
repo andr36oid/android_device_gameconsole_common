@@ -3,6 +3,7 @@
 // SurfaceFlinger's frame counter and dumps and draw a system overlay window.
 android_app {
     name: "PerfOverlay",
+    static_libs: ["andr36oid-hint-bar"],
     srcs: ["src/**/*.java"],
     resource_dirs: ["res"],
     certificate: "platform",

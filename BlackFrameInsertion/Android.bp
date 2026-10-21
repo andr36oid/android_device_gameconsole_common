@@ -5,6 +5,7 @@
 // and the boot receiver switch it on and off. System user, to write the parameter.
 android_app {
     name: "BlackFrameInsertion",
+    static_libs: ["andr36oid-hint-bar"],
     srcs: ["src/**/*.java"],
     resource_dirs: ["res"],
     certificate: "platform",

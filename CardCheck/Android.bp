@@ -4,6 +4,7 @@
 // which needs root for the card itself and for EASYROMS.
 android_app {
     name: "CardCheck",
+    static_libs: ["andr36oid-hint-bar"],
     srcs: ["src/**/*.java"],
     resource_dirs: ["res"],
     certificate: "platform",

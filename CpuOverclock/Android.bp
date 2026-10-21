@@ -2,6 +2,7 @@
 // user, which init gives the cpufreq boost and scaling_max_freq files to.
 android_app {
     name: "CpuOverclock",
+    static_libs: ["andr36oid-hint-bar"],
     srcs: ["src/**/*.java"],
     resource_dirs: ["res"],
     certificate: "platform",

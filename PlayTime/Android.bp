@@ -3,6 +3,7 @@
 // the usage stats.
 android_app {
     name: "Andr36oidPlayTime",
+    static_libs: ["andr36oid-hint-bar"],
     srcs: ["src/**/*.java"],
     resource_dirs: ["res"],
     certificate: "platform",

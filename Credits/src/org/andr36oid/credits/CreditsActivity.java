@@ -31,6 +31,8 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import org.andr36oid.hints.HintBar;
+
 import java.io.File;
 
 /**
@@ -119,6 +121,7 @@ public class CreditsActivity extends Activity {
         mScroll.setDefaultFocusHighlightEnabled(false);
         mScroll.addView(mContent);
         setContentView(mScroll);
+        HintBar.attach(this, "B", getString(org.andr36oid.hints.R.string.andr36oid_hint_back));
     }
 
     @Override

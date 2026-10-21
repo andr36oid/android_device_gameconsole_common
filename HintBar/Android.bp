@@ -1,0 +1,9 @@
+// The button hints along the bottom of a screen, the launcher's look, for every app.
+android_library {
+    name: "andr36oid-hint-bar",
+    manifest: "AndroidManifest.xml",
+    srcs: ["src/**/*.java"],
+    resource_dirs: ["res"],
+    sdk_version: "current",
+    min_sdk_version: "30",
+}
