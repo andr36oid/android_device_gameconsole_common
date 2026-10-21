@@ -68,10 +68,12 @@
                 android:resource="@drawable/ic_emmc" />
         </activity-alias>
 
+        <!-- First in the start-up broadcast's queue: on a first start (the eMMC test start)
+             the queue is long, and the wizard came up long after Android's own setup. -->
         <receiver
             android:name=".BootReceiver"
             android:exported="false">
-            <intent-filter>
+            <intent-filter android:priority="1000">
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
