@@ -8,6 +8,7 @@ import (
 	"io"
 	"os"
 	"path/filepath"
+	"sort"
 	"strings"
 	"sync/atomic"
 
@@ -191,6 +192,60 @@ func fileSize(path string) int64 {
 	return fi.Size()
 }
 
+// ImageFile is an image ListImages found.
+type ImageFile struct {
+	Name string `json:"name"`
+	Path string `json:"path"` // as WriteImage takes it
+	Size int64  `json:"size"` // file size: packed images are bigger once unpacked
+}
+
+// sdBootPrefix marks an image on the SD card's BOOT partition, which is only
+// mounted while it is read.
+const sdBootPrefix = "sdboot:"
+
+func imageName(name string) bool {
+	n := strings.ToLower(name)
+	for _, ext := range []string{".img", ".img.gz", ".img.xz", ".zip"} {
+		if strings.HasSuffix(n, ext) {
+			return true
+		}
+	}
+	return false
+}
+
+// ListImages lists the images in dirs and on the SD card's BOOT partition
+// (not in their subfolders), biggest first. A folder that can't be read is
+// left out.
+func (c *Config) ListImages(dirs []string) []ImageFile {
+	out := []ImageFile{}
+	scan := func(dir string) {
+		ents, _ := os.ReadDir(dir)
+		for _, e := range ents {
+			if !e.Type().IsRegular() || !imageName(e.Name()) {
+				continue
+			}
+			fi, err := e.Info()
+			if err != nil {
+				continue
+			}
+			out = append(out, ImageFile{e.Name(), filepath.Join(dir, e.Name()), fi.Size()})
+		}
+	}
+	for _, d := range dirs {
+		scan(d)
+	}
+	c.withSDBoot(false, func(dir string) error {
+		n := len(out)
+		scan(dir)
+		for i := n; i < len(out); i++ {
+			out[i].Path = sdBootPrefix + out[i].Name
+		}
+		return nil
+	})
+	sort.SliceStable(out, func(i, j int) bool { return out[i].Size > out[j].Size })
+	return out
+}
+
 // WriteImage writes any SD card image to the eMMC, in place of andr36oid
 // (the advanced mode: the user takes the risk). It needs a checked stock
 // backup of this eMMC, so restore stays possible. The image is read once for
@@ -199,6 +254,20 @@ func fileSize(path string) int64 {
 // write leaves no half loader that starts, then read back whole. A last
 // partial sector is padded with zeros.
 func (c *Config) WriteImage(p *Progress, path string) error {
+	if name, ok := strings.CutPrefix(path, sdBootPrefix); ok {
+		// on BOOT: mounted for the whole write, which also takes away the
+		// test start file there
+		if name != filepath.Base(name) || !imageName(name) {
+			return fmt.Errorf("%q isn't an image on BOOT", name)
+		}
+		return c.withSDBoot(true, func(dir string) error {
+			return c.writeImage(p, filepath.Join(dir, name), func() error { return removeTest(dir) })
+		})
+	}
+	return c.writeImage(p, path, func() error { return c.withSDBoot(true, removeTest) })
+}
+
+func (c *Config) writeImage(p *Progress, path string, noTest func() error) error {
 	r, err := c.begin(p, "write-image")
 	if err != nil {
 		return err
@@ -220,7 +289,7 @@ func (c *Config) WriteImage(p *Progress, path string) error {
 	}
 	op.OK(sha, "%d MiB", size>>20)
 	p.Logf("image %s: %d bytes, sha256 %s", name, size, sha)
-	if err := c.withSDBoot(true, removeTest); err != nil {
+	if err := noTest(); err != nil {
 		return err
 	}
 	r.st.LoaderSHA, r.st.Step1, r.st.Step1BootID = "", "", ""

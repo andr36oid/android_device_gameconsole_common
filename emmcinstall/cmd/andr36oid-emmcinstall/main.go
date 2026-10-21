@@ -16,7 +16,9 @@
 //	update-emmc             after step 3: the SD card's BOOT, system, vendor and
 //	                        U-Boot onto the eMMC, apps and data kept
 //	restore <backup folder> the stock eMMC back
-//	write-image <file>      advanced: any SD card image (.img, .img.gz, .img.xz, .zip) to the eMMC
+//	list-images <folder>... the images write-image takes, in the folders and on BOOT
+//	write-image <file>      advanced: any SD card image (.img, .img.gz, .img.xz, .zip)
+//	                        to the eMMC; sdboot:<name> for one on BOOT
 //	leave                   forget a stop or a cut-off write, write nothing
 //	request                 run what the state folder's request file asks
 //	                        (cmd=..., arg=...), the result to result.json
@@ -126,6 +128,8 @@ func main() {
 		err = cfg.UpdateEmmc(p)
 	case "restore":
 		err = cfg.Restore(p, arg())
+	case "list-images":
+		result = cfg.ListImages(args)
 	case "write-image":
 		err = cfg.WriteImage(p, arg())
 	case "leave":

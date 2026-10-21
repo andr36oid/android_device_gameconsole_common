@@ -175,3 +175,31 @@ func TestWriteImage(t *testing.T) {
 		}
 	})
 }
+
+func TestListImages(t *testing.T) {
+	f := newFake(t)
+	img := testImage(mib(2) * Sector)
+	saveImage(t, f, "a.img", img)
+	saveImage(t, f, "b.img.xz", img)
+	saveImage(t, f, "notes.txt", img)
+	must(t, os.MkdirAll(filepath.Join(f.dir, "images", "sub.img"), 0755))
+	writeFile(t, filepath.Join(f.cfg.SDBootDir, "boot.zip"), "zip")
+	got := f.cfg.ListImages([]string{filepath.Join(f.dir, "images"), filepath.Join(f.dir, "none")})
+	paths := map[string]string{}
+	for _, i := range got {
+		paths[i.Name] = i.Path
+	}
+	if len(got) != 3 || paths["a.img"] != filepath.Join(f.dir, "images", "a.img") ||
+		paths["b.img.xz"] == "" || paths["boot.zip"] != "sdboot:boot.zip" || got[0].Name != "a.img" {
+		t.Fatalf("listed %+v", got)
+	}
+	// an image on BOOT
+	_, err := f.cfg.Backup(f.progress(), filepath.Join(f.dir, "roms"))
+	must(t, err)
+	must(t, os.WriteFile(filepath.Join(f.cfg.SDBootDir, "boot.img"), img, 0644))
+	mustFail(t, f.cfg.WriteImage(f.progress(), "sdboot:../boot.img"), "isn't an image on BOOT")
+	must(t, f.cfg.WriteImage(f.progress(), "sdboot:boot.img"))
+	if !bytes.Equal(f.emmc(0, mib(2)), img) {
+		t.Fatal("the image from BOOT isn't on the eMMC")
+	}
+}
