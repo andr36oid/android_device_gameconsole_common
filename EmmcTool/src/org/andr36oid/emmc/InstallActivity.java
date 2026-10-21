@@ -271,10 +271,14 @@ public class InstallActivity extends Activity {
         final String step1 = st.optString("step1"), step2 = st.optString("step2");
         if (!failed.isEmpty() || !running.isEmpty()) {
             showFailed(failed.isEmpty() ? getString(R.string.inst_cut_off, running) : failed, true);
+        } else if (!st.optString("incomplete").isEmpty()) {
+            showIncomplete(st.optString("incomplete"));
         } else if ("done".equals(st.optString("step3"))) {
             showDone();
         } else if ("passed".equals(step2)) {
             showNext(3, getString(R.string.inst_step2_passed), this::showFinal);
+        } else if ("deferred".equals(step2)) {
+            showDeferred();
         } else if ("written".equals(step2)) {
             run("check-test", true, () -> {
                 final JSONObject r = Installer.result();
@@ -692,6 +696,47 @@ public class InstallActivity extends Activity {
         button(mNext, getString(R.string.inst_close), this::finish);
     }
 
+    /** Step 2 is written, but its test start was put off. */
+    private void showDeferred() {
+        page(stepLabel(2), stepAt(2) + 100, getString(stepName(2)),
+                getString(R.string.inst_test_deferred));
+        steps();
+        button(mBack, getString(R.string.inst_close), this::finish);
+        restoreButton(mSecondary);
+        button(mNext, getString(R.string.inst_test_now),
+                () -> run("start-test", true, () -> showRestart(Restart.TEST)));
+    }
+
+    /** An update or restore stopped and was left as it is: neither installed nor stock. */
+    private void showIncomplete(String cmd) {
+        final boolean restore = "restore".equals(cmd);
+        page(null, -1, getString(R.string.inst_incomplete_title), getString(restore
+                ? R.string.inst_incomplete_restore : R.string.inst_incomplete_update));
+        warn();
+        steps();
+        button(mBack, getString(R.string.inst_close), this::finish);
+        final JSONObject b = Installer.state().optJSONObject("backup");
+        if (restore) {
+            if (b != null) {
+                final String dir = b.optString("dir");
+                button(mNext, getString(R.string.inst_retry),
+                        () -> run("restore", false, () -> showRestart(Restart.STOCK), dir));
+            }
+        } else {
+            restoreButton(mSecondary);
+            button(mNext, getString(R.string.inst_retry), () -> run(cmd, false, this::showDone));
+        }
+    }
+
+    /** A restore that wrote everything back, but the boot areas differ from the backup. */
+    private void showNotExact(String why) {
+        page(null, -1, getString(R.string.inst_not_exact_title),
+                why + "\n\n" + getString(R.string.inst_not_exact));
+        warn();
+        if (!mLogLines.isEmpty()) button(mMore, getString(R.string.inst_show_log), this::showLog);
+        button(mNext, getString(R.string.inst_shut_down), this::shutDown);
+    }
+
     private void showEmmcSystem() {
         final JSONObject c = Installer.confirmResult();
         if (c != null && "confirmed".equals(c.optString("result"))) {
@@ -717,7 +762,13 @@ public class InstallActivity extends Activity {
         if (!mLogLines.isEmpty()) button(mMore, getString(R.string.inst_show_log), this::showLog);
         if (choice) {
             restoreButton(mSecondary);
-            button(mNext, getString(R.string.inst_leave), () -> run("leave", true, this::route));
+            // an update or restore left half done: the wizard closes, and its
+            // next start offers to run it again
+            final String running = Installer.state().optString("running");
+            final boolean half = running.equals("update-emmc") || running.equals("update-uboot")
+                    || running.equals("restore");
+            button(mNext, getString(R.string.inst_leave),
+                    () -> run("leave", true, half ? this::finish : this::route));
         } else {
             button(mNext, getString(R.string.inst_close), this::finish);
         }
@@ -831,7 +882,9 @@ public class InstallActivity extends Activity {
         final Runnable after = mAfter;
         mCmd = null;
         mAfter = null;
-        if (!r.optBoolean("ok")) {
+        if (!r.optBoolean("ok") && r.optBoolean("not_exact")) {
+            showNotExact(r.optString("error"));
+        } else if (!r.optBoolean("ok")) {
             final JSONObject st = Installer.state();
             showFailed(r.optString("error"),
                     !st.optString("failed").isEmpty() || !st.optString("running").isEmpty());
@@ -1026,7 +1079,8 @@ public class InstallActivity extends Activity {
                     : "blanked".equals(st.optString("step1")) ? "restart" : "",
             "passed".equals(st.optString("step2")) ? "done"
                     : "failed".equals(st.optString("step2")) ? "failed"
-                    : "written".equals(st.optString("step2")) ? "restart" : "",
+                    : "written".equals(st.optString("step2")) ? "restart"
+                    : "deferred".equals(st.optString("step2")) ? "deferred" : "",
             "done".equals(st.optString("step3")) ? "done" : "",
         };
         for (int i = 0; i < 4; i++) {
@@ -1038,7 +1092,8 @@ public class InstallActivity extends Activity {
                 what = R.string.inst_st_failed;
                 icon = R.drawable.ic_inst_bad;
             } else {
-                what = "restart".equals(s[i]) ? R.string.inst_st_restart : R.string.inst_st_todo;
+                what = "restart".equals(s[i]) ? R.string.inst_st_restart
+                        : "deferred".equals(s[i]) ? R.string.inst_st_deferred : R.string.inst_st_todo;
                 icon = 0;
             }
             sideRow(icon, getString(stepName(i)), getString(what));

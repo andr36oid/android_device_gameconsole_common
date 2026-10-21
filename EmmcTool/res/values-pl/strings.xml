@@ -185,4 +185,13 @@
     <string name="inst_shut_down">Wyłącz</string>
     <string name="inst_stock_back_title">Fabryczne eMMC wróciło</string>
     <string name="inst_finished_earlier">Wcześniejsze części: %1$d, wszystkie sprawdzone</string>
+    <string name="inst_test_deferred">andr36oid jest na eMMC, ale start testowy jeszcze się nie odbył. Testuj teraz: konsola uruchomi się ponownie i raz wystartuje z eMMC.</string>
+    <string name="inst_test_now">Testuj teraz</string>
+    <string name="inst_st_deferred">Jeszcze nie przetestowano</string>
+    <string name="inst_incomplete_title">Nie dokończono</string>
+    <string name="inst_incomplete_update">Ostatnia aktualizacja andr36oid na eMMC nie została dokończona. eMMC może nie wystartować, dopóki aktualizacja nie zostanie uruchomiona ponownie. Karta SD nadal uruchamia konsolę.</string>
+    <string name="inst_incomplete_restore">Przywracanie oryginalnego eMMC nie zostało dokończone. eMMC jest częściowo oryginalne, częściowo andr36oid i może nie wystartować. Uruchom to ponownie, aby dokończyć.</string>
+    <string name="inst_retry">Spróbuj ponownie</string>
+    <string name="inst_not_exact_title">Oryginalne eMMC przywrócone, ale nie dokładnie</string>
+    <string name="inst_not_exact">Wszystko, co zapisał andr36oid, wróciło do stanu z kopii i zostało sprawdzone. Obszary rozruchowe jednak się różnią, a andr36oid nigdy ich nie zapisuje. Wyłącz konsolę, wyjmij kartę SD, gdy będzie wyłączona, i włącz ją, aby sprawdzić, czy oryginalny system wystartuje.</string>
 </resources>

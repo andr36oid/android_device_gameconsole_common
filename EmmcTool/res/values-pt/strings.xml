@@ -185,4 +185,13 @@
     <string name="inst_shut_down">Desligar</string>
     <string name="inst_stock_back_title">A eMMC de fábrica está de volta</string>
     <string name="inst_finished_earlier">%1$d partes antes destas, todas verificadas</string>
+    <string name="inst_test_deferred">O andr36oid está na eMMC, mas o arranque de teste ainda não foi feito. Testar agora: a consola reinicia e arranca uma vez a partir da eMMC.</string>
+    <string name="inst_test_now">Testar agora</string>
+    <string name="inst_st_deferred">Ainda não testado</string>
+    <string name="inst_incomplete_title">Não terminado</string>
+    <string name="inst_incomplete_update">A última atualização do andr36oid na eMMC não terminou. A eMMC pode não arrancar até a atualização ser executada de novo. O cartão SD continua a arrancar a consola.</string>
+    <string name="inst_incomplete_restore">A reposição da eMMC original não terminou. A eMMC está em parte original e em parte andr36oid, e pode não arrancar. Execute de novo para terminar.</string>
+    <string name="inst_retry">Tentar de novo</string>
+    <string name="inst_not_exact_title">eMMC original reposta, mas não exata</string>
+    <string name="inst_not_exact">Tudo o que o andr36oid escreveu voltou a estar como na cópia e foi verificado. No entanto, as áreas de arranque são diferentes, e o andr36oid nunca as escreve. Desligue a consola, retire o cartão SD quando estiver desligada e ligue-a para ver se o sistema original arranca.</string>
 </resources>

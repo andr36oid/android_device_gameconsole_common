@@ -185,4 +185,13 @@
     <string name="inst_shut_down">关机</string>
     <string name="inst_stock_back_title">原厂 eMMC 已恢复</string>
     <string name="inst_finished_earlier">之前还有 %1$d 个部分，均已校验</string>
+    <string name="inst_test_deferred">andr36oid 已在 eMMC 上，但测试启动尚未进行。立即测试：主机将重启，并从 eMMC 启动一次。</string>
+    <string name="inst_test_now">立即测试</string>
+    <string name="inst_st_deferred">尚未测试</string>
+    <string name="inst_incomplete_title">未完成</string>
+    <string name="inst_incomplete_update">eMMC 上 andr36oid 的上次更新未完成。在再次运行更新之前，eMMC 可能无法启动。SD 卡仍可启动主机。</string>
+    <string name="inst_incomplete_restore">恢复原厂 eMMC 未完成。eMMC 部分为原厂、部分为 andr36oid，可能无法启动。请再次运行以完成。</string>
+    <string name="inst_retry">重试</string>
+    <string name="inst_not_exact_title">原厂 eMMC 已恢复，但不完全一致</string>
+    <string name="inst_not_exact">andr36oid 写入的所有内容都已按备份恢复并校验。但引导区与备份不同，而 andr36oid 从不写入引导区。请关闭主机，关机后取出 SD 卡，再开机查看原厂系统能否启动。</string>
 </resources>

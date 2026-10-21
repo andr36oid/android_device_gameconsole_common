@@ -185,4 +185,13 @@
     <string name="inst_shut_down">Kapat</string>
     <string name="inst_stock_back_title">Fabrika eMMC\'si geri döndü</string>
     <string name="inst_finished_earlier">Bunlardan önce %1$d parça, hepsi kontrol edildi</string>
+    <string name="inst_test_deferred">andr36oid eMMC\'de, ancak test başlatması henüz yapılmadı. Şimdi test et: konsol yeniden başlar ve bir kez eMMC\'den açılır.</string>
+    <string name="inst_test_now">Şimdi test et</string>
+    <string name="inst_st_deferred">Henüz test edilmedi</string>
+    <string name="inst_incomplete_title">Tamamlanmadı</string>
+    <string name="inst_incomplete_update">andr36oid\'in eMMC\'deki son güncellemesi tamamlanmadı. Güncelleme yeniden çalıştırılana kadar eMMC açılmayabilir. SD kart konsolu açmaya devam eder.</string>
+    <string name="inst_incomplete_restore">Orijinal eMMC\'nin geri yüklenmesi tamamlanmadı. eMMC kısmen orijinal, kısmen andr36oid ve açılmayabilir. Tamamlamak için yeniden çalıştır.</string>
+    <string name="inst_retry">Tekrar dene</string>
+    <string name="inst_not_exact_title">Orijinal eMMC geri yüklendi, ama birebir değil</string>
+    <string name="inst_not_exact">andr36oid\'in yazdığı her şey yedekteki haline döndü ve kontrol edildi. Ancak önyükleme alanları farklı ve andr36oid bunlara hiç yazmaz. Konsolu kapat, kapandığında SD kartı çıkar, sonra orijinal sistemin açılıp açılmadığını görmek için aç.</string>
 </resources>

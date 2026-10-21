@@ -186,4 +186,14 @@
     <string name="inst_shut_down">Shut down</string>
     <string name="inst_stock_back_title">The stock eMMC is back</string>
     <string name="inst_keep_on">Keep the console switched on and the SD card in until this is done.</string>
+    <!-- After the installer review: a put-off test, a half-done update or restore, a restore that isn't exact -->
+    <string name="inst_test_deferred">andr36oid is on the eMMC, but its test start hasn\'t run yet. Test now: the console restarts and starts from the eMMC once.</string>
+    <string name="inst_test_now">Test now</string>
+    <string name="inst_st_deferred">Not tested yet</string>
+    <string name="inst_incomplete_title">Not finished</string>
+    <string name="inst_incomplete_update">The last update of andr36oid on the eMMC didn\'t finish. The eMMC may not start until the update runs again. The SD card still starts the console.</string>
+    <string name="inst_incomplete_restore">Putting the stock eMMC back didn\'t finish. The eMMC is part stock, part andr36oid and may not start. Run it again to finish it.</string>
+    <string name="inst_retry">Try again</string>
+    <string name="inst_not_exact_title">Stock eMMC back, but not exactly</string>
+    <string name="inst_not_exact">Everything andr36oid wrote is back as it was in the backup and checked. The boot areas differ, though, and andr36oid never writes them. Shut the console down, take the SD card out once it is off, then switch it on to see if the stock system starts.</string>
 </resources>

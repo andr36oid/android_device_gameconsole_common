@@ -185,4 +185,13 @@
     <string name="inst_shut_down">Matikan</string>
     <string name="inst_stock_back_title">eMMC asli sudah kembali</string>
     <string name="inst_finished_earlier">%1$d bagian sebelumnya, semua sudah diperiksa</string>
+    <string name="inst_test_deferred">andr36oid sudah ada di eMMC, tapi start uji belum dijalankan. Uji sekarang: konsol dimulai ulang dan start sekali dari eMMC.</string>
+    <string name="inst_test_now">Uji sekarang</string>
+    <string name="inst_st_deferred">Belum diuji</string>
+    <string name="inst_incomplete_title">Belum selesai</string>
+    <string name="inst_incomplete_update">Pembaruan terakhir andr36oid di eMMC tidak selesai. eMMC mungkin tidak bisa start sampai pembaruan dijalankan lagi. Kartu SD tetap bisa menyalakan konsol.</string>
+    <string name="inst_incomplete_restore">Pemulihan eMMC bawaan tidak selesai. eMMC sebagian bawaan, sebagian andr36oid, dan mungkin tidak bisa start. Jalankan lagi untuk menyelesaikannya.</string>
+    <string name="inst_retry">Coba lagi</string>
+    <string name="inst_not_exact_title">eMMC bawaan kembali, tapi tidak persis</string>
+    <string name="inst_not_exact">Semua yang ditulis andr36oid sudah kembali seperti di cadangan dan sudah diperiksa. Namun area boot berbeda, dan andr36oid tidak pernah menulisnya. Matikan konsol, cabut kartu SD setelah mati, lalu nyalakan untuk melihat apakah sistem bawaan bisa start.</string>
 </resources>

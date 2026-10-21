@@ -185,4 +185,13 @@
     <string name="inst_shut_down">Herunterfahren</string>
     <string name="inst_stock_back_title">Der Original-eMMC ist zurück</string>
     <string name="inst_finished_earlier">%1$d Teile davor, alle geprüft</string>
+    <string name="inst_test_deferred">andr36oid ist auf dem eMMC, aber der Teststart ist noch nicht gelaufen. Jetzt testen: Die Konsole startet neu und einmal vom eMMC.</string>
+    <string name="inst_test_now">Jetzt testen</string>
+    <string name="inst_st_deferred">Noch nicht getestet</string>
+    <string name="inst_incomplete_title">Nicht fertig</string>
+    <string name="inst_incomplete_update">Das letzte Update von andr36oid auf dem eMMC ist nicht fertig geworden. Der eMMC startet vielleicht nicht, bis das Update noch einmal läuft. Die SD-Karte startet die Konsole weiterhin.</string>
+    <string name="inst_incomplete_restore">Das Zurückspielen des Original-eMMC ist nicht fertig geworden. Der eMMC ist teils original, teils andr36oid und startet vielleicht nicht. Lass es noch einmal laufen, um es abzuschließen.</string>
+    <string name="inst_retry">Noch einmal</string>
+    <string name="inst_not_exact_title">Original-eMMC zurück, aber nicht exakt</string>
+    <string name="inst_not_exact">Alles, was andr36oid geschrieben hat, ist wieder so wie in der Sicherung und geprüft. Die Boot-Bereiche weichen aber ab, und andr36oid schreibt sie nie. Fahr die Konsole herunter, nimm die SD-Karte heraus, sobald sie aus ist, und schalte sie ein, um zu sehen, ob das Originalsystem startet.</string>
 </resources>

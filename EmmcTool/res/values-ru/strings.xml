@@ -185,4 +185,13 @@
     <string name="inst_shut_down">Выключить</string>
     <string name="inst_stock_back_title">Заводская eMMC восстановлена</string>
     <string name="inst_finished_earlier">Предыдущих частей: %1$d, все проверены</string>
+    <string name="inst_test_deferred">andr36oid уже на eMMC, но тестовый запуск ещё не выполнялся. Проверить сейчас: консоль перезагрузится и один раз запустится с eMMC.</string>
+    <string name="inst_test_now">Проверить сейчас</string>
+    <string name="inst_st_deferred">Ещё не проверено</string>
+    <string name="inst_incomplete_title">Не завершено</string>
+    <string name="inst_incomplete_update">Последнее обновление andr36oid на eMMC не завершилось. eMMC может не запуститься, пока обновление не будет выполнено снова. Консоль по-прежнему запускается с SD-карты.</string>
+    <string name="inst_incomplete_restore">Возврат заводской eMMC не завершился. eMMC частично заводская, частично andr36oid и может не запуститься. Запусти возврат снова, чтобы закончить.</string>
+    <string name="inst_retry">Повторить</string>
+    <string name="inst_not_exact_title">Заводская eMMC возвращена, но не точно</string>
+    <string name="inst_not_exact">Всё, что записал andr36oid, возвращено как в резервной копии и проверено. Но загрузочные области отличаются, а andr36oid их никогда не записывает. Выключи консоль, вынь SD-карту, когда она выключится, и включи, чтобы проверить, запускается ли заводская система.</string>
 </resources>

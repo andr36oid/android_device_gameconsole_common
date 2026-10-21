@@ -185,4 +185,13 @@
     <string name="inst_shut_down">Éteindre</string>
     <string name="inst_stock_back_title">L\'eMMC d\'origine est de retour</string>
     <string name="inst_finished_earlier">%1$d parties avant celles-ci, toutes vérifiées</string>
+    <string name="inst_test_deferred">andr36oid est sur l\'eMMC, mais le démarrage de test n\'a pas encore eu lieu. Tester maintenant : la console redémarre et démarre une fois depuis l\'eMMC.</string>
+    <string name="inst_test_now">Tester maintenant</string>
+    <string name="inst_st_deferred">Pas encore testé</string>
+    <string name="inst_incomplete_title">Pas terminé</string>
+    <string name="inst_incomplete_update">La dernière mise à jour d\'andr36oid sur l\'eMMC ne s\'est pas terminée. L\'eMMC risque de ne pas démarrer tant que la mise à jour n\'est pas relancée. La carte SD démarre toujours la console.</string>
+    <string name="inst_incomplete_restore">La remise en place de l\'eMMC d\'origine ne s\'est pas terminée. L\'eMMC est en partie d\'origine, en partie andr36oid, et risque de ne pas démarrer. Relancez-la pour la terminer.</string>
+    <string name="inst_retry">Réessayer</string>
+    <string name="inst_not_exact_title">eMMC d\'origine remise, mais pas à l\'identique</string>
+    <string name="inst_not_exact">Tout ce qu\'andr36oid a écrit est revenu comme dans la sauvegarde et a été vérifié. Les zones de démarrage diffèrent toutefois, et andr36oid ne les écrit jamais. Éteignez la console, retirez la carte SD une fois éteinte, puis rallumez-la pour voir si le système d\'origine démarre.</string>
 </resources>

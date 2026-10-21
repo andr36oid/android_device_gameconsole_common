@@ -185,4 +185,13 @@
     <string name="inst_shut_down">Desligar</string>
     <string name="inst_stock_back_title">A eMMC original voltou</string>
     <string name="inst_finished_earlier">%1$d partes antes destas, todas verificadas</string>
+    <string name="inst_test_deferred">O andr36oid está na eMMC, mas a inicialização de teste ainda não foi feita. Testar agora: o console reinicia e inicia uma vez pela eMMC.</string>
+    <string name="inst_test_now">Testar agora</string>
+    <string name="inst_st_deferred">Ainda não testado</string>
+    <string name="inst_incomplete_title">Não concluído</string>
+    <string name="inst_incomplete_update">A última atualização do andr36oid na eMMC não terminou. A eMMC pode não iniciar até a atualização ser executada de novo. O cartão SD continua iniciando o console.</string>
+    <string name="inst_incomplete_restore">A restauração da eMMC original não terminou. A eMMC está em parte original e em parte andr36oid, e pode não iniciar. Execute de novo para concluir.</string>
+    <string name="inst_retry">Tentar de novo</string>
+    <string name="inst_not_exact_title">eMMC original restaurada, mas não exata</string>
+    <string name="inst_not_exact">Tudo o que o andr36oid gravou voltou a ficar como no backup e foi verificado. Porém, as áreas de inicialização são diferentes, e o andr36oid nunca as grava. Desligue o console, retire o cartão SD quando estiver desligado e ligue-o para ver se o sistema original inicia.</string>
 </resources>
