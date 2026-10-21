@@ -32,6 +32,7 @@ package main
 import (
 	"bufio"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"os"
 	"os/signal"
@@ -131,6 +132,14 @@ func main() {
 	}
 	if err != nil {
 		p.Logf("error: %v", err)
+		var ne *emmc.NotExactError
+		if errors.As(err, &ne) {
+			// written back and checked, but the boot areas differ: the
+			// wizard says so instead of "stopped"
+			print(map[string]any{"ok": false, "error": err.Error(), "not_exact": true})
+			release()
+			os.Exit(1)
+		}
 		fail(err)
 	}
 	print(map[string]any{"ok": true, "result": result})

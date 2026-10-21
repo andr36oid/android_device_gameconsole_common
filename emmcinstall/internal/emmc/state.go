@@ -23,13 +23,18 @@ type State struct {
 	Step1BootID string `json:"step1_boot_id,omitempty"`
 
 	// Step 2: andr36oid copied to the eMMC and started from there once.
-	Step2    string            `json:"step2,omitempty"` // written, passed, failed
+	Step2    string            `json:"step2,omitempty"` // written, deferred, passed, failed
 	Plan     []Part            `json:"plan,omitempty"`
 	Copied   map[string]string `json:"copied_sha256,omitempty"`
 	CopiedLn map[string]int64  `json:"copied_bytes,omitempty"`
 
 	// Step 3: the SD card's loader on the eMMC.
 	Step3 string `json:"step3,omitempty"` // done
+
+	// Incomplete is an update or restore that stopped or was cut off and was
+	// then left as it is: the eMMC is half old, half new until that command
+	// runs again and finishes.
+	Incomplete string `json:"incomplete,omitempty"` // update-emmc, update-uboot, restore
 
 	// Running is the write under way: still set at the next start means it
 	// was cut off (power lost).

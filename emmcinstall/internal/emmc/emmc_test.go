@@ -1069,3 +1069,189 @@ func TestUpdateEmmc(t *testing.T) {
 		t.Fatal("system's record not updated")
 	}
 }
+
+// poke writes b straight into an image, past the installer (a fault or a
+// change made behind its back).
+func poke(t *testing.T, path string, b []byte, off int64) {
+	t.Helper()
+	fh, err := os.OpenFile(path, os.O_WRONLY, 0)
+	must(t, err)
+	_, err = fh.WriteAt(b, off)
+	must(t, err)
+	must(t, fh.Close())
+}
+
+func TestReviewFixes(t *testing.T) {
+	roms := func(f *fake) string { return filepath.Join(f.dir, "roms") }
+	t.Run("a damaged backup stops the steps that write", func(t *testing.T) {
+		f := newFake(t)
+		dir, err := f.cfg.Backup(f.progress(), roms(f))
+		must(t, err)
+		// same length, different bytes: the sizes alone don't show it
+		b := f.read(filepath.Join(dir, "user.001"), 0, 1)
+		b[10] ^= 1
+		poke(t, filepath.Join(dir, "user.001"), b, 0)
+		f.writes = nil
+		mustFail(t, f.cfg.BlankLoader(f.progress()), "doesn't read back as it was made")
+		if len(f.writes) != 0 || f.state().Running != "" {
+			t.Fatalf("wrote %d times with a damaged backup, state %+v", len(f.writes), f.state())
+		}
+	})
+	t.Run("a damaged backup stops step 3", func(t *testing.T) {
+		f := newFake(t)
+		f.installTo2(t)
+		dir := f.state().Backup.Dir
+		b := f.read(filepath.Join(dir, "boot0.img"), 0, 1)
+		b[3] ^= 1
+		poke(t, filepath.Join(dir, "boot0.img"), b, 0)
+		f.writes = nil
+		mustFail(t, f.cfg.WriteLoader(f.progress(), f.state().LoaderSHA[:12]), "boot0.img is damaged")
+		if len(f.writes) != 0 {
+			t.Fatal("step 3 wrote with a damaged backup")
+		}
+	})
+	t.Run("restore checks the loader before its header goes back", func(t *testing.T) {
+		f := newFake(t)
+		f.installTo2(t)
+		must(t, f.cfg.WriteLoader(f.progress(), f.state().LoaderSHA[:12]))
+		dir := f.state().Backup.Dir
+		w := testHooks.write
+		testHooks.write = func(d *Disk, b []byte, off int64) ([]byte, error) {
+			b, err := w(d, b, off)
+			if d.Path == f.cfg.EmmcDev && off == UbootStart*Sector && err == nil {
+				b = append([]byte{}, b...)
+				b[9] ^= 0x40 // the eMMC keeps a bad bit in U-Boot
+			}
+			return b, err
+		}
+		mustFail(t, f.cfg.Restore(f.progress(), dir), "U-Boot and trust on the eMMC reads back different")
+		if !bytes.Equal(f.emmc(LoaderStart, 1), make([]byte, Sector)) {
+			t.Fatal("the idbloader header went back over a loader that didn't check out")
+		}
+		testHooks.write = w
+		must(t, f.cfg.Restore(f.progress(), dir))
+		if !bytes.Equal(f.emmc(0, mib(64)), f.stock) {
+			t.Fatal("second restore didn't bring the stock eMMC back")
+		}
+	})
+	t.Run("restore says when the boot areas differ", func(t *testing.T) {
+		f := newFake(t)
+		dir, err := f.cfg.Backup(f.progress(), roms(f))
+		must(t, err)
+		must(t, f.cfg.BlankLoader(f.progress()))
+		poke(t, f.cfg.EmmcDev+"boot1", []byte("changed"), 4096)
+		err = f.cfg.Restore(f.progress(), dir)
+		var ne *NotExactError
+		if !errors.As(err, &ne) || !strings.Contains(err.Error(), "boot1 area differs") {
+			t.Fatalf("restore with a changed boot1: %v", err)
+		}
+		if !bytes.Equal(f.emmc(0, mib(64)), f.stock) {
+			t.Fatal("the user area wasn't written back")
+		}
+		if st := f.state(); st.Running != "" || st.Failed != "" || st.Step1 != "" || st.Backup == nil {
+			t.Fatalf("after the restore: %+v", st)
+		}
+	})
+	t.Run("an update left half done isn't installed", func(t *testing.T) {
+		f := newFake(t)
+		f.installTo2(t)
+		must(t, f.cfg.WriteLoader(f.progress(), f.state().LoaderSHA[:12]))
+		parts, err := ReadGPT(must2(OpenDisk(f.cfg.SDDev, false, false)))
+		must(t, err)
+		sys, _ := Find(parts, "system")
+		poke(t, f.cfg.SDDev, []byte("new system"), sys.First*Sector+4096)
+		plan := f.state().Plan
+		dst, _ := Find(plan, "system")
+		w := testHooks.write
+		testHooks.write = func(d *Disk, b []byte, off int64) ([]byte, error) {
+			if d.Path == f.cfg.EmmcDev && off == dst.First*Sector {
+				return nil, syscall.EIO
+			}
+			return w(d, b, off)
+		}
+		mustFail(t, f.cfg.UpdateEmmc(f.progress()), "input/output error")
+		testHooks.write = w
+		must(t, f.cfg.Leave(f.progress()))
+		st := f.state()
+		if st.Incomplete != "update-emmc" || st.Running != "" || st.Failed != "" {
+			t.Fatalf("after leaving: %+v", st)
+		}
+		mustFail(t, f.cfg.UpdateUboot(f.progress()), "update-emmc didn't finish")
+		must(t, f.cfg.UpdateEmmc(f.progress()))
+		if st := f.state(); st.Incomplete != "" || st.Step3 != "done" {
+			t.Fatalf("after the update ran again: %+v", st)
+		}
+	})
+	t.Run("a restore left half done stays on record", func(t *testing.T) {
+		f := newFake(t)
+		_, err := f.cfg.Backup(f.progress(), roms(f))
+		must(t, err)
+		st := f.state()
+		st.Running, st.Failed = "restore", "cut off"
+		must(t, f.cfg.Save(st))
+		must(t, f.cfg.Leave(f.progress()))
+		if st := f.state(); st.Incomplete != "restore" {
+			t.Fatalf("after leaving: %+v", st)
+		}
+		mustFail(t, f.cfg.BlankLoader(f.progress()), "restore didn't finish")
+		must(t, f.cfg.Restore(f.progress(), f.state().Backup.Dir))
+		if st := f.state(); st.Incomplete != "" {
+			t.Fatalf("after the restore: %+v", st)
+		}
+	})
+	t.Run("a torn U-Boot copy on the eMMC can be updated", func(t *testing.T) {
+		f := newFake(t)
+		f.installTo2(t)
+		must(t, f.cfg.WriteLoader(f.progress(), f.state().LoaderSHA[:12]))
+		copySecs := int64(TrustStart-UbootStart) / ubootCopies
+		nu := append([]byte("LOADER  "), randBytes(rand.New(rand.NewSource(8)), copySecs*Sector-8)...)
+		for i := int64(0); i < ubootCopies; i++ {
+			poke(t, f.cfg.SDDev, nu, (UbootStart+i*copySecs)*Sector)
+		}
+		// a power cut tore copy 1 on the eMMC
+		poke(t, f.cfg.EmmcDev, make([]byte, Sector), UbootStart*Sector)
+		f.writes = nil
+		must(t, f.cfg.UpdateUboot(f.progress()))
+		if f.writes[0] != UbootStart*Sector {
+			t.Fatalf("the torn copy wasn't written first (sector %d)", f.writes[0]/Sector)
+		}
+		if !bytes.Equal(f.emmc(LoaderStart, LoaderEnd-LoaderStart), f.sd(LoaderStart, LoaderEnd-LoaderStart)) {
+			t.Fatal("U-Boot not updated")
+		}
+		// the SD card's copies are still checked strictly
+		poke(t, f.cfg.SDDev, make([]byte, Sector), (UbootStart+2*copySecs)*Sector)
+		mustFail(t, f.cfg.UpdateUboot(f.progress()), "the SD card's U-Boot copy 3")
+	})
+	t.Run("a test put off waits for test now", func(t *testing.T) {
+		f := newFake(t)
+		_, err := f.cfg.Backup(f.progress(), roms(f))
+		must(t, err)
+		must(t, f.cfg.BlankLoader(f.progress()))
+		f.restart("boot-2")
+		must(t, f.cfg.CheckLoader(f.progress()))
+		must(t, f.cfg.WriteOS(f.progress()))
+		must(t, f.cfg.CancelTest(f.progress()))
+		if st := f.state(); st.Step2 != "deferred" || f.testFile() != "" {
+			t.Fatalf("after putting it off: %+v, file %q", st, f.testFile())
+		}
+		res, err := f.cfg.CheckTest(f.progress())
+		if err != nil || res != "deferred" || f.state().Step2 != "deferred" || f.state().Failed != "" {
+			t.Fatalf("check-test of a put off test: %s %v %+v", res, err, f.state())
+		}
+		must(t, f.cfg.StartTest(f.progress()))
+		if f.state().Step2 != "written" || f.testFile() != "emmc_test=start\n" {
+			t.Fatalf("after test now: %+v, file %q", f.state(), f.testFile())
+		}
+		f.uboot()
+		f.emmcStart()
+		res, err = f.cfg.Confirm(f.progress())
+		if err != nil || res != "confirmed" {
+			t.Fatalf("confirm: %s %v", res, err)
+		}
+		f.sdStart()
+		res, err = f.cfg.CheckTest(f.progress())
+		if err != nil || res != "passed" {
+			t.Fatalf("check-test: %s %v", res, err)
+		}
+	})
+}

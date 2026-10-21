@@ -63,6 +63,10 @@ func (c *Config) begin(p *Progress, cmd string) (*run, error) {
 	if st.Running != "" && st.Running != cmd && cmd != "restore" {
 		return nil, fmt.Errorf("%s was cut off: restore the stock system, or run %s again", st.Running, st.Running)
 	}
+	if st.Incomplete != "" && st.Incomplete != cmd && cmd != "restore" &&
+		!(st.Incomplete == "update-uboot" && cmd == "update-emmc") {
+		return nil, fmt.Errorf("%s didn't finish: run it again, or restore the stock system", st.Incomplete)
+	}
 	if st.Backup != nil && cmd != "backup" && cmd != "restore" {
 		// every step's events also go to the log next to the backup
 		if err := p.AddLog(filepath.Join(st.Backup.Dir, "install.log")); err != nil {
@@ -573,7 +577,45 @@ func loadBackup(dir string) (*backupInfo, error) {
 	return &info, nil
 }
 
-// backupReady makes sure the state's backup is there before the first write.
+// checkBackup reads every file of a backup back from the card and checks it
+// against the hashes recorded when it was made: the eMMC's files, and the boot
+// areas' files when boot is set.
+func checkBackup(p *Progress, dir string, info *backupInfo, boot bool) error {
+	files := info.Files
+	if boot {
+		files = append(append([]backupFile{}, info.Files...), info.Boot...)
+	}
+	var total int64
+	for _, f := range files {
+		total += f.Bytes
+	}
+	op := p.Start("Check the backup", "SD", 0, info.Sectors, total)
+	all := sha256.New()
+	var base int64
+	for i, f := range files {
+		var also io.Writer
+		if i < len(info.Files) {
+			also = all
+		}
+		got, n, err := hashFile(filepath.Join(dir, f.Name), op.Tick, base, also)
+		if err != nil {
+			return op.Fail(err)
+		}
+		if got != f.SHA || n != f.Bytes {
+			return op.Fail(fmt.Errorf("backup file %s is damaged", f.Name))
+		}
+		base += n
+	}
+	if sum(all.Sum(nil)) != info.SHA {
+		return op.Fail(errors.New("the backup files don't add up to the backed up eMMC"))
+	}
+	op.OK(info.SHA, "%d files, all good", len(files))
+	return nil
+}
+
+// backupReady makes sure the state's backup is there and whole before a step
+// that writes: the backup is the only way back, so it is read back in full
+// every time, not trusted from when it was made.
 func (r *run) backupReady() error {
 	b := r.st.Backup
 	if b == nil || !b.Verified {
@@ -585,6 +627,9 @@ func (r *run) backupReady() error {
 	}
 	if info.CID != r.info.CID || info.SHA != b.SHA || info.Sectors != r.info.Sectors {
 		return fmt.Errorf("the backup in %s is of another eMMC", b.Dir)
+	}
+	if err := checkBackup(r.p, b.Dir, info, true); err != nil {
+		return fmt.Errorf("the backup in %s doesn't read back as it was made, nothing was written: %w", b.Dir, err)
 	}
 	return nil
 }
@@ -899,6 +944,7 @@ func (c *Config) update(p *Progress, cmd string, system bool) error {
 	}
 	if !system && !ub {
 		r.st.LoaderSHA = sha
+		r.st.finished(cmd)
 		p.Logf("U-Boot on the eMMC is already the SD card's")
 		return c.Save(r.st)
 	}
@@ -923,6 +969,7 @@ func (c *Config) update(p *Progress, cmd string, system bool) error {
 		return r.stop(err)
 	}
 	r.st.LoaderSHA, r.st.Running = sha, ""
+	r.st.finished(cmd)
 	if system {
 		p.Logf("andr36oid on the eMMC updated from the SD card")
 	} else {
@@ -955,25 +1002,50 @@ func ubootToWrite(sd, e *Disk, sha string) (bool, error) {
 			return false, fmt.Errorf("the %s differs from the SD card's: only U-Boot can be updated here", s.what)
 		}
 	}
+	// The eMMC's copies are not checked here: an update cut off mid-copy
+	// leaves one torn, and running the update again is what mends it.
 	copySectors := int64(TrustStart-UbootStart) / ubootCopies
 	for i := int64(0); i < ubootCopies; i++ {
-		for _, d := range []*Disk{sd, e} {
-			b, err := d.ReadBytes((UbootStart+i*copySectors)*Sector, Sector)
-			if err != nil {
-				return false, err
-			}
-			if !bytes.HasPrefix(b, []byte("LOADER  ")) {
-				return false, fmt.Errorf("U-Boot copy %d isn't where it should be (sector %d)", i+1, UbootStart+i*copySectors)
-			}
+		b, err := sd.ReadBytes((UbootStart+i*copySectors)*Sector, Sector)
+		if err != nil {
+			return false, err
+		}
+		if !bytes.HasPrefix(b, []byte("LOADER  ")) {
+			return false, fmt.Errorf("the SD card's U-Boot copy %d isn't where it should be (sector %d)", i+1, UbootStart+i*copySectors)
 		}
 	}
 	return true, nil
 }
 
-// writeUboot writes U-Boot's copies last to first and checks the whole loader.
+// ubootOrder is the order writeUboot writes the eMMC's U-Boot copies in: the
+// damaged ones first (nothing to lose), then the whole ones last to first, so
+// a cut-off write always leaves a whole copy, old or new, while there was one.
+func ubootOrder(e *Disk) ([]int64, error) {
+	copySectors := int64(TrustStart-UbootStart) / ubootCopies
+	var bad, good []int64
+	for i := int64(ubootCopies - 1); i >= 0; i-- {
+		b, err := e.ReadBytes((UbootStart+i*copySectors)*Sector, Sector)
+		if err != nil {
+			return nil, err
+		}
+		if bytes.HasPrefix(b, []byte("LOADER  ")) {
+			good = append(good, i)
+		} else {
+			bad = append(bad, i)
+		}
+	}
+	return append(bad, good...), nil
+}
+
+// writeUboot writes U-Boot's copies in ubootOrder, one at a time and each
+// checked, then checks the whole loader.
 func writeUboot(p *Progress, sd, e *Disk, sha string) error {
 	copySectors := int64(TrustStart-UbootStart) / ubootCopies
-	for i := int64(ubootCopies - 1); i >= 0; i-- {
+	order, err := ubootOrder(e)
+	if err != nil {
+		return err
+	}
+	for _, i := range order {
 		s := span{UbootStart + i*copySectors, UbootStart + (i+1)*copySectors}
 		if _, err := copySpan(p, fmt.Sprintf("U-Boot copy %d", i+1), sd, s, e, s); err != nil {
 			return err
@@ -1000,17 +1072,33 @@ func (c *Config) StartTest(p *Progress) error {
 	if err != nil {
 		return err
 	}
-	if st.Step2 != "written" {
+	if st.Step2 != "written" && st.Step2 != "deferred" {
 		return errors.New("andr36oid isn't written to the eMMC")
 	}
+	// the file first: written in the records means a test start is set up
+	if err := c.withSDBoot(true, func(dir string) error { return writeTest(dir, "emmc_test=start\n") }); err != nil {
+		return err
+	}
+	st.Step2 = "written"
 	p.Logf("test start set up")
-	return c.withSDBoot(true, func(dir string) error { return writeTest(dir, "emmc_test=start\n") })
+	return c.Save(st)
 }
 
-// CancelTest takes the test start away.
+// CancelTest takes the test start away; step 2 waits as deferred until
+// StartTest sets it up again.
 func (c *Config) CancelTest(p *Progress) error {
 	if err := c.needSD(); err != nil {
 		return err
+	}
+	st, err := c.LoadState()
+	if err != nil {
+		return err
+	}
+	if st.Step2 == "written" {
+		st.Step2 = "deferred"
+		if err := c.Save(st); err != nil {
+			return err
+		}
 	}
 	p.Logf("test start taken away")
 	return c.withSDBoot(true, removeTest)
@@ -1025,6 +1113,9 @@ func (c *Config) CheckTest(p *Progress) (string, error) {
 	st, err := c.LoadState()
 	if err != nil {
 		return "", err
+	}
+	if st.Step2 == "deferred" {
+		return "deferred", nil
 	}
 	if st.Step2 != "written" {
 		return st.Step2, fmt.Errorf("no eMMC test under way (step 2 %q)", st.Step2)
@@ -1109,6 +1200,9 @@ func (c *Config) WriteLoader(p *Progress, confirm string) error {
 	if len(r.st.LoaderSHA) < 12 || confirm != r.st.LoaderSHA[:12] {
 		return errors.New("not confirmed for this loader")
 	}
+	if err := r.backupReady(); err != nil {
+		return err
+	}
 	sd, err := r.openSD()
 	if err != nil {
 		return err
@@ -1179,8 +1273,19 @@ func (c *Config) WriteLoader(p *Progress, confirm string) error {
 
 // Restore
 
+// NotExactError is a restore that wrote the whole backup back and checked it,
+// but can't promise the eMMC is exactly stock: its boot areas (never written
+// by andr36oid) differ from the backup or couldn't be read.
+type NotExactError struct{ Why string }
+
+func (e *NotExactError) Error() string {
+	return "the stock eMMC is written back, but not exactly: " + e.Why
+}
+
 // Restore writes a backup back to the eMMC, after checking every file of it,
-// and checks the whole eMMC against it.
+// and checks the whole eMMC against it. The loader goes back body first and
+// checked, its header last, so the boot ROM never finds a header in front of
+// a half-written loader.
 func (c *Config) Restore(p *Progress, dir string) error {
 	r, err := c.begin(p, "restore")
 	if err != nil {
@@ -1194,38 +1299,53 @@ func (c *Config) Restore(p *Progress, dir string) error {
 		return fmt.Errorf("the backup is of another eMMC (CID %s)", info.CID)
 	}
 	p.AddLog(filepath.Join(dir, "install.log"))
-	op := p.Start("Check the backup", "SD", 0, info.Sectors, info.Sectors*Sector)
-	all := sha256.New()
-	var base int64
-	for _, f := range info.Files {
-		got, n, err := hashFile(filepath.Join(dir, f.Name), op.Tick, base, all)
-		if err != nil {
-			return op.Fail(err)
-		}
-		if got != f.SHA || n != f.Bytes {
-			return op.Fail(fmt.Errorf("backup file %s is damaged", f.Name))
-		}
-		base += n
+	if err := checkBackup(p, dir, info, false); err != nil {
+		return err
 	}
-	if sum(all.Sum(nil)) != info.SHA {
-		return op.Fail(errors.New("the backup files don't add up to the backed up eMMC"))
-	}
-	op.OK(info.SHA, "%d files, all good", len(info.Files))
 	stockLoader, err := backupSpanSHA(dir, info, spanLoader)
 	if err != nil {
 		return err
 	}
+	// The boot areas, before anything is written: andr36oid never writes
+	// them, so the restore can't mend them, but it can say they differ.
+	var notExact []string
+	for _, b := range info.Boot {
+		name := strings.TrimSuffix(b.Name, ".img")
+		op := p.Start("Compare the eMMC's "+name+" area with the backup", name, 0, b.Bytes/Sector, b.Bytes)
+		why := ""
+		if got, n, err := hashFile(filepath.Join(dir, b.Name), nil, 0, nil); err != nil || got != b.SHA || n != b.Bytes {
+			why = fmt.Sprintf("the backup's %s file is damaged", name)
+		} else if d, err := OpenDisk(c.EmmcDev+name, false, c.Direct); err != nil {
+			why = fmt.Sprintf("the eMMC's %s area can't be read (%v)", name, err)
+		} else {
+			h, err := d.HashRange(0, d.Size, op.Tick)
+			d.Close()
+			if err != nil {
+				why = fmt.Sprintf("the eMMC's %s area can't be read (%v)", name, err)
+			} else if h != b.SHA {
+				why = fmt.Sprintf("the eMMC's %s area differs from the backup", name)
+			}
+		}
+		if why != "" {
+			op.Fail(errors.New(why))
+			notExact = append(notExact, why)
+		} else {
+			op.OK(b.SHA, "same as the backup")
+		}
+	}
 	if err := r.mark("restore"); err != nil {
 		return err
 	}
+	type part struct {
+		what  string
+		s     span
+		check bool // read back against the backup right after writing
+	}
 	err = r.unlocked(func(e *Disk) error {
 		end := info.Sectors
-		spans := []struct {
-			what string
-			s    span
-		}{
-			{"partitions", span{LoaderEnd, end}},
-			{"partition table", span{0, LoaderStart}},
+		parts := []part{
+			{"partitions", span{LoaderEnd, end}, false},
+			{"partition table", span{0, LoaderStart}, true},
 		}
 		now, err := e.HashRange(spanLoader.off(), spanLoader.n(), nil)
 		if err != nil {
@@ -1237,25 +1357,37 @@ func (c *Config) Restore(p *Progress, dir string) error {
 			// A loader that starts while the stock one is half written back
 			// would hang the console with no way to the SD card: without its
 			// header the boot ROM skips the eMMC until the stock header is
-			// back, written last.
+			// back, written last, after the rest of the loader checked out.
 			if err := zeroSpan(p, "idbloader header", e, spanHeader); err != nil {
 				return err
 			}
-			spans = append(spans, []struct {
-				what string
-				s    span
-			}{
-				{"U-Boot and trust", spanUboot},
-				{"idbloader", spanIdb},
-				{"idbloader header", spanHeader},
-			}...)
+			parts = append(parts,
+				part{"U-Boot and trust", spanUboot, true},
+				part{"idbloader", spanIdb, true},
+				part{"idbloader header", spanHeader, true})
 		}
-		for _, s := range spans {
-			op := p.Start("Write back the "+s.what, "eMMC", s.s.lo, s.s.hi, s.s.n())
-			if err := writeFromBackup(dir, info, e, s.s, op.Tick); err != nil {
+		for _, q := range parts {
+			op := p.Start("Write back the "+q.what, "eMMC", q.s.lo, q.s.hi, q.s.n())
+			if err := writeFromBackup(dir, info, e, q.s, op.Tick); err != nil {
 				return op.Fail(err)
 			}
 			op.OK("", "written")
+			if !q.check {
+				continue
+			}
+			want, err := backupSpanSHA(dir, info, q.s)
+			if err != nil {
+				return err
+			}
+			op = p.Start("Check the "+q.what+" against the backup", "eMMC", q.s.lo, q.s.hi, q.s.n())
+			h, err := e.HashRange(q.s.off(), q.s.n(), op.Tick)
+			if err != nil {
+				return op.Fail(err)
+			}
+			if h != want {
+				return op.Fail(fmt.Errorf("the %s on the eMMC reads back different from the backup", q.what))
+			}
+			op.OK(h, "same as the backup")
 		}
 		op := p.Start("Check the eMMC against the backup", "eMMC", 0, end, end*Sector)
 		h, err := e.HashRange(0, end*Sector, op.Tick)
@@ -1271,22 +1403,17 @@ func (c *Config) Restore(p *Progress, dir string) error {
 	if err != nil {
 		return r.stop(err)
 	}
-	for _, b := range info.Boot {
-		path := c.EmmcDev + strings.TrimSuffix(b.Name, ".img")
-		d, err := OpenDisk(path, false, c.Direct)
-		if err != nil {
-			p.Logf("%s not checked: %v", b.Name, err)
-			continue
-		}
-		h, err := d.HashRange(0, d.Size, nil)
-		d.Close()
-		if err != nil || h != b.SHA {
-			p.Logf("%s differs from the backup (%v); andr36oid never writes it", b.Name, err)
-		}
-	}
 	*r.st = State{CID: r.st.CID, Sectors: r.st.Sectors, Backup: r.st.Backup}
+	if err := c.Save(r.st); err != nil {
+		return err
+	}
+	if len(notExact) > 0 {
+		err := &NotExactError{Why: strings.Join(notExact, "; ")}
+		p.Logf("%v", err)
+		return err
+	}
 	p.Logf("the stock eMMC is back")
-	return c.Save(r.st)
+	return nil
 }
 
 // eachBackupChunk hands span s of the backed up eMMC to fn, chunk by chunk,
@@ -1355,6 +1482,18 @@ func (c *Config) Leave(p *Progress) error {
 		return err
 	}
 	p.Logf("left as it is: running %q, failed %q", st.Running, st.Failed)
+	switch st.Running {
+	case "update-emmc", "update-uboot", "restore":
+		// half old, half new: not installed, not stock, until it runs again
+		st.Incomplete = st.Running
+	}
 	st.Running, st.Failed = "", ""
 	return c.Save(st)
+}
+
+// finished clears an incomplete record that a successful cmd mends.
+func (st *State) finished(cmd string) {
+	if st.Incomplete == cmd || (cmd == "update-emmc" && st.Incomplete == "update-uboot") {
+		st.Incomplete = ""
+	}
 }
