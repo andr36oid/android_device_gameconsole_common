@@ -1234,7 +1234,7 @@ public class InstallActivity extends Activity {
 
     private void showReturnOrStock(String dir) {
         page(null, -1, getString(R.string.inst_dc_return_title), getString(R.string.inst_dc_return));
-        button(mBack, getString(R.string.inst_dc_not_now), this::finish);
+        button(mBack, getString(R.string.inst_dc_keep_sd), this::confirmKeep);
         if (!dir.isEmpty()) restoreButton(mSecondary, dir);
         button(mNext, getString(R.string.inst_dc_return_go),
                 () -> run("datacard-return", false, () -> showRestart(Restart.RETURNED)));
@@ -1245,10 +1245,26 @@ public class InstallActivity extends Activity {
         page(null, -1, getString(R.string.inst_goback_restore_title), dir.isEmpty()
                 ? getString(R.string.inst_goback_no_backup)
                 : getString(R.string.inst_goback_restore, dir));
-        button(mBack, getString(R.string.inst_dc_not_now), this::finish);
+        button(mBack, getString(R.string.inst_dc_keep_sd), this::confirmKeep);
         button(mSecondary, getString(R.string.inst_goback_keep),
                 () -> run("datacard-return", false, () -> showRestart(Restart.RETURNED)));
         if (!dir.isEmpty()) restoreButton(mNext, dir);
+    }
+
+    /**
+     * No to making the card a data card again: it stays a normal SD card, which leaves the
+     * eMMC's andr36oid set up for this card's data. Asked once more, as that is a trap.
+     */
+    private void confirmKeep() {
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.inst_dc_keep_title)
+                .setMessage(R.string.inst_dc_keep_warn)
+                .setPositiveButton(R.string.inst_dc_keep_yes, (d, x) -> run("datacard-keep", true, () -> {
+                    page(null, -1, getString(R.string.inst_dc_kept_title), getString(R.string.inst_dc_kept));
+                    button(mNext, getString(R.string.inst_close), this::finish);
+                }))
+                .setNegativeButton(R.string.inst_cancel, null)
+                .show();
     }
 
     /** After a restore: the data card can start the console again, if there was one. */

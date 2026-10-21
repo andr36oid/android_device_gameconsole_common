@@ -57,6 +57,11 @@ type Datacard struct {
 	// start); done.
 	Stage string `json:"stage,omitempty"`
 	UUID  string `json:"uuid,omitempty"` // the data card's userdata PARTUUID
+	// KeptSD: the card was made to start again and the user kept it a
+	// normal SD card instead of making it the data card again
+	// (DatacardKeep). The eMMC still names it as its data card: started
+	// from the eMMC, the console would use this card's data.
+	KeptSD bool `json:"kept_sd,omitempty"`
 }
 
 // renamed on a data card's BOOT, so U-Boot doesn't start from it
@@ -1014,6 +1019,33 @@ func (c *Config) DatacardReturn(p *Progress) error {
 		return err
 	}
 	return c.DatacardFinish(p)
+}
+
+// DatacardKeep is the answer no to DatacardReturn: this card, the eMMC's
+// data card made to start again, stays a normal SD card. Its marker goes, so
+// its starts don't ask again, and the records say so. The eMMC isn't touched.
+func (c *Config) DatacardKeep(p *Progress) error {
+	chk, err := c.DatacardCheck()
+	if err != nil {
+		return err
+	}
+	if chk["offer"] != true {
+		return fmt.Errorf("this isn't the eMMC's data card: %v", chk["why"])
+	}
+	if err := c.withSDBoot(true, reviveBoot); err != nil {
+		return fmt.Errorf("this card's BOOT: %w", err)
+	}
+	st, err := c.LoadState()
+	if err != nil {
+		return err
+	}
+	st.Back = false
+	if st.Datacard == nil {
+		st.Datacard = &Datacard{Kind: "original", Stage: "done", UUID: chk["uuid"].(string)}
+	}
+	st.Datacard.KeptSD = true
+	p.Logf("this card stays a normal SD card; the eMMC still names it as its data card")
+	return c.Save(st)
 }
 
 // Going back to the stock system from the eMMC system

@@ -359,10 +359,25 @@ func TestDatacardOriginalAndBack(t *testing.T) {
 	if chk["offer"] != true {
 		t.Fatalf("check %v", chk)
 	}
+	// the answer no: this card stays an SD card and isn't asked about again
+	st := f.state()
+	st.Back = true
+	must(t, f.cfg.Save(st))
+	must(t, f.cfg.DatacardKeep(f.progress()))
+	if st := f.state(); st.Back || st.Datacard == nil || !st.Datacard.KeptSD ||
+		exists(filepath.Join(f.cfg.SDBootDir, DatacardMarker)) || !exists(filepath.Join(f.cfg.SDBootDir, "boot.ini")) {
+		t.Fatalf("after keep %+v", st)
+	}
+	if chk, err := f.cfg.DatacardCheck(); err != nil || chk["offer"] != false {
+		t.Fatalf("asked again: %v %v", chk, err)
+	}
+	mustFail(t, f.cfg.DatacardKeep(f.progress()), "isn't the eMMC's data card")
+	writeFile(t, filepath.Join(f.cfg.SDBootDir, DatacardMarker), "marker\n")
+
 	// without the records (a card made fresh): the eMMC is taken as installed
 	must(t, os.Remove(f.cfg.statePath(testCID)))
 	must(t, f.cfg.DatacardReturn(f.progress()))
-	st := f.state()
+	st = f.state()
 	if st.Step3 != "done" || st.Datacard.Stage != "blank" || exists(filepath.Join(f.cfg.SDBootDir, "boot.ini")) {
 		t.Fatalf("after return %+v %+v", st, st.Datacard)
 	}

@@ -32,6 +32,7 @@
 //	datacard-check          on an SD start: is this the eMMC's data card made
 //	                        bootable again (by the flasher)?
 //	datacard-return         then: update-emmc, and the card a data card again
+//	datacard-keep           or not: the card stays a normal SD card, not asked again
 //	datacard-back           on the eMMC system with a data card: the card made
 //	                        to start by itself, to put the stock eMMC back from it
 //	datacard-revive [forget] after a restore: the data card starts the console
@@ -116,7 +117,7 @@ func main() {
 
 	writes := map[string]bool{"backup": true, "blank-loader": true, "write-os": true,
 		"write-loader": true, "update-uboot": true, "update-emmc": true, "restore": true, "write-image": true,
-		"datacard-prepare": true, "datacard-copy": true, "datacard-finish": true, "datacard-return": true, "datacard-back": true,
+		"datacard-prepare": true, "datacard-copy": true, "datacard-finish": true, "datacard-return": true, "datacard-back": true, "datacard-keep": true,
 		"datacard-revive": true}
 	if writes[cmd] {
 		// a stray signal must not cut a write short
@@ -191,6 +192,8 @@ func main() {
 		err = cfg.DatacardReturn(p)
 	case "datacard-back":
 		result, err = cfg.DatacardBack(p)
+	case "datacard-keep":
+		err = cfg.DatacardKeep(p)
 	default:
 		usage()
 	}
@@ -296,6 +299,6 @@ func usage() {
 	if resultFile != "" {
 		fail(fmt.Errorf("request %q not understood", requestCmd))
 	}
-	fmt.Fprintln(os.Stderr, "usage: andr36oid-emmcinstall [--progress file] inspect|status|backup <folder>|blank-loader|check-loader|write-os|start-test|cancel-test|check-test|confirm|write-loader <code>|update-uboot|update-emmc|restore <folder>|leave|datacard-options|datacard-choose <kind> [A|B|C] [autoapk]|datacard-prepare|datacard-copy|datacard-finish|datacard-check|datacard-return|datacard-back|datacard-revive [forget]")
+	fmt.Fprintln(os.Stderr, "usage: andr36oid-emmcinstall [--progress file] inspect|status|backup <folder>|blank-loader|check-loader|write-os|start-test|cancel-test|check-test|confirm|write-loader <code>|update-uboot|update-emmc|restore <folder>|leave|datacard-options|datacard-choose <kind> [A|B|C] [autoapk]|datacard-prepare|datacard-copy|datacard-finish|datacard-check|datacard-return|datacard-keep|datacard-back|datacard-revive [forget]")
 	os.Exit(2)
 }

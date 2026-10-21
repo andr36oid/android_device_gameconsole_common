@@ -278,7 +278,7 @@
     <string name="inst_dc_working">Making the data card</string>
     <string name="inst_dc_working_text">The card and Android\'s data are being prepared. This can take a while.</string>
     <string name="inst_dc_return_title">Update the eMMC to this version and make this card a data card again?</string>
-    <string name="inst_dc_return">This card is the data card of andr36oid on the eMMC. The andr36oid SD card flasher updated it, so the console started from the card.\n\nUpdate eMMC copies this card\'s andr36oid to the eMMC (apps and data stay) and makes the card a data card again. The console then starts from the eMMC.\n\nNot now: the console keeps starting from this card, and this question comes back at the next start.</string>
+    <string name="inst_dc_return">This card is the data card of andr36oid on the eMMC. The andr36oid SD card flasher updated it, so the console started from the card.\n\nUpdate eMMC copies this card\'s andr36oid to the eMMC (apps and data stay) and makes the card a data card again. The console then starts from the eMMC.\n\nKeep it an SD card: the card stays as it is and this isn\'t asked again.</string>
     <string name="inst_dc_not_now">Not now</string>
     <string name="inst_dc_return_go">Update eMMC</string>
     <string name="inst_dc_returned">The eMMC is updated and this card is a data card again. Restart now: andr36oid starts from the eMMC.</string>
@@ -293,4 +293,10 @@
     <string name="inst_goback_no_backup">No backup of this console\'s stock eMMC was found. Copy its folder (in \"eMMC backup\") to this card\'s EASYROMS, then open eMMC Installation again.\n\nKeep andr36oid on the eMMC brings the eMMC up to this card instead, and makes the card a data card again.</string>
     <string name="inst_goback_keep">Keep andr36oid on the eMMC</string>
     <string name="inst_goback_stock">Shut the console down. Without an SD card it starts the stock system. With this card in slot 1 it starts andr36oid, with your apps and data.</string>
+    <string name="inst_dc_keep_sd">Keep it an SD card</string>
+    <string name="inst_dc_keep_title">Keep this card a normal SD card?</string>
+    <string name="inst_dc_keep_warn">The andr36oid on the eMMC would then be a different system from the one your data on this card is set up for. That may work if you time when the card goes in, but it isn\'t recommended or supported.\n\nFor two Android installs, use a second SD card with the full andr36oid image instead.\n\nKeep it an SD card anyway?</string>
+    <string name="inst_dc_keep_yes">Keep it</string>
+    <string name="inst_dc_kept_title">This card stays an SD card</string>
+    <string name="inst_dc_kept">It starts andr36oid as before, and eMMC Installation won\'t ask again. The eMMC isn\'t changed.</string>
 </resources>
