@@ -184,4 +184,5 @@
     <string name="inst_update_working">Yeni andr36oid, SD karttan eMMC\'ye parça parça kopyalanır. Her parça, bir sonraki parça başlamadan önce geri okunur ve SD kartla karşılaştırılır.</string>
     <string name="inst_shut_down">Kapat</string>
     <string name="inst_stock_back_title">Fabrika eMMC\'si geri döndü</string>
+    <string name="inst_finished_earlier">Bunlardan önce %1$d parça, hepsi kontrol edildi</string>
 </resources>

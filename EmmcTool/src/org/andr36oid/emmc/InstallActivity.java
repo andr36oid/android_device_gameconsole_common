@@ -32,11 +32,12 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Settings > System > eMMC Installation: andr36oid from the SD card onto the built-in
@@ -99,7 +100,10 @@ public class InstallActivity extends Activity {
     private TextView mCurName, mCurLine;
     private ProgressBar mCurBar;
     private LinearLayout mFinished;
-    private final Map<String, View> mFinishedRows = new HashMap<>();
+    private final Set<String> mFinishedRows = new HashSet<>();
+    /** finished parts in the order they ended, the last few are on the progress page */
+    private final List<Op> mFinishedOps = new ArrayList<>();
+    private static final int FINISHED_SHOWN = 4;
 
     private static final class Op {
         String name, dev, sha, log, state = "start";
@@ -319,6 +323,7 @@ public class InstallActivity extends Activity {
         mTextScroll.scrollTo(0, 0);
         mSideScroll.scrollTo(0, 0);
         mSide.removeAllViews();
+        mSideScroll.setVisibility(View.VISIBLE);
         mBodyExtra.removeAllViews();
         for (Button b : new Button[] {mBack, mMore, mSecondary, mNext}) {
             b.setVisibility(View.GONE);
@@ -779,7 +784,9 @@ public class InstallActivity extends Activity {
             body = getString(R.string.inst_update_working) + "\n\n" + body;
         }
         page(step < 0 ? null : stepLabel(step), step < 0 ? -1 : stepAt(step), title, body);
-        // left: what runs now; right: what is finished
+        // One pane that fits without scrolling: what runs now, then the last parts finished.
+        // The full list is in Log and Details.
+        mSideScroll.setVisibility(View.GONE);
         mCurName = row(mBodyExtra, 0, getString(R.string.inst_starting), null);
         mCurName.setTextAppearance(android.R.style.TextAppearance_Material_Subhead);
         mCurBar = new ProgressBar(this, null, android.R.attr.progressBarStyleHorizontal);
@@ -787,11 +794,12 @@ public class InstallActivity extends Activity {
         mCurBar.setMax(1000);
         mBodyExtra.addView(mCurBar);
         mCurLine = row(mBodyExtra, 0, "", null);
-        sideHeader(getString(R.string.inst_finished));
         mFinished = new LinearLayout(this);
         mFinished.setOrientation(LinearLayout.VERTICAL);
-        mSide.addView(mFinished);
+        mFinished.setPadding(0, dp(12), 0, 0);
+        mBodyExtra.addView(mFinished);
         mFinishedRows.clear();
+        mFinishedOps.clear();
         button(mMore, getString(R.string.inst_log), this::showLog);
         button(mSecondary, getString(R.string.inst_details),
                 () -> dialog(getString(R.string.inst_details), details(), true));
@@ -891,13 +899,9 @@ public class InstallActivity extends Activity {
         Op current = null;
         for (Op op : mOps.values()) {
             if ("ok".equals(op.state) || "fail".equals(op.state)) {
-                if (!mFinishedRows.containsKey(op.name)) {
-                    final TextView row = sideRow("ok".equals(op.state) ? R.drawable.ic_inst_ok
-                            : R.drawable.ic_inst_bad, op.name, finishedLine(op));
-                    mSide.removeView(row);
-                    mFinished.addView(row);
-                    mFinishedRows.put(op.name, row);
-                    mSideScroll.post(() -> mSideScroll.fullScroll(View.FOCUS_DOWN));
+                if (mFinishedRows.add(op.name)) {
+                    mFinishedOps.add(op);
+                    showFinished();
                 }
             } else {
                 current = op;
@@ -920,6 +924,27 @@ public class InstallActivity extends Activity {
         }
     }
 
+    /** The last parts finished, one line each; with more, a line counting the earlier ones. */
+    private void showFinished() {
+        mFinished.removeAllViews();
+        final int n = mFinishedOps.size();
+        final int shown = n <= FINISHED_SHOWN + 1 ? n : FINISHED_SHOWN;
+        if (n > shown) {
+            final TextView more = row(mFinished, R.drawable.ic_inst_ok,
+                    getString(R.string.inst_finished_earlier, n - shown), null);
+            more.setTextColor(mBody.getTextColors());
+        }
+        for (Op op : mFinishedOps.subList(n - shown, n)) {
+            final boolean ok = "ok".equals(op.state);
+            final TextView t = row(mFinished, ok ? R.drawable.ic_inst_ok : R.drawable.ic_inst_bad,
+                    op.name + "  ·  " + (ok ? getString(R.string.inst_op_ok, size(op.total),
+                            DateUtils.formatElapsedTime(Math.max(0, op.ended - op.began) / 1000))
+                            : getString(R.string.inst_op_failed, op.log)), null);
+            t.setSingleLine(ok);
+            t.setEllipsize(android.text.TextUtils.TruncateAt.END);
+        }
+    }
+
     private String runningLine(Op op) {
         final StringBuilder sb = new StringBuilder();
         if (op.total > 0) {
@@ -928,20 +953,10 @@ public class InstallActivity extends Activity {
                 sb.append(", ").append(getString(R.string.inst_left,
                         DateUtils.formatElapsedTime((op.total - op.done) / op.speed)));
             }
-            sb.append('\n');
+        } else {
+            sb.append(getString(R.string.inst_sectors, op.dev, op.from, Math.max(op.from, op.to - 1)));
         }
-        sb.append(getString(R.string.inst_sectors, op.dev, op.from, Math.max(op.from, op.to - 1)));
         return sb.toString();
-    }
-
-    private String finishedLine(Op op) {
-        if ("fail".equals(op.state)) return getString(R.string.inst_op_failed, op.log);
-        final String took = DateUtils.formatElapsedTime(Math.max(0, op.ended - op.began) / 1000);
-        String line = op.sha != null && op.sha.length() >= 12
-                ? getString(R.string.inst_op_ok_sha, size(op.total), took, op.sha.substring(0, 12))
-                : getString(R.string.inst_op_ok, size(op.total), took);
-        if (op.log != null && !op.log.isEmpty()) line += "\n" + op.log;
-        return line;
     }
 
     private String details() {

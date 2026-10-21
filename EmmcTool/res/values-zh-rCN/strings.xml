@@ -184,4 +184,5 @@
     <string name="inst_update_working">新版 andr36oid 会按分区逐一从 SD 卡复制到 eMMC。每个分区在开始下一个之前，都会被回读并与 SD 卡比对。</string>
     <string name="inst_shut_down">关机</string>
     <string name="inst_stock_back_title">原厂 eMMC 已恢复</string>
+    <string name="inst_finished_earlier">之前还有 %1$d 个部分，均已校验</string>
 </resources>

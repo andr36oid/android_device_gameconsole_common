@@ -184,4 +184,5 @@
     <string name="inst_update_working">Das neue andr36oid wird Teil für Teil von der SD-Karte auf den eMMC kopiert. Jeder Teil wird zurückgelesen und mit der SD-Karte verglichen, bevor der nächste beginnt.</string>
     <string name="inst_shut_down">Herunterfahren</string>
     <string name="inst_stock_back_title">Der Original-eMMC ist zurück</string>
+    <string name="inst_finished_earlier">%1$d Teile davor, alle geprüft</string>
 </resources>

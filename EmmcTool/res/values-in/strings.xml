@@ -184,4 +184,5 @@
     <string name="inst_update_working">andr36oid yang baru disalin dari kartu SD ke eMMC sedikit demi sedikit. Setiap bagian dibaca ulang dan dibandingkan dengan kartu SD sebelum bagian berikutnya dimulai.</string>
     <string name="inst_shut_down">Matikan</string>
     <string name="inst_stock_back_title">eMMC asli sudah kembali</string>
+    <string name="inst_finished_earlier">%1$d bagian sebelumnya, semua sudah diperiksa</string>
 </resources>

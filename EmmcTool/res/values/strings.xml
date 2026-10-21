@@ -159,6 +159,8 @@
     <string name="inst_steps">Steps</string>
     <string name="inst_st_todo">Not yet</string>
     <string name="inst_finished">Done so far</string>
+    <!-- Above the last few finished parts on the progress page, the count is always 2 or more -->
+    <string name="inst_finished_earlier">%1$d parts before these, all checked</string>
     <string name="inst_log">Log</string>
     <string name="inst_problems">What stops it</string>
     <string name="inst_starting">Starting…</string>

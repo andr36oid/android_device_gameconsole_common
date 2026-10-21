@@ -184,4 +184,5 @@
     <string name="inst_update_working">Новый andr36oid копируется с SD-карты на eMMC по частям. Каждая часть считывается обратно и сравнивается с SD-картой, прежде чем начнётся следующая.</string>
     <string name="inst_shut_down">Выключить</string>
     <string name="inst_stock_back_title">Заводская eMMC восстановлена</string>
+    <string name="inst_finished_earlier">Предыдущих частей: %1$d, все проверены</string>
 </resources>
