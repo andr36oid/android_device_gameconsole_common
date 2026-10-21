@@ -276,7 +276,7 @@ Alles auf dem eMMC wird durch dieses Image ersetzt.</string>
     <string name="inst_dc_not_now">Nicht jetzt</string>
     <string name="inst_dc_return_go">eMMC aktualisieren</string>
     <string name="inst_dc_returned">Das eMMC ist aktualisiert und diese Karte ist wieder eine Datenkarte. Starte jetzt neu: andr36oid startet vom eMMC.</string>
-    <string name="inst_test_hands_off">Drück nichts, während er vom eMMC startet. Warte, bis dieser Assistent bei Schritt 2 wieder erscheint.</string>
+    <string name="inst_test_hands_off">Drück nichts, während die Konsole vom eMMC startet. Warte, bis dieser Assistent bei Schritt 2 wieder erscheint.</string>
     <string name="inst_revive_title">Datenkarte wieder zum Starten bringen?</string>
     <string name="inst_revive">andr36oid auf dem eMMC hat Androids Daten auf einer SD-Karte gehalten, und diese Karte kann die Konsole nicht allein starten. Sie kann wieder eine normale andr36oid-SD-Karte werden: Deine Apps, Spielstände und Einstellungen bleiben darauf.\n\nWenn sie gerade nicht in der Konsole steckt, steck sie zuerst in Slot 2.</string>
     <string name="inst_revive_go">Zum Starten bringen</string>
