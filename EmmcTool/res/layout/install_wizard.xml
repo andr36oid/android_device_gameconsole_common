@@ -62,6 +62,14 @@
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="?android:attr/textColorSecondary"
                     android:textSize="16sp" />
+
+                <!-- What runs right now, on the progress pages -->
+                <LinearLayout
+                    android:id="@+id/body_extra"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:orientation="vertical" />
             </LinearLayout>
         </ScrollView>
 

@@ -75,7 +75,7 @@ public class InstallActivity extends Activity {
     private TextView mStepLabel, mTitle, mBody;
     private ProgressBar mProgress;
     private ScrollView mTextScroll;
-    private LinearLayout mSide;
+    private LinearLayout mSide, mBodyExtra;
     private Button mBack, mMore, mSecondary, mNext;
     /** Something on the right takes the D-pad (the checkbox, the hold ring). */
     private boolean mSideFocus;
@@ -102,6 +102,7 @@ public class InstallActivity extends Activity {
         mBody = findViewById(R.id.body);
         mTextScroll = findViewById(R.id.text_scroll);
         mSide = findViewById(R.id.side);
+        mBodyExtra = findViewById(R.id.body_extra);
         mBack = findViewById(R.id.back);
         mMore = findViewById(R.id.more);
         mSecondary = findViewById(R.id.secondary);
@@ -216,10 +217,27 @@ public class InstallActivity extends Activity {
         mBody.setText(body);
         mTextScroll.scrollTo(0, 0);
         mSide.removeAllViews();
+        mBodyExtra.removeAllViews();
         for (Button b : new Button[] {mBack, mMore, mSecondary, mNext}) {
             b.setVisibility(View.GONE);
             b.setEnabled(true);
             b.setOnClickListener(null);
+        }
+        mHandler.post(this::ensureFocus);
+    }
+
+    /**
+     * Something on the page has the D-pad: else, pages without Next (the progress page)
+     * could not reach their buttons, as up and down scroll the text.
+     */
+    private void ensureFocus() {
+        final View f = getCurrentFocus();
+        if (f != null && f.isShown() && f.isEnabled()) return;
+        for (Button b : new Button[] {mNext, mSecondary, mMore, mBack}) {
+            if (b.getVisibility() == View.VISIBLE && b.isEnabled()) {
+                b.requestFocus();
+                return;
+            }
         }
     }
 
@@ -248,13 +266,17 @@ public class InstallActivity extends Activity {
 
     /** A line on the right; icon 0: none. */
     private TextView sideRow(int icon, CharSequence title, CharSequence sub) {
+        return row(mSide, icon, title, sub);
+    }
+
+    private TextView row(LinearLayout parent, int icon, CharSequence title, CharSequence sub) {
         final TextView t = new TextView(this);
         t.setText(sub == null || sub.length() == 0 ? title : title + "\n" + sub);
         t.setTextAppearance(android.R.style.TextAppearance_Material_Body1);
         t.setCompoundDrawablesRelativeWithIntrinsicBounds(icon, 0, 0, 0);
         t.setCompoundDrawablePadding(dp(8));
         t.setPadding(0, dp(3), 0, dp(3));
-        mSide.addView(t);
+        parent.addView(t);
         return t;
     }
 
@@ -621,13 +643,15 @@ public class InstallActivity extends Activity {
     private void showProgress() {
         final int step = stepOf(mCmd);
         page(step < 0 ? null : stepLabel(step), step < 0 ? -1 : stepAt(step),
-                step < 0 ? getString(R.string.inst_working) : getString(stepName(step)), null);
-        sideHeader(getString(R.string.inst_now));
-        mCurName = sideRow(0, getString(R.string.inst_starting), null);
+                step < 0 ? getString(R.string.inst_working) : getString(stepName(step)),
+                getString(R.string.inst_keep_on));
+        // left: what runs now; right: what is finished
+        mCurName = row(mBodyExtra, 0, getString(R.string.inst_starting), null);
+        mCurName.setTextAppearance(android.R.style.TextAppearance_Material_Subhead);
         mCurBar = new ProgressBar(this, null, android.R.attr.progressBarStyleHorizontal);
         mCurBar.setMax(1000);
-        mSide.addView(mCurBar);
-        mCurLine = sideRow(0, "", null);
+        mBodyExtra.addView(mCurBar);
+        mCurLine = row(mBodyExtra, 0, "", null);
         sideHeader(getString(R.string.inst_finished));
         mFinished = new LinearLayout(this);
         mFinished.setOrientation(LinearLayout.VERTICAL);
@@ -758,7 +782,6 @@ public class InstallActivity extends Activity {
             mCurBar.setProgress((int) (1000 * frac));
             mCurLine.setText(runningLine(current) + "\n" + elapsed);
         }
-        mBody.setText(mLogLines.isEmpty() ? null : mLogLines.get(mLogLines.size() - 1));
     }
 
     private String runningLine(Op op) {
