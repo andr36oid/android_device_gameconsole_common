@@ -100,6 +100,11 @@ public class InstallActivity extends Activity {
     /** The advanced mode: the images found, where it goes back to. */
     private List<JSONObject> mImages = new ArrayList<>();
     private Runnable mAdvBack;
+    /** BootReceiver found a data card the flasher made start again: ask about the eMMC. */
+    static final String EXTRA_DATACARD_RETURN = "datacard_return";
+    private boolean mAskReturn;
+    /** datacard-options: this SD card, the card in slot 2, what each choice needs. */
+    private JSONObject mDcOptions;
     private int mTitleColor;
     /** The user left on purpose (Home): don't come back by ourselves. */
     private boolean mUserLeft;
@@ -153,6 +158,7 @@ public class InstallActivity extends Activity {
         mSecondary = findViewById(R.id.secondary);
         mNext = findViewById(R.id.next);
         mTitleColor = mTitle.getCurrentTextColor();
+        mAskReturn = getIntent().getBooleanExtra(EXTRA_DATACARD_RETURN, false);
     }
 
     @Override
@@ -320,6 +326,10 @@ public class InstallActivity extends Activity {
             follow(null, false, null);
             return;
         }
+        if (mAskReturn) {
+            showDatacardReturn();
+            return;
+        }
         final JSONObject st = Installer.state();
         final String running = st.optString("running"), failed = st.optString("failed");
         final String step1 = st.optString("step1"), step2 = st.optString("step2");
@@ -330,7 +340,8 @@ public class InstallActivity extends Activity {
         } else if (st.optJSONObject("custom") != null) {
             showCustom(st.optJSONObject("custom"));
         } else if ("done".equals(st.optString("step3"))) {
-            showDone();
+            if (datacardDue(st)) showDatacard(st.optJSONObject("datacard"));
+            else showDone();
         } else if ("passed".equals(step2)) {
             showNext(3, getString(R.string.inst_step2_passed), this::showFinal);
         } else if ("deferred".equals(step2)) {
@@ -349,6 +360,8 @@ public class InstallActivity extends Activity {
         } else if ("passed".equals(step1)) {
             showNext(2, getString(R.string.inst_step1_passed),
                     () -> run("write-os", false, () -> showRestart(Restart.TEST)));
+        } else if (st.optJSONObject("backup") != null && st.optJSONObject("datacard") == null) {
+            findDataChoices();
         } else if (st.optJSONObject("backup") != null) {
             showNext(1, getString(R.string.inst_backup_kept),
                     () -> run("blank-loader", false, () -> showRestart(Restart.STEP1)));
@@ -695,7 +708,10 @@ public class InstallActivity extends Activity {
                 showFailed(getString(R.string.inst_no_loader_code), false);
                 return;
             }
-            run("write-loader", false, () -> showRestart(Restart.DONE), code.substring(0, 12));
+            run("write-loader", false, () -> {
+                if (datacardDue(Installer.state())) route();
+                else showRestart(Restart.DONE);
+            }, code.substring(0, 12));
         });
         button(mBack, getString(R.string.inst_cancel), this::showFinal);
         hold.requestFocus();
@@ -703,7 +719,7 @@ public class InstallActivity extends Activity {
 
     // Restarts
 
-    private enum Restart { STEP1, TEST, DONE, STOCK }
+    private enum Restart { STEP1, TEST, DONE, STOCK, COPY, RETURNED }
 
     private void showRestart(Restart kind) {
         final JSONObject b = Installer.state().optJSONObject("backup");
@@ -724,6 +740,15 @@ public class InstallActivity extends Activity {
                 text = getString(R.string.inst_restart_done);
                 step = 3;
                 title = R.string.inst_done_title;
+                break;
+            case COPY:
+                text = getString(R.string.inst_restart_copy);
+                step = 3;
+                break;
+            case RETURNED:
+                text = getString(R.string.inst_dc_returned);
+                step = -1;
+                title = R.string.inst_dc_ready_title;
                 break;
             default:
                 text = getString(R.string.inst_restart_stock);
@@ -960,7 +985,9 @@ public class InstallActivity extends Activity {
 
     private void showEmmcSystem() {
         final JSONObject c = Installer.confirmResult();
-        if (c != null && "confirmed".equals(c.optString("result"))) {
+        if (c != null && "confirmed".equals(c.optString("result")) && c.optBoolean("datacard_copy")) {
+            showDatacardCopy();
+        } else if (c != null && "confirmed".equals(c.optString("result"))) {
             page(stepLabel(2), stepAt(2) + 150, getString(stepName(2)),
                     getString(R.string.inst_test_worked));
             button(mNext, getString(R.string.inst_restart_now), this::reboot);
@@ -968,6 +995,197 @@ public class InstallActivity extends Activity {
             page(null, -1, getString(R.string.inst_title), getString(R.string.inst_on_emmc));
             button(mNext, getString(R.string.inst_close), this::finish);
         }
+    }
+
+    // The data card: where Android keeps its data (datacard.go in emmcinstall)
+
+    /** A data card was chosen and isn't made yet. */
+    private static boolean datacardDue(JSONObject st) {
+        final JSONObject d = st.optJSONObject("datacard");
+        if (d == null) return false;
+        final String kind = d.optString("kind"), stage = d.optString("stage");
+        return ("original".equals(kind) || "new".equals(kind))
+                && !"done".equals(stage) && !"blank".equals(stage);
+    }
+
+    private void findDataChoices() {
+        run("datacard-options", true, () -> {
+            final JSONObject r = Installer.result();
+            mDcOptions = r == null ? null : r.optJSONObject("result");
+            if (mDcOptions == null) mDcOptions = new JSONObject();
+            showDataWhere();
+        });
+    }
+
+    private RadioButton choice(RadioGroup group, CharSequence title, CharSequence sub, Object tag) {
+        final RadioButton rb = new RadioButton(this);
+        rb.setText(sub == null ? title : title + "\n" + sub);
+        rb.setTextAppearance(android.R.style.TextAppearance_Material_Body1);
+        rb.setId(View.generateViewId());
+        rb.setTag(tag);
+        group.addView(rb);
+        return rb;
+    }
+
+    /** After the backup: on the eMMC, on this card, or on a new card in slot 2? */
+    private void showDataWhere() {
+        final JSONObject o = mDcOptions;
+        final JSONObject slot2 = o.optJSONObject("slot2");
+        final boolean card2 = slot2 != null && slot2.optBoolean("present");
+        page(getString(R.string.inst_lbl_data), stepAt(1) - 50, getString(R.string.inst_dc_where_title),
+                getString(R.string.inst_dc_where));
+        final RadioGroup group = new RadioGroup(this);
+        final RadioButton first = choice(group, getString(R.string.inst_dc_emmc),
+                getString(R.string.inst_dc_emmc_sub), "emmc");
+        final RadioButton original = choice(group, getString(R.string.inst_dc_original),
+                getString(R.string.inst_dc_original_sub, size(o.optLong("userdata_used"))), "original");
+        original.setEnabled(!o.optString("uuid").isEmpty());
+        final RadioButton fresh = choice(group, getString(R.string.inst_dc_new), card2
+                ? getString(R.string.inst_dc_new_sub, size(slot2.optLong("sectors") * 512))
+                : getString(R.string.inst_dc_new_none), "new");
+        fresh.setEnabled(card2);
+        mSide.addView(group);
+        mSideFocus = true;
+        fresh.setNextFocusDownId(R.id.next);
+        mNext.setNextFocusUpId(fresh.getId());
+        button(mBack, getString(R.string.inst_close), this::finish);
+        restoreButton(mSecondary);
+        button(mNext, getString(R.string.inst_continue), () -> {
+            final View c = group.findViewById(group.getCheckedRadioButtonId());
+            if (c == null) return;
+            final String kind = (String) c.getTag();
+            if ("new".equals(kind)) showNewCard();
+            else run("datacard-choose", true, this::route, kind);
+        });
+        mNext.setEnabled(false);
+        group.setOnCheckedChangeListener((g, id) -> mNext.setEnabled(id != View.NO_ID));
+        first.requestFocus();
+    }
+
+    /** A new card: copy everything (A), Android's data (B) or nothing (C), and AUTOAPK. */
+    private void showNewCard() {
+        final JSONObject o = mDcOptions;
+        final JSONObject slot2 = o.optJSONObject("slot2");
+        final JSONObject need = o.optJSONObject("need");
+        final long have = slot2 == null ? 0 : slot2.optLong("sectors") * 512;
+        final long apk = o.optLong("autoapk_bytes");
+        final String name = slot2 == null ? "" : slot2.optString("name");
+        page(getString(R.string.inst_lbl_data), stepAt(1) - 25, getString(R.string.inst_dc_what_title),
+                getString(R.string.inst_dc_what, name, size(have)) + "\n\n" + getString(apk > 0
+                        ? R.string.inst_dc_autoapk_off : R.string.inst_dc_autoapk_gone));
+        warn();
+        final RadioGroup group = new RadioGroup(this);
+        final String[] opts = {"A", "B", "C"};
+        final int[] titles = {R.string.inst_dc_a, R.string.inst_dc_b, R.string.inst_dc_c};
+        final RadioButton[] rbs = new RadioButton[3];
+        final CheckBox autoapk = new CheckBox(this);
+        final Runnable sizes = () -> {
+            for (int i = 0; i < 3; i++) {
+                long n = need == null ? 0 : need.optLong(opts[i]);
+                if (i > 0 && autoapk.isChecked()) n += apk;
+                final String sub = i == 0
+                        ? getString(R.string.inst_dc_a_sub, size(o.optLong("easyroms_used")), size(n))
+                        : getString(i == 1 ? R.string.inst_dc_b_sub : R.string.inst_dc_c_sub, size(n));
+                final boolean fits = n > 0 && n <= have;
+                rbs[i].setText(getString(titles[i]) + "\n" + sub
+                        + (fits ? "" : "\n" + getString(R.string.inst_dc_too_small, size(n), size(have))));
+                rbs[i].setEnabled(fits);
+                if (!fits && rbs[i].isChecked()) group.clearCheck();
+            }
+        };
+        for (int i = 0; i < 3; i++) rbs[i] = choice(group, getString(titles[i]), null, opts[i]);
+        mSide.addView(group);
+        View last = rbs[2];
+        if (apk > 0) {
+            // A copies it anyway; B and C only when ticked
+            autoapk.setText(getString(R.string.inst_dc_autoapk, size(apk)));
+            autoapk.setTextAppearance(android.R.style.TextAppearance_Material_Body1);
+            autoapk.setId(View.generateViewId());
+            autoapk.setChecked(true);
+            autoapk.setOnCheckedChangeListener((v, on) -> sizes.run());
+            mSide.addView(autoapk);
+            last = autoapk;
+        }
+        sizes.run();
+        mSideFocus = true;
+        last.setNextFocusDownId(R.id.next);
+        mNext.setNextFocusUpId(last.getId());
+        button(mBack, getString(R.string.inst_back), this::showDataWhere);
+        button(mNext, getString(R.string.inst_continue), () -> {
+            final View c = group.findViewById(group.getCheckedRadioButtonId());
+            if (c == null) return;
+            final String opt = (String) c.getTag();
+            run("datacard-choose", true, this::route, "new", opt,
+                    apk > 0 && ("A".equals(opt) || autoapk.isChecked()) ? "autoapk" : "-");
+        });
+        mNext.setEnabled(false);
+        group.setOnCheckedChangeListener((g, id) -> mNext.setEnabled(id != View.NO_ID));
+        for (RadioButton rb : rbs) {
+            if (rb.isEnabled()) {
+                rb.requestFocus();
+                break;
+            }
+        }
+    }
+
+    /** After step 3: the data card is made last. */
+    private void showDatacard(JSONObject d) {
+        final String label = getString(R.string.inst_dc_lbl_last);
+        final boolean fresh = "C".equals(d.optString("option"));
+        if ("original".equals(d.optString("kind"))) {
+            page(label, AT_DONE - 50, getString(R.string.inst_dc_orig_title), getString(R.string.inst_dc_orig));
+            warn();
+            button(mNext, getString(R.string.inst_dc_orig_go),
+                    () -> run("datacard-finish", false, () -> showDatacardDone(false)));
+        } else if ("prepared".equals(d.optString("stage"))) {
+            page(label, AT_DONE - 50, getString(R.string.inst_dc_finish_title), getString(fresh
+                    ? R.string.inst_dc_finish_fresh : R.string.inst_dc_finish));
+            if (!fresh) {
+                button(mMore, getString(R.string.inst_dc_copy_again),
+                        () -> run("datacard-prepare", false, () -> showRestart(Restart.COPY)));
+            }
+            button(mNext, getString(R.string.inst_dc_finish_go),
+                    () -> run("datacard-finish", false, () -> showDatacardDone(true)));
+        } else {
+            page(label, AT_DONE - 100, getString(R.string.inst_dc_new_title),
+                    getString(fresh ? R.string.inst_dc_new_fresh : R.string.inst_dc_new_copy));
+            warn();
+            button(mNext, getString(R.string.inst_dc_new_go), () -> run("datacard-prepare", false, () -> {
+                if (fresh) run("datacard-finish", false, () -> showDatacardDone(true));
+                else showRestart(Restart.COPY);
+            }));
+        }
+        steps();
+        button(mBack, getString(R.string.inst_close), this::finish);
+    }
+
+    private void showDatacardDone(boolean newCard) {
+        page(getString(R.string.inst_lbl_done), AT_DONE, getString(R.string.inst_dc_ready_title),
+                getString(newCard ? R.string.inst_dc_done_new : R.string.inst_dc_done_orig));
+        steps();
+        // Android runs from the SD card: it only comes out once the console is off
+        button(mNext, getString(R.string.inst_shut_down), this::shutDown);
+    }
+
+    /** On the eMMC's start for the copy: userdata from the SD card to the new card. */
+    private void showDatacardCopy() {
+        page(getString(R.string.inst_dc_lbl_last), AT_DONE - 75, getString(R.string.inst_dc_copy_title),
+                getString(R.string.inst_dc_copy));
+        button(mNext, getString(R.string.inst_dc_copy_go), () -> run("datacard-copy", false, () -> {
+            page(getString(R.string.inst_dc_lbl_last), AT_DONE - 50, getString(R.string.inst_dc_copy_title),
+                    getString(R.string.inst_dc_copied));
+            button(mNext, getString(R.string.inst_restart_now), this::reboot);
+        }));
+    }
+
+    /** The flasher made the data card start again: bring the eMMC up to it? */
+    private void showDatacardReturn() {
+        page(null, -1, getString(R.string.inst_dc_return_title), getString(R.string.inst_dc_return));
+        button(mBack, getString(R.string.inst_dc_not_now), this::finish);
+        button(mNext, getString(R.string.inst_dc_return_go), () -> {
+            mAskReturn = false;
+            run("datacard-return", false, () -> showRestart(Restart.RETURNED));
+        });
     }
 
     // Stops and the way back
@@ -1061,6 +1279,9 @@ public class InstallActivity extends Activity {
         } else if ("write-image".equals(mCmd)) {
             title = getString(R.string.inst_adv_title);
             body = getString(R.string.inst_adv_working) + "\n\n" + body;
+        } else if (mCmd.startsWith("datacard-")) {
+            title = getString(R.string.inst_dc_working);
+            body = getString(R.string.inst_dc_working_text) + "\n\n" + body;
         }
         page(step < 0 ? null : stepLabel(step), step < 0 ? -1 : stepAt(step), title, body);
         // One pane that fits without scrolling: what runs now, then the last parts finished.
