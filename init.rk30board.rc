@@ -93,6 +93,11 @@ on late-fs
     # boot animation shows "Resizing SD card ..." under the logo meanwhile.
     exec - root root -- /system/bin/sh /system/etc/andr36oid-firstresize.sh
 
+    # An eMMC install with Android's data on an SD card (androidboot.datacard): wait
+    # for that card in either slot and link it as /dev/block/by-name/a36data for
+    # fstab.emmcsd. Exits at once without a data card; turns off after 3 minutes.
+    exec - root root -- /system/bin/andr36oid-datacard
+
     # Mount RW partitions which need run fsck    
     mount_all --late
     

@@ -1,6 +1,7 @@
 #!/bin/bash
 # Builds prebuilt/andr36oid-emmcinstall, the eMMC installer the image ships (see
-# cmd/andr36oid-emmcinstall). Like emulators/setup: Android's own Go is too old,
+# cmd/andr36oid-emmcinstall), and prebuilt/andr36oid-datacard (cmd/andr36oid-datacard).
+# Like emulators/setup: Android's own Go is too old,
 # so it is built here with a current Go and committed: static, arm64,
 # reproducible (no paths, no build id). prebuilt/source.sha1 is the hash of the
 # sources it was built from.
@@ -25,8 +26,9 @@ sources() {
 
 if [ "${1:-}" = --check ]; then
 	want=$(cat prebuilt/source.sha1 2>/dev/null || true)
-	if [ "$(sources)" != "$want" ] || [ ! -s prebuilt/andr36oid-emmcinstall ]; then
-		echo "emmcinstall: prebuilt/andr36oid-emmcinstall is out of date, run emmcinstall/build.sh" >&2
+	if [ "$(sources)" != "$want" ] || [ ! -s prebuilt/andr36oid-emmcinstall ] ||
+		[ ! -s prebuilt/andr36oid-datacard ]; then
+		echo "emmcinstall: prebuilt/ is out of date, run emmcinstall/build.sh" >&2
 		exit 1
 	fi
 	exit 0
@@ -39,6 +41,10 @@ mkdir -p prebuilt
 CGO_ENABLED=0 GOOS=linux GOARCH=arm64 GOFLAGS=-trimpath \
 	"$GO" build -ldflags '-s -w -buildid=' -o prebuilt/andr36oid-emmcinstall.tmp ./cmd/andr36oid-emmcinstall
 mv -f prebuilt/andr36oid-emmcinstall.tmp prebuilt/andr36oid-emmcinstall
+# the data card wait at start-up (an eMMC install with Android's data on an SD card)
+CGO_ENABLED=0 GOOS=linux GOARCH=arm64 GOFLAGS=-trimpath \
+	"$GO" build -ldflags '-s -w -buildid=' -o prebuilt/andr36oid-datacard.tmp ./cmd/andr36oid-datacard
+mv -f prebuilt/andr36oid-datacard.tmp prebuilt/andr36oid-datacard
 sources >prebuilt/source.sha1
 "$GO" version >prebuilt/go-version.txt
-ls -l prebuilt/andr36oid-emmcinstall
+ls -l prebuilt/andr36oid-emmcinstall prebuilt/andr36oid-datacard
