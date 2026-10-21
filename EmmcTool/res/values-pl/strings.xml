@@ -127,7 +127,7 @@
     <string name="inst_restart_title">Ponowne uruchomienie</string>
     <string name="inst_restart_step1">Loader na eMMC jest pusty. Uruchom teraz ponownie: konsola musi sama uruchomić się z loadera na karcie SD, a ta strona otworzy się ponownie.\n\nJeśli nie wróci: przytrzymaj przycisk zasilania przez 7 sekund i włącz ją ponownie. Jeśli nadal się nie uruchamia, ta konsola potrzebuje swojego fabrycznego loadera. Kopia zapasowa znajduje się w %1$s, na tej karcie SD.</string>
     <string name="inst_restart_test">andr36oid jest na eMMC. Uruchom teraz ponownie: uruchomi się z eMMC raz, jako test. Pierwsze uruchomienie wszystko konfiguruje i trwa kilka minut. Gdy pojawi się informacja, że test się udał, uruchom ponownie.\n\nJeśli się zawiesi: przytrzymaj przycisk zasilania przez 7 sekund i włącz ją ponownie. Wtedy uruchomi się jak zwykle z karty SD, a ta strona pokaże, co się stało.</string>
-    <string name="inst_restart_done">Wyłącz konsolę, wyjmij kartę SD, gdy konsola będzie wyłączona, a potem ją włącz: andr36oid uruchamia się teraz z eMMC.\n\nGdy karta SD andr36oid jest w środku, konsola uruchamia się z karty, jak wcześniej.</string>
+    <string name="inst_restart_done">Wyłącz konsolę, wyjmij kartę SD, gdy konsola będzie wyłączona, a potem ją włącz: andr36oid uruchamia się teraz z eMMC.\n\nGdy w środku jest inna karta SD startowa, konsola uruchamia się z karty, jak wcześniej.</string>
     <string name="inst_restart_stock">Wyłącz konsolę, wyjmij kartę SD, gdy konsola będzie wyłączona, a potem ją włącz, aby korzystać z systemu fabrycznego.</string>
     <string name="inst_restart_now">Uruchom teraz ponownie</string>
     <string name="inst_test_later">Nie testuj teraz</string>
@@ -139,7 +139,7 @@
     <string name="inst_hold">Przytrzymaj</string>
     <string name="inst_hold_hint">Przytrzymaj A przez 10 sekund. Puszczenie zaczyna od nowa.</string>
     <string name="inst_no_loader_code">Instalator nie ma sumy kontrolnej loadera z kroku 1.</string>
-    <string name="inst_done">andr36oid jest zainstalowany na eMMC. Bez karty SD konsola uruchamia się z eMMC; z kartą SD andr36oid w środku uruchamia się z karty.</string>
+    <string name="inst_done">andr36oid jest zainstalowany na eMMC. Bez karty SD konsola uruchamia się z eMMC; z inną kartą SD startową w środku uruchamia się z karty.</string>
 
     <string name="inst_failed_title">Zatrzymano</string>
     <string name="inst_failed_choice">Po tym nic więcej nie zostało zapisane. Fabryczne eMMC ma kopię zapasową w %1$s.\n\nPrzywrócić fabryczne eMMC, czy zostawić je tak, jak jest?</string>

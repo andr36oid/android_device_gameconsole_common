@@ -127,7 +127,7 @@
     <string name="inst_restart_title">Reiniciar</string>
     <string name="inst_restart_step1">O carregador da eMMC está apagado. Reinicie agora: a consola tem de arrancar sozinha a partir do carregador do cartão SD, e esta página volta a abrir.\n\nSe não voltar: mantenha o botão de alimentação premido durante 7 segundos e volte a ligá-la. Se mesmo assim não arrancar, esta consola precisa do carregador de fábrica. A cópia de segurança está em %1$s, neste cartão SD.</string>
     <string name="inst_restart_test">O andr36oid está na eMMC. Reinicie agora: arranca a partir da eMMC uma vez, como teste. O primeiro arranque prepara tudo e demora uns minutos. Quando disser que o teste funcionou, reinicie outra vez.\n\nSe ficar bloqueada: mantenha o botão de alimentação premido durante 7 segundos e volte a ligá-la. Depois arranca a partir do cartão SD, como de costume, e esta página diz o que aconteceu.</string>
-    <string name="inst_restart_done">Desligue a consola, retire o cartão SD quando estiver desligada e depois ligue-a: o andr36oid passa agora a arrancar a partir da eMMC.\n\nCom um cartão SD do andr36oid inserido, a consola arranca a partir do cartão, como antes.</string>
+    <string name="inst_restart_done">Desligue a consola, retire o cartão SD quando estiver desligada e depois ligue-a: o andr36oid passa agora a arrancar a partir da eMMC.\n\nCom outro cartão SD de arranque inserido, a consola arranca a partir do cartão, como antes.</string>
     <string name="inst_restart_stock">Desligue a consola, retire o cartão SD quando estiver desligada e depois ligue-a para usar o sistema de fábrica.</string>
     <string name="inst_restart_now">Reiniciar agora</string>
     <string name="inst_test_later">Não testar agora</string>
@@ -139,7 +139,7 @@
     <string name="inst_hold">Manter premido</string>
     <string name="inst_hold_hint">Mantenha A premido durante 10 segundos. Se soltar, recomeça do zero.</string>
     <string name="inst_no_loader_code">O instalador não tem a soma de verificação do carregador do passo 1.</string>
-    <string name="inst_done">O andr36oid está instalado na eMMC. Sem cartão SD, a consola arranca a partir da eMMC; com um cartão SD do andr36oid inserido, arranca a partir do cartão.</string>
+    <string name="inst_done">O andr36oid está instalado na eMMC. Sem cartão SD, a consola arranca a partir da eMMC; com outro cartão SD de arranque inserido, arranca a partir do cartão.</string>
 
     <string name="inst_failed_title">Parado</string>
     <string name="inst_failed_choice">Depois disto não se escreveu mais nada. A sua eMMC de fábrica tem cópia de segurança em %1$s.\n\nRepor a eMMC de fábrica ou deixá-la como está?</string>

@@ -127,7 +127,7 @@
     <string name="inst_restart_title">Yeniden başlatma</string>
     <string name="inst_restart_step1">eMMC\'nin önyükleyicisi boş. Şimdi yeniden başlatın: konsol kendi başına SD kartın önyükleyicisinden açılmak zorundadır ve bu sayfa tekrar açılır.\n\nGeri gelmezse: güç tuşunu 7 saniye basılı tutun ve konsolu yeniden açın. Hâlâ açılmazsa bu konsolun fabrika önyükleyicisine ihtiyacı var. Yedek, bu SD kartta %1$s konumunda.</string>
     <string name="inst_restart_test">andr36oid eMMC\'de. Şimdi yeniden başlatın: bir kez test olarak eMMC\'den açılır. İlk açılışta her şey ayarlanır ve birkaç dakika sürer. Test başarılı olduğunu söylediğinde yeniden başlatın.\n\nTakılırsa: güç tuşunu 7 saniye basılı tutun ve konsolu yeniden açın. Bu durumda normal şekilde SD kartından açılır ve bu sayfa ne olduğunu gösterir.</string>
-    <string name="inst_restart_done">Konsolu kapatın, kapandıktan sonra SD kartı çıkarın, ardından açın: andr36oid artık eMMC\'den açılır.\n\nandr36oid SD kart takılıysa konsol, daha önce olduğu gibi karttan açılır.</string>
+    <string name="inst_restart_done">Konsolu kapatın, kapandıktan sonra SD kartı çıkarın, ardından açın: andr36oid artık eMMC\'den açılır.\n\nBaşka bir önyüklenebilir SD kart takılıysa konsol, daha önce olduğu gibi karttan açılır.</string>
     <string name="inst_restart_stock">Konsolu kapatın, kapandıktan sonra SD kartı çıkarın, ardından fabrika sistemini kullanmak için açın.</string>
     <string name="inst_restart_now">Şimdi yeniden başlat</string>
     <string name="inst_test_later">Şimdi test etme</string>
@@ -139,7 +139,7 @@
     <string name="inst_hold">Basılı tut</string>
     <string name="inst_hold_hint">A tuşunu 10 saniye basılı tutun. Bırakırsanız baştan başlar.</string>
     <string name="inst_no_loader_code">Kurulum programında 1. adımdan kalan önyükleyici sağlama toplamı yok.</string>
-    <string name="inst_done">andr36oid, eMMC\'ye kuruldu. SD kart olmadan konsol eMMC\'den açılır; takılı bir andr36oid SD kartıyla ise karttan açılır.</string>
+    <string name="inst_done">andr36oid, eMMC\'ye kuruldu. SD kart olmadan konsol eMMC\'den açılır; takılı başka bir önyüklenebilir SD kartla ise karttan açılır.</string>
 
     <string name="inst_failed_title">Durduruldu</string>
     <string name="inst_failed_choice">Bundan sonra başka bir şey yazılmadı. Fabrika eMMC\'niz %1$s konumunda yedeklendi.\n\nFabrika eMMC\'si geri yüklensin mi, yoksa olduğu gibi mi bıraksın?</string>

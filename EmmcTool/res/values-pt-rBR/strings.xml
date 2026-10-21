@@ -127,7 +127,7 @@
     <string name="inst_restart_title">Reiniciar</string>
     <string name="inst_restart_step1">O carregador da eMMC está apagado. Reinicie agora: o console precisa iniciar sozinho pelo carregador do cartão SD, e esta página vai abrir de novo.\n\nSe ele não voltar: segure o botão de energia por 7 segundos e ligue de novo. Se mesmo assim não iniciar, este console precisa do carregador original. O backup está em %1$s, neste cartão SD.</string>
     <string name="inst_restart_test">O andr36oid está na eMMC. Reinicie agora: ele inicia pela eMMC uma vez, como teste. A primeira inicialização configura tudo e leva alguns minutos. Quando disser que o teste funcionou, reinicie de novo.\n\nSe travar: segure o botão de energia por 7 segundos e ligue de novo. Ele então inicia pelo cartão SD, como de costume, e esta página mostra o que aconteceu.</string>
-    <string name="inst_restart_done">Desligue o console, tire o cartão SD quando ele estiver desligado e depois ligue-o: o andr36oid agora inicia pela eMMC.\n\nCom um cartão SD do andr36oid inserido, o console inicia pelo cartão, como antes.</string>
+    <string name="inst_restart_done">Desligue o console, tire o cartão SD quando ele estiver desligado e depois ligue-o: o andr36oid agora inicia pela eMMC.\n\nCom outro cartão SD inicializável inserido, o console inicia pelo cartão, como antes.</string>
     <string name="inst_restart_stock">Desligue o console, tire o cartão SD quando ele estiver desligado e depois ligue-o para usar o sistema original.</string>
     <string name="inst_restart_now">Reiniciar agora</string>
     <string name="inst_test_later">Não testar agora</string>
@@ -139,7 +139,7 @@
     <string name="inst_hold">Segurar</string>
     <string name="inst_hold_hint">Segure A por 10 segundos. Soltar recomeça do zero.</string>
     <string name="inst_no_loader_code">O instalador não tem a soma de verificação do carregador do passo 1.</string>
-    <string name="inst_done">O andr36oid está instalado na eMMC. Sem cartão SD, o console inicia pela eMMC; com um cartão SD do andr36oid inserido, inicia pelo cartão.</string>
+    <string name="inst_done">O andr36oid está instalado na eMMC. Sem cartão SD, o console inicia pela eMMC; com outro cartão SD inicializável inserido, inicia pelo cartão.</string>
 
     <string name="inst_failed_title">Parado</string>
     <string name="inst_failed_choice">Nada mais foi gravado depois disso. A sua eMMC original tem backup em %1$s.\n\nRestaurar a eMMC original ou deixar como está?</string>

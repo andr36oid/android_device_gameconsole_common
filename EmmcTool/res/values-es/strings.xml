@@ -127,7 +127,7 @@
     <string name="inst_restart_title">Reiniciar</string>
     <string name="inst_restart_step1">El cargador de la eMMC está vacío. Reinicia ahora: la consola tiene que arrancar sola desde el cargador de la tarjeta SD, y esta página se abrirá de nuevo.\n\nSi no vuelve: mantén pulsado el botón de encendido 7 segundos y enciéndela otra vez. Si aun así no arranca, esta consola necesita su cargador original. La copia de seguridad está en %1$s, en esta tarjeta SD.</string>
     <string name="inst_restart_test">andr36oid está en la eMMC. Reinicia ahora: arrancará desde la eMMC una vez, como prueba. El primer arranque lo prepara todo y tarda unos minutos. Cuando diga que la prueba funcionó, reinicia otra vez.\n\nSi se queda colgada: mantén pulsado el botón de encendido 7 segundos y enciéndela otra vez. Entonces arrancará desde la tarjeta SD como de costumbre, y esta página dirá qué pasó.</string>
-    <string name="inst_restart_done">Apaga la consola, saca la tarjeta SD cuando esté apagada y luego enciéndela: andr36oid ahora arranca desde la eMMC.\n\nCon una tarjeta SD de andr36oid puesta, la consola arranca desde la tarjeta, como antes.</string>
+    <string name="inst_restart_done">Apaga la consola, saca la tarjeta SD cuando esté apagada y luego enciéndela: andr36oid ahora arranca desde la eMMC.\n\nCon otra tarjeta SD de arranque puesta, la consola arranca desde la tarjeta, como antes.</string>
     <string name="inst_restart_stock">Apaga la consola, saca la tarjeta SD cuando esté apagada y luego enciéndela para usar el sistema original.</string>
     <string name="inst_restart_now">Reiniciar ahora</string>
     <string name="inst_test_later">No probar ahora</string>
@@ -139,7 +139,7 @@
     <string name="inst_hold">Mantener</string>
     <string name="inst_hold_hint">Mantén pulsada A durante 10 segundos. Si la sueltas, se empieza de nuevo.</string>
     <string name="inst_no_loader_code">El instalador no tiene la suma de comprobación del cargador del paso 1.</string>
-    <string name="inst_done">andr36oid está instalado en la eMMC. Sin tarjeta SD, la consola arranca desde la eMMC; con una tarjeta SD de andr36oid puesta, arranca desde la tarjeta.</string>
+    <string name="inst_done">andr36oid está instalado en la eMMC. Sin tarjeta SD, la consola arranca desde la eMMC; con otra tarjeta SD de arranque puesta, arranca desde la tarjeta.</string>
 
     <string name="inst_failed_title">Detenido</string>
     <string name="inst_failed_choice">Después de esto no se escribió nada más. Tu eMMC original tiene copia de seguridad en %1$s.\n\n¿Devolver la eMMC original o dejarla como está?</string>

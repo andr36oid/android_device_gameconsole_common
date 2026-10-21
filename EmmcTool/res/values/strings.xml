@@ -127,7 +127,7 @@
     <string name="inst_restart_title">Restart</string>
     <string name="inst_restart_step1">The eMMC\'s loader is blank. Restart now: the console has to start from the SD card\'s loader on its own, and this page opens again.\n\nIf it doesn\'t come back: hold power for 7 seconds and switch it on again. If it still doesn\'t start, this console needs its stock loader. The backup is in %1$s on this SD card.</string>
     <string name="inst_restart_test">andr36oid is on the eMMC. Restart now: it starts from the eMMC once, as a test. Its first start sets things up and takes a few minutes. When it says the test worked, restart again.\n\nIf it hangs: hold power for 7 seconds and switch it on again. It then starts from the SD card as usual, and this page says what happened.</string>
-    <string name="inst_restart_done">Shut the console down, take the SD card out once it is off, then switch it on: andr36oid now starts from the eMMC.\n\nWith an andr36oid SD card in, the console starts from the card, as before.</string>
+    <string name="inst_restart_done">Shut the console down, take the SD card out once it is off, then switch it on: andr36oid now starts from the eMMC.\n\nWith a different bootable SD card in, the console starts from the card, as before.</string>
     <string name="inst_restart_stock">Shut the console down, take the SD card out once it is off, then switch it on to use the stock system.</string>
     <string name="inst_restart_now">Restart now</string>
     <string name="inst_test_later">Don\'t test now</string>
@@ -139,7 +139,7 @@
     <string name="inst_hold">Hold</string>
     <string name="inst_hold_hint">Hold A for 10 seconds. Letting go starts over.</string>
     <string name="inst_no_loader_code">The installer has no loader checksum from step 1.</string>
-    <string name="inst_done">andr36oid is installed on the eMMC. Without an SD card the console starts from the eMMC; with an andr36oid SD card in, it starts from the card.</string>
+    <string name="inst_done">andr36oid is installed on the eMMC. Without an SD card the console starts from the eMMC; with a different bootable SD card in, it starts from the card.</string>
 
     <string name="inst_failed_title">Stopped</string>
     <string name="inst_failed_choice">Nothing more was written after this. Your stock eMMC is backed up in %1$s.\n\nPut the stock eMMC back, or leave it as it is?</string>

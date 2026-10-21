@@ -127,7 +127,7 @@
     <string name="inst_restart_title">Neustart</string>
     <string name="inst_restart_step1">Der Loader des eMMC ist leer. Starte jetzt neu: Die Konsole muss selbstständig vom Loader der SD-Karte starten, und diese Seite öffnet sich danach wieder.\n\nWenn sie nicht zurückkommt: Halte die Ein-/Aus-Taste 7 Sekunden lang gedrückt und schalte sie wieder ein. Startet sie immer noch nicht, braucht diese Konsole ihren Original-Loader. Die Sicherung liegt in %1$s auf dieser SD-Karte.</string>
     <string name="inst_restart_test">andr36oid liegt auf dem eMMC. Starte jetzt neu: Es startet dann einmal vom eMMC, als Test. Der erste Start richtet alles ein und dauert einige Minuten. Sobald da steht, dass der Test geklappt hat, startest du noch einmal neu.\n\nWenn es hängt: Halte die Ein-/Aus-Taste 7 Sekunden lang gedrückt und schalte die Konsole wieder ein. Dann startet sie wie gewohnt von der SD-Karte, und diese Seite sagt, was passiert ist.</string>
-    <string name="inst_restart_done">Fahr die Konsole herunter, nimm die SD-Karte heraus, sobald sie aus ist, und schalte sie dann wieder ein: andr36oid startet jetzt vom eMMC.\n\nWenn eine andr36oid-SD-Karte drinsteckt, startet die Konsole wie bisher von der Karte.</string>
+    <string name="inst_restart_done">Fahr die Konsole herunter, nimm die SD-Karte heraus, sobald sie aus ist, und schalte sie dann wieder ein: andr36oid startet jetzt vom eMMC.\n\nWenn eine andere startfähige SD-Karte drinsteckt, startet die Konsole wie bisher von der Karte.</string>
     <string name="inst_restart_stock">Fahr die Konsole herunter, nimm die SD-Karte heraus, sobald sie aus ist, und schalte sie dann wieder ein, um das Originalsystem zu verwenden.</string>
     <string name="inst_restart_now">Jetzt neu starten</string>
     <string name="inst_test_later">Jetzt nicht testen</string>
@@ -139,7 +139,7 @@
     <string name="inst_hold">Halten</string>
     <string name="inst_hold_hint">Halte A 10 Sekunden lang gedrückt. Loslassen fängt von vorn an.</string>
     <string name="inst_no_loader_code">Das Installationsprogramm hat keine Loader-Prüfsumme aus Schritt 1.</string>
-    <string name="inst_done">andr36oid ist auf dem eMMC installiert. Ohne SD-Karte startet die Konsole vom eMMC; mit einer andr36oid-SD-Karte drin startet sie von der Karte.</string>
+    <string name="inst_done">andr36oid ist auf dem eMMC installiert. Ohne SD-Karte startet die Konsole vom eMMC; mit einer anderen startfähigen SD-Karte drin startet sie von der Karte.</string>
 
     <string name="inst_failed_title">Gestoppt</string>
     <string name="inst_failed_choice">Danach wurde nichts mehr geschrieben. Dein Original-eMMC ist in %1$s gesichert.\n\nSoll der Original-eMMC zurückgespielt werden oder bleibt er, wie er ist?</string>

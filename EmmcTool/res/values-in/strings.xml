@@ -127,7 +127,7 @@
     <string name="inst_restart_title">Mulai ulang</string>
     <string name="inst_restart_step1">Loader eMMC kosong. Mulai ulang sekarang: konsol harus mulai sendiri dari loader kartu SD, dan halaman ini akan terbuka lagi.\n\nJika tidak kembali: tahan tombol power selama 7 detik lalu nyalakan lagi. Jika masih tidak mau menyala, konsol ini butuh loader aslinya. Cadangannya ada di %1$s pada kartu SD ini.</string>
     <string name="inst_restart_test">andr36oid ada di eMMC. Mulai ulang sekarang: andr36oid akan mulai dari eMMC sekali, sebagai tes. Saat pertama kali dinyalakan, andr36oid menyiapkan semuanya dan butuh beberapa menit. Saat tertulis bahwa tes berhasil, mulai ulang lagi.\n\nJika macet: tahan tombol power selama 7 detik lalu nyalakan lagi. Konsol kemudian mulai dari kartu SD seperti biasa, dan halaman ini akan menjelaskan apa yang terjadi.</string>
-    <string name="inst_restart_done">Matikan konsol, cabut kartu SD setelah konsol mati, lalu nyalakan lagi: andr36oid sekarang mulai dari eMMC.\n\nJika kartu SD andr36oid terpasang, konsol mulai dari kartu seperti sebelumnya.</string>
+    <string name="inst_restart_done">Matikan konsol, cabut kartu SD setelah konsol mati, lalu nyalakan lagi: andr36oid sekarang mulai dari eMMC.\n\nJika kartu SD lain yang bisa di-boot terpasang, konsol mulai dari kartu seperti sebelumnya.</string>
     <string name="inst_restart_stock">Matikan konsol, cabut kartu SD setelah konsol mati, lalu nyalakan lagi untuk memakai sistem asli.</string>
     <string name="inst_restart_now">Mulai ulang sekarang</string>
     <string name="inst_test_later">Jangan tes sekarang</string>
@@ -139,7 +139,7 @@
     <string name="inst_hold">Tahan</string>
     <string name="inst_hold_hint">Tahan A selama 10 detik. Jika dilepas, mulai dari awal.</string>
     <string name="inst_no_loader_code">Installer tidak punya checksum loader dari langkah 1.</string>
-    <string name="inst_done">andr36oid sudah terpasang di eMMC. Tanpa kartu SD, konsol mulai dari eMMC; dengan kartu SD andr36oid terpasang, konsol mulai dari kartu.</string>
+    <string name="inst_done">andr36oid sudah terpasang di eMMC. Tanpa kartu SD, konsol mulai dari eMMC; dengan kartu SD lain yang bisa di-boot terpasang, konsol mulai dari kartu.</string>
 
     <string name="inst_failed_title">Dihentikan</string>
     <string name="inst_failed_choice">Tidak ada yang ditulis lagi setelah ini. eMMC asli kamu sudah dicadangkan di %1$s.\n\nKembalikan eMMC asli, atau biarkan seperti sekarang?</string>

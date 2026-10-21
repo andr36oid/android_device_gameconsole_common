@@ -127,7 +127,7 @@
     <string name="inst_restart_title">Redémarrage</string>
     <string name="inst_restart_step1">Le chargeur d\'amorçage de l\'eMMC est vide. Redémarrez maintenant : la console doit démarrer seule avec le chargeur de la carte SD, et cette page se rouvrira.\n\nSi elle ne revient pas : maintenez le bouton d\'alimentation enfoncé pendant 7 secondes, puis rallumez-la. Si elle ne démarre toujours pas, cette console a besoin de son chargeur d\'amorçage d\'origine. La sauvegarde se trouve dans %1$s, sur cette carte SD.</string>
     <string name="inst_restart_test">andr36oid est sur l\'eMMC. Redémarrez maintenant : il démarre une fois depuis l\'eMMC, en test. Son premier démarrage prépare tout et prend quelques minutes. Quand il indique que le test a réussi, redémarrez à nouveau.\n\nS\'il reste bloqué : maintenez le bouton d\'alimentation enfoncé pendant 7 secondes, puis rallumez-la. Elle démarrera alors depuis la carte SD comme d\'habitude, et cette page indiquera ce qui s\'est passé.</string>
-    <string name="inst_restart_done">Éteignez la console, retirez la carte SD une fois qu\'elle est éteinte, puis rallumez-la : andr36oid démarre maintenant depuis l\'eMMC.\n\nAvec une carte SD andr36oid insérée, la console démarre depuis la carte, comme avant.</string>
+    <string name="inst_restart_done">Éteignez la console, retirez la carte SD une fois qu\'elle est éteinte, puis rallumez-la : andr36oid démarre maintenant depuis l\'eMMC.\n\nAvec une autre carte SD amorçable insérée, la console démarre depuis la carte, comme avant.</string>
     <string name="inst_restart_stock">Éteignez la console, retirez la carte SD une fois qu\'elle est éteinte, puis rallumez-la pour utiliser le système d\'origine.</string>
     <string name="inst_restart_now">Redémarrer maintenant</string>
     <string name="inst_test_later">Ne pas tester maintenant</string>
@@ -139,7 +139,7 @@
     <string name="inst_hold">Maintenir</string>
     <string name="inst_hold_hint">Maintenez A pendant 10 secondes. Relâcher recommence depuis le début.</string>
     <string name="inst_no_loader_code">L\'installateur n\'a pas de somme de contrôle du chargeur d\'amorçage de l\'étape 1.</string>
-    <string name="inst_done">andr36oid est installé sur l\'eMMC. Sans carte SD, la console démarre depuis l\'eMMC ; avec une carte SD andr36oid insérée, elle démarre depuis la carte.</string>
+    <string name="inst_done">andr36oid est installé sur l\'eMMC. Sans carte SD, la console démarre depuis l\'eMMC ; avec une autre carte SD amorçable insérée, elle démarre depuis la carte.</string>
 
     <string name="inst_failed_title">Arrêté</string>
     <string name="inst_failed_choice">Rien d\'autre n\'a été écrit après ça. Votre eMMC d\'origine est sauvegardée dans %1$s.\n\nRemettre l\'eMMC d\'origine en place, ou la laisser telle quelle ?</string>

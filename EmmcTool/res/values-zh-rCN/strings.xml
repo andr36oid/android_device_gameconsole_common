@@ -127,7 +127,7 @@
     <string name="inst_restart_title">重启</string>
     <string name="inst_restart_step1">eMMC 的引导加载器已清空。现在重启：主机必须自行从 SD 卡的引导加载器启动，此页面会再次打开。\n\n如果主机没有恢复：按住电源键 7 秒，然后重新开机。如果仍然无法启动，此主机需要原厂引导加载器。备份位于此 SD 卡的 %1$s 中。</string>
     <string name="inst_restart_test">andr36oid 已在 eMMC 上。现在重启：它会从 eMMC 启动一次，作为测试。首次启动会进行设置，需要几分钟。当显示测试成功时，再次重启。\n\n如果卡住：按住电源键 7 秒，然后重新开机。之后它会像平时一样从 SD 卡启动，此页面会说明发生了什么。</string>
-    <string name="inst_restart_done">关闭主机，待其断电后取出 SD 卡，然后开机：andr36oid 现在从 eMMC 启动。\n\n插着 andr36oid SD 卡时，主机会像以前一样从卡启动。</string>
+    <string name="inst_restart_done">关闭主机，待其断电后取出 SD 卡，然后开机：andr36oid 现在从 eMMC 启动。\n\n插着其他可启动的 SD 卡时，主机会像以前一样从卡启动。</string>
     <string name="inst_restart_stock">关闭主机，待其断电后取出 SD 卡，然后开机以使用原厂系统。</string>
     <string name="inst_restart_now">立即重启</string>
     <string name="inst_test_later">暂不测试</string>
@@ -139,7 +139,7 @@
     <string name="inst_hold">按住</string>
     <string name="inst_hold_hint">按住 A 键 10 秒。松开将重新开始。</string>
     <string name="inst_no_loader_code">安装程序没有第 1 步的引导加载器校验和。</string>
-    <string name="inst_done">andr36oid 已安装到 eMMC。没有 SD 卡时，主机从 eMMC 启动；插入 andr36oid SD 卡时，则从卡启动。</string>
+    <string name="inst_done">andr36oid 已安装到 eMMC。没有 SD 卡时，主机从 eMMC 启动；插入其他可启动的 SD 卡时，则从卡启动。</string>
 
     <string name="inst_failed_title">已停止</string>
     <string name="inst_failed_choice">此后未再写入任何内容。你的原厂 eMMC 已备份到 %1$s。\n\n要恢复原厂 eMMC，还是保持现状？</string>
