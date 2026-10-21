@@ -464,6 +464,37 @@ public class InstallActivity extends Activity {
         b.setVisibility(View.VISIBLE);
         b.setOnClickListener(v -> click.run());
         if (b == mNext) b.requestFocus();
+        mHandler.post(this::fitButtons);
+    }
+
+    /**
+     * The row's buttons share its width: each gets an equal part at most, a longer label
+     * goes onto two lines instead of pushing the last button off the screen.
+     */
+    private void fitButtons() {
+        final ViewGroup row = (ViewGroup) mNext.getParent();
+        final int width = row.getWidth() - row.getPaddingLeft() - row.getPaddingRight();
+        if (width <= 0) {
+            row.post(this::fitButtons);
+            return;
+        }
+        int shown = 0, margins = 0;
+        final Button[] all = {mBack, mMore, mSecondary, mNext};
+        for (Button b : all) {
+            if (b.getVisibility() != View.VISIBLE) continue;
+            shown++;
+            final ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) b.getLayoutParams();
+            margins += lp.getMarginStart() + lp.getMarginEnd();
+        }
+        if (shown == 0) return;
+        final int each = (width - margins) / shown;
+        for (Button b : all) {
+            b.setSingleLine(false);
+            b.setMaxLines(2);
+            b.setMinWidth(0);
+            b.setMinimumWidth(0);
+            b.setMaxWidth(each);
+        }
     }
 
     private TextView sideHeader(CharSequence text) {
