@@ -182,5 +182,6 @@
     <string name="inst_lbl_step">Install step %1$s</string>
     <string name="inst_lbl_done">Installed</string>
     <string name="inst_done_title">andr36oid is on the eMMC</string>
+    <string name="inst_intro">Installing on the eMMC takes a while: everything written is read back and compared with the original before the wizard moves on. That\'s deliberate. One bad write in the wrong place can leave the console unable to start at all, so each step has to be proven correct before the next one begins.</string>
     <string name="inst_keep_on">Keep the console switched on and the SD card in until this is done.</string>
 </resources>

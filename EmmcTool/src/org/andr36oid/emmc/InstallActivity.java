@@ -356,7 +356,8 @@ public class InstallActivity extends Activity {
     private void showCheckResults() {
         final String label = getString(R.string.inst_lbl_checks);
         if (mInspect == null) {
-            page(label, AT_CHECKS, getString(R.string.inst_checks), getString(R.string.inst_inspect_failed));
+            page(label, AT_CHECKS, getString(R.string.inst_checks), getString(R.string.inst_intro)
+                    + "\n\n" + getString(R.string.inst_inspect_failed));
             button(mBack, getString(R.string.inst_close), this::finish);
             button(mNext, getString(R.string.inst_check_again), this::showChecks);
             return;
@@ -364,7 +365,8 @@ public class InstallActivity extends Activity {
         final List<String> problems = new ArrayList<>();
         final JSONArray pa = mInspect.optJSONArray("problems");
         for (int i = 0; pa != null && i < pa.length(); i++) problems.add(pa.optString(i));
-        final StringBuilder body = new StringBuilder(getString(R.string.inst_summary));
+        final StringBuilder body = new StringBuilder(getString(R.string.inst_intro))
+                .append("\n\n").append(getString(R.string.inst_summary));
         if (!problems.isEmpty()) {
             body.append("\n\n").append(getString(R.string.inst_problems)).append(':');
             for (String why : problems) body.append("\n• ").append(why);
