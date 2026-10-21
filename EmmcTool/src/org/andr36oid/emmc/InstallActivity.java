@@ -185,6 +185,15 @@ public class InstallActivity extends Activity {
             }
             return true;
         }
+        final boolean dpad = key == KeyEvent.KEYCODE_DPAD_UP || key == KeyEvent.KEYCODE_DPAD_DOWN
+                || key == KeyEvent.KEYCODE_DPAD_LEFT || key == KeyEvent.KEYCODE_DPAD_RIGHT;
+        final View focus = getCurrentFocus();
+        if (dpad && first && (focus == null || !focus.isShown())) {
+            // Nothing selected (after a touch, or a page change): the first press selects
+            // Next, or the first button there is, instead of getting lost
+            ensureFocus();
+            return true;
+        }
         if (!mSideFocus && (key == KeyEvent.KEYCODE_DPAD_UP || key == KeyEvent.KEYCODE_DPAD_DOWN)) {
             // The buttons are all in one row, so up and down scroll both sides instead
             if (event.getAction() == KeyEvent.ACTION_DOWN) {
@@ -276,6 +285,7 @@ public class InstallActivity extends Activity {
             b.setVisibility(View.GONE);
             b.setEnabled(true);
             b.setOnClickListener(null);
+            b.setNextFocusUpId(View.NO_ID);
         }
         mHandler.post(this::ensureFocus);
     }
@@ -539,6 +549,11 @@ public class InstallActivity extends Activity {
         button(mNext, getString(R.string.inst_write_loader), this::showHold);
         mNext.setEnabled(false);
         fault.setOnCheckedChangeListener((v, on) -> mNext.setEnabled(on));
+        // down from the box goes straight to Next (enabled once it is ticked), up comes back
+        fault.setId(View.generateViewId());
+        fault.setNextFocusDownId(R.id.next);
+        fault.setNextFocusRightId(R.id.next);
+        mNext.setNextFocusUpId(fault.getId());
         fault.requestFocus();
     }
 
@@ -548,6 +563,9 @@ public class InstallActivity extends Activity {
         warn();
         final HoldButton hold = new HoldButton(this, getString(R.string.inst_hold));
         mSide.addView(hold, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, dp(150)));
+        hold.setId(View.generateViewId());
+        hold.setNextFocusDownId(R.id.back);
+        mBack.setNextFocusUpId(hold.getId());
         mSideFocus = true;
         hold.setListener(() -> {
             final String code = Installer.state().optString("loader_sha256");
