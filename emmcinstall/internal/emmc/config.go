@@ -59,6 +59,9 @@ type Config struct {
 	EmmcDev   string
 	SDSys     string // the SD card the system runs from
 	SDDev     string
+	SD2Sys    string // the card in slot 2
+	SD2Dev    string
+	DataDir   string // Android's /data
 	SDBoot    string // the SD card's BOOT partition (vfat)
 	SDBootDir string // tests: a directory standing in for the SD card's BOOT
 	BootMnt   string // where SDBoot is mounted while the installer uses it
@@ -75,6 +78,7 @@ type Config struct {
 
 	lock func(cfg *Config, cid string, unlock bool) error // tests replace it
 	rnd  io.Reader
+	fs   *fsOps // tests: folders in place of file systems
 }
 
 // DefaultConfig is the console's.
@@ -87,6 +91,9 @@ func DefaultConfig() *Config {
 		EmmcDev:     "/dev/block/mmcblk2",
 		SDSys:       "/sys/block/mmcblk0",
 		SDDev:       "/dev/block/mmcblk0",
+		SD2Sys:      "/sys/block/mmcblk1",
+		SD2Dev:      "/dev/block/mmcblk1",
+		DataDir:     "/data",
 		SDBoot:      "/dev/block/platform/ff370000.dwmmc/by-name/BOOT",
 		BootMnt:     "/mnt/andr36oid-emmcinstall",
 		PowerDir:    "/sys/class/power_supply",

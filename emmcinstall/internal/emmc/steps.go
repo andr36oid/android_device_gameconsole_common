@@ -70,7 +70,12 @@ func (c *Config) begin(p *Progress, cmd string) (*run, error) {
 	if st.Backup != nil && cmd != "backup" && cmd != "restore" {
 		// every step's events also go to the log next to the backup
 		if err := p.AddLog(filepath.Join(st.Backup.Dir, "install.log")); err != nil {
-			return nil, fmt.Errorf("the backup folder isn't there: %w", err)
+			if st.Datacard == nil || st.Datacard.Kind == "emmc" {
+				return nil, fmt.Errorf("the backup folder isn't there: %w", err)
+			}
+			// a data card is a copy of the card the backup was made on, or
+			// that card made bootable again by the flasher
+			p.Logf("the backup folder isn't on this card (%v)", err)
 		}
 	}
 	p.Logf("eMMC %s, CID %s, %d MiB; battery %d%%, charger %v",
@@ -972,6 +977,9 @@ func (c *Config) update(p *Progress, cmd string, system bool) error {
 	if err := r.mark(cmd); err != nil {
 		return err
 	}
+	if r.st.Copied == nil {
+		r.st.Copied, r.st.CopiedLn = map[string]string{}, map[string]int64{}
+	}
 	err = r.unlocked(func(e *Disk) error {
 		for _, cp := range copies {
 			h, err := copySpan(p, cp.name, sd, cp.from, e, cp.to)
@@ -979,6 +987,13 @@ func (c *Config) update(p *Progress, cmd string, system bool) error {
 				return err
 			}
 			r.st.Copied[cp.name], r.st.CopiedLn[cp.name] = h, cp.from.n()
+		}
+		if d := r.st.Datacard; system && d != nil && d.UUID != "" && (d.Stage == "blank" || d.Stage == "done") {
+			// the SD card's BOOT has no datacard.txt: the eMMC keeps using its data card
+			boot, _ := Find(r.st.Plan, "BOOT")
+			if err := c.writeDatacardFile(p, boot, d.UUID); err != nil {
+				return err
+			}
 		}
 		if !ub {
 			p.Logf("U-Boot on the eMMC is already the SD card's")
@@ -1197,10 +1212,14 @@ func (c *Config) Confirm(p *Progress) (string, error) {
 		return writeTest(dir, "emmc_test=ok\nemmc_cid="+info.CID+"\n")
 	})
 	if err != nil && res == "no test" {
-		return "no andr36oid SD card", nil
+		res, err = "no andr36oid SD card", nil
 	}
 	if err == nil && res == "confirmed" {
 		p.Logf("eMMC test start confirmed on the SD card")
+	}
+	if res != "confirmed" {
+		// a test start leaves the cards alone
+		err = c.DatacardBlank(p)
 	}
 	return res, err
 }

@@ -20,6 +20,18 @@
 //	write-image <file>      advanced: any SD card image (.img, .img.gz, .img.xz, .zip)
 //	                        to the eMMC; sdboot:<name> for one on BOOT
 //	leave                   forget a stop or a cut-off write, write nothing
+//	datacard-options        where Android's data can go: this card, the card in
+//	                        slot 2 and what each choice needs; writes nothing
+//	datacard-choose <emmc|original|new> [A|B|C] [autoapk]
+//	                        after the backup: record where Android's data goes
+//	datacard-prepare        after step 3: make the card in slot 2 a data card,
+//	                        its userdata copied at the next start (from the eMMC)
+//	datacard-copy           on the eMMC system: that copy
+//	datacard-finish         last: datacard.txt on the eMMC's BOOT; the original
+//	                        card made unable to start
+//	datacard-check          on an SD start: is this the eMMC's data card made
+//	                        bootable again (by the flasher)?
+//	datacard-return         then: update-emmc, and the card a data card again
 //	request                 run what the state folder's request file asks
 //	                        (cmd=..., arg=...), the result to result.json
 //
@@ -81,10 +93,25 @@ func main() {
 		}
 		print(st)
 		return
+	case "datacard-options":
+		o, err := cfg.DatacardOptions()
+		if err != nil {
+			fail(err)
+		}
+		print(map[string]any{"ok": true, "result": o})
+		return
+	case "datacard-check":
+		r, err := cfg.DatacardCheck()
+		if err != nil {
+			fail(err)
+		}
+		print(map[string]any{"ok": true, "result": r})
+		return
 	}
 
 	writes := map[string]bool{"backup": true, "blank-loader": true, "write-os": true,
-		"write-loader": true, "update-uboot": true, "update-emmc": true, "restore": true, "write-image": true}
+		"write-loader": true, "update-uboot": true, "update-emmc": true, "restore": true, "write-image": true,
+		"datacard-prepare": true, "datacard-copy": true, "datacard-finish": true, "datacard-return": true}
 	if writes[cmd] {
 		// a stray signal must not cut a write short
 		signal.Ignore(syscall.SIGINT, syscall.SIGTERM, syscall.SIGHUP)
@@ -134,6 +161,26 @@ func main() {
 		err = cfg.WriteImage(p, arg())
 	case "leave":
 		err = cfg.Leave(p)
+	case "datacard-choose":
+		if len(args) < 1 || len(args) > 3 {
+			usage()
+		}
+		option, autoapk := "", false
+		if len(args) > 1 {
+			option = args[1]
+		}
+		if len(args) > 2 {
+			autoapk = args[2] == "autoapk"
+		}
+		err = cfg.DatacardChoose(p, args[0], option, autoapk)
+	case "datacard-prepare":
+		err = cfg.DatacardPrepare(p)
+	case "datacard-copy":
+		result, err = cfg.DatacardCopy(p)
+	case "datacard-finish":
+		err = cfg.DatacardFinish(p)
+	case "datacard-return":
+		err = cfg.DatacardReturn(p)
 	default:
 		usage()
 	}
@@ -149,7 +196,12 @@ func main() {
 		}
 		fail(err)
 	}
-	print(map[string]any{"ok": true, "result": result})
+	out := map[string]any{"ok": true, "result": result}
+	if cmd == "confirm" && result == "confirmed" && cfg.DatacardCopyPending() {
+		// the eMMC system's Settings copies userdata to the new data card now
+		out["datacard_copy"] = true
+	}
+	print(out)
 	release()
 }
 
@@ -214,6 +266,6 @@ func usage() {
 	if resultFile != "" {
 		fail(fmt.Errorf("request %q not understood", requestCmd))
 	}
-	fmt.Fprintln(os.Stderr, "usage: andr36oid-emmcinstall [--progress file] inspect|status|backup <folder>|blank-loader|check-loader|write-os|start-test|cancel-test|check-test|confirm|write-loader <code>|update-uboot|update-emmc|restore <folder>|leave")
+	fmt.Fprintln(os.Stderr, "usage: andr36oid-emmcinstall [--progress file] inspect|status|backup <folder>|blank-loader|check-loader|write-os|start-test|cancel-test|check-test|confirm|write-loader <code>|update-uboot|update-emmc|restore <folder>|leave|datacard-options|datacard-choose <kind> [A|B|C] [autoapk]|datacard-prepare|datacard-copy|datacard-finish|datacard-check|datacard-return")
 	os.Exit(2)
 }
