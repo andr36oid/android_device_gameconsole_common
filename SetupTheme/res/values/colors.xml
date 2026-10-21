@@ -2,5 +2,7 @@
 <resources>
     <color name="andr36oid_setup_background">#ffffffff</color>
     <color name="andr36oid_setup_accent">#ffb34700</color>
+    <!-- The D-pad selection's tint (andr36oid_setup_focus) -->
+    <color name="andr36oid_setup_focus_fill">#1f000000</color>
     <color name="sud_glif_v3_dialog_background_color_dark">#ff000000</color>
 </resources>

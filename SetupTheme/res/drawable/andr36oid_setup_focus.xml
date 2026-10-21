@@ -1,10 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- The D-pad selection: the button itself lights up a little, in its own shape. The
+     inset matches the Material button background (4dp sides, 6dp top and bottom), so the
+     tint covers the button and not the empty space around it. -->
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_focused="true">
-        <shape android:shape="rectangle">
-            <stroke android:width="2dp" android:color="?android:attr/textColorPrimary" />
-            <corners android:radius="8dp" />
-        </shape>
+        <inset
+            android:insetLeft="4dp"
+            android:insetRight="4dp"
+            android:insetTop="6dp"
+            android:insetBottom="6dp">
+            <shape android:shape="rectangle">
+                <solid android:color="@color/andr36oid_setup_focus_fill" />
+                <corners android:radius="@dimen/sud_glif_v3_button_corner_radius" />
+            </shape>
+        </inset>
     </item>
     <item android:drawable="@android:color/transparent" />
 </selector>
