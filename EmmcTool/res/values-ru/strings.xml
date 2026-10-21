@@ -69,6 +69,7 @@
 
     <!-- eMMC Installation (InstallActivity) -->
     <string name="inst_title">Установка на eMMC</string>
+    <string name="inst_entry_title">Установка на eMMC (бета)</string>
     <string name="inst_summary">Установите andr36oid во встроенную eMMC, чтобы консоль запускалась без SD-карты</string>
     <string name="inst_not_sd">andr36oid устанавливается на eMMC, только если он запущен с SD-карты.</string>
     <string name="inst_on_emmc">andr36oid запущен со встроенной eMMC. Чтобы изменить установку или вернуть заводскую систему, запустите консоль с SD-карты andr36oid.</string>

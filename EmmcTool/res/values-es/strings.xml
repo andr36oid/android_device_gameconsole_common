@@ -69,6 +69,7 @@
 
     <!-- eMMC Installation (InstallActivity) -->
     <string name="inst_title">Instalación en la eMMC</string>
+    <string name="inst_entry_title">Instalación en la eMMC (beta)</string>
     <string name="inst_summary">Pon andr36oid en la eMMC integrada para que la consola arranque sin la tarjeta SD</string>
     <string name="inst_not_sd">andr36oid solo se instala en la eMMC cuando se ejecuta desde la tarjeta SD.</string>
     <string name="inst_on_emmc">andr36oid se está ejecutando desde la eMMC integrada. Para cambiar la instalación o devolver el sistema original, arranca desde la tarjeta SD de andr36oid.</string>

@@ -69,6 +69,7 @@
 
     <!-- eMMC Installation (InstallActivity) -->
     <string name="inst_title">Instalasi eMMC</string>
+    <string name="inst_entry_title">Instalasi eMMC (beta)</string>
     <string name="inst_summary">Pasang andr36oid ke eMMC bawaan, supaya konsol menyala tanpa kartu SD</string>
     <string name="inst_not_sd">andr36oid hanya bisa dipasang ke eMMC saat berjalan dari kartu SD.</string>
     <string name="inst_on_emmc">andr36oid sedang berjalan dari eMMC bawaan. Untuk mengubah instalasi atau mengembalikan sistem asli, mulai dari kartu SD andr36oid.</string>

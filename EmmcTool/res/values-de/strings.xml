@@ -69,6 +69,7 @@
 
     <!-- eMMC Installation (InstallActivity) -->
     <string name="inst_title">eMMC-Installation</string>
+    <string name="inst_entry_title">eMMC-Installation (Beta)</string>
     <string name="inst_summary">andr36oid auf den eingebauten eMMC-Speicher bringen, damit die Konsole ohne SD-Karte startet</string>
     <string name="inst_not_sd">andr36oid kann nur auf den eMMC installiert werden, wenn es von der SD-Karte läuft.</string>
     <string name="inst_on_emmc">andr36oid läuft vom eingebauten eMMC-Speicher. Um die Installation zu ändern oder das Originalsystem zurückzuholen, starte von der andr36oid-SD-Karte.</string>

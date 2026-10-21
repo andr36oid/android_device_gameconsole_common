@@ -69,6 +69,7 @@
 
     <!-- eMMC Installation (InstallActivity) -->
     <string name="inst_title">eMMC 安装</string>
+    <string name="inst_entry_title">eMMC 安装（测试版）</string>
     <string name="inst_summary">将 andr36oid 安装到内置 eMMC，让主机无需 SD 卡即可启动</string>
     <string name="inst_not_sd">andr36oid 只有在从 SD 卡运行时才会安装到 eMMC。</string>
     <string name="inst_on_emmc">andr36oid 正在从内置 eMMC 运行。要更改安装或恢复原厂系统，请从 andr36oid SD 卡启动。</string>

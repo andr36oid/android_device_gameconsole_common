@@ -69,6 +69,8 @@
 
     <!-- eMMC Installation (InstallActivity) -->
     <string name="inst_title">eMMC Installation</string>
+    <!-- Its entry in Settings > System: still marked as a beta -->
+    <string name="inst_entry_title">eMMC Installation (beta)</string>
     <string name="inst_summary">Put andr36oid on the built-in eMMC, so the console starts without the SD card</string>
     <string name="inst_not_sd">andr36oid only installs onto the eMMC when it runs from the SD card.</string>
     <string name="inst_on_emmc">andr36oid is running from the built-in eMMC. To change the installation or put the stock system back, start from the andr36oid SD card.</string>

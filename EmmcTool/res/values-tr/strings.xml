@@ -69,6 +69,7 @@
 
     <!-- eMMC Installation (InstallActivity) -->
     <string name="inst_title">eMMC Kurulumu</string>
+    <string name="inst_entry_title">eMMC Kurulumu (beta)</string>
     <string name="inst_summary">andr36oid\'i dahili eMMC\'ye kurun, böylece konsol SD kart olmadan açılır</string>
     <string name="inst_not_sd">andr36oid, yalnızca SD karttan çalışırken eMMC\'ye kurulabilir.</string>
     <string name="inst_on_emmc">andr36oid, dahili eMMC\'den çalışıyor. Kurulumu değiştirmek veya fabrika sistemini geri yüklemek için andr36oid SD kartından başlatın.</string>

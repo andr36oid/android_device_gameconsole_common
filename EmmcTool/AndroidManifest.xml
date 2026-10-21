@@ -52,7 +52,7 @@
             android:name=".InstallEntry"
             android:enabled="false"
             android:exported="true"
-            android:label="@string/inst_title"
+            android:label="@string/inst_entry_title"
             android:targetActivity=".InstallActivity">
             <intent-filter>
                 <action android:name="com.android.settings.action.IA_SETTINGS" />
