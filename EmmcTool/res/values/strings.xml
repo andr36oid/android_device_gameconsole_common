@@ -130,6 +130,7 @@
     <string name="inst_restart_step1">The eMMC\'s loader is blank. Restart now: the console has to start from the SD card\'s loader on its own, and this page opens again.\n\nIf it doesn\'t come back: hold power for 7 seconds and switch it on again. If it still doesn\'t start, this console needs its stock loader. The backup is in %1$s on this SD card.</string>
     <string name="inst_restart_test">andr36oid is on the eMMC. Restart now: it starts from the eMMC once, as a test. Its first start sets things up and takes a few minutes. When it says the test worked, restart again.\n\nIf it hangs: hold power for 7 seconds and switch it on again. It then starts from the SD card as usual, and this page says what happened.</string>
     <string name="inst_restart_done">Shut the console down, take the SD card out once it is off, then switch it on: andr36oid now starts from the eMMC.\n\nWith a different bootable SD card in, the console starts from the card, as before.</string>
+    <string name="inst_test_hands_off">Don\'t press anything while it starts from the eMMC. Wait until this wizard comes back up at step 2.</string>
     <string name="inst_restart_stock">Shut the console down, take the SD card out once it is off, then switch it on to use the stock system.</string>
     <string name="inst_restart_now">Restart now</string>
     <string name="inst_test_later">Don\'t test now</string>

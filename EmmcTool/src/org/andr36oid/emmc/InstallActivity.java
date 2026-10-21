@@ -733,7 +733,7 @@ public class InstallActivity extends Activity {
                 step = 1;
                 break;
             case TEST:
-                text = getString(R.string.inst_restart_test);
+                text = getString(R.string.inst_restart_test) + "\n\n" + getString(R.string.inst_test_hands_off);
                 step = 2;
                 break;
             case DONE:
@@ -799,7 +799,7 @@ public class InstallActivity extends Activity {
     /** Step 2 is written, but its test start was put off. */
     private void showDeferred() {
         page(stepLabel(2), stepAt(2) + 100, getString(stepName(2)),
-                getString(R.string.inst_test_deferred));
+                getString(R.string.inst_test_deferred) + "\n\n" + getString(R.string.inst_test_hands_off));
         steps();
         button(mBack, getString(R.string.inst_close), this::finish);
         restoreButton(mSecondary);
