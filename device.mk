@@ -105,7 +105,11 @@ PRODUCT_COPY_FILES += \
     	$(LOCAL_PATH)/fstab.emmc:$(TARGET_COPY_OUT_RAMDISK)/fstab.emmc \
     	$(LOCAL_PATH)/fstab.emmc:$(TARGET_COPY_OUT_ROOT)/fstab.emmc \
     	$(LOCAL_PATH)/fstab.emmc:$(TARGET_COPY_OUT_VENDOR)/fstab.emmc \
-    	$(LOCAL_PATH)/fstab.emmc:$(TARGET_COPY_OUT_VENDOR)/etc/fstab.emmc
+    	$(LOCAL_PATH)/fstab.emmc:$(TARGET_COPY_OUT_VENDOR)/etc/fstab.emmc \
+    	$(LOCAL_PATH)/fstab.emmcsd:$(TARGET_COPY_OUT_RAMDISK)/fstab.emmcsd \
+    	$(LOCAL_PATH)/fstab.emmcsd:$(TARGET_COPY_OUT_ROOT)/fstab.emmcsd \
+    	$(LOCAL_PATH)/fstab.emmcsd:$(TARGET_COPY_OUT_VENDOR)/fstab.emmcsd \
+    	$(LOCAL_PATH)/fstab.emmcsd:$(TARGET_COPY_OUT_VENDOR)/etc/fstab.emmcsd
     	
 PRODUCT_COPY_FILES += \
     	$(LOCAL_PATH)/init.rk30board.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.rk30board.rc \
@@ -820,7 +824,8 @@ PRODUCT_PACKAGES += \
 # eMMC Installation (Settings > System): andr36oid from the SD card onto the built-in eMMC,
 # with a backup of the stock one, each step proven before the next (emmcinstall/)
 PRODUCT_PACKAGES += \
-	andr36oid-emmcinstall
+	andr36oid-emmcinstall \
+	andr36oid-datacard
 
 # Free up space (Settings > Storage): old save states, backups, caches, screenshots,
 # APKs and duplicate ROMs; low space and EASYROMS error notifications
