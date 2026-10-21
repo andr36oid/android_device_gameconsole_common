@@ -121,7 +121,7 @@ public class CreditsActivity extends Activity {
         mScroll.setDefaultFocusHighlightEnabled(false);
         mScroll.addView(mContent);
         setContentView(mScroll);
-        HintBar.attach(this, "B", getString(org.andr36oid.hints.R.string.andr36oid_hint_back));
+        HintBar.overlay(this, "B", getString(org.andr36oid.hints.R.string.andr36oid_hint_back));
     }
 
     @Override

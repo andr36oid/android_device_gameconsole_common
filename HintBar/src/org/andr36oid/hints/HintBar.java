@@ -67,6 +67,20 @@ public class HintBar extends LinearLayout {
         return bar;
     }
 
+    /**
+     * Puts a see-through bar over the bottom of the activity's content, which keeps all of
+     * the screen: for full-screen pictures and text that scroll under it (Credits).
+     */
+    public static HintBar overlay(Activity activity, CharSequence... hints) {
+        final FrameLayout content = activity.findViewById(android.R.id.content);
+        final HintBar bar = new HintBar(activity);
+        bar.setBackgroundColor(Color.TRANSPARENT);
+        content.addView(bar, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                bar.dp(HEIGHT_DP), Gravity.BOTTOM));
+        bar.set(hints);
+        return bar;
+    }
+
     /** "A Select, B Back": the hints for a list or a settings page. */
     public static HintBar attachDefault(Activity activity) {
         return attach(activity, "A", activity.getString(R.string.andr36oid_hint_select),
@@ -138,7 +152,7 @@ public class HintBar extends LinearLayout {
 
     /**
      * The app's own background where it is dark; a light theme (the video player's) would
-     * hide the light text, so dark grey there.
+     * hide the light text, so black there.
      */
     private static int backgroundOf(Context context) {
         final TypedValue v = new TypedValue();
@@ -148,7 +162,7 @@ public class HintBar extends LinearLayout {
                 && Color.luminance(v.data | 0xff000000) < 0.3f) {
             return v.data | 0xff000000;
         }
-        return 0xff101010;
+        return 0xff000000;
     }
 
     private int dp(int v) {
