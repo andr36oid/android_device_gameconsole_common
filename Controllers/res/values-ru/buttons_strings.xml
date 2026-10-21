@@ -82,4 +82,5 @@
     <string name="fn_standin_confirm_title">Использовать %1$s как FN?</string>
     <string name="fn_standin_confirm">%1$s будет выполнять задачу кнопки FN: нажатая сама по себе открывает главный экран, удержанная вместе с другой кнопкой даёт сочетание. Она теряет свою обычную функцию везде, в том числе в играх. Это можно изменить в Настройки &gt; Управление &gt; Сочетания с FN.</string>
     <string name="fn_standin_confirm_ok">Использовать как FN</string>
+    <string name="fn_standin_fn_after_all">Кнопка FN (в этой консоли она всё-таки есть)</string>
 </resources>

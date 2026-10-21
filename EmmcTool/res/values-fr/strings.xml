@@ -276,4 +276,12 @@ Tout le contenu de l\'eMMC est remplacé par cette image.</string>
     <string name="inst_dc_not_now">Pas maintenant</string>
     <string name="inst_dc_return_go">Mettre à jour l\'eMMC</string>
     <string name="inst_dc_returned">L\'eMMC est à jour et cette carte est de nouveau une carte de données. Redémarre maintenant : andr36oid démarre depuis l\'eMMC.</string>
+    <string name="inst_test_hands_off">N\'appuyez sur rien pendant le démarrage depuis l\'eMMC. Attendez que cet assistant revienne à l\'étape 2.</string>
+    <string name="inst_revive_title">Refaire démarrer la carte de données ?</string>
+    <string name="inst_revive">andr36oid sur l\'eMMC gardait les données d\'Android sur une carte SD, et cette carte ne peut pas démarrer la console seule. Elle peut redevenir une carte SD andr36oid normale : vos applis, sauvegardes et réglages y restent.\n\nSi ce n\'est pas la carte actuellement dans la console, mettez-la d\'abord dans l\'emplacement 2.</string>
+    <string name="inst_revive_go">La faire démarrer</string>
+    <string name="inst_revive_leave">La laisser</string>
+    <string name="inst_revive_done_title">La carte de données redémarre</string>
+    <string name="inst_revive_done_this">Cette carte SD fait démarrer andr36oid comme avant, avec vos applis et données. Éteignez la console. Sans la carte, elle démarre le système d\'origine.</string>
+    <string name="inst_revive_done_slot2">La carte dans l\'emplacement 2 fait maintenant démarrer andr36oid, avec vos applis et données. Éteignez la console et mettez cette carte dans l\'emplacement 1 à la place de celle-ci. Sans carte SD, la console démarre le système d\'origine.</string>
 </resources>

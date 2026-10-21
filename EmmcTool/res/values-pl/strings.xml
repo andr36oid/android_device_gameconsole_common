@@ -276,4 +276,12 @@ Cała zawartość eMMC zostanie zastąpiona tym obrazem.</string>
     <string name="inst_dc_not_now">Nie teraz</string>
     <string name="inst_dc_return_go">Aktualizuj eMMC</string>
     <string name="inst_dc_returned">eMMC jest zaktualizowany, a ta karta znów jest kartą z danymi. Uruchom ponownie teraz: andr36oid wystartuje z eMMC.</string>
+    <string name="inst_test_hands_off">Nic nie naciskaj, dopóki system uruchamia się z eMMC. Poczekaj, aż ten kreator wróci na krok 2.</string>
+    <string name="inst_revive_title">Ustawić kartę z danymi, żeby znów się uruchamiała?</string>
+    <string name="inst_revive">andr36oid na eMMC trzymał dane Androida na karcie SD, a ta karta sama nie potrafi uruchomić konsoli. Może znów być zwykłą kartą andr36oid: aplikacje, zapisy i ustawienia zostaną na niej.\n\nJeśli to nie jest karta aktualnie włożona do konsoli, najpierw włóż ją do slotu 2.</string>
+    <string name="inst_revive_go">Ustaw uruchamianie</string>
+    <string name="inst_revive_leave">Zostaw</string>
+    <string name="inst_revive_done_title">Karta z danymi znów się uruchamia</string>
+    <string name="inst_revive_done_this">Ta karta SD uruchamia andr36oid jak wcześniej, z aplikacjami i danymi. Wyłącz konsolę. Bez karty uruchamia się system fabryczny.</string>
+    <string name="inst_revive_done_slot2">Karta w slocie 2 uruchamia teraz andr36oid, z aplikacjami i danymi. Wyłącz konsolę i włóż tamtą kartę do slotu 1 zamiast tej. Bez karty SD konsola uruchamia system fabryczny.</string>
 </resources>

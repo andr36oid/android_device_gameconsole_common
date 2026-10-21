@@ -40,4 +40,5 @@
     <string name="fn_standin_title">FNとして何を使いますか？</string>
     <string name="tutorial_check_buttons">ボタンが足りませんか？</string>
     <string name="tutorial_standin_intro">この本体にはFNボタンがないため、%1$s がその役割を果たします。これは 設定 > 操作 > FNショートカット で変更できます。</string>
+    <string name="fn_standin_fn_after_all">FN ボタン（この本体にも実はあります）</string>
 </resources>

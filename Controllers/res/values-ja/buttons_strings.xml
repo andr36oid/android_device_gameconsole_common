@@ -71,4 +71,5 @@
     <string name="fn_standin_confirm_title">%1$s を Fn として使いますか？</string>
     <string name="fn_standin_confirm">%1$s は Fn ボタンの役割を担います。単独で押すとホーム画面が開き、押したままほかのボタンを押すとショートカットになります。ゲーム中も含めて、本来の役割は使えなくなります。設定 &gt; 操作 &gt; Fn ショートカットで変更できます。</string>
     <string name="fn_standin_confirm_ok">Fn として使う</string>
+    <string name="fn_standin_fn_after_all">FN ボタン（この本体にも実はあります）</string>
 </resources>

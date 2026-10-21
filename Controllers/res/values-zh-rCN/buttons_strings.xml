@@ -82,4 +82,5 @@
     <string name="fn_standin_confirm_title">将 %1$s 用作 FN？</string>
     <string name="fn_standin_confirm">之后 %1$s 将承担 FN 键的功能：单独按下打开主屏幕，按住它再按其他键即可使用快捷键。它在所有地方都会失去原有功能，包括游戏中。可在 设置 &gt; 控制 &gt; FN 快捷键 中更改。</string>
     <string name="fn_standin_confirm_ok">用作 FN</string>
+    <string name="fn_standin_fn_after_all">FN 键（这台主机其实也有）</string>
 </resources>

@@ -69,4 +69,5 @@
     <string name="tutorial_standin_intro">Konsol ini tidak punya tombol FN, jadi %1$s yang melakukan tugasnya. Anda bisa mengubahnya di Setelan &gt; Kontrol &gt; Pintasan FN.</string>
     <!-- Tutorial, shoulder buttons step: opens Settings > Controls > Buttons on this console -->
     <string name="tutorial_check_buttons">Ada tombol yang hilang?</string>
+    <string name="fn_standin_fn_after_all">Tombol FN (konsol ini ternyata punya juga)</string>
 </resources>

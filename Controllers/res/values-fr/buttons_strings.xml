@@ -82,4 +82,5 @@
     <string name="fn_standin_confirm_title">Utiliser %1$s comme FN ?</string>
     <string name="fn_standin_confirm">%1$s remplace le bouton FN : un appui bref ouvre l’écran d’accueil, un appui maintenu avec un autre bouton lance un raccourci. Il perd sa fonction habituelle partout, y compris dans les jeux. Vous pouvez modifier ce choix dans Paramètres &gt; Commandes &gt; Raccourcis FN.</string>
     <string name="fn_standin_confirm_ok">Utiliser comme FN</string>
+    <string name="fn_standin_fn_after_all">Le bouton FN (cette console en a bien un, finalement)</string>
 </resources>

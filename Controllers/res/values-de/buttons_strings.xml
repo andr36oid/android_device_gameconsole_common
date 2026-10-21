@@ -82,4 +82,5 @@
     <string name="fn_standin_confirm_title">%1$s als FN nutzen?</string>
     <string name="fn_standin_confirm">%1$s übernimmt dann die Aufgabe der FN-Taste: Drückt man sie allein, öffnet sich der Startbildschirm, hält man sie und drückt eine andere Taste, gibt es eine Verknüpfung. Sie verliert überall ihre eigene Aufgabe, auch in Spielen. Du kannst das unter Einstellungen &gt; Steuerung &gt; FN-Kurzbefehle ändern.</string>
     <string name="fn_standin_confirm_ok">Als FN nutzen</string>
+    <string name="fn_standin_fn_after_all">Die FN-Taste (diese Konsole hat doch eine)</string>
 </resources>

@@ -97,4 +97,5 @@
 
     <!-- Guide bottom bar: X opens the tutorial -->
     <string name="hint_tutorial">Samouczek</string>
+    <string name="tutorial_change_fn">Zmień FN</string>
 </resources>

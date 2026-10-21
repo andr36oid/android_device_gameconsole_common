@@ -276,4 +276,12 @@
     <string name="inst_dc_not_now">Не сейчас</string>
     <string name="inst_dc_return_go">Обновить eMMC</string>
     <string name="inst_dc_returned">eMMC обновлена, и эта карта снова карта с данными. Перезапусти сейчас: andr36oid запустится с eMMC.</string>
+    <string name="inst_test_hands_off">Ничего не нажимайте, пока система запускается с eMMC. Дождитесь, когда этот мастер снова откроется на шаге 2.</string>
+    <string name="inst_revive_title">Сделать карту с данными снова загружаемой?</string>
+    <string name="inst_revive">andr36oid на eMMC хранил данные Android на SD-карте, и эта карта сама по себе не может запустить консоль. Её можно снова сделать обычной SD-картой andr36oid: ваши приложения, сохранения и настройки останутся на ней.\n\nЕсли это не та карта, что сейчас в консоли, сначала вставьте её в слот 2.</string>
+    <string name="inst_revive_go">Сделать загружаемой</string>
+    <string name="inst_revive_leave">Оставить как есть</string>
+    <string name="inst_revive_done_title">Карта с данными снова загружается</string>
+    <string name="inst_revive_done_this">Эта SD-карта снова запускает andr36oid, с вашими приложениями и данными. Выключите консоль. Без карты запускается заводская система.</string>
+    <string name="inst_revive_done_slot2">Карта в слоте 2 теперь запускает andr36oid, с вашими приложениями и данными. Выключите консоль и вставьте эту карту в слот 1 вместо текущей. Без SD-карты консоль запускает заводскую систему.</string>
 </resources>

@@ -82,4 +82,5 @@
     <string name="fn_standin_confirm_title">Użyć %1$s jako FN?</string>
     <string name="fn_standin_confirm">%1$s wykonuje wtedy zadanie przycisku FN: naciśnięty sam otwiera ekran główny, przytrzymany z innym przyciskiem daje skrót. Traci swoją funkcję wszędzie, także w grach. Możesz to zmienić w Ustawienia &gt; Sterowanie &gt; Skróty FN.</string>
     <string name="fn_standin_confirm_ok">Użyj jako FN</string>
+    <string name="fn_standin_fn_after_all">Przycisk FN (ta konsola jednak ma jeden)</string>
 </resources>

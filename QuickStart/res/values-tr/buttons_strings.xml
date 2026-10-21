@@ -69,4 +69,5 @@
     <string name="tutorial_standin_intro">Bu konsolda FN tuşu yok, bu yüzden %1$s onun işini görür. Bunu Ayarlar &gt; Kontrol &gt; FN kısayolları bölümünden değiştirebilirsiniz.</string>
     <!-- Tutorial, shoulder buttons step: opens Settings > Controls > Buttons on this console -->
     <string name="tutorial_check_buttons">Bazı tuşlar eksik mi?</string>
+    <string name="fn_standin_fn_after_all">FN tuşu (bu konsolda yine de bir tane var)</string>
 </resources>

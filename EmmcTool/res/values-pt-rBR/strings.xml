@@ -276,4 +276,12 @@ Tudo na eMMC é substituído por esta imagem.</string>
     <string name="inst_dc_not_now">Agora não</string>
     <string name="inst_dc_return_go">Atualizar eMMC</string>
     <string name="inst_dc_returned">O eMMC está atualizado e este cartão é de novo um cartão de dados. Reinicie agora: o andr36oid inicia pelo eMMC.</string>
+    <string name="inst_test_hands_off">Não aperte nada enquanto ele inicia pela eMMC. Espere até este assistente voltar no passo 2.</string>
+    <string name="inst_revive_title">Fazer o cartão de dados iniciar de novo?</string>
+    <string name="inst_revive">O andr36oid na eMMC guardava os dados do Android em um cartão SD, e esse cartão não consegue iniciar o console sozinho. Ele pode voltar a ser um cartão SD normal do andr36oid: seus apps, jogos salvos e configurações ficam nele.\n\nSe não for o cartão que está no console agora, coloque-o primeiro no slot 2.</string>
+    <string name="inst_revive_go">Fazer iniciar</string>
+    <string name="inst_revive_leave">Deixar como está</string>
+    <string name="inst_revive_done_title">O cartão de dados inicia de novo</string>
+    <string name="inst_revive_done_this">Este cartão SD inicia o andr36oid como antes, com seus apps e dados. Desligue o console. Sem o cartão, ele inicia o sistema original.</string>
+    <string name="inst_revive_done_slot2">O cartão no slot 2 agora inicia o andr36oid, com seus apps e dados. Desligue o console e coloque esse cartão no slot 1, no lugar deste. Sem cartão SD, o console inicia o sistema original.</string>
 </resources>

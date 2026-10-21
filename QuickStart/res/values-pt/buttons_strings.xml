@@ -69,4 +69,5 @@
     <string name="tutorial_standin_intro">Esta consola não tem botão FN, por isso %1$s o substitui. Pode alterar esta escolha em Definições &gt; Controlos &gt; Atalhos com FN.</string>
     <!-- Tutorial, shoulder buttons step: opens Settings > Controls > Buttons on this consola -->
     <string name="tutorial_check_buttons">Faltam botões?</string>
+    <string name="fn_standin_fn_after_all">O botão FN (esta consola afinal tem um)</string>
 </resources>

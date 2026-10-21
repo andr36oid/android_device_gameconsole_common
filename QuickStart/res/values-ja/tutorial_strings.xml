@@ -67,4 +67,5 @@
     <string name="tutorial_welcome_body">この本体にはタッチスクリーンがありません。すべてボタンで操作でき、この短いチュートリアルで各ボタンを試せます。所要時間は約3分です。\n\nAを押すと次へ進み、Bを押すと戻ります。知っているステップはSelectを押すとスキップできます。</string>
     <string name="tutorial_welcome_title">ボタンを試してみましょう</string>
     <string name="tutorial_well_done">よくできました。Aを押して次に進んでください。</string>
+    <string name="tutorial_change_fn">FN を変更</string>
 </resources>

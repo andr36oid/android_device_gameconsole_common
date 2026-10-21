@@ -82,4 +82,5 @@
     <string name="fn_standin_confirm_title">%1$s FN olarak kullanılsın mı?</string>
     <string name="fn_standin_confirm">%1$s, FN tuşunun işini yapar: tek başına basılınca ana ekranı açar, basılı tutulup başka bir tuşa basılınca kısayol çalışır. Her yerde kendi görevini kaybeder, oyunlarda da. Bunu Ayarlar &gt; Kontrol &gt; FN kısayolları bölümünden değiştirebilirsiniz.</string>
     <string name="fn_standin_confirm_ok">FN olarak kullan</string>
+    <string name="fn_standin_fn_after_all">FN tuşu (bu konsolda yine de bir tane var)</string>
 </resources>

@@ -276,4 +276,12 @@ eMMC\'deki her şey bu imajla değiştirilir.</string>
     <string name="inst_dc_not_now">Şimdi değil</string>
     <string name="inst_dc_return_go">eMMC\'yi güncelle</string>
     <string name="inst_dc_returned">eMMC güncellendi ve bu kart yeniden veri kartı oldu. Şimdi yeniden başlat: andr36oid eMMC\'den başlar.</string>
+    <string name="inst_test_hands_off">eMMC\'den başlarken hiçbir tuşa basmayın. Bu sihirbaz 2. adımda tekrar açılana kadar bekleyin.</string>
+    <string name="inst_revive_title">Veri kartı yeniden başlasın mı?</string>
+    <string name="inst_revive">eMMC üzerindeki andr36oid, Android\'in verilerini bir SD kartta tutuyordu ve bu kart konsolu tek başına başlatamaz. Yeniden normal bir andr36oid SD kartına dönüştürülebilir: uygulamalarınız, kayıtlarınız ve ayarlarınız üzerinde kalır.\n\nŞu an konsoldaki kart değilse, önce onu 2 numaralı yuvaya takın.</string>
+    <string name="inst_revive_go">Başlasın</string>
+    <string name="inst_revive_leave">Olduğu gibi bırak</string>
+    <string name="inst_revive_done_title">Veri kartı yeniden başlıyor</string>
+    <string name="inst_revive_done_this">Bu SD kart andr36oid\'i eskisi gibi, uygulamalarınız ve verilerinizle başlatır. Konsolu kapatın. Kart olmadan fabrika sistemi başlar.</string>
+    <string name="inst_revive_done_slot2">2 numaralı yuvadaki kart artık andr36oid\'i uygulamalarınız ve verilerinizle başlatıyor. Konsolu kapatın ve bu kart yerine o kartı 1 numaralı yuvaya takın. SD kart olmadan konsol fabrika sistemini başlatır.</string>
 </resources>

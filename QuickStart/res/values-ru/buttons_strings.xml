@@ -69,4 +69,5 @@
     <string name="tutorial_standin_intro">На этой консоли нет кнопки FN, поэтому её задачу выполняет %1$s. Это можно изменить в Настройки &gt; Управление &gt; Сочетания с FN.</string>
     <!-- Tutorial, shoulder buttons step: opens Settings > Controls > Buttons on this console -->
     <string name="tutorial_check_buttons">Не хватает кнопок?</string>
+    <string name="fn_standin_fn_after_all">Кнопка FN (в этой консоли она всё-таки есть)</string>
 </resources>

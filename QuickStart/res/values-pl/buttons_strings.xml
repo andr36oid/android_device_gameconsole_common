@@ -69,4 +69,5 @@
     <string name="tutorial_standin_intro">Ta konsola nie ma przycisku FN, więc %1$s wykonuje jego zadanie. Możesz to zmienić w Ustawienia &gt; Sterowanie &gt; Skróty FN.</string>
     <!-- Tutorial, shoulder buttons step: opens Settings > Controls > Buttons on this console -->
     <string name="tutorial_check_buttons">Brakuje przycisków?</string>
+    <string name="fn_standin_fn_after_all">Przycisk FN (ta konsola jednak ma jeden)</string>
 </resources>

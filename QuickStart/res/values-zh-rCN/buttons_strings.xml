@@ -69,4 +69,5 @@
     <string name="tutorial_standin_intro">本机没有 FN 键，因此由 %1$s 承担其功能。可在 设置 &gt; 控制 &gt; FN 快捷键 中更改。</string>
     <!-- Tutorial, shoulder buttons step: opens Settings > Controls > Buttons on this console -->
     <string name="tutorial_check_buttons">缺少按键？</string>
+    <string name="fn_standin_fn_after_all">FN 键（这台主机其实也有）</string>
 </resources>

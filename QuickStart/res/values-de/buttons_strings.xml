@@ -69,4 +69,5 @@
     <string name="tutorial_standin_intro">Diese Konsole hat keine FN-Taste, daher übernimmt %1$s deren Aufgabe. Das kannst du unter Einstellungen &gt; Steuerung &gt; FN-Kurzbefehle ändern.</string>
     <!-- Tutorial, shoulder buttons step: opens Settings > Controls > Buttons on this console -->
     <string name="tutorial_check_buttons">Tasten fehlen?</string>
+    <string name="fn_standin_fn_after_all">Die FN-Taste (diese Konsole hat doch eine)</string>
 </resources>

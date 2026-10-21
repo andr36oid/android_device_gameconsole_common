@@ -276,4 +276,12 @@ Semua isi eMMC diganti dengan image ini.</string>
     <string name="inst_dc_not_now">Nanti saja</string>
     <string name="inst_dc_return_go">Perbarui eMMC</string>
     <string name="inst_dc_returned">eMMC sudah diperbarui dan kartu ini kembali menjadi kartu data. Mulai ulang sekarang: andr36oid mulai dari eMMC.</string>
+    <string name="inst_test_hands_off">Jangan tekan apa pun selagi dimulai dari eMMC. Tunggu sampai wizard ini kembali di langkah 2.</string>
+    <string name="inst_revive_title">Jadikan kartu data bisa mulai lagi?</string>
+    <string name="inst_revive">andr36oid di eMMC menyimpan data Android di kartu SD, dan kartu itu tidak bisa menyalakan konsol sendiri. Kartu itu bisa kembali menjadi kartu SD andr36oid biasa: aplikasi, simpanan, dan pengaturan tetap ada di dalamnya.\n\nJika itu bukan kartu yang ada di konsol sekarang, masukkan dulu ke slot 2.</string>
+    <string name="inst_revive_go">Jadikan mulai lagi</string>
+    <string name="inst_revive_leave">Biarkan</string>
+    <string name="inst_revive_done_title">Kartu data mulai lagi</string>
+    <string name="inst_revive_done_this">Kartu SD ini menjalankan andr36oid seperti sebelumnya, dengan aplikasi dan data. Matikan konsol. Tanpa kartu, konsol menjalankan sistem asli.</string>
+    <string name="inst_revive_done_slot2">Kartu di slot 2 sekarang menjalankan andr36oid, dengan aplikasi dan data. Matikan konsol lalu pasang kartu itu di slot 1, bukan kartu ini. Tanpa kartu SD, konsol menjalankan sistem asli.</string>
 </resources>

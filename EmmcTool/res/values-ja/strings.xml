@@ -274,4 +274,12 @@
     <string name="inst_dc_not_now">今はしない</string>
     <string name="inst_dc_return_go">eMMC を更新</string>
     <string name="inst_dc_returned">eMMC の更新が完了し、このカードは再びデータカードになりました。今すぐ再起動してください。andr36oid は eMMC から起動します。</string>
+    <string name="inst_test_hands_off">eMMC から起動している間は何も押さないでください。このウィザードが手順 2 で再び表示されるまで待ってください。</string>
+    <string name="inst_revive_title">データカードを再び起動できるようにしますか？</string>
+    <string name="inst_revive">eMMC の andr36oid は Android のデータを SD カードに置いていましたが、そのカードだけでは本体を起動できません。通常の andr36oid の SD カードに戻せます。アプリ、セーブデータ、設定はそのまま残ります。\n\nいま本体に入っているカードでなければ、先にスロット 2 に入れてください。</string>
+    <string name="inst_revive_go">起動できるようにする</string>
+    <string name="inst_revive_leave">そのままにする</string>
+    <string name="inst_revive_done_title">データカードが再び起動します</string>
+    <string name="inst_revive_done_this">この SD カードは、アプリとデータを残したまま、これまで通り andr36oid を起動します。本体の電源を切ってください。カードがなければ純正システムが起動します。</string>
+    <string name="inst_revive_done_slot2">スロット 2 のカードは、アプリとデータを残したまま andr36oid を起動するようになりました。本体の電源を切り、このカードの代わりにそのカードをスロット 1 に入れてください。SD カードがなければ、本体は純正システムを起動します。</string>
 </resources>

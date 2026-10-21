@@ -276,4 +276,12 @@ eMMC 上的所有内容都会被此镜像替换。</string>
     <string name="inst_dc_not_now">以后再说</string>
     <string name="inst_dc_return_go">更新 eMMC</string>
     <string name="inst_dc_returned">eMMC 已更新，这张卡又是数据卡了。现在重启：andr36oid 从 eMMC 启动。</string>
+    <string name="inst_test_hands_off">从 eMMC 启动时请不要按任何按键。等这个向导在第 2 步重新出现后再操作。</string>
+    <string name="inst_revive_title">让数据卡重新启动？</string>
+    <string name="inst_revive">eMMC 上的 andr36oid 把 Android 的数据放在一张 SD 卡上，而这张卡本身无法启动主机。它可以恢复为普通的 andr36oid SD 卡：你的应用、存档和设置都会保留在卡上。\n\n如果它不是当前插在主机里的那张卡，请先把它插入卡槽 2。</string>
+    <string name="inst_revive_go">让它启动</string>
+    <string name="inst_revive_leave">保持不变</string>
+    <string name="inst_revive_done_title">数据卡已可以重新启动</string>
+    <string name="inst_revive_done_this">这张 SD 卡会像以前一样启动 andr36oid，应用和数据都在。请关闭主机。没有这张卡时，主机会启动原厂系统。</string>
+    <string name="inst_revive_done_slot2">卡槽 2 中的卡现在可以启动 andr36oid，应用和数据都在。请关闭主机，然后把那张卡插入卡槽 1，而不是这张。没有 SD 卡时，主机会启动原厂系统。</string>
 </resources>

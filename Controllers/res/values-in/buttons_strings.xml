@@ -82,4 +82,5 @@
     <string name="fn_standin_confirm_title">Pakai %1$s sebagai FN?</string>
     <string name="fn_standin_confirm">%1$s lalu melakukan tugas tombol FN: ditekan sendiri untuk layar utama, ditahan lalu tekan tombol lain untuk pintasan. Tombol itu kehilangan tugas aslinya di mana pun, termasuk di game. Anda bisa mengubahnya di Setelan &gt; Kontrol &gt; Pintasan FN.</string>
     <string name="fn_standin_confirm_ok">Pakai sebagai FN</string>
+    <string name="fn_standin_fn_after_all">Tombol FN (konsol ini ternyata punya juga)</string>
 </resources>

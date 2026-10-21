@@ -276,4 +276,12 @@ Todo lo que hay en la eMMC se sustituye por esta imagen.</string>
     <string name="inst_dc_not_now">Ahora no</string>
     <string name="inst_dc_return_go">Actualizar eMMC</string>
     <string name="inst_dc_returned">El eMMC está actualizado y esta tarjeta vuelve a ser tarjeta de datos. Reinicia ahora: andr36oid arranca desde el eMMC.</string>
+    <string name="inst_test_hands_off">No pulses nada mientras arranca desde la eMMC. Espera hasta que este asistente vuelva a aparecer en el paso 2.</string>
+    <string name="inst_revive_title">¿Hacer que la tarjeta de datos vuelva a arrancar?</string>
+    <string name="inst_revive">andr36oid en la eMMC guardaba los datos de Android en una tarjeta SD, y esa tarjeta no puede arrancar la consola por sí sola. Puede volver a ser una tarjeta SD normal de andr36oid: tus apps, partidas y ajustes se quedan en ella.\n\nSi no es la tarjeta que está ahora en la consola, primero colócala en la ranura 2.</string>
+    <string name="inst_revive_go">Hacer que arranque</string>
+    <string name="inst_revive_leave">Dejarla</string>
+    <string name="inst_revive_done_title">La tarjeta de datos vuelve a arrancar</string>
+    <string name="inst_revive_done_this">Esta tarjeta SD arranca andr36oid como antes, con tus apps y datos. Apaga la consola. Sin la tarjeta, arranca el sistema original.</string>
+    <string name="inst_revive_done_slot2">La tarjeta de la ranura 2 arranca ahora andr36oid, con tus apps y datos. Apaga la consola y pon esa tarjeta en la ranura 1 en lugar de esta. Sin tarjeta SD, la consola arranca el sistema original.</string>
 </resources>

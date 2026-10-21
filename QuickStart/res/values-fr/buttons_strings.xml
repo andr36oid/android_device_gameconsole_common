@@ -69,4 +69,5 @@
     <string name="tutorial_standin_intro">Cette console n’a pas de bouton FN. %1$s le remplace. Vous pouvez modifier ce choix dans Paramètres &gt; Commandes &gt; Raccourcis FN.</string>
     <!-- Tutorial, shoulder buttons step: opens Settings > Controls > Buttons on this console -->
     <string name="tutorial_check_buttons">Des boutons manquent ?</string>
+    <string name="fn_standin_fn_after_all">Le bouton FN (cette console en a bien un, finalement)</string>
 </resources>

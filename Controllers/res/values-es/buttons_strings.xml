@@ -82,4 +82,5 @@
     <string name="fn_standin_confirm_title">¿Usar %1$s como FN?</string>
     <string name="fn_standin_confirm">%1$s hace entonces el trabajo del botón FN: pulsado solo abre la pantalla de inicio, mantenido y con otro botón abre un atajo. Pierde su función propia en todas partes, también en los juegos. Puedes cambiarlo en Ajustes &gt; Controles &gt; Atajos con FN.</string>
     <string name="fn_standin_confirm_ok">Usar como FN</string>
+    <string name="fn_standin_fn_after_all">El botón FN (esta consola sí tiene uno, después de todo)</string>
 </resources>

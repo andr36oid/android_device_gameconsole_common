@@ -103,4 +103,5 @@
 
     <!-- Guide bottom bar: X opens the tutorial -->
     <string name="hint_tutorial">教程</string>
+    <string name="tutorial_change_fn">更改 FN</string>
 </resources>
