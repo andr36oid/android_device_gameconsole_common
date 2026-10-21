@@ -89,6 +89,15 @@
         </ScrollView>
     </LinearLayout>
 
+    <!-- Below the text, always in view: the last page's tick box -->
+    <LinearLayout
+        android:id="@+id/fixed_extra"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical"
+        android:visibility="gone" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

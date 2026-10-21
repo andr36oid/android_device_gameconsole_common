@@ -91,6 +91,9 @@ public class InstallActivity extends Activity {
     private Button mBack, mMore, mSecondary, mNext;
     /** Something on the right takes the D-pad (the checkbox, the hold ring). */
     private boolean mSideFocus;
+    /** The tick box under the text (last pages): up and down scroll the text past it. */
+    private LinearLayout mFixedExtra;
+    private View mFixedBox;
     /** A button at the end of the list on the right that up from the buttons reaches. */
     private View mSideEntry;
     /** The advanced mode: the images found, where it goes back to. */
@@ -142,6 +145,7 @@ public class InstallActivity extends Activity {
         mSideScroll.setFocusable(false);
         mSide = findViewById(R.id.side);
         mBodyExtra = findViewById(R.id.body_extra);
+        mFixedExtra = findViewById(R.id.fixed_extra);
         mBack = findViewById(R.id.back);
         mMore = findViewById(R.id.more);
         mSecondary = findViewById(R.id.secondary);
@@ -268,6 +272,23 @@ public class InstallActivity extends Activity {
                 return true;
             }
         }
+        if (mFixedBox != null && mFixedBox.isShown()
+                && (key == KeyEvent.KEYCODE_DPAD_UP || key == KeyEvent.KEYCODE_DPAD_DOWN)) {
+            // On the box, up and down scroll the text; down at its end goes to the buttons.
+            // On the buttons, up goes to the box and down scrolls.
+            if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                final boolean up = key == KeyEvent.KEYCODE_DPAD_UP;
+                if (focus == mFixedBox) {
+                    if (!up && !mTextScroll.canScrollVertically(1)) focusButtons();
+                    else mTextScroll.smoothScrollBy(0, (up ? -1 : 1) * mTextScroll.getHeight() / 3);
+                } else if (up) {
+                    mFixedBox.requestFocus();
+                } else {
+                    mTextScroll.smoothScrollBy(0, mTextScroll.getHeight() / 3);
+                }
+            }
+            return true;
+        }
         if (!mSideFocus && (key == KeyEvent.KEYCODE_DPAD_UP || key == KeyEvent.KEYCODE_DPAD_DOWN)) {
             // The buttons are all in one row, so up and down scroll both sides instead
             if (event.getAction() == KeyEvent.ACTION_DOWN) {
@@ -350,6 +371,9 @@ public class InstallActivity extends Activity {
         mFinished = null;
         mSideFocus = false;
         mSideEntry = null;
+        mFixedBox = null;
+        mFixedExtra.removeAllViews();
+        mFixedExtra.setVisibility(View.GONE);
         mStepLabel.setText(label);
         mStepLabel.setVisibility(label == null ? View.GONE : View.VISIBLE);
         mProgress.setVisibility(at < 0 ? View.INVISIBLE : View.VISIBLE);
@@ -627,22 +651,30 @@ public class InstallActivity extends Activity {
                 getString(R.string.inst_final_text) + "\n\n"
                         + getString(R.string.inst_final_loader, st.optString("loader_sha256")));
         warn();
-        final CheckBox fault = new CheckBox(this);
-        fault.setText(R.string.inst_my_fault);
-        fault.setTextAppearance(android.R.style.TextAppearance_Material_Body1);
-        mSide.addView(fault);
-        mSideFocus = true;
+        final CheckBox fault = faultBox();
         button(mBack, getString(R.string.inst_close), this::finish);
         restoreButton(mSecondary);
         button(mNext, getString(R.string.inst_write_loader), this::showHold);
         mNext.setEnabled(false);
         fault.setOnCheckedChangeListener((v, on) -> mNext.setEnabled(on));
-        // down from the box goes straight to Next (enabled once it is ticked), up comes back
-        fault.setId(View.generateViewId());
-        fault.setNextFocusDownId(R.id.next);
-        fault.setNextFocusRightId(R.id.next);
-        mNext.setNextFocusUpId(fault.getId());
         fault.requestFocus();
+    }
+
+    /**
+     * "My fault if it breaks", under the warning in one pane: the text scrolls with up and
+     * down, the box stays in view. Right goes to Next (enabled once it is ticked).
+     */
+    private CheckBox faultBox() {
+        mSideScroll.setVisibility(View.GONE);
+        final CheckBox fault = new CheckBox(this);
+        fault.setText(R.string.inst_my_fault);
+        fault.setTextAppearance(android.R.style.TextAppearance_Material_Body1);
+        fault.setId(View.generateViewId());
+        fault.setNextFocusRightId(R.id.next);
+        mFixedExtra.addView(fault);
+        mFixedExtra.setVisibility(View.VISIBLE);
+        mFixedBox = fault;
+        return fault;
     }
 
     private void showHold() {
@@ -873,16 +905,8 @@ public class InstallActivity extends Activity {
         button(mNext, getString(R.string.inst_adv_write), () -> showAdvHold(img));
         mNext.setEnabled(false);
         if (tooBig) return;
-        final CheckBox fault = new CheckBox(this);
-        fault.setText(R.string.inst_my_fault);
-        fault.setTextAppearance(android.R.style.TextAppearance_Material_Body1);
-        mSide.addView(fault);
-        mSideFocus = true;
+        final CheckBox fault = faultBox();
         fault.setOnCheckedChangeListener((v, on) -> mNext.setEnabled(on));
-        fault.setId(View.generateViewId());
-        fault.setNextFocusDownId(R.id.next);
-        fault.setNextFocusRightId(R.id.next);
-        mNext.setNextFocusUpId(fault.getId());
         fault.requestFocus();
     }
 
