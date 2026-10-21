@@ -103,6 +103,8 @@ on late-fs
     # I/O counters on for the SD card (this kernel starts with them off), so
     # /sys/block/mmcblk0/stat, storaged and dumpsys diskstats show what is written to it
     write /sys/block/mmcblk0/queue/iostats 1
+    # and the built-in eMMC (mmcblk2), else the power menu's eMMC graph stays at zero
+    write /sys/block/mmcblk2/queue/iostats 1
     write /sys/block/mmcblk0/queue/scheduler mq-deadline
     write /sys/block/mmcblk0/queue/iosched/slice_idle 0
     write /sys/block/mmcblk0/queue/rotational 0    
@@ -259,6 +261,10 @@ on boot
     write /sys/block/mmcblk1/queue/read_ahead_kb 512
     write /sys/block/mmcblk1/queue/iostats 1
     write /sys/block/mmcblk1/queue/add_random 0
+    # Built-in eMMC (mmcblk2), the system disk on an eMMC install: the same as the boot card
+    write /sys/block/mmcblk2/queue/read_ahead_kb 512
+    write /sys/block/mmcblk2/queue/iostats 1
+    write /sys/block/mmcblk2/queue/add_random 0
   
     trigger sys-boot-completed-set
     
