@@ -79,16 +79,16 @@
     <string name="inst_start">Starten</string>
     <string name="inst_working">Läuft…</string>
     <string name="inst_details">Details</string>
-    <string name="inst_elapsed">Läuft seit %1$s. Lass die Konsole eingeschaltet.</string>
+    <string name="inst_elapsed">Läuft seit %1$s</string>
     <string name="inst_left">noch %1$s</string>
 
-    <string name="inst_step0">0 Original-eMMC sichern</string>
-    <string name="inst_step1">1 Loader der SD-Karte prüfen</string>
-    <string name="inst_step2">2 andr36oid auf dem eMMC prüfen</string>
-    <string name="inst_step3">3 Loader auf den eMMC schreiben</string>
-    <string name="inst_st_done">fertig</string>
-    <string name="inst_st_failed">fehlgeschlagen</string>
-    <string name="inst_st_restart">wartet auf einen Neustart</string>
+    <string name="inst_step0">Schritt 0: Original-eMMC sichern</string>
+    <string name="inst_step1">Schritt 1: Loader der SD-Karte prüfen</string>
+    <string name="inst_step2">Schritt 2: andr36oid auf dem eMMC prüfen</string>
+    <string name="inst_step3">Schritt 3: Loader auf den eMMC schreiben</string>
+    <string name="inst_st_done">Fertig</string>
+    <string name="inst_st_failed">Fehlgeschlagen</string>
+    <string name="inst_st_restart">Wartet auf einen Neustart</string>
 
     <string name="inst_checking">Konsole wird geprüft…</string>
     <string name="inst_checks">Bevor etwas geschrieben wird</string>
@@ -114,10 +114,10 @@
     <string name="inst_layout_title">So wird der eMMC aufgeteilt</string>
     <string name="inst_layout_text">system und vendor bekommen Platz zum Wachsen für spätere Versionen, deine Apps und Daten bekommen den Rest.</string>
     <string name="inst_summary_title">Jeder Schreibvorgang, in Reihenfolge</string>
-    <string name="inst_sum_backup">Sicherung: alle %1$s des eMMC (Sektoren 0-%2$d) und seine zwei Boot-Bereiche werden gelesen, zum Vergleich noch einmal gelesen, auf %3$s kopiert und zurückgelesen. Auf den eMMC wird nichts geschrieben.</string>
-    <string name="inst_sum_step1">Schritt 1: eMMC-Sektoren 64-32767 (der Original-Loader, 16 MiB) werden gelöscht. Dann startest du neu: Die Konsole muss selbstständig vom Loader der SD-Karte starten.</string>
-    <string name="inst_sum_step2">Schritt 2: eine neue Partitionstabelle (eMMC-Sektoren 0-33 und %1$d-%2$d); BOOT, system und vendor werden von der SD-Karte kopiert; der Anfang von metadata, misc, cache und userdata wird gelöscht:\n%3$sDann startet andr36oid einmal als Test vom eMMC.</string>
-    <string name="inst_sum_step3">Schritt 3: die Sektoren 64-32767 der SD-Karte (ihr Loader) werden auf den eMMC kopiert, nach einer weiteren Warnung.</string>
+    <string name="inst_sum_backup">Alle %1$s des eMMC (Sektoren 0-%2$d) und seine zwei Boot-Bereiche werden gelesen, zum Vergleich noch einmal gelesen, auf %3$s kopiert und zurückgelesen. Auf den eMMC wird nichts geschrieben.</string>
+    <string name="inst_sum_step1">eMMC-Sektoren 64-32767 (der Original-Loader, 16 MiB) werden gelöscht. Dann startest du neu: Die Konsole muss selbstständig vom Loader der SD-Karte starten.</string>
+    <string name="inst_sum_step2">Eine neue Partitionstabelle (eMMC-Sektoren 0-33 und %1$d-%2$d); BOOT, system und vendor werden von der SD-Karte kopiert; der Anfang von metadata, misc, cache und userdata wird gelöscht:\n%3$sDann startet andr36oid einmal als Test vom eMMC.</string>
+    <string name="inst_sum_step3">Die Sektoren 64-32767 der SD-Karte (ihr Loader) werden auf den eMMC kopiert, nach einer weiteren Warnung.</string>
     <string name="inst_sum_risk">Jeder Schreibvorgang wird zurückgelesen und verglichen. Passt etwas nicht, bricht das Installationsprogramm ab und schreibt nichts mehr. Schritt 1 und 2 werden jeweils durch einen Neustart bestätigt, bevor der nächste folgt. Schritt 3 ist der einzige Schreibvorgang, der sich vorher nicht ausprobieren lässt.</string>
 
     <string name="inst_backup_kept">Der Original-eMMC ist gesichert. Als Nächstes kommt Schritt 1: Sein Loader wird gelöscht, dann startest du neu.</string>
@@ -127,8 +127,8 @@
     <string name="inst_restart_title">Neustart</string>
     <string name="inst_restart_step1">Der Loader des eMMC ist leer. Starte jetzt neu: Die Konsole muss selbstständig vom Loader der SD-Karte starten, und diese Seite öffnet sich danach wieder.\n\nWenn sie nicht zurückkommt: Halte die Ein-/Aus-Taste 7 Sekunden lang gedrückt und schalte sie wieder ein. Startet sie immer noch nicht, braucht diese Konsole ihren Original-Loader. Die Sicherung liegt in %1$s auf dieser SD-Karte.</string>
     <string name="inst_restart_test">andr36oid liegt auf dem eMMC. Starte jetzt neu: Es startet dann einmal vom eMMC, als Test. Der erste Start richtet alles ein und dauert einige Minuten. Sobald da steht, dass der Test geklappt hat, startest du noch einmal neu.\n\nWenn es hängt: Halte die Ein-/Aus-Taste 7 Sekunden lang gedrückt und schalte die Konsole wieder ein. Dann startet sie wie gewohnt von der SD-Karte, und diese Seite sagt, was passiert ist.</string>
-    <string name="inst_restart_done">Fertig. Nimm die SD-Karte heraus und starte neu: andr36oid startet jetzt vom eMMC.\n\nWenn eine andr36oid-SD-Karte drinsteckt, startet die Konsole wie bisher von der Karte.</string>
-    <string name="inst_restart_stock">Der Original-eMMC ist zurück. Nimm die SD-Karte heraus und starte neu, um das Originalsystem zu verwenden.</string>
+    <string name="inst_restart_done">Fahr die Konsole herunter, nimm die SD-Karte heraus, sobald sie aus ist, und schalte sie dann wieder ein: andr36oid startet jetzt vom eMMC.\n\nWenn eine andr36oid-SD-Karte drinsteckt, startet die Konsole wie bisher von der Karte.</string>
+    <string name="inst_restart_stock">Fahr die Konsole herunter, nimm die SD-Karte heraus, sobald sie aus ist, und schalte sie dann wieder ein, um das Originalsystem zu verwenden.</string>
     <string name="inst_restart_now">Jetzt neu starten</string>
     <string name="inst_test_later">Jetzt nicht testen</string>
 
@@ -175,7 +175,13 @@
     <string name="inst_lbl_checks">Bevor du anfängst</string>
     <string name="inst_lbl_warning">Warnung %1$d von %2$d</string>
     <string name="inst_lbl_plan">Was geschrieben wird</string>
-    <string name="inst_lbl_step">Installationsschritt %1$s</string>
+    <string name="inst_lbl_step">Wird installiert</string>
     <string name="inst_lbl_done">Installiert</string>
     <string name="inst_done_title">andr36oid ist auf dem eMMC</string>
+    <string name="inst_intro">Die Installation auf dem eMMC dauert eine Weile: Alles, was geschrieben wird, wird zurückgelesen und mit dem Original verglichen, bevor der Assistent weitergeht. Das ist so gewollt. Ein fehlerhafter Schreibvorgang an der falschen Stelle kann dazu führen, dass die Konsole gar nicht mehr startet. Deshalb muss jeder Schritt erst als korrekt bewiesen sein, bevor der nächste beginnt.</string>
+    <string name="inst_keep_on">Lass die Konsole eingeschaltet und die SD-Karte drin, bis das hier fertig ist.</string>
+    <string name="inst_restore_working">Die Sicherung wird Teil für Teil zurück auf den eMMC geschrieben. Danach wird der ganze eMMC zurückgelesen und mit der Sicherung verglichen, damit du sicher sein kannst, dass er wieder genau der Original-eMMC ist.</string>
+    <string name="inst_update_working">Das neue andr36oid wird Teil für Teil von der SD-Karte auf den eMMC kopiert. Jeder Teil wird zurückgelesen und mit der SD-Karte verglichen, bevor der nächste beginnt.</string>
+    <string name="inst_shut_down">Herunterfahren</string>
+    <string name="inst_stock_back_title">Der Original-eMMC ist zurück</string>
 </resources>

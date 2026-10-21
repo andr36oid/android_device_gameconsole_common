@@ -79,16 +79,16 @@
     <string name="inst_start">Başlat</string>
     <string name="inst_working">Çalışıyor…</string>
     <string name="inst_details">Ayrıntılar</string>
-    <string name="inst_elapsed">%1$s süredir çalışıyor. Konsolu açık tutun.</string>
+    <string name="inst_elapsed">%1$s süredir çalışıyor</string>
     <string name="inst_left">%1$s kaldı</string>
 
-    <string name="inst_step0">0 Fabrika eMMC\'sini yedekleyin</string>
-    <string name="inst_step1">1 SD kartın önyükleyicisini doğrulayın</string>
-    <string name="inst_step2">2 eMMC\'de andr36oid\'i doğrulayın</string>
-    <string name="inst_step3">3 Önyükleyiciyi eMMC\'ye yazın</string>
-    <string name="inst_st_done">tamamlandı</string>
-    <string name="inst_st_failed">başarısız</string>
-    <string name="inst_st_restart">yeniden başlatma bekleniyor</string>
+    <string name="inst_step0">Adım 0: Fabrika eMMC\'sini yedekleyin</string>
+    <string name="inst_step1">Adım 1: SD kartın önyükleyicisini doğrulayın</string>
+    <string name="inst_step2">Adım 2: eMMC\'de andr36oid\'i doğrulayın</string>
+    <string name="inst_step3">Adım 3: Önyükleyiciyi eMMC\'ye yazın</string>
+    <string name="inst_st_done">Tamamlandı</string>
+    <string name="inst_st_failed">Başarısız</string>
+    <string name="inst_st_restart">Yeniden başlatma bekleniyor</string>
 
     <string name="inst_checking">Konsol denetleniyor…</string>
     <string name="inst_checks">Hiçbir şey yazılmadan önce</string>
@@ -114,10 +114,10 @@
     <string name="inst_layout_title">eMMC nasıl bölünüyor</string>
     <string name="inst_layout_text">system ve vendor, sonraki sürümler için büyüme alanı alır; uygulamalarınız ve verileriniz geri kalanı kullanır.</string>
     <string name="inst_summary_title">Her yazma, sırasıyla</string>
-    <string name="inst_sum_backup">Yedekleme: eMMC\'nin tamamı (%1$s, sektör 0-%2$d) ve iki önyükleme alanı okunur, karşılaştırmak için yeniden okunur, %3$s konumuna kopyalanır ve geri okunur. eMMC\'ye hiçbir şey yazılmaz.</string>
-    <string name="inst_sum_step1">Adım 1: eMMC sektörleri 64-32767 (fabrika önyükleyicisi, 16 MiB) silinir. Ardından yeniden başlatırsınız: konsol kendi başına SD kartın önyükleyicisinden açılmak zorundadır.</string>
-    <string name="inst_sum_step2">Adım 2: yeni bir bölüm tablosu (eMMC sektörleri 0-33 ve %1$d-%2$d); BOOT, system ve vendor SD karttan kopyalanır; metadata, misc, cache ve userdata\'nın başlangıcı silinir:\n%3$sArdından andr36oid bir kez test olarak eMMC\'den açılır.</string>
-    <string name="inst_sum_step3">Adım 3: SD kartın sektörleri 64-32767 (önyükleyicisi) bir uyarı daha verildikten sonra eMMC\'ye kopyalanır.</string>
+    <string name="inst_sum_backup">eMMC\'nin tamamı (%1$s, sektör 0-%2$d) ve iki önyükleme alanı okunur, karşılaştırmak için yeniden okunur, %3$s konumuna kopyalanır ve geri okunur. eMMC\'ye hiçbir şey yazılmaz.</string>
+    <string name="inst_sum_step1">eMMC sektörleri 64-32767 (fabrika önyükleyicisi, 16 MiB) silinir. Ardından yeniden başlatırsınız: konsol kendi başına SD kartın önyükleyicisinden açılmak zorundadır.</string>
+    <string name="inst_sum_step2">Yeni bir bölüm tablosu (eMMC sektörleri 0-33 ve %1$d-%2$d); BOOT, system ve vendor SD karttan kopyalanır; metadata, misc, cache ve userdata\'nın başlangıcı silinir:\n%3$sArdından andr36oid bir kez test olarak eMMC\'den açılır.</string>
+    <string name="inst_sum_step3">SD kartın sektörleri 64-32767 (önyükleyicisi) bir uyarı daha verildikten sonra eMMC\'ye kopyalanır.</string>
     <string name="inst_sum_risk">Her yazma geri okunur ve karşılaştırılır. Bir şey uyuşmazsa kurulum programı durur ve başka bir şey yazmaz. Adım 1 ve 2, her biri bir sonrakinden önce yeniden başlatmayla kanıtlanır. Adım 3, önceden denenemeyen tek yazmadır.</string>
 
     <string name="inst_backup_kept">Fabrika eMMC\'si yedeklendi. Sıradaki adım 1: önyükleyicisi silinir, ardından yeniden başlatırsınız.</string>
@@ -127,8 +127,8 @@
     <string name="inst_restart_title">Yeniden başlatma</string>
     <string name="inst_restart_step1">eMMC\'nin önyükleyicisi boş. Şimdi yeniden başlatın: konsol kendi başına SD kartın önyükleyicisinden açılmak zorundadır ve bu sayfa tekrar açılır.\n\nGeri gelmezse: güç tuşunu 7 saniye basılı tutun ve konsolu yeniden açın. Hâlâ açılmazsa bu konsolun fabrika önyükleyicisine ihtiyacı var. Yedek, bu SD kartta %1$s konumunda.</string>
     <string name="inst_restart_test">andr36oid eMMC\'de. Şimdi yeniden başlatın: bir kez test olarak eMMC\'den açılır. İlk açılışta her şey ayarlanır ve birkaç dakika sürer. Test başarılı olduğunu söylediğinde yeniden başlatın.\n\nTakılırsa: güç tuşunu 7 saniye basılı tutun ve konsolu yeniden açın. Bu durumda normal şekilde SD kartından açılır ve bu sayfa ne olduğunu gösterir.</string>
-    <string name="inst_restart_done">Tamam. SD kartı çıkarın ve yeniden başlatın: andr36oid artık eMMC\'den açılır.\n\nandr36oid SD kartı takılıysa konsol, daha önce olduğu gibi kartından açılır.</string>
-    <string name="inst_restart_stock">Fabrika eMMC\'si geri döndü. Fabrika sistemini kullanmak için SD kartı çıkarın ve yeniden başlatın.</string>
+    <string name="inst_restart_done">Konsolu kapatın, kapandıktan sonra SD kartı çıkarın, ardından açın: andr36oid artık eMMC\'den açılır.\n\nandr36oid SD kart takılıysa konsol, daha önce olduğu gibi karttan açılır.</string>
+    <string name="inst_restart_stock">Konsolu kapatın, kapandıktan sonra SD kartı çıkarın, ardından fabrika sistemini kullanmak için açın.</string>
     <string name="inst_restart_now">Şimdi yeniden başlat</string>
     <string name="inst_test_later">Şimdi test etme</string>
 
@@ -175,7 +175,13 @@
     <string name="inst_lbl_checks">Başlamadan önce</string>
     <string name="inst_lbl_warning">Uyarı %1$d / %2$d</string>
     <string name="inst_lbl_plan">Yazılacaklar</string>
-    <string name="inst_lbl_step">Kurulum adımı %1$s</string>
+    <string name="inst_lbl_step">Kuruluyor</string>
     <string name="inst_lbl_done">Kuruldu</string>
     <string name="inst_done_title">andr36oid eMMC üzerinde</string>
+    <string name="inst_intro">eMMC\'ye kurulum biraz zaman alır: yazılan her şey geri okunur ve sihirbaz ilerlemeden önce orijinaliyle karşılaştırılır. Bu kasıtlıdır. Yanlış yere yapılan tek bir hatalı yazma, konsolun hiç açılamamasına yol açabilir; bu yüzden her adım, bir sonrakine başlamadan önce doğru olduğu kanıtlanmak zorundadır.</string>
+    <string name="inst_keep_on">Bu işlem bitene kadar konsolu açık ve SD kartı takılı tutun.</string>
+    <string name="inst_restore_working">Yedek, eMMC\'ye parça parça geri yazılır. Ardından eMMC\'nin tamamı geri okunur ve yedekle karşılaştırılır; böylece tam olarak yeniden orijinal eMMC olduğundan emin olursunuz.</string>
+    <string name="inst_update_working">Yeni andr36oid, SD karttan eMMC\'ye parça parça kopyalanır. Her parça, bir sonraki parça başlamadan önce geri okunur ve SD kartla karşılaştırılır.</string>
+    <string name="inst_shut_down">Kapat</string>
+    <string name="inst_stock_back_title">Fabrika eMMC\'si geri döndü</string>
 </resources>

@@ -79,16 +79,16 @@
     <string name="inst_start">Начать</string>
     <string name="inst_working">Выполняется…</string>
     <string name="inst_details">Подробности</string>
-    <string name="inst_elapsed">Работает уже %1$s. Не выключайте консоль.</string>
+    <string name="inst_elapsed">Работает уже %1$s</string>
     <string name="inst_left">осталось %1$s</string>
 
-    <string name="inst_step0">0 Резервная копия заводской eMMC</string>
-    <string name="inst_step1">1 Проверка загрузчика SD-карты</string>
-    <string name="inst_step2">2 Проверка andr36oid на eMMC</string>
-    <string name="inst_step3">3 Запись загрузчика на eMMC</string>
-    <string name="inst_st_done">готово</string>
-    <string name="inst_st_failed">ошибка</string>
-    <string name="inst_st_restart">ожидание перезапуска</string>
+    <string name="inst_step0">Шаг 0: Резервная копия заводской eMMC</string>
+    <string name="inst_step1">Шаг 1: Проверка загрузчика SD-карты</string>
+    <string name="inst_step2">Шаг 2: Проверка andr36oid на eMMC</string>
+    <string name="inst_step3">Шаг 3: Запись загрузчика на eMMC</string>
+    <string name="inst_st_done">Готово</string>
+    <string name="inst_st_failed">Ошибка</string>
+    <string name="inst_st_restart">Ожидание перезапуска</string>
 
     <string name="inst_checking">Проверка консоли…</string>
     <string name="inst_checks">Перед любой записью</string>
@@ -114,10 +114,10 @@
     <string name="inst_layout_title">Как разделена eMMC</string>
     <string name="inst_layout_text">system и vendor получают место для роста в будущих версиях, а ваши приложения и данные получают остальное.</string>
     <string name="inst_summary_title">Каждая запись, по порядку</string>
-    <string name="inst_sum_backup">Резервная копия: вся eMMC (%1$s, сектора 0-%2$d) и её две загрузочные области читаются, читаются ещё раз для сравнения, копируются в %3$s и проверяются чтением. На eMMC ничего не записывается.</string>
-    <string name="inst_sum_step1">Шаг 1: сектора eMMC 64-32767 (заводской загрузчик, 16 MiB) очищаются. Затем вы перезапускаете консоль: она должна сама запуститься с загрузчика SD-карты.</string>
-    <string name="inst_sum_step2">Шаг 2: новая таблица разделов (сектора eMMC 0-33 и %1$d-%2$d); BOOT, system и vendor копируются с SD-карты; начало metadata, misc, cache и userdata очищается:\n%3$sЗатем andr36oid один раз запускается с eMMC в качестве теста.</string>
-    <string name="inst_sum_step3">Шаг 3: сектора 64-32767 SD-карты (её загрузчик) копируются на eMMC после ещё одного предупреждения.</string>
+    <string name="inst_sum_backup">Вся eMMC (%1$s, сектора 0-%2$d) и её две загрузочные области читаются, читаются ещё раз для сравнения, копируются в %3$s и проверяются чтением. На eMMC ничего не записывается.</string>
+    <string name="inst_sum_step1">Сектора eMMC 64-32767 (заводской загрузчик, 16 MiB) очищаются. Затем вы перезапускаете консоль: она должна сама запуститься с загрузчика SD-карты.</string>
+    <string name="inst_sum_step2">Новая таблица разделов (сектора eMMC 0-33 и %1$d-%2$d); BOOT, system и vendor копируются с SD-карты; начало metadata, misc, cache и userdata очищается:\n%3$sЗатем andr36oid один раз запускается с eMMC в качестве теста.</string>
+    <string name="inst_sum_step3">Сектора 64-32767 SD-карты (её загрузчик) копируются на eMMC после ещё одного предупреждения.</string>
     <string name="inst_sum_risk">Каждая запись проверяется чтением и сравнением. Если что-то не совпадает, установщик останавливается и больше ничего не записывает. Шаги 1 и 2 подтверждаются перезапуском каждый раз, прежде чем начнётся следующий. Шаг 3 — единственная запись, которую нельзя сначала проверить.</string>
 
     <string name="inst_backup_kept">Резервная копия заводской eMMC создана. Далее шаг 1: её загрузчик очищается, затем вы перезапускаете консоль.</string>
@@ -127,8 +127,8 @@
     <string name="inst_restart_title">Перезапуск</string>
     <string name="inst_restart_step1">Загрузчик eMMC очищен. Перезапустите консоль сейчас: она должна сама запуститься с загрузчика SD-карты, и эта страница откроется снова.\n\nЕсли консоль не вернулась: удерживайте кнопку питания 7 секунд и включите её снова. Если она всё равно не запускается, этой консоли нужен заводской загрузчик. Резервная копия находится в %1$s на этой SD-карте.</string>
     <string name="inst_restart_test">andr36oid находится на eMMC. Перезапустите консоль сейчас: она один раз запустится с eMMC как тест. При первом запуске всё настраивается, это займёт несколько минут. Когда появится сообщение, что тест прошёл успешно, перезапустите консоль снова.\n\nЕсли она зависла: удерживайте кнопку питания 7 секунд и включите её снова. Тогда она запустится с SD-карты как обычно, а на этой странице будет написано, что произошло.</string>
-    <string name="inst_restart_done">Готово. Извлеките SD-карту и перезапустите консоль: andr36oid теперь запускается с eMMC.\n\nЕсли SD-карта andr36oid вставлена, консоль запускается с карты, как и раньше.</string>
-    <string name="inst_restart_stock">Заводская eMMC возвращена. Извлеките SD-карту и перезапустите консоль, чтобы использовать заводскую систему.</string>
+    <string name="inst_restart_done">Выключите консоль, извлеките SD-карту, когда она выключится, затем включите консоль: andr36oid теперь запускается с eMMC.\n\nЕсли SD-карта andr36oid вставлена, консоль запускается с карты, как и раньше.</string>
+    <string name="inst_restart_stock">Выключите консоль, извлеките SD-карту, когда она выключится, затем включите консоль, чтобы использовать заводскую систему.</string>
     <string name="inst_restart_now">Перезапустить сейчас</string>
     <string name="inst_test_later">Не тестировать сейчас</string>
 
@@ -175,7 +175,13 @@
     <string name="inst_lbl_checks">Перед началом</string>
     <string name="inst_lbl_warning">Предупреждение %1$d из %2$d</string>
     <string name="inst_lbl_plan">Что будет записано</string>
-    <string name="inst_lbl_step">Шаг установки %1$s</string>
+    <string name="inst_lbl_step">Установка</string>
     <string name="inst_lbl_done">Установлено</string>
     <string name="inst_done_title">andr36oid находится на eMMC</string>
+    <string name="inst_intro">Установка на eMMC занимает некоторое время: всё записанное считывается обратно и сравнивается с оригиналом, прежде чем мастер пойдёт дальше. Так задумано. Одна ошибочная запись не в том месте может полностью лишить консоль возможности запуститься, поэтому каждый шаг должен быть подтверждён как правильный, прежде чем начнётся следующий.</string>
+    <string name="inst_keep_on">Оставьте консоль включённой и SD-карту на месте, пока это не будет завершено.</string>
+    <string name="inst_restore_working">Резервная копия записывается обратно на eMMC по частям. Затем весь eMMC считывается и сравнивается с резервной копией, чтобы вы были уверены, что он снова в точности соответствует заводскому.</string>
+    <string name="inst_update_working">Новый andr36oid копируется с SD-карты на eMMC по частям. Каждая часть считывается обратно и сравнивается с SD-картой, прежде чем начнётся следующая.</string>
+    <string name="inst_shut_down">Выключить</string>
+    <string name="inst_stock_back_title">Заводская eMMC восстановлена</string>
 </resources>

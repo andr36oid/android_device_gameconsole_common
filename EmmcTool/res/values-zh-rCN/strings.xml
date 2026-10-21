@@ -79,13 +79,13 @@
     <string name="inst_start">开始</string>
     <string name="inst_working">处理中…</string>
     <string name="inst_details">详细信息</string>
-    <string name="inst_elapsed">已运行 %1$s。请保持主机开机。</string>
+    <string name="inst_elapsed">已运行 %1$s</string>
     <string name="inst_left">剩余 %1$s</string>
 
-    <string name="inst_step0">0 备份原厂 eMMC</string>
-    <string name="inst_step1">1 验证 SD 卡的引导加载器</string>
-    <string name="inst_step2">2 验证 eMMC 上的 andr36oid</string>
-    <string name="inst_step3">3 将引导加载器写入 eMMC</string>
+    <string name="inst_step0">第 0 步：备份原厂 eMMC</string>
+    <string name="inst_step1">第 1 步：验证 SD 卡的引导加载器</string>
+    <string name="inst_step2">第 2 步：验证 eMMC 上的 andr36oid</string>
+    <string name="inst_step3">第 3 步：将引导加载器写入 eMMC</string>
     <string name="inst_st_done">完成</string>
     <string name="inst_st_failed">失败</string>
     <string name="inst_st_restart">等待重启</string>
@@ -114,10 +114,10 @@
     <string name="inst_layout_title">eMMC 如何划分</string>
     <string name="inst_layout_text">system 和 vendor 会保留空间，供以后的版本扩展；你的应用和数据使用剩下的空间。</string>
     <string name="inst_summary_title">每次写入，按顺序</string>
-    <string name="inst_sum_backup">备份：读取 eMMC 的全部 %1$s（扇区 0-%2$d）及其两个引导区，再次读取以进行比对，复制到 %3$s，然后回读。不会向 eMMC 写入任何内容。</string>
-    <string name="inst_sum_step1">第 1 步：eMMC 扇区 64-32767（原厂引导加载器，16 MiB）被清空。然后重启：主机必须自行从 SD 卡的引导加载器启动。</string>
-    <string name="inst_sum_step2">第 2 步：新的分区表（eMMC 扇区 0-33 和 %1$d-%2$d）；从 SD 卡复制 BOOT、system 和 vendor；清空 metadata、misc、cache 和 userdata 的起始部分：\n%3$s然后 andr36oid 从 eMMC 启动一次，作为测试。</string>
-    <string name="inst_sum_step3">第 3 步：SD 卡的扇区 64-32767（其引导加载器）在再次警告后复制到 eMMC。</string>
+    <string name="inst_sum_backup">读取 eMMC 的全部 %1$s（扇区 0-%2$d）及其两个引导区，再次读取以进行比对，复制到 %3$s，然后回读。不会向 eMMC 写入任何内容。</string>
+    <string name="inst_sum_step1">eMMC 扇区 64-32767（原厂引导加载器，16 MiB）被清空。然后重启：主机必须自行从 SD 卡的引导加载器启动。</string>
+    <string name="inst_sum_step2">新的分区表（eMMC 扇区 0-33 和 %1$d-%2$d）；从 SD 卡复制 BOOT、system 和 vendor；清空 metadata、misc、cache 和 userdata 的起始部分：\n%3$s然后 andr36oid 从 eMMC 启动一次，作为测试。</string>
+    <string name="inst_sum_step3">SD 卡的扇区 64-32767（其引导加载器）在再次警告后复制到 eMMC。</string>
     <string name="inst_sum_risk">每次写入后都会回读并比对。如有任何不一致，安装程序将停止，不再写入。第 1 步和第 2 步各自都要在下一步之前通过一次重启来验证。第 3 步是唯一无法提前测试的写入。</string>
 
     <string name="inst_backup_kept">原厂 eMMC 已备份。下一步是第 1 步：清空其引导加载器，然后重启。</string>
@@ -127,8 +127,8 @@
     <string name="inst_restart_title">重启</string>
     <string name="inst_restart_step1">eMMC 的引导加载器已清空。现在重启：主机必须自行从 SD 卡的引导加载器启动，此页面会再次打开。\n\n如果主机没有恢复：按住电源键 7 秒，然后重新开机。如果仍然无法启动，此主机需要原厂引导加载器。备份位于此 SD 卡的 %1$s 中。</string>
     <string name="inst_restart_test">andr36oid 已在 eMMC 上。现在重启：它会从 eMMC 启动一次，作为测试。首次启动会进行设置，需要几分钟。当显示测试成功时，再次重启。\n\n如果卡住：按住电源键 7 秒，然后重新开机。之后它会像平时一样从 SD 卡启动，此页面会说明发生了什么。</string>
-    <string name="inst_restart_done">完成。取出 SD 卡并重启：andr36oid 现在从 eMMC 启动。\n\n插着 andr36oid SD 卡时，主机会像以前一样从卡启动。</string>
-    <string name="inst_restart_stock">原厂 eMMC 已恢复。取出 SD 卡并重启，即可使用原厂系统。</string>
+    <string name="inst_restart_done">关闭主机，待其断电后取出 SD 卡，然后开机：andr36oid 现在从 eMMC 启动。\n\n插着 andr36oid SD 卡时，主机会像以前一样从卡启动。</string>
+    <string name="inst_restart_stock">关闭主机，待其断电后取出 SD 卡，然后开机以使用原厂系统。</string>
     <string name="inst_restart_now">立即重启</string>
     <string name="inst_test_later">暂不测试</string>
 
@@ -175,7 +175,13 @@
     <string name="inst_lbl_checks">开始之前</string>
     <string name="inst_lbl_warning">警告 %1$d / %2$d</string>
     <string name="inst_lbl_plan">将写入的内容</string>
-    <string name="inst_lbl_step">安装步骤 %1$s</string>
+    <string name="inst_lbl_step">正在安装</string>
     <string name="inst_lbl_done">已安装</string>
     <string name="inst_done_title">andr36oid 已安装到 eMMC 上</string>
+    <string name="inst_intro">安装到 eMMC 需要一些时间：写入的所有内容都会被回读，并与原件比对，然后向导才会继续。这是有意设计的。一次写错位置的写入就可能导致主机完全无法启动，因此每一步都必须先证明正确，才能开始下一步。</string>
+    <string name="inst_keep_on">在完成之前，请保持主机开机并插着 SD 卡。</string>
+    <string name="inst_restore_working">备份会按分区逐一写回 eMMC。随后整个 eMMC 会被回读并与备份比对，以确保它与原厂 eMMC 完全一致。</string>
+    <string name="inst_update_working">新版 andr36oid 会按分区逐一从 SD 卡复制到 eMMC。每个分区在开始下一个之前，都会被回读并与 SD 卡比对。</string>
+    <string name="inst_shut_down">关机</string>
+    <string name="inst_stock_back_title">原厂 eMMC 已恢复</string>
 </resources>

@@ -79,16 +79,16 @@
     <string name="inst_start">Mulai</string>
     <string name="inst_working">Sedang bekerja…</string>
     <string name="inst_details">Detail</string>
-    <string name="inst_elapsed">Sudah berjalan %1$s. Biarkan konsol tetap menyala.</string>
+    <string name="inst_elapsed">Sudah berjalan %1$s</string>
     <string name="inst_left">sisa %1$s</string>
 
-    <string name="inst_step0">0 Cadangkan eMMC asli</string>
-    <string name="inst_step1">1 Uji loader kartu SD</string>
-    <string name="inst_step2">2 Uji andr36oid di eMMC</string>
-    <string name="inst_step3">3 Pasang loader ke eMMC</string>
-    <string name="inst_st_done">selesai</string>
-    <string name="inst_st_failed">gagal</string>
-    <string name="inst_st_restart">menunggu mulai ulang</string>
+    <string name="inst_step0">Langkah 0: Cadangkan eMMC asli</string>
+    <string name="inst_step1">Langkah 1: Uji loader kartu SD</string>
+    <string name="inst_step2">Langkah 2: Uji andr36oid di eMMC</string>
+    <string name="inst_step3">Langkah 3: Pasang loader ke eMMC</string>
+    <string name="inst_st_done">Selesai</string>
+    <string name="inst_st_failed">Gagal</string>
+    <string name="inst_st_restart">Menunggu mulai ulang</string>
 
     <string name="inst_checking">Memeriksa konsol…</string>
     <string name="inst_checks">Sebelum ada yang ditulis</string>
@@ -114,10 +114,10 @@
     <string name="inst_layout_title">Cara pembagian eMMC</string>
     <string name="inst_layout_text">system dan vendor mendapat ruang untuk berkembang di versi berikutnya, aplikasi dan datamu mendapat sisanya.</string>
     <string name="inst_summary_title">Setiap penulisan, berurutan</string>
-    <string name="inst_sum_backup">Cadangan: seluruh %1$s eMMC (sektor 0-%2$d) dan dua area boot-nya dibaca, dibaca lagi untuk dibandingkan, disalin ke %3$s, lalu dibaca ulang. Tidak ada yang ditulis ke eMMC.</string>
-    <string name="inst_sum_step1">Langkah 1: sektor eMMC 64-32767 (loader asli, 16 MiB) dikosongkan. Lalu kamu mulai ulang: konsol harus mulai sendiri dari loader kartu SD.</string>
-    <string name="inst_sum_step2">Langkah 2: tabel partisi baru (sektor eMMC 0-33 dan %1$d-%2$d); BOOT, system, dan vendor disalin dari kartu SD; bagian awal metadata, misc, cache, dan userdata dikosongkan:\n%3$sLalu andr36oid mulai dari eMMC sekali, sebagai tes.</string>
-    <string name="inst_sum_step3">Langkah 3: sektor 64-32767 kartu SD (loadernya) disalin ke eMMC, setelah satu peringatan lagi.</string>
+    <string name="inst_sum_backup">Seluruh %1$s eMMC (sektor 0-%2$d) dan dua area boot-nya dibaca, dibaca lagi untuk dibandingkan, disalin ke %3$s, lalu dibaca ulang. Tidak ada yang ditulis ke eMMC.</string>
+    <string name="inst_sum_step1">Sektor eMMC 64-32767 (loader asli, 16 MiB) dikosongkan. Lalu kamu mulai ulang: konsol harus mulai sendiri dari loader kartu SD.</string>
+    <string name="inst_sum_step2">Tabel partisi baru (sektor eMMC 0-33 dan %1$d-%2$d); BOOT, system, dan vendor disalin dari kartu SD; bagian awal metadata, misc, cache, dan userdata dikosongkan:\n%3$sLalu andr36oid mulai dari eMMC sekali, sebagai tes.</string>
+    <string name="inst_sum_step3">Sektor 64-32767 kartu SD (loadernya) disalin ke eMMC, setelah satu peringatan lagi.</string>
     <string name="inst_sum_risk">Setiap penulisan dibaca ulang dan dibandingkan. Jika ada yang tidak cocok, installer berhenti dan tidak menulis apa pun lagi. Langkah 1 dan 2 masing-masing dibuktikan dengan mulai ulang sebelum langkah berikutnya. Langkah 3 adalah satu-satunya penulisan yang tidak bisa diuji lebih dulu.</string>
 
     <string name="inst_backup_kept">eMMC asli sudah dicadangkan. Berikutnya langkah 1: loadernya dikosongkan, lalu kamu mulai ulang.</string>
@@ -127,8 +127,8 @@
     <string name="inst_restart_title">Mulai ulang</string>
     <string name="inst_restart_step1">Loader eMMC kosong. Mulai ulang sekarang: konsol harus mulai sendiri dari loader kartu SD, dan halaman ini akan terbuka lagi.\n\nJika tidak kembali: tahan tombol power selama 7 detik lalu nyalakan lagi. Jika masih tidak mau menyala, konsol ini butuh loader aslinya. Cadangannya ada di %1$s pada kartu SD ini.</string>
     <string name="inst_restart_test">andr36oid ada di eMMC. Mulai ulang sekarang: andr36oid akan mulai dari eMMC sekali, sebagai tes. Saat pertama kali dinyalakan, andr36oid menyiapkan semuanya dan butuh beberapa menit. Saat tertulis bahwa tes berhasil, mulai ulang lagi.\n\nJika macet: tahan tombol power selama 7 detik lalu nyalakan lagi. Konsol kemudian mulai dari kartu SD seperti biasa, dan halaman ini akan menjelaskan apa yang terjadi.</string>
-    <string name="inst_restart_done">Selesai. Lepas kartu SD dan mulai ulang: andr36oid sekarang mulai dari eMMC.\n\nJika kartu SD andr36oid terpasang, konsol mulai dari kartu seperti sebelumnya.</string>
-    <string name="inst_restart_stock">eMMC asli sudah kembali. Lepas kartu SD dan mulai ulang untuk memakai sistem asli.</string>
+    <string name="inst_restart_done">Matikan konsol, cabut kartu SD setelah konsol mati, lalu nyalakan lagi: andr36oid sekarang mulai dari eMMC.\n\nJika kartu SD andr36oid terpasang, konsol mulai dari kartu seperti sebelumnya.</string>
+    <string name="inst_restart_stock">Matikan konsol, cabut kartu SD setelah konsol mati, lalu nyalakan lagi untuk memakai sistem asli.</string>
     <string name="inst_restart_now">Mulai ulang sekarang</string>
     <string name="inst_test_later">Jangan tes sekarang</string>
 
@@ -175,7 +175,13 @@
     <string name="inst_lbl_checks">Sebelum mulai</string>
     <string name="inst_lbl_warning">Peringatan %1$d dari %2$d</string>
     <string name="inst_lbl_plan">Yang akan ditulis</string>
-    <string name="inst_lbl_step">Langkah instalasi %1$s</string>
+    <string name="inst_lbl_step">Sedang memasang</string>
     <string name="inst_lbl_done">Terpasang</string>
     <string name="inst_done_title">andr36oid ada di eMMC</string>
+    <string name="inst_intro">Memasang di eMMC butuh waktu: semua yang ditulis dibaca ulang dan dibandingkan dengan aslinya sebelum wizard lanjut. Ini memang disengaja. Satu penulisan yang salah di tempat yang keliru bisa membuat konsol sama sekali tidak bisa menyala, jadi setiap langkah harus terbukti benar sebelum langkah berikutnya dimulai.</string>
+    <string name="inst_keep_on">Biarkan konsol tetap menyala dan kartu SD tetap terpasang sampai ini selesai.</string>
+    <string name="inst_restore_working">Cadangan ditulis kembali ke eMMC sedikit demi sedikit. Setelah itu seluruh eMMC dibaca ulang dan dibandingkan dengan cadangan, jadi kamu tahu eMMC-nya sudah sama persis dengan eMMC asli.</string>
+    <string name="inst_update_working">andr36oid yang baru disalin dari kartu SD ke eMMC sedikit demi sedikit. Setiap bagian dibaca ulang dan dibandingkan dengan kartu SD sebelum bagian berikutnya dimulai.</string>
+    <string name="inst_shut_down">Matikan</string>
+    <string name="inst_stock_back_title">eMMC asli sudah kembali</string>
 </resources>
