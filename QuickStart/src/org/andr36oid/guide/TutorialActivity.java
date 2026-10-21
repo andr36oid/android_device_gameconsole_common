@@ -264,12 +264,18 @@ public class TutorialActivity extends Activity {
         });
         mNext.setOnClickListener(v -> goNext());
         mNoFnButton.setOnClickListener(v -> {
-            // Saved for the whole system; Vol+ and Vol- together stand in unless the user
-            // picks something else
-            ButtonSettings.addMissing(this, "fn");
-            mNoFn = true;
-            showStep(skipForward(mIndex));
-            FnChooser.show(this, () -> showStep(skipForward(mIndex)));
+            if (!mNoFn) {
+                // Saved for the whole system; Start + Vol- stands in unless the user picks
+                // something else. Once said, the button changes the stand-in instead.
+                ButtonSettings.addMissing(this, "fn");
+                mNoFn = true;
+                showStep(skipForward(mIndex));
+            }
+            FnChooser.show(this, () -> {
+                // "The Fn button" there takes the answer back
+                mNoFn = !ButtonSettings.hasFn(this);
+                showStep(skipForward(mIndex));
+            });
         });
         mCheckButton.setOnClickListener(v -> openButtonCheck());
         mProgress.setMax(mSteps.size() - 1);
@@ -569,7 +575,8 @@ public class TutorialActivity extends Activity {
                 ? View.VISIBLE : View.GONE);
 
         mBack.setVisibility(index == 0 ? View.INVISIBLE : View.VISIBLE);
-        mNoFnButton.setVisibility(isFnStep(step.id) && !mNoFn ? View.VISIBLE : View.GONE);
+        mNoFnButton.setVisibility(isFnStep(step.id) ? View.VISIBLE : View.GONE);
+        mNoFnButton.setText(mNoFn ? R.string.tutorial_change_fn : R.string.tutorial_no_fn);
         // Consoles without L2/R2 (or others) can say so here, once
         mCheckButton.setVisibility(step.id == STEP_SHOULDERS
                 && ButtonSettings.saved(this) == null && hasButtonCheck()

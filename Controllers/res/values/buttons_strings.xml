@@ -60,6 +60,8 @@
     <string name="fn_standin_row">Fn shortcuts</string>
     <string name="fn_standin_title">What works as Fn?</string>
     <string name="fn_standin_fn">The Fn button</string>
+    <!-- The same, when the console was said to have no Fn button -->
+    <string name="fn_standin_fn_after_all">The Fn button (this console has one after all)</string>
     <!-- Fn stand-in combos: hold one button, press the other. %1$s and %2$s are button
          names like "Start" and "Vol−". -->
     <string name="fn_standin_start_vol_down_recommended">Hold Start + Vol− (recommended)</string>

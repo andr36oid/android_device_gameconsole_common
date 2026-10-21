@@ -95,6 +95,12 @@ final class ButtonSettings {
         saveMissing(context, missing);
     }
 
+    /** Takes one button off the missing list: the console has it after all */
+    static void removeMissing(Context context, String name) {
+        final Set<String> missing = missing(context);
+        if (missing.remove(name)) saveMissing(context, missing);
+    }
+
     private static Set<String> parse(String value) {
         final Set<String> names = new LinkedHashSet<>();
         for (String part : value.split(",")) {

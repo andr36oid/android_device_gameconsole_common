@@ -14,6 +14,8 @@
     <string name="tutorial_skip_all">Skip tutorial</string>
     <!-- On the FN steps, for consoles without an FN button: asks what stands in for it -->
     <string name="tutorial_no_fn">No FN button</string>
+    <!-- Replaces tutorial_no_fn once the console was said to have no FN: picks what works as FN, the FN button included -->
+    <string name="tutorial_change_fn">Change FN</string>
     <string name="tutorial_done">Done</string>
     <string name="tutorial_open_guide">Open the full guide</string>
 

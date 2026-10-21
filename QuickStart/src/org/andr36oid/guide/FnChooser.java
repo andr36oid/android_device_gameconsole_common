@@ -47,10 +47,11 @@ final class FnChooser {
         final Set<String> missing = ButtonSettings.missing(mContext);
         final List<String> values = new ArrayList<>();
         final List<CharSequence> labels = new ArrayList<>();
-        if (mHasFn) {
-            values.add("");
-            labels.add(mContext.getString(R.string.fn_standin_fn));
-        }
+        // Offered also when the console was said to have no Fn (a slip in the first start's
+        // tutorial, or the button check): choosing it is the way back to the real Fn button
+        values.add("");
+        labels.add(mContext.getString(mHasFn ? R.string.fn_standin_fn
+                : R.string.fn_standin_fn_after_all));
         if (!missing.contains("vol")) {
             values.add(ButtonSettings.START_VOL_DOWN);
             labels.add(mContext.getString(R.string.fn_standin_start_vol_down_recommended));
@@ -210,6 +211,7 @@ final class FnChooser {
             }
             if (scan <= 0) return true;
             if (scan == ButtonSettings.SCAN_FN) {
+                // pressed, so it is there, whatever the missing list said
                 d.dismiss();
                 save("");
             } else if (contains(REFUSED, scan)) {
@@ -236,6 +238,9 @@ final class FnChooser {
     }
 
     private void save(String value) {
+        // the real Fn button: it can't be on the missing list then, or the start combo
+        // would still stand in for it
+        if (value.isEmpty()) ButtonSettings.removeMissing(mContext, "fn");
         ButtonSettings.setFnStandin(mContext, value);
         if (mOnDone != null) mOnDone.run();
     }
