@@ -32,6 +32,9 @@ type State struct {
 	// Step 3: the SD card's loader on the eMMC.
 	Step3 string `json:"step3,omitempty"` // done
 
+	// Datacard is where Android keeps its data once installed (datacard.go).
+	Datacard *Datacard `json:"datacard,omitempty"`
+
 	// Custom is an SD card image the advanced mode wrote in place of
 	// andr36oid (the steps above are then all clear).
 	Custom *CustomImage `json:"custom,omitempty"`

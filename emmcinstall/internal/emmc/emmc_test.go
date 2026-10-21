@@ -58,8 +58,10 @@ type fake struct {
 	dir    string
 	cfg    *Config
 	locked bool
-	stock  []byte // the eMMC as it came
-	writes []int64
+	// sdWritable: the data card steps write the SD card (its loader area)
+	sdWritable bool
+	stock      []byte // the eMMC as it came
+	writes     []int64
 }
 
 func mib(n int64) int64 { return n << 20 / Sector }
@@ -93,7 +95,22 @@ func directWorks(dir string) bool {
 	return err == nil
 }
 
+// fakePart is one partition of the test SD card.
+type fakePart struct {
+	num        int
+	name       string
+	first, len int64
+	typ        string
+}
+
 func newFake(t *testing.T) *fake {
+	t.Helper()
+	return newFakeWith(t, nil)
+}
+
+// newFakeWith adds partitions to the SD card (the first start's userdata,
+// EASYROMS, AUTOAPK), left blank.
+func newFakeWith(t *testing.T, extra []fakePart) *fake {
 	t.Helper()
 	if _, err := os.Stat(sgdisk); err != nil {
 		t.Skip("no sgdisk")
@@ -113,12 +130,7 @@ func newFake(t *testing.T) *fake {
 		copy(sd[UbootStart*Sector+int64(i)<<20:], ub)
 	}
 	copy(sd[TrustStart*Sector:], append([]byte("BL3X"), randBytes(r, 1<<20)...))
-	parts := []struct {
-		num        int
-		name       string
-		first, len int64
-		typ        string
-	}{
+	parts := []fakePart{
 		{1, "BOOT", mib(16), mib(4), "0700"},
 		{8, "vendor", mib(20), mib(2), "8300"},
 		{9, "metadata", mib(22), mib(1), "8300"},
@@ -129,6 +141,7 @@ func newFake(t *testing.T) *fake {
 		{4, "uboot", UbootStart, TrustStart - UbootStart, "8300"},
 		{5, "trust", TrustStart, LoaderEnd - TrustStart, "8300"},
 	}
+	parts = append(parts, extra...)
 	for _, p := range parts {
 		if p.num != 3 && p.num != 4 && p.num != 5 {
 			copy(sd[p.first*Sector:], randBytes(r, p.len*Sector))
@@ -221,6 +234,9 @@ func newFake(t *testing.T) *fake {
 			}
 			f.writes = append(f.writes, off)
 		case f.cfg.SDDev:
+			if f.sdWritable {
+				return b, nil
+			}
 			t.Errorf("wrote to the SD card at sector %d", off/Sector)
 			return nil, syscall.EPERM
 		}

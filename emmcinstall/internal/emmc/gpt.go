@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"hash/crc32"
 	"io"
+	"strings"
 	"unicode/utf16"
 )
 
@@ -32,7 +33,14 @@ type Part struct {
 	Type  string
 	First int64
 	Last  int64
+	// GUID is the partition's own GUID (PARTUUID), read from a disk; BuildGPT
+	// makes new ones. Attr are the attribute bits.
+	GUID string `json:",omitempty"`
+	Attr uint64 `json:",omitempty"`
 }
+
+// PartUUID is the partition's GUID as the kernel prints PARTUUID: lower case.
+func (p Part) PartUUID() string { return strings.ToLower(p.GUID) }
 
 // Sectors is the partition's length.
 func (p Part) Sectors() int64 { return p.Last - p.First + 1 }
@@ -87,6 +95,8 @@ type GPT struct {
 }
 
 // BuildGPT makes a GPT for a disk of diskSecs sectors. rnd gives the GUIDs.
+// Each partition goes in entry Num; numbers may leave gaps (an andr36oid card
+// has no p12 once AUTOAPK moved to p13), but come in rising order.
 func BuildGPT(diskSecs int64, parts []Part, rnd io.Reader) (*GPT, error) {
 	last := diskSecs - 1
 	lastUsable := last - 1 - gptTableSecs
@@ -95,8 +105,8 @@ func BuildGPT(diskSecs int64, parts []Part, rnd io.Reader) (*GPT, error) {
 	}
 	entries := make([]byte, gptEntries*gptEntrySize)
 	for i, p := range parts {
-		if p.Num != i+1 {
-			return nil, fmt.Errorf("partition %s: number %d, want %d", p.Name, p.Num, i+1)
+		if p.Num < 1 || p.Num > gptEntries || (i > 0 && p.Num <= parts[i-1].Num) {
+			return nil, fmt.Errorf("partition %s: number %d out of order", p.Name, p.Num)
 		}
 		if p.First < gptFirstUsable || p.Last > lastUsable || p.Last < p.First {
 			return nil, fmt.Errorf("partition %s: sectors %d-%d outside %d-%d",
@@ -107,7 +117,7 @@ func BuildGPT(diskSecs int64, parts []Part, rnd io.Reader) (*GPT, error) {
 				return nil, fmt.Errorf("partitions %s and %s overlap", q.Name, p.Name)
 			}
 		}
-		e := entries[i*gptEntrySize:]
+		e := entries[(p.Num-1)*gptEntrySize:]
 		t, err := guidBytes(p.Type)
 		if err != nil {
 			return nil, err
@@ -120,6 +130,7 @@ func BuildGPT(diskSecs int64, parts []Part, rnd io.Reader) (*GPT, error) {
 		e[16+8] = e[16+8]&0x3f | 0x80
 		binary.LittleEndian.PutUint64(e[32:], uint64(p.First))
 		binary.LittleEndian.PutUint64(e[40:], uint64(p.Last))
+		binary.LittleEndian.PutUint64(e[48:], p.Attr)
 		name := utf16.Encode([]rune(p.Name))
 		if len(name) > 36 {
 			return nil, fmt.Errorf("partition name %q too long", p.Name)
@@ -230,6 +241,8 @@ func parseGPT(head []byte, diskSecs int64) ([]Part, error) {
 			Type:  guidString(e[:16]),
 			First: int64(binary.LittleEndian.Uint64(e[32:])),
 			Last:  int64(binary.LittleEndian.Uint64(e[40:])),
+			GUID:  guidString(e[16:32]),
+			Attr:  binary.LittleEndian.Uint64(e[48:]),
 		}
 		if p.Last < p.First || p.Last >= diskSecs {
 			return nil, fmt.Errorf("partition %d (%s) outside the disk", p.Num, p.Name)
