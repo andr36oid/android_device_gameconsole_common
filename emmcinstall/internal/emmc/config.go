@@ -307,7 +307,15 @@ func (c *Config) powerOK() error {
 		c.powerChecked = true
 		return nil
 	}
-	return fmt.Errorf("battery at %d%% and no charger: connect the charger or charge to 60%% first", p.Capacity)
+	return &LowBatteryError{p.Capacity}
+}
+
+// LowBatteryError: a run that writes didn't start, the battery is under 60% and no
+// charger is in. The wizard offers to try again once the charger is in.
+type LowBatteryError struct{ Capacity int }
+
+func (e *LowBatteryError) Error() string {
+	return fmt.Sprintf("battery at %d%% and no charger: connect the charger or charge to 60%% first", e.Capacity)
 }
 
 func (c *Config) bootID() string {

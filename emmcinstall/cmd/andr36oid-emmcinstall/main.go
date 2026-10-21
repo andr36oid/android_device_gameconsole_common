@@ -276,6 +276,10 @@ func fail(err error) {
 	if errors.As(err, &we) {
 		out["emmc_written"] = true
 	}
+	var lb *emmc.LowBatteryError
+	if errors.As(err, &lb) {
+		out["low_battery"] = true
+	}
 	print(out)
 	release()
 	errDetect(err)

@@ -123,6 +123,10 @@ public class InstallActivity extends Activity {
 
     /** On the checks page: redraws it when a charger comes or goes, or the level changes. */
     private BroadcastReceiver mPowerWatch;
+    /** The page asking for the charger: Try again shows once it is in. */
+    private BroadcastReceiver mChargeWatch;
+    /** The last command run, to start it again (after the charger went in). */
+    private Runnable mRetry;
 
     // The progress page's views, null on other pages
     private TextView mCurName, mCurLine;
@@ -225,6 +229,10 @@ public class InstallActivity extends Activity {
     }
 
     private void stopPowerWatch() {
+        if (mChargeWatch != null) {
+            unregisterReceiver(mChargeWatch);
+            mChargeWatch = null;
+        }
         if (mPowerWatch == null) return;
         unregisterReceiver(mPowerWatch);
         mPowerWatch = null;
@@ -1334,6 +1342,33 @@ public class InstallActivity extends Activity {
 
     // Stops and the way back
 
+    /**
+     * A run that writes didn't start for the battery (nothing was written). Try again
+     * shows as soon as the charger is in, or the battery is at 60% again.
+     */
+    private void showCharger(String why, Runnable retry) {
+        page(null, -1, getString(R.string.inst_failed_title),
+                why + "\n\n" + getString(R.string.inst_failed_nothing));
+        button(mBack, getString(R.string.inst_close), this::finish);
+        button(mNext, getString(R.string.inst_retry), retry);
+        mNext.setVisibility(View.GONE);
+        mChargeWatch = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context c, Intent i) {
+                final int scale = i.getIntExtra(BatteryManager.EXTRA_SCALE, 100);
+                final int level = i.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
+                final boolean charger = i.getIntExtra(BatteryManager.EXTRA_PLUGGED, 0) != 0;
+                final boolean ok = charger || (scale > 0 && level * 100 / scale >= 60);
+                if (ok == (mNext.getVisibility() == View.VISIBLE)) return;
+                mNext.setVisibility(ok ? View.VISIBLE : View.GONE);
+                if (ok) mNext.requestFocus();
+                else focusButtons();
+                fitButtons();
+            }
+        };
+        registerReceiver(mChargeWatch, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+    }
+
     private void showFailed(String why, boolean wrote) {
         final JSONObject b = Installer.state().optJSONObject("backup");
         final boolean choice = wrote && b != null;
@@ -1382,6 +1417,7 @@ public class InstallActivity extends Activity {
 
     /** Starts cmd; quick: a short check, shown as one line instead of the progress page. */
     private void run(String cmd, boolean quick, Runnable after, String... args) {
+        mRetry = () -> run(cmd, quick, after, args);
         mOps.clear();
         mLogLines.clear();
         mReader.reset();
@@ -1480,6 +1516,8 @@ public class InstallActivity extends Activity {
         mAfter = null;
         if (!r.optBoolean("ok") && r.optBoolean("not_exact")) {
             showNotExact(r.optString("error"));
+        } else if (!r.optBoolean("ok") && r.optBoolean("low_battery") && mRetry != null) {
+            showCharger(r.optString("error"), mRetry);
         } else if (!r.optBoolean("ok")) {
             final JSONObject st = Installer.state();
             // emmc_written: a chained run stopped after its eMMC part was done
