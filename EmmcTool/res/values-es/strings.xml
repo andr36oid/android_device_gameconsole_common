@@ -86,7 +86,6 @@
     <string name="inst_step1">1 Comprobar el cargador de la tarjeta SD</string>
     <string name="inst_step2">2 Comprobar andr36oid en la eMMC</string>
     <string name="inst_step3">3 Escribir el cargador en la eMMC</string>
-    <string name="inst_st_running">en marcha</string>
     <string name="inst_st_done">hecho</string>
     <string name="inst_st_failed">fallido</string>
     <string name="inst_st_restart">esperando un reinicio</string>
@@ -152,7 +151,6 @@
     <string name="inst_leave">Dejarla como está</string>
     <string name="inst_show_log">Mostrar el registro</string>
     <string name="inst_update_emmc">Actualizar andr36oid en la eMMC</string>
-    <string name="inst_update_emmc_sum">Desde esta tarjeta SD, después de actualizarla. Las apps y los datos se mantienen.</string>
     <string name="inst_update_emmc_text">Copia el andr36oid de esta tarjeta SD a la eMMC: sus archivos BOOT, system y vendor, y U-Boot si ha cambiado. Las apps, los datos y los ajustes de la eMMC se mantienen.\n\nMantén la consola cargando. Si la actualización se interrumpe, la consola arranca desde la tarjeta SD hasta que la vuelvas a ejecutar.</string>
     <string name="inst_update_emmc_go">Actualizar</string>
     <string name="inst_restore">Devolver la eMMC original</string>
@@ -160,10 +158,8 @@
     <string name="inst_restore_go">Devolverla</string>
     <string name="inst_steps">Pasos</string>
     <string name="inst_st_todo">Todavía no</string>
-    <string name="inst_now">Ahora</string>
     <string name="inst_finished">Hecho hasta ahora</string>
     <string name="inst_log">Registro</string>
-    <string name="inst_next">Siguiente</string>
     <string name="inst_problems">Qué lo detiene</string>
     <string name="inst_starting">Iniciando…</string>
     <string name="inst_start_summary">El paso 0 solo lee la eMMC. Todavía no se escribe nada en ella.</string>

@@ -86,7 +86,6 @@
     <string name="inst_step1">1 Vérifier le chargeur d\'amorçage de la carte SD</string>
     <string name="inst_step2">2 Vérifier andr36oid sur l\'eMMC</string>
     <string name="inst_step3">3 Mettre le chargeur d\'amorçage sur l\'eMMC</string>
-    <string name="inst_st_running">en cours</string>
     <string name="inst_st_done">terminé</string>
     <string name="inst_st_failed">échoué</string>
     <string name="inst_st_restart">en attente d\'un redémarrage</string>
@@ -152,7 +151,6 @@
     <string name="inst_leave">La laisser telle quelle</string>
     <string name="inst_show_log">Afficher le journal</string>
     <string name="inst_update_emmc">Mettre à jour andr36oid sur l\'eMMC</string>
-    <string name="inst_update_emmc_sum">Depuis cette carte SD, après l\'avoir mise à jour. Les applications et les données sont conservées.</string>
     <string name="inst_update_emmc_text">Copie l\'andr36oid de cette carte SD vers l\'eMMC : ses fichiers BOOT, system et vendor, et U-Boot s\'il a changé. Les applications, données et paramètres de l\'eMMC sont conservés.\n\nGardez la console en charge. Si la mise à jour est interrompue, la console démarre depuis la carte SD jusqu\'à ce que vous la relanciez.</string>
     <string name="inst_update_emmc_go">Mettre à jour</string>
     <string name="inst_restore">Remettre l\'eMMC d\'origine</string>
@@ -160,10 +158,8 @@
     <string name="inst_restore_go">Remettre en place</string>
     <string name="inst_steps">Étapes</string>
     <string name="inst_st_todo">Pas encore</string>
-    <string name="inst_now">Maintenant</string>
     <string name="inst_finished">Terminé jusqu\'ici</string>
     <string name="inst_log">Journal</string>
-    <string name="inst_next">Suivant</string>
     <string name="inst_problems">Ce qui bloque</string>
     <string name="inst_starting">Démarrage…</string>
     <string name="inst_start_summary">L\'étape 0 lit seulement l\'eMMC. Rien n\'est encore écrit dessus.</string>

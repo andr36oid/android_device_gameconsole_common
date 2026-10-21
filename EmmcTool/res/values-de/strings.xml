@@ -86,7 +86,6 @@
     <string name="inst_step1">1 Loader der SD-Karte prüfen</string>
     <string name="inst_step2">2 andr36oid auf dem eMMC prüfen</string>
     <string name="inst_step3">3 Loader auf den eMMC schreiben</string>
-    <string name="inst_st_running">läuft</string>
     <string name="inst_st_done">fertig</string>
     <string name="inst_st_failed">fehlgeschlagen</string>
     <string name="inst_st_restart">wartet auf einen Neustart</string>
@@ -152,7 +151,6 @@
     <string name="inst_leave">So lassen</string>
     <string name="inst_show_log">Protokoll anzeigen</string>
     <string name="inst_update_emmc">andr36oid auf dem eMMC aktualisieren</string>
-    <string name="inst_update_emmc_sum">Von dieser SD-Karte, nachdem du sie aktualisiert hast. Apps und Daten bleiben.</string>
     <string name="inst_update_emmc_text">Kopiert das andr36oid dieser SD-Karte auf das eMMC: die BOOT-Dateien, system und vendor sowie U-Boot, falls es sich geändert hat. Apps, Daten und Einstellungen auf dem eMMC bleiben erhalten.\n\nLass die Konsole am Ladegerät. Wird das Update abgebrochen, startet die Konsole von der SD-Karte, bis du es erneut ausführst.</string>
     <string name="inst_update_emmc_go">Aktualisieren</string>
     <string name="inst_restore">Original-eMMC zurückspielen</string>
@@ -160,10 +158,8 @@
     <string name="inst_restore_go">Zurückspielen</string>
     <string name="inst_steps">Schritte</string>
     <string name="inst_st_todo">Noch nicht</string>
-    <string name="inst_now">Jetzt</string>
     <string name="inst_finished">Bisher fertig</string>
     <string name="inst_log">Protokoll</string>
-    <string name="inst_next">Als Nächstes</string>
     <string name="inst_problems">Was es verhindert</string>
     <string name="inst_starting">Wird gestartet…</string>
     <string name="inst_start_summary">Schritt 0 liest nur den eMMC. Auf den eMMC wird noch nichts geschrieben.</string>

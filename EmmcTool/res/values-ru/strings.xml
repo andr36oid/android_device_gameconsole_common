@@ -86,7 +86,6 @@
     <string name="inst_step1">1 Проверка загрузчика SD-карты</string>
     <string name="inst_step2">2 Проверка andr36oid на eMMC</string>
     <string name="inst_step3">3 Запись загрузчика на eMMC</string>
-    <string name="inst_st_running">выполняется</string>
     <string name="inst_st_done">готово</string>
     <string name="inst_st_failed">ошибка</string>
     <string name="inst_st_restart">ожидание перезапуска</string>
@@ -152,7 +151,6 @@
     <string name="inst_leave">Оставить как есть</string>
     <string name="inst_show_log">Показать журнал</string>
     <string name="inst_update_emmc">Обновить andr36oid на eMMC</string>
-    <string name="inst_update_emmc_sum">С этой SD-карты, после того как вы её обновили. Приложения и данные сохранятся.</string>
     <string name="inst_update_emmc_text">Копирует andr36oid с этой SD-карты на eMMC: файлы BOOT, system и vendor, а также U-Boot, если он изменился. Приложения, данные и настройки на eMMC сохранятся.\n\nДержите консоль подключённой к зарядке. Если обновление прервётся, консоль будет запускаться с SD-карты, пока вы не запустите обновление снова.</string>
     <string name="inst_update_emmc_go">Обновить</string>
     <string name="inst_restore">Вернуть заводскую eMMC</string>
@@ -160,10 +158,8 @@
     <string name="inst_restore_go">Вернуть</string>
     <string name="inst_steps">Шаги</string>
     <string name="inst_st_todo">Ещё нет</string>
-    <string name="inst_now">Сейчас</string>
     <string name="inst_finished">Готово</string>
     <string name="inst_log">Журнал</string>
-    <string name="inst_next">Далее</string>
     <string name="inst_problems">Что мешает</string>
     <string name="inst_starting">Запуск…</string>
     <string name="inst_start_summary">Шаг 0 только читает eMMC. Пока на eMMC ничего не записывается.</string>

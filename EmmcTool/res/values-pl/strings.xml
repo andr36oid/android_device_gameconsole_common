@@ -86,7 +86,6 @@
     <string name="inst_step1">1 Sprawdź loader karty SD</string>
     <string name="inst_step2">2 Sprawdź andr36oid na eMMC</string>
     <string name="inst_step3">3 Zapisz loader na eMMC</string>
-    <string name="inst_st_running">w toku</string>
     <string name="inst_st_done">gotowe</string>
     <string name="inst_st_failed">niepowodzenie</string>
     <string name="inst_st_restart">czeka na ponowne uruchomienie</string>
@@ -152,7 +151,6 @@
     <string name="inst_leave">Zostaw, jak jest</string>
     <string name="inst_show_log">Pokaż dziennik</string>
     <string name="inst_update_emmc">Zaktualizuj andr36oid na eMMC</string>
-    <string name="inst_update_emmc_sum">Z tej karty SD, po jej zaktualizowaniu. Aplikacje i dane zostają.</string>
     <string name="inst_update_emmc_text">Kopiuje andr36oid z tej karty SD na eMMC: jej pliki BOOT, system i vendor oraz U-Boot, jeśli się zmienił. Aplikacje, dane i ustawienia na eMMC zostają.\n\nZostaw konsolę podłączoną do ładowania. Jeśli aktualizacja zostanie przerwana, konsola uruchomi się z karty SD, dopóki nie uruchomisz jej ponownie.</string>
     <string name="inst_update_emmc_go">Zaktualizuj</string>
     <string name="inst_restore">Przywróć fabryczne eMMC</string>
@@ -160,10 +158,8 @@
     <string name="inst_restore_go">Przywróć</string>
     <string name="inst_steps">Kroki</string>
     <string name="inst_st_todo">Jeszcze nie</string>
-    <string name="inst_now">Teraz</string>
     <string name="inst_finished">Dotąd gotowe</string>
     <string name="inst_log">Dziennik</string>
-    <string name="inst_next">Dalej</string>
     <string name="inst_problems">Co blokuje</string>
     <string name="inst_starting">Uruchamianie…</string>
     <string name="inst_start_summary">Krok 0 tylko odczytuje eMMC. Na eMMC nic jeszcze nie jest zapisywane.</string>

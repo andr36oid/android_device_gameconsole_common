@@ -426,8 +426,7 @@ public class InstallActivity extends Activity {
         final List<String> problems = new ArrayList<>();
         final JSONArray pa = mInspect.optJSONArray("problems");
         for (int i = 0; pa != null && i < pa.length(); i++) problems.add(pa.optString(i));
-        final StringBuilder body = new StringBuilder(getString(R.string.inst_intro))
-                .append("\n\n").append(getString(R.string.inst_summary));
+        final StringBuilder body = new StringBuilder(getString(R.string.inst_intro));
         if (!problems.isEmpty()) {
             body.append("\n\n").append(getString(R.string.inst_problems)).append(':');
             for (String why : problems) body.append("\n• ").append(why);
@@ -491,7 +490,7 @@ public class InstallActivity extends Activity {
         page(getString(R.string.inst_lbl_warning, n + 1, w.length), AT_WARN + n * 50,
                 getString(w[n][0]), getString(w[n][1]));
         warn();
-        button(mBack, getString(R.string.inst_cancel),
+        button(mBack, getString(R.string.inst_back),
                 n == 0 ? this::showCheckResults : () -> showWarning(n - 1));
         button(mNext, getString(R.string.inst_understand),
                 n + 1 < w.length ? () -> showWarning(n + 1) : this::showPlan);
@@ -509,7 +508,8 @@ public class InstallActivity extends Activity {
                 + getString(R.string.inst_step2) + "\n"
                 + getString(R.string.inst_sum_step2, secs - 33, secs - 1, parts.toString()) + "\n\n"
                 + getString(R.string.inst_step3) + "\n" + getString(R.string.inst_sum_step3) + "\n\n"
-                + getString(R.string.inst_sum_risk);
+                + getString(R.string.inst_sum_risk) + "\n\n"
+                + getString(R.string.inst_start_summary);
         page(getString(R.string.inst_lbl_plan), AT_PLAN, getString(R.string.inst_summary_title), body);
         sideHeader(getString(R.string.inst_layout_title));
         sideRow(0, getString(R.string.inst_layout_text), null);
@@ -588,6 +588,7 @@ public class InstallActivity extends Activity {
         final String dir = b == null ? "" : b.optString("dir");
         final String text;
         final int step;
+        int title = R.string.inst_restart_title;
         switch (kind) {
             case STEP1:
                 text = getString(R.string.inst_restart_step1, dir);
@@ -600,14 +601,16 @@ public class InstallActivity extends Activity {
             case DONE:
                 text = getString(R.string.inst_restart_done);
                 step = 3;
+                title = R.string.inst_done_title;
                 break;
             default:
                 text = getString(R.string.inst_restart_stock);
                 step = -1;
+                title = R.string.inst_stock_back_title;
                 break;
         }
         page(step < 0 ? null : stepLabel(step), step < 0 ? -1 : step == 3 ? AT_DONE : stepAt(step) + 100,
-                getString(R.string.inst_restart_title), text);
+                getString(title), text);
         if (step >= 0) steps();
         if (kind == Restart.TEST) {
             button(mSecondary, getString(R.string.inst_test_later),
@@ -648,7 +651,7 @@ public class InstallActivity extends Activity {
     private void showEmmcSystem() {
         final JSONObject c = Installer.confirmResult();
         if (c != null && "confirmed".equals(c.optString("result"))) {
-            page(stepLabel(2), stepAt(2) + 150, getString(R.string.inst_title),
+            page(stepLabel(2), stepAt(2) + 150, getString(stepName(2)),
                     getString(R.string.inst_test_worked));
             button(mNext, getString(R.string.inst_restart_now), this::reboot);
         } else {

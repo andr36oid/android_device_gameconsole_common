@@ -86,7 +86,6 @@
     <string name="inst_step1">1 Testar o carregador do cartão SD</string>
     <string name="inst_step2">2 Testar o andr36oid na eMMC</string>
     <string name="inst_step3">3 Colocar o carregador na eMMC</string>
-    <string name="inst_st_running">em execução</string>
     <string name="inst_st_done">concluído</string>
     <string name="inst_st_failed">falhou</string>
     <string name="inst_st_restart">a aguardar um reinício</string>
@@ -152,7 +151,6 @@
     <string name="inst_leave">Deixar como está</string>
     <string name="inst_show_log">Mostrar o registo</string>
     <string name="inst_update_emmc">Atualizar o andr36oid na eMMC</string>
-    <string name="inst_update_emmc_sum">Desde este cartão SD, depois de o atualizar. As aplicações e os dados mantêm-se.</string>
     <string name="inst_update_emmc_text">Copia o andr36oid deste cartão SD para a eMMC: os ficheiros BOOT, system e vendor e o U-Boot, se tiver mudado. As aplicações, os dados e as definições da eMMC mantêm-se.\n\nMantenha a consola a carregar. Se a atualização for interrompida, a consola arranca a partir do cartão SD até a executar novamente.</string>
     <string name="inst_update_emmc_go">Atualizar</string>
     <string name="inst_restore">Repor a eMMC de fábrica</string>
@@ -160,10 +158,8 @@
     <string name="inst_restore_go">Repor</string>
     <string name="inst_steps">Passos</string>
     <string name="inst_st_todo">Ainda não</string>
-    <string name="inst_now">Agora</string>
     <string name="inst_finished">Concluído até agora</string>
     <string name="inst_log">Registo</string>
-    <string name="inst_next">Seguinte</string>
     <string name="inst_problems">O que o trava</string>
     <string name="inst_starting">A iniciar…</string>
     <string name="inst_start_summary">O passo 0 só lê a eMMC. Ainda não se escreve nada nela.</string>

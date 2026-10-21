@@ -86,7 +86,6 @@
     <string name="inst_step1">1 Uji loader kartu SD</string>
     <string name="inst_step2">2 Uji andr36oid di eMMC</string>
     <string name="inst_step3">3 Pasang loader ke eMMC</string>
-    <string name="inst_st_running">berjalan</string>
     <string name="inst_st_done">selesai</string>
     <string name="inst_st_failed">gagal</string>
     <string name="inst_st_restart">menunggu mulai ulang</string>
@@ -152,7 +151,6 @@
     <string name="inst_leave">Biarkan seperti sekarang</string>
     <string name="inst_show_log">Tampilkan log</string>
     <string name="inst_update_emmc">Perbarui andr36oid di eMMC</string>
-    <string name="inst_update_emmc_sum">Dari kartu SD ini, setelah kamu memperbaruinya. Aplikasi dan data tetap ada.</string>
     <string name="inst_update_emmc_text">Menyalin andr36oid dari kartu SD ini ke eMMC: file BOOT, system dan vendor, serta U-Boot jika berubah. Aplikasi, data, dan pengaturan di eMMC tetap ada.\n\nBiarkan konsol tetap terisi daya. Jika pembaruan terputus, konsol akan memulai dari kartu SD sampai kamu menjalankannya lagi.</string>
     <string name="inst_update_emmc_go">Perbarui</string>
     <string name="inst_restore">Kembalikan eMMC asli</string>
@@ -160,10 +158,8 @@
     <string name="inst_restore_go">Kembalikan</string>
     <string name="inst_steps">Langkah</string>
     <string name="inst_st_todo">Belum</string>
-    <string name="inst_now">Sekarang</string>
     <string name="inst_finished">Selesai sejauh ini</string>
     <string name="inst_log">Log</string>
-    <string name="inst_next">Berikutnya</string>
     <string name="inst_problems">Yang menghalangi</string>
     <string name="inst_starting">Memulai…</string>
     <string name="inst_start_summary">Langkah 0 hanya membaca eMMC. Belum ada yang ditulis ke eMMC.</string>

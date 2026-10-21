@@ -86,7 +86,6 @@
     <string name="inst_step1">1 验证 SD 卡的引导加载器</string>
     <string name="inst_step2">2 验证 eMMC 上的 andr36oid</string>
     <string name="inst_step3">3 将引导加载器写入 eMMC</string>
-    <string name="inst_st_running">进行中</string>
     <string name="inst_st_done">完成</string>
     <string name="inst_st_failed">失败</string>
     <string name="inst_st_restart">等待重启</string>
@@ -152,7 +151,6 @@
     <string name="inst_leave">保持现状</string>
     <string name="inst_show_log">显示日志</string>
     <string name="inst_update_emmc">在 eMMC 上更新 andr36oid</string>
-    <string name="inst_update_emmc_sum">使用此 SD 卡更新后的版本，应用和数据保留。</string>
     <string name="inst_update_emmc_text">将此 SD 卡上的 andr36oid 复制到 eMMC：其 BOOT 文件、system 和 vendor，以及如有变化的 U-Boot。eMMC 上的应用、数据和设置保留。\n\n请让掌机保持充电。如果更新中断，掌机会从 SD 卡启动，直到您重新执行更新。</string>
     <string name="inst_update_emmc_go">更新</string>
     <string name="inst_restore">恢复原厂 eMMC</string>
@@ -160,10 +158,8 @@
     <string name="inst_restore_go">恢复</string>
     <string name="inst_steps">步骤</string>
     <string name="inst_st_todo">尚未</string>
-    <string name="inst_now">当前</string>
     <string name="inst_finished">已完成</string>
     <string name="inst_log">日志</string>
-    <string name="inst_next">下一步</string>
     <string name="inst_problems">阻碍因素</string>
     <string name="inst_starting">正在启动…</string>
     <string name="inst_start_summary">第 0 步仅读取 eMMC，目前不会向其写入任何内容。</string>
