@@ -755,7 +755,7 @@ public class InstallActivity extends Activity {
                 step = 3;
                 break;
             case STOCK_CARD:
-                text = getString(R.string.inst_back_stock);
+                text = getString(R.string.inst_goback_stock);
                 step = -1;
                 title = R.string.inst_stock_back_title;
                 break;
@@ -1018,13 +1018,13 @@ public class InstallActivity extends Activity {
      * card start, and the data card can't start by itself. So it is made to start first.
      */
     private void showGoBack() {
-        page(null, -1, getString(R.string.inst_back_title), getString(R.string.inst_back));
+        page(null, -1, getString(R.string.inst_goback_title), getString(R.string.inst_goback));
         button(mBack, getString(R.string.inst_close), this::finish);
-        button(mNext, getString(R.string.inst_back_go), () -> run("datacard-back", false, () -> {
+        button(mNext, getString(R.string.inst_goback_go), () -> run("datacard-back", false, () -> {
             final JSONObject r = Installer.result();
             final boolean slot2 = r != null && "slot 2".equals(r.optString("result"));
-            page(null, -1, getString(R.string.inst_back_done_title),
-                    getString(slot2 ? R.string.inst_back_done_slot2 : R.string.inst_back_done_slot1));
+            page(null, -1, getString(R.string.inst_goback_done_title),
+                    getString(slot2 ? R.string.inst_goback_done_slot2 : R.string.inst_goback_done_slot1));
             button(mNext, getString(R.string.inst_shut_down), this::shutDown);
         }));
     }
@@ -1242,11 +1242,11 @@ public class InstallActivity extends Activity {
 
     /** Going back to the stock system, its second half: the restore, from the data card. */
     private void showBackRestore(String dir) {
-        page(null, -1, getString(R.string.inst_back_restore_title), dir.isEmpty()
-                ? getString(R.string.inst_back_no_backup)
-                : getString(R.string.inst_back_restore, dir));
+        page(null, -1, getString(R.string.inst_goback_restore_title), dir.isEmpty()
+                ? getString(R.string.inst_goback_no_backup)
+                : getString(R.string.inst_goback_restore, dir));
         button(mBack, getString(R.string.inst_dc_not_now), this::finish);
-        button(mSecondary, getString(R.string.inst_back_keep),
+        button(mSecondary, getString(R.string.inst_goback_keep),
                 () -> run("datacard-return", false, () -> showRestart(Restart.RETURNED)));
         if (!dir.isEmpty()) restoreButton(mNext, dir);
     }
