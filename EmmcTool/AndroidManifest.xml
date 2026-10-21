@@ -47,7 +47,8 @@
             android:theme="@style/Andr36oidSetupTheme" />
 
         <!-- Injected into Settings > System (under Advanced). Off until BootReceiver finds
-             the eMMC switched on and andr36oid started from the SD card. -->
+             the eMMC switched on and andr36oid started from the SD card, or from the eMMC
+             with a data card (the way back to the stock system). -->
         <activity-alias
             android:name=".InstallEntry"
             android:enabled="false"

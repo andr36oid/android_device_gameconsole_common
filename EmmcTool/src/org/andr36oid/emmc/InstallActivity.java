@@ -103,6 +103,8 @@ public class InstallActivity extends Activity {
     /** BootReceiver found a data card the flasher made start again: ask about the eMMC. */
     static final String EXTRA_DATACARD_RETURN = "datacard_return";
     private boolean mAskReturn;
+    /** Started from the eMMC's data card (made to start by itself): a restore ends differently. */
+    private boolean mOnDatacard;
     /** datacard-options: this SD card, the card in slot 2, what each choice needs. */
     private JSONObject mDcOptions;
     private int mTitleColor;
@@ -331,6 +333,11 @@ public class InstallActivity extends Activity {
             return;
         }
         final JSONObject st = Installer.state();
+        if (st.optBoolean("back")) {
+            // the eMMC system made its data card start to put the stock eMMC back
+            showDatacardReturn();
+            return;
+        }
         final String running = st.optString("running"), failed = st.optString("failed");
         final String step1 = st.optString("step1"), step2 = st.optString("step2");
         if (!failed.isEmpty() || !running.isEmpty()) {
@@ -721,7 +728,7 @@ public class InstallActivity extends Activity {
 
     // Restarts
 
-    private enum Restart { STEP1, TEST, DONE, STOCK, COPY, RETURNED }
+    private enum Restart { STEP1, TEST, DONE, STOCK, STOCK_CARD, COPY, RETURNED }
 
     private void showRestart(Restart kind) {
         final JSONObject b = Installer.state().optJSONObject("backup");
@@ -747,6 +754,11 @@ public class InstallActivity extends Activity {
                 text = getString(R.string.inst_restart_copy);
                 step = 3;
                 break;
+            case STOCK_CARD:
+                text = getString(R.string.inst_back_stock);
+                step = -1;
+                title = R.string.inst_stock_back_title;
+                break;
             case RETURNED:
                 text = getString(R.string.inst_dc_returned);
                 step = -1;
@@ -765,7 +777,7 @@ public class InstallActivity extends Activity {
             button(mSecondary, getString(R.string.inst_test_later),
                     () -> run("cancel-test", true, this::finish));
         }
-        if (kind == Restart.DONE || kind == Restart.STOCK) {
+        if (kind == Restart.DONE || kind == Restart.STOCK || kind == Restart.STOCK_CARD) {
             // Android runs from the SD card: it only comes out once the console is off
             button(mNext, getString(R.string.inst_shut_down), this::shutDown);
         } else {
@@ -993,10 +1005,28 @@ public class InstallActivity extends Activity {
             page(stepLabel(2), stepAt(2) + 150, getString(stepName(2)),
                     getString(R.string.inst_test_worked));
             button(mNext, getString(R.string.inst_restart_now), this::reboot);
+        } else if (!Installer.datacard().isEmpty()) {
+            showGoBack();
         } else {
             page(null, -1, getString(R.string.inst_title), getString(R.string.inst_on_emmc));
             button(mNext, getString(R.string.inst_close), this::finish);
         }
+    }
+
+    /**
+     * On the eMMC system with a data card: the stock eMMC can only be put back from an SD
+     * card start, and the data card can't start by itself. So it is made to start first.
+     */
+    private void showGoBack() {
+        page(null, -1, getString(R.string.inst_back_title), getString(R.string.inst_back));
+        button(mBack, getString(R.string.inst_close), this::finish);
+        button(mNext, getString(R.string.inst_back_go), () -> run("datacard-back", false, () -> {
+            final JSONObject r = Installer.result();
+            final boolean slot2 = r != null && "slot 2".equals(r.optString("result"));
+            page(null, -1, getString(R.string.inst_back_done_title),
+                    getString(slot2 ? R.string.inst_back_done_slot2 : R.string.inst_back_done_slot1));
+            button(mNext, getString(R.string.inst_shut_down), this::shutDown);
+        }));
     }
 
     // The data card: where Android keeps its data (datacard.go in emmcinstall)
@@ -1180,20 +1210,51 @@ public class InstallActivity extends Activity {
         }));
     }
 
-    /** The flasher made the data card start again: bring the eMMC up to it? */
+    /**
+     * The eMMC's data card started the console (the flasher, or the eMMC system for going
+     * back, made it start): bring the eMMC up to it, or put the stock eMMC back?
+     */
     private void showDatacardReturn() {
+        run("datacard-check", true, () -> {
+            final JSONObject r = Installer.result();
+            final JSONObject c = r == null ? null : r.optJSONObject("result");
+            mAskReturn = false;
+            if (c == null || !c.optBoolean("offer")) {
+                // not (or no longer) the eMMC's data card; route() would ask again
+                if (Installer.state().optBoolean("back")) showDone();
+                else route();
+                return;
+            }
+            mOnDatacard = true;
+            final String dir = c.optString("backup");
+            if (c.optBoolean("back")) showBackRestore(dir);
+            else showReturnOrStock(dir);
+        });
+    }
+
+    private void showReturnOrStock(String dir) {
         page(null, -1, getString(R.string.inst_dc_return_title), getString(R.string.inst_dc_return));
         button(mBack, getString(R.string.inst_dc_not_now), this::finish);
-        button(mNext, getString(R.string.inst_dc_return_go), () -> {
-            mAskReturn = false;
-            run("datacard-return", false, () -> showRestart(Restart.RETURNED));
-        });
+        if (!dir.isEmpty()) restoreButton(mSecondary, dir);
+        button(mNext, getString(R.string.inst_dc_return_go),
+                () -> run("datacard-return", false, () -> showRestart(Restart.RETURNED)));
+    }
+
+    /** Going back to the stock system, its second half: the restore, from the data card. */
+    private void showBackRestore(String dir) {
+        page(null, -1, getString(R.string.inst_back_restore_title), dir.isEmpty()
+                ? getString(R.string.inst_back_no_backup)
+                : getString(R.string.inst_back_restore, dir));
+        button(mBack, getString(R.string.inst_dc_not_now), this::finish);
+        button(mSecondary, getString(R.string.inst_back_keep),
+                () -> run("datacard-return", false, () -> showRestart(Restart.RETURNED)));
+        if (!dir.isEmpty()) restoreButton(mNext, dir);
     }
 
     /** After a restore: the data card can start the console again, if there was one. */
     private void afterRestore() {
         if (Installer.state().optJSONObject("revive") != null) showRevive();
-        else showRestart(Restart.STOCK);
+        else showRestart(mOnDatacard ? Restart.STOCK_CARD : Restart.STOCK);
     }
 
     /** The stock eMMC is back, and andr36oid's data card can't start by itself. */
@@ -1239,7 +1300,10 @@ public class InstallActivity extends Activity {
     private void restoreButton(Button b) {
         final JSONObject backup = Installer.state().optJSONObject("backup");
         if (backup == null) return;
-        final String dir = backup.optString("dir");
+        restoreButton(b, backup.optString("dir"));
+    }
+
+    private void restoreButton(Button b, String dir) {
         button(b, getString(R.string.inst_restore), () -> new AlertDialog.Builder(this)
                 .setTitle(R.string.inst_restore)
                 .setMessage(getString(R.string.inst_restore_text, dir))

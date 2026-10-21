@@ -69,6 +69,9 @@ type Config struct {
 	WakeLock  string
 	WakeUnlk  string
 	StateDir  string
+	// BackupGlob finds the stock eMMC's backups on the cards' storage when
+	// the records don't name one (a data card made fresh)
+	BackupGlob string
 
 	Direct      bool  // O_DIRECT on the disks (always on a console)
 	MinEmmc     int64 // smallest eMMC taken, sectors
@@ -100,6 +103,7 @@ func DefaultConfig() *Config {
 		WakeLock:    "/sys/power/wake_lock",
 		WakeUnlk:    "/sys/power/wake_unlock",
 		StateDir:    "/data/misc/andr36oid-emmcinstall",
+		BackupGlob:  "/mnt/media_rw/*/eMMC backup/*/stock-*",
 		Direct:      true,
 		MinEmmc:     7 << 30 / Sector, // "8 GB" eMMCs have about 7.3 GiB
 		MinUserdata: 2 << 30 / Sector,

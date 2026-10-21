@@ -14,8 +14,9 @@ import org.json.JSONObject;
  * (eMMC Installation only on an SD card start), and opens eMMC Installation by itself
  * after a restart it asked for: to check the step on the SD card, or on the eMMC's test
  * start to say it worked. On an SD card start it also asks the installer whether this is
- * the eMMC's data card that the flasher made start again: then the wizard offers to
- * update the eMMC and make the card a data card again (every start until it is done).
+ * the eMMC's data card that the flasher (or the eMMC system, for going back to the stock
+ * system) made start again: then the wizard offers to update the eMMC and make the card
+ * a data card again, or to put the stock eMMC back (every start until one is done).
  */
 public class BootReceiver extends BroadcastReceiver {
     /** How long to wait for the eMMC system's test start check (it starts with us). */
@@ -28,7 +29,9 @@ public class BootReceiver extends BroadcastReceiver {
         if (!Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) return;
         final boolean on = EmmcFragment.consoleHasEmmc() && EmmcFragment.switchedOn();
         enable(context, EmmcActivity.class.getName(), on);
-        enable(context, installEntry(), on && Installer.fromSD());
+        // on the eMMC system with a data card too: the way back to the stock system
+        enable(context, installEntry(), on && (Installer.fromSD()
+                || (Installer.fromEmmc() && !Installer.datacard().isEmpty())));
         if (on && Installer.fromSD() && pending()) {
             open(context, false);
         } else if (on && Installer.fromSD() && !Installer.running()) {

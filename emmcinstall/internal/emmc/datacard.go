@@ -1,6 +1,7 @@
 package emmc
 
 import (
+	"encoding/binary"
 	"errors"
 	"fmt"
 	"os"
@@ -932,7 +933,37 @@ func (c *Config) DatacardCheck() (map[string]any, error) {
 	if uuid != ud.PartUUID() {
 		return no("the eMMC's data card is another one (" + uuid + ")")
 	}
-	return map[string]any{"offer": true, "uuid": uuid}, nil
+	out := map[string]any{"offer": true, "uuid": uuid, "back": false, "backup": ""}
+	if st, err := c.LoadState(); err == nil {
+		out["back"] = st.Back
+		if info, err := c.Emmc(); err == nil {
+			out["backup"] = c.findBackup(st, info.CID)
+		}
+	}
+	return out, nil
+}
+
+// findBackup is the stock eMMC's backup for the eMMC with this CID: the one
+// the records name, else the newest one on the cards' storage ("" if none).
+func (c *Config) findBackup(st *State, cid string) string {
+	ok := func(dir string) bool {
+		info, err := loadBackup(dir)
+		return err == nil && info.CID == cid
+	}
+	if st != nil && st.Backup != nil && ok(st.Backup.Dir) {
+		return st.Backup.Dir
+	}
+	if c.BackupGlob == "" {
+		return ""
+	}
+	found, _ := filepath.Glob(c.BackupGlob)
+	sort.Sort(sort.Reverse(sort.StringSlice(found))) // stock-<time>: newest first
+	for _, dir := range found {
+		if ok(dir) {
+			return dir
+		}
+	}
+	return ""
 }
 
 // DatacardReturn updates the eMMC from this card (update-emmc) and makes the
@@ -975,6 +1006,7 @@ func (c *Config) DatacardReturn(p *Progress) error {
 		p.Logf("no records of this eMMC on the card: taking it as installed")
 	}
 	st.Datacard = &Datacard{Kind: "original", UUID: chk["uuid"].(string)}
+	st.Back = false
 	if err := c.Save(st); err != nil {
 		return err
 	}
@@ -982,6 +1014,175 @@ func (c *Config) DatacardReturn(p *Progress) error {
 		return err
 	}
 	return c.DatacardFinish(p)
+}
+
+// Going back to the stock system from the eMMC system
+
+// DatacardBack runs on andr36oid started from the eMMC with a data card: it
+// makes the data card start the console by itself, so that the stock eMMC can
+// be put back from it (a restore only runs from an SD card start). The card
+// gets the eMMC's BOOT, system and vendor and the eMMC's loader, written last
+// so a cut-off copy leaves a card that doesn't start rather than one that
+// starts half; its other system partitions are blanked for Android to set up
+// and userdata (apps, saves, settings) isn't touched. Its BOOT keeps the
+// data card's marker, so its start offers the restore (DatacardCheck). Our
+// U-Boot on the eMMC starts from the card in slot 1 whenever it has a
+// boot.ini. The result: "slot 1" or "slot 2", where the card is now.
+func (c *Config) DatacardBack(p *Progress) (string, error) {
+	uuid := strings.ToLower(c.cmdlineValue("androidboot.datacard"))
+	if c.BootedFrom() != "emmc" || uuid == "" {
+		return "", errors.New("this only works on andr36oid started from the eMMC with a data card")
+	}
+	info, err := c.Emmc()
+	if err != nil {
+		return "", err
+	}
+	if err := c.powerOK(); err != nil {
+		return "", err
+	}
+	st, err := c.LoadState()
+	if err != nil {
+		return "", err
+	}
+	if st.CID != "" && st.CID != info.CID {
+		return "", fmt.Errorf("the installer's records are for another eMMC (CID %s, this one %s)", st.CID, info.CID)
+	}
+	e, err := OpenDisk(c.EmmcDev, false, c.Direct)
+	if err != nil {
+		return "", err
+	}
+	defer e.Close()
+	emmcParts, err := ReadGPT(e)
+	if err != nil {
+		return "", fmt.Errorf("eMMC: %w", err)
+	}
+	if kind, err := LoaderKind(e, st.LoaderSHA); err != nil {
+		return "", err
+	} else if kind != "andr36oid" && kind != "rockchip" {
+		return "", fmt.Errorf("the eMMC's loader area holds no loader (%s)", kind)
+	}
+	card, ud, sys, err := c.findPart(uuid, true)
+	if err != nil {
+		return "", fmt.Errorf("the data card: %w", err)
+	}
+	defer card.Close()
+	if ud.Name != "userdata" {
+		return "", fmt.Errorf("the data card's partition %s is %s, not userdata", uuid, ud.Name)
+	}
+	parts, err := ReadGPT(card)
+	if err != nil {
+		return "", fmt.Errorf("data card: %w", err)
+	}
+	type partCopy struct {
+		name     string
+		from, to span
+	}
+	var copies []partCopy
+	for _, name := range []string{"BOOT", "system", "vendor"} {
+		src, ok := Find(emmcParts, name)
+		dst, ok2 := Find(parts, name)
+		if !ok || !ok2 {
+			return "", fmt.Errorf("the eMMC or the data card has no %s partition", name)
+		}
+		// BOOT whole; system and vendor as far as their file system goes (the
+		// eMMC's partitions are bigger than the card's)
+		n := src.Sectors()
+		if name != "BOOT" {
+			if b := st.CopiedLn[name]; b > 0 && b%Sector == 0 {
+				n = b / Sector
+			} else if b, err := extBytes(e, src); err != nil {
+				return "", err
+			} else if b > 0 {
+				n = (b + Sector - 1) / Sector
+			}
+		}
+		if n > src.Sectors() || n > dst.Sectors() {
+			return "", fmt.Errorf("the eMMC's %s doesn't fit in the data card's", name)
+		}
+		copies = append(copies, partCopy{name, span{src.First, src.First + n}, span{dst.First, dst.First + n}})
+	}
+	copied := map[string]bool{"BOOT": true, "system": true, "vendor": true}
+	for _, x := range parts {
+		if dataParts[x.Name] || x.Last < LoaderEnd {
+			continue
+		}
+		if m, err := c.mounts(sys, partOf(sys, x)); err != nil || len(m) > 0 {
+			return "", fmt.Errorf("the data card's %s is in use (%v)", x.Name, err)
+		}
+	}
+	for _, cp := range copies {
+		if _, err := copySpanAs(p, cp.name, e, cp.from, "eMMC", card, cp.to, "data card"); err != nil {
+			return "", err
+		}
+	}
+	if err := card.Sync(); err != nil {
+		return "", err
+	}
+	fix := func(dir string) error {
+		for _, f := range []string{TestFile, DatacardCopy, DatacardFile} {
+			if err := removeBootFile(dir, f); err != nil {
+				return err
+			}
+		}
+		if err := writeBootFile(dir, DatacardMarker, DatacardMarkerText); err != nil {
+			return err
+		}
+		return syncDir(dir)
+	}
+	boot, _ := Find(parts, "BOOT")
+	if sys == c.SDSys {
+		err = c.withSDBoot(true, fix)
+	} else {
+		err = c.fsops().mount(c, c.SD2Dev, spanOf(boot), "vfat", true, fix)
+	}
+	if err != nil {
+		return "", fmt.Errorf("the data card's BOOT: %w", err)
+	}
+	for _, x := range parts {
+		if dataParts[x.Name] || copied[x.Name] || x.Last < LoaderEnd {
+			continue
+		}
+		s := spanOf(x)
+		if s.hi-s.lo > blankHead {
+			s.hi = s.lo + blankHead
+		}
+		if err := zeroOn(p, x.Name, "data card", card, s); err != nil {
+			return "", err
+		}
+	}
+	if _, err := copySpanAs(p, "the loader", e, spanLoader, "eMMC", card, spanLoader, "data card"); err != nil {
+		return "", err
+	}
+	if err := card.Sync(); err != nil {
+		return "", err
+	}
+	st.Back = true
+	if err := c.Save(st); err != nil {
+		return "", err
+	}
+	where := "slot 1"
+	if sys != c.SDSys {
+		where = "slot 2"
+	}
+	p.Logf("the data card (%s) starts the console by itself now, with the eMMC's andr36oid and its own data", where)
+	return where, nil
+}
+
+// extBytes is the size of the ext2/3/4 file system at the start of p, 0 if
+// there is none.
+func extBytes(d *Disk, p Part) (int64, error) {
+	sb, err := d.ReadBytes(p.First*Sector+1024, 1024)
+	if err != nil {
+		return 0, err
+	}
+	if binary.LittleEndian.Uint16(sb[56:]) != 0xef53 {
+		return 0, nil
+	}
+	blocks := uint64(binary.LittleEndian.Uint32(sb[4:]))
+	if binary.LittleEndian.Uint32(sb[96:])&0x80 != 0 { // 64bit
+		blocks |= uint64(binary.LittleEndian.Uint32(sb[336:])) << 32
+	}
+	return int64(blocks) << (10 + binary.LittleEndian.Uint32(sb[24:])), nil
 }
 
 // Helpers

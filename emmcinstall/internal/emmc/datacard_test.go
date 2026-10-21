@@ -376,9 +376,16 @@ func TestDatacardOriginalAndBack(t *testing.T) {
 	must(t, f.cfg.Save(st))
 	f.sdWritable = true
 	must(t, f.cfg.Restore(f.progress(), backup))
-	if r := f.state().Revive; r == nil || r.UUID != ud.PartUUID() || r.Kind != "original" {
-		t.Fatalf("after restore %+v", f.state())
+	if st := f.state(); st.Revive != nil || exists(filepath.Join(f.cfg.SDBootDir, DatacardMarker)) ||
+		!exists(filepath.Join(f.cfg.SDBootDir, "boot.ini")) {
+		t.Fatalf("after a restore from the data card itself %+v", st)
 	}
+	// the revive of this card, recorded by an older installer
+	st = f.state()
+	st.Revive = &Datacard{Kind: "original", UUID: ud.PartUUID()}
+	must(t, f.cfg.Save(st))
+	writeFile(t, filepath.Join(f.cfg.SDBootDir, DatacardMarker), "marker\n")
+	must(t, os.Remove(filepath.Join(f.cfg.SDBootDir, "boot.ini")))
 	writeFile(t, filepath.Join(f.cfg.SDBootDir, "boot.ini.datacard"), "old\n")
 	writeFile(t, filepath.Join(f.cfg.SDBootDir, "boot.ini"), "odroidgoa-uboot-config\n")
 	if res, err := f.cfg.DatacardRevive(f.progress(), false); err != nil || res != "this card" {
@@ -405,5 +412,100 @@ func TestDatacardOriginalAndBack(t *testing.T) {
 	must(t, err)
 	if chk["offer"] != false {
 		t.Fatalf("check %v", chk)
+	}
+}
+
+// From the eMMC system with the original card as its data card: the card is
+// made to start by itself, its start offers the restore, and the restore
+// leaves a card that starts andr36oid without asking again.
+func TestDatacardBackToStock(t *testing.T) {
+	f := newDatacardFake(t)
+	backup, err := f.cfg.Backup(f.progress(), filepath.Join(f.dir, "roms"))
+	must(t, err)
+	must(t, f.cfg.DatacardChoose(f.progress(), "original", "", false))
+	f.installFromStep1(t)
+	f.sdWritable = true
+	must(t, f.cfg.DatacardFinish(f.progress()))
+	sdParts := readParts(t, f.cfg.SDDev)
+	ud, _ := Find(sdParts, "userdata")
+	userdata := f.sd(ud.First, ud.Sectors())
+	plan := f.state().Plan
+	eb, _ := Find(plan, "BOOT")
+	emmcBoot := f.fsDir(f.cfg.EmmcDev, spanOf(eb))
+	writeFile(t, filepath.Join(emmcBoot, "boot.ini"), "odroidgoa-uboot-config\n")
+	writeFile(t, filepath.Join(emmcBoot, "kernel-tweaks.txt"), "kt_args=x\n")
+
+	// not from an SD start
+	_, err = f.cfg.DatacardBack(f.progress())
+	mustFail(t, err, "started from the eMMC with a data card")
+
+	writeFile(t, filepath.Join(f.dir, "cmdline"),
+		"console=ttyFIQ0 androidboot.boot_devices=ff390000.dwmmc dw_mmc_rockchip.builtin_emmc=system "+
+			"androidboot.fstab_suffix=emmcsd androidboot.datacard="+ud.PartUUID())
+	writeFile(t, filepath.Join(f.dir, "mountinfo"), "21 1 179:6 / /data rw,relatime - f2fs /dev/block/mmcblk0p6 rw\n")
+	_, err = f.cfg.Confirm(f.progress())
+	must(t, err)
+	if f.state().Datacard.Stage != "done" {
+		t.Fatal("system partitions not blanked")
+	}
+	// the BOOT the block copy brings over: the eMMC's files
+	ents, _ := os.ReadDir(emmcBoot)
+	for _, e := range ents {
+		b, _ := os.ReadFile(filepath.Join(emmcBoot, e.Name()))
+		writeFile(t, filepath.Join(f.cfg.SDBootDir, e.Name()), string(b))
+	}
+	where, err := f.cfg.DatacardBack(f.progress())
+	must(t, err)
+	if where != "slot 1" || !f.state().Back {
+		t.Fatalf("back: %s, %+v", where, f.state())
+	}
+	for _, name := range []string{"system", "vendor"} {
+		src, _ := Find(plan, name)
+		dst, _ := Find(sdParts, name)
+		n := f.state().CopiedLn[name] / Sector
+		if !bytes.Equal(f.sd(dst.First, n), f.emmc(src.First, n)) {
+			t.Fatalf("%s not copied to the card", name)
+		}
+	}
+	if !bytes.Equal(f.sd(LoaderStart, LoaderEnd-LoaderStart), f.emmc(LoaderStart, LoaderEnd-LoaderStart)) {
+		t.Fatal("the card has no loader")
+	}
+	if !bytes.Equal(f.sd(ud.First, ud.Sectors()), userdata) {
+		t.Fatal("userdata changed")
+	}
+	if exists(filepath.Join(f.cfg.SDBootDir, DatacardFile)) || !exists(filepath.Join(f.cfg.SDBootDir, DatacardMarker)) ||
+		!exists(filepath.Join(f.cfg.SDBootDir, "boot.ini")) {
+		t.Fatal("the card's BOOT isn't a starting data card")
+	}
+
+	// its start: the check offers the restore, with the backup
+	f.sdStart()
+	f.restart("boot-7")
+	chk, err := f.cfg.DatacardCheck()
+	must(t, err)
+	if chk["offer"] != true || chk["back"] != true || chk["backup"] != backup {
+		t.Fatalf("check %v", chk)
+	}
+	// without the records the backup is found on the storage
+	f.cfg.BackupGlob = filepath.Join(f.dir, "roms", "eMMC backup", "*", "stock-*")
+	st := f.state()
+	if got := f.cfg.findBackup(&State{}, st.CID); got != backup {
+		t.Fatalf("found %q", got)
+	}
+	if got := f.cfg.findBackup(&State{}, "00"); got != "" {
+		t.Fatalf("another eMMC's backup found: %q", got)
+	}
+
+	must(t, f.cfg.Restore(f.progress(), backup))
+	if !bytes.Equal(f.emmc(0, mib(64)), f.stock) {
+		t.Fatal("the eMMC isn't stock")
+	}
+	st = f.state()
+	if st.Revive != nil || st.Back || exists(filepath.Join(f.cfg.SDBootDir, DatacardMarker)) ||
+		!exists(filepath.Join(f.cfg.SDBootDir, "boot.ini")) {
+		t.Fatalf("after the restore %+v", st)
+	}
+	if !bytes.Equal(f.sd(ud.First, ud.Sectors()), userdata) {
+		t.Fatal("userdata changed")
 	}
 }

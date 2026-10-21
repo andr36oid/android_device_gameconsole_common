@@ -66,6 +66,11 @@ final class Installer {
         return "ff390000.dwmmc".equals(SystemProperties.get("ro.boot.boot_devices", ""));
     }
 
+    /** On the eMMC system: its data card's userdata PARTUUID ("" without one). */
+    static String datacard() {
+        return SystemProperties.get("ro.boot.datacard", "");
+    }
+
     /** The last command's result: cmd, ok, error, result. Null while there is none. */
     static JSONObject result() {
         return json(RESULT);

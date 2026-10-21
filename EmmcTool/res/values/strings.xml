@@ -282,4 +282,15 @@
     <string name="inst_dc_not_now">Not now</string>
     <string name="inst_dc_return_go">Update eMMC</string>
     <string name="inst_dc_returned">The eMMC is updated and this card is a data card again. Restart now: andr36oid starts from the eMMC.</string>
+    <string name="inst_back_title">Go back to the stock system</string>
+    <string name="inst_back">The stock system can only be put back on the eMMC while the console runs from an SD card, and your data card can\'t start the console by itself. So it takes two steps:\n\n1. Make the card start: the data card gets this andr36oid and a loader, so it starts the console by itself. Your apps, saves and settings stay on it.\n\n2. Start from the card. eMMC Installation then offers to put the stock system back from its backup.</string>
+    <string name="inst_back_go">Make the card start</string>
+    <string name="inst_back_done_title">The data card starts by itself now</string>
+    <string name="inst_back_done_slot1">Shut the console down, then switch it on: it starts from the data card. eMMC Installation then opens and offers to put the stock system back.</string>
+    <string name="inst_back_done_slot2">Shut the console down. Take the card out of slot 1 if there is one, move the data card from slot 2 to slot 1, then switch the console on: it starts from the data card. eMMC Installation then opens and offers to put the stock system back.</string>
+    <string name="inst_back_restore_title">Put the stock system back on the eMMC?</string>
+    <string name="inst_back_restore">You asked to go back to the stock system. This card started the console, with your apps and data.\n\nPut the stock eMMC back writes its backup in %1$s to the eMMC. Afterwards the console starts the stock system without an SD card, and andr36oid with this card in slot 1.\n\nKeep andr36oid on the eMMC brings the eMMC up to this card instead, and makes the card a data card again.</string>
+    <string name="inst_back_no_backup">No backup of this console\'s stock eMMC was found. Copy its folder (in \"eMMC backup\") to this card\'s EASYROMS, then open eMMC Installation again.\n\nKeep andr36oid on the eMMC brings the eMMC up to this card instead, and makes the card a data card again.</string>
+    <string name="inst_back_keep">Keep andr36oid on the eMMC</string>
+    <string name="inst_back_stock">Shut the console down. Without an SD card it starts the stock system. With this card in slot 1 it starts andr36oid, with your apps and data.</string>
 </resources>

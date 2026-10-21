@@ -1460,6 +1460,16 @@ func (c *Config) Restore(p *Progress, dir string) error {
 		(d.Stage == "blank" || d.Stage == "done") {
 		revive = &Datacard{Kind: d.Kind, UUID: d.UUID}
 	}
+	if c.thisCardIsDatacard(revive) {
+		// started from the data card itself (made to start by the flasher or
+		// from the eMMC system): it starts already, only its marker goes
+		if err := c.withSDBoot(true, reviveBoot); err != nil {
+			p.Logf("this card's BOOT: the data card's marker stays (%v)", err)
+		} else {
+			p.Logf("this card is andr36oid's data card and starts by itself: its marker is gone")
+		}
+		revive = nil
+	}
 	*r.st = State{CID: r.st.CID, Sectors: r.st.Sectors, Backup: r.st.Backup, Revive: revive}
 	if err := c.Save(r.st); err != nil {
 		return err
@@ -1553,4 +1563,21 @@ func (st *State) finished(cmd string) {
 	if st.Incomplete == cmd || (cmd == "update-emmc" && st.Incomplete == "update-uboot") {
 		st.Incomplete = ""
 	}
+}
+
+// thisCardIsDatacard: the SD card this runs from is andr36oid's data card,
+// the one revive names or one with the data card's marker on its BOOT.
+func (c *Config) thisCardIsDatacard(revive *Datacard) bool {
+	if parts, err := c.sdParts(); err == nil && revive != nil {
+		if ud, ok := Find(parts, "userdata"); ok && ud.PartUUID() == revive.UUID {
+			return true
+		}
+	}
+	marker := false
+	c.withSDBoot(false, func(dir string) error {
+		_, err := os.Stat(filepath.Join(dir, DatacardMarker))
+		marker = err == nil
+		return nil
+	})
+	return marker
 }

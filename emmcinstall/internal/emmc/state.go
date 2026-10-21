@@ -40,6 +40,11 @@ type State struct {
 	// an SD card that starts again, its data kept (DatacardRevive).
 	Revive *Datacard `json:"revive,omitempty"`
 
+	// Back: on the eMMC system, the user asked to go back to the stock
+	// system and the data card was made to start by itself (DatacardBack).
+	// Its start offers the restore first.
+	Back bool `json:"back,omitempty"`
+
 	// Custom is an SD card image the advanced mode wrote in place of
 	// andr36oid (the steps above are then all clear).
 	Custom *CustomImage `json:"custom,omitempty"`
