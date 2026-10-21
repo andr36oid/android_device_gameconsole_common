@@ -3,4 +3,5 @@
     <color name="andr36oid_setup_background">#ff000000</color>
     <color name="andr36oid_setup_accent">#ffffab5e</color>
     <color name="andr36oid_setup_focus_fill">#33ffffff</color>
+    <color name="andr36oid_setup_focus_line">#ffffffff</color>
 </resources>
