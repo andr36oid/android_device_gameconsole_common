@@ -272,7 +272,7 @@ Cała zawartość eMMC zostanie zastąpiona tym obrazem.</string>
     <string name="inst_dc_working">Przygotowywanie karty z danymi</string>
     <string name="inst_dc_working_text">Karta i dane Androida są przygotowywane. To może chwilę potrwać.</string>
     <string name="inst_dc_return_title">Zaktualizować eMMC do tej wersji i znów zrobić z tej karty kartę z danymi?</string>
-    <string name="inst_dc_return">Ta karta to karta z danymi andr36oid na eMMC. Program do wgrywania kart SD andr36oid ją zaktualizował, więc konsola wystartowała z karty.\n\nAktualizuj eMMC kopiuje andr36oid z tej karty na eMMC (aplikacje i dane zostają) i znów robi z karty kartę z danymi. Potem konsola startuje z eMMC.\n\nNie teraz: konsola dalej startuje z tej karty, a to pytanie wróci przy następnym starcie.</string>
+    <string name="inst_dc_return">Ta karta to karta z danymi andr36oid na eMMC. Program do wgrywania kart SD andr36oid ją zaktualizował, więc konsola wystartowała z karty.\n\nAktualizacja eMMC kopiuje andr36oid z tej karty na eMMC (aplikacje i dane zostają) i ponownie robi z karty kartę z danymi. Potem konsola startuje z eMMC.\n\n„Zostaw jako kartę SD“: karta zostaje bez zmian i nie będzie już pytania.</string>
     <string name="inst_dc_not_now">Nie teraz</string>
     <string name="inst_dc_return_go">Aktualizuj eMMC</string>
     <string name="inst_dc_returned">eMMC jest zaktualizowany, a ta karta znów jest kartą z danymi. Uruchom ponownie teraz: andr36oid wystartuje z eMMC.</string>
@@ -284,4 +284,21 @@ Cała zawartość eMMC zostanie zastąpiona tym obrazem.</string>
     <string name="inst_revive_done_title">Karta z danymi znów się uruchamia</string>
     <string name="inst_revive_done_this">Ta karta SD uruchamia andr36oid jak wcześniej, z aplikacjami i danymi. Wyłącz konsolę. Bez karty uruchamia się system fabryczny.</string>
     <string name="inst_revive_done_slot2">Karta w slocie 2 uruchamia teraz andr36oid, z aplikacjami i danymi. Wyłącz konsolę i włóż tamtą kartę do slotu 1 zamiast tej. Bez karty SD konsola uruchamia system fabryczny.</string>
+    <string name="inst_dc_keep_sd">Zostaw jako kartę SD</string>
+    <string name="inst_dc_keep_title">Zostawić tę kartę jako zwykłą kartę SD?</string>
+    <string name="inst_dc_keep_warn">andr36oid na eMMC byłby wtedy innym systemem niż ten, dla którego są przygotowane dane na tej karcie. Może to działać, jeśli dokładnie wyczuje się moment włożenia karty, ale nie jest to zalecane ani wspierane.\n\nDla dwóch instalacji Androida użyj drugiej karty SD z pełnym obrazem andr36oid.\n\nZostawić mimo to jako kartę SD?</string>
+    <string name="inst_dc_keep_yes">Zostaw</string>
+    <string name="inst_dc_kept_title">Ta karta pozostaje kartą SD</string>
+    <string name="inst_dc_kept">andr36oid startuje jak dotąd, a instalacja eMMC nie będzie już pytać. eMMC nie jest zmieniane.</string>
+    <string name="inst_goback_title">Powrót do systemu fabrycznego</string>
+    <string name="inst_goback">System fabryczny można przywrócić na eMMC tylko wtedy, gdy konsola działa z karty SD, a karta z danymi nie może sama uruchomić konsoli. Potrzebne są więc dwa kroki:\n\n1. Ustawienie karty do startu: karta z danymi dostaje ten andr36oid i loader, dzięki czemu sama uruchamia konsolę. Twoje aplikacje, zapisy i ustawienia zostają na niej.\n\n2. Start z karty. Instalacja eMMC zaproponuje wtedy przywrócenie systemu fabrycznego z kopii zapasowej.</string>
+    <string name="inst_goback_go">Ustaw kartę do startu</string>
+    <string name="inst_goback_done_title">Karta z danymi startuje teraz sama</string>
+    <string name="inst_goback_done_slot1">Wyłącz konsolę, a potem ją włącz: uruchomi się z karty z danymi. Następnie otworzy się instalacja eMMC i zaproponuje przywrócenie systemu fabrycznego.</string>
+    <string name="inst_goback_done_slot2">Wyłącz konsolę. Wyjmij kartę ze slotu 1, jeśli jakaś tam jest, przełóż kartę z danymi ze slotu 2 do slotu 1, a potem włącz konsolę: uruchomi się z karty z danymi. Następnie otworzy się instalacja eMMC i zaproponuje przywrócenie systemu fabrycznego.</string>
+    <string name="inst_goback_restore_title">Przywrócić system fabryczny na eMMC?</string>
+    <string name="inst_goback_restore">Wybrano powrót do systemu fabrycznego. Ta karta uruchamiała konsolę razem z Twoimi aplikacjami i danymi.\n\nPrzywrócenie fabrycznego eMMC zapisze jego kopię z %1$s na eMMC. Potem konsola uruchomi system fabryczny bez karty SD, a andr36oid z tą kartą w slocie 1.\n\nZachowanie andr36oid na eMMC zaktualizuje zamiast tego eMMC do stanu tej karty i ponownie zrobi z karty kartę z danymi.</string>
+    <string name="inst_goback_no_backup">Nie znaleziono kopii fabrycznego eMMC tej konsoli. Skopiuj jej folder (w \"eMMC backup\") do EASYROMS tej karty, a potem otwórz ponownie instalację eMMC.\n\nZachowanie andr36oid na eMMC zaktualizuje zamiast tego eMMC do stanu tej karty i ponownie zrobi z karty kartę z danymi.</string>
+    <string name="inst_goback_keep">Zachowaj andr36oid na eMMC</string>
+    <string name="inst_goback_stock">Wyłącz konsolę. Bez karty SD uruchomi system fabryczny. Z tą kartą w slocie 1 uruchomi andr36oid z Twoimi aplikacjami i danymi.</string>
 </resources>

@@ -272,7 +272,7 @@ eMMC 上的所有内容都会被此镜像替换。</string>
     <string name="inst_dc_working">正在制作数据卡</string>
     <string name="inst_dc_working_text">正在准备卡和 Android 数据。这可能需要一段时间。</string>
     <string name="inst_dc_return_title">把 eMMC 更新到此版本，并把这张卡重新做成数据卡吗？</string>
-    <string name="inst_dc_return">这张卡是 eMMC 上 andr36oid 的数据卡。andr36oid SD 卡刷写工具更新了它，所以掌机从这张卡启动了。\n\n“更新 eMMC”会把这张卡上的 andr36oid 复制到 eMMC（应用和数据保留），并把这张卡重新做成数据卡。之后掌机从 eMMC 启动。\n\n“以后再说”：掌机继续从这张卡启动，下次启动时会再次询问。</string>
+    <string name="inst_dc_return">这张卡是 eMMC 上 andr36oid 的数据卡。andr36oid SD 卡刷写工具更新了它，所以掌机从这张卡启动了。\n\n「更新 eMMC」会把这张卡上的 andr36oid 复制到 eMMC（应用和数据保留），并把卡重新做成数据卡。之后掌机从 eMMC 启动。\n\n「保留为 SD 卡」：卡保持原样，且不会再次询问。</string>
     <string name="inst_dc_not_now">以后再说</string>
     <string name="inst_dc_return_go">更新 eMMC</string>
     <string name="inst_dc_returned">eMMC 已更新，这张卡又是数据卡了。现在重启：andr36oid 从 eMMC 启动。</string>
@@ -284,4 +284,21 @@ eMMC 上的所有内容都会被此镜像替换。</string>
     <string name="inst_revive_done_title">数据卡已可以重新启动</string>
     <string name="inst_revive_done_this">这张 SD 卡会像以前一样启动 andr36oid，应用和数据都在。请关闭主机。没有这张卡时，主机会启动原厂系统。</string>
     <string name="inst_revive_done_slot2">卡槽 2 中的卡现在可以启动 andr36oid，应用和数据都在。请关闭主机，然后把那张卡插入卡槽 1，而不是这张。没有 SD 卡时，主机会启动原厂系统。</string>
+    <string name="inst_dc_keep_sd">保留为 SD 卡</string>
+    <string name="inst_dc_keep_title">这张卡保留为普通 SD 卡吗？</string>
+    <string name="inst_dc_keep_warn">eMMC 上的 andr36oid 会与这张卡上数据所对应的系统不同。只有精确掌握插卡时机才可能正常工作，但不推荐，也不受支持。\n\n如需两套 Android，请改用装有完整 andr36oid 镜像的第二张 SD 卡。\n\n仍要保留为 SD 卡吗？</string>
+    <string name="inst_dc_keep_yes">保留</string>
+    <string name="inst_dc_kept_title">这张卡保持为 SD 卡</string>
+    <string name="inst_dc_kept">andr36oid 将照常启动，eMMC 安装不会再询问。eMMC 不会被更改。</string>
+    <string name="inst_goback_title">恢复原厂系统</string>
+    <string name="inst_goback">只有掌机从 SD 卡运行时，才能把原厂系统放回 eMMC，而数据卡本身无法启动掌机。因此需要两步：\n\n1. 让卡能够启动：数据卡会获得这个 andr36oid 和一个引导程序，从而自行启动掌机。你的应用、存档和设置都保留在卡上。\n\n2. 从卡启动。eMMC 安装随后会提议从备份恢复原厂系统。</string>
+    <string name="inst_goback_go">让卡能够启动</string>
+    <string name="inst_goback_done_title">数据卡现在可以自行启动了</string>
+    <string name="inst_goback_done_slot1">关机后再开机：掌机会从数据卡启动。然后 eMMC 安装会打开，并提议恢复原厂系统。</string>
+    <string name="inst_goback_done_slot2">关闭掌机。如果插槽 1 有卡，先取出；把插槽 2 的数据卡移到插槽 1，然后开机：掌机会从数据卡启动。然后 eMMC 安装会打开，并提议恢复原厂系统。</string>
+    <string name="inst_goback_restore_title">把原厂系统放回 eMMC 吗？</string>
+    <string name="inst_goback_restore">你选择了返回原厂系统。这张卡启动了掌机，带着你的应用和数据。\n\n放回原厂 eMMC 会把 %1$s 中的备份写入 eMMC。之后掌机在没有 SD 卡时启动原厂系统，插槽 1 插着这张卡时启动 andr36oid。\n\n保留 eMMC 上的 andr36oid 则会把 eMMC 更新为这张卡的版本，并把卡重新做成数据卡。</string>
+    <string name="inst_goback_no_backup">没有找到这台掌机原厂 eMMC 的备份。请把它的文件夹（在 \"eMMC backup\" 中）复制到这张卡的 EASYROMS 中，然后重新打开 eMMC 安装。\n\n保留 eMMC 上的 andr36oid 则会把 eMMC 更新为这张卡的版本，并把卡重新做成数据卡。</string>
+    <string name="inst_goback_keep">保留 eMMC 上的 andr36oid</string>
+    <string name="inst_goback_stock">关闭掌机。没有 SD 卡时，它启动原厂系统。插槽 1 插着这张卡时，它启动 andr36oid，带着你的应用和数据。</string>
 </resources>

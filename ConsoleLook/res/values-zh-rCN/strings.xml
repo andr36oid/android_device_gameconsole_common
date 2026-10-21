@@ -19,4 +19,6 @@
     <string name="boot_progress_summary">位于 logo 下方的细进度条，随主机启动而移动。下次启动时显示。</string>
     <string name="boot_details_title">显示启动详情</string>
     <string name="boot_details_summary">位于 logo 下方的一行文字，显示主机正在执行的操作，例如“正在挂载分区”。下次启动时显示。</string>
+    <string name="boot_log_title">始终以启动日志开始</string>
+    <string name="boot_log_summary">每次开机时，用滚动文字显示掌机在做什么，代替 Logo 和启动动画。从下次开机起显示。</string>
 </resources>

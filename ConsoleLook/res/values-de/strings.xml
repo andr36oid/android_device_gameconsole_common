@@ -19,4 +19,6 @@
     <string name="boot_progress_summary">Ein schmaler Balken unter dem Logo, der sich beim Starten der Konsole bewegt. Ab dem nächsten Start zu sehen.</string>
     <string name="boot_details_title">Startdetails anzeigen</string>
     <string name="boot_details_summary">Eine Zeile unter dem Logo, die zeigt, was die Konsole gerade tut, z. B. „Partitionen werden eingehängt“. Ab dem nächsten Start zu sehen.</string>
+    <string name="boot_log_title">Immer mit dem Startprotokoll starten</string>
+    <string name="boot_log_summary">Laufender Text, was die Konsole bei jedem Start statt des Logos und der Startanimation macht. Ab dem nächsten Start zu sehen.</string>
 </resources>

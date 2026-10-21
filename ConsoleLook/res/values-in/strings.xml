@@ -19,4 +19,6 @@
     <string name="boot_progress_summary">Bilah tipis di bawah logo yang bergerak saat konsol menyala. Tampil mulai penyalaan berikutnya.</string>
     <string name="boot_details_title">Tampilkan detail boot</string>
     <string name="boot_details_summary">Satu baris di bawah logo yang menampilkan apa yang sedang dilakukan konsol, misalnya "Memasang partisi". Tampil mulai penyalaan berikutnya.</string>
+    <string name="boot_log_title">Selalu mulai dengan log boot</string>
+    <string name="boot_log_summary">Teks yang bergulir tentang apa yang dilakukan konsol, menggantikan logo dan animasi booting, setiap kali mulai. Terlihat mulai dari boot berikutnya.</string>
 </resources>

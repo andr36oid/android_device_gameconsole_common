@@ -19,4 +19,6 @@
     <string name="boot_progress_summary">Une fine barre sous le logo qui avance pendant le démarrage de la console. Visible au prochain démarrage.</string>
     <string name="boot_details_title">Afficher les détails du démarrage</string>
     <string name="boot_details_summary">Une ligne sous le logo qui indique ce que fait la console, comme « Montage des partitions ». Visible au prochain démarrage.</string>
+    <string name="boot_log_title">Toujours démarrer avec le journal de démarrage</string>
+    <string name="boot_log_summary">Texte défilant de ce que fait la console à la place du logo et de l\'animation de démarrage, à chaque démarrage. Visible au prochain démarrage.</string>
 </resources>

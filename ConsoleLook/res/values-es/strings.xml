@@ -19,4 +19,6 @@
     <string name="boot_progress_summary">Una barra fina bajo el logo que avanza mientras la consola arranca. Se verá a partir del próximo arranque.</string>
     <string name="boot_details_title">Mostrar detalles del arranque</string>
     <string name="boot_details_summary">Una línea bajo el logo que indica lo que hace la consola, como «Montando particiones». Se verá a partir del próximo arranque.</string>
+    <string name="boot_log_title">Empezar siempre con el registro de arranque</string>
+    <string name="boot_log_summary">Texto que se desplaza con lo que hace la consola en lugar del logo y la animación de arranque, en cada inicio. Se ve desde el próximo inicio.</string>
 </resources>

@@ -19,4 +19,6 @@
     <string name="boot_progress_summary">Uma barra fina sob o logo que avança enquanto o console inicia. Aparece a partir do próximo início.</string>
     <string name="boot_details_title">Mostrar detalhes da inicialização</string>
     <string name="boot_details_summary">Uma linha sob o logo que mostra o que o console está fazendo, como "Montando partições". Aparece a partir do próximo início.</string>
+    <string name="boot_log_title">Sempre começar pelo log de inicialização</string>
+    <string name="boot_log_summary">Texto rolando com o que o console faz no lugar do logo e da animação de boot, em toda inicialização. Aparece a partir da próxima inicialização.</string>
 </resources>

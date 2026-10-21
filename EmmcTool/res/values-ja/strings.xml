@@ -270,7 +270,7 @@
     <string name="inst_dc_working">データカードを作成中</string>
     <string name="inst_dc_working_text">カードと Android のデータを準備しています。時間がかかる場合があります。</string>
     <string name="inst_dc_return_title">eMMC をこのバージョンに更新して、このカードをデータカードに戻しますか?</string>
-    <string name="inst_dc_return">このカードは、eMMC 上の andr36oid のデータカードです。andr36oid の SD カード書き込みツールがこれを更新したため、本体はカードから起動しました。\n\n「eMMC を更新」を選ぶと、このカードの andr36oid が eMMC にコピーされ（アプリとデータは残ります）、カードはデータカードに戻ります。その後、本体は eMMC から起動します。\n\n今はしない: 本体はこのカードから起動し続け、この質問は次回の起動時にもう一度表示されます。</string>
+    <string name="inst_dc_return">このカードは、eMMC 上の andr36oid のデータカードです。andr36oid の SD カード書き込みツールがこれを更新したため、本体はこのカードから起動しました。\n\n「eMMC を更新」は、このカードの andr36oid を eMMC にコピーし（アプリとデータは残ります）、カードを再びデータカードにします。その後、本体は eMMC から起動します。\n\n「SD カードのままにする」: カードはそのままで、このことは二度と尋ねません。</string>
     <string name="inst_dc_not_now">今はしない</string>
     <string name="inst_dc_return_go">eMMC を更新</string>
     <string name="inst_dc_returned">eMMC の更新が完了し、このカードは再びデータカードになりました。今すぐ再起動してください。andr36oid は eMMC から起動します。</string>
@@ -282,4 +282,21 @@
     <string name="inst_revive_done_title">データカードが再び起動します</string>
     <string name="inst_revive_done_this">この SD カードは、アプリとデータを残したまま、これまで通り andr36oid を起動します。本体の電源を切ってください。カードがなければ純正システムが起動します。</string>
     <string name="inst_revive_done_slot2">スロット 2 のカードは、アプリとデータを残したまま andr36oid を起動するようになりました。本体の電源を切り、このカードの代わりにそのカードをスロット 1 に入れてください。SD カードがなければ、本体は純正システムを起動します。</string>
+    <string name="inst_dc_keep_sd">SD カードのままにする</string>
+    <string name="inst_dc_keep_title">このカードを通常の SD カードのままにしますか?</string>
+    <string name="inst_dc_keep_warn">eMMC 上の andr36oid は、このカードのデータの設定先とは別のシステムになります。カードを挿すタイミングを厳密に合わせれば動く場合もありますが、推奨も保証もしていません。\n\n2 つの Android を使うなら、andr36oid の完全なイメージを入れた 2 枚目の SD カードを使ってください。\n\nそれでも SD カードのままにしますか?</string>
+    <string name="inst_dc_keep_yes">そのままにする</string>
+    <string name="inst_dc_kept_title">このカードは SD カードのままです</string>
+    <string name="inst_dc_kept">今まで通り andr36oid を起動します。eMMC インストールはもう尋ねません。eMMC は変更されません。</string>
+    <string name="inst_goback_title">純正システムに戻す</string>
+    <string name="inst_goback">純正システムは、本体が SD カードから起動している間だけ eMMC に戻せます。データカードは単独では本体を起動できません。そのため、次の 2 段階になります。\n\n1. カードを起動できるようにする: データカードにこの andr36oid とローダーが入り、カードだけで本体を起動できるようになります。アプリ、セーブデータ、設定はそのまま残ります。\n\n2. カードから起動する: eMMC インストールが、バックアップから純正システムを戻すことを提案します。</string>
+    <string name="inst_goback_go">カードを起動できるようにする</string>
+    <string name="inst_goback_done_title">データカードが単独で起動するようになりました</string>
+    <string name="inst_goback_done_slot1">本体の電源を切り、入れ直してください。データカードから起動します。その後 eMMC インストールが開き、純正システムに戻すことを提案します。</string>
+    <string name="inst_goback_done_slot2">本体の電源を切ってください。スロット 1 にカードがあれば抜き、スロット 2 のデータカードをスロット 1 に移してから電源を入れてください。データカードから起動します。その後 eMMC インストールが開き、純正システムに戻すことを提案します。</string>
+    <string name="inst_goback_restore_title">純正システムを eMMC に戻しますか?</string>
+    <string name="inst_goback_restore">純正システムに戻すことを選びました。このカードで、アプリとデータを使って本体を起動していました。\n\n純正 eMMC を戻すと、%1$s にあるそのバックアップを eMMC に書き込みます。その後、本体は SD カードなしで純正システムを、スロット 1 にこのカードを挿すと andr36oid を起動します。\n\neMMC に andr36oid を残す場合は、代わりに eMMC をこのカードの状態に更新し、カードを再びデータカードにします。</string>
+    <string name="inst_goback_no_backup">この本体の純正 eMMC のバックアップが見つかりませんでした。そのフォルダ（\"eMMC backup\" 内）をこのカードの EASYROMS にコピーしてから、eMMC インストールを開き直してください。\n\neMMC に andr36oid を残す場合は、代わりに eMMC をこのカードの状態に更新し、カードを再びデータカードにします。</string>
+    <string name="inst_goback_keep">eMMC に andr36oid を残す</string>
+    <string name="inst_goback_stock">本体の電源を切ってください。SD カードがなければ純正システムを起動します。スロット 1 にこのカードを挿すと、アプリとデータを使って andr36oid を起動します。</string>
 </resources>

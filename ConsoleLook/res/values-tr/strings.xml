@@ -19,4 +19,6 @@
     <string name="boot_progress_summary">Konsol açılırken logonun altında ilerleyen ince bir çubuk. Bir sonraki açılıştan itibaren görünür.</string>
     <string name="boot_details_title">Açılış ayrıntılarını göster</string>
     <string name="boot_details_summary">Logonun altında, konsolun ne yaptığını gösteren bir satır, örneğin "Bölümler bağlanıyor". Bir sonraki açılıştan itibaren görünür.</string>
+    <string name="boot_log_title">Her zaman açılış günlüğüyle başlat</string>
+    <string name="boot_log_summary">Her açılışta logo ve açılış animasyonu yerine, konsolun ne yaptığını gösteren kayan metin. Bir sonraki açılıştan itibaren görünür.</string>
 </resources>

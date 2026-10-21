@@ -272,7 +272,7 @@ Semua isi eMMC diganti dengan image ini.</string>
     <string name="inst_dc_working">Menyiapkan kartu data</string>
     <string name="inst_dc_working_text">Kartu dan data Android sedang disiapkan. Ini bisa makan waktu.</string>
     <string name="inst_dc_return_title">Perbarui eMMC ke versi ini dan jadikan kartu ini kartu data lagi?</string>
-    <string name="inst_dc_return">Kartu ini adalah kartu data andr36oid di eMMC. Penulis kartu SD andr36oid memperbaruinya, jadi konsol mulai dari kartu ini.\n\nPerbarui eMMC menyalin andr36oid dari kartu ini ke eMMC (aplikasi dan data tetap) dan menjadikan kartu ini kartu data lagi. Lalu konsol mulai dari eMMC.\n\nNanti saja: konsol tetap mulai dari kartu ini, dan pertanyaan ini muncul lagi saat mulai berikutnya.</string>
+    <string name="inst_dc_return">Kartu ini adalah kartu data andr36oid di eMMC. Penulis kartu SD andr36oid memperbaruinya, jadi konsol mulai dari kartu ini.\n\n„Perbarui eMMC“ menyalin andr36oid kartu ini ke eMMC (aplikasi dan data tetap) dan menjadikan kartu sebagai kartu data lagi. Konsol kemudian mulai dari eMMC.\n\n„Tetap jadi kartu SD“: kartu tetap seperti sekarang dan tidak akan ditanyakan lagi.</string>
     <string name="inst_dc_not_now">Nanti saja</string>
     <string name="inst_dc_return_go">Perbarui eMMC</string>
     <string name="inst_dc_returned">eMMC sudah diperbarui dan kartu ini kembali menjadi kartu data. Mulai ulang sekarang: andr36oid mulai dari eMMC.</string>
@@ -284,4 +284,21 @@ Semua isi eMMC diganti dengan image ini.</string>
     <string name="inst_revive_done_title">Kartu data mulai lagi</string>
     <string name="inst_revive_done_this">Kartu SD ini menjalankan andr36oid seperti sebelumnya, dengan aplikasi dan data. Matikan konsol. Tanpa kartu, konsol menjalankan sistem asli.</string>
     <string name="inst_revive_done_slot2">Kartu di slot 2 sekarang menjalankan andr36oid, dengan aplikasi dan data. Matikan konsol lalu pasang kartu itu di slot 1, bukan kartu ini. Tanpa kartu SD, konsol menjalankan sistem asli.</string>
+    <string name="inst_dc_keep_sd">Tetap jadi kartu SD</string>
+    <string name="inst_dc_keep_title">Biarkan kartu ini tetap jadi kartu SD biasa?</string>
+    <string name="inst_dc_keep_warn">andr36oid di eMMC kemudian menjadi sistem yang berbeda dari yang sesuai dengan data di kartu ini. Ini bisa berjalan jika waktu pemasangan kartu diatur dengan tepat, tetapi tidak disarankan dan tidak didukung.\n\nUntuk dua instalasi Android, gunakan kartu SD kedua dengan image andr36oid lengkap.\n\nTetap jadikan kartu SD?</string>
+    <string name="inst_dc_keep_yes">Tetap</string>
+    <string name="inst_dc_kept_title">Kartu ini tetap jadi kartu SD</string>
+    <string name="inst_dc_kept">andr36oid mulai seperti sebelumnya, dan Instalasi eMMC tidak akan menanyakan lagi. eMMC tidak diubah.</string>
+    <string name="inst_goback_title">Kembali ke sistem asli</string>
+    <string name="inst_goback">Sistem asli hanya bisa dikembalikan ke eMMC selama konsol berjalan dari kartu SD, dan kartu data tidak bisa memulai konsol sendiri. Jadi ada dua langkah:\n\n1. Buat kartu bisa memulai: kartu data mendapat andr36oid ini dan loader, sehingga bisa memulai konsol sendiri. Aplikasi, save, dan pengaturanmu tetap ada di kartu.\n\n2. Mulai dari kartu. Instalasi eMMC kemudian menawarkan untuk mengembalikan sistem asli dari cadangannya.</string>
+    <string name="inst_goback_go">Buat kartu bisa memulai</string>
+    <string name="inst_goback_done_title">Kartu data sekarang bisa memulai sendiri</string>
+    <string name="inst_goback_done_slot1">Matikan konsol, lalu nyalakan: konsol mulai dari kartu data. Setelah itu Instalasi eMMC terbuka dan menawarkan untuk mengembalikan sistem asli.</string>
+    <string name="inst_goback_done_slot2">Matikan konsol. Lepas kartu dari slot 1 jika ada, pindahkan kartu data dari slot 2 ke slot 1, lalu nyalakan konsol: konsol mulai dari kartu data. Setelah itu Instalasi eMMC terbuka dan menawarkan untuk mengembalikan sistem asli.</string>
+    <string name="inst_goback_restore_title">Kembalikan sistem asli ke eMMC?</string>
+    <string name="inst_goback_restore">Kamu memilih kembali ke sistem asli. Kartu ini memulai konsol, dengan aplikasi dan data kamu.\n\nMengembalikan eMMC asli menulis cadangannya dari %1$s ke eMMC. Setelah itu konsol memulai sistem asli tanpa kartu SD, dan andr36oid dengan kartu ini di slot 1.\n\nTetap andr36oid di eMMC justru memperbarui eMMC ke kartu ini, dan menjadikan kartu sebagai kartu data lagi.</string>
+    <string name="inst_goback_no_backup">Cadangan eMMC asli konsol ini tidak ditemukan. Salin foldernya (di \"eMMC backup\") ke EASYROMS kartu ini, lalu buka Instalasi eMMC lagi.\n\nTetap andr36oid di eMMC justru memperbarui eMMC ke kartu ini, dan menjadikan kartu sebagai kartu data lagi.</string>
+    <string name="inst_goback_keep">Tetap andr36oid di eMMC</string>
+    <string name="inst_goback_stock">Matikan konsol. Tanpa kartu SD, konsol memulai sistem asli. Dengan kartu ini di slot 1, konsol memulai andr36oid, dengan aplikasi dan data kamu.</string>
 </resources>

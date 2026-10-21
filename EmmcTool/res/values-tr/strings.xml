@@ -272,7 +272,7 @@ eMMC\'deki her şey bu imajla değiştirilir.</string>
     <string name="inst_dc_working">Veri kartı hazırlanıyor</string>
     <string name="inst_dc_working_text">Kart ve Android verileri hazırlanıyor. Bu biraz sürebilir.</string>
     <string name="inst_dc_return_title">eMMC bu sürüme güncellensin ve bu kart yeniden veri kartı yapılsın mı?</string>
-    <string name="inst_dc_return">Bu kart, eMMC\'deki andr36oid\'in veri kartı. andr36oid SD kart yazıcısı onu güncelledi, bu yüzden konsol karttan başladı.\n\neMMC\'yi güncelle, bu karttaki andr36oid\'i eMMC\'ye kopyalar (uygulamalar ve veriler kalır) ve kartı yeniden veri kartı yapar. Sonra konsol eMMC\'den başlar.\n\nŞimdi değil: konsol bu karttan başlamaya devam eder ve bu soru bir sonraki başlatmada yeniden gelir.</string>
+    <string name="inst_dc_return">Bu kart, eMMC\'deki andr36oid\'in veri kartı. andr36oid SD kart yazıcısı onu güncelledi, bu yüzden konsol karttan başladı.\n\n„eMMC\'yi güncelle“, bu kartın andr36oid\'ini eMMC\'ye kopyalar (uygulamalar ve veriler kalır) ve kartı yeniden veri kartı yapar. Sonra konsol eMMC\'den başlar.\n\n„SD kart olarak kalsın“: kart olduğu gibi kalır ve bu bir daha sorulmaz.</string>
     <string name="inst_dc_not_now">Şimdi değil</string>
     <string name="inst_dc_return_go">eMMC\'yi güncelle</string>
     <string name="inst_dc_returned">eMMC güncellendi ve bu kart yeniden veri kartı oldu. Şimdi yeniden başlat: andr36oid eMMC\'den başlar.</string>
@@ -284,4 +284,21 @@ eMMC\'deki her şey bu imajla değiştirilir.</string>
     <string name="inst_revive_done_title">Veri kartı yeniden başlıyor</string>
     <string name="inst_revive_done_this">Bu SD kart andr36oid\'i eskisi gibi, uygulamalarınız ve verilerinizle başlatır. Konsolu kapatın. Kart olmadan fabrika sistemi başlar.</string>
     <string name="inst_revive_done_slot2">2 numaralı yuvadaki kart artık andr36oid\'i uygulamalarınız ve verilerinizle başlatıyor. Konsolu kapatın ve bu kart yerine o kartı 1 numaralı yuvaya takın. SD kart olmadan konsol fabrika sistemini başlatır.</string>
+    <string name="inst_dc_keep_sd">SD kart olarak kalsın</string>
+    <string name="inst_dc_keep_title">Bu kart normal bir SD kart olarak kalsın mı?</string>
+    <string name="inst_dc_keep_warn">eMMC\'deki andr36oid o zaman, bu karttaki verilerin ayarlandığı sistemden farklı bir sistem olur. Kartın takılma zamanına dikkat edilirse çalışabilir, ama önerilmez ve desteklenmez.\n\nİki Android kurulumu için tam andr36oid imajı olan ikinci bir SD kart kullan.\n\nYine de SD kart olarak kalsın mı?</string>
+    <string name="inst_dc_keep_yes">Kalsın</string>
+    <string name="inst_dc_kept_title">Bu kart SD kart olarak kalıyor</string>
+    <string name="inst_dc_kept">andr36oid eskisi gibi başlar, eMMC Kurulumu bir daha sormaz. eMMC değiştirilmez.</string>
+    <string name="inst_goback_title">Fabrika sistemine geri dön</string>
+    <string name="inst_goback">Fabrika sistemi yalnızca konsol bir SD karttan çalışırken eMMC\'ye geri konabilir, veri kartı ise konsolu kendi başına başlatamaz. Bu yüzden iki adım var:\n\n1. Kartın başlamasını sağla: veri kartı bu andr36oid\'i ve bir önyükleyiciyi alır, böylece konsolu kendi başına başlatır. Uygulamaların, kayıtların ve ayarların üzerinde kalır.\n\n2. Karttan başlat. eMMC Kurulumu, o zaman yedekten fabrika sistemini geri koymayı önerir.</string>
+    <string name="inst_goback_go">Kartın başlamasını sağla</string>
+    <string name="inst_goback_done_title">Veri kartı artık kendi başına başlıyor</string>
+    <string name="inst_goback_done_slot1">Konsolu kapat, sonra aç: veri kartından başlar. Ardından eMMC Kurulumu açılır ve fabrika sistemini geri koymayı önerir.</string>
+    <string name="inst_goback_done_slot2">Konsolu kapat. Varsa kartı 1. yuvadan çıkar, veri kartını 2. yuvadan 1. yuvaya tak, sonra konsolu aç: veri kartından başlar. Ardından eMMC Kurulumu açılır ve fabrika sistemini geri koymayı önerir.</string>
+    <string name="inst_goback_restore_title">Fabrika sistemi eMMC\'ye geri konsun mu?</string>
+    <string name="inst_goback_restore">Fabrika sistemine dönmeyi seçtin. Bu kart, uygulamaların ve verilerinle konsolu başlattı.\n\nFabrika eMMC\'sini geri koymak, yedeğini %1$s konumundan eMMC\'ye yazar. Sonra konsol, SD kart olmadan fabrika sistemini, 1. yuvada bu kartla andr36oid\'i başlatır.\n\neMMC\'de andr36oid\'i tutmak, eMMC\'yi bu kartın durumuna getirir ve kartı yeniden veri kartı yapar.</string>
+    <string name="inst_goback_no_backup">Bu konsolun fabrika eMMC\'sinin yedeği bulunamadı. Klasörünü (\"eMMC backup\" içinde) bu kartın EASYROMS klasörüne kopyala, sonra eMMC Kurulumu\'nu yeniden aç.\n\neMMC\'de andr36oid\'i tutmak, eMMC\'yi bu kartın durumuna getirir ve kartı yeniden veri kartı yapar.</string>
+    <string name="inst_goback_keep">andr36oid\'i eMMC\'de tut</string>
+    <string name="inst_goback_stock">Konsolu kapat. SD kart yoksa fabrika sistemini başlatır. 1. yuvada bu kart varsa uygulamaların ve verilerinle andr36oid\'i başlatır.</string>
 </resources>
