@@ -100,6 +100,18 @@ func (r *run) stop(err error) error {
 	return err
 }
 
+// redoStep2 is for step 3 finding the eMMC changed since step 2 copied it:
+// step 2 is undone, so the wizard offers it again instead of a step 3 that
+// can never pass. Nothing was written, the eMMC still has no loader.
+func (r *run) redoStep2(err error) error {
+	r.st.Step2 = ""
+	if serr := r.c.Save(r.st); serr != nil {
+		r.p.Logf("state not saved: %v", serr)
+	}
+	r.p.Logf("step 2 has to run again: %v", err)
+	return fmt.Errorf("%w; run step 2 again", err)
+}
+
 // unlocked opens the eMMC for writing for fn and locks it again after,
 // whatever happens.
 func (r *run) unlocked(fn func(e *Disk) error) (err error) {
@@ -1262,7 +1274,7 @@ func (c *Config) WriteLoader(p *Progress, confirm string) error {
 	got, err := ReadGPT(e)
 	if err != nil || !samePlan(got, r.st.Plan) {
 		e.Close()
-		return fmt.Errorf("the eMMC's partition table changed since step 2 (%v)", err)
+		return r.redoStep2(fmt.Errorf("the eMMC's partition table changed since step 2 (%v)", err))
 	}
 	for _, name := range []string{"system", "vendor"} {
 		q, _ := Find(r.st.Plan, name)
@@ -1271,7 +1283,7 @@ func (c *Config) WriteLoader(p *Progress, confirm string) error {
 		h, err := e.HashRange(q.First*Sector, n, op.Tick)
 		if err != nil || h != r.st.Copied[name] {
 			e.Close()
-			return op.Fail(fmt.Errorf("%s on the eMMC changed since step 2 (%v)", name, err))
+			return r.redoStep2(op.Fail(fmt.Errorf("%s on the eMMC changed since step 2 (%v)", name, err)))
 		}
 		op.OK(h, "unchanged")
 	}
