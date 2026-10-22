@@ -30,6 +30,13 @@ final class Rules {
         ".ldci", ".sgm", ".nv", ".bsv"
     };
 
+    // Disc files may be tracks or named by a cue sheet or multi-disc playlist. Removing
+    // a matching file from another folder can break that game's references.
+    private static final String[] DISC_FILES = {
+        ".bin", ".img", ".sub", ".cue", ".gdi", ".ccd", ".mdf", ".mds", ".m3u",
+        ".m3u8", ".iso", ".chd", ".cso", ".pbp"
+    };
+
     /** RetroArch: Game.state, Game.state3, Game.state12, and Game.state3.png next to it. */
     private static final Pattern RA_STATE =
             Pattern.compile("(.+)\\.state(\\d*)(\\.png)?", Pattern.CASE_INSENSITIVE);
@@ -184,6 +191,9 @@ final class Rules {
             return false;
         }
         final String n = name.toLowerCase(Locale.ROOT);
+        for (String e : DISC_FILES) {
+            if (n.endsWith(e)) return false;
+        }
         return !n.endsWith(".state.auto") && !n.endsWith(".txt") && !n.endsWith(".xml")
                 && !n.endsWith(".pdf") && !n.endsWith(".zip.tmp");
     }

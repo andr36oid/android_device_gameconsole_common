@@ -102,6 +102,10 @@ public class EngineTest {
         check(Rules.romCandidate("Tetris.gb", 300000) && !Rules.romCandidate("Tetris.gb", 1000)
                 && !Rules.romCandidate("Tetris.srm", 300000) && !Rules.romCandidate("a.state1", 300000)
                 && !Rules.romCandidate("box.png", 300000), "ROM candidates");
+        for (String n : new String[] {"Track 01.bin", "disc.CHD", "game.iso", "game.cue",
+                "game.gdi", "game.m3u", "disc.img", "disc.sub", "game.PBP"}) {
+            check(!Rules.romCandidate(n, 300000), "disc and playlist files stay: " + n);
+        }
     }
 
     static Rules.Entry e(String name, long minutes) {
@@ -197,6 +201,8 @@ public class EngineTest {
         put(easyroms, "gba/Zelda.state3", 10, 4);
         put(easyroms, "gb/Tetris.gb", tetris, 1);
         put(easyroms, "gbc/Tetris.gb", tetris, 1);
+        put(easyroms, "psx/Game A/Track 01.bin", tetris, 1);
+        put(easyroms, "psx/Game B/Track 01.bin", tetris, 1);
         final byte[] other = tetris.clone();
         other[150 * 1024] ^= 1; // same size, same start and end, one byte different
         put(easyroms, "gbc/Tetris (hack).gb", other, 1);
@@ -339,6 +345,13 @@ public class EngineTest {
                 "both copies of a duplicate asked for: both kept");
         new File(easyroms, "nes/Tetris.gb").delete();
         new File(easyroms, "nes").delete();
+
+        write(new File(dir, "delete"), "dups\t" + er + "/psx/Game B/Track 01.bin\t"
+                + er + "/psx/Game A/Track 01.bin\n");
+        run(env);
+        check(read(new File(dir, "status")).trim().equals("done delete 0 0 0 1")
+                && new File(easyroms, "psx/Game B/Track 01.bin").exists(),
+                "disc tracks are protected even in an old duplicate deletion request");
 
         // a second scan with nothing left to offer but the new "oldest" ones
         write(new File(dir, "request"), "action=scan\nkeep_states=2\nkeep_backups=2\n");

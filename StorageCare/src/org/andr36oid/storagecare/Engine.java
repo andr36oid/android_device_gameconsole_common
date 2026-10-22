@@ -500,6 +500,7 @@ public final class Engine {
         /** A duplicate goes only if the other copy is there, stays, and is really the same. */
         private boolean sameCopyStays(File f, String keep) {
             if (mEasyroms == null || keep == null || mAsked.contains(keep)) return false;
+            if (!Rules.romCandidate(f.getName(), f.length())) return false;
             final File k = new File(keep);
             if (!k.isFile() || isLink(k) || !inside(mEasyroms, k) || !inside(mEasyroms, f)
                     || k.equals(f) || !canonical(k).getPath().equals(keep)
