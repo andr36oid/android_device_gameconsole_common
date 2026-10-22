@@ -33,6 +33,8 @@ final class UsbScan {
         int devClass = -1;
         String speed;       // Mbit/s: 1.5 12 480 5000
         String version;     // "2.00"
+        String maxPower;    // what it asks the port for: "500mA"
+        int ports = -1;     // a hub's downstream ports (maxchild)
         boolean configured;
         final List<Iface> ifaces = new ArrayList<>();
 
@@ -44,6 +46,34 @@ final class UsbScan {
             if (devClass == 9) return true;
             return ifaces.size() == 1 && ifaces.get(0).cls == 9;
         }
+    }
+
+    /** A host controller's root hub (usb1, usb2): the top of the USB tree */
+    static final class Bus {
+        String name;        // "usb1"
+        int number;         // 1, the first part of its devices' names ("1-1")
+        String product;     // "DWC OTG Controller"
+        String speed;
+        int ports = -1;
+    }
+
+    static List<Bus> buses(File root) {
+        final List<Bus> out = new ArrayList<>();
+        final String[] names = root.list();
+        if (names == null) return out;
+        Arrays.sort(names);
+        for (String n : names) {
+            if (!n.matches("usb\\d+")) continue;
+            final File d = new File(root, n);
+            final Bus b = new Bus();
+            b.name = n;
+            b.number = Integer.parseInt(n.substring(3));
+            b.product = read(d, "product");
+            b.speed = read(d, "speed");
+            b.ports = dec(read(d, "maxchild"));
+            out.add(b);
+        }
+        return out;
     }
 
     static List<Device> scan(File root) {
@@ -66,6 +96,8 @@ final class UsbScan {
             dev.devClass = hex(read(d, "bDeviceClass"));
             dev.speed = read(d, "speed");
             dev.version = read(d, "version");
+            dev.maxPower = read(d, "bMaxPower");
+            dev.ports = dec(read(d, "maxchild"));
             final String cfg = read(d, "bConfigurationValue");
             dev.configured = cfg != null && !cfg.isEmpty() && !"0".equals(cfg);
             for (String m : names) {
@@ -137,6 +169,15 @@ final class UsbScan {
         if (s == null || s.isEmpty()) return -1;
         try {
             return Integer.parseInt(s, 16);
+        } catch (NumberFormatException e) {
+            return -1;
+        }
+    }
+
+    private static int dec(String s) {
+        if (s == null || s.isEmpty()) return -1;
+        try {
+            return Integer.parseInt(s.trim());
         } catch (NumberFormatException e) {
             return -1;
         }

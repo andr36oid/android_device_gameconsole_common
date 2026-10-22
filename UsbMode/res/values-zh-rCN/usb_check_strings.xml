@@ -31,6 +31,8 @@
     <string name="usb_check_kind_video">摄像头或电视棒</string>
     <string name="usb_check_kind_hub">USB 集线器</string>
     <string name="usb_check_kind_other">USB 设备</string>
+    <string name="usb_check_tree">USB 树</string>
+    <string name="usb_check_tree_summary">每个集线器和端口：哪里插了什么、速度以及请求的电流</string>
     <string name="usb_check_copy">复制详细信息</string>
     <string name="usb_check_copy_summary">用于在社区群里提问。问题报告中也包含这些信息。</string>
     <string name="usb_check_copied">已复制详细信息</string>

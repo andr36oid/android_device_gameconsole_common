@@ -31,6 +31,8 @@
     <string name="usb_check_kind_video">Kamera lub tuner TV</string>
     <string name="usb_check_kind_hub">Hub USB</string>
     <string name="usb_check_kind_other">Urządzenie USB</string>
+    <string name="usb_check_tree">Drzewo USB</string>
+    <string name="usb_check_tree_summary">Każdy hub i port: co jest gdzie podłączone, z jaką prędkością i ile prądu potrzebuje</string>
     <string name="usb_check_copy">Kopiuj szczegóły</string>
     <string name="usb_check_copy_summary">Do pytania na czacie społeczności. Raport o problemie też je zawiera.</string>
     <string name="usb_check_copied">Skopiowano szczegóły</string>

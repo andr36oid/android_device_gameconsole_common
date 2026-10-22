@@ -31,6 +31,8 @@
     <string name="usb_check_kind_video">Kamera oder TV-Tuner</string>
     <string name="usb_check_kind_hub">USB-Hub</string>
     <string name="usb_check_kind_other">USB-Gerät</string>
+    <string name="usb_check_tree">USB-Baum</string>
+    <string name="usb_check_tree_summary">Jeder Hub und Anschluss: was wo eingesteckt ist, mit Geschwindigkeit und angefordertem Strom</string>
     <string name="usb_check_copy">Details kopieren</string>
     <string name="usb_check_copy_summary">Für eine Frage im Community-Chat. Ein Problembericht enthält sie auch.</string>
     <string name="usb_check_copied">Details kopiert</string>

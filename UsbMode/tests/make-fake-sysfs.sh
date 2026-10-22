@@ -18,6 +18,7 @@ dev() {
 	[ -n "$7" ] && echo "$7" >"$D/$1/product"
 	echo 480 >"$D/$1/speed"
 	echo " 2.00" >"$D/$1/version"
+	echo 100mA >"$D/$1/bMaxPower"
 }
 
 # ifc <device> <number> <class> <subclass> <protocol> <driver or -> [bcdDevice]
@@ -49,9 +50,11 @@ lun() {
 
 # root hub: skipped
 dev usb1 1d6b 0002 09 1 "Linux" "DWC OTG Controller"
+echo 1 >"$D/usb1/maxchild"
 ifc usb1 0 09 00 00 hub
 
 dev 1-1 1a40 0101 09 1 "" "USB 2.0 Hub"
+echo 4 >"$D/1-1/maxchild"
 ifc 1-1 0 09 00 00 hub
 
 # Wi-Fi, driver exists (8821cu), Wi-Fi off

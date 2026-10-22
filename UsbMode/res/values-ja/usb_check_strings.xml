@@ -5,6 +5,8 @@
     <string name="usb_check_cd_mode">ドライバー CD モードになっています。本体が数秒で自動的に切り替えます。そのままの場合は、抜いてから差し直してください。</string>
     <string name="usb_check_cd_unknown">ドライバー CD モードになっていて、本体は切り替え方法がわかりません（チップ <xliff:g id="chip_id" example="0bda:1a2b">%1$s</xliff:g>）。</string>
     <string name="usb_check_copied">詳細をコピーしました</string>
+    <string name="usb_check_tree">USB ツリー</string>
+    <string name="usb_check_tree_summary">すべてのハブとポート:どこに何が接続されているか、速度と要求する電力</string>
     <string name="usb_check_copy">詳細をコピー</string>
     <string name="usb_check_copy_summary">コミュニティのチャットで質問するときに使えます。問題レポートにも含まれます。</string>
     <string name="usb_check_kind_audio">サウンドカードまたはヘッドセット</string>

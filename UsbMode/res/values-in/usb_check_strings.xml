@@ -31,6 +31,8 @@
     <string name="usb_check_kind_video">Kamera atau tuner TV</string>
     <string name="usb_check_kind_hub">Hub USB</string>
     <string name="usb_check_kind_other">Perangkat USB</string>
+    <string name="usb_check_tree">Pohon USB</string>
+    <string name="usb_check_tree_summary">Setiap hub dan port: apa yang tercolok di mana, kecepatannya, dan daya yang dimintanya</string>
     <string name="usb_check_copy">Salin detail</string>
     <string name="usb_check_copy_summary">Untuk pertanyaan di chat komunitas. Laporan masalah juga memuatnya.</string>
     <string name="usb_check_copied">Detail disalin</string>

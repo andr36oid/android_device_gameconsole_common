@@ -31,6 +31,8 @@
     <string name="usb_check_kind_video">Камера или ТВ-тюнер</string>
     <string name="usb_check_kind_hub">USB-хаб</string>
     <string name="usb_check_kind_other">USB-устройство</string>
+    <string name="usb_check_tree">Дерево USB</string>
+    <string name="usb_check_tree_summary">Все хабы и порты: что куда подключено, скорость и запрашиваемый ток</string>
     <string name="usb_check_copy">Скопировать сведения</string>
     <string name="usb_check_copy_summary">Для вопроса в чате сообщества. Отчёт о проблеме тоже их содержит.</string>
     <string name="usb_check_copied">Сведения скопированы</string>

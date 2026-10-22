@@ -31,6 +31,8 @@
     <string name="usb_check_kind_video">Kamera veya TV alıcısı</string>
     <string name="usb_check_kind_hub">USB hub</string>
     <string name="usb_check_kind_other">USB cihazı</string>
+    <string name="usb_check_tree">USB ağacı</string>
+    <string name="usb_check_tree_summary">Her hub ve bağlantı noktası: nereye ne takılı, hızı ve istediği güç</string>
     <string name="usb_check_copy">Ayrıntıları kopyala</string>
     <string name="usb_check_copy_summary">Topluluk sohbetinde bir soru için. Sorun raporu da bunları içerir.</string>
     <string name="usb_check_copied">Ayrıntılar kopyalandı</string>

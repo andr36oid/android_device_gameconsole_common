@@ -2,6 +2,7 @@ package org.andr36oid.usbmode;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -281,6 +282,10 @@ final class UsbCheck {
         if (r.chip != null) sb.append("  chip ").append(r.chip);
         sb.append('\n');
         if (!d.configured) sb.append("  not configured\n");
+        sb.append("  port ").append(portOf(d.name)).append(" of ").append(parentOf(d.name));
+        if (d.maxPower != null) sb.append("  asks for ").append(d.maxPower);
+        if (d.ports >= 0) sb.append("  hub with ").append(d.ports).append(" ports");
+        sb.append('\n');
         for (UsbScan.Iface i : d.ifaces) {
             sb.append("  ").append(i.name)
                     .append(String.format(Locale.ROOT, "  %02x/%02x/%02x", i.cls & 0xff,
@@ -296,6 +301,63 @@ final class UsbCheck {
             sb.append("  should be taken by: ").append(join(r.missing)).append('\n');
         }
         return sb.toString();
+    }
+
+    /**
+     * Every bus, hub and port as a tree, like USBTreeView on Windows: where each device
+     * is plugged in, its speed and what it asks the port for. English, for support.
+     */
+    static String tree(List<UsbScan.Bus> buses, List<Result> results) {
+        final StringBuilder sb = new StringBuilder();
+        for (UsbScan.Bus b : buses) {
+            sb.append("Bus ").append(b.number).append(" (").append(b.name).append(')');
+            if (b.product != null && !b.product.isEmpty()) sb.append("  ").append(b.product);
+            if (b.speed != null) sb.append("  ").append(b.speed).append(" Mbit/s");
+            if (b.ports >= 0) sb.append("  ").append(b.ports).append(b.ports == 1 ? " port" : " ports");
+            sb.append('\n');
+            branch(sb, b.name, results, "");
+        }
+        if (buses.isEmpty()) sb.append("No USB host controller.\n");
+        return sb.toString();
+    }
+
+    private static void branch(StringBuilder sb, String parent, List<Result> results, String indent) {
+        final List<Result> kids = new ArrayList<>();
+        for (Result r : results) if (parentOf(r.dev.name).equals(parent)) kids.add(r);
+        Collections.sort(kids, (a, b) -> Integer.compare(portOf(a.dev.name), portOf(b.dev.name)));
+        for (int k = 0; k < kids.size(); k++) {
+            final Result r = kids.get(k);
+            final UsbScan.Device d = r.dev;
+            final boolean last = k == kids.size() - 1;
+            sb.append(indent).append("+- port ").append(portOf(d.name)).append(": ")
+                    .append(d.id());
+            final String n = name(d);
+            if (n != null) sb.append(" \"").append(n).append('"');
+            if (d.speed != null) sb.append("  ").append(d.speed).append(" Mbit/s");
+            if (d.version != null) sb.append("  USB ").append(d.version);
+            if (d.maxPower != null) sb.append("  ").append(d.maxPower);
+            if (d.ports >= 0) sb.append("  hub, ").append(d.ports).append(" ports");
+            sb.append("  ").append(r.status).append('\n');
+            branch(sb, d.name, results, indent + (last ? "   " : "|  "));
+        }
+    }
+
+    /** "1-1.2" is on hub "1-1", "1-1" on bus "usb1" */
+    static String parentOf(String name) {
+        final int dot = name.lastIndexOf('.');
+        if (dot > 0) return name.substring(0, dot);
+        final int dash = name.indexOf('-');
+        return dash > 0 ? "usb" + name.substring(0, dash) : "";
+    }
+
+    /** The port on its parent: "1-1.2" is on port 2 */
+    static int portOf(String name) {
+        final int cut = Math.max(name.lastIndexOf('.'), name.indexOf('-'));
+        try {
+            return Integer.parseInt(name.substring(cut + 1));
+        } catch (NumberFormatException | IndexOutOfBoundsException e) {
+            return -1;
+        }
     }
 
     static String join(List<String> l) {

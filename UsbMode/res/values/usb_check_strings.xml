@@ -39,6 +39,8 @@
     <string name="usb_check_kind_hub">USB hub</string>
     <string name="usb_check_kind_other">USB device</string>
 
+    <string name="usb_check_tree">USB tree</string>
+    <string name="usb_check_tree_summary">Every hub and port, with what is plugged in where, its speed and the power it asks for</string>
     <string name="usb_check_copy">Copy details</string>
     <string name="usb_check_copy_summary">For a question in the community chat. A problem report includes them too.</string>
     <string name="usb_check_copied">Details copied</string>

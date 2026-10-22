@@ -52,9 +52,30 @@ public class UsbCheckTest {
         }
         realTableTests(t, wifi);
         sysfsTests(root, t, wifi);
+        treeTests(root, t, wifi);
 
         System.out.println(sPass + " passed, " + sFail + " failed");
         System.exit(sFail == 0 ? 0 : 1);
+    }
+
+    private static void treeTests(File root, UsbTable t, Map<String, String> wifi) {
+        eq("parent of a hub port", "1-1", UsbCheck.parentOf("1-1.2"));
+        eq("parent of a root port", "usb1", UsbCheck.parentOf("1-1"));
+        eq("port behind a hub", 2, UsbCheck.portOf("1-1.2"));
+        eq("port on the root hub", 1, UsbCheck.portOf("1-1"));
+        final File devices = new File(root, "devices");
+        final List<UsbScan.Bus> buses = UsbScan.buses(devices);
+        eq("one bus", 1, buses.size());
+        eq("root hub ports", 1, buses.get(0).ports);
+        final List<UsbCheck.Result> rs = new java.util.ArrayList<>();
+        for (UsbScan.Device d : UsbScan.scan(devices)) rs.add(UsbCheck.check(d, t, wifi, false));
+        final String tree = UsbCheck.tree(buses, rs);
+        check("tree starts at the bus", tree.startsWith("Bus 1 (usb1)"));
+        check("hub on the root port with its ports",
+                tree.contains("+- port 1: 1a40:0101 \"USB 2.0 Hub\"") && tree.contains("hub, 4 ports"));
+        check("devices indented under the hub", tree.contains("\n   +- port 1: 0bda:c811"));
+        check("power in the tree", tree.contains("100mA"));
+        check("hub ports in order", tree.indexOf("port 2: ") < tree.indexOf("port 3: "));
     }
 
     private static void hubPower() throws IOException {

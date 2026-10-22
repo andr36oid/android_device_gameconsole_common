@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,6 +17,7 @@ import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
@@ -51,6 +53,8 @@ public class UsbCheckFragment extends PreferenceFragment {
     private Map<String, String> mWifiIds;
     private PreferenceCategory mList;
     private Preference mCopy;
+    private Preference mTreeRow;
+    private String mTree = "";
     private String mShown;          // what the list shows now, to rebuild only on change
     private String mDetails = "";
     private boolean mResumed;
@@ -85,6 +89,26 @@ public class UsbCheckFragment extends PreferenceFragment {
         mCopy.setEnabled(false);
         root.addPreference(mCopy);
 
+        // Every bus, hub and port, like USBTreeView: where each device is plugged in
+        mTreeRow = new Preference(ctx);
+        mTreeRow.setTitle(R.string.usb_check_tree);
+        mTreeRow.setSummary(R.string.usb_check_tree_summary);
+        mTreeRow.setEnabled(false);
+        mTreeRow.setOnPreferenceClickListener(p -> {
+            final AlertDialog d = new AlertDialog.Builder(ctx)
+                    .setTitle(R.string.usb_check_tree)
+                    .setMessage(mTree)
+                    .setPositiveButton(android.R.string.ok, null)
+                    .show();
+            final TextView text = d.findViewById(android.R.id.message);
+            if (text != null) {
+                text.setTypeface(Typeface.MONOSPACE);
+                text.setTextSize(11);
+            }
+            return true;
+        });
+        root.addPreference(mTreeRow);
+
         final Preference about = new Preference(ctx);
         about.setSelectable(false);
         about.setSummary(R.string.usb_check_about);
@@ -101,6 +125,7 @@ public class UsbCheckFragment extends PreferenceFragment {
                 mShown = null;
                 refresh();
                 mCopy.setEnabled(true);
+                mTreeRow.setEnabled(true);
             });
         }, "usb-check-table").start();
     }
@@ -159,6 +184,8 @@ public class UsbCheckFragment extends PreferenceFragment {
         body.append("Wi-Fi: ").append(wifiOn ? "on" : "off")
                 .append("   USB port: ").append(portIsDevice ? "computer" : "accessories")
                 .append("   table: ").append(mTable.size()).append(" IDs\n\n");
+        mTree = UsbCheck.tree(UsbScan.buses(new File(UsbScan.SYSFS)), results);
+        body.append(mTree).append('\n');
         for (UsbCheck.Result r : results) body.append(UsbCheck.details(r)).append('\n');
         if (results.isEmpty()) body.append("No USB devices.\n");
         final String shown = body.toString();

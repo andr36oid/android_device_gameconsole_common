@@ -31,6 +31,8 @@
     <string name="usb_check_kind_video">Cámara o sintonizador de TV</string>
     <string name="usb_check_kind_hub">Hub USB</string>
     <string name="usb_check_kind_other">Dispositivo USB</string>
+    <string name="usb_check_tree">Árbol USB</string>
+    <string name="usb_check_tree_summary">Cada hub y puerto: qué está conectado y dónde, su velocidad y la energía que pide</string>
     <string name="usb_check_copy">Copiar detalles</string>
     <string name="usb_check_copy_summary">Para una pregunta en el chat de la comunidad. El informe de problemas también los incluye.</string>
     <string name="usb_check_copied">Detalles copiados</string>
