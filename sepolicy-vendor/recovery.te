@@ -1,0 +1,10 @@
+recovery_only(`
+allow recovery shell_exec:file rx_file_perms;
+allow recovery configfs:dir create_dir_perms;
+allow recovery configfs:file rw_file_perms;
+allow recovery configfs:lnk_file create_file_perms;
+r_dir_file(recovery, sysfs)
+allow recovery sysfs:file rw_file_perms;
+get_prop(recovery, default_prop)
+allowxperm recovery dev_type:blk_file ioctl BLKRRPART;
+')
