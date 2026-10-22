@@ -2,6 +2,10 @@ import /vendor/etc/init/hw/init.${ro.target.product}.rc
 import /vendor/etc/init/hw/init.rk30board.usb.rc
 
 on early-init
+    # Full CPU clock while starting: the kernel picks schedutil, which climbs slowly through
+    # a start that is mostly short bursts. sys.boot_completed hands it back to schedutil.
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "performance"
+
     # Screen settings of the console, from its BOOT profile's boot script (one image
     # for every console, see r36s BOOT/Devices). Set before SurfaceFlinger starts;
     # ro properties, so only the first value counts.
@@ -310,8 +314,7 @@ on property:sys.boot_completed=1
     chmod 0664 /sys/class/devfreq/ff400000.gpu/max_freq
 
 on property:sys.boot_completed=1
-    # Set default CPU frequency governor
-    # configure governor settings for little cluster
+    # Back from the start's performance governor (early-init) to schedutil
     write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "schedutil"
     # The rockchip cpufreq driver keeps governor settings per policy, so the knobs are
     # under policy0/schedutil (the old cpufreq/schedutil path does not exist).
