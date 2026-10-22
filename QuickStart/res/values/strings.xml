@@ -170,6 +170,11 @@
     <string name="card_sync_pair">On a PC or phone, install Syncthing and add the console\'s ID from that page, or scan its code. The PC or phone then shows up on the console under Add a device: press A on it. For two consoles, turn on Sync saves on both, then pick each one on the other. Quit the game before you play on the other device.</string>
 
     <!-- Battery -->
+    <!-- Heatsink mod -->
+    <string name="heatsink_title">Heatsink mod</string>
+    <string name="heatsink_intro">Did you know? Many simple heatsinks made for NVMe SSDs fit neatly inside R36S-style consoles. One is worth adding if you overclock or use fast charging: it keeps the inside cooler.</string>
+    <string name="heatsink_needs">All you need is a heatsink for about $2 that comes with a thermal pad, a screwdriver, and a little hot glue to hold it in place.</string>
+
     <string name="battery_title">Battery care</string>
     <string name="battery_percent_q">The battery percentage looks wrong</string>
     <string name="battery_percent_a">The battery gauge guesses the charge and learns as it goes. After the battery ran empty or the console sat unused for a long time, charge it to 100% with the console on and leave it on the charger for another half hour. That lets the gauge find the right level again. If you set a charge limit in Settings &gt; Battery &gt; Battery details, turn it off for this.</string>

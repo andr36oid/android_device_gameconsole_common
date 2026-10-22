@@ -161,6 +161,10 @@ final class Chapters {
         }
         para(c, R.string.speed_screen);
 
+        c = chapter(R.string.heatsink_title, chapters);
+        para(c, R.string.heatsink_intro);
+        para(c, R.string.heatsink_needs);
+
         if (touchControls) {
             c = chapter(R.string.touch_title, chapters);
             para(c, R.string.touch_intro);
