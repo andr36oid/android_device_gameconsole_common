@@ -27,4 +27,6 @@
 
     <string name="credits_example_music">Example music by</string>
     <string name="credits_now_playing">Now playing: %1$s by %2$s</string>
+    <!-- Said by the icon at the end of the credits, the same in every language -->
+    <string name="credits_watching" translatable="false">watching</string>
 </resources>

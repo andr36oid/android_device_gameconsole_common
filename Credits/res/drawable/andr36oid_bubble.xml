@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The watching icon's speech bubble, as on the first start's welcome screen -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="#F2F2F2" />
+    <corners android:radius="10dp" />
+</shape>

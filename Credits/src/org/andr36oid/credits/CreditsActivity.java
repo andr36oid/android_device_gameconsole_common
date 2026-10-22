@@ -1,11 +1,7 @@
 package org.andr36oid.credits;
 
-import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.graphics.Color;
-import android.graphics.LinearGradient;
-import android.graphics.Matrix;
-import android.graphics.Shader;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
 import android.media.AudioAttributes;
@@ -17,7 +13,10 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.SystemProperties;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 import android.util.TypedValue;
 import android.view.Choreographer;
 import android.view.Gravity;
@@ -25,7 +24,7 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewOutlineProvider;
-import android.view.animation.LinearInterpolator;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -49,7 +48,6 @@ public class CreditsActivity extends Activity {
     private final Handler mHandler = new Handler(Looper.getMainLooper());
     private ScrollView mScroll;
     private LinearLayout mContent;
-    private ValueAnimator mShimmer;
     // Lucid by HoliznaCC0 plays while the credits roll, if it is still in Music (one of the
     // example tracks the first start copies there). Deleted: the credits stay silent.
     private static final String SONG_FILE = "holiznacc0-lucid.mp3";
@@ -119,7 +117,14 @@ public class CreditsActivity extends Activity {
         // start and Android draws its focus highlight, a white veil, over all of it.
         mScroll.setFocusable(false);
         mScroll.setDefaultFocusHighlightEnabled(false);
-        mScroll.addView(mContent);
+        // The watching icon sits on top of the credits' bottom corner instead of below them:
+        // the credits keep their length, and with it their timing to the song.
+        final FrameLayout page = new FrameLayout(this);
+        page.addView(mContent);
+        page.addView(watching(), new FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT,
+                Gravity.BOTTOM | Gravity.END));
+        mScroll.addView(page);
         setContentView(mScroll);
         HintBar.overlay(this, "B", getString(org.andr36oid.hints.R.string.andr36oid_hint_back));
     }
@@ -128,7 +133,6 @@ public class CreditsActivity extends Activity {
     protected void onResume() {
         super.onResume();
         rollAfter(START_DELAY_MS);
-        if (mShimmer != null) mShimmer.start();
         if (mPlayer != null) {
             getSystemService(AudioManager.class).requestAudioFocus(mFocus);
             mPlayer.start();
@@ -139,7 +143,6 @@ public class CreditsActivity extends Activity {
     protected void onPause() {
         super.onPause();
         stopRolling();
-        if (mShimmer != null) mShimmer.cancel();
         if (mPlayer != null) {
             mPlayer.pause();
             getSystemService(AudioManager.class).abandonAudioFocusRequest(mFocus);
@@ -245,8 +248,11 @@ public class CreditsActivity extends Activity {
 
         final TextView title = text("andr36oid", 40, Color.WHITE, Typeface.BOLD);
         title.setLetterSpacing(0.04f);
+        final SpannableString name = new SpannableString("andr36oid");
+        name.setSpan(new ForegroundColorSpan(getColor(R.color.credits_accent)), 4, 6,
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        title.setText(name);
         mContent.addView(title, margins(0, 12, 0, 0));
-        shimmer(title);
 
         final String version = SystemProperties.get("ro.andr36oid.version");
         final String tagline = getString(R.string.credits_tagline);
@@ -294,6 +300,34 @@ public class CreditsActivity extends Activity {
         }
     }
 
+    /** The icon from the welcome screen, saying "watching" in a speech bubble above it. */
+    private View watching() {
+        final LinearLayout column = new LinearLayout(this);
+        column.setOrientation(LinearLayout.VERTICAL);
+        column.setGravity(Gravity.END);
+        column.setPadding(0, 0, dp(12), dp(8));
+        column.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS);
+
+        final TextView bubble = text(getString(R.string.credits_watching), 14,
+                Color.rgb(0x20, 0x20, 0x20), Typeface.BOLD);
+        bubble.setBackgroundResource(R.drawable.andr36oid_bubble);
+        bubble.setPadding(dp(10), dp(6), dp(10), dp(6));
+        column.addView(bubble);
+
+        // The tail under the bubble, over the icon's middle
+        final ImageView tail = new ImageView(this);
+        tail.setImageResource(R.drawable.andr36oid_bubble_tail);
+        final LinearLayout.LayoutParams tailParams =
+                new LinearLayout.LayoutParams(dp(12), dp(7));
+        tailParams.setMarginEnd(dp(18));
+        column.addView(tail, tailParams);
+
+        final ImageView icon = new ImageView(this);
+        icon.setImageResource(R.drawable.ic_andr36oid_version);
+        column.addView(icon, new LinearLayout.LayoutParams(dp(48), dp(48)));
+        return column;
+    }
+
     /** An artist's name, and the license when it asks for credit. */
     private void artist(String name, String license) {
         mContent.addView(text(name, 18, getColor(R.color.credits_name), Typeface.BOLD),
@@ -308,14 +342,15 @@ public class CreditsActivity extends Activity {
         final TextView header = text(getString(titleRes), 12, getColor(R.color.credits_heading),
                 Typeface.BOLD);
         header.setAllCaps(true);
-        header.setLetterSpacing(0.25f);
+        header.setLetterSpacing(0.15f);
         mContent.addView(header, margins(0, 48, 0, 0));
 
         final View bar = new View(this);
-        final GradientDrawable gradient = new GradientDrawable(
-                GradientDrawable.Orientation.LEFT_RIGHT, gradientColors());
-        gradient.setCornerRadius(dp(1));
-        bar.setBackground(gradient);
+        final GradientDrawable line = new GradientDrawable();
+        line.setColor(getColor(R.color.credits_accent));
+        line.setCornerRadius(dp(1));
+        bar.setBackground(line);
+        bar.setAlpha(0.6f);
         final LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(dp(48), dp(2));
         params.setMargins(0, dp(8), 0, dp(4));
         mContent.addView(bar, params);
@@ -401,37 +436,6 @@ public class CreditsActivity extends Activity {
         mContent.addView(row, params);
     }
 
-    /** Lets a gradient run through the title, over and over. */
-    private void shimmer(TextView title) {
-        final Matrix matrix = new Matrix();
-        title.addOnLayoutChangeListener((v, left, top, right, bottom, oldLeft, oldTop, oldRight,
-                oldBottom) -> {
-            if (mShimmer != null) {
-                return;
-            }
-            final float width = title.getPaint().measureText(title.getText().toString());
-            final LinearGradient gradient = new LinearGradient(0, 0, width, 0,
-                    gradientColors(), null, Shader.TileMode.MIRROR);
-            title.getPaint().setShader(gradient);
-            mShimmer = ValueAnimator.ofFloat(0f, 2f * width);
-            mShimmer.setDuration(6000);
-            mShimmer.setRepeatCount(ValueAnimator.INFINITE);
-            mShimmer.setInterpolator(new LinearInterpolator());
-            mShimmer.addUpdateListener(animator -> {
-                matrix.setTranslate((float) animator.getAnimatedValue(), 0);
-                gradient.setLocalMatrix(matrix);
-                title.invalidate();
-            });
-            if (!isFinishing() && hasWindowFocus()) mShimmer.start();
-        });
-    }
-
-    /** The console's accent (orange until one is picked), light to full to light. */
-    private int[] gradientColors() {
-        final int accent = getColor(R.color.credits_accent);
-        return new int[] { towardWhite(accent, 0.55f), accent, towardWhite(accent, 0.3f) };
-    }
-
     /**
      * The glow at the top in a dark shade of the accent (wooden brown for the orange),
      * fading into black.
@@ -448,12 +452,6 @@ public class CreditsActivity extends Activity {
     private static int dim(int color, float amount) {
         return Color.rgb(Math.round(Color.red(color) * amount),
                 Math.round(Color.green(color) * amount), Math.round(Color.blue(color) * amount));
-    }
-
-    private static int towardWhite(int color, float amount) {
-        final int r = Color.red(color), g = Color.green(color), b = Color.blue(color);
-        return Color.rgb(r + Math.round((255 - r) * amount), g + Math.round((255 - g) * amount),
-                b + Math.round((255 - b) * amount));
     }
 
     private void clipTo(ImageView view, int shapeRes) {
