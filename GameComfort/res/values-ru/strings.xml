@@ -7,12 +7,14 @@
     <string name="warning_when">Предупреждать при</string>
     <string-array name="warning_entries">
         <item>Выкл.</item>
+        <item>30 %, 20 %, 15 % и 5 %</item>
         <item>15 % и 5 %</item>
         <item>Только 5 %</item>
     </string-array>
     <string name="warning_preview">Показать пробное предупреждение</string>
     <string name="warning_about">Собственное уведомление Android о низком заряде легко пропустить в полноэкранной игре. Вместо него вверху экрана ненадолго появляется полоска, по одному разу на каждый уровень, пока консоль работает от батареи. Кнопки у игры она не отбирает.\n\nКогда батарея садится полностью, консоль выключается, и всё несохранённое пропадает.</string>
     <!-- The banner on top of the game -->
+    <string name="banner_charge_text">Батарея <xliff:g id="percent">%1$d</xliff:g> %% — скоро подключите зарядку</string>
     <string name="banner_text">Батарея <xliff:g id="percent">%1$d</xliff:g> %% — сохраните игру</string>
     <!-- Game mode, Settings home page and Quick Settings tile -->
     <string name="game_mode_title">Игровой режим</string>

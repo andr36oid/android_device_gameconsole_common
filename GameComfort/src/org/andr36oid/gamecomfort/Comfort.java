@@ -11,7 +11,9 @@ import android.preference.PreferenceManager;
 final class Comfort {
 
     static final String KEY_BATTERY_WARNING = "battery_warning";
-    static final String DEFAULT_BATTERY_WARNING = "15,5";
+    static final String DEFAULT_BATTERY_WARNING = "30,20,15,5";
+    /** Above this a warning only says to charge soon; from here on to save the game */
+    private static final int SAVE_NOW_PERCENT = 15;
 
     /** Lowest threshold warned about in this discharge, see LowBattery. */
     private static final String KEY_WARNED = "battery_warned";
@@ -40,9 +42,13 @@ final class Comfort {
         prefs(context).edit().putInt(KEY_WARNED, warned).apply();
     }
 
-    /** The banner text for this level; the last warning says that the console turns off. */
+    /**
+     * The banner text for this level: charge soon while there is plenty left, save the game
+     * from 15 % on, and the last warning says that the console turns off.
+     */
     static String warningText(Context context, int percent) {
         return context.getString(LowBattery.isLast(percent) ? R.string.banner_last_text
+                : percent > SAVE_NOW_PERCENT ? R.string.banner_charge_text
                 : R.string.banner_text, percent);
     }
 

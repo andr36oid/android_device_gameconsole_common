@@ -9,6 +9,7 @@
     <string name="warning_when">Avisar al</string>
     <string-array name="warning_entries">
         <item>Desactivado</item>
+        <item>30 %, 20 %, 15 % y 5 %</item>
         <item>15 % y 5 %</item>
         <item>Solo 5 %</item>
     </string-array>
@@ -16,6 +17,7 @@
     <string name="warning_about">La notificación de batería baja de Android es fácil de pasar por alto durante un juego a pantalla completa. Esto muestra en su lugar un breve banner en la parte superior de la pantalla, una vez por cada nivel, mientras la consola funciona con batería. No le quita los botones al juego.\n\nLa consola se apaga sola cuando la batería se agota, y todo lo que no esté guardado se pierde.</string>
 
     <!-- The banner on top of the game -->
+    <string name="banner_charge_text">Batería al <xliff:g id="percent">%1$d</xliff:g> %% – conecta el cargador pronto</string>
     <string name="banner_text">Batería al <xliff:g id="percent">%1$d</xliff:g> %% – guarda la partida ya</string>
 
     <!-- Game mode, Settings home page and Quick Settings tile -->

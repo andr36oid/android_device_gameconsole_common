@@ -9,6 +9,7 @@
     <string name="warning_when">Avisar em</string>
     <string-array name="warning_entries">
         <item>Desativado</item>
+        <item>30 %, 20 %, 15 % e 5 %</item>
         <item>15 % e 5 %</item>
         <item>Só 5 %</item>
     </string-array>
@@ -16,6 +17,7 @@
     <string name="warning_about">A notificação de bateria fraca do próprio Android passa despercebida fácil durante um jogo em tela cheia. Por isso, isto mostra uma faixa curta no topo da tela, uma vez para cada nível, enquanto o console está na bateria. Ela não tira os botões do jogo.\n\nO console se desliga sozinho quando a bateria acaba, e o que não foi salvo é perdido.</string>
 
     <!-- The banner on top of the game -->
+    <string name="banner_charge_text">Bateria em <xliff:g id="percent">%1$d</xliff:g> %% – conecte o carregador em breve</string>
     <string name="banner_text">Bateria em <xliff:g id="percent">%1$d</xliff:g> %% – salve o jogo agora</string>
 
     <!-- Game mode, Settings home page and Quick Settings tile -->

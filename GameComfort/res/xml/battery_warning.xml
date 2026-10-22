@@ -3,7 +3,7 @@
 
     <ListPreference
         android:key="battery_warning"
-        android:defaultValue="15,5"
+        android:defaultValue="30,20,15,5"
         android:entries="@array/warning_entries"
         android:entryValues="@array/warning_values"
         android:summary="%s"

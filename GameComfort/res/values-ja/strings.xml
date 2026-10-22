@@ -6,11 +6,13 @@
     <string name="warning_when">警告するタイミング</string>
     <string-array name="warning_entries">
         <item>オフ</item>
+        <item>30%、20%、15% と 5%</item>
         <item>15% と 5%</item>
         <item>5% のみ</item>
     </string-array>
     <string name="warning_preview">テストの警告を表示</string>
     <string name="warning_about">全画面のゲーム中は、Android の低バッテリー通知に気づきにくいことがあります。そこでこの機能は、本体がバッテリーで動いている間、段階ごとに 1 回、画面上部に短いバナーを表示します。ゲームの操作を妨げることはありません。\n\n本体はバッテリーが空になると自動的に電源が切れ、保存していないデータは失われます。</string>
+    <string name="banner_charge_text">バッテリー <xliff:g id="percent">%1$d</xliff:g> %% – そろそろ充電してください</string>
     <string name="banner_text">バッテリー <xliff:g id="percent">%1$d</xliff:g> %% – 今すぐゲームを保存してください</string>
     <string name="game_mode_title">ゲームモード</string>
     <string name="game_mode_summary">プレイ中はおやすみモードにし、ポップアップ通知を出しません</string>

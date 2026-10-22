@@ -9,6 +9,7 @@
     <string name="warning_when">Uyarı seviyesi</string>
     <string-array name="warning_entries">
         <item>Kapalı</item>
+        <item>%30, %20, %15 ve %5</item>
         <item>%15 ve %5</item>
         <item>Yalnızca %5</item>
     </string-array>
@@ -16,6 +17,7 @@
     <string name="warning_about">Android\'in kendi düşük pil bildirimi, tam ekran bir oyun sırasında kolayca gözden kaçar. Bu özellik bunun yerine ekranın üstünde kısa bir şerit gösterir; konsol pille çalışırken her seviye için bir kez. Tuşları oyundan almaz.\n\nPil bittiğinde konsol kendiliğinden kapanır ve kaydedilmemiş her şey kaybolur.</string>
 
     <!-- The banner on top of the game -->
+    <string name="banner_charge_text">Pil %%<xliff:g id="percent">%1$d</xliff:g> – şarj cihazını yakında takın</string>
     <string name="banner_text">Pil %%<xliff:g id="percent">%1$d</xliff:g> – oyununuzu şimdi kaydedin</string>
 
     <!-- Game mode, Settings home page and Quick Settings tile -->

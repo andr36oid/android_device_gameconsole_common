@@ -9,6 +9,7 @@
     <string name="warning_when">Ostrzegaj przy</string>
     <string-array name="warning_entries">
         <item>Wył.</item>
+        <item>30 %, 20 %, 15 % i 5 %</item>
         <item>15 % i 5 %</item>
         <item>Tylko 5 %</item>
     </string-array>
@@ -16,6 +17,7 @@
     <string name="warning_about">Systemowe powiadomienie Androida o niskiej baterii łatwo przeoczyć podczas gry na pełnym ekranie. Zamiast niego u góry ekranu pojawia się krótki pasek, raz dla każdego poziomu, gdy konsola działa na baterii. Nie odbiera on grze przycisków.\n\nKonsola sama się wyłącza, gdy bateria jest pusta, a wszystko, co nie zostało zapisane, przepada.</string>
 
     <!-- The banner on top of the game -->
+    <string name="banner_charge_text">Bateria <xliff:g id="percent">%1$d</xliff:g>%% – wkrótce podłącz ładowarkę</string>
     <string name="banner_text">Bateria <xliff:g id="percent">%1$d</xliff:g>%% – zapisz teraz grę</string>
 
     <!-- Game mode, Settings home page and Quick Settings tile -->

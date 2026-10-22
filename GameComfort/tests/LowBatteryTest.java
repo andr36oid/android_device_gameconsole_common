@@ -60,6 +60,8 @@ public final class LowBatteryTest {
         // Discharges; a negative entry in the result is the last (long) warning
         check("full discharge", Arrays.asList(15, 5, -3),
                 run("15,5", 20, 16, 15, 14, 6, 5, 4, 3, 2, 1, 0));
+        check("default discharge", Arrays.asList(30, 20, 15, 5, -3),
+                run("30,20,15,5", 40, 31, 30, 25, 20, 16, 15, 6, 5, 3, 1));
         check("5 only", Arrays.asList(5, -3), run("5", 20, 15, 5, 4, 3, 2));
         check("off never warns", Arrays.asList(), run("off", 20, 15, 5, 3, 1, 0));
         check("jump past 5 gives only the last", Arrays.asList(15, -3),
