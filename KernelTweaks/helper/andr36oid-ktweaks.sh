@@ -5,6 +5,7 @@
 #          default in sys.andr36oid.ktd.<key>, then apply the saved tweaks
 #   apply  (andr36oid-ktweaks, ctl.start from the app): apply again, until
 #          sys.andr36oid.kt.request stops changing
+#   profiles (andr36oid-ktprofiles): export or stage profile files for the app
 #
 # A tweak is persist.andr36oid.kt.<key> (kept after a restart) or, for the "once" knobs,
 # sys.andr36oid.kt.<key> (this start only). Empty means the default. After a run every
@@ -517,7 +518,8 @@ apply_all() {
 $KNOBS
 EOF
 	write_boot_args "$bootargs" || failed="$failed boot"
-	setprop sys.andr36oid.kt.args "$bootargs"
+	# Property values allow 91 bytes; the BOOT file keeps the complete start options.
+	setprop sys.andr36oid.kt.args "$(printf '%s' "$bootargs" | head -c 91)"
 	setprop sys.andr36oid.kt.failed "${failed# }"
 }
 
@@ -538,6 +540,176 @@ is_paused() {
 	esac
 }
 
+# Profiles are plain data. Only the app validates and applies imported tweaks.
+PROFILE_DIR=${KT_PROFILE_DIR:-/data/misc/andr36oid-ktprofiles}
+PROFILE_BUILTIN=${KT_PROFILE_BUILTIN:-/system/etc/andr36oid-ktprofiles}
+PROFILE_DOWNLOAD=${KT_PROFILE_DOWNLOAD:-/data/media/0/Download}
+PROFILE_FOLDER=andr36oid-ktprofiles
+PROFILE_MAX_BYTES=65536
+PROFILE_MAX_FILES=100
+
+profile_status() {
+	printf '%s\n' "$*" >"$PROFILE_DIR/status.tmp"
+	[ -n "${KT_PROFILE_DIR:-}" ] || chown system:system "$PROFILE_DIR/status.tmp"
+	mv -f "$PROFILE_DIR/status.tmp" "$PROFILE_DIR/status"
+}
+
+profile_easyroms() {
+	local selected id state uuid
+	if [ -n "${KT_PROFILE_EASYROMS+set}" ]; then
+		[ -d "${KT_PROFILE_EASYROMS:-}" ] && echo "$KT_PROFILE_EASYROMS"
+		return
+	fi
+	selected=$(getprop sys.andr36oid.easyroms.id)
+	if [ -z "$selected" ] && [ "$(getprop sys.andr36oid.easyroms.ready)" != 1 ]; then
+		selected=public:179,7
+	fi
+	sm list-volumes public </dev/null 2>/dev/null | while read -r id state uuid; do
+		[ "$id" = "$selected" ] && [ "$state" = mounted ] && [ -n "$uuid" ] &&
+			[ -d "/mnt/media_rw/$uuid" ] && echo "/mnt/media_rw/$uuid"
+	done
+}
+
+# Values are one line, also for device tree strings (compatible is a NUL list).
+profile_identity() {
+	printf 'model=%s\n' "$(tr -d '\0\r\n' <"$R/proc/device-tree/model" 2>/dev/null | head -c 1024)"
+	printf 'compatible=%s\n' "$(tr '\0' ' ' <"$R/proc/device-tree/compatible" 2>/dev/null | tr -d '\r\n' | head -c 1024)"
+	printf 'profile=%s\n' "$(if [ -n "$BOOT" ]; then head -c 1024 "$BOOT/andr36oid-profile.txt" 2>/dev/null | head -n 1 | tr -d '\r'; fi)"
+	printf 'version=%s\n' "$(getprop ro.andr36oid.version)"
+	local f panel
+	panel=$(getprop andr36oid.info.panel)
+	if [ -n "$panel" ] && [ "$panel" != custom ]; then
+		printf 'panel=%s\n' "$panel"
+		return
+	fi
+	for f in "$R"/proc/device-tree/*/panel*/compatible "$R"/proc/device-tree/panel*/compatible; do
+		[ -f "$f" ] || continue
+		printf 'panel=%s\n' "$(tr '\0' ' ' <"$f" | tr -d '\r\n' | head -c 1024)"
+		return
+	done
+	printf 'panel=\n'
+}
+
+profile_usable() {
+	local name=${1##*/} size
+	case $name in
+	.* | *[!A-Za-z0-9._-]*) return 1 ;;
+	?*.txt | ?*.TXT) ;;
+	*) return 1 ;;
+	esac
+	[ -f "$1" ] && [ ! -L "$1" ] || return 1
+	size=$(wc -c <"$1" 2>/dev/null) || return 1
+	[ "$size" -gt 0 ] && [ "$size" -le "$PROFILE_MAX_BYTES" ]
+}
+
+# Snapshot files under numbered names, never use an imported name as an app path.
+profile_scan() {
+	local dir=$1 source=$2 f
+	[ -d "$dir" ] && [ ! -L "$dir" ] || return 0
+	for f in "$dir"/*; do
+		[ -e "$f" ] || [ -L "$f" ] || continue
+		case $f in *.txt | *.TXT) ;; *) continue ;; esac
+		if [ "$profile_n" -ge "$PROFILE_MAX_FILES" ] || ! profile_usable "$f"; then
+			profile_skipped=$((profile_skipped + 1))
+			continue
+		fi
+		profile_n=$((profile_n + 1))
+		dd if="$f" of="$PROFILE_DIR/in/$profile_n.txt" bs=$PROFILE_MAX_BYTES count=1 2>/dev/null || return 1
+		printf '%s\t%s\t%s\n' "$profile_n" "$source" "${f##*/}" >>"$PROFILE_DIR/list"
+	done
+}
+
+# Copy atomically, trying the next drive even when a mounted drive is full/read-only.
+profile_copy() {
+	local dir=$1 name=$2
+	[ ! -L "$dir" ] || return 1
+	mkdir -p "$dir" 2>/dev/null || return 1
+	[ ! -e "$dir/$name" ] && [ ! -L "$dir/$name" ] || return 1
+	[ ! -e "$dir/.$name.tmp" ] && [ ! -L "$dir/.$name.tmp" ] || return 1
+	if cp "$PROFILE_DIR/out" "$dir/.$name.tmp" 2>/dev/null &&
+		mv "$dir/.$name.tmp" "$dir/$name" 2>/dev/null; then
+		return 0
+	fi
+	rm -f "$dir/.$name.tmp"
+	return 1
+}
+
+profiles() {
+	local request easy name source dir where='' profile_n=0 profile_skipped=0
+	[ -d "$PROFILE_DIR" ] || return 1
+	umask 007
+	request=$(cat "$PROFILE_DIR/request" 2>/dev/null)
+	rm -f "$PROFILE_DIR/request"
+	case $request in export | scan) ;; *) profile_status "error request"; return ;; esac
+	trap 'boot_umount' EXIT
+	boot_mount ro || BOOT=
+	profile_identity >"$PROFILE_DIR/identity"
+	easy=$(profile_easyroms)
+	if [ "$request" = scan ]; then
+		rm -rf "$PROFILE_DIR/in"
+		mkdir -p "$PROFILE_DIR/in" || { profile_status "error copy"; return; }
+		: >"$PROFILE_DIR/list"
+		for source in builtin BOOT EASYROMS Download; do
+			case $source in
+			builtin) dir=$PROFILE_BUILTIN ;;
+			BOOT) dir=${BOOT:+$BOOT/$PROFILE_FOLDER} ;;
+			EASYROMS) dir=${easy:+$easy/$PROFILE_FOLDER} ;;
+			Download) dir=$PROFILE_DOWNLOAD/$PROFILE_FOLDER ;;
+			esac
+			[ -n "$dir" ] || continue
+			if ! profile_scan "$dir" "$source"; then
+				profile_status "error copy"; return
+			fi
+		done
+	else
+		[ -s "$PROFILE_DIR/readme" ] || { profile_status "error request"; return; }
+		{
+			printf '# %s\nformat=andr36oid-ktprofile-1\n' "$(head -n 1 "$PROFILE_DIR/readme")"
+			cat "$PROFILE_DIR/identity"
+			echo "$KNOBS" | while IFS='|' read -r key kind once paths; do
+				[ -n "$key" ] || continue
+				[ -z "$once" ] || continue
+				v=$(getprop "persist.andr36oid.kt.$key")
+				[ -n "$v" ] && printf 'persist.andr36oid.kt.%s=%s\n' "$key" "$v"
+			done
+		} >"$PROFILE_DIR/out"
+		name=ktprofile-$(date +%Y%m%d-%H%M%S)-$$.txt
+		if [ -n "$BOOT" ]; then
+			if [ -n "${KT_BOOT:-}" ]; then
+				[ ! -e "$BOOT/.readonly" ] && profile_copy "$BOOT/$PROFILE_FOLDER" "$name" && where=BOOT
+			elif mount -o remount,rw "$BOOT_MNT" 2>/dev/null; then
+				profile_copy "$BOOT/$PROFILE_FOLDER" "$name" && where=BOOT
+			fi
+		fi
+		boot_umount
+		if [ -z "$where" ] && [ -n "$easy" ]; then
+			profile_copy "$easy/$PROFILE_FOLDER" "$name" && where=EASYROMS
+		fi
+		if [ -z "$where" ] && [ -d "$PROFILE_DOWNLOAD" ]; then
+			profile_copy "$PROFILE_DOWNLOAD/$PROFILE_FOLDER" "$name" && where=Download
+		fi
+		[ -n "$where" ] || { profile_status "error copy"; return; }
+		printf '%s/%s/%s\n' "$where" "$PROFILE_FOLDER" "$name" >"$PROFILE_DIR/saved"
+		if [ "$where" = Download ] && [ -z "${KT_PROFILE_DIR:-}" ]; then
+			chown media_rw:media_rw "$PROFILE_DOWNLOAD/$PROFILE_FOLDER" "$PROFILE_DOWNLOAD/$PROFILE_FOLDER/$name"
+			chmod 0775 "$PROFILE_DOWNLOAD/$PROFILE_FOLDER"
+			chmod 0664 "$PROFILE_DOWNLOAD/$PROFILE_FOLDER/$name"
+			am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE \
+				-d "file:///sdcard/Download/$PROFILE_FOLDER/$name" >/dev/null 2>&1
+		fi
+	fi
+	boot_umount
+	if [ -z "${KT_PROFILE_DIR:-}" ]; then
+		chown -R system:system "$PROFILE_DIR"
+	fi
+	profile_status "done $profile_skipped"
+}
+
+if [ "$1" = profiles ]; then
+	profiles
+	exit $?
+fi
+
 paused=$(is_paused)
 
 if [ "$1" = boot ]; then
@@ -557,7 +729,7 @@ if [ "$1" = boot ]; then
 			[ -n "$added" ] && BASE="${c%" $added "*} ${c##*" $added "}" ;;
 		esac
 	fi
-	setprop sys.andr36oid.kt.started_with "${added:-}"
+	setprop sys.andr36oid.kt.started_with "$(printf '%s' "${added:-}" | head -c 91)"
 	echo "$KNOBS" | while IFS='|' read -r key kind once paths; do
 		[ -n "$key" ] || continue
 		if [ "$kind" = boot ]; then

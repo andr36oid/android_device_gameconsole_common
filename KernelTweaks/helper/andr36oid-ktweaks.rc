@@ -1,5 +1,8 @@
 # Settings > System > Kernel Tweaks, see andr36oid-ktweaks.sh
 
+on post-fs-data
+    mkdir /data/misc/andr36oid-ktprofiles 0770 system system
+
 # note the defaults and apply the saved tweaks as soon as they are loaded
 on property:ro.persistent_properties.ready=true
     start andr36oid-ktweaks-boot
@@ -18,5 +21,12 @@ service andr36oid-ktweaks-boot /system/bin/sh /system/etc/andr36oid-ktweaks.sh b
 service andr36oid-ktweaks /system/bin/sh /system/etc/andr36oid-ktweaks.sh apply
     user root
     group root system
+    disabled
+    oneshot
+
+# Copies profile files between the app and BOOT, EASYROMS or Download.
+service andr36oid-ktprofiles /system/bin/sh /system/etc/andr36oid-ktweaks.sh profiles
+    user root
+    group root system media_rw
     disabled
     oneshot

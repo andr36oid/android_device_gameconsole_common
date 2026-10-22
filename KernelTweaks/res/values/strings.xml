@@ -20,6 +20,32 @@
     <string name="kt_reset_summary">Back to the defaults for this console</string>
     <string name="kt_reset_confirm">Put every kernel tweak back to its default?</string>
 
+    <!-- Shared profiles -->
+    <string name="kt_profile_export">Export profile</string>
+    <string name="kt_profile_export_summary">Save your choices to BOOT, EASYROMS or internal Download to share from a PC</string>
+    <string name="kt_profile_import">Import profile</string>
+    <string name="kt_profile_import_summary">Choose a file from the andr36oid-ktprofiles folder on BOOT, EASYROMS or internal Download, or a recommendation shipped with the system</string>
+    <string name="kt_profile_readme">andr36oid Kernel Tweaks profile: saved choices and console identity only, with no personal data. Import through Settings > System > Kernel Tweaks.</string>
+    <string name="kt_profile_saved">Profile saved to <xliff:g id="path">%1$s</xliff:g></string>
+    <string name="kt_profile_error">Couldn\'t read or save profiles. Check that the card or internal storage is available, wait a moment and try again.</string>
+    <string name="kt_profile_none">No profiles found. Put .txt profile files in the andr36oid-ktprofiles folder on BOOT, EASYROMS or internal Download.</string>
+    <string name="kt_profile_skipped">Skipped <xliff:g id="count">%1$d</xliff:g> files that were unreadable, invalid, too large, or over the 100-file limit.</string>
+    <string name="kt_profile_recommended">Recommended for this console: <xliff:g id="name">%1$s</xliff:g></string>
+    <string name="kt_profile_mismatch">This profile was made for a different console or system version, or its identity is incomplete. Check these differences before applying (this console → profile):</string>
+    <string name="kt_profile_model">Console model</string>
+    <string name="kt_profile_compatible">Device tree compatible</string>
+    <string name="kt_profile_boot">BOOT profile</string>
+    <string name="kt_profile_version">andr36oid version</string>
+    <string name="kt_profile_panel">Panel</string>
+    <string name="kt_profile_change"><xliff:g id="title">%1$s</xliff:g>: <xliff:g id="current">%2$s</xliff:g> → <xliff:g id="new">%3$s</xliff:g></string>
+    <string name="kt_profile_no_changes">No saved choices would change.</string>
+    <string name="kt_profile_unknown">Ignored unknown keys: <xliff:g id="keys">%1$s</xliff:g></string>
+    <string name="kt_profile_invalid">Ignored values outside the allowed choices: <xliff:g id="keys">%1$s</xliff:g></string>
+    <string name="kt_profile_unavailable">Ignored tweaks unavailable on this console: <xliff:g id="titles">%1$s</xliff:g></string>
+    <string name="kt_profile_paused">Tweaks are switched off. These choices will be saved; switch Use tweaks on when you want to try them.</string>
+    <string name="kt_profile_keep">Choices missing from this profile stay as they are. Risky tweaks carry the same risks as changing them one by one.</string>
+    <string name="kt_profile_apply">Apply profile</string>
+
     <!-- Risk dots: legend at the top of the list, and each tweak's level -->
     <string name="kt_legend">What the dots mean</string>
     <string name="kt_level_safe">Safe: fine to try on any console</string>

@@ -5,6 +5,7 @@ set -u
 HERE=$(cd "$(dirname "$0")" && pwd)
 MKSH=${1:-/andr36oid/work/tmp/o2-shellcheck/mksh/mksh}
 [ -x "$MKSH" ] || MKSH=$(command -v mksh || command -v bash)
+TOYBOX=${TOYBOX:-/andr36oid/src/prebuilts/build-tools/linux-x86/bin/toybox}
 T=$(mktemp -d)
 trap 'rm -rf "$T"' EXIT
 pass=0
@@ -65,18 +66,32 @@ cat "$T/props/\$1" 2>/dev/null
 EOF
 	cat >"$T/bin/setprop" <<EOF
 #!/bin/sh
+[ "\${#2}" -lt 92 ] || { echo "\$1" >>"$T/long-props"; exit 1; }
 printf '%s\n' "\$2" >"$T/props/\$1"
 EOF
 	printf '#!/bin/sh\nexit 0\n' >"$T/bin/log"
 	# the real sync can hang for minutes on a busy build host
 	printf '#!/bin/sh\nexit 0\n' >"$T/bin/sync"
 	chmod +x "$T/bin/"*
+	if [ -x "$TOYBOX" ]; then
+		[ -e "$T/lib64" ] || ln -s "$(dirname "$TOYBOX")/../lib64" "$T/lib64"
+		for cmd in cat cp cut date dd grep head mkdir mv rm rmdir sed tr wc; do
+			ln -s "$TOYBOX" "$T/bin/$cmd"
+		done
+	fi
 }
 
 prop() { cat "$T/props/$1" 2>/dev/null; }
 setp() { printf '%s\n' "$2" >"$T/props/$1"; }
 # TMPDIR points nowhere: on Android there is no /tmp and init sets no TMPDIR
 run() { TMPDIR=$T/no-such-dir KT_BOOT=$T/boot KT_ROOT=$R PATH="$T/bin:$PATH" "$MKSH" "$HERE/../helper/andr36oid-ktweaks.sh" "$@"; }
+
+# The stub rejects oversized values, as Android's property service does.
+setup
+value=$(printf '%092d' 0)
+PATH="$T/bin:$PATH" setprop sys.test "$value" && echo "unexpected property success"
+check "property stub refuses 92 bytes" no "$([ -e "$T/props/sys.test" ] && echo yes || echo no)"
+rm -f "$T/long-props"
 
 # --- boot notes the defaults
 setup
@@ -172,7 +187,7 @@ setp persist.andr36oid.kt.cma_size 96
 run apply
 check "file written" "fiq_debugger.disable=0 console=ttyS2,115200n8 androidboot.console=ttyS2 cma=96M cpuidle.off=1" \
 	"$(sed -n 's/^kt_args=//p' "$T/boot/kernel-tweaks.txt")"
-check "args reported" "fiq_debugger.disable=0 console=ttyS2,115200n8 androidboot.console=ttyS2 cma=96M cpuidle.off=1" \
+check "args reported within property limit" "fiq_debugger.disable=0 console=ttyS2,115200n8 androidboot.console=ttyS2 cma=96M cpuidle.off" \
 	"$(prop sys.andr36oid.kt.args)"
 check "current stays until a restart" off "$(prop sys.andr36oid.ktc.serial_console)"
 check "start options never fail" "" "$(prop sys.andr36oid.kt.failed | tr -d ' ')"
@@ -185,7 +200,7 @@ check "default without the added part" off "$(prop sys.andr36oid.ktd.serial_cons
 check "current with it" on "$(prop sys.andr36oid.ktc.serial_console)"
 check "cma current" 96 "$(prop sys.andr36oid.ktc.cma_size)"
 check "cpu idle current" off "$(prop sys.andr36oid.ktc.cpu_idle)"
-check "started with" "$args" "$(prop sys.andr36oid.kt.started_with)"
+check "started with" "${args:0:91}" "$(prop sys.andr36oid.kt.started_with)"
 
 # --- back to the defaults: the file goes
 setp persist.andr36oid.kt.serial_console ""
@@ -577,5 +592,184 @@ J=$HERE/../src/org/andr36oid/kerneltweaks/Tweaks.java
 check "every tweak has a level" "$(grep -c '^ *\.add(' "$J")" \
 	"$(grep -c '^ *\.level(Tweak\.\(SAFE\|LAST_RESORT\|RISKY\))' "$J")"
 
+# --- profile export and bounded import snapshots
+setup
+mkdir -p "$T/profiles" "$T/easyroms" "$T/download" "$T/builtin" \
+	"$R/proc/device-tree/dsi@ff450000/panel@0"
+printf 'Example clone\0' >"$R/proc/device-tree/model"
+printf 'example,clone\0rockchip,rk3326\0' >"$R/proc/device-tree/compatible"
+printf 'example,panel8\0' >"$R/proc/device-tree/dsi@ff450000/panel@0/compatible"
+printf 'Experimental/EE-V12-Var1-Panel8\r\n' >"$T/boot/andr36oid-profile.txt"
+printf 'Kernel Tweaks profile, no personal data.\n' >"$T/profiles/readme"
+setp ro.andr36oid.version test-version
+setp persist.andr36oid.kt.swappiness 30
+setp persist.andr36oid.kt.stick_invert '1 0 1 0'
+setp persist.andr36oid.kt.cpu_idle off
+setp persist.andr36oid.kt.extra_rates 70,77.5
+setp persist.andr36oid.kt.paused crash
+setp persist.andr36oid.kt.tries 2
+setp sys.andr36oid.kt.sleep_test core
+
+profile_run() {
+	printf '%s\n' "$1" >"$T/profiles/request"
+	KT_PROFILE_DIR=$T/profiles KT_PROFILE_EASYROMS=$T/easyroms \
+		KT_PROFILE_DOWNLOAD=$T/download KT_PROFILE_BUILTIN=$T/builtin \
+		KT_BOOT=${2-$T/boot} KT_BOOT_DEVS=$T/no-dev KT_BOOT_LOCK=$T/profile-lock \
+		KT_BOOT_MNT=$T/profile-mount KT_ROOT=$R PATH="$T/bin:$PATH" \
+		"$MKSH" "$HERE/../helper/andr36oid-ktweaks.sh" profiles
+}
+
+profile_run export
+check "profile exported" 'done 0' "$(cat "$T/profiles/status")"
+saved=$(cat "$T/profiles/saved")
+check "profile BOOT preferred" BOOT "${saved%%/*}"
+exported=$T/boot/${saved#*/}
+check "profile saved file" yes "$(test -f "$exported" && echo yes)"
+check "profile format" 'format=andr36oid-ktprofile-1' "$(sed -n '2p' "$exported")"
+check "profile model" 'model=Example clone' "$(sed -n '/^model=/p' "$exported")"
+check "profile compatible" 'compatible=example,clone rockchip,rk3326 ' "$(sed -n '/^compatible=/p' "$exported")"
+check "profile BOOT identity" 'profile=Experimental/EE-V12-Var1-Panel8' "$(sed -n '/^profile=/p' "$exported")"
+check "profile version" 'version=test-version' "$(sed -n '/^version=/p' "$exported")"
+check "profile panel" 'panel=example,panel8 ' "$(sed -n '/^panel=/p' "$exported")"
+check "profile only set persistent knobs" 4 "$(grep -c '^persist\.' "$exported")"
+check "profile no counters/temporary/defaults" '' "$(grep -E '(paused|tries|sleep_test|heat_limit)=' "$exported")"
+check "profile absolute axes" 'persist.andr36oid.kt.stick_invert=1 0 1 0' "$(grep '^persist.*stick_invert=' "$exported")"
+check "profile other settings page knob" 'persist.andr36oid.kt.extra_rates=70,77.5' "$(grep '^persist.*extra_rates=' "$exported")"
+check "profile README" '# Kernel Tweaks profile, no personal data.' "$(head -n 1 "$exported")"
+cp "$exported" "$T/profiles/exported.txt"
+
+touch "$T/boot/.readonly"
+setp andr36oid.info.panel Experimental/EE-V12-Var1-Panel8
+profile_run export
+check "profile read-only BOOT fallback" EASYROMS "$(cut -d/ -f1 "$T/profiles/saved")"
+check "profile panel from DTB hint" 'panel=Experimental/EE-V12-Var1-Panel8' \
+	"$(grep '^panel=' "$T/profiles/identity")"
+# A symlinked destination must not be followed, even if it is writable.
+rm -rf "$T/easyroms/andr36oid-ktprofiles"
+ln -s "$T/boot" "$T/easyroms/andr36oid-ktprofiles"
+profile_run export
+check "profile Download fallback" Download "$(cut -d/ -f1 "$T/profiles/saved")"
+rm -rf "$T/download"
+profile_run export
+check "profile no writable destination" 'error copy' "$(cat "$T/profiles/status")"
+mkdir -p "$T/download/andr36oid-ktprofiles"
+# With no BOOT device, never mount anything on the host and release the shared lock.
+printf '#!/bin/sh\nexit 1\n' >"$T/bin/mount"
+printf '#!/bin/sh\nexit 0\n' >"$T/bin/umount"
+chmod +x "$T/bin/mount" "$T/bin/umount"
+profile_run export ''
+check "profile missing BOOT fallback" Download "$(cut -d/ -f1 "$T/profiles/saved")"
+check "profile missing BOOT identity empty" 'profile=' "$(grep '^profile=' "$T/profiles/identity")"
+check "profile missing BOOT releases lock" no "$(test -d "$T/profile-lock" && echo yes || echo no)"
+rm -f "$T/download/andr36oid-ktprofiles/"*.txt
+rm "$T/easyroms/andr36oid-ktprofiles"
+mkdir -p "$T/easyroms/andr36oid-ktprofiles"
+cp "$exported" "$T/easyroms/andr36oid-ktprofiles/shared.TXT"
+cp "$exported" "$T/download/andr36oid-ktprofiles/shared.txt"
+cp "$exported" "$T/builtin/example.txt"
+ln -s "$exported" "$T/boot/andr36oid-ktprofiles/link.txt"
+printf x >"$T/boot/andr36oid-ktprofiles/bad name.txt"
+: >"$T/boot/andr36oid-ktprofiles/empty.txt"
+dd if=/dev/zero of="$T/boot/andr36oid-ktprofiles/large.txt" bs=65537 count=1 2>/dev/null
+profile_run scan
+check "profile rejects links/names/empty/large" 'done 4' "$(cat "$T/profiles/status")"
+check "profile scans all roots and built-ins" 'builtin BOOT EASYROMS Download' \
+	"$(cut -f2 "$T/profiles/list" | tr '\n' ' ' | sed 's/ $//')"
+check "profile staging snapshot" "$(cat "$exported")" "$(cat "$T/profiles/in/2.txt")"
+printf 'changed after scan\n' >"$exported"
+check "profile staged file independent" 'format=andr36oid-ktprofile-1' \
+	"$(sed -n '2p' "$T/profiles/in/2.txt")"
+check "profile scan never changes properties" '30 off crash 2 core' \
+	"$(prop persist.andr36oid.kt.swappiness) $(prop persist.andr36oid.kt.cpu_idle) $(prop persist.andr36oid.kt.paused) $(prop persist.andr36oid.kt.tries) $(prop sys.andr36oid.kt.sleep_test)"
+check "profile scan never writes boot args" no "$(test -e "$T/boot/kernel-tweaks.txt" && echo yes || echo no)"
+rm -rf "$T/builtin" "$T/boot/andr36oid-ktprofiles" "$T/easyroms/andr36oid-ktprofiles" "$T/download/andr36oid-ktprofiles"
+mkdir -p "$T/builtin"
+for n in $(seq 1 102); do printf 'format=andr36oid-ktprofile-1\n' >"$T/builtin/test$n.txt"; done
+profile_run scan
+check "profile file count bounded" 100 "$(wc -l <"$T/profiles/list" | tr -d ' ')"
+check "profile reports excess files" 'done 2' "$(cat "$T/profiles/status")"
+check "profile stale copies removed" no "$(test -e "$T/profiles/in/101.txt" && echo yes || echo no)"
+profile_run unknown
+check "profile rejects unknown request" 'error request' "$(cat "$T/profiles/status")"
+
+# Exercise the real volume lookup too; the path overrides above bypass it.
+if command -v bwrap >/dev/null; then
+	mkdir -p "$T/mnt/media_rw/LEGACY" "$T/mnt/media_rw/SELECTED"
+	cat >"$T/bin/sm" <<EOF
+#!/bin/sh
+[ "\$*" = "list-volumes public" ] || exit 1
+cat "$T/volumes"
+EOF
+	chmod +x "$T/bin/sm"
+	for mode in legacy selected absent waiting; do
+		rm -f "$T/props/sys.andr36oid.easyroms."*
+		printf 'public:179,7 mounted LEGACY\npublic:179,103 mounted SELECTED\n' >"$T/volumes"
+		case $mode in
+		legacy) card=LEGACY ;;
+		*)
+			setp sys.andr36oid.easyroms.ready 1
+			card=
+			if [ "$mode" != absent ]; then
+				setp sys.andr36oid.easyroms.id public:179,103
+				card=SELECTED
+			fi
+			;;
+		esac
+		if [ "$mode" = waiting ]; then
+			printf 'public:179,7 mounted LEGACY\npublic:179,103 checking SELECTED\n' >"$T/volumes"
+			card=
+		fi
+		for drive in LEGACY SELECTED; do
+			rm -rf "$T/mnt/media_rw/$drive/andr36oid-ktprofiles"
+		done
+		echo export >"$T/profiles/request"
+		KT_PROFILE_DIR=$T/profiles KT_PROFILE_DOWNLOAD=$T/download KT_BOOT=$T/boot \
+			KT_ROOT=$R bwrap --ro-bind / / --bind "$T" "$T" --bind "$T/mnt" /mnt --dev /dev \
+			--setenv PATH "$T/bin:$PATH" --unsetenv KT_PROFILE_EASYROMS \
+			"$MKSH" "$HERE/../helper/andr36oid-ktweaks.sh" profiles
+		if [ -n "$card" ]; then
+			check "profile $mode volume" EASYROMS "$(cut -d/ -f1 "$T/profiles/saved")"
+			check "profile $mode card" 1 "$(find "$T/mnt/media_rw/$card" -name 'ktprofile-*.txt' | wc -l)"
+		else
+			check "profile $mode fallback" Download "$(cut -d/ -f1 "$T/profiles/saved")"
+			check "profile $mode cards untouched" 0 "$(find "$T/mnt/media_rw" -name 'ktprofile-*.txt' | wc -l)"
+		fi
+	done
+else
+	echo "skip profile volume lookup: no bwrap"
+fi
+
+# Compile the real tweak catalog and parser against a small Context/R stub.
+mkdir -p "$T/java/android/content" "$T/java/org/andr36oid/kerneltweaks" "$T/classes"
+cat >"$T/java/android/content/Context.java" <<'EOF'
+package android.content;
+public class Context {
+    public String getString(int id, Object... args) { return "string"; }
+}
+EOF
+python3 - "$HERE/../res/values/strings.xml" "$T/java/org/andr36oid/kerneltweaks/R.java" <<'PY'
+import sys
+import xml.etree.ElementTree as ET
+root = ET.parse(sys.argv[1]).getroot()
+with open(sys.argv[2], 'w') as out:
+    out.write('package org.andr36oid.kerneltweaks; final class R {\n')
+    for tag in ('string', 'plurals'):
+        out.write('static final class ' + tag + ' {\n')
+        for i, node in enumerate(root.findall(tag), 1):
+            out.write('static final int %s = %d;\n' % (node.attrib['name'], i))
+        out.write('}\n')
+    out.write('}\n')
+PY
+SRC=$HERE/../src/org/andr36oid/kerneltweaks
+if javac -encoding UTF-8 -d "$T/classes" "$T/java/android/content/Context.java" \
+	"$T/java/org/andr36oid/kerneltweaks/R.java" "$SRC/Tweak.java" "$SRC/Tweaks.java" \
+	"$SRC/Profile.java" "$HERE/ProfileTest.java" &&
+	java -cp "$T/classes" org.andr36oid.kerneltweaks.ProfileTest "$T/profiles/exported.txt"; then
+	check "profile Java tests" passed passed
+else
+	check "profile Java tests" passed failed
+fi
+
+check "no oversized property writes" no "$([ -s "$T/long-props" ] && echo yes || echo no)"
 echo "passed $pass, failed $fail (shell: $MKSH)"
 [ "$fail" = 0 ]

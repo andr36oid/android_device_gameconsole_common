@@ -25,11 +25,14 @@ import android.text.Spanned;
 import android.text.style.ImageSpan;
 import android.text.style.StyleSpan;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 
 /**
  * Settings > System > Kernel Tweaks. A choice is saved in persist.andr36oid.kt.<key> (or
@@ -63,6 +66,8 @@ public class KernelTweaksFragment extends PreferenceFragment {
     private SwitchPreference mUse;
     private SwitchPreference mDocs;
     private Preference mReset;
+    private Preference mExport;
+    private Preference mImport;
     /** "storage", for the FUSE driver row, which stays on while storage uses FUSE */
     private Tweak mStorage;
     /** something was changed since the page opened or the restart question was asked */
@@ -122,6 +127,26 @@ public class KernelTweaksFragment extends PreferenceFragment {
             return true;
         });
         screen.addPreference(mReset);
+
+        mExport = new Preference(c);
+        mExport.setTitle(R.string.kt_profile_export);
+        mExport.setSummary(R.string.kt_profile_export_summary);
+        mExport.setOnPreferenceClickListener(p -> {
+            final String readme = getString(R.string.kt_profile_readme);
+            profileTask(() -> Profiles.export(readme), path -> profileMessage(
+                    getString(R.string.kt_profile_saved, path)));
+            return true;
+        });
+        screen.addPreference(mExport);
+
+        mImport = new Preference(c);
+        mImport.setTitle(R.string.kt_profile_import);
+        mImport.setSummary(R.string.kt_profile_import_summary);
+        mImport.setOnPreferenceClickListener(p -> {
+            profileTask(() -> Profiles.scan(mTweaks), this::showProfiles);
+            return true;
+        });
+        screen.addPreference(mImport);
 
         // what the dots left of each tweak mean
         final Preference legend = new Preference(c);
@@ -321,6 +346,140 @@ public class KernelTweaksFragment extends PreferenceFragment {
             return;
         }
         mHandler.postDelayed(this::waitForHelper, POLL_MS);
+    }
+
+    // ---------------------------------------------------------------------------- profiles
+
+    private interface ProfileWork<T> {
+        T run() throws IOException;
+    }
+
+    private <T> void profileTask(ProfileWork<T> work, Consumer<T> done) {
+        mExport.setEnabled(false);
+        mImport.setEnabled(false);
+        final Handler h = new Handler(Looper.getMainLooper());
+        new Thread(() -> {
+            T result = null;
+            boolean ok = false;
+            try {
+                result = work.run();
+                ok = true;
+            } catch (IOException | RuntimeException e) {
+                // the helper may be busy, or the card may have gone away
+            }
+            final T value = result;
+            final boolean success = ok;
+            h.post(() -> {
+                if (getActivity() == null) return;
+                mExport.setEnabled(true);
+                mImport.setEnabled(true);
+                if (success) done.accept(value);
+                else profileMessage(getString(R.string.kt_profile_error));
+            });
+        }, "ktprofiles").start();
+    }
+
+    private void profileMessage(String message) {
+        new AlertDialog.Builder(getActivity())
+            .setTitle(R.string.kt_title)
+            .setMessage(message)
+            .setPositiveButton(android.R.string.ok, null)
+            .show();
+    }
+
+    private void showProfiles(Profiles.Scan scan) {
+        if (scan.entries.isEmpty()) {
+            profileMessage(getString(R.string.kt_profile_none)
+                    + (scan.skipped == 0 ? "" : "\n\n"
+                            + getString(R.string.kt_profile_skipped, scan.skipped)));
+            return;
+        }
+        final CharSequence[] names = new CharSequence[scan.entries.size()];
+        for (int i = 0; i < names.length; i++) {
+            final Profiles.Entry entry = scan.entries.get(i);
+            names[i] = entry.builtin ? getString(R.string.kt_profile_recommended, entry.name)
+                    : entry.name;
+        }
+        final Runnable choose = () -> new AlertDialog.Builder(getActivity())
+            .setTitle(R.string.kt_profile_import)
+            .setItems(names, (d, which) -> showProfile(scan.entries.get(which), scan.console))
+            .setNegativeButton(android.R.string.cancel, null)
+            .show();
+        if (scan.skipped > 0) {
+            new AlertDialog.Builder(getActivity())
+                .setMessage(getString(R.string.kt_profile_skipped, scan.skipped))
+                .setPositiveButton(android.R.string.ok, (d, w) -> choose.run())
+                .setNegativeButton(android.R.string.cancel, null)
+                .show();
+        } else {
+            choose.run();
+        }
+    }
+
+    private void showProfile(Profiles.Entry entry, Profile console) {
+        final Profile profile = entry.profile;
+        final StringBuilder sb = new StringBuilder();
+        final List<String> differences = profile.differences(console.identity);
+        if (!differences.isEmpty()) {
+            sb.append(getString(R.string.kt_profile_mismatch)).append('\n');
+            final int[] titles = {R.string.kt_profile_model, R.string.kt_profile_compatible,
+                    R.string.kt_profile_boot, R.string.kt_profile_version, R.string.kt_profile_panel};
+            for (int i = 0; i < Profile.IDENTITY.length; i++) {
+                final String key = Profile.IDENTITY[i];
+                if (!differences.contains(key)) continue;
+                sb.append(getString(R.string.kt_profile_change, getString(titles[i]),
+                        console.identity.getOrDefault(key, ""),
+                        profile.identity.getOrDefault(key, ""))).append('\n');
+            }
+            sb.append('\n');
+        }
+        final Map<Tweak, String> changes = new LinkedHashMap<>();
+        final List<String> unavailable = new ArrayList<>();
+        String storage = mStorage == null ? "" : get(mStorage.prop());
+        if (profile.values.containsKey(mStorage)) storage = profile.values.get(mStorage);
+        if (storage.isEmpty() && mStorage != null) storage = def(mStorage);
+        boolean boot = false;
+        for (Map.Entry<Tweak, String> v : profile.values.entrySet()) {
+            final Tweak t = v.getKey();
+            if (def(t).isEmpty()) {
+                unavailable.add(getString(t.title));
+                continue;
+            }
+            if ("fuse".equals(t.key) && "off".equals(v.getValue()) && "fuse".equals(storage)) {
+                sb.append(getString(t.title)).append(": ")
+                        .append(getString(R.string.kt_fuse_needed)).append('\n');
+                continue;
+            }
+            if (v.getValue().equals(get(t.prop()))) continue;
+            changes.put(t, v.getValue());
+            sb.append(getString(R.string.kt_profile_change, getString(t.title),
+                    label(t, cur(t)), label(t, v.getValue()))).append('\n');
+            boot |= t.atBoot;
+        }
+        if (changes.isEmpty()) sb.append(getString(R.string.kt_profile_no_changes)).append('\n');
+        if (!profile.unknown.isEmpty()) sb.append('\n').append(getString(
+                R.string.kt_profile_unknown, String.join(", ", profile.unknown))).append('\n');
+        if (!profile.invalid.isEmpty()) sb.append('\n').append(getString(
+                R.string.kt_profile_invalid, String.join(", ", profile.invalid))).append('\n');
+        if (!unavailable.isEmpty()) sb.append('\n').append(getString(
+                R.string.kt_profile_unavailable, String.join(", ", unavailable))).append('\n');
+        if (boot) sb.append('\n').append(getString(R.string.kt_restart_message)).append('\n');
+        if (paused()) sb.append('\n').append(getString(R.string.kt_profile_paused)).append('\n');
+        sb.append('\n').append(getString(R.string.kt_profile_keep));
+        final AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity())
+            .setTitle(entry.name)
+            .setMessage(sb)
+            .setNegativeButton(android.R.string.cancel, null);
+        if (!changes.isEmpty()) {
+            dialog.setPositiveButton(R.string.kt_profile_apply, (d, w) -> {
+                for (Map.Entry<Tweak, String> v : changes.entrySet()) {
+                    SystemProperties.set(v.getKey().prop(), v.getValue());
+                }
+                mChanged = true;
+                apply();
+            });
+        }
+        dialog.show();
     }
 
     // ---------------------------------------------------------------------------- dialogs
