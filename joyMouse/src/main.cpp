@@ -371,7 +371,8 @@ void Daemon::drainInotify() {
 Announcement Daemon::describe(bool active) const {
     Announcement a;
     a.active = active;
-    a.pointerStick = sideName(controller_ ? controller_->pointerStick() : std::nullopt);
+    a.pointerStick = controller_ && controller_->dpadPointer()
+            ? "dpad" : sideName(controller_ ? controller_->pointerStick() : std::nullopt);
     a.scrollStick = sideName(controller_ ? controller_->scrollStick() : std::nullopt);
     a.holdMs = config_.toggleMs;
     a.toggle = "none";

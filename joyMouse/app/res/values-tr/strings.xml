@@ -53,6 +53,7 @@
     <string name="mode_off">Fare modu kapalı</string>
     <string name="stick_left">Sol analog</string>
     <string name="stick_right">Sağ analog</string>
+    <string name="pointer_dpad">Yön tuşları</string>
     <string name="sticks_pointer">%1$s: işaretçi</string>
     <string name="sticks_pointer_scroll">%1$s: işaretçi · %2$s: kaydırma</string>
     <string name="hold_to_switch_off">Kapatmak için %1$s basılı tutun</string>

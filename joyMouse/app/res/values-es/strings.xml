@@ -53,6 +53,7 @@
     <string name="mode_off">Modo ratón desactivado</string>
     <string name="stick_left">Joystick izquierdo</string>
     <string name="stick_right">Joystick derecho</string>
+    <string name="pointer_dpad">Cruceta</string>
     <string name="sticks_pointer">%1$s: puntero</string>
     <string name="sticks_pointer_scroll">%1$s: puntero · %2$s: desplazar</string>
     <string name="hold_to_switch_off">Mantén %1$s para desactivar</string>

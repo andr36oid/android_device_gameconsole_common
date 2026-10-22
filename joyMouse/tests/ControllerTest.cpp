@@ -488,6 +488,65 @@ TEST_F(ControllerTest, SwappedSticks) {
     EXPECT_GT(mouse.sum(EV_REL, REL_WHEEL), 0);
 }
 
+TEST_F(ControllerTest, DpadSettingMovesThePointer) {
+    config.pointerDpad = true;
+    reconfigure();
+    enterMouseMode();
+    EXPECT_TRUE(controller->dpadPointer());
+    key(KEY_RIGHT, 1);
+    key(KEY_DOWN, 1);
+    advance(msToNanos(1000));
+    EXPECT_GT(mouse.sum(EV_REL, REL_X), 0);
+    EXPECT_GT(mouse.sum(EV_REL, REL_Y), 0);
+    key(KEY_RIGHT, 0);
+    key(KEY_DOWN, 0);
+    advance(msToNanos(5));
+    const int stopped = mouse.sum(EV_REL, REL_X);
+    advance(msToNanos(500));
+    EXPECT_EQ(mouse.sum(EV_REL, REL_X), stopped);
+    EXPECT_TRUE(pass.events.empty());  // Android doesn't see the D-pad
+    // the right stick scrolls
+    abs(ABS_RY, kStickMax);
+    advance(msToNanos(300));
+    EXPECT_NE(mouse.sum(EV_REL, REL_WHEEL), 0);
+}
+
+TEST_F(ControllerTest, DpadTapMovesALittle) {
+    config.pointerDpad = true;
+    reconfigure();
+    enterMouseMode();
+    tap(KEY_LEFT, msToNanos(60));
+    advance(msToNanos(100));
+    const int tapped = -mouse.sum(EV_REL, REL_X);
+    mouse.clear();
+    key(KEY_LEFT, 1);
+    advance(msToNanos(1000));
+    key(KEY_LEFT, 0);
+    const int held = -mouse.sum(EV_REL, REL_X);
+    EXPECT_GT(tapped, 0);
+    EXPECT_GT(held, tapped * 10);
+}
+
+TEST_F(ControllerTest, PadWithoutSticksPointsWithTheDpad) {
+    PadInfo info = r36sPad();
+    for (int code : {ABS_X, ABS_Y, ABS_RX, ABS_RY}) info.abs[static_cast<size_t>(code)] = {};
+    create(std::move(info));
+    EXPECT_TRUE(controller->dpadPointer());
+    EXPECT_FALSE(controller->scrollStick().has_value());
+    enterMouseMode();
+    key(KEY_UP, 1);
+    advance(msToNanos(500));
+    key(KEY_UP, 0);
+    EXPECT_LT(mouse.sum(EV_REL, REL_Y), 0);
+}
+
+TEST_F(ControllerTest, StickSettingKeepsTheDpadForAndroid) {
+    enterMouseMode();
+    EXPECT_FALSE(controller->dpadPointer());
+    tap(KEY_RIGHT);
+    EXPECT_EQ(mouse.sum(EV_REL, REL_X), 0);
+}
+
 // --- Buttons --------------------------------------------------------------
 
 TEST_F(ControllerTest, ShoulderClicks) {

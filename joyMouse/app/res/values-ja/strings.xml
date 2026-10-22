@@ -53,6 +53,7 @@
     <string name="mode_off">マウスモードがオフです</string>
     <string name="stick_left">左スティック</string>
     <string name="stick_right">右スティック</string>
+    <string name="pointer_dpad">十字キー</string>
     <string name="sticks_pointer">%1$s: ポインター</string>
     <string name="sticks_pointer_scroll">%1$s: ポインター · %2$s: スクロール</string>
     <string name="hold_to_switch_off">%1$s を押し続けるとオフになります</string>

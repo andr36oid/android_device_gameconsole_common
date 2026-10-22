@@ -53,6 +53,7 @@
     <string name="mode_off">Tryb myszy wył.</string>
     <string name="stick_left">Lewa gałka</string>
     <string name="stick_right">Prawa gałka</string>
+    <string name="pointer_dpad">Krzyżak</string>
     <string name="sticks_pointer">%1$s: kursor</string>
     <string name="sticks_pointer_scroll">%1$s: kursor · %2$s: przewijanie</string>
     <string name="hold_to_switch_off">Przytrzymaj %1$s, aby wyłączyć</string>

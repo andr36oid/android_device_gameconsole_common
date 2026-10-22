@@ -53,6 +53,7 @@
     <string name="mode_off">Mouse mode off</string>
     <string name="stick_left">Left stick</string>
     <string name="stick_right">Right stick</string>
+    <string name="pointer_dpad">D-pad</string>
     <string name="sticks_pointer">%1$s: pointer</string>
     <string name="sticks_pointer_scroll">%1$s: pointer · %2$s: scroll</string>
     <string name="hold_to_switch_off">Hold %1$s to switch off</string>

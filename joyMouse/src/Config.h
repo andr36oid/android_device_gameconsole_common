@@ -47,6 +47,9 @@ struct Config {
     float precision = 0.35f;  // speed multiplier while Precision is held
     bool accelCompensation = true;
     std::optional<StickSide> pointerStick;  // unset: right stick when the pad has one
+    // pointer_stick=dpad: the D-pad moves the pointer in mouse mode, for consoles without
+    // sticks (they get it without the setting) or with a broken one.
+    bool pointerDpad = false;
     bool pointerInvertX = false;
     bool pointerInvertY = false;
 

@@ -128,13 +128,14 @@ public:
     bool active() const { return mode_ != Mode::Off; }
     std::optional<StickSide> pointerStick() const { return pointerSide_; }
     std::optional<StickSide> scrollStick() const { return scrollSide_; }
+    bool dpadPointer() const { return dpadPointer_; }
     const Chord& chord() const { return chord_; }
     bool classic() const { return classic_; }
     std::optional<Button> pointerClick() const { return pointerClick_; }
     const PointerModel& pointerModel() const { return pointer_; }
 
 private:
-    enum class Route : uint8_t { Unset, Passthrough, Swallow, Mouse, Precision, Scroll };
+    enum class Route : uint8_t { Unset, Passthrough, Swallow, Mouse, Precision, Scroll, Dpad };
     enum MouseButton : uint8_t { kLeftButton, kRightButton, kMiddleButton, kSideButton, kExtraButton,
                                  kMouseButtonCount };
 
@@ -188,6 +189,10 @@ private:
     void reveal(Nanos now);
 
     Stick* stickFor(std::optional<StickSide> side);
+    static uint8_t dpadBit(Button b);
+    StickVector dpadVector(Nanos now) const;
+    static constexpr float kDpadStart = 0.35f;
+    static constexpr float kDpadRamp = 0.8f;  // seconds to full speed
     std::optional<std::pair<StickSide, int>> stickAxis(int absCode) const;
     bool sticksAtRest() const;
     bool pointerFrozen(Nanos now) const;
@@ -237,6 +242,11 @@ private:
     PointerModel pointer_;
     ScrollModel scroll_;
     float precisionGain_ = 0.35f;
+    // The D-pad moves the pointer (Config::pointerDpad, or a pad without sticks): which
+    // directions are held (Route::Dpad's bit in KeyRoute::mouseButton) and since when.
+    bool dpadPointer_ = false;
+    uint8_t dpadHeld_ = 0;
+    Nanos dpadSince_ = 0;
     bool pointerInvertX_ = false;
     bool pointerInvertY_ = false;
     bool naturalScroll_ = false;

@@ -53,6 +53,7 @@
     <string name="mode_off">Режим мыши выключен</string>
     <string name="stick_left">Левый стик</string>
     <string name="stick_right">Правый стик</string>
+    <string name="pointer_dpad">Крестовина</string>
     <string name="sticks_pointer">%1$s: указатель</string>
     <string name="sticks_pointer_scroll">%1$s: указатель · %2$s: прокрутка</string>
     <string name="hold_to_switch_off">Удерживайте %1$s, чтобы выключить</string>

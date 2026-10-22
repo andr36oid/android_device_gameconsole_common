@@ -103,11 +103,14 @@ bool readInfo(int fd, PadInfo* info, PadExtras* extras) {
 int score(const PadInfo& info) {
     const bool left = info.hasAbs(ABS_X) && info.hasAbs(ABS_Y);
     const bool right = info.hasAbs(ABS_RX) && info.hasAbs(ABS_RY);
-    if (!left && !right) return -1;
     const ButtonMap buttons(info.keys);
     if (!buttons.has(Button::A) && !buttons.has(Button::B) && !buttons.has(Button::Start)) return -1;
+    // Without sticks (the D-28S) the D-pad moves the pointer, so a D-pad is enough
+    const bool dpad = buttons.has(Button::Up) && buttons.has(Button::Down) &&
+                      buttons.has(Button::Left) && buttons.has(Button::Right);
+    if (!left && !right && !dpad) return -1;
 
-    int s = left && right ? 100 : 50;
+    int s = left && right ? 100 : left || right ? 50 : 30;
     if (info.id.vendor == 0x484b) s += 20;  // Hardkernel joypad driver used by the RK3326 handhelds
     if (info.id.bustype == BUS_HOST) s += 10;
     if (info.id.bustype == BUS_USB || info.id.bustype == BUS_BLUETOOTH) s -= 40;

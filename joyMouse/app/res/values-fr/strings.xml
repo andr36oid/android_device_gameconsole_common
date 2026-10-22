@@ -53,6 +53,7 @@
     <string name="mode_off">Mode souris désactivé</string>
     <string name="stick_left">Stick gauche</string>
     <string name="stick_right">Stick droit</string>
+    <string name="pointer_dpad">Croix directionnelle</string>
     <string name="sticks_pointer">%1$s : pointeur</string>
     <string name="sticks_pointer_scroll">%1$s : pointeur · %2$s : défilement</string>
     <string name="hold_to_switch_off">Maintenez %1$s pour désactiver</string>

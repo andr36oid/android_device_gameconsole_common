@@ -53,6 +53,7 @@
     <string name="mode_off">Mode mouse nonaktif</string>
     <string name="stick_left">Stik kiri</string>
     <string name="stick_right">Stik kanan</string>
+    <string name="pointer_dpad">D-pad</string>
     <string name="sticks_pointer">%1$s: pointer</string>
     <string name="sticks_pointer_scroll">%1$s: pointer · %2$s: gulir</string>
     <string name="hold_to_switch_off">Tahan %1$s untuk menonaktifkan</string>

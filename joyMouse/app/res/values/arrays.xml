@@ -189,10 +189,12 @@
     <string-array name="pointer_stick_values" translatable="false">
         <item>right</item>
         <item>left</item>
+        <item>dpad</item>
     </string-array>
     <string-array name="pointer_stick_labels">
         <item>@string/stick_right</item>
         <item>@string/stick_left</item>
+        <item>@string/pointer_dpad</item>
     </string-array>
 
     <string-array name="scroll_speed_values" translatable="false">

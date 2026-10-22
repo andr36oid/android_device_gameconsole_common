@@ -53,6 +53,7 @@
     <string name="mode_off">Modo rato desativado</string>
     <string name="stick_left">Analógico esquerdo</string>
     <string name="stick_right">Analógico direito</string>
+    <string name="pointer_dpad">Direcional</string>
     <string name="sticks_pointer">%1$s: ponteiro</string>
     <string name="sticks_pointer_scroll">%1$s: ponteiro · %2$s: deslocamento</string>
     <string name="hold_to_switch_off">Mantenha %1$s premido para desativar</string>

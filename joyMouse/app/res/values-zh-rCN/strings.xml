@@ -53,6 +53,7 @@
     <string name="mode_off">鼠标模式已关闭</string>
     <string name="stick_left">左摇杆</string>
     <string name="stick_right">右摇杆</string>
+    <string name="pointer_dpad">十字键</string>
     <string name="sticks_pointer">%1$s：指针</string>
     <string name="sticks_pointer_scroll">%1$s：指针 · %2$s：滚动</string>
     <string name="hold_to_switch_off">按住 %1$s 即可关闭</string>

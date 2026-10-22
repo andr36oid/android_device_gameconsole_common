@@ -53,6 +53,7 @@
     <string name="mode_off">Mausmodus aus</string>
     <string name="stick_left">Linker Stick</string>
     <string name="stick_right">Rechter Stick</string>
+    <string name="pointer_dpad">Steuerkreuz</string>
     <string name="sticks_pointer">%1$s: Zeiger</string>
     <string name="sticks_pointer_scroll">%1$s: Zeiger · %2$s: Scrollen</string>
     <string name="hold_to_switch_off">Zum Ausschalten %1$s halten</string>

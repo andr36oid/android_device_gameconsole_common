@@ -44,7 +44,8 @@ Bindings Config::bindings() const {
 bool operator==(const Config& a, const Config& b) {
     return a.classic == b.classic && a.speed == b.speed && a.curve == b.curve && a.deadzone == b.deadzone &&
            a.precision == b.precision && a.accelCompensation == b.accelCompensation &&
-           a.pointerStick == b.pointerStick && a.pointerInvertX == b.pointerInvertX &&
+           a.pointerStick == b.pointerStick && a.pointerDpad == b.pointerDpad &&
+           a.pointerInvertX == b.pointerInvertX &&
            a.pointerInvertY == b.pointerInvertY && a.scrollSpeed == b.scrollSpeed &&
            a.scrollDeadzone == b.scrollDeadzone && a.naturalScroll == b.naturalScroll &&
            a.invert == b.invert && a.toggleEnabled == b.toggleEnabled && a.toggle == b.toggle &&
@@ -176,7 +177,11 @@ Config loadConfig(const PropertyReader& read, std::vector<std::string>* warnings
         std::optional<StickSide> parsed;
         if (side == "left") parsed = StickSide::Left;
         if (side == "right") parsed = StickSide::Right;
-        apply(key("pointer_stick"), *v, parsed, c.pointerStick);
+        if (side == "dpad") {
+            c.pointerDpad = true;
+        } else {
+            apply(key("pointer_stick"), *v, parsed, c.pointerStick);
+        }
     }
     boolean("pointer_invert_x", c.pointerInvertX);
     boolean("pointer_invert_y", c.pointerInvertY);

@@ -446,6 +446,7 @@ TEST(ConfigTest, LoadsProperties) {
     EXPECT_FLOAT_EQ(c.speed, 1.5f);
     EXPECT_FLOAT_EQ(c.curve, 3.0f);
     EXPECT_EQ(c.pointerStick, StickSide::Left);
+    EXPECT_FALSE(c.pointerDpad);
     EXPECT_TRUE(c.naturalScroll);
     EXPECT_EQ(c.toggle, (std::vector<Button>{Button::Select, Button::Start}));
     EXPECT_EQ(c.toggleMs, 1500);

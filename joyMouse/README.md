@@ -101,7 +101,7 @@ Everything the page sets is a system property, so it also works from adb.
 | `persist.sys.joymouse.curve` | `2.2` | Response exponent, `1` = linear |
 | `persist.sys.joymouse.deadzone` | `10` | Pointer stick dead zone, % |
 | `persist.sys.joymouse.precision` | `35` | Speed while Precision is held, % |
-| `persist.sys.joymouse.pointer_stick` | `right` | `left` swaps the sticks |
+| `persist.sys.joymouse.pointer_stick` | `right` | `left` swaps the sticks; `dpad`: the D-pad moves the pointer (slow at first, faster while held), a stick scrolls. A pad without sticks always uses the D-pad |
 | `persist.sys.joymouse.pointer_invert_x` / `_y` | `0` | Invert pointer movement |
 | `persist.sys.joymouse.scroll_speed` | `100` | Scroll speed, % |
 | `persist.sys.joymouse.scroll_deadzone` | `20` | Scroll stick dead zone, % |

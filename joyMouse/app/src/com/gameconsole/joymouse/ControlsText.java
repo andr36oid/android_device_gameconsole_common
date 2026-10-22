@@ -104,6 +104,7 @@ final class ControlsText {
     }
 
     private static String stickName(Context context, String side) {
+        if ("dpad".equals(side)) return context.getString(R.string.pointer_dpad);
         return context.getString("left".equals(side) ? R.string.stick_left : R.string.stick_right);
     }
 

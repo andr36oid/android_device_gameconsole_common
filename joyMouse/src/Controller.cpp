@@ -106,6 +106,19 @@ void Controller::configure(const Config& config, const Environment& env, Nanos n
     }
     // In classic mode the other stick belongs to Android.
     if (pointerSide_ && !classic_ && has(opposite(*pointerSide_))) scrollSide_ = opposite(*pointerSide_);
+    // The D-pad points (not in classic mode, where Android gets the D-pad); a stick, if
+    // there is one, scrolls, the right one first.
+    dpadPointer_ = !classic_ && (config.pointerDpad || (!hasLeft && !hasRight));
+    dpadHeld_ = 0;
+    if (dpadPointer_) {
+        pointerSide_.reset();
+        scrollSide_.reset();
+        if (hasRight) {
+            scrollSide_ = StickSide::Right;
+        } else if (hasLeft) {
+            scrollSide_ = StickSide::Left;
+        }
+    }
     pointerClick_.reset();
     if (pointerSide_) {
         const Button click = *pointerSide_ == StickSide::Right ? Button::R3 : Button::L3;
@@ -152,7 +165,7 @@ void Controller::configure(const Config& config, const Environment& env, Nanos n
         chordText += buttonName(b);
     }
     LOGI("pointer stick: %s, scroll stick: %s, toggle: %s, top speed %.0f px/s",
-         pointerSide_ ? (*pointerSide_ == StickSide::Right ? "right" : "left") : "none",
+         dpadPointer_ ? "dpad" : pointerSide_ ? (*pointerSide_ == StickSide::Right ? "right" : "left") : "none",
          scrollSide_ ? (*scrollSide_ == StickSide::Right ? "right" : "left") : "none",
          chordText.empty() ? "disabled" : chordText.c_str(), static_cast<double>(pp.topSpeed));
 
@@ -244,6 +257,11 @@ void Controller::handleKeyOn(int code, int value, std::optional<Button> button, 
     }
     if (button && chord_.isMember(*button)) {
         handleMember(*button, code, down, now);
+        return;
+    }
+    if (down && dpadPointer_ && button && dpadBit(*button)) {
+        route = KeyRoute{Route::Dpad, dpadBit(*button)};
+        press(code, route, now);
         return;
     }
     if (down) {
@@ -419,9 +437,9 @@ void Controller::shutdown(Nanos now) {
 
 void Controller::enter(Nanos now, const char* why) {
     if (mode_ != Mode::Off) return;
-    bool ok = pointerSide_.has_value();
+    bool ok = pointerSide_.has_value() || dpadPointer_;
     if (!ok) {
-        LOGW("the pad has no analog stick, mouse mode unavailable");
+        LOGW("nothing can move the pointer, mouse mode unavailable");
     } else if (!mouse_.open()) {
         LOGE("could not create the virtual mouse");
         ok = false;
@@ -511,6 +529,7 @@ void Controller::leave(Nanos now, const char* why) {
     freezeUntil_ = 0;
     precisionHeld_ = 0;
     scrollHeld_ = 0;
+    dpadHeld_ = 0;
     mouseButtonCount_.fill(0);
     revealPhase_ = 0;
     grabCheckPending_ = false;
@@ -569,6 +588,11 @@ void Controller::press(int code, const KeyRoute& r, Nanos now) {
             ++scrollHeld_;
             updateMotion(now);
             break;
+        case Route::Dpad:
+            if (dpadHeld_ == 0) dpadSince_ = now;
+            dpadHeld_ |= r.mouseButton;
+            updateMotion(now);
+            break;
         case Route::Unset:
         case Route::Swallow:
             break;
@@ -593,6 +617,10 @@ void Controller::release(int code, const KeyRoute& r, Nanos now) {
             break;
         case Route::Scroll:
             scrollHeld_ = std::max(scrollHeld_ - 1, 0);
+            updateMotion(now);
+            break;
+        case Route::Dpad:
+            dpadHeld_ &= static_cast<uint8_t>(~r.mouseButton);
             updateMotion(now);
             break;
         case Route::Unset:
@@ -673,6 +701,29 @@ void Controller::reveal(Nanos now) {
 
 // --- Motion -------------------------------------------------------------
 
+uint8_t Controller::dpadBit(Button b) {
+    switch (b) {
+        case Button::Up: return 1;
+        case Button::Down: return 2;
+        case Button::Left: return 4;
+        case Button::Right: return 8;
+        default: return 0;
+    }
+}
+
+// The held directions as a stick would be pushed: diagonals too, and a push that grows
+// from kDpadStart to full over kDpadRamp, so a tap moves a few pixels and holding crosses
+// the screen.
+StickVector Controller::dpadVector(Nanos now) const {
+    float x = ((dpadHeld_ & 8) ? 1.0f : 0.0f) - ((dpadHeld_ & 4) ? 1.0f : 0.0f);
+    float y = ((dpadHeld_ & 2) ? 1.0f : 0.0f) - ((dpadHeld_ & 1) ? 1.0f : 0.0f);
+    const float length = std::hypot(x, y);
+    if (length == 0.0f) return {};
+    const float held = static_cast<float>(nanosToSec(now - dpadSince_));
+    const float push = std::min(1.0f, kDpadStart + (1.0f - kDpadStart) * held / kDpadRamp);
+    return {x / length * push, y / length * push};
+}
+
 Stick* Controller::stickFor(std::optional<StickSide> side) {
     if (!side) return nullptr;
     return *side == StickSide::Left ? &left_ : &right_;
@@ -730,6 +781,7 @@ void Controller::computeTargets(Nanos now) {
     if (Stick* s = stickFor(pointerSide_)) p = s->output();
     if (pointerInvertX_) p.x = -p.x;
     if (pointerInvertY_) p.y = -p.y;
+    if (dpadPointer_ && dpadHeld_ != 0) p = dpadVector(now);
     StickVector sc;
     if (mode_ == Mode::On) {
         if (Stick* s = stickFor(scrollSide_)) sc = s->output();

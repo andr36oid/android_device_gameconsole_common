@@ -132,7 +132,8 @@ public class SettingsFragment extends PreferenceFragment
         final ControlsText.Setup setup = new ControlsText.Setup();
         setup.pointerStick = ((ListPreference) findPreference(KEY_POINTER_STICK)).getValue();
         final boolean classic = ((SwitchPreference) findPreference(KEY_CLASSIC)).isChecked();
-        setup.scrollStick = classic ? "none" : "left".equals(setup.pointerStick) ? "right" : "left";
+        setup.scrollStick = classic ? "none" : "left".equals(setup.pointerStick) ? "right"
+                : "dpad".equals(setup.pointerStick) ? "right" : "left";
         if (((SwitchPreference) findPreference(KEY_TOGGLE_ENABLED)).isChecked()) {
             setup.toggle = orderedButtons(((MultiSelectListPreference) findPreference(KEY_TOGGLE)).getValues());
         }
