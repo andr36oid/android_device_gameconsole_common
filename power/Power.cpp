@@ -16,16 +16,15 @@ namespace andr36oid {
 namespace {
 
 const char kMinFreq[] = "/sys/devices/system/cpu/cpufreq/policy0/scaling_min_freq";
-// The RK3326's 1008 MHz step: quick enough for menus, well below the top clocks
-const char kBoostKhz[] = "1008000";
-constexpr long kBoostKhzValue = 1008000;
+// The top clock allowed right now: CpuOverclock's limit or overclock, thermal throttling
+const char kMaxFreq[] = "/sys/devices/system/cpu/cpufreq/policy0/scaling_max_freq";
 constexpr auto kInteraction = std::chrono::milliseconds(1000);
 // An app start that never reports its end still lets go after this
 constexpr auto kLaunchLimit = std::chrono::milliseconds(5000);
 
-std::string readMin() {
+std::string readFreq(const char* path) {
     std::string value;
-    if (!::android::base::ReadFileToString(kMinFreq, &value)) return "";
+    if (!::android::base::ReadFileToString(path, &value)) return "";
     return ::android::base::Trim(value);
 }
 
@@ -40,12 +39,17 @@ void Power::boostUntil(Clock::time_point end) {
     if (!::android::base::GetBoolProperty("persist.andr36oid.input_boost", true)) return;
     std::lock_guard<std::mutex> lock(mLock);
     if (mSavedMin.empty()) {
-        const std::string current = readMin();
-        long khz;
-        // Already at or above the boost (a profile, or performance mode): nothing to do
-        if (!::android::base::ParseInt(current, &khz) || khz >= kBoostKhzValue) return;
-        if (!::android::base::WriteStringToFile(kBoostKhz, kMinFreq)) return;
+        const std::string current = readFreq(kMinFreq);
+        const std::string top = readFreq(kMaxFreq);
+        long khz, topKhz;
+        // Already at the top (a profile, or performance mode): nothing to do
+        if (!::android::base::ParseInt(current, &khz) ||
+            !::android::base::ParseInt(top, &topKhz) || khz >= topKhz) {
+            return;
+        }
+        if (!::android::base::WriteStringToFile(top, kMinFreq)) return;
         mSavedMin = current;
+        mBoosted = top;
     }
     if (end > mEnd) mEnd = end;
     mWake.notify_one();
@@ -62,8 +66,10 @@ void Power::run() {
             mWake.wait_until(lock, mEnd);
             continue;
         }
-        // Put the old lowest clock back, unless someone else set one meanwhile
-        if (readMin() == kBoostKhz) {
+        // Put the old lowest clock back, unless someone else set one meanwhile. Throttling
+        // that lowered the top clock pulls the lowest one down with it: still ours.
+        const std::string current = readFreq(kMinFreq);
+        if (current == mBoosted || current == readFreq(kMaxFreq)) {
             ::android::base::WriteStringToFile(mSavedMin, kMinFreq);
         }
         mSavedMin.clear();

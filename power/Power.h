@@ -17,7 +17,7 @@ namespace andr36oid {
 
 /**
  * Button presses (Boost::INTERACTION) and app starts (Mode::LAUNCH) raise the CPU's lowest
- * clock to kBoostKhz for a moment; schedutil alone takes a few frames to climb from idle.
+ * clock to its top clock for a moment; schedutil alone takes a few frames to climb from idle.
  * Whatever lowest clock was set before (CpuOverclock's per-app profiles write it too) comes
  * back afterwards, unless someone changed it meanwhile.
  */
@@ -39,6 +39,8 @@ class Power : public BnPower {
     Clock::time_point mEnd;
     // The lowest clock from before the boost, empty while not boosting
     std::string mSavedMin;
+    // What the boost wrote
+    std::string mBoosted;
     std::thread mThread;
 };
 
