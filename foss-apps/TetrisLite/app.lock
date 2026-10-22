@@ -8,12 +8,12 @@
 # a new build, update source_url, sha256 and NOTICE.txt's first lines.
 name=TetrisLite
 package=com.yet.tetris.release
-version_code=7
-version_name=1.4.0-andr36oid
+version_code=8
+version_name=1.4.1-andr36oid
 spdx=Apache-2.0
-sha256=7707cfe5e9f8b8be79706cc024b573f4a54a99e33c0e816db9d99d39904cef3e
-source_url=https://github.com/andr36oid/TetrisLite/tree/4108a25c4fa213b3b8596cd2dc30a400d6569322
+sha256=3b5c7c7b4d1cb26e5e67a582d0cfd622eda0c1c4a65d2d3a3a0c3c8f921a9200
+source_url=https://github.com/andr36oid/TetrisLite/tree/91005c570cbc4cf16ad264a9d4b9a17d3e0dbd43
 upstream_url=https://github.com/yet300/TetrisLite/tree/v1.3.0
 license_url=https://raw.githubusercontent.com/yet300/TetrisLite/fcac89e8c1421c274ae9e3407cafdb28e9a72c7e/LICENSE
 published_by=built by andr36oid from its fork
-modified=start screen laid out for short landscape screens, full-screen settings page usable with the D-pad, game screen laid out for landscape handhelds (touch buttons hidden without a touchscreen), new default music theme "andr36oid Коробейники" (the public-domain folk song in an own arrangement), gamepad buttons in the game (A, X, Y, L1, R1, Start), focus ring on buttons and focus in the pause and game over dialogs, the andr36oid look (black and grey with the chosen accent colour, button hints on every page, full-screen dialogs), the board from the top of the screen to the bottom in full screen, a longer Korobeiniki arrangement with a variation and a bridge; signed with the ROM's key
+modified=start screen laid out for short landscape screens, full-screen settings page usable with the D-pad, game screen laid out for landscape handhelds (touch buttons hidden without a touchscreen), new default music theme "andr36oid Коробейники" (the public-domain folk song in an own arrangement), gamepad buttons in the game (A, X, Y, L1, R1, Start), focus ring on buttons and focus in the pause and game over dialogs, the andr36oid look (black and grey with the chosen accent colour, button hints on every page, full-screen dialogs), the board from the top of the screen to the bottom in full screen, a longer Korobeiniki arrangement with a variation and a bridge, a black window while it starts; signed with the ROM's key

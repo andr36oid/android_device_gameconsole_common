@@ -1,8 +1,8 @@
-TetrisLite 1.4.0-andr36oid (com.yet.tetris.release, versionCode 7) - Apache-2.0
+TetrisLite 1.4.1-andr36oid (com.yet.tetris.release, versionCode 8) - Apache-2.0
 
-Built by andr36oid from its fork of TetrisLite 1.3.0 by yet300 (sha256 7707cfe5e9f8b8be79706cc024b573f4a54a99e33c0e816db9d99d39904cef3e).
-Changed for andr36oid: the start screen is laid out for short landscape screens, settings is a full-screen page usable with the D-pad, the game screen is laid out for landscape handhelds and hides the touch buttons without a touchscreen, a new default music theme "andr36oid Коробейники" plays the public-domain folk song Korobeiniki in an arrangement made for andr36oid, gamepad buttons work in the game (A, X, Y, L1, R1, Start), buttons show a focus ring and the pause and game over dialogs start with a button focused, the andr36oid look (black and grey with the chosen accent colour, button hints on every page, full-screen dialogs), the board from the top of the screen to the bottom in full screen, a longer Korobeiniki arrangement with a variation and a bridge; signed with the ROM's key.
-Source: https://github.com/andr36oid/TetrisLite/tree/4108a25c4fa213b3b8596cd2dc30a400d6569322
+Built by andr36oid from its fork of TetrisLite 1.3.0 by yet300 (sha256 3b5c7c7b4d1cb26e5e67a582d0cfd622eda0c1c4a65d2d3a3a0c3c8f921a9200).
+Changed for andr36oid: the start screen is laid out for short landscape screens, settings is a full-screen page usable with the D-pad, the game screen is laid out for landscape handhelds and hides the touch buttons without a touchscreen, a new default music theme "andr36oid Коробейники" plays the public-domain folk song Korobeiniki in an arrangement made for andr36oid, gamepad buttons work in the game (A, X, Y, L1, R1, Start), buttons show a focus ring and the pause and game over dialogs start with a button focused, the andr36oid look (black and grey with the chosen accent colour, button hints on every page, full-screen dialogs), the board from the top of the screen to the bottom in full screen, a longer Korobeiniki arrangement with a variation and a bridge, a black window while it starts; signed with the ROM's key.
+Source: https://github.com/andr36oid/TetrisLite/tree/91005c570cbc4cf16ad264a9d4b9a17d3e0dbd43
 Original: https://github.com/yet300/TetrisLite/tree/v1.3.0
 
 ================================================================================
