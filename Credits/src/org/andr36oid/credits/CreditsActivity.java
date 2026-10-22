@@ -1,31 +1,23 @@
 package org.andr36oid.credits;
 
-import android.animation.ValueAnimator;
 import android.app.Activity;
-import android.graphics.Color;
-import android.graphics.LinearGradient;
-import android.graphics.Matrix;
-import android.graphics.Shader;
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
 import android.graphics.Typeface;
-import android.graphics.drawable.GradientDrawable;
 import android.media.AudioAttributes;
 import android.media.AudioFocusRequest;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
-import android.os.Looper;
 import android.os.SystemProperties;
 import android.text.TextUtils;
 import android.util.TypedValue;
-import android.view.Choreographer;
 import android.view.Gravity;
 import android.view.KeyEvent;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewOutlineProvider;
-import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -37,20 +29,14 @@ import java.io.File;
 
 /**
  * The credits, an easter egg: tapping the andr36oid version in Settings > About console
- * opens them. They roll by themselves like film credits and can't be scrolled.
+ * opens them. Browse with the D-pad or mouse; A opens a profile, B goes back.
  */
 public class CreditsActivity extends Activity {
 
-    private static final long START_DELAY_MS = 2500;
-    private static final long END_PAUSE_MS = 3000;
-    private static final long FADE_MS = 500;
-    private static final float ROLL_DP_PER_SECOND = 24;
-
-    private final Handler mHandler = new Handler(Looper.getMainLooper());
-    private ScrollView mScroll;
     private LinearLayout mContent;
-    private ValueAnimator mShimmer;
-    // Lucid by HoliznaCC0 plays while the credits roll, if it is still in Music (one of the
+    private View mFirstLink;
+    private View mLastLink;
+    // Lucid by HoliznaCC0 plays while the credits are open, if it is still in Music (one of the
     // example tracks the first start copies there). Deleted: the credits stay silent.
     private static final String SONG_FILE = "holiznacc0-lucid.mp3";
     // During the first setup the track isn't in Music yet: it is still on AUTOAPK, which the
@@ -62,73 +48,31 @@ public class CreditsActivity extends Activity {
 
     private MediaPlayer mPlayer;
     private AudioFocusRequest mFocus;
-    private float mRollSpeed;
-    private float mOffset;
-    private long mLastFrameNanos;
-
-    private final Choreographer.FrameCallback mRollFrame = new Choreographer.FrameCallback() {
-        @Override
-        public void doFrame(long frameTimeNanos) {
-            final int end = mContent.getHeight() - mScroll.getHeight();
-            if (mLastFrameNanos != 0) {
-                mOffset += (frameTimeNanos - mLastFrameNanos) / 1e9f * mRollSpeed;
-            }
-            mLastFrameNanos = frameTimeNanos;
-            if (mOffset >= end) {
-                mScroll.scrollTo(0, Math.max(end, 0));
-                mHandler.postDelayed(mStartOver, END_PAUSE_MS);
-                return;
-            }
-            mScroll.scrollTo(0, (int) mOffset);
-            Choreographer.getInstance().postFrameCallback(this);
-        }
-    };
-
-    private final Runnable mStartRolling = () -> {
-        mOffset = mScroll.getScrollY();
-        mLastFrameNanos = 0;
-        Choreographer.getInstance().postFrameCallback(mRollFrame);
-    };
-
-    // Fade out at the end, back to the top, fade in and roll again.
-    private final Runnable mStartOver = () -> mContent.animate().alpha(0f).setDuration(FADE_MS)
-            .withEndAction(() -> {
-                mScroll.scrollTo(0, 0);
-                mContent.animate().alpha(1f).setDuration(FADE_MS)
-                        .withEndAction(() -> rollAfter(START_DELAY_MS));
-            });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        tintBackground();
-        mRollSpeed = dp(ROLL_DP_PER_SECOND);
         mPlayer = openSong();
 
         mContent = new LinearLayout(this);
         mContent.setOrientation(LinearLayout.VERTICAL);
-        mContent.setGravity(Gravity.CENTER_HORIZONTAL);
-        mContent.setPadding(dp(24), dp(32), dp(24), dp(32));
+        mContent.setPadding(dp(24), dp(20), dp(24), dp(16));
         buildCredits();
 
-        mScroll = new ScrollView(this);
-        mScroll.setVerticalScrollBarEnabled(false);
-        mScroll.setVerticalFadingEdgeEnabled(true);
-        mScroll.setFadingEdgeLength(dp(48));
-        // Nothing on this screen takes input: without this the scroll view gets the focus on
-        // start and Android draws its focus highlight, a white veil, over all of it.
-        mScroll.setFocusable(false);
-        mScroll.setDefaultFocusHighlightEnabled(false);
-        mScroll.addView(mContent);
-        setContentView(mScroll);
-        HintBar.overlay(this, "B", getString(org.andr36oid.hints.R.string.andr36oid_hint_back));
+        final ScrollView scroll = new ScrollView(this);
+        scroll.setSmoothScrollingEnabled(false);
+        scroll.setDefaultFocusHighlightEnabled(false);
+        // Below the profile links, the D-pad scrolls the page itself.
+        scroll.setForeground(getDrawable(R.drawable.scroll_focus));
+        scroll.addView(mContent);
+        setContentView(scroll);
+        HintBar.attachDefault(this);
+        mFirstLink.requestFocus();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        rollAfter(START_DELAY_MS);
-        if (mShimmer != null) mShimmer.start();
         if (mPlayer != null) {
             getSystemService(AudioManager.class).requestAudioFocus(mFocus);
             mPlayer.start();
@@ -138,8 +82,6 @@ public class CreditsActivity extends Activity {
     @Override
     protected void onPause() {
         super.onPause();
-        stopRolling();
-        if (mShimmer != null) mShimmer.cancel();
         if (mPlayer != null) {
             mPlayer.pause();
             getSystemService(AudioManager.class).abandonAudioFocusRequest(mFocus);
@@ -186,72 +128,46 @@ public class CreditsActivity extends Activity {
         return player;
     }
 
-    // The credits roll by themselves; only back (B) does anything, and leaves.
-
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
         final int key = event.getKeyCode();
         if (key == KeyEvent.KEYCODE_BACK || key == KeyEvent.KEYCODE_BUTTON_B) {
-            if (event.getAction() == KeyEvent.ACTION_UP) finish();
+            if (event.getAction() == KeyEvent.ACTION_UP && !event.isCanceled()) finish();
             return true;
         }
-        // Volume and the like still work.
-        return KeyEvent.isGamepadButton(key) || isDpad(key) || super.dispatchKeyEvent(event);
-    }
-
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent event) {
-        return true;
-    }
-
-    @Override
-    public boolean dispatchGenericMotionEvent(MotionEvent event) {
-        return true;
-    }
-
-    private static boolean isDpad(int key) {
-        switch (key) {
-            case KeyEvent.KEYCODE_DPAD_UP:
-            case KeyEvent.KEYCODE_DPAD_DOWN:
-            case KeyEvent.KEYCODE_DPAD_LEFT:
-            case KeyEvent.KEYCODE_DPAD_RIGHT:
-            case KeyEvent.KEYCODE_DPAD_CENTER:
-            case KeyEvent.KEYCODE_PAGE_UP:
-            case KeyEvent.KEYCODE_PAGE_DOWN:
-            case KeyEvent.KEYCODE_MOVE_HOME:
-            case KeyEvent.KEYCODE_MOVE_END:
-            case KeyEvent.KEYCODE_SPACE:
-                return true;
-            default:
-                return false;
+        if (key == KeyEvent.KEYCODE_BUTTON_A || key == KeyEvent.KEYCODE_DPAD_CENTER
+                || key == KeyEvent.KEYCODE_ENTER) {
+            if (event.getAction() == KeyEvent.ACTION_UP && !event.isCanceled()) {
+                final View focused = getCurrentFocus();
+                if (focused != null && focused.isClickable()) focused.performClick();
+            }
+            return true;
         }
-    }
-
-    private void rollAfter(long delayMs) {
-        stopRolling();
-        mHandler.postDelayed(mStartRolling, delayMs);
-    }
-
-    private void stopRolling() {
-        mHandler.removeCallbacksAndMessages(null);
-        Choreographer.getInstance().removeFrameCallback(mRollFrame);
+        return super.dispatchKeyEvent(event);
     }
 
     private void buildCredits() {
+        final LinearLayout header = new LinearLayout(this);
+        header.setGravity(Gravity.CENTER_VERTICAL);
         final ImageView logo = new ImageView(this);
         logo.setImageResource(R.drawable.logo_andr36oid);
         clipTo(logo, R.drawable.logo_frame);
-        mContent.addView(logo, new LinearLayout.LayoutParams(dp(128), dp(128)));
+        header.addView(logo, new LinearLayout.LayoutParams(dp(72), dp(72)));
 
-        final TextView title = text("andr36oid", 40, Color.WHITE, Typeface.BOLD);
-        title.setLetterSpacing(0.04f);
-        mContent.addView(title, margins(0, 12, 0, 0));
-        shimmer(title);
-
+        final LinearLayout intro = new LinearLayout(this);
+        intro.setOrientation(LinearLayout.VERTICAL);
+        intro.addView(text("andr36oid", 30, getColor(R.color.credits_name), Typeface.BOLD));
         final String version = SystemProperties.get("ro.andr36oid.version");
-        final String tagline = getString(R.string.credits_tagline);
-        mContent.addView(text(TextUtils.isEmpty(version) ? tagline : tagline + "  ·  " + version,
-                14, getColor(R.color.credits_detail), Typeface.NORMAL));
+        intro.addView(text(getString(R.string.credits_tagline), 14,
+                getColor(R.color.credits_detail), Typeface.NORMAL));
+        if (!TextUtils.isEmpty(version)) {
+            intro.addView(text(version, 12, getColor(R.color.credits_detail), Typeface.NORMAL));
+        }
+        final LinearLayout.LayoutParams introParams = new LinearLayout.LayoutParams(0,
+                LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
+        introParams.setMarginStart(dp(16));
+        header.addView(intro, introParams);
+        mContent.addView(header);
 
         section(R.string.credits_team);
         role(R.string.credits_role_port);
@@ -290,92 +206,130 @@ public class CreditsActivity extends Activity {
         if (mPlayer != null) {
             mContent.addView(text(getString(R.string.credits_now_playing, SONG_TITLE,
                     SONG_ARTIST), 13, getColor(R.color.credits_detail), Typeface.ITALIC),
-                    margins(0, 48, 0, 0));
+                    margins(8, 24, 8, 0));
         }
+        watching();
     }
 
     /** An artist's name, and the license when it asks for credit. */
     private void artist(String name, String license) {
         mContent.addView(text(name, 18, getColor(R.color.credits_name), Typeface.BOLD),
-                margins(0, 16, 0, 0));
+                margins(8, 12, 8, 0));
         if (license != null) {
             mContent.addView(text(license, 13, getColor(R.color.credits_detail),
-                    Typeface.NORMAL));
+                    Typeface.NORMAL), margins(8, 0, 8, 0));
         }
     }
 
     private void section(int titleRes) {
-        final TextView header = text(getString(titleRes), 12, getColor(R.color.credits_heading),
+        final TextView header = text(getString(titleRes), 18, getColor(R.color.credits_accent),
                 Typeface.BOLD);
-        header.setAllCaps(true);
-        header.setLetterSpacing(0.25f);
-        mContent.addView(header, margins(0, 48, 0, 0));
+        header.setAccessibilityHeading(true);
+        mContent.addView(header, margins(8, 24, 8, 8));
 
         final View bar = new View(this);
-        final GradientDrawable gradient = new GradientDrawable(
-                GradientDrawable.Orientation.LEFT_RIGHT, gradientColors());
-        gradient.setCornerRadius(dp(1));
-        bar.setBackground(gradient);
-        final LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(dp(48), dp(2));
-        params.setMargins(0, dp(8), 0, dp(4));
-        mContent.addView(bar, params);
+        bar.setBackgroundColor(getColor(R.color.credits_detail));
+        bar.setAlpha(0.2f);
+        mContent.addView(bar, new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, dp(1)));
     }
 
     private void role(int roleRes) {
-        mContent.addView(text(getString(roleRes), 13, getColor(R.color.credits_detail),
-                Typeface.NORMAL), margins(0, 20, 0, 10));
+        mContent.addView(text(getString(roleRes), 14, getColor(R.color.credits_detail),
+                Typeface.NORMAL), margins(8, 16, 8, 4));
     }
 
     private void people(View... people) {
+        final boolean wide = getResources().getConfiguration().screenWidthDp >= 560
+                && getResources().getConfiguration().fontScale <= 1.2f;
         final LinearLayout row = new LinearLayout(this);
-        row.setGravity(Gravity.CENTER_HORIZONTAL);
-        for (View person : people) {
-            row.addView(person, margins(16, 0, 16, 0));
+        row.setOrientation(wide ? LinearLayout.HORIZONTAL : LinearLayout.VERTICAL);
+        for (int i = 0; i < people.length; i++) {
+            final LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                    wide ? 0 : LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT, wide ? 1f : 0f);
+            if (i > 0) {
+                if (wide) params.setMarginStart(dp(16));
+                else params.topMargin = dp(4);
+            }
+            row.addView(people[i], params);
         }
         mContent.addView(row);
     }
 
-    /**
-     * A round profile picture, the name and where to find them (GitHub, YouTube).
-     * No picture: a person icon.
-     */
+    /** A round profile picture, the name and where to find them (GitHub, YouTube). */
     private View person(int avatarRes, String name, int accountIconRes, String account) {
-        final LinearLayout column = new LinearLayout(this);
-        column.setOrientation(LinearLayout.VERTICAL);
-        column.setGravity(Gravity.CENTER_HORIZONTAL);
+        final LinearLayout person = new LinearLayout(this);
+        person.setGravity(Gravity.CENTER_VERTICAL);
+        person.setPadding(dp(8), dp(8), dp(8), dp(8));
 
         final ImageView avatar = new ImageView(this);
-        if (avatarRes != 0) {
-            avatar.setImageResource(avatarRes);
-            avatar.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        } else {
-            avatar.setImageResource(R.drawable.ic_person);
-            avatar.setPadding(dp(12), dp(12), dp(12), dp(12));
-        }
+        avatar.setImageResource(avatarRes);
+        avatar.setScaleType(ImageView.ScaleType.CENTER_CROP);
         clipTo(avatar, R.drawable.avatar_frame);
-        column.addView(avatar, new LinearLayout.LayoutParams(dp(64), dp(64)));
+        person.addView(avatar, new LinearLayout.LayoutParams(dp(64), dp(64)));
 
-        column.addView(text(name, 20, getColor(R.color.credits_name), Typeface.BOLD),
-                margins(0, 8, 0, 0));
-
-        if (account != null) {
-            final LinearLayout row = new LinearLayout(this);
-            row.setGravity(Gravity.CENTER_VERTICAL);
-            final ImageView mark = new ImageView(this);
-            mark.setImageResource(accountIconRes);
-            if (accountIconRes == R.drawable.ic_github) mark.setAlpha(0.7f);
-            row.addView(mark, new LinearLayout.LayoutParams(dp(14), dp(14)));
-            row.addView(text(account, 13, getColor(R.color.credits_detail), Typeface.NORMAL),
-                    margins(6, 0, 0, 0));
-            column.addView(row, margins(0, 2, 0, 0));
+        final LinearLayout lines = new LinearLayout(this);
+        lines.setOrientation(LinearLayout.VERTICAL);
+        lines.addView(text(name, 20, getColor(R.color.credits_name), Typeface.BOLD));
+        final LinearLayout accountRow = new LinearLayout(this);
+        accountRow.setGravity(Gravity.CENTER_VERTICAL);
+        final ImageView mark = new ImageView(this);
+        mark.setImageResource(accountIconRes);
+        if (accountIconRes == R.drawable.ic_github) {
+            mark.setImageTintList(getColorStateList(R.color.credits_detail));
         }
-        return column;
+        accountRow.addView(mark, new LinearLayout.LayoutParams(dp(14), dp(14)));
+        final LinearLayout.LayoutParams accountParams = new LinearLayout.LayoutParams(0,
+                LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
+        accountParams.setMarginStart(dp(6));
+        accountRow.addView(text(account, 13, getColor(R.color.credits_accent), Typeface.NORMAL),
+                accountParams);
+        final LinearLayout.LayoutParams accountRowParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        accountRowParams.topMargin = dp(2);
+        lines.addView(accountRow, accountRowParams);
+        final LinearLayout.LayoutParams linesParams = new LinearLayout.LayoutParams(0,
+                LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
+        linesParams.setMarginStart(dp(16));
+        person.addView(lines, linesParams);
+
+        final String url = accountIconRes == R.drawable.ic_github
+                ? "https://github.com/" + account : "https://www.youtube.com/@" + name;
+        link(person, url);
+        return person;
+    }
+
+    private void link(View view, String url) {
+        view.setId(View.generateViewId());
+        view.setBackgroundResource(R.drawable.link_focus);
+        view.setFocusable(true);
+        // A joystick mouse click puts the window in touch mode.
+        view.setFocusableInTouchMode(true);
+        view.setOnClickListener(v -> {
+            v.requestFocus();
+            try {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+            } catch (ActivityNotFoundException | SecurityException e) {
+                // A browser may have been removed.
+            }
+        });
+        // Up and down follow the printed order, including both people in a shared row.
+        if (mLastLink != null) {
+            mLastLink.setNextFocusDownId(view.getId());
+            mLastLink.setNextFocusForwardId(view.getId());
+            view.setNextFocusUpId(mLastLink.getId());
+        } else {
+            mFirstLink = view;
+        }
+        mLastLink = view;
     }
 
     /** A project logo with the name and what it is next to it. */
     private void project(int logoRes, String name, int detailRes) {
         final LinearLayout row = new LinearLayout(this);
         row.setGravity(Gravity.CENTER_VERTICAL);
+        row.setPadding(dp(8), dp(8), dp(8), dp(8));
 
         final ImageView logo = new ImageView(this);
         logo.setImageResource(logoRes);
@@ -385,75 +339,36 @@ public class CreditsActivity extends Activity {
 
         final LinearLayout lines = new LinearLayout(this);
         lines.setOrientation(LinearLayout.VERTICAL);
-        final TextView nameView = text(name, 18, getColor(R.color.credits_name), Typeface.BOLD);
-        nameView.setGravity(Gravity.START);
-        lines.addView(nameView);
-        final TextView detail = text(getString(detailRes), 13, getColor(R.color.credits_detail),
-                Typeface.NORMAL);
-        detail.setGravity(Gravity.START);
-        lines.addView(detail);
-        row.addView(lines, margins(14, 0, 0, 0));
-
-        // Fixed width, so the logos line up under each other.
-        final LinearLayout.LayoutParams params =
-                new LinearLayout.LayoutParams(dp(320), LinearLayout.LayoutParams.WRAP_CONTENT);
-        params.setMargins(0, dp(16), 0, 0);
+        lines.addView(text(name, 18, getColor(R.color.credits_name), Typeface.BOLD));
+        lines.addView(text(getString(detailRes), 14, getColor(R.color.credits_detail),
+                Typeface.NORMAL));
+        final LinearLayout.LayoutParams linesParams = new LinearLayout.LayoutParams(0,
+                LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
+        linesParams.setMarginStart(dp(16));
+        row.addView(lines, linesParams);
+        final LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        params.topMargin = dp(4);
         mContent.addView(row, params);
     }
 
-    /** Lets a gradient run through the title, over and over. */
-    private void shimmer(TextView title) {
-        final Matrix matrix = new Matrix();
-        title.addOnLayoutChangeListener((v, left, top, right, bottom, oldLeft, oldTop, oldRight,
-                oldBottom) -> {
-            if (mShimmer != null) {
-                return;
-            }
-            final float width = title.getPaint().measureText(title.getText().toString());
-            final LinearGradient gradient = new LinearGradient(0, 0, width, 0,
-                    gradientColors(), null, Shader.TileMode.MIRROR);
-            title.getPaint().setShader(gradient);
-            mShimmer = ValueAnimator.ofFloat(0f, 2f * width);
-            mShimmer.setDuration(6000);
-            mShimmer.setRepeatCount(ValueAnimator.INFINITE);
-            mShimmer.setInterpolator(new LinearInterpolator());
-            mShimmer.addUpdateListener(animator -> {
-                matrix.setTranslate((float) animator.getAnimatedValue(), 0);
-                gradient.setLocalMatrix(matrix);
-                title.invalidate();
-            });
-            if (!isFinishing() && hasWindowFocus()) mShimmer.start();
-        });
-    }
+    private void watching() {
+        final LinearLayout corner = new LinearLayout(this);
+        corner.setOrientation(LinearLayout.VERTICAL);
+        corner.setGravity(Gravity.END);
+        corner.setPadding(0, dp(24), 0, 0);
+        final View bubble = getLayoutInflater().inflate(R.layout.andr36oid_bubble, corner, false);
+        ((TextView) bubble.findViewById(R.id.bubble_text)).setText(R.string.credits_watching);
+        corner.addView(bubble, margins(0, 0, 8, 0));
 
-    /** The console's accent (orange until one is picked), light to full to light. */
-    private int[] gradientColors() {
-        final int accent = getColor(R.color.credits_accent);
-        return new int[] { towardWhite(accent, 0.55f), accent, towardWhite(accent, 0.3f) };
-    }
-
-    /**
-     * The glow at the top in a dark shade of the accent (wooden brown for the orange),
-     * fading into black.
-     */
-    private void tintBackground() {
-        final int accent = getColor(R.color.credits_accent);
-        final GradientDrawable background =
-                (GradientDrawable) getDrawable(R.drawable.credits_background).mutate();
-        background.setColors(new int[] { dim(accent, 0.26f), dim(accent, 0.1f), Color.BLACK });
-        getWindow().setBackgroundDrawable(background);
-    }
-
-    /** The colour at the given brightness, 0 = black. */
-    private static int dim(int color, float amount) {
-        return Color.rgb(Math.round(Color.red(color) * amount),
-                Math.round(Color.green(color) * amount), Math.round(Color.blue(color) * amount));
-    }
-
-    private static int towardWhite(int color, float amount) {
-        final int r = Color.red(color), g = Color.green(color), b = Color.blue(color);
-        return Color.rgb(r + Math.round((255 - r) * amount), g + Math.round((255 - g) * amount),
-                b + Math.round((255 - b) * amount));
+        final ImageView icon = new ImageView(this);
+        icon.setImageResource(R.drawable.ic_andr36oid_version);
+        icon.setFocusable(false);
+        icon.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
+        final LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(dp(48), dp(48));
+        params.topMargin = dp(2);
+        corner.addView(icon, params);
+        mContent.addView(corner);
     }
 
     private void clipTo(ImageView view, int shapeRes) {
@@ -468,7 +383,7 @@ public class CreditsActivity extends Activity {
         view.setTextSize(TypedValue.COMPLEX_UNIT_SP, sp);
         view.setTextColor(color);
         view.setTypeface(Typeface.create("sans-serif", style));
-        view.setGravity(Gravity.CENTER_HORIZONTAL);
+        view.setGravity(Gravity.START);
         return view;
     }
 
