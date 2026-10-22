@@ -93,10 +93,7 @@ final class Archive {
         }
     }
 
-    /**
-     * Writes the backup. A file that can't be read is left out of the manifest (and so
-     * never restored); the rest is still saved.
-     */
+    /** Writes the backup only when every selected save can be read without changing. */
     static Manifest write(List<SaveFile> saves, File out, long now, String reason,
             Progress progress) throws IOException {
         final Manifest m = new Manifest();
@@ -115,7 +112,6 @@ final class Archive {
                 final ZipEntry ze = new ZipEntry(s.id);
                 ze.setTime(s.mtime);
                 zip.putNextEntry(ze);
-                boolean ok = true;
                 long n = 0;
                 try (InputStream in = new FileInputStream(s.file)) {
                     int r;
@@ -124,15 +120,13 @@ final class Archive {
                         sha.update(buf, 0, r);
                         n += r;
                     }
-                } catch (IOException e) {
-                    ok = false;
                 }
                 zip.closeEntry();
-                // it changed while we read it: keep what we read
-                if (ok) {
-                    final SaveFile read = n == s.size ? s : resized(s, n);
-                    m.add(read, hex(sha.digest()));
+                if (n != s.size || s.file.length() != s.size
+                        || s.file.lastModified() != s.mtime) {
+                    throw new IOException("save changed during backup: " + s.id);
                 }
+                m.add(s, hex(sha.digest()));
             }
             put(zip, Manifest.NAME, m.text().getBytes(StandardCharsets.UTF_8), now);
             zip.finish();
@@ -156,14 +150,6 @@ final class Archive {
             throw new IOException("can't rename " + tmp);
         }
         return m;
-    }
-
-    private static SaveFile resized(SaveFile s, long n) {
-        final SaveFile r = new SaveFile(s.id, s.file, n, s.mtime);
-        r.key = s.key;
-        r.label = s.label;
-        r.folder = s.folder;
-        return r;
     }
 
     private static void put(ZipOutputStream zip, String name, byte[] data, long time)

@@ -36,6 +36,7 @@ public class EngineTest {
         java = args[3];
         try {
             units();
+            interruptedBackup();
             walkCache();
             scenario();
             bigStates();
@@ -123,6 +124,42 @@ public class EngineTest {
                     "saves-20260923-140000-10.zip")),
                     "prune keeps 6 (days first, by number not date), the protected one and"
                     + " other files: " + left);
+        } finally {
+            delete(t);
+        }
+    }
+
+    static void interruptedBackup() throws IOException {
+        final File t = Files.createTempDirectory("savebackup-interrupted").toFile();
+        try {
+            final File source = new File(t, "Game.srm");
+            final File out = new File(t, Archive.name(T0, 1));
+            for (int change = 0; change < 3; change++) {
+                put(t, "Game.srm", "old save", 0);
+                final SaveFile save = new SaveFile("internal/Game.srm", source,
+                        source.length(), source.lastModified());
+                Files.write(out.toPath(), "previous backup".getBytes(StandardCharsets.UTF_8));
+                final int mode = change;
+                boolean failed = false;
+                try {
+                    Archive.write(Arrays.asList(save), out, T0, "manual", (done, total) -> {
+                        if (mode == 0) source.delete();
+                        if (mode == 1) source.setLastModified(save.mtime + 60000);
+                        if (mode == 2) {
+                            try (FileOutputStream f = new FileOutputStream(source, true)) {
+                                f.write(1);
+                            } catch (IOException e) {
+                                throw new IllegalStateException(e);
+                            }
+                        }
+                    });
+                } catch (IOException e) {
+                    failed = true;
+                }
+                check(failed, "backup refuses missing or changing save: " + change);
+                check("previous backup".equals(read(out)), "failed backup preserves old zip");
+                check(!new File(out + ".tmp").exists(), "failed backup removes temp zip");
+            }
         } finally {
             delete(t);
         }
