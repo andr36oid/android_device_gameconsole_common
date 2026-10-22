@@ -45,4 +45,39 @@
     <string name="tile_label">USB mode (beta)</string>
     <string name="tile_host">Accessories</string>
     <string name="tile_device">Computer</string>
+
+    <!-- USB drive -->
+    <string name="usb_drive_title">USB drive</string>
+    <string name="usb_drive_intro">Your computer sees the chosen storage as a USB stick. Android lets go of it first, and apps using it close. Give it back with Stop below, or restart.</string>
+    <string name="usb_drive_cable">A USB-A to USB-C cable works more often than a USB-C to USB-C cable.</string>
+    <string name="usb_drive_easyroms">EASYROMS (SD slot %1$d)</string>
+    <string name="usb_drive_slot">SD slot %1$d</string>
+    <string name="usb_drive_card">SD slot %1$d - \"%2$s\"</string>
+    <string name="usb_drive_emmc">eMMC</string>
+    <string name="usb_drive_games">Your games partition. The rest of this card is Android\'s and stays hidden.</string>
+    <string name="usb_drive_whole">The whole card, so it can even be reformatted.</string>
+    <string name="usb_drive_chip">The built-in chip plus its 2 boot areas. Writable: for flashing firmware from a computer.</string>
+    <string name="usb_drive_system_ro">Read only: Android runs from here.</string>
+    <string name="usb_drive_internal">Set up as internal storage. Android needs this card.</string>
+    <string name="usb_drive_system_card">Android uses this card. Its EASYROMS partition is unavailable.</string>
+    <string name="usb_drive_unknown">Cannot confirm which storage Android uses.</string>
+    <string name="usb_drive_busy">Android is using a mapped device on this storage.</string>
+    <string name="usb_drive_unusable">Cannot read this storage or its required boot areas.</string>
+    <string name="usb_drive_ro">Read-only</string>
+    <string name="usb_drive_ro_hint">The computer can only read when this is checked.</string>
+    <string name="usb_drive_confirm">Share this storage with the computer?</string>
+    <string name="usb_drive_share">Share</string>
+    <string name="usb_drive_apps">Apps using this storage are closed while the computer has it.</string>
+    <string name="usb_drive_emmc_title">Share the eMMC with the computer?</string>
+    <string name="usb_drive_emmc_warning">Writing to it can stop the console from starting (stock firmware or andr36oid on it). Only continue if you know what you are doing.</string>
+    <string name="usb_drive_sure">I\'m sure</string>
+    <string name="usb_drive_countdown">I\'m sure (%1$d)</string>
+    <string name="usb_drive_sharing">Sharing: %1$s with the computer</string>
+    <string name="usb_drive_eject">Eject it on the computer first, then stop here.</string>
+    <string name="usb_drive_stop">Stop and give it back to Android</string>
+    <string name="usb_drive_working">Giving storage to the computer or back to Android…</string>
+    <string name="usb_drive_failed">Couldn\'t share this storage. It may be busy or have been removed. Android has been given it back.</string>
+    <string name="usb_drive_empty">No storage to share is present.</string>
+    <string name="usb_drive_android_card">This card contains Android partitions.</string>
+    <string name="usb_drive_sd">SD</string>
 </resources>

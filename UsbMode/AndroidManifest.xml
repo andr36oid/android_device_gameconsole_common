@@ -6,10 +6,17 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
+        android:name=".UsbDriveApp"
         android:allowBackup="false"
         android:icon="@drawable/ic_usb_mode"
         android:label="@string/usb_mode_title"
         android:supportsRtl="true">
+
+        <activity
+            android:name=".UsbDriveActivity"
+            android:exported="false"
+            android:label="@string/usb_drive_title"
+            android:theme="@android:style/Theme.DeviceDefault.Settings" />
 
         <!-- Injected into the top level of the Settings app, right below CPU overclock.
              Also opened by a long press on the tile. -->

@@ -79,6 +79,7 @@ final class UsbMode {
      * line while the charger feeds the other port. The kernel refuses it too.
      */
     boolean setDevice(boolean device) {
+        if (!device) UsbDriveControl.stop();
         if (device && chargingBlocksDevice()) {
             Log.w(TAG, "Not switching to device mode while charging");
             return false;
@@ -212,6 +213,7 @@ final class UsbMode {
     }
 
     void setFunctions(String functions) {
+        UsbDriveControl.stop();
         prefs().edit().putString(KEY_FUNCTIONS, functions).apply();
         if (isDevice()) {
             applyFunctions(true);

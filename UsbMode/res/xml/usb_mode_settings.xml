@@ -16,6 +16,14 @@
         android:summary="%s" />
 
     <Preference
+        android:key="usb_drive"
+        android:title="@string/usb_drive_title">
+        <intent
+            android:targetPackage="org.andr36oid.usbmode"
+            android:targetClass="org.andr36oid.usbmode.UsbDriveActivity" />
+    </Preference>
+
+    <Preference
         android:key="usb_check"
         android:title="@string/usb_check_title"
         android:summary="@string/usb_check_link_summary">

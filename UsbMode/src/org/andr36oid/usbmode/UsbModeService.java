@@ -52,6 +52,7 @@ public class UsbModeService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        if (intent == null) UsbDriveControl.stop();
         startForeground(ID_ON, ongoing());
         if (!mRegistered) {
             final IntentFilter filter = new IntentFilter();
@@ -67,6 +68,7 @@ public class UsbModeService extends Service {
 
     @Override
     public void onDestroy() {
+        UsbDriveControl.stop();
         if (mRegistered) {
             unregisterReceiver(mReceiver);
             mRegistered = false;
@@ -92,6 +94,7 @@ public class UsbModeService extends Service {
             }
             stopSelf();
         } else if (!device) {
+            UsbDriveControl.stop();
             // Switched back some other way (shell, or a restart of this app's process).
             mUsbMode.setDeviceMarker(false);
             stopSelf();
@@ -109,7 +112,8 @@ public class UsbModeService extends Service {
     }
 
     private PendingIntent openScreen() {
-        return PendingIntent.getActivity(this, 0, new Intent(this, UsbModeActivity.class)
+        return PendingIntent.getActivity(this, 0, new Intent(this,
+                UsbDriveControl.busy() ? UsbDriveActivity.class : UsbModeActivity.class)
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK), PendingIntent.FLAG_IMMUTABLE);
     }
 
