@@ -196,7 +196,7 @@ var uuidOK = regexp.MustCompile(`^[0-9A-Fa-f-]+$`)
 // that as a persisted URI grant in /data/system/urigrants.xml. We write the same grants
 // the picker would, once, for every folder we give a platform. system_server reads the
 // file only when it starts, so this runs from post-fs-data, before it does. EASYROMS isn't
-// mounted yet then: its UUID comes from blkid, which vold names the volume with.
+// mounted yet then: its UUID is the exFAT boot sector's serial, as vold formats it.
 func (s *Setup) DaijishouGrants() {
 	if !sys.IsFile(s.djSeed()) {
 		return
@@ -205,20 +205,22 @@ func (s *Setup) DaijishouGrants() {
 		return
 	}
 	// .noroms: games live on the internal storage, no platforms
-	if !sys.Exists(s.EasyromsPart) {
+	if !sys.Exists(s.easyromsProp("part", s.EasyromsPart)) {
 		return
 	}
 	if s.djUserLibrary() == libOwn {
 		return
 	}
-	// init waits for this step: KILL 2 s after TERM for a blkid stuck on a failing card
-	out, _ := s.R.Run("timeout", "-k", "2", "10", "blkid", "-c", "/dev/null", "-s", "UUID", s.EasyromsDev)
+	// init waits for this step: KILL 2 s after TERM for a read stuck on a failing card
+	dev := s.easyromsProp("dev", baseOf(s.EasyromsDev))
+	if dev == "" {
+		return
+	}
+	out, err := s.R.Run("timeout", "-k", "2", "10", "dd", "if="+dirOf(s.EasyromsDev)+"/"+dev,
+		"bs=512", "count=1", "status=none")
 	uuid := ""
-	if i := strings.Index(out, `UUID="`); i >= 0 {
-		rest := out[i+6:]
-		if j := strings.IndexByte(rest, '"'); j >= 0 {
-			uuid = rest[:j]
-		}
+	if err == nil && len(out) == 512 && out[3:11] == "EXFAT   " && out[510:] == "\x55\xaa" {
+		uuid = fmt.Sprintf("%02X%02X-%02X%02X", out[103], out[102], out[101], out[100])
 	}
 	if !uuidOK.MatchString(uuid) {
 		s.Log("no usable UUID for EASYROMS (%s), no folder access for Daijishou", orNone(uuid))

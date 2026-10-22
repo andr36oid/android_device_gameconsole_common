@@ -27,7 +27,10 @@
 #   APKINSTALL_PM        command run in place of pm (gets the same arguments)
 
 DIR=${APKINSTALL_DIR:-/data/misc/andr36oid-apkinstall}
-EASYROMS_ID="public:179,7"
+EASYROMS_ID=$(getprop sys.andr36oid.easyroms.id 2>/dev/null)
+if [ -z "$EASYROMS_ID" ] && [ "$(getprop sys.andr36oid.easyroms.ready 2>/dev/null)" != 1 ]; then
+	EASYROMS_ID="public:179,7"
+fi
 WAIT_S=90
 
 log() {

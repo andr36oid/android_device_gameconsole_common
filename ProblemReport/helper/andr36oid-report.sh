@@ -29,7 +29,6 @@
 # REPORT_* variables are only for the test on a PC (tests/test-report.sh).
 
 DIR=/data/misc/andr36oid-report
-EASYROMS_ID="public:179,7"
 STEPS=8
 NAME=report-$(date +%Y%m%d-%H%M%S)
 WORK=$DIR/$NAME
@@ -782,6 +781,11 @@ if [ "$MODE" = startlog ]; then
 fi
 if [ "$MODE" = boot ]; then
 	boot_mode || exit 0
+fi
+
+EASYROMS_ID=$(getprop sys.andr36oid.easyroms.id 2>/dev/null)
+if [ -z "$EASYROMS_ID" ] && [ "$(getprop sys.andr36oid.easyroms.ready 2>/dev/null)" != 1 ]; then
+	EASYROMS_ID="public:179,7"
 fi
 
 # one report at a time (the page and a start-up report); the lock is in /dev, so a

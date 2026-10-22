@@ -21,9 +21,15 @@ MEDIA=${STORAGECARE_MEDIA:-/data/media/0}
 RA_DATA=${STORAGECARE_RA_DATA:-/data/user/0/com.retroarch}
 PKG=org.andr36oid.storagecare
 APK=/system/app/StorageCare/StorageCare.apk
-EASYROMS_ID="public:179,7"
-# EASYROMS is partition 7 of the boot card; the kernel names it so in its messages
-EASYROMS_DEV=mmcblk0p7
+EASYROMS_ID=$(getprop sys.andr36oid.easyroms.id 2>/dev/null)
+if [ -z "$EASYROMS_ID" ] && [ "$(getprop sys.andr36oid.easyroms.ready 2>/dev/null)" != 1 ]; then
+	EASYROMS_ID="public:179,7"
+fi
+# The kernel uses the block name in its file system error messages
+EASYROMS_DEV=$(getprop sys.andr36oid.easyroms.dev 2>/dev/null)
+if [ -z "$EASYROMS_DEV" ] && [ "$(getprop sys.andr36oid.easyroms.ready 2>/dev/null)" != 1 ]; then
+	EASYROMS_DEV=mmcblk0p7
+fi
 
 log() {
 	[ -x /system/bin/log ] && /system/bin/log -t andr36oid-storagecare "$*"
@@ -101,7 +107,7 @@ health() {
 	fi
 	echo "easyroms_fs=$fs"
 	echo "easyroms_ro=$ro"
-	# kernel file system errors on EASYROMS since boot: "exFAT-fs (mmcblk0p7): error, …"
+	# kernel file system errors on EASYROMS since boot: "exFAT-fs (<device>): error, …"
 	errors=$(kernel_log | grep -c -E "FAT-fs \($EASYROMS_DEV\): error")
 	echo "fs_errors=${errors:-0}"
 	# vold's check before mounting: "Check OK", "Check OK, errors fixed" or "Check failed"

@@ -2,6 +2,7 @@ package org.andr36oid.cardcheck;
 
 import android.content.Context;
 import android.os.Environment;
+import android.os.SystemProperties;
 import android.os.storage.DiskInfo;
 import android.os.storage.StorageManager;
 import android.os.storage.VolumeInfo;
@@ -20,8 +21,12 @@ import java.util.List;
  */
 final class Card {
 
-    /** EASYROMS: partition 7 of the boot card. */
-    private static final String EASYROMS_ID = "public:179,7";
+    /** Init selects EASYROMS on the boot/data disk; older boots used fixed numbers. */
+    private static String easyromsId() {
+        final String id = SystemProperties.get("sys.andr36oid.easyroms.id", "");
+        return id.isEmpty() && !SystemProperties.getBoolean("sys.andr36oid.easyroms.ready", false)
+                ? "public:179,7" : id;
+    }
     /**
      * The boot card without EASYROMS (the user chose not to make it): the tests write to a
      * folder on userdata instead. The helper knows this exact folder; its name is the uuid.
@@ -150,7 +155,7 @@ final class Card {
             String name = sm.getBestVolumeDescription(vol);
             if (name == null) name = vol.getFsUuid();
             final Card card = new Card(vol, d, name);
-            if (EASYROMS_ID.equals(vol.getId())) {
+            if (easyromsId().equals(vol.getId())) {
                 cards.add(0, card);
             } else {
                 cards.add(card);

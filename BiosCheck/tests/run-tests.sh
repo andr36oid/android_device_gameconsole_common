@@ -15,3 +15,5 @@ for sh in dash bash mksh; do
 	"$JDK/java" -cp "$T" org.andr36oid.bioscheck.ReportTest \
 		"$HERE/helper/andr36oid-bioscheck.sh" "$HERE/res/raw/bios_table.txt" $sh
 done
+
+bash "$HERE/../easyroms/tests/helpers-test.sh" BiosCheck

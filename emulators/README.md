@@ -58,7 +58,7 @@ the `gameconsole-emu` service (`seed/`) runs once `sys.boot_completed=1`:
    point at. Cores the user replaced (online updater etc.) are left alone; clearing
    RetroArch's data re-seeds.
 4. Make the usual ROM folders (`seed/rom-folders.txt`, ArkOS/dArkOS names) plus a
-   `README-andr36oid.txt` on the EASYROMS partition (`public:179,7`). Once per card, and
+   `README-andr36oid.txt` on the EASYROMS partition (selected by [init](../easyroms/README.md)). Once per card, and
    only on a card that has none of these folders yet, so existing layouts stay untouched.
    Every ROM folder that exists (ours or the user's) gets an empty `.nomedia` once per card
    (`rom_nomedia`, list in `/data/misc/gameconsole/rom-nomedia.<uuid>`). Android 11's media
@@ -336,8 +336,8 @@ existing `BIOS`/`Bios` folder is used as it is, a missing one is made):
   RetroArch (Settings > Directory > System/BIOS) is never touched.
 - installs from before this change get it too, as long as the setting is still the default.
 - if EASYROMS isn't mounted, nothing changes and the next boot tries again.
-- a card set up with `.noroms` on BOOT has no EASYROMS partition at all (no
-  `/sys/block/mmcblk0/mmcblk0p7`; the first start gives userdata the whole card). Then
+- a card set up with `.noroms` on BOOT has no EASYROMS partition at all (init publishes
+  an empty `sys.andr36oid.easyroms.part`; the first start gives userdata the whole card). Then
   the folder is `bios` on the internal storage, `/storage/emulated/0/bios` (made with the
   owner and mode of `/data/media/0`), with the same rules. Moving between a card with
   and one without EASYROMS updates the path we wrote.
@@ -449,8 +449,9 @@ its library the way Daijishou itself stores it, once, before it first runs:
   persisted URI grants in `/data/system/urigrants.xml`. We add the same entry the picker
   would (`content://com.android.externalstorage.documents/tree/<UUID>%3A<folder>`, prefix,
   read+write) for each platform folder. system_server only reads that file when it
-  starts, hence post-fs-data; the EASYROMS UUID comes from `blkid`, the tool vold names
-  `/storage/<UUID>` with. Existing grants are kept, nothing is doubled.
+  starts, hence post-fs-data; the EASYROMS UUID comes from the exFAT boot sector's
+  serial, formatted as vold names `/storage/<UUID>`. Existing grants are kept,
+  nothing is doubled.
 - boot_completed (step 6): if Daijishou has no `Daijishou.db` yet, is the versionCode in
   `daijishou-seed.txt` (416) and isn't running, write `Daijishou.db` with `sqlite3`: a
   platform for each entry whose folder is on the card and that has at least one player

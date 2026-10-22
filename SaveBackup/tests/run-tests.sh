@@ -21,3 +21,5 @@ for sh in dash bash mksh busybox; do
 done
 "$JDK/java" -cp "$T" org.andr36oid.savebackup.SyncTest \
 	"$HERE/helper/andr36oid-savebackup.sh" "$T" "$JDK/java" "${SYNCTHING:-}"
+
+bash "$HERE/../easyroms/tests/helpers-test.sh" SaveBackup

@@ -30,7 +30,10 @@ ST=com.github.catfriend1.syncthingfork
 ST_DATA=${SAVEBACKUP_ST_DATA:-/data/user/0/$ST}
 PKG=org.andr36oid.savebackup
 APK=/system/app/SaveBackup/SaveBackup.apk
-EASYROMS_ID="public:179,7"
+EASYROMS_ID=$(getprop sys.andr36oid.easyroms.id 2>/dev/null)
+if [ -z "$EASYROMS_ID" ] && [ "$(getprop sys.andr36oid.easyroms.ready 2>/dev/null)" != 1 ]; then
+	EASYROMS_ID="public:179,7"
+fi
 
 log() {
 	[ -x /system/bin/log ] && /system/bin/log -t andr36oid-savebackup "$*"

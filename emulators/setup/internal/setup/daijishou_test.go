@@ -23,7 +23,6 @@ type djConsole struct {
 	apps    string // installed apps besides Daijishou, comma separated (PPSSPP)
 	widgets []string
 	running bool
-	uuid    string
 }
 
 func firstColumn(t *testing.T, path string) []string {
@@ -50,12 +49,18 @@ func newDJ(t *testing.T, skipCore, skipFolder string) *djConsole {
 	}
 	f := newFake()
 	s, root := newSetup(t, f)
-	c := &djConsole{t: t, s: s, f: f, root: root, vc: "416", apps: ppPkg, uuid: djUUID,
+	c := &djConsole{t: t, s: s, f: f, root: root, vc: "416", apps: ppPkg,
 		widgets: []string{"com.retroarch", "com.android.documentsui", "org.videolan.vlc", "com.android.settings"}}
 	must(t, os.Symlink(emu+"/daijishou", s.Base+"/daijishou"))
 	must(t, os.MkdirAll(s.raData()+"/cores", 0o755))
 	must(t, os.MkdirAll(s.djData(), 0o755))
 	write(t, s.EasyromsPart, "")
+	s.EasyromsDev = root + "/dev/block/mmcblk0p7"
+	boot := make([]byte, 512)
+	copy(boot[3:], "EXFAT   ")
+	copy(boot[100:], []byte{0x34, 0x12, 0xcd, 0xab})
+	copy(boot[510:], []byte{0x55, 0xaa})
+	write(t, s.EasyromsDev, string(boot))
 	s.easyroms = s.MediaRW + "/" + djUUID
 	must(t, os.MkdirAll(s.easyroms, 0o755))
 	for _, core := range firstColumn(t, emu+"/cores.lock") {
@@ -101,7 +106,8 @@ func newDJ(t *testing.T, skipCore, skipFolder string) *djConsole {
 		return "    mResumedActivity: ActivityRecord{1 u0 " + djPkg + "/.activities.MainActivity t9}", nil
 	}
 	f.handlers["timeout"] = func(a []string) (string, error) {
-		return s.EasyromsDev + `: LABEL="EASYROMS" UUID="` + c.uuid + `" TYPE="exfat"`, nil
+		out, err := exec.Command("timeout", a...).CombinedOutput()
+		return strings.TrimRight(string(out), "\n"), err
 	}
 	return c
 }
@@ -158,8 +164,8 @@ func TestDaijishouFresh(t *testing.T) {
 	if grants != len(c.s.djFolders()) {
 		c.fail("%d grants for %d folders", grants, len(c.s.djFolders()))
 	}
-	if c.f.count("timeout -k 2 10 blkid") != 1 {
-		c.fail("blkid not run under timeout -k: %v", c.f.calls)
+	if c.f.count("timeout -k 2 10 dd") != 1 {
+		c.fail("boot sector not read under timeout -k: %v", c.f.calls)
 	}
 	// running again changes nothing
 	before := c.sum(c.s.djDB(), c.s.URIGrants, c.s.djPrefs())
@@ -239,6 +245,61 @@ func TestDaijishouEmptyEarlyLibrary(t *testing.T) {
 	c.s.SeedDaijishou()
 	if c.sum(db, c.s.djPrefs()) != before {
 		c.fail("filled twice")
+	}
+}
+
+func TestDaijishouGrantsEasyromsProperties(t *testing.T) {
+	c := newDJ(t, "", "")
+	s, f := c.s, c.f
+	part := dirOf(s.EasyromsPart) + "/mmcblk1p7"
+	write(t, part, "")
+	f.props["sys.andr36oid.easyroms.ready"] = "1"
+	f.props["sys.andr36oid.easyroms.part"] = part
+	f.props["sys.andr36oid.easyroms.dev"] = "mmcblk1p7"
+	write(t, dirOf(s.EasyromsDev)+"/mmcblk1p7", read(t, s.EasyromsDev))
+	must(t, os.Remove(s.EasyromsDev))
+	must(t, os.Remove(s.EasyromsPart))
+	s.DaijishouGrants()
+	if f.count("timeout ") != 1 || !sys_exists(s.URIGrants) {
+		t.Fatal("didn't grant access to the selected data card")
+	}
+	write(t, s.EasyromsPart, "")
+	delete(f.props, "sys.andr36oid.easyroms.part")
+	delete(f.props, "sys.andr36oid.easyroms.dev")
+	f.reset()
+	s.DaijishouGrants()
+	if f.count("timeout ") != 0 {
+		t.Fatal("empty published EASYROMS probed the legacy card")
+	}
+}
+
+func TestDaijishouGrantsBootSector(t *testing.T) {
+	for _, problem := range []string{"short", "filesystem", "signature", "missing", "read error"} {
+		t.Run(problem, func(t *testing.T) {
+			c := newDJ(t, "", "")
+			boot := []byte(read(t, c.s.EasyromsDev))
+			switch problem {
+			case "short":
+				boot = boot[:104]
+			case "filesystem":
+				copy(boot[3:], "OTHER   ")
+			case "signature":
+				boot[510] = 0
+			case "missing":
+				must(t, os.Remove(c.s.EasyromsDev))
+			case "read error":
+				c.f.handlers["timeout"] = func([]string) (string, error) {
+					return string(boot), errors.New("read failed")
+				}
+			}
+			if problem != "missing" {
+				write(t, c.s.EasyromsDev, string(boot))
+			}
+			c.s.DaijishouGrants()
+			if c.exists(c.s.URIGrants) {
+				t.Fatal("unreadable or invalid boot sector granted folder access")
+			}
+		})
 	}
 }
 
@@ -379,7 +440,7 @@ func TestDaijishouGrantsFile(t *testing.T) {
 	}
 
 	c = newDJ(t, "", "")
-	c.uuid = "AB|CD"
+	write(t, c.s.EasyromsDev, "damaged boot sector")
 	c.s.DaijishouGrants()
 	if c.exists(c.s.URIGrants) {
 		c.fail("bad UUID: grants written")

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.SystemProperties;
 import android.os.storage.StorageManager;
 import android.os.storage.VolumeInfo;
 import android.preference.ListPreference;
@@ -18,8 +19,12 @@ import android.widget.Toast;
  */
 public class MainFragment extends PreferenceFragment {
 
-    /** EASYROMS is the card's 7th partition; every other public volume is a drive. */
-    private static final String EASYROMS_ID = "public:179,7";
+    /** Init selects EASYROMS on the boot/data disk; older boots used fixed numbers. */
+    static String easyromsId() {
+        final String id = SystemProperties.get("sys.andr36oid.easyroms.id", "");
+        return id.isEmpty() && !SystemProperties.getBoolean("sys.andr36oid.easyroms.ready", false)
+                ? "public:179,7" : id;
+    }
 
     private final Handler mHandler = new Handler(Looper.getMainLooper());
     private Helper.Runner mRunner;
@@ -146,7 +151,7 @@ public class MainFragment extends PreferenceFragment {
     static String usbDrive(Context c) {
         final StorageManager sm = c.getSystemService(StorageManager.class);
         for (VolumeInfo v : sm.getVolumes()) {
-            if (v.getType() != VolumeInfo.TYPE_PUBLIC || EASYROMS_ID.equals(v.getId())
+            if (v.getType() != VolumeInfo.TYPE_PUBLIC || easyromsId().equals(v.getId())
                     || !v.isMountedWritable()) {
                 continue;
             }

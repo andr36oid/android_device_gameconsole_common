@@ -88,3 +88,4 @@ bash "$HELPER"
 check "bad request" '[ "$(cat "$T/dir/status")" = "error request" ]'
 
 [ $fails -eq 0 ] && echo "all passed" || { echo "$fails failed"; exit 1; }
+bash "$HERE/../../easyroms/tests/helpers-test.sh" ApkInstall

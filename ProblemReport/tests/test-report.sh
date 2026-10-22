@@ -17,7 +17,7 @@ SCRIPT=$HERE/helper/andr36oid-report.sh
 SH=${1:-/andr36oid/work/tmp/o2-shellcheck/mksh/mksh}
 TOYBOX=${TOYBOX:-/andr36oid/src/prebuilts/build-tools/linux-x86/bin/toybox}
 ROMLIST=$HERE/../emulators/seed/rom-folders.txt
-T=$(mktemp -d /tmp/test-report.XXXXXX)
+T=$(mktemp -d "${TMPDIR:-/tmp}/test-report.XXXXXX")
 [ -n "${KEEP:-}" ] || trap 'rm -rf "$T"' EXIT
 PASS=0
 FAIL=0
@@ -101,7 +101,9 @@ input) echo "Input devices: odroidgo3-joypad KEEPINPUT" ;;
 *) echo "dumpsys $* ok" ;;
 esac'
 	stub sm 'case "$*" in
-"list-volumes public") [ -e /tmp/no-easyroms ] || echo "public:179,7 mounted ABCD-1234" ;;
+"list-volumes public")
+if [ -f /tmp/volumes ]; then cat /tmp/volumes
+else [ -e /tmp/no-easyroms ] || echo "public:179,7 mounted ABCD-1234"; fi ;;
 *) echo "emulated;0 mounted null" ;;
 esac'
 	stub settings 'case "$1" in
@@ -335,6 +337,31 @@ echo 20000 >"$R/tmp/boot-free-kb"
 run_report
 check "full BOOT: status says EASYROMS" grep -q '^done EASYROMS/andr36oid-reports/report-.*\.zip$' "$R/data/misc/andr36oid-report/status"
 check "full BOOT: nothing on BOOT" [ ! -d "$R/boot/andr36oid-reports" ]
+
+# The selected data card has different numbers; another card has the legacy id
+make_root
+echo 20000 >"$R/tmp/boot-free-kb"
+printf 'sys.andr36oid.easyroms.ready=1\nsys.andr36oid.easyroms.id=public:179,103\n' >>"$R/tmp/props"
+printf 'public:179,7 mounted ABCD-1234\npublic:179,103 mounted DCBA-4321\n' >"$R/tmp/volumes"
+mkdir -p "$R/mnt/media_rw/DCBA-4321"
+run_report
+check "selected EASYROMS: saved on the data card" [ "$(find "$R/mnt/media_rw/DCBA-4321" -name 'report-*.zip' | wc -l)" = 1 ]
+check "selected EASYROMS: other card untouched" [ ! -d "$R/mnt/media_rw/ABCD-1234/andr36oid-reports" ]
+
+make_root
+echo 20000 >"$R/tmp/boot-free-kb"
+echo sys.andr36oid.easyroms.ready=1 >>"$R/tmp/props"
+run_report
+check "no selected EASYROMS: Download despite the other card" grep -q '^done Download/' "$R/data/misc/andr36oid-report/status"
+check "no selected EASYROMS: other card untouched" [ ! -d "$R/mnt/media_rw/ABCD-1234/andr36oid-reports" ]
+
+make_root
+echo 20000 >"$R/tmp/boot-free-kb"
+printf 'sys.andr36oid.easyroms.ready=1\nsys.andr36oid.easyroms.id=public:179,103\n' >>"$R/tmp/props"
+printf 'public:179,7 mounted ABCD-1234\npublic:179,103 checking DCBA-4321\n' >"$R/tmp/volumes"
+run_report
+check "selected EASYROMS not mounted: Download" grep -q '^done Download/' "$R/data/misc/andr36oid-report/status"
+check "selected EASYROMS not mounted: other card untouched" [ ! -d "$R/mnt/media_rw/ABCD-1234/andr36oid-reports" ]
 
 # ---- 4. BOOT read-only and no EASYROMS -> Download ----
 make_root

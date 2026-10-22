@@ -98,6 +98,9 @@ on late-fs
     # fstab.emmcsd. Exits at once without a data card; turns off after 3 minutes.
     exec - root root -- /system/bin/andr36oid-datacard
 
+    # Publish the boot/data card's EASYROMS before the public volumes are mounted
+    exec - root root -- /system/bin/sh /system/etc/andr36oid-easyroms.sh
+
     # Mount RW partitions which need run fsck    
     mount_all --late
     

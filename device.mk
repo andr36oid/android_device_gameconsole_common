@@ -206,6 +206,10 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
 	andr36oid-firstresize
 
+# The boot/data disk's EASYROMS identity, shared by the setup and Settings helpers
+PRODUCT_PACKAGES += \
+	andr36oid-easyroms
+
 # Need AppWidget permission to prevent Launcher[2|3] crashing
 PRODUCT_COPY_FILES += \
 	frameworks/native/data/etc/android.software.app_widgets.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.software.app_widgets.xml

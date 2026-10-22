@@ -18,7 +18,10 @@
 
 DIR=${TOUCHMAP_DIR:-/data/misc/andr36oid-touchmap}
 LAYOUTS=${TOUCHMAP_LAYOUTS:-/data/system/andr36oid/touchmap}
-EASYROMS_ID="public:179,7"
+EASYROMS_ID=$(getprop sys.andr36oid.easyroms.id 2>/dev/null)
+if [ -z "$EASYROMS_ID" ] && [ "$(getprop sys.andr36oid.easyroms.ready 2>/dev/null)" != 1 ]; then
+	EASYROMS_ID="public:179,7"
+fi
 FOLDER=touchmap
 MAX_FILES=200
 MAX_BYTES=65536

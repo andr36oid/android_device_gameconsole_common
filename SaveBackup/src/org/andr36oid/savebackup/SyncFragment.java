@@ -46,8 +46,6 @@ import java.util.concurrent.Executors;
 public class SyncFragment extends PreferenceFragment {
 
     private static final String TAG = "SaveBackup";
-    /** EASYROMS is the card's 7th partition. */
-    private static final String EASYROMS_ID = "public:179,7";
     private static final long POLL_MS = 3000;
     /** Syncthing's first start makes its keys and database; slow on the A35. */
     private static final int KEY_WAIT_S = 120;
@@ -306,7 +304,7 @@ public class SyncFragment extends PreferenceFragment {
         m.put(SyncSetup.FOLDER_INTERNAL, "/storage/emulated/0");
         final StorageManager sm = c.getSystemService(StorageManager.class);
         for (VolumeInfo v : sm.getVolumes()) {
-            if (EASYROMS_ID.equals(v.getId()) && v.isMountedWritable() && v.getPath() != null) {
+            if (MainFragment.easyromsId().equals(v.getId()) && v.isMountedWritable() && v.getPath() != null) {
                 m.put(SyncSetup.FOLDER_EASYROMS, v.getPath().getPath());
             }
         }

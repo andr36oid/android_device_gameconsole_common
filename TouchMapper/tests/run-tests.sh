@@ -83,3 +83,5 @@ for sh in dash bash mksh "busybox sh"; do
 done
 echo "helper: $pass passed, $fail failed"
 [ "$fail" -eq 0 ]
+
+bash "$HERE/../easyroms/tests/helpers-test.sh" TouchMapper

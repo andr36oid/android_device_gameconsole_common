@@ -17,3 +17,5 @@ for sh in dash bash mksh busybox; do
 	"$JDK/java" -cp "$T" org.andr36oid.storagecare.EngineTest \
 		"$HERE/helper/andr36oid-storagecare.sh" "$sh" "$T" "$JDK/java"
 done
+
+bash "$HERE/../easyroms/tests/helpers-test.sh" StorageCare

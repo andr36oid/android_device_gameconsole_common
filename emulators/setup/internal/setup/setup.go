@@ -28,8 +28,8 @@ type Paths struct {
 	Media         string // /data/media/0, the internal storage as root sees it
 	MediaRW       string // /mnt/media_rw: other volumes as root sees them
 	Mounts        string // /proc/mounts
-	EasyromsPart  string // /sys/block/mmcblk0/mmcblk0p7: the card has EASYROMS
-	EasyromsDev   string // /dev/block/mmcblk0p7
+	EasyromsPart  string // legacy sysfs path, before init published EASYROMS properties
+	EasyromsDev   string // legacy block device path
 	DTRoot        string // /proc/device-tree
 	BlockStat     string // /sys/block/mmcblk0/stat: the card's I/O counters
 	URIGrants     string // /data/system/urigrants.xml

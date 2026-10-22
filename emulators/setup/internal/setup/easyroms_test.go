@@ -340,6 +340,42 @@ func TestFindEasyroms(t *testing.T) {
 	}
 }
 
+func TestFindEasyromsProperties(t *testing.T) {
+	f := newFake()
+	s, root := newSetup(t, f)
+	// Another andr36oid card has the old id. The data card is in slot 2.
+	write(t, s.EasyromsPart, "")
+	part := root + "/sys/mmcblk1p7"
+	write(t, part, "")
+	for _, uuid := range []string{"OTHER", "DATA"} {
+		must(t, os.MkdirAll(s.MediaRW+"/"+uuid, 0o755))
+	}
+	write(t, s.Mounts, "/dev/block/vold/public:179,7 "+s.MediaRW+"/OTHER exfat rw 0 0\n"+
+		"/dev/block/vold/public:179,103 "+s.MediaRW+"/DATA exfat rw 0 0\n")
+	f.props["sys.andr36oid.easyroms.id"] = "public:179,103"
+	f.props["sys.andr36oid.easyroms.part"] = part
+	f.props["sys.andr36oid.easyroms.ready"] = "1"
+	must(t, os.Remove(s.EasyromsPart))
+	s.FindEasyroms(0)
+	if s.easyroms != s.MediaRW+"/DATA" || s.noroms || s.EasyromsLate() {
+		t.Fatalf("wrong card: %q, noroms=%v, late=%v", s.easyroms, s.noroms, s.EasyromsLate())
+	}
+	// The selected card is still being checked; never fall back to the other one.
+	write(t, s.Mounts, "/dev/block/vold/public:179,7 "+s.MediaRW+"/OTHER exfat rw 0 0\n")
+	s.FindEasyroms(0)
+	if s.easyroms != "" || s.noroms || !s.EasyromsLate() {
+		t.Fatal("selected card not mounted: didn't wait for it")
+	}
+	// Intentional absence also wins over an existing legacy partition and mount.
+	write(t, s.EasyromsPart, "")
+	delete(f.props, "sys.andr36oid.easyroms.id")
+	delete(f.props, "sys.andr36oid.easyroms.part")
+	s.FindEasyroms(0)
+	if !s.noroms || s.easyroms != "" || s.EasyromsLate() || s.easyromsMounted() != "" {
+		t.Fatal("empty published EASYROMS used the legacy card")
+	}
+}
+
 // tarGzFile copies one member of a .tar.gz to w.
 func tarGzFile(archive, member string, w io.Writer) error {
 	f, err := os.Open(archive)

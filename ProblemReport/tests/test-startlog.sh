@@ -15,7 +15,7 @@ HERE=$(cd "$(dirname "$0")/.." && pwd)
 SCRIPT=$HERE/helper/andr36oid-report.sh
 SH=${1:-/andr36oid/work/tmp/o2-shellcheck/mksh/mksh}
 TOYBOX=${TOYBOX:-/andr36oid/src/prebuilts/build-tools/linux-x86/bin/toybox}
-T=$(mktemp -d /tmp/test-startlog.XXXXXX)
+T=$(mktemp -d "${TMPDIR:-/tmp}/test-startlog.XXXXXX")
 [ -n "$T" ] && [ -d "$T" ] || exit 1
 [ -n "${KEEP:-}" ] || trap 'rm -rf "$T"' EXIT
 PASS=0

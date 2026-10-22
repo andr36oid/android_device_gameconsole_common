@@ -13,15 +13,24 @@ import (
 	"andr36oid/gcsetup/internal/sys"
 )
 
-// EASYROMS is partition 7 of the boot card (mmcblk0p7, 179:7), a public volume. A card set
-// up with .noroms on BOOT has no partition 7 at all: the first start gives userdata (p6)
-// the whole card (firstresize).
-const easyromsID = "public:179,7"
+// Init selects partition 7 of the boot/data disk, checked by its GPT name. ready with an
+// empty value means there is no EASYROMS; only older boot paths use the fixed defaults.
+func (s *Setup) easyromsProp(name, fallback string) string {
+	v := s.Props.Get("sys.andr36oid.easyroms." + name)
+	if v == "" && s.Props.Get("sys.andr36oid.easyroms.ready") != "1" {
+		return fallback
+	}
+	return v
+}
 
-// easyromsMounted is where vold mounted EASYROMS (from /dev/block/vold/public:179,7 at
+// easyromsMounted is where vold mounted EASYROMS (from /dev/block/vold/public:<maj>,<min> at
 // /mnt/media_rw/<uuid>), "" if it isn't. /proc/mounts tells: asking `sm list-volumes`
 // started a Java VM each time.
 func (s *Setup) easyromsMounted() string {
+	id := s.easyromsProp("id", "public:179,7")
+	if id == "" {
+		return ""
+	}
 	b, err := os.ReadFile(s.Mounts)
 	if err != nil {
 		return ""
@@ -29,7 +38,7 @@ func (s *Setup) easyromsMounted() string {
 	sc := bufio.NewScanner(bytes.NewReader(b))
 	for sc.Scan() {
 		f := strings.Fields(sc.Text())
-		if len(f) < 2 || f[0] != "/dev/block/vold/"+easyromsID {
+		if len(f) < 2 || f[0] != "/dev/block/vold/"+id {
 			continue
 		}
 		dir := f[1]
@@ -62,7 +71,7 @@ func (s *Setup) easyromsPath(wait time.Duration) string {
 // rest is done, when it shows up (the worker's late job).
 func (s *Setup) FindEasyroms(wait time.Duration) {
 	s.noroms, s.easyroms, s.easyromsLate = false, "", false
-	if !sys.Exists(s.EasyromsPart) {
+	if !sys.Exists(s.easyromsProp("part", s.EasyromsPart)) {
 		s.noroms = true
 		s.Log("no EASYROMS partition on this card (.noroms)")
 		return

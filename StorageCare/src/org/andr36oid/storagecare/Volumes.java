@@ -2,6 +2,7 @@ package org.andr36oid.storagecare;
 
 import android.content.Context;
 import android.os.Environment;
+import android.os.SystemProperties;
 import android.os.storage.StorageManager;
 import android.os.storage.VolumeInfo;
 
@@ -10,8 +11,12 @@ import java.io.File;
 /** Free space of the internal storage and of EASYROMS, as the system user can see it. */
 final class Volumes {
 
-    /** EASYROMS: partition 7 of the boot card. */
-    static final String EASYROMS_ID = "public:179,7";
+    /** Init selects EASYROMS on the boot/data disk; older boots used fixed numbers. */
+    private static String easyromsId() {
+        final String id = SystemProperties.get("sys.andr36oid.easyroms.id", "");
+        return id.isEmpty() && !SystemProperties.getBoolean("sys.andr36oid.easyroms.ready", false)
+                ? "public:179,7" : id;
+    }
 
     private Volumes() {
     }
@@ -23,7 +28,8 @@ final class Volumes {
     }
 
     static VolumeInfo easyroms(Context c) {
-        return c.getSystemService(StorageManager.class).findVolumeById(EASYROMS_ID);
+        final String id = easyromsId();
+        return id.isEmpty() ? null : c.getSystemService(StorageManager.class).findVolumeById(id);
     }
 
     /** {free, total} of EASYROMS, null if it isn't mounted. */

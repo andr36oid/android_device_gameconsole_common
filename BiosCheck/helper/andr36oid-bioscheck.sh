@@ -34,10 +34,17 @@
 DIR=${BIOSCHECK_DIR:-/data/misc/andr36oid-bioscheck}
 RA_DATA=${BIOSCHECK_RA_DATA:-/data/user/0/com.retroarch}
 MEDIA=${BIOSCHECK_MEDIA:-/data/media/0}
-# EASYROMS is partition 7 of the boot card; with .noroms on BOOT the first start
+# EASYROMS is partition 7 of the boot/data card; with .noroms on BOOT the first start
 # gives the whole card to userdata (p6) and there is no p7
-EASYROMS_ID="public:179,7"
-EASYROMS_PART=${BIOSCHECK_PART:-/sys/block/mmcblk0/mmcblk0p7}
+EASYROMS_ID=$(getprop sys.andr36oid.easyroms.id 2>/dev/null)
+if [ -z "$EASYROMS_ID" ] && [ "$(getprop sys.andr36oid.easyroms.ready 2>/dev/null)" != 1 ]; then
+	EASYROMS_ID="public:179,7"
+fi
+EASYROMS_PART=$(getprop sys.andr36oid.easyroms.part 2>/dev/null)
+if [ -z "$EASYROMS_PART" ] && [ "$(getprop sys.andr36oid.easyroms.ready 2>/dev/null)" != 1 ]; then
+	EASYROMS_PART=/sys/block/mmcblk0/mmcblk0p7
+fi
+EASYROMS_PART=${BIOSCHECK_PART:-$EASYROMS_PART}
 # BIOS files are small; don't hash a stray game or disc image
 MAX_BYTES=67108864
 TAB=$(printf '\t')
