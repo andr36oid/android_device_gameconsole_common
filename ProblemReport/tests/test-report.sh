@@ -477,5 +477,17 @@ check "stale lock: saved on BOOT" grep -q '^done BOOT/' "$R/data/misc/andr36oid-
 check "stale lock: the killed helper's mount taken away" grep -q '^umount /mnt/andr36oid-cardsetup-boot lock=held' "$R/tmp/mounts"
 check "stale lock: released" [ ! -e "$R/tmp/bootlock" ]
 
+# A stalled sensor must not prevent the rest of the report from being saved.
+make_root
+rm "$R/sys/class/thermal/thermal_zone0/temp"
+mkfifo "$R/sys/class/thermal/thermal_zone0/temp"
+START=$(date +%s)
+run_report
+END=$(date +%s)
+check "stalled sensor: bounded read" [ $((END - START)) -lt 20 ]
+check "stalled sensor: report saved" grep -q '^done BOOT/' "$R/data/misc/andr36oid-report/status"
+check "stalled sensor: later steps collected" unpack
+check "stalled sensor: input devices kept" has "odroidgo3-joypad"
+
 echo "passed $PASS, failed $FAIL (shell: $SH)"
 [ "$FAIL" = 0 ]

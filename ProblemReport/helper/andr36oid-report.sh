@@ -97,6 +97,11 @@ cap() {
 	head -c "$1"
 }
 
+# A single sysfs value, including ones used inside summary lines.
+read_value() {
+	timeout 5 cat "$1" 2>/dev/null </dev/null | cap 4096
+}
+
 # run <file> <timeout s> <command...> : saves the output of a command, never hangs
 run() {
 	local f=$1 t=$2
@@ -574,9 +579,9 @@ startlog_collect() {
 		echo "Boot reason: $(getprop sys.boot.reason) (last: $(getprop ro.boot.bootreason))"
 		echo "Boot animation: $(getprop init.svc.bootanim), zygote: $(getprop init.svc.zygote)," \
 			"system_server restarts: $(getprop sys.system_server.start_count)"
-		echo "Battery: $(cat /sys/class/power_supply/battery/capacity 2>/dev/null)%," \
-			"$(cat /sys/class/power_supply/battery/status 2>/dev/null)," \
-			"$(cat /sys/class/power_supply/battery/voltage_now 2>/dev/null) uV"
+		echo "Battery: $(read_value /sys/class/power_supply/battery/capacity 2>/dev/null)%," \
+			"$(read_value /sys/class/power_supply/battery/status 2>/dev/null)," \
+			"$(read_value /sys/class/power_supply/battery/voltage_now 2>/dev/null) uV"
 		echo
 		echo "Device tree model: $(tr -d '\0' </proc/device-tree/model 2>/dev/null)"
 		echo "Device tree compatible: $(tr '\0' ' ' </proc/device-tree/compatible 2>/dev/null)"
@@ -838,9 +843,9 @@ step 1 system
 	echo "Boot reason: $(getprop sys.boot.reason) (last: $(getprop sys.boot.reason.last))"
 	# shellcheck disable=SC2012 # plain sysfs names, sorted like ls
 	echo "Previous start's logs: $(ls /sys/fs/pstore 2>/dev/null | tr '\n' ' ')"
-	echo "Battery: $(cat /sys/class/power_supply/battery/capacity 2>/dev/null)%," \
-		"$(cat /sys/class/power_supply/battery/status 2>/dev/null)," \
-		"$(cat /sys/class/power_supply/battery/voltage_now 2>/dev/null) uV"
+	echo "Battery: $(read_value /sys/class/power_supply/battery/capacity 2>/dev/null)%," \
+		"$(read_value /sys/class/power_supply/battery/status 2>/dev/null)," \
+		"$(read_value /sys/class/power_supply/battery/voltage_now 2>/dev/null) uV"
 	echo
 	if [ -n "$ERRDETECT" ]; then
 		# made without the user: note.txt is from some earlier report
@@ -949,7 +954,7 @@ show power.txt /sys/class/power_supply/ac/device/charge_current_ma \
 show power.txt /sys/class/power_supply/ac/device/andr36oid_diag
 run power.txt 5 grep -iE 'rk817|plug|dc_det|bvalid|otg|usb2phy|linestate' /proc/interrupts
 for z in /sys/class/thermal/thermal_zone*; do
-	echo "$z $(cat "$z/type" 2>/dev/null) $(cat "$z/temp" 2>/dev/null)" >>"$WORK/power.txt"
+	echo "$z $(read_value "$z/type" 2>/dev/null) $(read_value "$z/temp" 2>/dev/null)" >>"$WORK/power.txt"
 done
 show power.txt /sys/devices/system/cpu/cpu0/cpufreq/scaling_* \
 	/sys/devices/system/cpu/cpu0/cpufreq/stats/time_in_state \
@@ -961,8 +966,8 @@ show power.txt /sys/class/devfreq/*/governor /sys/class/devfreq/*/cur_freq \
 	/sys/class/devfreq/*/trans_stat
 # idle states per core: Deep sleep page's switches (disable) and how often each was used
 for c in /sys/devices/system/cpu/cpu[0-9]*/cpuidle/state*; do
-	echo "$c $(cat "$c/name" 2>/dev/null) disable=$(cat "$c/disable" 2>/dev/null)" \
-		"usage=$(cat "$c/usage" 2>/dev/null) time=$(cat "$c/time" 2>/dev/null)" >>"$WORK/power.txt"
+	echo "$c $(read_value "$c/name" 2>/dev/null) disable=$(read_value "$c/disable" 2>/dev/null)" \
+		"usage=$(read_value "$c/usage" 2>/dev/null) time=$(read_value "$c/time" 2>/dev/null)" >>"$WORK/power.txt"
 done
 # status LED (Settings > Display > Status light): colour table, settings, what it shows
 L=/sys/devices/platform/andr36oid-status-led
@@ -976,8 +981,8 @@ step 6 devices
 run devices.txt 10 lsusb
 for d in /sys/bus/usb/devices/*; do
 	[ -r "$d/idVendor" ] || continue
-	echo "$d $(cat "$d/idVendor"):$(cat "$d/idProduct") $(cat "$d/manufacturer" 2>/dev/null)" \
-		"$(cat "$d/product" 2>/dev/null) speed $(cat "$d/speed" 2>/dev/null)" >>"$WORK/devices.txt"
+	echo "$d $(read_value "$d/idVendor"):$(read_value "$d/idProduct") $(read_value "$d/manufacturer" 2>/dev/null)" \
+		"$(read_value "$d/product" 2>/dev/null) speed $(read_value "$d/speed" 2>/dev/null)" >>"$WORK/devices.txt"
 done
 # what Settings > USB devices said the last time it was open (drivers, chips)
 show devices.txt /data/data/org.andr36oid.usbmode/files/usb-check.txt
@@ -992,7 +997,7 @@ show devices.txt /sys/block/mmcblk*/device/name /sys/block/mmcblk*/device/manfid
 	/sys/block/mmcblk*/device/oemid /sys/block/mmcblk*/device/date /sys/block/mmcblk*/size
 # the card's ID without its serial number and checksum (see card_id)
 for c in /sys/block/mmcblk*/device/cid; do
-	[ -r "$c" ] && echo "$c $(card_id "$(cat "$c")")" >>"$WORK/devices.txt"
+	[ -r "$c" ] && echo "$c $(card_id "$(read_value "$c")")" >>"$WORK/devices.txt"
 done
 show devices.txt /sys/block/mmcblk*/device/csd /sys/block/mmcblk*/device/scr \
 	/sys/block/mmcblk*/device/type /sys/block/mmcblk*/device/hwrev \
@@ -1004,17 +1009,17 @@ for d in /sys/block/mmcblk*; do
 	case $(readlink -f "$d") in */ff390000.dwmmc/*) ;; *) continue ;; esac
 	n=${d##*/}
 	{
-		echo "== built-in eMMC $n: $(cat "$d/size" 2>/dev/null) sectors, read-only $(cat "$d/ro" 2>/dev/null)"
+		echo "== built-in eMMC $n: $(read_value "$d/size" 2>/dev/null) sectors, read-only $(read_value "$d/ro" 2>/dev/null)"
 		for p in "$d/$n"p*; do
 			[ -d "$p" ] || continue
 			pn=${p##*/}
-			echo "$pn start $(cat "$p/start" 2>/dev/null) size $(cat "$p/size" 2>/dev/null)" \
-				"$(sed -n 's/^PARTNAME=/name /p' "$p/uevent" 2>/dev/null)" \
+			echo "$pn start $(read_value "$p/start" 2>/dev/null) size $(read_value "$p/size" 2>/dev/null)" \
+				"$(read_value "$p/uevent" | sed -n 's/^PARTNAME=/name /p')" \
 				"$(timeout 5 blkid "/dev/block/$pn" </dev/null 2>/dev/null |
 					grep -o '\(LABEL\|TYPE\)="[^"]*"' | tr '\n' ' ')"
 		done
 		for b in /sys/block/"$n"boot*; do
-			[ -d "$b" ] && echo "${b##*/} size $(cat "$b/size" 2>/dev/null)"
+			[ -d "$b" ] && echo "${b##*/} size $(read_value "$b/size" 2>/dev/null)"
 		done
 		echo
 	} >>"$WORK/devices.txt"
