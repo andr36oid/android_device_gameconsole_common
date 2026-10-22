@@ -35,6 +35,7 @@ public class UsbCheckTest {
     public static void main(String[] args) throws IOException {
         globTests();
         tableTests();
+        hubPower();
 
         final File root = new File(args[0]);
         final UsbTable t;
@@ -54,6 +55,28 @@ public class UsbCheckTest {
 
         System.out.println(sPass + " passed, " + sFail + " failed");
         System.exit(sFail == 0 ? 0 : 1);
+    }
+
+    private static void hubPower() throws IOException {
+        final UsbTable t = UsbTable.parse(new BufferedReader(new StringReader("")));
+        final UsbScan.Device d = new UsbScan.Device();
+        d.devClass = 9;
+        eq("unconfigured hub needs power", UsbCheck.Status.NO_POWER,
+                UsbCheck.check(d, t, null, false).status);
+        d.configured = true;
+        eq("hub without interfaces isn't ready", UsbCheck.Status.NO_POWER,
+                UsbCheck.check(d, t, null, false).status);
+        final UsbScan.Iface i = new UsbScan.Iface();
+        i.cls = 9;
+        i.driver = "hub";
+        d.ifaces.add(i);
+        eq("configured hub works", UsbCheck.Status.WORKS,
+                UsbCheck.check(d, t, null, false).status);
+        d.devClass = 0;
+        d.configured = false;
+        final UsbCheck.Result r = UsbCheck.check(d, t, null, false);
+        eq("interface-class hub needs power too", UsbCheck.Status.NO_POWER, r.status);
+        eq("unconfigured hub keeps its kind", "hub", r.kind);
     }
 
     private static void globTests() {

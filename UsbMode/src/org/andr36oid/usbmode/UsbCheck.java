@@ -65,7 +65,7 @@ final class UsbCheck {
 
         if (d.isHub()) {
             r.kind = "hub";
-            r.status = Status.WORKS;
+            r.status = d.configured && !d.ifaces.isEmpty() ? Status.WORKS : Status.NO_POWER;
             for (UsbScan.Iface i : d.ifaces) addOnce(r.bound, i.driver);
             return r;
         }
