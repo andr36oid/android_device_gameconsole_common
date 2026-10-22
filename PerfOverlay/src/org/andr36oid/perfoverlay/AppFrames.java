@@ -74,7 +74,7 @@ final class AppFrames {
     }
 
     /**
-     * Frames per second of the app in front since the last call, or -1 when there is no app
+     * Frames per second since the last call (the last second for slow updates), or -1 without an app
      * to measure (home screen, nothing in front, no layer found) or the dump failed.
      */
     int sample() {
@@ -108,14 +108,7 @@ final class AppFrames {
             return -1;
         }
         final long[] presents = LayerFrames.presentTimes(latency);
-        final int fps;
-        if (mLastNanos == 0) {
-            // The first sample of a layer looks one second back
-            fps = LayerFrames.countBetween(presents, now - SECOND_NS, now);
-        } else {
-            fps = LayerFrames.perSecond(LayerFrames.countAfter(presents, mLastPresent),
-                    now - mLastNanos);
-        }
+        final int fps = LayerFrames.sampleRate(presents, mLastNanos, mLastPresent, now);
         if (++mLogCount % LOG_EVERY == 0) {
             // A line every 10 s, so a problem report shows what the number is made of
             Log.i(TAG, "fps " + fps + " for " + pkg + " from " + mLayer + ": " + presents.length

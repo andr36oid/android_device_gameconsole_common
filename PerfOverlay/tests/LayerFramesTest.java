@@ -104,6 +104,18 @@ public final class LayerFramesTest {
         check("presents: junk lines skipped", 1, LayerFrames.presentTimes(
                 "16666666\nnot a frame line\n1\t2\t3\nx\ty\tz\n").length);
 
+        final long[] ring = steady(30 * s - 126 * s / 60, 60, 127);
+        check("slow update: full ring still reports 60 fps", 60,
+                LayerFrames.sampleRate(ring, 25 * s, 25 * s, 30 * s));
+        check("slow update: a stopped game reports zero", 0,
+                LayerFrames.sampleRate(ring, 30 * s, 30 * s, 35 * s));
+        check("fast update: counts only new frames", 60,
+                LayerFrames.sampleRate(ring, 30 * s - s / 4, 30 * s - s / 4, 30 * s));
+        check("first sample: only the last second", 60,
+                LayerFrames.sampleRate(ring, 0, 0, 30 * s));
+        check("fast update: late frame times still count", 46,
+                LayerFrames.sampleRate(secondDump, 11 * s, seen, 12 * s));
+
         System.out.println(sRun + " checks, " + sFailed + " failed");
         if (sFailed > 0) {
             System.exit(1);

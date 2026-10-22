@@ -130,4 +130,13 @@ final class LayerFrames {
     static int perSecond(int frames, long nanos) {
         return nanos <= 0 ? -1 : Math.round(frames * 1e9f / nanos);
     }
+
+    /** Slow updates use the last second: the ring can't hold several seconds of frames. */
+    static int sampleRate(long[] presents, long lastNanos, long lastPresent, long now) {
+        final long second = 1_000_000_000L;
+        if (lastNanos == 0 || now - lastNanos > second) {
+            return countBetween(presents, now - second, now);
+        }
+        return perSecond(countAfter(presents, lastPresent), now - lastNanos);
+    }
 }
