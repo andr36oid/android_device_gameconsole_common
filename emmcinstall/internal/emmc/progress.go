@@ -72,6 +72,13 @@ func (p *Progress) AddLog(path string) error {
 	return nil
 }
 
+// AddWriter sends progress lines to recovery's pipe as well.
+func (p *Progress) AddWriter(w io.Writer) {
+	p.mu.Lock()
+	p.out = append(p.out, w)
+	p.mu.Unlock()
+}
+
 func (p *Progress) emit(e Event) {
 	e.Time = p.now().UTC().Format("2006-01-02T15:04:05.000Z")
 	e.Step = p.step

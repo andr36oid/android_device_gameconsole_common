@@ -41,6 +41,7 @@
 //	                        (cmd=..., arg=...), the result to result.json
 //
 // --progress <file> (default in the state folder) gets JSON progress lines.
+// --recovery uses temporary records and streams progress to recovery (recovery.go).
 // The last line on stdout is {"ok":...}; the exit code is 1 on any refusal or
 // failure. Any check that fails stops everything: nothing is written after it.
 //
@@ -68,6 +69,12 @@ func main() {
 	emmc.ProcessSetup()
 	args := os.Args[1:]
 	cfg := emmc.DefaultConfig()
+	if len(args) > 0 && args[0] == "--recovery" {
+		if err := recovery(cfg.ForRecovery(), args[1:], os.Stdout); err != nil {
+			os.Exit(1)
+		}
+		return
+	}
 	progress := filepath.Join(cfg.StateDir, "progress.jsonl")
 	if len(args) >= 2 && args[0] == "--progress" {
 		progress, args = args[1], args[2:]
