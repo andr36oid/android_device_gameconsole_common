@@ -68,6 +68,25 @@ public class HintBar extends LinearLayout {
     }
 
     /**
+     * For a bar from {@link #attach}: false lets the content have the whole screen and
+     * the bar float see-through over it (a full-screen picture under fading hints), true
+     * puts it back under the content.
+     */
+    public void setReserved(boolean reserved) {
+        if (!(getParent() instanceof FrameLayout)
+                || !(getLayoutParams() instanceof FrameLayout.LayoutParams)) return;
+        final FrameLayout content = (FrameLayout) getParent();
+        final FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) getLayoutParams();
+        if ((lp.bottomMargin < 0) == reserved) return;
+        final int h = dp(HEIGHT_DP);
+        content.setPadding(content.getPaddingLeft(), content.getPaddingTop(),
+                content.getPaddingRight(), content.getPaddingBottom() + (reserved ? h : -h));
+        lp.bottomMargin = reserved ? -h : 0;
+        setLayoutParams(lp);
+        setBackgroundColor(reserved ? backgroundOf(getContext()) : Color.TRANSPARENT);
+    }
+
+    /**
      * Puts a see-through bar over the bottom of the activity's content, which keeps all of
      * the screen: for full-screen pictures and text that scroll under it (Credits).
      */
