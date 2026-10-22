@@ -210,6 +210,10 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
 	andr36oid-easyroms
 
+# BOOT/hotfix/*.fix.zip, applied before zygote on every start
+PRODUCT_PACKAGES += \
+	andr36oid-hotfix
+
 # Need AppWidget permission to prevent Launcher[2|3] crashing
 PRODUCT_COPY_FILES += \
 	frameworks/native/data/etc/android.software.app_widgets.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.software.app_widgets.xml

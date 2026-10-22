@@ -103,6 +103,7 @@ func (s *Setup) Main() {
 	s.RAFonts()
 	s.Progress.Stage("folders")
 	s.MakeRomFolders()
+	s.HotfixFolder()
 	// stand-alone apps' first-start settings, after the installs
 	s.Progress.Stage("appsettings")
 	s.SeedFirstrun()

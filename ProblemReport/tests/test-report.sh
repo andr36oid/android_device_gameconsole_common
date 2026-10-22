@@ -44,6 +44,9 @@ make_root() {
 		"$R"/data/tombstones "$R"/data/anr "$R"/mnt/media_rw/ABCD-1234 "$R"/boot "$R"/tmp \
 		"$R"/sys/power
 
+	mkdir -p "$R/data/misc/andr36oid-hotfix"
+	printf 'test-fix\tran\tok\tHOTFIXSTATUSKEEP\tEASYROMS\n' >"$R/data/misc/andr36oid-hotfix/status"
+	echo HOTFIXLOGKEEP >"$R/data/misc/andr36oid-hotfix/log"
 	cp "$SCRIPT" "$R"/system/etc/andr36oid-report.sh
 	cp "$ROMLIST" "$R"/system/etc/gameconsole/rom-folders.txt
 
@@ -249,6 +252,9 @@ for f in summary system logcat kernel crashes power devices apps roms; do
 done
 check "pstore copy" [ -f "$(echo "$T"/x/report-*/previous-start-console-ramoops-0.txt)" ]
 check "useful log line kept" has "joypad keys dead KEEPME"
+check "hotfix status kept" has HOTFIXSTATUSKEEP
+check "hotfix source kept" has 'HOTFIXSTATUSKEEP.*EASYROMS'
+check "hotfix log kept" has HOTFIXLOGKEEP
 check "kernel log kept" has KEEPKERNEL
 check "USB check result kept" has "0bda:885a  NOT_SUPPORTED USBCHECKKEEP"
 check "pstore kept" has KEEPPSTORE

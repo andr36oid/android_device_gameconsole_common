@@ -88,6 +88,7 @@ func TestMainTwice(t *testing.T) {
 		"cheat path set":         cfgGet(cfg, "cheat_database_path") == raExtPublic+"/cheats",
 		"bios path set":          cfgGet(cfg, "system_directory") == "/storage/ABCD-1234/bios",
 		"rom folders made":       sys_exists(s.MediaRW + "/ABCD-1234/README-andr36oid.txt"),
+		"hotfix folder made":     sys_exists(s.MediaRW + "/ABCD-1234/hotfix/README.txt"),
 		"apps done":              sys_exists(s.AppsDoneFile),
 		"cards released":         f.props["persist.andr36oid.setup_done"] == "1",
 		"guide told":             f.settings["global andr36oid_daijishou_ready"] == "1",

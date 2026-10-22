@@ -39,6 +39,9 @@ make_root() {
 		"$R"/sys/fs/pstore "$R"/sys/class/power_supply/battery \
 		"$R"/data/misc/andr36oid-report "$R"/data/system "$R"/data/tombstones "$R"/data/anr \
 		"$R"/mnt "$R"/boot "$R"/tmp
+	mkdir -p "$R/data/misc/andr36oid-hotfix"
+	printf 'test-fix\tran\tok\tHOTFIXSTATUSKEEP\tEASYROMS\n' >"$R/data/misc/andr36oid-hotfix/status"
+	echo HOTFIXLOGKEEP >"$R/data/misc/andr36oid-hotfix/log"
 	cp "$SCRIPT" "$R"/system/etc/andr36oid-report.sh
 	if [ -x "$TOYBOX" ]; then
 		mkdir -p "$R"/toy/bin "$R"/toy/lib64
@@ -194,6 +197,9 @@ check "hang: zygote state" has "zygote: restarting"
 check "hang: DTB matched" has "same as: Panels/Panel 4/rk3326-r36s-android.dtb"
 check "hang: getprop" has "init.svc.zygote"
 check "hang: logcat kept" has KEEPME
+check "hang: hotfix status kept" has HOTFIXSTATUSKEEP
+check "hang: hotfix source kept" has 'HOTFIXSTATUSKEEP.*EASYROMS'
+check "hang: hotfix log kept" has HOTFIXLOGKEEP
 check "hang: dmesg kept" has KEEPKERNEL
 check "hang: pstore kept" has KEEPPSTORE
 check "hang: tombstone kept" has KEEPTOMB

@@ -91,6 +91,92 @@ func countLog(s *Setup, sub string) int {
 	return n
 }
 
+func TestHotfixFolder(t *testing.T) {
+	for _, name := range []string{"hotfix", "HOTFIX", "HotFix"} {
+		t.Run(name, func(t *testing.T) {
+			s, root := romCard(t, false, "")
+			// An existing ROM layout and its completed setup must still get the folder.
+			write(t, root+"/nes/game.nes", "mine")
+			write(t, s.state("rom-folders.ABCD-1234"), "")
+			must(t, os.MkdirAll(root+"/"+name, 0o755))
+			s.HotfixFolder()
+			path := root + "/" + name + "/README.txt"
+			text := read(t, path)
+			if strings.Count(text, "\n") != 2 || !strings.Contains(text, ".fix.zip") ||
+				!sys_exists(s.state("hotfix-folder.ABCD-1234")) {
+				t.Fatal(text)
+			}
+			write(t, path, "mine")
+			s.HotfixFolder()
+			if read(t, path) != "mine" {
+				t.Fatal("overwrote the user's README")
+			}
+			must(t, os.Remove(path))
+			s.HotfixFolder()
+			if sys_exists(path) {
+				t.Fatal("recreated a deleted README")
+			}
+			if name != "hotfix" && sys_exists(root+"/hotfix") {
+				t.Fatal("made another hotfix folder")
+			}
+		})
+	}
+	t.Run("fresh card", func(t *testing.T) {
+		s, root := romCard(t, false, "")
+		s.HotfixFolder()
+		if !sys_exists(root + "/hotfix/README.txt") {
+			t.Fatal("no instructions on a fresh card")
+		}
+	})
+	t.Run("late mount", func(t *testing.T) {
+		s, root := romCard(t, false, "")
+		write(t, s.Mounts, "/dev/block/vold/public:179,7 "+root+" exfat rw 0 0\n")
+		s.easyroms, s.easyromsLate = "", true
+		s.RunEasyromsLate()
+		if !sys_exists(root+"/hotfix/README.txt") || s.EasyromsLate() {
+			t.Fatal("late job didn't make the hotfix folder")
+		}
+	})
+	t.Run("existing instructions", func(t *testing.T) {
+		s, root := romCard(t, false, "")
+		path := root + "/hotfix/README.txt"
+		write(t, path, "mine")
+		s.HotfixFolder()
+		if read(t, path) != "mine" || !sys_exists(s.state("hotfix-folder.ABCD-1234")) {
+			t.Fatal("didn't keep the existing README")
+		}
+	})
+	t.Run("not mounted or no partition", func(t *testing.T) {
+		s, root := romCard(t, false, "")
+		s.easyroms = ""
+		s.HotfixFolder()
+		s.easyroms, s.noroms = root, true
+		s.HotfixFolder()
+		if sys_exists(root+"/hotfix") || sys_exists(s.state("hotfix-folder.ABCD-1234")) {
+			t.Fatal("wrote without EASYROMS")
+		}
+	})
+	t.Run("retry after a write failure, another card", func(t *testing.T) {
+		s, root := romCard(t, false, "")
+		write(t, root+"/hotfix", "a file")
+		s.HotfixFolder()
+		if sys_exists(s.state("hotfix-folder.ABCD-1234")) {
+			t.Fatal("marked an unsuccessful setup done")
+		}
+		must(t, os.Remove(root+"/hotfix"))
+		s.HotfixFolder()
+		if !sys_exists(root + "/hotfix/README.txt") {
+			t.Fatal("didn't retry")
+		}
+		s.easyroms = s.MediaRW + "/OTHER"
+		must(t, os.MkdirAll(s.easyroms, 0o755))
+		s.HotfixFolder()
+		if !sys_exists(s.easyroms + "/hotfix/README.txt") {
+			t.Fatal("skipped another card")
+		}
+	})
+}
+
 func TestFreeGames(t *testing.T) {
 	archive := emu + freeGamesArchive
 	if _, err := os.Stat(archive); err != nil {

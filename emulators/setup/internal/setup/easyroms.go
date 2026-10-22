@@ -89,6 +89,56 @@ func (s *Setup) EasyromsLate() bool { return s.easyromsLate }
 // romFolders are the first words of rom-folders.txt.
 func (s *Setup) romFolders() []string { return firstWords(s.Base + "/rom-folders.txt") }
 
+// HotfixFolder makes the hotfix folder on new and existing cards. Once per UUID,
+// so a README the user edits or deletes stays that way.
+func (s *Setup) HotfixFolder() {
+	root := s.easyroms
+	if s.noroms || root == "" {
+		return
+	}
+	stamp := s.state("hotfix-folder." + baseOf(root))
+	if sys.Exists(stamp) {
+		return
+	}
+	name := "hotfix"
+	ents, err := os.ReadDir(root)
+	if err != nil {
+		return
+	}
+	for _, e := range ents {
+		if e.IsDir() && strings.EqualFold(e.Name(), name) {
+			name = e.Name()
+			break
+		}
+	}
+	dir := root + "/" + name
+	if err := os.MkdirAll(dir, 0o755); err != nil {
+		s.Log("couldn't make hotfix/ on EASYROMS")
+		return
+	}
+	readme := dir + "/README.txt"
+	if !sys.Exists(readme) {
+		text := "Put .fix.zip hotfixes from andr36oid here.\n" +
+			"The console applies them at start. Nothing else goes here.\n"
+		f, err := os.OpenFile(readme, os.O_WRONLY|os.O_CREATE|os.O_EXCL, 0o644)
+		if err != nil {
+			return
+		}
+		_, err = f.WriteString(text)
+		if err == nil {
+			err = f.Sync()
+		}
+		if cerr := f.Close(); err == nil {
+			err = cerr
+		}
+		if err != nil {
+			_ = os.Remove(readme)
+			return
+		}
+	}
+	_ = fsx.Touch(stamp)
+}
+
 // RomNomedia: an empty .nomedia in each ROM folder on EASYROMS (ours and ArkOS-style ones
 // the user copied). Android's media scanner then files the pictures, music and videos in
 // there (box art, snaps, game files) as plain files, so Gallery and the music player
@@ -320,6 +370,7 @@ func (s *Setup) RunEasyromsLate() {
 	s.Log("EASYROMS mounted at %s, doing its steps now", s.easyroms)
 	s.Progress.Stage("folders")
 	s.MakeRomFolders()
+	s.HotfixFolder()
 	s.RomNomedia()
 	s.BIOSFolder()
 	s.Progress.Stage("library")

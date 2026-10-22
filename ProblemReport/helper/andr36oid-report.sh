@@ -307,8 +307,13 @@ boot_result() {
 	printf '%s\r\n' "$1" >"$BOOT/make-report-result.txt"
 }
 
-# dtb_info ; the DTB boot.ini loads, and which Panels/Experimental copy on BOOT
-# each top DTB is the same as (clones differ only there). BOOT must be open.
+# hotfix_info ; the same per-start status Settings reads, plus bounded script output
+hotfix_info() {
+	echo "Hotfixes: paused=$(getprop persist.andr36oid.hotfix.paused), tries=$(getprop persist.andr36oid.hotfix.tries)"
+	cat /data/misc/andr36oid-hotfix/status 2>/dev/null | cap 32768
+	cat /data/misc/andr36oid-hotfix/log 2>/dev/null | cap 65536
+}
+
 # ktweaks_info ; the kernel command line and every Kernel Tweak that isn't the
 # default (saved, this start only, or what the kernel has now), with the start
 # options in kernel-tweaks.txt on BOOT ($BOOT when it's open)
@@ -337,6 +342,8 @@ ktweaks_info() {
 	done
 }
 
+# dtb_info ; the DTB boot.ini loads, and which Panels/Experimental copy on BOOT
+# each top DTB is the same as (clones differ only there). BOOT must be open.
 dtb_info() {
 	local f h
 	if [ -z "$BOOT" ]; then
@@ -578,10 +585,12 @@ startlog_collect() {
 			dtb_info
 			echo
 			ktweaks_info
+			hotfix_info
 			boot_close
 		else
 			echo "BOOT: not readable"
 			ktweaks_info
+			hotfix_info
 		fi
 		echo
 	} >"$WORK/summary.txt"
@@ -852,6 +861,7 @@ step 1 system
 	dtb_info
 	echo
 	ktweaks_info
+	hotfix_info
 	echo
 } >>"$WORK/summary.txt"
 # not mounted while the rest is collected (minutes): other helpers use BOOT too

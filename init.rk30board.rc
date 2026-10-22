@@ -168,6 +168,16 @@ on post-fs-data
     # Set indication (checked by vold) that we have finished this action
     setprop vold.post_fs_data_done 1
 
+# Persistent properties are loaded by the core action first. exec waits here,
+# in init's default mount namespace, before the queued zygote-start event.
+# late-fs already published EASYROMS, which hotfixes read before vold mounts it.
+on load_persist_props_action
+    exec - root root system -- /system/bin/sh /system/etc/andr36oid-hotfix.sh
+    setprop sys.andr36oid.hotfix.applying 0
+
+on property:sys.boot_completed=1
+    setprop persist.andr36oid.hotfix.tries 0
+
 on zygote-start
 
     # Create the directories used by the Wireless subsystem
