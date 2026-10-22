@@ -240,6 +240,19 @@
     <string name="kt_poll_interval_what">Con qué frecuencia se leen los joysticks y se comprueban de nuevo los botones.</string>
     <string name="kt_poll_interval_why">Más corto significa un poco menos de retraso en los joysticks, pero gasta algo más de batería. Las pulsaciones de botones llegan de inmediato de todos modos. Más largo ayuda si los joysticks tiemblan en un clon con ruido eléctrico.</string>
 
+    <string name="kt_max_volume">Volumen máximo</string>
+    <string name="kt_max_volume_what">Reduce el nivel de volumen más alto. La parte superior del control de volumen se convierte en el nuevo límite.</string>
+    <string name="kt_max_volume_why">Algunos clones tienen un amplificador que satura sus altavoces: el sonido alto cruje o zumba. Un máximo más bajo mantiene el sonido limpio. Se aplica al cambiar el volumen.</string>
+    <string name="kt_max_volume_full">Volumen al máximo</string>
+    <string name="kt_max_volume_90" formatted="false">90 % del volumen máximo</string>
+    <string name="kt_max_volume_80" formatted="false">80 % del volumen máximo</string>
+    <string name="kt_max_volume_70" formatted="false">70 % del volumen máximo</string>
+    <string name="kt_max_volume_60" formatted="false">60 % del volumen máximo</string>
+    <string name="kt_max_volume_50" formatted="false">50 % del volumen máximo</string>
+    <string name="kt_max_volume_40" formatted="false">40 % del volumen máximo</string>
+    <string name="kt_max_volume_30" formatted="false">30 % del volumen máximo</string>
+    <string name="kt_max_volume_20" formatted="false">20 % del volumen máximo</string>
+    <string name="kt_max_volume_10" formatted="false">10 % del volumen máximo</string>
     <string name="kt_hp_det_flip">Detección de auriculares</string>
     <string name="kt_hp_det_normal">Normal</string>
     <string name="kt_hp_det_flipped">Invertido</string>

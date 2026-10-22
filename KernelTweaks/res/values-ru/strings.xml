@@ -221,6 +221,19 @@
     <string name="kt_poll_interval">Частота опроса кнопок</string>
     <string name="kt_poll_interval_what">Как часто считываются стики и перепроверяются кнопки.</string>
     <string name="kt_poll_interval_why">Короче — чуть меньше задержка на стиках, но чуть больше расход заряда. Нажатия кнопок в любом случае доходят сразу. Длиннее помогает, если на шумном клоне стики дрожат.</string>
+    <string name="kt_max_volume">Максимальная громкость</string>
+    <string name="kt_max_volume_what">Снижает самый высокий уровень громкости. Верхняя граница ползунка громкости становится новым пределом.</string>
+    <string name="kt_max_volume_why">У некоторых клонов усилитель перегружает динамики: громкий звук трещит или гудит. Более низкий максимум сохраняет чистый звук. Применяется при следующем изменении громкости.</string>
+    <string name="kt_max_volume_full">Полная громкость</string>
+    <string name="kt_max_volume_90" formatted="false">90% полной громкости</string>
+    <string name="kt_max_volume_80" formatted="false">80% полной громкости</string>
+    <string name="kt_max_volume_70" formatted="false">70% полной громкости</string>
+    <string name="kt_max_volume_60" formatted="false">60% полной громкости</string>
+    <string name="kt_max_volume_50" formatted="false">50% полной громкости</string>
+    <string name="kt_max_volume_40" formatted="false">40% полной громкости</string>
+    <string name="kt_max_volume_30" formatted="false">30% полной громкости</string>
+    <string name="kt_max_volume_20" formatted="false">20% полной громкости</string>
+    <string name="kt_max_volume_10" formatted="false">10% полной громкости</string>
     <string name="kt_hp_det_flip">Определение наушников</string>
     <string name="kt_hp_det_normal">Обычно</string>
     <string name="kt_hp_det_flipped">Перевёрнуто</string>

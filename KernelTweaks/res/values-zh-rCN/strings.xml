@@ -239,6 +239,19 @@
     <string name="kt_poll_interval_what">摇杆和按键被重新读取检查的频率。</string>
     <string name="kt_poll_interval_why">更短意味着摇杆输入延迟略微降低，但耗电略多。按键反应反正都是即时的。更长则有助于仿制机电路噪声导致摇杆抖动的情况。</string>
 
+    <string name="kt_max_volume">最大音量</string>
+    <string name="kt_max_volume_what">降低最高音量档位。音量滑块的顶端会变成新的上限。</string>
+    <string name="kt_max_volume_why">有些仿制机的功放会让扬声器过载：声音大时会爆音或嗡嗡响。降低上限可以保持声音清晰。下次调节音量时生效。</string>
+    <string name="kt_max_volume_full">最大音量</string>
+    <string name="kt_max_volume_90" formatted="false">最大音量的90%</string>
+    <string name="kt_max_volume_80" formatted="false">最大音量的80%</string>
+    <string name="kt_max_volume_70" formatted="false">最大音量的70%</string>
+    <string name="kt_max_volume_60" formatted="false">最大音量的60%</string>
+    <string name="kt_max_volume_50" formatted="false">最大音量的50%</string>
+    <string name="kt_max_volume_40" formatted="false">最大音量的40%</string>
+    <string name="kt_max_volume_30" formatted="false">最大音量的30%</string>
+    <string name="kt_max_volume_20" formatted="false">最大音量的20%</string>
+    <string name="kt_max_volume_10" formatted="false">最大音量的10%</string>
     <string name="kt_hp_det_flip">耳机检测</string>
     <string name="kt_hp_det_normal">正常</string>
     <string name="kt_hp_det_flipped">已翻转</string>

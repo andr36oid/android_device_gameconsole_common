@@ -240,6 +240,19 @@
     <string name="kt_poll_interval_what">Analogların ne sıklıkla okunduğu ve tuşların yeniden kontrol edildiği.</string>
     <string name="kt_poll_interval_why">Daha kısa, analoglarda biraz daha az giriş gecikmesi anlamına gelir ama biraz daha fazla pil kullanır. Tuş basışları yine de hemen iletilir. Daha uzun, analoglar gürültülü bir klonda titriyorsa yardımcı olur.</string>
 
+    <string name="kt_max_volume">Maksimum ses düzeyi</string>
+    <string name="kt_max_volume_what">En yüksek ses düzeyini düşürür. Ses seviyesi kaydırıcısının üst ucu yeni sınır olur.</string>
+    <string name="kt_max_volume_why">Bazı klonlarda amplifikatör hoparlörleri fazla yükler: yüksek ses çatırdar veya uğuldar. Daha düşük bir üst sınır sesi temiz tutar. Bir sonraki ses değişikliğinde uygulanır.</string>
+    <string name="kt_max_volume_full">Tam ses düzeyi</string>
+    <string name="kt_max_volume_90" formatted="false">%90 tam ses düzeyi</string>
+    <string name="kt_max_volume_80" formatted="false">%80 tam ses düzeyi</string>
+    <string name="kt_max_volume_70" formatted="false">%70 tam ses düzeyi</string>
+    <string name="kt_max_volume_60" formatted="false">%60 tam ses düzeyi</string>
+    <string name="kt_max_volume_50" formatted="false">%50 tam ses düzeyi</string>
+    <string name="kt_max_volume_40" formatted="false">%40 tam ses düzeyi</string>
+    <string name="kt_max_volume_30" formatted="false">%30 tam ses düzeyi</string>
+    <string name="kt_max_volume_20" formatted="false">%20 tam ses düzeyi</string>
+    <string name="kt_max_volume_10" formatted="false">%10 tam ses düzeyi</string>
     <string name="kt_hp_det_flip">Kulaklık algılama</string>
     <string name="kt_hp_det_normal">Normal</string>
     <string name="kt_hp_det_flipped">Çevrildi</string>

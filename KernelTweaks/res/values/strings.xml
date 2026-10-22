@@ -240,6 +240,19 @@
     <string name="kt_poll_interval_what">How often the sticks are read and the buttons checked again.</string>
     <string name="kt_poll_interval_why">Shorter means a little less input lag on the sticks but uses a bit more battery. Button presses come through right away anyway. Longer helps if the sticks jitter on a noisy clone.</string>
 
+    <string name="kt_max_volume">Maximum volume</string>
+    <string name="kt_max_volume_what">Lowers the loudest volume step. The top of the volume slider becomes the new limit.</string>
+    <string name="kt_max_volume_why">Some clones have an amplifier that overdrives their speakers: loud sound crackles or buzzes. A lower maximum keeps it clean. Applies at the next volume change.</string>
+    <string name="kt_max_volume_full">Full volume</string>
+    <string name="kt_max_volume_90" formatted="false">90% of full volume</string>
+    <string name="kt_max_volume_80" formatted="false">80% of full volume</string>
+    <string name="kt_max_volume_70" formatted="false">70% of full volume</string>
+    <string name="kt_max_volume_60" formatted="false">60% of full volume</string>
+    <string name="kt_max_volume_50" formatted="false">50% of full volume</string>
+    <string name="kt_max_volume_40" formatted="false">40% of full volume</string>
+    <string name="kt_max_volume_30" formatted="false">30% of full volume</string>
+    <string name="kt_max_volume_20" formatted="false">20% of full volume</string>
+    <string name="kt_max_volume_10" formatted="false">10% of full volume</string>
     <string name="kt_hp_det_flip">Headphone detection</string>
     <string name="kt_hp_det_normal">Normal</string>
     <string name="kt_hp_det_flipped">Flipped</string>

@@ -97,6 +97,19 @@
     <string name="kt_heat_limit">温度の上限</string>
     <string name="kt_heat_limit_what">プロセッサーが冷やすために速度を落とし始める、チップの温度です。</string>
     <string name="kt_heat_limit_why">これらのコンソールはどれも冷却機構がなく、チップがむき出しです。そのため、負荷の高いゲームはすぐ上限に達してカクつきます。ヒートシンクや放熱パッド（人気の改造）が最も効果的です。上限を上げると、コンソールは熱くなる代わりにスローダウンが減ります。下げると、本体は涼しく保たれます。90 °Cを超えると、長期的にはチップに良くありません。</string>
+    <string name="kt_max_volume">最大音量</string>
+    <string name="kt_max_volume_what">音量の最も大きい段階を下げます。音量スライダーの上限が新しい制限になります。</string>
+    <string name="kt_max_volume_why">一部のクローン機では、アンプがスピーカーを過駆動します。大きな音が割れたり、ブーンというノイズが出たりします。最大値を下げると音がきれいになります。次に音量を変えたときに適用されます。</string>
+    <string name="kt_max_volume_full">最大音量</string>
+    <string name="kt_max_volume_90" formatted="false">最大音量の90%</string>
+    <string name="kt_max_volume_80" formatted="false">最大音量の80%</string>
+    <string name="kt_max_volume_70" formatted="false">最大音量の70%</string>
+    <string name="kt_max_volume_60" formatted="false">最大音量の60%</string>
+    <string name="kt_max_volume_50" formatted="false">最大音量の50%</string>
+    <string name="kt_max_volume_40" formatted="false">最大音量の40%</string>
+    <string name="kt_max_volume_30" formatted="false">最大音量の30%</string>
+    <string name="kt_max_volume_20" formatted="false">最大音量の20%</string>
+    <string name="kt_max_volume_10" formatted="false">最大音量の10%</string>
     <string name="kt_hp_det_flip">ヘッドホン検出</string>
     <string name="kt_hp_det_flip_what">ヘッドホンジャックのスイッチの読み取りを逆にします。</string>
     <string name="kt_hp_det_flip_why">一部のクローンでは、ジャックの配線が逆になっています。何も差していないのにスピーカーが無音のままだったり、ヘッドホンに音が切り替わらなかったりします。そのような症状があれば、切り替えてください。すぐに再確認されます。</string>

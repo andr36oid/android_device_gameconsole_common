@@ -242,6 +242,19 @@
     <string name="kt_poll_interval_what">Jak często gałki są odczytywane, a przyciski sprawdzane ponownie.</string>
     <string name="kt_poll_interval_why">Krótszy czas oznacza odrobinę mniejsze opóźnienie na gałkach, ale zużywa odrobinę więcej baterii. Naciśnięcia przycisków i tak docierają od razu. Dłuższy czas pomaga, jeśli gałki drgają na zaszumionym klonie.</string>
 
+    <string name="kt_max_volume">Maksymalna głośność</string>
+    <string name="kt_max_volume_what">Obniża najwyższy poziom głośności. Górna część suwaka głośności staje się nowym limitem.</string>
+    <string name="kt_max_volume_why">Niektóre klony mają wzmacniacz, który przesterowuje głośniki: głośny dźwięk trzeszczy lub buczy. Niższy limit utrzymuje czysty dźwięk. Zaczyna działać przy następnej zmianie głośności.</string>
+    <string name="kt_max_volume_full">Pełna głośność</string>
+    <string name="kt_max_volume_90" formatted="false">90% pełnej głośności</string>
+    <string name="kt_max_volume_80" formatted="false">80% pełnej głośności</string>
+    <string name="kt_max_volume_70" formatted="false">70% pełnej głośności</string>
+    <string name="kt_max_volume_60" formatted="false">60% pełnej głośności</string>
+    <string name="kt_max_volume_50" formatted="false">50% pełnej głośności</string>
+    <string name="kt_max_volume_40" formatted="false">40% pełnej głośności</string>
+    <string name="kt_max_volume_30" formatted="false">30% pełnej głośności</string>
+    <string name="kt_max_volume_20" formatted="false">20% pełnej głośności</string>
+    <string name="kt_max_volume_10" formatted="false">10% pełnej głośności</string>
     <string name="kt_hp_det_flip">Wykrywanie słuchawek</string>
     <string name="kt_hp_det_normal">Normalnie</string>
     <string name="kt_hp_det_flipped">Odwrócone</string>

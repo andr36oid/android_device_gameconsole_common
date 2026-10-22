@@ -185,7 +185,18 @@ final class Tweaks {
                     "/sys/module/snd_soc_simple_card_utils/parameters/hp_det_flip")
                 .values("N", "Y")
                 .labels(R.string.kt_hp_det_normal, R.string.kt_hp_det_flipped)
-                .level(Tweak.LAST_RESORT)));
+                .level(Tweak.LAST_RESORT))
+            .add(Tweak.choice("max_volume", R.string.kt_max_volume,
+                    R.string.kt_max_volume_what, R.string.kt_max_volume_why,
+                    "sys.andr36oid.max_volume")
+                .values("0", "90", "80", "70", "60", "50", "40", "30", "20", "10")
+                .labels(R.string.kt_max_volume_full, R.string.kt_max_volume_90,
+                        R.string.kt_max_volume_80, R.string.kt_max_volume_70,
+                        R.string.kt_max_volume_60, R.string.kt_max_volume_50,
+                        R.string.kt_max_volume_40, R.string.kt_max_volume_30,
+                        R.string.kt_max_volume_20, R.string.kt_max_volume_10)
+                .systemSetting()
+                .level(Tweak.SAFE)));
 
         // Kernel command line options, through BOOT/kernel-tweaks.txt (boot.ini adds it)
         list.add(new Category(R.string.kt_cat_boot, null, null, 0, 0)

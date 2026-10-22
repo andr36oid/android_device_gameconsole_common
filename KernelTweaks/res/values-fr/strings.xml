@@ -240,6 +240,19 @@
     <string name="kt_poll_interval_what">À quelle fréquence les sticks sont lus et les boutons revérifiés.</string>
     <string name="kt_poll_interval_why">Plus court veut dire un peu moins de latence sur les sticks, mais utilise un peu plus de batterie. Les appuis sur les boutons arrivent tout de suite de toute façon. Plus long aide si les sticks tremblent sur un clone bruité.</string>
 
+    <string name="kt_max_volume">Volume maximal</string>
+    <string name="kt_max_volume_what">Réduit le niveau de volume le plus élevé. Le haut du curseur de volume devient la nouvelle limite.</string>
+    <string name="kt_max_volume_why">Certains clones ont un amplificateur qui fait saturer leurs haut-parleurs : les sons forts grésillent ou bourdonnent. Un maximum plus bas garde un son propre. S\'applique au prochain changement de volume.</string>
+    <string name="kt_max_volume_full">Volume maximal</string>
+    <string name="kt_max_volume_90" formatted="false">90 % du volume maximal</string>
+    <string name="kt_max_volume_80" formatted="false">80 % du volume maximal</string>
+    <string name="kt_max_volume_70" formatted="false">70 % du volume maximal</string>
+    <string name="kt_max_volume_60" formatted="false">60 % du volume maximal</string>
+    <string name="kt_max_volume_50" formatted="false">50 % du volume maximal</string>
+    <string name="kt_max_volume_40" formatted="false">40 % du volume maximal</string>
+    <string name="kt_max_volume_30" formatted="false">30 % du volume maximal</string>
+    <string name="kt_max_volume_20" formatted="false">20 % du volume maximal</string>
+    <string name="kt_max_volume_10" formatted="false">10 % du volume maximal</string>
     <string name="kt_hp_det_flip">Détection du casque</string>
     <string name="kt_hp_det_normal">Normal</string>
     <string name="kt_hp_det_flipped">Inversé</string>

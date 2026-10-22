@@ -62,6 +62,7 @@ sd2_readahead|plain||/sys/block/mmcblk1/queue/read_ahead_kb
 stick_invert|plain||/sys/devices/platform/odroidgo3-joypad/stick_invert
 stick_swap|plain||/sys/devices/platform/odroidgo3-joypad/stick_swap
 stick_off|plain||/sys/devices/platform/odroidgo3-joypad/stick_off
+max_volume|prop||sys.andr36oid.max_volume
 poll_interval|plain||/sys/devices/platform/odroidgo3-joypad/poll_interval
 hp_det_flip|plain||/sys/module/snd_soc_simple_card_utils/parameters/hp_det_flip
 log_level|first||/proc/sys/kernel/printk

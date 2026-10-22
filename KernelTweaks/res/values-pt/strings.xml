@@ -240,6 +240,19 @@
     <string name="kt_poll_interval_what">Com que frequência os analógicos são lidos e os botões verificados de novo.</string>
     <string name="kt_poll_interval_why">Mais curto significa um pouco menos de atraso nos analógicos, mas usa um pouco mais de bateria. Os cliques nos botões chegam logo de qualquer forma. Mais longo ajuda se os analógicos tremerem num clone com ruído elétrico.</string>
 
+    <string name="kt_max_volume">Volume máximo</string>
+    <string name="kt_max_volume_what">Reduz o nível de volume mais alto. O topo do controlo de volume passa a ser o novo limite.</string>
+    <string name="kt_max_volume_why">Alguns clones têm um amplificador que sobrecarrega os altifalantes: o som alto estala ou zumbe. Um máximo mais baixo mantém o som limpo. Aplica-se na próxima alteração do volume.</string>
+    <string name="kt_max_volume_full">Volume máximo</string>
+    <string name="kt_max_volume_90" formatted="false">90% do volume máximo</string>
+    <string name="kt_max_volume_80" formatted="false">80% do volume máximo</string>
+    <string name="kt_max_volume_70" formatted="false">70% do volume máximo</string>
+    <string name="kt_max_volume_60" formatted="false">60% do volume máximo</string>
+    <string name="kt_max_volume_50" formatted="false">50% do volume máximo</string>
+    <string name="kt_max_volume_40" formatted="false">40% do volume máximo</string>
+    <string name="kt_max_volume_30" formatted="false">30% do volume máximo</string>
+    <string name="kt_max_volume_20" formatted="false">20% do volume máximo</string>
+    <string name="kt_max_volume_10" formatted="false">10% do volume máximo</string>
     <string name="kt_hp_det_flip">Deteção de auscultadores</string>
     <string name="kt_hp_det_normal">Normal</string>
     <string name="kt_hp_det_flipped">Invertido</string>

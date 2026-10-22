@@ -240,6 +240,19 @@
     <string name="kt_poll_interval_what">Wie oft die Sticks gelesen und die Tasten erneut abgefragt werden.</string>
     <string name="kt_poll_interval_why">Kürzer heißt etwas weniger Eingabeverzögerung bei den Sticks, braucht aber etwas mehr Akku. Tastendrücke kommen ohnehin sofort durch. Länger hilft, wenn die Sticks bei einem störanfälligen Klon zittern.</string>
 
+    <string name="kt_max_volume">Maximale Lautstärke</string>
+    <string name="kt_max_volume_what">Begrenzt die höchste Lautstärkestufe. Das obere Ende des Lautstärkereglers wird zum neuen Limit.</string>
+    <string name="kt_max_volume_why">Manche Klone haben einen Verstärker, der ihre Lautsprecher übersteuert: Laute Töne knistern oder brummen. Ein niedrigeres Maximum hält den Klang sauber. Gilt ab der nächsten Lautstärkeänderung.</string>
+    <string name="kt_max_volume_full">Volle Lautstärke</string>
+    <string name="kt_max_volume_90" formatted="false">90 % der vollen Lautstärke</string>
+    <string name="kt_max_volume_80" formatted="false">80 % der vollen Lautstärke</string>
+    <string name="kt_max_volume_70" formatted="false">70 % der vollen Lautstärke</string>
+    <string name="kt_max_volume_60" formatted="false">60 % der vollen Lautstärke</string>
+    <string name="kt_max_volume_50" formatted="false">50 % der vollen Lautstärke</string>
+    <string name="kt_max_volume_40" formatted="false">40 % der vollen Lautstärke</string>
+    <string name="kt_max_volume_30" formatted="false">30 % der vollen Lautstärke</string>
+    <string name="kt_max_volume_20" formatted="false">20 % der vollen Lautstärke</string>
+    <string name="kt_max_volume_10" formatted="false">10 % der vollen Lautstärke</string>
     <string name="kt_hp_det_flip">Kopfhörererkennung</string>
     <string name="kt_hp_det_normal">Normal</string>
     <string name="kt_hp_det_flipped">Umgedreht</string>
