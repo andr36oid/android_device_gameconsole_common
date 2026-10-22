@@ -26,17 +26,28 @@ final class FnChooser {
 
     private final Context mContext;
     private final Runnable mOnDone;
+    private final Runnable mOnCancel;
     private final boolean mHasFn;
 
-    private FnChooser(Context context, Runnable onDone) {
+    private FnChooser(Context context, Runnable onDone, Runnable onCancel) {
         mContext = context;
         mOnDone = onDone;
+        mOnCancel = onCancel;
         mHasFn = ButtonSettings.hasFn(context);
     }
 
     /** Shows the chooser on an activity; onDone runs once something was saved (not on B). */
     static void show(Context activity, Runnable onDone) {
-        new FnChooser(activity, onDone).showMain();
+        show(activity, onDone, null);
+    }
+
+    /** The same; onCancel runs when the chooser is left without saving anything. */
+    static void show(Context activity, Runnable onDone, Runnable onCancel) {
+        new FnChooser(activity, onDone, onCancel).showMain();
+    }
+
+    private void cancel() {
+        if (mOnCancel != null) mOnCancel.run();
     }
 
     /** Stand-ins of the main list that open another dialog instead of being saved */
@@ -88,7 +99,8 @@ final class FnChooser {
                                 save(value);
                             }
                         })
-                .setNegativeButton(android.R.string.cancel, null)
+                .setNegativeButton(android.R.string.cancel, (dialog, which) -> cancel())
+                .setOnCancelListener(dialog -> cancel())
                 .show();
     }
 
@@ -127,7 +139,11 @@ final class FnChooser {
                     // was a single button
                     first[0] = 0;
                     if (scan == 305 && held.isEmpty()) {
+                        // the list shows the stand-in that comes back, not "recording"
+                        Settings.Global.putString(mContext.getContentResolver(),
+                                ButtonSettings.FN_STANDIN, previous);
                         d.dismiss();
+                        showMain();
                     } else {
                         dialog.setMessage(mContext.getString(R.string.fn_combo_refused_single));
                     }
@@ -165,6 +181,7 @@ final class FnChooser {
                 .setPositiveButton(R.string.fn_standin_confirm_ok, (dialog, which) ->
                         save(ButtonSettings.combo(a, b)))
                 .setNegativeButton(android.R.string.cancel, (dialog, which) -> showMain())
+                .setOnCancelListener(dialog -> showMain())
                 .show();
     }
 
@@ -191,6 +208,7 @@ final class FnChooser {
                     }
                 })
                 .setNegativeButton(android.R.string.cancel, (dialog, which) -> showMain())
+                .setOnCancelListener(dialog -> showMain())
                 .show();
     }
 
@@ -207,6 +225,7 @@ final class FnChooser {
             final int scan = event.getScanCode();
             if (keyCode == KeyEvent.KEYCODE_BACK || scan == 305) {
                 d.dismiss();
+                showButtons();
                 return true;
             }
             if (scan <= 0) return true;
@@ -234,6 +253,7 @@ final class FnChooser {
                 .setPositiveButton(R.string.fn_standin_confirm_ok, (dialog, which) ->
                         save(ButtonSettings.SCAN_PREFIX + scanCode))
                 .setNegativeButton(android.R.string.cancel, (dialog, which) -> showButtons())
+                .setOnCancelListener(dialog -> showButtons())
                 .show();
     }
 

@@ -264,7 +264,8 @@ public class TutorialActivity extends Activity {
         });
         mNext.setOnClickListener(v -> goNext());
         mNoFnButton.setOnClickListener(v -> {
-            if (!mNoFn) {
+            final boolean firstSaid = !mNoFn;
+            if (firstSaid) {
                 // Saved for the whole system; Start + Vol- stands in unless the user picks
                 // something else. Once said, the button changes the stand-in instead.
                 ButtonSettings.addMissing(this, "fn");
@@ -273,6 +274,12 @@ public class TutorialActivity extends Activity {
             }
             FnChooser.show(this, () -> {
                 // "The Fn button" there takes the answer back
+                mNoFn = !ButtonSettings.hasFn(this);
+                showStep(skipForward(mIndex));
+            }, () -> {
+                // Cancel right after saying "no Fn" takes that back too: nothing changes
+                if (!firstSaid) return;
+                ButtonSettings.removeMissing(this, "fn");
                 mNoFn = !ButtonSettings.hasFn(this);
                 showStep(skipForward(mIndex));
             });
