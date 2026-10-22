@@ -58,7 +58,7 @@ F_SOY="Experimental/Soy-Panel5 Experimental/Soy-Panel5-253x Experimental/Soy-Pan
 # EE boards, stick mux enable on GPIO2_B4 (K36 style) ...
 F_EE_B4="Experimental/EE-K36-Panel1 Experimental/Kinhank-K36 Experimental/EE-K36-Panel4 Experimental/RX6H Experimental/EE-V12-Var2 Experimental/K36S Experimental/R36T Experimental/XF35H Experimental/R36-Max Experimental/S600 Experimental/R39-Max Experimental/T16-Max Experimental/XF40H"
 # ... and on GPIO2_B3 (G80 style)
-F_EE_B3="Experimental/EE-G80-Panel8 Experimental/EE-V12-Var1-Panel8 Experimental/EE-G80-Panel9 Experimental/EE-V12-Var3-Panel3 Experimental/EE-V12-Var3-PanelA Experimental/R36-Ultra"
+F_EE_B3="Devices/EE-G80-Panel8 Experimental/EE-V12-Var1-Panel8 Experimental/EE-G80-Panel9 Experimental/EE-V12-Var3-Panel3 Experimental/EE-V12-Var3-PanelA Experimental/R36-Ultra"
 
 log() {
 	if [ -n "$TEST" ]; then
@@ -361,12 +361,13 @@ boot_close() {
 	boot_unlock
 }
 
-# which BOOT folder the top DTB is a copy of (Panels first: Panel4 is also the top)
+# which BOOT folder the top DTB is a copy of (Panels first: Panel4 is also the top; Devices
+# before Experimental: boards that left Experimental keep a copy there for older flashers)
 installed_folder() {
 	local d
 	FOLDER=
 	[ -f "$BOOT/$DTB" ] || return 0
-	for d in "$BOOT"/Panels/*/ "$BOOT"/Experimental/*/; do
+	for d in "$BOOT"/Panels/*/ "$BOOT"/Devices/*/ "$BOOT"/Experimental/*/; do
 		[ -f "$d$DTB" ] || continue
 		if cmp -s "$BOOT/$DTB" "$d$DTB"; then
 			d=${d%/}
@@ -715,7 +716,7 @@ console_name() {
 		;;
 	Experimental/R36S-Y02-Y07) echo "R36S Y02" ;;
 	Experimental/R36S-Panel3-Alt) echo "R36S P3" ;;
-	Experimental/EE-G80-Panel8) echo "Clone G80C" ;;
+	Devices/EE-G80-Panel8 | Experimental/EE-G80-Panel8) echo "Clone G80C" ;;
 	Experimental/EE-G80-Panel9) echo "Clone G80CA" ;;
 	Experimental/EE-K36-*) echo "Clone K36" ;;
 	Experimental/Kinhank-K36) echo "Kinhank K36" ;;

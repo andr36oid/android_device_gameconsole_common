@@ -41,7 +41,7 @@ def main():
         if line.startswith('#') or not line.split():
             continue
         n, f = line.split()[:2]
-        boards.append(('clone-' + n, 'Experimental/' + f))
+        boards.append(('clone-' + n, f))
     for n, folder in boards:
         dtb = os.path.join(d, 'rk3326-r36splus-android.dtb' if n == 'splus' else 'rk3326-r36s-%s.dtb' % n)
         bk = banks(dtb)
