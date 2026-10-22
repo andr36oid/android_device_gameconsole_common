@@ -126,7 +126,7 @@ final class Restorer {
         final File tmp = new File(dir, "." + it.target.getName() + Collector.TMP_SUFFIX);
         final MessageDigest sha = Archive.sha1();
         try (FileOutputStream out = new FileOutputStream(tmp)) {
-            Archive.extract(z, it.entry.id, out, sha);
+            Archive.extract(z, it.entry.id, it.entry.size, out, sha);
             out.flush();
             out.getFD().sync();
         } catch (IOException e) {

@@ -271,17 +271,22 @@ final class Archive {
     }
 
     /** Streams one file out of a backup. */
-    static void extract(ZipFile z, String id, OutputStream out, MessageDigest sha)
+    static void extract(ZipFile z, String id, long size, OutputStream out, MessageDigest sha)
             throws IOException {
         final ZipEntry e = z.getEntry(id);
         if (e == null) throw new IOException("not in the backup: " + id);
+        if (size < 0 || e.getSize() != size) throw new IOException("wrong save size: " + id);
         final byte[] buf = new byte[65536];
+        long remaining = size;
         try (InputStream in = z.getInputStream(e)) {
             int r;
             while ((r = in.read(buf)) > 0) {
+                if (r > remaining) throw new IOException("save exceeds its size: " + id);
                 out.write(buf, 0, r);
                 sha.update(buf, 0, r);
+                remaining -= r;
             }
         }
+        if (remaining != 0) throw new IOException("save is incomplete: " + id);
     }
 }

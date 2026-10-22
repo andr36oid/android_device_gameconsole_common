@@ -36,6 +36,7 @@ public class EngineTest {
         java = args[3];
         try {
             units();
+            restoreSize();
             interruptedBackup();
             walkCache();
             scenario();
@@ -124,6 +125,41 @@ public class EngineTest {
                     "saves-20260923-140000-10.zip")),
                     "prune keeps 6 (days first, by number not date), the protected one and"
                     + " other files: " + left);
+        } finally {
+            delete(t);
+        }
+    }
+
+    static void restoreSize() throws IOException {
+        final File t = Files.createTempDirectory("savebackup-size").toFile();
+        try {
+            final File zip = new File(t, "backup.zip");
+            final String data = "save from backup";
+            final String id = "internal/Game.srm";
+            try (ZipOutputStream z = new ZipOutputStream(new FileOutputStream(zip))) {
+                z.putNextEntry(new ZipEntry(id));
+                z.write(data.getBytes(StandardCharsets.UTF_8));
+                z.closeEntry();
+            }
+            for (long size : new long[] {-1, 0, 2, data.length() + 1, data.length()}) {
+                put(t, "Game.srm", "current save", 0);
+                final Restorer.Item it = new Restorer.Item();
+                it.target = new File(t, "Game.srm");
+                it.state = Restorer.OLDER;
+                it.entry = new Manifest.Entry();
+                it.entry.id = id;
+                it.entry.size = size;
+                it.entry.sha1 = sha1(data);
+                it.entry.mtime = T0;
+                final Restorer.Result result = Restorer.apply(zip, Arrays.asList(it), false);
+                final boolean valid = size == data.length();
+                check(result.restored == (valid ? 1 : 0) && result.failed == (valid ? 0 : 1),
+                        "restore requires the declared save size: " + size);
+                check(read(it.target).equals(valid ? data : "current save"),
+                        "restore size mismatch keeps the current save");
+                check(!new File(t, ".Game.srm" + Collector.TMP_SUFFIX).exists(),
+                        "restore leaves no partial save");
+            }
         } finally {
             delete(t);
         }
