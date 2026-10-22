@@ -386,7 +386,7 @@ PRODUCT_PACKAGES += \
     	power.default \
     	android.hardware.power@1.0-impl \
     	android.hardware.power@1.0-service \
-    	android.hardware.power-service.example
+    	android.hardware.power-service.andr36oid
 
 # RenderScript HIDL
 PRODUCT_PACKAGES += \

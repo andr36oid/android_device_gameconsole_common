@@ -1,0 +1,4 @@
+service vendor.power-andr36oid /vendor/bin/hw/android.hardware.power-service.andr36oid
+    class hal
+    user nobody
+    group system

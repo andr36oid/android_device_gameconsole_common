@@ -1,0 +1,19 @@
+// andr36oid: the power HAL. Android's "user touched something" and "app launching"
+// hints raise the CPU's lowest clock for a moment, so menus and app starts react
+// faster. Replaces android.hardware.power-service.example, which ignored them.
+cc_binary {
+    name: "android.hardware.power-service.andr36oid",
+    relative_install_path: "hw",
+    init_rc: ["power-andr36oid.rc"],
+    vintf_fragments: ["power-andr36oid.xml"],
+    vendor: true,
+    shared_libs: [
+        "libbase",
+        "libbinder_ndk",
+        "android.hardware.power-ndk_platform",
+    ],
+    srcs: [
+        "main.cpp",
+        "Power.cpp",
+    ],
+}
