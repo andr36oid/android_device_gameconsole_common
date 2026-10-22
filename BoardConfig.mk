@@ -172,7 +172,7 @@ TARGET_RECOVERY_UI_SCREEN_WIDTH ?= 480
 
 ifneq ($(TARGET_NO_RECOVERY),true)
 PRODUCT_COPY_FILES += \
-	device/gameconsole/common/init.recovery.common.rc:recovery/root/init.recovery.rk3326.rc \
+	device/gameconsole/common/init.recovery.common.rc:recovery/root/init.recovery.rk30board.rc \
 	device/gameconsole/common/fstab.emmc:recovery/root/system/etc/recovery.fstab.emmc \
 	device/gameconsole/common/fstab.emmcsd:recovery/root/system/etc/recovery.fstab.emmcsd \
 	device/gameconsole/common/emmcinstall/prebuilt/andr36oid-datacard:recovery/root/system/bin/andr36oid-datacard \

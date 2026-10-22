@@ -43,6 +43,12 @@ service console /system/bin/sh
 on property:ro.debuggable=1
     start console
 
+# USB over configfs, as in Android: adb, sideload and the USB drive need the gadget.
+# Recovery's own rc only turns it on for ro.hardware rk3326; ours is rk30board.
+on init
+    setprop sys.usb.configfs 1
+    setprop sys.usb.controller ff300000.usb
+
 on fs
     wait /dev/block/platform/soc/${ro.boot.bootdevice}
     symlink /dev/block/platform/soc/${ro.boot.bootdevice} /dev/block/bootdevice
