@@ -283,6 +283,8 @@ type Inspection struct {
 	State      *State    `json:"state,omitempty"`
 	TestFile   string    `json:"test_file,omitempty"`
 	Problems   []string  `json:"problems,omitempty"`
+	// Found: andr36oid on the eMMC, installed from another SD card (Adopt)
+	Found *Found `json:"found,omitempty"`
 }
 
 // Inspect looks at everything and writes nothing.
@@ -332,6 +334,12 @@ func (c *Config) Inspect() *Inspection {
 			bad(err)
 		}
 		in.EmmcTable, _ = ReadGPT(e)
+	}
+	if st != nil && !st.hasRecords() && len(in.EmmcMounts) == 0 {
+		if f, err := c.foundOnEmmc(); err == nil && f != nil {
+			f.Backup = c.findBackup(nil, info.CID)
+			in.Found = f
+		}
 	}
 	if in.SDTable != nil {
 		if in.Plan, err = c.MakePlan(info.Sectors, in.SDTable); err != nil {

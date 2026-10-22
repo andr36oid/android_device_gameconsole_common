@@ -184,6 +184,11 @@
     <string name="inst_restore_working">备份会按分区逐一写回 eMMC。随后整个 eMMC 会被回读并与备份比对，以确保它与原厂 eMMC 完全一致。</string>
     <string name="inst_update_working">新版 andr36oid 会按分区逐一从 SD 卡复制到 eMMC。每个分区在开始下一个之前，都会被回读并与 SD 卡比对。</string>
     <string name="inst_shut_down">关机</string>
+    <string name="inst_found_title">andr36oid 已经在 eMMC 上</string>
+    <string name="inst_found">andr36oid 是从另一张 SD 卡安装到这台掌机 eMMC 上的，所以这张卡没有它的记录。\n\n这张卡可以接管它，且不会向 eMMC 写入任何内容。之后你可以把 eMMC 更新为这张卡上的 andr36oid，或者恢复原厂系统。</string>
+    <string name="inst_found_backup">原厂 eMMC 的备份在这张卡上：%1$s</string>
+    <string name="inst_found_no_backup">这张卡上没有原厂 eMMC 的备份。以后要恢复原厂系统的话，请先把另一张卡 EASYROMS 里（在 \"eMMC backup\" 中）的那个文件夹复制到这张卡的 EASYROMS 中。</string>
+    <string name="inst_take_over">接管</string>
     <string name="inst_stock_back_title">原厂 eMMC 已恢复</string>
     <string name="inst_stock_back_done">eMMC 上已重新是原厂系统，并已与备份核对。andr36oid 从这张 SD 卡运行，无需再做其他操作。\n\n没有 SD 卡时，掌机会启动原厂系统。</string>
     <string name="inst_install_again">重新安装到 eMMC</string>

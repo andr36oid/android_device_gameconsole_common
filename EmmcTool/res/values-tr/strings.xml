@@ -184,6 +184,11 @@
     <string name="inst_restore_working">Yedek, eMMC\'ye parça parça geri yazılır. Ardından eMMC\'nin tamamı geri okunur ve yedekle karşılaştırılır; böylece tam olarak yeniden orijinal eMMC olduğundan emin olursunuz.</string>
     <string name="inst_update_working">Yeni andr36oid, SD karttan eMMC\'ye parça parça kopyalanır. Her parça, bir sonraki parça başlamadan önce geri okunur ve SD kartla karşılaştırılır.</string>
     <string name="inst_shut_down">Kapat</string>
+    <string name="inst_found_title">andr36oid zaten eMMC\'de</string>
+    <string name="inst_found">andr36oid, bu konsolun eMMC\'sine başka bir SD karttan kurulmuş, bu yüzden bu kartta onunla ilgili kayıt yok.\n\nBu kart, eMMC\'ye hiçbir şey yazmadan onu devralabilir. Ardından eMMC\'yi bu kartın andr36oid\'iyle güncelleyebilir ya da fabrika sistemini geri yükleyebilirsin.</string>
+    <string name="inst_found_backup">Fabrika eMMC\'sinin yedeği bu karttadır: %1$s</string>
+    <string name="inst_found_no_backup">Bu kartta fabrika eMMC\'sinin yedeği yok. Fabrika sistemini daha sonra geri yüklemek için, önce diğer kartın EASYROMS klasöründeki (\"eMMC backup\" içindeki) klasörünü bu kartın EASYROMS klasörüne kopyala.</string>
+    <string name="inst_take_over">Devral</string>
     <string name="inst_stock_back_title">Fabrika eMMC\'si geri döndü</string>
     <string name="inst_stock_back_done">eMMC yeniden fabrika sistemini içeriyor, yedekle karşılaştırılarak doğrulandı. andr36oid bu SD karttan çalışıyor, başka bir şey yapmana gerek yok.\n\nSD kart olmadan konsol fabrika sistemini başlatır.</string>
     <string name="inst_install_again">eMMC\'ye yeniden yükle</string>

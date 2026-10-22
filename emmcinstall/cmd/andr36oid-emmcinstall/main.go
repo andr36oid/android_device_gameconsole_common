@@ -162,6 +162,8 @@ func main() {
 		err = cfg.UpdateEmmc(p)
 	case "restore":
 		err = cfg.Restore(p, arg())
+	case "adopt":
+		err = cfg.Adopt(p)
 	case "list-images":
 		result = cfg.ListImages(args)
 	case "write-image":

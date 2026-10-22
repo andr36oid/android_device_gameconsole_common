@@ -186,6 +186,11 @@
     <string name="inst_restore_working">バックアップを eMMC に少しずつ書き戻しています。その後、eMMC 全体を読み戻してバックアップと照合し、純正の eMMC と完全に一致することを確認します。</string>
     <string name="inst_update_working">新しい andr36oid を SD カードから eMMC へ、1 つずつコピーしています。各部分は、次に進む前に読み戻して SD カードと照合します。</string>
     <string name="inst_shut_down">電源を切る</string>
+    <string name="inst_found_title">andr36oid は既に eMMC に入っています</string>
+    <string name="inst_found">andr36oid は、この本体の eMMC に別の SD カードからインストールされていたため、このカードには記録がありません。\n\nこのカードは、eMMC には何も書き込まずに引き継げます。その後、eMMC をこのカードの andr36oid に更新するか、純正システムに戻せます。</string>
+    <string name="inst_found_backup">純正 eMMC のバックアップはこのカードにあります: %1$s</string>
+    <string name="inst_found_no_backup">このカードには純正 eMMC のバックアップがありません。後で純正システムに戻すには、まず別のカードの EASYROMS にあるそのフォルダ（\"eMMC backup\" 内）を、このカードの EASYROMS にコピーしてください。</string>
+    <string name="inst_take_over">引き継ぐ</string>
     <string name="inst_stock_back_title">純正 eMMC に戻りました</string>
     <string name="inst_stock_back_done">純正 eMMC に純正システムが戻り、バックアップと照合して確認済みです。andr36oid はこの SD カードから起動しているので、ほかに作業は必要ありません。\n\nSD カードがなければ、本体は純正システムを起動します。</string>
     <string name="inst_install_again">eMMC にもう一度インストール</string>

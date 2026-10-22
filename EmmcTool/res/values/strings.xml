@@ -194,6 +194,11 @@
     <string name="inst_restore_working">The backup is written back to the eMMC part by part. Then the whole eMMC is read back and compared with the backup, so you know it is exactly the stock eMMC again.</string>
     <string name="inst_update_working">The new andr36oid is copied from the SD card to the eMMC one part at a time. Each part is read back and compared with the SD card before the next one starts.</string>
     <string name="inst_shut_down">Shut down</string>
+    <string name="inst_found_title">andr36oid is already on the eMMC</string>
+    <string name="inst_found">andr36oid was installed on this console\'s eMMC from another SD card, so this card has no records of it.\n\nThis card can take it over, without writing anything to the eMMC. Then you can update the eMMC to this card\'s andr36oid, or put the stock system back.</string>
+    <string name="inst_found_backup">The stock eMMC\'s backup is on this card: %1$s</string>
+    <string name="inst_found_no_backup">This card has no backup of the stock eMMC. To put the stock system back later, copy its folder from the other card\'s EASYROMS (in \"eMMC backup\") to this card\'s EASYROMS first.</string>
+    <string name="inst_take_over">Take it over</string>
     <string name="inst_stock_back_title">The stock eMMC is back</string>
     <string name="inst_stock_back_done">The eMMC holds the stock system again, checked against the backup. andr36oid runs from this SD card, and nothing more needs to be done.\n\nWithout the SD card, the console starts the stock system.</string>
     <string name="inst_install_again">Install on the eMMC again</string>

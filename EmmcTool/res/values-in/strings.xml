@@ -184,6 +184,11 @@
     <string name="inst_restore_working">Cadangan ditulis kembali ke eMMC sedikit demi sedikit. Setelah itu seluruh eMMC dibaca ulang dan dibandingkan dengan cadangan, jadi kamu tahu eMMC-nya sudah sama persis dengan eMMC asli.</string>
     <string name="inst_update_working">andr36oid yang baru disalin dari kartu SD ke eMMC sedikit demi sedikit. Setiap bagian dibaca ulang dan dibandingkan dengan kartu SD sebelum bagian berikutnya dimulai.</string>
     <string name="inst_shut_down">Matikan</string>
+    <string name="inst_found_title">andr36oid sudah ada di eMMC</string>
+    <string name="inst_found">andr36oid dipasang di eMMC konsol ini dari kartu SD lain, jadi kartu ini tidak punya catatannya.\n\nKartu ini bisa mengambil alihnya tanpa menulis apa pun ke eMMC. Setelah itu, kamu bisa memperbarui eMMC ke andr36oid dari kartu ini, atau mengembalikan sistem asli.</string>
+    <string name="inst_found_backup">Cadangan eMMC asli ada di kartu ini: %1$s</string>
+    <string name="inst_found_no_backup">Kartu ini tidak punya cadangan eMMC asli. Untuk mengembalikan sistem asli nanti, salin dulu foldernya dari EASYROMS kartu lain (di \"eMMC backup\") ke EASYROMS kartu ini.</string>
+    <string name="inst_take_over">Ambil alih</string>
     <string name="inst_stock_back_title">eMMC asli sudah kembali</string>
     <string name="inst_stock_back_done">eMMC kembali berisi sistem asli, sudah dicek dengan cadangan. andr36oid berjalan dari kartu SD ini, dan tidak ada lagi yang perlu dilakukan.\n\nTanpa kartu SD, konsol memulai sistem asli.</string>
     <string name="inst_install_again">Instal ulang di eMMC</string>

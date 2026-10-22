@@ -615,6 +615,11 @@ public class InstallActivity extends Activity {
             button(mNext, getString(R.string.inst_check_again), this::showChecks);
             return;
         }
+        final JSONObject found = mInspect.optJSONObject("found");
+        if (found != null) {
+            showFound(found);
+            return;
+        }
         final List<String> problems = new ArrayList<>();
         final JSONArray pa = mInspect.optJSONArray("problems");
         for (int i = 0; pa != null && i < pa.length(); i++) problems.add(pa.optString(i));
@@ -1330,6 +1335,19 @@ public class InstallActivity extends Activity {
         if (Installer.state().optJSONObject("revive") != null) showRevive();
         else if (mOnDatacard) showRestart(Restart.STOCK_CARD);
         else showStockBack();
+    }
+
+    /**
+     * andr36oid on the eMMC, installed from another SD card: this card has no records
+     * of it until it takes it over (adopt, writes nothing to the eMMC).
+     */
+    private void showFound(JSONObject found) {
+        final String backup = found.optString("backup");
+        page(null, -1, getString(R.string.inst_found_title), getString(R.string.inst_found)
+                + "\n\n" + (backup.isEmpty() ? getString(R.string.inst_found_no_backup)
+                        : getString(R.string.inst_found_backup, backup)));
+        button(mBack, getString(R.string.inst_close), this::finish);
+        button(mNext, getString(R.string.inst_take_over), () -> run("adopt", true, this::route));
     }
 
     /** The end after a restore: the stock eMMC is back, andr36oid runs from the SD card. */

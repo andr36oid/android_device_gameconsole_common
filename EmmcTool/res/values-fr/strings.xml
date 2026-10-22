@@ -184,6 +184,11 @@
     <string name="inst_restore_working">La sauvegarde est réécrite sur l\'eMMC partie par partie. Ensuite, l\'eMMC entier est relu et comparé à la sauvegarde, pour que vous sachiez qu\'il est exactement redevenu l\'eMMC d\'origine.</string>
     <string name="inst_update_working">Le nouvel andr36oid est copié de la carte SD vers l\'eMMC partie par partie. Chaque partie est relue et comparée à la carte SD avant que la suivante ne commence.</string>
     <string name="inst_shut_down">Éteindre</string>
+    <string name="inst_found_title">andr36oid est déjà sur l\'eMMC</string>
+    <string name="inst_found">andr36oid a été installé sur l\'eMMC de cette console depuis une autre carte SD, donc cette carte n\'en a aucune trace.\n\nCette carte peut la reprendre, sans rien écrire sur l\'eMMC. Ensuite, tu peux mettre à jour l\'eMMC avec l\'andr36oid de cette carte, ou remettre le système d\'origine.</string>
+    <string name="inst_found_backup">La sauvegarde de l\'eMMC d\'origine se trouve sur cette carte : %1$s</string>
+    <string name="inst_found_no_backup">Cette carte ne contient aucune sauvegarde de l\'eMMC d\'origine. Pour remettre plus tard le système d\'origine, copie d\'abord son dossier depuis les EASYROMS de l\'autre carte (dans \"eMMC backup\") vers les EASYROMS de cette carte.</string>
+    <string name="inst_take_over">Prendre en charge</string>
     <string name="inst_stock_back_title">L\'eMMC d\'origine est de retour</string>
     <string name="inst_stock_back_done">L\'eMMC contient de nouveau le système d\'origine, vérifié par rapport à la sauvegarde. andr36oid tourne depuis cette carte SD, il n\'y a rien d\'autre à faire.\n\nSans la carte SD, la console démarre le système d\'origine.</string>
     <string name="inst_install_again">Réinstaller sur l\'eMMC</string>

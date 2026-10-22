@@ -184,6 +184,11 @@
     <string name="inst_restore_working">Die Sicherung wird Teil für Teil zurück auf den eMMC geschrieben. Danach wird der ganze eMMC zurückgelesen und mit der Sicherung verglichen, damit du sicher sein kannst, dass er wieder genau der Original-eMMC ist.</string>
     <string name="inst_update_working">Das neue andr36oid wird Teil für Teil von der SD-Karte auf den eMMC kopiert. Jeder Teil wird zurückgelesen und mit der SD-Karte verglichen, bevor der nächste beginnt.</string>
     <string name="inst_shut_down">Herunterfahren</string>
+    <string name="inst_found_title">andr36oid ist schon auf dem eMMC</string>
+    <string name="inst_found">andr36oid wurde auf dem eMMC dieser Konsole von einer anderen SD-Karte installiert, deshalb hat diese Karte keine Aufzeichnungen davon.\n\nDiese Karte kann es übernehmen, ohne etwas auf das eMMC zu schreiben. Danach kannst du das eMMC auf das andr36oid dieser Karte aktualisieren oder das Original-System zurückspielen.</string>
+    <string name="inst_found_backup">Die Sicherung des Original-eMMC ist auf dieser Karte: %1$s</string>
+    <string name="inst_found_no_backup">Diese Karte hat keine Sicherung des Original-eMMC. Um das Original-System später zurückzuspielen, kopiere zuerst seinen Ordner aus den EASYROMS der anderen Karte (in \"eMMC backup\") auf die EASYROMS dieser Karte.</string>
+    <string name="inst_take_over">Übernehmen</string>
     <string name="inst_stock_back_title">Der Original-eMMC ist zurück</string>
     <string name="inst_stock_back_done">Der eMMC-Speicher hat wieder das Originalsystem, geprüft gegen die Sicherung. andr36oid läuft von dieser SD-Karte, mehr musst du nicht tun.\n\nOhne die SD-Karte startet die Konsole das Originalsystem.</string>
     <string name="inst_install_again">Erneut auf dem eMMC-Speicher installieren</string>

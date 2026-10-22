@@ -184,6 +184,11 @@
     <string name="inst_restore_working">Резервная копия записывается обратно на eMMC по частям. Затем весь eMMC считывается и сравнивается с резервной копией, чтобы вы были уверены, что он снова в точности соответствует заводскому.</string>
     <string name="inst_update_working">Новый andr36oid копируется с SD-карты на eMMC по частям. Каждая часть считывается обратно и сравнивается с SD-картой, прежде чем начнётся следующая.</string>
     <string name="inst_shut_down">Выключить</string>
+    <string name="inst_found_title">andr36oid уже стоит на eMMC</string>
+    <string name="inst_found">andr36oid был установлен на eMMC этой консоли с другой SD-карты, поэтому на этой карте о нём нет записей.\n\nЭта карта может перенять его, ничего не записывая на eMMC. После этого можно обновить eMMC до andr36oid с этой карты или вернуть заводскую систему.</string>
+    <string name="inst_found_backup">Резервная копия заводской eMMC находится на этой карте: %1$s</string>
+    <string name="inst_found_no_backup">На этой карте нет резервной копии заводской eMMC. Чтобы позже вернуть заводскую систему, сначала скопируй её папку из EASYROMS другой карты (в \"eMMC backup\") в EASYROMS этой карты.</string>
+    <string name="inst_take_over">Перенять</string>
     <string name="inst_stock_back_title">Заводская eMMC восстановлена</string>
     <string name="inst_stock_back_done">На eMMC снова заводская система, она сверена с резервной копией. andr36oid работает с этой SD-карты, больше ничего делать не нужно.\n\nБез SD-карты консоль запустит заводскую систему.</string>
     <string name="inst_install_again">Установить на eMMC снова</string>

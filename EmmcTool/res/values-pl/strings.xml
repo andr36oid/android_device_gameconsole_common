@@ -184,6 +184,11 @@
     <string name="inst_restore_working">Kopia zapasowa jest zapisywana z powrotem na eMMC po kawałku. Potem cały eMMC jest odczytywany i porównywany z kopią, abyś miał pewność, że to ponownie dokładnie fabryczne eMMC.</string>
     <string name="inst_update_working">Nowy andr36oid jest kopiowany z karty SD na eMMC po kawałku. Każdy kawałek jest odczytywany i porównywany z kartą SD, zanim zacznie się następny.</string>
     <string name="inst_shut_down">Wyłącz</string>
+    <string name="inst_found_title">andr36oid jest już na eMMC</string>
+    <string name="inst_found">andr36oid został zainstalowany na eMMC tej konsoli z innej karty SD, więc ta karta nie ma o nim żadnych zapisów.\n\nTa karta może go przejąć, bez zapisywania czegokolwiek na eMMC. Potem możesz zaktualizować eMMC do andr36oid z tej karty albo przywrócić fabryczny system.</string>
+    <string name="inst_found_backup">Kopia fabrycznego eMMC jest na tej karcie: %1$s</string>
+    <string name="inst_found_no_backup">Ta karta nie ma kopii fabrycznego eMMC. Aby później przywrócić fabryczny system, najpierw skopiuj jego folder z EASYROMS innej karty (w \"eMMC backup\") do EASYROMS tej karty.</string>
+    <string name="inst_take_over">Przejmij</string>
     <string name="inst_stock_back_title">Fabryczne eMMC wróciło</string>
     <string name="inst_stock_back_done">Fabryczne eMMC znowu ma system fabryczny, sprawdzony z kopią zapasową. andr36oid działa z tej karty SD i nic więcej nie trzeba robić.\n\nBez karty SD konsola uruchomi system fabryczny.</string>
     <string name="inst_install_again">Zainstaluj ponownie na eMMC</string>
