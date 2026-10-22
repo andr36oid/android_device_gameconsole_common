@@ -370,10 +370,10 @@ dtb_info() {
 	rm -f "$WORK/dtb.list"
 }
 
-# card_id <cid hex> ; the SD card ID with the product serial number (PSN, hex
-# digits 19-26) and the checksum (31-32) blanked; maker, OEM, name, revision and
-# date stay (the same fields SD card check shows)
+# card_id <cid hex> <SD|MMC> ; hide the serial and checksum. SD puts the serial
+# at digits 19-26, MMC at 21-28. Without a type, hide both possible positions.
 card_id() {
+	case $1 in *[!0-9a-fA-F]*) echo "(not a CID)"; return ;; esac
 	case $1 in
 	????????????????????????????????) ;;
 	*)
@@ -381,7 +381,11 @@ card_id() {
 		return
 		;;
 	esac
-	printf '%s\n' "$1" | sed 's/^\(.\{18\}\).\{8\}\(.\{4\}\)..$/\1xxxxxxxx\2xx/'
+	case $2 in
+	SD) printf '%s\n' "$1" | sed 's/^\(.\{18\}\).\{8\}\(.\{4\}\)..$/\1xxxxxxxx\2xx/' ;;
+	MMC) printf '%s\n' "$1" | sed 's/^\(.\{20\}\).\{8\}\(..\)..$/\1xxxxxxxx\2xx/' ;;
+	*) printf '%s\n' "$1" | sed 's/^\(.\{18\}\).\{10\}\(..\)..$/\1xxxxxxxxxx\2xx/' ;;
+	esac
 }
 
 # rom_counts ; how many files are in each ROM folder on EASYROMS. Only the
@@ -997,7 +1001,8 @@ show devices.txt /sys/block/mmcblk*/device/name /sys/block/mmcblk*/device/manfid
 	/sys/block/mmcblk*/device/oemid /sys/block/mmcblk*/device/date /sys/block/mmcblk*/size
 # the card's ID without its serial number and checksum (see card_id)
 for c in /sys/block/mmcblk*/device/cid; do
-	[ -r "$c" ] && echo "$c $(card_id "$(read_value "$c")")" >>"$WORK/devices.txt"
+	[ -r "$c" ] && echo "$c $(card_id "$(timeout 5 cat "$c" 2>/dev/null)" \
+		"$(timeout 5 cat "${c%/*}/type" 2>/dev/null)")" >>"$WORK/devices.txt"
 done
 show devices.txt /sys/block/mmcblk*/device/csd /sys/block/mmcblk*/device/scr \
 	/sys/block/mmcblk*/device/type /sys/block/mmcblk*/device/hwrev \

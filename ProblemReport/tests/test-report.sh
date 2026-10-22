@@ -158,6 +158,7 @@ else /bin/df "$@"; fi'
 	echo mem >"$R"/sys/power/state
 	# CID: MID 03, OID SD, PNM SC64G, PRV 80, PSN 12345678, reserved 0, MDT 16a (2022-10), CRC a7
 	echo 03534453433634478012345678016aa7 >"$R"/sys/block/mmcblk0/device/cid
+	echo SD >"$R"/sys/block/mmcblk0/device/type
 	echo 400e00325b590001d8bf7f800a4040df >"$R"/sys/block/mmcblk0/device/csd
 	echo SC64G >"$R"/sys/block/mmcblk0/device/name
 	echo 0x000003 >"$R"/sys/block/mmcblk0/device/manfid
@@ -169,6 +170,11 @@ else /bin/df "$@"; fi'
 	mkdir -p "$M/mmcblk2p1" "$M/mmcblk2p2" "$R"/sys/block/mmcblk2boot0
 	echo 15269888 >"$M/size"
 	echo 1 >"$M/ro"
+	mkdir -p "$M/device" "$R/sys/block/mmcblk3/device"
+	echo MMC >"$M/device/type"
+	echo 150100414a5444345210deadbeef9a33 >"$M/device/cid"
+	# Missing type: either serial layout must be hidden.
+	echo 130100554e4b4e4f5710cafe98769a33 >"$R/sys/block/mmcblk3/device/cid"
 	echo 16384 >"$M/mmcblk2p1/start"
 	echo 8192 >"$M/mmcblk2p1/size"
 	printf 'PARTNAME=uboot\n' >"$M/mmcblk2p1/uevent"
@@ -267,6 +273,10 @@ check "DTB not Panel 1" sh -c "! grep -r 'same as:.*Panel 1' '$T/x'"
 check "hwrev" has "Board revision (U-Boot hwrev): 3"
 check "CID masked" has "035344534336344780xxxxxxxx016axx"
 check "CID serial gone" hasnt "12345678"
+check "eMMC CID serial fully masked" has "150100414a5444345210xxxxxxxx9axx"
+check "eMMC CID serial gone" hasnt deadbeef
+check "unknown CID layout masked conservatively" has "130100554e4b4e4f57xxxxxxxxxx9axx"
+check "unknown CID serial gone" hasnt cafe9876
 check "short CID refused" has "(not a CID)"
 check "eMMC listed" has "== built-in eMMC mmcblk2: 15269888 sectors, read-only 1"
 check "eMMC partition name" has "mmcblk2p1 start 16384 size 8192 name uboot"
