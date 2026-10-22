@@ -185,6 +185,8 @@
     <string name="inst_update_working">Le nouvel andr36oid est copié de la carte SD vers l\'eMMC partie par partie. Chaque partie est relue et comparée à la carte SD avant que la suivante ne commence.</string>
     <string name="inst_shut_down">Éteindre</string>
     <string name="inst_stock_back_title">L\'eMMC d\'origine est de retour</string>
+    <string name="inst_stock_back_done">L\'eMMC contient de nouveau le système d\'origine, vérifié par rapport à la sauvegarde. andr36oid tourne depuis cette carte SD, il n\'y a rien d\'autre à faire.\n\nSans la carte SD, la console démarre le système d\'origine.</string>
+    <string name="inst_install_again">Réinstaller sur l\'eMMC</string>
     <string name="inst_finished_earlier">%1$d parties avant celles-ci, toutes vérifiées</string>
     <string name="inst_test_deferred">andr36oid est sur l\'eMMC, mais le démarrage de test n\'a pas encore eu lieu. Tester maintenant : la console redémarre et démarre une fois depuis l\'eMMC.</string>
     <string name="inst_test_now">Tester maintenant</string>

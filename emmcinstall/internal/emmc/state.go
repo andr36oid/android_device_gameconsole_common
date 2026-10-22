@@ -40,6 +40,11 @@ type State struct {
 	// an SD card that starts again, its data kept (DatacardRevive).
 	Revive *Datacard `json:"revive,omitempty"`
 
+	// Restored: the stock eMMC was put back and nothing started since. The
+	// wizard ends there instead of starting an install again; any command
+	// but restore clears it.
+	Restored bool `json:"restored,omitempty"`
+
 	// Back: on the eMMC system, the user asked to go back to the stock
 	// system and the data card was made to start by itself (DatacardBack).
 	// Its start offers the restore first.

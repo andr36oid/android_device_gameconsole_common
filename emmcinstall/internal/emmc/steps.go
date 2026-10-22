@@ -68,6 +68,10 @@ func (c *Config) begin(p *Progress, cmd string) (*run, error) {
 	if err != nil {
 		return nil, err
 	}
+	if cmd != "restore" {
+		// a new run after a restore: the wizard goes on from here
+		st.Restored = false
+	}
 	if st.CID != "" && st.CID != info.CID {
 		return nil, fmt.Errorf("the installer's records are for another eMMC (CID %s, this one %s)", st.CID, info.CID)
 	}
@@ -1481,7 +1485,8 @@ func (c *Config) Restore(p *Progress, dir string) error {
 		}
 		revive = nil
 	}
-	*r.st = State{CID: r.st.CID, Sectors: r.st.Sectors, Backup: r.st.Backup, Revive: revive}
+	*r.st = State{CID: r.st.CID, Sectors: r.st.Sectors, Backup: r.st.Backup, Revive: revive,
+		Restored: true}
 	if err := c.Save(r.st); err != nil {
 		return err
 	}

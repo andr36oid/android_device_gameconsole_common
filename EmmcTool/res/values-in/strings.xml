@@ -185,6 +185,8 @@
     <string name="inst_update_working">andr36oid yang baru disalin dari kartu SD ke eMMC sedikit demi sedikit. Setiap bagian dibaca ulang dan dibandingkan dengan kartu SD sebelum bagian berikutnya dimulai.</string>
     <string name="inst_shut_down">Matikan</string>
     <string name="inst_stock_back_title">eMMC asli sudah kembali</string>
+    <string name="inst_stock_back_done">eMMC kembali berisi sistem asli, sudah dicek dengan cadangan. andr36oid berjalan dari kartu SD ini, dan tidak ada lagi yang perlu dilakukan.\n\nTanpa kartu SD, konsol memulai sistem asli.</string>
+    <string name="inst_install_again">Instal ulang di eMMC</string>
     <string name="inst_finished_earlier">%1$d bagian sebelumnya, semua sudah diperiksa</string>
     <string name="inst_test_deferred">andr36oid sudah ada di eMMC, tapi start uji belum dijalankan. Uji sekarang: konsol dimulai ulang dan start sekali dari eMMC.</string>
     <string name="inst_test_now">Uji sekarang</string>

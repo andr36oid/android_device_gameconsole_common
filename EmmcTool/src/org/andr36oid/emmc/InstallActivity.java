@@ -394,6 +394,8 @@ public class InstallActivity extends Activity {
         } else if ("passed".equals(step1)) {
             showNext(2, getString(R.string.inst_step1_passed),
                     () -> run("write-os", false, () -> showRestart(Restart.TEST)));
+        } else if (st.optBoolean("restored")) {
+            showStockBack();
         } else if (st.optJSONObject("backup") != null && st.optJSONObject("datacard") == null) {
             findDataChoices();
         } else if (st.optJSONObject("backup") != null) {
@@ -1326,14 +1328,23 @@ public class InstallActivity extends Activity {
     /** After a restore: the data card can start the console again, if there was one. */
     private void afterRestore() {
         if (Installer.state().optJSONObject("revive") != null) showRevive();
-        else showRestart(mOnDatacard ? Restart.STOCK_CARD : Restart.STOCK);
+        else if (mOnDatacard) showRestart(Restart.STOCK_CARD);
+        else showStockBack();
+    }
+
+    /** The end after a restore: the stock eMMC is back, andr36oid runs from the SD card. */
+    private void showStockBack() {
+        page(null, -1, getString(R.string.inst_stock_back_title),
+                getString(R.string.inst_stock_back_done));
+        button(mSecondary, getString(R.string.inst_install_again), this::findDataChoices);
+        button(mNext, getString(R.string.inst_close), this::finish);
     }
 
     /** The stock eMMC is back, and andr36oid's data card can't start by itself. */
     private void showRevive() {
         page(null, -1, getString(R.string.inst_revive_title), getString(R.string.inst_revive));
         button(mSecondary, getString(R.string.inst_revive_leave),
-                () -> run("datacard-revive", true, () -> showRestart(Restart.STOCK), "forget"));
+                () -> run("datacard-revive", true, this::showStockBack, "forget"));
         button(mNext, getString(R.string.inst_revive_go), () -> run("datacard-revive", false, () -> {
             final JSONObject r = Installer.result();
             final boolean thisCard = r != null && "this card".equals(r.optString("result"));

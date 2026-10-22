@@ -187,6 +187,8 @@
     <string name="inst_update_working">新しい andr36oid を SD カードから eMMC へ、1 つずつコピーしています。各部分は、次に進む前に読み戻して SD カードと照合します。</string>
     <string name="inst_shut_down">電源を切る</string>
     <string name="inst_stock_back_title">純正 eMMC に戻りました</string>
+    <string name="inst_stock_back_done">純正 eMMC に純正システムが戻り、バックアップと照合して確認済みです。andr36oid はこの SD カードから起動しているので、ほかに作業は必要ありません。\n\nSD カードがなければ、本体は純正システムを起動します。</string>
+    <string name="inst_install_again">eMMC にもう一度インストール</string>
     <string name="inst_keep_on">これが終わるまで、本体の電源を入れたままにし、SD カードを挿したままにしてください。</string>
     <!-- After the installer review: a put-off test, a half-done update or restore, a restore that isn't exact -->
     <string name="inst_test_deferred">andr36oid は eMMC 上にありますが、テスト起動はまだ行われていません。今すぐテストしてください。本体は再起動し、テストとして一度 eMMC から起動します。</string>

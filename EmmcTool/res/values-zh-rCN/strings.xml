@@ -185,6 +185,8 @@
     <string name="inst_update_working">新版 andr36oid 会按分区逐一从 SD 卡复制到 eMMC。每个分区在开始下一个之前，都会被回读并与 SD 卡比对。</string>
     <string name="inst_shut_down">关机</string>
     <string name="inst_stock_back_title">原厂 eMMC 已恢复</string>
+    <string name="inst_stock_back_done">eMMC 上已重新是原厂系统，并已与备份核对。andr36oid 从这张 SD 卡运行，无需再做其他操作。\n\n没有 SD 卡时，掌机会启动原厂系统。</string>
+    <string name="inst_install_again">重新安装到 eMMC</string>
     <string name="inst_finished_earlier">之前还有 %1$d 个部分，均已校验</string>
     <string name="inst_test_deferred">andr36oid 已在 eMMC 上，但测试启动尚未进行。立即测试：主机将重启，并从 eMMC 启动一次。</string>
     <string name="inst_test_now">立即测试</string>

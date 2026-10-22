@@ -195,6 +195,8 @@
     <string name="inst_update_working">The new andr36oid is copied from the SD card to the eMMC one part at a time. Each part is read back and compared with the SD card before the next one starts.</string>
     <string name="inst_shut_down">Shut down</string>
     <string name="inst_stock_back_title">The stock eMMC is back</string>
+    <string name="inst_stock_back_done">The eMMC holds the stock system again, checked against the backup. andr36oid runs from this SD card, and nothing more needs to be done.\n\nWithout the SD card, the console starts the stock system.</string>
+    <string name="inst_install_again">Install on the eMMC again</string>
     <string name="inst_keep_on">Keep the console switched on and the SD card in until this is done.</string>
     <!-- After the installer review: a put-off test, a half-done update or restore, a restore that isn't exact -->
     <string name="inst_test_deferred">andr36oid is on the eMMC, but its test start hasn\'t run yet. Test now: the console restarts and starts from the eMMC once.</string>

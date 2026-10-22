@@ -185,6 +185,8 @@
     <string name="inst_update_working">Yeni andr36oid, SD karttan eMMC\'ye parça parça kopyalanır. Her parça, bir sonraki parça başlamadan önce geri okunur ve SD kartla karşılaştırılır.</string>
     <string name="inst_shut_down">Kapat</string>
     <string name="inst_stock_back_title">Fabrika eMMC\'si geri döndü</string>
+    <string name="inst_stock_back_done">eMMC yeniden fabrika sistemini içeriyor, yedekle karşılaştırılarak doğrulandı. andr36oid bu SD karttan çalışıyor, başka bir şey yapmana gerek yok.\n\nSD kart olmadan konsol fabrika sistemini başlatır.</string>
+    <string name="inst_install_again">eMMC\'ye yeniden yükle</string>
     <string name="inst_finished_earlier">Bunlardan önce %1$d parça, hepsi kontrol edildi</string>
     <string name="inst_test_deferred">andr36oid eMMC\'de, ancak test başlatması henüz yapılmadı. Şimdi test et: konsol yeniden başlar ve bir kez eMMC\'den açılır.</string>
     <string name="inst_test_now">Şimdi test et</string>

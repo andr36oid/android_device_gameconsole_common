@@ -550,12 +550,17 @@ func TestInstallAndRestore(t *testing.T) {
 	if f.writes[len(f.writes)-1] != LoaderStart*Sector {
 		t.Fatal("restore didn't write the idbloader header last")
 	}
-	if st := f.state(); st.Step1 != "" || st.Step3 != "" || st.Backup == nil || !f.locked {
+	if st := f.state(); st.Step1 != "" || st.Step3 != "" || st.Backup == nil || !st.Restored || !f.locked {
 		t.Fatalf("after restore: %+v", st)
 	}
 	log, _ := os.ReadFile(filepath.Join(dir, "install.log"))
 	if !bytes.Contains(log, []byte(`"state":"ok"`)) || !bytes.Contains(log, []byte("Write back the partitions")) {
 		t.Fatalf("install log:\n%s", log)
+	}
+	// installing again goes on from the restore
+	must(t, f.cfg.BlankLoader(f.progress()))
+	if f.state().Restored {
+		t.Fatal("a new install after the restore still counts as restored")
 	}
 }
 
