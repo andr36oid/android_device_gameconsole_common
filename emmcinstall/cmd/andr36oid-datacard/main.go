@@ -8,6 +8,10 @@
 // as /data. While the card is missing, sys.andr36oid.datacard_wait holds the seconds
 // left, and the boot animation shows "Waiting for storage SD card ..." with them.
 // After 3 minutes the console turns off: nothing is mounted writable yet.
+//
+// With --recovery (init.recovery.common.rc) it only links the card: recovery has no
+// boot animation, and without the card it gives up after the 3 minutes and leaves
+// the console on, so recovery stays usable.
 package main
 
 import (
@@ -39,7 +43,12 @@ func main() {
 	if want == "" {
 		return
 	}
+	recovery := len(os.Args) > 1 && os.Args[1] == "--recovery"
 	guid, err := datacard.GUIDBytes(want)
+	if err != nil && recovery {
+		log.Printf("%v", err)
+		return
+	}
 	if err != nil {
 		// a broken datacard.txt: the eMMC's own userdata would be mounted instead of
 		// the user's data, so better not start at all
@@ -65,13 +74,17 @@ func main() {
 			}
 		}
 		left := int((timeout - time.Since(start) + time.Second - 1) / time.Second)
+		if left <= 0 && recovery {
+			log.Printf("no data card (%s) after %v", want, timeout)
+			return
+		}
 		if left <= 0 {
 			log.Printf("no data card (%s) after %v, turning off", want, timeout)
 			setprop(waitProp, "0")
 			powerOff()
 		}
 		// the first look is right away: a card that is in shows nothing at all
-		if left != shown && time.Since(start) >= pollEvery {
+		if left != shown && time.Since(start) >= pollEvery && !recovery {
 			if shown < 0 {
 				log.Printf("waiting for the data card %s", want)
 			}

@@ -158,17 +158,24 @@ BOARD_AVB_ENABLE := false
 
 # Recovery
 TARGET_NO_RECOVERY := false
-TARGET_RECOVERY_FSTAB    := device/gameconsole/common/recovery.fstab
+# Recovery runs on the kernel Android uses (boot.ini loads BOOT/ramdisk-recovery.uimg
+# with it) and picks its fstab at start like Android: the SD card's, or with
+# androidboot.fstab_suffix=emmc or emmcsd the eMMC install's (init.recovery.common.rc)
+TARGET_RECOVERY_FSTAB    := device/gameconsole/common/fstab.rk30board
 BOARD_RECOVERYIMAGE_PARTITION_SIZE := $(shell echo $$((200*1024*1024))) # 200M
 BOARD_BOOTIMAGE_PARTITION_SIZE := 67108864
 TARGET_RECOVERY_PIXEL_FORMAT := BGRA_8888
 TARGET_RECOVERY_DENSITY ?= mdpi
-TARGET_RECOVERY_DEFAULT_ROTATION := ROTATION_NONE
+# No TARGET_RECOVERY_DEFAULT_ROTATION: it would fix ro.minui.default_rotation for
+# every console, init.recovery.common.rc sets it for the panels mounted sideways
 TARGET_RECOVERY_UI_SCREEN_WIDTH ?= 480
 
 ifneq ($(TARGET_NO_RECOVERY),true)
 PRODUCT_COPY_FILES += \
-	device/gameconsole/common/init.recovery.common.rc:recovery/root/init.recovery.rk3326.rc
+	device/gameconsole/common/init.recovery.common.rc:recovery/root/init.recovery.rk3326.rc \
+	device/gameconsole/common/fstab.emmc:recovery/root/system/etc/recovery.fstab.emmc \
+	device/gameconsole/common/fstab.emmcsd:recovery/root/system/etc/recovery.fstab.emmcsd \
+	device/gameconsole/common/emmcinstall/prebuilt/andr36oid-datacard:recovery/root/system/bin/andr36oid-datacard
 endif
 
 BOARD_CACHEIMAGE_PARTITION_SIZE := 100663296

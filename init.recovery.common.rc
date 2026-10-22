@@ -46,3 +46,26 @@ on property:ro.debuggable=1
 on fs
     wait /dev/block/platform/soc/${ro.boot.bootdevice}
     symlink /dev/block/platform/soc/${ro.boot.bootdevice} /dev/block/bootdevice
+
+# andr36oid: the fstab of whatever started, as Android picks fstab.<fstab_suffix>.
+# Without a suffix (the SD card) recovery.fstab stays the SD card's.
+on init && property:ro.boot.fstab_suffix=emmc
+    copy /system/etc/recovery.fstab.emmc /system/etc/recovery.fstab
+
+on init && property:ro.boot.fstab_suffix=emmcsd
+    copy /system/etc/recovery.fstab.emmcsd /system/etc/recovery.fstab
+    # /data is on the data card: link it as Android does, but never turn off
+    start datacard
+
+service datacard /system/bin/andr36oid-datacard --recovery
+    oneshot
+    disabled
+    user root
+    seclabel u:r:recovery:s0
+
+# Panels mounted sideways: the same turn as SurfaceFlinger's
+on early-init && property:ro.boot.sf_orientation=ORIENTATION_90
+    setprop ro.minui.default_rotation ROTATION_RIGHT
+
+on early-init && property:ro.boot.sf_orientation=ORIENTATION_270
+    setprop ro.minui.default_rotation ROTATION_LEFT
