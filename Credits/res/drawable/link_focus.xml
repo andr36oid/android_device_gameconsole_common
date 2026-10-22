@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- A profile link: a clear accent outline for the D-pad, a soft press for the mouse. -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_focused="true">
+        <shape>
+            <corners android:radius="4dp" />
+            <solid android:color="?android:attr/colorControlHighlight" />
+            <stroke android:width="2dp" android:color="?android:attr/colorAccent" />
+        </shape>
+    </item>
+    <item android:state_pressed="true">
+        <shape>
+            <corners android:radius="4dp" />
+            <solid android:color="?android:attr/colorControlHighlight" />
+        </shape>
+    </item>
+    <item android:drawable="@android:color/transparent" />
+</selector>
