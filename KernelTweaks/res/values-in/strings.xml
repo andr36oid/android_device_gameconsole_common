@@ -239,6 +239,19 @@
     <string name="kt_poll_interval_what">Seberapa sering stik dibaca dan tombol dicek ulang.</string>
     <string name="kt_poll_interval_why">Lebih pendek berarti sedikit lebih sedikit lag input pada stik tapi memakai sedikit lebih banyak baterai. Penekanan tombol tetap langsung masuk. Lebih panjang membantu jika stik bergetar di klon yang bising secara listrik.</string>
 
+    <string name="kt_max_volume">Volume maksimum</string>
+    <string name="kt_max_volume_what">Menurunkan langkah volume paling keras. Ujung atas slider volume menjadi batas baru.</string>
+    <string name="kt_max_volume_why">Beberapa klon punya amplifier yang membuat speaker kewalahan: suara keras jadi kresek atau berdengung. Batas yang lebih rendah membuatnya tetap jernih. Berlaku saat volume diubah berikutnya.</string>
+    <string name="kt_max_volume_full">Volume penuh</string>
+    <string name="kt_max_volume_90" formatted="false">90% dari volume penuh</string>
+    <string name="kt_max_volume_80" formatted="false">80% dari volume penuh</string>
+    <string name="kt_max_volume_70" formatted="false">70% dari volume penuh</string>
+    <string name="kt_max_volume_60" formatted="false">60% dari volume penuh</string>
+    <string name="kt_max_volume_50" formatted="false">50% dari volume penuh</string>
+    <string name="kt_max_volume_40" formatted="false">40% dari volume penuh</string>
+    <string name="kt_max_volume_30" formatted="false">30% dari volume penuh</string>
+    <string name="kt_max_volume_20" formatted="false">20% dari volume penuh</string>
+    <string name="kt_max_volume_10" formatted="false">10% dari volume penuh</string>
     <string name="kt_hp_det_flip">Deteksi headphone</string>
     <string name="kt_hp_det_normal">Normal</string>
     <string name="kt_hp_det_flipped">Dibalik</string>
