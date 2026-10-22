@@ -430,6 +430,15 @@ public class ResumeTest {
         final Finder.PpGame pp = Finder.ppsspp(files);
         eq("ppsspp game", "/storage/1234-ABCD/psp/Patapon 2 (USA).cso", pp != null ? pp.path : null);
         eq("ppsspp time", now - 50, pp.time);
+        touch(root, "/data/media/0/PSP/SYSTEM/ppsspp.ini", now + 86400);
+        eq("chosen memstick wins over a future-dated old config", pp.path,
+                Finder.ppsspp(files).path);
+        put(root, "/data/media/0/PSPstick/PSP/SYSTEM/ppsspp.ini", "[Recent]\n", now);
+        eq("empty current history doesn't revive an abandoned game", null,
+                Finder.ppsspp(files));
+        new File(root, "data/media/0/PSPstick/PSP/SYSTEM/ppsspp.ini").delete();
+        eq("missing current config still falls back", "/storage/emulated/0/old.iso",
+                Finder.ppsspp(files).path);
 
         // Nothing known about the last app: the emulator that saved last (PPSSPP) wins
         eq("choose newest", Target.PPSSPP, Target.choose(null, null, ra, pp).kind);

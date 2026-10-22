@@ -92,13 +92,13 @@ public final class Finder {
         final String memstick = Ppsspp.memstickFile();
         final FileAccess.Found txt = files.read(Collections.singletonList(memstick)).get(memstick);
         final List<String> inis = Ppsspp.iniCandidates(txt != null ? txt.text : null);
-        final List<FileAccess.Found> found = new ArrayList<>(files.read(inis).values());
-        Collections.sort(found, (a, b) -> Long.compare(b.mtime, a.mtime));
-        for (FileAccess.Found f : found) {
+        final Map<String, FileAccess.Found> found = files.read(inis);
+        // The chosen memory stick wins over an old config, even after a clock reset.
+        for (String ini : inis) {
+            final FileAccess.Found f = found.get(ini);
+            if (f == null) continue;
             final List<String> recent = Ppsspp.parseRecent(f.text);
-            if (!recent.isEmpty()) {
-                return new PpGame(recent.get(0), f.mtime);
-            }
+            return recent.isEmpty() ? null : new PpGame(recent.get(0), f.mtime);
         }
         return null;
     }
