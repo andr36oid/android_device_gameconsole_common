@@ -166,6 +166,22 @@
     <string name="kt_heat_limit_why">Keine dieser Konsolen hat eine Kühlung, der Chip liegt frei, daher erreichen anspruchsvolle Spiele die Grenze schnell und ruckeln. Ein Kühlkörper oder Wärmeleitpad (ein beliebter Umbau) hilft am meisten. Eine höhere Grenze bedeutet eine heißere Konsole, aber weniger Drosselung. Eine niedrigere hält das Gehäuse kühler. Über 90 °C ist auf Dauer nicht gut für den Chip.</string>
 
     <!-- Memory -->
+    <string name="kt_boost_buttons">Takt-Boost bei Tastendruck</string>
+    <string name="kt_boost_buttons_what">Lässt den Prozessor nach jedem Tastendruck kurz mit dem höchsten Takt laufen und danach wieder langsamer werden.</string>
+    <string name="kt_boost_buttons_why">Menüs und Listen reagieren etwas schneller, weil der Prozessor nicht erst aus dem Leerlauftakt hochtakten muss. Schalte ihn zum Vergleichen aus oder um etwas Akku zu sparen.</string>
+    <string name="kt_boost_length">Boost-Dauer</string>
+    <string name="kt_boost_length_what">Wie lange der Prozessor nach einem Tastendruck auf seinem höchsten Takt bleibt.</string>
+    <string name="kt_boost_length_why">Länger fühlt sich beim Scrollen durch lange Listen flüssiger an, kürzer spart etwas Akku.</string>
+    <string name="kt_boost_ms_250">0,25 Sekunden</string>
+    <string name="kt_boost_ms_500">0,5 Sekunden</string>
+    <string name="kt_boost_ms_1000">1 Sekunde</string>
+    <string name="kt_boost_ms_2000">2 Sekunden</string>
+    <string name="kt_boost_launch">Takt-Boost beim App-Start</string>
+    <string name="kt_boost_launch_what">Lässt den Prozessor mit seinem höchsten Takt laufen, während eine App oder ein Spiel startet, bis zu 5 Sekunden.</string>
+    <string name="kt_boost_launch_why">Apps öffnen etwas schneller. Schalte ihn zum Vergleichen aus.</string>
+    <string name="kt_boot_boost">Voller Takt beim Start</string>
+    <string name="kt_boot_boost_what">Lässt den Prozessor mit seinem höchsten Takt laufen, bis Android vollständig gestartet ist.</string>
+    <string name="kt_boot_boost_why">Die Konsole startet schneller. Schalte ihn aus, wenn sie dabei zu warm wird oder neu startet.</string>
     <string name="kt_perf_metrics_off">Leistungsmessung deaktivieren</string>
     <string name="kt_perf_metrics_off_what">Schaltet das Leistungs-Overlay und die Diagramme im Ausschaltmenü ab und beendet das Auslesen der Werte dahinter (Bildrate, Prozessor, Temperatur, Akku, Speicher und SD-Karte) im Hintergrund.</string>
     <string name="kt_perf_metrics_off_why">Spart die kleine Rechenzeit, die das Auslesen kostet, und hilft, in anspruchsvollen Spielen die letzten Bilder herauszuholen. Ohne Anzeige siehst du aber nicht, was ein Spiel gerade tut.</string>

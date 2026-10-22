@@ -165,6 +165,22 @@
     <string name="kt_heat_limit_why">Tidak ada konsol ini yang memiliki pendingin, chip-nya terbuka, jadi game berat cepat mencapai batas dan tersendat. Heatsink atau heat pad (modifikasi populer) paling membantu. Menaikkan batas menukar konsol yang lebih panas dengan lebih sedikit perlambatan. Menurunkannya membuat bodi lebih dingin. Di atas 90 °C tidak bagus untuk chip dalam jangka panjang.</string>
 
     <!-- Memory -->
+    <string name="kt_boost_buttons">Peningkatan kecepatan saat tombol ditekan</string>
+    <string name="kt_boost_buttons_what">Menjalankan prosesor pada kecepatan tertingginya sesaat setelah setiap tombol ditekan, lalu membiarkannya melambat lagi.</string>
+    <string name="kt_boost_buttons_why">Menu dan daftar sedikit lebih cepat merespons karena prosesor tidak perlu lebih dulu naik dari kecepatan idle. Nonaktifkan untuk membandingkan atau menghemat sedikit baterai.</string>
+    <string name="kt_boost_length">Durasi peningkatan</string>
+    <string name="kt_boost_length_what">Berapa lama prosesor bertahan pada kecepatan tertingginya setelah tombol ditekan.</string>
+    <string name="kt_boost_length_why">Durasi lebih panjang terasa lebih mulus saat menggulir daftar panjang, durasi lebih pendek menghemat sedikit baterai.</string>
+    <string name="kt_boost_ms_250">0,25 detik</string>
+    <string name="kt_boost_ms_500">0,5 detik</string>
+    <string name="kt_boost_ms_1000">1 detik</string>
+    <string name="kt_boost_ms_2000">2 detik</string>
+    <string name="kt_boost_launch">Peningkatan kecepatan saat aplikasi dimulai</string>
+    <string name="kt_boost_launch_what">Menjalankan prosesor pada kecepatan tertingginya saat aplikasi atau game dimulai, hingga 5 detik.</string>
+    <string name="kt_boost_launch_why">Aplikasi terbuka sedikit lebih cepat. Nonaktifkan untuk membandingkan.</string>
+    <string name="kt_boot_boost">Kecepatan penuh saat menyala</string>
+    <string name="kt_boot_boost_what">Menjalankan prosesor pada kecepatan tertingginya sampai Android selesai menyala.</string>
+    <string name="kt_boot_boost_why">Konsol menyala lebih cepat. Nonaktifkan jika konsol terlalu panas atau restart saat menyala.</string>
     <string name="kt_perf_metrics_off">Nonaktifkan pengumpulan metrik performa</string>
     <string name="kt_perf_metrics_off_what">Mematikan overlay performa dan grafik di menu daya, serta menghentikan pembacaan angka di baliknya (frame rate, CPU, suhu, baterai, memori, dan kartu SD) di latar belakang.</string>
     <string name="kt_perf_metrics_off_why">Menghemat sedikit waktu prosesor yang dipakai untuk pembacaan, berguna untuk memeras frame terakhir di game berat. Tanpa ini tidak ada angka untuk melihat apa yang dilakukan game.</string>

@@ -166,6 +166,22 @@
     <string name="kt_heat_limit_why">Nenhum desses consoles tem qualquer resfriamento, o chip fica exposto, então jogos pesados atingem o limite rápido e engasgam. Um dissipador ou um pad térmico (um mod popular) ajuda mais. Aumentar o limite troca um console mais quente por menos lentidão. Diminuir mantém a carcaça mais fria. Acima de 90 °C não é bom para o chip a longo prazo.</string>
 
     <!-- Memory -->
+    <string name="kt_boost_buttons">Aumento de velocidade ao pressionar um botão</string>
+    <string name="kt_boost_buttons_what">Faz o processador funcionar por um instante na velocidade máxima após cada pressão de botão, depois reduz a velocidade novamente.</string>
+    <string name="kt_boost_buttons_why">Menus e listas respondem um pouco mais rápido, porque o processador não precisa sair primeiro da velocidade de ociosidade. Desative para comparar ou economizar um pouco de bateria.</string>
+    <string name="kt_boost_length">Duração do aumento</string>
+    <string name="kt_boost_length_what">Por quanto tempo o processador fica na velocidade máxima após pressionar um botão.</string>
+    <string name="kt_boost_length_why">Mais tempo deixa a rolagem de listas longas mais suave; menos tempo economiza um pouco de bateria.</string>
+    <string name="kt_boost_ms_250">0,25 segundo</string>
+    <string name="kt_boost_ms_500">0,5 segundo</string>
+    <string name="kt_boost_ms_1000">1 segundo</string>
+    <string name="kt_boost_ms_2000">2 segundos</string>
+    <string name="kt_boost_launch">Aumento de velocidade ao iniciar um app</string>
+    <string name="kt_boost_launch_what">Faz o processador funcionar na velocidade máxima enquanto um app ou jogo inicia, por até 5 segundos.</string>
+    <string name="kt_boost_launch_why">Os apps abrem um pouco mais rápido. Desative para comparar.</string>
+    <string name="kt_boot_boost">Velocidade máxima durante a inicialização</string>
+    <string name="kt_boot_boost_what">Faz o processador funcionar na velocidade máxima até o Android terminar a inicialização.</string>
+    <string name="kt_boot_boost_why">O console inicia mais rápido. Desative se ficar quente demais ou reiniciar durante a inicialização.</string>
     <string name="kt_perf_metrics_off">Desativar as métricas de desempenho</string>
     <string name="kt_perf_metrics_off_what">Desliga a sobreposição de desempenho e os gráficos do menu de energia, e para de ler em segundo plano os números por trás deles (taxa de quadros, CPU, temperatura, bateria, memória e cartão SD).</string>
     <string name="kt_perf_metrics_off_why">Economiza o pouco tempo de processador que as leituras consomem, útil para arrancar os últimos quadros de um jogo pesado. Sem isso não há números para ver o que o jogo está fazendo.</string>

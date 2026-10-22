@@ -50,6 +50,9 @@ sleep_log_debug|plain||/sys/power/pm_debug_messages
 cores|cores||
 heat_limit|thermal||1
 perf_metrics_off|prop||sys.andr36oid.perf_metrics_off
+boost_buttons|prop||persist.andr36oid.boost_off
+boost_length|prop||persist.andr36oid.boost_ms
+boost_launch|prop||persist.andr36oid.launch_boost_off
 swappiness|plain||/proc/sys/vm/swappiness
 cache_pressure|plain||/proc/sys/vm/vfs_cache_pressure
 page_cluster|plain||/proc/sys/vm/page-cluster
@@ -93,6 +96,7 @@ sd2_slot|boot||sd2_slot
 builtin_emmc|boot||builtin_emmc
 emmc_speed|boot||emmc_speed
 emmc_power|boot||emmc_power
+boot_boost|boot||boot_boost
 '
 
 # Start options. boot.ini reads kt_args=... from BOOT/kernel-tweaks.txt and puts it at
@@ -159,6 +163,8 @@ boot_read() {
 		[ "$(arg_last androidboot.storage_fuse "$2")" = 1 ] && echo fuse || echo sdcardfs ;;
 	fuse)
 		[ "$(arg_last fuse.disable "$2")" = 1 ] && echo off || echo on ;;
+	boot_boost)
+		[ "$(arg_last androidboot.andr36oid_boot_boost "$2")" = 0 ] && echo off || echo on ;;
 	sd2_slot)
 		[ "$(arg_last dw_mmc_rockchip.second_slot "$2")" = 0 ] && echo off || echo on ;;
 	builtin_emmc)
@@ -243,6 +249,7 @@ boot_args() {
 	radios:off) echo "module.no_radios=1" ;;
 	storage:fuse) echo "androidboot.storage_fuse=1" ;;
 	fuse:off) echo "fuse.disable=1" ;;
+	boot_boost:off) echo "androidboot.andr36oid_boot_boost=0" ;;
 	fuse:on) echo "fuse.disable=0" ;;
 	sd2_slot:off) echo "dw_mmc_rockchip.second_slot=0" ;;
 	builtin_emmc:on) echo "dw_mmc_rockchip.builtin_emmc=1" ;;

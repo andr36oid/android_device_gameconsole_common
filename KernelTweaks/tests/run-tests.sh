@@ -178,6 +178,7 @@ check "serial default off" off "$(prop sys.andr36oid.ktd.serial_console)"
 check "loglevel default" 4 "$(prop sys.andr36oid.ktd.boot_log_level)"
 check "cma default" default "$(prop sys.andr36oid.ktd.cma_size)"
 check "cpu idle default on" on "$(prop sys.andr36oid.ktd.cpu_idle)"
+check "boot boost default on" on "$(prop sys.andr36oid.ktd.boot_boost)"
 check "usb autosuspend default on" on "$(prop sys.andr36oid.ktd.usb_autosuspend)"
 check "boot timing default off" 0 "$(prop sys.andr36oid.ktd.boot_timing)"
 check "no file without tweaks" no "$([ -e "$T/boot/kernel-tweaks.txt" ] && echo yes || echo no)"
@@ -243,6 +244,12 @@ setp persist.andr36oid.kt.extra_rates none
 setp persist.andr36oid.kt.cpu_idle ""
 run apply
 check "extra rates removed" no "$([ -e "$T/boot/kernel-tweaks.txt" ] && echo yes || echo no)"
+setp persist.andr36oid.kt.boot_boost off
+run apply
+check "boot boost off" "androidboot.andr36oid_boot_boost=0" \
+	"$(sed -n 's/^kt_args=//p' "$T/boot/kernel-tweaks.txt")"
+setp persist.andr36oid.kt.boot_boost ""
+run apply
 
 # --- extra buttons (Controls > Buttons on this console > Find an unknown button)
 setup

@@ -33,6 +33,10 @@ on early-init
     setprop qemu.sf.lcd_density ${ro.boot.lcd_density:-178}
 
 
+# Kernel Tweaks > Full clock while starting, off: back to schedutil at once
+on early-init && property:ro.boot.andr36oid_boot_boost=0
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "schedutil"
+
 on init
 
     symlink /etc/firmware /vendor/firmware

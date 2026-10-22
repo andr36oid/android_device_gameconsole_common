@@ -166,6 +166,22 @@
     <string name="kt_heat_limit_why">Ninguna de estas consolas tiene refrigeración, el chip queda al descubierto, así que los juegos exigentes llegan rápido al límite y se traban. Un disipador o una almohadilla térmica (una modificación popular) ayuda más. Subir el límite cambia una consola más caliente por menos ralentizaciones. Bajarlo mantiene la carcasa más fresca. Por encima de 90 °C no es bueno para el chip a largo plazo.</string>
 
     <!-- Memory -->
+    <string name="kt_boost_buttons">Aumento de frecuencia al pulsar un botón</string>
+    <string name="kt_boost_buttons_what">Hace funcionar el procesador a su frecuencia máxima durante un instante después de cada pulsación y luego vuelve a ralentizarlo.</string>
+    <string name="kt_boost_buttons_why">Los menús y las listas responden un poco más rápido porque el procesador no tiene que subir primero desde la frecuencia de inactividad. Desactívalo para comparar o ahorrar algo de batería.</string>
+    <string name="kt_boost_length">Duración del aumento</string>
+    <string name="kt_boost_length_what">Cuánto tiempo se mantiene el procesador en su frecuencia máxima después de pulsar un botón.</string>
+    <string name="kt_boost_length_why">Más tiempo hace más fluido desplazarse por listas largas; menos tiempo ahorra algo de batería.</string>
+    <string name="kt_boost_ms_250">0,25 segundos</string>
+    <string name="kt_boost_ms_500">0,5 segundos</string>
+    <string name="kt_boost_ms_1000">1 segundo</string>
+    <string name="kt_boost_ms_2000">2 segundos</string>
+    <string name="kt_boost_launch">Aumento de frecuencia al iniciar una app</string>
+    <string name="kt_boost_launch_what">Hace funcionar el procesador a su frecuencia máxima mientras se inicia una app o un juego, hasta 5 segundos.</string>
+    <string name="kt_boost_launch_why">Las apps se abren un poco más rápido. Desactívalo para comparar.</string>
+    <string name="kt_boot_boost">Frecuencia máxima al arrancar</string>
+    <string name="kt_boot_boost_what">Hace funcionar el procesador a su frecuencia máxima hasta que Android termina de arrancar.</string>
+    <string name="kt_boot_boost_why">La consola arranca más rápido. Desactívalo si se calienta demasiado o se reinicia mientras arranca.</string>
     <string name="kt_perf_metrics_off">Desactivar la medición de rendimiento</string>
     <string name="kt_perf_metrics_off_what">Apaga el overlay de rendimiento y los gráficos del menú de encendido, y deja de leer en segundo plano los valores en los que se basan (tasa de imágenes, CPU, temperatura, batería, memoria y tarjeta SD).</string>
     <string name="kt_perf_metrics_off_why">Ahorra el poco tiempo de procesador que consume la lectura, útil para exprimir los últimos fotogramas en un juego exigente. Sin ella no hay números para ver qué hace el juego.</string>

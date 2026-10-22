@@ -32,6 +32,7 @@ class Power : public BnPower {
   private:
     using Clock = std::chrono::steady_clock;
     void boostUntil(Clock::time_point end);
+    static std::chrono::milliseconds interaction();
     void run();
 
     std::mutex mLock;

@@ -166,6 +166,22 @@
     <string name="kt_heat_limit_why">Bu konsolların hiçbirinde soğutma yok, çip çıplak, bu yüzden ağır oyunlar sınıra çabuk ulaşır ve takılır. Bir soğutucu veya ısı pedi (popüler bir modifikasyon) en çok yardımcı olur. Sınırı yükseltmek daha sıcak bir konsolu daha az yavaşlamayla değiştirir. Düşürmek kasayı daha serin tutar. 90 °C üzeri çip için uzun vadede pek iyi değildir.</string>
 
     <!-- Memory -->
+    <string name="kt_boost_buttons">Tuşa basınca hız artırma</string>
+    <string name="kt_boost_buttons_what">Her tuş basışından sonra işlemciyi kısa süre en yüksek hızında çalıştırır, sonra yeniden yavaşlatır.</string>
+    <string name="kt_boost_buttons_why">İşlemci önce boşta hızından yükselmek zorunda kalmadığı için menüler ve listeler biraz daha hızlı tepki verir. Karşılaştırmak veya biraz pil tasarrufu yapmak için kapatın.</string>
+    <string name="kt_boost_length">Hız artırma süresi</string>
+    <string name="kt_boost_length_what">Bir tuşa bastıktan sonra işlemcinin en yüksek hızda ne kadar kaldığı.</string>
+    <string name="kt_boost_length_why">Daha uzun, uzun listelerde gezinmeyi daha akıcı yapar; daha kısa, biraz pil tasarrufu sağlar.</string>
+    <string name="kt_boost_ms_250">0,25 saniye</string>
+    <string name="kt_boost_ms_500">0,5 saniye</string>
+    <string name="kt_boost_ms_1000">1 saniye</string>
+    <string name="kt_boost_ms_2000">2 saniye</string>
+    <string name="kt_boost_launch">Uygulama açılırken hız artırma</string>
+    <string name="kt_boost_launch_what">Bir uygulama veya oyun açılırken işlemciyi en yüksek hızında, 5 saniyeye kadar çalıştırır.</string>
+    <string name="kt_boost_launch_why">Uygulamalar biraz daha hızlı açılır. Karşılaştırmak için kapatın.</string>
+    <string name="kt_boot_boost">Açılışta tam hız</string>
+    <string name="kt_boot_boost_what">Android başlatmayı tamamlayana kadar işlemciyi en yüksek hızında çalıştırır.</string>
+    <string name="kt_boot_boost_why">Konsol daha hızlı açılır. Açılış sırasında fazla ısınır veya yeniden başlarsa kapatın.</string>
     <string name="kt_perf_metrics_off">Performans ölçümlerini kapat</string>
     <string name="kt_perf_metrics_off_what">Performans katmanını ve güç menüsündeki grafikleri kapatır; bunların arkasındaki değerlerin (kare hızı, işlemci, sıcaklık, pil, bellek ve SD kart) arka planda okunmasını durdurur.</string>
     <string name="kt_perf_metrics_off_why">Okumaların harcadığı küçük işlemci süresinden tasarruf sağlar; ağır bir oyunda son kareleri zorlamak için yararlıdır. Bu olmadan oyunun ne yaptığını gösteren sayılar da olmaz.</string>

@@ -98,6 +98,36 @@ final class Tweaks {
                     R.string.kt_perf_metrics_off_what, R.string.kt_perf_metrics_off_why,
                     "sys.andr36oid.perf_metrics_off")
                 .systemSetting()
+                .level(Tweak.SAFE))
+            // Read by the power HAL at every press and app start; "0" (unset) is the default
+            .add(Tweak.choice("boost_buttons", R.string.kt_boost_buttons,
+                    R.string.kt_boost_buttons_what, R.string.kt_boost_buttons_why,
+                    "persist.andr36oid.boost_off")
+                .values("0", "1")
+                .labels(R.string.kt_on, R.string.kt_off)
+                .systemSetting()
+                .level(Tweak.SAFE))
+            .add(Tweak.choice("boost_length", R.string.kt_boost_length,
+                    R.string.kt_boost_length_what, R.string.kt_boost_length_why,
+                    "persist.andr36oid.boost_ms")
+                .values("250", "500", "0", "2000")
+                .labels(R.string.kt_boost_ms_250, R.string.kt_boost_ms_500,
+                        R.string.kt_boost_ms_1000, R.string.kt_boost_ms_2000)
+                .systemSetting()
+                .level(Tweak.SAFE))
+            .add(Tweak.choice("boost_launch", R.string.kt_boost_launch,
+                    R.string.kt_boost_launch_what, R.string.kt_boost_launch_why,
+                    "persist.andr36oid.launch_boost_off")
+                .values("0", "1")
+                .labels(R.string.kt_on, R.string.kt_off)
+                .systemSetting()
+                .level(Tweak.SAFE))
+            .add(Tweak.choice("boot_boost", R.string.kt_boot_boost,
+                    R.string.kt_boot_boost_what, R.string.kt_boot_boost_why,
+                    "androidboot.andr36oid_boot_boost=0")
+                .values("on", "off")
+                .labels(R.string.kt_on, R.string.kt_off)
+                .atBoot()
                 .level(Tweak.SAFE)));
 
         list.add(new Category(R.string.kt_cat_power, null, null, 0, 0)

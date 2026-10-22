@@ -153,6 +153,22 @@
     <string name="kt_panic_restart_why">すぐ再起動すれば、すぐに遊びに戻れますし、不具合報告にはクラッシュログも残ります。「しない」にすると、コンソールはフリーズしたままになります。そのため、ハングではなくクラッシュしたことを確認できます。ただし、電源を切るには電源ボタンを長押しする必要があります。</string>
     <string name="kt_paused_crash">2回続けて起動が完了しなかったため、オフになりました。Tweaksのどれかが原因である可能性が高いです。もう一度試すには、これをオンに戻してください。</string>
     <string name="kt_paused_value">一時停止中: <xliff:g id="value">%1$s</xliff:g></string>
+    <string name="kt_boost_buttons">ボタン押下時のクロックブースト</string>
+    <string name="kt_boost_buttons_what">ボタンを押すたびに、プロセッサーを一時的に最高クロックで動かし、その後また速度を落とします。</string>
+    <string name="kt_boost_buttons_why">アイドル時のクロックから上げる必要がないため、メニューやリストの反応が少し速くなります。比較したいときや、バッテリーを少し節約したいときはオフにしてください。</string>
+    <string name="kt_boost_length">ブースト時間</string>
+    <string name="kt_boost_length_what">ボタンを押した後、プロセッサーが最高クロックにとどまる時間です。</string>
+    <string name="kt_boost_length_why">長いほど長いリストをスクロールするとき滑らかですが、短いほどバッテリーを節約します。</string>
+    <string name="kt_boost_ms_250">0.25秒</string>
+    <string name="kt_boost_ms_500">0.5秒</string>
+    <string name="kt_boost_ms_1000">1秒</string>
+    <string name="kt_boost_ms_2000">2秒</string>
+    <string name="kt_boost_launch">アプリ起動時のクロックブースト</string>
+    <string name="kt_boost_launch_what">アプリやゲームの起動中、最大5秒間、プロセッサーを最高クロックで動かします。</string>
+    <string name="kt_boost_launch_why">アプリが少し速く開きます。比較したいときはオフにしてください。</string>
+    <string name="kt_boot_boost">起動中は最高クロック</string>
+    <string name="kt_boot_boost_what">Androidの起動が完了するまで、プロセッサーを最高クロックで動かします。</string>
+    <string name="kt_boot_boost_why">コンソールの起動が速くなります。起動中に熱くなりすぎたり再起動したりする場合はオフにしてください。</string>
     <string name="kt_perf_metrics_off">パフォーマンス指標の収集を無効にする</string>
     <string name="kt_perf_metrics_off_what">パフォーマンスのオーバーレイと、電源メニューのグラフをオフにし、その裏にある数値（フレームレート、CPU、温度、バッテリー、メモリ、SDカード）のバックグラウンドでの読み取りも止めます。</string>
     <string name="kt_perf_metrics_off_why">読み取りにかかる少しのプロセッサー時間を節約し、負荷の高いゲームで最後のフレームを絞り出すのに役立ちます。ただし、表示がなくなるので、ゲームが何をしているかは確認できなくなります。</string>

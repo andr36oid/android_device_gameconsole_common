@@ -18,7 +18,8 @@ namespace {
 const char kMinFreq[] = "/sys/devices/system/cpu/cpufreq/policy0/scaling_min_freq";
 // The top clock allowed right now: CpuOverclock's limit or overclock, thermal throttling
 const char kMaxFreq[] = "/sys/devices/system/cpu/cpufreq/policy0/scaling_max_freq";
-constexpr auto kInteraction = std::chrono::milliseconds(1000);
+// Kernel Tweaks > Boost length, persist.andr36oid.boost_ms (unset: 1 s)
+constexpr int kInteractionMs = 1000;
 // An app start that never reports its end still lets go after this
 constexpr auto kLaunchLimit = std::chrono::milliseconds(5000);
 
@@ -35,8 +36,6 @@ Power::Power() : mThread(&Power::run, this) {
 }
 
 void Power::boostUntil(Clock::time_point end) {
-    // Off with persist.andr36oid.input_boost=0, to compare
-    if (!::android::base::GetBoolProperty("persist.andr36oid.input_boost", true)) return;
     std::lock_guard<std::mutex> lock(mLock);
     if (mSavedMin.empty()) {
         const std::string current = readFreq(kMinFreq);
@@ -76,13 +75,23 @@ void Power::run() {
     }
 }
 
+std::chrono::milliseconds Power::interaction() {
+    const int ms = ::android::base::GetIntProperty("persist.andr36oid.boost_ms", 0, 0, 5000);
+    return std::chrono::milliseconds(ms > 0 ? ms : kInteractionMs);
+}
+
 ndk::ScopedAStatus Power::setMode(Mode type, bool enabled) {
+    // Kernel Tweaks > Clock boost on app start
+    if (type == Mode::LAUNCH &&
+        ::android::base::GetBoolProperty("persist.andr36oid.launch_boost_off", false)) {
+        return ndk::ScopedAStatus::ok();
+    }
     if (type == Mode::LAUNCH && enabled) {
         boostUntil(Clock::now() + kLaunchLimit);
     } else if (type == Mode::LAUNCH) {
         // The app is up: the boost runs out a second later, like after a button press
         std::lock_guard<std::mutex> lock(mLock);
-        const auto end = Clock::now() + kInteraction;
+        const auto end = Clock::now() + interaction();
         if (end < mEnd) mEnd = end;
         mWake.notify_one();
     }
@@ -95,9 +104,11 @@ ndk::ScopedAStatus Power::isModeSupported(Mode type, bool* _aidl_return) {
 }
 
 ndk::ScopedAStatus Power::setBoost(Boost type, int32_t durationMs) {
-    if (type == Boost::INTERACTION) {
+    // Kernel Tweaks > Clock boost on button press
+    if (type == Boost::INTERACTION &&
+        !::android::base::GetBoolProperty("persist.andr36oid.boost_off", false)) {
         boostUntil(Clock::now() + (durationMs > 0 ? std::chrono::milliseconds(durationMs)
-                                                  : kInteraction));
+                                                  : interaction()));
     }
     return ndk::ScopedAStatus::ok();
 }

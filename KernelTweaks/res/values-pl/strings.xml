@@ -168,6 +168,22 @@
     <string name="kt_heat_limit_why">Żadna z tych konsol nie ma chłodzenia, układ jest goły, więc wymagające gry szybko dobijają do limitu i się zacinają. Radiator albo podkładka termiczna (popularna modyfikacja) pomaga najbardziej. Zwiększenie limitu wymienia gorętszą konsolę na mniej spadków wydajności. Zmniejszenie utrzymuje obudowę chłodniejszą. Powyżej 90 °C nie jest dobrze dla układu na dłuższą metę.</string>
 
     <!-- Memory -->
+    <string name="kt_boost_buttons">Zwiększenie częstotliwości po naciśnięciu przycisku</string>
+    <string name="kt_boost_buttons_what">Po każdym naciśnięciu przycisku procesor przez chwilę działa z najwyższą częstotliwością, a potem znów zwalnia.</string>
+    <string name="kt_boost_buttons_why">Menu i listy reagują trochę szybciej, bo procesor nie musi najpierw wychodzić z częstotliwości bezczynności. Wyłącz, aby porównać albo oszczędzać trochę baterii.</string>
+    <string name="kt_boost_length">Czas zwiększenia częstotliwości</string>
+    <string name="kt_boost_length_what">Jak długo po naciśnięciu przycisku procesor działa z najwyższą częstotliwością.</string>
+    <string name="kt_boost_length_why">Dłużej daje płynniejsze przewijanie długich list, krócej oszczędza trochę baterii.</string>
+    <string name="kt_boost_ms_250">0,25 sekundy</string>
+    <string name="kt_boost_ms_500">0,5 sekundy</string>
+    <string name="kt_boost_ms_1000">1 sekunda</string>
+    <string name="kt_boost_ms_2000">2 sekundy</string>
+    <string name="kt_boost_launch">Zwiększenie częstotliwości przy uruchamianiu aplikacji</string>
+    <string name="kt_boost_launch_what">Podczas uruchamiania aplikacji lub gry procesor działa z najwyższą częstotliwością, maksymalnie przez 5 sekund.</string>
+    <string name="kt_boost_launch_why">Aplikacje otwierają się trochę szybciej. Wyłącz, aby porównać.</string>
+    <string name="kt_boot_boost">Pełna częstotliwość podczas uruchamiania</string>
+    <string name="kt_boot_boost_what">Procesor działa z najwyższą częstotliwością, dopóki Android nie zakończy uruchamiania.</string>
+    <string name="kt_boot_boost_why">Konsola uruchamia się szybciej. Wyłącz, jeśli podczas uruchamiania robi się zbyt gorąca albo uruchamia się ponownie.</string>
     <string name="kt_perf_metrics_off">Wyłącz zbieranie danych o wydajności</string>
     <string name="kt_perf_metrics_off_what">Wyłącza nakładkę wydajności i wykresy w menu zasilania oraz przestaje w tle odczytywać liczby, na których się opierają (liczba klatek, procesor, temperatura, bateria, pamięć i karta SD).</string>
     <string name="kt_perf_metrics_off_why">Oszczędza odrobinę czasu procesora zużywanego na odczyty, przydatne przy wyciskaniu ostatnich klatek z ciężkiej gry. Bez tego nie ma liczb, które pokazałyby, co robi gra.</string>
