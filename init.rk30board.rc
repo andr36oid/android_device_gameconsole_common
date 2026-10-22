@@ -8,6 +8,7 @@ service andr36oid-usb-drive /system/bin/sh /system/etc/andr36oid-usb-drive.sh
     group root system mount
     seclabel u:r:shell:s0
     disabled
+    oneshot
 
 on property:sys.boot_completed=1
     start andr36oid-usb-drive

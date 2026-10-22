@@ -1,6 +1,7 @@
 package org.andr36oid.usbmode;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Process;
 import android.os.SystemProperties;
 import android.os.storage.DiskInfo;
@@ -25,12 +26,13 @@ final class UsbDriveControl {
                 || "start".equals(SystemProperties.get(PREFIX + "request"));
     }
 
-    static void start(UsbDrive.Offer offer, boolean ro) {
+    static void start(Context context, UsbDrive.Offer offer, boolean ro) {
         SystemProperties.set(PREFIX + "target", offer.node);
         SystemProperties.set(PREFIX + "cid", offer.cid);
         SystemProperties.set(PREFIX + "ro", ro || offer.forcedRo ? "1" : "0");
         SystemProperties.set(PREFIX + "owner", Integer.toString(Process.myPid()));
         SystemProperties.set(PREFIX + "request", "start");
+        context.startForegroundService(new Intent(context, UsbModeService.class));
     }
 
     /**

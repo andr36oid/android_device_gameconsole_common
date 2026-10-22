@@ -246,13 +246,9 @@ public class UsbDriveActivity extends Activity {
             Toast.makeText(this, R.string.usb_drive_failed, Toast.LENGTH_LONG).show();
             return;
         }
-        if (!mUsbMode.setDevice(true)) {
-            Toast.makeText(this, R.string.usb_mode_failed, Toast.LENGTH_LONG).show();
-            return;
-        }
         mUsbMode.setConfirmedThisBoot();
         mName = name(fresh);
-        UsbDriveControl.start(fresh, ro);
+        UsbDriveControl.start(this, fresh, ro);
         refresh();
     }
 

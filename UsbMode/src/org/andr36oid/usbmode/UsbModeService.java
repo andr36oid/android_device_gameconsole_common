@@ -9,6 +9,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
@@ -32,6 +33,15 @@ public class UsbModeService extends Service {
     private static final String CHANNEL_ALERT = "usb_device_mode_alert";
     private static final int ID_ON = 1;
     private static final int ID_ALERT = 2;
+
+    private final Handler mHandler = new Handler();
+    private final Runnable mPoll = new Runnable() {
+        @Override
+        public void run() {
+            check();
+            mHandler.postDelayed(this, 500);
+        }
+    };
 
     private UsbMode mUsbMode;
     private boolean mRegistered;
@@ -62,12 +72,14 @@ public class UsbModeService extends Service {
             registerReceiver(mReceiver, filter);
             mRegistered = true;
         }
-        check();
+        mHandler.removeCallbacks(mPoll);
+        mHandler.post(mPoll);
         return START_STICKY;
     }
 
     @Override
     public void onDestroy() {
+        mHandler.removeCallbacks(mPoll);
         UsbDriveControl.stop();
         if (mRegistered) {
             unregisterReceiver(mReceiver);
@@ -83,7 +95,9 @@ public class UsbModeService extends Service {
 
     private void check() {
         final boolean device = mUsbMode.isDevice();
+        if (device && !mUsbMode.wasDeviceThisBoot()) mUsbMode.setDeviceMarker(true);
         if (mUsbMode.chargingBlocksDevice()) {
+            UsbDriveControl.stop();
             // The kernel has usually switched the port back already; make sure, then tell.
             final boolean wasDevice = device || mUsbMode.wasDeviceThisBoot();
             if (wasDevice) {
@@ -93,7 +107,7 @@ public class UsbModeService extends Service {
                 getSystemService(NotificationManager.class).notify(ID_ALERT, alert());
             }
             stopSelf();
-        } else if (!device) {
+        } else if (!device && !UsbDriveControl.busy()) {
             UsbDriveControl.stop();
             // Switched back some other way (shell, or a restart of this app's process).
             mUsbMode.setDeviceMarker(false);

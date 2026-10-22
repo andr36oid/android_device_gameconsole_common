@@ -22,7 +22,7 @@ getprop() { cat "$T/props/$1" 2>/dev/null || true; }
 setprop() {
 	printf '%s\n' "$2" >"$T/props/$1"
 	printf 'prop %s %s\n' "$1" "$2" >>"$T/log"
-	if [ "$1:$2" = sys.usb.configfs:2 ]; then
+	if [ "$1:$2" = sys.usb.configfs:2 ] && [ "${fail_gate:-0}" = 0 ]; then
 		printf '1\n' >"$T/props/$P.gated"
 	fi
 }
@@ -42,8 +42,14 @@ sm() {
 	esac
 }
 blockdev() { printf 'blockdev %s %s\n' "$1" "$2" >>"$T/log"; }
+log() { printf 'log %s\n' "$*" >>"$T/log"; }
 sync() { echo 'stub sync' >>"$T/log"; }
-sleep() { :; }
+sleep() {
+	printf 'sleep %s\n' "$1" >>"$T/log"
+	if [ "${auto_stop:-0}" = 1 ] && [ "$(prop state)" = sharing ]; then
+		setprop "$P.request" stop
+	fi
+}
 # Emulate configfs's implicit lun.0 and attributes, and sysfs command readback.
 mkdir() {
 	command mkdir "$@"
@@ -59,6 +65,20 @@ rmdir() {
 put() {
 	printf 'write %s %s\n' "$1" "$2" >>"$T/log"
 	if [ "${fail_file:-0}" = 1 ]; then case $1 in */lun.*/file) [ -z "$2" ] || return 1 ;; esac; fi
+	if [ "$1" = "$OTG" ] && [ "$2" = peripheral ] && [ "${fail_role:-0}" = 1 ]; then return 1; fi
+	if [ "$1" = "$G/UDC" ]; then
+		if [ "$2" = none ]; then
+			[ "${fail_unbind:-0}" = 0 ] || return 1
+			# Real configfs returns ENODEV for an already unbound gadget.
+			[ -n "$(cat "$G/UDC")" ] || return 1
+			printf '\n' >"$G/UDC"
+			return 0
+		fi
+		bind_writes=$((bind_writes + 1))
+		[ "${fail_bind:-0}" = 0 ] || return 1
+		[ "$bind_writes" -gt "${delayed_bind:-0}" ] || return 1
+		[ "$(cat "$OTG")" = peripheral ] || return 1
+	fi
 	case $1:$2 in
 	*/andr36oid_unlock:unlock*)
 		[ "${fail_unlock:-0}" = 0 ] || return 1
@@ -114,6 +134,9 @@ reset_fixture() {
 	setprop "$P.owner" "$$"
 	setprop "$P.request" start
 	fail_unmount=0 keep_mounted=0 fail_unlock=0 fail_file=0 fail_close=0
+	fail_bind=0 fail_unbind=0 fail_gate=0 fail_role=0 delayed_bind=0 bind_writes=0 auto_stop=0
+	# shellcheck disable=SC2034
+	error=
 }
 select_target() {
 	setprop "$P.target" "$1"
@@ -199,7 +222,7 @@ check start_drive
 check test -L "$G/configs/b.1/f2"
 setprop sys.usb.ffs.ready 0
 put "$G/UDC" ''
-check bind_drive
+if bind_drive; then echo 'FAIL: missing functionfs readiness accepted'; exit 1; fi
 setprop sys.usb.ffs.ready 1
 check bind_drive
 check test "$(cat "$G/UDC")" = ff300000.usb
@@ -316,6 +339,153 @@ check awk '$1=="rmdir" && $2 ~ /mass_storage.andr36oid$/ {closed=NR}
     $1=="blockdev" {rescanned=NR}
     $1=="sm" && $2=="mount" {mounted=NR}
     END {exit !(closed<flushed && flushed<locked && locked<rescanned && rescanned<mounted)}' "$T/log"
+# Android must be gated and all storage released before the helper changes role.
+reset_fixture
+printf 'host\n' >"$OTG"
+setprop sys.usb.config mtp
+select_target mmcblk0p7
+printf 'public:179,7 mounted UUID\n' >"$T/volumes"
+printf '3 1 179:7 / /mnt/media_rw/UUID rw - exfat /dev/block/vold/public:179,7 rw\n' >>"$MOUNTS"
+check start_drive
+# shellcheck disable=SC2016
+check awk '$1=="prop" && $2=="sys.usb.configfs" && $3==2 {gated=NR}
+    $1=="sm" && $2=="unmount" {released=NR}
+    $1=="write" && $2 ~ /otg$/ && $3=="peripheral" {role=NR}
+    $1=="write" && $2 ~ /UDC$/ && $3=="ff300000.usb" {bound=NR}
+    END {exit !(gated>0 && gated<released && released<role && role<bound)}' "$T/log"
+check cleanup
+check test "$(cat "$OTG")" = host
+check test "$(getprop sys.usb.config)" = mtp
+check test "$(prop gated)" = 0
+# shellcheck disable=SC2016
+check awk '$1=="prop" && $2=="sys.usb.config" && $3=="none" {none=NR}
+    $1=="prop" && $2=="sys.usb.configfs" && $3==1 {released=NR}
+    $1=="prop" && $2=="sys.usb.config" && $3=="mtp" {applied=NR}
+    END {exit !(none>0 && none<released && released<applied)}' "$T/log"
+# Transient controller failures retry; a partial bind gets a none/rebind recovery.
+reset_fixture
+delayed_bind=3
+check start_drive
+check test "$bind_writes" = 4
+check cleanup
+reset_fixture
+delayed_bind=10
+check start_drive
+check test "$bind_writes" = 11
+check test -n "$(sed -n '/^write .*\/UDC none$/p' "$T/log")"
+check cleanup
+reset_fixture
+check start_drive
+bind_writes=0
+fail_unbind=1
+check bind_drive
+check test "$bind_writes" = 0
+fail_unbind=0
+check cleanup
+# Failed bind, gate, role and detach each settle in error, preserving the first reason.
+for failure in bind gate role close; do
+	reset_fixture
+	printf 'host\n' >"$OTG"
+	setprop sys.usb.config mtp
+	case $failure in
+	bind) fail_bind=1; reason=bind_udc ;;
+	gate) fail_gate=1; reason=gate_android ;;
+	role) fail_role=1; reason=device_role ;;
+	close) fail_close=1; reason=close_drive ;;
+	esac
+	auto_stop=1
+	check handle_request
+	check test "$(prop state)" = error
+	check test "$(prop error)" = "$reason"
+	check test "$(prop request)" = stop
+	check test "$(cat "$SYS/mmcblk2/andr36oid_unlock")" = locked
+	if [ "$failure" = close ]; then
+		check test "$(getprop sys.usb.configfs)" = 2
+		check test -e "$STATE/owned"
+	else
+		check test "$(getprop sys.usb.configfs)" = 1
+		check test "$(cat "$OTG")" = host
+	fi
+	if [ "$failure" = bind ]; then check test "$bind_writes" = 20; fi
+	check test -n "$(sed -n '/log .*failed:/p' "$T/log")"
+	# A fresh start in the same helper can recover without a reboot.
+	fail_bind=0 fail_gate=0 fail_role=0 fail_close=0
+	setprop "$P.request" start
+	check handle_request
+	check test "$(prop state)" = idle
+	check test "$(prop error)" = ''
+	check test "$(getprop sys.usb.configfs)" = 1
+done
+# A UDC that cannot detach stays gated, keeps the journal and never remounts.
+reset_fixture
+check start_drive
+fail_unbind=1
+# shellcheck disable=SC2034
+result=idle
+check finish_request
+check test "$(prop state)" = error
+check test "$(prop error)" = close_drive
+check test "$(getprop sys.usb.configfs)" = 2
+check test -e "$STATE/owned"
+check test "$(cat "$SYS/mmcblk2/andr36oid_unlock")" = locked
+check test -z "$(sed -n '/^sm mount /p' "$T/log")"
+fail_unbind=0
+check cleanup
+# Run the actual watch loop: no repeated cleanup/start after an error, then retry.
+reset_fixture
+printf 'host\n' >"$OTG"
+fail_bind=1
+# A subshell supplies bounded clock ticks; production main has no test branch.
+(
+	phase=0 ticks=0
+	# Called indirectly by the sourced helper's watch loop.
+	# shellcheck disable=SC2317
+	sleep() {
+		ticks=$((ticks + 1))
+		[ "$ticks" -lt 100 ] || exit 1
+		case $phase:$(prop state) in
+		0:error) phase=1; before=$(wc -l <"$T/log") ;;
+		1:error)
+			[ "$(wc -l <"$T/log")" = "$before" ] || exit 1
+			phase=2; fail_bind=0; setprop "$P.request" start ;;
+		2:sharing) phase=3; setprop "$P.request" stop ;;
+		3:idle) exit 0 ;;
+		esac
+	}
+	main
+)
+check test "$(prop state)" = idle
+check test "$(prop error)" = ''
+# Init must also leave an unexpected exit stopped until an explicit start.
+check awk '/^service andr36oid-usb-drive / {service=1; next}
+    service && /^    oneshot$/ {found=1}
+    service && /^on / {service=0}
+    END {exit !found}' "$HERE/../init.rk30board.rc"
+# Failed startup recovery is attempted once and waits for a fresh request.
+reset_fixture
+check start_drive
+fail_close=1
+BOOT_ID=$T/recovery-boot
+printf 'same-boot\n' >"$BOOT_ID"
+printf 'same-boot\n' >"$STATE/boot_id"
+(
+	# shellcheck disable=SC2317
+	sleep() {
+		[ "$(prop state)" = error ] || exit 1
+		[ "$(prop request)" = stop ] || exit 1
+		exit 0
+	}
+	main
+)
+check test "$(prop error)" = close_drive
+check test -e "$STATE/owned"
+# A state-directory/boot-ID failure also returns success to init, with an error.
+reset_fixture
+BOOT_ID=$T/missing-boot-id
+check main 2>"$T/expected-error"
+check test "$(prop state)" = error
+check test "$(prop error)" = prepare_state
+check test "$(prop request)" = stop
 # A new boot discards old disk IDs; a helper restart keeps its recovery journal.
 reset_fixture
 BOOT_ID=$T/boot-id
