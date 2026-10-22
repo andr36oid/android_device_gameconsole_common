@@ -139,6 +139,9 @@
     <string name="card_backup_a">保存在 EASYROMS 上游戏旁边的存档，可以很方便地在电脑上复制。保存在应用内部的存档会随应用留在卡上的 Android 部分，因此请在各模拟器的设置中查看存档的位置。</string>
 
     <!-- Battery -->
+    <string name="heatsink_title">散热片改装</string>
+    <string name="heatsink_intro">你知道吗？许多为 NVMe SSD 制作的简单散热片都能正好装进 R36S 风格的掌机里。如果你进行超频或使用快速充电，值得加装一个：它能让内部保持更低的温度。</string>
+    <string name="heatsink_needs">你只需要一个售价约 $2、带导热垫的散热片、一把螺丝刀，以及少量热熔胶来固定它。</string>
     <string name="battery_title">电池保养</string>
     <string name="battery_percent_q">电池百分比看起来不对</string>
     <string name="battery_percent_a">电量计会估算电量，并在使用中不断学习。在电池耗尽或掌机长时间未使用后，请在开机状态下充到 100%，然后继续充电半小时。这样电量计就能重新找到正确的电量。如果在“设置 &gt; 电池 &gt; 电池详情”中设置了充电上限，请先关闭它。</string>

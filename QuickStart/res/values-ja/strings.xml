@@ -7,6 +7,9 @@
     <string name="battery_sleep_q">スリープにするか、電源を切るか？</string>
     <string name="battery_storage_a">半分程度まで充電してから電源を切ってください。数か月ごとに充電し直してください。バッテリーを完全に空のまま長期間放置すると、劣化するおそれがあります。</string>
     <string name="battery_storage_q">しばらく保管する場合</string>
+    <string name="heatsink_title">ヒートシンク改造</string>
+    <string name="heatsink_intro">知っていますか？ NVMe SSD用のシンプルなヒートシンクの多くは、R36Sタイプの本体の内部にきれいに収まります。オーバークロックや急速充電を使うなら、追加する価値があります。内部の温度を下げられます。</string>
+    <string name="heatsink_needs">必要なのは、サーマルパッド付きで約$2のヒートシンク、ドライバー、そして所定の位置に固定するための少量のホットボンドだけです。</string>
     <string name="battery_title">バッテリーのお手入れ</string>
     <string name="buttons_a">選択、決定</string>
     <string name="buttons_b">戻る</string>

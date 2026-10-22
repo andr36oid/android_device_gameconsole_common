@@ -139,6 +139,9 @@
     <string name="card_backup_a">EASYROMS\'ta oyunların yanına yapılan kayıtlar bilgisayarda kolayca kopyalanabilir. Bir uygulamanın içindeki kayıtlar kartın Android kısmında o uygulamayla birlikte kalır; bu yüzden her emülatörün ayarlarında kayıtları nerede tuttuğuna bakın.</string>
 
     <!-- Battery -->
+    <string name="heatsink_title">Soğutucu modifikasyonu</string>
+    <string name="heatsink_intro">Biliyor muydunuz? NVMe SSD\'ler için üretilen birçok basit soğutucu, R36S tarzı konsolların içine tam olarak sığar. Hız aşırtma yapıyor veya hızlı şarj kullanıyorsanız bir tane takmaya değer: iç kısmı daha serin tutar.</string>
+    <string name="heatsink_needs">İhtiyacınız olan tek şey, termal pedle birlikte gelen yaklaşık $2 değerinde bir soğutucu, bir tornavida ve yerinde tutmak için biraz sıcak silikon.</string>
     <string name="battery_title">Pil bakımı</string>
     <string name="battery_percent_q">Pil yüzdesi yanlış görünüyor</string>
     <string name="battery_percent_a">Pil ölçer şarjı tahmin eder ve zamanla öğrenir. Pil tamamen bittikten veya konsol uzun süre kullanılmadan kaldıktan sonra, konsol açıkken %100\'e kadar şarj edin ve yarım saat daha şarjda bırakın. Böylece ölçer doğru seviyeyi yeniden bulur. Ayarlar &gt; Pil &gt; Pil ayrıntıları\'nda bir şarj sınırı ayarladıysanız, bunun için kapatın.</string>

@@ -139,6 +139,9 @@
     <string name="card_backup_a">Spielstände, die neben den Spielen auf EASYROMS liegen, lassen sich am Computer leicht kopieren. Spielstände in einer App bleiben bei dieser App im Android-Teil der Karte. Sieh also in den Einstellungen jedes Emulators nach, wo er sie ablegt.</string>
 
     <!-- Battery -->
+    <string name="heatsink_title">Kühlkörper-Mod</string>
+    <string name="heatsink_intro">Wusstest du schon? Viele einfache Kühlkörper für NVMe-SSDs passen problemlos in Konsolen im R36S-Stil. Wenn du übertaktest oder Schnellladen nutzt, lohnt sich einer: Er hält das Innere kühler.</string>
+    <string name="heatsink_needs">Du brauchst nur einen Kühlkörper für etwa $2, der mit einem Wärmeleitpad kommt, einen Schraubendreher und ein wenig Heißkleber, um ihn zu befestigen.</string>
     <string name="battery_title">Akkupflege</string>
     <string name="battery_percent_q">Die Akkuanzeige in Prozent stimmt nicht</string>
     <string name="battery_percent_a">Die Ladestandsanzeige schätzt die Ladung und lernt dabei dazu. Wenn der Akku leer war oder die Konsole lange ungenutzt lag, lade sie eingeschaltet auf 100 % und lass sie noch eine halbe Stunde am Ladegerät. So findet die Anzeige wieder den richtigen Stand. Hast du unter Einstellungen &gt; Akku &gt; Akkudetails ein Ladelimit gesetzt, schalte es dafür aus.</string>

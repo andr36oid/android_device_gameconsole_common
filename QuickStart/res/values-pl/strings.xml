@@ -137,6 +137,9 @@
     <string name="card_backup_a">Zapisy tworzone obok gier na EASYROMS łatwo skopiować w komputerze. Zapisy wewnątrz aplikacji zostają z nią w androidowej części karty, więc sprawdź w ustawieniach każdego emulatora, gdzie je trzyma.</string>
 
     <!-- Battery -->
+    <string name="heatsink_title">Mod z radiatorem</string>
+    <string name="heatsink_intro">Czy wiesz, że wiele prostych radiatorów do SSD NVMe mieści się idealnie w konsolach w stylu R36S? Warto dodać taki radiator, jeśli podkręcasz CPU lub korzystasz z szybkiego ładowania: wnętrze będzie chłodniejsze.</string>
+    <string name="heatsink_needs">Potrzebujesz tylko radiatora za około $2 z podkładką termoprzewodzącą, śrubokręta i odrobiny kleju na gorąco, żeby utrzymać go na miejscu.</string>
     <string name="battery_title">Dbanie o baterię</string>
     <string name="battery_percent_q">Procent baterii wygląda na błędny</string>
     <string name="battery_percent_a">Wskaźnik baterii szacuje poziom naładowania i uczy się z czasem. Gdy bateria się rozładowała albo konsola długo leżała nieużywana, naładuj ją do 100% przy włączonej konsoli i zostaw na ładowarce jeszcze pół godziny. Wtedy wskaźnik znowu znajdzie właściwy poziom. Jeśli ustawiono limit ładowania w Ustawienia &gt; Bateria &gt; Szczegóły baterii, wyłącz go na ten czas.</string>

@@ -139,6 +139,9 @@
     <string name="card_backup_a">Os saves feitos ao lado dos jogos no EASYROMS são fáceis de copiar no computador. Os saves dentro de uma app ficam com essa app na parte Android do cartão, por isso veja nas definições de cada emulador onde os guarda.</string>
 
     <!-- Battery -->
+    <string name="heatsink_title">Mod do dissipador</string>
+    <string name="heatsink_intro">Sabia que muitos dissipadores simples para SSD NVMe cabem perfeitamente dentro de consolas do tipo R36S? Vale a pena adicionar um se fizer overclock ou usar carregamento rápido: mantém o interior mais fresco.</string>
+    <string name="heatsink_needs">Só precisa de um dissipador de cerca de $2, fornecido com um pad térmico, uma chave de fendas e um pouco de cola quente para o manter no lugar.</string>
     <string name="battery_title">Cuidados com a bateria</string>
     <string name="battery_percent_q">A percentagem da bateria parece errada</string>
     <string name="battery_percent_a">O medidor da bateria estima a carga e vai aprendendo com o uso. Depois de a bateria se esgotar ou de a consola ficar muito tempo sem uso, carregue-a até 100% com a consola ligada e deixe-a no carregador mais meia hora. Assim o medidor volta a encontrar o nível certo. Se definiu um limite de carga em Definições &gt; Bateria &gt; Detalhes da bateria, desative-o para isto.</string>

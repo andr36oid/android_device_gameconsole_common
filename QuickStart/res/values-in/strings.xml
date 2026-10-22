@@ -139,6 +139,9 @@
     <string name="card_backup_a">Save yang dibuat di sebelah game di EASYROMS mudah disalin di komputer. Save di dalam aplikasi tetap bersama aplikasi itu di bagian Android pada kartu, jadi periksa setelan setiap emulator untuk tahu di mana save disimpan.</string>
 
     <!-- Battery -->
+    <string name="heatsink_title">Mod heatsink</string>
+    <string name="heatsink_intro">Tahukah Anda? Banyak heatsink sederhana untuk SSD NVMe yang pas dipasang di dalam konsol bergaya R36S. Heatsink layak ditambahkan jika Anda melakukan overclock atau memakai pengisian cepat: bagian dalamnya jadi lebih dingin.</string>
+    <string name="heatsink_needs">Anda hanya perlu heatsink seharga sekitar $2 yang dilengkapi pad termal, obeng, dan sedikit lem tembak untuk menahannya di tempat.</string>
     <string name="battery_title">Perawatan baterai</string>
     <string name="battery_percent_q">Persentase baterai terlihat salah</string>
     <string name="battery_percent_a">Pengukur baterai memperkirakan isi daya dan terus belajar. Setelah baterai habis atau konsol lama tidak dipakai, isi daya sampai 100% dengan konsol menyala dan biarkan di charger setengah jam lagi. Dengan begitu pengukur bisa menemukan level yang benar lagi. Jika Anda memasang batas pengisian di Setelan &gt; Baterai &gt; Detail baterai, matikan dulu untuk ini.</string>
