@@ -121,6 +121,19 @@ final class Tweaks {
                     "/proc/sys/vm/swappiness")
                 .values("0", "30", "60", "100")
                 .level(Tweak.SAFE))
+            .add(Tweak.choice("zram_size", R.string.kt_zram_size,
+                    R.string.kt_zram_size_what, R.string.kt_zram_size_why,
+                    "/sys/block/zram0/disksize")
+                .values("0", "25", "50", "75", "100")
+                .labels(R.string.kt_zram_off, R.string.kt_zram_25, R.string.kt_zram_50,
+                        R.string.kt_zram_75, R.string.kt_zram_100)
+                .level(Tweak.SAFE))
+            .add(Tweak.choice("zram_algorithm", R.string.kt_zram_algorithm,
+                    R.string.kt_zram_algorithm_what, R.string.kt_zram_algorithm_why,
+                    "/sys/block/zram0/comp_algorithm")
+                .values("lz4", "lzo", "deflate")
+                .labels(R.string.kt_zram_lz4, R.string.kt_zram_lzo, R.string.kt_zram_deflate)
+                .level(Tweak.SAFE))
             .add(Tweak.choice("cache_pressure", R.string.kt_cache_pressure,
                     R.string.kt_cache_pressure_what, R.string.kt_cache_pressure_why,
                     "/proc/sys/vm/vfs_cache_pressure")

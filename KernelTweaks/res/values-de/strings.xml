@@ -147,6 +147,21 @@
     <string name="kt_swappiness_what">Wie bereitwillig Android inaktive Apps in den komprimierten Speicher (zram) auslagert, um RAM freizugeben.</string>
     <string name="kt_swappiness_why">Höher hält mehr Apps im Hintergrund offen, kostet aber etwas Prozessorzeit. Niedriger hält alles flüssiger, während ein Spiel läuft, aber Apps werden früher beendet. Auf 1-GB-Konsolen ist der Standard meist am besten.</string>
 
+    <string name="kt_zram_size">Größe des komprimierten Speichers</string>
+    <string name="kt_zram_size_what">Wie viel vom RAM der komprimierte Speicher (zram) belegen darf. Aus heißt gar keiner.</string>
+    <string name="kt_zram_size_why">Mehr hält mehr Apps im Hintergrund offen, zusammengepackt auf etwa ein Drittel ihrer Größe. Weniger oder Aus lässt den RAM den Spielen, schließt Apps aber früher. Eine Änderung braucht ein paar Sekunden, während der komprimierte Speicher geleert wird.</string>
+    <string name="kt_zram_off">Aus</string>
+    <string name="kt_zram_25" formatted="false">25 % vom RAM</string>
+    <string name="kt_zram_50" formatted="false">50 % vom RAM</string>
+    <string name="kt_zram_75" formatted="false">75 % vom RAM</string>
+    <string name="kt_zram_100" formatted="false">100 % vom RAM</string>
+    <string name="kt_zram_algorithm">Packmethode des komprimierten Speichers</string>
+    <string name="kt_zram_algorithm_what">Wie der komprimierte Speicher das Gespeicherte packt.</string>
+    <string name="kt_zram_algorithm_why">LZ4 ist am schnellsten und meist die beste Wahl. LZO packt etwas enger. Deflate passt die meisten Apps hinein, kostet aber bei jedem App-Wechsel Prozessorzeit.</string>
+    <string name="kt_zram_lz4">LZ4 (am schnellsten)</string>
+    <string name="kt_zram_lzo">LZO (kleiner)</string>
+    <string name="kt_zram_deflate">Deflate (am kleinsten)</string>
+
     <string name="kt_cache_pressure">Aufräumen des Dateicaches</string>
     <string name="kt_cache_pressure_what">Wie schnell der Kernel vergisst, welche Dateien und Ordner er kürzlich angesehen hat.</string>
     <string name="kt_cache_pressure_why">Niedriger macht das Durchstöbern großer ROM-Ordner beim zweiten Mal schneller. Höher gibt Speicher früher für Spiele frei.</string>

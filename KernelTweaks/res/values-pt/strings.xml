@@ -147,6 +147,21 @@
     <string name="kt_swappiness_what">Com que avidez o Android move aplicações inativas para memória comprimida (zram) para libertar RAM.</string>
     <string name="kt_swappiness_why">Mais alto mantém mais aplicações abertas em segundo plano, mas custa algum tempo de processador. Mais baixo mantém as coisas mais ágeis enquanto um jogo está a correr, mas as aplicações são fechadas mais cedo. Em consolas de 1 GB, a predefinição costuma ser a melhor.</string>
 
+    <string name="kt_zram_size">Tamanho da memória comprimida</string>
+    <string name="kt_zram_size_what">Quanto da RAM a memória comprimida (zram) pode preencher, ou desligado para nenhuma.</string>
+    <string name="kt_zram_size_why">Mais mantém mais aplicações abertas em segundo plano, empacotadas a cerca de um terço do tamanho. Menos, ou desligado, deixa a RAM para os jogos mas fecha as aplicações mais cedo. Uma alteração demora alguns segundos enquanto a memória comprimida é esvaziada.</string>
+    <string name="kt_zram_off">Desligado</string>
+    <string name="kt_zram_25" formatted="false">25% da RAM</string>
+    <string name="kt_zram_50" formatted="false">50% da RAM</string>
+    <string name="kt_zram_75" formatted="false">75% da RAM</string>
+    <string name="kt_zram_100" formatted="false">100% da RAM</string>
+    <string name="kt_zram_algorithm">Empacotamento da memória comprimida</string>
+    <string name="kt_zram_algorithm_what">Como a memória comprimida empacota o que guarda.</string>
+    <string name="kt_zram_algorithm_why">LZ4 é o mais rápido e a escolha habitual. LZO empacota um pouco mais apertado. Deflate cabe mais aplicações, mas custa tempo de processador em cada troca de aplicação.</string>
+    <string name="kt_zram_lz4">LZ4 (mais rápido)</string>
+    <string name="kt_zram_lzo">LZO (mais compacto)</string>
+    <string name="kt_zram_deflate">Deflate (o mais compacto)</string>
+
     <string name="kt_cache_pressure">Limpeza da cache de ficheiros</string>
     <string name="kt_cache_pressure_what">Com que rapidez o kernel esquece quais ficheiros e pastas viu recentemente.</string>
     <string name="kt_cache_pressure_why">Mais baixo torna a navegação em pastas grandes de ROM mais rápida à segunda vez. Mais alto liberta memória mais rapidamente para os jogos.</string>

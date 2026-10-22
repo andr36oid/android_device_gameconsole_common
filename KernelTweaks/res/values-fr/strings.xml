@@ -147,6 +147,21 @@
     <string name="kt_swappiness_what">Avec quel empressement Android déplace les applis inactives vers la mémoire compressée (zram) pour libérer de la RAM.</string>
     <string name="kt_swappiness_why">Plus haut garde plus d\'applis ouvertes en arrière-plan, mais coûte un peu de temps processeur. Plus bas garde les choses plus fluides pendant qu\'un jeu tourne, mais les applis se ferment plus tôt. Sur les consoles à 1 Go, la valeur par défaut est généralement la meilleure.</string>
 
+    <string name="kt_zram_size">Taille de la mémoire compressée</string>
+    <string name="kt_zram_size_what">Part de la RAM que la mémoire compressée (zram) peut remplir, ou Désactivé pour aucune.</string>
+    <string name="kt_zram_size_why">Plus garde plus d\'applis ouvertes en arrière-plan, compactées à environ un tiers de leur taille. Moins, ou Désactivé, laisse la RAM aux jeux mais ferme les applis plus tôt. Un changement prend quelques secondes, le temps que la mémoire compressée se vide.</string>
+    <string name="kt_zram_off">Désactivé</string>
+    <string name="kt_zram_25" formatted="false">25 % de la RAM</string>
+    <string name="kt_zram_50" formatted="false">50 % de la RAM</string>
+    <string name="kt_zram_75" formatted="false">75 % de la RAM</string>
+    <string name="kt_zram_100" formatted="false">100 % de la RAM</string>
+    <string name="kt_zram_algorithm">Compactage de la mémoire compressée</string>
+    <string name="kt_zram_algorithm_what">Comment la mémoire compressée compacte ce qu\'elle contient.</string>
+    <string name="kt_zram_algorithm_why">LZ4 est le plus rapide et le choix habituel. LZO compacte un peu plus serré. Deflate loge le plus d\'applis, mais coûte du temps processeur à chaque changement d\'appli.</string>
+    <string name="kt_zram_lz4">LZ4 (le plus rapide)</string>
+    <string name="kt_zram_lzo">LZO (plus petit)</string>
+    <string name="kt_zram_deflate">Deflate (le plus petit)</string>
+
     <string name="kt_cache_pressure">Nettoyage du cache de fichiers</string>
     <string name="kt_cache_pressure_what">À quelle vitesse le noyau oublie quels fichiers et dossiers il a consultés récemment.</string>
     <string name="kt_cache_pressure_why">Plus bas rend la navigation dans de gros dossiers de ROM plus rapide la deuxième fois. Plus haut libère de la mémoire plus vite pour les jeux.</string>

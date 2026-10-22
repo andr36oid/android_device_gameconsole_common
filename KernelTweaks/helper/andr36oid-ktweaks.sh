@@ -26,6 +26,8 @@ R=${KT_ROOT:-}
 #   cores    how many cores are online (cpu0 always is)
 #   thermal  trip point <path> of the soc-thermal zone, in m°C
 #   prop     a system property, not a kernel file (the value, 0 while unset)
+#   zram     compressed memory: "size" in percent of RAM (0 off) or "algorithm"; a change
+#            switches it off, resets it and switches it back on (zram_write)
 #   boot     an option on the kernel command line (see boot_read/boot_args): it takes
 #            effect at the next start, through BOOT/kernel-tweaks.txt
 # extra_rates isn't in the Kernel Tweaks list: Settings > Display > Panel overclocking
@@ -50,6 +52,8 @@ perf_metrics_off|prop||sys.andr36oid.perf_metrics_off
 swappiness|plain||/proc/sys/vm/swappiness
 cache_pressure|plain||/proc/sys/vm/vfs_cache_pressure
 page_cluster|plain||/proc/sys/vm/page-cluster
+zram_size|zram||size
+zram_algorithm|zram||algorithm
 sd1_scheduler|bracket||/sys/block/mmcblk0/queue/scheduler
 sd1_readahead|plain||/sys/block/mmcblk0/queue/read_ahead_kb
 sd2_scheduler|bracket||/sys/block/mmcblk1/queue/scheduler
@@ -336,6 +340,67 @@ thermal_path() {
 	done
 }
 
+# Compressed memory (zram0). fstab.* sets it up with swapon_all on "on boot" (75% of
+# RAM), init.rk30board.rc picks lz4; a size or compressor only changes while it is off
+# and reset.
+ZRAM=/sys/block/zram0
+ZRAM_DEV=${KT_ZRAM_DEV:-/dev/block/zram0}
+
+mem_kb() { sed -n 's/^MemTotal: *\([0-9]*\).*/\1/p' "$R/proc/meminfo"; }
+zram_swapping() { grep -q '^/dev/block/zram0 ' "$R/proc/swaps" 2>/dev/null; }
+
+# zram_wait ; for swapon_all to switch it on at a start (up to 30 s), so the
+# defaults are the console's own and a change isn't undone by swapon_all after it
+zram_wait() {
+	[ -e "$R$ZRAM/disksize" ] || return 1
+	n=0
+	while ! zram_swapping && [ "$(getprop sys.boot_completed)" != 1 ] && [ $n -lt 150 ]; do
+		sleep 0.2
+		n=$((n + 1))
+	done
+	return 0
+}
+
+# zram_read size|algorithm
+zram_read() {
+	zram_wait || return 0
+	case $1 in
+	size)
+		d=$(cat "$R$ZRAM/disksize" 2>/dev/null)
+		m=$(mem_kb)
+		if ! zram_swapping || [ "${d:-0}" = 0 ] || [ -z "$m" ]; then
+			echo 0
+		else
+			echo $(((d / 1024 * 100 + m / 2) / m))
+		fi
+		;;
+	algorithm)
+		# "lzo [lz4] deflate": the bracketed one is in use
+		v=$(sed -n 's/.*\[\([^]]*\)\].*/\1/p' "$R$ZRAM/comp_algorithm")
+		echo "${v:-$(cat "$R$ZRAM/comp_algorithm" 2>/dev/null)}"
+		;;
+	esac
+}
+
+# zram_write size|algorithm value ; off, reset, the new size or compressor, on again
+zram_write() {
+	size=$(zram_read size)
+	alg=$(zram_read algorithm)
+	case $1 in
+	size) size=$2 ;;
+	algorithm) alg=$2 ;;
+	esac
+	case $size in '' | *[!0-9]*) return 1 ;; esac
+	m=$(mem_kb)
+	[ -n "$m" ] || return 1
+	zram_swapping && { swapoff "$ZRAM_DEV" || return 1; }
+	echo 1 >"$R$ZRAM/reset"
+	[ -n "$alg" ] && echo "$alg" >"$R$ZRAM/comp_algorithm"
+	[ "$size" -gt 0 ] || return 0
+	echo $((m / 100 * size * 1024)) >"$R$ZRAM/disksize" &&
+		mkswap "$ZRAM_DEV" >/dev/null && swapon "$ZRAM_DEV"
+}
+
 # read_knob kind paths
 read_knob() {
 	case $1 in
@@ -355,6 +420,10 @@ read_knob() {
 		;;
 	boot)
 		boot_read "$2" "$CMDLINE"
+		return
+		;;
+	zram)
+		zram_read "$2"
 		return
 		;;
 	esac
@@ -390,6 +459,10 @@ write_knob() {
 		;;
 	prop)
 		setprop "$1" "$v"
+		return
+		;;
+	zram)
+		zram_write "$1" "$v"
 		return
 		;;
 	thermal) set -- "$(thermal_path "$1")" ;;

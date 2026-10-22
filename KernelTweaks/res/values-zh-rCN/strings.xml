@@ -146,6 +146,21 @@
     <string name="kt_swappiness_what">Android 为了释放内存，把空闲应用移入压缩内存（zram）的积极程度。</string>
     <string name="kt_swappiness_why">更高会让更多应用保留在后台，但会占用一点处理器时间。更低能让游戏运行时更流畅，但应用会更早被关闭。在 1 GB 内存的掌机上，默认值通常是最好的选择。</string>
 
+    <string name="kt_zram_size">压缩内存大小</string>
+    <string name="kt_zram_size_what">压缩内存（zram）最多可占用多少内存，选择关闭则不占用。</string>
+    <string name="kt_zram_size_why">更多会让更多应用保留在后台，它们会被打包到约三分之一大小。更少或关闭会把内存留给游戏，但应用会更早被关闭。更改需要几秒钟，因为压缩内存正在被清空。</string>
+    <string name="kt_zram_off">关闭</string>
+    <string name="kt_zram_25" formatted="false">25% 的内存</string>
+    <string name="kt_zram_50" formatted="false">50% 的内存</string>
+    <string name="kt_zram_75" formatted="false">75% 的内存</string>
+    <string name="kt_zram_100" formatted="false">100% 的内存</string>
+    <string name="kt_zram_algorithm">压缩内存打包方式</string>
+    <string name="kt_zram_algorithm_what">压缩内存如何打包它所保存的内容。</string>
+    <string name="kt_zram_algorithm_why">LZ4 最快，也是通常的选择。LZO 打包得稍紧凑。Deflate 能容纳的应用最多，但每次切换应用都会占用处理器时间。</string>
+    <string name="kt_zram_lz4">LZ4（最快）</string>
+    <string name="kt_zram_lzo">LZO（更小）</string>
+    <string name="kt_zram_deflate">Deflate（最小）</string>
+
     <string name="kt_cache_pressure">文件缓存清理</string>
     <string name="kt_cache_pressure_what">内核忘记最近查看过哪些文件和文件夹的速度。</string>
     <string name="kt_cache_pressure_why">更低能让第二次浏览大型 ROM 文件夹更快。更高能更快为游戏释放内存。</string>

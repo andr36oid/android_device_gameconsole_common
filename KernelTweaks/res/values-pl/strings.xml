@@ -149,6 +149,21 @@
     <string name="kt_swappiness_what">Jak chętnie Android przenosi bezczynne aplikacje do pamięci skompresowanej (zram), aby zwolnić RAM.</string>
     <string name="kt_swappiness_why">Wyższa wartość trzyma więcej aplikacji otwartych w tle, ale kosztuje trochę czasu procesora. Niższa trzyma wszystko płynniej podczas gry, ale aplikacje są zamykane wcześniej. Na konsolach z 1 GB domyślna wartość jest zwykle najlepsza.</string>
 
+    <string name="kt_zram_size">Rozmiar pamięci skompresowanej</string>
+    <string name="kt_zram_size_what">Jaka część pamięci RAM może się zapełnić pamięcią skompresowaną (zram), albo Wyłączone, by nie zajmowała nic.</string>
+    <string name="kt_zram_size_why">Wyższa wartość trzyma więcej aplikacji otwartych w tle, spakowanych do około jednej trzeciej rozmiaru. Niższa lub wyłączona zostawia pamięć RAM grom, ale zamyka aplikacje wcześniej. Zmiana trwa kilka sekund, podczas gdy pamięć skompresowana jest opróżniana.</string>
+    <string name="kt_zram_off">Wyłączone</string>
+    <string name="kt_zram_25" formatted="false">25% pamięci RAM</string>
+    <string name="kt_zram_50" formatted="false">50% pamięci RAM</string>
+    <string name="kt_zram_75" formatted="false">75% pamięci RAM</string>
+    <string name="kt_zram_100" formatted="false">100% pamięci RAM</string>
+    <string name="kt_zram_algorithm">Pakowanie pamięci skompresowanej</string>
+    <string name="kt_zram_algorithm_what">Jak pamięć skompresowana pakuje to, co przechowuje.</string>
+    <string name="kt_zram_algorithm_why">LZ4 jest najszybszy i najczęstszy wybór. LZO pakuje odrobinę ciaśniej. Deflate mieści najwięcej aplikacji, ale zużywa czas procesora przy każdym przełączeniu aplikacji.</string>
+    <string name="kt_zram_lz4">LZ4 (najszybszy)</string>
+    <string name="kt_zram_lzo">LZO (mniejszy)</string>
+    <string name="kt_zram_deflate">Deflate (najmniejszy)</string>
+
     <string name="kt_cache_pressure">Czyszczenie pamięci podręcznej plików</string>
     <string name="kt_cache_pressure_what">Jak szybko jądro zapomina, jakie pliki i foldery niedawno sprawdzało.</string>
     <string name="kt_cache_pressure_why">Niższa wartość przyspiesza przeglądanie dużych folderów ROM po drugim razie. Wyższa szybciej zwalnia pamięć dla gier.</string>

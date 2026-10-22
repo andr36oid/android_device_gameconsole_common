@@ -147,6 +147,21 @@
     <string name="kt_swappiness_what">Android\'in RAM\'i boşaltmak için boştaki uygulamaları sıkıştırılmış belleğe (zram) ne kadar hevesle taşıdığı.</string>
     <string name="kt_swappiness_why">Daha yüksek, daha fazla uygulamayı arka planda açık tutar ama biraz işlemci zamanına mal olur. Daha düşük, bir oyun çalışırken her şeyi daha akıcı tutar ama uygulamalar daha erken kapanır. 1 GB konsollarda varsayılan genellikle en iyisidir.</string>
 
+    <string name="kt_zram_size">Sıkıştırılmış bellek boyutu</string>
+    <string name="kt_zram_size_what">Sıkıştırılmış belleğin (zram) RAM\'in ne kadarını doldurabileceği. Kapalı ise hiç doldurmaz.</string>
+    <string name="kt_zram_size_why">Daha fazla, daha fazla uygulamayı arka planda açık tutar; uygulamalar yaklaşık üçte bir boyutuna sıkıştırılır. Daha az ya da Kapalı, RAM\'i oyunlara bırakır ama uygulamaları daha erken kapatır. Sıkıştırılmış bellek boşaltılırken değişiklik birkaç saniye sürer.</string>
+    <string name="kt_zram_off">Kapalı</string>
+    <string name="kt_zram_25" formatted="false">%25 RAM</string>
+    <string name="kt_zram_50" formatted="false">%50 RAM</string>
+    <string name="kt_zram_75" formatted="false">%75 RAM</string>
+    <string name="kt_zram_100" formatted="false">%100 RAM</string>
+    <string name="kt_zram_algorithm">Sıkıştırılmış bellek paketleme</string>
+    <string name="kt_zram_algorithm_what">Sıkıştırılmış bellek, tuttuklarını nasıl paketler.</string>
+    <string name="kt_zram_algorithm_why">LZ4 en hızlısı ve olağan seçimdir. LZO biraz daha sıkı paketler. Deflate en çok uygulamayı sığdırır ama her uygulama geçişinde işlemci zamanı harcar.</string>
+    <string name="kt_zram_lz4">LZ4 (en hızlı)</string>
+    <string name="kt_zram_lzo">LZO (daha küçük)</string>
+    <string name="kt_zram_deflate">Deflate (en küçük)</string>
+
     <string name="kt_cache_pressure">Dosya önbelleği temizliği</string>
     <string name="kt_cache_pressure_what">Kernelin hangi dosya ve klasörleri yakın zamanda incelediğini ne kadar hızlı unuttuğu.</string>
     <string name="kt_cache_pressure_why">Daha düşük, büyük ROM klasörlerine ikinci kez göz atmayı daha hızlı yapar. Daha yüksek, oyunlar için belleği daha çabuk boşaltır.</string>

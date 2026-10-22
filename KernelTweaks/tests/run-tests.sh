@@ -528,6 +528,50 @@ setp sys.andr36oid.hzp.rate 90
 hzp
 check "preview write that fails" "12 failed" "$(prop sys.andr36oid.hzp.result)"
 
+# --- compressed memory: size and compressor change with zram off and reset
+setup
+mkdir -p "$R"/sys/block/zram0
+printf 'MemTotal:        1000000 kB\n' >"$R"/proc/meminfo
+echo $((750000 * 1024)) >"$R"/sys/block/zram0/disksize
+echo 'lzo [lz4] deflate' >"$R"/sys/block/zram0/comp_algorithm
+: >"$R"/sys/block/zram0/reset
+SWAPS_HEAD='Filename Type Size Used Priority'
+printf '%s\n/dev/block/zram0 partition 750000 0 -2\n' "$SWAPS_HEAD" >"$R"/proc/swaps
+: >"$T/zram.log"
+printf '#!/bin/sh\necho "swapoff $1" >>"%s"\necho "%s" >"%s"\n' "$T/zram.log" "$SWAPS_HEAD" "$R/proc/swaps" >"$T/bin/swapoff"
+printf '#!/bin/sh\necho "mkswap $1" >>"%s"\n' "$T/zram.log" >"$T/bin/mkswap"
+printf '#!/bin/sh\necho "swapon $1" >>"%s"\necho "$1 partition 0 0 -2" >>"%s"\n' "$T/zram.log" "$R/proc/swaps" >"$T/bin/swapon"
+chmod +x "$T/bin/swapoff" "$T/bin/mkswap" "$T/bin/swapon"
+run boot
+check "zram size default" 75 "$(prop sys.andr36oid.ktd.zram_size)"
+check "zram compressor default" lz4 "$(prop sys.andr36oid.ktd.zram_algorithm)"
+check "zram left alone without tweaks" "" "$(cat "$T/zram.log")"
+setp sys.boot_completed 1
+setp persist.andr36oid.kt.zram_size 50
+run apply
+check "zram resized" $((500000 * 1024)) "$(cat "$R"/sys/block/zram0/disksize)"
+check "zram off, reset, on" "swapoff /dev/block/zram0 mkswap /dev/block/zram0 swapon /dev/block/zram0" \
+	"$(tr '\n' ' ' <"$T/zram.log" | sed 's/ $//')"
+check "zram reset" 1 "$(cat "$R"/sys/block/zram0/reset)"
+check "zram size reported" 50 "$(prop sys.andr36oid.ktc.zram_size)"
+setp persist.andr36oid.kt.zram_algorithm lzo
+run apply
+check "zram compressor" lzo "$(cat "$R"/sys/block/zram0/comp_algorithm)"
+check "zram compressor reported" lzo "$(prop sys.andr36oid.ktc.zram_algorithm)"
+check "zram size kept with the compressor" $((500000 * 1024)) "$(cat "$R"/sys/block/zram0/disksize)"
+setp persist.andr36oid.kt.zram_size 0
+run apply
+check "zram off" 0 "$(grep -c zram0 "$R"/proc/swaps)"
+check "zram off reported" 0 "$(prop sys.andr36oid.ktc.zram_size)"
+check "zram nothing failed" "" "$(prop sys.andr36oid.kt.failed)"
+setp persist.andr36oid.kt.zram_size ""
+setp persist.andr36oid.kt.zram_algorithm ""
+run apply
+check "zram back to default" "75 lz4 1" "$(prop sys.andr36oid.ktc.zram_size) $(cat "$R"/sys/block/zram0/comp_algorithm) $(grep -c zram0 "$R"/proc/swaps)"
+setup
+run boot
+check "no zram: no tweak" "" "$(prop sys.andr36oid.ktd.zram_size)"
+
 # --- the app: every tweak in Tweaks.java has a risk level (the app throws without one)
 J=$HERE/../src/org/andr36oid/kerneltweaks/Tweaks.java
 check "every tweak has a level" "$(grep -c '^ *\.add(' "$J")" \

@@ -134,6 +134,21 @@
     <string name="kt_swappiness">Использование сжатой памяти</string>
     <string name="kt_swappiness_what">Насколько охотно Android переносит неактивные приложения в сжатую память (zram), чтобы освободить ОЗУ.</string>
     <string name="kt_swappiness_why">Выше — в фоне остаётся больше приложений, но это отнимает немного процессорного времени. Ниже — во время игры всё работает отзывчивее, но приложения закрываются раньше. На консолях с 1 ГБ значение по умолчанию обычно лучшее.</string>
+    <string name="kt_zram_size">Размер сжатой памяти</string>
+    <string name="kt_zram_size_what">Какую долю ОЗУ может занять сжатая память (zram), или «Выкл.», чтобы не занимала ничего.</string>
+    <string name="kt_zram_size_why">Больше — в фоне остаётся больше приложений, упакованных примерно до трети размера. Меньше или «Выкл.» — ОЗУ достаётся играм, но приложения закрываются раньше. Изменение занимает несколько секунд, пока сжатая память очищается.</string>
+    <string name="kt_zram_off">Выкл.</string>
+    <string name="kt_zram_25" formatted="false">25% ОЗУ</string>
+    <string name="kt_zram_50" formatted="false">50% ОЗУ</string>
+    <string name="kt_zram_75" formatted="false">75% ОЗУ</string>
+    <string name="kt_zram_100" formatted="false">100% ОЗУ</string>
+    <string name="kt_zram_algorithm">Упаковка сжатой памяти</string>
+    <string name="kt_zram_algorithm_what">Как сжатая память упаковывает то, что в ней хранится.</string>
+    <string name="kt_zram_algorithm_why">LZ4 — самый быстрый и обычный выбор. LZO упаковывает чуть плотнее. Deflate вмещает больше всего приложений, но тратит процессорное время при каждом переключении приложений.</string>
+    <string name="kt_zram_lz4">LZ4 (быстрее всего)</string>
+    <string name="kt_zram_lzo">LZO (компактнее)</string>
+    <string name="kt_zram_deflate">Deflate (самый компактный)</string>
+
     <string name="kt_cache_pressure">Очистка файлового кеша</string>
     <string name="kt_cache_pressure_what">Как быстро ядро забывает, к каким файлам и папкам недавно обращалось.</string>
     <string name="kt_cache_pressure_why">Ниже — большие папки с ROM-файлами во второй раз открываются быстрее. Выше — память раньше освобождается для игр.</string>

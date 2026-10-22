@@ -146,6 +146,21 @@
     <string name="kt_swappiness_what">Seberapa agresif Android memindahkan aplikasi yang menganggur ke memori terkompresi (zram) untuk membebaskan RAM.</string>
     <string name="kt_swappiness_why">Lebih tinggi membuat lebih banyak aplikasi tetap terbuka di latar belakang, tetapi memakan sedikit waktu prosesor. Lebih rendah membuat semuanya lebih responsif saat game berjalan, tetapi aplikasi ditutup lebih cepat. Di konsol 1 GB, nilai default biasanya yang terbaik.</string>
 
+    <string name="kt_zram_size">Ukuran memori terkompresi</string>
+    <string name="kt_zram_size_what">Seberapa banyak RAM yang boleh diisi memori terkompresi (zram), atau nonaktif agar tidak mengisi apa pun.</string>
+    <string name="kt_zram_size_why">Lebih banyak membuat lebih banyak aplikasi tetap terbuka di latar belakang, dipadatkan hingga sekitar sepertiga ukurannya. Lebih sedikit, atau nonaktif, membiarkan RAM untuk game tetapi menutup aplikasi lebih cepat. Perubahan membutuhkan beberapa detik saat memori terkompresi dikosongkan.</string>
+    <string name="kt_zram_off">Nonaktif</string>
+    <string name="kt_zram_25" formatted="false">25% dari RAM</string>
+    <string name="kt_zram_50" formatted="false">50% dari RAM</string>
+    <string name="kt_zram_75" formatted="false">75% dari RAM</string>
+    <string name="kt_zram_100" formatted="false">100% dari RAM</string>
+    <string name="kt_zram_algorithm">Pengemasan memori terkompresi</string>
+    <string name="kt_zram_algorithm_what">Cara memori terkompresi mengemas data yang disimpannya.</string>
+    <string name="kt_zram_algorithm_why">LZ4 paling cepat dan pilihan yang biasa. LZO mengemas sedikit lebih rapat. Deflate memuat aplikasi paling banyak, tetapi memakan waktu prosesor di setiap perpindahan aplikasi.</string>
+    <string name="kt_zram_lz4">LZ4 (tercepat)</string>
+    <string name="kt_zram_lzo">LZO (lebih kecil)</string>
+    <string name="kt_zram_deflate">Deflate (paling kecil)</string>
+
     <string name="kt_cache_pressure">Pembersihan cache file</string>
     <string name="kt_cache_pressure_what">Seberapa cepat kernel melupakan file dan folder yang baru saja dilihat.</string>
     <string name="kt_cache_pressure_why">Lebih rendah membuat menjelajahi folder ROM besar lebih cepat untuk kedua kalinya. Lebih tinggi membebaskan memori lebih cepat untuk game.</string>

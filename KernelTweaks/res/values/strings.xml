@@ -147,6 +147,21 @@
     <string name="kt_swappiness_what">How eagerly Android moves idle apps into compressed memory (zram) to free up RAM.</string>
     <string name="kt_swappiness_why">Higher keeps more apps open in the background but costs a bit of processor time. Lower keeps things snappier while a game runs, but apps get closed sooner. On 1 GB consoles the default is usually best.</string>
 
+    <string name="kt_zram_size">Compressed memory size</string>
+    <string name="kt_zram_size_what">How much of the RAM compressed memory (zram) may fill, or off for none.</string>
+    <string name="kt_zram_size_why">More keeps more apps open in the background, packed to about a third of their size. Less, or off, leaves the RAM to games but closes apps sooner. A change takes a few seconds while compressed memory is emptied.</string>
+    <string name="kt_zram_off">Off</string>
+    <string name="kt_zram_25" formatted="false">25% of RAM</string>
+    <string name="kt_zram_50" formatted="false">50% of RAM</string>
+    <string name="kt_zram_75" formatted="false">75% of RAM</string>
+    <string name="kt_zram_100" formatted="false">100% of RAM</string>
+    <string name="kt_zram_algorithm">Compressed memory packing</string>
+    <string name="kt_zram_algorithm_what">How compressed memory packs what it holds.</string>
+    <string name="kt_zram_algorithm_why">LZ4 is the quickest and the usual choice. LZO packs a little tighter. Deflate fits the most apps but costs processor time at every app switch.</string>
+    <string name="kt_zram_lz4">LZ4 (fastest)</string>
+    <string name="kt_zram_lzo">LZO (smaller)</string>
+    <string name="kt_zram_deflate">Deflate (smallest)</string>
+
     <string name="kt_cache_pressure">File cache cleanup</string>
     <string name="kt_cache_pressure_what">How quickly the kernel forgets which files and folders it looked at recently.</string>
     <string name="kt_cache_pressure_why">Lower makes browsing big ROM folders faster the second time round. Higher frees memory sooner for games.</string>

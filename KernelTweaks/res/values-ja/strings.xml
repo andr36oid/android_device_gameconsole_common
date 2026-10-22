@@ -14,6 +14,21 @@
     <string name="kt_builtin_emmc">内蔵eMMCストレージ（実験的）</string>
     <string name="kt_builtin_emmc_what">オンにすると、次の起動から、一部のコンソールに内蔵されたeMMCストレージチップを有効にします。不具合報告で、その中身（容量、パーティション、名前）を表示できるようになります。カーネルは読み取りだけを行い、すべての書き込みを拒否するので、コンソールに入っていたシステムはそのまま残ります。ストレージとしても、ファイルアプリにも表示されません。</string>
     <string name="kt_builtin_emmc_why">内蔵ストレージを初めて確認するためのものです。将来そこにandr36oidをインストールするための準備にもなります。ピンが空いているコンソールだけで使えます。それ以外のコンソールには内蔵されていません。実験的な機能です。この設定で起動しない場合、2回続けて起動に失敗するとTweaksは自動的にオフになります。</string>
+    <string name="kt_zram_size">圧縮メモリのサイズ</string>
+    <string name="kt_zram_size_what">圧縮メモリ（zram）がRAMのどれだけを使えるかです。オフにすると何も使いません。</string>
+    <string name="kt_zram_size_why">多いほど、より多くのアプリをバックグラウンドで開いたままにでき、サイズは約3分の1にまとめられます。少ないかオフにすると、RAMはゲームに残りますが、アプリは早く閉じられます。変更には数秒かかり、その間に圧縮メモリが空にされます。</string>
+    <string name="kt_zram_off">オフ</string>
+    <string name="kt_zram_25" formatted="false">RAMの25%</string>
+    <string name="kt_zram_50" formatted="false">RAMの50%</string>
+    <string name="kt_zram_75" formatted="false">RAMの75%</string>
+    <string name="kt_zram_100" formatted="false">RAMの100%</string>
+    <string name="kt_zram_algorithm">圧縮メモリのパッキング方式</string>
+    <string name="kt_zram_algorithm_what">圧縮メモリが保存内容をどのように詰め込むかです。</string>
+    <string name="kt_zram_algorithm_why">LZ4が最も速く、一般的な選択です。LZOは少し小さく詰め込みます。Deflateは最も多くのアプリを収めますが、アプリを切り替えるたびにプロセッサー時間を使います。</string>
+    <string name="kt_zram_lz4">LZ4（最速）</string>
+    <string name="kt_zram_lzo">LZO（より小さい）</string>
+    <string name="kt_zram_deflate">Deflate（最小）</string>
+
     <string name="kt_cache_pressure">ファイルキャッシュの整理</string>
     <string name="kt_cache_pressure_what">カーネルが最近見たファイルやフォルダーを、どれくらい早く忘れるかです。</string>
     <string name="kt_cache_pressure_why">低くすると、大きなROMフォルダーを2回目に開くときの表示が速くなります。高くすると、ゲームのためにメモリを早く空けます。</string>
