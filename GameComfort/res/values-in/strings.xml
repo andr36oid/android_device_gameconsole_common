@@ -17,8 +17,8 @@
     <string name="warning_about">Notifikasi baterai lemah bawaan Android mudah terlewat saat bermain game layar penuh. Fitur ini menampilkan banner singkat di bagian atas layar, sekali untuk setiap level selama konsol memakai baterai. Tombol tetap berfungsi di game.\n\nKonsol mati sendiri saat baterai habis, dan apa pun yang belum disimpan akan hilang.</string>
 
     <!-- The banner on top of the game -->
-    <string name="banner_charge_text">Baterai <xliff:g id="percent">%1$d</xliff:g> %% – segera colokkan pengisi daya</string>
-    <string name="banner_text">Baterai <xliff:g id="percent">%1$d</xliff:g> %% – simpan game Anda sekarang</string>
+    <string name="banner_charge_text">Baterai <xliff:g id="percent">%1$d</xliff:g> %% - segera colokkan pengisi daya</string>
+    <string name="banner_text">Baterai <xliff:g id="percent">%1$d</xliff:g> %% - simpan game Anda sekarang</string>
 
     <!-- Game mode, Settings home page and Quick Settings tile -->
     <string name="game_mode_title">Mode game</string>

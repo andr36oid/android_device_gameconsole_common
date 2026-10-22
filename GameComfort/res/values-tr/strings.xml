@@ -17,8 +17,8 @@
     <string name="warning_about">Android\'in kendi düşük pil bildirimi, tam ekran bir oyun sırasında kolayca gözden kaçar. Bu özellik bunun yerine ekranın üstünde kısa bir şerit gösterir; konsol pille çalışırken her seviye için bir kez. Tuşları oyundan almaz.\n\nPil bittiğinde konsol kendiliğinden kapanır ve kaydedilmemiş her şey kaybolur.</string>
 
     <!-- The banner on top of the game -->
-    <string name="banner_charge_text">Pil %%<xliff:g id="percent">%1$d</xliff:g> – şarj cihazını yakında takın</string>
-    <string name="banner_text">Pil %%<xliff:g id="percent">%1$d</xliff:g> – oyununuzu şimdi kaydedin</string>
+    <string name="banner_charge_text">Pil %%<xliff:g id="percent">%1$d</xliff:g> - şarj cihazını yakında takın</string>
+    <string name="banner_text">Pil %%<xliff:g id="percent">%1$d</xliff:g> - oyununuzu şimdi kaydedin</string>
 
     <!-- Game mode, Settings home page and Quick Settings tile -->
     <string name="game_mode_title">Oyun modu</string>

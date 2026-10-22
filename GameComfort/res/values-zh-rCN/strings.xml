@@ -17,8 +17,8 @@
     <string name="warning_about">全屏玩游戏时，Android 自带的低电量通知很容易被忽略。此功能会改为在屏幕顶部显示一条简短的横幅，在掌机使用电池供电时，每个电量档位提醒一次。它不会抢走游戏的按键操作。\n\n电池耗尽时掌机会自动关机，未保存的进度都会丢失。</string>
 
     <!-- The banner on top of the game -->
-    <string name="banner_charge_text">电量 <xliff:g id="percent">%1$d</xliff:g>%% – 请尽快充电</string>
-    <string name="banner_text">电量 <xliff:g id="percent">%1$d</xliff:g>%% – 请立即存档</string>
+    <string name="banner_charge_text">电量 <xliff:g id="percent">%1$d</xliff:g>%% - 请尽快充电</string>
+    <string name="banner_text">电量 <xliff:g id="percent">%1$d</xliff:g>%% - 请立即存档</string>
 
     <!-- Game mode, Settings home page and Quick Settings tile -->
     <string name="game_mode_title">游戏模式</string>

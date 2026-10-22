@@ -17,8 +17,8 @@
     <string name="warning_about">Die normale Android-Benachrichtigung bei niedrigem Akkustand übersieht man in einem Vollbildspiel leicht. Stattdessen erscheint hier ein kurzes Banner oben am Bildschirm, einmal pro Stufe, solange die Konsole im Akkubetrieb läuft. Das Spiel behält dabei die Tasten.\n\nIst der Akku leer, schaltet sich die Konsole selbst aus und alles nicht Gespeicherte geht verloren.</string>
 
     <!-- The banner on top of the game -->
-    <string name="banner_charge_text">Akku <xliff:g id="percent">%1$d</xliff:g> %% – lade die Konsole bald auf</string>
-    <string name="banner_text">Akku <xliff:g id="percent">%1$d</xliff:g> %% – speicher jetzt dein Spiel</string>
+    <string name="banner_charge_text">Akku <xliff:g id="percent">%1$d</xliff:g> %% - lade die Konsole bald auf</string>
+    <string name="banner_text">Akku <xliff:g id="percent">%1$d</xliff:g> %% - speicher jetzt dein Spiel</string>
 
     <!-- Game mode, Settings home page and Quick Settings tile -->
     <string name="game_mode_title">Spielmodus</string>

@@ -32,9 +32,9 @@
     <string name="warning_about">Android\'s own low battery notification is easy to miss during a full screen game. This shows a short banner across the top of the screen instead, once for each level while the console runs on battery. It doesn\'t take the buttons away from the game.\n\nThe console turns itself off when the battery is empty, and anything not saved is lost.</string>
 
     <!-- The banner on top of the game -->
-    <string name="banner_charge_text">Battery <xliff:g id="percent">%1$d</xliff:g> %% – plug in a charger soon</string>
-    <string name="banner_text">Battery <xliff:g id="percent">%1$d</xliff:g> %% – save your game now</string>
-    <string name="banner_last_text">Battery <xliff:g id="percent">%1$d</xliff:g> %% – save your game now. The console turns itself off soon.</string>
+    <string name="banner_charge_text">Battery <xliff:g id="percent">%1$d</xliff:g> %% - plug in a charger soon</string>
+    <string name="banner_text">Battery <xliff:g id="percent">%1$d</xliff:g> %% - save your game now</string>
+    <string name="banner_last_text">Battery <xliff:g id="percent">%1$d</xliff:g> %% - save your game now. The console turns itself off soon.</string>
 
     <!-- Game mode, Settings home page and Quick Settings tile -->
     <string name="game_mode_title">Game mode</string>
