@@ -210,6 +210,10 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
 	andr36oid-easyroms
 
+# USB drive's root helper lends unmounted storage to the computer
+PRODUCT_PACKAGES += \
+	andr36oid-usb-drive
+
 # BOOT/hotfix/*.fix.zip, applied before zygote on every start
 PRODUCT_PACKAGES += \
 	andr36oid-hotfix

@@ -1,6 +1,20 @@
 import /vendor/etc/init/hw/init.${ro.target.product}.rc
 import /vendor/etc/init/hw/init.rk30board.usb.rc
 
+# Keeps a journal and gives storage back after either process restarts.
+service andr36oid-usb-drive /system/bin/sh /system/etc/andr36oid-usb-drive.sh
+    class late_start
+    user root
+    group root system disk mount
+    seclabel u:r:shell:s0
+    disabled
+
+on property:sys.boot_completed=1
+    start andr36oid-usb-drive
+
+on property:sys.andr36oid.usbdrive.request=start
+    start andr36oid-usb-drive
+
 on early-init
     # Full CPU clock while starting: the kernel picks schedutil, which climbs slowly through
     # a start that is mostly short bursts. sys.boot_completed hands it back to schedutil.

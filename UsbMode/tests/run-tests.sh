@@ -16,7 +16,7 @@ printf '#!/bin/sh\nexit 0\n' >"$T/bin/sync"
 chmod +x "$T/bin/sync"
 export PATH=$T/bin:$PATH
 
-for sh in ${SHELLS:-sh bash}; do
+for sh in ${SHELLS:-sh bash mksh}; do
 	command -v "$sh" >/dev/null || continue
 	rm -rf "$T/root"
 	mkdir -p "$T/root"
@@ -25,5 +25,13 @@ done
 SRC=$HERE/src/org/andr36oid/usbmode
 mkdir -p "$T/classes"
 "$JDK/javac" -encoding UTF-8 -d "$T/classes" "$SRC/UsbTable.java" "$SRC/UsbScan.java" \
-	"$SRC/UsbCheck.java" "$HERE/tests/UsbCheckTest.java"
+	"$SRC/UsbCheck.java" "$SRC/UsbDrive.java" "$HERE/tests/UsbCheckTest.java" \
+	"$HERE/tests/UsbDriveTest.java"
 "$JDK/java" -cp "$T/classes" org.andr36oid.usbmode.UsbCheckTest "$T/root" "$TABLE" "$WIFI"
+
+"$JDK/java" -cp "$T/classes" org.andr36oid.usbmode.UsbDriveTest "$T/root"
+
+for sh in ${SHELLS:-sh bash mksh}; do
+	command -v "$sh" >/dev/null || continue
+	"$sh" "$HERE/tests/usb-drive-helper-test.sh" "$T/helper-$sh"
+done
