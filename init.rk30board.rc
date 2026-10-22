@@ -5,7 +5,7 @@ import /vendor/etc/init/hw/init.rk30board.usb.rc
 service andr36oid-usb-drive /system/bin/sh /system/etc/andr36oid-usb-drive.sh
     class late_start
     user root
-    group root system disk mount
+    group root system mount
     seclabel u:r:shell:s0
     disabled
 
