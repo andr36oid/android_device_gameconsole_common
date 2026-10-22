@@ -342,6 +342,12 @@ public class KeyboardTest {
         eq(-1, s.tick(10000), "no repeat after let go");
         eq(GridNav.UP, s.update(0.2f, -0.8f, 800), "up");
         eq(GridNav.LEFT, s.update(-0.9f, -0.3f, 820), "swing to left: new step");
+        eq(-1, s.update(0.5f, 0f, 830), "reverse below push threshold: no new step");
+        eq(-1, s.tick(2000), "reverse stops repeats in the old direction");
+        eq(GridNav.RIGHT, s.update(0.8f, 0f, 2100), "push after reversal starts right");
+        eq(-1, s.update(0f, 0.5f, 2200), "perpendicular drift doesn't start a step");
+        eq(-1, s.tick(3000), "perpendicular drift doesn't keep right repeating");
+        eq(GridNav.DOWN, s.update(0f, 0.8f, 3100), "new axis can start normally");
 
         KeyboardLogic l = new KeyboardLogic(Layouts.QWERTY, "en", false);
         check(l.leftStick(-1f, 0f, 0), "stick moved highlight");

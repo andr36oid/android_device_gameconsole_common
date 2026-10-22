@@ -31,9 +31,10 @@ public final class StickRepeat {
         float ax = Math.abs(x);
         float ay = Math.abs(y);
         float m = Math.max(ax, ay);
-        if (dir != -1 && m < LET_GO) {
-            dir = -1;
-            return -1;
+        if (dir != -1) {
+            float held = dir == GridNav.RIGHT ? x : dir == GridNav.LEFT ? -x
+                    : dir == GridNav.DOWN ? y : -y;
+            if (held < LET_GO) dir = -1;
         }
         if (m < PUSH) return -1;
         int d = ax > ay ? (x > 0 ? GridNav.RIGHT : GridNav.LEFT) : (y > 0 ? GridNav.DOWN : GridNav.UP);
