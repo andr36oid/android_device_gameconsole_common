@@ -43,6 +43,7 @@
     <string name="show_fps">Fréquence d\'images (FPS)</string>
     <string name="show_fps_summary">Avec seulement cette case cochée, l\'affichage indique juste « 60 FPS »</string>
     <string name="show_cpu">Charge du CPU</string>
+    <string name="show_gpu">Charge du GPU</string>
     <string name="show_speeds">Fréquences du CPU, du GPU et de la mémoire</string>
     <string name="show_temp">Température</string>
     <string name="show_battery">Niveau de batterie</string>

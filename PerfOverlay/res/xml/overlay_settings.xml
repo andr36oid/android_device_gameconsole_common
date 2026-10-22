@@ -20,6 +20,10 @@
             android:defaultValue="true"
             android:title="@string/show_cpu" />
         <CheckBoxPreference
+            android:key="show_gpu"
+            android:defaultValue="false"
+            android:title="@string/show_gpu" />
+        <CheckBoxPreference
             android:key="show_speeds"
             android:defaultValue="false"
             android:title="@string/show_speeds" />

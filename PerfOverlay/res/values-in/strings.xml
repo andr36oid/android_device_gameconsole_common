@@ -43,6 +43,7 @@
     <string name="show_fps">Frame rate (FPS)</string>
     <string name="show_fps_summary">Jika hanya ini yang dicentang, overlay hanya menampilkan \"60 FPS\"</string>
     <string name="show_cpu">Beban CPU</string>
+    <string name="show_gpu">Beban GPU</string>
     <string name="show_speeds">Kecepatan CPU, GPU, dan memori</string>
     <string name="show_temp">Suhu</string>
     <string name="show_battery">Level baterai</string>

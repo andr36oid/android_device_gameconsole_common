@@ -114,8 +114,16 @@ final class HudFormat {
             }
             items.add(cpu);
         }
-        if (speeds && s.gpuMhz > 0) {
-            items.add(new Item(R.string.hud_gpu).add(s.gpuMhz + "MHz", mValueColor));
+        final boolean gpuSpeed = speeds && s.gpuMhz > 0;
+        if (shows(Hud.KEY_SHOW_GPU) || gpuSpeed) {
+            final Item gpu = new Item(R.string.hud_gpu);
+            if (shows(Hud.KEY_SHOW_GPU)) {
+                gpu.add(s.gpuPercent < 0 ? " --" : pad(s.gpuPercent + "%", 4), mValueColor);
+            }
+            if (gpuSpeed) {
+                gpu.add(s.gpuMhz + "MHz", mValueColor);
+            }
+            items.add(gpu);
         }
         if (shows(Hud.KEY_SHOW_TEMP) && !Float.isNaN(s.tempC)) {
             items.add(new Item(R.string.hud_temp).add(Math.round(s.tempC) + "°C",

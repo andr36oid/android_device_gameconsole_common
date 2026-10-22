@@ -69,6 +69,7 @@
     </string-array>
     <string name="show_battery">電池残量</string>
     <string name="show_cpu">CPU 負荷</string>
+    <string name="show_gpu">GPU 負荷</string>
     <string name="show_fps">フレームレート (FPS)</string>
     <string name="show_fps_summary">これだけにチェックを入れると、オーバーレイには「60 FPS」とだけ表示されます</string>
     <string name="show_power">電池の消費電力</string>

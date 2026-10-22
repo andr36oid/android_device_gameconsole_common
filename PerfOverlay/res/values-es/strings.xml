@@ -43,6 +43,7 @@
     <string name="show_fps">Tasa de fotogramas (FPS)</string>
     <string name="show_fps_summary">Con solo esta casilla marcada, el monitor muestra solo \"60 FPS\"</string>
     <string name="show_cpu">Carga de la CPU</string>
+    <string name="show_gpu">Carga de la GPU</string>
     <string name="show_speeds">Velocidades de CPU, GPU y memoria</string>
     <string name="show_temp">Temperatura</string>
     <string name="show_battery">Nivel de batería</string>

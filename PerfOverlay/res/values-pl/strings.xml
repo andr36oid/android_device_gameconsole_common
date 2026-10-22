@@ -43,6 +43,7 @@
     <string name="show_fps">Liczba klatek (FPS)</string>
     <string name="show_fps_summary">Przy zaznaczeniu tylko tej opcji nakładka pokazuje samo „60 FPS”</string>
     <string name="show_cpu">Obciążenie CPU</string>
+    <string name="show_gpu">Obciążenie GPU</string>
     <string name="show_speeds">Taktowanie CPU, GPU i pamięci</string>
     <string name="show_temp">Temperatura</string>
     <string name="show_battery">Poziom baterii</string>

@@ -43,6 +43,7 @@
     <string name="show_fps">Kare hızı (FPS)</string>
     <string name="show_fps_summary">Yalnızca bu seçili olduğunda katman yalnızca \"60 FPS\" gösterir</string>
     <string name="show_cpu">CPU yükü</string>
+    <string name="show_gpu">GPU yükü</string>
     <string name="show_speeds">CPU, GPU ve bellek hızları</string>
     <string name="show_temp">Sıcaklık</string>
     <string name="show_battery">Pil seviyesi</string>

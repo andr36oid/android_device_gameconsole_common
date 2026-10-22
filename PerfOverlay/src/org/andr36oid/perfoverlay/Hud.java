@@ -22,6 +22,7 @@ final class Hud {
     // What it shows, one checkbox each
     static final String KEY_SHOW_FPS = "show_fps";
     static final String KEY_SHOW_CPU = "show_cpu";
+    static final String KEY_SHOW_GPU = "show_gpu";
     static final String KEY_SHOW_SPEEDS = "show_speeds";
     static final String KEY_SHOW_TEMP = "show_temp";
     static final String KEY_SHOW_BATTERY = "show_battery";
@@ -48,7 +49,7 @@ final class Hud {
     private static final String KEY_OLD_STYLE = "style";
 
     private static final String[] SHOW_KEYS = {
-            KEY_SHOW_FPS, KEY_SHOW_CPU, KEY_SHOW_SPEEDS, KEY_SHOW_TEMP, KEY_SHOW_BATTERY,
+            KEY_SHOW_FPS, KEY_SHOW_CPU, KEY_SHOW_GPU, KEY_SHOW_SPEEDS, KEY_SHOW_TEMP, KEY_SHOW_BATTERY,
             KEY_SHOW_POWER, KEY_SHOW_RAM, KEY_SHOW_STORAGE, KEY_SHOW_TIME,
     };
     private static final String[] LOOK_KEYS = {

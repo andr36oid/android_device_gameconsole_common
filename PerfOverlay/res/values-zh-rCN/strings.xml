@@ -43,6 +43,7 @@
     <string name="show_fps">帧率 (FPS)</string>
     <string name="show_fps_summary">仅勾选此项时，浮窗只显示“60 FPS”</string>
     <string name="show_cpu">CPU 负载</string>
+    <string name="show_gpu">GPU 负载</string>
     <string name="show_speeds">CPU、GPU 和内存频率</string>
     <string name="show_temp">温度</string>
     <string name="show_battery">电量</string>

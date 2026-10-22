@@ -63,6 +63,7 @@ public class PreviewView extends FrameLayout
         s.cpuPercent = 42;
         s.cpuMhz = 1296;
         s.gpuMhz = 400;
+        s.gpuPercent = 35;
         s.memMhz = 666;
         s.tempC = 52;
         s.batteryPercent = 78;

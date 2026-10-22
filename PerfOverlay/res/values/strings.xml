@@ -13,6 +13,7 @@
     <string name="show_fps">Frame rate (FPS)</string>
     <string name="show_fps_summary">With only this ticked, the overlay is just \"60 FPS\"</string>
     <string name="show_cpu">CPU load</string>
+    <string name="show_gpu">GPU load</string>
     <string name="show_speeds">CPU, GPU and memory speeds</string>
     <string name="show_temp">Temperature</string>
     <string name="show_battery">Battery level</string>

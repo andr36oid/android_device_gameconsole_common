@@ -43,6 +43,7 @@
     <string name="show_fps">Bildrate (FPS)</string>
     <string name="show_fps_summary">Ist nur das angehakt, zeigt das Overlay einfach „60 FPS“</string>
     <string name="show_cpu">CPU-Last</string>
+    <string name="show_gpu">GPU-Last</string>
     <string name="show_speeds">CPU-, GPU- und Speichertakt</string>
     <string name="show_temp">Temperatur</string>
     <string name="show_battery">Akkustand</string>

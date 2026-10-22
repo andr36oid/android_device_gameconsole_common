@@ -43,6 +43,7 @@
     <string name="show_fps">Taxa de quadros (FPS)</string>
     <string name="show_fps_summary">Com só essa opção marcada, a sobreposição mostra apenas \"60 FPS\"</string>
     <string name="show_cpu">Carga da CPU</string>
+    <string name="show_gpu">Carga da GPU</string>
     <string name="show_speeds">Velocidades da CPU, GPU e memória</string>
     <string name="show_temp">Temperatura</string>
     <string name="show_battery">Nível da bateria</string>

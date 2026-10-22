@@ -43,6 +43,7 @@
     <string name="show_fps">Частота кадров (FPS)</string>
     <string name="show_fps_summary">Если отмечен только этот пункт, оверлей показывает только «60 FPS»</string>
     <string name="show_cpu">Загрузка CPU</string>
+    <string name="show_gpu">Загрузка GPU</string>
     <string name="show_speeds">Частоты CPU, GPU и памяти</string>
     <string name="show_temp">Температура</string>
     <string name="show_battery">Уровень батареи</string>

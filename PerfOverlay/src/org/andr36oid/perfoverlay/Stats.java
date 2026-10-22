@@ -46,6 +46,8 @@ final class Stats {
     int cpuPercent = -1;
     int cpuMhz = -1;
     int gpuMhz = -1;
+    /** How busy the GPU was since the last sample, -1 if unknown. */
+    int gpuPercent = -1;
     int memMhz = -1;
     float tempC = Float.NaN;
     int batteryPercent = -1;
@@ -56,6 +58,11 @@ final class Stats {
     int storagePercent = -1;
 
     private final String mGpuFreqPath = findGpuFreq();
+    // The Mali driver's running busy and idle totals, next to the devfreq device
+    private final String mGpuBusyPath = mGpuFreqPath == null ? null
+            : new File(mGpuFreqPath).getParent() + "/device/busy_idle";
+    private long mLastGpuBusy = -1;
+    private long mLastGpuIdle;
     private final String mTempPath = findTemperature();
     private final String mBatteryPath = findBattery();
 
@@ -82,6 +89,8 @@ final class Stats {
         fps = -1;
         screenFps = -1;
         cpuPercent = -1;
+        mLastGpuBusy = -1;
+        gpuPercent = -1;
     }
 
     void sample(boolean everything) {
@@ -92,6 +101,7 @@ final class Stats {
         sampleCpu();
         cpuMhz = readInt(CPU_FREQ, 1000);
         gpuMhz = mGpuFreqPath == null ? -1 : readInt(mGpuFreqPath, 1000000);
+        sampleGpu();
         memMhz = readInt(MEM_FREQ, 1000000);
         final int milliC = mTempPath == null ? Integer.MIN_VALUE : readInt(mTempPath, 1);
         tempC = milliC == Integer.MIN_VALUE || milliC < 0 ? Float.NaN : milliC / 1000f;
@@ -148,6 +158,36 @@ final class Stats {
             data.recycle();
             reply.recycle();
         }
+    }
+
+    /**
+     * The GPU's busy share since the last sample. busy_idle's two counters are 32 bits and
+     * wrap, so the differences are taken unsigned. Unlike devfreq's load file, reading it
+     * leaves the GPU governor alone.
+     */
+    private void sampleGpu() {
+        final String text = mGpuBusyPath == null ? null : read(mGpuBusyPath);
+        final String[] fields = text == null ? new String[0] : text.trim().split("\\s+");
+        final long busy;
+        final long idle;
+        try {
+            if (fields.length != 2) throw new NumberFormatException();
+            busy = Long.parseLong(fields[0]);
+            idle = Long.parseLong(fields[1]);
+        } catch (NumberFormatException e) {
+            mLastGpuBusy = -1;
+            gpuPercent = -1;
+            return;
+        }
+        if (mLastGpuBusy >= 0) {
+            final long busyDiff = (busy - mLastGpuBusy) & 0xffffffffL;
+            final long total = busyDiff + ((idle - mLastGpuIdle) & 0xffffffffL);
+            if (total > 0) {
+                gpuPercent = (int) Math.max(0, Math.min(100, 100 * busyDiff / total));
+            }
+        }
+        mLastGpuBusy = busy;
+        mLastGpuIdle = idle;
     }
 
     /** Busy share of all cores since the last sample, from the first line of /proc/stat. */
