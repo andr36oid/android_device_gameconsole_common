@@ -19,6 +19,32 @@
     <string name="kt_reset_summary">恢复此掌机的默认值</string>
     <string name="kt_reset_confirm">将每一项内核调整都恢复为默认值？</string>
 
+    <!-- Shared profiles -->
+    <string name="kt_profile_export">导出配置文件</string>
+    <string name="kt_profile_export_summary">将您的设置保存到 BOOT、EASYROMS 或内部 Download，以便在 PC 上分享</string>
+    <string name="kt_profile_import">导入配置文件</string>
+    <string name="kt_profile_import_summary">从 BOOT、EASYROMS 或内部 Download 中的 andr36oid-ktprofiles 文件夹选择文件，或选择系统附带的推荐配置</string>
+    <string name="kt_profile_readme">andr36oid 内核调整配置文件：仅包含已保存的设置和掌机标识，不含个人数据。请通过设置 &gt; 系统 &gt; 内核调整导入。</string>
+    <string name="kt_profile_saved">配置文件已保存到 <xliff:g id="path">%1$s</xliff:g></string>
+    <string name="kt_profile_error">无法读取或保存配置文件。请检查卡或内部存储是否可用，稍等片刻后重试。</string>
+    <string name="kt_profile_none">未找到配置文件。请将 .txt 配置文件放入 BOOT、EASYROMS 或内部 Download 中的 andr36oid-ktprofiles 文件夹。</string>
+    <string name="kt_profile_skipped">已跳过 <xliff:g id="count">%1$d</xliff:g> 个文件：无法读取、无效、过大或超过 100 个文件的上限。</string>
+    <string name="kt_profile_recommended">推荐用于此掌机：<xliff:g id="name">%1$s</xliff:g></string>
+    <string name="kt_profile_mismatch">此配置文件用于其他掌机或系统版本，或者其标识不完整。应用前请检查以下差异（此掌机 → 配置文件）：</string>
+    <string name="kt_profile_model">掌机型号</string>
+    <string name="kt_profile_compatible">设备树兼容性</string>
+    <string name="kt_profile_boot">BOOT 配置文件</string>
+    <string name="kt_profile_version">andr36oid 版本</string>
+    <string name="kt_profile_panel">面板</string>
+    <string name="kt_profile_change"><xliff:g id="title">%1$s</xliff:g>：<xliff:g id="current">%2$s</xliff:g> → <xliff:g id="new">%3$s</xliff:g></string>
+    <string name="kt_profile_no_changes">没有需要更改的已保存设置。</string>
+    <string name="kt_profile_unknown">已忽略未知键：<xliff:g id="keys">%1$s</xliff:g></string>
+    <string name="kt_profile_invalid">已忽略超出允许选项的值：<xliff:g id="keys">%1$s</xliff:g></string>
+    <string name="kt_profile_unavailable">已忽略此掌机不可用的调整：<xliff:g id="titles">%1$s</xliff:g></string>
+    <string name="kt_profile_paused">调整已关闭。这些设置仍会保存；想要尝试时，请开启使用调整。</string>
+    <string name="kt_profile_keep">配置文件中缺少的设置会保持不变。风险较高的调整与逐项更改它们具有相同风险。</string>
+    <string name="kt_profile_apply">应用配置文件</string>
+
     <!-- Risk dots: legend at the top of the list, and each tweak's level -->
     <string name="kt_legend">圆点颜色的含义</string>
     <string name="kt_level_safe">安全：任何掌机都可以放心尝试</string>

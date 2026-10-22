@@ -20,6 +20,32 @@
     <string name="kt_reset_summary">Bu konsol için varsayılanlara dön</string>
     <string name="kt_reset_confirm">Her kernel ayarı varsayılan değerine geri döndürülsün mü?</string>
 
+    <!-- Shared profiles -->
+    <string name="kt_profile_export">Profili dışa aktar</string>
+    <string name="kt_profile_export_summary">Seçimlerinizi PC ile paylaşmak için BOOT, EASYROMS veya dahili Download\'a kaydedin</string>
+    <string name="kt_profile_import">Profili içe aktar</string>
+    <string name="kt_profile_import_summary">BOOT, EASYROMS veya dahili Download içindeki andr36oid-ktprofiles klasöründen bir dosya ya da sistemle gelen bir öneri seçin</string>
+    <string name="kt_profile_readme">andr36oid Kernel Ayarları profili: yalnızca kaydedilen seçimleri ve konsol kimliğini içerir, kişisel veri içermez. Ayarlar &gt; Sistem &gt; Kernel Ayarları üzerinden içe aktarın.</string>
+    <string name="kt_profile_saved">Profil şuraya kaydedildi: <xliff:g id="path">%1$s</xliff:g></string>
+    <string name="kt_profile_error">Profiller okunamadı veya kaydedilemedi. Kartın ya da dahili depolamanın kullanılabilir olduğunu kontrol edin, biraz bekleyip tekrar deneyin.</string>
+    <string name="kt_profile_none">Profil bulunamadı. .txt profil dosyalarını BOOT, EASYROMS veya dahili Download içindeki andr36oid-ktprofiles klasörüne koyun.</string>
+    <string name="kt_profile_skipped">Okunamayan, geçersiz, çok büyük veya 100 dosya sınırını aşan <xliff:g id="count">%1$d</xliff:g> dosya atlandı.</string>
+    <string name="kt_profile_recommended">Bu konsol için önerilen: <xliff:g id="name">%1$s</xliff:g></string>
+    <string name="kt_profile_mismatch">Bu profil başka bir konsol veya sistem sürümü için oluşturulmuş ya da kimliği eksik. Uygulamadan önce bu farkları kontrol edin (bu konsol → profil):</string>
+    <string name="kt_profile_model">Konsol modeli</string>
+    <string name="kt_profile_compatible">Device tree uyumluluğu</string>
+    <string name="kt_profile_boot">BOOT profili</string>
+    <string name="kt_profile_version">andr36oid sürümü</string>
+    <string name="kt_profile_panel">Panel</string>
+    <string name="kt_profile_change"><xliff:g id="title">%1$s</xliff:g>: <xliff:g id="current">%2$s</xliff:g> → <xliff:g id="new">%3$s</xliff:g></string>
+    <string name="kt_profile_no_changes">Kaydedilmiş seçimler değişmeyecek.</string>
+    <string name="kt_profile_unknown">Bilinmeyen anahtarlar yok sayıldı: <xliff:g id="keys">%1$s</xliff:g></string>
+    <string name="kt_profile_invalid">İzin verilen seçeneklerin dışındaki değerler yok sayıldı: <xliff:g id="keys">%1$s</xliff:g></string>
+    <string name="kt_profile_unavailable">Bu konsolda kullanılamayan ayarlar yok sayıldı: <xliff:g id="titles">%1$s</xliff:g></string>
+    <string name="kt_profile_paused">Ayarlar kapalı. Bu seçimler kaydedilecek; denemek istediğinizde Ayarları kullan seçeneğini açın.</string>
+    <string name="kt_profile_keep">Bu profilde eksik olan seçimler olduğu gibi kalır. Riskli ayarlar, onları tek tek değiştirirkenki risklerin aynısını taşır.</string>
+    <string name="kt_profile_apply">Profili uygula</string>
+
     <!-- Risk dots: legend at the top of the list, and each tweak's level -->
     <string name="kt_legend">Noktaların anlamı</string>
     <string name="kt_level_safe">Güvenli: her konsolda rahatça deneyebilirsiniz</string>

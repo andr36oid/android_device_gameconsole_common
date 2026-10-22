@@ -156,6 +156,30 @@
     <string name="kt_readahead_why">先読みを多くすると、特に遅いカードからの大きなROMやISOの読み込みが速くなります。多すぎるとメモリを無駄にし、ファイル内を飛び回るゲームを遅くすることがあります。カードを交換すると、次の起動時にこの設定が再び適用されます。</string>
     <string name="kt_reset">すべてリセット</string>
     <string name="kt_reset_confirm">すべてのカーネル調整を標準の値に戻しますか？</string>
+    <string name="kt_profile_export">プロファイルを書き出し</string>
+    <string name="kt_profile_export_summary">設定を BOOT、EASYROMS、または内部ストレージの Download に保存して、PC で共有します</string>
+    <string name="kt_profile_import">プロファイルを読み込む</string>
+    <string name="kt_profile_import_summary">BOOT、EASYROMS、または内部ストレージの Download にある andr36oid-ktprofiles フォルダーからファイルを選ぶか、システムに付属する推奨プロファイルを選びます</string>
+    <string name="kt_profile_readme">andr36oid カーネル調整のプロファイル: 保存された設定と機種の識別情報だけを含み、個人データは含みません。設定 &gt; システム &gt; カーネル調整から読み込みます。</string>
+    <string name="kt_profile_saved">プロファイルを <xliff:g id="path">%1$s</xliff:g> に保存しました</string>
+    <string name="kt_profile_error">プロファイルを読み込めないか保存できませんでした。カードまたは内部ストレージが利用可能か確認し、少し待ってからもう一度試してください。</string>
+    <string name="kt_profile_none">プロファイルが見つかりません。BOOT、EASYROMS、または内部ストレージの Download にある andr36oid-ktprofiles フォルダーに .txt のプロファイルファイルを入れてください。</string>
+    <string name="kt_profile_skipped">読み取れない、無効、大きすぎる、または100ファイルの上限を超えたため、<xliff:g id="count">%1$d</xliff:g> 件のファイルをスキップしました。</string>
+    <string name="kt_profile_recommended">この機種におすすめ: <xliff:g id="name">%1$s</xliff:g></string>
+    <string name="kt_profile_mismatch">このプロファイルは別の機種またはシステムバージョン用に作られたか、識別情報が不完全です。適用する前に次の違いを確認してください（この機種 → プロファイル）:</string>
+    <string name="kt_profile_model">機種モデル</string>
+    <string name="kt_profile_compatible">デバイスツリー対応</string>
+    <string name="kt_profile_boot">BOOT プロファイル</string>
+    <string name="kt_profile_version">andr36oid バージョン</string>
+    <string name="kt_profile_panel">パネル</string>
+    <string name="kt_profile_change"><xliff:g id="title">%1$s</xliff:g>: <xliff:g id="current">%2$s</xliff:g> → <xliff:g id="new">%3$s</xliff:g></string>
+    <string name="kt_profile_no_changes">保存された設定に変更はありません。</string>
+    <string name="kt_profile_unknown">不明なキーを無視しました: <xliff:g id="keys">%1$s</xliff:g></string>
+    <string name="kt_profile_invalid">許可されていない値を無視しました: <xliff:g id="keys">%1$s</xliff:g></string>
+    <string name="kt_profile_unavailable">この機種で利用できない調整を無視しました: <xliff:g id="titles">%1$s</xliff:g></string>
+    <string name="kt_profile_paused">Tweaksはオフになっています。これらの設定は保存されます。試すときは「Tweaksを使う」をオンにしてください。</string>
+    <string name="kt_profile_keep">このプロファイルにない設定は、そのまま残ります。危険な調整には、1つずつ変更する場合と同じリスクがあります。</string>
+    <string name="kt_profile_apply">プロファイルを適用</string>
     <string name="kt_reset_summary">この機種の標準値に戻します</string>
     <string name="kt_restart">再起動</string>
     <string name="kt_restart_later">あとで</string>

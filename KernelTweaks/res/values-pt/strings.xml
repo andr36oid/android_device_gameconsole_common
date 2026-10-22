@@ -20,6 +20,32 @@
     <string name="kt_reset_summary">Voltar às predefinições desta consola</string>
     <string name="kt_reset_confirm">Repor cada ajuste do kernel para a predefinição?</string>
 
+    <!-- Shared profiles -->
+    <string name="kt_profile_export">Exportar perfil</string>
+    <string name="kt_profile_export_summary">Guardar as suas escolhas em BOOT, EASYROMS ou na pasta Download interna para as partilhar a partir de um PC</string>
+    <string name="kt_profile_import">Importar perfil</string>
+    <string name="kt_profile_import_summary">Escolha um ficheiro da pasta andr36oid-ktprofiles em BOOT, EASYROMS ou na pasta Download interna, ou uma recomendação incluída no sistema</string>
+    <string name="kt_profile_readme">Perfil de ajustes do kernel da andr36oid: apenas escolhas guardadas e identidade da consola, sem dados pessoais. Importe através de Definições &gt; Sistema &gt; Ajustes do kernel.</string>
+    <string name="kt_profile_saved">Perfil guardado em <xliff:g id="path">%1$s</xliff:g></string>
+    <string name="kt_profile_error">Não foi possível ler ou guardar os perfis. Verifique se o cartão ou o armazenamento interno está disponível, aguarde um momento e tente novamente.</string>
+    <string name="kt_profile_none">Nenhum perfil encontrado. Coloque ficheiros de perfil .txt na pasta andr36oid-ktprofiles em BOOT, EASYROMS ou na pasta Download interna.</string>
+    <string name="kt_profile_skipped">Foram ignorados <xliff:g id="count">%1$d</xliff:g> ficheiros ilegíveis, inválidos, demasiado grandes ou acima do limite de 100 ficheiros.</string>
+    <string name="kt_profile_recommended">Recomendado para esta consola: <xliff:g id="name">%1$s</xliff:g></string>
+    <string name="kt_profile_mismatch">Este perfil foi criado para outra consola ou versão do sistema, ou a sua identidade está incompleta. Verifique estas diferenças antes de o aplicar (esta consola → perfil):</string>
+    <string name="kt_profile_model">Modelo da consola</string>
+    <string name="kt_profile_compatible">Compatível com a árvore do dispositivo</string>
+    <string name="kt_profile_boot">Perfil BOOT</string>
+    <string name="kt_profile_version">Versão da andr36oid</string>
+    <string name="kt_profile_panel">Painel</string>
+    <string name="kt_profile_change"><xliff:g id="title">%1$s</xliff:g>: <xliff:g id="current">%2$s</xliff:g> → <xliff:g id="new">%3$s</xliff:g></string>
+    <string name="kt_profile_no_changes">Nenhuma escolha guardada seria alterada.</string>
+    <string name="kt_profile_unknown">Chaves desconhecidas ignoradas: <xliff:g id="keys">%1$s</xliff:g></string>
+    <string name="kt_profile_invalid">Valores fora das escolhas permitidas ignorados: <xliff:g id="keys">%1$s</xliff:g></string>
+    <string name="kt_profile_unavailable">Ajustes indisponíveis nesta consola ignorados: <xliff:g id="titles">%1$s</xliff:g></string>
+    <string name="kt_profile_paused">Os ajustes estão desativados. Estas escolhas serão guardadas; ative Utilizar ajustes quando quiser experimentá-las.</string>
+    <string name="kt_profile_keep">As escolhas em falta neste perfil ficam como estão. Os ajustes arriscados têm os mesmos riscos que alterá-los um a um.</string>
+    <string name="kt_profile_apply">Aplicar perfil</string>
+
     <!-- Risk dots: legend at the top of the list, and each tweak's level -->
     <string name="kt_legend">O que significam os pontos</string>
     <string name="kt_level_safe">Seguro: pode experimentar em qualquer consola</string>

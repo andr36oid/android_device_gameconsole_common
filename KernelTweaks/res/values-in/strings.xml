@@ -19,6 +19,32 @@
     <string name="kt_reset_summary">Kembali ke nilai default untuk konsol ini</string>
     <string name="kt_reset_confirm">Kembalikan setiap kernel tweak ke nilai defaultnya?</string>
 
+    <!-- Shared profiles -->
+    <string name="kt_profile_export">Ekspor profil</string>
+    <string name="kt_profile_export_summary">Simpan pilihan Anda ke BOOT, EASYROMS, atau Download internal untuk dibagikan dari PC</string>
+    <string name="kt_profile_import">Impor profil</string>
+    <string name="kt_profile_import_summary">Pilih file dari folder andr36oid-ktprofiles di BOOT, EASYROMS, atau Download internal, atau rekomendasi yang disertakan dalam sistem</string>
+    <string name="kt_profile_readme">Profil Kernel Tweaks andr36oid: hanya pilihan tersimpan dan identitas konsol, tanpa data pribadi. Impor melalui Setelan &gt; Sistem &gt; Kernel Tweaks.</string>
+    <string name="kt_profile_saved">Profil disimpan ke <xliff:g id="path">%1$s</xliff:g></string>
+    <string name="kt_profile_error">Tidak dapat membaca atau menyimpan profil. Pastikan kartu atau penyimpanan internal tersedia, tunggu sebentar, lalu coba lagi.</string>
+    <string name="kt_profile_none">Profil tidak ditemukan. Letakkan file profil .txt di folder andr36oid-ktprofiles pada BOOT, EASYROMS, atau Download internal.</string>
+    <string name="kt_profile_skipped">Melewati <xliff:g id="count">%1$d</xliff:g> file yang tidak dapat dibaca, tidak valid, terlalu besar, atau melebihi batas 100 file.</string>
+    <string name="kt_profile_recommended">Direkomendasikan untuk konsol ini: <xliff:g id="name">%1$s</xliff:g></string>
+    <string name="kt_profile_mismatch">Profil ini dibuat untuk konsol atau versi sistem lain, atau identitasnya tidak lengkap. Periksa perbedaan ini sebelum menerapkan (konsol ini → profil):</string>
+    <string name="kt_profile_model">Model konsol</string>
+    <string name="kt_profile_compatible">Kompatibel dengan device tree</string>
+    <string name="kt_profile_boot">Profil BOOT</string>
+    <string name="kt_profile_version">Versi andr36oid</string>
+    <string name="kt_profile_panel">Panel</string>
+    <string name="kt_profile_change"><xliff:g id="title">%1$s</xliff:g>: <xliff:g id="current">%2$s</xliff:g> → <xliff:g id="new">%3$s</xliff:g></string>
+    <string name="kt_profile_no_changes">Tidak ada pilihan tersimpan yang akan berubah.</string>
+    <string name="kt_profile_unknown">Kunci tidak dikenal diabaikan: <xliff:g id="keys">%1$s</xliff:g></string>
+    <string name="kt_profile_invalid">Nilai di luar pilihan yang diizinkan diabaikan: <xliff:g id="keys">%1$s</xliff:g></string>
+    <string name="kt_profile_unavailable">Tweak yang tidak tersedia di konsol ini diabaikan: <xliff:g id="titles">%1$s</xliff:g></string>
+    <string name="kt_profile_paused">Tweak dinonaktifkan. Pilihan ini akan disimpan; aktifkan Gunakan tweak saat Anda ingin mencobanya.</string>
+    <string name="kt_profile_keep">Pilihan yang tidak ada di profil ini tetap seperti semula. Tweak berisiko memiliki risiko yang sama seperti saat mengubahnya satu per satu.</string>
+    <string name="kt_profile_apply">Terapkan profil</string>
+
     <!-- Risk dots: legend at the top of the list, and each tweak's level -->
     <string name="kt_legend">Arti titik warna</string>
     <string name="kt_level_safe">Aman: boleh dicoba di konsol mana pun</string>

@@ -21,6 +21,32 @@
     <string name="kt_reset_summary">Вернуть значения по умолчанию для этой консоли</string>
     <string name="kt_reset_confirm">Вернуть все настройки ядра к значениям по умолчанию?</string>
 
+    <!-- Shared profiles -->
+    <string name="kt_profile_export">Экспортировать профиль</string>
+    <string name="kt_profile_export_summary">Сохранить выбранные настройки на BOOT, EASYROMS или во внутреннюю папку Download, чтобы поделиться ими с ПК</string>
+    <string name="kt_profile_import">Импортировать профиль</string>
+    <string name="kt_profile_import_summary">Выберите файл из папки andr36oid-ktprofiles на BOOT, EASYROMS или во внутренней папке Download либо рекомендацию из системы</string>
+    <string name="kt_profile_readme">Профиль настроек ядра andr36oid: только сохранённые настройки и идентификатор консоли, без личных данных. Импортируйте через Настройки &gt; Система &gt; Настройки ядра.</string>
+    <string name="kt_profile_saved">Профиль сохранён в <xliff:g id="path">%1$s</xliff:g></string>
+    <string name="kt_profile_error">Не удалось прочитать или сохранить профили. Проверьте, доступна ли карта или внутренняя память, подождите немного и попробуйте снова.</string>
+    <string name="kt_profile_none">Профили не найдены. Поместите файлы профилей .txt в папку andr36oid-ktprofiles на BOOT, EASYROMS или во внутреннюю папку Download.</string>
+    <string name="kt_profile_skipped">Пропущено <xliff:g id="count">%1$d</xliff:g> файлов: нечитаемые, недействительные, слишком большие или превышающие лимит в 100 файлов.</string>
+    <string name="kt_profile_recommended">Рекомендуется для этой консоли: <xliff:g id="name">%1$s</xliff:g></string>
+    <string name="kt_profile_mismatch">Этот профиль создан для другой консоли или версии системы либо его идентификатор неполон. Проверьте эти различия перед применением (эта консоль → профиль):</string>
+    <string name="kt_profile_model">Модель консоли</string>
+    <string name="kt_profile_compatible">Совместимость с деревом устройства</string>
+    <string name="kt_profile_boot">Профиль BOOT</string>
+    <string name="kt_profile_version">Версия andr36oid</string>
+    <string name="kt_profile_panel">Панель</string>
+    <string name="kt_profile_change"><xliff:g id="title">%1$s</xliff:g>: <xliff:g id="current">%2$s</xliff:g> → <xliff:g id="new">%3$s</xliff:g></string>
+    <string name="kt_profile_no_changes">Сохранённые настройки не изменятся.</string>
+    <string name="kt_profile_unknown">Неизвестные ключи проигнорированы: <xliff:g id="keys">%1$s</xliff:g></string>
+    <string name="kt_profile_invalid">Значения вне допустимых вариантов проигнорированы: <xliff:g id="keys">%1$s</xliff:g></string>
+    <string name="kt_profile_unavailable">Недоступные на этой консоли настройки проигнорированы: <xliff:g id="titles">%1$s</xliff:g></string>
+    <string name="kt_profile_paused">Настройки выключены. Эти варианты будут сохранены; включите «Применять настройки», когда захотите их попробовать.</string>
+    <string name="kt_profile_keep">Отсутствующие в профиле варианты останутся без изменений. Рискованные настройки несут те же риски, что и изменение по одной.</string>
+    <string name="kt_profile_apply">Применить профиль</string>
+
     <!-- Risk dots: legend at the top of the list, and each tweak's level -->
     <string name="kt_legend">Что значат точки</string>
     <string name="kt_level_safe">Безопасно: можно пробовать на любой консоли</string>
