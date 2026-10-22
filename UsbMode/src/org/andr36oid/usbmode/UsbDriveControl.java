@@ -3,6 +3,7 @@ package org.andr36oid.usbmode;
 import android.content.Context;
 import android.os.Process;
 import android.os.SystemProperties;
+import android.os.storage.DiskInfo;
 import android.os.storage.StorageManager;
 import android.os.storage.VolumeInfo;
 
@@ -32,18 +33,30 @@ final class UsbDriveControl {
         SystemProperties.set(PREFIX + "request", "start");
     }
 
+    /**
+     * The whole block device behind a disk, e.g. mmcblk1. sysPath is only there once vold
+     * has sent the disk's metadata, so fall back to the major,minor in its id (disk:179,64).
+     */
+    private static String diskName(DiskInfo disk) {
+        String path = disk.sysPath;
+        if (path == null && disk.id != null && disk.id.startsWith("disk:")) {
+            path = "/sys/dev/block/" + disk.id.substring(5).replace(',', ':');
+        }
+        if (path == null) return null;
+        try {
+            return new File(path).getCanonicalFile().getName();
+        } catch (java.io.IOException e) {
+            return null;
+        }
+    }
+
     static List<UsbDrive.Offer> scan(Context context) {
         final List<UsbDrive.Volume> volumes = new ArrayList<>();
         final StorageManager sm = context.getSystemService(StorageManager.class);
         if (sm != null) for (VolumeInfo v : sm.getVolumes()) {
             if (v.getDisk() == null) continue;
-            String disk = "";
-            try {
-                disk = new File(v.getDisk().sysPath).getCanonicalFile().getName();
-                // DiskInfo.sysPath names the whole block device in sysfs.
-            } catch (java.io.IOException e) {
-                continue;
-            }
+            final String disk = diskName(v.getDisk());
+            if (disk == null) continue;
             volumes.add(new UsbDrive.Volume(v.getId(), disk, v.fsLabel, v.fsType,
                     v.getType() == VolumeInfo.TYPE_PRIVATE));
         }
