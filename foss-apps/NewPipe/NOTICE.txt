@@ -1,9 +1,8 @@
-AR36Pipe 0.29.1-andr36oid (org.andr36oid.ar36pipe, versionCode 1015) - GPL-3.0-or-later
+NewPipe 0.29.1 (org.schabi.newpipe, versionCode 1015) - GPL-3.0-or-later
 
-NewPipe by Team NewPipe, built by andr36oid from its fork of NewPipe 0.29.1 (sha256 1e04de2c1911467a355c29a2e85997e68f8d45bb965c88bff946cb35e3fd86b8).
-Changed for andr36oid: named AR36Pipe with its own package name and a logo with a little handheld (based on NewPipe's logo), black theme by default, the system accent colour, button hints on every screen, the handheld buttons and the D-pad everywhere including the player, layouts for 640x480 landscape, the app updater removed, a faster start; signed with the ROM's key.
-Source: https://github.com/andr36oid/NewPipe/tree/d1a937b5348bd759326ffccbb67fda7b0e1815d2
-Original: https://github.com/TeamNewPipe/NewPipe/tree/v0.29.1
+Shipped unmodified as published by Team NewPipe's F-Droid repo (sha256 18447bfb1e06d113edc88df93f471827280de06f6f3d4dc42f56f28b9c1bab79).
+Download: https://archive.newpipe.net/fdroid/repo/NewPipe_v0.29.1.apk
+Source: https://github.com/TeamNewPipe/NewPipe/tree/v0.29.1
 
 ================================================================================
                     GNU GENERAL PUBLIC LICENSE
