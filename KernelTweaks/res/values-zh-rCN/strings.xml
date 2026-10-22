@@ -185,6 +185,13 @@
     <string name="kt_stick_swap_off">正常</string>
     <string name="kt_stick_swap_on">已交换</string>
     <string name="kt_stick_swap_what">左摇杆当作右摇杆用，右摇杆当作左摇杆用，按下摇杆（L3/R3）也一样。</string>
+    <string name="kt_stick_off">关闭摇杆</string>
+    <string name="kt_stick_off_none">两个都开启</string>
+    <string name="kt_stick_off_left">关闭左摇杆</string>
+    <string name="kt_stick_off_right">关闭右摇杆</string>
+    <string name="kt_stick_off_both">两个都关闭</string>
+    <string name="kt_stick_off_what">关闭的摇杆始终读取为居中，因此不会移动任何东西。</string>
+    <string name="kt_stick_off_why">适用于只有一个摇杆的掌机，缺失的那个会造成幽灵移动。左和右指的是掌机上的摇杆，即使上面已交换也是如此。</string>
     <string name="kt_stick_swap_why">适用于摇杆装反的仿制机，或者您更想用另一个摇杆操作。上面翻转过的方向仍跟随您翻转它的那个摇杆。</string>
 
     <string name="kt_poll_interval">按键检测频率</string>

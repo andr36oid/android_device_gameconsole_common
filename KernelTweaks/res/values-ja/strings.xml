@@ -196,6 +196,13 @@
     <string name="kt_stick_swap_off">通常</string>
     <string name="kt_stick_swap_on">入れ替え済み</string>
     <string name="kt_stick_swap_what">左スティックが右スティックの役割を、右スティックが左スティックの役割を担います。押し込み（L3/R3）も入れ替わります。</string>
+    <string name="kt_stick_off">スティックをオフにする</string>
+    <string name="kt_stick_off_none">両方オン</string>
+    <string name="kt_stick_off_left">左スティックをオフ</string>
+    <string name="kt_stick_off_right">右スティックをオフ</string>
+    <string name="kt_stick_off_both">両方オフ</string>
+    <string name="kt_stick_off_what">オフのスティックは常に中央として読み取られるため、何も動かしません。</string>
+    <string name="kt_stick_off_why">スティックが1本だけの機種向けです。欠けている側のスティックが、勝手に動いたような誤入力（ゴースト入力）を起こすためです。左と右は、上で入れ替えていても本体に付いているスティックを指します。</string>
     <string name="kt_stick_swap_why">スティックが逆に配線されたクローン向けです。または、もう一方のスティックで操作したい場合に使います。上で反転させた向きは、反転させたスティックに紐づいたままになります。</string>
     <string name="kt_storage">ストレージの層</string>
     <string name="kt_storage_fuse">FUSE</string>

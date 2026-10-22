@@ -186,6 +186,13 @@
     <string name="kt_stick_swap_off">Normal</string>
     <string name="kt_stick_swap_on">Trocados</string>
     <string name="kt_stick_swap_what">O analógico esquerdo funciona como o direito e o direito como o esquerdo, também ao carregar neles (L3/R3).</string>
+    <string name="kt_stick_off">Desligar analógicos</string>
+    <string name="kt_stick_off_none">Ambos ligados</string>
+    <string name="kt_stick_off_left">Analógico esquerdo desligado</string>
+    <string name="kt_stick_off_right">Analógico direito desligado</string>
+    <string name="kt_stick_off_both">Ambos desligados</string>
+    <string name="kt_stick_off_what">Um analógico desligado é sempre lido como centrado, por isso nunca move nada.</string>
+    <string name="kt_stick_off_why">Para consolas com um só analógico, onde o que falta provoca movimentos fantasma. Esquerdo e direito são os analógicos da consola, também quando estiverem trocados acima.</string>
     <string name="kt_stick_swap_why">Para clones com os analógicos trocados, ou se preferir usar o outro analógico. As direções que inverteu acima ficam com o analógico em que as inverteu.</string>
 
     <string name="kt_poll_interval">Taxa de verificação dos botões</string>

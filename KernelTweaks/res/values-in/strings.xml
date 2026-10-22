@@ -185,6 +185,13 @@
     <string name="kt_stick_swap_off">Normal</string>
     <string name="kt_stick_swap_on">Ditukar</string>
     <string name="kt_stick_swap_what">Stik kiri bekerja sebagai stik kanan, dan stik kanan sebagai stik kiri, termasuk saat ditekan (L3/R3).</string>
+    <string name="kt_stick_off">Matikan stik</string>
+    <string name="kt_stick_off_none">Keduanya aktif</string>
+    <string name="kt_stick_off_left">Stik kiri mati</string>
+    <string name="kt_stick_off_right">Stik kanan mati</string>
+    <string name="kt_stick_off_both">Keduanya mati</string>
+    <string name="kt_stick_off_what">Stik yang mati selalu terbaca di tengah, jadi tidak pernah menggerakkan apa pun.</string>
+    <string name="kt_stick_off_why">Untuk konsol yang hanya punya satu stik, tempat stik yang hilang menimbulkan gerakan hantu. Kiri dan kanan berarti stik pada konsol, juga saat keduanya ditukar di atas.</string>
     <string name="kt_stick_swap_why">Untuk klon yang stiknya terbalik, atau kalau Anda lebih suka mengarahkan dengan stik yang lain. Arah yang Anda balik di atas tetap ikut stik tempat Anda membaliknya.</string>
 
     <string name="kt_poll_interval">Laju pengecekan tombol</string>

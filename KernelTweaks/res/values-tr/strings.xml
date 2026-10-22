@@ -186,6 +186,13 @@
     <string name="kt_stick_swap_off">Normal</string>
     <string name="kt_stick_swap_on">Değiştirildi</string>
     <string name="kt_stick_swap_what">Sol analog sağ analog gibi, sağ analog da sol analog gibi çalışır; analoglara basmak da (L3/R3).</string>
+    <string name="kt_stick_off">Analogları kapat</string>
+    <string name="kt_stick_off_none">İkisi de açık</string>
+    <string name="kt_stick_off_left">Sol analog kapalı</string>
+    <string name="kt_stick_off_right">Sağ analog kapalı</string>
+    <string name="kt_stick_off_both">İkisi de kapalı</string>
+    <string name="kt_stick_off_what">Kapalı bir analog her zaman ortada okunur, bu yüzden hiçbir şeyi hareket ettirmez.</string>
+    <string name="kt_stick_off_why">Yalnızca bir analogu olan konsollar için; eksik analog hayalet hareketlere yol açar. Sol ve sağ, konsoldaki analoglardır; yukarıda değiştirilmiş olsalar bile.</string>
     <string name="kt_stick_swap_why">Analogları ters takılmış klonlar için ya da diğer analogla oynamayı tercih ediyorsanız. Yukarıda çevirdiğiniz yönler, çevirdiğiniz analogda kalır.</string>
 
     <string name="kt_poll_interval">Tuş kontrol hızı</string>

@@ -186,6 +186,13 @@
     <string name="kt_stick_swap_off">Normal</string>
     <string name="kt_stick_swap_on">Inversés</string>
     <string name="kt_stick_swap_what">Le stick gauche agit comme le droit et le droit comme le gauche, y compris quand on les enfonce (L3/R3).</string>
+    <string name="kt_stick_off">Désactiver les sticks</string>
+    <string name="kt_stick_off_none">Les deux actifs</string>
+    <string name="kt_stick_off_left">Stick gauche désactivé</string>
+    <string name="kt_stick_off_right">Stick droit désactivé</string>
+    <string name="kt_stick_off_both">Les deux désactivés</string>
+    <string name="kt_stick_off_what">Un stick désactivé est toujours lu comme centré, donc il ne déplace jamais rien.</string>
+    <string name="kt_stick_off_why">Pour les consoles qui n\'ont qu\'un seul stick, où le stick manquant provoque des mouvements fantômes. Gauche et droite désignent les sticks de la console, même si vous les avez inversés plus haut.</string>
     <string name="kt_stick_swap_why">Pour les clones aux sticks inversés, ou si vous préférez diriger avec l\'autre stick. Les directions inversées plus haut restent sur le stick où vous les avez inversées.</string>
 
     <string name="kt_poll_interval">Fréquence de lecture des boutons</string>

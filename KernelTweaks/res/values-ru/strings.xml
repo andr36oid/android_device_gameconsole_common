@@ -169,6 +169,13 @@
     <string name="kt_stick_swap_off">Обычно</string>
     <string name="kt_stick_swap_on">Поменяны</string>
     <string name="kt_stick_swap_what">Левый стик работает как правый, а правый — как левый, вместе с их нажатием (L3/R3).</string>
+    <string name="kt_stick_off">Отключить стики</string>
+    <string name="kt_stick_off_none">Оба включены</string>
+    <string name="kt_stick_off_left">Левый стик отключён</string>
+    <string name="kt_stick_off_right">Правый стик отключён</string>
+    <string name="kt_stick_off_both">Оба отключены</string>
+    <string name="kt_stick_off_what">Отключённый стик всегда считается в центре, поэтому ничего не двигает.</string>
+    <string name="kt_stick_off_why">Для консолей с одним стиком, где отсутствующий даёт ложные движения. Левый и правый — это стики на самой консоли, даже если выше вы их поменяли местами.</string>
     <string name="kt_stick_swap_why">Для клонов, у которых стики перепутаны, или если вам удобнее управлять другим стиком. Направления, перевёрнутые выше, остаются у того стика, на котором вы их перевернули.</string>
     <string name="kt_poll_interval">Частота опроса кнопок</string>
     <string name="kt_poll_interval_what">Как часто считываются стики и перепроверяются кнопки.</string>

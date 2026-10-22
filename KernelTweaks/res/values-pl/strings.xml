@@ -188,6 +188,13 @@
     <string name="kt_stick_swap_off">Normalnie</string>
     <string name="kt_stick_swap_on">Zamienione</string>
     <string name="kt_stick_swap_what">Lewa gałka działa jak prawa, a prawa jak lewa, także przy wciśnięciu (L3/R3).</string>
+    <string name="kt_stick_off">Wyłącz gałki</string>
+    <string name="kt_stick_off_none">Obie włączone</string>
+    <string name="kt_stick_off_left">Lewa gałka wyłączona</string>
+    <string name="kt_stick_off_right">Prawa gałka wyłączona</string>
+    <string name="kt_stick_off_both">Obie wyłączone</string>
+    <string name="kt_stick_off_what">Wyłączona gałka zawsze odczytuje pozycję środkową, więc nic nie rusza.</string>
+    <string name="kt_stick_off_why">Dla konsol z jedną gałką, gdzie brakująca powoduje duchowe ruchy. Lewa i prawa to gałki na konsoli, także gdy są zamienione wyżej.</string>
     <string name="kt_stick_swap_why">Dla klonów z zamienionymi gałkami albo jeśli wolisz sterować drugą gałką. Kierunki odwrócone wyżej zostają przy gałce, na której zostały odwrócone.</string>
 
     <string name="kt_poll_interval">Częstość sprawdzania przycisków</string>
