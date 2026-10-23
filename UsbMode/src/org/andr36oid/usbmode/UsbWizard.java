@@ -7,7 +7,8 @@ import java.util.List;
 final class UsbWizard {
     static final int ROLE = 0, FUNCTIONS = 1, CONTROLLER = 2, STORAGE = 3,
             KEYBOARD = 4, MOUSE = 5, REVIEW = 6;
-    static final String[] ROLES = {"pc", "game", "drive", "custom", "wired", "music", "awake", "macro", "link"};
+    // "custom" stays last so the use-case presets lead and the power-user path sits apart at the bottom.
+    static final String[] ROLES = {"pc", "game", "drive", "wired", "music", "awake", "macro", "link", "custom"};
 
     static int preset(String role, boolean debugging) {
         int mask = "pc".equals(role) ? UsbFunctions.STORAGE | UsbFunctions.KEYBOARD | UsbFunctions.MOUSE
@@ -22,7 +23,7 @@ final class UsbWizard {
         final List<Integer> steps = new ArrayList<>();
         steps.add(ROLE);
         if ("custom".equals(role)) steps.add(FUNCTIONS);
-        if ("custom".equals(role) || "game".equals(role) || (mask & UsbFunctions.CONTROLLERS) != 0) steps.add(CONTROLLER);
+        if ("game".equals(role) || (mask & UsbFunctions.CONTROLLERS) != 0) steps.add(CONTROLLER);
         if ((mask & UsbFunctions.STORAGE) != 0) steps.add(STORAGE);
         if ((mask & UsbFunctions.KEYBOARD) != 0) steps.add(KEYBOARD);
         if ((mask & UsbFunctions.MOUSE) != 0) steps.add(MOUSE);
