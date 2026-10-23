@@ -26,10 +26,11 @@ SRC=$HERE/src/org/andr36oid/usbmode
 mkdir -p "$T/classes"
 "$JDK/javac" -encoding UTF-8 -d "$T/classes" "$SRC/UsbTable.java" "$SRC/UsbScan.java" \
 	"$SRC/UsbCheck.java" "$SRC/UsbDrive.java" "$HERE/tests/UsbCheckTest.java" \
-	"$HERE/tests/UsbDriveTest.java"
+	"$HERE/tests/UsbDriveTest.java" "$HERE/tests/UsbDriveImagesTest.java"
 "$JDK/java" -cp "$T/classes" org.andr36oid.usbmode.UsbCheckTest "$T/root" "$TABLE" "$WIFI"
 
 "$JDK/java" -cp "$T/classes" org.andr36oid.usbmode.UsbDriveTest "$T/root"
+"$JDK/java" -cp "$T/classes" org.andr36oid.usbmode.UsbDriveImagesTest "$T/root"
 
 for sh in ${SHELLS:-sh bash mksh}; do
 	command -v "$sh" >/dev/null || continue

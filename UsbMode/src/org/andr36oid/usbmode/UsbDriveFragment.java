@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.SystemClock;
 import android.preference.Preference;
+import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
 import android.preference.SwitchPreference;
@@ -29,6 +30,7 @@ public class UsbDriveFragment extends PreferenceFragment {
     private UsbDrive.Offer mSelected;
     private AlertDialog mDialog;
     private boolean mRo, mResumed;
+    private long mNextScan;
     private String mShown = "", mName = "", mSelectedKey = "", mFocusKey = "";
 
     private final Runnable mPoll = new Runnable() {
@@ -104,8 +106,17 @@ public class UsbDriveFragment extends PreferenceFragment {
         final String state = UsbDriveControl.state();
         final boolean busy = UsbDriveControl.busy();
         final List<UsbDrive.Offer> offers = UsbDriveControl.scan(getActivity());
+        if (!busy && SystemClock.elapsedRealtime() >= mNextScan) {
+            UsbDriveControl.scanImages();
+            mNextScan = SystemClock.elapsedRealtime() + 5000;
+        }
+        final UsbDrive.Images images = UsbDriveControl.images();
+        offers.addAll(images.offers);
         final String target = android.os.SystemProperties.get("sys.andr36oid.usbdrive.target");
+        final boolean sharingImage = "file".equals(target);
+        final String imageName = android.os.SystemProperties.get("sys.andr36oid.usbdrive.image");
         final StringBuilder signature = new StringBuilder(state).append(busy).append(target);
+        signature.append(images.mounted).append(imageName);
         for (UsbDrive.Offer o : offers) signature.append(o.identity()).append(o.reason)
                 .append(o.label).append(o.type).append(o.bytes).append(o.forcedRo);
         if (signature.toString().equals(mShown)) return;
@@ -116,6 +127,7 @@ public class UsbDriveFragment extends PreferenceFragment {
         mReadOnly = null;
         mSelected = null;
         if (busy) {
+            if (sharingImage) mName = imageName;
             for (UsbDrive.Offer o : offers) if (o.node.equals(target)) mName = name(o);
             final Preference summary = row("status", R.string.usb_drive_title);
             summary.setSummary("sharing".equals(state) ? getString(R.string.usb_drive_sharing, mName)
@@ -132,7 +144,7 @@ public class UsbDriveFragment extends PreferenceFragment {
                 root.addPreference(error);
             }
             for (UsbDrive.Offer o : offers) {
-                root.addPreference(new DrivePreference(o));
+                if (o.kind != UsbDrive.Kind.IMAGE) root.addPreference(new DrivePreference(o));
                 if (o.identity().equals(mSelectedKey) || (mSelected == null && o.enabled())) {
                     mSelected = o;
                 }
@@ -168,10 +180,27 @@ public class UsbDriveFragment extends PreferenceFragment {
                 mReadOnly.setChecked(mRo);
                 mReadOnly.setSummary(readOnlyReason());
             }
+            final PreferenceCategory section = new PreferenceCategory(getActivity());
+            section.setTitle(R.string.usb_drive_image_title);
+            root.addPreference(section);
+            final Preference hint = row("images", R.string.usb_drive_image_title);
+            hint.setTitle(null);
+            String imageHint = getString(R.string.usb_drive_image_hint);
+            if (!images.mounted) imageHint = getString(R.string.usb_drive_image_unavailable);
+            else if (images.offers.isEmpty()) imageHint = getString(R.string.usb_drive_image_empty);
+            hint.setSummary(imageHint);
+            final String imageDetails = imageHint + "\n\n" + getString(R.string.usb_drive_image_names);
+            hint.setOnPreferenceClickListener(p -> {
+                details(getString(R.string.usb_drive_image_title), imageDetails);
+                return true;
+            });
+            section.addPreference(hint);
+            for (UsbDrive.Offer o : images.offers) section.addPreference(new DrivePreference(o));
         }
         final Preference footer = row("about", R.string.usb_drive_title);
         footer.setTitle(null);
-        footer.setSummary(getString(R.string.usb_drive_intro) + "\n\n" + getString(R.string.usb_drive_cable));
+        footer.setSummary(getString(busy && sharingImage ? R.string.usb_drive_image_hint
+                : R.string.usb_drive_intro) + "\n\n" + getString(R.string.usb_drive_cable));
         root.addPreference(footer);
         final String fallback = busy ? "stop"
                 : mSelected == null ? "about" : "drive:" + mSelected.identity();
@@ -226,8 +255,10 @@ public class UsbDriveFragment extends PreferenceFragment {
 
     private String readOnlyReason() {
         if (mSelected == null) return getString(R.string.usb_drive_empty);
-        if (mSelected.forcedRo) return getString(R.string.usb_drive_system_ro);
+        if (mSelected.forcedRo) return getString(mSelected.kind == UsbDrive.Kind.IMAGE
+                ? R.string.usb_drive_image_volume_ro : R.string.usb_drive_system_ro);
         if (!mSelected.enabled()) return explanation(mSelected);
+        if (mSelected.kind == UsbDrive.Kind.IMAGE) return getString(R.string.usb_drive_image_ro_hint);
         return getString(R.string.usb_drive_ro_hint);
     }
 
@@ -250,15 +281,17 @@ public class UsbDriveFragment extends PreferenceFragment {
             this.offer = offer;
             setKey("drive:" + offer.identity());
             setPersistent(false);
-            final String type = offer.kind == UsbDrive.Kind.EMMC ? getString(R.string.usb_drive_emmc)
+            final String type = offer.kind == UsbDrive.Kind.IMAGE ? ""
+                    : offer.kind == UsbDrive.Kind.EMMC ? getString(R.string.usb_drive_emmc)
                     : offer.type.isEmpty() ? getString(R.string.usb_drive_sd) : offer.type;
             setTitle(name(offer) + " · " + Formatter.formatFileSize(getActivity(), offer.bytes)
-                    + " · " + type);
+                    + (type.isEmpty() ? "" : " · " + type));
             setSummary(explanation(offer));
             // Unavailable drives stay in D-pad navigation so their reason can be read.
             setOnPreferenceClickListener(p -> {
                 select(offer);
-                if (offer.enabled()) ask(offer);
+                if (offer.kind == UsbDrive.Kind.IMAGE) chooseImageMode(offer);
+                else if (offer.enabled()) ask(offer, false);
                 else details(name(offer), explanation(offer));
                 return true;
             });
@@ -278,8 +311,28 @@ public class UsbDriveFragment extends PreferenceFragment {
         }
     }
 
-    private void ask(UsbDrive.Offer offer) {
+    private void chooseImageMode(UsbDrive.Offer offer) {
         if (mDialog != null || UsbDriveControl.busy()) return;
+        final int[] choice = {offer.defaultCdrom() ? 0 : 1};
+        mDialog = new AlertDialog.Builder(getActivity(), android.R.style.Theme_DeviceDefault_Dialog_Alert)
+                .setTitle(name(offer))
+                .setSingleChoiceItems(new CharSequence[] {getString(R.string.usb_drive_image_cd),
+                        getString(R.string.usb_drive_image_usb)}, choice[0],
+                        (d, which) -> choice[0] = which)
+                .setNegativeButton(android.R.string.cancel, null)
+                .setPositiveButton(android.R.string.ok,
+                        (d, which) -> mHandler.post(() -> ask(offer, choice[0] == 0)))
+                .create();
+        mDialog.setOnDismissListener(d -> mDialog = null);
+        mDialog.show();
+    }
+
+    private void ask(UsbDrive.Offer offer, boolean cdrom) {
+        if (mDialog != null || UsbDriveControl.busy()) return;
+        if (cdrom && !offer.cdromPossible()) {
+            details(name(offer), getString(R.string.usb_drive_image_cd_size));
+            return;
+        }
         if (!mUsbMode.isSupported()) {
             Toast.makeText(getActivity(), R.string.usb_mode_unsupported, Toast.LENGTH_LONG).show();
             return;
@@ -288,22 +341,28 @@ public class UsbDriveFragment extends PreferenceFragment {
             Toast.makeText(getActivity(), R.string.charging_refused, Toast.LENGTH_LONG).show();
             return;
         }
-        final boolean ro = mRo || offer.forcedRo;
+        final boolean ro = cdrom || mRo || offer.forcedRo;
         final boolean scary = offer.kind == UsbDrive.Kind.EMMC && !ro;
         final StringBuilder message = new StringBuilder();
+        if (offer.kind == UsbDrive.Kind.IMAGE) message.append(getString(cdrom
+                ? R.string.usb_drive_image_cd : R.string.usb_drive_image_usb)).append("\n\n");
         if (scary) message.append(getString(R.string.usb_drive_emmc_warning)).append("\n\n");
         final String wifi = mUsbMode.getWifiOnOtgPort();
         if (wifi != null) message.append(getString(R.string.warning_wifi_found, wifi)).append("\n\n");
         message.append(getString(R.string.warning_wifi)).append("\n\n")
-                .append(getString(R.string.charging_warning)).append("\n\n")
-                .append(getString(R.string.usb_drive_apps));
+                .append(getString(R.string.charging_warning)).append("\n\n");
+        if (offer.kind == UsbDrive.Kind.IMAGE) {
+            message.append(getString(R.string.usb_drive_image_in_use));
+            if (cdrom) message.append("\n\n").append(getString(R.string.usb_drive_image_cd_ro));
+            else if (!ro) message.append("\n\n").append(getString(R.string.usb_drive_image_writable));
+        } else message.append(getString(R.string.usb_drive_apps));
         final AlertDialog dialog = new AlertDialog.Builder(getActivity(),
                 android.R.style.Theme_DeviceDefault_Dialog_Alert)
                 .setTitle(scary ? R.string.usb_drive_emmc_title : R.string.usb_drive_confirm)
                 .setMessage(message)
                 .setNegativeButton(android.R.string.cancel, null)
                 .setPositiveButton(scary ? R.string.usb_drive_sure : R.string.usb_drive_share,
-                        (d, which) -> share(offer, ro))
+                        (d, which) -> share(offer, ro, cdrom))
                 .create();
         mDialog = dialog;
         dialog.setOnDismissListener(d -> mDialog = null);
@@ -334,14 +393,16 @@ public class UsbDriveFragment extends PreferenceFragment {
         dialog.show();
     }
 
-    private void share(UsbDrive.Offer offer, boolean ro) {
+    private void share(UsbDrive.Offer offer, boolean ro, boolean cdrom) {
         if (mUsbMode.chargingBlocksDevice()) {
             Toast.makeText(getActivity(), R.string.charging_refused, Toast.LENGTH_LONG).show();
             return;
         }
         // Recheck after the dialog: a removed card or changed layout is a new offer.
         UsbDrive.Offer fresh = null;
-        for (UsbDrive.Offer o : UsbDriveControl.scan(getActivity())) {
+        final List<UsbDrive.Offer> offers = UsbDriveControl.scan(getActivity());
+        offers.addAll(UsbDriveControl.images().offers);
+        for (UsbDrive.Offer o : offers) {
             if (o.enabled() && o.identity().equals(offer.identity())) fresh = o;
         }
         if (fresh == null || UsbDriveControl.state().isEmpty() || UsbDriveControl.busy()) {
@@ -350,11 +411,12 @@ public class UsbDriveFragment extends PreferenceFragment {
         }
         mUsbMode.setConfirmedThisBoot();
         mName = name(fresh);
-        UsbDriveControl.start(getActivity(), fresh, ro);
+        UsbDriveControl.start(getActivity(), fresh, ro, cdrom);
         refresh();
     }
 
     private String name(UsbDrive.Offer o) {
+        if (o.kind == UsbDrive.Kind.IMAGE) return o.label;
         if (o.kind == UsbDrive.Kind.EMMC) return getString(R.string.usb_drive_emmc);
         if (o.kind == UsbDrive.Kind.EASYROMS) return getString(R.string.usb_drive_easyroms, o.slot);
         return o.label.isEmpty() ? getString(R.string.usb_drive_slot, o.slot)
@@ -362,6 +424,8 @@ public class UsbDriveFragment extends PreferenceFragment {
     }
 
     private String explanation(UsbDrive.Offer o) {
+        if (o.kind == UsbDrive.Kind.IMAGE) return getString(o.defaultCdrom()
+                ? R.string.usb_drive_image_cd : R.string.usb_drive_image_usb);
         switch (o.reason) {
             case INTERNAL: return getString(R.string.usb_drive_internal);
             case SYSTEM: return getString(R.string.usb_drive_system_card);

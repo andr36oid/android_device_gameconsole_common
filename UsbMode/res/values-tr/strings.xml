@@ -37,7 +37,7 @@
     <string name="tile_device">Bilgisayar</string>
     <!-- USB drive -->
     <string name="usb_drive_title">USB sürücüsü</string>
-    <string name="usb_drive_intro">Bilgisayarınız seçilen depolamayı bir USB bellek olarak görür. Android önce depolamayı serbest bırakır ve kullanan uygulamalar kapanır. Aşağıdaki Durdur ile Android\'e geri verin veya yeniden başlatın.</string>
+    <string name="usb_drive_intro">Kartlar ve eMMC için: Bilgisayarınız seçilen depolamayı bir USB bellek olarak görür. Android önce depolamayı serbest bırakır ve kullanan uygulamalar kapanır. Aşağıdaki Durdur ile Android\'e geri verin veya yeniden başlatın.</string>
     <string name="usb_drive_cable">USB-A - USB-C kablosu, USB-C - USB-C kablosundan daha sık çalışır.</string>
     <string name="usb_drive_easyroms">EASYROMS (SD yuvası %1$d)</string>
     <string name="usb_drive_slot">SD yuvası %1$d</string>
@@ -69,4 +69,19 @@
     <string name="usb_drive_empty">Paylaşılacak depolama yok.</string>
     <string name="usb_drive_android_card">Bu kart Android bölümleri içeriyor.</string>
     <string name="usb_drive_sd">SD</string>
+
+    <!-- Disc image -->
+    <string name="usb_drive_image_title">Disk görüntüsü</string>
+    <string name="usb_drive_image_hint">EASYROMS/isos içinden bir .iso veya .img dosyası paylaşın. EASYROMS, Android’de kullanılabilir kalır.</string>
+    <string name="usb_drive_image_empty">.iso veya .img dosyalarını EASYROMS’un en üst düzeyindeki isos klasörüne koyun.</string>
+    <string name="usb_drive_image_unavailable">Disk görüntüsü paylaşmak için EASYROMS, Android’de bağlı olmalıdır.</string>
+    <string name="usb_drive_image_names">En fazla 91 karakterlik basit dosya adları kullanın (A–Z, a–z, 0–9, boşluk, nokta, kısa çizgi ve alt çizgi). Bir harf veya rakamla başlayın ve art arda iki nokta kullanmayın.</string>
+    <string name="usb_drive_image_cd">CD/DVD olarak</string>
+    <string name="usb_drive_image_usb">USB bellek olarak</string>
+    <string name="usb_drive_image_cd_ro">CD/DVD her zaman salt okunurdur.</string>
+    <string name="usb_drive_image_in_use">EASYROMS, Android’de kullanılabilir kalır. Paylaşımı durdurana kadar bu dosyayı Android’de düzenlemeyin, değiştirmeyin veya silmeyin.</string>
+    <string name="usb_drive_image_writable">Salt okunur kapalı. Bilgisayar bu dosyayı değiştirebilir.</string>
+    <string name="usb_drive_image_ro_hint">USB bellek olarak seçeneği için geçerlidir. CD/DVD her zaman salt okunurdur.</string>
+    <string name="usb_drive_image_volume_ro">EASYROMS salt okunur olarak bağlı.</string>
+    <string name="usb_drive_image_cd_size">Bu konsol, bu boyuttaki görüntüyü CD/DVD olarak paylaşamaz. USB bellek olarak seçeneğini seçin.</string>
 </resources>

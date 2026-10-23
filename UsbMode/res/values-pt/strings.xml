@@ -37,7 +37,7 @@
     <string name="tile_device">Computador</string>
     <!-- USB drive -->
     <string name="usb_drive_title">Unidade USB</string>
-    <string name="usb_drive_intro">O computador vê o armazenamento escolhido como uma pen USB. O Android liberta-o primeiro e as aplicações que o usam são fechadas. Devolva-o com Parar abaixo ou reinicie.</string>
+    <string name="usb_drive_intro">Para cartões e eMMC: O computador vê o armazenamento escolhido como uma pen USB. O Android liberta-o primeiro e as aplicações que o usam são fechadas. Devolva-o com Parar abaixo ou reinicie.</string>
     <string name="usb_drive_cable">Um cabo USB-A para USB-C funciona mais vezes do que um cabo USB-C para USB-C.</string>
     <string name="usb_drive_easyroms">EASYROMS (ranhura SD %1$d)</string>
     <string name="usb_drive_slot">Ranhura SD %1$d</string>
@@ -69,4 +69,19 @@
     <string name="usb_drive_empty">Não está presente nenhum armazenamento para partilhar.</string>
     <string name="usb_drive_android_card">Este cartão contém partições do Android.</string>
     <string name="usb_drive_sd">SD</string>
+
+    <!-- Disc image -->
+    <string name="usb_drive_image_title">Imagem de disco</string>
+    <string name="usb_drive_image_hint">Partilhe um ficheiro .iso ou .img de EASYROMS/isos. O EASYROMS continua disponível no Android.</string>
+    <string name="usb_drive_image_empty">Coloque ficheiros .iso ou .img na pasta isos, na raiz do EASYROMS.</string>
+    <string name="usb_drive_image_unavailable">O EASYROMS tem de estar montado no Android para partilhar uma imagem de disco.</string>
+    <string name="usb_drive_image_names">Use nomes de ficheiro simples (A–Z, a–z, 0–9, espaços, pontos, hífenes e sublinhados), com até 91 caracteres. Comece por uma letra ou um algarismo e evite dois pontos seguidos.</string>
+    <string name="usb_drive_image_cd">Como CD/DVD</string>
+    <string name="usb_drive_image_usb">Como pen USB</string>
+    <string name="usb_drive_image_cd_ro">CD/DVD é sempre só de leitura.</string>
+    <string name="usb_drive_image_in_use">O EASYROMS continua disponível no Android. Não edite, substitua nem apague este ficheiro no Android até parar a partilha.</string>
+    <string name="usb_drive_image_writable">A opção Só de leitura está desativada. O computador pode alterar este ficheiro.</string>
+    <string name="usb_drive_image_ro_hint">Aplica-se a Como pen USB. CD/DVD é sempre só de leitura.</string>
+    <string name="usb_drive_image_volume_ro">O EASYROMS está montado só de leitura.</string>
+    <string name="usb_drive_image_cd_size">Esta consola não pode partilhar esta imagem como CD/DVD com o tamanho atual. Escolha Como pen USB.</string>
 </resources>

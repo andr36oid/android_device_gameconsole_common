@@ -26,7 +26,7 @@
     <string name="warning_wifi_found">この USB ポートで今 Wi-Fi が見つかりました（%1$s）。本体に内蔵されている場合は、キャンセルを選んでください。</string>
     <!-- USB drive -->
     <string name="usb_drive_title">USB ドライブ</string>
-    <string name="usb_drive_intro">パソコンでは、選択したストレージが USB メモリとして表示されます。先に Android がストレージを手放すため、それを使っているアプリは終了します。下の「停止」で Android に戻すか、再起動してください。</string>
+    <string name="usb_drive_intro">カードと eMMC の場合：パソコンでは、選択したストレージが USB メモリとして表示されます。先に Android がストレージを手放すため、それを使っているアプリは終了します。下の「停止」で Android に戻すか、再起動してください。</string>
     <string name="usb_drive_cable">USB-A - USB-C ケーブルのほうが、USB-C - USB-C ケーブルよりも動作することが多いです。</string>
     <string name="usb_drive_easyroms">EASYROMS（SD スロット %1$d）</string>
     <string name="usb_drive_slot">SD スロット %1$d</string>
@@ -58,4 +58,19 @@
     <string name="usb_drive_empty">共有できるストレージがありません。</string>
     <string name="usb_drive_android_card">このカードには Android のパーティションが含まれています。</string>
     <string name="usb_drive_sd">SD</string>
+
+    <!-- Disc image -->
+    <string name="usb_drive_image_title">ディスクイメージ</string>
+    <string name="usb_drive_image_hint">EASYROMS/isos の .iso または .img ファイルを1つ共有します。EASYROMS は Android で引き続き使えます。</string>
+    <string name="usb_drive_image_empty">EASYROMS 直下の isos フォルダに .iso または .img ファイルを入れてください。</string>
+    <string name="usb_drive_image_unavailable">ディスクイメージを共有するには、EASYROMS が Android にマウントされている必要があります。</string>
+    <string name="usb_drive_image_names">ファイル名は半角英数字（A–Z、a–z、0–9）、スペース、ピリオド、ハイフン、アンダースコアのみで、91文字以内にしてください。先頭は英数字にし、ピリオドを2つ続けないでください。</string>
+    <string name="usb_drive_image_cd">CD/DVD として</string>
+    <string name="usb_drive_image_usb">USB メモリとして</string>
+    <string name="usb_drive_image_cd_ro">CD/DVD は常に読み取り専用です。</string>
+    <string name="usb_drive_image_in_use">EASYROMS は Android で引き続き使えます。共有を停止するまで、このファイルを Android で編集、置き換え、削除しないでください。</string>
+    <string name="usb_drive_image_writable">読み取り専用がオフです。パソコンからこのファイルを変更できます。</string>
+    <string name="usb_drive_image_ro_hint">「USB メモリとして」に適用されます。CD/DVD は常に読み取り専用です。</string>
+    <string name="usb_drive_image_volume_ro">EASYROMS は読み取り専用でマウントされています。</string>
+    <string name="usb_drive_image_cd_size">このサイズのイメージは、このコンソールでは CD/DVD として共有できません。「USB メモリとして」を選んでください。</string>
 </resources>

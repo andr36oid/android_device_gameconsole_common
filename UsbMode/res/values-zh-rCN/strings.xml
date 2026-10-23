@@ -37,7 +37,7 @@
     <string name="tile_device">电脑</string>
     <!-- USB drive -->
     <string name="usb_drive_title">USB 存储设备</string>
-    <string name="usb_drive_intro">您的电脑会将所选存储空间识别为 U 盘。Android 会先释放它，正在使用它的应用也会关闭。请点按下方的“停止”将其交还给 Android，或重启设备。</string>
+    <string name="usb_drive_intro">对于存储卡和 eMMC：您的电脑会将所选存储空间识别为 U 盘。Android 会先释放它，正在使用它的应用也会关闭。请点按下方的“停止”将其交还给 Android，或重启设备。</string>
     <string name="usb_drive_cable">USB-A 转 USB-C 数据线通常比 USB-C 转 USB-C 数据线更容易正常工作。</string>
     <string name="usb_drive_easyroms">EASYROMS（SD 插槽 %1$d）</string>
     <string name="usb_drive_slot">SD 插槽 %1$d</string>
@@ -69,4 +69,19 @@
     <string name="usb_drive_empty">没有可共享的存储空间。</string>
     <string name="usb_drive_android_card">此卡包含 Android 分区。</string>
     <string name="usb_drive_sd">SD</string>
+
+    <!-- Disc image -->
+    <string name="usb_drive_image_title">光盘镜像</string>
+    <string name="usb_drive_image_hint">共享 EASYROMS/isos 中的一个 .iso 或 .img 文件。EASYROMS 仍可在 Android 中使用。</string>
+    <string name="usb_drive_image_empty">请将 .iso 或 .img 文件放入 EASYROMS 根目录下的 isos 文件夹。</string>
+    <string name="usb_drive_image_unavailable">共享光盘镜像前，必须先在 Android 中挂载 EASYROMS。</string>
+    <string name="usb_drive_image_names">请使用简单的文件名（A–Z、a–z、0–9、空格、点、连字符和下划线），最多 91 个字符。以字母或数字开头，避免连续两个点。</string>
+    <string name="usb_drive_image_cd">作为 CD/DVD</string>
+    <string name="usb_drive_image_usb">作为 U 盘</string>
+    <string name="usb_drive_image_cd_ro">CD/DVD 始终为只读。</string>
+    <string name="usb_drive_image_in_use">EASYROMS 仍可在 Android 中使用。停止共享之前，请勿在 Android 中编辑、替换或删除此文件。</string>
+    <string name="usb_drive_image_writable">只读已关闭。电脑可以更改此文件。</string>
+    <string name="usb_drive_image_ro_hint">适用于“作为 U 盘”。CD/DVD 始终为只读。</string>
+    <string name="usb_drive_image_volume_ro">EASYROMS 已以只读方式挂载。</string>
+    <string name="usb_drive_image_cd_size">此镜像的大小不适合在此设备上作为 CD/DVD 共享。请选择“作为 U 盘”。</string>
 </resources>

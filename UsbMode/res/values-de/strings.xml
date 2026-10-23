@@ -37,7 +37,7 @@
     <string name="tile_device">Computer</string>
     <!-- USB drive -->
     <string name="usb_drive_title">USB-Laufwerk</string>
-    <string name="usb_drive_intro">Dein Computer sieht den ausgewählten Speicher als USB-Stick. Android gibt ihn zuerst frei, und Apps, die ihn verwenden, werden geschlossen. Gib ihn unten mit „Stoppen“ zurück oder starte neu.</string>
+    <string name="usb_drive_intro">Für Karten und eMMC: Dein Computer sieht den ausgewählten Speicher als USB-Stick. Android gibt ihn zuerst frei, und Apps, die ihn verwenden, werden geschlossen. Gib ihn unten mit „Stoppen“ zurück oder starte neu.</string>
     <string name="usb_drive_cable">Ein USB-A-auf-USB-C-Kabel funktioniert häufiger als ein USB-C-auf-USB-C-Kabel.</string>
     <string name="usb_drive_easyroms">EASYROMS (SD-Steckplatz %1$d)</string>
     <string name="usb_drive_slot">SD-Steckplatz %1$d</string>
@@ -69,4 +69,19 @@
     <string name="usb_drive_empty">Kein Speicher zum Freigeben vorhanden.</string>
     <string name="usb_drive_android_card">Diese Karte enthält Android-Partitionen.</string>
     <string name="usb_drive_sd">SD</string>
+
+    <!-- Disc image -->
+    <string name="usb_drive_image_title">Disc-Abbild</string>
+    <string name="usb_drive_image_hint">Gib eine .iso- oder .img-Datei aus EASYROMS/isos frei. EASYROMS bleibt in Android verfügbar.</string>
+    <string name="usb_drive_image_empty">Lege .iso- oder .img-Dateien in den Ordner isos direkt auf EASYROMS.</string>
+    <string name="usb_drive_image_unavailable">EASYROMS muss in Android eingebunden sein, damit du ein Disc-Abbild freigeben kannst.</string>
+    <string name="usb_drive_image_names">Nutze einfache Dateinamen (A–Z, a–z, 0–9, Leerzeichen, Punkte, Bindestriche und Unterstriche) mit höchstens 91 Zeichen. Beginne mit einem Buchstaben oder einer Zahl und vermeide zwei Punkte hintereinander.</string>
+    <string name="usb_drive_image_cd">Als CD/DVD</string>
+    <string name="usb_drive_image_usb">Als USB-Stick</string>
+    <string name="usb_drive_image_cd_ro">CD/DVD ist immer schreibgeschützt.</string>
+    <string name="usb_drive_image_in_use">EASYROMS bleibt in Android verfügbar. Bearbeite, ersetze oder lösche diese Datei in Android nicht, bis du die Freigabe stoppst.</string>
+    <string name="usb_drive_image_writable">Der Schreibschutz ist aus. Der Computer kann diese Datei verändern.</string>
+    <string name="usb_drive_image_ro_hint">Gilt für Als USB-Stick. CD/DVD ist immer schreibgeschützt.</string>
+    <string name="usb_drive_image_volume_ro">EASYROMS ist schreibgeschützt eingebunden.</string>
+    <string name="usb_drive_image_cd_size">Dieses Abbild kann mit seiner aktuellen Größe auf dieser Konsole nicht als CD/DVD freigegeben werden. Wähle Als USB-Stick.</string>
 </resources>

@@ -37,7 +37,7 @@
     <string name="tile_device">Komputer</string>
     <!-- USB drive -->
     <string name="usb_drive_title">Drive USB</string>
-    <string name="usb_drive_intro">Komputer Anda melihat penyimpanan yang dipilih sebagai flash drive USB. Android melepaskannya terlebih dahulu, dan aplikasi yang menggunakannya akan ditutup. Kembalikan dengan tombol Hentikan di bawah, atau mulai ulang.</string>
+    <string name="usb_drive_intro">Untuk kartu dan eMMC: Komputer Anda melihat penyimpanan yang dipilih sebagai flash drive USB. Android melepaskannya terlebih dahulu, dan aplikasi yang menggunakannya akan ditutup. Kembalikan dengan tombol Hentikan di bawah, atau mulai ulang.</string>
     <string name="usb_drive_cable">Kabel USB-A ke USB-C lebih sering berfungsi daripada kabel USB-C ke USB-C.</string>
     <string name="usb_drive_easyroms">EASYROMS (slot SD %1$d)</string>
     <string name="usb_drive_slot">Slot SD %1$d</string>
@@ -69,4 +69,19 @@
     <string name="usb_drive_empty">Tidak ada penyimpanan untuk dibagikan.</string>
     <string name="usb_drive_android_card">Kartu ini berisi partisi Android.</string>
     <string name="usb_drive_sd">SD</string>
+
+    <!-- Disc image -->
+    <string name="usb_drive_image_title">Citra disk</string>
+    <string name="usb_drive_image_hint">Bagikan satu file .iso atau .img dari EASYROMS/isos. EASYROMS tetap tersedia di Android.</string>
+    <string name="usb_drive_image_empty">Letakkan file .iso atau .img di folder isos pada direktori utama EASYROMS.</string>
+    <string name="usb_drive_image_unavailable">EASYROMS harus terpasang di Android untuk membagikan citra disk.</string>
+    <string name="usb_drive_image_names">Gunakan nama file sederhana (A–Z, a–z, 0–9, spasi, titik, tanda hubung, dan garis bawah), maksimal 91 karakter. Awali dengan huruf atau angka dan hindari dua titik berurutan.</string>
+    <string name="usb_drive_image_cd">Sebagai CD/DVD</string>
+    <string name="usb_drive_image_usb">Sebagai flash drive USB</string>
+    <string name="usb_drive_image_cd_ro">CD/DVD selalu hanya baca.</string>
+    <string name="usb_drive_image_in_use">EASYROMS tetap tersedia di Android. Jangan mengedit, mengganti, atau menghapus file ini di Android sampai Anda menghentikan berbagi.</string>
+    <string name="usb_drive_image_writable">Hanya baca dinonaktifkan. Komputer dapat mengubah file ini.</string>
+    <string name="usb_drive_image_ro_hint">Berlaku untuk Sebagai flash drive USB. CD/DVD selalu hanya baca.</string>
+    <string name="usb_drive_image_volume_ro">EASYROMS terpasang dalam mode hanya baca.</string>
+    <string name="usb_drive_image_cd_size">Konsol ini tidak dapat membagikan citra dengan ukuran saat ini sebagai CD/DVD. Pilih Sebagai flash drive USB.</string>
 </resources>

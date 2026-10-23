@@ -37,7 +37,7 @@
     <string name="tile_device">Komputer</string>
     <!-- USB drive -->
     <string name="usb_drive_title">Dysk USB</string>
-    <string name="usb_drive_intro">Komputer widzi wybrany nośnik jako pamięć USB. Android najpierw go zwalnia, a używające go aplikacje zostają zamknięte. Zwróć go przyciskiem Zatrzymaj poniżej albo uruchom ponownie.</string>
+    <string name="usb_drive_intro">Dla kart i eMMC: Komputer widzi wybrany nośnik jako pamięć USB. Android najpierw go zwalnia, a używające go aplikacje zostają zamknięte. Zwróć go przyciskiem Zatrzymaj poniżej albo uruchom ponownie.</string>
     <string name="usb_drive_cable">Kabel USB-A–USB-C działa częściej niż kabel USB-C–USB-C.</string>
     <string name="usb_drive_easyroms">EASYROMS (gniazdo SD %1$d)</string>
     <string name="usb_drive_slot">Gniazdo SD %1$d</string>
@@ -69,4 +69,19 @@
     <string name="usb_drive_empty">Brak nośnika do udostępnienia.</string>
     <string name="usb_drive_android_card">Ta karta zawiera partycje Androida.</string>
     <string name="usb_drive_sd">SD</string>
+
+    <!-- Disc image -->
+    <string name="usb_drive_image_title">Obraz dysku</string>
+    <string name="usb_drive_image_hint">Udostępnij jeden plik .iso lub .img z EASYROMS/isos. EASYROMS pozostaje dostępne w Androidzie.</string>
+    <string name="usb_drive_image_empty">Umieść pliki .iso lub .img w folderze isos w głównym katalogu EASYROMS.</string>
+    <string name="usb_drive_image_unavailable">Aby udostępnić obraz dysku, EASYROMS musi być zamontowane w Androidzie.</string>
+    <string name="usb_drive_image_names">Używaj prostych nazw plików (A–Z, a–z, 0–9, spacje, kropki, łączniki i podkreślenia), do 91 znaków. Zacznij od litery lub cyfry i unikaj dwóch kropek z rzędu.</string>
+    <string name="usb_drive_image_cd">Jako CD/DVD</string>
+    <string name="usb_drive_image_usb">Jako pamięć USB</string>
+    <string name="usb_drive_image_cd_ro">CD/DVD zawsze jest tylko do odczytu.</string>
+    <string name="usb_drive_image_in_use">EASYROMS pozostaje dostępne w Androidzie. Nie edytuj, nie zastępuj ani nie usuwaj tego pliku w Androidzie, dopóki nie zatrzymasz udostępniania.</string>
+    <string name="usb_drive_image_writable">Opcja Tylko do odczytu jest wyłączona. Komputer może zmieniać ten plik.</string>
+    <string name="usb_drive_image_ro_hint">Dotyczy opcji Jako pamięć USB. CD/DVD zawsze jest tylko do odczytu.</string>
+    <string name="usb_drive_image_volume_ro">EASYROMS jest zamontowane tylko do odczytu.</string>
+    <string name="usb_drive_image_cd_size">Ta konsola nie może udostępnić obrazu o tym rozmiarze jako CD/DVD. Wybierz Jako pamięć USB.</string>
 </resources>

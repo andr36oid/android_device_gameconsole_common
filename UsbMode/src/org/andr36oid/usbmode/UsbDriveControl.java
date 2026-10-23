@@ -26,13 +26,23 @@ final class UsbDriveControl {
                 || "start".equals(SystemProperties.get(PREFIX + "request"));
     }
 
-    static void start(Context context, UsbDrive.Offer offer, boolean ro) {
-        SystemProperties.set(PREFIX + "target", offer.node);
+    static void start(Context context, UsbDrive.Offer offer, boolean ro, boolean cdrom) {
+        final boolean image = offer.kind == UsbDrive.Kind.IMAGE;
+        SystemProperties.set(PREFIX + "target", image ? "file" : offer.node);
+        SystemProperties.set(PREFIX + "image", image ? offer.node : "");
+        SystemProperties.set(PREFIX + "stamp", image ? offer.stamp : "");
+        SystemProperties.set(PREFIX + "cdrom", image && cdrom ? "1" : "0");
         SystemProperties.set(PREFIX + "cid", offer.cid);
-        SystemProperties.set(PREFIX + "ro", ro || offer.forcedRo ? "1" : "0");
+        SystemProperties.set(PREFIX + "ro", ro || offer.forcedRo || image && cdrom ? "1" : "0");
         SystemProperties.set(PREFIX + "owner", Integer.toString(Process.myPid()));
         SystemProperties.set(PREFIX + "request", "start");
         context.startForegroundService(new Intent(context, UsbModeService.class));
+    }
+
+    static void scanImages() { SystemProperties.set(PREFIX + "scan", "start"); }
+
+    static UsbDrive.Images images() {
+        return UsbDrive.images(new File("/data/misc/andr36oid-usb-drive/images"));
     }
 
     /**

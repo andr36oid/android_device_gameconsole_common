@@ -37,7 +37,7 @@
     <string name="tile_device">Ordinateur</string>
     <!-- USB drive -->
     <string name="usb_drive_title">Lecteur USB</string>
-    <string name="usb_drive_intro">Votre ordinateur voit le stockage choisi comme une clé USB. Android le libère d\'abord et les applications qui l\'utilisent se ferment. Rendez-le avec Arrêter ci-dessous ou redémarrez.</string>
+    <string name="usb_drive_intro">Pour les cartes et l\'eMMC : Votre ordinateur voit le stockage choisi comme une clé USB. Android le libère d\'abord et les applications qui l\'utilisent se ferment. Rendez-le avec Arrêter ci-dessous ou redémarrez.</string>
     <string name="usb_drive_cable">Un câble USB-A vers USB-C fonctionne plus souvent qu\'un câble USB-C vers USB-C.</string>
     <string name="usb_drive_easyroms">EASYROMS (emplacement SD %1$d)</string>
     <string name="usb_drive_slot">Emplacement SD %1$d</string>
@@ -69,4 +69,19 @@
     <string name="usb_drive_empty">Aucun stockage à partager n\'est présent.</string>
     <string name="usb_drive_android_card">Cette carte contient des partitions Android.</string>
     <string name="usb_drive_sd">SD</string>
+
+    <!-- Disc image -->
+    <string name="usb_drive_image_title">Image disque</string>
+    <string name="usb_drive_image_hint">Partagez un fichier .iso ou .img depuis EASYROMS/isos. EASYROMS reste disponible dans Android.</string>
+    <string name="usb_drive_image_empty">Placez des fichiers .iso ou .img dans le dossier isos à la racine de EASYROMS.</string>
+    <string name="usb_drive_image_unavailable">EASYROMS doit être monté dans Android pour partager une image disque.</string>
+    <string name="usb_drive_image_names">Utilisez des noms de fichiers simples (A–Z, a–z, 0–9, espaces, points, tirets et traits de soulignement), de 91 caractères maximum. Commencez par une lettre ou un chiffre et évitez deux points consécutifs.</string>
+    <string name="usb_drive_image_cd">Comme CD/DVD</string>
+    <string name="usb_drive_image_usb">Comme clé USB</string>
+    <string name="usb_drive_image_cd_ro">Le mode CD/DVD est toujours en lecture seule.</string>
+    <string name="usb_drive_image_in_use">EASYROMS reste disponible dans Android. Ne modifiez, ne remplacez et ne supprimez pas ce fichier dans Android avant la fin du partage.</string>
+    <string name="usb_drive_image_writable">Lecture seule est désactivée. L’ordinateur peut modifier ce fichier.</string>
+    <string name="usb_drive_image_ro_hint">S’applique au mode Comme clé USB. Le mode CD/DVD est toujours en lecture seule.</string>
+    <string name="usb_drive_image_volume_ro">EASYROMS est monté en lecture seule.</string>
+    <string name="usb_drive_image_cd_size">Cette console ne peut pas partager cette image comme CD/DVD avec sa taille actuelle. Choisissez Comme clé USB.</string>
 </resources>

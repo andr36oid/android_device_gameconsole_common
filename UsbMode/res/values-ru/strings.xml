@@ -37,7 +37,7 @@
     <string name="tile_device">Компьютер</string>
     <!-- USB drive -->
     <string name="usb_drive_title">USB-накопитель</string>
-    <string name="usb_drive_intro">Компьютер видит выбранное хранилище как USB-накопитель. Android сначала освобождает его, а приложения, использующие его, закрываются. Верните его кнопкой «Остановить» ниже или перезапустите консоль.</string>
+    <string name="usb_drive_intro">Для карт и eMMC: Компьютер видит выбранное хранилище как USB-накопитель. Android сначала освобождает его, а приложения, использующие его, закрываются. Верните его кнопкой «Остановить» ниже или перезапустите консоль.</string>
     <string name="usb_drive_cable">Кабель USB-A — USB-C работает чаще, чем кабель USB-C — USB-C.</string>
     <string name="usb_drive_easyroms">EASYROMS (слот SD %1$d)</string>
     <string name="usb_drive_slot">Слот SD %1$d</string>
@@ -69,4 +69,19 @@
     <string name="usb_drive_empty">Нет хранилища, к которому можно открыть доступ.</string>
     <string name="usb_drive_android_card">На этой карте находятся разделы Android.</string>
     <string name="usb_drive_sd">SD</string>
+
+    <!-- Disc image -->
+    <string name="usb_drive_image_title">Образ диска</string>
+    <string name="usb_drive_image_hint">Откройте доступ к одному файлу .iso или .img из EASYROMS/isos. EASYROMS остаётся доступным в Android.</string>
+    <string name="usb_drive_image_empty">Поместите файлы .iso или .img в папку isos в корне EASYROMS.</string>
+    <string name="usb_drive_image_unavailable">Для доступа к образу диска EASYROMS должен быть смонтирован в Android.</string>
+    <string name="usb_drive_image_names">Используйте простые имена файлов (A–Z, a–z, 0–9, пробелы, точки, дефисы и подчёркивания) длиной до 91 символа. Начинайте с буквы или цифры и избегайте двух точек подряд.</string>
+    <string name="usb_drive_image_cd">Как CD/DVD</string>
+    <string name="usb_drive_image_usb">Как USB-накопитель</string>
+    <string name="usb_drive_image_cd_ro">CD/DVD всегда доступен только для чтения.</string>
+    <string name="usb_drive_image_in_use">EASYROMS остаётся доступным в Android. Не изменяйте, не заменяйте и не удаляйте этот файл в Android, пока не остановите общий доступ.</string>
+    <string name="usb_drive_image_writable">Режим «Только чтение» выключен. Компьютер может изменять этот файл.</string>
+    <string name="usb_drive_image_ro_hint">Действует в режиме «Как USB-накопитель». CD/DVD всегда доступен только для чтения.</string>
+    <string name="usb_drive_image_volume_ro">EASYROMS смонтирован только для чтения.</string>
+    <string name="usb_drive_image_cd_size">Эта консоль не может предоставить образ такого размера как CD/DVD. Выберите «Как USB-накопитель».</string>
 </resources>

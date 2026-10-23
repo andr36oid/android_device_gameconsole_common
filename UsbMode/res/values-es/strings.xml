@@ -37,7 +37,7 @@
     <string name="tile_device">Ordenador</string>
     <!-- USB drive -->
     <string name="usb_drive_title">Unidad USB</string>
-    <string name="usb_drive_intro">Tu ordenador ve el almacenamiento elegido como una memoria USB. Android lo deja libre primero y las aplicaciones que lo usan se cierran. Devuélvelo con Detener abajo o reinicia.</string>
+    <string name="usb_drive_intro">Para tarjetas y eMMC: Tu ordenador ve el almacenamiento elegido como una memoria USB. Android lo deja libre primero y las aplicaciones que lo usan se cierran. Devuélvelo con Detener abajo o reinicia.</string>
     <string name="usb_drive_cable">Un cable USB-A a USB-C funciona más veces que uno USB-C a USB-C.</string>
     <string name="usb_drive_easyroms">EASYROMS (ranura SD %1$d)</string>
     <string name="usb_drive_slot">Ranura SD %1$d</string>
@@ -69,4 +69,19 @@
     <string name="usb_drive_empty">No hay ningún almacenamiento que compartir.</string>
     <string name="usb_drive_android_card">Esta tarjeta contiene particiones de Android.</string>
     <string name="usb_drive_sd">SD</string>
+
+    <!-- Disc image -->
+    <string name="usb_drive_image_title">Imagen de disco</string>
+    <string name="usb_drive_image_hint">Comparte un archivo .iso o .img de EASYROMS/isos. EASYROMS sigue disponible en Android.</string>
+    <string name="usb_drive_image_empty">Coloca archivos .iso o .img en la carpeta isos, en la raíz de EASYROMS.</string>
+    <string name="usb_drive_image_unavailable">EASYROMS debe estar montado en Android para compartir una imagen de disco.</string>
+    <string name="usb_drive_image_names">Usa nombres de archivo sencillos (A–Z, a–z, 0–9, espacios, puntos, guiones y guiones bajos), de hasta 91 caracteres. Empieza por una letra o un número y evita dos puntos seguidos.</string>
+    <string name="usb_drive_image_cd">Como CD/DVD</string>
+    <string name="usb_drive_image_usb">Como memoria USB</string>
+    <string name="usb_drive_image_cd_ro">CD/DVD es siempre de solo lectura.</string>
+    <string name="usb_drive_image_in_use">EASYROMS sigue disponible en Android. No edites, sustituyas ni borres este archivo en Android hasta que dejes de compartirlo.</string>
+    <string name="usb_drive_image_writable">Solo lectura está desactivado. El ordenador puede modificar este archivo.</string>
+    <string name="usb_drive_image_ro_hint">Se aplica a Como memoria USB. CD/DVD es siempre de solo lectura.</string>
+    <string name="usb_drive_image_volume_ro">EASYROMS está montado en modo de solo lectura.</string>
+    <string name="usb_drive_image_cd_size">Esta consola no puede compartir esta imagen como CD/DVD con su tamaño actual. Elige Como memoria USB.</string>
 </resources>
