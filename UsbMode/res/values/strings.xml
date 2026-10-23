@@ -352,6 +352,8 @@
     <string name="usb_emulator_cd_hint">Your PC will see a read-only CD/DVD drive.</string>
     <string name="usb_emulator_preparing_storage">Preparing the selected drive… Apps using it may need time to close.</string>
     <string name="usb_emulator_session_hint">Select + R1 turns the display off. Press Start + Select to wake it; hold for 2 seconds to stop. Power also wakes the display.</string>
+    <string name="usb_emulator_cable_prompt">Plug the USB-C cable into the computer now.</string>
+    <string name="usb_emulator_cable_hint">If the computer doesn\'t detect it, flip the USB-C plug the other way round. If it keeps failing, reboot the console and try again.</string>
     <string name="usb_image_name_hint">A free image name is filled in. Press A to edit with the system keyboard, or press Right to continue.</string>
     <string name="usb_image_change_label">Change volume label</string>
     <string name="usb_image_create_only">Create the file without connecting to the computer.</string>

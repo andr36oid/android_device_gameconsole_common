@@ -388,6 +388,9 @@ public class UsbDriveActivity extends Activity {
                 + (slowAllocation() ? "\n\n" + getString(R.string.usb_virtual_allocation) : "") : "") : getString(preparing));
         if (!image && UsbWizard.captured(stage, "1".equals(android.os.SystemProperties.get(UsbDeviceControl.PREFIX + "ready")))) {
             mNext.setVisibility(View.GONE); mBack.setVisibility(View.GONE); mNote.setText(R.string.usb_emulator_session_hint);
+        } else if (!image) {
+            // Until the host enumerates, keep telling the user to connect the cable and what to try.
+            mNote.setText(getString(R.string.usb_emulator_cable_prompt) + "\n\n" + getString(R.string.usb_emulator_cable_hint));
         }
     }
     private void operationFailed(String detail) {
