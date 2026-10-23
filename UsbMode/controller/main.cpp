@@ -11,6 +11,9 @@
 #include <poll.h>
 #include <sys/ioctl.h>
 #include <sys/stat.h>
+#include <sys/syscall.h>
+#include <sys/time.h>
+#include <linux/aio_abi.h>
 #include <time.h>
 #include <unistd.h>
 #include <linux/usb/functionfs.h>
@@ -25,6 +28,7 @@ using namespace controller;
 constexpr const char kPrefix[] = "sys.andr36oid.usbdrive.";
 volatile sig_atomic_t stopped = 0;
 void stop(int) { stopped = 1; }
+void tick(int) { }
 std::string property(const std::string& key) {
 #ifdef __ANDROID__
     char value[PROP_VALUE_MAX]{};
@@ -191,6 +195,80 @@ bool send(int fd, const void* data, size_t size) {
     return n == static_cast<ssize_t>(size) || (n < 0 && (errno == EAGAIN || errno == EINTR ||
             errno == ESHUTDOWN || errno == ENODEV));
 }
+// FunctionFS synchronous read/write can wait even with O_NONBLOCK. Keep one
+// asynchronous request per endpoint so a silent host cannot stall the input loop.
+struct AioOps {
+    long (*setup)(unsigned, aio_context_t*);
+    long (*destroy)(aio_context_t);
+    long (*events)(aio_context_t, long, long, io_event*, timespec*);
+    long (*submit)(aio_context_t, long, iocb**);
+};
+const AioOps kKernelAio = {
+    [](unsigned n, aio_context_t* c) { return syscall(SYS_io_setup, n, c); },
+    [](aio_context_t c) { return syscall(SYS_io_destroy, c); },
+    [](aio_context_t c, long min, long max, io_event* e, timespec* t) {
+        return syscall(SYS_io_getevents, c, min, max, e, t);
+    },
+    [](aio_context_t c, long n, iocb** r) { return syscall(SYS_io_submit, c, n, r); },
+};
+class XInputIo {
+public:
+    explicit XInputIo(const AioOps& ops = kKernelAio) : ops_(ops) { }
+    XInputIo(const XInputIo&) = delete;
+    XInputIo& operator=(const XInputIo&) = delete;
+    ~XInputIo() { cancel(); }
+    bool start(int in, int out) {
+        inFd_ = in; outFd_ = out;
+        return ops_.setup(2, &context_) == 0;
+    }
+    void cancel() {
+        if (context_) ops_.destroy(context_);
+        context_ = 0;
+    }
+    bool pump(const State& state, bool enabled) {
+        io_event events[2]{};
+        timespec timeout{};
+        long count = ops_.events(context_, 0, 2, events, &timeout);
+        if (count < 0) return errno == EINTR;
+        for (long i = 0; i < count; ++i) {
+            const bool input = events[i].data == 1;
+            if (input) inBusy_ = false; else outBusy_ = false;
+            const int64_t result = events[i].res;
+            if (result < 0 && result != -ESHUTDOWN && result != -ENODEV && result != -ECANCELED && result != -EINTR)
+                return false;
+            if (input && result >= 0 && result != static_cast<int64_t>(input_.size())) return false;
+        }
+        if (!enabled) return true;
+        if (!outBusy_ && !submit(false)) return false;
+        if (!inBusy_) {
+            input_ = xinput(state);
+            if (!submit(true)) return false;
+        }
+        return true;
+    }
+private:
+    bool submit(bool input) {
+        iocb& request = input ? inRequest_ : outRequest_;
+        request = {};
+        request.aio_data = input ? 1 : 2;
+        request.aio_fildes = input ? inFd_ : outFd_;
+        request.aio_lio_opcode = input ? IOCB_CMD_PWRITE : IOCB_CMD_PREAD;
+        request.aio_buf = reinterpret_cast<uintptr_t>(input ? input_.data() : output_.data());
+        request.aio_nbytes = input ? input_.size() : output_.size();
+        iocb* requests[] = {&request};
+        const long result = ops_.submit(context_, 1, requests);
+        if (result == 1) { if (input) inBusy_ = true; else outBusy_ = true; return true; }
+        return result < 0 && (errno == EAGAIN || errno == EINTR || errno == ESHUTDOWN || errno == ENODEV);
+    }
+    const AioOps& ops_;
+    aio_context_t context_ = 0;
+    int inFd_ = -1, outFd_ = -1;
+    bool inBusy_ = false, outBusy_ = false;
+    iocb inRequest_{}, outRequest_{};
+    std::array<uint8_t, 20> input_{};
+    std::array<uint8_t, 64> output_{};
+};
+
 int hidNode() {
     const std::string dev = readText("/config/usb_gadget/g1/functions/hid.andr36oid/dev");
     unsigned major, minor;
@@ -215,6 +293,7 @@ int run(const std::string& mode) {
     const bool xbox = mode == "xinput";
     int ep0 = -1, in = -1, out = -1;
     bool enabled = !xbox;
+    XInputIo transfers;
     if (xbox) {
         ep0 = open("/dev/usb-ffs/xinput/ep0", O_RDWR | O_CLOEXEC);
         const auto desc = descriptors(); const auto str = strings();
@@ -226,6 +305,7 @@ int run(const std::string& mode) {
         in = open("/dev/usb-ffs/xinput/ep1", O_RDWR | O_NONBLOCK | O_CLOEXEC);
         out = open("/dev/usb-ffs/xinput/ep2", O_RDWR | O_NONBLOCK | O_CLOEXEC);
         if (in < 0 || out < 0) { close(ep0); if (in >= 0) close(in); if (out >= 0) close(out); return 1; }
+        if (!transfers.start(in, out)) { close(in); close(out); close(ep0); return 1; }
     }
     set("brightness", "15");
     set("ready", "1");
@@ -267,16 +347,7 @@ int run(const std::string& mode) {
                     if (events[i].type == FUNCTIONFS_SETUP) setup(ep0, events[i].u.setup, s);
                 }
             }
-            if (enabled) {
-                const auto report = xinput(s);
-                if (!send(in, report.data(), report.size())) { result = 1; break; }
-                uint8_t ignored[64];
-                // OUT rumble and LED messages have no local effect.
-                ssize_t n = read(out, ignored, sizeof(ignored));
-                if (n < 0 && errno != EAGAIN && errno != EINTR && errno != ESHUTDOWN && errno != ENODEV) {
-                    result = 1; break;
-                }
-            }
+            if (!transfers.pump(s, enabled)) { log("FunctionFS transfer failed"); result = 1; break; }
         } else {
             if (in < 0) in = hidNode();
             if (in >= 0) {
@@ -304,11 +375,11 @@ int run(const std::string& mode) {
                 result = 1; break;
             }
         }
-        timespec pause{0,4000000}; nanosleep(&pause, nullptr);
+        timespec pause{0,xbox ? 1000000 : 4000000}; nanosleep(&pause, nullptr);
     }
+    transfers.cancel();
     if (in >= 0) {
         const State neutral;
-        if (xbox && enabled) { const auto r = xinput(neutral); send(in, r.data(), r.size()); }
         if (!xbox && mode == "gamepad") { const auto r = gamepad(neutral); send(in, r.data(), r.size()); }
         if (!xbox && mode == "keyboard") {
             const auto k = keyboard(neutral); const auto m = mouse(neutral);
@@ -340,7 +411,16 @@ int main(int argc, char** argv) {
     }
     if (argc != 2 || (std::string(argv[1]) != "xinput" && std::string(argv[1]) != "gamepad" &&
                      std::string(argv[1]) != "keyboard")) return 2;
-    signal(SIGTERM, stop); signal(SIGINT, stop); signal(SIGHUP, stop); signal(SIGPIPE, SIG_IGN);
+    struct sigaction action{};
+    sigemptyset(&action.sa_mask);
+    action.sa_handler = stop;
+    sigaction(SIGTERM, &action, nullptr); sigaction(SIGINT, &action, nullptr); sigaction(SIGHUP, &action, nullptr);
+    action.sa_handler = tick;
+    sigaction(SIGALRM, &action, nullptr);
+    signal(SIGPIPE, SIG_IGN);
+    // Bound synchronous ep0 control waits even if a host stops completing them.
+    itimerval timer{{0,100000},{0,100000}};
+    if (setitimer(ITIMER_REAL, &timer, nullptr) < 0) return 1;
     set("ready", "0");
     const int result = run(argv[1]);
     if (result) set("error", "controller_daemon");

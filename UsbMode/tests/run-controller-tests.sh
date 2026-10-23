@@ -3,6 +3,8 @@ set -eu
 HERE=$(cd "$(dirname "$0")/.." && pwd)
 T=$1
 mkdir -p "$T"
+T=$(cd "$T" && pwd)
+export TMPDIR=$T
 CXX=${CXX:-c++}
 "$CXX" -std=c++17 -Wall -Wextra -Werror -I"$HERE/controller" \
     "$HERE/controller/Controller.cpp" "$HERE/tests/controller/CoreTest.cpp" -o "$T/core"
