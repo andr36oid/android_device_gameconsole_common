@@ -68,3 +68,5 @@ ANDROID_JAR=${ANDROID_JAR:-/opt/android-sdk/platforms/android-35/android.jar}
     "$HERE/src/org/andr36oid/usbmode/UsbFunctions.java" \
     "$HERE/src/org/andr36oid/usbmode/FlipperLease.java" \
     "$HERE/src/org/andr36oid/usbmode/FlipperUsbService.java"
+
+bash "$HERE/tests/run-ui-tests.sh" "$T/ui"

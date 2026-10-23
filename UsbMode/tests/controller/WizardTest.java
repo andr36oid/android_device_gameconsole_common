@@ -54,6 +54,11 @@ public final class WizardTest {
         check(blockers[0] == UsbFunctions.SOUNDBOARD && blockers[1] == UsbFunctions.SOUND);
         blockers = UsbWizard.blockers("controllers", UsbFunctions.XINPUT | UsbFunctions.GAMEPAD);
         check(blockers[0] == UsbFunctions.XINPUT && blockers[1] == UsbFunctions.GAMEPAD);
+        check(!UsbWizard.captured("release_storage", true));
+        check(!UsbWizard.captured("gate_android", true));
+        check(!UsbWizard.captured("controller_daemon", false));
+        check(UsbWizard.captured("controller_daemon", true));
+        check(UsbWizard.captured("sharing", true));
         UsbDrive.Offer image = new UsbDrive.Offer();
         image.kind = UsbDrive.Kind.IMAGE; image.node = "Boot.iso"; image.bytes = 1048576;
         check(!UsbWizard.bootMenu(UsbFunctions.STORAGE, image, true));

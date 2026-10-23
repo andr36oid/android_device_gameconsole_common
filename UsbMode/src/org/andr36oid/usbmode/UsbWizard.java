@@ -30,6 +30,11 @@ final class UsbWizard {
         return steps;
     }
 
+    static boolean captured(String stage, boolean ready) {
+        return ready && ("controller_daemon".equals(stage) || "device_role".equals(stage)
+                || "bind_drive".equals(stage) || "sharing".equals(stage));
+    }
+
     static boolean bootMenu(int mask, UsbDrive.Offer offer, boolean cdrom) {
         return (mask & UsbFunctions.STORAGE) != 0 && cdrom && offer != null
                 && offer.kind == UsbDrive.Kind.IMAGE && offer.bootable && offer.cdromPossible();

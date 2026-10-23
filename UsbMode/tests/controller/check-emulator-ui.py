@@ -9,11 +9,15 @@ activity = (src / 'UsbDriveActivity.java').read_text()
 assert not (src / 'GamepadTextDialog.java').exists()
 assert 'GamepadTextDialog' not in ''.join(p.read_text() for p in src.glob('*.java'))
 assert 'setShowSoftInputOnFocus(true)' in (src / 'UsbTextInput.java').read_text()
+assert 'field.post(() -> show(field' in (src / 'UsbTextInput.java').read_text()
 assert 'showSoftInput(field' in (src / 'UsbTextInput.java').read_text()
 assert 'setShowSoftInputOnFocus(false)' not in activity
 assert 'final String focus = same' in activity and ': same ? mFocus : ""' in activity
 assert 'mTextScroll.setOnFocusChangeListener' not in activity
 assert 'mShownPage = -1; mShownStep = -1;' in activity
+assert 'mPageFocus.ready(version, mResumed, hasWindowFocus(), mDialog != null)' in activity
+assert 'UsbWizard.captured(stage,' in activity
+assert ET.parse(root / 'res/layout/usb_drive_activity.xml').find(".//ScrollView[@{http://schemas.android.com/apk/res/android}id='@+id/text_scroll']").get('{http://schemas.android.com/apk/res/android}focusable') == 'false'
 assert 'new RadioButton(this)' in activity and 'R.drawable.usb_choice_background' in activity
 assert 'VirtualDrive.presets(mImages.free, mImages.filesystem)' in activity
 assert 'option.setChecked(VirtualDrive.presetSelected(mImageSize,' in activity

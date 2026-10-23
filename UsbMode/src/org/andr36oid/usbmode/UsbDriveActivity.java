@@ -53,6 +53,8 @@ public class UsbDriveActivity extends Activity {
 
     }
     private Work mWork;
+    private final UsbPageFocus mPageFocus = new UsbPageFocus();
+    private boolean mReading;
     private final List<RadioButton> mSizeChoices = new ArrayList<>();
     private boolean mCustomLabel, mAwaitCreate, mUseAfterCreate, mSessionOpened, mLoaded, mCancelling;
     private int mCreateFunctions;
@@ -127,7 +129,13 @@ public class UsbDriveActivity extends Activity {
     @Override public void onResume() {
         super.onResume();
         mResumed = true; mSessionOpened = false;
-        mLive = ""; render(); mHandler.post(mPoll);
+        mLive = ""; mShownPage = -1; mReading = false;
+        if (mDialog == null) render();
+        mHandler.post(mPoll);
+    }
+    @Override public void onWindowFocusChanged(boolean focused) {
+        super.onWindowFocusChanged(focused);
+        if (focused && mChoices != null) postPageFocus();
     }
     @Override public void onPause() {
         mResumed = false; mHandler.removeCallbacks(mPoll);
@@ -163,6 +171,22 @@ public class UsbDriveActivity extends Activity {
         if (getCurrentFocus() instanceof EditText && (event.getKeyCode() == KeyEvent.KEYCODE_BUTTON_A
                 || event.getKeyCode() == KeyEvent.KEYCODE_DPAD_CENTER)) {
             if (event.getAction() == KeyEvent.ACTION_UP) showIme((EditText) getCurrentFocus());
+            return true;
+        }
+        if (event.getKeyCode() == KeyEvent.KEYCODE_DPAD_LEFT && inChoices(getCurrentFocus())) {
+            if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                mReading = true; mTextScroll.setFocusable(true); mTextScroll.requestFocus();
+                mPageFocus.applied(mPageFocus.version());
+            }
+            return true;
+        }
+        if (event.getKeyCode() == KeyEvent.KEYCODE_DPAD_RIGHT && getCurrentFocus() == mTextScroll) {
+            if (event.getAction() == KeyEvent.ACTION_DOWN) focusFirstChoice();
+            return true;
+        }
+        if ((event.getKeyCode() == KeyEvent.KEYCODE_DPAD_UP || event.getKeyCode() == KeyEvent.KEYCODE_DPAD_DOWN)
+                && (getCurrentFocus() == mNext || getCurrentFocus() == mBack) && hasActionableChoice()) {
+            if (event.getAction() == KeyEvent.ACTION_DOWN) focusFirstChoice();
             return true;
         }
         if (event.getKeyCode() == KeyEvent.KEYCODE_DPAD_RIGHT && inChoices(getCurrentFocus())) {
@@ -351,7 +375,7 @@ public class UsbDriveActivity extends Activity {
                 : R.string.usb_device_preparing;
         mBody.setText(image ? getString(virtualStage(stage)) + (allocate ? " · " + percent + "%"
                 + (slowAllocation() ? "\n\n" + getString(R.string.usb_virtual_allocation) : "") : "") : getString(preparing));
-        if (!image && "1".equals(android.os.SystemProperties.get(UsbDeviceControl.PREFIX + "ready"))) {
+        if (!image && UsbWizard.captured(stage, "1".equals(android.os.SystemProperties.get(UsbDeviceControl.PREFIX + "ready")))) {
             mNext.setVisibility(View.GONE); mBack.setVisibility(View.GONE); mNote.setText(R.string.usb_emulator_session_hint);
         }
     }
@@ -364,8 +388,9 @@ public class UsbDriveActivity extends Activity {
         final int position = mPage == CONNECT ? step() : mPage == CREATE ? mCreateIndex : 0;
         final boolean same = mPage == mShownPage && position == mShownStep;
         final int textY = same ? mTextScroll.getScrollY() : 0;
-        final int choiceY = same ? mChoiceScroll.getScrollY() : 0;
         mShownPage = mPage; mShownStep = position;
+        if (!same) mReading = false;
+        mTextScroll.setFocusable(mReading);
         final String focus = same && getCurrentFocus() != null && getCurrentFocus().getTag() instanceof String
                 ? (String) getCurrentFocus().getTag() : same ? mFocus : "";
         mFocus = focus;
@@ -400,23 +425,31 @@ public class UsbDriveActivity extends Activity {
             mNext.setText(android.R.string.cancel); spinner(); progress(false);
         } else hub();
         mTextScroll.scrollTo(0, textY);
+        mPageFocus.begin(same, mReading ? "read" : focus);
+        postPageFocus();
+    }
+    private void postPageFocus() {
+        final int version = mPageFocus.version();
         mChoices.post(() -> {
-            if (isFinishing()) return;
-            mChoiceScroll.scrollTo(0, choiceY);
-            View chosen = same && "next".equals(focus) && mNext.getVisibility() == View.VISIBLE ? mNext
-                    : same && "back".equals(focus) ? mBack : mChoices.findViewWithTag(focus);
-            if (chosen == null || !chosen.isEnabled()) {
+            if (isFinishing() || !mPageFocus.ready(version, mResumed, hasWindowFocus(), mDialog != null)) return;
+            final String target = mPageFocus.target();
+            View chosen = "next".equals(target) ? mNext : "back".equals(target) ? mBack
+                    : mReading && "read".equals(target) ? mTextScroll : mChoices.findViewWithTag(target);
+            if (!actionable(chosen)) {
                 chosen = null;
                 for (int i = 0; i < mChoices.getChildCount(); i++) {
                     View child = mChoices.getChildAt(i);
-                    if (child.isFocusable() && child.isEnabled()) { chosen = child; break; }
+                    if (actionable(child)) { chosen = child; break; }
                 }
             }
-            if (chosen != null) chosen.requestFocus();
-            else if (mNext.isEnabled() && mNext.getVisibility() == View.VISIBLE) mNext.requestFocus();
-            else mBack.requestFocus();
+            if (chosen == null) chosen = actionable(mNext) ? mNext : actionable(mBack) ? mBack : null;
+            if (chosen == null || chosen.requestFocus()) mPageFocus.applied(version);
         });
     }
+    private boolean actionable(View view) {
+        return view != null && view.isShown() && view.isEnabled() && view.isFocusable();
+    }
+
     private void page(int title, String body) { mTitle.setText(title); mBody.setText(body); }
     private Button row(String key, String title, String summary, boolean enabled, Runnable action) {
         Button button = new Button(this, null, 0, R.style.Andr36oidSetupButton_Secondary);
@@ -946,16 +979,21 @@ public class UsbDriveActivity extends Activity {
         mEdit.setInputType(numeric ? InputType.TYPE_CLASS_NUMBER : InputType.TYPE_CLASS_TEXT);
         mEdit.setImeOptions(android.view.inputmethod.EditorInfo.IME_ACTION_DONE);
         UsbTextInput.bind(mEdit);
+        final EditText editor = mEdit;
         mEdit.setOnEditorActionListener((v, action, event) -> {
-            saveEntry(); UsbTextInput.hide(mEdit); mNext.requestFocus(); return true;
+            UsbTextInput.hide(editor);
+            if (mEdit == editor && mPage == CREATE) { saveEntry(); mNext.requestFocus(); }
+            return true;
         });
         mEdit.setOnFocusChangeListener((v, focused) -> {
+            if (mEdit != editor) return;
             if (focused) mFocus = "entry";
             else if (numeric) saveEntry();
         });
         mEdit.addTextChangedListener(new TextWatcher() {
             @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
             @Override public void onTextChanged(CharSequence value, int start, int before, int count) {
+                if (mEdit != editor || mPage != CREATE || mCreateIndex != (numeric ? 1 : 0)) return;
                 if (numeric) { mImageSize = value.toString(); updateSizeChoices(); }
                 else { mImageName = value.toString(); if (!mCustomLabel) mImageLabel = VirtualDrive.defaultLabel(mImageName, mImageFs); }
             }
@@ -1056,14 +1094,16 @@ public class UsbDriveActivity extends Activity {
     private boolean hasActionableChoice() {
         for (int i = 0; i < mChoices.getChildCount(); i++) {
             View child = mChoices.getChildAt(i);
-            if (child.isEnabled() && child.isFocusable()) return true;
+            if (actionable(child)) return true;
         }
         return false;
     }
     private void focusFirstChoice() {
+        mReading = false; mTextScroll.setFocusable(false);
+        mPageFocus.applied(mPageFocus.version());
         for (int i = 0; i < mChoices.getChildCount(); i++) {
             View child = mChoices.getChildAt(i);
-            if (child.isEnabled() && child.isFocusable()) { child.requestFocus(); return; }
+            if (actionable(child)) { child.requestFocus(); return; }
         }
         mBack.requestFocus();
     }
@@ -1071,7 +1111,11 @@ public class UsbDriveActivity extends Activity {
     private void showDialog(AlertDialog dialog) {
         if (mDialog != null) return;
         mDialog = dialog;
-        dialog.setOnDismissListener(d -> { if (mDialog == dialog) mDialog = null; });
+        dialog.setOnDismissListener(d -> {
+            if (mDialog == dialog) {
+                mDialog = null; mPageFocus.begin(true, mFocus); postPageFocus();
+            }
+        });
         dialog.setOnKeyListener((d, key, event) -> {
             if (key == KeyEvent.KEYCODE_BUTTON_B) {
                 if (event.getAction() == KeyEvent.ACTION_UP) dialog.dismiss();
