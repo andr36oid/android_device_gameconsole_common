@@ -13,6 +13,20 @@ virtual_size() {
 	awk -v gb="$1" 'BEGIN {exit !(gb>=1 && gb<=1024)}'
 }
 
+# Convert KiB to exact decimal bytes even on mksh's 32-bit arithmetic builds.
+virtual_bytes() {
+	local kb high low
+	kb=$1
+	if [ "$((1024 * 1073741824))" = 1099511627776 ]; then
+		printf '%s\n' "$((kb * 1024))"
+	else
+		high=$((kb / 1000000 * 1024 + kb % 1000000 * 1024 / 1000000))
+		low=$((kb % 1000000 * 1024 % 1000000))
+		if [ "$high" = 0 ]; then printf '%s\n' "$low"
+		else printf '%s%06d\n' "$high" "$low"; fi
+	fi
+}
+
 virtual_label() {
 	# A common ASCII subset works with all four formatters, including FAT labels.
 	case $1 in *[!a-zA-Z0-9_\ -]*) return 1 ;; esac
@@ -37,7 +51,7 @@ virtual_directory() {
 }
 
 virtual_mbr() {
-	# All arithmetic involving bytes stays in awk: Android mksh is 32 bit.
+	# The binary sector layout uses awk; allocation sizes use exact integers.
 	LC_ALL=C awk -v bytes="$1" -v fs="$2" 'BEGIN {
 	    type=fs=="fat32"?12:fs=="ext4"?131:7;
 	    for(i=0;i<512;i++) b[i]=0;
@@ -80,9 +94,16 @@ virtual_progress() {
 	setprop "$P.vpercent" "$2"
 }
 
+virtual_detail() {
+	local detail
+	detail=$(tail -n 1 "$STATE/virtual.log" 2>/dev/null | LC_ALL=C tr -cd '[:print:]' | cut -c 1-90)
+	setprop "$P.vdetail" "${detail:-$1}"
+}
+
 virtual_fail() {
 	log_step "virtual drive failed: $1"
 	setprop "$P.verror" "$1"
+	virtual_detail "$1 failed"
 	return 1
 }
 
@@ -133,6 +154,10 @@ virtual_run() {
 	v_child=
 	rm -f "$STATE/virtual/child" "$STATE/virtual/run"
 	virtual_lease || return 1
+	if [ "$rc" != 0 ]; then
+		setprop "$P.verror" "$(prop vstage)"
+		virtual_detail "$1 failed (exit $rc)"
+	fi
 	return "$rc"
 }
 
@@ -249,7 +274,7 @@ virtual_journal() {
 }
 
 virtual_loop() {
-	v_loop=$(losetup -f) || return 1
+	v_loop=$(losetup -f 2>>"$STATE/virtual.log") || { virtual_fail loop; return 1; }
 	case $v_loop in /dev/block/loop[0-9]*|/dev/loop[0-9]*) ;; *) return 1 ;; esac
 	printf '%s\n' "$v_loop" >"$STATE/virtual/loop"
 	fsync "$STATE/virtual/loop" "$STATE/virtual" || return 1
@@ -257,14 +282,15 @@ virtual_loop() {
 }
 
 virtual_create() {
-	local gb label fs free part chunk next space
+	local gb label fs free part chunk next space kib
 	v_name=$(prop vname) gb=$(prop vsize) fs=$(prop vfs) label=$(prop vlabel)
 	virtual_name "$v_name" || { virtual_fail name; return 1; }
 	v_name=$v_name.img
 	virtual_size "$gb" || { virtual_fail size; return 1; }
 	virtual_label "$label" "$fs" || { virtual_fail label; return 1; }
-	v_bytes=$(awk -v gb="$gb" 'BEGIN {printf "%.0f",gb*1073741824}')
-	v_partition=$(awk -v b="$v_bytes" 'BEGIN {printf "%.0f",b-1048576}')
+	kib=$((gb * 1048576))
+	v_bytes=$(virtual_bytes "$kib")
+	v_partition=$(virtual_bytes "$((kib - 1024))")
 	# The three fields are validated numbers and a mountinfo filesystem word.
 	space=$(virtual_space) || return 1
 	# shellcheck disable=SC2086
@@ -293,15 +319,18 @@ virtual_create() {
 		if ! virtual_run fallocate -l "$v_bytes" "$v_path"; then
 			virtual_lease || return 1
 			virtual_run truncate -s "$v_bytes" "$v_path" || return 1
+			setprop "$P.verror" ''
+			setprop "$P.vdetail" ''
 		fi ;;
 	*)
 		# exFAT has no sparse files and this kernel has no exFAT fallocate.
 		# vfat fallocate also zero-fills. Bound each growing truncate for progress.
 		next=0
-		while awk -v n="$next" -v b="$v_bytes" 'BEGIN {exit !(n<b)}'; do
-			next=$(awk -v n="$next" -v b="$v_bytes" 'BEGIN {n+=67108864; printf "%.0f", n<b?n:b}')
-			virtual_run truncate -s "$next" "$v_path" || return 1
-			virtual_progress allocate "$(awk -v n="$next" -v b="$v_bytes" 'BEGIN {printf "%d", n*100/b}')"
+		while [ "$next" -lt "$kib" ]; do
+			next=$((next + 65536))
+			[ "$next" -le "$kib" ] || next=$kib
+			virtual_run truncate -s "$(virtual_bytes "$next")" "$v_path" || return 1
+			virtual_progress allocate "$((next / 1024 * 100 / (kib / 1024)))"
 		done ;;
 	esac
 	virtual_progress partition 0
@@ -349,7 +378,8 @@ virtual_existing() {
 		return $?
 	fi
 	fs=$(virtual_probe "$v_path" "${info##*:}") || { virtual_fail layout; return 1; }
-	v_partition=$(awk -v b="${info##*:}" 'BEGIN {printf "%.0f",b-1048576}')
+	v_partition=$(awk -v b="${info##*:}" 'BEGIN {printf "%d",b/1024-1024}')
+	v_partition=$(virtual_bytes "$v_partition")
 	virtual_journal || return 1
 	printf '%s\n' "$v_inode" >"$STATE/virtual/inode"
 	fsync "$STATE/virtual/inode" "$STATE/virtual" || return 1
@@ -372,8 +402,10 @@ virtual_existing() {
 virtual_request() {
 	local rc stage
 	v_request=$(prop request) v_owner=$(prop owner) v_inode='' v_child='' v_stamp=''
+	: >"$STATE/virtual.log"
 	rm -rf "$STATE/virtual.tmp"
 	setprop "$P.verror" ''
+	setprop "$P.vdetail" ''
 	setprop "$P.vresult" working
 	virtual_progress validate 0
 	setprop "$P.vactive" 1
@@ -394,6 +426,8 @@ virtual_request() {
 		virtual_fail unavailable || true
 	fi
 	if [ "$rc" = 0 ]; then
+		setprop "$P.verror" ''
+		setprop "$P.vdetail" ''
 		setprop "$P.vresult" 'done'
 	else
 		stage=$(prop vstage)

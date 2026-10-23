@@ -26,7 +26,7 @@ for name in '' /tmp/a ../a a/../b 'a..b' .hidden 'a;' 'a*' 'a\b' 'a ' 'a.' "$(pr
 done
 check virtual_name "$(printf '%087d' 1)"
 if virtual_name "$(printf '%088d' 1)"; then exit 1; fi
-for gb in 1 4 8 16 32 64 1024; do check virtual_size "$gb"; done
+for gb in 1 2 4 8 16 32 64 1024; do check virtual_size "$gb"; done
 for gb in 0 01 -1 1.5 1025 999999999999 a '1;id'; do
 	if virtual_size "$gb"; then echo "FAIL: virtual size $gb"; exit 1; fi
 done
@@ -78,14 +78,33 @@ check virtual_request
 check test "$(prop vresult)" = 'done'
 check test "$(stat -c %s "$MEDIA/UUID/isos/My drive.img")" = 17179869184
 check python3 "$HERE/tests/virtual-drive-mbr.py" "$MEDIA/UUID/isos/My drive.img" exfat 17179869184
+# All allocation arguments remain exact integers across shells, including mksh.
+for gb in 1 2 4 16 64 1024; do
+    virtual_fixture
+    export VIRTUAL_FREE_KB=1200000000
+    setprop "$P.vsize" "$gb"
+    setprop "$P.vfs" exfat
+    sed 's/ - exfat / - ext4 /' "$MOUNTS" >"$T/newmounts"
+    mv "$T/newmounts" "$MOUNTS"
+    check virtual_request
+    check test "$(prop vresult)" = 'done'
+    bytes=$(virtual_bytes "$((gb * 1048576))")
+    check test "$(stat -c %s "$MEDIA/UUID/isos/My drive.img")" = "$bytes"
+    check python3 "$HERE/tests/virtual-drive-mbr.py" "$MEDIA/UUID/isos/My drive.img" exfat "$bytes"
+    unset VIRTUAL_FREE_KB
+done
 # Formatting failure and cancellation never publish a partial image.
-for behavior in failure cancel; do
+for behavior in failure allocate cancel; do
 	virtual_fixture
 	if [ "$behavior" = failure ]; then export VIRTUAL_FAIL_TOOL=mkfs.exfat
+	elif [ "$behavior" = allocate ]; then export VIRTUAL_FAIL_TOOL=truncate
 	else export VIRTUAL_CANCEL_TOOL=truncate; fi
 	setprop "$P.vfs" exfat
 	check virtual_request
-	if [ "$behavior" = failure ]; then check test "$(prop vresult)" = error
+	if [ "$behavior" != cancel ]; then
+        check test "$(prop vresult)" = error
+        check test -n "$(prop vdetail)"
+        case $(prop vdetail) in *'simulated operation failed'*) ;; *) exit 1 ;; esac
 	else check test "$(prop vresult)" = cancelled; fi
 	check test ! -e "$MEDIA/UUID/isos/My drive.img"
 	check test ! -e "$MEDIA/UUID/isos/.My drive.img.creating"

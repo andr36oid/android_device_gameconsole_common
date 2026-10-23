@@ -22,9 +22,9 @@ public final class KeyboardTest {
         return model.update(frame(buttons), time);
     }
     private static void select(KeyboardModel model, int usage, int action) {
-        for (int row = 0; row < KeyboardModel.ROWS.length; row++) {
-            for (int column = 0; column < KeyboardModel.ROWS[row].length; column++) {
-                final KeyboardModel.Key key = KeyboardModel.ROWS[row][column];
+        for (int row = 0; row < model.rows.length; row++) {
+            for (int column = 0; column < model.rows[row].length; column++) {
+                final KeyboardModel.Key key = model.rows[row][column];
                 if (key.usage == usage && key.action == action) {
                     while (model.row() != row) model.move(0, 1);
                     while (model.column() != column) model.move(1, 0);
@@ -41,9 +41,9 @@ public final class KeyboardTest {
     public static void main(String[] args) {
         final KeyboardModel model = new KeyboardModel("us");
         final Set<Integer> usages = new HashSet<>();
-        for (int row = 0; row < KeyboardModel.ROWS.length; row++) {
-            check(KeyboardModel.rowWidth(row) > 0);
-            for (KeyboardModel.Key key : KeyboardModel.ROWS[row]) {
+        for (int row = 0; row < model.rows.length; row++) {
+            check(model.rowWidth(row) > 0);
+            for (KeyboardModel.Key key : model.rows[row]) {
                 check(key.action != 0 || (key.usage >= 4 && key.usage <= 0x65)
                         || (key.usage >= 0xe0 && key.usage <= 0xe7));
                 if (key.action == 0) check(usages.add(key.usage));
@@ -60,9 +60,9 @@ public final class KeyboardTest {
         check(model.row() == row && model.column() == column);
         model.move(0, 1); model.move(0, 1); model.move(0, -1); model.move(0, -1);
         check(model.row() == row && model.column() == column);
-        for (int i = 0; i < KeyboardModel.ROWS[row].length; i++) model.move(1, 0);
+        for (int i = 0; i < model.rows[row].length; i++) model.move(1, 0);
         check(model.column() == column);
-        for (int i = 0; i < KeyboardModel.ROWS.length; i++) model.move(0, 1);
+        for (int i = 0; i < model.rows.length; i++) model.move(0, 1);
         check(model.row() == row && model.column() == column);
         check(!contains(update(model, 12), 0x2c)); // starting with A down must not type
         update(model);
@@ -93,7 +93,8 @@ public final class KeyboardTest {
         select(model, 4, 0); check(update(model, 12)[1] == 8); update(model);
         check(update(model, 15)[8] == 1); update(model);
         check(update(model, 16)[8] == 2); update(model);
-        check(update(model, 6)[8] == 4); update(model);
+        check(update(model, 6)[8] == 1); update(model);
+        check(update(model, 7)[8] == 4); update(model);
         check(update(model, 5, 12)[8] == 1); update(model);
         check(update(model, 5, 11)[8] == 2); update(model);
         check(update(model, 5, 14)[8] == 4); update(model);
@@ -124,7 +125,7 @@ public final class KeyboardTest {
         check(Arrays.equals(KeyboardModel.pack(), new byte[6]));
         for (String layout : KeyboardModel.LAYOUTS) {
             final KeyboardModel labels = new KeyboardModel(layout);
-            for (KeyboardModel.Key[] keys : KeyboardModel.ROWS) for (KeyboardModel.Key key : keys)
+            for (KeyboardModel.Key[] keys : model.rows) for (KeyboardModel.Key key : keys)
                 if (key.action == 0) check(!labels.label(key).isEmpty());
         }
         check(new KeyboardModel("de").label(new KeyboardModel.Key(0x1c,"Y",1)).equals("Z"));
@@ -145,6 +146,19 @@ public final class KeyboardTest {
         }
         update(model);
         select(model, 0, KeyboardModel.STOP); update(model, 12); check(model.stopRequested());
+        for (int mask : new int[] {0, UsbFunctions.MOUSE, UsbFunctions.XINPUT, UsbFunctions.KEYBOARD,
+                UsbFunctions.STORAGE, UsbFunctions.STORAGE | UsbFunctions.KEYBOARD}) {
+            for (boolean cd : new boolean[] {false, true}) {
+                model.setFunctions(mask, cd);
+                boolean file = false, disc = false;
+                for (KeyboardModel.Key[] keys : model.rows) for (KeyboardModel.Key key : keys) {
+                    file |= key.action == KeyboardModel.TYPE_FILE;
+                    disc |= key.action == KeyboardModel.CHANGE_DISC;
+                }
+                check(file == ((mask & UsbFunctions.KEYBOARD) != 0));
+                check(disc == (cd && (mask & UsbFunctions.STORAGE) != 0));
+            }
+        }
         System.out.println("Keyboard navigation, usages, labels, 6KRO, holds, modifiers and release guards: " + checks + " checks passed");
     }
 }

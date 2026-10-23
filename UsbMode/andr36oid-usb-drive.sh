@@ -822,6 +822,8 @@ restore_storage() {
 
 cleanup() {
 	status stopping
+	setprop "$P.routing" ''
+	setprop "$P.active_functions" 0
 	closed=1 cleanup_ok=1
 	step close_drive || closed=0
 	step restore_backlight || cleanup_ok=0

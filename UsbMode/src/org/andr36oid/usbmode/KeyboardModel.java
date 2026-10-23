@@ -49,11 +49,28 @@ final class KeyboardModel {
         };
     }
 
+    Key[][] rows = ROWS;
+    private int mCapabilities = -1;
+    void setFunctions(int mask, boolean cdrom) {
+        final int capabilities = (mask & UsbFunctions.KEYBOARD) | (cdrom && (mask & UsbFunctions.STORAGE) != 0 ? UsbFunctions.STORAGE : 0);
+        if (capabilities == mCapabilities) return;
+        mCapabilities = capabilities;
+        rows = ROWS.clone();
+        final List<Key> actions = new ArrayList<>();
+        for (Key key : ROWS[ROWS.length - 1]) {
+            if (key.action == TYPE_FILE && (mask & UsbFunctions.KEYBOARD) == 0) continue;
+            if (key.action == CHANGE_DISC && (capabilities & UsbFunctions.STORAGE) == 0) continue;
+            actions.add(key);
+        }
+        rows[rows.length - 1] = actions.toArray(new Key[0]);
+        mColumn = Math.min(mColumn, rows[mRow].length - 1);
+    }
+
     private final int[] mModifiers = new int[8]; // off, next key, locked
     private final int[] mHeld = new int[4];
     private final String mLayout;
     private int mRow = 2, mColumn = 1, mPrevious, mMouseLocked, mWheel;
-    private float mDesiredColumn = center(2, 1);
+    private float mDesiredColumn;
     private int mDirection = -1, mActionHeld;
     private long mRepeatAt;
     private boolean mArmed, mStop, mFileRequested, mDiscRequested;
@@ -62,7 +79,7 @@ final class KeyboardModel {
     boolean discRequested() { boolean value = mDiscRequested; mDiscRequested = false; return value; }
     boolean fileRequested() { boolean requested = mFileRequested; mFileRequested = false; return requested; }
 
-    KeyboardModel(String layout) { mLayout = validLayout(layout); }
+    KeyboardModel(String layout) { mLayout = validLayout(layout); setFunctions(UsbFunctions.KEYBOARD, false); mDesiredColumn = center(2, 1); }
     static String validLayout(String layout) {
         for (String value : LAYOUTS) if (value.equals(layout)) return value;
         return "us";
@@ -74,25 +91,25 @@ final class KeyboardModel {
     boolean stopRequested() { return mStop; }
     int modifier(int bit) { return mModifiers[bit]; }
     int mouseLocked() { return mMouseLocked; }
-    static float rowWidth(int row) {
+    float rowWidth(int row) {
         float width = 0;
-        for (Key key : ROWS[row]) width += key.width;
+        for (Key key : rows[row]) width += key.width;
         return width;
     }
-    static float center(int row, int column) {
+    float center(int row, int column) {
         float x = 0;
-        for (int i = 0; i < column; i++) x += ROWS[row][i].width;
-        return (x + ROWS[row][column].width / 2) / rowWidth(row);
+        for (int i = 0; i < column; i++) x += rows[row][i].width;
+        return (x + rows[row][column].width / 2) / rowWidth(row);
     }
     void move(int dx, int dy) {
         if (dx != 0) {
-            mColumn = Math.floorMod(mColumn + dx, ROWS[mRow].length);
+            mColumn = Math.floorMod(mColumn + dx, rows[mRow].length);
             mDesiredColumn = center(mRow, mColumn);
         }
         if (dy != 0) {
-            mRow = Math.floorMod(mRow + dy, ROWS.length);
+            mRow = Math.floorMod(mRow + dy, rows.length);
             float nearest = Float.MAX_VALUE;
-            for (int i = 0; i < ROWS[mRow].length; i++) {
+            for (int i = 0; i < rows[mRow].length; i++) {
                 final float distance = Math.abs(center(mRow, i) - mDesiredColumn);
                 if (distance < nearest) { nearest = distance; mColumn = i; }
             }
@@ -165,7 +182,7 @@ final class KeyboardModel {
                 mDirection = direction;
             }
             if (down(pressed, 12)) {
-                final Key key = ROWS[mRow][mColumn];
+                final Key key = rows[mRow][mColumn];
                 mActionHeld = key.action;
                 if (key.usage >= 0xe0) toggle(key.usage - 0xe0);
                 else if (key.action >= MOUSE_LEFT && key.action <= MOUSE_MIDDLE)
@@ -184,9 +201,9 @@ final class KeyboardModel {
             }
         }
         int mouse = mMouseLocked;
-        if (down(buttons, 15) || (select && down(buttons, 12))) mouse |= 1;
+        if (down(buttons, 6) || down(buttons, 15) || (select && down(buttons, 12))) mouse |= 1;
         if (down(buttons, 16) || (select && down(buttons, 11))) mouse |= 2;
-        if (down(buttons, 6) || down(buttons, 7) || (select && down(buttons, 14))) mouse |= 4;
+        if (down(buttons, 7) || (select && down(buttons, 14))) mouse |= 4;
         mPrevious = buttons;
         return packet(mouse, select);
     }

@@ -588,7 +588,7 @@ int run(unsigned functions) {
                 property(std::string(kPrefix) + "hint_ready") == "1");
         if (controls.exit()) break;
         const std::string screen = controls.dark() ? "dark" : controls.hint() ? "hint" : "on";
-        const std::string routing = controls.keyboardScreen() ? "keyboard" : "gamepad";
+        const std::string routing = typing && controls.keyboardScreen() ? "keyboard" : "gamepad";
         if (controls.dark() != wasDark || time - lastBacklight >= 100) {
             lastBacklight = time; wasDark = controls.dark();
             if (!backlight.dark(wasDark)) { log("Cannot set backlight"); result = 1; break; }
@@ -673,7 +673,7 @@ int run(unsigned functions) {
             const State motion = typing ? channel.active() && connected && !channel.menu() ? controls.keyboardState(raw) : State{}
                     : controls.suppress() || controls.hint() || channel.menu() ? State{} : raw;
             const uint8_t buttons = typing ? channel.buttons() :
-                    static_cast<uint8_t>((motion.buttons[B] ? 1 : 0) | (motion.buttons[A] ? 2 : 0));
+                    mouseButtons(motion);
             const auto tagged = pointerModel.report(motion, buttons, typing && channel.scrolling(),
                     typing ? channel.wheel() : 0, (time - lastPointer) / 1000.0);
             Bytes report = wireReport(Bytes(tagged.begin(), tagged.end()));
@@ -729,6 +729,7 @@ int run(unsigned functions) {
     if (mouseFd >= 0) { const uint8_t neutral[4]{}; send(mouseFd, neutral, sizeof(neutral)); close(mouseFd); }
     if (out >= 0) close(out);
     if (ep0 >= 0) close(ep0);
+    set("routing", "");
     return result;
 }
 }

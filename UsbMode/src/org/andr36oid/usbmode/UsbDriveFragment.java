@@ -180,7 +180,7 @@ public class UsbDriveFragment extends PreferenceFragment {
         if (virtualResult.equals("done") || virtualResult.equals("error") || virtualResult.equals("cancelled")) {
             final Preference result = row("virtual_result", virtualResult.equals("done") ? R.string.usb_virtual_done
                     : virtualResult.equals("cancelled") ? R.string.usb_virtual_cancelled : R.string.usb_virtual_failed);
-            if (virtualResult.equals("error")) result.setSummary(virtualError(UsbDriveControl.virtual("error")));
+            if (virtualResult.equals("error")) result.setSummary(virtualError(UsbDriveControl.virtual("error")) + "\n" + UsbDriveControl.virtual("detail"));
             root.addPreference(result);
         }
         final ListPreference preset = new ListPreference(getActivity());

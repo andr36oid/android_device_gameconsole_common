@@ -44,6 +44,7 @@ public class ControllerSessionActivity extends Activity {
     private KeyboardModel mKeyboardModel;
     private KeyboardView mKeyboard;
     private KeyboardChannel mChannel;
+    private ControllerInputChannel mInputChannel;
     private boolean mResumed, mFocused, mLeaving, mLocked, mHintQueued;
     private int mMask;
     private String mLastScreen = "on";
@@ -63,6 +64,7 @@ public class ControllerSessionActivity extends Activity {
                 unlock();
                 if (!"on".equals(mLastScreen)) UsbDeviceControl.clearDarkRequest();
             }
+            synchronized (mKeyboardModel) { mKeyboardModel.setFunctions(mMask, canChangeDisc()); }
             configurePads();
             final boolean macro = mKeyboardModel.macro != null;
             final boolean board = mBoard != null;
@@ -285,12 +287,35 @@ public class ControllerSessionActivity extends Activity {
         mLocked = false;
     }
     private void leave() { mLeaving = true; closeKeyboard(); UsbDriveControl.stop(); }
-    private void closeKeyboard() { if (mChannel != null) { mChannel.close(); mChannel = null; } }
+    private void closeKeyboard() {
+        if (mChannel != null) { mChannel.close(); mChannel = null; }
+        if (mInputChannel != null) { mInputChannel.close(); mInputChannel = null; }
+    }
     private void updateKeyboard() {
-        if (mResumed && (mFocused || mPickingFile) && !mLeaving && ((mMask & UsbFunctions.KEYBOARD) == 0 || UsbDeviceControl.keyboardScreen())
+        if (mResumed && (mFocused || mPickingFile) && !mLeaving && ((mMask & UsbFunctions.KEYBOARD) != 0 && UsbDeviceControl.keyboardScreen())
                 && ("on".equals(UsbDeviceControl.screen()) || "dark".equals(UsbDeviceControl.screen()) && (mBoard != null || mKeyboardModel.macro != null))) {
+            if (mInputChannel != null) { mInputChannel.close(); mInputChannel = null; }
             if (mChannel == null) mChannel = new KeyboardChannel(mKeyboardModel,mKeyboard,this::dialogFrame);
-        } else closeKeyboard();
+        } else {
+            if (mChannel != null) { mChannel.close(); mChannel = null; }
+            if (mResumed && (mFocused || mPickingFile) && !mLeaving && (mMask & UsbFunctions.KEYBOARD) == 0
+                    && ("on".equals(UsbDeviceControl.screen()) || mBoard != null)) {
+                if (mInputChannel == null) {
+                    mInputChannel = new ControllerInputChannel() {
+                        @Override byte[] reply(byte[] frame) {
+                            synchronized (mKeyboardModel) {
+                                final int action = dialogFrame(frame);
+                                final byte[] packet = new byte[16]; packet[0] = 1;
+                                packet[14] = (byte) (action == 2 ? 1 : 0);
+                                return packet;
+                            }
+                        }
+                        @Override void released() { }
+                    };
+                    mInputChannel.start();
+                }
+            } else if (mInputChannel != null) { mInputChannel.close(); mInputChannel = null; }
+        }
     }
     private int dialogFrame(byte[] frame) {
         if (!mPickingFile) {
@@ -350,7 +375,8 @@ public class ControllerSessionActivity extends Activity {
     }
     private boolean canChangeDisc() {
         return (mMask & UsbFunctions.STORAGE) != 0 && "file".equals(SystemProperties.get(UsbDeviceControl.PREFIX + "target"))
-                && "1".equals(SystemProperties.get(UsbDeviceControl.PREFIX + "ro"));
+                && "1".equals(SystemProperties.get(UsbDeviceControl.PREFIX + "ro"))
+                && "1".equals(SystemProperties.get(UsbDeviceControl.PREFIX + "cdrom"));
     }
     private void pickDisc() {
         if (mPickingFile || !canChangeDisc()) return;

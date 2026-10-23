@@ -13,6 +13,12 @@ std::string startOf(pid_t pid) {
 }
 
 int main() {
+    State click;
+    click.buttons[L3] = true; assert(mouseButtons(click) == 1);
+    click.buttons[L3] = false; click.buttons[B] = true; assert(mouseButtons(click) == 1);
+    click.buttons[B] = false; click.buttons[A] = true; assert(mouseButtons(click) == 2);
+    click.buttons[R3] = true; assert(mouseButtons(click) == 2);
+
     KeyboardPointer pointer;
     State state;
     state.sticks[0] = 3000;

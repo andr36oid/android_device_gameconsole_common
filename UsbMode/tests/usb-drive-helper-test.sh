@@ -414,6 +414,8 @@ check awk '$1=="prop" && $2=="sys.usb.configfs" && $3==2 {gated=NR}
     END {exit !(gated>0 && gated<released && released<role && role<bound)}' "$T/log"
 check cleanup
 check test "$(cat "$OTG")" = host
+check test "$(prop active_functions)" = 0
+check test -z "$(prop routing)"
 check test "$(getprop sys.usb.config)" = mtp
 check test "$(prop gated)" = 0
 # shellcheck disable=SC2016

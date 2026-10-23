@@ -50,7 +50,7 @@ final class KeyboardView extends View {
         final float scale = getWidth() / 640f;
         canvas.scale(scale, scale);
         final float height = getHeight() / scale;
-        final float rowHeight = (height - 190) / KeyboardModel.ROWS.length;
+        final float rowHeight = (height - 190) / mModel.rows.length;
         final String[] status = mStatus.split("\\n");
         text(canvas, status[0], 8, 19, 12, 0xffeeeeee);
         if (status.length > 1) text(canvas, status[1], 8, 39, 12, 0xffeeeeee);
@@ -64,12 +64,12 @@ final class KeyboardView extends View {
                     getContext().getString(R.string.keyboard_modifier_locked)};
             text(canvas, getContext().getString(R.string.keyboard_modifiers,
                     states[mModel.modifier(1)], states[mModel.modifier(0)]), 8, 82, 12, 0xff80cbc4);
-            for (int row = 0; row < KeyboardModel.ROWS.length; row++) {
-                final KeyboardModel.Key[] keys = KeyboardModel.ROWS[row];
+            for (int row = 0; row < mModel.rows.length; row++) {
+                final KeyboardModel.Key[] keys = mModel.rows[row];
                 float x = 6;
                 for (int column = 0; column < keys.length; column++) {
                     final KeyboardModel.Key key = keys[column];
-                    final float width = key.width / KeyboardModel.rowWidth(row) * 628;
+                    final float width = key.width / mModel.rowWidth(row) * 628;
                     final float top = 95 + row * rowHeight;
                     final boolean selected = row == mModel.row() && column == mModel.column();
                     final int modifier = key.usage >= 0xe0 ? mModel.modifier(key.usage - 0xe0) : 0;

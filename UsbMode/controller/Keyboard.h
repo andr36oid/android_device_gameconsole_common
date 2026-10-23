@@ -8,6 +8,8 @@
 
 namespace controller {
 
+uint8_t mouseButtons(const State& state);
+
 constexpr const char kKeyboardSocket[] = "andr36oid-controller-keyboard";
 using KeyboardPacket = std::array<uint8_t, 16>;
 

@@ -13,6 +13,7 @@ if tool == os.environ.get("VIRTUAL_CANCEL_TOOL"):
     (t / "props/sys.andr36oid.usbdrive.request").write_text("stop\n")
     sys.exit(1)
 if tool == os.environ.get("VIRTUAL_FAIL_TOOL"):
+    print(tool + ": simulated operation failed", file=sys.stderr)
     sys.exit(4)
 if tool == "fsync":
     sys.exit(0)
@@ -52,7 +53,8 @@ if tool in ("newfs_msdos", "mkfs.exfat", "mkfs.ntfs", "mke2fs"):
     assert args[-1] == "/dev/block/loop7"
     assert "-L" in args
     if tool == "newfs_msdos":
-        assert args[:4] == ["-F", "32", "-c", "8"]
+        assert args[:3] == ["-F", "32", "-c"]
+        assert args[3] in ("8", "32", "64")
         assert args[4:10] == ["-h", "255", "-u", "63", "-o", "2048"]
     elif tool == "mkfs.ntfs":
         assert args[:3] == ["-f", "-p", "2048"]

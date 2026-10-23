@@ -14,6 +14,10 @@ std::array<float, 2> radial(int16_t x, int16_t y, float deadzone) {
 }
 }
 
+uint8_t mouseButtons(const State& s) {
+    return (s.buttons[B] || s.buttons[L3] ? 1 : 0) | (s.buttons[A] ? 2 : 0);
+}
+
 KeyboardPointer::KeyboardPointer() {
     joymouse::PointerParams params;
     // The PC applies its own pointer acceleration, rather than Android's.
