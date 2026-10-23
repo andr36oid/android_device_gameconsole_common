@@ -809,10 +809,15 @@ public class UsbDriveActivity extends Activity {
         final boolean companion = (mFunctions & (UsbFunctions.NETWORK | UsbFunctions.RNDIS)) != 0
                 && (mFunctions & ~(UsbFunctions.NETWORK | UsbFunctions.RNDIS | UsbFunctions.ADB)) == 0;
         if (companion) {
-            row("retroarch", getString(R.string.usb_link_open), getString(R.string.usb_emulator_start_app),
-                    "ok".equals(startReason()), () -> startCompanion("com.retroarch"));
-            row("moonlight", getString(R.string.usb_stream_open), getString(R.string.usb_emulator_start_app),
-                    "ok".equals(startReason()), () -> startCompanion("com.limelight"));
+            // Connecting the network without any app is the default; apps are only offered when installed.
+            row("connect_only", getString(R.string.usb_link_connect_only), getString(R.string.usb_link_connect_only_summary),
+                    "ok".equals(startReason()), () -> { mCompanion = ""; start(); });
+            if (getPackageManager().getLaunchIntentForPackage("com.retroarch") != null)
+                row("retroarch", getString(R.string.usb_link_open), getString(R.string.usb_emulator_start_app),
+                        "ok".equals(startReason()), () -> startCompanion("com.retroarch"));
+            if (getPackageManager().getLaunchIntentForPackage("com.limelight") != null)
+                row("moonlight", getString(R.string.usb_stream_open), getString(R.string.usb_emulator_start_app),
+                        "ok".equals(startReason()), () -> startCompanion("com.limelight"));
         }
         page(R.string.usb_wizard_review, body);
         mNext.setText(R.string.usb_device_start);
@@ -911,7 +916,8 @@ public class UsbDriveActivity extends Activity {
                         mCdrom = offer.defaultCdrom() && offer.cdromPossible();
                         if (!offer.type.isEmpty()) mRo = false;
                         save();
-                        mIndex = UsbWizard.steps(mPreset, mFunctions).indexOf(UsbWizard.STORAGE); open(CONNECT);
+                        // The image is already chosen, so go straight to Review (Back still reaches Storage).
+                        mIndex = UsbWizard.steps(mPreset, mFunctions).indexOf(UsbWizard.REVIEW); open(CONNECT);
                     } else if (offer.forcedRo || !mImages.mounted || !mImages.writable) {
                         details(name(offer), getString(R.string.usb_virtual_unavailable));
                     } else if (which == 3) rename(offer);
