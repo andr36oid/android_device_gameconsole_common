@@ -72,7 +72,7 @@ public class UsbDriveActivity extends Activity {
     private int mPage = HUB, mIndex, mCreateIndex, mFunctions, mShownPage = -1, mShownStep = -1;
     private boolean mResumed, mAdvanced, mMacro, mRo, mCdrom, mDebugging;
     private String mPreset, mSelectedKey, mFocus = "", mLive = "";
-    private String mImageName = "image1", mImageSize = "1", mImageFs = "fat32", mImageLabel;
+    private String mImageName = "image1", mImageSize = "1", mImageFs = "fat32", mImageLabel, mFormCid = "";
     private long mNextScan;
     private UsbDrive.Offer mSelected;
     private UsbDrive.Images mImages = new UsbDrive.Images();
@@ -119,6 +119,7 @@ public class UsbDriveActivity extends Activity {
             mAdvanced = state.getBoolean("advanced"); mFocus = state.getString("focus", "");
             mImageName = state.getString("image_name", ""); mImageSize = state.getString("image_size", "1");
             mImageFs = state.getString("image_fs", "fat32"); mImageLabel = state.getString("image_label", mImageLabel);
+            mFormCid = state.getString("form_cid", "");
         }
         mStep = findViewById(R.id.step_label); mTitle = findViewById(R.id.title);
         mBody = findViewById(R.id.body); mNote = findViewById(R.id.note);
@@ -165,6 +166,7 @@ public class UsbDriveActivity extends Activity {
         state.putBoolean("advanced", mAdvanced); state.putString("focus", mFocus);
         state.putString("image_name", mImageName); state.putString("image_size", mImageSize);
         state.putString("image_fs", mImageFs); state.putString("image_label", mImageLabel);
+        state.putString("form_cid", mFormCid);
         super.onSaveInstanceState(state);
     }
     @Override public void onBackPressed() { goBack(); }
@@ -295,12 +297,20 @@ public class UsbDriveActivity extends Activity {
         if (!mWork.debugging) mCreateFunctions &= ~UsbFunctions.ADB;
         final long oldMax = VirtualDrive.maximum(mImages.free, mImages.filesystem);
         final boolean oldWritable = mImages.writable;
+        final String oldCid = mImages.cid;
         mOffers = mWork.offers; mImages = mWork.images; findSelected();
         if (!mWork.debugging && (mFunctions & UsbFunctions.ADB) != 0) { mFunctions &= ~UsbFunctions.ADB; save(); }
         if (mWork.creation.waiting && "done".equals(UsbDriveControl.virtual("result"))) { created(); return; }
         if (mPage == CREATE) {
-            if (oldMax != VirtualDrive.maximum(mImages.free, mImages.filesystem) || oldWritable != mImages.writable || mCreateIndex == 3 && debugChanged) {
-                saveEntry(); render();
+            if (oldMax != VirtualDrive.maximum(mImages.free, mImages.filesystem) || oldWritable != mImages.writable
+                    || !oldCid.equals(mImages.cid) || mCreateIndex == 3 && debugChanged) {
+                if (mEdit != null && mEdit.isFocused() && mDialog == null) {
+                    // Keep the editor and its live InputConnection while the free-space scan changes.
+                    saveEntry();
+                    if (mCreateIndex == 1) { sizeDescription(); sizeChoices(); }
+                    mNext.setEnabled(createProblem() == 0);
+                    if (createProblem() != 0) mNote.setText(createProblem());
+                } else if (mDialog == null) { saveEntry(); render(); }
             }
         } else if (mPage != PROGRESS && mPage != SESSION && mDialog == null) render();
     }
@@ -928,6 +938,7 @@ public class UsbDriveActivity extends Activity {
     private void newImage(boolean fromStorage) {
         List<String> names = new ArrayList<>();
         for (UsbDrive.Offer offer : mImages.offers) names.add(offer.node);
+        mFormCid = mImages.cid;
         mImageName = VirtualDrive.nextName(names); mImageFs = "fat32"; mImageSize = "1";
         mCustomLabel = false; mImageLabel = VirtualDrive.defaultLabel(mImageName, mImageFs);
         mCreateFunctions = fromStorage ? mFunctions : UsbWizard.preset("drive", mWork.debugging);
@@ -936,21 +947,14 @@ public class UsbDriveActivity extends Activity {
     private void create() {
         mStep.setText(getString(R.string.usb_wizard_step, mCreateIndex + 1, 4));
         mProgress.setProgress((mCreateIndex + 1) * 25);
-        mNext.setEnabled(mImages.mounted && mImages.writable && VirtualDrive.maximum(mImages.free, mImages.filesystem) >= VirtualDrive.GB);
+        mNext.setEnabled(createProblem() == 0);
         if (mCreateIndex == 0) {
             page(R.string.usb_virtual_name, getString(R.string.usb_image_name_hint));
             editEntry(mImageName, false);
         } else if (mCreateIndex == 1) {
-            page(R.string.usb_virtual_size, getString(R.string.usb_virtual_available,
-                    VirtualDrive.maximum(mImages.free, mImages.filesystem) / VirtualDrive.GB));
+            mTitle.setText(R.string.usb_virtual_size); sizeDescription();
             editEntry(mImageSize, true);
-            for (String size : VirtualDrive.presets(mImages.free, mImages.filesystem)) {
-                RadioButton option = choice("size:" + size, getString(R.string.usb_wizard_gb, size), "",
-                        VirtualDrive.presetSelected(mImageSize, size), true, () -> {
-                            mImageSize = size; mEdit.setText(size); updateSizeChoices();
-                        });
-                mSizeChoices.add(option);
-            }
+            sizeChoices();
         } else if (mCreateIndex == 2) {
             page(R.string.usb_wizard_filesystem, getString(R.string.usb_virtual_summary));
             String[] names = getString(R.string.usb_virtual_filesystems).split("\\|");
@@ -976,8 +980,15 @@ public class UsbDriveActivity extends Activity {
             mNext.setEnabled(mNext.isEnabled() && "ok".equals(why));
             if (!"ok".equals(why)) mNote.setText(reason(why, mCreateFunctions));
         }
-        if (!mImages.mounted || !mImages.writable) mNote.setText(R.string.usb_virtual_unavailable);
-        else if (VirtualDrive.maximum(mImages.free, mImages.filesystem) < VirtualDrive.GB) mNote.setText(R.string.usb_virtual_bad_size);
+        if (createProblem() != 0) mNote.setText(createProblem());
+    }
+    private int createProblem() {
+        if (!VirtualDrive.sameCard(mFormCid, mImages)) return R.string.usb_image_card_changed;
+        if (!mImages.mounted || !mImages.writable) return R.string.usb_virtual_unavailable;
+        return VirtualDrive.maximum(mImages.free, mImages.filesystem) < VirtualDrive.GB ? R.string.usb_virtual_bad_size : 0;
+    }
+    private void sizeDescription() {
+        mBody.setText(getString(R.string.usb_virtual_available, VirtualDrive.maximum(mImages.free, mImages.filesystem) / VirtualDrive.GB));
     }
     private void editLabel() {
         EditText field = new EditText(this); field.setSingleLine(true); field.setText(mImageLabel); UsbTextInput.bind(field);
@@ -1017,13 +1028,29 @@ public class UsbDriveActivity extends Activity {
                 if (numeric) { mImageSize = value.toString(); updateSizeChoices(); }
                 else { mImageName = value.toString(); if (!mCustomLabel) mImageLabel = VirtualDrive.defaultLabel(mImageName, mImageFs); }
             }
-            @Override public void afterTextChanged(Editable value) { }
+            @Override public void afterTextChanged(Editable value) {
+                if (mEdit == editor && mPage == CREATE && mCreateIndex == 1 && numeric) saveEntry();
+            }
         });
         mChoices.addView(mEdit, new LinearLayout.LayoutParams(-1, -2));
     }
+    private void sizeChoices() {
+        for (String size : VirtualDrive.presets(mImages.free, mImages.filesystem)) {
+            if (mChoices.findViewWithTag("size:" + size) != null) continue;
+            RadioButton option = choice("size:" + size, getString(R.string.usb_wizard_gb, size), "",
+                    VirtualDrive.presetSelected(mImageSize, size), true, () -> {
+                        mImageSize = size; mEdit.setText(size); updateSizeChoices();
+                    });
+            mSizeChoices.add(option);
+        }
+        updateSizeChoices();
+    }
     private void updateSizeChoices() {
-        for (RadioButton option : mSizeChoices) option.setChecked(VirtualDrive.presetSelected(mImageSize,
-                option.getTag().toString().substring("size:".length())));
+        for (RadioButton option : mSizeChoices) {
+            String size = option.getTag().toString().substring("size:".length());
+            option.setVisibility(VirtualDrive.size(size) <= VirtualDrive.maximum(mImages.free, mImages.filesystem) ? View.VISIBLE : View.GONE);
+            option.setChecked(VirtualDrive.presetSelected(mImageSize, size));
+        }
     }
     private void saveEntry() {
         if (mPage != CREATE || mEdit == null) return;
@@ -1032,14 +1059,16 @@ public class UsbDriveActivity extends Activity {
             String value = mEdit.getText().toString();
             mImageSize = VirtualDrive.clampSize(value, mImages.free, mImages.filesystem);
             if (!value.equals(mImageSize)) {
-                mEdit.setText(mImageSize); mNote.setText(getString(R.string.usb_image_size_clamped, mImageSize));
+                mEdit.setText(mImageSize); mEdit.setSelection(mImageSize.length());
+                mNote.setText(getString(R.string.usb_image_size_clamped, mImageSize));
             }
             updateSizeChoices();
         }
         if (!mCustomLabel) mImageLabel = VirtualDrive.defaultLabel(mImageName, mImageFs);
     }
     private boolean validEntry() {
-        int error = 0;
+        int error = createProblem();
+        if (error != 0) { mNote.setText(error); return false; }
         if (!VirtualDrive.name(mImageName)) error = R.string.usb_virtual_bad_name;
         else if (mCreateIndex >= 1 && (VirtualDrive.size(mImageSize) == 0
                 || VirtualDrive.size(mImageSize) > VirtualDrive.maximum(mImages.free, mImages.filesystem))) error = R.string.usb_virtual_bad_size;
@@ -1056,8 +1085,14 @@ public class UsbDriveActivity extends Activity {
         final android.content.Context context = getApplicationContext();
         final UsbDrive.Images images = mImages;
         final String name = mImageName, size = mImageSize, fs = mImageFs, label = mImageLabel;
-        if (runImageOperation(() -> UsbDriveControl.create(context, images, name, size, fs, label)))
-            mWork.creation.begin(name + ".img", images.cid, mCreateFunctions, use);
+        if (runImageOperation(() -> {
+            UsbDrive.Images fresh = UsbDriveControl.images();
+            if (!VirtualDrive.sameCard(images.cid, fresh)) throw new IllegalStateException(context.getString(R.string.usb_image_card_changed));
+            if (!fresh.mounted || !fresh.writable) throw new IllegalStateException(context.getString(R.string.usb_virtual_unavailable));
+            if (VirtualDrive.size(size) > VirtualDrive.maximum(fresh.free, fresh.filesystem))
+                throw new IllegalStateException(context.getString(R.string.usb_virtual_bad_size));
+            UsbDriveControl.create(context, fresh, name, size, fs, label);
+        })) mWork.creation.begin(name + ".img", images.cid, mCreateFunctions, use);
     }
     private boolean runImageOperation(Runnable request) {
         final Work work = mWork;

@@ -313,6 +313,7 @@
     <string name="usb_virtual_delete_confirm">Permanently delete this image and all files inside it? It must not be shared, open or mounted by another app.</string>
     <string name="usb_virtual_layout">Repair supports disk images with one MBR partition starting at 1 MiB and a FAT32, exFAT, NTFS or ext4 filesystem.</string>
     <string name="usb_virtual_changed">The image changed. Refresh the list before trying again.</string>
+    <string name="usb_image_card_changed">EASYROMS changed or was removed. Return to the image list and start again on the current card.</string>
     <string name="usb_virtual_recovery">An interrupted operation could not be safely cleaned up. Reinsert its writable EASYROMS card, then refresh. Stop sharing and close any app using the image.</string>
     <string name="usb_hub_connect">Connect to a computer</string>
     <string name="usb_hub_images">Manage disk images</string>

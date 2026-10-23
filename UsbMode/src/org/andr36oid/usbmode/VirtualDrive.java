@@ -72,4 +72,8 @@ final class VirtualDrive {
 
     static boolean presetSelected(String value, String preset) { return value.equals(preset); }
 
+    static boolean sameCard(String cid, UsbDrive.Images images) {
+        return !cid.isEmpty() && cid.equals(images.cid);
+    }
+
 }

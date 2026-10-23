@@ -60,6 +60,22 @@ public final class VirtualDriveTest {
         check(images.free == 18253611008L && images.filesystem.equals("exfat"));
         check(images.offers.size() == 1 && images.offers.get(0).type.equals("exfat"));
         check(!images.offers.get(0).defaultCdrom() && !images.offers.get(0).forcedRo);
+        check(VirtualDrive.sameCard(cid, images));
+        check(!VirtualDrive.sameCard("", images));
+        check(!VirtualDrive.sameCard("different-card", images));
+        images.cid = "replacement"; check(!VirtualDrive.sameCard(cid, images));
+        for (long free : new long[] {0, VirtualDrive.GB, 2 * VirtualDrive.GB - 1, 2 * VirtualDrive.GB,
+                3 * VirtualDrive.GB, 5 * VirtualDrive.GB, 17 * VirtualDrive.GB, Long.MAX_VALUE}) {
+            for (String fs : new String[] {"exfat", "vfat"}) {
+                String value = VirtualDrive.clampSize("1024", free, fs);
+                check(VirtualDrive.size(value) <= VirtualDrive.maximum(free, fs));
+                check(value.equals(VirtualDrive.clampSize(value, free, fs)));
+                for (String preset : VirtualDrive.presets(free, fs)) {
+                    check(VirtualDrive.size(preset) <= VirtualDrive.maximum(free, fs));
+                    check(VirtualDrive.presetSelected(value, preset) == value.equals(preset));
+                }
+            }
+        }
         System.out.println(checks + " virtual drive checks passed");
     }
 }

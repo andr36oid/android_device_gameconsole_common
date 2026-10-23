@@ -21,6 +21,10 @@ assert ET.parse(root / 'res/layout/usb_drive_activity.xml').find(".//ScrollView[
 assert 'new RadioButton(this)' in activity and 'R.drawable.usb_choice_background' in activity
 assert 'VirtualDrive.presets(mImages.free, mImages.filesystem)' in activity
 assert 'option.setChecked(VirtualDrive.presetSelected(mImageSize,' in activity
+assert 'VirtualDrive.sameCard(mFormCid, mImages)' in activity
+assert 'VirtualDrive.sameCard(images.cid, fresh)' in activity
+assert 'option.setVisibility(VirtualDrive.size(size) <= VirtualDrive.maximum(mImages.free, mImages.filesystem)' in activity
+assert 'if (mEdit != null && mEdit.isFocused() && mDialog == null)' in activity
 assert 'VirtualDrive.clampSize(value, mImages.free, mImages.filesystem)' in activity
 assert 'VirtualDrive.defaultLabel(mImageName, mImageFs)' in activity
 assert 'UsbWizard.bootMenu(mFunctions, mSelected, mCdrom)' in activity
