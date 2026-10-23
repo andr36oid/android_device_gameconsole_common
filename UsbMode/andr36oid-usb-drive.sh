@@ -23,15 +23,26 @@ WEBUSB_URL=https://github.com/andr36oid
 
 error=
 log_step() { log -t andr36oid-usb-drive "$*" || true; }
-put() { printf '%s\n' "$2" >"$1" || { log_step "write failed: $1"; return 1; }; }
+put() {
+	local err
+	if err=$(printf '%s\n' "$2" 2>&1 >"$1"); then return 0; fi
+	err=$(printf '%s' "$err" | LC_ALL=C tr -cd '[:print:]' | cut -c1-80)
+	log_step "write failed: $1${err:+: }$err"
+	[ -z "${STATE:-}" ] || printf 'write failed: %s%s\n' "$1" "${err:+: $err}" >"$STATE/step-detail" 2>/dev/null || true
+	return 1
+}
 fail() {
 	local detail
 	log_step "failed: $1"
 	if [ -z "$error" ]; then error=$1; detail=
 	else detail=$(prop detail); fi
 	if [ -z "$detail" ]; then
-		detail=$(tail -n 20 "$STATE/session-step.log" 2>/dev/null | LC_ALL=C tr -cd '[:print:]\n' |
-		    awk 'NF {line=$0} END {print substr(line,1,90)}')
+		if [ -s "${STATE:-}/step-detail" ]; then
+			detail=$(LC_ALL=C tr -cd '[:print:]' <"$STATE/step-detail" | cut -c1-90)
+		else
+			detail=$(tail -n 20 "$STATE/session-step.log" 2>/dev/null | LC_ALL=C tr -cd '[:print:]\n' |
+			    awk 'NF {line=$0} END {print substr(line,1,90)}')
+		fi
 		[ -n "$detail" ] || detail="$1 failed (exit ${2:-1})"
 	fi
 	setprop "$P.detail" "$detail"
@@ -46,7 +57,7 @@ step() {
 	local rc
 	log_step "$1"
 	setprop "$P.stage" "$1"
-	if [ "${step_depth:-0}" = 0 ]; then : >"$STATE/session-step.log"; fi
+	if [ "${step_depth:-0}" = 0 ]; then : >"$STATE/session-step.log"; rm -f "$STATE/step-detail"; fi
 	step_depth=$((${step_depth:-0} + 1))
 	if "$@" 2>>"$STATE/session-step.log"; then rc=0; else rc=$?; fi
 	step_depth=$((step_depth - 1))
@@ -602,15 +613,17 @@ configure_controller() {
 	fi
 	if has_function 2048; then
 		mkdir "$G/functions/ncm.link" || return 1
-		# Keep the device end outside EthernetService and Tethering's regexes.
-		put "$G/functions/ncm.link/ifname" 'ar36n%d' || return 1
+		# ifname is a read-only configfs attr in this kernel (u_ether_configfs.h
+		# CONFIGFS_ATTR_RO): writing it fails and aborts the session. The kernel
+		# name (usb0/ncm0) does not match EthernetService's eth\d regex, so the
+		# bring-up path just reads the assigned name back instead.
 		put "$G/functions/ncm.link/dev_addr" 02:36:00:00:00:01 || return 1
 		put "$G/functions/ncm.link/host_addr" 02:36:00:00:00:02 || return 1
 		ln -s "$G/functions/ncm.link" "$G/configs/b.1/f12" || return 1
 	fi
 	if has_function 32768; then
 		mkdir "$G/functions/rndis.link" || return 1
-		put "$G/functions/rndis.link/ifname" 'ar36r%d' || return 1
+		# ifname is read-only (see ncm.link above); read it back after bind.
 		put "$G/functions/rndis.link/dev_addr" 02:36:00:00:00:01 || return 1
 		put "$G/functions/rndis.link/host_addr" 02:36:00:00:00:02 || return 1
 		put "$G/functions/rndis.link/os_desc/interface.rndis/compatible_id" RNDIS || return 1
