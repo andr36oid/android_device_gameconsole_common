@@ -25,4 +25,14 @@ assert 'if (!mIdleStop) UsbDriveControl.stop();' in destroy
 idle = service.split('else if (!device && !UsbDriveControl.busy()) {', 1)[1].split('private void createChannels()', 1)[0]
 assert 'UsbDriveControl.stop();' not in idle
 assert idle.index('mIdleStop = true;') < idle.index('stopSelf();')
-print('Session keyboard, disc action and stop routing gates passed')
+disc = session.split('private void pickDisc() {', 1)[1].split('private void pickSound()', 1)[0]
+assert disc.index('new Thread(() -> {') < disc.index('UsbDriveControl.images()') < disc.index('mHandler.post(() -> {')
+assert 'mDestroyed || !canChangeDisc()' in disc
+assert 'mDestroyed = true; mHandler.removeCallbacksAndMessages(null);' in session
+assert 'mStatus.setText(hint ? getString(R.string.usb_device_dark_hint) : dark ? getString(R.string.usb_device_wake)' in session
+assert 'text.setPadding(dp(8), dp(3), dp(8), dp(3))' in session
+model = (src / 'KeyboardModel.java').read_text()
+assert 'key.action <= WHEEL_DOWN && (mask & UsbFunctions.MOUSE) == 0' in model
+view = (src / 'KeyboardView.java').read_text()
+assert 'mModel.mouseEnabled() ? R.string.keyboard_legend : R.string.keyboard_legend_keys' in view
+print('Session keyboard, disc worker, mouse legend, pre-dark hint and lifecycle gates passed')

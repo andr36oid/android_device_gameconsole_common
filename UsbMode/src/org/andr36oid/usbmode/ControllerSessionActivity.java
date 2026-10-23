@@ -36,7 +36,7 @@ public class ControllerSessionActivity extends Activity {
     private UsbAudio mAudio;
     private Soundboard mBoard;
     private AlertDialog mTextDialog;
-    private volatile boolean mPickingFile;
+    private volatile boolean mPickingFile, mDestroyed;
     private int mDialogButtons;
     private boolean mDiscHeld;
     private KeyboardModel mKeyboardModel;
@@ -89,7 +89,7 @@ public class ControllerSessionActivity extends Activity {
             mPreparing.setVisibility(!"sharing".equals(state) ? View.VISIBLE : View.GONE);
             mEject.setVisibility((mMask & UsbFunctions.STORAGE) != 0 ? View.VISIBLE : View.GONE);
             mEject.setText(canChangeDisc() && (!typing || macro) ? R.string.usb_disc_hint : R.string.usb_drive_eject);
-            mStatus.setText(hint ? getString(R.string.usb_device_wake) : status);
+            mStatus.setText(hint ? getString(R.string.usb_device_dark_hint) : dark ? getString(R.string.usb_device_wake) : status);
             final boolean routable = (mMask & UsbFunctions.KEYBOARD) != 0
                     && (mMask & (UsbFunctions.CONTROLLERS | UsbFunctions.MEDIA | UsbFunctions.MIDI)) != 0;
             mRouting.setVisibility(routable && !macro ? View.VISIBLE : View.GONE);
@@ -185,8 +185,9 @@ public class ControllerSessionActivity extends Activity {
     }
     private TextView text(String value) {
         final TextView text = new TextView(this); text.setText(value);
-        text.setGravity(Gravity.CENTER); text.setPadding(8, 3, 8, 3); return text;
+        text.setGravity(Gravity.CENTER); text.setPadding(dp(8), dp(3), dp(8), dp(3)); return text;
     }
+    private int dp(int value) { return Math.round(value * getResources().getDisplayMetrics().density); }
     private void brightness(float value) {
         final WindowManager.LayoutParams params = getWindow().getAttributes();
         params.screenBrightness = value; getWindow().setAttributes(params);
@@ -308,20 +309,28 @@ public class ControllerSessionActivity extends Activity {
         mPickingFile = true; UsbDriveControl.scanImages();
         mHandler.postDelayed(() -> {
             if (!mResumed || mLeaving) { mPickingFile = false; return; }
-            final ArrayList<UsbDrive.Offer> offers = new ArrayList<>();
             final boolean cd = "1".equals(SystemProperties.get(UsbDeviceControl.PREFIX + "cdrom"));
-            for (UsbDrive.Offer offer : UsbDriveControl.images().offers) if (!cd || offer.cdromPossible()) offers.add(offer);
-            final String[] names = new String[offers.size()]; for (int i = 0; i < names.length; i++) names[i] = offers.get(i).label;
-            textDialog(new AlertDialog.Builder(this).setTitle(R.string.usb_disc_change).setItems(names,(d,which) -> {
-                UsbDrive.Offer offer = offers.get(which);
-                SystemProperties.set(UsbDeviceControl.PREFIX + "next_image",offer.node);
-                SystemProperties.set(UsbDeviceControl.PREFIX + "next_stamp",offer.stamp);
-                SystemProperties.set(UsbDeviceControl.PREFIX + "change","start");
-                mHandler.postDelayed(() -> {
-                    if (mResumed && "error".equals(SystemProperties.get(UsbDeviceControl.PREFIX + "change")))
-                        android.widget.Toast.makeText(this,R.string.usb_disc_failed,android.widget.Toast.LENGTH_LONG).show();
-                },1500);
-            }).setNegativeButton(android.R.string.cancel,null).create());
+            new Thread(() -> {
+                final ArrayList<UsbDrive.Offer> offers = new ArrayList<>();
+                try {
+                    for (UsbDrive.Offer offer : UsbDriveControl.images().offers) if (!cd || offer.cdromPossible()) offers.add(offer);
+                } catch (RuntimeException e) { }
+                if (mDestroyed) return;
+                mHandler.post(() -> {
+                    if (!mResumed || mLeaving || mDestroyed || !canChangeDisc()) { mPickingFile = false; return; }
+                    final String[] names = new String[offers.size()]; for (int i = 0; i < names.length; i++) names[i] = offers.get(i).label;
+                    textDialog(new AlertDialog.Builder(this).setTitle(R.string.usb_disc_change).setItems(names,(d,which) -> {
+                        UsbDrive.Offer offer = offers.get(which);
+                        SystemProperties.set(UsbDeviceControl.PREFIX + "next_image",offer.node);
+                        SystemProperties.set(UsbDeviceControl.PREFIX + "next_stamp",offer.stamp);
+                        SystemProperties.set(UsbDeviceControl.PREFIX + "change","start");
+                        mHandler.postDelayed(() -> {
+                            if (mResumed && "error".equals(SystemProperties.get(UsbDeviceControl.PREFIX + "change")))
+                                android.widget.Toast.makeText(this,R.string.usb_disc_failed,android.widget.Toast.LENGTH_LONG).show();
+                        },1500);
+                    }).setNegativeButton(android.R.string.cancel,null).create());
+                });
+            },"USB disc list").start();
         },500);
     }
     private void pickSound() {
@@ -438,6 +447,7 @@ public class ControllerSessionActivity extends Activity {
         super.onStop();
     }
     @Override public void onDestroy() {
+        mDestroyed = true; mHandler.removeCallbacksAndMessages(null);
         if (mBoard != null) mBoard.close();
         if (!isChangingConfigurations()) unlock();
         super.onDestroy();

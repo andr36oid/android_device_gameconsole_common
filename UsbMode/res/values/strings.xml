@@ -160,6 +160,7 @@
     <string name="usb_device_stop">Stop</string>
     <string name="usb_device_exit">Hold Select + Start for 2 seconds to stop. Power also stops while the display is on.</string>
     <string name="usb_device_dark">Turn off display</string>
+    <string name="usb_device_dark_hint">Turning the display off… Press Start + Select to cancel.</string>
     <string name="usb_device_wake">Press Start + Select to turn the display back on</string>
     <string name="usb_device_dark_shortcut">Select + R1: turn off display. Power also wakes it.</string>
     <string name="usb_device_route_keyboard">Keyboard screen · Select + L1: gamepad passthrough</string>
