@@ -34,7 +34,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /** The hub and conditional wizard share the tutorial's page and Back/Next pattern. */
 public class UsbDriveActivity extends Activity {
@@ -42,12 +41,13 @@ public class UsbDriveActivity extends Activity {
     private static final class Work {
         final Handler handler = new Handler(Looper.getMainLooper());
         final ExecutorService executor = Executors.newFixedThreadPool(2);
-        final AtomicInteger operation = new AtomicInteger();
+        final UsbRequest request = new UsbRequest();
+        final UsbImageCreate creation = new UsbImageCreate();
         UsbDriveActivity activity;
         UsbFunctions policy = UsbDeviceControl.policies();
         int policyFor = -1;
-        boolean scanning, querying, loaded, debugging, pendingRequest;
-        String wifi = "";
+        boolean scanning, querying, loaded, debugging;
+        String wifi = "", error = "";
         UsbDrive.Images images = new UsbDrive.Images();
         List<UsbDrive.Offer> offers = new ArrayList<>();
 
@@ -56,10 +56,9 @@ public class UsbDriveActivity extends Activity {
     private final UsbPageFocus mPageFocus = new UsbPageFocus();
     private boolean mReading;
     private final List<RadioButton> mSizeChoices = new ArrayList<>();
-    private boolean mCustomLabel, mAwaitCreate, mUseAfterCreate, mSessionOpened, mLoaded, mCancelling;
+    private boolean mCustomLabel, mSessionOpened, mLoaded, mCancelling;
     private int mCreateFunctions;
-    private String mCreatedName = "", mCreatedCid = "", mUiError = "", mCompanion = "";
-    private long mCreateWaitUntil;
+    private String mUiError = "", mCompanion = "";
     private final Handler mHandler = new Handler();
     private UsbMode mUsbMode;
     private UsbFunctions mPolicy;
@@ -94,7 +93,9 @@ public class UsbDriveActivity extends Activity {
         HintBar.attachDefault(this);
         mUsbMode = new UsbMode(this);
         mWork = (Work) getLastNonConfigurationInstance();
-        if (mWork == null) mWork = new Work();
+        final boolean retained = mWork != null;
+        if (!retained) mWork = new Work();
+        mUiError = mWork.error;
         mWork.activity = this; mPolicy = mWork.policy; mImages = mWork.images; mOffers = mWork.offers; mLoaded = mWork.loaded;
         mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         mPreset = mPrefs.getString("usb_preset", "custom");
@@ -107,9 +108,13 @@ public class UsbDriveActivity extends Activity {
         if (state != null) {
             mCancelling = state.getBoolean("cancelling");
             mCompanion = state.getString("companion", "");
-            mCustomLabel = state.getBoolean("custom_label"); mAwaitCreate = state.getBoolean("await_create");
-            mUseAfterCreate = state.getBoolean("use_after_create"); mCreateFunctions = state.getInt("create_functions");
-            mCreatedName = state.getString("created_name", ""); mCreatedCid = state.getString("created_cid", "");
+            mCustomLabel = state.getBoolean("custom_label"); mCreateFunctions = state.getInt("create_functions");
+            if (!retained) {
+                mWork.creation.waiting = state.getBoolean("await_create");
+                mWork.creation.use = state.getBoolean("use_after_create");
+                mWork.creation.functions = state.getInt("created_functions", mCreateFunctions);
+                mWork.creation.name = state.getString("created_name", ""); mWork.creation.cid = state.getString("created_cid", "");
+            }
             mPage = state.getInt("page"); mIndex = state.getInt("index"); mCreateIndex = state.getInt("create_index");
             mAdvanced = state.getBoolean("advanced"); mFocus = state.getString("focus", "");
             mImageName = state.getString("image_name", ""); mImageSize = state.getString("image_size", "1");
@@ -144,7 +149,7 @@ public class UsbDriveActivity extends Activity {
     @Override public Object onRetainNonConfigurationInstance() { return mWork; }
     @Override public void onDestroy() {
         if (mWork.activity == this) mWork.activity = null;
-        if (!isChangingConfigurations()) { mWork.operation.incrementAndGet(); mWork.executor.shutdownNow(); }
+        if (!isChangingConfigurations()) { mWork.request.cancel(); mWork.executor.shutdownNow(); }
         if (mDialog != null) mDialog.dismiss();
         super.onDestroy();
     }
@@ -152,9 +157,10 @@ public class UsbDriveActivity extends Activity {
         saveEntry();
         state.putBoolean("cancelling", mCancelling);
         state.putString("companion", mCompanion);
-        state.putBoolean("custom_label", mCustomLabel); state.putBoolean("await_create", mAwaitCreate);
-        state.putBoolean("use_after_create", mUseAfterCreate); state.putInt("create_functions", mCreateFunctions);
-        state.putString("created_name", mCreatedName); state.putString("created_cid", mCreatedCid);
+        state.putBoolean("custom_label", mCustomLabel); state.putBoolean("await_create", mWork.creation.waiting);
+        state.putBoolean("use_after_create", mWork.creation.use); state.putInt("create_functions", mCreateFunctions);
+        state.putInt("created_functions", mWork.creation.functions);
+        state.putString("created_name", mWork.creation.name); state.putString("created_cid", mWork.creation.cid);
         state.putInt("page", mPage); state.putInt("index", mIndex); state.putInt("create_index", mCreateIndex);
         state.putBoolean("advanced", mAdvanced); state.putString("focus", mFocus);
         state.putString("image_name", mImageName); state.putString("image_size", mImageSize);
@@ -227,7 +233,7 @@ public class UsbDriveActivity extends Activity {
         if (mDialog != null) { mDialog.dismiss(); return; }
         saveEntry();
         if (mPage == PROGRESS || mPage == SESSION || UsbDriveControl.working()) {
-            mWork.operation.incrementAndGet(); mWork.pendingRequest = false; mAwaitCreate = false; mCancelling = true;
+            mWork.request.cancel(); mWork.creation.waiting = false; mCancelling = true;
             UsbDriveControl.stop(); return;
         }
         if (mPage == CONNECT && mIndex > 0) { mIndex--; mFocus = ""; render(); }
@@ -255,7 +261,7 @@ public class UsbDriveActivity extends Activity {
         for (UsbDrive.Offer offer : mOffers) if (offer.identity().equals(mSelectedKey)) mSelected = offer;
     }
     private void scan() {
-        if (mWork.scanning || mWork.pendingRequest || UsbDriveControl.busy()) return;
+        if (mWork.scanning || mWork.request.pending() || UsbDriveControl.busy()) return;
         final Work work = mWork;
         final android.content.Context context = getApplicationContext();
         work.scanning = true;
@@ -291,7 +297,7 @@ public class UsbDriveActivity extends Activity {
         final boolean oldWritable = mImages.writable;
         mOffers = mWork.offers; mImages = mWork.images; findSelected();
         if (!mWork.debugging && (mFunctions & UsbFunctions.ADB) != 0) { mFunctions &= ~UsbFunctions.ADB; save(); }
-        if (mAwaitCreate && "done".equals(UsbDriveControl.virtual("result"))) { created(); return; }
+        if (mWork.creation.waiting && "done".equals(UsbDriveControl.virtual("result"))) { created(); return; }
         if (mPage == CREATE) {
             if (oldMax != VirtualDrive.maximum(mImages.free, mImages.filesystem) || oldWritable != mImages.writable || mCreateIndex == 3 && debugChanged) {
                 saveEntry(); render();
@@ -318,21 +324,20 @@ public class UsbDriveActivity extends Activity {
         });
     }
     private void refresh() {
-        if (mWork.pendingRequest || UsbDriveControl.working()) {
-            if (mPage != PROGRESS && mPage != SESSION) open(PROGRESS);
-            progress(mPage == PROGRESS); return;
-        }
-        if (mAwaitCreate) {
-            if ("done".equals(UsbDriveControl.virtual("result"))) {
-                if (mCreateWaitUntil == 0) mCreateWaitUntil = SystemClock.elapsedRealtime() + 10000;
-                if (SystemClock.elapsedRealtime() >= mCreateWaitUntil) {
-                    mAwaitCreate = false; mUiError = getString(R.string.usb_virtual_changed); open(IMAGES);
-                } else { scan(); mBody.setText(R.string.usb_image_finding); }
-                return;
-            }
-            mAwaitCreate = false;
+        if (mWork.request.pending() || UsbDriveControl.working()) {
+            final boolean image = !mWork.request.pending() || mWork.request.image();
+            final int page = image ? PROGRESS : SESSION;
+            if (mPage != page) open(page);
+            progress(image); return;
         }
         if (UsbDriveControl.busy()) {
+            if (mWork.creation.waiting) {
+                final String prefix = UsbDeviceControl.PREFIX;
+                if (!mWork.creation.session(android.os.SystemProperties.get(prefix + "target"),
+                        android.os.SystemProperties.get(prefix + "image"), android.os.SystemProperties.get(prefix + "cid")))
+                    mUiError = mWork.error = getString(R.string.controller_busy);
+                mWork.creation.waiting = false;
+            }
             if (mPage != SESSION) open(SESSION);
             progress(false);
             if (mResumed && "sharing".equals(UsbDriveControl.state()) && !mSessionOpened) {
@@ -343,6 +348,16 @@ public class UsbDriveActivity extends Activity {
                 } else startActivity(new Intent(this, ControllerSessionActivity.class));
             }
             return;
+        }
+        if (mWork.creation.waiting) {
+            if ("done".equals(UsbDriveControl.virtual("result"))) {
+                if (mWork.creation.waitUntil == 0) mWork.creation.waitUntil = SystemClock.elapsedRealtime() + 10000;
+                if (SystemClock.elapsedRealtime() >= mWork.creation.waitUntil) {
+                    mWork.creation.waiting = false; mUiError = getString(R.string.usb_virtual_changed); open(IMAGES);
+                } else { scan(); mBody.setText(R.string.usb_image_finding); }
+                return;
+            }
+            mWork.creation.waiting = false;
         }
         if (mPage == PROGRESS) open(IMAGES);
         if (mPage == SESSION) open(HUB);
@@ -380,8 +395,8 @@ public class UsbDriveActivity extends Activity {
         }
     }
     private void operationFailed(String detail) {
-        mWork.pendingRequest = false; mAwaitCreate = false; mUiError = detail;
-        open(IMAGES);
+        mWork.creation.waiting = false; mUiError = mWork.error = detail;
+        open(mWork.request.image() ? IMAGES : HUB);
     }
 
     private void render() {
@@ -804,14 +819,17 @@ public class UsbDriveActivity extends Activity {
         if ((mFunctions & UsbFunctions.STORAGE) != 0) ask(mSelected, mSelected.kind == UsbDrive.Kind.IMAGE && mCdrom);
         else beginSession(null, true, false);
     }
-    private void beginSession(UsbDrive.Offer offer, boolean ro, boolean cdrom) {
-        if (UsbDriveControl.busy() || mWork.pendingRequest) return;
+    private boolean beginSession(UsbDrive.Offer offer, boolean ro, boolean cdrom) {
         final Work work = mWork;
-        final int operation = work.operation.incrementAndGet(), mask = mFunctions;
+        final int operation = work.request.begin(false, UsbDriveControl.busy()), mask = mFunctions;
+        if (operation == 0) { Toast.makeText(this, R.string.controller_busy, Toast.LENGTH_LONG).show(); return false; }
         final android.content.Context context = getApplicationContext();
-        work.pendingRequest = true; mCancelling = false; mSessionOpened = false; mUiError = ""; open(SESSION);
-        work.executor.execute(() -> {
+        mCancelling = false; mSessionOpened = false; mUiError = work.error = ""; open(SESSION);
+        UsbRequest.executor.execute(() -> {
+            String failure = "";
+            boolean submitted = false;
             try {
+                if (!work.request.current(operation)) return;
                 UsbMode usb = new UsbMode(context);
                 if (!usb.isSupported() || usb.chargingBlocksDevice()) throw new IllegalStateException(context.getString(R.string.charging_refused));
                 UsbDrive.Offer fresh = offer;
@@ -821,26 +839,28 @@ public class UsbDriveActivity extends Activity {
                     for (UsbDrive.Offer candidate : offers) if (candidate.enabled() && candidate.identity().equals(offer.identity())) fresh = candidate;
                     if (fresh == null) throw new IllegalStateException(context.getString(R.string.usb_virtual_changed));
                 }
-                if (work.operation.get() != operation) return;
+                if (!work.request.current(operation)) return;
                 usb.setConfirmedThisBoot();
-                boolean started = UsbDeviceControl.request(context, mask, fresh, ro, cdrom, () -> work.operation.get() == operation);
-                work.handler.post(() -> {
-                    if (work.operation.get() != operation) return;
-                    work.pendingRequest = false;
-                    if (work.activity != null) {
-                        if (started) work.activity.refresh();
-                        else { work.activity.mUiError = context.getString(R.string.usb_device_failed); work.activity.open(HUB); }
-                    }
-                });
+                submitted = true;
+                if (!UsbDeviceControl.request(context, mask, fresh, ro, cdrom, () -> work.request.current(operation)))
+                    failure = context.getString(R.string.usb_device_failed);
             } catch (RuntimeException e) {
-                work.handler.post(() -> {
-                    if (work.operation.get() != operation) return;
-                    work.pendingRequest = false;
-                    if (work.activity != null) {
-                        work.activity.mUiError = e.getMessage() == null ? context.getString(R.string.usb_device_failed) : e.getMessage(); work.activity.open(HUB);
-                    }
-                });
+                failure = e.getMessage() == null ? context.getString(R.string.usb_device_failed) : e.getMessage();
+            } finally {
+                try {
+                    if (submitted && (!work.request.current(operation) || !failure.isEmpty())) UsbDriveControl.stop();
+                } finally { completeRequest(work, operation, failure); }
             }
+        });
+        return true;
+    }
+    private static void completeRequest(Work work, int operation, String failure) {
+        work.handler.post(() -> {
+            if (!work.request.finish(operation)) return;
+            if (work.request.current(operation) && !failure.isEmpty()) {
+                work.error = failure; work.creation.waiting = false;
+                if (work.activity != null) work.activity.operationFailed(failure);
+            } else if (work.activity != null) work.activity.refresh();
         });
     }
     private void images() {
@@ -1036,44 +1056,41 @@ public class UsbDriveActivity extends Activity {
         final android.content.Context context = getApplicationContext();
         final UsbDrive.Images images = mImages;
         final String name = mImageName, size = mImageSize, fs = mImageFs, label = mImageLabel;
-        mCreatedName = name + ".img"; mCreatedCid = images.cid;
-        mUseAfterCreate = use; mAwaitCreate = true; mCreateWaitUntil = 0;
-        runImageOperation(() -> UsbDriveControl.create(context, images, name, size, fs, label));
+        if (runImageOperation(() -> UsbDriveControl.create(context, images, name, size, fs, label)))
+            mWork.creation.begin(name + ".img", images.cid, mCreateFunctions, use);
     }
-    private void runImageOperation(Runnable request) {
-        if (UsbDriveControl.busy() || mWork.pendingRequest) return;
-        final Work work = mWork; final int operation = work.operation.incrementAndGet();
-        work.pendingRequest = true; mCancelling = false; mUiError = ""; open(PROGRESS);
-        work.executor.execute(() -> {
+    private boolean runImageOperation(Runnable request) {
+        final Work work = mWork;
+        final int operation = work.request.begin(true, UsbDriveControl.busy());
+        if (operation == 0) { Toast.makeText(this, R.string.controller_busy, Toast.LENGTH_LONG).show(); return false; }
+        mCancelling = false; mUiError = work.error = ""; open(PROGRESS);
+        final String failed = getString(R.string.usb_virtual_failed);
+        UsbRequest.executor.execute(() -> {
+            String failure = "";
+            boolean submitted = false;
             try {
-                if (work.operation.get() != operation) return;
-                request.run();
-                if (work.operation.get() != operation) { UsbDriveControl.stop(); return; }
-                work.handler.post(() -> {
-                    if (work.operation.get() == operation) {
-                        work.pendingRequest = false; if (work.activity != null) work.activity.refresh();
-                    }
-                });
+                if (!work.request.current(operation)) return;
+                submitted = true; request.run();
             } catch (RuntimeException e) {
-                UsbDriveControl.stop();
-                work.handler.post(() -> {
-                    if (work.operation.get() == operation) {
-                        work.pendingRequest = false;
-                        if (work.activity != null) work.activity.operationFailed(e.getMessage() == null
-                                ? work.activity.getString(R.string.usb_virtual_failed) : e.getMessage());
-                    }
-                });
+                failure = e.getMessage() == null ? failed : e.getMessage();
+            } finally {
+                try {
+                    if (submitted && (!work.request.current(operation) || !failure.isEmpty())) UsbDriveControl.stop();
+                } finally { completeRequest(work, operation, failure); }
             }
         });
+        return true;
     }
     private void created() {
-        if (!mResumed) return;
-        for (UsbDrive.Offer image : mImages.offers) if (image.node.equals(mCreatedName) && image.cid.equals(mCreatedCid)) {
-            mAwaitCreate = false; mSelected = image; mSelectedKey = image.identity(); mCdrom = false; mRo = false;
-            if (mUseAfterCreate) { mFunctions = mCreateFunctions; mPreset = "custom"; }
+        if (!mResumed || mWork.request.pending() || UsbDriveControl.busy()) return;
+        for (UsbDrive.Offer image : mImages.offers) if (mWork.creation.matches(image)) {
+            mSelected = image; mSelectedKey = image.identity(); mCdrom = false; mRo = false;
+            if (mWork.creation.use) { mFunctions = mWork.creation.functions; mPreset = "custom"; }
             save();
-            if (mUseAfterCreate) beginSession(image, false, false);
-            else open(IMAGES);
+            if (mWork.creation.use) {
+                if (!beginSession(image, false, false)) return;
+                mWork.creation.waiting = false;
+            } else { mWork.creation.waiting = false; open(IMAGES); }
             return;
         }
     }

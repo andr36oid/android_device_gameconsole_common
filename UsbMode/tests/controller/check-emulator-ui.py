@@ -25,7 +25,10 @@ assert 'VirtualDrive.clampSize(value, mImages.free, mImages.filesystem)' in acti
 assert 'VirtualDrive.defaultLabel(mImageName, mImageFs)' in activity
 assert 'UsbWizard.bootMenu(mFunctions, mSelected, mCdrom)' in activity
 assert 'DeviceModeWarning.show(' not in activity
-assert 'mCreatedName' in activity and 'beginSession(image, false, false)' in activity
+assert 'mWork.creation.matches(image)' in activity and 'if (!beginSession(image, false, false)) return;' in activity
+assert 'UsbRequest.executor.execute(' in activity
+assert 'mWork.request.cancel(); mWork.creation.waiting = false;' in activity
+assert activity.index('if (UsbDriveControl.busy()) {', activity.index('private void refresh()')) < activity.index('if (mWork.creation.waiting) {', activity.index('private void refresh()'))
 session = ET.parse(root / 'res/layout/usb_device_session.xml')
 assert not any(e.tag in ('Button', 'SeekBar') for e in session.iter())
 manifest = ET.parse(root / 'AndroidManifest.xml')
