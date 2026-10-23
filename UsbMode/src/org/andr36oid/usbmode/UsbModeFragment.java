@@ -1,6 +1,9 @@
 package org.andr36oid.usbmode;
 
 import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
@@ -58,6 +61,23 @@ public class UsbModeFragment extends PreferenceFragment
     @Override
     public void onResume() {
         super.onResume();
+        final Preference flipper = findPreference("flipper");
+        final Intent intent = flipper.getIntent();
+        final boolean installed = getActivity().getPackageManager()
+                .resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY) != null;
+        flipper.setEnabled(installed);
+        flipper.setSummary(installed ? R.string.flipper_summary : R.string.flipper_missing);
+        flipper.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                try {
+                    startActivity(intent);
+                } catch (ActivityNotFoundException | SecurityException e) {
+                    Toast.makeText(getActivity(), R.string.flipper_missing, Toast.LENGTH_SHORT).show();
+                }
+                return true;
+            }
+        });
         // The tile may have switched it in the meantime.
         if (mUsbMode.isSupported()) {
             update();

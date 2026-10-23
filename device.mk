@@ -598,6 +598,9 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
 	UsbMode
 
+# Standalone Flipper emulator, when its R36S prebuilt has been supplied
+$(call inherit-product, device/gameconsole/common/FlipperApp/product.mk)
+
 # Credits, an easter egg behind the andr36oid version in Settings > About console
 PRODUCT_PACKAGES += \
 	Andr36oidCredits
