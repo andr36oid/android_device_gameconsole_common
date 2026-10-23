@@ -65,7 +65,7 @@
     <string name="usb_drive_eject">Keluarkan dari komputer terlebih dahulu, lalu hentikan di sini.</string>
     <string name="usb_drive_stop">Hentikan dan kembalikan ke Android</string>
     <string name="usb_drive_working">Memberikan penyimpanan ke komputer atau mengembalikannya ke Android…</string>
-    <string name="usb_drive_failed">Tidak dapat membagikan penyimpanan ini. Mungkin sedang digunakan atau telah dilepas. Penyimpanan telah dikembalikan ke Android.</string>
+    <string name="usb_drive_failed">Tidak dapat membagikan penyimpanan ini. Mungkin sedang digunakan atau telah dilepas.</string>
     <string name="usb_drive_empty">Tidak ada penyimpanan untuk dibagikan.</string>
     <string name="usb_drive_android_card">Kartu ini berisi partisi Android.</string>
     <string name="usb_drive_sd">SD</string>

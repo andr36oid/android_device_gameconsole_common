@@ -65,7 +65,7 @@
     <string name="usb_drive_eject">Önce bilgisayardan çıkarın, ardından burada durdurun.</string>
     <string name="usb_drive_stop">Durdur ve Android\'e geri ver</string>
     <string name="usb_drive_working">Depolama bilgisayara veriliyor veya Android\'e geri döndürülüyor…</string>
-    <string name="usb_drive_failed">Bu depolama paylaşılamadı. Meşgul olabilir veya kaldırılmış olabilir. Android\'e geri verildi.</string>
+    <string name="usb_drive_failed">Bu depolama paylaşılamadı. Meşgul olabilir veya kaldırılmış olabilir.</string>
     <string name="usb_drive_empty">Paylaşılacak depolama yok.</string>
     <string name="usb_drive_android_card">Bu kart Android bölümleri içeriyor.</string>
     <string name="usb_drive_sd">SD</string>

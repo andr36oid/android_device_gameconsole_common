@@ -65,7 +65,7 @@
     <string name="usb_drive_eject">Сначала извлеките его на компьютере, затем остановите здесь.</string>
     <string name="usb_drive_stop">Остановить и вернуть Android</string>
     <string name="usb_drive_working">Передаём хранилище компьютеру или возвращаем Android…</string>
-    <string name="usb_drive_failed">Не удалось открыть доступ к этому хранилищу. Возможно, оно занято или было извлечено. Доступ возвращён Android.</string>
+    <string name="usb_drive_failed">Не удалось открыть доступ к этому хранилищу. Возможно, оно занято или было извлечено.</string>
     <string name="usb_drive_empty">Нет хранилища, к которому можно открыть доступ.</string>
     <string name="usb_drive_android_card">На этой карте находятся разделы Android.</string>
     <string name="usb_drive_sd">SD</string>

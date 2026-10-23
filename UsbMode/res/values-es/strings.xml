@@ -65,7 +65,7 @@
     <string name="usb_drive_eject">Expúlsalo primero en el ordenador y luego detén aquí.</string>
     <string name="usb_drive_stop">Detener y devolverlo a Android</string>
     <string name="usb_drive_working">Compartiendo el almacenamiento con el ordenador o devolviéndolo a Android…</string>
-    <string name="usb_drive_failed">No se ha podido compartir este almacenamiento. Puede estar ocupado o haberse retirado. Se ha devuelto a Android.</string>
+    <string name="usb_drive_failed">No se ha podido compartir este almacenamiento. Puede estar ocupado o haberse retirado.</string>
     <string name="usb_drive_empty">No hay ningún almacenamiento que compartir.</string>
     <string name="usb_drive_android_card">Esta tarjeta contiene particiones de Android.</string>
     <string name="usb_drive_sd">SD</string>

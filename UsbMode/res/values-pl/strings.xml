@@ -65,7 +65,7 @@
     <string name="usb_drive_eject">Najpierw wysuń go na komputerze, a potem zatrzymaj tutaj.</string>
     <string name="usb_drive_stop">Zatrzymaj i zwróć Androidowi</string>
     <string name="usb_drive_working">Udostępnianie nośnika komputerowi lub zwracanie go Androidowi…</string>
-    <string name="usb_drive_failed">Nie udało się udostępnić tego nośnika. Może być zajęty lub został odłączony. Zwrócono go Androidowi.</string>
+    <string name="usb_drive_failed">Nie udało się udostępnić tego nośnika. Może być zajęty lub został odłączony.</string>
     <string name="usb_drive_empty">Brak nośnika do udostępnienia.</string>
     <string name="usb_drive_android_card">Ta karta zawiera partycje Androida.</string>
     <string name="usb_drive_sd">SD</string>

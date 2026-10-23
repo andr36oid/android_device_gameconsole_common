@@ -65,7 +65,7 @@
     <string name="usb_drive_eject">请先在电脑上弹出它，然后在此处停止。</string>
     <string name="usb_drive_stop">停止并交还 Android</string>
     <string name="usb_drive_working">正在将存储空间交给电脑或交还给 Android…</string>
-    <string name="usb_drive_failed">无法共享此存储空间。它可能正忙，或已被移除。已将它交还给 Android。</string>
+    <string name="usb_drive_failed">无法共享此存储空间。它可能正忙，或已被移除。</string>
     <string name="usb_drive_empty">没有可共享的存储空间。</string>
     <string name="usb_drive_android_card">此卡包含 Android 分区。</string>
     <string name="usb_drive_sd">SD</string>

@@ -54,7 +54,7 @@
     <string name="usb_drive_eject">まずパソコン側で取り出してから、ここで停止してください。</string>
     <string name="usb_drive_stop">停止して Android に戻す</string>
     <string name="usb_drive_working">ストレージをパソコンに渡すか、Android に戻しています…</string>
-    <string name="usb_drive_failed">このストレージを共有できませんでした。使用中か、取り外された可能性があります。Android に戻しました。</string>
+    <string name="usb_drive_failed">このストレージを共有できませんでした。使用中か、取り外された可能性があります。</string>
     <string name="usb_drive_empty">共有できるストレージがありません。</string>
     <string name="usb_drive_android_card">このカードには Android のパーティションが含まれています。</string>
     <string name="usb_drive_sd">SD</string>

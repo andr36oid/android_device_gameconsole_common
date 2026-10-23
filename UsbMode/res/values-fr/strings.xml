@@ -65,7 +65,7 @@
     <string name="usb_drive_eject">Éjectez-le d\'abord sur l\'ordinateur, puis arrêtez ici.</string>
     <string name="usb_drive_stop">Arrêter et le rendre à Android</string>
     <string name="usb_drive_working">Attribution du stockage à l\'ordinateur ou restitution à Android…</string>
-    <string name="usb_drive_failed">Impossible de partager ce stockage. Il est peut-être occupé ou a été retiré. Il a été rendu à Android.</string>
+    <string name="usb_drive_failed">Impossible de partager ce stockage. Il est peut-être occupé ou a été retiré.</string>
     <string name="usb_drive_empty">Aucun stockage à partager n\'est présent.</string>
     <string name="usb_drive_android_card">Cette carte contient des partitions Android.</string>
     <string name="usb_drive_sd">SD</string>

@@ -76,7 +76,7 @@
     <string name="usb_drive_eject">Eject it on the computer first, then stop here.</string>
     <string name="usb_drive_stop">Stop and give it back to Android</string>
     <string name="usb_drive_working">Giving storage to the computer or back to Android…</string>
-    <string name="usb_drive_failed">Couldn\'t share this storage. It may be busy or have been removed. Android has been given it back.</string>
+    <string name="usb_drive_failed">Couldn\'t share this storage. It may be busy or have been removed.</string>
     <string name="usb_drive_empty">No storage to share is present.</string>
     <string name="usb_drive_android_card">This card contains Android partitions.</string>
     <string name="usb_drive_sd">SD</string>

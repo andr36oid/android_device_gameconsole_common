@@ -65,7 +65,7 @@
     <string name="usb_drive_eject">Wirf ihn zuerst am Computer aus und stoppe dann hier.</string>
     <string name="usb_drive_stop">Stoppen und an Android zurückgeben</string>
     <string name="usb_drive_working">Speicher wird für den Computer oder wieder für Android freigegeben…</string>
-    <string name="usb_drive_failed">Dieser Speicher konnte nicht freigegeben werden. Er ist möglicherweise belegt oder wurde entfernt. Android wurde der Speicher zurückgegeben.</string>
+    <string name="usb_drive_failed">Dieser Speicher konnte nicht freigegeben werden. Er ist möglicherweise belegt oder wurde entfernt.</string>
     <string name="usb_drive_empty">Kein Speicher zum Freigeben vorhanden.</string>
     <string name="usb_drive_android_card">Diese Karte enthält Android-Partitionen.</string>
     <string name="usb_drive_sd">SD</string>
