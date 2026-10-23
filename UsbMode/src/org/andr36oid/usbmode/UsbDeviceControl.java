@@ -32,6 +32,11 @@ final class UsbDeviceControl {
     static void start(Context context, int functions, UsbDrive.Offer storage, boolean ro, boolean cdrom) {
         if (UsbDriveControl.busy() || !"ok".equals(policies().reason(functions))) return;
         if ((functions & UsbFunctions.ADB) != 0 && !debugging(context)) return;
+        final android.content.SharedPreferences prefs = android.preference.PreferenceManager.getDefaultSharedPreferences(context);
+        SystemProperties.set(PREFIX + "macro", (functions & (UsbFunctions.KEYBOARD | UsbFunctions.MEDIA)) == (UsbFunctions.KEYBOARD | UsbFunctions.MEDIA)
+                && prefs.getBoolean("usb_macro",false) ? "1" : "0");
+        SystemProperties.set(PREFIX + "jiggle", (functions & UsbFunctions.MOUSE) != 0 && prefs.getBoolean("usb_jiggle",false)
+                ? prefs.getString("usb_jiggle_interval","60") : "0");
         SystemProperties.set(PREFIX + "functions", Integer.toString(functions));
         String name = "";
         if (storage != null) {

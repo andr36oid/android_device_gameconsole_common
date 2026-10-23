@@ -6,6 +6,8 @@
 namespace controller {
 Bytes switchDescriptor();
 Bytes ps3Descriptor();
+Bytes ps4Descriptor();
+Bytes ps4Feature(uint8_t id);
 Bytes cubeDescriptor();
 Bytes mediaDescriptor();
 Bytes padReport(unsigned function, const State& state);

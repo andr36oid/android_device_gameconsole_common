@@ -39,7 +39,9 @@ final class UsbDrive {
         String identity() { return node + ":" + cid + (kind == Kind.IMAGE ? ":" + stamp : ""); }
         boolean defaultCdrom() { return kind == Kind.IMAGE
                 && node.regionMatches(true, node.length() - 4, ".iso", 0, 4); }
-        boolean cdromPossible() { return bytes >= 614400 && bytes <= 2359293952L
+        boolean floppy() { return kind == Kind.IMAGE && node.matches("(?i).*\\.(img|ima|vfd)")
+                && (bytes == 737280 || bytes == 1474560 || bytes == 2949120); }
+        boolean cdromPossible() { return !floppy() && bytes >= 614400 && bytes <= 2359293952L
                 && bytes % 2048 == 0; }
     }
 
@@ -64,7 +66,7 @@ final class UsbDrive {
                 final String[] f = lines.get(i).split("\t", -1);
                 if (f.length != 3 || !f[0].equals("file") || !f[1].matches("[0-9]+:[0-9]+:[0-9]+")
                         || f[2].length() > 91 || f[2].contains("..")
-                        || !f[2].matches("[a-zA-Z0-9][a-zA-Z0-9._ -]*\\.(?i:iso|img)")) continue;
+                        || !f[2].matches("[a-zA-Z0-9][a-zA-Z0-9._ -]*\\.(?i:iso|img|ima|vfd)")) continue;
                 final Offer o = new Offer();
                 o.kind = Kind.IMAGE;
                 o.node = o.label = f[2];
@@ -72,7 +74,7 @@ final class UsbDrive {
                 o.stamp = f[1];
                 o.bytes = number(f[1].substring(f[1].lastIndexOf(':') + 1));
                 o.forcedRo = header[2].equals("1");
-                if (o.bytes > 0) result.offers.add(o);
+                if (o.bytes > 0 && (!o.node.matches("(?i).*\\.(ima|vfd)") || o.floppy())) result.offers.add(o);
             }
             result.offers.sort((a, b) -> {
                 final int folded = a.node.compareToIgnoreCase(b.node);

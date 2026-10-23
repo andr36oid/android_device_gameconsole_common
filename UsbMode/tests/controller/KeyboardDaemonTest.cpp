@@ -76,6 +76,7 @@ int main() {
         while (read(commands[0], &command, 1) == 1 && command != 'q') {
             KeyboardPacket packet{1}; packet[11] = 1;
             if (command == 'a') packet[12] = 1;
+            if (command == 'v') { packet[2] = 0x73; packet[13] = 63; }
             if (command == 'k') { packet[1] = 5; packet[2] = 0x4c; }
             if (command == '6') { packet[1] = 0xff; for (int i = 0; i < 6; ++i) packet[2+i] = 4+i; }
             if (command == 'b') packet[8] = 1;
@@ -116,7 +117,12 @@ int main() {
     assert(channel.active()); assert(channel.pending().front() == (Bytes{1,5,0,0x4c,0,0,0,0,0}));
     drain(); command('6'); pump(4);
     assert(channel.pending().front() == (Bytes{1,255,0,4,5,6,7,8,9}));
-    drain(); command('u'); pump(5);
+    drain(); command('v'); pump(4);
+    assert(channel.next(1) && (*channel.next(1))[3] == 0x73);
+    assert(channel.next(3) && *channel.next(3) == (Bytes{3,1,63}));
+    drain(); command('u'); pump(4);
+    assert(channel.next(3) && *channel.next(3) == (Bytes{3,1,0}));
+    drain(); command('k'); pump(4); drain(); command('u'); pump(5);
     assert(channel.pending().front() == (Bytes{1,0,0,0,0,0,0,0,0}));
     drain(); command('b'); pump(6);
     assert(channel.buttons() == 1 && channel.pending().front() == (Bytes{2,1,0,0,0}));

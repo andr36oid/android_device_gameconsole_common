@@ -11,12 +11,24 @@ import java.io.IOException;
 final class UsbAudio implements AutoCloseable {
     private volatile boolean mClosed;
     private volatile LocalSocket mSocket;
-    UsbAudio() { new Thread(this::run,"USB sound card").start(); }
+    private final Soundboard mBoard;
+    UsbAudio(Soundboard board) { mBoard = board; new Thread(this::run,"USB sound card").start(); }
     private void run() {
         while (!mClosed) {
             try (LocalSocket socket = new LocalSocket(LocalSocket.SOCKET_SEQPACKET)) {
                 mSocket = socket; if (mClosed) return;
-                socket.connect(new LocalSocketAddress("andr36oid-controller-audio")); socket.setSoTimeout(1000);
+                socket.connect(new LocalSocketAddress("andr36oid-controller-audio")); socket.setSoTimeout(0);
+                final Thread capture = mBoard == null ? null : new Thread(() -> {
+                    long next = SystemClock.uptimeMillis();
+                    try {
+                        while (!mClosed && mSocket == socket) {
+                            socket.getOutputStream().write(mBoard.mixer.render(192,mBoard.microphone(192)));
+                            next += 4; long wait = next - SystemClock.uptimeMillis();
+                            if (wait > 0) SystemClock.sleep(wait); else if (wait < -20) next = SystemClock.uptimeMillis();
+                        }
+                    } catch (IOException e) { try { socket.close(); } catch (IOException ignored) { } }
+                },"USB microphone");
+                if (capture != null) capture.start();
                 final AudioTrack track = new AudioTrack.Builder().setAudioAttributes(new AudioAttributes.Builder()
                         .setUsage(AudioAttributes.USAGE_MEDIA).setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build())
                         .setAudioFormat(new AudioFormat.Builder().setSampleRate(48000).setChannelMask(AudioFormat.CHANNEL_OUT_STEREO)

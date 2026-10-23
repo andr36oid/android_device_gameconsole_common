@@ -40,7 +40,7 @@ rmdir() {
     esac
     case $1 in
     */midi.pads) command rm -f "$1"/id "$1"/in_ports "$1"/out_ports ;;
-    */uac2.speaker) command rm -f "$1"/p_chmask "$1"/c_chmask "$1"/c_srate "$1"/c_ssize ;;
+    */uac2.speaker) command rm -f "$1"/p_chmask "$1"/c_chmask "$1"/c_srate "$1"/c_ssize "$1"/p_srate "$1"/p_ssize ;;
     */ncm.link|*/rndis.link) command rm -f "$1"/ifname "$1"/dev_addr "$1"/host_addr; command rm -rf "$1"/os_desc ;;
     esac
     if [ "$1" = "$F" ]; then command rm -rf "$F/lun.0"; fi

@@ -145,6 +145,10 @@ public:
         closedir(dir);
         return pad;
     }
+    bool grab(bool enabled) {
+        for (auto& d : devices) if (ioctl(d.fd,EVIOCGRAB,enabled ? 1 : 0) < 0) return false;
+        return true;
+    }
     bool power = false;
     bool readEvents() {
         power = false;
@@ -157,7 +161,7 @@ public:
                     d.snapshot(); d.dropped = false;
                 }
                 if (!d.dropped && ev.type == EV_KEY && ev.code == KEY_POWER && ev.value == 1) power = true;
-                if (!d.dropped && property(std::string(kPrefix) + "screen") != "dark" && ev.type == EV_KEY && ev.value &&
+                if (!d.dropped && property(std::string(kPrefix) + "companion") != "1" && property(std::string(kPrefix) + "screen") != "dark" && ev.type == EV_KEY && ev.value &&
                         (ev.code == KEY_VOLUMEUP || ev.code == KEY_VOLUMEDOWN)) {
                     int brightness = 15;
                     const std::string saved = property(std::string(kPrefix) + "brightness");
@@ -380,6 +384,7 @@ void KeyboardChannel::release() {
     pending_.clear();
     pending_.push_back(Bytes(keys_.begin(), keys_.end()));
     pending_.push_back({2,0,0,0,0});
+    if (consumer_) { pending_.push_back({3,1,0}); consumer_ = 0; }
 }
 bool KeyboardChannel::pump(const State& state, uint8_t leds, bool connected, int64_t time,
                            const std::string& owner, const std::string& start, bool abort) {
@@ -402,20 +407,21 @@ bool KeyboardChannel::pump(const State& state, uint8_t leds, bool connected, int
         ssize_t n = recv(client_, packet.data(), packet.size(), MSG_DONTWAIT | MSG_TRUNC);
         if (n < 0 && (errno == EAGAIN || errno == EINTR)) break;
         if (n != static_cast<ssize_t>(packet.size()) || packet[0] != 1 || packet[8] > 7 ||
-                packet[9] > 1 || packet[11] > 1 || packet[12] > 1 || packet[13] || packet[14] || packet[15] || (packet[10] != 0 && packet[10] != 1 && packet[10] != 255)) {
+                packet[9] > 1 || packet[11] > 1 || packet[12] > 1 || packet[13] > 63 || packet[14] || packet[15] || (packet[10] != 0 && packet[10] != 1 && packet[10] != 255)) {
             release(); return true;
         }
         if (packet[12]) {
             pending_.clear(); keys_ = {1}; buttons_ = 0; scrolling_ = false; wheel_ = 0;
             pending_.push_back(Bytes(keys_.begin(),keys_.end())); pending_.push_back({2,0,0,0,0});
+            if (consumer_) { pending_.push_back({3,1,0}); consumer_ = 0; }
             packet.fill(0); packet[0] = 1;
         }
         std::array<uint8_t, 9> keys{1,packet[1],0};
         for (unsigned j = 0; j < 6; ++j) {
-            if (packet[2 + j] > 0x65) { release(); return true; }
+            if (packet[2 + j] > 0x73) { release(); return true; }
             keys[3 + j] = packet[2 + j];
         }
-        if (!connected || packet[11] == 0) { keys = {1}; packet[8] = packet[9] = packet[10] = 0; }
+        if (!connected || packet[11] == 0) { keys = {1}; packet[8] = packet[9] = packet[10] = packet[13] = 0; }
         if (keys != keys_) {
             keys_ = keys;
             pending_.push_back(Bytes(keys.begin(), keys.end()));
@@ -424,6 +430,7 @@ bool KeyboardChannel::pump(const State& state, uint8_t leds, bool connected, int
             buttons_ = packet[8];
             pending_.push_back({2,buttons_,0,0,0});
         }
+        if (consumer_ != packet[13]) { consumer_ = packet[13]; pending_.push_back({3,1,consumer_}); }
         scrolling_ = packet[9]; wheel_ = static_cast<int8_t>(packet[10]);
         received_ = packet[11] == 1; lastReply_ = time;
         if (pending_.size() > 64) { release(); return true; }
@@ -446,13 +453,13 @@ bool KeyboardChannel::pump(const State& state, uint8_t leds, bool connected, int
 
 namespace {
 // Firmware can poll only the boot keyboard. A stalled mouse must not block it.
-bool sendKeyboard(KeyboardChannel& channel, int keyboard, int mouse, bool pointing) {
-    for (uint8_t tag : {1,2}) {
+bool sendKeyboard(KeyboardChannel& channel, int keyboard, int mouse, bool pointing, int media = -1) {
+    for (uint8_t tag : {1,2,3}) {
         const Bytes* tagged = channel.next(tag);
         if (!tagged) continue;
-        const int fd = tag == 1 ? keyboard : mouse;
+        const int fd = tag == 1 ? keyboard : tag == 2 ? mouse : media;
         if (fd < 0) {
-            if (tag == 2 && !pointing) channel.sent(tag);
+            if ((tag == 2 && !pointing) || (tag == 3 && media < 0)) channel.sent(tag);
             continue;
         }
         const Bytes report = wireReport(*tagged);
@@ -468,7 +475,7 @@ int run(unsigned functions) {
     Inputs inputs;
     if (!inputs.openAll()) { log("Cannot grab built-in controls"); return 1; }
     const unsigned padFunction = functions & kControllers;
-    const bool xbox = functions & (XInput | Ps3 | GameCube | Xbox);
+    const bool xbox = functions & (XInput | Ps3 | GameCube | Xbox | Ps4);
     const bool typing = functions & Keyboard;
     const bool pointing = functions & Mouse;
     const bool pad = functions & (Gamepad | Switch);
@@ -495,12 +502,14 @@ int run(unsigned functions) {
     const std::string helperStart = property(std::string(kPrefix) + "helper_start");
     const std::string owner = property(std::string(kPrefix) + "owner");
     const std::string ownerStart = property(std::string(kPrefix) + "owner_start");
-    SessionControls controls(functions);
+    const bool macro = typing && property(std::string(kPrefix) + "macro") == "1";
+    SessionControls controls(functions,macro);
+    Jiggler jiggler;
     Backlight backlight;
     int result = 0;
     int64_t lastLease = 0, missingSince = now();
     KeyboardChannel channel;
-    if (typing && !channel.listen()) { log("Cannot open keyboard channel"); return 1; }
+    if (!channel.listen()) { log("Cannot open keyboard channel"); return 1; }
     KeyboardPointer pointerModel;
     uint8_t leds = 0;
     int64_t lastPointer = now(), lastConnection = 0;
@@ -520,7 +529,7 @@ int run(unsigned functions) {
     std::array<Bytes,2> lastMedia;
     std::deque<Bytes> mediaQueue;
     int64_t lastPads = -100;
-    bool midiConnected = false, mediaConnected = false;
+    bool midiConnected = false, mediaConnected = false, companion = false;
     while (!stopped) {
         const int64_t time = now();
         if (time - lastLease >= 100) {
@@ -535,9 +544,29 @@ int run(unsigned functions) {
                 break;
             }
         }
+        const bool delegate = (functions & (Network | Rndis)) && !(functions & ~(Network | Rndis | Adb)) &&
+                property(std::string(kPrefix) + "companion") == "1";
+        if (delegate != companion) {
+            if (!inputs.grab(!delegate)) { result = 1; break; }
+            companion = delegate;
+        }
         if (!inputs.readEvents()) { log("Input device disappeared"); result = 1; break; }
-        const State raw = inputs.state();
-        controls.update(raw, time, property(std::string(kPrefix) + "screen_request") == "dark", inputs.power,
+        State raw = inputs.state();
+        raw.timestamp = static_cast<uint16_t>(time * 3000 / 16); raw.sequence = (time / 4) & 63;
+        if (padFunction == Ps4) {
+            for (const char* battery : {"battery","rk817-battery"}) {
+                const std::string root = std::string("/sys/class/power_supply/") + battery;
+                auto capacity = readText(root + "/capacity");
+                capacity.erase(capacity.find_last_not_of("\r\n ") + 1);
+                if (!capacity.empty() && capacity.find_first_not_of("0123456789") == std::string::npos) {
+                    raw.battery = std::min(100,atoi(capacity.c_str()));
+                    auto status = readText(root + "/status"); status.erase(status.find_last_not_of("\r\n ") + 1); raw.charging = status == "Charging" || status == "Full"; break;
+                }
+            }
+        }
+        State controlState = raw;
+        if (companion) { controlState = {}; controlState.buttons[Back] = raw.buttons[Back]; controlState.buttons[Start] = raw.buttons[Start]; }
+        controls.update(controlState, time, !companion && property(std::string(kPrefix) + "screen_request") == "dark", !companion && inputs.power,
                 property(std::string(kPrefix) + "hint_ready") == "1");
         if (controls.exit()) break;
         const std::string screen = controls.dark() ? "dark" : controls.hint() ? "hint" : "on";
@@ -593,7 +622,7 @@ int run(unsigned functions) {
         if (functions & Media) {
             if (mediaFd < 0) mediaFd = hidNode("hid.media");
             if (mediaConnected != connected) { mediaQueue.clear(); lastMedia = {}; mediaConnected = connected; }
-            const auto reports = mediaReports(connected ? s : State{});
+            const auto reports = mediaReports(!macro && connected ? s : State{});
             for (unsigned i = 0; i < 2; ++i) if (reports[i] != lastMedia[i]) {
                 mediaQueue.push_back(reports[i]); lastMedia[i] = reports[i];
             }
@@ -604,19 +633,19 @@ int run(unsigned functions) {
                 else if (n >= 0 || (errno != EAGAIN && errno != EINTR && errno != ESHUTDOWN && errno != ENODEV)) { result = 1; break; }
             }
         }
-        if ((functions & (Midi | Media)) && time - lastPads >= 50) {
+        if ((functions & (Midi | Media | Soundboard)) && time - lastPads >= 50) {
             lastPads = time;
             unsigned bits = 0; for (unsigned i = 0; i < Count; ++i) if (s.buttons[i]) bits |= 1 << i;
             set("pads",std::to_string(bits).c_str()); set("octave",std::to_string(midi.octave()).c_str());
         }
         if (typing && keyFd < 0) keyFd = hidNode("hid.keyboard");
         if (pointing && mouseFd < 0) mouseFd = hidNode("hid.mouse");
-        if (typing) {
-            const State keys = controls.keyboardState(raw);
-            channel.pump(keys, leds, connected && controls.keyboardScreen() && !controls.dark()
+        {
+            const State keys = typing ? controls.keyboardState(raw) : s;
+            channel.pump(keys, leds, connected && (controls.keyboardScreen() || !(functions & Keyboard)) && (!controls.dark() || macro || (functions & Soundboard))
                     && !controls.hint() && !controls.suppress(), time, owner, ownerStart,
                     raw.buttons[Back] && raw.buttons[Start]);
-            if (!sendKeyboard(channel, keyFd, mouseFd, pointing)) { result = 1; break; }
+            if (!sendKeyboard(channel, keyFd, mouseFd, pointing, macro ? mediaFd : -1)) { result = 1; break; }
             uint8_t output[64]{};
             if (keyFd >= 0 && read(keyFd, output, sizeof(output)) >= 1) leds = output[0] & 31;
         }
@@ -628,9 +657,16 @@ int run(unsigned functions) {
                     static_cast<uint8_t>((motion.buttons[B] ? 1 : 0) | (motion.buttons[A] ? 2 : 0));
             const auto tagged = pointerModel.report(motion, buttons, typing && channel.scrolling(),
                     typing ? channel.wheel() : 0, (time - lastPointer) / 1000.0);
-            const Bytes report = wireReport(Bytes(tagged.begin(), tagged.end()));
+            Bytes report = wireReport(Bytes(tagged.begin(), tagged.end()));
+            const auto interval = property(std::string(kPrefix) + "jiggle");
+            const unsigned seconds = interval.empty() ? 0 : static_cast<unsigned>(atoi(interval.c_str()));
+            const int dx = jiggler.delta(time,seconds,connected);
+            const bool jiggle = dx && report[0] == 0 && report[1] == 0 && report[2] == 0 && report[3] == 0;
+            if (jiggle) report[1] = static_cast<uint8_t>(dx);
             ssize_t n = write(mouseFd, report.data(), report.size());
-            if (n == static_cast<ssize_t>(report.size())) lastPointer = time;
+            if (n == static_cast<ssize_t>(report.size())) {
+                lastPointer = time; if (jiggle) jiggler.sent(time);
+            }
             else {
                 pointerModel = before;
                 if (n < 0 && (errno == ESHUTDOWN || errno == ENODEV)) channel.release();
@@ -655,7 +691,7 @@ int run(unsigned functions) {
     if (midiFd >= 0) close(midiFd);
     if (mediaFd >= 0) {
         for (const auto& r : mediaReports(State{})) send(mediaFd,r.data(),r.size());
-        close(mediaFd);
+        close(mediaFd); mediaFd = -1;
     }
     transfers.cancel();
     if (in >= 0) {
@@ -665,7 +701,7 @@ int run(unsigned functions) {
     channel.release();
     const int64_t deadline = now() + 100;
     while (!channel.pending().empty() && now() < deadline) {
-        if (!sendKeyboard(channel, keyFd, mouseFd, pointing)) break;
+        if (!sendKeyboard(channel, keyFd, mouseFd, pointing, macro ? mediaFd : -1)) break;
         if (keyFd < 0 && channel.next(1)) channel.sent(1);
         if (mouseFd < 0 && channel.next(2)) channel.sent(2);
         if (!channel.pending().empty()) { timespec pause{0,1000000}; nanosleep(&pause, nullptr); }
@@ -696,8 +732,8 @@ int main(int argc, char** argv) {
     if (argc == 3 && std::string(argv[1]) == "--descriptor") {
         const std::string type = argv[2];
         if (type != "gamepad" && type != "keyboard" && type != "mouse" && type != "boot-mouse"
-                && type != "switch" && type != "ps3" && type != "gamecube" && type != "media") return 2;
-        const auto desc = type == "switch" ? switchDescriptor() : type == "ps3" ? ps3Descriptor()
+                && type != "switch" && type != "ps4" && type != "ps3" && type != "gamecube" && type != "media") return 2;
+        const auto desc = type == "ps4" ? ps4Descriptor() : type == "switch" ? switchDescriptor() : type == "ps3" ? ps3Descriptor()
                 : type == "gamecube" ? cubeDescriptor() : type == "media" ? mediaDescriptor() : type == "mouse" || type == "boot-mouse" ? mouseDescriptor(type == "mouse")
                 : hidDescriptor(type == "keyboard");
         return fwrite(desc.data(), 1, desc.size(), stdout) == desc.size() ? 0 : 1;

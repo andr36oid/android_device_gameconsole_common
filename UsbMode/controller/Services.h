@@ -35,6 +35,14 @@ public:
 private:
     AudioBuffer buffer_;
 };
+class AudioPlayback {
+public:
+    bool pump(const AudioBridge::Read& read, const AudioBridge::Write& write, const std::function<void()>& recover);
+    void clear() { queue_.clear(); pending_.clear(); }
+private:
+    AudioBuffer queue_;
+    Bytes pending_;
+};
 class Services {
 public:
     using Publish = std::function<void(const char*, const std::string&)>;
@@ -45,7 +53,7 @@ public:
     int midiNode();
     bool ready() const {
         return (!(functions_ & (Network | Rndis)) || net_ >= 0) &&
-                (!(functions_ & Serial) || serial_ >= 0) && (!(functions_ & Sound) || pcm_ != nullptr);
+                (!(functions_ & Serial) || serial_ >= 0) && (!(functions_ & Sound) || pcm_ != nullptr) && (!(functions_ & Soundboard) || playback_ != nullptr);
     }
 private:
     void audio();
@@ -60,6 +68,8 @@ private:
     Bytes fileReply_;
     int net_ = -1, serial_ = -1, audioServer_ = -1, audioClient_ = -1;
     void* pcm_ = nullptr;
+    void* playback_ = nullptr;
+    AudioPlayback captureBridge_;
     DhcpLease lease_;
     AudioBridge audioBridge_;
     std::string netName_, serialText_, audioStatus_;

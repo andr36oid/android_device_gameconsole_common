@@ -51,7 +51,7 @@ private:
     int server_ = -1, client_ = -1;
     int64_t lastReply_ = 0, lastFrame_ = -1;
     bool received_ = false, connected_ = false, scrolling_ = false;
-    uint8_t buttons_ = 0;
+    uint8_t buttons_ = 0, consumer_ = 0;
     int wheel_ = 0;
     std::array<uint8_t, 9> keys_{1};
     std::deque<Bytes> pending_;

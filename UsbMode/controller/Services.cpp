@@ -92,10 +92,28 @@ bool AudioBridge::pump(const Read& read, const Write& write, const std::function
     }
     return true;
 }
+bool AudioPlayback::pump(const AudioBridge::Read& read, const AudioBridge::Write& write, const std::function<void()>& recover) {
+    for (unsigned i = 0; i < 4; ++i) {
+        uint8_t data[AudioBuffer::kPeriod]; ssize_t n = read(data,sizeof(data));
+        if (n == -EAGAIN || n == -EINTR) break;
+        if (n <= 0 || n > static_cast<ssize_t>(sizeof(data)) || n % 4) { clear(); return false; }
+        queue_.append(data,n);
+    }
+    if (pending_.empty()) {
+        if (queue_.next()) { pending_ = *queue_.next(); queue_.sent(); }
+        else pending_.resize(AudioBuffer::kPeriod,0);
+    }
+    ssize_t n = write(pending_.data(),pending_.size());
+    if (n == -EPIPE || n == -ESTRPIPE) { clear(); recover(); return true; }
+    if (n == -EAGAIN || n == -EINTR) return true;
+    if (n < 0 || n > static_cast<ssize_t>(pending_.size()) || n % 4) { clear(); return false; }
+    pending_.erase(pending_.begin(),pending_.begin() + n); return true;
+}
 Services::Services(unsigned functions, Publish publish, Authorize authorize, std::string typeRoot)
         : functions_(functions), publish_(std::move(publish)), authorize_(std::move(authorize)), typeRoot_(std::move(typeRoot)) { }
 Services::~Services() {
 #ifdef __ANDROID__
+    if (playback_) pcm_close(static_cast<pcm*>(playback_));
     if (pcm_) pcm_close(static_cast<pcm*>(pcm_));
 #endif
     for (int fd : {net_,serial_,audioServer_,audioClient_,files_,fileClient_}) if (fd >= 0) close(fd);
@@ -193,6 +211,29 @@ void Services::audio() {
         const int fd = pcm_get_poll_fd(capture); fcntl(fd,F_SETFL,O_NONBLOCK);
         pcm_start(capture);
     }
+    if (functions_ & Soundboard) {
+        if (!playback_) {
+            const int n = card("UAC2Gadget");
+            pcm_config config{}; config.channels = 2; config.rate = 48000; config.period_size = 192;
+            config.period_count = 4; config.format = PCM_FORMAT_S16_LE; config.start_threshold = 192;
+            pcm* output = pcm_open(n,0,PCM_OUT,&config);
+            if (!output || !pcm_is_ready(output)) { if (output) pcm_close(output); audioStatus("error"); return; }
+            playback_ = output; const int fd = pcm_get_poll_fd(output); fcntl(fd,F_SETFL,O_NONBLOCK);
+        }
+        pcm* output = static_cast<pcm*>(playback_);
+        const bool ok = captureBridge_.pump([&](uint8_t* data, size_t size) -> ssize_t {
+            if (audioClient_ < 0) return -EAGAIN;
+            ssize_t n = recv(audioClient_,data,size,MSG_DONTWAIT | MSG_TRUNC); return n < 0 ? -errno : n;
+        },[&](const uint8_t* data, size_t size) -> ssize_t {
+            snd_xferi transfer{}; transfer.buf = const_cast<uint8_t*>(data); transfer.frames = size / 4;
+            if (ioctl(pcm_get_poll_fd(output),SNDRV_PCM_IOCTL_WRITEI_FRAMES,&transfer) < 0) return -errno;
+            return transfer.result > 0 ? transfer.result * 4 : transfer.result;
+        },[&] { pcm_prepare(output); });
+        if (!ok) {
+            if (audioClient_ >= 0) close(audioClient_);
+            audioClient_ = -1; captureBridge_.clear();
+        }
+    }
     pcm* capture = static_cast<pcm*>(pcm_);
     const bool ok = audioBridge_.pump([&](uint8_t* data, size_t size) -> ssize_t {
         snd_xferi transfer{}; transfer.buf = data; transfer.frames = size / 4;
@@ -228,7 +269,8 @@ void Services::files() {
     if (fileReply_.empty()) {
         uint8_t request[4096]; ssize_t n = recv(fileClient_,request,sizeof(request),MSG_DONTWAIT | MSG_TRUNC);
         if (n > 0 && n <= static_cast<ssize_t>(sizeof(request)))
-            fileReply_ = textRequest(typeRoot_,Bytes(request,request + n));
+            fileReply_ = (functions_ & Soundboard) && (request[0] == 'S' || request[0] == 'G')
+                    ? soundRequest(typeRoot_,Bytes(request,request + n)) : textRequest(typeRoot_,Bytes(request,request + n));
         else if (n != -1 || (errno != EAGAIN && errno != EINTR)) { close(fileClient_); fileClient_ = -1; }
     }
     if (!fileReply_.empty()) {
@@ -242,7 +284,7 @@ bool Services::pump(int64_t time) {
     if ((functions_ & (Network | Rndis)) && !network(time)) return false;
     if (functions_ & Serial) serial();
     if (functions_ & Sound) audio();
-    if ((functions_ & Keyboard) && !typeRoot_.empty()) files();
+    if ((functions_ & (Keyboard | Soundboard)) && !typeRoot_.empty()) files();
     return true;
 }
 }

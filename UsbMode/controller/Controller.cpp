@@ -21,7 +21,7 @@ Policy policy(unsigned functions) {
     // Keep the old 64-mask identities. Console identities are standalone below;
     // their otherwise unused high bits leave room for the RNDIS variant.
     const unsigned set = (functions & 4095) | (functions & Rndis ? 4096 : 0);
-    Policy result{"ok",0,0,static_cast<uint16_t>(functions < 64 ? kProductBase + functions : 0x4000 + set)};
+    Policy result{"ok",0,0,static_cast<uint16_t>(functions < 64 ? kProductBase + functions : 0x4000 + set + (functions & Soundboard ? 0x2000 : 0))};
     if (!functions || functions > kAllFunctions) { result.reason = "empty"; return result; }
     const unsigned controllers = functions & kControllers;
     if (controllers && (controllers & (controllers - 1))) {
@@ -31,11 +31,14 @@ Policy policy(unsigned functions) {
         result.reason = "standalone"; return result;
     }
     if (functions == Switch) { result.vendor = 0x0f0d; result.product = 0x0092; }
+    if (functions == Ps4) { result.vendor = 0x054c; result.product = 0x09cc; }
+    if ((functions & Soundboard) && !(functions & Sound)) { result.reason = "sound"; return result; }
     if (functions == Ps3) { result.vendor = 0x054c; result.product = 0x0268; }
     if (functions == GameCube) { result.vendor = 0x057e; result.product = 0x0337; }
     if (functions == Xbox) { result.vendor = 0x045e; result.product = 0x0289; }
     if ((functions & (Network | Rndis)) == (Network | Rndis)) { result.reason = "networks"; return result; }
-    const unsigned interactive = functions & (kControllers | Media | Midi);
+    if ((functions & Soundboard) && (functions & Keyboard)) { result.reason = "routing"; return result; }
+    const unsigned interactive = functions & (kControllers | Media | Midi | Soundboard);
     if (interactive && (interactive & (interactive - 1))) { result.reason = "routing"; return result; }
     // Conservative five-IN envelope; ep0 and RX are reserved separately.
     std::vector<unsigned> fifos{128,128,64,32,16};
@@ -63,7 +66,7 @@ unsigned parseFunctions(const std::string& text) {
     if (text == "xinput") return XInput;
     if (text == "gamepad") return Gamepad;
     if (text == "keyboard") return Keyboard | Mouse;
-    if (text.empty() || text.size() > 5 || text.find_first_not_of("0123456789") != std::string::npos)
+    if (text.empty() || text.size() > 6 || text.find_first_not_of("0123456789") != std::string::npos)
         return 0;
     return static_cast<unsigned>(std::stoi(text));
 }
@@ -109,7 +112,7 @@ Bytes hidDescriptor(bool keyboard) {
         0x15,0,0x25,1,0x75,1,0x95,8,0x81,2,
         0x95,1,0x75,8,0x81,1,0x95,5,0x75,1,0x05,8,
         0x19,1,0x29,5,0x91,2,0x95,1,0x75,3,0x91,1,
-        0x95,6,0x75,8,0x15,0,0x25,0x65,0x05,7,0x19,0,0x29,0x65,0x81,0,0xc0,
+        0x95,6,0x75,8,0x15,0,0x25,0x73,0x05,7,0x19,0,0x29,0x73,0x81,0,0xc0,
     };
     return {
         0x05,1,0x09,5,0xa1,1,
@@ -255,7 +258,7 @@ void SessionControls::update(const State& state, int64_t time, bool request, boo
     } else if (power) {
         exit_ = true;
     } else if (!suppress_) {
-        if (route && !routeHeld_ && (functions_ & Keyboard) && (functions_ & (kControllers | Media | Midi))) {
+        if (!macro_ && route && !routeHeld_ && (functions_ & Keyboard) && (functions_ & (kControllers | Media | Midi | Soundboard))) {
             keyboard_ = !keyboard_; suppress_ = true; exitSince_ = -1;
         } else if (combo) {
             if (exitSince_ < 0) exitSince_ = time;
@@ -275,14 +278,24 @@ State SessionControls::gamepadState(const State& state) const {
     if (suppress_ || keyboard_ || hint()) return {};
     State result = state;
     // Reserve both exit buttons before a held combo can reach the PC.
-    if (dark_ || (state.buttons[Back] && state.buttons[Start])) result.buttons[Back] = result.buttons[Start] = false;
+    if ((dark_ && !(functions_ & Soundboard)) || (state.buttons[Back] && state.buttons[Start])) result.buttons[Back] = result.buttons[Start] = false;
     return result;
 }
 State SessionControls::keyboardState(const State& state) const {
-    if (!keyboard_ || dark_ || hint() || suppress_) return {};
+    if (!keyboard_ || (dark_ && !macro_) || hint() || suppress_) return {};
     State result = state;
     if (state.buttons[Back] && state.buttons[Start]) result.buttons[Back] = result.buttons[Start] = false;
     return result;
+}
+
+int Jiggler::delta(int64_t time, unsigned seconds, bool connected) {
+    if (seconds != 30 && seconds != 60 && seconds != 120 && seconds != 300) seconds = 0;
+    if (!connected || !seconds) { due_ = -1; seconds_ = seconds; back_ = false; return 0; }
+    if (due_ < 0 || seconds != seconds_) { seconds_ = seconds; due_ = time + seconds * 1000; back_ = false; }
+    return time >= due_ ? back_ ? -1 : 1 : 0;
+}
+void Jiggler::sent(int64_t time) {
+    due_ = time + (back_ ? seconds_ * 1000 : 20); back_ = !back_;
 }
 
 bool ExitHold::update(bool held, int64_t now) {

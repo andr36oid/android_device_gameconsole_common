@@ -76,7 +76,7 @@ image_name() {
 	# One property holds the basename (Android's limit is 91 bytes).
 	[ "${#1}" -le 91 ] || return 1
 	case $1 in ''|*[!a-zA-Z0-9._\ -]*|[!a-zA-Z0-9]*|*..*) return 1 ;; esac
-	case $1 in *.[iI][sS][oO]|*.[iI][mM][gG]) ;; *) return 1 ;; esac
+	case $1 in *.[iI][sS][oO]|*.[iI][mM][gG]|*.[iI][mM][aA]|*.[vV][fF][dD]) ;; *) return 1 ;; esac
 }
 
 image_info() {
@@ -95,7 +95,23 @@ image_info() {
 	size=${info##*:}
 	# mksh's test/arithmetic can wrap at 32 bits; image sizes need wider math.
 	awk -v bytes="$size" 'BEGIN {exit !(bytes>0)}' || return 1
+	case $1 in
+	*.[iI][mM][aA]|*.[vV][fF][dD])
+		case $size in 737280|1474560|2949120) ;; *) return 1 ;; esac ;;
+	esac
 	printf '%s\n' "$info"
+}
+
+floppy_image() {
+	case $image in *.[iI][mM][gG]|*.[iI][mM][aA]|*.[vV][fF][dD]) ;; *) return 1 ;; esac
+	case ${stamp##*:} in 737280|1474560|2949120) return 0 ;; *) return 1 ;; esac
+}
+
+cd_image() {
+	! floppy_image || return 1
+	# The kernel caps CD media at 256*60*75-1 complete 2048-byte blocks.
+	awk -v bytes="${stamp##*:}" 'BEGIN {
+	    exit !(bytes>=614400 && bytes<=2359293952 && bytes%2048==0)}'
 }
 
 scan_images() {
@@ -191,7 +207,7 @@ validate_functions() {
 		*) functions=1; if adb_on; then functions=33; fi ;;
 		esac
 	fi
-	case $functions in ''|0*|*[!0-9]*|??????*) return 1 ;; esac
+	case $functions in ''|0*|*[!0-9]*|???????*) return 1 ;; esac
 	identity=$("$CONTROLLER" --policy "$functions") || return 1
 	if has_function 32; then adb_on || return 1; fi
 	if storage_mode; then
@@ -233,14 +249,7 @@ validate() {
 		disk=$easy_disk forced=0
 		[ "$cid" = "$easy_cid" ] || return 1
 		image_source=$easy_disk:$easy_cid:$easy_mount:$easy_root
-		if [ "$cdrom" = 1 ]; then
-			# This kernel caps CD media at 256*60*75-1 2048-byte blocks.
-			# Refuse truncation; larger images can use the normal disk LUN.
-			bytes=${stamp##*:}
-			case $bytes in ''|*[!0-9]*) return 1 ;; esac
-			awk -v bytes="$bytes" 'BEGIN {
-			    exit !(bytes>=614400 && bytes<=2359293952 && bytes%2048==0)}' || return 1
-		fi
+		[ "$cdrom" != 1 ] || cd_image || return 1
 		lease
 		return $?
 	fi
@@ -456,7 +465,7 @@ configure_controller() {
 		put "$G/os_desc/qw_sign" MSFT100 || return 1
 		put "$G/os_desc/b_vendor_code" 0x1 || return 1
 	fi
-	if has_function 28674; then
+	if has_function 94210; then
 		mkdir "$G/functions/ffs.xinput" || return 1
 		mount -t functionfs -o uid=0,gid=0,rmode=0700,fmode=0600 xinput "$FFS" || return 1
 	fi
@@ -468,6 +477,7 @@ configure_controller() {
 		put "$G/strings/0x409/product" 'POKKEN CONTROLLER' || return 1
 		configure_hid andr36oid switch 0 0 64 8 0 || return 1
 	fi
+	if has_function 65536; then put "$G/strings/0x409/product" 'Wireless Controller' || return 1; fi
 	if has_function 4096; then put "$G/strings/0x409/product" 'PLAYSTATION(R)3 Controller' || return 1; fi
 	if has_function 8192; then put "$G/strings/0x409/product" WUP-028 || return 1; fi
 	if has_function 16384; then put "$G/bDeviceClass" 0x58 || return 1; fi
@@ -484,8 +494,13 @@ configure_controller() {
 	fi
 	if has_function 1024; then
 		mkdir "$G/functions/uac2.speaker" || return 1
-		# USB OUT -> gadget capture. No microphone is fitted on the base R36S.
+		# USB OUT -> gadget capture; optional USB IN uses gadget playback.
 		put "$G/functions/uac2.speaker/p_chmask" 0 || return 1
+		if has_function 131072; then
+			put "$G/functions/uac2.speaker/p_chmask" 3 || return 1
+			put "$G/functions/uac2.speaker/p_srate" 48000 || return 1
+			put "$G/functions/uac2.speaker/p_ssize" 2 || return 1
+		fi
 		put "$G/functions/uac2.speaker/c_chmask" 3 || return 1
 		put "$G/functions/uac2.speaker/c_srate" 48000 || return 1
 		put "$G/functions/uac2.speaker/c_ssize" 2 || return 1
@@ -512,14 +527,16 @@ configure_controller() {
 		ln -s "$G/functions/rndis.link" "$G/configs/b.1/f13" || return 1
 	fi
 	if ! has_function 32; then setprop ctl.stop adbd || return 1; fi
+	setprop "$P.companion" 0 || return 1
+	setprop "$P.change" '' || return 1
 	setprop "$P.active_functions" "$functions" || return 1
 	setprop "$P.screen" on || return 1
 	setprop "$P.screen_request" on || return 1
 	setprop "$P.hint_ready" 0 || return 1
 	setprop "$P.type_root" "" || return 1
-	if has_function 8 && image_root; then setprop "$P.type_root" "$easy_root" || return 1; fi
+	if has_function 131080 && image_root; then setprop "$P.type_root" "$easy_root" || return 1; fi
 	step controller_daemon || return 1
-	if has_function 28674; then ln -s "$G/functions/ffs.xinput" "$G/configs/b.1/f2" || return 1; fi
+	if has_function 94210; then ln -s "$G/functions/ffs.xinput" "$G/configs/b.1/f2" || return 1; fi
 }
 
 configure_hid() {
@@ -801,6 +818,37 @@ finish_request() {
 	status "$result"
 }
 
+change_disc() {
+	local old_image old_stamp candidate token
+	[ "$(prop change)" = start ] || return 0
+	setprop "$P.change" error
+	[ "$target" = file ] && [ "$ro" = 1 ] && [ "$(cat "$F/lun.0/removable")" = 1 ] || return 0
+	lease || return 1
+	old_image=$image old_stamp=$stamp
+	candidate=$(prop next_image) token=$(prop next_stamp)
+	image=$candidate stamp=$token
+	if ! check_image || { [ "$cdrom" = 1 ] && ! cd_image; }; then
+		image=$old_image stamp=$old_stamp
+		return 0
+	fi
+	# Force a media change even if the host has locked the tray.
+	if [ -e "$F/lun.0/forced_eject" ]; then
+		put "$F/lun.0/forced_eject" 1 || { image=$old_image stamp=$old_stamp; return 1; }
+	else
+		put "$F/lun.0/file" '' || { image=$old_image stamp=$old_stamp; return 1; }
+	fi
+	sleep 0.2
+	if ! check_image || ! put "$F/lun.0/file" "$easy_root/isos/$image"; then
+		image=$old_image stamp=$old_stamp
+		if check_image; then put "$F/lun.0/file" "$easy_root/isos/$image" || return 1; fi
+		return 0
+	fi
+	setprop "$P.image" "$image"
+	setprop "$P.stamp" "$stamp"
+	setprop "$P.name" "$image"
+	setprop "$P.change" 'done'
+}
+
 handle_request() {
 	error=
 	setprop "$P.error" ''
@@ -809,6 +857,10 @@ handle_request() {
 	if cleanup && start_drive; then
 		result=idle
 		while lease && ! mounted && [ "$(getprop sys.usb.configfs)" = 2 ]; do
+			if [ "$(prop scan)" = start ]; then
+				if scan_images; then setprop "$P.scan" 'done'; else setprop "$P.scan" error; fi
+			fi
+			if ! change_disc; then result=error; break; fi
 			if ! bind_drive; then result=error; break; fi
 			if [ -n "$(prop error)" ]; then result=error; break; fi
 			sleep 0.2
