@@ -41,6 +41,11 @@ virtual_bytes() {
 	fi
 }
 
+virtual_chunk() {
+	# At least 64 MiB, with at most 100 growing truncates even for a 1 TiB image.
+	printf '%s\n' "$((($1 / 65536 + 99) / 100 * 65536))"
+}
+
 virtual_label() {
 	# A common ASCII subset works with all four formatters, including FAT labels.
 	case $1 in *[!a-zA-Z0-9_\ -]*) return 1 ;; esac
@@ -346,9 +351,9 @@ EOF
 	*)
 		# exFAT has no sparse files and this kernel has no exFAT fallocate.
 		# vfat fallocate also zero-fills. Bound each growing truncate for progress.
-		next=0
+		next=0 chunk=$(virtual_chunk "$kib")
 		while [ "$next" -lt "$kib" ]; do
-			next=$((next + 65536))
+			next=$((next + chunk))
 			[ "$next" -le "$kib" ] || next=$kib
 			virtual_run truncate -s "$(virtual_bytes "$next")" "$v_path" || return 1
 			virtual_progress allocate "$((next / 1024 * 100 / (kib / 1024)))"
