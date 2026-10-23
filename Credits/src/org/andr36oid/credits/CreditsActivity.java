@@ -312,7 +312,10 @@ public class CreditsActivity extends Activity {
                 Color.rgb(0x20, 0x20, 0x20), Typeface.BOLD);
         bubble.setBackgroundResource(R.drawable.andr36oid_bubble);
         bubble.setPadding(dp(10), dp(6), dp(10), dp(6));
-        column.addView(bubble);
+        // A vertical LinearLayout hands a parentless child MATCH_PARENT width, which the column's
+        // wrap_content pins to the 48dp icon and clips "watching" down to "wat"; wrap it instead.
+        column.addView(bubble, new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
 
         // The tail under the bubble, over the icon's middle
         final ImageView tail = new ImageView(this);
