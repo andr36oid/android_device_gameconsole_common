@@ -187,14 +187,14 @@ virtual_stop_child() {
 virtual_detach() {
 	local loop associations
 	if [ ! -f "$STATE/virtual/loop" ]; then
-		associations=$(losetup -j "$v_path") || return 1
+		associations=$(losetup -j "$v_path" 2>>"$STATE/virtual.log") || return 1
 		[ -z "$associations" ]
 		return $?
 	fi
 	loop=$(cat "$STATE/virtual/loop")
 	case $loop in /dev/block/loop[0-9]*|/dev/loop[0-9]*) ;; *) return 1 ;; esac
 	# Never detach a loop which has since been given to a different file.
-	associations=$(losetup -j "$v_path") || return 1
+	associations=$(losetup -j "$v_path" 2>>"$STATE/virtual.log") || return 1
 	if [ "$(cat "$STATE/virtual/boot")" != "$(cat "$BOOT_ID")" ]; then
 		# Loop numbers from a previous boot no longer belong to this operation.
 		[ -z "$associations" ] || return 1
@@ -202,8 +202,8 @@ virtual_detach() {
 		return 0
 	fi
 	if printf '%s\n' "$associations" | awk -F: -v loop="$loop" '$1==loop {found=1} END {exit !found}'; then
-		losetup -d "$loop" || return 1
-		associations=$(losetup -j "$v_path") || return 1
+		losetup -d "$loop" >>"$STATE/virtual.log" 2>&1 || return 1
+		associations=$(losetup -j "$v_path" 2>>"$STATE/virtual.log") || return 1
 		if printf '%s\n' "$associations" | awk -F: -v loop="$loop" '$1==loop {found=1} END {exit !found}'; then return 1; fi
 	fi
 	rm -f "$STATE/virtual/loop"
@@ -369,7 +369,7 @@ virtual_existing() {
 	[ "$info" = "$(prop stamp)" ] || { virtual_fail changed; return 1; }
 	v_path=$easy_root/isos/$v_name v_inode=${info%:*} v_stamp=$info
 	[ "$(stat -c %h "$v_path")" = 1 ] || { virtual_fail changed; return 1; }
-	associations=$(losetup -j "$v_path") || return 1
+	associations=$(losetup -j "$v_path" 2>>"$STATE/virtual.log") || return 1
 	[ -z "$associations" ] || { virtual_fail shared; return 1; }
 	if [ "$v_request" = delete ]; then
 		virtual_lease && [ "$(image_info "$v_name")" = "$info" ] && rm "$v_path" || return 1
