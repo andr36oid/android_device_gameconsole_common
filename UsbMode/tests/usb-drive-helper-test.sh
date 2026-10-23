@@ -8,9 +8,11 @@ command mkdir -p "$T"
 USB_DRIVE_SYS=$T/sys USB_DRIVE_DEV=$T/dev USB_DRIVE_GADGET=$T/gadget
 USB_DRIVE_STATE=$T/state USB_DRIVE_MOUNTS=$T/mounts USB_DRIVE_FSTABS=$T/fstabs
 USB_DRIVE_OTG=$T/otg USB_DRIVE_POWER=$T/power USB_DRIVE_DT=$T/dt
+USB_DRIVE_MEDIA=$T/media
 USB_DRIVE_TEST=1
 export USB_DRIVE_TEST USB_DRIVE_SYS USB_DRIVE_DEV USB_DRIVE_GADGET USB_DRIVE_STATE
 export USB_DRIVE_MOUNTS USB_DRIVE_FSTABS USB_DRIVE_OTG USB_DRIVE_POWER USB_DRIVE_DT
+export USB_DRIVE_MEDIA
 command mkdir -p "$T/props" "$T/state" "$T/fstabs" "$T/sys" "$T/dev" "$T/power/ac"
 # shellcheck disable=SC1091
 . "$HERE/andr36oid-usb-drive.sh"
@@ -46,6 +48,10 @@ log() { printf 'log %s\n' "$*" >>"$T/log"; }
 sync() { echo 'stub sync' >>"$T/log"; }
 sleep() {
 	printf 'sleep %s\n' "$1" >>"$T/log"
+	if [ "$1" = 0.5 ] && [ "${replace_image:-0}" = 1 ]; then
+		mv "$MEDIA/UUID/isos/Alpine Linux.iso" "$MEDIA/UUID/old.iso"
+		ln -s "$MEDIA/UUID/old.iso" "$MEDIA/UUID/isos/Alpine Linux.iso"
+	fi
 	if [ "${auto_stop:-0}" = 1 ] && [ "$(prop state)" = sharing ]; then
 		setprop "$P.request" stop
 	fi
@@ -59,7 +65,7 @@ rmdir() {
 	printf 'rmdir %s\n' "$1" >>"$T/log"
 	[ "${fail_close:-0}" = 0 ] || return 1
 	if [ "$1" = "$F" ]; then command rm -rf "$F/lun.0"; fi
-	command rm -f "$1"/file "$1"/ro "$1"/removable
+	command rm -f "$1"/file "$1"/ro "$1"/removable "$1"/cdrom
 	command rmdir "$1"
 }
 put() {
@@ -88,7 +94,7 @@ put() {
 	esac
 }
 reset_fixture() {
-	command rm -rf "$SYS" "$DEV" "$G" "$STATE" "$T/props" "$T/platform"
+	command rm -rf "$SYS" "$DEV" "$G" "$STATE" "$T/props" "$T/platform" "$MEDIA"
 	command mkdir -p "$SYS" "$DEV" "$G/configs/b.1/strings/0x409" "$G/functions/ffs.adb" "$G/os_desc" "$STATE" "$T/props"
 	: >"$T/log"; : >"$T/volumes"
 	for spec in '0 ff370000.dwmmc 0' '1 ff380000.dwmmc 32' '2 ff390000.dwmmc 64'; do
@@ -135,6 +141,7 @@ reset_fixture() {
 	setprop "$P.request" start
 	fail_unmount=0 keep_mounted=0 fail_unlock=0 fail_file=0 fail_close=0
 	fail_bind=0 fail_unbind=0 fail_gate=0 fail_role=0 delayed_bind=0 bind_writes=0 auto_stop=0
+	replace_image=0
 	# shellcheck disable=SC2034
 	error=
 }
@@ -500,4 +507,162 @@ touch "$STATE/owned" "$STATE/restore"
 check prepare_state
 check test -e "$STATE/owned"
 check test -e "$STATE/restore"
+
+# File sharing keeps EASYROMS mounted and never requests a block rescan.
+image_fixture() {
+	reset_fixture
+	command mkdir -p "$MEDIA/UUID/isos"
+	# A small valid CD track, sparse; no host storage or real sync.
+	truncate -s 1048576 "$MEDIA/UUID/isos/Alpine Linux.iso"
+	printf 'public:179,7 mounted UUID\n' >"$T/volumes"
+	printf '3 1 179:7 / %s/UUID rw - exfat /dev/block/vold/public:179,7 rw\n' "$MEDIA" >>"$MOUNTS"
+	setprop "$P.target" file
+	setprop "$P.image" 'Alpine Linux.iso'
+	setprop "$P.stamp" "$(stat -c '%d:%i:%s' "$MEDIA/UUID/isos/Alpine Linux.iso")"
+	setprop "$P.cid" "$(cat "$SYS/mmcblk0/device/cid")"
+	setprop "$P.cdrom" 1
+}
+image_fixture
+check scan_images
+check test "$(head -n 1 "$STATE/images")" = "$(printf 'ready\t%s\t0' "$(prop cid)")"
+check test "$(tail -n 1 "$STATE/images")" = "$(printf 'file\t%s\tAlpine Linux.iso' "$(prop stamp)")"
+check test "$(stat -c %a "$STATE/images")" = 644
+truncate -s 1048576 "$MEDIA/UUID/isos/Hybrid.IMG"
+truncate -s 1048576 "$MEDIA/UUID/outside.iso"
+ln -s "$MEDIA/UUID/outside.iso" "$MEDIA/UUID/isos/link.iso"
+command mkdir "$MEDIA/UUID/isos/folder.iso"
+mkfifo "$MEDIA/UUID/isos/pipe.img"
+: >"$MEDIA/UUID/isos/empty.iso"
+: >"$MEDIA/UUID/isos/wrong.txt"
+truncate -s 1048576 "$MEDIA/UUID/isos/bad;name.iso"
+truncate -s 1048576 "$MEDIA/UUID/isos/$(printf 'bad\nname.iso')"
+check scan_images
+check test "$(wc -l <"$STATE/images")" = 3
+check test -n "$(sed -n '/Hybrid.IMG$/p' "$STATE/images")"
+printf 'host\n' >"$OTG"
+check start_drive
+check test "$(cat "$F/lun.0/file")" = "$MEDIA/UUID/isos/Alpine Linux.iso"
+check test "$(cat "$F/lun.0/cdrom")" = 1
+check test "$(cat "$F/lun.0/ro")" = 1
+check test "$(cat "$F/lun.0/removable")" = 1
+check test ! -e "$STATE/restore"
+check test ! -e "$STATE/rescan"
+check test -n "$(awk '$3=="179:7" {print}' "$MOUNTS")"
+# shellcheck disable=SC2016
+check awk '$1=="prop" && $2=="sys.usb.configfs" && $3==2 {gated=NR}
+    $1=="write" && $2 ~ /lun.0\/file$/ {opened=NR}
+    $1=="write" && $2 ~ /otg$/ && $3=="peripheral" {role=NR}
+    $1=="write" && $2 ~ /UDC$/ && $3=="ff300000.usb" {bound=NR}
+    END {exit !(gated>0 && gated<opened && opened<role && role<bound)}' "$T/log"
+check recover
+check test ! -d "$F"
+check test "$(getprop sys.usb.configfs)" = 1
+check test "$(cat "$OTG")" = host
+check test -z "$(sed -n '/^sm \(unmount\|mount\) /p;/^blockdev /p' "$T/log")"
+# Both extensions can be disk LUNs, following the Read-only switch.
+for ext in iso img; do
+	for readonly in 0 1; do
+		image_fixture
+		mv "$MEDIA/UUID/isos/Alpine Linux.iso" "$MEDIA/UUID/isos/test.$ext"
+		setprop "$P.image" "test.$ext"
+		setprop "$P.cdrom" 0
+		setprop "$P.ro" "$readonly"
+		check start_drive
+		check test "$(cat "$F/lun.0/cdrom")" = 0
+		check test "$(cat "$F/lun.0/ro")" = "$readonly"
+		check cleanup
+	done
+done
+# The kernel uses large file offsets for disk LUNs, but truncates oversized CDs.
+for size in 3221225472 4294967296 5368709120; do
+	image_fixture
+	truncate -s "$size" "$MEDIA/UUID/isos/Alpine Linux.iso"
+	setprop "$P.stamp" "$(stat -c '%d:%i:%s' "$MEDIA/UUID/isos/Alpine Linux.iso")"
+	if start_drive; then echo 'FAIL: oversized CD image accepted'; exit 1; fi
+	check cleanup
+	setprop "$P.cdrom" 0
+	check start_drive
+	check test "$(cat "$F/lun.0/file")" = "$MEDIA/UUID/isos/Alpine Linux.iso"
+	check cleanup
+done
+for size in 512 614401 2359296000; do
+	image_fixture
+	truncate -s "$size" "$MEDIA/UUID/isos/Alpine Linux.iso"
+	setprop "$P.stamp" "$(stat -c '%d:%i:%s' "$MEDIA/UUID/isos/Alpine Linux.iso")"
+	if validate; then echo "FAIL: CD size $size accepted"; exit 1; fi
+done
+image_fixture
+truncate -s 2359293952 "$MEDIA/UUID/isos/Alpine Linux.iso"
+setprop "$P.stamp" "$(stat -c '%d:%i:%s' "$MEDIA/UUID/isos/Alpine Linux.iso")"
+check validate
+# Root rejects paths and special files even when properties bypass the app.
+for bad in symlink parent directory extension fifo empty newline odd long folder mount nested stamp cid; do
+	image_fixture
+	case $bad in
+	symlink) mv "$MEDIA/UUID/isos/Alpine Linux.iso" "$MEDIA/UUID/old.iso"
+		ln -s "$MEDIA/UUID/old.iso" "$MEDIA/UUID/isos/Alpine Linux.iso" ;;
+	parent) setprop "$P.image" '../old.iso' ;;
+	directory) setprop "$P.image" "$MEDIA/UUID/isos/Alpine Linux.iso" ;;
+	extension) setprop "$P.image" 'bad.exe' ;;
+	fifo) rm "$MEDIA/UUID/isos/Alpine Linux.iso"; mkfifo "$MEDIA/UUID/isos/Alpine Linux.iso" ;;
+	empty) : >"$MEDIA/UUID/isos/Alpine Linux.iso" ;;
+	newline) setprop "$P.image" "$(printf 'bad\nname.iso')" ;;
+	odd) setprop "$P.image" 'bad;name.iso' ;;
+	long) setprop "$P.image" "$(printf '%092d.iso' 0)" ;;
+	folder) mv "$MEDIA/UUID/isos" "$MEDIA/UUID/other"; ln -s other "$MEDIA/UUID/isos" ;;
+	mount) sed '/179:7 /d' "$MOUNTS" >"$T/newmounts"; mv "$T/newmounts" "$MOUNTS" ;;
+	nested) printf '4 1 179:7 / %s/UUID/isos rw - exfat /dev/block/x rw\n' "$MEDIA" >>"$MOUNTS" ;;
+	stamp) setprop "$P.stamp" 1:2:1048576 ;;
+	cid) setprop "$P.cid" 0123456789abcdef0123456789abcdef ;;
+	esac
+	if validate; then echo "FAIL: $bad image request accepted"; exit 1; fi
+	check scan_images
+	check cleanup
+done
+image_fixture
+setprop sys.andr36oid.easyroms.ready 0
+if validate; then echo 'FAIL: unresolved EASYROMS accepted'; exit 1; fi
+check scan_images
+check test "$(cat "$STATE/images")" = unavailable
+image_fixture
+printf 'public:179,7 unmounted UUID\n' >"$T/volumes"
+if validate; then echo 'FAIL: unmounted EASYROMS accepted'; exit 1; fi
+image_fixture
+printf 'public:179,7 mounted_ro UUID\n' >"$T/volumes"
+setprop "$P.cdrom" 0
+if validate; then echo 'FAIL: writable file on read-only volume accepted'; exit 1; fi
+setprop "$P.ro" 1
+check validate
+check scan_images
+check test "$(head -n 1 "$STATE/images")" = "$(printf 'ready\t%s\t1' "$(prop cid)")"
+image_fixture
+command rm -rf "$MEDIA/UUID/isos"
+check scan_images
+check test "$(wc -l <"$STATE/images")" = 1
+check test ! -e "$MEDIA/UUID/isos"
+# A change after opening the LUN is caught before binding and cleaned up.
+image_fixture
+replace_image=1
+check handle_request
+check test "$(prop state)" = error
+check test "$(prop error)" = device_role
+check test "$bind_writes" = 0
+check test ! -d "$F"
+check test "$(getprop sys.usb.configfs)" = 1
+image_fixture
+fail_file=1
+check handle_request
+check test "$(prop error)" = configure_drive
+check test "$(prop request)" = stop
+check test ! -d "$F"
+image_fixture
+check start_drive
+truncate -s 2097152 "$MEDIA/UUID/isos/Alpine Linux.iso"
+if lease; then echo 'FAIL: resized backing file kept lease'; exit 1; fi
+check cleanup
+image_fixture
+check start_drive
+printf '4 1 179:7 / %s/UUID rw - exfat /dev/block/vold/public:179,7 rw\n' "$MEDIA" >"$MOUNTS"
+if lease; then echo 'FAIL: remounted EASYROMS kept lease'; exit 1; fi
+check cleanup
 printf '%s helper checks passed (%s)\n'   "$count" "${KSH_VERSION:-${BASH_VERSION:-sh}}"

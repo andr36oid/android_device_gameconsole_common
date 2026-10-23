@@ -9,6 +9,7 @@ G=${USB_DRIVE_GADGET:-/config/usb_gadget/g1}
 STATE=${USB_DRIVE_STATE:-/data/misc/andr36oid-usb-drive}
 MOUNTS=${USB_DRIVE_MOUNTS:-/proc/self/mountinfo}
 FSTABS=${USB_DRIVE_FSTABS:-/vendor/etc}
+MEDIA=${USB_DRIVE_MEDIA:-/mnt/media_rw}
 OTG=${USB_DRIVE_OTG:-/sys/devices/platform/ff2c0000.syscon/ff2c0000.syscon:usb2-phy@100/otg_mode}
 POWER=${USB_DRIVE_POWER:-/sys/class/power_supply}
 DT=${USB_DRIVE_DT:-/proc/device-tree}
@@ -32,6 +33,91 @@ step() {
 prop() { getprop "$P.$1"; }
 status() { log_step "state: $1"; setprop "$P.state" "$1"; }
 block_node() { [ -b "$DEV/$1" ]; }
+
+# Use vold's selected public volume and its actual mount, never a label or an
+# app-supplied path. Keep this separate from the block export's unmount scope.
+image_root() {
+	local node numbers record volume_state uuid point partname
+	[ "$(getprop sys.andr36oid.easyroms.ready)" = 1 ] || return 1
+	node=$(getprop sys.andr36oid.easyroms.dev)
+	case $node in mmcblk[0-9]p7) ;; *) return 1 ;; esac
+	[ "$(cat "$SYS/$node/partition")" = 7 ] || return 1
+	partname=$(sed -n 's/^PARTNAME=//p' "$SYS/$node/uevent")
+	case $partname in ''|EASYROMS) ;; *) return 1 ;; esac
+	# Confirm this is the active Android/data card, as for partition sharing.
+	(layout && case $protected in *" ${node%p7} "*) ;; *) exit 1 ;; esac) || return 1
+	numbers=$(cat "$SYS/$node/dev") || return 1
+	case $numbers in ''|*[!0-9:]*) return 1 ;; esac
+	sm list-volumes all >"$STATE/image-volumes" || return 1
+	record=$(awk -v id="public:$(printf '%s' "$numbers" | tr : ,)" '
+	    $1==id && ($2=="mounted" || $2=="mounted_ro") {print $2 " " $3}' "$STATE/image-volumes")
+	volume_state=${record%% *} uuid=${record#* }
+	case $uuid in ''|*[!a-zA-Z0-9_-]*) return 1 ;; esac
+	point=$MEDIA/$uuid
+	[ -d "$point" ] && [ "$(readlink -f "$point")" = "$point" ] || return 1
+	# Escaped mount paths, bind roots and duplicate mounts are refused.
+	easy_mount=$(awk -v dev="$numbers" -v point="$point" '
+	    $3==dev && $4=="/" && $5==point {print $1}' "$MOUNTS")
+	case $easy_mount in ''|*[!0-9]*) return 1 ;; esac
+	easy_root=$point easy_disk=${node%p7}
+	easy_cid=$(cat "$SYS/$easy_disk/device/cid") || return 1
+	[ "${#easy_cid}" = 32 ] || return 1
+	case $easy_cid in *[!0-9a-fA-F]*) return 1 ;; esac
+	easy_ro=1
+	if [ "$volume_state" = mounted ] && awk -v id="$easy_mount" '
+	    $1==id && ("," $6 ",") ~ /,rw,/ {found=1} END {exit !found}' "$MOUNTS"; then
+		easy_ro=0
+	fi
+}
+
+image_name() {
+	# One property holds the basename (Android's limit is 91 bytes).
+	[ "${#1}" -le 91 ] || return 1
+	case $1 in ''|*[!a-zA-Z0-9._\ -]*|[!a-zA-Z0-9]*|*..*) return 1 ;; esac
+	case $1 in *.[iI][sS][oO]|*.[iI][mM][gG]) ;; *) return 1 ;; esac
+}
+
+image_info() {
+	local path info size
+	image_name "$1" || return 1
+	path=$easy_root/isos/$1
+	[ -d "$easy_root/isos" ] && [ ! -L "$easy_root/isos" ] || return 1
+	[ -f "$path" ] && [ ! -L "$path" ] || return 1
+	[ "$(readlink -f "$path")" = "$path" ] || return 1
+	# A mount below EASYROMS must not redirect the directory or this file.
+	awk -v dir="$easy_root/isos" '$5==dir || index($5,dir "/")==1 {found=1}
+	    END {exit found}' "$MOUNTS" || return 1
+	[ "$(stat -c %d "$path")" = "$(stat -c %d "$easy_root")" ] || return 1
+	info=$(stat -c '%d:%i:%s' "$path") || return 1
+	case $info in ''|*[!0-9:]*) return 1 ;; esac
+	size=${info##*:}
+	# mksh's test/arithmetic can wrap at 32 bits; image sizes need wider math.
+	awk -v bytes="$size" 'BEGIN {exit !(bytes>0)}' || return 1
+	printf '%s\n' "$info"
+}
+
+scan_images() {
+	local path info
+	if image_root; then
+		printf 'ready\t%s\t%s\n' "$easy_cid" "$easy_ro" >"$STATE/images.tmp" || return 1
+		for path in "$easy_root/isos/"*; do
+			info=$(image_info "${path##*/}") || continue
+			printf 'file\t%s\t%s\n' "$info" "${path##*/}" >>"$STATE/images.tmp" || return 1
+		done
+	else
+		printf 'unavailable\n' >"$STATE/images.tmp" || return 1
+	fi
+	chmod 0644 "$STATE/images.tmp" && mv -f "$STATE/images.tmp" "$STATE/images"
+}
+
+check_image() {
+	local info
+	image_root || return 1
+	[ "$easy_disk:$easy_cid:$easy_mount:$easy_root" = "$image_source" ] || return 1
+	[ "$ro" = 1 ] || [ "$easy_ro" = 0 ] || return 1
+	info=$(image_info "$image") || return 1
+	[ "$info" = "$stamp" ]
+}
 
 nodes() {
 	printf '%s\n' "$target"
@@ -95,6 +181,7 @@ lease() {
 	[ "$(prop request)" = start ] && [ "$(cat "$OTG")" = "$expected_role" ] || return 1
 	! charging || return 1
 	[ "$(cat "$SYS/$disk/device/cid" 2>/dev/null)" = "$cid" ] || return 1
+	[ "$target" != file ] || check_image || return 1
 	[ "$(awk '{print $22}' "/proc/$owner/stat" 2>/dev/null)" = "$owner_start" ]
 }
 
@@ -102,11 +189,30 @@ validate() {
 	expected_role=$(cat "$OTG") || return 1
 	case $expected_role in host|peripheral|otg) ;; *) return 1 ;; esac
 	target=$(prop target) cid=$(prop cid) ro=$(prop ro) owner=$(prop owner)
-	case $target in mmcblk[0-9]|mmcblk[0-9]p7) ;; *) return 1 ;; esac
+	case $target in file|mmcblk[0-9]|mmcblk[0-9]p7) ;; *) return 1 ;; esac
 	case $ro in 0|1) ;; *) return 1 ;; esac
 	case $owner in ''|*[!0-9]*) return 1 ;; esac
 	owner_start=$(awk '{print $22}' "/proc/$owner/stat") || return 1
 	[ -n "$owner_start" ] || return 1
+	if [ "$target" = file ]; then
+		image=$(prop image) stamp=$(prop stamp) cdrom=$(prop cdrom)
+		case $cdrom in 0) ;; 1) ro=1 ;; *) return 1 ;; esac
+		image_root || return 1
+		disk=$easy_disk forced=0
+		[ "$cid" = "$easy_cid" ] || return 1
+		image_source=$easy_disk:$easy_cid:$easy_mount:$easy_root
+		if [ "$cdrom" = 1 ]; then
+			# This kernel caps CD media at 256*60*75-1 2048-byte blocks.
+			# Refuse truncation; larger images can use the normal disk LUN.
+			bytes=${stamp##*:}
+			case $bytes in ''|*[!0-9]*) return 1 ;; esac
+			awk -v bytes="$bytes" 'BEGIN {
+			    exit !(bytes>=614400 && bytes<=2359293952 && bytes%2048==0)}' || return 1
+		fi
+		lease
+		return $?
+	fi
+	cdrom=0
 	disk=${target%p7}
 	block_node "$target" || return 1
 	[ "$(cat "$SYS/$disk/device/cid")" = "$cid" ] || return 1
@@ -157,6 +263,7 @@ validate() {
 }
 
 mounted() {
+	[ "$target" != file ] || return 1
 	for n in $(nodes); do
 		nums=$(cat "$SYS/$n/dev") || return 0
 		awk -v dev="$nums" -v forced="$forced" '
@@ -170,6 +277,7 @@ mounted() {
 }
 
 release_storage() {
+	[ "$target" != file ] || { check_image && lease; return $?; }
 	for n in $(nodes); do
 		nums=$(cat "$SYS/$n/dev") || return 1
 		id=public:$(printf '%s' "$nums" | tr : ,)
@@ -203,6 +311,8 @@ unbind_udc() {
 }
 
 bind_udc() {
+	# Recheck the mount and file identity immediately before every bind.
+	[ "$target" != file ] || check_image || return 1
 	udc=$(getprop sys.usb.controller)
 	[ -n "$udc" ] || return 1
 	[ "$(cat "$G/UDC")" != "$udc" ] || return 0
@@ -312,6 +422,16 @@ configure_drive() {
 		fi
 	fi
 	i=0
+	if [ "$target" = file ]; then
+		check_image || return 1
+		put "$F/lun.0/removable" 1 || return 1
+		put "$F/lun.0/cdrom" "$cdrom" || return 1
+		put "$F/lun.0/ro" "$ro" || return 1
+		check_image || return 1
+		put "$F/lun.0/file" "$easy_root/isos/$image" || return 1
+		ln -s "$F" "$G/configs/b.1/f1" || return 1
+		return 0
+	fi
 	for n in $luns; do
 		[ "$i" = 0 ] || mkdir "$F/lun.$i" || return 1
 		put "$F/lun.$i/removable" 1 || return 1
@@ -464,6 +584,9 @@ main() {
 	fi
 	trap 'result=idle; finish_request; exit 0' HUP INT TERM
 	while :; do
+		if [ "$(prop scan)" = start ]; then
+			if scan_images; then setprop "$P.scan" 'done'; else setprop "$P.scan" error; fi
+		fi
 		if [ "$(prop request)" = start ]; then
 			handle_request
 		fi

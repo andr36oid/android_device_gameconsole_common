@@ -16,6 +16,9 @@ on property:sys.boot_completed=1
 on property:sys.andr36oid.usbdrive.request=start
     start andr36oid-usb-drive
 
+on property:sys.andr36oid.usbdrive.scan=start
+    start andr36oid-usb-drive
+
 on early-init
     # Full CPU clock while starting: the kernel picks schedutil, which climbs slowly through
     # a start that is mostly short bursts. sys.boot_completed hands it back to schedutil.
