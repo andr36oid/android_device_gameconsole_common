@@ -34,6 +34,9 @@ on property:sys.andr36oid.usbdrive.request=repair
 on property:sys.andr36oid.usbdrive.request=delete
     start andr36oid-usb-drive
 
+on property:sys.andr36oid.usbdrive.request=rename
+    start andr36oid-usb-drive
+
 # One recovery attempt if a local image operation loses its helper.
 on property:init.svc.andr36oid-usb-drive=stopped && property:sys.andr36oid.usbdrive.vactive=1
     setprop sys.andr36oid.usbdrive.vactive 0

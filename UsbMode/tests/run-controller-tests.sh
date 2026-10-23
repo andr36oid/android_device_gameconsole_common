@@ -47,8 +47,9 @@ JDK=${JDK:-/andr36oid/src/prebuilts/jdk/jdk11/linux-x86/bin}
 "$JDK/javac" -encoding UTF-8 -d "$T/classes" "$HERE/src/org/andr36oid/usbmode/ControllerMode.java" \
     "$HERE/src/org/andr36oid/usbmode/MacroProfiles.java" "$HERE/src/org/andr36oid/usbmode/SoundMixer.java" "$HERE/tests/controller/PadModelsTest.java" "$HERE/tests/controller/ModeTest.java" "$HERE/src/org/andr36oid/usbmode/KeyboardModel.java" \
     "$HERE/src/org/andr36oid/usbmode/TextTyper.java" "$HERE/tests/controller/KeyboardTest.java" "$HERE/src/org/andr36oid/usbmode/UsbFunctions.java" \
-    "$HERE/src/org/andr36oid/usbmode/FlipperLease.java" "$HERE/tests/controller/FlipperLeaseTest.java" "$HERE/src/org/andr36oid/usbmode/UsbPeer.java" "$HERE/tests/controller/FunctionsTest.java" "$HERE/tests/controller/TextTyperTest.java"
+    "$HERE/src/org/andr36oid/usbmode/FlipperLease.java" "$HERE/tests/controller/FlipperLeaseTest.java" "$HERE/src/org/andr36oid/usbmode/UsbPeer.java" "$HERE/tests/controller/FunctionsTest.java" "$HERE/tests/controller/TextTyperTest.java" "$HERE/src/org/andr36oid/usbmode/UsbWizard.java" "$HERE/tests/controller/WizardTest.java"
 "$JDK/java" -cp "$T/classes" org.andr36oid.usbmode.PadModelsTest
+"$JDK/java" -cp "$T/classes" org.andr36oid.usbmode.WizardTest
 "$JDK/java" -cp "$T/classes" org.andr36oid.usbmode.ModeTest
 "$JDK/java" -cp "$T/classes" org.andr36oid.usbmode.TextTyperTest
 "$JDK/java" -cp "$T/classes" org.andr36oid.usbmode.KeyboardTest

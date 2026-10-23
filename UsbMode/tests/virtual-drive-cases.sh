@@ -282,3 +282,6 @@ setprop "$P.state" working
 )
 check test "$(prop vresult)" = cancelled
 check test ! -e "$MEDIA/UUID/isos/My drive.img"
+
+# shellcheck disable=SC1091
+. "$HERE/tests/virtual-rename-cases.sh"

@@ -27,13 +27,13 @@
             android:name=".UsbDriveActivity"
             android:exported="false"
             android:label="@string/usb_device_title"
-            android:theme="@android:style/Theme.DeviceDefault.Settings" />
+            android:theme="@style/Andr36oidSetupTheme" />
 
         <activity
             android:name=".ControllerActivity"
             android:exported="false"
             android:label="@string/usb_device_title"
-            android:theme="@android:style/Theme.DeviceDefault.Settings" />
+            android:theme="@style/Andr36oidSetupTheme" />
         <activity
             android:name=".ControllerSessionActivity"
             android:exported="false"

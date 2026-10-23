@@ -363,7 +363,7 @@ virtual_create() {
 }
 
 virtual_existing() {
-	local info fs rc associations
+	local info fs rc associations renamed
 	v_name=$(prop image)
 	info=$(image_info "$v_name") || { virtual_fail changed; return 1; }
 	[ "$info" = "$(prop stamp)" ] || { virtual_fail changed; return 1; }
@@ -373,6 +373,18 @@ virtual_existing() {
 	[ -z "$associations" ] || { virtual_fail shared; return 1; }
 	if [ "$v_request" = delete ]; then
 		virtual_lease && [ "$(image_info "$v_name")" = "$info" ] && rm "$v_path" || return 1
+		v_inode=
+		fsync "$easy_root/isos"
+		return $?
+	fi
+	if [ "$v_request" = rename ]; then
+		renamed=$(prop vname)
+		virtual_name "$renamed" || { virtual_fail name; return 1; }
+		renamed=$renamed.${v_name##*.}
+		if [ -e "$easy_root/isos/$renamed" ] || [ -L "$easy_root/isos/$renamed" ]; then virtual_fail exists; return 1; fi
+		if ! virtual_lease || [ "$(image_info "$v_name")" != "$info" ]; then virtual_fail changed; return 1; fi
+		mv -nT "$v_path" "$easy_root/isos/$renamed" || return 1
+		[ ! -e "$v_path" ] || { virtual_fail exists; return 1; }
 		v_inode=
 		fsync "$easy_root/isos"
 		return $?
@@ -420,7 +432,7 @@ virtual_request() {
 		v_source=$easy_disk:$easy_cid:$easy_mount:$easy_root
 		if virtual_lease; then
 			: >"$STATE/virtual.log"
-			case $v_request in create) virtual_create && rc=0 ;; repair|delete) virtual_existing && rc=0 ;; esac
+			case $v_request in create) virtual_create && rc=0 ;; repair|delete|rename) virtual_existing && rc=0 ;; esac
 		fi
 	else
 		virtual_fail unavailable || true

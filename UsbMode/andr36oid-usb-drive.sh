@@ -967,7 +967,7 @@ main() {
 		if [ "$(prop request)" = start ]; then
 			handle_request
 		fi
-		case $(prop request) in create|repair|delete) virtual_request ;; esac
+		case $(prop request) in create|repair|delete|rename) virtual_request ;; esac
 		sleep 0.2
 	done
 }

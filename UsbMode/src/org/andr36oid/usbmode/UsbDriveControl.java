@@ -25,7 +25,7 @@ final class UsbDriveControl {
     static boolean working() {
         String request = SystemProperties.get(PREFIX + "request");
         return "working".equals(state()) || "create".equals(request)
-                || "repair".equals(request) || "delete".equals(request);
+                || "repair".equals(request) || "delete".equals(request) || "rename".equals(request);
     }
 
     static boolean busy() {
@@ -65,6 +65,11 @@ final class UsbDriveControl {
         SystemProperties.set(PREFIX + "stamp", image.stamp);
         SystemProperties.set(PREFIX + "cid", image.cid);
         virtualRequest(context, action);
+    }
+
+    static void rename(Context context, UsbDrive.Offer image, String name) {
+        SystemProperties.set(PREFIX + "vname", name);
+        maintain(context, image, "rename");
     }
 
     private static void virtualRequest(Context context, String action) {

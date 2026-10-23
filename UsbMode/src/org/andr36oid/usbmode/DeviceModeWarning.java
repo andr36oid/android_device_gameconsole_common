@@ -33,8 +33,7 @@ final class DeviceModeWarning {
         message.append("\n\n").append(context.getString(R.string.charging_warning));
 
         final boolean[] confirmed = new boolean[1];
-        final AlertDialog dialog = new AlertDialog.Builder(context,
-                android.R.style.Theme_DeviceDefault_Dialog_Alert)
+        final AlertDialog dialog = new AlertDialog.Builder(context)
                 .setTitle(R.string.warning_title)
                 .setMessage(message)
                 .setPositiveButton(R.string.warning_confirm, (d, which) -> {
