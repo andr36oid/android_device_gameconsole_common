@@ -30,7 +30,7 @@ virtual_bytes() {
 virtual_label() {
 	# A common ASCII subset works with all four formatters, including FAT labels.
 	case $1 in *[!a-zA-Z0-9_\ -]*) return 1 ;; esac
-	case $2 in fat32) [ "${#1}" -le 11 ] ;; exfat) [ "${#1}" -le 15 ] ;;
+	case $2 in fat32) case $1 in ''|\ *) return 1 ;; esac; [ "${#1}" -le 11 ] ;; exfat) [ "${#1}" -le 15 ] ;;
 	ntfs) [ "${#1}" -le 32 ] ;; ext4) [ "${#1}" -le 16 ] ;; *) return 1 ;; esac
 }
 

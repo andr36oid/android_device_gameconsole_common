@@ -30,6 +30,11 @@ final class UsbWizard {
         return steps;
     }
 
+    static boolean bootMenu(int mask, UsbDrive.Offer offer, boolean cdrom) {
+        return (mask & UsbFunctions.STORAGE) != 0 && cdrom && offer != null
+                && offer.kind == UsbDrive.Kind.IMAGE && offer.bootable && offer.cdromPossible();
+    }
+
     static int[] blockers(String reason, int mask) {
         if ("sound".equals(reason)) return new int[] {UsbFunctions.SOUNDBOARD, UsbFunctions.SOUND};
         if ("networks".equals(reason)) return new int[] {UsbFunctions.NETWORK, UsbFunctions.RNDIS};

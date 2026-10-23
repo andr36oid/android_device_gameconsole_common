@@ -33,7 +33,7 @@ final class UsbDrive {
         String disk, node, cid, label = "", type = "", stamp = "";
         int slot;
         long bytes;
-        boolean forcedRo;
+        boolean forcedRo, bootable;
 
         boolean enabled() { return reason == Reason.NONE; }
         String identity() { return node + ":" + cid + (kind == Kind.IMAGE ? ":" + stamp : ""); }
@@ -78,7 +78,7 @@ final class UsbDrive {
             }
             for (int i = 1; i < lines.size(); i++) {
                 final String[] f = lines.get(i).split("\t", -1);
-                if ((f.length != 3 && f.length != 4) || !f[0].equals("file") || !f[1].matches("[0-9]+:[0-9]+:[0-9]+")
+                if ((f.length < 3 || f.length > 5) || !f[0].equals("file") || !f[1].matches("[0-9]+:[0-9]+:[0-9]+")
                         || f[2].length() > 91 || f[2].contains("..")
                         || !f[2].matches("[a-zA-Z0-9][a-zA-Z0-9._ -]*\\.(?i:iso|img|ima|vfd)")) continue;
                 final Offer o = new Offer();
@@ -86,9 +86,10 @@ final class UsbDrive {
                 o.node = o.label = f[2];
                 o.cid = header[1];
                 o.stamp = f[1];
-                if (f.length == 4 && f[3].matches("fat32|exfat|ntfs|ext4")) o.type = f[3];
+                if (f.length >= 4 && f[3].matches("fat32|exfat|ntfs|ext4")) o.type = f[3];
                 o.bytes = number(f[1].substring(f[1].lastIndexOf(':') + 1));
                 o.forcedRo = header[2].equals("1");
+                o.bootable = f.length == 5 && "bootable".equals(f[4]) && o.cdromPossible();
                 if (o.bytes > 0 && (!o.node.matches("(?i).*\\.(ima|vfd)") || o.floppy())) result.offers.add(o);
             }
             result.offers.sort((a, b) -> {

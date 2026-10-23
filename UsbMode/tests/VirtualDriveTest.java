@@ -20,7 +20,7 @@ public final class VirtualDriveTest {
         for (String size : new String[] {"", "0", "01", "-1", "1.5", "1025", "9999999999999999", "1;id"}) check(VirtualDrive.size(size) == 0);
         for (String fs : VirtualDrive.FILESYSTEMS) {
             check(VirtualDrive.label("USB DRIVE", fs));
-            check(VirtualDrive.label("", fs));
+            check(VirtualDrive.label("", fs) == !fs.equals("fat32"));
             check(!VirtualDrive.label("x/y", fs));
         }
         check(!VirtualDrive.label("a".repeat(12), "fat32"));
@@ -33,6 +33,23 @@ public final class VirtualDriveTest {
         check(VirtualDrive.maximum(VirtualDrive.GB - 1, "exfat") == 0);
         check(VirtualDrive.maximum(2 * VirtualDrive.GB - 1, "exfat") == 0);
         check(VirtualDrive.maximum(Long.MAX_VALUE, "exfat") == 1024 * VirtualDrive.GB);
+        check(!VirtualDrive.label(" IMAGE", "fat32"));
+        for (String fs : VirtualDrive.FILESYSTEMS) {
+            for (String name : new String[] {"image1", "Long name.with punctuation", "", "éà---"})
+                check(VirtualDrive.label(VirtualDrive.defaultLabel(name, fs), fs));
+        }
+        check(VirtualDrive.defaultLabel("image1", "fat32").equals("IMAGE1"));
+        check(VirtualDrive.defaultLabel("a very long image name", "fat32").length() == 11);
+        check(VirtualDrive.nextName(java.util.Arrays.asList("image1.img", "IMAGE2.ISO", "other.img")).equals("image3"));
+        check(VirtualDrive.nextName(java.util.Arrays.asList("image2.img")).equals("image1"));
+        check(VirtualDrive.presets(128 * VirtualDrive.GB, "exfat").equals(java.util.Arrays.asList("1","2","4","8","16","32","64")));
+        check(VirtualDrive.presets(5 * VirtualDrive.GB, "vfat").equals(java.util.Arrays.asList("1","2")));
+        check(VirtualDrive.presets(VirtualDrive.GB, "exfat").isEmpty());
+        check(VirtualDrive.clampSize("1024", 128 * VirtualDrive.GB, "exfat").equals("127"));
+        check(VirtualDrive.clampSize("99999999999999999999", 4 * VirtualDrive.GB, "exfat").equals("3"));
+        check(VirtualDrive.clampSize("2", 128 * VirtualDrive.GB, "exfat").equals("2"));
+        check(!VirtualDrive.presetSelected("2", "4"));
+        check(VirtualDrive.presetSelected("4", "4"));
         File root = new File(args[0], "virtual-inventory"); root.mkdirs();
         File inventory = new File(root, "images");
         String cid = "0123456789abcdef0123456789abcdef";

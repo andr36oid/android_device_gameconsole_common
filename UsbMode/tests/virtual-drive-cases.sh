@@ -16,7 +16,7 @@ virtual_fixture() {
 	setprop "$P.vname" 'My drive'
 	setprop "$P.vsize" 1
 	setprop "$P.vfs" fat32
-	setprop "$P.vlabel" 'USB DRIVE'
+	setprop "$P.vlabel" IMAGE1
 	: >"$T/tools.log"
 	rm -f "$T/loop"
 }
@@ -31,7 +31,9 @@ for gb in 0 01 -1 1.5 1025 999999999999 a '1;id'; do
 	if virtual_size "$gb"; then echo "FAIL: virtual size $gb"; exit 1; fi
 done
 for fs in fat32 exfat ntfs ext4; do
-	check virtual_label '' "$fs"
+	if [ "$fs" = fat32 ]; then
+        if virtual_label '' "$fs"; then echo 'FAIL: empty FAT label accepted'; exit 1; fi
+    else check virtual_label '' "$fs"; fi
 	check virtual_label 'MY DRIVE-1' "$fs"
 	if virtual_label 'bad/label' "$fs"; then exit 1; fi
 	virtual_fixture

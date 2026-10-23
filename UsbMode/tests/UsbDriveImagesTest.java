@@ -70,6 +70,10 @@ public class UsbDriveImagesTest {
             check("floppy detected " + extension + size,floppy.floppy() && !floppy.cdromPossible());
         }
         for (String extension : new String[] {"ima","vfd"}) check("wrong floppy size", inventory(HEADER + "file\t10:40:1474561\tBoot." + extension + "\n").offers.isEmpty());
+        images = inventory(HEADER + "file\t10:21:1048576\tBoot.iso\t\tbootable\n"
+                + "file\t10:22:1048576\tData.iso\n");
+        check("proven boot catalog metadata is preserved", images.offers.get(0).bootable);
+        check("extension alone does not imply bootable", !images.offers.get(1).bootable);
         final String old = iso.identity();
         iso.stamp = "10:23:1048576";
         check("replacement file changes identity", !iso.identity().equals(old));

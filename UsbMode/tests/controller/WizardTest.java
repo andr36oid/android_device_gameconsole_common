@@ -54,6 +54,15 @@ public final class WizardTest {
         check(blockers[0] == UsbFunctions.SOUNDBOARD && blockers[1] == UsbFunctions.SOUND);
         blockers = UsbWizard.blockers("controllers", UsbFunctions.XINPUT | UsbFunctions.GAMEPAD);
         check(blockers[0] == UsbFunctions.XINPUT && blockers[1] == UsbFunctions.GAMEPAD);
+        UsbDrive.Offer image = new UsbDrive.Offer();
+        image.kind = UsbDrive.Kind.IMAGE; image.node = "Boot.iso"; image.bytes = 1048576;
+        check(!UsbWizard.bootMenu(UsbFunctions.STORAGE, image, true));
+        image.bootable = true;
+        check(UsbWizard.bootMenu(UsbFunctions.STORAGE, image, true));
+        check(!UsbWizard.bootMenu(UsbFunctions.STORAGE, image, false));
+        check(!UsbWizard.bootMenu(UsbFunctions.XINPUT, image, true));
+        image.kind = UsbDrive.Kind.EASYROMS;
+        check(!UsbWizard.bootMenu(UsbFunctions.STORAGE, image, true));
         System.out.println(checks + " wizard preset, conditional step and named blocker checks passed");
     }
 }

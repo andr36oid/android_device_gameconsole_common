@@ -129,6 +129,35 @@ cd_image() {
 	    exit !(bytes>=614400 && bytes<=2359293952 && bytes%2048==0)}'
 }
 
+image_bootable() {
+	local catalog
+	# Prove an El Torito boot record and catalog, rather than guessing from .iso.
+	catalog=$(od -An -v -tu1 -j32768 -N32768 "$1" 2>/dev/null | awk -v bytes="$2" '
+	    {for(i=1;i<=NF;i++) b[n++]=$i} END {
+	    for(s=0;s+2048<=n;s+=2048) {
+	        if(b[s]==255) exit 1;
+	        if(b[s]!=0 || b[s+1]!=67 || b[s+2]!=68 || b[s+3]!=48 || b[s+4]!=48 || b[s+5]!=49 || b[s+6]!=1) continue;
+	        id=""; for(i=7;i<30;i++) id=id sprintf("%c",b[s+i]);
+	        if(id!="EL TORITO SPECIFICATION") continue;
+	        lba=b[s+71]+256*b[s+72]+65536*b[s+73]+16777216*b[s+74];
+	        if(lba>0 && lba<2147483647 && lba*2048+2048<=bytes) {printf "%d",lba; exit 0}
+	    } exit 1}') || return 1
+	dd if="$1" bs=2048 skip="$catalog" count=1 2>/dev/null | od -An -v -tu1 | awk -v bytes="$2" '
+	    {for(i=1;i<=NF;i++) b[n++]=$i} END {
+	    if(n!=2048 || b[0]!=1 || b[30]!=85 || b[31]!=170) exit 1;
+	    sum=0; for(i=0;i<32;i+=2) sum+=b[i]+256*b[i+1]; if(sum%65536) exit 1;
+	    for(i=32;i+32<=n;i+=32) {
+	        if(i>32 && b[i]!=144 && b[i]!=145) exit 1;
+	        if(i>32) {count=b[i+2]+256*b[i+3]; i+=32} else count=1;
+	        for(j=0;j<count && i+32<=n;j++) {
+	            lba=b[i+8]+256*b[i+9]+65536*b[i+10]+16777216*b[i+11];
+	            sectors=b[i+6]+256*b[i+7];
+	            if(b[i]==136 && b[i+1]<=4 && sectors>0 && lba>0 && lba*2048+sectors*512<=bytes) exit 0;
+	            i+=32;
+	        } i-=32;
+	    } exit 1}'
+}
+
 scan_images() {
 	local path info fs
 	if image_root; then
@@ -139,7 +168,9 @@ scan_images() {
 			info=$(image_info "${path##*/}") || continue
 			fs=$(virtual_probe "$path" "${info##*:}") || fs=
 			printf 'file\t%s\t%s' "$info" "${path##*/}" >>"$STATE/images.tmp" || return 1
-			[ -z "$fs" ] || printf '\t%s' "$fs" >>"$STATE/images.tmp" || return 1
+			if image_bootable "$path" "${info##*:}"; then
+				printf '\t%s\tbootable' "$fs" >>"$STATE/images.tmp" || return 1
+			elif [ -n "$fs" ]; then printf '\t%s' "$fs" >>"$STATE/images.tmp" || return 1; fi
 			printf '\n' >>"$STATE/images.tmp" || return 1
 		done
 	else

@@ -730,6 +730,8 @@ check test "$(prop state)" = error
 check test "$(prop error)" = configure_drive
 check test "$(prop detail)" = 'Cannot open backing storage: device is busy'
 check test -s "$STATE/session.log"
+# shellcheck disable=SC1091
+. "$HERE/tests/boot-image-cases.sh"
 if [ -n "${USB_DRIVE_CONTROLLER:-}" ]; then
     # shellcheck disable=SC1091
     . "$HERE/tests/controller/helper-cases.sh"
