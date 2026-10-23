@@ -54,6 +54,8 @@ public final class WizardTest {
         check(blockers[0] == UsbFunctions.SOUNDBOARD && blockers[1] == UsbFunctions.SOUND);
         blockers = UsbWizard.blockers("controllers", UsbFunctions.XINPUT | UsbFunctions.GAMEPAD);
         check(blockers[0] == UsbFunctions.XINPUT && blockers[1] == UsbFunctions.GAMEPAD);
+        for (int single : new int[] {UsbFunctions.KEYBOARD, UsbFunctions.XINPUT, UsbFunctions.MEDIA})
+            check(UsbWizard.blockers("routing", single)[1] == 0);
         check(!UsbWizard.captured("release_storage", true));
         check(!UsbWizard.captured("gate_android", true));
         check(!UsbWizard.captured("controller_daemon", false));

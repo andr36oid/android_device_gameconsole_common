@@ -48,6 +48,11 @@ assert 'VirtualDrive.clampSize(value, mImages.free, mImages.filesystem)' in acti
 assert 'VirtualDrive.defaultLabel(mImageName, mImageFs)' in activity
 assert 'UsbWizard.bootMenu(mFunctions, mSelected, mCdrom)' in activity
 assert 'DeviceModeWarning.show(' not in activity
+review = activity.split('private void review() {', 1)[1].split('private String startReason()', 1)[0]
+assert 'if (!mWork.wifi.isEmpty()) body += "\\n\\n" + mWork.wifi;' in review
+assert 'if (pair[0] == 0 || pair[1] == 0)' in activity
+hub = activity.split('private void hub() {', 1)[1].split('private void liveResult()', 1)[0]
+assert 'mBack.setEnabled(mWork.loaded)' in hub
 assert 'mWork.creation.matches(image)' in activity and 'if (!beginSession(image, false, false)) return;' in activity
 assert 'UsbRequest.executor.execute(' in activity
 assert 'mWork.request.cancel(); mWork.creation.waiting = false;' in activity

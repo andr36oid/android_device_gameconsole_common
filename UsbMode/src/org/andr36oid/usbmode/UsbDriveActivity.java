@@ -519,7 +519,8 @@ public class UsbDriveActivity extends Activity {
     private int dp(int value) { return Math.round(value * getResources().getDisplayMetrics().density); }
     private void hub() {
         page(R.string.usb_device_title, getString(R.string.usb_device_about) + "\n\n" + getString(R.string.usb_drive_cable) + (mWork.wifi.isEmpty() ? "" : "\n\n" + mWork.wifi));
-        mNext.setVisibility(View.GONE);
+        mNext.setVisibility(View.GONE); mBack.setEnabled(mWork.loaded);
+        if (!mWork.loaded) spinner();
         row("connect", getString(R.string.usb_hub_connect), getString(R.string.usb_wizard_connect_summary), mWork.loaded,
                 () -> { mIndex = 0; open(CONNECT); });
         row("images", getString(R.string.usb_hub_images), getString(R.string.usb_virtual_summary), mWork.loaded, () -> open(IMAGES));
@@ -616,6 +617,7 @@ public class UsbDriveActivity extends Activity {
     private String reason(String reason, int mask) {
         if ("routing".equals(reason) || "standalone".equals(reason) || "networks".equals(reason) || "controllers".equals(reason) || "sound".equals(reason)) {
             int[] pair = UsbWizard.blockers(reason, mask);
+            if (pair[0] == 0 || pair[1] == 0) return getString(R.string.usb_device_policy_unavailable);
             return getString("sound".equals(reason) ? R.string.usb_wizard_requires : R.string.usb_wizard_conflict,
                     functionName(pair[0]), functionName(pair[1]));
         }
@@ -795,6 +797,7 @@ public class UsbDriveActivity extends Activity {
                 ? R.string.usb_device_boot_hint : mSelected != null && mSelected.kind == UsbDrive.Kind.IMAGE && mCdrom
                 ? R.string.usb_emulator_cd_hint : R.string.usb_emulator_drive_hint);
         body += "\n\n" + getString(R.string.usb_drive_cable);
+        if (!mWork.wifi.isEmpty()) body += "\n\n" + mWork.wifi;
         if ((mFunctions & (UsbFunctions.NETWORK | UsbFunctions.RNDIS)) != 0)
             body += "\n\n" + getString(R.string.usb_link_guide) + "\n\n" + getString(R.string.usb_stream_guide) + "\n\n" + getString(R.string.usb_device_link_cable);
         final boolean companion = (mFunctions & (UsbFunctions.NETWORK | UsbFunctions.RNDIS)) != 0
