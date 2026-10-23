@@ -116,12 +116,17 @@ cd_image() {
 }
 
 scan_images() {
-	local path info
+	local path info fs
 	if image_root; then
 		printf 'ready\t%s\t%s\n' "$easy_cid" "$easy_ro" >"$STATE/images.tmp" || return 1
+		virtual_space >"$STATE/space.tmp" || return 1
+		chmod 0644 "$STATE/space.tmp" && mv -f "$STATE/space.tmp" "$STATE/space" || return 1
 		for path in "$easy_root/isos/"*; do
 			info=$(image_info "${path##*/}") || continue
-			printf 'file\t%s\t%s\n' "$info" "${path##*/}" >>"$STATE/images.tmp" || return 1
+			fs=$(virtual_probe "$path" "${info##*:}") || fs=
+			printf 'file\t%s\t%s' "$info" "${path##*/}" >>"$STATE/images.tmp" || return 1
+			[ -z "$fs" ] || printf '\t%s' "$fs" >>"$STATE/images.tmp" || return 1
+			printf '\n' >>"$STATE/images.tmp" || return 1
 		done
 	else
 		printf 'unavailable\n' >"$STATE/images.tmp" || return 1
@@ -866,6 +871,11 @@ handle_request() {
 	setprop "$P.error" ''
 	# A new request retries a retained recovery journal before opening any LUN.
 	result=error
+	if ! virtual_recover; then
+		fail virtual_recovery
+		finish_request
+		return 0
+	fi
 	if cleanup && start_drive; then
 		result=idle
 		while lease && ! mounted && [ "$(getprop sys.usb.configfs)" = 2 ]; do
@@ -891,6 +901,11 @@ main() {
 		status error
 		return 0
 	fi
+	if [ -d "$STATE/virtual" ] || [ "$(prop state)" = working ]; then
+		setprop "$P.request" stop
+		setprop "$P.vresult" cancelled
+	fi
+	setprop "$P.vactive" 0
 	# A helper restart recovers the old session, never its old start request.
 	if [ -e "$STATE/owned" ] || [ -e "$STATE/restore" ] || [ -e "$STATE/controller" ] || [ -d "$F" ]; then
 		result=idle
@@ -898,16 +913,33 @@ main() {
 	else
 		status idle
 	fi
-	trap 'result=idle; finish_request; exit 0' HUP INT TERM
+	# Creation journals survive a reboot and are recovered only on the same card.
+	if ! virtual_recover; then
+		setprop "$P.verror" recovery
+		setprop "$P.vresult" error
+	fi
+	trap 'virtual_abort; result=idle; finish_request; setprop "$P.vactive" 0; exit 0' HUP INT TERM
 	while :; do
+		if [ -d "$STATE/virtual" ]; then
+			virtual_ticks=$((${virtual_ticks:-0} + 1))
+			if [ "$virtual_ticks" -ge 25 ]; then
+				virtual_recover || true
+				virtual_ticks=0
+			fi
+		fi
 		if [ "$(prop scan)" = start ]; then
+			virtual_recover || true
 			if scan_images; then setprop "$P.scan" 'done'; else setprop "$P.scan" error; fi
 		fi
 		if [ "$(prop request)" = start ]; then
 			handle_request
 		fi
+		case $(prop request) in create|repair|delete) virtual_request ;; esac
 		sleep 0.2
 	done
 }
+
+# shellcheck disable=SC1090
+. "${USB_DRIVE_VIRTUAL:-/system/etc/andr36oid-virtual-drive.sh}"
 
 [ "${USB_DRIVE_TEST:-0}" = 1 ] || main

@@ -25,6 +25,21 @@ on property:sys.boot_completed=1
 on property:sys.andr36oid.usbdrive.request=start
     start andr36oid-usb-drive
 
+on property:sys.andr36oid.usbdrive.request=create
+    start andr36oid-usb-drive
+
+on property:sys.andr36oid.usbdrive.request=repair
+    start andr36oid-usb-drive
+
+on property:sys.andr36oid.usbdrive.request=delete
+    start andr36oid-usb-drive
+
+# One recovery attempt if a local image operation loses its helper.
+on property:init.svc.andr36oid-usb-drive=stopped && property:sys.andr36oid.usbdrive.vactive=1
+    setprop sys.andr36oid.usbdrive.vactive 0
+    setprop sys.andr36oid.usbdrive.request stop
+    start andr36oid-usb-drive
+
 # One recovery attempt after a controller helper crash, including setup before
 # the native daemon is ready. Clear the flag first to avoid a recovery loop.
 on property:init.svc.andr36oid-usb-drive=stopped && property:sys.andr36oid.usbdrive.controller=1

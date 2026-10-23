@@ -119,6 +119,7 @@ public class UsbModeService extends Service {
     }
 
     private void check() {
+        if (UsbDriveControl.working()) return;
         link();
         if (!UsbDriveControl.busy() && mWakeLock.isHeld()) mWakeLock.release();
         final boolean device = mUsbMode.isDevice();
@@ -154,17 +155,18 @@ public class UsbModeService extends Service {
 
     private PendingIntent openScreen() {
         return PendingIntent.getActivity(this, 0, new Intent(this,
-                UsbDriveControl.busy() ? ControllerSessionActivity.class : UsbModeActivity.class)
+                UsbDriveControl.busy() && !UsbDriveControl.working() ? ControllerSessionActivity.class : UsbModeActivity.class)
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK), PendingIntent.FLAG_IMMUTABLE);
     }
 
     private Notification ongoing() {
+        final boolean working = UsbDriveControl.working();
         return new Notification.Builder(this, CHANNEL_ON)
                 .setSmallIcon(R.drawable.ic_usb_mode)
-                .setContentTitle(getString(R.string.notification_on_title))
-                .setContentText(getString(R.string.charging_warning))
+                .setContentTitle(getString(working ? R.string.usb_virtual_working : R.string.notification_on_title))
+                .setContentText(getString(working ? R.string.usb_virtual_allocation : R.string.charging_warning))
                 .setStyle(new Notification.BigTextStyle()
-                        .bigText(getString(R.string.charging_warning)))
+                        .bigText(getString(working ? R.string.usb_virtual_allocation : R.string.charging_warning)))
                 .setContentIntent(openScreen())
                 .setOngoing(true)
                 .setShowWhen(false)

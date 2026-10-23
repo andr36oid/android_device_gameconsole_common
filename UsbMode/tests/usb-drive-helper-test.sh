@@ -11,9 +11,11 @@ USB_DRIVE_OTG=$T/otg USB_DRIVE_POWER=$T/power USB_DRIVE_DT=$T/dt
 USB_DRIVE_MEDIA=$T/media
 USB_DRIVE_BACKLIGHT=$T/backlight
 USB_DRIVE_TEST=1
+USB_DRIVE_VIRTUAL=$HERE/andr36oid-virtual-drive.sh
 export USB_DRIVE_TEST USB_DRIVE_SYS USB_DRIVE_DEV USB_DRIVE_GADGET USB_DRIVE_STATE
 export USB_DRIVE_MOUNTS USB_DRIVE_FSTABS USB_DRIVE_OTG USB_DRIVE_POWER USB_DRIVE_DT
 export USB_DRIVE_MEDIA USB_DRIVE_BACKLIGHT
+export USB_DRIVE_VIRTUAL
 command mkdir -p "$T/props" "$T/state" "$T/fstabs" "$T/sys" "$T/dev" "$T/power/ac"
 # shellcheck disable=SC1091
 . "$HERE/andr36oid-usb-drive.sh"
@@ -173,6 +175,25 @@ select_target() {
 	d=${1%p7}
 	setprop "$P.cid" "$(cat "$SYS/$d/device/cid")"
 }
+image_fixture() {
+	reset_fixture
+	command mkdir -p "$MEDIA/UUID/isos"
+	# A small valid CD track, sparse; no host storage or real sync.
+	truncate -s 1048576 "$MEDIA/UUID/isos/Alpine Linux.iso"
+	printf 'public:179,7 mounted UUID\n' >"$T/volumes"
+	printf '3 1 179:7 / %s/UUID rw - exfat /dev/block/vold/public:179,7 rw\n' "$MEDIA" >>"$MOUNTS"
+	setprop "$P.target" file
+	setprop "$P.image" 'Alpine Linux.iso'
+	setprop "$P.stamp" "$(stat -c '%d:%i:%s' "$MEDIA/UUID/isos/Alpine Linux.iso")"
+	setprop "$P.cid" "$(cat "$SYS/mmcblk0/device/cid")"
+	setprop "$P.cdrom" 1
+}
+if [ "${USB_VIRTUAL_ONLY:-0}" = 1 ]; then
+    # shellcheck disable=SC1091
+    . "$HERE/tests/virtual-drive-cases.sh"
+    printf '%s virtual helper checks passed\n' "$count"
+    exit 0
+fi
 if [ "${USB_CONTROLLER_ONLY:-0}" = 1 ]; then
     # shellcheck disable=SC1091
     . "$HERE/tests/controller/helper-cases.sh"
@@ -538,19 +559,6 @@ check test -e "$STATE/owned"
 check test -e "$STATE/restore"
 
 # File sharing keeps EASYROMS mounted and never requests a block rescan.
-image_fixture() {
-	reset_fixture
-	command mkdir -p "$MEDIA/UUID/isos"
-	# A small valid CD track, sparse; no host storage or real sync.
-	truncate -s 1048576 "$MEDIA/UUID/isos/Alpine Linux.iso"
-	printf 'public:179,7 mounted UUID\n' >"$T/volumes"
-	printf '3 1 179:7 / %s/UUID rw - exfat /dev/block/vold/public:179,7 rw\n' "$MEDIA" >>"$MOUNTS"
-	setprop "$P.target" file
-	setprop "$P.image" 'Alpine Linux.iso'
-	setprop "$P.stamp" "$(stat -c '%d:%i:%s' "$MEDIA/UUID/isos/Alpine Linux.iso")"
-	setprop "$P.cid" "$(cat "$SYS/mmcblk0/device/cid")"
-	setprop "$P.cdrom" 1
-}
 image_fixture
 check scan_images
 check test "$(head -n 1 "$STATE/images")" = "$(printf 'ready\t%s\t0' "$(prop cid)")"
@@ -699,9 +707,13 @@ if [ -n "${USB_DRIVE_CONTROLLER:-}" ]; then
     . "$HERE/tests/controller/helper-cases.sh"
     # shellcheck disable=SC1091
     . "$HERE/tests/controller/composite-cases.sh"
+    # shellcheck disable=SC1091
     . "$HERE/tests/controller/more-cases.sh"
+    # shellcheck disable=SC1091
     . "$HERE/tests/controller/round-five-cases.sh"
     # shellcheck disable=SC1091
     . "$HERE/tests/controller/webusb-cases.sh"
 fi
+# shellcheck disable=SC1091
+. "$HERE/tests/virtual-drive-cases.sh"
 printf '%s helper checks passed (%s)\n'   "$count" "${KSH_VERSION:-${BASH_VERSION:-sh}}"

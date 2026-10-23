@@ -136,9 +136,12 @@ public class UsbDriveFragment extends PreferenceFragment {
         final StringBuilder signature = new StringBuilder(state).append(busy).append(mFunctions)
                 .append(mAdvanced).append(mMacro).append(mPreset).append(mSelectedKey).append(mCdrom).append(mRo).append(images.mounted)
                 .append(UsbDeviceControl.debugging(getActivity()));
+        signature.append(UsbDriveControl.virtual("result")).append(UsbDriveControl.virtual("stage"))
+                .append(UsbDriveControl.virtual("percent")).append(UsbDriveControl.virtual("error"))
+                .append(images.free).append(images.writable);
         mSelected = null;
         for (UsbDrive.Offer o : offers) {
-            signature.append(o.identity()).append(o.reason).append(o.label).append(o.bytes).append(o.forcedRo);
+            signature.append(o.identity()).append(o.reason).append(o.label).append(o.bytes).append(o.forcedRo).append(o.type);
             if (o.identity().equals(mSelectedKey)) mSelected = o;
         }
         if (signature.toString().equals(mShown)) return;
@@ -146,6 +149,17 @@ public class UsbDriveFragment extends PreferenceFragment {
         final String focus = mFocusKey;
         final PreferenceScreen root = getPreferenceScreen();
         root.removeAll();
+        if (UsbDriveControl.working()) {
+            final Preference progress = row("virtual_progress", R.string.usb_virtual_working);
+            progress.setSummary(getString(virtualStage(UsbDriveControl.virtual("stage")))
+                    + " · " + UsbDriveControl.virtual("percent") + "%\n" + getString(R.string.usb_virtual_allocation));
+            root.addPreference(progress);
+            final Preference cancel = row("virtual_cancel", android.R.string.cancel);
+            cancel.setOnPreferenceClickListener(p -> { UsbDriveControl.stop(); return true; });
+            root.addPreference(cancel);
+            restoreFocus(focus, "virtual_cancel");
+            return;
+        }
         if (busy) {
             final Preference session = row("session", R.string.usb_device_session);
             session.setOnPreferenceClickListener(p -> {
@@ -157,6 +171,13 @@ public class UsbDriveFragment extends PreferenceFragment {
         if ("error".equals(state)) {
             final Preference error = row("error", R.string.usb_device_failed);
             root.addPreference(error);
+        }
+        final String virtualResult = UsbDriveControl.virtual("result");
+        if (virtualResult.equals("done") || virtualResult.equals("error") || virtualResult.equals("cancelled")) {
+            final Preference result = row("virtual_result", virtualResult.equals("done") ? R.string.usb_virtual_done
+                    : virtualResult.equals("cancelled") ? R.string.usb_virtual_cancelled : R.string.usb_virtual_failed);
+            if (virtualResult.equals("error")) result.setSummary(virtualError(UsbDriveControl.virtual("error")));
+            root.addPreference(result);
         }
         final ListPreference preset = new ListPreference(getActivity());
         preset.setKey("preset"); preset.setPersistent(false); preset.setTitle(R.string.usb_device_preset);
@@ -286,6 +307,24 @@ public class UsbDriveFragment extends PreferenceFragment {
             mReadOnly.setOnPreferenceChangeListener((p, value) -> { mRo = (Boolean) value; changed(true); return false; });
             root.addPreference(mReadOnly);
         }
+        final PreferenceCategory virtual = new PreferenceCategory(getActivity());
+        virtual.setTitle(R.string.usb_drive_image_title); root.addPreference(virtual);
+        final Preference create = row("virtual_create", R.string.usb_virtual_create);
+        create.setSummary(images.mounted && images.writable ? R.string.usb_virtual_summary : R.string.usb_virtual_unavailable);
+        create.setEnabled(images.mounted && images.writable);
+        create.setOnPreferenceClickListener(p -> {
+            if (mDialog == null) {
+                mDialog = VirtualDriveDialog.create(getActivity(), images, () -> { mShown = ""; refresh(); });
+                mDialog.setOnDismissListener(d -> mDialog = null);
+                mDialog.show();
+            }
+            return true;
+        });
+        virtual.addPreference(create);
+        final Preference manage = row("virtual_manage", R.string.usb_virtual_manage);
+        manage.setSummary(R.string.usb_drive_image_hint);
+        manage.setOnPreferenceClickListener(p -> { pickStorage(images.offers); return true; });
+        virtual.addPreference(manage);
         if ((mFunctions & UsbFunctions.MOUSE) != 0) {
             final SwitchPreference jiggle = new SwitchPreference(getActivity());
             jiggle.setKey("usb_jiggle"); jiggle.setTitle(R.string.usb_jiggle_title); jiggle.setSummary(R.string.usb_jiggle_summary);
@@ -417,6 +456,7 @@ public class UsbDriveFragment extends PreferenceFragment {
         for (int i = 0; i < names.length; i++) {
             final UsbDrive.Offer o = offers.get(i);
             names[i] = name(o) + " · " + Formatter.formatFileSize(getActivity(), o.bytes)
+                    + (o.type.isEmpty() ? "" : " · " + o.type)
                     + (o.enabled() ? "" : " · " + explanation(o));
         }
         final ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(getActivity(),
@@ -432,9 +472,9 @@ public class UsbDriveFragment extends PreferenceFragment {
                 .setAdapter(adapter, (d, which) -> mHandler.post(() -> {
                     final UsbDrive.Offer offer = offers.get(which);
                     if (!offer.enabled()) { details(name(offer), explanation(offer)); return; }
-                    select(offer);
-                    if (offer.kind == UsbDrive.Kind.IMAGE) chooseImageMode(offer);
-                    else changed(true);
+                    if (offer.kind == UsbDrive.Kind.IMAGE) imageActions(offer);
+                    else select(offer);
+                    if (offer.kind != UsbDrive.Kind.IMAGE) changed(true);
                 })).setNegativeButton(android.R.string.cancel, null).create();
         mDialog.setOnDismissListener(d -> mDialog = null); mDialog.show();
     }
@@ -487,6 +527,8 @@ public class UsbDriveFragment extends PreferenceFragment {
     }
 
     private void select(UsbDrive.Offer offer) {
+        if (!offer.identity().equals(mSelectedKey) && !offer.type.isEmpty()
+                && offer.kind == UsbDrive.Kind.IMAGE) mRo = false;
         mSelected = offer;
         mSelectedKey = offer.identity();
         if (mReadOnly == null) return;
@@ -533,6 +575,64 @@ public class UsbDriveFragment extends PreferenceFragment {
                 .create();
         mDialog.setOnDismissListener(d -> mDialog = null);
         mDialog.show();
+    }
+
+    private void imageActions(UsbDrive.Offer offer) {
+        if (mDialog != null || UsbDriveControl.busy()) return;
+        mDialog = new AlertDialog.Builder(getActivity()).setTitle(name(offer))
+                .setItems(new CharSequence[] {getString(R.string.usb_virtual_use),
+                        getString(R.string.usb_virtual_repair), getString(R.string.usb_virtual_delete)}, (d, which) ->
+                        mHandler.post(() -> {
+                            if (which == 0) {
+                                final String why = mPolicy.reason(mFunctions | UsbFunctions.STORAGE);
+                                if (!"ok".equals(why)) { details(name(offer), getString(reason(why))); return; }
+                                select(offer);
+                                mFunctions |= UsbFunctions.STORAGE;
+                                chooseImageMode(offer);
+                            } else if (offer.forcedRo) {
+                                details(name(offer), getString(R.string.usb_virtual_unavailable));
+                            } else confirmImageAction(offer, which == 1 ? "repair" : "delete");
+                        }))
+                .setNegativeButton(android.R.string.cancel, null).create();
+        mDialog.setOnDismissListener(d -> mDialog = null); mDialog.show();
+    }
+
+    private void confirmImageAction(UsbDrive.Offer offer, String action) {
+        final boolean repair = action.equals("repair");
+        mDialog = new AlertDialog.Builder(getActivity()).setTitle(name(offer))
+                .setMessage(repair ? R.string.usb_virtual_repair_confirm : R.string.usb_virtual_delete_confirm)
+                .setNegativeButton(android.R.string.cancel, null)
+                .setPositiveButton(repair ? R.string.usb_virtual_repair : R.string.usb_virtual_delete,
+                        (d, which) -> { UsbDriveControl.maintain(getActivity(), offer, action); mShown = ""; refresh(); }).create();
+        mDialog.setOnDismissListener(d -> mDialog = null); mDialog.show();
+        mDialog.getButton(DialogInterface.BUTTON_NEGATIVE).requestFocus();
+    }
+
+    private int virtualStage(String stage) {
+        switch (stage) {
+            case "allocate": return R.string.usb_virtual_allocate;
+            case "partition": return R.string.usb_virtual_partition;
+            case "format": return R.string.usb_virtual_format;
+            case "flush": return R.string.usb_virtual_flush;
+            case "repair": return R.string.usb_virtual_repair;
+            default: return R.string.usb_virtual_validate;
+        }
+    }
+
+    private String virtualError(String error) {
+        switch (error) {
+            case "name": return getString(R.string.usb_virtual_bad_name);
+            case "label": return getString(R.string.usb_virtual_bad_label);
+            case "size": case "space": return getString(R.string.usb_virtual_bad_size);
+            case "fat_limit": return getString(R.string.usb_virtual_fat_limit);
+            case "exists": return getString(R.string.usb_virtual_exists);
+            case "layout": return getString(R.string.usb_virtual_layout);
+            case "changed": return getString(R.string.usb_virtual_changed);
+            case "unavailable": return getString(R.string.usb_virtual_unavailable);
+            case "recovery": return getString(R.string.usb_virtual_recovery);
+            case "shared": return getString(R.string.usb_drive_image_in_use);
+            default: return getString(R.string.usb_virtual_step_failed, getString(virtualStage(error)));
+        }
     }
 
     private void ask(UsbDrive.Offer offer, boolean cdrom) {

@@ -20,9 +20,17 @@ final class UsbDriveControl {
 
     static void stop() { SystemProperties.set(PREFIX + "request", "stop"); }
 
+    static String virtual(String key) { return SystemProperties.get(PREFIX + "v" + key, ""); }
+
+    static boolean working() {
+        String request = SystemProperties.get(PREFIX + "request");
+        return "working".equals(state()) || "create".equals(request)
+                || "repair".equals(request) || "delete".equals(request);
+    }
+
     static boolean busy() {
         final String state = state();
-        return "preparing".equals(state) || "sharing".equals(state) || "stopping".equals(state)
+        return working() || "preparing".equals(state) || "sharing".equals(state) || "stopping".equals(state)
                 || "start".equals(SystemProperties.get(PREFIX + "request"));
     }
 
@@ -40,6 +48,32 @@ final class UsbDriveControl {
     }
 
     static void scanImages() { SystemProperties.set(PREFIX + "scan", "start"); }
+
+    static void create(Context context, UsbDrive.Images images, String name, String gb, String fs, String label) {
+        SystemProperties.set(PREFIX + "vname", name);
+        SystemProperties.set(PREFIX + "vsize", gb);
+        SystemProperties.set(PREFIX + "vfs", fs);
+        SystemProperties.set(PREFIX + "vlabel", label);
+        // The scan header is the same card identity used for image sharing.
+        SystemProperties.set(PREFIX + "cid", images.cid);
+        virtualRequest(context, "create");
+    }
+
+    static void maintain(Context context, UsbDrive.Offer image, String action) {
+        SystemProperties.set(PREFIX + "image", image.node);
+        SystemProperties.set(PREFIX + "stamp", image.stamp);
+        SystemProperties.set(PREFIX + "cid", image.cid);
+        virtualRequest(context, action);
+    }
+
+    private static void virtualRequest(Context context, String action) {
+        SystemProperties.set(PREFIX + "owner", Integer.toString(Process.myPid()));
+        SystemProperties.set(PREFIX + "vresult", "working");
+        SystemProperties.set(PREFIX + "vstage", "validate");
+        SystemProperties.set(PREFIX + "vpercent", "0");
+        SystemProperties.set(PREFIX + "request", action);
+        context.startForegroundService(new Intent(context, UsbModeService.class));
+    }
 
     static UsbDrive.Images images() {
         return UsbDrive.images(new File("/data/misc/andr36oid-usb-drive/images"));
