@@ -14,7 +14,7 @@ service andr36oid-usb-drive /system/bin/sh /system/etc/andr36oid-usb-drive.sh
 service andr36oid-controller /system/bin/andr36oid-controller ${sys.andr36oid.usbdrive.active_functions}
     class late_start
     user root
-    group root system input
+    group root system input audio
     seclabel u:r:shell:s0
     disabled
     oneshot

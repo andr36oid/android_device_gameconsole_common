@@ -1,0 +1,246 @@
+#include "Protocols.h"
+
+#include <algorithm>
+
+namespace controller {
+Bytes ps3Descriptor() {
+    return {
+        0x05,0x01,0x09,0x04,0xa1,0x01,0xa1,0x02,0x85,0x01,0x75,0x08,0x95,0x01,0x15,0x00,
+        0x26,0xff,0x00,0x81,0x03,0x75,0x01,0x95,0x13,0x15,0x00,0x25,0x01,0x35,0x00,0x45,
+        0x01,0x05,0x09,0x19,0x01,0x29,0x13,0x81,0x02,0x75,0x01,0x95,0x0d,0x06,0x00,0xff,
+        0x81,0x03,0x15,0x00,0x26,0xff,0x00,0x05,0x01,0x09,0x01,0xa1,0x00,0x75,0x08,0x95,
+        0x04,0x35,0x00,0x46,0xff,0x00,0x09,0x30,0x09,0x31,0x09,0x32,0x09,0x35,0x81,0x02,
+        0xc0,0x05,0x01,0x75,0x08,0x95,0x27,0x09,0x01,0x81,0x02,0x75,0x08,0x95,0x30,0x09,
+        0x01,0x91,0x02,0x75,0x08,0x95,0x30,0x09,0x01,0xb1,0x02,0xc0,0xa1,0x02,0x85,0x02,
+        0x75,0x08,0x95,0x30,0x09,0x01,0xb1,0x02,0xc0,0xa1,0x02,0x85,0xee,0x75,0x08,0x95,
+        0x30,0x09,0x01,0xb1,0x02,0xc0,0xa1,0x02,0x85,0xef,0x75,0x08,0x95,0x30,0x09,0x01,
+        0xb1,0x02,0xc0,0xc0,
+    };
+}
+Bytes switchDescriptor() {
+    // Switch-Fightstick JoystickReport, expanded to 16 buttons.
+    return {0x05,1,0x09,5,0xa1,1,0x15,0,0x25,1,0x35,0,0x45,1,
+        0x75,1,0x95,16,0x05,9,0x19,1,0x29,16,0x81,2,
+        0x05,1,0x25,7,0x46,0x3b,1,0x75,4,0x95,1,0x65,0x14,
+        0x09,0x39,0x81,0x42,0x65,0,0x95,1,0x81,1,
+        0x26,0xff,0,0x46,0xff,0,0x09,0x30,0x09,0x31,0x09,0x32,0x09,0x35,
+        0x75,8,0x95,4,0x81,2,0x06,0,0xff,0x09,0x20,0x95,1,0x81,2,
+        0x0a,0x21,0x26,0x95,8,0x91,2,0xc0};
+}
+Bytes cubeDescriptor() {
+    // WUP-028 opaque reports, including its unused command/response pairs.
+    Bytes result{0x05,5,0x09,0};
+    for (unsigned i = 0; i < 10; ++i) {
+        unsigned count = i == 0 ? 5 : i == 1 ? 37 : i == 3 ? 25 : (i % 2 ? 2 : 1);
+        const Bytes item{0xa1,1,0x85,static_cast<uint8_t>((i % 2 ? 0x21 : 0x11) + i / 2),
+            0x19,0,0x2a,0xff,0,0x15,0,0x26,0xff,0,0x75,8,0x95,
+            static_cast<uint8_t>(count),static_cast<uint8_t>(i % 2 ? 0x81 : 0x91),0,0xc0};
+        result.insert(result.end(), item.begin(), item.end());
+    }
+    return result;
+}
+Bytes mediaDescriptor() {
+    // Consumer usages from HID Usage Tables; presenter keys use report 2.
+    Bytes result{0x05,0x0c,0x09,1,0xa1,1,0x85,1,0x15,0,0x25,1,0x75,1,0x95,6,
+        0x09,0xcd,0x09,0xb5,0x09,0xb6,0x09,0xe9,0x09,0xea,0x09,0xe2,
+        0x81,2,0x75,2,0x95,1,0x81,1,0xc0};
+    const auto keys = hidDescriptor(true);
+    result.insert(result.end(), keys.begin(), keys.begin() + 6);
+    result.insert(result.end(), {0x85,2});
+    result.insert(result.end(), keys.begin() + 6, keys.end());
+    return result;
+}
+namespace {
+uint8_t axis(int16_t value, bool reverse = false) {
+    const int n = reverse ? std::clamp(-static_cast<int>(value),-32768,32767) : value;
+    return (n + 32768) >> 8;
+}
+Bytes feature(uint8_t id) {
+    Bytes payload;
+    switch (id) {
+    case 0x01: payload = {
+        0x01,0x04,0x00,0x0b,0x0c,0x01,0x02,0x18,0x18,0x18,0x18,0x09,0x0a,0x10,0x11,0x12,
+        0x13,0x00,0x00,0x00,0x00,0x04,0x00,0x02,0x02,0x02,0x02,0x00,0x00,0x00,0x04,0x04,
+        0x04,0x04,0x00,0x00,0x04,0x00,0x01,0x02,0x07,0x00,0x17,0x00,0x00,0x00,0x00,0x00,
+        0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+    }; break;
+    case 0xef: payload = {
+        0xef,0x04,0x00,0x0b,0x03,0x01,0xa0,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+        0x01,0xff,0x01,0xff,0x01,0xff,0x01,0xff,0x01,0xff,0x01,0xff,0x01,0xff,0x01,0xff,
+        0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x06,
+    }; break;
+    case 0xf5: payload = {
+        0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+        0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+        0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+        0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+    }; break;
+    case 0xf7: payload = {
+        0x02,0x01,0xf8,0x02,0xe2,0x01,0x05,0xff,0x04,0x03,0x00,0x00,0x00,0x00,0x00,0x00,
+        0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+        0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+        0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+    }; break;
+    case 0xf8: payload = {
+        0x01,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+        0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+        0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+        0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+    }; break;
+    default: return {};
+    }
+    payload.insert(payload.begin(),id); return payload;
+}
+bool home(const State& s) { return s.buttons[Guide] || (s.buttons[Back] && s.buttons[LB]); }
+}
+Bytes padReport(unsigned function, const State& s) {
+    if (function == XInput) { const auto r = xinput(s); return Bytes(r.begin(), r.end()); }
+    if (function == Gamepad) { const auto r = gamepad(s); return Bytes(r.begin(), r.end()); }
+    if (function == Switch) {
+        Bytes r(8); const Button order[] = {X,A,B,Y,LB,RB,LT,RT,Back,Start,L3,R3};
+        for (unsigned i = 0; i < std::size(order); ++i) if (s.buttons[order[i]]) r[i / 8] |= 1 << (i % 8);
+        if (home(s)) r[1] |= 0x10;
+        if (s.buttons[Back] && s.buttons[RT]) r[1] |= 0x20;
+        r[2] = gamepad(s)[2];
+        for (unsigned i = 0; i < 4; ++i) r[3 + i] = axis(s.sticks[i]);
+        return r;
+    }
+    if (function == Ps3) {
+        Bytes r(49); r[0] = 1;
+        const Button buttons[] = {Back,L3,R3,Start,Up,Right,Down,Left,LT,RT,LB,RB,Y,B,A,X};
+        for (unsigned i = 0; i < 16; ++i) if (s.buttons[buttons[i]]) r[2 + i / 8] |= 1 << (i % 8);
+        r[4] = home(s);
+        for (unsigned i = 0; i < 4; ++i) r[6 + i] = axis(s.sticks[i]);
+        for (unsigned i = 4; i < 16; ++i) r[14 + i - 4] = s.buttons[buttons[i]] ? 255 : 0;
+        r[29] = 2; r[30] = 5; r[31] = 0x10;
+        for (unsigned i = 41; i < 49; i += 2) { r[i] = 2; r[i + 1] = 0; }
+        return r;
+    }
+    if (function == GameCube) {
+        Bytes r(37); r[0] = 0x21; r[1] = 0x10;
+        const Button buttons[] = {B,A,Y,X,Left,Right,Down,Up,Start,RB,RT,LT};
+        for (unsigned i = 0; i < 12; ++i) if (s.buttons[buttons[i]]) r[2 + i / 8] |= 1 << (i % 8);
+        // WUP-028 has no Home or Capture field.
+        for (unsigned i = 0; i < 4; ++i) r[4 + i] = axis(s.sticks[i], i % 2);
+        r[8] = s.buttons[LT] ? 255 : 0; r[9] = s.buttons[RT] ? 255 : 0;
+        return r;
+    }
+    Bytes r(20); r[1] = 20;
+    const Button digital[] = {Up,Down,Left,Right,Start,Back,L3,R3};
+    for (unsigned i = 0; i < 8; ++i) if (s.buttons[digital[i]]) r[2] |= 1 << i;
+    const Button analog[] = {A,B,X,Y,RB,LB,LT,RT};
+    for (unsigned i = 0; i < 8; ++i) r[4 + i] = s.buttons[analog[i]] ? 255 : 0;
+    for (unsigned i = 0; i < 4; ++i) {
+        int v = s.sticks[i]; if (i % 2) v = std::clamp(-v, -32768, 32767);
+        r[12 + 2 * i] = v & 255; r[13 + 2 * i] = static_cast<uint16_t>(v) >> 8;
+    }
+    return r;
+}
+Bytes functionDescriptors(unsigned function) {
+    if (function == XInput) return descriptors();
+    Bytes body;
+    for (bool high : {false,true}) {
+        body.insert(body.end(), {9,4,0,0,2,static_cast<uint8_t>(function == Xbox ? 0x58 : 3),
+                    static_cast<uint8_t>(function == Xbox ? 0x42 : 0),0,1});
+        if (function != Xbox) {
+            const auto desc = function == Ps3 ? ps3Descriptor() : cubeDescriptor();
+            body.insert(body.end(), {9,0x21,0x11,1,0,1,0x22,
+                        static_cast<uint8_t>(desc.size()),static_cast<uint8_t>(desc.size() >> 8)});
+        }
+        for (uint8_t ep : {0x81,0x02}) body.insert(body.end(), {7,5,ep,3,
+            static_cast<uint8_t>(function == Xbox ? 32 : 64),0,static_cast<uint8_t>(high ? 6 : 4)});
+    }
+    Bytes r;
+    auto word = [&](uint32_t n) { for (unsigned i = 0; i < 4; ++i) r.push_back((n >> (8 * i)) & 255); };
+    word(3); word(20 + body.size()); word(3 | 64); word(function == Xbox ? 3 : 4); word(function == Xbox ? 3 : 4);
+    r.insert(r.end(), body.begin(), body.end()); return r;
+}
+ControlReply PadControl::setup(unsigned f, uint8_t t, uint8_t q, uint16_t v,
+                              uint16_t index, uint16_t length, const State& state) {
+    if (f == XInput) return control(t,q,v,index,length,state);
+    Bytes r;
+    if (index != 0) return {ControlAction::Stall,{},0};
+    if (t == 0x81 && q == 6 && v == 0x2100 && f != Xbox) {
+        const auto desc = f == Ps3 ? ps3Descriptor() : cubeDescriptor();
+        r = {9,0x21,0x11,1,0,1,0x22,static_cast<uint8_t>(desc.size()),static_cast<uint8_t>(desc.size() >> 8)};
+    } else if (t == 0x81 && q == 6 && v == 0x2200 && f != Xbox) r = f == Ps3 ? ps3Descriptor() : cubeDescriptor();
+    else if (t == 0xa1 && q == 1 && (v >> 8) == 1) r = padReport(f,state);
+    else if (t == 0xa1 && q == 3) r = {1};
+    else if (t == 0xa1 && q == 2) r = {0};
+    else if (t == 0x21 && (q == 10 || q == 11) && !length) return {ControlAction::Receive,{},0};
+    else if (t == 0x21 && q == 9 && length <= 64) return {ControlAction::Receive,{},length};
+    else if (f == Xbox && t == 0xc1 && q == 6 && v == 0x4200)
+        r = {0x10,0x42,0,1,1,2,0x14,6,255,255,255,255,255,255,255,255};
+    else if (f == Xbox && t == 0xc1 && q == 1 && v == 0x100) {
+        r = Bytes(20,255); r[0] = 0; r[1] = 20; r[3] = 0;
+    } else if (f == Xbox && t == 0xc1 && q == 1 && v == 0x200) r = {0,6,255,255,255,255};
+    else if (f == Ps3 && t == 0xa1 && q == 1 && (v >> 8) == 3) {
+        r = Bytes(49); r[0] = v & 255;
+        switch (v & 255) {
+        case 0xf2:
+            r.resize(17); r[1] = 255; r[2] = 255; r[4] = 0x20; r[5] = 0x40; r[6] = 0xce;
+            std::copy(address_.begin(),address_.end(),r.begin() + 4);
+            std::copy(host_.begin(), host_.end(), r.begin() + 10); break;
+        case 0xf5:
+            r = feature(0xf5); std::copy(host_.begin(),host_.end(),r.begin() + 2); break;
+        case 0xef: r = feature(0xef); r[7] = calibration_; break;
+        case 1: case 0xf7: case 0xf8:
+            r = feature(v & 255); if ((v & 255) == 0xf8) r[7] = calibration_; break;
+        default: return {ControlAction::Stall,{},0};
+        }
+    } else return {ControlAction::Stall,{},0};
+    r.resize(std::min<size_t>(r.size(),length)); return {ControlAction::Reply,r,0};
+}
+void PadControl::identity(const std::string& serial) {
+    if (serial.empty()) return;
+    uint64_t hash = 14695981039346656037ULL;
+    for (unsigned char byte : serial) { hash ^= byte; hash *= 1099511628211ULL; }
+    for (unsigned i = 0; i < 6; ++i) address_[i] = (hash >> (8 * i)) & 255;
+    address_[0] = (address_[0] & 0xfc) | 2;
+}
+void PadControl::received(unsigned f, uint16_t value, const Bytes& data) {
+    if (f == Ps3 && value == 0x3ef && data.size() > 7) calibration_ = data[7];
+    if (f == Ps3 && value == 0x3f5 && data.size() >= 8) std::copy_n(data.begin() + 2,6,host_.begin());
+    output(f,data.data(),data.size());
+}
+void PadControl::output(unsigned f, const uint8_t* data, size_t size) {
+    if (f == GameCube && size && data[0] == 0x13) cubeReady_ = true;
+}
+std::array<Bytes,2> mediaReports(const State& s) {
+    Bytes consumer{1,0}, keys(9); keys[0] = 2;
+    const Button buttons[] = {B,Right,Left,Up,Down,Y};
+    for (unsigned i = 0; i < 6; ++i) if (s.buttons[buttons[i]]) consumer[1] |= 1 << i;
+    unsigned next = 3;
+    for (auto item : {std::pair<Button,uint8_t>{LB,0x4b},{RB,0x4e},{X,5}})
+        if (s.buttons[item.first]) keys[next++] = item.second;
+    return {consumer,keys};
+}
+void MidiPads::release() {
+    for (unsigned i = 0; i < 8; ++i) if (pads_ & (1 << i)) pending_.push_back({0x89,notes_[i],0});
+    pads_ = 0; pending_.push_back({0xb9,123,0}); pending_.push_back({0xe9,0,64});
+    bend_ = mod_ = -1;
+}
+void MidiPads::update(const State& s) {
+    if (s.buttons[LB] && !down_) octave_ = std::max(-2,octave_ - 1);
+    if (s.buttons[RB] && !up_) octave_ = std::min(5,octave_ + 1);
+    down_ = s.buttons[LB]; up_ = s.buttons[RB];
+    const Button buttons[] = {Up,Right,Down,Left,B,A,Y,X};
+    const int base[] = {36,38,42,46,41,43,49,51};
+    for (unsigned i = 0; i < 8; ++i) {
+        const bool pressed = s.buttons[buttons[i]], held = pads_ & (1 << i);
+        if (pressed == held) continue;
+        if (pressed) { notes_[i] = base[i] + octave_ * 12; pads_ |= 1 << i; }
+        else pads_ &= ~(1 << i);
+        pending_.push_back({static_cast<uint8_t>(pressed ? 0x99 : 0x89),notes_[i],static_cast<uint8_t>(pressed ? 100 : 0)});
+    }
+    int bend = (static_cast<int>(s.sticks[0]) + 32768) >> 2;
+    int mod = std::max(0,-static_cast<int>(s.sticks[1])) * 127 / 32768;
+    if (bend != bend_) { bend_ = bend; pending_.push_back({0xe9,static_cast<uint8_t>(bend & 127),static_cast<uint8_t>(bend >> 7)}); }
+    if (mod != mod_) { mod_ = mod; pending_.push_back({0xb9,1,static_cast<uint8_t>(mod)}); }
+    // A stopped host must not grow an unbounded queue of stale notes.
+    if (pending_.size() > 128) { pending_.clear(); release(); }
+}
+std::array<uint8_t,4> midiEvent(const Bytes& m) {
+    return {static_cast<uint8_t>(m[0] >> 4),m[0],m[1],m[2]};
+}
+}

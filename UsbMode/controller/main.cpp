@@ -1,5 +1,7 @@
 #include "Controller.h"
 #include "Keyboard.h"
+#include "Protocols.h"
+#include "Services.h"
 
 #include <algorithm>
 #include <cerrno>
@@ -222,7 +224,8 @@ public:
     XInputIo(const XInputIo&) = delete;
     XInputIo& operator=(const XInputIo&) = delete;
     ~XInputIo() { cancel(); }
-    bool start(int in, int out) {
+    bool start(int in, int out, unsigned function = XInput) {
+        function_ = function;
         inFd_ = in; outFd_ = out;
         return ops_.setup(2, &context_) == 0;
     }
@@ -237,20 +240,24 @@ public:
         if (count < 0) return errno == EINTR;
         for (long i = 0; i < count; ++i) {
             const bool input = events[i].data == 1;
-            if (input) inBusy_ = false; else outBusy_ = false;
+            if (input) inBusy_ = false; else {
+                outBusy_ = false;
+                if (events[i].res > 0) control.output(function_,output_.data(),events[i].res);
+            }
             const int64_t result = events[i].res;
             if (result < 0 && result != -ESHUTDOWN && result != -ENODEV && result != -ECANCELED && result != -EINTR)
                 return false;
             if (input && result >= 0 && result != static_cast<int64_t>(input_.size())) return false;
         }
-        if (!enabled) return true;
+        if (!enabled) { control.reset(); return true; }
         if (!outBusy_ && !submit(false)) return false;
-        if (!inBusy_) {
-            input_ = xinput(state);
+        if (!inBusy_ && control.ready(function_)) {
+            input_ = padReport(function_,state);
             if (!submit(true)) return false;
         }
         return true;
     }
+    PadControl control;
 private:
     bool submit(bool input) {
         iocb& request = input ? inRequest_ : outRequest_;
@@ -270,7 +277,8 @@ private:
     int inFd_ = -1, outFd_ = -1;
     bool inBusy_ = false, outBusy_ = false;
     iocb inRequest_{}, outRequest_{};
-    std::array<uint8_t, 20> input_{};
+    unsigned function_ = XInput;
+    Bytes input_ = Bytes(20);
     std::array<uint8_t, 64> output_{};
 };
 
@@ -281,14 +289,20 @@ int hidNode(const char* function = "hid.andr36oid") {
     const std::string path = "/dev/hidg" + std::to_string(minor);
     return open(path.c_str(), O_RDWR | O_NONBLOCK | O_CLOEXEC);
 }
-void setup(int ep0, const usb_ctrlrequest& request, const State& state) {
+void setup(int ep0, const usb_ctrlrequest& request, const State& state,
+           unsigned function = XInput, PadControl* handler = nullptr) {
     // composite.c serves the OS descriptor before forwarding other requests.
     const auto* bytes = reinterpret_cast<const uint8_t*>(&request);
     const auto le = [&](unsigned pos) { return bytes[pos] | (bytes[pos + 1] << 8); };
-    const auto reply = control(request.bRequestType, request.bRequest, le(2), le(4), le(6), state);
-    uint8_t ignored[32]{};
+    PadControl local;
+    if (!handler) handler = &local;
+    const auto reply = handler->setup(function,request.bRequestType,request.bRequest,le(2),le(4),le(6),state);
+    uint8_t ignored[64]{};
     if (reply.action == ControlAction::Reply) write(ep0, reply.data.data(), reply.data.size());
-    else if (reply.action == ControlAction::Receive) read(ep0, ignored, reply.length);
+    else if (reply.action == ControlAction::Receive) {
+        ssize_t n = read(ep0,ignored,reply.length);
+        if (n >= 0) handler->received(function,le(2),Bytes(ignored,ignored + n));
+    }
     else if (request.bRequestType & USB_DIR_IN) read(ep0, ignored, 0);
     else write(ep0, ignored, 0);
 }
@@ -368,7 +382,7 @@ void KeyboardChannel::release() {
     pending_.push_back({2,0,0,0,0});
 }
 bool KeyboardChannel::pump(const State& state, uint8_t leds, bool connected, int64_t time,
-                           const std::string& owner, const std::string& start) {
+                           const std::string& owner, const std::string& start, bool abort) {
     if (connected_ != connected) { release(); connected_ = connected; }
     if (client_ < 0) {
         int candidate = accept4(server_, nullptr, nullptr, SOCK_NONBLOCK | SOCK_CLOEXEC);
@@ -388,8 +402,13 @@ bool KeyboardChannel::pump(const State& state, uint8_t leds, bool connected, int
         ssize_t n = recv(client_, packet.data(), packet.size(), MSG_DONTWAIT | MSG_TRUNC);
         if (n < 0 && (errno == EAGAIN || errno == EINTR)) break;
         if (n != static_cast<ssize_t>(packet.size()) || packet[0] != 1 || packet[8] > 7 ||
-                packet[9] > 1 || packet[11] > 1 || (packet[10] != 0 && packet[10] != 1 && packet[10] != 255)) {
+                packet[9] > 1 || packet[11] > 1 || packet[12] > 1 || packet[13] || packet[14] || packet[15] || (packet[10] != 0 && packet[10] != 1 && packet[10] != 255)) {
             release(); return true;
+        }
+        if (packet[12]) {
+            pending_.clear(); keys_ = {1}; buttons_ = 0; scrolling_ = false; wheel_ = 0;
+            pending_.push_back(Bytes(keys_.begin(),keys_.end())); pending_.push_back({2,0,0,0,0});
+            packet.fill(0); packet[0] = 1;
         }
         std::array<uint8_t, 9> keys{1,packet[1],0};
         for (unsigned j = 0; j < 6; ++j) {
@@ -416,7 +435,7 @@ bool KeyboardChannel::pump(const State& state, uint8_t leds, bool connected, int
             packet[4 + i * 2] = state.sticks[i] & 255;
             packet[5 + i * 2] = static_cast<uint16_t>(state.sticks[i]) >> 8;
         }
-        packet[12] = leds; packet[13] = connected;
+        packet[12] = leds; packet[13] = connected; packet[14] = abort;
         ssize_t n = ::send(client_, packet.data(), packet.size(), MSG_DONTWAIT | MSG_NOSIGNAL);
         if (n == static_cast<ssize_t>(packet.size())) lastFrame_ = time;
         else if (n >= 0 || (errno != EAGAIN && errno != EINTR)) release();
@@ -448,16 +467,18 @@ bool sendKeyboard(KeyboardChannel& channel, int keyboard, int mouse, bool pointi
 int run(unsigned functions) {
     Inputs inputs;
     if (!inputs.openAll()) { log("Cannot grab built-in controls"); return 1; }
-    const bool xbox = functions & XInput;
+    const unsigned padFunction = functions & kControllers;
+    const bool xbox = functions & (XInput | Ps3 | GameCube | Xbox);
     const bool typing = functions & Keyboard;
     const bool pointing = functions & Mouse;
-    const bool pad = functions & Gamepad;
+    const bool pad = functions & (Gamepad | Switch);
     int ep0 = -1, in = -1, out = -1;
     bool enabled = !xbox;
     XInputIo transfers;
+    transfers.control.identity(readText("/config/usb_gadget/g1/strings/0x409/serialnumber"));
     if (xbox) {
         ep0 = open("/dev/usb-ffs/xinput/ep0", O_RDWR | O_CLOEXEC);
-        const auto desc = descriptors(); const auto str = strings();
+        const auto desc = functionDescriptors(padFunction); const auto str = strings();
         if (ep0 < 0 || write(ep0, desc.data(), desc.size()) != static_cast<ssize_t>(desc.size()) ||
                 write(ep0, str.data(), str.size()) != static_cast<ssize_t>(str.size())) {
             log("Cannot register FunctionFS descriptors"); if (ep0 >= 0) close(ep0); return 1;
@@ -466,7 +487,7 @@ int run(unsigned functions) {
         in = open("/dev/usb-ffs/xinput/ep1", O_RDWR | O_NONBLOCK | O_CLOEXEC);
         out = open("/dev/usb-ffs/xinput/ep2", O_RDWR | O_NONBLOCK | O_CLOEXEC);
         if (in < 0 || out < 0) { close(ep0); if (in >= 0) close(in); if (out >= 0) close(out); return 1; }
-        if (!transfers.start(in, out)) { close(in); close(out); close(ep0); return 1; }
+        if (!transfers.start(in, out, padFunction)) { close(in); close(out); close(ep0); return 1; }
     }
     set("brightness", "15");
     set("ready", "1");
@@ -488,6 +509,18 @@ int run(unsigned functions) {
     std::string lastScreen, lastRouting;
     int64_t disconnected = -1, lastBacklight = -100;
     bool wasDark = false;
+    Services services(functions,[](const char* key, const std::string& value) { set(key,value.c_str()); },
+            [&](int fd) {
+                ucred peer{}; socklen_t size = sizeof(peer);
+                return getsockopt(fd,SOL_SOCKET,SO_PEERCRED,&peer,&size) == 0 && peer.uid == 1000 &&
+                        std::to_string(peer.pid) == owner && process(owner,ownerStart);
+            },property(std::string(kPrefix) + "type_root"));
+    MidiPads midi;
+    int midiFd = -1, mediaFd = -1;
+    std::array<Bytes,2> lastMedia;
+    std::deque<Bytes> mediaQueue;
+    int64_t lastPads = -100;
+    bool midiConnected = false, mediaConnected = false;
     while (!stopped) {
         const int64_t time = now();
         if (time - lastLease >= 100) {
@@ -532,7 +565,7 @@ int run(unsigned functions) {
                 for (ssize_t i = 0; i < bytes / static_cast<ssize_t>(sizeof(events[0])); ++i) {
                     if (events[i].type == FUNCTIONFS_ENABLE) enabled = true;
                     if (events[i].type == FUNCTIONFS_DISABLE || events[i].type == FUNCTIONFS_UNBIND) enabled = false;
-                    if (events[i].type == FUNCTIONFS_SETUP) setup(ep0, events[i].u.setup, s);
+                    if (events[i].type == FUNCTIONFS_SETUP) setup(ep0,events[i].u.setup,s,padFunction,&transfers.control);
                 }
             }
             if (!transfers.pump(s, enabled)) { log("FunctionFS transfer failed"); result = 1; break; }
@@ -540,16 +573,49 @@ int run(unsigned functions) {
         if (pad) {
             if (in < 0) in = hidNode("hid.andr36oid");
             if (in >= 0) {
-                const auto report = gamepad(s);
+                const auto report = padReport(padFunction,s);
                 if (!send(in, report.data(), report.size())) { result = 1; break; }
             }
+        }
+        if (!services.pump(time)) { log("USB service failed"); result = 1; break; }
+        if (functions & Midi) {
+            if (midiFd < 0) midiFd = services.midiNode();
+            if (connected != midiConnected) { midi.release(); midiConnected = connected; }
+            midi.update(connected ? s : State{});
+            for (unsigned i = 0; i < 16 && midiFd >= 0 && !midi.pending().empty(); ++i) {
+                const auto& message = midi.pending().front();
+                ssize_t n = write(midiFd,message.data(),message.size());
+                if (n == static_cast<ssize_t>(message.size())) midi.sent();
+                else if (n < 0 && (errno == EAGAIN || errno == EINTR)) break;
+                else { close(midiFd); midiFd = -1; midi.release(); }
+            }
+        }
+        if (functions & Media) {
+            if (mediaFd < 0) mediaFd = hidNode("hid.media");
+            if (mediaConnected != connected) { mediaQueue.clear(); lastMedia = {}; mediaConnected = connected; }
+            const auto reports = mediaReports(connected ? s : State{});
+            for (unsigned i = 0; i < 2; ++i) if (reports[i] != lastMedia[i]) {
+                mediaQueue.push_back(reports[i]); lastMedia[i] = reports[i];
+            }
+            if (mediaQueue.size() > 64) { mediaQueue.clear(); for (auto r : mediaReports(State{})) mediaQueue.push_back(r); }
+            if (mediaFd >= 0 && !mediaQueue.empty()) {
+                const auto& r = mediaQueue.front(); ssize_t n = write(mediaFd,r.data(),r.size());
+                if (n == static_cast<ssize_t>(r.size())) mediaQueue.pop_front();
+                else if (n >= 0 || (errno != EAGAIN && errno != EINTR && errno != ESHUTDOWN && errno != ENODEV)) { result = 1; break; }
+            }
+        }
+        if ((functions & (Midi | Media)) && time - lastPads >= 50) {
+            lastPads = time;
+            unsigned bits = 0; for (unsigned i = 0; i < Count; ++i) if (s.buttons[i]) bits |= 1 << i;
+            set("pads",std::to_string(bits).c_str()); set("octave",std::to_string(midi.octave()).c_str());
         }
         if (typing && keyFd < 0) keyFd = hidNode("hid.keyboard");
         if (pointing && mouseFd < 0) mouseFd = hidNode("hid.mouse");
         if (typing) {
             const State keys = controls.keyboardState(raw);
             channel.pump(keys, leds, connected && controls.keyboardScreen() && !controls.dark()
-                    && !controls.hint() && !controls.suppress(), time, owner, ownerStart);
+                    && !controls.hint() && !controls.suppress(), time, owner, ownerStart,
+                    raw.buttons[Back] && raw.buttons[Start]);
             if (!sendKeyboard(channel, keyFd, mouseFd, pointing)) { result = 1; break; }
             uint8_t output[64]{};
             if (keyFd >= 0 && read(keyFd, output, sizeof(output)) >= 1) leds = output[0] & 31;
@@ -572,15 +638,28 @@ int run(unsigned functions) {
             }
         }
         if (result) break;
-        if (((pad && in < 0) || (typing && keyFd < 0) || (pointing && mouseFd < 0)) &&
+        if (((pad && in < 0) || (typing && keyFd < 0) || (pointing && mouseFd < 0) ||
+                ((functions & Midi) && midiFd < 0) || ((functions & Media) && mediaFd < 0) || !services.ready()) &&
                 property(std::string(kPrefix) + "state") == "sharing" && time - missingSince > 5000) {
             result = 1; break;
         }
         timespec pause{0,xbox ? 1000000 : 4000000}; nanosleep(&pause, nullptr);
     }
+    midi.release();
+    const int64_t midiDeadline = now() + 100;
+    while (midiFd >= 0 && !midi.pending().empty() && now() < midiDeadline) {
+        const auto& message = midi.pending().front();
+        if (write(midiFd,message.data(),message.size()) == static_cast<ssize_t>(message.size())) midi.sent();
+        else { timespec pause{0,1000000}; nanosleep(&pause,nullptr); }
+    }
+    if (midiFd >= 0) close(midiFd);
+    if (mediaFd >= 0) {
+        for (const auto& r : mediaReports(State{})) send(mediaFd,r.data(),r.size());
+        close(mediaFd);
+    }
     transfers.cancel();
     if (in >= 0) {
-        if (!xbox && pad) { const auto r = gamepad(State{}); send(in, r.data(), r.size()); }
+        if (!xbox && pad) { const auto r = padReport(padFunction,State{}); send(in, r.data(), r.size()); }
         close(in);
     }
     channel.release();
@@ -602,7 +681,7 @@ int run(unsigned functions) {
 int main(int argc, char** argv) {
     using namespace controller;
     if (argc == 2 && std::string(argv[1]) == "--policies") {
-        for (unsigned mask = 0; mask < 64; ++mask) {
+        for (unsigned mask = 0; mask <= kAllFunctions; ++mask) {
             const auto p = policy(mask);
             printf("%u %s %u %u %u\n", mask, p.reason, p.in, p.out, p.product);
         }
@@ -611,13 +690,15 @@ int main(int argc, char** argv) {
     if (argc == 3 && (std::string(argv[1]) == "--identity" || std::string(argv[1]) == "--policy")) {
         const auto p = policy(parseFunctions(argv[2]));
         if (std::string(p.reason) != "ok") return 2;
-        printf("0x%04x 0x%04x\n", kVendor, p.product);
+        printf("0x%04x 0x%04x\n", p.vendor, p.product);
         return 0;
     }
     if (argc == 3 && std::string(argv[1]) == "--descriptor") {
         const std::string type = argv[2];
-        if (type != "gamepad" && type != "keyboard" && type != "mouse" && type != "boot-mouse") return 2;
-        const auto desc = type == "mouse" || type == "boot-mouse" ? mouseDescriptor(type == "mouse")
+        if (type != "gamepad" && type != "keyboard" && type != "mouse" && type != "boot-mouse"
+                && type != "switch" && type != "ps3" && type != "gamecube" && type != "media") return 2;
+        const auto desc = type == "switch" ? switchDescriptor() : type == "ps3" ? ps3Descriptor()
+                : type == "gamecube" ? cubeDescriptor() : type == "media" ? mediaDescriptor() : type == "mouse" || type == "boot-mouse" ? mouseDescriptor(type == "mouse")
                 : hidDescriptor(type == "keyboard");
         return fwrite(desc.data(), 1, desc.size(), stdout) == desc.size() ? 0 : 1;
     }

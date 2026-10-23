@@ -191,7 +191,7 @@ validate_functions() {
 		*) functions=1; if adb_on; then functions=33; fi ;;
 		esac
 	fi
-	case $functions in ''|0*|*[!0-9]*|???*) return 1 ;; esac
+	case $functions in ''|0*|*[!0-9]*|??????*) return 1 ;; esac
 	identity=$("$CONTROLLER" --policy "$functions") || return 1
 	if has_function 32; then adb_on || return 1; fi
 	if storage_mode; then
@@ -455,19 +455,71 @@ configure_controller() {
 		put "$G/os_desc/use" 1 || return 1
 		put "$G/os_desc/qw_sign" MSFT100 || return 1
 		put "$G/os_desc/b_vendor_code" 0x1 || return 1
+	fi
+	if has_function 28674; then
 		mkdir "$G/functions/ffs.xinput" || return 1
 		mount -t functionfs -o uid=0,gid=0,rmode=0700,fmode=0600 xinput "$FFS" || return 1
 	fi
 	if has_function 4; then configure_hid andr36oid gamepad 0 0 11 3 || return 1; fi
 	if has_function 8; then configure_hid keyboard keyboard 1 1 8 4 || return 1; fi
 	if has_function 16; then configure_hid mouse mouse 1 2 4 5 || return 1; fi
+	if has_function 64; then configure_hid media media 0 0 9 7 || return 1; fi
+	if has_function 128; then
+		put "$G/strings/0x409/product" 'POKKEN CONTROLLER' || return 1
+		configure_hid andr36oid switch 0 0 64 8 0 || return 1
+	fi
+	if has_function 4096; then put "$G/strings/0x409/product" 'PLAYSTATION(R)3 Controller' || return 1; fi
+	if has_function 8192; then put "$G/strings/0x409/product" WUP-028 || return 1; fi
+	if has_function 16384; then put "$G/bDeviceClass" 0x58 || return 1; fi
+	if has_function 256; then
+		mkdir "$G/functions/midi.pads" || return 1
+		put "$G/functions/midi.pads/id" ar36midi || return 1
+		put "$G/functions/midi.pads/in_ports" 1 || return 1
+		put "$G/functions/midi.pads/out_ports" 1 || return 1
+		ln -s "$G/functions/midi.pads" "$G/configs/b.1/f9" || return 1
+	fi
+	if has_function 512; then
+		mkdir "$G/functions/acm.echo" || return 1
+		ln -s "$G/functions/acm.echo" "$G/configs/b.1/f10" || return 1
+	fi
+	if has_function 1024; then
+		mkdir "$G/functions/uac2.speaker" || return 1
+		# USB OUT -> gadget capture. No microphone is fitted on the base R36S.
+		put "$G/functions/uac2.speaker/p_chmask" 0 || return 1
+		put "$G/functions/uac2.speaker/c_chmask" 3 || return 1
+		put "$G/functions/uac2.speaker/c_srate" 48000 || return 1
+		put "$G/functions/uac2.speaker/c_ssize" 2 || return 1
+		ln -s "$G/functions/uac2.speaker" "$G/configs/b.1/f11" || return 1
+	fi
+	if has_function 2048; then
+		mkdir "$G/functions/ncm.link" || return 1
+		# Keep the device end outside EthernetService and Tethering's regexes.
+		put "$G/functions/ncm.link/ifname" 'ar36n%d' || return 1
+		put "$G/functions/ncm.link/dev_addr" 02:36:00:00:00:01 || return 1
+		put "$G/functions/ncm.link/host_addr" 02:36:00:00:00:02 || return 1
+		ln -s "$G/functions/ncm.link" "$G/configs/b.1/f12" || return 1
+	fi
+	if has_function 32768; then
+		mkdir "$G/functions/rndis.link" || return 1
+		put "$G/functions/rndis.link/ifname" 'ar36r%d' || return 1
+		put "$G/functions/rndis.link/dev_addr" 02:36:00:00:00:01 || return 1
+		put "$G/functions/rndis.link/host_addr" 02:36:00:00:00:02 || return 1
+		put "$G/functions/rndis.link/os_desc/interface.rndis/compatible_id" RNDIS || return 1
+		put "$G/functions/rndis.link/os_desc/interface.rndis/sub_compatible_id" 5162001 || return 1
+		put "$G/os_desc/use" 1 || return 1
+		put "$G/os_desc/qw_sign" MSFT100 || return 1
+		put "$G/os_desc/b_vendor_code" 0x1 || return 1
+		ln -s "$G/functions/rndis.link" "$G/configs/b.1/f13" || return 1
+	fi
 	if ! has_function 32; then setprop ctl.stop adbd || return 1; fi
 	setprop "$P.active_functions" "$functions" || return 1
 	setprop "$P.screen" on || return 1
 	setprop "$P.screen_request" on || return 1
 	setprop "$P.hint_ready" 0 || return 1
+	setprop "$P.type_root" "" || return 1
+	if has_function 8 && image_root; then setprop "$P.type_root" "$easy_root" || return 1; fi
 	step controller_daemon || return 1
-	if has_function 2; then ln -s "$G/functions/ffs.xinput" "$G/configs/b.1/f2" || return 1; fi
+	if has_function 28674; then ln -s "$G/functions/ffs.xinput" "$G/configs/b.1/f2" || return 1; fi
 }
 
 configure_hid() {
@@ -476,7 +528,7 @@ configure_hid() {
 	put "$function/subclass" "$3" || return 1
 	put "$function/protocol" "$4" || return 1
 	# LED output arrives over ep0, leaving all OUT endpoints for bulk/FunctionFS.
-	put "$function/no_out_endpoint" 1 || return 1
+	put "$function/no_out_endpoint" "${7:-1}" || return 1
 	put "$function/report_length" "$5" || return 1
 	"$CONTROLLER" --descriptor "$2" >"$function/report_desc" || return 1
 	ln -s "$function" "$G/configs/b.1/f$6" || return 1
@@ -484,7 +536,9 @@ configure_hid() {
 
 remove_links() {
 	rm -f "$G/configs/b.1/f1" "$G/configs/b.1/f2" "$G/configs/b.1/f3" \
-		"$G/configs/b.1/f4" "$G/configs/b.1/f5" "$G/configs/b.1/f6"
+		"$G/configs/b.1/f4" "$G/configs/b.1/f5" "$G/configs/b.1/f6" \
+		"$G/configs/b.1/f7" "$G/configs/b.1/f8" "$G/configs/b.1/f9" \
+		"$G/configs/b.1/f10" "$G/configs/b.1/f11" "$G/configs/b.1/f12" "$G/configs/b.1/f13"
 }
 
 save_backlight() {
@@ -534,7 +588,12 @@ close_controller() {
 	if awk -v path="$FFS" '$5==path {found=1} END {exit !found}' "$MOUNTS"; then
 		umount "$FFS" || return 1
 	fi
-	for function in ffs.xinput hid.andr36oid hid.keyboard hid.mouse; do
+	for function in ncm.link rndis.link; do
+		if [ -d "$G/functions/$function" ]; then
+			ndc network interface remove local "$(cat "$G/functions/$function/ifname")" >/dev/null 2>&1 || :
+		fi
+	done
+	for function in ffs.xinput hid.andr36oid hid.keyboard hid.mouse hid.media midi.pads acm.echo uac2.speaker ncm.link rndis.link; do
 		[ ! -d "$G/functions/$function" ] || rmdir "$G/functions/$function" || return 1
 	done
 }

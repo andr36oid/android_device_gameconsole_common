@@ -149,3 +149,14 @@ assert 'g-rx-fifo-size = <280>;' in dts and 'g-np-tx-fifo-size = <16>;' in dts
 params = (kernel / 'drivers/usb/dwc2/params.c').read_text()
 assert '&p->g_tx_fifo_size[1]' in params
 print('dwc2 DT FIFO budget and ep0 reservation checked')
+
+config = (kernel / 'arch/arm64/configs/lineageos_r36s_defconfig').read_text()
+for option in ('USB_CONFIGFS_NCM', 'USB_CONFIGFS_ACM', 'USB_CONFIGFS_F_UAC2',
+               'NET', 'TTY', 'SND', 'SND_PCM', 'SND_RAWMIDI', 'USB_CONFIGFS_F_MIDI',
+               'USB_NET_CDC_NCM', 'USB_NET_RNDIS_HOST', 'SND_USB_AUDIO', 'USB_ACM'):
+    assert 'CONFIG_' + option + '=y' in config, option
+uac = (kernel / 'drivers/usb/gadget/function/f_uac2.c').read_text()
+assert 'USB_ENDPOINT_SYNC_ADAPTIVE' in uac
+assert 'hs_epout_desc.bInterval' not in uac or 'DIV_ROUND_UP' in uac
+assert 'UAC_ATTRIBUTE(c_chmask)' in uac and 'UAC_ATTRIBUTE(p_chmask)' in uac
+print('NCM, ACM and UAC2 dependencies, host drivers and adaptive audio OUT verified')

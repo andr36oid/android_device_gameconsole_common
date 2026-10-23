@@ -40,7 +40,7 @@ for mask in 1 2 3 4 5 8 9 10 11 12 13 16 17 18 19 20 21 24 25 26 27 28 29 32 33 
     check test "$(getprop sys.usb.configfs)" = 1
     check test -z "$(sed -n '/^sm unmount /p;/^blockdev /p' "$T/log")"
 done
-for invalid in 0 6 7 14 31 63 64 08 '1;reboot' -1; do
+for invalid in 0 6 7 14 31 63 65536 08 '1;reboot' -1; do
     image_fixture
     setprop "$P.functions" "$invalid"
     if validate; then echo "FAIL: invalid mask $invalid accepted"; exit 1; fi

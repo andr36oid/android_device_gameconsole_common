@@ -697,5 +697,6 @@ if [ -n "${USB_DRIVE_CONTROLLER:-}" ]; then
     . "$HERE/tests/controller/helper-cases.sh"
     # shellcheck disable=SC1091
     . "$HERE/tests/controller/composite-cases.sh"
+    . "$HERE/tests/controller/more-cases.sh"
 fi
 printf '%s helper checks passed (%s)\n'   "$count" "${KSH_VERSION:-${BASH_VERSION:-sh}}"

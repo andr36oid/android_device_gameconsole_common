@@ -36,7 +36,12 @@ rmdir() {
     printf 'rmdir %s\n' "$1" >>"$T/log"
     [ "${fail_close:-0}" = 0 ] || return 1
     case $1 in
-    */hid.andr36oid|*/hid.keyboard|*/hid.mouse) command rm -f "$1"/subclass "$1"/protocol "$1"/report_length "$1"/report_desc "$1"/no_out_endpoint ;;
+    */hid.andr36oid|*/hid.keyboard|*/hid.mouse|*/hid.media) command rm -f "$1"/subclass "$1"/protocol "$1"/report_length "$1"/report_desc "$1"/no_out_endpoint ;;
+    esac
+    case $1 in
+    */midi.pads) command rm -f "$1"/id "$1"/in_ports "$1"/out_ports ;;
+    */uac2.speaker) command rm -f "$1"/p_chmask "$1"/c_chmask "$1"/c_srate "$1"/c_ssize ;;
+    */ncm.link|*/rndis.link) command rm -f "$1"/ifname "$1"/dev_addr "$1"/host_addr; command rm -rf "$1"/os_desc ;;
     esac
     if [ "$1" = "$F" ]; then command rm -rf "$F/lun.0"; fi
     command rm -f "$1"/file "$1"/ro "$1"/removable "$1"/cdrom

@@ -9,7 +9,7 @@ import java.util.Locale;
 final class KeyboardModel {
     static final String[] LAYOUTS = {"us", "de", "fr"};
     static final int MOUSE_LEFT = 1, MOUSE_RIGHT = 2, MOUSE_MIDDLE = 3,
-            WHEEL_UP = 4, WHEEL_DOWN = 5, STOP = 6;
+            WHEEL_UP = 4, WHEEL_DOWN = 5, STOP = 6, TYPE_FILE = 7;
     static final class Key {
         final int usage;
         final String cap;
@@ -45,7 +45,7 @@ final class KeyboardModel {
             {k(0xe0,"Ctrl"),k(0xe3,"Win"),k(0xe2,"Alt"),wide(0x2c,"Space",5),k(0xe6,"AltGr"),
              k(0x65,"Menu"),k(0xe4,"Ctrl"),k(0x50,"←"),k(0x51,"↓"),k(0x4f,"→")},
             {new Key(0,"",2,MOUSE_LEFT),new Key(0,"",2,MOUSE_RIGHT),new Key(0,"",2,MOUSE_MIDDLE),
-             new Key(0,"",2,WHEEL_UP),new Key(0,"",2,WHEEL_DOWN),new Key(0,"",2,STOP)}
+             new Key(0,"",2,WHEEL_UP),new Key(0,"",2,WHEEL_DOWN),new Key(0,"",2,TYPE_FILE),new Key(0,"",2,STOP)}
         };
     }
 
@@ -56,7 +56,9 @@ final class KeyboardModel {
     private float mDesiredColumn = center(2, 1);
     private int mDirection = -1, mActionHeld;
     private long mRepeatAt;
-    private boolean mArmed, mStop;
+    private boolean mArmed, mStop, mFileRequested;
+    final TextTyper typer = new TextTyper();
+    boolean fileRequested() { boolean requested = mFileRequested; mFileRequested = false; return requested; }
 
     KeyboardModel(String layout) { mLayout = validLayout(layout); }
     static String validLayout(String layout) {
@@ -99,6 +101,7 @@ final class KeyboardModel {
         for (int i = 0; i < 8; i++) if (mModifiers[i] == 1) mModifiers[i] = 0;
     }
     void reset() {
+        typer.abort(); mFileRequested = false;
         Arrays.fill(mModifiers, 0); Arrays.fill(mHeld, 0);
         mArmed = false; mPrevious = 0; mMouseLocked = 0; mWheel = 0; mDirection = -1; mActionHeld = 0;
     }
@@ -109,6 +112,16 @@ final class KeyboardModel {
         if (frame.length != 16 || frame[0] != 1) { reset(); return packet(0, false); }
         final int buttons = (frame[1] & 255) | ((frame[2] & 255) << 8) | ((frame[3] & 255) << 16);
         if (frame[13] == 0) { reset(); return packet(0, false); }
+        if (typer.active()) {
+            final boolean abort = down(buttons,11) || frame[14] != 0 || (down(buttons,4) && down(buttons,5));
+            final byte[] result = typer.update(time,abort);
+            final int usage = result[2] & 255;
+            final boolean letter = usage >= 4 && usage <= 0x1d || "de".equals(mLayout)
+                    && (usage == 0x2f || usage == 0x33 || usage == 0x34) || "fr".equals(mLayout) && usage == 0x33;
+            if ((frame[12] & 2) != 0 && letter && (result[1] & 64) == 0) result[1] ^= 2;
+            mArmed = false; mPrevious = buttons;
+            return result;
+        }
         if (!mArmed) {
             boolean neutral = buttons == 0;
             for (int i = 4; i < 12; i += 2) {
@@ -154,6 +167,7 @@ final class KeyboardModel {
                 else if (key.action >= MOUSE_LEFT && key.action <= MOUSE_MIDDLE)
                     mMouseLocked ^= 1 << (key.action - 1);
                 else if (key.action == STOP) mStop = true;
+                else if (key.action == TYPE_FILE) mFileRequested = true;
                 else mHeld[0] = key.usage;
             }
             if (down(pressed, 11)) mHeld[1] = 0x2a;

@@ -45,6 +45,26 @@ public class UsbModeService extends Service {
 
     private UsbMode mUsbMode;
     private boolean mRegistered;
+    private String mLocalInterface = "";
+    private android.os.INetworkManagementService management() {
+        return android.os.INetworkManagementService.Stub.asInterface(android.os.ServiceManager.getService("network_management"));
+    }
+    private void clearLink() {
+        if (!mLocalInterface.isEmpty()) try { management().removeInterfaceFromLocalNetwork(mLocalInterface); }
+        catch (android.os.RemoteException | RuntimeException e) { }
+        mLocalInterface = "";
+    }
+    private void link() {
+        String iface = android.os.SystemProperties.get(UsbDeviceControl.PREFIX + "net_iface");
+        if (!UsbDriveControl.busy() || (UsbDeviceControl.functions() & (UsbFunctions.NETWORK | UsbFunctions.RNDIS)) == 0) iface = "";
+        if (iface.equals(mLocalInterface)) return;
+        clearLink();
+        if (iface.matches("(ar36n|ar36r)[0-9]+")) try {
+            management().addInterfaceToLocalNetwork(iface,java.util.Collections.singletonList(
+                    new android.net.RouteInfo(new android.net.IpPrefix("192.168.36.0/24"),null,iface)));
+            mLocalInterface = iface;
+        } catch (android.os.RemoteException | RuntimeException e) { Log.w(TAG,"Cannot register console cable route",e); }
+    }
     private android.os.PowerManager.WakeLock mWakeLock;
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
@@ -84,7 +104,7 @@ public class UsbModeService extends Service {
     @Override
     public void onDestroy() {
         mHandler.removeCallbacks(mPoll);
-        UsbDriveControl.stop();
+        clearLink(); UsbDriveControl.stop();
         if (mWakeLock.isHeld()) mWakeLock.release();
         if (mRegistered) {
             unregisterReceiver(mReceiver);
@@ -99,6 +119,7 @@ public class UsbModeService extends Service {
     }
 
     private void check() {
+        link();
         if (!UsbDriveControl.busy() && mWakeLock.isHeld()) mWakeLock.release();
         final boolean device = mUsbMode.isDevice();
         if (device && !mUsbMode.wasDeviceThisBoot()) mUsbMode.setDeviceMarker(true);

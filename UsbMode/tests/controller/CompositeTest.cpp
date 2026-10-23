@@ -23,7 +23,7 @@ int main() {
         assert(p.product >= 0xd401 && p.product <= 0xd43f);
     }
     assert(valid == 47 && std::string(policy(0).reason) == "empty");
-    assert(std::string(policy(64).reason) != "ok");
+    assert(std::string(policy(kAllFunctions + 1).reason) != "ok");
     assert(parseFunctions(";reboot") == 0 && parseFunctions("64") == 64);
     assert(policy(25).product != policy(57).product);
     assert(wireReport({1,0x81,0,4,5,6,7,8,9}) == (Bytes{0x81,0,4,5,6,7,8,9}));

@@ -75,6 +75,7 @@ int main() {
         char command;
         while (read(commands[0], &command, 1) == 1 && command != 'q') {
             KeyboardPacket packet{1}; packet[11] = 1;
+            if (command == 'a') packet[12] = 1;
             if (command == 'k') { packet[1] = 5; packet[2] = 0x4c; }
             if (command == '6') { packet[1] = 0xff; for (int i = 0; i < 6; ++i) packet[2+i] = 4+i; }
             if (command == 'b') packet[8] = 1;
@@ -119,18 +120,24 @@ int main() {
     assert(channel.pending().front() == (Bytes{1,0,0,0,0,0,0,0,0}));
     drain(); command('b'); pump(6);
     assert(channel.buttons() == 1 && channel.pending().front() == (Bytes{2,1,0,0,0}));
-    drain(); pump(507);
+    command('k'); pump(7); command('6'); pump(8);
+    assert(channel.pending().size() > 1);
+    command('a'); pump(9);
+    assert(!channel.active() && channel.buttons() == 0 && channel.pending().size() == 2);
+    assert(channel.pending()[0] == (Bytes{1,0,0,0,0,0,0,0,0}));
+    assert(channel.pending()[1] == (Bytes{2,0,0,0,0}));
+    drain(); pump(517);
     assert(!channel.active() && channel.buttons() == 0);
     assert(channel.pending().size() == 2 && channel.pending()[1] == (Bytes{2,0,0,0,0}));
-    command('c'); pump(508); drain(); command('k'); pump(509); drain();
-    pump(510, false);
+    command('c'); pump(518); drain(); command('k'); pump(519); drain();
+    pump(520, false);
     assert(!channel.active() && channel.pending()[0] == (Bytes{1,0,0,0,0,0,0,0,0}));
-    command('c'); pump(511, false); drain(); command('k'); pump(512, false);
+    command('c'); pump(521, false); drain(); command('k'); pump(522, false);
     assert(channel.pending().empty()); // disconnected clients cannot inject keyboard reports
-    command('c'); pump(513); drain(); command('b'); pump(514); drain();
-    command('x'); pump(515);
+    command('c'); pump(523); drain(); command('b'); pump(524); drain();
+    command('x'); pump(525);
     assert(!channel.active() && channel.buttons() == 0 && channel.pending().size() == 2);
-    command('c'); pump(516); drain(); command('m'); pump(517);
+    command('c'); pump(526); drain(); command('m'); pump(527);
     assert(!channel.active() && channel.pending().size() == 2);
     assert(write(commands[1], "q", 1) == 1);
     int status; assert(waitpid(child, &status, 0) == child);

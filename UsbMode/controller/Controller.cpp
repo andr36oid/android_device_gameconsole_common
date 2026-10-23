@@ -18,17 +18,32 @@ int16_t invert(int16_t n) {
 }
 
 Policy policy(unsigned functions) {
-    Policy result{"ok",0,0,static_cast<uint16_t>(kProductBase + functions)};
-    if (!functions || functions > 63) { result.reason = "empty"; return result; }
-    if ((functions & (XInput | Gamepad)) == (XInput | Gamepad)) {
+    // Keep the old 64-mask identities. Console identities are standalone below;
+    // their otherwise unused high bits leave room for the RNDIS variant.
+    const unsigned set = (functions & 4095) | (functions & Rndis ? 4096 : 0);
+    Policy result{"ok",0,0,static_cast<uint16_t>(functions < 64 ? kProductBase + functions : 0x4000 + set)};
+    if (!functions || functions > kAllFunctions) { result.reason = "empty"; return result; }
+    const unsigned controllers = functions & kControllers;
+    if (controllers && (controllers & (controllers - 1))) {
         result.reason = "controllers"; return result;
     }
+    if ((functions & kConsoleControllers) && functions != controllers) {
+        result.reason = "standalone"; return result;
+    }
+    if (functions == Switch) { result.vendor = 0x0f0d; result.product = 0x0092; }
+    if (functions == Ps3) { result.vendor = 0x054c; result.product = 0x0268; }
+    if (functions == GameCube) { result.vendor = 0x057e; result.product = 0x0337; }
+    if (functions == Xbox) { result.vendor = 0x045e; result.product = 0x0289; }
+    if ((functions & (Network | Rndis)) == (Network | Rndis)) { result.reason = "networks"; return result; }
+    const unsigned interactive = functions & (kControllers | Media | Midi);
+    if (interactive && (interactive & (interactive - 1))) { result.reason = "routing"; return result; }
     // Conservative five-IN envelope; ep0 and RX are reserved separately.
     std::vector<unsigned> fifos{128,128,64,32,16};
     std::vector<unsigned> needs;
     for (const auto& function : kFunctions) if (functions & function.bit) {
         result.in += function.in; result.out += function.out;
-        needs.push_back(function.words);
+        if (function.words) needs.push_back(function.words);
+        if (function.notify) needs.push_back(function.notify);
     }
     std::sort(needs.rbegin(), needs.rend());
     for (unsigned words : needs) {
@@ -48,7 +63,7 @@ unsigned parseFunctions(const std::string& text) {
     if (text == "xinput") return XInput;
     if (text == "gamepad") return Gamepad;
     if (text == "keyboard") return Keyboard | Mouse;
-    if (text.empty() || text.size() > 2 || text.find_first_not_of("0123456789") != std::string::npos)
+    if (text.empty() || text.size() > 5 || text.find_first_not_of("0123456789") != std::string::npos)
         return 0;
     return static_cast<unsigned>(std::stoi(text));
 }
@@ -240,7 +255,7 @@ void SessionControls::update(const State& state, int64_t time, bool request, boo
     } else if (power) {
         exit_ = true;
     } else if (!suppress_) {
-        if (route && !routeHeld_ && (functions_ & Keyboard) && (functions_ & (XInput | Gamepad))) {
+        if (route && !routeHeld_ && (functions_ & Keyboard) && (functions_ & (kControllers | Media | Midi))) {
             keyboard_ = !keyboard_; suppress_ = true; exitSince_ = -1;
         } else if (combo) {
             if (exitSince_ < 0) exitSince_ = time;

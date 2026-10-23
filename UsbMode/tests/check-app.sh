@@ -23,7 +23,8 @@ public final class R {
     public static final class drawable { public static final int andr36oid_hint_key=1; }
 }
 JAVA
-"$JDK/javac" -encoding UTF-8 -cp "$FRAMEWORK" -d "$T/classes" \
+NETD=${NETD:-$ANDROID/out/soong/.intermediates/system/netd/server/netd_aidl_interface-java/android_common/javac/netd_aidl_interface-java.jar}
+"$JDK/javac" -encoding UTF-8 -cp "$FRAMEWORK:$NETD" -d "$T/classes" \
 	"$T/org/andr36oid/usbmode/R.java" "$T/hints/org/andr36oid/hints/R.java" \
 	"$HERE/../HintBar/src/org/andr36oid/hints/HintBar.java" \
 	"$HERE"/src/org/andr36oid/usbmode/*.java

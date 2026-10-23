@@ -30,7 +30,7 @@ public:
     ~KeyboardChannel();
     bool listen(const char* name = kKeyboardSocket);
     bool pump(const State& state, uint8_t leds, bool connected, int64_t time,
-              const std::string& owner, const std::string& start);
+              const std::string& owner, const std::string& start, bool abort = false);
     void release();
     bool active() const { return client_ >= 0 && received_; }
     uint8_t buttons() const { return buttons_; }

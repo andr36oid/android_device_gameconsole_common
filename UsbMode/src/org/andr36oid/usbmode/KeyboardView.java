@@ -37,6 +37,7 @@ final class KeyboardView extends View {
             case KeyboardModel.MOUSE_RIGHT: return R.string.keyboard_mouse_right;
             case KeyboardModel.MOUSE_MIDDLE: return R.string.keyboard_mouse_middle;
             case KeyboardModel.WHEEL_UP: return R.string.keyboard_wheel_up;
+            case KeyboardModel.TYPE_FILE: return R.string.keyboard_type_file;
             case KeyboardModel.WHEEL_DOWN: return R.string.keyboard_wheel_down;
             default: return R.string.usb_device_stop;
         }
