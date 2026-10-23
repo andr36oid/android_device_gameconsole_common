@@ -23,6 +23,7 @@ final class Soundboard {
     private int mPrevious, mVolume = 75;
     private boolean mArmed, mChoose;
     synchronized boolean chooseRequested() { boolean value = mChoose; mChoose = false; return value; }
+    synchronized void rearm() { mArmed = false; mPrevious = 0; }
     synchronized void reset() { microphone(false); mArmed = false; mPrevious = 0; mixer.stop(); }
     private volatile boolean mClosed;
     private android.media.AudioRecord mMicrophone;

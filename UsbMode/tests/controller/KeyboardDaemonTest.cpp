@@ -76,6 +76,7 @@ int main() {
         while (read(commands[0], &command, 1) == 1 && command != 'q') {
             KeyboardPacket packet{1}; packet[11] = 1;
             if (command == 'a') packet[12] = 1;
+            if (command == 'o') { packet[14] = 1; packet[2] = 0x73; }
             if (command == 'v') { packet[2] = 0x73; packet[13] = 63; }
             if (command == 'k') { packet[1] = 5; packet[2] = 0x4c; }
             if (command == '6') { packet[1] = 0xff; for (int i = 0; i < 6; ++i) packet[2+i] = 4+i; }
@@ -122,6 +123,9 @@ int main() {
     assert(channel.next(3) && *channel.next(3) == (Bytes{3,1,63}));
     drain(); command('u'); pump(4);
     assert(channel.next(3) && *channel.next(3) == (Bytes{3,1,0}));
+    state = {}; drain(); command('o'); pump(4); assert(channel.menu() && channel.next(1) == nullptr);
+    state.buttons[A] = true; command('u'); pump(4); assert(channel.menu());
+    state = {}; pump(4); assert(!channel.menu());
     drain(); command('k'); pump(4); drain(); command('u'); pump(5);
     assert(channel.pending().front() == (Bytes{1,0,0,0,0,0,0,0,0}));
     drain(); command('b'); pump(6);

@@ -124,7 +124,7 @@
     <string name="usb_sound_default">Ejemplo incluido</string>
     <string name="usb_sound_failed">No se pudo decodificar el sonido. Usa WAV, OGG o MP3 corto, de hasta 8 MB y 10 segundos.</string>
     <string name="usb_disc_change">Cambiar disco</string>
-    <string name="usb_disc_hint">Elige otra imagen de EASYROMS/isos. El asistente la vuelve a comprobar, expulsa el medio anterior e inserta el nuevo. Durante la sesión solo se cambian CD y discos de imagen extraíbles de solo lectura.</string>
+    <string name="usb_disc_hint">Elige otra imagen de EASYROMS/isos. El asistente la vuelve a comprobar, expulsa el medio anterior e inserta el nuevo. Durante la sesión solo se cambian CD y discos de imagen extraíbles de solo lectura. Select+X abre los discos (Select+Y en el panel de sonidos).</string>
     <string name="usb_disc_failed">No se pudo cambiar la imagen. Comprueba el archivo y la tarjeta y vuelve a intentarlo.</string>
     <string name="usb_floppy_summary">Pon imágenes de disquete .img, .ima o .vfd en EASYROMS/isos: exactamente 720 KB (737280 bytes), 1,44 MB (1474560) o 2,88 MB (2949120). Se comparten como un pequeño disco USB extraíble y respetan Solo lectura. Algunas BIOS lo tratan como disquete; no es la clase de disquete USB/UFI y el soporte varía.</string>
     <string name="usb_sound_mic">Alternar micrófono en directo: actívalo solo si la consola o los auriculares tienen micrófono. Los modelos básicos no lo tienen. Concede acceso al micrófono aquí antes de iniciar.</string>

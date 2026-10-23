@@ -124,7 +124,7 @@
     <string name="usb_sound_default">内置示例</string>
     <string name="usb_sound_failed">无法解码该音效。请使用不超过 8 MB、10 秒的短 WAV、OGG 或 MP3 文件。</string>
     <string name="usb_disc_change">更换光盘</string>
-    <string name="usb_disc_hint">选择 EASYROMS/isos 中的其他镜像。助手会重新验证，弹出旧介质并插入新介质。会话期间仅支持 CD 和只读可移动镜像磁盘更换介质。</string>
+    <string name="usb_disc_hint">选择 EASYROMS/isos 中的其他镜像。助手会重新验证，弹出旧介质并插入新介质。会话期间仅支持 CD 和只读可移动镜像磁盘更换介质。 Select+X 打开磁盘列表（音效板中使用 Select+Y）。</string>
     <string name="usb_disc_failed">无法更换镜像。请检查文件和存储卡后重试。</string>
     <string name="usb_floppy_summary">将 .img、.ima 或 .vfd 软盘镜像放入 EASYROMS/isos：必须正好是 720 KB（737280 字节）、1.44 MB（1474560）或 2.88 MB（2949120）。镜像作为小容量可移动 USB 磁盘共享，并遵循只读开关。部分 BIOS 会将其视为软盘；它不是真正的 USB 软盘/UFI 类，兼容性因设备而异。</string>
     <string name="usb_sound_mic">切换实时麦克风：仅在本机或所接耳机确有麦克风时开启。基础机型没有麦克风。 请在开始会话前在此授予麦克风权限。</string>

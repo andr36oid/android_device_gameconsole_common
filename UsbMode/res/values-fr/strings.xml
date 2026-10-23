@@ -124,7 +124,7 @@
     <string name="usb_sound_default">Exemple fourni</string>
     <string name="usb_sound_failed">Impossible de décoder ce son. Utilise un WAV, OGG ou MP3 court, de 8 Mo et 10 secondes maximum.</string>
     <string name="usb_disc_change">Changer de disque</string>
-    <string name="usb_disc_hint">Choisis une autre image dans EASYROMS/isos. L’assistant la vérifie à nouveau, éjecte l’ancien support et insère le nouveau. En cours de session, seuls les CD et disques amovibles d’image en lecture seule sont échangeables.</string>
+    <string name="usb_disc_hint">Choisis une autre image dans EASYROMS/isos. L’assistant la vérifie à nouveau, éjecte l’ancien support et insère le nouveau. En cours de session, seuls les CD et disques amovibles d’image en lecture seule sont échangeables. Select+X ouvre les disques (Select+Y sur le pavé de sons).</string>
     <string name="usb_disc_failed">Impossible de changer l’image. Vérifie le fichier et la carte, puis réessaie.</string>
     <string name="usb_floppy_summary">Place les images de disquette .img, .ima ou .vfd dans EASYROMS/isos : exactement 720 Ko (737280 octets), 1,44 Mo (1474560) ou 2,88 Mo (2949120). Elles utilisent un petit disque USB amovible et le réglage Lecture seule. Certains BIOS le traitent comme une disquette ; ce n’est pas la classe disquette USB/UFI et la prise en charge varie.</string>
     <string name="usb_sound_mic">Activer/désactiver le micro direct : uniquement si la console ou le casque possède un microphone. Les modèles de base n’en ont pas. Autorise le microphone ici avant de démarrer.</string>

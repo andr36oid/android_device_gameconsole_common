@@ -75,6 +75,9 @@ int main(int argc, char** argv) {
     SessionControls macro(Keyboard | Media,true);
     macro.update({},0,true,false); macro.update({},2000,true,false); assert(macro.dark());
     State key; key.buttons[A] = true; assert(macro.keyboardState(key).buttons[A]);
+    SessionControls disc(Storage | XInput,false,true);
+    State choose; choose.buttons[Back] = choose.buttons[Y] = true;
+    assert(!disc.gamepadState(choose).buttons[Back] && !disc.gamepadState(choose).buttons[Y]);
     std::string root = std::string(argv[1]) + "/sound-files";
     mkdir(root.c_str(),0700); mkdir((root + "/soundboard").c_str(),0700);
     std::ofstream(root + "/soundboard/test.wav",std::ios::binary) << "12345678";

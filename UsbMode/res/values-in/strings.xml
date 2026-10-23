@@ -124,7 +124,7 @@
     <string name="usb_sound_default">Contoh bawaan</string>
     <string name="usb_sound_failed">Suara tidak dapat didekode. Gunakan WAV, OGG atau MP3 pendek, maksimal 8 MB dan 10 detik.</string>
     <string name="usb_disc_change">Ganti cakram</string>
-    <string name="usb_disc_hint">Pilih citra lain dari EASYROMS/isos. Pembantu memeriksa ulang, mengeluarkan media lama lalu memasukkan yang baru. Selama sesi hanya CD dan disk citra lepas-pasang hanya-baca yang dapat diganti.</string>
+    <string name="usb_disc_hint">Pilih citra lain dari EASYROMS/isos. Pembantu memeriksa ulang, mengeluarkan media lama lalu memasukkan yang baru. Selama sesi hanya CD dan disk citra lepas-pasang hanya-baca yang dapat diganti. Select+X membuka daftar cakram (Select+Y pada papan suara).</string>
     <string name="usb_disc_failed">Citra tidak dapat diganti. Periksa berkas dan kartu, lalu coba lagi.</string>
     <string name="usb_floppy_summary">Simpan citra disket .img, .ima atau .vfd di EASYROMS/isos: tepat 720 KB (737280 byte), 1,44 MB (1474560) atau 2,88 MB (2949120). Citra dibagikan sebagai disk USB kecil lepas-pasang sesuai sakelar Hanya baca. Beberapa BIOS menganggapnya disket; ini bukan kelas USB floppy/UFI dan dukungan berbeda-beda.</string>
     <string name="usb_sound_mic">Alihkan mikrofon langsung: aktifkan hanya jika konsol atau headset memiliki mikrofon. Model dasar tidak memilikinya. Izinkan akses mikrofon di sini sebelum memulai sesi.</string>

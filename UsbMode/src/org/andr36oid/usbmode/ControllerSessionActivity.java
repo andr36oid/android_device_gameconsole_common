@@ -38,6 +38,7 @@ public class ControllerSessionActivity extends Activity {
     private AlertDialog mTextDialog;
     private volatile boolean mPickingFile;
     private int mDialogButtons;
+    private boolean mDiscHeld;
     private LinearLayout mControls;
     private Button mDark;
     private KeyboardModel mKeyboardModel;
@@ -80,6 +81,7 @@ public class ControllerSessionActivity extends Activity {
             final String status = connection + "\n" + battery();
             mFunctions.setText(functions);
             mEject.setVisibility((mMask & UsbFunctions.STORAGE) != 0 ? View.VISIBLE : View.GONE);
+            mEject.setText(canChangeDisc() && (!typing || macro) ? R.string.usb_disc_hint : R.string.usb_drive_eject);
             mStatus.setText(hint ? getString(R.string.usb_device_wake) : connection + "\n" + battery());
             final boolean routable = (mMask & UsbFunctions.KEYBOARD) != 0
                     && (mMask & (UsbFunctions.CONTROLLERS | UsbFunctions.MEDIA | UsbFunctions.MIDI)) != 0;
@@ -290,15 +292,20 @@ public class ControllerSessionActivity extends Activity {
             if (mChannel == null) mChannel = new KeyboardChannel(mKeyboardModel,mKeyboard,this::dialogFrame);
         } else closeKeyboard();
     }
-    private boolean dialogFrame(byte[] frame) {
+    private int dialogFrame(byte[] frame) {
         if (!mPickingFile) {
-            if (mBoard != null) { mBoard.update(frame); return true; }
+            int buttons = (frame[1] & 255) | ((frame[2] & 255) << 8);
+            int discButtons = (1 << 5) | (1 << (mBoard == null ? 14 : 13));
+            boolean disc = (buttons & discButtons) == discButtons;
+            if (disc && !mDiscHeld && ((mMask & UsbFunctions.KEYBOARD) == 0 || mKeyboardModel.macro != null) && canChangeDisc()) mHandler.post(this::pickDisc);
+            mDiscHeld = disc;
+            if (mBoard != null) { mBoard.update(frame); return 1; }
             if (mKeyboardModel.macro == null && (mMask & (UsbFunctions.KEYBOARD | UsbFunctions.CONTROLLERS | UsbFunctions.MEDIA | UsbFunctions.MIDI)) == 0) {
-                navigateFrame(frame,false); return true;
+                navigateFrame(frame,false); return 1;
             }
-            mDialogButtons = 0; return false;
+            mDialogButtons = 0; return (mMask & UsbFunctions.KEYBOARD) == 0 ? 1 : 0;
         }
-        navigateFrame(frame,true); return true;
+        navigateFrame(frame,true); return 2;
     }
     private void navigateFrame(byte[] frame, boolean dialog) {
         int buttons = (frame[1] & 255) | ((frame[2] & 255) << 8) | ((frame[3] & 255) << 16);
@@ -317,6 +324,7 @@ public class ControllerSessionActivity extends Activity {
         dialog.setOnDismissListener(d -> {
             if (mTextDialog == dialog) {
                 mTextDialog = null; mPickingFile = false;
+                if (mBoard != null) mBoard.rearm();
                 synchronized (mKeyboardModel) { mKeyboardModel.reset(); }
                 updateKeyboard();
             }

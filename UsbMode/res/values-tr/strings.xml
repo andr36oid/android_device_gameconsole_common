@@ -124,7 +124,7 @@
     <string name="usb_sound_default">Dahil edilen örnek</string>
     <string name="usb_sound_failed">Ses çözülemedi. En fazla 8 MB ve 10 saniyelik kısa WAV, OGG veya MP3 kullan.</string>
     <string name="usb_disc_change">Disk değiştir</string>
-    <string name="usb_disc_hint">EASYROMS/isos içinden başka bir görüntü seç. Yardımcı yeniden doğrular, eski ortamı çıkarır ve yenisini takar. Oturumda yalnızca CD ve salt okunur çıkarılabilir görüntü diskleri değiştirilebilir.</string>
+    <string name="usb_disc_hint">EASYROMS/isos içinden başka bir görüntü seç. Yardımcı yeniden doğrular, eski ortamı çıkarır ve yenisini takar. Oturumda yalnızca CD ve salt okunur çıkarılabilir görüntü diskleri değiştirilebilir. Select+X disk listesini açar (ses panelinde Select+Y).</string>
     <string name="usb_disc_failed">Görüntü değiştirilemedi. Dosyayı ve kartı kontrol edip tekrar dene.</string>
     <string name="usb_floppy_summary">.img, .ima veya .vfd disket görüntülerini EASYROMS/isos içine koy: tam 720 KB (737280 bayt), 1,44 MB (1474560) veya 2,88 MB (2949120). Küçük çıkarılabilir USB diski olarak paylaşılır, Salt okunur ayarına uyar. Bazı BIOS’lar disket sayar; gerçek USB floppy/UFI sınıfı değildir ve destek değişir.</string>
     <string name="usb_sound_mic">Canlı mikrofonu aç/kapat: yalnızca konsolunda veya kulaklığında mikrofon varsa aç. Temel modellerde yoktur. Oturumu başlatmadan önce burada mikrofon erişimine izin ver.</string>

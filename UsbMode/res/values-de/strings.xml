@@ -124,7 +124,7 @@
     <string name="usb_sound_default">Mitgeliefertes Beispiel</string>
     <string name="usb_sound_failed">Der Klang konnte nicht decodiert werden. Verwende eine kurze WAV-, OGG- oder MP3-Datei bis 8 MB und 10 Sekunden.</string>
     <string name="usb_disc_change">Disc wechseln</string>
-    <string name="usb_disc_hint">Wähle ein anderes Image aus EASYROMS/isos. Der Helfer prüft es erneut, wirft das alte Medium aus und legt das neue ein. Im laufenden Betrieb nur für CDs und schreibgeschützte wechselbare Image-Laufwerke.</string>
+    <string name="usb_disc_hint">Wähle ein anderes Image aus EASYROMS/isos. Der Helfer prüft es erneut, wirft das alte Medium aus und legt das neue ein. Im laufenden Betrieb nur für CDs und schreibgeschützte wechselbare Image-Laufwerke. Select+X öffnet die Disc-Liste (beim Soundboard Select+Y).</string>
     <string name="usb_disc_failed">Das Image konnte nicht gewechselt werden. Prüfe Datei und Karte und versuche es erneut.</string>
     <string name="usb_floppy_summary">Diskettenimages (.img, .ima, .vfd) gehören in EASYROMS/isos: genau 720 KB (737280 Bytes), 1,44 MB (1474560) oder 2,88 MB (2949120). Sie werden als kleines wechselbares USB-Laufwerk mit dem Schreibschutzschalter geteilt. Manche BIOS-Versionen erkennen es als Diskette; es ist keine USB-Diskette/UFI-Klasse. Die Unterstützung variiert.</string>
     <string name="usb_sound_mic">Live-Mikrofon umschalten: nur aktivieren, wenn deine Konsole oder dein Headset ein Mikrofon hat. Basismodelle haben keines. Erlaube den Mikrofonzugriff hier vor dem Start.</string>

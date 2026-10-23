@@ -32,6 +32,7 @@ public:
     bool pump(const State& state, uint8_t leds, bool connected, int64_t time,
               const std::string& owner, const std::string& start, bool abort = false);
     void release();
+    bool menu() const { return menu_ || menuWait_; }
     bool active() const { return client_ >= 0 && received_; }
     uint8_t buttons() const { return buttons_; }
     bool scrolling() const { return scrolling_; }
@@ -50,7 +51,7 @@ public:
 private:
     int server_ = -1, client_ = -1;
     int64_t lastReply_ = 0, lastFrame_ = -1;
-    bool received_ = false, connected_ = false, scrolling_ = false;
+    bool menu_ = false, menuWait_ = false, received_ = false, connected_ = false, scrolling_ = false;
     uint8_t buttons_ = 0, consumer_ = 0;
     int wheel_ = 0;
     std::array<uint8_t, 9> keys_{1};

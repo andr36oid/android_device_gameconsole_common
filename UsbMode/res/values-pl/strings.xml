@@ -124,7 +124,7 @@
     <string name="usb_sound_default">Dołączony przykład</string>
     <string name="usb_sound_failed">Nie można zdekodować dźwięku. Użyj krótkiego WAV, OGG lub MP3, do 8 MB i 10 sekund.</string>
     <string name="usb_disc_change">Zmień płytę</string>
-    <string name="usb_disc_hint">Wybierz inny obraz z EASYROMS/isos. Pomocnik sprawdzi go ponownie, wysunie stary nośnik i włoży nowy. Podczas sesji można zmieniać tylko CD i wymienne dyski obrazów tylko do odczytu.</string>
+    <string name="usb_disc_hint">Wybierz inny obraz z EASYROMS/isos. Pomocnik sprawdzi go ponownie, wysunie stary nośnik i włoży nowy. Podczas sesji można zmieniać tylko CD i wymienne dyski obrazów tylko do odczytu. Select+X otwiera listę płyt (Select+Y w panelu dźwięków).</string>
     <string name="usb_disc_failed">Nie można zmienić obrazu. Sprawdź plik i kartę, a potem spróbuj ponownie.</string>
     <string name="usb_floppy_summary">Umieść obrazy dyskietek .img, .ima lub .vfd w EASYROMS/isos: dokładnie 720 KB (737280 bajtów), 1,44 MB (1474560) lub 2,88 MB (2949120). Są udostępniane jako mały wymienny dysk USB, z ustawieniem Tylko do odczytu. Niektóre BIOS-y traktują go jako dyskietkę; to nie klasa USB floppy/UFI, a obsługa zależy od sprzętu.</string>
     <string name="usb_sound_mic">Przełącz mikrofon na żywo: włącz tylko, jeśli konsola lub zestaw słuchawkowy ma mikrofon. Modele podstawowe go nie mają. Przed rozpoczęciem zezwól tutaj na dostęp do mikrofonu.</string>

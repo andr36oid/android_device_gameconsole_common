@@ -63,7 +63,7 @@ int button(unsigned code);
 
 class SessionControls {
 public:
-    explicit SessionControls(unsigned functions, bool macro = false) : functions_(functions), keyboard_(functions & Keyboard), macro_(macro) { }
+    explicit SessionControls(unsigned functions, bool macro = false, bool disc = false) : functions_(functions), keyboard_(functions & Keyboard), macro_(macro), disc_(disc) { }
     void update(const State& state, int64_t time, bool darkRequest, bool power, bool screenReady = true);
     State gamepadState(const State& state) const;
     State keyboardState(const State& state) const;
@@ -75,7 +75,7 @@ public:
     bool canDark() const { return macro_ || !(functions_ & Keyboard) || !keyboard_; }
 private:
     unsigned functions_;
-    bool keyboard_, macro_, dark_ = false, exit_ = false, suppress_ = false, routeHeld_ = false;
+    bool keyboard_, macro_, disc_, dark_ = false, exit_ = false, suppress_ = false, routeHeld_ = false;
     bool requestHeld_ = false;
     int64_t hintSince_ = -1, exitSince_ = -1;
 };

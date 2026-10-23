@@ -379,7 +379,7 @@ bool KeyboardChannel::listen(const char* name) {
 }
 void KeyboardChannel::release() {
     if (client_ >= 0) close(client_);
-    client_ = -1; received_ = false; buttons_ = 0; scrolling_ = false; wheel_ = 0;
+    client_ = -1; menuWait_ = menuWait_ || menu_; menu_ = false; received_ = false; buttons_ = 0; scrolling_ = false; wheel_ = 0;
     keys_ = {1}; lastFrame_ = -1;
     pending_.clear();
     pending_.push_back(Bytes(keys_.begin(), keys_.end()));
@@ -388,6 +388,10 @@ void KeyboardChannel::release() {
 }
 bool KeyboardChannel::pump(const State& state, uint8_t leds, bool connected, int64_t time,
                            const std::string& owner, const std::string& start, bool abort) {
+    bool neutral = true;
+    for (bool pressed : state.buttons) neutral &= !pressed;
+    for (int axis : state.sticks) neutral &= std::abs(axis) < 3277;
+    if (!menu_ && neutral) menuWait_ = false;
     if (connected_ != connected) { release(); connected_ = connected; }
     if (client_ < 0) {
         int candidate = accept4(server_, nullptr, nullptr, SOCK_NONBLOCK | SOCK_CLOEXEC);
@@ -407,7 +411,7 @@ bool KeyboardChannel::pump(const State& state, uint8_t leds, bool connected, int
         ssize_t n = recv(client_, packet.data(), packet.size(), MSG_DONTWAIT | MSG_TRUNC);
         if (n < 0 && (errno == EAGAIN || errno == EINTR)) break;
         if (n != static_cast<ssize_t>(packet.size()) || packet[0] != 1 || packet[8] > 7 ||
-                packet[9] > 1 || packet[11] > 1 || packet[12] > 1 || packet[13] > 63 || packet[14] || packet[15] || (packet[10] != 0 && packet[10] != 1 && packet[10] != 255)) {
+                packet[9] > 1 || packet[11] > 1 || packet[12] > 1 || packet[13] > 63 || packet[14] > 1 || packet[15] || (packet[10] != 0 && packet[10] != 1 && packet[10] != 255)) {
             release(); return true;
         }
         if (packet[12]) {
@@ -421,7 +425,10 @@ bool KeyboardChannel::pump(const State& state, uint8_t leds, bool connected, int
             if (packet[2 + j] > 0x73) { release(); return true; }
             keys[3 + j] = packet[2 + j];
         }
-        if (!connected || packet[11] == 0) { keys = {1}; packet[8] = packet[9] = packet[10] = packet[13] = 0; }
+        menu_ = connected && packet[14] == 1;
+        if (menu_) menuWait_ = true;
+        else if (neutral) menuWait_ = false;
+        if (!connected || menu_ || menuWait_ || packet[11] == 0) { keys = {1}; packet[8] = packet[9] = packet[10] = packet[13] = 0; }
         if (keys != keys_) {
             keys_ = keys;
             pending_.push_back(Bytes(keys.begin(), keys.end()));
@@ -503,7 +510,9 @@ int run(unsigned functions) {
     const std::string owner = property(std::string(kPrefix) + "owner");
     const std::string ownerStart = property(std::string(kPrefix) + "owner_start");
     const bool macro = typing && property(std::string(kPrefix) + "macro") == "1";
-    SessionControls controls(functions,macro);
+    const bool disc = (functions & Storage) && property(std::string(kPrefix) + "target") == "file" &&
+            property(std::string(kPrefix) + "ro") == "1";
+    SessionControls controls(functions,macro,disc);
     Jiggler jiggler;
     Backlight backlight;
     int result = 0;
@@ -577,7 +586,8 @@ int run(unsigned functions) {
         }
         if (screen != lastScreen) { set("screen", screen.c_str()); lastScreen = screen; }
         if (routing != lastRouting) { channel.release(); set("routing", routing.c_str()); lastRouting = routing; }
-        const State s = controls.gamepadState(raw);
+        const State routed = controls.gamepadState(raw);
+        const State s = channel.menu() ? State{} : routed;
         if (time - lastConnection >= 100) {
             lastConnection = time; connected = keyboardConnected();
             if (!connected) { leds = 0; if (disconnected < 0) disconnected = time; }
@@ -641,7 +651,7 @@ int run(unsigned functions) {
         if (typing && keyFd < 0) keyFd = hidNode("hid.keyboard");
         if (pointing && mouseFd < 0) mouseFd = hidNode("hid.mouse");
         {
-            const State keys = typing ? controls.keyboardState(raw) : s;
+            const State keys = typing ? controls.keyboardState(raw) : controls.suppress() || controls.hint() ? State{} : raw;
             channel.pump(keys, leds, connected && (controls.keyboardScreen() || !(functions & Keyboard)) && (!controls.dark() || macro || (functions & Soundboard))
                     && !controls.hint() && !controls.suppress(), time, owner, ownerStart,
                     raw.buttons[Back] && raw.buttons[Start]);
@@ -651,8 +661,8 @@ int run(unsigned functions) {
         }
         if (pointing && mouseFd >= 0 && (!typing || !channel.next(2))) {
             const KeyboardPointer before = pointerModel;
-            const State motion = typing ? channel.active() && connected ? controls.keyboardState(raw) : State{}
-                    : controls.suppress() || controls.hint() ? State{} : raw;
+            const State motion = typing ? channel.active() && connected && !channel.menu() ? controls.keyboardState(raw) : State{}
+                    : controls.suppress() || controls.hint() || channel.menu() ? State{} : raw;
             const uint8_t buttons = typing ? channel.buttons() :
                     static_cast<uint8_t>((motion.buttons[B] ? 1 : 0) | (motion.buttons[A] ? 2 : 0));
             const auto tagged = pointerModel.report(motion, buttons, typing && channel.scrolling(),

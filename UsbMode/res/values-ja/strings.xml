@@ -113,7 +113,7 @@
     <string name="usb_sound_default">同梱の例</string>
     <string name="usb_sound_failed">音をデコードできませんでした。8 MB・10秒以内の短い WAV、OGG、MP3 を使用してください。</string>
     <string name="usb_disc_change">ディスクを交換</string>
-    <string name="usb_disc_hint">EASYROMS/isos から別のイメージを選びます。再検証後、古いメディアを排出して新しいものを挿入します。セッション中の交換は CD と読み取り専用のリムーバブルイメージディスクのみです。</string>
+    <string name="usb_disc_hint">EASYROMS/isos から別のイメージを選びます。再検証後、古いメディアを排出して新しいものを挿入します。セッション中の交換は CD と読み取り専用のリムーバブルイメージディスクのみです。 Select+X でディスク一覧を開きます（サウンドボードでは Select+Y）。</string>
     <string name="usb_disc_failed">イメージを交換できませんでした。ファイルとカードを確認して再試行してください。</string>
     <string name="usb_floppy_summary">フロッピーの .img/.ima/.vfd は EASYROMS/isos に保存してください。サイズは正確に 720 KB（737280バイト）、1.44 MB（1474560）、2.88 MB（2949120）です。小容量のリムーバブル USB ディスクとして共有し、読み取り専用設定に従います。フロッピーとして扱う BIOS もありますが、本物の USB フロッピー/UFI クラスではなく、対応は環境によります。</string>
     <string name="usb_sound_mic">生マイク入力の切り替え：本体やヘッドセットに実際にマイクがある場合のみ有効にしてください。基本モデルにはありません。 セッション開始前にここでマイクの使用を許可してください。</string>

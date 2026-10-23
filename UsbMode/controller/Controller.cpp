@@ -279,6 +279,7 @@ State SessionControls::gamepadState(const State& state) const {
     State result = state;
     // Reserve both exit buttons before a held combo can reach the PC.
     if ((dark_ && !(functions_ & Soundboard)) || (state.buttons[Back] && state.buttons[Start])) result.buttons[Back] = result.buttons[Start] = false;
+    if (disc_ && state.buttons[Back] && state.buttons[Y]) result.buttons[Back] = result.buttons[Y] = false;
     return result;
 }
 State SessionControls::keyboardState(const State& state) const {

@@ -14,7 +14,7 @@ final class KeyboardChannel implements AutoCloseable {
     private volatile boolean mClosed;
     private volatile LocalSocket mSocket;
     private final Thread mThread;
-    interface Frames { boolean received(byte[] frame); }
+    interface Frames { int received(byte[] frame); }
     private final Frames mFrames;
 
     KeyboardChannel(KeyboardModel model, KeyboardView view, Frames frames) {
@@ -36,7 +36,8 @@ final class KeyboardChannel implements AutoCloseable {
                 while (!mClosed) {
                     if (input.read(frame) != frame.length) throw new IOException("Keyboard frame");
                     synchronized (mModel) {
-                        if (mFrames.received(frame)) { final byte[] neutral = new byte[16]; neutral[0] = 1; output.write(neutral); }
+                        final int action = mFrames.received(frame);
+                        if (action != 0) { final byte[] neutral = new byte[16]; neutral[0] = 1; neutral[14] = (byte) (action == 2 ? 1 : 0); output.write(neutral); }
                         else output.write(mModel.update(frame, SystemClock.uptimeMillis()));
                         mView.setLeds(frame[12] & 255);
                     }
