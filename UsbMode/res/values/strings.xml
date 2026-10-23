@@ -269,4 +269,6 @@
     <string name="usb_disc_failed">The image could not be changed. Check the file and card, then try again.</string>
     <string name="usb_floppy_summary">Put .img, .ima or .vfd floppy images in EASYROMS/isos: exactly 720 KB (737280 bytes), 1.44 MB (1474560) or 2.88 MB (2949120). They use a small removable USB disk and the read-only switch. Some BIOSes treat this as a floppy; it is not the USB floppy/UFI class and support varies.</string>
     <string name="usb_sound_mic">Live microphone (toggle): only enable if your console or attached headset has a microphone. Base models have none. Grant microphone access here before starting a session.</string>
+    <string name="usb_webusb_title">Show a link in Chrome when connected</string>
+    <string name="usb_webusb_summary">Show the andr36oid website on computers with WebUSB notifications.</string>
 </resources>

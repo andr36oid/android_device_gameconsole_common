@@ -38,6 +38,7 @@ for arg in invalid ';reboot' /dev/hidg0; do
 done
 python3 "$HERE/tests/controller/check-kernel.py" "$T"
 python3 "$HERE/tests/controller/check-eject.py" /andr36oid/work/wt/xinput-kernel "$T"
+python3 "$HERE/tests/controller/check-webusb.py" /andr36oid/work/wt/xinput-kernel "$T"
 JDK=${JDK:-/andr36oid/src/prebuilts/jdk/jdk11/linux-x86/bin}
 "$JDK/javac" -encoding UTF-8 -d "$T/classes" "$HERE/src/org/andr36oid/usbmode/ControllerMode.java" \
     "$HERE/src/org/andr36oid/usbmode/MacroProfiles.java" "$HERE/src/org/andr36oid/usbmode/SoundMixer.java" "$HERE/tests/controller/PadModelsTest.java" "$HERE/tests/controller/ModeTest.java" "$HERE/src/org/andr36oid/usbmode/KeyboardModel.java" \

@@ -82,6 +82,7 @@ rmdir() {
 	command rmdir "$1"
 }
 put() {
+	[ "$1" != "$G/${fail_attr:-}" ] || return 1
 	printf 'write %s %s\n' "$1" "$2" >>"$T/log"
 	if [ "${fail_file:-0}" = 1 ]; then case $1 in */lun.*/file) [ -z "$2" ] || return 1 ;; esac; fi
 	if [ "$1" = "$OTG" ] && [ "$2" = peripheral ] && [ "${fail_role:-0}" = 1 ]; then return 1; fi
@@ -108,7 +109,7 @@ put() {
 }
 reset_fixture() {
 	command rm -rf "$SYS" "$DEV" "$G" "$STATE" "$T/props" "$T/platform" "$MEDIA" "$USB_DRIVE_BACKLIGHT"
-	command mkdir -p "$SYS" "$DEV" "$G/configs/b.1/strings/0x409" "$G/functions/ffs.adb" "$G/os_desc" "$G/strings/0x409" "$STATE" "$T/props"
+	command mkdir -p "$SYS" "$DEV" "$G/configs/b.1/strings/0x409" "$G/functions/ffs.adb" "$G/os_desc" "$G/webusb" "$G/strings/0x409" "$STATE" "$T/props"
 	: >"$T/log"; : >"$T/volumes"
 	for spec in '0 ff370000.dwmmc 0' '1 ff380000.dwmmc 32' '2 ff390000.dwmmc 64'; do
 		# shellcheck disable=SC2086
@@ -141,10 +142,11 @@ reset_fixture() {
 	printf 'peripheral\n' >"$OTG"
 	printf 'Mains\n' >"$POWER/ac/type"; printf '0\n' >"$POWER/ac/online"
 	printf '0x4ee2\n' >"$G/idProduct"; printf '1\n' >"$G/os_desc/use"
-    for attr in idVendor bDeviceClass bDeviceSubClass bDeviceProtocol \
+    for attr in idVendor bcdUSB bDeviceClass bDeviceSubClass bDeviceProtocol \
         strings/0x409/product strings/0x409/manufacturer configs/b.1/bmAttributes \
         configs/b.1/MaxPower configs/b.1/strings/0x409/configuration \
-        os_desc/b_vendor_code os_desc/qw_sign; do
+        os_desc/b_vendor_code os_desc/qw_sign \
+        webusb/use webusb/bcdVersion webusb/bVendorCode webusb/landingPage; do
         printf 'saved-%s\n' "$attr" >"$G/$attr"
     done
     setprop init.svc.joyMouse running
@@ -162,7 +164,7 @@ reset_fixture() {
 	setprop "$P.request" start
 	fail_unmount=0 keep_mounted=0 fail_unlock=0 fail_file=0 fail_close=0
 	fail_bind=0 fail_unbind=0 fail_gate=0 fail_role=0 delayed_bind=0 bind_writes=0 auto_stop=0
-	replace_image=0
+	replace_image=0 fail_attr=
 	# shellcheck disable=SC2034
 	error=
 }
@@ -699,5 +701,7 @@ if [ -n "${USB_DRIVE_CONTROLLER:-}" ]; then
     . "$HERE/tests/controller/composite-cases.sh"
     . "$HERE/tests/controller/more-cases.sh"
     . "$HERE/tests/controller/round-five-cases.sh"
+    # shellcheck disable=SC1091
+    . "$HERE/tests/controller/webusb-cases.sh"
 fi
 printf '%s helper checks passed (%s)\n'   "$count" "${KSH_VERSION:-${BASH_VERSION:-sh}}"

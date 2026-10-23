@@ -9,6 +9,7 @@ for mask in 1 2 3 4 5 8 9 10 11 12 13 16 17 18 19 20 21 24 25 26 27 28 29 32 33 
     if [ "$((mask & 1))" = 0 ]; then setprop "$P.target" none; fi
     ln -s "$G/configs/b.1" "$G/os_desc/b.1"
     check start_drive
+    check_webusb
     check test "$(cat "$G/idProduct")" = "$(printf '0x%04x' "$((54272 + mask))")"
     check test "$(prop active_functions)" = "$mask"
     for pair in '1 mass_storage.andr36oid 1' '2 ffs.xinput 2' '4 hid.andr36oid 3' '8 hid.keyboard 4' '16 hid.mouse 5' '32 ffs.adb 6'; do

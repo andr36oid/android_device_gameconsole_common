@@ -221,6 +221,12 @@ public class UsbDriveFragment extends PreferenceFragment {
                 advanced.setSummary(mAdvanced ? R.string.usb_device_collapse : R.string.usb_device_advanced_summary);
                 advanced.setOnPreferenceClickListener(p -> { mAdvanced = !mAdvanced; mShown = ""; refresh(); return true; });
                 root.addPreference(advanced);
+                if (mAdvanced) {
+                    final SwitchPreference webusb = new SwitchPreference(getActivity());
+                    webusb.setKey("usb_webusb"); webusb.setTitle(R.string.usb_webusb_title);
+                    webusb.setSummary(R.string.usb_webusb_summary); webusb.setDefaultValue(true);
+                    root.addPreference(webusb);
+                }
             }
             if ((bit == UsbFunctions.SOUND || bit == UsbFunctions.SERIAL || bit == UsbFunctions.RNDIS) && !mAdvanced) continue;
             final boolean checked = (mFunctions & bit) != 0;

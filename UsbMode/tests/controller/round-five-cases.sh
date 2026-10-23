@@ -5,6 +5,7 @@ for mask in 65536 132096 132112; do
     setprop "$P.functions" "$mask"
     setprop "$P.target" none
     check start_drive
+    check_webusb
     if [ "$mask" = 65536 ]; then
         check test "$(cat "$G/idVendor")" = 0x054c
         check test "$(cat "$G/idProduct")" = 0x09cc
@@ -39,6 +40,7 @@ for forced in 0 1; do
     image_fixture
     setprop "$P.ro" 1
     check start_drive
+    check_webusb
     if [ "$forced" = 1 ]; then : >"$F/lun.0/forced_eject"; fi
     truncate -s 2097152 "$MEDIA/UUID/isos/Second.iso"
     setprop "$P.next_image" Second.iso

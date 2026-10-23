@@ -15,6 +15,7 @@ for mask in 64 128 256 512 1024 2048 4096 8192 16384 32768 88 280 3096 1049 3279
     setprop "$P.target" none
     if [ "$((mask & 1))" != 0 ]; then setprop "$P.target" file; fi
     check start_drive
+    check_webusb
     identity=$("$CONTROLLER" --policy "$mask")
     check test "$(cat "$G/idVendor")" = "${identity% *}"
     check test "$(cat "$G/idProduct")" = "${identity#* }"

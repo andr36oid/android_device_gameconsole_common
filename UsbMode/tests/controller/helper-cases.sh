@@ -54,10 +54,11 @@ controller_fixture() {
     command mkdir -p "$G/strings/0x409" "$FFS"
     printf 'host\n' >"$OTG"
     printf 'ff300000.usb\n' >"$G/UDC"
-    for attr in idVendor bDeviceClass bDeviceSubClass bDeviceProtocol \
+    for attr in idVendor bcdUSB bDeviceClass bDeviceSubClass bDeviceProtocol \
         strings/0x409/product strings/0x409/manufacturer configs/b.1/bmAttributes \
         configs/b.1/MaxPower configs/b.1/strings/0x409/configuration \
-        os_desc/b_vendor_code os_desc/qw_sign; do
+        os_desc/b_vendor_code os_desc/qw_sign \
+        webusb/use webusb/bcdVersion webusb/bVendorCode webusb/landingPage; do
         printf 'saved-%s\n' "$attr" >"$G/$attr"
     done
     setprop init.svc.joyMouse running
@@ -75,16 +76,25 @@ check_restored() {
     check test "$(getprop init.svc.joyMouse)" = running
     check test "$(cat "$G/idProduct")" = 0x4ee2
     check test "$(cat "$G/os_desc/use")" = 1
-    for attr in idVendor bDeviceClass bDeviceSubClass bDeviceProtocol \
+    for attr in idVendor bcdUSB bDeviceClass bDeviceSubClass bDeviceProtocol \
         strings/0x409/product strings/0x409/manufacturer configs/b.1/bmAttributes \
         configs/b.1/MaxPower configs/b.1/strings/0x409/configuration \
-        os_desc/b_vendor_code os_desc/qw_sign; do
+        os_desc/b_vendor_code os_desc/qw_sign \
+        webusb/use webusb/bcdVersion webusb/bVendorCode webusb/landingPage; do
         check test "$(cat "$G/$attr")" = "saved-$attr"
     done
+}
+check_webusb() {
+    check test "$(cat "$G/bcdUSB")" = 0x0210
+    check test "$(cat "$G/webusb/use")" = 1
+    check test "$(cat "$G/webusb/bcdVersion")" = 0x0100
+    check test "$(cat "$G/webusb/bVendorCode")" = 0x30
+    check test "$(cat "$G/webusb/landingPage")" = https://github.com/andr36oid
 }
 for mode in xinput gamepad keyboard; do
     controller_fixture "$mode"
     check start_drive
+    check_webusb
     check test "$(prop state)" = sharing
     check test "$(cat "$G/idVendor")" = 0x18d1
     check test "$(getprop init.svc.joyMouse)" = stopped

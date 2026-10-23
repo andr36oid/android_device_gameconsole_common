@@ -18,6 +18,7 @@ P=sys.andr36oid.usbdrive
 F=$G/functions/mass_storage.andr36oid
 CONTROLLER=${USB_DRIVE_CONTROLLER:-/system/bin/andr36oid-controller}
 FFS=${USB_DRIVE_FFS:-/dev/usb-ffs/xinput}
+WEBUSB_URL=https://github.com/andr36oid
 
 error=
 log_step() { log -t andr36oid-usb-drive "$*" || true; }
@@ -398,10 +399,11 @@ bind_drive() {
 
 # Controller functions use the same gate, role, bind retries and recovery journal.
 save_controller() {
-	for attr in idVendor bDeviceClass bDeviceSubClass bDeviceProtocol \
+	for attr in idVendor bcdUSB bDeviceClass bDeviceSubClass bDeviceProtocol \
 	    strings/0x409/product strings/0x409/manufacturer \
 	    configs/b.1/strings/0x409/configuration configs/b.1/MaxPower \
-	    configs/b.1/bmAttributes os_desc/b_vendor_code os_desc/qw_sign; do
+	    configs/b.1/bmAttributes os_desc/b_vendor_code os_desc/qw_sign \
+	    webusb/use webusb/bcdVersion webusb/bVendorCode webusb/landingPage; do
 		key=$(printf '%s' "$attr" | tr / _)
 		cat "$G/$attr" >"$STATE/controller-$key" || return 1
 	done
@@ -410,10 +412,11 @@ save_controller() {
 }
 
 restore_controller() {
-	for attr in idVendor bDeviceClass bDeviceSubClass bDeviceProtocol \
+	for attr in idVendor bcdUSB bDeviceClass bDeviceSubClass bDeviceProtocol \
 	    strings/0x409/product strings/0x409/manufacturer \
 	    configs/b.1/strings/0x409/configuration configs/b.1/MaxPower \
-	    configs/b.1/bmAttributes os_desc/b_vendor_code os_desc/qw_sign; do
+	    configs/b.1/bmAttributes os_desc/b_vendor_code os_desc/qw_sign \
+	    webusb/use webusb/bcdVersion webusb/bVendorCode webusb/landingPage; do
 		key=$(printf '%s' "$attr" | tr / _)
 		put "$G/$attr" "$(cat "$STATE/controller-$key")" || return 1
 	done
@@ -457,6 +460,15 @@ configure_controller() {
 	put "$G/configs/b.1/MaxPower" 2 || return 1
 	put "$G/configs/b.1/bmAttributes" 0xc0 || return 1
 	put "$G/configs/b.1/strings/0x409/configuration" "andr36oid $functions" || return 1
+	put "$G/webusb/use" 0 || return 1
+	if [ "$(prop webusb)" != 0 ]; then
+		put "$G/bcdUSB" 0x0210 || return 1
+		put "$G/webusb/bcdVersion" 0x0100 || return 1
+		# MS OS descriptors use 0x01; WebUSB requests belong to the device.
+		put "$G/webusb/bVendorCode" 0x30 || return 1
+		put "$G/webusb/landingPage" "$WEBUSB_URL" || return 1
+		put "$G/webusb/use" 1 || return 1
+	fi
 	put "$G/os_desc/use" 0 || return 1
 	put "$G/strings/0x409/product" 'andr36oid USB Device' || return 1
 	if has_function 2; then

@@ -33,6 +33,7 @@ final class UsbDeviceControl {
         if (UsbDriveControl.busy() || !"ok".equals(policies().reason(functions))) return;
         if ((functions & UsbFunctions.ADB) != 0 && !debugging(context)) return;
         final android.content.SharedPreferences prefs = android.preference.PreferenceManager.getDefaultSharedPreferences(context);
+        SystemProperties.set(PREFIX + "webusb", prefs.getBoolean("usb_webusb", true) ? "1" : "0");
         SystemProperties.set(PREFIX + "macro", (functions & (UsbFunctions.KEYBOARD | UsbFunctions.MEDIA)) == (UsbFunctions.KEYBOARD | UsbFunctions.MEDIA)
                 && prefs.getBoolean("usb_macro",false) ? "1" : "0");
         SystemProperties.set(PREFIX + "jiggle", (functions & UsbFunctions.MOUSE) != 0 && prefs.getBoolean("usb_jiggle",false)
