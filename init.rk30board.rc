@@ -11,7 +11,7 @@ service andr36oid-usb-drive /system/bin/sh /system/etc/andr36oid-usb-drive.sh
     oneshot
 
 # The shared USB helper starts this only after taking ownership of g1.
-service andr36oid-controller /system/bin/andr36oid-controller ${sys.andr36oid.usbdrive.target}
+service andr36oid-controller /system/bin/andr36oid-controller ${sys.andr36oid.usbdrive.active_functions}
     class late_start
     user root
     group root system input

@@ -38,6 +38,15 @@ public:
     int wheel() const { return wheel_; }
     const std::deque<Bytes>& pending() const { return pending_; }
     void sent() { pending_.pop_front(); }
+    const Bytes* next(uint8_t tag) const {
+        for (const auto& report : pending_) if (report[0] == tag) return &report;
+        return nullptr;
+    }
+    void sent(uint8_t tag) {
+        for (auto it = pending_.begin(); it != pending_.end(); ++it) if ((*it)[0] == tag) {
+            pending_.erase(it); return;
+        }
+    }
 private:
     int server_ = -1, client_ = -1;
     int64_t lastReply_ = 0, lastFrame_ = -1;

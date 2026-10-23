@@ -1,8 +1,6 @@
 package org.andr36oid.usbmode;
 
 import android.content.Context;
-import android.content.Intent;
-import android.os.Process;
 import android.os.SystemProperties;
 
 final class ControllerControl {
@@ -16,15 +14,11 @@ final class ControllerControl {
         SystemProperties.set(PREFIX + "brightness", Integer.toString(Math.max(2, Math.min(100, percent))));
     }
     static String request() { return SystemProperties.get(PREFIX + "request"); }
-    static boolean busy() { return ControllerMode.active(target(), UsbDriveControl.busy()); }
+    static boolean busy() { return UsbDriveControl.busy(); }
 
     static void start(Context context, String mode) {
-        if (UsbDriveControl.busy()) return;
-        SystemProperties.set(PREFIX + "target", ControllerMode.MODES[ControllerMode.index(mode)]);
-        SystemProperties.set(PREFIX + "ro", "1");
-        SystemProperties.set(PREFIX + "owner", Integer.toString(Process.myPid()));
-        SystemProperties.set(PREFIX + "request", "start");
-        context.startForegroundService(new Intent(context, UsbModeService.class));
-        context.startActivity(new Intent(context, ControllerSessionActivity.class));
+        final int mask = "gamepad".equals(mode) ? UsbFunctions.GAMEPAD : "keyboard".equals(mode)
+                ? UsbFunctions.KEYBOARD | UsbFunctions.MOUSE : UsbFunctions.XINPUT;
+        UsbDeviceControl.start(context, mask, null, true, false);
     }
 }

@@ -8,5 +8,6 @@ public class UsbDriveApp extends Application {
     public void onCreate() {
         super.onCreate();
         UsbDriveControl.stop();
+        UsbDeviceLock.restore(this);
     }
 }

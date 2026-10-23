@@ -9,10 +9,11 @@ USB_DRIVE_SYS=$T/sys USB_DRIVE_DEV=$T/dev USB_DRIVE_GADGET=$T/gadget
 USB_DRIVE_STATE=$T/state USB_DRIVE_MOUNTS=$T/mounts USB_DRIVE_FSTABS=$T/fstabs
 USB_DRIVE_OTG=$T/otg USB_DRIVE_POWER=$T/power USB_DRIVE_DT=$T/dt
 USB_DRIVE_MEDIA=$T/media
+USB_DRIVE_BACKLIGHT=$T/backlight
 USB_DRIVE_TEST=1
 export USB_DRIVE_TEST USB_DRIVE_SYS USB_DRIVE_DEV USB_DRIVE_GADGET USB_DRIVE_STATE
 export USB_DRIVE_MOUNTS USB_DRIVE_FSTABS USB_DRIVE_OTG USB_DRIVE_POWER USB_DRIVE_DT
-export USB_DRIVE_MEDIA
+export USB_DRIVE_MEDIA USB_DRIVE_BACKLIGHT
 command mkdir -p "$T/props" "$T/state" "$T/fstabs" "$T/sys" "$T/dev" "$T/power/ac"
 # shellcheck disable=SC1091
 . "$HERE/andr36oid-usb-drive.sh"
@@ -24,9 +25,21 @@ getprop() { cat "$T/props/$1" 2>/dev/null || true; }
 setprop() {
 	printf '%s\n' "$2" >"$T/props/$1"
 	printf 'prop %s %s\n' "$1" "$2" >>"$T/log"
-	if [ "$1:$2" = sys.usb.configfs:2 ] && [ "${fail_gate:-0}" = 0 ]; then
-		printf '1\n' >"$T/props/$P.gated"
-	fi
+    case $1:$2 in
+    sys.usb.configfs:2)
+        [ "${fail_gate:-0}" = 1 ] || printf '1\n' >"$T/props/$P.gated" ;;
+    ctl.stop:joyMouse) printf 'stopped\n' >"$T/props/init.svc.joyMouse" ;;
+    ctl.start:joyMouse) printf 'running\n' >"$T/props/init.svc.joyMouse" ;;
+    ctl.start:andr36oid-controller)
+        if [ "${fail_daemon:-0}" = 0 ]; then
+            printf '1\n' >"$T/props/$P.ready"
+            printf 'running\n' >"$T/props/init.svc.andr36oid-controller"
+        fi ;;
+    ctl.stop:andr36oid-controller)
+        if [ "${fail_stop:-0}" = 0 ]; then
+            printf 'stopped\n' >"$T/props/init.svc.andr36oid-controller"
+        fi ;;
+    esac
 }
 sm() {
 	printf 'sm %s %s\n' "$1" "${2:-}" >>"$T/log"
@@ -94,8 +107,8 @@ put() {
 	esac
 }
 reset_fixture() {
-	command rm -rf "$SYS" "$DEV" "$G" "$STATE" "$T/props" "$T/platform" "$MEDIA"
-	command mkdir -p "$SYS" "$DEV" "$G/configs/b.1/strings/0x409" "$G/functions/ffs.adb" "$G/os_desc" "$STATE" "$T/props"
+	command rm -rf "$SYS" "$DEV" "$G" "$STATE" "$T/props" "$T/platform" "$MEDIA" "$USB_DRIVE_BACKLIGHT"
+	command mkdir -p "$SYS" "$DEV" "$G/configs/b.1/strings/0x409" "$G/functions/ffs.adb" "$G/os_desc" "$G/strings/0x409" "$STATE" "$T/props"
 	: >"$T/log"; : >"$T/volumes"
 	for spec in '0 ff370000.dwmmc 0' '1 ff380000.dwmmc 32' '2 ff390000.dwmmc 64'; do
 		# shellcheck disable=SC2086
@@ -128,6 +141,14 @@ reset_fixture() {
 	printf 'peripheral\n' >"$OTG"
 	printf 'Mains\n' >"$POWER/ac/type"; printf '0\n' >"$POWER/ac/online"
 	printf '0x4ee2\n' >"$G/idProduct"; printf '1\n' >"$G/os_desc/use"
+    for attr in idVendor bDeviceClass bDeviceSubClass bDeviceProtocol \
+        strings/0x409/product strings/0x409/manufacturer configs/b.1/bmAttributes \
+        configs/b.1/MaxPower configs/b.1/strings/0x409/configuration \
+        os_desc/b_vendor_code os_desc/qw_sign; do
+        printf 'saved-%s\n' "$attr" >"$G/$attr"
+    done
+    setprop init.svc.joyMouse running
+    fail_daemon=0 fail_stop=0
 	: >"$G/UDC"
 	setprop sys.usb.configfs 1
 	setprop sys.usb.controller ff300000.usb
@@ -232,7 +253,7 @@ reset_fixture
 setprop persist.sys.usb.config adb
 setprop sys.usb.ffs.ready 1
 check start_drive
-check test -L "$G/configs/b.1/f2"
+check test -L "$G/configs/b.1/f6"
 setprop sys.usb.ffs.ready 0
 put "$G/UDC" ''
 if bind_drive; then echo 'FAIL: missing functionfs readiness accepted'; exit 1; fi
@@ -240,8 +261,8 @@ setprop sys.usb.ffs.ready 1
 check bind_drive
 check test "$(cat "$G/UDC")" = ff300000.usb
 setprop persist.sys.usb.config none
-check bind_drive
-check test ! -L "$G/configs/b.1/f2"
+if bind_drive; then echo 'FAIL: adb changed without a new interface PID'; exit 1; fi
+check test -L "$G/configs/b.1/f6"
 check cleanup
 for failure in unmount busy unlock file; do
 	reset_fixture
@@ -674,5 +695,7 @@ check cleanup
 if [ -n "${USB_DRIVE_CONTROLLER:-}" ]; then
     # shellcheck disable=SC1091
     . "$HERE/tests/controller/helper-cases.sh"
+    # shellcheck disable=SC1091
+    . "$HERE/tests/controller/composite-cases.sh"
 fi
 printf '%s helper checks passed (%s)\n'   "$count" "${KSH_VERSION:-${BASH_VERSION:-sh}}"

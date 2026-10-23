@@ -4,6 +4,8 @@
     android:sharedUserId="android.uid.system">
 
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.UPDATE_LOCK_TASK_PACKAGES" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:name=".UsbDriveApp"
@@ -15,18 +17,18 @@
         <activity
             android:name=".UsbDriveActivity"
             android:exported="false"
-            android:label="@string/usb_drive_title"
+            android:label="@string/usb_device_title"
             android:theme="@android:style/Theme.DeviceDefault.Settings" />
 
         <activity
             android:name=".ControllerActivity"
             android:exported="false"
-            android:label="@string/controller_title"
+            android:label="@string/usb_device_title"
             android:theme="@android:style/Theme.DeviceDefault.Settings" />
         <activity
             android:name=".ControllerSessionActivity"
             android:exported="false"
-            android:label="@string/controller_title"
+            android:label="@string/usb_device_title"
             android:theme="@android:style/Theme.DeviceDefault.Settings" />
 
         <!-- Injected into the top level of the Settings app, right below CPU overclock.

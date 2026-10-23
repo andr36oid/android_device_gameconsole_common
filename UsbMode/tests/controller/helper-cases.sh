@@ -36,8 +36,10 @@ rmdir() {
     printf 'rmdir %s\n' "$1" >>"$T/log"
     [ "${fail_close:-0}" = 0 ] || return 1
     case $1 in
-    */hid.andr36oid) command rm -f "$1"/subclass "$1"/protocol "$1"/report_length "$1"/report_desc "$1"/no_out_endpoint ;;
+    */hid.andr36oid|*/hid.keyboard|*/hid.mouse) command rm -f "$1"/subclass "$1"/protocol "$1"/report_length "$1"/report_desc "$1"/no_out_endpoint ;;
     esac
+    if [ "$1" = "$F" ]; then command rm -rf "$F/lun.0"; fi
+    command rm -f "$1"/file "$1"/ro "$1"/removable "$1"/cdrom
     command rmdir "$1"
 }
 controller_fixture() {
@@ -88,13 +90,21 @@ for mode in xinput gamepad keyboard; do
     if [ "$mode" = xinput ]; then
         check test "$(cat "$G/strings/0x409/product")" = 'andr36oid XInput Device'
         check test "$(cat "$G/os_desc/use")" = 1
-        check test -L "$G/configs/b.1/f1"
+        check test -L "$G/configs/b.1/f2"
     else
         check test "$(cat "$G/os_desc/use")" = 0
-        check test -s "$G/functions/hid.andr36oid/report_desc"
         if [ "$mode" = keyboard ]; then
+            check test "$(cat "$G/functions/hid.keyboard/no_out_endpoint")" = 1
+            check test "$(cat "$G/functions/hid.keyboard/report_length")" = 8
+            check test -s "$G/functions/hid.keyboard/report_desc"
+            check test -s "$G/functions/hid.mouse/report_desc"
+            check test "$(cat "$G/functions/hid.keyboard/subclass")" = 1
+            check test "$(cat "$G/functions/hid.keyboard/protocol")" = 1
+            check test "$(cat "$G/functions/hid.mouse/subclass")" = 1
+            check test "$(cat "$G/functions/hid.mouse/protocol")" = 2
+        else
+            check test -s "$G/functions/hid.andr36oid/report_desc"
             check test "$(cat "$G/functions/hid.andr36oid/no_out_endpoint")" = 1
-            check test "$(cat "$G/functions/hid.andr36oid/report_length")" = 9
         fi
     fi
     # The real shared sequence must stay ordered from host role through readback.
@@ -153,3 +163,11 @@ controller_fixture keyboard
 printf '1\n' >"$POWER/ac/online"
 if validate; then echo 'FAIL: controller started while charging'; exit 1; fi
 printf '0\n' >"$POWER/ac/online"
+
+# A crash/error after journaling but before taking the gate leaves Android bound.
+controller_fixture xinput
+check save_controller
+check cleanup
+check test "$(cat "$G/UDC")" = ff300000.usb
+check test -z "$(sed -n '/^write .*\/UDC none$/p' "$T/log")"
+check_restored

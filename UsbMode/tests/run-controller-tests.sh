@@ -13,6 +13,9 @@ MOTION=("$HERE/controller/Keyboard.cpp" "$HERE/../joyMouse/src/PointerModel.cpp"
     "$HERE/controller/Controller.cpp" "${MOTION[@]}" "$HERE/tests/controller/DaemonTest.cpp" -o "$T/native"
 "$CXX" -std=c++17 -Wall -Wextra -Werror -I"$HERE/controller" \
     "$HERE/controller/Controller.cpp" "${MOTION[@]}" "$HERE/tests/controller/KeyboardDaemonTest.cpp" -o "$T/keyboard-native"
+"$CXX" -std=c++17 -Wall -Wextra -Werror -I"$HERE/controller" \
+    "$HERE/controller/Controller.cpp" "${MOTION[@]}" "$HERE/tests/controller/CompositeTest.cpp" -o "$T/composite-native"
+"$T/composite-native"
 "$T/keyboard-native"
 "$T/native"
 "$CXX" -std=c++17 -Wall -Wextra -Werror \
@@ -26,6 +29,9 @@ python3 "$HERE/tests/controller/check-kernel.py" "$T"
 JDK=${JDK:-/andr36oid/src/prebuilts/jdk/jdk11/linux-x86/bin}
 "$JDK/javac" -encoding UTF-8 -d "$T/classes" "$HERE/src/org/andr36oid/usbmode/ControllerMode.java" \
     "$HERE/tests/controller/ModeTest.java" "$HERE/src/org/andr36oid/usbmode/KeyboardModel.java" \
-    "$HERE/tests/controller/KeyboardTest.java"
+    "$HERE/tests/controller/KeyboardTest.java" "$HERE/src/org/andr36oid/usbmode/UsbFunctions.java" \
+    "$HERE/tests/controller/FunctionsTest.java"
 "$JDK/java" -cp "$T/classes" org.andr36oid.usbmode.ModeTest
 "$JDK/java" -cp "$T/classes" org.andr36oid.usbmode.KeyboardTest
+"$T/daemon" --policies >"$T/policies"
+"$JDK/java" -cp "$T/classes" org.andr36oid.usbmode.FunctionsTest "$T/policies"

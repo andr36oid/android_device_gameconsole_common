@@ -45,6 +45,7 @@ public class UsbModeService extends Service {
 
     private UsbMode mUsbMode;
     private boolean mRegistered;
+    private android.os.PowerManager.WakeLock mWakeLock;
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
@@ -58,12 +59,15 @@ public class UsbModeService extends Service {
         super.onCreate();
         mUsbMode = new UsbMode(this);
         createChannels();
+        mWakeLock = getSystemService(android.os.PowerManager.class).newWakeLock(
+                android.os.PowerManager.PARTIAL_WAKE_LOCK, "UsbMode:session");
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (intent == null) UsbDriveControl.stop();
         startForeground(ID_ON, ongoing());
+        if (UsbDriveControl.busy() && !mWakeLock.isHeld()) mWakeLock.acquire();
         if (!mRegistered) {
             final IntentFilter filter = new IntentFilter();
             filter.addAction(Intent.ACTION_POWER_CONNECTED);
@@ -81,6 +85,7 @@ public class UsbModeService extends Service {
     public void onDestroy() {
         mHandler.removeCallbacks(mPoll);
         UsbDriveControl.stop();
+        if (mWakeLock.isHeld()) mWakeLock.release();
         if (mRegistered) {
             unregisterReceiver(mReceiver);
             mRegistered = false;
@@ -94,6 +99,7 @@ public class UsbModeService extends Service {
     }
 
     private void check() {
+        if (!UsbDriveControl.busy() && mWakeLock.isHeld()) mWakeLock.release();
         final boolean device = mUsbMode.isDevice();
         if (device && !mUsbMode.wasDeviceThisBoot()) mUsbMode.setDeviceMarker(true);
         if (mUsbMode.chargingBlocksDevice()) {
@@ -127,8 +133,7 @@ public class UsbModeService extends Service {
 
     private PendingIntent openScreen() {
         return PendingIntent.getActivity(this, 0, new Intent(this,
-                ControllerControl.busy() ? ControllerSessionActivity.class
-                        : UsbDriveControl.busy() ? UsbDriveActivity.class : UsbModeActivity.class)
+                UsbDriveControl.busy() ? ControllerSessionActivity.class : UsbModeActivity.class)
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK), PendingIntent.FLAG_IMMUTABLE);
     }
 

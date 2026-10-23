@@ -17,6 +17,47 @@ int16_t invert(int16_t n) {
 }
 }
 
+Policy policy(unsigned functions) {
+    Policy result{"ok",0,0,static_cast<uint16_t>(kProductBase + functions)};
+    if (!functions || functions > 63) { result.reason = "empty"; return result; }
+    if ((functions & (XInput | Gamepad)) == (XInput | Gamepad)) {
+        result.reason = "controllers"; return result;
+    }
+    // Conservative five-IN envelope; ep0 and RX are reserved separately.
+    std::vector<unsigned> fifos{128,128,64,32,16};
+    std::vector<unsigned> needs;
+    for (const auto& function : kFunctions) if (functions & function.bit) {
+        result.in += function.in; result.out += function.out;
+        needs.push_back(function.words);
+    }
+    std::sort(needs.rbegin(), needs.rend());
+    for (unsigned words : needs) {
+        auto fifo = std::min_element(fifos.begin(), fifos.end(), [words](unsigned a, unsigned b) {
+            return (a >= words ? a : 10000) < (b >= words ? b : 10000);
+        });
+        if (fifo == fifos.end() || *fifo < words) { result.reason = "endpoints"; return result; }
+        fifos.erase(fifo);
+    }
+    // Reserve ep0's OUT status and two largest bulk packets in the RX FIFO.
+    const unsigned rxWords = 10 + 2 * (128 + 1) + 2 * (result.out + 1);
+    if (result.out > 3 || rxWords > 280) result.reason = "endpoints";
+    return result;
+}
+
+unsigned parseFunctions(const std::string& text) {
+    if (text == "xinput") return XInput;
+    if (text == "gamepad") return Gamepad;
+    if (text == "keyboard") return Keyboard | Mouse;
+    if (text.empty() || text.size() > 2 || text.find_first_not_of("0123456789") != std::string::npos)
+        return 0;
+    return static_cast<unsigned>(std::stoi(text));
+}
+
+// Channel tags stay internal. Each HID interface has an unnumbered report.
+Bytes wireReport(const Bytes& report) {
+    return report.empty() ? Bytes{} : Bytes(report.begin() + 1, report.end());
+}
+
 Bytes descriptors() {
     Bytes out;
     word(out, 3, 4); word(out, 139, 4); word(out, 75, 4);
@@ -48,16 +89,12 @@ Bytes strings() {
 
 Bytes hidDescriptor(bool keyboard) {
     if (keyboard) return {
-        0x05,1,0x09,6,0xa1,1,0x85,1,0x05,7,0x19,0xe0,0x29,0xe7,
+        // HID 1.11 Appendix E.6 keyboard, without report IDs.
+        0x05,1,0x09,6,0xa1,1,0x05,7,0x19,0xe0,0x29,0xe7,
         0x15,0,0x25,1,0x75,1,0x95,8,0x81,2,
-        0x75,8,0x95,1,0x81,1,
-        0x05,8,0x19,1,0x29,5,0x75,1,0x95,5,0x91,2,
-        0x75,3,0x95,1,0x91,1,
-        0x05,7,0x19,0,0x29,0x65,0x15,0,0x25,0x65,0x75,8,0x95,6,0x81,0,0xc0,
-        0x05,1,0x09,2,0xa1,1,0x85,2,0x09,1,0xa1,0,
-        0x05,9,0x19,1,0x29,3,0x15,0,0x25,1,0x75,1,0x95,3,0x81,2,
-        0x75,5,0x95,1,0x81,1,0x05,1,0x09,0x30,0x09,0x31,0x09,0x38,
-        0x15,0x81,0x25,0x7f,0x75,8,0x95,3,0x81,6,0xc0,0xc0,
+        0x95,1,0x75,8,0x81,1,0x95,5,0x75,1,0x05,8,
+        0x19,1,0x29,5,0x91,2,0x95,1,0x75,3,0x91,1,
+        0x95,6,0x75,8,0x15,0,0x25,0x65,0x05,7,0x19,0,0x29,0x65,0x81,0,0xc0,
     };
     return {
         0x05,1,0x09,5,0xa1,1,
@@ -69,6 +106,19 @@ Bytes hidDescriptor(bool keyboard) {
         0x16,0,0x80,0x26,0xff,0x7f,0x36,0,0x80,0x46,0xff,0x7f,
         0x75,16,0x95,4,0x81,2,0xc0,
     };
+}
+
+Bytes mouseDescriptor(bool wheel) {
+    // Appendix E.10 mouse; report protocol adds a wheel after the boot bytes.
+    Bytes desc = {
+        0x05,1,0x09,2,0xa1,1,0x09,1,0xa1,0,
+        0x05,9,0x19,1,0x29,3,0x15,0,0x25,1,0x95,3,0x75,1,0x81,2,
+        0x95,1,0x75,5,0x81,1,0x05,1,0x09,0x30,0x09,0x31,
+    };
+    if (wheel) desc.insert(desc.end(), {0x09,0x38});
+    desc.insert(desc.end(), {0x15,0x81,0x25,0x7f,0x75,8,0x95,
+                static_cast<uint8_t>(wheel ? 3 : 2),0x81,6,0xc0,0xc0});
+    return desc;
 }
 
 ControlReply control(uint8_t type, uint8_t request, uint16_t value, uint16_t index,
@@ -177,6 +227,47 @@ std::array<uint8_t, 5> Pointer::report(const State& s) {
 std::array<uint8_t, 5> mouse(const State& s) {
     Pointer pointer;
     return pointer.report(s);
+}
+
+void SessionControls::update(const State& state, int64_t time, bool request, bool power, bool screenReady) {
+    request = request || (state.buttons[Back] && state.buttons[RB]);
+    const bool combo = state.buttons[Back] && state.buttons[Start];
+    const bool route = state.buttons[Back] && state.buttons[LB];
+    if (!state.buttons[Back] && !state.buttons[Start] && !state.buttons[LB]) suppress_ = false;
+    if (dark_) {
+        if (combo || power) { dark_ = false; suppress_ = true; }
+        exitSince_ = -1;
+    } else if (power) {
+        exit_ = true;
+    } else if (!suppress_) {
+        if (route && !routeHeld_ && (functions_ & Keyboard) && (functions_ & (XInput | Gamepad))) {
+            keyboard_ = !keyboard_; suppress_ = true; exitSince_ = -1;
+        } else if (combo) {
+            if (exitSince_ < 0) exitSince_ = time;
+            if (time - exitSince_ >= 2000) exit_ = true;
+        } else exitSince_ = -1;
+    }
+    routeHeld_ = route;
+    if (request && !requestHeld_ && canDark() && !dark_) { hintSince_ = time; suppress_ = true; }
+    requestHeld_ = request;
+    if (hintSince_ >= 0 && (!canDark() || combo || power)) hintSince_ = -1;
+    if (hintSince_ >= 0 && !screenReady) hintSince_ = time;
+    if (hintSince_ >= 0 && time - hintSince_ >= 2000) {
+        hintSince_ = -1; dark_ = true; exitSince_ = -1;
+    }
+}
+State SessionControls::gamepadState(const State& state) const {
+    if (suppress_ || keyboard_ || hint()) return {};
+    State result = state;
+    // Reserve both exit buttons before a held combo can reach the PC.
+    if (dark_ || (state.buttons[Back] && state.buttons[Start])) result.buttons[Back] = result.buttons[Start] = false;
+    return result;
+}
+State SessionControls::keyboardState(const State& state) const {
+    if (!keyboard_ || dark_ || hint() || suppress_) return {};
+    State result = state;
+    if (state.buttons[Back] && state.buttons[Start]) result.buttons[Back] = result.buttons[Start] = false;
+    return result;
 }
 
 bool ExitHold::update(bool held, int64_t now) {

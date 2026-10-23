@@ -38,7 +38,7 @@ final class KeyboardView extends View {
             case KeyboardModel.MOUSE_MIDDLE: return R.string.keyboard_mouse_middle;
             case KeyboardModel.WHEEL_UP: return R.string.keyboard_wheel_up;
             case KeyboardModel.WHEEL_DOWN: return R.string.keyboard_wheel_down;
-            default: return R.string.controller_stop;
+            default: return R.string.usb_device_stop;
         }
     }
     @Override protected void onDraw(Canvas canvas) {
@@ -48,25 +48,27 @@ final class KeyboardView extends View {
         final float scale = getWidth() / 640f;
         canvas.scale(scale, scale);
         final float height = getHeight() / scale;
-        final float rowHeight = (height - 170) / KeyboardModel.ROWS.length;
-        text(canvas, mStatus, 8, 19, 14, 0xffeeeeee);
+        final float rowHeight = (height - 190) / KeyboardModel.ROWS.length;
+        final String[] status = mStatus.split("\\n");
+        text(canvas, status[0], 8, 19, 12, 0xffeeeeee);
+        if (status.length > 1) text(canvas, status[1], 8, 39, 12, 0xffeeeeee);
         text(canvas, getContext().getString(R.string.keyboard_leds,
                 (mLeds & 2) != 0 ? "●" : "○", (mLeds & 1) != 0 ? "●" : "○"),
-                510, 19, 12, 0xff80cbc4);
-        text(canvas, getContext().getString(R.string.keyboard_exit), 8, 40, 12, 0xffc0c5ce);
+                510, 59, 12, 0xff80cbc4);
+        text(canvas, getContext().getString(R.string.keyboard_exit), 8, 59, 12, 0xffc0c5ce);
         synchronized (mModel) {
             final String[] states = {getContext().getString(R.string.keyboard_modifier_off),
                     getContext().getString(R.string.keyboard_modifier_next),
                     getContext().getString(R.string.keyboard_modifier_locked)};
             text(canvas, getContext().getString(R.string.keyboard_modifiers,
-                    states[mModel.modifier(1)], states[mModel.modifier(0)]), 8, 62, 12, 0xff80cbc4);
+                    states[mModel.modifier(1)], states[mModel.modifier(0)]), 8, 82, 12, 0xff80cbc4);
             for (int row = 0; row < KeyboardModel.ROWS.length; row++) {
                 final KeyboardModel.Key[] keys = KeyboardModel.ROWS[row];
                 float x = 6;
                 for (int column = 0; column < keys.length; column++) {
                     final KeyboardModel.Key key = keys[column];
                     final float width = key.width / KeyboardModel.rowWidth(row) * 628;
-                    final float top = 75 + row * rowHeight;
+                    final float top = 95 + row * rowHeight;
                     final boolean selected = row == mModel.row() && column == mModel.column();
                     final int modifier = key.usage >= 0xe0 ? mModel.modifier(key.usage - 0xe0) : 0;
                     final boolean mouse = key.action >= 1 && key.action <= 3

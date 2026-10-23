@@ -28,6 +28,7 @@ text = r'''
 #include <errno.h>
 #include <assert.h>
 #include <linux/usb/ch9.h>
+#include <linux/usb/functionfs.h>
 typedef uint8_t u8;
 #define __must_check
 #define ENTER()
@@ -41,15 +42,32 @@ enum ffs_entity_type {FFS_DESCRIPTOR,FFS_INTERFACE,FFS_STRING,FFS_ENDPOINT};
 typedef int (*ffs_entity_callback)(enum ffs_entity_type,u8*,struct usb_descriptor_header*,void*);
 struct usb_string { int id; };
 struct tab { struct usb_string *strings; };
-struct ffs_data { u8 eps_addrmap[15]; struct tab **stringtabs; };
+enum ffs_os_desc_type { FFS_OS_DESC_EXT_COMPAT, FFS_OS_DESC_EXT_PROP };
+#define le32_to_cpu(x) (x)
+#define le16_to_cpu(x) (x)
+#define USB_EXT_PROP_UNICODE 1
+#define USB_EXT_PROP_UNICODE_ENV 2
+#define USB_EXT_PROP_UNICODE_LINK 6
+#define USB_EXT_PROP_UNICODE_MULTI 7
+struct list_head { int unused; };
+struct usb_os_desc_ext_prop { unsigned type, name_len, data_len; char *data, *name; struct list_head entry; };
+struct usb_os_desc { char ext_compat_id[16]; unsigned ext_prop_len, ext_prop_count; struct list_head ext_prop; };
+struct usb_os_desc_table { int if_id; struct usb_os_desc *os_desc; };
+struct usb_function { struct usb_os_desc_table *os_desc_table; };
+static void list_add_tail(struct list_head *a, struct list_head *b) { (void)a; (void)b; }
+static void *usb_ext_prop_data_len_ptr(void *p, unsigned n) { return (char*)p + n; }
+static void *usb_ext_prop_data_ptr(void *p, unsigned n) { return (char*)p + n; }
+static void *usb_ext_prop_name_ptr(void *p) { return p; }
+struct ffs_data { u8 eps_addrmap[15]; struct tab **stringtabs;
+    void *ms_os_descs_ext_prop_avail; char *ms_os_descs_ext_prop_name_avail, *ms_os_descs_ext_prop_data_avail; };
 struct ffs_ep { void *ep; struct usb_endpoint_descriptor *descs[3]; };
-struct ffs_function { struct ffs_data *ffs; int interfaces_nums[4]; struct ffs_ep eps[2]; void *conf; int function; };
-static int usb_interface_id(void *conf, int *func) { (void)conf; (void)func; return 0; }
+struct ffs_function { struct ffs_data *ffs; int interfaces_nums[4]; struct ffs_ep eps[2]; void *conf; struct usb_function function; };
+static int usb_interface_id(void *conf, void *func) { (void)conf; (void)func; return 0; }
 static int accept(enum ffs_entity_type type,u8 *p,struct usb_descriptor_header *d,void *priv) {
     (void)type; (void)p; (void)d; (void)priv; return 0;
 }
 '''
-for name in ('ffs_xinput_desc', 'ffs_do_single_desc', 'ffs_ep_addr2idx', '__ffs_func_bind_do_nums'):
+for name in ('ffs_xinput_desc', 'ffs_do_single_desc', 'ffs_ep_addr2idx', '__ffs_func_bind_do_nums', '__ffs_func_bind_do_os_desc'):
     text += function(name) + '\n'
 text += r'''
 int main(void) {
@@ -73,11 +91,61 @@ int main(void) {
     assert(gamepad[6]==0x83 && gamepad[13]==4);
     assert(ffs_do_single_desc((char*)gamepad,17,accept,NULL)==17);
     assert(__ffs_func_bind_do_nums(FFS_DESCRIPTOR,NULL,NULL,&func)==0);
-    puts("Kernel FunctionFS: HID, XUSB validation and relocated endpoint references passed");
+    struct usb_os_desc os = {0};
+    struct usb_os_desc_table table = {.os_desc=&os};
+    struct usb_ext_compat_desc compat = {.bFirstInterfaceNumber=0, .CompatibleID="XUSB10"};
+    func.function.os_desc_table = &table;
+    for (int interface = 0; interface < 6; ++interface) {
+        func.interfaces_nums[0] = interface;
+        assert(__ffs_func_bind_do_os_desc(FFS_OS_DESC_EXT_COMPAT,NULL,&compat,sizeof(compat),&func)==sizeof(compat));
+        assert(table.if_id == interface && memcmp(os.ext_compat_id,"XUSB10",6)==0);
+    }
+    puts("Kernel FunctionFS: HID, relocated XUSB endpoints and per-interface XUSB10 OS descriptors passed");
 }
 '''
 target = Path(sys.argv[1]) / 'kernel-check.c'
 target.write_text(text)
-subprocess.run(['cc', '-std=gnu11', '-Wall', '-Wextra', '-Werror', '-Wno-sign-compare', str(target), '-o', str(target.with_suffix(''))], check=True)
+subprocess.run(['cc', '-std=gnu11', '-Wall', '-Wextra', '-Werror', '-Wno-sign-compare', '-Wno-unused-parameter', str(target), '-o', str(target.with_suffix(''))], check=True)
 subprocess.run([str(target.with_suffix(''))], check=True)
 assert 'CONFIG_USB_CONFIGFS_F_HID=y' in (kernel / 'arch/arm64/configs/lineageos_r36s_defconfig').read_text()
+
+# Compile production boot/report length selection; the userspace write still accepts
+# the full report, while the USB request uses the negotiated protocol's length.
+hid = (kernel / 'drivers/usb/gadget/function/f_hid.c').read_text()
+source = hid
+length = function('hidg_report_length')
+boot = r"""
+#include <assert.h>
+#include <stdio.h>
+#define USB_INTERFACE_SUBCLASS_BOOT 1
+#define USB_INTERFACE_PROTOCOL_MOUSE 2
+#define HID_BOOT_PROTOCOL 0
+#define min_t(t,a,b) ((t)(a)<(t)(b)?(t)(a):(t)(b))
+struct f_hidg { int bInterfaceSubClass, bInterfaceProtocol, protocol; };
+""" + length + r"""
+int main(void) {
+    struct f_hidg mouse = {1,2,0}, keyboard = {1,1,0}, gamepad = {0,0,0};
+    assert(hidg_report_length(&mouse,4)==3);
+    assert(hidg_report_length(&mouse,2)==2);
+    mouse.protocol=1; assert(hidg_report_length(&mouse,4)==4);
+    assert(hidg_report_length(&keyboard,8)==8);
+    assert(hidg_report_length(&gamepad,11)==11);
+    puts("Kernel HID: boot mouse 3/report mouse 4, keyboard 8 and gamepad 11 bytes passed");
+}
+"""
+assert 'req->length   = hidg_report_length(hidg, count);' in hid
+assert 'status = count;' in hid
+assert 'length = hidg_report_length(hidg,' in hid
+assert 'hidg->protocol = value;' in hid and 'hidg->protocol = HID_REPORT_PROTOCOL;' in hid
+assert 'if (hidg->use_out_ep)\n\t\t\tgoto stall;' in hid
+target = Path(sys.argv[1]) / 'kernel-hid.c'
+target.write_text(boot)
+subprocess.run(['cc','-std=c99','-Wall','-Wextra','-Werror',str(target),'-o',str(target.with_suffix(''))],check=True)
+subprocess.run([str(target.with_suffix(''))],check=True)
+# The DT array starts at dedicated FIFO 1; ep0 has a separate 16-word FIFO.
+dts = (kernel / 'arch/arm64/boot/dts/rockchip/px30.dtsi').read_text()
+assert 'g-tx-fifo-size = <256 128 128 64 32 16>;' in dts
+assert 'g-rx-fifo-size = <280>;' in dts and 'g-np-tx-fifo-size = <16>;' in dts
+params = (kernel / 'drivers/usb/dwc2/params.c').read_text()
+assert '&p->g_tx_fifo_size[1]' in params
+print('dwc2 DT FIFO budget and ep0 reservation checked')

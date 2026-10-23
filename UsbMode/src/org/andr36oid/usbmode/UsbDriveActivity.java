@@ -22,7 +22,7 @@ public class UsbDriveActivity extends Activity {
     @Override
     public void onResume() {
         super.onResume();
-        if (ControllerControl.busy()) {
+        if (UsbDriveControl.busy()) {
             startActivity(new android.content.Intent(this, ControllerSessionActivity.class));
             finish();
         }

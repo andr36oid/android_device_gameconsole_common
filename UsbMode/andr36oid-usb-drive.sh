@@ -179,14 +179,32 @@ charging() {
 	return 1
 }
 
-controller_mode() {
-	case ${target:-} in xinput|gamepad|keyboard) return 0 ;; *) return 1 ;; esac
+storage_mode() { [ "$((${functions:-1} & 1))" != 0 ]; }
+has_function() { [ "$((${functions:-0} & $1))" != 0 ]; }
+
+validate_functions() {
+	functions=$(prop functions)
+	# Keep old deep links/requests working; new requests always carry a mask.
+	if [ -z "$functions" ]; then
+		case $target in
+		xinput) functions=2 ;; gamepad) functions=4 ;; keyboard) functions=24 ;;
+		*) functions=1; if adb_on; then functions=33; fi ;;
+		esac
+	fi
+	case $functions in ''|0*|*[!0-9]*|???*) return 1 ;; esac
+	identity=$("$CONTROLLER" --policy "$functions") || return 1
+	if has_function 32; then adb_on || return 1; fi
+	if storage_mode; then
+		case $target in file|mmcblk[0-9]|mmcblk[0-9]p7) ;; *) return 1 ;; esac
+	else
+		case $target in none|xinput|gamepad|keyboard) ;; *) return 1 ;; esac
+	fi
 }
 
 lease() {
 	[ "$(prop request)" = start ] && [ "$(cat "$OTG")" = "$expected_role" ] || return 1
 	! charging || return 1
-	if ! controller_mode; then
+	if storage_mode; then
 		[ "$(cat "$SYS/$disk/device/cid" 2>/dev/null)" = "$cid" ] || return 1
 	fi
 	[ "$target" != file ] || check_image || return 1
@@ -197,12 +215,13 @@ validate() {
 	expected_role=$(cat "$OTG") || return 1
 	case $expected_role in host|peripheral|otg) ;; *) return 1 ;; esac
 	target=$(prop target) cid=$(prop cid) ro=$(prop ro) owner=$(prop owner)
-	case $target in xinput|gamepad|keyboard|file|mmcblk[0-9]|mmcblk[0-9]p7) ;; *) return 1 ;; esac
+	case $target in none|xinput|gamepad|keyboard|file|mmcblk[0-9]|mmcblk[0-9]p7) ;; *) return 1 ;; esac
 	case $ro in 0|1) ;; *) return 1 ;; esac
 	case $owner in ''|*[!0-9]*) return 1 ;; esac
 	owner_start=$(awk '{print $22}' "/proc/$owner/stat") || return 1
 	[ -n "$owner_start" ] || return 1
-	if controller_mode; then
+	validate_functions || return 1
+	if ! storage_mode; then
 		cdrom=0
 		lease
 		return $?
@@ -276,7 +295,7 @@ validate() {
 }
 
 mounted() {
-	controller_mode && return 1
+	storage_mode || return 1
 	[ "$target" != file ] || return 1
 	for n in $(nodes); do
 		nums=$(cat "$SYS/$n/dev") || return 0
@@ -291,7 +310,7 @@ mounted() {
 }
 
 release_storage() {
-	controller_mode && return 0
+	storage_mode || return 0
 	[ "$target" != file ] || { check_image && lease; return $?; }
 	for n in $(nodes); do
 		nums=$(cat "$SYS/$n/dev") || return 1
@@ -350,32 +369,20 @@ bind_udc() {
 }
 
 bind_drive() {
-	if controller_mode; then
-		[ "$(prop ready)" = 1 ] || { fail controller_ready; return 1; }
-		bind_udc || { fail bind_udc; return 1; }
-		return 0
-	fi
-	want_adb=0
-	if adb_on; then
-		want_adb=1
+	[ "$(prop ready)" = 1 ] || { fail controller_ready; return 1; }
+	if has_function 32; then
+		# A debugging setting change needs a fresh, differently identified session.
+		adb_on || return 1
 		setprop ctl.start adbd
-		# Waiting for functionfs must not be reported as a successful share.
 		ready=0
 		while [ "$(getprop sys.usb.ffs.ready)" != 1 ]; do
 			lease || return 1
 			ready=$((ready + 1)); [ "$ready" -lt 50 ] || { fail adb_ready; return 1; }
 			sleep 0.1
 		done
-	fi
-	if [ "$linked_adb" != "$want_adb" ]; then
-		step unbind_udc || return 1
-		rm -f "$G/configs/b.1/f2" || return 1
-		if [ "$want_adb" = 1 ]; then
-			ln -s "$G/functions/ffs.adb" "$G/configs/b.1/f2" || return 1
-		else
-			setprop ctl.stop adbd
+		if [ ! -L "$G/configs/b.1/f6" ]; then
+			ln -s "$G/functions/ffs.adb" "$G/configs/b.1/f6" || return 1
 		fi
-		linked_adb=$want_adb
 	fi
 	bind_udc || { fail bind_udc; return 1; }
 }
@@ -421,7 +428,6 @@ controller_daemon() {
 }
 
 configure_controller() {
-	rm -f "$G/configs/b.1/f1" "$G/configs/b.1/f2" "$G/configs/b.1/f3" || return 1
 	setprop ctl.stop joyMouse || return 1
 	i=0
 	while :; do
@@ -429,47 +435,92 @@ configure_controller() {
 		i=$((i + 1)); [ "$i" -lt 50 ] || return 1
 		sleep 0.1
 	done
-	identity=$("$CONTROLLER" --identity "$target") || return 1
+	identity=$("$CONTROLLER" --policy "$functions") || return 1
 	vid=${identity% *} pid=${identity#* }
 	case $vid:$pid in 0x[0-9a-f][0-9a-f][0-9a-f][0-9a-f]:0x[0-9a-f][0-9a-f][0-9a-f][0-9a-f]) ;; *) return 1 ;; esac
 	put "$G/idVendor" "$vid" || return 1
 	put "$G/idProduct" "$pid" || return 1
+	# Separate single-interface functions need no IAD; Windows uses usbccgp.
 	put "$G/bDeviceClass" 0 || return 1
 	put "$G/bDeviceSubClass" 0 || return 1
 	put "$G/bDeviceProtocol" 0 || return 1
 	put "$G/strings/0x409/manufacturer" andr36oid || return 1
 	put "$G/configs/b.1/MaxPower" 2 || return 1
 	put "$G/configs/b.1/bmAttributes" 0xc0 || return 1
-	put "$G/configs/b.1/strings/0x409/configuration" "$target" || return 1
-	if [ "$target" = xinput ]; then
+	put "$G/configs/b.1/strings/0x409/configuration" "andr36oid $functions" || return 1
+	put "$G/os_desc/use" 0 || return 1
+	put "$G/strings/0x409/product" 'andr36oid USB Device' || return 1
+	if has_function 2; then
 		put "$G/strings/0x409/product" 'andr36oid XInput Device' || return 1
 		put "$G/os_desc/use" 1 || return 1
 		put "$G/os_desc/qw_sign" MSFT100 || return 1
 		put "$G/os_desc/b_vendor_code" 0x1 || return 1
 		mkdir "$G/functions/ffs.xinput" || return 1
 		mount -t functionfs -o uid=0,gid=0,rmode=0700,fmode=0600 xinput "$FFS" || return 1
-		step controller_daemon || return 1
-		ln -s "$G/functions/ffs.xinput" "$G/configs/b.1/f1" || return 1
-	else
-		put "$G/strings/0x409/product" 'andr36oid HID Device' || return 1
-		put "$G/os_desc/use" 0 || return 1
-		mkdir "$G/functions/hid.andr36oid" || return 1
-		put "$G/functions/hid.andr36oid/subclass" 0 || return 1
-		put "$G/functions/hid.andr36oid/protocol" 0 || return 1
-		length=11
-		if [ "$target" = keyboard ]; then
-			length=9
-			# LED reports use SET_REPORT on ep0, including on Windows.
-			put "$G/functions/hid.andr36oid/no_out_endpoint" 1 || return 1
-		fi
-		put "$G/functions/hid.andr36oid/report_length" "$length" || return 1
-		"$CONTROLLER" --descriptor "$target" >"$G/functions/hid.andr36oid/report_desc" || return 1
-		ln -s "$G/functions/hid.andr36oid" "$G/configs/b.1/f1" || return 1
-		step controller_daemon || return 1
 	fi
+	if has_function 4; then configure_hid andr36oid gamepad 0 0 11 3 || return 1; fi
+	if has_function 8; then configure_hid keyboard keyboard 1 1 8 4 || return 1; fi
+	if has_function 16; then configure_hid mouse mouse 1 2 4 5 || return 1; fi
+	if ! has_function 32; then setprop ctl.stop adbd || return 1; fi
+	setprop "$P.active_functions" "$functions" || return 1
+	setprop "$P.screen" on || return 1
+	setprop "$P.screen_request" on || return 1
+	setprop "$P.hint_ready" 0 || return 1
+	step controller_daemon || return 1
+	if has_function 2; then ln -s "$G/functions/ffs.xinput" "$G/configs/b.1/f2" || return 1; fi
+}
+
+configure_hid() {
+	local function=$G/functions/hid.$1
+	mkdir "$function" || return 1
+	put "$function/subclass" "$3" || return 1
+	put "$function/protocol" "$4" || return 1
+	# LED output arrives over ep0, leaving all OUT endpoints for bulk/FunctionFS.
+	put "$function/no_out_endpoint" 1 || return 1
+	put "$function/report_length" "$5" || return 1
+	"$CONTROLLER" --descriptor "$2" >"$function/report_desc" || return 1
+	ln -s "$function" "$G/configs/b.1/f$6" || return 1
+}
+
+remove_links() {
+	rm -f "$G/configs/b.1/f1" "$G/configs/b.1/f2" "$G/configs/b.1/f3" \
+		"$G/configs/b.1/f4" "$G/configs/b.1/f5" "$G/configs/b.1/f6"
+}
+
+save_backlight() {
+	local path name
+	for path in "${USB_DRIVE_BACKLIGHT:-/sys/class/backlight}"/*/brightness; do
+		[ -f "$path" ] || continue
+		name=${path%/brightness} name=${name##*/}
+		cat "$path" >"$STATE/level-backlight-$name" || return 1
+	done
+}
+
+restore_backlight() {
+	local journal name level prefix
+	# Restore a dark session first, then the level from before its window dimmed.
+	for prefix in backlight level-backlight; do
+		for journal in "$STATE/$prefix-"*; do
+			[ -f "$journal" ] || continue
+			name=${journal##*/} name=${name#"$prefix-"}
+			case $name in ''|*[!a-zA-Z0-9_.-]*) return 1 ;; esac
+			level=$(cat "$journal") || return 1
+			case $level in ''|*[!0-9]*) return 1 ;; esac
+			put "${USB_DRIVE_BACKLIGHT:-/sys/class/backlight}/$name/brightness" "$level" || return 1
+			rm -f "$journal" || return 1
+		done
+	done
+	setprop "$P.hint_ready" 0
+	setprop "$P.screen" on
 }
 
 close_controller() {
+	# Before the gate is owned, Android still owns its links and binding.
+	if [ ! -e "$STATE/owned" ]; then
+		restore_controller || return 1
+		rm -f "$STATE/controller"
+		return 0
+	fi
 	setprop ctl.stop andr36oid-controller || return 1
 	i=0
 	while :; do
@@ -479,18 +530,13 @@ close_controller() {
 	done
 	setprop "$P.ready" 0
 	unbind_udc || return 1
-	rm -f "$G/configs/b.1/f1" "$G/configs/b.1/f2" "$G/configs/b.1/f3" || return 1
+	remove_links || return 1
 	if awk -v path="$FFS" '$5==path {found=1} END {exit !found}' "$MOUNTS"; then
 		umount "$FFS" || return 1
 	fi
-	for function in ffs.xinput hid.andr36oid; do
+	for function in ffs.xinput hid.andr36oid hid.keyboard hid.mouse; do
 		[ ! -d "$G/functions/$function" ] || rmdir "$G/functions/$function" || return 1
 	done
-	# save_controller may have run before gate_android failed.
-	if [ ! -e "$STATE/owned" ]; then
-		restore_controller || return 1
-		rm -f "$STATE/controller"
-	fi
 }
 
 gate_android() {
@@ -525,29 +571,26 @@ device_role() {
 start_drive() {
 	status preparing
 	step validate || return 1
-	if controller_mode; then
-		setprop "$P.controller" 1 || return 1
-		step save_controller || return 1
-	fi
+	setprop "$P.controller" 1 || return 1
+	step save_controller || return 1
+	step save_backlight || return 1
 	step gate_android || return 1
 	step release_storage || return 1
 	step unbind_udc || return 1
 	step configure_drive || return 1
 	step device_role || return 1
-	linked_adb=-1
 	step bind_drive || return 1
 	status sharing
 }
 
 configure_drive() {
-	if controller_mode; then configure_controller; return $?; fi
-	rm -f "$G/configs/b.1/f1" "$G/configs/b.1/f2" "$G/configs/b.1/f3"
-	put "$G/os_desc/use" 0 || return 1
-	put "$G/bDeviceClass" 0 || return 1
-	put "$G/bDeviceSubClass" 0 || return 1
-	put "$G/bDeviceProtocol" 0 || return 1
-	put "$G/idProduct" 0x4ee0 || return 1
-	put "$G/configs/b.1/strings/0x409/configuration" mass_storage || return 1
+	remove_links || return 1
+	if storage_mode; then configure_storage || return 1; fi
+	configure_controller
+}
+
+configure_storage() {
+	touch "$STATE/storage" || return 1
 	mkdir "$F" || return 1
 	luns=$target
 	if [ "$disk" = mmcblk2 ]; then
@@ -585,11 +628,11 @@ configure_drive() {
 }
 
 close_drive() {
-	if [ -e "$STATE/controller" ]; then close_controller; return $?; fi
+	if [ -e "$STATE/controller" ]; then close_controller || return 1; fi
 	# Do not hand anything back until the LUNs have closed their backing files.
 	if [ -e "$STATE/owned" ] || [ -d "$F" ]; then
 		unbind_udc normal || return 1
-		rm -f "$G/configs/b.1/f1" "$G/configs/b.1/f2" "$G/configs/b.1/f3"
+		remove_links || return 1
 		for lun in "$F"/lun.*; do
 			[ ! -d "$lun" ] || put "$lun/file" '' || return 1
 		done
@@ -657,8 +700,9 @@ cleanup() {
 	status stopping
 	closed=1 cleanup_ok=1
 	step close_drive || closed=0
+	step restore_backlight || cleanup_ok=0
 	# Flush accepted writes before relocking, even after a failed detach.
-	if [ ! -e "$STATE/controller" ]; then step sync || cleanup_ok=0; fi
+	if [ -d "$F" ] || [ -f "$STATE/storage" ]; then step sync || cleanup_ok=0; fi
 	step relock_emmc || cleanup_ok=0
 	# Keep the journal and ownership if backing files might still be open.
 	[ "$closed" = 1 ] || return 1
@@ -666,6 +710,7 @@ cleanup() {
 		step restore_android || cleanup_ok=0
 	fi
 	step restore_storage || cleanup_ok=0
+	rm -f "$STATE/storage"
 	[ "$cleanup_ok" = 1 ]
 }
 
@@ -676,14 +721,14 @@ prepare_state() {
 	boot_id=$(cat "$BOOT_ID") || return 1
 	if [ "$(cat "$STATE/boot_id" 2>/dev/null)" != "$boot_id" ]; then
 		# A full restart has fresh configfs and vold; never replay old disk IDs.
-		rm -f "$STATE/owned" "$STATE/restore" "$STATE/rescan" "$STATE/product" "$STATE/os_desc" "$STATE/role" "$STATE/controller" "$STATE"/controller-*
+		rm -f "$STATE/owned" "$STATE/restore" "$STATE/rescan" "$STATE/product" "$STATE/os_desc" "$STATE/role" "$STATE/controller" "$STATE/storage" "$STATE"/controller-* "$STATE"/backlight-* "$STATE"/level-backlight-*
 	fi
 	put "$STATE/boot_id" "$boot_id"
 }
 
 finish_request() {
 	setprop "$P.request" stop
-	if controller_mode && [ -n "$(prop error)" ]; then
+	if [ -n "$(prop error)" ]; then
 		error=$(prop error)
 		result=error
 	fi
@@ -706,7 +751,7 @@ handle_request() {
 		result=idle
 		while lease && ! mounted && [ "$(getprop sys.usb.configfs)" = 2 ]; do
 			if ! bind_drive; then result=error; break; fi
-			if controller_mode && [ -n "$(prop error)" ]; then result=error; break; fi
+			if [ -n "$(prop error)" ]; then result=error; break; fi
 			sleep 0.2
 		done
 		if [ "$result" != error ] && [ "$(prop request)" = start ]; then
