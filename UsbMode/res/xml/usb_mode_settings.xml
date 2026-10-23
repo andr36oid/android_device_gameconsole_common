@@ -24,6 +24,15 @@
     </Preference>
 
     <Preference
+        android:key="controller"
+        android:title="@string/controller_title"
+        android:summary="@string/controller_about">
+        <intent
+            android:targetPackage="org.andr36oid.usbmode"
+            android:targetClass="org.andr36oid.usbmode.ControllerActivity" />
+    </Preference>
+
+    <Preference
         android:key="usb_check"
         android:title="@string/usb_check_title"
         android:summary="@string/usb_check_link_summary">

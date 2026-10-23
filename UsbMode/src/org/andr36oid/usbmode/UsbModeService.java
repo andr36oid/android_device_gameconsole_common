@@ -127,7 +127,8 @@ public class UsbModeService extends Service {
 
     private PendingIntent openScreen() {
         return PendingIntent.getActivity(this, 0, new Intent(this,
-                UsbDriveControl.busy() ? UsbDriveActivity.class : UsbModeActivity.class)
+                ControllerControl.busy() ? ControllerSessionActivity.class
+                        : UsbDriveControl.busy() ? UsbDriveActivity.class : UsbModeActivity.class)
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK), PendingIntent.FLAG_IMMUTABLE);
     }
 

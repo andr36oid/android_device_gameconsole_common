@@ -95,4 +95,23 @@
     <string name="usb_drive_image_ro_hint">Applies to As USB stick. CD/DVD is always read-only.</string>
     <string name="usb_drive_image_volume_ro">EASYROMS is mounted read-only.</string>
     <string name="usb_drive_image_cd_size">This image cannot be shared as CD/DVD at its current size on this console. Choose As USB stick instead.</string>
+    <string name="controller_title">Controller mode</string>
+    <string name="controller_xinput">Xbox 360 (XInput)</string>
+    <string name="controller_gamepad">Gamepad (HID)</string>
+    <string name="controller_keyboard">Keyboard and mouse</string>
+    <string name="controller_xinput_summary">Default for Windows games. Uses the Xbox 360 controller protocol.</string>
+    <string name="controller_gamepad_summary">A standard USB gamepad with buttons, two sticks and a D-pad.</string>
+    <string name="controller_keyboard_summary">Left stick: pointer. A/B: left/right click. D-pad: arrows. Start: Enter. Select: Esc.</string>
+    <string name="controller_about">Use the console as a USB controller for a computer.</string>
+    <string name="controller_battery">The console runs on its battery in controller mode. Unplug the other-port charger first.</string>
+    <string name="controller_busy">Stop USB drive mode before starting controller mode.</string>
+    <string name="controller_active">Controller mode - %1$s</string>
+    <string name="controller_exit">Hold Select + Start for 2 seconds to stop. Power also stops. Fn, or Select + L1, is Guide.</string>
+    <string name="controller_connected">Connected</string>
+    <string name="controller_disconnected">Not connected - plug in a USB data cable.</string>
+    <string name="controller_preparing">Preparing controller…</string>
+    <string name="controller_stopped">Controller stopped. Controls are back in Android.</string>
+    <string name="controller_failed">Controller mode failed. Return to USB mode and try again.</string>
+    <string name="controller_stop">Stop controller mode</string>
+    <string name="controller_brightness">Screen brightness (Volume buttons)</string>
 </resources>

@@ -18,6 +18,17 @@
             android:label="@string/usb_drive_title"
             android:theme="@android:style/Theme.DeviceDefault.Settings" />
 
+        <activity
+            android:name=".ControllerActivity"
+            android:exported="false"
+            android:label="@string/controller_title"
+            android:theme="@android:style/Theme.DeviceDefault.Settings" />
+        <activity
+            android:name=".ControllerSessionActivity"
+            android:exported="false"
+            android:label="@string/controller_title"
+            android:theme="@android:style/Theme.DeviceDefault.Settings" />
+
         <!-- Injected into the top level of the Settings app, right below CPU overclock.
              Also opened by a long press on the tile. -->
         <activity
