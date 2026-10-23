@@ -36,7 +36,7 @@ rmdir() {
     printf 'rmdir %s\n' "$1" >>"$T/log"
     [ "${fail_close:-0}" = 0 ] || return 1
     case $1 in
-    */hid.andr36oid) command rm -f "$1"/subclass "$1"/protocol "$1"/report_length "$1"/report_desc ;;
+    */hid.andr36oid) command rm -f "$1"/subclass "$1"/protocol "$1"/report_length "$1"/report_desc "$1"/no_out_endpoint ;;
     esac
     command rmdir "$1"
 }
@@ -92,6 +92,10 @@ for mode in xinput gamepad keyboard; do
     else
         check test "$(cat "$G/os_desc/use")" = 0
         check test -s "$G/functions/hid.andr36oid/report_desc"
+        if [ "$mode" = keyboard ]; then
+            check test "$(cat "$G/functions/hid.andr36oid/no_out_endpoint")" = 1
+            check test "$(cat "$G/functions/hid.andr36oid/report_length")" = 9
+        fi
     fi
     # The real shared sequence must stay ordered from host role through readback.
     check awk '/prop sys.usb.configfs 2/ {gate=NR}

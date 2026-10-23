@@ -1,4 +1,5 @@
 #include "Controller.h"
+#include "Keyboard.h"
 
 #include <algorithm>
 #include <cerrno>
@@ -10,6 +11,8 @@
 #include <fcntl.h>
 #include <poll.h>
 #include <sys/ioctl.h>
+#include <sys/socket.h>
+#include <sys/un.h>
 #include <sys/stat.h>
 #include <sys/syscall.h>
 #include <sys/time.h>
@@ -287,6 +290,92 @@ void setup(int ep0, const usb_ctrlrequest& request, const State& state) {
     else if (request.bRequestType & USB_DIR_IN) read(ep0, ignored, 0);
     else write(ep0, ignored, 0);
 }
+bool keyboardConnected() {
+    return readText("/sys/class/udc/ff300000.usb/state").find("configured") == 0;
+}
+}
+
+namespace controller {
+KeyboardChannel::~KeyboardChannel() {
+    if (client_ >= 0) close(client_);
+    if (server_ >= 0) close(server_);
+}
+bool KeyboardChannel::listen(const char* name) {
+    server_ = socket(AF_UNIX, SOCK_SEQPACKET | SOCK_NONBLOCK | SOCK_CLOEXEC, 0);
+    if (server_ < 0 || strlen(name) >= sizeof(sockaddr_un::sun_path) - 1) return false;
+    sockaddr_un address{};
+    address.sun_family = AF_UNIX;
+    memcpy(address.sun_path + 1, name, strlen(name));
+    return bind(server_, reinterpret_cast<sockaddr*>(&address),
+                offsetof(sockaddr_un, sun_path) + 1 + strlen(name)) == 0 && ::listen(server_, 1) == 0;
+}
+void KeyboardChannel::release() {
+    if (client_ >= 0) close(client_);
+    client_ = -1; received_ = false; buttons_ = 0; scrolling_ = false; wheel_ = 0;
+    keys_ = {1}; lastFrame_ = -1;
+    pending_.clear();
+    pending_.push_back(Bytes(keys_.begin(), keys_.end()));
+    pending_.push_back({2,0,0,0,0});
+}
+bool KeyboardChannel::pump(const State& state, uint8_t leds, bool connected, int64_t time,
+                           const std::string& owner, const std::string& start) {
+    if (connected_ != connected) { release(); connected_ = connected; }
+    if (client_ < 0) {
+        int candidate = accept4(server_, nullptr, nullptr, SOCK_NONBLOCK | SOCK_CLOEXEC);
+        if (candidate >= 0) {
+            ucred peer{}; socklen_t size = sizeof(peer);
+            if (getsockopt(candidate, SOL_SOCKET, SO_PEERCRED, &peer, &size) == 0 &&
+                    peer.uid == 1000 && std::to_string(peer.pid) == owner && process(owner, start)) {
+                client_ = candidate; lastReply_ = time; lastFrame_ = -1;
+            } else close(candidate);
+        }
+    }
+    if (client_ < 0) return true;
+    if (time - lastReply_ > 500) { release(); return true; }
+    // Bound work if a broken client floods packets, as well as queue memory.
+    for (int i = 0; i < 16; ++i) {
+        KeyboardPacket packet{};
+        ssize_t n = recv(client_, packet.data(), packet.size(), MSG_DONTWAIT | MSG_TRUNC);
+        if (n < 0 && (errno == EAGAIN || errno == EINTR)) break;
+        if (n != static_cast<ssize_t>(packet.size()) || packet[0] != 1 || packet[8] > 7 ||
+                packet[9] > 1 || packet[11] > 1 || (packet[10] != 0 && packet[10] != 1 && packet[10] != 255)) {
+            release(); return true;
+        }
+        std::array<uint8_t, 9> keys{1,packet[1],0};
+        for (unsigned j = 0; j < 6; ++j) {
+            if (packet[2 + j] > 0x65) { release(); return true; }
+            keys[3 + j] = packet[2 + j];
+        }
+        if (!connected || packet[11] == 0) { keys = {1}; packet[8] = packet[9] = packet[10] = 0; }
+        if (keys != keys_) {
+            keys_ = keys;
+            pending_.push_back(Bytes(keys.begin(), keys.end()));
+        }
+        if (buttons_ != packet[8]) {
+            buttons_ = packet[8];
+            pending_.push_back({2,buttons_,0,0,0});
+        }
+        scrolling_ = packet[9]; wheel_ = static_cast<int8_t>(packet[10]);
+        received_ = packet[11] == 1; lastReply_ = time;
+        if (pending_.size() > 64) { release(); return true; }
+    }
+    if (lastFrame_ < 0 || time - lastFrame_ >= 8) {
+        KeyboardPacket packet{1};
+        for (unsigned i = 0; i < Count; ++i) if (state.buttons[i]) packet[1 + i / 8] |= 1 << (i % 8);
+        for (unsigned i = 0; i < 4; ++i) {
+            packet[4 + i * 2] = state.sticks[i] & 255;
+            packet[5 + i * 2] = static_cast<uint16_t>(state.sticks[i]) >> 8;
+        }
+        packet[12] = leds; packet[13] = connected;
+        ssize_t n = ::send(client_, packet.data(), packet.size(), MSG_DONTWAIT | MSG_NOSIGNAL);
+        if (n == static_cast<ssize_t>(packet.size())) lastFrame_ = time;
+        else if (n >= 0 || (errno != EAGAIN && errno != EINTR)) release();
+    }
+    return true;
+}
+}  // namespace controller
+
+namespace {
 int run(const std::string& mode) {
     Inputs inputs;
     if (!inputs.openAll()) { log("Cannot grab built-in controls"); return 1; }
@@ -316,8 +405,12 @@ int run(const std::string& mode) {
     ExitHold hold;
     int result = 0;
     int64_t lastLease = 0, missingSince = now();
-    bool keyboardTurn = true;
-    Pointer pointerModel;
+    KeyboardChannel channel;
+    if (mode == "keyboard" && !channel.listen()) { log("Cannot open keyboard channel"); return 1; }
+    KeyboardPointer pointerModel;
+    uint8_t leds = 0;
+    int64_t lastPointer = now(), lastConnection = 0;
+    bool connected = false;
     while (!stopped) {
         const int64_t time = now();
         if (time - lastLease >= 100) {
@@ -355,22 +448,37 @@ int run(const std::string& mode) {
                     const auto report = gamepad(s);
                     if (!send(in, report.data(), report.size())) { result = 1; break; }
                 } else {
-                    const auto keys = keyboard(s);
-                    const Pointer before = pointerModel;
-                    const auto pointer = keyboardTurn ? mouse(s) : pointerModel.report(s);
-                    // f_hid has one pending IN request. Alternate reports so neither
-                    // keyboard nor pointer can starve while the host polls slowly.
-                    const void* data = keyboardTurn ? static_cast<const void*>(keys.data()) : pointer.data();
-                    const size_t length = keyboardTurn ? keys.size() : pointer.size();
-                    ssize_t n = write(in, data, length);
-                    if (n == static_cast<ssize_t>(length)) keyboardTurn = !keyboardTurn;
-                    else pointerModel = before;
-                    if ((n >= 0 && n != static_cast<ssize_t>(length)) ||
+                    if (time - lastConnection >= 100) {
+                        lastConnection = time; connected = keyboardConnected();
+                        if (!connected) leds = 0;
+                    }
+                    channel.pump(s, leds, connected, time, owner, ownerStart);
+                    const KeyboardPointer before = pointerModel;
+                    const bool queued = !channel.pending().empty();
+                    const State motion = channel.active() && connected ? s : State{};
+                    const auto pointer = pointerModel.report(motion, channel.buttons(), channel.scrolling(),
+                            channel.wheel(), (time - lastPointer) / 1000.0);
+                    const Bytes report = queued ? channel.pending().front() : Bytes(pointer.begin(), pointer.end());
+                    ssize_t n = write(in, report.data(), report.size());
+                    if (n == static_cast<ssize_t>(report.size())) {
+                        if (queued) { channel.sent(); pointerModel = before; }
+                        else lastPointer = time;
+                    } else {
+                        pointerModel = before;
+                        if (n < 0 && (errno == ESHUTDOWN || errno == ENODEV)) {
+                            channel.release(); connected = false; leds = 0;
+                            pointerModel = KeyboardPointer(); lastPointer = time;
+                        }
+                    }
+                    if ((n >= 0 && n != static_cast<ssize_t>(report.size())) ||
                             (n < 0 && errno != EAGAIN && errno != EINTR && errno != ESHUTDOWN && errno != ENODEV)) {
                         result = 1; break;
                     }
                 }
-                uint8_t ignored[64]; read(in, ignored, sizeof(ignored));
+                uint8_t output[64]{};
+                const ssize_t bytes = read(in, output, sizeof(output));
+                if (mode == "keyboard" && bytes >= 2 && output[0] == 1) leds = output[1] & 31;
+
             } else if (property(std::string(kPrefix) + "state") == "sharing" && time - missingSince > 5000) {
                 result = 1; break;
             }
@@ -382,8 +490,13 @@ int run(const std::string& mode) {
         const State neutral;
         if (!xbox && mode == "gamepad") { const auto r = gamepad(neutral); send(in, r.data(), r.size()); }
         if (!xbox && mode == "keyboard") {
-            const auto k = keyboard(neutral); const auto m = mouse(neutral);
-            send(in, k.data(), k.size()); send(in, m.data(), m.size());
+            channel.release();
+            const int64_t deadline = now() + 100;
+            while (!channel.pending().empty() && now() < deadline) {
+                const Bytes& r = channel.pending().front();
+                if (write(in, r.data(), r.size()) == static_cast<ssize_t>(r.size())) channel.sent();
+                else { timespec pause{0,1000000}; nanosleep(&pause, nullptr); }
+            }
         }
         close(in);
     }

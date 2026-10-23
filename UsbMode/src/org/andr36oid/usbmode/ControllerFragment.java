@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.Preference;
+import android.preference.ListPreference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
 import android.widget.Toast;
@@ -28,6 +29,15 @@ public class ControllerFragment extends PreferenceFragment {
             pref.setOnPreferenceClickListener(p -> { start(mode); return true; });
             screen.addPreference(pref);
         }
+        final ListPreference layout = new ListPreference(getActivity());
+        layout.setKey("keyboard_layout");
+        layout.setTitle(R.string.keyboard_layout);
+        layout.setEntries(new CharSequence[] {getString(R.string.keyboard_layout_us),
+                getString(R.string.keyboard_layout_de), getString(R.string.keyboard_layout_fr)});
+        layout.setEntryValues(KeyboardModel.LAYOUTS);
+        layout.setDefaultValue(KeyboardModel.defaultLayout(java.util.Locale.getDefault()));
+        layout.setSummary("%s");
+        screen.addPreference(layout);
         final Preference footer = new Preference(getActivity());
         footer.setTitle(R.string.controller_about);
         footer.setSummary(getString(R.string.controller_battery) + "\n\n" + getString(R.string.usb_drive_cable));

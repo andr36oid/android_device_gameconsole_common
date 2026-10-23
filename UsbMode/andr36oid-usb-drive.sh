@@ -457,7 +457,11 @@ configure_controller() {
 		put "$G/functions/hid.andr36oid/subclass" 0 || return 1
 		put "$G/functions/hid.andr36oid/protocol" 0 || return 1
 		length=11
-		[ "$target" != keyboard ] || length=9
+		if [ "$target" = keyboard ]; then
+			length=9
+			# LED reports use SET_REPORT on ep0, including on Windows.
+			put "$G/functions/hid.andr36oid/no_out_endpoint" 1 || return 1
+		fi
 		put "$G/functions/hid.andr36oid/report_length" "$length" || return 1
 		"$CONTROLLER" --descriptor "$target" >"$G/functions/hid.andr36oid/report_desc" || return 1
 		ln -s "$G/functions/hid.andr36oid" "$G/configs/b.1/f1" || return 1

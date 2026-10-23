@@ -101,7 +101,7 @@
     <string name="controller_keyboard">Keyboard and mouse</string>
     <string name="controller_xinput_summary">Default for Windows games. Uses the Xbox 360 controller protocol.</string>
     <string name="controller_gamepad_summary">A standard USB gamepad with buttons, two sticks and a D-pad.</string>
-    <string name="controller_keyboard_summary">Left stick: pointer. A/B: left/right click. D-pad: arrows. Start: Enter. Select: Esc.</string>
+    <string name="controller_keyboard_summary">Type on a full PC keyboard with the D-pad and buttons. Left stick: mouse pointer.</string>
     <string name="controller_about">Use the console as a USB controller for a computer.</string>
     <string name="controller_battery">The console runs on its battery in controller mode. Unplug the other-port charger first.</string>
     <string name="controller_busy">Stop USB drive mode before starting controller mode.</string>
@@ -114,4 +114,20 @@
     <string name="controller_failed">Controller mode failed. Return to USB mode and try again.</string>
     <string name="controller_stop">Stop controller mode</string>
     <string name="controller_brightness">Screen brightness (Volume buttons)</string>
+    <string name="keyboard_layout">Keyboard labels (match the computer layout)</string>
+    <string name="keyboard_layout_us">English (US QWERTY)</string>
+    <string name="keyboard_layout_de">German (QWERTZ)</string>
+    <string name="keyboard_layout_fr">French (AZERTY)</string>
+    <string name="keyboard_exit">Hold Select + Start for 2 seconds to stop. Power also stops.</string>
+    <string name="keyboard_leds">Caps %1$s  Num %2$s</string>
+    <string name="keyboard_modifiers">L1 Shift: %1$s    R1 Ctrl: %2$s    Modifiers: 1× next · 2× lock · 3× off</string>
+    <string name="keyboard_modifier_off">off</string>
+    <string name="keyboard_modifier_next">next</string>
+    <string name="keyboard_modifier_locked">locked</string>
+    <string name="keyboard_mouse_left">Left click</string>
+    <string name="keyboard_mouse_right">Right click</string>
+    <string name="keyboard_mouse_middle">Middle click</string>
+    <string name="keyboard_wheel_up">Scroll ↑</string>
+    <string name="keyboard_wheel_down">Scroll ↓</string>
+    <string name="keyboard_legend">D-pad: choose · A: hold key · B: Bksp · X: Space · Y / Start: Enter\nLeft stick: pointer · Right stick: scroll · L2 / R2: left / right · Stick click: middle\nSelect + A / B / X: left / right / middle · Select + stick: scroll\nClick keys below the keyboard: toggle drag · Volume: brightness</string>
 </resources>
