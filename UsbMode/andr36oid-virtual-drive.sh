@@ -3,6 +3,20 @@
 # shellcheck disable=SC2154
 # Sourced by the USB owner. Local image work never changes the gadget or vold.
 
+v_tools_ready=0
+virtual_tools() {
+	[ "$v_tools_ready" = 0 ] || return 0
+	local tool
+	for tool in truncate fallocate losetup dd od fsync; do
+		if ! command -v "$tool" >/dev/null; then
+			printf 'Required image tool missing: %s\n' "$tool" >>"$STATE/virtual.log"
+			virtual_fail tools
+			return 1
+		fi
+	done
+	v_tools_ready=1
+}
+
 virtual_name() {
 	[ "${#1}" -le 87 ] || return 1
 	case $1 in ''|*[!a-zA-Z0-9._\ -]*|[!a-zA-Z0-9]*|*..*|*\ |*.) return 1 ;; esac
@@ -40,7 +54,7 @@ virtual_space() {
 	# In this toybox, -P clears -k. Put -k last to retain 1024-byte units.
 	free=$(df -Pk "$easy_root" | awk 'NR==2 {printf "%.0f", $4*1024}') || return 1
 	case $free in ''|*[!0-9]*) return 1 ;; esac
-	printf '%s\t%s\t%s\n' "$free" "$fs" "$easy_ro"
+	printf '%s\t%s\t%s\n' "$free" "${fs:--}" "$easy_ro"
 }
 
 virtual_directory() {
@@ -275,14 +289,15 @@ virtual_journal() {
 
 virtual_loop() {
 	v_loop=$(losetup -f 2>>"$STATE/virtual.log") || { virtual_fail loop; return 1; }
-	case $v_loop in /dev/block/loop[0-9]*|/dev/loop[0-9]*) ;; *) return 1 ;; esac
-	printf '%s\n' "$v_loop" >"$STATE/virtual/loop"
-	fsync "$STATE/virtual/loop" "$STATE/virtual" || return 1
-	virtual_run losetup -o 1048576 --sizelimit "$v_partition" "$v_loop" "$v_path"
+	case $v_loop in /dev/block/loop[0-9]*|/dev/loop[0-9]*) ;; *) virtual_fail loop; return 1 ;; esac
+	if ! printf '%s\n' "$v_loop" >"$STATE/virtual/loop" || ! fsync "$STATE/virtual/loop" "$STATE/virtual"; then
+		virtual_fail loop; return 1
+	fi
+	virtual_run losetup -o 1048576 --sizelimit "$v_partition" "$v_loop" "$v_path" || { virtual_fail loop; return 1; }
 }
 
 virtual_create() {
-	local gb label fs free part chunk next space kib
+	local gb label fs free part chunk next space kib host_ro extra
 	v_name=$(prop vname) gb=$(prop vsize) fs=$(prop vfs) label=$(prop vlabel)
 	virtual_name "$v_name" || { virtual_fail name; return 1; }
 	v_name=$v_name.img
@@ -291,12 +306,15 @@ virtual_create() {
 	kib=$((gb * 1048576))
 	v_bytes=$(virtual_bytes "$kib")
 	v_partition=$(virtual_bytes "$((kib - 1024))")
-	# The three fields are validated numbers and a mountinfo filesystem word.
-	space=$(virtual_space) || return 1
-	# shellcheck disable=SC2086
-	set -- $space
-	[ "$#" = 3 ] || return 1
-	free=$1 v_hostfs=$2
+	space=$(virtual_space) || { virtual_fail space; return 1; }
+	# Keep an unknown filesystem as a field rather than shifting the read-only bit.
+	IFS="$(printf '\t')" read -r free v_hostfs host_ro extra <<EOF
+$space
+EOF
+	if [ -z "$free" ] || [ -z "$host_ro" ] || [ -n "$extra" ]; then virtual_fail space; return 1; fi
+	case $free in *[!0-9]*) virtual_fail space; return 1 ;; esac
+	case $host_ro in 0|1) ;; *) virtual_fail space; return 1 ;; esac
+	case $v_hostfs in ''|-|*[!a-zA-Z0-9_.+-]*) virtual_fail fs; return 1 ;; esac
 	awk -v b="$v_bytes" -v free="$free" 'BEGIN {exit !(b<=free-1073741824)}' || { virtual_fail space; return 1; }
 	case $v_hostfs in vfat|msdos)
 		awk -v b="$v_bytes" 'BEGIN {exit !(b<=4294967295)}' || { virtual_fail fat_limit; return 1; } ;;
@@ -305,7 +323,10 @@ virtual_create() {
 	v_path=$easy_root/isos/.$v_name.creating
 	if [ -e "$v_path" ] || [ -L "$v_path" ]; then virtual_fail exists; return 1; fi
 	case $fs in fat32) part=newfs_msdos ;; exfat) part=mkfs.exfat ;; ntfs) part=mkfs.ntfs ;; ext4) part=mke2fs ;; esac
-	command -v "$part" >/dev/null || { virtual_fail format; return 1; }
+	if ! command -v "$part" >/dev/null; then
+		printf 'Required image formatter missing: %s\n' "$part" >>"$STATE/virtual.log"
+		virtual_fail format; return 1
+	fi
 	virtual_journal || return 1
 	(set -C; : >"$v_path") || return 1
 	v_inode=$(stat -c '%d:%i' "$v_path") || return 1
@@ -424,7 +445,9 @@ virtual_request() {
 	status working
 	rc=1
 	case $v_owner in ''|*[!0-9]*) v_owner_start= ;; *) v_owner_start=$(awk '{print $22}' "/proc/$v_owner/stat" 2>/dev/null) ;; esac
-	if [ -e "$STATE/owned" ] || [ -d "$F" ] || [ -e "$STATE/restore" ]; then
+	if ! virtual_tools; then
+		:
+	elif [ -e "$STATE/owned" ] || [ -d "$F" ] || [ -e "$STATE/restore" ]; then
 		virtual_fail shared || true
 	elif ! virtual_recover; then
 		virtual_fail recovery || true

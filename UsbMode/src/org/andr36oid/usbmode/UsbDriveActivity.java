@@ -1196,6 +1196,9 @@ public class UsbDriveActivity extends Activity {
             case "layout": return getString(R.string.usb_virtual_layout);
             case "changed": return getString(R.string.usb_virtual_changed);
             case "unavailable": return getString(R.string.usb_virtual_unavailable);
+            case "fs": return getString(R.string.usb_virtual_hostfs);
+            case "tools": return getString(R.string.usb_virtual_missing_tool);
+            case "loop": return getString(R.string.usb_virtual_loop);
             case "recovery": return getString(R.string.usb_virtual_recovery);
             case "shared": return getString(R.string.usb_drive_image_in_use);
             default: return getString(R.string.usb_virtual_step_failed, getString(virtualStage(error)));

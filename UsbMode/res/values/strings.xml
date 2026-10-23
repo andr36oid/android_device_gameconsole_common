@@ -307,6 +307,9 @@
     <string name="usb_virtual_done">Image operation completed</string>
     <string name="usb_virtual_cancelled">Image operation cancelled</string>
     <string name="usb_virtual_failed">Image operation failed</string>
+    <string name="usb_virtual_missing_tool">A required disk image tool is missing. The command is shown below.</string>
+    <string name="usb_virtual_hostfs">Cannot identify the EASYROMS filesystem. Remount the card and try again.</string>
+    <string name="usb_virtual_loop">Could not attach the disk image for formatting or repair.</string>
     <string name="usb_virtual_step_failed">Could not finish: %1$s. A new partial image is removed when it is safe. Check the card and try again.</string>
     <string name="usb_virtual_use">Use this image over USB</string>
     <string name="usb_virtual_repair">Check and repair</string>

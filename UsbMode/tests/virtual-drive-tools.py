@@ -25,7 +25,7 @@ if tool == "df":
 loop = t / "loop"
 if tool == "losetup":
     if args == ["-f"]:
-        print("/dev/block/loop7")
+        print(os.environ.get("VIRTUAL_LOOP_OUTPUT", "/dev/block/loop7"))
     elif args[0] == "-j":
         if loop.exists() and loop.read_text().strip() == args[1]:
             print("/dev/block/loop7: [1]:2 (" + args[1] + ")")

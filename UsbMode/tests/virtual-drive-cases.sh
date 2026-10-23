@@ -20,6 +20,9 @@ virtual_fixture() {
 	: >"$T/tools.log"
 	rm -f "$T/loop"
 }
+# shellcheck disable=SC1091
+. "$HERE/tests/virtual-audit-cases.sh"
+if [ "${USB_VIRTUAL_AUDIT_ONLY:-0}" = 1 ]; then return 0; fi
 for name in 'Disk 1' A a-b_c.d; do check virtual_name "$name"; done
 for name in '' /tmp/a ../a a/../b 'a..b' .hidden 'a;' 'a*' 'a\b' 'a ' 'a.' "$(printf 'a\nb')"; do
 	if virtual_name "$name"; then echo "FAIL: virtual name $name"; exit 1; fi
