@@ -360,6 +360,9 @@ public class UsbDriveFragment extends PreferenceFragment {
             layout.setSummary("%s"); root.addPreference(layout);
         }
         final Preference start = row("start", R.string.usb_device_start);
+        // Added last so its enablement reflects every choice above, but shown first: the rows get
+        // auto-assigned orders from 0 upward, so a negative order floats start to the top.
+        start.setOrder(-1);
         String reason = mPolicy.reason(mFunctions);
         if ("ok".equals(reason) && (mFunctions & UsbFunctions.STORAGE) != 0 &&
                 (mSelected == null || !mSelected.enabled())) reason = "storage";
