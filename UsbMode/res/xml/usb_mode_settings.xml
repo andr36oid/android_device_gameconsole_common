@@ -33,6 +33,15 @@
     </Preference>
 
     <Preference
+        android:key="flipper"
+        android:title="@string/flipper_title"
+        android:summary="@string/flipper_summary">
+        <intent
+            android:targetPackage="org.andr36oid.flipper.r36s"
+            android:targetClass="org.andr36oid.flipper.MainActivity" />
+    </Preference>
+
+    <Preference
         android:key="about"
         android:selectable="false"
         android:summary="@string/usb_mode_about" />

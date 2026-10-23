@@ -1,6 +1,0 @@
-java_library_static {
-    name: "andr36oid-flipper-core",
-    srcs: ["src/**/*.kt"],
-    sdk_version: "current",
-    min_sdk_version: "30",
-}

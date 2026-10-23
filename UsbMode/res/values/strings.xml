@@ -4,6 +4,10 @@
     <string name="usb_mode_title">USB mode (beta)</string>
     <string name="usb_mode_summary">Use the OTG port for accessories or to connect to a computer</string>
 
+    <string name="flipper_title">Flipper emulator</string>
+    <string name="flipper_summary">Open the standalone emulator; firmware USB is not available yet</string>
+    <string name="flipper_missing">Install the R36S Flipper emulator build to use this entry</string>
+
     <string name="usb_mode_switch">Connect to a computer</string>
     <string name="usb_mode_switch_on">The OTG port acts as a device for a computer</string>
     <string name="usb_mode_switch_off">The OTG port powers accessories like pads, drives and network adapters</string>
