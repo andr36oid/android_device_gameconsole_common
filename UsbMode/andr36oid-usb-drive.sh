@@ -16,6 +16,8 @@ DT=${USB_DRIVE_DT:-/proc/device-tree}
 BOOT_ID=${USB_DRIVE_BOOT_ID:-/proc/sys/kernel/random/boot_id}
 P=sys.andr36oid.usbdrive
 F=$G/functions/mass_storage.andr36oid
+CONTROLLER=${USB_DRIVE_CONTROLLER:-/system/bin/andr36oid-controller}
+FFS=${USB_DRIVE_FFS:-/dev/usb-ffs/xinput}
 
 error=
 log_step() { log -t andr36oid-usb-drive "$*" || true; }
@@ -177,10 +179,16 @@ charging() {
 	return 1
 }
 
+controller_mode() {
+	case ${target:-} in xinput|gamepad|keyboard) return 0 ;; *) return 1 ;; esac
+}
+
 lease() {
 	[ "$(prop request)" = start ] && [ "$(cat "$OTG")" = "$expected_role" ] || return 1
 	! charging || return 1
-	[ "$(cat "$SYS/$disk/device/cid" 2>/dev/null)" = "$cid" ] || return 1
+	if ! controller_mode; then
+		[ "$(cat "$SYS/$disk/device/cid" 2>/dev/null)" = "$cid" ] || return 1
+	fi
 	[ "$target" != file ] || check_image || return 1
 	[ "$(awk '{print $22}' "/proc/$owner/stat" 2>/dev/null)" = "$owner_start" ]
 }
@@ -189,11 +197,16 @@ validate() {
 	expected_role=$(cat "$OTG") || return 1
 	case $expected_role in host|peripheral|otg) ;; *) return 1 ;; esac
 	target=$(prop target) cid=$(prop cid) ro=$(prop ro) owner=$(prop owner)
-	case $target in file|mmcblk[0-9]|mmcblk[0-9]p7) ;; *) return 1 ;; esac
+	case $target in xinput|gamepad|keyboard|file|mmcblk[0-9]|mmcblk[0-9]p7) ;; *) return 1 ;; esac
 	case $ro in 0|1) ;; *) return 1 ;; esac
 	case $owner in ''|*[!0-9]*) return 1 ;; esac
 	owner_start=$(awk '{print $22}' "/proc/$owner/stat") || return 1
 	[ -n "$owner_start" ] || return 1
+	if controller_mode; then
+		cdrom=0
+		lease
+		return $?
+	fi
 	if [ "$target" = file ]; then
 		image=$(prop image) stamp=$(prop stamp) cdrom=$(prop cdrom)
 		case $cdrom in 0) ;; 1) ro=1 ;; *) return 1 ;; esac
@@ -263,6 +276,7 @@ validate() {
 }
 
 mounted() {
+	controller_mode && return 1
 	[ "$target" != file ] || return 1
 	for n in $(nodes); do
 		nums=$(cat "$SYS/$n/dev") || return 0
@@ -277,6 +291,7 @@ mounted() {
 }
 
 release_storage() {
+	controller_mode && return 0
 	[ "$target" != file ] || { check_image && lease; return $?; }
 	for n in $(nodes); do
 		nums=$(cat "$SYS/$n/dev") || return 1
@@ -335,6 +350,11 @@ bind_udc() {
 }
 
 bind_drive() {
+	if controller_mode; then
+		[ "$(prop ready)" = 1 ] || { fail controller_ready; return 1; }
+		bind_udc || { fail bind_udc; return 1; }
+		return 0
+	fi
 	want_adb=0
 	if adb_on; then
 		want_adb=1
@@ -358,6 +378,115 @@ bind_drive() {
 		linked_adb=$want_adb
 	fi
 	bind_udc || { fail bind_udc; return 1; }
+}
+
+# Controller functions use the same gate, role, bind retries and recovery journal.
+save_controller() {
+	for attr in idVendor bDeviceClass bDeviceSubClass bDeviceProtocol \
+	    strings/0x409/product strings/0x409/manufacturer \
+	    configs/b.1/strings/0x409/configuration configs/b.1/MaxPower \
+	    configs/b.1/bmAttributes os_desc/b_vendor_code os_desc/qw_sign; do
+		key=$(printf '%s' "$attr" | tr / _)
+		cat "$G/$attr" >"$STATE/controller-$key" || return 1
+	done
+	getprop init.svc.joyMouse >"$STATE/controller-joymouse" || return 1
+	touch "$STATE/controller"
+}
+
+restore_controller() {
+	for attr in idVendor bDeviceClass bDeviceSubClass bDeviceProtocol \
+	    strings/0x409/product strings/0x409/manufacturer \
+	    configs/b.1/strings/0x409/configuration configs/b.1/MaxPower \
+	    configs/b.1/bmAttributes os_desc/b_vendor_code os_desc/qw_sign; do
+		key=$(printf '%s' "$attr" | tr / _)
+		put "$G/$attr" "$(cat "$STATE/controller-$key")" || return 1
+	done
+	case $(cat "$STATE/controller-joymouse") in
+	running|restarting) setprop ctl.start joyMouse || return 1 ;;
+	esac
+}
+
+controller_daemon() {
+	setprop "$P.ready" 0 || return 1
+	setprop "$P.helper" "$$" || return 1
+	setprop "$P.helper_start" "$(awk '{print $22}' /proc/$$/stat)" || return 1
+	setprop "$P.owner_start" "$owner_start" || return 1
+	setprop ctl.start andr36oid-controller || return 1
+	i=0
+	while [ "$(prop ready)" != 1 ]; do
+		lease || return 1
+		i=$((i + 1)); [ "$i" -lt 50 ] || return 1
+		sleep 0.1
+	done
+}
+
+configure_controller() {
+	rm -f "$G/configs/b.1/f1" "$G/configs/b.1/f2" "$G/configs/b.1/f3" || return 1
+	setprop ctl.stop joyMouse || return 1
+	i=0
+	while :; do
+		case $(getprop init.svc.joyMouse) in stopped|'') break ;; esac
+		i=$((i + 1)); [ "$i" -lt 50 ] || return 1
+		sleep 0.1
+	done
+	identity=$("$CONTROLLER" --identity "$target") || return 1
+	vid=${identity% *} pid=${identity#* }
+	case $vid:$pid in 0x[0-9a-f][0-9a-f][0-9a-f][0-9a-f]:0x[0-9a-f][0-9a-f][0-9a-f][0-9a-f]) ;; *) return 1 ;; esac
+	put "$G/idVendor" "$vid" || return 1
+	put "$G/idProduct" "$pid" || return 1
+	put "$G/bDeviceClass" 0 || return 1
+	put "$G/bDeviceSubClass" 0 || return 1
+	put "$G/bDeviceProtocol" 0 || return 1
+	put "$G/strings/0x409/manufacturer" andr36oid || return 1
+	put "$G/configs/b.1/MaxPower" 2 || return 1
+	put "$G/configs/b.1/bmAttributes" 0xc0 || return 1
+	put "$G/configs/b.1/strings/0x409/configuration" "$target" || return 1
+	if [ "$target" = xinput ]; then
+		put "$G/strings/0x409/product" 'andr36oid XInput Device' || return 1
+		put "$G/os_desc/use" 1 || return 1
+		put "$G/os_desc/qw_sign" MSFT100 || return 1
+		put "$G/os_desc/b_vendor_code" 0x1 || return 1
+		mkdir "$G/functions/ffs.xinput" || return 1
+		mount -t functionfs -o uid=0,gid=0,rmode=0700,fmode=0600 xinput "$FFS" || return 1
+		step controller_daemon || return 1
+		ln -s "$G/functions/ffs.xinput" "$G/configs/b.1/f1" || return 1
+	else
+		put "$G/strings/0x409/product" 'andr36oid HID Device' || return 1
+		put "$G/os_desc/use" 0 || return 1
+		mkdir "$G/functions/hid.andr36oid" || return 1
+		put "$G/functions/hid.andr36oid/subclass" 0 || return 1
+		put "$G/functions/hid.andr36oid/protocol" 0 || return 1
+		length=11
+		[ "$target" != keyboard ] || length=9
+		put "$G/functions/hid.andr36oid/report_length" "$length" || return 1
+		"$CONTROLLER" --descriptor "$target" >"$G/functions/hid.andr36oid/report_desc" || return 1
+		ln -s "$G/functions/hid.andr36oid" "$G/configs/b.1/f1" || return 1
+		step controller_daemon || return 1
+	fi
+}
+
+close_controller() {
+	setprop ctl.stop andr36oid-controller || return 1
+	i=0
+	while :; do
+		case $(getprop init.svc.andr36oid-controller) in stopped|'') break ;; esac
+		i=$((i + 1)); [ "$i" -lt 50 ] || return 1
+		sleep 0.1
+	done
+	setprop "$P.ready" 0
+	unbind_udc || return 1
+	rm -f "$G/configs/b.1/f1" "$G/configs/b.1/f2" "$G/configs/b.1/f3" || return 1
+	if awk -v path="$FFS" '$5==path {found=1} END {exit !found}' "$MOUNTS"; then
+		umount "$FFS" || return 1
+	fi
+	for function in ffs.xinput hid.andr36oid; do
+		[ ! -d "$G/functions/$function" ] || rmdir "$G/functions/$function" || return 1
+	done
+	# save_controller may have run before gate_android failed.
+	if [ ! -e "$STATE/owned" ]; then
+		restore_controller || return 1
+		rm -f "$STATE/controller"
+	fi
 }
 
 gate_android() {
@@ -392,6 +521,10 @@ device_role() {
 start_drive() {
 	status preparing
 	step validate || return 1
+	if controller_mode; then
+		setprop "$P.controller" 1 || return 1
+		step save_controller || return 1
+	fi
 	step gate_android || return 1
 	step release_storage || return 1
 	step unbind_udc || return 1
@@ -403,6 +536,7 @@ start_drive() {
 }
 
 configure_drive() {
+	if controller_mode; then configure_controller; return $?; fi
 	rm -f "$G/configs/b.1/f1" "$G/configs/b.1/f2" "$G/configs/b.1/f3"
 	put "$G/os_desc/use" 0 || return 1
 	put "$G/bDeviceClass" 0 || return 1
@@ -447,6 +581,7 @@ configure_drive() {
 }
 
 close_drive() {
+	if [ -e "$STATE/controller" ]; then close_controller; return $?; fi
 	# Do not hand anything back until the LUNs have closed their backing files.
 	if [ -e "$STATE/owned" ] || [ -d "$F" ]; then
 		unbind_udc normal || return 1
@@ -483,6 +618,9 @@ restore_android() {
 			case $role in host|otg) put "$OTG" "$role" || restored=0 ;; *) restored=0 ;; esac
 		fi
 	fi
+	if [ -e "$STATE/controller" ]; then
+		step restore_controller || restored=0
+	fi
 	put "$G/idProduct" "$(cat "$STATE/product")" || restored=0
 	put "$G/os_desc/use" "$(cat "$STATE/os_desc")" || restored=0
 	# Force a fresh Android none -> functions setup, even if its config is unchanged.
@@ -492,7 +630,7 @@ restore_android() {
 	setprop sys.usb.config "$config" || restored=0
 	setprop "$P.gated" 0 || restored=0
 	[ "$restored" = 1 ] || return 1
-	rm -f "$STATE/owned" "$STATE/role"
+	rm -f "$STATE/owned" "$STATE/role" "$STATE/controller"
 }
 
 restore_storage() {
@@ -516,7 +654,7 @@ cleanup() {
 	closed=1 cleanup_ok=1
 	step close_drive || closed=0
 	# Flush accepted writes before relocking, even after a failed detach.
-	step sync || cleanup_ok=0
+	if [ ! -e "$STATE/controller" ]; then step sync || cleanup_ok=0; fi
 	step relock_emmc || cleanup_ok=0
 	# Keep the journal and ownership if backing files might still be open.
 	[ "$closed" = 1 ] || return 1
@@ -534,14 +672,19 @@ prepare_state() {
 	boot_id=$(cat "$BOOT_ID") || return 1
 	if [ "$(cat "$STATE/boot_id" 2>/dev/null)" != "$boot_id" ]; then
 		# A full restart has fresh configfs and vold; never replay old disk IDs.
-		rm -f "$STATE/owned" "$STATE/restore" "$STATE/rescan" "$STATE/product" "$STATE/os_desc" "$STATE/role"
+		rm -f "$STATE/owned" "$STATE/restore" "$STATE/rescan" "$STATE/product" "$STATE/os_desc" "$STATE/role" "$STATE/controller" "$STATE"/controller-*
 	fi
 	put "$STATE/boot_id" "$boot_id"
 }
 
 finish_request() {
 	setprop "$P.request" stop
+	if controller_mode && [ -n "$(prop error)" ]; then
+		error=$(prop error)
+		result=error
+	fi
 	cleanup || result=error
+	[ -e "$STATE/controller" ] || setprop "$P.controller" 0
 	if [ "$result" = error ]; then
 		[ -n "$error" ] || fail session
 	else
@@ -559,6 +702,7 @@ handle_request() {
 		result=idle
 		while lease && ! mounted && [ "$(getprop sys.usb.configfs)" = 2 ]; do
 			if ! bind_drive; then result=error; break; fi
+			if controller_mode && [ -n "$(prop error)" ]; then result=error; break; fi
 			sleep 0.2
 		done
 		if [ "$result" != error ] && [ "$(prop request)" = start ]; then
@@ -576,7 +720,7 @@ main() {
 		return 0
 	fi
 	# A helper restart recovers the old session, never its old start request.
-	if [ -e "$STATE/owned" ] || [ -e "$STATE/restore" ] || [ -d "$F" ]; then
+	if [ -e "$STATE/owned" ] || [ -e "$STATE/restore" ] || [ -e "$STATE/controller" ] || [ -d "$F" ]; then
 		result=idle
 		finish_request
 	else

@@ -150,6 +150,12 @@ select_target() {
 	d=${1%p7}
 	setprop "$P.cid" "$(cat "$SYS/$d/device/cid")"
 }
+if [ "${USB_CONTROLLER_ONLY:-0}" = 1 ]; then
+    # shellcheck disable=SC1091
+    . "$HERE/tests/controller/helper-cases.sh"
+    printf '%s controller helper checks passed\n' "$count"
+    exit 0
+fi
 reset_fixture
 check validate
 select_target mmcblk0
@@ -665,4 +671,8 @@ check start_drive
 printf '4 1 179:7 / %s/UUID rw - exfat /dev/block/vold/public:179,7 rw\n' "$MEDIA" >"$MOUNTS"
 if lease; then echo 'FAIL: remounted EASYROMS kept lease'; exit 1; fi
 check cleanup
+if [ -n "${USB_DRIVE_CONTROLLER:-}" ]; then
+    # shellcheck disable=SC1091
+    . "$HERE/tests/controller/helper-cases.sh"
+fi
 printf '%s helper checks passed (%s)\n'   "$count" "${KSH_VERSION:-${BASH_VERSION:-sh}}"

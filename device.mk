@@ -212,6 +212,7 @@ PRODUCT_PACKAGES += \
 
 # USB drive's root helper lends unmounted storage to the computer
 PRODUCT_PACKAGES += \
+	andr36oid-controller \
 	andr36oid-usb-drive
 
 # BOOT/hotfix/*.fix.zip, applied before zygote on every start

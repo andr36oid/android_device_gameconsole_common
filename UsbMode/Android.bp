@@ -11,3 +11,11 @@ android_app {
         enabled: false,
     },
 }
+
+cc_binary {
+    name: "andr36oid-controller",
+    srcs: ["controller/main.cpp", "controller/Controller.cpp"],
+    shared_libs: ["liblog"],
+    cpp_std: "c++17",
+    cflags: ["-Wall", "-Wextra", "-Werror"],
+}

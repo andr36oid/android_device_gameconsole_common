@@ -16,6 +16,9 @@ printf '#!/bin/sh\nexit 0\n' >"$T/bin/sync"
 chmod +x "$T/bin/sync"
 export PATH=$T/bin:$PATH
 
+bash "$HERE/tests/run-controller-tests.sh" "$T/controller"
+export USB_DRIVE_CONTROLLER="$T/controller/daemon"
+
 for sh in ${SHELLS:-sh bash mksh}; do
 	command -v "$sh" >/dev/null || continue
 	rm -rf "$T/root"

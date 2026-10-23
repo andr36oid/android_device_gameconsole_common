@@ -10,11 +10,30 @@ service andr36oid-usb-drive /system/bin/sh /system/etc/andr36oid-usb-drive.sh
     disabled
     oneshot
 
+# The shared USB helper starts this only after taking ownership of g1.
+service andr36oid-controller /system/bin/andr36oid-controller ${sys.andr36oid.usbdrive.target}
+    class late_start
+    user root
+    group root system input
+    seclabel u:r:shell:s0
+    disabled
+    oneshot
+
 on property:sys.boot_completed=1
     start andr36oid-usb-drive
 
 on property:sys.andr36oid.usbdrive.request=start
     start andr36oid-usb-drive
+
+# One recovery attempt after a controller helper crash, including setup before
+# the native daemon is ready. Clear the flag first to avoid a recovery loop.
+on property:init.svc.andr36oid-usb-drive=stopped && property:sys.andr36oid.usbdrive.controller=1
+    setprop sys.andr36oid.usbdrive.controller 0
+    setprop sys.andr36oid.usbdrive.request stop
+    start andr36oid-usb-drive
+
+on property:init.svc.andr36oid-controller=stopped
+    setprop sys.andr36oid.usbdrive.ready 0
 
 on property:sys.andr36oid.usbdrive.scan=start
     start andr36oid-usb-drive
