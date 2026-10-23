@@ -5,8 +5,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.widget.EditText;
-import android.widget.Button;
-import android.widget.LinearLayout;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,11 +49,8 @@ final class MacroSettings {
         if ((index < 0 || duplicate) && profiles.profiles.size() >= 32) return;
         EditText name = new EditText(context); name.setSingleLine(true);
         if (index >= 0) name.setText(profiles.profiles.get(index).name);
-        LinearLayout form = new LinearLayout(context); form.setOrientation(LinearLayout.VERTICAL); form.addView(name);
-        Button enter = new Button(context); enter.setText(R.string.usb_wizard_edit_text); form.addView(enter);
-        enter.setOnClickListener(v -> GamepadTextDialog.create(context, context.getString(R.string.usb_macro_name),
-                name.getText().toString(), false, name::setText).show());
-        AlertDialog dialog = new AlertDialog.Builder(context).setTitle(R.string.usb_macro_name).setView(form)
+        UsbTextInput.bind(name);
+        AlertDialog dialog = new AlertDialog.Builder(context).setTitle(R.string.usb_macro_name).setView(name)
                 .setPositiveButton(android.R.string.ok,null).setNegativeButton(android.R.string.cancel,null).create();
         dialog.setOnShowListener(d -> dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> {
             try {

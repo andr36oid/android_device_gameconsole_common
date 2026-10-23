@@ -18,7 +18,8 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.SeekBar;
+import android.widget.FrameLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
@@ -29,18 +30,15 @@ import java.util.ArrayList;
 public class ControllerSessionActivity extends Activity {
     private final Handler mHandler = new Handler();
     private TextView mStatus, mFunctions, mRouting, mEject, mLink, mSerial;
-    private FunctionView mFunctionView;
-    private LinearLayout mPage, mCompact;
+    private FrameLayout mKeyboardHost;
+    private ProgressBar mPreparing;
+    private TextView mHint;
     private UsbAudio mAudio;
     private Soundboard mBoard;
-    private PadLegend mLegend;
-    private Button mChange, mOpenRa, mOpenStream;
     private AlertDialog mTextDialog;
     private volatile boolean mPickingFile;
     private int mDialogButtons;
     private boolean mDiscHeld;
-    private LinearLayout mControls;
-    private Button mDark;
     private KeyboardModel mKeyboardModel;
     private KeyboardView mKeyboard;
     private KeyboardChannel mChannel;
@@ -49,6 +47,8 @@ public class ControllerSessionActivity extends Activity {
     private int mMask;
     private String mLastScreen = "on";
     private float mSavedBrightness = -1;
+    private String mBattery = "";
+    private long mNextBattery;
     private final Runnable mPoll = new Runnable() {
         @Override public void run() {
             mMask = UsbDeviceControl.functions();
@@ -79,23 +79,25 @@ public class ControllerSessionActivity extends Activity {
             }
             if (mBoard != null && mBoard.chooseRequested() && !mPickingFile) pickSound();
             final String functions = functionNames();
-            final String connection = getString("sharing".equals(state) ? connected()
+            final String connection = getString("stopping".equals(state) ? R.string.usb_emulator_stopping : "sharing".equals(state) ? connected()
                     ? R.string.controller_connected : R.string.controller_disconnected : R.string.usb_device_preparing);
-            final String status = connection + "\n" + battery();
+            if (SystemClock.elapsedRealtime() >= mNextBattery) {
+                mBattery = battery(); mNextBattery = SystemClock.elapsedRealtime() + 30000;
+            }
+            final String status = connection + "\n" + mBattery;
             mFunctions.setText(functions);
+            mPreparing.setVisibility(!"sharing".equals(state) ? View.VISIBLE : View.GONE);
             mEject.setVisibility((mMask & UsbFunctions.STORAGE) != 0 ? View.VISIBLE : View.GONE);
             mEject.setText(canChangeDisc() && (!typing || macro) ? R.string.usb_disc_hint : R.string.usb_drive_eject);
-            mStatus.setText(hint ? getString(R.string.usb_device_wake) : connection + "\n" + battery());
+            mStatus.setText(hint ? getString(R.string.usb_device_wake) : status);
             final boolean routable = (mMask & UsbFunctions.KEYBOARD) != 0
                     && (mMask & (UsbFunctions.CONTROLLERS | UsbFunctions.MEDIA | UsbFunctions.MIDI)) != 0;
             mRouting.setVisibility(routable && !macro ? View.VISIBLE : View.GONE);
             mRouting.setText(typing ? R.string.usb_device_route_keyboard : R.string.usb_device_route_inputs);
-            mKeyboard.setVisibility(typing && !macro && !hint ? View.VISIBLE : View.GONE);
-            mFunctions.setVisibility(View.VISIBLE);
+            mKeyboardHost.setVisibility(typing && !macro && !hint ? View.VISIBLE : View.GONE);
+            mFunctions.setVisibility(hint ? View.GONE : View.VISIBLE);
+            mHint.setVisibility(hint ? View.GONE : View.VISIBLE);
             mStatus.setVisibility(typing && !macro && !hint ? View.GONE : View.VISIBLE);
-            mControls.setVisibility((typing || (mMask & (UsbFunctions.MEDIA | UsbFunctions.MIDI)) != 0) && !hint ? View.GONE : View.VISIBLE);
-            mDark.setVisibility((typing && !macro) || !"sharing".equals(state) ? View.GONE : View.VISIBLE);
-            mDark.setEnabled(!hint);
             if (typing) {
                 String typingStatus = status;
                 synchronized (mKeyboardModel) {
@@ -107,29 +109,16 @@ public class ControllerSessionActivity extends Activity {
                 }
                 mKeyboard.setStatus(typingStatus);
             }
-            final boolean pads = !typing && !board && !hint && (mMask & (UsbFunctions.MEDIA | UsbFunctions.MIDI)) != 0;
-            if (pads && mFunctionView == null) {
-                mFunctionView = new FunctionView(ControllerSessionActivity.this,(mMask & UsbFunctions.MIDI) != 0);
-                mPage.addView(mFunctionView,4,new LinearLayout.LayoutParams(-1,0,1));
-            }
-            mCompact.setVisibility((pads || macro || board) && !hint ? View.VISIBLE : View.GONE);
-            if (mFunctionView != null) { mFunctionView.setVisibility(pads ? View.VISIBLE : View.GONE); mFunctionView.invalidate(); }
-            if (mLegend != null) { mLegend.setVisibility(!hint ? View.VISIBLE : View.GONE); mLegend.invalidate(); }
             if (macro || board) {
-                mRouting.setVisibility(View.VISIBLE);
+                mRouting.setVisibility(hint ? View.GONE : View.VISIBLE);
                 mRouting.setText(macro ? getString(R.string.usb_macro_legend,mKeyboardModel.macro.profile.name) : getString(R.string.usb_sound_legend));
-                mControls.setVisibility(View.GONE);
             }
-            mChange.setVisibility(canChangeDisc() && !hint ? View.VISIBLE : View.GONE);
-            final boolean companion = (mMask & (UsbFunctions.NETWORK | UsbFunctions.RNDIS)) != 0
-                    && (mMask & ~(UsbFunctions.NETWORK | UsbFunctions.RNDIS | UsbFunctions.ADB)) == 0;
-            mOpenRa.setVisibility(companion && !hint ? View.VISIBLE : View.GONE); mOpenStream.setVisibility(companion && !hint ? View.VISIBLE : View.GONE);
-            if (companion && !hint) { mControls.setVisibility(View.GONE); mCompact.setVisibility(View.VISIBLE); }
-            mLink.setVisibility((mMask & (UsbFunctions.NETWORK | UsbFunctions.RNDIS)) != 0 ? View.VISIBLE : View.GONE);
+            if (hint) { mRouting.setVisibility(View.GONE); mEject.setVisibility(View.GONE); }
+            mLink.setVisibility(!hint && (mMask & (UsbFunctions.NETWORK | UsbFunctions.RNDIS)) != 0 ? View.VISIBLE : View.GONE);
             mLink.setText(getString(R.string.usb_device_link_status,getString("up".equals(SystemProperties.get(
                     UsbDeviceControl.PREFIX + "link")) ? R.string.usb_device_link_up : R.string.usb_device_link_down),
                     SystemProperties.get(UsbDeviceControl.PREFIX + "peer",getString(R.string.usb_device_link_wait))));
-            mSerial.setVisibility((mMask & (UsbFunctions.SERIAL | UsbFunctions.SOUND)) != 0 ? View.VISIBLE : View.GONE);
+            mSerial.setVisibility(!hint && (mMask & (UsbFunctions.SERIAL | UsbFunctions.SOUND)) != 0 ? View.VISIBLE : View.GONE);
             String extra = SystemProperties.get(UsbDeviceControl.PREFIX + "serial_text");
             if ((mMask & UsbFunctions.SOUND) != 0) {
                 String audio = SystemProperties.get(UsbDeviceControl.PREFIX + "audio");
@@ -160,7 +149,7 @@ public class ControllerSessionActivity extends Activity {
             else if ("sharing".equals(state) && ControllerControl.brightness() != 15) brightness(ControllerControl.brightness() / 100f);
             mLastScreen = screen;
             updateKeyboard();
-            mHandler.postDelayed(this, 100);
+            mHandler.postDelayed(this, 250);
         }
     };
 
@@ -171,14 +160,12 @@ public class ControllerSessionActivity extends Activity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON | WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN
                 | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
-        final LinearLayout page = new LinearLayout(this); mPage = page;
-        page.setOrientation(LinearLayout.VERTICAL); page.setGravity(Gravity.CENTER);
-        mFunctions = text(""); mFunctions.setTextSize(18); page.addView(mFunctions);
-        mStatus = text(""); page.addView(mStatus);
-        mEject = text(getString(R.string.usb_drive_eject)); page.addView(mEject);
-        mRouting = text(""); page.addView(mRouting);
-        mLink = text(""); page.addView(mLink);
-        mSerial = text(""); page.addView(mSerial);
+        setContentView(R.layout.usb_device_session);
+        mFunctions = findViewById(R.id.session_functions); mStatus = findViewById(R.id.session_status);
+        mEject = findViewById(R.id.session_eject); mRouting = findViewById(R.id.session_routing);
+        mLink = findViewById(R.id.session_link); mSerial = findViewById(R.id.session_serial);
+        mKeyboardHost = findViewById(R.id.session_keyboard); mPreparing = findViewById(R.id.session_progress);
+        mHint = findViewById(R.id.session_hint);
         final String layout = PreferenceManager.getDefaultSharedPreferences(this).getString(
                 "keyboard_layout", KeyboardModel.defaultLayout(java.util.Locale.getDefault()));
         mMask = UsbDeviceControl.functions();
@@ -188,55 +175,13 @@ public class ControllerSessionActivity extends Activity {
         }
         if ((mMask & UsbFunctions.SOUNDBOARD) != 0) mBoard = new Soundboard(this);
         mKeyboard = new KeyboardView(this, mKeyboardModel);
-        page.addView(mKeyboard, new LinearLayout.LayoutParams(-1, 0, 1));
-        if (mBoard != null || mKeyboardModel.macro != null) {
-            mLegend = new PadLegend(this,mKeyboardModel,mBoard); page.addView(mLegend,new LinearLayout.LayoutParams(-1,0,1));
-        }
-        mChange = new Button(this); mChange.setText(R.string.usb_disc_change); mChange.setContentDescription(getString(R.string.usb_disc_hint)); mChange.setOnClickListener(v -> pickDisc()); page.addView(mChange);
-        mOpenRa = new Button(this); mOpenRa.setText(R.string.usb_link_open);
-        mOpenRa.setOnClickListener(v -> openCompanion("com.retroarch",R.string.usb_link_guide)); page.addView(mOpenRa);
-        mOpenStream = new Button(this); mOpenStream.setText(R.string.usb_stream_open);
-        mOpenStream.setOnClickListener(v -> openCompanion("com.limelight",R.string.usb_stream_guide)); page.addView(mOpenStream);
-        mControls = new LinearLayout(this); mControls.setOrientation(LinearLayout.VERTICAL);
-        mControls.setGravity(Gravity.CENTER);
-        mControls.addView(text(getString(R.string.usb_device_exit)));
-        mControls.addView(text(getString(R.string.usb_device_dark_shortcut)));
-        final Button stop = new Button(this); stop.setText(R.string.usb_device_stop);
-        stop.setOnClickListener(v -> leave()); mControls.addView(stop);
-        mDark = new Button(this); mDark.setText(R.string.usb_device_dark);
-        mDark.setOnClickListener(v -> { if (lock()) UsbDeviceControl.dark(); }); mControls.addView(mDark);
-        final SeekBar brightness = new SeekBar(this);
-        brightness.setMax(100); brightness.setProgress(ControllerControl.brightness());
-        brightness.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override public void onProgressChanged(SeekBar bar, int value, boolean user) {
-                if (user) { ControllerControl.setBrightness(value); brightness(Math.max(0.02f, value / 100f)); }
-            }
-            @Override public void onStartTrackingTouch(SeekBar bar) { }
-            @Override public void onStopTrackingTouch(SeekBar bar) { }
-        });
-        mControls.addView(text(getString(R.string.controller_brightness)));
-        mControls.addView(brightness, new LinearLayout.LayoutParams(-1, -2));
-        page.addView(mControls);
-        mCompact = new LinearLayout(this); mCompact.setGravity(Gravity.CENTER);
-        Button padStop = new Button(this); padStop.setText(R.string.usb_device_stop); padStop.setOnClickListener(v -> leave());
-        Button padDark = new Button(this); padDark.setText(R.string.usb_device_dark);
-        padDark.setOnClickListener(v -> { if (lock()) UsbDeviceControl.dark(); });
-        mCompact.addView(padStop); mCompact.addView(padDark);
-        if (mBoard != null) { Button sounds = new Button(this); sounds.setText(R.string.usb_sound_choose); sounds.setOnClickListener(v -> pickSound()); mCompact.addView(sounds); } mCompact.setVisibility(View.GONE); page.addView(mCompact);
-        setContentView(page); stop.requestFocus();
+        mKeyboardHost.addView(mKeyboard, new FrameLayout.LayoutParams(-1, -1));
     }
     private void configurePads() {
         if (mKeyboardModel.macro == null && (mMask & UsbFunctions.KEYBOARD) != 0 && "1".equals(SystemProperties.get(UsbDeviceControl.PREFIX + "macro"))) {
             MacroProfiles all = MacroSettings.load(this); mKeyboardModel.macro = new MacroProfiles.Player(all.profiles.get(MacroSettings.selected(this,all)));
         }
-        if (mBoard == null && (mMask & UsbFunctions.SOUNDBOARD) != 0) {
-            mBoard = new Soundboard(this);
-            Button sounds = new Button(this); sounds.setText(R.string.usb_sound_choose); sounds.setOnClickListener(v -> pickSound()); mCompact.addView(sounds);
-        }
-        if (mLegend == null && (mBoard != null || mKeyboardModel.macro != null)) {
-            mLegend = new PadLegend(this,mKeyboardModel,mBoard);
-            mPage.addView(mLegend,mPage.indexOfChild(mChange),new LinearLayout.LayoutParams(-1,0,1));
-        }
+        if (mBoard == null && (mMask & UsbFunctions.SOUNDBOARD) != 0) mBoard = new Soundboard(this);
     }
     private TextView text(String value) {
         final TextView text = new TextView(this); text.setText(value);
@@ -300,6 +245,7 @@ public class ControllerSessionActivity extends Activity {
         } else {
             if (mChannel != null) { mChannel.close(); mChannel = null; }
             if (mResumed && (mFocused || mPickingFile) && !mLeaving && (mMask & UsbFunctions.KEYBOARD) == 0
+                    && (mBoard != null || canChangeDisc() || mPickingFile)
                     && ("on".equals(UsbDeviceControl.screen()) || mBoard != null)) {
                 if (mInputChannel == null) {
                     mInputChannel = new ControllerInputChannel() {
@@ -326,14 +272,11 @@ public class ControllerSessionActivity extends Activity {
             if (disc && !mDiscHeld && ((mMask & UsbFunctions.KEYBOARD) == 0 || mKeyboardModel.macro != null) && canChangeDisc()) mHandler.post(this::pickDisc);
             mDiscHeld = disc;
             if (mBoard != null) { mBoard.update(frame); return 1; }
-            if (mKeyboardModel.macro == null && (mMask & (UsbFunctions.KEYBOARD | UsbFunctions.CONTROLLERS | UsbFunctions.MEDIA | UsbFunctions.MIDI)) == 0) {
-                navigateFrame(frame,false); return 1;
-            }
             mDialogButtons = 0; return (mMask & UsbFunctions.KEYBOARD) == 0 ? 1 : 0;
         }
-        navigateFrame(frame,true); return 2;
+        navigateFrame(frame); return 2;
     }
-    private void navigateFrame(byte[] frame, boolean dialog) {
+    private void navigateFrame(byte[] frame) {
         int buttons = (frame[1] & 255) | ((frame[2] & 255) << 8) | ((frame[3] & 255) << 16);
         int previous = mDialogButtons; mDialogButtons = buttons;
         final int[] bits = {0,1,2,3,12,11,4};
@@ -341,8 +284,7 @@ public class ControllerSessionActivity extends Activity {
                 KeyEvent.KEYCODE_DPAD_RIGHT,KeyEvent.KEYCODE_DPAD_CENTER,KeyEvent.KEYCODE_BACK,KeyEvent.KEYCODE_DPAD_CENTER};
         for (int i = 0; i < bits.length; i++) if (((buttons ^ previous) & (1 << bits[i])) != 0) {
             final int key = keys[i], action = (buttons & (1 << bits[i])) != 0 ? KeyEvent.ACTION_DOWN : KeyEvent.ACTION_UP;
-            mHandler.post(() -> { if (dialog) { if (mTextDialog != null) mTextDialog.dispatchKeyEvent(new KeyEvent(action,key)); }
-                else ControllerSessionActivity.super.dispatchKeyEvent(new KeyEvent(action,key)); });
+            mHandler.post(() -> { if (mTextDialog != null) mTextDialog.dispatchKeyEvent(new KeyEvent(action,key)); });
         }
     }
     private void textDialog(AlertDialog dialog) {
@@ -356,23 +298,6 @@ public class ControllerSessionActivity extends Activity {
             }
         });
         dialog.show();
-    }
-    private void openCompanion(String app, int guide) {
-        Intent launch = getPackageManager().getLaunchIntentForPackage(app);
-        if (launch == null) {
-            mPickingFile = true;
-            textDialog(new AlertDialog.Builder(this).setMessage(R.string.usb_link_missing).setPositiveButton(android.R.string.ok,null).create()); return;
-        }
-        mPickingFile = true;
-        textDialog(new AlertDialog.Builder(this).setMessage(guide).setNegativeButton(android.R.string.cancel,null)
-                .setPositiveButton(android.R.string.ok,(d,which) -> {
-                    SystemProperties.set(UsbDeviceControl.PREFIX + "companion","1");
-                    mHandler.postDelayed(() -> {
-                        if (!mResumed || mLeaving || !UsbDriveControl.busy()) { SystemProperties.set(UsbDeviceControl.PREFIX + "companion","0"); return; }
-                        try { startActivity(launch); }
-                        catch (android.content.ActivityNotFoundException e) { SystemProperties.set(UsbDeviceControl.PREFIX + "companion","0"); }
-                    },100);
-                }).create());
     }
     private boolean canChangeDisc() {
         return (mMask & UsbFunctions.STORAGE) != 0 && "file".equals(SystemProperties.get(UsbDeviceControl.PREFIX + "target"))

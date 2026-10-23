@@ -155,18 +155,18 @@ public class UsbModeService extends Service {
 
     private PendingIntent openScreen() {
         return PendingIntent.getActivity(this, 0, new Intent(this,
-                UsbDriveControl.busy() && !UsbDriveControl.working() ? ControllerSessionActivity.class : UsbModeActivity.class)
+                UsbDriveControl.busy() && !UsbDriveControl.working() ? ControllerSessionActivity.class : UsbDriveActivity.class)
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK), PendingIntent.FLAG_IMMUTABLE);
     }
 
     private Notification ongoing() {
         final boolean working = UsbDriveControl.working();
         return new Notification.Builder(this, CHANNEL_ON)
-                .setSmallIcon(R.drawable.ic_usb_mode)
-                .setContentTitle(getString(working ? R.string.usb_virtual_working : R.string.notification_on_title))
-                .setContentText(getString(working ? R.string.usb_virtual_allocation : R.string.charging_warning))
+                .setSmallIcon(R.drawable.ic_usb_device_emulator)
+                .setContentTitle(getString(R.string.usb_device_title))
+                .setContentText(getString(working ? R.string.usb_virtual_working : R.string.usb_emulator_session_hint))
                 .setStyle(new Notification.BigTextStyle()
-                        .bigText(getString(working ? R.string.usb_virtual_allocation : R.string.charging_warning)))
+                        .bigText(getString(working ? R.string.usb_virtual_working : R.string.usb_emulator_session_hint)))
                 .setContentIntent(openScreen())
                 .setOngoing(true)
                 .setShowWhen(false)
@@ -175,7 +175,7 @@ public class UsbModeService extends Service {
 
     private Notification alert() {
         return new Notification.Builder(this, CHANNEL_ALERT)
-                .setSmallIcon(R.drawable.ic_usb_mode)
+                .setSmallIcon(R.drawable.ic_usb_device_emulator)
                 .setContentTitle(getString(R.string.notification_alert_title))
                 .setContentText(getString(R.string.notification_alert_text))
                 .setStyle(new Notification.BigTextStyle()

@@ -18,6 +18,10 @@ final class UsbDriveControl {
 
     static String state() { return SystemProperties.get(PREFIX + "state", ""); }
 
+    static String error() { return SystemProperties.get(PREFIX + "error", ""); }
+    static String detail() { return SystemProperties.get(PREFIX + "detail", ""); }
+    static String stage() { return SystemProperties.get(PREFIX + "stage", ""); }
+
     static void stop() { SystemProperties.set(PREFIX + "request", "stop"); }
 
     static String virtual(String key) { return SystemProperties.get(PREFIX + "v" + key, ""); }

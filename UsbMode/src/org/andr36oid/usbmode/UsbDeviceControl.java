@@ -22,11 +22,16 @@ final class UsbDeviceControl {
         return new UsbFunctions();
     }
     static void start(Context context, int functions, UsbDrive.Offer storage, boolean ro, boolean cdrom) {
-        if (UsbDriveControl.busy()) return;
+        if (request(context, functions, storage, ro, cdrom, () -> true))
+            context.startActivity(new Intent(context, ControllerSessionActivity.class));
+    }
+    static boolean request(Context context, int functions, UsbDrive.Offer storage, boolean ro, boolean cdrom,
+            java.util.function.BooleanSupplier current) {
+        if (UsbDriveControl.busy() || !current.getAsBoolean()) return false;
         final UsbFunctions policy = policies();
         policy.query(Collections.singleton(functions));
-        if (!"ok".equals(policy.reason(functions))) return;
-        if ((functions & UsbFunctions.ADB) != 0 && !debugging(context)) return;
+        if (!"ok".equals(policy.reason(functions))) return false;
+        if ((functions & UsbFunctions.ADB) != 0 && !debugging(context)) return false;
         final android.content.SharedPreferences prefs = android.preference.PreferenceManager.getDefaultSharedPreferences(context);
         SystemProperties.set(PREFIX + "webusb", prefs.getBoolean("usb_webusb", true) ? "1" : "0");
         SystemProperties.set(PREFIX + "macro", (functions & (UsbFunctions.KEYBOARD | UsbFunctions.MEDIA)) == (UsbFunctions.KEYBOARD | UsbFunctions.MEDIA)
@@ -42,8 +47,9 @@ final class UsbDeviceControl {
                     : context.getString(R.string.usb_drive_slot, storage.slot);
         }
         SystemProperties.set(PREFIX + "name", name);
+        if (!current.getAsBoolean()) return false;
         if ((functions & UsbFunctions.STORAGE) != 0) {
-            if (storage == null || !storage.enabled()) return;
+            if (storage == null || !storage.enabled()) return false;
             UsbDriveControl.start(context, storage, ro, cdrom);
         } else {
             SystemProperties.set(PREFIX + "target", "none");
@@ -52,6 +58,7 @@ final class UsbDeviceControl {
             SystemProperties.set(PREFIX + "request", "start");
             context.startForegroundService(new Intent(context, UsbModeService.class));
         }
-        context.startActivity(new Intent(context, ControllerSessionActivity.class));
+        if (!current.getAsBoolean()) { UsbDriveControl.stop(); return false; }
+        return true;
     }
 }

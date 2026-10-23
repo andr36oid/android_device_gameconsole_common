@@ -2,6 +2,7 @@ package org.andr36oid.usbmode;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.Typeface;
@@ -13,10 +14,18 @@ final class KeyboardView extends View {
     private final RectF mBounds = new RectF();
     private String mStatus;
     private volatile int mLeds;
+    private final int mBackground, mText, mSecondary, mAccent, mSurface, mHeld;
 
     KeyboardView(Context context, KeyboardModel model) {
         super(context);
         mModel = model;
+        mBackground = context.getColor(R.color.andr36oid_setup_background);
+        mAccent = context.getColor(R.color.andr36oid_setup_accent);
+        mSurface = context.getColor(R.color.andr36oid_setup_focus_fill);
+        mHeld = Color.argb(100, Color.red(mAccent), Color.green(mAccent), Color.blue(mAccent));
+        android.content.res.TypedArray colors = context.obtainStyledAttributes(new int[] {
+                android.R.attr.textColorPrimary, android.R.attr.textColorSecondary});
+        mText = colors.getColor(0, Color.WHITE); mSecondary = colors.getColor(1, mText); colors.recycle();
         mStatus = context.getString(R.string.controller_preparing);
         setFocusable(false);
         setImportantForAccessibility(IMPORTANT_FOR_ACCESSIBILITY_YES);
@@ -44,7 +53,7 @@ final class KeyboardView extends View {
         }
     }
     @Override protected void onDraw(Canvas canvas) {
-        canvas.drawColor(0xff15181d);
+        canvas.drawColor(mBackground);
         canvas.save();
         // Work in screen pixels, independent of Android's density on small panels.
         final float scale = getWidth() / 640f;
@@ -52,18 +61,18 @@ final class KeyboardView extends View {
         final float height = getHeight() / scale;
         final float rowHeight = (height - 190) / mModel.rows.length;
         final String[] status = mStatus.split("\\n");
-        text(canvas, status[0], 8, 19, 12, 0xffeeeeee);
-        if (status.length > 1) text(canvas, status[1], 8, 39, 12, 0xffeeeeee);
+        text(canvas, status[0], 8, 19, 12, mText);
+        if (status.length > 1) text(canvas, status[1], 8, 39, 12, mText);
         text(canvas, getContext().getString(R.string.keyboard_leds,
                 (mLeds & 2) != 0 ? "●" : "○", (mLeds & 1) != 0 ? "●" : "○"),
-                510, 59, 12, 0xff80cbc4);
-        text(canvas, getContext().getString(R.string.keyboard_exit), 8, 59, 12, 0xffc0c5ce);
+                510, 59, 12, mAccent);
+        text(canvas, getContext().getString(R.string.keyboard_exit), 8, 59, 12, mSecondary);
         synchronized (mModel) {
             final String[] states = {getContext().getString(R.string.keyboard_modifier_off),
                     getContext().getString(R.string.keyboard_modifier_next),
                     getContext().getString(R.string.keyboard_modifier_locked)};
             text(canvas, getContext().getString(R.string.keyboard_modifiers,
-                    states[mModel.modifier(1)], states[mModel.modifier(0)]), 8, 82, 12, 0xff80cbc4);
+                    states[mModel.modifier(1)], states[mModel.modifier(0)]), 8, 82, 12, mAccent);
             for (int row = 0; row < mModel.rows.length; row++) {
                 final KeyboardModel.Key[] keys = mModel.rows[row];
                 float x = 6;
@@ -76,8 +85,7 @@ final class KeyboardView extends View {
                     final boolean mouse = key.action >= 1 && key.action <= 3
                             && (mModel.mouseLocked() & (1 << (key.action - 1))) != 0;
                     mBounds.set(x + 1, top, x + width - 1, top + rowHeight - 4);
-                    mPaint.setColor(selected ? 0xff80cbc4 : modifier == 2 || mouse ? 0xff396962
-                            : modifier == 1 ? 0xff33514f : 0xff292e36);
+                    mPaint.setColor(selected ? mAccent : modifier != 0 || mouse ? mHeld : mSurface);
                     canvas.drawRoundRect(mBounds, 4, 4, mPaint);
                     final String label = key.action == 0 ? mModel.label(key)
                             : getContext().getString(actionLabel(key.action));
@@ -85,13 +93,13 @@ final class KeyboardView extends View {
                     final float size = Math.min(13, 13 * (width - 6) / Math.max(1, mPaint.measureText(label)));
                     mPaint.setTextSize(size);
                     text(canvas, label, x + (width - mPaint.measureText(label)) / 2,
-                            top + rowHeight / 2 + 4, size, selected ? 0xff101619 : 0xffeeeeee);
+                            top + rowHeight / 2 + 4, size, selected ? Color.BLACK : mText);
                     x += width;
                 }
             }
         }
         final String[] legend = getContext().getString(R.string.keyboard_legend).split("\n");
-        for (int i = 0; i < legend.length; i++) text(canvas, legend[i], 8, height - 75 + i * 20, 12, 0xffc0c5ce);
+        for (int i = 0; i < legend.length; i++) text(canvas, legend[i], 8, height - 75 + i * 20, 12, mSecondary);
         canvas.restore();
     }
 }

@@ -8,9 +8,12 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.text.InputType;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.text.format.Formatter;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -20,6 +23,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,10 +32,32 @@ import org.andr36oid.hints.HintBar;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /** The hub and conditional wizard share the tutorial's page and Back/Next pattern. */
 public class UsbDriveActivity extends Activity {
     private static final int HUB = 0, CONNECT = 1, IMAGES = 2, CREATE = 3, PROGRESS = 4, SESSION = 5;
+    private static final class Work {
+        final Handler handler = new Handler(Looper.getMainLooper());
+        final ExecutorService executor = Executors.newFixedThreadPool(2);
+        final AtomicInteger operation = new AtomicInteger();
+        UsbDriveActivity activity;
+        UsbFunctions policy = UsbDeviceControl.policies();
+        int policyFor = -1;
+        boolean scanning, querying, loaded, debugging, pendingRequest;
+        String wifi = "";
+        UsbDrive.Images images = new UsbDrive.Images();
+        List<UsbDrive.Offer> offers = new ArrayList<>();
+
+    }
+    private Work mWork;
+    private final List<RadioButton> mSizeChoices = new ArrayList<>();
+    private boolean mCustomLabel, mAwaitCreate, mUseAfterCreate, mSessionOpened, mLoaded, mCancelling;
+    private int mCreateFunctions;
+    private String mCreatedName = "", mCreatedCid = "", mUiError = "", mCompanion = "";
+    private long mCreateWaitUntil;
     private final Handler mHandler = new Handler();
     private UsbMode mUsbMode;
     private UsbFunctions mPolicy;
@@ -45,7 +71,7 @@ public class UsbDriveActivity extends Activity {
     private int mPage = HUB, mIndex, mCreateIndex, mFunctions, mShownPage = -1, mShownStep = -1;
     private boolean mResumed, mAdvanced, mMacro, mRo, mCdrom, mDebugging;
     private String mPreset, mSelectedKey, mFocus = "", mLive = "";
-    private String mImageName = "", mImageSize = "1", mImageFs = "fat32", mImageLabel;
+    private String mImageName = "image1", mImageSize = "1", mImageFs = "fat32", mImageLabel;
     private long mNextScan;
     private UsbDrive.Offer mSelected;
     private UsbDrive.Images mImages = new UsbDrive.Images();
@@ -54,16 +80,20 @@ public class UsbDriveActivity extends Activity {
     private final Runnable mPoll = new Runnable() {
         @Override public void run() {
             refresh();
-            if (mResumed) mHandler.postDelayed(this, 1000);
+            if (mResumed) mHandler.postDelayed(this, 250);
         }
     };
 
     @Override public void onCreate(Bundle state) {
         super.onCreate(state);
+        getWindow().setSoftInputMode(android.view.WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+                | android.view.WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         setContentView(R.layout.usb_drive_activity);
         HintBar.attachDefault(this);
         mUsbMode = new UsbMode(this);
-        mPolicy = UsbDeviceControl.policies();
+        mWork = (Work) getLastNonConfigurationInstance();
+        if (mWork == null) mWork = new Work();
+        mWork.activity = this; mPolicy = mWork.policy; mImages = mWork.images; mOffers = mWork.offers; mLoaded = mWork.loaded;
         mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         mPreset = mPrefs.getString("usb_preset", "custom");
         mFunctions = mPrefs.getInt("usb_functions", UsbFunctions.XINPUT);
@@ -71,8 +101,13 @@ public class UsbDriveActivity extends Activity {
         mCdrom = mPrefs.getBoolean("usb_cdrom", true);
         mRo = mPrefs.getBoolean("usb_ro", true);
         mMacro = mPrefs.getBoolean("usb_macro", false);
-        mImageLabel = getString(R.string.usb_virtual_default_label);
+        mImageLabel = VirtualDrive.defaultLabel(mImageName, mImageFs);
         if (state != null) {
+            mCancelling = state.getBoolean("cancelling");
+            mCompanion = state.getString("companion", "");
+            mCustomLabel = state.getBoolean("custom_label"); mAwaitCreate = state.getBoolean("await_create");
+            mUseAfterCreate = state.getBoolean("use_after_create"); mCreateFunctions = state.getInt("create_functions");
+            mCreatedName = state.getString("created_name", ""); mCreatedCid = state.getString("created_cid", "");
             mPage = state.getInt("page"); mIndex = state.getInt("index"); mCreateIndex = state.getInt("create_index");
             mAdvanced = state.getBoolean("advanced"); mFocus = state.getString("focus", "");
             mImageName = state.getString("image_name", ""); mImageSize = state.getString("image_size", "1");
@@ -86,26 +121,32 @@ public class UsbDriveActivity extends Activity {
         mNext.setOnClickListener(v -> skipForward()); mBack.setOnClickListener(v -> goBack());
         mNext.setOnFocusChangeListener((v, focused) -> { if (focused) mFocus = "next"; });
         mBack.setOnFocusChangeListener((v, focused) -> { if (focused) mFocus = "back"; });
-        mTextScroll.setOnFocusChangeListener((v, focused) -> { if (focused) mFocus = "text"; });
-        scan(); render();
+        findSelected(); render(); scan();
     }
 
     @Override public void onResume() {
         super.onResume();
-        mResumed = true;
-        mPolicy = UsbDeviceControl.policies();
+        mResumed = true; mSessionOpened = false;
         mLive = ""; render(); mHandler.post(mPoll);
     }
     @Override public void onPause() {
         mResumed = false; mHandler.removeCallbacks(mPoll);
         saveEntry(); super.onPause();
     }
+    @Override public Object onRetainNonConfigurationInstance() { return mWork; }
     @Override public void onDestroy() {
+        if (mWork.activity == this) mWork.activity = null;
+        if (!isChangingConfigurations()) { mWork.operation.incrementAndGet(); mWork.executor.shutdownNow(); }
         if (mDialog != null) mDialog.dismiss();
         super.onDestroy();
     }
     @Override public void onSaveInstanceState(Bundle state) {
         saveEntry();
+        state.putBoolean("cancelling", mCancelling);
+        state.putString("companion", mCompanion);
+        state.putBoolean("custom_label", mCustomLabel); state.putBoolean("await_create", mAwaitCreate);
+        state.putBoolean("use_after_create", mUseAfterCreate); state.putInt("create_functions", mCreateFunctions);
+        state.putString("created_name", mCreatedName); state.putString("created_cid", mCreatedCid);
         state.putInt("page", mPage); state.putInt("index", mIndex); state.putInt("create_index", mCreateIndex);
         state.putBoolean("advanced", mAdvanced); state.putString("focus", mFocus);
         state.putString("image_name", mImageName); state.putString("image_size", mImageSize);
@@ -117,6 +158,21 @@ public class UsbDriveActivity extends Activity {
     @Override public boolean dispatchKeyEvent(KeyEvent event) {
         if (event.getKeyCode() == KeyEvent.KEYCODE_BUTTON_B) {
             if (event.getAction() == KeyEvent.ACTION_DOWN && event.getRepeatCount() == 0) goBack();
+            return true;
+        }
+        if (getCurrentFocus() instanceof EditText && (event.getKeyCode() == KeyEvent.KEYCODE_BUTTON_A
+                || event.getKeyCode() == KeyEvent.KEYCODE_DPAD_CENTER)) {
+            if (event.getAction() == KeyEvent.ACTION_UP) showIme((EditText) getCurrentFocus());
+            return true;
+        }
+        if (event.getKeyCode() == KeyEvent.KEYCODE_DPAD_RIGHT && inChoices(getCurrentFocus())) {
+            if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                if (mNext.isEnabled() && mNext.getVisibility() == View.VISIBLE) mNext.requestFocus(); else mBack.requestFocus();
+            }
+            return true;
+        }
+        if (event.getKeyCode() == KeyEvent.KEYCODE_DPAD_LEFT && (getCurrentFocus() == mNext || getCurrentFocus() == mBack)) {
+            if (event.getAction() == KeyEvent.ACTION_DOWN) focusFirstChoice();
             return true;
         }
         if (event.getKeyCode() == KeyEvent.KEYCODE_BUTTON_A) {
@@ -138,14 +194,18 @@ public class UsbDriveActivity extends Activity {
         return steps.get(mIndex);
     }
     private void open(int page) {
-        saveEntry(); mPage = page; mFocus = ""; mLive = "";
+        saveEntry(); mPage = page;
+        if (page != PROGRESS && page != SESSION) mCancelling = false; mFocus = ""; mLive = "";
         if (page == IMAGES || page == CREATE || page == CONNECT) { scan(); mNextScan = 0; }
         render();
     }
     private void goBack() {
         if (mDialog != null) { mDialog.dismiss(); return; }
         saveEntry();
-        if (mPage == PROGRESS || UsbDriveControl.working()) { UsbDriveControl.stop(); return; }
+        if (mPage == PROGRESS || mPage == SESSION || UsbDriveControl.working()) {
+            mWork.operation.incrementAndGet(); mWork.pendingRequest = false; mAwaitCreate = false; mCancelling = true;
+            UsbDriveControl.stop(); return;
+        }
         if (mPage == CONNECT && mIndex > 0) { mIndex--; mFocus = ""; render(); }
         else if (mPage == CREATE && mCreateIndex > 0) { mCreateIndex--; mFocus = ""; render(); }
         else if (mPage == CREATE) open(IMAGES);
@@ -155,68 +215,149 @@ public class UsbDriveActivity extends Activity {
     private void skipForward() {
         if (!mNext.isEnabled()) return;
         if (mPage == CONNECT) {
-            if (step() == UsbWizard.REVIEW) start();
+            if (step() == UsbWizard.REVIEW) { mCompanion = ""; start(); }
             else { mIndex++; mFocus = ""; render(); }
         } else if (mPage == CREATE) {
             saveEntry();
             if (!validEntry()) return;
             if (mCreateIndex < 3) { mCreateIndex++; mFocus = ""; render(); }
-            else {
-                scan();
-                if (!mImages.mounted || !mImages.writable || !validEntry()) return;
-                if (UsbDriveControl.busy()) { refresh(); return; }
-                UsbDriveControl.create(this, mImages, mImageName, mImageSize, mImageFs, mImageLabel);
-                open(PROGRESS);
-            }
-        } else if (mPage == PROGRESS) UsbDriveControl.stop();
-        else if (mPage == SESSION) startActivity(new Intent(this, ControllerSessionActivity.class));
+            else submitCreate(true);
+        } else if (mPage == PROGRESS || mPage == SESSION) goBack();
+
     }
 
-    private void scan() {
-        mOffers = UsbDriveControl.scan(this); mImages = UsbDriveControl.images();
-        mOffers.addAll(mImages.offers); mSelected = null;
+    private void findSelected() {
+        mSelected = null;
         for (UsbDrive.Offer offer : mOffers) if (offer.identity().equals(mSelectedKey)) mSelected = offer;
     }
+    private void scan() {
+        if (mWork.scanning || mWork.pendingRequest || UsbDriveControl.busy()) return;
+        final Work work = mWork;
+        final android.content.Context context = getApplicationContext();
+        work.scanning = true;
+        work.executor.execute(() -> {
+            List<UsbDrive.Offer> offers;
+            UsbDrive.Images images;
+            String wifi = "";
+            boolean debugging;
+            try {
+                offers = UsbDriveControl.scan(context); images = UsbDriveControl.images(); offers.addAll(images.offers);
+                String iface = new UsbMode(context).getWifiOnOtgPort();
+                if (iface != null) wifi = context.getString(R.string.usb_emulator_wifi_info, iface);
+                debugging = UsbDeviceControl.debugging(context);
+            } catch (RuntimeException e) {
+                offers = new ArrayList<>(); images = new UsbDrive.Images(); debugging = work.debugging;
+            }
+            final List<UsbDrive.Offer> found = offers;
+            final UsbDrive.Images inventory = images;
+            final String notice = wifi;
+            final boolean adb = debugging;
+            work.handler.post(() -> {
+                work.scanning = false; work.loaded = true;
+                work.offers = found; work.images = inventory; work.wifi = notice; work.debugging = adb;
+                if (work.activity != null) work.activity.scanned();
+            });
+        });
+    }
+    private void scanned() {
+        if (!mLoaded) { mLoaded = true; mShownPage = -1; mShownStep = -1; }
+        boolean debugChanged = mDebugging != mWork.debugging; mDebugging = mWork.debugging;
+        if (!mWork.debugging) mCreateFunctions &= ~UsbFunctions.ADB;
+        final long oldMax = VirtualDrive.maximum(mImages.free, mImages.filesystem);
+        final boolean oldWritable = mImages.writable;
+        mOffers = mWork.offers; mImages = mWork.images; findSelected();
+        if (!mWork.debugging && (mFunctions & UsbFunctions.ADB) != 0) { mFunctions &= ~UsbFunctions.ADB; save(); }
+        if (mAwaitCreate && "done".equals(UsbDriveControl.virtual("result"))) { created(); return; }
+        if (mPage == CREATE) {
+            if (oldMax != VirtualDrive.maximum(mImages.free, mImages.filesystem) || oldWritable != mImages.writable || mCreateIndex == 3 && debugChanged) {
+                saveEntry(); render();
+            }
+        } else if (mPage != PROGRESS && mPage != SESSION && mDialog == null) render();
+    }
+    private void queryPolicy(int mask) {
+        if (mWork.policyFor == mask || mWork.querying) return;
+        final Work work = mWork;
+        work.querying = true;
+        work.executor.execute(() -> {
+            UsbFunctions policy = UsbDeviceControl.policies();
+            policy.queryMissing(UsbFunctions.pageMasks(mask));
+            work.handler.post(() -> {
+                work.querying = false; work.policy = policy; work.policyFor = mask;
+                if (work.activity != null) {
+                    UsbDriveActivity activity = work.activity; activity.mPolicy = policy;
+                    if (activity.mPage == CONNECT || activity.mPage == CREATE && activity.mCreateIndex == 3) {
+                        if (activity.getCurrentFocus() == activity.mBack && !activity.hasActionableChoice()) activity.mShownPage = -1;
+                        activity.render();
+                    }
+                }
+            });
+        });
+    }
     private void refresh() {
-        if (UsbDriveControl.working()) {
-            if (mPage != PROGRESS) open(PROGRESS);
-            mProgress.setIndeterminate(false);
-            int percent;
-            try { percent = Integer.parseInt(UsbDriveControl.virtual("percent")); } catch (NumberFormatException e) { percent = 0; }
-            mProgress.setProgress(percent);
-            mBody.setText(getString(virtualStage(UsbDriveControl.virtual("stage"))) + " · " + percent + "%\n\n"
-                    + getString(R.string.usb_virtual_allocation));
-            return;
+        if (mWork.pendingRequest || UsbDriveControl.working()) {
+            if (mPage != PROGRESS && mPage != SESSION) open(PROGRESS);
+            progress(mPage == PROGRESS); return;
+        }
+        if (mAwaitCreate) {
+            if ("done".equals(UsbDriveControl.virtual("result"))) {
+                if (mCreateWaitUntil == 0) mCreateWaitUntil = SystemClock.elapsedRealtime() + 10000;
+                if (SystemClock.elapsedRealtime() >= mCreateWaitUntil) {
+                    mAwaitCreate = false; mUiError = getString(R.string.usb_virtual_changed); open(IMAGES);
+                } else { scan(); mBody.setText(R.string.usb_image_finding); }
+                return;
+            }
+            mAwaitCreate = false;
         }
         if (UsbDriveControl.busy()) {
-            if (mPage != SESSION) {
-                open(SESSION); startActivity(new Intent(this, ControllerSessionActivity.class));
+            if (mPage != SESSION) open(SESSION);
+            progress(false);
+            if (mResumed && "sharing".equals(UsbDriveControl.state()) && !mSessionOpened) {
+                mSessionOpened = true;
+                Intent launch = mCompanion.isEmpty() ? null : getPackageManager().getLaunchIntentForPackage(mCompanion);
+                if (launch != null) {
+                    android.os.SystemProperties.set(UsbDeviceControl.PREFIX + "companion", "1"); mCompanion = ""; startActivity(launch);
+                } else startActivity(new Intent(this, ControllerSessionActivity.class));
             }
             return;
         }
         if (mPage == PROGRESS) open(IMAGES);
         if (mPage == SESSION) open(HUB);
-        final boolean relevant = mPage == IMAGES || mPage == CREATE || mPage == CONNECT
+        final boolean relevant = mPage == HUB || mPage == IMAGES || mPage == CREATE || mPage == CONNECT
                 && (step() == UsbWizard.STORAGE || step() == UsbWizard.FUNCTIONS || step() == UsbWizard.REVIEW);
         if (relevant && SystemClock.elapsedRealtime() >= mNextScan) {
-            UsbDriveControl.scanImages(); mNextScan = SystemClock.elapsedRealtime() + 5000;
+            UsbDriveControl.scanImages(); scan(); mNextScan = SystemClock.elapsedRealtime() + 5000;
         }
-        if (relevant) scan();
-        if (mPage == CREATE) {
-            mNext.setEnabled(mImages.mounted && mImages.writable);
-            if (!mNext.isEnabled()) mNote.setText(R.string.usb_virtual_unavailable);
-        }
-        final boolean debugging = UsbDeviceControl.debugging(this);
-        if (!debugging && (mFunctions & UsbFunctions.ADB) != 0) { mFunctions &= ~UsbFunctions.ADB; save(); }
-        final StringBuilder signature = new StringBuilder(UsbDriveControl.state()).append(debugging)
-                .append(mImages.mounted).append(mImages.writable).append(mImages.free)
-                .append(UsbDriveControl.virtual("result")).append(UsbDriveControl.virtual("error")).append(UsbDriveControl.virtual("detail"));
-        if (relevant) for (UsbDrive.Offer offer : mOffers) signature.append(offer.identity()).append(offer.reason).append(offer.type).append(offer.forcedRo);
-        if (!signature.toString().equals(mLive)) {
-            if (debugging != mDebugging) mPolicy = UsbDeviceControl.policies();
-            mDebugging = debugging; mLive = signature.toString();
+        final String signature = UsbDriveControl.state() + UsbDriveControl.virtual("result")
+                + UsbDriveControl.virtual("error") + UsbDriveControl.virtual("detail") + UsbDriveControl.detail();
+        if (!signature.equals(mLive)) {
+            mLive = signature;
             if (mPage != CREATE && mDialog == null) render();
         }
+    }
+    private void progress(boolean image) {
+        if (mCancelling || "stopping".equals(UsbDriveControl.state())) {
+            mProgress.setIndeterminate(true); mTitle.setText(R.string.usb_emulator_stopping);
+            mBody.setText(R.string.usb_emulator_stop_wait); mNext.setEnabled(false); mBack.setEnabled(false); return;
+        }
+        String stage = image ? UsbDriveControl.virtual("stage") : UsbDriveControl.stage();
+        int percent = 0;
+        try { percent = Integer.parseInt(UsbDriveControl.virtual("percent")); } catch (NumberFormatException e) { }
+        boolean allocate = image && "allocate".equals(stage);
+        mProgress.setIndeterminate(!allocate); mProgress.setProgress(Math.max(0, Math.min(100, percent)));
+        mTitle.setText(image ? R.string.usb_virtual_working : R.string.usb_device_preparing);
+        boolean physical = mSelected != null && mSelected.kind != UsbDrive.Kind.IMAGE;
+        int preparing = "release_storage".equals(stage) && physical
+                ? mSelected.kind == UsbDrive.Kind.EASYROMS ? R.string.usb_emulator_preparing_easyroms : R.string.usb_emulator_preparing_storage
+                : R.string.usb_device_preparing;
+        mBody.setText(image ? getString(virtualStage(stage)) + (allocate ? " · " + percent + "%"
+                + (slowAllocation() ? "\n\n" + getString(R.string.usb_virtual_allocation) : "") : "") : getString(preparing));
+        if (!image && "1".equals(android.os.SystemProperties.get(UsbDeviceControl.PREFIX + "ready"))) {
+            mNext.setVisibility(View.GONE); mBack.setVisibility(View.GONE); mNote.setText(R.string.usb_emulator_session_hint);
+        }
+    }
+    private void operationFailed(String detail) {
+        mWork.pendingRequest = false; mAwaitCreate = false; mUiError = detail;
+        open(IMAGES);
     }
 
     private void render() {
@@ -225,9 +366,12 @@ public class UsbDriveActivity extends Activity {
         final int textY = same ? mTextScroll.getScrollY() : 0;
         final int choiceY = same ? mChoiceScroll.getScrollY() : 0;
         mShownPage = mPage; mShownStep = position;
-        mEdit = null; mChoices.removeAllViews(); mNote.setText("");
+        final String focus = same && getCurrentFocus() != null && getCurrentFocus().getTag() instanceof String
+                ? (String) getCurrentFocus().getTag() : same ? mFocus : "";
+        mFocus = focus;
+        mEdit = null; mSizeChoices.clear(); mChoices.removeAllViews(); mNote.setText("");
         mNext.setVisibility(View.VISIBLE); mNext.setEnabled(true);
-        mNext.setText(R.string.usb_wizard_next); mBack.setText(R.string.usb_wizard_back);
+        mNext.setText(R.string.usb_wizard_next); mBack.setVisibility(View.VISIBLE); mBack.setEnabled(true); mBack.setText(R.string.usb_wizard_back);
         mProgress.setIndeterminate(false); mProgress.setMax(100); mProgress.setProgress(0);
         mStep.setText(R.string.usb_device_title);
         if (mPage == CONNECT) {
@@ -236,7 +380,7 @@ public class UsbDriveActivity extends Activity {
             mStep.setText(getString(R.string.usb_wizard_step, mIndex + 1, steps.size()));
             mProgress.setProgress((mIndex + 1) * 100 / steps.size());
             if (current == UsbWizard.FUNCTIONS || current == UsbWizard.CONTROLLER || current == UsbWizard.KEYBOARD || current == UsbWizard.REVIEW)
-                mPolicy.queryMissing(UsbFunctions.pageMasks(mFunctions));
+                queryPolicy(mFunctions);
             switch (current) {
                 case UsbWizard.ROLE: roles(); break;
                 case UsbWizard.FUNCTIONS: functions(); break;
@@ -249,19 +393,18 @@ public class UsbDriveActivity extends Activity {
         } else if (mPage == IMAGES) images();
         else if (mPage == CREATE) create();
         else if (mPage == PROGRESS) {
-            page(R.string.usb_virtual_working, getString(R.string.usb_virtual_allocation));
-            mNext.setText(android.R.string.cancel); mProgress.setIndeterminate(true);
+            page(R.string.usb_virtual_working, "");
+            mNext.setText(android.R.string.cancel); spinner(); progress(true);
         } else if (mPage == SESSION) {
-            page(R.string.usb_device_session, getString(R.string.usb_device_preparing));
-            mNext.setText(R.string.usb_device_session);
+            page(R.string.usb_device_preparing, "");
+            mNext.setText(android.R.string.cancel); spinner(); progress(false);
         } else hub();
         mTextScroll.scrollTo(0, textY);
-        final String focus = mFocus;
         mChoices.post(() -> {
             if (isFinishing()) return;
             mChoiceScroll.scrollTo(0, choiceY);
-            View chosen = "next".equals(focus) && mNext.getVisibility() == View.VISIBLE ? mNext
-                    : "back".equals(focus) ? mBack : "text".equals(focus) ? mTextScroll : mChoices.findViewWithTag(focus);
+            View chosen = same && "next".equals(focus) && mNext.getVisibility() == View.VISIBLE ? mNext
+                    : same && "back".equals(focus) ? mBack : mChoices.findViewWithTag(focus);
             if (chosen == null || !chosen.isEnabled()) {
                 chosen = null;
                 for (int i = 0; i < mChoices.getChildCount(); i++) {
@@ -276,7 +419,12 @@ public class UsbDriveActivity extends Activity {
     }
     private void page(int title, String body) { mTitle.setText(title); mBody.setText(body); }
     private Button row(String key, String title, String summary, boolean enabled, Runnable action) {
-        Button button = new Button(this);
+        Button button = new Button(this, null, 0, R.style.Andr36oidSetupButton_Secondary);
+        button.setId(View.generateViewId());
+        button.setBackground(getDrawable(R.drawable.usb_choice_background));
+        button.setForeground(getDrawable(R.drawable.andr36oid_setup_focus));
+        button.setTextColor(getColorStateList(R.color.usb_choice_text));
+        button.setPadding(dp(12), dp(10), dp(12), dp(10));
         button.setTag(key); button.setText(summary.isEmpty() ? title : title + "\n" + summary);
         button.setAllCaps(false); button.setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
         button.setEnabled(enabled); button.setMinHeight(dp(64));
@@ -285,12 +433,26 @@ public class UsbDriveActivity extends Activity {
         mChoices.addView(button, new LinearLayout.LayoutParams(-1, -2));
         return button;
     }
-    private void choice(String key, String title, String summary, boolean checked, boolean enabled, Runnable action) {
-        row(key, (checked ? "● " : "○ ") + title, summary, enabled, action);
+    private RadioButton choice(String key, String title, String summary, boolean checked, boolean enabled, Runnable action) {
+        RadioButton choice = new RadioButton(this);
+        choice.setId(View.generateViewId()); choice.setTag(key);
+        choice.setText(summary.isEmpty() ? title : title + "\n" + summary);
+        choice.setTextAppearance(android.R.style.TextAppearance_Material_Body1);
+        choice.setTextColor(getColorStateList(R.color.usb_choice_text));
+        choice.setBackground(getDrawable(R.drawable.usb_choice_background));
+        choice.setForeground(getDrawable(R.drawable.andr36oid_setup_focus));
+        choice.setPadding(dp(12), dp(10), dp(12), dp(10)); choice.setMinHeight(dp(64));
+        choice.setChecked(checked); choice.setEnabled(enabled);
+        choice.setOnFocusChangeListener((v, focused) -> { if (focused) mFocus = key; });
+        choice.setOnClickListener(v -> action.run());
+        mChoices.addView(choice, new LinearLayout.LayoutParams(-1, -2));
+        return choice;
     }
     private void toggle(String key, int title, String summary, boolean checked, boolean enabled, Runnable action) {
         CheckBox box = new CheckBox(this); box.setTag(key); box.setText(getString(title) + "\n" + summary);
         box.setChecked(checked); box.setEnabled(enabled); box.setMinHeight(dp(64));
+        box.setId(View.generateViewId()); box.setBackground(getDrawable(R.drawable.usb_choice_background));
+        box.setPadding(dp(12), dp(10), dp(12), dp(10));
         box.setForeground(getDrawable(R.drawable.andr36oid_setup_focus));
         box.setOnFocusChangeListener((v, focused) -> { if (focused) mFocus = key; });
         box.setOnClickListener(v -> action.run());
@@ -298,21 +460,23 @@ public class UsbDriveActivity extends Activity {
     }
     private int dp(int value) { return Math.round(value * getResources().getDisplayMetrics().density); }
     private void hub() {
-        page(R.string.usb_device_title, getString(R.string.usb_device_about) + "\n\n" + getString(R.string.usb_drive_cable));
+        page(R.string.usb_device_title, getString(R.string.usb_device_about) + "\n\n" + getString(R.string.usb_drive_cable) + (mWork.wifi.isEmpty() ? "" : "\n\n" + mWork.wifi));
         mNext.setVisibility(View.GONE);
-        row("connect", getString(R.string.usb_hub_connect), getString(R.string.usb_wizard_connect_summary), true,
+        row("connect", getString(R.string.usb_hub_connect), getString(R.string.usb_wizard_connect_summary), mWork.loaded,
                 () -> { mIndex = 0; open(CONNECT); });
-        row("images", getString(R.string.usb_hub_images), getString(R.string.usb_virtual_summary), true, () -> open(IMAGES));
+        row("images", getString(R.string.usb_hub_images), getString(R.string.usb_virtual_summary), mWork.loaded, () -> open(IMAGES));
         liveResult();
     }
     private void liveResult() {
-        String status = "error".equals(UsbDriveControl.state()) ? getString(R.string.usb_device_failed) : "";
+        String status = "error".equals(UsbDriveControl.state()) ? getString(R.string.usb_device_failed)
+                + "\n" + UsbDriveControl.error() + "\n" + UsbDriveControl.detail() : "";
         String result = UsbDriveControl.virtual("result");
         String detail = "";
         if ("error".equals(result)) detail = virtualError(UsbDriveControl.virtual("error")) + "\n" + UsbDriveControl.virtual("detail");
         else if ("done".equals(result)) detail = getString(R.string.usb_virtual_done);
         else if ("cancelled".equals(result)) detail = getString(R.string.usb_virtual_cancelled);
         if (!detail.isEmpty()) status += (status.isEmpty() ? "" : "\n\n") + detail;
+        if (!mUiError.isEmpty()) status = mUiError;
         if (!status.isEmpty()) mNote.setText(status);
     }
     private void roles() {
@@ -352,7 +516,7 @@ public class UsbDriveActivity extends Activity {
                 if ("pc".equals(role)) { mCdrom = true; mRo = true; }
             }
         }
-        save(); scan();
+        save(); findSelected();
     }
     private void saveCustom() {
         mPrefs.edit().putInt("usb_custom_functions", mFunctions).putString("usb_custom_storage", mSelectedKey)
@@ -401,7 +565,8 @@ public class UsbDriveActivity extends Activity {
             case "empty": return getString(R.string.usb_device_empty);
             case "storage": return getString(R.string.usb_device_pick_storage);
             case "debugging": return getString(R.string.usb_device_debugging_off);
-            default: return getString(R.string.usb_device_policy_unavailable);
+            case "checking": return getString(R.string.usb_emulator_checking);
+            default: return getString(mWork.querying ? R.string.usb_emulator_checking : R.string.usb_device_policy_unavailable);
         }
     }
     private void functions() {
@@ -496,6 +661,9 @@ public class UsbDriveActivity extends Activity {
                     ? R.string.usb_floppy_summary : R.string.usb_drive_image_ro_hint), !mCdrom, true,
                     () -> { mCdrom = false; changed(); });
         }
+        row("new-image", getString(R.string.usb_virtual_create), getString(R.string.usb_virtual_summary),
+                mImages.mounted && mImages.writable && VirtualDrive.maximum(mImages.free, mImages.filesystem) >= VirtualDrive.GB,
+                () -> newImage(true));
         boolean fixed = mSelected == null || mSelected.forcedRo || mSelected.kind == UsbDrive.Kind.IMAGE && mCdrom;
         toggle("ro", R.string.usb_drive_ro, readOnlyReason(), mRo || fixed, !fixed, () -> { mRo = !mRo; changed(); });
         mNext.setEnabled(mSelected != null && mSelected.enabled() && (!mCdrom || mSelected.kind != UsbDrive.Kind.IMAGE || mSelected.cdromPossible()));
@@ -560,9 +728,24 @@ public class UsbDriveActivity extends Activity {
             body += "\n\n" + getString(R.string.usb_jiggle_title) + " · " + getString(R.string.usb_jiggle_times).split("\\|")[
                     interval < 0 ? 1 : interval];
         }
-        body += "\n\n" + getString(R.string.usb_device_boot_hint) + "\n\n" + getString(R.string.usb_drive_cable);
+        if ((mFunctions & UsbFunctions.CONTROLLERS) != 0) body += "\n\n" + getString(R.string.usb_emulator_controller_hint);
+        int input = mFunctions & (UsbFunctions.KEYBOARD | UsbFunctions.MOUSE);
+        if (input != 0) body += "\n\n" + getString(input == (UsbFunctions.KEYBOARD | UsbFunctions.MOUSE)
+                ? R.string.usb_emulator_input_hint : input == UsbFunctions.KEYBOARD ? R.string.usb_emulator_keyboard_hint : R.string.usb_emulator_mouse_hint);
+        if ((mFunctions & UsbFunctions.STORAGE) != 0) body += "\n\n" + getString(UsbWizard.bootMenu(mFunctions, mSelected, mCdrom)
+                ? R.string.usb_device_boot_hint : mSelected != null && mSelected.kind == UsbDrive.Kind.IMAGE && mCdrom
+                ? R.string.usb_emulator_cd_hint : R.string.usb_emulator_drive_hint);
+        body += "\n\n" + getString(R.string.usb_drive_cable);
         if ((mFunctions & (UsbFunctions.NETWORK | UsbFunctions.RNDIS)) != 0)
             body += "\n\n" + getString(R.string.usb_link_guide) + "\n\n" + getString(R.string.usb_stream_guide) + "\n\n" + getString(R.string.usb_device_link_cable);
+        final boolean companion = (mFunctions & (UsbFunctions.NETWORK | UsbFunctions.RNDIS)) != 0
+                && (mFunctions & ~(UsbFunctions.NETWORK | UsbFunctions.RNDIS | UsbFunctions.ADB)) == 0;
+        if (companion) {
+            row("retroarch", getString(R.string.usb_link_open), getString(R.string.usb_emulator_start_app),
+                    "ok".equals(startReason()), () -> startCompanion("com.retroarch"));
+            row("moonlight", getString(R.string.usb_stream_open), getString(R.string.usb_emulator_start_app),
+                    "ok".equals(startReason()), () -> startCompanion("com.limelight"));
+        }
         page(R.string.usb_wizard_review, body);
         mNext.setText(R.string.usb_device_start);
         String why = startReason();
@@ -570,43 +753,69 @@ public class UsbDriveActivity extends Activity {
         if (!"ok".equals(why)) mNote.setText(reason(why, mFunctions));
     }
     private String startReason() {
-        String why = mPolicy.reason(mFunctions);
+        String why = mWork.policyFor == mFunctions ? mPolicy.reason(mFunctions) : "checking";
         if ("ok".equals(why) && (mFunctions & UsbFunctions.STORAGE) != 0
                 && (mSelected == null || !mSelected.enabled())) why = "storage";
         if ((mFunctions & UsbFunctions.ADB) != 0 && !UsbDeviceControl.debugging(this)) why = "debugging";
         return why;
     }
+    private void startCompanion(String app) {
+        if (getPackageManager().getLaunchIntentForPackage(app) == null) {
+            details(getString(R.string.usb_device_title), getString(R.string.usb_link_missing)); return;
+        }
+        mCompanion = app; start();
+    }
     private void start() {
-        scan();
-        mPolicy.queryMissing(UsbFunctions.pageMasks(mFunctions));
         if (!"ok".equals(startReason())) { render(); return; }
         if ((mFunctions & UsbFunctions.STORAGE) != 0) ask(mSelected, mSelected.kind == UsbDrive.Kind.IMAGE && mCdrom);
-        else warn(null, true, false);
+        else beginSession(null, true, false);
     }
-    private void warn(UsbDrive.Offer offer, boolean ro, boolean cdrom) {
-        if (mDialog != null || UsbDriveControl.busy()) return;
-        if (!mUsbMode.isSupported() || mUsbMode.chargingBlocksDevice()) {
-            Toast.makeText(this, mUsbMode.chargingBlocksDevice() ? R.string.charging_refused : R.string.usb_mode_unsupported, Toast.LENGTH_LONG).show(); return;
-        }
-        mDialog = DeviceModeWarning.show(this, mUsbMode, new DeviceModeWarning.Callback() {
-            @Override public void onConfirmed() {
-                mDialog = null;
-                if (offer == null) {
-                    if (mUsbMode.chargingBlocksDevice()) {
-                        Toast.makeText(UsbDriveActivity.this, R.string.charging_refused, Toast.LENGTH_LONG).show(); return;
+    private void beginSession(UsbDrive.Offer offer, boolean ro, boolean cdrom) {
+        if (UsbDriveControl.busy() || mWork.pendingRequest) return;
+        final Work work = mWork;
+        final int operation = work.operation.incrementAndGet(), mask = mFunctions;
+        final android.content.Context context = getApplicationContext();
+        work.pendingRequest = true; mCancelling = false; mSessionOpened = false; mUiError = ""; open(SESSION);
+        work.executor.execute(() -> {
+            try {
+                UsbMode usb = new UsbMode(context);
+                if (!usb.isSupported() || usb.chargingBlocksDevice()) throw new IllegalStateException(context.getString(R.string.charging_refused));
+                UsbDrive.Offer fresh = offer;
+                if (offer != null) {
+                    fresh = null;
+                    List<UsbDrive.Offer> offers = UsbDriveControl.scan(context); offers.addAll(UsbDriveControl.images().offers);
+                    for (UsbDrive.Offer candidate : offers) if (candidate.enabled() && candidate.identity().equals(offer.identity())) fresh = candidate;
+                    if (fresh == null) throw new IllegalStateException(context.getString(R.string.usb_virtual_changed));
+                }
+                if (work.operation.get() != operation) return;
+                usb.setConfirmedThisBoot();
+                boolean started = UsbDeviceControl.request(context, mask, fresh, ro, cdrom, () -> work.operation.get() == operation);
+                work.handler.post(() -> {
+                    if (work.operation.get() != operation) return;
+                    work.pendingRequest = false;
+                    if (work.activity != null) {
+                        if (started) work.activity.refresh();
+                        else { work.activity.mUiError = context.getString(R.string.usb_device_failed); work.activity.open(HUB); }
                     }
-                    UsbDeviceControl.start(UsbDriveActivity.this, mFunctions, null, true, false);
-                } else share(offer, ro, cdrom);
+                });
+            } catch (RuntimeException e) {
+                work.handler.post(() -> {
+                    if (work.operation.get() != operation) return;
+                    work.pendingRequest = false;
+                    if (work.activity != null) {
+                        work.activity.mUiError = e.getMessage() == null ? context.getString(R.string.usb_device_failed) : e.getMessage(); work.activity.open(HUB);
+                    }
+                });
             }
-            @Override public void onCancelled() { mDialog = null; }
         });
     }
     private void images() {
         page(R.string.usb_hub_images, getString(R.string.usb_drive_image_hint));
         mNext.setVisibility(View.GONE);
         row("create", getString(R.string.usb_virtual_create), getString(mImages.mounted && mImages.writable
-                ? R.string.usb_virtual_summary : R.string.usb_virtual_unavailable), mImages.mounted && mImages.writable, () -> {
-                    mCreateIndex = 0; open(CREATE);
+                ? R.string.usb_virtual_summary : R.string.usb_virtual_unavailable), mImages.mounted && mImages.writable
+                && VirtualDrive.maximum(mImages.free, mImages.filesystem) >= VirtualDrive.GB, () -> {
+                    newImage(false);
                 });
         for (UsbDrive.Offer offer : mImages.offers)
             row(offer.identity(), name(offer), offerDetail(offer), true, () -> imageActions(offer));
@@ -624,9 +833,6 @@ public class UsbDriveActivity extends Activity {
                 getString(R.string.usb_virtual_use), getString(R.string.usb_virtual_repair),
                 getString(R.string.usb_virtual_delete), getString(R.string.usb_virtual_rename)}, (d, which) -> mHandler.post(() -> {
                     if (which == 0) {
-                        mPolicy.queryMissing(UsbFunctions.pageMasks(mFunctions));
-                        String why = mPolicy.reason(mFunctions | UsbFunctions.STORAGE);
-                        if (!"ok".equals(why)) { details(name(offer), reason(why, mFunctions | UsbFunctions.STORAGE)); return; }
                         mFunctions |= UsbFunctions.STORAGE; mPreset = "custom";
                         mSelectedKey = offer.identity(); mSelected = offer;
                         mCdrom = offer.defaultCdrom() && offer.cdromPossible();
@@ -645,79 +851,222 @@ public class UsbDriveActivity extends Activity {
                 .setMessage(repair ? R.string.usb_virtual_repair_confirm : R.string.usb_virtual_delete_confirm)
                 .setNegativeButton(android.R.string.cancel, null)
                 .setPositiveButton(repair ? R.string.usb_virtual_repair : R.string.usb_virtual_delete,
-                        (d, which) -> { if (!UsbDriveControl.busy()) { UsbDriveControl.maintain(this, offer, action); open(PROGRESS); } }).create());
+                        (d, which) -> {
+                            final android.content.Context context = getApplicationContext();
+                            runImageOperation(() -> UsbDriveControl.maintain(context, offer, action));
+                        }).create());
         mDialog.getButton(DialogInterface.BUTTON_NEGATIVE).requestFocus();
     }
     private void rename(UsbDrive.Offer offer) {
-        String basename = offer.node.substring(0, offer.node.lastIndexOf('.'));
-        padText(getString(R.string.usb_virtual_rename), basename, false, value -> {
-            if (!VirtualDrive.name(value)) { details(name(offer), getString(R.string.usb_virtual_bad_name)); return; }
-            if (UsbDriveControl.busy()) { refresh(); return; }
-            UsbDriveControl.rename(this, offer, value); open(PROGRESS);
-        });
+        EditText field = new EditText(this); field.setSingleLine(true);
+        field.setText(offer.node.substring(0, offer.node.lastIndexOf('.'))); UsbTextInput.bind(field);
+        AlertDialog dialog = new AlertDialog.Builder(this).setTitle(R.string.usb_virtual_rename).setView(field)
+                .setNegativeButton(android.R.string.cancel, null).setPositiveButton(android.R.string.ok, null).create();
+        dialog.setOnShowListener(d -> dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener(v -> {
+            String value = field.getText().toString();
+            if (!VirtualDrive.name(value)) { field.setError(getString(R.string.usb_virtual_bad_name)); return; }
+            UsbTextInput.hide(field); dialog.dismiss();
+            final android.content.Context context = getApplicationContext();
+            runImageOperation(() -> UsbDriveControl.rename(context, offer, value));
+        }));
+        showDialog(dialog);
+    }
+    private void newImage(boolean fromStorage) {
+        List<String> names = new ArrayList<>();
+        for (UsbDrive.Offer offer : mImages.offers) names.add(offer.node);
+        mImageName = VirtualDrive.nextName(names); mImageFs = "fat32"; mImageSize = "1";
+        mCustomLabel = false; mImageLabel = VirtualDrive.defaultLabel(mImageName, mImageFs);
+        mCreateFunctions = fromStorage ? mFunctions : UsbWizard.preset("drive", mWork.debugging);
+        mCreateIndex = 0; mUiError = ""; mCompanion = ""; open(CREATE);
     }
     private void create() {
         mStep.setText(getString(R.string.usb_wizard_step, mCreateIndex + 1, 4));
         mProgress.setProgress((mCreateIndex + 1) * 25);
+        mNext.setEnabled(mImages.mounted && mImages.writable && VirtualDrive.maximum(mImages.free, mImages.filesystem) >= VirtualDrive.GB);
         if (mCreateIndex == 0) {
-            page(R.string.usb_virtual_name, getString(R.string.usb_virtual_bad_name));
+            page(R.string.usb_virtual_name, getString(R.string.usb_image_name_hint));
             editEntry(mImageName, false);
         } else if (mCreateIndex == 1) {
             page(R.string.usb_virtual_size, getString(R.string.usb_virtual_available,
                     VirtualDrive.maximum(mImages.free, mImages.filesystem) / VirtualDrive.GB));
             editEntry(mImageSize, true);
-            for (String size : new String[] {"1", "2", "4", "8", "16", "32", "64", "1024"})
-                choice("size:" + size, getString(R.string.usb_wizard_gb, size), "", size.equals(mImageSize), true,
-                        () -> { mImageSize = size; mEdit.setText(size); });
+            for (String size : VirtualDrive.presets(mImages.free, mImages.filesystem)) {
+                RadioButton option = choice("size:" + size, getString(R.string.usb_wizard_gb, size), "",
+                        VirtualDrive.presetSelected(mImageSize, size), true, () -> {
+                            mImageSize = size; mEdit.setText(size); updateSizeChoices();
+                        });
+                mSizeChoices.add(option);
+            }
         } else if (mCreateIndex == 2) {
             page(R.string.usb_wizard_filesystem, getString(R.string.usb_virtual_summary));
             String[] names = getString(R.string.usb_virtual_filesystems).split("\\|");
             int[] summaries = {R.string.usb_virtual_fat32, R.string.usb_virtual_exfat, R.string.usb_virtual_ntfs, R.string.usb_virtual_ext4};
             for (int i = 0; i < names.length; i++) {
                 final String fs = VirtualDrive.FILESYSTEMS[i];
-                choice(fs, names[i], getString(summaries[i]), fs.equals(mImageFs), true, () -> { mImageFs = fs; render(); });
+                choice(fs, names[i], getString(summaries[i]), fs.equals(mImageFs), true, () -> {
+                    mImageFs = fs;
+                    if (!mCustomLabel) mImageLabel = VirtualDrive.defaultLabel(mImageName, fs);
+                    render();
+                });
             }
         } else {
-            page(R.string.usb_virtual_label, mImageName + ".img · " + getString(R.string.usb_wizard_gb, mImageSize)
-                    + " · " + mImageFs + "\n\n" + getString(R.string.usb_virtual_bad_label) + "\n\n" + getString(R.string.usb_virtual_allocation));
-            editEntry(mImageLabel, false); mNext.setText(R.string.usb_virtual_create);
+            if (!mCustomLabel) mImageLabel = VirtualDrive.defaultLabel(mImageName, mImageFs);
+            queryPolicy(mCreateFunctions);
+            page(R.string.usb_wizard_review, mImageName + ".img · " + getString(R.string.usb_wizard_gb, mImageSize)
+                    + " · " + mImageFs + "\n\n" + getString(R.string.usb_virtual_label) + ": " + mImageLabel
+                    + (slowAllocation() ? "\n\n" + getString(R.string.usb_virtual_allocation) : ""));
+            row("label", getString(R.string.usb_image_change_label), mImageLabel, true, () -> editLabel());
+            row("create-only", getString(R.string.usb_virtual_create), getString(R.string.usb_image_create_only), mNext.isEnabled(), () -> submitCreate(false));
+            mNext.setText(R.string.usb_image_create_use);
+            String why = mWork.policyFor == mCreateFunctions ? mPolicy.reason(mCreateFunctions) : "checking";
+            mNext.setEnabled(mNext.isEnabled() && "ok".equals(why));
+            if (!"ok".equals(why)) mNote.setText(reason(why, mCreateFunctions));
         }
+        if (!mImages.mounted || !mImages.writable) mNote.setText(R.string.usb_virtual_unavailable);
+        else if (VirtualDrive.maximum(mImages.free, mImages.filesystem) < VirtualDrive.GB) mNote.setText(R.string.usb_virtual_bad_size);
+    }
+    private void editLabel() {
+        EditText field = new EditText(this); field.setSingleLine(true); field.setText(mImageLabel); UsbTextInput.bind(field);
+        AlertDialog dialog = new AlertDialog.Builder(this).setTitle(R.string.usb_virtual_label).setView(field)
+                .setNegativeButton(android.R.string.cancel, null).setPositiveButton(android.R.string.ok, null).create();
+        dialog.setOnShowListener(d -> {
+            dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener(v -> {
+                String value = field.getText().toString();
+                if (!VirtualDrive.label(value, mImageFs)) { field.setError(getString(R.string.usb_virtual_bad_label)); return; }
+                mImageLabel = value; mCustomLabel = true; UsbTextInput.hide(field); dialog.dismiss(); render();
+            });
+            field.requestFocus();
+        });
+        showDialog(dialog);
     }
     private void editEntry(String value, boolean numeric) {
         mEdit = new EditText(this); mEdit.setSingleLine(true); mEdit.setText(value);
+        mEdit.setId(View.generateViewId()); mEdit.setTag("entry");
         mEdit.setInputType(numeric ? InputType.TYPE_CLASS_NUMBER : InputType.TYPE_CLASS_TEXT);
-        mEdit.setShowSoftInputOnFocus(false);
-        mEdit.setTag("entry");
-        mEdit.setOnFocusChangeListener((v, focused) -> { if (focused) mFocus = "entry"; });
+        mEdit.setImeOptions(android.view.inputmethod.EditorInfo.IME_ACTION_DONE);
+        UsbTextInput.bind(mEdit);
+        mEdit.setOnEditorActionListener((v, action, event) -> {
+            saveEntry(); UsbTextInput.hide(mEdit); mNext.requestFocus(); return true;
+        });
+        mEdit.setOnFocusChangeListener((v, focused) -> {
+            if (focused) mFocus = "entry";
+            else if (numeric) saveEntry();
+        });
+        mEdit.addTextChangedListener(new TextWatcher() {
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            @Override public void onTextChanged(CharSequence value, int start, int before, int count) {
+                if (numeric) { mImageSize = value.toString(); updateSizeChoices(); }
+                else { mImageName = value.toString(); if (!mCustomLabel) mImageLabel = VirtualDrive.defaultLabel(mImageName, mImageFs); }
+            }
+            @Override public void afterTextChanged(Editable value) { }
+        });
         mChoices.addView(mEdit, new LinearLayout.LayoutParams(-1, -2));
-        row("edit", getString(R.string.usb_wizard_edit_text), getString(R.string.usb_wizard_edit_summary), true,
-                () -> padText(mTitle.getText().toString(), mEdit.getText().toString(), numeric, text -> {
-                    if (mPage == CREATE && mEdit != null) { mEdit.setText(text); saveEntry(); }
-                }));
+    }
+    private void updateSizeChoices() {
+        for (RadioButton option : mSizeChoices) option.setChecked(VirtualDrive.presetSelected(mImageSize,
+                option.getTag().toString().substring("size:".length())));
     }
     private void saveEntry() {
         if (mPage != CREATE || mEdit == null) return;
-        String value = mEdit.getText().toString();
-        if (mCreateIndex == 0) mImageName = value;
-        else if (mCreateIndex == 1) mImageSize = value;
-        else if (mCreateIndex == 3) mImageLabel = value;
+        if (mCreateIndex == 0) mImageName = mEdit.getText().toString();
+        else if (mCreateIndex == 1) {
+            String value = mEdit.getText().toString();
+            mImageSize = VirtualDrive.clampSize(value, mImages.free, mImages.filesystem);
+            if (!value.equals(mImageSize)) {
+                mEdit.setText(mImageSize); mNote.setText(getString(R.string.usb_image_size_clamped, mImageSize));
+            }
+            updateSizeChoices();
+        }
+        if (!mCustomLabel) mImageLabel = VirtualDrive.defaultLabel(mImageName, mImageFs);
     }
     private boolean validEntry() {
         int error = 0;
         if (!VirtualDrive.name(mImageName)) error = R.string.usb_virtual_bad_name;
         else if (mCreateIndex >= 1 && (VirtualDrive.size(mImageSize) == 0
-                || VirtualDrive.size(mImageSize) > VirtualDrive.maximum(mImages.free, mImages.filesystem)))
-            error = ("vfat".equals(mImages.filesystem) || "msdos".equals(mImages.filesystem)) && VirtualDrive.size(mImageSize) >= 4 * VirtualDrive.GB
-                    ? R.string.usb_virtual_fat_limit : R.string.usb_virtual_bad_size;
+                || VirtualDrive.size(mImageSize) > VirtualDrive.maximum(mImages.free, mImages.filesystem))) error = R.string.usb_virtual_bad_size;
         else if (mCreateIndex >= 3 && !VirtualDrive.label(mImageLabel, mImageFs)) error = R.string.usb_virtual_bad_label;
-        if (error == 0) { mNote.setText(""); return true; }
-        mNote.setText(error); return false;
+        if (error == 0) return true;
+        mNote.setText(error);
+        if (mEdit != null) mEdit.setError(getString(error));
+        return false;
     }
-    private interface TextResult { void finished(String text); }
-    private void padText(String title, String initial, boolean numeric, TextResult result) {
-        showDialog(GamepadTextDialog.create(this, title, initial, numeric,
-                value -> mHandler.post(() -> result.finished(value))));
+    private void submitCreate(boolean use) {
+        saveEntry();
+        if (!validEntry() || !mImages.mounted || !mImages.writable) return;
+        if (use && (mWork.policyFor != mCreateFunctions || !"ok".equals(mPolicy.reason(mCreateFunctions)))) return;
+        final android.content.Context context = getApplicationContext();
+        final UsbDrive.Images images = mImages;
+        final String name = mImageName, size = mImageSize, fs = mImageFs, label = mImageLabel;
+        mCreatedName = name + ".img"; mCreatedCid = images.cid;
+        mUseAfterCreate = use; mAwaitCreate = true; mCreateWaitUntil = 0;
+        runImageOperation(() -> UsbDriveControl.create(context, images, name, size, fs, label));
     }
+    private void runImageOperation(Runnable request) {
+        if (UsbDriveControl.busy() || mWork.pendingRequest) return;
+        final Work work = mWork; final int operation = work.operation.incrementAndGet();
+        work.pendingRequest = true; mCancelling = false; mUiError = ""; open(PROGRESS);
+        work.executor.execute(() -> {
+            try {
+                if (work.operation.get() != operation) return;
+                request.run();
+                if (work.operation.get() != operation) { UsbDriveControl.stop(); return; }
+                work.handler.post(() -> {
+                    if (work.operation.get() == operation) {
+                        work.pendingRequest = false; if (work.activity != null) work.activity.refresh();
+                    }
+                });
+            } catch (RuntimeException e) {
+                UsbDriveControl.stop();
+                work.handler.post(() -> {
+                    if (work.operation.get() == operation) {
+                        work.pendingRequest = false;
+                        if (work.activity != null) work.activity.operationFailed(e.getMessage() == null
+                                ? work.activity.getString(R.string.usb_virtual_failed) : e.getMessage());
+                    }
+                });
+            }
+        });
+    }
+    private void created() {
+        if (!mResumed) return;
+        for (UsbDrive.Offer image : mImages.offers) if (image.node.equals(mCreatedName) && image.cid.equals(mCreatedCid)) {
+            mAwaitCreate = false; mSelected = image; mSelectedKey = image.identity(); mCdrom = false; mRo = false;
+            if (mUseAfterCreate) { mFunctions = mCreateFunctions; mPreset = "custom"; }
+            save();
+            if (mUseAfterCreate) beginSession(image, false, false);
+            else open(IMAGES);
+            return;
+        }
+    }
+    private boolean slowAllocation() {
+        return "exfat".equals(mImages.filesystem) || "vfat".equals(mImages.filesystem) || "msdos".equals(mImages.filesystem);
+    }
+    private void spinner() {
+        ProgressBar busy = new ProgressBar(this);
+        mChoices.addView(busy, new LinearLayout.LayoutParams(dp(48), dp(48)));
+    }
+    private boolean inChoices(View view) {
+        while (view != null) {
+            if (view == mChoices) return true;
+            view = view.getParent() instanceof View ? (View) view.getParent() : null;
+        }
+        return false;
+    }
+    private boolean hasActionableChoice() {
+        for (int i = 0; i < mChoices.getChildCount(); i++) {
+            View child = mChoices.getChildAt(i);
+            if (child.isEnabled() && child.isFocusable()) return true;
+        }
+        return false;
+    }
+    private void focusFirstChoice() {
+        for (int i = 0; i < mChoices.getChildCount(); i++) {
+            View child = mChoices.getChildAt(i);
+            if (child.isEnabled() && child.isFocusable()) { child.requestFocus(); return; }
+        }
+        mBack.requestFocus();
+    }
+    private void showIme(EditText field) { UsbTextInput.show(field); }
     private void showDialog(AlertDialog dialog) {
         if (mDialog != null) return;
         mDialog = dialog;
@@ -725,6 +1074,10 @@ public class UsbDriveActivity extends Activity {
         dialog.setOnKeyListener((d, key, event) -> {
             if (key == KeyEvent.KEYCODE_BUTTON_B) {
                 if (event.getAction() == KeyEvent.ACTION_UP) dialog.dismiss();
+                return true;
+            }
+            if (key == KeyEvent.KEYCODE_BUTTON_A && dialog.getCurrentFocus() instanceof EditText) {
+                if (event.getAction() == KeyEvent.ACTION_UP) UsbTextInput.show((EditText) dialog.getCurrentFocus());
                 return true;
             }
             if (key == KeyEvent.KEYCODE_BUTTON_A) {
@@ -795,7 +1148,7 @@ public class UsbDriveActivity extends Activity {
                 .setMessage(message)
                 .setNegativeButton(android.R.string.cancel, null)
                 .setPositiveButton(scary ? R.string.usb_drive_sure : R.string.usb_drive_share,
-                        (d, which) -> mHandler.post(() -> warn(offer, ro, cdrom)))
+                        (d, which) -> mHandler.post(() -> beginSession(offer, ro, cdrom)))
                 .create();
         mDialog = dialog;
         dialog.setOnDismissListener(d -> mDialog = null);
@@ -824,27 +1177,6 @@ public class UsbDriveActivity extends Activity {
             countdown.run();
         });
         dialog.show();
-    }
-
-    private void share(UsbDrive.Offer offer, boolean ro, boolean cdrom) {
-        if (mUsbMode.chargingBlocksDevice()) {
-            Toast.makeText(this, R.string.charging_refused, Toast.LENGTH_LONG).show();
-            return;
-        }
-        // Recheck after the dialog: a removed card or changed layout is a new offer.
-        UsbDrive.Offer fresh = null;
-        final List<UsbDrive.Offer> offers = UsbDriveControl.scan(this);
-        offers.addAll(UsbDriveControl.images().offers);
-        for (UsbDrive.Offer o : offers) {
-            if (o.enabled() && o.identity().equals(offer.identity())) fresh = o;
-        }
-        if (fresh == null || UsbDriveControl.state().isEmpty() || UsbDriveControl.busy()) {
-            Toast.makeText(this, R.string.usb_drive_failed, Toast.LENGTH_LONG).show();
-            return;
-        }
-        mUsbMode.setConfirmedThisBoot();
-        UsbDeviceControl.start(this, mFunctions, fresh, ro, cdrom);
-        refresh();
     }
 
     private String name(UsbDrive.Offer o) {

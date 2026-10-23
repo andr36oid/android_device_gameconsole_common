@@ -26,19 +26,22 @@
         <activity
             android:name=".UsbDriveActivity"
             android:exported="false"
+            android:icon="@drawable/ic_usb_device_emulator"
             android:label="@string/usb_device_title"
             android:theme="@style/Andr36oidSetupTheme" />
 
         <activity
             android:name=".ControllerActivity"
             android:exported="false"
+            android:icon="@drawable/ic_usb_device_emulator"
             android:label="@string/usb_device_title"
             android:theme="@style/Andr36oidSetupTheme" />
         <activity
             android:name=".ControllerSessionActivity"
             android:exported="false"
+            android:icon="@drawable/ic_usb_device_emulator"
             android:label="@string/usb_device_title"
-            android:theme="@android:style/Theme.DeviceDefault.Settings" />
+            android:theme="@style/Andr36oidSetupTheme" />
 
         <!-- Injected into the top level of the Settings app, right below CPU overclock.
              Also opened by a long press on the tile. -->

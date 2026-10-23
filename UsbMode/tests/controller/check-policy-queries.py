@@ -20,7 +20,10 @@ assert 'policy.query(Collections.singleton(functions));' in control
 refresh = activity[activity.index('private void refresh()'):activity.index('private void render()')]
 assert 'mPolicy.query(' not in refresh and 'mPolicy.queryMissing(' not in refresh
 render = activity[activity.index('private void render()'):activity.index('private void page(')]
-assert render.count('mPolicy.queryMissing(UsbFunctions.pageMasks(mFunctions));') == 1
+assert render.count('queryPolicy(mFunctions);') == 1
+query = activity[activity.index('private void queryPolicy('):activity.index('private void refresh()')]
+assert query.index('work.executor.execute(') < query.index('policy.queryMissing(UsbFunctions.pageMasks(mask));')
+assert 'mWork.policyFor == mask || mWork.querying' in query
 assert 'current == UsbWizard.FUNCTIONS' in render and 'current == UsbWizard.REVIEW' in render
 assert 'final int[] bits = UsbFunctions.BITS;' in activity
 assert 'UsbFunctions.CONTROLLER_BITS' in activity

@@ -17,6 +17,7 @@
 
     <Preference
         android:key="usb_drive"
+        android:icon="@drawable/ic_usb_device_emulator"
         android:title="@string/usb_device_title"
         android:summary="@string/usb_device_about">
         <intent
