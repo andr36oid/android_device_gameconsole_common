@@ -26,10 +26,10 @@ final class MacroSettings {
     static void show(Context context, Runnable changed) {
         MacroProfiles profiles = load(context);
         String[] names = new String[profiles.profiles.size()]; for (int i = 0; i < names.length; i++) names[i] = profiles.profiles.get(i).name;
-        new AlertDialog.Builder(context).setTitle(R.string.usb_macro_profiles).setSingleChoiceItems(names,selected(context,profiles),(dialog,which) -> {
+        UsbDialogInput.show(new AlertDialog.Builder(context).setTitle(R.string.usb_macro_profiles).setSingleChoiceItems(names,selected(context,profiles),(dialog,which) -> {
             save(context,profiles,which,changed); dialog.dismiss(); actions(context,profiles,which,changed);
         }).setPositiveButton(R.string.usb_macro_create,(dialog,which) -> name(context,profiles,-1,false,changed))
-                .setNegativeButton(android.R.string.cancel,null).show();
+                .setNegativeButton(android.R.string.cancel,null).create());
     }
     private static void save(Context context, MacroProfiles profiles, int selected, Runnable changed) {
         PreferenceManager.getDefaultSharedPreferences(context).edit().putString("macro_profiles",profiles.write()).putInt("macro_profile",selected).apply(); changed.run();
@@ -37,13 +37,13 @@ final class MacroSettings {
     private static void actions(Context context, MacroProfiles profiles, int index, Runnable changed) {
         String[] actions = {context.getString(R.string.usb_macro_edit),context.getString(R.string.usb_macro_rename),
                 context.getString(R.string.usb_macro_duplicate),context.getString(R.string.usb_macro_delete)};
-        new AlertDialog.Builder(context).setTitle(profiles.profiles.get(index).name).setItems(actions,(dialog,which) -> {
+        UsbDialogInput.show(new AlertDialog.Builder(context).setTitle(profiles.profiles.get(index).name).setItems(actions,(dialog,which) -> {
             if (which == 0) buttons(context,profiles,index,changed);
             if (which == 1 || which == 2) name(context,profiles,index,which == 2,changed);
             if (which == 3 && profiles.profiles.size() > 1) {
                 profiles.profiles.remove(index); save(context,profiles,0,changed); show(context,changed);
             }
-        }).setNegativeButton(android.R.string.cancel,null).show();
+        }).setNegativeButton(android.R.string.cancel,null).create());
     }
     private static void name(Context context, MacroProfiles profiles, int index, boolean duplicate, Runnable changed) {
         if ((index < 0 || duplicate) && profiles.profiles.size() >= 32) return;
@@ -60,13 +60,13 @@ final class MacroSettings {
                 else profiles.profiles.get(index).name = value;
                 save(context,profiles,selected,changed); dialog.dismiss(); actions(context,profiles,selected,changed);
             } catch (IllegalArgumentException e) { name.setError(context.getString(R.string.usb_macro_bad_name)); }
-        })); dialog.show();
+        })); UsbDialogInput.show(dialog);
     }
     private static void buttons(Context context, MacroProfiles profiles, int index, Runnable changed) {
         String[] labels = new String[12];
         for (int i = 0; i < 12; i++) labels[i] = MacroProfiles.CAPS[i] + " → " + label(context,profiles.profiles.get(index).buttons[i]);
-        new AlertDialog.Builder(context).setTitle(R.string.usb_macro_edit).setItems(labels,(dialog,which) -> combo(context,profiles,index,which,changed))
-                .setNegativeButton(android.R.string.cancel,null).show();
+        UsbDialogInput.show(new AlertDialog.Builder(context).setTitle(R.string.usb_macro_edit).setItems(labels,(dialog,which) -> combo(context,profiles,index,which,changed))
+                .setNegativeButton(android.R.string.cancel,null).create());
     }
     private static void combo(Context context, MacroProfiles profiles, int profile, int button, Runnable changed) {
         List<Integer> usages = new ArrayList<>();
@@ -100,6 +100,6 @@ final class MacroSettings {
             if (keys.size() > 6) { dialog.setTitle(R.string.usb_macro_six); return; }
             combo.keys = new int[keys.size()]; for (int i = 0; i < keys.size(); i++) combo.keys[i] = keys.get(i);
             profiles.profiles.get(profile).buttons[button] = combo; save(context,profiles,profile,changed); dialog.dismiss(); buttons(context,profiles,profile,changed);
-        })); dialog.show();
+        })); UsbDialogInput.show(dialog);
     }
 }

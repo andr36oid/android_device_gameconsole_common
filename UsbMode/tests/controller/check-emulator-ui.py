@@ -19,7 +19,14 @@ assert keys.index('KeyEvent.FLAG_SOFT_KEYBOARD') < keys.index('KeyEvent.KEYCODE_
 assert keys.index('UsbTextInput.activate(') < keys.index('return super.dispatchKeyEvent(new KeyEvent(')
 assert keys.index('UsbTextInput.activate(') < keys.index('KeyEvent.KEYCODE_DPAD_LEFT')
 assert 'field.setOnKeyListener((v, key, event) -> activate(field, key, event));' in (src / 'UsbTextInput.java').read_text()
-assert 'dialog.getCurrentFocus() instanceof EditText && UsbTextInput.activate(' in activity
+dialogs = (src / 'UsbDialogInput.java').read_text()
+assert 'dialog.getCurrentFocus() instanceof EditText && UsbTextInput.activate(' in dialogs
+assert 'UsbDialogInput.show(dialog);' in activity
+ask = activity.split('private void ask(', 1)[1].split('private String name(', 1)[0]
+assert 'showDialog(dialog);' in ask and 'dialog.show();' not in ask
+macros = (src / 'MacroSettings.java').read_text()
+assert macros.count('UsbDialogInput.show(') == 5
+assert '.show();' not in macros
 assert 'saveEntry(); UsbTextInput.hide(this); super.onPause();' in activity
 assert 'onViewDetachedFromWindow(View view) { hide(field); }' in (src / 'UsbTextInput.java').read_text()
 assert 'else { UsbTextInput.hide(editor); if (numeric) saveEntry(); }' in activity

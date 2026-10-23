@@ -1167,19 +1167,7 @@ public class UsbDriveActivity extends Activity {
                 mDialog = null; mPageFocus.begin(true, mFocus); postPageFocus();
             }
         });
-        dialog.setOnKeyListener((d, key, event) -> {
-            if (key == KeyEvent.KEYCODE_BUTTON_B) {
-                if (event.getAction() == KeyEvent.ACTION_UP) dialog.dismiss();
-                return true;
-            }
-            if (dialog.getCurrentFocus() instanceof EditText && UsbTextInput.activate((EditText) dialog.getCurrentFocus(), key, event)) return true;
-            if (key == KeyEvent.KEYCODE_BUTTON_A) {
-                dialog.dispatchKeyEvent(new KeyEvent(event.getDownTime(), event.getEventTime(), event.getAction(),
-                        KeyEvent.KEYCODE_DPAD_CENTER, event.getRepeatCount())); return true;
-            }
-            return false;
-        });
-        dialog.show();
+        UsbDialogInput.show(dialog);
     }
     private void details(CharSequence title, CharSequence message) {
         showDialog(new AlertDialog.Builder(this).setTitle(title).setMessage(message).setPositiveButton(android.R.string.ok, null).create());
@@ -1243,8 +1231,6 @@ public class UsbDriveActivity extends Activity {
                 .setPositiveButton(scary ? R.string.usb_drive_sure : R.string.usb_drive_share,
                         (d, which) -> mHandler.post(() -> beginSession(offer, ro, cdrom)))
                 .create();
-        mDialog = dialog;
-        dialog.setOnDismissListener(d -> mDialog = null);
         dialog.setOnShowListener(d -> {
             final Button cancel = dialog.getButton(DialogInterface.BUTTON_NEGATIVE);
             cancel.setFocusable(true);
@@ -1269,7 +1255,7 @@ public class UsbDriveActivity extends Activity {
             };
             countdown.run();
         });
-        dialog.show();
+        showDialog(dialog);
     }
 
     private String name(UsbDrive.Offer o) {
