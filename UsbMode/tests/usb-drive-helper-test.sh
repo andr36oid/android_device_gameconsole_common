@@ -88,7 +88,14 @@ put() {
 	[ "$1" != "$G/${fail_attr:-}" ] || return 1
 	printf 'write %s %s\n' "$1" "$2" >>"$T/log"
 	if [ "${fail_file:-0}" = 1 ]; then case $1 in */lun.*/file)
-        if [ -n "$2" ]; then printf 'Cannot open backing storage: device is busy\n' >&2; return 1; fi ;; esac; fi
+        if [ -n "$2" ]; then
+            case ${file_error:-busy} in
+                busy) printf 'Cannot open backing storage: device is busy\n' >&2 ;;
+                blank) printf 'Backing storage rejected the open\r\n\n   \n' >&2 ;;
+                silent) ;;
+            esac
+            return 1
+        fi ;; esac; fi
     case $1:$2 in */lun.*/file:"$DEV"/*)
         if [ "${fail_block_opens:-0}" -gt 0 ]; then
             fail_block_opens=$((fail_block_opens - 1)); printf 'Block device is still closing\n' >&2; return 1
@@ -170,7 +177,7 @@ reset_fixture() {
 	setprop "$P.ro" 0
 	setprop "$P.owner" "$$"
 	setprop "$P.request" start
-	fail_unmount=0 keep_mounted=0 fail_unlock=0 fail_file=0 fail_close=0 fail_block_opens=0
+	fail_unmount=0 keep_mounted=0 fail_unlock=0 fail_file=0 fail_close=0 fail_block_opens=0 file_error=busy
 	fail_bind=0 fail_unbind=0 fail_gate=0 fail_role=0 delayed_bind=0 bind_writes=0 auto_stop=0
 	replace_image=0 fail_attr=
 	# shellcheck disable=SC2034
@@ -194,6 +201,12 @@ image_fixture() {
 	setprop "$P.cid" "$(cat "$SYS/mmcblk0/device/cid")"
 	setprop "$P.cdrom" 1
 }
+if [ "${USB_SHARE_DETAILS_ONLY:-0}" = 1 ]; then
+    # shellcheck disable=SC1091
+    . "$HERE/tests/share-detail-cases.sh"
+    printf '%s share diagnostic checks passed\n' "$count"
+    exit 0
+fi
 if [ "${USB_VIRTUAL_ONLY:-0}" = 1 ]; then
     # shellcheck disable=SC1091
     . "$HERE/tests/virtual-drive-cases.sh"
@@ -730,6 +743,8 @@ check test "$(prop state)" = error
 check test "$(prop error)" = configure_drive
 check test "$(prop detail)" = 'Cannot open backing storage: device is busy'
 check test -s "$STATE/session.log"
+# shellcheck disable=SC1091
+. "$HERE/tests/share-detail-cases.sh"
 # shellcheck disable=SC1091
 . "$HERE/tests/boot-image-cases.sh"
 if [ -n "${USB_DRIVE_CONTROLLER:-}" ]; then

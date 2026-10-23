@@ -27,14 +27,21 @@ put() { printf '%s\n' "$2" >"$1" || { log_step "write failed: $1"; return 1; }; 
 fail() {
 	local detail
 	log_step "failed: $1"
-	if [ -z "$error" ]; then
-		error=$1
-		detail=$(tail -n 1 "$STATE/session-step.log" 2>/dev/null | LC_ALL=C tr -cd '[:print:]' | cut -c 1-90)
-		setprop "$P.detail" "${detail:-$1 failed}"
+	if [ -z "$error" ]; then error=$1; detail=
+	else detail=$(prop detail); fi
+	if [ -z "$detail" ]; then
+		detail=$(tail -n 20 "$STATE/session-step.log" 2>/dev/null | LC_ALL=C tr -cd '[:print:]\n' |
+		    awk 'NF {line=$0} END {print substr(line,1,90)}')
+		[ -n "$detail" ] || detail="$1 failed (exit ${2:-1})"
 	fi
+	setprop "$P.detail" "$detail"
+	# Keep the diagnostic alias populated for the existing device repro commands.
+	setprop "$P.vdetail" "$detail"
 	setprop "$P.error" "$error"
+	if [ -d "$STATE" ]; then printf '%s: %s\n' "$error" "$detail" >>"$STATE/session.log"; fi
 	return 1
 }
+
 step() {
 	local rc
 	log_step "$1"
@@ -43,7 +50,7 @@ step() {
 	step_depth=$((${step_depth:-0} + 1))
 	if "$@" 2>>"$STATE/session-step.log"; then rc=0; else rc=$?; fi
 	step_depth=$((step_depth - 1))
-	if [ "$rc" != 0 ]; then fail "$1" || true; fi
+	if [ "$rc" != 0 ]; then fail "$1" "$rc" || true; fi
 	if [ "$step_depth" = 0 ]; then cat "$STATE/session-step.log" >>"$STATE/session.log"; fi
 	return "$rc"
 }
@@ -960,6 +967,7 @@ change_disc() {
 
 handle_request() {
 	setprop "$P.detail" ''
+	setprop "$P.vdetail" ''
 	setprop "$P.stage" ''
 	: >"$STATE/session.log"
 	error=
