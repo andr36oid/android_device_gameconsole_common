@@ -145,7 +145,7 @@ public class UsbDriveActivity extends Activity {
     }
     @Override public void onPause() {
         mResumed = false; mHandler.removeCallbacks(mPoll);
-        saveEntry(); super.onPause();
+        saveEntry(); UsbTextInput.hide(this); super.onPause();
     }
     @Override public Object onRetainNonConfigurationInstance() { return mWork; }
     @Override public void onDestroy() {
@@ -179,11 +179,7 @@ public class UsbDriveActivity extends Activity {
             if (event.getAction() == KeyEvent.ACTION_DOWN && event.getRepeatCount() == 0) goBack();
             return true;
         }
-        if (getCurrentFocus() instanceof EditText && (event.getKeyCode() == KeyEvent.KEYCODE_BUTTON_A
-                || event.getKeyCode() == KeyEvent.KEYCODE_DPAD_CENTER)) {
-            if (event.getAction() == KeyEvent.ACTION_UP) showIme((EditText) getCurrentFocus());
-            return true;
-        }
+        if (getCurrentFocus() instanceof EditText && UsbTextInput.activate((EditText) getCurrentFocus(), event.getKeyCode(), event)) return true;
         if (event.getKeyCode() == KeyEvent.KEYCODE_DPAD_LEFT && inChoices(getCurrentFocus())) {
             if (event.getAction() == KeyEvent.ACTION_DOWN) {
                 mReading = true; mTextScroll.setFocusable(true); mTextScroll.requestFocus();
@@ -1163,7 +1159,6 @@ public class UsbDriveActivity extends Activity {
         }
         mBack.requestFocus();
     }
-    private void showIme(EditText field) { UsbTextInput.show(field); }
     private void showDialog(AlertDialog dialog) {
         if (mDialog != null) return;
         mDialog = dialog;
@@ -1177,10 +1172,7 @@ public class UsbDriveActivity extends Activity {
                 if (event.getAction() == KeyEvent.ACTION_UP) dialog.dismiss();
                 return true;
             }
-            if (key == KeyEvent.KEYCODE_BUTTON_A && dialog.getCurrentFocus() instanceof EditText) {
-                if (event.getAction() == KeyEvent.ACTION_UP) UsbTextInput.show((EditText) dialog.getCurrentFocus());
-                return true;
-            }
+            if (dialog.getCurrentFocus() instanceof EditText && UsbTextInput.activate((EditText) dialog.getCurrentFocus(), key, event)) return true;
             if (key == KeyEvent.KEYCODE_BUTTON_A) {
                 dialog.dispatchKeyEvent(new KeyEvent(event.getDownTime(), event.getEventTime(), event.getAction(),
                         KeyEvent.KEYCODE_DPAD_CENTER, event.getRepeatCount())); return true;
