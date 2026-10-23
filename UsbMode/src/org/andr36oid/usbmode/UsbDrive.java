@@ -39,12 +39,18 @@ final class UsbDrive {
         String identity() { return node + ":" + cid + (kind == Kind.IMAGE ? ":" + stamp : ""); }
         boolean defaultCdrom() { return kind == Kind.IMAGE
                 && node.regionMatches(true, node.length() - 4, ".iso", 0, 4); }
-        boolean cdromPossible() { return bytes >= 614400 && bytes <= 2359293952L
+        boolean floppy() { return kind == Kind.IMAGE && node.matches("(?i).*\\.(img|ima|vfd)")
+                && (bytes == 737280 || bytes == 1474560 || bytes == 2949120); }
+        boolean cdromPossible() { return !floppy() && bytes >= 614400 && bytes <= 2359293952L
                 && bytes % 2048 == 0; }
     }
 
     static final class Images {
         boolean mounted;
+        boolean writable;
+        long free;
+        String filesystem = "";
+        String cid = "";
         final List<Offer> offers = new ArrayList<>();
     }
 
@@ -60,19 +66,30 @@ final class UsbDrive {
                 return result;
             }
             result.mounted = true;
+            result.cid = header[1];
+            result.writable = header[2].equals("0");
+            final File space = new File(inventory.getParentFile(), "space");
+            if (space.isFile()) {
+                final String[] f = new String(Files.readAllBytes(space.toPath()), StandardCharsets.UTF_8).trim().split("\t", -1);
+                if (f.length == 3 && f[0].matches("[0-9]+")) {
+                    result.free = number(f[0]);
+                    result.filesystem = f[1];
+                }
+            }
             for (int i = 1; i < lines.size(); i++) {
                 final String[] f = lines.get(i).split("\t", -1);
-                if (f.length != 3 || !f[0].equals("file") || !f[1].matches("[0-9]+:[0-9]+:[0-9]+")
+                if ((f.length != 3 && f.length != 4) || !f[0].equals("file") || !f[1].matches("[0-9]+:[0-9]+:[0-9]+")
                         || f[2].length() > 91 || f[2].contains("..")
-                        || !f[2].matches("[a-zA-Z0-9][a-zA-Z0-9._ -]*\\.(?i:iso|img)")) continue;
+                        || !f[2].matches("[a-zA-Z0-9][a-zA-Z0-9._ -]*\\.(?i:iso|img|ima|vfd)")) continue;
                 final Offer o = new Offer();
                 o.kind = Kind.IMAGE;
                 o.node = o.label = f[2];
                 o.cid = header[1];
                 o.stamp = f[1];
+                if (f.length == 4 && f[3].matches("fat32|exfat|ntfs|ext4")) o.type = f[3];
                 o.bytes = number(f[1].substring(f[1].lastIndexOf(':') + 1));
                 o.forcedRo = header[2].equals("1");
-                if (o.bytes > 0) result.offers.add(o);
+                if (o.bytes > 0 && (!o.node.matches("(?i).*\\.(ima|vfd)") || o.floppy())) result.offers.add(o);
             }
             result.offers.sort((a, b) -> {
                 final int folded = a.node.compareToIgnoreCase(b.node);

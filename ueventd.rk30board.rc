@@ -83,3 +83,6 @@ parallel_restorecon enabled
 /sys/devices/platform/andr36oid-status-led	full	0664	system	system
 /sys/devices/platform/andr36oid-status-led	notify	0664	system	system
 /sys/devices/platform/andr36oid-status-led	raw	0664	system	system
+
+# Controller mode is the only writer of the USB HID gadget reports.
+/dev/hidg*                0600   root       root

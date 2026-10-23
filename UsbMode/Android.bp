@@ -2,7 +2,7 @@
 // which init gives the usb2 phy's otg_mode file to.
 android_app {
     name: "UsbMode",
-    static_libs: ["andr36oid-hint-bar"],
+    static_libs: ["andr36oid-hint-bar", "netd_aidl_interface-java"],
     srcs: ["src/**/*.java"],
     resource_dirs: ["res"],
     certificate: "platform",
@@ -10,4 +10,14 @@ android_app {
     optimize: {
         enabled: false,
     },
+}
+
+cc_binary {
+    name: "andr36oid-controller",
+    srcs: ["controller/main.cpp", "controller/Controller.cpp", "controller/Keyboard.cpp",
+        "controller/Protocols.cpp", "controller/Services.cpp", "controller/TextFiles.cpp"],
+    static_libs: ["libjoymouse"],
+    shared_libs: ["liblog", "libtinyalsa"],
+    cpp_std: "c++17",
+    cflags: ["-Wall", "-Wextra", "-Werror"],
 }

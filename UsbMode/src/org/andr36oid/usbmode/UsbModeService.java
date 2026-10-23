@@ -45,6 +45,27 @@ public class UsbModeService extends Service {
 
     private UsbMode mUsbMode;
     private boolean mRegistered;
+    private String mLocalInterface = "";
+    private android.os.INetworkManagementService management() {
+        return android.os.INetworkManagementService.Stub.asInterface(android.os.ServiceManager.getService("network_management"));
+    }
+    private void clearLink() {
+        if (!mLocalInterface.isEmpty()) try { management().removeInterfaceFromLocalNetwork(mLocalInterface); }
+        catch (android.os.RemoteException | RuntimeException e) { }
+        mLocalInterface = "";
+    }
+    private void link() {
+        String iface = android.os.SystemProperties.get(UsbDeviceControl.PREFIX + "net_iface");
+        if (!UsbDriveControl.busy() || (UsbDeviceControl.functions() & (UsbFunctions.NETWORK | UsbFunctions.RNDIS)) == 0) iface = "";
+        if (iface.equals(mLocalInterface)) return;
+        clearLink();
+        if (iface.matches("(ar36n|ar36r)[0-9]+")) try {
+            management().addInterfaceToLocalNetwork(iface,java.util.Collections.singletonList(
+                    new android.net.RouteInfo(new android.net.IpPrefix("192.168.36.0/24"),null,iface)));
+            mLocalInterface = iface;
+        } catch (android.os.RemoteException | RuntimeException e) { Log.w(TAG,"Cannot register console cable route",e); }
+    }
+    private android.os.PowerManager.WakeLock mWakeLock;
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
@@ -58,12 +79,15 @@ public class UsbModeService extends Service {
         super.onCreate();
         mUsbMode = new UsbMode(this);
         createChannels();
+        mWakeLock = getSystemService(android.os.PowerManager.class).newWakeLock(
+                android.os.PowerManager.PARTIAL_WAKE_LOCK, "UsbMode:session");
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (intent == null) UsbDriveControl.stop();
         startForeground(ID_ON, ongoing());
+        if (UsbDriveControl.busy() && !mWakeLock.isHeld()) mWakeLock.acquire();
         if (!mRegistered) {
             final IntentFilter filter = new IntentFilter();
             filter.addAction(Intent.ACTION_POWER_CONNECTED);
@@ -80,7 +104,8 @@ public class UsbModeService extends Service {
     @Override
     public void onDestroy() {
         mHandler.removeCallbacks(mPoll);
-        UsbDriveControl.stop();
+        clearLink(); UsbDriveControl.stop();
+        if (mWakeLock.isHeld()) mWakeLock.release();
         if (mRegistered) {
             unregisterReceiver(mReceiver);
             mRegistered = false;
@@ -94,6 +119,9 @@ public class UsbModeService extends Service {
     }
 
     private void check() {
+        if (UsbDriveControl.working()) return;
+        link();
+        if (!UsbDriveControl.busy() && mWakeLock.isHeld()) mWakeLock.release();
         final boolean device = mUsbMode.isDevice();
         if (device && !mUsbMode.wasDeviceThisBoot()) mUsbMode.setDeviceMarker(true);
         if (mUsbMode.chargingBlocksDevice()) {
@@ -127,17 +155,18 @@ public class UsbModeService extends Service {
 
     private PendingIntent openScreen() {
         return PendingIntent.getActivity(this, 0, new Intent(this,
-                UsbDriveControl.busy() ? UsbDriveActivity.class : UsbModeActivity.class)
+                UsbDriveControl.busy() && !UsbDriveControl.working() ? ControllerSessionActivity.class : UsbModeActivity.class)
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK), PendingIntent.FLAG_IMMUTABLE);
     }
 
     private Notification ongoing() {
+        final boolean working = UsbDriveControl.working();
         return new Notification.Builder(this, CHANNEL_ON)
                 .setSmallIcon(R.drawable.ic_usb_mode)
-                .setContentTitle(getString(R.string.notification_on_title))
-                .setContentText(getString(R.string.charging_warning))
+                .setContentTitle(getString(working ? R.string.usb_virtual_working : R.string.notification_on_title))
+                .setContentText(getString(working ? R.string.usb_virtual_allocation : R.string.charging_warning))
                 .setStyle(new Notification.BigTextStyle()
-                        .bigText(getString(R.string.charging_warning)))
+                        .bigText(getString(working ? R.string.usb_virtual_allocation : R.string.charging_warning)))
                 .setContentIntent(openScreen())
                 .setOngoing(true)
                 .setShowWhen(false)

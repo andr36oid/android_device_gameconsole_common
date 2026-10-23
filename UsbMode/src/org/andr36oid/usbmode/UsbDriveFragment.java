@@ -7,6 +7,10 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.SystemClock;
 import android.preference.Preference;
+import android.preference.ListPreference;
+import android.preference.PreferenceManager;
+import android.content.SharedPreferences;
+import android.content.Intent;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
@@ -15,6 +19,8 @@ import android.text.TextUtils;
 import android.text.format.Formatter;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -31,6 +37,11 @@ public class UsbDriveFragment extends PreferenceFragment {
     private AlertDialog mDialog;
     private boolean mRo, mResumed;
     private long mNextScan;
+    private UsbFunctions mPolicy;
+    private SharedPreferences mPrefs;
+    private int mFunctions;
+    private String mPreset;
+    private boolean mCdrom, mAdvanced, mMacro;
     private String mShown = "", mName = "", mSelectedKey = "", mFocusKey = "";
 
     private final Runnable mPoll = new Runnable() {
@@ -45,6 +56,15 @@ public class UsbDriveFragment extends PreferenceFragment {
     public void onCreate(Bundle state) {
         super.onCreate(state);
         mUsbMode = new UsbMode(getActivity());
+        getActivity().setTitle(R.string.usb_device_title);
+        mPolicy = UsbDeviceControl.policies();
+        mPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        mPreset = mPrefs.getString("usb_preset", "custom");
+        mFunctions = mPrefs.getInt("usb_functions", UsbFunctions.XINPUT);
+        mSelectedKey = mPrefs.getString("usb_storage", "");
+        mCdrom = mPrefs.getBoolean("usb_cdrom", true);
+        mRo = mPrefs.getBoolean("usb_ro", true);
+        mMacro = mPrefs.getBoolean("usb_macro",false);
         if (state != null) {
             mRo = state.getBoolean("ro");
             mName = state.getString("name", "");
@@ -63,7 +83,7 @@ public class UsbDriveFragment extends PreferenceFragment {
             public void onItemSelected(AdapterView<?> parent, View row, int position, long id) {
                 final Object item = parent.getItemAtPosition(position);
                 if (item instanceof Preference) mFocusKey = ((Preference) item).getKey();
-                if (item instanceof DrivePreference) select(((DrivePreference) item).offer);
+
             }
 
             @Override
@@ -112,99 +132,364 @@ public class UsbDriveFragment extends PreferenceFragment {
         }
         final UsbDrive.Images images = UsbDriveControl.images();
         offers.addAll(images.offers);
-        final String target = android.os.SystemProperties.get("sys.andr36oid.usbdrive.target");
-        final boolean sharingImage = "file".equals(target);
-        final String imageName = android.os.SystemProperties.get("sys.andr36oid.usbdrive.image");
-        final StringBuilder signature = new StringBuilder(state).append(busy).append(target);
-        signature.append(images.mounted).append(imageName);
-        for (UsbDrive.Offer o : offers) signature.append(o.identity()).append(o.reason)
-                .append(o.label).append(o.type).append(o.bytes).append(o.forcedRo);
+        if (!UsbDeviceControl.debugging(getActivity())) mFunctions &= ~UsbFunctions.ADB;
+        final StringBuilder signature = new StringBuilder(state).append(busy).append(mFunctions)
+                .append(mAdvanced).append(mMacro).append(mPreset).append(mSelectedKey).append(mCdrom).append(mRo).append(images.mounted)
+                .append(UsbDeviceControl.debugging(getActivity()));
+        signature.append(UsbDriveControl.virtual("result")).append(UsbDriveControl.virtual("stage"))
+                .append(UsbDriveControl.virtual("percent")).append(UsbDriveControl.virtual("error"))
+                .append(images.free).append(images.writable);
+        mSelected = null;
+        for (UsbDrive.Offer o : offers) {
+            signature.append(o.identity()).append(o.reason).append(o.label).append(o.bytes).append(o.forcedRo).append(o.type);
+            if (o.identity().equals(mSelectedKey)) mSelected = o;
+        }
         if (signature.toString().equals(mShown)) return;
         mShown = signature.toString();
         final String focus = mFocusKey;
         final PreferenceScreen root = getPreferenceScreen();
         root.removeAll();
-        mReadOnly = null;
-        mSelected = null;
-        if (busy) {
-            if (sharingImage) mName = imageName;
-            for (UsbDrive.Offer o : offers) if (o.node.equals(target)) mName = name(o);
-            final Preference summary = row("status", R.string.usb_drive_title);
-            summary.setSummary("sharing".equals(state) ? getString(R.string.usb_drive_sharing, mName)
-                    : getString(R.string.usb_drive_working));
-            root.addPreference(summary);
-            final Preference stop = row("stop", R.string.usb_drive_stop);
-            stop.setSummary(R.string.usb_drive_eject);
-            stop.setOnPreferenceClickListener(p -> { UsbDriveControl.stop(); refresh(); return true; });
-            root.addPreference(stop);
-        } else {
-            if ("error".equals(state)) {
-                final Preference error = row("status", R.string.usb_drive_title);
-                error.setSummary(R.string.usb_drive_failed);
-                root.addPreference(error);
-            }
-            for (UsbDrive.Offer o : offers) {
-                if (o.kind != UsbDrive.Kind.IMAGE) root.addPreference(new DrivePreference(o));
-                if (o.identity().equals(mSelectedKey) || (mSelected == null && o.enabled())) {
-                    mSelected = o;
-                }
-            }
-            if (offers.isEmpty()) {
-                final Preference empty = row("empty", R.string.usb_drive_title);
-                empty.setSummary(R.string.usb_drive_empty);
-                root.addPreference(empty);
-            }
-            mReadOnly = new SwitchPreference(getActivity()) {
-                @Override
-                protected void onBindView(View view) {
-                    super.onBindView(view);
-                    // Keep the row in D-pad navigation when the switch is fixed.
-                    final View toggle = view.findViewById(android.R.id.switch_widget);
-                    if (toggle != null) toggle.setEnabled(!readOnlyFixed());
-                }
-            };
-            mReadOnly.setKey("ro");
-            mReadOnly.setPersistent(false);
-            mReadOnly.setTitle(R.string.usb_drive_ro);
-            mReadOnly.setOnPreferenceChangeListener((p, value) -> {
-                if (readOnlyFixed()) {
-                    details(getString(R.string.usb_drive_ro), readOnlyReason());
-                    return false;
-                }
-                mRo = (Boolean) value;
-                return true;
-            });
-            root.addPreference(mReadOnly);
-            if (mSelected != null) select(mSelected);
-            else {
-                mReadOnly.setChecked(mRo);
-                mReadOnly.setSummary(readOnlyReason());
-            }
-            final PreferenceCategory section = new PreferenceCategory(getActivity());
-            section.setTitle(R.string.usb_drive_image_title);
-            root.addPreference(section);
-            final Preference hint = row("images", R.string.usb_drive_image_title);
-            hint.setTitle(null);
-            String imageHint = getString(R.string.usb_drive_image_hint);
-            if (!images.mounted) imageHint = getString(R.string.usb_drive_image_unavailable);
-            else if (images.offers.isEmpty()) imageHint = getString(R.string.usb_drive_image_empty);
-            hint.setSummary(imageHint);
-            final String imageDetails = imageHint + "\n\n" + getString(R.string.usb_drive_image_names);
-            hint.setOnPreferenceClickListener(p -> {
-                details(getString(R.string.usb_drive_image_title), imageDetails);
-                return true;
-            });
-            section.addPreference(hint);
-            for (UsbDrive.Offer o : images.offers) section.addPreference(new DrivePreference(o));
+        if (UsbDriveControl.working()) {
+            final Preference progress = row("virtual_progress", R.string.usb_virtual_working);
+            progress.setSummary(getString(virtualStage(UsbDriveControl.virtual("stage")))
+                    + " · " + UsbDriveControl.virtual("percent") + "%\n" + getString(R.string.usb_virtual_allocation));
+            root.addPreference(progress);
+            final Preference cancel = row("virtual_cancel", android.R.string.cancel);
+            cancel.setOnPreferenceClickListener(p -> { UsbDriveControl.stop(); return true; });
+            root.addPreference(cancel);
+            restoreFocus(focus, "virtual_cancel");
+            return;
         }
-        final Preference footer = row("about", R.string.usb_drive_title);
-        footer.setTitle(null);
-        footer.setSummary(getString(busy && sharingImage ? R.string.usb_drive_image_hint
-                : R.string.usb_drive_intro) + "\n\n" + getString(R.string.usb_drive_cable));
+        if (busy) {
+            final Preference session = row("session", R.string.usb_device_session);
+            session.setOnPreferenceClickListener(p -> {
+                startActivity(new Intent(getActivity(), ControllerSessionActivity.class)); return true;
+            });
+            root.addPreference(session);
+            return;
+        }
+        if ("error".equals(state)) {
+            final Preference error = row("error", R.string.usb_device_failed);
+            root.addPreference(error);
+        }
+        final String virtualResult = UsbDriveControl.virtual("result");
+        if (virtualResult.equals("done") || virtualResult.equals("error") || virtualResult.equals("cancelled")) {
+            final Preference result = row("virtual_result", virtualResult.equals("done") ? R.string.usb_virtual_done
+                    : virtualResult.equals("cancelled") ? R.string.usb_virtual_cancelled : R.string.usb_virtual_failed);
+            if (virtualResult.equals("error")) result.setSummary(virtualError(UsbDriveControl.virtual("error")));
+            root.addPreference(result);
+        }
+        final ListPreference preset = new ListPreference(getActivity());
+        preset.setKey("preset"); preset.setPersistent(false); preset.setTitle(R.string.usb_device_preset);
+        preset.setEntries(new CharSequence[] {getString(R.string.usb_device_pc),
+                getString(R.string.usb_device_game), getString(R.string.usb_drive_title),
+                getString(R.string.usb_device_custom), getString(R.string.usb_device_wired),
+                getString(R.string.usb_device_music),getString(R.string.usb_jiggle_preset),
+                getString(R.string.usb_macro_title),getString(R.string.usb_link_title)});
+        preset.setEntryValues(new String[] {"pc", "game", "drive", "custom", "wired", "music", "awake", "macro", "link"});
+        preset.setValue(mPreset); preset.setSummary("%s");
+        preset.setOnPreferenceChangeListener((p, value) -> {
+            if ("custom".equals(mPreset)) saveCustom();
+            mPreset = (String) value;
+            if ("custom".equals(mPreset)) {
+                mFunctions = mPrefs.getInt("usb_custom_functions", UsbFunctions.XINPUT);
+                mMacro = mPrefs.getBoolean("usb_custom_macro",false);
+                mPrefs.edit().putBoolean("usb_jiggle",mPrefs.getBoolean("usb_custom_jiggle",false)).apply();
+                mSelectedKey = mPrefs.getString("usb_custom_storage", "");
+                mCdrom = mPrefs.getBoolean("usb_custom_cdrom", true);
+                mRo = mPrefs.getBoolean("usb_custom_ro", true);
+            } else {
+                mMacro = "macro".equals(mPreset);
+                mPrefs.edit().putBoolean("usb_jiggle","awake".equals(mPreset)).apply();
+                mFunctions = "pc".equals(mPreset) ? UsbFunctions.STORAGE | UsbFunctions.KEYBOARD | UsbFunctions.MOUSE
+                        : "game".equals(mPreset) ? UsbFunctions.XINPUT : "wired".equals(mPreset) ? UsbFunctions.NETWORK
+                        : "music".equals(mPreset) ? UsbFunctions.MIDI : "awake".equals(mPreset) ? UsbFunctions.MOUSE
+                        : "macro".equals(mPreset) ? UsbFunctions.KEYBOARD | UsbFunctions.MEDIA
+                        : "link".equals(mPreset) ? UsbFunctions.NETWORK : UsbFunctions.STORAGE;
+                // Preserve debugging when it was enabled; it fits every preset.
+                if (("pc".equals(mPreset) || "game".equals(mPreset) || "drive".equals(mPreset))
+                        && UsbDeviceControl.debugging(getActivity())) mFunctions |= UsbFunctions.ADB;
+                if ((mFunctions & UsbFunctions.STORAGE) != 0) {
+                    mSelectedKey = "";
+                    for (UsbDrive.Offer o : offers) if (o.enabled() &&
+                            (!"pc".equals(mPreset) || o.kind == UsbDrive.Kind.IMAGE && o.cdromPossible())) {
+                        mSelectedKey = o.identity(); break;
+                    }
+                    if ("pc".equals(mPreset)) { mCdrom = true; mRo = true; }
+                }
+            }
+            changed(false); return false;
+        });
+        root.addPreference(preset);
+        final Preference controller = row("controller", R.string.usb_device_controller_type);
+        controller.setSummary(getString(controllerTitle(mFunctions & UsbFunctions.CONTROLLERS)));
+        controller.setOnPreferenceClickListener(p -> { pickController(); return true; });
+        root.addPreference(controller);
+        final int[] bits = {UsbFunctions.STORAGE, UsbFunctions.KEYBOARD, UsbFunctions.MOUSE,
+                UsbFunctions.MEDIA, UsbFunctions.MIDI, UsbFunctions.NETWORK, UsbFunctions.ADB,
+                UsbFunctions.SOUND, UsbFunctions.SERIAL, UsbFunctions.RNDIS};
+        final int[] titles = {R.string.usb_device_storage, R.string.usb_device_keyboard, R.string.usb_device_mouse,
+                R.string.usb_device_media, R.string.usb_device_midi, R.string.usb_device_network,
+                R.string.usb_device_adb, R.string.usb_device_sound, R.string.usb_device_serial, R.string.usb_device_rndis};
+        final int[] summaries = {R.string.usb_drive_intro, R.string.controller_keyboard_summary,
+                R.string.usb_device_mouse_summary, R.string.usb_device_media_summary, R.string.usb_device_midi_summary,
+                R.string.usb_device_network_summary, R.string.usb_device_adb_summary,
+                R.string.usb_device_sound_summary, R.string.usb_device_serial_summary, R.string.usb_device_rndis_summary};
+        for (int i = 0; i < bits.length; i++) {
+            final int bit = bits[i];
+            if (bit == UsbFunctions.SOUND) {
+                final Preference advanced = row("advanced", R.string.usb_device_advanced);
+                advanced.setSummary(mAdvanced ? R.string.usb_device_collapse : R.string.usb_device_advanced_summary);
+                advanced.setOnPreferenceClickListener(p -> { mAdvanced = !mAdvanced; mShown = ""; refresh(); return true; });
+                root.addPreference(advanced);
+                if (mAdvanced) {
+                    final SwitchPreference webusb = new SwitchPreference(getActivity());
+                    webusb.setKey("usb_webusb"); webusb.setTitle(R.string.usb_webusb_title);
+                    webusb.setSummary(R.string.usb_webusb_summary); webusb.setDefaultValue(true);
+                    root.addPreference(webusb);
+                }
+            }
+            if ((bit == UsbFunctions.SOUND || bit == UsbFunctions.SERIAL || bit == UsbFunctions.RNDIS) && !mAdvanced) continue;
+            final boolean checked = (mFunctions & bit) != 0;
+            final SwitchPreference toggle = new SwitchPreference(getActivity());
+            toggle.setKey("function:" + bit); toggle.setPersistent(false); toggle.setTitle(titles[i]);
+            toggle.setChecked(checked); toggle.setSummary(summaries[i]);
+            String reason = checked ? "ok" : mPolicy.reason(mFunctions | bit);
+            if (bit == UsbFunctions.STORAGE && !checked && "ok".equals(reason)) {
+                boolean available = false;
+                for (UsbDrive.Offer o : offers) available |= o.enabled();
+                if (!available) reason = "storage";
+            }
+            if (bit == UsbFunctions.ADB && !UsbDeviceControl.debugging(getActivity())) reason = "debugging";
+            if (!"ok".equals(reason)) { toggle.setEnabled(false); toggle.setSummary(reason(reason)); }
+            toggle.setOnPreferenceChangeListener((p, value) -> {
+                mFunctions = (Boolean) value ? mFunctions | bit : mFunctions & ~bit;
+                if ((mFunctions & UsbFunctions.KEYBOARD) == 0 || (mFunctions & UsbFunctions.MEDIA) == 0) mMacro = false;
+                if ((mFunctions & UsbFunctions.SOUND) == 0) mFunctions &= ~UsbFunctions.SOUNDBOARD;
+                changed(true); return false;
+            });
+            root.addPreference(toggle);
+            if (bit == UsbFunctions.SOUND && checked) {
+                final SwitchPreference board = new SwitchPreference(getActivity());
+                board.setKey("soundboard"); board.setPersistent(false); board.setTitle(R.string.usb_sound_title);
+                boolean active = (mFunctions & UsbFunctions.SOUNDBOARD) != 0; board.setChecked(active);
+                String why = active ? "ok" : mPolicy.reason(mFunctions | UsbFunctions.SOUNDBOARD);
+                board.setEnabled("ok".equals(why)); board.setSummary("ok".equals(why) ? R.string.usb_sound_summary : reason(why));
+                board.setOnPreferenceChangeListener((p,value) -> {
+                    mFunctions = (Boolean) value ? mFunctions | UsbFunctions.SOUNDBOARD : mFunctions & ~UsbFunctions.SOUNDBOARD;
+                    changed(true); return false;
+                }); root.addPreference(board);
+                if (active) {
+                    final SwitchPreference mic = new SwitchPreference(getActivity()); mic.setKey("usb_sound_live");
+                    mic.setTitle(R.string.usb_sound_mic);
+                    mic.setOnPreferenceChangeListener((p,value) -> {
+                        if ((Boolean) value && getActivity().checkSelfPermission(android.Manifest.permission.RECORD_AUDIO) != android.content.pm.PackageManager.PERMISSION_GRANTED) {
+                            requestPermissions(new String[] {android.Manifest.permission.RECORD_AUDIO},1); return false;
+                        }
+                        return true;
+                    }); root.addPreference(mic);
+                }
+            }
+        }
+        if ((mFunctions & UsbFunctions.STORAGE) != 0) {
+            final Preference storage = row("storage", R.string.usb_device_target);
+            storage.setSummary(mSelected == null ? getString(R.string.usb_device_pick_storage)
+                    : name(mSelected) + (mSelected.kind == UsbDrive.Kind.IMAGE ? " · " + getString(mCdrom
+                    ? R.string.usb_drive_image_cd : R.string.usb_drive_image_usb) : ""));
+            storage.setOnPreferenceClickListener(p -> { pickStorage(offers); return true; });
+            root.addPreference(storage);
+            mReadOnly = new SwitchPreference(getActivity());
+            mReadOnly.setKey("ro"); mReadOnly.setPersistent(false); mReadOnly.setTitle(R.string.usb_drive_ro);
+            mReadOnly.setChecked(mRo || readOnlyFixed() || mCdrom && mSelected != null
+                    && mSelected.kind == UsbDrive.Kind.IMAGE);
+            mReadOnly.setSummary(readOnlyReason());
+            mReadOnly.setEnabled(!readOnlyFixed() && !(mCdrom && mSelected != null && mSelected.kind == UsbDrive.Kind.IMAGE));
+            mReadOnly.setOnPreferenceChangeListener((p, value) -> { mRo = (Boolean) value; changed(true); return false; });
+            root.addPreference(mReadOnly);
+        }
+        final PreferenceCategory virtual = new PreferenceCategory(getActivity());
+        virtual.setTitle(R.string.usb_drive_image_title); root.addPreference(virtual);
+        final Preference create = row("virtual_create", R.string.usb_virtual_create);
+        create.setSummary(images.mounted && images.writable ? R.string.usb_virtual_summary : R.string.usb_virtual_unavailable);
+        create.setEnabled(images.mounted && images.writable);
+        create.setOnPreferenceClickListener(p -> {
+            if (mDialog == null) {
+                mDialog = VirtualDriveDialog.create(getActivity(), images, () -> { mShown = ""; refresh(); });
+                mDialog.setOnDismissListener(d -> mDialog = null);
+                mDialog.show();
+            }
+            return true;
+        });
+        virtual.addPreference(create);
+        final Preference manage = row("virtual_manage", R.string.usb_virtual_manage);
+        manage.setSummary(R.string.usb_drive_image_hint);
+        manage.setOnPreferenceClickListener(p -> { pickStorage(images.offers); return true; });
+        virtual.addPreference(manage);
+        if ((mFunctions & UsbFunctions.MOUSE) != 0) {
+            final SwitchPreference jiggle = new SwitchPreference(getActivity());
+            jiggle.setKey("usb_jiggle"); jiggle.setTitle(R.string.usb_jiggle_title); jiggle.setSummary(R.string.usb_jiggle_summary);
+            root.addPreference(jiggle);
+            final ListPreference interval = new ListPreference(getActivity()); interval.setKey("usb_jiggle_interval");
+            interval.setTitle(R.string.usb_jiggle_interval); interval.setEntries(getString(R.string.usb_jiggle_times).split("\\|"));
+            interval.setEntryValues(new String[] {"30","60","120","300"}); interval.setDefaultValue("60"); interval.setSummary("%s"); root.addPreference(interval);
+        }
+        if ((mFunctions & (UsbFunctions.NETWORK | UsbFunctions.RNDIS)) != 0) {
+            final Preference link = row("link_guide",R.string.usb_link_title); link.setSummary(R.string.usb_link_guide); root.addPreference(link);
+            final Preference stream = row("stream_guide",R.string.usb_stream_title); stream.setSummary(R.string.usb_stream_guide); root.addPreference(stream);
+        }
+        if ((mFunctions & UsbFunctions.KEYBOARD) != 0) {
+            final SwitchPreference macro = new SwitchPreference(getActivity()); macro.setKey("macro"); macro.setPersistent(false);
+            macro.setTitle(R.string.usb_macro_title); macro.setChecked(mMacro);
+            String why = mMacro ? "ok" : mPolicy.reason(mFunctions | UsbFunctions.MEDIA);
+            macro.setEnabled("ok".equals(why)); macro.setSummary("ok".equals(why) ? R.string.usb_macro_summary : reason(why));
+            macro.setOnPreferenceChangeListener((p,value) -> { mMacro = (Boolean) value;
+                if (mMacro) mFunctions |= UsbFunctions.MEDIA; changed(true); return false;
+            }); root.addPreference(macro);
+            final Preference profiles = row("macro_profiles",R.string.usb_macro_profiles);
+            final MacroProfiles all = MacroSettings.load(getActivity());
+            profiles.setSummary(all.profiles.get(MacroSettings.selected(getActivity(),all)).name);
+            profiles.setOnPreferenceClickListener(p -> { MacroSettings.show(getActivity(),() -> { mShown = ""; refresh(); }); return true; }); root.addPreference(profiles);
+            final ListPreference layout = new ListPreference(getActivity());
+            layout.setKey("keyboard_layout"); layout.setTitle(R.string.keyboard_layout);
+            layout.setEntries(new CharSequence[] {getString(R.string.keyboard_layout_us),
+                    getString(R.string.keyboard_layout_de), getString(R.string.keyboard_layout_fr)});
+            layout.setEntryValues(KeyboardModel.LAYOUTS);
+            layout.setDefaultValue(KeyboardModel.defaultLayout(java.util.Locale.getDefault()));
+            layout.setSummary("%s"); root.addPreference(layout);
+        }
+        final Preference start = row("start", R.string.usb_device_start);
+        String reason = mPolicy.reason(mFunctions);
+        if ("ok".equals(reason) && (mFunctions & UsbFunctions.STORAGE) != 0 &&
+                (mSelected == null || !mSelected.enabled())) reason = "storage";
+        if (!"ok".equals(reason)) { start.setEnabled(false); start.setSummary(reason(reason)); }
+        start.setOnPreferenceClickListener(p -> {
+            if ((mFunctions & UsbFunctions.STORAGE) != 0) ask(mSelected, mSelected.kind == UsbDrive.Kind.IMAGE && mCdrom);
+            else askInputs();
+            return true;
+        });
+        root.addPreference(start);
+        final Preference footer = row("about", R.string.usb_device_title);
+        footer.setSummary(getString(R.string.usb_device_about) + "\n\n" + getString(R.string.usb_device_boot_hint)
+                + ((mFunctions & (UsbFunctions.NETWORK | UsbFunctions.RNDIS)) != 0 ? "\n\n" + getString(R.string.usb_device_link_cable) : "")
+                + "\n\n" + getString(R.string.usb_floppy_summary) + "\n\n" + getString(R.string.usb_drive_image_hint) + "\n\n" + getString(R.string.usb_drive_cable));
         root.addPreference(footer);
-        final String fallback = busy ? "stop"
-                : mSelected == null ? "about" : "drive:" + mSelected.identity();
-        restoreFocus(focus, fallback);
+        restoreFocus(focus, "start");
+    }
+
+    @Override public void onRequestPermissionsResult(int request, String[] permissions, int[] grants) {
+        super.onRequestPermissionsResult(request,permissions,grants);
+        if (request == 1 && grants.length > 0 && grants[0] == android.content.pm.PackageManager.PERMISSION_GRANTED) {
+            mPrefs.edit().putBoolean("usb_sound_live",true).apply(); mShown = ""; refresh();
+        }
+    }
+    private void saveCustom() {
+        mPrefs.edit().putInt("usb_custom_functions", mFunctions).putString("usb_custom_storage", mSelectedKey)
+                .putBoolean("usb_custom_macro",mMacro).putBoolean("usb_custom_jiggle",mPrefs.getBoolean("usb_jiggle",false))
+                .putBoolean("usb_custom_cdrom", mCdrom).putBoolean("usb_custom_ro", mRo).apply();
+    }
+    private void changed(boolean custom) {
+        if (custom) { mPreset = "custom"; saveCustom(); }
+        mPrefs.edit().putString("usb_preset", mPreset).putInt("usb_functions", mFunctions)
+                .putString("usb_storage", mSelectedKey).putBoolean("usb_cdrom", mCdrom)
+                .putBoolean("usb_ro", mRo).putBoolean("usb_macro",mMacro).apply();
+        mShown = ""; refresh();
+    }
+    private int reason(String reason) {
+        switch (reason) {
+            case "sound": return R.string.usb_sound_requires;
+            case "networks": return R.string.usb_device_network_conflict;
+            case "routing": return R.string.usb_device_input_conflict;
+            case "standalone": return R.string.usb_device_standalone;
+            case "controllers": return R.string.usb_device_controllers_conflict;
+            case "endpoints": return R.string.usb_device_endpoint_limit;
+            case "empty": return R.string.usb_device_empty;
+            case "storage": return R.string.usb_device_pick_storage;
+            case "debugging": return R.string.usb_device_debugging_off;
+            default: return R.string.usb_device_policy_unavailable;
+        }
+    }
+    private static int controllerTitle(int bit) {
+        switch (bit) {
+            case UsbFunctions.XINPUT: return R.string.controller_xinput;
+            case UsbFunctions.GAMEPAD: return R.string.controller_gamepad;
+            case UsbFunctions.SWITCH: return R.string.usb_device_switch;
+            case UsbFunctions.PS4: return R.string.usb_ds4_title;
+            case UsbFunctions.PS3: return R.string.usb_device_ps3;
+            case UsbFunctions.GAMECUBE: return R.string.usb_device_gamecube;
+            case UsbFunctions.XBOX: return R.string.usb_device_xbox;
+            default: return R.string.usb_device_no_controller;
+        }
+    }
+    private void pickController() {
+        final int[] bits = {0, UsbFunctions.XINPUT, UsbFunctions.GAMEPAD, UsbFunctions.SWITCH,
+                UsbFunctions.PS3, UsbFunctions.GAMECUBE, UsbFunctions.XBOX, UsbFunctions.PS4};
+        final int[] summaries = {0,R.string.controller_xinput_summary,R.string.controller_gamepad_summary,
+                R.string.usb_device_switch_summary,R.string.usb_device_ps3_summary,
+                R.string.usb_device_gamecube_summary,R.string.usb_device_xbox_summary,R.string.usb_ds4_summary};
+        final CharSequence[] names = new CharSequence[bits.length];
+        final boolean[] enabled = new boolean[bits.length];
+        for (int i = 0; i < bits.length; i++) {
+            final int mask = (mFunctions & ~UsbFunctions.CONTROLLERS) | bits[i];
+            final String reason = mPolicy.reason(mask);
+            enabled[i] = "ok".equals(reason) || mask == 0;
+            names[i] = getString(controllerTitle(bits[i])) + (enabled[i] ? i == 0 ? "" : "\n" + getString(summaries[i])
+                    : "\n" + getString(reason(reason)));
+        }
+        final ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(getActivity(),
+                android.R.layout.simple_list_item_1,names) {
+            @Override public boolean areAllItemsEnabled() { return false; }
+            @Override public boolean isEnabled(int position) { return enabled[position]; }
+            @Override public View getView(int position, View view, ViewGroup parent) {
+                View row = super.getView(position,view,parent); row.setAlpha(enabled[position] ? 1 : 0.4f); return row;
+            }
+        };
+        mDialog = new AlertDialog.Builder(getActivity()).setTitle(R.string.usb_device_controller_type)
+                .setAdapter(adapter,(dialog,which) -> {
+                    if (enabled[which]) { mFunctions = (mFunctions & ~UsbFunctions.CONTROLLERS) | bits[which]; changed(true); }
+                }).setNegativeButton(android.R.string.cancel,null).create();
+        mDialog.setOnDismissListener(d -> mDialog = null); mDialog.show();
+    }
+    private void pickStorage(List<UsbDrive.Offer> offers) {
+        if (mDialog != null) return;
+        if (offers.isEmpty()) { details(getString(R.string.usb_device_target), getString(R.string.usb_drive_image_empty)); return; }
+        final CharSequence[] names = new CharSequence[offers.size()];
+        for (int i = 0; i < names.length; i++) {
+            final UsbDrive.Offer o = offers.get(i);
+            names[i] = name(o) + " · " + Formatter.formatFileSize(getActivity(), o.bytes)
+                    + (o.type.isEmpty() ? "" : " · " + o.type)
+                    + (o.enabled() ? "" : " · " + explanation(o));
+        }
+        final ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(getActivity(),
+                android.R.layout.simple_list_item_1, names) {
+            @Override public boolean areAllItemsEnabled() { return false; }
+            @Override public boolean isEnabled(int position) { return offers.get(position).enabled(); }
+            @Override public View getView(int position, View view, ViewGroup parent) {
+                final View row = super.getView(position, view, parent);
+                row.setEnabled(isEnabled(position)); return row;
+            }
+        };
+        mDialog = new AlertDialog.Builder(getActivity()).setTitle(R.string.usb_device_target)
+                .setAdapter(adapter, (d, which) -> mHandler.post(() -> {
+                    final UsbDrive.Offer offer = offers.get(which);
+                    if (!offer.enabled()) { details(name(offer), explanation(offer)); return; }
+                    if (offer.kind == UsbDrive.Kind.IMAGE) imageActions(offer);
+                    else select(offer);
+                    if (offer.kind != UsbDrive.Kind.IMAGE) changed(true);
+                })).setNegativeButton(android.R.string.cancel, null).create();
+        mDialog.setOnDismissListener(d -> mDialog = null); mDialog.show();
+    }
+    private void askInputs() {
+        if (mDialog != null || UsbDriveControl.busy()) return;
+        if (mUsbMode.chargingBlocksDevice()) {
+            Toast.makeText(getActivity(), R.string.charging_refused, Toast.LENGTH_LONG).show(); return;
+        }
+        mDialog = DeviceModeWarning.show(getActivity(), mUsbMode, new DeviceModeWarning.Callback() {
+            @Override public void onConfirmed() {
+                mDialog = null;
+                if (!mUsbMode.chargingBlocksDevice()) UsbDeviceControl.start(getActivity(), mFunctions, null, true, false);
+            }
+            @Override public void onCancelled() { mDialog = null; }
+        });
     }
 
     private Preference row(String key, int title) {
@@ -242,6 +527,8 @@ public class UsbDriveFragment extends PreferenceFragment {
     }
 
     private void select(UsbDrive.Offer offer) {
+        if (!offer.identity().equals(mSelectedKey) && !offer.type.isEmpty()
+                && offer.kind == UsbDrive.Kind.IMAGE) mRo = false;
         mSelected = offer;
         mSelectedKey = offer.identity();
         if (mReadOnly == null) return;
@@ -273,46 +560,9 @@ public class UsbDriveFragment extends PreferenceFragment {
         mDialog.show();
     }
 
-    private final class DrivePreference extends Preference {
-        final UsbDrive.Offer offer;
-
-        DrivePreference(UsbDrive.Offer offer) {
-            super(getActivity());
-            this.offer = offer;
-            setKey("drive:" + offer.identity());
-            setPersistent(false);
-            final String type = offer.kind == UsbDrive.Kind.IMAGE ? ""
-                    : offer.kind == UsbDrive.Kind.EMMC ? getString(R.string.usb_drive_emmc)
-                    : offer.type.isEmpty() ? getString(R.string.usb_drive_sd) : offer.type;
-            setTitle(name(offer) + " · " + Formatter.formatFileSize(getActivity(), offer.bytes)
-                    + (type.isEmpty() ? "" : " · " + type));
-            setSummary(explanation(offer));
-            // Unavailable drives stay in D-pad navigation so their reason can be read.
-            setOnPreferenceClickListener(p -> {
-                select(offer);
-                if (offer.kind == UsbDrive.Kind.IMAGE) chooseImageMode(offer);
-                else if (offer.enabled()) ask(offer, false);
-                else details(name(offer), explanation(offer));
-                return true;
-            });
-        }
-
-        @Override
-        protected void onBindView(View view) {
-            super.onBindView(view);
-            final TextView title = view.findViewById(android.R.id.title);
-            final TextView summary = view.findViewById(android.R.id.summary);
-            if (title != null) title.setEnabled(offer.enabled());
-            if (summary != null) {
-                summary.setSingleLine(true);
-                summary.setEllipsize(TextUtils.TruncateAt.END);
-                summary.setEnabled(offer.enabled());
-            }
-        }
-    }
-
     private void chooseImageMode(UsbDrive.Offer offer) {
         if (mDialog != null || UsbDriveControl.busy()) return;
+        if (offer.floppy()) { mCdrom = false; changed(true); details(name(offer),getString(R.string.usb_floppy_summary)); return; }
         final int[] choice = {offer.defaultCdrom() ? 0 : 1};
         mDialog = new AlertDialog.Builder(getActivity(), android.R.style.Theme_DeviceDefault_Dialog_Alert)
                 .setTitle(name(offer))
@@ -321,10 +571,68 @@ public class UsbDriveFragment extends PreferenceFragment {
                         (d, which) -> choice[0] = which)
                 .setNegativeButton(android.R.string.cancel, null)
                 .setPositiveButton(android.R.string.ok,
-                        (d, which) -> mHandler.post(() -> ask(offer, choice[0] == 0)))
+                        (d, which) -> mHandler.post(() -> { mCdrom = choice[0] == 0; changed(true); }))
                 .create();
         mDialog.setOnDismissListener(d -> mDialog = null);
         mDialog.show();
+    }
+
+    private void imageActions(UsbDrive.Offer offer) {
+        if (mDialog != null || UsbDriveControl.busy()) return;
+        mDialog = new AlertDialog.Builder(getActivity()).setTitle(name(offer))
+                .setItems(new CharSequence[] {getString(R.string.usb_virtual_use),
+                        getString(R.string.usb_virtual_repair), getString(R.string.usb_virtual_delete)}, (d, which) ->
+                        mHandler.post(() -> {
+                            if (which == 0) {
+                                final String why = mPolicy.reason(mFunctions | UsbFunctions.STORAGE);
+                                if (!"ok".equals(why)) { details(name(offer), getString(reason(why))); return; }
+                                select(offer);
+                                mFunctions |= UsbFunctions.STORAGE;
+                                chooseImageMode(offer);
+                            } else if (offer.forcedRo) {
+                                details(name(offer), getString(R.string.usb_virtual_unavailable));
+                            } else confirmImageAction(offer, which == 1 ? "repair" : "delete");
+                        }))
+                .setNegativeButton(android.R.string.cancel, null).create();
+        mDialog.setOnDismissListener(d -> mDialog = null); mDialog.show();
+    }
+
+    private void confirmImageAction(UsbDrive.Offer offer, String action) {
+        final boolean repair = action.equals("repair");
+        mDialog = new AlertDialog.Builder(getActivity()).setTitle(name(offer))
+                .setMessage(repair ? R.string.usb_virtual_repair_confirm : R.string.usb_virtual_delete_confirm)
+                .setNegativeButton(android.R.string.cancel, null)
+                .setPositiveButton(repair ? R.string.usb_virtual_repair : R.string.usb_virtual_delete,
+                        (d, which) -> { UsbDriveControl.maintain(getActivity(), offer, action); mShown = ""; refresh(); }).create();
+        mDialog.setOnDismissListener(d -> mDialog = null); mDialog.show();
+        mDialog.getButton(DialogInterface.BUTTON_NEGATIVE).requestFocus();
+    }
+
+    private int virtualStage(String stage) {
+        switch (stage) {
+            case "allocate": return R.string.usb_virtual_allocate;
+            case "partition": return R.string.usb_virtual_partition;
+            case "format": return R.string.usb_virtual_format;
+            case "flush": return R.string.usb_virtual_flush;
+            case "repair": return R.string.usb_virtual_repair;
+            default: return R.string.usb_virtual_validate;
+        }
+    }
+
+    private String virtualError(String error) {
+        switch (error) {
+            case "name": return getString(R.string.usb_virtual_bad_name);
+            case "label": return getString(R.string.usb_virtual_bad_label);
+            case "size": case "space": return getString(R.string.usb_virtual_bad_size);
+            case "fat_limit": return getString(R.string.usb_virtual_fat_limit);
+            case "exists": return getString(R.string.usb_virtual_exists);
+            case "layout": return getString(R.string.usb_virtual_layout);
+            case "changed": return getString(R.string.usb_virtual_changed);
+            case "unavailable": return getString(R.string.usb_virtual_unavailable);
+            case "recovery": return getString(R.string.usb_virtual_recovery);
+            case "shared": return getString(R.string.usb_drive_image_in_use);
+            default: return getString(R.string.usb_virtual_step_failed, getString(virtualStage(error)));
+        }
     }
 
     private void ask(UsbDrive.Offer offer, boolean cdrom) {
@@ -411,7 +719,7 @@ public class UsbDriveFragment extends PreferenceFragment {
         }
         mUsbMode.setConfirmedThisBoot();
         mName = name(fresh);
-        UsbDriveControl.start(getActivity(), fresh, ro, cdrom);
+        UsbDeviceControl.start(getActivity(), mFunctions, fresh, ro, cdrom);
         refresh();
     }
 

@@ -16,6 +16,9 @@ DT=${USB_DRIVE_DT:-/proc/device-tree}
 BOOT_ID=${USB_DRIVE_BOOT_ID:-/proc/sys/kernel/random/boot_id}
 P=sys.andr36oid.usbdrive
 F=$G/functions/mass_storage.andr36oid
+CONTROLLER=${USB_DRIVE_CONTROLLER:-/system/bin/andr36oid-controller}
+FFS=${USB_DRIVE_FFS:-/dev/usb-ffs/xinput}
+WEBUSB_URL=https://github.com/andr36oid
 
 error=
 log_step() { log -t andr36oid-usb-drive "$*" || true; }
@@ -74,7 +77,7 @@ image_name() {
 	# One property holds the basename (Android's limit is 91 bytes).
 	[ "${#1}" -le 91 ] || return 1
 	case $1 in ''|*[!a-zA-Z0-9._\ -]*|[!a-zA-Z0-9]*|*..*) return 1 ;; esac
-	case $1 in *.[iI][sS][oO]|*.[iI][mM][gG]) ;; *) return 1 ;; esac
+	case $1 in *.[iI][sS][oO]|*.[iI][mM][gG]|*.[iI][mM][aA]|*.[vV][fF][dD]) ;; *) return 1 ;; esac
 }
 
 image_info() {
@@ -93,16 +96,37 @@ image_info() {
 	size=${info##*:}
 	# mksh's test/arithmetic can wrap at 32 bits; image sizes need wider math.
 	awk -v bytes="$size" 'BEGIN {exit !(bytes>0)}' || return 1
+	case $1 in
+	*.[iI][mM][aA]|*.[vV][fF][dD])
+		case $size in 737280|1474560|2949120) ;; *) return 1 ;; esac ;;
+	esac
 	printf '%s\n' "$info"
 }
 
+floppy_image() {
+	case $image in *.[iI][mM][gG]|*.[iI][mM][aA]|*.[vV][fF][dD]) ;; *) return 1 ;; esac
+	case ${stamp##*:} in 737280|1474560|2949120) return 0 ;; *) return 1 ;; esac
+}
+
+cd_image() {
+	! floppy_image || return 1
+	# The kernel caps CD media at 256*60*75-1 complete 2048-byte blocks.
+	awk -v bytes="${stamp##*:}" 'BEGIN {
+	    exit !(bytes>=614400 && bytes<=2359293952 && bytes%2048==0)}'
+}
+
 scan_images() {
-	local path info
+	local path info fs
 	if image_root; then
 		printf 'ready\t%s\t%s\n' "$easy_cid" "$easy_ro" >"$STATE/images.tmp" || return 1
+		virtual_space >"$STATE/space.tmp" || return 1
+		chmod 0644 "$STATE/space.tmp" && mv -f "$STATE/space.tmp" "$STATE/space" || return 1
 		for path in "$easy_root/isos/"*; do
 			info=$(image_info "${path##*/}") || continue
-			printf 'file\t%s\t%s\n' "$info" "${path##*/}" >>"$STATE/images.tmp" || return 1
+			fs=$(virtual_probe "$path" "${info##*:}") || fs=
+			printf 'file\t%s\t%s' "$info" "${path##*/}" >>"$STATE/images.tmp" || return 1
+			[ -z "$fs" ] || printf '\t%s' "$fs" >>"$STATE/images.tmp" || return 1
+			printf '\n' >>"$STATE/images.tmp" || return 1
 		done
 	else
 		printf 'unavailable\n' >"$STATE/images.tmp" || return 1
@@ -177,10 +201,34 @@ charging() {
 	return 1
 }
 
+storage_mode() { [ "$((${functions:-1} & 1))" != 0 ]; }
+has_function() { [ "$((${functions:-0} & $1))" != 0 ]; }
+
+validate_functions() {
+	functions=$(prop functions)
+	# Keep old deep links/requests working; new requests always carry a mask.
+	if [ -z "$functions" ]; then
+		case $target in
+		xinput) functions=2 ;; gamepad) functions=4 ;; keyboard) functions=24 ;;
+		*) functions=1; if adb_on; then functions=33; fi ;;
+		esac
+	fi
+	case $functions in ''|0*|*[!0-9]*|???????*) return 1 ;; esac
+	identity=$("$CONTROLLER" --policy "$functions") || return 1
+	if has_function 32; then adb_on || return 1; fi
+	if storage_mode; then
+		case $target in file|mmcblk[0-9]|mmcblk[0-9]p7) ;; *) return 1 ;; esac
+	else
+		case $target in none|xinput|gamepad|keyboard) ;; *) return 1 ;; esac
+	fi
+}
+
 lease() {
 	[ "$(prop request)" = start ] && [ "$(cat "$OTG")" = "$expected_role" ] || return 1
 	! charging || return 1
-	[ "$(cat "$SYS/$disk/device/cid" 2>/dev/null)" = "$cid" ] || return 1
+	if storage_mode; then
+		[ "$(cat "$SYS/$disk/device/cid" 2>/dev/null)" = "$cid" ] || return 1
+	fi
 	[ "$target" != file ] || check_image || return 1
 	[ "$(awk '{print $22}' "/proc/$owner/stat" 2>/dev/null)" = "$owner_start" ]
 }
@@ -189,11 +237,17 @@ validate() {
 	expected_role=$(cat "$OTG") || return 1
 	case $expected_role in host|peripheral|otg) ;; *) return 1 ;; esac
 	target=$(prop target) cid=$(prop cid) ro=$(prop ro) owner=$(prop owner)
-	case $target in file|mmcblk[0-9]|mmcblk[0-9]p7) ;; *) return 1 ;; esac
+	case $target in none|xinput|gamepad|keyboard|file|mmcblk[0-9]|mmcblk[0-9]p7) ;; *) return 1 ;; esac
 	case $ro in 0|1) ;; *) return 1 ;; esac
 	case $owner in ''|*[!0-9]*) return 1 ;; esac
 	owner_start=$(awk '{print $22}' "/proc/$owner/stat") || return 1
 	[ -n "$owner_start" ] || return 1
+	validate_functions || return 1
+	if ! storage_mode; then
+		cdrom=0
+		lease
+		return $?
+	fi
 	if [ "$target" = file ]; then
 		image=$(prop image) stamp=$(prop stamp) cdrom=$(prop cdrom)
 		case $cdrom in 0) ;; 1) ro=1 ;; *) return 1 ;; esac
@@ -201,14 +255,7 @@ validate() {
 		disk=$easy_disk forced=0
 		[ "$cid" = "$easy_cid" ] || return 1
 		image_source=$easy_disk:$easy_cid:$easy_mount:$easy_root
-		if [ "$cdrom" = 1 ]; then
-			# This kernel caps CD media at 256*60*75-1 2048-byte blocks.
-			# Refuse truncation; larger images can use the normal disk LUN.
-			bytes=${stamp##*:}
-			case $bytes in ''|*[!0-9]*) return 1 ;; esac
-			awk -v bytes="$bytes" 'BEGIN {
-			    exit !(bytes>=614400 && bytes<=2359293952 && bytes%2048==0)}' || return 1
-		fi
+		[ "$cdrom" != 1 ] || cd_image || return 1
 		lease
 		return $?
 	fi
@@ -263,6 +310,7 @@ validate() {
 }
 
 mounted() {
+	storage_mode || return 1
 	[ "$target" != file ] || return 1
 	for n in $(nodes); do
 		nums=$(cat "$SYS/$n/dev") || return 0
@@ -277,6 +325,7 @@ mounted() {
 }
 
 release_storage() {
+	storage_mode || return 0
 	[ "$target" != file ] || { check_image && lease; return $?; }
 	for n in $(nodes); do
 		nums=$(cat "$SYS/$n/dev") || return 1
@@ -335,29 +384,252 @@ bind_udc() {
 }
 
 bind_drive() {
-	want_adb=0
-	if adb_on; then
-		want_adb=1
+	[ "$(prop ready)" = 1 ] || { fail controller_ready; return 1; }
+	if has_function 32; then
+		# A debugging setting change needs a fresh, differently identified session.
+		adb_on || return 1
 		setprop ctl.start adbd
-		# Waiting for functionfs must not be reported as a successful share.
 		ready=0
 		while [ "$(getprop sys.usb.ffs.ready)" != 1 ]; do
 			lease || return 1
 			ready=$((ready + 1)); [ "$ready" -lt 50 ] || { fail adb_ready; return 1; }
 			sleep 0.1
 		done
-	fi
-	if [ "$linked_adb" != "$want_adb" ]; then
-		step unbind_udc || return 1
-		rm -f "$G/configs/b.1/f2" || return 1
-		if [ "$want_adb" = 1 ]; then
-			ln -s "$G/functions/ffs.adb" "$G/configs/b.1/f2" || return 1
-		else
-			setprop ctl.stop adbd
+		if [ ! -L "$G/configs/b.1/f6" ]; then
+			ln -s "$G/functions/ffs.adb" "$G/configs/b.1/f6" || return 1
 		fi
-		linked_adb=$want_adb
 	fi
 	bind_udc || { fail bind_udc; return 1; }
+}
+
+# Controller functions use the same gate, role, bind retries and recovery journal.
+save_controller() {
+	for attr in idVendor bcdUSB bDeviceClass bDeviceSubClass bDeviceProtocol \
+	    strings/0x409/product strings/0x409/manufacturer \
+	    configs/b.1/strings/0x409/configuration configs/b.1/MaxPower \
+	    configs/b.1/bmAttributes os_desc/b_vendor_code os_desc/qw_sign \
+	    webusb/use webusb/bcdVersion webusb/bVendorCode webusb/landingPage; do
+		key=$(printf '%s' "$attr" | tr / _)
+		cat "$G/$attr" >"$STATE/controller-$key" || return 1
+	done
+	getprop init.svc.joyMouse >"$STATE/controller-joymouse" || return 1
+	touch "$STATE/controller"
+}
+
+restore_controller() {
+	for attr in idVendor bcdUSB bDeviceClass bDeviceSubClass bDeviceProtocol \
+	    strings/0x409/product strings/0x409/manufacturer \
+	    configs/b.1/strings/0x409/configuration configs/b.1/MaxPower \
+	    configs/b.1/bmAttributes os_desc/b_vendor_code os_desc/qw_sign \
+	    webusb/use webusb/bcdVersion webusb/bVendorCode webusb/landingPage; do
+		key=$(printf '%s' "$attr" | tr / _)
+		put "$G/$attr" "$(cat "$STATE/controller-$key")" || return 1
+	done
+	case $(cat "$STATE/controller-joymouse") in
+	running|restarting) setprop ctl.start joyMouse || return 1 ;;
+	esac
+}
+
+controller_daemon() {
+	setprop "$P.ready" 0 || return 1
+	setprop "$P.helper" "$$" || return 1
+	setprop "$P.helper_start" "$(awk '{print $22}' /proc/$$/stat)" || return 1
+	setprop "$P.owner_start" "$owner_start" || return 1
+	setprop ctl.start andr36oid-controller || return 1
+	i=0
+	while [ "$(prop ready)" != 1 ]; do
+		lease || return 1
+		i=$((i + 1)); [ "$i" -lt 50 ] || return 1
+		sleep 0.1
+	done
+}
+
+configure_controller() {
+	setprop ctl.stop joyMouse || return 1
+	i=0
+	while :; do
+		case $(getprop init.svc.joyMouse) in stopped|'') break ;; esac
+		i=$((i + 1)); [ "$i" -lt 50 ] || return 1
+		sleep 0.1
+	done
+	identity=$("$CONTROLLER" --policy "$functions") || return 1
+	vid=${identity% *} pid=${identity#* }
+	case $vid:$pid in 0x[0-9a-f][0-9a-f][0-9a-f][0-9a-f]:0x[0-9a-f][0-9a-f][0-9a-f][0-9a-f]) ;; *) return 1 ;; esac
+	put "$G/idVendor" "$vid" || return 1
+	put "$G/idProduct" "$pid" || return 1
+	# Separate single-interface functions need no IAD; Windows uses usbccgp.
+	put "$G/bDeviceClass" 0 || return 1
+	put "$G/bDeviceSubClass" 0 || return 1
+	put "$G/bDeviceProtocol" 0 || return 1
+	put "$G/strings/0x409/manufacturer" andr36oid || return 1
+	put "$G/configs/b.1/MaxPower" 2 || return 1
+	put "$G/configs/b.1/bmAttributes" 0xc0 || return 1
+	put "$G/configs/b.1/strings/0x409/configuration" "andr36oid $functions" || return 1
+	put "$G/webusb/use" 0 || return 1
+	if [ "$(prop webusb)" != 0 ]; then
+		put "$G/bcdUSB" 0x0210 || return 1
+		put "$G/webusb/bcdVersion" 0x0100 || return 1
+		# MS OS descriptors use 0x01; WebUSB requests belong to the device.
+		put "$G/webusb/bVendorCode" 0x30 || return 1
+		put "$G/webusb/landingPage" "$WEBUSB_URL" || return 1
+		put "$G/webusb/use" 1 || return 1
+	fi
+	put "$G/os_desc/use" 0 || return 1
+	put "$G/strings/0x409/product" 'andr36oid USB Device' || return 1
+	if has_function 2; then
+		put "$G/strings/0x409/product" 'andr36oid XInput Device' || return 1
+		put "$G/os_desc/use" 1 || return 1
+		put "$G/os_desc/qw_sign" MSFT100 || return 1
+		put "$G/os_desc/b_vendor_code" 0x1 || return 1
+	fi
+	if has_function 94210; then
+		mkdir "$G/functions/ffs.xinput" || return 1
+		mount -t functionfs -o uid=0,gid=0,rmode=0700,fmode=0600 xinput "$FFS" || return 1
+	fi
+	if has_function 4; then configure_hid andr36oid gamepad 0 0 11 3 || return 1; fi
+	if has_function 8; then configure_hid keyboard keyboard 1 1 8 4 || return 1; fi
+	if has_function 16; then configure_hid mouse mouse 1 2 4 5 || return 1; fi
+	if has_function 64; then configure_hid media media 0 0 9 7 || return 1; fi
+	if has_function 128; then
+		put "$G/strings/0x409/product" 'POKKEN CONTROLLER' || return 1
+		configure_hid andr36oid switch 0 0 64 8 0 || return 1
+	fi
+	if has_function 65536; then put "$G/strings/0x409/product" 'Wireless Controller' || return 1; fi
+	if has_function 4096; then put "$G/strings/0x409/product" 'PLAYSTATION(R)3 Controller' || return 1; fi
+	if has_function 8192; then put "$G/strings/0x409/product" WUP-028 || return 1; fi
+	if has_function 16384; then put "$G/bDeviceClass" 0x58 || return 1; fi
+	if has_function 256; then
+		mkdir "$G/functions/midi.pads" || return 1
+		put "$G/functions/midi.pads/id" ar36midi || return 1
+		put "$G/functions/midi.pads/in_ports" 1 || return 1
+		put "$G/functions/midi.pads/out_ports" 1 || return 1
+		ln -s "$G/functions/midi.pads" "$G/configs/b.1/f9" || return 1
+	fi
+	if has_function 512; then
+		mkdir "$G/functions/acm.echo" || return 1
+		ln -s "$G/functions/acm.echo" "$G/configs/b.1/f10" || return 1
+	fi
+	if has_function 1024; then
+		mkdir "$G/functions/uac2.speaker" || return 1
+		# USB OUT -> gadget capture; optional USB IN uses gadget playback.
+		put "$G/functions/uac2.speaker/p_chmask" 0 || return 1
+		if has_function 131072; then
+			put "$G/functions/uac2.speaker/p_chmask" 3 || return 1
+			put "$G/functions/uac2.speaker/p_srate" 48000 || return 1
+			put "$G/functions/uac2.speaker/p_ssize" 2 || return 1
+		fi
+		put "$G/functions/uac2.speaker/c_chmask" 3 || return 1
+		put "$G/functions/uac2.speaker/c_srate" 48000 || return 1
+		put "$G/functions/uac2.speaker/c_ssize" 2 || return 1
+		ln -s "$G/functions/uac2.speaker" "$G/configs/b.1/f11" || return 1
+	fi
+	if has_function 2048; then
+		mkdir "$G/functions/ncm.link" || return 1
+		# Keep the device end outside EthernetService and Tethering's regexes.
+		put "$G/functions/ncm.link/ifname" 'ar36n%d' || return 1
+		put "$G/functions/ncm.link/dev_addr" 02:36:00:00:00:01 || return 1
+		put "$G/functions/ncm.link/host_addr" 02:36:00:00:00:02 || return 1
+		ln -s "$G/functions/ncm.link" "$G/configs/b.1/f12" || return 1
+	fi
+	if has_function 32768; then
+		mkdir "$G/functions/rndis.link" || return 1
+		put "$G/functions/rndis.link/ifname" 'ar36r%d' || return 1
+		put "$G/functions/rndis.link/dev_addr" 02:36:00:00:00:01 || return 1
+		put "$G/functions/rndis.link/host_addr" 02:36:00:00:00:02 || return 1
+		put "$G/functions/rndis.link/os_desc/interface.rndis/compatible_id" RNDIS || return 1
+		put "$G/functions/rndis.link/os_desc/interface.rndis/sub_compatible_id" 5162001 || return 1
+		put "$G/os_desc/use" 1 || return 1
+		put "$G/os_desc/qw_sign" MSFT100 || return 1
+		put "$G/os_desc/b_vendor_code" 0x1 || return 1
+		ln -s "$G/functions/rndis.link" "$G/configs/b.1/f13" || return 1
+	fi
+	if ! has_function 32; then setprop ctl.stop adbd || return 1; fi
+	setprop "$P.companion" 0 || return 1
+	setprop "$P.change" '' || return 1
+	setprop "$P.active_functions" "$functions" || return 1
+	setprop "$P.screen" on || return 1
+	setprop "$P.screen_request" on || return 1
+	setprop "$P.hint_ready" 0 || return 1
+	setprop "$P.type_root" "" || return 1
+	if has_function 131080 && image_root; then setprop "$P.type_root" "$easy_root" || return 1; fi
+	step controller_daemon || return 1
+	if has_function 94210; then ln -s "$G/functions/ffs.xinput" "$G/configs/b.1/f2" || return 1; fi
+}
+
+configure_hid() {
+	local function=$G/functions/hid.$1
+	mkdir "$function" || return 1
+	put "$function/subclass" "$3" || return 1
+	put "$function/protocol" "$4" || return 1
+	# LED output arrives over ep0, leaving all OUT endpoints for bulk/FunctionFS.
+	put "$function/no_out_endpoint" "${7:-1}" || return 1
+	put "$function/report_length" "$5" || return 1
+	"$CONTROLLER" --descriptor "$2" >"$function/report_desc" || return 1
+	ln -s "$function" "$G/configs/b.1/f$6" || return 1
+}
+
+remove_links() {
+	rm -f "$G/configs/b.1/f1" "$G/configs/b.1/f2" "$G/configs/b.1/f3" \
+		"$G/configs/b.1/f4" "$G/configs/b.1/f5" "$G/configs/b.1/f6" \
+		"$G/configs/b.1/f7" "$G/configs/b.1/f8" "$G/configs/b.1/f9" \
+		"$G/configs/b.1/f10" "$G/configs/b.1/f11" "$G/configs/b.1/f12" "$G/configs/b.1/f13"
+}
+
+save_backlight() {
+	local path name
+	for path in "${USB_DRIVE_BACKLIGHT:-/sys/class/backlight}"/*/brightness; do
+		[ -f "$path" ] || continue
+		name=${path%/brightness} name=${name##*/}
+		cat "$path" >"$STATE/level-backlight-$name" || return 1
+	done
+}
+
+restore_backlight() {
+	local journal name level prefix
+	# Restore a dark session first, then the level from before its window dimmed.
+	for prefix in backlight level-backlight; do
+		for journal in "$STATE/$prefix-"*; do
+			[ -f "$journal" ] || continue
+			name=${journal##*/} name=${name#"$prefix-"}
+			case $name in ''|*[!a-zA-Z0-9_.-]*) return 1 ;; esac
+			level=$(cat "$journal") || return 1
+			case $level in ''|*[!0-9]*) return 1 ;; esac
+			put "${USB_DRIVE_BACKLIGHT:-/sys/class/backlight}/$name/brightness" "$level" || return 1
+			rm -f "$journal" || return 1
+		done
+	done
+	setprop "$P.hint_ready" 0
+	setprop "$P.screen" on
+}
+
+close_controller() {
+	# Before the gate is owned, Android still owns its links and binding.
+	if [ ! -e "$STATE/owned" ]; then
+		restore_controller || return 1
+		rm -f "$STATE/controller"
+		return 0
+	fi
+	setprop ctl.stop andr36oid-controller || return 1
+	i=0
+	while :; do
+		case $(getprop init.svc.andr36oid-controller) in stopped|'') break ;; esac
+		i=$((i + 1)); [ "$i" -lt 50 ] || return 1
+		sleep 0.1
+	done
+	setprop "$P.ready" 0
+	unbind_udc || return 1
+	remove_links || return 1
+	if awk -v path="$FFS" '$5==path {found=1} END {exit !found}' "$MOUNTS"; then
+		umount "$FFS" || return 1
+	fi
+	for function in ncm.link rndis.link; do
+		if [ -d "$G/functions/$function" ]; then
+			ndc network interface remove local "$(cat "$G/functions/$function/ifname")" >/dev/null 2>&1 || :
+		fi
+	done
+	for function in ffs.xinput hid.andr36oid hid.keyboard hid.mouse hid.media midi.pads acm.echo uac2.speaker ncm.link rndis.link; do
+		[ ! -d "$G/functions/$function" ] || rmdir "$G/functions/$function" || return 1
+	done
 }
 
 gate_android() {
@@ -392,24 +664,26 @@ device_role() {
 start_drive() {
 	status preparing
 	step validate || return 1
+	setprop "$P.controller" 1 || return 1
+	step save_controller || return 1
+	step save_backlight || return 1
 	step gate_android || return 1
 	step release_storage || return 1
 	step unbind_udc || return 1
 	step configure_drive || return 1
 	step device_role || return 1
-	linked_adb=-1
 	step bind_drive || return 1
 	status sharing
 }
 
 configure_drive() {
-	rm -f "$G/configs/b.1/f1" "$G/configs/b.1/f2" "$G/configs/b.1/f3"
-	put "$G/os_desc/use" 0 || return 1
-	put "$G/bDeviceClass" 0 || return 1
-	put "$G/bDeviceSubClass" 0 || return 1
-	put "$G/bDeviceProtocol" 0 || return 1
-	put "$G/idProduct" 0x4ee0 || return 1
-	put "$G/configs/b.1/strings/0x409/configuration" mass_storage || return 1
+	remove_links || return 1
+	if storage_mode; then configure_storage || return 1; fi
+	configure_controller
+}
+
+configure_storage() {
+	touch "$STATE/storage" || return 1
 	mkdir "$F" || return 1
 	luns=$target
 	if [ "$disk" = mmcblk2 ]; then
@@ -447,10 +721,11 @@ configure_drive() {
 }
 
 close_drive() {
+	if [ -e "$STATE/controller" ]; then close_controller || return 1; fi
 	# Do not hand anything back until the LUNs have closed their backing files.
 	if [ -e "$STATE/owned" ] || [ -d "$F" ]; then
 		unbind_udc normal || return 1
-		rm -f "$G/configs/b.1/f1" "$G/configs/b.1/f2" "$G/configs/b.1/f3"
+		remove_links || return 1
 		for lun in "$F"/lun.*; do
 			[ ! -d "$lun" ] || put "$lun/file" '' || return 1
 		done
@@ -483,6 +758,9 @@ restore_android() {
 			case $role in host|otg) put "$OTG" "$role" || restored=0 ;; *) restored=0 ;; esac
 		fi
 	fi
+	if [ -e "$STATE/controller" ]; then
+		step restore_controller || restored=0
+	fi
 	put "$G/idProduct" "$(cat "$STATE/product")" || restored=0
 	put "$G/os_desc/use" "$(cat "$STATE/os_desc")" || restored=0
 	# Force a fresh Android none -> functions setup, even if its config is unchanged.
@@ -492,7 +770,7 @@ restore_android() {
 	setprop sys.usb.config "$config" || restored=0
 	setprop "$P.gated" 0 || restored=0
 	[ "$restored" = 1 ] || return 1
-	rm -f "$STATE/owned" "$STATE/role"
+	rm -f "$STATE/owned" "$STATE/role" "$STATE/controller"
 }
 
 restore_storage() {
@@ -515,8 +793,9 @@ cleanup() {
 	status stopping
 	closed=1 cleanup_ok=1
 	step close_drive || closed=0
+	step restore_backlight || cleanup_ok=0
 	# Flush accepted writes before relocking, even after a failed detach.
-	step sync || cleanup_ok=0
+	if [ -d "$F" ] || [ -f "$STATE/storage" ]; then step sync || cleanup_ok=0; fi
 	step relock_emmc || cleanup_ok=0
 	# Keep the journal and ownership if backing files might still be open.
 	[ "$closed" = 1 ] || return 1
@@ -524,6 +803,7 @@ cleanup() {
 		step restore_android || cleanup_ok=0
 	fi
 	step restore_storage || cleanup_ok=0
+	rm -f "$STATE/storage"
 	[ "$cleanup_ok" = 1 ]
 }
 
@@ -534,14 +814,19 @@ prepare_state() {
 	boot_id=$(cat "$BOOT_ID") || return 1
 	if [ "$(cat "$STATE/boot_id" 2>/dev/null)" != "$boot_id" ]; then
 		# A full restart has fresh configfs and vold; never replay old disk IDs.
-		rm -f "$STATE/owned" "$STATE/restore" "$STATE/rescan" "$STATE/product" "$STATE/os_desc" "$STATE/role"
+		rm -f "$STATE/owned" "$STATE/restore" "$STATE/rescan" "$STATE/product" "$STATE/os_desc" "$STATE/role" "$STATE/controller" "$STATE/storage" "$STATE"/controller-* "$STATE"/backlight-* "$STATE"/level-backlight-*
 	fi
 	put "$STATE/boot_id" "$boot_id"
 }
 
 finish_request() {
 	setprop "$P.request" stop
+	if [ -n "$(prop error)" ]; then
+		error=$(prop error)
+		result=error
+	fi
 	cleanup || result=error
+	[ -e "$STATE/controller" ] || setprop "$P.controller" 0
 	if [ "$result" = error ]; then
 		[ -n "$error" ] || fail session
 	else
@@ -550,15 +835,56 @@ finish_request() {
 	status "$result"
 }
 
+change_disc() {
+	local old_image old_stamp candidate token
+	[ "$(prop change)" = start ] || return 0
+	setprop "$P.change" error
+	[ "$target" = file ] && [ "$ro" = 1 ] && [ "$(cat "$F/lun.0/removable")" = 1 ] || return 0
+	lease || return 1
+	old_image=$image old_stamp=$stamp
+	candidate=$(prop next_image) token=$(prop next_stamp)
+	image=$candidate stamp=$token
+	if ! check_image || { [ "$cdrom" = 1 ] && ! cd_image; }; then
+		image=$old_image stamp=$old_stamp
+		return 0
+	fi
+	# Force a media change even if the host has locked the tray.
+	if [ -e "$F/lun.0/forced_eject" ]; then
+		put "$F/lun.0/forced_eject" 1 || { image=$old_image stamp=$old_stamp; return 1; }
+	else
+		put "$F/lun.0/file" '' || { image=$old_image stamp=$old_stamp; return 1; }
+	fi
+	sleep 0.2
+	if ! check_image || ! put "$F/lun.0/file" "$easy_root/isos/$image"; then
+		image=$old_image stamp=$old_stamp
+		if check_image; then put "$F/lun.0/file" "$easy_root/isos/$image" || return 1; fi
+		return 0
+	fi
+	setprop "$P.image" "$image"
+	setprop "$P.stamp" "$stamp"
+	setprop "$P.name" "$image"
+	setprop "$P.change" 'done'
+}
+
 handle_request() {
 	error=
 	setprop "$P.error" ''
 	# A new request retries a retained recovery journal before opening any LUN.
 	result=error
+	if ! virtual_recover; then
+		fail virtual_recovery
+		finish_request
+		return 0
+	fi
 	if cleanup && start_drive; then
 		result=idle
 		while lease && ! mounted && [ "$(getprop sys.usb.configfs)" = 2 ]; do
+			if [ "$(prop scan)" = start ]; then
+				if scan_images; then setprop "$P.scan" 'done'; else setprop "$P.scan" error; fi
+			fi
+			if ! change_disc; then result=error; break; fi
 			if ! bind_drive; then result=error; break; fi
+			if [ -n "$(prop error)" ]; then result=error; break; fi
 			sleep 0.2
 		done
 		if [ "$result" != error ] && [ "$(prop request)" = start ]; then
@@ -575,23 +901,45 @@ main() {
 		status error
 		return 0
 	fi
+	if [ -d "$STATE/virtual" ] || [ "$(prop state)" = working ]; then
+		setprop "$P.request" stop
+		setprop "$P.vresult" cancelled
+	fi
+	setprop "$P.vactive" 0
 	# A helper restart recovers the old session, never its old start request.
-	if [ -e "$STATE/owned" ] || [ -e "$STATE/restore" ] || [ -d "$F" ]; then
+	if [ -e "$STATE/owned" ] || [ -e "$STATE/restore" ] || [ -e "$STATE/controller" ] || [ -d "$F" ]; then
 		result=idle
 		finish_request
 	else
 		status idle
 	fi
-	trap 'result=idle; finish_request; exit 0' HUP INT TERM
+	# Creation journals survive a reboot and are recovered only on the same card.
+	if ! virtual_recover; then
+		setprop "$P.verror" recovery
+		setprop "$P.vresult" error
+	fi
+	trap 'virtual_abort; result=idle; finish_request; setprop "$P.vactive" 0; exit 0' HUP INT TERM
 	while :; do
+		if [ -d "$STATE/virtual" ]; then
+			virtual_ticks=$((${virtual_ticks:-0} + 1))
+			if [ "$virtual_ticks" -ge 25 ]; then
+				virtual_recover || true
+				virtual_ticks=0
+			fi
+		fi
 		if [ "$(prop scan)" = start ]; then
+			virtual_recover || true
 			if scan_images; then setprop "$P.scan" 'done'; else setprop "$P.scan" error; fi
 		fi
 		if [ "$(prop request)" = start ]; then
 			handle_request
 		fi
+		case $(prop request) in create|repair|delete) virtual_request ;; esac
 		sleep 0.2
 	done
 }
+
+# shellcheck disable=SC1090
+. "${USB_DRIVE_VIRTUAL:-/system/etc/andr36oid-virtual-drive.sh}"
 
 [ "${USB_DRIVE_TEST:-0}" = 1 ] || main

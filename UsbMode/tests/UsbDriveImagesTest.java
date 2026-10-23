@@ -65,6 +65,11 @@ public class UsbDriveImagesTest {
         }
         iso.bytes = 2359293952L;
         check("last complete CD block is supported", iso.cdromPossible());
+        for (String extension : new String[] {"img","ima","vfd"}) for (long size : new long[] {737280,1474560,2949120}) {
+            UsbDrive.Offer floppy = inventory(HEADER + "file\t10:40:" + size + "\tBoot." + extension + "\n").offers.get(0);
+            check("floppy detected " + extension + size,floppy.floppy() && !floppy.cdromPossible());
+        }
+        for (String extension : new String[] {"ima","vfd"}) check("wrong floppy size", inventory(HEADER + "file\t10:40:1474561\tBoot." + extension + "\n").offers.isEmpty());
         final String old = iso.identity();
         iso.stamp = "10:23:1048576";
         check("replacement file changes identity", !iso.identity().equals(old));
