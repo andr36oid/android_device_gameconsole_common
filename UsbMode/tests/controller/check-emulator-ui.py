@@ -12,6 +12,10 @@ assert 'setShowSoftInputOnFocus(true)' in (src / 'UsbTextInput.java').read_text(
 assert 'field.post(() -> show(field' in (src / 'UsbTextInput.java').read_text()
 assert 'showSoftInput(field' in (src / 'UsbTextInput.java').read_text()
 assert 'setShowSoftInputOnFocus(false)' not in activity
+keys = activity.split('public boolean dispatchKeyEvent(KeyEvent event) {', 1)[1].split('private int step()', 1)[0]
+assert keys.index('KeyEvent.FLAG_SOFT_KEYBOARD') < keys.index('KeyEvent.KEYCODE_DPAD_LEFT')
+assert 'else { UsbTextInput.hide(editor); if (numeric) saveEntry(); }' in activity
+assert 'if (!same || getCurrentFocus() != mTextScroll) mReading = false;' in activity
 assert 'final String focus = same' in activity and ': same ? mFocus : ""' in activity
 assert 'mTextScroll.setOnFocusChangeListener' not in activity
 assert 'mShownPage = -1; mShownStep = -1;' in activity

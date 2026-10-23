@@ -10,6 +10,8 @@ public final class TextInputTest {
         EditText field = new EditText();
         UsbTextInput.bind(field);
         check(field.showOnFocus && field.selectAll);
+        check(!field.key.run(field, KeyEvent.KEYCODE_DPAD_LEFT, new KeyEvent(KeyEvent.ACTION_DOWN)));
+        check(!field.key.run(field, KeyEvent.KEYCODE_DPAD_RIGHT, new KeyEvent(KeyEvent.ACTION_DOWN)));
         check(field.key.run(field, KeyEvent.KEYCODE_BUTTON_A, new KeyEvent(KeyEvent.ACTION_DOWN)));
         check(field.getContext().manager.attempts == 0);
         check(field.key.run(field, KeyEvent.KEYCODE_BUTTON_A, new KeyEvent(KeyEvent.ACTION_UP)));

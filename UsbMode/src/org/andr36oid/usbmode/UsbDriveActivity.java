@@ -172,6 +172,9 @@ public class UsbDriveActivity extends Activity {
     @Override public void onBackPressed() { goBack(); }
     @Override public boolean onNavigateUp() { goBack(); return true; }
     @Override public boolean dispatchKeyEvent(KeyEvent event) {
+        // GamepadKeyboard sends cursor keys through the editor's InputConnection.
+        if (getCurrentFocus() instanceof EditText && (event.getFlags() & KeyEvent.FLAG_SOFT_KEYBOARD) != 0)
+            return super.dispatchKeyEvent(event);
         if (event.getKeyCode() == KeyEvent.KEYCODE_BUTTON_B) {
             if (event.getAction() == KeyEvent.ACTION_DOWN && event.getRepeatCount() == 0) goBack();
             return true;
@@ -414,11 +417,12 @@ public class UsbDriveActivity extends Activity {
         final boolean same = mPage == mShownPage && position == mShownStep;
         final int textY = same ? mTextScroll.getScrollY() : 0;
         mShownPage = mPage; mShownStep = position;
-        if (!same) mReading = false;
+        if (!same || getCurrentFocus() != mTextScroll) mReading = false;
         mTextScroll.setFocusable(mReading);
         final String focus = same && getCurrentFocus() != null && getCurrentFocus().getTag() instanceof String
                 ? (String) getCurrentFocus().getTag() : same ? mFocus : "";
         mFocus = focus;
+        if (mEdit != null) UsbTextInput.hide(mEdit);
         mEdit = null; mSizeChoices.clear(); mChoices.removeAllViews(); mNote.setText("");
         mNext.setVisibility(View.VISIBLE); mNext.setEnabled(true);
         mNext.setText(R.string.usb_wizard_next); mBack.setVisibility(View.VISIBLE); mBack.setEnabled(true); mBack.setText(R.string.usb_wizard_back);
@@ -1019,7 +1023,7 @@ public class UsbDriveActivity extends Activity {
         mEdit.setOnFocusChangeListener((v, focused) -> {
             if (mEdit != editor) return;
             if (focused) mFocus = "entry";
-            else if (numeric) saveEntry();
+            else { UsbTextInput.hide(editor); if (numeric) saveEntry(); }
         });
         mEdit.addTextChangedListener(new TextWatcher() {
             @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
