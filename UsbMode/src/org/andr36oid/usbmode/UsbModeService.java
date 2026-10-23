@@ -44,7 +44,7 @@ public class UsbModeService extends Service {
     };
 
     private UsbMode mUsbMode;
-    private boolean mRegistered;
+    private boolean mRegistered, mIdleStop;
     private String mLocalInterface = "";
     private android.os.INetworkManagementService management() {
         return android.os.INetworkManagementService.Stub.asInterface(android.os.ServiceManager.getService("network_management"));
@@ -85,6 +85,7 @@ public class UsbModeService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        mIdleStop = false;
         if (intent == null) UsbDriveControl.stop();
         startForeground(ID_ON, ongoing());
         if (UsbDriveControl.busy() && !mWakeLock.isHeld()) mWakeLock.acquire();
@@ -104,7 +105,9 @@ public class UsbModeService extends Service {
     @Override
     public void onDestroy() {
         mHandler.removeCallbacks(mPoll);
-        clearLink(); UsbDriveControl.stop();
+        clearLink();
+        // Idle teardown may arrive after the next create-and-use request was submitted.
+        if (!mIdleStop) UsbDriveControl.stop();
         if (mWakeLock.isHeld()) mWakeLock.release();
         if (mRegistered) {
             unregisterReceiver(mReceiver);
@@ -136,9 +139,9 @@ public class UsbModeService extends Service {
             }
             stopSelf();
         } else if (!device && !UsbDriveControl.busy()) {
-            UsbDriveControl.stop();
             // Switched back some other way (shell, or a restart of this app's process).
             mUsbMode.setDeviceMarker(false);
+            mIdleStop = true;
             stopSelf();
         }
     }

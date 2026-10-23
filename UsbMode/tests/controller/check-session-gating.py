@@ -19,4 +19,10 @@ assert 'set("routing", "");' in native
 helper = (root / 'andr36oid-usb-drive.sh').read_text().split('cleanup() {', 1)[1].split('prepare_state()', 1)[0]
 assert 'setprop "$P.routing" \'\'' in helper
 assert 'setprop "$P.active_functions" 0' in helper
+service = (src / 'UsbModeService.java').read_text()
+destroy = service.split('public void onDestroy() {', 1)[1].split('public IBinder', 1)[0]
+assert 'if (!mIdleStop) UsbDriveControl.stop();' in destroy
+idle = service.split('else if (!device && !UsbDriveControl.busy()) {', 1)[1].split('private void createChannels()', 1)[0]
+assert 'UsbDriveControl.stop();' not in idle
+assert idle.index('mIdleStop = true;') < idle.index('stopSelf();')
 print('Session keyboard, disc action and stop routing gates passed')
