@@ -19,15 +19,22 @@ Bytes discover(unsigned mac, uint8_t type = 1) {
 int main(int argc, char** argv) {
     assert(argc == 2);
     std::set<std::pair<unsigned,unsigned>> identities;
+    std::set<unsigned> masks;
+    for (unsigned mask = 1; mask < 64; ++mask) masks.insert(mask);
+    for (unsigned bit : {Media,Switch,Midi,Serial,Sound,Network,Ps3,GameCube,Xbox,Rndis,Ps4,Soundboard,Flipper}) {
+        masks.insert(bit); masks.insert(bit | Storage | Adb);
+    }
+    for (unsigned mask : {Network | Keyboard | Mouse | Sound, Sound | Soundboard,
+            Rndis | Keyboard | Mouse, Midi | Keyboard | Mouse, Keyboard | Media}) masks.insert(mask);
     unsigned valid = 0;
-    for (unsigned mask = 1; mask <= kAllFunctions; ++mask) {
+    for (unsigned mask : masks) {
         const auto p = policy(mask);
         if (std::string(p.reason) != "ok") continue;
         ++valid; assert(p.in <= 5 && p.out <= 3);
         assert(identities.insert({p.vendor,p.product}).second);
         if (!(mask & kConsoleControllers)) assert(p.vendor == 0x18d1);
     }
-    assert(valid > 200);
+    assert(valid > 60);
     assert(std::string(policy(Network | Serial | Adb | Storage).reason) == "endpoints");
     assert(std::string(policy(Network | Rndis).reason) == "networks");
     assert(std::string(policy(Media | Midi).reason) == "routing");

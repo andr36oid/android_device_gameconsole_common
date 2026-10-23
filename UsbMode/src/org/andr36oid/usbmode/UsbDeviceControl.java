@@ -6,8 +6,7 @@ import android.os.Process;
 import android.os.SystemProperties;
 import android.provider.Settings;
 
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.util.Collections;
 
 final class UsbDeviceControl {
     static final String PREFIX = "sys.andr36oid.usbdrive.";
@@ -20,17 +19,13 @@ final class UsbDeviceControl {
     static void dark() { SystemProperties.set(PREFIX + "screen_request", "dark"); }
     static void clearDarkRequest() { SystemProperties.set(PREFIX + "screen_request", "on"); }
     static UsbFunctions policies() {
-        try {
-            final java.lang.Process process = new ProcessBuilder("/system/bin/andr36oid-controller", "--policies").start();
-            try (InputStreamReader input = new InputStreamReader(process.getInputStream())) {
-                final UsbFunctions policy = UsbFunctions.read(input);
-                if (process.waitFor() == 0) return policy;
-            } finally { process.destroy(); }
-        } catch (IOException | InterruptedException e) { }
         return new UsbFunctions();
     }
     static void start(Context context, int functions, UsbDrive.Offer storage, boolean ro, boolean cdrom) {
-        if (UsbDriveControl.busy() || !"ok".equals(policies().reason(functions))) return;
+        if (UsbDriveControl.busy()) return;
+        final UsbFunctions policy = policies();
+        policy.query(Collections.singleton(functions));
+        if (!"ok".equals(policy.reason(functions))) return;
         if ((functions & UsbFunctions.ADB) != 0 && !debugging(context)) return;
         final android.content.SharedPreferences prefs = android.preference.PreferenceManager.getDefaultSharedPreferences(context);
         SystemProperties.set(PREFIX + "webusb", prefs.getBoolean("usb_webusb", true) ? "1" : "0");

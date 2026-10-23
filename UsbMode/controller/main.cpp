@@ -12,6 +12,7 @@
 #include <cstring>
 #include <dirent.h>
 #include <fcntl.h>
+#include <iostream>
 #include <poll.h>
 #include <sys/ioctl.h>
 #include <sys/socket.h>
@@ -734,12 +735,15 @@ int run(unsigned functions) {
 
 int main(int argc, char** argv) {
     using namespace controller;
-    if (argc == 2 && std::string(argv[1]) == "--policies") {
-        for (unsigned mask = 0; mask <= kAllFunctions; ++mask) {
+    if (argc == 2 && std::string(argv[1]) == "--reasons") {
+        std::string line;
+        while (std::getline(std::cin, line)) {
+            if (line.empty() || line.size() > 6 || line.find_first_not_of("0123456789") != std::string::npos) return 2;
+            const unsigned mask = parseFunctions(line);
             const auto p = policy(mask);
-            printf("%u %s %u %u %u\n", mask, p.reason, p.in, p.out, p.product);
+            if (printf("%u %s %u %u %u\n", mask, p.reason, p.in, p.out, p.product) < 0) return 1;
         }
-        return 0;
+        return std::cin.eof() && fflush(stdout) == 0 ? 0 : 1;
     }
     if (argc == 3 && (std::string(argv[1]) == "--identity" || std::string(argv[1]) == "--policy")) {
         const auto p = policy(parseFunctions(argv[2]));

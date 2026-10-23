@@ -27,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
+import java.util.Set;
 
 /** Storage choices use the same settings list and D-pad navigation as USB mode. */
 public class UsbDriveFragment extends PreferenceFragment {
@@ -133,12 +134,15 @@ public class UsbDriveFragment extends PreferenceFragment {
         final UsbDrive.Images images = UsbDriveControl.images();
         offers.addAll(images.offers);
         if (!UsbDeviceControl.debugging(getActivity())) mFunctions &= ~UsbFunctions.ADB;
+        final Set<Integer> masks = UsbFunctions.pageMasks(mFunctions);
+        mPolicy.query(masks);
         final StringBuilder signature = new StringBuilder(state).append(busy).append(mFunctions)
                 .append(mAdvanced).append(mMacro).append(mPreset).append(mSelectedKey).append(mCdrom).append(mRo).append(images.mounted)
                 .append(UsbDeviceControl.debugging(getActivity()));
         signature.append(UsbDriveControl.virtual("result")).append(UsbDriveControl.virtual("stage"))
                 .append(UsbDriveControl.virtual("percent")).append(UsbDriveControl.virtual("error"))
                 .append(images.free).append(images.writable);
+        for (int mask : masks) signature.append(mPolicy.reason(mask));
         mSelected = null;
         for (UsbDrive.Offer o : offers) {
             signature.append(o.identity()).append(o.reason).append(o.label).append(o.bytes).append(o.forcedRo).append(o.type);
@@ -225,9 +229,7 @@ public class UsbDriveFragment extends PreferenceFragment {
         controller.setSummary(getString(controllerTitle(mFunctions & UsbFunctions.CONTROLLERS)));
         controller.setOnPreferenceClickListener(p -> { pickController(); return true; });
         root.addPreference(controller);
-        final int[] bits = {UsbFunctions.STORAGE, UsbFunctions.KEYBOARD, UsbFunctions.MOUSE,
-                UsbFunctions.MEDIA, UsbFunctions.MIDI, UsbFunctions.NETWORK, UsbFunctions.ADB,
-                UsbFunctions.SOUND, UsbFunctions.SERIAL, UsbFunctions.RNDIS};
+        final int[] bits = UsbFunctions.BITS;
         final int[] titles = {R.string.usb_device_storage, R.string.usb_device_keyboard, R.string.usb_device_mouse,
                 R.string.usb_device_media, R.string.usb_device_midi, R.string.usb_device_network,
                 R.string.usb_device_adb, R.string.usb_device_sound, R.string.usb_device_serial, R.string.usb_device_rndis};
@@ -421,8 +423,8 @@ public class UsbDriveFragment extends PreferenceFragment {
         }
     }
     private void pickController() {
-        final int[] bits = {0, UsbFunctions.XINPUT, UsbFunctions.GAMEPAD, UsbFunctions.SWITCH,
-                UsbFunctions.PS3, UsbFunctions.GAMECUBE, UsbFunctions.XBOX, UsbFunctions.PS4};
+        final int[] bits = UsbFunctions.CONTROLLER_BITS;
+        mPolicy.queryMissing(UsbFunctions.pageMasks(mFunctions));
         final int[] summaries = {0,R.string.controller_xinput_summary,R.string.controller_gamepad_summary,
                 R.string.usb_device_switch_summary,R.string.usb_device_ps3_summary,
                 R.string.usb_device_gamecube_summary,R.string.usb_device_xbox_summary,R.string.usb_ds4_summary};
@@ -584,6 +586,7 @@ public class UsbDriveFragment extends PreferenceFragment {
                         getString(R.string.usb_virtual_repair), getString(R.string.usb_virtual_delete)}, (d, which) ->
                         mHandler.post(() -> {
                             if (which == 0) {
+                                mPolicy.queryMissing(UsbFunctions.pageMasks(mFunctions));
                                 final String why = mPolicy.reason(mFunctions | UsbFunctions.STORAGE);
                                 if (!"ok".equals(why)) { details(name(offer), getString(reason(why))); return; }
                                 select(offer);

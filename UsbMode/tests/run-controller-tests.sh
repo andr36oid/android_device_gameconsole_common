@@ -52,8 +52,8 @@ JDK=${JDK:-/andr36oid/src/prebuilts/jdk/jdk11/linux-x86/bin}
 "$JDK/java" -cp "$T/classes" org.andr36oid.usbmode.ModeTest
 "$JDK/java" -cp "$T/classes" org.andr36oid.usbmode.TextTyperTest
 "$JDK/java" -cp "$T/classes" org.andr36oid.usbmode.KeyboardTest
-"$T/daemon" --policies >"$T/policies"
-"$JDK/java" -cp "$T/classes" org.andr36oid.usbmode.FunctionsTest "$T/policies"
+"$JDK/java" -cp "$T/classes" org.andr36oid.usbmode.FunctionsTest "$T/daemon" "$T"
+python3 "$HERE/tests/controller/check-policy-queries.py" "$HERE"
 
 "$JDK/java" -cp "$T/classes" org.andr36oid.usbmode.FlipperLeaseTest
 
