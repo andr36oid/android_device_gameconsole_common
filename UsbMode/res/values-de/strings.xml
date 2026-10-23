@@ -48,7 +48,7 @@
     <string name="usb_drive_chip">Der eingebaute Chip plus seine 2 Bootbereiche. Beschreibbar: zum Flashen von Firmware von einem Computer.</string>
     <string name="usb_drive_system_ro">Nur lesbar: Android läuft von hier.</string>
     <string name="usb_drive_internal">Als internen Speicher einrichten. Android braucht diese Karte.</string>
-    <string name="usb_drive_system_card">Android verwendet diese Karte. Ihre EASYROMS-Partition ist nicht verfügbar.</string>
+    <string name="usb_drive_system_card">Android verwendet diese Karte. Deine EASYROMS-Partition ist nicht verfügbar.</string>
     <string name="usb_drive_unknown">Kann nicht bestätigen, welchen Speicher Android verwendet.</string>
     <string name="usb_drive_busy">Android verwendet ein zugeordnetes Gerät auf diesem Speicher.</string>
     <string name="usb_drive_unusable">Dieser Speicher oder die benötigten Bootbereiche können nicht gelesen werden.</string>
