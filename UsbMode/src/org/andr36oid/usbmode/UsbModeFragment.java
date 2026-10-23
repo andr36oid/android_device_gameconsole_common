@@ -62,22 +62,28 @@ public class UsbModeFragment extends PreferenceFragment
     public void onResume() {
         super.onResume();
         final Preference flipper = findPreference("flipper");
-        final Intent intent = flipper.getIntent();
-        final boolean installed = getActivity().getPackageManager()
-                .resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY) != null;
-        flipper.setEnabled(installed);
-        flipper.setSummary(installed ? R.string.flipper_summary : R.string.flipper_missing);
-        flipper.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                try {
-                    startActivity(intent);
-                } catch (ActivityNotFoundException | SecurityException e) {
-                    Toast.makeText(getActivity(), R.string.flipper_missing, Toast.LENGTH_SHORT).show();
-                }
-                return true;
+        if (flipper != null) {
+            final Intent intent = flipper.getIntent();
+            final boolean installed = intent != null && getActivity().getPackageManager()
+                    .resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY) != null;
+            if (installed) {
+                flipper.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                    @Override
+                    public boolean onPreferenceClick(Preference preference) {
+                        try {
+                            startActivity(intent);
+                        } catch (ActivityNotFoundException | SecurityException e) {
+                            Toast.makeText(getActivity(), R.string.flipper_missing,
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                        return true;
+                    }
+                });
+            } else {
+                // No Flipper app on this device: drop the row rather than show a dead one.
+                getPreferenceScreen().removePreference(flipper);
             }
-        });
+        }
         // The tile may have switched it in the meantime.
         if (mUsbMode.isSupported()) {
             update();
