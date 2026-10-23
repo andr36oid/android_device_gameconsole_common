@@ -16,6 +16,7 @@ export USB_DRIVE_TEST USB_DRIVE_SYS USB_DRIVE_DEV USB_DRIVE_GADGET USB_DRIVE_STA
 export USB_DRIVE_MOUNTS USB_DRIVE_FSTABS USB_DRIVE_OTG USB_DRIVE_POWER USB_DRIVE_DT
 export USB_DRIVE_MEDIA USB_DRIVE_BACKLIGHT
 export USB_DRIVE_VIRTUAL
+command rm -rf "$USB_DRIVE_DT"
 command mkdir -p "$T/props" "$T/state" "$T/fstabs" "$T/sys" "$T/dev" "$T/power/ac"
 # shellcheck disable=SC1091
 . "$HERE/andr36oid-usb-drive.sh"
@@ -86,7 +87,12 @@ rmdir() {
 put() {
 	[ "$1" != "$G/${fail_attr:-}" ] || return 1
 	printf 'write %s %s\n' "$1" "$2" >>"$T/log"
-	if [ "${fail_file:-0}" = 1 ]; then case $1 in */lun.*/file) [ -z "$2" ] || return 1 ;; esac; fi
+	if [ "${fail_file:-0}" = 1 ]; then case $1 in */lun.*/file)
+        if [ -n "$2" ]; then printf 'Cannot open backing storage: device is busy\n' >&2; return 1; fi ;; esac; fi
+    case $1:$2 in */lun.*/file:"$DEV"/*)
+        if [ "${fail_block_opens:-0}" -gt 0 ]; then
+            fail_block_opens=$((fail_block_opens - 1)); printf 'Block device is still closing\n' >&2; return 1
+        fi ;; esac
 	if [ "$1" = "$OTG" ] && [ "$2" = peripheral ] && [ "${fail_role:-0}" = 1 ]; then return 1; fi
 	if [ "$1" = "$G/UDC" ]; then
 		if [ "$2" = none ]; then
@@ -164,7 +170,7 @@ reset_fixture() {
 	setprop "$P.ro" 0
 	setprop "$P.owner" "$$"
 	setprop "$P.request" start
-	fail_unmount=0 keep_mounted=0 fail_unlock=0 fail_file=0 fail_close=0
+	fail_unmount=0 keep_mounted=0 fail_unlock=0 fail_file=0 fail_close=0 fail_block_opens=0
 	fail_bind=0 fail_unbind=0 fail_gate=0 fail_role=0 delayed_bind=0 bind_writes=0 auto_stop=0
 	replace_image=0 fail_attr=
 	# shellcheck disable=SC2034
@@ -706,6 +712,24 @@ check start_drive
 printf '4 1 179:7 / %s/UUID rw - exfat /dev/block/vold/public:179,7 rw\n' "$MEDIA" >"$MOUNTS"
 if lease; then echo 'FAIL: remounted EASYROMS kept lease'; exit 1; fi
 check cleanup
+# EASYROMS may finish its unmount just before the block reference closes.
+reset_fixture
+select_target mmcblk0p7
+printf 'public:179,7 mounted UUID\n' >"$T/volumes"
+printf '3 1 179:7 / /mnt/media_rw/UUID rw - exfat /dev/block/vold/public:179,7 rw\n' >>"$MOUNTS"
+fail_block_opens=2
+check start_drive
+check test "$fail_block_opens" = 0
+check test "$(cat "$F/lun.0/file")" = "$DEV/mmcblk0p7"
+check test "$(prop stage)" = sharing
+check cleanup
+reset_fixture
+fail_file=1
+check handle_request
+check test "$(prop state)" = error
+check test "$(prop error)" = configure_drive
+check test "$(prop detail)" = 'Cannot open backing storage: device is busy'
+check test -s "$STATE/session.log"
 if [ -n "${USB_DRIVE_CONTROLLER:-}" ]; then
     # shellcheck disable=SC1091
     . "$HERE/tests/controller/helper-cases.sh"

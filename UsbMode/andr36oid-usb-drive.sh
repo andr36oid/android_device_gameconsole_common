@@ -25,14 +25,27 @@ error=
 log_step() { log -t andr36oid-usb-drive "$*" || true; }
 put() { printf '%s\n' "$2" >"$1" || { log_step "write failed: $1"; return 1; }; }
 fail() {
+	local detail
 	log_step "failed: $1"
-	[ -n "$error" ] || error=$1
+	if [ -z "$error" ]; then
+		error=$1
+		detail=$(tail -n 1 "$STATE/session-step.log" 2>/dev/null | LC_ALL=C tr -cd '[:print:]' | cut -c 1-90)
+		setprop "$P.detail" "${detail:-$1 failed}"
+	fi
 	setprop "$P.error" "$error"
 	return 1
 }
 step() {
+	local rc
 	log_step "$1"
-	"$@" || { fail "$1"; return 1; }
+	setprop "$P.stage" "$1"
+	if [ "${step_depth:-0}" = 0 ]; then : >"$STATE/session-step.log"; fi
+	step_depth=$((${step_depth:-0} + 1))
+	if "$@" 2>>"$STATE/session-step.log"; then rc=0; else rc=$?; fi
+	step_depth=$((step_depth - 1))
+	if [ "$rc" != 0 ]; then fail "$1" || true; fi
+	if [ "$step_depth" = 0 ]; then cat "$STATE/session-step.log" >>"$STATE/session.log"; fi
+	return "$rc"
 }
 prop() { getprop "$P.$1"; }
 status() { log_step "state: $1"; setprop "$P.state" "$1"; }
@@ -704,6 +717,7 @@ start_drive() {
 	step configure_drive || return 1
 	step device_role || return 1
 	step bind_drive || return 1
+	setprop "$P.stage" sharing
 	status sharing
 }
 
@@ -737,11 +751,12 @@ configure_storage() {
 		ln -s "$F" "$G/configs/b.1/f1" || return 1
 		return 0
 	fi
+	lease && ! mounted || return 1
 	for n in $luns; do
 		[ "$i" = 0 ] || mkdir "$F/lun.$i" || return 1
 		put "$F/lun.$i/removable" 1 || return 1
 		put "$F/lun.$i/ro" "$ro" || return 1
-		put "$F/lun.$i/file" "$DEV/$n" || return 1
+		open_storage "$F/lun.$i/file" "$DEV/$n" || return 1
 		i=$((i + 1))
 	done
 	lease && ! mounted || return 1
@@ -749,6 +764,19 @@ configure_storage() {
 		[ "$forced" = 1 ] || put "$STATE/rescan" "$target" || return 1 ;;
 	esac
 	ln -s "$F" "$G/configs/b.1/f1" || return 1
+}
+
+open_storage() {
+	local tries
+	tries=0
+	while :; do
+		lease && ! mounted || return 1
+		if put "$1" "$2"; then return 0; fi
+		tries=$((tries + 1))
+		[ "$tries" -lt 10 ] || return 1
+		# vold can finish unmounting before its last block-device reference closes.
+		sleep 0.2
+	done
 }
 
 close_drive() {
@@ -900,6 +928,9 @@ change_disc() {
 }
 
 handle_request() {
+	setprop "$P.detail" ''
+	setprop "$P.stage" ''
+	: >"$STATE/session.log"
 	error=
 	setprop "$P.error" ''
 	# A new request retries a retained recovery journal before opening any LUN.
@@ -929,7 +960,8 @@ handle_request() {
 }
 
 main() {
-	if ! step prepare_state; then
+	if ! prepare_state; then
+		fail prepare_state || true
 		setprop "$P.request" stop
 		status error
 		return 0
