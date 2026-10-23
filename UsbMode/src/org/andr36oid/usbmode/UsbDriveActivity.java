@@ -496,6 +496,9 @@ public class UsbDriveActivity extends Activity {
         return button;
     }
     private RadioButton choice(String key, String title, String summary, boolean checked, boolean enabled, Runnable action) {
+        return choice(key, title, summary, checked, enabled, 0, action);
+    }
+    private RadioButton choice(String key, String title, String summary, boolean checked, boolean enabled, int icon, Runnable action) {
         RadioButton choice = new RadioButton(this);
         choice.setId(View.generateViewId()); choice.setTag(key);
         choice.setText(label(title, summary));
@@ -504,6 +507,11 @@ public class UsbDriveActivity extends Activity {
         choice.setBackground(getDrawable(R.drawable.usb_choice_background));
         choice.setForeground(getDrawable(R.drawable.andr36oid_setup_focus));
         choice.setPadding(dp(12), dp(10), dp(12), dp(10)); choice.setMinHeight(dp(64));
+        if (icon != 0) {
+            choice.setCompoundDrawablesRelativeWithIntrinsicBounds(icon, 0, 0, 0);
+            choice.setCompoundDrawablePadding(dp(12));
+            choice.setCompoundDrawableTintList(getColorStateList(R.color.usb_choice_text));
+        }
         choice.setChecked(checked); choice.setEnabled(enabled);
         choice.setOnFocusChangeListener((v, focused) -> { if (focused) mFocus = key; });
         choice.setOnClickListener(v -> action.run());
@@ -552,10 +560,13 @@ public class UsbDriveActivity extends Activity {
         final int[] descriptions = {R.string.usb_wizard_pc_summary, R.string.controller_xinput_summary, R.string.usb_drive_intro,
                 R.string.usb_device_network_summary, R.string.usb_device_midi_summary, R.string.usb_jiggle_summary,
                 R.string.usb_macro_summary, R.string.usb_wizard_link_summary, R.string.usb_wizard_custom_summary};
+        final int[] icons = {R.drawable.ic_usecase_pc, R.drawable.ic_usecase_game, R.drawable.ic_usecase_drive,
+                R.drawable.ic_usecase_wired, R.drawable.ic_usecase_music, R.drawable.ic_usecase_awake,
+                R.drawable.ic_usecase_macro, R.drawable.ic_usecase_link, R.drawable.ic_usecase_custom};
         for (int i = 0; i < UsbWizard.ROLES.length; i++) {
             final String role = UsbWizard.ROLES[i];
             if ("custom".equals(role)) divider();
-            choice(role, getString(titles[i]), getString(descriptions[i]), role.equals(mPreset), true, () -> {
+            choice(role, getString(titles[i]), getString(descriptions[i]), role.equals(mPreset), true, icons[i], () -> {
                 chooseRole(role); skipForward();
             });
         }
