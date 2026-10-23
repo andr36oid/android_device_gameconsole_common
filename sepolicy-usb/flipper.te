@@ -1,9 +1,11 @@
+ifelse(target_recovery, `true', `', `
 type flipper_app, domain, coredomain;
 app_domain(flipper_app)
 
 # Only the platform-signed Flipper package may reach this endpoint socket.
 type flipper_usb_socket, coredomain_socket, mlstrustedsubject;
 allow shell self:process setsockcreate;
-allow shell flipper_usb_socket:unix_stream_socket create_stream_socket_perms;
+allow shell flipper_usb_socket:unix_stream_socket { create_socket_perms_no_ioctl listen accept };
 allow flipper_app flipper_usb_socket:unix_stream_socket connectto;
 neverallow { appdomain -flipper_app } flipper_usb_socket:unix_stream_socket connectto;
+')
