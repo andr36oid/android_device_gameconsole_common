@@ -7,7 +7,7 @@ import subprocess
 import sys
 
 kernel = Path(os.environ.get('CONTROLLER_KERNEL', Path(__file__).resolve().parents[4] / 'xinput-kernel'))
-source = (kernel / 'drivers/usb/gadget/function/f_fs.c').read_text()
+source = Path(os.environ.get('CONTROLLER_FFS', kernel / 'drivers/usb/gadget/function/f_fs.c')).read_text()
 def function(name):
     match = re.search(r'static [^{;]+\b' + name + r'\([^;]+?\n\{', source)
     assert match, name
@@ -103,6 +103,32 @@ int main(void) {
     puts("Kernel FunctionFS: HID, relocated XUSB endpoints and per-interface XUSB10 OS descriptors passed");
 }
 '''
+if os.environ.get('FLIPPER_CDC_TEST'):
+    text = text.replace('int main(void) {', r'''int main(void) {
+    u8 union_desc[] = {5,0x24,6,0,1}, call[] = {5,0x24,1,0,1};
+    struct ffs_function cdc = {.interfaces_nums={4,5,6,7}};
+    assert(ffs_do_single_desc((char*)union_desc,5,__ffs_func_bind_do_nums,&cdc)==5);
+    assert(union_desc[3]==4 && union_desc[4]==5);
+    assert(ffs_do_single_desc((char*)call,5,__ffs_func_bind_do_nums,&cdc)==5 && call[4]==5);
+    u8 iad[] = {8,11,0,2,2,2,1,0};
+    assert(ffs_do_single_desc((char*)iad,8,__ffs_func_bind_do_nums,&cdc)==8 && iad[2]==4);
+    u8 bad_cdc[] = {4,0x24,6,0};
+    assert(ffs_do_single_desc((char*)bad_cdc,4,accept,NULL)==-EINVAL);
+    for (int dual=0; dual<2; dual++) {
+        char path[4096]; snprintf(path,sizeof(path),"%s/cdc-%s",getenv("TMPDIR"),dual ? "dual" : "single");
+        FILE *f=fopen(path,"rb"); assert(f);
+        u8 bytes[512]; size_t size=fread(bytes,1,sizeof(bytes),f); fclose(f);
+        size_t offset=20;
+        for (unsigned i=0; i<(dual ? 40 : 20); i++) {
+            assert(offset<size); int length=bytes[offset];
+            assert(ffs_do_single_desc((char*)bytes+offset,size-offset,accept,NULL)==length);
+            offset+=length;
+        }
+        assert(offset==size);
+    }
+''')
+    text = '#include <stdlib.h>\n' + text
+
 target = Path(sys.argv[1]) / 'kernel-check.c'
 target.write_text(text)
 subprocess.run(['cc', '-std=gnu11', '-Wall', '-Wextra', '-Werror', '-Wno-sign-compare', '-Wno-unused-parameter', str(target), '-o', str(target.with_suffix(''))], check=True)

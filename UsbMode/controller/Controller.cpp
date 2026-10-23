@@ -23,6 +23,7 @@ Policy policy(unsigned functions) {
     const unsigned set = (functions & 4095) | (functions & Rndis ? 4096 : 0);
     Policy result{"ok",0,0,static_cast<uint16_t>(functions < 64 ? kProductBase + functions : 0x4000 + set + (functions & Soundboard ? 0x2000 : 0))};
     if (!functions || functions > kAllFunctions) { result.reason = "empty"; return result; }
+    if ((functions & Flipper) && functions != Flipper) { result.reason = "standalone"; return result; }
     const unsigned controllers = functions & kControllers;
     if (controllers && (controllers & (controllers - 1))) {
         result.reason = "controllers"; return result;
@@ -40,10 +41,20 @@ Policy policy(unsigned functions) {
     if ((functions & Soundboard) && (functions & Keyboard)) { result.reason = "routing"; return result; }
     const unsigned interactive = functions & (kControllers | Media | Midi | Soundboard);
     if (interactive && (interactive & (interactive - 1))) { result.reason = "routing"; return result; }
+    std::vector<FunctionBudget> selected;
+    for (const auto& function : kFunctions) if (functions & function.bit) selected.push_back(function);
+    if (functions == Flipper) selected.push_back(kFunctions[9]);
+    const auto budget = endpointBudget(selected);
+    result.in = budget.in; result.out = budget.out; result.reason = budget.reason;
+    return result;
+}
+
+Policy endpointBudget(const std::vector<FunctionBudget>& functions) {
+    Policy result{"ok",0,0,0};
     // Conservative five-IN envelope; ep0 and RX are reserved separately.
     std::vector<unsigned> fifos{128,128,64,32,16};
     std::vector<unsigned> needs;
-    for (const auto& function : kFunctions) if (functions & function.bit) {
+    for (const auto& function : functions) {
         result.in += function.in; result.out += function.out;
         if (function.words) needs.push_back(function.words);
         if (function.notify) needs.push_back(function.notify);

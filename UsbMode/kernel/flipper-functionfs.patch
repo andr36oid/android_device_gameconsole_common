@@ -1,0 +1,172 @@
+--- a/drivers/usb/gadget/function/f_fs.c
++++ b/drivers/usb/gadget/function/f_fs.c
+@@ -278,6 +278,8 @@
+ 	}
+ 
+ 	req->zero     = len < le16_to_cpu(ffs->ev.setup.wLength);
++	req->defer_status = ffs->defer_out_status && !ffs->out_data_received &&
++		!(ffs->ev.setup.bRequestType & USB_DIR_IN) && len;
+ 
+ 	spin_unlock_irq(&ffs->ev.waitq.lock);
+ 
+@@ -304,7 +306,12 @@
+ 		return -EINTR;
+ 	}
+ 
+-	ffs->setup_state = FFS_NO_SETUP;
++	if (req->defer_status && !req->status) {
++		ffs->out_data_received = true;
++	} else {
++		ffs->out_data_received = false;
++		ffs->setup_state = FFS_NO_SETUP;
++	}
+ 	return req->status ? req->status : req->actual;
+ }
+ 
+@@ -314,6 +321,7 @@
+ 		pr_vdebug("ep0 stall\n");
+ 		usb_ep_set_halt(ffs->gadget->ep0);
+ 		ffs->setup_state = FFS_NO_SETUP;
++		ffs->out_data_received = false;
+ 		return -EL2HLT;
+ 	} else {
+ 		pr_debug("bogus ep0 stall!\n");
+@@ -483,6 +491,7 @@
+ 		if (events[i].type == FUNCTIONFS_SETUP) {
+ 			events[i].u.setup = ffs->ev.setup;
+ 			ffs->setup_state = FFS_SETUP_PENDING;
++			ffs->out_data_received = false;
+ 		}
+ 	} while (++i < n);
+ 
+@@ -635,6 +644,13 @@
+ 
+ 	ENTER();
+ 
++	if (code == FUNCTIONFS_DEFER_OUT_STATUS) {
++		/* This extension is implemented by the R36S dwc2 gadget driver. */
++		if (value != 1)
++			return -EINVAL;
++		ffs->defer_out_status = true;
++		return 0;
++	}
+ 	if (code == FUNCTIONFS_INTERFACE_REVMAP) {
+ 		struct ffs_function *func = ffs->func;
+ 		ret = func ? ffs_func_revmap_intf(func, value) : -ENODEV;
+@@ -2083,6 +2099,38 @@
+ 			goto inv_length;
+ 		break;
+ 
++	case 0x24: {
++		u8 *ds = (u8 *)_ds;
++
++		/* CDC ACM functional descriptors and their interface references. */
++		if (length < 3)
++			goto inv_length;
++		switch (ds[2]) {
++		case 0:
++			if (length != 5)
++				goto inv_length;
++			break;
++		case 1:
++			if (length != 5)
++				goto inv_length;
++			__entity(INTERFACE, ds[4]);
++			break;
++		case 2:
++			if (length != 4)
++				goto inv_length;
++			break;
++		case 6:
++			if (length != 5)
++				goto inv_length;
++			__entity(INTERFACE, ds[3]);
++			__entity(INTERFACE, ds[4]);
++			break;
++		default:
++			return -EINVAL;
++		}
++		break;
++	}
++
+ 	case USB_DT_OTG:
+ 		if (length != sizeof(struct usb_otg_descriptor))
+ 			goto inv_length;
+@@ -2093,6 +2141,7 @@
+ 		pr_vdebug("interface association descriptor\n");
+ 		if (length != sizeof *ds)
+ 			goto inv_length;
++		__entity(INTERFACE, ds->bFirstInterface);
+ 		if (ds->iFunction)
+ 			__entity(STRING, ds->iFunction);
+ 	}
+--- a/drivers/usb/gadget/function/u_fs.h
++++ b/drivers/usb/gadget/function/u_fs.h
+@@ -147,6 +147,8 @@
+ };
+ 
+ struct ffs_data {
++	bool defer_out_status;
++	bool out_data_received;
+ 	struct usb_gadget		*gadget;
+ 
+ 	/*
+--- a/include/uapi/linux/usb/functionfs.h
++++ b/include/uapi/linux/usb/functionfs.h
+@@ -290,4 +290,7 @@
+ 
+ 
+ 
++/* Opt in to a separate OUT control data read and status ACK on R36S dwc2. */
++#define FUNCTIONFS_DEFER_OUT_STATUS _IO('g', 131)
++
+ #endif /* _UAPI__LINUX_FUNCTIONFS_H__ */
+--- a/include/linux/usb/gadget.h
++++ b/include/linux/usb/gadget.h
+@@ -97,6 +97,7 @@
+  */
+ 
+ struct usb_request {
++	unsigned		defer_status:1;
+ 	void			*buf;
+ 	unsigned		length;
+ 	dma_addr_t		dma;
+--- a/drivers/usb/gadget/udc/core.c
++++ b/drivers/usb/gadget/udc/core.c
+@@ -174,6 +174,8 @@
+ 	struct usb_request *req = NULL;
+ 
+ 	req = ep->ops->alloc_request(ep, gfp_flags);
++	if (req)
++		req->defer_status = 0;
+ 
+ 	trace_usb_ep_alloc_request(ep, req, req ? 0 : -ENOMEM);
+ 
+--- a/drivers/usb/dwc2/gadget.c
++++ b/drivers/usb/dwc2/gadget.c
+@@ -2028,6 +2028,12 @@
+ 
+ 	hs_ep->req = NULL;
+ 	list_del_init(&hs_req->queue);
++	if (!hs_ep->index && hs_req->req.defer_status &&
++	    hsotg->ep0_state == DWC2_EP0_DATA_OUT && !result) {
++		/* Complete only the data read; userspace must accept the status. */
++		hsotg->ep0_state = DWC2_EP0_STATUS_IN;
++		hs_ep->dir_in = 1;
++	}
+ 
+ 	/*
+ 	 * call the complete request with the locks off, just in case the
+@@ -2336,6 +2342,12 @@
+ 		 * todo - what should we return here? there's no one else
+ 		 * even bothering to check the status.
+ 		 */
++	}
++
++	if (epnum == 0 && hsotg->ep0_state == DWC2_EP0_DATA_OUT &&
++	    hs_req->req.defer_status) {
++		dwc2_hsotg_complete_request(hsotg, hs_ep, hs_req, result);
++		return;
+ 	}
+ 
+ 	/* DDMA IN status phase will start from StsPhseRcvd interrupt */

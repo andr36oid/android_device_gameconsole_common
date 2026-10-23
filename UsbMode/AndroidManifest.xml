@@ -3,6 +3,8 @@
     package="org.andr36oid.usbmode"
     android:sharedUserId="android.uid.system">
 
+    <permission android:name="org.andr36oid.usbmode.FLIPPER_USB" android:protectionLevel="signature" />
+    <uses-permission android:name="android.permission.REAL_GET_TASKS" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.UPDATE_LOCK_TASK_PACKAGES" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
@@ -128,6 +130,8 @@
             android:name=".UsbModeService"
             android:exported="false" />
 
+        <service android:name=".FlipperUsbService" android:exported="true"
+            android:permission="org.andr36oid.usbmode.FLIPPER_USB" />
         <service android:name=".UsbLinkService" android:exported="false" />
         <receiver android:name=".UsbLinkService$Receiver" android:exported="true">
             <intent-filter>

@@ -18,6 +18,7 @@ P=sys.andr36oid.usbdrive
 F=$G/functions/mass_storage.andr36oid
 CONTROLLER=${USB_DRIVE_CONTROLLER:-/system/bin/andr36oid-controller}
 FFS=${USB_DRIVE_FFS:-/dev/usb-ffs/xinput}
+FLIPPER_FFS=${USB_DRIVE_FLIPPER_FFS:-/dev/usb-ffs/flipper}
 WEBUSB_URL=https://github.com/andr36oid
 
 error=
@@ -226,6 +227,10 @@ validate_functions() {
 lease() {
 	[ "$(prop request)" = start ] && [ "$(cat "$OTG")" = "$expected_role" ] || return 1
 	! charging || return 1
+	if has_function 262144; then
+		[ "$(prop flipper_tick)" != 0 ] && [ "$(prop flipper_pid)" = "$owner" ] &&
+		[ "$(prop flipper_start)" = "$owner_start" ] || return 1
+	fi
 	if storage_mode; then
 		[ "$(cat "$SYS/$disk/device/cid" 2>/dev/null)" = "$cid" ] || return 1
 	fi
@@ -404,8 +409,8 @@ bind_drive() {
 
 # Controller functions use the same gate, role, bind retries and recovery journal.
 save_controller() {
-	for attr in idVendor bcdUSB bDeviceClass bDeviceSubClass bDeviceProtocol \
-	    strings/0x409/product strings/0x409/manufacturer \
+	for attr in idVendor bcdUSB bcdDevice bDeviceClass bDeviceSubClass bDeviceProtocol \
+	    strings/0x409/product strings/0x409/manufacturer strings/0x409/serialnumber \
 	    configs/b.1/strings/0x409/configuration configs/b.1/MaxPower \
 	    configs/b.1/bmAttributes os_desc/b_vendor_code os_desc/qw_sign \
 	    webusb/use webusb/bcdVersion webusb/bVendorCode webusb/landingPage; do
@@ -417,8 +422,8 @@ save_controller() {
 }
 
 restore_controller() {
-	for attr in idVendor bcdUSB bDeviceClass bDeviceSubClass bDeviceProtocol \
-	    strings/0x409/product strings/0x409/manufacturer \
+	for attr in idVendor bcdUSB bcdDevice bDeviceClass bDeviceSubClass bDeviceProtocol \
+	    strings/0x409/product strings/0x409/manufacturer strings/0x409/serialnumber \
 	    configs/b.1/strings/0x409/configuration configs/b.1/MaxPower \
 	    configs/b.1/bmAttributes os_desc/b_vendor_code os_desc/qw_sign \
 	    webusb/use webusb/bcdVersion webusb/bVendorCode webusb/landingPage; do
@@ -435,7 +440,12 @@ controller_daemon() {
 	setprop "$P.helper" "$$" || return 1
 	setprop "$P.helper_start" "$(awk '{print $22}' /proc/$$/stat)" || return 1
 	setprop "$P.owner_start" "$owner_start" || return 1
-	setprop ctl.start andr36oid-controller || return 1
+	if has_function 262144; then
+		[ "$(getprop init.svc.andr36oid-controller)" = running ] || return 1
+		setprop "$P.flipper_mount" 1 || return 1
+	else
+		setprop ctl.start andr36oid-controller || return 1
+	fi
 	i=0
 	while [ "$(prop ready)" != 1 ]; do
 		lease || return 1
@@ -481,6 +491,22 @@ configure_controller() {
 		put "$G/os_desc/use" 1 || return 1
 		put "$G/os_desc/qw_sign" MSFT100 || return 1
 		put "$G/os_desc/b_vendor_code" 0x1 || return 1
+	fi
+	if has_function 262144; then
+		mkdir "$G/functions/ffs.flipper" || return 1
+		mount -t functionfs -o uid=0,gid=0,rmode=0700,fmode=0600 flipper "$FLIPPER_FFS" || return 1
+		put "$G/idVendor" "$(cat "$STATE/flipper-vid")" || return 1
+		put "$G/idProduct" "$(cat "$STATE/flipper-pid")" || return 1
+		put "$G/bcdDevice" "$(cat "$STATE/flipper-release")" || return 1
+		put "$G/bcdUSB" 0x0200 || return 1
+		put "$G/bDeviceClass" 0xef || return 1
+		put "$G/bDeviceSubClass" 2 || return 1
+		put "$G/bDeviceProtocol" 1 || return 1
+		put "$G/strings/0x409/manufacturer" "$(cat "$STATE/flipper-manufacturer")" || return 1
+		put "$G/strings/0x409/product" "$(cat "$STATE/flipper-product")" || return 1
+		put "$G/strings/0x409/serialnumber" "$(cat "$STATE/flipper-serial")" || return 1
+		put "$G/configs/b.1/strings/0x409/configuration" "$(cat "$STATE/flipper-configuration")" || return 1
+		put "$G/configs/b.1/MaxPower" 250 || return 1
 	fi
 	if has_function 94210; then
 		mkdir "$G/functions/ffs.xinput" || return 1
@@ -553,6 +579,7 @@ configure_controller() {
 	setprop "$P.type_root" "" || return 1
 	if has_function 131080 && image_root; then setprop "$P.type_root" "$easy_root" || return 1; fi
 	step controller_daemon || return 1
+	if has_function 262144; then ln -s "$G/functions/ffs.flipper" "$G/configs/b.1/f14" || return 1; fi
 	if has_function 94210; then ln -s "$G/functions/ffs.xinput" "$G/configs/b.1/f2" || return 1; fi
 }
 
@@ -572,7 +599,7 @@ remove_links() {
 	rm -f "$G/configs/b.1/f1" "$G/configs/b.1/f2" "$G/configs/b.1/f3" \
 		"$G/configs/b.1/f4" "$G/configs/b.1/f5" "$G/configs/b.1/f6" \
 		"$G/configs/b.1/f7" "$G/configs/b.1/f8" "$G/configs/b.1/f9" \
-		"$G/configs/b.1/f10" "$G/configs/b.1/f11" "$G/configs/b.1/f12" "$G/configs/b.1/f13"
+		"$G/configs/b.1/f10" "$G/configs/b.1/f11" "$G/configs/b.1/f12" "$G/configs/b.1/f13" "$G/configs/b.1/f14"
 }
 
 save_backlight() {
@@ -622,12 +649,16 @@ close_controller() {
 	if awk -v path="$FFS" '$5==path {found=1} END {exit !found}' "$MOUNTS"; then
 		umount "$FFS" || return 1
 	fi
+	if awk -v path="$FLIPPER_FFS" '$5==path {found=1} END {exit !found}' "$MOUNTS"; then
+		umount "$FLIPPER_FFS" || return 1
+	fi
+	setprop "$P.flipper_mount" 0
 	for function in ncm.link rndis.link; do
 		if [ -d "$G/functions/$function" ]; then
 			ndc network interface remove local "$(cat "$G/functions/$function/ifname")" >/dev/null 2>&1 || :
 		fi
 	done
-	for function in ffs.xinput hid.andr36oid hid.keyboard hid.mouse hid.media midi.pads acm.echo uac2.speaker ncm.link rndis.link; do
+	for function in ffs.flipper ffs.xinput hid.andr36oid hid.keyboard hid.mouse hid.media midi.pads acm.echo uac2.speaker ncm.link rndis.link; do
 		[ ! -d "$G/functions/$function" ] || rmdir "$G/functions/$function" || return 1
 	done
 }

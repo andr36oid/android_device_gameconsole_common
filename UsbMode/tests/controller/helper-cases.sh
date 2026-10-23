@@ -7,6 +7,7 @@ setprop() {
     case $1:$2 in
     sys.usb.configfs:2)
         [ "${fail_gate:-0}" = 1 ] || printf '1\n' >"$T/props/$P.gated" ;;
+    sys.andr36oid.usbdrive.flipper_mount:1) printf '1\n' >"$T/props/$P.ready" ;;
     ctl.stop:joyMouse) printf 'stopped\n' >"$T/props/init.svc.joyMouse" ;;
     ctl.start:joyMouse) printf 'running\n' >"$T/props/init.svc.joyMouse" ;;
     ctl.start:andr36oid-controller)
@@ -54,8 +55,8 @@ controller_fixture() {
     command mkdir -p "$G/strings/0x409" "$FFS"
     printf 'host\n' >"$OTG"
     printf 'ff300000.usb\n' >"$G/UDC"
-    for attr in idVendor bcdUSB bDeviceClass bDeviceSubClass bDeviceProtocol \
-        strings/0x409/product strings/0x409/manufacturer configs/b.1/bmAttributes \
+    for attr in idVendor bcdUSB bcdDevice bDeviceClass bDeviceSubClass bDeviceProtocol \
+        strings/0x409/product strings/0x409/manufacturer strings/0x409/serialnumber configs/b.1/bmAttributes \
         configs/b.1/MaxPower configs/b.1/strings/0x409/configuration \
         os_desc/b_vendor_code os_desc/qw_sign \
         webusb/use webusb/bcdVersion webusb/bVendorCode webusb/landingPage; do
@@ -76,8 +77,8 @@ check_restored() {
     check test "$(getprop init.svc.joyMouse)" = running
     check test "$(cat "$G/idProduct")" = 0x4ee2
     check test "$(cat "$G/os_desc/use")" = 1
-    for attr in idVendor bcdUSB bDeviceClass bDeviceSubClass bDeviceProtocol \
-        strings/0x409/product strings/0x409/manufacturer configs/b.1/bmAttributes \
+    for attr in idVendor bcdUSB bcdDevice bDeviceClass bDeviceSubClass bDeviceProtocol \
+        strings/0x409/product strings/0x409/manufacturer strings/0x409/serialnumber configs/b.1/bmAttributes \
         configs/b.1/MaxPower configs/b.1/strings/0x409/configuration \
         os_desc/b_vendor_code os_desc/qw_sign \
         webusb/use webusb/bcdVersion webusb/bVendorCode webusb/landingPage; do

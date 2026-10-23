@@ -144,8 +144,8 @@ reset_fixture() {
 	printf 'peripheral\n' >"$OTG"
 	printf 'Mains\n' >"$POWER/ac/type"; printf '0\n' >"$POWER/ac/online"
 	printf '0x4ee2\n' >"$G/idProduct"; printf '1\n' >"$G/os_desc/use"
-    for attr in idVendor bcdUSB bDeviceClass bDeviceSubClass bDeviceProtocol \
-        strings/0x409/product strings/0x409/manufacturer configs/b.1/bmAttributes \
+    for attr in idVendor bcdUSB bcdDevice bDeviceClass bDeviceSubClass bDeviceProtocol \
+        strings/0x409/product strings/0x409/manufacturer strings/0x409/serialnumber configs/b.1/bmAttributes \
         configs/b.1/MaxPower configs/b.1/strings/0x409/configuration \
         os_desc/b_vendor_code os_desc/qw_sign \
         webusb/use webusb/bcdVersion webusb/bVendorCode webusb/landingPage; do
@@ -197,6 +197,8 @@ fi
 if [ "${USB_CONTROLLER_ONLY:-0}" = 1 ]; then
     # shellcheck disable=SC1091
     . "$HERE/tests/controller/helper-cases.sh"
+    # shellcheck disable=SC1091
+    . "$HERE/tests/controller/flipper-cases.sh"
     printf '%s controller helper checks passed\n' "$count"
     exit 0
 fi
@@ -713,6 +715,8 @@ if [ -n "${USB_DRIVE_CONTROLLER:-}" ]; then
     . "$HERE/tests/controller/round-five-cases.sh"
     # shellcheck disable=SC1091
     . "$HERE/tests/controller/webusb-cases.sh"
+    # shellcheck disable=SC1091
+    . "$HERE/tests/controller/flipper-cases.sh"
 fi
 # shellcheck disable=SC1091
 . "$HERE/tests/virtual-drive-cases.sh"

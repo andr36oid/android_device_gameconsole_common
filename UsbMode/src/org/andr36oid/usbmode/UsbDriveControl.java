@@ -30,7 +30,8 @@ final class UsbDriveControl {
 
     static boolean busy() {
         final String state = state();
-        return working() || "preparing".equals(state) || "sharing".equals(state) || "stopping".equals(state)
+        return (!"0".equals(SystemProperties.get(PREFIX + "flipper_tick", "0"))
+                && "running".equals(SystemProperties.get("init.svc.andr36oid-controller"))) || working() || "preparing".equals(state) || "sharing".equals(state) || "stopping".equals(state)
                 || "start".equals(SystemProperties.get(PREFIX + "request"));
     }
 

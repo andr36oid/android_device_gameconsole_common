@@ -31,6 +31,6 @@ public class FunctionsTest {
                 || UsbPeer.matches(0x18d1,0xd402,"andr36oid","andr36oid XInput Device")
                 || UsbPeer.matches(0x18d1,0x4100,"andr36oid","andr36oid USB Device")
                 || UsbPeer.matches(0x1234,0x4800,"andr36oid","andr36oid USB Device")) throw new AssertionError("USB peer identity");
-        System.out.println("App reads the native policy for all 262144 masks and fails closed on missing/malformed policy");
+        System.out.println("App reads the native policy for all 524288 masks and fails closed on missing/malformed policy");
     }
 }

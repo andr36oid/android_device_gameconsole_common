@@ -15,9 +15,9 @@ android_app {
 cc_binary {
     name: "andr36oid-controller",
     srcs: ["controller/main.cpp", "controller/Controller.cpp", "controller/Keyboard.cpp",
-        "controller/Protocols.cpp", "controller/Services.cpp", "controller/TextFiles.cpp"],
+        "controller/Protocols.cpp", "controller/Services.cpp", "controller/TextFiles.cpp", "controller/Flipper.cpp"],
     static_libs: ["libjoymouse"],
-    shared_libs: ["liblog", "libtinyalsa"],
+    shared_libs: ["liblog", "libtinyalsa", "libselinux"],
     cpp_std: "c++17",
     cflags: ["-Wall", "-Wextra", "-Werror"],
 }

@@ -2,6 +2,7 @@
 #include "Keyboard.h"
 #include "Protocols.h"
 #include "Services.h"
+#include "Flipper.h"
 
 #include <algorithm>
 #include <cerrno>
@@ -34,11 +35,16 @@ constexpr const char kPrefix[] = "sys.andr36oid.usbdrive.";
 volatile sig_atomic_t stopped = 0;
 void stop(int) { stopped = 1; }
 void tick(int) { }
+#ifdef CONTROLLER_TEST_PROPERTIES
+std::map<std::string,std::string> testProperties;
+#endif
 std::string property(const std::string& key) {
 #ifdef __ANDROID__
     char value[PROP_VALUE_MAX]{};
     __system_property_get(key.c_str(), value);
     return value;
+#elif defined(CONTROLLER_TEST_PROPERTIES)
+    return testProperties[key];
 #else
     (void)key;
     return {};
@@ -478,6 +484,8 @@ bool sendKeyboard(KeyboardChannel& channel, int keyboard, int mouse, bool pointi
     return true;
 }
 
+#include "FlipperRuntime.inc"
+
 int run(unsigned functions) {
     Inputs inputs;
     if (!inputs.openAll()) { log("Cannot grab built-in controls"); return 1; }
@@ -760,8 +768,10 @@ int main(int argc, char** argv) {
     itimerval timer{{0,100000},{0,100000}};
     if (setitimer(ITIMER_REAL, &timer, nullptr) < 0) return 1;
     set("ready", "0");
-    const int result = run(parseFunctions(argv[1]));
+    const unsigned functions = parseFunctions(argv[1]);
+    const int result = functions == Flipper ? runFlipper() : run(functions);
     if (result) set("error", "controller_daemon");
-    set("request", "stop"); set("ready", "0");
+    if (functions != Flipper) set("request", "stop");
+    set("ready", "0");
     return result;
 }
