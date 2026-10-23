@@ -64,7 +64,8 @@ public class ControllerSessionActivity extends Activity {
                 unlock();
                 if (!"on".equals(mLastScreen)) UsbDeviceControl.clearDarkRequest();
             }
-            synchronized (mKeyboardModel) { mKeyboardModel.setFunctions(mMask, canChangeDisc()); }
+            synchronized (mKeyboardModel) { mKeyboardModel.setFunctions(mMask, canChangeDisc()
+                    && "1".equals(SystemProperties.get(UsbDeviceControl.PREFIX + "cdrom"))); }
             configurePads();
             final boolean macro = mKeyboardModel.macro != null;
             final boolean board = mBoard != null;
@@ -375,8 +376,7 @@ public class ControllerSessionActivity extends Activity {
     }
     private boolean canChangeDisc() {
         return (mMask & UsbFunctions.STORAGE) != 0 && "file".equals(SystemProperties.get(UsbDeviceControl.PREFIX + "target"))
-                && "1".equals(SystemProperties.get(UsbDeviceControl.PREFIX + "ro"))
-                && "1".equals(SystemProperties.get(UsbDeviceControl.PREFIX + "cdrom"));
+                && "1".equals(SystemProperties.get(UsbDeviceControl.PREFIX + "ro"));
     }
     private void pickDisc() {
         if (mPickingFile || !canChangeDisc()) return;

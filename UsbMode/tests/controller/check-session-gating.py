@@ -11,7 +11,8 @@ assert '(mMask & UsbFunctions.KEYBOARD) != 0 && UsbDeviceControl.keyboardScreen(
 assert 'else' not in keyboard
 assert 'new ControllerInputChannel()' in update
 assert 'mModel.update' not in (src / 'ControllerInputChannel.java').read_text()
-assert '"cdrom"' in session.split('private boolean canChangeDisc()', 1)[1].split('private void pickDisc()', 1)[0]
+assert 'setFunctions(mMask, canChangeDisc()' in session
+assert '"cdrom"' in session.split('mKeyboardModel.setFunctions', 1)[1].split('configurePads()', 1)[0]
 native = (root / 'controller/main.cpp').read_text()
 assert 'typing && controls.keyboardScreen() ? "keyboard" : "gamepad"' in native
 assert 'set("routing", "");' in native
