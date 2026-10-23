@@ -133,6 +133,7 @@
     <string name="keyboard_mouse_middle">Middle click</string>
     <string name="keyboard_wheel_up">Scroll ↑</string>
     <string name="keyboard_wheel_down">Scroll ↓</string>
+    <string name="keyboard_legend_keys">D-pad: choose · A: hold key · B: Bksp · X: Space · Y / Start: Enter\nVolume: brightness</string>
     <string name="keyboard_legend">D-pad: choose · A: hold key · B: Bksp · X: Space · Y / Start: Enter\nLeft stick: pointer · Right stick: scroll · L2 / R2: left / right · Stick click: middle\nSelect + A / B / X: left / right / middle · Select + stick: scroll\nClick keys below the keyboard: toggle drag · Volume: brightness</string>
     <string name="usb_device_title">USB Device Emulator</string>
     <string name="usb_device_about">Make the console act as a USB gamepad, keyboard, drive, and more for a computer.</string>

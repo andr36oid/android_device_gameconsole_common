@@ -52,6 +52,7 @@ ControlReply control(uint8_t type, uint8_t request, uint16_t value, uint16_t ind
 std::array<uint8_t, 20> xinput(const State& state);
 std::array<uint8_t, 11> gamepad(const State& state);
 std::array<uint8_t, 9> keyboard(const State& state);
+uint8_t mouseButtons(const State& state);
 std::array<uint8_t, 5> mouse(const State& state);
 class Pointer {
 public:

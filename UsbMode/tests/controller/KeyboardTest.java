@@ -40,6 +40,7 @@ public final class KeyboardTest {
     }
     public static void main(String[] args) {
         final KeyboardModel model = new KeyboardModel("us");
+        model.setFunctions(UsbFunctions.KEYBOARD | UsbFunctions.MOUSE, false);
         final Set<Integer> usages = new HashSet<>();
         for (int row = 0; row < model.rows.length; row++) {
             check(model.rowWidth(row) > 0);
@@ -147,18 +148,29 @@ public final class KeyboardTest {
         update(model);
         select(model, 0, KeyboardModel.STOP); update(model, 12); check(model.stopRequested());
         for (int mask : new int[] {0, UsbFunctions.MOUSE, UsbFunctions.XINPUT, UsbFunctions.KEYBOARD,
-                UsbFunctions.STORAGE, UsbFunctions.STORAGE | UsbFunctions.KEYBOARD}) {
+                UsbFunctions.STORAGE, UsbFunctions.STORAGE | UsbFunctions.KEYBOARD, UsbFunctions.KEYBOARD | UsbFunctions.MOUSE,
+                UsbFunctions.KEYBOARD | UsbFunctions.MOUSE | UsbFunctions.STORAGE}) {
             for (boolean cd : new boolean[] {false, true}) {
                 model.setFunctions(mask, cd);
-                boolean file = false, disc = false;
+                boolean file = false, disc = false; int mouse = 0;
                 for (KeyboardModel.Key[] keys : model.rows) for (KeyboardModel.Key key : keys) {
                     file |= key.action == KeyboardModel.TYPE_FILE;
                     disc |= key.action == KeyboardModel.CHANGE_DISC;
+                    if (key.action >= KeyboardModel.MOUSE_LEFT && key.action <= KeyboardModel.WHEEL_DOWN) mouse++;
                 }
+                check(mouse == ((mask & UsbFunctions.MOUSE) != 0 ? 5 : 0));
+                check(model.mouseEnabled() == ((mask & UsbFunctions.MOUSE) != 0));
+                update(model);
+                check(update(model, 6)[8] == ((mask & UsbFunctions.MOUSE) != 0 ? 1 : 0)); update(model);
                 check(file == ((mask & UsbFunctions.KEYBOARD) != 0));
                 check(disc == (cd && (mask & UsbFunctions.STORAGE) != 0));
             }
         }
+        model.setFunctions(UsbFunctions.KEYBOARD | UsbFunctions.MOUSE, false); update(model);
+        select(model, 0, KeyboardModel.MOUSE_LEFT); update(model, 12); update(model);
+        check(model.mouseLocked() == 1);
+        model.setFunctions(UsbFunctions.KEYBOARD, false); check(model.mouseLocked() == 0);
+        model.setFunctions(UsbFunctions.KEYBOARD | UsbFunctions.MOUSE, false); check(update(model)[8] == 0);
         System.out.println("Keyboard navigation, usages, labels, 6KRO, holds, modifiers and release guards: " + checks + " checks passed");
     }
 }

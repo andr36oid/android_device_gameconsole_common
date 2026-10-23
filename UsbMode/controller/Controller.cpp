@@ -239,6 +239,10 @@ std::array<uint8_t, 9> keyboard(const State& s) {
     return out;
 }
 
+uint8_t mouseButtons(const State& s) {
+    return (s.buttons[B] || s.buttons[L3] ? 1 : 0) | (s.buttons[A] ? 2 : 0) | (s.buttons[R3] ? 4 : 0);
+}
+
 std::array<uint8_t, 5> Pointer::report(const State& s) {
     // Retain subpixel motion so small stick movements still move the pointer.
     auto motion = [&](unsigned axis) {
@@ -249,7 +253,7 @@ std::array<uint8_t, 5> Pointer::report(const State& s) {
         fraction_[axis] -= step;
         return static_cast<uint8_t>(static_cast<int8_t>(step));
     };
-    return {2,static_cast<uint8_t>((s.buttons[B] ? 1 : 0) | (s.buttons[A] ? 2 : 0)),
+    return {2,mouseButtons(s),
             motion(0),motion(1),0};
 }
 

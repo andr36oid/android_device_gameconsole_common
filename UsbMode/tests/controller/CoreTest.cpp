@@ -63,6 +63,13 @@ int main() {
     assert(k[0] == 1 && k[3] == 0x52 && k[4] == 0x28 && k[5] == 0x29 && k[6] == 0);
     State pointer; pointer.buttons[B] = true; pointer.sticks = {32767,-32768,0,0};
     assert(mouse(pointer) == (std::array<uint8_t,5>{2,1,4,252,0}));
+    for (unsigned combination = 0; combination < 16; ++combination) {
+        State clicks;
+        clicks.buttons[B] = combination & 1; clicks.buttons[L3] = combination & 2;
+        clicks.buttons[A] = combination & 4; clicks.buttons[R3] = combination & 8;
+        const uint8_t expected = (combination & 3 ? 1 : 0) | (combination & 4 ? 2 : 0) | (combination & 8 ? 4 : 0);
+        assert(mouseButtons(clicks) == expected && mouse(clicks)[1] == expected);
+    }
     Pointer fine;
     State slow; slow.sticks[0] = 8192;
     int distance = 0;

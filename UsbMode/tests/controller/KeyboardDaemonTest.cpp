@@ -17,7 +17,10 @@ int main() {
     click.buttons[L3] = true; assert(mouseButtons(click) == 1);
     click.buttons[L3] = false; click.buttons[B] = true; assert(mouseButtons(click) == 1);
     click.buttons[B] = false; click.buttons[A] = true; assert(mouseButtons(click) == 2);
-    click.buttons[R3] = true; assert(mouseButtons(click) == 2);
+    click.buttons[R3] = true; assert(mouseButtons(click) == 6);
+    click.buttons[A] = false; assert(mouseButtons(click) == 4);
+    click.buttons[L3] = true; assert(mouseButtons(click) == 5);
+    click.buttons[A] = true; assert(mouseButtons(click) == 7);
 
     KeyboardPointer pointer;
     State state;

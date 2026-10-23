@@ -52,18 +52,20 @@ final class KeyboardModel {
     Key[][] rows = ROWS;
     private int mCapabilities = -1;
     void setFunctions(int mask, boolean cdrom) {
-        final int capabilities = (mask & UsbFunctions.KEYBOARD) | (cdrom && (mask & UsbFunctions.STORAGE) != 0 ? UsbFunctions.STORAGE : 0);
+        final int capabilities = (mask & (UsbFunctions.KEYBOARD | UsbFunctions.MOUSE)) | (cdrom && (mask & UsbFunctions.STORAGE) != 0 ? UsbFunctions.STORAGE : 0);
         if (capabilities == mCapabilities) return;
         mCapabilities = capabilities;
         rows = ROWS.clone();
         final List<Key> actions = new ArrayList<>();
         for (Key key : ROWS[ROWS.length - 1]) {
+            if (key.action >= MOUSE_LEFT && key.action <= WHEEL_DOWN && (mask & UsbFunctions.MOUSE) == 0) continue;
             if (key.action == TYPE_FILE && (mask & UsbFunctions.KEYBOARD) == 0) continue;
             if (key.action == CHANGE_DISC && (capabilities & UsbFunctions.STORAGE) == 0) continue;
             actions.add(key);
         }
         rows[rows.length - 1] = actions.toArray(new Key[0]);
         mColumn = Math.min(mColumn, rows[mRow].length - 1);
+        if (!mouseEnabled()) { mMouseLocked = 0; mWheel = 0; }
     }
 
     private final int[] mModifiers = new int[8]; // off, next key, locked
@@ -91,6 +93,7 @@ final class KeyboardModel {
     boolean stopRequested() { return mStop; }
     int modifier(int bit) { return mModifiers[bit]; }
     int mouseLocked() { return mMouseLocked; }
+    boolean mouseEnabled() { return (mCapabilities & UsbFunctions.MOUSE) != 0; }
     float rowWidth(int row) {
         float width = 0;
         for (Key key : rows[row]) width += key.width;
@@ -214,7 +217,8 @@ final class KeyboardModel {
         for (int i = 0; i < 8; i++) if (mModifiers[i] != 0) packet[1] |= 1 << i;
         final byte[] keys = pack(mHeld);
         System.arraycopy(keys, 0, packet, 2, keys.length);
-        packet[8] = (byte) mouse; packet[9] = (byte) (scroll ? 1 : 0); packet[10] = (byte) mWheel;
+        packet[8] = (byte) (mouseEnabled() ? mouse : 0); packet[9] = (byte) (mouseEnabled() && scroll ? 1 : 0);
+        packet[10] = (byte) (mouseEnabled() ? mWheel : 0);
         packet[11] = (byte) (mArmed ? 1 : 0);
         return packet;
     }

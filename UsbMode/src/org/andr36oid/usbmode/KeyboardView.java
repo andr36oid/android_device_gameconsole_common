@@ -29,7 +29,7 @@ final class KeyboardView extends View {
         mStatus = context.getString(R.string.controller_preparing);
         setFocusable(false);
         setImportantForAccessibility(IMPORTANT_FOR_ACCESSIBILITY_YES);
-        setContentDescription(context.getString(R.string.keyboard_legend));
+        setContentDescription(context.getString(mModel.mouseEnabled() ? R.string.keyboard_legend : R.string.keyboard_legend_keys));
     }
     void setStatus(String status) { mStatus = status; invalidate(); }
     void setLeds(int leds) { mLeds = leds; }
@@ -98,7 +98,9 @@ final class KeyboardView extends View {
                 }
             }
         }
-        final String[] legend = getContext().getString(R.string.keyboard_legend).split("\n");
+        final String instructions = getContext().getString(mModel.mouseEnabled() ? R.string.keyboard_legend : R.string.keyboard_legend_keys);
+        if (!instructions.equals(getContentDescription())) setContentDescription(instructions);
+        final String[] legend = instructions.split("\n");
         for (int i = 0; i < legend.length; i++) text(canvas, legend[i], 8, height - 75 + i * 20, 12, mSecondary);
         canvas.restore();
     }
