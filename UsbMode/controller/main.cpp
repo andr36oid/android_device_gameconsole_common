@@ -542,7 +542,7 @@ int run(unsigned functions) {
     bool connected = false, everConnected = false;
     int keyFd = -1, mouseFd = -1;
     std::string lastScreen, lastRouting;
-    bool lastHintReady = false;
+    bool lastHintReady = false, lastSelR1 = false;
     int64_t disconnected = -1, lastBacklight = -100;
     bool wasDark = false;
     Services services(functions,[](const char* key, const std::string& value) { set(key,value.c_str()); },
@@ -596,6 +596,15 @@ int run(unsigned functions) {
         const bool requestDark = !companion && property(std::string(kPrefix) + "screen_request") == "dark";
         const bool hintReady = property(std::string(kPrefix) + "hint_ready") == "1";
         controls.update(controlState, time, requestDark, !companion && inputs.power, hintReady);
+        // Screen-off is Select+R1 (Back+RB). Log the edge so a report shows whether the
+        // daemon actually sees the press, separating a missed combo from a stuck handshake.
+        const bool selR1 = controlState.buttons[Back] && controlState.buttons[RB];
+        if (selR1 != lastSelR1) {
+            char line[48];
+            snprintf(line, sizeof line, "select+R1 %d -> %d", lastSelR1, selR1);
+            logLine(line);
+            lastSelR1 = selR1;
+        }
         if (hintReady != lastHintReady) {
             char line[48];
             snprintf(line, sizeof line, "hint_ready %d -> %d", lastHintReady, hintReady);
