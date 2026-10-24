@@ -32,18 +32,46 @@ put() {
 	return 1
 }
 mkfun() {
-	# Create a gadget function directory, leaving a clean, named reason on failure
-	# instead of letting fail() scrape a garbled line out of the step log. A stale
-	# function from an earlier session shows up here as a plain "File exists".
-	local err
+	# Create a gadget function directory, always leaving a message that names the
+	# function. The kernel can emit its own log while mkdir runs, so the captured
+	# reason sometimes sanitises to nonsense; leading with the function name means a
+	# failure is still identifiable even when the tail is unreadable. A stale function
+	# from an earlier session shows up here as a plain "File exists".
+	local err base=${1##*/}
 	if err=$(mkdir "$1" 2>&1); then return 0; fi
-	# The mkdir message already names the path and the reason; keep it whole (it fits
-	# fail()'s 90-char detail) rather than prefixing a second copy of the path.
-	err=$(printf '%s' "$err" | LC_ALL=C tr -cd '[:print:]' | cut -c1-110)
-	[ -n "$err" ] || err="could not create $1"
+	err=$(printf '%s' "$err" | LC_ALL=C tr -cd '[:print:]' | cut -c1-90)
+	err="could not create USB function $base${err:+: $err}"
 	log_step "$err"
 	[ -z "${STATE:-}" ] || printf '%s\n' "$err" >"$STATE/step-detail" 2>/dev/null || true
 	return 1
+}
+clear_stale_functions() {
+	# A previous session that looked like it tore down cleanly can still leave a
+	# gadget function (or a kernel resource behind one) that makes the next session's
+	# function creation fail -- the "only the first USB mode works per boot" symptom.
+	# The UDC is already unbound and remove_links has dropped the config symlinks by
+	# the time configure_drive runs, so these directories are free to remove. Best
+	# effort: if something refuses to go, mkfun reports it by name further down.
+	local lun function mp
+	if [ -d "$F" ]; then
+		for lun in "$F"/lun.*; do
+			[ ! -d "$lun" ] || put "$lun/file" '' 2>/dev/null || true
+		done
+		for lun in "$F"/lun.[1-9]*; do
+			[ ! -d "$lun" ] || rmdir "$lun" 2>/dev/null || true
+		done
+		rmdir "$F" 2>/dev/null || true
+	fi
+	for mp in "$FFS" "$FLIPPER_FFS"; do
+		if awk -v p="$mp" '$5==p{f=1} END{exit !f}' "$MOUNTS" 2>/dev/null; then
+			umount "$mp" 2>/dev/null || true
+		fi
+	done
+	for function in ffs.flipper ffs.xinput hid.andr36oid hid.keyboard hid.mouse \
+		hid.media midi.pads acm.echo uac2.speaker ncm.link rndis.link; do
+		[ ! -d "$G/functions/$function" ] || rmdir "$G/functions/$function" 2>/dev/null || true
+	done
+	return 0
 }
 fail() {
 	local detail
@@ -788,6 +816,7 @@ start_drive() {
 
 configure_drive() {
 	remove_links || return 1
+	clear_stale_functions
 	if storage_mode; then configure_storage || return 1; fi
 	configure_controller
 }
