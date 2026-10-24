@@ -127,6 +127,21 @@ bool Services::network(int64_t time) {
     if (net_ < 0) {
         netName_ = text(std::string("/config/usb_gadget/g1/functions/") + (functions_ & Network ? "ncm.link" : "rndis.link") + "/ifname");
         if (netName_.empty() || netName_.size() >= IFNAMSIZ || !if_nametoindex(netName_.c_str())) return true;
+        // The configfs ifname is read-only and defaults to usb%d. UsbModeService only
+        // registers the console cable's local network for an interface named ar36n* (NCM)
+        // or ar36r* (RNDIS), so rename it here while it is still down. Without this the
+        // link comes up on the gadget side but Android never routes it, and the ethernet
+        // emulator appears not to start.
+        const char* want = (functions_ & Network) ? "ar36n0" : "ar36r0";
+        if (netName_ != want && !if_nametoindex(want)) {
+            int ctl = socket(AF_INET,SOCK_DGRAM | SOCK_CLOEXEC,0);
+            if (ctl >= 0) {
+                ifreq rename{}; strncpy(rename.ifr_name,netName_.c_str(),IFNAMSIZ - 1);
+                strncpy(rename.ifr_newname,want,IFNAMSIZ - 1);
+                if (ioctl(ctl,SIOCSIFNAME,&rename) == 0) netName_ = want;
+                close(ctl);
+            }
+        }
         net_ = socket(AF_INET,SOCK_DGRAM | SOCK_NONBLOCK | SOCK_CLOEXEC,0);
         if (net_ < 0) return false;
         ifreq req{}; strncpy(req.ifr_name,netName_.c_str(),IFNAMSIZ - 1);
