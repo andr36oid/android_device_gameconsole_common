@@ -539,7 +539,7 @@ int run(unsigned functions) {
     KeyboardPointer pointerModel;
     uint8_t leds = 0;
     int64_t lastPointer = now(), lastConnection = 0;
-    bool connected = false;
+    bool connected = false, everConnected = false;
     int keyFd = -1, mouseFd = -1;
     std::string lastScreen, lastRouting;
     bool lastHintReady = false;
@@ -622,10 +622,13 @@ int run(unsigned functions) {
         if (time - lastConnection >= 100) {
             lastConnection = time; connected = keyboardConnected();
             if (!connected) { leds = 0; if (disconnected < 0) disconnected = time; }
-            else disconnected = -1;
+            else { disconnected = -1; everConnected = true; }
         }
-        // Allow firmware reboot and installer hand-off; never leave a dark orphan session.
-        if (disconnected >= 0 && time - disconnected >= 300000) break;
+        // Give up only on a session that never enumerated (plugged into nothing, or a dead
+        // port): don't leave a dark orphan. Once a host has enumerated us, keep serving across
+        // disconnects -- a PC being booted drops and re-enumerates the gadget several times,
+        // and that must not end the session. The Activity/service still stops us on request.
+        if (!everConnected && disconnected >= 0 && time - disconnected >= 300000) break;
         if (xbox) {
             pollfd p{ep0,POLLIN,0};
             if (poll(&p, 1, 0) > 0 && (p.revents & POLLIN)) {
