@@ -396,4 +396,5 @@
     <string name="usb_emulator_preparing_easyroms">EASYROMS hazırlanıyor… Kullanan uygulamaların kapanması zaman alabilir.</string>
     <string name="usb_emulator_stopping">USB Cihaz Emülatörü durduruluyor…</string>
     <string name="usb_emulator_stop_wait">Depolamanın kapanıp Android sistemine dönmesi bekleniyor.</string>
+    <string name="usb_drive_image_unsupported">Bu disk kalıpları konsolun doğrudan paylaşamayacağı bir biçimde. Önce bunları düz bir .img dosyasına dönüştür: <xliff:g id="names">%1$s</xliff:g></string>
 </resources>

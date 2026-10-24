@@ -396,4 +396,5 @@
     <string name="usb_emulator_preparing_easyroms">正在准备 EASYROMS… 使用它的应用可能需要一些时间才能关闭。</string>
     <string name="usb_emulator_stopping">正在停止 USB 设备模拟器…</string>
     <string name="usb_emulator_stop_wait">正在等待存储空间完成关闭并交还 Android 使用。</string>
+    <string name="usb_drive_image_unsupported">这些磁盘镜像的格式无法被掌机直接共享。请先把它们转换成普通的 .img：<xliff:g id="names">%1$s</xliff:g></string>
 </resources>

@@ -396,4 +396,5 @@
     <string name="usb_emulator_preparing_easyroms">EASYROMS wird vorbereitet… Apps, die es nutzen, brauchen möglicherweise Zeit zum Schließen.</string>
     <string name="usb_emulator_stopping">USB-Geräteemulator wird gestoppt…</string>
     <string name="usb_emulator_stop_wait">Warte, bis der Speicher vollständig geschlossen ist und wieder Android zur Verfügung steht.</string>
+    <string name="usb_drive_image_unsupported">Diese Abbilder liegen in einem Format vor, das die Konsole nicht direkt teilen kann. Wandle sie zuerst in ein einfaches .img um: <xliff:g id="names">%1$s</xliff:g></string>
 </resources>

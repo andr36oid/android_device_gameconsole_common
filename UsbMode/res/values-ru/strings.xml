@@ -396,4 +396,5 @@
     <string name="usb_emulator_preparing_easyroms">Подготовка EASYROMS… Закрытие использующих его приложений может занять время.</string>
     <string name="usb_emulator_stopping">Остановка эмулятора USB-устройств…</string>
     <string name="usb_emulator_stop_wait">Ожидание завершения отключения накопителя и возврата его в Android.</string>
+    <string name="usb_drive_image_unsupported">Эти образы дисков в формате, который консоль не может передать напрямую. Сначала преобразуй их в обычный .img: <xliff:g id="names">%1$s</xliff:g></string>
 </resources>

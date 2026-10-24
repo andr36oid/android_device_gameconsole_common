@@ -396,4 +396,5 @@
     <string name="usb_emulator_preparing_easyroms">Preparando EASYROMS… Las apps que lo usan pueden tardar en cerrarse.</string>
     <string name="usb_emulator_stopping">Deteniendo el emulador de dispositivos USB…</string>
     <string name="usb_emulator_stop_wait">Esperando a que se cierre el almacenamiento y vuelva a Android.</string>
+    <string name="usb_drive_image_unsupported">Estas imágenes de disco están en un formato que la consola no puede compartir directamente. Conviértelas primero a un .img normal: <xliff:g id="names">%1$s</xliff:g></string>
 </resources>

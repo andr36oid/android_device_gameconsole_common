@@ -396,4 +396,5 @@
     <string name="usb_emulator_preparing_easyroms">Przygotowywanie EASYROMS… Zamknięcie używających go aplikacji może chwilę potrwać.</string>
     <string name="usb_emulator_stopping">Zatrzymywanie emulatora urządzeń USB…</string>
     <string name="usb_emulator_stop_wait">Oczekiwanie na zakończenie zamykania pamięci i jej powrót do Androida.</string>
+    <string name="usb_drive_image_unsupported">Te obrazy dysku są w formacie, którego konsola nie może udostępnić bezpośrednio. Najpierw przekonwertuj je na zwykły plik .img: <xliff:g id="names">%1$s</xliff:g></string>
 </resources>

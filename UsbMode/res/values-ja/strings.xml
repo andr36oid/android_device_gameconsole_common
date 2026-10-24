@@ -385,4 +385,5 @@
     <string name="usb_emulator_preparing_easyroms">EASYROMS を準備中… 使用中のアプリが閉じるまで時間がかかる場合があります。</string>
     <string name="usb_emulator_stopping">USB デバイスエミュレーターを停止中…</string>
     <string name="usb_emulator_stop_wait">ストレージの終了処理が完了し、Android に戻るのを待っています。</string>
+    <string name="usb_drive_image_unsupported">これらのディスクイメージは本体が直接共有できない形式です。まず通常の .img に変換してください: <xliff:g id="names">%1$s</xliff:g></string>
 </resources>
