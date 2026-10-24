@@ -31,6 +31,20 @@ put() {
 	[ -z "${STATE:-}" ] || printf 'write failed: %s%s\n' "$1" "${err:+: $err}" >"$STATE/step-detail" 2>/dev/null || true
 	return 1
 }
+mkfun() {
+	# Create a gadget function directory, leaving a clean, named reason on failure
+	# instead of letting fail() scrape a garbled line out of the step log. A stale
+	# function from an earlier session shows up here as a plain "File exists".
+	local err
+	if err=$(mkdir "$1" 2>&1); then return 0; fi
+	# The mkdir message already names the path and the reason; keep it whole (it fits
+	# fail()'s 90-char detail) rather than prefixing a second copy of the path.
+	err=$(printf '%s' "$err" | LC_ALL=C tr -cd '[:print:]' | cut -c1-110)
+	[ -n "$err" ] || err="could not create $1"
+	log_step "$err"
+	[ -z "${STATE:-}" ] || printf '%s\n' "$err" >"$STATE/step-detail" 2>/dev/null || true
+	return 1
+}
 fail() {
 	local detail
 	log_step "failed: $1"
@@ -555,7 +569,7 @@ configure_controller() {
 		put "$G/os_desc/b_vendor_code" 0x1 || return 1
 	fi
 	if has_function 262144; then
-		mkdir "$G/functions/ffs.flipper" || return 1
+		mkfun "$G/functions/ffs.flipper" || return 1
 		mount -t functionfs -o uid=0,gid=0,rmode=0700,fmode=0600 flipper "$FLIPPER_FFS" || return 1
 		put "$G/idVendor" "$(cat "$STATE/flipper-vid")" || return 1
 		put "$G/idProduct" "$(cat "$STATE/flipper-pid")" || return 1
@@ -571,7 +585,7 @@ configure_controller() {
 		put "$G/configs/b.1/MaxPower" 250 || return 1
 	fi
 	if has_function 94210; then
-		mkdir "$G/functions/ffs.xinput" || return 1
+		mkfun "$G/functions/ffs.xinput" || return 1
 		mount -t functionfs -o uid=0,gid=0,rmode=0700,fmode=0600 xinput "$FFS" || return 1
 	fi
 	if has_function 4; then configure_hid andr36oid gamepad 0 0 11 3 || return 1; fi
@@ -587,18 +601,18 @@ configure_controller() {
 	if has_function 8192; then put "$G/strings/0x409/product" WUP-028 || return 1; fi
 	if has_function 16384; then put "$G/bDeviceClass" 0x58 || return 1; fi
 	if has_function 256; then
-		mkdir "$G/functions/midi.pads" || return 1
+		mkfun "$G/functions/midi.pads" || return 1
 		put "$G/functions/midi.pads/id" ar36midi || return 1
 		put "$G/functions/midi.pads/in_ports" 1 || return 1
 		put "$G/functions/midi.pads/out_ports" 1 || return 1
 		ln -s "$G/functions/midi.pads" "$G/configs/b.1/f9" || return 1
 	fi
 	if has_function 512; then
-		mkdir "$G/functions/acm.echo" || return 1
+		mkfun "$G/functions/acm.echo" || return 1
 		ln -s "$G/functions/acm.echo" "$G/configs/b.1/f10" || return 1
 	fi
 	if has_function 1024; then
-		mkdir "$G/functions/uac2.speaker" || return 1
+		mkfun "$G/functions/uac2.speaker" || return 1
 		# USB OUT -> gadget capture; optional USB IN uses gadget playback.
 		put "$G/functions/uac2.speaker/p_chmask" 0 || return 1
 		if has_function 131072; then
@@ -612,7 +626,7 @@ configure_controller() {
 		ln -s "$G/functions/uac2.speaker" "$G/configs/b.1/f11" || return 1
 	fi
 	if has_function 2048; then
-		mkdir "$G/functions/ncm.link" || return 1
+		mkfun "$G/functions/ncm.link" || return 1
 		# ifname is a read-only configfs attr in this kernel (u_ether_configfs.h
 		# CONFIGFS_ATTR_RO): writing it fails and aborts the session. The kernel
 		# name (usb0/ncm0) does not match EthernetService's eth\d regex, so the
@@ -622,7 +636,7 @@ configure_controller() {
 		ln -s "$G/functions/ncm.link" "$G/configs/b.1/f12" || return 1
 	fi
 	if has_function 32768; then
-		mkdir "$G/functions/rndis.link" || return 1
+		mkfun "$G/functions/rndis.link" || return 1
 		# ifname is read-only (see ncm.link above); read it back after bind.
 		put "$G/functions/rndis.link/dev_addr" 02:36:00:00:00:01 || return 1
 		put "$G/functions/rndis.link/host_addr" 02:36:00:00:00:02 || return 1
@@ -649,7 +663,7 @@ configure_controller() {
 
 configure_hid() {
 	local function=$G/functions/hid.$1
-	mkdir "$function" || return 1
+	mkfun "$function" || return 1
 	put "$function/subclass" "$3" || return 1
 	put "$function/protocol" "$4" || return 1
 	# LED output arrives over ep0, leaving all OUT endpoints for bulk/FunctionFS.
@@ -780,7 +794,7 @@ configure_drive() {
 
 configure_storage() {
 	touch "$STATE/storage" || return 1
-	mkdir "$F" || return 1
+	mkfun "$F" || return 1
 	luns=$target
 	if [ "$disk" = mmcblk2 ]; then
 		luns="mmcblk2 mmcblk2boot0 mmcblk2boot1"
