@@ -626,6 +626,7 @@ public class UsbDriveActivity extends Activity {
                 R.drawable.ic_usecase_macro, R.drawable.ic_usecase_link, R.drawable.ic_usecase_custom};
         for (int i = 0; i < UsbWizard.ROLES.length; i++) {
             final String role = UsbWizard.ROLES[i];
+            if ("music".equals(role)) continue; // MIDI pulled from the release (kernel f_midi fixed-name node leak)
             if ("custom".equals(role)) divider();
             choice(role, getString(titles[i]), getString(descriptions[i]), role.equals(mPreset), true, icons[i], () -> {
                 chooseRole(role); skipForward();
@@ -721,6 +722,7 @@ public class UsbDriveActivity extends Activity {
                 R.string.usb_device_adb_summary, R.string.usb_device_sound_summary, R.string.usb_device_serial_summary, R.string.usb_device_rndis_summary};
         for (int i = 0; i < bits.length; i++) {
             final int bit = bits[i];
+            if (bit == UsbFunctions.MIDI) continue; // MIDI pulled from the release (kernel f_midi fixed-name node leak)
             if (bit == UsbFunctions.SOUND) {
                 row("advanced", getString(R.string.usb_device_advanced), getString(mAdvanced ? R.string.usb_device_collapse
                         : R.string.usb_device_advanced_summary), true, () -> { mAdvanced = !mAdvanced; render(); });
