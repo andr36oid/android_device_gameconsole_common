@@ -31,6 +31,18 @@ put() {
 	[ -z "${STATE:-}" ] || printf 'write failed: %s%s\n' "$1" "${err:+: $err}" >"$STATE/step-detail" 2>/dev/null || true
 	return 1
 }
+# f_midi registers its ALSA card under a fixed name ("f_midi"), so only one midi
+# function can exist at a time and the kernel frees the old card asynchronously. A
+# midi.pads removed at the end of one session can leave this node around for a
+# moment; creating midi.pads again before it is gone fails with a sysfs "File
+# exists" (the "USB music never works after another mode" symptom). Wait for it.
+MIDI_STALE=/sys/devices/virtual/android_usb/android0/f_midi
+wait_midi_clear() {
+	local n=0
+	while [ -e "$MIDI_STALE" ] && [ "$n" -lt 30 ]; do
+		sleep 0.1; n=$((n + 1))
+	done
+}
 mkfun() {
 	# Create a gadget function directory, always leaving a message that names the
 	# function. The kernel can emit its own log while mkdir runs, so the captured
@@ -39,6 +51,14 @@ mkfun() {
 	# from an earlier session shows up here as a plain "File exists".
 	local err base=${1##*/}
 	if err=$(mkdir "$1" 2>&1); then return 0; fi
+	case $err in
+	*[Ee]xist*)
+		# A lingering fixed-name resource (f_midi's sound card is the known one)
+		# can still be tearing down; give it a moment and try the create once more.
+		wait_midi_clear
+		if err=$(mkdir "$1" 2>&1); then return 0; fi
+		;;
+	esac
 	err=$(printf '%s' "$err" | LC_ALL=C tr -cd '[:print:]' | cut -c1-90)
 	err="could not create USB function $base${err:+: $err}"
 	log_step "$err"
@@ -71,6 +91,9 @@ clear_stale_functions() {
 		hid.media midi.pads acm.echo uac2.speaker ncm.link rndis.link; do
 		[ ! -d "$G/functions/$function" ] || rmdir "$G/functions/$function" 2>/dev/null || true
 	done
+	# midi.pads' sound card is freed asynchronously; wait it out here so the next
+	# configure does not race it and fail to recreate midi.pads.
+	wait_midi_clear
 	return 0
 }
 fail() {
