@@ -274,6 +274,9 @@
     <string name="kt_hp_det_flipped">Çevrildi</string>
     <string name="kt_hp_det_flip_what">Kulaklık jakının anahtarını ters okur.</string>
     <string name="kt_hp_det_flip_why">Bazı klonlar jakı ters bağlar: hiçbir şey takılı değilken hoparlör sessiz kalır veya ses asla kulaklığa geçmez. Bu size tanıdık geliyorsa bunu çevirin. Hemen yeniden kontrol edilir.</string>
+    <string name="kt_spk_hp_force">Hoparlör + kulaklık her zaman açık</string>
+    <string name="kt_spk_hp_force_what">Hoparlörden ve kulaklıktan aynı anda çalar.</string>
+    <string name="kt_spk_hp_force_why">Kulaklık algılaması çalışmayan klonlar için; yukarıdaki Normal ya da Çevrildi seçeneklerinin hiçbiri hem hoparlörü hem kulaklığı birlikte vermiyorsa. Orijinal yazılım gibi ikisini birden çalıştırır, kulaklığı taktığınızda hoparlörü kulaklık jakının kendi anahtarı susturur.</string>
 
     <!-- Crashes and logs -->
     <string name="kt_log_level">Kernel log ayrıntısı</string>

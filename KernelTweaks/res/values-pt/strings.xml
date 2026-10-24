@@ -274,6 +274,9 @@
     <string name="kt_hp_det_flipped">Invertido</string>
     <string name="kt_hp_det_flip_what">Lê o interruptor da entrada de auscultadores ao contrário.</string>
     <string name="kt_hp_det_flip_why">Alguns clones ligam a entrada ao contrário: o altifalante fica mudo mesmo sem nada ligado, ou o som nunca passa para os auscultadores. Se isto parecer a sua consola, inverta. É verificado de novo de imediato.</string>
+    <string name="kt_spk_hp_force">Altifalante + auscultadores sempre ligados</string>
+    <string name="kt_spk_hp_force_what">Reproduz pelo altifalante e pelos auscultadores ao mesmo tempo.</string>
+    <string name="kt_spk_hp_force_why">Para clones sem deteção de auscultadores funcional, onde nem Normal nem Invertido acima dão o altifalante e os auscultadores em simultâneo. Ativa ambos ao mesmo tempo, como o firmware original, e o interruptor da própria entrada de auscultadores silencia o altifalante quando liga os auscultadores.</string>
 
     <!-- Crashes and logs -->
     <string name="kt_log_level">Detalhe do registo do kernel</string>

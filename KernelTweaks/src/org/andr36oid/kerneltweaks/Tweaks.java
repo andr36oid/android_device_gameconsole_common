@@ -222,6 +222,10 @@ final class Tweaks {
                 .values("N", "Y")
                 .labels(R.string.kt_hp_det_normal, R.string.kt_hp_det_flipped)
                 .level(Tweak.LAST_RESORT))
+            .add(onOff("spk_hp_force", R.string.kt_spk_hp_force,
+                    R.string.kt_spk_hp_force_what, R.string.kt_spk_hp_force_why,
+                    "/sys/module/snd_soc_rk817/parameters/force_spk_hp")
+                .level(Tweak.LAST_RESORT))
             .add(Tweak.choice("max_volume", R.string.kt_max_volume,
                     R.string.kt_max_volume_what, R.string.kt_max_volume_why,
                     "sys.andr36oid.max_volume")

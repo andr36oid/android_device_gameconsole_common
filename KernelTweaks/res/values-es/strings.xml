@@ -274,6 +274,9 @@
     <string name="kt_hp_det_flipped">Invertido</string>
     <string name="kt_hp_det_flip_what">Lee el interruptor de la clavija de auriculares al revés.</string>
     <string name="kt_hp_det_flip_why">Algunos clones conectan la clavija al revés: el altavoz se queda mudo sin nada enchufado, o el sonido nunca pasa a los auriculares. Si eso suena a tu consola, invierte esto. Se vuelve a comprobar de inmediato.</string>
+    <string name="kt_spk_hp_force">Altavoz + auriculares siempre activos</string>
+    <string name="kt_spk_hp_force_what">Suena por el altavoz y los auriculares a la vez.</string>
+    <string name="kt_spk_hp_force_why">Para clones sin detección de auriculares que funcione, donde ni Normal ni Invertido arriba dan a la vez el altavoz y los auriculares. Esto activa ambos a la vez, como el firmware original, y el interruptor propio de la clavija de auriculares silencia el altavoz al enchufarlos.</string>
 
     <!-- Crashes and logs -->
     <string name="kt_log_level">Detalle del registro del kernel</string>

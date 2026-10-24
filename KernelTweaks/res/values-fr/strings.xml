@@ -274,6 +274,9 @@
     <string name="kt_hp_det_flipped">Inversé</string>
     <string name="kt_hp_det_flip_what">Lit l\'interrupteur de la prise casque à l\'envers.</string>
     <string name="kt_hp_det_flip_why">Certains clones câblent la prise à l\'envers : le haut-parleur reste muet sans rien de branché, ou le son ne passe jamais au casque. Si cela ressemble à votre console, inversez-la. C\'est revérifié tout de suite.</string>
+    <string name="kt_spk_hp_force">Haut-parleur + casque toujours actifs</string>
+    <string name="kt_spk_hp_force_what">Joue sur le haut-parleur et le casque en même temps.</string>
+    <string name="kt_spk_hp_force_why">Pour les clones dont la détection du casque ne fonctionne pas, où ni Normal ni Inversé ci-dessus ne donne à la fois le haut-parleur et le casque. Cela active les deux à la fois, comme le firmware d\'origine, et l\'interrupteur de la prise casque coupe le haut-parleur quand vous branchez un casque.</string>
 
     <!-- Crashes and logs -->
     <string name="kt_log_level">Détail du journal du noyau</string>

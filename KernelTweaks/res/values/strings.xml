@@ -289,6 +289,9 @@
     <string name="kt_hp_det_flipped">Flipped</string>
     <string name="kt_hp_det_flip_what">Reads the headphone jack\'s switch the other way round.</string>
     <string name="kt_hp_det_flip_why">Some clones wire the jack backwards: the speaker stays quiet with nothing plugged in, or sound never moves to the headphones. If that sounds like yours, flip it. It\'s checked again right away.</string>
+    <string name="kt_spk_hp_force">Speaker + headphones always on</string>
+    <string name="kt_spk_hp_force_what">Plays through the speaker and headphones at the same time.</string>
+    <string name="kt_spk_hp_force_why">For clones with no working headphone detection, where neither Normal nor Flipped above gives you both the speaker and the headphones. This drives both at once, like the stock firmware, and the headphone jack\'s own switch mutes the speaker when you plug headphones in.</string>
 
     <!-- Crashes and logs -->
     <string name="kt_log_level">Kernel log detail</string>

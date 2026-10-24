@@ -273,6 +273,9 @@
     <string name="kt_hp_det_flipped">已翻转</string>
     <string name="kt_hp_det_flip_what">反向读取耳机插孔的开关状态。</string>
     <string name="kt_hp_det_flip_why">有些仿制机把插孔接反了：没插任何东西时扬声器也不出声，或者声音永远不会切到耳机。如果您的掌机有这种情况，请切换此选项。它会立即重新检测。</string>
+    <string name="kt_spk_hp_force">扬声器和耳机始终开启</string>
+    <string name="kt_spk_hp_force_what">同时通过扬声器和耳机播放。</string>
+    <string name="kt_spk_hp_force_why">适用于耳机检测失效的仿制机：上面的“正常”和“已翻转”都无法让扬声器和耳机同时出声。此选项会像原厂固件一样同时驱动两者，插入耳机时由耳机插孔自身的开关让扬声器静音。</string>
 
     <!-- Crashes and logs -->
     <string name="kt_log_level">内核日志详细程度</string>

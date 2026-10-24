@@ -276,6 +276,9 @@
     <string name="kt_hp_det_flipped">Odwrócone</string>
     <string name="kt_hp_det_flip_what">Odczytuje przełącznik gniazda słuchawkowego na odwrót.</string>
     <string name="kt_hp_det_flip_why">Niektóre klony podłączają gniazdo na odwrót: głośnik milczy, gdy nic nie jest podłączone, albo dźwięk nigdy nie przechodzi do słuchawek. Jeśli to brzmi jak twoja konsola, odwróć to. Jest sprawdzane ponownie od razu.</string>
+    <string name="kt_spk_hp_force">Głośnik + słuchawki zawsze włączone</string>
+    <string name="kt_spk_hp_force_what">Odtwarza dźwięk jednocześnie przez głośnik i słuchawki.</string>
+    <string name="kt_spk_hp_force_why">Dla klonów bez działającego wykrywania słuchawek, gdzie ani Normalnie, ani Odwrócone powyżej nie daje jednocześnie głośnika i słuchawek. Włącza oba naraz, jak oryginalny firmware, a własny przełącznik gniazda słuchawkowego wycisza głośnik po podłączeniu słuchawek.</string>
 
     <!-- Crashes and logs -->
     <string name="kt_log_level">Poziom szczegółowości logu jądra</string>

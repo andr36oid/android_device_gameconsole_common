@@ -273,6 +273,9 @@
     <string name="kt_hp_det_flipped">Dibalik</string>
     <string name="kt_hp_det_flip_what">Membaca saklar jack headphone secara terbalik.</string>
     <string name="kt_hp_det_flip_why">Beberapa klon memasang kabel jack secara terbalik: speaker tetap diam walau tidak ada yang dicolok, atau suara tidak pernah pindah ke headphone. Jika itu terdengar seperti konsol Anda, balik ini. Langsung dicek ulang.</string>
+    <string name="kt_spk_hp_force">Speaker + headphone selalu aktif</string>
+    <string name="kt_spk_hp_force_what">Memutar lewat speaker dan headphone sekaligus.</string>
+    <string name="kt_spk_hp_force_why">Untuk klon tanpa deteksi headphone yang berfungsi, ketika Normal maupun Dibalik di atas tidak memberi speaker dan headphone sekaligus. Ini mengaktifkan keduanya bersamaan, seperti firmware bawaan, dan saklar jack headphone sendiri akan membisukan speaker saat Anda mencolok headphone.</string>
 
     <!-- Crashes and logs -->
     <string name="kt_log_level">Detail log kernel</string>

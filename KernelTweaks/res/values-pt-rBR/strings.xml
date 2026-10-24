@@ -274,6 +274,9 @@
     <string name="kt_hp_det_flipped">Invertido</string>
     <string name="kt_hp_det_flip_what">Lê o interruptor da entrada de fone de ouvido ao contrário.</string>
     <string name="kt_hp_det_flip_why">Alguns clones ligam a entrada ao contrário: o alto-falante fica mudo mesmo sem nada conectado, ou o som nunca vai para o fone. Se isso parece com o seu console, inverta. É verificado de novo na hora.</string>
+    <string name="kt_spk_hp_force">Alto-falante + fone sempre ativos</string>
+    <string name="kt_spk_hp_force_what">Toca no alto-falante e no fone de ouvido ao mesmo tempo.</string>
+    <string name="kt_spk_hp_force_why">Para clones sem detecção de fone funcionando, em que nem Normal nem Invertido acima dão alto-falante e fone ao mesmo tempo. Isso aciona os dois juntos, como o firmware original, e o interruptor da própria entrada de fone silencia o alto-falante quando você conecta o fone.</string>
 
     <!-- Crashes and logs -->
     <string name="kt_log_level">Detalhe do log do kernel</string>

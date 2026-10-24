@@ -69,6 +69,7 @@ stick_sensitivity|plain||/sys/devices/platform/odroidgo3-joypad/stick_sensitivit
 max_volume|prop||sys.andr36oid.max_volume
 poll_interval|plain||/sys/devices/platform/odroidgo3-joypad/poll_interval
 hp_det_flip|plain||/sys/module/snd_soc_simple_card_utils/parameters/hp_det_flip
+spk_hp_force|plain||/sys/module/snd_soc_rk817/parameters/force_spk_hp
 log_level|first||/proc/sys/kernel/printk
 panic_restart|plain||/proc/sys/kernel/panic
 oops_panic|plain||/proc/sys/kernel/panic_on_oops

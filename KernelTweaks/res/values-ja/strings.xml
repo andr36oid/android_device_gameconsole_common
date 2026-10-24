@@ -113,6 +113,9 @@
     <string name="kt_hp_det_flip">ヘッドホン検出</string>
     <string name="kt_hp_det_flip_what">ヘッドホンジャックのスイッチの読み取りを逆にします。</string>
     <string name="kt_hp_det_flip_why">一部のクローンでは、ジャックの配線が逆になっています。何も差していないのにスピーカーが無音のままだったり、ヘッドホンに音が切り替わらなかったりします。そのような症状があれば、切り替えてください。すぐに再確認されます。</string>
+    <string name="kt_spk_hp_force">スピーカーとヘッドホンを常に有効</string>
+    <string name="kt_spk_hp_force_what">スピーカーとヘッドホンから同時に音を出します。</string>
+    <string name="kt_spk_hp_force_why">ヘッドホン検出が正しく動作しないクローン向けです。上の「通常」でも「反転」でも、スピーカーとヘッドホンの両方から音が出ない場合に使います。純正ファームウェアと同様に両方を同時に駆動し、ヘッドホンを差すとジャック自体のスイッチがスピーカーをミュートします。</string>
     <string name="kt_hp_det_flipped">反転</string>
     <string name="kt_hp_det_normal">通常</string>
     <string name="kt_input_nearest_step">充電器の入力: 最も近い段階</string>
