@@ -66,6 +66,7 @@ public class UsbDriveActivity extends Activity {
     private TextView mStep, mTitle, mBody, mNote;
     private ProgressBar mProgress;
     private Button mNext, mBack;
+    private HintBar mHints;
     private ScrollView mTextScroll;
     private AlertDialog mDialog;
     private int mPage = HUB, mIndex, mCreateIndex, mFunctions, mShownPage = -1, mShownStep = -1;
@@ -89,7 +90,7 @@ public class UsbDriveActivity extends Activity {
         getWindow().setSoftInputMode(android.view.WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
                 | android.view.WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         setContentView(R.layout.usb_drive_activity);
-        HintBar.attachDefault(this);
+        mHints = HintBar.attachDefault(this);
         mUsbMode = new UsbMode(this);
         mWork = (Work) getLastNonConfigurationInstance();
         final boolean retained = mWork != null;
@@ -383,7 +384,7 @@ public class UsbDriveActivity extends Activity {
         boolean physical = mSelected != null && mSelected.kind != UsbDrive.Kind.IMAGE;
         int preparing = "release_storage".equals(stage) && physical
                 ? mSelected.kind == UsbDrive.Kind.EASYROMS ? R.string.usb_emulator_preparing_easyroms : R.string.usb_emulator_preparing_storage
-                : R.string.usb_device_preparing;
+                : sessionStage(stage);
         mBody.setText(image ? getString(virtualStage(stage)) + (allocate ? " · " + percent + "%"
                 + (slowAllocation() ? "\n\n" + getString(R.string.usb_virtual_allocation) : "") : "") : getString(preparing));
         if (!image && UsbWizard.captured(stage, "1".equals(android.os.SystemProperties.get(UsbDeviceControl.PREFIX + "ready")))) {
@@ -438,6 +439,7 @@ public class UsbDriveActivity extends Activity {
             mNext.setText(android.R.string.cancel); spinner(); progress(false);
         } else hub();
         mTextScroll.scrollTo(0, textY);
+        updateHints();
         mPageFocus.begin(same, focus);
         postPageFocus();
     }
@@ -463,6 +465,21 @@ public class UsbDriveActivity extends Activity {
         return view != null && view.isShown() && view.isEnabled() && view.isFocusable();
     }
 
+    // Button hints reflect what A/B do on the current screen, in the shared andr36oid bar.
+    private void updateHints() {
+        if (mHints == null) return;
+        if (mPage == SESSION || mPage == PROGRESS) {
+            mHints.set("B", getString(R.string.usb_hint_cancel));
+            return;
+        }
+        String select = getString(R.string.andr36oid_hint_select);
+        if (mPage == CONNECT) {
+            int current = step();
+            if (current == UsbWizard.REVIEW) select = getString(R.string.usb_hint_start);
+            else if (current != UsbWizard.ROLE && current != UsbWizard.FUNCTIONS) select = getString(R.string.usb_hint_next);
+        }
+        mHints.set("A", select, "B", getString(R.string.andr36oid_hint_back));
+    }
     private void page(int title, String body) { mTitle.setText(title); mBody.setText(body); }
     // A choice reads as "<bold title>\n<plain what-it-does line>" so options are easy to tell apart.
     private CharSequence label(String title, String summary) {
@@ -724,14 +741,21 @@ public class UsbDriveActivity extends Activity {
         }
     }
     private void storage() {
-        page(R.string.usb_device_target, getString(R.string.usb_drive_intro) + "\n\n" + getString(R.string.usb_drive_image_hint));
-        for (UsbDrive.Offer offer : mOffers) choice(offer.identity(), name(offer), offerDetail(offer),
-                offer.identity().equals(mSelectedKey), offer.enabled(), () -> {
+        // PC setup boots from an optical image, so it only lists ISOs; physical USB drives
+        // belong to the drive/custom use cases, not here.
+        final boolean isoOnly = "pc".equals(mPreset);
+        page(R.string.usb_device_target, getString(isoOnly ? R.string.usb_drive_iso_hint : R.string.usb_drive_intro)
+                + "\n\n" + getString(R.string.usb_drive_image_hint));
+        for (UsbDrive.Offer offer : mOffers) {
+            if (isoOnly && !(offer.kind == UsbDrive.Kind.IMAGE && offer.cdromPossible())) continue;
+            choice(offer.identity(), name(offer), offerDetail(offer),
+                offer.identity().equals(mSelectedKey), offer.enabled(), offerIcon(offer), () -> {
                     mSelected = offer; mSelectedKey = offer.identity();
                     mCdrom = offer.defaultCdrom() && offer.cdromPossible();
                     if (offer.kind == UsbDrive.Kind.IMAGE && !offer.type.isEmpty()) mRo = false;
                     changed();
                 });
+        }
         if (mSelected != null && mSelected.kind == UsbDrive.Kind.IMAGE) {
             choice("cdrom", getString(R.string.usb_drive_image_cd), getString(mSelected.cdromPossible()
                     ? R.string.usb_drive_image_cd_ro : mSelected.floppy() ? R.string.usb_floppy_summary : R.string.usb_drive_image_cd_size),
@@ -1197,6 +1221,26 @@ public class UsbDriveActivity extends Activity {
     }
     private void details(CharSequence title, CharSequence message) {
         showDialog(new AlertDialog.Builder(this).setTitle(title).setMessage(message).setPositiveButton(android.R.string.ok, null).create());
+    }
+    // Filetype indicator for a storage tile: optical image, other disk image, or a real drive.
+    private int offerIcon(UsbDrive.Offer offer) {
+        if (offer.kind == UsbDrive.Kind.IMAGE)
+            return offer.cdromPossible() ? R.drawable.ic_file_iso : R.drawable.ic_file_img;
+        return R.drawable.ic_usecase_drive;
+    }
+    // Readable line for each session step so Preparing shows progress instead of a bare spinner.
+    private int sessionStage(String stage) {
+        switch (stage) {
+            case "validate": return R.string.usb_stage_validate;
+            case "save_controller": case "save_backlight": return R.string.usb_stage_save;
+            case "gate_android": return R.string.usb_stage_gate;
+            case "unbind_udc": return R.string.usb_stage_unbind;
+            case "configure_drive": return R.string.usb_stage_configure;
+            case "controller_daemon": return R.string.usb_stage_controller;
+            case "device_role": return R.string.usb_stage_role;
+            case "bind_drive": case "bind_udc": return R.string.usb_stage_bind;
+            default: return R.string.usb_device_preparing;
+        }
     }
     private int virtualStage(String stage) {
         switch (stage) {
