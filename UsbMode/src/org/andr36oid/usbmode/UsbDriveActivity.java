@@ -432,11 +432,13 @@ public class UsbDriveActivity extends Activity {
         } else if (mPage == IMAGES) images();
         else if (mPage == CREATE) create();
         else if (mPage == PROGRESS) {
+            // The indeterminate bar at the top is the activity indicator; no second spinner,
+            // so the choices region collapses and this is one pane, not an empty-sided two.
             page(R.string.usb_virtual_working, "");
-            mNext.setText(android.R.string.cancel); spinner(); progress(true);
+            mNext.setText(android.R.string.cancel); progress(true);
         } else if (mPage == SESSION) {
             page(R.string.usb_device_preparing, "");
-            mNext.setText(android.R.string.cancel); spinner(); progress(false);
+            mNext.setText(android.R.string.cancel); progress(false);
         } else hub();
         // No choices on this page (e.g. Review is all summary text): drop the empty choices
         // region so the explanation fills the screen instead of leaving a blank pane.
