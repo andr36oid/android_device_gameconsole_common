@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Resting state of a choice: transparent so the true-black page shows through, with only
+     a faint outline to separate rows. The lit fill + line come from andr36oid_setup_focus
+     (the foreground) when the row is focused, matching the QuickStart/eMMC wizards. -->
 <inset xmlns:android="http://schemas.android.com/apk/res/android"
     android:insetLeft="4dp"
     android:insetRight="4dp"
     android:insetTop="6dp"
     android:insetBottom="6dp">
     <shape android:shape="rectangle">
-        <solid android:color="@color/andr36oid_setup_focus_fill" />
-        <stroke android:width="1dp" android:color="#60808080" />
+        <solid android:color="@android:color/transparent" />
+        <stroke android:width="1dp" android:color="#40808080" />
         <corners android:radius="@dimen/sud_glif_v3_button_corner_radius" />
     </shape>
 </inset>
