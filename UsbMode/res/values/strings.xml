@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
     <string name="usb_mode_title">USB mode (beta)</string>
     <string name="usb_mode_summary">Use the OTG port for accessories or to connect to a computer</string>
