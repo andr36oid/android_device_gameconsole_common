@@ -540,7 +540,8 @@ public class UsbDriveActivity extends Activity {
     }
     private void liveResult() {
         String status = "error".equals(UsbDriveControl.state()) ? getString(R.string.usb_device_failed)
-                + "\n" + UsbDriveControl.error() + "\n" + UsbDriveControl.detail() : "";
+                + "\n" + UsbDriveControl.error() + "\n" + UsbDriveControl.detail()
+                + "\n\n" + getString(R.string.usb_emulator_cable_hint) : "";
         if (!status.isEmpty()) { mNote.setText(status); return; }
         String result = UsbDriveControl.virtual("result");
         String detail = "";
