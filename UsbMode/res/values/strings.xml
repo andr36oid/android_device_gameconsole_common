@@ -333,6 +333,15 @@
     <string name="usb_wizard_pc_summary">A disc or drive, keyboard and mouse for setting up a computer.</string>
     <string name="usb_wizard_custom_summary">Choose each USB function and controller type yourself.</string>
     <string name="usb_wizard_link_summary">Connect RetroArch or a streaming app over a wired network.</string>
+    <string name="usb_role_pc_summary">Keyboard, mouse and a drive for a computer.</string>
+    <string name="usb_role_game_summary">Act as an Xbox controller for a PC.</string>
+    <string name="usb_role_drive_summary">Share storage or a disk image as a drive.</string>
+    <string name="usb_role_wired_summary">Wired network link to a computer.</string>
+    <string name="usb_role_music_summary">MIDI drum pads for music apps.</string>
+    <string name="usb_role_awake_summary">Nudge the mouse so a computer stays awake.</string>
+    <string name="usb_role_macro_summary">Buttons send media and macro key combos.</string>
+    <string name="usb_role_link_summary">Link two consoles over a USB cable.</string>
+    <string name="usb_role_custom_summary">Pick USB functions and controller yourself.</string>
     <string name="usb_wizard_functions">USB functions</string>
     <string name="usb_wizard_controller_summary">Choose how your console appears as a game controller.</string>
     <string name="usb_wizard_conflict">%1$s cannot combine with %2$s — pick one.</string>

@@ -557,9 +557,9 @@ public class UsbDriveActivity extends Activity {
         final int[] titles = {R.string.usb_device_pc, R.string.usb_device_game, R.string.usb_drive_title,
                 R.string.usb_device_wired, R.string.usb_device_music, R.string.usb_jiggle_preset,
                 R.string.usb_macro_title, R.string.usb_link_title, R.string.usb_device_custom};
-        final int[] descriptions = {R.string.usb_wizard_pc_summary, R.string.controller_xinput_summary, R.string.usb_drive_intro,
-                R.string.usb_device_network_summary, R.string.usb_device_midi_summary, R.string.usb_jiggle_summary,
-                R.string.usb_macro_summary, R.string.usb_wizard_link_summary, R.string.usb_wizard_custom_summary};
+        final int[] descriptions = {R.string.usb_role_pc_summary, R.string.usb_role_game_summary, R.string.usb_role_drive_summary,
+                R.string.usb_role_wired_summary, R.string.usb_role_music_summary, R.string.usb_role_awake_summary,
+                R.string.usb_role_macro_summary, R.string.usb_role_link_summary, R.string.usb_role_custom_summary};
         final int[] icons = {R.drawable.ic_usecase_pc, R.drawable.ic_usecase_game, R.drawable.ic_usecase_drive,
                 R.drawable.ic_usecase_wired, R.drawable.ic_usecase_music, R.drawable.ic_usecase_awake,
                 R.drawable.ic_usecase_macro, R.drawable.ic_usecase_link, R.drawable.ic_usecase_custom};
