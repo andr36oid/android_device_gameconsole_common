@@ -23,6 +23,9 @@
     <!-- Charging and device mode never go together -->
     <string name="charging_warning">Never use this while the console is charging from its other port. Unplug the charger first.</string>
     <string name="charging_refused">The console is charging. Never use this while the console is charging from its other port. Unplug the charger first.</string>
+    <string name="usb_charging_title">Unplug the charger</string>
+    <string name="usb_charging_body">The console can\'t charge and act as a USB device at the same time. A plugged-in charger forces the USB port back to accessories, so this won\'t start.\n\nUnplug the charger to continue. The console runs on its battery during the session.</string>
+    <string name="usb_charging_wait">Waiting for the charger to be unplugged…</string>
     <string name="charging_toast">DO NOT DO THIS! Never charge and use USB client at the same time.</string>
     <string name="channel_on">USB Device Emulator</string>
     <string name="channel_alert">USB Device Emulator alerts</string>
@@ -172,6 +175,10 @@
     <string name="usb_hint_next">Next</string>
     <string name="usb_hint_start">Start</string>
     <string name="usb_hint_cancel">Cancel</string>
+    <string name="usb_hint_screen_off">Screen off</string>
+    <string name="usb_hint_wake">Wake / stop</string>
+    <string name="usb_hint_keys_screen_off">Select + R1</string>
+    <string name="usb_hint_keys_wake">Start + Select</string>
     <string name="usb_device_stop">Stop</string>
     <string name="usb_device_exit">Hold Select + Start for 2 seconds to stop. Power also stops while the display is on.</string>
     <string name="usb_device_dark">Turn off display</string>
@@ -212,6 +219,7 @@
     <string name="usb_device_collapse">Select to collapse.</string>
     <string name="usb_device_wired">Wired link</string>
     <string name="usb_device_music">Music</string>
+    <string name="usb_device_dac">Audio USB DAC</string>
     <string name="usb_device_link_status">Link: %1$s · This console: 192.168.36.1 · Peer: %2$s</string>
     <string name="usb_device_link_wait">Waiting for DHCP</string>
     <string name="usb_device_link_up">Connected</string>
@@ -352,6 +360,7 @@
     <string name="usb_role_drive_summary">Share storage or a disk image as a drive.</string>
     <string name="usb_role_wired_summary">Wired network link to a computer.</string>
     <string name="usb_role_music_summary">MIDI drum pads for music apps.</string>
+    <string name="usb_role_dac_summary">Play the computer\'s sound through this console as a USB speaker.</string>
     <string name="usb_role_awake_summary">Nudge the mouse so a computer stays awake.</string>
     <string name="usb_role_macro_summary">Buttons send media and macro key combos.</string>
     <string name="usb_role_link_summary">Link two consoles over a USB cable.</string>

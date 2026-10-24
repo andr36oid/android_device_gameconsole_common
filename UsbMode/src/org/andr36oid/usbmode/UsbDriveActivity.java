@@ -37,7 +37,7 @@ import java.util.concurrent.Executors;
 
 /** The hub and conditional wizard share the tutorial's page and Back/Next pattern. */
 public class UsbDriveActivity extends Activity {
-    private static final int HUB = 0, CONNECT = 1, IMAGES = 2, CREATE = 3, PROGRESS = 4, SESSION = 5;
+    private static final int HUB = 0, CONNECT = 1, IMAGES = 2, CREATE = 3, PROGRESS = 4, SESSION = 5, CHARGING = 6;
     private static final class Work {
         final Handler handler = new Handler(Looper.getMainLooper());
         final ExecutorService executor = Executors.newFixedThreadPool(2);
@@ -68,6 +68,7 @@ public class UsbDriveActivity extends Activity {
     private Button mNext, mBack;
     private HintBar mHints;
     private ScrollView mTextScroll, mChoicesScroll;
+    private boolean mHeaderInList;
     private AlertDialog mDialog;
     private int mPage = HUB, mIndex, mCreateIndex, mFunctions, mShownPage = -1, mShownStep = -1;
     private boolean mResumed, mAdvanced, mMacro, mRo, mCdrom, mDebugging;
@@ -225,7 +226,8 @@ public class UsbDriveActivity extends Activity {
             mWork.request.cancel(); mWork.creation.waiting = false; mCancelling = true;
             UsbDriveControl.stop(); return;
         }
-        if (mPage == CONNECT && mIndex > 0) { mIndex--; mFocus = ""; render(); }
+        if (mPage == CHARGING) open(CONNECT);
+        else if (mPage == CONNECT && mIndex > 0) { mIndex--; mFocus = ""; render(); }
         else if (mPage == CREATE && mCreateIndex > 0) { mCreateIndex--; mFocus = ""; render(); }
         else if (mPage == CREATE) open(IMAGES);
         else if (mPage != HUB) open(HUB);
@@ -321,6 +323,12 @@ public class UsbDriveActivity extends Activity {
         });
     }
     private void refresh() {
+        if (mPage == CHARGING) {
+            // Once the charger is out, leave this page (so later ticks don't re-enter) and pick
+            // the start back up where Start left off.
+            if (!mUsbMode.chargingBlocksDevice()) { mPage = CONNECT; start(); }
+            return;
+        }
         if (mWork.request.pending() || UsbDriveControl.working()) {
             final boolean image = !mWork.request.pending() || mWork.request.image();
             final int page = image ? PROGRESS : SESSION;
@@ -408,7 +416,7 @@ public class UsbDriveActivity extends Activity {
                 ? (String) getCurrentFocus().getTag() : same ? mFocus : "";
         mFocus = focus;
         if (mEdit != null) UsbTextInput.hide(mEdit);
-        mEdit = null; mSizeChoices.clear(); mChoices.removeAllViews(); mNote.setText("");
+        mEdit = null; mSizeChoices.clear(); mChoices.removeAllViews(); mNote.setText(""); mHeaderInList = false;
         mNext.setVisibility(View.VISIBLE); mNext.setEnabled(true);
         mNext.setText(R.string.usb_wizard_next); mBack.setVisibility(View.VISIBLE); mBack.setEnabled(true); mBack.setText(R.string.usb_wizard_back);
         mProgress.setIndeterminate(false); mProgress.setMax(100); mProgress.setProgress(0);
@@ -439,7 +447,18 @@ public class UsbDriveActivity extends Activity {
         } else if (mPage == SESSION) {
             page(R.string.usb_device_preparing, "");
             mNext.setText(android.R.string.cancel); progress(false);
+        } else if (mPage == CHARGING) {
+            // Waits for the charger to be unplugged; refresh() continues the start on its own.
+            page(R.string.usb_charging_title, getString(R.string.usb_charging_body));
+            mProgress.setIndeterminate(true);
+            mNext.setVisibility(View.GONE);
+            mBack.setText(android.R.string.cancel);
+            mNote.setText(R.string.usb_charging_wait);
         } else hub();
+        // On the preset list the header rides at the top of the list so it scrolls away as the
+        // user moves down; elsewhere the explanation stays put in its own region above the choices.
+        if (mHeaderInList) addListHeader();
+        mTextScroll.setVisibility(mHeaderInList ? View.GONE : View.VISIBLE);
         // No choices on this page (e.g. Review is all summary text): drop the empty choices
         // region so the explanation fills the screen instead of leaving a blank pane.
         mChoicesScroll.setVisibility(mChoices.getChildCount() == 0 ? View.GONE : View.VISIBLE);
@@ -494,6 +513,24 @@ public class UsbDriveActivity extends Activity {
                 android.text.Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         sb.append('\n').append(summary);
         return sb;
+    }
+    // Puts the page title + explanation at the top of the scrolling choice list (not the fixed
+    // region), so on the preset list it scrolls up out of the way as the user moves down.
+    private void addListHeader() {
+        LinearLayout header = new LinearLayout(this);
+        header.setOrientation(LinearLayout.VERTICAL);
+        header.setFocusable(false); header.setPadding(dp(4), 0, dp(4), dp(8));
+        TextView title = new TextView(this);
+        title.setTextAppearance(android.R.style.TextAppearance_Material_Large);
+        title.setText(mTitle.getText());
+        TextView body = new TextView(this);
+        body.setTextAppearance(android.R.style.TextAppearance_Material_Medium);
+        android.util.TypedValue tv = new android.util.TypedValue();
+        if (getTheme().resolveAttribute(android.R.attr.textColorSecondary, tv, true) && tv.resourceId != 0)
+            body.setTextColor(getColorStateList(tv.resourceId));
+        body.setText(mBody.getText()); body.setPadding(0, dp(4), 0, 0);
+        header.addView(title); header.addView(body);
+        mChoices.addView(header, 0, new LinearLayout.LayoutParams(-1, -2));
     }
     private void divider() {
         View line = new View(this);
@@ -576,15 +613,16 @@ public class UsbDriveActivity extends Activity {
     }
     private void roles() {
         page(R.string.usb_device_preset, getString(R.string.usb_wizard_role_summary));
+        mHeaderInList = true;
         // Parallel to UsbWizard.ROLES: pc, game, drive, wired, music, awake, macro, link, custom.
         final int[] titles = {R.string.usb_device_pc, R.string.usb_device_game, R.string.usb_drive_title,
-                R.string.usb_device_wired, R.string.usb_device_music, R.string.usb_jiggle_preset,
+                R.string.usb_device_wired, R.string.usb_device_music, R.string.usb_device_dac, R.string.usb_jiggle_preset,
                 R.string.usb_macro_title, R.string.usb_link_title, R.string.usb_device_custom};
         final int[] descriptions = {R.string.usb_role_pc_summary, R.string.usb_role_game_summary, R.string.usb_role_drive_summary,
-                R.string.usb_role_wired_summary, R.string.usb_role_music_summary, R.string.usb_role_awake_summary,
+                R.string.usb_role_wired_summary, R.string.usb_role_music_summary, R.string.usb_role_dac_summary, R.string.usb_role_awake_summary,
                 R.string.usb_role_macro_summary, R.string.usb_role_link_summary, R.string.usb_role_custom_summary};
         final int[] icons = {R.drawable.ic_usecase_pc, R.drawable.ic_usecase_game, R.drawable.ic_usecase_drive,
-                R.drawable.ic_usecase_wired, R.drawable.ic_usecase_music, R.drawable.ic_usecase_awake,
+                R.drawable.ic_usecase_wired, R.drawable.ic_usecase_music, R.drawable.ic_usecase_dac, R.drawable.ic_usecase_awake,
                 R.drawable.ic_usecase_macro, R.drawable.ic_usecase_link, R.drawable.ic_usecase_custom};
         for (int i = 0; i < UsbWizard.ROLES.length; i++) {
             final String role = UsbWizard.ROLES[i];
@@ -883,6 +921,10 @@ public class UsbDriveActivity extends Activity {
     }
     private void start() {
         if (!"ok".equals(startReason())) { render(); return; }
+        // The R36XX shares its one USB-C port for charging and the device link, so it can't act
+        // as a device while a charger is plugged in. Show a step that explains and waits for the
+        // charger to come out, then continue on its own, instead of silently dropping the menu.
+        if (mUsbMode.chargingBlocksDevice()) { open(CHARGING); return; }
         if ((mFunctions & UsbFunctions.STORAGE) != 0) ask(mSelected, mSelected.kind == UsbDrive.Kind.IMAGE && mCdrom);
         else beginSession(null, true, false);
     }
