@@ -10,11 +10,13 @@ public final class WizardTest {
         if (!condition) throw new AssertionError("Wizard check " + checks);
     }
     public static void main(String[] args) {
-        check(UsbWizard.ROLES.length == 9);
+        check(UsbWizard.ROLES.length == 10);
+        // Index-aligned to ROLES: pc, game, drive, wired, music, dac, awake, macro, link, custom.
+        // The custom entry's mask is only used to drive steps() (preset() is skipped for it below).
         int[] masks = {UsbFunctions.STORAGE | UsbFunctions.KEYBOARD | UsbFunctions.MOUSE, UsbFunctions.XINPUT,
-                UsbFunctions.STORAGE, UsbFunctions.XINPUT, UsbFunctions.NETWORK, UsbFunctions.MIDI,
-                UsbFunctions.MOUSE, UsbFunctions.KEYBOARD | UsbFunctions.MEDIA, UsbFunctions.NETWORK};
-        Integer[][] sequences = {{0,3,4,5,6}, {0,2,6}, {0,3,6}, {0,1,2,6}, {0,6}, {0,6}, {0,5,6}, {0,4,6}, {0,6}};
+                UsbFunctions.STORAGE, UsbFunctions.NETWORK, UsbFunctions.MIDI, UsbFunctions.SOUND,
+                UsbFunctions.MOUSE, UsbFunctions.KEYBOARD | UsbFunctions.MEDIA, UsbFunctions.NETWORK, 0};
+        Integer[][] sequences = {{0,3,4,5,6}, {0,2,6}, {0,3,6}, {0,6}, {0,6}, {0,6}, {0,5,6}, {0,4,6}, {0,6}, {0,1,6}};
         for (int i = 0; i < UsbWizard.ROLES.length; i++) {
             String role = UsbWizard.ROLES[i];
             if (!"custom".equals(role)) check(UsbWizard.preset(role, false) == masks[i]);
@@ -33,7 +35,7 @@ public final class WizardTest {
         }
         for (int mask = 0; mask < 32; mask++) {
             List<Integer> steps = UsbWizard.steps("custom", mask);
-            check(steps.contains(UsbWizard.CONTROLLER));
+            check(steps.contains(UsbWizard.CONTROLLER) == ((mask & UsbFunctions.CONTROLLERS) != 0));
             check(steps.contains(UsbWizard.STORAGE) == ((mask & UsbFunctions.STORAGE) != 0));
             check(steps.contains(UsbWizard.KEYBOARD) == ((mask & UsbFunctions.KEYBOARD) != 0));
             check(steps.contains(UsbWizard.MOUSE) == ((mask & UsbFunctions.MOUSE) != 0));

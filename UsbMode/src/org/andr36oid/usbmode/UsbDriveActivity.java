@@ -614,7 +614,7 @@ public class UsbDriveActivity extends Activity {
     private void roles() {
         page(R.string.usb_device_preset, getString(R.string.usb_wizard_role_summary));
         mHeaderInList = true;
-        // Parallel to UsbWizard.ROLES: pc, game, drive, wired, music, awake, macro, link, custom.
+        // Parallel to UsbWizard.ROLES: pc, game, drive, wired, music, dac, awake, macro, link, custom.
         final int[] titles = {R.string.usb_device_pc, R.string.usb_device_game, R.string.usb_drive_title,
                 R.string.usb_device_wired, R.string.usb_device_music, R.string.usb_device_dac, R.string.usb_jiggle_preset,
                 R.string.usb_macro_title, R.string.usb_link_title, R.string.usb_device_custom};
