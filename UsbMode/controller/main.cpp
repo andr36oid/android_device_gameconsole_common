@@ -65,6 +65,14 @@ void log(const char* message) {
     fprintf(stderr, "%s: %s\n", message, strerror(errno));
 #endif
 }
+// An info line with no errno suffix, for tracing state rather than reporting a failure.
+void logLine(const char* message) {
+#ifdef __ANDROID__
+    __android_log_print(ANDROID_LOG_INFO, "andr36oid-controller", "%s", message);
+#else
+    fprintf(stderr, "%s\n", message);
+#endif
+}
 int64_t now() {
     timespec ts{};
     clock_gettime(CLOCK_MONOTONIC, &ts);
@@ -534,6 +542,7 @@ int run(unsigned functions) {
     bool connected = false;
     int keyFd = -1, mouseFd = -1;
     std::string lastScreen, lastRouting;
+    bool lastHintReady = false;
     int64_t disconnected = -1, lastBacklight = -100;
     bool wasDark = false;
     Services services(functions,[](const char* key, const std::string& value) { set(key,value.c_str()); },
@@ -584,8 +593,15 @@ int run(unsigned functions) {
         }
         State controlState = raw;
         if (companion) { controlState = {}; controlState.buttons[Back] = raw.buttons[Back]; controlState.buttons[Start] = raw.buttons[Start]; }
-        controls.update(controlState, time, !companion && property(std::string(kPrefix) + "screen_request") == "dark", !companion && inputs.power,
-                property(std::string(kPrefix) + "hint_ready") == "1");
+        const bool requestDark = !companion && property(std::string(kPrefix) + "screen_request") == "dark";
+        const bool hintReady = property(std::string(kPrefix) + "hint_ready") == "1";
+        controls.update(controlState, time, requestDark, !companion && inputs.power, hintReady);
+        if (hintReady != lastHintReady) {
+            char line[48];
+            snprintf(line, sizeof line, "hint_ready %d -> %d", lastHintReady, hintReady);
+            logLine(line);
+            lastHintReady = hintReady;
+        }
         if (controls.exit()) break;
         const std::string screen = controls.dark() ? "dark" : controls.hint() ? "hint" : "on";
         const std::string routing = typing && controls.keyboardScreen() ? "keyboard" : "gamepad";
@@ -593,7 +609,13 @@ int run(unsigned functions) {
             lastBacklight = time; wasDark = controls.dark();
             if (!backlight.dark(wasDark)) { log("Cannot set backlight"); result = 1; break; }
         }
-        if (screen != lastScreen) { set("screen", screen.c_str()); lastScreen = screen; }
+        if (screen != lastScreen) {
+            char line[160];
+            snprintf(line, sizeof line, "screen %s -> %s (screen_request=%d hint_ready=%d power=%d)",
+                lastScreen.empty() ? "?" : lastScreen.c_str(), screen.c_str(), requestDark, hintReady, inputs.power ? 1 : 0);
+            logLine(line);
+            set("screen", screen.c_str()); lastScreen = screen;
+        }
         if (routing != lastRouting) { channel.release(); set("routing", routing.c_str()); lastRouting = routing; }
         const State routed = controls.gamepadState(raw);
         const State s = channel.menu() ? State{} : routed;
