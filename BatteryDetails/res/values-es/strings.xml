@@ -73,4 +73,11 @@
     <!-- Durations -->
     <string name="duration_min"><xliff:g id="minutes">%1$d</xliff:g> min</string>
     <string name="duration_h_min"><xliff:g id="hours">%1$d</xliff:g> h <xliff:g id="minutes">%2$d</xliff:g> min</string>
+    <string name="limit_title">Cuidado de la batería</string>
+    <string name="limit_setting">Límite de carga</string>
+    <string name="limit_off">Desactivado, cargar al 100%</string>
+    <string name="limit_choice">Detener al <xliff:g id="percent">%1$d</xliff:g>%%</string>
+    <string name="limit_summary_off">Desactivado. Si la consola suele estar conectada al cargador, un límite ayuda a que la batería dure más años.</string>
+    <string name="limit_summary">Deja de cargar al <xliff:g id="limit">%1$d</xliff:g>%% y vuelve a empezar al <xliff:g id="resume">%2$d</xliff:g>%%. Entre ambos niveles, la consola funciona con el cargador. Desactívalo antes de un viaje largo para cargarla por completo.</string>
+    <string name="status_limit_hold">Conectada, mantenida en el límite de carga</string>
 </resources>

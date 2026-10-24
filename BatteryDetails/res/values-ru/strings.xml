@@ -75,4 +75,11 @@
     <!-- Durations -->
     <string name="duration_min"><xliff:g id="minutes">%1$d</xliff:g> мин</string>
     <string name="duration_h_min"><xliff:g id="hours">%1$d</xliff:g> ч <xliff:g id="minutes">%2$d</xliff:g> мин</string>
+    <string name="limit_title">Забота об аккумуляторе</string>
+    <string name="limit_setting">Предел заряда</string>
+    <string name="limit_off">Выключен, заряжать до 100%</string>
+    <string name="limit_choice">Остановить на <xliff:g id="percent">%1$d</xliff:g>%%</string>
+    <string name="limit_summary_off">Выключен. Если консоль постоянно подключена к зарядке, ограничение заряда продлит срок службы аккумулятора.</string>
+    <string name="limit_summary">Зарядка останавливается на <xliff:g id="limit">%1$d</xliff:g>%% и возобновляется на <xliff:g id="resume">%2$d</xliff:g>%%. В промежутке консоль питается от зарядного устройства. Отключите ограничение перед долгой поездкой, чтобы зарядить аккумулятор полностью.</string>
+    <string name="status_limit_hold">Подключено, заряд удерживается на заданном пределе</string>
 </resources>

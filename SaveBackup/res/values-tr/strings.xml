@@ -139,4 +139,77 @@
     <!-- The notification while an automatic backup runs -->
     <string name="channel_name">Kayıt yedekleme çalışıyor</string>
     <string name="notification_title">Kayıtlar yedekleniyor</string>
+    <string-array name="keep_entries" translatable="false">
+        <item>3</item>
+        <item>5</item>
+        <item>10</item>
+        <item>20</item>
+        <item>30</item>
+    </string-array>
+    <string-array name="keep_values" translatable="false">
+        <item>3</item>
+        <item>5</item>
+        <item>10</item>
+        <item>20</item>
+        <item>30</item>
+    </string-array>
+    <string name="sync_title">Kayıtları eşitle</string>
+    <string name="sync_row_off">Kapalı. Bu konsoldaki kayıtlarla PC, telefon veya diğer konsollarınızdakileri aynı tutun.</string>
+    <plurals name="sync_row_on">
+        <item quantity="one">Açık, %1$d cihazla</item>
+        <item quantity="other">Açık, %1$d cihazla</item>
+    </plurals>
+    <string name="sync_switch_title">Kayıtları eşitle</string>
+    <string name="sync_switch_off">Kapalı</string>
+    <string name="sync_switch_on">Açık. Şarj olurken Wi-Fi üzerinden ve bu sayfa açıkken eşitler.</string>
+    <string name="sync_status_off">Oyun kayıtları ve kayıt durumları, bulut kullanılmadan Wi-Fi üzerinden eklediğiniz tüm cihazlarda aynı tutulur. ROM dosyaları asla kopyalanmaz. Syncthing uygulamasını kullanır.</string>
+    <string name="sync_status_starting">Syncthing başlatılıyor…</string>
+    <string name="sync_status_no_devices">Henüz cihaz yok. Aşağıdan ekleyin.</string>
+    <string name="sync_status_scanning">Değişen kayıtlar aranıyor…</string>
+    <plurals name="sync_status_syncing">
+        <item quantity="one">Eşitleniyor, %1$d dosya kaldı…</item>
+        <item quantity="other">Eşitleniyor, %1$d dosya kaldı…</item>
+    </plurals>
+    <plurals name="sync_status_errors">
+        <item quantity="one">%1$d dosya eşitlenemedi. Ayrıntılar için Syncthing uygulamasını açın.</item>
+        <item quantity="other">%1$d dosya eşitlenemedi. Ayrıntılar için Syncthing uygulamasını açın.</item>
+    </plurals>
+    <string name="sync_status_folder_error">Bir kayıt klasörü eşitlenemiyor. EASYROMS bağlı mı? Ayrıntılar için Syncthing uygulamasını açın.</string>
+    <string name="sync_status_waiting">Buradakiler güncel. Cihazlarınızın çevrimiçi olması bekleniyor.</string>
+    <string name="sync_status_done">Güncel</string>
+    <string name="sync_step_prepare">Syncthing ayarlanıyor…</string>
+    <string name="sync_step_start">Syncthing başlatılıyor. İlk başlatma iki dakika sürebilir…</string>
+    <string name="sync_step_folders">Kayıt klasörleri ekleniyor…</string>
+    <string name="sync_step_stop">Durduruluyor…</string>
+    <string name="sync_my_id_title">Bu konsolun kimliği</string>
+    <string name="sync_my_id_none">Syncthing çalışınca gösterilir</string>
+    <string name="sync_my_id_message">PC veya telefonunuzda Syncthing uygulamasını açın, Uzak Cihaz Ekle seçeneğini seçip bu kimliği girin veya kodu tarayın. PC daha sonra aşağıdaki Cihaz ekle bölümünde görünür.</string>
+    <string name="sync_devices_category">Eşitlenen cihazlar</string>
+    <string name="sync_devices_none">Henüz cihaz yok</string>
+    <string name="sync_device_connected">Bağlı</string>
+    <string name="sync_device_offline">Şu anda bağlı değil</string>
+    <string name="sync_remove_title">%1$s ile eşitleme durdurulsun mu?</string>
+    <string name="sync_remove_message">Kayıtlar iki cihazda da kalır. Yalnızca artık aynı tutulmazlar.</string>
+    <string name="sync_remove_button">Eşitlemeyi durdur</string>
+    <string name="sync_add_category">Cihaz ekle</string>
+    <string name="sync_pending_summary">Bu konsolla eşitlemek istiyor</string>
+    <string name="sync_nearby_title">Cihaz %1$s</string>
+    <string name="sync_nearby_summary">Bu Wi-Fi ağında bulundu</string>
+    <string name="sync_add_hint">PC veya telefon: Syncthing yükleyip bu konsolun kimliğini (yukarıda) ekleyin. Başka konsol: orada Kayıtları eşitle özelliğini açıp burada seçin.</string>
+    <string name="sync_add_title">Kayıtlar %1$s ile eşitlensin mi?</string>
+    <string name="sync_add_message">Yalnızca size ait cihazları ekleyin. Cihaz bu konsoldaki kayıtları alır ve değiştirebilir.\n\nKimlik: %1$s</string>
+    <string name="sync_add_button">Eşitle</string>
+    <string name="sync_change_failed">İşlem başarısız. Syncthing çalışıyor mu? Biraz sonra tekrar deneyin.</string>
+    <string name="sync_open_title">Syncthing uygulamasını aç</string>
+    <string name="sync_open_summary">Tüm ayarlar, diğer klasörler ve eşitlenenler</string>
+    <string name="sync_note">Başka cihazda oynamadan önce oyundan çıkın. İkisi de aynı kaydı değiştirirse yeni olan kullanılır, diğeri yanında .sync-conflict dosyası olarak tutulur. Değiştirilen kayıtlar ayrıca .stversions içinde (son 5 tanesi) ve yedeklerinizde saklanır.</string>
+    <string name="sync_off_title">Kayıtları eşitle kapatılsın mı?</string>
+    <string name="sync_off_message">Kayıtlar bu konsolda ve diğer cihazlarınızda kalır. Değişiklikler artık eşitlenmez. Cihazlarınız bir sonraki sefer için hatırlanır.</string>
+    <string name="sync_off_button">Kapat</string>
+    <string name="sync_failed_title">Kayıtları eşitle açılamadı</string>
+    <string name="sync_error_missing">Syncthing uygulaması yüklü değil.</string>
+    <string name="sync_error_not_running">Syncthing başlamadı. Syncthing uygulamasını bir kez açıp tekrar deneyin.</string>
+    <string name="sync_error_other">Syncthing ayarlanırken sorun oluştu. Tekrar deneyin veya Syncthing uygulamasını açıp elle ayarlayın.</string>
+    <string name="sync_label_easyroms">EASYROMS üzerindeki oyun kayıtları</string>
+    <string name="sync_label_internal">Dahili depolamadaki oyun kayıtları</string>
 </resources>

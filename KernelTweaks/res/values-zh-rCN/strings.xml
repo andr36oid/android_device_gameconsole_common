@@ -377,4 +377,15 @@
     <string name="kt_crash_split_balanced">均衡</string>
     <string name="kt_crash_split_kernel">更多内核日志</string>
     <string name="kt_crash_split_android">更多 Android 日志</string>
+    <string name="kt_done">完成</string>
+    <string name="kt_unit_percent"><xliff:g id="n">%1$s</xliff:g>%%</string>
+    <string name="kt_stick_sens">摇杆灵敏度</string>
+    <string name="kt_stick_sens_full">全幅</string>
+    <string name="kt_stick_sens_value">左 <xliff:g id="left">%1$s</xliff:g>，右 <xliff:g id="right">%2$s</xliff:g></string>
+    <string name="kt_stick_sens_left">左摇杆：<xliff:g id="value">%1$s</xliff:g></string>
+    <string name="kt_stick_sens_right">右摇杆：<xliff:g id="value">%1$s</xliff:g></string>
+    <string name="kt_stick_sens_left_title">左摇杆</string>
+    <string name="kt_stick_sens_right_title">右摇杆</string>
+    <string name="kt_stick_sens_what">降低摇杆推到底时上报的偏移量，左右可单独调整。100% 为正常值；数值越低，推到底时的移动幅度越小。</string>
+    <string name="kt_stick_sens_why">适用于摇杆反应不一致或过于灵敏的仿制掌机。调低一侧可让两个摇杆手感一致，也可让瞄准更平稳。请在控制器测试中检查效果。</string>
 </resources>

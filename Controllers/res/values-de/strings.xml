@@ -76,4 +76,15 @@
     <string name="rumble_test_title">Ausprobieren</string>
     <string name="rumble_test_summary">Lässt die Konsole kurz mit dieser Stärke vibrieren</string>
     <string name="rumble_help">Für Spiele mit Vibration. Manche Emulatoren wollen sie zusätzlich in ihren eigenen Einstellungen eingeschaltet haben, etwa den DualShock-Controller für PlayStation-Spiele oder das Rumble Pak beim N64. Ist der Motor zu stark oder klappert er, stell ihn hier schwächer.</string>
+    <string-array name="player1_values" translatable="false">
+        <item>builtin</item>
+        <item>external</item>
+    </string-array>
+    <string-array name="rumble_strength_values" translatable="false">
+        <item>0</item>
+        <item>30</item>
+        <item>55</item>
+        <item>80</item>
+        <item>100</item>
+    </string-array>
 </resources>

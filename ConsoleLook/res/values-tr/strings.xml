@@ -21,4 +21,5 @@
     <string name="boot_details_summary">Logonun altında, konsolun ne yaptığını gösteren bir satır, örneğin "Bölümler bağlanıyor". Bir sonraki açılıştan itibaren görünür.</string>
     <string name="boot_log_title">Her zaman açılış günlüğüyle başlat</string>
     <string name="boot_log_summary">Her açılışta logo ve açılış animasyonu yerine, konsolun ne yaptığını gösteren kayan metin. Bir sonraki açılıştan itibaren görünür.</string>
+    <string name="bootanim_xp" translatable="false">Windows XP</string>
 </resources>

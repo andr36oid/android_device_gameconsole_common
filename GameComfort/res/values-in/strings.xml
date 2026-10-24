@@ -38,4 +38,42 @@
     <string name="tile_on">Aktif</string>
     <string name="tile_off">Nonaktif</string>
     <string name="tile_automatic">Otomatis</string>
+    <plurals name="close_apps_done">
+        <item quantity="other"><xliff:g id="count" example="3">%d</xliff:g> aplikasi latar belakang ditutup</item>
+    </plurals>
+    <string-array name="warning_values" translatable="false">
+        <item>off</item>
+        <item>30,20,15,5</item>
+        <item>15,5</item>
+        <item>5</item>
+    </string-array>
+    <string name="warning_last">Peringatan terakhir pada 3 %</string>
+    <string name="warning_last_summary">Selalu aktif selama peringatan aktif. Tampil lebih lama karena konsol akan segera mati setelahnya.</string>
+    <string name="banner_last_text">Baterai <xliff:g id="percent">%1$d</xliff:g> %% - simpan game sekarang. Konsol akan segera mati.</string>
+    <string-array name="game_mode_profile_values" translatable="false">
+        <item>-1</item>
+        <item>2</item>
+        <item>1</item>
+        <item>0</item>
+    </string-array>
+    <string name="game_mode_steady_memory">Kecepatan memori tetap</string>
+    <string name="game_mode_steady_memory_summary">Menjaga memori pada kecepatan penuh saat bermain agar tidak berubah di tengah game. Memakai sedikit lebih banyak baterai.</string>
+    <string name="continue_title">Lanjutkan</string>
+    <string name="continue_tile_none">Belum ada game</string>
+    <string name="continue_category">Lanjut bermain</string>
+    <string name="continue_now">Lanjutkan: <xliff:g id="game">%1$s</xliff:g></string>
+    <string name="continue_now_none">Belum pernah memainkan game</string>
+    <string name="continue_now_ppsspp">PPSSPP</string>
+    <string name="continue_now_app">Game Android</string>
+    <string name="continue_on_boot">Buka lagi setelah restart</string>
+    <string name="continue_on_boot_summary">Jika game terbuka saat konsol mati, termasuk karena baterai habis, game dibuka lagi sekitar 10 detik setelah layar utama muncul</string>
+    <string name="continue_about">Lanjutkan mengembalikan game terakhir dengan sekali tekan: lewat ubin Lanjutkan di Setelan Cepat, FN + A, atau menu daya.\n\nGame yang masih terbuka kembali tepat di tempat Anda meninggalkannya. Jika tidak, RetroArch dan PPSSPP membuka game yang sama lagi, RetroArch dengan core yang sama; game lain hanya dibuka lagi.\n\nAnda melanjutkan dari simpanan terakhir milik game. RetroArch menulisnya tiap 10 detik jika berubah. Save state tidak pernah dimuat atau dibuat otomatis: jika save state terbaru lebih baru dari simpanan game, pesan akan memberi tahu Anda.</string>
+    <string name="continue_nothing">Belum ada game untuk dilanjutkan</string>
+    <string name="continue_game_missing">File game <xliff:g id="game">%1$s</xliff:g> tidak ditemukan. Apakah kartu SD terpasang?</string>
+    <string name="continue_core_missing">Core RetroArch untuk <xliff:g id="game">%1$s</xliff:g> sudah tidak terpasang</string>
+    <string name="continue_failed">Tidak dapat memulai <xliff:g id="game">%1$s</xliff:g></string>
+    <string name="continue_starting">Melanjutkan <xliff:g id="game">%1$s</xliff:g></string>
+    <string name="continue_state_hint">Melanjutkan <xliff:g id="game">%1$s</xliff:g>. Save state terbaru (<xliff:g id="slot">%2$s</xliff:g>) lebih baru dari simpanan game. Untuk memakainya, muat dari menu RetroArch (Select + X).</string>
+    <string name="continue_slot">slot <xliff:g id="slot">%1$d</xliff:g></string>
+    <string name="continue_slot_auto">yang otomatis</string>
 </resources>

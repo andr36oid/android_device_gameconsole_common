@@ -84,4 +84,19 @@
     <string name="ram_tile_label">内存超频</string>
     <string name="tile_added_gpu">GPU 超频快捷开关已添加到通知栏</string>
     <string name="tile_added_ram">内存超频快捷开关已添加到通知栏</string>
+    <string name="profile_about_performance">最流畅的模拟体验。CPU 频率始终不低于 <xliff:g id="cpu">%1$s</xliff:g>，图形处理器始终以 <xliff:g id="gpu">%2$d</xliff:g> MHz 运行，内存始终全速运行。适用于 PS1、N64 和 PSP 游戏。电池消耗更快。</string>
+    <string name="close_apps_on_game_title">打开任何游戏时关闭后台应用</string>
+    <string name="close_apps_on_game_summary">为游戏释放内存，效果与电源菜单中的“关闭后台应用”相同</string>
+    <string name="app_profiles_title">应用专属模式</string>
+    <string name="app_profiles_off">关闭</string>
+    <plurals name="app_profiles_on">
+        <item quantity="other">已开启，<xliff:g id="count">%d</xliff:g> 个应用有专属模式</item>
+    </plurals>
+    <string name="app_profiles_switch">根据应用切换模式</string>
+    <string name="app_profiles_switch_summary">有专属模式的应用在打开时使用该模式。离开应用后，会恢复“性能”中选择的模式。</string>
+    <string name="app_profiles_apps">应用</string>
+    <string name="app_profile_default">默认（<xliff:g id="profile">%1$s</xliff:g>）</string>
+    <string name="app_profiles_about">默认表示跟随“性能”中选择的模式。部分模拟器初始设为“性能”，部分应用设为“均衡”或“省电”。您可以在这里逐一更改。\n\n在有专属模式的应用中，快捷设置磁贴和 FN + R1 仍然有效。此时，您的选择会持续到离开应用为止。\n\n开启后，一个小型辅助服务会监测当前打开的应用。关闭时，或没有应用设置专属模式时，该服务不会运行。</string>
+    <string name="app_profile_until_left">直到离开 <xliff:g id="app">%1$s</xliff:g></string>
+    <string name="app_profile_tile"><xliff:g id="profile">%1$s</xliff:g>, <xliff:g id="app">%2$s</xliff:g></string>
 </resources>

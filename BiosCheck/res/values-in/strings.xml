@@ -63,4 +63,6 @@
 
     <string name="path_easyroms">EASYROMS</string>
     <string name="path_internal">Penyimpanan internal</string>
+    <string name="details_folder">Folder dengan nama ini, berisi semua file dari unduhan lengkap emulator</string>
+    <string name="details_folder_found">Folder Anda: %1$s</string>
 </resources>

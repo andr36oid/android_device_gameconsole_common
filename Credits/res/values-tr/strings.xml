@@ -27,4 +27,5 @@
 
     <string name="credits_example_music">Örnek müzikler</string>
     <string name="credits_now_playing">Şimdi çalıyor: %2$s – %1$s</string>
+    <string name="credits_watching" translatable="false">izliyorum</string>
 </resources>

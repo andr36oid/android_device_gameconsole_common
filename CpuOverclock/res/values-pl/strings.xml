@@ -73,4 +73,22 @@
     <string name="ram_tile_label">Podkręcanie pamięci</string>
     <string name="tile_added_gpu">Kafelek Podkręcanie GPU dodany do panelu powiadomień</string>
     <string name="tile_added_ram">Kafelek Podkręcanie pamięci dodany do panelu powiadomień</string>
+    <string name="profile_about_performance">Najpłynniejsza emulacja. CPU nigdy nie schodzi poniżej <xliff:g id="cpu">%1$s</xliff:g>, grafika pracuje stale z częstotliwością <xliff:g id="gpu">%2$d</xliff:g> MHz, a pamięć z pełną szybkością. Do gier PS1, N64 i PSP. Bateria rozładowuje się szybciej.</string>
+    <string name="close_apps_on_game_title">Zamykaj aplikacje w tle przy otwieraniu każdej gry</string>
+    <string name="close_apps_on_game_summary">Zwalnia pamięć dla gry, tak jak Zamknij aplikacje w tle w menu zasilania</string>
+    <string name="app_profiles_title">Profile aplikacji</string>
+    <string name="app_profiles_off">Wyłączone</string>
+    <plurals name="app_profiles_on">
+        <item quantity="one">Włączone, <xliff:g id="count">%d</xliff:g> aplikacja ma własny profil</item>
+        <item quantity="few">Włączone, <xliff:g id="count">%d</xliff:g> aplikacje mają własny profil</item>
+        <item quantity="many">Włączone, <xliff:g id="count">%d</xliff:g> aplikacji ma własny profil</item>
+        <item quantity="other">Włączone, <xliff:g id="count">%d</xliff:g> aplikacji ma własny profil</item>
+    </plurals>
+    <string name="app_profiles_switch">Zmieniaj profil zależnie od aplikacji</string>
+    <string name="app_profiles_switch_summary">Aplikacja z własnym profilem używa go, gdy jest otwarta. Po jej opuszczeniu wraca profil wybrany w ustawieniach Wydajność.</string>
+    <string name="app_profiles_apps">Aplikacje</string>
+    <string name="app_profile_default">Domyślny (<xliff:g id="profile">%1$s</xliff:g>)</string>
+    <string name="app_profiles_about">Domyślny oznacza profil wybrany w ustawieniach Wydajność. Niektóre emulatory zaczynają z profilem Wydajność, a niektóre aplikacje ze Zrównoważonym lub Oszczędzaniem baterii. Tutaj możesz je zmienić.\n\nKafelek szybkich ustawień i FN + R1 działają też w aplikacji z własnym profilem. Wybrany profil obowiązuje wtedy do opuszczenia aplikacji.\n\nGdy opcja jest włączona, niewielka usługa sprawdza, która aplikacja jest otwarta. Nie działa, gdy opcja jest wyłączona lub żadna aplikacja nie ma własnego profilu.</string>
+    <string name="app_profile_until_left">Do opuszczenia <xliff:g id="app">%1$s</xliff:g></string>
+    <string name="app_profile_tile"><xliff:g id="profile">%1$s</xliff:g>, <xliff:g id="app">%2$s</xliff:g></string>
 </resources>

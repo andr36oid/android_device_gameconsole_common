@@ -76,4 +76,15 @@
     <string name="rumble_test_title">Dene</string>
     <string name="rumble_test_summary">Konsolu bu güçte kısa bir süre titretir</string>
     <string name="rumble_help">Titreşimi destekleyen oyunlar için. Bazı emülatörler bunun kendi ayarlarında da açılmasını ister, örneğin PlayStation oyunları için DualShock kontrolcüsü veya N64 için Rumble Pak. Motor çok güçlüyse ya da takırdıyorsa buradan azaltın.</string>
+    <string-array name="player1_values" translatable="false">
+        <item>builtin</item>
+        <item>external</item>
+    </string-array>
+    <string-array name="rumble_strength_values" translatable="false">
+        <item>0</item>
+        <item>30</item>
+        <item>55</item>
+        <item>80</item>
+        <item>100</item>
+    </string-array>
 </resources>

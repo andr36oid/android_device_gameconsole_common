@@ -83,4 +83,20 @@
     <string name="ram_tile_label">Overclock da memória</string>
     <string name="tile_added_gpu">Mosaico Overclock da GPU adicionado ao painel de notificações</string>
     <string name="tile_added_ram">Mosaico Overclock da memória adicionado ao painel de notificações</string>
+    <string name="profile_about_performance">Emulação mais fluida. A CPU nunca desce abaixo de <xliff:g id="cpu">%1$s</xliff:g>, os gráficos funcionam a <xliff:g id="gpu">%2$d</xliff:g> MHz e a memória está sempre à velocidade máxima. Para jogos PS1, N64 e PSP. A bateria gasta-se mais depressa.</string>
+    <string name="close_apps_on_game_title">Fechar aplicações em segundo plano ao abrir qualquer jogo</string>
+    <string name="close_apps_on_game_summary">Liberta memória para o jogo, tal como Fechar aplicações em segundo plano no menu de energia</string>
+    <string name="app_profiles_title">Perfis por aplicação</string>
+    <string name="app_profiles_off">Desativado</string>
+    <plurals name="app_profiles_on">
+        <item quantity="one">Ativado, <xliff:g id="count">%d</xliff:g> aplicação tem um perfil próprio</item>
+        <item quantity="other">Ativado, <xliff:g id="count">%d</xliff:g> aplicações têm um perfil próprio</item>
+    </plurals>
+    <string name="app_profiles_switch">Mudar o perfil conforme a aplicação</string>
+    <string name="app_profiles_switch_summary">Uma aplicação com perfil próprio usa-o enquanto estiver aberta. O perfil escolhido em Desempenho volta ao sair da aplicação.</string>
+    <string name="app_profiles_apps">Aplicações</string>
+    <string name="app_profile_default">Predefinido (<xliff:g id="profile">%1$s</xliff:g>)</string>
+    <string name="app_profiles_about">Predefinido significa que a aplicação segue o perfil escolhido em Desempenho. Alguns emuladores começam com Desempenho e algumas aplicações com Equilibrado ou Poupança de bateria. Pode mudar qualquer um aqui.\n\nO mosaico das Definições rápidas e FN + R1 continuam a funcionar numa aplicação com perfil próprio. A sua escolha dura até sair da aplicação.\n\nEnquanto esta opção está ativa, um pequeno serviço verifica qual a aplicação aberta. Não funciona se a opção estiver desativada ou se nenhuma aplicação tiver perfil próprio.</string>
+    <string name="app_profile_until_left">Até sair de <xliff:g id="app">%1$s</xliff:g></string>
+    <string name="app_profile_tile"><xliff:g id="profile">%1$s</xliff:g>, <xliff:g id="app">%2$s</xliff:g></string>
 </resources>

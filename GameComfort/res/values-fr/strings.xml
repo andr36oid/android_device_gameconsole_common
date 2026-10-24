@@ -38,4 +38,43 @@
     <string name="tile_on">Activé</string>
     <string name="tile_off">Désactivé</string>
     <string name="tile_automatic">Automatique</string>
+    <plurals name="close_apps_done">
+        <item quantity="one"><xliff:g id="count" example="1">%d</xliff:g> appli en arrière-plan fermée</item>
+        <item quantity="other"><xliff:g id="count" example="3">%d</xliff:g> applis en arrière-plan fermées</item>
+    </plurals>
+    <string-array name="warning_values" translatable="false">
+        <item>off</item>
+        <item>30,20,15,5</item>
+        <item>15,5</item>
+        <item>5</item>
+    </string-array>
+    <string name="warning_last">Dernière alerte à 3 %</string>
+    <string name="warning_last_summary">Toujours active quand les alertes sont activées. Elle reste affichée plus longtemps, car la console s\'éteint peu après.</string>
+    <string name="banner_last_text">Batterie à <xliff:g id="percent">%1$d</xliff:g> %% - sauvegardez votre partie maintenant. La console va bientôt s\'éteindre.</string>
+    <string-array name="game_mode_profile_values" translatable="false">
+        <item>-1</item>
+        <item>2</item>
+        <item>1</item>
+        <item>0</item>
+    </string-array>
+    <string name="game_mode_steady_memory">Vitesse mémoire constante</string>
+    <string name="game_mode_steady_memory_summary">Maintient la mémoire à pleine vitesse pendant le jeu, sans changement en pleine partie. Consomme un peu plus de batterie.</string>
+    <string name="continue_title">Reprendre</string>
+    <string name="continue_tile_none">Aucun jeu pour le moment</string>
+    <string name="continue_category">Reprendre la partie</string>
+    <string name="continue_now">Reprendre : <xliff:g id="game">%1$s</xliff:g></string>
+    <string name="continue_now_none">Aucun jeu lancé pour le moment</string>
+    <string name="continue_now_ppsspp">PPSSPP</string>
+    <string name="continue_now_app">Jeu Android</string>
+    <string name="continue_on_boot">Rouvrir après un redémarrage</string>
+    <string name="continue_on_boot_summary">Si un jeu était ouvert à l\'arrêt de la console, même faute de batterie, il se rouvre environ 10 secondes après l\'écran d\'accueil</string>
+    <string name="continue_about">Reprendre rappelle le dernier jeu en une pression : avec la tuile Reprendre des réglages rapides, FN + A ou le menu d\'alimentation.\n\nUn jeu encore ouvert revient exactement où vous l\'avez laissé. Sinon, RetroArch et PPSSPP relancent le même jeu, avec le même cœur pour RetroArch ; les autres jeux se rouvrent simplement.\n\nVous repartez de la dernière sauvegarde du jeu lui-même. RetroArch l\'écrit toutes les 10 secondes si elle change. Les sauvegardes instantanées ne sont jamais chargées ni créées à votre place : si la plus récente est plus récente que la sauvegarde du jeu, un message vous prévient.</string>
+    <string name="continue_nothing">Aucun jeu à reprendre pour le moment</string>
+    <string name="continue_game_missing">Fichier du jeu <xliff:g id="game">%1$s</xliff:g> introuvable. La carte SD est-elle insérée ?</string>
+    <string name="continue_core_missing">Le cœur RetroArch pour <xliff:g id="game">%1$s</xliff:g> n\'est plus installé</string>
+    <string name="continue_failed">Impossible de lancer <xliff:g id="game">%1$s</xliff:g></string>
+    <string name="continue_starting">Reprise de <xliff:g id="game">%1$s</xliff:g></string>
+    <string name="continue_state_hint">Reprise de <xliff:g id="game">%1$s</xliff:g>. Votre dernière sauvegarde instantanée (<xliff:g id="slot">%2$s</xliff:g>) est plus récente que celle du jeu lui-même. Pour l\'utiliser, chargez-la dans le menu RetroArch (Select + X).</string>
+    <string name="continue_slot">emplacement <xliff:g id="slot">%1$d</xliff:g></string>
+    <string name="continue_slot_auto">l\'automatique</string>
 </resources>

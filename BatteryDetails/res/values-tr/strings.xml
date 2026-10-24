@@ -73,4 +73,11 @@
     <!-- Durations -->
     <string name="duration_min"><xliff:g id="minutes">%1$d</xliff:g> dk</string>
     <string name="duration_h_min"><xliff:g id="hours">%1$d</xliff:g> sa <xliff:g id="minutes">%2$d</xliff:g> dk</string>
+    <string name="limit_title">Pil bakımı</string>
+    <string name="limit_setting">Şarj sınırı</string>
+    <string name="limit_off">Kapalı, %100 şarj et</string>
+    <string name="limit_choice"><xliff:g id="percent">%1$d</xliff:g>%% düzeyinde durdur</string>
+    <string name="limit_summary_off">Kapalı. Konsol şarj cihazına bağlı tutuluyorsa sınır koymak pilin ömrünü uzatır.</string>
+    <string name="limit_summary">Şarj <xliff:g id="limit">%1$d</xliff:g>%% düzeyinde durur ve <xliff:g id="resume">%2$d</xliff:g>%% düzeyinde yeniden başlar. Bu arada konsol şarj cihazından güç alır. Uzun bir yolculuktan önce tam şarj için sınırı kapatın.</string>
+    <string name="status_limit_hold">Şarja bağlı, şarj sınırında tutuluyor</string>
 </resources>

@@ -302,4 +302,98 @@
     <string name="usb_virtual_layout">Onarım; 1 MiB\'te başlayan tek MBR bölümü ve FAT32, exFAT, NTFS veya ext4 dosya sistemi olan sanal sürücüleri destekler.</string>
     <string name="usb_virtual_changed">Görüntü değişti. Tekrar denemeden önce listeyi yenile.</string>
     <string name="usb_virtual_recovery">Yarım kalan işlem güvenli şekilde temizlenemedi. Yazılabilir EASYROMS kartını yeniden takıp yenile. Paylaşımı durdur ve görüntüyü kullanan uygulamaları kapat.</string>
+    <string name="usb_charging_title">Şarj cihazını çıkarın</string>
+    <string name="usb_charging_body">Konsol aynı anda hem şarj olamaz hem de USB cihazı olarak çalışamaz. Takılı şarj cihazı USB bağlantı noktasını aksesuar moduna döndürür, bu yüzden bu işlev başlayamaz.\n\nDevam etmek için şarj cihazını çıkarın. Oturum boyunca konsol pil gücüyle çalışır.</string>
+    <string name="usb_charging_wait">Şarj cihazının çıkarılması bekleniyor…</string>
+    <string-array name="usb_mode_functions_entries" translatable="false">
+        <item>Dosya aktarımı</item>
+        <item>Fotoğraf aktarımı (PTP)</item>
+        <item>Veri yok (yalnızca adb)</item>
+    </string-array>
+    <string-array name="usb_mode_functions_values" translatable="false">
+        <item>mtp</item>
+        <item>ptp</item>
+        <item>none</item>
+    </string-array>
+    <string name="usb_drive_easyroms_stays">EASYROMS, Android içinde kullanılabilir kalır.</string>
+    <string name="usb_drive_image_warning">Paylaşımı durdurana kadar bu dosyayı Android içinde düzenlemeyin, değiştirmeyin veya silmeyin.</string>
+    <string name="keyboard_legend_keys">Yön tuşları: seç · A: tuşu basılı tut · B: Geri sil · X: Boşluk · Y / Start: Enter\nSes: parlaklık</string>
+    <string name="usb_device_title_setting">USB Cihaz Emülatörü (Alfa / Deneysel)</string>
+    <string name="usb_stage_validate">Yapılandırma kontrol ediliyor…</string>
+    <string name="usb_stage_save">Mevcut durum kaydediliyor…</string>
+    <string name="usb_stage_gate">Android sisteminin kendi USB işlevi duraklatılıyor…</string>
+    <string name="usb_stage_unbind">USB bağlantı noktası serbest bırakılıyor…</string>
+    <string name="usb_stage_configure">USB cihazı yapılandırılıyor…</string>
+    <string name="usb_stage_controller">Kontrolcü başlatılıyor…</string>
+    <string name="usb_stage_role">Bağlantı noktası cihaz moduna geçiriliyor…</string>
+    <string name="usb_stage_bind">Bilgisayara bağlanılıyor…</string>
+    <string name="usb_drive_iso_hint">Önyükleme veya kurulum için bir ISO seçin. Burada yalnızca optik disk kalıpları görünür; normal USB sürücüleri Sürücü kullanım seçeneğindedir.</string>
+    <string name="usb_hint_next">İleri</string>
+    <string name="usb_hint_start">Başlat</string>
+    <string name="usb_hint_cancel">İptal</string>
+    <string name="usb_hint_screen_off">Ekranı kapat</string>
+    <string name="usb_hint_wake">Uyandır / durdur</string>
+    <string name="usb_hint_keys_screen_off">Select + R1</string>
+    <string name="usb_hint_keys_wake">Start + Select</string>
+    <string name="usb_device_dark_hint">Ekran kapatılıyor… İptal etmek için Start + Select düğmelerine basın.</string>
+    <string name="usb_device_dac">USB ses DAC</string>
+    <string name="usb_device_connect_only">Yalnızca bağlan</string>
+    <string name="usb_device_connect_only_summary">Uygulama açmadan kablolu ağı başlatır.</string>
+    <string name="usb_virtual_missing_tool">Gerekli disk kalıbı aracı eksik. Komut aşağıda gösteriliyor.</string>
+    <string name="usb_virtual_hostfs">EASYROMS dosya sistemi belirlenemiyor. Kartı yeniden bağlayıp tekrar deneyin.</string>
+    <string name="usb_virtual_loop">Disk kalıbı biçimlendirme veya onarım için bağlanamadı.</string>
+    <string name="usb_image_card_changed">EASYROMS değişti veya çıkarıldı. Kalıp listesine dönüp mevcut kartla yeniden başlayın.</string>
+    <string name="usb_hub_connect">Bilgisayara bağlan</string>
+    <string name="usb_hub_images">Disk kalıplarını yönet</string>
+    <string name="usb_wizard_connect_summary">Bir rol seçin, seçeneklerini ayarlayın, sonra gözden geçirip başlatın.</string>
+    <string name="usb_wizard_next">İleri</string>
+    <string name="usb_wizard_back">Geri</string>
+    <string name="usb_wizard_step">Adım %1$d / %2$d</string>
+    <string name="usb_wizard_role_summary">USB kablosuyla ne yapmak istediğinizi seçin.</string>
+    <string name="usb_wizard_pc_summary">Bilgisayar kurulumu için disk veya sürücü, klavye ve fare.</string>
+    <string name="usb_wizard_custom_summary">Her USB işlevini ve kontrolcü türünü kendiniz seçin.</string>
+    <string name="usb_wizard_link_summary">RetroArch veya bir yayın uygulamasını kablolu ağ üzerinden bağlayın.</string>
+    <string name="usb_role_pc_summary">Bilgisayar için klavye, fare ve sürücü.</string>
+    <string name="usb_role_game_summary">PC için Xbox kontrolcüsü olarak çalışır.</string>
+    <string name="usb_role_drive_summary">Depolamayı veya disk kalıbını sürücü olarak paylaşır.</string>
+    <string name="usb_role_wired_summary">Bilgisayara kablolu ağ bağlantısı.</string>
+    <string name="usb_role_music_summary">Müzik uygulamaları için MIDI davul pedleri.</string>
+    <string name="usb_role_dac_summary">Bilgisayarın sesini bu konsolu USB hoparlör olarak kullanarak çalar.</string>
+    <string name="usb_role_awake_summary">Bilgisayarı uyanık tutmak için fareyi hafifçe hareket ettirir.</string>
+    <string name="usb_role_macro_summary">Düğmeler medya ve makro tuş birleşimleri gönderir.</string>
+    <string name="usb_role_link_summary">İki konsolu USB kablosuyla bağlar.</string>
+    <string name="usb_role_custom_summary">USB işlevlerini ve kontrolcüyü kendiniz seçin.</string>
+    <string name="usb_wizard_functions">USB işlevleri</string>
+    <string name="usb_wizard_controller_summary">Konsolunuzun nasıl bir oyun kontrolcüsü olarak görüneceğini seçin.</string>
+    <string name="usb_wizard_conflict">%1$s, %2$s ile birleştirilemez — birini seçin.</string>
+    <string name="usb_wizard_requires">%1$s için %2$s gerekli — önce etkinleştirin.</string>
+    <string name="usb_wizard_review">Gözden geçir ve başlat</string>
+    <string name="usb_wizard_review_summary">Konsolunuz şöyle görünecek: %1$s</string>
+    <string name="usb_wizard_filesystem">Dosya sistemi</string>
+    <string name="usb_wizard_gb">%1$s GB</string>
+    <string name="usb_virtual_rename">Kalıbı yeniden adlandır</string>
+    <string name="usb_wizard_writable">Okuma ve yazma</string>
+    <string name="usb_wizard_unknown_filesystem">Bilinmeyen dosya sistemi</string>
+    <string name="usb_emulator_wifi_info">Bu USB bağlantı noktasındaki Wi-Fi (%1$s), emülasyon sırasında kesilir. Sonrasında gerekirse adaptörü yeniden takın veya konsolu yeniden başlatın.</string>
+    <string name="usb_emulator_checking">Kullanılabilir seçenekler kontrol ediliyor…</string>
+    <string name="usb_emulator_controller_hint">PC bir oyun kumandası görecek. Kullanmak için bir oyun veya kontrolcü ayarlarını açın.</string>
+    <string name="usb_emulator_input_hint">Konsol, PC için klavye ve fare olarak çalışır.</string>
+    <string name="usb_emulator_keyboard_hint">Konsol, PC için klavye olarak çalışır.</string>
+    <string name="usb_emulator_mouse_hint">Konsol, PC için fare olarak çalışır.</string>
+    <string name="usb_emulator_drive_hint">PC üzerinde USB sürücüsü olarak görünür. Dosya yöneticinizde açın.</string>
+    <string name="usb_emulator_cd_hint">PC salt okunur bir CD/DVD sürücüsü görecek.</string>
+    <string name="usb_emulator_preparing_storage">Seçilen sürücü hazırlanıyor… Kullanan uygulamaların kapanması zaman alabilir.</string>
+    <string name="usb_emulator_session_hint">Select + R1 ekranı kapatır. Uyandırmak için Start + Select düğmelerine basın; durdurmak için 2 saniye basılı tutun. Power da ekranı uyandırır.</string>
+    <string name="usb_emulator_cable_prompt">USB-C kablosunu şimdi bilgisayara takın.</string>
+    <string name="usb_emulator_cable_hint">Bilgisayar algılamazsa USB-C fişini ters çevirin. Sorun sürerse konsolu yeniden başlatıp tekrar deneyin.</string>
+    <string name="usb_image_name_hint">Kullanılmayan bir kalıp adı dolduruldu. Sistem klavyesiyle düzenlemek için A, devam etmek için Sağ düğmesine basın.</string>
+    <string name="usb_image_change_label">Birim etiketini değiştir</string>
+    <string name="usb_image_create_only">Bilgisayara bağlanmadan dosya oluşturun.</string>
+    <string name="usb_image_create_use">Oluştur ve kullan</string>
+    <string name="usb_image_finding">Yeni disk kalıbı aranıyor…</string>
+    <string name="usb_image_size_clamped">Boyut kullanılabilir alana göre ayarlandı: %1$s GB.</string>
+    <string name="usb_emulator_start_app">USB ağ bağlantısını başlatıp uygulamayı açın.</string>
+    <string name="usb_emulator_preparing_easyroms">EASYROMS hazırlanıyor… Kullanan uygulamaların kapanması zaman alabilir.</string>
+    <string name="usb_emulator_stopping">USB Cihaz Emülatörü durduruluyor…</string>
+    <string name="usb_emulator_stop_wait">Depolamanın kapanıp Android sistemine dönmesi bekleniyor.</string>
 </resources>

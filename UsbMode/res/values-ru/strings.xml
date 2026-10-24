@@ -302,4 +302,98 @@
     <string name="usb_virtual_layout">Восстановление поддерживает виртуальные диски с одним разделом MBR, начинающимся с 1 МиБ, и файловой системой FAT32, exFAT, NTFS или ext4.</string>
     <string name="usb_virtual_changed">Образ изменился. Обновите список перед новой попыткой.</string>
     <string name="usb_virtual_recovery">Не удалось безопасно очистить прерванную операцию. Вставьте обратно записываемую карту EASYROMS и обновите список. Остановите общий доступ и закройте приложения, использующие образ.</string>
+    <string name="usb_charging_title">Отключите зарядное устройство</string>
+    <string name="usb_charging_body">Консоль не может одновременно заряжаться и работать как USB-устройство. Подключённая зарядка возвращает USB-порт в режим аксессуаров, поэтому эта функция не запустится.\n\nОтключите зарядку для продолжения. Во время сеанса консоль работает от аккумулятора.</string>
+    <string name="usb_charging_wait">Ожидание отключения зарядного устройства…</string>
+    <string-array name="usb_mode_functions_entries" translatable="false">
+        <item>Передача файлов</item>
+        <item>Передача фото (PTP)</item>
+        <item>Без данных (только adb)</item>
+    </string-array>
+    <string-array name="usb_mode_functions_values" translatable="false">
+        <item>mtp</item>
+        <item>ptp</item>
+        <item>none</item>
+    </string-array>
+    <string name="usb_drive_easyroms_stays">EASYROMS остаётся доступен в Android.</string>
+    <string name="usb_drive_image_warning">Не изменяйте, не заменяйте и не удаляйте этот файл в Android до завершения общего доступа.</string>
+    <string name="keyboard_legend_keys">Крестовина: выбор · A: удерживать клавишу · B: Backspace · X: Пробел · Y / Start: Enter\nГромкость: яркость</string>
+    <string name="usb_device_title_setting">Эмулятор USB-устройств (альфа / экспериментальный)</string>
+    <string name="usb_stage_validate">Проверка настроек…</string>
+    <string name="usb_stage_save">Сохранение текущего состояния…</string>
+    <string name="usb_stage_gate">Приостановка штатного USB Android…</string>
+    <string name="usb_stage_unbind">Освобождение USB-порта…</string>
+    <string name="usb_stage_configure">Настройка USB-устройства…</string>
+    <string name="usb_stage_controller">Запуск контроллера…</string>
+    <string name="usb_stage_role">Переключение порта в режим устройства…</string>
+    <string name="usb_stage_bind">Подключение к компьютеру…</string>
+    <string name="usb_drive_iso_hint">Выберите ISO для загрузки или установки. Здесь показаны только образы оптических дисков; обычные USB-накопители находятся в сценарии «Накопитель».</string>
+    <string name="usb_hint_next">Далее</string>
+    <string name="usb_hint_start">Запустить</string>
+    <string name="usb_hint_cancel">Отмена</string>
+    <string name="usb_hint_screen_off">Выключить экран</string>
+    <string name="usb_hint_wake">Разбудить / остановить</string>
+    <string name="usb_hint_keys_screen_off">Select + R1</string>
+    <string name="usb_hint_keys_wake">Start + Select</string>
+    <string name="usb_device_dark_hint">Выключение экрана… Нажмите Start + Select для отмены.</string>
+    <string name="usb_device_dac">Аудио USB ЦАП</string>
+    <string name="usb_device_connect_only">Только подключить</string>
+    <string name="usb_device_connect_only_summary">Запустить проводную сеть без открытия приложения.</string>
+    <string name="usb_virtual_missing_tool">Отсутствует необходимая утилита для образов дисков. Команда показана ниже.</string>
+    <string name="usb_virtual_hostfs">Не удаётся определить файловую систему EASYROMS. Подключите карту заново и повторите попытку.</string>
+    <string name="usb_virtual_loop">Не удалось подключить образ диска для форматирования или восстановления.</string>
+    <string name="usb_image_card_changed">EASYROMS изменён или извлечён. Вернитесь к списку образов и начните заново с текущей картой.</string>
+    <string name="usb_hub_connect">Подключиться к компьютеру</string>
+    <string name="usb_hub_images">Управление образами дисков</string>
+    <string name="usb_wizard_connect_summary">Выберите роль, настройте параметры, затем проверьте и запустите.</string>
+    <string name="usb_wizard_next">Далее</string>
+    <string name="usb_wizard_back">Назад</string>
+    <string name="usb_wizard_step">Шаг %1$d из %2$d</string>
+    <string name="usb_wizard_role_summary">Выберите, что хотите делать с помощью USB-кабеля.</string>
+    <string name="usb_wizard_pc_summary">Диск или накопитель, клавиатура и мышь для настройки компьютера.</string>
+    <string name="usb_wizard_custom_summary">Выберите каждую функцию USB и тип контроллера самостоятельно.</string>
+    <string name="usb_wizard_link_summary">Подключите RetroArch или приложение для стриминга по проводной сети.</string>
+    <string name="usb_role_pc_summary">Клавиатура, мышь и накопитель для компьютера.</string>
+    <string name="usb_role_game_summary">Работать как контроллер Xbox для ПК.</string>
+    <string name="usb_role_drive_summary">Предоставить память или образ диска как накопитель.</string>
+    <string name="usb_role_wired_summary">Проводное сетевое соединение с компьютером.</string>
+    <string name="usb_role_music_summary">Барабанные MIDI-пэды для музыкальных приложений.</string>
+    <string name="usb_role_dac_summary">Воспроизводить звук компьютера через консоль как USB-колонку.</string>
+    <string name="usb_role_awake_summary">Слегка двигать мышь, чтобы компьютер не засыпал.</string>
+    <string name="usb_role_macro_summary">Кнопки отправляют мультимедийные сочетания клавиш и макросы.</string>
+    <string name="usb_role_link_summary">Соединить две консоли USB-кабелем.</string>
+    <string name="usb_role_custom_summary">Выбрать функции USB и контроллер самостоятельно.</string>
+    <string name="usb_wizard_functions">Функции USB</string>
+    <string name="usb_wizard_controller_summary">Выберите, каким игровым контроллером будет представляться консоль.</string>
+    <string name="usb_wizard_conflict">%1$s нельзя сочетать с %2$s — выберите что-то одно.</string>
+    <string name="usb_wizard_requires">%1$s требует %2$s — сначала включите его.</string>
+    <string name="usb_wizard_review">Проверить и запустить</string>
+    <string name="usb_wizard_review_summary">Консоль будет определяться как: %1$s</string>
+    <string name="usb_wizard_filesystem">Файловая система</string>
+    <string name="usb_wizard_gb">%1$s GB</string>
+    <string name="usb_virtual_rename">Переименовать образ</string>
+    <string name="usb_wizard_writable">Чтение и запись</string>
+    <string name="usb_wizard_unknown_filesystem">Неизвестная файловая система</string>
+    <string name="usb_emulator_wifi_info">Wi-Fi на этом USB-порту (%1$s) отключится во время эмуляции. После при необходимости переподключите адаптер или перезапустите консоль.</string>
+    <string name="usb_emulator_checking">Проверка доступных параметров…</string>
+    <string name="usb_emulator_controller_hint">ПК увидит геймпад. Откройте игру или настройки контроллера для его использования.</string>
+    <string name="usb_emulator_input_hint">Консоль работает как клавиатура и мышь для ПК.</string>
+    <string name="usb_emulator_keyboard_hint">Консоль работает как клавиатура для ПК.</string>
+    <string name="usb_emulator_mouse_hint">Консоль работает как мышь для ПК.</string>
+    <string name="usb_emulator_drive_hint">На ПК отображается как USB-накопитель. Откройте его в файловом менеджере.</string>
+    <string name="usb_emulator_cd_hint">ПК увидит привод CD/DVD только для чтения.</string>
+    <string name="usb_emulator_preparing_storage">Подготовка выбранного накопителя… Закрытие использующих его приложений может занять время.</string>
+    <string name="usb_emulator_session_hint">Select + R1 выключает экран. Нажмите Start + Select, чтобы включить его; удерживайте 2 секунды для остановки. Power также включает экран.</string>
+    <string name="usb_emulator_cable_prompt">Сейчас подключите USB-C-кабель к компьютеру.</string>
+    <string name="usb_emulator_cable_hint">Если компьютер не видит консоль, переверните штекер USB-C. Если это не помогло, перезапустите консоль и повторите попытку.</string>
+    <string name="usb_image_name_hint">Введено свободное имя образа. Нажмите A для изменения системной клавиатурой или Вправо для продолжения.</string>
+    <string name="usb_image_change_label">Изменить метку тома</string>
+    <string name="usb_image_create_only">Создать файл без подключения к компьютеру.</string>
+    <string name="usb_image_create_use">Создать и использовать</string>
+    <string name="usb_image_finding">Поиск нового образа диска…</string>
+    <string name="usb_image_size_clamped">Размер скорректирован под свободное место: %1$s ГБ.</string>
+    <string name="usb_emulator_start_app">Запустить сетевое соединение по USB и открыть приложение.</string>
+    <string name="usb_emulator_preparing_easyroms">Подготовка EASYROMS… Закрытие использующих его приложений может занять время.</string>
+    <string name="usb_emulator_stopping">Остановка эмулятора USB-устройств…</string>
+    <string name="usb_emulator_stop_wait">Ожидание завершения отключения накопителя и возврата его в Android.</string>
 </resources>

@@ -40,4 +40,6 @@
     <string name="close">閉じる</string>
     <string name="path_easyroms">EASYROMS</string>
     <string name="path_internal">内部ストレージ</string>
+    <string name="details_folder">この名前のフォルダーに、エミュレーターの完全版ダウンロードに含まれるすべてのファイルを入れてください</string>
+    <string name="details_folder_found">お使いのフォルダー: %1$s</string>
 </resources>

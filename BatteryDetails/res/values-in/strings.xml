@@ -71,4 +71,11 @@
     <!-- Durations -->
     <string name="duration_min"><xliff:g id="minutes">%1$d</xliff:g> mnt</string>
     <string name="duration_h_min"><xliff:g id="hours">%1$d</xliff:g> j <xliff:g id="minutes">%2$d</xliff:g> mnt</string>
+    <string name="limit_title">Perawatan baterai</string>
+    <string name="limit_setting">Batas pengisian</string>
+    <string name="limit_off">Nonaktif, isi hingga 100%</string>
+    <string name="limit_choice">Berhenti di <xliff:g id="percent">%1$d</xliff:g>%%</string>
+    <string name="limit_summary_off">Nonaktif. Jika konsol sering dibiarkan terhubung ke pengisi daya, batas pengisian membantu baterai bertahan lebih lama.</string>
+    <string name="limit_summary">Berhenti mengisi di <xliff:g id="limit">%1$d</xliff:g>%% dan mulai lagi di <xliff:g id="resume">%2$d</xliff:g>%%. Di antaranya, konsol mendapat daya dari pengisi daya. Nonaktifkan sebelum perjalanan jauh agar baterai terisi penuh.</string>
+    <string name="status_limit_hold">Terhubung, ditahan pada batas pengisian</string>
 </resources>

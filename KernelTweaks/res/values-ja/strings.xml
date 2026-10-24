@@ -304,4 +304,15 @@
     <string name="kt_use_none">何も変更していません。すべて標準の状態です</string>
     <string name="kt_use_off">オフ。すべて標準値で動作します。設定はそのまま保存され、再びオンにしたときに使われます。</string>
     <string name="kt_working">適用中…</string>
+    <string name="kt_done">完了</string>
+    <string name="kt_unit_percent"><xliff:g id="n">%1$s</xliff:g>%%</string>
+    <string name="kt_stick_sens">スティックの感度</string>
+    <string name="kt_stick_sens_full">最大</string>
+    <string name="kt_stick_sens_value">左 <xliff:g id="left">%1$s</xliff:g>、右 <xliff:g id="right">%2$s</xliff:g></string>
+    <string name="kt_stick_sens_left">左スティック: <xliff:g id="value">%1$s</xliff:g></string>
+    <string name="kt_stick_sens_right">右スティック: <xliff:g id="value">%1$s</xliff:g></string>
+    <string name="kt_stick_sens_left_title">左スティック</string>
+    <string name="kt_stick_sens_right_title">右スティック</string>
+    <string name="kt_stick_sens_what">スティックを端まで倒したときの出力値を、左右別々に下げます。100%が通常の値です。値を下げると、端まで倒しても動きが小さくなります。</string>
+    <string name="kt_stick_sens_why">スティックの反応が左右で違ったり、敏感すぎたりするクローン機向けです。片側の値を下げて左右の感覚をそろえたり、照準を合わせやすくしたりできます。コントローラーテストで結果を確認してください。</string>
 </resources>

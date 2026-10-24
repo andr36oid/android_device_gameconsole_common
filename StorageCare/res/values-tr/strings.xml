@@ -85,4 +85,11 @@
     <string name="warn_easyroms_low_text">Oyun kartında %1$s kaldı. Oyunlar oraya kayıt yapar; dolduğunda kayıtlar ve kayıt durumları başarısız olur. Yer açmak için dokunun.</string>
     <string name="warn_easyroms_full">EASYROMS dolu</string>
     <string name="warn_easyroms_full_text">%1$s kaldı. Yeni kayıtlar ve kayıt durumları yazılamıyor. Yer açmak için dokunun ya da bazı oyunları bir bilgisayara taşıyın.</string>
+    <string-array name="keep_entries" translatable="false">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>5</item>
+        <item>10</item>
+    </string-array>
 </resources>

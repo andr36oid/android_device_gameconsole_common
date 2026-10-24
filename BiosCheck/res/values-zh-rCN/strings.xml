@@ -63,4 +63,6 @@
 
     <string name="path_easyroms">EASYROMS</string>
     <string name="path_internal">内部存储空间</string>
+    <string name="details_folder">使用此名称的文件夹，其中包含模拟器完整下载包中的所有文件</string>
+    <string name="details_folder_found">您的文件夹：%1$s</string>
 </resources>

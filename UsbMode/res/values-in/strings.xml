@@ -302,4 +302,98 @@
     <string name="usb_virtual_layout">Perbaikan mendukung drive virtual dengan satu partisi MBR mulai pada 1 MiB dan sistem file FAT32, exFAT, NTFS, atau ext4.</string>
     <string name="usb_virtual_changed">Citra berubah. Segarkan daftar sebelum mencoba lagi.</string>
     <string name="usb_virtual_recovery">Operasi yang terputus tidak dapat dibersihkan dengan aman. Masukkan kembali kartu EASYROMS yang dapat ditulis, lalu segarkan. Hentikan pembagian dan tutup aplikasi yang menggunakan citra.</string>
+    <string name="usb_charging_title">Cabut pengisi daya</string>
+    <string name="usb_charging_body">Konsol tidak bisa mengisi daya sekaligus menjadi perangkat USB. Pengisi daya yang terhubung memaksa port USB kembali ke mode aksesori, jadi fitur ini tidak bisa dimulai.\n\nCabut pengisi daya untuk melanjutkan. Konsol memakai baterai selama sesi ini.</string>
+    <string name="usb_charging_wait">Menunggu pengisi daya dicabut…</string>
+    <string-array name="usb_mode_functions_entries" translatable="false">
+        <item>Transfer file</item>
+        <item>Transfer foto (PTP)</item>
+        <item>Tanpa data (hanya adb)</item>
+    </string-array>
+    <string-array name="usb_mode_functions_values" translatable="false">
+        <item>mtp</item>
+        <item>ptp</item>
+        <item>none</item>
+    </string-array>
+    <string name="usb_drive_easyroms_stays">EASYROMS tetap tersedia di Android.</string>
+    <string name="usb_drive_image_warning">Jangan edit, ganti, atau hapus file ini di Android sampai Anda berhenti membagikannya.</string>
+    <string name="keyboard_legend_keys">D-pad: pilih · A: tahan tombol · B: Hapus mundur · X: Spasi · Y / Start: Enter\nVolume: kecerahan</string>
+    <string name="usb_device_title_setting">Emulator Perangkat USB (Alfa / Eksperimental)</string>
+    <string name="usb_stage_validate">Memeriksa pengaturan…</string>
+    <string name="usb_stage_save">Menyimpan keadaan saat ini…</string>
+    <string name="usb_stage_gate">Menjeda USB bawaan Android…</string>
+    <string name="usb_stage_unbind">Melepas port USB…</string>
+    <string name="usb_stage_configure">Menyiapkan perangkat USB…</string>
+    <string name="usb_stage_controller">Memulai pengontrol…</string>
+    <string name="usb_stage_role">Mengalihkan port ke mode perangkat…</string>
+    <string name="usb_stage_bind">Menghubungkan ke komputer…</string>
+    <string name="usb_drive_iso_hint">Pilih ISO untuk boot atau instalasi. Hanya citra cakram optik yang tampil di sini; drive USB biasa ada pada pilihan Drive.</string>
+    <string name="usb_hint_next">Berikutnya</string>
+    <string name="usb_hint_start">Mulai</string>
+    <string name="usb_hint_cancel">Batal</string>
+    <string name="usb_hint_screen_off">Matikan layar</string>
+    <string name="usb_hint_wake">Bangunkan / hentikan</string>
+    <string name="usb_hint_keys_screen_off">Select + R1</string>
+    <string name="usb_hint_keys_wake">Start + Select</string>
+    <string name="usb_device_dark_hint">Mematikan layar… Tekan Start + Select untuk membatalkan.</string>
+    <string name="usb_device_dac">DAC audio USB</string>
+    <string name="usb_device_connect_only">Hubungkan saja</string>
+    <string name="usb_device_connect_only_summary">Mulai jaringan kabel tanpa membuka aplikasi.</string>
+    <string name="usb_virtual_missing_tool">Alat citra disk yang diperlukan tidak tersedia. Perintahnya ditampilkan di bawah.</string>
+    <string name="usb_virtual_hostfs">Sistem file EASYROMS tidak dikenali. Pasang ulang kartu lalu coba lagi.</string>
+    <string name="usb_virtual_loop">Tidak dapat menghubungkan citra disk untuk memformat atau memperbaikinya.</string>
+    <string name="usb_image_card_changed">EASYROMS berubah atau dilepas. Kembali ke daftar citra dan mulai lagi pada kartu saat ini.</string>
+    <string name="usb_hub_connect">Hubungkan ke komputer</string>
+    <string name="usb_hub_images">Kelola citra disk</string>
+    <string name="usb_wizard_connect_summary">Pilih peran, atur opsinya, lalu tinjau dan mulai.</string>
+    <string name="usb_wizard_next">Berikutnya</string>
+    <string name="usb_wizard_back">Kembali</string>
+    <string name="usb_wizard_step">Langkah %1$d dari %2$d</string>
+    <string name="usb_wizard_role_summary">Pilih yang ingin Anda lakukan dengan kabel USB.</string>
+    <string name="usb_wizard_pc_summary">Cakram atau drive, keyboard, dan mouse untuk menyiapkan komputer.</string>
+    <string name="usb_wizard_custom_summary">Pilih sendiri tiap fungsi USB dan jenis pengontrol.</string>
+    <string name="usb_wizard_link_summary">Hubungkan RetroArch atau aplikasi streaming lewat jaringan kabel.</string>
+    <string name="usb_role_pc_summary">Keyboard, mouse, dan drive untuk komputer.</string>
+    <string name="usb_role_game_summary">Bertindak sebagai pengontrol Xbox untuk PC.</string>
+    <string name="usb_role_drive_summary">Bagikan penyimpanan atau citra disk sebagai drive.</string>
+    <string name="usb_role_wired_summary">Sambungan jaringan kabel ke komputer.</string>
+    <string name="usb_role_music_summary">Pad drum MIDI untuk aplikasi musik.</string>
+    <string name="usb_role_dac_summary">Putar suara komputer lewat konsol ini sebagai speaker USB.</string>
+    <string name="usb_role_awake_summary">Gerakkan mouse sedikit agar komputer tetap terjaga.</string>
+    <string name="usb_role_macro_summary">Tombol mengirim kombinasi tombol media dan makro.</string>
+    <string name="usb_role_link_summary">Hubungkan dua konsol lewat kabel USB.</string>
+    <string name="usb_role_custom_summary">Pilih sendiri fungsi USB dan pengontrol.</string>
+    <string name="usb_wizard_functions">Fungsi USB</string>
+    <string name="usb_wizard_controller_summary">Pilih bagaimana konsol dikenali sebagai pengontrol game.</string>
+    <string name="usb_wizard_conflict">%1$s tidak bisa digabung dengan %2$s — pilih salah satu.</string>
+    <string name="usb_wizard_requires">%1$s membutuhkan %2$s — aktifkan dahulu.</string>
+    <string name="usb_wizard_review">Tinjau dan mulai</string>
+    <string name="usb_wizard_review_summary">Konsol akan dikenali sebagai: %1$s</string>
+    <string name="usb_wizard_filesystem">Sistem file</string>
+    <string name="usb_wizard_gb">%1$s GB</string>
+    <string name="usb_virtual_rename">Ganti nama citra</string>
+    <string name="usb_wizard_writable">Baca dan tulis</string>
+    <string name="usb_wizard_unknown_filesystem">Sistem file tidak dikenal</string>
+    <string name="usb_emulator_wifi_info">Wi-Fi pada port USB ini (%1$s) akan terputus selama emulasi. Setelahnya, hubungkan ulang adaptor atau restart konsol jika perlu.</string>
+    <string name="usb_emulator_checking">Memeriksa opsi yang tersedia…</string>
+    <string name="usb_emulator_controller_hint">PC akan mengenali gamepad. Buka game atau setelan pengontrol untuk memakainya.</string>
+    <string name="usb_emulator_input_hint">Konsol bertindak sebagai keyboard dan mouse untuk PC.</string>
+    <string name="usb_emulator_keyboard_hint">Konsol bertindak sebagai keyboard untuk PC.</string>
+    <string name="usb_emulator_mouse_hint">Konsol bertindak sebagai mouse untuk PC.</string>
+    <string name="usb_emulator_drive_hint">Tampil sebagai drive USB di PC. Buka di pengelola file.</string>
+    <string name="usb_emulator_cd_hint">PC akan mengenali drive CD/DVD hanya-baca.</string>
+    <string name="usb_emulator_preparing_storage">Menyiapkan drive pilihan… Aplikasi yang memakainya mungkin perlu waktu untuk menutup.</string>
+    <string name="usb_emulator_session_hint">Select + R1 mematikan layar. Tekan Start + Select untuk membangunkan; tahan 2 detik untuk berhenti. Power juga membangunkan layar.</string>
+    <string name="usb_emulator_cable_prompt">Hubungkan kabel USB-C ke komputer sekarang.</string>
+    <string name="usb_emulator_cable_hint">Jika komputer tidak mendeteksinya, balik konektor USB-C. Jika tetap gagal, restart konsol lalu coba lagi.</string>
+    <string name="usb_image_name_hint">Nama citra yang belum dipakai telah diisi. Tekan A untuk mengedit dengan keyboard sistem, atau Kanan untuk melanjutkan.</string>
+    <string name="usb_image_change_label">Ubah label volume</string>
+    <string name="usb_image_create_only">Buat file tanpa menghubungkan ke komputer.</string>
+    <string name="usb_image_create_use">Buat dan gunakan</string>
+    <string name="usb_image_finding">Mencari citra disk baru…</string>
+    <string name="usb_image_size_clamped">Ukuran disesuaikan dengan ruang tersedia: %1$s GB.</string>
+    <string name="usb_emulator_start_app">Mulai sambungan jaringan USB dan buka aplikasi.</string>
+    <string name="usb_emulator_preparing_easyroms">Menyiapkan EASYROMS… Aplikasi yang memakainya mungkin perlu waktu untuk menutup.</string>
+    <string name="usb_emulator_stopping">Menghentikan Emulator Perangkat USB…</string>
+    <string name="usb_emulator_stop_wait">Menunggu penyimpanan selesai ditutup dan kembali ke Android.</string>
 </resources>

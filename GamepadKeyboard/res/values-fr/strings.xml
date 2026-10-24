@@ -34,4 +34,11 @@
     <string name="pref_hints_summary">La ligne au-dessus des touches et les noms des boutons sur les touches</string>
     <string name="buttons_title">Boutons</string>
     <string name="buttons_help">Croix ou stick gauche : se déplacer\nA : taper (maintenir pour les accents : é, ü, ß…)\nB : effacer (champ vide : fermer)\nX : espace\nY : majuscule (deux fois : verrouiller)\nL1 / R1 : déplacer le curseur\nL2 : fermer le clavier\nR2 : ligne de gros texte oui/non\nStart : entrée / OK\nSelect : lettres ou symboles\nL3 : passer au clavier Android TV\nR3 : grille de touches ou saisie aux sticks\n\nSaisie aux sticks : le stick gauche choisit un groupe de quatre, le stick droit pointe une lettre, relâchez-le pour la taper.</string>
+    <string name="subtype_generic" translatable="false">%s</string>
+    <string-array name="layout_values" translatable="false">
+        <item>auto</item>
+        <item>qwerty</item>
+        <item>qwertz</item>
+        <item>azerty</item>
+    </string-array>
 </resources>

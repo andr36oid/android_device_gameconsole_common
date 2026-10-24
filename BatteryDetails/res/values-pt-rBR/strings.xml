@@ -73,4 +73,11 @@
     <!-- Durations -->
     <string name="duration_min"><xliff:g id="minutes">%1$d</xliff:g> min</string>
     <string name="duration_h_min"><xliff:g id="hours">%1$d</xliff:g> h <xliff:g id="minutes">%2$d</xliff:g> min</string>
+    <string name="limit_title">Cuidados com a bateria</string>
+    <string name="limit_setting">Limite de carga</string>
+    <string name="limit_off">Desativado, carregar até 100%</string>
+    <string name="limit_choice">Parar em <xliff:g id="percent">%1$d</xliff:g>%%</string>
+    <string name="limit_summary_off">Desativado. Se o console fica conectado ao carregador, um limite ajuda a bateria a durar mais anos.</string>
+    <string name="limit_summary">Para de carregar em <xliff:g id="limit">%1$d</xliff:g>%% e recomeça em <xliff:g id="resume">%2$d</xliff:g>%%. Nesse intervalo, o console usa a energia do carregador. Desative o limite antes de uma viagem longa para carregar totalmente a bateria.</string>
+    <string name="status_limit_hold">Conectado, mantido no limite de carga</string>
 </resources>

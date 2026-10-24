@@ -154,4 +154,83 @@
     <!-- %1$s: the first 7 characters of a device ID -->
     <!-- %1$s: device name -->
     <!-- %1$s: the full device ID -->
+    <string-array name="keep_entries" translatable="false">
+        <item>3</item>
+        <item>5</item>
+        <item>10</item>
+        <item>20</item>
+        <item>30</item>
+    </string-array>
+    <string-array name="keep_values" translatable="false">
+        <item>3</item>
+        <item>5</item>
+        <item>10</item>
+        <item>20</item>
+        <item>30</item>
+    </string-array>
+    <string name="sync_title">Синхронизация сохранений</string>
+    <string name="sync_row_off">Выключено. Поддерживайте одинаковые сохранения на этой консоли и ПК, телефоне или других консолях.</string>
+    <plurals name="sync_row_on">
+        <item quantity="one">Включено, с %1$d устройством</item>
+        <item quantity="few">Включено, с %1$d устройствами</item>
+        <item quantity="many">Включено, с %1$d устройствами</item>
+        <item quantity="other">Включено, с %1$d устройства</item>
+    </plurals>
+    <string name="sync_switch_title">Синхронизация сохранений</string>
+    <string name="sync_switch_off">Выключено</string>
+    <string name="sync_switch_on">Включено. Синхронизация по Wi-Fi при зарядке и пока эта страница открыта.</string>
+    <string name="sync_status_off">Сохранения игр и состояния поддерживаются одинаковыми на всех добавленных устройствах, по Wi-Fi, без облака. ROM-файлы никогда не копируются. Используется приложение Syncthing.</string>
+    <string name="sync_status_starting">Запуск Syncthing…</string>
+    <string name="sync_status_no_devices">Устройств пока нет. Добавьте ниже.</string>
+    <string name="sync_status_scanning">Поиск изменённых сохранений…</string>
+    <plurals name="sync_status_syncing">
+        <item quantity="one">Синхронизация, остался %1$d файл…</item>
+        <item quantity="few">Синхронизация, осталось %1$d файла…</item>
+        <item quantity="many">Синхронизация, осталось %1$d файлов…</item>
+        <item quantity="other">Синхронизация, осталось %1$d файла…</item>
+    </plurals>
+    <plurals name="sync_status_errors">
+        <item quantity="one">Не удалось синхронизировать %1$d файл. Подробности в Syncthing.</item>
+        <item quantity="few">Не удалось синхронизировать %1$d файла. Подробности в Syncthing.</item>
+        <item quantity="many">Не удалось синхронизировать %1$d файлов. Подробности в Syncthing.</item>
+        <item quantity="other">Не удалось синхронизировать %1$d файла. Подробности в Syncthing.</item>
+    </plurals>
+    <string name="sync_status_folder_error">Не удаётся синхронизировать папку сохранений. Подключён ли EASYROMS? Подробности в Syncthing.</string>
+    <string name="sync_status_waiting">Здесь всё актуально. Ожидание подключения ваших устройств.</string>
+    <string name="sync_status_done">Актуально</string>
+    <string name="sync_step_prepare">Настройка Syncthing…</string>
+    <string name="sync_step_start">Запуск Syncthing. Первый запуск занимает до двух минут…</string>
+    <string name="sync_step_folders">Добавление папок сохранений…</string>
+    <string name="sync_step_stop">Остановка…</string>
+    <string name="sync_my_id_title">Идентификатор этой консоли</string>
+    <string name="sync_my_id_none">Появится после запуска Syncthing</string>
+    <string name="sync_my_id_message">На ПК или телефоне откройте Syncthing, выберите «Добавить удалённое устройство» и введите этот идентификатор или отсканируйте код. Затем ПК появится ниже в разделе «Добавить устройство».</string>
+    <string name="sync_devices_category">Синхронизация с</string>
+    <string name="sync_devices_none">Устройств пока нет</string>
+    <string name="sync_device_connected">Подключено</string>
+    <string name="sync_device_offline">Сейчас не подключено</string>
+    <string name="sync_remove_title">Прекратить синхронизацию с %1$s?</string>
+    <string name="sync_remove_message">Сохранения останутся на обоих устройствах. Они просто больше не будут поддерживаться одинаковыми.</string>
+    <string name="sync_remove_button">Прекратить синхронизацию</string>
+    <string name="sync_add_category">Добавить устройство</string>
+    <string name="sync_pending_summary">Хочет синхронизироваться с этой консолью</string>
+    <string name="sync_nearby_title">Устройство %1$s</string>
+    <string name="sync_nearby_summary">Найдено в этой сети Wi-Fi</string>
+    <string name="sync_add_hint">ПК или телефон: установите Syncthing и добавьте идентификатор этой консоли (выше). Другая консоль: включите на ней синхронизацию сохранений, затем выберите её здесь.</string>
+    <string name="sync_add_title">Синхронизировать сохранения с %1$s?</string>
+    <string name="sync_add_message">Добавляйте только свои устройства. Устройство получит сохранения этой консоли и сможет их изменять.\n\nИдентификатор: %1$s</string>
+    <string name="sync_add_button">Синхронизировать</string>
+    <string name="sync_change_failed">Не получилось. Работает ли Syncthing? Попробуйте ещё раз через некоторое время.</string>
+    <string name="sync_open_title">Открыть Syncthing</string>
+    <string name="sync_open_summary">Все настройки, другие папки и история синхронизации</string>
+    <string name="sync_note">Выйдите из игры перед запуском на другом устройстве. Если оба изменят одно сохранение, останется новое, а второе сохранится рядом как файл .sync-conflict. Заменённые сохранения также остаются в .stversions (последние 5) и в резервных копиях.</string>
+    <string name="sync_off_title">Отключить синхронизацию сохранений?</string>
+    <string name="sync_off_message">Сохранения останутся на этой консоли и других устройствах. Изменения больше не синхронизируются. Список устройств сохранится на будущее.</string>
+    <string name="sync_off_button">Отключить</string>
+    <string name="sync_failed_title">Не удалось включить синхронизацию сохранений</string>
+    <string name="sync_error_missing">Приложение Syncthing не установлено.</string>
+    <string name="sync_error_not_running">Syncthing не запустился. Откройте Syncthing один раз и попробуйте снова.</string>
+    <string name="sync_error_other">Ошибка при настройке Syncthing. Попробуйте снова или откройте Syncthing и настройте его вручную.</string>
+    <string name="sync_label_easyroms">Сохранения игр на EASYROMS</string>
+    <string name="sync_label_internal">Сохранения игр во внутренней памяти</string>
 </resources>

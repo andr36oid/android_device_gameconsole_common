@@ -84,4 +84,20 @@
     <string name="ram_tile_label">Bellek hız aşırtma</string>
     <string name="tile_added_gpu">GPU hız aşırtma hızlı ayarı bildirim paneline eklendi</string>
     <string name="tile_added_ram">Bellek hız aşırtma hızlı ayarı bildirim paneline eklendi</string>
+    <string name="profile_about_performance">En akıcı emülasyon. CPU hiçbir zaman <xliff:g id="cpu">%1$s</xliff:g> altına düşmez, grafik birimi sürekli <xliff:g id="gpu">%2$d</xliff:g> MHz hızında, bellek ise tam hızda çalışır. PS1, N64 ve PSP oyunları içindir. Pil daha hızlı tükenir.</string>
+    <string name="close_apps_on_game_title">Herhangi bir oyun açıldığında arka plan uygulamalarını kapat</string>
+    <string name="close_apps_on_game_summary">Güç menüsündeki Arka plan uygulamalarını kapat gibi oyun için bellek boşaltır</string>
+    <string name="app_profiles_title">Uygulamaya özel profiller</string>
+    <string name="app_profiles_off">Kapalı</string>
+    <plurals name="app_profiles_on">
+        <item quantity="one">Açık, <xliff:g id="count">%d</xliff:g> uygulamanın kendi profili var</item>
+        <item quantity="other">Açık, <xliff:g id="count">%d</xliff:g> uygulamanın kendi profili var</item>
+    </plurals>
+    <string name="app_profiles_switch">Profili uygulamaya göre değiştir</string>
+    <string name="app_profiles_switch_summary">Kendi profili olan bir uygulama açıkken o profili kullanır. Uygulamadan çıkınca Performans bölümünde seçilen profile dönülür.</string>
+    <string name="app_profiles_apps">Uygulamalar</string>
+    <string name="app_profile_default">Varsayılan (<xliff:g id="profile">%1$s</xliff:g>)</string>
+    <string name="app_profiles_about">Varsayılan, uygulamanın Performans bölümünde seçilen profili kullanması demektir. Bazı emülatörler başlangıçta Performans, bazı uygulamalar ise Dengeli veya Pil tasarrufu kullanır. Hepsini buradan değiştirebilirsiniz.\n\nHızlı Ayarlar kutucuğu ve FN + R1, kendi profili olan uygulamalarda da çalışır. O zaman seçiminiz uygulamadan çıkana kadar geçerli olur.\n\nBu özellik açıkken küçük bir yardımcı hangi uygulamanın açık olduğunu izler. Özellik kapalıysa veya hiçbir uygulamanın kendi profili yoksa çalışmaz.</string>
+    <string name="app_profile_until_left"><xliff:g id="app">%1$s</xliff:g> uygulamasından çıkana kadar</string>
+    <string name="app_profile_tile"><xliff:g id="profile">%1$s</xliff:g>, <xliff:g id="app">%2$s</xliff:g></string>
 </resources>

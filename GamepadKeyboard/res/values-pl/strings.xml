@@ -34,4 +34,11 @@
     <string name="pref_hints_summary">Wiersz nad klawiszami i nazwy przycisków na klawiszach</string>
     <string name="buttons_title">Przyciski</string>
     <string name="buttons_help">Krzyżak lub lewa gałka: ruch\nA: wpisz (przytrzymaj, aby wybrać akcent: é, ü, ß…)\nB: usuń (w pustym polu: zamknij)\nX: spacja\nY: shift (dwa razy: caps lock)\nL1 / R1: przesuń kursor tekstu\nL2: zamknij klawiaturę\nR2: duży wiersz tekstu wł. lub wył.\nStart: enter / gotowe\nSelect: litery lub symbole\nL3: przełącz na klawiaturę Android TV\nR3: siatka klawiszy lub pisanie gałkami\n\nPisanie gałkami: lewa gałka wybiera grupę czterech znaków, prawa wskazuje literę, puść ją, aby ją wpisać.</string>
+    <string name="subtype_generic" translatable="false">%s</string>
+    <string-array name="layout_values" translatable="false">
+        <item>auto</item>
+        <item>qwerty</item>
+        <item>qwertz</item>
+        <item>azerty</item>
+    </string-array>
 </resources>

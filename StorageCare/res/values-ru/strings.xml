@@ -85,4 +85,11 @@
     <string name="warn_easyroms_low_text">На карте с играми осталось %1$s. Игры сохраняются туда, и когда место кончится, сохранения и быстрые сохранения перестанут записываться. Нажмите, чтобы освободить место.</string>
     <string name="warn_easyroms_full">EASYROMS заполнен</string>
     <string name="warn_easyroms_full_text">Осталось %1$s. Новые сохранения и быстрые сохранения не записываются. Нажмите, чтобы освободить место, или перенесите часть игр на компьютер.</string>
+    <string-array name="keep_entries" translatable="false">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>5</item>
+        <item>10</item>
+    </string-array>
 </resources>

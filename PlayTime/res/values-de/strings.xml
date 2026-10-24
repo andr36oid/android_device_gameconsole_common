@@ -95,4 +95,12 @@
     <string name="pin_mismatch">Die beiden stimmen nicht überein. Versuch es noch einmal.</string>
     <string name="pin_wrong">Falsche PIN</string>
     <string name="pin_wait">Zu viele Versuche. Warte <xliff:g id="seconds">%1$d</xliff:g> s.</string>
+    <string-array name="break_values" translatable="false">
+        <item>0</item>
+        <item>30</item>
+        <item>45</item>
+        <item>60</item>
+        <item>90</item>
+        <item>120</item>
+    </string-array>
 </resources>

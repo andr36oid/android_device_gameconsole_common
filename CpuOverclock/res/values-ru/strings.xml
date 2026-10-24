@@ -80,4 +80,22 @@
     <!-- First choice of every app, profile is the chosen profile, e.g. "Default (Balanced)" -->
     <!-- Second line of the FN + R1 message in an app with its own profile, app is its name -->
     <!-- Tile subtitle in an app with its own profile, e.g. "Performance, PPSSPP" -->
+    <string name="profile_about_performance">Самая плавная эмуляция. Частота CPU не опускается ниже <xliff:g id="cpu">%1$s</xliff:g>, графика постоянно работает на <xliff:g id="gpu">%2$d</xliff:g> МГц, а память — на полной скорости. Для игр PS1, N64 и PSP. Аккумулятор разряжается быстрее.</string>
+    <string name="close_apps_on_game_title">Закрывать фоновые приложения при запуске любой игры</string>
+    <string name="close_apps_on_game_summary">Освобождает память для игры, как пункт «Закрыть фоновые приложения» в меню питания</string>
+    <string name="app_profiles_title">Профили приложений</string>
+    <string name="app_profiles_off">Выключено</string>
+    <plurals name="app_profiles_on">
+        <item quantity="one">Включено, у <xliff:g id="count">%d</xliff:g> приложения свой профиль</item>
+        <item quantity="few">Включено, у <xliff:g id="count">%d</xliff:g> приложений свои профили</item>
+        <item quantity="many">Включено, у <xliff:g id="count">%d</xliff:g> приложений свои профили</item>
+        <item quantity="other">Включено, у <xliff:g id="count">%d</xliff:g> приложения свой профиль</item>
+    </plurals>
+    <string name="app_profiles_switch">Менять профиль в зависимости от приложения</string>
+    <string name="app_profiles_switch_summary">Приложение со своим профилем использует его, пока открыто. При выходе возвращается профиль, выбранный в разделе «Производительность».</string>
+    <string name="app_profiles_apps">Приложения</string>
+    <string name="app_profile_default">По умолчанию (<xliff:g id="profile">%1$s</xliff:g>)</string>
+    <string name="app_profiles_about">По умолчанию приложение использует профиль из раздела «Производительность». Для некоторых эмуляторов изначально выбрана «Производительность», а для некоторых приложений — «Баланс» или «Энергосбережение». Здесь их можно изменить.\n\nПлитка быстрых настроек и FN + R1 работают и в приложении со своим профилем. Тогда ваш выбор действует до выхода из приложения.\n\nПока эта функция включена, небольшая служба следит за тем, какое приложение открыто. Она не работает, если функция выключена или ни у одного приложения нет своего профиля.</string>
+    <string name="app_profile_until_left">До выхода из <xliff:g id="app">%1$s</xliff:g></string>
+    <string name="app_profile_tile"><xliff:g id="profile">%1$s</xliff:g>, <xliff:g id="app">%2$s</xliff:g></string>
 </resources>

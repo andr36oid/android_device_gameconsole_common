@@ -73,4 +73,11 @@
     <!-- Durations -->
     <string name="duration_min"><xliff:g id="minutes">%1$d</xliff:g> 分</string>
     <string name="duration_h_min"><xliff:g id="hours">%1$d</xliff:g> 時間 <xliff:g id="minutes">%2$d</xliff:g> 分</string>
+    <string name="limit_title">バッテリーのいたわり</string>
+    <string name="limit_setting">充電上限</string>
+    <string name="limit_off">オフ、100%まで充電</string>
+    <string name="limit_choice"><xliff:g id="percent">%1$d</xliff:g>%%で停止</string>
+    <string name="limit_summary_off">オフ。充電器につないだまま使う場合は、上限を設定するとバッテリーの寿命を延ばせます。</string>
+    <string name="limit_summary"><xliff:g id="limit">%1$d</xliff:g>%%で充電を止め、<xliff:g id="resume">%2$d</xliff:g>%%で再開します。その間は充電器からの電力で動作します。長旅の前はオフにして満充電にしてください。</string>
+    <string name="status_limit_hold">電源に接続中、充電上限で維持</string>
 </resources>

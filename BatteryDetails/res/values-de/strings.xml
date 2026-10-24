@@ -73,4 +73,11 @@
     <!-- Durations -->
     <string name="duration_min"><xliff:g id="minutes">%1$d</xliff:g> min</string>
     <string name="duration_h_min"><xliff:g id="hours">%1$d</xliff:g> h <xliff:g id="minutes">%2$d</xliff:g> min</string>
+    <string name="limit_title">Akkuschonung</string>
+    <string name="limit_setting">Ladegrenze</string>
+    <string name="limit_off">Aus, auf 100% laden</string>
+    <string name="limit_choice">Bei <xliff:g id="percent">%1$d</xliff:g>%% stoppen</string>
+    <string name="limit_summary_off">Aus. Wenn die Konsole oft am Ladegerät bleibt, hält der Akku mit einer Ladegrenze mehr Jahre durch.</string>
+    <string name="limit_summary">Stoppt das Laden bei <xliff:g id="limit">%1$d</xliff:g>%% und beginnt bei <xliff:g id="resume">%2$d</xliff:g>%% wieder. Dazwischen läuft die Konsole über das Ladegerät. Schalte die Grenze vor einer langen Reise aus, damit der Akku voll wird.</string>
+    <string name="status_limit_hold">Angeschlossen, an der Ladegrenze gehalten</string>
 </resources>

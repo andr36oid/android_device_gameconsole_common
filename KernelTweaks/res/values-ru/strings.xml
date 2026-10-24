@@ -343,4 +343,15 @@
     <string name="kt_crash_split_balanced">Сбалансированно</string>
     <string name="kt_crash_split_kernel">Больше лога ядра</string>
     <string name="kt_crash_split_android">Больше лога Android</string>
+    <string name="kt_done">Готово</string>
+    <string name="kt_unit_percent"><xliff:g id="n">%1$s</xliff:g>%%</string>
+    <string name="kt_stick_sens">Чувствительность стиков</string>
+    <string name="kt_stick_sens_full">Полная</string>
+    <string name="kt_stick_sens_value">Левый <xliff:g id="left">%1$s</xliff:g>, правый <xliff:g id="right">%2$s</xliff:g></string>
+    <string name="kt_stick_sens_left">Левый стик: <xliff:g id="value">%1$s</xliff:g></string>
+    <string name="kt_stick_sens_right">Правый стик: <xliff:g id="value">%1$s</xliff:g></string>
+    <string name="kt_stick_sens_left_title">Левый стик</string>
+    <string name="kt_stick_sens_right_title">Правый стик</string>
+    <string name="kt_stick_sens_what">Уменьшает передаваемое значение при полном отклонении стика, отдельно для каждой стороны. 100% — обычное значение; при меньшем значении полное отклонение даёт меньше движения.</string>
+    <string name="kt_stick_sens_why">Для клонов со стиками, которые реагируют по-разному или слишком резко. Уменьшите значение с одной стороны, чтобы оба стика ощущались одинаково или было легче целиться. Проверьте результат в тесте контроллера.</string>
 </resources>

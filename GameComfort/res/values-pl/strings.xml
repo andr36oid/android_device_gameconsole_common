@@ -38,4 +38,45 @@
     <string name="tile_on">Wł.</string>
     <string name="tile_off">Wył.</string>
     <string name="tile_automatic">Automatycznie</string>
+    <plurals name="close_apps_done">
+        <item quantity="one">Zamknięto <xliff:g id="count" example="1">%d</xliff:g> aplikację w tle</item>
+        <item quantity="few">Zamknięto <xliff:g id="count" example="3">%d</xliff:g> aplikacje w tle</item>
+        <item quantity="many">Zamknięto <xliff:g id="count" example="3">%d</xliff:g> aplikacji w tle</item>
+        <item quantity="other">Zamknięto <xliff:g id="count" example="3">%d</xliff:g> aplikacji w tle</item>
+    </plurals>
+    <string-array name="warning_values" translatable="false">
+        <item>off</item>
+        <item>30,20,15,5</item>
+        <item>15,5</item>
+        <item>5</item>
+    </string-array>
+    <string name="warning_last">Ostatnie ostrzeżenie przy 3 %</string>
+    <string name="warning_last_summary">Zawsze aktywne, gdy ostrzeżenia są włączone. Pozostaje dłużej na ekranie, bo konsola wkrótce potem się wyłączy.</string>
+    <string name="banner_last_text">Bateria <xliff:g id="percent">%1$d</xliff:g> %% - zapisz grę teraz. Konsola wkrótce się wyłączy.</string>
+    <string-array name="game_mode_profile_values" translatable="false">
+        <item>-1</item>
+        <item>2</item>
+        <item>1</item>
+        <item>0</item>
+    </string-array>
+    <string name="game_mode_steady_memory">Stała szybkość pamięci</string>
+    <string name="game_mode_steady_memory_summary">Utrzymuje pełną szybkość pamięci podczas gry, aby nie zmieniała się w trakcie rozgrywki. Zużywa nieco więcej baterii.</string>
+    <string name="continue_title">Kontynuuj</string>
+    <string name="continue_tile_none">Nie ma jeszcze gry</string>
+    <string name="continue_category">Kontynuuj grę</string>
+    <string name="continue_now">Kontynuuj: <xliff:g id="game">%1$s</xliff:g></string>
+    <string name="continue_now_none">Nie uruchomiono jeszcze żadnej gry</string>
+    <string name="continue_now_ppsspp">PPSSPP</string>
+    <string name="continue_now_app">Gra na Androida</string>
+    <string name="continue_on_boot">Otwórz ponownie po restarcie</string>
+    <string name="continue_on_boot_summary">Jeśli gra była otwarta przy wyłączeniu konsoli, także po rozładowaniu baterii, otworzy się ponownie około 10 sekund po pojawieniu się ekranu głównego</string>
+    <string name="continue_about">Kontynuuj przywraca ostatnią grę jednym naciśnięciem: przez kafelek Kontynuuj w szybkich ustawieniach, FN + A lub menu zasilania.\n\nOtwarta gra wraca dokładnie tam, gdzie została opuszczona. W przeciwnym razie RetroArch i PPSSPP uruchamiają tę samą grę ponownie, RetroArch z tym samym rdzeniem; pozostałe gry po prostu się otwierają.\n\nZaczynasz od ostatniego zapisu w samej grze. RetroArch zapisuje go co 10 sekund, jeśli się zmieni. Stany gry nie są automatycznie wczytywane ani tworzone: gdy najnowszy stan jest nowszy od zapisu w grze, pojawi się komunikat.</string>
+    <string name="continue_nothing">Nie ma jeszcze gry do kontynuowania</string>
+    <string name="continue_game_missing">Nie znaleziono pliku gry <xliff:g id="game">%1$s</xliff:g>. Czy karta SD jest włożona?</string>
+    <string name="continue_core_missing">Rdzeń RetroArch dla <xliff:g id="game">%1$s</xliff:g> nie jest już zainstalowany</string>
+    <string name="continue_failed">Nie udało się uruchomić <xliff:g id="game">%1$s</xliff:g></string>
+    <string name="continue_starting">Wznawianie <xliff:g id="game">%1$s</xliff:g></string>
+    <string name="continue_state_hint">Wznawianie <xliff:g id="game">%1$s</xliff:g>. Najnowszy stan gry (<xliff:g id="slot">%2$s</xliff:g>) jest nowszy od zapisu w samej grze. Aby go użyć, wczytaj go w menu RetroArch (Select + X).</string>
+    <string name="continue_slot">miejsce <xliff:g id="slot">%1$d</xliff:g></string>
+    <string name="continue_slot_auto">automatyczny</string>
 </resources>

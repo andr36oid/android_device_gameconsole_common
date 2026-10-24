@@ -71,4 +71,11 @@
     <!-- Durations -->
     <string name="duration_min"><xliff:g id="minutes">%1$d</xliff:g> min</string>
     <string name="duration_h_min"><xliff:g id="hours">%1$d</xliff:g> h <xliff:g id="minutes">%2$d</xliff:g> min</string>
+    <string name="limit_title">Préserver la batterie</string>
+    <string name="limit_setting">Limite de charge</string>
+    <string name="limit_off">Désactivée, charger à 100%</string>
+    <string name="limit_choice">Arrêter à <xliff:g id="percent">%1$d</xliff:g>%%</string>
+    <string name="limit_summary_off">Désactivée. Si la console reste branchée au chargeur, une limite prolonge la durée de vie de la batterie.</string>
+    <string name="limit_summary">Arrête la charge à <xliff:g id="limit">%1$d</xliff:g>%% et la reprend à <xliff:g id="resume">%2$d</xliff:g>%%. Entre les deux, la console fonctionne sur le chargeur. Désactivez cette limite avant un long voyage pour charger complètement la batterie.</string>
+    <string name="status_limit_hold">Branchée, maintenue à la limite de charge</string>
 </resources>

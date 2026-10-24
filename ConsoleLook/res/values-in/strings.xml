@@ -21,4 +21,5 @@
     <string name="boot_details_summary">Satu baris di bawah logo yang menampilkan apa yang sedang dilakukan konsol, misalnya "Memasang partisi". Tampil mulai penyalaan berikutnya.</string>
     <string name="boot_log_title">Selalu mulai dengan log boot</string>
     <string name="boot_log_summary">Teks yang bergulir tentang apa yang dilakukan konsol, menggantikan logo dan animasi booting, setiap kali mulai. Terlihat mulai dari boot berikutnya.</string>
+    <string name="bootanim_xp" translatable="false">Windows XP</string>
 </resources>

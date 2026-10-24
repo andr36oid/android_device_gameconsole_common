@@ -85,4 +85,11 @@
     <string name="warn_easyroms_low_text">Na karcie z grami zostało %1$s. Gry tam zapisują, a gdy się zapełni, zapisy i stany zapisu się nie udają. Kliknij, aby zwolnić miejsce.</string>
     <string name="warn_easyroms_full">EASYROMS jest pełny</string>
     <string name="warn_easyroms_full_text">Zostało %1$s. Nowych zapisów i stanów zapisu nie da się zapisać. Kliknij, aby zwolnić miejsce, albo przenieś część gier na komputer.</string>
+    <string-array name="keep_entries" translatable="false">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>5</item>
+        <item>10</item>
+    </string-array>
 </resources>

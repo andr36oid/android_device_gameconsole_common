@@ -85,4 +85,11 @@
     <string name="warn_easyroms_low_text">Restam %1$s no cartão de jogos. Os jogos guardam lá, e quando enche, os saves e save states falham. Toque para libertar espaço.</string>
     <string name="warn_easyroms_full">EASYROMS cheio</string>
     <string name="warn_easyroms_full_text">Restam %1$s. Não é possível escrever novos saves e save states. Toque para libertar espaço ou passe alguns jogos para um PC.</string>
+    <string-array name="keep_entries" translatable="false">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>5</item>
+        <item>10</item>
+    </string-array>
 </resources>

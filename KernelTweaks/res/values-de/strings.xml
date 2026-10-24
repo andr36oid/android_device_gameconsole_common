@@ -378,4 +378,15 @@
     <string name="kt_crash_split_balanced">Ausgewogen</string>
     <string name="kt_crash_split_kernel">Mehr Kernel-Log</string>
     <string name="kt_crash_split_android">Mehr Android-Log</string>
+    <string name="kt_done">Fertig</string>
+    <string name="kt_unit_percent"><xliff:g id="n">%1$s</xliff:g>%%</string>
+    <string name="kt_stick_sens">Stick-Empfindlichkeit</string>
+    <string name="kt_stick_sens_full">Voll</string>
+    <string name="kt_stick_sens_value">Links <xliff:g id="left">%1$s</xliff:g>, rechts <xliff:g id="right">%2$s</xliff:g></string>
+    <string name="kt_stick_sens_left">Linker Stick: <xliff:g id="value">%1$s</xliff:g></string>
+    <string name="kt_stick_sens_right">Rechter Stick: <xliff:g id="value">%1$s</xliff:g></string>
+    <string name="kt_stick_sens_left_title">Linker Stick</string>
+    <string name="kt_stick_sens_right_title">Rechter Stick</string>
+    <string name="kt_stick_sens_what">Verringert den gemeldeten Ausschlag bei voll ausgelenktem Stick, für jede Seite einzeln. 100% ist normal; ein niedrigerer Wert bedeutet weniger Bewegung bei vollem Ausschlag.</string>
+    <string name="kt_stick_sens_why">Für Klonkonsolen mit ungleichmäßigen oder zu nervösen Sticks. Stell eine Seite niedriger ein, damit sich beide gleich anfühlen oder du ruhiger zielen kannst. Prüf das Ergebnis im Controller-Test.</string>
 </resources>

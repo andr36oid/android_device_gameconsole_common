@@ -15,4 +15,6 @@
         <item quantity="other">%d Apps installiert.</item>
     </plurals>
     <string name="failed">Nicht installiert:</string>
+    <string name="apk_item" translatable="false">%1$s (%2$s)</string>
+    <string name="failed_item" translatable="false">%1$s: %2$s</string>
 </resources>

@@ -34,4 +34,11 @@
     <string name="pref_hints_summary">A linha por cima das teclas e os nomes dos botões nas teclas</string>
     <string name="buttons_title">Botões</string>
     <string name="buttons_help">D-pad ou analógico esquerdo: mover\nA: escrever (mantenha premido para acentos: é, ã, ç…)\nB: apagar (com o campo vazio: fechar)\nX: espaço\nY: shift (duas vezes: caps lock)\nL1 / R1: mover o cursor do texto\nL2: fechar o teclado\nR2: ativa/desativa a linha de texto grande\nStart: enter / concluído\nSelect: letras ou símbolos\nL3: mudar para o teclado do Android TV\nR3: grelha de teclas ou modo analógico\n\nModo analógico: o analógico esquerdo escolhe um grupo de quatro, o direito aponta para uma letra; solte-o para a escrever.</string>
+    <string name="subtype_generic" translatable="false">%s</string>
+    <string-array name="layout_values" translatable="false">
+        <item>auto</item>
+        <item>qwerty</item>
+        <item>qwertz</item>
+        <item>azerty</item>
+    </string-array>
 </resources>

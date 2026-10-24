@@ -35,4 +35,45 @@
     <string name="tile_off">Выкл.</string>
     <string name="tile_automatic">Автоматически</string>
     <!-- Continue playing: Quick Settings tile, FN + A, power menu, and the Game mode page -->
+    <plurals name="close_apps_done">
+        <item quantity="one">Закрыто <xliff:g id="count" example="1">%d</xliff:g> фоновое приложение</item>
+        <item quantity="few">Закрыто <xliff:g id="count" example="3">%d</xliff:g> фоновых приложения</item>
+        <item quantity="many">Закрыто <xliff:g id="count" example="3">%d</xliff:g> фоновых приложений</item>
+        <item quantity="other">Закрыто <xliff:g id="count" example="3">%d</xliff:g> фонового приложения</item>
+    </plurals>
+    <string-array name="warning_values" translatable="false">
+        <item>off</item>
+        <item>30,20,15,5</item>
+        <item>15,5</item>
+        <item>5</item>
+    </string-array>
+    <string name="warning_last">Последнее предупреждение при 3 %</string>
+    <string name="warning_last_summary">Всегда активно, пока включены предупреждения. Остаётся на экране дольше, потому что вскоре консоль выключится.</string>
+    <string name="banner_last_text">Заряд <xliff:g id="percent">%1$d</xliff:g> %% - сохраните игру сейчас. Консоль скоро выключится.</string>
+    <string-array name="game_mode_profile_values" translatable="false">
+        <item>-1</item>
+        <item>2</item>
+        <item>1</item>
+        <item>0</item>
+    </string-array>
+    <string name="game_mode_steady_memory">Постоянная скорость памяти</string>
+    <string name="game_mode_steady_memory_summary">Поддерживает полную скорость памяти во время игры, чтобы она не менялась посреди игры. Немного увеличивает расход заряда.</string>
+    <string name="continue_title">Продолжить</string>
+    <string name="continue_tile_none">Игр пока нет</string>
+    <string name="continue_category">Продолжить игру</string>
+    <string name="continue_now">Продолжить: <xliff:g id="game">%1$s</xliff:g></string>
+    <string name="continue_now_none">Вы ещё не запускали игры</string>
+    <string name="continue_now_ppsspp">PPSSPP</string>
+    <string name="continue_now_app">Игра для Android</string>
+    <string name="continue_on_boot">Открывать снова после перезапуска</string>
+    <string name="continue_on_boot_summary">Если при выключении консоли была открыта игра, в том числе при разряде аккумулятора, она откроется снова примерно через 10 секунд после появления главного экрана</string>
+    <string name="continue_about">Продолжить возвращает последнюю игру одним нажатием: через плитку «Продолжить» в быстрых настройках, FN + A или меню питания.\n\nЕсли игра ещё открыта, вы вернётесь туда, где остановились. Иначе RetroArch и PPSSPP запустят ту же игру, RetroArch — с тем же ядром; другие игры просто откроются снова.\n\nВы продолжите с последнего сохранения самой игры. RetroArch записывает его каждые 10 секунд, если оно меняется. Состояния не загружаются и не создаются за вас: если последнее состояние новее сохранения игры, появится сообщение.</string>
+    <string name="continue_nothing">Пока нет игры для продолжения</string>
+    <string name="continue_game_missing">Не найден файл игры <xliff:g id="game">%1$s</xliff:g>. Вставлена ли SD-карта?</string>
+    <string name="continue_core_missing">Ядро RetroArch для <xliff:g id="game">%1$s</xliff:g> больше не установлено</string>
+    <string name="continue_failed">Не удалось запустить <xliff:g id="game">%1$s</xliff:g></string>
+    <string name="continue_starting">Продолжение <xliff:g id="game">%1$s</xliff:g></string>
+    <string name="continue_state_hint">Продолжение <xliff:g id="game">%1$s</xliff:g>. Последнее состояние (<xliff:g id="slot">%2$s</xliff:g>) новее сохранения самой игры. Чтобы использовать его, загрузите его в меню RetroArch (Select + X).</string>
+    <string name="continue_slot">слот <xliff:g id="slot">%1$d</xliff:g></string>
+    <string name="continue_slot_auto">автоматическое</string>
 </resources>

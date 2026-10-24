@@ -302,4 +302,98 @@
     <string name="usb_virtual_layout">Die Reparatur unterstützt virtuelle Laufwerke mit einer einzelnen MBR-Partition ab 1 MiB und einem FAT32-, exFAT-, NTFS- oder ext4-Dateisystem.</string>
     <string name="usb_virtual_changed">Das Abbild wurde geändert. Aktualisiere die Liste, bevor du es erneut versuchst.</string>
     <string name="usb_virtual_recovery">Ein unterbrochener Vorgang konnte nicht sicher bereinigt werden. Stecke die beschreibbare EASYROMS-Karte erneut ein und aktualisiere dann. Beende die Freigabe und schließe alle Apps, die das Abbild verwenden.</string>
+    <string name="usb_charging_title">Ladegerät abziehen</string>
+    <string name="usb_charging_body">Die Konsole kann nicht gleichzeitig laden und als USB-Gerät arbeiten. Ein angeschlossenes Ladegerät schaltet den USB-Anschluss zurück auf Zubehör, deshalb kann diese Funktion nicht starten.\n\nZieh das Ladegerät ab, um fortzufahren. Während der Sitzung läuft die Konsole mit ihrem Akku.</string>
+    <string name="usb_charging_wait">Warte, bis das Ladegerät abgezogen wird…</string>
+    <string-array name="usb_mode_functions_entries" translatable="false">
+        <item>Dateiübertragung</item>
+        <item>Fotoübertragung (PTP)</item>
+        <item>Keine Daten (nur adb)</item>
+    </string-array>
+    <string-array name="usb_mode_functions_values" translatable="false">
+        <item>mtp</item>
+        <item>ptp</item>
+        <item>none</item>
+    </string-array>
+    <string name="usb_drive_easyroms_stays">EASYROMS bleibt in Android verfügbar.</string>
+    <string name="usb_drive_image_warning">Bearbeite, ersetze oder lösche diese Datei in Android erst, wenn du die Freigabe beendet hast.</string>
+    <string name="keyboard_legend_keys">Steuerkreuz: wählen · A: Taste halten · B: Rücktaste · X: Leertaste · Y / Start: Eingabe\nLautstärke: Helligkeit</string>
+    <string name="usb_device_title_setting">USB-Geräteemulator (Alpha / Experimentell)</string>
+    <string name="usb_stage_validate">Einrichtung wird geprüft…</string>
+    <string name="usb_stage_save">Aktueller Zustand wird gespeichert…</string>
+    <string name="usb_stage_gate">Androids eigene USB-Funktion wird pausiert…</string>
+    <string name="usb_stage_unbind">USB-Anschluss wird freigegeben…</string>
+    <string name="usb_stage_configure">USB-Gerät wird eingerichtet…</string>
+    <string name="usb_stage_controller">Controller wird gestartet…</string>
+    <string name="usb_stage_role">Anschluss wird in den Gerätemodus geschaltet…</string>
+    <string name="usb_stage_bind">Verbindung zum Computer wird hergestellt…</string>
+    <string name="usb_drive_iso_hint">Wähle ein ISO zum Starten oder Installieren. Hier erscheinen nur Abbilder optischer Datenträger; normale USB-Laufwerke findest du unter „Laufwerk“.</string>
+    <string name="usb_hint_next">Weiter</string>
+    <string name="usb_hint_start">Starten</string>
+    <string name="usb_hint_cancel">Abbrechen</string>
+    <string name="usb_hint_screen_off">Bildschirm aus</string>
+    <string name="usb_hint_wake">Aufwecken / Stoppen</string>
+    <string name="usb_hint_keys_screen_off">Select + R1</string>
+    <string name="usb_hint_keys_wake">Start + Select</string>
+    <string name="usb_device_dark_hint">Bildschirm wird ausgeschaltet… Drück Start + Select zum Abbrechen.</string>
+    <string name="usb_device_dac">USB-Audio-DAC</string>
+    <string name="usb_device_connect_only">Nur verbinden</string>
+    <string name="usb_device_connect_only_summary">Startet das kabelgebundene Netzwerk, ohne eine App zu öffnen.</string>
+    <string name="usb_virtual_missing_tool">Ein benötigtes Werkzeug für Datenträgerabbilder fehlt. Der Befehl steht unten.</string>
+    <string name="usb_virtual_hostfs">Das Dateisystem von EASYROMS wird nicht erkannt. Binde die Karte neu ein und versuch es erneut.</string>
+    <string name="usb_virtual_loop">Das Datenträgerabbild konnte zum Formatieren oder Reparieren nicht eingebunden werden.</string>
+    <string name="usb_image_card_changed">EASYROMS wurde gewechselt oder entfernt. Geh zur Abbildliste zurück und beginne mit der aktuellen Karte erneut.</string>
+    <string name="usb_hub_connect">Mit einem Computer verbinden</string>
+    <string name="usb_hub_images">Datenträgerabbilder verwalten</string>
+    <string name="usb_wizard_connect_summary">Wähle eine Rolle, passe die Optionen an, prüfe die Auswahl und starte.</string>
+    <string name="usb_wizard_next">Weiter</string>
+    <string name="usb_wizard_back">Zurück</string>
+    <string name="usb_wizard_step">Schritt %1$d von %2$d</string>
+    <string name="usb_wizard_role_summary">Wähle, was du mit dem USB-Kabel machen möchtest.</string>
+    <string name="usb_wizard_pc_summary">Disc oder Laufwerk, Tastatur und Maus zum Einrichten eines Computers.</string>
+    <string name="usb_wizard_custom_summary">Wähle jede USB-Funktion und den Controllertyp selbst.</string>
+    <string name="usb_wizard_link_summary">Verbinde RetroArch oder eine Streaming-App über ein kabelgebundenes Netzwerk.</string>
+    <string name="usb_role_pc_summary">Tastatur, Maus und ein Laufwerk für einen Computer.</string>
+    <string name="usb_role_game_summary">Als Xbox-Controller für einen PC arbeiten.</string>
+    <string name="usb_role_drive_summary">Speicher oder ein Datenträgerabbild als Laufwerk freigeben.</string>
+    <string name="usb_role_wired_summary">Kabelgebundene Netzwerkverbindung zu einem Computer.</string>
+    <string name="usb_role_music_summary">MIDI-Drumpads für Musik-Apps.</string>
+    <string name="usb_role_dac_summary">Den Ton des Computers über diese Konsole als USB-Lautsprecher wiedergeben.</string>
+    <string name="usb_role_awake_summary">Die Maus leicht bewegen, damit ein Computer wach bleibt.</string>
+    <string name="usb_role_macro_summary">Tasten senden Medienbefehle und Makro-Tastenkombinationen.</string>
+    <string name="usb_role_link_summary">Zwei Konsolen mit einem USB-Kabel verbinden.</string>
+    <string name="usb_role_custom_summary">USB-Funktionen und Controller selbst wählen.</string>
+    <string name="usb_wizard_functions">USB-Funktionen</string>
+    <string name="usb_wizard_controller_summary">Wähle, als welcher Spielcontroller sich deine Konsole meldet.</string>
+    <string name="usb_wizard_conflict">%1$s lässt sich nicht mit %2$s kombinieren — wähle eines aus.</string>
+    <string name="usb_wizard_requires">%1$s benötigt %2$s — aktiviere es zuerst.</string>
+    <string name="usb_wizard_review">Prüfen und starten</string>
+    <string name="usb_wizard_review_summary">Deine Konsole meldet sich als: %1$s</string>
+    <string name="usb_wizard_filesystem">Dateisystem</string>
+    <string name="usb_wizard_gb">%1$s GB</string>
+    <string name="usb_virtual_rename">Abbild umbenennen</string>
+    <string name="usb_wizard_writable">Lesen und schreiben</string>
+    <string name="usb_wizard_unknown_filesystem">Unbekanntes Dateisystem</string>
+    <string name="usb_emulator_wifi_info">WLAN an diesem USB-Anschluss (%1$s) wird während der Emulation getrennt. Steck den Adapter danach bei Bedarf neu ein oder starte die Konsole neu.</string>
+    <string name="usb_emulator_checking">Verfügbare Optionen werden geprüft…</string>
+    <string name="usb_emulator_controller_hint">Dein PC erkennt einen Controller. Öffne ein Spiel oder die Controllereinstellungen, um ihn zu nutzen.</string>
+    <string name="usb_emulator_input_hint">Die Konsole arbeitet als Tastatur und Maus für deinen PC.</string>
+    <string name="usb_emulator_keyboard_hint">Die Konsole arbeitet als Tastatur für deinen PC.</string>
+    <string name="usb_emulator_mouse_hint">Die Konsole arbeitet als Maus für deinen PC.</string>
+    <string name="usb_emulator_drive_hint">Erscheint als USB-Laufwerk auf dem PC. Öffne es in deinem Dateimanager.</string>
+    <string name="usb_emulator_cd_hint">Dein PC erkennt ein schreibgeschütztes CD/DVD-Laufwerk.</string>
+    <string name="usb_emulator_preparing_storage">Gewähltes Laufwerk wird vorbereitet… Apps, die es nutzen, brauchen möglicherweise Zeit zum Schließen.</string>
+    <string name="usb_emulator_session_hint">Select + R1 schaltet den Bildschirm aus. Drück Start + Select zum Aufwecken; halte es 2 Sekunden zum Stoppen. Power weckt den Bildschirm ebenfalls auf.</string>
+    <string name="usb_emulator_cable_prompt">Steck das USB-C-Kabel jetzt in den Computer.</string>
+    <string name="usb_emulator_cable_hint">Wenn der Computer die Konsole nicht erkennt, drehe den USB-C-Stecker um. Klappt es weiter nicht, starte die Konsole neu und versuch es erneut.</string>
+    <string name="usb_image_name_hint">Ein freier Abbildname ist eingetragen. Drück A zum Bearbeiten mit der Systemtastatur oder Rechts zum Fortfahren.</string>
+    <string name="usb_image_change_label">Datenträgerbezeichnung ändern</string>
+    <string name="usb_image_create_only">Die Datei erstellen, ohne eine Verbindung zum Computer herzustellen.</string>
+    <string name="usb_image_create_use">Erstellen und nutzen</string>
+    <string name="usb_image_finding">Neues Datenträgerabbild wird gesucht…</string>
+    <string name="usb_image_size_clamped">Größe an den verfügbaren Speicher angepasst: %1$s GB.</string>
+    <string name="usb_emulator_start_app">Die USB-Netzwerkverbindung starten und die App öffnen.</string>
+    <string name="usb_emulator_preparing_easyroms">EASYROMS wird vorbereitet… Apps, die es nutzen, brauchen möglicherweise Zeit zum Schließen.</string>
+    <string name="usb_emulator_stopping">USB-Geräteemulator wird gestoppt…</string>
+    <string name="usb_emulator_stop_wait">Warte, bis der Speicher vollständig geschlossen ist und wieder Android zur Verfügung steht.</string>
 </resources>

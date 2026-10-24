@@ -73,4 +73,11 @@
     <!-- Durations -->
     <string name="duration_min"><xliff:g id="minutes">%1$d</xliff:g> 分钟</string>
     <string name="duration_h_min"><xliff:g id="hours">%1$d</xliff:g> 小时 <xliff:g id="minutes">%2$d</xliff:g> 分钟</string>
+    <string name="limit_title">电池养护</string>
+    <string name="limit_setting">充电上限</string>
+    <string name="limit_off">关闭，充至 100%</string>
+    <string name="limit_choice">充至 <xliff:g id="percent">%1$d</xliff:g>%% 时停止</string>
+    <string name="limit_summary_off">已关闭。如果掌机长期连接充电器，设置充电上限能延长电池的使用寿命。</string>
+    <string name="limit_summary">电量达到 <xliff:g id="limit">%1$d</xliff:g>%% 时停止充电，降至 <xliff:g id="resume">%2$d</xliff:g>%% 时恢复充电。在此期间，掌机由充电器供电。长途出行前请关闭此功能，以便充满电。</string>
+    <string name="status_limit_hold">已接通电源，电量保持在充电上限</string>
 </resources>

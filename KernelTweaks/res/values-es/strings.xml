@@ -378,4 +378,15 @@
     <string name="kt_crash_split_balanced">Equilibrado</string>
     <string name="kt_crash_split_kernel">Más registro del kernel</string>
     <string name="kt_crash_split_android">Más registro de Android</string>
+    <string name="kt_done">Listo</string>
+    <string name="kt_unit_percent"><xliff:g id="n">%1$s</xliff:g>%%</string>
+    <string name="kt_stick_sens">Sensibilidad de los sticks</string>
+    <string name="kt_stick_sens_full">Máxima</string>
+    <string name="kt_stick_sens_value">Izquierdo <xliff:g id="left">%1$s</xliff:g>, derecho <xliff:g id="right">%2$s</xliff:g></string>
+    <string name="kt_stick_sens_left">Stick izquierdo: <xliff:g id="value">%1$s</xliff:g></string>
+    <string name="kt_stick_sens_right">Stick derecho: <xliff:g id="value">%1$s</xliff:g></string>
+    <string name="kt_stick_sens_left_title">Stick izquierdo</string>
+    <string name="kt_stick_sens_right_title">Stick derecho</string>
+    <string name="kt_stick_sens_what">Reduce el desplazamiento que indica un stick al llevarlo al tope, por separado para cada lado. El 100% es lo normal; un valor menor reduce el movimiento incluso al llevarlo al tope.</string>
+    <string name="kt_stick_sens_why">Para clones con sticks desiguales o demasiado sensibles. Reduce un lado para que ambos respondan igual, o para apuntar con más calma. Comprueba el resultado en la prueba del mando.</string>
 </resources>

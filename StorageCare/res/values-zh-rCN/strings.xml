@@ -85,4 +85,11 @@
     <string name="warn_easyroms_low_text">游戏卡上剩余 %1$s。游戏存档保存在这里，空间满了以后存档和即时存档都会失败。点按即可释放空间。</string>
     <string name="warn_easyroms_full">EASYROMS 已满</string>
     <string name="warn_easyroms_full_text">剩余 %1$s。无法写入新的存档和即时存档。点按即可释放空间，或把部分游戏移到电脑上。</string>
+    <string-array name="keep_entries" translatable="false">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>5</item>
+        <item>10</item>
+    </string-array>
 </resources>

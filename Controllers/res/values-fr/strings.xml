@@ -76,4 +76,15 @@
     <string name="rumble_test_title">Essayer</string>
     <string name="rumble_test_summary">Fait vibrer la console un instant avec cette force</string>
     <string name="rumble_help">Pour les jeux qui gèrent la vibration. Certains émulateurs demandent aussi de l\'activer dans leurs propres réglages, comme la manette DualShock pour les jeux PlayStation ou le Rumble Pak sur N64. Si le moteur est trop fort ou fait du bruit, baissez-la ici.</string>
+    <string-array name="player1_values" translatable="false">
+        <item>builtin</item>
+        <item>external</item>
+    </string-array>
+    <string-array name="rumble_strength_values" translatable="false">
+        <item>0</item>
+        <item>30</item>
+        <item>55</item>
+        <item>80</item>
+        <item>100</item>
+    </string-array>
 </resources>

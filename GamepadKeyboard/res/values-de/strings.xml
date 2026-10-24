@@ -34,4 +34,11 @@
     <string name="pref_hints_summary">Die Zeile über den Tasten und die Tastennamen auf den Tasten selbst</string>
     <string name="buttons_title">Tasten</string>
     <string name="buttons_help">Steuerkreuz oder linker Stick: bewegen\nA: tippen (halten für Akzente: é, ü, ß…)\nB: löschen (bei leerem Feld: schließen)\nX: Leerzeichen\nY: Umschalt (zweimal: Feststelltaste)\nL1 / R1: Textcursor bewegen\nL2: Tastatur schließen\nR2: große Textzeile an oder aus\nStart: Enter / fertig\nSelect: Buchstaben oder Symbole\nL3: zur Android-TV-Tastatur wechseln\nR3: Tastenfeld oder Stick-Tippen\n\nStick-Tippen: Der linke Stick wählt eine Vierergruppe, der rechte zeigt auf ein Zeichen, loslassen tippt es.</string>
+    <string name="subtype_generic" translatable="false">%s</string>
+    <string-array name="layout_values" translatable="false">
+        <item>auto</item>
+        <item>qwerty</item>
+        <item>qwertz</item>
+        <item>azerty</item>
+    </string-array>
 </resources>

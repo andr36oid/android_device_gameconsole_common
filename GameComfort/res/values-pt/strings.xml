@@ -38,4 +38,43 @@
     <string name="tile_on">Ativado</string>
     <string name="tile_off">Desativado</string>
     <string name="tile_automatic">Automático</string>
+    <plurals name="close_apps_done">
+        <item quantity="one"><xliff:g id="count" example="1">%d</xliff:g> aplicação em segundo plano fechada</item>
+        <item quantity="other"><xliff:g id="count" example="3">%d</xliff:g> aplicações em segundo plano fechadas</item>
+    </plurals>
+    <string-array name="warning_values" translatable="false">
+        <item>off</item>
+        <item>30,20,15,5</item>
+        <item>15,5</item>
+        <item>5</item>
+    </string-array>
+    <string name="warning_last">Último aviso aos 3 %</string>
+    <string name="warning_last_summary">Sempre ativo enquanto os avisos estiverem ligados. Fica mais tempo no ecrã, porque a consola desliga-se pouco depois.</string>
+    <string name="banner_last_text">Bateria a <xliff:g id="percent">%1$d</xliff:g> %% - guarde já o jogo. A consola vai desligar-se em breve.</string>
+    <string-array name="game_mode_profile_values" translatable="false">
+        <item>-1</item>
+        <item>2</item>
+        <item>1</item>
+        <item>0</item>
+    </string-array>
+    <string name="game_mode_steady_memory">Velocidade de memória constante</string>
+    <string name="game_mode_steady_memory_summary">Mantém a memória à velocidade máxima enquanto joga, para não mudar a meio de um jogo. Gasta um pouco mais de bateria.</string>
+    <string name="continue_title">Continuar</string>
+    <string name="continue_tile_none">Ainda sem jogo</string>
+    <string name="continue_category">Continuar a jogar</string>
+    <string name="continue_now">Continuar: <xliff:g id="game">%1$s</xliff:g></string>
+    <string name="continue_now_none">Ainda não jogou nenhum jogo</string>
+    <string name="continue_now_ppsspp">PPSSPP</string>
+    <string name="continue_now_app">Jogo Android</string>
+    <string name="continue_on_boot">Voltar a abrir após reiniciar</string>
+    <string name="continue_on_boot_summary">Se um jogo estava aberto quando a consola se desligou, mesmo por falta de bateria, volta a abrir cerca de 10 segundos após o ecrã inicial</string>
+    <string name="continue_about">Continuar traz de volta o último jogo com um toque: pelo mosaico Continuar nas Definições rápidas, FN + A ou pelo menu de energia.\n\nUm jogo ainda aberto volta exatamente ao ponto onde o deixou. Caso contrário, o RetroArch e o PPSSPP abrem o mesmo jogo de novo, o RetroArch com o mesmo núcleo; os outros jogos apenas voltam a abrir.\n\nContinua a partir do último save do próprio jogo. O RetroArch grava-o a cada 10 segundos se mudar. Os estados guardados nunca são carregados nem criados por si: se o mais recente for mais novo que o save do jogo, uma mensagem avisa.</string>
+    <string name="continue_nothing">Ainda não há jogo para continuar</string>
+    <string name="continue_game_missing">Não foi encontrado o ficheiro do jogo <xliff:g id="game">%1$s</xliff:g>. O cartão SD está inserido?</string>
+    <string name="continue_core_missing">O núcleo do RetroArch para <xliff:g id="game">%1$s</xliff:g> já não está instalado</string>
+    <string name="continue_failed">Não foi possível iniciar <xliff:g id="game">%1$s</xliff:g></string>
+    <string name="continue_starting">A continuar <xliff:g id="game">%1$s</xliff:g></string>
+    <string name="continue_state_hint">A continuar <xliff:g id="game">%1$s</xliff:g>. O estado guardado mais recente (<xliff:g id="slot">%2$s</xliff:g>) é mais novo que o save do próprio jogo. Para o usar, carregue-o no menu do RetroArch (Select + X).</string>
+    <string name="continue_slot">posição <xliff:g id="slot">%1$d</xliff:g></string>
+    <string name="continue_slot_auto">o automático</string>
 </resources>

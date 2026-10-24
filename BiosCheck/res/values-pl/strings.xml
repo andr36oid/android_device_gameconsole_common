@@ -66,4 +66,6 @@
 
     <string name="path_easyroms">EASYROMS</string>
     <string name="path_internal">Pamięć wewnętrzna</string>
+    <string name="details_folder">Folder o tej nazwie ze wszystkimi plikami z pełnego pakietu emulatora</string>
+    <string name="details_folder_found">Twój folder: %1$s</string>
 </resources>

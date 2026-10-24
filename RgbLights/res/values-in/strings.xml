@@ -15,4 +15,14 @@
         <item>Ungu</item>
         <item>Putih</item>
     </string-array>
+    <string-array name="rgb_colour_values" translatable="false">
+        <item>off</item>
+        <item>red</item>
+        <item>green</item>
+        <item>blue</item>
+        <item>yellow</item>
+        <item>cyan</item>
+        <item>purple</item>
+        <item>white</item>
+    </string-array>
 </resources>

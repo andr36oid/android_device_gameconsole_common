@@ -159,4 +159,83 @@
     <!-- The notification while an automatic backup runs -->
     <string name="channel_name">Trwa kopia zapisów gier</string>
     <string name="notification_title">Kopiowanie zapisów gier</string>
+    <string-array name="keep_entries" translatable="false">
+        <item>3</item>
+        <item>5</item>
+        <item>10</item>
+        <item>20</item>
+        <item>30</item>
+    </string-array>
+    <string-array name="keep_values" translatable="false">
+        <item>3</item>
+        <item>5</item>
+        <item>10</item>
+        <item>20</item>
+        <item>30</item>
+    </string-array>
+    <string name="sync_title">Synchronizuj zapisy</string>
+    <string name="sync_row_off">Wyłączone. Utrzymuj te same zapisy na tej konsoli i komputerze, telefonie lub innych konsolach.</string>
+    <plurals name="sync_row_on">
+        <item quantity="one">Włączone, z %1$d urządzeniem</item>
+        <item quantity="few">Włączone, z %1$d urządzeniami</item>
+        <item quantity="many">Włączone, z %1$d urządzeniami</item>
+        <item quantity="other">Włączone, z %1$d urządzenia</item>
+    </plurals>
+    <string name="sync_switch_title">Synchronizuj zapisy</string>
+    <string name="sync_switch_off">Wyłączone</string>
+    <string name="sync_switch_on">Włączone. Synchronizuje przez Wi-Fi podczas ładowania i gdy ta strona jest otwarta.</string>
+    <string name="sync_status_off">Zapisy w grach i stany gry są utrzymywane w tej samej wersji na każdym dodanym urządzeniu, przez Wi-Fi, bez chmury. ROM-y nigdy nie są kopiowane. Używa aplikacji Syncthing.</string>
+    <string name="sync_status_starting">Uruchamianie Syncthing…</string>
+    <string name="sync_status_no_devices">Nie ma jeszcze urządzeń. Dodaj jedno poniżej.</string>
+    <string name="sync_status_scanning">Szukanie zmienionych zapisów…</string>
+    <plurals name="sync_status_syncing">
+        <item quantity="one">Synchronizacja, pozostał %1$d plik…</item>
+        <item quantity="few">Synchronizacja, pozostały %1$d pliki…</item>
+        <item quantity="many">Synchronizacja, pozostało %1$d plików…</item>
+        <item quantity="other">Synchronizacja, pozostało %1$d pliku…</item>
+    </plurals>
+    <plurals name="sync_status_errors">
+        <item quantity="one">Nie udało się zsynchronizować %1$d pliku. Otwórz Syncthing, aby poznać szczegóły.</item>
+        <item quantity="few">Nie udało się zsynchronizować %1$d plików. Otwórz Syncthing, aby poznać szczegóły.</item>
+        <item quantity="many">Nie udało się zsynchronizować %1$d plików. Otwórz Syncthing, aby poznać szczegóły.</item>
+        <item quantity="other">Nie udało się zsynchronizować %1$d pliku. Otwórz Syncthing, aby poznać szczegóły.</item>
+    </plurals>
+    <string name="sync_status_folder_error">Nie można zsynchronizować folderu zapisów. Czy EASYROMS jest zamontowany? Otwórz Syncthing, aby poznać szczegóły.</string>
+    <string name="sync_status_waiting">Tutaj wszystko aktualne. Oczekiwanie na połączenie urządzeń.</string>
+    <string name="sync_status_done">Aktualne</string>
+    <string name="sync_step_prepare">Konfigurowanie Syncthing…</string>
+    <string name="sync_step_start">Uruchamianie Syncthing. Pierwszy start trwa do dwóch minut…</string>
+    <string name="sync_step_folders">Dodawanie folderów zapisów…</string>
+    <string name="sync_step_stop">Zatrzymywanie…</string>
+    <string name="sync_my_id_title">Identyfikator tej konsoli</string>
+    <string name="sync_my_id_none">Pojawi się po uruchomieniu Syncthing</string>
+    <string name="sync_my_id_message">Na komputerze lub telefonie otwórz Syncthing, wybierz Dodaj zdalne urządzenie i wpisz ten identyfikator lub zeskanuj kod. Komputer pojawi się poniżej w sekcji Dodaj urządzenie.</string>
+    <string name="sync_devices_category">Synchronizacja z</string>
+    <string name="sync_devices_none">Nie ma jeszcze urządzeń</string>
+    <string name="sync_device_connected">Połączono</string>
+    <string name="sync_device_offline">Obecnie niepołączone</string>
+    <string name="sync_remove_title">Zakończyć synchronizację z %1$s?</string>
+    <string name="sync_remove_message">Zapisy pozostaną na obu urządzeniach. Nie będą już tylko utrzymywane w tej samej wersji.</string>
+    <string name="sync_remove_button">Zakończ synchronizację</string>
+    <string name="sync_add_category">Dodaj urządzenie</string>
+    <string name="sync_pending_summary">Chce synchronizować z tą konsolą</string>
+    <string name="sync_nearby_title">Urządzenie %1$s</string>
+    <string name="sync_nearby_summary">Znaleziono w tej sieci Wi-Fi</string>
+    <string name="sync_add_hint">Komputer lub telefon: zainstaluj Syncthing i dodaj identyfikator tej konsoli (powyżej). Inna konsola: włącz na niej Synchronizuj zapisy, a potem wybierz ją tutaj.</string>
+    <string name="sync_add_title">Synchronizować zapisy z %1$s?</string>
+    <string name="sync_add_message">Dodawaj tylko własne urządzenia. Otrzyma ono zapisy z tej konsoli i będzie mogło je zmieniać.\n\nIdentyfikator: %1$s</string>
+    <string name="sync_add_button">Synchronizuj</string>
+    <string name="sync_change_failed">Nie udało się. Czy Syncthing działa? Spróbuj ponownie za chwilę.</string>
+    <string name="sync_open_title">Otwórz Syncthing</string>
+    <string name="sync_open_summary">Wszystkie ustawienia, inne foldery i historia synchronizacji</string>
+    <string name="sync_note">Zamknij grę, zanim uruchomisz ją na innym urządzeniu. Jeśli oba zmienią ten sam zapis, nowszy wygra, a drugi pozostanie obok jako plik .sync-conflict. Zastąpione zapisy są też zachowywane w .stversions (ostatnie 5) i kopiach zapasowych.</string>
+    <string name="sync_off_title">Wyłączyć synchronizację zapisów?</string>
+    <string name="sync_off_message">Zapisy pozostaną na tej konsoli i innych urządzeniach. Zmiany nie będą już synchronizowane. Urządzenia zostaną zapamiętane na przyszłość.</string>
+    <string name="sync_off_button">Wyłącz</string>
+    <string name="sync_failed_title">Nie udało się włączyć synchronizacji zapisów</string>
+    <string name="sync_error_missing">Aplikacja Syncthing nie jest zainstalowana.</string>
+    <string name="sync_error_not_running">Syncthing się nie uruchomił. Otwórz Syncthing raz i spróbuj ponownie.</string>
+    <string name="sync_error_other">Coś poszło nie tak podczas konfiguracji Syncthing. Spróbuj ponownie lub otwórz Syncthing i skonfiguruj ręcznie.</string>
+    <string name="sync_label_easyroms">Zapisy gier na EASYROMS</string>
+    <string name="sync_label_internal">Zapisy gier w pamięci wewnętrznej</string>
 </resources>

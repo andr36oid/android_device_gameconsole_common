@@ -95,4 +95,11 @@
     <string name="warn_easyroms_low_text">ゲーム用カードの残りは %1$s です。ゲームのセーブはそこに行われ、いっぱいになるとセーブやセーブステートが失敗します。タップして空き容量を増やしてください。</string>
     <string name="warn_easyroms_full">EASYROMS がいっぱいです</string>
     <string name="warn_easyroms_full_text">残り %1$s。新しいセーブやセーブステートは書き込めません。タップして空き容量を増やすか、ゲームをいくつか PC に移してください。</string>
+    <string-array name="keep_entries" translatable="false">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>5</item>
+        <item>10</item>
+    </string-array>
 </resources>

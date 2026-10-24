@@ -93,4 +93,12 @@
     <string name="pin_mismatch">两次输入不一致。请重新设置。</string>
     <string name="pin_wrong">PIN 码错误</string>
     <string name="pin_wait">尝试次数过多。请等待 <xliff:g id="seconds">%1$d</xliff:g> 秒。</string>
+    <string-array name="break_values" translatable="false">
+        <item>0</item>
+        <item>30</item>
+        <item>45</item>
+        <item>60</item>
+        <item>90</item>
+        <item>120</item>
+    </string-array>
 </resources>

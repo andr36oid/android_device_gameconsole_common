@@ -378,4 +378,15 @@
     <string name="kt_crash_split_balanced">Equilibrado</string>
     <string name="kt_crash_split_kernel">Mais registo do kernel</string>
     <string name="kt_crash_split_android">Mais registo do Android</string>
+    <string name="kt_done">Concluído</string>
+    <string name="kt_unit_percent"><xliff:g id="n">%1$s</xliff:g>%%</string>
+    <string name="kt_stick_sens">Sensibilidade dos analógicos</string>
+    <string name="kt_stick_sens_full">Máxima</string>
+    <string name="kt_stick_sens_value">Esquerdo <xliff:g id="left">%1$s</xliff:g>, direito <xliff:g id="right">%2$s</xliff:g></string>
+    <string name="kt_stick_sens_left">Analógico esquerdo: <xliff:g id="value">%1$s</xliff:g></string>
+    <string name="kt_stick_sens_right">Analógico direito: <xliff:g id="value">%1$s</xliff:g></string>
+    <string name="kt_stick_sens_left_title">Analógico esquerdo</string>
+    <string name="kt_stick_sens_right_title">Analógico direito</string>
+    <string name="kt_stick_sens_what">Reduz o deslocamento indicado ao empurrar um analógico até ao fim, separadamente para cada lado. 100% é o normal; um valor menor significa menos movimento mesmo no limite.</string>
+    <string name="kt_stick_sens_why">Para clones com analógicos desiguais ou demasiado sensíveis. Reduza um dos lados para ambos responderem da mesma forma, ou para apontar com mais calma. Verifique o resultado no teste do comando.</string>
 </resources>

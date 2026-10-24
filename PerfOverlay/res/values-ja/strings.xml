@@ -88,4 +88,48 @@
     <string name="tile_label">性能表示</string>
     <string name="tile_off">オフ</string>
     <string name="tile_on">オン</string>
+    <string-array name="layout_values" translatable="false">
+        <item>row</item>
+        <item>two_rows</item>
+        <item>column</item>
+    </string-array>
+    <string-array name="position_values" translatable="false">
+        <item>top_left</item>
+        <item>top_center</item>
+        <item>top_right</item>
+        <item>bottom_left</item>
+        <item>bottom_center</item>
+        <item>bottom_right</item>
+    </string-array>
+    <string-array name="size_values" translatable="false">
+        <item>9</item>
+        <item>11</item>
+        <item>14</item>
+        <item>18</item>
+    </string-array>
+    <string-array name="color_values" translatable="false">
+        <item>accent</item>
+        <item>white</item>
+        <item>grey</item>
+        <item>teal</item>
+        <item>blue</item>
+        <item>green</item>
+        <item>yellow</item>
+        <item>orange</item>
+        <item>red</item>
+        <item>pink</item>
+        <item>purple</item>
+    </string-array>
+    <string-array name="background_values" translatable="false">
+        <item>00</item>
+        <item>66</item>
+        <item>b3</item>
+        <item>ff</item>
+    </string-array>
+    <string-array name="interval_values" translatable="false">
+        <item>500</item>
+        <item>1000</item>
+        <item>2000</item>
+    </string-array>
+    <string name="hud_storage">容量</string>
 </resources>

@@ -34,4 +34,11 @@
     <string name="pref_hints_summary">按键上方的提示行，以及按键上的按钮名称</string>
     <string name="buttons_title">按键</string>
     <string name="buttons_help">方向键或左摇杆：移动\nA：输入（按住可输入重音字母：é、ü、ß…）\nB：删除（输入框为空时：关闭）\nX：空格\nY：切换大小写（按两次：大写锁定）\nL1 / R1：移动文字光标\nL2：关闭键盘\nR2：开启或关闭大字行\nStart：回车 / 完成\nSelect：字母或符号\nL3：切换到 Android TV 键盘\nR3：按键网格或摇杆输入\n\n摇杆输入：左摇杆选择一组四个字母，右摇杆指向某个字母，松开即可输入。</string>
+    <string name="subtype_generic" translatable="false">%s</string>
+    <string-array name="layout_values" translatable="false">
+        <item>auto</item>
+        <item>qwerty</item>
+        <item>qwertz</item>
+        <item>azerty</item>
+    </string-array>
 </resources>

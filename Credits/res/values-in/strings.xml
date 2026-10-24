@@ -23,4 +23,5 @@
 
     <string name="credits_example_music">Musik contoh oleh</string>
     <string name="credits_now_playing">Sedang diputar: %1$s oleh %2$s</string>
+    <string name="credits_watching" translatable="false">mengamati</string>
 </resources>

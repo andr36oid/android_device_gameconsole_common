@@ -80,4 +80,15 @@
     <string name="rumble_test_title">試す</string>
     <string name="rumble_test_summary">この強さで本体を短く振動させます</string>
     <string name="rumble_help">振動に対応したゲーム向けです。エミュレーターによっては、それぞれの設定でも振動を有効にする必要があります（PlayStation ゲーム用の DualShock コントローラー、N64 の Rumble Pak など）。モーターが強すぎたり、ガタガタ音がしたりする場合は、ここで弱めてください。</string>
+    <string-array name="player1_values" translatable="false">
+        <item>builtin</item>
+        <item>external</item>
+    </string-array>
+    <string-array name="rumble_strength_values" translatable="false">
+        <item>0</item>
+        <item>30</item>
+        <item>55</item>
+        <item>80</item>
+        <item>100</item>
+    </string-array>
 </resources>

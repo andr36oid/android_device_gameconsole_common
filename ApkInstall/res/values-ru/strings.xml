@@ -19,4 +19,6 @@
         <item quantity="other">Установлено %d приложения.</item>
     </plurals>
     <string name="failed">Не установлены:</string>
+    <string name="apk_item" translatable="false">%1$s (%2$s)</string>
+    <string name="failed_item" translatable="false">%1$s: %2$s</string>
 </resources>

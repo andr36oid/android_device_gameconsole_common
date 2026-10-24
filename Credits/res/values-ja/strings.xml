@@ -27,4 +27,5 @@
 
     <string name="credits_example_music">サンプル音楽:</string>
     <string name="credits_now_playing">再生中: %2$s の %1$s</string>
+    <string name="credits_watching" translatable="false">見てるよ</string>
 </resources>

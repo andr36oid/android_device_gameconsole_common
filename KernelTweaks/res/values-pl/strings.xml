@@ -380,4 +380,15 @@
     <string name="kt_crash_split_balanced">Zrównoważony</string>
     <string name="kt_crash_split_kernel">Więcej logu jądra</string>
     <string name="kt_crash_split_android">Więcej logu Androida</string>
+    <string name="kt_done">Gotowe</string>
+    <string name="kt_unit_percent"><xliff:g id="n">%1$s</xliff:g>%%</string>
+    <string name="kt_stick_sens">Czułość drążków</string>
+    <string name="kt_stick_sens_full">Pełna</string>
+    <string name="kt_stick_sens_value">Lewy <xliff:g id="left">%1$s</xliff:g>, prawy <xliff:g id="right">%2$s</xliff:g></string>
+    <string name="kt_stick_sens_left">Lewy drążek: <xliff:g id="value">%1$s</xliff:g></string>
+    <string name="kt_stick_sens_right">Prawy drążek: <xliff:g id="value">%1$s</xliff:g></string>
+    <string name="kt_stick_sens_left_title">Lewy drążek</string>
+    <string name="kt_stick_sens_right_title">Prawy drążek</string>
+    <string name="kt_stick_sens_what">Zmniejsza zgłaszane wychylenie drążka przy przesunięciu go do końca, osobno dla każdej strony. 100% to normalna wartość; niższa oznacza mniejszy ruch przy pełnym wychyleniu.</string>
+    <string name="kt_stick_sens_why">Dla klonów z drążkami o nierównej lub zbyt gwałtownej reakcji. Zmniejsz wartość po jednej stronie, aby oba reagowały tak samo lub by łatwiej było celować. Sprawdź wynik w teście kontrolera.</string>
 </resources>

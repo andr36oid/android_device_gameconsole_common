@@ -377,4 +377,15 @@
     <string name="kt_crash_split_balanced">Seimbang</string>
     <string name="kt_crash_split_kernel">Lebih banyak log kernel</string>
     <string name="kt_crash_split_android">Lebih banyak log Android</string>
+    <string name="kt_done">Selesai</string>
+    <string name="kt_unit_percent"><xliff:g id="n">%1$s</xliff:g>%%</string>
+    <string name="kt_stick_sens">Sensitivitas stik</string>
+    <string name="kt_stick_sens_full">Penuh</string>
+    <string name="kt_stick_sens_value">Kiri <xliff:g id="left">%1$s</xliff:g>, kanan <xliff:g id="right">%2$s</xliff:g></string>
+    <string name="kt_stick_sens_left">Stik kiri: <xliff:g id="value">%1$s</xliff:g></string>
+    <string name="kt_stick_sens_right">Stik kanan: <xliff:g id="value">%1$s</xliff:g></string>
+    <string name="kt_stick_sens_left_title">Stik kiri</string>
+    <string name="kt_stick_sens_right_title">Stik kanan</string>
+    <string name="kt_stick_sens_what">Mengurangi nilai gerakan yang dilaporkan saat stik didorong penuh, terpisah untuk tiap sisi. 100% adalah normal; nilai lebih rendah berarti gerakan lebih sedikit saat didorong penuh.</string>
+    <string name="kt_stick_sens_why">Untuk konsol klon dengan stik yang tidak seimbang atau terlalu sensitif. Turunkan salah satu sisi agar keduanya terasa sama, atau agar membidik lebih tenang. Periksa hasilnya di pengujian pengontrol.</string>
 </resources>

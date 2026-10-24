@@ -27,4 +27,5 @@
 
     <string name="credits_example_music">Przykładowa muzyka</string>
     <string name="credits_now_playing">Teraz gra: %1$s – %2$s</string>
+    <string name="credits_watching" translatable="false">obserwuję</string>
 </resources>

@@ -21,4 +21,5 @@
     <string name="boot_details_summary">Uma linha sob o logótipo que mostra o que a consola está a fazer, como "A montar partições". Aparece a partir do próximo arranque.</string>
     <string name="boot_log_title">Começar sempre com o registo de arranque</string>
     <string name="boot_log_summary">Texto a correr com o que a consola faz em vez do logótipo e da animação de arranque, em cada arranque. Visível a partir do próximo arranque.</string>
+    <string name="bootanim_xp" translatable="false">Windows XP</string>
 </resources>

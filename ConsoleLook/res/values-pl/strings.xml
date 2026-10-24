@@ -21,4 +21,5 @@
     <string name="boot_details_summary">Wiersz pod logo, który pokazuje, co robi konsola, np. „Montowanie partycji”. Widoczny od następnego uruchomienia.</string>
     <string name="boot_log_title">Zawsze zaczynaj od dziennika startu</string>
     <string name="boot_log_summary">Przewijany tekst pokazujący, co konsola robi zamiast logo i animacji startu, przy każdym uruchomieniu. Widoczne od następnego startu.</string>
+    <string name="bootanim_xp" translatable="false">Windows XP</string>
 </resources>

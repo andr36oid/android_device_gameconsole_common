@@ -34,4 +34,11 @@
     <string name="pref_hints_summary">Baris di atas tombol dan nama tombol pada tombol keyboard</string>
     <string name="buttons_title">Tombol</string>
     <string name="buttons_help">D-pad atau stik kiri: pindah\nA: ketik (tahan untuk aksen: é, ü, ß…)\nB: hapus (di kolom kosong: tutup)\nX: spasi\nY: shift (dua kali: caps lock)\nL1 / R1: geser kursor teks\nL2: tutup keyboard\nR2: baris teks besar aktif atau nonaktif\nStart: enter / selesai\nSelect: huruf atau simbol\nL3: beralih ke keyboard Android TV\nR3: kotak tombol atau ketik stik\n\nKetik stik: stik kiri memilih grup berisi empat huruf, stik kanan menunjuk sebuah huruf, lepaskan untuk mengetiknya.</string>
+    <string name="subtype_generic" translatable="false">%s</string>
+    <string-array name="layout_values" translatable="false">
+        <item>auto</item>
+        <item>qwerty</item>
+        <item>qwertz</item>
+        <item>azerty</item>
+    </string-array>
 </resources>

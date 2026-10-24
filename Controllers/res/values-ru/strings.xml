@@ -74,4 +74,15 @@
     <string name="rumble_test_title">Попробовать</string>
     <string name="rumble_test_summary">Консоль коротко вибрирует с этой силой</string>
     <string name="rumble_help">Для игр с поддержкой вибрации. В некоторых эмуляторах её нужно включить ещё и в их собственных настройках, например контроллер DualShock для игр PlayStation или Rumble Pak для N64. Если мотор слишком сильный или дребезжит, убавьте силу здесь.</string>
+    <string-array name="player1_values" translatable="false">
+        <item>builtin</item>
+        <item>external</item>
+    </string-array>
+    <string-array name="rumble_strength_values" translatable="false">
+        <item>0</item>
+        <item>30</item>
+        <item>55</item>
+        <item>80</item>
+        <item>100</item>
+    </string-array>
 </resources>

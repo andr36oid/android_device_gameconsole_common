@@ -85,4 +85,11 @@
     <string name="warn_easyroms_low_text">Il reste %1$s sur la carte des jeux. Les jeux y sauvegardent, et quand elle est pleine, les sauvegardes et états de sauvegarde échouent. Appuyez pour libérer de l\'espace.</string>
     <string name="warn_easyroms_full">EASYROMS est plein</string>
     <string name="warn_easyroms_full_text">Il reste %1$s. Impossible d\'écrire de nouvelles sauvegardes et états de sauvegarde. Appuyez pour libérer de l\'espace, ou déplacez des jeux sur un PC.</string>
+    <string-array name="keep_entries" translatable="false">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>5</item>
+        <item>10</item>
+    </string-array>
 </resources>

@@ -84,4 +84,20 @@
     <string name="ram_tile_label">Overclock de memoria</string>
     <string name="tile_added_gpu">Botón rápido de overclock de GPU añadido al panel de notificaciones</string>
     <string name="tile_added_ram">Botón rápido de overclock de memoria añadido al panel de notificaciones</string>
+    <string name="profile_about_performance">La emulación más fluida. La CPU nunca baja de <xliff:g id="cpu">%1$s</xliff:g>, los gráficos funcionan a <xliff:g id="gpu">%2$d</xliff:g> MHz y la memoria a máxima velocidad en todo momento. Para juegos de PS1, N64 y PSP. La batería se agota antes.</string>
+    <string name="close_apps_on_game_title">Cerrar apps en segundo plano al abrir cualquier juego</string>
+    <string name="close_apps_on_game_summary">Libera memoria para el juego, igual que Cerrar apps en segundo plano en el menú de encendido</string>
+    <string name="app_profiles_title">Perfiles por app</string>
+    <string name="app_profiles_off">Desactivado</string>
+    <plurals name="app_profiles_on">
+        <item quantity="one">Activado, <xliff:g id="count">%d</xliff:g> app tiene su propio perfil</item>
+        <item quantity="other">Activado, <xliff:g id="count">%d</xliff:g> apps tienen su propio perfil</item>
+    </plurals>
+    <string name="app_profiles_switch">Cambiar el perfil según la app</string>
+    <string name="app_profiles_switch_summary">Cada app con perfil propio lo usa mientras está abierta. Al salir, vuelve el perfil elegido en Rendimiento.</string>
+    <string name="app_profiles_apps">Apps</string>
+    <string name="app_profile_default">Predeterminado (<xliff:g id="profile">%1$s</xliff:g>)</string>
+    <string name="app_profiles_about">Predeterminado significa que la app usa el perfil elegido en Rendimiento. Algunos emuladores empiezan con Rendimiento y algunas apps con Equilibrado o Ahorro de batería. Puedes cambiarlos aquí.\n\nEl botón de Ajustes rápidos y FN + R1 siguen funcionando en apps con perfil propio. Tu elección dura hasta que salgas de la app.\n\nMientras esté activado, un pequeño servicio comprueba qué app está abierta. No funciona si está desactivado o ninguna app tiene un perfil propio.</string>
+    <string name="app_profile_until_left">Hasta que salgas de <xliff:g id="app">%1$s</xliff:g></string>
+    <string name="app_profile_tile"><xliff:g id="profile">%1$s</xliff:g>, <xliff:g id="app">%2$s</xliff:g></string>
 </resources>

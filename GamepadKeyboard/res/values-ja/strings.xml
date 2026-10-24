@@ -33,4 +33,11 @@
     <string name="pref_hints_summary">キーの上の行と、キーに表示されるボタン名</string>
     <string name="buttons_title">ボタン</string>
     <string name="buttons_help">十字キーまたは左スティック: 移動\nA: 入力（長押しでアクセント: é、ü、ß…）\nB: 削除（入力欄が空なら閉じる）\nX: スペース\nY: シフト（2 回押すと大文字固定）\nL1 / R1: テキストカーソルを移動\nL2: キーボードを閉じる\nR2: 大きいテキスト行のオン/オフ\nStart: 決定 / 完了\nSelect: 文字と記号の切り替え\nL3: Android TV のキーボードに切り替え\nR3: キー配列またはスティック入力\n\nスティック入力: 左スティックで 4 文字のグループを選び、右スティックで文字を指して、離すと入力されます。</string>
+    <string name="subtype_generic" translatable="false">%s</string>
+    <string-array name="layout_values" translatable="false">
+        <item>auto</item>
+        <item>qwerty</item>
+        <item>qwertz</item>
+        <item>azerty</item>
+    </string-array>
 </resources>

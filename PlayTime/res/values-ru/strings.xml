@@ -99,4 +99,12 @@
     <string name="pin_mismatch">Коды не совпали. Попробуйте ещё раз.</string>
     <string name="pin_wrong">Неверный PIN-код</string>
     <string name="pin_wait">Слишком много попыток. Подождите <xliff:g id="seconds">%1$d</xliff:g> с.</string>
+    <string-array name="break_values" translatable="false">
+        <item>0</item>
+        <item>30</item>
+        <item>45</item>
+        <item>60</item>
+        <item>90</item>
+        <item>120</item>
+    </string-array>
 </resources>

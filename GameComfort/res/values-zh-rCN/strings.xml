@@ -38,4 +38,42 @@
     <string name="tile_on">开启</string>
     <string name="tile_off">关闭</string>
     <string name="tile_automatic">自动</string>
+    <plurals name="close_apps_done">
+        <item quantity="other">已关闭 <xliff:g id="count" example="3">%d</xliff:g> 个后台应用</item>
+    </plurals>
+    <string-array name="warning_values" translatable="false">
+        <item>off</item>
+        <item>30,20,15,5</item>
+        <item>15,5</item>
+        <item>5</item>
+    </string-array>
+    <string name="warning_last">电量 3 % 时的最后提醒</string>
+    <string name="warning_last_summary">开启低电量警告后始终有效。此提醒显示时间更长，因为掌机很快就会自动关机。</string>
+    <string name="banner_last_text">电量 <xliff:g id="percent">%1$d</xliff:g> %% - 请立即保存游戏。掌机即将自动关机。</string>
+    <string-array name="game_mode_profile_values" translatable="false">
+        <item>-1</item>
+        <item>2</item>
+        <item>1</item>
+        <item>0</item>
+    </string-array>
+    <string name="game_mode_steady_memory">稳定内存速度</string>
+    <string name="game_mode_steady_memory_summary">游戏期间让内存始终全速运行，避免在游戏中途变速。会略微增加耗电。</string>
+    <string name="continue_title">继续</string>
+    <string name="continue_tile_none">尚无游戏</string>
+    <string name="continue_category">继续游戏</string>
+    <string name="continue_now">继续：<xliff:g id="game">%1$s</xliff:g></string>
+    <string name="continue_now_none">尚未玩过游戏</string>
+    <string name="continue_now_ppsspp">PPSSPP</string>
+    <string name="continue_now_app">Android 游戏</string>
+    <string name="continue_on_boot">重启后再次打开</string>
+    <string name="continue_on_boot_summary">如果关机时有游戏正在运行，包括电池耗尽的情况，主屏幕出现约 10 秒后会再次打开该游戏</string>
+    <string name="continue_about">“继续”可一键返回上次玩的游戏：使用快捷设置中的“继续”磁贴、FN + A 或电源菜单。\n\n如果游戏仍在运行，会原样返回离开时的画面。否则，RetroArch 和 PPSSPP 会重新启动同一游戏，RetroArch 还会使用同一核心；其他游戏则只是重新打开。\n\n您将从游戏内的最后一次存档继续。存档发生变化时，RetroArch 每 10 秒写入一次。即时存档不会自动读取或写入：如果最新的即时存档比游戏内存档更新，会有消息提醒您。</string>
+    <string name="continue_nothing">尚无可继续的游戏</string>
+    <string name="continue_game_missing">找不到 <xliff:g id="game">%1$s</xliff:g> 的游戏文件。SD 卡插入了吗？</string>
+    <string name="continue_core_missing"><xliff:g id="game">%1$s</xliff:g> 所需的 RetroArch 核心已不再安装</string>
+    <string name="continue_failed">无法启动 <xliff:g id="game">%1$s</xliff:g></string>
+    <string name="continue_starting">正在继续 <xliff:g id="game">%1$s</xliff:g></string>
+    <string name="continue_state_hint">正在继续 <xliff:g id="game">%1$s</xliff:g>。最新的即时存档（<xliff:g id="slot">%2$s</xliff:g>）比游戏内存档更新。要使用它，请在 RetroArch 菜单（Select + X）中读取。</string>
+    <string name="continue_slot">存档位 <xliff:g id="slot">%1$d</xliff:g></string>
+    <string name="continue_slot_auto">自动存档</string>
 </resources>

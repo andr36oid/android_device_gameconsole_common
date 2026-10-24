@@ -302,4 +302,98 @@
     <string name="usb_virtual_layout">修复支持包含一个从 1 MiB 开始的 MBR 分区，以及 FAT32、exFAT、NTFS 或 ext4 文件系统的虚拟驱动器。</string>
     <string name="usb_virtual_changed">镜像已更改。请刷新列表后重试。</string>
     <string name="usb_virtual_recovery">无法安全清理中断的操作。请重新插入可写的 EASYROMS 存储卡，然后刷新。停止共享并关闭使用该镜像的应用。</string>
+    <string name="usb_charging_title">请拔下充电器</string>
+    <string name="usb_charging_body">掌机无法同时充电并作为 USB 设备工作。连接充电器会强制 USB 接口切回外设模式，因此无法启动此功能。\n\n请拔下充电器以继续。使用期间掌机由电池供电。</string>
+    <string name="usb_charging_wait">正在等待拔下充电器…</string>
+    <string-array name="usb_mode_functions_entries" translatable="false">
+        <item>文件传输</item>
+        <item>照片传输（PTP）</item>
+        <item>不传输数据（仅 adb）</item>
+    </string-array>
+    <string-array name="usb_mode_functions_values" translatable="false">
+        <item>mtp</item>
+        <item>ptp</item>
+        <item>none</item>
+    </string-array>
+    <string name="usb_drive_easyroms_stays">EASYROMS 仍可在 Android 中使用。</string>
+    <string name="usb_drive_image_warning">停止共享前，请勿在 Android 中编辑、替换或删除此文件。</string>
+    <string name="keyboard_legend_keys">方向键：选择 · A：按住按键 · B：退格 · X：空格 · Y / Start：回车\n音量键：亮度</string>
+    <string name="usb_device_title_setting">USB 设备模拟器（Alpha / 实验性）</string>
+    <string name="usb_stage_validate">正在检查配置…</string>
+    <string name="usb_stage_save">正在保存当前状态…</string>
+    <string name="usb_stage_gate">正在暂停 Android 自身的 USB 功能…</string>
+    <string name="usb_stage_unbind">正在释放 USB 接口…</string>
+    <string name="usb_stage_configure">正在配置 USB 设备…</string>
+    <string name="usb_stage_controller">正在启动控制器…</string>
+    <string name="usb_stage_role">正在将接口切换为设备模式…</string>
+    <string name="usb_stage_bind">正在连接电脑…</string>
+    <string name="usb_drive_iso_hint">选择用于启动或安装的 ISO。此处仅显示光盘镜像；普通 USB 驱动器请在“驱动器”用途中选择。</string>
+    <string name="usb_hint_next">下一步</string>
+    <string name="usb_hint_start">开始</string>
+    <string name="usb_hint_cancel">取消</string>
+    <string name="usb_hint_screen_off">关闭屏幕</string>
+    <string name="usb_hint_wake">唤醒 / 停止</string>
+    <string name="usb_hint_keys_screen_off">Select + R1</string>
+    <string name="usb_hint_keys_wake">Start + Select</string>
+    <string name="usb_device_dark_hint">正在关闭屏幕… 按 Start + Select 取消。</string>
+    <string name="usb_device_dac">USB 音频 DAC</string>
+    <string name="usb_device_connect_only">仅连接</string>
+    <string name="usb_device_connect_only_summary">启动有线网络，不打开应用。</string>
+    <string name="usb_virtual_missing_tool">缺少所需的磁盘镜像工具。命令如下所示。</string>
+    <string name="usb_virtual_hostfs">无法识别 EASYROMS 的文件系统。请重新挂载存储卡后重试。</string>
+    <string name="usb_virtual_loop">无法连接磁盘镜像以进行格式化或修复。</string>
+    <string name="usb_image_card_changed">EASYROMS 已更换或移除。请返回镜像列表，在当前存储卡上重新开始。</string>
+    <string name="usb_hub_connect">连接到电脑</string>
+    <string name="usb_hub_images">管理磁盘镜像</string>
+    <string name="usb_wizard_connect_summary">选择用途，调整选项，然后检查并启动。</string>
+    <string name="usb_wizard_next">下一步</string>
+    <string name="usb_wizard_back">上一步</string>
+    <string name="usb_wizard_step">第 %1$d 步，共 %2$d 步</string>
+    <string name="usb_wizard_role_summary">选择您想通过 USB 线进行的操作。</string>
+    <string name="usb_wizard_pc_summary">用于设置电脑的光盘或驱动器、键盘和鼠标。</string>
+    <string name="usb_wizard_custom_summary">自行选择各项 USB 功能和控制器类型。</string>
+    <string name="usb_wizard_link_summary">通过有线网络连接 RetroArch 或串流应用。</string>
+    <string name="usb_role_pc_summary">为电脑提供键盘、鼠标和驱动器。</string>
+    <string name="usb_role_game_summary">作为电脑的 Xbox 控制器。</string>
+    <string name="usb_role_drive_summary">将存储空间或磁盘镜像作为驱动器共享。</string>
+    <string name="usb_role_wired_summary">与电脑建立有线网络连接。</string>
+    <string name="usb_role_music_summary">为音乐应用提供 MIDI 鼓垫。</string>
+    <string name="usb_role_dac_summary">将此掌机作为 USB 音箱，播放电脑的声音。</string>
+    <string name="usb_role_awake_summary">轻微移动鼠标，让电脑保持唤醒。</string>
+    <string name="usb_role_macro_summary">按键发送媒体控制和宏组合键。</string>
+    <string name="usb_role_link_summary">通过 USB 线连接两台掌机。</string>
+    <string name="usb_role_custom_summary">自行选择 USB 功能和控制器。</string>
+    <string name="usb_wizard_functions">USB 功能</string>
+    <string name="usb_wizard_controller_summary">选择掌机以哪种游戏控制器的身份显示。</string>
+    <string name="usb_wizard_conflict">%1$s 无法与 %2$s 组合使用，请选择其中一个。</string>
+    <string name="usb_wizard_requires">%1$s 需要 %2$s，请先启用它。</string>
+    <string name="usb_wizard_review">检查并启动</string>
+    <string name="usb_wizard_review_summary">掌机将显示为：%1$s</string>
+    <string name="usb_wizard_filesystem">文件系统</string>
+    <string name="usb_wizard_gb">%1$s GB</string>
+    <string name="usb_virtual_rename">重命名镜像</string>
+    <string name="usb_wizard_writable">可读写</string>
+    <string name="usb_wizard_unknown_filesystem">未知文件系统</string>
+    <string name="usb_emulator_wifi_info">模拟期间，此 USB 接口（%1$s）上的 Wi-Fi 会断开。结束后，如有需要，请重新插拔适配器或重启掌机。</string>
+    <string name="usb_emulator_checking">正在检查可用选项…</string>
+    <string name="usb_emulator_controller_hint">电脑会识别到一个手柄。请打开游戏或控制器设置以使用。</string>
+    <string name="usb_emulator_input_hint">掌机作为电脑的键盘和鼠标。</string>
+    <string name="usb_emulator_keyboard_hint">掌机作为电脑的键盘。</string>
+    <string name="usb_emulator_mouse_hint">掌机作为电脑的鼠标。</string>
+    <string name="usb_emulator_drive_hint">在电脑上显示为 USB 驱动器。请在文件管理器中打开。</string>
+    <string name="usb_emulator_cd_hint">电脑会识别到一个只读 CD/DVD 驱动器。</string>
+    <string name="usb_emulator_preparing_storage">正在准备所选驱动器… 使用它的应用可能需要一些时间才能关闭。</string>
+    <string name="usb_emulator_session_hint">Select + R1 关闭屏幕。按 Start + Select 唤醒；长按 2 秒停止。Power 也可唤醒屏幕。</string>
+    <string name="usb_emulator_cable_prompt">现在请将 USB-C 线插入电脑。</string>
+    <string name="usb_emulator_cable_hint">如果电脑未检测到设备，请将 USB-C 插头翻转后重插。如果仍然失败，请重启掌机后重试。</string>
+    <string name="usb_image_name_hint">已填入一个未占用的镜像名称。按 A 用系统键盘编辑，或按右方向键继续。</string>
+    <string name="usb_image_change_label">更改卷标</string>
+    <string name="usb_image_create_only">创建文件，不连接电脑。</string>
+    <string name="usb_image_create_use">创建并使用</string>
+    <string name="usb_image_finding">正在查找新磁盘镜像…</string>
+    <string name="usb_image_size_clamped">大小已按可用空间调整为：%1$s GB。</string>
+    <string name="usb_emulator_start_app">启动 USB 网络连接并打开应用。</string>
+    <string name="usb_emulator_preparing_easyroms">正在准备 EASYROMS… 使用它的应用可能需要一些时间才能关闭。</string>
+    <string name="usb_emulator_stopping">正在停止 USB 设备模拟器…</string>
+    <string name="usb_emulator_stop_wait">正在等待存储空间完成关闭并交还 Android 使用。</string>
 </resources>

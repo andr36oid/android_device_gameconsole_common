@@ -34,4 +34,11 @@
     <string name="pref_hints_summary">La línea sobre las teclas y los nombres de los botones en las teclas</string>
     <string name="buttons_title">Botones</string>
     <string name="buttons_help">Cruceta o joystick izquierdo: moverse\nA: escribir (mantén para acentos: á, ñ, ü…)\nB: borrar (con el campo vacío: cerrar)\nX: espacio\nY: mayúsculas (dos veces: bloqueo de mayúsculas)\nL1 / R1: mover el cursor de texto\nL2: cerrar el teclado\nR2: activar o desactivar la línea de texto grande\nStart: intro / hecho\nSelect: letras o símbolos\nL3: cambiar al teclado de Android TV\nR3: cuadrícula de teclas o escritura con joysticks\n\nEscritura con joysticks: el joystick izquierdo elige un grupo de cuatro, el derecho apunta a una letra y, al soltarlo, se escribe.</string>
+    <string name="subtype_generic" translatable="false">%s</string>
+    <string-array name="layout_values" translatable="false">
+        <item>auto</item>
+        <item>qwerty</item>
+        <item>qwertz</item>
+        <item>azerty</item>
+    </string-array>
 </resources>

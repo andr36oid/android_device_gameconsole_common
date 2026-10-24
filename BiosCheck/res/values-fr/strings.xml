@@ -65,4 +65,6 @@
 
     <string name="path_easyroms">EASYROMS</string>
     <string name="path_internal">Stockage interne</string>
+    <string name="details_folder">Un dossier portant ce nom, contenant tous les fichiers du téléchargement complet de l\'émulateur</string>
+    <string name="details_folder_found">Votre dossier : %1$s</string>
 </resources>

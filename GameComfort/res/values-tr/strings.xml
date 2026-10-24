@@ -38,4 +38,43 @@
     <string name="tile_on">Açık</string>
     <string name="tile_off">Kapalı</string>
     <string name="tile_automatic">Otomatik</string>
+    <plurals name="close_apps_done">
+        <item quantity="one"><xliff:g id="count" example="1">%d</xliff:g> arka plan uygulaması kapatıldı</item>
+        <item quantity="other"><xliff:g id="count" example="3">%d</xliff:g> arka plan uygulaması kapatıldı</item>
+    </plurals>
+    <string-array name="warning_values" translatable="false">
+        <item>off</item>
+        <item>30,20,15,5</item>
+        <item>15,5</item>
+        <item>5</item>
+    </string-array>
+    <string name="warning_last">%3 düzeyinde son uyarı</string>
+    <string name="warning_last_summary">Uyarılar açıkken her zaman etkindir. Konsol kısa süre sonra kapanacağı için ekranda daha uzun kalır.</string>
+    <string name="banner_last_text">Pil <xliff:g id="percent">%1$d</xliff:g> %% - oyununuzu şimdi kaydedin. Konsol yakında kapanacak.</string>
+    <string-array name="game_mode_profile_values" translatable="false">
+        <item>-1</item>
+        <item>2</item>
+        <item>1</item>
+        <item>0</item>
+    </string-array>
+    <string name="game_mode_steady_memory">Sabit bellek hızı</string>
+    <string name="game_mode_steady_memory_summary">Oynarken belleği tam hızda tutar, böylece oyunun ortasında hızı değişmez. Biraz daha fazla pil harcar.</string>
+    <string name="continue_title">Devam et</string>
+    <string name="continue_tile_none">Henüz oyun yok</string>
+    <string name="continue_category">Oynamaya devam et</string>
+    <string name="continue_now">Devam et: <xliff:g id="game">%1$s</xliff:g></string>
+    <string name="continue_now_none">Henüz oyun oynanmadı</string>
+    <string name="continue_now_ppsspp">PPSSPP</string>
+    <string name="continue_now_app">Android oyunu</string>
+    <string name="continue_on_boot">Yeniden başlattıktan sonra tekrar aç</string>
+    <string name="continue_on_boot_summary">Pil bitmesi de dahil konsol kapandığında bir oyun açıksa ana ekrandan yaklaşık 10 saniye sonra yeniden açılır</string>
+    <string name="continue_about">Devam et, son oynadığınız oyunu tek basışla geri getirir: Hızlı Ayarlar içindeki Devam et kutucuğu, FN + A veya güç menüsüyle.\n\nHâlâ açık olan oyun tam bıraktığınız yere döner. Aksi halde RetroArch ve PPSSPP aynı oyunu yeniden başlatır, RetroArch aynı çekirdeği kullanır; diğer oyunlar yalnızca yeniden açılır.\n\nOyunun kendi son kaydından devam edersiniz. RetroArch, değişmişse bu kaydı 10 saniyede bir yazar. Kayıt durumları sizin yerinize yüklenmez veya oluşturulmaz: en yeni kayıt durumu oyunun kendi kaydından yeniyse bir mesajla bildirilir.</string>
+    <string name="continue_nothing">Henüz devam edilecek oyun yok</string>
+    <string name="continue_game_missing"><xliff:g id="game">%1$s</xliff:g> oyununun dosyası bulunamıyor. SD kart takılı mı?</string>
+    <string name="continue_core_missing"><xliff:g id="game">%1$s</xliff:g> için RetroArch çekirdeği artık kurulu değil</string>
+    <string name="continue_failed"><xliff:g id="game">%1$s</xliff:g> başlatılamadı</string>
+    <string name="continue_starting"><xliff:g id="game">%1$s</xliff:g> devam ettiriliyor</string>
+    <string name="continue_state_hint"><xliff:g id="game">%1$s</xliff:g> devam ettiriliyor. En yeni kayıt durumunuz (<xliff:g id="slot">%2$s</xliff:g>) oyunun kendi kaydından daha yeni. Kullanmak için RetroArch menüsünden (Select + X) yükleyin.</string>
+    <string name="continue_slot">yuva <xliff:g id="slot">%1$d</xliff:g></string>
+    <string name="continue_slot_auto">otomatik olan</string>
 </resources>

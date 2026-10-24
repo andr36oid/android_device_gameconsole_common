@@ -85,4 +85,11 @@
     <string name="warn_easyroms_low_text">Quedan %1$s en la tarjeta de juegos. Los juegos guardan ahí las partidas, y cuando se llena fallan las partidas y los guardados rápidos. Pulsa para liberar espacio.</string>
     <string name="warn_easyroms_full">EASYROMS está llena</string>
     <string name="warn_easyroms_full_text">Quedan %1$s. No se pueden escribir partidas ni guardados rápidos nuevos. Pulsa para liberar espacio o pasa algunos juegos a un PC.</string>
+    <string-array name="keep_entries" translatable="false">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>5</item>
+        <item>10</item>
+    </string-array>
 </resources>

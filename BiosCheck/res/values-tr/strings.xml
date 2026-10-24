@@ -66,4 +66,6 @@
 
     <string name="path_easyroms">EASYROMS</string>
     <string name="path_internal">Dahili depolama</string>
+    <string name="details_folder">Bu adla oluşturulmuş, emülatörün tam indirme paketindeki tüm dosyaları içeren bir klasör</string>
+    <string name="details_folder_found">Klasörünüz: %1$s</string>
 </resources>

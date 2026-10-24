@@ -60,4 +60,19 @@
     <string name="undervolt_off">オフ</string>
     <string name="undervolt_step">−<xliff:g id="mv">%1$d</xliff:g> mV</string>
     <string name="undervolt_title">低電圧化</string>
+    <string name="profile_about_performance">最も滑らかなエミュレーション。CPU は常に <xliff:g id="cpu">%1$s</xliff:g> 以上、GPU は <xliff:g id="gpu">%2$d</xliff:g> MHz、メモリは常に最高速度で動作します。PS1、N64、PSP のゲーム向けです。バッテリーの消費が速くなります。</string>
+    <string name="close_apps_on_game_title">ゲームを開くときにバックグラウンドアプリを閉じる</string>
+    <string name="close_apps_on_game_summary">電源メニューの「バックグラウンドアプリを閉じる」と同じように、ゲーム用のメモリを確保します</string>
+    <string name="app_profiles_title">アプリ別プロファイル</string>
+    <string name="app_profiles_off">オフ</string>
+    <plurals name="app_profiles_on">
+        <item quantity="other">オン、<xliff:g id="count">%d</xliff:g> 個のアプリに個別のプロファイルあり</item>
+    </plurals>
+    <string name="app_profiles_switch">アプリに応じてプロファイルを切り替える</string>
+    <string name="app_profiles_switch_summary">個別のプロファイルがあるアプリは、開いている間そのプロファイルを使います。アプリを離れると「パフォーマンス」で選んだプロファイルに戻ります。</string>
+    <string name="app_profiles_apps">アプリ</string>
+    <string name="app_profile_default">デフォルト（<xliff:g id="profile">%1$s</xliff:g>）</string>
+    <string name="app_profiles_about">デフォルトでは「パフォーマンス」で選んだプロファイルを使います。一部のエミュレーターは最初から「パフォーマンス」、一部のアプリは「バランス」または「省電力」に設定されています。ここで変更できます。\n\n個別のプロファイルがあるアプリでも、クイック設定のタイルと FN + R1 は使えます。その場合、選んだ設定はアプリを離れるまで有効です。\n\nオンの間は、小さな補助サービスが開いているアプリを監視します。オフの場合や、個別のプロファイルを持つアプリがない場合は動作しません。</string>
+    <string name="app_profile_until_left"><xliff:g id="app">%1$s</xliff:g> を離れるまで</string>
+    <string name="app_profile_tile"><xliff:g id="profile">%1$s</xliff:g>, <xliff:g id="app">%2$s</xliff:g></string>
 </resources>

@@ -13,4 +13,6 @@
         <item quantity="other">已安装 %d 个应用。</item>
     </plurals>
     <string name="failed">未安装：</string>
+    <string name="apk_item" translatable="false">%1$s (%2$s)</string>
+    <string name="failed_item" translatable="false">%1$s: %2$s</string>
 </resources>

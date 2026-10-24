@@ -138,4 +138,77 @@
     <!-- The notification while an automatic backup runs -->
     <string name="channel_name">Copie des sauvegardes en cours</string>
     <string name="notification_title">Copie des sauvegardes</string>
+    <string-array name="keep_entries" translatable="false">
+        <item>3</item>
+        <item>5</item>
+        <item>10</item>
+        <item>20</item>
+        <item>30</item>
+    </string-array>
+    <string-array name="keep_values" translatable="false">
+        <item>3</item>
+        <item>5</item>
+        <item>10</item>
+        <item>20</item>
+        <item>30</item>
+    </string-array>
+    <string name="sync_title">Synchroniser les sauvegardes</string>
+    <string name="sync_row_off">Désactivé. Gardez les mêmes sauvegardes sur cette console et votre PC, téléphone ou d\'autres consoles.</string>
+    <plurals name="sync_row_on">
+        <item quantity="one">Activé, avec %1$d appareil</item>
+        <item quantity="other">Activé, avec %1$d appareils</item>
+    </plurals>
+    <string name="sync_switch_title">Synchroniser les sauvegardes</string>
+    <string name="sync_switch_off">Désactivé</string>
+    <string name="sync_switch_on">Activé. Synchronise en Wi-Fi pendant la charge et quand cette page est ouverte.</string>
+    <string name="sync_status_off">Les sauvegardes de jeu et instantanées restent identiques sur chaque appareil ajouté, par Wi-Fi, sans cloud. Les ROM ne sont jamais copiées. Utilise l\'appli Syncthing.</string>
+    <string name="sync_status_starting">Démarrage de Syncthing…</string>
+    <string name="sync_status_no_devices">Aucun appareil pour le moment. Ajoutez-en un ci-dessous.</string>
+    <string name="sync_status_scanning">Recherche de sauvegardes modifiées…</string>
+    <plurals name="sync_status_syncing">
+        <item quantity="one">Synchronisation, encore %1$d fichier…</item>
+        <item quantity="other">Synchronisation, encore %1$d fichiers…</item>
+    </plurals>
+    <plurals name="sync_status_errors">
+        <item quantity="one">%1$d fichier n\'a pas pu être synchronisé. Ouvrez Syncthing pour les détails.</item>
+        <item quantity="other">%1$d fichiers n\'ont pas pu être synchronisés. Ouvrez Syncthing pour les détails.</item>
+    </plurals>
+    <string name="sync_status_folder_error">Un dossier de sauvegardes ne peut pas être synchronisé. EASYROMS est-il monté ? Ouvrez Syncthing pour les détails.</string>
+    <string name="sync_status_waiting">À jour ici. En attente de la connexion de vos appareils.</string>
+    <string name="sync_status_done">À jour</string>
+    <string name="sync_step_prepare">Configuration de Syncthing…</string>
+    <string name="sync_step_start">Démarrage de Syncthing. Le premier lancement prend jusqu\'à deux minutes…</string>
+    <string name="sync_step_folders">Ajout des dossiers de sauvegardes…</string>
+    <string name="sync_step_stop">Arrêt…</string>
+    <string name="sync_my_id_title">Identifiant de cette console</string>
+    <string name="sync_my_id_none">Affiché une fois Syncthing lancé</string>
+    <string name="sync_my_id_message">Sur votre PC ou téléphone, ouvrez Syncthing, choisissez Ajouter un appareil distant, puis saisissez cet identifiant ou scannez le code. Le PC apparaîtra ci-dessous sous Ajouter un appareil.</string>
+    <string name="sync_devices_category">Synchronisation avec</string>
+    <string name="sync_devices_none">Aucun appareil pour le moment</string>
+    <string name="sync_device_connected">Connecté</string>
+    <string name="sync_device_offline">Actuellement déconnecté</string>
+    <string name="sync_remove_title">Arrêter la synchronisation avec %1$s ?</string>
+    <string name="sync_remove_message">Les sauvegardes restent sur les deux appareils. Elles ne seront simplement plus maintenues identiques.</string>
+    <string name="sync_remove_button">Arrêter la synchronisation</string>
+    <string name="sync_add_category">Ajouter un appareil</string>
+    <string name="sync_pending_summary">Souhaite se synchroniser avec cette console</string>
+    <string name="sync_nearby_title">Appareil %1$s</string>
+    <string name="sync_nearby_summary">Trouvé sur ce réseau Wi-Fi</string>
+    <string name="sync_add_hint">PC ou téléphone : installez Syncthing et ajoutez l\'identifiant de cette console (ci-dessus). Autre console : activez Synchroniser les sauvegardes dessus, puis sélectionnez-la ici.</string>
+    <string name="sync_add_title">Synchroniser les sauvegardes avec %1$s ?</string>
+    <string name="sync_add_message">Ajoutez uniquement vos propres appareils. Il recevra les sauvegardes de cette console et pourra les modifier.\n\nIdentifiant : %1$s</string>
+    <string name="sync_add_button">Synchroniser</string>
+    <string name="sync_change_failed">Cela n\'a pas fonctionné. Syncthing est-il lancé ? Réessayez dans un instant.</string>
+    <string name="sync_open_title">Ouvrir Syncthing</string>
+    <string name="sync_open_summary">Tous les réglages, les autres dossiers et les éléments synchronisés</string>
+    <string name="sync_note">Quittez le jeu avant d\'y jouer sur un autre appareil. Si les deux modifient la même sauvegarde, la plus récente est retenue et l\'autre reste à côté dans un fichier .sync-conflict. Les sauvegardes remplacées sont aussi conservées dans .stversions (les 5 dernières) et dans vos copies de sauvegarde.</string>
+    <string name="sync_off_title">Désactiver la synchronisation des sauvegardes ?</string>
+    <string name="sync_off_message">Vos sauvegardes restent sur cette console et vos autres appareils. Les modifications ne sont plus synchronisées. Vos appareils sont mémorisés pour la prochaine fois.</string>
+    <string name="sync_off_button">Désactiver</string>
+    <string name="sync_failed_title">Impossible d\'activer la synchronisation des sauvegardes</string>
+    <string name="sync_error_missing">L\'appli Syncthing n\'est pas installée.</string>
+    <string name="sync_error_not_running">Syncthing n\'a pas démarré. Ouvrez Syncthing une fois, puis réessayez.</string>
+    <string name="sync_error_other">Une erreur est survenue lors de la configuration de Syncthing. Réessayez ou ouvrez Syncthing pour le configurer manuellement.</string>
+    <string name="sync_label_easyroms">Sauvegardes de jeux sur EASYROMS</string>
+    <string name="sync_label_internal">Sauvegardes de jeux dans le stockage interne</string>
 </resources>

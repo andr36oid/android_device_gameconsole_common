@@ -76,4 +76,15 @@
     <string name="rumble_test_title">试一下</string>
     <string name="rumble_test_summary">以此强度让掌机短暂振动</string>
     <string name="rumble_help">适用于支持振动的游戏。有些模拟器还需要在它们自己的设置里打开振动，例如 PlayStation 游戏的 DualShock 手柄或 N64 的 Rumble Pak。如果马达太强或有异响，可以在这里调低。</string>
+    <string-array name="player1_values" translatable="false">
+        <item>builtin</item>
+        <item>external</item>
+    </string-array>
+    <string-array name="rumble_strength_values" translatable="false">
+        <item>0</item>
+        <item>30</item>
+        <item>55</item>
+        <item>80</item>
+        <item>100</item>
+    </string-array>
 </resources>

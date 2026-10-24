@@ -34,4 +34,11 @@
     <string name="pref_hints_summary">Строка над клавишами и названия кнопок на клавишах</string>
     <string name="buttons_title">Кнопки</string>
     <string name="buttons_help">Крестовина или левый стик: перемещение\nA: ввод (удерживайте для дополнительных букв: é, ü, ß…)\nB: стереть (в пустом поле: закрыть)\nX: пробел\nY: Shift (дважды: Caps Lock)\nL1 / R1: двигать курсор в тексте\nL2: закрыть клавиатуру\nR2: крупная строка текста вкл./выкл.\nStart: Enter / готово\nSelect: буквы или символы\nL3: переключиться на клавиатуру Android TV\nR3: сетка клавиш или ввод стиками\n\nВвод стиками: левый стик выбирает группу из четырёх букв, правый указывает на букву, отпустите его, чтобы ввести её.</string>
+    <string name="subtype_generic" translatable="false">%s</string>
+    <string-array name="layout_values" translatable="false">
+        <item>auto</item>
+        <item>qwerty</item>
+        <item>qwertz</item>
+        <item>azerty</item>
+    </string-array>
 </resources>

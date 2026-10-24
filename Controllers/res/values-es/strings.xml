@@ -76,4 +76,15 @@
     <string name="rumble_test_title">Probar</string>
     <string name="rumble_test_summary">Hace vibrar la consola un momento con esta intensidad</string>
     <string name="rumble_help">Para juegos con vibración. Algunos emuladores también piden activarla en sus propios ajustes, como el mando DualShock en juegos de PlayStation o el Rumble Pak en N64. Si el motor vibra demasiado o hace ruido, bájala aquí.</string>
+    <string-array name="player1_values" translatable="false">
+        <item>builtin</item>
+        <item>external</item>
+    </string-array>
+    <string-array name="rumble_strength_values" translatable="false">
+        <item>0</item>
+        <item>30</item>
+        <item>55</item>
+        <item>80</item>
+        <item>100</item>
+    </string-array>
 </resources>

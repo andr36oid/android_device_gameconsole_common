@@ -106,4 +106,74 @@
 
     <string name="channel_name">セーブのバックアップ実行中</string>
     <string name="notification_title">セーブをバックアップしています</string>
+    <string-array name="keep_entries" translatable="false">
+        <item>3</item>
+        <item>5</item>
+        <item>10</item>
+        <item>20</item>
+        <item>30</item>
+    </string-array>
+    <string-array name="keep_values" translatable="false">
+        <item>3</item>
+        <item>5</item>
+        <item>10</item>
+        <item>20</item>
+        <item>30</item>
+    </string-array>
+    <string name="sync_title">セーブを同期</string>
+    <string name="sync_row_off">オフ。この本体と PC、スマートフォン、他の本体のセーブを同じ状態に保ちます。</string>
+    <plurals name="sync_row_on">
+        <item quantity="other">オン、%1$d 台のデバイスと同期</item>
+    </plurals>
+    <string name="sync_switch_title">セーブを同期</string>
+    <string name="sync_switch_off">オフ</string>
+    <string name="sync_switch_on">オン。充電中に Wi-Fi 経由で同期し、このページを開いている間も同期します。</string>
+    <string name="sync_status_off">追加した各デバイスのゲーム内セーブとセーブステートを、クラウドを使わず Wi-Fi で同じ状態に保ちます。ROM はコピーしません。Syncthing アプリを使います。</string>
+    <string name="sync_status_starting">Syncthing を起動中…</string>
+    <string name="sync_status_no_devices">デバイスがまだありません。下から追加してください。</string>
+    <string name="sync_status_scanning">変更されたセーブを検索中…</string>
+    <plurals name="sync_status_syncing">
+        <item quantity="other">同期中、残り %1$d ファイル…</item>
+    </plurals>
+    <plurals name="sync_status_errors">
+        <item quantity="other">%1$d ファイルを同期できませんでした。詳細は Syncthing を開いて確認してください。</item>
+    </plurals>
+    <string name="sync_status_folder_error">セーブフォルダーを同期できません。EASYROMS はマウントされていますか？ 詳細は Syncthing を開いて確認してください。</string>
+    <string name="sync_status_waiting">この本体は最新です。他のデバイスの接続を待っています。</string>
+    <string name="sync_status_done">最新の状態</string>
+    <string name="sync_step_prepare">Syncthing を設定中…</string>
+    <string name="sync_step_start">Syncthing を起動中。初回は最大 2 分かかります…</string>
+    <string name="sync_step_folders">セーブフォルダーを追加中…</string>
+    <string name="sync_step_stop">停止中…</string>
+    <string name="sync_my_id_title">この本体の ID</string>
+    <string name="sync_my_id_none">Syncthing が起動すると表示されます</string>
+    <string name="sync_my_id_message">PC またはスマートフォンで Syncthing を開き、「リモートデバイスを追加」を選び、この ID を入力するかコードを読み取ってください。その後、PC が下の「デバイスを追加」に表示されます。</string>
+    <string name="sync_devices_category">同期先</string>
+    <string name="sync_devices_none">デバイスがまだありません</string>
+    <string name="sync_device_connected">接続中</string>
+    <string name="sync_device_offline">現在未接続</string>
+    <string name="sync_remove_title">%1$s との同期を停止しますか？</string>
+    <string name="sync_remove_message">セーブは両方のデバイスに残ります。同じ状態に保つ処理だけが停止します。</string>
+    <string name="sync_remove_button">同期を停止</string>
+    <string name="sync_add_category">デバイスを追加</string>
+    <string name="sync_pending_summary">この本体との同期を要求しています</string>
+    <string name="sync_nearby_title">デバイス %1$s</string>
+    <string name="sync_nearby_summary">この Wi-Fi で見つかりました</string>
+    <string name="sync_add_hint">PC やスマートフォン: Syncthing をインストールし、上にある本体の ID を追加してください。他の本体: そちらで「セーブを同期」をオンにしてから、ここで選んでください。</string>
+    <string name="sync_add_title">%1$s とセーブを同期しますか？</string>
+    <string name="sync_add_message">自分のデバイスだけを追加してください。この本体のセーブが送られ、相手側から変更できるようになります。\n\nID: %1$s</string>
+    <string name="sync_add_button">同期</string>
+    <string name="sync_change_failed">うまくいきませんでした。Syncthing は動作していますか？ 少し待って再試行してください。</string>
+    <string name="sync_open_title">Syncthing を開く</string>
+    <string name="sync_open_summary">すべての設定、他のフォルダー、同期内容</string>
+    <string name="sync_note">他のデバイスで遊ぶ前にゲームを終了してください。両方で同じセーブを変更すると、新しいほうが優先され、もう一方は隣に .sync-conflict ファイルとして残ります。置き換えられたセーブは .stversions（最新 5 件）とバックアップにも保存されます。</string>
+    <string name="sync_off_title">セーブの同期をオフにしますか？</string>
+    <string name="sync_off_message">セーブはこの本体と他のデバイスに残ります。変更は同期されなくなります。デバイスは次回のために記憶されます。</string>
+    <string name="sync_off_button">オフにする</string>
+    <string name="sync_failed_title">セーブの同期をオンにできませんでした</string>
+    <string name="sync_error_missing">Syncthing アプリがインストールされていません。</string>
+    <string name="sync_error_not_running">Syncthing が起動しませんでした。一度 Syncthing を開いてから再試行してください。</string>
+    <string name="sync_error_other">Syncthing の設定中に問題が発生しました。再試行するか、Syncthing を開いて手動で設定してください。</string>
+    <string name="sync_label_easyroms">EASYROMS 上のゲームセーブ</string>
+    <string name="sync_label_internal">内部ストレージ上のゲームセーブ</string>
 </resources>

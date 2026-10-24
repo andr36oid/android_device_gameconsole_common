@@ -9,4 +9,6 @@
     <string name="done_title">完了</string>
     <plurals name="installed"><item quantity="other">%d 個のアプリをインストールしました。</item></plurals>
     <string name="failed">インストールできなかったもの:</string>
+    <string name="apk_item" translatable="false">%1$s (%2$s)</string>
+    <string name="failed_item" translatable="false">%1$s: %2$s</string>
 </resources>

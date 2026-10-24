@@ -72,4 +72,6 @@
 
     <string name="path_easyroms">EASYROMS</string>
     <string name="path_internal">Внутренняя память</string>
+    <string name="details_folder">Папка с таким именем, содержащая все файлы из полной загрузки эмулятора</string>
+    <string name="details_folder_found">Ваша папка: %1$s</string>
 </resources>

@@ -38,4 +38,43 @@
     <string name="tile_on">An</string>
     <string name="tile_off">Aus</string>
     <string name="tile_automatic">Automatisch</string>
+    <plurals name="close_apps_done">
+        <item quantity="one"><xliff:g id="count" example="1">%d</xliff:g> Hintergrund-App geschlossen</item>
+        <item quantity="other"><xliff:g id="count" example="3">%d</xliff:g> Hintergrund-Apps geschlossen</item>
+    </plurals>
+    <string-array name="warning_values" translatable="false">
+        <item>off</item>
+        <item>30,20,15,5</item>
+        <item>15,5</item>
+        <item>5</item>
+    </string-array>
+    <string name="warning_last">Letzte Warnung bei 3 %</string>
+    <string name="warning_last_summary">Immer aktiv, solange die Warnung an ist. Bleibt länger auf dem Bildschirm, weil sich die Konsole kurz danach ausschaltet.</string>
+    <string name="banner_last_text">Akku <xliff:g id="percent">%1$d</xliff:g> %% - speichere jetzt dein Spiel. Die Konsole schaltet sich bald aus.</string>
+    <string-array name="game_mode_profile_values" translatable="false">
+        <item>-1</item>
+        <item>2</item>
+        <item>1</item>
+        <item>0</item>
+    </string-array>
+    <string name="game_mode_steady_memory">Konstante Speichergeschwindigkeit</string>
+    <string name="game_mode_steady_memory_summary">Hält den Speicher beim Spielen auf voller Geschwindigkeit, damit sie sich mitten im Spiel nie ändert. Braucht etwas mehr Akku.</string>
+    <string name="continue_title">Fortsetzen</string>
+    <string name="continue_tile_none">Noch kein Spiel</string>
+    <string name="continue_category">Weiterspielen</string>
+    <string name="continue_now">Fortsetzen: <xliff:g id="game">%1$s</xliff:g></string>
+    <string name="continue_now_none">Noch kein Spiel gespielt</string>
+    <string name="continue_now_ppsspp">PPSSPP</string>
+    <string name="continue_now_app">Android-Spiel</string>
+    <string name="continue_on_boot">Nach einem Neustart wieder öffnen</string>
+    <string name="continue_on_boot_summary">War beim Ausschalten ein Spiel offen, auch bei leerem Akku, öffnet es sich etwa 10 Sekunden nach dem Startbildschirm wieder</string>
+    <string name="continue_about">Fortsetzen holt dein zuletzt gespieltes Spiel mit einem Tastendruck zurück: über die Kachel „Fortsetzen“ in den Schnelleinstellungen, FN + A oder das Ausschaltmenü.\n\nEin noch offenes Spiel kehrt genau an die Stelle zurück, an der du es verlassen hast. Sonst starten RetroArch und PPSSPP dasselbe Spiel neu, RetroArch mit demselben Core; andere Spiele werden einfach wieder geöffnet.\n\nDu spielst mit dem letzten eigenen Spielstand des Spiels weiter. RetroArch schreibt ihn bei Änderungen alle 10 Sekunden. Savestates werden nie automatisch geladen oder angelegt: Ist dein neuester Savestate neuer als der eigene Spielstand des Spiels, weist dich eine Meldung darauf hin.</string>
+    <string name="continue_nothing">Noch kein Spiel zum Fortsetzen</string>
+    <string name="continue_game_missing">Die Spieldatei von <xliff:g id="game">%1$s</xliff:g> wurde nicht gefunden. Ist die SD-Karte eingelegt?</string>
+    <string name="continue_core_missing">Der RetroArch-Core für <xliff:g id="game">%1$s</xliff:g> ist nicht mehr installiert</string>
+    <string name="continue_failed"><xliff:g id="game">%1$s</xliff:g> konnte nicht gestartet werden</string>
+    <string name="continue_starting"><xliff:g id="game">%1$s</xliff:g> wird fortgesetzt</string>
+    <string name="continue_state_hint"><xliff:g id="game">%1$s</xliff:g> wird fortgesetzt. Dein neuester Savestate (<xliff:g id="slot">%2$s</xliff:g>) ist neuer als der eigene Spielstand des Spiels. Lade ihn im RetroArch-Menü (Select + X), um ihn zu nutzen.</string>
+    <string name="continue_slot">Slot <xliff:g id="slot">%1$d</xliff:g></string>
+    <string name="continue_slot_auto">der automatische</string>
 </resources>

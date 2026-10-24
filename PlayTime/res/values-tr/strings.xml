@@ -95,4 +95,12 @@
     <string name="pin_mismatch">İki kod eşleşmedi. Yeniden seçin.</string>
     <string name="pin_wrong">Yanlış PIN kodu</string>
     <string name="pin_wait">Çok fazla deneme. <xliff:g id="seconds">%1$d</xliff:g> sn bekleyin.</string>
+    <string-array name="break_values" translatable="false">
+        <item>0</item>
+        <item>30</item>
+        <item>45</item>
+        <item>60</item>
+        <item>90</item>
+        <item>120</item>
+    </string-array>
 </resources>

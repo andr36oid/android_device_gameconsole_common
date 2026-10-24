@@ -76,4 +76,15 @@
     <string name="rumble_test_title">Wypróbuj</string>
     <string name="rumble_test_summary">Krótko wibruje konsolą z tą siłą</string>
     <string name="rumble_help">Dla gier z obsługą wibracji. Niektóre emulatory chcą, żeby włączyć je też w ich własnych ustawieniach, np. kontroler DualShock w grach na PlayStation albo Rumble Pak na N64. Jeśli silnik jest za mocny albo grzechocze, zmniejsz siłę tutaj.</string>
+    <string-array name="player1_values" translatable="false">
+        <item>builtin</item>
+        <item>external</item>
+    </string-array>
+    <string-array name="rumble_strength_values" translatable="false">
+        <item>0</item>
+        <item>30</item>
+        <item>55</item>
+        <item>80</item>
+        <item>100</item>
+    </string-array>
 </resources>

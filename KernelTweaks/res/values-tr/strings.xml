@@ -378,4 +378,15 @@
     <string name="kt_crash_split_balanced">Dengeli</string>
     <string name="kt_crash_split_kernel">Daha fazla çekirdek logu</string>
     <string name="kt_crash_split_android">Daha fazla Android logu</string>
+    <string name="kt_done">Bitti</string>
+    <string name="kt_unit_percent"><xliff:g id="n">%1$s</xliff:g>%%</string>
+    <string name="kt_stick_sens">Çubuk hassasiyeti</string>
+    <string name="kt_stick_sens_full">Tam</string>
+    <string name="kt_stick_sens_value">Sol <xliff:g id="left">%1$s</xliff:g>, sağ <xliff:g id="right">%2$s</xliff:g></string>
+    <string name="kt_stick_sens_left">Sol çubuk: <xliff:g id="value">%1$s</xliff:g></string>
+    <string name="kt_stick_sens_right">Sağ çubuk: <xliff:g id="value">%1$s</xliff:g></string>
+    <string name="kt_stick_sens_left_title">Sol çubuk</string>
+    <string name="kt_stick_sens_right_title">Sağ çubuk</string>
+    <string name="kt_stick_sens_what">Çubuk sonuna kadar itildiğinde bildirilen hareket miktarını her taraf için ayrı ayrı azaltır. %100 normaldir; daha düşük bir değer, tam itişte daha az hareket demektir.</string>
+    <string name="kt_stick_sens_why">Çubukları dengesiz veya aşırı hassas olan klonlar içindir. İkisi de aynı hissi versin veya nişan almak daha kolay olsun diye bir tarafın değerini düşürün. Sonucu kontrolcü testinde kontrol edin.</string>
 </resources>

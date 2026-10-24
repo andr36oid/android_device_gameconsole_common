@@ -302,4 +302,98 @@
     <string name="usb_virtual_layout">A reparação suporta unidades virtuais com uma partição MBR a começar em 1 MiB e um sistema de ficheiros FAT32, exFAT, NTFS ou ext4.</string>
     <string name="usb_virtual_changed">A imagem mudou. Atualiza a lista antes de tentar novamente.</string>
     <string name="usb_virtual_recovery">Não foi possível limpar com segurança uma operação interrompida. Volta a inserir o cartão EASYROMS com escrita e atualiza. Para a partilha e fecha qualquer aplicação que use a imagem.</string>
+    <string name="usb_charging_title">Desligue o carregador</string>
+    <string name="usb_charging_body">A consola não pode carregar e funcionar como dispositivo USB ao mesmo tempo. Um carregador ligado força a porta USB a voltar ao modo de acessórios, impedindo o arranque desta função.\n\nDesligue o carregador para continuar. A consola usa a bateria durante a sessão.</string>
+    <string name="usb_charging_wait">À espera de que desligue o carregador…</string>
+    <string-array name="usb_mode_functions_entries" translatable="false">
+        <item>Transferência de ficheiros</item>
+        <item>Transferência de fotografias (PTP)</item>
+        <item>Sem dados (apenas adb)</item>
+    </string-array>
+    <string-array name="usb_mode_functions_values" translatable="false">
+        <item>mtp</item>
+        <item>ptp</item>
+        <item>none</item>
+    </string-array>
+    <string name="usb_drive_easyroms_stays">O EASYROMS continua disponível no Android.</string>
+    <string name="usb_drive_image_warning">Não edite, substitua nem apague este ficheiro no Android até parar a partilha.</string>
+    <string name="keyboard_legend_keys">Direcional: escolher · A: manter tecla · B: Retrocesso · X: Espaço · Y / Start: Enter\nVolume: brilho</string>
+    <string name="usb_device_title_setting">Emulador de dispositivos USB (alfa / experimental)</string>
+    <string name="usb_stage_validate">A verificar a configuração…</string>
+    <string name="usb_stage_save">A guardar o estado atual…</string>
+    <string name="usb_stage_gate">A pausar o USB do Android…</string>
+    <string name="usb_stage_unbind">A libertar a porta USB…</string>
+    <string name="usb_stage_configure">A configurar o dispositivo USB…</string>
+    <string name="usb_stage_controller">A iniciar o comando…</string>
+    <string name="usb_stage_role">A mudar a porta para modo de dispositivo…</string>
+    <string name="usb_stage_bind">A ligar ao computador…</string>
+    <string name="usb_drive_iso_hint">Escolha uma ISO para arrancar ou instalar. Aqui só aparecem imagens de discos óticos; as unidades USB normais estão na opção Unidade.</string>
+    <string name="usb_hint_next">Seguinte</string>
+    <string name="usb_hint_start">Iniciar</string>
+    <string name="usb_hint_cancel">Cancelar</string>
+    <string name="usb_hint_screen_off">Desligar ecrã</string>
+    <string name="usb_hint_wake">Acordar / parar</string>
+    <string name="usb_hint_keys_screen_off">Select + R1</string>
+    <string name="usb_hint_keys_wake">Start + Select</string>
+    <string name="usb_device_dark_hint">A desligar o ecrã… Prima Start + Select para cancelar.</string>
+    <string name="usb_device_dac">DAC de áudio USB</string>
+    <string name="usb_device_connect_only">Apenas ligar</string>
+    <string name="usb_device_connect_only_summary">Inicia a rede por cabo sem abrir uma aplicação.</string>
+    <string name="usb_virtual_missing_tool">Falta uma ferramenta necessária para imagens de disco. O comando aparece abaixo.</string>
+    <string name="usb_virtual_hostfs">Não é possível identificar o sistema de ficheiros do EASYROMS. Volte a montar o cartão e tente novamente.</string>
+    <string name="usb_virtual_loop">Não foi possível ligar a imagem de disco para formatar ou reparar.</string>
+    <string name="usb_image_card_changed">O EASYROMS mudou ou foi removido. Volte à lista de imagens e recomece no cartão atual.</string>
+    <string name="usb_hub_connect">Ligar a um computador</string>
+    <string name="usb_hub_images">Gerir imagens de disco</string>
+    <string name="usb_wizard_connect_summary">Escolha uma função, ajuste as opções e depois reveja e inicie.</string>
+    <string name="usb_wizard_next">Seguinte</string>
+    <string name="usb_wizard_back">Voltar</string>
+    <string name="usb_wizard_step">Passo %1$d de %2$d</string>
+    <string name="usb_wizard_role_summary">Escolha o que quer fazer com o cabo USB.</string>
+    <string name="usb_wizard_pc_summary">Disco ou unidade, teclado e rato para configurar um computador.</string>
+    <string name="usb_wizard_custom_summary">Escolha cada função USB e o tipo de comando.</string>
+    <string name="usb_wizard_link_summary">Ligue o RetroArch ou uma aplicação de streaming por uma rede com fios.</string>
+    <string name="usb_role_pc_summary">Teclado, rato e uma unidade para um computador.</string>
+    <string name="usb_role_game_summary">Funcionar como um comando Xbox para um PC.</string>
+    <string name="usb_role_drive_summary">Partilhar armazenamento ou uma imagem de disco como unidade.</string>
+    <string name="usb_role_wired_summary">Ligação de rede com fios a um computador.</string>
+    <string name="usb_role_music_summary">Pads de bateria MIDI para aplicações de música.</string>
+    <string name="usb_role_dac_summary">Reproduzir o som do computador nesta consola como coluna USB.</string>
+    <string name="usb_role_awake_summary">Mover ligeiramente o rato para manter um computador acordado.</string>
+    <string name="usb_role_macro_summary">Os botões enviam combinações de teclas multimédia e macros.</string>
+    <string name="usb_role_link_summary">Ligar duas consolas por um cabo USB.</string>
+    <string name="usb_role_custom_summary">Escolher as funções USB e o comando.</string>
+    <string name="usb_wizard_functions">Funções USB</string>
+    <string name="usb_wizard_controller_summary">Escolha como a consola aparece como comando de jogos.</string>
+    <string name="usb_wizard_conflict">%1$s não pode ser combinado com %2$s — escolha um.</string>
+    <string name="usb_wizard_requires">%1$s precisa de %2$s — ative primeiro.</string>
+    <string name="usb_wizard_review">Rever e iniciar</string>
+    <string name="usb_wizard_review_summary">A consola vai aparecer como: %1$s</string>
+    <string name="usb_wizard_filesystem">Sistema de ficheiros</string>
+    <string name="usb_wizard_gb">%1$s GB</string>
+    <string name="usb_virtual_rename">Mudar o nome da imagem</string>
+    <string name="usb_wizard_writable">Leitura e escrita</string>
+    <string name="usb_wizard_unknown_filesystem">Sistema de ficheiros desconhecido</string>
+    <string name="usb_emulator_wifi_info">O Wi-Fi nesta porta USB (%1$s) será desligado durante a emulação. Depois, volte a ligar o adaptador ou reinicie a consola se necessário.</string>
+    <string name="usb_emulator_checking">A verificar as opções disponíveis…</string>
+    <string name="usb_emulator_controller_hint">O PC vai detetar um comando. Abra um jogo ou as definições do comando para o usar.</string>
+    <string name="usb_emulator_input_hint">A consola funciona como teclado e rato para o PC.</string>
+    <string name="usb_emulator_keyboard_hint">A consola funciona como teclado para o PC.</string>
+    <string name="usb_emulator_mouse_hint">A consola funciona como rato para o PC.</string>
+    <string name="usb_emulator_drive_hint">Aparece como unidade USB no PC. Abra-a no gestor de ficheiros.</string>
+    <string name="usb_emulator_cd_hint">O PC vai detetar uma unidade de CD/DVD só de leitura.</string>
+    <string name="usb_emulator_preparing_storage">A preparar a unidade escolhida… As aplicações que a usam podem demorar a fechar.</string>
+    <string name="usb_emulator_session_hint">Select + R1 desliga o ecrã. Prima Start + Select para o acordar; mantenha durante 2 segundos para parar. Power também acorda o ecrã.</string>
+    <string name="usb_emulator_cable_prompt">Ligue agora o cabo USB-C ao computador.</string>
+    <string name="usb_emulator_cable_hint">Se o computador não detetar a consola, vire a ficha USB-C ao contrário. Se continuar a falhar, reinicie a consola e tente novamente.</string>
+    <string name="usb_image_name_hint">Foi preenchido um nome de imagem disponível. Prima A para editar com o teclado do sistema ou Direita para continuar.</string>
+    <string name="usb_image_change_label">Alterar o nome do volume</string>
+    <string name="usb_image_create_only">Criar o ficheiro sem ligar ao computador.</string>
+    <string name="usb_image_create_use">Criar e usar</string>
+    <string name="usb_image_finding">A procurar a nova imagem de disco…</string>
+    <string name="usb_image_size_clamped">Tamanho ajustado ao espaço disponível: %1$s GB.</string>
+    <string name="usb_emulator_start_app">Iniciar a ligação de rede USB e abrir a aplicação.</string>
+    <string name="usb_emulator_preparing_easyroms">A preparar o EASYROMS… As aplicações que o usam podem demorar a fechar.</string>
+    <string name="usb_emulator_stopping">A parar o Emulador de dispositivos USB…</string>
+    <string name="usb_emulator_stop_wait">À espera de que o armazenamento termine de fechar e volte ao Android.</string>
 </resources>

@@ -83,4 +83,19 @@
     <string name="ram_tile_label">Overclock memori</string>
     <string name="tile_added_gpu">Tombol cepat Overclock GPU ditambahkan ke panel notifikasi</string>
     <string name="tile_added_ram">Tombol cepat Overclock memori ditambahkan ke panel notifikasi</string>
+    <string name="profile_about_performance">Emulasi paling mulus. CPU tidak pernah turun di bawah <xliff:g id="cpu">%1$s</xliff:g>, grafis berjalan pada <xliff:g id="gpu">%2$d</xliff:g> MHz dan memori selalu pada kecepatan penuh. Untuk game PS1, N64, dan PSP. Baterai lebih cepat habis.</string>
+    <string name="close_apps_on_game_title">Tutup aplikasi latar belakang saat membuka game apa pun</string>
+    <string name="close_apps_on_game_summary">Mengosongkan memori untuk game, sama seperti Tutup aplikasi latar belakang di menu daya</string>
+    <string name="app_profiles_title">Profil per aplikasi</string>
+    <string name="app_profiles_off">Nonaktif</string>
+    <plurals name="app_profiles_on">
+        <item quantity="other">Aktif, <xliff:g id="count">%d</xliff:g> aplikasi punya profil sendiri</item>
+    </plurals>
+    <string name="app_profiles_switch">Ganti profil sesuai aplikasi</string>
+    <string name="app_profiles_switch_summary">Aplikasi dengan profil sendiri memakainya selama terbuka. Profil yang dipilih di Performa kembali dipakai saat Anda keluar dari aplikasi.</string>
+    <string name="app_profiles_apps">Aplikasi</string>
+    <string name="app_profile_default">Default (<xliff:g id="profile">%1$s</xliff:g>)</string>
+    <string name="app_profiles_about">Default berarti aplikasi mengikuti profil yang dipilih di Performa. Beberapa emulator awalnya memakai Performa, dan beberapa aplikasi memakai Seimbang atau Hemat baterai. Ubah masing-masing di sini.\n\nUbin Setelan Cepat dan FN + R1 tetap berfungsi dalam aplikasi dengan profil sendiri. Pilihan Anda lalu berlaku sampai Anda keluar dari aplikasi.\n\nSaat aktif, layanan kecil memantau aplikasi yang terbuka. Layanan ini tidak berjalan saat nonaktif atau tidak ada aplikasi dengan profil sendiri.</string>
+    <string name="app_profile_until_left">Sampai Anda keluar dari <xliff:g id="app">%1$s</xliff:g></string>
+    <string name="app_profile_tile"><xliff:g id="profile">%1$s</xliff:g>, <xliff:g id="app">%2$s</xliff:g></string>
 </resources>

@@ -85,4 +85,11 @@
     <string name="warn_easyroms_low_text">Noch %1$s frei auf der Spielekarte. Spiele speichern dort; ist sie voll, schlagen Spielstände und Savestates fehl. Antippen, um Speicher freizugeben.</string>
     <string name="warn_easyroms_full">EASYROMS ist voll</string>
     <string name="warn_easyroms_full_text">Noch %1$s frei. Neue Spielstände und Savestates können nicht geschrieben werden. Antippen, um Speicher freizugeben, oder verschieb ein paar Spiele auf einen PC.</string>
+    <string-array name="keep_entries" translatable="false">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>5</item>
+        <item>10</item>
+    </string-array>
 </resources>

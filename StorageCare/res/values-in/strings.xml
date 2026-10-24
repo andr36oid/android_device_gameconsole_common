@@ -85,4 +85,11 @@
     <string name="warn_easyroms_low_text">Tersisa %1$s di kartu game. Game menyimpan di sana, dan saat penuh, save dan save state gagal. Ketuk untuk mengosongkan ruang.</string>
     <string name="warn_easyroms_full">EASYROMS penuh</string>
     <string name="warn_easyroms_full_text">Tersisa %1$s. Save dan save state baru tidak bisa ditulis. Ketuk untuk mengosongkan ruang, atau pindahkan beberapa game ke PC.</string>
+    <string-array name="keep_entries" translatable="false">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>5</item>
+        <item>10</item>
+    </string-array>
 </resources>

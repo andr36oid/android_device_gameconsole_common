@@ -31,4 +31,42 @@
     <string name="tile_on">オン</string>
     <string name="tile_off">オフ</string>
     <string name="tile_automatic">自動</string>
+    <plurals name="close_apps_done">
+        <item quantity="other">バックグラウンドアプリを <xliff:g id="count" example="3">%d</xliff:g> 個閉じました</item>
+    </plurals>
+    <string-array name="warning_values" translatable="false">
+        <item>off</item>
+        <item>30,20,15,5</item>
+        <item>15,5</item>
+        <item>5</item>
+    </string-array>
+    <string name="warning_last">残量 3 % で最後の警告</string>
+    <string name="warning_last_summary">警告がオンの間は常に有効です。その後まもなく本体の電源が切れるため、長めに表示されます。</string>
+    <string name="banner_last_text">バッテリー残量 <xliff:g id="percent">%1$d</xliff:g> %% - 今すぐゲームをセーブしてください。まもなく本体の電源が切れます。</string>
+    <string-array name="game_mode_profile_values" translatable="false">
+        <item>-1</item>
+        <item>2</item>
+        <item>1</item>
+        <item>0</item>
+    </string-array>
+    <string name="game_mode_steady_memory">メモリ速度を一定に保つ</string>
+    <string name="game_mode_steady_memory_summary">プレイ中はメモリを最高速度に保ち、ゲームの途中で速度が変わらないようにします。バッテリー消費が少し増えます。</string>
+    <string name="continue_title">再開</string>
+    <string name="continue_tile_none">まだゲームがありません</string>
+    <string name="continue_category">ゲームを再開</string>
+    <string name="continue_now">再開: <xliff:g id="game">%1$s</xliff:g></string>
+    <string name="continue_now_none">まだゲームをプレイしていません</string>
+    <string name="continue_now_ppsspp">PPSSPP</string>
+    <string name="continue_now_app">Android ゲーム</string>
+    <string name="continue_on_boot">再起動後にもう一度開く</string>
+    <string name="continue_on_boot_summary">バッテリー切れを含め、電源が切れたときにゲームが開いていた場合、ホーム画面の表示から約 10 秒後に再び開きます</string>
+    <string name="continue_about">「再開」は、クイック設定の「再開」タイル、FN + A、電源メニューから、最後にプレイしたゲームをワンタッチで呼び戻します。\n\nゲームがまだ開いていれば、離れた場所にそのまま戻ります。それ以外は RetroArch と PPSSPP が同じゲームを起動し直し、RetroArch は同じコアを使います。他のゲームは単に開き直します。\n\nゲーム内の最後のセーブから続けます。RetroArch は変更があれば 10 秒ごとに書き込みます。セーブステートを自動で読み込んだり作成したりすることはありません。最新のセーブステートがゲーム内のセーブより新しい場合は、メッセージでお知らせします。</string>
+    <string name="continue_nothing">再開できるゲームがまだありません</string>
+    <string name="continue_game_missing"><xliff:g id="game">%1$s</xliff:g> のゲームファイルが見つかりません。SD カードは入っていますか？</string>
+    <string name="continue_core_missing"><xliff:g id="game">%1$s</xliff:g> 用の RetroArch コアがインストールされていません</string>
+    <string name="continue_failed"><xliff:g id="game">%1$s</xliff:g> を起動できませんでした</string>
+    <string name="continue_starting"><xliff:g id="game">%1$s</xliff:g> を再開しています</string>
+    <string name="continue_state_hint"><xliff:g id="game">%1$s</xliff:g> を再開しています。最新のセーブステート（<xliff:g id="slot">%2$s</xliff:g>）はゲーム内のセーブより新しいものです。使う場合は RetroArch メニュー（Select + X）から読み込んでください。</string>
+    <string name="continue_slot">スロット <xliff:g id="slot">%1$d</xliff:g></string>
+    <string name="continue_slot_auto">自動保存</string>
 </resources>

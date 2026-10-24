@@ -82,4 +82,20 @@
     <string name="ram_tile_label">Overclocking mémoire</string>
     <string name="tile_added_gpu">Raccourci Overclocking GPU ajouté au volet des notifications</string>
     <string name="tile_added_ram">Raccourci Overclocking mémoire ajouté au volet des notifications</string>
+    <string name="profile_about_performance">Émulation la plus fluide. Le CPU ne descend jamais sous <xliff:g id="cpu">%1$s</xliff:g>, les graphismes restent à <xliff:g id="gpu">%2$d</xliff:g> MHz et la mémoire à pleine vitesse. Pour les jeux PS1, N64 et PSP. La batterie se décharge plus vite.</string>
+    <string name="close_apps_on_game_title">Fermer les applis en arrière-plan à chaque lancement de jeu</string>
+    <string name="close_apps_on_game_summary">Libère de la mémoire pour le jeu, comme Fermer les applis en arrière-plan dans le menu d\'alimentation</string>
+    <string name="app_profiles_title">Profils par appli</string>
+    <string name="app_profiles_off">Désactivé</string>
+    <plurals name="app_profiles_on">
+        <item quantity="one">Activé, <xliff:g id="count">%d</xliff:g> appli a son propre profil</item>
+        <item quantity="other">Activé, <xliff:g id="count">%d</xliff:g> applis ont leur propre profil</item>
+    </plurals>
+    <string name="app_profiles_switch">Changer de profil selon l\'appli</string>
+    <string name="app_profiles_switch_summary">Une appli avec son propre profil l\'utilise tant qu\'elle est ouverte. Le profil choisi dans Performances revient en quittant l\'appli.</string>
+    <string name="app_profiles_apps">Applis</string>
+    <string name="app_profile_default">Par défaut (<xliff:g id="profile">%1$s</xliff:g>)</string>
+    <string name="app_profiles_about">Par défaut signifie que l\'appli suit le profil choisi dans Performances. Certains émulateurs utilisent au départ Performances, et certaines applis Équilibré ou Économie de batterie. Modifiez-les ici.\n\nLa tuile des réglages rapides et FN + R1 fonctionnent aussi dans une appli avec son propre profil. Votre choix reste alors actif jusqu\'à ce que vous quittiez l\'appli.\n\nQuand cette option est activée, un petit service surveille l\'appli ouverte. Il ne fonctionne pas si l\'option est désactivée ou si aucune appli n\'a son propre profil.</string>
+    <string name="app_profile_until_left">Jusqu\'à la fermeture de <xliff:g id="app">%1$s</xliff:g></string>
+    <string name="app_profile_tile"><xliff:g id="profile">%1$s</xliff:g>, <xliff:g id="app">%2$s</xliff:g></string>
 </resources>

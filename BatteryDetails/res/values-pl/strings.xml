@@ -71,4 +71,11 @@
     <!-- Durations -->
     <string name="duration_min"><xliff:g id="minutes">%1$d</xliff:g> min</string>
     <string name="duration_h_min"><xliff:g id="hours">%1$d</xliff:g> h <xliff:g id="minutes">%2$d</xliff:g> min</string>
+    <string name="limit_title">Ochrona baterii</string>
+    <string name="limit_setting">Limit ładowania</string>
+    <string name="limit_off">Wyłączony, ładuj do 100%</string>
+    <string name="limit_choice">Zatrzymaj przy <xliff:g id="percent">%1$d</xliff:g>%%</string>
+    <string name="limit_summary_off">Wyłączony. Jeśli konsola jest stale podłączona do ładowarki, limit wydłuża żywotność baterii.</string>
+    <string name="limit_summary">Zatrzymuje ładowanie przy <xliff:g id="limit">%1$d</xliff:g>%% i wznawia je przy <xliff:g id="resume">%2$d</xliff:g>%%. W międzyczasie konsola korzysta z zasilania ładowarki. Wyłącz limit przed długą podróżą, aby naładować baterię do pełna.</string>
+    <string name="status_limit_hold">Podłączona, utrzymywana na limicie ładowania</string>
 </resources>

@@ -34,4 +34,11 @@
     <string name="pref_hints_summary">Tuşların üstündeki satır ve tuşlardaki düğme adları</string>
     <string name="buttons_title">Tuşlar</string>
     <string name="buttons_help">Yön tuşları veya sol analog: hareket\nA: yaz (aksanlar için basılı tutun: é, ü, ß…)\nB: sil (boş alanda: kapat)\nX: boşluk\nY: shift (iki kez: büyük harf kilidi)\nL1 / R1: metin imlecini taşı\nL2: klavyeyi kapat\nR2: büyük metin satırı açık veya kapalı\nStart: enter / bitti\nSelect: harfler veya semboller\nL3: Android TV klavyesine geç\nR3: tuş ızgarası veya analogla yazma\n\nAnalogla yazma: sol analog dörtlü bir grup seçer, sağ analog bir harfi gösterir, yazmak için bırakın.</string>
+    <string name="subtype_generic" translatable="false">%s</string>
+    <string-array name="layout_values" translatable="false">
+        <item>auto</item>
+        <item>qwerty</item>
+        <item>qwertz</item>
+        <item>azerty</item>
+    </string-array>
 </resources>

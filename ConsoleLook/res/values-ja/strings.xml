@@ -21,4 +21,5 @@
     <string name="boot_details_summary">ロゴの下に、本体が今何をしているかを表示します（例:「パーティションをマウント中」）。次回の起動から表示されます。</string>
     <string name="boot_log_title">起動時は常に起動ログを表示</string>
     <string name="boot_log_summary">ロゴと起動アニメーションの代わりに、本体が何をしているかを流れるテキストで、毎回の起動時に表示します。次回の起動から表示されます。</string>
+    <string name="bootanim_xp" translatable="false">Windows XP</string>
 </resources>
