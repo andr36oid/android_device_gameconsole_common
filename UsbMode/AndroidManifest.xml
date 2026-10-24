@@ -26,20 +26,20 @@
         <activity
             android:name=".UsbDriveActivity"
             android:exported="false"
-            android:icon="@drawable/ic_usb_device_emulator"
+            android:icon="@drawable/ic_usb_emulator_launcher"
             android:label="@string/usb_device_title"
             android:theme="@style/Andr36oidSetupTheme" />
 
         <activity
             android:name=".ControllerActivity"
             android:exported="false"
-            android:icon="@drawable/ic_usb_device_emulator"
+            android:icon="@drawable/ic_usb_emulator_launcher"
             android:label="@string/usb_device_title"
             android:theme="@style/Andr36oidSetupTheme" />
         <activity
             android:name=".ControllerSessionActivity"
             android:exported="false"
-            android:icon="@drawable/ic_usb_device_emulator"
+            android:icon="@drawable/ic_usb_emulator_launcher"
             android:label="@string/usb_device_title"
             android:theme="@style/Andr36oidSetupTheme" />
 

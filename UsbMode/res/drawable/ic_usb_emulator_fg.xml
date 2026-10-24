@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Adaptive-icon foreground: the USB trident, white, placed in the 72dp safe zone
+     (the 24-unit glyph scaled x3 and centred at 18,18 within the 108 canvas). -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <group android:scaleX="3" android:scaleY="3" android:translateX="18" android:translateY="18">
+        <path
+            android:fillColor="#FFFFFFFF"
+            android:pathData="M15,7V11h1v2h-3V5h2l-3,-4l-3,4h2v8H8v-2.07c0.7,-0.37 1,-0.97 1,-1.93c0,-1.1 -0.9,-2 -2,-2c-1.1,0 -2,0.9 -2,2c0,0.96 0.3,1.56 1,1.93V13c0,1.11 0.89,2 2,2h3v3.05c-0.71,0.37 -1,0.97 -1,1.95c0,1.1 0.9,2 2,2c1.1,0 2,-0.9 2,-2c0,-0.98 -0.29,-1.58 -1,-1.95V15h3c1.11,0 2,-0.89 2,-2v-2h1V7H15z" />
+    </group>
+</vector>
