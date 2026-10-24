@@ -37,8 +37,12 @@ final class UsbDeviceLock {
         return false;
     }
     static boolean locked(Context context) {
-        return context.getSystemService(ActivityManager.class).getLockTaskModeState()
-                == ActivityManager.LOCK_TASK_MODE_LOCKED;
+        // Real lock task (allowlisted) or the screen-pinning fallback both hold this session in
+        // front with touch locked, so either is safe to dim behind. Requiring strictly LOCKED
+        // left the screen-off handshake waiting forever whenever the task came up PINNED.
+        final int mode = context.getSystemService(ActivityManager.class).getLockTaskModeState();
+        return mode == ActivityManager.LOCK_TASK_MODE_LOCKED
+                || mode == ActivityManager.LOCK_TASK_MODE_PINNED;
     }
     static void restore(Context context) {
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
