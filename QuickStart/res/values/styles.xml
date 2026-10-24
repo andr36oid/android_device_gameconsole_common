@@ -12,4 +12,11 @@
 
     <!-- Setup's app selection, tutorial and add-games pages use the wizard's theme. -->
     <style name="TutorialTheme" parent="Andr36oidSetupTheme" />
+
+    <!-- Home-screen chooser keeps the system look but a true-black page in dark mode, like the
+         rest of setup (the background colour is white by day, black by night). -->
+    <style name="HomeScreenTheme" parent="@android:style/Theme.DeviceDefault.DayNight">
+        <item name="android:windowBackground">@color/andr36oid_setup_background</item>
+        <item name="android:colorBackground">@color/andr36oid_setup_background</item>
+    </style>
 </resources>

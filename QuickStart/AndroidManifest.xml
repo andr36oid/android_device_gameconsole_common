@@ -71,7 +71,7 @@
             android:enabled="false"
             android:exported="true"
             android:label="@string/home_screen_title"
-            android:theme="@android:style/Theme.DeviceDefault.DayNight">
+            android:theme="@style/HomeScreenTheme">
             <intent-filter>
                 <action android:name="com.android.settings.action.IA_SETTINGS" />
             </intent-filter>
