@@ -27,8 +27,11 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import org.andr36oid.hints.HintBar;
+
 public class ControllerSessionActivity extends Activity {
     private final Handler mHandler = new Handler();
+    private HintBar mHints;
     private TextView mStatus, mFunctions, mRouting, mEject, mLink, mSerial;
     private FrameLayout mKeyboardHost;
     private ProgressBar mPreparing;
@@ -97,6 +100,7 @@ public class ControllerSessionActivity extends Activity {
             mKeyboardHost.setVisibility(typing && !macro && !hint ? View.VISIBLE : View.GONE);
             mFunctions.setVisibility(hint ? View.GONE : View.VISIBLE);
             mHint.setVisibility(hint ? View.GONE : View.VISIBLE);
+            if (mHints != null) mHints.setVisibility(dark || hint || typing ? View.GONE : View.VISIBLE);
             mStatus.setVisibility(typing && !macro && !hint ? View.GONE : View.VISIBLE);
             if (typing) {
                 String typingStatus = status;
@@ -166,6 +170,8 @@ public class ControllerSessionActivity extends Activity {
         mLink = findViewById(R.id.session_link); mSerial = findViewById(R.id.session_serial);
         mKeyboardHost = findViewById(R.id.session_keyboard); mPreparing = findViewById(R.id.session_progress);
         mHint = findViewById(R.id.session_hint);
+        mHints = HintBar.attach(this, getString(R.string.usb_hint_keys_screen_off), getString(R.string.usb_hint_screen_off),
+                getString(R.string.usb_hint_keys_wake), getString(R.string.usb_hint_wake));
         final String layout = PreferenceManager.getDefaultSharedPreferences(this).getString(
                 "keyboard_layout", KeyboardModel.defaultLayout(java.util.Locale.getDefault()));
         mMask = UsbDeviceControl.functions();
