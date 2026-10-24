@@ -8,10 +8,11 @@ final class UsbWizard {
     static final int ROLE = 0, FUNCTIONS = 1, CONTROLLER = 2, STORAGE = 3,
             KEYBOARD = 4, MOUSE = 5, REVIEW = 6;
     // "custom" stays last so the use-case presets lead and the power-user path sits apart at the bottom.
-    static final String[] ROLES = {"pc", "game", "drive", "wired", "music", "dac", "awake", "macro", "link", "custom"};
+    static final String[] ROLES = {"pc", "input", "game", "drive", "wired", "music", "dac", "awake", "macro", "link", "custom"};
 
     static int preset(String role, boolean debugging) {
         int mask = "pc".equals(role) ? UsbFunctions.STORAGE | UsbFunctions.KEYBOARD | UsbFunctions.MOUSE
+                : "input".equals(role) ? UsbFunctions.KEYBOARD | UsbFunctions.MOUSE
                 : "game".equals(role) ? UsbFunctions.XINPUT : "wired".equals(role) || "link".equals(role) ? UsbFunctions.NETWORK
                 : "music".equals(role) ? UsbFunctions.MIDI : "dac".equals(role) ? UsbFunctions.SOUND
                 : "awake".equals(role) ? UsbFunctions.MOUSE

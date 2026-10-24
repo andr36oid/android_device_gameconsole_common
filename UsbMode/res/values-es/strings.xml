@@ -171,6 +171,7 @@
     <string name="usb_device_about">Elige las funciones que verá el ordenador a través de un cable USB. MTP y PTP usan el modo de dispositivo Android de arriba.</string>
     <string name="usb_device_preset">Elección rápida</string>
     <string name="usb_device_pc">Configuración para PC</string>
+    <string name="usb_device_input">Teclado y ratón</string>
     <string name="usb_device_game">Mando de juego</string>
     <string name="usb_device_custom">Personalizado</string>
     <string name="usb_device_storage">Almacenamiento</string>
@@ -354,6 +355,7 @@
     <string name="usb_wizard_custom_summary">Elige cada función USB y el tipo de mando.</string>
     <string name="usb_wizard_link_summary">Conecta RetroArch o una app de streaming mediante una red por cable.</string>
     <string name="usb_role_pc_summary">Teclado, ratón y una unidad para un ordenador.</string>
+    <string name="usb_role_input_summary">Un teclado y ratón USB, sin unidad. No hace falta imagen.</string>
     <string name="usb_role_game_summary">Actuar como mando de Xbox para un PC.</string>
     <string name="usb_role_drive_summary">Compartir almacenamiento o una imagen de disco como unidad.</string>
     <string name="usb_role_wired_summary">Conexión de red por cable a un ordenador.</string>

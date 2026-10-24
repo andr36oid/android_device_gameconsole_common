@@ -171,6 +171,7 @@
     <string name="usb_device_about">Tek bir USB kablosu üzerinden bilgisayarın göreceği işlevleri seç. MTP ve PTP yukarıdaki Android cihaz modunu kullanır.</string>
     <string name="usb_device_preset">Hızlı seçim</string>
     <string name="usb_device_pc">PC kurulumu</string>
+    <string name="usb_device_input">Klavye ve fare</string>
     <string name="usb_device_game">Oyun kumandası</string>
     <string name="usb_device_custom">Özel</string>
     <string name="usb_device_storage">Depolama</string>
@@ -354,6 +355,7 @@
     <string name="usb_wizard_custom_summary">Her USB işlevini ve kontrolcü türünü kendiniz seçin.</string>
     <string name="usb_wizard_link_summary">RetroArch veya bir yayın uygulamasını kablolu ağ üzerinden bağlayın.</string>
     <string name="usb_role_pc_summary">Bilgisayar için klavye, fare ve sürücü.</string>
+    <string name="usb_role_input_summary">USB klavye ve fare, sürücü yok. Disk imajı gerekmez.</string>
     <string name="usb_role_game_summary">PC için Xbox kontrolcüsü olarak çalışır.</string>
     <string name="usb_role_drive_summary">Depolamayı veya disk kalıbını sürücü olarak paylaşır.</string>
     <string name="usb_role_wired_summary">Bilgisayara kablolu ağ bağlantısı.</string>

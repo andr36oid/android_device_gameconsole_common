@@ -171,6 +171,7 @@
     <string name="usb_device_about">选择电脑通过一根 USB 数据线看到的功能。MTP 和 PTP 使用上方的 Android 设备模式。</string>
     <string name="usb_device_preset">快速选择</string>
     <string name="usb_device_pc">PC 设置</string>
+    <string name="usb_device_input">键盘和鼠标</string>
     <string name="usb_device_game">游戏手柄</string>
     <string name="usb_device_custom">自定义</string>
     <string name="usb_device_storage">存储空间</string>
@@ -354,6 +355,7 @@
     <string name="usb_wizard_custom_summary">自行选择各项 USB 功能和控制器类型。</string>
     <string name="usb_wizard_link_summary">通过有线网络连接 RetroArch 或串流应用。</string>
     <string name="usb_role_pc_summary">为电脑提供键盘、鼠标和驱动器。</string>
+    <string name="usb_role_input_summary">USB 键盘和鼠标，没有驱动器。无需镜像。</string>
     <string name="usb_role_game_summary">作为电脑的 Xbox 控制器。</string>
     <string name="usb_role_drive_summary">将存储空间或磁盘镜像作为驱动器共享。</string>
     <string name="usb_role_wired_summary">与电脑建立有线网络连接。</string>

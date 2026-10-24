@@ -171,6 +171,7 @@
     <string name="usb_device_about">Wybierz funkcje widoczne dla komputera przez jeden kabel USB. MTP i PTP używają powyższego trybu urządzenia Androida.</string>
     <string name="usb_device_preset">Szybki wybór</string>
     <string name="usb_device_pc">Konfiguracja PC</string>
+    <string name="usb_device_input">Klawiatura i mysz</string>
     <string name="usb_device_game">Kontroler gier</string>
     <string name="usb_device_custom">Niestandardowe</string>
     <string name="usb_device_storage">Pamięć</string>
@@ -354,6 +355,7 @@
     <string name="usb_wizard_custom_summary">Samodzielnie wybierz każdą funkcję USB i typ kontrolera.</string>
     <string name="usb_wizard_link_summary">Połącz RetroArch lub aplikację do strumieniowania przez sieć przewodową.</string>
     <string name="usb_role_pc_summary">Klawiatura, mysz i dysk dla komputera.</string>
+    <string name="usb_role_input_summary">Klawiatura i mysz USB, bez dysku. Obraz nie jest potrzebny.</string>
     <string name="usb_role_game_summary">Działaj jako kontroler Xbox dla komputera.</string>
     <string name="usb_role_drive_summary">Udostępniaj pamięć lub obraz dysku jako dysk.</string>
     <string name="usb_role_wired_summary">Przewodowe połączenie sieciowe z komputerem.</string>

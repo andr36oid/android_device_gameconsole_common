@@ -171,6 +171,7 @@
     <string name="usb_device_about">Pilih fungsi yang terlihat oleh komputer melalui satu kabel USB. MTP dan PTP menggunakan mode perangkat Android di atas.</string>
     <string name="usb_device_preset">Pilihan cepat</string>
     <string name="usb_device_pc">Penyiapan PC</string>
+    <string name="usb_device_input">Keyboard &amp; mouse</string>
     <string name="usb_device_game">Pengontrol game</string>
     <string name="usb_device_custom">Kustom</string>
     <string name="usb_device_storage">Penyimpanan</string>
@@ -354,6 +355,7 @@
     <string name="usb_wizard_custom_summary">Pilih sendiri tiap fungsi USB dan jenis pengontrol.</string>
     <string name="usb_wizard_link_summary">Hubungkan RetroArch atau aplikasi streaming lewat jaringan kabel.</string>
     <string name="usb_role_pc_summary">Keyboard, mouse, dan drive untuk komputer.</string>
+    <string name="usb_role_input_summary">Keyboard dan mouse USB, tanpa drive. Tidak perlu image.</string>
     <string name="usb_role_game_summary">Bertindak sebagai pengontrol Xbox untuk PC.</string>
     <string name="usb_role_drive_summary">Bagikan penyimpanan atau citra disk sebagai drive.</string>
     <string name="usb_role_wired_summary">Sambungan jaringan kabel ke komputer.</string>

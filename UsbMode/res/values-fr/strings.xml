@@ -171,6 +171,7 @@
     <string name="usb_device_about">Choisis les fonctions visibles par l’ordinateur avec un seul câble USB. MTP et PTP utilisent le mode appareil Android ci-dessus.</string>
     <string name="usb_device_preset">Choix rapide</string>
     <string name="usb_device_pc">Configuration PC</string>
+    <string name="usb_device_input">Clavier et souris</string>
     <string name="usb_device_game">Manette de jeu</string>
     <string name="usb_device_custom">Personnalisé</string>
     <string name="usb_device_storage">Stockage</string>
@@ -354,6 +355,7 @@
     <string name="usb_wizard_custom_summary">Choisissez chaque fonction USB et le type de manette.</string>
     <string name="usb_wizard_link_summary">Connectez RetroArch ou une appli de streaming par un réseau filaire.</string>
     <string name="usb_role_pc_summary">Clavier, souris et lecteur pour un ordinateur.</string>
+    <string name="usb_role_input_summary">Un clavier et une souris USB, sans lecteur. Aucune image requise.</string>
     <string name="usb_role_game_summary">Servir de manette Xbox pour un PC.</string>
     <string name="usb_role_drive_summary">Partager un stockage ou une image disque comme lecteur.</string>
     <string name="usb_role_wired_summary">Connexion réseau filaire à un ordinateur.</string>

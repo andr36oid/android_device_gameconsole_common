@@ -160,6 +160,7 @@
     <string name="usb_device_about">1本の USB ケーブルで PC に認識させる機能を選びます。MTP と PTP は上の Android デバイスモードを使います。</string>
     <string name="usb_device_preset">クイック選択</string>
     <string name="usb_device_pc">PC 設定</string>
+    <string name="usb_device_input">キーボードとマウス</string>
     <string name="usb_device_game">ゲームコントローラー</string>
     <string name="usb_device_custom">カスタム</string>
     <string name="usb_device_storage">ストレージ</string>
@@ -343,6 +344,7 @@
     <string name="usb_wizard_custom_summary">各 USB 機能とコントローラーの種類を自分で選びます。</string>
     <string name="usb_wizard_link_summary">有線ネットワークで RetroArch やストリーミングアプリを接続します。</string>
     <string name="usb_role_pc_summary">PC 用のキーボード、マウス、ドライブ。</string>
+    <string name="usb_role_input_summary">USB キーボードとマウスだけ。ドライブなし、イメージ不要。</string>
     <string name="usb_role_game_summary">PC 用の Xbox コントローラーとして動作します。</string>
     <string name="usb_role_drive_summary">ストレージやディスクイメージをドライブとして共有します。</string>
     <string name="usb_role_wired_summary">PC への有線ネットワーク接続。</string>

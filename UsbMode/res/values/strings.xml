@@ -146,6 +146,7 @@
     <string name="usb_device_about">Make the console act as a USB gamepad, keyboard, drive, and more for a computer.</string>
     <string name="usb_device_preset">Quick choice</string>
     <string name="usb_device_pc">PC setup</string>
+    <string name="usb_device_input">Keyboard &amp; mouse</string>
     <string name="usb_device_game">Game controller</string>
     <string name="usb_device_custom">Custom</string>
     <string name="usb_device_storage">Storage</string>
@@ -357,6 +358,7 @@
     <string name="usb_wizard_custom_summary">Choose each USB function and controller type yourself.</string>
     <string name="usb_wizard_link_summary">Connect RetroArch or a streaming app over a wired network.</string>
     <string name="usb_role_pc_summary">Keyboard, mouse and a drive for a computer.</string>
+    <string name="usb_role_input_summary">A USB keyboard and mouse, with no drive. No image needed.</string>
     <string name="usb_role_game_summary">Act as an Xbox controller for a PC.</string>
     <string name="usb_role_drive_summary">Share storage or a disk image as a drive.</string>
     <string name="usb_role_wired_summary">Wired network link to a computer.</string>

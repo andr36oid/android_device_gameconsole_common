@@ -171,6 +171,7 @@
     <string name="usb_device_about">Wähle die Funktionen, die der Computer über ein USB-Kabel sieht. MTP und PTP verwenden oben den Android-Gerätemodus.</string>
     <string name="usb_device_preset">Schnellauswahl</string>
     <string name="usb_device_pc">PC-Einrichtung</string>
+    <string name="usb_device_input">Tastatur &amp; Maus</string>
     <string name="usb_device_game">Spielecontroller</string>
     <string name="usb_device_custom">Benutzerdefiniert</string>
     <string name="usb_device_storage">Speicher</string>
@@ -354,6 +355,7 @@
     <string name="usb_wizard_custom_summary">Wähle jede USB-Funktion und den Controllertyp selbst.</string>
     <string name="usb_wizard_link_summary">Verbinde RetroArch oder eine Streaming-App über ein kabelgebundenes Netzwerk.</string>
     <string name="usb_role_pc_summary">Tastatur, Maus und ein Laufwerk für einen Computer.</string>
+    <string name="usb_role_input_summary">Eine USB-Tastatur und Maus, ohne Laufwerk. Kein Image nötig.</string>
     <string name="usb_role_game_summary">Als Xbox-Controller für einen PC arbeiten.</string>
     <string name="usb_role_drive_summary">Speicher oder ein Datenträgerabbild als Laufwerk freigeben.</string>
     <string name="usb_role_wired_summary">Kabelgebundene Netzwerkverbindung zu einem Computer.</string>

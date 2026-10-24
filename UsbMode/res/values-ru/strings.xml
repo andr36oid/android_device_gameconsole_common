@@ -171,6 +171,7 @@
     <string name="usb_device_about">Выберите функции, которые компьютер увидит через один USB-кабель. MTP и PTP используют расположенный выше режим устройства Android.</string>
     <string name="usb_device_preset">Быстрый выбор</string>
     <string name="usb_device_pc">Настройка ПК</string>
+    <string name="usb_device_input">Клавиатура и мышь</string>
     <string name="usb_device_game">Игровой контроллер</string>
     <string name="usb_device_custom">Другой вариант</string>
     <string name="usb_device_storage">Накопитель</string>
@@ -354,6 +355,7 @@
     <string name="usb_wizard_custom_summary">Выберите каждую функцию USB и тип контроллера самостоятельно.</string>
     <string name="usb_wizard_link_summary">Подключите RetroArch или приложение для стриминга по проводной сети.</string>
     <string name="usb_role_pc_summary">Клавиатура, мышь и накопитель для компьютера.</string>
+    <string name="usb_role_input_summary">USB-клавиатура и мышь, без накопителя. Образ не нужен.</string>
     <string name="usb_role_game_summary">Работать как контроллер Xbox для ПК.</string>
     <string name="usb_role_drive_summary">Предоставить память или образ диска как накопитель.</string>
     <string name="usb_role_wired_summary">Проводное сетевое соединение с компьютером.</string>
