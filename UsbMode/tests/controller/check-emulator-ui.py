@@ -15,9 +15,9 @@ assert 'showSoftInput(field, InputMethodManager.SHOW_FORCED)' in (src / 'UsbText
 assert 'SHOW_IMPLICIT' not in (src / 'UsbTextInput.java').read_text()
 assert 'setShowSoftInputOnFocus(false)' not in activity
 keys = activity.split('public boolean dispatchKeyEvent(KeyEvent event) {', 1)[1].split('private int step()', 1)[0]
-assert keys.index('KeyEvent.FLAG_SOFT_KEYBOARD') < keys.index('KeyEvent.KEYCODE_DPAD_LEFT')
+assert keys.index('KeyEvent.FLAG_SOFT_KEYBOARD') < keys.index('KeyEvent.KEYCODE_DPAD_DOWN')
 assert keys.index('UsbTextInput.activate(') < keys.index('return super.dispatchKeyEvent(new KeyEvent(')
-assert keys.index('UsbTextInput.activate(') < keys.index('KeyEvent.KEYCODE_DPAD_LEFT')
+assert keys.index('UsbTextInput.activate(') < keys.index('KeyEvent.KEYCODE_DPAD_DOWN')
 assert 'field.setOnKeyListener((v, key, event) -> activate(field, key, event));' in (src / 'UsbTextInput.java').read_text()
 dialogs = (src / 'UsbDialogInput.java').read_text()
 assert 'dialog.getCurrentFocus() instanceof EditText && UsbTextInput.activate(' in dialogs
@@ -30,7 +30,7 @@ assert '.show();' not in macros
 assert 'saveEntry(); UsbTextInput.hide(this); super.onPause();' in activity
 assert 'onViewDetachedFromWindow(View view) { hide(field); }' in (src / 'UsbTextInput.java').read_text()
 assert 'else { UsbTextInput.hide(editor); if (numeric) saveEntry(); }' in activity
-assert 'if (!same || getCurrentFocus() != mTextScroll) mReading = false;' in activity
+assert 'final int textY = same ? mTextScroll.getScrollY() : 0;' in activity
 assert 'final String focus = same' in activity and ': same ? mFocus : ""' in activity
 assert 'mTextScroll.setOnFocusChangeListener' not in activity
 assert 'mShownPage = -1; mShownStep = -1;' in activity
