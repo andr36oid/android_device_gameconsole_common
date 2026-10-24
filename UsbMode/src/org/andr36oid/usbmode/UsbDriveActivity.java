@@ -821,7 +821,7 @@ public class UsbDriveActivity extends Activity {
                 && (mFunctions & ~(UsbFunctions.NETWORK | UsbFunctions.RNDIS | UsbFunctions.ADB)) == 0;
         if (companion) {
             // Connecting the network without any app is the default; apps are only offered when installed.
-            row("connect_only", getString(R.string.usb_link_connect_only), getString(R.string.usb_link_connect_only_summary),
+            row("connect_only", getString(R.string.usb_device_connect_only), getString(R.string.usb_device_connect_only_summary),
                     "ok".equals(startReason()), () -> { mCompanion = ""; start(); });
             if (getPackageManager().getLaunchIntentForPackage("com.retroarch") != null)
                 row("retroarch", getString(R.string.usb_link_open), getString(R.string.usb_emulator_start_app),
