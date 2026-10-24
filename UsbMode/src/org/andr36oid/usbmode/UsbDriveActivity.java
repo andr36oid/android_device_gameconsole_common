@@ -67,7 +67,7 @@ public class UsbDriveActivity extends Activity {
     private ProgressBar mProgress;
     private Button mNext, mBack;
     private HintBar mHints;
-    private ScrollView mTextScroll;
+    private ScrollView mTextScroll, mChoicesScroll;
     private AlertDialog mDialog;
     private int mPage = HUB, mIndex, mCreateIndex, mFunctions, mShownPage = -1, mShownStep = -1;
     private boolean mResumed, mAdvanced, mMacro, mRo, mCdrom, mDebugging;
@@ -124,7 +124,7 @@ public class UsbDriveActivity extends Activity {
         mStep = findViewById(R.id.step_label); mTitle = findViewById(R.id.title);
         mBody = findViewById(R.id.body); mNote = findViewById(R.id.note);
         mChoices = findViewById(R.id.choices); mProgress = findViewById(R.id.progress);
-        mTextScroll = findViewById(R.id.text_scroll);
+        mTextScroll = findViewById(R.id.text_scroll); mChoicesScroll = findViewById(R.id.choices_scroll);
         mNext = findViewById(R.id.next); mBack = findViewById(R.id.back);
         mNext.setOnClickListener(v -> skipForward()); mBack.setOnClickListener(v -> goBack());
         mNext.setOnFocusChangeListener((v, focused) -> { if (focused) mFocus = "next"; });
@@ -438,6 +438,9 @@ public class UsbDriveActivity extends Activity {
             page(R.string.usb_device_preparing, "");
             mNext.setText(android.R.string.cancel); spinner(); progress(false);
         } else hub();
+        // No choices on this page (e.g. Review is all summary text): drop the empty choices
+        // region so the explanation fills the screen instead of leaving a blank pane.
+        mChoicesScroll.setVisibility(mChoices.getChildCount() == 0 ? View.GONE : View.VISIBLE);
         mTextScroll.scrollTo(0, textY);
         updateHints();
         mPageFocus.begin(same, focus);
@@ -756,7 +759,9 @@ public class UsbDriveActivity extends Activity {
                     changed();
                 });
         }
-        if (mSelected != null && mSelected.kind == UsbDrive.Kind.IMAGE) {
+        // Only Custom exposes the CD-vs-drive toggle; Drive and PC take the sensible default
+        // (ISO -> CD, image file -> drive) so picking the image advances without a second pick.
+        if ("custom".equals(mPreset) && mSelected != null && mSelected.kind == UsbDrive.Kind.IMAGE) {
             choice("cdrom", getString(R.string.usb_drive_image_cd), getString(mSelected.cdromPossible()
                     ? R.string.usb_drive_image_cd_ro : mSelected.floppy() ? R.string.usb_floppy_summary : R.string.usb_drive_image_cd_size),
                     mCdrom, mSelected.cdromPossible(), () -> { mCdrom = true; changed(); });
