@@ -1293,7 +1293,11 @@ public class UsbDriveActivity extends Activity {
                 ? R.string.usb_drive_image_cd : R.string.usb_drive_image_usb)).append("\n\n");
         if (scary) message.append(getString(R.string.usb_drive_emmc_warning)).append("\n\n");
         if (offer.kind == UsbDrive.Kind.IMAGE) {
-            message.append(getString(R.string.usb_drive_image_in_use));
+            // The "don't edit the file" warning always shows; the "EASYROMS stays available"
+            // reassurance only when EASYROMS is not already visible in Android (user's rule).
+            if (!"1".equals(android.os.SystemProperties.get("sys.andr36oid.easyroms.ready")))
+                message.append(getString(R.string.usb_drive_easyroms_stays)).append(' ');
+            message.append(getString(R.string.usb_drive_image_warning));
             if (cdrom) message.append("\n\n").append(getString(R.string.usb_drive_image_cd_ro));
             else if (!ro) message.append("\n\n").append(getString(R.string.usb_drive_image_writable));
         } else message.append(getString(R.string.usb_drive_apps));

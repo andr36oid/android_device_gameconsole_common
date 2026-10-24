@@ -95,6 +95,8 @@
     <string name="usb_drive_image_usb">As USB stick</string>
     <string name="usb_drive_image_cd_ro">CD/DVD is always read-only.</string>
     <string name="usb_drive_image_in_use">EASYROMS stays available in Android. Do not edit, replace or delete this file in Android until you stop sharing.</string>
+    <string name="usb_drive_easyroms_stays">EASYROMS stays available in Android.</string>
+    <string name="usb_drive_image_warning">Do not edit, replace or delete this file in Android until you stop sharing.</string>
     <string name="usb_drive_image_writable">Read-only is off. The computer can change this file.</string>
     <string name="usb_drive_image_ro_hint">Applies to As USB stick. CD/DVD is always read-only.</string>
     <string name="usb_drive_image_volume_ro">EASYROMS is mounted read-only.</string>
