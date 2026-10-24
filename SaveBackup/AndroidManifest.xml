@@ -22,7 +22,7 @@
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_title"
-            android:theme="@android:style/Theme.DeviceDefault.DayNight">
+            android:theme="@style/SaveBackupTheme">
             <intent-filter>
                 <action android:name="com.android.settings.action.IA_SETTINGS" />
             </intent-filter>
@@ -53,20 +53,20 @@
             android:exported="false"
             android:label="@string/restore_title"
             android:parentActivityName=".MainActivity"
-            android:theme="@android:style/Theme.DeviceDefault.DayNight" />
+            android:theme="@style/SaveBackupTheme" />
 
         <activity
             android:name=".SyncActivity"
             android:exported="false"
             android:label="@string/sync_title"
             android:parentActivityName=".MainActivity"
-            android:theme="@android:style/Theme.DeviceDefault.DayNight" />
+            android:theme="@style/SaveBackupTheme" />
 
         <activity
             android:name=".GamesActivity"
             android:exported="false"
             android:parentActivityName=".RestoreActivity"
-            android:theme="@android:style/Theme.DeviceDefault.DayNight" />
+            android:theme="@style/SaveBackupTheme" />
 
         <service
             android:name=".BackupJobService"

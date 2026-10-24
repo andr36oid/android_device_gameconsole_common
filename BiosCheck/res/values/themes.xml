@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Day keeps the plain Settings look; the night variant forces a true-black page. -->
+    <style name="BiosCheckTheme" parent="@android:style/Theme.DeviceDefault.DayNight" />
+</resources>
