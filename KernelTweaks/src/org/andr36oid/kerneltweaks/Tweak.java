@@ -12,6 +12,8 @@ final class Tweak {
     static final int CHOICE = 0;
     /** stick_invert: four 0/1 flags, shown as checkboxes flipped against the default */
     static final int AXES = 1;
+    /** stick_sensitivity: a percent per stick (left, right), each picked from {@link #values} */
+    static final int STICKS = 2;
 
     /** risk levels, shown as a colored dot left of the title; every tweak needs one */
     static final int SAFE = 1;
@@ -56,6 +58,10 @@ final class Tweak {
 
     static Tweak axes(String key, int title, int what, int why, String file) {
         return new Tweak(key, AXES, title, what, why, file);
+    }
+
+    static Tweak sticks(String key, int title, int what, int why, String file) {
+        return new Tweak(key, STICKS, title, what, why, file);
     }
 
     Tweak values(String... v) {

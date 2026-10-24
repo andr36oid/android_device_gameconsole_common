@@ -204,6 +204,12 @@ final class Tweaks {
                 .labels(R.string.kt_stick_off_none, R.string.kt_stick_off_left,
                         R.string.kt_stick_off_right, R.string.kt_stick_off_both)
                 .level(Tweak.LAST_RESORT))
+            .add(Tweak.sticks("stick_sensitivity", R.string.kt_stick_sens,
+                    R.string.kt_stick_sens_what, R.string.kt_stick_sens_why,
+                    "/sys/devices/platform/odroidgo3-joypad/stick_sensitivity")
+                .values("100", "90", "80", "70", "60", "50", "40", "30", "20")
+                .unit(R.string.kt_unit_percent)
+                .level(Tweak.SAFE))
             .add(Tweak.choice("poll_interval", R.string.kt_poll_interval,
                     R.string.kt_poll_interval_what, R.string.kt_poll_interval_why,
                     "/sys/devices/platform/odroidgo3-joypad/poll_interval")
@@ -428,5 +434,39 @@ final class Tweaks {
         }
         return sb.length() == 0 ? c.getString(R.string.kt_stick_normal)
                 : c.getString(R.string.kt_stick_flipped, sb);
+    }
+
+    /** "80 100" as a percent per stick (left, right), null when it doesn't look like that */
+    static int[] sticks(String value) {
+        if (value == null) return null;
+        final String[] f = value.trim().split("\\s+");
+        if (f.length != 2) return null;
+        final int[] out = new int[2];
+        for (int i = 0; i < 2; i++) {
+            try {
+                out[i] = Integer.parseInt(f[i]);
+            } catch (NumberFormatException e) {
+                return null;
+            }
+            if (out[i] < 10 || out[i] > 100) return null;
+        }
+        return out;
+    }
+
+    static String sticksValue(int left, int right) {
+        return left + " " + right;
+    }
+
+    /** "Full", or "Left 80%, Right 100%" style, naming only the sides below the default */
+    static String sticksLabel(Context c, String value, String def) {
+        final int[] v = sticks(value);
+        final int[] d = sticks(def);
+        if (v == null) return value;
+        final int fullLeft = d != null ? d[0] : 100;
+        final int fullRight = d != null ? d[1] : 100;
+        if (v[0] == fullLeft && v[1] == fullRight) return c.getString(R.string.kt_stick_sens_full);
+        final String pl = c.getString(R.string.kt_unit_percent, Integer.toString(v[0]));
+        final String pr = c.getString(R.string.kt_unit_percent, Integer.toString(v[1]));
+        return c.getString(R.string.kt_stick_sens_value, pl, pr);
     }
 }

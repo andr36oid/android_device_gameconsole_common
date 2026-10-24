@@ -55,8 +55,7 @@ final class Profile {
                 if (t == null) {
                     out.unknown.add(key);
                 } else if (allowed(t, value)) {
-                    out.values.put(t, t.kind == Tweak.AXES
-                            ? Tweaks.axesValue(Tweaks.axes(value)) : value);
+                    out.values.put(t, normalize(t, value));
                 } else {
                     out.invalid.add(key);
                 }
@@ -68,7 +67,18 @@ final class Profile {
 
     private static boolean allowed(Tweak t, String value) {
         if (t.kind == Tweak.AXES) return value.matches("[01](\\s+[01]){3}");
+        if (t.kind == Tweak.STICKS) return Tweaks.sticks(value) != null;
         return Arrays.asList(t.values).contains(value);
+    }
+
+    /** the canonical spelling of an allowed value, so profiles store it the same way */
+    private static String normalize(Tweak t, String value) {
+        if (t.kind == Tweak.AXES) return Tweaks.axesValue(Tweaks.axes(value));
+        if (t.kind == Tweak.STICKS) {
+            final int[] v = Tweaks.sticks(value);
+            return Tweaks.sticksValue(v[0], v[1]);
+        }
+        return value;
     }
 
     /** Built-ins must name a model or a complete compatible token, or both. */

@@ -47,6 +47,7 @@ setup() {
 	echo soc-thermal >"$R"/sys/class/thermal/thermal_zone1/type
 	echo 85000 >"$R"/sys/class/thermal/thermal_zone1/trip_point_1_temp
 	echo '0 0 1 0' >"$R"/sys/devices/platform/odroidgo3-joypad/stick_invert
+	echo '100 100' >"$R"/sys/devices/platform/odroidgo3-joypad/stick_sensitivity
 	echo 10 >"$R"/sys/devices/platform/odroidgo3-joypad/poll_interval
 	printf '4\t4\t1\t7\n' >"$R"/proc/sys/kernel/printk
 	echo 7 >"$R"/proc/sys/kernel/panic
@@ -102,6 +103,7 @@ check "default cores" 4 "$(prop sys.andr36oid.ktd.cores)"
 check "default thermal zone by type" 85000 "$(prop sys.andr36oid.ktd.heat_limit)"
 check "default printk first field" 4 "$(prop sys.andr36oid.ktd.log_level)"
 check "default axes" "0 0 1 0" "$(prop sys.andr36oid.ktd.stick_invert)"
+check "default stick sensitivity" "100 100" "$(prop sys.andr36oid.ktd.stick_sensitivity)"
 check "default bool param" Y "$(prop sys.andr36oid.ktd.sleep_console)"
 check "missing knob has no default" "" "$(prop sys.andr36oid.ktd.sd2_readahead)"
 check "missing param has no default" "" "$(prop sys.andr36oid.ktd.hp_det_flip)"
@@ -115,6 +117,7 @@ setp persist.andr36oid.kt.cores 2
 setp persist.andr36oid.kt.heat_limit 90000
 setp persist.andr36oid.kt.power_chip_log 1
 setp persist.andr36oid.kt.stick_invert "1 0 1 0"
+setp persist.andr36oid.kt.stick_sensitivity "80 100"
 run boot
 check "plain written" 30 "$(cat "$R"/proc/sys/vm/swappiness)"
 check "default kept from before the write" 100 "$(prop sys.andr36oid.ktd.swappiness)"
@@ -127,6 +130,7 @@ check "thermal written to soc zone" 90000 "$(cat "$R"/sys/class/thermal/thermal_
 check "multi path 1" 1 "$(cat "$R"/sys/module/rk817_charger/parameters/dbg_level)"
 check "multi path 2" 1 "$(cat "$R"/sys/module/rk817_battery/parameters/dbg_level)"
 check "axes written" "1 0 1 0" "$(cat "$R"/sys/devices/platform/odroidgo3-joypad/stick_invert)"
+check "stick sensitivity written" "80 100" "$(cat "$R"/sys/devices/platform/odroidgo3-joypad/stick_sensitivity)"
 check "try counted" 1 "$(prop persist.andr36oid.kt.tries)"
 check "nothing failed" "" "$(prop sys.andr36oid.kt.failed | tr -d ' ')"
 

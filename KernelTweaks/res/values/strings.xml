@@ -72,6 +72,7 @@
     <!-- Dialogs -->
     <string name="kt_default_mark"><xliff:g id="value">%1$s</xliff:g> (default)</string>
     <string name="kt_explain">Explain</string>
+    <string name="kt_done">Done</string>
     <string name="kt_doc_what">What it does</string>
     <string name="kt_doc_why">Why you\'d change it</string>
     <!-- e.g. "Default on this console: Deep sleep" -->
@@ -96,6 +97,8 @@
     <string name="kt_unit_mb"><xliff:g id="n">%1$s</xliff:g> MB</string>
     <!-- e.g. "85 °C" -->
     <string name="kt_unit_c"><xliff:g id="n">%1$s</xliff:g> °C</string>
+    <!-- e.g. "80%" -->
+    <string name="kt_unit_percent"><xliff:g id="n">%1$s</xliff:g>%%</string>
     <!-- e.g. "3 cores" -->
     <string name="kt_unit_cores"><xliff:g id="n">%1$s</xliff:g> cores</string>
     <string name="kt_one_core">1 core</string>
@@ -251,6 +254,18 @@
     <string name="kt_stick_off_what">A stick that is off always reads as centred, so it never moves anything.</string>
     <string name="kt_stick_off_why">For consoles with only one stick, where the missing one makes ghost moves. Left and right mean the sticks on the console, also when they are swapped above.</string>
     <string name="kt_stick_swap_why">For clones with the sticks the wrong way round, or if you\'d rather steer with the other stick. Directions you flipped above stay with the stick you flipped them on.</string>
+    <string name="kt_stick_sens">Stick sensitivity</string>
+    <!-- shown when both sticks are at 100% -->
+    <string name="kt_stick_sens_full">Full</string>
+    <!-- e.g. "Left 80%, right 100%" -->
+    <string name="kt_stick_sens_value">Left <xliff:g id="left">%1$s</xliff:g>, right <xliff:g id="right">%2$s</xliff:g></string>
+    <!-- a row that opens the left stick\'s setting, showing its value, e.g. "Left stick: 80%" -->
+    <string name="kt_stick_sens_left">Left stick: <xliff:g id="value">%1$s</xliff:g></string>
+    <string name="kt_stick_sens_right">Right stick: <xliff:g id="value">%1$s</xliff:g></string>
+    <string name="kt_stick_sens_left_title">Left stick</string>
+    <string name="kt_stick_sens_right_title">Right stick</string>
+    <string name="kt_stick_sens_what">Lowers how far a stick reports when you push it all the way, one side at a time. 100% is normal; a lower number means a full push moves less.</string>
+    <string name="kt_stick_sens_why">For clones whose sticks are uneven or too twitchy. Turn one side down so both feel the same, or make aiming calmer. Check the result in the controller test.</string>
 
     <string name="kt_poll_interval">Button check rate</string>
     <string name="kt_poll_interval_what">How often the sticks are read and the buttons checked again.</string>

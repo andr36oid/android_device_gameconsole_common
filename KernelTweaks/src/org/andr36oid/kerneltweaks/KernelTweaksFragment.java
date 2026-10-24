@@ -183,6 +183,7 @@ public class KernelTweaksFragment extends PreferenceFragment {
                 row.setIcon(levelDot(c, t.level));
                 row.setOnPreferenceClickListener(p -> {
                     if (t.kind == Tweak.AXES) showAxes(t);
+                    else if (t.kind == Tweak.STICKS) showSticks(t);
                     else showChoice(t);
                     return true;
                 });
@@ -260,7 +261,7 @@ public class KernelTweaksFragment extends PreferenceFragment {
                 } else if (paused && !t.once && !want.isEmpty()) {
                     summary = getString(R.string.kt_paused_value, label(t, want));
                 } else if (!cur.equals(def)) {
-                    summary = t.kind == Tweak.AXES ? curLabel
+                    summary = (t.kind == Tweak.AXES || t.kind == Tweak.STICKS) ? curLabel
                             : getString(R.string.kt_changed, curLabel, label(t, def));
                     if (t.once) summary = summary + "\n" + getString(R.string.kt_once);
                 } else {
@@ -311,6 +312,7 @@ public class KernelTweaksFragment extends PreferenceFragment {
 
     private String label(Tweak t, String value) {
         if (t.kind == Tweak.AXES) return Tweaks.axesLabel(getActivity(), value, def(t));
+        if (t.kind == Tweak.STICKS) return Tweaks.sticksLabel(getActivity(), value, def(t));
         if ("cma_size".equals(t.key) && "default".equals(value)) {
             // The kernel config reserves 128 MB. boot.ini uses 64 MB on 512 MB
             // consoles; the helper keeps that base value separate from tweaks.
@@ -527,6 +529,59 @@ public class KernelTweaksFragment extends PreferenceFragment {
                 save(t, Tweaks.axesValue(out));
             })
             .setNeutralButton(R.string.kt_explain, (d, w) -> showDoc(t))
+            .setNegativeButton(android.R.string.cancel, null)
+            .show();
+    }
+
+    /** the sensitivity to show now: the value being saved if there is one, else what the kernel has */
+    private int[] sticksShown(Tweak t) {
+        final String want = get(t.prop());
+        int[] v = Tweaks.sticks(want.isEmpty() ? cur(t) : want);
+        if (v == null) v = Tweaks.sticks(def(t));
+        return v;
+    }
+
+    /** two rows (left, right); each opens a percentage list for that side */
+    private void showSticks(Tweak t) {
+        final int[] shown = sticksShown(t);
+        if (shown == null) return;
+        final CharSequence[] rows = {
+            getString(R.string.kt_stick_sens_left, label(t, Integer.toString(shown[0]))),
+            getString(R.string.kt_stick_sens_right, label(t, Integer.toString(shown[1]))),
+        };
+        new AlertDialog.Builder(getActivity())
+            .setTitle(t.title)
+            .setItems(rows, (d, which) -> pickStickSide(t, which))
+            .setNeutralButton(R.string.kt_explain, (d, w) -> showDoc(t))
+            .setNegativeButton(R.string.kt_done, null)
+            .show();
+    }
+
+    private void pickStickSide(Tweak t, int side) {
+        final int[] shown = sticksShown(t);
+        if (shown == null) return;
+        final List<String> values = new ArrayList<>(Arrays.asList(t.values));
+        final CharSequence[] labels = new CharSequence[values.size()];
+        int checked = -1;
+        for (int i = 0; i < labels.length; i++) {
+            final String v = values.get(i);
+            // 100% is a stick at its normal, full sensitivity
+            labels[i] = "100".equals(v) ? getString(R.string.kt_default_mark, label(t, v))
+                    : label(t, v);
+            if (v.equals(Integer.toString(shown[side]))) checked = i;
+        }
+        new AlertDialog.Builder(getActivity())
+            .setTitle(side == 0 ? R.string.kt_stick_sens_left_title
+                    : R.string.kt_stick_sens_right_title)
+            .setSingleChoiceItems(labels, checked, (d, which) -> {
+                d.dismiss();
+                final int[] next = sticksShown(t);
+                if (next == null) return;
+                next[side] = Integer.parseInt(values.get(which));
+                save(t, Tweaks.sticksValue(next[0], next[1]));
+                // reopen so the other side can be set in the same visit
+                showSticks(t);
+            })
             .setNegativeButton(android.R.string.cancel, null)
             .show();
     }

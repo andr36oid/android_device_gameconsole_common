@@ -34,9 +34,12 @@ public final class ProfileTest {
         for (Tweaks.Category category : Tweaks.all()) TWEAKS.addAll(category.tweaks);
         for (Tweak t : TWEAKS) {
             if (t.once) continue;
-            for (String value : t.values) {
-                final Profile p = Profile.parse(HEADER + PREFIX + t.key + "=" + value, TWEAKS);
-                check(value.equals(p.values.get(t)), "choice " + t.key + "=" + value);
+            // STICKS keeps per-side options in values, not whole "left right" values
+            if (t.kind != Tweak.STICKS) {
+                for (String value : t.values) {
+                    final Profile p = Profile.parse(HEADER + PREFIX + t.key + "=" + value, TWEAKS);
+                    check(value.equals(p.values.get(t)), "choice " + t.key + "=" + value);
+                }
             }
             final Profile bad = Profile.parse(HEADER + PREFIX + t.key + "=unexpected", TWEAKS);
             check(bad.values.isEmpty() && bad.invalid.size() == 1, "invalid " + t.key);
@@ -54,6 +57,17 @@ public final class ProfileTest {
         for (String value : new String[] {"1 2 0 0", "x 0 0 0", "1 0 0", "1 0 0 0 0"}) {
             check(Profile.parse(HEADER + PREFIX + "stick_invert=" + value, TWEAKS)
                     .invalid.size() == 1, "bad axes " + value);
+        }
+        final Profile sens = Profile.parse(HEADER + PREFIX + "stick_sensitivity=80\t100\r\n",
+                TWEAKS);
+        check(sens.values.containsValue("80 100"), "sticks normalized");
+        for (String value : new String[] {"100 100", "10 10", "50 70"}) {
+            check(Profile.parse(HEADER + PREFIX + "stick_sensitivity=" + value, TWEAKS)
+                    .values.containsValue(value), "sticks " + value);
+        }
+        for (String value : new String[] {"100", "5 100", "100 200", "x 50", "80 80 80", "0 0"}) {
+            check(Profile.parse(HEADER + PREFIX + "stick_sensitivity=" + value, TWEAKS)
+                    .invalid.size() == 1, "bad sticks " + value);
         }
         final Profile ignored = Profile.parse(HEADER + PREFIX + "paused=1\n" + PREFIX
                 + "tries=2\n" + PREFIX + "sleep_test=core\n" + PREFIX
