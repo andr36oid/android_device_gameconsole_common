@@ -52,6 +52,8 @@ final class UsbDrive {
         String filesystem = "";
         String cid = "";
         final List<Offer> offers = new ArrayList<>();
+        /** disk images in a container format we can't lend out raw (.qcow2, .vmdk, etc.) */
+        final List<String> unsupported = new ArrayList<>();
     }
 
     /** Root publishes basenames and stat identities; the app cannot read media_rw. */
@@ -78,6 +80,13 @@ final class UsbDrive {
             }
             for (int i = 1; i < lines.size(); i++) {
                 final String[] f = lines.get(i).split("\t", -1);
+                // Disk images in a container format (QEMU/VirtualBox/VMware) can't be lent
+                // out as a raw block device; name them so the app can say to convert first.
+                if (f.length >= 3 && f[0].equals("file") && f[2].length() <= 91 && !f[2].contains("..")
+                        && f[2].matches("[a-zA-Z0-9][a-zA-Z0-9._ -]*\\.(?i:qcow2|qcow|vmdk|vdi|vhdx|vhd)")) {
+                    result.unsupported.add(f[2]);
+                    continue;
+                }
                 if ((f.length < 3 || f.length > 5) || !f[0].equals("file") || !f[1].matches("[0-9]+:[0-9]+:[0-9]+")
                         || f[2].length() > 91 || f[2].contains("..")
                         || !f[2].matches("[a-zA-Z0-9][a-zA-Z0-9._ -]*\\.(?i:iso|img|ima|vfd)")) continue;

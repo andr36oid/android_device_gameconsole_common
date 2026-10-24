@@ -77,6 +77,16 @@ public class UsbDriveImagesTest {
         final String old = iso.identity();
         iso.stamp = "10:23:1048576";
         check("replacement file changes identity", !iso.identity().equals(old));
+        images = inventory(HEADER
+                + "file\t10:30:1048576\tdisk.qcow2\n"
+                + "file\t10:31:1048576\tmachine.VMDK\n"
+                + "file\t10:32:1048576\tgood.iso\n");
+        check("container formats are not offered as drives",
+                images.offers.size() == 1 && images.offers.get(0).node.equals("good.iso"));
+        check("container formats are named as unsupported", images.unsupported.size() == 2
+                && images.unsupported.contains("disk.qcow2") && images.unsupported.contains("machine.VMDK"));
+        check("unsafe unsupported names are still rejected", inventory(HEADER
+                + "file\t10:33:1048576\t../evil.qcow2\n").unsupported.isEmpty());
         System.out.println(sPass + " disc image checks passed");
     }
 }

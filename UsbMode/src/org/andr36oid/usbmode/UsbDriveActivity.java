@@ -982,7 +982,10 @@ public class UsbDriveActivity extends Activity {
                 });
         for (UsbDrive.Offer offer : mImages.offers)
             row(offer.identity(), name(offer), offerDetail(offer), true, () -> imageActions(offer));
-        if (mImages.offers.isEmpty()) mNote.setText(R.string.usb_drive_image_empty);
+        if (!mImages.unsupported.isEmpty())
+            mNote.setText(getString(R.string.usb_drive_image_unsupported,
+                    String.join(", ", mImages.unsupported)));
+        else if (mImages.offers.isEmpty()) mNote.setText(R.string.usb_drive_image_empty);
         liveResult();
     }
     private String offerDetail(UsbDrive.Offer offer) {

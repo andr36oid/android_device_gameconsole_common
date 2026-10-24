@@ -92,6 +92,7 @@
     <string name="usb_drive_image_title">Disc image</string>
     <string name="usb_drive_image_hint">Put ISO or disk images in EASYROMS/isos, or create a disk image here. Choose whether your computer sees it as a CD/DVD or a USB drive.</string>
     <string name="usb_drive_image_empty">Put .iso or .img files in the isos folder at the top of EASYROMS.</string>
+    <string name="usb_drive_image_unsupported">These disk images are in a format the console can\'t share directly. Convert them to a plain .img first: <xliff:g id="names">%1$s</xliff:g></string>
     <string name="usb_drive_image_unavailable">EASYROMS must be mounted in Android to share a disc image.</string>
     <string name="usb_drive_image_names">Use simple file names (A–Z, a–z, 0–9, spaces, dots, hyphens and underscores), up to 91 characters. Start with a letter or number and avoid two dots in a row.</string>
     <string name="usb_drive_image_cd">As CD/DVD</string>
