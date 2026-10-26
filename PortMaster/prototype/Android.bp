@@ -1,0 +1,21 @@
+// SPDX-License-Identifier: MIT
+// Experiment helper for the PortMaster display handoff (approach A).
+// Not yet wired into any product; built on demand and pushed to the unit under
+// /data/local/tmp/portmaster for the G1 clean-quiesce re-test. See the report
+// under work/reports/portmaster for how it is used.
+
+cc_binary {
+    name: "portmaster-display",
+    srcs: ["portmaster-display.cpp"],
+    shared_libs: [
+        "libgui",
+        "libbinder",
+        "libutils",
+        "liblog",
+    ],
+    cppflags: [
+        "-Werror",
+        "-Wall",
+        "-Wextra",
+    ],
+}

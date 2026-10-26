@@ -29,6 +29,7 @@ for source_file in launch-flow.sh handoff-watchdog.sh; do
     [ -r "$base/$source_file" ] || fail "missing $source_file"
 done
 [ -x "$probe" ] || fail 'missing executable kms-probe'
+[ -x "$base/portmaster-display" ] || fail 'missing executable portmaster-display'
 [ -c /dev/dri/card0 ] || fail '/dev/dri/card0 is not a character device'
 [ ! -e "$base/session.lock" ] || fail 'old session.lock; inspect it first'
 [ ! -e "$base/guard.ready" ] || fail 'old guard.ready; inspect it first'
@@ -143,7 +144,7 @@ trap 'exit 129' HUP
 {
     id; id -Z; getenforce; uname -a
     getprop ro.build.fingerprint
-    sha256sum "$probe" "$base/launch-flow.sh" "$base/handoff-watchdog.sh" "$base/hardware-test.sh"
+    sha256sum "$probe" "$base/portmaster-display" "$base/launch-flow.sh" "$base/handoff-watchdog.sh" "$base/hardware-test.sh"
     ls -lZ /dev/dri /dev/dri/card0 /dev/mali0 /dev/input /dev/input/* /dev/uinput /dev/tty /dev/tty0 /dev/tty1
     cat /proc/bus/input/devices
     cat /sys/class/drm/card0-*/status /sys/class/drm/card0-*/modes
@@ -176,7 +177,7 @@ esac
 grep -qx surfaceflinger "$run/guard.original-running" || fail 'guard did not journal SF'
 say "GUARD ready pid=$guard_pid seconds=45"
 
-PM_RECOVERY_ARMED=YES PM_STATE_BASE="$run" PM_PROBE="$probe" PM_SECONDS=10 \
+PM_RECOVERY_ARMED=YES PM_STATE_BASE="$run" PM_PROBE="$probe" PM_DISPLAY="$base/portmaster-display" PM_SECONDS=10 \
     "$shell" "$base/launch-flow.sh" --probe > "$run/handoff.log" 2>&1 &
 manager=$!
 wait "$manager"

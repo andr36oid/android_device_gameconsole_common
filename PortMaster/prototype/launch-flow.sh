@@ -76,10 +76,17 @@ done
 
 base=${PM_STATE_BASE:-/data/local/tmp/portmaster}
 probe=${PM_PROBE:-/data/local/tmp/portmaster/kms-probe}
+display=${PM_DISPLAY:-/data/local/tmp/portmaster/portmaster-display}
 duration=${PM_SECONDS:-10}
 case "$duration" in ''|*[!0-9]*) die 'PM_SECONDS must be 1..600' ;; esac
 if [ "$duration" -lt 1 ] || [ "$duration" -gt 600 ]; then die 'PM_SECONDS must be 1..600'; fi
 if [ ! -d "$base" ] || [ ! -x "$probe" ]; then die 'state directory or probe missing'; fi
+# The display owner must be blanked cleanly before it is stopped, or its still
+# active scanout framebuffer wedges the next card0 open in drm_fb_release. The
+# blank goes through SurfaceFlinger (display power off, SoC stays awake), never
+# system sleep, so it does not trip the clone deep-sleep freeze. See report
+# G1-ROOTCAUSE.md.
+[ -x "$display" ] || die 'display blank helper (portmaster-display) missing'
 [ "$(state surfaceflinger)" = running ] || die 'SurfaceFlinger must start in running state'
 
 composers=''
@@ -176,6 +183,16 @@ done
 journal_ready=1
 printf '%s\n' "$$" > "$lock/manager" || die 'manager journal write'
 cat "$lock/original-running"
+
+# Clean-quiesce: blank the panel while the composer is still master and alive so
+# it disables its own scanout planes through a normal presented frame. This must
+# run BEFORE any ctl.stop below; stopping a composer that is still scanning out
+# is exactly what wedged card0 on the first G1 run.
+log 'BLANK display (power off, SoC stays awake)'
+timeout -s TERM -k 2 10 "$display" off || die 'display blank request'
+# Give the composer a moment to drain the in-flight flip and settle the plane
+# disable before its fd is torn down.
+sleep 1
 
 for service in $helpers $audio surfaceflinger $composers; do
     # Input helpers stop before mute/quiesce, then audio and display owners.
