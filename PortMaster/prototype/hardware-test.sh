@@ -107,6 +107,13 @@ finish() {
         say 'FAIL DRIVER guard expired; retain the recovery result for review'
         result=1
     fi
+    if [ "$machine_return" = YES ] && [ ! -e "$run/guard.ready" ]; then
+        rm -f "$base/hardware.lock/run" "$base/hardware.lock/pid"
+        rmdir "$base/hardware.lock" || result=1
+    else
+        say "FAIL DRIVER recovery pending; preserve $base/hardware.lock and inspect guard.log"
+        result=1
+    fi
     {
         say '# Hardware result, complete the observation fields'
         say "- Logs: $run"
@@ -123,13 +130,6 @@ finish() {
         say '- Any guard expiry, extra framework restart or reboot: TODO'
         say '- G1: UNASSESSED until operator completes result-template.md'
     } > "$run/result-template.md"
-    if [ "$machine_return" = YES ] && [ ! -e "$run/guard.ready" ]; then
-        rm -f "$base/hardware.lock/run" "$base/hardware.lock/pid"
-        rmdir "$base/hardware.lock" || result=1
-    else
-        say "FAIL DRIVER recovery pending; preserve $base/hardware.lock and inspect guard.log"
-        result=1
-    fi
     say "RESULT driver_exit=$result services_and_boot=$machine_return visible=UNASSESSED"
     say "RESULT logs=$run"
     say 'OBSERVE: verify visible Android HOME, physical controls and sound; fill result-template.md.'

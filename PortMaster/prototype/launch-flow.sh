@@ -52,12 +52,13 @@ case "$mode" in
         # This runs only after unshare -m. Refuse shared propagation.
         mount --make-rprivate / || die 'private mount propagation'
         "$guest_hooks" mount "$guest_root" || die 'guest mounts'
-        # TODO: hook must set up filtered /dev, proc, minimal read-only sysfs,
+        # TODO: hook must set up filtered /dev, no guest procfs, read-only facts,
+        # minimal read-only sysfs,
         # content, resolver, bounded tmp and exact tested SDL/GL libs.
         # Do not start systemd/udev, expose binder, or bind all Android /dev.
         # The required trusted entry helper must apply the tested uid/domain
         # transition. A mount hook subprocess cannot change its parent's uid.
-        chroot "$guest_root" /usr/local/sbin/portmaster-enter /usr/bin/env -i HOME=/root \
+        chroot "$guest_root" /usr/local/sbin/portmaster-enter /usr/bin/env -i HOME=/home/portmaster \
             PATH=/usr/local/bin:/usr/bin:/bin \
             SDL_VIDEODRIVER=kmsdrm SDL_KMSDRM_REQUIRE_DRM_MASTER=1 \
             /usr/local/bin/portmaster-session
@@ -106,6 +107,8 @@ if [ "$mode" = --chroot ]; then
     command -v chroot >/dev/null 2>&1 || die 'chroot unavailable'
     "$hooks" preflight "$rootfs" || die 'hardware and rootfs preflight'
     helpers='joyMouse andr36oid-controller'
+    # Native TODO: audioserver stopped/running triggers both start HALs,
+    # including originally stopped ones. This list alone cannot restore them.
     audio='audioserver vendor.audio-hal vendor.audio-hal-2-0 audio-hal-2-0 vendor.audio-hal-4-0-msd'
 fi
 
@@ -174,12 +177,12 @@ journal_ready=1
 printf '%s\n' "$$" > "$lock/manager" || die 'manager journal write'
 cat "$lock/original-running"
 
-if [ "$mode" = --chroot ]; then
-    hook_quiesced=1 # Mark before attempting a partially failing hook.
-    "$hooks" quiesce "$rootfs" || die 'mute, power and input handoff'
-fi
-
 for service in $helpers $audio surfaceflinger $composers; do
+    # Input helpers stop before mute/quiesce, then audio and display owners.
+    if [ "$mode" = --chroot ] && [ "$service" = audioserver ]; then
+        hook_quiesced=1 # Mark before attempting a partially failing hook.
+        "$hooks" quiesce "$rootfs" || die 'mute, power and input handoff'
+    fi
     if [ "$(state "$service")" = running ]; then
         log "STOP $service"
         setprop ctl.stop "$service" || die "stop request $service"

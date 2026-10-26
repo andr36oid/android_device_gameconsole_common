@@ -1,7 +1,7 @@
 #!/system/bin/sh
 # SPDX-License-Identifier: MIT
-# Independent guard for the display-only experiment, run in a second root ADB
-# session. Not a production supervisor and not sufficient for a chroot session.
+# Independent guard for the display-only experiment, detached by hardware-test.sh.
+# Not a production supervisor and not sufficient for a chroot session.
 set -eu
 umask 077
 base=${1:-/data/local/tmp/portmaster}

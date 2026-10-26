@@ -22,6 +22,9 @@
 # Future property_contexts entries. Fixed values are validated by controller.
 sys.portmaster.request                         u:object_r:portmaster_request_prop:s0 exact string
 sys.portmaster.status                          u:object_r:portmaster_status_prop:s0 exact string
+# Proposed REPLACEMENT, not an additional entry: public/property_contexts
+# already maps this exact SF key to exported2_default_prop. Review existing
+# readers before changing its type, or retain that type and review read access.
 init.svc.surfaceflinger                        u:object_r:portmaster_service_status_prop:s0 exact string
 init.svc.vendor.hwcomposer-2-1                  u:object_r:portmaster_service_status_prop:s0 exact string
 ctl.start$surfaceflinger                       u:object_r:portmaster_display_ctl_prop:s0

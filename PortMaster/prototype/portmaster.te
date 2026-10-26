@@ -79,10 +79,18 @@ allow portmaster_guest self:fifo_file rw_file_perms;
 # No execmem/execstack/JIT permission in the first supported port set.
 
 # KMS device must have its own type, not generic device or a broad GPU type.
-# This set covers CPU probe + basic GBM/SDL legacy presentation, not atomic.
+# Controller set is exactly the CPU probe's type/nr requests. The guest's
+# separate superset is a GBM/SDL candidate, not measured blob/SDL usage.
 allow portmaster { portmaster_mali_device input_device uhid_device }:chr_file getattr;
 allow { portmaster portmaster_guest } portmaster_drm_device:chr_file { getattr open read write ioctl map };
-allowxperm { portmaster portmaster_guest } portmaster_drm_device:chr_file ioctl {
+allowxperm portmaster portmaster_drm_device:chr_file ioctl {
+    0x641e 0x641f               # SET_MASTER, DROP_MASTER
+    0x64a0 0x64a1 0x64a2        # GETRESOURCES, GETCRTC, SETCRTC
+    0x64a6 0x64a7               # GETENCODER, GETCONNECTOR
+    0x64ae 0x64af               # ADDFB, RMFB
+    0x64b2 0x64b3 0x64b4        # CREATE/MAP/DESTROY_DUMB
+};
+allowxperm portmaster_guest portmaster_drm_device:chr_file ioctl {
     0x6400 0x6409 0x640c 0x640d # VERSION, GEM_CLOSE, GET_CAP, SET_CLIENT_CAP
     0x641e 0x641f               # SET_MASTER, DROP_MASTER
     0x642d 0x642e               # PRIME_HANDLE_TO_FD, PRIME_FD_TO_HANDLE
@@ -96,6 +104,7 @@ allowxperm { portmaster portmaster_guest } portmaster_drm_device:chr_file ioctl 
 };
 
 # kbase JM type 0x80, from the checked-in bifrost UAPI. Candidate render set.
+# Not verified against the absent libmali-bifrost-g31-rxp0-gbm.so binary.
 # Remove unused calls after Q3 strace. No CSF, counters, instrumentation or
 # test ioctls. Old U/K 0x80xx calls can share numbers with this newer ABI;
 # SELinux ioctl xperms check only type/nr, not size/direction/arguments.

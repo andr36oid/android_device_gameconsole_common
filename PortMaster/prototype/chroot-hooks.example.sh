@@ -21,10 +21,12 @@ case "$operation" in
         exit 1 ;;
     mount)
         # Runs in a private mount namespace after propagation becomes private.
-        # TODO: minimal /dev bind list, proc, selected sysfs, /roms data,
+        # TODO: minimal /dev bind list, no guest procfs, read-only facts,
+        # selected sysfs, /roms data,
         # DNS, disk-backed bounded /tmp. Log each successful mount for unmount.
-        # TODO: install the reviewed fixed /usr/local/sbin/portmaster-enter
-        # helper for dropping uid/capabilities and entering the guest domain.
+        # Legacy shell contract uses /usr/local/sbin/portmaster-enter.
+        # Replace it with the native child drop and immutable
+        # /usr/local/libexec/portmaster-guest-entry in portmaster.rules.
         exit 1 ;;
     unmount)
         # TODO: unmount only recorded mounts, reverse order; never umount -l.
