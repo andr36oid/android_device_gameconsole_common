@@ -1,0 +1,168 @@
+# SPDX-License-Identifier: MIT
+# Review-only platform-private draft. NOT included by BoardConfig.mk.
+# Companion path/property contracts: portmaster.rules. No permissive domain.
+# Native controller: uid 0, domain portmaster. Guest: uid/gid 2906 proposed,
+# portmaster_guest, no supplementary groups/capabilities, no_new_privs.
+
+type portmaster, domain, coredomain;
+type portmaster_exec, file_type, exec_type, system_file_type;
+type portmaster_guest, domain, coredomain;
+type portmaster_guest_exec, file_type, exec_type;
+type portmaster_rootfs_file, file_type;
+type portmaster_rootfs_exec, file_type, exec_type;
+type portmaster_mountpoint_file, file_type;
+# Only the read-only runtime superblock is eligible for fscontext= labeling.
+type portmaster_runtime_fs, fs_type, contextmount_type;
+type portmaster_image_file, file_type, data_file_type, core_data_file_type;
+type portmaster_state_file, file_type, data_file_type, core_data_file_type;
+type portmaster_journal_file, file_type, data_file_type, core_data_file_type;
+type portmaster_drm_device, dev_type;
+type portmaster_mali_device, dev_type;
+type portmaster_socket, file_type, coredomain_socket;
+type portmaster_display_ctl_prop, property_type, system_property_type, system_internal_property_type;
+type portmaster_request_prop, property_type, system_property_type, system_internal_property_type;
+type portmaster_status_prop, property_type, system_property_type, system_internal_property_type;
+type portmaster_service_status_prop, property_type, system_property_type, system_internal_property_type;
+
+init_daemon_domain(portmaster)
+# Controller child prepares mounts/chroot, drops uid/gid/caps, then execs the
+# immutable guest entry ELF. No guest script or ELF runs as controller/root.
+domain_auto_trans(portmaster, portmaster_guest_exec, portmaster_guest)
+allow portmaster self:process setexec;
+# Allows the transition with PR_SET_NO_NEW_PRIVS already set (kernel 4.19).
+allow portmaster portmaster_guest:process2 { nnp_transition nosuid_transition };
+allow portmaster self:capability { sys_admin sys_chroot setuid setgid setpcap sys_tty_config };
+allow portmaster portmaster_guest:process { signal sigkill sigstop signull };
+
+# Fixed, read-only ext4 image, private mount namespace, no guest init/udev.
+# Not a data_file_type: Android domain.te forbids executable data_file_type
+# for non-app domains. The backing image IS data_file_type and never executed.
+allow portmaster system_data_file:dir search;
+allow portmaster portmaster_image_file:dir r_dir_perms;
+allow portmaster portmaster_image_file:file r_file_perms;
+allow portmaster { portmaster_rootfs_file portmaster_mountpoint_file }:dir r_dir_perms;
+allow portmaster { portmaster_rootfs_file portmaster_rootfs_exec }:{ file lnk_file } r_file_perms;
+allow portmaster portmaster_mountpoint_file:{ dir file } mounton;
+allow portmaster rootfs:dir { search mounton };
+allow portmaster { labeledfs portmaster_runtime_fs }:filesystem { mount remount unmount getattr };
+# fscontext= sets only the new image's superblock label, preserving xattrs.
+# Required by security/selinux/hooks.c may_context_mount_sb_relabel.
+allow portmaster labeledfs:filesystem relabelfrom;
+allow portmaster portmaster_runtime_fs:filesystem relabelto;
+allow { portmaster_rootfs_file portmaster_rootfs_exec portmaster_mountpoint_file portmaster_guest_exec } portmaster_runtime_fs:filesystem associate;
+allow portmaster block_device:dir search;
+allow portmaster loop_control_device:chr_file { getattr open read write ioctl };
+allowxperm portmaster loop_control_device:chr_file ioctl { 0x4c82 }; # LOOP_CTL_GET_FREE
+allow portmaster loop_device:blk_file { getattr open read write ioctl };
+allowxperm portmaster loop_device:blk_file ioctl {
+    0x4c00 0x4c01 0x4c04 0x4c05 # SET_FD, CLR_FD, SET_STATUS64, GET_STATUS64
+};
+# Read-only runtime; controller cannot create/modify executable files.
+allow portmaster portmaster_journal_file:dir create_dir_perms;
+allow portmaster portmaster_journal_file:file create_file_perms;
+allow portmaster portmaster_state_file:dir create_dir_perms;
+allow portmaster portmaster_state_file:file create_file_perms;
+allow portmaster portmaster_state_file:lnk_file create_file_perms;
+allow portmaster portmaster_state_file:{ dir file } mounton;
+allow portmaster_state_file labeledfs:filesystem associate;
+
+# Dynamic loader/libraries/shell/selected ports in the immutable image.
+allow portmaster_guest { portmaster_rootfs_file portmaster_mountpoint_file }:dir r_dir_perms;
+allow portmaster_guest portmaster_rootfs_file:file r_file_perms;
+allow portmaster_guest portmaster_rootfs_exec:file { getattr open read map execute execute_no_trans };
+allow portmaster_guest portmaster_rootfs_file:lnk_file r_file_perms;
+allow portmaster_guest portmaster_state_file:dir create_dir_perms;
+allow portmaster_guest portmaster_state_file:file create_file_perms;
+allow portmaster_guest portmaster_state_file:lnk_file create_file_perms;
+allow portmaster_guest self:process { fork sigchld signal signull };
+allow portmaster_guest self:fifo_file rw_file_perms;
+# No execmem/execstack/JIT permission in the first supported port set.
+
+# KMS device must have its own type, not generic device or a broad GPU type.
+# This set covers CPU probe + basic GBM/SDL legacy presentation, not atomic.
+allow portmaster { portmaster_mali_device input_device uhid_device }:chr_file getattr;
+allow { portmaster portmaster_guest } portmaster_drm_device:chr_file { getattr open read write ioctl map };
+allowxperm { portmaster portmaster_guest } portmaster_drm_device:chr_file ioctl {
+    0x6400 0x6409 0x640c 0x640d # VERSION, GEM_CLOSE, GET_CAP, SET_CLIENT_CAP
+    0x641e 0x641f               # SET_MASTER, DROP_MASTER
+    0x642d 0x642e               # PRIME_HANDLE_TO_FD, PRIME_FD_TO_HANDLE
+    0x64a0 0x64a1 0x64a2        # GETRESOURCES, GETCRTC, SETCRTC
+    0x64a6 0x64a7               # GETENCODER, GETCONNECTOR
+    0x64aa 0x64ac               # GETPROPERTY, GETPROPBLOB
+    0x64ad 0x64ae 0x64af        # GETFB, ADDFB, RMFB
+    0x64b0 0x64b2 0x64b3 0x64b4 # PAGE_FLIP, CREATE/MAP/DESTROY_DUMB
+    0x64b5 0x64b6 0x64b8 0x64b9 # GETPLANERESOURCES, GETPLANE, ADDFB2, OBJ_GETPROPERTIES
+    0x6440 0x6441               # Rockchip GEM_CREATE, GEM_MAP_OFFSET
+};
+
+# kbase JM type 0x80, from the checked-in bifrost UAPI. Candidate render set.
+# Remove unused calls after Q3 strace. No CSF, counters, instrumentation or
+# test ioctls. Old U/K 0x80xx calls can share numbers with this newer ABI;
+# SELinux ioctl xperms check only type/nr, not size/direction/arguments.
+allow portmaster_guest portmaster_mali_device:chr_file { getattr open read write ioctl map };
+allowxperm portmaster_guest portmaster_mali_device:chr_file ioctl {
+    0x8000 0x8001 0x8002 0x8003 0x8004 # version, flags, jobs, props, post-term
+    0x8005 0x8006 0x8007               # alloc, query, free
+    0x800d 0x800e 0x800f 0x8010 0x8011 # DDK version, JIT init, sync, offset, context
+    0x8014 0x8015 0x8016 0x8017        # commit, alias, import, flags
+    0x8018 0x8019 0x801c 0x801d 0x801e # stream, fence, soft event, sticky map/unmap
+    0x801f 0x8026 0x8034               # GPU offset, exec init, reserved version check
+};
+
+# SDL evdev reads. Shared stock label; filtered /dev supplies selected nodes.
+# No EVIOCGRAB, EVIOCSABS, or write access to physical input.
+allow portmaster_guest input_device:dir r_dir_perms;
+allow portmaster_guest input_device:chr_file { getattr open read ioctl };
+allowxperm portmaster_guest input_device:chr_file ioctl {
+    0x4501 0x4502 0x4506-0x450a 0x4518-0x451b 0x4520-0x457f
+};
+# Stock /dev/uinput label is uhid_device. Only expose uinput, not /dev/uhid.
+allow portmaster_guest uhid_device:chr_file { getattr open read write ioctl };
+allowxperm portmaster_guest uhid_device:chr_file ioctl {
+    0x5501 0x5502 0x5503 0x5504 0x5564-0x556e 0x552d 0x552c
+};
+
+# VT ownership/mode changes belong to the root controller, snapshot/restore
+# every change. Guest can query the supplied VT; it has no SYS_TTY_CONFIG.
+allow portmaster { tty_device owntty_device }:chr_file { getattr open read write ioctl };
+allowxperm portmaster { tty_device owntty_device }:chr_file ioctl {
+    0x4b3a 0x4b3b 0x4b44 0x4b45 # KDSETMODE, KDGETMODE, KDGKBMODE, KDSKBMODE
+    0x5600 0x5601 0x5602 0x5603 0x5606 0x5607 # VT open/get/set/state/activate/wait
+};
+allow portmaster_guest tty_device:chr_file { getattr open read write ioctl };
+allowxperm portmaster_guest tty_device:chr_file ioctl { 0x4b3b 0x4b44 0x5601 0x5603 };
+
+# Guest libc essentials; no binder, host data tree, network or ALSA yet.
+allow portmaster_guest { null_device zero_device random_device }:chr_file { getattr open read write };
+allow portmaster_guest { proc_cpuinfo proc_meminfo proc_version }:file r_file_perms;
+
+# Fixed guest heartbeat/exit endpoint. Server authenticates SO_PEERCRED and
+# session token; never accepts paths, shell commands, service names or mounts.
+allow init portmaster_socket:sock_file { create setattr unlink };
+allow portmaster portmaster_socket:sock_file { getattr open read write };
+allow portmaster self:unix_stream_socket create_stream_socket_perms;
+allow portmaster_guest self:unix_stream_socket create_stream_socket_perms;
+allow portmaster_guest portmaster_socket:sock_file { getattr open write };
+allow portmaster_guest portmaster:unix_stream_socket connectto;
+allow portmaster_guest portmaster:fd use;
+
+# Named property keys only; do not grant ctl_start_prop / ctl_stop_prop.
+allow portmaster property_socket:sock_file write;
+allow portmaster init:unix_stream_socket connectto;
+allow portmaster portmaster_display_ctl_prop:property_service set;
+get_prop(portmaster, portmaster_service_status_prop)
+allow system_server portmaster_request_prop:property_service set;
+get_prop(portmaster, portmaster_request_prop)
+allow portmaster portmaster_status_prop:property_service set;
+get_prop(system_server, portmaster_status_prop)
+
+neverallow portmaster_guest self:capability *;
+neverallow portmaster_guest self:capability2 *;
+neverallow portmaster_guest *:filesystem { mount remount unmount };
+neverallow portmaster_guest *:property_service set;
+neverallow portmaster_guest *:binder *;
+neverallow portmaster_guest { binder_device hwbinder_device vndbinder_device }:chr_file *;
+neverallow portmaster_guest { app_data_file privapp_data_file system_data_file }:file { open read write execute };
+neverallow portmaster_guest { portmaster_rootfs_file portmaster_rootfs_exec portmaster_guest_exec }:file { write append create relabelto };
+neverallow portmaster_guest portmaster_state_file:file { execute execute_no_trans entrypoint };
+neverallow portmaster_guest portmaster_journal_file:file { open read write append execute };

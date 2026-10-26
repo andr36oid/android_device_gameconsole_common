@@ -1,0 +1,37 @@
+# SPDX-License-Identifier: MIT
+# PROTOTYPE, UNWIRED. Unproven until the G1 hardware experiment passes.
+# Do not import, install or add to any product/BoardConfig/.mk file.
+# Fixed shell entry makes the prototype chain explicit. It is NOT the native
+# privilege boundary. Before integration replace it with the native
+# /system/bin/portmaster-session, labeled portmaster_exec by portmaster.rules.
+# The current policy does not authorize this shell entry; do not broaden it.
+
+service portmaster-session /system/bin/sh /system/etc/portmaster/session-controller.sh --enter
+    class core
+    user root
+    group root
+    seclabel u:r:portmaster:s0
+    disabled
+    oneshot
+
+# portmaster_request_prop -> fixed entry. init consumes the request, because
+# portmaster.te does not let the controller write portmaster_request_prop.
+# start on an already running service is a no-op; repeated taps are not queued.
+# No automatic restart, boot launch, ctl.restart, global stop, or reboot fallback.
+on property:sys.portmaster.request=enter
+    setprop sys.portmaster.request idle
+    start portmaster-session
+
+# The controller alone publishes sys.portmaster.status (portmaster_status_prop).
+# No ready value is published here. Native preflight/recovery must earn it later.
+# launch-flow.sh owns all service control, including waiting and rollback:
+#   stop surfaceflinger, then vendor.hwcomposer-2-1;
+#   restore originally running vendor.hwcomposer-2-1, then surfaceflinger.
+# init.rk30board.rc starts SF from late-fs and mentions old hwcomposer-2-1 names;
+# the imported composer rc declares the separate vendor.hwcomposer-2-1 service.
+# Resolve live names before use, never infer ownership from boot start order.
+# Explicit ctl.stop disables the service and skips its onrestart hooks in init
+# Service::Reap. A crash/restart instead can restart SF/zygote. Binder death can
+# still affect framework lifecycle. Do not add a blind SF/HWC restart trigger.
+# TODO G1+: native independent recovery supervisor, durable journal and trusted
+# entry installation/policy review. Shell traps do not cover SIGKILL/kernel hangs.
