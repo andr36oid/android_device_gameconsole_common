@@ -427,6 +427,36 @@ rm -f "$T/state/started"
 "$MKSH" -c 'export HOTFIX_TEST_PID=$$; . "$1"' hotfix "$HERE/../helper/andr36oid-hotfix.sh"
 check 'signal clears animation note' 0 "$(prop sys.andr36oid.hotfix.applying)"
 
+# A release whose applier predates build=any: the enable-any hotfix carries the
+# newer applier and runs it once, so a universal hotfix still applies.
+setup
+old=$T/oldhelper.sh
+python3 - "$HERE/../helper/andr36oid-hotfix.sh" "$old" <<'PY'
+import sys
+src = open(sys.argv[1]).read()
+block = ('\tif [ "$wanted" = any ]; then\n'
+         '\t\tnote "$HOTFIX_NAME: build=any, applies to every build"\n'
+         '\telif [ -z "$version" ] || [ -z "$incremental" ] || [ "$wanted" != "$build" ]; then\n')
+repl = '\tif [ -z "$version" ] || [ -z "$incremental" ] || [ "$wanted" != "$build" ]; then\n'
+assert block in src, "build=any branch not found; update this test to match the helper"
+open(sys.argv[2], "w").write(src.replace(block, repl))
+PY
+pack universal any 'hotfix_bind files/replacement /system/lib64/test.so'
+python3 - "$T/boot/hotfix/enable-any.fix.zip" "$HERE/../helper/andr36oid-hotfix.sh" "$HERE/../tools/enable-any-hotfix.sh" <<'PY'
+import sys, zipfile
+with zipfile.ZipFile(sys.argv[1], 'w', zipfile.ZIP_DEFLATED) as z:
+    z.writestr('manifest.txt', 'name=enable-any\ndescription=A test\nbuild=v1|123\n')
+    z.writestr('hotfix.sh', open(sys.argv[3]).read())
+    z.writestr('files/0', open(sys.argv[2]).read())
+PY
+rm -f "$T/state/started"
+"$MKSH" "$old"
+check 'old applier skips build=any' skipped:build "$(grep universal "$T/state/status" | cut -f 2,3 | tr '\t' ':')"
+check 'enable-any ran on the old applier' ran:ok "$(grep enable-any "$T/state/status" | cut -f 2,3 | tr '\t' ':')"
+check 're-exec applied the universal hotfix' 1 "$(grep -c '/system/lib64/test.so$' "$T/trace")"
+check 're-exec counts the start once' 1 "$(prop persist.andr36oid.hotfix.tries)"
+check 're-exec used a separate state dir' yes "$([ -f "$T/state/any/status" ] && echo yes)"
+
 python3 "$HERE/test_generator.py"
 python3 "$HERE/test_delta.py"
 echo "$pass shell checks passed, $fail failed"
