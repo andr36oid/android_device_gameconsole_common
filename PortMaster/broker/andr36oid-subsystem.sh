@@ -37,6 +37,11 @@ ROOT=${A36_ROOT:-/data/local/tmp/darkfull}   # dArkOS rootfs mountpoint (or dir)
 IMAGE=${A36_IMAGE:-}                          # optional dArkOSen .img to loop-mount
 HWC=${A36_HWC:-vendor.hwcomposer-2-1}
 GUARD_GRACE=${A36_GUARD_GRACE:-20}
+# How a full "start" brings up the dArkOS frontend: systemd (B1, boot dArkOS's own
+# init in a PID namespace - full session state), wrapper (run ES's wrapper directly,
+# the proven 60fps fallback), or bare (the raw ES binary, legacy). systemd falls back
+# to wrapper automatically if it cannot boot.
+SESSION_MODE=${A36_SESSION_MODE:-systemd}
 FB=${A36_FB:-/dev/graphics/fb0}               # fbdev node for the handoff splash
 SPLASH=${A36_SPLASH:-/system/etc/andr36oid-splash.raw}
 [ -f "$SPLASH" ] || SPLASH=/data/local/tmp/andr36oid-splash.raw   # test fallback
@@ -260,6 +265,59 @@ run_in_subsystem() {   # $* = command to exec inside the chroot
     chroot "$ROOT" "$@"
 }
 
+# dArkOSen's EmulationStation is started by systemd as the "ark" user with a prepared
+# session (udev perms on the input/DRM nodes, an XDG runtime dir, gptokeyb for menu
+# control). Running the bare ES binary as root skips all of that and renders black.
+# prep_darkos_env makes the nodes dArkOS expects world-usable from inside the chroot;
+# it is cheap and harmless to repeat, and both session modes below rely on it.
+prep_darkos_env() {
+  chmod 0666 /dev/uinput 2>/dev/null
+  for n in /dev/dri/card0 /dev/dri/renderD128 /dev/mali0; do [ -e "$n" ] && chmod 0666 "$n" 2>/dev/null; done
+  mkdir -p "$ROOT/run/user/0" "$ROOT/run/user/1000" 2>/dev/null
+  chmod 0700 "$ROOT/run/user/0" "$ROOT/run/user/1000" 2>/dev/null
+  chown 1000:1000 "$ROOT/run/user/1000" 2>/dev/null   # ark
+  [ -e "$ROOT/dev/tty1" ] || ln -sf tty0 "$ROOT/dev/tty1" 2>/dev/null
+}
+
+# B1: boot dArkOSen's own init (systemd) as PID1 in a new PID namespace, so the WHOLE
+# session comes up the way dArkOS expects - ogage (controller), audio, themes, the
+# EmulationStation service as the ark user - instead of us hand-starting pieces. Needs
+# CONFIG_PID_NS in the kernel (added alongside CONFIG_BTRFS_FS). toybox unshare has no
+# --mount-proc, so we mount a fresh /proc for the new pidns by hand before chroot.
+# The container stays up until the user picks "Shutdown" in dArkOS (systemd exits ->
+# this call returns -> the EXIT trap restores Android); "Restart" re-execs and stays.
+boot_subsystem_session() {
+  prep_darkos_env
+  [ -x "$ROOT/sbin/init" ] || [ -L "$ROOT/sbin/init" ] || { log "no /sbin/init in rootfs; cannot boot systemd"; return 1; }
+  log "boot dArkOSen systemd (PID-ns container; log -> $SESSION_OUT)"
+  # bind_core already bound the host /proc at $ROOT/proc; inside the new pidns it must
+  # be that namespace's proc instead. We run the ns-internal setup in a sh wrapper and
+  # exec systemd as the final (PID1) image. $container makes systemd take its container
+  # path (skip fsck/hwclock/module loads/host-only units); api fs are pre-placed.
+  unshare -f -p -m -i -u /system/bin/sh -c "
+    umount '$ROOT/proc' 2>/dev/null
+    mount -t proc proc '$ROOT/proc' 2>/dev/null
+    mount -t tmpfs tmpfs '$ROOT/run' 2>/dev/null
+    mount -t tmpfs -o mode=1777 tmpfs '$ROOT/tmp' 2>/dev/null
+    mkdir -p '$ROOT/run/user/0' '$ROOT/run/user/1000' 2>/dev/null
+    export container=andr36oid-subsystem HOME=/root TERM=linux \
+      PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+    exec chroot '$ROOT' /sbin/init systemd.log_target=console systemd.log_level=info
+  "
+}
+
+# Proven fallback (the 60fps ES bring-up): run dArkOSen's emulationstation.sh wrapper
+# directly (it does the uinput chmod, starts gptokeyb, sets XDG_RUNTIME_DIR and loops
+# ES) without systemd. Kept selectable so the console still has a working frontend if
+# the systemd path needs more bring-up work on a given image.
+run_es_wrapper() {
+  prep_darkos_env
+  local w=/usr/bin/emulationstation/emulationstation.sh
+  [ -x "$ROOT$w" ] || w=/usr/bin/emulationstation/emulationstation
+  log "launch EmulationStation via wrapper $w (log -> $SESSION_OUT)"
+  XDG_RUNTIME_DIR=/run/user/0 run_in_subsystem /bin/sh -lc "exec $w"
+}
+
 cmd=${1:-start}; arg=${2:-}
 
 # launch-prop: invoked by the init service on a property trigger (the Daijisho
@@ -312,8 +370,12 @@ handoff
 # leaves a trace - the handoff blips adb, so we cannot watch it live.
 SESSION_OUT="$STATE/session.out"
 case "$cmd" in
-  start) log "launch EmulationStation (log -> $SESSION_OUT)"
-         run_in_subsystem /usr/bin/emulationstation/emulationstation > "$SESSION_OUT" 2>&1 ;;
+  start) case "$SESSION_MODE" in
+           systemd) boot_subsystem_session > "$SESSION_OUT" 2>&1 || { log "systemd boot failed, falling back to ES wrapper"; run_es_wrapper > "$SESSION_OUT" 2>&1; } ;;
+           wrapper) run_es_wrapper > "$SESSION_OUT" 2>&1 ;;
+           bare)    log "launch bare EmulationStation (log -> $SESSION_OUT)"
+                    run_in_subsystem /usr/bin/emulationstation/emulationstation > "$SESSION_OUT" 2>&1 ;;
+         esac ;;
   run)   # The Daijisho bridge strips a port's .sh to name it, so "/roms/ports/<name>"
          # may not exist while "<name>.sh" does. /roms is bound under $ROOT now, so
          # add .sh back when the bare path is missing (handles both bare names and
