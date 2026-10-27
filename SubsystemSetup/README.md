@@ -30,7 +30,8 @@ on the card for manual inspection or removal. This is intentionally a minimal
 download flow, without archive extraction, checksum verification, or a background
 installation service. The Downloads record keeps the original staging filename.
 
-The hosting URL and real translations are pending. All locale files intentionally
-contain English with translation TODO comments. German translations must use
-informal "du". There is no stub for the root broker in this APK; that is a separate
+The hosting URL is a deployment setting and stays unset by design: no URL ships, and
+when one is configured it must serve an uncompressed `.img`. The locale files now hold
+real native translations (de, es, fr, in, ja, pl, pt, pt-rBR, ru, tr, zh-rCN); German
+uses informal "du". There is no stub for the root broker in this APK; that is a separate
 component. No full image build is needed to review this module.
