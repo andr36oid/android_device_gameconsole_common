@@ -1,0 +1,39 @@
+cc_prebuilt_binary {
+    name: "mkfs.erofs",
+    arch: {
+        arm64: { srcs: ["mkfs.erofs"] },
+    },
+    compile_multilib: "64",
+    static_executable: true,
+    stl: "none",
+    system_shared_libs: [],
+    strip: { none: true },
+    check_elf_files: false,
+}
+
+cc_prebuilt_binary {
+    name: "fsck.erofs",
+    arch: {
+        arm64: { srcs: ["fsck.erofs"] },
+    },
+    compile_multilib: "64",
+    static_executable: true,
+    stl: "none",
+    system_shared_libs: [],
+    strip: { none: true },
+    check_elf_files: false,
+}
+
+// Static glibc, built by build-support.sh with the same cross toolchain as erofs-utils.
+cc_prebuilt_binary {
+    name: "andr36oid-erofs-support",
+    arch: {
+        arm64: { srcs: ["andr36oid-erofs-support"] },
+    },
+    compile_multilib: "64",
+    static_executable: true,
+    stl: "none",
+    system_shared_libs: [],
+    strip: { none: true },
+    check_elf_files: false,
+}

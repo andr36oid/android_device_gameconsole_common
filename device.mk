@@ -221,7 +221,10 @@ PRODUCT_PACKAGES += \
 # trigger properties); the broker (/system/etc) does the handoff + loop-mount;
 # the .rc starts the broker as root on the property trigger.
 PRODUCT_PACKAGES += \
-	SubsystemBridge
+	SubsystemBridge \
+	mkfs.erofs \
+	fsck.erofs \
+	andr36oid-erofs-support
 PRODUCT_COPY_FILES += \
 	$(LOCAL_PATH)/PortMaster/broker/andr36oid-subsystem.sh:$(TARGET_COPY_OUT_SYSTEM)/etc/andr36oid-subsystem.sh \
 	$(LOCAL_PATH)/PortMaster/subsystem/andr36oid-subsystem.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/andr36oid-subsystem.rc \
