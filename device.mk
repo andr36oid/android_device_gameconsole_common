@@ -226,7 +226,8 @@ PRODUCT_COPY_FILES += \
 	$(LOCAL_PATH)/PortMaster/broker/andr36oid-subsystem.sh:$(TARGET_COPY_OUT_SYSTEM)/etc/andr36oid-subsystem.sh \
 	$(LOCAL_PATH)/PortMaster/subsystem/andr36oid-subsystem.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/andr36oid-subsystem.rc \
 	$(LOCAL_PATH)/PortMaster/subsystem/input/es_input.cfg:$(TARGET_COPY_OUT_SYSTEM)/etc/andr36oid-es_input.cfg \
-	$(LOCAL_PATH)/PortMaster/subsystem/splash/andr36oid-splash-640x480.raw:$(TARGET_COPY_OUT_SYSTEM)/etc/andr36oid-splash.raw
+	$(LOCAL_PATH)/PortMaster/subsystem/splash/andr36oid-splash-640x480.raw:$(TARGET_COPY_OUT_SYSTEM)/etc/andr36oid-splash.raw \
+	$(LOCAL_PATH)/PortMaster/subsystem/shutdown/andr36oid-shutdownanimation.zip:$(TARGET_COPY_OUT_SYSTEM)/media/shutdownanimation.zip
 
 # BOOT/hotfix/*.fix.zip, applied before zygote on every start
 PRODUCT_PACKAGES += \
