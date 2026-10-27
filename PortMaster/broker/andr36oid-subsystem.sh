@@ -279,22 +279,68 @@ prep_darkos_env() {
   [ -e "$ROOT/dev/tty1" ] || ln -sf tty0 "$ROOT/dev/tty1" 2>/dev/null
 }
 
-# B1: boot dArkOSen's own init (systemd) as PID1 in a new PID namespace, so the WHOLE
-# session comes up the way dArkOS expects - ogage (controller), audio, themes, the
+# The dArkOS session/setup units we bring up under systemd. These configure the device
+# the way dArkOS expects (CPU/GPU/RAM governors, screen gamma, audio routing, battery
+# LED, the WiFi/BT status daemon the ES header reads, the Fn-button watcher), plus the
+# controller daemon (ogage) and EmulationStation itself. Deliberately NOT included:
+#   - firstboot.service: it only runs /boot/expandtoexfat.sh, dArkOS's SD-card grow /
+#     exFAT-format step. There is no card to expand in our loop-mounted container, so it
+#     is inapplicable (not session setup). ES's "After=firstboot" is likewise moot here.
+#   - NetworkManager/wpa_supplicant/networking/wifi_monitor: network daemons, not setup;
+#     the subsystem is offline-first and they need dbus + the wifi stack. es-status-daemon
+#     stays (it just reports status; shows "disconnected" offline, which is correct).
+#   - console-setup: RequiresMountsFor=/usr + tty keymap, irrelevant to the GUI session.
+SESSION_UNITS="351mp.service cpu-governor.service dmc-governor.service gpu-freq.service \
+gamma-persist.service batt_led.service batteryplus.service fix-power-led.service \
+rotate-boot-logo.service es-status-daemon.service fn-menu-watcher.service \
+audiopath.service audiostate.service ogage.service emulationstation.service"
+
+# Install a minimal session target + per-unit drop-ins into the (writable overlay) rootfs.
+# dArkOS's units were written for a full systemd boot: the governors Require
+# systemd-udev-settle, several order After local-fs.target / multi-user.target /
+# network.target, console-setup RequiresMountsFor=/usr. Pulling any of that reconstructs
+# dArkOS's whole boot inside the container, where sysinit.target hangs (ldconfig /
+# local-fs / the /etc,/var overlay mounts) and the container udevd fights Android's
+# ueventd over the shared uevent socket. So each unit gets EVERY dependency directive
+# reset (DefaultDependencies=no + empty After/Requires/Wants/...): the ExecStart scripts
+# themselves only write a sysfs value or start a daemon and need none of that ordering.
+# We re-add just the one ordering that matters - ogage after ES - and boot this target
+# directly, so the allowlisted units are the only thing that runs.
+install_session_units() {
+  local d u
+  mkdir -p "$ROOT/etc/systemd/system"
+  { echo "[Unit]"; echo "Description=andr36oid subsystem session"
+    echo "DefaultDependencies=no"; echo "Wants=$SESSION_UNITS"; } \
+    > "$ROOT/etc/systemd/system/andr36oid-session.target"
+  for u in $SESSION_UNITS; do
+    d="$ROOT/etc/systemd/system/$u.d"; mkdir -p "$d"
+    printf '[Unit]\nDefaultDependencies=no\nAfter=\nBefore=\nRequires=\nRequisite=\nWants=\nBindsTo=\nPartOf=\nConflicts=\nRequiresMountsFor=\n' > "$d/00-detach.conf"
+  done
+  printf '[Unit]\nAfter=emulationstation.service\n' \
+    > "$ROOT/etc/systemd/system/ogage.service.d/10-order.conf"
+}
+
+# B1: boot dArkOSen's own init (systemd) as PID1 in a new PID namespace, so the session
+# comes up the way dArkOS expects - ogage (controller), audio, governors, gamma, the
 # EmulationStation service as the ark user - instead of us hand-starting pieces. Needs
 # CONFIG_PID_NS in the kernel (added alongside CONFIG_BTRFS_FS). toybox unshare has no
-# --mount-proc, so we mount a fresh /proc for the new pidns by hand before chroot.
+# --mount-proc, so we mount a fresh /proc for the new pidns by hand before chroot. We
+# boot systemd.unit=andr36oid-session.target (see install_session_units) rather than the
+# default (multi-user) target, which would drag in the full, container-incompatible boot.
 # The container stays up until the user picks "Shutdown" in dArkOS (systemd exits ->
 # this call returns -> the EXIT trap restores Android); "Restart" re-execs and stays.
 boot_subsystem_session() {
   prep_darkos_env
   [ -x "$ROOT/sbin/init" ] || [ -L "$ROOT/sbin/init" ] || { log "no /sbin/init in rootfs; cannot boot systemd"; return 1; }
-  log "boot dArkOSen systemd (PID-ns container; log -> $SESSION_OUT)"
+  install_session_units
+  log "boot dArkOSen systemd -> andr36oid-session.target (PID-ns container; log -> $SESSION_OUT)"
   # bind_core already bound the host /proc at $ROOT/proc; inside the new pidns it must
   # be that namespace's proc instead. We run the ns-internal setup in a sh wrapper and
   # exec systemd as the final (PID1) image. $container makes systemd take its container
   # path (skip fsck/hwclock/module loads/host-only units); api fs are pre-placed.
-  unshare -f -p -m -i -u /system/bin/sh -c "
+  # Only PID+mount+UTS namespaces: the kernel has CONFIG_PID_NS/UTS_NS but NOT IPC_NS
+  # (that needs CONFIG_SYSVIPC, which Android disables), so -i would make unshare fail.
+  unshare -f -p -m -u /system/bin/sh -c "
     umount '$ROOT/proc' 2>/dev/null
     mount -t proc proc '$ROOT/proc' 2>/dev/null
     mount -t tmpfs tmpfs '$ROOT/run' 2>/dev/null
@@ -302,7 +348,7 @@ boot_subsystem_session() {
     mkdir -p '$ROOT/run/user/0' '$ROOT/run/user/1000' 2>/dev/null
     export container=andr36oid-subsystem HOME=/root TERM=linux \
       PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-    exec chroot '$ROOT' /sbin/init systemd.log_target=console systemd.log_level=info
+    exec chroot '$ROOT' /sbin/init systemd.unit=andr36oid-session.target systemd.log_target=kmsg systemd.log_level=info systemd.show_status=true
   "
 }
 
@@ -371,7 +417,7 @@ handoff
 SESSION_OUT="$STATE/session.out"
 case "$cmd" in
   start) case "$SESSION_MODE" in
-           systemd) boot_subsystem_session > "$SESSION_OUT" 2>&1 || { log "systemd boot failed, falling back to ES wrapper"; run_es_wrapper > "$SESSION_OUT" 2>&1; } ;;
+           systemd) boot_subsystem_session > "$STATE/systemd.out" 2>&1 || { log "systemd boot failed (see systemd.out), falling back to ES wrapper"; run_es_wrapper > "$SESSION_OUT" 2>&1; } ;;
            wrapper) run_es_wrapper > "$SESSION_OUT" 2>&1 ;;
            bare)    log "launch bare EmulationStation (log -> $SESSION_OUT)"
                     run_in_subsystem /usr/bin/emulationstation/emulationstation > "$SESSION_OUT" 2>&1 ;;
