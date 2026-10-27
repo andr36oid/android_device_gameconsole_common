@@ -41,7 +41,12 @@ GUARD_GRACE=${A36_GUARD_GRACE:-20}
 # init in a PID namespace - full session state), wrapper (run ES's wrapper directly,
 # the proven 60fps fallback), or bare (the raw ES binary, legacy). systemd falls back
 # to wrapper automatically if it cannot boot.
-SESSION_MODE=${A36_SESSION_MODE:-systemd}
+# Default to wrapper: the systemd path is not ready yet, and when it fails to boot it
+# leaves DRM master/mode held by the killed /sbin/init, so the wrapper fallback (and
+# even the Android restore afterwards) then floods "Could not queue pageflip: -22" and
+# the display wedges. The wrapper path takes clean DRM and is the verified 60fps bring-up.
+# Set A36_SESSION_MODE=systemd to work on the B1 container path.
+SESSION_MODE=${A36_SESSION_MODE:-wrapper}
 FB=${A36_FB:-/dev/graphics/fb0}               # fbdev node for the handoff splash
 SPLASH=${A36_SPLASH:-/system/etc/andr36oid-splash.raw}
 [ -f "$SPLASH" ] || SPLASH=/data/local/tmp/andr36oid-splash.raw   # test fallback
