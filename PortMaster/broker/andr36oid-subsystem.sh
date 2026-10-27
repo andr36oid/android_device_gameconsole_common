@@ -270,9 +270,35 @@ run_in_subsystem() {   # $* = command to exec inside the chroot
 # control). Running the bare ES binary as root skips all of that and renders black.
 # prep_darkos_env makes the nodes dArkOS expects world-usable from inside the chroot;
 # it is cheap and harmless to repeat, and both session modes below rely on it.
+# The games card is bound into the container from Android's vold mount, which is
+# mode 0770 owned root:media_rw (gid 1023); the input devices are 0660 root:input
+# (gid 1004). ark (uid 1000) is in neither Android group, so ES would see an empty
+# /roms and a port that reads /dev/input/event* directly (Kodi) would get no input.
+# Those Android gids mean nothing by NAME inside dArkOS, but the kernel checks the
+# NUMERIC gid, so adding ark to groups with those gids grants access. systemd reads
+# User=ark's groups from /etc/group when it starts ES, so this must run before boot.
+grant_storage_groups() {
+  local grp="$ROOT/etc/group" gid
+  [ -f "$grp" ] || return 0
+  for gid in 1023 1015 1004 9997; do   # media_rw, sdcard_rw, input, everybody
+    if awk -F: -v g="$gid" '$3==g{f=1} END{exit !f}' "$grp"; then
+      # a group already owns this gid: add ark to it if absent
+      awk -F: -v g="$gid" 'BEGIN{OFS=":"}
+        $3==g && $4 !~ /(^|,)ark(,|$)/ { $4 = ($4=="" ? "ark" : $4",ark") }
+        {print}' "$grp" > "$grp.a36" && cat "$grp.a36" > "$grp" && rm -f "$grp.a36"
+    else
+      echo "a36hw$gid:x:$gid:ark" >> "$grp"
+    fi
+  done
+}
+
 prep_darkos_env() {
   chmod 0666 /dev/uinput 2>/dev/null
   for n in /dev/dri/card0 /dev/dri/renderD128 /dev/mali0; do [ -e "$n" ] && chmod 0666 "$n" 2>/dev/null; done
+  # Raw input nodes for ports that read evdev directly (ES itself goes through ogage's
+  # uinput device above, but Kodi and some ports open /dev/input/event* themselves).
+  for n in /dev/input/event* /dev/input/js*; do [ -e "$n" ] && chmod 0666 "$n" 2>/dev/null; done
+  grant_storage_groups
   mkdir -p "$ROOT/run/user/0" "$ROOT/run/user/1000" 2>/dev/null
   chmod 0700 "$ROOT/run/user/0" "$ROOT/run/user/1000" 2>/dev/null
   chown 1000:1000 "$ROOT/run/user/1000" 2>/dev/null   # ark
