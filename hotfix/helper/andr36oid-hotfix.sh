@@ -238,7 +238,9 @@ for zip in "$DIR/work/BOOT/"*.fix.zip "$DIR/work/EASYROMS/"*.fix.zip; do
 		continue
 	fi
 	if [ -n "$reason" ]; then status skipped "$reason"; continue; fi
-	if [ -z "$version" ] || [ -z "$incremental" ] || [ "$wanted" != "$build" ]; then
+	if [ "$wanted" = any ]; then
+		note "$HOTFIX_NAME: build=any, applies to every build"
+	elif [ -z "$version" ] || [ -z "$incremental" ] || [ "$wanted" != "$build" ]; then
 		status skipped build
 		continue
 	fi
