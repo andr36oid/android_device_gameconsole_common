@@ -3,6 +3,8 @@
     <string name="subsystem_title">andr36oid dArkOSen 子系统</string>
     <string name="subsystem_summary">设置并打开 dArkOSen、EmulationStation 和 PortMaster</string>
     <string name="subsystem_intro">该子系统会在您的主机上运行一个精简的 dArkOSen Linux 系统。您可以使用 EmulationStation 和 PortMaster 游玩移植游戏。退出后会正常返回 Android。</string>
+    <string name="subsystem_about_title">工作原理</string>
+    <string name="subsystem_about">此功能会在一个独立的隔离环境中运行 dArkOSen，也可能运行其他自定义固件，环境有点像 Docker。开始运行前会先停止 Android 中占用资源较多的后台服务，因此运行期间所有已打开的 Android 应用都会关闭。运行速度应该接近单独运行自定义固件时的速度，但它使用的是 andr36oid 内核，因此有些功能可能无法完全按预期工作。您的 EASYROMS 分区，或者您选择不创建 EASYROMS 分区时使用的数据分区，会以 /roms 的形式挂载到自定义固件中。</string>
     <string name="subsystem_status">状态</string>
     <string name="subsystem_checking">正在检查…</string>
     <string name="subsystem_installed">已找到 dArkOSen 镜像</string>

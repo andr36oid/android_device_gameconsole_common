@@ -3,6 +3,8 @@
     <string name="subsystem_title">andr36oid dArkOSen サブシステム</string>
     <string name="subsystem_summary">dArkOSen、EmulationStation、PortMasterをセットアップして開く</string>
     <string name="subsystem_intro">このサブシステムは、コンソール上で小さな dArkOSen Linux システムを実行します。EmulationStation と PortMaster で移植ゲームをプレイできます。終了すると、Android に正常に戻ります。</string>
+    <string name="subsystem_about_title">仕組み</string>
+    <string name="subsystem_about">これは dArkOSen と、場合によっては他のカスタムファームウェアを、Docker のような独立した隔離環境で実行します。まず Android の負荷の大きいバックグラウンドサービスを停止するため、実行中は開いている Android アプリがすべて終了します。速度はカスタムファームウェアを単独で実行した場合に近いはずですが、andr36oid カーネルを使用するため、一部の機能は期待どおりに動作しないことがあります。EASYROMS パーティション、または EASYROMS を作成しないことを選んだ場合はデータパーティションが、カスタムファームウェア内で /roms としてマウントされます。</string>
     <string name="subsystem_status">状態</string>
     <string name="subsystem_checking">確認中...</string>
     <string name="subsystem_installed">dArkOSen のイメージが見つかりました</string>

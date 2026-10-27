@@ -3,6 +3,8 @@
     <string name="subsystem_title">dArkOSen için andr36oid alt sistemi</string>
     <string name="subsystem_summary">dArkOSen, EmulationStation ve PortMaster kurulumu ve açılışı</string>
     <string name="subsystem_intro">Alt sistem, konsolunuzda küçük bir dArkOSen Linux sistemi çalıştırır. Port oyunlarını oynamak için EmulationStation ve PortMaster kullanın. Çıkış yaptığınızda Android sistemine sorunsuz dönersiniz.</string>
+    <string name="subsystem_about_title">Nasıl çalışır</string>
+    <string name="subsystem_about">Bu özellik, dArkOSen\'i ve muhtemelen diğer özel yazılımları Docker\'a biraz benzeyen, ayrı ve yalıtılmış bir ortamda çalıştırır. Android\'in yoğun arka plan hizmetleri önce durdurulur, bu nedenle açık olan tüm Android uygulamalarınız işlem sürerken kapatılır. Performans, özel yazılımı tek başına çalıştırmaya yakın olmalıdır, ancak andr36oid çekirdeğini kullanır. Bu nedenle bazı şeyler tam olarak beklendiği gibi çalışmayabilir. EASYROMS bölümünüz veya EASYROMS oluşturmayı seçmediyseniz veri bölümü, özel yazılım içinde /roms olarak bağlanır.</string>
     <string name="subsystem_status">Durum</string>
     <string name="subsystem_checking">Kontrol ediliyor...</string>
     <string name="subsystem_installed">dArkOSen imajı bulundu</string>

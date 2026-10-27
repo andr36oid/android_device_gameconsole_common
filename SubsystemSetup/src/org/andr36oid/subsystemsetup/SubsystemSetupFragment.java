@@ -70,6 +70,12 @@ public class SubsystemSetupFragment extends PreferenceFragment {
         intro.setSelectable(false);
         screen.addPreference(intro);
 
+        final Preference about = new Preference(c);
+        about.setTitle(R.string.subsystem_about_title);
+        about.setSummary(R.string.subsystem_about);
+        about.setSelectable(false);
+        screen.addPreference(about);
+
         mStatus = new Preference(c);
         mStatus.setTitle(R.string.subsystem_status);
         mStatus.setSelectable(false);

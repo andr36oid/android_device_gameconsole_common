@@ -3,6 +3,8 @@
     <string name="subsystem_title">Subsistema andr36oid para dArkOSen</string>
     <string name="subsystem_summary">Configurar e abrir dArkOSen, EmulationStation e PortMaster</string>
     <string name="subsystem_intro">O subsistema executa um pequeno sistema Linux dArkOSen na sua consola. Utilize o EmulationStation e o PortMaster para jogar ports. Ao sair, regressa ao Android de forma limpa.</string>
+    <string name="subsystem_about_title">Como funciona</string>
+    <string name="subsystem_about">Isto executa o dArkOSen e, possivelmente, outro firmware personalizado num ambiente separado e isolado, um pouco como o Docker. Os serviços Android em segundo plano que mais recursos consomem são parados primeiro, pelo que todas as aplicações Android abertas são fechadas enquanto isto estiver a funcionar. A velocidade deverá ser próxima da obtida ao executar o firmware personalizado por si só, mas é utilizado o kernel do andr36oid, pelo que algumas coisas poderão não funcionar exatamente como esperado. A sua partição EASYROMS, ou a partição de dados caso tenha optado por não criar a partição EASYROMS, é montada no firmware personalizado como /roms.</string>
     <string name="subsystem_status">Estado</string>
     <string name="subsystem_checking">A verificar...</string>
     <string name="subsystem_installed">Imagem dArkOSen encontrada</string>

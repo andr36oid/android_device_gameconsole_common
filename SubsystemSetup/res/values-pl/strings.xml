@@ -3,6 +3,8 @@
     <string name="subsystem_title">Podsystem andr36oid dla dArkOSen</string>
     <string name="subsystem_summary">Skonfiguruj i otwórz dArkOSen, EmulationStation i PortMaster</string>
     <string name="subsystem_intro">Podsystem uruchamia na konsoli niewielki system Linux dArkOSen. Używaj EmulationStation i PortMaster, aby grać w porty. Po wyjściu nastąpi bezpieczny powrót do systemu Android.</string>
+    <string name="subsystem_about_title">Jak to działa</string>
+    <string name="subsystem_about">dArkOSen i ewentualnie inne niestandardowe oprogramowanie układowe są uruchamiane w osobnym, odizolowanym środowisku, trochę jak Docker. Najpierw zatrzymywane są wymagające usługi Android działające w tle, więc wszystkie otwarte aplikacje Android zostają zamknięte na czas działania. Wydajność powinna być zbliżona do tej przy samodzielnym uruchomieniu niestandardowego oprogramowania układowego, ale używane jest jądro andr36oid, dlatego niektóre rzeczy mogą nie działać dokładnie tak, jak oczekujesz. Partycja EASYROMS lub partycja danych, jeśli zdecydujesz się nie tworzyć partycji EASYROMS, jest montowana w niestandardowym oprogramowaniu układowym jako /roms.</string>
     <string name="subsystem_status">Stan</string>
     <string name="subsystem_checking">Sprawdzanie...</string>
     <string name="subsystem_installed">Znaleziono obraz dArkOSen</string>
