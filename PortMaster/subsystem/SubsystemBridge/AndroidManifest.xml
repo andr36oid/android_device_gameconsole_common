@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The Daijisho->root bridge for the andr36oid Subsystem. Daijisho launches a
+     "player" by am-starting an activity with the ROM path; this translucent,
+     no-UI activity turns that launch into the property trigger init watches for,
+     then finishes. Runs as the system user (like UsbMode) so it may set the
+     sys.andr36oid.subsystem.* properties. -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="org.andr36oid.subsystem"
+    android:sharedUserId="android.uid.system">
+
+    <application
+        android:allowBackup="false"
+        android:label="@string/app_label"
+        android:supportsRtl="true">
+
+        <!-- exported: Daijisho (a different app) must be able to start it. -->
+        <activity
+            android:name=".LaunchPortActivity"
+            android:exported="true"
+            android:excludeFromRecents="true"
+            android:noHistory="true"
+            android:theme="@android:style/Theme.NoDisplay">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>

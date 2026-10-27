@@ -53,3 +53,4 @@ dos               DOS games (.zip or folder) - RetroArch (DOSBox Pure)
 doom              Doom WADs - RetroArch (PrBoom)
 easyrpg           RPG Maker 2000/2003 games, one folder each - RetroArch (EasyRPG)
 pico-8            PICO-8 carts (.p8.png) - RetroArch (FAKE-08)
+ports

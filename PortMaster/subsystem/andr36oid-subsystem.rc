@@ -1,0 +1,21 @@
+# andr36oid Subsystem for dArkOSen - init glue.
+#
+# The broker runs the dArkOSen userspace (EmulationStation / a port / PortMaster)
+# with the display handed off from Android, then restores Android. It needs root,
+# so an unprivileged app (Daijisho's launch, via the SubsystemBridge activity)
+# cannot run it directly. Instead the bridge sets two properties and init starts
+# this root service - exactly the pattern andr36oid-usb-drive uses for USB lending.
+#
+#   sys.andr36oid.subsystem.port     = "ES" | "PM" | <port name or path>
+#   sys.andr36oid.subsystem.request  = "run"   (the trigger; broker clears it)
+
+service andr36oid-subsystem /system/bin/sh /system/etc/andr36oid-subsystem.sh launch-prop
+    class late_start
+    user root
+    group root system mount
+    seclabel u:r:shell:s0
+    disabled
+    oneshot
+
+on property:sys.andr36oid.subsystem.request=run
+    start andr36oid-subsystem
