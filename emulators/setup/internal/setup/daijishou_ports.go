@@ -63,9 +63,151 @@ func (s *Setup) ReconcilePorts() {
 	if s.noroms || root == "" || !sys.IsFile(s.djDB()) {
 		return
 	}
+	s.djMigratePorts(root)
 	if err := s.djReconcilePorts(root); err != nil {
 		s.Log("reconciling Daijishou's ports failed: %v", err)
 	}
+}
+
+// djMigratePorts adds the Ports platform to a library we seeded before the Ports
+// platform existed. The first-boot seed only adds it to brand new libraries, and
+// djReconcilePorts never recreates a platform (it respects one the user has deleted),
+// so without this an upgraded console would never show the Ports page. It runs once,
+// guarded by a marker, and proves its SQL on a copy of the database before touching
+// the live one, so a failure can never corrupt the library. It only creates the empty
+// platform; the reconcile that follows fills it with the ports and PortMaster.
+func (s *Setup) djMigratePorts(root string) {
+	marker := s.state("daijishou.ports-migrated")
+	if sys.Exists(marker) || !sys.Exists(s.djSeeded()) || !sys.IsFile(s.djDB()) {
+		return
+	}
+	uuid := baseOf(root)
+	if uuid == "" || !uuidOK.MatchString(uuid) || !sys.IsDir(root+"/ports") {
+		return
+	}
+	// The Ports platform and its player, taken verbatim from the seed.
+	var pvals, playerVals, artFile, pnum string
+	for _, l := range s.djSeedLines() {
+		if l.kind == "platform" && strings.HasPrefix(l.vals, "'ports',") {
+			pvals, pnum = l.vals, l.n
+			break
+		}
+	}
+	if pnum == "" {
+		return
+	}
+	for _, l := range s.djSeedLines() {
+		if l.n != pnum {
+			continue
+		}
+		if l.kind == "player" && playerVals == "" && s.djHas(l.arg) {
+			playerVals = l.vals
+		}
+		if l.kind == "art" && artFile == "" {
+			artFile = l.arg
+		}
+	}
+	if playerVals == "" {
+		return // the subsystem app is not installed: nothing to launch a port with
+	}
+
+	tmp, err := os.MkdirTemp(s.State, "daijishou-migrate.")
+	if err != nil {
+		s.Log("adding Daijishou's Ports platform failed: %v", err)
+		return
+	}
+	defer os.RemoveAll(tmp)
+	db := tmp + "/Daijishou.db"
+	if err := copyPlain(s.djDB(), db); err != nil {
+		s.Log("adding Daijishou's Ports platform failed: %v", err)
+		return
+	}
+	if sys.Exists(s.djDB() + "-wal") {
+		if err := copyPlain(s.djDB()+"-wal", db+"-wal"); err != nil {
+			s.Log("adding Daijishou's Ports platform failed: %v", err)
+			return
+		}
+	}
+	// Already there (a fresh install, or a user library that kept it): nothing to
+	// add, but set the marker so we stop checking every boot.
+	if has, err := s.sqlQuery(db, "SELECT count(*) FROM PlatformEntity WHERE unique_id = 'ports';"); err != nil {
+		return
+	} else if has != "0" {
+		_ = os.WriteFile(marker, nil, 0o600)
+		return
+	}
+	nextPlat, err := s.sqlQuery(db, "SELECT COALESCE(MAX(id), 0) + 1 FROM PlatformEntity;")
+	if err != nil {
+		return
+	}
+	nextPlayer, err := s.sqlQuery(db, "SELECT COALESCE(MAX(id), 0) + 1 FROM PlayerEntity;")
+	if err != nil {
+		return
+	}
+	plat, err := strconv.Atoi(nextPlat)
+	if err != nil {
+		return
+	}
+	player, err := strconv.Atoi(nextPlayer)
+	if err != nil {
+		return
+	}
+	tree := `"` + djTreeURI(uuid, "ports") + `"`
+	var b strings.Builder
+	b.WriteString(".timeout 5000\nBEGIN IMMEDIATE;\n")
+	fmt.Fprintf(&b, "INSERT INTO PlayerEntity (id, unique_id, player, name, description, am_start_arguments, kill_package_processes, kill_package_processes_warning, accepted_filename_regex, extra) VALUES (%d, %s);\n", player, playerVals)
+	fmt.Fprintf(&b, "INSERT INTO PlatformEntity (id, default_player_id, player_id_list, items_sync_tree_uri_list, unique_id, name, shortname, description, is_visible, scrape_preview_media, wallpaper_path, thumbnail_path, color_theme, color_on_theme, accept_filename_regex, scraper_source_list, box_art_aspect_ratio_id, use_custom_box_art_aspect_ratio, custom_box_art_aspect_ratio, screen_aspect_ratio_id, use_custom_screen_aspect_ratio, custom_screen_aspect_ratio, retro_achievements_console_id_list, extra) VALUES (%d, %d, '[%d]', '[%s]', %s);\n", plat, player, player, tree, pvals)
+	if artFile != "" && sys.IsFile(s.djArt()+"/"+artFile) {
+		data := s.djData()
+		fmt.Fprintf(&b, "UPDATE PlatformEntity SET wallpaper_path = '%s/files/platform_wallpapers/%d.png', thumbnail_path = '%s/files/platform_thumbnails/%d.png' WHERE id = %d;\n", data, plat, data, plat, plat)
+	}
+	b.WriteString("COMMIT;\n")
+	file := tmp + "/migrate.sql"
+	if err := os.WriteFile(file, []byte(b.String()), 0o600); err != nil {
+		return
+	}
+	// Prove it applies on the copy and really creates the Ports platform before we
+	// touch the live database.
+	if err := s.sqlRun(db, file); err != nil {
+		s.Log("adding Daijishou's Ports platform failed on a copy, not applied: %v", err)
+		return
+	}
+	if has, err := s.sqlQuery(db, "SELECT count(*) FROM PlatformEntity WHERE unique_id = 'ports';"); err != nil || has != "1" {
+		return
+	}
+
+	owner, err := fsx.OwnerOf(s.djData())
+	if err != nil {
+		return
+	}
+	top := s.djRunning() && s.djOnTop()
+	if _, err := s.R.Run("am", "force-stop", djPkg); err != nil {
+		return
+	}
+	defer func() {
+		_, _ = s.R.Run("am", "force-stop", djPkg)
+		for _, suffix := range []string{"", "-wal", "-shm", "-journal"} {
+			if sys.Exists(s.djDB() + suffix) {
+				_ = fsx.SetOwnerMode(s.djDB()+suffix, owner, 0o660)
+			}
+		}
+		s.restorecon(true, dirOf(s.djDB()))
+		if top {
+			s.goHome()
+		}
+	}()
+	if !sys.IsFile(s.djDB()) {
+		return
+	}
+	if err := s.sqlRun(s.djDB(), file); err != nil {
+		s.Log("adding Daijishou's Ports platform failed: %v", err)
+		return
+	}
+	if artFile != "" {
+		s.djCopyArt([]djArtItem{{plat, artFile}}, owner)
+	}
+	_ = os.WriteFile(marker, nil, 0o600)
+	s.Log("added Daijishou's Ports platform to an upgraded library")
 }
 
 func djQuote(v string) string { return "'" + strings.ReplaceAll(v, "'", "''") + "'" }

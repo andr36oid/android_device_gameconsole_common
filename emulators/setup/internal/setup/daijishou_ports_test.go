@@ -8,6 +8,7 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"strconv"
 	"strings"
 	"testing"
 	"time"
@@ -280,3 +281,68 @@ func TestDaijishouReconcilePortsRollback(t *testing.T) {
 		c.fail("failed reconcile did not roll back: %q", got)
 	}
 }
+
+// An upgraded console seeded its library before the Ports platform existed. The
+// first-boot seed will not re-add it (the library is already seeded) and the
+// reconcile never recreates a platform, so djMigratePorts must add it once, after
+// which the reconcile fills it. A later user deletion must then be respected.
+func TestDaijishouMigratePorts(t *testing.T) {
+	c := newDJPorts(t)
+	s := c.s
+	write(t, s.djPrefs(), androidPrefs)
+
+	// Simulate the pre-Ports library: drop the Ports platform, its player and games,
+	// and make sure the one-time migration marker is not set.
+	c.sql("DELETE FROM PlayableItemEntity WHERE attached_platform_id IN (SELECT id FROM PlatformEntity WHERE unique_id = 'ports');")
+	c.sql("DELETE FROM PlayerEntity WHERE id IN (SELECT default_player_id FROM PlatformEntity WHERE unique_id = 'ports');")
+	c.sql("DELETE FROM PlatformEntity WHERE unique_id = 'ports';")
+	_ = os.Remove(s.state("daijishou.ports-migrated"))
+	if got := c.sql("SELECT count(*) FROM PlatformEntity WHERE unique_id = 'ports';"); got != "0" {
+		c.fail("setup: Ports platform should be gone, got %q", got)
+	}
+	users := c.sql("SELECT count(*) FROM PlatformEntity;")
+
+	write(t, s.easyroms+"/ports/Old.sh", "old port\n")
+	s.ReconcilePorts()
+
+	// The Ports platform is back, with its subsystem player, and is populated.
+	if got := c.sql("SELECT p.unique_id FROM PlayerEntity p JOIN PlatformEntity f ON p.id = f.default_player_id WHERE f.unique_id = 'ports';"); got != "ports.andr36oid.subsystem" {
+		c.fail("migrated Ports player: %q", got)
+	}
+	if got := c.sql("SELECT name FROM PlayableItemEntity WHERE attached_platform_id IN (SELECT id FROM PlatformEntity WHERE unique_id = 'ports') ORDER BY name;"); got != "Old\nPortMaster" {
+		c.fail("migrated Ports games: %q", got)
+	}
+	// The user's other platforms are untouched (we only added one).
+	if got := c.sql("SELECT count(*) FROM PlatformEntity;"); got != fmt.Sprint(atoiTest(users)+1) {
+		c.fail("migration added more than the Ports platform: now %q, was %q", got, users)
+	}
+	if !c.exists(s.state("daijishou.ports-migrated")) {
+		c.fail("migration marker not set")
+	}
+
+	// A user who now deletes the Ports platform must not get it back (marker set).
+	c.sql("DELETE FROM PlatformEntity WHERE unique_id = 'ports';")
+	s.ReconcilePorts()
+	if got := c.sql("SELECT count(*) FROM PlatformEntity WHERE unique_id = 'ports';"); got != "0" {
+		c.fail("Ports platform recreated after the user deleted it: %q", got)
+	}
+}
+
+// A fresh install already has the Ports platform from the seed: the migration must
+// not add a duplicate, and must set its marker so it stops checking.
+func TestDaijishouMigratePortsFreshIsNoop(t *testing.T) {
+	c := newDJPorts(t)
+	s := c.s
+	write(t, s.djPrefs(), androidPrefs)
+	_ = os.Remove(s.state("daijishou.ports-migrated"))
+	write(t, s.easyroms+"/ports/Old.sh", "old port\n")
+	s.ReconcilePorts()
+	if got := c.sql("SELECT count(*) FROM PlatformEntity WHERE unique_id = 'ports';"); got != "1" {
+		c.fail("fresh install should keep exactly one Ports platform, got %q", got)
+	}
+	if !c.exists(s.state("daijishou.ports-migrated")) {
+		c.fail("migration marker not set on a fresh install")
+	}
+}
+
+func atoiTest(s string) int { n, _ := strconv.Atoi(s); return n }
