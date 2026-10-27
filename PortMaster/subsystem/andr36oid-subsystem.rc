@@ -19,3 +19,12 @@ service andr36oid-subsystem /system/bin/sh /system/etc/andr36oid-subsystem.sh la
 
 on property:sys.andr36oid.subsystem.request=run
     start andr36oid-subsystem
+
+# scan: no display handoff; the broker just reports whether a dArkOSen image is
+# installed in sys.andr36oid.subsystem.image so the Settings page can show status.
+on property:sys.andr36oid.subsystem.request=scan
+    start andr36oid-subsystem
+
+# Scan once at boot so the status is known before the user opens the page.
+on property:sys.boot_completed=1
+    setprop sys.andr36oid.subsystem.request scan

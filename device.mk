@@ -601,6 +601,7 @@ PRODUCT_PACKAGES += \
 	andr36oid-ktweaks \
 	andr36oid-hz-preview
 
+PRODUCT_PACKAGES += SubsystemSetup # Settings > System: andr36oid Subsystem for dArkOSen
 # RGB lights (Settings > Display > RGB lights), shown only on consoles with an
 # RGB LED (R36 Ultra); off unless chosen
 PRODUCT_PACKAGES += \

@@ -375,6 +375,7 @@ func (s *Setup) RunEasyromsLate() {
 	s.BIOSFolder()
 	s.Progress.Stage("library")
 	s.SeedDaijishou()
+	s.ReconcilePorts()
 	s.DJNewGames()
 	s.DaijishouReady()
 	s.ReleaseCards()

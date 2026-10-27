@@ -56,3 +56,17 @@ service gameconsole-magisk /system/bin/gameconsole-setup magisk
 
 on property:init.svc.bootanim=running
     start gameconsole-magisk
+
+# A PortMaster session may have added or removed ports: refresh Daijishou's Ports
+# library so it matches EmulationStation without a reboot (gameconsole-setup,
+# ReconcilePorts). The broker sets this after a PortMaster handoff.
+service gameconsole-ports /system/bin/gameconsole-setup reconcile-ports
+    class main
+    user root
+    group root system
+    disabled
+    oneshot
+
+on property:sys.andr36oid.ports_changed=1
+    start gameconsole-ports
+    setprop sys.andr36oid.ports_changed 0

@@ -1,0 +1,14 @@
+// Settings > System > andr36oid Subsystem for dArkOSen.
+android_app {
+    name: "SubsystemSetup",
+    static_libs: ["andr36oid-hint-bar"],
+    srcs: ["src/**/*.java"],
+    resource_dirs: ["res"],
+    certificate: "platform",
+    platform_apis: true,
+    // Android 11 DownloadManager needs legacy storage for the card's custom folder.
+    target_sdk_version: "29",
+    optimize: {
+        enabled: false,
+    },
+}

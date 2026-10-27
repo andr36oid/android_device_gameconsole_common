@@ -267,15 +267,30 @@ cmd=${1:-start}; arg=${2:-}
 # holds the request: "ES" -> full frontend, "PM" -> PortMaster GUI, or a port
 # path (absolute, or relative to /roms/ports) -> run that single port.
 if [ "$cmd" = launch-prop ]; then
+  req=$(getprop sys.andr36oid.subsystem.request 2>/dev/null)
   want=$(getprop sys.andr36oid.subsystem.port 2>/dev/null)
   setprop sys.andr36oid.subsystem.request "" 2>/dev/null
-  case "$want" in
-    ES|"") set -- start ;;
-    PM)    set -- run "/roms/tools/PortMaster/PortMaster.sh" ;;
-    /*)    set -- run "$want" ;;            # absolute path inside the subsystem
-    *)     set -- run "/roms/ports/$want" ;;
-  esac
+  if [ "$req" = scan ]; then
+    set -- scan
+  else
+    case "$want" in
+      ES|"") set -- start ;;
+      PM)    set -- run "/roms/tools/PortMaster/PortMaster.sh"; IS_PM=1 ;;
+      /*)    set -- run "$want" ;;            # absolute path inside the subsystem
+      *)     set -- run "/roms/ports/$want" ;;
+    esac
+  fi
   cmd=$1; arg=${2:-}
+fi
+
+# scan: no handoff. Just report whether a dArkOSen image is present so the
+# Settings page can show status and enable its launch buttons. Sets the
+# read-only-ish status prop sys.andr36oid.subsystem.image to 1 or 0.
+if [ "$cmd" = scan ]; then
+  found=0
+  for g in $IMAGE_SEARCH; do [ -f "$g" ] && { found=1; break; }; done
+  setprop sys.andr36oid.subsystem.image "$found" 2>/dev/null
+  exit 0
 fi
 
 case "$cmd" in
@@ -283,7 +298,9 @@ case "$cmd" in
 esac
 
 : > "$LOG"; log "subsystem $cmd arg=$arg"
-trap 'rc=$?; restore_android; : > "$STATE/subsystem.clean"; kill "${GUARD:-0}" 2>/dev/null; log "exit rc=$rc"; exit $rc' EXIT INT TERM HUP
+# After a PortMaster session, ports may have been installed; ask the setup worker
+# to refresh Daijishou's Ports library so it matches EmulationStation without a reboot.
+trap 'rc=$?; restore_android; [ "${IS_PM:-0}" = 1 ] && setprop sys.andr36oid.ports_changed 1 2>/dev/null; : > "$STATE/subsystem.clean"; kill "${GUARD:-0}" 2>/dev/null; log "exit rc=$rc"; exit $rc' EXIT INT TERM HUP
 mount_rootfs || { echo "subsystem: no rootfs" >&2; exit 1; }
 fix_exec_bits
 prime_input

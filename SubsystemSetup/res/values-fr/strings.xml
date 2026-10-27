@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- TODO translate: English placeholders for values-fr. -->
+<resources>
+    <string name="subsystem_title">andr36oid Subsystem for dArkOSen</string>
+    <string name="subsystem_summary">Set up and open dArkOSen, EmulationStation and PortMaster</string>
+    <string name="subsystem_intro">The subsystem runs a small dArkOSen Linux system on your console. Use EmulationStation and PortMaster to play ports. When you exit, it returns to Android cleanly.</string>
+    <string name="subsystem_status">Status</string>
+    <string name="subsystem_checking">Checking...</string>
+    <string name="subsystem_installed">dArkOSen image found</string>
+    <string name="subsystem_missing">No dArkOSen image yet. See setup steps below.</string>
+    <string name="subsystem_setup">Setup steps</string>
+    <string name="subsystem_step_image">1. Copy the image</string>
+    <string name="subsystem_step_image_summary">Open the EASYROMS (games) drive on your games card. Create a folder named subsystem/darkosen/ and put the dArkOSen .img file inside it. If the image is compressed, extract it first.</string>
+    <string name="subsystem_step_portmaster">2. Install PortMaster</string>
+    <string name="subsystem_step_portmaster_summary">Use the official Install.Full.PortMaster.sh to install PortMaster into tools/PortMaster/ on the same card. The full installer is recommended because it works offline.</string>
+    <string name="subsystem_step_ports">3. Add ports and play</string>
+    <string name="subsystem_step_ports_summary">Put ports in the ports/ folder on the same card. Open EmulationStation or PortMaster below. Exit the subsystem to return to Android.</string>
+    <string name="subsystem_open_es">Open EmulationStation</string>
+    <string name="subsystem_open_es_summary">Browse and play ports in dArkOSen</string>
+    <string name="subsystem_open_pm">Open PortMaster</string>
+    <string name="subsystem_open_pm_summary">Manage ports in dArkOSen</string>
+    <string name="subsystem_launch_disabled">Install the dArkOSen image first. See setup steps above.</string>
+    <string name="subsystem_launch_checking">Waiting for the image check. See setup steps above.</string>
+    <string name="subsystem_launch_failed">Could not request a subsystem launch. Try again.</string>
+    <string name="subsystem_scan_failed">Could not request an image check. Close this page and try again.</string>
+    <string name="subsystem_get_image">Get the image</string>
+    <string name="subsystem_download_offline">Offline. On a computer, copy the dArkOSen .img file to subsystem/darkosen/ on the EASYROMS (games) drive.</string>
+    <string name="subsystem_download_unavailable">Download not available yet</string>
+    <string name="subsystem_download_online">Download the dArkOSen image to subsystem/darkosen/ on your EASYROMS games card</string>
+    <string name="subsystem_download_no_card">Mount the EASYROMS games card to download. You can also copy the .img file to subsystem/darkosen/ on the card using a computer.</string>
+    <string name="subsystem_download_failed">Could not download to the games card. Copy the .img file to subsystem/darkosen/ on EASYROMS using a computer.</string>
+    <string name="subsystem_download_started">Image download started. See Downloads for progress.</string>
+    <string name="subsystem_download_pending">Image download in progress. See Downloads for progress.</string>
+    <string name="subsystem_download_complete">Image downloaded. Checking for dArkOSen.</string>
+    <string name="subsystem_download_exists">darkosen.img already exists on the games card. Check the file before downloading again.</string>
+</resources>

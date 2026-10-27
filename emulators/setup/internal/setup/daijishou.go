@@ -941,7 +941,8 @@ func djHintText(added []string, total int) string {
 // DJNewGames: Daijishou only looks for games when asked to. On a console we set up, when
 // games were added to EASYROMS since the last start, Daijishou asks again on its next
 // start, like on the first one. Games that were only removed don't count (a sync keeps
-// their entries anyway). Daijishou keeps its settings in memory while it runs, so it's
+// their entries anyway). Ports are handled separately by ReconcilePorts. Daijishou
+// keeps its settings in memory while it runs, so it's
 // restarted around the change. persist.andr36oid.daijishou_autosync=0 turns this off.
 func (s *Setup) DJNewGames() {
 	if !sys.IsFile(s.djSeeded()) || s.easyroms == "" {
@@ -972,12 +973,13 @@ func (s *Setup) DJNewGames() {
 	}
 	var added []string
 	for _, g := range now {
-		if !had[g] {
+		// Ports are reconciled directly, without asking for a library-wide Sync.
+		if !had[g] && !strings.HasPrefix(g, "ports/") {
 			added = append(added, g)
 		}
 	}
 	if len(added) == 0 {
-		s.Log("games on EASYROMS were only removed, Daijishou not asked to look again")
+		s.Log("only removed games or ports changed on EASYROMS, Daijishou not asked to look again")
 		save()
 		return
 	}

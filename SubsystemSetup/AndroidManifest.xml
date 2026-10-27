@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="org.andr36oid.subsystemsetup"
+    android:sharedUserId="android.uid.system">
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_MEDIA_STORAGE" />
+
+    <application
+        android:allowBackup="false"
+        android:icon="@drawable/ic_subsystem"
+        android:label="@string/subsystem_title"
+        android:requestLegacyExternalStorage="true"
+        android:supportsRtl="true">
+
+        <!-- Injected into Settings > System. The root broker handles the handoff. -->
+        <activity
+            android:name=".SubsystemSetupActivity"
+            android:exported="true"
+            android:label="@string/subsystem_title"
+            android:theme="@android:style/Theme.DeviceDefault.Settings">
+            <intent-filter>
+                <action android:name="com.android.settings.action.IA_SETTINGS" />
+            </intent-filter>
+            <meta-data
+                android:name="com.android.settings.category"
+                android:value="com.android.settings.category.ia.system" />
+            <meta-data
+                android:name="com.android.settings.summary"
+                android:resource="@string/subsystem_summary" />
+            <meta-data
+                android:name="com.android.settings.icon"
+                android:resource="@drawable/ic_subsystem" />
+        </activity>
+    </application>
+</manifest>

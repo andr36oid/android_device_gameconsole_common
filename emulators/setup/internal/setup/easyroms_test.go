@@ -328,14 +328,14 @@ func TestRomNomedia(t *testing.T) {
 		must(t, os.MkdirAll(r+"/gba", 0o755))
 		must(t, os.MkdirAll(r+"/ports", 0o755))
 		boot(s)
-		if !sys_exists(r+"/nes/.nomedia") || !sys_exists(r+"/gba/.nomedia") || sys_exists(r+"/ports/.nomedia") ||
+		if !sys_exists(r+"/nes/.nomedia") || !sys_exists(r+"/gba/.nomedia") || !sys_exists(r+"/ports/.nomedia") ||
 			sys_exists(r+"/nes/images/.nomedia") || sys_exists(r+"/snes") || logHas(s, "couldn") {
 			t.Error("wrong folders")
 		}
 		if read(t, r+"/nes/Game (USA).nes") != "rom\n" || read(t, r+"/nes/images/Game.png") != "png\n" {
 			t.Error("games changed")
 		}
-		if strings.Join(noted(t, s), " ") != "gba nes" {
+		if strings.Join(noted(t, s), " ") != "gba nes ports" {
 			t.Errorf("noted %v", noted(t, s))
 		}
 	})
