@@ -300,7 +300,16 @@ provision_darkos() {
       "$ROOT/etc/emulationstation/es_systems.cfg" > "$ROOT/etc/emulationstation/es_systems.cfg.a36" || return 1
     mv "$ROOT/etc/emulationstation/es_systems.cfg.a36" "$ROOT/etc/emulationstation/es_systems.cfg" || return 1
   fi
-  key=${IMAGE_ID:-$(printf '%s\n%s\n' "$ROOT" "$(stat -c '%i:%s:%Y' "$ROOT/roms.tar")" | cksum | awk '{print $1}')}
+  # The "already merged" stamp must track the dArkOSen RELEASE, not the image file.
+  # IMAGE_ID is cksum(stat of the .img), but the .img lives on a FAT card whose
+  # synthesised inode changes on every remount -- so the key, and the whole ~8 min
+  # merge, re-ran every boot. It is also wrong across an "optimise to EROFS" pass:
+  # that rewrites the .img bytes while leaving roms.tar byte-identical, which must NOT
+  # re-trigger the merge. roms.tar is the release payload -- a new dArkOSen release
+  # always ships a new one -- so key on its size plus a hash of its head: stable across
+  # reboots and an EROFS conversion, changes on a release upgrade, and cheap (reads
+  # 64 KiB, not the whole ~300 MB tar).
+  key=$( { stat -c %s "$ROOT/roms.tar"; dd if="$ROOT/roms.tar" bs=64k count=1 2>/dev/null; } | cksum | awk '{print $1}')
   stamp="$ROOT/roms/.andr36oid-darkosen-$key.done"
   [ -f "$stamp" ] && return 0
   # Check the actual bind, not just the existence or permissions of its source.
@@ -987,7 +996,11 @@ handoff() {
   log "stop framework (keep netd and Android's connection)"
   # toolbox `stop` without arguments also stops netd. Keep it alive so its
   # interfaces, policy routing and DNS state remain available to the chroot.
-  for service in zygote zygote_secondary surfaceflinger audioserver iorapd; do
+  # joyMouse (class main) grabs the gamepad (EVIOCGRAB on event3) to drive Android's
+  # pointer; left running through a handoff it starves ES/RetroArch of the pad, so the
+  # session looks alive but takes no input. Stop it here; the bare `start` in
+  # restore_android brings every class-main service, joyMouse included, back afterwards.
+  for service in zygote zygote_secondary surfaceflinger audioserver iorapd joyMouse; do
     case "$(getprop "init.svc.$service")" in running|restarting) stop "$service" ;; esac
   done
   i=0; while [ "$(getprop init.svc.surfaceflinger)" = running ] && [ "$i" -lt 10 ]; do sleep 1; i=$((i+1)); done
