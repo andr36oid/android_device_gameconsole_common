@@ -429,6 +429,28 @@ install_sdl_mapping() {
     log "wrote console-pad SDL mapping into ${f#$ROOT}"
   done
 }
+# RetroArch's quit chord: dArkOS's retroarch.cfg hardwires input_exit_emulator_btn to
+# the native pad's number (13 = our D-pad down), so Select+Start never quits a core on
+# our pad, and our autoconfig does not set an exit button. Rather than rewrite per-button
+# numbers, set the SEMANTIC quit combo (value 4 = Select+Start); RetroArch resolves it
+# through the start/select binds our autoconfig already fixes, so it is right regardless
+# of button numbering. Applied to the 64- and 32-bit RetroArch configs in the overlay.
+set_ra_quit_combo() {
+  local cfg t
+  for cfg in "$ROOT/home/ark/.config/retroarch/retroarch.cfg" \
+             "$ROOT/home/ark/.config/retroarch32/retroarch.cfg"; do
+    [ -f "$cfg" ] || continue
+    t="$cfg.a36tmp"
+    if grep -q 'input_quit_gamepad_combo[[:space:]]*=' "$cfg" 2>/dev/null; then
+      sed 's/^.*input_quit_gamepad_combo[[:space:]]*=.*$/input_quit_gamepad_combo = "4"/' \
+        "$cfg" > "$t" 2>/dev/null && mv "$t" "$cfg" &&
+        log "set RetroArch quit combo (Select+Start) in ${cfg#$ROOT}"
+    else
+      printf 'input_quit_gamepad_combo = "4"\n' >> "$cfg" &&
+        log "added RetroArch quit combo (Select+Start) to ${cfg#$ROOT}"
+    fi
+  done
+}
 prime_input() {
   if [ -f "$UPPER/etc/emulationstation/es_input.cfg" ]; then
     log "es_input.cfg already present in overlay (keeping user mapping)"
@@ -458,6 +480,7 @@ prime_input() {
     log "no shipped retroarch autoconfig at $RAAUTOCFG_SRC; RetroArch will use fallback binds"
   fi
   install_sdl_mapping
+  set_ra_quit_combo
   # Volume-key diagnostic: dArkOS's ogage daemon scans /dev/input/event0..event10
   # and drives "amixer sset Playback". If the volume buttons do nothing, this
   # records every input device's name, event handler and key bitmap so the report
