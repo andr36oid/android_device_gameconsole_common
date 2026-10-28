@@ -1,37 +1,45 @@
 # Subsystem Setup
 
-Platform-signed, system-UID Settings page under Settings > System. The activity and
-code-built PreferenceFragment follow BlackFrameInsertion. Properties are written
-directly, as in KernelTweaks, and launches use the bridge's target-then-request
-sequence. The APK does not perform the root handoff or install a broker service.
+Platform-signed, system-UID Settings page under Settings > System for the
+**andr36oid Subsystem for Linux** - a chroot/overlay that boots a Linux rootfs
+(dArkOSen's EmulationStation, PortMaster, or a port) with the display handed off
+from Android, then restores Android when it exits. The APK is the front end only:
+it never performs the root handoff. A root init service (the broker,
+`andr36oid-subsystem.sh`) does that; the APK drives it through system properties.
+
+## Surfaces
+
+- **Wizard** (first run / "set up"): an in-house setup flow styled like the eMMC
+  install wizard and QuickStart - explains the subsystem, detects the rootfs
+  image (and, when online, offers to download dArkOSen), and finishes at a launch
+  screen. Gamepad-navigable (D-pad / A / B).
+- **Settings**: launch EmulationStation or PortMaster; "boot into the subsystem
+  by default" toggle; "default boot target" (ES or PM, default ES); and an
+  explainer that holding START at boot always boots the *other* OS.
+- **Advanced mode**: pick any eligible rootfs image; choose "full handoff" vs
+  "keep Android running"; in keep-Android mode, a live boot-log console tails the
+  broker's `boot.log` as the rootfs init runs.
+
+## Property contract (the broker matches these exactly)
+
+| Property | Meaning |
+|---|---|
+| `sys.andr36oid.subsystem.port` | `ES` \| `PM` \| port name/path to launch |
+| `sys.andr36oid.subsystem.rootfs` | absolute image path, empty = detected dArkOSen |
+| `sys.andr36oid.subsystem.handoff` | `1` (default, hand over the screen) \| `0` (keep Android up) |
+| `sys.andr36oid.subsystem.request` | `run` \| `scan` \| `stop` (the trigger; broker clears it) |
+| `sys.andr36oid.subsystem.session` | `running` \| `ended` (broker output) |
+| `sys.andr36oid.subsystem.image` | `1` installed \| `0` not found (broker output) |
+| `persist.andr36oid.subsystem.default` | `android` (default) \| `subsystem` |
+| `persist.andr36oid.subsystem.default_target` | `ES` (default) \| `PM` |
+
+Launch sequence: set `rootfs`, `handoff`, `port`, then `request=run`. The activity
+persists a `launch_pending` flag before requesting a full handoff so it can resume
+its state after Android is restored.
+
+Boot selection is handled by the broker's `boot-decision` step (fired on
+`sys.boot_completed`), which reads the two `persist.*` props and the physical
+START key (via the `andr36oid-keyheld` helper) to pick which OS boots.
 
 Status reads `sys.andr36oid.subsystem.image`: `1` means installed, an empty value
-means checking, and any other value means missing. The page requests `scan` once
-while status is unknown, preserves that decision across recreation, and refreshes
-every two seconds while resumed. A missing broker leaves the page at Checking.
-
-Downloads require a validated active Internet connection and a configured HTTP
-or HTTPS URL in `persist.andr36oid.subsystem.image_url`. No URL is shipped. The URL
-must serve an uncompressed `.img` file. The destination is the EASYROMS volume
-selected by `sys.andr36oid.easyroms.id`, with SaveBackup's legacy fallback for older
-boots. No other card or internal storage is selected as a fallback.
-
-The app targets API 29 and requests legacy storage because this Android 11 tree's
-DownloadProvider otherwise rejects the custom `subsystem/darkosen/` destination.
-The runtime minimum remains the platform default, also required by the hint bar.
-Card permissions and DownloadManager delivery still need verification on hardware.
-Storage or download failures show a toast with manual copying instructions.
-
-DownloadManager writes `darkosen.img.download` so the broker cannot scan a partial
-image as installed. While this page is open, it finalizes successful downloads as
-`darkosen.img`, without replacing an existing file, then requests a new scan. If
-the page was closed, reopen it to finalize the image. Failed staging files remain
-on the card for manual inspection or removal. This is intentionally a minimal
-download flow, without archive extraction, checksum verification, or a background
-installation service. The Downloads record keeps the original staging filename.
-
-The hosting URL is a deployment setting and stays unset by design: no URL ships, and
-when one is configured it must serve an uncompressed `.img`. The locale files now hold
-real native translations (de, es, fr, in, ja, pl, pt, pt-rBR, ru, tr, zh-rCN); German
-uses informal "du". There is no stub for the root broker in this APK; that is a separate
-component. No full image build is needed to review this module.
+means not scanned yet; the page re-scans while it is empty.

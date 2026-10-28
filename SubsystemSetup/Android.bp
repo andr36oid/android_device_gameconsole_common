@@ -1,7 +1,7 @@
-// Settings > System > andr36oid Subsystem for dArkOSen.
+// Settings > System > andr36oid Subsystem for Linux.
 android_app {
     name: "SubsystemSetup",
-    static_libs: ["andr36oid-hint-bar"],
+    static_libs: ["andr36oid-setup-theme", "andr36oid-hint-bar"],
     srcs: ["src/**/*.java"],
     resource_dirs: ["res"],
     certificate: "platform",

@@ -1,0 +1,10 @@
+cc_binary {
+    name: "andr36oid-keyheld",
+    srcs: ["andr36oid-keyheld.c"],
+    cflags: [
+        "-std=c11",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+    ],
+}

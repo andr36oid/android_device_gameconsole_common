@@ -1,4 +1,4 @@
-# andr36oid Subsystem for dArkOSen - init glue.
+# andr36oid Subsystem for Linux - init glue.
 #
 # The broker runs the dArkOSen userspace (EmulationStation / a port / PortMaster)
 # with the display handed off from Android, then restores Android. It needs root,
@@ -8,8 +8,40 @@
 #
 #   sys.andr36oid.subsystem.port     = "ES" | "PM" | <port name or path>
 #   sys.andr36oid.subsystem.request  = "run"   (the trigger; broker clears it)
+#   sys.andr36oid.subsystem.rootfs   = absolute image path, or empty for dArkOSen
+#   sys.andr36oid.subsystem.handoff  = "1" (default) | "0" (Android stays up)
+#   sys.andr36oid.subsystem.session  = "running" | "ended" (broker output)
+#   persist.andr36oid.subsystem.default = "android" (default) | "subsystem"
+#   persist.andr36oid.subsystem.default_target = "ES" (default) | "PM"
+# Set launch parameters first, then request=run. request=stop tears down a session.
 
 service andr36oid-subsystem /system/bin/sh /system/etc/andr36oid-subsystem.sh launch-prop
+    class late_start
+    user root
+    group root system mount inet net_raw audio input
+    seclabel u:r:shell:s0
+    disabled
+    oneshot
+
+# Separate services let scans/stop work while the main oneshot is running, and
+# keep storage-ready scans from overwriting a pending launch request.
+service andr36oid-subsystem-scan /system/bin/sh /system/etc/andr36oid-subsystem.sh scan-prop
+    class late_start
+    user root
+    group root system mount
+    seclabel u:r:shell:s0
+    disabled
+    oneshot
+
+service andr36oid-subsystem-boot /system/bin/sh /system/etc/andr36oid-subsystem.sh boot-decision
+    class late_start
+    user root
+    group root system input
+    seclabel u:r:shell:s0
+    disabled
+    oneshot
+
+service andr36oid-subsystem-stop /system/bin/sh /system/etc/andr36oid-subsystem.sh stop-prop
     class late_start
     user root
     group root system mount
@@ -23,11 +55,21 @@ on property:sys.andr36oid.subsystem.request=run
 # scan: no display handoff; the broker just reports whether a dArkOSen image is
 # installed in sys.andr36oid.subsystem.image so the Settings page can show status.
 on property:sys.andr36oid.subsystem.request=scan
-    start andr36oid-subsystem
+    start andr36oid-subsystem-scan
 
-# Scan once at boot so the status is known before the user opens the page.
+on property:sys.andr36oid.subsystem.request=stop
+    start andr36oid-subsystem-stop
+
+# Init may kill the broker's whole process group on a crash (including its
+# guardian). A fresh service can still recover the recorded mounts/handoff.
+on property:init.svc.andr36oid-subsystem=stopped && property:sys.andr36oid.subsystem.session=running
+    start andr36oid-subsystem-stop
+
+# Sample the held key once here, before waiting for asynchronously mounted SDs.
+# The broker also scans for the Settings status; /dev's guard survives Android
+# framework restarts and disappears on a real reboot.
 on property:sys.boot_completed=1
-    setprop sys.andr36oid.subsystem.request scan
+    start andr36oid-subsystem-boot
 
 # The dArkOSen image lives on the EASYROMS games card, which vold mounts
 # asynchronously - usually after boot_completed. The boot scan above then runs
@@ -37,4 +79,4 @@ on property:sys.boot_completed=1
 # request prop after each scan, so this re-fires cleanly) so the status reflects
 # the mounted card.
 on property:sys.andr36oid.easyroms.ready=1
-    setprop sys.andr36oid.subsystem.request scan
+    start andr36oid-subsystem-scan

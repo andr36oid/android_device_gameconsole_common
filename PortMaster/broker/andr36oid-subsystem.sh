@@ -1,6 +1,6 @@
 #!/system/bin/sh
 # SPDX-License-Identifier: MIT
-# andr36oid Subsystem for dArkOSen - handoff broker.
+# andr36oid Subsystem for Linux - handoff broker.
 #
 # Boots the user's dArkOS (dArkOSen) userspace - EmulationStation / PortMaster and
 # its ports - on the console's real GPU, by handing the display off from Android
@@ -34,13 +34,15 @@ umask 022
 # --- configuration -----------------------------------------------------------
 STATE=${A36_STATE:-/data/local/tmp/portmaster}
 ROOT=${A36_ROOT:-/data/local/tmp/darkfull}   # dArkOS rootfs mountpoint (or dir)
-IMAGE=${A36_IMAGE:-}                          # optional dArkOSen .img to loop-mount
+IMAGE=${A36_IMAGE:-}                          # optional rootfs/disk image
+HANDOFF=${A36_HANDOFF:-1}
+KEYHELD=${A36_KEYHELD:-/system/bin/andr36oid-keyheld}
+CHROOT=${A36_CHROOT:-/system/bin/chroot}
 HWC=${A36_HWC:-vendor.hwcomposer-2-1}
 GUARD_GRACE=${A36_GUARD_GRACE:-20}
 # How a full "start" brings up the dArkOS frontend: systemd (B1, boot dArkOS's own
 # init in a PID namespace - full session state), wrapper (run ES's wrapper directly,
-# the proven 60fps fallback), or bare (the raw ES binary, legacy). systemd falls back
-# to wrapper automatically if it cannot boot.
+# the proven 60fps path), or bare (the raw ES binary, legacy).
 # Default to wrapper: the systemd path is not ready yet, and when it fails to boot it
 # leaves DRM master/mode held by the killed /sbin/init, so the wrapper fallback (and
 # even the Android restore afterwards) then floods "Could not queue pageflip: -22" and
@@ -55,61 +57,176 @@ IMAGE_SEARCH="/storage/*/subsystem/darkosen/*.img /mnt/media_rw/*/subsystem/dark
 
 mkdir -p "$STATE"
 LOG="$STATE/subsystem.log"
-log() { printf '%s %s\n' "$(cut -d. -f1 /proc/uptime)s" "$*" >> "$LOG"; }
+log() {
+  local line
+  line="$(cut -d. -f1 /proc/uptime)s $*"
+  printf '%s\n' "$line" >> "$LOG"
+  [ "${LIVE_LOG:-0}" = 1 ] && printf '%s\n' "$line"
+  return 0
+}
 [ "$(id -u)" = 0 ] || { echo "subsystem: must run as root" >&2; exit 1; }
 
-# --- rootfs: loop-mount the dArkOSen btrfs image read-only + writable overlay --
-# (needs CONFIG_BTRFS_FS in the kernel; overlay upper MUST be on ext4/f2fs /data,
-#  never exFAT. When $ROOT is already a populated dir we skip mounting.)
+# --- rootfs: supported filesystem image or MBR/GPT disk + writable overlay ----
+# The lower stays read-only; each image has its own upper/work on /data. Never
+# reuse one image's overlay for another. Keep the extracted-directory fallback
+# for developer use, but an explicit IMAGE always takes precedence over it.
 LOWER="$STATE/lower"; UPPER="$STATE/upper"; WORK="$STATE/work"; LOOPDEV=""
-mount_rootfs() {
-  if [ -d "$ROOT/usr/bin/emulationstation" ]; then log "rootfs present at $ROOT"; return 0; fi
-  [ -z "$IMAGE" ] && for g in $IMAGE_SEARCH; do [ -f "$g" ] && { IMAGE="$g"; break; }; done
-  [ -f "$IMAGE" ] || { log "no dArkOSen image found (searched $IMAGE_SEARCH)"; return 1; }
-  log "using image $IMAGE"
-  # find the ROOTFS (btrfs) partition offset in the image's MBR/GPT
-  # part 2 on dArkOSen MBR = Linux ROOTFS; resolve its byte offset via sgdisk/fdisk
-  local start size secsz=512
-  start=$(unpack_rootfs_start "$IMAGE"); size=$(unpack_rootfs_size "$IMAGE")
-  [ -n "$start" ] || { log "cannot locate ROOTFS partition in $IMAGE"; return 1; }
-  mkdir -p "$LOWER" "$UPPER" "$WORK" "$ROOT"
-  LOOPDEV=$(losetup -f) || { log "losetup -f failed (SELinux? run permissive)"; return 1; }
-  # Offset-only loop: do NOT pass a sizelimit. toybox losetup -S truncates the
-  # 8.5G value to 32 bits (saw 589299712), so the loop only exposed 589M and btrfs
-  # could not reach its chunk root. btrfs reads its own size from the superblock,
-  # so a loop spanning offset..EOF (rootfs + the trailing data partition) is fine.
-  losetup -o $((start*secsz)) "$LOOPDEV" "$IMAGE" || { log "losetup failed"; return 1; }
-  mount -t btrfs -o ro "$LOOPDEV" "$LOWER" || { log "btrfs mount failed (kernel lacks BTRFS_FS?)"; return 1; }
-  mount -t overlay overlay -o "lowerdir=$LOWER,upperdir=$UPPER,workdir=$WORK" "$ROOT" || { log "overlay mount failed"; return 1; }
-  MOUNTED=1
-  log "mounted dArkOS rootfs (btrfs ro + overlay) at $ROOT"
+BOUND=""; DID_HANDOFF=0; SESSION_OWNED=0
+track_mount() {
+  BOUND="$1
+$BOUND"
+  printf '%s\n' "$BOUND" > "$STATE/session.mounts"
 }
-# Partition geometry: dArkOSen ships a classic MBR (DOS) table; the rootfs is the
-# first 0x83 (Linux) partition and holds btrfs. Parse the MBR in pure shell so the
-# broker works on any user-supplied image without sgdisk/fdisk. od + dd are in
-# Android toybox. le32/type8 read little-endian fields (device is aarch64 LE).
-_le32() { dd if="$1" bs=1 skip="$2" count=4 2>/dev/null | od -An -tu4 | tr -d ' '; }
-_type8() { dd if="$1" bs=1 skip="$2" count=1 2>/dev/null | od -An -tu1 | tr -d ' '; }
-_find_rootfs() {   # echoes "start_lba sectors" for the first 0x83 partition
-  local i base t
-  for i in 0 1 2 3; do
-    base=$((446 + i*16)); t=$(_type8 "$1" $((base+4)))
-    [ "$t" = 131 ] && { echo "$(_le32 "$1" $((base+8))) $(_le32 "$1" $((base+12)))"; return 0; }
+forget_mount() {
+  BOUND=$(printf '%s\n' "$BOUND" | awk -v p="$1" '$0!=p')
+  printf '%s\n' "$BOUND" > "$STATE/session.mounts"
+}
+bind_mount() { mount -o bind "$1" "$2" && track_mount "$2"; }
+detect_image() {
+  [ -n "$IMAGE" ] && return 0
+  local g
+  for g in $IMAGE_SEARCH; do [ -f "$g" ] && { IMAGE="$g"; return 0; }; done
+  return 1
+}
+# Resolve symlinks as the chroot would, including absolute /sbin/init links and
+# usr-merged directories. Host-side test -f alone follows absolute links outside
+# the image and can incorrectly accept a dangling init or miss a valid target.
+root_path() {
+  local base="$1" todo="${2#/}" resolved="" component link hops=0
+  while [ -n "$todo" ]; do
+    component=${todo%%/*}
+    if [ "$todo" = "$component" ]; then todo=""; else todo=${todo#*/}; fi
+    case "$component" in ''|.) continue ;; ..) resolved=${resolved%/*}; continue ;; esac
+    if [ -L "$base$resolved/$component" ]; then
+      hops=$((hops+1)); [ "$hops" -le 40 ] || return 1
+      link=$(readlink "$base$resolved/$component") || return 1
+      case "$link" in /*) resolved="" ;; esac
+      todo="${link#/}${todo:+/$todo}"
+    else
+      resolved="$resolved/$component"
+    fi
+  done
+  printf '%s\n' "$base$resolved"
+}
+root_file() {
+  local path
+  path=$(root_path "$1" "$2") || return 1
+  [ -f "$path" ]
+}
+has_init() {
+  local p
+  for p in /sbin/init /init /bin/init /usr/lib/systemd/systemd /lib/systemd/systemd; do
+    if root_file "$1" "$p"; then INIT="$p"; return 0; fi
   done
   return 1
 }
-# Prefer real util-linux (sfdisk) when it is shipped (GNU userland, see
-# [[ship-gnu-coreutils-utillinux]]); fall back to the pure-shell parser so the
-# broker still works on a toybox-only system.
-_rootfs_geom() {
-  if command -v sfdisk >/dev/null 2>&1; then
-    sfdisk -d "$1" 2>/dev/null | awk -F'[=,]' '/type=? *83/ {gsub(/ /,"",$2); gsub(/ /,"",$4); print $2, $4; exit}'
+find_es() {
+  local p
+  for p in /usr/bin/emulationstation/emulationstation.sh /usr/bin/emulationstation/emulationstation /usr/bin/emulationstation /usr/bin/EmulationStation; do
+    if root_file "$1" "$p"; then ES="$p"; return 0; fi
+  done
+  return 1
+}
+eligible_rootfs() {
+  local p
+  has_init "$1" && return 0
+  find_es "$1" && return 0
+  for p in /roms/tools/PortMaster.sh /roms/tools/PortMaster/PortMaster.sh /usr/bin/portmaster "$arg" "$arg.sh"; do
+    [ -n "$p" ] && root_file "$1" "$p" && return 0
+  done
+  # A chosen port can live on the Android games card, bound later at /roms.
+  if [ "$cmd" = run ] && [ -e "$1/bin/sh" ]; then
+    for p in /mnt/media_rw/*; do
+      case "$arg" in /roms/*)
+        [ -f "$p/${arg#/roms/}" ] || [ -f "$p/${arg#/roms/}.sh" ] || continue
+        return 0 ;;
+      esac
+    done
+  fi
+  return 1
+}
+mount_rootfs() {
+  if [ -z "$IMAGE" ] && eligible_rootfs "$ROOT"; then
+    setprop sys.andr36oid.subsystem.boot_pending "" 2>/dev/null
+    log "rootfs present at $ROOT"; return 0
+  fi
+  # vold may expose EASYROMS after boot_completed. The key was sampled already;
+  # wait here, without resampling it or changing the boot decision.
+  local tries=0 offsets off fs identity
+  while ! detect_image; do
+    [ "$(getprop sys.andr36oid.subsystem.boot_pending)" = 1 ] && [ "$tries" -lt 60 ] || break
+    sleep 1; tries=$((tries+1))
+  done
+  setprop sys.andr36oid.subsystem.boot_pending "" 2>/dev/null
+  [ -f "$IMAGE" ] || { log "no rootfs image found (default search: $IMAGE_SEARCH)"; return 1; }
+  log "using image $IMAGE"
+  identity=$(printf '%s\n%s\n' "$IMAGE" "$(stat -c '%d:%i:%s:%Y' "$IMAGE")" | cksum | awk '{print $1}')
+  UPPER="$STATE/images/$identity/upper"; WORK="$STATE/images/$identity/work"
+  mkdir -p "$LOWER" "$UPPER" "$WORK" "$ROOT"
+  offsets="0 $(partition_offsets "$IMAGE")"
+  for off in $offsets; do
+    fs=$(image_fstype "$IMAGE" "$off")
+    [ -n "$fs" ] || continue
+    LOOPDEV=$(losetup -f) || return 1
+    printf '%s\n' "$LOOPDEV" > "$STATE/session.loop"
+    # No -S: this device's toybox truncates large sizelimits to 32 bits.
+    if losetup -r -o "$off" "$LOOPDEV" "$IMAGE"; then
+      if mount -t "$fs" -o ro "$LOOPDEV" "$LOWER"; then
+        track_mount "$LOWER"
+        if eligible_rootfs "$LOWER"; then
+          mount -t overlay overlay -o "lowerdir=$LOWER,upperdir=$UPPER,workdir=$WORK" "$ROOT" || return 1
+          track_mount "$ROOT"; MOUNTED=1
+          log "mounted eligible $fs rootfs at byte $off (ro + overlay) at $ROOT"
+          return 0
+        fi
+        umount "$LOWER" || return 1
+        forget_mount "$LOWER"
+      fi
+    fi
+    losetup -d "$LOOPDEV" 2>/dev/null; LOOPDEV=""
+    rm -f "$STATE/session.loop"
+  done
+  log "image has no mountable btrfs/ext4/squashfs/erofs rootfs with init or a launch target"
+  return 1
+}
+# Partition fields are little-endian (this console is aarch64 LE).
+_le32() { dd if="$1" bs=1 skip="$2" count=4 2>/dev/null | od -An -tu4 | tr -d ' '; }
+_type8() { dd if="$1" bs=1 skip="$2" count=1 2>/dev/null | od -An -tu1 | tr -d ' '; }
+
+# Probe magic directly: Android's toybox blkid does not recognize erofs. Offsets
+# are byte offsets; raw filesystems and all eligible MBR/GPT partitions are tried.
+_hex() { dd if="$1" bs=1 skip="$2" count="$3" 2>/dev/null | od -An -tx1 | tr -d ' \n'; }
+_le64() { dd if="$1" bs=1 skip="$2" count=8 2>/dev/null | od -An -tu8 | tr -d ' \n'; }
+image_fstype() {
+  local image="$1" off="$2"
+  case "$(_hex "$image" "$off" 4)" in 68737173) echo squashfs; return ;; esac
+  case "$(_hex "$image" $((off+1024)) 4)" in e2e1f5e0) echo erofs; return ;; esac
+  case "$(_hex "$image" $((off+1080)) 2)" in 53ef) echo ext4; return ;; esac
+  case "$(_hex "$image" $((off+65600)) 8)" in 5f42485266535f4d) echo btrfs; return ;; esac
+}
+partition_offsets() {
+  [ "$(_hex "$1" 510 2)" = 55aa ] || return 0
+  local i base t start table count entsize
+  if [ "$(_hex "$1" 512 8)" = 4546492050415254 ]; then
+    table=$(_le64 "$1" 584); count=$(_le32 "$1" 592); entsize=$(_le32 "$1" 596)
+    # Bound all reads, including on corrupt/user-supplied partition tables.
+    [ "${table:-0}" -gt 1 ] && [ "${count:-0}" -gt 0 ] && [ "$count" -le 4096 ] &&
+      [ "${entsize:-0}" -ge 128 ] && [ "$entsize" -le 4096 ] || return 0
+    i=0
+    while [ "$i" -lt "$count" ]; do
+      base=$((table*512+i*entsize)); start=$(_le64 "$1" $((base+32)))
+      [ "${start:-0}" -gt 0 ] && echo $((start*512))
+      i=$((i+1))
+    done
   else
-    _find_rootfs "$1"
+    for i in 0 1 2 3; do
+      base=$((446+i*16)); t=$(_type8 "$1" $((base+4)))
+      [ "$t" = 131 ] || continue
+      start=$(_le32 "$1" $((base+8)))
+      [ "${start:-0}" -gt 0 ] && echo $((start*512))
+    done
   fi
 }
-unpack_rootfs_start() { _rootfs_geom "$1" | awk '{print $1}'; }
-unpack_rootfs_size()  { _rootfs_geom "$1" | awk '{print $2}'; }
 
 # --- exec-bit repair (only for a legacy extracted dir) --------------------------
 # A real btrfs mount already has correct exec bits; chmod-ing over the overlay
@@ -128,7 +245,6 @@ fix_exec_bits() {
 # --- storage: expose EASYROMS / SD2 / USB into the chroot, exec + permissive -----
 # exFAT cannot store per-file x bits, so we drop noexec and use mount-wide masks;
 # this covers hotplugged volumes via the same path (see hotplug watcher, TODO).
-BOUND=""
 mount_storage() {
   mkdir -p "$ROOT/roms"
   local n=0 src dst
@@ -137,8 +253,10 @@ mount_storage() {
     if [ "$n" = 0 ]; then dst="$ROOT/roms"; else dst="$ROOT/roms$((n+1))"; fi
     mkdir -p "$dst"
     # bind the vold mount, then drop noexec for this view
-    mount -o bind "$src" "$dst" 2>/dev/null && mount -o remount,exec,bind "$dst" 2>/dev/null \
-      && { BOUND="$dst $BOUND"; log "storage: $src -> ${dst#$ROOT}"; n=$((n+1)); }
+    if bind_mount "$src" "$dst"; then
+      mount -o remount,exec,bind "$dst" 2>/dev/null
+      log "storage: $src -> ${dst#"$ROOT"}"; n=$((n+1))
+    fi
   done
 }
 
@@ -167,9 +285,72 @@ prime_input() {
   fi
 }
 
+# Populate the container /dev. toybox mount cannot bind a non-directory source
+# (it tries to loop-mount it and fails with "losetup ... Invalid argument"), so
+# device nodes are recreated with mknod in the tmpfs /dev (which is not nodev);
+# only directories are bind-mounted.
+add_dev() {
+  local src="/dev/$1" dst="$ROOT/dev/$1" maj min
+  [ -e "$src" ] || return 0
+  if [ -d "$src" ]; then
+    mkdir -p "$dst"; bind_mount "$src" "$dst"; return
+  fi
+  maj=$(stat -c '%t' "$src"); min=$(stat -c '%T' "$src")
+  case "$(stat -c '%F' "$src")" in
+    "block special file") mknod -m 0660 "$dst" b "$((0x$maj))" "$((0x$min))" ;;
+    *)                    mknod -m 0666 "$dst" c "$((0x$maj))" "$((0x$min))" ;;
+  esac
+}
 bind_core() {
-  mkdir -p "$ROOT/dev" "$ROOT/proc" "$ROOT/sys" "$ROOT/tmp" "$ROOT/run"; chmod 1777 "$ROOT/tmp" 2>/dev/null
-  mount -o bind /dev "$ROOT/dev"; mount -o bind /proc "$ROOT/proc"; mount -o bind /sys "$ROOT/sys"
+  local n
+  mkdir -p "$ROOT/dev" "$ROOT/proc" "$ROOT/sys" "$ROOT/tmp" "$ROOT/run" || return 1
+  # A separate /dev keeps shm and hidden display nodes local to this container.
+  # Binding Android's whole /dev would create /dev/shm on the host as well.
+  mount -t tmpfs -o mode=0755,nosuid tmpfs "$ROOT/dev" || return 1
+  track_mount "$ROOT/dev"
+  for n in null zero full random urandom tty ptmx pts input snd; do
+    add_dev "$n" || return 1
+  done
+  if [ "$HANDOFF" = 1 ]; then
+    # ion is the Mali GPU buffer allocator on this 4.19 kernel (no /dev/dma_heap):
+    # without it EGL/GLES cannot allocate and EmulationStation spins without ever
+    # rendering. rga (2D blit) and mpp_service (video codec) are what ports need.
+    for n in dri mali0 mali graphics uinput tty0 tty1 ion rga mpp_service; do
+      add_dev "$n" || return 1
+    done
+    [ -e "$ROOT/dev/graphics/fb0" ] && ln -s graphics/fb0 "$ROOT/dev/fb0"
+  fi
+  # /dev/console: init may reopen it after replacing stdout, so a /proc/self/fd/1
+  # symlink would silently follow its new stdout. toybox mount cannot bind the
+  # logging FIFO either (a non-directory source loop-mounts and fails), so make a
+  # FIFO in the container /dev and forward it into the same log stream.
+  if mkfifo -m 0666 "$ROOT/dev/console" 2>/dev/null; then
+    ( while [ -p "$ROOT/dev/console" ]; do cat "$ROOT/dev/console" || break; done >> "$STATE/session.fifo" ) 2>/dev/null &
+    CONSOLE_FWD=$!
+  else
+    return 1
+  fi
+  ln -s /proc/self/fd "$ROOT/dev/fd"
+  ln -s /proc/self/fd/0 "$ROOT/dev/stdin"
+  ln -s /proc/self/fd/1 "$ROOT/dev/stdout"
+  ln -s /proc/self/fd/2 "$ROOT/dev/stderr"
+  mkdir -p "$ROOT/dev/shm"
+  mount -t tmpfs -o mode=1777,nosuid,nodev tmpfs "$ROOT/dev/shm" || return 1
+  track_mount "$ROOT/dev/shm"
+  bind_mount /proc "$ROOT/proc" || return 1
+  if [ "$HANDOFF" = 0 ]; then
+    # Android keeps the live display, so the rootfs's governor/gamma/backlight
+    # scripts must not write sysfs. toybox cannot ro-remount a bind (it reports
+    # the mount busy), so give the container a fresh, genuinely read-only sysfs.
+    mount -t sysfs -o ro,nosuid,nodev,noexec sysfs "$ROOT/sys" || return 1
+    track_mount "$ROOT/sys"
+  else
+    bind_mount /sys "$ROOT/sys" || return 1
+  fi
+  mount -t tmpfs -o mode=0755,nosuid,nodev tmpfs "$ROOT/run" || return 1
+  track_mount "$ROOT/run"
+  mount -t tmpfs -o mode=1777,nosuid,nodev tmpfs "$ROOT/tmp" || return 1
+  track_mount "$ROOT/tmp"
 }
 
 # Kill everything running inside the subsystem (EmulationStation and whatever it
@@ -182,34 +363,136 @@ kill_subsystem() {
     r=$(readlink "$p/root" 2>/dev/null) || continue
     case "$r" in "$ROOT"|"$ROOT"/*) pid=${p#/proc/}; kill -9 "$pid" 2>/dev/null;; esac
   done
-  command -v fuser >/dev/null 2>&1 && fuser -k /dev/dri/card0 2>/dev/null
-  sleep 1
+  if [ "$DID_HANDOFF" = 1 ]; then
+    command -v fuser >/dev/null 2>&1 && fuser -k /dev/dri/card0 2>/dev/null
+  fi
+  [ -n "${SESSION_PID:-}" ] && kill "$SESSION_PID" 2>/dev/null
+  return 0
 }
 
 # --- teardown (idempotent) ----------------------------------------------------
 restore_android() {
+  [ "$SESSION_OWNED" = 1 ] || return 0
   kill_subsystem
-  for b in $BOUND; do umount "$b" 2>/dev/null; done
-  umount "$ROOT/dev" 2>/dev/null; umount "$ROOT/proc" 2>/dev/null; umount "$ROOT/sys" 2>/dev/null
-  if [ -n "$LOOPDEV" ]; then
-    umount "$ROOT" 2>/dev/null; umount "$LOWER" 2>/dev/null; losetup -d "$LOOPDEV" 2>/dev/null
+  local b tries
+  CLEANUP_FAILED=0
+  # Newest first, including partially prepared sessions and paths with spaces.
+  if [ -f "$STATE/session.mounts" ]; then
+    while IFS= read -r b; do
+      [ -n "$b" ] || continue
+      tries=0
+      while ! umount "$b" 2>/dev/null; do
+        # Already-unmounted entries are harmless on repeated stop/recovery.
+        awk -v p="$b" '{gsub(/\\040/," ",$2); gsub(/\\011/,"\t",$2)} $2==p {f=1} END {exit !f}' /proc/mounts || break
+        if [ "$tries" -ge 3 ]; then CLEANUP_FAILED=1; log "mount still busy: $b"; break; fi
+        sleep 1; tries=$((tries+1))
+      done
+    done < "$STATE/session.mounts"
   fi
-  show_splash   # logo over the blank gap until SurfaceFlinger repaints Android
-  setprop ctl.start "$HWC" 2>/dev/null; sleep 1
-  setprop ctl.start surfaceflinger 2>/dev/null; start 2>/dev/null
+  if [ -n "$LOOPDEV" ]; then
+    if ! losetup -d "$LOOPDEV" 2>/dev/null && [ -r "/sys/class/block/${LOOPDEV##*/}/loop/backing_file" ]; then
+      CLEANUP_FAILED=1; log "loop still busy: $LOOPDEV"
+    fi
+  fi
+  if [ "$DID_HANDOFF" = 1 ]; then
+    show_splash
+    setprop ctl.start "$HWC" 2>/dev/null; sleep 1
+    setprop ctl.start surfaceflinger 2>/dev/null; start 2>/dev/null
+  fi
+  return 0
+}
+
+session_active() {
+  local pid
+  [ "$(cat "$STATE/session.lock/boot_id" 2>/dev/null)" = "$(cat /proc/sys/kernel/random/boot_id)" ] || return 1
+  pid=$(cat "$STATE/session.lock/pid" 2>/dev/null)
+  case "$pid" in ''|*[!0-9]*) return 1 ;; esac
+  kill -0 "$pid" 2>/dev/null
+}
+
+recover_session() {
+  [ -d "$STATE/session.lock" ] || return 0
+  # A guardian for an older session must never tear down its replacement.
+  [ -z "${1:-}" ] || [ "$(cat "$STATE/session.lock/pid" 2>/dev/null)" = "$1" ] || return 0
+  if [ "$(cat "$STATE/session.lock/boot_id" 2>/dev/null)" != "$(cat /proc/sys/kernel/random/boot_id)" ]; then
+    # /data survives reboot, mounts and PIDs do not. Never detach a loop or kill
+    # a recycled PID from a previous boot based on its old metadata.
+    rm -f "$STATE/session.loop" "$STATE/session.handoff" "$STATE/session.mounts" "$STATE/session.fifo" "$STATE/session.lock/pid" "$STATE/session.lock/boot_id"
+    rmdir "$STATE/session.lock" 2>/dev/null
+    return 0
+  fi
+  SESSION_OWNED=1
+  [ -f "$STATE/session.handoff" ] && DID_HANDOFF=1
+  LOOPDEV=$(cat "$STATE/session.loop" 2>/dev/null)
+  restore_android
+  setprop sys.andr36oid.subsystem.session ended 2>/dev/null
+  [ "$CLEANUP_FAILED" = 0 ] || return 1
+  rm -f "$STATE/session.loop" "$STATE/session.handoff" "$STATE/session.mounts" "$STATE/session.fifo" "$STATE/session.lock/pid" "$STATE/session.lock/boot_id"
+  rmdir "$STATE/session.lock" 2>/dev/null
+  SESSION_OWNED=0; DID_HANDOFF=0; LOOPDEV=""; BOUND=""
+}
+
+stop_session() {
+  local pid tries=0
+  pid=$(cat "$STATE/session.lock/pid" 2>/dev/null)
+  if session_active; then
+    kill -TERM "$pid" 2>/dev/null
+    while session_active && [ "$tries" -lt 10 ]; do sleep 1; tries=$((tries+1)); done
+    session_active && kill -KILL "$pid" 2>/dev/null
+  fi
+  recover_session "$pid"
+}
+
+# FIFO + a separately waited tee preserves the payload exit code (a shell
+# pipeline would report tee's status). Preparation, init, descendants and cleanup
+# all use the same stream; the app may open/tail boot.log as soon as running=1.
+start_live_log() {
+  chmod 0755 "$STATE"
+  : > "$STATE/boot.log"; chmod 0644 "$STATE/boot.log"
+  : > "$SESSION_OUT"
+  rm -f "$STATE/session.fifo"
+  mkfifo -m 0600 "$STATE/session.fifo" || return 1
+  tee -a "$STATE/boot.log" < "$STATE/session.fifo" >> "$SESSION_OUT" & TEE_PID=$!
+  exec 3>&1 4>&2
+  exec > "$STATE/session.fifo" 2>&1
+  LIVE_LOG=1
+}
+
+finish_session() {
+  local rc="$1"
+  trap - EXIT INT TERM HUP
+  restore_android
+  [ "${IS_PM:-0}" = 1 ] && setprop sys.andr36oid.ports_changed 1 2>/dev/null
+  : > "$STATE/subsystem.clean"
+  [ -n "${GUARD:-}" ] && kill "$GUARD" 2>/dev/null
+  [ -n "${CONSOLE_FWD:-}" ] && kill "$CONSOLE_FWD" 2>/dev/null
+  log "session ended rc=$rc"
+  if [ "${LIVE_LOG:-0}" = 1 ]; then
+    LIVE_LOG=0
+    exec 1>&3 2>&4 3>&- 4>&-
+    wait "$TEE_PID"
+  fi
+  setprop sys.andr36oid.subsystem.session ended 2>/dev/null
+  setprop sys.andr36oid.subsystem.boot_pending "" 2>/dev/null
+  if [ "$CLEANUP_FAILED" = 0 ]; then
+    rm -f "$STATE/session.loop" "$STATE/session.handoff" "$STATE/session.mounts" "$STATE/session.fifo" "$STATE/session.lock/pid" "$STATE/session.lock/boot_id"
+    rmdir "$STATE/session.lock" 2>/dev/null
+  fi
+  exit "$rc"
 }
 
 # --- guardian: restore Android if we die without cleaning up ------------------
 arm_guardian() {
   rm -f "$STATE/subsystem.clean"
-  local me=$$
+  local me
+  me=$$
   (
     while kill -0 "$me" 2>/dev/null; do sleep 1; done
     [ -f "$STATE/subsystem.clean" ] && exit 0
     sleep "$GUARD_GRACE"; [ -f "$STATE/subsystem.clean" ] && exit 0
-    echo "GUARDIAN restore $(cut -d. -f1 /proc/uptime)s" >> "$LOG"
-    setprop ctl.start "$HWC"; sleep 1; setprop ctl.start surfaceflinger; start
-  ) & GUARD=$!
+    echo "GUARDIAN restore $(cut -d. -f1 /proc/uptime)s"
+    A36_STATE="$STATE" A36_ROOT="$ROOT" /system/bin/sh "$0" recover "$me"
+  ) </dev/null >> "$LOG" 2>&1 & GUARD=$!
 }
 
 # Fill the framebuffer with the andr36oid splash so the handoff gaps (composer
@@ -238,10 +521,18 @@ show_splash() {
 
 # --- the handoff --------------------------------------------------------------
 handoff() {
-  log "stop framework"; stop
+  # Mark before the first stop, so even an interrupted handoff is restored.
+  : > "$STATE/session.handoff"; DID_HANDOFF=1
+  local service
+  log "stop framework (keep netd and Android's connection)"
+  # toolbox `stop` without arguments also stops netd. Keep it alive so its
+  # interfaces, policy routing and DNS state remain available to the chroot.
+  for service in zygote zygote_secondary surfaceflinger audioserver iorapd; do
+    case "$(getprop "init.svc.$service")" in running|restarting) stop "$service" ;; esac
+  done
   i=0; while [ "$(getprop init.svc.surfaceflinger)" = running ] && [ "$i" -lt 10 ]; do sleep 1; i=$((i+1)); done
   log "stop composer"; setprop ctl.stop "$HWC"
-  i=0; while [ "$(getprop init.svc.$HWC)" = running ] && [ "$i" -lt 10 ]; do sleep 1; i=$((i+1)); done
+  i=0; while [ "$(getprop "init.svc.$HWC")" = running ] && [ "$i" -lt 10 ]; do sleep 1; i=$((i+1)); done
   show_splash   # logo over the blank gap until the port grabs card0
   # Keep adbd up for the whole subsystem session so the session stays remotely
   # reachable (watch logs, kill a stuck port, reboot) with nobody at the device.
@@ -263,11 +554,78 @@ run_in_subsystem() {   # $* = command to exec inside the chroot
     mkdir -p "$ROOT/usr/local/bin"
     printf '#!/bin/sh\nexec "$@"\n' > "$ROOT/usr/local/bin/sudo" && chmod 0755 "$ROOT/usr/local/bin/sudo"
   fi
+  local video=dummy
+  [ "$HANDOFF" = 1 ] && video=kmsdrm
   PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
   HOME=/home/ark TERM=linux \
-  SDL_VIDEODRIVER=kmsdrm SDL_VIDEO_EGL_DRIVER=libEGL.so SDL_KMSDRM_REQUIRE_DRM_MASTER=1 \
+  ALSA_TMPDIR=/run/alsa TMPDIR=/tmp \
+  SDL_VIDEODRIVER="$video" SDL_VIDEO_EGL_DRIVER=libEGL.so SDL_KMSDRM_REQUIRE_DRM_MASTER="$HANDOFF" \
   SDL_GAMECONTROLLERCONFIG_FILE=/opt/inttools/gamecontrollerdb.txt \
-    chroot "$ROOT" "$@"
+    "$CHROOT" "$ROOT" "$@"
+}
+
+prepare_network() {
+  # The chroot shares Android's network namespace, interfaces and policy routes:
+  # never unshare -n, add a default route, or start a competing DHCP/WiFi manager.
+  # glibc cannot use bionic's netd resolver, so snapshot Android's default-link
+  # DNS into a real resolv.conf, replacing systemd-resolved's dangling stub link.
+  # Overlay unit masks and temporary init-script binds keep the existing Android
+  # connection in charge, including when booting a generic rootfs's own init.
+  local dns="" p snapshot net d unit path
+  snapshot=$(dumpsys connectivity 2>/dev/null)
+  net=$(printf '%s\n' "$snapshot" | awk '/Active default network:/ {print $NF; exit}')
+  if [ -n "$net" ]; then
+    dns=$(printf '%s\n' "$snapshot" | awk -v n="$net" '
+      index($0,"network{" n "}") && /DnsAddresses: *\[/ {
+        sub(/.*DnsAddresses: *\[/,""); sub(/\].*/,""); gsub(/[,\/]/," "); print; exit
+      }')
+  fi
+  if [ -z "$dns" ]; then
+    for p in net.dns1 net.dns2 net.dns3 net.dns4; do dns="$dns $(getprop "$p")"; done
+  fi
+  : > "$STATE/resolv.conf"
+  for d in $dns; do
+    case "$d" in ''|127.*|::1|*[!0-9a-fA-F.:]*) continue ;; esac
+    printf 'nameserver %s\n' "$d" >> "$STATE/resolv.conf"
+  done
+  if [ ! -s "$STATE/resolv.conf" ]; then
+    for p in /etc/resolv.conf /system/etc/resolv.conf; do
+      [ -f "$p" ] || continue
+      awk '$1=="nameserver" && $2 !~ /^(127\.|::1$)/ {print "nameserver " $2}' "$p" > "$STATE/resolv.conf"
+      [ -s "$STATE/resolv.conf" ] && break
+    done
+  fi
+  if [ ! -s "$STATE/resolv.conf" ]; then
+    log "Android has no published DNS; using fallback resolvers (requires an Android connection)"
+    printf 'nameserver 1.1.1.1\nnameserver 8.8.8.8\n' > "$STATE/resolv.conf"
+  fi
+  printf 'options timeout:2 attempts:2\n' >> "$STATE/resolv.conf"
+  chmod 0644 "$STATE/resolv.conf"
+  mkdir -p "$ROOT/etc"
+  [ -L "$ROOT/etc/resolv.conf" ] && rm -f "$ROOT/etc/resolv.conf"
+  : > "$ROOT/etc/resolv.conf"
+  bind_mount "$STATE/resolv.conf" "$ROOT/etc/resolv.conf" || return 1
+  [ -L "$ROOT/etc/hosts" ] && rm -f "$ROOT/etc/hosts"
+  touch "$ROOT/etc/hosts"
+  if ! awk '$1=="127.0.0.1" {f=1} END {exit !f}' "$ROOT/etc/hosts"; then
+    printf '127.0.0.1 localhost\n' >> "$ROOT/etc/hosts"
+  fi
+  if ! awk '$1=="::1" {f=1} END {exit !f}' "$ROOT/etc/hosts"; then
+    printf '::1 localhost ip6-localhost\n' >> "$ROOT/etc/hosts"
+  fi
+  chmod 0644 "$ROOT/etc/hosts"
+  mkdir -p "$ROOT/run/systemd/system" "$ROOT/etc/systemd/system"
+  for unit in NetworkManager NetworkManager-wait-online systemd-networkd systemd-networkd-wait-online systemd-resolved networking dhcpcd dhcpcd@ wpa_supplicant wpa_supplicant@ iwd connman; do
+    ln -sf /dev/null "$ROOT/run/systemd/system/$unit.service"
+    # /etc takes precedence over /run (including enabled custom unit files).
+    ln -sf /dev/null "$ROOT/etc/systemd/system/$unit.service"
+  done
+  printf '#!/bin/sh\n# Android owns networking in this shared namespace.\nexit 0\n' > "$STATE/network-disabled"
+  chmod 0755 "$STATE/network-disabled"
+  for path in /etc/init.d/networking /etc/init.d/network /etc/init.d/NetworkManager /etc/init.d/dhcpcd /etc/init.d/wpa_supplicant /etc/init.d/connman; do
+    [ -f "$ROOT$path" ] && bind_mount "$STATE/network-disabled" "$ROOT$path"
+  done
+  log "network: Android interfaces/routes retained; DNS $(cat "$STATE/resolv.conf")"
 }
 
 # dArkOSen's EmulationStation is started by systemd as the "ark" user with a prepared
@@ -285,7 +643,7 @@ run_in_subsystem() {   # $* = command to exec inside the chroot
 grant_storage_groups() {
   local grp="$ROOT/etc/group" gid
   [ -f "$grp" ] || return 0
-  for gid in 1023 1015 1004 9997; do   # media_rw, sdcard_rw, input, everybody
+  for gid in 1023 1015 1004 1005 3003 3004 9997; do   # storage, input, audio, inet, net_raw, everybody
     if awk -F: -v g="$gid" '$3==g{f=1} END{exit !f}' "$grp"; then
       # a group already owns this gid: add ark to it if absent
       awk -F: -v g="$gid" 'BEGIN{OFS=":"}
@@ -298,8 +656,12 @@ grant_storage_groups() {
 }
 
 prep_darkos_env() {
-  chmod 0666 /dev/uinput 2>/dev/null
-  for n in /dev/dri/card0 /dev/dri/renderD128 /dev/mali0; do [ -e "$n" ] && chmod 0666 "$n" 2>/dev/null; done
+  local n
+  if [ "$HANDOFF" = 1 ]; then
+    chmod 0666 /dev/uinput 2>/dev/null
+    for n in /dev/dri/card0 /dev/dri/renderD128 /dev/mali0; do [ -e "$n" ] && chmod 0666 "$n" 2>/dev/null; done
+  fi
+  for n in /dev/snd/*; do [ -e "$n" ] && chmod 0666 "$n" 2>/dev/null; done
   # Raw input nodes for ports that read evdev directly (ES itself goes through ogage's
   # uinput device above, but Kodi and some ports open /dev/input/event* themselves).
   for n in /dev/input/event* /dev/input/js*; do [ -e "$n" ] && chmod 0666 "$n" 2>/dev/null; done
@@ -307,7 +669,35 @@ prep_darkos_env() {
   mkdir -p "$ROOT/run/user/0" "$ROOT/run/user/1000" 2>/dev/null
   chmod 0700 "$ROOT/run/user/0" "$ROOT/run/user/1000" 2>/dev/null
   chown 1000:1000 "$ROOT/run/user/1000" 2>/dev/null   # ark
-  [ -e "$ROOT/dev/tty1" ] || ln -sf tty0 "$ROOT/dev/tty1" 2>/dev/null
+  # Standard dmix container prerequisites: private tmpfs /dev/shm (bind_core),
+  # sticky /tmp and ALSA runtime/lock/state directories writable by ark and root.
+  # SysV IPC, SELinux, kernel.sem and seccomp were already ruled out on hardware.
+  # TODO(hardware): strace -f -e semget,semctl,semop,openat inside the container
+  # to confirm the actual failing dmix semaphore call and its errno/ownership.
+  # Use chroot for /var paths: many rootfs images use absolute /var/run symlinks.
+  if root_file "$ROOT" /bin/sh; then
+    "$CHROOT" "$ROOT" /bin/sh -c '
+    export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+    mkdir -p /tmp/alsa /run/alsa /run/lock/alsa /var/lib/alsa /var/cache/alsa
+    chmod 1777 /tmp /tmp/alsa /dev/shm /run/alsa /run/lock /run/lock/alsa /var/lib/alsa /var/cache/alsa
+    for state in /var/lib/alsa/asound.state /var/lib/alsa/asound.state.lock; do
+      [ ! -f "$state" ] || chmod 0666 "$state"
+    done
+    exit 0
+    ' || return 1
+  else
+    # A minimal image may contain only a static init; do not require a shell
+    # merely for preparing its ALSA directories.
+    local dir
+    for dir in /run/alsa /run/lock/alsa /var/lib/alsa /var/cache/alsa; do
+      dir=$(root_path "$ROOT" "$dir") || return 1
+      mkdir -p "$dir" && chmod 1777 "$dir" || return 1
+    done
+  fi
+  if [ "$HANDOFF" = 1 ]; then
+    [ -e "$ROOT/dev/tty1" ] || ln -sf tty0 "$ROOT/dev/tty1" 2>/dev/null
+  fi
+  return 0
 }
 
 # The dArkOS session/setup units we bring up under systemd. These configure the device
@@ -317,9 +707,9 @@ prep_darkos_env() {
 #   - firstboot.service: it only runs /boot/expandtoexfat.sh, dArkOS's SD-card grow /
 #     exFAT-format step. There is no card to expand in our loop-mounted container, so it
 #     is inapplicable (not session setup). ES's "After=firstboot" is likewise moot here.
-#   - NetworkManager/wpa_supplicant/networking/wifi_monitor: network daemons, not setup;
-#     the subsystem is offline-first and they need dbus + the wifi stack. es-status-daemon
-#     stays (it just reports status; shows "disconnected" offline, which is correct).
+#   - NetworkManager/wpa_supplicant/networking/wifi_monitor: Android owns the
+#     shared network namespace; prepare_network supplies DNS and masks managers.
+#     es-status-daemon stays to report the existing connection.
 #   - console-setup: RequiresMountsFor=/usr + tty keymap, irrelevant to the GUI session.
 SESSION_UNITS="351mp.service cpu-governor.service dmc-governor.service gpu-freq.service \
 gamma-persist.service batt_led.service batteryplus.service fix-power-led.service \
@@ -361,26 +751,38 @@ install_session_units() {
 # The container stays up until the user picks "Shutdown" in dArkOS (systemd exits ->
 # this call returns -> the EXIT trap restores Android); "Restart" re-execs and stays.
 boot_subsystem_session() {
-  prep_darkos_env
-  [ -x "$ROOT/sbin/init" ] || [ -L "$ROOT/sbin/init" ] || { log "no /sbin/init in rootfs; cannot boot systemd"; return 1; }
-  install_session_units
-  log "boot dArkOSen systemd -> andr36oid-session.target (PID-ns container; log -> $SESSION_OUT)"
-  # bind_core already bound the host /proc at $ROOT/proc; inside the new pidns it must
-  # be that namespace's proc instead. We run the ns-internal setup in a sh wrapper and
-  # exec systemd as the final (PID1) image. $container makes systemd take its container
-  # path (skip fsck/hwclock/module loads/host-only units); api fs are pre-placed.
-  # Only PID+mount+UTS namespaces: the kernel has CONFIG_PID_NS/UTS_NS but NOT IPC_NS
-  # (that needs CONFIG_SYSVIPC, which Android disables), so -i would make unshare fail.
-  unshare -f -p -m -u /system/bin/sh -c "
-    umount '$ROOT/proc' 2>/dev/null
-    mount -t proc proc '$ROOT/proc' 2>/dev/null
-    mount -t tmpfs tmpfs '$ROOT/run' 2>/dev/null
-    mount -t tmpfs -o mode=1777 tmpfs '$ROOT/tmp' 2>/dev/null
-    mkdir -p '$ROOT/run/user/0' '$ROOT/run/user/1000' 2>/dev/null
-    export container=andr36oid-subsystem HOME=/root TERM=linux \
-      PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-    exec chroot '$ROOT' /sbin/init systemd.unit=andr36oid-session.target systemd.log_target=kmsg systemd.log_level=info systemd.show_status=true
-  "
+  has_init "$ROOT" || { log "rootfs has no init"; return 1; }
+  set -- "$INIT"
+  if root_file "$ROOT" /usr/lib/systemd/systemd || root_file "$ROOT" /lib/systemd/systemd; then
+    if [ -d "$ROOT/usr/bin/emulationstation" ]; then
+      install_session_units
+      set -- "$@" systemd.unit=andr36oid-session.target
+    fi
+    set -- "$@" systemd.log_target=console systemd.log_level=info systemd.show_status=true
+    mkdir -p "$ROOT/run/systemd/system.conf.d" "$ROOT/run/systemd/journald.conf.d"
+    {
+      printf '[Manager]\nDefaultEnvironment=ALSA_TMPDIR=/run/alsa TMPDIR=/tmp'
+      [ "$HANDOFF" = 0 ] && printf ' SDL_VIDEODRIVER=dummy SDL_KMSDRM_REQUIRE_DRM_MASTER=0'
+      printf '\nDefaultStandardOutput=journal+console\nDefaultStandardError=journal+console\n'
+    } > "$ROOT/run/systemd/system.conf.d/andr36oid.conf"
+    printf '[Journal]\nForwardToConsole=yes\nTTYPath=/dev/console\n' > "$ROOT/run/systemd/journald.conf.d/andr36oid.conf"
+  fi
+  # The rootfs runs in a container: it has no block devices to mount, so an empty
+  # fstab keeps init's "mount -a" from erroring on a missing/stale fstab.
+  : > "$ROOT/etc/fstab" 2>/dev/null || true
+  log "boot rootfs init $INIT (PID namespace; console -> $STATE/boot.log)"
+  # Never create a network namespace. Make mounts slave before replacing /proc
+  # so the child's proc mount cannot propagate back into Android/the broker.
+  # Leave /run intact: it contains network masks and ALSA/runtime preparation.
+  container=andr36oid-subsystem HOME=/root TERM=linux ALSA_TMPDIR=/run/alsa TMPDIR=/tmp \
+  unshare -f -p -m -u /system/bin/sh -c '
+    root=$1; chroot_cmd=$2; shift 2
+    mount -o rslave / || exit 1
+    umount "$root/proc" || exit 1
+    mount -t proc proc "$root/proc" || exit 1
+    export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+    exec "$chroot_cmd" "$root" "$@"
+  ' subsystem-init "$ROOT" "$CHROOT" "$@"
 }
 
 # Proven fallback (the 60fps ES bring-up): run dArkOSen's emulationstation.sh wrapper
@@ -388,90 +790,158 @@ boot_subsystem_session() {
 # ES) without systemd. Kept selectable so the console still has a working frontend if
 # the systemd path needs more bring-up work on a given image.
 run_es_wrapper() {
-  prep_darkos_env
-  local w=/usr/bin/emulationstation/emulationstation.sh
-  [ -x "$ROOT$w" ] || w=/usr/bin/emulationstation/emulationstation
-  log "launch EmulationStation via wrapper $w (log -> $SESSION_OUT)"
-  XDG_RUNTIME_DIR=/run/user/0 run_in_subsystem /bin/sh -lc "exec $w"
+  find_es "$ROOT" || { log "rootfs has no EmulationStation target"; return 1; }
+  log "launch EmulationStation via $ES (log -> $SESSION_OUT)"
+  if root_file "$ROOT" /bin/sh; then
+    XDG_RUNTIME_DIR=/run/user/0 run_in_subsystem /bin/sh -lc 'exec "$1"' subsystem-es "$ES"
+  else
+    XDG_RUNTIME_DIR=/run/user/0 run_in_subsystem "$ES"
+  fi
+}
+
+scan_images() {
+  local selected
+  selected=$(getprop sys.andr36oid.subsystem.rootfs)
+  [ -n "$selected" ] && IMAGE="$selected"
+  if detect_image && [ -f "$IMAGE" ]; then
+    setprop sys.andr36oid.subsystem.image 1
+  else
+    setprop sys.andr36oid.subsystem.image 0
+  fi
+}
+
+boot_decision() {
+  # /dev is tmpfs: mkdir is an atomic once-per-boot guard, also across framework
+  # restarts that set boot_completed again. Never switch an existing session.
+  mkdir "${A36_BOOT_GUARD:-/dev/.andr36oid-subsystem-boot}" 2>/dev/null || return 0
+  if session_active || [ "$(getprop sys.andr36oid.subsystem.session)" = running ] ||
+    [ "$(getprop init.svc.andr36oid-subsystem)" = running ]; then return 0; fi
+  local effective target held=0
+  effective=$(getprop persist.andr36oid.subsystem.default)
+  [ "$effective" = subsystem ] || effective=android
+  target=$(getprop persist.andr36oid.subsystem.default_target)
+  [ "$target" = PM ] || target=ES
+  if "$KEYHELD"; then
+    held=1
+    if [ "$effective" = android ]; then effective=subsystem; else effective=android; fi
+  fi
+  log "boot selection: START=$held effective=$effective target=$target"
+  scan_images
+  if [ "$effective" = subsystem ]; then
+    setprop sys.andr36oid.subsystem.boot_pending 1
+    setprop sys.andr36oid.subsystem.rootfs ""
+    setprop sys.andr36oid.subsystem.handoff 1
+    setprop sys.andr36oid.subsystem.port "$target"
+    setprop sys.andr36oid.subsystem.request run
+  fi
+}
+
+resolve_run_target() {
+  local c
+  if [ "${IS_PM:-0}" = 1 ]; then
+    for c in /roms/tools/PortMaster.sh /roms/tools/PortMaster/PortMaster.sh /usr/bin/portmaster; do
+      root_file "$ROOT" "$c" && { arg="$c"; break; }
+    done
+  fi
+  # Daijisho strips the .sh from names; resolve it after binding the games card.
+  if ! root_file "$ROOT" "$arg" && root_file "$ROOT" "$arg.sh"; then arg="$arg.sh"; fi
+  root_file "$ROOT" "$arg" || { log "launch target missing: $arg"; return 1; }
+}
+
+run_session() {
+  case "$cmd" in
+    start)
+      if [ "$HANDOFF" = 0 ] && has_init "$ROOT"; then
+        boot_subsystem_session
+      elif ! find_es "$ROOT"; then
+        boot_subsystem_session
+      else
+        case "$SESSION_MODE" in
+          systemd) boot_subsystem_session ;;
+          wrapper) run_es_wrapper ;;
+          bare)
+            root_file "$ROOT" /usr/bin/emulationstation/emulationstation && ES=/usr/bin/emulationstation/emulationstation
+            run_in_subsystem "$ES" ;;
+          *) log "invalid session mode: $SESSION_MODE"; return 2 ;;
+        esac
+      fi ;;
+    run)
+      log "launch port $arg (log -> $SESSION_OUT)"
+      # Positional arguments keep names containing quotes/spaces literal. Generic
+      # rootfs images need not ship dArkOS's optional governor tools or sudo.
+      run_in_subsystem /bin/sh -c '
+        cd "$(dirname "$1")" || exit 1
+        if [ "$2" = 1 ] && command -v perfmax >/dev/null 2>&1; then perfmax performance; fi
+        nice -n -19 "$1"; rc=$?
+        if [ "$2" = 1 ] && command -v perfnorm >/dev/null 2>&1; then perfnorm; fi
+        exit "$rc"
+      ' subsystem-port "$arg" "$HANDOFF" ;;
+  esac
 }
 
 cmd=${1:-start}; arg=${2:-}
-
-# launch-prop: invoked by the init service on a property trigger (the Daijisho
-# bridge app sets these, see [[daijishou-shim]]). sys.andr36oid.subsystem.port
-# holds the request: "ES" -> full frontend, "PM" -> PortMaster GUI, or a port
-# path (absolute, or relative to /roms/ports) -> run that single port.
-if [ "$cmd" = launch-prop ]; then
-  req=$(getprop sys.andr36oid.subsystem.request 2>/dev/null)
-  want=$(getprop sys.andr36oid.subsystem.port 2>/dev/null)
-  setprop sys.andr36oid.subsystem.request "" 2>/dev/null
-  if [ "$req" = scan ]; then
-    set -- scan
-  else
+case "$cmd" in
+  boot-decision) boot_decision; exit 0 ;;
+  scan-prop)
+    [ "$(getprop sys.andr36oid.subsystem.request)" = scan ] && setprop sys.andr36oid.subsystem.request ""
+    scan_images; exit 0 ;;
+  scan) scan_images; exit 0 ;;
+  stop-prop)
+    [ "$(getprop sys.andr36oid.subsystem.request)" = stop ] && setprop sys.andr36oid.subsystem.request ""
+    stop_session; exit 0 ;;
+  stop) stop_session; exit 0 ;;
+  recover) recover_session "$arg"; exit 0 ;;
+  launch-prop)
+    req=$(getprop sys.andr36oid.subsystem.request)
+    [ "$req" = run ] || exit 0
+    want=$(getprop sys.andr36oid.subsystem.port)
+    IMAGE=$(getprop sys.andr36oid.subsystem.rootfs)
+    HANDOFF=$(getprop sys.andr36oid.subsystem.handoff); HANDOFF=${HANDOFF:-1}
+    setprop sys.andr36oid.subsystem.request ""
     case "$want" in
-      ES|"") set -- start ;;
-      PM)    set -- run "/roms/tools/PortMaster.sh"; IS_PM=1 ;;
-      /*)    set -- run "$want" ;;            # absolute path inside the subsystem
-      *)     set -- run "/roms/ports/$want" ;;
-    esac
+      ES|"") cmd=start ;;
+      PM) cmd=run; arg=/roms/tools/PortMaster.sh; IS_PM=1 ;;
+      /*) cmd=run; arg="$want" ;;
+      *) cmd=run; arg="/roms/ports/$want" ;;
+    esac ;;
+  start|run) : ;;
+  *) echo "usage: $0 start | run <port.sh> | stop | scan | boot-decision" >&2; exit 2 ;;
+esac
+
+if ! mkdir "$STATE/session.lock" 2>/dev/null; then
+  if session_active || [ ! -f "$STATE/session.lock/pid" ]; then
+    log "session already running/preparing; ignoring launch"; exit 1
   fi
-  cmd=$1; arg=${2:-}
+  recover_session "$(cat "$STATE/session.lock/pid")"
+  mkdir "$STATE/session.lock" 2>/dev/null || exit 1
 fi
-
-# scan: no handoff. Just report whether a dArkOSen image is present so the
-# Settings page can show status and enable its launch buttons. Sets the
-# read-only-ish status prop sys.andr36oid.subsystem.image to 1 or 0.
-if [ "$cmd" = scan ]; then
-  found=0
-  for g in $IMAGE_SEARCH; do [ -f "$g" ] && { found=1; break; }; done
-  setprop sys.andr36oid.subsystem.image "$found" 2>/dev/null
-  exit 0
-fi
-
-case "$cmd" in
-  stop) : > "$STATE/subsystem.clean"; restore_android; log "forced stop"; exit 0 ;;
-esac
-
-: > "$LOG"; log "subsystem $cmd arg=$arg"
-# After a PortMaster session, ports may have been installed; ask the setup worker
-# to refresh Daijishou's Ports library so it matches EmulationStation without a reboot.
-trap 'rc=$?; restore_android; [ "${IS_PM:-0}" = 1 ] && setprop sys.andr36oid.ports_changed 1 2>/dev/null; : > "$STATE/subsystem.clean"; kill "${GUARD:-0}" 2>/dev/null; log "exit rc=$rc"; exit $rc' EXIT INT TERM HUP
-mount_rootfs || { echo "subsystem: no rootfs" >&2; exit 1; }
-fix_exec_bits
-prime_input
-arm_guardian
-bind_core
-mount_storage
-handoff
-# Session output (ES + whatever it launches) goes here so a stuck emulator/port
-# leaves a trace - the handoff blips adb, so we cannot watch it live.
+printf '%s\n' "$$" > "$STATE/session.lock/pid"
+cat /proc/sys/kernel/random/boot_id > "$STATE/session.lock/boot_id"
+SESSION_OWNED=1
+: > "$STATE/session.mounts"
+trap 'finish_session $?' EXIT
+trap 'exit 130' INT
+trap 'exit 143' TERM
+trap 'exit 129' HUP
+: > "$LOG"
 SESSION_OUT="$STATE/session.out"
-case "$cmd" in
-  start) case "$SESSION_MODE" in
-           systemd) boot_subsystem_session > "$STATE/systemd.out" 2>&1 || { log "systemd boot failed (see systemd.out), falling back to ES wrapper"; run_es_wrapper > "$SESSION_OUT" 2>&1; } ;;
-           wrapper) run_es_wrapper > "$SESSION_OUT" 2>&1 ;;
-           bare)    log "launch bare EmulationStation (log -> $SESSION_OUT)"
-                    run_in_subsystem /usr/bin/emulationstation/emulationstation > "$SESSION_OUT" 2>&1 ;;
-         esac ;;
-  run)   # PortMaster's launcher is /roms/tools/PortMaster.sh on a standard dArkOS/
-         # ArkOS card (tools/PortMaster/ is its data dir, not the launcher). A few
-         # installs keep the launcher inside that dir instead, so resolve against the
-         # card now that /roms is bound under $ROOT.
-         if [ "${IS_PM:-0}" = 1 ]; then
-           for c in /roms/tools/PortMaster.sh /roms/tools/PortMaster/PortMaster.sh; do
-             [ -e "$ROOT$c" ] && { arg="$c"; break; }
-           done
-         fi
-         # The Daijisho bridge strips a port's .sh to name it, so "/roms/ports/<name>"
-         # may not exist while "<name>.sh" does. /roms is bound under $ROOT now, so
-         # add .sh back when the bare path is missing (handles both bare names and
-         # full *.sh paths).
-         [ ! -e "$ROOT$arg" ] && [ -e "$ROOT$arg.sh" ] && arg="$arg.sh"
-         # Run a single port the way EmulationStation's "ports" system does:
-         # perfmax (governors) -> nice the port -> perfnorm. cwd = the port's dir.
-         pdir=$(dirname "$arg"); log "launch port $arg (cwd $pdir, log -> $SESSION_OUT)"
-         run_in_subsystem /bin/sh -lc "cd '$pdir' 2>/dev/null; sudo perfmax performance '$arg' 2>/dev/null; nice -n -19 '$arg'; sudo perfnorm 2>/dev/null" > "$SESSION_OUT" 2>&1 ;;
-  *) echo "usage: $0 start | run <port.sh> | stop" >&2; exit 2 ;;
-esac
-log "subsystem session ended"
-# EXIT trap restores Android.
+start_live_log || exit 1
+setprop sys.andr36oid.subsystem.session running
+log "subsystem $cmd arg=$arg handoff=$HANDOFF image=${IMAGE:-default}"
+case "$HANDOFF" in 0|1) : ;; *) log "handoff must be 0 or 1"; exit 2 ;; esac
+case "$IMAGE" in ''|/*) : ;; *) log "rootfs image path must be absolute"; exit 2 ;; esac
+arm_guardian
+mount_rootfs || { log "cannot prepare eligible rootfs"; exit 1; }
+fix_exec_bits
+find_es "$ROOT" && prime_input
+bind_core || { log "core mounts failed"; exit 1; }
+mount_storage
+eligible_rootfs "$ROOT" || { log "rootfs has no init or launch target"; exit 1; }
+[ "$cmd" = run ] && { resolve_run_target || exit 1; }
+prepare_network || { log "network preparation failed"; exit 1; }
+prep_darkos_env || { log "runtime/audio preparation failed"; exit 1; }
+if [ "$HANDOFF" = 1 ]; then handoff; else log "no handoff: Android stays up; display devices hidden"; fi
+# Wait on a child so TERM interrupts wait immediately, including while init runs.
+run_session & SESSION_PID=$!
+wait "$SESSION_PID"; session_rc=$?
+exit "$session_rc"

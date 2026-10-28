@@ -602,7 +602,9 @@ PRODUCT_PACKAGES += \
 	andr36oid-ktweaks \
 	andr36oid-hz-preview
 
-PRODUCT_PACKAGES += SubsystemSetup # Settings > System: andr36oid Subsystem for dArkOSen
+PRODUCT_PACKAGES += SubsystemSetup # Settings > System: andr36oid Subsystem for Linux
+# Boot-time hold-START reader used by the subsystem broker/rc to pick the boot OS
+PRODUCT_PACKAGES += andr36oid-keyheld
 # RGB lights (Settings > Display > RGB lights), shown only on consoles with an
 # RGB LED (R36 Ultra); off unless chosen
 PRODUCT_PACKAGES += \

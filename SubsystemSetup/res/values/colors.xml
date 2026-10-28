@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="subsystem_console_background">#101512</color>
+    <color name="subsystem_console_text">#D6EBDC</color>
+</resources>

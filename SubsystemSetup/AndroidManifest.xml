@@ -20,7 +20,7 @@
             android:name=".SubsystemSetupActivity"
             android:exported="true"
             android:label="@string/subsystem_title"
-            android:theme="@android:style/Theme.DeviceDefault.Settings">
+            android:theme="@style/Andr36oidSetupTheme">
             <intent-filter>
                 <action android:name="com.android.settings.action.IA_SETTINGS" />
             </intent-filter>
