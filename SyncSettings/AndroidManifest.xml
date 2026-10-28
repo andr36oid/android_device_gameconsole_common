@@ -3,6 +3,8 @@
     package="org.andr36oid.syncsettings"
     android:sharedUserId="android.uid.system">
 
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
     <application
         android:allowBackup="false"
         android:icon="@drawable/ic_sync"
@@ -12,6 +14,7 @@
         <!-- Injected into Settings > System -->
         <activity
             android:name=".SyncSettingsActivity"
+            android:enabled="false"
             android:exported="true"
             android:label="@string/sync_title"
             android:theme="@android:style/Theme.DeviceDefault.Settings">
@@ -28,5 +31,13 @@
                 android:name="com.android.settings.icon"
                 android:resource="@drawable/ic_sync" />
         </activity>
+
+        <receiver
+            android:name=".BootReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
     </application>
 </manifest>

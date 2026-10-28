@@ -2,7 +2,6 @@
 <resources>
     <string name="subsystem_title">Linux için andr36oid alt sistemi</string>
     <string name="subsystem_summary">dArkOSen, EmulationStation ve PortMaster kurulumu ve açılışı</string>
-    <string name="subsystem_intro">Alt sistem, konsolunuzda küçük bir dArkOSen Linux sistemi çalıştırır. Port oyunlarını oynamak için EmulationStation ve PortMaster kullanın. Çıkış yaptığınızda Android sistemine sorunsuz dönersiniz.</string>
     <string name="subsystem_about_title">Nasıl çalışır</string>
     <string name="subsystem_about">Bu özellik, dArkOSen\'i ve muhtemelen diğer özel yazılımları Docker\'a biraz benzeyen, ayrı ve yalıtılmış bir ortamda çalıştırır. Android\'in yoğun arka plan hizmetleri önce durdurulur, bu nedenle açık olan tüm Android uygulamalarınız işlem sürerken kapatılır. Performans, özel yazılımı tek başına çalıştırmaya yakın olmalıdır, ancak andr36oid çekirdeğini kullanır. Bu nedenle bazı şeyler tam olarak beklendiği gibi çalışmayabilir. EASYROMS bölümünüz veya EASYROMS oluşturmayı seçmediyseniz veri bölümü, özel yazılım içinde /roms olarak bağlanır.</string>
     <string name="subsystem_status">Durum</string>
@@ -12,9 +11,7 @@
     <string name="subsystem_setup">Kurulum adımları</string>
     <string name="subsystem_step_image">1. İmajı kopyalayın</string>
     <string name="subsystem_step_image_summary">Oyun kartınızdaki EASYROMS (oyunlar) sürücüsünü açın. subsystem/darkosen/ adlı bir klasör oluşturun ve dArkOSen .img dosyasını içine koyun. İmaj sıkıştırılmışsa önce çıkartın.</string>
-    <string name="subsystem_step_portmaster">2. PortMaster yükleyin</string>
-    <string name="subsystem_step_portmaster_summary">Resmî Install.Full.PortMaster.sh dosyasını kullanarak aynı karttaki tools/PortMaster/ konumuna PortMaster kurulumu yapın. Tam yükleyici çevrimdışı çalıştığı için önerilir.</string>
-    <string name="subsystem_step_ports">3. Port ekleyin ve oynayın</string>
+    <string name="subsystem_step_ports">2. Port ekleyin ve oynayın</string>
     <string name="subsystem_step_ports_summary">Portları aynı karttaki ports/ klasörüne koyun. Aşağıdan EmulationStation veya PortMaster açın. Android sistemine dönmek için alt sistemden çıkın.</string>
     <string name="subsystem_open_es">EmulationStation aç</string>
     <string name="subsystem_open_es_summary">dArkOSen içindeki portlara göz atın ve oynayın</string>
@@ -38,7 +35,6 @@
     <string name="subsystem_welcome">El konsolunuzda Linux</string>
     <string name="subsystem_image_title">Linux imajını hazırlayın</string>
     <string name="subsystem_ports_title">PortMaster ve portlarınız</string>
-    <string name="subsystem_home_body">Oynamak için EmulationStation\'ı, portlarınızı yönetmek için PortMaster\'ı açın. Bu başlatmalar otomatik olarak algılanan imajı kullanır. Tam devretme, ekranı Linux\'a verir ve Android uygulamalarınızı kapatır. Başlatmadan önce çalışmalarınızı kaydedin.\n\nOyun kartınızı hazırlamak için Kurulum adımlarını, açılışta neyin başlayacağını seçmek için Ayarlar\'ı veya diğer Linux imajları ve canlı açılış konsolu için Gelişmiş modu kullanın.</string>
     <string name="subsystem_step_count">Kurulum · %1$d/%2$d</string>
     <string name="subsystem_continue">Devam</string>
     <string name="subsystem_back">Geri</string>
@@ -49,7 +45,6 @@
     <string name="subsystem_check_again">Tekrar kontrol et</string>
     <string name="subsystem_refresh">Yenile</string>
     <string name="subsystem_offline_first">Kurulumu tamamen çevrimdışı tamamlayabilirsiniz. Bir bilgisayar kullanarak çıkarılmış bir .img dosyasını kopyalayın, kartı takın ve ardından Tekrar kontrol et\'i seçin. İndirme yalnızca bu cihazın internet bağlantısı olduğunda sunulur.</string>
-    <string name="subsystem_ports_note">Bunlar oyun kartında gerçekleştireceğiniz adımlardır. Bu sihirbaz bir rootfs imajını kontrol eder; PortMaster\'ı yüklemez veya portlarınızı doğrulamaz.</string>
     <string name="subsystem_ready_title">Linux için hazır</string>
     <string name="subsystem_ready_body">Linux imajınız bulundu. EmulationStation veya PortMaster\'ı seçmek için kurulumu tamamlayın.\n\nTam devretmeyle başlatma, Android uygulamalarını kapatır ve ekranı Linux\'a devreder. Önce Android\'deki çalışmalarınızı kaydedin. Android\'e dönmek için Linux\'tan çıkın.</string>
     <string name="subsystem_launch">Linux\'u başlat</string>
@@ -57,8 +52,6 @@
     <string name="subsystem_settings">Ayarlar</string>
     <string name="subsystem_boot_settings">Konsolunuzu başlatma</string>
     <string name="subsystem_boot_default">Alt sistemi varsayılan olarak başlat</string>
-    <string name="subsystem_boot_explainer">Konsolunuzun Android\'de mi yoksa Linux alt sisteminde mi başlayacağını seçin. Düğme kapalıyken Android başlar. Alt sistem otomatik olarak başladığında açılacak Linux uygulamasını seçin.</string>
-    <string name="subsystem_boot_override">Varsayılanınız ne olursa olsun diğer işletim sistemini başlatmak için açılışta START düğmesini basılı tutun.</string>
     <string name="subsystem_default_target">Varsayılan başlatma hedefi</string>
     <string name="subsystem_target_es">EmulationStation</string>
     <string name="subsystem_target_pm">PortMaster</string>

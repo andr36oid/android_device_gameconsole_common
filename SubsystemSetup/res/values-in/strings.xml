@@ -2,7 +2,6 @@
 <resources>
     <string name="subsystem_title">Subsistem andr36oid untuk Linux</string>
     <string name="subsystem_summary">Siapkan dan buka dArkOSen, EmulationStation, dan PortMaster</string>
-    <string name="subsystem_intro">Subsistem ini menjalankan sistem Linux dArkOSen kecil di konsol Anda. Gunakan EmulationStation dan PortMaster untuk memainkan port. Saat keluar, Anda akan kembali ke Android dengan rapi.</string>
     <string name="subsystem_about_title">Cara kerjanya</string>
     <string name="subsystem_about">Fitur ini menjalankan dArkOSen, dan mungkin firmware kustom lainnya, dalam lingkungan terpisah dan terisolasi, mirip Docker. Layanan latar belakang Android yang berat akan dihentikan terlebih dahulu, sehingga semua aplikasi Android yang sedang terbuka akan ditutup selama fitur ini berjalan. Kecepatannya seharusnya mendekati saat firmware kustom dijalankan sendiri, tetapi fitur ini menggunakan kernel andr36oid, jadi beberapa hal mungkin tidak berfungsi persis seperti yang diharapkan. Partisi EASYROMS Anda, atau partisi data jika Anda memilih untuk tidak membuat EASYROMS, akan dipasang di dalam firmware kustom sebagai /roms.</string>
     <string name="subsystem_status">Status</string>
@@ -12,9 +11,7 @@
     <string name="subsystem_setup">Langkah penyiapan</string>
     <string name="subsystem_step_image">1. Salin image</string>
     <string name="subsystem_step_image_summary">Buka drive EASYROMS (game) di kartu game Anda. Buat folder bernama subsystem/darkosen/ lalu masukkan file .img dArkOSen ke dalamnya. Jika image dikompresi, ekstrak terlebih dahulu.</string>
-    <string name="subsystem_step_portmaster">2. Instal PortMaster</string>
-    <string name="subsystem_step_portmaster_summary">Gunakan Install.Full.PortMaster.sh resmi untuk menginstal PortMaster ke tools/PortMaster/ pada kartu yang sama. Installer lengkap disarankan karena dapat digunakan secara offline.</string>
-    <string name="subsystem_step_ports">3. Tambahkan port dan mainkan</string>
+    <string name="subsystem_step_ports">2. Tambahkan port dan mainkan</string>
     <string name="subsystem_step_ports_summary">Letakkan port di folder ports/ pada kartu yang sama. Buka EmulationStation atau PortMaster di bawah. Keluar dari subsistem untuk kembali ke Android.</string>
     <string name="subsystem_open_es">Buka EmulationStation</string>
     <string name="subsystem_open_es_summary">Jelajahi dan mainkan port di dArkOSen</string>
@@ -38,7 +35,6 @@
     <string name="subsystem_welcome">Linux di konsol genggam Anda</string>
     <string name="subsystem_image_title">Siapkan image Linux</string>
     <string name="subsystem_ports_title">PortMaster dan port Anda</string>
-    <string name="subsystem_home_body">Buka EmulationStation untuk bermain, atau PortMaster untuk mengelola port Anda. Peluncuran ini menggunakan image yang terdeteksi otomatis. Dengan pengalihan penuh, Linux mengambil alih layar dan menutup aplikasi Android Anda. Simpan pekerjaan Anda sebelum meluncurkan.\n\nGunakan langkah penyiapan untuk menyiapkan kartu game, Setelan untuk memilih apa yang dimulai saat boot, atau mode lanjutan untuk image Linux lain dan konsol boot langsung.</string>
     <string name="subsystem_step_count">Penyiapan · %1$d dari %2$d</string>
     <string name="subsystem_continue">Lanjutkan</string>
     <string name="subsystem_back">Kembali</string>
@@ -49,7 +45,6 @@
     <string name="subsystem_check_again">Periksa lagi</string>
     <string name="subsystem_refresh">Segarkan</string>
     <string name="subsystem_offline_first">Anda dapat menyelesaikan penyiapan sepenuhnya secara offline. Salin file .img yang telah diekstrak menggunakan komputer, masukkan kartu, lalu pilih Periksa lagi. Unduhan hanya ditawarkan saat perangkat ini terhubung ke Internet.</string>
-    <string name="subsystem_ports_note">Ini adalah langkah-langkah yang dilakukan di kartu game. Wizard ini memeriksa image rootfs; wizard tidak menginstal PortMaster atau memverifikasi port Anda.</string>
     <string name="subsystem_ready_title">Siap untuk Linux</string>
     <string name="subsystem_ready_body">Image Linux Anda telah ditemukan. Selesaikan penyiapan untuk memilih EmulationStation atau PortMaster.\n\nDengan pengalihan penuh, peluncuran akan menutup aplikasi Android dan menyerahkan layar kepada Linux. Simpan pekerjaan Anda di Android terlebih dahulu. Keluar dari Linux untuk kembali ke Android.</string>
     <string name="subsystem_launch">Jalankan Linux</string>
@@ -57,8 +52,6 @@
     <string name="subsystem_settings">Setelan</string>
     <string name="subsystem_boot_settings">Memulai konsol Anda</string>
     <string name="subsystem_boot_default">Boot ke subsistem secara default</string>
-    <string name="subsystem_boot_explainer">Pilih apakah konsol Anda dimulai di Android atau subsistem Linux. Saat tombol dinonaktifkan, konsol dimulai di Android. Pilih aplikasi Linux yang dibuka saat subsistem dimulai secara otomatis.</string>
-    <string name="subsystem_boot_override">Tahan START saat boot untuk memulai OS lain, apa pun default Anda.</string>
     <string name="subsystem_default_target">Target boot default</string>
     <string name="subsystem_target_es">EmulationStation</string>
     <string name="subsystem_target_pm">PortMaster</string>

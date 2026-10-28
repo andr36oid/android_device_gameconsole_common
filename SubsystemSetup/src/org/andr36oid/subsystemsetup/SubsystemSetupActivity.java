@@ -26,7 +26,6 @@ import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.ScrollView;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -68,7 +67,7 @@ public class SubsystemSetupActivity extends Activity {
     private long mLaunchAt, mScanAt, mValidatedAt;
     private List<File> mRoots = new ArrayList<>();
     private Runnable mBackAction;
-    private TextView mLabel, mTitle, mBody, mStatus, mDownloadStatus, mConsoleStatus, mLogText;
+    private TextView mLabel, mTitle, mBody, mStatus, mDownloadStatus, mBootHint, mConsoleStatus, mLogText;
     private ProgressBar mProgress;
     private LinearLayout mSide, mBodyExtra;
     private ScrollView mTextScroll, mSideScroll, mLogScroll;
@@ -118,7 +117,7 @@ public class SubsystemSetupActivity extends Activity {
         mSawRunning = mPrefs.getBoolean("launch_saw_running", false);
         if (mLaunchAt > SystemClock.elapsedRealtime()) clearPending();
         if (state != null) {
-            mStep = Math.max(0, Math.min(3, state.getInt("step")));
+            mStep = Math.max(0, Math.min(2, state.getInt("step")));
             mReturnScreen = Screen.valueOf(state.getString("return", Screen.HOME.name()));
             mConfirmReturn = Screen.valueOf(state.getString("confirm_return", Screen.HOME.name()));
             mConsoleReturn = Screen.valueOf(state.getString("console_return", Screen.HOME.name()));
@@ -257,7 +256,7 @@ public class SubsystemSetupActivity extends Activity {
         mIdleControls.clear();
         mSide.removeAllViews();
         mBodyExtra.removeAllViews();
-        mStatus = mDownloadStatus = null;
+        mStatus = mDownloadStatus = mBootHint = null;
         mDownloadButton = mScanButton = null;
         mBackAction = this::finish;
         mPanes.setVisibility(screen == Screen.CONSOLE ? View.GONE : View.VISIBLE);
@@ -308,7 +307,7 @@ public class SubsystemSetupActivity extends Activity {
     private void wizard() {
         mProgress.setVisibility(View.VISIBLE);
         mProgress.setProgress(mStep + 1);
-        mLabel.setText(getString(R.string.subsystem_step_count, mStep + 1, 4));
+        mLabel.setText(getString(R.string.subsystem_step_count, mStep + 1, 3));
         mBackAction = () -> {
             if (mStep == 0) show(Screen.HOME);
             else { mStep--; show(Screen.WIZARD); }
@@ -322,8 +321,6 @@ public class SubsystemSetupActivity extends Activity {
                 section(mSide, R.string.subsystem_setup);
                 text(mSide, getString(R.string.subsystem_step_image) + "\n"
                         + getString(R.string.subsystem_step_image_summary));
-                text(mSide, getString(R.string.subsystem_step_portmaster) + "\n"
-                        + getString(R.string.subsystem_step_portmaster_summary));
                 text(mSide, getString(R.string.subsystem_step_ports) + "\n"
                         + getString(R.string.subsystem_step_ports_summary));
                 nav(mSecondary, R.string.subsystem_settings, () -> openFromHere(Screen.SETTINGS));
@@ -342,20 +339,15 @@ public class SubsystemSetupActivity extends Activity {
                 nav(mSecondary, R.string.subsystem_advanced, () -> openFromHere(Screen.ADVANCED));
                 nav(mNext, R.string.subsystem_continue, this::nextStep);
                 break;
-            case 2:
-                mTitle.setText(R.string.subsystem_ports_title);
-                mBody.setText(R.string.subsystem_step_portmaster_summary);
-                section(mSide, R.string.subsystem_step_ports);
-                text(mSide, getString(R.string.subsystem_step_ports_summary));
-                text(mSide, getString(R.string.subsystem_ports_note));
-                nav(mNext, R.string.subsystem_continue, this::nextStep);
-                break;
             default:
                 mTitle.setText(R.string.subsystem_ready_title);
                 mBody.setText(R.string.subsystem_ready_body);
+                section(mSide, R.string.subsystem_step_ports);
+                text(mSide, getString(R.string.subsystem_step_ports_summary));
+                text(mSide, getString(R.string.subsystem_ports_note));
                 imageStatus();
                 section(mSide, R.string.subsystem_boot_settings);
-                text(mSide, getString(R.string.subsystem_boot_override));
+                mBootHint = text(mSide, bootHint());
                 nav(mSecondary, R.string.subsystem_settings, () -> openFromHere(Screen.SETTINGS));
                 nav(mNext, R.string.subsystem_finish, () -> {
                     mPrefs.edit().putBoolean("setup_complete", true).apply();
@@ -367,14 +359,14 @@ public class SubsystemSetupActivity extends Activity {
 
     private void nextStep() {
         if (mStep == 1 && !canLaunch(false)) return;
-        mStep = Math.min(3, mStep + 1);
+        mStep = Math.min(2, mStep + 1);
         show(Screen.WIZARD);
     }
 
     private void home() {
         page(R.string.subsystem_home, R.string.subsystem_title, getString(R.string.subsystem_home_body));
         imageStatus();
-        text(mBodyExtra, getString(R.string.subsystem_boot_override));
+        mBootHint = text(mBodyExtra, bootHint());
         section(mSide, R.string.subsystem_launch);
         launchAction("ES", false);
         launchAction("PM", false);
@@ -398,46 +390,15 @@ public class SubsystemSetupActivity extends Activity {
 
     private void settings() {
         page(R.string.subsystem_home, R.string.subsystem_settings,
-                getString(R.string.subsystem_boot_explainer) + "\n\n" + getString(R.string.subsystem_boot_override));
+                getString(R.string.subsystem_settings_body));
         mBackAction = () -> show(mReturnScreen);
-        final Switch boot = new Switch(this);
-        boot.setText(R.string.subsystem_boot_default);
-        boot.setChecked("subsystem".equals(SubsystemBackend.get(SubsystemBackend.DEFAULT)));
-        decorateControl(boot);
-        mSide.addView(boot, rowParams());
-        boot.setOnCheckedChangeListener((view, enabled) -> {
-            // Write the fallback explicitly before making the subsystem the default OS.
-            if (enabled && !SubsystemBackend.set(SubsystemBackend.DEFAULT_TARGET, selectedBootTarget())) {
-                boot.setChecked(false);
-                message(R.string.subsystem_setting_failed);
-                return;
-            }
-            if (!SubsystemBackend.set(SubsystemBackend.DEFAULT, enabled ? "subsystem" : "android")) {
-                boot.setOnCheckedChangeListener(null);
-                boot.setChecked(!enabled);
-                message(R.string.subsystem_setting_failed);
-                // Rebuild once to restore the listener and the actual property values.
-                show(Screen.SETTINGS);
-            }
-        });
-        section(mSide, R.string.subsystem_default_target);
-        final RadioGroup targets = new RadioGroup(this);
-        final RadioButton es = radio(targets, R.string.subsystem_target_es);
-        final RadioButton pm = radio(targets, R.string.subsystem_target_pm);
-        targets.check("PM".equals(SubsystemBackend.defaultTarget()) ? pm.getId() : es.getId());
-        targets.setOnCheckedChangeListener((group, id) -> {
-            if (!SubsystemBackend.set(SubsystemBackend.DEFAULT_TARGET, id == pm.getId() ? "PM" : "ES")) {
-                message(R.string.subsystem_setting_failed);
-                show(Screen.SETTINGS);
-            }
-        });
-        mSide.addView(targets);
         nav(mBack, R.string.subsystem_back, mBackAction);
         nav(mNext, R.string.subsystem_done, mBackAction);
     }
 
-    private String selectedBootTarget() {
-        return SubsystemBackend.defaultTarget();
+    private String bootHint() {
+        return getString("subsystem".equals(SubsystemBackend.get(SubsystemBackend.DEFAULT))
+                ? R.string.subsystem_boot_override : R.string.subsystem_boot_android_override);
     }
 
     private void advanced() {
@@ -685,6 +646,7 @@ public class SubsystemSetupActivity extends Activity {
     }
 
     private void update() {
+        if (mBootHint != null) setText(mBootHint, bootHint());
         if (mStatus != null) {
             final int status;
             if (running()) status = R.string.subsystem_session_running;
@@ -701,7 +663,7 @@ public class SubsystemSetupActivity extends Activity {
         }
         for (Button launch : mLaunchButtons) launch.setEnabled(canLaunch(mScreen == Screen.ADVANCED));
         for (View control : mIdleControls) control.setEnabled(!busy());
-        if (mScreen == Screen.WIZARD && (mStep == 1 || mStep == 3)) mNext.setEnabled(canLaunch(false));
+        if (mScreen == Screen.WIZARD && mStep != 0) mNext.setEnabled(canLaunch(false));
         if (mScanButton != null) mScanButton.setEnabled(!busy());
         if (mDownloadStatus != null) {
             setText(mDownloadStatus, mSnapshot.downloading && mSnapshot.downloadPercent >= 0

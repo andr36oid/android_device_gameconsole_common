@@ -2,7 +2,6 @@
 <resources>
     <string name="subsystem_title">Subsistema andr36oid para Linux</string>
     <string name="subsystem_summary">Configure e abra dArkOSen, EmulationStation e PortMaster</string>
-    <string name="subsystem_intro">O subsistema executa um pequeno sistema Linux dArkOSen no seu console. Use EmulationStation e PortMaster para jogar ports. Ao sair, ele retorna ao Android normalmente.</string>
     <string name="subsystem_about_title">Como funciona</string>
     <string name="subsystem_about">Isso executa o dArkOSen e possivelmente outros firmwares personalizados em um ambiente separado e isolado, um pouco como o Docker. Os serviços pesados do Android em segundo plano são interrompidos primeiro, então todos os seus aplicativos Android abertos são fechados enquanto isso é executado. A velocidade deve ser próxima à de executar o firmware personalizado por conta própria, mas ele usa o kernel do andr36oid, então algumas coisas podem não funcionar exatamente como esperado. Sua partição EASYROMS, ou a partição de dados caso você tenha escolhido não criar a partição EASYROMS, é montada no firmware personalizado como /roms.</string>
     <string name="subsystem_status">Status</string>
@@ -12,9 +11,7 @@
     <string name="subsystem_setup">Etapas de configuração</string>
     <string name="subsystem_step_image">1. Copie a imagem</string>
     <string name="subsystem_step_image_summary">Abra o drive EASYROMS (jogos) no seu cartão de jogos. Crie uma pasta chamada subsystem/darkosen/ e coloque nela o arquivo .img do dArkOSen. Se a imagem estiver compactada, extraia-a primeiro.</string>
-    <string name="subsystem_step_portmaster">2. Instale o PortMaster</string>
-    <string name="subsystem_step_portmaster_summary">Use o Install.Full.PortMaster.sh oficial para instalar o PortMaster em tools/PortMaster/ no mesmo cartão. Recomendamos o instalador completo porque ele funciona offline.</string>
-    <string name="subsystem_step_ports">3. Adicione ports e jogue</string>
+    <string name="subsystem_step_ports">2. Adicione ports e jogue</string>
     <string name="subsystem_step_ports_summary">Coloque os ports na pasta ports/ do mesmo cartão. Abra o EmulationStation ou o PortMaster abaixo. Saia do subsistema para voltar ao Android.</string>
     <string name="subsystem_open_es">Abra o EmulationStation</string>
     <string name="subsystem_open_es_summary">Navegue pelos ports e jogue no dArkOSen</string>
@@ -38,7 +35,6 @@
     <string name="subsystem_welcome">Linux no seu console portátil</string>
     <string name="subsystem_image_title">Prepare uma imagem Linux</string>
     <string name="subsystem_ports_title">PortMaster e seus ports</string>
-    <string name="subsystem_home_body">Abra o EmulationStation para jogar ou o PortMaster para gerenciar seus ports. Esses atalhos usam a imagem detectada automaticamente. Com a transferência total, o Linux assume a tela e fecha seus aplicativos Android. Salve seu trabalho antes de iniciar.\n\nUse as etapas de configuração para preparar seu cartão de jogos, Configurações para escolher o que inicia com o boot ou o modo avançado para outras imagens Linux e um console de boot ao vivo.</string>
     <string name="subsystem_step_count">Configuração · %1$d de %2$d</string>
     <string name="subsystem_continue">Continuar</string>
     <string name="subsystem_back">Voltar</string>
@@ -49,7 +45,6 @@
     <string name="subsystem_check_again">Verificar novamente</string>
     <string name="subsystem_refresh">Atualizar</string>
     <string name="subsystem_offline_first">Você pode concluir a configuração totalmente offline. Copie um arquivo .img extraído usando um computador, insira o cartão e escolha Verificar novamente. O download só é oferecido quando este dispositivo está conectado à Internet.</string>
-    <string name="subsystem_ports_note">Estas são etapas realizadas no cartão de jogos. Este assistente verifica uma imagem rootfs; ele não instala o PortMaster nem verifica seus ports.</string>
     <string name="subsystem_ready_title">Linux pronto</string>
     <string name="subsystem_ready_body">Sua imagem Linux foi encontrada. Conclua a configuração para escolher o EmulationStation ou o PortMaster.\n\nCom a transferência total, a inicialização fecha os aplicativos Android e passa a tela para o Linux. Salve primeiro seu trabalho no Android. Saia do Linux para voltar ao Android.</string>
     <string name="subsystem_launch">Iniciar Linux</string>
@@ -57,8 +52,6 @@
     <string name="subsystem_settings">Configurações</string>
     <string name="subsystem_boot_settings">Inicialização do console</string>
     <string name="subsystem_boot_default">Inicializar no subsistema por padrão</string>
-    <string name="subsystem_boot_explainer">Escolha se o console inicia no Android ou no subsistema Linux. Quando o botão está desativado, ele inicia no Android. Escolha o aplicativo Linux que será aberto quando o subsistema iniciar automaticamente.</string>
-    <string name="subsystem_boot_override">Mantenha START pressionado durante o boot para iniciar o outro sistema operacional, independentemente do padrão.</string>
     <string name="subsystem_default_target">Destino padrão da inicialização</string>
     <string name="subsystem_target_es">EmulationStation</string>
     <string name="subsystem_target_pm">PortMaster</string>

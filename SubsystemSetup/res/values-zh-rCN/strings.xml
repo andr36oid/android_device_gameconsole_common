@@ -2,7 +2,6 @@
 <resources>
     <string name="subsystem_title">andr36oid Linux 子系统</string>
     <string name="subsystem_summary">设置并打开 dArkOSen、EmulationStation 和 PortMaster</string>
-    <string name="subsystem_intro">该子系统会在您的主机上运行一个精简的 dArkOSen Linux 系统。您可以使用 EmulationStation 和 PortMaster 游玩移植游戏。退出后会正常返回 Android。</string>
     <string name="subsystem_about_title">工作原理</string>
     <string name="subsystem_about">此功能会在一个独立的隔离环境中运行 dArkOSen，也可能运行其他自定义固件，环境有点像 Docker。开始运行前会先停止 Android 中占用资源较多的后台服务，因此运行期间所有已打开的 Android 应用都会关闭。运行速度应该接近单独运行自定义固件时的速度，但它使用的是 andr36oid 内核，因此有些功能可能无法完全按预期工作。您的 EASYROMS 分区，或者您选择不创建 EASYROMS 分区时使用的数据分区，会以 /roms 的形式挂载到自定义固件中。</string>
     <string name="subsystem_status">状态</string>
@@ -12,9 +11,7 @@
     <string name="subsystem_setup">设置步骤</string>
     <string name="subsystem_step_image">1. 复制镜像</string>
     <string name="subsystem_step_image_summary">打开游戏卡上的 EASYROMS（游戏）驱动器。创建名为 subsystem/darkosen/ 的文件夹，并将 dArkOSen .img 文件放入其中。如果镜像已压缩，请先解压。</string>
-    <string name="subsystem_step_portmaster">2. 安装 PortMaster</string>
-    <string name="subsystem_step_portmaster_summary">使用官方 Install.Full.PortMaster.sh 将 PortMaster 安装到同一张卡的 tools/PortMaster/ 中。推荐使用完整安装程序，因为它支持离线运行。</string>
-    <string name="subsystem_step_ports">3. 添加移植游戏并开始游玩</string>
+    <string name="subsystem_step_ports">2. 添加移植游戏并开始游玩</string>
     <string name="subsystem_step_ports_summary">将移植游戏放入同一张卡的 ports/ 文件夹中。打开下方的 EmulationStation 或 PortMaster。退出子系统即可返回 Android。</string>
     <string name="subsystem_open_es">打开 EmulationStation</string>
     <string name="subsystem_open_es_summary">浏览并游玩 dArkOSen 中的移植游戏</string>
@@ -38,7 +35,6 @@
     <string name="subsystem_welcome">Linux 运行在您的掌机上</string>
     <string name="subsystem_image_title">准备 Linux 镜像</string>
     <string name="subsystem_ports_title">PortMaster 和您的移植游戏</string>
-    <string name="subsystem_home_body">打开 EmulationStation 游玩，或打开 PortMaster 管理移植游戏。这些启动操作使用自动检测到的镜像。完全交接会让 Linux 接管屏幕并关闭 Android 应用。启动前请保存您的工作。\n\n使用设置步骤准备游戏卡，使用设置选择开机启动项，或使用高级模式选择其他 Linux 镜像并查看实时启动控制台。</string>
     <string name="subsystem_step_count">设置 · %1$d/%2$d</string>
     <string name="subsystem_continue">继续</string>
     <string name="subsystem_back">返回</string>
@@ -49,7 +45,6 @@
     <string name="subsystem_check_again">再次检查</string>
     <string name="subsystem_refresh">刷新</string>
     <string name="subsystem_offline_first">您可以完全离线完成设置。使用电脑复制一个已解压的 .img 文件，插入卡片，然后选择“再次检查”。只有在此设备连接到互联网时才会提供下载。</string>
-    <string name="subsystem_ports_note">以下步骤需要在游戏卡上完成。此向导会检查 rootfs 镜像，但不会安装 PortMaster，也不会验证您的移植游戏。</string>
     <string name="subsystem_ready_title">Linux 已就绪</string>
     <string name="subsystem_ready_body">已找到您的 Linux 镜像。完成设置即可选择 EmulationStation 或 PortMaster。\n\n完全交接后，启动会关闭 Android 应用并将屏幕交给 Linux。请先保存您在 Android 中的工作。退出 Linux 即可返回 Android。</string>
     <string name="subsystem_launch">启动 Linux</string>
@@ -57,8 +52,6 @@
     <string name="subsystem_settings">设置</string>
     <string name="subsystem_boot_settings">启动主机</string>
     <string name="subsystem_boot_default">默认启动子系统</string>
-    <string name="subsystem_boot_explainer">选择主机启动时进入 Android 还是 Linux 子系统。开关关闭时，主机会进入 Android。选择子系统自动启动时要打开的 Linux 应用。</string>
-    <string name="subsystem_boot_override">开机时按住 START 可启动另一个操作系统，不受默认设置影响。</string>
     <string name="subsystem_default_target">默认启动目标</string>
     <string name="subsystem_target_es">EmulationStation</string>
     <string name="subsystem_target_pm">PortMaster</string>

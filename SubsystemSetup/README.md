@@ -13,9 +13,11 @@ it never performs the root handoff. A root init service (the broker,
   install wizard and QuickStart - explains the subsystem, detects the rootfs
   image (and, when online, offers to download dArkOSen), and finishes at a launch
   screen. Gamepad-navigable (D-pad / A / B).
-- **Settings**: launch EmulationStation or PortMaster; "boot into the subsystem
-  by default" toggle; "default boot target" (ES or PM, default ES); and an
-  explainer that holding START at boot always boots the *other* OS.
+- **Home**: launch EmulationStation or PortMaster. The in-app Settings page points
+  to the boot controls in Android Settings > System.
+- **Boot into the subsystem by default**: a separate System settings entry, shown
+  only when the broker finds an image. Sets the default OS and Linux app (ES or
+  PM, default ES), with a hint explaining how START overrides the selected OS.
 - **Advanced mode**: pick any eligible rootfs image; choose "full handoff" vs
   "keep Android running"; in keep-Android mode, a live boot-log console tails the
   broker's `boot.log` as the rootfs init runs.
@@ -32,6 +34,7 @@ it never performs the root handoff. A root init service (the broker,
 | `sys.andr36oid.subsystem.image` | `1` installed \| `0` not found (broker output) |
 | `persist.andr36oid.subsystem.default` | `android` (default) \| `subsystem` |
 | `persist.andr36oid.subsystem.default_target` | `ES` (default) \| `PM` |
+| `persist.andr36oid.subsystem.booted` | `1` after setup and the first running EmulationStation frontend; enables Sync |
 
 Launch sequence: set `rootfs`, `handoff`, `port`, then `request=run`. The activity
 persists a `launch_pending` flag before requesting a full handoff so it can resume
@@ -43,3 +46,7 @@ START key (via the `andr36oid-keyheld` helper) to pick which OS boots.
 
 Status reads `sys.andr36oid.subsystem.image`: `1` means installed, an empty value
 means not scanned yet; the page re-scans while it is empty.
+
+Boot receivers update the boot and Sync Settings activity components. The broker
+also requests a refresh after image scans and session teardown so visibility can
+change without another console restart.
