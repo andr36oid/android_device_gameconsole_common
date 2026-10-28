@@ -145,6 +145,8 @@ func newSetup(t *testing.T, f *fake) (*Setup, string) {
 		URIGrants:     root + "/system_data/urigrants.xml",
 		ChromeCmdline: root + "/local/chrome-command-line",
 		FirstStartAPK: root + "/system/firststart/FirstStart.apk",
+		SubsystemRoot: root + "/darkfull",
+		BrokerState:   root + "/portmaster",
 	}
 	for _, d := range []string{p.Base, p.State, p.AppData, p.MediaRW, dirOf(p.URIGrants), dirOf(p.EasyromsPart), dirOf(p.ChromeCmdline)} {
 		must(t, os.MkdirAll(d, 0o755))

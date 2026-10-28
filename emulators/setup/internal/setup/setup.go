@@ -35,6 +35,8 @@ type Paths struct {
 	URIGrants     string // /data/system/urigrants.xml
 	ChromeCmdline string // /data/local/chrome-command-line
 	FirstStartAPK string
+	SubsystemRoot string // the broker's dArkOSen rootfs mountpoint
+	BrokerState   string // the broker's persistent overlays and sync directory marker
 }
 
 // Defaults are the console's paths.
@@ -58,6 +60,8 @@ func Defaults() Paths {
 		URIGrants:     "/data/system/urigrants.xml",
 		ChromeCmdline: "/data/local/chrome-command-line",
 		FirstStartAPK: base + "/firststart/FirstStart.apk",
+		SubsystemRoot: "/data/local/tmp/darkfull",
+		BrokerState:   "/data/local/tmp/portmaster",
 	}
 }
 

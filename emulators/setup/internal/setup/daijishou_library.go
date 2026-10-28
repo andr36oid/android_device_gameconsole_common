@@ -383,7 +383,7 @@ FROM PlayableItemEntity g JOIN PlatformEntity p ON p.id = g.attached_platform_id
 	return items, nil
 }
 
-func (s *Setup) djLibraryMatch(items []djLibraryItem, roots []string) ([]djLibraryItem, error) {
+func (s *Setup) djLibraryMatch(items []djLibraryItem, roots []string, fields librarySyncFields) ([]djLibraryItem, error) {
 	folders := s.djLibraryFolders()
 	var lists []*djLibraryList
 	for _, root := range roots {
@@ -464,13 +464,13 @@ func (s *Setup) djLibraryMatch(items []djLibraryItem, roots []string) ([]djLibra
 		if item.game == nil {
 			continue
 		}
-		item.djLibraryState = item.merge(item.game.state())
-		if item.extra == "" {
+		item.djLibraryState = fields.merge(item.djLibraryState, item.game.state())
+		if fields.desc && item.extra == "" {
 			item.extra = item.game.field("desc")
 		} else {
 			item.extra = "" // Existing user metadata is never a write-back source.
 		}
-		if item.preview == "" {
+		if fields.art && item.preview == "" {
 			item.image = djLibraryPath(item.game.field("image"), dirOf(item.list.path), roots)
 			item.art = fmt.Sprintf("%s/files/preview_media/%d/", s.djData(), item.id)
 			item.artReady = djLibraryOwnArt(item)
@@ -485,7 +485,7 @@ func (s *Setup) djLibraryMatch(items []djLibraryItem, roots []string) ([]djLibra
 
 // SQL always merges against the live values, and rechecks both item and platform
 // identity/sync folders inside the transaction. Only existing rows are updated.
-func djLibrarySQL(items []djLibraryItem) string {
+func djLibrarySQL(items []djLibraryItem, fields librarySyncFields) string {
 	var b strings.Builder
 	b.WriteString(".timeout 5000\nBEGIN IMMEDIATE;\n")
 	for _, item := range items {
@@ -494,15 +494,31 @@ func djLibrarySQL(items []djLibraryItem) string {
 		if item.favorite {
 			fav = 1
 		}
-		fmt.Fprintf(&b, `UPDATE PlayableItemEntity SET
-is_favorite = MAX(is_favorite, %d), play_count = MAX(play_count, %d),
-last_played_timestamp = CASE WHEN %d > COALESCE(last_played_timestamp, 0) THEN %d ELSE last_played_timestamp END,
-extra = CASE WHEN COALESCE(extra, '') = '' THEN %s ELSE extra END,
-preview_media_path = CASE WHEN COALESCE(preview_media_path, '') = '' AND %s != '' THEN %s ELSE preview_media_path END
-WHERE %s AND (is_favorite < %d OR play_count < %d OR COALESCE(last_played_timestamp, 0) < %d OR (COALESCE(extra, '') = '' AND %s != '') OR (COALESCE(preview_media_path, '') = '' AND %s != ''));
-SELECT 'changed|' || changes();
-SELECT id, is_favorite, play_count, COALESCE(last_played_timestamp, 0), hex(preview_media_path) FROM PlayableItemEntity WHERE %s;
-`, fav, item.count, item.played, item.played, djQuote(item.extra), djQuote(item.art), djQuote(item.art), where, fav, item.count, item.played, djQuote(item.extra), djQuote(item.art), where)
+		var sets, changes []string
+		if fields.favorite {
+			sets = append(sets, fmt.Sprintf("is_favorite = MAX(is_favorite, %d)", fav))
+			changes = append(changes, fmt.Sprintf("is_favorite < %d", fav))
+		}
+		if fields.playcount {
+			sets = append(sets, fmt.Sprintf("play_count = MAX(play_count, %d)", item.count))
+			changes = append(changes, fmt.Sprintf("play_count < %d", item.count))
+		}
+		if fields.lastplayed {
+			sets = append(sets, fmt.Sprintf("last_played_timestamp = CASE WHEN %d > COALESCE(last_played_timestamp, 0) THEN %d ELSE last_played_timestamp END", item.played, item.played))
+			changes = append(changes, fmt.Sprintf("COALESCE(last_played_timestamp, 0) < %d", item.played))
+		}
+		if fields.desc {
+			sets = append(sets, fmt.Sprintf("extra = CASE WHEN COALESCE(extra, '') = '' THEN %s ELSE extra END", djQuote(item.extra)))
+			changes = append(changes, fmt.Sprintf("(COALESCE(extra, '') = '' AND %s != '')", djQuote(item.extra)))
+		}
+		if fields.art {
+			sets = append(sets, fmt.Sprintf("preview_media_path = CASE WHEN COALESCE(preview_media_path, '') = '' AND %s != '' THEN %s ELSE preview_media_path END", djQuote(item.art), djQuote(item.art)))
+			changes = append(changes, fmt.Sprintf("(COALESCE(preview_media_path, '') = '' AND %s != '')", djQuote(item.art)))
+		}
+		if len(sets) > 0 {
+			fmt.Fprintf(&b, "UPDATE PlayableItemEntity SET %s WHERE %s AND (%s);\nSELECT 'changed|' || changes();\n", strings.Join(sets, ",\n"), where, strings.Join(changes, " OR "))
+		}
+		fmt.Fprintf(&b, "SELECT id, is_favorite, play_count, COALESCE(last_played_timestamp, 0), hex(preview_media_path) FROM PlayableItemEntity WHERE %s;\n", where)
 	}
 	b.WriteString("COMMIT;\n")
 	return b.String()
@@ -609,6 +625,7 @@ func (s *Setup) djLibraryArt(item djLibraryItem, owner fsx.Owner) error {
 // subsystem sessions and at boot. ES is closed at both call sites. Disable the
 // whole sync with persist.andr36oid.subsystem_autosync=0.
 func (s *Setup) SyncLibrary() {
+	fields := s.librarySyncFields()
 	if s.Props.Get("persist.andr36oid.subsystem_autosync") == "0" || !sys.IsFile(s.djDB()) {
 		return
 	}
@@ -616,10 +633,12 @@ func (s *Setup) SyncLibrary() {
 	if s.djLibraryESRunning() {
 		return
 	}
-	if err := s.djSyncLibrary(s.djLibraryRoots()); err != nil {
+	if fields == (librarySyncFields{}) {
+		return
+	}
+	if err := s.djSyncLibrary(s.djLibraryRoots(), fields); err != nil {
 		s.Log("syncing subsystem library state failed: %v", err)
 	}
-	// TODO: Select settings beyond library state need the user to name which settings.
 }
 
 func (s *Setup) djLibraryESRunning() bool {
@@ -630,7 +649,7 @@ func (s *Setup) djLibraryESRunning() bool {
 	return err == nil
 }
 
-func (s *Setup) djSyncLibrary(roots []string) error {
+func (s *Setup) djSyncLibrary(roots []string, fields librarySyncFields) error {
 	if len(roots) == 0 {
 		return nil
 	}
@@ -654,12 +673,12 @@ func (s *Setup) djSyncLibrary(roots []string) error {
 	if err != nil {
 		return err
 	}
-	items, err = s.djLibraryMatch(items, roots)
+	items, err = s.djLibraryMatch(items, roots, fields)
 	if err != nil || len(items) == 0 {
 		return err
 	}
 	file := tmp + "/library.sql"
-	if err := os.WriteFile(file, []byte(djLibrarySQL(items)), 0o600); err != nil {
+	if err := os.WriteFile(file, []byte(djLibrarySQL(items, fields)), 0o600); err != nil {
 		return err
 	}
 	rows, changed, err := s.djLibraryApply(db, file)
@@ -715,7 +734,7 @@ func (s *Setup) djSyncLibrary(roots []string) error {
 				installed[items[i].id] = items[i]
 			}
 		}
-		if err := os.WriteFile(file, []byte(djLibrarySQL(items)), 0o600); err != nil {
+		if err := os.WriteFile(file, []byte(djLibrarySQL(items, fields)), 0o600); err != nil {
 			return err
 		}
 		rows, _, err = s.djLibraryApply(s.djDB(), file)
@@ -734,7 +753,11 @@ func (s *Setup) djSyncLibrary(roots []string) error {
 			byList[item.list] = map[*djLibraryGame]djLibraryState{}
 		}
 		states := byList[item.list]
-		states[item.game] = states[item.game].merge(row.state)
+		state, ok := states[item.game]
+		if !ok {
+			state = item.game.state()
+		}
+		states[item.game] = fields.merge(state, row.state)
 	}
 	for l, states := range byList {
 		if s.djLibraryESRunning() {

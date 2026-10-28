@@ -108,64 +108,71 @@ func TestDaijishouLibraryFilenameJoin(t *testing.T) {
 }
 
 func TestDaijishouSyncLibrary(t *testing.T) {
-	c := newDJ(t, "", "")
-	c.run()
-	s := c.s
-	newer := djLibraryTime("20250201T120000") + 123
-	id := libraryGame(t, c, "nes", "nes/A + # (日本語).nes", djLibraryState{false, 8, newer})
-	other := libraryGame(t, c, "gba", "gba/A + # (日本語).nes", djLibraryState{false, 1, 1000})
-	c.sql(fmt.Sprintf("UPDATE PlayableItemEntity SET name = 'User title', description = 'User description' WHERE id = %d;", id))
-	list := s.easyroms + "/nes/gamelist.xml"
-	text := `<gameList><game id="custom"><path>./A%20%2B%20%23%20(%E6%97%A5%E6%9C%AC%E8%AA%9E).nes</path><name>ES title</name><favorite>true</favorite><playcount>3</playcount><lastplayed>20240131T120000</lastplayed><desc>ES &amp; metadata</desc><image>./images/box.png</image><video>./video.mp4</video></game><game><path>./Deleted.nes</path><favorite>true</favorite></game></gameList>`
-	write(t, list, text)
-	must(t, os.Chmod(list, 0o664))
-	write(t, s.easyroms+"/nes/images/box.png", "ES artwork")
-	platforms := c.sql("SELECT * FROM PlatformEntity ORDER BY id;")
-	players := c.sql("SELECT * FROM PlayerEntity ORDER BY id;")
-	untouched := c.sql(fmt.Sprintf("SELECT * FROM PlayableItemEntity WHERE id = %d;", other))
-	c.running = true
-	c.f.reset()
-	s.SyncLibrary()
-	if got := c.sql(fmt.Sprintf("SELECT is_favorite, play_count, last_played_timestamp, extra, name, description FROM PlayableItemEntity WHERE id = %d;", id)); got != fmt.Sprintf("1|8|%d|ES & metadata|User title|User description", newer) {
-		c.fail("merged DB row: %q", got)
-	}
-	art := c.sql(fmt.Sprintf("SELECT preview_media_path FROM PlayableItemEntity WHERE id = %d;", id))
-	if !strings.HasSuffix(art, fmt.Sprintf("/preview_media/%d/", id)) || read(t, art+"boxart.png") != "ES artwork" {
-		c.fail("art import: %q", art)
-	}
-	var index map[string]string
-	must(t, json.Unmarshal([]byte(read(t, art+"index.json")), &index))
-	if index["boxArtPath"] != "boxart.png" {
-		c.fail("preview index: %#v", index)
-	}
-	want := strings.NewReplacer("<playcount>3</playcount>", "<playcount>8</playcount>", "20240131T120000", "20250201T120000").Replace(text)
-	if read(t, list) != want {
-		c.fail("ES writeback lost metadata: %s", read(t, list))
-	}
-	mode, err := fsx.ModeOf(list)
-	must(t, err)
-	if mode != 0o664 {
-		c.fail("gamelist mode: %v", mode)
-	}
-	if c.f.count("am force-stop") != 2 || c.f.count("am start") != 1 {
-		c.fail("foreground refresh: %v", c.f.calls)
-	}
-	if c.sql("SELECT count(*) FROM PlayableItemEntity;") != "2" || c.sql("SELECT * FROM PlatformEntity ORDER BY id;") != platforms || c.sql("SELECT * FROM PlayerEntity ORDER BY id;") != players || c.sql(fmt.Sprintf("SELECT * FROM PlayableItemEntity WHERE id = %d;", other)) != untouched {
-		c.fail("sync inserted games or changed other platforms/items")
-	}
-	before := c.sum(s.djDB(), list, art+"index.json", art+"boxart.png")
-	c.f.reset()
-	s.SyncLibrary()
-	if c.sum(s.djDB(), list, art+"index.json", art+"boxart.png") != before || c.f.count("am") != 0 {
-		c.fail("second sync was not a no-op")
-	}
-	// ES can increase playcount later, but existing Daijishou art/metadata stay.
-	write(t, s.easyroms+"/nes/images/box.png", "replacement artwork")
-	write(t, list, strings.Replace(want, "<playcount>8</playcount>", "<playcount>12</playcount>", 1))
-	c.sql(fmt.Sprintf("UPDATE PlayableItemEntity SET extra = 'My custom metadata' WHERE id = %d;", id))
-	s.SyncLibrary()
-	if got := c.sql(fmt.Sprintf("SELECT play_count, extra FROM PlayableItemEntity WHERE id = %d;", id)); got != "12|My custom metadata" || read(t, art+"boxart.png") != "ES artwork" {
-		c.fail("existing metadata/art clobbered: %q", got)
+	for _, value := range []string{"", "1"} {
+		t.Run(orUnset(value), func(t *testing.T) {
+			c := newDJ(t, "", "")
+			c.run()
+			s := c.s
+			for _, name := range []string{"favorite", "playcount", "lastplayed", "desc", "art"} {
+				c.f.props["persist.andr36oid.sync."+name] = value
+			}
+			newer := djLibraryTime("20250201T120000") + 123
+			id := libraryGame(t, c, "nes", "nes/A + # (日本語).nes", djLibraryState{false, 8, newer})
+			other := libraryGame(t, c, "gba", "gba/A + # (日本語).nes", djLibraryState{false, 1, 1000})
+			c.sql(fmt.Sprintf("UPDATE PlayableItemEntity SET name = 'User title', description = 'User description' WHERE id = %d;", id))
+			list := s.easyroms + "/nes/gamelist.xml"
+			text := `<gameList><game id="custom"><path>./A%20%2B%20%23%20(%E6%97%A5%E6%9C%AC%E8%AA%9E).nes</path><name>ES title</name><favorite>true</favorite><playcount>3</playcount><lastplayed>20240131T120000</lastplayed><desc>ES &amp; metadata</desc><image>./images/box.png</image><video>./video.mp4</video></game><game><path>./Deleted.nes</path><favorite>true</favorite></game></gameList>`
+			write(t, list, text)
+			must(t, os.Chmod(list, 0o664))
+			write(t, s.easyroms+"/nes/images/box.png", "ES artwork")
+			platforms := c.sql("SELECT * FROM PlatformEntity ORDER BY id;")
+			players := c.sql("SELECT * FROM PlayerEntity ORDER BY id;")
+			untouched := c.sql(fmt.Sprintf("SELECT * FROM PlayableItemEntity WHERE id = %d;", other))
+			c.running = true
+			c.f.reset()
+			s.SyncLibrary()
+			if got := c.sql(fmt.Sprintf("SELECT is_favorite, play_count, last_played_timestamp, extra, name, description FROM PlayableItemEntity WHERE id = %d;", id)); got != fmt.Sprintf("1|8|%d|ES & metadata|User title|User description", newer) {
+				c.fail("merged DB row: %q", got)
+			}
+			art := c.sql(fmt.Sprintf("SELECT preview_media_path FROM PlayableItemEntity WHERE id = %d;", id))
+			if !strings.HasSuffix(art, fmt.Sprintf("/preview_media/%d/", id)) || read(t, art+"boxart.png") != "ES artwork" {
+				c.fail("art import: %q", art)
+			}
+			var index map[string]string
+			must(t, json.Unmarshal([]byte(read(t, art+"index.json")), &index))
+			if index["boxArtPath"] != "boxart.png" {
+				c.fail("preview index: %#v", index)
+			}
+			want := strings.NewReplacer("<playcount>3</playcount>", "<playcount>8</playcount>", "20240131T120000", "20250201T120000").Replace(text)
+			if read(t, list) != want {
+				c.fail("ES writeback lost metadata: %s", read(t, list))
+			}
+			mode, err := fsx.ModeOf(list)
+			must(t, err)
+			if mode != 0o664 {
+				c.fail("gamelist mode: %v", mode)
+			}
+			if c.f.count("am force-stop") != 2 || c.f.count("am start") != 1 {
+				c.fail("foreground refresh: %v", c.f.calls)
+			}
+			if c.sql("SELECT count(*) FROM PlayableItemEntity;") != "2" || c.sql("SELECT * FROM PlatformEntity ORDER BY id;") != platforms || c.sql("SELECT * FROM PlayerEntity ORDER BY id;") != players || c.sql(fmt.Sprintf("SELECT * FROM PlayableItemEntity WHERE id = %d;", other)) != untouched {
+				c.fail("sync inserted games or changed other platforms/items")
+			}
+			before := c.sum(s.djDB(), list, art+"index.json", art+"boxart.png")
+			c.f.reset()
+			s.SyncLibrary()
+			if c.sum(s.djDB(), list, art+"index.json", art+"boxart.png") != before || c.f.count("am") != 0 {
+				c.fail("second sync was not a no-op")
+			}
+			// ES can increase playcount later, but existing Daijishou art/metadata stay.
+			write(t, s.easyroms+"/nes/images/box.png", "replacement artwork")
+			write(t, list, strings.Replace(want, "<playcount>8</playcount>", "<playcount>12</playcount>", 1))
+			c.sql(fmt.Sprintf("UPDATE PlayableItemEntity SET extra = 'My custom metadata' WHERE id = %d;", id))
+			s.SyncLibrary()
+			if got := c.sql(fmt.Sprintf("SELECT play_count, extra FROM PlayableItemEntity WHERE id = %d;", id)); got != "12|My custom metadata" || read(t, art+"boxart.png") != "ES artwork" {
+				c.fail("existing metadata/art clobbered: %q", got)
+			}
+		})
 	}
 }
 
@@ -408,7 +415,7 @@ func TestDaijishouLibraryArtRecovery(t *testing.T) {
 	write(t, s.easyroms+"/nes/box.png", "art")
 	items, err := s.djLibraryItems(s.djDB())
 	must(t, err)
-	items, err = s.djLibraryMatch(items, s.djLibraryRoots())
+	items, err = s.djLibraryMatch(items, s.djLibraryRoots(), s.librarySyncFields())
 	must(t, err)
 	if len(items) != 1 || items[0].art == "" {
 		c.fail("no art planned")
@@ -440,5 +447,96 @@ func TestDaijishouLibraryBasenameCollision(t *testing.T) {
 	must(t, err)
 	if l.games[0].state() != (djLibraryState{true, 3, 0}) || l.games[1].state() != (djLibraryState{false, 8, 0}) {
 		c.fail("same basename in different directories mixed state")
+	}
+}
+
+func TestDaijishouLibraryFieldGates(t *testing.T) {
+	for _, field := range []string{"favorite", "playcount", "lastplayed", "desc", "art", "all"} {
+		t.Run(field, func(t *testing.T) {
+			c := newDJ(t, "", "")
+			c.run()
+			s := c.s
+			newer := djLibraryTime("20250201T120000")
+			importID := libraryGame(t, c, "nes", "nes/Import.nes", djLibraryState{})
+			libraryGame(t, c, "nes", "nes/Export.nes", djLibraryState{true, 8, newer})
+			list := s.easyroms + "/nes/gamelist.xml"
+			text := `<gameList><game><path>./Import.nes</path><favorite>true</favorite><playcount>8</playcount><lastplayed>20250201T120000</lastplayed><desc>ES description</desc><image>./box.png</image></game><game><path>./Export.nes</path><favorite>false</favorite><playcount>0</playcount><lastplayed>invalid</lastplayed><desc>Keep this</desc><image>./user.png</image></game></gameList>`
+			write(t, list, text)
+			write(t, s.easyroms+"/nes/box.png", "art")
+			for name, column := range map[string]string{"favorite": "is_favorite", "playcount": "play_count", "lastplayed": "last_played_timestamp", "desc": "extra", "art": "preview_media_path"} {
+				if field == name || field == "all" {
+					c.f.props["persist.andr36oid.sync."+name] = "0"
+					c.sql(fmt.Sprintf("CREATE TRIGGER gate_%s BEFORE UPDATE OF %s ON PlayableItemEntity BEGIN SELECT RAISE(ABORT, 'disabled field written'); END;", name, column))
+				}
+			}
+			before := c.sum(s.djDB(), list)
+			c.f.reset()
+			s.SyncLibrary()
+			if logHas(s, "disabled field written") {
+				c.fail("SQL included a disabled field")
+			}
+			l, err := djLibraryParse([]byte(read(t, list)))
+			must(t, err)
+			want := djLibraryState{field != "favorite", 8, newer}
+			if field == "playcount" {
+				want.count = 0
+			}
+			if field == "lastplayed" {
+				want.played = 0
+			}
+			if field == "all" {
+				want = djLibraryState{}
+				if c.sum(s.djDB(), list) != before || c.f.count("am") != 0 {
+					c.fail("all fields disabled changed the library")
+				}
+			}
+			fav := 0
+			if want.favorite {
+				fav = 1
+			}
+			if got := c.sql(fmt.Sprintf("SELECT is_favorite, play_count, last_played_timestamp FROM PlayableItemEntity WHERE id = %d;", importID)); got != fmt.Sprintf("%d|%d|%d", fav, want.count, want.played) {
+				c.fail("gated import: %q, want %#v", got, want)
+			}
+			if l.games[1].state() != want {
+				c.fail("gated export: %#v, want %#v", l.games[1].state(), want)
+			}
+			for name, value := range map[string]string{"favorite": "false", "playcount": "0", "lastplayed": "invalid", "desc": "Keep this", "image": "./user.png"} {
+				if name == field || field == "all" || name == "desc" || name == "image" {
+					if l.games[1].field(name) != value {
+						c.fail("disabled/export-only field %s changed", name)
+					}
+				}
+			}
+			extra := c.sql(fmt.Sprintf("SELECT extra FROM PlayableItemEntity WHERE id = %d;", importID))
+			if (extra == "ES description") != (field != "desc" && field != "all") {
+				c.fail("description gate: %q", extra)
+			}
+			art := fmt.Sprintf("%s/files/preview_media/%d/", s.djData(), importID)
+			if c.exists(art+"boxart.png") != (field != "art" && field != "all") {
+				c.fail("art gate did not prevent/publish the import")
+			}
+		})
+	}
+}
+
+func TestDaijishouLibraryBootDisabled(t *testing.T) {
+	for _, late := range []bool{false, true} {
+		t.Run(fmt.Sprint(late), func(t *testing.T) {
+			c := newDJ(t, "", "")
+			c.run()
+			s := c.s
+			libraryGame(t, c, "nes", "nes/Game.nes", djLibraryState{})
+			write(t, s.Mounts, "/dev/block/vold/public:179,7 "+s.easyroms+" exfat rw 0 0\n")
+			write(t, s.easyroms+"/nes/gamelist.xml", `<gameList><game><path>./Game.nes</path><favorite>true</favorite></game></gameList>`)
+			c.f.props["persist.andr36oid.sync.at_boot"] = "0"
+			if late {
+				s.RunEasyromsLate()
+			} else {
+				s.Main()
+			}
+			if c.sql("SELECT is_favorite FROM PlayableItemEntity WHERE uri LIKE '%Game.nes';") != "0" {
+				c.fail("disabled boot sync still ran")
+			}
+		})
 	}
 }
