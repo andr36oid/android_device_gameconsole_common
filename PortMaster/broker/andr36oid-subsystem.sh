@@ -161,6 +161,7 @@ mount_rootfs() {
   [ -f "$IMAGE" ] || { log "no rootfs image found (default search: $IMAGE_SEARCH)"; return 1; }
   log "using image $IMAGE"
   identity=$(printf '%s\n%s\n' "$IMAGE" "$(stat -c '%d:%i:%s:%Y' "$IMAGE")" | cksum | awk '{print $1}')
+  IMAGE_ID="$identity"
   UPPER="$STATE/images/$identity/upper"; WORK="$STATE/images/$identity/work"
   mkdir -p "$LOWER" "$UPPER" "$WORK" "$ROOT"
   offsets="0 $(partition_offsets "$IMAGE")"
@@ -247,10 +248,29 @@ fix_exec_bits() {
 # this covers hotplugged volumes via the same path (see hotplug watcher, TODO).
 mount_storage() {
   mkdir -p "$ROOT/roms"
-  local n=0 src dst
+  local n=0 src dst id ready easy
+  ready=$(getprop sys.andr36oid.easyroms.ready)
+  id=$(getprop sys.andr36oid.easyroms.id)
+  if [ -z "$id" ] && [ "$ready" != 1 ] && [ -e /sys/block/mmcblk0/mmcblk0p7 ]; then
+    id=public:179,7
+  fi
+  if [ -n "$id" ]; then
+    easy=$(awk -v dev="/dev/block/vold/$id" '$1==dev && $2 ~ "^/mnt/media_rw/" {print $2; exit}' /proc/mounts)
+    [ -n "$easy" ] && [ -d "$easy" ] || { log "EASYROMS exists but is not mounted; try again when it is ready"; return 1; }
+    src="$easy"
+  else
+    src=/data/media/0
+    [ -d "$src" ] || { log "internal games storage is unavailable"; return 1; }
+  fi
+  bind_mount "$src" "$ROOT/roms" || return 1
+  mount -o remount,exec,bind "$ROOT/roms" 2>/dev/null
+  log "storage: $src -> /roms"
+  ROMS_SOURCE="$src"
+  n=1
   for src in /mnt/media_rw/*; do
     [ -d "$src" ] || continue
-    if [ "$n" = 0 ]; then dst="$ROOT/roms"; else dst="$ROOT/roms$((n+1))"; fi
+    [ "$src" = "$ROMS_SOURCE" ] && continue
+    dst="$ROOT/roms$((n+1))"
     mkdir -p "$dst"
     # bind the vold mount, then drop noexec for this view
     if bind_mount "$src" "$dst"; then
@@ -258,13 +278,97 @@ mount_storage() {
       log "storage: $src -> ${dst#"$ROOT"}"; n=$((n+1))
     fi
   done
+  return 0
 }
 
-# NOTE: we deliberately do NOT unpack dArkOSen's /roms.tar. /roms is a bind mount
-# of Android's EASYROMS (and SD2/USB) so the subsystem and Android share one games
-# store - see mount_storage(). Ports the user installs on EASYROMS are then visible
-# to both. (PortMaster's runtime likewise lives on EASYROMS, installed once there,
-# not shipped inside the image.)
+# The stamp is on the games volume, keyed by the rootfs/overlay identity. An
+# interrupted or failed merge leaves no stamp; the next launch retries safely.
+# Stage on the games filesystem as media_rw. Only completed files are renamed
+# into place; a retry discards an incomplete staging tree before starting again.
+provision_darkos() {
+  [ -f "$ROOT/roms.tar" ] || return 0
+  local key stamp
+  # Daijishou's PICO-8 platform scans pico-8 recursively. ES otherwise starts
+  # at carts/, missing games placed directly in the shared platform folder.
+  if [ -f "$ROOT/etc/emulationstation/es_systems.cfg" ] &&
+      grep -q '<path>/roms/pico-8/carts/</path>' "$ROOT/etc/emulationstation/es_systems.cfg"; then
+    cp -p "$ROOT/etc/emulationstation/es_systems.cfg" "$ROOT/etc/emulationstation/es_systems.cfg.a36" || return 1
+    sed 's|<path>/roms/pico-8/carts/</path>|<path>/roms/pico-8/</path>|' \
+      "$ROOT/etc/emulationstation/es_systems.cfg" > "$ROOT/etc/emulationstation/es_systems.cfg.a36" || return 1
+    mv "$ROOT/etc/emulationstation/es_systems.cfg.a36" "$ROOT/etc/emulationstation/es_systems.cfg" || return 1
+  fi
+  key=${IMAGE_ID:-$(printf '%s\n%s\n' "$ROOT" "$(stat -c '%d:%i:%s:%Y' "$ROOT/roms.tar")" | cksum | awk '{print $1}')}
+  stamp="$ROOT/roms/.andr36oid-darkosen-$key.done"
+  [ -f "$stamp" ] && return 0
+  # Check the actual bind, not just the existence or permissions of its source.
+  # The write probe also catches a read-only underlying filesystem and vold races.
+  if ! awk -v p="$ROOT/roms" '
+    {gsub(/\\040/, " ", $2); gsub(/\\011/, "\t", $2)}
+    $2==p {n=split($4, opts, ","); for (i=1; i<=n; i++) if (opts[i]=="rw") rw=1}
+    END {exit !rw}' /proc/mounts ||
+    ! "$CHROOT" "$ROOT" /usr/bin/setpriv --reuid=1023 --regid=1023 --clear-groups /bin/sh -c '
+      PATH=/usr/bin:/bin; export PATH
+      umask 002
+      probe=/roms/.andr36oid-write-probe-$$
+      mkdir "$probe" || exit 1
+      trap '\''rm -f "$probe/file"; rmdir "$probe"'\'' EXIT HUP INT TERM
+      printf test > "$probe/file" || exit 1
+      rm "$probe/file" && rmdir "$probe" || exit 1
+      trap - EXIT HUP INT TERM
+    '; then
+    log "games storage $ROMS_SOURCE is not mounted rw or writable by media_rw; try again when it is ready"
+    return 1
+  fi
+  setprop sys.andr36oid.subsystem.provisioning 1 2>/dev/null
+  log "Setting up dArkOSen... merging /roms.tar into $ROMS_SOURCE"
+  "$CHROOT" "$ROOT" /usr/bin/setpriv --reuid=1023 --regid=1023 --clear-groups /bin/sh -c '
+    PATH=/usr/bin:/bin; export PATH
+    umask 002
+    stage=/roms/.andr36oid-darkosen-stage-$1
+    rm -rf -- "$stage" || exit 1
+    mkdir -- "$stage" || exit 1
+    /usr/bin/tar --no-same-owner --no-same-permissions --no-overwrite-dir \
+      --warning=no-timestamp -xvf /roms.tar -C "$stage" || exit 1
+    [ -d "$stage/roms" ] || exit 1
+    if [ -d /tempthemes ]; then
+      echo "Installing default themes..."
+      rm -rf "$stage/roms/themes" || exit 1
+      # The sdcardfs games volume rejects any chmod whose mode is not its synthetic
+      # 0775 (so cp -R, and tar restoring a "." root to its stored 07xx mode, fail
+      # with EPERM). Archive with a NAMED top dir (themes), never ".", so tar
+      # creates it fresh (mkdir 0775, accepted) and chmods every dir to the umask
+      # 0775 - a no-op match - exactly like the roms.tar entries that already work.
+      /usr/bin/tar -C / --transform 's,^tempthemes,themes,' \
+        -cf "$stage/.themes.tar" tempthemes || exit 1
+      /usr/bin/tar --no-same-owner --no-same-permissions \
+        --warning=no-timestamp -xf "$stage/.themes.tar" -C "$stage/roms" || exit 1
+      rm -f "$stage/.themes.tar" || exit 1
+    fi
+    # Create directories first, then rename each completed file without replacing
+    # an existing entry. --no-copy forbids a non-atomic cross-mount fallback.
+    find "$stage/roms" -type d -exec /bin/sh -c '\''
+      stage=$1; shift
+      for src do
+        [ "$src" = "$stage/roms" ] && continue
+        mkdir -p -- "/roms/${src#"$stage/roms"/}" || exit 1
+      done
+    '\'' sh "$stage" {} + || exit 1
+    find "$stage/roms" ! -type d ! -type f -print | grep . && exit 1
+    find "$stage/roms" -type f -exec /bin/sh -c '\''
+      stage=$1; shift
+      for src do
+        dst=/roms/${src#"$stage/roms"/}
+        /usr/bin/mv -n -T --no-copy -- "$src" "$dst" || exit 1
+      done
+    '\'' sh "$stage" {} + || exit 1
+    rm -rf -- "$stage" || exit 1
+  ' sh "$key" || { log "dArkOSen setup failed; it will be retried on the next launch"; return 1; }
+  sync || { log "could not sync dArkOSen setup"; return 1; }
+  (umask 002; : > "$stamp") || { log "cannot record dArkOSen setup completion"; return 1; }
+  sync || { rm -f "$stamp"; log "could not sync dArkOSen setup completion"; return 1; }
+  log "dArkOSen setup complete"
+  setprop sys.andr36oid.subsystem.provisioning "" 2>/dev/null
+}
 
 # Input mapping: andr36oid ships a known-good es_input.cfg for the console's gamepad
 # (the fixed odroidgo3-joypad, deviceName "GO-Super Gamepad"), so ES must NEVER run
@@ -273,15 +377,31 @@ mount_storage() {
 # same path, landing in the upper) is then kept.
 ESINPUT_SRC=${A36_ESINPUT:-/system/etc/andr36oid-es_input.cfg}
 [ -f "$ESINPUT_SRC" ] || ESINPUT_SRC=/data/local/tmp/es_input.cfg   # test fallback
+# RetroArch is launched bare (no input append), so it needs a udev autoconfig
+# matching the pad name "GO-Super Gamepad" or it falls back to retroarch.cfg's
+# generic binds (wrong D-pad/Start/Select for our odroidgo3-joypad). The file is
+# the es_input.cfg layout expressed as RetroArch udev binds.
+RAAUTOCFG_SRC=${A36_RA_AUTOCFG:-/system/etc/andr36oid-retroarch-GO-Super-Gamepad.cfg}
+[ -f "$RAAUTOCFG_SRC" ] || RAAUTOCFG_SRC=/data/local/tmp/GO-Super_Gamepad.cfg   # test fallback
 prime_input() {
   if [ -f "$UPPER/etc/emulationstation/es_input.cfg" ]; then
-    log "es_input.cfg already present in overlay (keeping user mapping)"; return 0
-  fi
-  if [ -f "$ESINPUT_SRC" ]; then
+    log "es_input.cfg already present in overlay (keeping user mapping)"
+  elif [ -f "$ESINPUT_SRC" ]; then
     mkdir -p "$ROOT/etc/emulationstation"
     cp "$ESINPUT_SRC" "$ROOT/etc/emulationstation/es_input.cfg" && log "installed shipped es_input.cfg (no wizard)"
   else
     log "no shipped es_input.cfg at $ESINPUT_SRC; ES wizard will run"
+  fi
+  # RetroArch udev autoconfig for the console gamepad. The name carries a space,
+  # which RetroArch matches against the evdev device name verbatim.
+  local radst="$ROOT/home/ark/.config/retroarch/autoconfig/udev"
+  if [ -f "$UPPER/home/ark/.config/retroarch/autoconfig/udev/GO-Super Gamepad.cfg" ]; then
+    log "retroarch autoconfig already present in overlay (keeping user mapping)"
+  elif [ -f "$RAAUTOCFG_SRC" ]; then
+    mkdir -p "$radst"
+    cp "$RAAUTOCFG_SRC" "$radst/GO-Super Gamepad.cfg" && log "installed shipped retroarch autoconfig (GO-Super Gamepad)"
+  else
+    log "no shipped retroarch autoconfig at $RAAUTOCFG_SRC; RetroArch will use fallback binds"
   fi
 }
 
@@ -371,9 +491,32 @@ kill_subsystem() {
 }
 
 # --- teardown (idempotent) ----------------------------------------------------
+enable_hardware_master() {
+  # 235 maps to attenuation 20, the R36S headphone default. tinymix's
+  # boolean controls take numeric values, and the broker runs on Android.
+  if /system/bin/tinymix -D 0 "Master Playback Volume" 235 >/dev/null 2>&1; then
+    # Record intent before enabling, so interrupted sessions are recoverable.
+    if : > "$STATE/session.hw-master"; then
+      if /system/bin/tinymix -D 0 "Playback Hardware Master Switch" 1 >/dev/null 2>&1; then
+        log "hardware master enabled"
+      else
+        log "hardware master switch unavailable"
+      fi
+    fi
+  else
+    log "hardware master unavailable; continuing without it"
+  fi
+  return 0
+}
+
 restore_android() {
   [ "$SESSION_OWNED" = 1 ] || return 0
   kill_subsystem
+  if [ -f "$STATE/session.hw-master" ]; then
+    /system/bin/tinymix -D 0 "Playback Hardware Master Switch" 0 >/dev/null 2>&1 ||
+      log "hardware master switch could not be restored"
+    rm -f "$STATE/session.hw-master"
+  fi
   local b tries
   CLEANUP_FAILED=0
   # Newest first, including partially prepared sessions and paths with spaces.
@@ -417,7 +560,7 @@ recover_session() {
   if [ "$(cat "$STATE/session.lock/boot_id" 2>/dev/null)" != "$(cat /proc/sys/kernel/random/boot_id)" ]; then
     # /data survives reboot, mounts and PIDs do not. Never detach a loop or kill
     # a recycled PID from a previous boot based on its old metadata.
-    rm -f "$STATE/session.loop" "$STATE/session.handoff" "$STATE/session.mounts" "$STATE/session.fifo" "$STATE/session.lock/pid" "$STATE/session.lock/boot_id"
+    rm -f "$STATE/session.loop" "$STATE/session.handoff" "$STATE/session.mounts" "$STATE/session.fifo" "$STATE/session.hw-master" "$STATE/session.lock/pid" "$STATE/session.lock/boot_id"
     rmdir "$STATE/session.lock" 2>/dev/null
     return 0
   fi
@@ -461,6 +604,7 @@ start_live_log() {
 finish_session() {
   local rc="$1"
   trap - EXIT INT TERM HUP
+  setprop sys.andr36oid.subsystem.provisioning "" 2>/dev/null
   restore_android
   [ "${IS_PM:-0}" = 1 ] && setprop sys.andr36oid.ports_changed 1 2>/dev/null
   setprop sys.andr36oid.subsystem_changed 1 2>/dev/null
@@ -695,6 +839,31 @@ prep_darkos_env() {
       mkdir -p "$dir" && chmod 1777 "$dir" || return 1
     done
   fi
+  # Mix playback streams in dmix and expose the codec's hardware controls.
+  if [ -d "$ROOT/home/ark" ]; then
+    mkdir -p "$ROOT/etc" || return 1
+    cat > "$ROOT/etc/asound.conf" <<'EOF'
+pcm.!default {
+    type plug
+    slave.pcm "dmixer"
+}
+pcm.dmixer {
+    type dmix
+    ipc_key 1024
+    ipc_perm 0666
+    slave { pcm "hw:0,0" period_time 0 period_size 1024 buffer_size 4096 rate 44100 }
+    bindings { 0 0 1 1 }
+}
+ctl.!default { type hw card 0 }
+EOF
+    # ALSA loads ~/.asoundrc after /etc/asound.conf. Preserve the image's
+    # original once and install the same configuration for its ark user.
+    if [ -e "$ROOT/home/ark/.asoundrc" ] && [ ! -e "$ROOT/home/ark/.asoundrc.andr36oid-original" ]; then
+      cp -p "$ROOT/home/ark/.asoundrc" "$ROOT/home/ark/.asoundrc.andr36oid-original" || return 1
+    fi
+    cp "$ROOT/etc/asound.conf" "$ROOT/home/ark/.asoundrc" || return 1
+    chmod 0644 "$ROOT/etc/asound.conf" "$ROOT/home/ark/.asoundrc" || return 1
+  fi
   if [ "$HANDOFF" = 1 ]; then
     [ -e "$ROOT/dev/tty1" ] || ln -sf tty0 "$ROOT/dev/tty1" 2>/dev/null
   fi
@@ -927,6 +1096,7 @@ trap 'exit 129' HUP
 : > "$LOG"
 SESSION_OUT="$STATE/session.out"
 start_live_log || exit 1
+setprop sys.andr36oid.subsystem.provisioning "" 2>/dev/null
 setprop sys.andr36oid.subsystem.session running
 log "subsystem $cmd arg=$arg handoff=$HANDOFF image=${IMAGE:-default}"
 case "$HANDOFF" in 0|1) : ;; *) log "handoff must be 0 or 1"; exit 2 ;; esac
@@ -936,12 +1106,14 @@ mount_rootfs || { log "cannot prepare eligible rootfs"; exit 1; }
 fix_exec_bits
 find_es "$ROOT" && prime_input
 bind_core || { log "core mounts failed"; exit 1; }
-mount_storage
+mount_storage || { log "games storage preparation failed"; exit 1; }
+provision_darkos || exit 1
 eligible_rootfs "$ROOT" || { log "rootfs has no init or launch target"; exit 1; }
 [ "$cmd" = run ] && { resolve_run_target || exit 1; }
 prepare_network || { log "network preparation failed"; exit 1; }
 prep_darkos_env || { log "runtime/audio preparation failed"; exit 1; }
 if [ "$HANDOFF" = 1 ]; then handoff; else log "no handoff: Android stays up; display devices hidden"; fi
+enable_hardware_master
 # Wait on a child so TERM interrupts wait immediately, including while init runs.
 run_session & SESSION_PID=$!
 wait "$SESSION_PID"; session_rc=$?
