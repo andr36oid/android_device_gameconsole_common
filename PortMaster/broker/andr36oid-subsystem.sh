@@ -160,7 +160,10 @@ mount_rootfs() {
   setprop sys.andr36oid.subsystem.boot_pending "" 2>/dev/null
   [ -f "$IMAGE" ] || { log "no rootfs image found (default search: $IMAGE_SEARCH)"; return 1; }
   log "using image $IMAGE"
-  identity=$(printf '%s\n%s\n' "$IMAGE" "$(stat -c '%d:%i:%s:%Y' "$IMAGE")" | cksum | awk '{print $1}')
+  # Key on stable file identity (inode/size/mtime), NOT the mount's device number:
+  # the games card and the overlay get a fresh st_dev on every boot/remount, so a %d
+  # in the key changed every launch and re-ran the whole (~8 min) dArkOSen setup.
+  identity=$(printf '%s\n%s\n' "$IMAGE" "$(stat -c '%i:%s:%Y' "$IMAGE")" | cksum | awk '{print $1}')
   IMAGE_ID="$identity"
   UPPER="$STATE/images/$identity/upper"; WORK="$STATE/images/$identity/work"
   mkdir -p "$LOWER" "$UPPER" "$WORK" "$ROOT"
@@ -297,7 +300,7 @@ provision_darkos() {
       "$ROOT/etc/emulationstation/es_systems.cfg" > "$ROOT/etc/emulationstation/es_systems.cfg.a36" || return 1
     mv "$ROOT/etc/emulationstation/es_systems.cfg.a36" "$ROOT/etc/emulationstation/es_systems.cfg" || return 1
   fi
-  key=${IMAGE_ID:-$(printf '%s\n%s\n' "$ROOT" "$(stat -c '%d:%i:%s:%Y' "$ROOT/roms.tar")" | cksum | awk '{print $1}')}
+  key=${IMAGE_ID:-$(printf '%s\n%s\n' "$ROOT" "$(stat -c '%i:%s:%Y' "$ROOT/roms.tar")" | cksum | awk '{print $1}')}
   stamp="$ROOT/roms/.andr36oid-darkosen-$key.done"
   [ -f "$stamp" ] && return 0
   # Check the actual bind, not just the existence or permissions of its source.
