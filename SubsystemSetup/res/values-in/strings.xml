@@ -99,6 +99,7 @@
     <string name="subsystem_log_unreadable">Tidak dapat membaca log boot. Menunggu /data/local/tmp/portmaster/boot.log agar dapat dibaca…</string>
     <string name="subsystem_session_starting">Memulai Linux… Menunggu layanan subsistem.</string>
     <string name="subsystem_session_running">Linux sedang berjalan</string>
+    <string name="subsystem_provisioning">Menyiapkan dArkOSen…</string>
     <string name="subsystem_session_ended">Sesi Linux berakhir</string>
     <string name="subsystem_session_idle">Tidak ada sesi Linux aktif · Menampilkan log boot terbaru</string>
     <string name="subsystem_session_timeout">Layanan belum melaporkan sesi yang berjalan. Periksa log boot dan image Anda sebelum mencoba lagi.</string>

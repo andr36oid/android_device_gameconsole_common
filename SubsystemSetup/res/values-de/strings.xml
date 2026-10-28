@@ -99,6 +99,7 @@
     <string name="subsystem_log_unreadable">Das Bootprotokoll kann nicht gelesen werden. Warte darauf, dass /data/local/tmp/portmaster/boot.log lesbar wird…</string>
     <string name="subsystem_session_starting">Linux wird gestartet… Warte auf den Subsystemdienst.</string>
     <string name="subsystem_session_running">Linux läuft</string>
+    <string name="subsystem_provisioning">dArkOSen wird eingerichtet…</string>
     <string name="subsystem_session_ended">Linux-Sitzung beendet</string>
     <string name="subsystem_session_idle">Keine aktive Linux-Sitzung · Letztes Bootprotokoll wird angezeigt</string>
     <string name="subsystem_session_timeout">Der Dienst hat keine laufende Sitzung gemeldet. Prüfe das Bootprotokoll und dein Image, bevor du es erneut versuchst.</string>

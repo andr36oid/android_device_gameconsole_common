@@ -99,6 +99,7 @@
     <string name="subsystem_log_unreadable">Não é possível ler o registo de arranque. A aguardar que /data/local/tmp/portmaster/boot.log fique legível…</string>
     <string name="subsystem_session_starting">A iniciar o Linux… A aguardar pelo serviço do subsistema.</string>
     <string name="subsystem_session_running">O Linux está em execução</string>
+    <string name="subsystem_provisioning">A configurar o dArkOSen…</string>
     <string name="subsystem_session_ended">Sessão Linux terminada</string>
     <string name="subsystem_session_idle">Não existe uma sessão Linux ativa · A apresentar o último registo de arranque</string>
     <string name="subsystem_session_timeout">O serviço não comunicou uma sessão em execução. Verifique o registo de arranque e a imagem antes de tentar novamente.</string>

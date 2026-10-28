@@ -99,6 +99,7 @@
     <string name="subsystem_log_unreadable">Nie można odczytać dziennika rozruchu. Oczekiwanie, aż /data/local/tmp/portmaster/boot.log będzie dostępny…</string>
     <string name="subsystem_session_starting">Uruchamianie Linux… Oczekiwanie na usługę podsystemu.</string>
     <string name="subsystem_session_running">Linux jest uruchomiony</string>
+    <string name="subsystem_provisioning">Konfigurowanie dArkOSen…</string>
     <string name="subsystem_session_ended">Sesja Linux została zakończona</string>
     <string name="subsystem_session_idle">Brak aktywnej sesji Linux · Wyświetlanie ostatniego dziennika rozruchu</string>
     <string name="subsystem_session_timeout">Usługa nie zgłosiła działającej sesji. Sprawdź dziennik rozruchu i obraz przed ponowną próbą.</string>

@@ -99,6 +99,7 @@
     <string name="subsystem_log_unreadable">Não é possível ler o log de boot. Aguardando /data/local/tmp/portmaster/boot.log ficar legível…</string>
     <string name="subsystem_session_starting">Iniciando o Linux… Aguardando o serviço do subsistema.</string>
     <string name="subsystem_session_running">O Linux está em execução</string>
+    <string name="subsystem_provisioning">Configurando o dArkOSen…</string>
     <string name="subsystem_session_ended">Sessão do Linux encerrada</string>
     <string name="subsystem_session_idle">Nenhuma sessão ativa do Linux · Exibindo o último log de boot</string>
     <string name="subsystem_session_timeout">O serviço não informou uma sessão em execução. Verifique o log de boot e sua imagem antes de tentar novamente.</string>

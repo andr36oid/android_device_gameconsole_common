@@ -99,6 +99,7 @@
     <string name="subsystem_log_unreadable">Impossible de lire le journal de démarrage. En attente que /data/local/tmp/portmaster/boot.log devienne lisible…</string>
     <string name="subsystem_session_starting">Démarrage de Linux… En attente du service du sous-système.</string>
     <string name="subsystem_session_running">Linux est en cours d\'exécution</string>
+    <string name="subsystem_provisioning">Configuration de dArkOSen…</string>
     <string name="subsystem_session_ended">Session Linux terminée</string>
     <string name="subsystem_session_idle">Aucune session Linux active · Affichage du dernier journal de démarrage</string>
     <string name="subsystem_session_timeout">Le service n\'a signalé aucune session en cours. Vérifiez le journal de démarrage et votre image avant de réessayer.</string>

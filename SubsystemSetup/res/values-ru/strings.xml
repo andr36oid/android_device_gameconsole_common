@@ -99,6 +99,7 @@
     <string name="subsystem_log_unreadable">Не удаётся прочитать журнал загрузки. Ожидание доступности /data/local/tmp/portmaster/boot.log для чтения…</string>
     <string name="subsystem_session_starting">Запуск Linux… Ожидание службы подсистемы.</string>
     <string name="subsystem_session_running">Linux запущен</string>
+    <string name="subsystem_provisioning">Настройка dArkOSen…</string>
     <string name="subsystem_session_ended">Сеанс Linux завершён</string>
     <string name="subsystem_session_idle">Нет активного сеанса Linux · Показан последний журнал загрузки</string>
     <string name="subsystem_session_timeout">Служба не сообщила о работающем сеансе. Проверьте журнал загрузки и образ перед новой попыткой.</string>

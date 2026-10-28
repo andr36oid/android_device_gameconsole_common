@@ -99,6 +99,7 @@
     <string name="subsystem_log_unreadable">Açılış günlüğü okunamıyor. /data/local/tmp/portmaster/boot.log okunabilir olana kadar bekleniyor…</string>
     <string name="subsystem_session_starting">Linux başlatılıyor… Alt sistem hizmeti bekleniyor.</string>
     <string name="subsystem_session_running">Linux çalışıyor</string>
+    <string name="subsystem_provisioning">dArkOSen kuruluyor…</string>
     <string name="subsystem_session_ended">Linux oturumu sona erdi</string>
     <string name="subsystem_session_idle">Etkin Linux oturumu yok · En son açılış günlüğü gösteriliyor</string>
     <string name="subsystem_session_timeout">Hizmet çalışan bir oturum bildirmedi. Tekrar denemeden önce açılış günlüğünü ve imajınızı kontrol edin.</string>

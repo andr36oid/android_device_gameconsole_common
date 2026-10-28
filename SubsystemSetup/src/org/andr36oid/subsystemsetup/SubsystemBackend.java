@@ -32,6 +32,7 @@ final class SubsystemBackend {
     static final String REQUEST = "sys.andr36oid.subsystem.request";
     static final String IMAGE = "sys.andr36oid.subsystem.image";
     static final String SESSION = "sys.andr36oid.subsystem.session";
+    static final String PROVISIONING = "sys.andr36oid.subsystem.provisioning";
     private static final String URL = "persist.andr36oid.subsystem.image_url";
     private static final String TAG = "SubsystemSetup";
     private static final String DOWNLOAD_ID = "download_id";
@@ -41,7 +42,7 @@ final class SubsystemBackend {
 
     static final class Snapshot {
         String image = "", session = "", log = "";
-        boolean online, downloading, logUnreadable;
+        boolean online, downloading, logUnreadable, provisioning;
         int downloadText = R.string.subsystem_download_offline;
         int downloadPercent = -1, notice;
         boolean canDownload;
@@ -86,6 +87,7 @@ final class SubsystemBackend {
         checkDownload(s);
         s.image = get(IMAGE);
         s.session = get(SESSION);
+        s.provisioning = "1".equals(get(PROVISIONING));
         s.online = online();
         s.downloading = mPrefs.getLong(DOWNLOAD_ID, -1) != -1;
         if (s.downloading) s.downloadText = R.string.subsystem_download_pending;

@@ -688,11 +688,13 @@ public class SubsystemSetupActivity extends Activity {
         if (mHold != null) mHold.setEnabled(mConfirmDownload ? mSnapshot.canDownload && !busy()
                 : canLaunch(mConfirmReturn == Screen.ADVANCED));
         if (mScreen == Screen.CONSOLE) {
-            int status = running() ? R.string.subsystem_session_running : mPending || mWorking
+            int status = running() && mSnapshot.provisioning ? R.string.subsystem_provisioning
+                    : running() ? R.string.subsystem_session_running : mPending || mWorking
                     ? R.string.subsystem_session_starting : mLaunchTimedOut ? R.string.subsystem_session_timeout
                     : "ended".equals(mSnapshot.session) ? R.string.subsystem_session_ended : R.string.subsystem_session_idle;
             setText(mConsoleStatus, getString(status));
-            mProgress.setVisibility(mPending && !running() ? View.VISIBLE : View.GONE);
+            mProgress.setVisibility((mPending && !running()) || (running() && mSnapshot.provisioning)
+                    ? View.VISIBLE : View.GONE);
             mProgress.setIndeterminate(true);
             mNext.setVisibility(!mPending && !running() ? View.VISIBLE : View.GONE);
             final String log = mSnapshot.logUnreadable ? getString(R.string.subsystem_log_unreadable)

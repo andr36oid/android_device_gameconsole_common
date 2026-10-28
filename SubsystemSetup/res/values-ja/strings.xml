@@ -99,6 +99,7 @@
     <string name="subsystem_log_unreadable">起動ログを読み取れません。/data/local/tmp/portmaster/boot.log が読み取り可能になるのを待っています…</string>
     <string name="subsystem_session_starting">Linux を起動中… サブシステムサービスを待っています。</string>
     <string name="subsystem_session_running">Linux は実行中です</string>
+    <string name="subsystem_provisioning">dArkOSen をセットアップ中…</string>
     <string name="subsystem_session_ended">Linux セッションが終了しました</string>
     <string name="subsystem_session_idle">アクティブな Linux セッションはありません · 最新の起動ログを表示しています</string>
     <string name="subsystem_session_timeout">サービスから実行中のセッションが報告されていません。もう一度試す前に起動ログとイメージを確認してください。</string>
