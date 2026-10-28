@@ -117,6 +117,7 @@ func (s *Setup) Main() {
 	s.Progress.Stage("library")
 	s.SeedDaijishou()
 	s.ReconcilePorts()
+	s.SyncLibrary()
 	s.DJNewGames()
 	s.RetroArchPlayers(false)
 	s.RAHotkeys()

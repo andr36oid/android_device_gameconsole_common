@@ -463,6 +463,7 @@ finish_session() {
   trap - EXIT INT TERM HUP
   restore_android
   [ "${IS_PM:-0}" = 1 ] && setprop sys.andr36oid.ports_changed 1 2>/dev/null
+  setprop sys.andr36oid.subsystem_changed 1 2>/dev/null
   : > "$STATE/subsystem.clean"
   [ -n "${GUARD:-}" ] && kill "$GUARD" 2>/dev/null
   [ -n "${CONSOLE_FWD:-}" ] && kill "$CONSOLE_FWD" 2>/dev/null

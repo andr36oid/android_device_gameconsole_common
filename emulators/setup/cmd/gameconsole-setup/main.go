@@ -6,6 +6,7 @@
 //	gameconsole-setup apps      the setup's app page was left with Next
 //	gameconsole-setup players   Settings > Controllers changed who is player 1 in RetroArch
 //	gameconsole-setup reconcile-ports  refresh just the Ports library after PortMaster
+//	gameconsole-setup sync-library     merge ES/Daijishou library state after a subsystem
 //	gameconsole-setup magisk    the boot animation is up: root as new as the Magisk app
 //
 // All but early go through one worker (package worker): a start that finds another one
@@ -30,7 +31,7 @@ const (
 
 func main() {
 	if len(os.Args) != 2 {
-		fmt.Fprintln(os.Stderr, "usage: gameconsole-setup early|main|apps|players|magisk|reconcile-ports")
+		fmt.Fprintln(os.Stderr, "usage: gameconsole-setup early|main|apps|players|magisk|reconcile-ports|sync-library")
 		os.Exit(2)
 	}
 	s := setup.New()
@@ -53,7 +54,7 @@ func main() {
 			s.Props.Set("sys.powerctl", "reboot,magisk")
 		}
 		return
-	case "main", "apps", "reconcile-ports":
+	case "main", "apps", "reconcile-ports", "sync-library":
 	case "players":
 		if s.Props.Get("sys.boot_completed") != "1" {
 			return
@@ -138,5 +139,7 @@ func run(s *setup.Setup, job string) {
 		s.Players()
 	case "reconcile-ports":
 		s.ReconcilePorts()
+	case "sync-library":
+		s.SyncLibrary()
 	}
 }

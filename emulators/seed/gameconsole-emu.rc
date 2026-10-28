@@ -70,3 +70,15 @@ service gameconsole-ports /system/bin/gameconsole-setup reconcile-ports
 on property:sys.andr36oid.ports_changed=1
     start gameconsole-ports
     setprop sys.andr36oid.ports_changed 0
+
+# Every subsystem session can change favorites or play history in EmulationStation.
+service gameconsole-library /system/bin/gameconsole-setup sync-library
+    class main
+    user root
+    group root system
+    disabled
+    oneshot
+
+on property:sys.andr36oid.subsystem_changed=1
+    start gameconsole-library
+    setprop sys.andr36oid.subsystem_changed 0
