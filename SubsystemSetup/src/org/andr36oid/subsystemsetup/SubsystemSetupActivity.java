@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
@@ -42,7 +43,8 @@ import java.util.concurrent.Executors;
 
 /** In-house setup pages and settings; all privileged work is requested via properties. */
 public class SubsystemSetupActivity extends Activity {
-    private enum Screen { WIZARD, HOME, SETTINGS, ADVANCED, PICKER, CONFIRM, CONSOLE }
+    private enum Screen { WIZARD, HOME, SETTINGS, ADVANCED, PICKER, WARNING, CONFIRM, CONSOLE }
+    private static final int WARN_COLOR = 0xFFE53935;
     private static final long POLL_MS = 1000;
     private static final long START_TIMEOUT_MS = 30_000;
     private static final int MAX_ENTRIES = 500;
@@ -280,6 +282,7 @@ public class SubsystemSetupActivity extends Activity {
             case SETTINGS: settings(); break;
             case ADVANCED: advanced(); break;
             case PICKER: picker(); break;
+            case WARNING: warning(); break;
             case CONFIRM: confirm(); break;
             case CONSOLE: console(); break;
         }
@@ -528,7 +531,9 @@ public class SubsystemSetupActivity extends Activity {
                     mTarget = target;
                     mConfirmReturn = mScreen;
                     mConfirmDownload = false;
-                    show(Screen.CONFIRM);
+                    // The first time anyone boots the subsystem, make them read and
+                    // tick the "never update from inside" warning before anything runs.
+                    show(mPrefs.getBoolean("update_warning_ack", false) ? Screen.CONFIRM : Screen.WARNING);
                 }, es);
         mLaunchButtons.add(button);
     }
@@ -543,6 +548,30 @@ public class SubsystemSetupActivity extends Activity {
         mConfirmDownload = true;
         mConfirmReturn = mScreen;
         show(Screen.CONFIRM);
+    }
+
+    private void warning() {
+        page(R.string.subsystem_warning_label, R.string.subsystem_update_warning_title,
+                getString(R.string.subsystem_update_warning_body));
+        mTitle.setText("⚠ " + mTitle.getText());
+        mTitle.setTextColor(WARN_COLOR);
+        section(mSide, R.string.subsystem_warning_before);
+        final CheckBox ack = new CheckBox(this);
+        ack.setText(R.string.subsystem_update_warning_ack);
+        ack.setTextColor(mBody.getTextColors());
+        ack.setTextSize(15);
+        ack.setLineSpacing(0, 1.1f);
+        decorateControl(ack);
+        mSide.addView(ack, rowParams());
+        nav(mNext, R.string.subsystem_continue, () -> {
+            mPrefs.edit().putBoolean("update_warning_ack", true).apply();
+            show(Screen.CONFIRM);
+        });
+        mNext.setEnabled(false);
+        ack.setOnCheckedChangeListener((view, on) -> { mNext.setEnabled(on); wireFocus(); });
+        nav(mBack, R.string.subsystem_cancel, () -> show(mConfirmReturn));
+        mBackAction = () -> show(mConfirmReturn);
+        mHints.set("A", getString(R.string.andr36oid_hint_select), "B", getString(R.string.subsystem_cancel));
     }
 
     private void confirm() {

@@ -43,6 +43,11 @@
     <string name="subsystem_home_body">Launch EmulationStation to play, or PortMaster to manage your ports. These launches use the automatically detected image. A full handoff gives Linux the screen and closes your Android apps. Save your work before launching.\n\nUse Setup steps to prepare your games card, Settings to choose what starts at boot, or Advanced mode for other Linux images and a live boot console.</string>
     <string name="subsystem_step_count">Setup · %1$d of %2$d</string>
     <string name="subsystem_continue">Continue</string>
+    <string name="subsystem_warning_label">Important warning</string>
+    <string name="subsystem_warning_before">Before you continue</string>
+    <string name="subsystem_update_warning_title">Never update dArkOSen from inside it</string>
+    <string name="subsystem_update_warning_body">dArkOSen is running as a guest on top of andr36oid, not on its own hardware. Its built-in updater and upgrade scripts expect to own the whole device, so they are not safe here. If you run them from inside dArkOSen, they write to the wrong places and can destroy the dArkOSen install, or even corrupt your Android system and leave the console unable to boot.\n\nDo not use any Update, Upgrade, or online-update option inside dArkOSen, EmulationStation, or PortMaster.\n\nTo update dArkOSen safely, exit to Android, power off, and replace the dArkOSen .img file on the storage partition with the new version. That is the only supported way to update.</string>
+    <string name="subsystem_update_warning_ack">I understand, and I will not update dArkOSen from inside it.</string>
     <string name="subsystem_back">Back</string>
     <string name="subsystem_close">Close</string>
     <string name="subsystem_cancel">Cancel</string>
