@@ -665,6 +665,7 @@ finish_session() {
   fi
   setprop sys.andr36oid.subsystem.session ended 2>/dev/null
   setprop sys.andr36oid.subsystem.boot_pending "" 2>/dev/null
+  update_settings_entry org.andr36oid.syncsettings
   if [ "$CLEANUP_FAILED" = 0 ]; then
     rm -f "$STATE/session.loop" "$STATE/session.handoff" "$STATE/session.mounts" "$STATE/session.fifo" "$STATE/session.lock/pid" "$STATE/session.lock/boot_id"
     rmdir "$STATE/session.lock" 2>/dev/null
@@ -1042,6 +1043,14 @@ scan_images() {
   else
     setprop sys.andr36oid.subsystem.image 0
   fi
+  update_settings_entry org.andr36oid.subsystemsetup
+}
+
+# Boot receivers also run after a scan or session, so Settings need not wait
+# for another reboot. A stopped Android framework will refresh them at boot.
+update_settings_entry() {
+  /system/bin/am broadcast --user 0 -a "$1.UPDATE_SETTINGS" -n "$1/.BootReceiver" \
+    >/dev/null 2>&1 || true
 }
 
 boot_decision() {
@@ -1114,6 +1123,27 @@ run_session() {
   esac
 }
 
+# The session is busy during preparation too. Record the first boot only after
+# setup succeeds and the frontend binary is running inside this rootfs.
+mark_frontend_booted() {
+  [ "$(getprop persist.andr36oid.subsystem.booted)" = 1 ] && return 0
+  [ "$cmd" = start ] || return 0
+  local p root exe
+  while kill -0 "$SESSION_PID" 2>/dev/null; do
+    for p in /proc/[0-9]*; do
+      root=$(readlink "$p/root" 2>/dev/null) || continue
+      [ "$root" = "$ROOT" ] || continue
+      exe=$(readlink "$p/exe" 2>/dev/null) || continue
+      case "$exe" in
+        */emulationstation|*/EmulationStation)
+          setprop persist.andr36oid.subsystem.booted 1
+          return 0 ;;
+      esac
+    done
+    sleep 1
+  done
+}
+
 cmd=${1:-start}; arg=${2:-}
 case "$cmd" in
   boot-decision) boot_decision; exit 0 ;;
@@ -1181,5 +1211,6 @@ if [ "$HANDOFF" = 1 ]; then handoff; else log "no handoff: Android stays up; dis
 enable_hardware_master
 # Wait on a child so TERM interrupts wait immediately, including while init runs.
 run_session & SESSION_PID=$!
+mark_frontend_booted
 wait "$SESSION_PID"; session_rc=$?
 exit "$session_rc"
