@@ -412,16 +412,16 @@ for _g in $SDL_PAD_GUIDS; do SDL_PAD_MAP="${SDL_PAD_MAP:+$SDL_PAD_MAP
 }$_g,$SDL_PAD_BINDS"; done
 # Write our binds into every gamecontrollerdb.txt PortMaster might read, replacing any
 # stale entry for these GUIDs so only our binds remain, and seed the SDL-GameControllerDB
-# user file PortMaster's control.txt prefers (its SDLDBUSERFILE). maxdepth-2 pass catches
-# a /PortMaster at the rootfs root; the deep pass catches /opt, /roms (the games card),
-# /usr and /home.
+# user file PortMaster's control.txt prefers (its SDLDBUSERFILE). Scan ONLY the shallow
+# dArkOSen locations that actually hold these files (every one audited sits at depth <=3
+# under /opt or /home/ark/.config). The old unbounded find descended /roms - the 171 GB
+# games card bound at /roms - and the whole rootfs, which stalled every launch ~70 s on SD.
 install_sdl_mapping() {
   local f t g udir
   udir="$ROOT/home/ark/.config/SDL-GameControllerDB"
   mkdir -p "$udir" 2>/dev/null
-  for f in $(find "$ROOT" -maxdepth 2 -name gamecontrollerdb.txt 2>/dev/null) \
-           $(find "$ROOT/opt" "$ROOT/roms" "$ROOT/usr" "$ROOT/home" \
-               -name gamecontrollerdb.txt 2>/dev/null) \
+  for f in $(find "$ROOT/opt" -maxdepth 3 -name gamecontrollerdb.txt 2>/dev/null) \
+           $(find "$ROOT/home/ark/.config" -maxdepth 3 -name gamecontrollerdb.txt 2>/dev/null) \
            "$udir/gamecontrollerdb.txt"; do
     [ -e "$f" ] || : > "$f"
     [ -f "$f" ] || continue
