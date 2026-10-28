@@ -15,7 +15,7 @@
     <string name="subsystem_step_ports">2. Add ports and play</string>
     <string name="subsystem_step_ports_summary">Put ports in the ports/ folder on the same card. Open EmulationStation or PortMaster below. Exit the subsystem to return to Android.</string>
     <string name="subsystem_open_os">Boot the rootfs</string>
-    <string name="subsystem_open_os_summary">Start the image\'s own frontend with a full handoff</string>
+    <string name="subsystem_open_os_summary">Start the image\'s own frontend, the way it normally boots</string>
     <string name="subsystem_open_es">Launch EmulationStation</string>
     <string name="subsystem_open_es_summary">Browse and play your Linux ports</string>
     <string name="subsystem_open_pm">Launch PortMaster</string>
