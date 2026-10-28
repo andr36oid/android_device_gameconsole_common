@@ -1005,8 +1005,26 @@ boot_subsystem_session() {
 # directly (it does the uinput chmod, starts gptokeyb, sets XDG_RUNTIME_DIR and loops
 # ES) without systemd. Kept selectable so the console still has a working frontend if
 # the systemd path needs more bring-up work on a given image.
+# dArkOS's ogage daemon reads the gamepad and the volume keys and drives amixer
+# for volume, plus the brightness, mute, speaker, Wi-Fi and performance button
+# combos. The systemd session runs it as a unit; the wrapper and bare paths exec
+# EmulationStation directly, so without this the volume buttons and every hotkey
+# are dead. Start it in the background inside the subsystem, after a short settle
+# like its own ExecStartPre. It needs no tracking: kill_subsystem reaps every
+# process rooted in the chroot when the session ends, so it never outlives the
+# session to drive Android's mixer.
+start_hotkeys() {
+  if ! root_file "$ROOT" /usr/local/bin/ogage; then
+    log "rootfs has no ogage: volume buttons and the hotkey combos will not work"
+    return 0
+  fi
+  log "starting the dArkOS hotkey daemon (ogage) for volume and button combos"
+  run_in_subsystem /bin/sh -lc 'sleep 3; exec /usr/local/bin/ogage' >>"$SESSION_OUT" 2>&1 &
+}
+
 run_es_wrapper() {
   find_es "$ROOT" || { log "rootfs has no EmulationStation target"; return 1; }
+  start_hotkeys
   log "launch EmulationStation via $ES (log -> $SESSION_OUT)"
   if root_file "$ROOT" /bin/sh; then
     XDG_RUNTIME_DIR=/run/user/0 run_in_subsystem /bin/sh -lc 'exec "$1"' subsystem-es "$ES"
@@ -1077,6 +1095,7 @@ run_session() {
           wrapper) run_es_wrapper ;;
           bare)
             root_file "$ROOT" /usr/bin/emulationstation/emulationstation && ES=/usr/bin/emulationstation/emulationstation
+            start_hotkeys
             run_in_subsystem "$ES" ;;
           *) log "invalid session mode: $SESSION_MODE"; return 2 ;;
         esac
