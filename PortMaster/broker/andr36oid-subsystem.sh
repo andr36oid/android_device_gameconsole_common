@@ -389,6 +389,31 @@ ESINPUT_SRC=${A36_ESINPUT:-/system/etc/andr36oid-es_input.cfg}
 # the es_input.cfg layout expressed as RetroArch udev binds.
 RAAUTOCFG_SRC=${A36_RA_AUTOCFG:-/system/etc/andr36oid-retroarch-GO-Super-Gamepad.cfg}
 [ -f "$RAAUTOCFG_SRC" ] || RAAUTOCFG_SRC=/data/local/tmp/GO-Super_Gamepad.cfg   # test fallback
+# SDL GameController mapping for the console pad, used by gptokeyb in PortMaster
+# ports. Ports play fine without it because gptokeyb reads the raw joystick buttons,
+# but the Select+Start quit chord uses SDL's semantic back/start, which resolve to
+# the wrong physical buttons unless SDL has a mapping for this pad's GUID. Derived
+# straight from the shipped es_input.cfg layout (GUID 1900bb3e..., start=b8,
+# select=b9, Fn/guide=b16). PortMaster builds SDL_GAMECONTROLLERCONFIG from a
+# gamecontrollerdb.txt file, so appending our line to every such file in the rootfs
+# is what actually sticks; the env var alone is overwritten by PortMaster's scripts.
+SDL_PAD_GUID=1900bb3e4b4800000011000000010000
+SDL_PAD_MAP="$SDL_PAD_GUID,GO-Super Gamepad,a:b0,b:b1,x:b2,y:b3,back:b9,start:b8,guide:b16,leftshoulder:b4,rightshoulder:b5,lefttrigger:b6,righttrigger:b7,leftstick:b15,rightstick:b14,dpup:b10,dpdown:b13,dpleft:b11,dpright:b12,leftx:a0,lefty:a1,rightx:a2,righty:a3,platform:Linux,"
+# Put our mapping into every gamecontrollerdb.txt in the rootfs. If a file already
+# carries an entry for this GUID (likely a generic one with the wrong chord), drop
+# it first so ours is the only one and SDL cannot pick the stale binds.
+install_sdl_mapping() {
+  local f t
+  for f in $(find "$ROOT/opt" "$ROOT/roms" "$ROOT/usr" "$ROOT/home" \
+               -name gamecontrollerdb.txt 2>/dev/null); do
+    [ -f "$f" ] || continue
+    if grep -q "^$SDL_PAD_GUID," "$f" 2>/dev/null; then
+      grep -q "^$SDL_PAD_MAP\$" "$f" 2>/dev/null && { log "SDL pad mapping already in $f"; continue; }
+      t="$f.a36tmp"; grep -v "^$SDL_PAD_GUID," "$f" > "$t" 2>/dev/null && mv "$t" "$f"
+    fi
+    printf '%s\n' "$SDL_PAD_MAP" >> "$f" && log "added SDL pad mapping to $f"
+  done
+}
 prime_input() {
   if [ -f "$UPPER/etc/emulationstation/es_input.cfg" ]; then
     log "es_input.cfg already present in overlay (keeping user mapping)"
@@ -409,6 +434,7 @@ prime_input() {
   else
     log "no shipped retroarch autoconfig at $RAAUTOCFG_SRC; RetroArch will use fallback binds"
   fi
+  install_sdl_mapping
   # Volume-key diagnostic: dArkOS's ogage daemon scans /dev/input/event0..event10
   # and drives "amixer sset Playback". If the volume buttons do nothing, this
   # records every input device's name, event handler and key bitmap so the report
@@ -752,6 +778,7 @@ run_in_subsystem() {   # $* = command to exec inside the chroot
   HOME=/home/ark TERM=linux \
   ALSA_TMPDIR=/run/alsa TMPDIR=/tmp \
   SDL_VIDEODRIVER="$video" SDL_VIDEO_EGL_DRIVER=libEGL.so SDL_KMSDRM_REQUIRE_DRM_MASTER="$HANDOFF" \
+  SDL_GAMECONTROLLERCONFIG="$SDL_PAD_MAP" \
   SDL_GAMECONTROLLERCONFIG_FILE=/opt/inttools/gamecontrollerdb.txt \
     "$CHROOT" "$ROOT" "$@"
 }
