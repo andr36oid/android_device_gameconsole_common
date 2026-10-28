@@ -4,7 +4,7 @@
     <string name="subsystem_summary">Set up and launch Linux, EmulationStation and PortMaster</string>
     <string name="subsystem_intro">Run a Linux system on your console alongside andr36oid. dArkOSen includes EmulationStation and PortMaster. Copy your ports to the games card, play them in the subsystem, then exit to return to Android.</string>
     <string name="subsystem_about_title">How it works</string>
-    <string name="subsystem_about">This runs a Linux rootfs, such as dArkOSen, in a separate contained environment, a bit like Docker. With full handoff, Android\'s heavy background services are stopped first, so all of your open Android apps are closed while it runs. Speed should be close to running the custom firmware on its own, but it uses the andr36oid kernel, so a few things may not behave exactly as expected. Your EASYROMS partition, or the data partition if you chose not to create EASYROMS, is mounted inside the custom firmware as /roms.</string>
+    <string name="subsystem_about">This runs a Linux rootfs, such as dArkOSen, in a separate contained environment, a bit like Docker. With full handoff, Android\'s heavy background services are stopped first, so all of your open Android apps are closed while it runs. Speed should be close to running dArkOSen on its own hardware, but it uses the andr36oid kernel, so a few things may not behave exactly as expected. Your EASYROMS partition, or the data partition if you chose not to create EASYROMS, is mounted inside the Linux system as /roms.</string>
     <string name="subsystem_status">Status</string>
     <string name="subsystem_checking">Checking...</string>
     <string name="subsystem_installed">Linux rootfs image found. Ready to launch.</string>
