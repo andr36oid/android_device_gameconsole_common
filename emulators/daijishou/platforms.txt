@@ -7,9 +7,9 @@
 # On the console the first one that is there becomes the platform's default player.
 #
 # Folders without a player we ship (nds) and bios get no platform.
-nes                 NintendoEntertainmentSystem.json        nestopia,fceumm
+nes,famicom                 NintendoEntertainmentSystem.json        nestopia,fceumm
 fds                 FamicomDiskSystem.json                  nestopia,fceumm
-snes                SuperNintendoEntertainmentSystem.json   snes9x2010,snes9x
+snes,sfc,snes-hacks,snesmsu1                SuperNintendoEntertainmentSystem.json   snes9x2010,snes9x
 n64                 Nintendo64.json                         mupen64plus_next_gles3
 gb                  NintendoGameBoy.json                    gambatte,mgba
 gbc                 NintendoGameBoyColor.json               gambatte,mgba
@@ -22,8 +22,8 @@ sega32x             Sega32X.json                            picodrive
 psx                 SonyPlayStation.json                    pcsx_rearmed
 saturn              SegaSaturn.json                         yabasanshiro
 psp                 SonyPSP.json                            app:org.ppsspp.ppsspp
-pcengine            TurboGrafx16.json                       mednafen_pce_fast
-pcenginecd          TurboGrafxCD.json                       mednafen_pce_fast
+pcengine,turbografx            TurboGrafx16.json                       mednafen_pce_fast
+pcenginecd,turbografxcd          TurboGrafxCD.json                       mednafen_pce_fast
 supergrafx          SuperGrafx.json                         mednafen_supergrafx
 ngp                 NeoGeoPocket.json                       mednafen_ngp
 ngpc                NeoGeoPocketColor.json                  mednafen_ngp
@@ -36,7 +36,7 @@ atari2600           Atari2600.json                          stella2014
 atari5200           Atari5200.json                          a5200
 atari7800           Atari7800.json                          prosystem
 atarilynx           AtariLynx.json                          handy
-videopac            MagnavoxOdyssey2.json                   o2em
+videopac,odyssey2            MagnavoxOdyssey2.json                   o2em
 intellivision       Intellivision.json                      freeintv
 vectrex             Vectrex.json                            vecx
 msx,msx2            MSX.json                                bluemsx
