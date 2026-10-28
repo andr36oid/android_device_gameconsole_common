@@ -544,25 +544,24 @@ set_ra_input_binds() {
              "$ROOT/home/ark/.config/retroarch32/retroarch.cfg"; do
     [ -f "$cfg" ] || continue
     t="$cfg.a36tmp"
-    cp -p "$cfg" "$t" || continue
     awk '
       BEGIN {
-        old["input_enable_hotkey_btn"]=12; new["input_enable_hotkey_btn"]=9
-        old["input_exit_emulator_btn"]=13; new["input_exit_emulator_btn"]=8
-        old["input_player1_select_btn"]=12; new["input_player1_select_btn"]=9
-        old["input_player1_start_btn"]=13; new["input_player1_start_btn"]=8
-        old["input_player1_up_btn"]=8; new["input_player1_up_btn"]=10
-        old["input_player1_down_btn"]=9; new["input_player1_down_btn"]=13
-        old["input_player1_left_btn"]=10; new["input_player1_left_btn"]=11
-        old["input_player1_right_btn"]=11; new["input_player1_right_btn"]=12
-        old["input_player1_l3_btn"]=14; new["input_player1_l3_btn"]=15
-        old["input_player1_r3_btn"]=15; new["input_player1_r3_btn"]=14
+        # RA udev joypad indices for the GO-Super pad: SELECT=8, START=9 (evdev-code
+        # order), NOT SDL/ES order. The D-pad is keyboard keys the udev joypad driver
+        # does not expose as buttons, and there is no L3/R3 -- leaving those bound to
+        # non-existent indices made RetroArch mishandle input, so clear them. Quit stays
+        # on the Start+Select combo (input_quit_gamepad_combo), not a lone exit button.
+        set["input_player1_select_btn"]="8"; set["input_player1_start_btn"]="9"
+        set["input_enable_hotkey_btn"]="8";  set["input_exit_emulator_btn"]="nul"
+        set["input_player1_up_btn"]="nul";   set["input_player1_down_btn"]="nul"
+        set["input_player1_left_btn"]="nul"; set["input_player1_right_btn"]="nul"
+        set["input_player1_l3_btn"]="nul";   set["input_player1_r3_btn"]="nul"
       }
       {
         key=$1
-        if (key in old && $0 ~ ("^[[:space:]]*" key "[[:space:]]*=[[:space:]]*\"" old[key] "\"[[:space:]]*$"))
-          sub("\"" old[key] "\"", "\"" new[key] "\"")
-        print
+        if (key in set && $0 ~ ("^[[:space:]]*" key "[[:space:]]*="))
+          print key " = \"" set[key] "\""
+        else print
       }
     ' "$cfg" > "$t" || { rm -f "$t"; continue; }
     if cmp -s "$cfg" "$t"; then rm -f "$t"
