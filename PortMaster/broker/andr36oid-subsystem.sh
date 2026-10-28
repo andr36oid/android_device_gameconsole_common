@@ -1015,6 +1015,10 @@ boot_subsystem_session() {
 # process rooted in the chroot when the session ends, so it never outlives the
 # session to drive Android's mixer.
 start_hotkeys() {
+  # Only a full handoff gives Linux the device and its audio. Headless (Android
+  # still on screen) must not start ogage: it would drive card 0, Android's own
+  # mixer, and fight the running Android session.
+  [ "$HANDOFF" = 1 ] || return 0
   if ! root_file "$ROOT" /usr/local/bin/ogage; then
     log "rootfs has no ogage: volume buttons and the hotkey combos will not work"
     return 0
@@ -1111,6 +1115,9 @@ run_session() {
       fi ;;
     run)
       log "launch port $arg (log -> $SESSION_OUT)"
+      # PortMaster and the ports are frontends too: start ogage so volume and the
+      # hotkey combos work while they run (handoff only; see start_hotkeys).
+      start_hotkeys
       # Positional arguments keep names containing quotes/spaces literal. Generic
       # rootfs images need not ship dArkOS's optional governor tools or sudo.
       run_in_subsystem /bin/sh -c '
