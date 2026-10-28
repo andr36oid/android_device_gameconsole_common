@@ -410,7 +410,7 @@ if [ "$cmd" = launch-prop ]; then
   else
     case "$want" in
       ES|"") set -- start ;;
-      PM)    set -- run "/roms/tools/PortMaster/PortMaster.sh"; IS_PM=1 ;;
+      PM)    set -- run "/roms/tools/PortMaster.sh"; IS_PM=1 ;;
       /*)    set -- run "$want" ;;            # absolute path inside the subsystem
       *)     set -- run "/roms/ports/$want" ;;
     esac
@@ -453,7 +453,16 @@ case "$cmd" in
            bare)    log "launch bare EmulationStation (log -> $SESSION_OUT)"
                     run_in_subsystem /usr/bin/emulationstation/emulationstation > "$SESSION_OUT" 2>&1 ;;
          esac ;;
-  run)   # The Daijisho bridge strips a port's .sh to name it, so "/roms/ports/<name>"
+  run)   # PortMaster's launcher is /roms/tools/PortMaster.sh on a standard dArkOS/
+         # ArkOS card (tools/PortMaster/ is its data dir, not the launcher). A few
+         # installs keep the launcher inside that dir instead, so resolve against the
+         # card now that /roms is bound under $ROOT.
+         if [ "${IS_PM:-0}" = 1 ]; then
+           for c in /roms/tools/PortMaster.sh /roms/tools/PortMaster/PortMaster.sh; do
+             [ -e "$ROOT$c" ] && { arg="$c"; break; }
+           done
+         fi
+         # The Daijisho bridge strips a port's .sh to name it, so "/roms/ports/<name>"
          # may not exist while "<name>.sh" does. /roms is bound under $ROOT now, so
          # add .sh back when the bare path is missing (handles both bare names and
          # full *.sh paths).
