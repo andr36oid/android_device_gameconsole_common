@@ -18,7 +18,9 @@ final class HoldButton extends View {
     private final Paint mTrack = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final Paint mFill = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final Paint mText = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private final Paint mFocusRing = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final RectF mOval = new RectF();
+    private final RectF mFocusOval = new RectF();
     private final String mLabel;
     private final Runnable mAction;
     private final Runnable mCommit;
@@ -39,6 +41,9 @@ final class HoldButton extends View {
         mFill.setStrokeWidth(8 * dp);
         mFill.setStrokeCap(Paint.Cap.ROUND);
         mFill.setColor(getResources().getColor(R.color.andr36oid_setup_accent, context.getTheme()));
+        mFocusRing.setStyle(Paint.Style.STROKE);
+        mFocusRing.setStrokeWidth(3 * dp);
+        mFocusRing.setColor(getResources().getColor(R.color.andr36oid_setup_accent, context.getTheme()));
         final TypedValue textColor = new TypedValue();
         context.getTheme().resolveAttribute(android.R.attr.textColorPrimary, textColor, true);
         mText.setColor(textColor.resourceId != 0
@@ -49,7 +54,8 @@ final class HoldButton extends View {
         setClickable(true);
         setLongClickable(true);
         setMinimumHeight(Math.round(132 * dp));
-        setBackgroundResource(R.drawable.andr36oid_setup_focus);
+        // The ring draws its own circular focus treatment in onDraw; the shared
+        // rectangular setup-focus box looks wrong wrapped around a round control.
         setContentDescription(context.getString(R.string.subsystem_hold_hint));
     }
 
@@ -162,8 +168,13 @@ final class HoldButton extends View {
         final float x = getWidth() / 2f, y = getHeight() / 2f;
         mOval.set(x - size / 2, y - size / 2, x + size / 2, y + size / 2);
         mTrack.setColor(mText.getColor());
-        mTrack.setAlpha(isFocused() ? 100 : 45);
+        mTrack.setAlpha(isFocused() ? 150 : 40);
         canvas.drawOval(mOval, mTrack);
+        if (isFocused()) {
+            final float pad = stroke * 0.9f;
+            mFocusOval.set(mOval.left - pad, mOval.top - pad, mOval.right + pad, mOval.bottom + pad);
+            canvas.drawOval(mFocusOval, mFocusRing);
+        }
         long held = mDone ? HOLD_MS : mDownAt == 0 ? 0 : SystemClock.uptimeMillis() - mDownAt;
         if (held >= HOLD_MS && !mDone) {
             mDone = true;
