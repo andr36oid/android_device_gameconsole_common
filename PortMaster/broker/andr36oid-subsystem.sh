@@ -1171,7 +1171,8 @@ case "$cmd" in
     HANDOFF=$(getprop sys.andr36oid.subsystem.handoff); HANDOFF=${HANDOFF:-1}
     setprop sys.andr36oid.subsystem.request ""
     case "$want" in
-      ES|"") cmd=start ;;
+      ES|OS|"") cmd=start ;;
+      INIT) cmd=start; SESSION_MODE=systemd ;;
       PM) cmd=run; arg=/roms/tools/PortMaster.sh; IS_PM=1 ;;
       /*) cmd=run; arg="$want" ;;
       *) cmd=run; arg="/roms/ports/$want" ;;

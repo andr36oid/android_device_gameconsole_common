@@ -14,10 +14,14 @@
     <string name="subsystem_step_image_summary">Open the EASYROMS (games) drive on your games card. Create a folder named subsystem/darkosen/ and put the dArkOSen .img file inside it. If the image is compressed, extract it first.</string>
     <string name="subsystem_step_ports">2. Add ports and play</string>
     <string name="subsystem_step_ports_summary">Put ports in the ports/ folder on the same card. Open EmulationStation or PortMaster below. Exit the subsystem to return to Android.</string>
+    <string name="subsystem_open_os">Boot the rootfs</string>
+    <string name="subsystem_open_os_summary">Start the image\'s own frontend with a full handoff</string>
     <string name="subsystem_open_es">Launch EmulationStation</string>
     <string name="subsystem_open_es_summary">Browse and play your Linux ports</string>
     <string name="subsystem_open_pm">Launch PortMaster</string>
     <string name="subsystem_open_pm_summary">Install and manage Linux ports</string>
+    <string name="subsystem_open_init">Boot the rootfs (native init)</string>
+    <string name="subsystem_open_init_summary">Experimental: boot the image\'s own startup. May not take the display.</string>
     <string name="subsystem_launch_disabled">Set up a Linux image before launching.</string>
     <string name="subsystem_launch_checking">Waiting for the Linux image check.</string>
     <string name="subsystem_launch_failed">Could not request a subsystem launch. Try again.</string>
@@ -38,7 +42,7 @@
     <string name="subsystem_welcome">Linux on your handheld</string>
     <string name="subsystem_image_title">Prepare a Linux image</string>
     <string name="subsystem_ports_title">PortMaster and your ports</string>
-    <string name="subsystem_home_body">Launch EmulationStation to play, or the included PortMaster to manage your ports. These launches use the automatically detected image. A full handoff gives Linux the screen and closes your Android apps. Save your work before launching.\n\nUse Setup steps to prepare your games card, or Advanced mode for other Linux images and a live boot console. Choose what starts at boot in Android Settings &gt; System &gt; Boot into the subsystem by default.</string>
+    <string name="subsystem_home_body">Boot the rootfs to start Linux the way it normally runs, or launch EmulationStation or the included PortMaster directly. These launches use the automatically detected image. A full handoff gives Linux the screen and closes your Android apps. Save your work before launching.\n\nUse Setup steps to prepare your games card, or Advanced mode for other Linux images and a live boot console. Choose what starts at boot in Android Settings &gt; System &gt; Boot into the subsystem by default.</string>
     <string name="subsystem_step_count">Setup · %1$d of %2$d</string>
     <string name="subsystem_continue">Continue</string>
     <string name="subsystem_warning_label">Important warning</string>
@@ -56,7 +60,7 @@
     <string name="subsystem_offline_first">You can complete setup entirely offline. Copy an extracted .img file using a computer, insert the card, then choose Check again. A download is offered only when this device has an Internet connection.</string>
     <string name="subsystem_ports_note">dArkOSen already includes PortMaster. You only need to copy your ports to the games card. This wizard checks for a rootfs image; it does not verify your ports.</string>
     <string name="subsystem_ready_title">Ready for Linux</string>
-    <string name="subsystem_ready_body">Your Linux image has been found. Finish setup to choose EmulationStation or PortMaster.\n\nWith full handoff, launching closes Android apps and hands the display to Linux. Save your Android work first. Exit Linux to return to Android.</string>
+    <string name="subsystem_ready_body">Your Linux image has been found. Finish setup to boot the rootfs, or launch EmulationStation or PortMaster directly.\n\nWith full handoff, launching closes Android apps and hands the display to Linux. Save your Android work first. Exit Linux to return to Android.</string>
     <string name="subsystem_launch">Launch Linux</string>
     <string name="subsystem_launch_target">Launch target</string>
     <string name="subsystem_settings">Settings</string>
@@ -69,6 +73,9 @@
     <string name="subsystem_default_target">Default boot target</string>
     <string name="subsystem_target_es">EmulationStation</string>
     <string name="subsystem_target_pm">PortMaster</string>
+    <string name="subsystem_target_os">Boot the rootfs</string>
+    <string name="subsystem_target_init">Native init boot (experimental)</string>
+    <string name="subsystem_init_warning">Native init boot is experimental. It boots the image\'s own startup instead of launching a frontend directly, the way the firmware boots on its own hardware. Some images, including dArkOSen, may fail to take over the display and leave the screen black. If that happens, hold the power button to force a restart. Use a normal launch unless you are testing this.</string>
     <string name="subsystem_setting_failed">Could not save the setting. Try again.</string>
     <string name="subsystem_advanced">Advanced mode</string>
     <string name="subsystem_advanced_body">Choose a compatible Linux rootfs image and how it shares the console with Android. Other images must support the andr36oid kernel and this subsystem.\n\nKeep Android running to inspect the boot log without giving Linux the screen. This is useful for troubleshooting; graphical Linux apps may require full handoff.</string>

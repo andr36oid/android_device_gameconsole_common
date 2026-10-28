@@ -368,8 +368,9 @@ public class SubsystemSetupActivity extends Activity {
         imageStatus();
         mBootHint = text(mBodyExtra, bootHint());
         section(mSide, R.string.subsystem_launch);
-        launchAction("ES", false);
-        launchAction("PM", false);
+        launchAction("OS", false, true);
+        launchAction("ES", false, false);
+        launchAction("PM", false, false);
         action(mSide, R.string.subsystem_setup, null, () -> {
             mStep = 0;
             show(Screen.WIZARD);
@@ -449,8 +450,10 @@ public class SubsystemSetupActivity extends Activity {
                 : R.string.subsystem_headless_explainer));
         imageStatus();
         section(mSide, R.string.subsystem_launch);
-        launchAction("ES", true);
-        launchAction("PM", true);
+        launchAction("OS", true, true);
+        launchAction("ES", true, false);
+        launchAction("PM", true, false);
+        launchAction("INIT", true, false);
         nav(mBack, R.string.subsystem_back, mBackAction);
         if (!mHandoff || running() || mPending) nav(mSecondary, R.string.subsystem_boot_log, () -> {
             mConsoleReturn = Screen.ADVANCED;
@@ -483,10 +486,18 @@ public class SubsystemSetupActivity extends Activity {
         mStatus.setAccessibilityLiveRegion(View.ACCESSIBILITY_LIVE_REGION_POLITE);
     }
 
-    private void launchAction(String target, boolean advanced) {
-        final boolean es = "ES".equals(target);
-        final Button button = action(mSide, es ? R.string.subsystem_open_es : R.string.subsystem_open_pm,
-                getString(es ? R.string.subsystem_open_es_summary : R.string.subsystem_open_pm_summary),
+    // "OS" boots the rootfs's own default frontend (the recommended, safe launch);
+    // "ES"/"PM" go straight to that app; "INIT" boots the image's own init and is the
+    // experimental Advanced-only target. primary highlights the recommended button.
+    private void launchAction(String target, boolean advanced, boolean primary) {
+        final int label, summary;
+        switch (target) {
+            case "PM": label = R.string.subsystem_open_pm; summary = R.string.subsystem_open_pm_summary; break;
+            case "OS": label = R.string.subsystem_open_os; summary = R.string.subsystem_open_os_summary; break;
+            case "INIT": label = R.string.subsystem_open_init; summary = R.string.subsystem_open_init_summary; break;
+            default: label = R.string.subsystem_open_es; summary = R.string.subsystem_open_es_summary; break;
+        }
+        final Button button = action(mSide, label, getString(summary),
                 () -> {
                     if (!canLaunch(advanced)) return;
                     mTarget = target;
@@ -495,8 +506,17 @@ public class SubsystemSetupActivity extends Activity {
                     // The first time anyone boots the subsystem, make them read and
                     // tick the "never update from inside" warning before anything runs.
                     show(mPrefs.getBoolean("update_warning_ack", false) ? Screen.CONFIRM : Screen.WARNING);
-                }, es);
+                }, primary);
         mLaunchButtons.add(button);
+    }
+
+    private int targetLabel(String target) {
+        switch (target) {
+            case "PM": return R.string.subsystem_target_pm;
+            case "OS": return R.string.subsystem_target_os;
+            case "INIT": return R.string.subsystem_target_init;
+            default: return R.string.subsystem_target_es;
+        }
     }
 
     private boolean canLaunch(boolean advanced) {
@@ -546,7 +566,11 @@ public class SubsystemSetupActivity extends Activity {
         if (mConfirmDownload) mDownloadStatus = text(mBodyExtra, "");
         if (!mConfirmDownload) {
             section(mBodyExtra, R.string.subsystem_launch_target);
-            text(mBodyExtra, getString("PM".equals(mTarget) ? R.string.subsystem_target_pm : R.string.subsystem_target_es));
+            text(mBodyExtra, getString(targetLabel(mTarget)));
+            if ("INIT".equals(mTarget)) {
+                final TextView warn = text(mBodyExtra, getString(R.string.subsystem_init_warning));
+                warn.setTextColor(WARN_COLOR);
+            }
             section(mBodyExtra, R.string.subsystem_rootfs);
             text(mBodyExtra, mConfirmReturn == Screen.ADVANCED && !mRootfs.isEmpty()
                     ? mRootfs : getString(R.string.subsystem_automatic_image));
