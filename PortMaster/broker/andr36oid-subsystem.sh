@@ -509,9 +509,36 @@ enable_hardware_master() {
   return 0
 }
 
+# Keep the two shareable config files in the image's writable upper before the
+# overlay goes away. The queued setup worker can then merge them after teardown.
+prepare_retroarch_sync() {
+  RA_SYNC_DIR=""
+  rm -f "$STATE/retroarch-sync-dir"
+  [ "$(getprop persist.andr36oid.subsystem_autosync)" != 0 ] || return 0
+  [ "$(getprop persist.andr36oid.sync.retroarch)" = 1 ] || return 0
+  local dir="$ROOT/home/ark/.config/retroarch" file tmp
+  [ -d "$dir" ] && [ "$(readlink -f "$dir")" = "$dir" ] || return 0
+  if [ "${MOUNTED:-0}" = 1 ]; then
+    for file in retroarch.cfg retroarch-core-options.cfg; do
+      [ -L "$dir/$file" ] && return 0
+      [ -f "$dir/$file" ] || continue
+      tmp=$(mktemp "$dir/.andr36oid-sync.XXXXXX") || return 0
+      if ! cp -p "$dir/$file" "$tmp" || ! mv -f "$tmp" "$dir/$file"; then
+        rm -f "$tmp"
+        log "could not prepare RetroArch settings for sharing"
+        return 0
+      fi
+    done
+    RA_SYNC_DIR="$UPPER/home/ark/.config/retroarch"
+  else
+    RA_SYNC_DIR="$dir"
+  fi
+}
+
 restore_android() {
   [ "$SESSION_OWNED" = 1 ] || return 0
   kill_subsystem
+  prepare_retroarch_sync
   if [ -f "$STATE/session.hw-master" ]; then
     /system/bin/tinymix -D 0 "Playback Hardware Master Switch" 0 >/dev/null 2>&1 ||
       log "hardware master switch could not be restored"
@@ -536,6 +563,10 @@ restore_android() {
     if ! losetup -d "$LOOPDEV" 2>/dev/null && [ -r "/sys/class/block/${LOOPDEV##*/}/loop/backing_file" ]; then
       CLEANUP_FAILED=1; log "loop still busy: $LOOPDEV"
     fi
+  fi
+  if [ "$CLEANUP_FAILED" = 0 ] && [ -n "$RA_SYNC_DIR" ]; then
+    printf '%s\n' "$RA_SYNC_DIR" > "$STATE/retroarch-sync-dir.tmp" &&
+      mv -f "$STATE/retroarch-sync-dir.tmp" "$STATE/retroarch-sync-dir"
   fi
   if [ "$DID_HANDOFF" = 1 ]; then
     show_splash

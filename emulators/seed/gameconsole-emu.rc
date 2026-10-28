@@ -19,8 +19,16 @@ service gameconsole-emu-early /system/bin/gameconsole-setup early
 
 # All of these but the early one go through one worker (setup/internal/worker): a
 # start while another works leaves its request and exits, the worker runs it next.
+on boot
+    setprop persist.andr36oid.sync.at_boot ${persist.andr36oid.sync.at_boot:-1}
+    setprop persist.andr36oid.sync.on_session ${persist.andr36oid.sync.on_session:-1}
+
 on property:sys.boot_completed=1
     start gameconsole-emu
+
+on property:sys.boot_completed=1 && property:persist.andr36oid.sync.at_boot=1
+    start gameconsole-library
+    start gameconsole-ra-sync
 
 # Settings > Controllers changed who is player 1 in RetroArch: written into
 # retroarch.cfg once RetroArch is closed (gameconsole-setup, RetroArchPlayers)
@@ -79,6 +87,16 @@ service gameconsole-library /system/bin/gameconsole-setup sync-library
     disabled
     oneshot
 
-on property:sys.andr36oid.subsystem_changed=1
+service gameconsole-ra-sync /system/bin/gameconsole-setup sync-retroarch
+    class main
+    user root
+    group root system
+    disabled
+    oneshot
+
+on property:sys.andr36oid.subsystem_changed=1 && property:persist.andr36oid.sync.on_session=1
     start gameconsole-library
+    start gameconsole-ra-sync
+
+on property:sys.andr36oid.subsystem_changed=1
     setprop sys.andr36oid.subsystem_changed 0
