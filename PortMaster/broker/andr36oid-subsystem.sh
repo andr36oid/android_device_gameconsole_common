@@ -495,6 +495,38 @@ prime_input() {
   fi
 }
 
+# RetroArch's "udev" joypad driver (dArkOSen's default) only opens controllers
+# that udev has tagged ID_INPUT_JOYSTICK in /run/udev; with an empty /run/udev it
+# finds zero joypads ("[udev] Couldn't open any joypads. Are permissions set
+# correctly for /dev/input/event* and /run/udev/?") and every libretro core runs
+# with a dead gamepad, while EmulationStation is unaffected because SDL2 scans
+# evdev capabilities itself. Wrapper mode boots no init, so nothing ever started
+# udevd and /run/udev stayed empty. Run a one-shot udev pass: start the daemon,
+# replay the "add" uevents so the input rules tag the pad, wait for the queue to
+# drain, then stop the daemon again. The /run tmpfs it populates lives for the
+# whole session and RA reads it when a core launches, so a lingering daemon is
+# unnecessary and leaving none keeps the teardown unmounts race-free. Handoff
+# only: udevadm trigger writes /sys/.../uevent, which needs the read-write sysfs
+# bind that only the handoff path mounts.
+prime_udev() {
+  [ "$HANDOFF" = 1 ] || return 0
+  root_file "$ROOT" /bin/udevadm || return 0
+  local udevd
+  for udevd in /lib/systemd/systemd-udevd /usr/lib/systemd/systemd-udevd /sbin/udevd; do
+    root_file "$ROOT" "$udevd" && break || udevd=""
+  done
+  [ -n "$udevd" ] || { log "udev: no udevd in rootfs; RetroArch gamepad stays dead"; return 0; }
+  if ! "$CHROOT" "$ROOT" "$udevd" --daemon >>"$LOG" 2>&1; then
+    log "udev: daemon did not start; RetroArch gamepad stays dead"; return 0
+  fi
+  "$CHROOT" "$ROOT" /bin/udevadm trigger --type=subsystems --action=add >>"$LOG" 2>&1
+  "$CHROOT" "$ROOT" /bin/udevadm trigger --type=devices --action=add >>"$LOG" 2>&1
+  "$CHROOT" "$ROOT" /bin/udevadm settle --timeout=10 >>"$LOG" 2>&1
+  "$CHROOT" "$ROOT" /bin/udevadm control --exit >>"$LOG" 2>&1 ||
+    "$CHROOT" "$ROOT" /bin/sh -c 'kill $(cat /run/udev/*.pid 2>/dev/null) 2>/dev/null' >/dev/null 2>&1
+  log "udev: tagged input devices so RetroArch can see the gamepad"
+}
+
 # Populate the container /dev. toybox mount cannot bind a non-directory source
 # (it tries to loop-mount it and fails with "losetup ... Invalid argument"), so
 # device nodes are recreated with mknod in the tmpfs /dev (which is not nodev);
@@ -1291,6 +1323,7 @@ eligible_rootfs "$ROOT" || { log "rootfs has no init or launch target"; exit 1; 
 [ "$cmd" = run ] && { resolve_run_target || exit 1; }
 prepare_network || { log "network preparation failed"; exit 1; }
 prep_darkos_env || { log "runtime/audio preparation failed"; exit 1; }
+prime_udev
 if [ "$HANDOFF" = 1 ]; then handoff; else log "no handoff: Android stays up; display devices hidden"; fi
 enable_hardware_master
 # Wait on a child so TERM interrupts wait immediately, including while init runs.
