@@ -105,4 +105,9 @@
     <string name="subsystem_session_timeout">Hizmet çalışan bir oturum bildirmedi. Tekrar denemeden önce açılış günlüğünü ve imajınızı kontrol edin.</string>
     <string name="subsystem_pause_log">Kaydırmayı duraklat</string>
     <string name="subsystem_follow_log">Günlüğü takip et</string>
+    <string name="subsystem_warning_label">Önemli uyarı</string>
+    <string name="subsystem_warning_before">Devam etmeden önce</string>
+    <string name="subsystem_update_warning_title">dArkOSen içinden asla güncelleme yapmayın</string>
+    <string name="subsystem_update_warning_body">dArkOSen, kendi donanımı üzerinde değil, andr36oid üzerinde konuk sistem olarak çalışır. Yerleşik güncelleyicisi ve yükseltme betikleri, tüm cihazın denetimine sahip olduklarını varsayar; bu nedenle burada güvenli değildir. Bunları dArkOSen içinden çalıştırırsanız yanlış yerlere yazabilir ve dArkOSen kurulumunu yok edebilir; hatta Android sisteminizi bozarak konsolun açılmasını engelleyebilir.\n\ndArkOSen, EmulationStation veya PortMaster içindeki Güncelle, Yükselt ya da çevrim içi güncelleme seçeneklerini kullanmayın.\n\ndArkOSen içinden güvenle güncelleme yapmak için Android\'e çıkın, cihazı kapatın ve depolama bölümündeki dArkOSen .img dosyasını yeni sürümle değiştirin. Güncellemenin desteklenen tek yolu budur.</string>
+    <string name="subsystem_update_warning_ack">Anlıyorum ve dArkOSen içinden güncelleme yapmayacağım.</string>
 </resources>

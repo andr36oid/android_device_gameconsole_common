@@ -105,4 +105,9 @@
     <string name="subsystem_session_timeout">Layanan belum melaporkan sesi yang berjalan. Periksa log boot dan image Anda sebelum mencoba lagi.</string>
     <string name="subsystem_pause_log">Jeda pengguliran</string>
     <string name="subsystem_follow_log">Ikuti log</string>
+    <string name="subsystem_warning_label">Peringatan penting</string>
+    <string name="subsystem_warning_before">Sebelum melanjutkan</string>
+    <string name="subsystem_update_warning_title">Jangan pernah memperbarui dArkOSen dari dalamnya</string>
+    <string name="subsystem_update_warning_body">dArkOSen berjalan sebagai sistem tamu di atas andr36oid, bukan pada perangkat kerasnya sendiri. Pembaru bawaan dan skrip pemutakhirannya menganggap bahwa keduanya memiliki kendali atas seluruh perangkat, sehingga tidak aman digunakan di sini. Jika Anda menjalankannya dari dalam dArkOSen, keduanya akan menulis ke lokasi yang salah dan dapat merusak instalasi dArkOSen, atau bahkan merusak sistem Android Anda sehingga konsol tidak dapat melakukan boot.\n\nJangan gunakan opsi Perbarui, Tingkatkan, atau pembaruan online apa pun di dalam dArkOSen, EmulationStation, atau PortMaster.\n\nUntuk memperbarui dArkOSen dengan aman, keluar ke Android, matikan perangkat, lalu ganti file .img dArkOSen pada partisi penyimpanan dengan versi baru. Itulah satu-satunya cara memperbarui yang didukung.</string>
+    <string name="subsystem_update_warning_ack">Saya mengerti dan tidak akan memperbarui dArkOSen dari dalamnya.</string>
 </resources>

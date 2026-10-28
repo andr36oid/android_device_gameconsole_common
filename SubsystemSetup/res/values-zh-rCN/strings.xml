@@ -104,4 +104,9 @@
     <string name="subsystem_session_timeout">服务尚未报告正在运行的会话。请检查启动日志和镜像，然后重试。</string>
     <string name="subsystem_pause_log">暂停滚动</string>
     <string name="subsystem_follow_log">跟随日志</string>
+    <string name="subsystem_warning_label">重要警告</string>
+    <string name="subsystem_warning_before">继续之前</string>
+    <string name="subsystem_update_warning_title">切勿在 dArkOSen 内更新</string>
+    <string name="subsystem_update_warning_body">dArkOSen 作为客户机运行在 andr36oid 之上，而不是运行在自己的硬件上。它内置的更新程序和升级脚本会假定自己拥有整个设备的控制权，因此在这里使用并不安全。如果在 dArkOSen 内运行它们，它们会写入错误位置，可能破坏 dArkOSen 的安装，甚至损坏 Android 系统，导致主机无法启动。\n\n请勿在 dArkOSen、EmulationStation 或 PortMaster 内使用“更新”“升级”或“在线更新”选项。\n\n要安全更新 dArkOSen，请退出到 Android，关闭设备，然后将存储分区上的 dArkOSen .img 文件替换为新版本。这是唯一受支持的更新方式。</string>
+    <string name="subsystem_update_warning_ack">我明白了，不会在 dArkOSen 内更新。</string>
 </resources>

@@ -105,4 +105,9 @@
     <string name="subsystem_session_timeout">O serviço não informou uma sessão em execução. Verifique o log de boot e sua imagem antes de tentar novamente.</string>
     <string name="subsystem_pause_log">Pausar rolagem</string>
     <string name="subsystem_follow_log">Seguir log</string>
+    <string name="subsystem_warning_label">Aviso importante</string>
+    <string name="subsystem_warning_before">Antes de continuar</string>
+    <string name="subsystem_update_warning_title">Nunca atualize o dArkOSen de dentro dele</string>
+    <string name="subsystem_update_warning_body">O dArkOSen é executado como convidado sobre o andr36oid, e não no próprio hardware. O atualizador integrado e os scripts de atualização presumem que têm controle total do dispositivo, portanto não são seguros aqui. Se você os executar de dentro do dArkOSen, eles gravarão nos locais errados e poderão destruir a instalação do dArkOSen ou até corromper o sistema Android, deixando o console sem conseguir inicializar.\n\nNão use nenhuma opção de Atualizar, Atualizar a versão ou atualização online dentro do dArkOSen, do EmulationStation ou do PortMaster.\n\nPara atualizar o dArkOSen com segurança, saia para o Android, desligue o dispositivo e substitua o arquivo .img do dArkOSen na partição de armazenamento pela nova versão. Essa é a única forma de atualizar com suporte.</string>
+    <string name="subsystem_update_warning_ack">Entendo e não vou atualizar o dArkOSen de dentro dele.</string>
 </resources>

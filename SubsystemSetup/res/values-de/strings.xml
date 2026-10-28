@@ -105,4 +105,9 @@
     <string name="subsystem_session_timeout">Der Dienst hat keine laufende Sitzung gemeldet. Prüfe das Bootprotokoll und dein Image, bevor du es erneut versuchst.</string>
     <string name="subsystem_pause_log">Scrollen pausieren</string>
     <string name="subsystem_follow_log">Protokoll folgen</string>
+    <string name="subsystem_warning_label">Wichtiger Warnhinweis</string>
+    <string name="subsystem_warning_before">Bevor du fortfährst</string>
+    <string name="subsystem_update_warning_title">dArkOSen niemals von innen aktualisieren</string>
+    <string name="subsystem_update_warning_body">dArkOSen läuft als Gast über andr36oid und nicht auf eigener Hardware. Sein integriertes Aktualisierungsprogramm und seine Upgrade-Skripte gehen davon aus, dass sie die vollständige Kontrolle über das Gerät haben, und sind daher hier nicht sicher. Wenn du sie innerhalb von dArkOSen ausführst, schreiben sie an die falschen Stellen und können die dArkOSen-Installation zerstören oder sogar dein Android-System beschädigen, sodass die Konsole möglicherweise nicht mehr startet.\n\nVerwende innerhalb von dArkOSen, EmulationStation oder PortMaster keine Option für Aktualisieren, Upgrade oder Online-Aktualisierung.\n\nUm dArkOSen sicher zu aktualisieren, beende es, kehre zu Android zurück, schalte die Konsole aus und ersetze die .img-Datei von dArkOSen auf der Speicherpartition durch die neue Version. Dies ist die einzige unterstützte Möglichkeit zur Aktualisierung.</string>
+    <string name="subsystem_update_warning_ack">Ich verstehe es und werde dArkOSen nicht von innen heraus aktualisieren.</string>
 </resources>

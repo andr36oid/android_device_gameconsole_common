@@ -105,4 +105,9 @@
     <string name="subsystem_session_timeout">サービスから実行中のセッションが報告されていません。もう一度試す前に起動ログとイメージを確認してください。</string>
     <string name="subsystem_pause_log">スクロールを一時停止</string>
     <string name="subsystem_follow_log">ログを追従</string>
+    <string name="subsystem_warning_label">重要な警告</string>
+    <string name="subsystem_warning_before">続行する前に</string>
+    <string name="subsystem_update_warning_title">dArkOSen 内からは絶対に更新しないでください</string>
+    <string name="subsystem_update_warning_body">dArkOSen は独自のハードウェア上ではなく、andr36oid 上でゲストとして動作しています。内蔵の更新機能やアップグレード用スクリプトは、デバイス全体を自分で管理できることを前提としているため、ここでは安全に使用できません。dArkOSen 内から実行すると、誤った場所に書き込みを行い、dArkOSen のインストールを破壊したり、Android システムまで破損させて、コンソールが起動できなくなったりするおそれがあります。\n\ndArkOSen、EmulationStation、PortMaster 内の「更新」「アップグレード」「オンライン更新」などのオプションは使用しないでください。\n\ndArkOSen を安全に更新するには、Android に戻り、電源を切ってから、ストレージパーティション上の dArkOSen の .img ファイルを新しいバージョンに置き換えてください。これがサポートされている唯一の更新方法です。</string>
+    <string name="subsystem_update_warning_ack">理解しました。dArkOSen 内からは更新しません。</string>
 </resources>

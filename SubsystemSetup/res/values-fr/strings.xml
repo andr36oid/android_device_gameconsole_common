@@ -105,4 +105,9 @@
     <string name="subsystem_session_timeout">Le service n\'a signalé aucune session en cours. Vérifiez le journal de démarrage et votre image avant de réessayer.</string>
     <string name="subsystem_pause_log">Suspendre le défilement</string>
     <string name="subsystem_follow_log">Suivre le journal</string>
+    <string name="subsystem_warning_label">Avertissement important</string>
+    <string name="subsystem_warning_before">Avant de continuer</string>
+    <string name="subsystem_update_warning_title">Ne mettez jamais dArkOSen à jour depuis l\'intérieur</string>
+    <string name="subsystem_update_warning_body">dArkOSen s\'exécute en tant qu\'invité au-dessus d\'andr36oid, et non sur son propre matériel. Son programme de mise à jour intégré et ses scripts de mise à niveau supposent avoir le contrôle de l\'ensemble de l\'appareil ; ils ne sont donc pas sûrs ici. Si vous les exécutez depuis dArkOSen, ils écrivent aux mauvais endroits et peuvent détruire l\'installation de dArkOSen, voire endommager votre système Android et empêcher la console de démarrer.\n\nN\'utilisez aucune option de mise à jour, de mise à niveau ou de mise à jour en ligne dans dArkOSen, EmulationStation ou PortMaster.\n\nPour mettre dArkOSen à jour en toute sécurité, quittez-le pour revenir à Android, éteignez l\'appareil et remplacez le fichier .img de dArkOSen sur la partition de stockage par la nouvelle version. C\'est la seule méthode de mise à jour prise en charge.</string>
+    <string name="subsystem_update_warning_ack">Je comprends et je ne mettrai pas dArkOSen à jour depuis l\'intérieur.</string>
 </resources>
