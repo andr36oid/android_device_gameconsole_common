@@ -431,11 +431,172 @@ install_sdl_mapping() {
     for g in $SDL_PAD_GUIDS; do printf '%s,%s\n' "$g" "$SDL_PAD_BINDS" >> "$f"; done
     log "wrote console-pad SDL mapping into ${f#$ROOT}"
   done
+  install_sdl3_mapping
+}
+# Rewrite the SDL3 databases and launcher records while keeping each record's
+# face-button layout. The two GUIDs differ only in the SDL name CRC.
+rewrite_sdl_pad() {
+  local f="$1" mode="$2" t="$1.a36tmp"
+  cp -p "$f" "$t" || return 1
+  if ! awk -v mode="$mode" -v binds="$SDL_PAD_BINDS" -v guids="$SDL_PAD_GUIDS" '
+    BEGIN { split(guids, g, " "); quote = sprintf("%c", 39) }
+    function mapping(record, parts, fields, n, i, key, face, result) {
+      n = split(record, parts, ",")
+      for (i = 3; i <= n; i++) {
+        split(parts[i], fields, ":")
+        if (fields[1] ~ /^(a|b|x|y)$/) face[fields[1]] = parts[i]
+      }
+      if (!face["a"] || !face["b"] || !face["x"] || !face["y"]) return ""
+      n = split(binds, parts, ","); result = parts[1] ","
+      for (i = 2; i <= n; i++) {
+        split(parts[i], fields, ":"); key = fields[1]
+        if (key in face) result = result face[key] ","
+        else if (parts[i] != "") result = result parts[i] ","
+      }
+      return result
+    }
+    mode == "db" {
+      if (index($0, g[1] ",GO-Super Gamepad,") == 1 ||
+          index($0, g[2] ",GO-Super Gamepad,") == 1) {
+        value = mapping($0)
+        if (value == "" || (found && value != saved)) bad = 1
+        saved = value; found = 1; next
+      }
+      print; next
+    }
+    mode == "launcher" {
+      line = $0; at = index(line, g[1] ",GO-Super Gamepad,")
+      if (!at) at = index(line, g[2] ",GO-Super Gamepad,")
+      if (!at) { print; next }
+      before = substr(line, 1, at - 1); q = substr(before, length(before), 1)
+      if (q != "\"" && q != quote) { print; next }
+      rest = substr(line, at); end = index(rest, q)
+      if (!end) {
+        # A previously installed pair spans two lines inside one quoted string.
+        print line
+        if (getline nextline > 0) print nextline
+        next
+      }
+      record = substr(rest, 1, end - 1); value = mapping(record)
+      if (value == "") { print; next }
+      print before g[1] "," value
+      print g[2] "," value substr(rest, end)
+    }
+    END {
+      if (mode == "db" && found && !bad) {
+        print g[1] "," saved; print g[2] "," saved
+      }
+      if (bad) exit 1
+    }
+  ' "$f" > "$t"; then
+    rm -f "$t"; return 1
+  fi
+  if cmp -s "$f" "$t"; then
+    rm -f "$t"
+  else
+    mv "$t" "$f" && log "updated console-pad SDL mapping in ${f#$ROOT}"
+  fi
+}
+install_sdl3_mapping() {
+  local f
+  for f in "$ROOT/home/ark/.config/retroarch/autoconfig/sdl3/gamecontrollerdb.cfg" \
+           "$ROOT/home/ark/.config/retroarch32/autoconfig/sdl3/gamecontrollerdb.cfg"; do
+    [ -f "$f" ] || continue
+    rewrite_sdl_pad "$f" db
+  done
+}
+install_launcher_sdl_mapping() {
+  local f
+  for f in "$ROOT/usr/local/bin/ecwolf.sh" "$ROOT/usr/local/bin/solarus.sh" \
+           "$ROOT/usr/local/bin/piemu_run.sh" "$ROOT/usr/local/bin/dreamcast.sh" \
+           "$ROOT/usr/local/bin/atomiswave.sh" "$ROOT/usr/local/bin/naomi.sh" \
+           "$ROOT/usr/local/bin/pico8.sh"; do
+    [ -f "$f" ] || continue
+    rewrite_sdl_pad "$f" launcher
+  done
+}
+# Install the same udev profile under the other names shipped by dArkOSen.
+# Keep a profile already changed in the overlay, as with the original install.
+install_ra_profiles() {
+  local path
+  [ -f "$RAAUTOCFG_SRC" ] || return
+  for path in home/ark/.config/retroarch/autoconfig/udev/go_super_gamepad.cfg \
+              home/ark/.config/retroarch32/autoconfig/udev/GO-Super\ Gamepad.cfg \
+              home/ark/.config/retroarch32/autoconfig/udev/go_super_gamepad.cfg; do
+    [ -f "$ROOT/$path" ] || continue
+    [ -f "$UPPER/$path" ] && continue
+    cp "$RAAUTOCFG_SRC" "$ROOT/$path" && log "installed shipped retroarch autoconfig in /$path"
+  done
+}
+# Fix the known native defaults by name, leaving face buttons and axes alone.
+set_ra_input_binds() {
+  local cfg t
+  for cfg in "$ROOT/home/ark/.config/retroarch/retroarch.cfg" \
+             "$ROOT/home/ark/.config/retroarch32/retroarch.cfg"; do
+    [ -f "$cfg" ] || continue
+    t="$cfg.a36tmp"
+    cp -p "$cfg" "$t" || continue
+    awk '
+      BEGIN {
+        old["input_enable_hotkey_btn"]=12; new["input_enable_hotkey_btn"]=9
+        old["input_exit_emulator_btn"]=13; new["input_exit_emulator_btn"]=8
+        old["input_player1_select_btn"]=12; new["input_player1_select_btn"]=9
+        old["input_player1_start_btn"]=13; new["input_player1_start_btn"]=8
+        old["input_player1_up_btn"]=8; new["input_player1_up_btn"]=10
+        old["input_player1_down_btn"]=9; new["input_player1_down_btn"]=13
+        old["input_player1_left_btn"]=10; new["input_player1_left_btn"]=11
+        old["input_player1_right_btn"]=11; new["input_player1_right_btn"]=12
+        old["input_player1_l3_btn"]=14; new["input_player1_l3_btn"]=15
+        old["input_player1_r3_btn"]=15; new["input_player1_r3_btn"]=14
+      }
+      {
+        key=$1
+        if (key in old && $0 ~ ("^[[:space:]]*" key "[[:space:]]*=[[:space:]]*\"" old[key] "\"[[:space:]]*$"))
+          sub("\"" old[key] "\"", "\"" new[key] "\"")
+        print
+      }
+    ' "$cfg" > "$t" || { rm -f "$t"; continue; }
+    if cmp -s "$cfg" "$t"; then rm -f "$t"
+    else mv "$t" "$cfg" && log "updated RetroArch input binds in ${cfg#$ROOT}"; fi
+  done
+}
+# Mupen's automatic pad profile and saved player-one profile use button(n).
+set_mupen_input_binds() {
+  local cfg section t
+  for cfg in "$ROOT/opt/mupen64plus/InputAutoCfg.ini" \
+             "$ROOT/home/ark/.config/mupen64plus/mupen64plus.cfg"; do
+    [ -f "$cfg" ] || continue
+    case "$cfg" in */InputAutoCfg.ini) section='GO-Super Gamepad' ;; *) section='Input-SDL-Control1' ;; esac
+    t="$cfg.a36tmp"
+    cp -p "$cfg" "$t" || continue
+    awk -v section="$section" '
+      BEGIN {
+        old["Start"]=13; new["Start"]=8
+        old["DPad U"]=8; new["DPad U"]=10
+        old["DPad D"]=9; new["DPad D"]=13
+        old["DPad L"]=10; new["DPad L"]=11
+        old["DPad R"]=11; new["DPad R"]=12
+      }
+      /^[[:space:]]*\[/ {
+        name=$0; sub(/^[[:space:]]*\[/, "", name); sub(/\].*$/, "", name)
+        active=(name == section)
+      }
+      {
+        if (active && index($0, "=")) {
+          key=substr($0, 1, index($0, "=")-1)
+          sub(/^[[:space:]]*/, "", key); sub(/[[:space:]]*$/, "", key)
+          if (key in old) sub("button\\(" old[key] "\\)", "button(" new[key] ")")
+        }
+        print
+      }
+    ' "$cfg" > "$t" || { rm -f "$t"; continue; }
+    if cmp -s "$cfg" "$t"; then rm -f "$t"
+    else mv "$t" "$cfg" && log "updated Mupen input binds in ${cfg#$ROOT}"; fi
+  done
 }
 # RetroArch's quit chord: dArkOS's retroarch.cfg hardwires input_exit_emulator_btn to
 # the native pad's number (13 = our D-pad down), so Select+Start never quits a core on
-# our pad, and our autoconfig does not set an exit button. Rather than rewrite per-button
-# numbers, set the SEMANTIC quit combo (value 4 = Select+Start); RetroArch resolves it
+# our pad. Set the semantic quit combo (value 4 = Select+Start); RetroArch resolves it
 # through the start/select binds our autoconfig already fixes, so it is right regardless
 # of button numbering. Applied to the 64- and 32-bit RetroArch configs in the overlay.
 set_ra_quit_combo() {
@@ -483,6 +644,10 @@ prime_input() {
     log "no shipped retroarch autoconfig at $RAAUTOCFG_SRC; RetroArch will use fallback binds"
   fi
   install_sdl_mapping
+  install_launcher_sdl_mapping
+  install_ra_profiles
+  set_ra_input_binds
+  set_mupen_input_binds
   set_ra_quit_combo
   # Volume-key diagnostic: dArkOS's ogage daemon scans /dev/input/event0..event10
   # and drives "amixer sset Playback". If the volume buttons do nothing, this
