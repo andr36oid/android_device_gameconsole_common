@@ -604,6 +604,7 @@ PRODUCT_PACKAGES += \
 	andr36oid-hz-preview
 
 PRODUCT_PACKAGES += SubsystemSetup # Settings > System: andr36oid Subsystem for Linux
+PRODUCT_PACKAGES += org.andr36oid.syncsettings # Settings > System: library and RetroArch sync
 # Boot-time hold-START reader used by the subsystem broker/rc to pick the boot OS
 PRODUCT_PACKAGES += andr36oid-keyheld
 # RGB lights (Settings > Display > RGB lights), shown only on consoles with an

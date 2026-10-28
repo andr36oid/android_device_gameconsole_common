@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sync_title">Sinkronkan</string>
+    <string name="sync_summary">Berbagi pustaka game dan RetroArch dengan dArkOSen</string>
+    <string name="sync_master">Sinkronkan pustaka game dengan dArkOSen</string>
+    <string name="sync_master_summary">Samakan favorit, riwayat bermain, dan sampul game antara layar utama dan EmulationStation.</string>
+    <string name="sync_what">Yang disinkronkan</string>
+    <string name="sync_favorite">Favorit</string>
+    <string name="sync_playcount">Jumlah kali dimainkan</string>
+    <string name="sync_lastplayed">Terakhir dimainkan</string>
+    <string name="sync_desc">Deskripsi</string>
+    <string name="sync_art">Sampul game</string>
+    <string name="sync_when">Kapan</string>
+    <string name="sync_on_session">Setelah setiap sesi dArkOSen</string>
+    <string name="sync_at_boot">Saat boot</string>
+    <string name="sync_retroarch_category">RetroArch</string>
+    <string name="sync_retroarch">Bagikan setelan RetroArch</string>
+    <string name="sync_retroarch_summary">Opsi Core dan setelan video dibagikan. Pemetaan kontrol tidak dibagikan (kedua sistem memetakan tombol dengan cara berbeda).</string>
+    <string name="sync_footer">EmulationStation harus ditutup agar sinkronisasi berlaku. Sinkronisasi mungkin memulai ulang layar utama untuk sementara.</string>
+</resources>

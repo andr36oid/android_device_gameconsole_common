@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sync_title">Eşitle</string>
+    <string name="sync_summary">dArkOSen ile oyun kitaplığı ve RetroArch paylaşımı</string>
+    <string name="sync_master">Oyun kitaplığını dArkOSen ile eşitle</string>
+    <string name="sync_master_summary">Favorileri, oyun geçmişini ve kapak resimlerini ana ekran ve EmulationStation arasında aynı tutun.</string>
+    <string name="sync_what">Ne eşitlensin</string>
+    <string name="sync_favorite">Favoriler</string>
+    <string name="sync_playcount">Oynanma sayısı</string>
+    <string name="sync_lastplayed">Son oynama</string>
+    <string name="sync_desc">Açıklamalar</string>
+    <string name="sync_art">Kapak resimleri</string>
+    <string name="sync_when">Ne zaman</string>
+    <string name="sync_on_session">Her dArkOSen oturumundan sonra</string>
+    <string name="sync_at_boot">Açılışta</string>
+    <string name="sync_retroarch_category">RetroArch</string>
+    <string name="sync_retroarch">RetroArch ayarlarını paylaş</string>
+    <string name="sync_retroarch_summary">Çekirdek seçenekleri ve video ayarları paylaşılır. Kontrolcü eşlemeleri paylaşılmaz (iki sistemde tuşlar farklı şekilde eşlenir).</string>
+    <string name="sync_footer">Eşitlemenin uygulanması için EmulationStation kapalı olmalıdır. Eşitleme, oyun başlatıcısını kısa süreliğine yeniden başlatabilir.</string>
+</resources>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sync_title">Synchroniser</string>
+    <string name="sync_summary">Partager la bibliothèque de jeux et RetroArch avec dArkOSen</string>
+    <string name="sync_master">Synchroniser la bibliothèque de jeux avec dArkOSen</string>
+    <string name="sync_master_summary">Gardez vos favoris, votre historique de jeu et vos jaquettes synchronisés entre l\'écran d\'accueil et EmulationStation.</string>
+    <string name="sync_what">Éléments à synchroniser</string>
+    <string name="sync_favorite">Favoris</string>
+    <string name="sync_playcount">Nombre de parties jouées</string>
+    <string name="sync_lastplayed">Dernière partie</string>
+    <string name="sync_desc">Descriptions</string>
+    <string name="sync_art">Jaquettes</string>
+    <string name="sync_when">Quand</string>
+    <string name="sync_on_session">Après chaque session dArkOSen</string>
+    <string name="sync_at_boot">Au démarrage</string>
+    <string name="sync_retroarch_category">RetroArch</string>
+    <string name="sync_retroarch">Partager les réglages de RetroArch</string>
+    <string name="sync_retroarch_summary">Les options du cœur et les réglages vidéo sont partagés. Les mappages des manettes ne le sont pas (les deux systèmes attribuent les commandes différemment).</string>
+    <string name="sync_footer">EmulationStation doit être fermé pour appliquer une synchronisation. Une synchronisation peut redémarrer brièvement l\'écran d\'accueil.</string>
+</resources>
