@@ -33,14 +33,6 @@ service andr36oid-subsystem-scan /system/bin/sh /system/etc/andr36oid-subsystem.
     disabled
     oneshot
 
-service andr36oid-subsystem-boot /system/bin/sh /system/etc/andr36oid-subsystem.sh boot-decision
-    class late_start
-    user root
-    group root system input
-    seclabel u:r:shell:s0
-    disabled
-    oneshot
-
 service andr36oid-subsystem-stop /system/bin/sh /system/etc/andr36oid-subsystem.sh stop-prop
     class late_start
     user root
@@ -65,18 +57,15 @@ on property:sys.andr36oid.subsystem.request=stop
 on property:init.svc.andr36oid-subsystem=stopped && property:sys.andr36oid.subsystem.session=running
     start andr36oid-subsystem-stop
 
-# Sample the held key once here, before waiting for asynchronously mounted SDs.
-# The broker also scans for the Settings status; /dev's guard survives Android
-# framework restarts and disappears on a real reboot.
-on property:sys.boot_completed=1
-    start andr36oid-subsystem-boot
+# Automatic subsystem boot is intentionally disabled until a display handoff
+# with zygote and system_server left running has been validated on hardware.
+# In particular, the existing broker's handoff stops zygote; starting it here
+# would violate the in-place Android fallback. Unset is also treated as Android.
+on early-init
+    setprop sys.andr36oid.boottarget android
 
-# The dArkOSen image lives on the EASYROMS games card, which vold mounts
-# asynchronously - usually after boot_completed. The boot scan above then runs
-# too early, finds nothing, and caches sys.andr36oid.subsystem.image=0; the
-# Settings page only re-scans while that prop is empty, so it would stay stuck on
-# "no image". Re-scan when the games card signals ready (the broker clears the
-# request prop after each scan, so this re-fires cleanly) so the status reflects
-# the mounted card.
+# Refresh the Settings status when the EASYROMS resolver publishes its result.
+# The card itself is mounted asynchronously by vold; Settings can also request
+# a scan once storage is available.
 on property:sys.andr36oid.easyroms.ready=1
     start andr36oid-subsystem-scan
