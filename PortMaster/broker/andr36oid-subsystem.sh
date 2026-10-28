@@ -320,6 +320,12 @@ provision_darkos() {
     return 1
   fi
   setprop sys.andr36oid.subsystem.provisioning 1 2>/dev/null
+  # Show the setup progress even when the launch did not come from the subsystem
+  # settings screen (a bare launch, or a boot straight into the subsystem): bring
+  # the progress UI to the front so a new user is not left on a blank screen.
+  # Best effort - provisioning still runs without it.
+  /system/bin/am start -n org.andr36oid.subsystemsetup/.SubsystemSetupActivity \
+    --activity-single-top >/dev/null 2>&1 || true
   log "Setting up dArkOSen... merging /roms.tar into $ROMS_SOURCE"
   "$CHROOT" "$ROOT" /usr/bin/setpriv --reuid=1023 --regid=1023 --clear-groups /bin/sh -c '
     PATH=/usr/bin:/bin; export PATH
@@ -402,6 +408,15 @@ prime_input() {
     cp "$RAAUTOCFG_SRC" "$radst/GO-Super Gamepad.cfg" && log "installed shipped retroarch autoconfig (GO-Super Gamepad)"
   else
     log "no shipped retroarch autoconfig at $RAAUTOCFG_SRC; RetroArch will use fallback binds"
+  fi
+  # Volume-key diagnostic: dArkOS's ogage daemon scans /dev/input/event0..event10
+  # and drives "amixer sset Playback". If the volume buttons do nothing, this
+  # records every input device's name, event handler and key bitmap so the report
+  # shows which event node carries the volume keys (codes 114/115) and whether it
+  # falls within ogage's scan range - traceable without a device in hand.
+  if [ -r /proc/bus/input/devices ]; then
+    grep -E '^N:|^H:|^B: KEY=' /proc/bus/input/devices 2>/dev/null |
+      while IFS= read -r line; do log "input: $line"; done
   fi
 }
 
