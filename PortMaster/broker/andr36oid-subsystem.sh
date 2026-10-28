@@ -660,36 +660,32 @@ prime_input() {
   fi
 }
 
-# RetroArch's "udev" joypad driver (dArkOSen's default) only opens controllers
-# that udev has tagged ID_INPUT_JOYSTICK in /run/udev; with an empty /run/udev it
-# finds zero joypads ("[udev] Couldn't open any joypads. Are permissions set
-# correctly for /dev/input/event* and /run/udev/?") and every libretro core runs
-# with a dead gamepad, while EmulationStation is unaffected because SDL2 scans
-# evdev capabilities itself. Wrapper mode boots no init, so nothing ever started
-# udevd and /run/udev stayed empty. Run a one-shot udev pass: start the daemon,
-# replay the "add" uevents so the input rules tag the pad, wait for the queue to
-# drain, then stop the daemon again. The /run tmpfs it populates lives for the
-# whole session and RA reads it when a core launches, so a lingering daemon is
-# unnecessary and leaving none keeps the teardown unmounts race-free. Handoff
-# only: udevadm trigger writes /sys/.../uevent, which needs the read-write sysfs
-# bind that only the handoff path mounts.
 prime_udev() {
   [ "$HANDOFF" = 1 ] || return 0
-  root_file "$ROOT" /bin/udevadm || return 0
-  local udevd
-  for udevd in /lib/systemd/systemd-udevd /usr/lib/systemd/systemd-udevd /sbin/udevd; do
-    root_file "$ROOT" "$udevd" && break || udevd=""
+  # RetroArch's udev joypad driver only opens input devices udev has tagged
+  # ID_INPUT_JOYSTICK, which it reads from /run/udev/data/c<major>:<minor>. Booting udevd
+  # to produce those tags does NOT work in this container -- its uevent netlink is blocked
+  # (hardware-confirmed: the daemon starts but /run/udev/data stays empty), so RA finds
+  # zero joypads ("[udev] Couldn't open any joypads ... /run/udev/?") and every libretro
+  # core runs with a dead gamepad. Seed the tag directly for each input event node the
+  # kernel also exposes a joystick (jsN) for: that is exactly what RA's enumerate filter
+  # matches on; RA then opens the node and reads the button/axis map itself. The file
+  # format mirrors a real udev db entry (udev 255). ES is unaffected (SDL2 scans evdev).
+  local sysdev cand js devnum name n=0
+  mkdir -p "$ROOT/run/udev/data" 2>/dev/null || return 0
+  for sysdev in /sys/class/input/event*; do
+    [ -r "$sysdev/dev" ] || continue
+    js=""
+    for cand in "$sysdev"/device/js*; do [ -e "$cand" ] && { js=$cand; break; }; done
+    [ -n "$js" ] || continue
+    devnum=$(cat "$sysdev/dev" 2>/dev/null) || continue
+    printf 'I:1\nE:ID_INPUT=1\nE:ID_INPUT_JOYSTICK=1\nV:1\n' \
+      > "$ROOT/run/udev/data/c$devnum" 2>/dev/null || continue
+    n=$((n+1))
+    name=$(cat "$sysdev/device/name" 2>/dev/null)
+    log "udev: tagged ${name:-input} (c$devnum) ID_INPUT_JOYSTICK for RetroArch"
   done
-  [ -n "$udevd" ] || { log "udev: no udevd in rootfs; RetroArch gamepad stays dead"; return 0; }
-  if ! "$CHROOT" "$ROOT" "$udevd" --daemon >>"$LOG" 2>&1; then
-    log "udev: daemon did not start; RetroArch gamepad stays dead"; return 0
-  fi
-  "$CHROOT" "$ROOT" /bin/udevadm trigger --type=subsystems --action=add >>"$LOG" 2>&1
-  "$CHROOT" "$ROOT" /bin/udevadm trigger --type=devices --action=add >>"$LOG" 2>&1
-  "$CHROOT" "$ROOT" /bin/udevadm settle --timeout=10 >>"$LOG" 2>&1
-  "$CHROOT" "$ROOT" /bin/udevadm control --exit >>"$LOG" 2>&1 ||
-    "$CHROOT" "$ROOT" /bin/sh -c 'kill $(cat /run/udev/*.pid 2>/dev/null) 2>/dev/null' >/dev/null 2>&1
-  log "udev: tagged input devices so RetroArch can see the gamepad"
+  log "udev: seeded joystick tags for $n input device(s)"
 }
 
 # Populate the container /dev. toybox mount cannot bind a non-directory source
