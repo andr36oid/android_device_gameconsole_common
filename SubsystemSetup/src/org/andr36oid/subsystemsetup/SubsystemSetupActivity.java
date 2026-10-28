@@ -136,7 +136,8 @@ public class SubsystemSetupActivity extends Activity {
             mConsoleReturn = !mHandoff || !mRootfs.isEmpty() ? Screen.ADVANCED : Screen.HOME;
             show(Screen.CONSOLE);
         } else {
-            show(mPrefs.getBoolean("setup_complete", false) ? Screen.HOME : Screen.WIZARD);
+            show(("1".equals(mSnapshot.image) || mPrefs.getBoolean("setup_complete", false))
+                    ? Screen.HOME : Screen.WIZARD);
         }
     }
 
