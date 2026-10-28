@@ -390,28 +390,43 @@ ESINPUT_SRC=${A36_ESINPUT:-/system/etc/andr36oid-es_input.cfg}
 RAAUTOCFG_SRC=${A36_RA_AUTOCFG:-/system/etc/andr36oid-retroarch-GO-Super-Gamepad.cfg}
 [ -f "$RAAUTOCFG_SRC" ] || RAAUTOCFG_SRC=/data/local/tmp/GO-Super_Gamepad.cfg   # test fallback
 # SDL GameController mapping for the console pad, used by gptokeyb in PortMaster
-# ports. Ports play fine without it because gptokeyb reads the raw joystick buttons,
-# but the Select+Start quit chord uses SDL's semantic back/start, which resolve to
-# the wrong physical buttons unless SDL has a mapping for this pad's GUID. Derived
-# straight from the shipped es_input.cfg layout (GUID 1900bb3e..., start=b8,
-# select=b9, Fn/guide=b16). PortMaster builds SDL_GAMECONTROLLERCONFIG from a
-# gamecontrollerdb.txt file, so appending our line to every such file in the rootfs
-# is what actually sticks; the env var alone is overwritten by PortMaster's scripts.
-SDL_PAD_GUID=1900bb3e4b4800000011000000010000
-SDL_PAD_MAP="$SDL_PAD_GUID,GO-Super Gamepad,a:b0,b:b1,x:b2,y:b3,back:b9,start:b8,guide:b16,leftshoulder:b4,rightshoulder:b5,lefttrigger:b6,righttrigger:b7,leftstick:b15,rightstick:b14,dpup:b10,dpdown:b13,dpleft:b11,dpright:b12,leftx:a0,lefty:a1,rightx:a2,righty:a3,platform:Linux,"
-# Put our mapping into every gamecontrollerdb.txt in the rootfs. If a file already
-# carries an entry for this GUID (likely a generic one with the wrong chord), drop
-# it first so ours is the only one and SDL cannot pick the stale binds.
+# ports for the Select+Start quit chord. The pad still plays because gptokeyb reads
+# raw joystick buttons, but the quit chord uses SDL's semantic back/start. PortMaster
+# already ships a "GO-Super Gamepad" entry, but its button numbers are the native
+# ArkOS order (back:b12, dpup:b8, dpdown:b9, ...), which does NOT match how the
+# andr36oid kernel enumerates the odroidgo3-joypad (es_input.cfg: start=b8, select=b9,
+# up=b10, left=b11, right=b12, down=b13). So the stock entry sends the wrong buttons
+# and the chord never fires. We override it with our own binds. PortMaster selects the
+# controller by the GUID it computes for the pad; depending on the SDL build that GUID
+# carries a name CRC (1900bb3e...) or not (190000004b48...), so we ship both. Binds
+# below are es_input.cfg expressed as an SDL mapping.
+SDL_PAD_BINDS="GO-Super Gamepad,a:b0,b:b1,x:b2,y:b3,back:b9,start:b8,guide:b16,leftshoulder:b4,rightshoulder:b5,lefttrigger:b6,righttrigger:b7,leftstick:b15,rightstick:b14,dpup:b10,dpdown:b13,dpleft:b11,dpright:b12,leftx:a0,lefty:a1,rightx:a2,righty:a3,platform:Linux,"
+# no-CRC GUID (PortMaster's DEVICE for the odroidgo3-joypad) first, CRC GUID second.
+SDL_PAD_GUIDS="190000004b4800000011000000010000 1900bb3e4b4800000011000000010000"
+# env-var form: both lines, newline-separated, for SDL_GAMECONTROLLERCONFIG.
+SDL_PAD_MAP=""
+for _g in $SDL_PAD_GUIDS; do SDL_PAD_MAP="${SDL_PAD_MAP:+$SDL_PAD_MAP
+}$_g,$SDL_PAD_BINDS"; done
+# Write our binds into every gamecontrollerdb.txt PortMaster might read, replacing any
+# stale entry for these GUIDs so only our binds remain, and seed the SDL-GameControllerDB
+# user file PortMaster's control.txt prefers (its SDLDBUSERFILE). maxdepth-2 pass catches
+# a /PortMaster at the rootfs root; the deep pass catches /opt, /roms (the games card),
+# /usr and /home.
 install_sdl_mapping() {
-  local f t
-  for f in $(find "$ROOT/opt" "$ROOT/roms" "$ROOT/usr" "$ROOT/home" \
-               -name gamecontrollerdb.txt 2>/dev/null); do
+  local f t g udir
+  udir="$ROOT/home/ark/.config/SDL-GameControllerDB"
+  mkdir -p "$udir" 2>/dev/null
+  for f in $(find "$ROOT" -maxdepth 2 -name gamecontrollerdb.txt 2>/dev/null) \
+           $(find "$ROOT/opt" "$ROOT/roms" "$ROOT/usr" "$ROOT/home" \
+               -name gamecontrollerdb.txt 2>/dev/null) \
+           "$udir/gamecontrollerdb.txt"; do
+    [ -e "$f" ] || : > "$f"
     [ -f "$f" ] || continue
-    if grep -q "^$SDL_PAD_GUID," "$f" 2>/dev/null; then
-      grep -q "^$SDL_PAD_MAP\$" "$f" 2>/dev/null && { log "SDL pad mapping already in $f"; continue; }
-      t="$f.a36tmp"; grep -v "^$SDL_PAD_GUID," "$f" > "$t" 2>/dev/null && mv "$t" "$f"
-    fi
-    printf '%s\n' "$SDL_PAD_MAP" >> "$f" && log "added SDL pad mapping to $f"
+    t="$f.a36tmp"
+    grep -vE "^(190000004b4800000011000000010000|1900bb3e4b4800000011000000010000)," \
+      "$f" > "$t" 2>/dev/null && mv "$t" "$f"
+    for g in $SDL_PAD_GUIDS; do printf '%s,%s\n' "$g" "$SDL_PAD_BINDS" >> "$f"; done
+    log "wrote console-pad SDL mapping into ${f#$ROOT}"
   done
 }
 prime_input() {
@@ -422,6 +437,14 @@ prime_input() {
     cp "$ESINPUT_SRC" "$ROOT/etc/emulationstation/es_input.cfg" && log "installed shipped es_input.cfg (no wizard)"
   else
     log "no shipped es_input.cfg at $ESINPUT_SRC; ES wizard will run"
+  fi
+  # PortMaster's control.txt runs mapper.py on $HOME/.config/emulationstation/es_input.cfg
+  # to build the SDL pad mapping for a port. Placing our es_input.cfg there makes the
+  # quit chord correct even when the pad's runtime GUID does not match a db entry.
+  if [ -f "$ESINPUT_SRC" ] && [ ! -f "$UPPER/home/ark/.config/emulationstation/es_input.cfg" ]; then
+    mkdir -p "$ROOT/home/ark/.config/emulationstation"
+    cp "$ESINPUT_SRC" "$ROOT/home/ark/.config/emulationstation/es_input.cfg" \
+      && log "placed es_input.cfg for PortMaster mapper.py"
   fi
   # RetroArch udev autoconfig for the console gamepad. The name carries a space,
   # which RetroArch matches against the evdev device name verbatim.
