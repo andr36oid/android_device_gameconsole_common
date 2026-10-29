@@ -668,7 +668,10 @@ prime_storage_input() {
   local dir cfg
   for dir in "$ROOT/roms" "$ROOT"/roms[0-9]*; do
     [ -d "$dir" ] || continue
-    find "$dir" \( -name gamecontrollerdb.txt -o -name sdl_controllers.txt -o -name '*InputAutoCfg.ini' \) 2>/dev/null |
+    # Keep this shallow: /roms is the games card (can be 170+ GB), and a full
+    # recursive scan here stalls every launch by ~70s. The per-emulator config
+    # overrides we care about (PortMaster, pico-8, mupen) live within three levels.
+    find "$dir" -maxdepth 3 \( -name gamecontrollerdb.txt -o -name sdl_controllers.txt -o -name '*InputAutoCfg.ini' \) 2>/dev/null |
       while IFS= read -r cfg; do
         cfg=$(root_path "$ROOT" "${cfg#"$ROOT"}") || continue
         [ -f "$cfg" ] || continue
