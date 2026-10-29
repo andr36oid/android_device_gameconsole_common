@@ -983,6 +983,7 @@ finish_session() {
   : > "$STATE/subsystem.clean"
   [ -n "${GUARD:-}" ] && kill "$GUARD" 2>/dev/null
   [ -n "${CONSOLE_FWD:-}" ] && kill "$CONSOLE_FWD" 2>/dev/null
+  [ -n "${MUTE_GUARD:-}" ] && kill "$MUTE_GUARD" 2>/dev/null
   log "session ended rc=$rc"
   if [ "${LIVE_LOG:-0}" = 1 ]; then
     LIVE_LOG=0
@@ -1345,11 +1346,39 @@ boot_subsystem_session() {
 # like its own ExecStartPre. It needs no tracking: kill_subsystem reaps every
 # process rooted in the chroot when the session ends, so it never outlives the
 # session to drive Android's mixer.
+# Night-mute: when persist.andr36oid.subsystem.mute=1 the subsystem must stay silent
+# (the ES speaker is loud by default and someone is asleep nearby). We mute at the
+# hardware codec, which is downstream of whatever ES/RetroArch/a port decides to play,
+# so it holds no matter the source. We also do NOT start ogage in this mode, so nothing
+# restores a saved volume and there is no start-up blip; a 1s watchdog re-asserts the
+# mute in case an app pokes the mixer directly.
+MUTE_CTLS='Playback Master PCM Speaker "Speaker HP" "SPK HP" Headphone DAC "Class-D"'
+subsystem_muted() { [ "$(getprop persist.andr36oid.subsystem.mute 2>/dev/null)" = 1 ]; }
+mute_all_once() {
+  run_in_subsystem /bin/sh -c '
+    for c in '"$MUTE_CTLS"'; do amixer -q sset "$c" 0% mute 2>/dev/null; done' >/dev/null 2>&1
+}
+start_mute_guard() {
+  { [ "$HANDOFF" = 1 ] && subsystem_muted; } || return 0
+  log "NIGHT MUTE on (persist.andr36oid.subsystem.mute=1): forcing subsystem audio off"
+  mute_all_once
+  run_in_subsystem /bin/sh -c '
+    while :; do
+      for c in '"$MUTE_CTLS"'; do amixer -q sset "$c" 0% mute 2>/dev/null; done
+      sleep 1
+    done' >/dev/null 2>&1 &
+  MUTE_GUARD=$!
+}
+
 start_hotkeys() {
   # Only a full handoff gives Linux the device and its audio. Headless (Android
   # still on screen) must not start ogage: it would drive card 0, Android's own
   # mixer, and fight the running Android session.
   [ "$HANDOFF" = 1 ] || return 0
+  if subsystem_muted; then
+    log "NIGHT MUTE: not starting ogage, so nothing un-mutes the codec"
+    return 0
+  fi
   if ! root_file "$ROOT" /usr/local/bin/ogage; then
     log "rootfs has no ogage: volume buttons and the hotkey combos will not work"
     return 0
@@ -1361,6 +1390,7 @@ start_hotkeys() {
 run_es_wrapper() {
   find_es "$ROOT" || { log "rootfs has no EmulationStation target"; return 1; }
   start_hotkeys
+  start_mute_guard
   rm -f "$ROOT/run/.a36-session-exit" "$ROOT/run/.a36-session-reboot" 2>/dev/null
   # dArkOS leans on systemd to keep ES alive across a crash or a settings-driven
   # restart; we have none, so re-launch ES ourselves when its wrapper exits. Only an
@@ -1472,6 +1502,7 @@ run_session() {
           bare)
             root_file "$ROOT" /usr/bin/emulationstation/emulationstation && ES=/usr/bin/emulationstation/emulationstation
             start_hotkeys
+            start_mute_guard
             run_in_subsystem "$ES" ;;
           *) log "invalid session mode: $SESSION_MODE"; return 2 ;;
         esac
@@ -1481,6 +1512,7 @@ run_session() {
       # PortMaster and the ports are frontends too: start ogage so volume and the
       # hotkey combos work while they run (handoff only; see start_hotkeys).
       start_hotkeys
+      start_mute_guard
       # Positional arguments keep names containing quotes/spaces literal. Generic
       # rootfs images need not ship dArkOS's optional governor tools or sudo.
       run_in_subsystem /bin/sh -c '
