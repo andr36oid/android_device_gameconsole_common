@@ -126,7 +126,7 @@ for cfg in "$ra/retroarch.cfg" "$ra32/retroarch.cfg"; do
   contains "$cfg" 'input_player1_start_btn = "9"'
   contains "$cfg" 'input_player1_l3_btn = "nul"'
   contains "$cfg" 'input_player1_r3_btn = "nul"'
-  contains "$cfg" 'input_player1_a_btn = "1"'
+  contains "$cfg" 'input_player1_a_btn = "0"'
   contains "$cfg" 'input_player1_l_x_plus_axis = "+0"'
 done
 mupen="$ROOT/opt/mupen64plus/InputAutoCfg.ini"
@@ -151,5 +151,5 @@ set_ra_input_binds
 set_mupen_input_binds
 install_ra_profiles
 diff -r "$tmp/first" "$ROOT" >/dev/null || fail 'second run changed files'
-cmp -s "$tmp/first-log" "$tmp/log" || fail 'second run logged a change'
+cmp -s "$tmp/first-log" "$tmp/log" || { diff -u "$tmp/first-log" "$tmp/log"; fail 'second run logged a change'; }
 echo 'subsystem input tests passed'

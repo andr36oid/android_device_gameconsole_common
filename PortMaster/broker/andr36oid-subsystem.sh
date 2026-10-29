@@ -507,7 +507,52 @@ install_launcher_sdl_mapping() {
     f=$(root_path "$ROOT" "${f#"$ROOT"}") || return 1
     [ -f "$f" ] || continue
     rewrite_sdl_pad "$f" launcher || return 1
+    case "$f" in */pico8.sh) rewrite_pico_seed "$f" || return 1 ;; esac
   done
+}
+# PICO-8 creates its private DB on first launch from a multiline echo. Its bare
+# database rows are not SDL_GAMECONTROLLERCONFIG assignments. Keep the shell
+# quote/redirect and other pads; replace all GO rows in that seed with one pair.
+rewrite_pico_seed() {
+  local cfg="$1" t="$1.a36tmp"
+  cp -p "$cfg" "$t" || return 1
+  if ! awk -v binds="$SDL_PAD_BINDS" -v guids="$SDL_PAD_GUIDS" '
+    BEGIN { split(guids, g, " ") }
+    function flush(rewrite, i, line, emitted) {
+      for (i=1; i<=count; i++) {
+        line=lines[i]
+        if (rewrite && (index(line, g[1] ",GO-Super Gamepad,") == 1 ||
+                        index(line, g[2] ",GO-Super Gamepad,") == 1)) {
+          if (!emitted) {
+            print g[1] "," binds
+            print g[2] "," binds
+            emitted=1
+          }
+          # A final GO row may also carry the echo closing quote/redirect.
+          if (match(line, /["\047][[:space:]]*>/)) print substr(line, RSTART)
+        } else print line
+        delete lines[i]
+      }
+      count=0
+    }
+    {
+      # An echo starting with GO is already owned by rewrite_sdl_pad.
+      if (!seed && /^[[:space:]]*echo[[:space:]]+["\047][0-9a-f]+,/ &&
+          !index($0, ",GO-Super Gamepad,")) seed=1
+      if (seed) {
+        lines[++count]=$0
+        # Buffer until the redirect proves this is the private DB seed.
+        if (/["\047][[:space:]]*>/) {
+          flush($0 ~ />[[:space:]]*.*sdl_controllers[.]txt/)
+          seed=0
+        }
+        next
+      }
+      print
+    }
+    END { flush(0) }
+  ' "$cfg" > "$t"; then rm -f "$t"; return 1; fi
+  finish_input_file "$cfg" "$t"
 }
 # Refresh only the built-in pad, including stale upper-layer maps. ES and
 # PortMaster mapper.py both use the shipped face-button convention. Keep every
@@ -569,14 +614,21 @@ install_ra_profiles() {
     cp "$RAAUTOCFG_SRC" "$ROOT/$path" && log "installed shipped retroarch autoconfig in /$path"
   done
 }
-# Fix the known native defaults by name, leaving face buttons and axes alone.
+# Only these are full configs. Rotated/spectator append files have independent
+# axes/defaults and must never receive full-config upserts.
+RA_FULL_CONFIGS="/home/ark/.config/retroarch/retroarch.cfg
+/home/ark/.config/retroarch/retroarch.cfg.bak
+/home/ark/.config/retroarch32/retroarch.cfg
+/home/ark/.config/retroarch32/retroarch.cfg.bak"
+# Fix native udev defaults by name; retain X/Y, shoulders, keys and axes.
 set_ra_input_binds() {
   local cfg t
-  for cfg in "$ROOT/home/ark/.config/retroarch/retroarch.cfg" \
-             "$ROOT/home/ark/.config/retroarch32/retroarch.cfg"; do
+  for cfg in $RA_FULL_CONFIGS; do
+    cfg=$(root_path "$ROOT" "$cfg") || return 1
     [ -f "$cfg" ] || continue
     t="$cfg.a36tmp"
-    awk '
+    cp -p "$cfg" "$t" || return 1
+    if ! awk '
       BEGIN {
         # RA udev joypad indices for the GO-Super pad: SELECT=8, START=9 (evdev-code
         # order), NOT SDL/ES order. The D-pad is keyboard keys the udev joypad driver
@@ -584,20 +636,22 @@ set_ra_input_binds() {
         # non-existent indices made RetroArch mishandle input, so clear them. Quit stays
         # on the Start+Select combo (input_quit_gamepad_combo), not a lone exit button.
         set["input_player1_select_btn"]="8"; set["input_player1_start_btn"]="9"
+        set["input_player1_a_btn"]="0";      set["input_player1_b_btn"]="1"
         set["input_enable_hotkey_btn"]="8";  set["input_exit_emulator_btn"]="nul"
         set["input_player1_up_btn"]="nul";   set["input_player1_down_btn"]="nul"
         set["input_player1_left_btn"]="nul"; set["input_player1_right_btn"]="nul"
         set["input_player1_l3_btn"]="nul";   set["input_player1_r3_btn"]="nul"
       }
       {
-        key=$1
-        if (key in set && $0 ~ ("^[[:space:]]*" key "[[:space:]]*="))
+        key=$0; sub(/[[:space:]]*=.*$/, "", key); sub(/^[[:space:]]*/, "", key)
+        if (key in set && index($0, "=")) {
+          if (seen[key]++) next
           print key " = \"" set[key] "\""
-        else print
+        } else print
       }
-    ' "$cfg" > "$t" || { rm -f "$t"; continue; }
-    if cmp -s "$cfg" "$t"; then rm -f "$t"
-    else mv "$t" "$cfg" && log "updated RetroArch input binds in ${cfg#$ROOT}"; fi
+      END { for (key in set) if (!seen[key]) print key " = \"" set[key] "\"" }
+    ' "$cfg" > "$t"; then rm -f "$t"; return 1; fi
+    finish_input_file "$cfg" "$t" || return 1
   done
 }
 # Mupen uses raw button(n) values, not SDL GameController button IDs. Preserve
@@ -659,7 +713,52 @@ set_mupen_input_binds() {
       rewrite_mupen_input "$cfg" 'GO-Super Gamepad' 0 || return 1
     done || return 1
   cfg=$(root_path "$ROOT" /home/ark/.config/mupen64plus/mupen64plus.cfg) || return 1
-  [ ! -f "$cfg" ] || rewrite_mupen_input "$cfg" 'Input-SDL-Control1' 1
+  [ -f "$cfg" ] || return 0
+  rewrite_mupen_input "$cfg" 'Input-SDL-Control1' 1 || return 1
+  # CoreEvents is global, so only migrate when the saved first player is GO.
+  if awk '
+    /^[[:space:]]*\[/ { active=($0 ~ /^[[:space:]]*\[Input-SDL-Control1\][[:space:]]*$/) }
+    active && /^[[:space:]]*name[[:space:]]*=/ {
+      value=$0; sub(/^[^=]*=[[:space:]]*/, "", value)
+      gsub(/^"+|"+[[:space:]]*$/, "", value)
+      go=(value == "GO-Super Gamepad")
+    }
+    END { exit !go }
+  ' "$cfg"; then
+    rewrite_mupen_core_events "$cfg" || return 1
+  fi
+  return 0
+}
+rewrite_mupen_core_events() {
+  local cfg="$1" t="$1.a36tmp"
+  cp -p "$cfg" "$t" || return 1
+  if ! awk '
+    BEGIN {
+      binds["Joy Mapping Stop"]="J0B9/B8"
+      binds["Joy Mapping Save State"]="J0B9/B7"
+      binds["Joy Mapping Load State"]="J0B9/B6"
+      binds["Joy Mapping Reset"]="J0B9/B2"
+      binds["Joy Mapping Pause"]="J0B9/B1"
+    }
+    function missing( key) {
+      if (active) for (key in binds) if (!seen[key]) print key " = \"" binds[key] "\""
+    }
+    /^[[:space:]]*\[/ {
+      missing()
+      active=($0 ~ /^[[:space:]]*\[CoreEvents\][[:space:]]*$/)
+      if (active) found=1
+    }
+    {
+      key=$0; sub(/[[:space:]]*=.*$/, "", key); sub(/^[[:space:]]*/, "", key)
+      if (active && key in binds && index($0, "=")) {
+        if (seen[key]++) next
+        $0=key " = \"" binds[key] "\""
+      }
+      print
+    }
+    END { if (!found) { print "\n[CoreEvents]"; active=1 }; missing() }
+  ' "$cfg" > "$t"; then rm -f "$t"; return 1; fi
+  finish_input_file "$cfg" "$t"
 }
 # EASYROMS is bound and provisioned after prime_input. Refresh the existing card
 # copies too: n64.sh can replace the auto profile from a card, and pico8.sh keeps
@@ -668,6 +767,14 @@ prime_storage_input() {
   local dir cfg
   for dir in "$ROOT/roms" "$ROOT"/roms[0-9]*; do
     [ -d "$dir" ] || continue
+    # Known deeper platform DBs and the restore backup, without scanning games.
+    for cfg in "$dir/tools/PortMaster/batocera/gamecontrollerdb.txt" \
+               "$dir/tools/PortMaster/knulli/gamecontrollerdb.txt" \
+               "$dir/tools/PortMaster/gamecontrollerdb.txt.bak"; do
+      cfg=$(root_path "$ROOT" "${cfg#"$ROOT"}") || return 1
+      [ ! -f "$cfg" ] || rewrite_sdl_pad "$cfg" db || return 1
+    done
+    set_thememaster_input_binds "$dir" || return 1
     # Keep this shallow: /roms is the games card (can be 170+ GB), and a full
     # recursive scan here stalls every launch by ~70s. The per-emulator config
     # overrides we care about (PortMaster, pico-8, mupen) live within three levels.
@@ -682,6 +789,64 @@ prime_storage_input() {
       done || return 1
   done
   return 0
+}
+# ThemeMaster consumes evdev codes, not SDL buttons. Its seed cannot know the
+# event number: leave inputstr empty until the launcher resolves the exact GO
+# name at runtime. Provisioning happens after prime_input, hence the storage pass.
+set_thememaster_input_binds() {
+  local dir="$1" cfg t
+  cfg=$(root_path "$ROOT" "${dir#"$ROOT"}/tools/ThemeMaster/paramcontrols.txt") || return 1
+  if [ -f "$cfg" ]; then
+    t="$cfg.a36tmp"
+    cp -p "$cfg" "$t" || return 1
+    if ! awk '
+      BEGIN {
+        binds["back_key"]=314; binds["start_key"]=315
+        binds["up_key"]=103; binds["down_key"]=108; binds["left_key"]=105; binds["right_key"]=106
+        binds["l1_key"]=310; binds["r1_key"]=311; binds["l2_key"]=312; binds["r2_key"]=313
+        binds["inputstr"]=""
+      }
+      {
+        key=$0; sub(/[[:space:]]*=.*$/, "", key); sub(/^[[:space:]]*/, "", key)
+        if (key in binds && index($0, "=")) {
+          if (seen[key]++) next
+          $0=key " =" (binds[key] == "" ? "" : " " binds[key])
+        }
+        print
+      }
+      END {
+        for (key in binds) if (!seen[key]) print key " =" (binds[key] == "" ? "" : " " binds[key])
+      }
+    ' "$cfg" > "$t"; then rm -f "$t"; return 1; fi
+    finish_input_file "$cfg" "$t" || return 1
+  fi
+  cfg=$(root_path "$ROOT" "${dir#"$ROOT"}/tools/ThemeMaster.sh") || return 1
+  [ ! -f "$cfg" ] || rewrite_thememaster_launcher "$cfg"
+}
+rewrite_thememaster_launcher() {
+  local cfg="$1" t="$1.a36tmp" block="$1.a36block"
+  cp -p "$cfg" "$t" || return 1
+  {
+    printf '%s\n' '# a36 ThemeMaster GO device begin' 'a36_go_event=$('
+    native_go_event_lookup
+    cat <<'THEME'
+)
+if [ -n "$a36_go_event" ] && [ -f ./paramcontrols.txt ]; then
+  sed "s|^[[:space:]]*inputstr[[:space:]]*=.*$|inputstr = /dev/input/event$a36_go_event|" ./paramcontrols.txt > ./paramcontrols.txt.a36tmp &&
+    mv ./paramcontrols.txt.a36tmp ./paramcontrols.txt
+fi
+# a36 ThemeMaster GO device end
+THEME
+  } > "$block" || { rm -f "$block" "$t"; return 1; }
+  if ! awk '
+    FILENAME == ARGV[1] { block=block $0 "\n"; next }
+    $0 == "# a36 ThemeMaster GO device begin" { skip=1 }
+    skip { if ($0 == "# a36 ThemeMaster GO device end") skip=0; next }
+    { print }
+    /^cd[[:space:]]/ && !inserted { printf "%s", block; inserted=1 }
+  ' "$block" "$cfg" > "$t"; then rm -f "$block" "$t"; return 1; fi
+  rm -f "$block"
+  finish_input_file "$cfg" "$t"
 }
 # Flycast stores raw joystick IDs even when SDL supplies a default controller
 # map (upstream core/sdl/sdl.cpp dispatches SDL_JOYBUTTON events). Preserve the
@@ -732,22 +897,283 @@ set_dingux_input_binds() {
         binds["input_up_btn"]=10; binds["input_down_btn"]=13
         binds["input_left_btn"]=11; binds["input_right_btn"]=12
         binds["input_l3_btn"]=15; binds["input_r3_btn"]=14
+        binds["input_player1_select_btn"]=9; binds["input_player1_start_btn"]=8
+        binds["input_player1_up_btn"]=10; binds["input_player1_down_btn"]=13
+        binds["input_player1_left_btn"]=11; binds["input_player1_right_btn"]=12
       }
       {
-        key=$1
-        if (key in binds) $0=key " = \"" binds[key] "\""
+        key=$0; sub(/[[:space:]]*=.*$/, "", key); sub(/^[[:space:]]*/, "", key)
+        if (key in binds && index($0, "=")) {
+          if (seen[key]++) next
+          $0=key " = \"" binds[key] "\""
+        }
         # The shipped A/B values have unterminated quotes. Retain the chosen
         # confirm/cancel layout while emitting valid quoted numeric values.
-        else if (key ~ /^input_[ab]_btn$/ && index($0, "=")) {
+        else if (key ~ /^input_(player1_)?[ab]_btn$/ && index($0, "=")) {
           value=substr($0, index($0, "=")+1); gsub(/["[:space:]]/, "", value)
           if (value ~ /^[0-9]+$/) $0=key " = \"" value "\""
         }
         print
       }
+      END {
+        for (key in binds) if (!seen[key] && key ~ /^input_player1_/)
+          print key " = \"" binds[key] "\""
+      }
     ' "$cfg" > "$t"; then rm -f "$t"; return 1; fi
     finish_input_file "$cfg" "$t" || return 1
   done
 }
+# DraStic TEXT profiles: values are 1024 + raw SDL button. Assign by semantic
+# key and known GO profile, never permute the current numbers. Standard DraStic
+# uses analog gameplay directions in bank A and digital/UI directions in B;
+# advanced DraStic uses bank A for both. A non-button encoding stays intact.
+# .cf2 is a DSC2 binary companion; its import/save precedence needs build-level
+# validation. Foreign-device and .cfg.<device> files are restore-only seeds:
+# normalize the resulting active GO text config after restoring, before launch.
+set_drastic_input_binds() {
+  local app cfg t
+  for app in drastic advanceddrastic; do
+    cfg=$(root_path "$ROOT" "/opt/$app/config/drastic.cfg") || return 1
+    [ -f "$cfg" ] || continue
+    # Refuse anything other than the text controls format, including DSC2.
+    LC_ALL=C grep -q '^controls_[ab]\[CONTROL_INDEX_' "$cfg" || continue
+    t="$cfg.a36tmp"
+    cp -p "$cfg" "$t" || return 1
+    if ! awk -v app="$app" '
+      function bind(bank, action, value) { binds["controls_" bank "[CONTROL_INDEX_" action "]"]=value }
+      BEGIN {
+        bind("a", "START", 1032); bind("a", "SELECT", 1033)
+        bind("a", "TOUCH_CURSOR_PRESS", 1038); bind("a", "MENU", 1039)
+        bank=(app == "drastic" ? "b" : "a")
+        bind(bank, "UP", 1034); bind(bank, "DOWN", 1037)
+        bind(bank, "LEFT", 1035); bind(bank, "RIGHT", 1036)
+        bind(bank, "UI_UP", 1034); bind(bank, "UI_DOWN", 1037)
+        bind(bank, "UI_LEFT", 1035); bind(bank, "UI_RIGHT", 1036)
+        if (app == "drastic") {
+          bind("b", "TOUCH_CURSOR_PRESS", 1038); bind("b", "MENU", 1039)
+          bind("b", "UI_SWITCH", 1039)
+        } else {
+          bind("a", "HOT", 1033); bind("a", "HOT_CHANGE_THEME", 1034)
+        }
+      }
+      {
+        key=$0; sub(/[[:space:]]*=.*$/, "", key); sub(/^[[:space:]]*/, "", key)
+        if (key in binds && index($0, "=")) {
+          if (seen[key]++) next
+          value=$0; sub(/^[^=]*=[[:space:]]*/, "", value); sub(/[[:space:]]*$/, "", value)
+          # Preserve analog, keyboard, disabled (65535), and button 16 (1040).
+          if (value ~ /^103[2-9]$/) $0=key " = " binds[key]
+        }
+        print
+      }
+      END { for (key in binds) if (!seen[key]) print key " = " binds[key] }
+    ' "$cfg" > "$t"; then rm -f "$t"; return 1; fi
+    finish_input_file "$cfg" "$t" || return 1
+  done
+}
+# Mednafen IDs are not SDL GUIDs. Only the stored native GO identity qualifies.
+# Resolve each known action to an absolute button; preserve keyboard OR clauses,
+# other identities, axes, and unknown actions. Full numeric tokens avoid matching
+# button_1 inside button_12 (or a button_120 extension).
+set_mednafen_input_binds() {
+  local cfg t
+  cfg=$(root_path "$ROOT" /home/ark/.mednafen/mednafen.cfg) || return 1
+  [ -f "$cfg" ] || return 0
+  t="$cfg.a36tmp"
+  cp -p "$cfg" "$t" || return 1
+  if ! awk '
+    BEGIN {
+      id="0x0019484b110001000004001100000000"
+      buttons["up"]=10; buttons["down"]=13; buttons["left"]=11; buttons["right"]=12
+      buttons["select"]=9; buttons["start"]=8; buttons["pause"]=8
+      buttons["option"]=8; buttons["run"]=8
+      buttons["lt"]=15; buttons["rt"]=14
+      commands["exit"]=8; commands["fast_forward"]=7
+      commands["load_state"]=4; commands["pause"]=1; commands["reset"]=0
+      commands["save_state"]=5; commands["state_rewind"]=6
+      commands["state_slot_dec"]=11; commands["state_slot_inc"]=12
+      commands["toggle_fps_view"]=3; commands["toggle_state_rewind"]=2
+    }
+    {
+      action=$1; sub(/^.*\./, "", action)
+      sub(/-(l|y)$/, "", action)
+      command=($1 ~ /^command\./ && action in commands)
+      target=-1
+      if ($1 ~ /[.]input[.]/ && action in buttons) target=buttons[action]
+      if (!command && target < 0) { print; next }
+      rest=$0; out=""
+      # Include the entire joystick clause, but never consume the delimiter.
+      while (match(rest, /joystick[[:space:]]+[^[:space:]]+[[:space:]]+button_[0-9]+([[:space:]]|$)/)) {
+        start=RSTART; len=RLENGTH
+        before=substr(rest, 1, start-1); token=substr(rest, start, len)
+        split(token, parts, /[[:space:]]+/)
+        number=parts[3]; sub(/^button_/, "", number)
+        if (parts[2] == id && number+0 <= 16) {
+          value=target
+          if (command) value=(before ~ /&&[[:space:]]*$/ ? commands[action] : 9)
+          sub(/button_[0-9]+/, "button_" value, token)
+        }
+        out=out before token
+        rest=substr(rest, start+len)
+      }
+      print out rest
+    }
+  ' "$cfg" > "$t"; then rm -f "$t"; return 1; fi
+  finish_input_file "$cfg" "$t"
+}
+# Raw SDL one-based JoyN bindings in the ACTIVE INIs. These native templates are
+# keyed by section + action, so repeated sessions cannot rotate numbers again.
+# .bak and backup/*.ini.<device> are restore-only seeds; normalize the resulting
+# active GO config after restoring. Keep Pad_*, keyboard, axes and unknown actions.
+set_doom_input_binds() {
+  local app cfg t
+  for app in gzdoom lzdoom; do
+    cfg=$(root_path "$ROOT" "/home/ark/.config/$app/$app.ini") || return 1
+    [ -f "$cfg" ] || continue
+    t="$cfg.a36tmp"
+    cp -p "$cfg" "$t" || return 1
+    if ! awk -v app="$app" '
+      function bind(section, action, button) { binds[section SUBSEP action]=button }
+      BEGIN {
+        bind("Doom.Bindings", "weapprev", 12); bind("Doom.Bindings", "weapnext", 13)
+        bind("Doom.Bindings", "menu_main", 9)
+        bind("Doom.Bindings", "centerview", (app == "gzdoom" ? 15 : 14))
+        if (app == "gzdoom") bind("Doom.Bindings", "togglemap", 10)
+        else {
+          split("Strife Hexen Chex Heretic", games, " ")
+          for (i in games) {
+            section=games[i] ".Bindings"
+            bind(section, "toggle cl_run", 11); bind(section, "centerview", 14)
+            bind(section, "weapprev", 12); bind(section, "weapnext", 13)
+            bind(section, "showpop 3", 9); bind(section, "showpop 2", 16)
+            bind(section, "showpop 1", 15)
+          }
+          bind("Hexen.WOCKeysection.Bindings", "viewStats", 15)
+          bind("Hexen.WOCKeysection.Bindings", "abil2", 10)
+          bind("Hexen.WOCKeysection.Bindings", "abil3", 9)
+          bind("Hexen.WOCKeysection.Bindings", "abil4", 16)
+        }
+      }
+      /^[[:space:]]*\[/ {
+        section=$0; sub(/^[[:space:]]*\[/, "", section); sub(/\].*$/, "", section)
+      }
+      /^[[:space:]]*Joy[0-9]+[[:space:]]*=/ {
+        key=$0; sub(/^[[:space:]]*Joy/, "", key); sub(/[[:space:]]*=.*$/, "", key)
+        rhs=substr($0, index($0, "=")+1)
+        action=rhs; gsub(/^[[:space:]]+|[[:space:]]+$/, "", action)
+        if (key+0 >= 9 && key+0 <= 16 && (section SUBSEP action) in binds)
+          $0="Joy" binds[section SUBSEP action] "=" rhs
+      }
+      { print }
+    ' "$cfg" > "$t"; then rm -f "$t"; return 1; fi
+    finish_input_file "$cfg" "$t" || return 1
+  done
+}
+# Legacy stored Solarus template; the current GameController consumer also uses
+# the launcher DB. Retain the emulator-specific action/attack/item face choices.
+set_solarus_input_binds() {
+  local cfg t
+  cfg=$(root_path "$ROOT" /opt/solarus/pads.ini) || return 1
+  [ -f "$cfg" ] || return 0
+  t="$cfg.a36tmp"
+  cp -p "$cfg" "$t" || return 1
+  if ! awk '
+    BEGIN { binds["up"]=10; binds["down"]=13; binds["left"]=11; binds["right"]=12; binds["pause"]=8 }
+    {
+      key=$0; sub(/[[:space:]]*=.*$/, "", key); sub(/^[[:space:]]*/, "", key)
+      if (key in binds && index($0, "=")) {
+        if (seen[key]++) next
+        $0=key "=button " binds[key]
+      }
+      print
+    }
+    END { for (key in binds) if (!seen[key]) print key "=button " binds[key] }
+  ' "$cfg" > "$t"; then rm -f "$t"; return 1; fi
+  finish_input_file "$cfg" "$t"
+}
+# Shell body shared by GO-only runtime event resolvers. Sysfs names are compared
+# exactly; event numbering and Linux by-path symlinks are not stable on Android.
+native_go_event_lookup() {
+  cat <<'LOOKUP'
+  for a36_name in /sys/class/input/event*/device/name; do
+    [ -r "$a36_name" ] || continue
+    grep -Fqx 'GO-Super Gamepad' "$a36_name" || continue
+    a36_node=${a36_name%/device/name}
+    printf '%s\n' "${a36_node##*/event}"
+    break
+  done
+LOOKUP
+}
+install_native_evdev_helpers() {
+  local name cfg t block
+  for name in buttonmon.sh killer_daemon.py fn_menu_watcher.sh; do
+    cfg=$(root_path "$ROOT" "/usr/local/bin/$name") || return 1
+    [ -f "$cfg" ] || continue
+    t="$cfg.a36tmp"
+    cp -p "$cfg" "$t" || return 1
+    # Supply generated shell via a file rather than awk -v (which interprets
+    # backslash escapes in printf). Never execute a helper while patching it.
+    block="$cfg.a36block"
+    case "$name" in
+      buttonmon.sh)
+        {
+          printf '%s\n' '# a36 native GO override begin' 'a36_go_event=$('
+          native_go_event_lookup
+          cat <<'GO'
+)
+if [ -n "$a36_go_event" ]; then
+  event_num="$a36_go_event"
+  event_type="EV_KEY"
+  event_btn_a="BTN_SOUTH"
+  event_btn_b="BTN_EAST"
+  event_btn_x="BTN_NORTH"
+  event_btn_y="BTN_WEST"
+  event_btn_hk="KEY_HOMEPAGE"
+fi
+# a36 native GO override end
+GO
+        } > "$block" || { rm -f "$t" "$block"; return 1; }
+        ;;
+      fn_menu_watcher.sh) native_go_event_lookup > "$block" || { rm -f "$t" "$block"; return 1; } ;;
+      killer_daemon.py) : > "$block" || { rm -f "$t"; return 1; } ;;
+    esac
+    if ! awk -v name="$name" '
+      FILENAME == ARGV[1] { block=block $0 "\n"; next }
+      name == "buttonmon.sh" {
+        if ($0 == "# a36 native GO override begin") skip=1
+        if (skip) { if ($0 == "# a36 native GO override end") skip=0; next }
+        if ($0 ~ /^function Test_Button_A\(\)/) { printf "%s", block; inserted=1 }
+        print; next
+      }
+      name == "killer_daemon.py" {
+        if ($0 ~ /^[[:space:]]*"GO-Super Gamepad"[[:space:]]*:[[:space:]]*\{/) go=1
+        if (go) {
+          sub(/"f1":[[:space:]]*[0-9]+/, "\"f1\": 314")
+          sub(/"f3":[[:space:]]*[0-9]+/, "\"f3\": 315")
+          if (/}/) go=0
+        }
+        print; next
+      }
+      name == "fn_menu_watcher.sh" {
+        gsub(/BTN_TRIGGER_HAPPY5/, "KEY_HOMEPAGE")
+        if ($0 ~ /^find_device\(\)[[:space:]]*\{/) {
+          print; printf "%s", block; skip=1; inserted=1; next
+        }
+        if (skip) { if ($0 == "}") { skip=0; print }; next }
+        print
+      }
+      END {
+        # An unfamiliar/truncated template must not be partially installed.
+        if (skip || go || (name != "killer_daemon.py" && !inserted)) exit 1
+      }
+    ' "$block" "$cfg" > "$t"; then rm -f "$t" "$block"; return 1; fi
+    rm -f "$block"
+    finish_input_file "$cfg" "$t" || return 1
+  done
+}
+# F10 known gap: OpenBOR master.cfg and per-game saves use an opaque binary
+# serializer. Never invent offsets or rewrite them without a build-matched seed
+# and serializer/version validation.
 set_kodi_input_binds() {
   local dir="$ROOT/home/ark/.kodi/userdata/addon_data/peripheral.joystick/resources/buttonmaps/xml/linux" cfg t
   for cfg in "$dir/GO-Super_Gamepad_17b_4a.xml" "$dir/GO-Super_Gamepad_18b_4a.xml" \
@@ -785,8 +1211,8 @@ set_kodi_input_binds() {
 # of button numbering. Applied to the 64- and 32-bit RetroArch configs in the overlay.
 set_ra_quit_combo() {
   local cfg t
-  for cfg in "$ROOT/home/ark/.config/retroarch/retroarch.cfg" \
-             "$ROOT/home/ark/.config/retroarch32/retroarch.cfg"; do
+  for cfg in $RA_FULL_CONFIGS; do
+    cfg=$(root_path "$ROOT" "$cfg") || return 1
     [ -f "$cfg" ] || continue
     t="$cfg.a36tmp"
     if grep -q 'input_quit_gamepad_combo[[:space:]]*=' "$cfg" 2>/dev/null; then
@@ -948,6 +1374,11 @@ prime_input() {
   set_mupen_input_binds
   set_flycast_input_binds
   set_dingux_input_binds
+  install_native_evdev_helpers
+  set_drastic_input_binds
+  set_mednafen_input_binds
+  set_doom_input_binds
+  set_solarus_input_binds
   set_kodi_input_binds
   prime_storage_input
   set_ra_quit_combo
