@@ -391,8 +391,8 @@ provision_darkos() {
 # Input mapping: andr36oid ships a known-good es_input.cfg for the console's gamepad
 # (the fixed odroidgo3-joypad, deviceName "GO-Super Gamepad"), so ES must NEVER run
 # its Configure-Input wizard. dArkOS ES reads /etc/emulationstation/es_input.cfg.
-# Install it into the overlay on first run only; a later user remap (ES rewrites the
-# same path, landing in the upper) is then kept.
+# Refresh the built-in pad in the overlay at each session start, retaining maps
+# for external controllers.
 ESINPUT_SRC=${A36_ESINPUT:-/system/etc/andr36oid-es_input.cfg}
 [ -f "$ESINPUT_SRC" ] || ESINPUT_SRC=/data/local/tmp/es_input.cfg   # test fallback
 # RetroArch is launched bare (no input append), so it needs a udev autoconfig
@@ -412,106 +412,90 @@ RAAUTOCFG_SRC=${A36_RA_AUTOCFG:-/system/etc/andr36oid-retroarch-GO-Super-Gamepad
 # controller by the GUID it computes for the pad; depending on the SDL build that GUID
 # carries a name CRC (1900bb3e...) or not (190000004b48...), so we ship both. Binds
 # below are es_input.cfg expressed as an SDL mapping.
-SDL_PAD_BINDS="GO-Super Gamepad,a:b0,b:b1,x:b2,y:b3,back:b9,start:b8,guide:b16,leftshoulder:b4,rightshoulder:b5,lefttrigger:b6,righttrigger:b7,leftstick:b15,rightstick:b14,dpup:b10,dpdown:b13,dpleft:b11,dpright:b12,leftx:a0,lefty:a1,rightx:a2,righty:a3,platform:Linux,"
+SDL_PAD_BINDS="GO-Super Gamepad,a:b0,b:b1,x:b2,y:b3,back:b9,start:b8,guide:b16,dpup:b10,dpdown:b13,dpleft:b11,dpright:b12,leftshoulder:b4,rightshoulder:b5,lefttrigger:b6,righttrigger:b7,leftstick:b15,rightstick:b14,leftx:a0,lefty:a1,rightx:a2,righty:a3,platform:Linux,"
 # no-CRC GUID (PortMaster's DEVICE for the odroidgo3-joypad) first, CRC GUID second.
 SDL_PAD_GUIDS="190000004b4800000011000000010000 1900bb3e4b4800000011000000010000"
 # env-var form: both lines, newline-separated, for SDL_GAMECONTROLLERCONFIG.
 SDL_PAD_MAP=""
 for _g in $SDL_PAD_GUIDS; do SDL_PAD_MAP="${SDL_PAD_MAP:+$SDL_PAD_MAP
 }$_g,$SDL_PAD_BINDS"; done
-# Write our binds into every gamecontrollerdb.txt PortMaster might read, replacing any
-# stale entry for these GUIDs so only our binds remain, and seed the SDL-GameControllerDB
-# user file PortMaster's control.txt prefers (its SDLDBUSERFILE). Scan ONLY the shallow
-# dArkOSen locations that actually hold these files (every one audited sits at depth <=3
-# under /opt or /home/ark/.config). The old unbounded find descended /roms - the 171 GB
-# games card bound at /roms - and the whole rootfs, which stalled every launch ~70 s on SD.
+# Write through the merged root only. Resolve absolute image symlinks in the
+# chroot namespace, so a database linked to /roms never touches the host path.
+finish_input_file() {
+  local f="$1" t="$2"
+  if cmp -s "$f" "$t"; then rm -f "$t"
+  else mv "$t" "$f" && log "updated console input in ${f#$ROOT}"; fi
+}
+# PortMaster, standalone SDL applications and the two SDL3 autoconfig databases
+# all receive the same physical mapping, including both SDL GUID variants.
 install_sdl_mapping() {
-  local f t g udir
-  udir="$ROOT/home/ark/.config/SDL-GameControllerDB"
-  mkdir -p "$udir" 2>/dev/null
-  for f in $(find "$ROOT/opt" -maxdepth 3 -name gamecontrollerdb.txt 2>/dev/null) \
-           $(find "$ROOT/home/ark/.config" -maxdepth 3 -name gamecontrollerdb.txt 2>/dev/null) \
-           "$udir/gamecontrollerdb.txt"; do
-    [ -e "$f" ] || : > "$f"
+  local path f udir
+  udir=$(root_path "$ROOT" /home/ark/.config/SDL-GameControllerDB) || return 1
+  mkdir -p "$udir" || return 1
+  f=$(root_path "$ROOT" /home/ark/.config/SDL-GameControllerDB/gamecontrollerdb.txt) || return 1
+  [ -f "$f" ] || : > "$f" || return 1
+  {
+    printf '%s\n' "$f"
+    # Explicit paths also cover databases beneath image-absolute directory links.
+    for path in /opt/ppsspp/assets/gamecontrollerdb.txt /opt/ppsspp-2021/assets/gamecontrollerdb.txt \
+                /home/ark/.config/duckstation/database/gamecontrollerdb.txt /opt/duckstation/resources/gamecontrollerdb.txt \
+                /opt/hypseus-singe/gamecontrollerdb.txt /opt/scummvm/extra/gamecontrollerdb.txt \
+                /opt/mvem/controls/gamecontrollerdb.txt /opt/inttools/gamecontrollerdb.txt \
+                /opt/linapple/gamecontrollerdb.txt /opt/openmsx/gamecontrollerdb.txt; do
+      printf '%s\n' "$ROOT$path"
+    done
+    # Keep discovery shallow: launch-time searches must avoid the games volume.
+    find "$ROOT/opt" -maxdepth 3 -name gamecontrollerdb.txt 2>/dev/null
+    find "$ROOT/home/ark/.config" -maxdepth 3 -name gamecontrollerdb.txt 2>/dev/null
+  } | sort -u | while IFS= read -r f; do
+    f=$(root_path "$ROOT" "${f#"$ROOT"}") || continue
     [ -f "$f" ] || continue
-    t="$f.a36tmp"
-    grep -vE "^(190000004b4800000011000000010000|1900bb3e4b4800000011000000010000)," \
-      "$f" > "$t" 2>/dev/null && mv "$t" "$f"
-    for g in $SDL_PAD_GUIDS; do printf '%s,%s\n' "$g" "$SDL_PAD_BINDS" >> "$f"; done
-    log "wrote console-pad SDL mapping into ${f#$ROOT}"
-  done
+    rewrite_sdl_pad "$f" db || return 1
+  done || return 1
   install_sdl3_mapping
 }
-# Rewrite the SDL3 databases and launcher records while keeping each record's
-# face-button layout. The two GUIDs differ only in the SDL name CRC.
 rewrite_sdl_pad() {
   local f="$1" mode="$2" t="$1.a36tmp"
   cp -p "$f" "$t" || return 1
   if ! awk -v mode="$mode" -v binds="$SDL_PAD_BINDS" -v guids="$SDL_PAD_GUIDS" '
     BEGIN { split(guids, g, " "); quote = sprintf("%c", 39) }
-    function mapping(record, parts, fields, n, i, key, face, result) {
-      n = split(record, parts, ",")
-      for (i = 3; i <= n; i++) {
-        split(parts[i], fields, ":")
-        if (fields[1] ~ /^(a|b|x|y)$/) face[fields[1]] = parts[i]
-      }
-      if (!face["a"] || !face["b"] || !face["x"] || !face["y"]) return ""
-      n = split(binds, parts, ","); result = parts[1] ","
-      for (i = 2; i <= n; i++) {
-        split(parts[i], fields, ":"); key = fields[1]
-        if (key in face) result = result face[key] ","
-        else if (parts[i] != "") result = result parts[i] ","
-      }
-      return result
-    }
     mode == "db" {
-      if (index($0, g[1] ",GO-Super Gamepad,") == 1 ||
-          index($0, g[2] ",GO-Super Gamepad,") == 1) {
-        value = mapping($0)
-        if (value == "" || (found && value != saved)) bad = 1
-        saved = value; found = 1; next
-      }
-      print; next
+      if (index($0, g[1] ",") != 1 && index($0, g[2] ",") != 1) print
+      next
     }
     mode == "launcher" {
-      line = $0; at = index(line, g[1] ",GO-Super Gamepad,")
+      line = $0
+      # The Android input device has the same name, but need not have the
+      # native Linux by-path symlink. Change only this pad selection test.
+      sub(/-e ["\047]?\/dev\/input\/by-path\/platform-odroidgo3-joypad-event-joystick["\047]?/,
+          "-n \"$(grep -l -x " quote "GO-Super Gamepad" quote " /sys/class/input/event*/device/name 2>/dev/null)\"", line)
+      at = index(line, g[1] ",GO-Super Gamepad,")
       if (!at) at = index(line, g[2] ",GO-Super Gamepad,")
-      if (!at) { print; next }
+      if (!at) { print line; next }
       before = substr(line, 1, at - 1); q = substr(before, length(before), 1)
-      if (q != "\"" && q != quote) { print; next }
+      if (q != "\"" && q != quote) { print line; next }
       rest = substr(line, at); end = index(rest, q)
-      if (!end) {
-        # A previously installed pair spans two lines inside one quoted string.
-        print line
-        if (getline nextline > 0) print nextline
-        next
-      }
-      record = substr(rest, 1, end - 1); value = mapping(record)
-      if (value == "") { print; next }
-      print before g[1] "," value
-      print g[2] "," value substr(rest, end)
+      # Also repair pairs written by an earlier broker, even if stale.
+      while (!end && (getline rest) > 0) end = index(rest, q)
+      if (!end) exit 1
+      print before g[1] "," binds
+      print g[2] "," binds substr(rest, end)
     }
     END {
-      if (mode == "db" && found && !bad) {
-        print g[1] "," saved; print g[2] "," saved
-      }
-      if (bad) exit 1
+      if (mode == "db") { print g[1] "," binds; print g[2] "," binds }
     }
   ' "$f" > "$t"; then
     rm -f "$t"; return 1
   fi
-  if cmp -s "$f" "$t"; then
-    rm -f "$t"
-  else
-    mv "$t" "$f" && log "updated console-pad SDL mapping in ${f#$ROOT}"
-  fi
+  finish_input_file "$f" "$t"
 }
 install_sdl3_mapping() {
-  local f
-  for f in "$ROOT/home/ark/.config/retroarch/autoconfig/sdl3/gamecontrollerdb.cfg" \
-           "$ROOT/home/ark/.config/retroarch32/autoconfig/sdl3/gamecontrollerdb.cfg"; do
+  local path f
+  for path in /home/ark/.config/retroarch/autoconfig/sdl3/gamecontrollerdb.cfg \
+              /home/ark/.config/retroarch32/autoconfig/sdl3/gamecontrollerdb.cfg; do
+    f=$(root_path "$ROOT" "$path") || continue
     [ -f "$f" ] || continue
-    rewrite_sdl_pad "$f" db
+    rewrite_sdl_pad "$f" db || return 1
   done
 }
 install_launcher_sdl_mapping() {
@@ -520,8 +504,56 @@ install_launcher_sdl_mapping() {
            "$ROOT/usr/local/bin/piemu_run.sh" "$ROOT/usr/local/bin/dreamcast.sh" \
            "$ROOT/usr/local/bin/atomiswave.sh" "$ROOT/usr/local/bin/naomi.sh" \
            "$ROOT/usr/local/bin/pico8.sh"; do
+    f=$(root_path "$ROOT" "${f#"$ROOT"}") || return 1
     [ -f "$f" ] || continue
-    rewrite_sdl_pad "$f" launcher
+    rewrite_sdl_pad "$f" launcher || return 1
+  done
+}
+# Refresh only the built-in pad, including stale upper-layer maps. ES and
+# PortMaster mapper.py both use the shipped face-button convention. Keep every
+# external controller and keyboard block, and handle old and name-CRC SDL GUIDs.
+install_es_input() {
+  local path f t
+  [ -f "$ESINPUT_SRC" ] || { log "no shipped es_input.cfg at $ESINPUT_SRC"; return 1; }
+  for path in /etc/emulationstation/es_input.cfg /home/ark/.config/emulationstation/es_input.cfg; do
+    f=$(root_path "$ROOT" "$path") || return 1
+    mkdir -p "$(dirname "$f")" || return 1
+    [ -f "$f" ] || cp "$ESINPUT_SRC" "$f" || return 1
+    t="$f.a36tmp"
+    cp -p "$f" "$t" || return 1
+    if ! awk -v guids="$SDL_PAD_GUIDS" '
+      BEGIN { split(guids, g, " ") }
+      FNR == NR {
+        if ($0 ~ /<inputConfig[[:space:]]/ && /deviceName="GO-Super Gamepad"/) capture=1
+        if (capture) {
+          if (/<\/inputConfig>/) {
+            if (block !~ /name="system_hk"/)
+              block=block "\t\t<input name=\"system_hk\" type=\"button\" id=\"16\" value=\"1\" />\n"
+            capture=0
+          }
+          block=block $0 "\n"
+        }
+        next
+      }
+      /<inputConfig[[:space:]]/ {
+        skip=(/deviceName="GO-Super Gamepad"/ || index($0, g[1]) || index($0, g[2]))
+      }
+      /<\/inputList>/ {
+        if (!block || capture) exit 1
+        for (i=1; i<=2; i++) {
+          pad=block
+          sub(/deviceGUID="[^"]*"/, "deviceGUID=\"" g[i] "\"", pad)
+          printf "%s", pad
+        }
+        inserted=1
+      }
+      { if (!skip) print }
+      /<\/inputConfig>/ { skip=0 }
+      END { if (!inserted) exit 1 }
+    ' "$ESINPUT_SRC" "$f" > "$t"; then
+      rm -f "$t"; return 1
+    fi
+    finish_input_file "$f" "$t" || return 1
   done
 }
 # Install the same udev profile under the other names shipped by dArkOSen.
@@ -568,38 +600,179 @@ set_ra_input_binds() {
     else mv "$t" "$cfg" && log "updated RetroArch input binds in ${cfg#$ROOT}"; fi
   done
 }
-# Mupen's automatic pad profile and saved player-one profile use button(n).
-set_mupen_input_binds() {
-  local cfg section t
-  for cfg in "$ROOT/opt/mupen64plus/InputAutoCfg.ini" \
-             "$ROOT/home/ark/.config/mupen64plus/mupen64plus.cfg"; do
-    [ -f "$cfg" ] || continue
-    case "$cfg" in */InputAutoCfg.ini) section='GO-Super Gamepad' ;; *) section='Input-SDL-Control1' ;; esac
-    t="$cfg.a36tmp"
-    cp -p "$cfg" "$t" || continue
-    awk -v section="$section" '
-      BEGIN {
-        old["Start"]=13; new["Start"]=8
-        old["DPad U"]=8; new["DPad U"]=10
-        old["DPad D"]=9; new["DPad D"]=13
-        old["DPad L"]=10; new["DPad L"]=11
-        old["DPad R"]=11; new["DPad R"]=12
+# Mupen uses raw button(n) values, not SDL GameController button IDs. Preserve
+# virtual N64 faces and stick/C-button axes, and repair doubled saved quotes.
+rewrite_mupen_input() {
+  local cfg="$1" section="$2" quoted="$3" t="$1.a36tmp"
+  cp -p "$cfg" "$t" || return 1
+  if ! awk -v section="$section" -v quoted="$quoted" '
+    BEGIN {
+      binds["Start"]=8; binds["DPad U"]=10; binds["DPad D"]=13
+      binds["DPad L"]=11; binds["DPad R"]=12
+    }
+    function missing( key, value) {
+      if (!active) return
+      for (key in binds) if (!(key in seen)) {
+        value="button(" binds[key] ")"
+        if (quoted) value="\"" value "\""
+        print key " = " value
       }
-      /^[[:space:]]*\[/ {
-        name=$0; sub(/^[[:space:]]*\[/, "", name); sub(/\].*$/, "", name)
-        active=(name == section)
+    }
+    /^[[:space:]]*\[/ {
+      missing()
+      for (key in seen) delete seen[key]
+      name=$0; sub(/^[[:space:]]*\[/, "", name); sub(/\].*$/, "", name)
+      active=(name == section)
+    }
+    {
+      if (active && index($0, "=")) {
+        key=substr($0, 1, index($0, "=")-1)
+        sub(/^[[:space:]]*/, "", key); sub(/[[:space:]]*$/, "", key)
+        value=substr($0, index($0, "=")+1)
+        sub(/^[[:space:]]*/, "", value); sub(/[[:space:]]*$/, "", value)
+        if (key in binds) {
+          if (key in seen) next
+          seen[key]=1
+          value="button(" binds[key] ")"
+          if (quoted) value="\"" value "\""
+          $0=key " = " value
+        } else if (quoted && value ~ /^""[^"]+""$/) {
+          sub(/^""/, "\"", value); sub(/""$/, "\"", value)
+          $0=key " = " value
+        }
+      }
+      print
+    }
+    END { missing() }
+  ' "$cfg" > "$t"; then rm -f "$t"; return 1; fi
+  finish_input_file "$cfg" "$t"
+}
+set_mupen_input_binds() {
+  local cfg
+  {
+    printf '%s\n' "$ROOT/opt/mupen64plus/InputAutoCfg.ini" "$ROOT/opt/mupen64plus/Default-InputAutoCfg.ini"
+    find "$ROOT/opt/mupen64plus" -name '*InputAutoCfg.ini' 2>/dev/null
+  } | sort -u |
+    while IFS= read -r cfg; do
+      cfg=$(root_path "$ROOT" "${cfg#"$ROOT"}") || continue
+      [ -f "$cfg" ] || continue
+      rewrite_mupen_input "$cfg" 'GO-Super Gamepad' 0 || return 1
+    done || return 1
+  cfg=$(root_path "$ROOT" /home/ark/.config/mupen64plus/mupen64plus.cfg) || return 1
+  [ ! -f "$cfg" ] || rewrite_mupen_input "$cfg" 'Input-SDL-Control1' 1
+}
+# EASYROMS is bound and provisioned after prime_input. Refresh the existing card
+# copies too: n64.sh can replace the auto profile from a card, and pico8.sh keeps
+# sdl_controllers.txt once generated. Only known controller files are rewritten.
+prime_storage_input() {
+  local dir cfg
+  for dir in "$ROOT/roms" "$ROOT"/roms[0-9]*; do
+    [ -d "$dir" ] || continue
+    find "$dir" \( -name gamecontrollerdb.txt -o -name sdl_controllers.txt -o -name '*InputAutoCfg.ini' \) 2>/dev/null |
+      while IFS= read -r cfg; do
+        cfg=$(root_path "$ROOT" "${cfg#"$ROOT"}") || continue
+        [ -f "$cfg" ] || continue
+        case "$cfg" in
+          */gamecontrollerdb.txt|*/pico-8/sdl_controllers.txt) rewrite_sdl_pad "$cfg" db || return 1 ;;
+          *InputAutoCfg.ini) rewrite_mupen_input "$cfg" 'GO-Super Gamepad' 0 || return 1 ;;
+        esac
+      done || return 1
+  done
+  return 0
+}
+# Flycast stores raw joystick IDs even when SDL supplies a default controller
+# map (upstream core/sdl/sdl.cpp dispatches SDL_JOYBUTTON events). Preserve the
+# Dreamcast face layout and analog fields; handle legacy and saved v3 formats.
+set_flycast_input_binds() {
+  local cfg t
+  cfg=$(root_path "$ROOT" "/home/ark/.config/flycast/mappings/SDL_GO-Super Gamepad.cfg") || return 1
+  [ -f "$cfg" ] || return 0
+  t="$cfg.a36tmp"
+  cp -p "$cfg" "$t" || return 1
+  if ! awk '
+    BEGIN {
+      binds["btn_start"]=8; binds["btn_menu"]=9
+      binds["btn_dpad1_up"]=10; binds["btn_dpad1_down"]=13
+      binds["btn_dpad1_left"]=11; binds["btn_dpad1_right"]=12
+    }
+    /^[[:space:]]*\[/ {
+      section=$0; sub(/^[[:space:]]*\[/, "", section); sub(/\].*$/, "", section)
+    }
+    {
+      if (index($0, "=")) {
+        key=substr($0, 1, index($0, "=")-1)
+        gsub(/^[[:space:]]+|[[:space:]]+$/, "", key)
+        value=substr($0, index($0, "=")+1)
+        gsub(/^[[:space:]]+|[[:space:]]+$/, "", value)
+        if ((section == "dreamcast" && key != "btn_menu" || section == "emulator" && key == "btn_menu") && key in binds)
+          $0=key " = " binds[key]
+        else if (section == "digital" && key ~ /^bind[0-9]+$/ && value ~ /^[0-9]+:/) {
+          semantic=value; sub(/^[0-9]+:/, "", semantic)
+          if (semantic in binds) $0=key " = " binds[semantic] ":" semantic
+        }
+      }
+      print
+    }
+  ' "$cfg" > "$t"; then rm -f "$t"; return 1; fi
+  finish_input_file "$cfg" "$t"
+}
+set_dingux_input_binds() {
+  local cfg t
+  for cfg in "$ROOT/opt/dingux/oshgamepad.cfg" "$ROOT/opt/dingux/oshgamepad.cfg.bak"; do
+    cfg=$(root_path "$ROOT" "${cfg#"$ROOT"}") || return 1
+    [ -f "$cfg" ] || continue
+    t="$cfg.a36tmp"
+    cp -p "$cfg" "$t" || return 1
+    if ! awk '
+      BEGIN {
+        binds["input_select_btn"]=9; binds["input_start_btn"]=8
+        binds["input_up_btn"]=10; binds["input_down_btn"]=13
+        binds["input_left_btn"]=11; binds["input_right_btn"]=12
+        binds["input_l3_btn"]=15; binds["input_r3_btn"]=14
       }
       {
-        if (active && index($0, "=")) {
-          key=substr($0, 1, index($0, "=")-1)
-          sub(/^[[:space:]]*/, "", key); sub(/[[:space:]]*$/, "", key)
-          if (key in old) sub("button\\(" old[key] "\\)", "button(" new[key] ")")
+        key=$1
+        if (key in binds) $0=key " = \"" binds[key] "\""
+        # The shipped A/B values have unterminated quotes. Retain the chosen
+        # confirm/cancel layout while emitting valid quoted numeric values.
+        else if (key ~ /^input_[ab]_btn$/ && index($0, "=")) {
+          value=substr($0, index($0, "=")+1); gsub(/["[:space:]]/, "", value)
+          if (value ~ /^[0-9]+$/) $0=key " = \"" value "\""
         }
         print
       }
-    ' "$cfg" > "$t" || { rm -f "$t"; continue; }
-    if cmp -s "$cfg" "$t"; then rm -f "$t"
-    else mv "$t" "$cfg" && log "updated Mupen input binds in ${cfg#$ROOT}"; fi
+    ' "$cfg" > "$t"; then rm -f "$t"; return 1; fi
+    finish_input_file "$cfg" "$t" || return 1
+  done
+}
+set_kodi_input_binds() {
+  local dir="$ROOT/home/ark/.kodi/userdata/addon_data/peripheral.joystick/resources/buttonmaps/xml/linux" cfg t
+  for cfg in "$dir/GO-Super_Gamepad_17b_4a.xml" "$dir/GO-Super_Gamepad_18b_4a.xml" \
+             "$dir/GO-Super_Gamepad_17b_4a.xml.bak"; do
+    cfg=$(root_path "$ROOT" "${cfg#"$ROOT"}") || return 1
+    [ -f "$cfg" ] || continue
+    t="$cfg.a36tmp"
+    cp -p "$cfg" "$t" || return 1
+    if ! awk '
+      BEGIN {
+        binds["back"]=9; binds["guide"]=16; binds["start"]=8
+        binds["up"]=10; binds["down"]=13; binds["left"]=11; binds["right"]=12
+        binds["leftthumb"]=15; binds["rightthumb"]=14
+      }
+      /<controller[[:space:]]/ { active=(/id="game.controller.default"/); back=0 }
+      {
+        if (active && /<feature[[:space:]]/ && match($0, /name="[^"]+"/)) {
+          name=substr($0, RSTART+6, RLENGTH-7)
+          if (name == "back") back=1
+          if (name in binds) sub(/button="[0-9]+"/, "button=\"" binds[name] "\"")
+        }
+        if (active && /<\/controller>/ && !back)
+          print "      <feature name=\"back\" button=\"9\" />"
+        print
+      }
+      /<\/controller>/ { active=0 }
+    ' "$cfg" > "$t"; then rm -f "$t"; return 1; fi
+    finish_input_file "$cfg" "$t" || return 1
   done
 }
 # RetroArch's quit chord: dArkOS's retroarch.cfg hardwires input_exit_emulator_btn to
@@ -673,22 +846,7 @@ SHIM
 }
 
 prime_input() {
-  if [ -f "$UPPER/etc/emulationstation/es_input.cfg" ]; then
-    log "es_input.cfg already present in overlay (keeping user mapping)"
-  elif [ -f "$ESINPUT_SRC" ]; then
-    mkdir -p "$ROOT/etc/emulationstation"
-    cp "$ESINPUT_SRC" "$ROOT/etc/emulationstation/es_input.cfg" && log "installed shipped es_input.cfg (no wizard)"
-  else
-    log "no shipped es_input.cfg at $ESINPUT_SRC; ES wizard will run"
-  fi
-  # PortMaster's control.txt runs mapper.py on $HOME/.config/emulationstation/es_input.cfg
-  # to build the SDL pad mapping for a port. Placing our es_input.cfg there makes the
-  # quit chord correct even when the pad's runtime GUID does not match a db entry.
-  if [ -f "$ESINPUT_SRC" ] && [ ! -f "$UPPER/home/ark/.config/emulationstation/es_input.cfg" ]; then
-    mkdir -p "$ROOT/home/ark/.config/emulationstation"
-    cp "$ESINPUT_SRC" "$ROOT/home/ark/.config/emulationstation/es_input.cfg" \
-      && log "placed es_input.cfg for PortMaster mapper.py"
-  fi
+  install_es_input
   # RetroArch udev autoconfig for the console gamepad. The name carries a space,
   # which RetroArch matches against the evdev device name verbatim.
   local radst="$ROOT/home/ark/.config/retroarch/autoconfig/udev"
@@ -705,6 +863,10 @@ prime_input() {
   install_ra_profiles
   set_ra_input_binds
   set_mupen_input_binds
+  set_flycast_input_binds
+  set_dingux_input_binds
+  set_kodi_input_binds
+  prime_storage_input
   set_ra_quit_combo
   install_systemctl_shim
   # Volume-key diagnostic: dArkOS's ogage daemon scans /dev/input/event0..event10
@@ -1613,6 +1775,7 @@ find_es "$ROOT" && prime_input
 bind_core || { log "core mounts failed"; exit 1; }
 mount_storage || { log "games storage preparation failed"; exit 1; }
 provision_darkos || exit 1
+prime_storage_input
 eligible_rootfs "$ROOT" || { log "rootfs has no init or launch target"; exit 1; }
 [ "$cmd" = run ] && { resolve_run_target || exit 1; }
 prepare_network || { log "network preparation failed"; exit 1; }

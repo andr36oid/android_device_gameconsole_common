@@ -9,7 +9,8 @@ UPPER="$tmp/upper"
 RAAUTOCFG_SRC="$tmp/ra-profile"
 mkdir -p "$ROOT" "$tmp/helpers"
 log() { printf '%s\n' "$*" >> "$tmp/log"; }
-sed -n '/^SDL_PAD_BINDS=/,/^prime_input() {/p' "$broker" | sed '$d' > "$tmp/helpers/input.sh"
+sed -n '/^root_path() {/,/^}/p' "$broker" > "$tmp/helpers/input.sh"
+sed -n '/^SDL_PAD_BINDS=/,/^prime_input() {/p' "$broker" | sed '$d' >> "$tmp/helpers/input.sh"
 # shellcheck disable=SC1091
 . "$tmp/helpers/input.sh"
 fail() { echo "FAIL: $*" >&2; exit 1; }
@@ -22,6 +23,15 @@ cat > "$ra/autoconfig/sdl3/gamecontrollerdb.cfg" <<'DATA'
 other,Other Pad,a:b0,
 190000004b4800000011000000010000,GO-Super Gamepad,a:b1,b:b0,x:b3,y:b2,back:b12,start:b13,dpup:b8,dpdown:b9,dpleft:b10,dpright:b11,leftstick:b14,rightstick:b15,leftx:a0,lefty:a1,
 DATA
+cp "$ra/autoconfig/sdl3/gamecontrollerdb.cfg" "$tmp/native-db"
+# SDL discovery must cover shallow app directories (including spaces), while
+# avoiding the games card, rootfs root, and deeper unrelated directories.
+for dir in "$ROOT/opt/Some App" "$ROOT/home/ark/.config/Some App/nested" \
+           "$ROOT" "$ROOT/roms/unrelated" "$ROOT/usr/share/unrelated" \
+           "$ROOT/opt/deep/one/two" "$ROOT/home/ark/.config/deep/one/two"; do
+  mkdir -p "$dir"
+  cp "$tmp/native-db" "$dir/gamecontrollerdb.txt"
+done
 cat > "$ROOT/usr/local/bin/ecwolf.sh" <<'DATA'
 #!/bin/sh
 export SDL_GAMECONTROLLERCONFIG="190000004b4800000011000000010000,GO-Super Gamepad,a:b1,b:b0,x:b2,y:b3,back:b12,start:b13,dpup:b8,dpdown:b9,dpleft:b10,dpright:b11,leftstick:b14,rightstick:b15,leftx:a0,lefty:a1,"
@@ -75,7 +85,7 @@ printf 'native profile\n' > "$ra32/autoconfig/udev/GO-Super Gamepad.cfg"
 printf 'native profile\n' > "$ra32/autoconfig/udev/go_super_gamepad.cfg"
 mkdir -p "$UPPER/home/ark/.config/retroarch/autoconfig/udev"
 printf 'user profile\n' > "$UPPER/home/ark/.config/retroarch/autoconfig/udev/go_super_gamepad.cfg"
-install_sdl3_mapping
+install_sdl_mapping
 install_launcher_sdl_mapping
 set_ra_input_binds
 set_mupen_input_binds
@@ -83,12 +93,24 @@ install_ra_profiles
 
 db="$ra/autoconfig/sdl3/gamecontrollerdb.cfg"
 launcher="$ROOT/usr/local/bin/ecwolf.sh"
-contains "$db" 'a:b1,b:b0,x:b3,y:b2,back:b9,start:b8,guide:b16'
-contains "$db" 'leftstick:b15,rightstick:b14,dpup:b10,dpdown:b13,dpleft:b11,dpright:b12'
+contains "$db" 'a:b0,b:b1,x:b2,y:b3,back:b9,start:b8,guide:b16'
+contains "$db" 'dpup:b10,dpdown:b13,dpleft:b11,dpright:b12'
+contains "$db" 'leftstick:b15,rightstick:b14'
 contains "$db" '1900bb3e4b4800000011000000010000,GO-Super Gamepad'
-contains "$launcher" 'a:b1,b:b0,x:b2,y:b3,back:b9,start:b8,guide:b16'
+contains "$launcher" 'a:b0,b:b1,x:b2,y:b3,back:b9,start:b8,guide:b16'
 contains "$launcher" '1900bb3e4b4800000011000000010000,GO-Super Gamepad'
-contains "$ROOT/usr/local/bin/pico8.sh" 'a:b0,b:b1,x:b3,y:b2,back:b9,start:b8,guide:b16'
+contains "$ROOT/usr/local/bin/pico8.sh" 'a:b0,b:b1,x:b2,y:b3,back:b9,start:b8,guide:b16'
+for cfg in "$ROOT/home/ark/.config/SDL-GameControllerDB/gamecontrollerdb.txt" \
+           "$ROOT/opt/Some App/gamecontrollerdb.txt" \
+           "$ROOT/home/ark/.config/Some App/nested/gamecontrollerdb.txt"; do
+  contains "$cfg" 'back:b9,start:b8,guide:b16'
+  contains "$cfg" '1900bb3e4b4800000011000000010000,GO-Super Gamepad'
+done
+contains "$ROOT/opt/Some App/gamecontrollerdb.txt" 'other,Other Pad,a:b0,'
+for dir in "$ROOT" "$ROOT/roms/unrelated" "$ROOT/usr/share/unrelated" \
+           "$ROOT/opt/deep/one/two" "$ROOT/home/ark/.config/deep/one/two"; do
+  cmp -s "$tmp/native-db" "$dir/gamecontrollerdb.txt" || fail "SDL discovery reached $dir"
+done
 sh -n "$ROOT/usr/local/bin/pico8.sh" || fail 'PICO-8 generator is not valid shell'
 [ -x "$launcher" ] || fail 'launcher lost executable permissions'
 sh -n "$launcher" || fail 'launcher is not valid shell'
@@ -123,7 +145,7 @@ cp "$ra32/autoconfig/udev/GO-Super Gamepad.cfg" "$UPPER/home/ark/.config/retroar
 cp "$ra32/autoconfig/udev/go_super_gamepad.cfg" "$UPPER/home/ark/.config/retroarch32/autoconfig/udev/go_super_gamepad.cfg"
 cp -R "$ROOT" "$tmp/first"
 cp "$tmp/log" "$tmp/first-log"
-install_sdl3_mapping
+install_sdl_mapping
 install_launcher_sdl_mapping
 set_ra_input_binds
 set_mupen_input_binds
