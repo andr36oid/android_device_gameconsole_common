@@ -1,7 +1,8 @@
 #!/bin/sh
 set -eu
 . "$(dirname "$0")/test-lib.inc"
-load_functions watch_session_markers run_session_payload run_es_wrapper run_session \
+load_functions process_start_time recorded_process_alive freeze_process kill_process_children kill_tracked_tree \
+  watch_session_markers run_session_payload run_es_wrapper run_session \
   session_uses_init install_systemctl_shim
 SESSION_OUT="$tmp/session.out"
 find_es() { ES=/usr/bin/emulationstation/emulationstation.sh; return 0; }
@@ -50,6 +51,74 @@ case ${1:-all} in all|markers)
     while read -r pid; do wait_until not_alive "$pid"; done < "$tmp/fixture-pids"
   done
   echo 'payload marker watcher passed (finding 5: port, RetroArch loop, bare ES)'
+;; esac
+
+case ${1:-all} in all|frontend)
+  # The image's RetroArch branch never launches an ES binary and loops forever.
+  # Service maintenance must act on that actual payload without ending Android's
+  # handoff session or killing a separate maintenance/hotkey process.
+  rm -f "$ROOT/run/.a36-session-exit" "$ROOT/run/.a36-session-reboot" \
+    "$ROOT/run/.a36-es-stopped" "$ROOT/run/.a36-es-start" "$ROOT/run/.a36-es-restart" "$tmp/launches"
+  mkdir -p "$ROOT/home/ark/.config"
+  boot_ra="$ROOT/home/ark/.config/.BOOT_TO_RETROARCH"
+  : > "$boot_ra"
+  run_in_subsystem() {
+    read -r fixture_pid rest < /proc/self/stat
+    printf '%s\n' "$fixture_pid" >> "$tmp/pids"
+    printf '%s\n' "$fixture_pid" >> "$tmp/frontend-pids"
+    if [ -f "$boot_ra" ]; then
+      echo retroarch >> "$tmp/launches"
+      exec sh -c 'while :; do sleep 60 & p=$!; echo "$p" >> "$1"; echo "$p" >> "$2"; wait "$p"; done' \
+        wrapper "$tmp/frontend-pids" "$tmp/pids"
+    fi
+    echo es >> "$tmp/launches"
+    exec sleep 60
+  }
+  launch_count() { [ "$(wc -l < "$tmp/launches")" = "$1" ]; }
+  markers_consumed() { [ ! -f "$ROOT/run/.a36-es-start" ] && [ ! -f "$ROOT/run/.a36-es-restart" ]; }
+  cmd=start; SESSION_MODE=wrapper
+  sleep 60 & maintenance_pid=$!
+  printf '%s\n' "$maintenance_pid" >> "$tmp/pids"
+  (set +e; run_session) > "$tmp/frontend.log" 2>&1 & actor=$!
+  printf '%s\n' "$actor" >> "$tmp/pids"
+  wait_until test -s "$tmp/launches"
+  wait_until test "$(tail -n 1 "$tmp/launches")" = retroarch
+  "$shim" stop emulationstation
+  wait_until markers_consumed
+  # The PID file may grow until the loop has been frozen, so keep checking it.
+  frontend_stopped() {
+    while read -r pid; do not_alive "$pid" || return 1; done < "$tmp/frontend-pids"
+  }
+  wait_until frontend_stopped
+  sleep 0.3
+  launch_count 1 || fail 'maintenance stop relaunched the RetroArch loop'
+  alive "$actor" || fail 'maintenance stop ended the session'
+  alive "$maintenance_pid" || fail 'maintenance stop killed an unrelated process'
+  rm "$boot_ra"
+  "$shim" start emulationstation.service
+  wait_until launch_count 2
+  wait_until markers_consumed
+  [ "$(tail -n 1 "$tmp/launches")" = es ] || fail 'start did not re-evaluate the wrapper boot mode'
+  # Restart an active frontend into RA, then restart its endless loop back to ES.
+  : > "$boot_ra"
+  "$shim" restart emulationstation
+  wait_until launch_count 3
+  wait_until markers_consumed
+  [ "$(tail -n 1 "$tmp/launches")" = retroarch ] || fail 'restart did not enter RetroArch mode'
+  cp "$tmp/frontend-pids" "$tmp/previous-frontends"
+  rm "$boot_ra"
+  "$shim" restart emulationstation.service
+  wait_until launch_count 4
+  wait_until markers_consumed
+  [ "$(tail -n 1 "$tmp/launches")" = es ] || fail 'restart left the RetroArch loop running'
+  while read -r pid; do wait_until not_alive "$pid"; done < "$tmp/previous-frontends"
+  alive "$actor" || fail 'frontend maintenance exhausted the crash bound'
+  alive "$maintenance_pid" || fail 'restart killed an unrelated process'
+  "$shim" poweroff
+  wait_until not_alive "$actor"; wait "$actor" 2>/dev/null || :
+  while read -r pid; do wait_until not_alive "$pid"; done < "$tmp/frontend-pids"
+  kill "$maintenance_pid"; wait "$maintenance_pid" 2>/dev/null || :
+  echo 'frontend service maintenance passed (stop/start/restart of RetroArch-only wrapper)'
 ;; esac
 
 case ${1:-all} in all|sync)
@@ -132,7 +201,7 @@ case ${1:-all} in all|reboot)
 case ${1:-all} in all|happy)
   # Preserve the hardware-proven wrapper+handoff contract with Android/mixer
   # calls mocked: initial codec mute, ES-driven poweroff, then Android restoration.
-  load_functions process_start_time recorded_process_alive mute_guard_owned kill_mute_guard_children \
+  load_functions process_start_time recorded_process_alive mute_guard_owned freeze_process kill_process_children kill_tracked_tree \
     stop_mute_guard subsystem_muted mute_all_once start_mute_guard prepare_session_policy \
     start_live_log finish_session restore_android
   cmd=start; HANDOFF=1; SESSION_MODE=wrapper; DID_HANDOFF=1; HWC=test-composer

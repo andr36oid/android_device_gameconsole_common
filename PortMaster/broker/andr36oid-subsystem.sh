@@ -902,7 +902,7 @@ for unit do
           : > /run/.a36-es-start || exit 1
           rm -f /run/.a36-es-stopped
         else
-          : > /tmp/es-restart || exit 1
+          : > /run/.a36-es-restart || exit 1
         fi
         stop_unit "$unit"
       else
@@ -1528,7 +1528,7 @@ audiopath.service audiostate.service ogage.service emulationstation.service"
 # We re-add just the one ordering that matters - ogage after ES - and boot this target
 # directly, so the allowlisted units are the only thing that runs.
 install_session_units() {
-  local d u
+  local d u source
   mkdir -p "$ROOT/etc/systemd/system"
   { echo "[Unit]"; echo "Description=andr36oid subsystem session"
     echo "DefaultDependencies=no"; echo "Wants=$SESSION_UNITS"; } \
@@ -1542,6 +1542,27 @@ install_session_units() {
   for u in audiopath.service audiostate.service ogage.service; do
     printf '[Unit]\nConditionPathExists=/run/.a36-handoff\nConditionPathExists=!/run/.a36-muted\n' \
       > "$ROOT/etc/systemd/system/$u.d/20-audio-policy.conf"
+  done
+  # 351mp also restores Playback Path, alongside unrelated LED/brightness work.
+  # Replay its original commands, gating only fixvolume (including its args).
+  mkdir -p "$ROOT/usr/local/libexec" || return 1
+  cat > "$ROOT/usr/local/libexec/a36-session-fixvolume" <<'AUDIO' || return 1
+#!/bin/sh
+[ -f /run/.a36-handoff ] && [ ! -f /run/.a36-muted ] || exit 0
+exec /usr/local/bin/fixvolume.sh "$@"
+AUDIO
+  chmod 0755 "$ROOT/usr/local/libexec/a36-session-fixvolume" || return 1
+  for u in /etc/systemd/system/351mp.service /usr/lib/systemd/system/351mp.service /lib/systemd/system/351mp.service; do
+    source=$(root_path "$ROOT" "$u") || return 1
+    [ -f "$source" ] || continue
+    { printf '[Service]\nExecStart=\n'
+      awk '/^ExecStart=/ {
+        sub(/^ExecStart=\/usr\/local\/bin\/fixvolume[.]sh([[:space:]]|$)/,
+            "ExecStart=/usr/local/libexec/a36-session-fixvolume ")
+        print
+      }' "$source"
+    } > "$ROOT/etc/systemd/system/351mp.service.d/20-audio-policy.conf" || return 1
+    break
   done
 }
 
@@ -1559,7 +1580,7 @@ boot_subsystem_session() {
   set -- "$INIT"
   if root_file "$ROOT" /usr/lib/systemd/systemd || root_file "$ROOT" /lib/systemd/systemd; then
     if [ -d "$ROOT/usr/bin/emulationstation" ]; then
-      install_session_units
+      install_session_units || return 1
       set -- "$@" systemd.unit=andr36oid-session.target
     fi
     set -- "$@" systemd.log_target=console systemd.log_level=info systemd.show_status=true
@@ -1611,15 +1632,38 @@ boot_subsystem_session() {
 # loud by default and someone may be asleep nearby). The subsystem's own amixer is
 # unreliable here ("Mixer attach default error"), so we drive card 0 from the broker side
 # with tinymix, which the shell domain can use. The control names are the RK817-style ones
-# these clones carry; tinymix ignores names a codec does not have, so this is a harmless
-# no-op elsewhere. Setting "Playback Path" to 0 (OFF) unroutes the speaker entirely, so
-# volume stops mattering; we zero the volumes too as defence in depth.
+# these clones carry. Playback Path is required; absent volume aliases are optional,
+# but every advertised alias must accept zero and read back zero on every pass.
+# An unsupported codec must fail closed rather than admit an audible payload.
 MUTE_PIDFILE="$STATE/mute-guard.pid"
 subsystem_muted() { [ "$(getprop persist.andr36oid.subsystem.mute 2>/dev/null)" = 1 ]; }
 mute_all_once() {
-  tinymix "Playback Path" 0 >/dev/null 2>&1
-  tinymix "Master Playback Volume" 0 >/dev/null 2>&1
-  tinymix "Playback Volume" 0 >/dev/null 2>&1
+  local control value failed=0
+  for control in "Playback Path" "Master Playback Volume" "Playback Volume"; do
+    if [ "$control" != "Playback Path" ]; then
+      grep -Eq "^[0-9]+[[:space:]]+[A-Z]+[[:space:]]+[0-9]+[[:space:]]+${control}[[:space:]]" \
+        "$STATE/mute-guard.controls" || continue
+    fi
+    if ! tinymix -D 0 "$control" 0 > /dev/null 2> "$STATE/mute-guard.error"; then
+      log "NIGHT MUTE: write failed for $control: $(cat "$STATE/mute-guard.error")"
+      failed=1
+      continue
+    fi
+    if ! tinymix -D 0 -v "$control" > "$STATE/mute-guard.value" 2> "$STATE/mute-guard.error"; then
+      log "NIGHT MUTE: readback failed for $control: $(cat "$STATE/mute-guard.error")"
+      failed=1
+      continue
+    fi
+    value=$(cat "$STATE/mute-guard.value")
+    if [ "$control" = "Playback Path" ]; then
+      [ "$value" = OFF ] && continue
+    elif printf '%s\n' "$value" | grep -Eq '^[[:space:]]*0([[:space:]]+0)*[[:space:]]*$'; then
+      continue
+    fi
+    log "NIGHT MUTE: unsafe readback for $control: $value"
+    failed=1
+  done
+  return "$failed"
 }
 # Boot ID plus /proc start time protects recovery from stale/recycled PIDs.
 process_start_time() {
@@ -1630,7 +1674,8 @@ process_start_time() {
 recorded_process_alive() {
   [ "$3" = "$(cat /proc/sys/kernel/random/boot_id)" ] || return 1
   case "$1:$2" in *[!0-9:]*|:*|*:) return 1 ;; esac
-  [ "$(process_start_time "$1")" = "$2" ] && kill -0 "$1" 2>/dev/null
+  [ "$(process_start_time "$1")" = "$2" ] && kill -0 "$1" 2>/dev/null || return 1
+  case "$(cat "/proc/$1/stat" 2>/dev/null)" in *') Z '*|*') X '*|'') return 1 ;; esac
 }
 mute_guard_owned() {
   [ "$(cat "$STATE/mute-guard.owner" 2>/dev/null)" = "$owner" ] &&
@@ -1639,8 +1684,22 @@ mute_guard_owned() {
   case "$(cat "/proc/$owner_pid/stat" 2>/dev/null)" in *') Z '*|*') X '*|'') return 1 ;; esac
 }
 # A mixer stalled during TERM must not complete a late mute after restoration.
-# Only walk descendants of the already identity-checked watchdog.
-kill_mute_guard_children() {
+# Freeze each parent before walking its children, so it cannot spawn another
+# mixer/frontend between the sweep and its own termination.
+freeze_process() {
+  local pid="$1" stamp="$2"
+  [ "$(process_start_time "$pid")" = "$stamp" ] || return 1
+  kill -STOP "$pid" 2>/dev/null || return 1
+  while [ "$(process_start_time "$pid")" = "$stamp" ]; do
+    case "$(cat "/proc/$pid/stat" 2>/dev/null)" in
+      *') T '*|*') t '*) return 0 ;;
+      *') Z '*|*') X '*|'') return 1 ;;
+    esac
+    sleep 0.1
+  done
+  return 1
+}
+kill_process_children() {
   local parent="$1" p stat child stamp
   for p in /proc/[0-9]*; do
     stat=$(cat "$p/stat" 2>/dev/null) || continue
@@ -1650,8 +1709,8 @@ kill_mute_guard_children() {
     [ "${2:-}" = "$parent" ] || continue
     child=${p#/proc/}
     stamp=${20}
-    kill_mute_guard_children "$child"
-    if [ "$(process_start_time "$child")" = "$stamp" ]; then
+    if freeze_process "$child" "$stamp"; then
+      kill_process_children "$child"
       kill -9 "$child" 2>/dev/null || :
       while [ "$(process_start_time "$child")" = "$stamp" ]; do
         case "$(cat "/proc/$child/stat" 2>/dev/null)" in *') Z '*|*') X '*|'') break ;; esac
@@ -1660,47 +1719,96 @@ kill_mute_guard_children() {
     fi
   done
 }
+kill_tracked_tree() {
+  local pid="$1" stamp="$2" boot="$3"
+  recorded_process_alive "$pid" "$stamp" "$boot" || return 0
+  freeze_process "$pid" "$stamp" || return 0
+  kill_process_children "$pid"
+  recorded_process_alive "$pid" "$stamp" "$boot" && kill -KILL "$pid" 2>/dev/null || :
+  # An uninterruptible ioctl must finish before the shared codec is restored.
+  while recorded_process_alive "$pid" "$stamp" "$boot"; do sleep 0.1; done
+}
 stop_mute_guard() {
-  local pid stamp boot extra tries=0
+  local pid stamp boot extra
   rm -f "$STATE/mute-guard.owner"
   if [ -r "$MUTE_PIDFILE" ] && read -r pid stamp boot extra < "$MUTE_PIDFILE" 2>/dev/null &&
      [ -z "$extra" ] && recorded_process_alive "$pid" "$stamp" "$boot"; then
-    kill "$pid" 2>/dev/null || :
-    # Recovery cannot wait(2) for a non-child. Poll identity as well, killing a
-    # stuck mixer before its guard, then reap our child. Zombies are already done.
-    while recorded_process_alive "$pid" "$stamp" "$boot"; do
-      case "$(cat "/proc/$pid/stat" 2>/dev/null)" in *') Z '*) break ;; esac
-      if [ "$tries" -ge 20 ]; then
-        kill_mute_guard_children "$pid"
-        recorded_process_alive "$pid" "$stamp" "$boot" && kill -9 "$pid" 2>/dev/null || :
-      fi
-      sleep 0.1; tries=$((tries+1))
-    done
+    kill_tracked_tree "$pid" "$stamp" "$boot"
     wait "$pid" 2>/dev/null || :
   fi
-  rm -f "$MUTE_PIDFILE"
+  rm -f "$MUTE_PIDFILE" "$MUTE_PIDFILE.tmp" "$STATE/mute-guard.ready" \
+    "$STATE/mute-guard.failed" "$STATE/mute-guard.controls" "$STATE/mute-guard.value" "$STATE/mute-guard.error"
 }
 start_mute_guard() {
   { [ "$HANDOFF" = 1 ] && subsystem_muted; } || return 0
-  command -v tinymix >/dev/null 2>&1 || { log "NIGHT MUTE requested but tinymix is missing; cannot force silence"; return 0; }
-  local owner_pid owner_start owner_boot owner pid stamp
+  command -v tinymix >/dev/null 2>&1 || { log "NIGHT MUTE requested but tinymix is missing; refusing session"; return 1; }
+  local owner_pid owner_start owner_boot owner pid stamp identity tries=0
   owner_pid=$(cat "$STATE/session.lock/pid") || return 1
   owner_start=$(process_start_time "$owner_pid") || return 1
   owner_boot=$(cat /proc/sys/kernel/random/boot_id) || return 1
   owner="$owner_pid $owner_start $owner_boot"
   stop_mute_guard
   printf '%s\n' "$owner" > "$STATE/mute-guard.owner" || return 1
-  log "NIGHT MUTE on (persist.andr36oid.subsystem.mute=1): holding the codec silent via tinymix"
-  mute_all_once
   (
     # Do not hold the session FIFO (or the saved console descriptors) open.
     exec </dev/null >/dev/null 2>&1 3>&- 4>&-
     trap 'exit 0' HUP INT TERM
-    while mute_guard_owned; do mute_all_once; sleep 1; done
+    # $$ is the broker's PID in a subshell. Read the worker's actual PID using
+    # the shell builtin, and wait for its durable identity before ANY mixer op.
+    read -r pid identity < /proc/self/stat
+    identity="$pid $(process_start_time "$pid") $owner_boot"
+    while mute_guard_owned; do
+      [ "$(cat "$MUTE_PIDFILE" 2>/dev/null)" != "$identity" ] || break
+      tries=$((tries+1)); [ "$tries" -lt 100 ] || exit 1
+      sleep 0.1
+    done
+    mute_guard_owned || exit 1
+    if ! tinymix -D 0 > "$STATE/mute-guard.controls" 2> "$STATE/mute-guard.error"; then
+      log "NIGHT MUTE: cannot enumerate mixer controls: $(cat "$STATE/mute-guard.error")"
+      : > "$STATE/mute-guard.failed"; exit 1
+    fi
+    if ! mute_all_once; then : > "$STATE/mute-guard.failed"; exit 1; fi
+    # Optional hardware-master setup also touches the shared codec. Keep it in
+    # this recorded worker, with the route already OFF, then verify mute again
+    # because the setup sets a default master volume.
+    enable_hardware_master
+    if ! mute_all_once; then : > "$STATE/mute-guard.failed"; exit 1; fi
+    mute_guard_owned || exit 1
+    printf '%s\n' "$identity" > "$STATE/mute-guard.ready" || exit 1
+    tries=0
+    while mute_guard_owned; do
+      sleep 1
+      mute_guard_owned || break
+      if mute_all_once; then tries=0; else tries=$((tries+1)); fi
+      if [ "$tries" -ge 3 ]; then
+        log "NIGHT MUTE: enforcement failed three times; ending session"
+        : > "$STATE/mute-guard.failed"
+        : > "$ROOT/run/.a36-session-exit"
+        kill_subsystem_payload
+        exit 1
+      fi
+    done
   ) &
   pid=$!
-  stamp=$(process_start_time "$pid") || return 1
-  printf '%s %s %s\n' "$pid" "$stamp" "$owner_boot" > "$MUTE_PIDFILE"
+  if ! stamp=$(process_start_time "$pid") ||
+     ! printf '%s %s %s\n' "$pid" "$stamp" "$owner_boot" > "$MUTE_PIDFILE.tmp" ||
+     ! mv -f "$MUTE_PIDFILE.tmp" "$MUTE_PIDFILE"; then
+    kill "$pid" 2>/dev/null || :; wait "$pid" 2>/dev/null || :
+    stop_mute_guard; return 1
+  fi
+  identity="$pid $stamp $owner_boot"
+  while mute_guard_owned && recorded_process_alive "$pid" "$stamp" "$owner_boot"; do
+    [ ! -f "$STATE/mute-guard.failed" ] || break
+    if [ "$(cat "$STATE/mute-guard.ready" 2>/dev/null)" = "$identity" ]; then
+      log "NIGHT MUTE on: verified codec silence; watchdog owns all mixer operations"
+      return 0
+    fi
+    tries=$((tries+1)); [ "$tries" -lt 100 ] || break
+    sleep 0.1
+  done
+  log "NIGHT MUTE: initial silence could not be verified; refusing session"
+  stop_mute_guard
+  return 1
 }
 
 # Prepare policy after /run is mounted, before any session daemon or frontend.
@@ -1708,7 +1816,7 @@ start_mute_guard() {
 prepare_session_policy() {
   rm -f "$ROOT/run/.a36-handoff" "$ROOT/run/.a36-muted" \
     "$ROOT/run/.a36-session-exit" "$ROOT/run/.a36-session-reboot" \
-    "$ROOT/run/.a36-es-stopped" "$ROOT/run/.a36-es-start"
+    "$ROOT/run/.a36-es-stopped" "$ROOT/run/.a36-es-start" "$ROOT/run/.a36-es-restart"
   [ "$HANDOFF" != 1 ] || : > "$ROOT/run/.a36-handoff"
   if subsystem_muted; then : > "$ROOT/run/.a36-muted"; fi
   if session_uses_init; then
@@ -1722,24 +1830,37 @@ prepare_session_policy() {
 # A marker must interrupt the foreground payload, including a standalone port or
 # the wrapper's infinite RetroArch boot loop. Keep this watcher outside the chroot.
 watch_session_markers() {
-  local payload="$1"
+  local payload="$1" maintenance="${2:-0}" stamp boot
   exec </dev/null >/dev/null 2>&1 3>&- 4>&-
+  stamp=$(process_start_time "$payload") || return 0
+  boot=$(cat /proc/sys/kernel/random/boot_id)
   while :; do
     if [ -f "$ROOT/run/.a36-session-exit" ] || [ -f "$ROOT/run/.a36-session-reboot" ]; then
       kill -KILL "$payload" 2>/dev/null
       kill_subsystem_payload
       return 0
     fi
-    kill -0 "$payload" 2>/dev/null || return 0
+    if [ "$maintenance" = 1 ] &&
+       { [ -f "$ROOT/run/.a36-es-stopped" ] || [ -f "$ROOT/run/.a36-es-start" ] ||
+         [ -f "$ROOT/run/.a36-es-restart" ]; }; then
+      # Stop the tracked wrapper and its actual frontend (including RA), while
+      # leaving the session and unrelated maintenance/hotkey processes alive.
+      kill_tracked_tree "$payload" "$stamp" "$boot"
+      return 0
+    fi
+    recorded_process_alive "$payload" "$stamp" "$boot" || return 0
     sleep 0.1
   done
 }
 run_session_payload() {
   local payload watcher rc
   "$@" & payload=$!
-  watch_session_markers "$payload" & watcher=$!
+  watch_session_markers "$payload" "${FRONTEND_MAINTENANCE:-0}" & watcher=$!
   wait "$payload"; rc=$?
-  if [ ! -f "$ROOT/run/.a36-session-exit" ] && [ ! -f "$ROOT/run/.a36-session-reboot" ]; then
+  if [ ! -f "$ROOT/run/.a36-session-exit" ] && [ ! -f "$ROOT/run/.a36-session-reboot" ] &&
+     { [ "${FRONTEND_MAINTENANCE:-0}" != 1 ] ||
+       { [ ! -f "$ROOT/run/.a36-es-stopped" ] && [ ! -f "$ROOT/run/.a36-es-start" ] &&
+         [ ! -f "$ROOT/run/.a36-es-restart" ]; }; }; then
     kill "$watcher" 2>/dev/null || :
   fi
   wait "$watcher" 2>/dev/null || :
@@ -1776,9 +1897,9 @@ run_es_wrapper() {
   while :; do
     log "launch EmulationStation via $ES (log -> $SESSION_OUT)"
     if root_file "$ROOT" /bin/sh; then
-      XDG_RUNTIME_DIR=/run/user/0 run_session_payload run_in_subsystem /bin/sh -lc 'exec "$1"' subsystem-es "$ES"
+      FRONTEND_MAINTENANCE=1 XDG_RUNTIME_DIR=/run/user/0 run_session_payload run_in_subsystem /bin/sh -lc 'exec "$1"' subsystem-es "$ES"
     else
-      XDG_RUNTIME_DIR=/run/user/0 run_session_payload run_in_subsystem "$ES"
+      FRONTEND_MAINTENANCE=1 XDG_RUNTIME_DIR=/run/user/0 run_session_payload run_in_subsystem "$ES"
     fi
     rc=$?
     # A stop request precedes finish.sh's unbounded sync, or maintenance. Wait
@@ -1793,14 +1914,14 @@ run_es_wrapper() {
     fi
     if [ -f "$ROOT/run/.a36-session-reboot" ]; then
       kill_subsystem_payload
-      rm -f "$ROOT/run/.a36-session-reboot" "$ROOT/run/.a36-es-stopped" "$ROOT/run/.a36-es-start"
+      rm -f "$ROOT/run/.a36-session-reboot" "$ROOT/run/.a36-es-stopped" "$ROOT/run/.a36-es-start" "$ROOT/run/.a36-es-restart"
       log "restart from subsystem; relaunching EmulationStation"
       start_hotkeys
       continue
     fi
     session_active || break
-    if [ -f "$ROOT/run/.a36-es-start" ]; then
-      rm -f "$ROOT/run/.a36-es-start"; continue
+    if [ -f "$ROOT/run/.a36-es-start" ] || [ -f "$ROOT/run/.a36-es-restart" ]; then
+      rm -f "$ROOT/run/.a36-es-start" "$ROOT/run/.a36-es-restart"; continue
     fi
     [ "${rc:-1}" = 0 ] && { log "EmulationStation exited cleanly; returning to Android"; break; }
     now=$(date +%s 2>/dev/null) || now=0
@@ -1992,7 +2113,8 @@ prep_darkos_env || { log "runtime/audio preparation failed"; exit 1; }
 prime_udev
 prepare_session_policy || exit 1
 if [ "$HANDOFF" = 1 ]; then handoff; else log "no handoff: Android stays up; display devices hidden"; fi
-enable_hardware_master
+# Muted handoffs perform this setup inside the recorded worker as well.
+if ! { [ "$HANDOFF" = 1 ] && subsystem_muted; }; then enable_hardware_master; fi
 start_mute_guard || exit 1
 # Wait on a child so TERM interrupts wait immediately, including while init runs.
 run_session & SESSION_PID=$!

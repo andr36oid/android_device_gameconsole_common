@@ -31,8 +31,36 @@ fail() { echo "FAIL: $*" >&2; exit 1; }
 log() { printf '%s\n' "$*" >> "$LOG"; }
 getprop() { [ "$1" != persist.andr36oid.subsystem.mute ] || echo 1; }
 setprop() { printf '%s\n' "$*" >> "$tmp/properties"; }
-tinymix() { printf '%s\n' "$*" >> "$tmp/mixer"; }
+# Stateful tinymix fixture: successful writes alone do not prove silence.
+# Match the local Android tinymix -D/-v output, including stereo volumes.
+mock_tinymix() {
+  printf '%s\n' "$*" >> "$tmp/mixer"
+  [ "${1:-}" != -D ] || shift 2
+  if [ "$#" = 0 ]; then
+    printf '0\tENUM\t1\tPlayback Path                            SPK_HP\n'
+    printf '1\tINT\t2\tMaster Playback Volume                   235 235\n'
+    printf '2\tINT\t2\tPlayback Volume                          235 235\n'
+    return 0
+  fi
+  local readback=0 key
+  if [ "$1" = -v ]; then readback=1; shift; fi
+  case "$1" in
+    'Playback Path') key=path ;;
+    'Master Playback Volume') key=master ;;
+    'Playback Volume') key=playback ;;
+    *) return 2 ;;
+  esac
+  if [ "$readback" = 1 ]; then
+    cat "$tmp/mixer-$key"
+  elif [ "$key" = path ]; then
+    echo OFF > "$tmp/mixer-$key"
+  else
+    echo '0 0' > "$tmp/mixer-$key"
+  fi
+}
 update_settings_entry() { :; }
+enable_hardware_master() { :; }
+tinymix() { mock_tinymix "$@"; }
 # Use /proc state so an exited grandchild zombie does not count as a survivor.
 alive() {
   [ -r "/proc/$1/stat" ] || return 1
