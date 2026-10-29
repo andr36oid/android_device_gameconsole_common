@@ -1352,21 +1352,18 @@ boot_subsystem_session() {
 # so it holds no matter the source. We also do NOT start ogage in this mode, so nothing
 # restores a saved volume and there is no start-up blip; a 1s watchdog re-asserts the
 # mute in case an app pokes the mixer directly.
-MUTE_CTLS='Playback Master PCM Speaker "Speaker HP" "SPK HP" Headphone DAC "Class-D"'
+# One pass of "make the codec silent": zero every playback volume control, then (on the
+# RK817-style codec these clones use) mute the hardware output switch AND set the routing
+# enum to OFF, which disconnects the speaker entirely so volume no longer matters. Unknown
+# control names error out harmlessly, keeping this portable across clone codecs.
+MUTE_SNIPPET='for c in Playback Master PCM Speaker "Speaker HP" "SPK HP" Headphone DAC "Class-D"; do amixer -q sset "$c" 0% mute 2>/dev/null; done; amixer -q sset "Playback Hardware Master" mute 2>/dev/null; amixer -q sset "Playback Path" OFF 2>/dev/null'
 subsystem_muted() { [ "$(getprop persist.andr36oid.subsystem.mute 2>/dev/null)" = 1 ]; }
-mute_all_once() {
-  run_in_subsystem /bin/sh -c '
-    for c in '"$MUTE_CTLS"'; do amixer -q sset "$c" 0% mute 2>/dev/null; done' >/dev/null 2>&1
-}
+mute_all_once() { run_in_subsystem /bin/sh -c "$MUTE_SNIPPET" >/dev/null 2>&1; }
 start_mute_guard() {
   { [ "$HANDOFF" = 1 ] && subsystem_muted; } || return 0
   log "NIGHT MUTE on (persist.andr36oid.subsystem.mute=1): forcing subsystem audio off"
   mute_all_once
-  run_in_subsystem /bin/sh -c '
-    while :; do
-      for c in '"$MUTE_CTLS"'; do amixer -q sset "$c" 0% mute 2>/dev/null; done
-      sleep 1
-    done' >/dev/null 2>&1 &
+  run_in_subsystem /bin/sh -c "while :; do $MUTE_SNIPPET; sleep 1; done" >/dev/null 2>&1 &
   MUTE_GUARD=$!
 }
 
