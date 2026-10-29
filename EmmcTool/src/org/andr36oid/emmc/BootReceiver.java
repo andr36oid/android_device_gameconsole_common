@@ -26,12 +26,15 @@ public class BootReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (!Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) return;
+        if (!Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())
+                && !Intent.ACTION_LOCKED_BOOT_COMPLETED.equals(intent.getAction())) return;
         final boolean on = EmmcFragment.consoleHasEmmc() && EmmcFragment.switchedOn();
         enable(context, EmmcActivity.class.getName(), on);
         // on the eMMC system with a data card too: the way back to the stock system
         enable(context, installEntry(), on && (Installer.fromSD()
                 || (Installer.fromEmmc() && !Installer.datacard().isEmpty())));
+        // Installation checks and UI still wait for the normal boot pass.
+        if (Intent.ACTION_LOCKED_BOOT_COMPLETED.equals(intent.getAction())) return;
         if (on && Installer.fromSD() && pending()) {
             open(context, false);
         } else if (on && Installer.fromSD() && !Installer.running()) {
