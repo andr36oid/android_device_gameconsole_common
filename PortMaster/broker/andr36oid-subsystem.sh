@@ -623,6 +623,55 @@ set_ra_quit_combo() {
     fi
   done
 }
+install_systemctl_shim() {
+  # dArkOS drives its whole lifecycle with systemd: `systemctl stop/restart
+  # emulationstation` around games and settings, `systemctl poweroff/suspend` for the
+  # power button (finish.sh / pause.sh), `systemctl restart ogage`, and dozens more.
+  # We run dArkOS in a namespace with NO systemd, so the real systemctl is a no-op --
+  # worse, finish.sh's `while pgrep -x emulationstation` spins forever after a no-op
+  # stop, and a crash-on-resume after a fullscreen game ends the whole session because
+  # nothing restarts ES. Shadow systemctl on the subsystem PATH (/usr/local/bin is
+  # first, and our sudo shim keeps that PATH) with one that maps the session-critical
+  # verbs to real actions and quietly succeeds for the rest. Power/suspend/reboot drop
+  # a marker in /run -- a tmpfs mounted before the unshare, so the broker reads it as
+  # $ROOT/run -- which run_es_wrapper uses to end or cycle the session.
+  local dst="$ROOT/usr/local/bin/systemctl"
+  mkdir -p "$ROOT/usr/local/bin" 2>/dev/null || return 0
+  cat > "$dst" <<'SHIM' || return 0
+#!/bin/sh
+# andr36oid subsystem systemctl shim (written by the broker). dArkOS assumes systemd;
+# we have none. Translate the verbs that matter and succeed quietly for the rest.
+verb=""
+for a in "$@"; do case "$a" in -*) ;; *) verb=$a; break ;; esac; done
+rest=""; skip=1
+for a in "$@"; do
+  case "$a" in -*) ;; *) if [ "$skip" = 1 ]; then skip=0; else rest="$rest $a"; fi ;; esac
+done
+case "$verb" in
+  stop)
+    case "$rest" in *emulationstation*) pkill -x emulationstation 2>/dev/null ;; esac ;;
+  restart|start)
+    case "$rest" in
+      *emulationstation*) : > /tmp/es-restart 2>/dev/null; pkill -x emulationstation 2>/dev/null ;;
+      *ogage*) pkill -x ogage 2>/dev/null; setsid /usr/local/bin/ogage >/dev/null 2>&1 & ;;
+    esac ;;
+  poweroff|halt|suspend)
+    : > /run/.a36-session-exit 2>/dev/null; pkill -x emulationstation 2>/dev/null ;;
+  reboot)
+    : > /run/.a36-session-reboot 2>/dev/null; pkill -x emulationstation 2>/dev/null ;;
+  is-active)
+    case "$rest" in
+      *emulationstation*) pgrep -x emulationstation >/dev/null 2>&1 && { echo active; exit 0; }; echo inactive; exit 3 ;;
+      *ogage*) pgrep -x ogage >/dev/null 2>&1 && { echo active; exit 0; }; echo inactive; exit 3 ;;
+      *) echo inactive; exit 3 ;;
+    esac ;;
+esac
+exit 0
+SHIM
+  chmod 0755 "$dst" 2>/dev/null
+  log "installed subsystem systemctl shim (lifecycle verbs -> real actions)"
+}
+
 prime_input() {
   if [ -f "$UPPER/etc/emulationstation/es_input.cfg" ]; then
     log "es_input.cfg already present in overlay (keeping user mapping)"
@@ -657,6 +706,7 @@ prime_input() {
   set_ra_input_binds
   set_mupen_input_binds
   set_ra_quit_combo
+  install_systemctl_shim
   # Volume-key diagnostic: dArkOS's ogage daemon scans /dev/input/event0..event10
   # and drives "amixer sset Playback". If the volume buttons do nothing, this
   # records every input device's name, event handler and key bitmap so the report
@@ -1311,12 +1361,44 @@ start_hotkeys() {
 run_es_wrapper() {
   find_es "$ROOT" || { log "rootfs has no EmulationStation target"; return 1; }
   start_hotkeys
-  log "launch EmulationStation via $ES (log -> $SESSION_OUT)"
-  if root_file "$ROOT" /bin/sh; then
-    XDG_RUNTIME_DIR=/run/user/0 run_in_subsystem /bin/sh -lc 'exec "$1"' subsystem-es "$ES"
-  else
-    XDG_RUNTIME_DIR=/run/user/0 run_in_subsystem "$ES"
-  fi
+  rm -f "$ROOT/run/.a36-session-exit" "$ROOT/run/.a36-session-reboot" 2>/dev/null
+  # dArkOS leans on systemd to keep ES alive across a crash or a settings-driven
+  # restart; we have none, so re-launch ES ourselves when its wrapper exits. Only an
+  # explicit power-off/suspend (-> /run/.a36-session-exit via the systemctl shim), a
+  # clean quit, or a crash-loop ends the session; a reboot/restart re-launches. Bound
+  # the rate so a pathological crash cannot trap the user inside the subsystem.
+  local rc tries=0 window i now
+  window=$(date +%s 2>/dev/null) || window=0
+  while :; do
+    log "launch EmulationStation via $ES (log -> $SESSION_OUT)"
+    if root_file "$ROOT" /bin/sh; then
+      XDG_RUNTIME_DIR=/run/user/0 run_in_subsystem /bin/sh -lc 'exec "$1"' subsystem-es "$ES"
+    else
+      XDG_RUNTIME_DIR=/run/user/0 run_in_subsystem "$ES"
+    fi
+    rc=$?
+    # Give an in-flight power action (finish.sh does umount+sync before poweroff) a few
+    # seconds to drop its marker before we decide whether to re-launch.
+    i=0
+    while [ "$i" -lt 8 ]; do
+      { [ -f "$ROOT/run/.a36-session-exit" ] || [ -f "$ROOT/run/.a36-session-reboot" ]; } && break
+      session_active || break
+      sleep 0.5; i=$((i+1))
+    done
+    if [ -f "$ROOT/run/.a36-session-exit" ]; then
+      rm -f "$ROOT/run/.a36-session-exit"; log "power off from subsystem; returning to Android"; break
+    fi
+    if [ -f "$ROOT/run/.a36-session-reboot" ]; then
+      rm -f "$ROOT/run/.a36-session-reboot"; log "restart from subsystem; relaunching EmulationStation"; continue
+    fi
+    session_active || break
+    [ "${rc:-1}" = 0 ] && { log "EmulationStation exited cleanly; returning to Android"; break; }
+    now=$(date +%s 2>/dev/null) || now=0
+    [ $((now - window)) -gt 60 ] && { tries=0; window=$now; }
+    tries=$((tries+1))
+    [ "$tries" -gt 3 ] && { log "EmulationStation exited repeatedly; returning to Android"; break; }
+    log "EmulationStation exited unexpectedly (rc=$rc); relaunching (attempt $tries)"
+  done
 }
 
 scan_images() {
