@@ -984,6 +984,7 @@ finish_session() {
   [ -n "${GUARD:-}" ] && kill "$GUARD" 2>/dev/null
   [ -n "${CONSOLE_FWD:-}" ] && kill "$CONSOLE_FWD" 2>/dev/null
   [ -n "${MUTE_GUARD:-}" ] && kill "$MUTE_GUARD" 2>/dev/null
+  rm -f "${MUTE_PIDFILE:-/data/local/tmp/portmaster/mute-guard.pid}" 2>/dev/null
   log "session ended rc=$rc"
   if [ "${LIVE_LOG:-0}" = 1 ]; then
     LIVE_LOG=0
@@ -1352,19 +1353,28 @@ boot_subsystem_session() {
 # so it holds no matter the source. We also do NOT start ogage in this mode, so nothing
 # restores a saved volume and there is no start-up blip; a 1s watchdog re-asserts the
 # mute in case an app pokes the mixer directly.
-# One pass of "make the codec silent": zero every playback volume control, then (on the
-# RK817-style codec these clones use) mute the hardware output switch AND set the routing
-# enum to OFF, which disconnects the speaker entirely so volume no longer matters. Unknown
-# control names error out harmlessly, keeping this portable across clone codecs.
-MUTE_SNIPPET='for c in Playback Master PCM Speaker "Speaker HP" "SPK HP" Headphone DAC "Class-D"; do amixer -q sset "$c" 0% mute 2>/dev/null; done; amixer -q sset "Playback Hardware Master" mute 2>/dev/null; amixer -q sset "Playback Path" OFF 2>/dev/null'
+# Night-mute: hold the shared codec silent while a handoff session runs (the ES speaker is
+# loud by default and someone may be asleep nearby). The subsystem's own amixer is
+# unreliable here ("Mixer attach default error"), so we drive card 0 from the broker side
+# with tinymix, which the shell domain can use. The control names are the RK817-style ones
+# these clones carry; tinymix ignores names a codec does not have, so this is a harmless
+# no-op elsewhere. Setting "Playback Path" to 0 (OFF) unroutes the speaker entirely, so
+# volume stops mattering; we zero the volumes too as defence in depth.
+MUTE_PIDFILE="$STATE/mute-guard.pid"
 subsystem_muted() { [ "$(getprop persist.andr36oid.subsystem.mute 2>/dev/null)" = 1 ]; }
-mute_all_once() { run_in_subsystem /bin/sh -c "$MUTE_SNIPPET" >/dev/null 2>&1; }
+mute_all_once() {
+  tinymix "Playback Path" 0 >/dev/null 2>&1
+  tinymix "Master Playback Volume" 0 >/dev/null 2>&1
+  tinymix "Playback Volume" 0 >/dev/null 2>&1
+}
 start_mute_guard() {
   { [ "$HANDOFF" = 1 ] && subsystem_muted; } || return 0
-  log "NIGHT MUTE on (persist.andr36oid.subsystem.mute=1): forcing subsystem audio off"
+  command -v tinymix >/dev/null 2>&1 || { log "NIGHT MUTE requested but tinymix is missing; cannot force silence"; return 0; }
+  log "NIGHT MUTE on (persist.andr36oid.subsystem.mute=1): holding the codec silent via tinymix"
   mute_all_once
-  run_in_subsystem /bin/sh -c "while :; do $MUTE_SNIPPET; sleep 1; done" >/dev/null 2>&1 &
+  ( while :; do mute_all_once; sleep 1; done ) &
   MUTE_GUARD=$!
+  echo "$MUTE_GUARD" > "$MUTE_PIDFILE" 2>/dev/null
 }
 
 start_hotkeys() {
