@@ -796,52 +796,132 @@ set_ra_quit_combo() {
     fi
   done
 }
+session_uses_init() {
+  [ "$cmd" = start ] || return 1
+  [ "$SESSION_MODE" = systemd ] && return 0
+  { [ "$HANDOFF" = 0 ] && has_init "$ROOT"; } && return 0
+  ! find_es "$ROOT"
+}
+
 install_systemctl_shim() {
-  # dArkOS drives its whole lifecycle with systemd: `systemctl stop/restart
-  # emulationstation` around games and settings, `systemctl poweroff/suspend` for the
-  # power button (finish.sh / pause.sh), `systemctl restart ogage`, and dozens more.
-  # We run dArkOS in a namespace with NO systemd, so the real systemctl is a no-op --
-  # worse, finish.sh's `while pgrep -x emulationstation` spins forever after a no-op
-  # stop, and a crash-on-resume after a fullscreen game ends the whole session because
-  # nothing restarts ES. Shadow systemctl on the subsystem PATH (/usr/local/bin is
-  # first, and our sudo shim keeps that PATH) with one that maps the session-critical
-  # verbs to real actions and quietly succeeds for the rest. Power/suspend/reboot drop
-  # a marker in /run -- a tmpfs mounted before the unshare, so the broker reads it as
-  # $ROOT/run -- which run_es_wrapper uses to end or cycle the session.
   local dst="$ROOT/usr/local/bin/systemctl"
-  mkdir -p "$ROOT/usr/local/bin" 2>/dev/null || return 0
-  cat > "$dst" <<'SHIM' || return 0
+  # An overlay can retain the shim from a previous wrapper session. Remove only
+  # our generated client before booting init, so systemd gets its real client.
+  if session_uses_init; then
+    if [ -f "$dst" ] && grep -q '^# andr36oid subsystem systemctl shim' "$dst"; then
+      rm -f "$dst"
+    fi
+    return 0
+  fi
+  mkdir -p "$ROOT/usr/local/bin" || return 1
+  cat > "$dst" <<'SHIM' || return 1
 #!/bin/sh
-# andr36oid subsystem systemctl shim (written by the broker). dArkOS assumes systemd;
-# we have none. Translate the verbs that matter and succeed quietly for the rest.
-verb=""
-for a in "$@"; do case "$a" in -*) ;; *) verb=$a; break ;; esac; done
-rest=""; skip=1
-for a in "$@"; do
-  case "$a" in -*) ;; *) if [ "$skip" = 1 ]; then skip=0; else rest="$rest $a"; fi ;; esac
+# andr36oid subsystem systemctl shim (written by the broker).
+# Also delegate if a retained copy is reached after switching session managers.
+if [ "$(cat /run/.a36-session-manager 2>/dev/null)" = systemd ] ||
+   [ "$(cat /proc/1/comm 2>/dev/null)" = systemd ]; then
+  for client in /usr/bin/systemctl /bin/systemctl; do
+    [ -x "$client" ] && [ ! "$client" -ef "$0" ] && exec "$client" "$@"
+  done
+  echo 'systemctl: real systemd client unavailable' >&2
+  exit 1
+fi
+
+# Rotate only the original arguments; retained positional arguments stay separate
+# at the end. Options may precede or follow the verb and may have operands.
+verb=; options=1; remaining=$#; quiet=0
+while [ "$remaining" -gt 0 ]; do
+  a=$1; shift; remaining=$((remaining-1))
+  if [ "$options" = 1 ]; then
+    case "$a" in
+      --) options=0; continue ;;
+      --job-mode|--type|-t)
+        [ "$remaining" -gt 0 ] || { echo "systemctl: missing operand for $a" >&2; exit 2; }
+        value=$1; shift; remaining=$((remaining-1))
+        case "$a:$value" in --job-mode:replace|--type:service|-t:service) continue ;; esac
+        echo "systemctl: unsupported $a $value" >&2; exit 2 ;;
+      --job-mode=replace|--type=service|--no-block|--no-pager|--no-ask-password|--full|-l|--plain) continue ;;
+      --quiet|-q) quiet=1; continue ;;
+      -*) echo "systemctl: unsupported option $a" >&2; exit 2 ;;
+    esac
+  fi
+  if [ -z "$verb" ]; then verb=$a; else set -- "$@" "$a"; fi
 done
+
+# Match argv[0], including its boundary: the 16-character comm name is truncated
+# by Linux, and an unanchored -f would also match the wrapper or a broker shell.
+# /proc may be shared with Android; filter every candidate by its actual root.
+unit_pids() {
+  case "$1" in
+    emulationstation) pattern='^(/usr/bin/emulationstation/emulationstation|/usr/bin/emulationstation|/usr/bin/EmulationStation)([[:space:]]|$)' ;;
+    ogage) pattern='^/usr/local/bin/ogage([[:space:]]|$)' ;;
+  esac
+  for pid in $(pgrep -f "$pattern" 2>/dev/null); do
+    [ "/proc/$pid/root" -ef / ] && printf '%s\n' "$pid"
+  done
+}
+stop_unit() {
+  for pid in $(unit_pids "$1"); do kill "$pid" 2>/dev/null || :; done
+}
+
 case "$verb" in
-  stop)
-    case "$rest" in *emulationstation*) pkill -x emulationstation 2>/dev/null ;; esac ;;
-  restart|start)
-    case "$rest" in
-      *emulationstation*) : > /tmp/es-restart 2>/dev/null; pkill -x emulationstation 2>/dev/null ;;
-      *ogage*) pkill -x ogage 2>/dev/null; setsid /usr/local/bin/ogage >/dev/null 2>&1 & ;;
-    esac ;;
-  poweroff|halt|suspend)
-    : > /run/.a36-session-exit 2>/dev/null; pkill -x emulationstation 2>/dev/null ;;
-  reboot)
-    : > /run/.a36-session-reboot 2>/dev/null; pkill -x emulationstation 2>/dev/null ;;
-  is-active)
-    case "$rest" in
-      *emulationstation*) pgrep -x emulationstation >/dev/null 2>&1 && { echo active; exit 0; }; echo inactive; exit 3 ;;
-      *ogage*) pgrep -x ogage >/dev/null 2>&1 && { echo active; exit 0; }; echo inactive; exit 3 ;;
-      *) echo inactive; exit 3 ;;
-    esac ;;
+  poweroff|halt|suspend|reboot)
+    [ "$#" = 0 ] || { echo "systemctl: $verb takes no units" >&2; exit 2; }
+    if [ "$verb" = reboot ]; then
+      : > /run/.a36-session-reboot || exit 1
+    else
+      : > /run/.a36-session-exit || exit 1
+    fi
+    stop_unit emulationstation
+    exit 0 ;;
+  start|restart|stop|is-active) [ "$#" -gt 0 ] || { echo 'systemctl: missing unit' >&2; exit 2; } ;;
+  *) echo "systemctl: unsupported verb $verb" >&2; exit 2 ;;
 esac
-exit 0
+rc=0
+for unit do
+  case "$unit" in
+    emulationstation|emulationstation.service) unit=emulationstation ;;
+    ogage|ogage.service) unit=ogage ;;
+    *) echo "systemctl: unsupported unit $unit" >&2; rc=4; continue ;;
+  esac
+  case "$verb" in
+    stop)
+      # A deliberate stop can cover unbounded sync/maintenance. Keep the broker
+      # from treating the ensuing exit as a crash until start/restart or poweroff.
+      if [ "$unit" = emulationstation ]; then
+        : > /run/.a36-es-stopped || exit 1
+        rm -f /run/.a36-es-start
+      fi
+      stop_unit "$unit" ;;
+    start|restart)
+      if [ "$unit" = emulationstation ]; then
+        if [ -f /run/.a36-es-stopped ]; then
+          : > /run/.a36-es-start || exit 1
+          rm -f /run/.a36-es-stopped
+        else
+          : > /tmp/es-restart || exit 1
+        fi
+        stop_unit "$unit"
+      else
+        stop_unit "$unit"
+        # This policy is prepared by the broker, also for emulator return paths
+        # that call systemctl directly instead of start_hotkeys.
+        if [ -f /run/.a36-handoff ] && [ ! -f /run/.a36-muted ]; then
+          setsid /usr/local/bin/ogage >/dev/null 2>&1 &
+        fi
+      fi ;;
+    is-active)
+      if [ -n "$(unit_pids "$unit")" ]; then
+        [ "$quiet" = 1 ] || echo active
+      else
+        [ "$quiet" = 1 ] || echo inactive
+        [ "$rc" != 0 ] || rc=3
+      fi ;;
+  esac
+done
+exit "$rc"
 SHIM
-  chmod 0755 "$dst" 2>/dev/null
+  chmod 0755 "$dst" || return 1
   log "installed subsystem systemctl shim (lifecycle verbs -> real actions)"
 }
 
@@ -868,7 +948,6 @@ prime_input() {
   set_kodi_input_binds
   prime_storage_input
   set_ra_quit_combo
-  install_systemctl_shim
   # Volume-key diagnostic: dArkOS's ogage daemon scans /dev/input/event0..event10
   # and drives "amixer sset Playback". If the volume buttons do nothing, this
   # records every input device's name, event handler and key bitmap so the report
@@ -980,12 +1059,17 @@ bind_core() {
 # launched - an emulator that hangs holds /dev/dri/card0's DRM master, so just
 # restarting SurfaceFlinger would not get the display back). Identify them by
 # their chroot root pointing into $ROOT; belt-and-braces fuser on card0.
-kill_subsystem() {
+kill_subsystem_payload() {
   local p pid r
   for p in /proc/[0-9]*; do
     r=$(readlink "$p/root" 2>/dev/null) || continue
     case "$r" in "$ROOT"|"$ROOT"/*) pid=${p#/proc/}; kill -9 "$pid" 2>/dev/null;; esac
   done
+  return 0
+}
+
+kill_subsystem() {
+  kill_subsystem_payload
   if [ "$DID_HANDOFF" = 1 ]; then
     command -v fuser >/dev/null 2>&1 && fuser -k /dev/dri/card0 2>/dev/null
   fi
@@ -1040,6 +1124,9 @@ prepare_retroarch_sync() {
 
 restore_android() {
   [ "$SESSION_OWNED" = 1 ] || return 0
+  # Invalidate ownership and reap the watchdog before touching the shared codec
+  # or restarting Android. This path is shared by EXIT and guardian recovery.
+  stop_mute_guard
   kill_subsystem
   prepare_retroarch_sync
   if [ -f "$STATE/session.hw-master" ]; then
@@ -1094,7 +1181,7 @@ recover_session() {
   if [ "$(cat "$STATE/session.lock/boot_id" 2>/dev/null)" != "$(cat /proc/sys/kernel/random/boot_id)" ]; then
     # /data survives reboot, mounts and PIDs do not. Never detach a loop or kill
     # a recycled PID from a previous boot based on its old metadata.
-    rm -f "$STATE/session.loop" "$STATE/session.handoff" "$STATE/session.mounts" "$STATE/session.fifo" "$STATE/session.hw-master" "$STATE/session.lock/pid" "$STATE/session.lock/boot_id"
+    rm -f "$STATE/session.loop" "$STATE/session.handoff" "$STATE/session.mounts" "$STATE/session.fifo" "$STATE/session.hw-master" "$MUTE_PIDFILE" "$STATE/mute-guard.owner" "$STATE/session.lock/pid" "$STATE/session.lock/boot_id"
     rmdir "$STATE/session.lock" 2>/dev/null
     return 0
   fi
@@ -1145,8 +1232,6 @@ finish_session() {
   : > "$STATE/subsystem.clean"
   [ -n "${GUARD:-}" ] && kill "$GUARD" 2>/dev/null
   [ -n "${CONSOLE_FWD:-}" ] && kill "$CONSOLE_FWD" 2>/dev/null
-  [ -n "${MUTE_GUARD:-}" ] && kill "$MUTE_GUARD" 2>/dev/null
-  rm -f "${MUTE_PIDFILE:-/data/local/tmp/portmaster/mute-guard.pid}" 2>/dev/null
   log "session ended rc=$rc"
   if [ "${LIVE_LOG:-0}" = 1 ]; then
     LIVE_LOG=0
@@ -1451,6 +1536,10 @@ install_session_units() {
   done
   printf '[Unit]\nAfter=emulationstation.service\n' \
     > "$ROOT/etc/systemd/system/ogage.service.d/10-order.conf"
+  for u in audiopath.service audiostate.service ogage.service; do
+    printf '[Unit]\nConditionPathExists=/run/.a36-handoff\nConditionPathExists=!/run/.a36-muted\n' \
+      > "$ROOT/etc/systemd/system/$u.d/20-audio-policy.conf"
+  done
 }
 
 # B1: boot dArkOSen's own init (systemd) as PID1 in a new PID namespace, so the session
@@ -1529,14 +1618,129 @@ mute_all_once() {
   tinymix "Master Playback Volume" 0 >/dev/null 2>&1
   tinymix "Playback Volume" 0 >/dev/null 2>&1
 }
+# Boot ID plus /proc start time protects recovery from stale/recycled PIDs.
+process_start_time() {
+  local stat
+  stat=$(cat "/proc/$1/stat" 2>/dev/null) || return 1
+  printf '%s\n' "${stat##*) }" | awk '{print $20}'
+}
+recorded_process_alive() {
+  [ "$3" = "$(cat /proc/sys/kernel/random/boot_id)" ] || return 1
+  case "$1:$2" in *[!0-9:]*|:*|*:) return 1 ;; esac
+  [ "$(process_start_time "$1")" = "$2" ] && kill -0 "$1" 2>/dev/null
+}
+mute_guard_owned() {
+  [ "$(cat "$STATE/mute-guard.owner" 2>/dev/null)" = "$owner" ] &&
+    [ "$(cat "$STATE/session.lock/pid" 2>/dev/null)" = "$owner_pid" ] &&
+    recorded_process_alive "$owner_pid" "$owner_start" "$owner_boot" || return 1
+  case "$(cat "/proc/$owner_pid/stat" 2>/dev/null)" in *') Z '*|*') X '*|'') return 1 ;; esac
+}
+# A mixer stalled during TERM must not complete a late mute after restoration.
+# Only walk descendants of the already identity-checked watchdog.
+kill_mute_guard_children() {
+  local parent="$1" p stat child stamp
+  for p in /proc/[0-9]*; do
+    stat=$(cat "$p/stat" 2>/dev/null) || continue
+    # Kernel stat fields after comm contain no glob characters.
+    # shellcheck disable=SC2086
+    set -- ${stat##*) }
+    [ "${2:-}" = "$parent" ] || continue
+    child=${p#/proc/}
+    stamp=${20}
+    kill_mute_guard_children "$child"
+    if [ "$(process_start_time "$child")" = "$stamp" ]; then
+      kill -9 "$child" 2>/dev/null || :
+      while [ "$(process_start_time "$child")" = "$stamp" ]; do
+        case "$(cat "/proc/$child/stat" 2>/dev/null)" in *') Z '*|*') X '*|'') break ;; esac
+        sleep 0.1
+      done
+    fi
+  done
+}
+stop_mute_guard() {
+  local pid stamp boot extra tries=0
+  rm -f "$STATE/mute-guard.owner"
+  if [ -r "$MUTE_PIDFILE" ] && read -r pid stamp boot extra < "$MUTE_PIDFILE" 2>/dev/null &&
+     [ -z "$extra" ] && recorded_process_alive "$pid" "$stamp" "$boot"; then
+    kill "$pid" 2>/dev/null || :
+    # Recovery cannot wait(2) for a non-child. Poll identity as well, killing a
+    # stuck mixer before its guard, then reap our child. Zombies are already done.
+    while recorded_process_alive "$pid" "$stamp" "$boot"; do
+      case "$(cat "/proc/$pid/stat" 2>/dev/null)" in *') Z '*) break ;; esac
+      if [ "$tries" -ge 20 ]; then
+        kill_mute_guard_children "$pid"
+        recorded_process_alive "$pid" "$stamp" "$boot" && kill -9 "$pid" 2>/dev/null || :
+      fi
+      sleep 0.1; tries=$((tries+1))
+    done
+    wait "$pid" 2>/dev/null || :
+  fi
+  rm -f "$MUTE_PIDFILE"
+}
 start_mute_guard() {
   { [ "$HANDOFF" = 1 ] && subsystem_muted; } || return 0
   command -v tinymix >/dev/null 2>&1 || { log "NIGHT MUTE requested but tinymix is missing; cannot force silence"; return 0; }
+  local owner_pid owner_start owner_boot owner pid stamp
+  owner_pid=$(cat "$STATE/session.lock/pid") || return 1
+  owner_start=$(process_start_time "$owner_pid") || return 1
+  owner_boot=$(cat /proc/sys/kernel/random/boot_id) || return 1
+  owner="$owner_pid $owner_start $owner_boot"
+  stop_mute_guard
+  printf '%s\n' "$owner" > "$STATE/mute-guard.owner" || return 1
   log "NIGHT MUTE on (persist.andr36oid.subsystem.mute=1): holding the codec silent via tinymix"
   mute_all_once
-  ( while :; do mute_all_once; sleep 1; done ) &
-  MUTE_GUARD=$!
-  echo "$MUTE_GUARD" > "$MUTE_PIDFILE" 2>/dev/null
+  (
+    # Do not hold the session FIFO (or the saved console descriptors) open.
+    exec </dev/null >/dev/null 2>&1 3>&- 4>&-
+    trap 'exit 0' HUP INT TERM
+    while mute_guard_owned; do mute_all_once; sleep 1; done
+  ) &
+  pid=$!
+  stamp=$(process_start_time "$pid") || return 1
+  printf '%s %s %s\n' "$pid" "$stamp" "$owner_boot" > "$MUTE_PIDFILE"
+}
+
+# Prepare policy after /run is mounted, before any session daemon or frontend.
+# The same boundary covers wrapper, bare, standalone ports and real init.
+prepare_session_policy() {
+  rm -f "$ROOT/run/.a36-handoff" "$ROOT/run/.a36-muted" \
+    "$ROOT/run/.a36-session-exit" "$ROOT/run/.a36-session-reboot" \
+    "$ROOT/run/.a36-es-stopped" "$ROOT/run/.a36-es-start"
+  [ "$HANDOFF" != 1 ] || : > "$ROOT/run/.a36-handoff"
+  if subsystem_muted; then : > "$ROOT/run/.a36-muted"; fi
+  if session_uses_init; then
+    echo systemd > "$ROOT/run/.a36-session-manager"
+  else
+    echo wrapper > "$ROOT/run/.a36-session-manager"
+  fi
+  install_systemctl_shim
+}
+
+# A marker must interrupt the foreground payload, including a standalone port or
+# the wrapper's infinite RetroArch boot loop. Keep this watcher outside the chroot.
+watch_session_markers() {
+  local payload="$1"
+  exec </dev/null >/dev/null 2>&1 3>&- 4>&-
+  while :; do
+    if [ -f "$ROOT/run/.a36-session-exit" ] || [ -f "$ROOT/run/.a36-session-reboot" ]; then
+      kill -KILL "$payload" 2>/dev/null
+      kill_subsystem_payload
+      return 0
+    fi
+    kill -0 "$payload" 2>/dev/null || return 0
+    sleep 0.1
+  done
+}
+run_session_payload() {
+  local payload watcher rc
+  "$@" & payload=$!
+  watch_session_markers "$payload" & watcher=$!
+  wait "$payload"; rc=$?
+  if [ ! -f "$ROOT/run/.a36-session-exit" ] && [ ! -f "$ROOT/run/.a36-session-reboot" ]; then
+    kill "$watcher" 2>/dev/null || :
+  fi
+  wait "$watcher" 2>/dev/null || :
+  return "$rc"
 }
 
 start_hotkeys() {
@@ -1559,43 +1763,47 @@ start_hotkeys() {
 run_es_wrapper() {
   find_es "$ROOT" || { log "rootfs has no EmulationStation target"; return 1; }
   start_hotkeys
-  start_mute_guard
-  rm -f "$ROOT/run/.a36-session-exit" "$ROOT/run/.a36-session-reboot" 2>/dev/null
   # dArkOS leans on systemd to keep ES alive across a crash or a settings-driven
   # restart; we have none, so re-launch ES ourselves when its wrapper exits. Only an
   # explicit power-off/suspend (-> /run/.a36-session-exit via the systemctl shim), a
   # clean quit, or a crash-loop ends the session; a reboot/restart re-launches. Bound
   # the rate so a pathological crash cannot trap the user inside the subsystem.
-  local rc tries=0 window i now
+  local rc tries=0 window now
   window=$(date +%s 2>/dev/null) || window=0
   while :; do
     log "launch EmulationStation via $ES (log -> $SESSION_OUT)"
     if root_file "$ROOT" /bin/sh; then
-      XDG_RUNTIME_DIR=/run/user/0 run_in_subsystem /bin/sh -lc 'exec "$1"' subsystem-es "$ES"
+      XDG_RUNTIME_DIR=/run/user/0 run_session_payload run_in_subsystem /bin/sh -lc 'exec "$1"' subsystem-es "$ES"
     else
-      XDG_RUNTIME_DIR=/run/user/0 run_in_subsystem "$ES"
+      XDG_RUNTIME_DIR=/run/user/0 run_session_payload run_in_subsystem "$ES"
     fi
     rc=$?
-    # Give an in-flight power action (finish.sh does umount+sync before poweroff) a few
-    # seconds to drop its marker before we decide whether to re-launch.
-    i=0
-    while [ "$i" -lt 8 ]; do
+    # A stop request precedes finish.sh's unbounded sync, or maintenance. Wait
+    # for its explicit next action instead of guessing how long it might take.
+    while [ -f "$ROOT/run/.a36-es-stopped" ]; do
       { [ -f "$ROOT/run/.a36-session-exit" ] || [ -f "$ROOT/run/.a36-session-reboot" ]; } && break
       session_active || break
-      sleep 0.5; i=$((i+1))
+      sleep 0.1
     done
     if [ -f "$ROOT/run/.a36-session-exit" ]; then
       rm -f "$ROOT/run/.a36-session-exit"; log "power off from subsystem; returning to Android"; break
     fi
     if [ -f "$ROOT/run/.a36-session-reboot" ]; then
-      rm -f "$ROOT/run/.a36-session-reboot"; log "restart from subsystem; relaunching EmulationStation"; continue
+      kill_subsystem_payload
+      rm -f "$ROOT/run/.a36-session-reboot" "$ROOT/run/.a36-es-stopped" "$ROOT/run/.a36-es-start"
+      log "restart from subsystem; relaunching EmulationStation"
+      start_hotkeys
+      continue
     fi
     session_active || break
+    if [ -f "$ROOT/run/.a36-es-start" ]; then
+      rm -f "$ROOT/run/.a36-es-start"; continue
+    fi
     [ "${rc:-1}" = 0 ] && { log "EmulationStation exited cleanly; returning to Android"; break; }
     now=$(date +%s 2>/dev/null) || now=0
     [ $((now - window)) -gt 60 ] && { tries=0; window=$now; }
     tries=$((tries+1))
-    [ "$tries" -gt 3 ] && { log "EmulationStation exited repeatedly; returning to Android"; break; }
+    [ "$tries" -ge 3 ] && { log "EmulationStation exited repeatedly; returning to Android"; break; }
     log "EmulationStation exited unexpectedly (rc=$rc); relaunching (attempt $tries)"
   done
 }
@@ -1661,18 +1869,17 @@ run_session() {
   case "$cmd" in
     start)
       if [ "$HANDOFF" = 0 ] && has_init "$ROOT"; then
-        boot_subsystem_session
+        run_session_payload boot_subsystem_session
       elif ! find_es "$ROOT"; then
-        boot_subsystem_session
+        run_session_payload boot_subsystem_session
       else
         case "$SESSION_MODE" in
-          systemd) boot_subsystem_session ;;
+          systemd) run_session_payload boot_subsystem_session ;;
           wrapper) run_es_wrapper ;;
           bare)
             root_file "$ROOT" /usr/bin/emulationstation/emulationstation && ES=/usr/bin/emulationstation/emulationstation
             start_hotkeys
-            start_mute_guard
-            run_in_subsystem "$ES" ;;
+            run_session_payload run_in_subsystem "$ES" ;;
           *) log "invalid session mode: $SESSION_MODE"; return 2 ;;
         esac
       fi ;;
@@ -1681,10 +1888,9 @@ run_session() {
       # PortMaster and the ports are frontends too: start ogage so volume and the
       # hotkey combos work while they run (handoff only; see start_hotkeys).
       start_hotkeys
-      start_mute_guard
       # Positional arguments keep names containing quotes/spaces literal. Generic
       # rootfs images need not ship dArkOS's optional governor tools or sudo.
-      run_in_subsystem /bin/sh -c '
+      run_session_payload run_in_subsystem /bin/sh -c '
         cd "$(dirname "$1")" || exit 1
         if [ "$2" = 1 ] && command -v perfmax >/dev/null 2>&1; then perfmax performance; fi
         nice -n -19 "$1"; rc=$?
@@ -1781,8 +1987,10 @@ eligible_rootfs "$ROOT" || { log "rootfs has no init or launch target"; exit 1; 
 prepare_network || { log "network preparation failed"; exit 1; }
 prep_darkos_env || { log "runtime/audio preparation failed"; exit 1; }
 prime_udev
+prepare_session_policy || exit 1
 if [ "$HANDOFF" = 1 ]; then handoff; else log "no handoff: Android stays up; display devices hidden"; fi
 enable_hardware_master
+start_mute_guard || exit 1
 # Wait on a child so TERM interrupts wait immediately, including while init runs.
 run_session & SESSION_PID=$!
 mark_frontend_booted
