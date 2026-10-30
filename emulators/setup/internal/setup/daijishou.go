@@ -9,6 +9,7 @@ import (
 	"sort"
 	"strconv"
 	"strings"
+	"syscall"
 
 	"andr36oid/gcsetup/internal/fsx"
 	"andr36oid/gcsetup/internal/sys"
@@ -189,19 +190,33 @@ func (s *Setup) djFolders() []string {
 
 func djTreeURI(uuid, folder string) string { return safTree + "/" + uuid + "%3A" + folder }
 
-var uuidOK = regexp.MustCompile(`^[0-9A-Fa-f-]+$`)
+var (
+	uuidOK      = regexp.MustCompile(`^[0-9A-Fa-f-]+$`)
+	djGrantUUID = regexp.MustCompile(`<uri-grant\s[^>]*\btargetPkg="` + regexp.QuoteMeta(djPkg) +
+		`" uri="` + regexp.QuoteMeta(safTree) + `/([0-9A-Fa-f-]+)%3A[^"<>]*"`)
+)
 
 // DaijishouGrants: Daijishou reads its games through Android's storage access framework,
 // so it may only open a folder the user picked for it in the file picker, which remembers
 // that as a persisted URI grant in /data/system/urigrants.xml. We write the same grants
-// the picker would, once, for every folder we give a platform. system_server reads the
-// file only when it starts, so this runs from post-fs-data, before it does. EASYROMS isn't
-// mounted yet then: its UUID is the exFAT boot sector's serial, as vold formats it.
+// the picker would for every folder we give a platform, adding missing ones on upgrades.
+// system_server reads the file only when it starts, so this runs from post-fs-data,
+// before it does. EASYROMS isn't mounted yet then: its UUID is the exFAT boot sector's
+// serial, as vold formats it.
 func (s *Setup) DaijishouGrants() {
 	if !sys.IsFile(s.djSeed()) {
 		return
 	}
 	if sys.Exists(s.djDone()) && s.djSettled() {
+		// Existing grants identify the card without probing its boot sector again.
+		cur, err := os.ReadFile(s.URIGrants)
+		if err != nil {
+			return
+		}
+		text := string(cur)
+		if match := djGrantUUID.FindStringSubmatch(text); match != nil {
+			s.addMissingGrants(match[1], text, cur, false)
+		}
 		return
 	}
 	// .noroms: games live on the internal storage, no platforms
@@ -230,14 +245,23 @@ func (s *Setup) DaijishouGrants() {
 	if sys.Exists(stamp) {
 		return
 	}
+	cur, _ := os.ReadFile(s.URIGrants)
+	if s.addMissingGrants(uuid, string(cur), cur, true) {
+		_ = fsx.Touch(stamp)
+	}
+}
+
+// addMissingGrants preserves existing grants and adds any missing platform folders.
+// It reports whether the grants are complete, so first setup can record its stamp.
+// First setup restores labels with the Runner; reconcile preserves the existing label
+// directly so a settled console never needs another Runner command for grants.
+func (s *Setup) addMissingGrants(uuid, text string, cur []byte, restoreLabels bool) bool {
 	f := s.URIGrants
 	// a write system_server didn't finish: it recovers from it on start, not us
 	if sys.Exists(f+".bak") || sys.Exists(f+".new") {
 		s.Log("%s is being written, Daijishou's folder access next start", f)
-		return
+		return false
 	}
-	cur, _ := os.ReadFile(f)
-	text := string(cur)
 	now := strconv.FormatInt(s.Now().Unix(), 10) + "000"
 	var lines strings.Builder
 	for _, folder := range s.djFolders() {
@@ -261,7 +285,7 @@ func (s *Setup) DaijishouGrants() {
 			next = text[:loc[0]] + "<uri-grants>" + add + "</uri-grants>" + text[loc[1]:]
 		case len(cur) > 0:
 			s.Log("%s looks odd, Daijishou gets no folder access", f)
-			return
+			return false
 		default:
 			next = "<?xml version='1.0' encoding='utf-8' standalone='yes' ?><uri-grants>" + add + "</uri-grants>\n"
 		}
@@ -269,18 +293,46 @@ func (s *Setup) DaijishouGrants() {
 		if err := os.WriteFile(tmp, []byte(next), 0o600); err != nil {
 			_ = os.Remove(tmp)
 			s.Log("writing %s failed", f)
-			return
+			return false
 		}
 		_ = fsx.SetOwnerMode(tmp, fsx.Owner{UID: 1000, GID: 1000}, 0o600)
+		if !restoreLabels {
+			if err := copySELinuxLabel(f, tmp); err != nil {
+				_ = os.Remove(tmp)
+				s.Log("preserving %s SELinux label failed: %v", f, err)
+				return false
+			}
+		}
 		if err := syncRename(tmp, f); err != nil {
 			_ = os.Remove(tmp)
 			s.Log("writing %s failed", f)
-			return
+			return false
 		}
-		s.restorecon(false, f)
+		if restoreLabels {
+			s.restorecon(false, f)
+		}
 		s.Log("Daijishou may read the ROM folders on EASYROMS (%s)", uuid)
 	}
-	_ = fsx.Touch(stamp)
+	return true
+}
+
+// copySELinuxLabel keeps an existing file's label across an atomic replacement.
+// Test hosts may have no SELinux attribute or no extended-attribute support.
+func copySELinuxLabel(src, dst string) error {
+	const attr = "security.selinux"
+	n, err := syscall.Getxattr(src, attr, nil)
+	if err == syscall.ENODATA || err == syscall.ENOTSUP {
+		return nil
+	}
+	if err != nil {
+		return err
+	}
+	label := make([]byte, n)
+	n, err = syscall.Getxattr(src, attr, label)
+	if err != nil {
+		return err
+	}
+	return syscall.Setxattr(dst, attr, label[:n], 0)
 }
 
 func orNone(v string) string {
@@ -941,7 +993,8 @@ func djHintText(added []string, total int) string {
 // DJNewGames: Daijishou only looks for games when asked to. On a console we set up, when
 // games were added to EASYROMS since the last start, Daijishou asks again on its next
 // start, like on the first one. Games that were only removed don't count (a sync keeps
-// their entries anyway). Daijishou keeps its settings in memory while it runs, so it's
+// their entries anyway). Ports are handled separately by ReconcilePorts. Daijishou
+// keeps its settings in memory while it runs, so it's
 // restarted around the change. persist.andr36oid.daijishou_autosync=0 turns this off.
 func (s *Setup) DJNewGames() {
 	if !sys.IsFile(s.djSeeded()) || s.easyroms == "" {
@@ -972,12 +1025,13 @@ func (s *Setup) DJNewGames() {
 	}
 	var added []string
 	for _, g := range now {
-		if !had[g] {
+		// Ports are reconciled directly, without asking for a library-wide Sync.
+		if !had[g] && !strings.HasPrefix(g, "ports/") {
 			added = append(added, g)
 		}
 	}
 	if len(added) == 0 {
-		s.Log("games on EASYROMS were only removed, Daijishou not asked to look again")
+		s.Log("only removed games or ports changed on EASYROMS, Daijishou not asked to look again")
 		save()
 		return
 	}

@@ -215,6 +215,21 @@ PRODUCT_PACKAGES += \
 	andr36oid-controller \
 	andr36oid-usb-drive
 
+# andr36oid Subsystem for dArkOSen: run a user-supplied dArkOSen image's
+# EmulationStation / ports / PortMaster on the real GPU via a framework-down
+# display handoff. SubsystemBridge is the Daijisho->root bridge (sets the
+# trigger properties); the broker (/system/etc) does the handoff + loop-mount;
+# the .rc starts the broker as root on the property trigger.
+PRODUCT_PACKAGES += \
+	SubsystemBridge
+PRODUCT_COPY_FILES += \
+	$(LOCAL_PATH)/PortMaster/broker/andr36oid-subsystem.sh:$(TARGET_COPY_OUT_SYSTEM)/etc/andr36oid-subsystem.sh \
+	$(LOCAL_PATH)/PortMaster/subsystem/andr36oid-subsystem.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/andr36oid-subsystem.rc \
+	$(LOCAL_PATH)/PortMaster/subsystem/input/es_input.cfg:$(TARGET_COPY_OUT_SYSTEM)/etc/andr36oid-es_input.cfg \
+	$(LOCAL_PATH)/PortMaster/subsystem/input/retroarch/GO-Super-Gamepad.cfg:$(TARGET_COPY_OUT_SYSTEM)/etc/andr36oid-retroarch-GO-Super-Gamepad.cfg \
+	$(LOCAL_PATH)/PortMaster/subsystem/splash/andr36oid-splash-640x480.raw:$(TARGET_COPY_OUT_SYSTEM)/etc/andr36oid-splash.raw \
+	$(LOCAL_PATH)/PortMaster/subsystem/shutdown/andr36oid-shutdownanimation.zip:$(TARGET_COPY_OUT_SYSTEM)/media/shutdownanimation.zip
+
 # BOOT/hotfix/*.fix.zip, applied before zygote on every start
 PRODUCT_PACKAGES += \
 	andr36oid-hotfix
@@ -492,6 +507,15 @@ ANDR36OID_VERSION := $(shell device/gameconsole/common/version.sh $(TARGET_BUILD
 PRODUCT_PRODUCT_PROPERTIES += \
 	ro.andr36oid.version=$(ANDR36OID_VERSION)
 
+# Build channel (night|beta|release), from build-image.sh's exported kind. These
+# images are userdebug even for release, so build.type/debuggable cannot tell a
+# release apart - this prop can. It gates debug-only behaviour (e.g. the subsystem
+# broker forcing adbd up during a session) OFF on release. Defaults to release so a
+# plain `m` (no kind exported) is treated as a release and never leaks debug paths.
+ANDR36OID_CHANNEL := $(if $(ANDR36OID_BUILD_KIND),$(ANDR36OID_BUILD_KIND),release)
+PRODUCT_PRODUCT_PROPERTIES += \
+	ro.andr36oid.channel=$(ANDR36OID_CHANNEL)
+
 # Apps that ask for portrait stay upright in the middle of the landscape screen with black
 # bars, instead of turning the picture sideways (frameworks/base night/o2-portrait).
 # adb shell wm fixed-to-user-rotation disabled brings back the old behaviour.
@@ -579,6 +603,10 @@ PRODUCT_PACKAGES += \
 	andr36oid-ktweaks \
 	andr36oid-hz-preview
 
+PRODUCT_PACKAGES += SubsystemSetup # Settings > System: andr36oid Subsystem for Linux
+PRODUCT_PACKAGES += org.andr36oid.syncsettings # Settings > System: library and RetroArch sync
+# Boot-time hold-START reader used by the subsystem broker/rc to pick the boot OS
+PRODUCT_PACKAGES += andr36oid-keyheld
 # RGB lights (Settings > Display > RGB lights), shown only on consoles with an
 # RGB LED (R36 Ultra); off unless chosen
 PRODUCT_PACKAGES += \

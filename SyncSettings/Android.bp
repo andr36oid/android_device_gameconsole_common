@@ -1,0 +1,12 @@
+// Settings > System > Sync: the setup worker reads these persistent properties.
+android_app {
+    name: "org.andr36oid.syncsettings",
+    static_libs: ["andr36oid-hint-bar"],
+    srcs: ["src/**/*.java"],
+    resource_dirs: ["res"],
+    certificate: "platform",
+    platform_apis: true,
+    optimize: {
+        enabled: false,
+    },
+}

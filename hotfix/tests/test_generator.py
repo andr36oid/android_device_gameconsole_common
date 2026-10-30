@@ -125,6 +125,21 @@ class GeneratorTest(unittest.TestCase):
         with zipfile.ZipFile(args.output) as z:
             self.assertEqual(z.read("hotfix.sh"), script.read_bytes())
 
+    def test_build_any(self):
+        # --build any writes a build-agnostic manifest (applier applies to every build)
+        # and does not read the image's own build identity.
+        script = self.dir / "hotfix.sh"
+        script.write_text("hotfix_log any\n")
+        args = self.args(script=str(script), replace=[], build="any")
+        with contextlib.redirect_stderr(io.StringIO()), contextlib.redirect_stdout(io.StringIO()):
+            tool.create(args)
+        with zipfile.ZipFile(args.output) as z:
+            self.assertIn(b"build=any\n", z.read("manifest.txt"))
+        # a control character in --build is rejected
+        with self.assertRaises(ValueError):
+            tool.create(self.args(script=str(script), replace=[], build="bad\x01",
+                                  output=str(self.dir / "bad.fix.zip")))
+
     def test_packed_destinations_and_limits(self):
         manifest = "name=test\ndescription=A test\nbuild=v1|123\n"
         first = self.dir / "first.fix.zip"

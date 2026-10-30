@@ -375,6 +375,11 @@ func (s *Setup) RunEasyromsLate() {
 	s.BIOSFolder()
 	s.Progress.Stage("library")
 	s.SeedDaijishou()
+	s.ReconcilePorts()
+	if s.syncEnabled("at_boot", true) {
+		s.SyncLibrary()
+		s.SyncRetroArch()
+	}
 	s.DJNewGames()
 	s.DaijishouReady()
 	s.ReleaseCards()

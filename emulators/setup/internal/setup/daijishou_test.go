@@ -303,6 +303,101 @@ func TestDaijishouGrantsBootSector(t *testing.T) {
 	}
 }
 
+func TestDaijishouGrantsSettled(t *testing.T) {
+	for _, tc := range []struct {
+		name         string
+		missingPorts bool
+		pending      string
+	}{
+		{"missing_ports", true, ""},
+		{"fully_granted", false, ""},
+		{"backup", true, ".bak"},
+		{"pending_write", true, ".new"},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			f := newFake()
+			s, _ := newSetup(t, f)
+			must(t, os.Symlink(emu+"/daijishou", s.Base+"/daijishou"))
+			write(t, s.djDone(), "")
+			write(t, s.djSeeded(), djUUID)
+			write(t, s.state("daijishou-grants."+djUUID), "")
+
+			var grants strings.Builder
+			grants.WriteString("<uri-grants>")
+			for _, folder := range s.djFolders() {
+				if tc.missingPorts && folder == "ports" {
+					continue
+				}
+				fmt.Fprintf(&grants, `<uri-grant sourceUserId="0" targetUserId="0" sourcePkg="com.android.externalstorage" targetPkg="%s" uri="%s" prefix="true" modeFlags="3" createdTime="5" />`, djPkg, djTreeURI(djUUID, folder))
+			}
+			grants.WriteString("</uri-grants>\n")
+			before := grants.String()
+			write(t, s.URIGrants, before)
+			if tc.pending != "" {
+				write(t, s.URIGrants+tc.pending, "pending")
+			}
+			info, err := os.Stat(s.URIGrants)
+			must(t, err)
+
+			s.DaijishouGrants()
+
+			if len(f.calls) != 0 {
+				t.Fatalf("settled grants ran commands: %v", f.calls)
+			}
+			after := read(t, s.URIGrants)
+			if tc.pending != "" {
+				if after != before || read(t, s.URIGrants+tc.pending) != "pending" {
+					t.Fatal("pending system_server write changed")
+				}
+				return
+			}
+			ports := `targetPkg="` + djPkg + `" uri="` + djTreeURI(djUUID, "ports") + `" prefix="true" modeFlags="3"`
+			if strings.Count(after, ports) != 1 || strings.Count(after, "<uri-grant ") != len(s.djFolders()) {
+				t.Fatal("settled console did not get exactly one grant per folder, including ports")
+			}
+			if tc.missingPorts {
+				if !strings.HasPrefix(after, strings.TrimSuffix(before, "</uri-grants>\n")) {
+					t.Fatal("existing ROM-folder grants changed")
+				}
+			} else {
+				nextInfo, err := os.Stat(s.URIGrants)
+				must(t, err)
+				if after != before || !os.SameFile(info, nextInfo) || !info.ModTime().Equal(nextInfo.ModTime()) {
+					t.Fatal("fully granted settled console rewrote urigrants.xml")
+				}
+			}
+		})
+	}
+}
+
+func TestDaijishouGrantsSettledNoUUID(t *testing.T) {
+	for _, pkg := range []string{djPkg, "org.example"} {
+		t.Run(pkg, func(t *testing.T) {
+			f := newFake()
+			s, _ := newSetup(t, f)
+			must(t, os.Symlink(emu+"/daijishou", s.Base+"/daijishou"))
+			write(t, s.djDone(), "")
+			write(t, s.djSeeded(), djUUID)
+			uuid := djUUID
+			if pkg == djPkg {
+				uuid = "primary"
+			}
+			before := fmt.Sprintf(`<uri-grants><uri-grant targetPkg="%s" uri="%s" /></uri-grants>`, pkg, djTreeURI(uuid, "nes"))
+			write(t, s.URIGrants, before)
+			info, err := os.Stat(s.URIGrants)
+			must(t, err)
+
+			s.DaijishouGrants()
+
+			nextInfo, err := os.Stat(s.URIGrants)
+			must(t, err)
+			if read(t, s.URIGrants) != before || !os.SameFile(info, nextInfo) || len(f.calls) != 0 {
+				t.Fatalf("settled console without a matching card grant changed; commands: %v", f.calls)
+			}
+		})
+	}
+}
+
 func TestDaijishouEmptyWALLibrary(t *testing.T) {
 	c := newDJ(t, "", "")
 	c.s.DaijishouGrants()

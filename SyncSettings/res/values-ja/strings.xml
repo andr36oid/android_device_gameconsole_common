@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sync_title">同期</string>
+    <string name="sync_summary">dArkOSen とゲームライブラリや RetroArch を共有</string>
+    <string name="sync_master">ゲームライブラリを dArkOSen と同期</string>
+    <string name="sync_master_summary">ホーム画面と EmulationStation の間で、お気に入り、プレイ履歴、ボックスアートを同じ状態に保ちます。</string>
+    <string name="sync_what">同期する項目</string>
+    <string name="sync_favorite">お気に入り</string>
+    <string name="sync_playcount">プレイ回数</string>
+    <string name="sync_lastplayed">最終プレイ</string>
+    <string name="sync_desc">説明</string>
+    <string name="sync_art">ボックスアート</string>
+    <string name="sync_when">タイミング</string>
+    <string name="sync_on_session">dArkOSen の各セッション終了後</string>
+    <string name="sync_at_boot">起動時</string>
+    <string name="sync_retroarch_category">RetroArch</string>
+    <string name="sync_retroarch">RetroArch の設定を共有</string>
+    <string name="sync_retroarch_summary">コアのオプションと映像設定を共有します。コントローラーの割り当ては共有しません（2つのシステムでパッドの割り当て方法が異なるためです）。</string>
+    <string name="sync_footer">同期を適用するには EmulationStation を終了してください。同期によってホーム画面が一時的に再起動する場合があります。</string>
+</resources>

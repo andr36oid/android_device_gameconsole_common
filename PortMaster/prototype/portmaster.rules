@@ -1,0 +1,87 @@
+# SPDX-License-Identifier: MIT
+# Review-only companion to portmaster.te. NOT an executable policy installer.
+# Do not copy to active policy directories until Q7 device-label/owner review.
+
+# Future platform-private file_contexts entries:
+/system/bin/portmaster-session                 u:object_r:portmaster_exec:s0
+/data/portmaster/roots(/.*)?                    u:object_r:portmaster_image_file:s0
+/data/portmaster/state(/.*)?                    u:object_r:portmaster_state_file:s0
+/data/portmaster/journal(/.*)?                  u:object_r:portmaster_journal_file:s0
+/mnt/portmaster                                u:object_r:portmaster_mountpoint_file:s0
+/dev/dri/card0                                 u:object_r:portmaster_drm_device:s0
+/dev/mali0                                     u:object_r:portmaster_mali_device:s0
+/dev/socket/portmaster-status                   u:object_r:portmaster_socket:s0
+
+# Image-only contexts, applied OFFLINE by e2fsdroid with -a /mnt/portmaster.
+# Never label ordinary executable files in /data as these types.
+/mnt/portmaster(/.*)?                           u:object_r:portmaster_rootfs_file:s0
+/mnt/portmaster/(bin|sbin|lib[^/]*|usr/bin|usr/sbin|usr/lib[^/]*|usr/local/bin|usr/local/libexec|opt/ports)(/.*)? -- u:object_r:portmaster_rootfs_exec:s0
+/mnt/portmaster/usr/local/libexec/portmaster-guest-entry u:object_r:portmaster_guest_exec:s0
+/mnt/portmaster/(dev|proc|sys|tmp|run|home|roms|opt/ports)(/.*)? u:object_r:portmaster_mountpoint_file:s0
+
+# Future property_contexts entries. Fixed values are validated by controller.
+sys.portmaster.request                         u:object_r:portmaster_request_prop:s0 exact string
+sys.portmaster.status                          u:object_r:portmaster_status_prop:s0 exact string
+# Proposed REPLACEMENT, not an additional entry: public/property_contexts
+# already maps this exact SF key to exported2_default_prop. Review existing
+# readers before changing its type, or retain that type and review read access.
+init.svc.surfaceflinger                        u:object_r:portmaster_service_status_prop:s0 exact string
+init.svc.vendor.hwcomposer-2-1                  u:object_r:portmaster_service_status_prop:s0 exact string
+ctl.start$surfaceflinger                       u:object_r:portmaster_display_ctl_prop:s0
+ctl.stop$surfaceflinger                        u:object_r:portmaster_display_ctl_prop:s0
+ctl.start$vendor.hwcomposer-2-1                 u:object_r:portmaster_display_ctl_prop:s0
+ctl.stop$vendor.hwcomposer-2-1                  u:object_r:portmaster_display_ctl_prop:s0
+# Use unprefixed names instead ONLY if runtime inventory proves those names.
+# Separate allocator/audio/input ctl types are deliberately absent from G1.
+
+# Required native controller contract, not implemented by shell prototypes:
+# 1. init launches /system/bin/portmaster-session as root in portmaster domain.
+#    Its init-created socket is mode 0600, uid/gid 2906, label above. Controller
+#    uses inherited socket fd; guest sees only the status socket bind mount.
+# 2. Child unshare(CLONE_NEWNS), make propagation private BEFORE new mounts.
+#    Verify root-owned immutable image and manifest; read-only loop attach;
+#    mount ext4 ro,nosuid,nodev at fixed /mnt/portmaster with
+#    fscontext=u:object_r:portmaster_runtime_fs:s0, preserving inode xattrs.
+#    Filter /dev using individually bound nodes onto image placeholders.
+#    Bind only approved state/content paths. No proc bind exposing Android
+#    /proc/PID/root or fd links. Start with no guest /proc, minimal read-only
+#    sysfs binds and private read-only CPU/memory facts if required. PID
+#    namespaces are disabled, so a procfs mount does not isolate host PIDs.
+#    Controller journal/session tokens live in root-only /data/portmaster/journal
+#    and are never bound into the guest or labeled as guest-writable state.
+# 3. chroot + chdir('/'); close all host directory/device/service fds except
+#    explicitly needed stdio/status. setgroups(0), drop capability bounding
+#    set while privileged, setresgid(2906), setresuid(2906), clear effective,
+#    permitted, inheritable and ambient caps. PR_SET_NO_NEW_PRIVS before exec.
+#    Exec fixed guest-entry ELF, auto-transition to portmaster_guest. That
+#    ELF verifies uid/caps/context and execs the fixed unprivileged entrypoint.
+# 4. No guest can execute the controller binary or regain the parent domain.
+#    PortMaster, bash, gptokeyb and every port share guest uid/domain initially.
+#    No sudo, setuid executable, guest mount(), init controls or arbitrary root
+#    helper. Control.txt bind/sudo/systemctl functions need an adapter.
+# 5. Reserve uid/gid 2906 through the product's fs_config/passwd mechanism
+#    after checking the complete vendor uid inventory. Number is a proposal,
+#    not a new uid allocation made by this draft. No graphics/input/system
+#    supplementary groups; grant narrowly selected node DAC via a reviewed
+#    broker/ueventd design, preserving original Android ownership/restoration.
+# 6. Changing DRM/Mali labels also requires specific EXISTING Android owner
+#    permissions for the new types. No live relabel is safe in isolation.
+#    Current built contexts have no /dev/dri or /dev/mali match, so verify live
+#    labels. Generic device:chr_file access is forbidden by Android neverallow.
+# 7. Broad domain base allows (including tty) still apply. xperms do not prove
+#    least privilege until the composed policy is queried. No guest execmem,
+#    networking, ALSA, allocator/ION, atomic modeset or extra sysfs permissions
+#    are granted here. Add only with a named workload and captured denial.
+
+# THREE REQUIRED FUTURE PLATFORM EDITS, not overrides possible in a .te file:
+# system/sepolicy/private/domain.te, mount whitelist near line 332:
+#   add -portmaster to the allowed mount/remount domains.
+# system/sepolicy/public/domain.te, device base allows near lines 81 and 91:
+#   allow { domain -hwservicemanager -vndservicemanager -portmaster_guest }
+#       binder_device:chr_file rw_file_perms;
+#   allow { domain -servicemanager -vndservicemanager -isolated_app -portmaster_guest }
+#       hwbinder_device:chr_file rw_file_perms;
+# Without these changes the draft's neverallows correctly FAIL compilation.
+# Do not disable neverallows or reclassify the runtime as sdcard_type to evade
+# the mount whitelist. A host compile can test these changes on a TEMPORARY
+# policy.conf copy; no production policy/build integration is changed tonight.

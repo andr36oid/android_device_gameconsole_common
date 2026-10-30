@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sync_title">Sync</string>
+    <string name="sync_summary">Library and RetroArch sharing with dArkOSen</string>
+    <string name="sync_master">Sync library with dArkOSen</string>
+    <string name="sync_master_summary">Keep favourites, play history and box art matched between the launcher and EmulationStation.</string>
+    <string name="sync_what">What to sync</string>
+    <string name="sync_favorite">Favourites</string>
+    <string name="sync_playcount">Play count</string>
+    <string name="sync_lastplayed">Last played</string>
+    <string name="sync_desc">Descriptions</string>
+    <string name="sync_art">Box art</string>
+    <string name="sync_when">When</string>
+    <string name="sync_on_session">After each dArkOSen session</string>
+    <string name="sync_at_boot">At startup</string>
+    <string name="sync_retroarch_category">RetroArch</string>
+    <string name="sync_retroarch">Share RetroArch settings</string>
+    <string name="sync_retroarch_summary">Core options and video settings are shared. Controller mappings are not (the two systems map pads differently).</string>
+    <string name="sync_footer">EmulationStation must be closed for a sync to apply. A sync may briefly restart the launcher.</string>
+</resources>

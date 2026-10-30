@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sync_title">Synchronisieren</string>
+    <string name="sync_summary">Spielebibliothek und RetroArch mit dArkOSen teilen</string>
+    <string name="sync_master">Spielebibliothek mit dArkOSen synchronisieren</string>
+    <string name="sync_master_summary">Halte deine Favoriten, deinen Spielverlauf und deine Cover zwischen dem Startbildschirm und EmulationStation auf demselben Stand.</string>
+    <string name="sync_what">Was synchronisieren</string>
+    <string name="sync_favorite">Favoriten</string>
+    <string name="sync_playcount">Anzahl der Spielstarts</string>
+    <string name="sync_lastplayed">Zuletzt gespielt</string>
+    <string name="sync_desc">Beschreibungen</string>
+    <string name="sync_art">Cover</string>
+    <string name="sync_when">Wann</string>
+    <string name="sync_on_session">Nach jeder dArkOSen-Sitzung</string>
+    <string name="sync_at_boot">Beim Start</string>
+    <string name="sync_retroarch_category">RetroArch</string>
+    <string name="sync_retroarch">RetroArch-Einstellungen teilen</string>
+    <string name="sync_retroarch_summary">Core-Optionen und Videoeinstellungen werden geteilt. Tastenbelegungen werden nicht geteilt (die beiden Systeme ordnen die Tasten unterschiedlich zu).</string>
+    <string name="sync_footer">EmulationStation muss geschlossen sein, damit eine Synchronisierung angewendet wird. Eine Synchronisierung kann den Startbildschirm kurz neu starten.</string>
+</resources>

@@ -1,0 +1,14 @@
+// Daijisho -> root bridge for the andr36oid Subsystem. A tiny system app whose
+// only job is to translate a Daijisho "player" launch into the property trigger
+// that starts the (root) subsystem broker. Platform-signed + system user so it
+// may set sys.andr36oid.subsystem.*; mirrors UsbMode.
+android_app {
+    name: "SubsystemBridge",
+    srcs: ["src/**/*.java"],
+    resource_dirs: ["res"],
+    certificate: "platform",
+    platform_apis: true,
+    optimize: {
+        enabled: false,
+    },
+}

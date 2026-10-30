@@ -31,7 +31,7 @@ GO=${GO:-$(command -v go || echo /usr/local/go/bin/go)}
 "$GO" vet ./...
 "$GO" test ./...
 mkdir -p prebuilt
-CGO_ENABLED=0 GOOS=linux GOARCH=arm64 GOFLAGS=-trimpath \
+CGO_ENABLED=0 GOOS=linux GOARCH=arm64 GOFLAGS='-trimpath -buildvcs=false' \
 	"$GO" build -ldflags '-s -w -buildid=' -o prebuilt/gameconsole-setup.tmp ./cmd/gameconsole-setup
 mv -f prebuilt/gameconsole-setup.tmp prebuilt/gameconsole-setup
 sources >prebuilt/source.sha1

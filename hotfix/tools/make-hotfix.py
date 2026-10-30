@@ -175,8 +175,8 @@ def pack(work, out, manifest, script, payloads, free, unit, warn_bytes):
 
 
 def create_delta(args, work, out):
-    if args.replace or args.script or args.no_check:
-        raise ValueError("--delta cannot be combined with --replace, --script or --no-check")
+    if args.replace or args.script or args.no_check or getattr(args, "build", None):
+        raise ValueError("--delta cannot be combined with --replace, --script, --no-check or --build")
     report = out.with_name(out.name[:-8] + ".report.txt")
     if report.exists():
         raise ValueError("report already exists: " + str(report))
@@ -282,7 +282,14 @@ def create(args):
     with tempfile.TemporaryDirectory(prefix="make-hotfix-") as temp:
         work = Path(temp)
         with open_image(Path(args.image), work) as image:
-            build = image.build()
+            override = getattr(args, "build", None)
+            if override:
+                if len(override.encode()) > 400 or override != override.strip() or \
+                        any(unicodedata.category(c) == "Cc" for c in override):
+                    raise ValueError("invalid --build value")
+                build = override
+            else:
+                build = image.build()
             boot = delta.Fat(image)
             free, unit = boot.free(), boot.unit
             if args.no_check:
@@ -313,6 +320,8 @@ def main():
     parser.add_argument("--replace", action="append", default=[], metavar="TARGET=FILE")
     parser.add_argument("--script", help="custom hotfix.sh (helpers are already sourced)")
     parser.add_argument("--no-check", action="store_true", help="skip target existence checks, with a warning")
+    parser.add_argument("--build", help="override the build key in the manifest; use 'any' for a hotfix that "
+                        "applies to every build (payload-free fixes not tied to a specific build)")
     parser.add_argument("--output", help="output <name>.fix.zip (must not exist)")
     parser.add_argument("--max-dir-bytes", type=int, default=8 << 20, help="directory rebuild limit (default: 8388608)")
     parser.add_argument("--max-dir-entries", type=int, default=256, help="directory rebuild entry limit (default: 256)")

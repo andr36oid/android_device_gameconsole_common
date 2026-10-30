@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sync_title">同步</string>
+    <string name="sync_summary">与 dArkOSen 共享游戏库和 RetroArch</string>
+    <string name="sync_master">与 dArkOSen 同步游戏库</string>
+    <string name="sync_master_summary">让主屏幕与 EmulationStation 的收藏、游戏历史和封面图保持一致。</string>
+    <string name="sync_what">同步内容</string>
+    <string name="sync_favorite">收藏</string>
+    <string name="sync_playcount">游玩次数</string>
+    <string name="sync_lastplayed">上次游玩</string>
+    <string name="sync_desc">说明</string>
+    <string name="sync_art">封面图</string>
+    <string name="sync_when">何时</string>
+    <string name="sync_on_session">每次 dArkOSen 会话后</string>
+    <string name="sync_at_boot">启动时</string>
+    <string name="sync_retroarch_category">RetroArch</string>
+    <string name="sync_retroarch">共享 RetroArch 设置</string>
+    <string name="sync_retroarch_summary">共享核心选项和视频设置。不共享手柄按键映射（两套系统的按键映射方式不同）。</string>
+    <string name="sync_footer">应用同步前必须关闭 EmulationStation。同步可能会短暂重启启动器。</string>
+</resources>

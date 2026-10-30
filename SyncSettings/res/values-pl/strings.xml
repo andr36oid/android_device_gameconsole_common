@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sync_title">Synchronizuj</string>
+    <string name="sync_summary">Synchronizacja biblioteki gier i RetroArch z dArkOSen</string>
+    <string name="sync_master">Synchronizuj bibliotekę gier z dArkOSen</string>
+    <string name="sync_master_summary">Synchronizuj ulubione, historię grania i okładki między ekranem głównym a EmulationStation.</string>
+    <string name="sync_what">Co synchronizować</string>
+    <string name="sync_favorite">Ulubione</string>
+    <string name="sync_playcount">Liczba uruchomień</string>
+    <string name="sync_lastplayed">Ostatnio grane</string>
+    <string name="sync_desc">Opisy</string>
+    <string name="sync_art">Okładki</string>
+    <string name="sync_when">Kiedy</string>
+    <string name="sync_on_session">Po każdej sesji dArkOSen</string>
+    <string name="sync_at_boot">Przy uruchomieniu</string>
+    <string name="sync_retroarch_category">RetroArch</string>
+    <string name="sync_retroarch">Udostępniaj ustawienia RetroArch</string>
+    <string name="sync_retroarch_summary">Opcje rdzenia i ustawienia obrazu są udostępniane. Mapowania kontrolera nie są udostępniane (oba systemy przypisują przyciski inaczej).</string>
+    <string name="sync_footer">EmulationStation musi być zamknięty, aby zastosować synchronizację. Synchronizacja może na krótko ponownie uruchomić ekran główny.</string>
+</resources>

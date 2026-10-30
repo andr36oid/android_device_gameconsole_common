@@ -181,7 +181,10 @@ crash) reason=paused ;;
 esac
 tries=$(getprop persist.andr36oid.hotfix.tries)
 case $tries in 1|2) ;; *) tries=0 ;; esac
-if [ -z "$reason" ] && [ "$tries" -ge 2 ]; then
+# HOTFIX_REEXEC: a hotfix on an older release ran us (a newer applier) to apply
+# build=any hotfixes its applier skipped. The applier that ran us already counted
+# this start and judged the crash-pause, so we must not count or pause again.
+if [ -z "$HOTFIX_REEXEC" ] && [ -z "$reason" ] && [ "$tries" -ge 2 ]; then
 	if setprop persist.andr36oid.hotfix.paused crash; then
 		setprop persist.andr36oid.hotfix.tries 0
 	fi
@@ -238,11 +241,13 @@ for zip in "$DIR/work/BOOT/"*.fix.zip "$DIR/work/EASYROMS/"*.fix.zip; do
 		continue
 	fi
 	if [ -n "$reason" ]; then status skipped "$reason"; continue; fi
-	if [ -z "$version" ] || [ -z "$incremental" ] || [ "$wanted" != "$build" ]; then
+	if [ "$wanted" = any ]; then
+		note "$HOTFIX_NAME: build=any, applies to every build"
+	elif [ -z "$version" ] || [ -z "$incremental" ] || [ "$wanted" != "$build" ]; then
 		status skipped build
 		continue
 	fi
-	if [ -z "$counted" ]; then
+	if [ -z "$counted" ] && [ -z "$HOTFIX_REEXEC" ]; then
 		# Write before running anything: even a power cut in the first hotfix counts.
 		if ! setprop persist.andr36oid.hotfix.tries "$((tries + 1))"; then
 			status skipped counter

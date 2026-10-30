@@ -143,6 +143,12 @@ on fs
     # An install on the built-in eMMC has its own (fstab.emmc, set by its boot.ini).
     mount_all --early
     
+# Show the andr36oid logo during shutdown/reboot instead of a blank screen.
+# bootanimation plays /system/media/shutdownanimation.zip when sys.powerctl is set
+# (BootAnimation reads sys.powerctl: non-empty means it is a shutdown, not a boot).
+on property:sys.powerctl=*
+    start bootanim
+
 on late-fs
     # Start services for bootanim
     start servicemanager
