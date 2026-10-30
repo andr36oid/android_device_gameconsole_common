@@ -438,6 +438,10 @@ virtual_existing() {
 }
 
 virtual_request() {
+    exec 7>"${USB_DRIVE_STORAGE_LOCK:-/data/misc/andr36oid-storage.lock}"
+    if ! flock -n 7 7>&7; then
+        exec 7>&-; virtual_fail shared; setprop "$P.request" stop; setprop "$P.vresult" error; return 0
+    fi
 	local rc stage
 	v_request=$(prop request) v_owner=$(prop owner) v_inode='' v_child='' v_stamp=''
 	: >"$STATE/virtual.log"
@@ -481,4 +485,5 @@ virtual_request() {
 	scan_images || true
 	status idle
 	setprop "$P.vactive" 0
+	exec 7>&-
 }

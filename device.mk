@@ -226,6 +226,8 @@ PRODUCT_PACKAGES += \
 	fsck.erofs \
 	andr36oid-erofs-support
 PRODUCT_COPY_FILES += \
+	$(LOCAL_PATH)/PortMaster/broker/andr36oid-images.sh:$(TARGET_COPY_OUT_SYSTEM)/etc/andr36oid-images.sh \
+	$(LOCAL_PATH)/PortMaster/broker/andr36oid-guest.sh:$(TARGET_COPY_OUT_SYSTEM)/etc/andr36oid-guest.sh \
 	$(LOCAL_PATH)/PortMaster/broker/andr36oid-subsystem.sh:$(TARGET_COPY_OUT_SYSTEM)/etc/andr36oid-subsystem.sh \
 	$(LOCAL_PATH)/PortMaster/subsystem/andr36oid-subsystem.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/andr36oid-subsystem.rc \
 	$(LOCAL_PATH)/PortMaster/subsystem/input/es_input.cfg:$(TARGET_COPY_OUT_SYSTEM)/etc/andr36oid-es_input.cfg \

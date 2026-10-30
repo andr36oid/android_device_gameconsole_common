@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="asl_dashboard">dArkOSen paneli</string>
+  <string name="asl_install">dArkOSen kurulumu</string>
+  <string name="asl_missing">dArkOSen 10152026 arşivinden çıkarılan .img dosyasını EASYROMS, dahili depolama veya SD2 üzerindeki subsystem/darkosen klasörüne kopyalayın. Daha yeni imajlar çalışabilir ancak test edilmemiştir. Başka bir Linux dağıtımı için gelişmiş ayarları kullanın.</string>
+  <string name="asl_setup_body">İlk kurulum ortak klasörleri ve sistem değişiklik katmanını hazırlar. Bittiğinde buraya dönersiniz ve Linux’u ne zaman başlatacağınızı seçebilirsiniz.</string>
+  <string name="asl_start_setup">İlk kurulumu başlat</string>
+  <string name="asl_images">dArkOSen imajını seç</string>
+  <string name="asl_change">İmaj değiştirmek sistem değişikliklerini ve EmulationStation ayarlarını sıfırlar. Oyunlar ve kayıtlar ortak depolamada kalır. İmaja geri dönerken ayarları geri almak için mevcut değişiklikleri koruyun.</string>
+  <string name="asl_keep_overlay">Mevcut sistem değişikliklerini koru</string>
+  <string name="asl_storage">Depolama kullanımı</string>
+  <string name="asl_health">Durum ve son açılış günlüğü</string>
+  <string name="asl_config">Yapılandırma</string>
+  <string name="asl_optimize">dArkOSen’i optimize et</string>
+  <string name="asl_optimize_body">Seçilen imajın sıkıştırılmış EROFS kopyasını oluşturur. Doğrulanan kopya her zaman tercih edilir. Varsayılan olarak doğrulama sonrası asıl dosya silinir; isterseniz saklayabilirsiniz. Birkaç dakika sürebilir. Konsolu güç kaynağına bağlı tutun.</string>
+  <string name="asl_keep_original">Asıl imajı sakla</string>
+  <string name="asl_launch_icon">EmulationStation’ı uygulama listesinde göster</string>
+  <string name="asl_advanced">Gelişmiş Linux ayarları</string>
+  <string name="asl_shared">EASYROMS üzerindeki oyunlar ve kayıtlar Android ile paylaşılır. Sistem değişiklikleri dahili depolamada tutulur. Asıl dosya ve EROFS boyutları ayrı gösterilir.</string>
+  <string name="asl_info">İmaj: %1$s\nKonum: %2$s\nAsıl dosya: %3$s · EROFS: %4$s\nSistem değişiklikleri: %5$s\nSürüm: %6$s</string>
+  <string name="asl_working">Çalışıyor… İlerlemeyi görmek için bu sayfadan ayrılıp geri dönebilirsiniz.</string>
+  <string name="asl_failed">İşlem başarısız. Durum ve son açılış günlüğünü inceleyin.</string>
+  <string name="asl_sync">Android ile eşitle</string>
+  <string name="asl_mute">Linux sesini kapat</string>
+  <string name="asl_hotkeys">Çıkış kısayolları</string>
+  <string name="asl_hotkey_help">Oyundan çıkmak için Select + Start tuşlarını basılı tutun. Kilitlenirse Android’e dönmek için dört saniye tutun. Android’e dönmek için Fn + Start tuşlarını iki saniye tutun.</string>
+  <string name="asl_ready">Hazır</string>
+  <string name="asl_scan">İmajları yenile</string>
+  <string name="asl_health_body">Durum: %1$s\nİmaj denetimi: %2$s\nİşlem: %3$s\n\n%4$s</string>
+  <string name="asl_ra">RetroArch’ı başlat</string>
+  <string name="asl_sync_note">ROM klasörleri iki sistemde de kullanılabilir. Eşitleme favorileri ve oyun geçmişini birleştirir, eksik açıklama ve görselleri aktarır. RetroArch eşitlemesi isteğe bağlıdır ve tuş atamalarını kapsamaz.</string>
+  <string name="asl_native_help">Yerel kontroller uyumlu andr36oid konuk modu çekirdeği gerektirir. Genel Linux imajları normal giriş arayüzünü korur.</string>
+  <string name="asl_empty">Kullanılabilir imaj yok</string>
+  <string name="asl_launch_confirm">Android’deki çalışmanızı kaydedin. Linux ekranı devralır; çıkınca Android’e dönersiniz.</string>
+  <string name="asl_op_progress">%1$s · %2$s yazıldı · %3$s saniye</string>
+  <string name="asl_sync_favorite">Favoriler</string>
+  <string name="asl_sync_playcount">Oynama sayısı</string>
+  <string name="asl_sync_lastplayed">Son oynanma</string>
+  <string name="asl_sync_desc">Açıklamalar</string>
+  <string name="asl_sync_art">Görseller</string>
+  <string name="asl_sync_ra">RetroArch seçeneklerini paylaş</string>
+  <string name="asl_stop">Android’e dön</string>
+  <string name="asl_retries">Arayüzü yeniden başlatma denemeleri</string>
+  <string name="asl_audio_rate">Ses örnekleme hızı (Hz)</string>
+  <string name="asl_audio_buffer">Ses arabelleği (kare)</string>
+</resources>

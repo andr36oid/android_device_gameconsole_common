@@ -88,3 +88,13 @@ cleanup() {
 }
 trap cleanup EXIT
 trap 'exit 1' HUP INT TERM
+
+# Separate storage/hardware modules are outside these lifecycle unit fixtures.
+restore_guest_hardware() { :; }
+release_operation() { :; }
+operation_done() { :; }
+
+IMAGE=/fixture
+prepare_guest_hardware() { :; }
+
+acquire_operation() { OPERATION_LOCKED=1; }

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="asl_dashboard">Painel do dArkOSen</string>
+  <string name="asl_install">Configurar dArkOSen</string>
+  <string name="asl_missing">Copie o arquivo .img extraído do dArkOSen 10152026 para subsystem/darkosen em EASYROMS, no armazenamento interno ou no SD2. Imagens mais recentes podem funcionar, mas não foram testadas. Use as opções avançadas para outra distribuição Linux.</string>
+  <string name="asl_setup_body">A imagem está pronta para a configuração inicial. As pastas compartilhadas e as alterações do sistema serão preparadas. Ao terminar, você voltará aqui e poderá escolher quando entrar no Linux.</string>
+  <string name="asl_start_setup">Executar configuração inicial</string>
+  <string name="asl_images">Escolher imagem do dArkOSen</string>
+  <string name="asl_change">Trocar a imagem redefine as alterações do sistema e as configurações do EmulationStation. Jogos e saves permanecem no armazenamento compartilhado. Preserve as alterações existentes para recuperá-las ao voltar à imagem.</string>
+  <string name="asl_keep_overlay">Preservar alterações de cada imagem</string>
+  <string name="asl_storage">Uso do armazenamento</string>
+  <string name="asl_health">Estado e registro da última inicialização</string>
+  <string name="asl_config">Configuração</string>
+  <string name="asl_optimize">Otimizar dArkOSen</string>
+  <string name="asl_optimize_body">Cria uma cópia EROFS compactada da imagem selecionada. A cópia verificada é sempre preferida. Por padrão, o original é removido após a verificação; você pode mantê-lo. Isso pode levar vários minutos. Mantenha o console ligado à energia.</string>
+  <string name="asl_keep_original">Manter imagem original</string>
+  <string name="asl_launch_icon">Mostrar EmulationStation na lista de aplicativos</string>
+  <string name="asl_advanced">Configurações avançadas do Linux</string>
+  <string name="asl_shared">Jogos e saves são compartilhados com o Android em EASYROMS. As alterações do sistema ficam no armazenamento interno. Os tamanhos do original e do EROFS são exibidos separadamente.</string>
+  <string name="asl_info">Imagem: %1$s\nLocal: %2$s\nOriginal: %3$s · EROFS: %4$s\nAlterações do sistema: %5$s\nVersão: %6$s</string>
+  <string name="asl_working">Processando… Você pode sair e voltar para acompanhar o progresso.</string>
+  <string name="asl_failed">A operação falhou. Consulte Estado e registro da última inicialização.</string>
+  <string name="asl_sync">Sincronizar com Android</string>
+  <string name="asl_mute">Silenciar áudio do Linux</string>
+  <string name="asl_hotkeys">Atalhos para sair</string>
+  <string name="asl_hotkey_help">Segure Select + Start para sair de um jogo. Continue segurando por quatro segundos para voltar ao Android se travar. Segure Fn + Start por dois segundos para voltar ao Android.</string>
+  <string name="asl_ready">Pronto</string>
+  <string name="asl_scan">Atualizar imagens</string>
+  <string name="asl_health_body">Estado: %1$s\nVerificação da imagem: %2$s\nOperação: %3$s\n\n%4$s</string>
+  <string name="asl_ra">Iniciar RetroArch</string>
+  <string name="asl_sync_note">As pastas de ROMs ficam disponíveis nos dois sistemas. A sincronização combina favoritos e histórico e importa descrições e imagens ausentes. A sincronização do RetroArch é opcional e exclui os controles.</string>
+  <string name="asl_native_help">Os controles nativos exigem o kernel andr36oid compatível com modo convidado. Imagens Linux genéricas mantêm sua interface de entrada normal.</string>
+  <string name="asl_empty">Nenhuma imagem disponível</string>
+  <string name="asl_launch_confirm">Salve seu trabalho no Android. O Linux assumirá a tela; ao sair, você voltará ao Android.</string>
+  <string name="asl_op_progress">%1$s · %2$s gravados · %3$s segundos</string>
+  <string name="asl_sync_favorite">Favoritos</string>
+  <string name="asl_sync_playcount">Número de partidas</string>
+  <string name="asl_sync_lastplayed">Última partida</string>
+  <string name="asl_sync_desc">Descrições</string>
+  <string name="asl_sync_art">Imagens</string>
+  <string name="asl_sync_ra">Compartilhar opções do RetroArch</string>
+  <string name="asl_stop">Voltar ao Android</string>
+  <string name="asl_retries">Tentativas de reiniciar a interface</string>
+  <string name="asl_audio_rate">Taxa de áudio (Hz)</string>
+  <string name="asl_audio_buffer">Buffer de áudio (quadros)</string>
+</resources>

@@ -162,4 +162,56 @@
   <string name="subsystem_optimize_no_ack">The optimization service did not acknowledge the request. Try again.</string>
   <string name="subsystem_optimize_name_too_long">This image name is too long for an optimized copy. Shorten its name and select it again.</string>
   <string name="subsystem_launch_no_ack">The launch service did not acknowledge the request. Try again.</string>
+  <string name="asl_dashboard">dArkOSen dashboard</string>
+  <string name="asl_install">Set up dArkOSen</string>
+  <string name="asl_missing">Copy the extracted dArkOSen 10152026 .img to subsystem/darkosen on EASYROMS, internal storage or SD2. Newer images may work, but have not been tested. Use Advanced for another Linux distribution.</string>
+  <string name="asl_setup_body">The image is ready for first setup. This prepares shared folders and the system overlay. When it finishes, you will return here and can choose when to enter Linux.</string>
+  <string name="asl_start_setup">Run first setup</string>
+  <string name="asl_images">Choose dArkOSen image</string>
+  <string name="asl_change">Changing images resets the system overlay and EmulationStation settings. Your games and saves stay on shared storage. Keep existing overlays only if you want their settings retained for switching back.</string>
+  <string name="asl_keep_overlay">Keep existing system overlays</string>
+  <string name="asl_storage">Storage use</string>
+  <string name="asl_health">Health and last boot log</string>
+  <string name="asl_config">Configuration</string>
+  <string name="asl_optimize">Optimize dArkOSen</string>
+  <string name="asl_optimize_body">Create a compressed EROFS copy of the selected image. The verified copy is always preferred. By default the original is removed after verification; you can keep it. This may take several minutes. Keep the console connected to power.</string>
+  <string name="asl_keep_original">Keep original image</string>
+  <string name="asl_launch_icon">Show EmulationStation in the app list</string>
+  <string name="asl_advanced">Advanced Linux settings</string>
+  <string name="asl_shared">Games and saves are shared with Android on EASYROMS. System changes are stored internally. EROFS and original sizes are shown separately.</string>
+  <string name="asl_info">Image: %1$s
+Location: %2$s
+Original: %3$s · EROFS: %4$s
+System overlays: %5$s
+Version: %6$s</string>
+  <string name="asl_working">Working… You can leave this page and return to see progress.</string>
+  <string name="asl_failed">The operation failed. Open Health and last boot log for details.</string>
+  <string name="asl_sync">Sync with Android</string>
+  <string name="asl_mute">Mute Linux audio</string>
+  <string name="asl_hotkeys">System exit hotkeys</string>
+  <string name="asl_hotkey_help">Hold Select + Start to exit a game. Keep holding for four seconds to return to Android if it is stuck. Hold Fn + Start for two seconds to return to Android.</string>
+  <string name="asl_ready">Ready</string>
+  <string name="asl_scan">Refresh images</string>
+  <string name="asl_health_body">State: %1$s
+Image check: %2$s
+Operation: %3$s
+
+%4$s</string>
+  <string name="asl_ra">Start RetroArch</string>
+  <string name="asl_sync_note">Shared ROM folders stay available to both systems. Library sync merges favourites and play history, and imports missing descriptions and artwork. RetroArch sync is optional and excludes controller mappings.</string>
+  <string name="asl_native_help">Native controls require the matching andr36oid guest-mode kernel. Generic Linux images keep their normal input ABI.</string>
+  <string name="asl_empty">No image available</string>
+  <string name="asl_es" translatable="false">EmulationStation</string>
+  <string name="asl_launch_confirm">Save your Android work before continuing. Linux will take the screen; exiting Linux returns to Android.</string>
+  <string name="asl_op_progress">%1$s · %2$s written · %3$s seconds</string>
+  <string name="asl_sync_favorite">Favourites</string>
+  <string name="asl_sync_playcount">Play count</string>
+  <string name="asl_sync_lastplayed">Last played</string>
+  <string name="asl_sync_desc">Descriptions</string>
+  <string name="asl_sync_art">Artwork</string>
+  <string name="asl_sync_ra">Share RetroArch options</string>
+  <string name="asl_stop">Return to Android</string>
+  <string name="asl_retries">Frontend restart attempts</string>
+  <string name="asl_audio_rate">Audio sample rate (Hz)</string>
+  <string name="asl_audio_buffer">Audio buffer (frames)</string>
 </resources>

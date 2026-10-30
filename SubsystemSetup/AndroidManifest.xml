@@ -36,6 +36,12 @@
                 android:resource="@drawable/ic_subsystem" />
         </activity>
 
+        <activity android:name=".AdvancedSetupActivity" android:exported="false" android:theme="@style/Andr36oidSetupTheme" />
+        <activity android:name=".EmulationStationActivity" android:exported="false" android:theme="@style/Andr36oidSetupTheme" />
+        <activity-alias android:name=".EmulationStationLauncher" android:targetActivity=".EmulationStationActivity" android:enabled="false" android:exported="true" android:icon="@drawable/ic_emulationstation" android:label="@string/asl_es">
+            <intent-filter><action android:name="android.intent.action.MAIN"/><category android:name="android.intent.category.LAUNCHER"/></intent-filter>
+        </activity-alias>
+
         <!-- Shown by BootReceiver after the broker finds an image. -->
         <activity
             android:name=".SubsystemBootActivity"

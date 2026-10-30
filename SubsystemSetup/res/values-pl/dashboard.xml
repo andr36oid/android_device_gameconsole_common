@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="asl_dashboard">Panel dArkOSen</string>
+  <string name="asl_install">Skonfiguruj dArkOSen</string>
+  <string name="asl_missing">Skopiuj rozpakowany plik .img dArkOSen 10152026 do subsystem/darkosen na EASYROMS, w pamięci wewnętrznej lub na SD2. Nowsze obrazy mogą działać, ale nie zostały sprawdzone. Dla innego systemu Linux wybierz ustawienia zaawansowane.</string>
+  <string name="asl_setup_body">Pierwsza konfiguracja przygotuje współdzielone foldery i warstwę zmian systemu. Potem wrócisz tutaj i wybierzesz, kiedy uruchomić Linux.</string>
+  <string name="asl_start_setup">Rozpocznij pierwszą konfigurację</string>
+  <string name="asl_images">Wybierz obraz dArkOSen</string>
+  <string name="asl_change">Zmiana obrazu resetuje zmiany systemu i ustawienia EmulationStation. Gry i zapisy pozostają we współdzielonej pamięci. Zachowaj istniejące zmiany, aby odzyskać je po powrocie do danego obrazu.</string>
+  <string name="asl_keep_overlay">Zachowaj istniejące zmiany systemu</string>
+  <string name="asl_storage">Wykorzystanie pamięci</string>
+  <string name="asl_health">Stan i dziennik ostatniego uruchomienia</string>
+  <string name="asl_config">Konfiguracja</string>
+  <string name="asl_optimize">Optymalizuj dArkOSen</string>
+  <string name="asl_optimize_body">Tworzy skompresowaną kopię EROFS wybranego obrazu. Zweryfikowana kopia jest zawsze preferowana. Domyślnie oryginał jest usuwany po weryfikacji; możesz go zachować. Może to potrwać kilka minut. Podłącz konsolę do zasilania.</string>
+  <string name="asl_keep_original">Zachowaj oryginalny obraz</string>
+  <string name="asl_launch_icon">Pokazuj EmulationStation na liście aplikacji</string>
+  <string name="asl_advanced">Zaawansowane ustawienia Linux</string>
+  <string name="asl_shared">Gry i zapisy na EASYROMS są współdzielone z Androidem. Zmiany systemu są w pamięci wewnętrznej. Rozmiary oryginału i EROFS są pokazane osobno.</string>
+  <string name="asl_info">Obraz: %1$s\nLokalizacja: %2$s\nOryginał: %3$s · EROFS: %4$s\nZmiany systemu: %5$s\nWersja: %6$s</string>
+  <string name="asl_working">W toku… Możesz opuścić stronę i wrócić, aby sprawdzić postęp.</string>
+  <string name="asl_failed">Operacja nie powiodła się. Sprawdź stan i dziennik ostatniego uruchomienia.</string>
+  <string name="asl_sync">Synchronizuj z Androidem</string>
+  <string name="asl_mute">Wycisz Linux</string>
+  <string name="asl_hotkeys">Skróty wyjścia</string>
+  <string name="asl_hotkey_help">Przytrzymaj Select + Start, aby wyjść z gry. Przytrzymaj przez cztery sekundy, aby wrócić do Androida po zawieszeniu. Przytrzymaj Fn + Start przez dwie sekundy, aby wrócić do Androida.</string>
+  <string name="asl_ready">Gotowe</string>
+  <string name="asl_scan">Odśwież obrazy</string>
+  <string name="asl_health_body">Stan: %1$s\nSprawdzenie obrazu: %2$s\nOperacja: %3$s\n\n%4$s</string>
+  <string name="asl_ra">Uruchom RetroArch</string>
+  <string name="asl_sync_note">Foldery ROM są dostępne w obu systemach. Synchronizacja łączy ulubione i historię oraz importuje brakujące opisy i obrazy. Synchronizacja RetroArch jest opcjonalna i pomija przypisania przycisków.</string>
+  <string name="asl_native_help">Natywne sterowanie wymaga zgodnego jądra andr36oid z trybem gościa. Inne obrazy Linux zachowują zwykły interfejs wejścia.</string>
+  <string name="asl_empty">Brak dostępnego obrazu</string>
+  <string name="asl_launch_confirm">Zapisz pracę w Androidzie. Linux przejmie ekran; wyjście przywróci Androida.</string>
+  <string name="asl_op_progress">%1$s · zapisano %2$s · %3$s sekund</string>
+  <string name="asl_sync_favorite">Ulubione</string>
+  <string name="asl_sync_playcount">Liczba rozgrywek</string>
+  <string name="asl_sync_lastplayed">Ostatnia rozgrywka</string>
+  <string name="asl_sync_desc">Opisy</string>
+  <string name="asl_sync_art">Grafiki</string>
+  <string name="asl_sync_ra">Współdziel opcje RetroArch</string>
+  <string name="asl_stop">Wróć do Androida</string>
+  <string name="asl_retries">Próby ponownego uruchomienia interfejsu</string>
+  <string name="asl_audio_rate">Częstotliwość dźwięku (Hz)</string>
+  <string name="asl_audio_buffer">Bufor dźwięku (ramki)</string>
+</resources>

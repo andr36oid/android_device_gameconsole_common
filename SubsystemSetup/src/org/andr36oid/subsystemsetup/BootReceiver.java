@@ -28,6 +28,7 @@ public class BootReceiver extends BroadcastReceiver {
                         .remove("launch_saw_running").apply();
             }
         }
+        SubsystemSetupActivity.updateLauncher(context);
         final ComponentName entry = new ComponentName(context, SubsystemBootActivity.class);
         final String image = SubsystemBackend.get(SubsystemBackend.IMAGE);
         // The broker reports 0 after a scan finds no image.

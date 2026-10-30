@@ -5,7 +5,6 @@ CONTROL=${A36_CONTROL:-/data/misc/andr36oid-subsystem}
 SUPPORT=${A36_EROFS_SUPPORT:-/system/bin/andr36oid-erofs-support}
 PROP=sys.andr36oid.subsystem
 SELECT_PROP=persist.sys.andr36oid.subsystem.selected
-PREFER_PROP=persist.sys.andr36oid.subsystem.prefer_erofs
 export LC_ALL=C
 mkdir -p "$CONTROL"; chmod 0700 "$CONTROL"
 prop() { getprop "$PROP.$1" 2>/dev/null; }
@@ -16,34 +15,71 @@ valid_job() { [ "${#1}" = 16 ] && case "$1" in *[!0-9a-f]*) false;; *) true;; es
 # Shared encoding vectors: PortMaster/erofs-tools/selection-vectors.tsv.
 selection_id() { printf '%s\000%s' "$(printf '%s' "$1" | tr '[:upper:]' '[:lower:]')" "$2" | sha256sum | cut -d' ' -f1; }
 hex_name() { printf '%s' "$1" | od -An -tx1 | tr -d ' \n'; }
+# Android mksh arithmetic and test -ge wrap at 32 bits, even on ARM64.
+# awk doubles represent all byte counts on supported console media exactly.
+bytes_ge() { awk -v a="$1" -v b="$2" 'BEGIN {exit !(a+0 >= b+0)}'; }
 clock_seconds() { cut -d. -f1 /proc/uptime; }
 boot_id() { cat /proc/sys/kernel/random/boot_id; }
 process_start() { sed 's/^.*) //' "/proc/$1/stat" 2>/dev/null | awk '{print $20}'; }
+OPERATION_LOCKED=0
 acquire_operation() {
+  exec 7>"${A36_STORAGE_LOCK:-/data/misc/andr36oid-storage.lock}"
+  flock -n 7 7>&7 || { exec 7>&-; return 1; }
   exec 9>"$CONTROL/operation.lock"
-  flock -n 9 || return 1
+  flock -n 9 9>&9 || { exec 7>&- 9>&-; return 1; }
+  # A crashed USB exporter can retain open backing files after its lock dies.
+  # Require its recovery path to clear ownership before using the same storage.
+  local usb=${A36_USB_STATE:-/data/misc/andr36oid-usb-drive} lun
+  if [ ! -f "$usb/boot_id" ] || [ "$(cat "$usb/boot_id")" = "$(boot_id)" ]; then
+    for lun in "$usb/owned" "$usb/storage" "$usb/virtual"; do
+      [ ! -e "$lun" ] || { exec 7>&- 9>&-; return 1; }
+    done
+  fi
+  for lun in /config/usb_gadget/*/functions/mass_storage.*/lun.*/file; do
+    [ ! -s "$lun" ] || [ -z "$(cat "$lun")" ] || { exec 7>&- 9>&-; return 1; }
+  done
+  case "$1" in run|recover) ;; *)
+    [ ! -d "$STATE/session.lock" ] || { exec 7>&- 9>&-; return 1; };;
+  esac
+  OPERATION_LOCKED=1
   publish operation "$1"
 }
-release_operation() { publish operation ""; exec 9>&-; }
+release_operation() { publish operation ""; exec 9>&- 7>&-; OPERATION_LOCKED=0; }
+operation_done() {
+  local seq
+  seq=$(prop done_seq)
+  case "$seq" in ""|*[!0-9]*) seq=0;; esac
+  publish result "$1"; publish done_seq "$((seq+1))"
+}
 
 # Exactly the SaveBackup/EASYROMS identity rule, accepting ro mounts for launch.
-games_card() {
-  CARD=; CARD_UUID=; CARD_RW=0; CARD_DEV=
-  local id dev dir _fs opts _rest
-  id=$(getprop sys.andr36oid.easyroms.id)
-  if [ -z "$id" ] && [ "$(getprop sys.andr36oid.easyroms.ready)" != 1 ]; then id=public:179,7; fi
-  [ -n "$id" ] || return 1
-  while read -r dev dir _fs opts _rest; do
-    [ "$dev" = "/dev/block/vold/$id" ] || continue
-    case "$dir" in /mnt/media_rw/?*) ;; *) continue;; esac
-    [ -d "$dir" ] && [ "$(readlink -f "$dir")" = "$dir" ] || continue
-    CARD=$dir; CARD_DEV=$dev
-    CARD_UUID=$(printf '%s' "${dir##*/}" | tr '[:upper:]' '[:lower:]')
-    case ",$opts," in *,rw,*) CARD_RW=1;; esac
-    return 0
+# Canonical host paths only: no sdcardfs aliases and no duplicate volume entries.
+image_cards() {
+  local dev dir fs opts rest
+  while read -r dev dir fs opts rest; do
+    case "$dir" in /mnt/media_rw/*) ;; *) continue;; esac
+    [ -d "$dir/subsystem/darkosen" ] || continue
+    printf '%s\t%s\t%s\t%s\n' "$dir" "${dir##*/}" "$dev" "$opts"
   done < /proc/mounts
-  return 1
+  [ ! -d /data/media/0/subsystem/darkosen ] || printf '/data/media/0\tinternal\t/data\trw\n'
+  [ ! -d /data/subsystem/darkosen ] || printf '/data\tinternal-legacy\t/data\trw\n'
 }
+set_card() {
+  CARD=$1; CARD_UUID=$(printf '%s' "$2" | tr '[:upper:]' '[:lower:]'); CARD_DEV=$3
+  CARD_RW=0; case ",$4," in *,rw,*) CARD_RW=1;; esac
+  IMAGE_DIR="$CARD/subsystem/darkosen"
+}
+games_card() {
+  local dir uuid dev opts found=1
+  while IFS="$(printf '\t')" read -r dir uuid dev opts; do
+    [ -z "${OPT_CARD:-}" ] || [ "$dir" = "$OPT_CARD" ] || continue
+    set_card "$dir" "$uuid" "$dev" "$opts"; found=0; break
+  done <<EOF_CARDS
+$(image_cards)
+EOF_CARDS
+  return "$found"
+}
+
 # Only canonical immediate regular files with safe names. No /storage aliases.
 candidate_probe() { "$SUPPORT" candidate "$IMAGE_DIR" "${1##*/}" 2>/dev/null; }
 completion_record() { "$SUPPORT" record "$1" "$CARD_UUID" 2>/dev/null; }
@@ -56,18 +92,17 @@ use_original() {
 use_completed() {
   SOURCE=$1; SOURCE_ID=$2; RECORD=$3
   FAMILY=$(field "$RECORD" source_id); GENERATION=$(field "$RECORD" generation)
-  EFFECTIVE=$SOURCE; ACTIVE_ID=$SOURCE_ID; EFFECTIVE_FORMAT=erofs
+  EFFECTIVE=$SOURCE; ACTIVE_ID=$SOURCE_ID; SOURCE_ID=$FAMILY; EFFECTIVE_FORMAT=erofs
   RESOLVE_STATE=ready_erofs
 }
 # Optional argument pins optimize to the ID accepted by its request, even if the
 # Settings selection changes while init is starting the worker.
-resolve_selected_image() {
+resolve_on_card() {
   SOURCE=; SOURCE_ID=; SOURCE_PROBE=; EFFECTIVE=; ACTIVE_ID=; FAMILY=; GENERATION=
   RECORD=; RESOLVE_STATE=no_image; EFFECTIVE_FORMAT=; DIAGNOSTIC_DIR=0
   local selected candidate name candidates id info format record first_original='' first_optimized='' first_info='' first_record=''
   selected=${1-$(getprop "$SELECT_PROP")}
-  RESOLVE_SELECTION=$selected; RESOLVE_PREFER=$(getprop "$PREFER_PROP")
-  [ "$RESOLVE_PREFER" = 0 ] || RESOLVE_PREFER=1
+  RESOLVE_SELECTION=$selected; RESOLVE_PREFER=1
   if [ -n "$IMAGE" ]; then
     # A36_IMAGE is a root-only CLI diagnostic override, never used by init.
     if [ -d "$IMAGE/usr/bin/emulationstation" ]; then
@@ -83,11 +118,6 @@ resolve_selected_image() {
     return 0
   fi
   if [ -n "$selected" ] && ! valid_id "$selected"; then RESOLVE_STATE=selected_missing; return 1; fi
-  if ! games_card; then
-    RESOLVE_STATE=no_card; [ -n "$selected" ] && RESOLVE_STATE=selected_missing
-    return 1
-  fi
-  IMAGE_DIR="$CARD/subsystem/darkosen"
   if [ ! -d "$IMAGE_DIR" ] || [ "$(readlink -f "$IMAGE_DIR")" != "$IMAGE_DIR" ]; then
     [ -n "$selected" ] && RESOLVE_STATE=selected_missing
     return 1
@@ -101,7 +131,11 @@ resolve_selected_image() {
     # Validate names BEFORE passing them through command substitution.
     case "${candidate##*/}" in *[[:cntrl:]]*) continue;; esac
     id=$(selection_id "$CARD_UUID" "${candidate##*/}")
-    if [ -n "$selected" ] && [ "$selected" != "$id" ]; then continue; fi
+    if [ -n "$selected" ] && [ "$selected" != "$id" ]; then
+      record=$(completion_record "$candidate") || continue
+      [ "$(field "$record" source_id)" = "$selected" ] || continue
+      [ ! -f "$IMAGE_DIR/$(field "$record" source_name)" ] || continue
+    fi
     info=$(candidate_probe "$candidate") || {
       if [ "$selected" = "$id" ]; then SOURCE_ID=$id; RESOLVE_STATE=invalid_image; return 1; fi
       continue
@@ -162,13 +196,70 @@ EOF_CANDIDATES
   fi
   return 0
 }
+resolve_selected_image() {
+  local selected=${1-$(getprop "$SELECT_PROP")} dir uuid dev opts
+  if [ -n "$IMAGE" ]; then resolve_on_card "$selected"; return $?; fi
+  while IFS="$(printf '\t')" read -r dir uuid dev opts; do
+    [ -n "$dir" ] || continue
+    set_card "$dir" "$uuid" "$dev" "$opts"
+    if resolve_on_card "$selected"; then return 0; fi
+  done <<EOF_CARDS
+$(image_cards)
+EOF_CARDS
+  SOURCE=;SOURCE_ID=;ACTIVE_ID=;FAMILY=;GENERATION=;EFFECTIVE=;EFFECTIVE_FORMAT=
+  RESOLVE_STATE=no_image; [ -z "$selected" ] || RESOLVE_STATE=selected_missing
+  return 1
+}
+ready_key() { printf '%s-%s-native1' "$FAMILY" "$GENERATION"; }
+publish_setup_state() {
+  local ready=0
+  [ -n "$FAMILY" ] && [ -n "$GENERATION" ] && [ -f "$CONTROL/ready/$(ready_key)" ] && ready=1
+  cat "$CONTROL/versions/$(ready_key)" 2>/dev/null > "$STATE/version.txt.tmp" || :
+  chmod 0644 "$STATE/version.txt.tmp"; mv "$STATE/version.txt.tmp" "$STATE/version.txt"
+  publish ready "$ready"
+  publish format "${EFFECTIVE_FORMAT:-}"
+}
+write_catalog() {
+  local dir uuid dev opts names name info id record family gen original optimized ready
+  mkdir -p "$STATE"; chmod 0755 "$STATE"
+  : > "$STATE/images.tsv.tmp"
+  while IFS="$(printf '\t')" read -r dir uuid dev opts; do
+    [ -n "$dir" ] || continue
+    set_card "$dir" "$uuid" "$dev" "$opts"
+    names=$("$SUPPORT" list "$IMAGE_DIR") || continue
+    while IFS= read -r name; do
+      [ -n "$name" ] || continue
+      info=$(candidate_probe "$IMAGE_DIR/$name") || continue
+      id=$(selection_id "$CARD_UUID" "$name"); family=$id; gen=$(field "$info" generation)
+      original=$(field "$info" size); optimized=0
+      if [ "$(field "$info" format)" = erofs ]; then
+        record=$(completion_record "$IMAGE_DIR/$name") || continue
+        family=$(field "$record" source_id); gen=$(field "$record" generation)
+        # A valid original row already represents this pair.
+        [ ! -f "$IMAGE_DIR/$(field "$record" source_name)" ] || continue
+        optimized=$original;original=0;id=$family
+      else
+        record=$(completion_record "$IMAGE_DIR/${name%.img}.erofs.img") || record=
+        if [ "$(field "$record" generation)" = "$gen" ]; then optimized=$(field "$record" output_size); fi
+      fi
+      ready=0; [ ! -f "$CONTROL/ready/$family-$gen-native1" ] || ready=1
+      printf '%s\t%s\t%s\t%s\t%s\t%s\n' "$id" "$name" "$dir" "$original" "$optimized" "$ready" >> "$STATE/images.tsv.tmp"
+    done <<EOF_NAMES
+$names
+EOF_NAMES
+  done <<EOF_CARDS
+$(image_cards)
+EOF_CARDS
+  du -sk "$STATE/images" "$STATE/upper" 2>/dev/null | awk '{sum+=$1} END {print sum*1024}' > "$STATE/overlay-bytes"; chmod 0644 "$STATE/overlay-bytes"
+  chmod 0644 "$STATE/images.tsv.tmp"; mv "$STATE/images.tsv.tmp" "$STATE/images.tsv"
+}
 publish_resolution() {
   local available=$1 seq
   # A busy scan and a session may publish concurrently. Serialize this small
   # boundary independently of the lifetime operation lock so sequences cannot
   # collide, and expose a guard against reading fields during an update.
   exec 8>"$CONTROL/resolve.lock"
-  flock 8 || return 1
+  flock 8 8>&8 || return 1
   seq=$(prop resolve_seq); case "$seq" in ''|*[!0-9]*) seq=0;; esac
   publish resolve_guard "$seq:writing"
   # Clear stale details too; availability and sequence form the result boundary.
@@ -180,13 +271,20 @@ publish_resolution() {
   exec 8>&-
 }
 scan_managed_images() {
+  # /data survives power loss. Recover its old session journal before allowing
+  # the first catalog scan; otherwise a reboot could hide every installed image.
+  if [ -d "$STATE/session.lock" ] && ! session_active; then
+    recover_session || return 1
+  fi
   if ! acquire_operation scan; then
-    SOURCE_ID=; ACTIVE_ID=; RESOLVE_SELECTION=; RESOLVE_PREFER=; RESOLVE_STATE=busy; publish_resolution 0; return 1
+    return 1
   fi
   reconcile_optimize
+  write_catalog
   local available=0
   resolve_selected_image && available=1
   publish_resolution "$available"
+  publish_setup_state
   release_operation
 }
 
@@ -218,10 +316,10 @@ EOF_LEGACY
   [ "$count" = 1 ]
 }
 prepare_writable_state() {
-  local base="$STATE/images/$FAMILY/$GENERATION" association evidence
+  local base="$STATE/images/$FAMILY/$GENERATION/native1" association evidence
   UPPER="$base/upper"; WORK="$base/work"
   mkdir -p "$base" || return 1
-  if [ -d "$STATE/upper" ]; then
+  if [ -d "$STATE/upper" ] && [ "${A36_MIGRATE_LEGACY:-0}" = 1 ]; then
     association=$(cat "$CONTROL/legacy-family" 2>/dev/null) || association=
     if [ -z "$association" ] && [ -z "$IMAGE" ] && [ "$(field "$SOURCE_PROBE" format)" = btrfs ] && [ ! -e "$UPPER" ]; then
       evidence=$(cat "$CONTROL/legacy-source-evidence" 2>/dev/null) || evidence=
@@ -343,6 +441,8 @@ opt_details() {
   [ "$OPT_PHASE" != "done" ] || bytes=$(stat -c %s "$FINAL" 2>/dev/null) || bytes=0
   publish opt_bytes "$bytes"; publish opt_elapsed "$(( $(clock_seconds)-OPT_START ))"
   publish opt_error "$OPT_ERROR"
+  tail -c 8192 "$OPT_DIR/worker.log" 2>/dev/null > "$STATE/optimize.log.tmp" || :
+  chmod 0644 "$STATE/optimize.log.tmp"; mv "$STATE/optimize.log.tmp" "$STATE/optimize.log"
 }
 publish_opt_state() {
   publish opt_state "$1"
@@ -353,6 +453,7 @@ publish_opt_state() {
 opt_transition() {
   OPT_PHASE=$1
   opt_journal || { OPT_ERROR=io_error; return 1; }
+  [ -z "$OPT_ERROR" ] || OPT_PHASE=failed
   opt_details; publish_opt_state "$OPT_PHASE" "$OPT_JOB"
 }
 opt_fail() { OPT_ERROR=$1; log "optimize $OPT_JOB: $1"; exit 1; }
@@ -364,9 +465,9 @@ opt_progress() {
   info=$("$SUPPORT" space "$OPT_IMAGE_DIR") || { OPT_ERROR=io_error; return 1; }
   available=$(field "$info" available)
   publish opt_free "$available"
-  [ "$available" -ge 553648128 ] || { OPT_ERROR=no_space; return 1; }
+  bytes_ge "$available" 553648128 || { OPT_ERROR=no_space; return 1; }
   if [ -n "$PARTIAL" ] && [ -f "$PARTIAL" ]; then
-    [ "$(stat -c %s "$PARTIAL")" -le "$(field "$info" file_limit)" ] || { OPT_ERROR=no_space; return 1; }
+    bytes_ge "$(field "$info" file_limit)" "$(stat -c %s "$PARTIAL")" || { OPT_ERROR=no_space; return 1; }
   fi
   # Children append to this file. Quiet formatter/fsck output plus periodic
   # truncation bounds diagnostics, without a pipe obscuring their exit status.
@@ -411,7 +512,7 @@ opt_cleanup() {
   if [ "$OPT_ACCEPTED" != 1 ]; then
     publish opt_job "$OPT_JOB"; publish opt_error "${OPT_ERROR:-interrupted}"
     publish_opt_state failed "$OPT_JOB"
-    release_operation; exit 1
+    operation_done failed; release_operation; exit 1
   fi
   stop_opt_child
   if [ -n "$VERIFY_LOOP" ]; then
@@ -435,12 +536,18 @@ opt_cleanup() {
   fi
   [ -z "$WAKE" ] || printf '%s\n' "$WAKE" > /sys/power/wake_unlock
   if [ "$rc" = 0 ] && [ -z "$OPT_ERROR" ]; then
-    OPT_PHASE="done"
+    if [ "${OPT_KEEP:-1}" = 0 ] && [ -z "$SRC_LOOP" ] && [ -z "$VERIFY_LOOP" ]; then
+      completion_record "$FINAL" >/dev/null &&
+        "$SUPPORT" remove "$OPT_SOURCE" "$OPT_SOURCE_DEV" "$OPT_SOURCE_INO" &&
+        "$SUPPORT" fsync "$OPT_IMAGE_DIR" || OPT_ERROR=source_remove_failed
+    fi
+    OPT_PHASE="done"; [ -z "$OPT_ERROR" ] || OPT_PHASE=failed
   elif [ "$OPT_ERROR" = interrupted ]; then OPT_PHASE=interrupted
   else OPT_PHASE=failed; [ -n "$OPT_ERROR" ] || OPT_ERROR=io_error; fi
   opt_journal || { OPT_ERROR=io_error; OPT_PHASE=failed; }
   opt_details; publish_opt_state "$OPT_PHASE" "$OPT_JOB"
   rmdir "$OPT_SRC" "$OPT_VERIFY" 2>/dev/null
+  operation_done "$OPT_PHASE"
   release_operation
   # Completion is independently discoverable even if this request is lost.
   [ "$OPT_PHASE" != "done" ] || [ -n "$(prop request)" ] || publish request scan
@@ -533,10 +640,11 @@ optimize_worker() {
   OPT_SRC="$OPT_DIR/source-$OPT_JOB"; OPT_VERIFY="$OPT_DIR/verify-$OPT_JOB"
   # These traps precede loops, mounts, staging files and the power hold.
   OPT_LOCKED=0; OPT_ACCEPTED=0
+  OPT_KEEP=$(prop opt_dispatch_keep); [ "$OPT_KEEP" = 1 ] || OPT_KEEP=0
   trap 'opt_cleanup $?' EXIT
   trap 'OPT_ERROR=interrupted; exit 1' INT TERM HUP
   if ! acquire_operation optimize; then
-    publish opt_reject_error busy; publish opt_reject_job "$OPT_JOB"; exit 1
+    publish opt_reject_error busy; publish opt_reject_job "$OPT_JOB"; operation_done busy; exit 1
   fi
   OPT_LOCKED=1
   reconcile_optimize
@@ -573,7 +681,7 @@ optimize_worker() {
   [ "${#FINAL}" -lt 4000 ] && [ "${#META_PARTIAL}" -lt 4000 ] && [ "$(printf '%s' "${META_PARTIAL##*/}" | wc -c)" -le 255 ] || opt_fail name_too_long
   local data_free
   data_free=$("$SUPPORT" space "$CONTROL") || opt_fail io_error
-  [ "$(field "$data_free" available)" -ge 67108864 ] || opt_fail data_space
+  bytes_ge "$(field "$data_free" available)" 67108864 || opt_fail data_space
   mkdir -p "$OPT_SRC" "$OPT_VERIFY" || opt_fail io_error
   opt_journal || opt_fail io_error
   SRC_LOOP=$(losetup -f) || opt_fail io_error
@@ -592,12 +700,12 @@ optimize_worker() {
   estimate=$(cat "$OPT_DIR/estimate")
   publish opt_required "$(field "$estimate" required)"; publish opt_available "$(field "$estimate" available)"
   if [ "$estimate_rc" != 0 ]; then
-    if [ -z "$OPT_ERROR" ] && [ -n "$(field "$estimate" output_bound)" ] && [ "$(field "$estimate" output_bound)" -gt "$(field "$estimate" file_limit)" ]; then
+    if [ -z "$OPT_ERROR" ] && [ -n "$(field "$estimate" output_bound)" ] && ! bytes_ge "$(field "$estimate" file_limit)" "$(field "$estimate" output_bound)"; then
       opt_fail file_limit
     fi
     opt_fail "${OPT_ERROR:-no_space}"
   fi
-  [ "$(field "$estimate" available)" -ge "$(field "$estimate" required)" ] || opt_fail no_space
+  bytes_ge "$(field "$estimate" available)" "$(field "$estimate" required)" || opt_fail no_space
   identity=$("$SUPPORT" reserve "$PARTIAL") || opt_fail output_exists
   PART_DEV=$(field "$identity" device); PART_INO=$(field "$identity" inode)
   : > "$OPT_DIR/worker.log"

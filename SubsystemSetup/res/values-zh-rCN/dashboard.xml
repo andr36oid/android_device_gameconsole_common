@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="asl_dashboard">dArkOSen 控制面板</string>
+  <string name="asl_install">设置 dArkOSen</string>
+  <string name="asl_missing">将解压后的 dArkOSen 10152026 .img 文件复制到 EASYROMS、内部存储或 SD2 的 subsystem/darkosen 文件夹。更新的镜像可能可用，但尚未测试。其他 Linux 发行版请使用高级设置。</string>
+  <string name="asl_setup_body">首次设置将准备共享文件夹和系统修改层。完成后将返回此处，由你选择何时进入 Linux。</string>
+  <string name="asl_start_setup">开始首次设置</string>
+  <string name="asl_images">选择 dArkOSen 镜像</string>
+  <string name="asl_change">更换镜像将重置系统修改层和 EmulationStation 设置。游戏和存档仍保留在共享存储中。保留现有修改层可在切回原镜像时恢复其设置。</string>
+  <string name="asl_keep_overlay">保留各镜像的系统修改层</string>
+  <string name="asl_storage">存储使用情况</string>
+  <string name="asl_health">状态与上次启动日志</string>
+  <string name="asl_config">配置</string>
+  <string name="asl_optimize">优化 dArkOSen</string>
+  <string name="asl_optimize_body">为所选镜像创建压缩的 EROFS 副本，并始终优先使用验证过的副本。默认在验证后删除原镜像，也可选择保留。此过程可能需要几分钟。请保持主机连接电源。</string>
+  <string name="asl_keep_original">保留原镜像</string>
+  <string name="asl_launch_icon">在应用列表中显示 EmulationStation</string>
+  <string name="asl_advanced">Linux 高级设置</string>
+  <string name="asl_shared">EASYROMS 上的游戏和存档与 Android 共享。系统修改保存在内部存储中。原镜像和 EROFS 的大小分别显示。</string>
+  <string name="asl_info">镜像：%1$s\n位置：%2$s\n原镜像：%3$s · EROFS：%4$s\n系统修改层：%5$s\n版本：%6$s</string>
+  <string name="asl_working">正在处理… 你可以离开此页面，稍后返回查看进度。</string>
+  <string name="asl_failed">操作失败。请打开状态与上次启动日志查看详情。</string>
+  <string name="asl_sync">与 Android 同步</string>
+  <string name="asl_mute">将 Linux 静音</string>
+  <string name="asl_hotkeys">系统退出快捷键</string>
+  <string name="asl_hotkey_help">按住 Select + Start 退出游戏。如果卡住，持续按住四秒可返回 Android。按住 Fn + Start 两秒也可返回 Android。</string>
+  <string name="asl_ready">就绪</string>
+  <string name="asl_scan">刷新镜像列表</string>
+  <string name="asl_health_body">状态：%1$s\n镜像检查：%2$s\n操作：%3$s\n\n%4$s</string>
+  <string name="asl_ra">启动 RetroArch</string>
+  <string name="asl_sync_note">两个系统均可使用共享 ROM 文件夹。同步会合并收藏和游戏记录，并导入缺失的介绍和图片。RetroArch 同步为可选功能，不包含控制器映射。</string>
+  <string name="asl_native_help">原生控制需要匹配的 andr36oid 访客模式内核。通用 Linux 镜像保持其正常输入接口。</string>
+  <string name="asl_empty">没有可用镜像</string>
+  <string name="asl_launch_confirm">请先保存 Android 中的工作。Linux 将接管屏幕；退出 Linux 后会返回 Android。</string>
+  <string name="asl_op_progress">%1$s · 已写入 %2$s · %3$s 秒</string>
+  <string name="asl_sync_favorite">收藏</string>
+  <string name="asl_sync_playcount">游玩次数</string>
+  <string name="asl_sync_lastplayed">上次游玩</string>
+  <string name="asl_sync_desc">介绍</string>
+  <string name="asl_sync_art">图片</string>
+  <string name="asl_sync_ra">共享 RetroArch 选项</string>
+  <string name="asl_stop">返回 Android</string>
+  <string name="asl_retries">前端重启尝试次数</string>
+  <string name="asl_audio_rate">音频采样率（Hz）</string>
+  <string name="asl_audio_buffer">音频缓冲区（帧）</string>
+</resources>

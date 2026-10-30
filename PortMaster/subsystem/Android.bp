@@ -8,3 +8,9 @@ cc_binary {
         "-Werror",
     ],
 }
+
+cc_binary {
+    name: "andr36oid-guest",
+    srcs: ["andr36oid-guest.c"],
+    cflags: ["-Wall", "-Wextra", "-Werror"],
+}

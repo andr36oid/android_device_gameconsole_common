@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="asl_dashboard">dArkOSen ダッシュボード</string>
+  <string name="asl_install">dArkOSen を設定</string>
+  <string name="asl_missing">dArkOSen 10152026 の展開済み .img を、EASYROMS、内部ストレージ、SD2 の subsystem/darkosen にコピーしてください。新しいイメージは動く可能性がありますが未検証です。他の Linux は詳細設定から選べます。</string>
+  <string name="asl_setup_body">初期設定で共有フォルダとシステム変更用の領域を準備します。完了するとここに戻り、好きなタイミングで Linux を起動できます。</string>
+  <string name="asl_start_setup">初期設定を実行</string>
+  <string name="asl_images">dArkOSen イメージを選択</string>
+  <string name="asl_change">イメージを変更するとシステムの変更内容と EmulationStation 設定がリセットされます。ゲームとセーブデータは共有ストレージに残ります。以前のイメージに戻したときに設定を復元したい場合は、変更内容を保持してください。</string>
+  <string name="asl_keep_overlay">各イメージの変更内容を保持</string>
+  <string name="asl_storage">ストレージ使用量</string>
+  <string name="asl_health">状態と前回の起動ログ</string>
+  <string name="asl_config">設定</string>
+  <string name="asl_optimize">dArkOSen を最適化</string>
+  <string name="asl_optimize_body">選択したイメージの圧縮 EROFS コピーを作成します。検証済みコピーを常に優先します。既定では検証後に元のイメージを削除しますが、保持することもできます。数分かかる場合があります。電源に接続したままにしてください。</string>
+  <string name="asl_keep_original">元のイメージを保持</string>
+  <string name="asl_launch_icon">アプリ一覧に EmulationStation を表示</string>
+  <string name="asl_advanced">Linux 詳細設定</string>
+  <string name="asl_shared">EASYROMS のゲームとセーブは Android と共有します。システムの変更は内部ストレージに保存します。元のイメージと EROFS のサイズは別々に表示します。</string>
+  <string name="asl_info">イメージ：%1$s\n場所：%2$s\n元のイメージ：%3$s · EROFS：%4$s\nシステム変更：%5$s\nバージョン：%6$s</string>
+  <string name="asl_working">処理中… このページを離れ、後で進行状況を確認できます。</string>
+  <string name="asl_failed">操作に失敗しました。状態と前回の起動ログを確認してください。</string>
+  <string name="asl_sync">Android と同期</string>
+  <string name="asl_mute">Linux の音声をミュート</string>
+  <string name="asl_hotkeys">システム終了ショートカット</string>
+  <string name="asl_hotkey_help">Select + Start を長押しするとゲームを終了します。動かなくなった場合は四秒間押し続けると Android に戻ります。Fn + Start を二秒間押しても Android に戻ります。</string>
+  <string name="asl_ready">準備完了</string>
+  <string name="asl_scan">イメージ一覧を更新</string>
+  <string name="asl_health_body">状態：%1$s\nイメージ検証：%2$s\n操作：%3$s\n\n%4$s</string>
+  <string name="asl_ra">RetroArch を起動</string>
+  <string name="asl_sync_note">ROM フォルダは両方のシステムで利用できます。同期はお気に入りとプレイ履歴を統合し、不足する説明や画像を取り込みます。RetroArch 同期は任意で、コントローラ設定は含みません。</string>
+  <string name="asl_native_help">標準操作には対応する andr36oid ゲストモードカーネルが必要です。汎用 Linux イメージは通常の入力インターフェースを維持します。</string>
+  <string name="asl_empty">利用できるイメージがありません</string>
+  <string name="asl_launch_confirm">Android での作業を保存してください。Linux が画面を使用し、終了すると Android に戻ります。</string>
+  <string name="asl_op_progress">%1$s · %2$s 書き込み済み · %3$s 秒</string>
+  <string name="asl_sync_favorite">お気に入り</string>
+  <string name="asl_sync_playcount">プレイ回数</string>
+  <string name="asl_sync_lastplayed">最終プレイ</string>
+  <string name="asl_sync_desc">説明</string>
+  <string name="asl_sync_art">画像</string>
+  <string name="asl_sync_ra">RetroArch 設定を共有</string>
+  <string name="asl_stop">Android に戻る</string>
+  <string name="asl_retries">フロントエンドの再起動試行回数</string>
+  <string name="asl_audio_rate">音声サンプルレート（Hz）</string>
+  <string name="asl_audio_buffer">音声バッファ（フレーム）</string>
+</resources>

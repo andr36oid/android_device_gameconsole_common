@@ -1,21 +1,15 @@
 package org.andr36oid.subsystemsetup;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.graphics.Typeface;
+import android.app.AlertDialog;
+import android.content.ComponentName;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.SystemClock;
-import android.text.SpannableStringBuilder;
-import android.text.Spanned;
-import android.text.style.RelativeSizeSpan;
-import android.text.style.StyleSpan;
 import android.text.format.Formatter;
-import android.view.Gravity;
-import android.view.KeyEvent;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -23,1008 +17,229 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import org.andr36oid.hints.HintBar;
-
 import java.io.File;
-import java.io.IOException;
+import java.io.RandomAccessFile;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-/** In-house setup pages and settings; all privileged work is requested via properties. */
+/** Installation state comes from the root worker, never a local wizard checkbox. */
 public class SubsystemSetupActivity extends Activity {
-    private enum Screen { WIZARD, HOME, SETTINGS, ADVANCED, PICKER, WARNING, CONFIRM, CONSOLE }
-    private static final int WARN_COLOR = 0xFFE53935;
-    private static final long POLL_MS = 1000;
-    private static final long START_TIMEOUT_MS = 30_000;
-    private static final int MAX_ENTRIES = 500;
-    private final Handler mHandler = new Handler(Looper.getMainLooper());
-    private final ExecutorService mIo = Executors.newSingleThreadExecutor();
-    private final Runnable mPoll = this::poll;
-    private final List<View> mControls = new ArrayList<>();
-    private final List<Button> mLaunchButtons = new ArrayList<>();
-    private final List<View> mIdleControls = new ArrayList<>();
-    private SubsystemBackend mBackend;
-    private SharedPreferences mPrefs;
-    private SubsystemBackend.Snapshot mSnapshot = new SubsystemBackend.Snapshot();
-    private Screen mScreen, mReturnScreen = Screen.HOME, mConfirmReturn = Screen.HOME;
-    private Screen mConsoleReturn = Screen.HOME;
-    private int mStep, mPickerGeneration, mRefreshGeneration;
-    private int mHeldConfirmKey = KeyEvent.KEYCODE_UNKNOWN, mConsumedConfirmKey = KeyEvent.KEYCODE_UNKNOWN;
-    private boolean mResumed, mPolling, mWorking, mScanRequested;
-    private boolean mHandoff = true, mPending, mSawRunning, mLaunchTimedOut, mFollowLog = true;
-    private boolean mConfirmDownload, mSelectedValid, mValidating;
-    private String mRootfs = "", mTarget = "ES", mPickerPath = "";
-    private long mLaunchAt, mScanAt, mValidatedAt;
-    private List<File> mRoots = new ArrayList<>();
-    private Runnable mBackAction;
-    private TextView mLabel, mTitle, mBody, mStatus, mDownloadStatus, mBootHint, mConsoleStatus, mLogText;
-    private ProgressBar mProgress;
-    private LinearLayout mSide, mBodyExtra;
-    private ScrollView mTextScroll, mSideScroll, mLogScroll;
-    private View mPanes, mConsole;
-    private Button mBack, mSecondary, mNext, mDownloadButton, mScanButton;
-    private HoldButton mHold;
-    private HintBar mHints;
-
-    @Override
-    protected void onCreate(Bundle state) {
-        super.onCreate(state);
-        setContentView(R.layout.subsystem_wizard);
-        mHints = HintBar.attachDefault(this);
-        mBackend = new SubsystemBackend(this);
-        mPrefs = getSharedPreferences("subsystem_setup", Context.MODE_PRIVATE);
-        mLabel = findViewById(R.id.step_label);
-        mTitle = findViewById(R.id.title);
-        mBody = findViewById(R.id.body);
-        mProgress = findViewById(R.id.progress);
-        mTextScroll = findViewById(R.id.text_scroll);
-        mSideScroll = findViewById(R.id.side_scroll);
-        mSideScroll.setFocusable(false);
-        mSide = findViewById(R.id.side);
-        mBodyExtra = findViewById(R.id.body_extra);
-        mPanes = findViewById(R.id.panes);
-        mConsole = findViewById(R.id.console);
-        mConsoleStatus = findViewById(R.id.console_status);
-        mLogText = findViewById(R.id.log_text);
-        mLogScroll = findViewById(R.id.log_scroll);
-        mBack = findViewById(R.id.back);
-        mSecondary = findViewById(R.id.secondary);
-        mNext = findViewById(R.id.next);
-        ((View) mBack.getParent()).addOnLayoutChangeListener((view, left, top, right, bottom,
-                oldLeft, oldTop, oldRight, oldBottom) -> {
-            if (right - left != oldRight - oldLeft) fitButtons();
-        });
-        mLogScroll.setOnTouchListener((view, event) -> {
-            if (event.getActionMasked() == MotionEvent.ACTION_DOWN) setFollowLog(false);
-            return false;
-        });
-        mRootfs = SubsystemBackend.get(SubsystemBackend.ROOTFS);
-        mHandoff = !"0".equals(SubsystemBackend.get(SubsystemBackend.HANDOFF));
-        mSnapshot.image = SubsystemBackend.get(SubsystemBackend.IMAGE);
-        mSnapshot.session = SubsystemBackend.get(SubsystemBackend.SESSION);
-        mPending = mPrefs.getBoolean("launch_pending", false);
-        mLaunchAt = mPrefs.getLong("launch_elapsed", 0);
-        mSawRunning = mPrefs.getBoolean("launch_saw_running", false);
-        if (mLaunchAt > SystemClock.elapsedRealtime()) clearPending();
-        if (state != null) {
-            mStep = Math.max(0, Math.min(2, state.getInt("step")));
-            mReturnScreen = Screen.valueOf(state.getString("return", Screen.HOME.name()));
-            mConfirmReturn = Screen.valueOf(state.getString("confirm_return", Screen.HOME.name()));
-            mConsoleReturn = Screen.valueOf(state.getString("console_return", Screen.HOME.name()));
-            mRootfs = state.getString("rootfs", mRootfs);
-            mHandoff = state.getBoolean("handoff", mHandoff);
-            mTarget = state.getString("target", "ES");
-            mPickerPath = state.getString("picker", "");
-            mConfirmDownload = state.getBoolean("download_confirm");
-            mScanRequested = state.getBoolean("scan_requested");
-            mScanAt = state.getLong("scan_at");
-            mFollowLog = state.getBoolean("follow", true);
-            mLaunchTimedOut = state.getBoolean("launch_timeout");
-            show(Screen.valueOf(state.getString("screen", Screen.HOME.name())));
-        } else if (mPending || running()) {
-            mReturnScreen = Screen.HOME;
-            mConsoleReturn = !mHandoff || !mRootfs.isEmpty() ? Screen.ADVANCED : Screen.HOME;
-            show(Screen.CONSOLE);
-        } else {
-            show(("1".equals(mSnapshot.image) || mPrefs.getBoolean("setup_complete", false))
-                    ? Screen.HOME : Screen.WIZARD);
+    static final String P="sys.andr36oid.subsystem.";
+    static final String SELECT="persist.sys.andr36oid.subsystem.selected";
+    static final String ICON="persist.andr36oid.subsystem.es_icon";
+    private final Handler handler=new Handler(Looper.getMainLooper());
+    private final ExecutorService io=Executors.newSingleThreadExecutor();
+    private final List<Image> images=new ArrayList<>();
+    private LinearLayout side,extra;
+    private TextView title,body,label,live;
+    private ProgressBar progress;
+    private String page="",route="",log="",optLog="",version="",operation="",state="",resolved="",check="";
+    private long overlays,requestedAt;
+    private String requestSeq="";
+    private boolean resumed,reading,ready,available,busy,pending;
+    private final Runnable poll=this::refresh;
+    static final class Image {
+        String id,name,path; long original,optimized;
+        Image(String[] v) { id=v[0];name=v[1];path=v[2];original=number(v[3]);optimized=number(v[4]); }
+    }
+    static long number(String s) { try { return Long.parseLong(s.trim()); } catch(RuntimeException e) { return 0; } }
+    static String get(String key) { return SubsystemBackend.get(key); }
+    static void put(String key,String value) { if(!SubsystemBackend.set(key,value)) throw new IllegalStateException(key); }
+    static boolean isReady() { return "1".equals(get(P+"ready")) && "1".equals(get(P+"image")); }
+    static void updateLauncher(Activity context) { updateLauncher((android.content.Context)context); }
+    static void updateLauncher(android.content.Context context) {
+        boolean visible=isReady() && "1".equals(get(ICON));
+        ComponentName alias=new ComponentName(context,"org.andr36oid.subsystemsetup.EmulationStationLauncher");
+        int wanted=visible?PackageManager.COMPONENT_ENABLED_STATE_ENABLED:PackageManager.COMPONENT_ENABLED_STATE_DISABLED;
+        PackageManager pm=context.getPackageManager();
+        if(pm.getComponentEnabledSetting(alias)!=wanted) pm.setComponentEnabledSetting(alias,wanted,PackageManager.DONT_KILL_APP);
+    }
+    @Override public void onCreate(Bundle saved) {
+        super.onCreate(saved); setContentView(R.layout.subsystem_wizard); HintBar.attachDefault(this);
+        title=findViewById(R.id.title);body=findViewById(R.id.body);label=findViewById(R.id.step_label);
+        side=findViewById(R.id.side);extra=findViewById(R.id.body_extra);progress=findViewById(R.id.progress);
+        findViewById(R.id.console).setVisibility(View.GONE);
+        findViewById(R.id.secondary).setVisibility(View.GONE);findViewById(R.id.next).setVisibility(View.GONE);
+        Button back=findViewById(R.id.back);back.setText(R.string.subsystem_back);back.setOnClickListener(v->onBackPressed());
+        if(getResources().getConfiguration().screenWidthDp<480) {
+            LinearLayout panes=findViewById(R.id.panes);panes.setOrientation(LinearLayout.VERTICAL);
+            for(int i=0;i<panes.getChildCount();i++) panes.getChildAt(i).setLayoutParams(new LinearLayout.LayoutParams(-1,0,1));
         }
+        if(saved!=null) page=saved.getString("page","");
+        show(); request("scan");
     }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mResumed = true;
-        mHandler.removeCallbacks(mPoll);
-        mHandler.post(mPoll);
-        if (mScreen == Screen.ADVANCED) validateSelection();
+    @Override protected void onSaveInstanceState(Bundle out) { super.onSaveInstanceState(out);out.putString("page",page); }
+    @Override protected void onResume() { super.onResume();resumed=true;handler.post(poll); }
+    @Override protected void onPause() { resumed=false;handler.removeCallbacks(poll);super.onPause(); }
+    @Override protected void onDestroy() { io.shutdownNow();super.onDestroy(); }
+    @Override public void onBackPressed() { if(!page.isEmpty()) {page="";show();} else super.onBackPressed(); }
+    static String tail(String path,int bytes) {
+        try(RandomAccessFile f=new RandomAccessFile(path,"r")) {
+            int n=(int)Math.min(f.length(),bytes);byte[] b=new byte[n];f.seek(f.length()-n);f.readFully(b);
+            return new String(b,StandardCharsets.UTF_8).trim();
+        } catch(Exception e) {return "";}
     }
-
-    @Override
-    protected void onPause() {
-        mResumed = false;
-        mHeldConfirmKey = mConsumedConfirmKey = KeyEvent.KEYCODE_UNKNOWN;
-        mHandler.removeCallbacks(mPoll);
-        if (mHold != null) mHold.cancelHold();
-        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        super.onPause();
-    }
-
-    @Override
-    protected void onDestroy() {
-        mPickerGeneration++;
-        mHandler.removeCallbacksAndMessages(null);
-        mIo.shutdownNow();
-        super.onDestroy();
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle state) {
-        super.onSaveInstanceState(state);
-        state.putString("screen", mScreen.name());
-        state.putString("return", mReturnScreen.name());
-        state.putString("confirm_return", mConfirmReturn.name());
-        state.putString("console_return", mConsoleReturn.name());
-        state.putInt("step", mStep);
-        state.putString("rootfs", mRootfs);
-        state.putBoolean("handoff", mHandoff);
-        state.putString("target", mTarget);
-        state.putString("picker", mPickerPath);
-        state.putBoolean("download_confirm", mConfirmDownload);
-        state.putBoolean("scan_requested", mScanRequested);
-        state.putLong("scan_at", mScanAt);
-        state.putBoolean("follow", mFollowLog);
-        state.putBoolean("launch_timeout", mLaunchTimedOut);
-    }
-
-    private void poll() {
-        if (!mResumed || mPolling) return;
-        mPolling = true;
-        final boolean readLog = mScreen == Screen.CONSOLE;
-        final int generation = mRefreshGeneration;
-        mIo.execute(() -> {
-            final SubsystemBackend.Snapshot snapshot = mBackend.poll(readLog);
-            mHandler.post(() -> {
-                mPolling = false;
-                if (isDestroyed()) return;
-                if (generation != mRefreshGeneration) {
-                    if (mResumed) mHandler.post(mPoll);
-                    return;
+    private void refresh() {
+        if(!resumed || reading) return;reading=true;
+        io.execute(()->{
+            List<Image> found=new ArrayList<>();
+            for(String line:tail("/data/local/tmp/portmaster/images.tsv",131072).split("\n")) {
+                String[] v=line.split("\t",-1);
+                if(v.length==6 && v[0].matches("[0-9a-f]{64}")) found.add(new Image(v));
+            }
+            String boot=tail("/data/local/tmp/portmaster/boot.log",8192);
+            String optimization=tail("/data/local/tmp/portmaster/optimize.log",8192);
+            String ver=tail("/data/local/tmp/portmaster/version.txt",1024);
+            long used=number(tail("/data/local/tmp/portmaster/overlay-bytes",64));
+            handler.post(()->{
+                reading=false;if(isDestroyed())return;
+                images.clear();images.addAll(found);log=boot;optLog=optimization;version=ver;overlays=used;
+                ready=isReady();available="1".equals(get(P+"image"));operation=get(P+"operation");state=get(P+"session");resolved=get(P+"resolved");check=get(P+"resolve_state");
+                busy=!operation.isEmpty() || "running".equals(state);
+                if(pending && (busy || !requestSeq.equals(get(P+"done_seq")))) pending=false;
+                String completed=get(P+"done_seq");
+                if(!requestSeq.isEmpty() && !requestSeq.equals(completed)) {
+                    requestSeq=completed;
+                    String result=get(P+"result");
+                    if(!"done".equals(result) && !"0".equals(result)) {page="health";toast(R.string.asl_failed);show();}
                 }
-                mSnapshot = snapshot;
-                if (snapshot.notice != 0) message(snapshot.notice);
-                if (running()) mLaunchTimedOut = false;
-                if (mPending) {
-                    if (running()) {
-                        mSawRunning = true;
-                        mPrefs.edit().putBoolean("launch_saw_running", true).apply();
-                    } else if ("ended".equals(snapshot.session)
-                            && (mSawRunning || !snapshot.log.isEmpty())) {
-                        clearPending();
-                    } else if (!mSawRunning && SystemClock.elapsedRealtime() - mLaunchAt > START_TIMEOUT_MS) {
-                        mLaunchTimedOut = true;
-                        clearPending();
-                    }
-                }
-                if (!mScanRequested && !snapshot.downloading && !busy()) requestScan();
-                if (mScreen == Screen.ADVANCED && !mValidating
-                        && SystemClock.elapsedRealtime() - mValidatedAt > 5000) validateSelection();
-                update();
-                if (mResumed) mHandler.postDelayed(mPoll, POLL_MS);
+                if(pending && SystemClock.elapsedRealtime()-requestedAt>30000) {pending=false;toast(R.string.asl_failed);}
+                updateLauncher(this);
+                String next=busy||pending?"busy":!available?"missing":!ready?"setup":"dashboard";
+                if(!route.equals(next)) {route=next;show();}
+                updateLive();
+                if(resumed) handler.postDelayed(poll,1000);
             });
         });
     }
-
-    private void clearPending() {
-        mPending = false;
-        if (mPrefs != null) mPrefs.edit().remove("launch_pending")
-                .remove("launch_elapsed").remove("launch_saw_running").apply();
+    private Image selected() {
+        String wanted=get(SELECT);
+        for(Image image:images) if(image.id.equals(resolved)||image.id.equals(wanted)) return image;
+        return images.isEmpty()?null:images.get(0);
     }
-
-    private boolean running() {
-        return "running".equals(mSnapshot.session);
+    private String size(long value) {return Formatter.formatFileSize(this,value);}
+    private String info() {
+        Image image=selected();if(image==null)return getString(R.string.asl_empty);
+        return getString(R.string.asl_info,image.name,image.path,size(image.original),size(image.optimized),size(overlays),version.isEmpty()?image.name:version);
     }
-
-    private boolean busy() {
-        return mWorking || mPending || running();
+    private void updateLive() {
+        if(live==null)return;
+        if("busy".equals(route)) {
+            String phase=get(P+"opt_state");
+            live.setText("optimize".equals(operation)?getString(R.string.asl_op_progress,phase,size(number(get(P+"opt_bytes"))),get(P+"opt_elapsed")):log);
+        } else if("health".equals(page)) live.setText(getString(R.string.asl_health_body,state,check,operation,log+"\n"+get(P+"opt_error")+"\n"+get(P+"select_error")+"\n"+optLog));
+        else live.setText(info());
     }
-
-    private void requestScan() {
-        if (busy()) return;
-        mScanRequested = true;
-        mScanAt = SystemClock.elapsedRealtime();
-        if (!SubsystemBackend.set(SubsystemBackend.REQUEST, "scan")) message(R.string.subsystem_scan_failed);
-        update();
-    }
-
-    private void show(Screen screen) {
-        if (mHold != null) mHold.cancelHold();
-        mHold = null;
-        mPickerGeneration++;
-        mScreen = screen;
-        mControls.clear();
-        mLaunchButtons.clear();
-        mIdleControls.clear();
-        mSide.removeAllViews();
-        mBodyExtra.removeAllViews();
-        mStatus = mDownloadStatus = mBootHint = null;
-        mDownloadButton = mScanButton = null;
-        mBackAction = this::finish;
-        mPanes.setVisibility(screen == Screen.CONSOLE ? View.GONE : View.VISIBLE);
-        mConsole.setVisibility(screen == Screen.CONSOLE ? View.VISIBLE : View.GONE);
-        mSideScroll.setVisibility(View.VISIBLE);
-        mTextScroll.scrollTo(0, 0);
-        mSideScroll.scrollTo(0, 0);
-        mProgress.setVisibility(View.GONE);
-        mProgress.setIndeterminate(false);
-        mHints.setLeading(null);
-        mHints.set("A", getString(R.string.andr36oid_hint_select),
-                "B", getString(R.string.andr36oid_hint_back));
-        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        for (Button button : new Button[] {mBack, mSecondary, mNext}) {
-            button.setVisibility(View.GONE);
-            button.setOnClickListener(null);
-            button.setEnabled(true);
-        }
-        switch (screen) {
-            case WIZARD: wizard(); break;
-            case HOME: home(); break;
-            case SETTINGS: settings(); break;
-            case ADVANCED: advanced(); break;
-            case PICKER: picker(); break;
-            case WARNING: warning(); break;
-            case CONFIRM: confirm(); break;
-            case CONSOLE: console(); break;
-        }
-        update();
-        wireFocus();
-        mHandler.post(() -> {
-            if (isDestroyed() || mScreen != screen) return;
-            fitButtons();
-            if (mHold != null) mHold.requestFocus();
-            else if (screen == Screen.HOME || screen == Screen.SETTINGS || screen == Screen.ADVANCED || screen == Screen.PICKER) focusFirst();
-            else if (mNext.isShown() && mNext.isEnabled()) mNext.requestFocus();
-            else focusFirst();
-        });
-    }
-
-    private void page(int label, int title, CharSequence body) {
-        mLabel.setText(label);
-        mTitle.setText(title);
-        mBody.setText(body);
-        mTextScroll.setContentDescription(getString(title));
-    }
-
-    private void wizard() {
-        mProgress.setVisibility(View.VISIBLE);
-        mProgress.setProgress(mStep + 1);
-        mLabel.setText(getString(R.string.subsystem_step_count, mStep + 1, 3));
-        mBackAction = () -> {
-            if (mStep == 0) show(Screen.HOME);
-            else { mStep--; show(Screen.WIZARD); }
-        };
-        nav(mBack, mStep == 0 ? R.string.subsystem_close : R.string.subsystem_back, mBackAction);
-        switch (mStep) {
-            case 0:
-                mTitle.setText(R.string.subsystem_welcome);
-                mBody.setText(getString(R.string.subsystem_intro) + "\n\n"
-                        + getString(R.string.subsystem_about));
-                section(mSide, R.string.subsystem_setup);
-                text(mSide, getString(R.string.subsystem_step_image) + "\n"
-                        + getString(R.string.subsystem_step_image_summary));
-                text(mSide, getString(R.string.subsystem_step_ports) + "\n"
-                        + getString(R.string.subsystem_step_ports_summary));
-                nav(mSecondary, R.string.subsystem_settings, () -> openFromHere(Screen.SETTINGS));
-                nav(mNext, R.string.subsystem_continue, this::nextStep);
-                break;
-            case 1:
-                mTitle.setText(R.string.subsystem_image_title);
-                mBody.setText(getString(R.string.subsystem_step_image_summary) + "\n\n"
-                        + getString(R.string.subsystem_offline_first));
-                imageStatus();
-                mScanButton = action(mSide, R.string.subsystem_check_again, null, this::requestScan, false);
-                section(mSide, R.string.subsystem_get_image);
-                mDownloadStatus = text(mSide, "");
-                mDownloadButton = action(mSide, R.string.subsystem_download_image, null,
-                        this::confirmDownload, false);
-                nav(mSecondary, R.string.subsystem_advanced, () -> openFromHere(Screen.ADVANCED));
-                nav(mNext, R.string.subsystem_continue, this::nextStep);
-                break;
-            default:
-                mTitle.setText(R.string.subsystem_ready_title);
-                mBody.setText(R.string.subsystem_ready_body);
-                section(mSide, R.string.subsystem_step_ports);
-                text(mSide, getString(R.string.subsystem_step_ports_summary));
-                text(mSide, getString(R.string.subsystem_ports_note));
-                imageStatus();
-                section(mSide, R.string.subsystem_boot_settings);
-                mBootHint = text(mSide, bootHint());
-                nav(mSecondary, R.string.subsystem_settings, () -> openFromHere(Screen.SETTINGS));
-                nav(mNext, R.string.subsystem_finish, () -> {
-                    mPrefs.edit().putBoolean("setup_complete", true).apply();
-                    show(Screen.HOME);
-                });
-        }
-        mTextScroll.setContentDescription(mTitle.getText());
-    }
-
-    private void nextStep() {
-        if (mStep == 1 && !canLaunch(false)) return;
-        mStep = Math.min(2, mStep + 1);
-        show(Screen.WIZARD);
-    }
-
-    private void home() {
-        page(R.string.subsystem_home, R.string.subsystem_title, getString(R.string.subsystem_home_body));
-        imageStatus();
-        mBootHint = text(mBodyExtra, bootHint());
-        section(mSide, R.string.subsystem_launch);
-        launchAction("OS", false, true);
-        launchAction("ES", false, false);
-        launchAction("PM", false, false);
-        action(mSide, R.string.subsystem_setup, null, () -> {
-            mStep = 0;
-            show(Screen.WIZARD);
-        }, false);
-        nav(mBack, R.string.subsystem_close, this::finish);
-        nav(mSecondary, R.string.subsystem_advanced, () -> openFromHere(Screen.ADVANCED));
-        nav(mNext, R.string.subsystem_settings, () -> openFromHere(Screen.SETTINGS));
-        if (running()) action(mSide, R.string.subsystem_boot_log, null, () -> {
-            mConsoleReturn = Screen.HOME;
-            show(Screen.CONSOLE);
-        }, false);
-    }
-
-    private void openFromHere(Screen screen) {
-        mReturnScreen = mScreen;
-        show(screen);
-    }
-
-    private void settings() {
-        page(R.string.subsystem_home, R.string.subsystem_settings,
-                getString(R.string.subsystem_settings_body));
-        mBackAction = () -> show(mReturnScreen);
-        nav(mBack, R.string.subsystem_back, mBackAction);
-        nav(mNext, R.string.subsystem_done, mBackAction);
-    }
-
-    private String bootHint() {
-        return getString("subsystem".equals(SubsystemBackend.get(SubsystemBackend.DEFAULT))
-                ? R.string.subsystem_boot_override : R.string.subsystem_boot_android_override);
-    }
-
-    private void advanced() {
-        page(R.string.subsystem_advanced, R.string.subsystem_advanced,
-                getString(R.string.subsystem_advanced_body));
-        mBackAction = () -> show(mReturnScreen);
-        section(mBodyExtra, R.string.subsystem_rootfs);
-        text(mBodyExtra, mRootfs.isEmpty() ? getString(R.string.subsystem_automatic_image) : mRootfs);
-        mIdleControls.add(action(mSide, R.string.subsystem_choose_image, null, () -> {
-            mPickerPath = "";
-            show(Screen.PICKER);
-        }, false));
-        mIdleControls.add(action(mSide, R.string.subsystem_automatic_image, null, () -> {
-            if (SubsystemBackend.set(SubsystemBackend.ROOTFS, "")) {
-                mRootfs = "";
-                mSelectedValid = false;
-                requestScan();
-                show(Screen.ADVANCED);
-            } else message(R.string.subsystem_setting_failed);
-        }, false));
-        section(mSide, R.string.subsystem_display_mode);
-        final RadioGroup modes = new RadioGroup(this);
-        final RadioButton full = radio(modes, R.string.subsystem_full_handoff);
-        final RadioButton keep = radio(modes, R.string.subsystem_keep_android);
-        modes.check(mHandoff ? full.getId() : keep.getId());
-        mIdleControls.add(full);
-        mIdleControls.add(keep);
-        modes.setOnCheckedChangeListener((group, id) -> {
-            final boolean handoff = id == full.getId();
-            if (SubsystemBackend.set(SubsystemBackend.HANDOFF, handoff ? "1" : "0")) {
-                mHandoff = handoff;
-                show(Screen.ADVANCED);
-                mHandler.post(() -> {
-                    for (View control : mControls) {
-                        if (control instanceof RadioButton && ((RadioButton) control).isChecked()) {
-                            control.requestFocus();
-                            break;
-                        }
-                    }
-                });
-            } else {
-                message(R.string.subsystem_setting_failed);
-                show(Screen.ADVANCED);
-            }
-        });
-        mSide.addView(modes);
-        text(mSide, getString(mHandoff ? R.string.subsystem_handoff_explainer
-                : R.string.subsystem_headless_explainer));
-        imageStatus();
-        section(mSide, R.string.subsystem_launch);
-        launchAction("OS", true, true);
-        launchAction("ES", true, false);
-        launchAction("PM", true, false);
-        launchAction("INIT", true, false);
-        nav(mBack, R.string.subsystem_back, mBackAction);
-        if (!mHandoff || running() || mPending) nav(mSecondary, R.string.subsystem_boot_log, () -> {
-            mConsoleReturn = Screen.ADVANCED;
-            show(Screen.CONSOLE);
-        });
-        validateSelection();
-    }
-
-    private void validateSelection() {
-        if (mValidating) return;
-        mValidating = true;
-        final String selected = mRootfs;
-        mIo.execute(() -> {
-            final List<File> roots = mBackend.storageRoots();
-            final boolean valid = !selected.isEmpty() && SubsystemBackend.eligible(new File(selected), roots);
-            mHandler.post(() -> {
-                mValidating = false;
-                mValidatedAt = SystemClock.elapsedRealtime();
-                if (isDestroyed() || !selected.equals(mRootfs)) return;
-                mSelectedValid = valid;
-                update();
+    private void show() {
+        side.removeAllViews();extra.removeAllViews();live=null;
+        progress.setVisibility(View.GONE);
+        String shown=page.isEmpty()?route:page;
+        label.setText(R.string.subsystem_title);
+        if("busy".equals(route)) shown="busy";
+        switch(shown) {
+        case "busy":
+            title.setText(R.string.asl_working);body.setText(R.string.asl_hotkey_help);
+            progress.setVisibility(View.VISIBLE);progress.setIndeterminate(true);
+            live=text(extra,"");
+            if("running".equals(state)&&!"1".equals(get(P+"provisioning"))) button(R.string.asl_stop,()->request("stop"));
+            break;
+        case "missing": case "":
+            title.setText(R.string.asl_install);body.setText(R.string.asl_missing);
+            button(R.string.asl_scan,()->request("scan"));button(R.string.asl_images,()->open("images"));button(R.string.asl_health,()->open("health"));button(R.string.asl_advanced,this::advanced);break;
+        case "setup":
+            title.setText(R.string.asl_start_setup);body.setText(R.string.asl_setup_body);live=text(extra,"");
+            button(R.string.asl_start_setup,()->launch("SETUP",false));
+            button(R.string.asl_images,()->open("images"));button(R.string.asl_advanced,this::advanced);break;
+        case "images":
+            title.setText(R.string.asl_images);body.setText(R.string.asl_change);
+            for(Image image:images) button(image.name+"\n"+image.path,()->select(image));
+            button(R.string.asl_scan,()->request("scan"));break;
+        case "optimize":
+            title.setText(R.string.asl_optimize);body.setText(R.string.asl_optimize_body);live=text(extra,"");
+            CheckBox keep=check(R.string.asl_keep_original,false,null);
+            Image image=selected();
+            Button optimize=button(R.string.asl_optimize,()->{
+                Image current=selected();if(current==null)return;
+                put(P+"opt_source",current.id);put(P+"opt_keep",keep.isChecked()?"1":"0");
+                put(P+"opt_request_id",UUID.randomUUID().toString().replace("-","").substring(0,16));request("optimize");
             });
+            optimize.setEnabled(image!=null&&image.original>0&&image.optimized==0);break;
+        case "config":
+            title.setText(R.string.asl_config);body.setText(R.string.asl_hotkey_help);
+            toggle(R.string.asl_launch_icon,ICON,false);toggle(R.string.asl_mute,"persist.andr36oid.subsystem.mute",false);
+            toggle(R.string.asl_hotkeys,"persist.andr36oid.subsystem.hotkeys",true);
+            choose(R.string.asl_retries,"persist.andr36oid.subsystem.retries",new String[]{"1","2","3","4","5"},"3");
+            choose(R.string.asl_audio_rate,"persist.andr36oid.subsystem.rate",new String[]{"44100","48000"},"44100");
+            choose(R.string.asl_audio_buffer,"persist.andr36oid.subsystem.buffer",new String[]{"2048","4096","8192"},"4096");
+            button(R.string.asl_sync,()->open("sync"));button(R.string.asl_advanced,this::advanced);break;
+        case "sync":
+            title.setText(R.string.asl_sync);body.setText(R.string.asl_sync_note);
+            toggle(R.string.asl_sync,"persist.andr36oid.subsystem_autosync",true);
+            String[] fields={"favorite","playcount","lastplayed","desc","art","retroarch"};
+            int[] labels={R.string.asl_sync_favorite,R.string.asl_sync_playcount,R.string.asl_sync_lastplayed,R.string.asl_sync_desc,R.string.asl_sync_art,R.string.asl_sync_ra};
+            for(int i=0;i<fields.length;i++)toggle(labels[i],"persist.andr36oid.sync."+fields[i],i!=5);break;
+        case "health":
+            title.setText(R.string.asl_health);body.setText(R.string.asl_native_help);live=text(extra,"");break;
+        case "storage":
+            title.setText(R.string.asl_storage);body.setText(R.string.asl_shared);live=text(extra,"");
+            button(R.string.asl_optimize,()->open("optimize"));break;
+        default:
+            title.setText(R.string.asl_dashboard);body.setText(R.string.asl_ready);live=text(extra,"");
+            button(R.string.subsystem_open_es,()->launch("ES",true));button(R.string.asl_ra,()->launch("RA",true));
+            button(R.string.asl_images,()->open("images"));button(R.string.asl_storage,()->open("storage"));
+            button(R.string.asl_optimize,()->open("optimize"));button(R.string.asl_config,()->open("config"));
+            button(R.string.asl_health,()->open("health"));break;
+        }
+        updateLive();
+        if(side.getChildCount()>0)side.getChildAt(0).requestFocus();
+    }
+    private void open(String next) {page=next;show();}
+    private void advanced() {startActivity(new Intent(this,AdvancedSetupActivity.class));}
+    private void select(Image image) {
+        CheckBox keep=new CheckBox(this);keep.setText(R.string.asl_keep_overlay);
+        new AlertDialog.Builder(this).setTitle(image.name).setMessage(R.string.asl_change).setView(keep)
+            .setNegativeButton(android.R.string.cancel,null).setPositiveButton(android.R.string.ok,(d,w)->{
+                put(P+"select_id",image.id);put(P+"select_keep",keep.isChecked()?"1":"0");page="";request("select");
+            }).show();
+    }
+    private void launch(String target,boolean confirm) {
+        if(confirm) {new AlertDialog.Builder(this).setTitle(R.string.subsystem_launch).setMessage(R.string.asl_launch_confirm)
+            .setNegativeButton(android.R.string.cancel,null).setPositiveButton(android.R.string.ok,(d,w)->launch(target,false)).show();return;}
+        put(SubsystemBackend.ROOTFS,"");put(SubsystemBackend.HANDOFF,"SETUP".equals(target)?"0":"1");put(SubsystemBackend.PORT,target);page="";request("run");
+    }
+    private void request(String verb) {
+        try {requestSeq=get(P+"done_seq");put(SubsystemBackend.REQUEST,verb);if(!"scan".equals(verb)){pending=true;requestedAt=SystemClock.elapsedRealtime();route="busy";show();}}
+        catch(RuntimeException e){toast(R.string.asl_failed);}
+    }
+    private void toast(int id){Toast.makeText(this,id,Toast.LENGTH_LONG).show();}
+    private TextView text(LinearLayout parent,String value){TextView v=new TextView(this);v.setTextSize(14);v.setText(value);parent.addView(v);return v;}
+    private Button button(int label,Runnable action){return button(getString(label),action);}
+    private Button button(String label,Runnable action){
+        Button v=new Button(this,null,0,R.style.Andr36oidSetupButton_Secondary);v.setAllCaps(false);v.setText(label);v.setMinHeight(dp(48));v.setTextSize(14);
+        v.setForeground(getDrawable(R.drawable.andr36oid_setup_focus));v.setOnClickListener(x->{try{action.run();}catch(RuntimeException e){toast(R.string.asl_failed);}});
+        side.addView(v,new LinearLayout.LayoutParams(-1,-2));return v;
+    }
+    private CheckBox check(int label,boolean checked,java.util.function.Consumer<Boolean> changed){
+        CheckBox v=new CheckBox(this);v.setText(label);v.setTextSize(14);v.setMinHeight(dp(48));v.setChecked(checked);v.setForeground(getDrawable(R.drawable.andr36oid_setup_focus));
+        if(changed!=null)v.setOnCheckedChangeListener((b,on)->changed.accept(on));side.addView(v);return v;
+    }
+    private void choose(int label,String property,String[] values,String defaultValue) {
+        String current=get(property);if(current.isEmpty())current=defaultValue;
+        final String selected=current;
+        button(getString(label)+": "+current,()->{
+            int index=java.util.Arrays.asList(values).indexOf(selected);
+            new AlertDialog.Builder(this).setTitle(label).setSingleChoiceItems(values,index,(dialog,which)->{
+                put(property,values[which]);dialog.dismiss();show();
+            }).setNegativeButton(android.R.string.cancel,null).show();
         });
     }
-
-    private void imageStatus() {
-        final LinearLayout parent = mScreen == Screen.HOME || mScreen == Screen.ADVANCED ? mBodyExtra : mSide;
-        section(parent, R.string.subsystem_status);
-        mStatus = text(parent, "");
-        mStatus.setAccessibilityLiveRegion(View.ACCESSIBILITY_LIVE_REGION_POLITE);
-    }
-
-    // "OS" boots the rootfs's own default frontend (the recommended, safe launch);
-    // "ES"/"PM" go straight to that app; "INIT" boots the image's own init and is the
-    // experimental Advanced-only target. primary highlights the recommended button.
-    private void launchAction(String target, boolean advanced, boolean primary) {
-        final int label, summary;
-        switch (target) {
-            case "PM": label = R.string.subsystem_open_pm; summary = R.string.subsystem_open_pm_summary; break;
-            case "OS": label = R.string.subsystem_open_os; summary = R.string.subsystem_open_os_summary; break;
-            case "INIT": label = R.string.subsystem_open_init; summary = R.string.subsystem_open_init_summary; break;
-            default: label = R.string.subsystem_open_es; summary = R.string.subsystem_open_es_summary; break;
-        }
-        final Button button = action(mSide, label, getString(summary),
-                () -> {
-                    if (!canLaunch(advanced)) return;
-                    mTarget = target;
-                    mConfirmReturn = mScreen;
-                    mConfirmDownload = false;
-                    // The first time anyone boots the subsystem, make them read and
-                    // tick the "never update from inside" warning before anything runs.
-                    show(mPrefs.getBoolean("update_warning_ack", false) ? Screen.CONFIRM : Screen.WARNING);
-                }, primary);
-        mLaunchButtons.add(button);
-    }
-
-    private int targetLabel(String target) {
-        switch (target) {
-            case "PM": return R.string.subsystem_target_pm;
-            case "OS": return R.string.subsystem_target_os;
-            case "INIT": return R.string.subsystem_target_init;
-            default: return R.string.subsystem_target_es;
-        }
-    }
-
-    private boolean canLaunch(boolean advanced) {
-        return !busy() && !mSnapshot.downloading && (advanced && !mRootfs.isEmpty()
-                ? mSelectedValid : "1".equals(mSnapshot.image));
-    }
-
-    private void confirmDownload() {
-        if (!mSnapshot.canDownload || busy()) return;
-        mConfirmDownload = true;
-        mConfirmReturn = mScreen;
-        show(Screen.CONFIRM);
-    }
-
-    private void warning() {
-        page(R.string.subsystem_warning_label, R.string.subsystem_update_warning_title,
-                getString(R.string.subsystem_update_warning_body));
-        mTitle.setText("⚠ " + mTitle.getText());
-        mTitle.setTextColor(WARN_COLOR);
-        section(mSide, R.string.subsystem_warning_before);
-        final CheckBox ack = new CheckBox(this);
-        ack.setText(R.string.subsystem_update_warning_ack);
-        ack.setTextColor(mBody.getTextColors());
-        ack.setTextSize(15);
-        ack.setLineSpacing(0, 1.1f);
-        decorateControl(ack);
-        mSide.addView(ack, rowParams());
-        nav(mNext, R.string.subsystem_continue, () -> {
-            mPrefs.edit().putBoolean("update_warning_ack", true).apply();
-            show(Screen.CONFIRM);
-        });
-        mNext.setEnabled(false);
-        ack.setOnCheckedChangeListener((view, on) -> { mNext.setEnabled(on); wireFocus(); });
-        nav(mBack, R.string.subsystem_cancel, () -> show(mConfirmReturn));
-        mBackAction = () -> show(mConfirmReturn);
-        mHints.set("A", getString(R.string.andr36oid_hint_select), "B", getString(R.string.subsystem_cancel));
-    }
-
-    private void confirm() {
-        final boolean fullHandoff = mConfirmReturn != Screen.ADVANCED || mHandoff;
-        page(mConfirmDownload ? R.string.subsystem_get_image : R.string.subsystem_launch,
-                mConfirmDownload ? R.string.subsystem_download_image : fullHandoff
-                        ? R.string.subsystem_handoff_confirm : R.string.subsystem_headless_confirm,
-                getString(mConfirmDownload ? R.string.subsystem_download_confirm : fullHandoff
-                        ? R.string.subsystem_handoff_explainer : R.string.subsystem_headless_explainer));
-        mBackAction = () -> show(mConfirmReturn);
-        if (mConfirmDownload) mDownloadStatus = text(mBodyExtra, "");
-        if (!mConfirmDownload) {
-            section(mBodyExtra, R.string.subsystem_launch_target);
-            text(mBodyExtra, getString(targetLabel(mTarget)));
-            if ("INIT".equals(mTarget)) {
-                final TextView warn = text(mBodyExtra, getString(R.string.subsystem_init_warning));
-                warn.setTextColor(WARN_COLOR);
-            }
-            section(mBodyExtra, R.string.subsystem_rootfs);
-            text(mBodyExtra, mConfirmReturn == Screen.ADVANCED && !mRootfs.isEmpty()
-                    ? mRootfs : getString(R.string.subsystem_automatic_image));
-        }
-        text(mSide, getString(R.string.subsystem_hold_hint));
-        mHold = new HoldButton(this, () -> {
-            // The confirming key can still be down when the next page appears.
-            mConsumedConfirmKey = mHeldConfirmKey;
-            if (mConfirmDownload) startDownload();
-            else launch(mConfirmReturn == Screen.ADVANCED);
-        });
-        decorateControl(mHold);
-        mSide.addView(mHold, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dp(150)));
-        nav(mBack, R.string.subsystem_cancel, mBackAction);
-        mHints.set("A", getString(R.string.subsystem_hold), "B", getString(R.string.subsystem_cancel));
-    }
-
-    private void startDownload() {
-        if (mWorking || busy() || !mSnapshot.canDownload) return;
-        mWorking = true;
-        update();
-        mIo.execute(() -> {
-            final int result = mBackend.downloadImage();
-            mHandler.post(() -> {
-                mWorking = false;
-                if (isDestroyed()) return;
-                if (result == R.string.subsystem_download_started) mSnapshot.downloading = true;
-                message(result);
-                show(mConfirmReturn);
-            });
-        });
-    }
-
-    private void launch(boolean advanced) {
-        if (!canLaunch(advanced)) { show(mConfirmReturn); return; }
-        final String rootfs = advanced ? mRootfs : "";
-        final boolean handoff = !advanced || mHandoff;
-        final String target = mTarget;
-        mRefreshGeneration++;
-        mWorking = true;
-        mLaunchTimedOut = false;
-        mSawRunning = false;
-        mLaunchAt = SystemClock.elapsedRealtime();
-        final long startedAt = mLaunchAt;
-        mSnapshot.log = "";
-        update();
-        mIo.execute(() -> {
-            final boolean valid = rootfs.isEmpty() || SubsystemBackend.eligible(new File(rootfs), mBackend.storageRoots());
-            mBackend.log.beginLaunch();
-            final boolean configured = valid && !"running".equals(SubsystemBackend.get(SubsystemBackend.SESSION))
-                    && SubsystemBackend.set(SubsystemBackend.ROOTFS, rootfs)
-                    && SubsystemBackend.set(SubsystemBackend.HANDOFF, handoff ? "1" : "0")
-                    && SubsystemBackend.set(SubsystemBackend.PORT, target);
-            // Persist the console boundary before a full handoff can stop this process.
-            if (configured) mPrefs.edit().putBoolean("launch_pending", true)
-                    .putLong("launch_elapsed", startedAt).putBoolean("launch_saw_running", false)
-                    .putString("boot_log_boundary", mBackend.log.save()).commit();
-            final boolean success = configured && SubsystemBackend.set(SubsystemBackend.REQUEST, "run");
-            if (!success) mPrefs.edit().remove("launch_pending").remove("launch_elapsed")
-                    .remove("launch_saw_running").apply();
-            mHandler.post(() -> {
-                mWorking = false;
-                if (isDestroyed()) return;
-                if (!success) {
-                    message(valid ? R.string.subsystem_launch_failed : R.string.subsystem_image_invalid);
-                    show(mConfirmReturn);
-                    return;
-                }
-                mPending = true;
-                if (!advanced) {
-                    mRootfs = "";
-                    mHandoff = true;
-                }
-                mConsoleReturn = advanced ? Screen.ADVANCED : Screen.HOME;
-                mFollowLog = true;
-                show(Screen.CONSOLE);
-            });
-        });
-    }
-
-    private void console() {
-        mLabel.setText(R.string.subsystem_boot_log);
-        mBackAction = () -> show(mConsoleReturn);
-        nav(mBack, R.string.subsystem_back, mBackAction);
-        nav(mSecondary, mFollowLog ? R.string.subsystem_pause_log : R.string.subsystem_follow_log,
-                () -> setFollowLog(!mFollowLog));
-        nav(mNext, R.string.subsystem_done, mBackAction);
-        mLogText.setFocusable(false);
-        mLogScroll.setFocusable(true);
-    }
-
-    private void setFollowLog(boolean follow) {
-        mFollowLog = follow;
-        if (mScreen != Screen.CONSOLE) return;
-        mSecondary.setText(follow ? R.string.subsystem_pause_log : R.string.subsystem_follow_log);
-        if (follow) mLogScroll.post(() -> mLogScroll.fullScroll(View.FOCUS_DOWN));
-    }
-
-    private void update() {
-        if (mBootHint != null) setText(mBootHint, bootHint());
-        if (mStatus != null) {
-            final int status;
-            if (running()) status = R.string.subsystem_session_running;
-            else if (mPending || mWorking) status = R.string.subsystem_session_starting;
-            else if (mSnapshot.downloading) status = R.string.subsystem_download_pending;
-            else if (mScreen == Screen.ADVANCED && !mRootfs.isEmpty()) {
-                status = mValidating ? R.string.subsystem_checking : mSelectedValid
-                        ? R.string.subsystem_selected_image_ready : R.string.subsystem_image_invalid;
-            } else if ("1".equals(mSnapshot.image)) status = R.string.subsystem_installed;
-            else if (mSnapshot.image.isEmpty()) status = mScanRequested && SystemClock.elapsedRealtime() - mScanAt > 15_000
-                    ? R.string.subsystem_scan_waiting : R.string.subsystem_checking;
-            else status = R.string.subsystem_missing;
-            setText(mStatus, getString(status));
-        }
-        for (Button launch : mLaunchButtons) launch.setEnabled(canLaunch(mScreen == Screen.ADVANCED));
-        for (View control : mIdleControls) control.setEnabled(!busy());
-        if (mScreen == Screen.WIZARD && mStep != 0) mNext.setEnabled(canLaunch(false));
-        if (mScanButton != null) mScanButton.setEnabled(!busy());
-        if (mDownloadStatus != null) {
-            setText(mDownloadStatus, mSnapshot.downloading && mSnapshot.downloadPercent >= 0
-                    ? getString(R.string.subsystem_download_progress, mSnapshot.downloadPercent)
-                    : getString(mSnapshot.downloadText));
-        }
-        if (mDownloadButton != null) {
-            // No network assumption: this offer appears only after validated connectivity.
-            mDownloadButton.setVisibility(mSnapshot.online && !mSnapshot.downloading ? View.VISIBLE : View.GONE);
-            mDownloadButton.setEnabled(mSnapshot.canDownload && !busy());
-            wireFocus();
-        }
-        if (mHold != null) mHold.setEnabled(mConfirmDownload ? mSnapshot.canDownload && !busy()
-                : canLaunch(mConfirmReturn == Screen.ADVANCED));
-        if (mScreen == Screen.CONSOLE) {
-            int status = running() && mSnapshot.provisioning ? R.string.subsystem_provisioning
-                    : running() ? R.string.subsystem_session_running : mPending || mWorking
-                    ? R.string.subsystem_session_starting : mLaunchTimedOut ? R.string.subsystem_session_timeout
-                    : "ended".equals(mSnapshot.session) ? R.string.subsystem_session_ended : R.string.subsystem_session_idle;
-            setText(mConsoleStatus, getString(status));
-            mProgress.setVisibility((mPending && !running()) || (running() && mSnapshot.provisioning)
-                    ? View.VISIBLE : View.GONE);
-            mProgress.setIndeterminate(true);
-            mNext.setVisibility(!mPending && !running() ? View.VISIBLE : View.GONE);
-            final String log = mSnapshot.logUnreadable ? getString(R.string.subsystem_log_unreadable)
-                    : mSnapshot.log.isEmpty() ? getString(R.string.subsystem_log_waiting) : mSnapshot.log;
-            if (!log.contentEquals(mLogText.getText())) {
-                mLogText.setText(log);
-                if (mFollowLog) mLogScroll.post(() -> mLogScroll.fullScroll(View.FOCUS_DOWN));
-            }
-            if (mResumed && (mPending || running())) getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-            else getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-            wireFocus();
-            fitButtons();
-        }
-        final View focused = getCurrentFocus();
-        if (focused != null && (!focused.isEnabled() || !focused.isShown())) focusFirst();
-    }
-
-    private static void setText(TextView view, CharSequence text) {
-        if (!text.toString().contentEquals(view.getText())) view.setText(text);
-    }
-
-    private void picker() {
-        page(R.string.subsystem_advanced, R.string.subsystem_choose_image, getString(R.string.subsystem_picker_body));
-        mBackAction = this::pickerUp;
-        nav(mBack, R.string.subsystem_back, mBackAction);
-        nav(mSecondary, R.string.subsystem_refresh, () -> show(Screen.PICKER));
-        if (!mPickerPath.isEmpty()) text(mBodyExtra, mPickerPath);
-        text(mSide, getString(R.string.subsystem_checking));
-        final int generation = mPickerGeneration;
-        final String path = mPickerPath;
-        mIo.execute(() -> {
-            final List<File> roots = mBackend.storageRoots();
-            final List<File> entries = new ArrayList<>();
-            final List<String> labels = new ArrayList<>();
-            boolean failed = false, limited = false;
-            try {
-                if (path.isEmpty()) {
-                    entries.addAll(roots);
-                    for (File root : roots) labels.add(mBackend.storageLabel(root));
-                }
-                else {
-                    final File directory = new File(path).getCanonicalFile();
-                    if (!SubsystemBackend.inside(directory, roots)) throw new IOException("Location unmounted");
-                    final File[] files = directory.listFiles();
-                    if (files == null) throw new IOException("Location unreadable");
-                    Arrays.sort(files, Comparator.comparing((File f) -> !f.isDirectory())
-                            .thenComparing(File::getName, String.CASE_INSENSITIVE_ORDER));
-                    for (File file : files) {
-                        if (!file.isHidden() && SubsystemBackend.inside(file, roots)
-                                && ((file.isDirectory() && file.canRead()) || SubsystemBackend.eligible(file, roots))) {
-                            if (entries.size() == MAX_ENTRIES) { limited = true; break; }
-                            entries.add(file.getCanonicalFile());
-                        }
-                    }
-                }
-            } catch (IOException | SecurityException e) { failed = true; }
-            final boolean error = failed, truncated = limited;
-            final List<Boolean> folders = new ArrayList<>();
-            final List<String> summaries = new ArrayList<>();
-            for (File file : entries) {
-                final boolean directory = file.isDirectory();
-                folders.add(directory);
-                summaries.add(directory ? file.getAbsolutePath() : Formatter.formatFileSize(this, file.length()));
-            }
-            mHandler.post(() -> {
-                if (isDestroyed() || mScreen != Screen.PICKER || mPickerGeneration != generation) return;
-                mRoots = roots;
-                mSide.removeAllViews();
-                mControls.clear();
-                if (error) text(mSide, getString(R.string.subsystem_picker_unavailable));
-                else if (entries.isEmpty()) text(mSide, getString(path.isEmpty()
-                        ? R.string.subsystem_picker_no_storage : R.string.subsystem_picker_empty));
-                for (int i = 0; i < entries.size(); i++) {
-                    final File file = entries.get(i);
-                    final boolean directory = folders.get(i);
-                    final Button button = action(mSide, path.isEmpty() ? labels.get(i) : file.getName(), summaries.get(i),
-                            () -> {
-                                if (directory) { mPickerPath = file.getAbsolutePath(); show(Screen.PICKER); }
-                                else chooseImage(file);
-                            }, false);
-                    button.setContentDescription(getString(directory ? R.string.subsystem_picker_folder
-                            : R.string.subsystem_picker_image, file.getAbsolutePath()));
-                }
-                if (truncated) text(mSide, getString(R.string.subsystem_picker_limited));
-                wireFocus();
-                focusFirst();
-            });
-        });
-    }
-
-    private void pickerUp() {
-        if (mPickerPath.isEmpty()) { show(Screen.ADVANCED); return; }
-        final File current = new File(mPickerPath);
-        boolean atRoot = false;
-        for (File root : mRoots) if (root.equals(current)) { atRoot = true; break; }
-        mPickerPath = atRoot || current.getParentFile() == null ? "" : current.getParent();
-        show(Screen.PICKER);
-    }
-
-    private void chooseImage(File file) {
-        if (busy()) { message(R.string.subsystem_session_running); return; }
-        mWorking = true;
-        mIo.execute(() -> {
-            final boolean valid = SubsystemBackend.eligible(file, mBackend.storageRoots());
-            final boolean success = valid && SubsystemBackend.set(SubsystemBackend.ROOTFS, file.getAbsolutePath());
-            mHandler.post(() -> {
-                mWorking = false;
-                if (isDestroyed()) return;
-                if (success) {
-                    mRootfs = file.getAbsolutePath();
-                    mSelectedValid = true;
-                    if (mScreen == Screen.PICKER) show(Screen.ADVANCED);
-                    else update();
-                } else message(valid ? R.string.subsystem_setting_failed : R.string.subsystem_image_invalid);
-            });
-        });
-    }
-
-    private TextView text(LinearLayout parent, CharSequence value) {
-        final TextView view = new TextView(this);
-        view.setText(value);
-        view.setTextAppearance(android.R.style.TextAppearance_Material_Body1);
-        view.setTextColor(mBody.getTextColors());
-        view.setTextSize(15);
-        view.setLineSpacing(0, 1.1f);
-        view.setPadding(0, 0, 0, dp(12));
-        parent.addView(view, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        return view;
-    }
-
-    private void section(LinearLayout parent, int title) {
-        final TextView view = text(parent, getString(title));
-        view.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
-        view.setTextColor(mTitle.getTextColors());
-        view.setPadding(0, dp(8), 0, dp(6));
-        view.setAccessibilityHeading(true);
-    }
-
-    private Button action(LinearLayout parent, int title, CharSequence summary, Runnable click, boolean primary) {
-        return action(parent, getString(title), summary, click, primary);
-    }
-
-    private Button action(LinearLayout parent, CharSequence title, CharSequence summary, Runnable click, boolean primary) {
-        final Button button = new Button(this, null, 0, primary ? R.style.Andr36oidSetupButton_Primary
-                : R.style.Andr36oidSetupButton_Secondary);
-        final SpannableStringBuilder label = new SpannableStringBuilder(title);
-        label.setSpan(new StyleSpan(Typeface.BOLD), 0, label.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        if (summary != null && summary.length() > 0) {
-            label.append('\n');
-            final int start = label.length();
-            label.append(summary);
-            label.setSpan(new RelativeSizeSpan(0.85f), start, label.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        }
-        button.setText(label);
-        button.setAllCaps(false);
-        button.setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
-        button.setPadding(dp(16), dp(10), dp(16), dp(10));
-        button.setMinHeight(dp(52));
-        button.setSingleLine(false);
-        button.setOnClickListener(view -> click.run());
-        decorateControl(button);
-        parent.addView(button, rowParams());
-        return button;
-    }
-
-    private RadioButton radio(RadioGroup parent, int title) {
-        final RadioButton button = new RadioButton(this);
-        button.setText(title);
-        button.setTextSize(15);
-        button.setMinHeight(dp(52));
-        decorateControl(button);
-        parent.addView(button, new RadioGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        return button;
-    }
-
-    private void decorateControl(View view) {
-        view.setId(View.generateViewId());
-        view.setFocusable(true);
-        view.setForeground(getDrawable(R.drawable.andr36oid_setup_focus));
-        view.setMinimumHeight(dp(48));
-        mControls.add(view);
-    }
-
-    private LinearLayout.LayoutParams rowParams() {
-        final LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        params.bottomMargin = dp(8);
-        return params;
-    }
-
-    private void nav(Button button, int label, Runnable action) {
-        button.setText(label);
-        button.setVisibility(View.VISIBLE);
-        button.setOnClickListener(view -> action.run());
-    }
-
-    private List<View> availableControls() {
-        final List<View> available = new ArrayList<>();
-        for (View control : mControls) if (control.getVisibility() == View.VISIBLE && control.isEnabled()) available.add(control);
-        return available;
-    }
-
-    private void wireFocus() {
-        final List<View> available = availableControls();
-        final View footer = firstFooter();
-        final int lastId = available.isEmpty() ? R.id.text_scroll : available.get(available.size() - 1).getId();
-        for (int i = 0; i < available.size(); i++) {
-            final View control = available.get(i);
-            control.setNextFocusUpId(i == 0 ? R.id.text_scroll : available.get(i - 1).getId());
-            control.setNextFocusDownId(i + 1 < available.size() ? available.get(i + 1).getId() : footer.getId());
-            control.setNextFocusLeftId(R.id.text_scroll);
-        }
-        mTextScroll.setNextFocusRightId(available.isEmpty() ? footer.getId() : available.get(0).getId());
-        final List<Button> buttons = new ArrayList<>();
-        for (Button button : new Button[] {mBack, mSecondary, mNext}) {
-            if (button.getVisibility() == View.VISIBLE && button.isEnabled()) buttons.add(button);
-            button.setNextFocusUpId(mScreen == Screen.CONSOLE ? R.id.log_scroll : lastId);
-        }
-        for (int i = 0; i < buttons.size(); i++) {
-            buttons.get(i).setNextFocusLeftId(buttons.get(Math.max(0, i - 1)).getId());
-            buttons.get(i).setNextFocusRightId(buttons.get(Math.min(buttons.size() - 1, i + 1)).getId());
-        }
-        mLogScroll.setNextFocusDownId(footer.getId());
-    }
-
-    private View firstFooter() {
-        for (Button button : new Button[] {mNext, mSecondary, mBack}) {
-            if (button.getVisibility() == View.VISIBLE && button.isEnabled()) return button;
-        }
-        return mBack;
-    }
-
-    private void focusFirst() {
-        final List<View> controls = availableControls();
-        if (!controls.isEmpty()) controls.get(0).requestFocus();
-        else firstFooter().requestFocus();
-    }
-
-    private void fitButtons() {
-        final ViewGroup row = (ViewGroup) mBack.getParent();
-        final int width = row.getWidth();
-        if (width <= 0) return;
-        int count = 0;
-        for (Button button : new Button[] {mBack, mSecondary, mNext}) if (button.getVisibility() == View.VISIBLE) count++;
-        for (Button button : new Button[] {mBack, mSecondary, mNext}) {
-            button.setSingleLine(false);
-            button.setMaxLines(2);
-            button.setMinWidth(0);
-            button.setMinimumWidth(0);
-            button.setMaxWidth(Math.max(dp(48), (width - dp(16)) / Math.max(1, count)));
-        }
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (mBackAction != null) mBackAction.run();
-        else finish();
-    }
-
-    @Override
-    public boolean dispatchKeyEvent(KeyEvent event) {
-        final int key = event.getKeyCode();
-        final boolean down = event.getAction() == KeyEvent.ACTION_DOWN;
-        if (key != KeyEvent.KEYCODE_UNKNOWN && key == mConsumedConfirmKey) {
-            if (event.getAction() == KeyEvent.ACTION_UP) {
-                mConsumedConfirmKey = mHeldConfirmKey = KeyEvent.KEYCODE_UNKNOWN;
-            }
-            return true;
-        }
-        if (key == KeyEvent.KEYCODE_BUTTON_B || key == KeyEvent.KEYCODE_BACK) {
-            if (down && event.getRepeatCount() == 0) onBackPressed();
-            return true;
-        }
-        final View focused = getCurrentFocus();
-        if (key == KeyEvent.KEYCODE_BUTTON_A || key == KeyEvent.KEYCODE_DPAD_CENTER
-                || key == KeyEvent.KEYCODE_ENTER || key == KeyEvent.KEYCODE_SPACE) {
-            if (down && event.getRepeatCount() == 0 && focused instanceof HoldButton) mHeldConfirmKey = key;
-            else if (!down && mHeldConfirmKey == key) mHeldConfirmKey = KeyEvent.KEYCODE_UNKNOWN;
-        }
-        if (key == KeyEvent.KEYCODE_BUTTON_A && !(focused instanceof HoldButton)) {
-            // Android's stock widgets do not consistently treat gamepad A as click.
-            if (focused == null || !focused.isShown() || !focused.isEnabled()) { focusFirst(); return true; }
-            return focused.dispatchKeyEvent(new KeyEvent(event.getDownTime(), event.getEventTime(),
-                    event.getAction(), KeyEvent.KEYCODE_DPAD_CENTER, event.getRepeatCount(),
-                    event.getMetaState(), event.getDeviceId(), event.getScanCode(), event.getFlags(), event.getSource()));
-        }
-        if (key == KeyEvent.KEYCODE_DPAD_UP || key == KeyEvent.KEYCODE_DPAD_DOWN
-                || key == KeyEvent.KEYCODE_DPAD_LEFT || key == KeyEvent.KEYCODE_DPAD_RIGHT) {
-            if (focused == null || !focused.isEnabled() || !focused.isShown()) {
-                if (down) focusFirst();
-                return true;
-            }
-            if (mScreen == Screen.CONSOLE && focused == mLogScroll && key == KeyEvent.KEYCODE_DPAD_UP && down) setFollowLog(false);
-            if (focused == mTextScroll && key == KeyEvent.KEYCODE_DPAD_RIGHT) {
-                if (down) focusFirst();
-                return true;
-            }
-            if (focused == mTextScroll && key == KeyEvent.KEYCODE_DPAD_DOWN && !mTextScroll.canScrollVertically(1)) {
-                if (down) firstFooter().requestFocus();
-                return true;
-            }
-            if (mScreen != Screen.CONSOLE && availableControls().isEmpty()
-                    && (key == KeyEvent.KEYCODE_DPAD_UP || key == KeyEvent.KEYCODE_DPAD_DOWN)) {
-                if (down) mTextScroll.smoothScrollBy(0, (key == KeyEvent.KEYCODE_DPAD_UP ? -1 : 1) * mTextScroll.getHeight() / 3);
-                return true;
-            }
-        }
-        return super.dispatchKeyEvent(event);
-    }
-
-    private int dp(int value) {
-        return Math.round(value * getResources().getDisplayMetrics().density);
-    }
-
-    private void message(int text) {
-        Toast.makeText(this, text, Toast.LENGTH_LONG).show();
-    }
+    private void toggle(int label,String key,boolean defaultOn){String current=get(key);check(label,current.isEmpty()?defaultOn:"1".equals(current),on->{put(key,on?"1":"0");updateLauncher(this);});}
+    private int dp(int v){return Math.round(v*getResources().getDisplayMetrics().density);}
 }

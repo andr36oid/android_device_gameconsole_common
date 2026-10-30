@@ -35,7 +35,7 @@ handoff() { :; }
 enable_hardware_master() { :; }
 # Exercise the actual common startup boundary rather than duplicating its calls.
 sed -n '/^prime_udev$/,/^# Wait/p' "$broker" > "$tmp/boundary"
-unshare() {
+run_in_subsystem() {
   [ -s "$tmp/mixer" ] || fail 'init was booted before tinymix applied night mute'
   printf '%s\n' "$*" > "$tmp/init"
 }

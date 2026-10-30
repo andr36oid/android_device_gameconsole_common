@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="asl_dashboard">Панель dArkOSen</string>
+  <string name="asl_install">Настроить dArkOSen</string>
+  <string name="asl_missing">Скопируйте распакованный файл .img dArkOSen 10152026 в subsystem/darkosen на EASYROMS, во внутреннюю память или на SD2. Новые образы могут работать, но не проверены. Для другой системы Linux используйте расширенные настройки.</string>
+  <string name="asl_setup_body">Первоначальная настройка подготовит общие папки и слой изменений системы. Затем вы вернётесь сюда и сможете сами выбрать, когда запускать Linux.</string>
+  <string name="asl_start_setup">Начать первоначальную настройку</string>
+  <string name="asl_images">Выбрать образ dArkOSen</string>
+  <string name="asl_change">Смена образа сбрасывает изменения системы и настройки EmulationStation. Игры и сохранения остаются в общем хранилище. Сохраните существующие изменения, чтобы восстановить их при возврате к образу.</string>
+  <string name="asl_keep_overlay">Сохранить изменения каждого образа</string>
+  <string name="asl_storage">Использование памяти</string>
+  <string name="asl_health">Состояние и журнал последнего запуска</string>
+  <string name="asl_config">Настройки</string>
+  <string name="asl_optimize">Оптимизировать dArkOSen</string>
+  <string name="asl_optimize_body">Создаёт сжатую копию EROFS выбранного образа. Проверенная копия всегда имеет приоритет. По умолчанию оригинал удаляется после проверки; его можно оставить. Это может занять несколько минут. Подключите консоль к питанию.</string>
+  <string name="asl_keep_original">Оставить исходный образ</string>
+  <string name="asl_launch_icon">Показывать EmulationStation в списке приложений</string>
+  <string name="asl_advanced">Расширенные настройки Linux</string>
+  <string name="asl_shared">Игры и сохранения на EASYROMS доступны и Android. Изменения системы хранятся во внутренней памяти. Размеры оригинала и EROFS показаны отдельно.</string>
+  <string name="asl_info">Образ: %1$s\nРасположение: %2$s\nОригинал: %3$s · EROFS: %4$s\nИзменения системы: %5$s\nВерсия: %6$s</string>
+  <string name="asl_working">Выполняется… Можно уйти с этой страницы и вернуться для проверки.</string>
+  <string name="asl_failed">Операция не удалась. Откройте состояние и журнал последнего запуска.</string>
+  <string name="asl_sync">Синхронизация с Android</string>
+  <string name="asl_mute">Отключить звук Linux</string>
+  <string name="asl_hotkeys">Горячие клавиши выхода</string>
+  <string name="asl_hotkey_help">Удерживайте Select + Start для выхода из игры. Если она зависла, удерживайте четыре секунды для возврата в Android. Fn + Start в течение двух секунд также возвращает в Android.</string>
+  <string name="asl_ready">Готово</string>
+  <string name="asl_scan">Обновить список образов</string>
+  <string name="asl_health_body">Состояние: %1$s\nПроверка образа: %2$s\nОперация: %3$s\n\n%4$s</string>
+  <string name="asl_ra">Запустить RetroArch</string>
+  <string name="asl_sync_note">Папки ROM доступны обеим системам. Синхронизация объединяет избранное и историю игр, импортирует недостающие описания и изображения. Синхронизация RetroArch необязательна и не затрагивает назначение кнопок.</string>
+  <string name="asl_native_help">Штатное управление требует соответствующего ядра andr36oid с гостевым режимом. Другие образы Linux сохраняют обычный интерфейс ввода.</string>
+  <string name="asl_empty">Нет доступных образов</string>
+  <string name="asl_launch_confirm">Сохраните работу в Android. Linux займёт экран; при выходе вы вернётесь в Android.</string>
+  <string name="asl_op_progress">%1$s · записано %2$s · %3$s секунд</string>
+  <string name="asl_sync_favorite">Избранное</string>
+  <string name="asl_sync_playcount">Количество запусков</string>
+  <string name="asl_sync_lastplayed">Последняя игра</string>
+  <string name="asl_sync_desc">Описания</string>
+  <string name="asl_sync_art">Изображения</string>
+  <string name="asl_sync_ra">Общие настройки RetroArch</string>
+  <string name="asl_stop">Вернуться в Android</string>
+  <string name="asl_retries">Попытки перезапуска интерфейса</string>
+  <string name="asl_audio_rate">Частота звука (Гц)</string>
+  <string name="asl_audio_buffer">Буфер звука (кадры)</string>
+</resources>

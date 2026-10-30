@@ -69,3 +69,29 @@ on early-init
 # a scan once storage is available.
 on property:sys.andr36oid.easyroms.ready=1
     start andr36oid-subsystem-scan
+
+service andr36oid-subsystem-optimize /system/bin/sh /system/etc/andr36oid-subsystem.sh optimize-prop
+    class late_start
+    user root
+    group root system mount
+    seclabel u:r:shell:s0
+    disabled
+    oneshot
+
+on property:sys.andr36oid.subsystem.request=optimize
+    setprop sys.andr36oid.subsystem.opt_dispatch_keep ${sys.andr36oid.subsystem.opt_keep:-0}
+    setprop sys.andr36oid.subsystem.opt_dispatch_job ${sys.andr36oid.subsystem.opt_request_id:-invalid}
+    setprop sys.andr36oid.subsystem.opt_dispatch_source ${sys.andr36oid.subsystem.opt_source:-invalid}
+    setprop sys.andr36oid.subsystem.request ""
+    start andr36oid-subsystem-optimize
+
+service andr36oid-subsystem-select /system/bin/sh /system/etc/andr36oid-subsystem.sh select-prop
+    class late_start
+    user root
+    group root system mount
+    seclabel u:r:shell:s0
+    disabled
+    oneshot
+
+on property:sys.andr36oid.subsystem.request=select
+    start andr36oid-subsystem-select

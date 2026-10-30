@@ -1011,6 +1011,7 @@ finish_request() {
 		setprop "$P.error" ''
 	fi
 	status "$result"
+	exec 7>&-
 }
 
 change_disc() {
@@ -1045,6 +1046,10 @@ change_disc() {
 }
 
 handle_request() {
+    exec 7>"${USB_DRIVE_STORAGE_LOCK:-/data/misc/andr36oid-storage.lock}"
+    if ! flock -n 7 7>&7; then
+        exec 7>&-; fail storage_busy; setprop "$P.request" stop; status error; return 0
+    fi
 	setprop "$P.detail" ''
 	setprop "$P.vdetail" ''
 	setprop "$P.stage" ''

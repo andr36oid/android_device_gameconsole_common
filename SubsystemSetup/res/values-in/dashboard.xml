@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="asl_dashboard">Dasbor dArkOSen</string>
+  <string name="asl_install">Siapkan dArkOSen</string>
+  <string name="asl_missing">Salin berkas .img dArkOSen 10152026 yang sudah diekstrak ke subsystem/darkosen di EASYROMS, penyimpanan internal, atau SD2. Citra lebih baru mungkin berfungsi, tetapi belum diuji. Gunakan pengaturan lanjutan untuk distribusi Linux lain.</string>
+  <string name="asl_setup_body">Penyiapan awal akan menyiapkan folder bersama dan lapisan perubahan sistem. Setelah selesai, Anda kembali ke sini dan dapat memilih kapan menjalankan Linux.</string>
+  <string name="asl_start_setup">Jalankan penyiapan awal</string>
+  <string name="asl_images">Pilih citra dArkOSen</string>
+  <string name="asl_change">Mengganti citra mereset perubahan sistem dan pengaturan EmulationStation. Gim dan simpanan tetap ada di penyimpanan bersama. Pertahankan perubahan jika ingin memakainya saat kembali ke citra tersebut.</string>
+  <string name="asl_keep_overlay">Pertahankan perubahan tiap citra</string>
+  <string name="asl_storage">Penggunaan penyimpanan</string>
+  <string name="asl_health">Status dan log boot terakhir</string>
+  <string name="asl_config">Konfigurasi</string>
+  <string name="asl_optimize">Optimalkan dArkOSen</string>
+  <string name="asl_optimize_body">Buat salinan EROFS terkompresi dari citra terpilih. Salinan terverifikasi selalu diutamakan. Secara default, berkas asli dihapus setelah verifikasi; Anda dapat menyimpannya. Proses ini mungkin memerlukan beberapa menit. Tetap hubungkan konsol ke daya.</string>
+  <string name="asl_keep_original">Simpan citra asli</string>
+  <string name="asl_launch_icon">Tampilkan EmulationStation di daftar aplikasi</string>
+  <string name="asl_advanced">Pengaturan Linux lanjutan</string>
+  <string name="asl_shared">Gim dan simpanan di EASYROMS dibagikan dengan Android. Perubahan sistem disimpan secara internal. Ukuran berkas asli dan EROFS ditampilkan terpisah.</string>
+  <string name="asl_info">Citra: %1$s\nLokasi: %2$s\nAsli: %3$s · EROFS: %4$s\nPerubahan sistem: %5$s\nVersi: %6$s</string>
+  <string name="asl_working">Memproses… Anda dapat meninggalkan halaman ini dan kembali untuk melihat kemajuan.</string>
+  <string name="asl_failed">Operasi gagal. Buka Status dan log boot terakhir untuk detailnya.</string>
+  <string name="asl_sync">Sinkronkan dengan Android</string>
+  <string name="asl_mute">Bisukan audio Linux</string>
+  <string name="asl_hotkeys">Pintasan keluar sistem</string>
+  <string name="asl_hotkey_help">Tahan Select + Start untuk keluar dari gim. Terus tahan selama empat detik untuk kembali ke Android jika macet. Tahan Fn + Start selama dua detik untuk kembali ke Android.</string>
+  <string name="asl_ready">Siap</string>
+  <string name="asl_scan">Segarkan citra</string>
+  <string name="asl_health_body">Status: %1$s\nPemeriksaan citra: %2$s\nOperasi: %3$s\n\n%4$s</string>
+  <string name="asl_ra">Jalankan RetroArch</string>
+  <string name="asl_sync_note">Folder ROM tersedia untuk kedua sistem. Sinkronisasi menggabungkan favorit dan riwayat bermain serta mengimpor deskripsi dan gambar yang belum ada. Sinkronisasi RetroArch opsional dan tidak menyertakan pemetaan kontrol.</string>
+  <string name="asl_native_help">Kontrol bawaan memerlukan kernel andr36oid dengan mode tamu yang sesuai. Citra Linux umum mempertahankan antarmuka input normalnya.</string>
+  <string name="asl_empty">Tidak ada citra yang tersedia</string>
+  <string name="asl_launch_confirm">Simpan pekerjaan Android Anda. Linux akan mengambil alih layar; keluar dari Linux akan kembali ke Android.</string>
+  <string name="asl_op_progress">%1$s · %2$s ditulis · %3$s detik</string>
+  <string name="asl_sync_favorite">Favorit</string>
+  <string name="asl_sync_playcount">Jumlah bermain</string>
+  <string name="asl_sync_lastplayed">Terakhir dimainkan</string>
+  <string name="asl_sync_desc">Deskripsi</string>
+  <string name="asl_sync_art">Gambar</string>
+  <string name="asl_sync_ra">Bagikan opsi RetroArch</string>
+  <string name="asl_stop">Kembali ke Android</string>
+  <string name="asl_retries">Percobaan memulai ulang antarmuka</string>
+  <string name="asl_audio_rate">Laju sampel audio (Hz)</string>
+  <string name="asl_audio_buffer">Buffer audio (bingkai)</string>
+</resources>
