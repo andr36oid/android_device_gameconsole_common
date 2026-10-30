@@ -612,6 +612,10 @@ PRODUCT_PACKAGES += SubsystemSetup # Settings > System: andr36oid Subsystem for 
 PRODUCT_PACKAGES += org.andr36oid.syncsettings # Settings > System: library and RetroArch sync
 # Boot-time hold-START reader used by the subsystem broker/rc to pick the boot OS
 PRODUCT_PACKAGES += andr36oid-keyheld
+# Namespace supervisor: opts the guest PID namespace into the native dArkOSen input
+# ABI (PR_ANDR36OID_GUEST) before the display handoff. The broker aborts a session
+# without it (/system/bin/andr36oid-guest), so it must ship alongside the wrapper .sh.
+PRODUCT_PACKAGES += andr36oid-guest
 # RGB lights (Settings > Display > RGB lights), shown only on consoles with an
 # RGB LED (R36 Ultra); off unless chosen
 PRODUCT_PACKAGES += \
