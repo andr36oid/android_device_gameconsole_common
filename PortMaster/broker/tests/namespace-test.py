@@ -21,12 +21,9 @@ with tempfile.TemporaryDirectory(prefix='a36-namespace-') as temporary:
 #include <sys/syscall.h>
 #include <unistd.h>
 int main(int argc,char **argv) {
- assert(getppid()==1 && getpid()>1);
- char host[64];assert(!gethostname(host,sizeof(host)));assert(!strcmp(host,"andr36oid-linux"));
- struct __user_cap_header_struct h={.version=_LINUX_CAPABILITY_VERSION_3};struct __user_cap_data_struct c[2];assert(!syscall(SYS_capget,&h,c));
- int deny[]={CAP_SYS_ADMIN,CAP_SYS_MODULE,CAP_SYS_BOOT,CAP_SYS_RAWIO,CAP_SYS_TIME,CAP_NET_ADMIN,CAP_MKNOD};
- for(unsigned i=0;i<sizeof(deny)/sizeof(*deny);i++) {assert(!(c[deny[i]/32].effective&(1U<<(deny[i]%32))));assert(prctl(PR_CAPBSET_READ,deny[i])==0);}
- errno=0;int fd=open("/proc/sys/kernel/hostname",O_WRONLY);fprintf(stderr,"readonly control: fd=%d errno=%d\n",fd,errno);assert(fd<0 && (errno==EROFS || errno==EACCES || errno==EPERM));
+ assert(getpid()>1);
+ if(argc==2 && !strcmp(argv[1],"frontend")) {
+
  // The real exit-game handler must preserve ES and its input helper.
  assert(!prctl(PR_SET_NAME,"emulationstatio"));
  int gate[2];assert(!pipe(gate));
@@ -37,7 +34,22 @@ int main(int argc,char **argv) {
  char ready;assert(read(gate[0],&ready,1)==1);assert(read(gate[0],&ready,1)==1);
  assert(exit_game(getpid()));int status;assert(waitpid(game,&status,0)==game && WIFSIGNALED(status));
  assert(kill(helper,0)==0);kill(helper,SIGTERM);waitpid(helper,&status,0);
+ return 0;
+ }
+ // A wrapper script and the ES binary both have comm=emulationstatio.
+ assert(getppid()==1);
+ char host[64];assert(!gethostname(host,sizeof(host)));assert(!strcmp(host,"andr36oid-linux"));
+ struct __user_cap_header_struct h={.version=_LINUX_CAPABILITY_VERSION_3};struct __user_cap_data_struct c[2];assert(!syscall(SYS_capget,&h,c));
+ int deny[]={CAP_SYS_ADMIN,CAP_SYS_MODULE,CAP_SYS_BOOT,CAP_SYS_RAWIO,CAP_SYS_TIME,CAP_NET_ADMIN,CAP_MKNOD};
+ for(unsigned i=0;i<sizeof(deny)/sizeof(*deny);i++) {assert(!(c[deny[i]/32].effective&(1U<<(deny[i]%32))));assert(prctl(PR_CAPBSET_READ,deny[i])==0);}
+ errno=0;int fd=open("/proc/sys/kernel/hostname",O_WRONLY);fprintf(stderr,"readonly control: fd=%d errno=%d\n",fd,errno);assert(fd<0 && (errno==EROFS || errno==EACCES || errno==EPERM));
+
+ assert(!prctl(PR_SET_NAME,"emulationstatio"));
+ pid_t frontend=fork();assert(frontend>=0);
+ if(!frontend){execl("/emulationstation","emulationstation","frontend",NULL);_exit(127);}
+ int status;assert(waitpid(frontend,&status,0)==frontend && WIFEXITED(status) && WEXITSTATUS(status)==0);
  assert(!prctl(PR_SET_NAME,"test-standalone"));
+ int gate[2];assert(!pipe(gate));char ready;
  pid_t direct=fork();assert(direct>=0);if(!direct){assert(write(gate[1],"d",1)==1);for(;;)pause();}
  assert(read(gate[0],&ready,1)==1);assert(exit_game(direct));
  assert(waitpid(direct,&status,0)==direct && WIFSIGNALED(status));
@@ -50,6 +62,7 @@ int main(int argc,char **argv) {
 '''
  (b/'payload.c').write_text(source.replace('GUEST_SOURCE',str(w/'PortMaster/subsystem/andr36oid-guest.c')))
  subprocess.run(['cc','-static','-O2',str(b/'payload.c'),'-o',str(root/'payload')],check=True)
+ os.link(root/'payload',root/'emulationstation')
  def processes():
   found=[]
   for proc in Path('/proc').glob('[0-9]*'):

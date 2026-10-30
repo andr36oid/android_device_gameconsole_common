@@ -630,9 +630,21 @@ kill_subsystem_payload() {
 }
 
 kill_subsystem() {
+  local p r tries=0 alive
   kill_subsystem_payload
   [ -n "${SESSION_PID:-}" ] && kill "$SESSION_PID" 2>/dev/null
-  return 0
+  # SIGKILL is asynchronous. DRM/mixer restoration must wait for guest FDs to
+  # close, including orphaned descendants discovered by their private root.
+  while :; do
+    alive=0
+    for p in /proc/[0-9]*; do
+      r=$(readlink "$p/root" 2>/dev/null) || continue
+      case "$r" in "$ROOT"|"$ROOT"/*) alive=1; break;; esac
+    done
+    [ "$alive" = 1 ] || return 0
+    [ "$tries" -lt 30 ] || { log "guest processes did not exit"; return 1; }
+    sleep 0.1; tries=$((tries+1))
+  done
 }
 
 # --- teardown (idempotent) ----------------------------------------------------
@@ -685,16 +697,18 @@ restore_android() {
   # Invalidate ownership and reap the watchdog before touching the shared codec
   # or restarting Android. This path is shared by EXIT and guardian recovery.
   stop_mute_guard
-  kill_subsystem
+  CLEANUP_FAILED=0
+  kill_subsystem || CLEANUP_FAILED=1
   prepare_retroarch_sync
   if [ -f "$STATE/session.hw-master" ]; then
     /system/bin/tinymix -D 0 "Playback Hardware Master Switch" 0 >/dev/null 2>&1 ||
       log "hardware master switch could not be restored"
     rm -f "$STATE/session.hw-master"
   fi
-  restore_guest_hardware
+  if [ "$CLEANUP_FAILED" = 0 ]; then
+    restore_guest_hardware || CLEANUP_FAILED=1
+  fi
   local b tries
-  CLEANUP_FAILED=0
   # Newest first, including partially prepared sessions and paths with spaces.
   if [ -f "$STATE/session.mounts" ]; then
     while IFS= read -r b; do
@@ -796,6 +810,7 @@ finish_session() {
   trap - EXIT INT TERM HUP
   setprop sys.andr36oid.subsystem.provisioning "" 2>/dev/null
   restore_android
+  [ "$CLEANUP_FAILED" = 0 ] || rc=1
   [ "${IS_PM:-0}" = 1 ] && setprop sys.andr36oid.ports_changed 1 2>/dev/null
   setprop sys.andr36oid.subsystem_changed 1 2>/dev/null
   : > "$STATE/subsystem.clean"

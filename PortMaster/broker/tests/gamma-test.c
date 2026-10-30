@@ -43,7 +43,14 @@ int main(int argc,char **argv) {
     assert(!gamma_state(argv[1],false));assert(!gamma_state(argv[1],true));assert(restored==1);
     fail_read=true;assert(gamma_state(argv[1],false));
     assert(!gamma_state(argv[1],true));assert(restored==2);
-    FILE *f=fopen(argv[1],"wb");assert(f);fputs("bad",f);fclose(f);
+    // A truncated second CRTC must not partially apply the first CRTC.
+    FILE *f=fopen(argv[1],"r+b");assert(f);uint32_t count=2;
+    assert(!fseek(f,4,SEEK_SET));assert(fwrite(&count,sizeof(count),1,f)==1);fclose(f);
+    assert(gamma_state(argv[1],true));assert(restored==2);
+    fail_read=false;assert(!gamma_state(argv[1],false));
+    f=fopen(argv[1],"ab");assert(f);fputc('x',f);fclose(f);
+    assert(gamma_state(argv[1],true));assert(restored==2);
+    f=fopen(argv[1],"wb");assert(f);fputs("bad",f);fclose(f);
     assert(gamma_state(argv[1],true));assert(restored==2);
     unlink(argv[1]);puts("PASS: gamma state round trip, failed capture preserves prior state, malformed state rejected");
 }

@@ -31,7 +31,7 @@ publish_setup_complete() {
   update_settings_entry org.andr36oid.subsystemsetup
 }
 select_image() {
-  local selected oldfamily="" newfamily keep
+  local selected oldfamily="" newfamily family keep
   selected=$(prop select_id); keep=$(prop select_keep)
   valid_id "$selected" || return 2
   acquire_operation select || return 1
@@ -39,16 +39,21 @@ select_image() {
   if resolve_selected_image; then oldfamily=$FAMILY; fi
   resolve_selected_image "$selected" || return 1
   newfamily=$FAMILY
+  for family in "$oldfamily" "$newfamily"; do
+    valid_id "$family" || continue
+    [ ! -L "$STATE/images/$family" ] || return 1
+  done
+  # Do not discard state unless the requested selection can be persisted.
+  setprop "$SELECT_PROP" "$selected" || return 1
   # Default is a clean system overlay. Games and saves on /roms are independent.
-  if [ "$keep" != 1 ]; then
+  # Re-selecting the current family (including its EROFS copy) is a no-op.
+  if [ "$keep" != 1 ] && [ "$oldfamily" != "$newfamily" ]; then
     for oldfamily in "$oldfamily" "$newfamily"; do
       valid_id "$oldfamily" || continue
-      [ ! -L "$STATE/images/$oldfamily" ] || return 1
+      rm -f -- "$CONTROL/ready/$oldfamily-"* || return 1
       rm -rf -- "$STATE/images/$oldfamily" || return 1
-      rm -f -- "$CONTROL/ready/$oldfamily-"*
     done
   fi
-  setprop "$SELECT_PROP" "$selected" || return 1
   publish select_error ""
   operation_done "done"
   release_operation; trap - EXIT
@@ -193,28 +198,34 @@ run_in_subsystem() {
 # Preserve the Android mixer controls touched by the guest and handoff broker.
 capture_guest_mixer() {
   local control value
-  : > "$STATE/session.mixer.tmp"
+  : > "$STATE/session.mixer.tmp" || return 1
   for control in "Playback Path" "Master Playback Volume" "Playback Volume" "Playback Hardware Master Switch"; do
-    value=$(tinymix -D 0 -v "$control" 2>/dev/null) || continue
-    printf '%s\t%s\n' "$control" "$value" >> "$STATE/session.mixer.tmp"
+    if ! value=$(tinymix -D 0 -v "$control" 2>/dev/null) ||
+       ! printf '%s\t%s\n' "$control" "$value" >> "$STATE/session.mixer.tmp"; then
+      log "could not capture $control; refusing hardware handoff"
+      rm -f "$STATE/session.mixer.tmp"
+      return 1
+    fi
   done
   mv "$STATE/session.mixer.tmp" "$STATE/session.mixer"
 }
 restore_guest_mixer() {
-  local control value
+  local control value failed=0
   [ -f "$STATE/session.mixer" ] || return 0
   while IFS="$(printf '\t')" read -r control value; do
     case "$control" in
-      "Playback Path") tinymix -D 0 "$control" "$value" >/dev/null 2>&1 || log "could not restore $control" ;;
+      "Playback Path") tinymix -D 0 "$control" "$value" >/dev/null 2>&1 || { log "could not restore $control"; failed=1; } ;;
       "Playback Hardware Master Switch")
-        case "$value" in On) value=1;; Off) value=0;; 0|1) ;; *) continue;; esac
-        tinymix -D 0 "$control" "$value" >/dev/null 2>&1 || log "could not restore $control" ;;
+        case "$value" in On) value=1;; Off) value=0;; 0|1) ;; *) failed=1; continue;; esac
+        tinymix -D 0 "$control" "$value" >/dev/null 2>&1 || { log "could not restore $control"; failed=1; } ;;
       "Master Playback Volume"|"Playback Volume")
-        case "$value" in ''|*[!0-9' ']*) continue;; esac
+        case "$value" in ''|*[!0-9' ']*) failed=1; continue;; esac
         # Only validated numeric mixer channels are split into separate arguments.
-        tinymix -D 0 "$control" $value >/dev/null 2>&1 || log "could not restore $control" ;;
+        tinymix -D 0 "$control" $value >/dev/null 2>&1 || { log "could not restore $control"; failed=1; } ;;
+      *) failed=1 ;;
     esac
   done < "$STATE/session.mixer"
+  [ "$failed" = 0 ] || return 1
   rm -f "$STATE/session.mixer"
 }
 
@@ -235,19 +246,26 @@ prepare_guest_hardware() {
   done
 }
 restore_guest_hardware() {
-  local node value
-  restore_guest_mixer
+  local node value failed=0 brightness_failed=0
+  restore_guest_mixer || failed=1
   if [ -f "$STATE/session.gamma" ]; then
     if [ "$DID_HANDOFF" = 1 ]; then
-      "$GUEST" --restore-gamma "$STATE/session.gamma" || log "could not restore display gamma"
+      if "$GUEST" --restore-gamma "$STATE/session.gamma"; then
+        rm -f "$STATE/session.gamma"
+      else
+        log "could not restore display gamma"; failed=1
+      fi
+    else
+      rm -f "$STATE/session.gamma"
     fi
-    rm -f "$STATE/session.gamma"
   fi
-  [ -f "$STATE/session.brightness" ] || return 0
-  while read -r node value; do
-    case "$node" in /sys/devices/*/brightness) ;; *) continue;; esac
-    case "$value" in ''|*[!0-9]*) continue;; esac
-    printf '%s\n' "$value" > "$node" || log "could not restore brightness"
-  done < "$STATE/session.brightness"
-  rm -f "$STATE/session.brightness"
+  if [ -f "$STATE/session.brightness" ]; then
+    while read -r node value; do
+      case "$node" in /sys/devices/*/brightness) ;; *) brightness_failed=1; continue;; esac
+      case "$value" in ''|*[!0-9]*) brightness_failed=1; continue;; esac
+      printf '%s\n' "$value" > "$node" || { log "could not restore brightness"; brightness_failed=1; }
+    done < "$STATE/session.brightness"
+    if [ "$brightness_failed" = 0 ]; then rm -f "$STATE/session.brightness"; else failed=1; fi
+  fi
+  return "$failed"
 }

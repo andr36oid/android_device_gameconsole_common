@@ -40,10 +40,10 @@ public class SubsystemSetupActivity extends Activity {
     private LinearLayout side,extra;
     private TextView title,body,label,live;
     private ProgressBar progress;
-    private String page="",route="",log="",optLog="",version="",operation="",state="",resolved="",check="";
+    private String page="",route="",log="",optLog="",version="",operation="",state="",resolved="",check="",catalog="";
     private long overlays,requestedAt;
     private String requestSeq="";
-    private boolean resumed,reading,ready,available,busy,pending;
+    private boolean resumed,reading,ready,available,busy,pending,canStop;
     private final Runnable poll=this::refresh;
     static final class Image {
         String id,name,path; long original,optimized;
@@ -90,7 +90,8 @@ public class SubsystemSetupActivity extends Activity {
         if(!resumed || reading) return;reading=true;
         io.execute(()->{
             List<Image> found=new ArrayList<>();
-            for(String line:tail("/data/local/tmp/portmaster/images.tsv",131072).split("\n")) {
+            String listing=tail("/data/local/tmp/portmaster/images.tsv",131072);
+            for(String line:listing.split("\n")) {
                 String[] v=line.split("\t",-1);
                 if(v.length==6 && v[0].matches("[0-9a-f]{64}")) found.add(new Image(v));
             }
@@ -100,9 +101,12 @@ public class SubsystemSetupActivity extends Activity {
             long used=number(tail("/data/local/tmp/portmaster/overlay-bytes",64));
             handler.post(()->{
                 reading=false;if(isDestroyed())return;
+                boolean catalogChanged=!catalog.equals(listing);catalog=listing;
                 images.clear();images.addAll(found);log=boot;optLog=optimization;version=ver;overlays=used;
                 ready=isReady();available="1".equals(get(P+"image"));operation=get(P+"operation");state=get(P+"session");resolved=get(P+"resolved");check=get(P+"resolve_state");
                 busy=!operation.isEmpty() || "running".equals(state);
+                boolean stopAllowed="running".equals(state)&&!"1".equals(get(P+"provisioning"));
+                boolean stopChanged=canStop!=stopAllowed;canStop=stopAllowed;
                 if(pending && (busy || !requestSeq.equals(get(P+"done_seq")))) pending=false;
                 String completed=get(P+"done_seq");
                 if(!requestSeq.isEmpty() && !requestSeq.equals(completed)) {
@@ -113,7 +117,12 @@ public class SubsystemSetupActivity extends Activity {
                 if(pending && SystemClock.elapsedRealtime()-requestedAt>30000) {pending=false;toast(R.string.asl_failed);}
                 updateLauncher(this);
                 String next=busy||pending?"busy":!available?"missing":!ready?"setup":"dashboard";
-                if(!route.equals(next)) {route=next;show();}
+                // A fast scan may complete between polls without changing route.
+                // Rebuild only when controls change, preserving focus on idle polls.
+                if(!route.equals(next) || stopChanged ||
+                    (!"busy".equals(next)&&catalogChanged&&("images".equals(page)||"optimize".equals(page)))) {
+                    route=next;show();
+                }
                 updateLive();
                 if(resumed) handler.postDelayed(poll,1000);
             });
@@ -148,7 +157,7 @@ public class SubsystemSetupActivity extends Activity {
             title.setText(R.string.asl_working);body.setText(R.string.asl_hotkey_help);
             progress.setVisibility(View.VISIBLE);progress.setIndeterminate(true);
             live=text(extra,"");
-            if("running".equals(state)&&!"1".equals(get(P+"provisioning"))) button(R.string.asl_stop,()->request("stop"));
+            if(canStop) button(R.string.asl_stop,()->request("stop"));
             break;
         case "missing": case "":
             title.setText(R.string.asl_install);body.setText(R.string.asl_missing);

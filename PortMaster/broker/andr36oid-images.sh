@@ -561,9 +561,17 @@ reconcile_optimize() {
   for saved in "$OPT_DIR"/journals/*; do [ ! -f "$saved" ] || reconcile_journal "$saved" 0; done
   reconcile_journal "$OPT_DIR/journal" 1
 }
+reconcile_loop() {
+  [ -n "$1" ] || return 0
+  # A reused or already-detached loop is not ours. Recheck identity during detach.
+  if "$SUPPORT" loop-owned "$@" 2>/dev/null; then
+    "$SUPPORT" detach-owned "$@" 2>/dev/null || return 1
+  fi
+  return 0
+}
 reconcile_journal() {
   local journal=$1 current=$2 data phase job owner_boot owner_pid owner_start record final src partial meta dev ino loop offset
-  local terminal=interrupted error=interrupted
+  local terminal=interrupted error=interrupted dir uuid opts found=0 cleanup_failed=0
   [ -f "$journal" ] || return 0
   data=$(cat "$journal"); phase=$(field "$data" phase); job=$(field "$data" job)
   valid_job "$job" || return 0
@@ -577,16 +585,37 @@ reconcile_journal() {
     publish opt_job "$job"; publish opt_error "$error"; publish_opt_state "$terminal" "$job"
   fi
   # Card identity and canonical directory must agree before touching its files.
-  if ! games_card; then
+  src=$(field "$data" source); final=$(field "$data" final)
+  while IFS="$(printf '\t')" read -r dir uuid dev opts; do
+    [ "$uuid" = "$(field "$data" card_uuid)" ] || continue
+    [ "${src%/*}" = "$dir/subsystem/darkosen" ] || continue
+    set_card "$dir" "$uuid" "$dev" "$opts"; found=1; break
+  done <<EOF_CARDS
+$(image_cards)
+EOF_CARDS
+  if [ "$found" != 1 ]; then
     if [ "$current" = 1 ] && [ "$terminal" != failed ]; then
       publish opt_job "$job"; publish opt_error interrupted; publish_opt_state interrupted "$job"
     fi
     return 0
   fi
   [ "$CARD_UUID" = "$(field "$data" card_uuid)" ] || return 0
-  src=$(field "$data" source); final=$(field "$data" final)
   [ "${src%/*}" = "$CARD/subsystem/darkosen" ] || return 0
   [ "$final" = "${src%.img}.erofs.img" ] || return 0
+  # The final image may already be committed while source-loop cleanup is still
+  # pending. Recover resources before marking such a journal permanently done.
+  if [ "$owner_boot" = "$(boot_id)" ]; then
+    loop=$(field "$data" verify_loop); dev=$(field "$data" partial_device); ino=$(field "$data" partial_inode)
+    reconcile_loop "$loop" "$dev" "$ino" 0 || cleanup_failed=1
+    loop=$(field "$data" source_loop); dev=$(field "$data" source_device); ino=$(field "$data" source_inode); offset=$(field "$data" offset)
+    reconcile_loop "$loop" "$dev" "$ino" "$offset" || cleanup_failed=1
+  fi
+  if [ "$cleanup_failed" = 1 ]; then
+    if [ "$current" = 1 ]; then
+      publish opt_error io_error; publish_opt_state failed "$job"
+    fi
+    return 1
+  fi
   record=$(completion_record "$final") && [ "$(field "$record" job)" = "$job" ] && {
     if [ "$current" = 1 ]; then
       publish opt_job "$job"; publish opt_error ""; publish opt_bytes "$(field "$record" output_size)"; publish_opt_state "done" "$job"
@@ -596,12 +625,6 @@ reconcile_journal() {
     "$SUPPORT" fsync "$journal"; "$SUPPORT" fsync "${journal%/*}"
     return 0
   }
-  if [ "$owner_boot" = "$(boot_id)" ]; then
-    loop=$(field "$data" verify_loop); dev=$(field "$data" partial_device); ino=$(field "$data" partial_inode)
-    [ -z "$loop" ] || "$SUPPORT" detach-owned "$loop" "$dev" "$ino" 0 2>/dev/null
-    loop=$(field "$data" source_loop); dev=$(field "$data" source_device); ino=$(field "$data" source_inode); offset=$(field "$data" offset)
-    [ -z "$loop" ] || "$SUPPORT" detach-owned "$loop" "$dev" "$ino" "$offset" 2>/dev/null
-  fi
   partial=$(field "$data" partial); meta=$(field "$data" meta_partial)
   if [ "$partial" = "$final.partial.$job" ] && [ -f "$partial" ]; then
     "$SUPPORT" remove "$partial" "$(field "$data" partial_device)" "$(field "$data" partial_inode)" 2>/dev/null

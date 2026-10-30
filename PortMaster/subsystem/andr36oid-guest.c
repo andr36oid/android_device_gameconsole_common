@@ -44,9 +44,9 @@ static int gamma_state(const char *path,bool restore) {
     if(!f) {close(fd);return 1;}
     if(!restore) fchmod(fileno(f),0600);
     uint32_t header[2]={0x41334731,0},ids[64];int result=1;
+    struct drm_mode_crtc_lut pending[64]={0};
     if(restore) {
         if(fread(header,sizeof(header),1,f)!=1 || header[0]!=0x41334731 || header[1]>64)goto done;
-        if(header[1] && ioctl(fd,DRM_IOCTL_SET_MASTER,0)) {perror("restore gamma master");goto done;}
     } else {
         struct drm_mode_card_res res={0};
         if(ioctl(fd,DRM_IOCTL_MODE_GETRESOURCES,&res) || res.count_crtcs>64)goto done;
@@ -69,14 +69,25 @@ static int gamma_state(const char *path,bool restore) {
         struct drm_mode_crtc_lut lut={.crtc_id=entry[0],.gamma_size=size,
             .red=(uintptr_t)ramps,.green=(uintptr_t)(ramps+size),.blue=(uintptr_t)(ramps+2*size)};
         bool ok;
-        if(restore) ok=fread(ramps,sizeof(*ramps),3*size,f)==3*size && !ioctl(fd,DRM_IOCTL_MODE_SETGAMMA,&lut);
+        if(restore) {
+            pending[i]=lut;
+            ok=fread(ramps,sizeof(*ramps),3*size,f)==3*size;
+        }
         else ok=!ioctl(fd,DRM_IOCTL_MODE_GETGAMMA,&lut) && fwrite(ramps,sizeof(*ramps),3*size,f)==3*size;
-        free(ramps);if(!ok)goto done;
+        if(!restore)free(ramps);
+        if(!ok)goto done;
     }
-    if(restore) {if(fgetc(f)!=EOF)goto done;}
+    if(restore) {
+        // Validate the whole snapshot before acquiring master or changing a CRTC.
+        if(fgetc(f)!=EOF || ferror(f))goto done;
+        if(header[1] && ioctl(fd,DRM_IOCTL_SET_MASTER,0)) {perror("restore gamma master");goto done;}
+        for(uint32_t i=0;i<header[1];i++)
+            if(pending[i].gamma_size && ioctl(fd,DRM_IOCTL_MODE_SETGAMMA,&pending[i]))goto done;
+    }
     else if(fflush(f) || fsync(fileno(f)) || rename(temporary,path))goto done;
     result=0;
 done:
+    for(unsigned i=0;i<64;i++)free((void *)(uintptr_t)pending[i].red);
     if(result) {if(!errno)errno=EINVAL;perror(restore?"restore gamma":"save gamma");}
     fclose(f);close(fd);if(!restore)unlink(temporary);
     return result;
@@ -128,6 +139,32 @@ static int pad_open(void) {
     }
     return -1;
 }
+struct hotkey_state { bool select,start,fn,dropped; };
+static void hotkey_sync(int pad,bool native,struct hotkey_state *keys) {
+    unsigned long held[(KEY_MAX+8*sizeof(long))/(8*sizeof(long))]={0};
+    *keys=(struct hotkey_state){0};
+    if(ioctl(pad,EVIOCGKEY(sizeof(held)),held)<0)return;
+#define HELD(k) ((held[(k)/(8*sizeof(long))] >> ((k)%(8*sizeof(long))))&1)
+    keys->select=HELD(native?BTN_TRIGGER_HAPPY1:BTN_SELECT);
+    keys->start=HELD(native?BTN_TRIGGER_HAPPY2:BTN_START);
+    keys->fn=HELD(native?BTN_TRIGGER_HAPPY5:KEY_HOMEPAGE);
+#undef HELD
+}
+static void hotkey_event(int pad,bool native,struct hotkey_state *keys,const struct input_event *ev) {
+    if(ev->type==EV_SYN && ev->code==SYN_DROPPED) {
+        *keys=(struct hotkey_state){.dropped=true};return;
+    }
+    // The incomplete frame after SYN_DROPPED is invalid. Re-query only at its
+    // SYN_REPORT boundary, otherwise stale presses can trigger an exit chord.
+    if(keys->dropped) {
+        if(ev->type==EV_SYN && ev->code==SYN_REPORT)hotkey_sync(pad,native,keys);
+        return;
+    }
+    if(ev->type!=EV_KEY)return;
+    if(ev->code==(native?BTN_TRIGGER_HAPPY1:BTN_SELECT))keys->select=ev->value!=0;
+    if(ev->code==(native?BTN_TRIGGER_HAPPY2:BTN_START))keys->start=ev->value!=0;
+    if(ev->code==(native?BTN_TRIGGER_HAPPY5:KEY_HOMEPAGE))keys->fn=ev->value!=0;
+}
 static pid_t parent_of(pid_t pid) {
     char path[64], buf[4096];
     snprintf(path,sizeof(path),"/proc/%d/stat",pid);
@@ -146,6 +183,18 @@ static bool process_named(pid_t pid, const char *name) {
     if(!ok) return false;
     buf[strcspn(buf,"\n")]=0; return !strcmp(buf,name);
 }
+static bool is_emulationstation(pid_t pid) {
+    // comm truncates both emulationstation and emulationstation.sh identically.
+    // The wrapper's executable is its shell; only target the actual frontend.
+    char path[64],exe[4096];
+    snprintf(path,sizeof(path),"/proc/%d/exe",pid);
+    ssize_t n=readlink(path,exe,sizeof(exe)-1);
+    if(n<0 || n>=(ssize_t)sizeof(exe)-1)return false;
+    exe[n]=0;
+    char *deleted=strstr(exe," (deleted)");if(deleted && !deleted[10])*deleted=0;
+    char *name=strrchr(exe,'/');
+    return name && !strcmp(name+1,"emulationstation");
+}
 static void signal_tree(pid_t root,int sig,unsigned depth) {
     if(root<=1 || depth>64) return;
     DIR *d=opendir("/proc"); if(!d) return;
@@ -163,7 +212,7 @@ static bool exit_game(pid_t payload) {
     struct dirent *e; pid_t es=0; bool killed=false;
     while((e=readdir(d))) {
         pid_t p=atoi(e->d_name);
-        if(p>1 && process_named(p,"emulationstatio")) { es=p; break; }
+        if(p>1 && is_emulationstation(p)) { es=p; break; }
     }
     rewinddir(d);
     if(es) {
@@ -206,7 +255,9 @@ static int supervise(char **argv,bool native,bool hotkeys) {
     }
     int pad=hotkeys?pad_open():-1, status=0; long long combo=0, force=0, last_retry=0;
     long long mirrored=now_ms();
-    bool select=false,start=false,fn=false,fired=false;
+    bool fired=false;
+    struct hotkey_state keys={0};
+    if(pad>=0)hotkey_sync(pad,native,&keys);
     for(;;) {
         pid_t done;
         while((done=waitpid(-1,&status,WNOHANG))>0) {
@@ -219,26 +270,23 @@ static int supervise(char **argv,bool native,bool hotkeys) {
         }
         long long now=now_ms();
         if(inputs && now-mirrored>2000) { mirror_inputs();mirrored=now; }
-        if(hotkeys && pad<0 && now-last_retry>2000) { pad=pad_open(); last_retry=now; }
+        if(hotkeys && pad<0 && now-last_retry>2000) {
+            pad=pad_open();last_retry=now;
+            if(pad>=0)hotkey_sync(pad,native,&keys);
+        }
         struct pollfd poller={.fd=pad,.events=POLLIN}; poll(&poller,1,50);
         struct input_event ev;
-        if(poller.revents&(POLLHUP|POLLERR)) { close(pad);pad=-1;select=start=fn=false; }
+        if(poller.revents&(POLLHUP|POLLERR)) {
+            close(pad);pad=-1;keys=(struct hotkey_state){0};combo=force=0;fired=false;
+        }
         while(pad>=0 && read(pad,&ev,sizeof(ev))==sizeof(ev)) {
             if(ev.type==EV_SYN && ev.code==SYN_DROPPED) {
-                unsigned long keys[(KEY_MAX+8*sizeof(long))/(8*sizeof(long))];
-                memset(keys,0,sizeof(keys));
-                if(ioctl(pad,EVIOCGKEY(sizeof(keys)),keys)>=0) {
-#define HELD(k) ((keys[(k)/(8*sizeof(long))] >> ((k)%(8*sizeof(long))))&1)
-                    select=HELD(native?BTN_TRIGGER_HAPPY1:BTN_SELECT);start=HELD(native?BTN_TRIGGER_HAPPY2:BTN_START);fn=HELD(native?BTN_TRIGGER_HAPPY5:KEY_HOMEPAGE);
-                } else select=start=fn=false;
+                combo=force=0;fired=false;
             }
-            if(ev.type!=EV_KEY) continue;
-            if(ev.code==(native?BTN_TRIGGER_HAPPY1:BTN_SELECT)) select=ev.value!=0;
-            if(ev.code==(native?BTN_TRIGGER_HAPPY2:BTN_START)) start=ev.value!=0;
-            if(ev.code==(native?BTN_TRIGGER_HAPPY5:KEY_HOMEPAGE)) fn=ev.value!=0;
+            hotkey_event(pad,native,&keys,&ev);
         }
-        if(fn&&start) { if(!force) force=now; if(now-force>=2000) stopping=1; } else force=0;
-        if(select&&start&&!fn) {
+        if(keys.fn&&keys.start) { if(!force) force=now; if(now-force>=2000) stopping=1; } else force=0;
+        if(keys.select&&keys.start&&!keys.fn) {
             if(!combo) combo=now;
             if(now-combo>=1200 && !fired) { exit_game(payload); fired=true; }
             /* A stuck game must not defeat the escape chord. */

@@ -27,13 +27,14 @@ getprop() { cat "$T/props/$1" 2>/dev/null || true; }
 setprop() { printf '%s' "$2" > "$T/props/$1"; }
 log() { printf '%s\n' "$*" >> "$LOG"; }
 . LIBRARY
+. GUEST_LIBRARY
 MUTE_PIDFILE=$STATE/mute
 RECOVERY_FUNCTIONS
 image_cards() { printf '%s\taaaa-1111\tfake1\trw\n%s\tbbbb-2222\tfake2\trw\n' "$T/card1" "$T/card2"; }
 first=$(selection_id aaaa-1111 'dArk OS.img');second=$(selection_id bbbb-2222 'dArk OS.img')
 setprop "$SELECT_PROP" "$first"
 resolve_selected_image
-[ "$SOURCE_ID" = "$first" ] && [ "$EFFECTIVE" = "$T/card1/subsystem/darkosen/dArk OS.erofs.img" ]
+[ "$SOURCE_ID" = "$first" ] && [ "$EFFECTIVE" = "$T/card1/subsystem/darkosen/dArk OS.erofs.img" ] || { echo "assertion failed at $LINENO" >&2; exit 1; }
 prepare_writable_state
 [ "$UPPER" = "$STATE/images/$first/$GENERATION/native1/upper" ]
 write_catalog
@@ -41,7 +42,7 @@ write_catalog
 # Selected original ID survives deletion; the pair stays one visible image.
 mv "$T/card1/subsystem/darkosen/dArk OS.img" "$T/original.saved"
 resolve_selected_image
-[ "$FAMILY" = "$first" ] && [ "$SOURCE_ID" = "$first" ] && [ "$EFFECTIVE_FORMAT" = erofs ]
+[ "$FAMILY" = "$first" ] && [ "$SOURCE_ID" = "$first" ] && [ "$EFFECTIVE_FORMAT" = erofs ] || { echo "assertion failed at $LINENO" >&2; exit 1; }
 write_catalog;[ "$(wc -l < "$STATE/images.tsv")" = 2 ]
 setprop "$SELECT_PROP" "$second";resolve_selected_image
 [ "$SOURCE" = "$T/card2/subsystem/darkosen/dArk OS.img" ]
@@ -54,8 +55,30 @@ setprop "$SELECT_PROP" "$first"
 cp "$T/card1/subsystem/darkosen/dArk OS.erofs.img.meta" "$T/good.meta"
 sed 's/^generation=.*/generation=0000000000000000000000000000000000000000000000000000000000000000/' "$T/good.meta" > "$T/card1/subsystem/darkosen/dArk OS.erofs.img.meta"
 resolve_selected_image
-[ "$EFFECTIVE" = "$SOURCE" ] && [ "$RESOLVE_STATE" = fallback_plain ]
+[ "$EFFECTIVE" = "$SOURCE" ] && [ "$RESOLVE_STATE" = fallback_plain ] || { echo "assertion failed at $LINENO" >&2; exit 1; }
 cp "$T/good.meta" "$T/card1/subsystem/darkosen/dArk OS.erofs.img.meta"
+# Selecting the existing family is harmless, including a grouped EROFS pair.
+scan_images() { :; }
+mkdir -p "$STATE/images/$first" "$STATE/images/$second" "$CONTROL/ready"
+printf 'settings' > "$STATE/images/$first/sentinel"
+printf 'settings' > "$STATE/images/$second/sentinel"
+touch "$CONTROL/ready/$first-test" "$CONTROL/ready/$second-test"
+setprop "$PROP.select_id" "$first";setprop "$PROP.select_keep" 0
+select_image
+[ -f "$STATE/images/$first/sentinel" ] && [ -f "$CONTROL/ready/$first-test" ] || { echo "assertion failed at $LINENO" >&2; exit 1; }
+# A failed persistent-property write must not delete either overlay.
+setprop "$PROP.select_id" "$second"
+setprop() { [ "$1" != "$SELECT_PROP" ] || return 1;printf '%s' "$2" > "$T/props/$1"; }
+! (select_image)
+[ -f "$STATE/images/$first/sentinel" ] && [ -f "$STATE/images/$second/sentinel" ] || { echo "assertion failed at $LINENO" >&2; exit 1; }
+[ -f "$CONTROL/ready/$first-test" ] && [ -f "$CONTROL/ready/$second-test" ] || { echo "assertion failed at $LINENO" >&2; exit 1; }
+setprop() { printf '%s' "$2" > "$T/props/$1"; }
+# Keeping overlays works; a real change with the default clears both families.
+setprop "$PROP.select_keep" 1;select_image
+[ -f "$STATE/images/$first/sentinel" ] && [ -f "$STATE/images/$second/sentinel" ] || { echo "assertion failed at $LINENO" >&2; exit 1; }
+setprop "$PROP.select_id" "$first";setprop "$PROP.select_keep" 0;select_image
+[ ! -e "$STATE/images/$first" ] && [ ! -e "$STATE/images/$second" ] || { echo "assertion failed at $LINENO" >&2; exit 1; }
+[ ! -e "$CONTROL/ready/$first-test" ] && [ ! -e "$CONTROL/ready/$second-test" ] || { echo "assertion failed at $LINENO" >&2; exit 1; }
 # A USB/storage lease blocks every operation before any file changes.
 acquire_operation test
 ! (exec 9>&- 7>&-; exec 6>"$A36_STORAGE_LOCK";flock -n 6 6>&6)
@@ -76,9 +99,66 @@ bytes_ge 8589934592 4294967295
 mkdir "$STATE/session.lock";printf 'old-boot' > "$STATE/session.lock/boot_id"
 printf '99999999' > "$STATE/session.lock/pid";printf '1' > "$STATE/session.lock/start_time"
 scan_managed_images
-[ ! -d "$STATE/session.lock" ] && [ "$(prop image)" = 1 ]
+[ ! -d "$STATE/session.lock" ] && [ "$(prop image)" = 1 ] || { echo "assertion failed at $LINENO" >&2; exit 1; }
+# Recovery must find an interrupted job on SD2 even when SD1 is listed first.
+mkdir -p "$OPT_DIR"
+job=bbbbbbbbbbbbbbbb
+source="$T/card2/subsystem/darkosen/dArk OS.img"
+final="${source%.img}.erofs.img";partial="$final.partial.$job"
+printf 'interrupted' > "$partial"
+cat > "$OPT_DIR/journal" <<EOF_JOURNAL
+job=$job
+phase=building
+boot=previous-boot
+pid=99999999
+process_start=1
+card_uuid=bbbb-2222
+source=$source
+final=$final
+partial=$partial
+partial_device=$(stat -c %d "$partial")
+partial_inode=$(stat -c %i "$partial")
+EOF_JOURNAL
+reconcile_optimize
+[ ! -e "$partial" ]
+[ "$(prop opt_state)" = interrupted ]
+# Publication may commit just before a crash, while the source loop is live.
+# A valid final record must not bypass resource recovery or become terminal early.
+REAL_SUPPORT=$SUPPORT;SUPPORT=recovery_support
+recovery_support() {
+  case "$1" in
+    loop-owned) return 0;;
+    detach-owned)
+      [ "$detach_fail" = 0 ] || return 1
+      printf '%s\n' "$*" >> "$T/detached";return 0;;
+  esac
+  "$REAL_SUPPORT" "$@"
+}
+cat > "$OPT_DIR/journal" <<EOF_JOURNAL
+job=aaaaaaaaaaaaaaaa
+phase=publishing
+boot=$(boot_id)
+pid=99999999
+process_start=1
+card_uuid=aaaa-1111
+source=$T/card1/subsystem/darkosen/dArk OS.img
+final=$T/card1/subsystem/darkosen/dArk OS.erofs.img
+source_loop=/dev/loopMOCK
+source_device=1
+source_inode=2
+offset=512
+EOF_JOURNAL
+detach_fail=1
+reconcile_optimize || :
+[ "$(prop opt_state)" != done ]
+[ "$(field "$(cat "$OPT_DIR/journal")" phase)" = publishing ]
+detach_fail=0
+reconcile_optimize
+[ -s "$T/detached" ]
+[ "$(prop opt_state)" = done ]
+SUPPORT=$REAL_SUPPORT
 printf 'PASS: paired catalog, native overlay isolation, original removal, second card, missing selection, stale record, shared storage lease\n'
-'''.replace('RECOVERY_FUNCTIONS','\n'.join(recovery)).replace('TEST_ROOT',str(base)).replace('LIBRARY',str(w/'PortMaster/broker/andr36oid-images.sh'))
+'''.replace('RECOVERY_FUNCTIONS','\n'.join(recovery)).replace('TEST_ROOT',str(base)).replace('GUEST_LIBRARY',str(w/'PortMaster/broker/andr36oid-guest.sh')).replace('LIBRARY',str(w/'PortMaster/broker/andr36oid-images.sh'))
 (base/'resolver.sh').write_text(script)
 for shell in ['bash','mksh']:
  if shutil.which(shell): subprocess.run([shell,str(base/'resolver.sh')],check=True)
