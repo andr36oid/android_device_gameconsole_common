@@ -666,7 +666,6 @@ PRODUCT_PACKAGES += \
 	remove-QuickAccessWallet \
 	remove-QuickSearchBox \
 	remove-Seedvault \
-	remove-Updater \
 	remove-WAPPushManager \
 	remove-cameraserver \
 	remove-android.hardware.cas@1.2-service
