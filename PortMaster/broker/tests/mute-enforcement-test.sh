@@ -1,7 +1,7 @@
 #!/bin/sh
 set -eu
 . "$(dirname "$0")/test-lib.inc"
-load_functions process_start_time recorded_process_alive mute_guard_owned freeze_process kill_process_children kill_tracked_tree \
+load_functions process_start_time recorded_process_alive mute_guard_owned process_deadline_reached freeze_process kill_process_children kill_tracked_tree \
   stop_mute_guard subsystem_muted mute_all_once start_mute_guard restore_android recover_session_locked recover_session
 prime_udev() { :; }
 prepare_session_policy() { :; }

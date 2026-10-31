@@ -1,7 +1,7 @@
 #!/bin/sh
 set -eu
 . "$(dirname "$0")/test-lib.inc"
-load_functions root_path process_start_time recorded_process_alive mute_guard_owned freeze_process kill_process_children kill_tracked_tree stop_mute_guard \
+load_functions root_path process_start_time recorded_process_alive mute_guard_owned process_deadline_reached freeze_process kill_process_children kill_tracked_tree stop_mute_guard \
   subsystem_muted mute_all_once start_mute_guard prepare_session_policy session_uses_init \
   install_systemctl_shim install_session_units boot_subsystem_session
 CHROOT=/bin/false

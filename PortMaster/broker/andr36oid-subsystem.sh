@@ -75,11 +75,15 @@ BOUND=""; DID_HANDOFF=0; SESSION_OWNED=0
 track_mount() {
   BOUND="$1
 $BOUND"
-  printf '%s\n' "$BOUND" > "$STATE/session.mounts"
+  printf '%s\n' "$BOUND" > "$STATE/session.mounts.tmp" &&
+    "$SUPPORT" fsync "$STATE/session.mounts.tmp" &&
+    mv -f "$STATE/session.mounts.tmp" "$STATE/session.mounts" && "$SUPPORT" fsync "$STATE"
 }
 forget_mount() {
   BOUND=$(printf '%s\n' "$BOUND" | awk -v p="$1" '$0!=p')
-  printf '%s\n' "$BOUND" > "$STATE/session.mounts"
+  printf '%s\n' "$BOUND" > "$STATE/session.mounts.tmp" &&
+    "$SUPPORT" fsync "$STATE/session.mounts.tmp" &&
+    mv -f "$STATE/session.mounts.tmp" "$STATE/session.mounts" && "$SUPPORT" fsync "$STATE"
 }
 bind_mount() { mount -o bind "$1" "$2" && track_mount "$2"; }
 detect_image() {
@@ -145,6 +149,28 @@ eligible_rootfs() {
   fi
   return 1
 }
+# Record before attachment; no recovery path may detach a bare device name.
+record_session_loop() {
+  case "$1:$2:$3" in *[!0-9:]*|:*|*::*|*:) return 1 ;; esac
+  printf '%s %s %s %s\n' "$LOOPDEV" "$1" "$2" "$3" > "$STATE/session.loop.tmp" &&
+    "$SUPPORT" fsync "$STATE/session.loop.tmp" &&
+    mv -f "$STATE/session.loop.tmp" "$STATE/session.loop" && "$SUPPORT" fsync "$STATE"
+}
+release_session_loop() {
+  local loop dev ino offset extra
+  [ -s "$STATE/session.loop" ] || { LOOPDEV=; return 0; }
+  read -r loop dev ino offset extra < "$STATE/session.loop" || return 1
+  case "$loop" in /dev/loop[0-9]*|/dev/block/loop[0-9]*) ;; *) return 1 ;; esac
+  case "$dev:$ino:$offset" in *[!0-9:]*|:*|*::*|*:) log "legacy/invalid loop identity; refusing detach"; return 1 ;; esac
+  [ -z "$extra" ] || return 1
+  # The helper checks identity and detaches through the same open loop FD.
+  # Already-detached and recycled associations are safe to forget; I/O errors
+  # retain the journal. Never fall back to losetup -d on a bare name.
+  "$SUPPORT" retire-owned "$loop" "$dev" "$ino" "$offset" || return 1
+  rm -f "$STATE/session.loop" || return 1
+  "$SUPPORT" fsync "$STATE" || return 1
+  LOOPDEV=
+}
 mount_generic_rootfs() {
   if [ -z "$IMAGE" ] && eligible_rootfs "$ROOT"; then
     setprop sys.andr36oid.subsystem.boot_pending "" 2>/dev/null
@@ -172,14 +198,17 @@ mount_generic_rootfs() {
     fs=$(image_fstype "$IMAGE" "$off")
     [ -n "$fs" ] || continue
     LOOPDEV=$(losetup -f) || return 1
-    printf '%s\n' "$LOOPDEV" > "$STATE/session.loop"
+    record_session_loop "$(stat -c %d "$IMAGE")" "$(stat -c %i "$IMAGE")" "$off" || return 1
     # No -S: this device's toybox truncates large sizelimits to 32 bits.
     if losetup -r -o "$off" "$LOOPDEV" "$IMAGE"; then
+      local loop_check dev_check ino_check off_check
+      read -r loop_check dev_check ino_check off_check < "$STATE/session.loop" || return 1
+      "$SUPPORT" loop-owned "$LOOPDEV" "$dev_check" "$ino_check" "$off_check" || return 1
       if mount -t "$fs" -o ro "$LOOPDEV" "$LOWER"; then
-        track_mount "$LOWER"
+        track_mount "$LOWER" || return 1
         if eligible_rootfs "$LOWER"; then
           mount -t overlay overlay -o "lowerdir=$LOWER,upperdir=$UPPER,workdir=$WORK" "$ROOT" || return 1
-          track_mount "$ROOT"; MOUNTED=1
+          track_mount "$ROOT" || return 1; MOUNTED=1
           log "mounted eligible $fs rootfs at byte $off (ro + overlay) at $ROOT"
           return 0
         fi
@@ -187,8 +216,7 @@ mount_generic_rootfs() {
         forget_mount "$LOWER"
       fi
     fi
-    losetup -d "$LOOPDEV" 2>/dev/null; LOOPDEV=""
-    rm -f "$STATE/session.loop"
+    release_session_loop || return 1
   done
   log "image has no mountable btrfs/ext4/squashfs/erofs rootfs with init or a launch target"
   return 1
@@ -318,7 +346,7 @@ provision_darkos() {
     {gsub(/\\040/, " ", $2); gsub(/\\011/, "\t", $2)}
     $2==p {n=split($4, opts, ","); for (i=1; i<=n; i++) if (opts[i]=="rw") rw=1}
     END {exit !rw}' /proc/mounts ||
-    ! "$CHROOT" "$ROOT" /usr/bin/setpriv --reuid=1023 --regid=1023 --clear-groups /bin/sh -c '
+    ! "$GUEST" "$ROOT" generic quiet -- /usr/bin/setpriv --reuid=1023 --regid=1023 --clear-groups /bin/sh -c '
       PATH=/usr/bin:/bin; export PATH
       umask 002
       probe=/roms/.andr36oid-write-probe-$$
@@ -339,7 +367,7 @@ provision_darkos() {
   /system/bin/am start -n org.andr36oid.subsystemsetup/.SubsystemSetupActivity \
     --activity-single-top >/dev/null 2>&1 || true
   log "Setting up dArkOSen... merging /roms.tar into $ROMS_SOURCE"
-  "$CHROOT" "$ROOT" /usr/bin/setpriv --reuid=1023 --regid=1023 --clear-groups /bin/sh -c '
+  "$GUEST" "$ROOT" generic quiet -- /usr/bin/setpriv --reuid=1023 --regid=1023 --clear-groups /bin/sh -c '
     PATH=/usr/bin:/bin; export PATH
     umask 002
     stage=/roms/.andr36oid-darkosen-stage-$1
@@ -573,7 +601,7 @@ bind_core() {
   # A separate /dev keeps shm and hidden display nodes local to this container.
   # Binding Android's whole /dev would create /dev/shm on the host as well.
   mount -t tmpfs -o mode=0755,nosuid tmpfs "$ROOT/dev" || return 1
-  track_mount "$ROOT/dev"
+  track_mount "$ROOT/dev" || return 1
   for n in null zero full random urandom tty ptmx; do
     add_dev "$n" || return 1
   done
@@ -602,18 +630,18 @@ bind_core() {
   ln -s /proc/self/fd/2 "$ROOT/dev/stderr"
   mkdir -p "$ROOT/dev/shm"
   mount -t tmpfs -o mode=1777,nosuid,nodev tmpfs "$ROOT/dev/shm" || return 1
-  track_mount "$ROOT/dev/shm"
+  track_mount "$ROOT/dev/shm" || return 1
   bind_mount /proc "$ROOT/proc" || return 1
   mount -t sysfs -o ro,nosuid,nodev,noexec sysfs "$ROOT/sys" || return 1
-  track_mount "$ROOT/sys"
+  track_mount "$ROOT/sys" || return 1
   mkdir -p "$ROOT/dev/pts"
   mount -t devpts -o newinstance,ptmxmode=0666,mode=0620 devpts "$ROOT/dev/pts" || return 1
-  track_mount "$ROOT/dev/pts"
+  track_mount "$ROOT/dev/pts" || return 1
   rm -f "$ROOT/dev/ptmx"; ln -s pts/ptmx "$ROOT/dev/ptmx"
   mount -t tmpfs -o mode=0755,nosuid,nodev tmpfs "$ROOT/run" || return 1
-  track_mount "$ROOT/run"
+  track_mount "$ROOT/run" || return 1
   mount -t tmpfs -o mode=1777,nosuid,nodev tmpfs "$ROOT/tmp" || return 1
-  track_mount "$ROOT/tmp"
+  track_mount "$ROOT/tmp" || return 1
 }
 
 # Kill everything running inside the subsystem (EmulationStation and whatever it
@@ -696,21 +724,23 @@ restore_android() {
   [ "$SESSION_OWNED" = 1 ] || return 0
   # Invalidate ownership and reap the watchdog before touching the shared codec
   # or restarting Android. This path is shared by EXIT and guardian recovery.
-  stop_mute_guard
   CLEANUP_FAILED=0
-  kill_subsystem || CLEANUP_FAILED=1
+  local codec_unsafe=0
+  stop_mute_guard || { CLEANUP_FAILED=1; codec_unsafe=1; }
+  kill_subsystem || { CLEANUP_FAILED=1; codec_unsafe=1; }
   prepare_retroarch_sync
-  if [ -f "$STATE/session.hw-master" ]; then
-    /system/bin/tinymix -D 0 "Playback Hardware Master Switch" 0 >/dev/null 2>&1 ||
-      log "hardware master switch could not be restored"
-    rm -f "$STATE/session.hw-master"
+  if [ "$CLEANUP_FAILED" = 0 ] && [ "$DID_HANDOFF" = 1 ] && [ -f "$STATE/session.gamma" ]; then
+    # Recovery can run after Android has reacquired DRM. Re-establish exclusive
+    # display ownership before consuming a retained gamma snapshot.
+    stop_android_display || { CLEANUP_FAILED=1; log "pending gamma: display handoff failed"; }
   fi
   if [ "$CLEANUP_FAILED" = 0 ]; then
     restore_guest_hardware || CLEANUP_FAILED=1
   fi
   local b tries
-  # Newest first, including partially prepared sessions and paths with spaces.
+  # Newest first. Atomic journal replacement preserves this reader's inode.
   if [ -f "$STATE/session.mounts" ]; then
+    BOUND=$(cat "$STATE/session.mounts")
     while IFS= read -r b; do
       [ -n "$b" ] || continue
       tries=0
@@ -720,21 +750,29 @@ restore_android() {
         if [ "$tries" -ge 3 ]; then CLEANUP_FAILED=1; log "mount still busy: $b"; break; fi
         sleep 1; tries=$((tries+1))
       done
+      if ! awk -v p="$b" '{gsub(/\\040/," ",$2); gsub(/\\011/,"\t",$2)} $2==p {f=1} END {exit !f}' /proc/mounts; then
+        forget_mount "$b" || CLEANUP_FAILED=1
+      fi
     done < "$STATE/session.mounts"
   fi
-  if [ -n "$LOOPDEV" ]; then
-    if ! losetup -d "$LOOPDEV" 2>/dev/null && [ -r "/sys/class/block/${LOOPDEV##*/}/loop/backing_file" ]; then
-      CLEANUP_FAILED=1; log "loop still busy: $LOOPDEV"
-    fi
-  fi
+  release_session_loop || { CLEANUP_FAILED=1; log "could not release owned session loop"; }
+
   if [ "$CLEANUP_FAILED" = 0 ] && [ -n "$RA_SYNC_DIR" ]; then
     printf '%s\n' "$RA_SYNC_DIR" > "$STATE/retroarch-sync-dir.tmp" &&
       mv -f "$STATE/retroarch-sync-dir.tmp" "$STATE/retroarch-sync-dir"
   fi
   if [ "$DID_HANDOFF" = 1 ]; then
     show_splash
-    setprop ctl.start "$HWC" 2>/dev/null; sleep 1
-    setprop ctl.start surfaceflinger 2>/dev/null; start 2>/dev/null
+    setprop ctl.start "$HWC" 2>/dev/null || CLEANUP_FAILED=1
+    sleep 1
+    setprop ctl.start surfaceflinger 2>/dev/null || CLEANUP_FAILED=1
+    if [ "$codec_unsafe" = 0 ] && [ ! -f "$STATE/session.mixer" ]; then
+      start 2>/dev/null || CLEANUP_FAILED=1
+    else
+      # A stuck codec worker or guest may still have an in-flight audio ioctl.
+      # Recover the display, but leave Android audio stopped until recovery.
+      log "display recovery requested; audio/framework restart withheld until cleanup succeeds"
+    fi
   fi
   return 0
 }
@@ -754,7 +792,7 @@ recover_session() {
   local held=${OPERATION_LOCKED:-0} rc=0
   [ "$held" = 1 ] || acquire_operation recover || return 1
   recover_session_locked "$@" || rc=$?
-  [ "$held" = 1 ] || release_operation
+  if [ "$held" != 1 ]; then operation_done "$rc"; release_operation; fi
   return "$rc"
 }
 recover_session_locked() {
@@ -764,18 +802,28 @@ recover_session_locked() {
   if [ "$(cat "$STATE/session.lock/boot_id" 2>/dev/null)" != "$(cat /proc/sys/kernel/random/boot_id)" ]; then
     # /data survives reboot, mounts and PIDs do not. Never detach a loop or kill
     # a recycled PID from a previous boot based on its old metadata.
-    rm -f "$STATE/session.mixer" "$STATE/session.gamma" "$STATE/session.brightness" "$STATE/session.loop" "$STATE/session.handoff" "$STATE/session.mounts" "$STATE/session.fifo" "$STATE/session.hw-master" "$MUTE_PIDFILE" "$STATE/mute-guard.owner" "$STATE/session.lock/pid" "$STATE/session.lock/boot_id" "$STATE/session.lock/start_time"
-    rmdir "$STATE/session.lock" 2>/dev/null
+    if ! rm -f "$STATE/session.mixer" "$STATE/session.gamma" "$STATE/session.brightness" "$STATE/session.loop" "$STATE/session.handoff" "$STATE/session.mounts" "$STATE/session.fifo" "$STATE/session.hw-master" "$MUTE_PIDFILE" "$STATE/mute-guard.owner" "$STATE/session.lock/pid" "$STATE/session.lock/boot_id" "$STATE/session.lock/start_time" ||
+       ! rmdir "$STATE/session.lock" 2>/dev/null; then
+      setprop sys.andr36oid.subsystem.session cleanup_failed 2>/dev/null
+      return 1
+    fi
+    setprop sys.andr36oid.subsystem.session ended 2>/dev/null
     return 0
   fi
   SESSION_OWNED=1
   [ -f "$STATE/session.handoff" ] && DID_HANDOFF=1
-  LOOPDEV=$(cat "$STATE/session.loop" 2>/dev/null)
+  LOOPDEV=$(awk '{print $1; exit}' "$STATE/session.loop" 2>/dev/null)
   restore_android
-  setprop sys.andr36oid.subsystem.session ended 2>/dev/null
-  [ "$CLEANUP_FAILED" = 0 ] || return 1
-  rm -f "$STATE/session.loop" "$STATE/session.handoff" "$STATE/session.mounts" "$STATE/session.fifo" "$STATE/session.lock/pid" "$STATE/session.lock/boot_id" "$STATE/session.lock/start_time"
-  rmdir "$STATE/session.lock" 2>/dev/null
+  if [ "$CLEANUP_FAILED" = 0 ]; then
+    if ! rm -f "$STATE/session.loop" "$STATE/session.handoff" "$STATE/session.mounts" "$STATE/session.fifo" "$STATE/session.lock/pid" "$STATE/session.lock/boot_id" "$STATE/session.lock/start_time" ||
+       ! rmdir "$STATE/session.lock" 2>/dev/null; then CLEANUP_FAILED=1; fi
+  fi
+  if [ "$CLEANUP_FAILED" = 0 ]; then
+    setprop sys.andr36oid.subsystem.session ended 2>/dev/null
+  else
+    setprop sys.andr36oid.subsystem.session cleanup_failed 2>/dev/null
+    return 1
+  fi
   SESSION_OWNED=0; DID_HANDOFF=0; LOOPDEV=""; BOUND=""
 }
 
@@ -822,12 +870,16 @@ finish_session() {
     exec 1>&3 2>&4 3>&- 4>&-
     wait "$TEE_PID"
   fi
-  setprop sys.andr36oid.subsystem.session ended 2>/dev/null
   setprop sys.andr36oid.subsystem.boot_pending "" 2>/dev/null
   update_settings_entry org.andr36oid.syncsettings
   if [ "$CLEANUP_FAILED" = 0 ]; then
-    rm -f "$STATE/session.loop" "$STATE/session.handoff" "$STATE/session.mounts" "$STATE/session.fifo" "$STATE/session.lock/pid" "$STATE/session.lock/boot_id" "$STATE/session.lock/start_time"
-    rmdir "$STATE/session.lock" 2>/dev/null
+    if ! rm -f "$STATE/session.loop" "$STATE/session.handoff" "$STATE/session.mounts" "$STATE/session.fifo" "$STATE/session.lock/pid" "$STATE/session.lock/boot_id" "$STATE/session.lock/start_time" ||
+       ! rmdir "$STATE/session.lock" 2>/dev/null; then CLEANUP_FAILED=1; rc=1; fi
+  fi
+  if [ "$CLEANUP_FAILED" = 0 ]; then
+    setprop sys.andr36oid.subsystem.session ended 2>/dev/null
+  else
+    setprop sys.andr36oid.subsystem.session cleanup_failed 2>/dev/null
   fi
   operation_done "$rc"
   release_operation
@@ -872,33 +924,48 @@ show_splash() {
   return 0
 }
 
+# Require init's terminal state; "stopping" precedes process exit.
+wait_service_stopped() {
+  local service="$1" state tries=0
+  while :; do
+    state=$(getprop "init.svc.$service")
+    case "$state" in
+      stopped) return 0 ;;
+      '') [ "${2:-required}" = optional ] && return 0 ;;
+    esac
+    [ "$tries" -lt 100 ] || { log "service did not stop: $service ($state)"; return 1; }
+    sleep 0.1; tries=$((tries+1))
+  done
+}
+stop_android_display() {
+  stop surfaceflinger || return 1
+  wait_service_stopped surfaceflinger || return 1
+  setprop ctl.stop "$HWC" || return 1
+  wait_service_stopped "$HWC" || return 1
+  # SET_MASTER succeeds only when the old DRM owner has released card0. The
+  # probe closes its descriptor before the guest or gamma restore opens card0.
+  "$GUEST" --check-drm || { log "DRM master still held; refusing display admission"; return 1; }
+}
+
 # --- the handoff --------------------------------------------------------------
 handoff() {
-  # Mark before the first stop, so even an interrupted handoff is restored.
-  : > "$STATE/session.handoff"; DID_HANDOFF=1
-  local service
+  : > "$STATE/session.handoff" || return 1
+  DID_HANDOFF=1
+  local service state
   log "stop framework (keep netd and Android's connection)"
-  # toolbox `stop` without arguments also stops netd. Keep it alive so its
-  # interfaces, policy routing and DNS state remain available to the chroot.
-  # joyMouse (class main) grabs the gamepad (EVIOCGRAB on event3) to drive Android's
-  # pointer; left running through a handoff it starves ES/RetroArch of the pad, so the
-  # session looks alive but takes no input. Stop it here; the bare `start` in
-  # restore_android brings every class-main service, joyMouse included, back afterwards.
-  for service in zygote zygote_secondary surfaceflinger audioserver iorapd joyMouse; do
-    case "$(getprop "init.svc.$service")" in running|restarting) stop "$service" ;; esac
+  for service in zygote zygote_secondary audioserver iorapd joyMouse; do
+    state=$(getprop "init.svc.$service")
+    case "$state" in ''|stopped) ;; *) stop "$service" || return 1 ;; esac
   done
-  i=0; while [ "$(getprop init.svc.surfaceflinger)" = running ] && [ "$i" -lt 10 ]; do sleep 1; i=$((i+1)); done
-  log "stop composer"; setprop ctl.stop "$HWC"
-  i=0; while [ "$(getprop "init.svc.$HWC")" = running ] && [ "$i" -lt 10 ]; do sleep 1; i=$((i+1)); done
-  show_splash   # logo over the blank gap until the port grabs card0
-  # Keep adbd up for the whole subsystem session so the session stays remotely
-  # reachable (watch logs, kill a stuck port, reboot) with nobody at the device.
-  # adbd is its own init service and `stop` above does not kill it, but make it
-  # explicit. DEBUG ONLY: forcing adbd up is a test convenience, never on a
-  # release build - end users should not have adb forced on during a game. These
-  # images are userdebug even for release, so gate on ro.andr36oid.channel (set
-  # from the build kind): night/beta keep it, release drops it.
+  # Optional services may not be defined on every product. If present, wait
+  # through stopping/restarting as well as running, especially for input/audio.
+  for service in zygote zygote_secondary audioserver iorapd joyMouse; do
+    wait_service_stopped "$service" optional || return 1
+  done
+  stop_android_display || return 1
+  show_splash
   case "$(getprop ro.andr36oid.channel)" in release|'') : ;; *) start adbd 2>/dev/null ;; esac
+  return 0
 }
 
 
@@ -1014,7 +1081,7 @@ prep_darkos_env() {
   # to confirm the actual failing dmix semaphore call and its errno/ownership.
   # Use chroot for /var paths: many rootfs images use absolute /var/run symlinks.
   if root_file "$ROOT" /bin/sh; then
-    "$CHROOT" "$ROOT" /bin/sh -c '
+    "$GUEST" "$ROOT" generic quiet -- /bin/sh -c '
     export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
     mkdir -p /tmp/alsa /run/alsa /run/lock/alsa /var/lib/alsa /var/cache/alsa
     chmod 1777 /tmp /tmp/alsa /dev/shm /run/alsa /run/lock /run/lock/alsa /var/lib/alsa /var/cache/alsa
@@ -1173,7 +1240,10 @@ boot_subsystem_session() {
 # Verify the required route and every present volume alias on admission and
 # throughout the session; a failing codec must not admit an audible payload.
 MUTE_PIDFILE="$STATE/mute-guard.pid"
-subsystem_muted() { [ "$(getprop persist.andr36oid.subsystem.mute 2>/dev/null)" = 1 ]; }
+subsystem_muted() {
+  # One immutable admission decision drives the marker, filter and watchdog.
+  [ "${SESSION_MUTED:-$(getprop persist.andr36oid.subsystem.mute 2>/dev/null)}" = 1 ]
+}
 mute_all_once() {
   local control value failed=0
   for control in "Playback Path" "Master Playback Volume" "Playback Volume"; do
@@ -1223,6 +1293,12 @@ mute_guard_owned() {
 # A mixer stalled during TERM must not complete a late mute after restoration.
 # Freeze each parent before walking its children, so it cannot spawn another
 # mixer/frontend between the sweep and its own termination.
+# One shared deadline covers the entire tree, including blocked descendants.
+process_deadline_reached() {
+  local uptime rest
+  read -r uptime rest < /proc/uptime
+  [ "${uptime%%.*}" -ge "$MUTE_KILL_DEADLINE" ]
+}
 freeze_process() {
   local pid="$1" stamp="$2"
   [ "$(process_start_time "$pid")" = "$stamp" ] || return 1
@@ -1232,50 +1308,75 @@ freeze_process() {
       *') T '*|*') t '*) return 0 ;;
       *') Z '*|*') X '*|'') return 1 ;;
     esac
+    process_deadline_reached && return 1
     sleep 0.1
   done
   return 1
 }
 kill_process_children() {
-  local parent="$1" p stat child stamp
-  for p in /proc/[0-9]*; do
-    stat=$(cat "$p/stat" 2>/dev/null) || continue
-    # Kernel stat fields after comm contain no glob characters.
-    # shellcheck disable=SC2086
-    set -- ${stat##*) }
-    [ "${2:-}" = "$parent" ] || continue
-    child=${p#/proc/}
-    stamp=${20}
-    if freeze_process "$child" "$stamp"; then
-      kill_process_children "$child"
-      kill -9 "$child" 2>/dev/null || :
-      while [ "$(process_start_time "$child")" = "$stamp" ]; do
-        case "$(cat "/proc/$child/stat" 2>/dev/null)" in *') Z '*|*') X '*|'') break ;; esac
-        sleep 0.1
-      done
+  local parent="$1" p stat child stamp failed=0 children=""
+  if [ -r "/proc/$parent/task/$parent/children" ]; then
+    # The worker and its mixer children are single-threaded. A frozen parent
+    # cannot fork, and this avoids an expensive whole-host scan per descendant.
+    read -r children < "/proc/$parent/task/$parent/children" || :
+  else
+    for p in /proc/[0-9]*; do
+      process_deadline_reached && return 1
+      IFS= read -r stat < "$p/stat" 2>/dev/null || continue
+      set -- ${stat##*) }
+      [ "${2:-}" != "$parent" ] || children="$children ${p#/proc/}"
+    done
+  fi
+  for child in $children; do
+    stamp=$(process_start_time "$child") || continue
+    if ! freeze_process "$child" "$stamp"; then
+      case "$(cat "/proc/$child/stat" 2>/dev/null)" in *') Z '*|*') X '*|'') continue ;; esac
+      [ "$(process_start_time "$child")" != "$stamp" ] || failed=1
+      continue
     fi
+    if ! kill_process_children "$child"; then failed=1; continue; fi
+    kill -9 "$child" 2>/dev/null || :
+    while [ "$(process_start_time "$child")" = "$stamp" ]; do
+      case "$(cat "/proc/$child/stat" 2>/dev/null)" in *') Z '*|*') X '*|'') break ;; esac
+      if process_deadline_reached; then failed=1; break; fi
+      sleep 0.1
+    done
   done
+  return "$failed"
 }
 kill_tracked_tree() {
-  local pid="$1" stamp="$2" boot="$3"
+  local pid="$1" stamp="$2" boot="$3" uptime rest
+  read -r uptime rest < /proc/uptime
+  MUTE_KILL_DEADLINE=$(( ${uptime%%.*} + 4 ))
   recorded_process_alive "$pid" "$stamp" "$boot" || return 0
-  freeze_process "$pid" "$stamp" || return 0
-  kill_process_children "$pid"
+  if ! freeze_process "$pid" "$stamp"; then
+    recorded_process_alive "$pid" "$stamp" "$boot" && return 1
+    return 0
+  fi
+  # Keep a frozen parent alive if a child cannot be reaped. Its descendants
+  # stay discoverable on retry instead of becoming unjournaled PID-1 orphans.
+  kill_process_children "$pid" || return 1
   recorded_process_alive "$pid" "$stamp" "$boot" && kill -KILL "$pid" 2>/dev/null || :
-  # An uninterruptible ioctl must finish before the shared codec is restored.
-  while recorded_process_alive "$pid" "$stamp" "$boot"; do sleep 0.1; done
+  while recorded_process_alive "$pid" "$stamp" "$boot"; do
+    process_deadline_reached && return 1
+    sleep 0.1
+  done
 }
 stop_mute_guard() {
   local pid stamp boot extra
   rm -f "$STATE/mute-guard.owner"
   if [ -r "$MUTE_PIDFILE" ] && read -r pid stamp boot extra < "$MUTE_PIDFILE" 2>/dev/null &&
      [ -z "$extra" ] && recorded_process_alive "$pid" "$stamp" "$boot"; then
-    kill_tracked_tree "$pid" "$stamp" "$boot"
+    if ! kill_tracked_tree "$pid" "$stamp" "$boot"; then
+      log "mute worker did not stop; retaining identity and codec snapshots; reboot may be required"
+      return 1
+    fi
     wait "$pid" 2>/dev/null || :
   fi
   rm -f "$MUTE_PIDFILE" "$MUTE_PIDFILE.tmp" "$STATE/mute-guard.ready" \
     "$STATE/mute-guard.failed" "$STATE/mute-guard.controls" "$STATE/mute-guard.value" "$STATE/mute-guard.error"
 }
+
 start_mute_guard() {
   { [ "$HANDOFF" = 1 ] && subsystem_muted; } || return 0
   command -v tinymix >/dev/null 2>&1 || { log "NIGHT MUTE requested but tinymix is missing; refusing session"; return 1; }
@@ -1284,7 +1385,7 @@ start_mute_guard() {
   owner_start=$(process_start_time "$owner_pid") || return 1
   owner_boot=$(cat /proc/sys/kernel/random/boot_id) || return 1
   owner="$owner_pid $owner_start $owner_boot"
-  stop_mute_guard
+  stop_mute_guard || return 1
   printf '%s\n' "$owner" > "$STATE/mute-guard.owner" || return 1
   (
     # Do not hold the session FIFO (or the saved console descriptors) open.
@@ -1330,7 +1431,8 @@ start_mute_guard() {
   if ! stamp=$(process_start_time "$pid") ||
      ! printf '%s %s %s\n' "$pid" "$stamp" "$owner_boot" > "$MUTE_PIDFILE.tmp" ||
      ! mv -f "$MUTE_PIDFILE.tmp" "$MUTE_PIDFILE"; then
-    kill "$pid" 2>/dev/null || :; wait "$pid" 2>/dev/null || :
+    # No mixer operation can start before publication. Bound this failure too.
+    [ -z "${stamp:-}" ] || kill_tracked_tree "$pid" "$stamp" "$owner_boot" || :
     stop_mute_guard; return 1
   fi
   identity="$pid $stamp $owner_boot"
@@ -1571,9 +1673,9 @@ case "$cmd" in
   scan) scan_images; exit 0 ;;
   stop-prop)
     [ "$(getprop sys.andr36oid.subsystem.request)" = stop ] && setprop sys.andr36oid.subsystem.request ""
-    stop_session; exit 0 ;;
-  stop) stop_session; exit 0 ;;
-  recover) recover_session "$arg"; exit 0 ;;
+    rc=0; stop_session || rc=$?; operation_done "$rc"; exit "$rc" ;;
+  stop) stop_session; exit $? ;;
+  recover) recover_session "$arg"; exit $? ;;
   launch-prop)
     req=$(getprop sys.andr36oid.subsystem.request)
     [ "$req" = run ] || exit 0
@@ -1619,6 +1721,8 @@ setprop sys.andr36oid.subsystem.session running
 log "subsystem $cmd arg=$arg handoff=$HANDOFF image=${IMAGE:-default}"
 case "$HANDOFF" in 0|1) : ;; *) log "handoff must be 0 or 1"; exit 2 ;; esac
 case "$IMAGE" in ''|/*) : ;; *) log "rootfs image path must be absolute"; exit 2 ;; esac
+SESSION_MUTED=$(getprop persist.andr36oid.subsystem.mute 2>/dev/null)
+[ "$SESSION_MUTED" = 1 ] || SESSION_MUTED=0
 arm_guardian
 mount_rootfs || { log "cannot prepare eligible rootfs"; exit 1; }
 fix_exec_bits
@@ -1638,7 +1742,7 @@ if [ -z "$IMAGE" ] && ! "$GUEST" --probe; then
   log "native input ABI unavailable: install the matching andr36oid kernel"; exit 1
 fi
 prepare_guest_hardware || exit 1
-if [ "$HANDOFF" = 1 ]; then handoff; else log "no handoff: Android stays up; display devices hidden"; fi
+if [ "$HANDOFF" = 1 ]; then handoff || exit 1; else log "no handoff: Android stays up; display devices hidden"; fi
 # Muted handoffs perform this setup inside the recorded worker as well.
 if [ "$HANDOFF" = 1 ] && ! subsystem_muted; then enable_hardware_master; fi
 start_mute_guard || exit 1

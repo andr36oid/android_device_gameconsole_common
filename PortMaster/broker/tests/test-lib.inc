@@ -93,6 +93,7 @@ trap 'exit 1' HUP INT TERM
 restore_guest_hardware() { :; }
 release_operation() { :; }
 operation_done() { :; }
+release_session_loop() { LOOPDEV=; }
 
 IMAGE=/fixture
 prepare_guest_hardware() { :; }

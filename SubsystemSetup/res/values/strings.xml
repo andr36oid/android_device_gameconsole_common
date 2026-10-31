@@ -112,6 +112,8 @@
   <string name="subsystem_session_starting">Starting Linux… Waiting for the subsystem service.</string>
   <string name="subsystem_session_running">Linux is running</string>
   <string name="subsystem_provisioning">Setting up dArkOSen…</string>
+  <string name="subsystem_cleanup_failed">Linux cleanup failed. Recovery or a reboot is required; see the session log.</string>
+  <string name="asl_recover">Retry Linux cleanup</string>
   <string name="subsystem_session_ended">Linux session ended</string>
   <string name="subsystem_session_idle">No active Linux session · Showing the latest boot log</string>
   <string name="subsystem_session_timeout">The service has not reported a running session. Check the boot log and your image before trying again.</string>

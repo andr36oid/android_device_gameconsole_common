@@ -20,6 +20,14 @@ mock_tinymix() {
     printf '%s\n' "$*" >> "$tmp/restored"
   fi
 }
+GUEST=capture_helper
+capture_helper() {
+  [ "$1" = --capture-mixer ] || return 1
+  for control in 'Playback Path' 'Master Playback Volume' 'Playback Volume' 'Playback Hardware Master Switch'; do
+    value=$(mock_tinymix -D 0 -v "$control") || return 1
+    printf '%s\t%s\n' "$control" "$value"
+  done
+}
 capture_guest_mixer
 cp "$STATE/session.mixer" "$tmp/original-mixer"
 capture_fail=1

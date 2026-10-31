@@ -327,12 +327,19 @@ int main(int argc,char **argv) {
         if (prctl(PR_SET_PDEATHSIG,SIGKILL)) die("parent-death signal");
         require(getppid()==parent,"worker exited before child started");
         execv(argv[2],argv+2); die("exec worker child");
-    } else if ((!strcmp(cmd,"detach-owned") || !strcmp(cmd,"loop-owned")) && argc==6) {
+    } else if ((!strcmp(cmd,"detach-owned") || !strcmp(cmd,"loop-owned") || !strcmp(cmd,"retire-owned")) && argc==6) {
         int fd=open(argv[2],O_RDONLY|O_CLOEXEC); if (fd<0) die("owned loop");
         struct loop_info64 info;
-        if (ioctl(fd,LOOP_GET_STATUS64,&info)) die("loop status");
+        if (ioctl(fd,LOOP_GET_STATUS64,&info)) {
+            if (!strcmp(cmd,"retire-owned") && errno==ENXIO) {close(fd);return 0;}
+            die("loop status");
+        }
+        if (!strcmp(cmd,"retire-owned") &&
+            (info.lo_device!=number(argv[3]) || info.lo_inode!=number(argv[4]) || info.lo_offset!=number(argv[5]) || !(info.lo_flags&LO_FLAGS_READ_ONLY))) {
+            close(fd);return 0; /* Recycled loop: leave its new owner alone. */
+        }
         require(info.lo_device==number(argv[3]) && info.lo_inode==number(argv[4]) && info.lo_offset==number(argv[5]) && (info.lo_flags&LO_FLAGS_READ_ONLY),"loop ownership");
-        if (!strcmp(cmd,"detach-owned") && ioctl(fd,LOOP_CLR_FD,0)) die("detach owned loop");
+        if (strcmp(cmd,"loop-owned") && ioctl(fd,LOOP_CLR_FD,0)) die("detach owned loop");
         close(fd);
     } else { errno=EINVAL; die("unknown command/arguments"); }
     return 0;

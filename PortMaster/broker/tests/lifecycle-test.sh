@@ -1,7 +1,7 @@
 #!/bin/sh
 set -eu
 . "$(dirname "$0")/test-lib.inc"
-load_functions process_start_time recorded_process_alive freeze_process kill_process_children kill_tracked_tree \
+load_functions process_start_time recorded_process_alive process_deadline_reached freeze_process kill_process_children kill_tracked_tree \
   watch_session_markers run_session_payload run_es_wrapper run_session \
   session_uses_init install_systemctl_shim
 SESSION_OUT="$tmp/session.out"
@@ -201,7 +201,7 @@ case ${1:-all} in all|reboot)
 case ${1:-all} in all|happy)
   # Preserve the hardware-proven wrapper+handoff contract with Android/mixer
   # calls mocked: initial codec mute, ES-driven poweroff, then Android restoration.
-  load_functions process_start_time recorded_process_alive mute_guard_owned freeze_process kill_process_children kill_tracked_tree \
+  load_functions process_start_time recorded_process_alive mute_guard_owned process_deadline_reached freeze_process kill_process_children kill_tracked_tree \
     stop_mute_guard subsystem_muted mute_all_once start_mute_guard prepare_session_policy \
     start_live_log finish_session restore_android
   cmd=start; HANDOFF=1; SESSION_MODE=wrapper; DID_HANDOFF=1; HWC=test-composer

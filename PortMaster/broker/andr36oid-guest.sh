@@ -59,11 +59,37 @@ select_image() {
   release_operation; trap - EXIT
   scan_images
 }
+# Native buttonmon historically uses alias existence to select event2. Append
+# an override after its function definitions: queries expand event_num at call
+# time. Resolve the actual alias, including multi-digit event numbers.
+repair_native_buttonmon() {
+  local helper staging
+  helper=$(root_path "$ROOT" /usr/local/bin/buttonmon.sh) || return 1
+  [ -f "$helper" ] || return 0
+  grep -q '^# andr36oid native pad alias v1$' "$helper" && return 0
+  staging=$(mktemp "${helper%/*}/.a36-buttonmon.XXXXXX") || return 1
+  cp -p "$helper" "$staging" || { rm -f "$staging"; return 1; }
+  cat >> "$staging" <<'A36_BUTTONMON'
+
+# andr36oid native pad alias v1
+a36_pad_alias=/dev/input/by-path/platform-odroidgo3-joypad-event-joystick
+if [ -e "$a36_pad_alias" ]; then
+  a36_pad_node=$(readlink -f "$a36_pad_alias") || return 1
+  case "$a36_pad_node" in /dev/input/event*) ;; *) return 1 ;; esac
+  a36_pad_number=${a36_pad_node#/dev/input/event}
+  case "$a36_pad_number" in ''|*[!0-9]*) return 1 ;; esac
+  event_num=$a36_pad_number
+fi
+unset a36_pad_alias a36_pad_node a36_pad_number
+A36_BUTTONMON
+  mv -f "$staging" "$helper" || { rm -f "$staging"; return 1; }
+}
 prime_native_input() {
   # Upstream contains two competing GO profiles, one with invalid axes/button A.
   # Correct that default defect AFTER supplying its native kernel ABI. No emulator-
   # wide numeric rewrites, launch-script patches or SDL override environment.
   [ -z "$IMAGE" ] || return 0
+  repair_native_buttonmon || return 1
   local dir cfg
   for dir in "$ROOT/home/ark/.config/retroarch/autoconfig/udev" "$ROOT/home/ark/.config/retroarch32/autoconfig/udev"; do
     dir=$(root_path "$ROOT" "${dir#"$ROOT"}") || return 1
@@ -197,16 +223,11 @@ run_in_subsystem() {
 
 # Preserve the Android mixer controls touched by the guest and handoff broker.
 capture_guest_mixer() {
-  local control value
-  : > "$STATE/session.mixer.tmp" || return 1
-  for control in "Playback Path" "Master Playback Volume" "Playback Volume" "Playback Hardware Master Switch"; do
-    if ! value=$(tinymix -D 0 -v "$control" 2>/dev/null) ||
-       ! printf '%s\t%s\n' "$control" "$value" >> "$STATE/session.mixer.tmp"; then
-      log "could not capture $control; refusing hardware handoff"
-      rm -f "$STATE/session.mixer.tmp"
-      return 1
-    fi
-  done
+  if ! "$GUEST" --capture-mixer > "$STATE/session.mixer.tmp"; then
+    log "could not capture validated mixer scalars; refusing hardware handoff"
+    rm -f "$STATE/session.mixer.tmp"
+    return 1
+  fi
   mv "$STATE/session.mixer.tmp" "$STATE/session.mixer"
 }
 restore_guest_mixer() {
@@ -226,7 +247,7 @@ restore_guest_mixer() {
     esac
   done < "$STATE/session.mixer"
   [ "$failed" = 0 ] || return 1
-  rm -f "$STATE/session.mixer"
+  rm -f "$STATE/session.mixer" "$STATE/session.hw-master"
 }
 
 # Only brightness is delegated writable sysfs; governors, regulators and block
@@ -242,7 +263,7 @@ prepare_guest_hardware() {
     real=$(readlink -f "$node") || return 1
     printf '%s %s\n' "$real" "$(cat "$node")" >> "$STATE/session.brightness"
     "$GUEST" --bind "$real" "$ROOT$real" || return 1
-    track_mount "$ROOT$real"
+    track_mount "$ROOT$real" || return 1
   done
 }
 restore_guest_hardware() {

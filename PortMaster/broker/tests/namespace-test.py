@@ -36,12 +36,16 @@ int main(int argc,char **argv) {
  assert(kill(helper,0)==0);kill(helper,SIGTERM);waitpid(helper,&status,0);
  return 0;
  }
+ // The broker must not pass a host directory FD through the chroot.
+ errno=0;assert(fcntl(55,F_GETFD)==-1 && errno==EBADF);
  // A wrapper script and the ES binary both have comm=emulationstatio.
  assert(getppid()==1);
  char host[64];assert(!gethostname(host,sizeof(host)));assert(!strcmp(host,"andr36oid-linux"));
  struct __user_cap_header_struct h={.version=_LINUX_CAPABILITY_VERSION_3};struct __user_cap_data_struct c[2];assert(!syscall(SYS_capget,&h,c));
- int deny[]={CAP_SYS_ADMIN,CAP_SYS_MODULE,CAP_SYS_BOOT,CAP_SYS_RAWIO,CAP_SYS_TIME,CAP_NET_ADMIN,CAP_MKNOD};
- for(unsigned i=0;i<sizeof(deny)/sizeof(*deny);i++) {assert(!(c[deny[i]/32].effective&(1U<<(deny[i]%32))));assert(prctl(PR_CAPBSET_READ,deny[i])==0);}
+ int deny[]={CAP_SYS_ADMIN,CAP_SYS_MODULE,CAP_SYS_BOOT,CAP_SYS_RAWIO,CAP_SYS_TIME,CAP_NET_ADMIN,CAP_MKNOD,CAP_SYS_CHROOT,CAP_SYS_PTRACE,CAP_SETPCAP,CAP_DAC_READ_SEARCH,CAP_NET_RAW};
+ for(unsigned i=0;i<sizeof(deny)/sizeof(*deny);i++) {assert(!((c[deny[i]/32].effective|c[deny[i]/32].permitted|c[deny[i]/32].inheritable)&(1U<<(deny[i]%32))));assert(prctl(PR_CAPBSET_READ,deny[i])==0);}
+ assert(prctl(PR_GET_NO_NEW_PRIVS,0,0,0,0)==1);
+ errno=0;assert(chroot("/")==-1 && errno==EPERM);
  errno=0;int fd=open("/proc/sys/kernel/hostname",O_WRONLY);fprintf(stderr,"readonly control: fd=%d errno=%d\n",fd,errno);assert(fd<0 && (errno==EROFS || errno==EACCES || errno==EPERM));
 
  assert(!prctl(PR_SET_NAME,"emulationstatio"));
@@ -77,7 +81,9 @@ int main(int argc,char **argv) {
   raise AssertionError('timeout')
  for mode in ['exit','term','parent-death']:
   (root/'ready').unlink(missing_ok=True)
-  p=subprocess.Popen([str(b/'guest'),str(root),'generic','quiet','--','/payload','exit' if mode=='exit' else 'wait'])
+  sentinel=os.open('/',os.O_RDONLY);os.dup2(sentinel,55);os.close(sentinel)
+  p=subprocess.Popen([str(b/'guest'),str(root),'generic','quiet','--','/payload','exit' if mode=='exit' else 'wait'],pass_fds=(55,))
+  os.close(55)
   try:
    wait_for(lambda:(root/'ready').exists() or p.poll() is not None)
    assert (root/'ready').exists(),p.poll()

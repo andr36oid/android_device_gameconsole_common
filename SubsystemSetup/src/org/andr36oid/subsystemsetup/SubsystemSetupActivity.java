@@ -105,7 +105,7 @@ public class SubsystemSetupActivity extends Activity {
                 images.clear();images.addAll(found);log=boot;optLog=optimization;version=ver;overlays=used;
                 ready=isReady();available="1".equals(get(P+"image"));operation=get(P+"operation");state=get(P+"session");resolved=get(P+"resolved");check=get(P+"resolve_state");
                 busy=!operation.isEmpty() || "running".equals(state);
-                boolean stopAllowed="running".equals(state)&&!"1".equals(get(P+"provisioning"));
+                boolean stopAllowed=("running".equals(state)||"cleanup_failed".equals(state))&&!"1".equals(get(P+"provisioning"));
                 boolean stopChanged=canStop!=stopAllowed;canStop=stopAllowed;
                 if(pending && (busy || !requestSeq.equals(get(P+"done_seq")))) pending=false;
                 String completed=get(P+"done_seq");
@@ -116,6 +116,7 @@ public class SubsystemSetupActivity extends Activity {
                 }
                 if(pending && SystemClock.elapsedRealtime()-requestedAt>30000) {pending=false;toast(R.string.asl_failed);}
                 updateLauncher(this);
+                if ("cleanup_failed".equals(state)) page="health";
                 String next=busy||pending?"busy":!available?"missing":!ready?"setup":"dashboard";
                 // A fast scan may complete between polls without changing route.
                 // Rebuild only when controls change, preserving focus on idle polls.
@@ -195,7 +196,11 @@ public class SubsystemSetupActivity extends Activity {
             int[] labels={R.string.asl_sync_favorite,R.string.asl_sync_playcount,R.string.asl_sync_lastplayed,R.string.asl_sync_desc,R.string.asl_sync_art,R.string.asl_sync_ra};
             for(int i=0;i<fields.length;i++)toggle(labels[i],"persist.andr36oid.sync."+fields[i],i!=5);break;
         case "health":
-            title.setText(R.string.asl_health);body.setText(R.string.asl_native_help);live=text(extra,"");break;
+            title.setText(R.string.asl_health);
+            body.setText("cleanup_failed".equals(state)?R.string.subsystem_cleanup_failed:R.string.asl_native_help);
+            live=text(extra,"");
+            if ("cleanup_failed".equals(state)) button(R.string.asl_recover,()->request("stop"));
+            break;
         case "storage":
             title.setText(R.string.asl_storage);body.setText(R.string.asl_shared);live=text(extra,"");
             button(R.string.asl_optimize,()->open("optimize"));break;

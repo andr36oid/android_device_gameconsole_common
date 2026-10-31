@@ -207,7 +207,7 @@ public class AdvancedSetupActivity extends Activity {
                     if (running()) {
                         mSawRunning = true;
                         mPrefs.edit().putBoolean("launch_saw_running", true).apply();
-                    } else if ("ended".equals(snapshot.session)
+                    } else if (("ended".equals(snapshot.session) || "cleanup_failed".equals(snapshot.session))
                             && (mSawRunning || !snapshot.log.isEmpty())) {
                         clearPending();
                     } else if (!mSawRunning && SystemClock.elapsedRealtime() - mLaunchAt > START_TIMEOUT_MS) {
@@ -680,6 +680,7 @@ public class AdvancedSetupActivity extends Activity {
             int status = running() && mSnapshot.provisioning ? R.string.subsystem_provisioning
                     : running() ? R.string.subsystem_session_running : mPending || mWorking
                     ? R.string.subsystem_session_starting : mLaunchTimedOut ? R.string.subsystem_session_timeout
+                    : "cleanup_failed".equals(mSnapshot.session) ? R.string.subsystem_cleanup_failed
                     : "ended".equals(mSnapshot.session) ? R.string.subsystem_session_ended : R.string.subsystem_session_idle;
             setText(mConsoleStatus, getString(status));
             mProgress.setVisibility((mPending && !running()) || (running() && mSnapshot.provisioning)

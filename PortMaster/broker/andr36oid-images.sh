@@ -363,19 +363,24 @@ attach_lower() {
     fi
   fi
   LOOPDEV=$(losetup -f) || return 1
+  record_session_loop "$(field "$info" device)" "$(field "$info" inode)" "$offset" || return 1
   # Offset only: toybox -S truncates the 8.5 GB partition limit to 32 bits.
   losetup -r -o "$offset" "$LOOPDEV" "$path" || { LOOPDEV=; return 1; }
   if ! "$SUPPORT" loop-owned "$LOOPDEV" "$(field "$info" device)" "$(field "$info" inode)" "$offset"; then
     # Attachment succeeded but its backing file changed during resolution.
-    losetup -d "$LOOPDEV"; LOOPDEV=; return 1
+    release_session_loop || return 1; return 1
   fi
   local opts=ro
   [ "$format" = btrfs ] && opts=ro,nologreplay
   if ! mount -t "$format" -o "$opts" "$LOOPDEV" "$LOWER"; then
-    losetup -d "$LOOPDEV"; LOOPDEV=; return 1
+    release_session_loop || return 1; return 1
   fi
+  track_mount "$LOWER" || return 1
   if ! "$SUPPORT" metadata "$LOWER" >/dev/null; then
-    umount "$LOWER"; losetup -d "$LOOPDEV"; LOOPDEV=; return 1
+    umount "$LOWER" || return 1
+    forget_mount "$LOWER"
+    release_session_loop || return 1
+    return 1
   fi
   return 0
 }
@@ -398,6 +403,7 @@ mount_managed_rootfs() {
     mounted_probe=$("$SUPPORT" probe "$EFFECTIVE") || return 1
     [ "$EFFECTIVE_FORMAT" != btrfs ] || mounted_offset=$(field "$mounted_probe" offset)
     "$SUPPORT" loop-owned "$LOOPDEV" "$(field "$mounted_probe" device)" "$(field "$mounted_probe" inode)" "$mounted_offset" || return 1
+    record_session_loop "$(field "$mounted_probe" device)" "$(field "$mounted_probe" inode)" "$mounted_offset" || return 1
     MOUNTED=1; publish_resolution 1; return 0
   fi
   [ ! -d "$ROOT/usr/bin/emulationstation" ] || { log "unrecorded populated ROOT; use explicit A36_IMAGE directory diagnostic"; return 1; }
@@ -410,10 +416,12 @@ mount_managed_rootfs() {
     else RESOLVE_STATE=invalid_image; publish_resolution 0; return 1; fi
   fi
   if ! mount -t overlay overlay -o "lowerdir=$LOWER,upperdir=$UPPER,workdir=$WORK,index=off,metacopy=off,nfs_export=off" "$ROOT"; then
-    umount "$LOWER"; losetup -d "$LOOPDEV"; LOOPDEV=; return 1
+    umount "$LOWER" || return 1
+    forget_mount "$LOWER"
+    release_session_loop || return 1
+    return 1
   fi
-  track_mount "$LOWER"; track_mount "$ROOT"
-  printf '%s\n' "$LOOPDEV" > "$STATE/session.loop"
+  track_mount "$ROOT" || return 1
   IMAGE_ID="$FAMILY:$GENERATION"
   MOUNTED=1
   printf '%s\n' "$FAMILY:$GENERATION:$ACTIVE_ID" > "$CONTROL/mounted-image"

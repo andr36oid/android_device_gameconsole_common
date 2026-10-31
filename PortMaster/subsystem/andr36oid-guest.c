@@ -7,6 +7,11 @@
 #include <drm/drm_mode.h>
 #include <stdint.h>
 #include <linux/capability.h>
+#include <sound/asound.h>
+#include <linux/audit.h>
+#include <linux/filter.h>
+#include <linux/seccomp.h>
+#include <stddef.h>
 #include <sys/syscall.h>
 #include <poll.h>
 #include <sched.h>
@@ -33,6 +38,59 @@ static long long now_ms(void) {
     return (long long)t.tv_sec * 1000 + t.tv_nsec / 1000000;
 }
 static void fatal(const char *what) { perror(what); exit(125); }
+static int check_drm(void) {
+    int fd=open("/dev/dri/card0",O_RDWR|O_CLOEXEC);
+    if(fd<0) {perror("DRM handoff");return 1;}
+    int rc=ioctl(fd,DRM_IOCTL_SET_MASTER,0);
+    if(rc)perror("DRM master still held");
+    close(fd);
+    return rc?1:0;
+}
+/* tinymix prints failed scalar reads as -1/On while returning success. Read
+ * ALSA directly and validate every type, channel and value before admission. */
+static int capture_mixer(void) {
+    errno=0;
+    static const struct { const char *name; snd_ctl_elem_type_t type; unsigned count; } controls[]={
+        {"Playback Path",SNDRV_CTL_ELEM_TYPE_ENUMERATED,1},
+        {"Master Playback Volume",SNDRV_CTL_ELEM_TYPE_INTEGER,2},
+        {"Playback Volume",SNDRV_CTL_ELEM_TYPE_INTEGER,2},
+        {"Playback Hardware Master Switch",SNDRV_CTL_ELEM_TYPE_BOOLEAN,1}
+    };
+    int fd=open("/dev/snd/controlC0",O_RDONLY|O_CLOEXEC),rc=1;
+    if(fd<0) {perror("capture mixer");return 1;}
+    for(unsigned n=0;n<sizeof(controls)/sizeof(*controls);n++) {
+        struct snd_ctl_elem_info info={0};
+        info.id.iface=SNDRV_CTL_ELEM_IFACE_MIXER;
+        snprintf((char *)info.id.name,sizeof(info.id.name),"%s",controls[n].name);
+        if(ioctl(fd,SNDRV_CTL_IOCTL_ELEM_INFO,&info) || info.type!=controls[n].type ||
+           info.count!=controls[n].count || !(info.access&SNDRV_CTL_ELEM_ACCESS_READ))goto done;
+        struct snd_ctl_elem_value value={.id=info.id};
+        if(ioctl(fd,SNDRV_CTL_IOCTL_ELEM_READ,&value))goto done;
+        if(info.type==SNDRV_CTL_ELEM_TYPE_ENUMERATED) {
+            unsigned item=value.value.enumerated.item[0];
+            if(item>=info.value.enumerated.items)goto done;
+            info.value.enumerated.item=item;
+            if(ioctl(fd,SNDRV_CTL_IOCTL_ELEM_INFO,&info))goto done;
+            const char *name=(const char *)info.value.enumerated.name;
+            if(!memchr(name,0,sizeof(info.value.enumerated.name)) || !*name ||
+               strspn(name,"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_")!=strlen(name))goto done;
+            printf("%s\t%s\n",controls[n].name,name);
+        } else {
+            for(unsigned i=0;i<info.count;i++) {
+                long v=value.value.integer.value[i];
+                if(v<0 || (info.type==SNDRV_CTL_ELEM_TYPE_BOOLEAN?v>1:
+                    (v<info.value.integer.min || v>info.value.integer.max)))goto done;
+            }
+            printf("%s\t",controls[n].name);
+            for(unsigned i=0;i<info.count;i++)printf("%s%ld",i?" ":"",value.value.integer.value[i]);
+            putchar('\n');
+        }
+    }
+    rc=fflush(stdout)?1:0;
+done:
+    if(rc) {if(!errno)errno=EINVAL;perror("capture mixer scalar");}
+    close(fd);return rc;
+}
 /* dArkOSen's gamma tool uses the legacy CRTC gamma ioctl. Save that state before
  * the handoff and restore it after guest FDs close, before Android reacquires DRM. */
 static int gamma_state(const char *path,bool restore) {
@@ -230,14 +288,78 @@ static void limit_guest(void) {
     struct __user_cap_header_struct header={.version=_LINUX_CAPABILITY_VERSION_3,.pid=0};
     struct __user_cap_data_struct caps[2];
     if(syscall(SYS_capget,&header,caps)) fatal("capget");
-    const int deny[]={CAP_SYS_MODULE,CAP_SYS_RAWIO,CAP_SYS_BOOT,CAP_SYS_TIME,CAP_NET_ADMIN,CAP_SYS_ADMIN,CAP_MKNOD};
-    for(unsigned i=0;i<sizeof(deny)/sizeof(*deny);i++) {
-        int cap=deny[i];
+    /* File installation, setpriv and guest services need these ordinary root
+     * operations. No payload needs chroot, mount, mknod, ptrace or setpcap. */
+    const uint64_t allow=(1ULL<<CAP_CHOWN)|(1ULL<<CAP_DAC_OVERRIDE)|
+        (1ULL<<CAP_FOWNER)|(1ULL<<CAP_FSETID)|(1ULL<<CAP_KILL)|
+        (1ULL<<CAP_SETGID)|(1ULL<<CAP_SETUID);
+    for(int cap=0;cap<64;cap++) {
+        if(allow&(1ULL<<cap))continue;
+        errno=0;
+        if(prctl(PR_CAPBSET_READ,cap,0,0,0)<0 && errno==EINVAL)break;
         if(prctl(PR_CAPBSET_DROP,cap,0,0,0)) fatal("capability bounding set");
         unsigned mask=~(1U<<(cap%32));
         caps[cap/32].effective&=mask;caps[cap/32].permitted&=mask;caps[cap/32].inheritable&=mask;
     }
     if(syscall(SYS_capset,&header,caps)) fatal("capset");
+    if(prctl(PR_SET_NO_NEW_PRIVS,1,0,0,0))fatal("no new privileges");
+}
+/* Hold host-established OFF/zero controls for the entire muted guest lifetime.
+ * Match the ioctl type/number independently of its structure size, so compat
+ * ALSA ioctls cannot bypass the policy. PCM ioctls remain available. No filter
+ * is installed for an audible session. Descendants cannot remove this filter.
+ * Only queries, subscriptions and per-file PCM/MIDI device preferences are
+ * admitted on ALSA control devices. */
+static void hold_mixer_mute(void) {
+#if defined(__aarch64__)
+#define A36_ARCH AUDIT_ARCH_AARCH64
+#define A36_COMPAT_ARCH AUDIT_ARCH_ARM
+#define A36_COMPAT_IOCTL 54
+#elif defined(__x86_64__)
+#define A36_ARCH AUDIT_ARCH_X86_64
+#define A36_COMPAT_ARCH AUDIT_ARCH_I386
+#define A36_COMPAT_IOCTL 54
+#else
+#error "Define the native and compat ioctl ABI for the mute filter"
+#endif
+#define CTL_QUERY(n) BPF_JUMP(BPF_JMP|BPF_JEQ|BPF_K,(n),0,1), BPF_STMT(BPF_RET|BPF_K,SECCOMP_RET_ALLOW)
+    struct sock_filter filter[]={
+        BPF_STMT(BPF_LD|BPF_W|BPF_ABS,offsetof(struct seccomp_data,arch)),
+        BPF_JUMP(BPF_JMP|BPF_JEQ|BPF_K,A36_ARCH,0,4),
+        BPF_STMT(BPF_LD|BPF_W|BPF_ABS,offsetof(struct seccomp_data,nr)),
+        BPF_STMT(BPF_ALU|BPF_AND|BPF_K,~0x40000000U), /* x32 ioctl too */
+        BPF_JUMP(BPF_JMP|BPF_JEQ|BPF_K,SYS_ioctl,7,0),
+        BPF_STMT(BPF_RET|BPF_K,SECCOMP_RET_ALLOW),
+        BPF_JUMP(BPF_JMP|BPF_JEQ|BPF_K,A36_COMPAT_ARCH,0,4),
+        BPF_STMT(BPF_LD|BPF_W|BPF_ABS,offsetof(struct seccomp_data,nr)),
+        BPF_STMT(BPF_ALU|BPF_AND|BPF_K,~0x40000000U),
+        BPF_JUMP(BPF_JMP|BPF_JEQ|BPF_K,A36_COMPAT_IOCTL,2,0),
+        BPF_STMT(BPF_RET|BPF_K,SECCOMP_RET_ALLOW),
+        BPF_STMT(BPF_RET|BPF_K,SECCOMP_RET_KILL),
+        BPF_STMT(BPF_LD|BPF_W|BPF_ABS,offsetof(struct seccomp_data,args[1])),
+        BPF_STMT(BPF_ALU|BPF_AND|BPF_K,0xff00),
+        BPF_JUMP(BPF_JMP|BPF_JEQ|BPF_K,0x5500,1,0),
+        BPF_STMT(BPF_RET|BPF_K,SECCOMP_RET_ALLOW),
+        BPF_STMT(BPF_LD|BPF_W|BPF_ABS,offsetof(struct seccomp_data,args[1])),
+        BPF_STMT(BPF_ALU|BPF_AND|BPF_K,0xff),
+        CTL_QUERY(0x00),CTL_QUERY(0x01),CTL_QUERY(0x10),CTL_QUERY(0x11),
+        CTL_QUERY(0x12),CTL_QUERY(0x16),CTL_QUERY(0x1a),CTL_QUERY(0x20),
+        CTL_QUERY(0x21),CTL_QUERY(0x30),CTL_QUERY(0x31),CTL_QUERY(0x32),
+        CTL_QUERY(0x40),CTL_QUERY(0x41),CTL_QUERY(0x42),CTL_QUERY(0xd1),
+        BPF_STMT(BPF_RET|BPF_K,SECCOMP_RET_ERRNO|EPERM)
+    };
+    struct sock_fprog program={.len=sizeof(filter)/sizeof(*filter),.filter=filter};
+    if(prctl(PR_SET_SECCOMP,SECCOMP_MODE_FILTER,&program))fatal("hold codec mute");
+#undef CTL_QUERY
+}
+static void close_inherited_fds(void) {
+    DIR *d=opendir("/proc/self/fd");if(!d)fatal("inherited descriptors");
+    struct dirent *e;
+    while((e=readdir(d))) {
+        int fd=atoi(e->d_name);
+        if(fd>2 && fd!=dirfd(d))close(fd);
+    }
+    closedir(d);
 }
 static int supervise(char **argv,bool native,bool hotkeys) {
     if(native && prctl(PR_ANDR36OID_GUEST,1UL,0UL,0UL,0UL)) fatal("guest input ABI unavailable; update the kernel");
@@ -245,10 +367,12 @@ static int supervise(char **argv,bool native,bool hotkeys) {
     sigaction(SIGTERM,&sa,NULL); sigaction(SIGINT,&sa,NULL); sigaction(SIGHUP,&sa,NULL);
     bool inputs=access("/dev/input",F_OK)==0;
     if(inputs) mirror_inputs();
+    bool muted=access("/run/.a36-muted",F_OK)==0;
     pid_t payload=fork(); if(payload<0) fatal("fork payload");
     if(!payload) {
         signal(SIGTERM,SIG_DFL); signal(SIGINT,SIG_DFL); signal(SIGHUP,SIG_DFL);
         limit_guest();
+        if(muted)hold_mixer_mute();
         // Internal shared storage must also remain writable by Android media_rw.
         if(native) { if(setgid(1023))fatal("shared storage group");umask(0002); }
         execvp(argv[0],argv); fatal("exec guest");
@@ -295,6 +419,8 @@ static int supervise(char **argv,bool native,bool hotkeys) {
     }
 }
 int main(int argc,char **argv) {
+    if(argc==2 && !strcmp(argv[1],"--capture-mixer"))return capture_mixer();
+    if(argc==2 && !strcmp(argv[1],"--check-drm"))return check_drm();
     if(argc==3 && !strcmp(argv[1],"--save-gamma"))return gamma_state(argv[2],false);
     if(argc==3 && !strcmp(argv[1],"--restore-gamma"))return gamma_state(argv[2],true);
     if(argc==2 && !strcmp(argv[1],"--probe")) {
@@ -309,6 +435,7 @@ int main(int argc,char **argv) {
         return 0;
     }
     if(argc<6 || strcmp(argv[4],"--")) { fprintf(stderr,"usage: andr36oid-guest ROOT native|generic hotkeys|quiet -- command...\n"); return 2; }
+    close_inherited_fds();
     bool native=!strcmp(argv[2],"native")||!strcmp(argv[2],"native-init"),hotkeys=!strcmp(argv[3],"hotkeys");
     int gate[2];
     if(socketpair(AF_UNIX,SOCK_STREAM|SOCK_CLOEXEC,0,gate)) fatal("guest handshake");
@@ -349,6 +476,7 @@ int main(int argc,char **argv) {
             if(mount("cgroup","/sys/fs/cgroup/systemd","cgroup",MS_NOSUID|MS_NODEV|MS_NOEXEC,"none,name=systemd")) perror("guest systemd hierarchy");
         }
         limit_guest();
+        if(access("/run/.a36-muted",F_OK)==0)hold_mixer_mute();
         execvp(argv[5],argv+5); fatal("exec init");
     }
     return supervise(argv+5,native,hotkeys);
