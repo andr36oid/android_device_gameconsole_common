@@ -16,6 +16,7 @@ ln -s /bin/sleep "$tmp/bin/ogage"
 cat > "$tmp/mocks/setsid" <<'MOCK'
 #!/bin/sh
 printf '%s\n' "$*" >> "$A36_TEST_CALLS"
+printf '%s\n' "$PATH" > "$A36_TEST_CALLS.path"
 MOCK
 printf '#!/bin/sh\nexit 1\n' > "$tmp/mocks/pkill"
 chmod +x "$tmp/mocks/setsid" "$tmp/mocks/pkill"
@@ -69,8 +70,12 @@ case ${1:-all} in all|policy)
   done
   rm "$ROOT/run/.a36-muted"
   "$shim" restart ogage
-  wait_until test -s "$tmp/calls"
-  echo 'systemctl ogage policy passed (finding 3)'
+  wait_until test -s "$tmp/calls.path"
+  case "$(cat "$tmp/calls.path")" in
+    "$ROOT/run/andr36oid-audio-bin":*) : ;;
+    *) fail 'restarted ogage bypassed host route filter' ;;
+  esac
+  echo 'systemctl ogage policy passed (finding 3 and host route ownership)'
 ;; esac
 case ${1:-all} in all|manager)
   # Test retained-shim delegation with exact argument boundaries.

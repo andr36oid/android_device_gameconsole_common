@@ -99,3 +99,7 @@ IMAGE=/fixture
 prepare_guest_hardware() { :; }
 
 acquire_operation() { OPERATION_LOCKED=1; }
+
+# Independent audible-route policy is outside the older lifecycle fixtures.
+start_audio_route_guard() { :; }
+stop_audio_route_guard() { :; }

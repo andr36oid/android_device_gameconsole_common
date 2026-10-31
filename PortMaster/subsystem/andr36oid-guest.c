@@ -88,6 +88,25 @@ done:
     if(rc) {if(!errno)errno=EINVAL;perror("capture mixer scalar");}
     close(fd);return rc;
 }
+/* The kernel reports the debounced jack after DT polarity XOR hp_det_flip.
+ * Validate ALSA directly: tinymix can report failed booleans as On/success. */
+static int headphone_state(void) {
+    int fd=open("/dev/snd/controlC0",O_RDONLY|O_CLOEXEC),rc=1;
+    if(fd<0)return 1;
+    struct snd_ctl_elem_info info={0};
+    info.id.iface=SNDRV_CTL_ELEM_IFACE_CARD;
+    snprintf((char *)info.id.name,sizeof(info.id.name),"Headphones Jack");
+    if(ioctl(fd,SNDRV_CTL_IOCTL_ELEM_INFO,&info) ||
+       info.type!=SNDRV_CTL_ELEM_TYPE_BOOLEAN || info.count!=1 ||
+       !(info.access&SNDRV_CTL_ELEM_ACCESS_READ))goto done;
+    struct snd_ctl_elem_value value={.id=info.id};
+    if(ioctl(fd,SNDRV_CTL_IOCTL_ELEM_READ,&value) ||
+       value.value.integer.value[0]<0 || value.value.integer.value[0]>1)goto done;
+    printf("%ld\n",value.value.integer.value[0]);
+    rc=fflush(stdout)?1:0;
+done:
+    close(fd);return rc;
+}
 /* dArkOSen's gamma tool uses the legacy CRTC gamma ioctl. Save that state before
  * the handoff and restore it after guest FDs close, before Android reacquires DRM. */
 static int gamma_state(const char *path,bool restore) {
@@ -386,6 +405,7 @@ static int supervise(char **argv,bool native,bool hotkeys) {
 }
 int main(int argc,char **argv) {
     if(argc==2 && !strcmp(argv[1],"--capture-mixer"))return capture_mixer();
+    if(argc==2 && !strcmp(argv[1],"--headphone-state"))return headphone_state();
     if(argc==2 && !strcmp(argv[1],"--check-drm"))return check_drm();
     if(argc==3 && !strcmp(argv[1],"--save-gamma"))return gamma_state(argv[2],false);
     if(argc==3 && !strcmp(argv[1],"--restore-gamma"))return gamma_state(argv[2],true);

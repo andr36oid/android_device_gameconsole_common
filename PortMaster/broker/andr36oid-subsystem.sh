@@ -527,7 +527,7 @@ for unit do
         # This policy is prepared by the broker, also for emulator return paths
         # that call systemctl directly instead of start_hotkeys.
         if [ -f /run/.a36-handoff ] && [ ! -f /run/.a36-muted ]; then
-          setsid /usr/local/bin/ogage >/dev/null 2>&1 &
+          PATH=/run/andr36oid-audio-bin:$PATH setsid /usr/local/bin/ogage >/dev/null 2>&1 &
         fi
       fi ;;
     is-active)
@@ -694,6 +694,115 @@ enable_hardware_master() {
   return 0
 }
 
+# Audible sessions have exactly one host route owner. Never enter this worker
+# for night mute: its existing OFF/zero watchdog and admission stay independent.
+audio_route_target() {
+  local model force state
+  model=$(tr -d '\000' 2>/dev/null < "${A36_DT_MODEL:-/proc/device-tree/model}") || model=
+  force=$(cat "${A36_FORCE_SPK_HP:-/sys/module/snd_soc_rk817/parameters/force_spk_hp}" 2>/dev/null) || force=
+  case "$force:$model" in
+    Y:*|1:*|*:"R36S clone Soy Sauce V04, Panel 2 (experimental)") echo SPK_HP ;;
+    *:"Game Console R35S/R36S")
+      # ALSA's jack boolean already includes DT active-low XOR hp_det_flip.
+      # Do not invert it again (ogage's historical EV_SW mapping is unsuitable).
+      state=$("$GUEST" --headphone-state 2>/dev/null) || state=
+      case "$state" in
+        1) echo HP ;;
+        *) echo SPK ;;
+      esac ;;
+    *) echo SPK ;;
+  esac
+}
+audio_route_once() {
+  local target current
+  target=$(audio_route_target) || return 1
+  current=$(tinymix -D 0 -v "Playback Path" 2>/dev/null) || return 1
+  if [ "$current" != "$target" ]; then
+    tinymix -D 0 "Playback Path" "$target" >/dev/null 2>&1 || return 1
+  fi
+  current=$(tinymix -D 0 -v "Playback Path" 2>/dev/null) || return 1
+  [ "$current" = "$target" ]
+}
+audio_route_owned() {
+  [ "$(cat "$STATE/audio-route.owner" 2>/dev/null)" = "$owner" ] &&
+    [ "$(cat "$STATE/session.lock/pid" 2>/dev/null)" = "$owner_pid" ] &&
+    recorded_process_alive "$owner_pid" "$owner_start" "$owner_boot"
+}
+stop_audio_route_guard() {
+  local pid stamp boot extra
+  rm -f "$STATE/audio-route.owner"
+  if [ -r "$STATE/audio-route.pid" ] && read -r pid stamp boot extra < "$STATE/audio-route.pid" &&
+     [ -z "$extra" ] && recorded_process_alive "$pid" "$stamp" "$boot"; then
+    kill_tracked_tree "$pid" "$stamp" "$boot" || {
+      log "audio route worker did not stop; retaining codec snapshots"; return 1;
+    }
+    wait "$pid" 2>/dev/null || :
+  fi
+  rm -f "$STATE/audio-route.pid" "$STATE/audio-route.pid.tmp" \
+    "$STATE/audio-route.ready" "$STATE/audio-route.failed"
+}
+start_audio_route_guard() {
+  { [ "$HANDOFF" = 1 ] && ! subsystem_muted; } || return 0
+  # Snapshot publication and confirmed audio shutdown must precede ALL writes.
+  [ -s "$STATE/session.mixer" ] && [ "$DID_HANDOFF" = 1 ] || return 1
+  local owner_pid owner_start owner_boot owner pid stamp identity tries=0
+  owner_pid=$(cat "$STATE/session.lock/pid") || return 1
+  owner_start=$(process_start_time "$owner_pid") || return 1
+  owner_boot=$(cat /proc/sys/kernel/random/boot_id) || return 1
+  owner="$owner_pid $owner_start $owner_boot"
+  stop_audio_route_guard || return 1
+  printf '%s\n' "$owner" > "$STATE/audio-route.owner" || return 1
+  (
+    exec </dev/null >/dev/null 2>&1 3>&- 4>&-
+    trap 'exit 0' HUP INT TERM
+    read -r pid identity < /proc/self/stat
+    identity="$pid $(process_start_time "$pid") $owner_boot"
+    while audio_route_owned; do
+      [ "$(cat "$STATE/audio-route.pid" 2>/dev/null)" != "$identity" ] || break
+      tries=$((tries+1)); [ "$tries" -lt 100 ] || exit 1
+      sleep 0.1
+    done
+    audio_route_owned || exit 1
+    enable_hardware_master
+    if ! audio_route_once; then : > "$STATE/audio-route.failed"; exit 1; fi
+    audio_route_owned || exit 1
+    printf '%s\n' "$identity" > "$STATE/audio-route.ready" || exit 1
+    tries=0
+    while audio_route_owned; do
+      sleep 1
+      audio_route_owned || break
+      if audio_route_once; then tries=0; else tries=$((tries+1)); fi
+      if [ "$tries" -ge 3 ]; then
+        log "audio route enforcement failed; ending session"
+        : > "$STATE/audio-route.failed"
+        : > "$ROOT/run/.a36-session-exit"
+        kill_subsystem_payload
+        exit 1
+      fi
+    done
+  ) &
+  pid=$!
+  if ! stamp=$(process_start_time "$pid") ||
+     ! printf '%s %s %s\n' "$pid" "$stamp" "$owner_boot" > "$STATE/audio-route.pid.tmp" ||
+     ! mv -f "$STATE/audio-route.pid.tmp" "$STATE/audio-route.pid"; then
+    [ -z "${stamp:-}" ] || kill_tracked_tree "$pid" "$stamp" "$owner_boot" || :
+    stop_audio_route_guard; return 1
+  fi
+  identity="$pid $stamp $owner_boot"
+  while audio_route_owned && recorded_process_alive "$pid" "$stamp" "$owner_boot"; do
+    [ ! -f "$STATE/audio-route.failed" ] || break
+    if [ "$(cat "$STATE/audio-route.ready" 2>/dev/null)" = "$identity" ]; then
+      log "host owns audible session routes (jack polling every second)"
+      return 0
+    fi
+    tries=$((tries+1)); [ "$tries" -lt 100 ] || break
+    sleep 0.1
+  done
+  log "could not establish audible session route; refusing session"
+  stop_audio_route_guard
+  return 1
+}
+
 # Keep the two shareable config files in the image's writable upper before the
 # overlay goes away. The queued setup worker can then merge them after teardown.
 prepare_retroarch_sync() {
@@ -727,6 +836,7 @@ restore_android() {
   CLEANUP_FAILED=0
   local codec_unsafe=0
   stop_mute_guard || { CLEANUP_FAILED=1; codec_unsafe=1; }
+  stop_audio_route_guard || { CLEANUP_FAILED=1; codec_unsafe=1; }
   kill_subsystem || { CLEANUP_FAILED=1; codec_unsafe=1; }
   prepare_retroarch_sync
   if [ "$CLEANUP_FAILED" = 0 ] && [ "$DID_HANDOFF" = 1 ] && [ -f "$STATE/session.gamma" ]; then
@@ -802,7 +912,7 @@ recover_session_locked() {
   if [ "$(cat "$STATE/session.lock/boot_id" 2>/dev/null)" != "$(cat /proc/sys/kernel/random/boot_id)" ]; then
     # /data survives reboot, mounts and PIDs do not. Never detach a loop or kill
     # a recycled PID from a previous boot based on its old metadata.
-    if ! rm -f "$STATE/session.mixer" "$STATE/session.gamma" "$STATE/session.brightness" "$STATE/session.loop" "$STATE/session.handoff" "$STATE/session.mounts" "$STATE/session.fifo" "$STATE/session.hw-master" "$MUTE_PIDFILE" "$STATE/mute-guard.owner" "$STATE/session.lock/pid" "$STATE/session.lock/boot_id" "$STATE/session.lock/start_time" ||
+    if ! rm -f "$STATE/session.mixer" "$STATE/session.gamma" "$STATE/session.brightness" "$STATE/session.loop" "$STATE/session.handoff" "$STATE/session.mounts" "$STATE/session.fifo" "$STATE/session.hw-master" "$MUTE_PIDFILE" "$STATE/mute-guard.owner" "$STATE/audio-route.owner" "$STATE/audio-route.pid" "$STATE/audio-route.pid.tmp" "$STATE/audio-route.ready" "$STATE/audio-route.failed" "$STATE/session.lock/pid" "$STATE/session.lock/boot_id" "$STATE/session.lock/start_time" ||
        ! rmdir "$STATE/session.lock" 2>/dev/null; then
       setprop sys.andr36oid.subsystem.session cleanup_failed 2>/dev/null
       return 1
@@ -1178,12 +1288,18 @@ install_session_units() {
     printf '[Unit]\nConditionPathExists=/run/.a36-handoff\nConditionPathExists=!/run/.a36-muted\n' \
       > "$ROOT/etc/systemd/system/$u.d/20-audio-policy.conf"
   done
+  for u in audiopath.service audiostate.service; do
+    printf 'ConditionPathExists=!/run/.a36-host-audio\n' >> "$ROOT/etc/systemd/system/$u.d/20-audio-policy.conf"
+  done
+  printf '[Service]\nEnvironment=PATH=/run/andr36oid-audio-bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin\n' \
+    > "$ROOT/etc/systemd/system/ogage.service.d/30-host-route.conf"
   # 351mp also restores Playback Path, alongside unrelated LED/brightness work.
   # Replay its original commands, gating only fixvolume (including its args).
   mkdir -p "$ROOT/usr/local/libexec" || return 1
   cat > "$ROOT/usr/local/libexec/a36-session-fixvolume" <<'AUDIO' || return 1
 #!/bin/sh
 [ -f /run/.a36-handoff ] && [ ! -f /run/.a36-muted ] || exit 0
+[ ! -f /run/.a36-host-audio ] || exit 0
 exec /usr/local/bin/fixvolume.sh "$@"
 AUDIO
   chmod 0755 "$ROOT/usr/local/libexec/a36-session-fixvolume" || return 1
@@ -1222,6 +1338,9 @@ boot_subsystem_session() {
     mkdir -p "$ROOT/run/systemd/system.conf.d" "$ROOT/run/systemd/journald.conf.d"
     {
       printf '[Manager]\nDefaultEnvironment=ALSA_TMPDIR=/run/alsa TMPDIR=/tmp'
+      if [ "$HANDOFF" = 1 ] && ! subsystem_muted; then
+        printf ' PATH=/run/andr36oid-audio-bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+      fi
       [ "$HANDOFF" = 0 ] && printf ' SDL_VIDEODRIVER=dummy SDL_KMSDRM_REQUIRE_DRM_MASTER=0'
       printf '\nDefaultStandardOutput=journal+console\nDefaultStandardError=journal+console\n'
     } > "$ROOT/run/systemd/system.conf.d/andr36oid.conf"
@@ -1456,6 +1575,23 @@ prepare_session_policy() {
   rm -f "$ROOT/run/.a36-handoff" "$ROOT/run/.a36-muted" \
     "$ROOT/run/.a36-session-exit" "$ROOT/run/.a36-session-reboot" \
     "$ROOT/run/.a36-es-stopped" "$ROOT/run/.a36-es-start" "$ROOT/run/.a36-es-restart"
+  rm -f "$ROOT/run/.a36-host-audio"
+  if [ "$HANDOFF" = 1 ] && ! subsystem_muted; then
+    : > "$ROOT/run/.a36-host-audio" || return 1
+    mkdir -p "$ROOT/run/andr36oid-audio-bin" || return 1
+    # Ogage still owns volume/brightness. Suppress only its route commands,
+    # including its quoted sset spelling; forward volume operations unchanged.
+    cat > "$ROOT/run/andr36oid-audio-bin/amixer" <<'AUDIO_ROUTE' || return 1
+#!/bin/sh
+if [ -f /run/.a36-host-audio ]; then
+  for arg do
+    case "$arg" in *'Playback Path'*) exit 0 ;; esac
+  done
+fi
+exec /usr/bin/amixer "$@"
+AUDIO_ROUTE
+    chmod 0755 "$ROOT/run/andr36oid-audio-bin/amixer" || return 1
+  fi
   [ "$HANDOFF" != 1 ] || : > "$ROOT/run/.a36-handoff"
   if subsystem_muted; then : > "$ROOT/run/.a36-muted"; fi
   if session_uses_init; then
@@ -1743,8 +1879,8 @@ if [ -z "$IMAGE" ] && ! "$GUEST" --probe; then
 fi
 prepare_guest_hardware || exit 1
 if [ "$HANDOFF" = 1 ]; then handoff || exit 1; else log "no handoff: Android stays up; display devices hidden"; fi
-# Muted handoffs perform this setup inside the recorded worker as well.
-if [ "$HANDOFF" = 1 ] && ! subsystem_muted; then enable_hardware_master; fi
+# Each policy owns its codec writes in a recoverable worker.
+start_audio_route_guard || exit 1
 start_mute_guard || exit 1
 # Wait on a child so TERM interrupts wait immediately, including while init runs.
 run_session & SESSION_PID=$!

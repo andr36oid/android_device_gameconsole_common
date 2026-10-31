@@ -205,7 +205,7 @@ if [ "$handoff" = 1 ]; then
       printf '#!/bin/sh\nexit 0\n' > /run/andr36oid-muted-bin/amixer
       chmod 0755 /run/andr36oid-muted-bin/amixer
       PATH=/run/andr36oid-muted-bin:$PATH /usr/local/bin/ogage &
-    else /usr/local/bin/ogage & fi
+    else PATH=/run/andr36oid-audio-bin:$PATH /usr/local/bin/ogage & fi
   fi
   /bin/sh /run/andr36oid-status.sh &
   if [ -x /usr/local/bin/fn_menu_watcher.sh ]; then /usr/local/bin/fn_menu_watcher.sh & fi
