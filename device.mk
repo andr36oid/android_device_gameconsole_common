@@ -956,6 +956,17 @@ PRODUCT_PROPERTY_OVERRIDES += \
 # Speed profile services and wifi-service to reduce RAM and storage.
 PRODUCT_SYSTEM_SERVER_COMPILER_FILTER := speed-profile
 
+# Compile the generic boot-image hot set on the host. Soong already falls back to
+# this profile; naming it here makes the intended input explicit for this product.
+PRODUCT_USE_PROFILE_FOR_BOOT_IMAGE := true
+PRODUCT_DEX_PREOPT_BOOT_IMAGE_PROFILE_LOCATION := frameworks/base/config/boot-image-profile.txt
+
+# Apps with a real profile below use speed-profile; keep the storage-saving
+# quicken fallback for other shipped apps. An empty speed-profile is not a warm
+# native-code cache. Fully compile only these small first-run UI modules.
+PRODUCT_DEX_PREOPT_DEFAULT_COMPILER_FILTER := quicken
+PRODUCT_DEXPREOPT_SPEED_APPS += LineageSetupWizard Andr36oidGuide
+
 # Profiles for compiling apps ahead of time: a <module>.prof here makes the build
 # compile that app with speed-profile (only the methods in the profile, plus an app
 # image) instead of quicken. Daijishou.prof is the baseline profile Daijishou ships
@@ -968,6 +979,8 @@ PRODUCT_SYSTEM_SERVER_COMPILER_FILTER := speed-profile
 # dexpreopt-profiles/Daijishou.prof apps/Daijishou/Daijishou.apk (R2 and Y off on the
 # Apps page; it updates the profile to match).
 PRODUCT_DEX_PREOPT_PROFILE_DIR := device/gameconsole/common/dexpreopt-profiles
+# The alternate home screen also ships a compatible baseline profile. Refresh
+# Andr36oidLauncher.prof from its APK on every update; see dexpreopt-profiles/README.md.
 
 # Always preopt extracted APKs to prevent extracting out of the APK for gms
 # modules.
@@ -992,13 +1005,18 @@ PRODUCT_PRODUCT_PROPERTIES += \
 PRODUCT_PROPERTY_OVERRIDES += \
 pm.dexopt.downgrade_after_inactive_days=10
 
-# First boot: the apps that can't be compiled at build time (PermissionController,
-# MediaProvider, ExtServices, Tethering, OsuLogin in the APEXes, ~6 MB of code) are
-# compiled while system_server starts, which holds up the first boot. verify skips
-# the quicken pass (Android 12 does the same); the idle compile later turns them
-# into speed-profile anyway.
+# Keep runtime boot passes cheap for APKs that cannot use shipped odex (notably
+# updatable APEX APKs). Native code for the home screens and first-run UI is built
+# above, rather than compiled on the handheld while system_server is starting.
+# Install/idle/OTA can use real profiles later; preserve the shared-code fallback.
 PRODUCT_PROPERTY_OVERRIDES += \
-	pm.dexopt.first-boot=verify
+	pm.dexopt.first-boot=verify \
+	pm.dexopt.boot=verify \
+	pm.dexopt.install=speed-profile \
+	pm.dexopt.bg-dexopt=speed-profile \
+	pm.dexopt.ab-ota=speed-profile \
+	pm.dexopt.inactive=verify \
+	pm.dexopt.shared=speed
 
 # Dedupe VNDK libraries with identical core variants.
 TARGET_VNDK_USE_CORE_VARIANT := true

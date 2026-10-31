@@ -325,19 +325,6 @@ on boot
 	# Disable unnecessary printk logging
 	write /proc/sys/kernel/printk_devkmsg off
 
-    # add a cpuset for the camera daemon
-    # we want all the little cores for camera
-    mkdir /dev/cpuset/camera-daemon
-    write /dev/cpuset/camera-daemon/cpus 0
-    write /dev/cpuset/camera-daemon/mems 0
-    chown system system /dev/cpuset/camera-daemon
-    chown system system /dev/cpuset/camera-daemon/tasks
-    chmod 0664 /dev/cpuset/camera-daemon/tasks
-
-    # end boot time fs tune
-    write /sys/block/sda/queue/read_ahead_kb 2048
-    write /sys/block/sda/queue/nr_requests 256
-    write /sys/block/sda/queue/iostats 0
     write /sys/block/mmcblk0/queue/iostats 1
     write /sys/block/mmcblk0/queue/read_ahead_kb 512
     write /sys/block/mmcblk0/queue/nr_requests 2048
@@ -358,6 +345,23 @@ on boot
 on sys-boot-completed-set
    # Enable ZRAM on boot_complete
     swapon_all
+
+# These nodes have no boot consumer on the handheld. Keep their setup out of
+# the boot action; CPU/GPU controls, MMC tuning and Kernel Tweaks stay early.
+on property:sys.boot_completed=1
+    # add a cpuset for the camera daemon
+    # we want all the little cores for camera
+    mkdir /dev/cpuset/camera-daemon
+    write /dev/cpuset/camera-daemon/cpus 0
+    write /dev/cpuset/camera-daemon/mems 0
+    chown system system /dev/cpuset/camera-daemon
+    chown system system /dev/cpuset/camera-daemon/tasks
+    chmod 0664 /dev/cpuset/camera-daemon/tasks
+
+    # USB mass-storage tuning
+    write /sys/block/sda/queue/read_ahead_kb 2048
+    write /sys/block/sda/queue/nr_requests 256
+    write /sys/block/sda/queue/iostats 0
 
 on configure-cpuset
     # update cpusets feature nodes for rk3326 tablet 

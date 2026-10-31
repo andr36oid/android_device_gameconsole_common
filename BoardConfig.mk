@@ -182,7 +182,14 @@ endif
 BOARD_CACHEIMAGE_PARTITION_SIZE := 100663296
 BOARD_CACHEIMAGE_FILE_SYSTEM_TYPE := ext4
 
-# APEX
+# Ship app odex as well as the boot image/system server, including eng builds.
+# Linux is required by the host dex2oat tool, as in build/make/core/board_config.mk.
+ifeq ($(HOST_OS),linux)
+WITH_DEXPREOPT := true
+WITH_DEXPREOPT_BOOT_IMG_AND_SYSTEM_SERVER_ONLY := false
+endif
+
+# APEX (retained for downstream build variants).
 DEXPREOPT_GENERATE_APEX_IMAGE := true
 
 # HIDL

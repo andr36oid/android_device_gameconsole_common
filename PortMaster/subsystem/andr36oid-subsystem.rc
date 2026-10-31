@@ -66,8 +66,10 @@ on early-init
 
 # Refresh the Settings status when the EASYROMS resolver publishes its result.
 # The card itself is mounted asynchronously by vold; Settings can also request
-# a scan once storage is available.
-on property:sys.andr36oid.easyroms.ready=1
+# a scan once storage is available. Gate the automatic status probe on completed
+# Android startup as well: resolving EASYROMS in late-fs must not start a rootfs
+# probe alongside the pre-zygote storage/hotfix work. Explicit scans stay immediate.
+on property:sys.andr36oid.easyroms.ready=1 && property:sys.boot_completed=1
     start andr36oid-subsystem-scan
 
 service andr36oid-subsystem-optimize /system/bin/sh /system/etc/andr36oid-subsystem.sh optimize-prop

@@ -1,15 +1,18 @@
 on post-fs-data
     mkdir /data/misc/andr36oid-report 0770 system system
-    start andr36oid-report-boot
     start andr36oid-startlog
 
-# At every start: a report without the menus, when BOOT has a file make-report.txt
+# At late_start: a report without the menus, when BOOT has a file make-report.txt
 # (made on a PC). Without that file it only looks at BOOT and ends at once.
+# Run alongside main services, after the post-fs-data/zygote preparation.
+# startlog stays early so failed boots still produce diagnostics.
 service andr36oid-report-boot /system/bin/sh /system/etc/andr36oid-report.sh boot
+    class late_start
     user root
     group root system log
-    disabled
     oneshot
+    priority 10
+    ioprio be 7
 
 # At every start: sleeps until Android has started, then ends. Only if that takes
 # over 5 minutes (20 on a card's first start) it saves a start log on BOOT, for
