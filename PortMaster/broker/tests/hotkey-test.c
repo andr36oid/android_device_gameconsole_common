@@ -119,6 +119,69 @@ static void fn_regression(bool native) {
     assert(hotkey_tick(&keys,18201)==0);
     assert(hotkey_tick(&keys,21000)==HOTKEY_RETURN_ANDROID);
 }
+static void boundary_regression(bool native) {
+    unsigned fn=native?BTN_TRIGGER_HAPPY5:KEY_HOMEPAGE;
+    unsigned select=native?BTN_TRIGGER_HAPPY1:BTN_SELECT;
+    unsigned start=native?BTN_TRIGGER_HAPPY2:BTN_START;
+    struct hotkey_state keys={0};
+    memset(held,0,sizeof(held));menus=0;
+    hold(KEY_MAX);assert(hotkey_sync(1,native,&keys));
+    assert(key_held(&keys,KEY_MAX) && keys.other==1);
+    frame(&keys,native,KEY_MAX,2,0);assert(keys.other==1);
+    frame(&keys,native,KEY_MAX+1,1,0);assert(keys.other==1);
+    frame(&keys,native,KEY_MAX,0,0);
+    frame(&keys,native,KEY_MAX,0,0);assert(keys.other==0);
+    // Exact inclusive hold boundary, exclusive debounce boundary, and a press
+    // at timestamp zero. Neither duplicates nor orphan repeats arm a tap.
+    frame(&keys,native,fn,1,0);frame(&keys,native,fn,0,600);assert(menus==1);
+    frame(&keys,native,fn,1,700);frame(&keys,native,fn,0,1000);assert(menus==1);
+    frame(&keys,native,fn,1,1000);frame(&keys,native,fn,0,1001);assert(menus==2);
+    frame(&keys,native,fn,1,2000);frame(&keys,native,fn,0,2601);assert(menus==2);
+    frame(&keys,native,fn,2,3000);frame(&keys,native,fn,0,3100);assert(menus==2);
+    // A same-frame chord following Fn release cancels a pending menu; unknown
+    // key codes and non-key records must not cancel a valid clean tap.
+    frame(&keys,native,fn,1,4000);
+    event_ms=4100;event(&keys,native,EV_KEY,fn,0);assert(keys.tap_pending);
+    event(&keys,native,EV_KEY,KEY_MAX,1);
+    event(&keys,native,EV_SYN,SYN_REPORT,0);assert(menus==2);
+    frame(&keys,native,KEY_MAX,0,4200);
+    frame(&keys,native,fn,1,5000);
+    event_ms=5100;event(&keys,native,EV_KEY,fn,0);
+    event(&keys,native,EV_KEY,KEY_MAX+1,1);
+    event(&keys,native,EV_ABS,ABS_X,123);
+    event(&keys,native,EV_SYN,SYN_REPORT,0);assert(menus==3);
+    memset(held,0,sizeof(held));
+    hotkey_invalidate(&keys,false);assert(hotkey_sync(1,native,&keys));
+    frame(&keys,native,fn,1,5200);frame(&keys,native,fn,0,5300);assert(menus==3);
+    frame(&keys,native,fn,1,5500);frame(&keys,native,fn,0,5501);assert(menus==4);
+    // Select+Start snapshots must restart both timers and the one-shot latch
+    // after startup, reconnect and a dropped frame. Snapshot Fn remains unable
+    // to generate a clean menu tap (covered by fn_regression).
+    for(int transition=0;transition<3;transition++) {
+        memset(held,0,sizeof(held));hold(select);hold(start);
+        if(transition==1)hotkey_invalidate(&keys,false);
+        if(transition==2) {
+            event(&keys,native,EV_SYN,SYN_DROPPED,0);
+            assert(hotkey_tick(&keys,90000)==0);
+            event(&keys,native,EV_KEY,start,0);
+            event(&keys,native,EV_SYN,SYN_REPORT,0);
+        } else assert(hotkey_sync(1,native,&keys));
+        long long base=100000+transition*10000;
+        assert(hotkey_tick(&keys,base)==0);
+        assert(hotkey_tick(&keys,base+1199)==0);
+        assert(hotkey_tick(&keys,base+1200)==HOTKEY_EXIT_GAME);
+        assert(hotkey_tick(&keys,base+1201)==0);
+        assert(hotkey_tick(&keys,base+3999)==0);
+        assert(hotkey_tick(&keys,base+4000)==HOTKEY_RETURN_ANDROID);
+        // Release/repress before the next tick must reset the entire hold,
+        // even if event timestamps have a very different numerical origin.
+        frame(&keys,native,start,0,1700000000000LL);
+        frame(&keys,native,start,1,1700000000001LL);
+        assert(hotkey_tick(&keys,base+5000)==0);
+        assert(hotkey_tick(&keys,base+6199)==0);
+        assert(hotkey_tick(&keys,base+6200)==HOTKEY_EXIT_GAME);
+    }
+}
 int main(void) {
     for(int native=0;native<=1;native++) {
         unsigned select=native?BTN_TRIGGER_HAPPY1:BTN_SELECT;
@@ -147,6 +210,7 @@ int main(void) {
         assert(!keys.dropped && !keys.select && !keys.start && !keys.fn);
         fail_query=false;
         fn_regression(native);
+        boundary_regression(native);
     }
     puts("PASS: native/generic Fn taps, sticky combinations, held-key sets, repeats, drop/reconnect/failed resync, and timed escape chords");
 }

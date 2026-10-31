@@ -337,7 +337,7 @@ static int supervise(char **argv,bool native,bool hotkeys) {
         if(native) { if(setgid(1023))fatal("shared storage group");umask(0002); }
         execvp(argv[0],argv); fatal("exec guest");
     }
-    int pad=hotkeys?pad_open():-1, status=0; long long last_retry=0;
+    int pad=hotkeys?pad_open():-1, status=0; long long last_retry=now_ms();
     long long mirrored=now_ms();
     struct hotkey_state keys={0};
     if(pad>=0)hotkey_sync(pad,native,&keys);
@@ -353,14 +353,20 @@ static int supervise(char **argv,bool native,bool hotkeys) {
         }
         long long now=now_ms();
         if(inputs && now-mirrored>2000) { mirror_inputs();mirrored=now; }
-        if(hotkeys && pad<0 && now-last_retry>2000) {
+        if(hotkeys && pad<0 && now-last_retry>=2000) {
             pad=pad_open();last_retry=now;
             if(pad>=0)hotkey_sync(pad,native,&keys);
         }
-        struct pollfd poller={.fd=pad,.events=POLLIN}; poll(&poller,1,50);
+        struct pollfd poller={.fd=pad,.events=POLLIN};
+        int ready=poll(&poller,1,50);
+        if(ready<0 && errno==EINTR)continue;
         struct input_event ev;
-        if(poller.revents&(POLLHUP|POLLERR|POLLNVAL)) {
-            close(pad);pad=-1;hotkey_invalidate(&keys,false);
+        if(ready<0 || (poller.revents&(POLLHUP|POLLERR|POLLNVAL))) {
+            if(pad>=0)close(pad);
+            pad=-1;hotkey_invalidate(&keys,false);last_retry=now_ms();
+            // A failed poll on an absent pad also needs a delay: otherwise
+            // persistent resource errors can spin the supervisor at full CPU.
+            if(ready<0)usleep(50000);
         }
         if(pad>=0 && keys.sync_needed && !keys.dropped)hotkey_sync(pad,native,&keys);
         while(pad>=0) {
@@ -368,7 +374,7 @@ static int supervise(char **argv,bool native,bool hotkeys) {
             if(n<0 && errno==EINTR)continue;
             if(n<0 && (errno==EAGAIN || errno==EWOULDBLOCK))break;
             if(n!=sizeof(ev)) {
-                close(pad);pad=-1;hotkey_invalidate(&keys,false);
+                close(pad);pad=-1;hotkey_invalidate(&keys,false);last_retry=now_ms();
                 break;
             }
             hotkey_event(pad,native,&keys,&ev);

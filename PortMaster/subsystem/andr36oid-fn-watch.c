@@ -15,9 +15,12 @@ static void send_menu_toggle(void) {
         char path[288],name[32];
         snprintf(path,sizeof(path),"/proc/%s/comm",e->d_name);
         FILE *f=fopen(path,"re");if(!f)continue;
-        if(fgets(name,sizeof(name),f)) {
-            if(!strcmp(name,"retroarch\n"))ra=true;
-            if(!strcmp(name,"retroarch32\n"))ra32=true;
+        size_t n=fread(name,1,sizeof(name),f);
+        if(!ferror(f)) {
+            // comm may contain newlines. Compare the complete byte sequence,
+            // including procfs's final newline, rather than its first line.
+            if(n==10 && !memcmp(name,"retroarch\n",10))ra=true;
+            if(n==12 && !memcmp(name,"retroarch32\n",12))ra32=true;
         }
         fclose(f);
     }
@@ -45,7 +48,10 @@ int main(void) {
             hotkey_sync(pad,true,&keys);
         }
         struct pollfd p={.fd=pad,.events=POLLIN};
-        if(poll(&p,1,100)<0 && errno==EINTR)continue;
+        if(poll(&p,1,100)<0) {
+            if(errno==EINTR)continue;
+            goto disconnected;
+        }
         if(p.revents&(POLLHUP|POLLERR|POLLNVAL))goto disconnected;
         if(keys.sync_needed && !keys.dropped)hotkey_sync(pad,true,&keys);
         for(;;) {
