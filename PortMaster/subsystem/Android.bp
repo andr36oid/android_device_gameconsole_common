@@ -14,3 +14,11 @@ cc_binary {
     srcs: ["andr36oid-guest.c"],
     cflags: ["-Wall", "-Wextra", "-Werror"],
 }
+
+// Runs in a glibc rootfs too; no Android linker or shared libraries there.
+cc_binary {
+    name: "andr36oid-fn-watch",
+    srcs: ["andr36oid-fn-watch.c"],
+    static_executable: true,
+    cflags: ["-Wall", "-Wextra", "-Werror"],
+}

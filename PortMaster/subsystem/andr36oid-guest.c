@@ -29,14 +29,11 @@
 #include <sys/wait.h>
 #include <time.h>
 #include <unistd.h>
+#include "andr36oid-input.h"
 
 #define PR_ANDR36OID_GUEST 0x41333601
 static volatile sig_atomic_t stopping;
 static void stop(int signo) { (void)signo; stopping = 1; }
-static long long now_ms(void) {
-    struct timespec t; clock_gettime(CLOCK_MONOTONIC, &t);
-    return (long long)t.tv_sec * 1000 + t.tv_nsec / 1000000;
-}
 static void fatal(const char *what) { perror(what); exit(125); }
 static int check_drm(void) {
     int fd=open("/dev/dri/card0",O_RDWR|O_CLOEXEC);
@@ -185,43 +182,6 @@ static void mirror_inputs(void) {
         close(fd);
     }
     closedir(d);
-}
-static int pad_open(void) {
-    char path[128], name[128];
-    for (int i=0; i<128; ++i) {
-        snprintf(path,sizeof(path),"/dev/input/event%d",i);
-        int fd=open(path,O_RDONLY|O_NONBLOCK|O_CLOEXEC);
-        if(fd<0) continue;
-        if(ioctl(fd,EVIOCGNAME(sizeof(name)),name)>=0 && !strcmp(name,"GO-Super Gamepad")) return fd;
-        close(fd);
-    }
-    return -1;
-}
-struct hotkey_state { bool select,start,fn,dropped; };
-static void hotkey_sync(int pad,bool native,struct hotkey_state *keys) {
-    unsigned long held[(KEY_MAX+8*sizeof(long))/(8*sizeof(long))]={0};
-    *keys=(struct hotkey_state){0};
-    if(ioctl(pad,EVIOCGKEY(sizeof(held)),held)<0)return;
-#define HELD(k) ((held[(k)/(8*sizeof(long))] >> ((k)%(8*sizeof(long))))&1)
-    keys->select=HELD(native?BTN_TRIGGER_HAPPY1:BTN_SELECT);
-    keys->start=HELD(native?BTN_TRIGGER_HAPPY2:BTN_START);
-    keys->fn=HELD(native?BTN_TRIGGER_HAPPY5:KEY_HOMEPAGE);
-#undef HELD
-}
-static void hotkey_event(int pad,bool native,struct hotkey_state *keys,const struct input_event *ev) {
-    if(ev->type==EV_SYN && ev->code==SYN_DROPPED) {
-        *keys=(struct hotkey_state){.dropped=true};return;
-    }
-    // The incomplete frame after SYN_DROPPED is invalid. Re-query only at its
-    // SYN_REPORT boundary, otherwise stale presses can trigger an exit chord.
-    if(keys->dropped) {
-        if(ev->type==EV_SYN && ev->code==SYN_REPORT)hotkey_sync(pad,native,keys);
-        return;
-    }
-    if(ev->type!=EV_KEY)return;
-    if(ev->code==(native?BTN_TRIGGER_HAPPY1:BTN_SELECT))keys->select=ev->value!=0;
-    if(ev->code==(native?BTN_TRIGGER_HAPPY2:BTN_START))keys->start=ev->value!=0;
-    if(ev->code==(native?BTN_TRIGGER_HAPPY5:KEY_HOMEPAGE))keys->fn=ev->value!=0;
 }
 static pid_t parent_of(pid_t pid) {
     char path[64], buf[4096];
@@ -377,9 +337,8 @@ static int supervise(char **argv,bool native,bool hotkeys) {
         if(native) { if(setgid(1023))fatal("shared storage group");umask(0002); }
         execvp(argv[0],argv); fatal("exec guest");
     }
-    int pad=hotkeys?pad_open():-1, status=0; long long combo=0, force=0, last_retry=0;
+    int pad=hotkeys?pad_open():-1, status=0; long long last_retry=0;
     long long mirrored=now_ms();
-    bool fired=false;
     struct hotkey_state keys={0};
     if(pad>=0)hotkey_sync(pad,native,&keys);
     for(;;) {
@@ -400,22 +359,23 @@ static int supervise(char **argv,bool native,bool hotkeys) {
         }
         struct pollfd poller={.fd=pad,.events=POLLIN}; poll(&poller,1,50);
         struct input_event ev;
-        if(poller.revents&(POLLHUP|POLLERR)) {
-            close(pad);pad=-1;keys=(struct hotkey_state){0};combo=force=0;fired=false;
+        if(poller.revents&(POLLHUP|POLLERR|POLLNVAL)) {
+            close(pad);pad=-1;hotkey_invalidate(&keys,false);
         }
-        while(pad>=0 && read(pad,&ev,sizeof(ev))==sizeof(ev)) {
-            if(ev.type==EV_SYN && ev.code==SYN_DROPPED) {
-                combo=force=0;fired=false;
+        if(pad>=0 && keys.sync_needed && !keys.dropped)hotkey_sync(pad,native,&keys);
+        while(pad>=0) {
+            ssize_t n=read(pad,&ev,sizeof(ev));
+            if(n<0 && errno==EINTR)continue;
+            if(n<0 && (errno==EAGAIN || errno==EWOULDBLOCK))break;
+            if(n!=sizeof(ev)) {
+                close(pad);pad=-1;hotkey_invalidate(&keys,false);
+                break;
             }
             hotkey_event(pad,native,&keys,&ev);
         }
-        if(keys.fn&&keys.start) { if(!force) force=now; if(now-force>=2000) stopping=1; } else force=0;
-        if(keys.select&&keys.start&&!keys.fn) {
-            if(!combo) combo=now;
-            if(now-combo>=1200 && !fired) { exit_game(payload); fired=true; }
-            /* A stuck game must not defeat the escape chord. */
-            if(now-combo>=4000) stopping=1;
-        } else { combo=0; fired=false; }
+        int action=hotkey_tick(&keys,now_ms());
+        if(action&HOTKEY_EXIT_GAME)exit_game(payload);
+        if(action&HOTKEY_RETURN_ANDROID)stopping=1;
     }
 }
 int main(int argc,char **argv) {

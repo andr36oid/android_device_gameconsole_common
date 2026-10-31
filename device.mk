@@ -616,6 +616,7 @@ PRODUCT_PACKAGES += andr36oid-keyheld
 # ABI (PR_ANDR36OID_GUEST) before the display handoff. The broker aborts a session
 # without it (/system/bin/andr36oid-guest), so it must ship alongside the wrapper .sh.
 PRODUCT_PACKAGES += andr36oid-guest
+PRODUCT_PACKAGES += andr36oid-fn-watch
 # RGB lights (Settings > Display > RGB lights), shown only on consoles with an
 # RGB LED (R36 Ultra); off unless chosen
 PRODUCT_PACKAGES += \

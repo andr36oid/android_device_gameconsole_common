@@ -2,6 +2,7 @@
 # Guest integration overrides. The original compatibility rewrites are retained
 # only for audit history; the native input ABI uses a fresh, separate overlay.
 GUEST=${A36_GUEST:-/system/bin/andr36oid-guest}
+FN_WATCH=${A36_FN_WATCH:-/system/bin/andr36oid-fn-watch}
 mount_rootfs() {
   if [ -n "$IMAGE" ]; then
     mount_generic_rootfs || return 1
@@ -84,12 +85,24 @@ unset a36_pad_alias a36_pad_node a36_pad_number
 A36_BUTTONMON
   mv -f "$staging" "$helper" || { rm -f "$staging"; return 1; }
 }
+repair_native_fn_watcher() {
+  local helper staging
+  helper=$(root_path "$ROOT" /usr/local/bin/fn_menu_watcher.sh) || return 1
+  [ -f "$helper" ] || return 0
+  # Replace the image helper at its original path so both the wrapper and
+  # fn-menu-watcher.service use the same state machine, with just one sender.
+  [ -x "$FN_WATCH" ] || return 1
+  staging=$(mktemp "${helper%/*}/.a36-fn-watch.XXXXXX") || return 1
+  cp "$FN_WATCH" "$staging" && chmod 0755 "$staging" && mv -f "$staging" "$helper" ||
+    { rm -f "$staging"; return 1; }
+}
 prime_native_input() {
   # Upstream contains two competing GO profiles, one with invalid axes/button A.
   # Correct that default defect AFTER supplying its native kernel ABI. No emulator-
   # wide numeric rewrites, launch-script patches or SDL override environment.
   [ -z "$IMAGE" ] || return 0
   repair_native_buttonmon || return 1
+  repair_native_fn_watcher || return 1
   local dir cfg
   for dir in "$ROOT/home/ark/.config/retroarch/autoconfig/udev" "$ROOT/home/ark/.config/retroarch32/autoconfig/udev"; do
     dir=$(root_path "$ROOT" "${dir#"$ROOT"}") || return 1
