@@ -174,6 +174,62 @@ sed "s@/dev/input@$tmp/input@g" "$ROOT/usr/local/bin/buttonmon.sh" > "$tmp/butto
 A36_TEST_QUERY="$tmp/query"; export A36_TEST_QUERY
 bash -c '. "$1"; evtest() { printf "%s\n" "$*" > "$A36_TEST_QUERY"; }; Test_Button_A' bash "$tmp/buttonmon"
 grep -Fq -- "--query $tmp/input/event17 " "$tmp/query" || fail 'native alias did not follow event17'
+# Both the dingux live profile and its restore copy ship broken A/B quotes.
+# Keep every numeric binding and unrelated line; repeat boots must converge.
+load_functions repair_native_dingux_quotes
+mkdir -p "$ROOT/opt/dingux"
+dingux="$ROOT/opt/dingux/oshgamepad.cfg"
+cat > "$dingux" <<'DATA'
+input_device = "GO-Super Gamepad"
+input_player1_a_btn = "0
+input_player1_b_btn = "1
+input_a_btn = "1
+input_b_btn = "0"
+input_player1_start_btn = "13"
+input_l_y_minus_axis = "-1"
+input_a_btn_extra = "7
+# keep this comment
+DATA
+cp "$dingux" "$dingux.bak"
+chmod 0640 "$dingux" "$dingux.bak"
+repair_native_dingux_quotes
+for cfg in "$dingux" "$dingux.bak"; do
+  for expected in 'input_player1_a_btn = "0"' 'input_player1_b_btn = "1"' \
+                  'input_a_btn = "1"' 'input_b_btn = "0"' \
+                  'input_player1_start_btn = "13"' 'input_l_y_minus_axis = "-1"' \
+                  'input_a_btn_extra = "7' '# keep this comment'; do
+    grep -Fxq "$expected" "$cfg" || fail "dingux quote repair lost $expected"
+  done
+  [ "$(stat -c %a "$cfg")" = 640 ] || fail 'dingux repair changed permissions'
+done
+cp "$dingux" "$tmp/dingux-once"
+repair_native_dingux_quotes
+cmp "$tmp/dingux-once" "$dingux" || fail 'dingux quote repair was not idempotent'
+# Values outside the shipped integer format are not guessed or collapsed.
+printf 'input_a_btn = "1 2"\ninput_b_btn = "nul"\n' > "$dingux"
+cp "$dingux" "$tmp/dingux-custom"
+repair_native_dingux_quotes
+cmp "$tmp/dingux-custom" "$dingux" || fail 'dingux repair changed custom values'
+# Stage failures retain the previous complete profile and remove partial output.
+for fault in cp awk mv; do
+  (
+    printf 'input_player1_a_btn = "1\n' > "$dingux"
+    cp "$dingux" "$tmp/dingux-before"
+    cp() {
+      if [ "$fault" = cp ]; then printf partial > "$3"; return 1; fi
+      command cp "$@"
+    }
+    awk() { [ "$fault" != awk ] || return 1; command awk "$@"; }
+    mv() { [ "$fault" != mv ] || return 1; command mv "$@"; }
+    if repair_native_dingux_quotes; then fail "dingux $fault failure reported success"; fi
+    cmp "$tmp/dingux-before" "$dingux" || fail "dingux $fault damaged the original"
+    set -- "$ROOT/opt/dingux"/.a36-dingux.*
+    [ ! -e "$1" ] || fail "dingux $fault leaked staging output"
+  )
+done
+rm "$dingux" "$dingux.bak"
+repair_native_dingux_quotes
+[ ! -e "$dingux" ] || fail 'quote repair created an absent dingux profile'
 # Both shell interpreters also exercise the actual checked scalar and kernel
 # syscall policy code through the same compiler harness.
 cc -Wall -Wextra -Werror -O2 "$(dirname "$0")/supervisor-policy-test.c" -o "$tmp/policy"

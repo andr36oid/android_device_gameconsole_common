@@ -96,6 +96,32 @@ repair_native_fn_watcher() {
   cp "$FN_WATCH" "$staging" && chmod 0755 "$staging" && mv -f "$staging" "$helper" ||
     { rm -f "$staging"; return 1; }
 }
+# The image ships unterminated A/B quotes in both the live dingux profile and
+# its restore copy. Repair the text syntax without changing the chosen layout.
+repair_native_dingux_quotes() {
+  local cfg staging
+  for cfg in /opt/dingux/oshgamepad.cfg /opt/dingux/oshgamepad.cfg.bak; do
+    cfg=$(root_path "$ROOT" "$cfg") || return 1
+    [ -f "$cfg" ] || continue
+    staging=$(mktemp "${cfg%/*}/.a36-dingux.XXXXXX") || return 1
+    cp -p "$cfg" "$staging" || { rm -f "$staging"; return 1; }
+    if ! awk '
+      {
+        key=$0; sub(/[[:space:]]*=.*$/, "", key); sub(/^[[:space:]]*/, "", key)
+        if (key ~ /^input_(player1_)?[ab]_btn$/ && index($0, "=")) {
+          value=substr($0, index($0, "=")+1)
+          if (value ~ /^[[:space:]]*"?[0-9]+"?[[:space:]]*$/) {
+            gsub(/["[:space:]]/, "", value)
+            $0=key " = \"" value "\""
+          }
+        }
+        print
+      }
+    ' "$cfg" > "$staging"; then rm -f "$staging"; return 1; fi
+    if cmp -s "$cfg" "$staging"; then rm -f "$staging"
+    else mv -f "$staging" "$cfg" || { rm -f "$staging"; return 1; }; fi
+  done
+}
 prime_native_input() {
   # Upstream contains two competing GO profiles, one with invalid axes/button A.
   # Correct that default defect AFTER supplying its native kernel ABI. No emulator-
@@ -103,6 +129,9 @@ prime_native_input() {
   [ -z "$IMAGE" ] || return 0
   repair_native_buttonmon || return 1
   repair_native_fn_watcher || return 1
+  # dingux is one launcher among many; a quote-repair I/O error must not block the
+  # whole handoff (same rule as the gamma snapshot).
+  repair_native_dingux_quotes || log "dingux gamepad quote repair skipped; continuing"
   local dir cfg
   for dir in "$ROOT/home/ark/.config/retroarch/autoconfig/udev" "$ROOT/home/ark/.config/retroarch32/autoconfig/udev"; do
     dir=$(root_path "$ROOT" "${dir#"$ROOT"}") || return 1

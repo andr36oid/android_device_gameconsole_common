@@ -33,7 +33,7 @@ log() { printf '%s\n' "$*" >> "$LOG"; }
 . IMAGE_LIB
 image_cards() { printf '%s\tabcd-1234\tfake\trw\n' "$BASE/card"; }
 power_hold() { WAKE=; }
-losetup() { [ "${1:-}" != -f ] || printf '/dev/loopMOCK%s\n' "$RANDOM"; return 0; }
+losetup() { [ "${1:-}" != -f ] || printf '/dev/loopMOCK%s\n' "$$"; return 0; }
 mount() { for target; do :; done; cp -a "$BASE/tree/." "$target/"; }
 umount() { return 0; }
 MKFS=$BASE/mkfs; FSCK=$BASE/fsck
@@ -44,7 +44,7 @@ optimize_worker "$1" "$(selection_id abcd-1234 'worker source.img')"
  (b/'worker.sh').write_text(script)
  def prop(key):return (b/'props'/('sys.andr36oid.subsystem.'+key)).read_text()
  final=card/'worker source.erofs.img'
- for shell in ['bash','mksh']:
+ for shell in ['sh','bash','mksh']:
   if not shutil.which(shell):continue
   for n,(keep,fail) in enumerate([('0','mkfs'),('0','fsck'),('1',''),('0','')]):
    source.write_bytes(data)

@@ -160,5 +160,5 @@ SUPPORT=$REAL_SUPPORT
 printf 'PASS: paired catalog, native overlay isolation, original removal, second card, missing selection, stale record, shared storage lease\n'
 '''.replace('RECOVERY_FUNCTIONS','\n'.join(recovery)).replace('TEST_ROOT',str(base)).replace('GUEST_LIBRARY',str(w/'PortMaster/broker/andr36oid-guest.sh')).replace('LIBRARY',str(w/'PortMaster/broker/andr36oid-images.sh'))
 (base/'resolver.sh').write_text(script)
-for shell in ['bash','mksh']:
+for shell in ['sh','bash','mksh']:
  if shutil.which(shell): subprocess.run([shell,str(base/'resolver.sh')],check=True)
