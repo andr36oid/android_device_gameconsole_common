@@ -256,7 +256,11 @@ prepare_guest_hardware() {
   [ "$HANDOFF" = 1 ] || return 0
   local node real
   capture_guest_mixer || return 1
-  "$GUEST" --save-gamma "$STATE/session.gamma" || return 1
+  # Gamma snapshot is cosmetic (restores dArkOSen's LUT tweaks on return). Some
+  # panels' DRM drivers reject the legacy GETGAMMA ioctl (EFAULT); that must not
+  # block the handoff. Best-effort: on failure skip it and leave no stale snapshot.
+  "$GUEST" --save-gamma "$STATE/session.gamma" ||
+    { log "could not snapshot display gamma; continuing without it"; rm -f "$STATE/session.gamma"; }
   : > "$STATE/session.brightness"
   for node in /sys/class/backlight/*/brightness; do
     [ -f "$node" ] || continue
