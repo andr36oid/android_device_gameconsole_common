@@ -1,7 +1,7 @@
 {
   "databaseVersion": 14,
-  "revisionNumber": 1,
-  "_comment": "andr36oid-authored, not an upstream Daijishou file: the Ports game system. Each entry is a dArkOSen port (.sh) living on the shared EASYROMS store; the player hands it to the SubsystemBridge activity, which triggers the root broker to run it on a framework-down display handoff.",
+  "revisionNumber": 2,
+  "_comment": "andr36oid-authored, not an upstream Daijishou file: the Ports game system. Each entry is a dArkOSen port (.sh) living on the shared EASYROMS store; the player hands it to the SubsystemSetup progress activity, which triggers the root broker to run it on a framework-down display handoff.",
   "platform": {
     "name": "Ports",
     "uniqueId": "ports",
@@ -24,7 +24,7 @@
       "uniqueId": "ports.andr36oid.subsystem",
       "description": "Runs the port in the dArkOSen subsystem (hands the display off from Android).",
       "acceptedFilenameRegex": "^(.*)\\.(?:sh|SH)$",
-      "amStartArguments": "-n org.andr36oid.subsystem/.LaunchPortActivity\n -a android.intent.action.VIEW\n -c android.intent.category.DEFAULT\n -e ROM {file.path}\n --activity-clear-task  --activity-clear-top  --activity-no-history",
+      "amStartArguments": "-n org.andr36oid.subsystemsetup/.LaunchPortActivity\n -a android.intent.action.VIEW\n -c android.intent.category.DEFAULT\n -e ROM {file.path}\n --activity-clear-task  --activity-clear-top  --activity-no-history",
       "killPackageProcesses": false,
       "killPackageProcessesWarning": false,
       "extra": ""

@@ -225,8 +225,12 @@ state auto save/load off.
 
 ### How games look
 
-The fresh-install retroarch.cfg also turns shaders on and sets RetroArch's config and
-shader folders to `Android/data/com.retroarch/files/config` and `.../files/shaders`.
+The fresh-install retroarch.cfg leaves shaders off by default and sets RetroArch's config
+and shader folders to `Android/data/com.retroarch/files/config` and `.../files/shaders`.
+Shaders are off because the global preset runs a fragment shader on every presented frame,
+which the Mali-G31 cannot spare at 640x480; on light cores (PS1, SNES) that extra GPU work
+starves the frame and triggers frameskip, so games look slow. The preset files below are
+still installed, so turning shaders back on in Quick Menu > Shaders uses them.
 Daijishou's players pass no folders to RetroArch, so without this RetroArch would use
 one config folder when started from Daijishou and another when started from its own
 icon. The service then copies `seed/retroarch/look/` there (`seed_look`):
@@ -346,13 +350,12 @@ existing `BIOS`/`Bios` folder is used as it is, a missing one is made):
 
 RetroArch 1.22.2 for Android (F-Droid) is built with OpenSL ES as its only sound
 driver (no AAudio, no tinyalsa). The audio HAL has no MMAP path and no fast mixer, so
-AAudio in other apps goes through the same AudioTrack path anyway. The seeded
-`audio_latency` of 64 ms makes RetroArch's own queue 3 blocks of 1024 frames at 48 kHz
-(RetroArch sets `audio_block_frames` itself from Android's mixer period). The layers
-below it (AudioTrack, mixer, driver) keep at least 190 ms more and cover a slow frame.
+AAudio in other apps goes through the same AudioTrack path anyway. The global
+`audio_latency` seed is 64 ms; cores can request a larger frontend minimum. PCSX
+auto frameskip requests about 192 ms at 60 Hz; Snes9x 2010 auto requests 128 ms.
+Downstream Android buffers add latency but do not guarantee the upstream queue never drains.
 
-Left at RetroArch's defaults on purpose (the same values as ArkOS, dArkOS and ROCKNIX
-on this chip):
+Settings kept for this chip's Android GLES path (mostly RetroArch's defaults):
 
 | Setting | Default | Why not changed |
 |---|---|---|
@@ -360,33 +363,23 @@ on this chip):
 | `video_frame_delay`, `video_frame_delay_auto` | 0, off | with threaded video the main loop runs at the pace of the sound, not the screen, so a delay after the frame is not tied to the refresh and gains nothing; the A35 has no time to spare for it in most cores |
 | `video_max_swapchain_images` | 3 | only read by the Vulkan, KMS and D3D drivers, not by the Android GL context |
 | `input_poll_type_behavior` | 2 (late) | reads the pad when the core asks, the lowest-lag mode already |
-| `run_ahead_enabled`, `preemptive_frames_enable` | off | a second run of the core each frame is too heavy for most cores on the A35; on for NES and Game Boy only, below |
+| `run_ahead_enabled`, `preemptive_frames_enable` | off | classic run-ahead repeats emulation every frame; preemptive frames saves state every frame and repeats emulation when input changes. Both use headroom the A35 needs for consistent frame times |
 | `video_threaded` | on (seeded) | costs up to one frame of lag, but SNES, GBA and PS1 need it for full speed |
 
-**Run-ahead for NES and Game Boy.** Many games react to a button one or two frames
-late on the real console too. Run-ahead hides one of those frames. The overrides for
-Nestopia, FCEUmm and Gambatte (in `seed/retroarch/look/config/`, seeded by
-`seed_look` with the same rules as the picture settings) turn on "Preemptive Frames"
-with 1 frame, not classic run-ahead:
+**Run-ahead for NES and Game Boy.** The Nestopia, FCEUmm and Gambatte overrides
+(in `seed/retroarch/look/config/`, seeded by `SeedLook` with the picture settings)
+explicitly disable Preemptive Frames and classic run-ahead, matching dArkOS's
+global defaults. Previously these overrides enabled Preemptive Frames despite
+global run-ahead being off. That saved state every frame and replayed one frame on
+input changes, adding CPU work and risking missed deadlines during active play.
+The old estimates of spare A35 time were not hardware measurements.
 
-- classic run-ahead (single instance) runs the core twice every frame and saves and
-  loads a state each time: always about twice the CPU. A second instance costs even a
-  bit more;
-- preemptive frames saves a state every frame (tens of KB for these cores, well under
-  1 ms) and only goes back and runs the frame again when a
-  button changed. That is a few times a second, so on average it costs 10-20 % more
-  CPU, and a frame with a button change costs about twice as much;
-- a NES or Game Boy frame takes an estimated 3-7 ms on the A35, so even the doubled
-  frame fits in 16.7 ms. SNES (Snes9x 2010, 8-12 ms and more with Super FX), Genesis,
-  GBA and PS1 don't fit and stay off. Snes9x 2010 also uses frameskip "auto", which
-  doesn't mix well with going back a frame.
-
-To turn it off: Quick Menu > Overrides > Remove Core Overrides (the file then stays
-removed; for Game Boy that also drops the 3x picture), or set Settings > Latency >
-Run-Ahead to off and save the core overrides. A setting changed only in the menu is
-lost when the game is closed while an override is active (RetroArch reloads
-retroarch.cfg before it saves, `config_unload_override`). That already holds for
-Game Boy games because of the 3x override; with these files it holds for NES games too.
+Users can enable Preemptive Frames in Settings > Latency and save the core override
+to trade CPU headroom for one frame less input lag. A setting changed only in the
+menu is lost when the game is closed while an override is active (RetroArch reloads
+retroarch.cfg before it saves, `config_unload_override`). Game Boy's integer scaling
+is independent of the latency option and stays enabled. Unchanged managed override
+files update with the ROM; user-edited or deleted files stay as they are.
 
 RetroArch 1.22.2 targets SDK 28 with `requestLegacyExternalStorage` and gets the storage
 permissions from `pm install -g`, so it reads `/storage/<uuid>` like it reads the games.

@@ -29,8 +29,10 @@ Support utility protocol (nonzero exit on invalid input or I/O failure):
   record IMAGE UUID            validate IMAGE.meta plus EROFS size/UUID/features
   orphan IMAGE UUID JOB        same record validation for a proven job with no
                               final image; returns the record's device/inode
-  estimate ROOT DESTINATION    conservative logical bytes + entries + xattrs,
-                              15 percent + 512 MiB reserve, statvfs cluster rounding
+  estimate ROOT DESTINATION    allocated regular-file bytes + entries + xattrs,
+                              statvfs cluster rounding + 15 percent output_bound;
+                              required adds a 512 MiB reserve. Also prints raw
+                              apparent_bytes/allocated_bytes for regular files.
   space DESTINATION            available/cluster/file_limit, rejecting ro mounts
   metadata ROOT               chrooted representative metadata/path checks for
                               owners, modes, links, timestamps, ACLs and xattrs

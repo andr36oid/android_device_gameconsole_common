@@ -4,7 +4,7 @@ BOOT folder with the board wiring the test needs to fake /proc and /sys.
 
     gen-boards.py <dir with rk3326-r36s-*.dtb> <device/gameconsole/r36s/experimental-dtbs/list.txt>
 
-Line: folder|model|joypad amux-en pin|button pins|volume keys ("adc" or pins)
+Line: folder|model|joypad amux-en pin (or '-' for direct ADC)|button pins|volume keys ("adc" or pins)
 Pins are written as <bank><letter><n>, e.g. 3C6 = GPIO3_C6."""
 import os
 import subprocess
@@ -44,6 +44,8 @@ def main():
         boards.append(('clone-' + n, f))
     for n, folder in boards:
         dtb = os.path.join(d, 'rk3326-r36splus-android.dtb' if n == 'splus' else 'rk3326-r36s-%s.dtb' % n)
+        if not os.path.isfile(dtb):
+            raise SystemExit("Missing built DTB: " + dtb)
         bk = banks(dtb)
         model = fdt(dtb, '-ts', '/', 'model')
         jp = '/odroidgo3-joypad'

@@ -40,10 +40,14 @@ final class HoldButton extends View {
         mFill.setStyle(Paint.Style.STROKE);
         mFill.setStrokeWidth(8 * dp);
         mFill.setStrokeCap(Paint.Cap.ROUND);
-        mFill.setColor(getResources().getColor(R.color.andr36oid_setup_accent, context.getTheme()));
+        final TypedValue accent = new TypedValue();
+        context.getTheme().resolveAttribute(android.R.attr.colorAccent, accent, true);
+        final int accentColor = accent.resourceId != 0
+                ? context.getColorStateList(accent.resourceId).getDefaultColor() : accent.data;
+        mFill.setColor(accentColor);
         mFocusRing.setStyle(Paint.Style.STROKE);
         mFocusRing.setStrokeWidth(3 * dp);
-        mFocusRing.setColor(getResources().getColor(R.color.andr36oid_setup_accent, context.getTheme()));
+        mFocusRing.setColor(accentColor);
         final TypedValue textColor = new TypedValue();
         context.getTheme().resolveAttribute(android.R.attr.textColorPrimary, textColor, true);
         mText.setColor(textColor.resourceId != 0

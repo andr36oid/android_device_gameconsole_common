@@ -34,6 +34,18 @@ else
 	fail "daijishou-seed.txt is out of date"
 fi
 
+if python3 "$HERE/darkosen-players-test.py"; then
+	pass "dArkOSen alternates preserve Android defaults"
+else
+	fail "dArkOSen alternates"
+fi
+
+if python3 "$HERE/player-launchers-test.py"; then
+	pass "subsystem players pass Daijishou's launcher-package check"
+else
+	fail "subsystem player launcher entries"
+fi
+
 # 2. schema = the APK's
 if [ -f "$APK" ]; then
 	if python3 "$HERE/checkschema.py" "$APK" "$EMU/daijishou/schema.sql"; then

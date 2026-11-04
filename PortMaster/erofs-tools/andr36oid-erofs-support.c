@@ -182,7 +182,7 @@ static void record(const char *path, const char *uuid, const char *orphan_job) {
 }
 static uint64_t add(uint64_t a,uint64_t b) { require(a<=UINT64_MAX-b,"estimate overflow"); return a+b; }
 static uint64_t round_up(uint64_t n,uint64_t unit) { return add(n,unit-1)/unit*unit; }
-static uint64_t estimate_bytes,cluster;
+static uint64_t estimate_bytes,apparent_bytes,allocated_bytes,cluster;
 static int overlay_walk(const char *path,const struct stat *st,int type,struct FTW *ftw) {
     (void)st; (void)ftw;
     require(type!=FTW_NS && type!=FTW_DNR,"unreadable legacy upper");
@@ -198,7 +198,15 @@ static int overlay_walk(const char *path,const struct stat *st,int type,struct F
 static int walk(const char *path,const struct stat *st,int type,struct FTW *ftw) {
     (void)ftw; require(type!=FTW_NS && type!=FTW_DNR,"unreadable source tree");
     estimate_bytes=add(estimate_bytes,round_up(8192,cluster));
-    if (S_ISREG(st->st_mode)) estimate_bytes=add(estimate_bytes,round_up((uint64_t)st->st_size,cluster));
+    if (S_ISREG(st->st_mode)) {
+        require(st->st_size>=0 && st->st_blocks>=0 && (uint64_t)st->st_blocks<=UINT64_MAX/512,"file size overflow");
+        uint64_t allocated=(uint64_t)st->st_blocks*512;
+        apparent_bytes=add(apparent_bytes,(uint64_t)st->st_size);
+        allocated_bytes=add(allocated_bytes,allocated);
+        /* Sparse holes compress away with LZ4; apparent size inflates progress
+         * to the source volume size. Keep inode/xattr costs and safety margins. */
+        estimate_bytes=add(estimate_bytes,round_up(allocated,cluster));
+    }
     ssize_t n=llistxattr(path,NULL,0); if (n<0) die("listxattr");
     if (n) {
         char *attrs=malloc((size_t)n); if (!attrs) die("malloc");
@@ -296,6 +304,7 @@ int main(int argc,char **argv) {
         if (nftw(argv[2],walk,32,FTW_PHYS|FTW_MOUNT)) die("source walk");
         uint64_t overhead=add(estimate_bytes,99)/100*15;
         uint64_t output=add(estimate_bytes,overhead);
+        printf("apparent_bytes=%" PRIu64 "\nallocated_bytes=%" PRIu64 "\n",apparent_bytes,allocated_bytes);
         printf("required=%" PRIu64 "\noutput_bound=%" PRIu64 "\n",add(output,512ULL*1024*1024),output);
         require(output<=limit,"destination file-size limit");
     } else if (!strcmp(cmd,"metadata") && argc==3) metadata(argv[2]);

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="subsystem_title">andr36oid-Subsystem für Linux</string>
+    <string name="subsystem_title">andr36oid Subsystem for Linux</string>
     <string name="subsystem_summary">dArkOSen, EmulationStation und PortMaster einrichten und öffnen</string>
     <string name="subsystem_about_title">So funktioniert es</string>
     <string name="subsystem_about">Hier werden dArkOSen und möglicherweise weitere benutzerdefinierte Firmware in einer separaten, abgeschotteten Umgebung ausgeführt, ähnlich wie bei Docker. Die ressourcenintensiven Android-Hintergrunddienste werden zuerst angehalten. Dadurch werden alle geöffneten Android-Apps geschlossen, solange die Umgebung läuft. Die Geschwindigkeit sollte fast der entsprechen, die du bei der eigenständigen Ausführung der benutzerdefinierten Firmware erreichst, aber es wird der andr36oid-Kernel verwendet. Daher funktionieren einige Dinge möglicherweise nicht genau wie erwartet. Deine EASYROMS-Partition oder, falls du keine EASYROMS-Partition erstellt hast, die Datenpartition wird in der benutzerdefinierten Firmware als /roms eingebunden.</string>

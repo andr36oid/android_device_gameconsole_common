@@ -21,7 +21,7 @@
             android:name=".SubsystemSetupActivity"
             android:exported="true"
             android:label="@string/subsystem_title"
-            android:theme="@style/Andr36oidSetupTheme">
+            android:theme="@style/SubsystemTheme">
             <intent-filter>
                 <action android:name="com.android.settings.action.IA_SETTINGS" />
             </intent-filter>
@@ -36,8 +36,20 @@
                 android:resource="@drawable/ic_subsystem" />
         </activity>
 
-        <activity android:name=".AdvancedSetupActivity" android:exported="false" android:theme="@style/Andr36oidSetupTheme" />
-        <activity android:name=".EmulationStationActivity" android:exported="false" android:theme="@style/Andr36oidSetupTheme" />
+        <!-- Both Daijishou players target this package. Its optional ES entry
+             supplies the single MAIN/LAUNCHER package match when enabled. -->
+        <activity android:name=".LaunchPortActivity" android:exported="true"
+            android:excludeFromRecents="true" android:noHistory="true"
+            android:theme="@style/SubsystemTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".RetroArchActivity" android:exported="true" android:theme="@style/SubsystemTheme" />
+        <activity android:name=".AdvancedSetupActivity" android:exported="false" android:theme="@style/SubsystemTheme" />
+        <activity android:name=".EmulationStationActivity" android:exported="false" android:theme="@style/SubsystemTheme" />
         <activity-alias android:name=".EmulationStationLauncher" android:targetActivity=".EmulationStationActivity" android:enabled="false" android:exported="true" android:icon="@drawable/ic_emulationstation" android:label="@string/asl_es">
             <intent-filter><action android:name="android.intent.action.MAIN"/><category android:name="android.intent.category.LAUNCHER"/></intent-filter>
         </activity-alias>

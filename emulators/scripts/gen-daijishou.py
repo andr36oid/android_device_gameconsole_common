@@ -7,6 +7,7 @@ Input:
   daijishou/official/*.json the platform files from github.com/TapiocaFox/Daijishou (MIT)
   seed/rom-folders.txt      the ROM folders we make on EASYROMS
   cores.lock                the libretro cores we ship
+  daijishou/darkosen-cores.txt Android -> reference Linux core name map
 
 Output (tab separated, one record per line, values already written as SQL):
   daijishou  <versionCode>                         the Daijishou the schema is for
@@ -83,6 +84,48 @@ RETROARCH_EXTRAS = (
     " -e EXTERNAL /storage/emulated/0/Android/data/com.retroarch/files",
     " -e SDCARD /storage/emulated/0",
 )
+
+
+# Native extensions from the dArkOSen reference core info (Phase 2). The official
+# catalog sometimes omits formats or names another core's formats. Apply this to
+# both official and synthesized players; keep the cached JSONs byte-for-byte.
+# RetroArch can extract zip and 7z for cores without block_extract. Geolith is
+# used for carts here; NeoCD retains its existing players. Directory launching
+# is not a filename extension, so it is omitted here.
+CORE_EXTENSIONS = {
+    'hatarib': 'st|msa|dim|stx|ipf|ctr|m3u|m3u8|zip|zst|gz|acsi|ahd|vhd|scsi|shd|ide|gem|7z',
+    'mednafen_pcfx': 'cue|ccd|toc|chd',
+    'np2kai': 'd98|zip|98d|fdi|fdd|2hd|tfd|d88|88d|hdm|xdf|dup|cmd|hdi|thd|nhd|hdd|hdn',
+    'quasi88': 'd88|u88|m3u',
+    'tic80': 'tic',
+    'wasm4': 'wasm',
+    'vircon32': 'v32',
+    'uzem': 'uze|zip|7z',
+    'ecwolf': 'wl6|n3d|sod|sdm|wl1|pk3|exe',
+    'potator': 'bin|sv|zip|7z',
+    'freechaf': 'bin|chf|zip|7z',
+    'minivmac': 'dsk|img|zip|hvf|cmd|7z',
+    'emuscv': 'cart|bin|rom|0|zip',
+    'x1': 'dx1|zip|2d|2hd|tfd|d88|88d|hdm|xdf|dup|tap|cmd|7z',
+    'geolith': 'neo',
+    'onsyuri': 'txt|dat|___|nt2|nt3|ons',
+    'puzzlescript': 'pz|pzp',
+    'vice_x64sc': 'd64|d71|d80|d81|d82|g64|g41|x64|t64|tap|prg|p00|crt|bin|zip|gz|d6z|d7z|d8z|g6z|g4z|x6z|cmd|m3u|vfl|vsf|nib|nbz|d2m|d4m',
+    'vice_xscpu64': 'd64|d71|d80|d81|d82|g64|g41|x64|t64|tap|prg|p00|crt|bin|zip|gz|d6z|d7z|d8z|g6z|g4z|x6z|cmd|m3u|vfl|vsf|nib|nbz|d2m|d4m',
+    'vice_xcbm2': 'd64|d71|d80|d81|d82|g64|g41|x64|t64|tap|prg|p00|crt|bin|zip|gz|d6z|d7z|d8z|g6z|g4z|x6z|cmd|m3u|vfl|vsf|nib|nbz|d2m|d4m',
+    'vice_xcbm5x0': 'd64|d71|d80|d81|d82|g64|g41|x64|t64|tap|prg|p00|crt|bin|zip|gz|d6z|d7z|d8z|g6z|g4z|x6z|cmd|m3u|vfl|vsf|nib|nbz|d2m|d4m',
+    'snes9x2005': 'smc|fig|sfc|gd3|gd7|dx2|bsx|swc|zip|7z',
+    'quicknes': 'nes|zip|7z',
+    'sameboy': 'gb|gbc|zip|7z',
+    'fmsx': 'rom|mx1|mx2|dsk|fdi|cas|m3u|zip|7z',
+    'mednafen_lynx': 'lnx|lyx|bll|o|zip|7z',
+    'ardens': 'hex|arduboy|zip|7z',
+    'arduous': 'hex|zip|7z',
+    'b2': 'ssd|dsd|zip|7z',
+    'bk': 'bin|zip|7z',
+    'sameduck': 'bin|duck|zip|7z',
+    '81': 'p|tzx|t81|zip|7z',
+}
 
 
 def sql_text(s):
@@ -197,6 +240,9 @@ def art_file(index, platform):
 def generate():
     rom_folders = {w[0] for w in read_words(os.path.join(EMU, "seed", "rom-folders.txt"))}
     cores = {w[0] for w in read_words(os.path.join(EMU, "cores.lock"))}
+    darkosen = dict(read_words(os.path.join(DJ, "darkosen-cores.txt")))
+    if not darkosen.keys() <= cores:
+        raise SystemExit("darkosen-cores.txt contains a core absent from cores.lock")
     with open(os.path.join(DJ, "art", "index.json"), encoding="utf-8") as f:
         art_index = json.load(f)
 
@@ -220,6 +266,13 @@ def generate():
         with open(os.path.join(DJ, "official", fname), encoding="utf-8") as f:
             data = json.load(f)
         platform, players = data["platform"], data["playerList"]
+        if platform["uniqueId"] == "ports":
+            # Ports and RACORE must share the setup package's single ES launcher
+            # entry: Daijishou's package preflight uses MAIN/LAUNCHER matches.
+            target = "-n org.andr36oid.subsystemsetup/.LaunchPortActivity"
+            if (needs != ["app:org.andr36oid.subsystemsetup"] or
+                    not all(p["amStartArguments"].startswith(target + "\n") for p in players)):
+                raise SystemExit("Ports must launch via SubsystemSetup's ES package")
         if platform["uniqueId"] in seen_ids:
             raise SystemExit("%s: platform %s twice" % (fname, platform["uniqueId"]))
         seen_ids.add(platform["uniqueId"])
@@ -228,6 +281,7 @@ def generate():
         art = art_file(art_index, platform)
         if art:
             lines.append("art\t%d\t%s" % (n, art))
+        alternate = None
         for need in needs:
             if need.startswith("app:"):
                 want = need
@@ -242,9 +296,32 @@ def generate():
                 p = synth_player(platform, players, need)
             if ra_core(p):
                 p = dict(p)
+                extensions = CORE_EXTENSIONS.get(ra_core(p))
+                if extensions:
+                    p["acceptedFilenameRegex"] = (
+                        r"(?i)^(?!(?:\._|\.).*).*\.(?:" + extensions + r")$")
                 p["amStartArguments"] = "\n".join(
                     [p["amStartArguments"].rstrip("\n")] + list(RETROARCH_EXTRAS))
             lines.append("player\t%d\t%s\t%s" % (n, want, player_values(p)))
+            # One alternate per platform, using its first reference-supported core.
+            # Append after every original player so their default ordering is unchanged.
+            if alternate is None and ra_core(p) in darkosen:
+                alternate = dict(p)
+                core = darkosen[ra_core(p)]
+                alternate["uniqueId"] = platform["uniqueId"] + ".andr36oid.darkosen"
+                alternate["name"] = "RetroArch (dArkOSen)"
+                alternate["description"] = (
+                    "Linux core: " + core + ". Enable Daijishou dArkOSen cores in "
+                    "subsystem settings, then select this player. Exit to return to Android.")
+                alternate["amStartArguments"] = (
+                    "-n org.andr36oid.subsystemsetup/.RetroArchActivity\n"
+                    " -e ROM {file.path}\n -e CORE " + core)
+                alternate["killPackageProcesses"] = False
+                alternate["killPackageProcessesWarning"] = False
+                alternate_need = want
+        if alternate is not None:
+            # Same prerequisite as its Android counterpart; no change to setup's seed format.
+            lines.append("player\t%d\t%s\t%s" % (n, alternate_need, player_values(alternate)))
     return "\n".join(lines) + "\n"
 
 

@@ -228,6 +228,12 @@ export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 export HOME=/home/ark XDG_RUNTIME_DIR=/run/user/0
 handoff=$1; mute=$2; shift 2
 if [ "$handoff" = 1 ]; then
+  # dArkOSen's ogage opens a fixed /dev/input/event0-10 list and aborts (a Rust
+  # unwrap) on a node that exists but cannot be opened (ENXIO) - e.g. a stale
+  # virtual uinput pad left in /dev/input. That kills the volume daemon, so the
+  # volume keys do nothing in-session. Drop unopenable nodes first; ogage then
+  # treats them as absent and survives. Read-only open test, no side effects.
+  for _n in /dev/input/event*; do [ -e "$_n" ] || continue; ( exec 3<"$_n" ) 2>/dev/null || rm -f "$_n"; done
   if [ -x /usr/local/bin/ogage ]; then
     if [ "$mute" = 1 ]; then
       mkdir -p /run/andr36oid-muted-bin

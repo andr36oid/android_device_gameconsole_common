@@ -187,8 +187,14 @@ func TestDaijishouMissingCoreFolderApp(t *testing.T) {
 			c.fail("platform %s without player or folder", id)
 		}
 	}
-	if g := c.sql("SELECT player_id_list FROM PlatformEntity WHERE unique_id='genesis'"); strings.Count(g, ",") != 1 {
+	// Missing picodrive removes its player; the Linux alternate follows the two
+	// remaining Android players and must not replace the Android default.
+	want := "genesis.ra.genesis_plus_gx\ngenesis.andr36oid.clownmdemu\ngenesis.andr36oid.darkosen"
+	if g := c.sql("SELECT unique_id FROM PlayerEntity WHERE unique_id LIKE 'genesis.%' ORDER BY id"); g != want {
 		c.fail("genesis players %s", g)
+	}
+	if p := c.sql("SELECT p.unique_id FROM PlatformEntity f JOIN PlayerEntity p ON p.id = f.default_player_id WHERE f.unique_id='genesis'"); p != "genesis.ra.genesis_plus_gx" {
+		c.fail("genesis default %s", p)
 	}
 }
 

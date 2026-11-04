@@ -464,9 +464,10 @@ func (s *Setup) gameOptWrite(core, prefix, name, defaults string, sets []string,
 
 // SeedLook: how games look (Base/retroarch/look): the sharp bilinear shader for every
 // core, 3x for the Game Boy and a few shaders to pick from, next to retroarch.cfg. Only on
-// installs whose retroarch.cfg we wrote: that one turns shaders on and points RetroArch at
-// these folders. A newer image updates a file while it is unchanged; a file the user
-// changed or deleted stays that way.
+// installs whose retroarch.cfg we wrote: that one leaves shaders off by default (the
+// Mali-G31 cannot spare a per-frame shader on light cores) but still installs these presets
+// and points RetroArch at these folders, so the user can enable them. A newer image updates
+// a file while it is unchanged; a file the user changed or deleted stays that way.
 func (s *Setup) SeedLook() {
 	src := s.Base + "/retroarch/look"
 	own := s.raOwn()

@@ -10,6 +10,7 @@
 
     <application
         android:allowBackup="false"
+        android:icon="@drawable/ic_portmaster"
         android:label="@string/app_label"
         android:supportsRtl="true">
 
@@ -25,5 +26,8 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
+        <!-- Headless compatibility endpoint for older explicit intents. New
+             players launch SubsystemSetup, whose ES entry covers preflight. -->
     </application>
 </manifest>

@@ -24,6 +24,7 @@ import java.util.Map;
 
 /** Property client only. Mounting, scanning and display ownership belong to the broker. */
 final class SubsystemBackend {
+    static final String DAIJISHOU_CORES = "persist.andr36oid.subsystem.daijishou_cores";
     static final String DEFAULT = "persist.andr36oid.subsystem.default";
     static final String DEFAULT_TARGET = "persist.andr36oid.subsystem.default_target";
     static final String ROOTFS = "sys.andr36oid.subsystem.rootfs";
@@ -75,6 +76,36 @@ final class SubsystemBackend {
             Log.w(TAG, "Cannot write " + key, e);
             return false;
         }
+    }
+
+    /** Only a short opaque id crosses properties; filenames can exceed PROP_VALUE_MAX. */
+    static String retroArchRequest(Context context, String core, String rom) throws IOException {
+        if (!"1".equals(get(DAIJISHOU_CORES)) || core == null
+                || !core.matches("[a-zA-Z0-9_]{1,64}") || rom == null
+                || !rom.startsWith("/") || rom.indexOf('\n') >= 0 || rom.indexOf('\r') >= 0
+                || rom.indexOf('\0') >= 0 || rom.length() > 4096) {
+            throw new IOException("Invalid or disabled RetroArch request");
+        }
+        final File directory = context.getFilesDir();
+        // A framework restart can interrupt a queued launch. Retire only our old requests.
+        final File[] old = directory.listFiles();
+        if (old != null) for (File file : old) {
+            if (file.getName().matches("ra-[0-9a-f]{32}\\.request")
+                    && System.currentTimeMillis() - file.lastModified() > 86400000L) file.delete();
+        }
+        final String id = java.util.UUID.randomUUID().toString().replace("-", "");
+        final File temporary = new File(directory, "ra-" + id + ".tmp");
+        final File request = new File(directory, "ra-" + id + ".request");
+        try {
+            try (java.io.FileOutputStream out = new java.io.FileOutputStream(temporary)) {
+                out.write((core + "\n" + rom + "\n").getBytes(StandardCharsets.UTF_8));
+                out.getFD().sync();
+            }
+            Files.move(temporary.toPath(), request.toPath());
+        } finally {
+            temporary.delete();
+        }
+        return "RACORE:" + id;
     }
 
     static String defaultTarget() {

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_label">andr36oid Subsystem</string>
+    <string name="portmaster">PortMaster</string>
     <string name="no_subsystem">dArkOSen subsystem is not installed. Place a dArkOSen image in subsystem/darkosen/ first.</string>
 </resources>

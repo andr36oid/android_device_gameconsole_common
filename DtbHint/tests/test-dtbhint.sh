@@ -102,7 +102,7 @@ fake() {
 	xbtn=$(field "$X" 4) ybtn=$(field "$Y" 4)
 	xvol=$(field "$X" 5) yvol=$(field "$Y" 5)
 	printf '%s\000' "$(field "$X" 2)" >"$R/proc/device-tree/model"
-	if [ -z "$nojoy" ]; then
+	if [ -z "$nojoy" ] && [ "$xen" != - ]; then
 		mkdir -p "$R/proc/device-tree/odroidgo3-joypad"
 		{ be32 99; be32 "$(pinnum "$xen")"; be32 1; } >"$R/proc/device-tree/odroidgo3-joypad/amux-en-gpios"
 	fi
@@ -180,6 +180,7 @@ fake() {
 			done
 		fi
 		ln -s "$W/shared/Panels" "$R/boot/Panels"
+		ln -s "$W/shared/Devices" "$R/boot/Devices"
 		ln -s "$W/shared/Experimental" "$R/boot/Experimental"
 		cp "$W/shared/$X/rk3326-r36s-android.dtb" "$R/boot/rk3326-r36s-android.dtb"
 	fi
@@ -202,6 +203,11 @@ result() { sed -n 's/^result: \([^ ]*\).*/\1/p' "$1/data/dtb-hint.txt"; }
 list_of() { sed -n "s/^$1=\"\(.*\)\"\$/\1/p" "$SCRIPT"; }
 check_lists() {
 	while IFS='|' read -r f _ en _ _; do
+		# Direct-ADC consoles have a model mapping, not a mux wiring family.
+		if [ "$en" = - ]; then
+			expect "model mapping: $f" contains "$SCRIPT" "echo \"$f\""
+			continue
+		fi
 		case $(wiring "$en") in
 		genuine) v=F_GENUINE ;;
 		soy) v=F_SOY ;;
@@ -228,9 +234,9 @@ check_lists() {
 # on one board per wiring (the result depends only on the wiring)
 matrix() {
 	R=$W/m
-	folders=$(awk -F'|' '{ print $1 }' "$BOARDS")
+	folders=$(awk -F'|' '$3 != "-" { print $1 }' "$BOARDS")
 	boards=$folders
-	[ "$3" = all ] || boards=$(awk -F'|' '!seen[$3]++ { print $1 }' "$BOARDS")
+	[ "$3" = all ] || boards=$(awk -F'|' '$3 != "-" && !seen[$3]++ { print $1 }' "$BOARDS")
 	for X in $folders; do
 		for Y in $boards; do
 			if [ "$(fam "$(field "$Y" 3)")" = soy ] && [ -n "$2" ]; then
@@ -340,6 +346,30 @@ cases() {
 		esac
 		expect "$m: device name" [ "$(cat "$R/test/device_name")" = "andr36oid on $n" ]
 	done
+	fake "$R" Panels/Panel4 Panels/Panel4
+	hint "$R"
+
+	# OkRoll ADC0 is a stick, not a board-ID resistor. Every legacy band must
+	# resolve to its own profile without a false R36S-family hint.
+	for adc in 166 514 675 900; do
+		fake "$R" Devices/OkRoll-Clone Devices/OkRoll-Clone adc0=$adc
+		hint "$R"
+		expect "OkRoll ADC$adc: no wrong-board hint" [ ! -e "$R/boot/dtb-hint.txt" ]
+		expect "OkRoll ADC$adc: model mapped" contains "$R/test/info" "andr36oid.info.panel=Devices/OkRoll-Clone"
+		expect "OkRoll ADC$adc: name" [ "$(cat "$R/test/device_name")" = "andr36oid on OkRoll clone" ]
+		expect "OkRoll ADC$adc: exit 0" [ "$(cat "$R/test/rc")" = 0 ]
+		expect "OkRoll ADC$adc: no resistor claim" lacks "$R/test/info" "andr36oid.info.board="
+	done
+	# The exact compatible token also works without the expected model.
+	fake "$R" Devices/OkRoll-Clone Devices/OkRoll-Clone adc0=514 noboot
+	printf 'Custom model\000' >"$R/proc/device-tree/model"
+	printf 'andr36oid,okroll-clone\000rockchip,rk3326\000' >"$R/proc/device-tree/compatible"
+	hint "$R"
+	expect "OkRoll compatible: mapped without BOOT" contains "$R/test/info" "andr36oid.info.panel=Devices/OkRoll-Clone"
+	expect "OkRoll compatible: name" [ "$(cat "$R/test/device_name")" = "andr36oid on OkRoll clone" ]
+	printf 'vendor,andr36oid,okroll-clone-extra\000' >"$R/proc/device-tree/compatible"
+	hint "$R"
+	expect "OkRoll compatible: exact token only" [ "$(result "$R")" = unknown-dt ]
 	fake "$R" Panels/Panel4 Panels/Panel4
 	hint "$R"
 

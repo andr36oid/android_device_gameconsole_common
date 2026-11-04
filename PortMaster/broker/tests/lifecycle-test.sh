@@ -2,7 +2,7 @@
 set -eu
 . "$(dirname "$0")/test-lib.inc"
 load_functions process_start_time recorded_process_alive process_deadline_reached freeze_process kill_process_children kill_tracked_tree \
-  watch_session_markers run_session_payload run_es_wrapper run_session \
+  live_backlight_allowed restore_live_backlight watch_session_markers run_session_payload run_es_wrapper run_session \
   session_uses_init install_systemctl_shim
 SESSION_OUT="$tmp/session.out"
 find_es() { ES=/usr/bin/emulationstation/emulationstation.sh; return 0; }

@@ -7,7 +7,7 @@
 # root because dmesg, tombstones and pstore need it. Personal things are taken out
 # before saving (scrub below); README.txt in the zip says what is in it.
 #
-# Started two ways:
+# Started in these modes:
 #   (no argument)  by the Problem report page (Settings > System) through ctl.start
 #   boot           by init at every start (post-fs-data). Does nothing unless BOOT
 #                  has a file make-report.txt: then it deletes the file, waits for
@@ -18,6 +18,8 @@
 #                  after 5 minutes (20 on the first start of a card or of a new
 #                  version), it saves a small start log on BOOT for the endless boot logo case, see
 #                  startlog_mode.
+#   boottiming     by init on sys.boot_completed=1. Saves a small timing snapshot
+#                  to BOOT/andr36oid-reports/boot-timing.txt, once per kernel boot.
 #
 # Talks to the app through /data/misc/andr36oid-report:
 #   note.txt  what the user typed (optional, written by the app)
@@ -73,6 +75,8 @@ START_KEPT=$DIR/start-logs
 START_BUILD=$DIR/start-build
 # a make-report.txt start-up report is coming, which also saves after 5 minutes
 START_PENDING=${REPORT_START_PENDING:-/dev/andr36oid-report.pending}
+# Separate from app/startlog work and locks; /dev clears on a kernel reboot.
+TIMING_WORK=${REPORT_TIMING_WORK:-/dev/andr36oid-boottiming}
 BOOT=
 BOOT_RW=
 BOOT_MOUNTED=
@@ -788,11 +792,123 @@ startlog_mode() {
 	startlog_save
 }
 
+boottiming_finish() {
+	boot_close
+	if [ -e "$TIMING_WORK/done" ]; then
+		rm -f "$TIMING_WORK/props.tmp" "$TIMING_WORK/kernel.tmp" \
+			"$TIMING_WORK/report.tmp" "$TIMING_WORK/clean.tmp" "$TIMING_WORK/scrub.tmp"
+	else
+		rm -rf "$TIMING_WORK"
+	fi
+}
+
+# No polling and no framework calls. Observe the completion trigger before any
+# contention on BOOT. A successful atomic replacement keeps just the latest boot;
+# failures leave the previous report intact and may be retried with ctl.start.
+boottiming_mode() {
+	local observed completed pid free kb out
+	observed=$(cat /proc/uptime 2>/dev/null)
+	completed=$(getprop sys.boot_completed)
+	[ "$completed" = 1 ] || return 0
+	[ ! -e "$TIMING_WORK/done" ] || return 0
+	if ! mkdir "$TIMING_WORK" 2>/dev/null; then
+		pid=$(cat "$TIMING_WORK/pid" 2>/dev/null)
+		# Reclaim only a dead writer, never another running snapshot.
+		[ -n "$pid" ] && ! kill -0 "$pid" 2>/dev/null || return 0
+		rm -rf "$TIMING_WORK"
+		mkdir "$TIMING_WORK" 2>/dev/null || return 0
+	fi
+	echo $$ >"$TIMING_WORK/pid"
+	trap boottiming_finish EXIT
+	trap 'exit 0' TERM INT
+	timeout 5 getprop >"$TIMING_WORK/props.tmp" || return 1
+	# Keep original kernel timestamps; no dmesg -T wall-clock conversion. Bound
+	# both the read time and storage even on a noisy kernel. Errors stay visible.
+	timeout 10 dmesg 2>&1 | tail -c 2097152 >"$TIMING_WORK/kernel.tmp"
+	{
+		echo "andr36oid boot timing"
+		echo "Saved: $(date -u)"
+		echo "Kernel boot ID: $(cat /proc/sys/kernel/random/boot_id 2>/dev/null)"
+		echo "sys.boot_completed=$completed"
+		echo "Completion observed /proc/uptime (seconds, idle seconds): $observed"
+		echo "Reporter first start CLOCK_BOOTTIME ns: $(getprop ro.boottime.andr36oid-boottiming)"
+		echo "Observation follows init trigger dispatch/scheduling; it is an upper bound, not the exact property-set time."
+		echo
+		echo "== All ro.boottime.*: raw value, property (numeric ascending)"
+		echo "Mixed units: service starts and init start/stages are ns; cold_boot_wait and mount_all.* are ms durations."
+		sed -n 's/^\[\(ro\.boottime\.[^]]*\)\]: \[\([^]]*\)\]$/\2 \1/p' \
+			"$TIMING_WORK/props.tmp" | sort -n
+		echo
+		echo "== Service first starts: seconds since boot, gap from previous start, property"
+		echo "Gaps show launch spacing, NOT service runtime/readiness or proven dependencies."
+		sed -n 's/^\[\(ro\.boottime\.[^]]*\)\]: \[\([0-9][0-9]*\)\]$/\2 \1/p' \
+			"$TIMING_WORK/props.tmp" | sort -n | awk '
+			$2 !~ /^ro\.boottime\.init($|\.)/ {
+				t = $1 / 1000000000
+				if (seen) printf "%.6f %.6f %s\n", t, t - prev, $2
+				else printf "%.6f - %s\n", t, $2
+				prev = t; seen = 1
+			}'
+		echo
+		echo "== getprop ro.boottime.init* (prefix from the snapshot; getprop takes no glob)"
+		sed -n '/^\[ro\.boottime\.init[^]]*\]:/p' "$TIMING_WORK/props.tmp"
+		echo
+		echo "== Top 20 slow init commands: duration ms, original timestamped kernel line"
+		awk '/init:.*Command .* took [0-9]+ms/ {
+			for (i = 1; i < NF; i++) if ($i == "took" && $(i+1) ~ /^[0-9]+ms$/) {
+				n = $(i+1); sub(/ms$/, "", n); print n, $0; break
+			}
+		}' "$TIMING_WORK/kernel.tmp" | sort -rn | head -n 20
+		echo
+		echo "== Init/storage milestones (last 300 matching kernel lines)"
+		grep -E 'init:|ueventd:|fs_mgr|andr36oid-' "$TIMING_WORK/kernel.tmp" | tail -n 300
+		echo
+		echo "== Kernel tail (last 1200 lines of at most 2 MiB)"
+		echo "An empty milestone list can mean printk filtering, ring-buffer wrap, or denied dmesg."
+		tail -n 1200 "$TIMING_WORK/kernel.tmp"
+	} >"$TIMING_WORK/report.tmp" || return 1
+	# Use the same privacy filter as problem reports, retaining timing columns.
+	scrub_rules >"$TIMING_WORK/scrub.tmp"
+	sed -E -f "$TIMING_WORK/scrub.tmp" "$TIMING_WORK/report.tmp" >"$TIMING_WORK/clean.tmp" || return 1
+	if ! boot_open; then
+		log "boot timing: BOOT unavailable/busy, previous report kept"
+		return 1
+	fi
+	free=$(free_kb "$BOOT")
+	case $free in '' | *[!0-9]*) free=0 ;; esac
+	kb=$(($(wc -c <"$TIMING_WORK/clean.tmp") / 1024 + 1))
+	if [ "$free" -le $((BOOT_KEEP_KB + kb)) ] || ! boot_rw; then
+		log "boot timing: BOOT full/read-only, previous report kept"
+		return 1
+	fi
+	out=$BOOT/andr36oid-reports/boot-timing.txt
+	mkdir -p "$BOOT/andr36oid-reports" || return 1
+	if ! {
+		cat "$TIMING_WORK/clean.tmp"
+		echo
+		echo "== /proc/uptime at BOOT write time (seconds, idle seconds)"
+		cat /proc/uptime
+	} >"$out.tmp" || ! mv -f "$out.tmp" "$out"; then
+		rm -f "$out.tmp"
+		log "boot timing: BOOT write failed, previous report kept"
+		return 1
+	fi
+	boot_close
+	: >"$TIMING_WORK/done"
+	log "boot timing saved on BOOT: andr36oid-reports/boot-timing.txt"
+	return 0
+}
+
 finish() {
 	boot_close
 	rmdir "$LOCK" 2>/dev/null
 }
 
+if [ "$MODE" = boottiming ]; then
+	# Diagnostic failure must not propagate as a boot failure.
+	boottiming_mode
+	exit 0
+fi
 if [ "$MODE" = startlog ]; then
 	startlog_mode
 	exit $?

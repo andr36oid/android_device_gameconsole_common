@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="subsystem_title">Подсистема andr36oid для Linux</string>
+    <string name="subsystem_title">andr36oid Subsystem for Linux</string>
     <string name="subsystem_summary">Настройте и откройте dArkOSen, EmulationStation и PortMaster</string>
     <string name="subsystem_about_title">Как это работает</string>
     <string name="subsystem_about">Здесь dArkOSen и, возможно, другие пользовательские прошивки запускаются в отдельной изолированной среде, немного похожей на Docker. Сначала останавливаются ресурсоёмкие фоновые службы Android, поэтому все открытые приложения Android закрываются на время работы. Скорость должна быть близка к скорости самостоятельного запуска пользовательской прошивки, но используется ядро andr36oid, поэтому некоторые вещи могут работать не совсем так, как ожидается. Раздел EASYROMS или раздел данных, если вы решили не создавать раздел EASYROMS, подключается в пользовательской прошивке как /roms.</string>

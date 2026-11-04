@@ -7,12 +7,12 @@
 # On the console the first one that is there becomes the platform's default player.
 #
 # Folders without a player we ship (nds) and bios get no platform.
-nes,famicom                 NintendoEntertainmentSystem.json        nestopia,fceumm
+nes,famicom                        NintendoEntertainmentSystem.json        nestopia,fceumm,quicknes
 fds                 FamicomDiskSystem.json                  nestopia,fceumm
-snes,sfc,snes-hacks,snesmsu1                SuperNintendoEntertainmentSystem.json   snes9x2010,snes9x
+snes,sfc,snes-hacks,snesmsu1       SuperNintendoEntertainmentSystem.json   snes9x2010,snes9x2005,snes9x
 n64                 Nintendo64.json                         mupen64plus_next_gles3
-gb                  NintendoGameBoy.json                    gambatte,mgba
-gbc                 NintendoGameBoyColor.json               gambatte,mgba
+gb                                 NintendoGameBoy.json                    gambatte,sameboy,mgba
+gbc                                NintendoGameBoyColor.json               gambatte,sameboy,mgba
 gba                 NintendoGameBoyAdvance.json             mgba,gpsp
 genesis,megadrive   SegaGenesis.json                        genesis_plus_gx,picodrive,clownmdemu
 mastersystem        SegaMasterSystem.json                   genesis_plus_gx,gearsystem,picodrive
@@ -33,26 +33,70 @@ virtualboy          VirtualBoy.json                         mednafen_vb
 pokemonmini         PokemonMini.json                        pokemini
 gameandwatch        NintendoGame&Watch.json                 gw
 atari2600           Atari2600.json                          stella2014
-atari5200           Atari5200.json                          a5200
+atari5200           Atari5200.json                          a5200,atari800
 atari7800           Atari7800.json                          prosystem
-atarilynx           AtariLynx.json                          handy
+atarilynx                          AtariLynx.json                          handy,mednafen_lynx
 videopac,odyssey2            MagnavoxOdyssey2.json                   o2em
 intellivision       Intellivision.json                      freeintv
 vectrex             Vectrex.json                            vecx
-msx,msx2            MSX.json                                bluemsx
-coleco              ColecoVision.json                       bluemsx
+msx,msx2                           MSX.json                                bluemsx,fmsx
+coleco              ColecoVision.json                       gearcoleco,bluemsx
 zxspectrum          ZXSpectrum.json                         fuse
-c64                 Commodore64.json                        vice_x64
+c64                                Commodore64.json                        vice_x64,vice_x64sc,vice_xscpu64
 amiga               CommodoreAmiga.json                     puae2021
 dos                 DOS.json                                dosbox_pure
 doom                DOOMGameEngine.json                     prboom
 pico-8              PICO8.json                              fake08
 easyrpg             RPGMaker.json                           easyrpg
 arcade              ArcadeFinalBurnNeo.json                 fbneo,mame2003_plus
-neogeo              NeoGeo.json                             fbneo
+neogeo                             NeoGeo.json                             fbneo,geolith
 cps1                CPS1.json                               fbneo
 cps2                CPS2.json                               fbneo
 cps3                CPS3.json                               fbneo
 mame2003            ArcadeMAME.json                         mame2003_plus
 neogeocd            NeoGeoCD.json                           neocd,fbneo
-ports	Ports.json	app:org.andr36oid.subsystem
+ports	Ports.json	app:org.andr36oid.subsystemsetup
+
+# Computer variants have separate libraries to select the matching machine core.
+scummvm             ScummVM.json                           scummvm
+c128                Commodore128.json                      vice_x128
+vic20               VIC20.json                             vice_xvic
+plus4,c16           CommodorePlus4.json                    vice_xplus4
+pet                 CommodorePET.json                      vice_xpet
+amstradcpc          AmstradCPC.json                        cap32
+atari800,atarixegs   Atari800.json                          atari800
+quake               Quake.json                             tyrquake
+cavestory           CaveStoryGameEngine.json               nxengine
+lowresnx            LowResNX.json                          lowresnx
+x68000              SharpX68000.json                       px68k
+atarijaguar         AtariJaguar.json                       virtualjaguar
+
+# Phase 2 native cores. Heavy systems retain an explicit experimental description.
+atarist                            AtariST.json                            hatarib
+pcfx                               NECPCFX.json                            mednafen_pcfx
+pc98                               NECPC98.json                            np2kai
+pc88                               NECPC88.json                            quasi88
+tic80                              TIC80.json                              tic80
+wasm4                              WASM4.json                              wasm4
+vircon32                           Vircon32.json                           vircon32
+uzebox                             Uzebox.json                             uzem
+wolf                               Wolfenstein3D.json                      ecwolf
+supervision                        WataraSupervision.json                  potator
+channelf                           FairchildChannelF.json                  freechaf
+vmac                               Macintosh.json                          minivmac
+scv                                SuperCassetteVision.json                emuscv
+x1                                 SharpX1.json                            x1
+onscripter                         ONScripter.json                         onsyuri
+puzzlescript                       PuzzleScript.json                       puzzlescript
+cbm2                               CommodoreCBM2.json                      vice_xcbm2
+cbm5x0                             CommodoreCBM5x0.json                    vice_xcbm5x0
+arduboy                            Arduboy.json                            ardens,arduous
+bbcmicro                           BBCMicro.json                           b2
+bk                                 ElektronikaBK.json                      bk
+megaduck                           MegaDuck.json                           sameduck
+zx81                               ZX81.json                               81
+
+# Additional dArkOS libraries supported by already-built cores
+sg-1000                            SegaSG1000.json                         gearsystem,bluemsx
+pico                               SegaPico.json                           picodrive
+gx4000                             AmstradGX4000.json                      cap32

@@ -54,6 +54,14 @@ case ${1:-all} in all|matching)
     alive "$broker_pid" || fail "$verb killed the broker shell"
     expect_failure "$shim" is-active emulationstation
   done
+  rm -f "$ROOT/run/.a36-session-exit" "$ROOT/run/.a36-session-reboot"
+  start_es
+  "$shim" suspend
+  [ -f "$ROOT/run/.a36-session-sleep" ] || fail 'suspend did not request broker sleep'
+  [ ! -f "$ROOT/run/.a36-session-exit" ] || fail 'suspend requested session teardown'
+  alive "$es_pid" || fail 'suspend killed ES instead of preserving the session'
+  kill "$es_pid"; wait "$es_pid" 2>/dev/null || :
+  rm -f "$ROOT/run/.a36-session-sleep"
   echo 'systemctl matching passed (finding 2)'
 ;; esac
 case ${1:-all} in all|policy)

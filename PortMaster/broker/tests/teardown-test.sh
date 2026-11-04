@@ -26,7 +26,11 @@ wait "$child" 2>/dev/null || :
 alive "$unrelated" || fail 'teardown killed a host process'
 stop_mute_guard() { :; }
 prepare_retroarch_sync() { RA_SYNC_DIR=; }
-restore_guest_hardware() { return 1; }
+restore_guest_hardware() {
+  [ ! -e "$ROOT/run/.a36-handoff" ] || fail 'live backlight repair still enabled during restoration'
+  return 1
+}
+: > "$ROOT/run/.a36-handoff"
 operation_done() { printf '%s\n' "$1" > "$tmp/result"; }
 # A clean frontend exit cannot hide failed Android hardware restoration.
 if (finish_session 0); then fail 'failed restoration reported a successful session'; fi

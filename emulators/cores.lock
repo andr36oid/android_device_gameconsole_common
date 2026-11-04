@@ -54,3 +54,61 @@ vecx                noncommercial  LicenseRef-vecx jni .    LICENSE.md          
 # yabasanshiro: pirry's Yaba Sanshiro for the R36S (github.com/pirrypirrypirry/yabasanshiro-pirry, 1.6.1 = 4d582ec)
 # with our libretro build fixes on branch andr36oid of github.com/andr36oid/yabasanshiro-pirry
 yabasanshiro        foss           GPL-2.0-or-later    jni    yabause/src/libretro  LICENSE,THIRD-PARTY-NOTICES.md,yabause/src/musashi/readme.txt,yabause/src/libchdr/LICENSE.txt,yabause/src/libchdr/deps/flac-1.3.3/COPYING.Xiph,yabause/src/libchdr/deps/lzma-19.00/LICENSE,yabause/src/libchdr/deps/zlib-1.2.11/README - https://github.com/andr36oid/yabasanshiro-pirry.git 7907b5be6a2cb8241453c02c65bbbe829f476df5
+
+# Additional A35 candidates. Build and device validation pending; see more-cores report.
+# VICE embeds system ROMs; keep the companions in the same restricted tier as x64.
+# ScummVM uses the lite engine set for the memory and CPU budget.
+# Virtual Jaguar is experimental on Cortex-A35; expect slow games.
+scummvm             foss           GPL-3.0-or-later       jni    backends/platform/libretro  COPYING                      LITE=1          https://github.com/libretro/scummvm.git 660e13b0764fe2be39b6d723345ecabfbb318cc5
+vice_x128           noncommercial  LicenseRef-vice        jni    .                           COPYING                      EMUTYPE=x128    https://github.com/libretro/vice-libretro.git c8c242db75a559246d6d51017e6dd4ecd75d6a9f
+vice_xvic           noncommercial  LicenseRef-vice        jni    .                           COPYING                      EMUTYPE=xvic    https://github.com/libretro/vice-libretro.git c8c242db75a559246d6d51017e6dd4ecd75d6a9f
+vice_xplus4         noncommercial  LicenseRef-vice        jni    .                           COPYING                      EMUTYPE=xplus4  https://github.com/libretro/vice-libretro.git c8c242db75a559246d6d51017e6dd4ecd75d6a9f
+vice_xpet           noncommercial  LicenseRef-vice        jni    .                           COPYING                      EMUTYPE=xpet    https://github.com/libretro/vice-libretro.git c8c242db75a559246d6d51017e6dd4ecd75d6a9f
+cap32               foss           GPL-2.0-or-later       jni    .                           cap32/COPYING.txt            -               https://github.com/libretro/libretro-cap32.git e9ad1826aafa458497eddc92d73491123b902fc0
+atari800            foss           GPL-2.0-or-later       jni    .                           atari800/COPYING             -               https://github.com/libretro/libretro-atari800.git cd721790a0aa0e0772810949abcf5bd699c15371
+gearcoleco          foss           GPL-3.0-or-later       jni    platforms/libretro          LICENSE                      -               https://github.com/drhelius/Gearcoleco.git f14c03820fec8f20bc280ca12103f4c74a24c8cb
+tyrquake            foss           GPL-2.0-or-later       jni    .                           LICENSE.txt                  -               https://github.com/libretro/tyrquake.git e57bb11597e8a00380f30f2627d219da960cf69a
+nxengine            foss           GPL-3.0-or-later       jni    .                           nxengine/LICENSE             -               https://github.com/libretro/nxengine-libretro.git a1c45fd4d045333f4ea523e556469b545be82b0a
+lowresnx            foss           Zlib                   jni    platform/LibRetro           LICENSE                      -               https://github.com/timoinutilis/lowres-nx.git 35adc1a215e975be964b2ef4b652117acd7beba1
+px68k               noncommercial  LicenseRef-px68k       jni    libretro                    COPYING,readme.txt           -               https://github.com/libretro/px68k-libretro.git 0ad84d7058a12b7db4f7f7a906e87fad4e2f26f6
+virtualjaguar       foss           GPL-3.0-or-later       jni    .                           LICENSE                      -               https://github.com/libretro/virtualjaguar-libretro.git e04f953915731c15f5f9cb9b8ae44630c901f23f
+
+# Phase 2 dArkOSen parity. Source pins and recipes are prepared; host build and
+# A35 device qualification are pending. PC-FX and b2 are experimental.
+# VICE and EightyOne include restricted firmware; keep them in the opt-in tier.
+# QUASI88 includes legacy noncommercial MAME sound code; fMSX and Snes9x have
+# their own noncommercial terms. These are not FOSS despite some core metadata.
+# QuickNES uses the repository GPL umbrella, not the stale LGPL-only info label.
+# BK's BSD-style custom notice is retained as LicenseRef-bk.
+hatarib foss GPL-2.0-only script . LICENSE,README.md - https://github.com/bbbradsmith/hatariB.git 578dd5415c58eab7ede66c99e088195fc69dd1ce
+mednafen_pcfx foss GPL-2.0-or-later jni . COPYING - https://github.com/libretro/beetle-pcfx-libretro.git 650c30ea2203636a1716675854d11c608ed6eacc
+np2kai foss MIT script . LICENSE - https://github.com/AZO234/NP2kai.git 253ef651c9d5d8f6d11f9cc7326b4f05ce5c9ce4
+quasi88 noncommercial LicenseRef-quasi88 script . LICENSE,README.md,src/snddrv/license.txt,src/snddrv/mame.txt,src/fmgen/readme.txt - https://github.com/libretro/quasi88-libretro.git b5a0e044a914c9a6b8d7b2dd2ddd152f93d35687
+tic80 foss MIT script . LICENSE - https://github.com/nesbox/TIC-80.git b3dbd597eecfe6742f64001c2fe5ba6c1afe55d9
+wasm4 foss ISC cmake runtimes/native LICENSE.txt -DLIBRETRO=ON,-DWASM_BACKEND=wasm3 https://github.com/aduros/wasm4.git ca2600db8de49d0d228ed57dd6c6778fb579a013
+vircon32 foss BSD-3-Clause cmake . LICENSE.md -DENABLE_OPENGLES3=ON https://github.com/vircon32/vircon32-libretro.git 35a4042b06c30f232edb3f3abb47a10bcd8ec240
+uzem foss MIT jni . uzem_libretro.cpp - https://github.com/libretro/libretro-uzem.git d4fe82c38bf3fc789b955bcfcc81dc2e3a2ea89f
+ecwolf noncommercial LicenseRef-ecwolf script src/libretro docs/license-gpl.txt - https://github.com/libretro/ecwolf.git 0cccd9a85d7ffa33fb695691a8a5db246606518c
+potator foss Unlicense jni platform/libretro LICENSE - https://github.com/libretro/potator.git 227c5f6f3ce74d32e9002ce24c1420288559a860
+freechaf foss GPL-3.0-only jni . LICENSE - https://github.com/libretro/FreeChaF.git 76c7a84f1f7e80f3e6f2bba96fe100cb24e99124
+minivmac foss GPL-2.0-only jni . minivmac/COPYING.txt - https://github.com/libretro/libretro-minivmac.git babdf7b53d361a7225858b68a8a64efe8b06f5e5
+emuscv foss GPL-3.0-only script . licence.txt - https://gitlab.com/MaaaX-EPOCH84/libretro-emuscv.git 17407117018919545428b753277dabd83630052f
+x1 foss BSD-3-Clause jni libretro LICENSE - https://github.com/libretro/xmil-libretro.git 3106aa54ffb244cca4019a6e95dacaa698781bc3
+geolith foss BSD-3-Clause jni libretro LICENSE - https://github.com/libretro/geolith-libretro.git 39b96aebee7188126a7a5422cd978ac60e0cbb59
+onsyuri foss GPL-2.0-or-later cmake src/onsyuri_libretro LICENSE - https://github.com/YuriSizuku/OnscripterYuri.git ec954a3475c3bf41517d0bdb84f48cd28c0f4f72
+puzzlescript foss MIT jni . LICENSE - https://github.com/amberwhitehead/pzretro.git 6d859b47092f585a7ec05804c1d51a1676a06531
+vice_x64sc noncommercial LicenseRef-vice jni . COPYING,README.md EMUTYPE=x64sc https://github.com/libretro/vice-libretro.git c8c242db75a559246d6d51017e6dd4ecd75d6a9f
+vice_xscpu64 noncommercial LicenseRef-vice jni . COPYING,README.md EMUTYPE=xscpu64 https://github.com/libretro/vice-libretro.git c8c242db75a559246d6d51017e6dd4ecd75d6a9f
+vice_xcbm2 noncommercial LicenseRef-vice jni . COPYING,README.md EMUTYPE=xcbm2 https://github.com/libretro/vice-libretro.git c8c242db75a559246d6d51017e6dd4ecd75d6a9f
+vice_xcbm5x0 noncommercial LicenseRef-vice jni . COPYING,README.md EMUTYPE=xcbm5x0 https://github.com/libretro/vice-libretro.git c8c242db75a559246d6d51017e6dd4ecd75d6a9f
+snes9x2005 noncommercial LicenseRef-snes9x jni . copyright USE_BLARGG_APU=0 https://github.com/libretro/snes9x2005.git deb49d80d1836e3e737480a326e31a54c46c04ae
+quicknes foss GPL-2.0-only jni . LICENSE - https://github.com/libretro/QuickNES_Core.git 26bb785c9deddb66a17717b21bb4e328f03ade32
+sameboy foss MIT jni libretro LICENSE - https://github.com/libretro/SameBoy.git aa158a889a48b538a0302873704a34577c8eb67d
+fmsx noncommercial LicenseRef-fmsx jni . LICENSE - https://github.com/libretro/fmsx-libretro.git f013e213458e06d9df718e4bc4b09d46f88aa899
+mednafen_lynx foss GPL-2.0-or-later jni . COPYING - https://github.com/libretro/beetle-lynx-libretro.git fcdefcfb3c11d6d2e71be076a5d3df2e88ab73ed
+ardens foss MIT cmake . LICENSE.txt -DARDENS_LIBRETRO=ON,-DARDENS_LLVM=OFF https://github.com/tiberiusbrown/Ardens.git ba7ad0dcfc196459859d304a8c483b38621c7cfa
+arduous foss GPL-3.0-only cmake . COPYING - https://github.com/libretro/arduous.git 831b83e67ad46e8c86b8165649ff81bc6fc6c157
+b2 foss GPL-3.0-only jni . README.md,src/COPYING - https://github.com/zoltanvb/b2-libretro.git ffcfcddc5ba05a97e04372672879bc25284ff653
+bk foss LicenseRef-bk jni . COPYING - https://github.com/libretro/bk-emulator.git 92042a753289cedf05e7e6bd8e75849f83e48966
+sameduck foss MIT jni libretro LICENSE - https://github.com/LIJI32/SameBoy.git 5619abdb01cee6bedb47599cdb5532c318443b52
+81 noncommercial LicenseRef-81 script . LICENSE - https://github.com/libretro/81-libretro.git fa7094910d040baa5fd8b11dbf6a1a618330ecd9

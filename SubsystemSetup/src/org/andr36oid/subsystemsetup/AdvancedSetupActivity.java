@@ -539,6 +539,10 @@ public class AdvancedSetupActivity extends Activity {
         mBackAction = () -> show(mConfirmReturn);
         if (mConfirmDownload) mDownloadStatus = text(mBodyExtra, "");
         if (!mConfirmDownload) {
+            if(fullHandoff) {
+                text(mBodyExtra,getString(R.string.ss_handoff_warning));
+                text(mBodyExtra,getString(R.string.asl_perf_note));
+            }
             section(mBodyExtra, R.string.subsystem_launch_target);
             text(mBodyExtra, getString(targetLabel(mTarget)));
             if ("INIT".equals(mTarget)) {
@@ -828,8 +832,7 @@ public class AdvancedSetupActivity extends Activity {
     }
 
     private Button action(LinearLayout parent, CharSequence title, CharSequence summary, Runnable click, boolean primary) {
-        final Button button = new Button(this, null, 0, primary ? R.style.Andr36oidSetupButton_Primary
-                : R.style.Andr36oidSetupButton_Secondary);
+        final Button button = new Button(this, null, 0, R.style.SubsystemButton);
         final SpannableStringBuilder label = new SpannableStringBuilder(title);
         label.setSpan(new StyleSpan(Typeface.BOLD), 0, label.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         if (summary != null && summary.length() > 0) {
@@ -863,7 +866,7 @@ public class AdvancedSetupActivity extends Activity {
     private void decorateControl(View view) {
         view.setId(View.generateViewId());
         view.setFocusable(true);
-        view.setForeground(getDrawable(R.drawable.andr36oid_setup_focus));
+        view.setForeground(getDrawable(R.drawable.subsystem_console_focus));
         view.setMinimumHeight(dp(48));
         mControls.add(view);
     }

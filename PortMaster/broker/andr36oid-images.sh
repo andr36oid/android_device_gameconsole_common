@@ -433,15 +433,55 @@ mount_managed_rootfs() {
 OPT_DIR="$CONTROL/optimize"
 MKFS=${A36_MKFS_EROFS:-/system/bin/mkfs.erofs}
 FSCK=${A36_FSCK_EROFS:-/system/bin/fsck.erofs}
-opt_journal() {
-  local tmp="$OPT_DIR/journal.tmp.$$"
+# Keep command diagnostics and complete child output outside OPT_DIR so cleanup
+# cannot erase the evidence. Reset only when starting the next optimize attempt.
+opt_refresh_log() {
+  # Keep command/exit summaries at the end for the UI's bounded tail reader.
+  { cat "$STATE/optimize-child.log" 2>/dev/null
+    cat "$STATE/optimize-diagnostics.log" 2>/dev/null
+  } > "$STATE/optimize.log.tmp" || :
+  chmod 0644 "$STATE/optimize.log.tmp"; mv "$STATE/optimize.log.tmp" "$STATE/optimize.log"
+}
+opt_note() {
+  printf '%s\n' "$*" >> "$STATE/optimize-diagnostics.log"
+  opt_refresh_log
+}
+opt_run() {
+  local reason=$1 rc arg
+  shift
+  "$@" 2>> "$STATE/optimize-diagnostics.log" && return 0
+  rc=$?
+  { printf 'failed: reason=%s exit=%s command:' "$reason" "$rc"
+    for arg do printf ' [%s]' "$arg"; done
+    printf ' (stderr above)\n'
+  } >> "$STATE/optimize-diagnostics.log"
+  opt_refresh_log
+  return "$rc"
+}
+opt_write_journal() {
   {
     printf 'version=1\nboot=%s\npid=%s\nprocess_start=%s\njob=%s\nphase=%s\n' "$(boot_id)" "$$" "$(process_start $$)" "$OPT_JOB" "$OPT_PHASE"
     printf 'card_uuid=%s\nsource=%s\nsource_device=%s\nsource_inode=%s\noffset=%s\n' "$OPT_UUID" "$OPT_SOURCE" "$OPT_SOURCE_DEV" "$OPT_SOURCE_INO" "$OPT_OFFSET"
     printf 'partial=%s\npartial_device=%s\npartial_inode=%s\nmeta_partial=%s\nmeta_device=%s\nmeta_inode=%s\nfinal=%s\n' "$PARTIAL" "$PART_DEV" "$PART_INO" "$META_PARTIAL" "$META_DEV" "$META_INO" "$FINAL"
     printf 'source_loop=%s\nverify_loop=%s\nsource_mount=%s\nverify_mount=%s\nchild=%s\nchild_start=%s\nerror=%s\n' "$SRC_LOOP" "$VERIFY_LOOP" "$OPT_SRC" "$OPT_VERIFY" "$CHILD" "$CHILD_START" "$OPT_ERROR"
-  } > "$tmp" || return 1
-  "$SUPPORT" fsync "$tmp" && mv -f "$tmp" "$OPT_DIR/journal" && "$SUPPORT" fsync "$OPT_DIR"
+    printf 'preserve_partial=%s\n' "${OPT_PRESERVE_PARTIAL:-0}"
+  } > "$1"
+}
+opt_journal() {
+  local tmp="$OPT_DIR/journal.tmp.$$"
+  if opt_run journal_write opt_write_journal "$tmp" &&
+     opt_run journal_write "$SUPPORT" fsync "$tmp" &&
+     opt_run journal_write mv -f "$tmp" "$OPT_DIR/journal" &&
+     opt_run journal_write "$SUPPORT" fsync "$OPT_DIR"; then return 0; fi
+  OPT_ERROR=${OPT_ERROR:-journal_write}
+  return 1
+}
+# This works before mounting the btrfs source. Its format does not describe the
+# destination card filesystem. Preserve the actual helper stderr on probe errors.
+opt_space() {
+  OPT_SPACE=$(opt_run space_probe "$SUPPORT" space "$1") || { OPT_ERROR=space_probe; return 1; }
+  publish opt_free "$(field "$OPT_SPACE" available)"
+  publish opt_available "$(field "$OPT_SPACE" available)"
 }
 opt_details() {
   local bytes=0
@@ -449,8 +489,7 @@ opt_details() {
   [ "$OPT_PHASE" != "done" ] || bytes=$(stat -c %s "$FINAL" 2>/dev/null) || bytes=0
   publish opt_bytes "$bytes"; publish opt_elapsed "$(( $(clock_seconds)-OPT_START ))"
   publish opt_error "$OPT_ERROR"
-  tail -c 8192 "$OPT_DIR/worker.log" 2>/dev/null > "$STATE/optimize.log.tmp" || :
-  chmod 0644 "$STATE/optimize.log.tmp"; mv "$STATE/optimize.log.tmp" "$STATE/optimize.log"
+  opt_refresh_log
 }
 publish_opt_state() {
   publish opt_state "$1"
@@ -460,45 +499,47 @@ publish_opt_state() {
 }
 opt_transition() {
   OPT_PHASE=$1
-  opt_journal || { OPT_ERROR=io_error; return 1; }
+  opt_journal || return 1
   [ -z "$OPT_ERROR" ] || OPT_PHASE=failed
   opt_details; publish_opt_state "$OPT_PHASE" "$OPT_JOB"
 }
-opt_fail() { OPT_ERROR=$1; log "optimize $OPT_JOB: $1"; exit 1; }
+opt_fail() {
+  opt_note "optimize $OPT_JOB: reason=$1 exit=1 phase=$OPT_PHASE"
+  OPT_ERROR=$1; log "optimize $OPT_JOB: $1"; exit 1
+}
 power_hold() { printf '%s 60000000000\n' "$WAKE" > /sys/power/wake_lock; }
 opt_progress() {
-  power_hold || { OPT_ERROR=power_hold; return 1; }
+  opt_run power_hold power_hold || { OPT_ERROR=power_hold; return 1; }
   games_card && [ "$CARD_UUID" = "$OPT_UUID" ] && [ "$CARD" = "$OPT_CARD" ] && [ "$CARD_RW" = 1 ] || { OPT_ERROR=no_card; return 1; }
   local info available
-  info=$("$SUPPORT" space "$OPT_IMAGE_DIR") || { OPT_ERROR=io_error; return 1; }
-  available=$(field "$info" available)
-  publish opt_free "$available"
+  opt_space "$OPT_IMAGE_DIR" || return 1
+  info=$OPT_SPACE; available=$(field "$info" available)
   bytes_ge "$available" 553648128 || { OPT_ERROR=no_space; return 1; }
   if [ -n "$PARTIAL" ] && [ -f "$PARTIAL" ]; then
     bytes_ge "$(field "$info" file_limit)" "$(stat -c %s "$PARTIAL")" || { OPT_ERROR=no_space; return 1; }
   fi
-  # Children append to this file. Quiet formatter/fsck output plus periodic
-  # truncation bounds diagnostics, without a pipe obscuring their exit status.
-  if [ "$(stat -c %s "$OPT_DIR/worker.log" 2>/dev/null || echo 0)" -gt 1048576 ]; then
-    : > "$OPT_DIR/worker.log"
-  fi
+  # Preserve the complete child output, including errors before the final 8 KiB.
+  # Quiet tools and resetting once per attempt avoid accumulating old job logs.
   opt_details
 }
 opt_child() {
+  CHILD_COMMAND=$*
   if [ -n "${OPT_CAPTURE:-}" ]; then
-    nice -n 10 "$SUPPORT" child "$@" > "$OPT_CAPTURE" 2>> "$OPT_DIR/worker.log" & CHILD=$!
+    nice -n 10 "$SUPPORT" child "$@" > "$OPT_CAPTURE" 2>> "$STATE/optimize-child.log" & CHILD=$!
   else
-    nice -n 10 "$SUPPORT" child "$@" >> "$OPT_DIR/worker.log" 2>&1 & CHILD=$!
+    nice -n 10 "$SUPPORT" child "$@" >> "$STATE/optimize-child.log" 2>&1 & CHILD=$!
   fi
+  opt_note "child: pid=$CHILD command=$*"
   CHILD_START=$(process_start "$CHILD")
   command -v ionice >/dev/null 2>&1 && ionice -c 3 -p "$CHILD" 2>/dev/null
-  opt_journal || { OPT_ERROR=io_error; return 1; }
+  opt_journal || return 1
   while [ -n "$CHILD_START" ] && [ "$CHILD_START" = "$(process_start "$CHILD")" ]; do
     opt_progress || return 1
     sleep 2
   done
   local rc=0
   wait "$CHILD" || rc=$?
+  [ "$rc" = 0 ] || opt_note "child failed: exit=$rc command=$* (persistent child output above)"
   CHILD=; opt_details
   return "$rc"
 }
@@ -509,7 +550,9 @@ stop_opt_child() {
       sleep 1
       [ "$CHILD_START" != "$(process_start "$CHILD")" ] || kill -9 "$CHILD" 2>/dev/null
     fi
-    wait "$CHILD" 2>/dev/null
+    local rc=0
+    wait "$CHILD" 2>/dev/null || rc=$?
+    [ "$rc" = 0 ] || opt_note "child stopped: exit=$rc command=${CHILD_COMMAND:-unknown} (persistent child output above)"
     CHILD=
   fi
 }
@@ -518,9 +561,15 @@ opt_cleanup() {
   trap - EXIT INT TERM HUP
   [ "$OPT_LOCKED" = 1 ] || exit "$rc"
   if [ "$OPT_ACCEPTED" != 1 ]; then
+    opt_refresh_log
     publish opt_job "$OPT_JOB"; publish opt_error "${OPT_ERROR:-interrupted}"
     publish_opt_state failed "$OPT_JOB"
     operation_done failed; release_operation; exit 1
+  fi
+  if [ "$OPT_PHASE" = verifying ] && [ "$OPT_ERROR" != interrupted ] &&
+     { [ "$rc" != 0 ] || [ -n "$OPT_ERROR" ]; }; then
+    OPT_PRESERVE_PARTIAL=1
+    opt_note "preserving failed verification image: $PARTIAL device=$PART_DEV inode=$PART_INO (reclaimed by next optimize)"
   fi
   stop_opt_child
   if [ -n "$VERIFY_LOOP" ]; then
@@ -533,7 +582,7 @@ opt_cleanup() {
   fi
   # Only remove our exact staging inode, never a completed final or record.
   if [ -n "$OPT_UUID" ] && games_card && [ "$CARD_UUID" = "$OPT_UUID" ] && [ "$CARD" = "$OPT_CARD" ]; then
-    [ -z "$PART_INO" ] || [ ! -e "$PARTIAL" ] || "$SUPPORT" remove "$PARTIAL" "$PART_DEV" "$PART_INO" 2>/dev/null
+    [ "${OPT_PRESERVE_PARTIAL:-0}" = 1 ] || [ -z "$PART_INO" ] || [ ! -e "$PARTIAL" ] || "$SUPPORT" remove "$PARTIAL" "$PART_DEV" "$PART_INO" 2>/dev/null
     [ -z "$META_INO" ] || [ ! -e "$META_PARTIAL" ] || "$SUPPORT" remove "$META_PARTIAL" "$META_DEV" "$META_INO" 2>/dev/null
     local orphan
     if [ -n "$FINAL" ]; then
@@ -552,7 +601,7 @@ opt_cleanup() {
     OPT_PHASE="done"; [ -z "$OPT_ERROR" ] || OPT_PHASE=failed
   elif [ "$OPT_ERROR" = interrupted ]; then OPT_PHASE=interrupted
   else OPT_PHASE=failed; [ -n "$OPT_ERROR" ] || OPT_ERROR=io_error; fi
-  opt_journal || { OPT_ERROR=io_error; OPT_PHASE=failed; }
+  opt_journal || { OPT_ERROR=${OPT_ERROR:-journal_write}; OPT_PHASE=failed; }
   opt_details; publish_opt_state "$OPT_PHASE" "$OPT_JOB"
   rmdir "$OPT_SRC" "$OPT_VERIFY" 2>/dev/null
   operation_done "$OPT_PHASE"
@@ -565,9 +614,12 @@ opt_cleanup() {
 # Called only while holding the operation lock. Journal paths are root-owned.
 # Never remove a staging file merely because its name looks like a partial.
 reconcile_optimize() {
-  local saved
-  for saved in "$OPT_DIR"/journals/*; do [ ! -f "$saved" ] || reconcile_journal "$saved" 0; done
-  reconcile_journal "$OPT_DIR/journal" 1
+  local saved reclaim=${1:-0} rc=0
+  for saved in "$OPT_DIR"/journals/*; do
+    [ ! -f "$saved" ] || reconcile_journal "$saved" 0 "$reclaim" || rc=1
+  done
+  reconcile_journal "$OPT_DIR/journal" 1 "$reclaim" || rc=1
+  return "$rc"
 }
 reconcile_loop() {
   [ -n "$1" ] || return 0
@@ -578,7 +630,7 @@ reconcile_loop() {
   return 0
 }
 reconcile_journal() {
-  local journal=$1 current=$2 data phase job owner_boot owner_pid owner_start record final src partial meta dev ino loop offset
+  local journal=$1 current=$2 reclaim=${3:-0} data phase job owner_boot owner_pid owner_start record final src partial meta dev ino loop offset
   local terminal=interrupted error=interrupted dir uuid opts found=0 cleanup_failed=0
   [ -f "$journal" ] || return 0
   data=$(cat "$journal"); phase=$(field "$data" phase); job=$(field "$data" job)
@@ -635,7 +687,13 @@ EOF_CARDS
   }
   partial=$(field "$data" partial); meta=$(field "$data" meta_partial)
   if [ "$partial" = "$final.partial.$job" ] && [ -f "$partial" ]; then
-    "$SUPPORT" remove "$partial" "$(field "$data" partial_device)" "$(field "$data" partial_inode)" 2>/dev/null
+    # Routine scans keep a verify failure available for inspection. Only the
+    # next optimize attempt expires it, with the same card/path/inode guards.
+    if [ "$phase" != failed ] || [ "$(field "$data" preserve_partial)" != 1 ] || [ "$reclaim" = 1 ]; then
+      if ! "$SUPPORT" remove "$partial" "$(field "$data" partial_device)" "$(field "$data" partial_inode)" 2>/dev/null; then
+        [ "$reclaim" != 1 ] || return 1
+      fi
+    fi
   fi
   if [ "$meta" = "$final.meta.partial.$job" ] && [ -f "$meta" ]; then
     "$SUPPORT" remove "$meta" "$(field "$data" meta_device)" "$(field "$data" meta_inode)" 2>/dev/null
@@ -664,7 +722,7 @@ optimize_worker() {
   [ "${A36_OPT_PRIVATE:-}" = 1 ] || { log "optimize-worker requires private namespace entry"; exit 2; }
   OPT_JOB=$1; local pinned=$2
   valid_job "$OPT_JOB" && valid_id "$pinned" || exit 2
-  OPT_PHASE=preparing; OPT_ERROR=; OPT_START=$(clock_seconds)
+  OPT_PHASE=preparing; OPT_ERROR=; OPT_START=$(clock_seconds); OPT_PRESERVE_PARTIAL=0
   OPT_UUID=; OPT_CARD=; OPT_CARD_DEV=; OPT_SOURCE=; OPT_SOURCE_DEV=; OPT_SOURCE_INO=; OPT_OFFSET=0
   PARTIAL=; FINAL=; PART_DEV=; PART_INO=; META_PARTIAL=; META_DEV=; META_INO=
   SRC_LOOP=; VERIFY_LOOP=; SRC_MOUNTED=0; VERIFY_MOUNTED=0; CHILD=; CHILD_START=; WAKE=
@@ -678,27 +736,36 @@ optimize_worker() {
     publish opt_reject_error busy; publish opt_reject_job "$OPT_JOB"; operation_done busy; exit 1
   fi
   OPT_LOCKED=1
-  reconcile_optimize
-  mkdir -p "$OPT_DIR/journals"; chmod 0700 "$OPT_DIR"
+  # Reclaim earlier failed verification images before another can be created.
+  # Refuse to proceed if an owned stale image cannot be safely removed.
+  reconcile_optimize 1 || opt_fail io_error
+  : > "$STATE/optimize-diagnostics.log"
+  : > "$STATE/optimize.log"
+  opt_run journal_write cp /dev/null "$STATE/optimize-child.log" || opt_fail journal_write
+  publish opt_error ""; publish opt_required ""; publish opt_available ""; publish opt_free ""; publish opt_total ""
+  opt_run journal_write mkdir -p "$OPT_DIR/journals" || opt_fail journal_write
+  opt_run journal_write chmod 0700 "$OPT_DIR" || opt_fail journal_write
+  opt_run support_missing test -x "$SUPPORT" || { opt_note "support unavailable: $SUPPORT"; opt_fail support_missing; }
   if [ -f "$OPT_DIR/journal" ]; then
     local previous previous_job
     previous=$(cat "$OPT_DIR/journal"); previous_job=$(field "$previous" job)
     if valid_job "$previous_job"; then
-      cp "$OPT_DIR/journal" "$OPT_DIR/journals/$previous_job.tmp" &&
-        "$SUPPORT" fsync "$OPT_DIR/journals/$previous_job.tmp" &&
-        mv -f "$OPT_DIR/journals/$previous_job.tmp" "$OPT_DIR/journals/$previous_job" &&
-        "$SUPPORT" fsync "$OPT_DIR/journals" || opt_fail io_error
+      opt_run journal_write cp "$OPT_DIR/journal" "$OPT_DIR/journals/$previous_job.tmp" &&
+        opt_run journal_write "$SUPPORT" fsync "$OPT_DIR/journals/$previous_job.tmp" &&
+        opt_run journal_write mv -f "$OPT_DIR/journals/$previous_job.tmp" "$OPT_DIR/journals/$previous_job" &&
+        opt_run journal_write "$SUPPORT" fsync "$OPT_DIR/journals" || opt_fail journal_write
     fi
   fi
   OPT_ACCEPTED=1
   publish opt_job "$OPT_JOB"; publish opt_bytes 0; publish opt_elapsed 0
-  publish opt_error ""; publish opt_required ""; publish opt_available ""
-  opt_transition preparing || opt_fail io_error
-  [ -x "$SUPPORT" ] && [ -x "$MKFS" ] && [ -x "$FSCK" ] || opt_fail tool_missing
+  # No loops/mounts/staging yet: publish preparing, then gather card space before
+  # the first durable journal so even a journal failure has useful free bytes.
+  publish_opt_state preparing "$OPT_JOB"
+  opt_run tool_missing test -x "$MKFS" && opt_run tool_missing test -x "$FSCK" || opt_fail tool_missing
   WAKE="a36-erofs-$OPT_JOB"
-  power_hold || opt_fail power_hold
+  opt_run power_hold power_hold || opt_fail power_hold
   # The namespace was made private by the helper before entering this function.
-  IMAGE=; resolve_selected_image "$pinned" || opt_fail "$RESOLVE_STATE"
+  IMAGE=; opt_run invalid_image resolve_selected_image "$pinned" || opt_fail "$RESOLVE_STATE"
   [ "$EFFECTIVE_FORMAT" != erofs ] || [ "$SOURCE" != "$EFFECTIVE" ] || opt_fail already_optimized
   [ -n "$SOURCE_PROBE" ] && [ "$(field "$SOURCE_PROBE" format)" = btrfs ] || opt_fail invalid_image
   [ "$CARD_RW" = 1 ] || opt_fail no_card
@@ -711,25 +778,31 @@ optimize_worker() {
   [ ! -e "$FINAL" ] && [ ! -L "$FINAL" ] && [ ! -e "$FINAL.meta" ] && [ ! -L "$FINAL.meta" ] || opt_fail output_exists
   [ "${#FINAL}" -lt 4000 ] && [ "${#META_PARTIAL}" -lt 4000 ] && [ "$(printf '%s' "${META_PARTIAL##*/}" | wc -c)" -le 255 ] || opt_fail name_too_long
   local data_free
-  data_free=$("$SUPPORT" space "$CONTROL") || opt_fail io_error
+  opt_space "$OPT_IMAGE_DIR" || opt_fail "$OPT_ERROR"
+  opt_note "destination=$OPT_IMAGE_DIR available=$(field "$OPT_SPACE" available) cluster=$(field "$OPT_SPACE" cluster) file_limit=$(field "$OPT_SPACE" file_limit)"
+  bytes_ge "$(field "$OPT_SPACE" available)" 553648128 || opt_fail no_space
+  data_free=$(opt_run space_probe "$SUPPORT" space "$CONTROL") || opt_fail space_probe
+  opt_note "journal destination=$CONTROL available=$(field "$data_free" available)"
   bytes_ge "$(field "$data_free" available)" 67108864 || opt_fail data_space
-  mkdir -p "$OPT_SRC" "$OPT_VERIFY" || opt_fail io_error
-  opt_journal || opt_fail io_error
-  SRC_LOOP=$(losetup -f) || opt_fail io_error
+  opt_run journal_write mkdir -p "$OPT_SRC" "$OPT_VERIFY" || opt_fail journal_write
+  opt_transition preparing || opt_fail "$OPT_ERROR"
+  SRC_LOOP=$(opt_run source_busy losetup -f) || opt_fail source_busy
   # Record ownership before attachment; detach-owned checks actual backing inode.
-  opt_journal || opt_fail io_error
-  losetup -r -o "$OPT_OFFSET" "$SRC_LOOP" "$SOURCE" || opt_fail io_error
-  mount -t btrfs -o ro,nologreplay "$SRC_LOOP" "$OPT_SRC" || opt_fail invalid_image
+  opt_journal || opt_fail "$OPT_ERROR"
+  opt_run source_busy losetup -r -o "$OPT_OFFSET" "$SRC_LOOP" "$SOURCE" || opt_fail source_busy
+  opt_run invalid_image mount -t btrfs -o ro,nologreplay "$SRC_LOOP" "$OPT_SRC" || opt_fail invalid_image
   SRC_MOUNTED=1
-  "$SUPPORT" metadata "$OPT_SRC" > "$OPT_DIR/source.metadata" || opt_fail invalid_image
+  opt_run invalid_image "$SUPPORT" metadata "$OPT_SRC" > "$OPT_DIR/source.metadata" || opt_fail invalid_image
   local estimate identity
   local estimate_rc=0
-  : > "$OPT_DIR/worker.log"
   OPT_CAPTURE="$OPT_DIR/estimate"
   opt_child "$SUPPORT" estimate "$OPT_SRC" "$IMAGE_DIR" || estimate_rc=$?
   OPT_CAPTURE=
   estimate=$(cat "$OPT_DIR/estimate")
+  opt_note "estimate: apparent_bytes=$(field "$estimate" apparent_bytes) allocated_bytes=$(field "$estimate" allocated_bytes) output_bound=$(field "$estimate" output_bound) required=$(field "$estimate" required)"
   publish opt_required "$(field "$estimate" required)"; publish opt_available "$(field "$estimate" available)"
+  # Estimated EROFS output size: denominator for the conversion progress bar.
+  publish opt_total "$(field "$estimate" output_bound)"
   if [ "$estimate_rc" != 0 ]; then
     if [ -z "$OPT_ERROR" ] && [ -n "$(field "$estimate" output_bound)" ] && ! bytes_ge "$(field "$estimate" file_limit)" "$(field "$estimate" output_bound)"; then
       opt_fail file_limit
@@ -739,20 +812,21 @@ optimize_worker() {
   bytes_ge "$(field "$estimate" available)" "$(field "$estimate" required)" || opt_fail no_space
   identity=$("$SUPPORT" reserve "$PARTIAL") || opt_fail output_exists
   PART_DEV=$(field "$identity" device); PART_INO=$(field "$identity" inode)
-  : > "$OPT_DIR/worker.log"
-  opt_transition building || opt_fail io_error
+  opt_transition building || opt_fail "${OPT_ERROR:-io_error}"
   # TODO: measure LZ4 vs LZ4HC wall time, size and RAM on the RK3326. Plain LZ4
   # is intentional. No big pclusters/fragments/dedupe/tailpacking/legacy profile.
   # The pinned prebuilt lacks pthread compression support and is single-worker;
   # --workers is not available in that build.
   opt_child "$MKFS" -b4096 -zlz4 -E^xattr-name-filter --preserve-mtime --quiet "$PARTIAL" "$OPT_SRC" || opt_fail "${OPT_ERROR:-mkfs_failed}"
-  opt_transition verifying || opt_fail io_error
+  opt_transition verifying || opt_fail "${OPT_ERROR:-io_error}"
   local output
   output=$("$SUPPORT" probe "$PARTIAL") || opt_fail verify_failed
   [ "$(field "$output" format)" = erofs ] || opt_fail verify_failed
+  # Bare --extract decode-verifies every payload in memory (output fd -1).
+  # Never pass --extract=DIR: no decompressed tree should be written to disk.
   opt_child "$FSCK" -d0 --extract "$PARTIAL" || opt_fail "${OPT_ERROR:-verify_failed}"
   VERIFY_LOOP=$(losetup -f) || opt_fail io_error
-  opt_journal || opt_fail io_error
+  opt_journal || opt_fail "$OPT_ERROR"
   losetup -r "$VERIFY_LOOP" "$PARTIAL" || opt_fail io_error
   mount -t erofs -o ro "$VERIFY_LOOP" "$OPT_VERIFY" || opt_fail verify_failed
   VERIFY_MOUNTED=1
@@ -764,10 +838,10 @@ optimize_worker() {
   VERIFY_MOUNTED=0
   "$SUPPORT" detach-owned "$VERIFY_LOOP" "$PART_DEV" "$PART_INO" 0 || opt_fail io_error
   VERIFY_LOOP=
-  opt_transition publishing || opt_fail io_error
+  opt_transition publishing || opt_fail "${OPT_ERROR:-io_error}"
   identity=$("$SUPPORT" reserve "$META_PARTIAL") || opt_fail output_exists
   META_DEV=$(field "$identity" device); META_INO=$(field "$identity" inode)
-  opt_journal || opt_fail io_error
+  opt_journal || opt_fail "$OPT_ERROR"
   {
     printf 'version=1\njob=%s\nsource_name_hex=%s\nsource_id=%s\ngeneration=%s\n' "$OPT_JOB" "$(hex_name "${SOURCE##*/}")" "$OPT_SOURCE_ID" "$OPT_GENERATION"
     printf 'offset=%s\nsectors=%s\nsource_size=%s\ncard_uuid=%s\n' "$OPT_OFFSET" "$(field "$SOURCE_PROBE" sectors)" "$(field "$SOURCE_PROBE" size)" "$OPT_UUID"

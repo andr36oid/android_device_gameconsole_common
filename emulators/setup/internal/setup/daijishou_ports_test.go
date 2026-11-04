@@ -17,7 +17,7 @@ import (
 func newDJPorts(t *testing.T) *djConsole {
 	t.Helper()
 	c := newDJ(t, "", "")
-	c.apps += ",org.andr36oid.subsystem"
+	c.apps += ",org.andr36oid.subsystemsetup"
 	c.run()
 	return c
 }
@@ -346,3 +346,39 @@ func TestDaijishouMigratePortsFreshIsNoop(t *testing.T) {
 }
 
 func atoiTest(s string) int { n, _ := strconv.Atoi(s); return n }
+
+// Kept-/data has the old player even when the game list needs no changes.
+func TestDaijishouReconcilePortsRepointsKeptPlayer(t *testing.T) {
+	c := newDJPorts(t)
+	s := c.s
+	write(t, s.easyroms+"/ports/Game.sh", "game")
+	s.ReconcilePorts()
+	newTarget := "org.andr36oid.subsystemsetup/.LaunchPortActivity"
+	oldTarget := "org.andr36oid.subsystem/.LaunchPortActivity"
+	query := "SELECT am_start_arguments FROM PlayerEntity WHERE unique_id = 'ports.andr36oid.subsystem';"
+	expected := c.sql(query) + "\n --user 0"
+	if !strings.Contains(expected, newTarget) {
+		c.fail("seed player target: %q", expected)
+	}
+	c.sql("UPDATE PlayerEntity SET am_start_arguments = " + djQuote(strings.ReplaceAll(expected, newTarget, oldTarget)) + ", description = 'My ports player' WHERE unique_id = 'ports.andr36oid.subsystem';")
+	beforeGames := c.sql("SELECT * FROM PlayableItemEntity ORDER BY id;")
+	beforePlayer := c.sql("SELECT id, unique_id, description, accepted_filename_regex, extra FROM PlayerEntity WHERE unique_id = 'ports.andr36oid.subsystem';")
+	c.running = true
+	c.f.reset()
+	s.ReconcilePorts()
+	if got := c.sql(query); got != expected {
+		c.fail("kept player not repointed: %q, want %q", got, expected)
+	}
+	if c.sql("SELECT * FROM PlayableItemEntity ORDER BY id;") != beforeGames || c.sql("SELECT id, unique_id, description, accepted_filename_regex, extra FROM PlayerEntity WHERE unique_id = 'ports.andr36oid.subsystem';") != beforePlayer {
+		c.fail("player migration changed games or player metadata")
+	}
+	if c.f.count("am force-stop") != 2 || c.f.count("am start") != 1 {
+		c.fail("player-only migration did not refresh launcher: %v", c.f.calls)
+	}
+	before := read(t, s.djDB())
+	c.f.reset()
+	s.ReconcilePorts()
+	if read(t, s.djDB()) != before || c.f.count("am") != 0 {
+		c.fail("migrated player is not idempotent")
+	}
+}

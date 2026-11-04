@@ -1,5 +1,5 @@
 #!/bin/bash
-# Host test for the startlog mode of helper/andr36oid-report.sh (start log on BOOT
+# Host test for the startlog and boottiming modes of helper/andr36oid-report.sh (start log on BOOT
 # when Android never finishes starting). Runs the real script in a fake Android
 # root (bwrap) with stub commands and fake /proc, /sys, /data and BOOT.
 #
@@ -143,6 +143,7 @@ EOF
 		--setenv REPORT_START_WAIT "${WAIT:-2}" --setenv REPORT_START_WAIT_FIRST "${WAIT_FIRST:-6}" \
 		--setenv REPORT_START_STEP 1 --setenv REPORT_START_WORK /tmp/startwork \
 		--setenv REPORT_START_PENDING /tmp/pending --setenv REPORT_BOOT_WAIT 2 --setenv REPORT_SETTLE 0 \
+		--setenv REPORT_TIMING_WORK /tmp/timingwork \
 		"${shell_cmd[@]}" "$@" >"$T/out" 2>&1
 	echo $? >"$T/rc"
 }
@@ -365,6 +366,99 @@ check "mounts: ro for the DTB, closed while collecting, ro + rw to save" \
 	"mount -t vfat -o ro,noatime /boot,umount /boot,mount -t vfat -o ro,noatime /boot,mount -o remount,rw /boot,umount /boot," ]
 check "mounts: rw only after logcat ran" [ "$(grep -n -m1 '^logcat ' "$R/tmp/calls" | cut -d: -f1)" -lt \
 	"$(grep -n -m1 'remount,rw' "$R/tmp/calls" | cut -d: -f1)" ]
+
+# ---- 13. completed-boot timings: real helper, fake BOOT and nanosecond values ----
+make_root
+echo '42.50 100.25' >"$R/proc/uptime"
+sed -i 's/^sys.boot_completed=0/sys.boot_completed=1/' "$R/tmp/props"
+cat >>"$R/tmp/props" <<'EOF'
+ro.boottime.zygote=12000000000
+ro.boottime.init=90000000
+ro.boottime.init.first_stage=300000000
+ro.boottime.init.selinux=200000000
+ro.boottime.init.cold_boot_wait=450
+ro.boottime.init.mount_all.late=900
+ro.boottime.surfaceflinger=2500000000
+ro.boottime.andr36oid-boottiming=42500000000
+EOF
+cat >"$R/system/bin/dmesg" <<'EOF'
+#!/bin/bash
+echo '[    0.5] init: Command slow action=fs (/init.rc:5) took 250ms and succeeded'
+echo '[    0.6] init: Command slower action=fs (/init.rc:6) took 1250ms and succeeded'
+echo '[    2.0] init: SVC_EXEC service exec 1 pid 10 started; waiting...'
+echo '[    3.0] init: Service exec 1 exited with status 0'
+echo '[    4.0] kernel: serial=TIMINGSECRET'
+EOF
+run_script boottiming
+BT=$R/boot/andr36oid-reports/boot-timing.txt
+check "timing: exit 0 ($(cat "$T/out"))" [ "$(cat "$T/rc")" = 0 ]
+check "timing: report on BOOT" test -s "$BT"
+check "timing: completion observation" grep -q 'Completion observed /proc/uptime .*42.50 100.25' "$BT"
+check "timing: completion value" grep -qx 'sys.boot_completed=1' "$BT"
+check "timing: trigger service ns" grep -qx 'Reporter first start CLOCK_BOOTTIME ns: 42500000000' "$BT"
+check "timing: uptime at write" grep -qx '42.50 100.25' "$BT"
+check "timing: raw properties numeric sort" test \
+	"$(sed -n '/^450 ro.boottime.init.cold_boot_wait$/,/^42500000000 ro.boottime.andr36oid-boottiming$/p' "$BT" | wc -l)" = 8
+check "timing: ns beyond signed 32-bit and service ordering" grep -qx '12.000000 9.500000 ro.boottime.zygote' "$BT"
+check "timing: init raw duration kept" grep -qx '\[ro.boottime.init.mount_all.late\]: \[900\]' "$BT"
+check "timing: slowest init command first" test \
+	"$(sed -n '/^== Top 20/,/^== Init\/storage/p' "$BT" | sed -n '2s/ .*//p')" = 1250
+check "timing: original kernel timestamp" grep -q '\[    0.6\] init: Command slower' "$BT"
+check "timing: exec lifecycle retained" grep -q 'SVC_EXEC.*waiting' "$BT"
+check "timing: kernel privacy scrubbed" sh -c "! grep -q TIMINGSECRET '$BT'"
+check "timing: atomic write finished" test ! -e "$BT.tmp"
+check "timing: BOOT lock released" test ! -e "$R/tmp/bootlock"
+check "timing: success marker retained" test -e "$R/tmp/timingwork/done"
+check "timing: raw properties removed" test ! -e "$R/tmp/timingwork/props.tmp"
+check "timing: no framework commands" test -z "$(grep -E '^(dumpsys|sm|pm|settings|am|logcat) ' "$R/tmp/calls")"
+# A framework restart must keep the first completed-boot observation.
+cp "$BT" "$T/first-timing"
+echo '90.00 200.00' >"$R/proc/uptime"
+run_script boottiming
+check "timing: repeated completion idempotent" cmp -s "$BT" "$T/first-timing"
+# Simulate a fresh kernel boot clearing /dev, with BOOT temporarily read-only.
+rm -rf "$R/tmp/timingwork"
+touch "$R/boot/.readonly"
+run_script boottiming
+check "timing read-only: failure isolated" test "$(cat "$T/rc")" = 0
+check "timing read-only: previous report preserved" cmp -s "$BT" "$T/first-timing"
+check "timing read-only: retry allowed" test ! -e "$R/tmp/timingwork"
+rm "$R/boot/.readonly"
+run_script boottiming
+check "timing retry: new observation saved" grep -q 'Completion observed /proc/uptime .*90.00 200.00' "$BT"
+# Full/busy BOOT: keep the previous file and release all owned locks.
+rm -rf "$R/tmp/timingwork"
+echo 32768 >"$R/tmp/boot-free-kb"
+cp "$BT" "$T/last-timing"
+run_script boottiming
+check "timing full: failure isolated" test "$(cat "$T/rc")" = 0
+check "timing full: previous report preserved" cmp -s "$BT" "$T/last-timing"
+check "timing full: BOOT lock released" test ! -e "$R/tmp/bootlock"
+rm "$R/tmp/boot-free-kb"
+mkdir "$R/tmp/bootlock"
+echo 1 >"$R/tmp/bootlock/pid"
+LOCK_WAIT=0 run_script boottiming
+check "timing busy: failure isolated" test "$(cat "$T/rc")" = 0
+check "timing busy: previous report preserved" cmp -s "$BT" "$T/last-timing"
+check "timing busy: other owner's lock kept" test -e "$R/tmp/bootlock/pid"
+rm -rf "$R/tmp/bootlock"
+# A killed writer's stale directory can be reclaimed; denied dmesg is visible.
+mkdir "$R/tmp/timingwork"
+echo 99999999 >"$R/tmp/timingwork/pid"
+cat >"$R/system/bin/dmesg" <<'EOF'
+#!/bin/bash
+echo 'dmesg: permission denied' >&2
+exit 1
+EOF
+run_script boottiming
+check "timing stale writer: recovered" test -e "$R/tmp/timingwork/done"
+check "timing denied dmesg: diagnostic kept" grep -q 'dmesg: permission denied' "$BT"
+check "timing denied dmesg: service starts kept" grep -q '12.000000 9.500000 ro.boottime.zygote' "$BT"
+# Incomplete boot: no mounts, no file, no marker.
+make_root
+run_script boottiming
+check "timing incomplete: no report" test ! -e "$R/boot/andr36oid-reports/boot-timing.txt"
+check "timing incomplete: no work" test ! -e "$R/tmp/timingwork"
 
 echo "passed $PASS, failed $FAIL (shell: $SH)"
 [ "$FAIL" = 0 ]

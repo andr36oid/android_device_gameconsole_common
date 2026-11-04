@@ -40,5 +40,18 @@ service andr36oid-report-check /system/bin/sh /system/etc/andr36oid-report-check
     disabled
     oneshot
 
+# Additive timing snapshot after Android finishes. No init action waits for it;
+# a failed/slow BOOT mount must never hold up startup. The helper saves once per
+# kernel boot, including when system_server sets boot_completed again.
+service andr36oid-boottiming /system/bin/sh /system/etc/andr36oid-report.sh boottiming
+    user root
+    group root system log
+    disabled
+    oneshot
+    priority 10
+    ioprio be 7
+    timeout_period 90
+
 on property:sys.boot_completed=1
+    start andr36oid-boottiming
     start andr36oid-report-check

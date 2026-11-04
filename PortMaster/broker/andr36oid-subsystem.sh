@@ -279,6 +279,7 @@ fix_exec_bits() {
 # this covers hotplugged volumes via the same path (see hotplug watcher, TODO).
 mount_storage() {
   mkdir -p "$ROOT/roms"
+  : > "$STATE/roms-map" || return 1
   local n=0 src dst id ready easy
   ready=$(getprop sys.andr36oid.easyroms.ready)
   id=$(getprop sys.andr36oid.easyroms.id)
@@ -297,6 +298,7 @@ mount_storage() {
   mount -o remount,exec,bind "$ROOT/roms" 2>/dev/null
   log "storage: $src -> /roms"
   ROMS_SOURCE="$src"
+  printf '%s\t%s\n' "$src" /roms >> "$STATE/roms-map" || return 1
   n=1
   for src in /mnt/media_rw/*; do
     [ -d "$src" ] || continue
@@ -306,6 +308,7 @@ mount_storage() {
     # bind the vold mount, then drop noexec for this view
     if bind_mount "$src" "$dst"; then
       mount -o remount,exec,bind "$dst" 2>/dev/null
+      printf '%s\t%s\n' "$src" "${dst#"$ROOT"}" >> "$STATE/roms-map" || return 1
       log "storage: $src -> ${dst#"$ROOT"}"; n=$((n+1))
     fi
   done
@@ -487,11 +490,18 @@ stop_unit() {
 case "$verb" in
   poweroff|halt|suspend|reboot)
     [ "$#" = 0 ] || { echo "systemctl: $verb takes no units" >&2; exit 2; }
-    if [ "$verb" = reboot ]; then
-      : > /run/.a36-session-reboot || exit 1
-    else
-      : > /run/.a36-session-exit || exit 1
-    fi
+    case "$verb" in
+      suspend)
+        # Short power press = sleep, not exit. Hold the session and leave the
+        # frontend running; the broker performs a real SoC suspend-to-RAM and
+        # wakes on the power key. dArkOSen's long press sends poweroff instead.
+        : > /run/.a36-session-sleep || exit 1
+        exit 0 ;;
+      reboot)
+        : > /run/.a36-session-reboot || exit 1 ;;
+      *)
+        : > /run/.a36-session-exit || exit 1 ;;
+    esac
     stop_unit emulationstation
     exit 0 ;;
   start|restart|stop|is-active) [ "$#" -gt 0 ] || { echo 'systemctl: missing unit' >&2; exit 2; } ;;
@@ -527,6 +537,9 @@ for unit do
         # This policy is prepared by the broker, also for emulator return paths
         # that call systemctl directly instead of start_hotkeys.
         if [ -f /run/.a36-handoff ] && [ ! -f /run/.a36-muted ]; then
+          # Drop unopenable (ENXIO) input nodes so ogage does not unwrap-crash on
+          # relaunch; see andr36oid-guest.sh for the full rationale.
+          for _n in /dev/input/event*; do [ -e "$_n" ] || continue; ( exec 3<"$_n" ) 2>/dev/null || rm -f "$_n"; done
           PATH=/run/andr36oid-audio-bin:$PATH setsid /usr/local/bin/ogage >/dev/null 2>&1 &
         fi
       fi ;;
@@ -831,6 +844,8 @@ prepare_retroarch_sync() {
 
 restore_android() {
   [ "$SESSION_OWNED" = 1 ] || return 0
+  # Stop live backlight repair before teardown starts restoring Android's state.
+  rm -f "$ROOT/run/.a36-handoff"
   # Invalidate ownership and reap the watchdog before touching the shared codec
   # or restarting Android. This path is shared by EXIT and guardian recovery.
   CLEANUP_FAILED=0
@@ -838,7 +853,10 @@ restore_android() {
   stop_mute_guard || { CLEANUP_FAILED=1; codec_unsafe=1; }
   stop_audio_route_guard || { CLEANUP_FAILED=1; codec_unsafe=1; }
   kill_subsystem || { CLEANUP_FAILED=1; codec_unsafe=1; }
-  prepare_retroarch_sync
+  # Once guest KMS descriptors close, cover display-state restoration
+  # with the fbdev logo; bootanimation needs SurfaceFlinger and cannot own DRM
+  # until after the guest and the retained gamma snapshot have released it.
+  [ "$DID_HANDOFF" != 1 ] || show_splash
   if [ "$CLEANUP_FAILED" = 0 ] && [ "$DID_HANDOFF" = 1 ] && [ -f "$STATE/session.gamma" ]; then
     # Recovery can run after Android has reacquired DRM. Re-establish exclusive
     # display ownership before consuming a retained gamma snapshot.
@@ -847,19 +865,44 @@ restore_android() {
   if [ "$CLEANUP_FAILED" = 0 ]; then
     restore_guest_hardware || CLEANUP_FAILED=1
   fi
+  if [ "$DID_HANDOFF" = 1 ]; then
+    # Bring the display back before potentially slow mount/loop cleanup and
+    # framework startup. bootanimation waits for SF's Binder service itself.
+    # SF also starts bootanim, but only after HWC/RenderEngine initialization;
+    # queue it now so the logo can appear as soon as SF accepts surfaces.
+    local sf_state
+    sf_state=$(getprop init.svc.surfaceflinger)
+    setprop ctl.start "$HWC" 2>/dev/null || CLEANUP_FAILED=1
+    sleep 1
+    if [ "$sf_state" != running ]; then
+      setprop service.bootanim.exit 0 2>/dev/null || CLEANUP_FAILED=1
+    fi
+    setprop ctl.start surfaceflinger 2>/dev/null || CLEANUP_FAILED=1
+    if [ "$sf_state" != running ]; then
+      setprop ctl.start bootanim 2>/dev/null || CLEANUP_FAILED=1
+      log "return boot animation requested"
+    fi
+    # Do not reset sys.boot_completed: this is a runtime restart. WMS requests
+    # service.bootanim.exit=1 when its windows are drawn, and SF does so at
+    # bootFinished too. A repeated recovery with live SF must not clear that
+    # exit request and cover an already restored Android with a new animation.
+  fi
+  prepare_retroarch_sync
   local b tries
   # Newest first. Atomic journal replacement preserves this reader's inode.
   if [ -f "$STATE/session.mounts" ]; then
     BOUND=$(cat "$STATE/session.mounts")
     while IFS= read -r b; do
       [ -n "$b" ] || continue
-      tries=0
-      while ! umount "$b" 2>/dev/null; do
-        # Already-unmounted entries are harmless on repeated stop/recovery.
-        awk -v p="$b" '{gsub(/\\040/," ",$2); gsub(/\\011/,"\t",$2)} $2==p {f=1} END {exit !f}' /proc/mounts || break
-        if [ "$tries" -ge 3 ]; then CLEANUP_FAILED=1; log "mount still busy: $b"; break; fi
-        sleep 1; tries=$((tries+1))
-      done
+      if ! umount "$b" 2>/dev/null; then
+        # Still listed? A frozen or exiting payload (e.g. ogage holding an open
+        # fd under darkfull/dev) can pin it. Detach lazily so the return to
+        # Android is immediate; the kernel frees it once the last fd closes.
+        # This replaces a 3x1s retry that added seconds of black screen per mount.
+        if awk -v p="$b" '{gsub(/\\040/," ",$2); gsub(/\\011/,"\t",$2)} $2==p {f=1} END {exit !f}' /proc/mounts; then
+          umount -l "$b" 2>/dev/null || { CLEANUP_FAILED=1; log "mount still busy: $b"; }
+        fi
+      fi
       if ! awk -v p="$b" '{gsub(/\\040/," ",$2); gsub(/\\011/,"\t",$2)} $2==p {f=1} END {exit !f}' /proc/mounts; then
         forget_mount "$b" || CLEANUP_FAILED=1
       fi
@@ -872,10 +915,6 @@ restore_android() {
       mv -f "$STATE/retroarch-sync-dir.tmp" "$STATE/retroarch-sync-dir"
   fi
   if [ "$DID_HANDOFF" = 1 ]; then
-    show_splash
-    setprop ctl.start "$HWC" 2>/dev/null || CLEANUP_FAILED=1
-    sleep 1
-    setprop ctl.start surfaceflinger 2>/dev/null || CLEANUP_FAILED=1
     if [ "$codec_unsafe" = 0 ] && [ ! -f "$STATE/session.mixer" ]; then
       start 2>/dev/null || CLEANUP_FAILED=1
     else
@@ -1573,7 +1612,7 @@ start_mute_guard() {
 # The same boundary covers wrapper, bare, standalone ports and real init.
 prepare_session_policy() {
   rm -f "$ROOT/run/.a36-handoff" "$ROOT/run/.a36-muted" \
-    "$ROOT/run/.a36-session-exit" "$ROOT/run/.a36-session-reboot" \
+    "$ROOT/run/.a36-session-exit" "$ROOT/run/.a36-session-reboot" "$ROOT/run/.a36-session-sleep" "$ROOT/run/.a36-sleeping" \
     "$ROOT/run/.a36-es-stopped" "$ROOT/run/.a36-es-start" "$ROOT/run/.a36-es-restart"
   rm -f "$ROOT/run/.a36-host-audio"
   if [ "$HANDOFF" = 1 ] && ! subsystem_muted; then
@@ -1602,10 +1641,93 @@ AUDIO_ROUTE
   install_systemctl_shim
 }
 
+# Repair native blanking without enabling host suspend or touching DRM/DPMS.
+live_backlight_allowed() {
+  [ "${A36_BACKLIGHT_GUARD:-1}" = 1 ] &&
+    [ "$HANDOFF" = 1 ] && [ "$DID_HANDOFF" = 1 ] &&
+    [ -f "$ROOT/run/.a36-handoff" ] &&
+    [ ! -f "$ROOT/run/.a36-session-exit" ] && [ ! -f "$ROOT/run/.a36-session-reboot" ]
+}
+restore_live_backlight() {
+  live_backlight_allowed || return 0
+  # While the sleep handler holds the panel dark for a real suspend, leave it be.
+  [ ! -f "$ROOT/run/.a36-sleeping" ] || return 0
+  [ -r "$STATE/session.brightness" ] || return 0
+  local node value current
+  while read -r node value; do
+    case "$node" in /sys/devices/*/brightness) ;; *) continue ;; esac
+    case "$value" in ''|*[!0-9]*) continue ;; esac
+    [ "$value" -gt 0 ] || continue
+    current=$(cat "$node" 2>/dev/null) || continue
+    [ "$current" = 0 ] || continue
+    live_backlight_allowed || return 0
+    # Native sleep can blank this writable bind while /sys/power/state stays
+    # read-only. Repair only zero, using the already captured Android value;
+    # leave nonzero brightness changes and the teardown snapshot untouched.
+    if printf '%s\n' "$value" > "$node"; then
+      log "backlight guardian: restored $node from 0 to $value"
+    else
+      log "backlight guardian: could not restore $node"
+    fi
+  done < "$STATE/session.brightness"
+}
+# level 0 = blank every captured backlight node; level 1 = restore each node to
+# the Android value snapshotted at handoff.
+blank_session_backlight() {
+  local want=$1 node value
+  [ -r "$STATE/session.brightness" ] || return 0
+  while read -r node value; do
+    case "$node" in /sys/devices/*/brightness) ;; *) continue ;; esac
+    if [ "$want" = 0 ]; then
+      printf '0\n' > "$node" 2>/dev/null || :
+    else
+      case "$value" in ''|*[!0-9]*) continue ;; esac
+      printf '%s\n' "$value" > "$node" 2>/dev/null || :
+    fi
+  done < "$STATE/session.brightness"
+}
+# A short power press (-> /run/.a36-session-sleep via the shim) is a real sleep,
+# not an exit. The guest cannot reach /sys/power/state (read-only bind); the
+# broker runs on Android as root and drives the same suspend-to-RAM the device
+# already wakes from on its power key. Blank the panel first so there is no
+# bright flash across the transition; the kernel freezer pauses the guest for us.
+do_session_sleep() {
+  rm -f "$ROOT/run/.a36-session-sleep"
+  local alarm=/sys/class/rtc/rtc0/wakealarm safety="${A36_SLEEP_SAFETY_SEC:-120}"
+  local error="$STATE/sleep.error" t0 t1 rc wake
+  case "$safety" in ''|*[!0-9]*) safety=120 ;; esac
+  [ "$safety" -gt 0 ] && [ "$safety" -le 3600 ] || safety=120
+  : > "$ROOT/run/.a36-sleeping" || return 1
+  blank_session_backlight 0
+  # Never enter real suspend without a recovery alarm. A wake by power key
+  # normally arrives first; cancel our safety alarm as soon as mem returns.
+  if printf '0\n' 2>"$error" > "$alarm" &&
+     printf '%s\n' "$(( $(date +%s) + safety ))" 2>>"$error" > "$alarm"; then
+    # Let the requesting press/release settle. Do not read wakeup_count here:
+    # its blocking read can wait indefinitely while a wake source stays active.
+    sleep 1
+    t0=$(date +%s)
+    log "sleep: suspending SoC (RTC safety ${safety}s)"
+    if printf 'mem\n' 2>"$error" > /sys/power/state; then
+      t1=$(date +%s)
+      wake=$(cat /sys/kernel/wakeup_reasons/last_resume_reason 2>/dev/null) || wake=unknown
+      log "sleep: mem returned successfully after $((t1-t0))s; wake=$wake"
+    else
+      rc=$?
+      log "sleep: mem failed rc=$rc: $(cat "$error" 2>/dev/null)"
+    fi
+  else
+    log "sleep: RTC safety alarm failed; refusing suspend: $(cat "$error" 2>/dev/null)"
+  fi
+  printf '0\n' 2>>"$error" > "$alarm" || log "sleep: could not cancel RTC safety alarm"
+  rm -f "$ROOT/run/.a36-sleeping"
+  blank_session_backlight 1
+}
+
 # A marker must interrupt the foreground payload, including a standalone port or
 # the wrapper's infinite RetroArch boot loop. Keep this watcher outside the chroot.
 watch_session_markers() {
-  local payload="$1" maintenance="${2:-0}" stamp boot
+  local payload="$1" maintenance="${2:-0}" stamp boot backlight_ticks=0 sleep_cooldown=0
   exec </dev/null >/dev/null 2>&1 3>&- 4>&-
   stamp=$(process_start_time "$payload") || return 0
   boot=$(cat /proc/sys/kernel/random/boot_id)
@@ -1614,6 +1736,16 @@ watch_session_markers() {
       kill -KILL "$payload" 2>/dev/null
       kill_subsystem_payload
       return 0
+    fi
+    # Real sleep: suspend the SoC, hold the session. The debounce swallows the
+    # wake press so the guest's power handler cannot immediately re-sleep.
+    if [ "$sleep_cooldown" -gt 0 ]; then
+      sleep_cooldown=$((sleep_cooldown-1))
+      [ ! -f "$ROOT/run/.a36-session-sleep" ] || rm -f "$ROOT/run/.a36-session-sleep"
+    elif [ -f "$ROOT/run/.a36-session-sleep" ]; then
+      do_session_sleep
+      sleep_cooldown=30
+      continue
     fi
     if [ "$maintenance" = 1 ] &&
        { [ -f "$ROOT/run/.a36-es-stopped" ] || [ -f "$ROOT/run/.a36-es-start" ] ||
@@ -1624,6 +1756,12 @@ watch_session_markers() {
       return 0
     fi
     recorded_process_alive "$payload" "$stamp" "$boot" || return 0
+    # Reuse this payload-bound host watcher; no extra daemon to outlive cleanup.
+    if [ "$backlight_ticks" = 0 ]; then
+      restore_live_backlight
+      backlight_ticks=10
+    fi
+    backlight_ticks=$((backlight_ticks-1))
     sleep 0.1
   done
 }
@@ -1727,8 +1865,86 @@ boot_decision() {
   fi
 }
 
+# RACORE:<32 hex id> names a private, atomically published two-line request.
+# Keep paths out of Android properties (91-byte value limit) and shell programs.
+retroarch_error() {
+  log "RetroArch (dArkOSen): $*"
+  setprop sys.andr36oid.subsystem.launch_error "$1" 2>/dev/null
+  return 1
+}
+read_retroarch_request() {
+  local token="$1" file extra
+  case "$token" in ''|*[!0-9a-f]*) retroarch_error "Invalid RetroArch request."; return 1 ;; esac
+  [ "${#token}" = 32 ] || { retroarch_error "Invalid RetroArch request."; return 1; }
+  file="${A36_RA_REQUESTS:-/data/user/0/org.andr36oid.subsystemsetup/files}/ra-$token.request"
+  RA_CORE=; RA_ROM=; extra=
+  if ! {
+    IFS= read -r RA_CORE && IFS= read -r RA_ROM && ! IFS= read -r extra
+  } < "$file"; then
+    rm -f "$file"
+    retroarch_error "Invalid RetroArch request."; return 1
+  fi
+  rm -f "$file"
+  case "$RA_CORE" in ''|*[!a-zA-Z0-9_]*) retroarch_error "Invalid RetroArch core."; return 1 ;; esac
+  [ "${#RA_CORE}" -le 64 ] && [ -n "$RA_ROM" ] && [ -z "$extra" ] || {
+    retroarch_error "Invalid RetroArch request."; return 1;
+  }
+  [ "$(getprop persist.andr36oid.subsystem.daijishou_cores)" = 1 ] || {
+    retroarch_error "Enable Daijishou dArkOSen cores in subsystem settings first."; return 1;
+  }
+}
+map_retroarch_rom() {
+  local source guest alias rel resolved path="$RA_ROM"
+  # Never let a relative component escape the shared games volume.
+  case "$path/" in *'/../'*|*'/./'*|*'//'*) return 1 ;; esac
+  while IFS="$(printf '\t')" read -r source guest; do
+    case "$source" in
+      /data/media/0) alias=/storage/emulated/0 ;;
+      /mnt/media_rw/*) alias="/storage/${source##*/}" ;;
+      *) continue ;;
+    esac
+    case "$path" in
+      "$source"/*) rel=${path#"$source"/} ;;
+      "$alias"/*) rel=${path#"$alias"/} ;;
+      "$guest"/*) rel=${path#"$guest"/} ;;
+      *) continue ;;
+    esac
+    resolved=$(root_path "$ROOT" "$guest/$rel") || return 1
+    case "$resolved" in "$ROOT$guest"/*) ;; *) return 1 ;; esac
+    [ -f "$resolved" ] || return 1
+    RA_ROM="$guest/$rel"
+    return 0
+  done < "$STATE/roms-map"
+  return 1
+}
+resolve_retroarch_target() {
+  local dir resolved
+  [ "$(getprop persist.andr36oid.subsystem.daijishou_cores)" = 1 ] || {
+    retroarch_error "Enable Daijishou dArkOSen cores in subsystem settings first."; return 1;
+  }
+  root_file "$ROOT" "$arg" || {
+    retroarch_error "dArkOSen RetroArch is missing. Choose the Android RetroArch player."; return 1;
+  }
+  RA_LIBRARY=
+  # Verified reference location first; also support images installing under /opt.
+  for dir in /home/ark/.config/retroarch/cores /opt/retroarch/cores; do
+    resolved=$(root_path "$ROOT" "$dir/${RA_CORE}_libretro.so") || continue
+    [ -f "$resolved" ] && [ -r "$resolved" ] || continue
+    RA_LIBRARY="$dir/${RA_CORE}_libretro.so"; break
+  done
+  [ -n "$RA_LIBRARY" ] || {
+    log "requested Linux core not found: $RA_CORE"
+    retroarch_error "dArkOSen core is missing. Choose the Android RetroArch player."; return 1;
+  }
+  map_retroarch_rom || {
+    log "ROM is not on a shared games volume or is missing: $RA_ROM"
+    retroarch_error "ROM is missing or not shared with dArkOSen. Choose the Android player."; return 1;
+  }
+}
+
 resolve_run_target() {
   local c
+  if [ -n "${RA_REQUEST:-}" ]; then resolve_retroarch_target; return $?; fi
   if [ "${IS_PM:-0}" = 1 ]; then
     for c in /roms/tools/PortMaster.sh /roms/tools/PortMaster/PortMaster.sh /usr/bin/portmaster; do
       root_file "$ROOT" "$c" && { arg="$c"; break; }
@@ -1758,6 +1974,11 @@ run_session() {
         esac
       fi ;;
     run)
+      if [ -n "${RA_REQUEST:-}" ]; then
+        log "launch RetroArch core=$RA_LIBRARY ROM=$RA_ROM (log -> $SESSION_OUT)"
+        run_session_payload run_in_subsystem "$arg" -L "$RA_LIBRARY" "$RA_ROM"
+        return $?
+      fi
       log "launch port $arg (log -> $SESSION_OUT)"
       run_session_payload run_in_subsystem /bin/sh -c '
         cd "$(dirname "$1")" || exit 1
@@ -1823,6 +2044,7 @@ case "$cmd" in
       ES|OS|"") cmd=start ;;
       SETUP) cmd=setup; HANDOFF=0 ;;
       RA) cmd=run; arg=/opt/retroarch/bin/retroarch ;;
+      RACORE:*) cmd=run; arg=/opt/retroarch/bin/retroarch; RA_REQUEST=${want#RACORE:}; RA_REQUEST=${RA_REQUEST:-invalid} ;;
       INIT) cmd=start; SESSION_MODE=systemd ;;
       PM) cmd=run; arg=/roms/tools/PortMaster.sh; IS_PM=1 ;;
       /*) cmd=run; arg="$want" ;;
@@ -1854,6 +2076,8 @@ SESSION_OUT="$STATE/session.out"
 start_live_log || exit 1
 setprop sys.andr36oid.subsystem.provisioning "" 2>/dev/null
 setprop sys.andr36oid.subsystem.session running
+setprop sys.andr36oid.subsystem.launch_error ""
+[ -z "${RA_REQUEST:-}" ] || { read_retroarch_request "$RA_REQUEST" || exit 1; }
 log "subsystem $cmd arg=$arg handoff=$HANDOFF image=${IMAGE:-default}"
 case "$HANDOFF" in 0|1) : ;; *) log "handoff must be 0 or 1"; exit 2 ;; esac
 case "$IMAGE" in ''|/*) : ;; *) log "rootfs image path must be absolute"; exit 2 ;; esac

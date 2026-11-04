@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="?android:attr/colorBackground"
     android:paddingStart="24dp"
     android:paddingEnd="24dp"
     android:paddingTop="12dp"
@@ -38,7 +39,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:foreground="@drawable/andr36oid_setup_focus"
+            android:foreground="@drawable/subsystem_console_focus"
             android:padding="4dp"
             android:fadingEdgeLength="16dp"
             android:requiresFadingEdge="vertical">
@@ -105,7 +106,7 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:background="@color/subsystem_console_background"
-            android:foreground="@drawable/andr36oid_setup_focus"
+            android:foreground="@drawable/subsystem_console_focus"
             android:contentDescription="@string/subsystem_boot_log"
             android:padding="12dp">
             <TextView
@@ -135,7 +136,7 @@
         android:orientation="horizontal">
         <Button
             android:id="@+id/back"
-            style="@style/Andr36oidSetupButton.Secondary"
+            style="@style/SubsystemButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/subsystem_back" />
@@ -145,13 +146,13 @@
             android:layout_weight="1" />
         <Button
             android:id="@+id/secondary"
-            style="@style/Andr36oidSetupButton.Secondary"
+            style="@style/SubsystemButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp" />
         <Button
             android:id="@+id/next"
-            style="@style/Andr36oidSetupButton.Primary"
+            style="@style/SubsystemButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>

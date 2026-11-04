@@ -325,12 +325,22 @@ func (s *Setup) djReconcilePorts(root string) error {
 	if err != nil {
 		return err
 	}
+	// Include the player in change detection: kept-/data may need only its
+	// component repointed, even when every port row is already reconciled.
+	playersQuery := "SELECT id || ':' || hex(am_start_arguments) FROM PlayerEntity WHERE unique_id = 'ports.andr36oid.subsystem' ORDER BY id;"
+	beforePlayers, err := s.sqlQuery(db, playersQuery)
+	if err != nil {
+		return err
+	}
 	// The same transaction is checked on the copy first. A settled boot does not
 	// rewrite any rows or interrupt the home screen. Recheck the platform inside
 	// the live transaction, in case the user removed/changed it since our read.
 	var b strings.Builder
 	b.WriteString(".timeout 5000\nBEGIN IMMEDIATE;\n")
 	fmt.Fprintf(&b, "CREATE TEMP TABLE ports_platform AS SELECT id FROM PlatformEntity WHERE id = %d AND unique_id = 'ports' AND items_sync_tree_uri_list = %s;\n", id, djQuote(treeJSON))
+	// Preserve the stable player ID, user metadata, and other launch arguments.
+	// Run on every reconcile, including upgraded libraries with no game changes.
+	b.WriteString("UPDATE PlayerEntity SET am_start_arguments = replace(am_start_arguments, 'org.andr36oid.subsystem/.LaunchPortActivity', 'org.andr36oid.subsystemsetup/.LaunchPortActivity') WHERE unique_id = 'ports.andr36oid.subsystem' AND instr(am_start_arguments, 'org.andr36oid.subsystem/.LaunchPortActivity') > 0 AND EXISTS (SELECT 1 FROM ports_platform);\n")
 	b.WriteString("CREATE TEMP TABLE ports_wanted (uri TEXT PRIMARY KEY, name TEXT, tree TEXT, md5 TEXT, keywords TEXT);\n")
 	for _, p := range ports {
 		keywords, err := json.Marshal([]string{p.name})
@@ -357,7 +367,11 @@ SELECT 1, 0, NULL, 1, w.name, 1, NULL, w.keywords, 1, 0, 1, 1, NULL, p.id, w.uri
 		return err
 	}
 	after, err := s.sqlQuery(db, gamesQuery)
-	if err != nil || before == after {
+	if err != nil {
+		return err
+	}
+	afterPlayers, err := s.sqlQuery(db, playersQuery)
+	if err != nil || (before == after && beforePlayers == afterPlayers) {
 		return err
 	}
 	owner, err := fsx.OwnerOf(s.djData())

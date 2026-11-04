@@ -75,6 +75,10 @@ fi
 STRIP=$NDK/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-strip
 READELF=$NDK/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-readelf
 export OBJDUMP=$NDK/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-objdump
+# A retry need not disassemble identical bytes again. Invalidate successful
+# checks whenever the checker or disassembler changes; failures are never cached.
+VERIFY_KEY=$(cat "$HERE/scripts/check-armv80.py" "$OBJDUMP" | sha256sum | cut -d' ' -f1)
+mkdir -p "$WORK/verified/$VERIFY_KEY"
 
 # checkout <dir> <repo> <commit>
 checkout() {
@@ -101,28 +105,30 @@ build() {
 		local vars=() libs
 		[ "$args" != "-" ] && IFS=, read -r -a vars <<<"$args"
 		"$NDK/ndk-build" --no-print-directory -j"$JOBS" -C "$src/$path/jni" \
-			APP_ABI=$ABI APP_PLATFORM=android-$API_LEVEL "${vars[@]}" >"$WORK/log/$name.log" 2>&1
+			APP_ABI=$ABI APP_PLATFORM=android-$API_LEVEL APP_STL=c++_static "${vars[@]}" >"$WORK/log/$name.log" 2>&1 || return 1
 		# the module is usually "retro"; a few cores name it after themselves
 		libs=$(find "$src/$path/libs/$ABI" -name '*.so' ! -name 'libc++_shared.so')
 		[ "$(echo "$libs" | wc -l)" = 1 ] || die "$name: expected one library, got: $libs"
-		cp "$libs" "$lib"
+		cp "$libs" "$lib" || return 1
 		;;
 	script)
 		# scripts/cores/<name>.sh <source dir> <output .so>
-		NDK=$NDK JOBS=$JOBS "$HERE/scripts/cores/$name.sh" "$src/$path" "$lib" >"$WORK/log/$name.log" 2>&1
+		NDK=$NDK JOBS=$JOBS "$HERE/scripts/cores/$name.sh" "$src/$path" "$lib" >"$WORK/log/$name.log" 2>&1 || return 1
 		;;
 	cmake)
 		local b=$WORK/build/$name extra=()
 		[ "$args" != "-" ] && IFS=, read -r -a extra <<<"$args"
 		cmake -DCMAKE_BUILD_TYPE=Release "${extra[@]}" \
 			-DANDROID_PLATFORM=android-$API_LEVEL -DANDROID_STL=c++_static -DANDROID_ABI=$ABI \
+			-DCMAKE_C_FLAGS='-march=armv8-a -mtune=cortex-a35 -mno-outline-atomics' \
+			-DCMAKE_CXX_FLAGS='-march=armv8-a -mtune=cortex-a35 -mno-outline-atomics' \
 			-DCMAKE_TOOLCHAIN_FILE="$NDK/build/cmake/android.toolchain.cmake" \
-			-S "$src/$path" -B "$b" >"$WORK/log/$name.log" 2>&1
-		cmake --build "$b" --target "${name}_libretro" -j "$JOBS" >>"$WORK/log/$name.log" 2>&1
+			-S "$src/$path" -B "$b" >"$WORK/log/$name.log" 2>&1 || return 1
+		cmake --build "$b" --target "${name}_libretro" -j "$JOBS" >>"$WORK/log/$name.log" 2>&1 || return 1
 		local so
 		so=$(find "$b" -name "${name}_libretro_android.so" -o -name "${name}_libretro.so" | head -n1)
 		[ -n "$so" ] || die "$name: cmake produced no library"
-		cp "$so" "$lib"
+		cp "$so" "$lib" || return 1
 		;;
 	*) die "$name: unknown build type $kind" ;;
 	esac
@@ -132,7 +138,14 @@ build() {
 # verify <lib> ; AArch64 ELF that runs on ARMv8.0
 verify() {
 	case $("$READELF" -h "$1") in *Machine:*AArch64*) ;; *) die "${1##*/}: not an AArch64 ELF" ;; esac
+	local hash
+	hash=$(sha256sum "$1" | cut -d' ' -f1)
+	if [ -f "$WORK/verified/$VERIFY_KEY/$hash" ]; then
+		echo "   ARMv8.0 check cached for sha256 $hash"
+		return 0
+	fi
 	"$HERE/scripts/check-armv80.py" "$1" || die "${1##*/}: uses instructions the Cortex-A35 lacks"
+	touch "$WORK/verified/$VERIFY_KEY/$hash"
 }
 
 # reuse <name> <tier> <commit> ; takes the core from the current archive if it
@@ -145,6 +158,9 @@ reuse() {
 		hit && $1 == "commit:" { ok = ($2 == c) }
 		hit && $1 == "sha256:" { if (ok) print $2; exit }' "$OUT/NOTICE-$tier.txt")
 	[ -n "$want" ] || return 1
+	if [ -f "$WORK/out/$so" ] && [ "$(sha256sum "$WORK/out/$so" | cut -d' ' -f1)" = "$want" ]; then
+		return 0
+	fi
 	tar -xzf "$OUT/cores-$tier.tar.gz" -O "./cores/$so" >"$WORK/out/$so" 2>/dev/null || return 1
 	[ "$(sha256sum "$WORK/out/$so" | cut -d' ' -f1)" = "$want" ]
 }
@@ -201,6 +217,18 @@ notice() {
 		for lf in ${licfile//,/ }; do
 			tr -d '\r' <"$WORK/src/$name/$lf"
 		done
+		# Retain dependency/component notices as well as the manifest's required
+		# license inputs. In particular the SDL, wasm3, FM sound and ROM notices
+		# must not disappear behind a top-level GPL/MIT/BSD label. Submodules are
+		# already checked out at their gitlinks. This does not infer permissions.
+		while IFS= read -r -d '' lf; do
+			local rel=${lf#"$WORK/src/$name/"}
+			case ,$licfile, in *,$rel,*) continue ;; esac
+			printf '\n--- %s ---\n' "$rel"
+			tr -d '\r' <"$lf"
+		done < <(find "$WORK/src/$name" -type d -name .git -prune -o -type f \
+			\( -iname 'license*' -o -iname 'licence*' -o -iname 'copying*' \
+			-o -iname 'copyright*' \) -print0 | LC_ALL=C sort -z)
 	done
 }
 

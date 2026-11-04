@@ -20,6 +20,7 @@ Experimental/Kinhank-K36|Kinhank K36 (EE clone, K36 board, Panel 1)|2B4|3C6 3C7 
 Experimental/EE-K36-Panel4|R36S clone K36, Panel 4 (experimental)|2B4|3C6 3C7 3C4 3C5 3C0 3C1 3C3 3C2 2B5 2B6 3B2 3B5 3B3 3D0 3B4 3B6 3D1|adc
 Experimental/RX6H|RX6H (EE clone, K36 board, Panel 4)|2B4|3C6 3C7 3C4 3C5 3C0 3C1 3C3 3C2 2B5 2B6 3B2 3B5 3B3 3D0 3B4 3B6 3D1|adc
 Experimental/EE-V12-Var1-Panel8|R36S-V12 clone variant 1, Panel 8 (experimental)|2B3|3C6 3C7 3C4 3C5 3C0 3C1 3C3 3C2 2B5 2B6 3B2 3B5 3B3 3D0 3B4 3B6 3D1|adc
+Experimental/EE-V12-Var1-Panel3|R36S-V12 clone variant 1, Panel 3 (experimental)|2B3|3C6 3C7 3C4 3C5 3C0 3C1 3C3 3C2 2B5 2B6 3B2 3B5 3B3 3D0 3B4 3B6 3D1|adc
 Experimental/EE-V12-Var2|R36S-V12 clone variant 2 (experimental)|2B4|3C6 3C7 3C4 3C5 3C0 3C1 3C3 3C2 2B5 2B6 3B2 3B5 3B3 3D0 3B4 3B6 3D1|adc
 Experimental/EE-V12-Var3-Panel3|R36S-V12 clone variant 3, Panel 3 (experimental)|2B3|3C6 3C7 3C4 3C5 3C0 3C1 3C3 3C2 2B5 2B6 3B2 3B5 3B3 3D0 3B4 3B6 3D1|adc
 Experimental/EE-V12-Var3-PanelA|R36S-V12 clone variant 3, Panel A (experimental)|2B3|3C6 3C7 3C4 3C5 3C0 3C1 3C3 3C2 2B5 2B6 3B2 3B5 3B3 3D0 3B4 3B6 3D1|adc
@@ -39,3 +40,6 @@ Experimental/Soy-Panel7|R36S clone Soy Sauce, Panel 7 (experimental)|0C1|3A7 3B0
 Experimental/Soy-Panel7-253x|R36S clone Soy Sauce 253x, Panel 7 (experimental)|0C1|3A7 3B0 3B2 3B1 3B6 3B4 3B3 3B5 0B3 3D3 3A5 3A3 3A0 3A4 3A1 3A2 3A6|3C6 3C5
 Experimental/Soy-V04-Panel2|R36S clone Soy Sauce V04, Panel 2 (experimental)|0C1|3A7 3B0 3B2 3B1 3B6 3B4 3B3 3B5 0B3 3D3 3A4 3A3 3A0 3A5 3A1 3A2 3A6|3C6 3C5
 Experimental/Soy-V05-2601|R36S clone Soy Sauce V05 2601 (experimental)|0C1|3A7 3B0 3B2 3B1 3B6 3B4 3B3 3B5 0B3 3D3 3A4 3A3 3A0 3A5 3A1 3A2 3A6|3C6 3C5
+Experimental/R36S-Panel4-Type1|Game Console R35S/R36S|3B5|1B4 1B5 1B6 1B7 1A2 1A5 1A6 1A7 2A2 2A3 2A4 2A6 2A7 3B1 3B7 3B2 3B4|2A0 2A1
+Experimental/KirbX-Clone|Game Console R35S/R36S|3B5|1B4 1B5 1B6 1B7 1A2 1A5 1A6 1A7 2A2 2A3 2A4 2A6 2A7 3B1 3B7 3B2 3B4|2A0 2A1
+Devices/OkRoll-Clone|andr36oid OkRoll clone (experimental)|-|3C6 3C7 3C4 3C5 3C0 3C1 3C3 3C2 2B5 2B6 3B2 3B5 3B3 3D0 3B4 3B6 3D1|adc
