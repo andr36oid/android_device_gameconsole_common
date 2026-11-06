@@ -52,6 +52,91 @@ func (s *Setup) djPortMaster() error {
 	return nil
 }
 
+// daijishouToolsEnabled reports whether the dArkOSen tools (PortMaster and the
+// shader/theme utilities) are surfaced in Daijishou. They are shown by default
+// and hideable from subsystem settings; only an explicit "0" hides them.
+func (s *Setup) daijishouToolsEnabled() bool {
+	return s.Props.Get("persist.andr36oid.subsystem.daijishou_tools") != "0"
+}
+
+// djMarker returns a private, empty marker file at rel (a path under the
+// gameconsole-ports marker dir), the same trick djPortMaster uses: Daijishou
+// checks File.exists for {file.path} before launching. A tool marker lives at
+// tools/<exact script name>; LaunchPortActivity.resolveSpec turns that path into
+// TOOL:<exact script name> so the broker resolves it only under /roms/tools,
+// keeping tools in their own namespace (never confused with a /roms/ports entry)
+// and preserving the exact filename, including a .SH extension.
+func (s *Setup) djMarker(rel string) (string, error) {
+	base := s.djData() + "/files/gameconsole-ports"
+	path := base + "/" + rel
+	if sys.IsFile(path) {
+		return path, nil
+	}
+	owner, err := fsx.OwnerOf(s.djData())
+	if err != nil {
+		return "", err
+	}
+	for _, dir := range []string{s.djData() + "/files", base, dirOf(path)} {
+		if !sys.IsDir(dir) {
+			if err := fsx.MkdirAs(dir, owner, 0o771); err != nil {
+				return "", err
+			}
+		}
+	}
+	if err := fsx.WriteFileAtomic(path, nil); err != nil {
+		return "", err
+	}
+	if err := fsx.SetOwnerMode(path, owner, 0o660); err != nil {
+		return "", err
+	}
+	s.restorecon(true, dirOf(path))
+	return path, nil
+}
+
+// djTools returns the Daijishou rows for the dArkOSen tools: PortMaster (its
+// dedicated PM marker, launched with the GL handoff) plus every top-level script
+// in the games card's tools/ folder (Dave's shaders, the theme tools, the video
+// converter). Each tool launches through a marker at tools/<exact script name>;
+// the broker resolves it under /roms/tools via the TOOL: namespace. Nested dirs
+// are ignored like djPorts; PortMaster.sh is skipped since PM already covers it.
+func (s *Setup) djTools(root, tree string) ([]djPort, error) {
+	if err := s.djPortMaster(); err != nil {
+		return nil, err
+	}
+	tools := []djPort{{"PortMaster", s.djPortMasterURI(), tree, fmt.Sprintf("%x", md5.Sum(nil))}}
+	dir := filepath.Join(root, "tools")
+	entries, err := os.ReadDir(dir)
+	if err != nil {
+		if os.IsNotExist(err) {
+			return tools, nil
+		}
+		return nil, err
+	}
+	for _, e := range entries {
+		name := e.Name()
+		if !e.Type().IsRegular() || strings.HasPrefix(name, ".") {
+			continue
+		}
+		ext := filepath.Ext(name)
+		if ext != ".sh" && ext != ".SH" {
+			continue
+		}
+		if name == "PortMaster.sh" {
+			continue
+		}
+		marker, err := s.djMarker("tools/" + name)
+		if err != nil {
+			return nil, err
+		}
+		uri := (&url.URL{Scheme: "file", Path: marker}).String()
+		// Markers are empty files; hash their (empty) contents the way Daijishou's own
+		// LazyMd5 does (like PortMaster above), so a user-run Ports Sync never re-hashes
+		// the markers to a different md5 and flags every tool as "changed".
+		tools = append(tools, djPort{name[:len(name)-len(ext)], uri, tree, fmt.Sprintf("%x", md5.Sum(nil))})
+	}
+	return tools, nil
+}
+
 // ReconcilePorts runs every boot, independently of daijishou.done/seeded. For an
 // on-demand refresh as root, call: /system/bin/gameconsole-setup reconcile-ports
 // The command uses the setup worker, so it cannot race the boot's library seed.
@@ -217,24 +302,32 @@ func djURIEncode(v string) string {
 	return strings.NewReplacer("+", "%20", "%21", "!", "%27", "'", "%28", "(", "%29", ")", "%2A", "*").Replace(url.QueryEscape(v))
 }
 
-// djPorts scans the actual Ports sync folders on the selected EASYROMS volume.
-// Refuse an unavailable/foreign folder or an incomplete scan: it is not evidence
-// that games were removed. Ports.json accepts .sh and .SH, excluding dot/resource
-// files; hidden directories are excluded as well.
-func djPorts(root string, trees []string) ([]djPort, error) {
-	var ports []djPort
+// djPorts scans the Ports sync folders on the selected EASYROMS volume. It returns
+// the ports found and the sync trees it actually scanned, so the reconcile can prune
+// only the folders it could read. A folder that is not on the mounted EASYROMS card
+// (internal storage, a second games card, or an extra folder the user added in
+// Daijishou's UI), one whose path is invalid, or one whose scan cannot complete is
+// skipped with a warning rather than aborting the whole pass: an unreadable or foreign
+// folder is no evidence that its games were removed. An empty tree list (the user kept
+// the Ports platform but removed its sync folder) scans nothing and is not an error.
+// Ports.json accepts .sh and .SH, excluding dot/resource files; hidden directories are
+// excluded as well.
+func (s *Setup) djPorts(root string, trees []string) (ports []djPort, scanned []string, err error) {
 	uuid := baseOf(root)
+	prefix := djTreeURI(uuid, "")
 	for _, tree := range trees {
-		prefix := djTreeURI(uuid, "")
 		if !strings.HasPrefix(tree, prefix) {
-			return nil, fmt.Errorf("Ports sync folder is not on EASYROMS (%s)", uuid)
+			s.Log("skipping a Ports sync folder that is not on EASYROMS (%s): %s", uuid, tree)
+			continue
 		}
-		folder, err := url.PathUnescape(strings.TrimPrefix(tree, prefix))
-		if err != nil || !filepath.IsLocal(folder) || folder == "." {
-			return nil, fmt.Errorf("invalid Ports sync folder %q", tree)
+		folder, uerr := url.PathUnescape(strings.TrimPrefix(tree, prefix))
+		if uerr != nil || !filepath.IsLocal(folder) || folder == "." {
+			s.Log("skipping an invalid Ports sync folder %q", tree)
+			continue
 		}
 		dir := filepath.Join(root, folder)
-		err = filepath.WalkDir(dir, func(path string, d os.DirEntry, err error) error {
+		var treePorts []djPort
+		werr := filepath.WalkDir(dir, func(path string, d os.DirEntry, err error) error {
 			if err != nil {
 				return err
 			}
@@ -244,8 +337,24 @@ func djPorts(root string, trees []string) ([]djPort, error) {
 				}
 				return nil
 			}
+			// Ports are top-level scripts in the folder. Daijishou was listing
+			// nested helper scripts (e.g. mcpe_launcher/UpdatePort.sh,
+			// mcpe_launcher/SetupMcpe.sh) as phantom ports that fail to launch;
+			// never descend past the top level of the ports folder.
+			if d.IsDir() {
+				if path != dir {
+					return filepath.SkipDir
+				}
+				return nil
+			}
 			ext := filepath.Ext(d.Name())
 			if !d.Type().IsRegular() || (ext != ".sh" && ext != ".SH") {
+				return nil
+			}
+			// djTools already emits the PortMaster row from the PM marker; a
+			// top-level ports/PortMaster.sh (the standard PortMaster layout)
+			// would otherwise add a second, SAF-launched "PortMaster" entry.
+			if d.Name() == "PortMaster.sh" || d.Name() == "PortMaster.SH" {
 				return nil
 			}
 			f, err := os.Open(path)
@@ -263,7 +372,7 @@ func djPorts(root string, trees []string) ([]djPort, error) {
 			if err != nil {
 				return err
 			}
-			ports = append(ports, djPort{
+			treePorts = append(treePorts, djPort{
 				name: strings.TrimSuffix(d.Name(), ext),
 				uri:  tree + "/document/" + djURIEncode(uuid+":"+filepath.ToSlash(rel)),
 				tree: tree,
@@ -271,14 +380,17 @@ func djPorts(root string, trees []string) ([]djPort, error) {
 			})
 			return nil
 		})
-		if err != nil {
-			return nil, err
+		if werr != nil {
+			// A folder we could not finish scanning is not evidence its games were
+			// removed: skip it (and its partial scan) so the reconcile never prunes
+			// its rows this pass.
+			s.Log("skipping a Ports sync folder that could not be scanned %q: %v", tree, werr)
+			continue
 		}
+		ports = append(ports, treePorts...)
+		scanned = append(scanned, tree)
 	}
-	if len(trees) == 0 {
-		return nil, fmt.Errorf("Ports has no sync folder")
-	}
-	return ports, nil
+	return ports, scanned, nil
 }
 
 func (s *Setup) djReconcilePorts(root string) error {
@@ -312,14 +424,19 @@ func (s *Setup) djReconcilePorts(root string) error {
 	if err := json.Unmarshal([]byte(treeJSON), &trees); err != nil {
 		return err
 	}
-	ports, err := djPorts(root, trees)
+	ports, scanned, err := s.djPorts(root, trees)
 	if err != nil {
 		return err
 	}
-	if err := s.djPortMaster(); err != nil {
-		return err
+	// Tools live under a scanned folder so they are pruned/kept with it; a migrated
+	// or empty platform, or one whose only folders are foreign/unreadable, has none.
+	if s.daijishouToolsEnabled() && len(scanned) > 0 {
+		tools, err := s.djTools(root, scanned[0])
+		if err != nil {
+			return err
+		}
+		ports = append(ports, tools...)
 	}
-	ports = append(ports, djPort{"PortMaster", s.djPortMasterURI(), trees[0], fmt.Sprintf("%x", md5.Sum(nil))})
 	gamesQuery := fmt.Sprintf("SELECT id || ':' || hex(uri) FROM PlayableItemEntity WHERE attached_platform_id = %d AND playable_item_type = 1 ORDER BY id;", id)
 	before, err := s.sqlQuery(db, gamesQuery)
 	if err != nil {
@@ -349,7 +466,22 @@ func (s *Setup) djReconcilePorts(root string) error {
 		}
 		fmt.Fprintf(&b, "INSERT OR IGNORE INTO ports_wanted VALUES (%s, %s, %s, %s, %s);\n", djQuote(p.uri), djQuote(p.name), djQuote(p.tree), djQuote(p.md5), djQuote(string(keywords)))
 	}
-	b.WriteString("DELETE FROM PlayableItemEntity WHERE attached_platform_id IN (SELECT id FROM ports_platform) AND playable_item_type = 1 AND uri NOT IN (SELECT uri FROM ports_wanted);\n")
+	if len(trees) == 0 {
+		// The platform has no sync folder at all (the user removed it): nothing is
+		// wanted, so prune every stale port row left from the folder that went away.
+		b.WriteString("DELETE FROM PlayableItemEntity WHERE attached_platform_id IN (SELECT id FROM ports_platform) AND playable_item_type = 1 AND uri NOT IN (SELECT uri FROM ports_wanted);\n")
+	} else {
+		// Prune only rows that belong to a folder we actually scanned, so ports synced
+		// from a foreign or unreadable folder (a second card, internal storage, an
+		// extra folder the user added) survive instead of being wiped every boot. If
+		// no declared folder was scannable this pass, ports_scanned is empty and no
+		// row is pruned, exactly as the whole pass used to abort.
+		b.WriteString("CREATE TEMP TABLE ports_scanned (tree TEXT PRIMARY KEY);\n")
+		for _, tree := range scanned {
+			fmt.Fprintf(&b, "INSERT OR IGNORE INTO ports_scanned VALUES (%s);\n", djQuote(tree))
+		}
+		b.WriteString("DELETE FROM PlayableItemEntity WHERE attached_platform_id IN (SELECT id FROM ports_platform) AND playable_item_type = 1 AND uri NOT IN (SELECT uri FROM ports_wanted) AND sync_tree_uri IN (SELECT tree FROM ports_scanned);\n")
+	}
 	b.WriteString("CREATE TEMP TABLE ports_added AS SELECT w.* FROM ports_wanted w WHERE NOT EXISTS (SELECT 1 FROM PlayableItemEntity g WHERE g.attached_platform_id IN (SELECT id FROM ports_platform) AND g.uri = w.uri);\n")
 	// PlayableItemEntity's 1.5.0 defaults, as used by SynchronizationOfPlatform:
 	// file type 1, JSON keyword list, visible/searchable, no custom player/history.

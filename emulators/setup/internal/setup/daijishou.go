@@ -786,7 +786,14 @@ func (s *Setup) SeedDaijishou() {
 		s.Log("making Daijishou's library failed (platforms): %v", err)
 		return
 	}
-	countText, _ := s.sqlQuery(db, "SELECT count(*) FROM PlatformEntity;")
+	countText, err := s.sqlQuery(db, "SELECT count(*) FROM PlatformEntity;")
+	if err != nil {
+		// A read failure here (after the schema and rows both applied) is not an
+		// empty library: leave daijishou.done untouched so the seed retries, rather
+		// than marking the console as permanently having no library.
+		s.Log("reading Daijishou's new library failed, platforms next start: %v", err)
+		return
+	}
 	count, _ := strconv.Atoi(countText)
 	if count == 0 {
 		s.Log("no Daijishou platform to add (no ROM folders or players)")
@@ -834,6 +841,12 @@ func (s *Setup) SeedDaijishou() {
 		s.Log("making Daijishou's library failed (moving it in): %v", err)
 		return
 	}
+	// The library is ours the instant moveInto succeeds. Record djSeeded + the
+	// games baseline NOW, before the slow art copy / restorecon: a power loss in
+	// that window must not leave our library looking like the user's on the next
+	// boot, which would permanently skip every djSeeded-gated feature.
+	_ = fsx.WriteLine(s.djSeeded(), uuid)
+	_ = fsx.WriteFileAtomic(s.state("daijishou-games."+uuid), []byte(joinLines(s.djGames())))
 	s.djCopyArt(arts, owner)
 	prefs := s.djPrefs()
 	prefsDir := dirOf(prefs)
@@ -856,9 +869,8 @@ func (s *Setup) SeedDaijishou() {
 		}
 	}
 	_ = fsx.Touch(s.djDone())
-	// the first start's sync sees what's there now; later changes: DJNewGames
-	_ = fsx.WriteLine(s.djSeeded(), uuid)
-	_ = fsx.WriteFileAtomic(s.state("daijishou-games."+uuid), []byte(joinLines(s.djGames())))
+	// djSeeded + the games baseline were written right after moveInto (above),
+	// so an interrupted seed can't misclassify our library next boot.
 	s.Log("added %d platforms to Daijishou's library", count)
 }
 
