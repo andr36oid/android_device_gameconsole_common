@@ -19,11 +19,15 @@ import (
 // Paths are every place the setup reads or writes. Defaults() has the console's; the tests
 // point them into a temporary folder.
 type Paths struct {
-	Base          string // /system/etc/gameconsole: what the image brings
-	State         string // /data/misc/gameconsole: our markers and log
-	LogFile       string
-	Apps          string // AUTOAPK, mounted read-only by the first start's resizer
-	AppsDoneFile  string // /metadata/andr36oid/apps-done: firstresize gives AUTOAPK away then
+	Base         string // /system/etc/gameconsole: what the image brings
+	State        string // /data/misc/gameconsole: our markers and log
+	LogFile      string
+	Apps         string // AUTOAPK, mounted read-only by the first start's resizer
+	AppsDoneFile string // /metadata/andr36oid/apps-done: firstresize gives AUTOAPK away then
+	// AutoapkDev is the AUTOAPK partition's node (by-name): there until firstresize
+	// gives it to userdata. With it there and Apps unreadable, the apps can't be
+	// installed and the partition is never reclaimed; InstallAPKs says so.
+	AutoapkDev    string
 	AppData       string // /data/user/0
 	Media         string // /data/media/0, the internal storage as root sees it
 	MediaRW       string // /mnt/media_rw: other volumes as root sees them
@@ -49,6 +53,7 @@ func Defaults() Paths {
 		LogFile:       state + "/gameconsole-emu.log",
 		Apps:          "/mnt/andr36oid-apps",
 		AppsDoneFile:  "/metadata/andr36oid/apps-done",
+		AutoapkDev:    "/dev/block/platform/ff370000.dwmmc/by-name/AUTOAPK",
 		AppData:       "/data/user/0",
 		Media:         "/data/media/0",
 		MediaRW:       "/mnt/media_rw",

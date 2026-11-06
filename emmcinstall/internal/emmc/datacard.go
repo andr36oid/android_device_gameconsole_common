@@ -132,6 +132,9 @@ type DatacardOptions struct {
 	Slot2        Slot2            `json:"slot2"`
 	Need         map[string]int64 `json:"need"` // bytes a new card needs: A, B, C (B, C without AUTOAPK)
 	Chosen       *Datacard        `json:"chosen,omitempty"`
+	// DatacardOnly: the eMMC is too small to hold Android's data, so the data
+	// must go on an SD card (the "emmc" choice is refused).
+	DatacardOnly bool `json:"datacard_only,omitempty"`
 }
 
 func (c *Config) sdParts() ([]Part, error) {
@@ -231,6 +234,9 @@ func (c *Config) DatacardOptions() (*DatacardOptions, error) {
 		return nil, err
 	}
 	o := &DatacardOptions{Slot2: c.slot2(), Need: map[string]int64{}}
+	if info, err := c.Emmc(); err == nil {
+		o.DatacardOnly = c.SmallPlan(info.Sectors)
+	}
 	if st, err := c.LoadState(); err == nil {
 		o.Chosen = st.Datacard
 	}
@@ -287,6 +293,10 @@ func (c *Config) DatacardChoose(p *Progress, kind, option string, autoapk bool) 
 	d := &Datacard{Kind: kind}
 	switch kind {
 	case "emmc":
+		if c.SmallPlan(info.Sectors) {
+			return fmt.Errorf("the eMMC has %d MiB, too small to hold Android's data: keep the data on an SD card",
+				info.Sectors*Sector>>20)
+		}
 	case "original":
 		parts, err := c.sdParts()
 		if err != nil {
@@ -408,8 +418,22 @@ func (c *Config) DatacardPrepare(p *Progress) error {
 		return err
 	}
 
+	stale, err := c.readDatacardFile()
+	if err != nil {
+		return fmt.Errorf("the eMMC's BOOT: %w", err)
+	}
+
 	if err := r.mark("datacard-prepare"); err != nil {
 		return err
+	}
+	if stale != "" {
+		// the original card was the choice at step 2 (a small eMMC names it on
+		// the eMMC's BOOT then) and the choice changed: the copy start must run
+		// on the eMMC's own userdata, with neither card's mounted
+		boot, _ := Find(r.st.Plan, "BOOT")
+		if err := r.unlocked(func(e *Disk) error { return c.removeDatacardFile(p, boot) }); err != nil {
+			return r.stop(err)
+		}
 	}
 	if err := c.makeCard(p, r.st, sdParts, layout, slot, easyFiles); err != nil {
 		return r.stop(err)
@@ -808,6 +832,26 @@ func (c *Config) DatacardFinish(p *Progress) error {
 	return c.Save(r.st)
 }
 
+// datacardFromStep2 is the data card the eMMC's BOOT names from step 2 on,
+// before the data card is finished: on an eMMC too small to hold Android's
+// data (SmallPlan) with the original SD card chosen, the eMMC's userdata is a
+// placeholder that may not even have room for Android's first start, so the
+// test start must not set Android up on it. It runs with the card's data
+// instead (boot.ini: datacard.txt, fstab.emmcsd), as every start after. ""
+// when the eMMC's own userdata is used until the finish: a big eMMC, or a new
+// card, whose copy start needs the eMMC's userdata as its /data.
+func (c *Config) datacardFromStep2(st *State, emmcSecs int64, sd []Part) string {
+	d := st.Datacard
+	if d == nil || d.Kind != "original" || !c.SmallPlan(emmcSecs) {
+		return ""
+	}
+	ud, ok := Find(sd, "userdata")
+	if !ok {
+		return ""
+	}
+	return ud.PartUUID()
+}
+
 // writeDatacardFile puts datacard.txt on the eMMC's BOOT (unlocked).
 func (c *Config) writeDatacardFile(p *Progress, boot Part, uuid string) error {
 	return c.fsops().mount(c, c.EmmcDev, spanOf(boot), "vfat", true, func(dir string) error {
@@ -815,6 +859,21 @@ func (c *Config) writeDatacardFile(p *Progress, boot Part, uuid string) error {
 			return err
 		}
 		p.Logf("eMMC BOOT: %s says datacard=%s", DatacardFile, uuid)
+		return nil
+	})
+}
+
+// removeDatacardFile takes datacard.txt off the eMMC's BOOT (unlocked); none
+// there is fine.
+func (c *Config) removeDatacardFile(p *Progress, boot Part) error {
+	return c.fsops().mount(c, c.EmmcDev, spanOf(boot), "vfat", true, func(dir string) error {
+		if _, err := os.Stat(filepath.Join(dir, DatacardFile)); err != nil {
+			return nil
+		}
+		if err := removeBootFile(dir, DatacardFile); err != nil {
+			return err
+		}
+		p.Logf("eMMC BOOT: %s removed", DatacardFile)
 		return nil
 	})
 }

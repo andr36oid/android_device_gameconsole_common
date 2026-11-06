@@ -524,3 +524,154 @@ func TestDatacardBackToStock(t *testing.T) {
 		t.Fatal("userdata changed")
 	}
 }
+
+// smallEmmc makes the fake's 64 MiB eMMC one that is too small for Android's
+// data (a "4 GB" eMMC): only a data-card install is possible on it.
+func smallEmmc(f *fake) {
+	f.cfg.MinEmmc = mib(80)
+	f.cfg.MinEmmcDatacard = mib(40)
+	f.cfg.MinUserdataDatacard = mib(1)
+}
+
+// A small eMMC: step 2 refuses without a data card chosen (its userdata is only
+// a placeholder, never the console's /data), and with the original card chosen
+// it names the card on the eMMC's BOOT right away, so the test start and every
+// start after run with the card's data and Android never sets itself up on the
+// placeholder.
+func TestDatacardOnlySmallEmmc(t *testing.T) {
+	f := newDatacardFake(t)
+	smallEmmc(f)
+	in := f.cfg.Inspect()
+	if !in.DatacardOnly || len(in.Problems) > 0 {
+		t.Fatalf("inspect: datacard_only %v, problems %v", in.DatacardOnly, in.Problems)
+	}
+	_, err := f.cfg.Backup(f.progress(), filepath.Join(f.dir, "roms"))
+	must(t, err)
+	mustFail(t, f.cfg.DatacardChoose(f.progress(), "emmc", "", false), "too small")
+	must(t, f.cfg.BlankLoader(f.progress()))
+	f.restart("boot-2")
+	must(t, f.cfg.CheckLoader(f.progress()))
+
+	// no data card chosen: step 2 writes nothing and records nothing
+	writes := len(f.writes)
+	mustFail(t, f.cfg.WriteOS(f.progress()), "too small to hold Android's data")
+	if st := f.state(); len(f.writes) != writes || st.Step2 != "" || st.Running != "" || st.Failed != "" {
+		t.Fatalf("step 2 without a data card: %d writes, %+v", len(f.writes)-writes, st)
+	}
+
+	must(t, f.cfg.DatacardChoose(f.progress(), "original", "", false))
+	must(t, f.cfg.WriteOS(f.progress()))
+	sdParts := readParts(t, f.cfg.SDDev)
+	ud, _ := Find(sdParts, "userdata")
+	plan := f.state().Plan
+	eb, _ := Find(plan, "BOOT")
+	emmcBoot := f.fsDir(f.cfg.EmmcDev, spanOf(eb))
+	if b, _ := os.ReadFile(filepath.Join(emmcBoot, DatacardFile)); string(b) != "datacard="+ud.PartUUID()+"\n" {
+		t.Fatalf("eMMC datacard.txt after step 2 %q", b)
+	}
+	eu, ok := Find(plan, "userdata")
+	if !ok || !bytes.Equal(f.emmc(eu.First, align), make([]byte, align*Sector)) {
+		t.Fatal("the eMMC's userdata placeholder isn't there and blank")
+	}
+	if f.state().Datacard.UUID != "" || f.state().Datacard.Stage != "" {
+		t.Fatalf("the choice changed by step 2: %+v", f.state().Datacard)
+	}
+
+	// the test start: boot.ini finds datacard.txt and starts with the card's
+	// data (fstab.emmcsd); the test is confirmed and nothing is blanked
+	f.uboot()
+	writeFile(t, filepath.Join(f.dir, "cmdline"),
+		"console=ttyFIQ0 androidboot.boot_devices=ff390000.dwmmc dw_mmc_rockchip.builtin_emmc=system "+
+			"androidboot.fstab_suffix=emmcsd androidboot.datacard="+ud.PartUUID())
+	writeFile(t, filepath.Join(f.dir, "mountinfo"), "21 1 179:6 / /data rw,relatime - f2fs /dev/block/mmcblk0p6 rw\n")
+	res, err := f.cfg.Confirm(f.progress())
+	must(t, err)
+	sys, _ := Find(sdParts, "system")
+	if res != "confirmed" || f.state().Datacard.Stage != "" ||
+		bytes.Equal(f.sd(sys.First, 8), make([]byte, 8*Sector)) {
+		t.Fatalf("test start: confirm %s, stage %q", res, f.state().Datacard.Stage)
+	}
+	if !bytes.Equal(f.emmc(eu.First, align), make([]byte, align*Sector)) {
+		t.Fatal("the test start touched the eMMC's userdata placeholder")
+	}
+	f.sdStart()
+	writeFile(t, filepath.Join(f.dir, "mountinfo"), "21 1 179:6 / /data rw,relatime - f2fs /dev/block/mmcblk0p6 rw\n")
+	res, err = f.cfg.CheckTest(f.progress())
+	must(t, err)
+	if res != "passed" {
+		t.Fatalf("check-test: %s", res)
+	}
+	must(t, f.cfg.WriteLoader(f.progress(), f.state().LoaderSHA[:12]))
+
+	// an update before the finish keeps the card named
+	must(t, os.Remove(filepath.Join(emmcBoot, DatacardFile)))
+	writeFile(t, filepath.Join(f.dir, "power/ac/online"), "1\n")
+	must(t, f.cfg.UpdateEmmc(f.progress()))
+	if b, _ := os.ReadFile(filepath.Join(emmcBoot, DatacardFile)); string(b) != "datacard="+ud.PartUUID()+"\n" {
+		t.Fatalf("eMMC datacard.txt after an update %q", b)
+	}
+
+	f.sdWritable = true
+	must(t, f.cfg.DatacardFinish(f.progress()))
+	d := f.state().Datacard
+	if d.Stage != "blank" || d.UUID != ud.PartUUID() {
+		t.Fatalf("after finish %+v", d)
+	}
+	if b, _ := os.ReadFile(filepath.Join(emmcBoot, DatacardFile)); string(b) != "datacard="+ud.PartUUID()+"\n" {
+		t.Fatalf("eMMC datacard.txt after finish %q", b)
+	}
+}
+
+// The choice changes after step 2 named the original card on a small eMMC: a
+// new card's prepare takes that name off the eMMC's BOOT first, so its copy
+// start runs on the eMMC's own userdata; the finish names the new card.
+func TestDatacardOnlyChoiceChanged(t *testing.T) {
+	f := newDatacardFake(t)
+	smallEmmc(f)
+	_, err := f.cfg.Backup(f.progress(), filepath.Join(f.dir, "roms"))
+	must(t, err)
+	must(t, f.cfg.DatacardChoose(f.progress(), "original", "", false))
+	f.installFromStep1(t)
+	sdParts := readParts(t, f.cfg.SDDev)
+	ud, _ := Find(sdParts, "userdata")
+	eb, _ := Find(f.state().Plan, "BOOT")
+	emmcBoot := f.fsDir(f.cfg.EmmcDev, spanOf(eb))
+	if b, _ := os.ReadFile(filepath.Join(emmcBoot, DatacardFile)); string(b) != "datacard="+ud.PartUUID()+"\n" {
+		t.Fatalf("eMMC datacard.txt after step 2 %q", b)
+	}
+
+	must(t, f.cfg.DatacardChoose(f.progress(), "new", "C", false))
+	f.seedCardBoot()
+	must(t, f.cfg.DatacardPrepare(f.progress()))
+	if exists(filepath.Join(emmcBoot, DatacardFile)) {
+		t.Fatal("the original card is still named on the eMMC after the new card's prepare")
+	}
+	d := f.state().Datacard
+	if d.Stage != "prepared" || d.UUID == "" || d.UUID == ud.PartUUID() {
+		t.Fatalf("after prepare %+v", d)
+	}
+	must(t, f.cfg.DatacardFinish(f.progress()))
+	if b, _ := os.ReadFile(filepath.Join(emmcBoot, DatacardFile)); string(b) != "datacard="+d.UUID+"\n" {
+		t.Fatalf("eMMC datacard.txt after finish %q", b)
+	}
+	if f.state().Datacard.Stage != "done" {
+		t.Fatalf("after finish %+v", f.state().Datacard)
+	}
+}
+
+// A big eMMC with the original card: the eMMC's own userdata carries the test
+// start, as before; the card is named at the finish only.
+func TestDatacardOriginalBigEmmcNamedAtFinish(t *testing.T) {
+	f := newDatacardFake(t)
+	_, err := f.cfg.Backup(f.progress(), filepath.Join(f.dir, "roms"))
+	must(t, err)
+	must(t, f.cfg.DatacardChoose(f.progress(), "original", "", false))
+	must(t, f.cfg.BlankLoader(f.progress()))
+	f.restart("boot-2")
+	must(t, f.cfg.CheckLoader(f.progress()))
+	must(t, f.cfg.WriteOS(f.progress()))
+	eb, _ := Find(f.state().Plan, "BOOT")
+	if exists(filepath.Join(f.fsDir(f.cfg.EmmcDev, spanOf(eb)), DatacardFile)) {
+		t.Fatal("a big eMMC names the data card before the finish")
+	}
+}

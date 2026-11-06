@@ -135,6 +135,7 @@ func newSetup(t *testing.T, f *fake) (*Setup, string) {
 		LogFile:       root + "/misc/gameconsole-emu.log",
 		Apps:          root + "/apps",
 		AppsDoneFile:  root + "/metadata/apps-done",
+		AutoapkDev:    root + "/by-name/AUTOAPK",
 		AppData:       root + "/data",
 		Media:         root + "/media",
 		MediaRW:       root + "/media_rw",

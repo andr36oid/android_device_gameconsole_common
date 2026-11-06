@@ -423,7 +423,29 @@ func TestPlanSizes(t *testing.T) {
 			}
 		}
 	}
-	_, err := c.MakePlan(7634944, sd) // "4 GB"
+	// A "4 GB" eMMC is too small to hold Android's data, so it gets a data-card
+	// plan: system and vendor are not grown (no room, data lives on the SD card)
+	// and userdata is only the placeholder left over.
+	if !c.SmallPlan(7634944) {
+		t.Fatal("7634944 sectors (\"4 GB\") should be a small data-card plan")
+	}
+	small, err := c.MakePlan(7634944, sd) // ~3.64 GiB
+	must(t, err)
+	ss, _ := Find(small, "system")
+	vv, _ := Find(small, "vendor")
+	su, _ := Find(small, "userdata")
+	if ss.Sectors()*Sector>>20 != 2256 || vv.Sectors()*Sector>>20 != 160 {
+		t.Fatalf("small plan grew the OS: system %d MiB, vendor %d MiB (want 2256, 160)",
+			ss.Sectors()*Sector>>20, vv.Sectors()*Sector>>20)
+	}
+	if u := su.Sectors() * Sector >> 20; u < c.MinUserdataDatacard*Sector>>20 {
+		t.Fatalf("small plan userdata %d MiB below the data-card floor", u)
+	}
+	if su.Last >= 7634944-1-gptTableSecs {
+		t.Fatalf("small plan userdata runs past the backup GPT: ends %d", su.Last)
+	}
+	// Below MinEmmcDatacard the eMMC is refused outright.
+	_, err = c.MakePlan(6000000, sd) // ~2.86 GiB
 	mustFail(t, err, "at least")
 }
 

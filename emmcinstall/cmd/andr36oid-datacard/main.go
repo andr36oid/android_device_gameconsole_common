@@ -7,14 +7,20 @@
 // unique GUID and points /dev/block/by-name/a36data at it, which fstab.emmcsd mounts
 // as /data. While the card is missing, sys.andr36oid.datacard_wait holds the seconds
 // left, and the boot animation shows "Waiting for storage SD card ..." with them.
-// After 3 minutes the console turns off: nothing is mounted writable yet.
+// After 3 minutes the console turns off: nothing is mounted writable yet. It never
+// exits without the card: init would go on to a /data it can't mount, and the console
+// would sit at the boot animation with nothing to say why.
 //
 // With --recovery (init.recovery.common.rc) it only links the card: recovery has no
 // boot animation, and without the card it gives up after the 3 minutes and leaves
 // the console on, so recovery stays usable.
+//
+// The wait itself is waiter (wait.go), which the host tests run with a fake clock.
 package main
 
 import (
+	"context"
+	"errors"
 	"fmt"
 	"log"
 	"os"
@@ -31,6 +37,14 @@ const (
 	waitProp  = "sys.andr36oid.datacard_wait"
 	timeout   = 3 * time.Minute
 	pollEvery = 500 * time.Millisecond
+	// retryOff is between power-off attempts that didn't turn the console off
+	retryOff = 10 * time.Second
+	// initOff is how long init gets for sys.powerctl before the power-off is
+	// done here directly
+	initOff = 20 * time.Second
+	// propTimeout bounds a setprop: init's property service must not keep the
+	// power-off from happening
+	propTimeout = 5 * time.Second
 )
 
 func main() {
@@ -43,55 +57,24 @@ func main() {
 	if want == "" {
 		return
 	}
-	recovery := len(os.Args) > 1 && os.Args[1] == "--recovery"
 	guid, err := datacard.GUIDBytes(want)
-	if err != nil && recovery {
-		log.Printf("%v", err)
-		return
+	w := &waiter{
+		want:     want,
+		guidErr:  err,
+		recovery: len(os.Args) > 1 && os.Args[1] == "--recovery",
+		timeout:  timeout,
+		poll:     pollEvery,
+		retry:    retryOff,
+		now:      time.Now,
+		sleep:    time.Sleep,
+		find:     func() (string, error) { return datacard.Find("/sys/block", "/dev/block", guid) },
+		link:     func(dev string) error { return datacard.Link(dev, link) },
+		setprop:  setprop,
+		powerOff: powerOff,
+		logf:     log.Printf,
 	}
-	if err != nil {
-		// a broken datacard.txt: the eMMC's own userdata would be mounted instead of
-		// the user's data, so better not start at all
-		log.Printf("%v, turning off", err)
-		powerOff()
-	}
-	start := time.Now()
-	shown := -1
-	for {
-		dev, err := datacard.Find("/sys/block", "/dev/block", guid)
-		if err != nil {
-			log.Printf("looking for the card: %v", err)
-		}
-		if dev != "" {
-			if err := datacard.Link(dev, link); err != nil {
-				log.Printf("linking %s: %v", dev, err)
-			} else {
-				log.Printf("data card %s found after %.1f s", dev, time.Since(start).Seconds())
-				if shown >= 0 {
-					setprop(waitProp, "0")
-				}
-				return
-			}
-		}
-		left := int((timeout - time.Since(start) + time.Second - 1) / time.Second)
-		if left <= 0 && recovery {
-			log.Printf("no data card (%s) after %v", want, timeout)
-			return
-		}
-		if left <= 0 {
-			log.Printf("no data card (%s) after %v, turning off", want, timeout)
-			setprop(waitProp, "0")
-			powerOff()
-		}
-		// the first look is right away: a card that is in shows nothing at all
-		if left != shown && time.Since(start) >= pollEvery && !recovery {
-			if shown < 0 {
-				log.Printf("waiting for the data card %s", want)
-			}
-			shown = left
-			setprop(waitProp, fmt.Sprint(left))
-		}
-		time.Sleep(pollEvery)
+	if w.run() == poweredOff {
+		os.Exit(1)
 	}
 }
 
@@ -103,18 +86,28 @@ func getprop(name string) string {
 	return string(out)
 }
 
+// setprop sets an init property, giving up after propTimeout.
 func setprop(name, value string) {
-	if err := exec.Command("/system/bin/setprop", name, value).Run(); err != nil {
+	ctx, cancel := context.WithTimeout(context.Background(), propTimeout)
+	defer cancel()
+	if err := exec.CommandContext(ctx, "/system/bin/setprop", name, value).Run(); err != nil {
 		log.Printf("setprop %s: %v", name, err)
 	}
 }
 
-// powerOff asks init to shut down; if that hasn't happened after 20 s (init busy),
-// it turns off itself. Only /metadata and /cache are mounted at this point.
-func powerOff() {
+// powerOff asks init to shut down (init handles sys.powerctl right away, also
+// while it waits for this exec); if the console is still on after initOff (init
+// busy, or the property never got through), it turns off itself. Only /metadata
+// and /cache are mounted at this point. It returns only when neither worked.
+func powerOff() error {
 	setprop("sys.powerctl", "shutdown")
-	time.Sleep(20 * time.Second)
+	time.Sleep(initOff)
 	syscall.Sync()
-	syscall.Reboot(syscall.LINUX_REBOOT_CMD_POWER_OFF)
-	os.Exit(1)
+	err := syscall.Reboot(syscall.LINUX_REBOOT_CMD_POWER_OFF)
+	if err == nil {
+		// the kernel is turning off; don't let the caller take this for a failure
+		time.Sleep(initOff)
+		err = errors.New("reboot(POWER_OFF) returned")
+	}
+	return fmt.Errorf("sys.powerctl and reboot(POWER_OFF) both left the console on: %w", err)
 }
