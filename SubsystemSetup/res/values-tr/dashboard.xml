@@ -23,7 +23,8 @@
   <string name="asl_sync">Android ile eşitle</string>
   <string name="asl_mute">Linux sesini kapat</string>
   <string name="asl_hotkeys">Çıkış kısayolları</string>
-  <string name="asl_hotkey_help">Oyundan çıkmak için Select + Start tuşlarını basılı tutun. Kilitlenirse Android’e dönmek için dört saniye tutun. Android’e dönmek için Fn + Start tuşlarını iki saniye tutun.</string>
+  <!-- TODO translate: review updated eight-second Android return. -->
+  <string name="asl_hotkey_help">Oyundan çıkmak için Select + Start tuşlarını basılı tutun. Kilitlenirse Android’e dönmek için sekiz saniye tutun. Android’e dönmek için Fn + Start tuşlarını iki saniye tutun.</string>
   <string name="asl_ready">Hazır</string>
   <string name="asl_scan">İmajları yenile</string>
   <string name="asl_health_body">Durum: %1$s\nİmaj denetimi: %2$s\nİşlem: %3$s\n\n%4$s</string>

@@ -23,7 +23,8 @@
   <string name="asl_sync">Sinkronkan dengan Android</string>
   <string name="asl_mute">Bisukan audio Linux</string>
   <string name="asl_hotkeys">Pintasan keluar sistem</string>
-  <string name="asl_hotkey_help">Tahan Select + Start untuk keluar dari gim. Terus tahan selama empat detik untuk kembali ke Android jika macet. Tahan Fn + Start selama dua detik untuk kembali ke Android.</string>
+  <!-- TODO translate: review updated eight-second Android return. -->
+  <string name="asl_hotkey_help">Tahan Select + Start untuk keluar dari gim. Terus tahan selama delapan detik untuk kembali ke Android jika macet. Tahan Fn + Start selama dua detik untuk kembali ke Android.</string>
   <string name="asl_ready">Siap</string>
   <string name="asl_scan">Segarkan citra</string>
   <string name="asl_health_body">Status: %1$s\nPemeriksaan citra: %2$s\nOperasi: %3$s\n\n%4$s</string>

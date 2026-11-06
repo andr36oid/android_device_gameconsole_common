@@ -23,7 +23,8 @@
   <string name="asl_sync">Synchronizuj z Androidem</string>
   <string name="asl_mute">Wycisz Linux</string>
   <string name="asl_hotkeys">Skróty wyjścia</string>
-  <string name="asl_hotkey_help">Przytrzymaj Select + Start, aby wyjść z gry. Przytrzymaj przez cztery sekundy, aby wrócić do Androida po zawieszeniu. Przytrzymaj Fn + Start przez dwie sekundy, aby wrócić do Androida.</string>
+  <!-- TODO translate: review updated eight-second Android return. -->
+  <string name="asl_hotkey_help">Przytrzymaj Select + Start, aby wyjść z gry. Przytrzymaj przez osiem sekund, aby wrócić do Androida po zawieszeniu. Przytrzymaj Fn + Start przez dwie sekundy, aby wrócić do Androida.</string>
   <string name="asl_ready">Gotowe</string>
   <string name="asl_scan">Odśwież obrazy</string>
   <string name="asl_health_body">Stan: %1$s\nSprawdzenie obrazu: %2$s\nOperacja: %3$s\n\n%4$s</string>

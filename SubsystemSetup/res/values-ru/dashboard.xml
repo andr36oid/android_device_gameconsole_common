@@ -23,7 +23,8 @@
   <string name="asl_sync">Синхронизация с Android</string>
   <string name="asl_mute">Отключить звук Linux</string>
   <string name="asl_hotkeys">Горячие клавиши выхода</string>
-  <string name="asl_hotkey_help">Удерживайте Select + Start для выхода из игры. Если она зависла, удерживайте четыре секунды для возврата в Android. Fn + Start в течение двух секунд также возвращает в Android.</string>
+  <!-- TODO translate: review updated eight-second Android return. -->
+  <string name="asl_hotkey_help">Удерживайте Select + Start для выхода из игры. Если она зависла, удерживайте восемь секунд для возврата в Android. Fn + Start в течение двух секунд также возвращает в Android.</string>
   <string name="asl_ready">Готово</string>
   <string name="asl_scan">Обновить список образов</string>
   <string name="asl_health_body">Состояние: %1$s\nПроверка образа: %2$s\nОперация: %3$s\n\n%4$s</string>
