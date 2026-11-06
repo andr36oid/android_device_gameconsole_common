@@ -21,7 +21,7 @@ umask 077
 cleanup() {
 	[ -z "$APPLYING" ] || setprop sys.andr36oid.hotfix.applying 0
 	[ -z "$ROMS_MOUNTED" ] || release_roms
-	[ -z "$MOUNTED" ] || umount "$BOOT_MNT"
+	[ -z "$MOUNTED" ] || "$UNPACK" --wait 5 umount "$BOOT_MNT" 2>/dev/null
 	[ -z "$LOCKED" ] || rm -rf "$BOOT_LOCK"
 }
 trap 'cleanup' EXIT
@@ -61,7 +61,7 @@ collect() {
 			status skipped duplicate
 			continue
 		fi
-		[ "$source" != BOOT ] || mkdir "$DIR/work/boot-files/$lower"
+		[ "$source" != BOOT ] || mkdir -p "$DIR/work/boot-files/$lower"
 		count=$((count + 1))
 		if [ "$count" -gt 16 ]; then status skipped limit; continue; fi
 		bytes=$("$UNPACK" --wait 5 stat -c %s "$zip" 2>>"$DIR/log")
@@ -126,7 +126,7 @@ boot_mount() {
 	LOCKED=1
 	echo $$ >"$BOOT_LOCK/pid"
 	grep -o ' /mnt/andr36oid-[a-z]*-boot ' /proc/mounts 2>/dev/null | while read -r m; do
-		umount "$m" 2>/dev/null
+		"$UNPACK" --wait 5 umount "$m" 2>/dev/null
 	done
 	# The system disk, including an eMMC install with /data on a separate SD card.
 	case $(getprop ro.boot.boot_devices) in
@@ -137,7 +137,10 @@ boot_mount() {
 	mkdir -p "$BOOT_MNT" || return 1
 	for dev in ${HOTFIX_BOOT_DEVS:-$devs}; do
 		[ -e "$dev" ] || continue
-		mount -t vfat -o ro,noatime "$dev" "$BOOT_MNT" 2>/dev/null || continue
+		# Bounded via the unpacker like the EASYROMS mount: init blocks on
+		# this script, so an unbounded mount on a failing/counterfeit card
+		# would hang early boot before zygote.
+		"$UNPACK" --wait 5 mount -t vfat -o ro,noatime "$dev" "$BOOT_MNT" 2>>"$DIR/log" || continue
 		BOOT=$BOOT_MNT
 		MOUNTED=1
 		return 0
@@ -203,7 +206,7 @@ else
 	description=
 	status skipped unavailable
 fi
-if [ -n "$MOUNTED" ]; then umount "$BOOT_MNT"; MOUNTED=; fi
+if [ -n "$MOUNTED" ]; then "$UNPACK" --wait 5 umount "$BOOT_MNT" 2>>"$DIR/log"; MOUNTED=; fi
 if [ -n "$LOCKED" ]; then rm -rf "$BOOT_LOCK"; LOCKED=; fi
 easyroms_collect || exit 0
 
