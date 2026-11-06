@@ -308,4 +308,6 @@ eMMC\'deki her şey bu imajla değiştirilir.</string>
     <string name="inst_goback_no_backup">Bu konsolun fabrika eMMC\'sinin yedeği bulunamadı. Klasörünü (\"eMMC backup\" içinde) bu kartın EASYROMS klasörüne kopyala, sonra eMMC Kurulumu\'nu yeniden aç.\n\neMMC\'de andr36oid\'i tutmak, eMMC\'yi bu kartın durumuna getirir ve kartı yeniden veri kartı yapar.</string>
     <string name="inst_goback_keep">andr36oid\'i eMMC\'de tut</string>
     <string name="inst_goback_stock">Konsolu kapat. SD kart yoksa fabrika sistemini başlatır. 1. yuvada bu kart varsa uygulamaların ve verilerinle andr36oid\'i başlatır.</string>
+    <string name="inst_chk_size_datacard">Veri kartı kurulumu için yeterli (veriler SD kartta kalır)</string>
+    <string name="inst_dc_where_small">Bu eMMC, Android verilerini barındırmak için çok küçük olduğundan veriler SD kartta kalır. Sistem eMMC\'ye kurulur ve konsol verileri için kartı kullanır. Veri kartı konsolda kalmalıdır: kart olmadan Android başlamaz.\n\nŞimdi seçim yapacaksınız. Veri kartı, eMMC testi başarıyla başladıktan sonra en son oluşturulur.</string>
 </resources>

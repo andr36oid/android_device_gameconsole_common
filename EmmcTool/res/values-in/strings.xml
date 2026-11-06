@@ -308,4 +308,6 @@ Semua isi eMMC diganti dengan image ini.</string>
     <string name="inst_goback_no_backup">Cadangan eMMC asli konsol ini tidak ditemukan. Salin foldernya (di \"eMMC backup\") ke EASYROMS kartu ini, lalu buka Instalasi eMMC lagi.\n\nTetap andr36oid di eMMC justru memperbarui eMMC ke kartu ini, dan menjadikan kartu sebagai kartu data lagi.</string>
     <string name="inst_goback_keep">Tetap andr36oid di eMMC</string>
     <string name="inst_goback_stock">Matikan konsol. Tanpa kartu SD, konsol memulai sistem asli. Dengan kartu ini di slot 1, konsol memulai andr36oid, dengan aplikasi dan data kamu.</string>
+    <string name="inst_chk_size_datacard">Cukup besar untuk instalasi kartu data (data tetap berada di kartu SD)</string>
+    <string name="inst_dc_where_small">eMMC ini terlalu kecil untuk menampung data Android, jadi data tetap berada di kartu SD. Sistem dipasang di eMMC dan konsol menggunakan kartu untuk datanya. Kartu data harus tetap berada di konsol: tanpa kartu tersebut, Android tidak dapat dimulai.\n\nKamu memilih sekarang. Kartu data dibuat terakhir, setelah pengujian eMMC berhasil dimulai.</string>
 </resources>

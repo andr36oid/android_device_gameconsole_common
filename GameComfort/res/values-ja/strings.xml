@@ -69,4 +69,38 @@
     <string name="continue_state_hint"><xliff:g id="game">%1$s</xliff:g> を再開しています。最新のセーブステート（<xliff:g id="slot">%2$s</xliff:g>）はゲーム内のセーブより新しいものです。使う場合は RetroArch メニュー（Select + X）から読み込んでください。</string>
     <string name="continue_slot">スロット <xliff:g id="slot">%1$d</xliff:g></string>
     <string name="continue_slot_auto">自動保存</string>
+    <string name="app_brightness_title">アプリの明るさ</string>
+    <string name="app_brightness_summary">アプリごとに手動で選んだ明るさを記憶</string>
+    <string name="app_brightness_enabled">アプリの明るさを使用</string>
+    <string name="app_brightness_about">下からアプリを選択してください。明るさは手動モードでのみ使用されます。アプリを離れると、スライダーを自分で変更していない限り以前の明るさに戻ります。スライダーを変更すると、設定したアプリを離れるまでルールが一時停止します。\n\n独自のウィンドウの明るさを制御するアプリはスキップされます。チェックはタスクの切り替え時に行われます。その後のウィンドウだけの変更は、次のタスク切り替えまで反映されない場合があります。ウィンドウの明るさを確認できない場合、ルールはスキップされます。サブシステムの起動画面やゲストがセッションを所有している間はルールが停止します。</string>
+    <string-array name="app_brightness_entries"><item>現在の明るさを使用</item><item>10%</item><item>25%</item><item>50%</item><item>75%</item><item>100%</item></string-array>
+    <string-array name="app_brightness_values" translatable="false"><item>off</item><item>10</item><item>25</item><item>50</item><item>75</item><item>100</item></string-array>
+    <string name="ra_repair_title">RetroArch のパフォーマンス設定</string>
+    <string name="ra_repair_summary">修復を選択し、変更をプレビューしてバックアップを保持</string>
+    <string name="ra_repair_about">適用する修復を下から選択してください。最初はすべて選択されています。変更したくないものはオフにしてください。セーブデータ、割り当て、ライブラリ項目は保持されます。ゲームごとの上書きはそのまま残り、これらの機能を有効にする場合があります。FPS の向上は保証されません。続行する前に RetroArch を終了してください。</string>
+    <string name="ra_repair_shader">グローバルシェーダーをオフにする</string>
+    <string name="ra_repair_shader_about">メイン設定から走査線などの画面効果を削除し、グラフィック処理を減らします。上書きで有効にしない限り、ゲームから効果がなくなります。</string>
+    <string name="ra_repair_preemptive">グローバル Preemptive Frames をオフにする</string>
+    <string name="ra_repair_preemptive_about">メイン設定での追加のフレーム処理を停止し、プロセッサーの処理を減らします。このオプションの入力遅延低減が無効になるため、操作の反応が少し遅く感じられる場合があります。</string>
+    <string name="ra_repair_gambatte">Gambatte コアの上書きを修復</string>
+    <string name="ra_repair_gambatte_about">既存の Game Boy / Game Boy Color コア設定でシェーダーと Preemptive Frames をオフにします。グラフィックとプロセッサーの処理を減らしますが、画面効果とオプションの入力遅延低減が失われます。上書きがない場合は、ないままです。</string>
+    <string name="ra_repair_nestopia">Nestopia コアの上書きを修復</string>
+    <string name="ra_repair_nestopia_about">既存の Nestopia NES コア設定でシェーダーと Preemptive Frames をオフにします。グラフィックとプロセッサーの処理を減らしますが、画面効果とオプションの入力遅延低減が失われます。上書きがない場合は、ないままです。</string>
+    <string name="ra_repair_fceumm">FCEUmm コアの上書きを修復</string>
+    <string name="ra_repair_fceumm_about">既存の FCEUmm NES コア設定でシェーダーと Preemptive Frames をオフにします。グラフィックとプロセッサーの処理を減らしますが、画面効果とオプションの入力遅延低減が失われます。上書きがない場合は、ないままです。</string>
+    <string name="ra_repair_preview_selected">選択した修復をプレビュー</string>
+    <string name="ra_repair_preview">変更をプレビュー</string>
+    <string name="ra_repair_preview_body">%1$d 個の設定ファイルが変更されます。\n\n選択した修復：\n%2$s\n\nこれらの修復のみ適用されます。コアの上書きがグローバル設定より優先される場合があります。適用前に変更ファイルのバックアップが保存されます。ゲームごとの上書きは保持されます。カスタム上書きディレクトリはサポートされません。</string>
+    <string name="ra_repair_apply">選択した修復を適用</string>
+    <string name="ra_repair_restore">バックアップを復元</string>
+    <string name="ra_repair_restore_about">修復前に保存されたファイルを復元します。その後に編集されたファイルは復元できません。先に RetroArch を終了してください。</string>
+    <string name="ra_repair_wait">セットアップワーカーを待機中… RetroArch を閉じたままにしてください。</string>
+    <string name="ra_repair_ready">プレビューの準備ができました。キャンセルしても設定は変わりません。</string>
+    <string name="ra_repair_applied">選択した修復を適用しました。バックアップは「バックアップを復元」から利用できます。</string>
+    <string name="ra_repair_restored">バックアップを復元しました。</string>
+    <string name="ra_repair_unchanged">選択した修復に変更は必要ありません。既存のバックアップは保持されました。</string>
+    <string name="ra_repair_busy">RetroArch が実行中です。通常どおり終了して、もう一度お試しください。</string>
+    <string name="ra_repair_backup">バックアップはすでに存在します。別の修復を行う前に復元してください。</string>
+    <string name="ra_repair_error">リクエストを完了できませんでした。RetroArch にグローバル設定があり、デフォルトの上書きディレクトリを使用し、終了していることを確認してください。復元には既存のバックアップと、変更されていない修復済みファイルも必要です。書き込みに失敗する前に作成されたバックアップは復旧用に保持されます。</string>
+    <string name="ra_repair_timeout">セットアップワーカーからまだ応答がありません。リクエストはキューに残っている可能性があります。RetroArch を閉じたまま、後でもう一度確認してください。</string>
 </resources>

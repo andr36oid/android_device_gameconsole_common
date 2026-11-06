@@ -153,4 +153,9 @@
     <string name="confirm_keep">保持</string>
     <string name="confirm_undo">元に戻す</string>
 
+    <string name="profile_import">プロファイルをインポート…</string>
+    <string name="profile_export">名前付きプロファイルをエクスポート…</string>
+    <string name="profile_imported">プロファイルをインポートしました。使用するものを選択してください。Fn と復旧の設定はこのコンソールに残ります。</string>
+    <string name="profile_exported">名前付きプロファイルをエクスポートしました。Fn と復旧の設定はコンソールの設定のため、含まれていません。</string>
+    <string name="profile_document_failed">プロファイルを保存または読み込めませんでした。ファイル、対応ボタン、安全なメニュー操作、20 個までのプロファイル制限を確認してください。</string>
 </resources>

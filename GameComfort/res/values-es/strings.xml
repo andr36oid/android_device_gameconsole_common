@@ -77,4 +77,42 @@
     <string name="continue_state_hint">Continuando <xliff:g id="game">%1$s</xliff:g>. Tu estado guardado más reciente (<xliff:g id="slot">%2$s</xliff:g>) es posterior al guardado del propio juego. Para usarlo, cárgalo desde el menú de RetroArch (Select + X).</string>
     <string name="continue_slot">ranura <xliff:g id="slot">%1$d</xliff:g></string>
     <string name="continue_slot_auto">el automático</string>
+    <string name="app_brightness_title">Brillo de las aplicaciones</string>
+    <string name="app_brightness_summary">Recordar una elección manual de brillo para cada aplicación</string>
+    <string name="app_brightness_enabled">Usar el brillo de las aplicaciones</string>
+    <string name="app_brightness_about">Elige aplicaciones abajo. Su brillo solo se usa en el modo manual. Al salir, se restaura el brillo anterior, a menos que hayas cambiado el control deslizante. Cambiar el control pausa las reglas hasta que salgas de las aplicaciones configuradas.\n\nSe omiten las aplicaciones que controlan el brillo de su propia ventana. La comprobación se realiza al cambiar de tarea; los cambios posteriores exclusivos de la ventana pueden detectarse en el siguiente cambio de tarea. Si la comprobación del brillo de la ventana no está disponible, se omite la regla. Las reglas se detienen en la pantalla de inicio del subsistema y mientras el invitado controla la sesión.</string>
+    <string-array name="app_brightness_entries">
+        <item>Usar el brillo actual</item><item>10 %</item><item>25 %</item><item>50 %</item><item>75 %</item><item>100 %</item>
+    </string-array>
+    <string-array name="app_brightness_values" translatable="false">
+        <item>off</item><item>10</item><item>25</item><item>50</item><item>75</item><item>100</item>
+    </string-array>
+    <string name="ra_repair_title">Ajustes de rendimiento de RetroArch</string>
+    <string name="ra_repair_summary">Elegir reparaciones, previsualizar cambios y conservar una copia de seguridad</string>
+    <string name="ra_repair_about">Elige abajo las reparaciones que quieres aplicar. Todas están seleccionadas al principio; desactiva las que quieras conservar tal como están. Se mantienen las partidas guardadas, las asignaciones y las entradas de la biblioteca. Las anulaciones por juego no cambian y todavía pueden activar estas funciones. No se garantiza un aumento de FPS. Sal de RetroArch antes de continuar.</string>
+    <string name="ra_repair_shader">Desactivar los sombreadores globales</string>
+    <string name="ra_repair_shader_about">Elimina efectos de pantalla como las líneas de exploración de los ajustes principales para reducir el trabajo gráfico. Los juegos pierden esos efectos salvo que una anulación los active.</string>
+    <string name="ra_repair_preemptive">Desactivar los fotogramas anticipados globales</string>
+    <string name="ra_repair_preemptive_about">Detiene el procesamiento adicional de fotogramas en los ajustes principales para reducir el trabajo del procesador. Los controles pueden sentirse menos inmediatos porque se desactiva esta reducción opcional del retraso de entrada.</string>
+    <string name="ra_repair_gambatte">Reparar la anulación del núcleo Gambatte</string>
+    <string name="ra_repair_gambatte_about">Desactiva los sombreadores y los fotogramas anticipados en los ajustes existentes del núcleo Game Boy / Game Boy Color. Reduce el trabajo gráfico y del procesador, a costa de los efectos de pantalla y la reducción opcional del retraso de entrada. Si falta la anulación, seguirá faltando.</string>
+    <string name="ra_repair_nestopia">Reparar la anulación del núcleo Nestopia</string>
+    <string name="ra_repair_nestopia_about">Desactiva los sombreadores y los fotogramas anticipados en los ajustes existentes del núcleo NES Nestopia. Reduce el trabajo gráfico y del procesador, a costa de los efectos de pantalla y la reducción opcional del retraso de entrada. Si falta la anulación, seguirá faltando.</string>
+    <string name="ra_repair_fceumm">Reparar la anulación del núcleo FCEUmm</string>
+    <string name="ra_repair_fceumm_about">Desactiva los sombreadores y los fotogramas anticipados en los ajustes existentes del núcleo NES FCEUmm. Reduce el trabajo gráfico y del procesador, a costa de los efectos de pantalla y la reducción opcional del retraso de entrada. Si falta la anulación, seguirá faltando.</string>
+    <string name="ra_repair_preview_selected">Previsualizar las reparaciones seleccionadas</string>
+    <string name="ra_repair_preview">Previsualizar cambios</string>
+    <string name="ra_repair_preview_body">Cambiarían %1$d archivos de configuración.\n\nReparaciones seleccionadas:\n%2$s\n\nSolo se aplicarán estas reparaciones. Las anulaciones de núcleos pueden tener prioridad sobre los ajustes globales. Se guardará una copia de seguridad de los archivos modificados antes de aplicar los cambios. Las anulaciones por juego se conservan. No se admiten directorios de anulaciones personalizados.</string>
+    <string name="ra_repair_apply">Aplicar las reparaciones seleccionadas</string>
+    <string name="ra_repair_restore">Restaurar copia de seguridad</string>
+    <string name="ra_repair_restore_about">Restaura los archivos guardados antes de la reparación. Se rechaza la restauración si esos archivos se editaron después. Sal primero de RetroArch.</string>
+    <string name="ra_repair_wait">Esperando al servicio de configuración… Mantén RetroArch cerrado.</string>
+    <string name="ra_repair_ready">Vista previa lista. Cancelar no cambia tus ajustes.</string>
+    <string name="ra_repair_applied">Reparaciones seleccionadas aplicadas. La copia de seguridad está disponible mediante Restaurar copia de seguridad.</string>
+    <string name="ra_repair_restored">Copia de seguridad restaurada.</string>
+    <string name="ra_repair_unchanged">Las reparaciones seleccionadas no necesitan cambios. Se ha conservado cualquier copia de seguridad existente.</string>
+    <string name="ra_repair_busy">RetroArch está en ejecución. Sal normalmente y vuelve a intentarlo.</string>
+    <string name="ra_repair_backup">Ya existe una copia de seguridad. Restáurala antes de realizar otra reparación.</string>
+    <string name="ra_repair_error">No se ha podido completar la solicitud. Comprueba que RetroArch tenga una configuración global, use el directorio de anulaciones predeterminado y esté cerrado. La restauración también requiere una copia de seguridad existente y archivos reparados sin cambios. Cualquier copia creada antes de una escritura fallida se conserva para recuperar los datos.</string>
+    <string name="ra_repair_timeout">El servicio de configuración aún no ha respondido. Puede que la solicitud siga en cola; mantén RetroArch cerrado y vuelve a comprobarlo más tarde.</string>
 </resources>

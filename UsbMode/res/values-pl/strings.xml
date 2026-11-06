@@ -399,4 +399,11 @@
     <string name="usb_emulator_stopping">Zatrzymywanie emulatora urządzeń USB…</string>
     <string name="usb_emulator_stop_wait">Oczekiwanie na zakończenie zamykania pamięci i jej powrót do Androida.</string>
     <string name="usb_drive_image_unsupported">Te obrazy dysku są w formacie, którego konsola nie może udostępnić bezpośrednio. Najpierw przekonwertuj je na zwykły plik .img: <xliff:g id="names">%1$s</xliff:g></string>
+    <string name="usb_audioin_title">Wejście audio</string>
+    <string name="usb_audioin_toggle">Dźwięk konsoli do komputera</string>
+    <string name="usb_audioin_toggle_summary">Przechwytuj własny dźwięk konsoli w stereo 48 kHz i wysyłaj go do komputera jako czysty mikrofon USB zamiast nagrywać zaszumione wyjście słuchawkowe. Funkcja współdzieli z komputerem łącze karty dźwiękowej, więc nie może działać razem z mikrofonem soundboardu. Nagrywa przez ścieżkę przechwytywania kodeka. Działa przy wyłączonym ekranie.</string>
+    <string name="usb_role_mic_summary">Wysyłaj własny dźwięk tej konsoli do komputera jako czysty mikrofon USB 48 kHz.</string>
+    <string name="usb_functions_title">Funkcje USB</string>
+    <string name="usb_functions_active">Sesja USB lub operacja pamięci masowej jest już aktywna. Otwórz ją, aby sprawdzić stan lub zatrzymać ją przed wybraniem innej funkcji.</string>
+    <string name="usb_functions_open">Otwórz bieżącą sesję</string>
 </resources>

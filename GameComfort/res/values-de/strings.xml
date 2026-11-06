@@ -77,4 +77,42 @@
     <string name="continue_state_hint"><xliff:g id="game">%1$s</xliff:g> wird fortgesetzt. Dein neuester Savestate (<xliff:g id="slot">%2$s</xliff:g>) ist neuer als der eigene Spielstand des Spiels. Lade ihn im RetroArch-Menü (Select + X), um ihn zu nutzen.</string>
     <string name="continue_slot">Slot <xliff:g id="slot">%1$d</xliff:g></string>
     <string name="continue_slot_auto">der automatische</string>
+    <string name="app_brightness_title">App-Helligkeit</string>
+    <string name="app_brightness_summary">Eine manuelle Helligkeitseinstellung für jede App merken</string>
+    <string name="app_brightness_enabled">App-Helligkeit verwenden</string>
+    <string name="app_brightness_about">Wähle unten Apps aus. Ihre Helligkeit wird nur im manuellen Modus verwendet. Beim Verlassen wird die vorherige Helligkeit wiederhergestellt, sofern du den Regler nicht selbst geändert hast. Eine Änderung des Reglers pausiert die Regeln, bis du die konfigurierten Apps verlässt.\n\nApps, die ihre eigene Fensterhelligkeit steuern, werden übersprungen. Die Prüfung erfolgt beim Wechsel der Aufgabe; spätere Änderungen nur am Fenster werden möglicherweise erst beim nächsten Aufgabenwechsel erkannt. Ist die Prüfung der Fensterhelligkeit nicht verfügbar, wird die Regel übersprungen. Regeln werden auf dem Startbildschirm des Subsystems und solange der Gast die Sitzung besitzt beendet.</string>
+    <string-array name="app_brightness_entries">
+        <item>Aktuelle Helligkeit verwenden</item><item>10 %</item><item>25 %</item><item>50 %</item><item>75 %</item><item>100 %</item>
+    </string-array>
+    <string-array name="app_brightness_values" translatable="false">
+        <item>off</item><item>10</item><item>25</item><item>50</item><item>75</item><item>100</item>
+    </string-array>
+    <string name="ra_repair_title">RetroArch-Leistungseinstellungen</string>
+    <string name="ra_repair_summary">Reparaturen auswählen, Änderungen anzeigen und eine Sicherung behalten</string>
+    <string name="ra_repair_about">Wähle unten die anzuwendenden Reparaturen aus. Zu Beginn sind alle ausgewählt; deaktiviere, was unverändert bleiben soll. Spielstände, Tastenbelegungen und Bibliothekseinträge bleiben erhalten. Pro-Spiel-Überschreibungen bleiben unverändert und können diese Funktionen weiterhin aktivieren. Eine höhere FPS-Zahl ist nicht garantiert. Beende RetroArch, bevor du fortfährst.</string>
+    <string name="ra_repair_shader">Globale Shader deaktivieren</string>
+    <string name="ra_repair_shader_about">Entfernt Bildschirmeffekte wie Scanlines aus den Haupteinstellungen, um die Grafikarbeit zu verringern. Spiele verlieren diese Effekte, sofern eine Überschreibung sie nicht aktiviert.</string>
+    <string name="ra_repair_preemptive">Globale Preemptive Frames deaktivieren</string>
+    <string name="ra_repair_preemptive_about">Beendet zusätzliche Frame-Verarbeitung in den Haupteinstellungen, um die Prozessorarbeit zu verringern. Die Steuerung kann sich weniger direkt anfühlen, weil diese optionale Reduzierung der Eingabeverzögerung deaktiviert ist.</string>
+    <string name="ra_repair_gambatte">Core-Überschreibung von Gambatte reparieren</string>
+    <string name="ra_repair_gambatte_about">Deaktiviert Shader und Preemptive Frames in den vorhandenen Game-Boy-/Game-Boy-Color-Core-Einstellungen. Das verringert Grafik- und Prozessorarbeit, kostet aber Bildschirmeffekte und die optionale Reduzierung der Eingabeverzögerung. Eine fehlende Überschreibung bleibt fehlend.</string>
+    <string name="ra_repair_nestopia">Core-Überschreibung von Nestopia reparieren</string>
+    <string name="ra_repair_nestopia_about">Deaktiviert Shader und Preemptive Frames in den vorhandenen Nestopia-NES-Core-Einstellungen. Das verringert Grafik- und Prozessorarbeit, kostet aber Bildschirmeffekte und die optionale Reduzierung der Eingabeverzögerung. Eine fehlende Überschreibung bleibt fehlend.</string>
+    <string name="ra_repair_fceumm">Core-Überschreibung von FCEUmm reparieren</string>
+    <string name="ra_repair_fceumm_about">Deaktiviert Shader und Preemptive Frames in den vorhandenen FCEUmm-NES-Core-Einstellungen. Das verringert Grafik- und Prozessorarbeit, kostet aber Bildschirmeffekte und die optionale Reduzierung der Eingabeverzögerung. Eine fehlende Überschreibung bleibt fehlend.</string>
+    <string name="ra_repair_preview_selected">Ausgewählte Reparaturen anzeigen</string>
+    <string name="ra_repair_preview">Änderungen anzeigen</string>
+    <string name="ra_repair_preview_body">%1$d Konfigurationsdateien würden geändert.\n\nAusgewählte Reparaturen:\n%2$s\n\nNur diese Reparaturen werden angewendet. Core-Überschreibungen können globale Einstellungen überstimmen. Vor der Anwendung wird eine Sicherung der geänderten Dateien gespeichert. Pro-Spiel-Überschreibungen bleiben erhalten. Benutzerdefinierte Überschreibungsverzeichnisse werden nicht unterstützt.</string>
+    <string name="ra_repair_apply">Ausgewählte Reparaturen anwenden</string>
+    <string name="ra_repair_restore">Sicherung wiederherstellen</string>
+    <string name="ra_repair_restore_about">Stellt die vor der Reparatur gespeicherten Dateien wieder her. Die Wiederherstellung wird verweigert, wenn diese Dateien danach bearbeitet wurden. Beende RetroArch zuerst.</string>
+    <string name="ra_repair_wait">Warte auf den Einrichtungsdienst… Lass RetroArch geschlossen.</string>
+    <string name="ra_repair_ready">Vorschau bereit. Abbrechen lässt deine Einstellungen unverändert.</string>
+    <string name="ra_repair_applied">Ausgewählte Reparaturen angewendet. Die Sicherung ist über „Sicherung wiederherstellen“ verfügbar.</string>
+    <string name="ra_repair_restored">Sicherung wiederhergestellt.</string>
+    <string name="ra_repair_unchanged">Die ausgewählten Reparaturen benötigen keine Änderungen. Eine vorhandene Sicherung blieb erhalten.</string>
+    <string name="ra_repair_busy">RetroArch läuft. Beende es normal und versuche es erneut.</string>
+    <string name="ra_repair_backup">Eine Sicherung ist bereits vorhanden. Stelle sie wieder her, bevor du eine weitere Reparatur ausführst.</string>
+    <string name="ra_repair_error">Die Anfrage konnte nicht abgeschlossen werden. Prüfe, ob RetroArch eine globale Konfiguration hat, das standardmäßige Überschreibungsverzeichnis verwendet und geschlossen ist. Für die Wiederherstellung ist außerdem eine vorhandene Sicherung sowie unveränderte reparierte Dateien erforderlich. Eine vor einem fehlgeschlagenen Schreibvorgang erstellte Sicherung bleibt zur Wiederherstellung erhalten.</string>
+    <string name="ra_repair_timeout">Der Einrichtungsdienst hat noch nicht geantwortet. Die Anfrage befindet sich möglicherweise noch in der Warteschlange; lass RetroArch geschlossen und prüfe später erneut.</string>
 </resources>

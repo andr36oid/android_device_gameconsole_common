@@ -399,4 +399,11 @@
     <string name="usb_emulator_stopping">Arrêt de l\'émulateur de périphériques USB…</string>
     <string name="usb_emulator_stop_wait">En attente de la fermeture du stockage et de son retour à Android.</string>
     <string name="usb_drive_image_unsupported">Ces images disque sont dans un format que la console ne peut pas partager directement. Convertis-les d\'abord en simple .img : <xliff:g id="names">%1$s</xliff:g></string>
+    <string name="usb_audioin_title">Entrée audio</string>
+    <string name="usb_audioin_toggle">Audio de la console vers le PC</string>
+    <string name="usb_audioin_toggle_summary">Capture le son de la console en stéréo 48 kHz et l’envoie à l’ordinateur comme un microphone USB propre, au lieu d’enregistrer la sortie casque bruyante. La fonction partage la liaison de la carte son avec l’ordinateur et ne peut donc pas fonctionner avec le microphone de la carte son. Enregistre via le circuit de capture du codec. Fonctionne écran éteint.</string>
+    <string name="usb_role_mic_summary">Envoie le son de cette console à l’ordinateur comme un microphone USB propre à 48 kHz.</string>
+    <string name="usb_functions_title">Fonctions USB</string>
+    <string name="usb_functions_active">Une session USB ou une opération de stockage est déjà active. Ouvre-la pour vérifier son état ou l’arrêter avant de choisir une autre fonction.</string>
+    <string name="usb_functions_open">Ouvrir la session actuelle</string>
 </resources>

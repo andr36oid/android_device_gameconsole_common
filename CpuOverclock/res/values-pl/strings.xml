@@ -91,4 +91,30 @@
     <string name="app_profiles_about">Domyślny oznacza profil wybrany w ustawieniach Wydajność. Niektóre emulatory zaczynają z profilem Wydajność, a niektóre aplikacje ze Zrównoważonym lub Oszczędzaniem baterii. Tutaj możesz je zmienić.\n\nKafelek szybkich ustawień i FN + R1 działają też w aplikacji z własnym profilem. Wybrany profil obowiązuje wtedy do opuszczenia aplikacji.\n\nGdy opcja jest włączona, niewielka usługa sprawdza, która aplikacja jest otwarta. Nie działa, gdy opcja jest wyłączona lub żadna aplikacja nie ma własnego profilu.</string>
     <string name="app_profile_until_left">Do opuszczenia <xliff:g id="app">%1$s</xliff:g></string>
     <string name="app_profile_tile"><xliff:g id="profile">%1$s</xliff:g>, <xliff:g id="app">%2$s</xliff:g></string>
+    <string name="game_turbo_title">Game Turbo (maksymalne taktowanie podczas gry)</string>
+    <string name="game_turbo_summary">Gdy gra jest na pierwszym planie, utrzymuje standardowe taktowanie CPU (1296 MHz), GPU (520 MHz) i pamięci. Podczas gry zużywa więcej baterii. Później przywraca wcześniejsze limity i zwykłe zarządcy częstotliwości. Jawne profile dla aplikacji mają pierwszeństwo. Nie włącza podkręcania.</string>
+    <string name="game_affinity_title">Przypnij grę do dedykowanych rdzeni</string>
+    <string name="game_affinity_summary">Eksperymentalne: utrzymuje RetroArch lub PPSSPP na rdzeniach 2–3, a pracę w tle i wybrane przerwania urządzenia na 0–1, po czym przywraca ustawienia. Wszystkie cztery rdzenie są identyczne; ewentualna poprawa wynika z mniejszej rywalizacji i jest niepewna.</string>
+    <string name="perf_subtitle">Jak konsola działa podczas gier</string>
+    <string name="perf_hint">PS1, N64 i PSP działają najlepiej w trybie Wydajność.</string>
+    <string name="perf_mode_saver_tag">Dłuższa praca na baterii. Świetny do gier 8- i 16-bitowych.</string>
+    <string name="perf_mode_balanced_tag">Przyspiesza tylko wtedy, gdy gra tego potrzebuje.</string>
+    <string name="perf_mode_performance_tag">Najpłynniejszy i najlepszy do wysokiej liczby klatek w grach retro. Do PS1, N64 i PSP. Działa nieco cieplej.</string>
+    <string name="perf_card_on">\u2713 Wł.</string>
+    <string name="perf_row_ingame_title">Opcje w grze</string>
+    <string name="perf_row_ingame_value">Tryb gry</string>
+    <string name="perf_row_perapp_title">Wydajność poszczególnych aplikacji</string>
+    <string name="perf_row_advanced_title">Zaawansowane</string>
+    <string name="perf_row_advanced_value">Podkręcanie, limity</string>
+    <string name="perf_ingame_title">Opcje w grze</string>
+    <string name="perf_ingame_brightness_title">Jasność ekranu w grach</string>
+    <string name="perf_ingame_brightness_summary">Przełącznik jasności, którym gry mogą sterować samodzielnie</string>
+    <string name="perf_ingame_lowbatt_title">Ostrzeżenie o niskim poziomie baterii</string>
+    <string name="perf_ingame_lowbatt_summary">Informacja w grze, gdy poziom baterii jest niski</string>
+    <string name="perf_ingame_continue_title">Wróć do ostatniej gry</string>
+    <string name="perf_ingame_continue_summary">Skrót do ostatnio uruchomionej gry</string>
+    <string name="perf_advanced_note">Dla zaawansowanych użytkowników. Wartości domyślne są bezpieczne dla każdej konsoli.</string>
+    <string name="perf_cat_limits">Limit prędkości</string>
+    <string name="perf_status">Teraz działa: CPU do %1$s · %2$d°C</string>
+    <string name="perf_status_no_temp">Teraz działa: CPU do %1$s</string>
 </resources>

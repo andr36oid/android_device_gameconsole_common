@@ -25,4 +25,6 @@
         <item>purple</item>
         <item>white</item>
     </string-array>
+    <string name="rgb_row_effect">Эффект</string><string name="rgb_row_color">Цвет</string><string name="rgb_row_brightness">Яркость</string><string name="rgb_row_speed">Скорость</string><string name="rgb_auto">Автоматически</string><string name="rgb_preview_left">Слева</string><string name="rgb_preview_right">Справа</string><string name="rgb_stick_hint">Двигайте стиком, чтобы окрашивать подсветку</string><string name="rgb_hint">Вверх/Вниз: выбрать   Влево/Вправо: изменить   B: назад</string>
+    <string-array name="rgb_effect_names"><item>Выкл.</item><item>Сплошной цвет</item><item>Дыхание</item><item>Радуга</item><item>Следовать за стиком</item><item>Батарея</item></string-array>
 </resources>

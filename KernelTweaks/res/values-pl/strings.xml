@@ -394,4 +394,9 @@
     <string name="kt_stick_sens_right_title">Prawy drążek</string>
     <string name="kt_stick_sens_what">Zmniejsza zgłaszane wychylenie drążka przy przesunięciu go do końca, osobno dla każdej strony. 100% to normalna wartość; niższa oznacza mniejszy ruch przy pełnym wychyleniu.</string>
     <string name="kt_stick_sens_why">Dla klonów z drążkami o nierównej lub zbyt gwałtownej reakcji. Zmniejsz wartość po jednej stronie, aby oba reagowały tak samo lub by łatwiej było celować. Sprawdź wynik w teście kontrolera.</string>
+    <string name="kt_profile_select_about">Wybierz zmienione ulepszenia do zaimportowania. Odznaczone ulepszenia zachowują zapisane wartości. Tylko bezpieczne zmiany wybiera ulepszenia ocenione już jako bezpieczne; ostrzeżenia dotyczące modelu nadal obowiązują.</string>
+    <string name="kt_profile_safe_only">Tylko bezpieczne zmiany</string>
+    <string name="kt_profile_none_selected">Nie wybrano zmienionych ulepszeń. Nic nie zostanie zapisane.</string>
+    <string name="kt_profile_select_ready">Zostaną zaimportowane tylko zaznaczone ulepszenia.</string>
+    <string name="kt_profile_dependency">Ten wybór używałby pamięci FUSE przy wyłączonym sterowniku FUSE. Wybierz zgodną kombinację pamięci i sterownika albo odznacz te zmiany.</string>
 </resources>

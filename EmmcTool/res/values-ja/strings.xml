@@ -306,4 +306,6 @@
     <string name="inst_goback_no_backup">この本体の純正 eMMC のバックアップが見つかりませんでした。そのフォルダ（\"eMMC backup\" 内）をこのカードの EASYROMS にコピーしてから、eMMC インストールを開き直してください。\n\neMMC に andr36oid を残す場合は、代わりに eMMC をこのカードの状態に更新し、カードを再びデータカードにします。</string>
     <string name="inst_goback_keep">eMMC に andr36oid を残す</string>
     <string name="inst_goback_stock">本体の電源を切ってください。SD カードがなければ純正システムを起動します。スロット 1 にこのカードを挿すと、アプリとデータを使って andr36oid を起動します。</string>
+    <string name="inst_chk_size_datacard">データカードのインストールに十分な容量（データは SD カードに残ります）</string>
+    <string name="inst_dc_where_small">この eMMC は Android のデータを保存するには小さすぎるため、データは SD カードに残ります。システムは eMMC に入り、コンソールはデータにカードを使用します。データカードはコンソールに入れたままにしてください。ないと Android は起動しません。\n\nここで選択します。データカードは、eMMC テストの開始に成功した後、最後に作成されます。</string>
 </resources>

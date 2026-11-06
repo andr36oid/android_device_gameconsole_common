@@ -399,4 +399,11 @@
     <string name="usb_emulator_stopping">Остановка эмулятора USB-устройств…</string>
     <string name="usb_emulator_stop_wait">Ожидание завершения отключения накопителя и возврата его в Android.</string>
     <string name="usb_drive_image_unsupported">Эти образы дисков в формате, который консоль не может передать напрямую. Сначала преобразуй их в обычный .img: <xliff:g id="names">%1$s</xliff:g></string>
+    <string name="usb_audioin_title">Входной звук</string>
+    <string name="usb_audioin_toggle">Звук консоли на ПК</string>
+    <string name="usb_audioin_toggle_summary">Передавайте собственный звук консоли в стерео 48 кГц на компьютер как чистый USB-микрофон вместо записи зашумлённого выхода наушников. Функция использует общее соединение звуковой карты с компьютером, поэтому не может работать вместе с микрофоном саундборда. Запись выполняется через путь захвата кодека. Работает при выключенном экране.</string>
+    <string name="usb_role_mic_summary">Передавать собственный звук этой консоли на компьютер как чистый USB-микрофон 48 кГц.</string>
+    <string name="usb_functions_title">Функции USB</string>
+    <string name="usb_functions_active">Сеанс USB или операция с хранилищем уже выполняется. Откройте его, чтобы проверить состояние или остановить его перед выбором другой функции.</string>
+    <string name="usb_functions_open">Открыть текущий сеанс</string>
 </resources>

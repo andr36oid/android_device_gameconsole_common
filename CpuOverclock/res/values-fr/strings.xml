@@ -98,4 +98,30 @@
     <string name="app_profiles_about">Par défaut signifie que l\'appli suit le profil choisi dans Performances. Certains émulateurs utilisent au départ Performances, et certaines applis Équilibré ou Économie de batterie. Modifiez-les ici.\n\nLa tuile des réglages rapides et FN + R1 fonctionnent aussi dans une appli avec son propre profil. Votre choix reste alors actif jusqu\'à ce que vous quittiez l\'appli.\n\nQuand cette option est activée, un petit service surveille l\'appli ouverte. Il ne fonctionne pas si l\'option est désactivée ou si aucune appli n\'a son propre profil.</string>
     <string name="app_profile_until_left">Jusqu\'à la fermeture de <xliff:g id="app">%1$s</xliff:g></string>
     <string name="app_profile_tile"><xliff:g id="profile">%1$s</xliff:g>, <xliff:g id="app">%2$s</xliff:g></string>
+    <string name="game_turbo_title">Game Turbo (fréquences maximales en jeu)</string>
+    <string name="game_turbo_summary">Lorsqu’un jeu est au premier plan, conserve les fréquences standard du CPU (1296 MHz), du GPU (520 MHz) et de la mémoire. Consomme davantage de batterie pendant le jeu. Les limites précédentes et les gouverneurs normaux sont rétablis ensuite. Les profils propres à une application sont prioritaires. N’active pas l’overclocking.</string>
+    <string name="game_affinity_title">Épingler le jeu à des cœurs dédiés</string>
+    <string name="game_affinity_summary">Expérimental : maintient RetroArch ou PPSSPP sur les cœurs 2–3 et les tâches en arrière-plan ainsi que certaines interruptions de l’appareil sur 0–1, puis rétablit la configuration. Les quatre cœurs sont identiques ; le gain éventuel vient d’une moindre concurrence et reste incertain.</string>
+    <string name="perf_subtitle">Le fonctionnement de ta console en jeu</string>
+    <string name="perf_hint">La PS1, la N64 et la PSP fonctionnent mieux en mode Performances.</string>
+    <string name="perf_mode_saver_tag">Plus d’autonomie. Idéal pour les jeux 8 et 16 bits.</string>
+    <string name="perf_mode_balanced_tag">Accélère seulement quand un jeu en a besoin.</string>
+    <string name="perf_mode_performance_tag">Le plus fluide, idéal pour les fréquences d’images élevées dans les jeux rétro. Pour PS1, N64 et PSP. Chauffe un peu plus.</string>
+    <string name="perf_card_on">\u2713 Activé</string>
+    <string name="perf_row_ingame_title">Options en jeu</string>
+    <string name="perf_row_ingame_value">Mode jeu</string>
+    <string name="perf_row_perapp_title">Performances par application</string>
+    <string name="perf_row_advanced_title">Avancé</string>
+    <string name="perf_row_advanced_value">Overclocking, limites</string>
+    <string name="perf_ingame_title">Options en jeu</string>
+    <string name="perf_ingame_brightness_title">Luminosité de l’écran dans les jeux</string>
+    <string name="perf_ingame_brightness_summary">Un réglage de luminosité que les jeux peuvent activer eux-mêmes</string>
+    <string name="perf_ingame_lowbatt_title">Alerte de batterie faible</string>
+    <string name="perf_ingame_lowbatt_summary">Un avertissement dans le jeu lorsque la batterie est faible</string>
+    <string name="perf_ingame_continue_title">Reprendre ton dernier jeu</string>
+    <string name="perf_ingame_continue_summary">Un raccourci vers le dernier jeu auquel tu as joué</string>
+    <string name="perf_advanced_note">Pour les utilisateurs avancés. Les valeurs par défaut sont sûres pour toutes les consoles.</string>
+    <string name="perf_cat_limits">Limite de vitesse</string>
+    <string name="perf_status">En cours : CPU jusqu’à %1$s · %2$d°C</string>
+    <string name="perf_status_no_temp">En cours : CPU jusqu’à %1$s</string>
 </resources>

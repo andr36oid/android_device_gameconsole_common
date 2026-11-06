@@ -100,4 +100,30 @@
     <string name="app_profiles_about">Standard heißt, die App nutzt das unter Leistung gewählte Profil. Einige Emulatoren starten mit Leistung, manche Apps mit Ausgewogen oder Energiesparen. Hier kannst du das für jede App ändern.\n\nDie Kachel in den Schnelleinstellungen und FN + R1 funktionieren auch in Apps mit eigenem Profil. Deine Auswahl gilt dann, bis du die App verlässt.\n\nSolange dies an ist, prüft ein kleiner Helfer, welche App geöffnet ist. Er läuft nicht, wenn dies aus ist oder keine App ein eigenes Profil hat.</string>
     <string name="app_profile_until_left">Bis du <xliff:g id="app">%1$s</xliff:g> verlässt</string>
     <string name="app_profile_tile"><xliff:g id="profile">%1$s</xliff:g>, <xliff:g id="app">%2$s</xliff:g></string>
+    <string name="game_turbo_title">Game Turbo (maximale Taktraten beim Spielen)</string>
+    <string name="game_turbo_summary">Solange ein Spiel im Vordergrund ist, hält diese Funktion CPU (1296 MHz), GPU (520 MHz) und Speichertakt auf den Standardwerten. Beim Spielen wird mehr Akku verbraucht. Danach werden die vorherigen Limits und normalen Governor wiederhergestellt. Explizite App-Profile haben Vorrang. Übertaktung wird nicht aktiviert.</string>
+    <string name="game_affinity_title">Spiel an bestimmte Kerne binden</string>
+    <string name="game_affinity_summary">Experimentell: RetroArch oder PPSSPP bleibt auf den Kernen 2–3, während Hintergrundaufgaben und ausgewählte Geräteinterrupts auf 0–1 laufen, danach wird alles wiederhergestellt. Alle vier Kerne sind identisch; ein möglicher Vorteil entsteht durch weniger Konkurrenz und ist unsicher.</string>
+    <string name="perf_subtitle">So läuft deine Konsole beim Spielen</string>
+    <string name="perf_hint">PS1, N64 und PSP laufen am besten mit Leistung.</string>
+    <string name="perf_mode_saver_tag">Längere Akkulaufzeit. Ideal für 8- und 16-Bit-Spiele.</string>
+    <string name="perf_mode_balanced_tag">Wird nur schneller, wenn ein Spiel es braucht.</string>
+    <string name="perf_mode_performance_tag">Am flüssigsten und am besten für hohe Bildraten in Retrospielen. Für PS1, N64 und PSP. Wird etwas wärmer.</string>
+    <string name="perf_card_on">\u2713 Ein</string>
+    <string name="perf_row_ingame_title">Optionen im Spiel</string>
+    <string name="perf_row_ingame_value">Spielmodus</string>
+    <string name="perf_row_perapp_title">Leistung pro App</string>
+    <string name="perf_row_advanced_title">Erweitert</string>
+    <string name="perf_row_advanced_value">Übertaktung, Limits</string>
+    <string name="perf_ingame_title">Optionen im Spiel</string>
+    <string name="perf_ingame_brightness_title">Bildschirmhelligkeit in Spielen</string>
+    <string name="perf_ingame_brightness_summary">Ein Helligkeitsschalter, den Spiele selbst bedienen können</string>
+    <string name="perf_ingame_lowbatt_title">Warnung bei niedrigem Akkustand</string>
+    <string name="perf_ingame_lowbatt_summary">Ein Hinweis im Spiel, wenn der Akku fast leer ist</string>
+    <string name="perf_ingame_continue_title">Letztes Spiel fortsetzen</string>
+    <string name="perf_ingame_continue_summary">Eine Verknüpfung zum zuletzt gespielten Spiel</string>
+    <string name="perf_advanced_note">Für fortgeschrittene Nutzer. Die Standardwerte sind für jede Konsole sicher.</string>
+    <string name="perf_cat_limits">Geschwindigkeitslimit</string>
+    <string name="perf_status">Läuft gerade: CPU bis %1$s · %2$d°C</string>
+    <string name="perf_status_no_temp">Läuft gerade: CPU bis %1$s</string>
 </resources>

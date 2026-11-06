@@ -318,4 +318,9 @@
     <string name="kt_stick_sens_right_title">右スティック</string>
     <string name="kt_stick_sens_what">スティックを端まで倒したときの出力値を、左右別々に下げます。100%が通常の値です。値を下げると、端まで倒しても動きが小さくなります。</string>
     <string name="kt_stick_sens_why">スティックの反応が左右で違ったり、敏感すぎたりするクローン機向けです。片側の値を下げて左右の感覚をそろえたり、照準を合わせやすくしたりできます。コントローラーテストで結果を確認してください。</string>
+    <string name="kt_profile_select_about">変更された調整項目からインポートするものを選択してください。選択しない調整項目は保存済みの値を維持します。「安全な変更のみ」では、安全と評価された調整項目だけを選択します。モデルに関する警告は引き続き適用されます。</string>
+    <string name="kt_profile_safe_only">安全な変更のみ</string>
+    <string name="kt_profile_none_selected">変更された調整項目が選択されていません。何も書き込みません。</string>
+    <string name="kt_profile_select_ready">チェックした調整項目だけがインポートされます。</string>
+    <string name="kt_profile_dependency">この選択では、FUSE ドライバーをオフにした FUSE ストレージを使用します。互換性のあるストレージとドライバーの組み合わせを選ぶか、これらの変更の選択を解除してください。</string>
 </resources>

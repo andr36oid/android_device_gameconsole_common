@@ -391,4 +391,9 @@
     <string name="kt_stick_sens_right_title">Stik kanan</string>
     <string name="kt_stick_sens_what">Mengurangi nilai gerakan yang dilaporkan saat stik didorong penuh, terpisah untuk tiap sisi. 100% adalah normal; nilai lebih rendah berarti gerakan lebih sedikit saat didorong penuh.</string>
     <string name="kt_stick_sens_why">Untuk konsol klon dengan stik yang tidak seimbang atau terlalu sensitif. Turunkan salah satu sisi agar keduanya terasa sama, atau agar membidik lebih tenang. Periksa hasilnya di pengujian pengontrol.</string>
+    <string name="kt_profile_select_about">Pilih tweak yang diubah untuk diimpor. Tweak yang tidak dicentang mempertahankan nilai tersimpannya. Hanya perubahan aman memilih tweak yang sudah dinilai Aman; peringatan model tetap berlaku.</string>
+    <string name="kt_profile_safe_only">Hanya perubahan aman</string>
+    <string name="kt_profile_none_selected">Tidak ada tweak yang diubah dipilih. Tidak ada yang akan ditulis.</string>
+    <string name="kt_profile_select_ready">Hanya tweak yang dicentang yang akan diimpor.</string>
+    <string name="kt_profile_dependency">Pilihan ini akan menggunakan penyimpanan FUSE dengan driver FUSE nonaktif. Pilih kombinasi penyimpanan/driver yang kompatibel atau batalkan pilihan perubahan tersebut.</string>
 </resources>

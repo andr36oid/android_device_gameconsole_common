@@ -392,4 +392,9 @@
     <string name="kt_stick_sens_right_title">Sağ çubuk</string>
     <string name="kt_stick_sens_what">Çubuk sonuna kadar itildiğinde bildirilen hareket miktarını her taraf için ayrı ayrı azaltır. %100 normaldir; daha düşük bir değer, tam itişte daha az hareket demektir.</string>
     <string name="kt_stick_sens_why">Çubukları dengesiz veya aşırı hassas olan klonlar içindir. İkisi de aynı hissi versin veya nişan almak daha kolay olsun diye bir tarafın değerini düşürün. Sonucu kontrolcü testinde kontrol edin.</string>
+    <string name="kt_profile_select_about">İçe aktarılacak değiştirilen ayarları seçin. İşaretlenmeyen ayarlar kayıtlı değerlerini korur. Yalnızca güvenli değişiklikler, yalnızca Güvenli olarak derecelendirilen ayarları seçer; model uyarıları yine geçerlidir.</string>
+    <string name="kt_profile_safe_only">Yalnızca güvenli değişiklikler</string>
+    <string name="kt_profile_none_selected">Değiştirilen ayar seçilmedi. Hiçbir şey yazılmayacak.</string>
+    <string name="kt_profile_select_ready">Yalnızca işaretlenen ayarlar içe aktarılacak.</string>
+    <string name="kt_profile_dependency">Bu seçim, FUSE sürücüsü kapalıyken FUSE depolamasını kullanır. Uyumlu bir depolama/sürücü bileşimi seçin veya bu değişikliklerin işaretini kaldırın.</string>
 </resources>

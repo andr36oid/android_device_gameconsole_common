@@ -392,4 +392,9 @@
     <string name="kt_stick_sens_right_title">Rechter Stick</string>
     <string name="kt_stick_sens_what">Verringert den gemeldeten Ausschlag bei voll ausgelenktem Stick, für jede Seite einzeln. 100% ist normal; ein niedrigerer Wert bedeutet weniger Bewegung bei vollem Ausschlag.</string>
     <string name="kt_stick_sens_why">Für Klonkonsolen mit ungleichmäßigen oder zu nervösen Sticks. Stell eine Seite niedriger ein, damit sich beide gleich anfühlen oder du ruhiger zielen kannst. Prüf das Ergebnis im Controller-Test.</string>
+    <string name="kt_profile_select_about">Wähle die geänderten Tweaks zum Importieren aus. Nicht ausgewählte Tweaks behalten ihre gespeicherten Werte. Nur sichere Änderungen wählt bereits als sicher bewertete Tweaks aus; Warnungen zum Modell gelten weiterhin.</string>
+    <string name="kt_profile_safe_only">Nur sichere Änderungen</string>
+    <string name="kt_profile_none_selected">Keine geänderten Tweaks ausgewählt. Es wird nichts geschrieben.</string>
+    <string name="kt_profile_select_ready">Nur die ausgewählten Tweaks werden importiert.</string>
+    <string name="kt_profile_dependency">Diese Auswahl würde FUSE-Speicher mit deaktiviertem FUSE-Treiber verwenden. Wähle eine kompatible Speicher-/Treiberkombination oder hebe die Auswahl dieser Änderungen auf.</string>
 </resources>

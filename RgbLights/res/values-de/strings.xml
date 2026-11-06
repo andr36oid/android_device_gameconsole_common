@@ -25,4 +25,6 @@
         <item>purple</item>
         <item>white</item>
     </string-array>
+    <string name="rgb_row_effect">Effekt</string><string name="rgb_row_color">Farbe</string><string name="rgb_row_brightness">Helligkeit</string><string name="rgb_row_speed">Geschwindigkeit</string><string name="rgb_auto">Automatisch</string><string name="rgb_preview_left">Links</string><string name="rgb_preview_right">Rechts</string><string name="rgb_stick_hint">Bewege einen Stick, um die Lichter einzufärben</string><string name="rgb_hint">Oben/Unten: auswählen   Links/Rechts: ändern   B: zurück</string>
+    <string-array name="rgb_effect_names"><item>Aus</item><item>Einfarbig</item><item>Atmen</item><item>Regenbogen</item><item>Stick folgen</item><item>Batterie</item></string-array>
 </resources>

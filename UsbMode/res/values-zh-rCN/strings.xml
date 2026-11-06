@@ -399,4 +399,11 @@
     <string name="usb_emulator_stopping">正在停止 USB 设备模拟器…</string>
     <string name="usb_emulator_stop_wait">正在等待存储空间完成关闭并交还 Android 使用。</string>
     <string name="usb_drive_image_unsupported">这些磁盘镜像的格式无法被掌机直接共享。请先把它们转换成普通的 .img：<xliff:g id="names">%1$s</xliff:g></string>
+    <string name="usb_audioin_title">音频输入</string>
+    <string name="usb_audioin_toggle">将主机音频传输到电脑</string>
+    <string name="usb_audioin_toggle_summary">以 48 kHz 立体声捕获主机自身的声音，并将其作为清晰的 USB 麦克风发送到电脑，而不是录制嘈杂的耳机输出。它会与电脑共享声卡连接，因此无法与音板麦克风同时运行。通过编解码器的捕获路径录音。关闭显示屏后仍可使用。</string>
+    <string name="usb_role_mic_summary">将此主机自身的音频作为清晰的 48 kHz USB 麦克风发送到电脑。</string>
+    <string name="usb_functions_title">USB 功能</string>
+    <string name="usb_functions_active">USB 会话或存储操作已处于活动状态。请选择打开它来查看状态或停止操作，然后再选择其他功能。</string>
+    <string name="usb_functions_open">打开当前会话</string>
 </resources>

@@ -98,4 +98,30 @@
     <string name="app_profiles_about">Default berarti aplikasi mengikuti profil yang dipilih di Performa. Beberapa emulator awalnya memakai Performa, dan beberapa aplikasi memakai Seimbang atau Hemat baterai. Ubah masing-masing di sini.\n\nUbin Setelan Cepat dan FN + R1 tetap berfungsi dalam aplikasi dengan profil sendiri. Pilihan Anda lalu berlaku sampai Anda keluar dari aplikasi.\n\nSaat aktif, layanan kecil memantau aplikasi yang terbuka. Layanan ini tidak berjalan saat nonaktif atau tidak ada aplikasi dengan profil sendiri.</string>
     <string name="app_profile_until_left">Sampai Anda keluar dari <xliff:g id="app">%1$s</xliff:g></string>
     <string name="app_profile_tile"><xliff:g id="profile">%1$s</xliff:g>, <xliff:g id="app">%2$s</xliff:g></string>
+    <string name="game_turbo_title">Game Turbo (clock maksimum saat bermain)</string>
+    <string name="game_turbo_summary">Saat game berada di depan, pertahankan clock CPU stok (1296 MHz), GPU (520 MHz), dan memori. Menggunakan lebih banyak baterai saat bermain. Batas sebelumnya dan governor normal kembali setelahnya. Profil per aplikasi yang ditentukan secara eksplisit memiliki prioritas. Tidak mengaktifkan overclocking.</string>
+    <string name="game_affinity_title">Sematkan game ke core khusus</string>
+    <string name="game_affinity_summary">Eksperimental: pertahankan RetroArch atau PPSSPP pada core 2–3 dan pekerjaan latar belakang serta interupsi perangkat tertentu pada 0–1, lalu pulihkan. Keempat core identik; manfaat apa pun berasal dari lebih sedikit perebutan sumber daya dan hasilnya tidak pasti.</string>
+    <string name="perf_subtitle">Cara konsolmu menjalankan game</string>
+    <string name="perf_hint">PS1, N64, dan PSP paling baik dimainkan dalam mode Performa.</string>
+    <string name="perf_mode_saver_tag">Baterai lebih tahan lama. Cocok untuk game 8 dan 16-bit.</string>
+    <string name="perf_mode_balanced_tag">Mempercepat hanya saat game membutuhkannya.</string>
+    <string name="perf_mode_performance_tag">Paling mulus dan terbaik untuk frame rate tinggi dalam game retro. Untuk PS1, N64, dan PSP. Sedikit lebih hangat.</string>
+    <string name="perf_card_on">\u2713 Aktif</string>
+    <string name="perf_row_ingame_title">Opsi dalam game</string>
+    <string name="perf_row_ingame_value">Mode game</string>
+    <string name="perf_row_perapp_title">Performa per aplikasi</string>
+    <string name="perf_row_advanced_title">Lanjutan</string>
+    <string name="perf_row_advanced_value">Overclock, batas</string>
+    <string name="perf_ingame_title">Opsi dalam game</string>
+    <string name="perf_ingame_brightness_title">Kecerahan layar dalam game</string>
+    <string name="perf_ingame_brightness_summary">Sakelar kecerahan yang dapat dinyalakan sendiri oleh game</string>
+    <string name="perf_ingame_lowbatt_title">Peringatan baterai lemah</string>
+    <string name="perf_ingame_lowbatt_summary">Pemberitahuan dalam game saat baterai hampir habis</string>
+    <string name="perf_ingame_continue_title">Kembali ke game terakhir</string>
+    <string name="perf_ingame_continue_summary">Pintasan ke game yang terakhir kamu mainkan</string>
+    <string name="perf_advanced_note">Untuk pengguna tingkat lanjut. Nilai default aman untuk setiap konsol.</string>
+    <string name="perf_cat_limits">Batas kecepatan</string>
+    <string name="perf_status">Sedang berjalan: CPU hingga %1$s · %2$d°C</string>
+    <string name="perf_status_no_temp">Sedang berjalan: CPU hingga %1$s</string>
 </resources>

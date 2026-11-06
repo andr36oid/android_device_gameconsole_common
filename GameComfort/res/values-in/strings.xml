@@ -76,4 +76,38 @@
     <string name="continue_state_hint">Melanjutkan <xliff:g id="game">%1$s</xliff:g>. Save state terbaru (<xliff:g id="slot">%2$s</xliff:g>) lebih baru dari simpanan game. Untuk memakainya, muat dari menu RetroArch (Select + X).</string>
     <string name="continue_slot">slot <xliff:g id="slot">%1$d</xliff:g></string>
     <string name="continue_slot_auto">yang otomatis</string>
+    <string name="app_brightness_title">Kecerahan aplikasi</string>
+    <string name="app_brightness_summary">Ingat pilihan kecerahan manual untuk setiap aplikasi</string>
+    <string name="app_brightness_enabled">Gunakan kecerahan aplikasi</string>
+    <string name="app_brightness_about">Pilih aplikasi di bawah. Kecerahannya hanya digunakan dalam mode manual. Saat keluar, kecerahan sebelumnya dipulihkan kecuali kamu mengubah penggeser sendiri. Perubahan penggeser menjeda aturan sampai kamu keluar dari aplikasi yang dikonfigurasi.\n\nAplikasi yang mengontrol kecerahan jendelanya sendiri akan dilewati. Pemeriksaan dilakukan saat tugas berubah; perubahan berikutnya yang hanya berlaku pada jendela mungkin baru terlihat saat tugas berubah lagi. Jika pemeriksaan kecerahan jendela tidak tersedia, aturan akan dilewati. Aturan berhenti di layar peluncuran subsistem dan saat tamu memiliki sesi.</string>
+    <string-array name="app_brightness_entries"><item>Gunakan kecerahan saat ini</item><item>10%</item><item>25%</item><item>50%</item><item>75%</item><item>100%</item></string-array>
+    <string-array name="app_brightness_values" translatable="false"><item>off</item><item>10</item><item>25</item><item>50</item><item>75</item><item>100</item></string-array>
+    <string name="ra_repair_title">Setelan performa RetroArch</string>
+    <string name="ra_repair_summary">Pilih perbaikan, pratinjau perubahan, dan simpan cadangan</string>
+    <string name="ra_repair_about">Pilih perbaikan yang akan diterapkan di bawah. Semuanya dipilih saat awal; nonaktifkan yang ingin dipertahankan. Penyimpanan, pemetaan tombol, dan entri pustaka tetap ada. Penggantian per game tidak berubah dan mungkin masih mengaktifkan fitur ini. Peningkatan FPS tidak dijamin. Keluar dari RetroArch sebelum melanjutkan.</string>
+    <string name="ra_repair_shader">Nonaktifkan shader global</string>
+    <string name="ra_repair_shader_about">Menghapus efek layar seperti scanline dari setelan utama untuk mengurangi beban grafis. Game akan kehilangan efek tersebut kecuali penggantian mengaktifkannya.</string>
+    <string name="ra_repair_preemptive">Nonaktifkan Preemptive Frames global</string>
+    <string name="ra_repair_preemptive_about">Menghentikan pemrosesan frame tambahan dalam setelan utama untuk mengurangi beban prosesor. Kontrol mungkin terasa kurang langsung karena pengurangan latensi input opsional ini dinonaktifkan.</string>
+    <string name="ra_repair_gambatte">Perbaiki penggantian core Gambatte</string>
+    <string name="ra_repair_gambatte_about">Menonaktifkan shader dan Preemptive Frames dalam setelan core Game Boy / Game Boy Color yang ada. Ini mengurangi beban grafis dan prosesor, tetapi menghilangkan efek layar dan pengurangan latensi input opsional. Penggantian yang tidak ada tetap tidak ada.</string>
+    <string name="ra_repair_nestopia">Perbaiki penggantian core Nestopia</string>
+    <string name="ra_repair_nestopia_about">Menonaktifkan shader dan Preemptive Frames dalam setelan core NES Nestopia yang ada. Ini mengurangi beban grafis dan prosesor, tetapi menghilangkan efek layar dan pengurangan latensi input opsional. Penggantian yang tidak ada tetap tidak ada.</string>
+    <string name="ra_repair_fceumm">Perbaiki penggantian core FCEUmm</string>
+    <string name="ra_repair_fceumm_about">Menonaktifkan shader dan Preemptive Frames dalam setelan core NES FCEUmm yang ada. Ini mengurangi beban grafis dan prosesor, tetapi menghilangkan efek layar dan pengurangan latensi input opsional. Penggantian yang tidak ada tetap tidak ada.</string>
+    <string name="ra_repair_preview_selected">Pratinjau perbaikan yang dipilih</string>
+    <string name="ra_repair_preview">Pratinjau perubahan</string>
+    <string name="ra_repair_preview_body">%1$d file konfigurasi akan berubah.\n\nPerbaikan yang dipilih:\n%2$s\n\nHanya perbaikan ini yang akan diterapkan. Penggantian core dapat mengesampingkan setelan global. Cadangan file yang berubah disimpan sebelum penerapan. Penggantian per game dipertahankan. Direktori penggantian khusus tidak didukung.</string>
+    <string name="ra_repair_apply">Terapkan perbaikan yang dipilih</string>
+    <string name="ra_repair_restore">Pulihkan cadangan</string>
+    <string name="ra_repair_restore_about">Memulihkan file yang disimpan sebelum perbaikan. Pemulihan ditolak jika file tersebut diedit setelahnya. Keluar dari RetroArch terlebih dahulu.</string>
+    <string name="ra_repair_wait">Menunggu pekerja penyiapan… Biarkan RetroArch tertutup.</string>
+    <string name="ra_repair_ready">Pratinjau siap. Membatalkan tidak mengubah setelanmu.</string>
+    <string name="ra_repair_applied">Perbaikan yang dipilih diterapkan. Cadangan tersedia melalui Pulihkan cadangan.</string>
+    <string name="ra_repair_restored">Cadangan dipulihkan.</string>
+    <string name="ra_repair_unchanged">Perbaikan yang dipilih tidak memerlukan perubahan. Cadangan yang ada tetap dipertahankan.</string>
+    <string name="ra_repair_busy">RetroArch sedang berjalan. Keluar secara normal lalu coba lagi.</string>
+    <string name="ra_repair_backup">Cadangan sudah ada. Pulihkan sebelum membuat perbaikan lain.</string>
+    <string name="ra_repair_error">Tidak dapat menyelesaikan permintaan. Pastikan RetroArch memiliki konfigurasi global, menggunakan direktori penggantian default, dan tertutup. Pemulihan juga memerlukan cadangan yang ada serta file yang diperbaiki tanpa perubahan. Cadangan yang dibuat sebelum penulisan gagal tetap disimpan untuk pemulihan.</string>
+    <string name="ra_repair_timeout">Pekerja penyiapan belum menjawab. Permintaan mungkin masih dalam antrean; biarkan RetroArch tertutup dan periksa lagi nanti.</string>
 </resources>

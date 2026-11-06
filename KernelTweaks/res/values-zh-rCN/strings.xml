@@ -391,4 +391,9 @@
     <string name="kt_stick_sens_right_title">右摇杆</string>
     <string name="kt_stick_sens_what">降低摇杆推到底时上报的偏移量，左右可单独调整。100% 为正常值；数值越低，推到底时的移动幅度越小。</string>
     <string name="kt_stick_sens_why">适用于摇杆反应不一致或过于灵敏的仿制掌机。调低一侧可让两个摇杆手感一致，也可让瞄准更平稳。请在控制器测试中检查效果。</string>
+    <string name="kt_profile_select_about">选择要导入的已更改调整项。未选中的调整项会保留已保存的值。“仅安全更改”只会选择已评定为安全的调整项；型号警告仍然适用。</string>
+    <string name="kt_profile_safe_only">仅安全更改</string>
+    <string name="kt_profile_none_selected">未选择已更改的调整项。不会写入任何内容。</string>
+    <string name="kt_profile_select_ready">只会导入已勾选的调整项。</string>
+    <string name="kt_profile_dependency">此选择会在 FUSE 驱动关闭时使用 FUSE 存储。请选择兼容的存储/驱动组合，或取消选择这些更改。</string>
 </resources>

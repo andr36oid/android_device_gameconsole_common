@@ -149,4 +149,9 @@
     <string name="fn_replaced_button"><xliff:g id="button">%1$s</xliff:g> sekarang FN. Hanya satu tombol yang bisa jadi FN, jadi <xliff:g id="old_button">%2$s</xliff:g> kembali berfungsi seperti semula.</string>
     <string name="fn_replaced_volume"><xliff:g id="button">%1$s</xliff:g> sekarang FN, menggantikan kombinasi tombol FN.</string>
     <string name="fn_cleared"><xliff:g id="button">%1$s</xliff:g> tidak lagi FN.</string>
+    <string name="profile_import">Impor profil…</string>
+    <string name="profile_export">Ekspor profil bernama…</string>
+    <string name="profile_imported">Profil diimpor. Pilih salah satu untuk menggunakannya. Setelan Fn dan pemulihan tetap berada di konsol ini.</string>
+    <string name="profile_exported">Profil bernama diekspor. Setelan Fn dan pemulihan adalah setelan konsol dan tidak disertakan.</string>
+    <string name="profile_document_failed">Tidak dapat menyimpan atau memuat profil. Periksa file, tombol yang didukung, kontrol menu aman, dan batas 20 profil.</string>
 </resources>

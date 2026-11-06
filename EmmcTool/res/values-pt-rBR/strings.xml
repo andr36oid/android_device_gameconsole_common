@@ -308,4 +308,6 @@ Tudo na eMMC é substituído por esta imagem.</string>
     <string name="inst_goback_no_backup">Não foi encontrado um backup do eMMC original deste console. Copie a pasta dele (em \"eMMC backup\") para as EASYROMS deste cartão e depois abra a Instalação no eMMC de novo.\n\nManter o andr36oid no eMMC atualiza o eMMC para este cartão e faz deste cartão um cartão de dados de novo.</string>
     <string name="inst_goback_keep">Manter o andr36oid no eMMC</string>
     <string name="inst_goback_stock">Desligue o console. Sem cartão SD ele inicia o sistema original. Com este cartão no slot 1 ele inicia o andr36oid, com seus apps e dados.</string>
+    <string name="inst_chk_size_datacard">Grande o suficiente para uma instalação com cartão de dados (os dados permanecem no cartão SD)</string>
+    <string name="inst_dc_where_small">Este eMMC é pequeno demais para armazenar os dados do Android, então os dados permanecem em um cartão SD. O sistema fica no eMMC e o console usa o cartão para os dados. O cartão de dados precisa permanecer no console: sem ele, o Android não inicia.\n\nVocê escolhe agora. O cartão de dados é criado por último, depois que o teste do eMMC for iniciado com sucesso.</string>
 </resources>

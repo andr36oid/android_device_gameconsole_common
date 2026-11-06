@@ -25,4 +25,6 @@
         <item>purple</item>
         <item>white</item>
     </string-array>
+    <string name="rgb_row_effect">Efekt</string><string name="rgb_row_color">Kolor</string><string name="rgb_row_brightness">Jasność</string><string name="rgb_row_speed">Szybkość</string><string name="rgb_auto">Automatycznie</string><string name="rgb_preview_left">Lewo</string><string name="rgb_preview_right">Prawo</string><string name="rgb_stick_hint">Porusz drążkiem, aby nadać światłom kolor</string><string name="rgb_hint">Góra/Dół: wybierz   Lewo/Prawo: zmień   B: wstecz</string>
+    <string-array name="rgb_effect_names"><item>Wył.</item><item>Jednolity kolor</item><item>Oddychanie</item><item>Tęcza</item><item>Podążaj za drążkiem</item><item>Bateria</item></string-array>
 </resources>
