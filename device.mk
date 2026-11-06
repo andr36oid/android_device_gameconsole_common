@@ -220,15 +220,6 @@ PRODUCT_PACKAGES += \
 # display handoff. SubsystemBridge is the Daijisho->root bridge (sets the
 # trigger properties); the broker (/system/etc) does the handoff + loop-mount;
 # the .rc starts the broker as root on the property trigger.
-#
-# Subsystem is an alpha held on beta_builds: it ships only in night/beta, never
-# in a release (GA). On release it would add the open Optimize io_error and the
-# losetup >64B footgun, risk a boot-loop at session entry, and push system.img
-# past its size ceiling. ANDR36OID_BUILD_KIND comes from build-image.sh (night,
-# beta, release); a build without it (plain `m`) counts as a release, so nothing
-# leaks. Same kind gating as the persistent logcat at the bottom of this file.
-# (ANDR36OID_CHANNEL is only assigned further down, so gate on the kind directly.)
-ifneq ($(filter-out release,$(ANDR36OID_BUILD_KIND)),)
 PRODUCT_PACKAGES += \
 	SubsystemBridge \
 	mkfs.erofs \
@@ -243,7 +234,6 @@ PRODUCT_COPY_FILES += \
 	$(LOCAL_PATH)/PortMaster/subsystem/input/retroarch/GO-Super-Gamepad.cfg:$(TARGET_COPY_OUT_SYSTEM)/etc/andr36oid-retroarch-GO-Super-Gamepad.cfg \
 	$(LOCAL_PATH)/PortMaster/subsystem/splash/andr36oid-splash-640x480.raw:$(TARGET_COPY_OUT_SYSTEM)/etc/andr36oid-splash.raw \
 	$(LOCAL_PATH)/PortMaster/subsystem/shutdown/andr36oid-shutdownanimation.zip:$(TARGET_COPY_OUT_SYSTEM)/media/shutdownanimation.zip
-endif
 
 # BOOT/hotfix/*.fix.zip, applied before zygote on every start
 PRODUCT_PACKAGES += \
@@ -617,10 +607,6 @@ PRODUCT_PACKAGES += \
 	andr36oid-ktweaks \
 	andr36oid-hz-preview
 
-# Subsystem front-ends and helpers: beta_builds only, dropped on release (GA) with
-# the broker/erofs block above. See that block's note. Same kind gate: night/beta
-# ship it, release (and a plain `m`) drop it.
-ifneq ($(filter-out release,$(ANDR36OID_BUILD_KIND)),)
 PRODUCT_PACKAGES += SubsystemSetup # Settings > System: andr36oid Subsystem for Linux
 PRODUCT_PACKAGES += org.andr36oid.syncsettings # Settings > System: library and RetroArch sync
 # Boot-time hold-START reader used by the subsystem broker/rc to pick the boot OS
@@ -629,7 +615,6 @@ PRODUCT_PACKAGES += andr36oid-keyheld
 # ABI (PR_ANDR36OID_GUEST) before the display handoff. The broker aborts a session
 # without it (/system/bin/andr36oid-guest), so it must ship alongside the wrapper .sh.
 PRODUCT_PACKAGES += andr36oid-guest
-endif
 PRODUCT_PACKAGES += andr36oid-fn-watch
 # RGB lights (Settings > Display > RGB lights), shown only on consoles with an
 # RGB LED (R36 Ultra); off unless chosen
