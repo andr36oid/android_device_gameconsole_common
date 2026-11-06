@@ -475,6 +475,8 @@ public class TutorialActivity extends Activity {
     @Override
     protected void onPause() {
         mResumed = false;
+        // Don't keep the sound-check clip looping when the wizard is backgrounded.
+        stopSound();
         super.onPause();
     }
 
@@ -1087,8 +1089,18 @@ public class TutorialActivity extends Activity {
      * user is never stuck.
      */
     private void confirmHearNow(int message, String appliedKey) {
+        // A speculative audio tweak was just applied; the user MUST confirm whether it
+        // helped. Make the dialog non-cancelable (and revert on any stray dismiss) so a
+        // Back press can't leave a wrong guess applied across reboots.
         new AlertDialog.Builder(this)
                 .setMessage(message)
+                .setCancelable(false)
+                .setOnCancelListener(d -> {
+                    if (appliedKey != null) {
+                        KtApply.clear(appliedKey);
+                    }
+                    goNext();
+                })
                 .setPositiveButton(R.string.av_sound_hear_yes, (d, w) -> goNext())
                 .setNegativeButton(R.string.av_sound_hear_no, (d, w) -> {
                     if (appliedKey != null) {
