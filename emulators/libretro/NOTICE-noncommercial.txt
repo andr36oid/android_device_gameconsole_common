@@ -46698,3 +46698,57 @@ necessary.  Here is a sample; alter the names:
   Ty Coon, President of Vice
 
 That's all there is to it!
+
+================================================================================
+opera  (LicenseRef-opera)
+source: https://github.com/libretro/opera-libretro.git
+commit: b398d5592f93a0fe76626dc628748668b853488d
+sha256: 8b585d7c84a9d14e74781e16ec9eb5348beeaffcb11994a6be819ad31e9b3b5e
+================================================================================
+Opera / FreeDO licensing
+========================
+
+Inherited FreeDO license notice
+------------------------------
+
+www.freedo.org
+The first working 3DO multiplayer emulator.
+
+The FreeDO licensed under modified GNU LGPL, with following notes:
+
+*   The owners and original authors of the FreeDO have full right to
+*   develop closed source derivative work.
+
+*   Any non-commercial uses of the FreeDO sources or any knowledge
+*   obtained by studying or reverse engineering of the sources, or
+*   any other material published by FreeDO have to be accompanied
+*   with full credits.
+
+*   Any commercial uses of FreeDO sources or any knowledge obtained
+*   by studying or reverse engineering of the sources, or any other
+*   material published by FreeDO is strictly forbidden without
+*   owners approval.
+
+The above notes are taking precedence over GNU LGPL in conflicting
+situations.
+
+Project authors:
+*  Alexander Troosh
+*  Maxim Grishin
+*  Allen Wright
+*  John Sammons
+*  Felix Lazarev
+*  Antonio SJ Musumeci (trapexit) <trapexit@spawn.link>
+
+
+trapexit contributions
+---------------------
+
+Contributions by Antonio SJ Musumeci (trapexit) <trapexit@spawn.link>
+are licensed under the GNU Lesser General Public License, version 2.1
+or (at your option) any later version (LGPL-2.1-or-later).
+https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html
+
+Existing copyright and license notices remain applicable. This
+contribution-specific grant does not replace the license terms for
+inherited code, third-party dependencies, or generated Opera Boot ROM data.
