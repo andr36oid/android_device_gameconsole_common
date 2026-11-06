@@ -5,6 +5,8 @@ import android.app.ActivityTaskManager;
 import android.app.TaskStackListener;
 import android.content.ComponentName;
 import android.content.Context;
+import android.database.ContentObserver;
+import android.provider.Settings;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.RemoteException;
@@ -30,8 +32,13 @@ final class GameWatcher {
     private final Context mContext;
     private final Handler mHandler = new Handler(Looper.getMainLooper());
     private final Games mGames;
+    private final BrightnessRules mBrightness;
     private String mForeground;
     private boolean mRunning;
+
+    private final ContentObserver mTuningSettings = new ContentObserver(mHandler) {
+        @Override public void onChange(boolean selfChange) { if (mRunning) mHandler.post(mCheck); }
+    };
 
     private final Runnable mCheck = this::check;
     private final Runnable mLookUp = this::lookUp;
@@ -40,6 +47,14 @@ final class GameWatcher {
     private final TaskStackListener mListener = new TaskStackListener() {
         @Override
         public void onTaskStackChanged() {
+            // Restore immediately on the guest launch UI, before the normal settle delay.
+            mHandler.post(() -> {
+                if (mRunning) {
+                    String pkg = foregroundPackage();
+                    mBrightness.taskChanged(pkg);
+                    GameMode.foreground(mContext, pkg, mGames.isGame(pkg));
+                }
+            });
             // On a binder thread
             mHandler.removeCallbacks(mCheck);
             mHandler.postDelayed(mCheck, SETTLE_MS);
@@ -49,15 +64,20 @@ final class GameWatcher {
     GameWatcher(Context context) {
         mContext = context;
         mGames = new Games(context);
+        mBrightness = new BrightnessRules(context);
     }
 
     void start() {
         if (mRunning) {
+            mHandler.removeCallbacks(mCheck);
+            mHandler.post(mCheck);
             return;
         }
         try {
             ActivityTaskManager.getService().registerTaskStackListener(mListener);
             mRunning = true;
+            mContext.getContentResolver().registerContentObserver(Settings.Global.getUriFor(GameMode.TURBO), false, mTuningSettings);
+            mContext.getContentResolver().registerContentObserver(Settings.Global.getUriFor(GameMode.AFFINITY), false, mTuningSettings);
             mForeground = null;
             mHandler.post(mCheck);
         } catch (RemoteException e) {
@@ -66,10 +86,13 @@ final class GameWatcher {
     }
 
     void stop() {
+        mBrightness.stop();
+        GameMode.foreground(mContext, null, false);
         if (!mRunning) {
             return;
         }
         mRunning = false;
+        mContext.getContentResolver().unregisterContentObserver(mTuningSettings);
         mHandler.removeCallbacks(mCheck);
         mHandler.removeCallbacks(mLookUp);
         try {
@@ -84,6 +107,8 @@ final class GameWatcher {
             return;
         }
         final String pkg = foregroundPackage();
+        mBrightness.foreground(pkg);
+        GameMode.foreground(mContext, pkg, mGames.isGame(pkg));
         // Our own screens (Continue, Game mode) come and go on top of the game; they don't
         // count as leaving it
         if (pkg == null || pkg.equals(mForeground) || pkg.equals(mContext.getPackageName())) {

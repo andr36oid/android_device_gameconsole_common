@@ -98,4 +98,30 @@
     <string name="app_profiles_about">По умолчанию приложение использует профиль из раздела «Производительность». Для некоторых эмуляторов изначально выбрана «Производительность», а для некоторых приложений — «Баланс» или «Энергосбережение». Здесь их можно изменить.\n\nПлитка быстрых настроек и FN + R1 работают и в приложении со своим профилем. Тогда ваш выбор действует до выхода из приложения.\n\nПока эта функция включена, небольшая служба следит за тем, какое приложение открыто. Она не работает, если функция выключена или ни у одного приложения нет своего профиля.</string>
     <string name="app_profile_until_left">До выхода из <xliff:g id="app">%1$s</xliff:g></string>
     <string name="app_profile_tile"><xliff:g id="profile">%1$s</xliff:g>, <xliff:g id="app">%2$s</xliff:g></string>
+    <string name="game_turbo_title">Game Turbo (максимальные частоты во время игры)</string>
+    <string name="game_turbo_summary">Пока игра открыта на переднем плане, поддерживает стандартные частоты CPU (1296 МГц), GPU (520 МГц) и памяти. Во время игры расходуется больше заряда. После этого возвращаются прежние ограничения и обычные регуляторы. Явные профили для отдельных приложений имеют приоритет. Разгон не включается.</string>
+    <string name="game_affinity_title">Закрепить игру за выделенными ядрами</string>
+    <string name="game_affinity_summary">Экспериментальная функция: оставляет RetroArch или PPSSPP на ядрах 2–3, а фоновые задачи и выбранные прерывания устройства — на 0–1, затем восстанавливает настройки. Все четыре ядра одинаковы; возможный выигрыш связан с меньшей конкуренцией и не гарантирован.</string>
+    <string name="perf_subtitle">Как консоль запускает игры</string>
+    <string name="perf_hint">PS1, N64 и PSP лучше всего работают в режиме «Производительность».</string>
+    <string name="perf_mode_saver_tag">Более долгая работа от батареи. Отлично подходит для игр на 8 и 16 бит.</string>
+    <string name="perf_mode_balanced_tag">Ускоряется только при необходимости для игры.</string>
+    <string name="perf_mode_performance_tag">Самая плавная работа и лучший выбор для высокой частоты кадров в ретроиграх. Для PS1, N64 и PSP. Работает немного горячее.</string>
+    <string name="perf_card_on">\u2713 Вкл.</string>
+    <string name="perf_row_ingame_title">Настройки в игре</string>
+    <string name="perf_row_ingame_value">Игровой режим</string>
+    <string name="perf_row_perapp_title">Производительность для приложений</string>
+    <string name="perf_row_advanced_title">Расширенные</string>
+    <string name="perf_row_advanced_value">Разгон, ограничения</string>
+    <string name="perf_ingame_title">Настройки в игре</string>
+    <string name="perf_ingame_brightness_title">Яркость экрана в играх</string>
+    <string name="perf_ingame_brightness_summary">Переключатель яркости, которым игры могут управлять самостоятельно</string>
+    <string name="perf_ingame_lowbatt_title">Предупреждение о низком заряде</string>
+    <string name="perf_ingame_lowbatt_summary">Уведомление в игре при низком заряде батареи</string>
+    <string name="perf_ingame_continue_title">Вернуться к последней игре</string>
+    <string name="perf_ingame_continue_summary">Ярлык последней запущенной игры</string>
+    <string name="perf_advanced_note">Для опытных пользователей. Значения по умолчанию безопасны для любой консоли.</string>
+    <string name="perf_cat_limits">Ограничение скорости</string>
+    <string name="perf_status">Сейчас запущено: CPU до %1$s · %2$d°C</string>
+    <string name="perf_status_no_temp">Сейчас запущено: CPU до %1$s</string>
 </resources>

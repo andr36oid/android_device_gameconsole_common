@@ -1,0 +1,32 @@
+{
+  "databaseVersion": 14,
+  "revisionNumber": 1,
+  "platform": {
+    "name": "Wolfenstein 3D",
+    "uniqueId": "andr36oid.phase2.wolf",
+    "shortname": "wolf",
+    "description": "ECWolf engine. Supply your game data and ecwolf.pk3; launch a supported game data file.",
+    "acceptedFilenameRegex": "(?i)^(?!(?:\\._|\\.).*).*\\.(?:wl6|n3d|sod|sdm|wl1|pk3|exe)$",
+    "scraperSourceList": [],
+    "boxArtAspectRatioId": 2,
+    "useCustomBoxArtAspectRatio": false,
+    "customBoxArtAspectRatio": null,
+    "screenAspectRatioId": 1,
+    "useCustomScreenAspectRatio": false,
+    "customScreenAspectRatio": null,
+    "retroAchievementsConsoleIdList": [],
+    "extra": ""
+  },
+  "playerList": [
+    {
+      "name": "wolf - RetroArch - ecwolf",
+      "uniqueId": "andr36oid.phase2.wolf.ecwolf",
+      "description": "Local andr36oid player.",
+      "acceptedFilenameRegex": "(?i)^(?!(?:\\._|\\.).*).*\\.(?:wl6|n3d|sod|sdm|wl1|pk3|exe)$",
+      "amStartArguments": "-n com.retroarch/com.retroarch.browser.retroactivity.RetroActivityFuture\n -e ROM {file.path}\n -e LIBRETRO ecwolf\n -e CONFIGFILE /storage/emulated/0/Android/data/com.retroarch/files/retroarch.cfg",
+      "killPackageProcesses": true,
+      "killPackageProcessesWarning": true,
+      "extra": ""
+    }
+  ]
+}

@@ -24,6 +24,10 @@ public class GameModeFragment extends PreferenceFragment
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.game_mode);
+        findPreference("retroarch_repair").setOnPreferenceClickListener(p -> {
+            startActivity(new Intent(getActivity(), RetroArchRepairActivity.class));
+            return true;
+        });
         mNow = (SwitchPreference) findPreference(KEY_NOW);
         mNow.setOnPreferenceChangeListener(this);
         mAutomatic = (SwitchPreference) findPreference(GameMode.KEY_AUTOMATIC);

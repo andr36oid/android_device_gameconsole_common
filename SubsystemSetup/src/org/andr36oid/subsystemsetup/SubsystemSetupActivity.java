@@ -55,6 +55,11 @@ public class SubsystemSetupActivity extends Activity {
     static final String ICON="persist.andr36oid.subsystem.es_icon";
     static final String EXTRA_LAUNCH="launch";
     static final String EXTRA_PORT_LAUNCH="port_launch";
+    /** One-shot token proving an in-process entry (not a third-party app) sent the launch. */
+    static final String EXTRA_LAUNCH_TOKEN="launch_token";
+    private static volatile String sLaunchToken;
+    static String mintLaunchToken(){String t=Long.toHexString(new java.security.SecureRandom().nextLong());sLaunchToken=t;return t;}
+    private static boolean consumeLaunchToken(String t){String want=sLaunchToken;sLaunchToken=null;return want!=null&&want.equals(t);}
     private static final int SAVE_LOG=41;
     private enum Screen { SPLASH, HOME, SETUP, PROGRESS, LOGS, SETTINGS, IMAGES, OPTIMIZE, SYNC }
     private final Handler handler=new Handler(Looper.getMainLooper());
@@ -63,8 +68,11 @@ public class SubsystemSetupActivity extends Activity {
     private final EnumMap<Screen,Page> pages=new EnumMap<>(Screen.class);
     private final ArrayDeque<Screen> history=new ArrayDeque<>();
     private final Map<String,Row> imageRows=new LinkedHashMap<>();
+    private final Map<String,Row> archiveRows=new LinkedHashMap<>();
     private final List<Setting> settings=new ArrayList<>();
     private final List<Image> images=new ArrayList<>();
+    private final List<SubsystemBackend.Archive> archives=new ArrayList<>();
+    private SubsystemBackend backend;
     private FrameLayout host;
     private HintBar hints;
     private TextView statusText,statusDot,splashMessage,setupStep,setupTitle,setupBody,setupInfo;
@@ -74,7 +82,6 @@ public class SubsystemSetupActivity extends Activity {
     private ScrollView logScroll;
     private LinearLayout imageList,splashActions;
     private Row playRow,optimizeRow,imagesRow,setupContinue,keepRow,optimizeAction,recoverRow;
-    private Button stopButton;
     private Screen screen,restoreScreen;
     private Snapshot snapshot=new Snapshot(),cachedSnapshot;
     private String log="",optLog="",version="",latestLog="",exportLog="",launchTarget="";
@@ -133,6 +140,7 @@ public class SubsystemSetupActivity extends Activity {
     @Override public void onCreate(Bundle saved) {
         super.onCreate(saved);
         setContentView(R.layout.subsystem_shell);
+        backend=new SubsystemBackend(this);
         hints=HintBar.attachDefault(this);
         host=findViewById(R.id.screen_host);statusText=findViewById(R.id.status_text);statusDot=findViewById(R.id.status_dot);
         if(saved!=null) {
@@ -144,8 +152,17 @@ public class SubsystemSetupActivity extends Activity {
             launchTarget=saved.getString("launch_target","");portLaunch=saved.getBoolean("port_launch");
             exportLog=saved.getString("export_log","");
         } else {
-            String launch=getIntent().getStringExtra(EXTRA_LAUNCH);launchTarget=launch==null?"":launch;
-            portLaunch=getIntent().getBooleanExtra(EXTRA_PORT_LAUNCH,false);
+            // The activity is exported only for Settings' IA_SETTINGS injection, which
+            // carries no extras. A launch spec reaches the broker-privileged handoff, so
+            // honor it only when it carries a one-shot token minted by an in-process
+            // entry (LaunchPortActivity/EmulationStationActivity/RetroArchActivity). A
+            // third-party app cannot read our process memory to forge the token, so it
+            // cannot trigger a handoff. getLaunchedFromUid() does not exist on API 30.
+            String launch=getIntent().getStringExtra(EXTRA_LAUNCH);
+            boolean port=getIntent().getBooleanExtra(EXTRA_PORT_LAUNCH,false);
+            if(launch!=null&&!consumeLaunchToken(getIntent().getStringExtra(EXTRA_LAUNCH_TOKEN))){launch=null;port=false;}
+            launchTarget=launch==null?"":launch;
+            portLaunch=port;
         }
         observedDone=get(P+"done_seq");
         // Construct all screens exactly once. No route rebuilds in the polling path.
@@ -187,6 +204,13 @@ public class SubsystemSetupActivity extends Activity {
             return new String(b,StandardCharsets.UTF_8).trim();
         }catch(Exception e){return "";}
     }
+    /** The most recent non-blank line of the broker boot log, for the progress screen. */
+    private String lastLogLine() {
+        if(log.isEmpty())return "";
+        String[] lines=log.split("\n");
+        for(int i=lines.length-1;i>=0;i--) {String line=lines[i].trim();if(!line.isEmpty())return line;}
+        return "";
+    }
     private void refresh() {
         if(!resumed||reading)return;
         reading=true;
@@ -201,10 +225,11 @@ public class SubsystemSetupActivity extends Activity {
             String optimization=tail("/data/local/tmp/portmaster/optimize.log",65536);
             String ver=tail("/data/local/tmp/portmaster/version.txt",1024);
             long used=number(tail("/data/local/tmp/portmaster/overlay-bytes",64));
+            List<SubsystemBackend.Archive> foundArchives=backend.archives();
             Snapshot next=Snapshot.read();
             handler.post(()->{
                 reading=false;if(isDestroyed())return;
-                if(next.stable)applySnapshot(next,found,boot,optimization,ver,used);
+                if(next.stable){archives.clear();archives.addAll(foundArchives);applySnapshot(next,found,boot,optimization,ver,used);}
                 retryScanIfTimedOut();
                 if(resumed)handler.postDelayed(poll,1000);
             });
@@ -269,6 +294,7 @@ public class SubsystemSetupActivity extends Activity {
         return images.isEmpty()?null:images.get(0);
     }
     private String size(long value) {return Formatter.formatFileSize(this,value);}
+    private String optBytes(long value) {return OptimizeProgress.bytes(value,Locale.getDefault(),getString(R.string.ss_unit_gb),getString(R.string.ss_unit_mb));}
     private String info() {
         Image image=selected();if(image==null)return getString(R.string.asl_empty);
         return getString(R.string.asl_info,image.name,image.path,size(image.original),size(image.optimized),size(overlays),version.isEmpty()?image.name:version);
@@ -429,25 +455,60 @@ public class SubsystemSetupActivity extends Activity {
         center.addView(progressNote,new LinearLayout.LayoutParams(-1,-2));
         LinearLayout actions=new LinearLayout(this);actions.setGravity(Gravity.CENTER);p.column.addView(actions,new LinearLayout.LayoutParams(-1,-2));
         Button logs=button(R.string.ss_view_log,()->open(Screen.LOGS),true);actions.addView(logs,new LinearLayout.LayoutParams(0,dp(48),1));
-        stopButton=button(R.string.asl_stop,()->request("stop"),false);actions.addView(stopButton,new LinearLayout.LayoutParams(0,dp(48),1));
     }
     private void updateProgress() {
         String op=pending?pendingVerb:snapshot.value("operation");
         if(op.isEmpty())op=snapshot.value("request");
-        boolean optimize="optimize".equals(op),running="running".equals(snapshot.value("session"));
-        boolean handoff=!optimize&&("run".equals(op)||running)&&!"0".equals(get(SubsystemBackend.HANDOFF));
-        setText(progressTitle,getString(optimize?R.string.ss_optimize:handoff?R.string.ss_progress:running?R.string.ss_running:"run".equals(op)&&"1".equals(snapshot.value("provisioning"))?R.string.subsystem_provisioning:R.string.ss_progress));
-        progressDescription.setVisibility(optimize?View.VISIBLE:View.GONE);
-        progressElapsed.setVisibility(optimize?View.VISIBLE:View.GONE);
+        boolean optimize="optimize".equals(op),unpack="unpack".equals(op),running="running".equals(snapshot.value("session"));
+        boolean handoff=!optimize&&!unpack&&("run".equals(op)||running)&&!"0".equals(get(SubsystemBackend.HANDOFF));
+        setText(progressTitle,getString(optimize?R.string.ss_optimize:unpack?R.string.ss_extract:handoff?R.string.ss_progress:running?R.string.ss_running:"run".equals(op)&&"1".equals(snapshot.value("provisioning"))?R.string.subsystem_provisioning:R.string.ss_progress));
+        progressDescription.setVisibility(optimize||unpack?View.VISIBLE:View.GONE);
+        progressElapsed.setVisibility(optimize||unpack?View.VISIBLE:View.GONE);
         workBar.setVisibility(View.VISIBLE);
-        if(optimize) {
+        if(unpack) {
+            String phase=pending?"preparing":snapshot.value("opt_state");
+            long done=pending?0:number(snapshot.value("opt_bytes")),total=pending?0:number(snapshot.value("opt_total"));
+            long elapsed=pending?0:Math.max(0,number(snapshot.value("opt_elapsed")));
+            int step=unpackStep(phase);
+            if(phase.isEmpty())step=1;
+            // Only the real end phases are terminal; an unrecognized phase stays neutral.
+            boolean terminal="done".equals(phase)||"interrupted".equals(phase)||"failed".equals(phase);
+            boolean determinate="extracting".equals(phase)&&total>0;
+            if(workBar.isIndeterminate()==determinate)workBar.setIndeterminate(!determinate);
+            if(determinate)workBar.setProgress(OptimizeProgress.percent(done,total));
+            String detail="";
+            if("extracting".equals(phase)&&total>0)detail=getString(R.string.ss_opt_bytes,OptimizeProgress.percent(done,total),
+                    optBytes(done),optBytes(total));
+            if(terminal) {
+                workBar.setVisibility(View.GONE);
+                boolean success="done".equals(phase),interrupted="interrupted".equals(phase);
+                setText(progressPhase,getString(success?R.string.ss_extract_done:interrupted?R.string.ss_opt_interrupted:R.string.ss_opt_failed_title));
+                setText(progressDescription,success?getString(R.string.ss_extract_done_description):interrupted?
+                        getString(R.string.subsystem_optimize_interrupted):optimizeFailure());
+                if(!success&&!snapshot.value("opt_job").isEmpty())detail=getString(R.string.ss_opt_job,snapshot.value("opt_job"));
+            } else if(step>0) {
+                int[] names={R.string.ss_opt_preparing,R.string.ss_extract_extracting,R.string.ss_opt_verifying,R.string.ss_opt_saving};
+                int[] descriptions={R.string.ss_extract_preparing_description,R.string.ss_extract_extracting_description,
+                        R.string.ss_opt_verifying_description,R.string.ss_extract_saving_description};
+                setText(progressPhase,getString(R.string.ss_opt_step,step,getString(names[step-1])));
+                setText(progressDescription,getString(descriptions[step-1]));
+            } else {
+                // Unrecognized, non-terminal phase: keep a neutral working state.
+                setText(progressPhase,getString(R.string.ss_working));
+                progressDescription.setVisibility(View.GONE);
+            }
+            setText(progressDetail,detail);progressDetail.setVisibility(detail.isEmpty()?View.GONE:View.VISIBLE);
+            progressDetail.setTextColor(color(android.R.attr.textColorSecondary));
+            setText(progressElapsed,getString(R.string.ss_opt_elapsed,OptimizeProgress.elapsed(elapsed)));
+        } else if(optimize) {
             String phase=pending?"preparing":snapshot.value("opt_state");
             long done=pending?0:number(snapshot.value("opt_bytes")),total=pending?0:number(snapshot.value("opt_total"));
             long elapsed=pending?0:Math.max(0,number(snapshot.value("opt_elapsed")));
             int step=OptimizeProgress.step(phase);
             // An empty state is possible while the service acknowledges a request.
             if(phase.isEmpty())step=1;
-            boolean terminal=step==0;
+            // Only the real end phases are terminal; an unrecognized phase stays neutral.
+            boolean terminal="done".equals(phase)||"interrupted".equals(phase)||"failed".equals(phase);
             boolean determinate="building".equals(phase)&&total>0;
             if(workBar.isIndeterminate()==determinate)workBar.setIndeterminate(!determinate);
             if(determinate)workBar.setProgress(OptimizeProgress.percent(done,total));
@@ -456,10 +517,12 @@ public class SubsystemSetupActivity extends Activity {
             long eta=optimizeProgress.remaining(snapshot.value("opt_job"),phase,done,total,elapsed);
             String detail="";
             if("building".equals(phase)) {
-                String estimate=eta<0?getString(R.string.ss_opt_estimating):eta<60?getString(R.string.ss_opt_eta_under_minute):
-                        getString(R.string.ss_opt_eta_minutes,OptimizeProgress.minutes(eta));
+                String estimate;
+                if(eta<0)estimate=getString(R.string.ss_opt_estimating);
+                else if(eta<60)estimate=getString(R.string.ss_opt_eta_under_minute);
+                else {long m=OptimizeProgress.minutes(eta);estimate=getResources().getQuantityString(R.plurals.ss_opt_eta_minutes,(int)m,m);}
                 detail=determinate?getString(R.string.ss_opt_bytes,OptimizeProgress.percent(done,total),
-                        OptimizeProgress.bytes(done,Locale.getDefault()),OptimizeProgress.bytes(total,Locale.getDefault()))+"\n"+estimate:estimate;
+                        optBytes(done),optBytes(total))+"\n"+estimate:estimate;
             }
             if(terminal) {
                 workBar.setVisibility(View.GONE);
@@ -468,12 +531,16 @@ public class SubsystemSetupActivity extends Activity {
                 setText(progressDescription,success?getString(R.string.ss_opt_done_description):interrupted?
                         getString(R.string.subsystem_optimize_interrupted):optimizeFailure());
                 if(!success&&!snapshot.value("opt_job").isEmpty())detail=getString(R.string.ss_opt_job,snapshot.value("opt_job"));
-            } else {
+            } else if(step>0) {
                 int[] names={R.string.ss_opt_preparing,R.string.ss_opt_converting,R.string.ss_opt_verifying,R.string.ss_opt_saving};
                 int[] descriptions={R.string.ss_opt_preparing_description,R.string.ss_opt_converting_description,
                         R.string.ss_opt_verifying_description,R.string.ss_opt_saving_description};
                 setText(progressPhase,getString(R.string.ss_opt_step,step,getString(names[step-1])));
                 setText(progressDescription,getString(descriptions[step-1]));
+            } else {
+                // Unrecognized, non-terminal phase: keep a neutral working state.
+                setText(progressPhase,getString(R.string.ss_working));
+                progressDescription.setVisibility(View.GONE);
             }
             setText(progressDetail,detail);progressDetail.setVisibility(detail.isEmpty()?View.GONE:View.VISIBLE);
             progressDetail.setTextColor(color(android.R.attr.textColorSecondary));
@@ -485,20 +552,26 @@ public class SubsystemSetupActivity extends Activity {
             int phase=handoff?R.string.ss_phase_run:pending?R.string.ss_phase_waiting:running?R.string.subsystem_session_running:
                     "select".equals(op)?R.string.ss_phase_select:"stop".equals(op)||"recover".equals(op)?R.string.ss_phase_stop:R.string.ss_phase_run;
             setText(progressPhase,getString(phase));
-            setText(progressDetail,getString(handoff?R.string.ss_handoff_warning:running?R.string.asl_hotkey_help:R.string.ss_progress_note));
-            progressDetail.setTextColor(color(handoff?android.R.attr.textColorPrimary:android.R.attr.textColorSecondary));
+            // First-boot provisioning is one long silent step; show the live tail of
+            // the broker log so it is clearly working and not hung.
+            String last="1".equals(snapshot.value("provisioning"))?lastLogLine():"";
+            if(!last.isEmpty()) {
+                setText(progressDetail,last);
+                progressDetail.setTextColor(color(android.R.attr.textColorSecondary));
+            } else {
+                setText(progressDetail,getString(handoff?R.string.ss_handoff_warning:running?R.string.asl_hotkey_help:R.string.ss_progress_note));
+                progressDetail.setTextColor(color(handoff?android.R.attr.textColorPrimary:android.R.attr.textColorSecondary));
+            }
         }
-        setText(progressNote,getString(optimize?R.string.subsystem_optimize_time:R.string.asl_perf_note));
+        setText(progressNote,getString(optimize?R.string.subsystem_optimize_time:unpack?R.string.ss_extract_note:R.string.asl_perf_note));
         if(optimize&&(pending||"preparing".equals(snapshot.value("opt_state")))) {
             String available=snapshot.value("opt_available");
             if(available.isEmpty())available=snapshot.value("opt_free");
             long required=number(snapshot.value("opt_required"));
             if(!pending&&!available.isEmpty()&&required>0)setText(progressNote,getString(R.string.ss_opt_space,
-                    OptimizeProgress.bytes(number(available),Locale.getDefault()),OptimizeProgress.bytes(required,Locale.getDefault()))+
+                    optBytes(number(available)),optBytes(required))+
                     "\n"+getString(R.string.subsystem_optimize_time));
         }
-        boolean canStop=(running||"cleanup_failed".equals(snapshot.value("session")))&&!"1".equals(snapshot.value("provisioning"));
-        showControl(stopButton,canStop,pages.get(Screen.PROGRESS).column.getChildAt(1));
     }
     private void buildLogs() {
         Page p=new Page(Screen.LOGS,false);
@@ -571,6 +644,7 @@ public class SubsystemSetupActivity extends Activity {
         toggle(p.column,R.string.asl_launch_icon,ICON,false);
         toggle(p.column,R.string.asl_mute,"persist.andr36oid.subsystem.mute",false);
         toggle(p.column,R.string.asl_daijishou_cores,SubsystemBackend.DAIJISHOU_CORES,false);
+        toggle(p.column,R.string.asl_daijishou_tools,SubsystemBackend.DAIJISHOU_TOOLS,true);
         toggle(p.column,R.string.asl_hotkeys,"persist.andr36oid.subsystem.hotkeys",true);
         choose(p.column,R.string.asl_retries,"persist.andr36oid.subsystem.retries",new String[]{"1","2","3","4","5"},"3");
         choose(p.column,R.string.asl_audio_rate,"persist.andr36oid.subsystem.rate",new String[]{"44100","48000"},"44100");
@@ -647,8 +721,37 @@ public class SubsystemSetupActivity extends Activity {
             row.subtitle(selected?getString(R.string.ss_image_selected,sizes):getString(R.string.ss_image_summary,image.path,sizes));
             row.setEnabled(!isBusy());index++;
         }
-        imagesEmpty.setVisibility(images.isEmpty()?View.VISIBLE:View.GONE);
+        // Copied-but-unextracted release archives sit below any images in the same
+        // picker; selecting one extracts it into darkosen.img (confirm first).
+        Map<String,SubsystemBackend.Archive> currentArchives=new LinkedHashMap<>();
+        for(SubsystemBackend.Archive archive:archives)currentArchives.put(archive.name,archive);
+        Iterator<Map.Entry<String,Row>> archiveIterator=archiveRows.entrySet().iterator();
+        while(archiveIterator.hasNext()) {
+            Map.Entry<String,Row> entry=archiveIterator.next();
+            if(!currentArchives.containsKey(entry.getKey())) {lostFocus|=entry.getValue().hasFocus();imageList.removeView(entry.getValue());archiveIterator.remove();}
+        }
+        for(SubsystemBackend.Archive archive:currentArchives.values()) {
+            Row row=archiveRows.get(archive.name);
+            if(row==null) {
+                final SubsystemBackend.Archive pick=archive;
+                row=new Row("⇩",archive.display,"",()->confirmExtract(pick));
+                archiveRows.put(archive.name,row);imageList.addView(row,index,lp(-1,dp(52),0,0,0,4));
+            }
+            row.title(archive.display);row.subtitle(getString(R.string.ss_extract_summary,size(archive.size)));row.setEnabled(!isBusy());index++;
+        }
+        imagesEmpty.setVisibility(images.isEmpty()&&archives.isEmpty()?View.VISIBLE:View.GONE);
         if(lostFocus&&screen==Screen.IMAGES)focusFirst(pages.get(Screen.IMAGES).root);
+    }
+    private void confirmExtract(SubsystemBackend.Archive archive) {
+        if(isBusy())return;
+        showDialog(new AlertDialog.Builder(this).setTitle(archive.display)
+            .setMessage(getString(R.string.ss_extract_confirm,size(archive.size)))
+            .setPositiveButton(R.string.ss_extract,(dialog,which)->{
+                put(P+"unp_source",archive.name);
+                put(P+"unp_request_id",UUID.randomUUID().toString().replace("-","").substring(0,16));
+                request("unpack");
+            })
+            .setNegativeButton(android.R.string.cancel,null));
     }
     private void buildOptimize() {
         Page p=new Page(Screen.OPTIMIZE,true);p.heading(R.string.ss_optimize,R.string.ss_optimize_note);
@@ -668,6 +771,15 @@ public class SubsystemSetupActivity extends Activity {
         Image image=selected();
         return "ready_erofs".equals(snapshot.value("resolve_state"))||(image!=null&&image.optimized>0);
     }
+    private static int unpackStep(String phase) {
+        switch(phase) {
+            case "preparing":return 1;
+            case "extracting":return 2;
+            case "verifying":return 3;
+            case "publishing":return 4;
+            default:return 0;
+        }
+    }
     private boolean optimizeFailed() {return "failed".equals(snapshot.value("opt_state"))||!snapshot.value("opt_error").isEmpty();}
     private String optimizeFailure() {
         String error=snapshot.value("opt_error");
@@ -685,6 +797,9 @@ public class SubsystemSetupActivity extends Activity {
             case "source_remove_failed":message=R.string.ss_opt_error_remove;break;
             case "name_too_long":message=R.string.ss_opt_error_name;break;
             case "already_optimized":message=R.string.ss_already_optimized;break;
+            case "invalid_archive":case "no_image_inside":message=R.string.ss_extract_error_archive;break;
+            case "incomplete_archive":message=R.string.ss_extract_error_incomplete;break;
+            case "extract_failed":message=R.string.ss_extract_error_failed;break;
             default:message=R.string.ss_opt_error_unknown;
         }
         return getString(R.string.ss_opt_failed,getString(message),error.isEmpty()?"unknown":error);
@@ -746,7 +861,7 @@ public class SubsystemSetupActivity extends Activity {
         if(isDestroyed()||!pending||!verb.equals(deferredRequest))return;
         // A background scan owns the broker's storage lock. Keep Progress on
         // screen until it releases the lock, then send the original trigger.
-        if(("run".equals(verb)||"optimize".equals(verb)||"select".equals(verb))&&
+        if(("run".equals(verb)||"optimize".equals(verb)||"select".equals(verb)||"unpack".equals(verb))&&
                 ("scan".equals(get(P+"operation"))||"scan".equals(get(P+"request")))) {
             handler.postDelayed(()->sendBrokerRequest(verb),250);return;
         }

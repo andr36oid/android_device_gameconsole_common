@@ -71,6 +71,7 @@ final class Comfort {
         }
         // At boot the service has to start again, and the tile goes in once
         BootStart.set(context, isServiceNeeded(context)
+                || BrightnessRules.enabled(context)
                 || !prefs(context).getBoolean(GameMode.KEY_TILE_ADDED, false));
     }
 

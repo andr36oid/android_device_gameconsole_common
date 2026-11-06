@@ -23,7 +23,8 @@
   <string name="asl_sync">与 Android 同步</string>
   <string name="asl_mute">将 Linux 静音</string>
   <string name="asl_hotkeys">系统退出快捷键</string>
-  <string name="asl_hotkey_help">按住 Select + Start 退出游戏。如果卡住，持续按住四秒可返回 Android。按住 Fn + Start 两秒也可返回 Android。</string>
+  <!-- TODO translate: review updated eight-second Android return. -->
+  <string name="asl_hotkey_help">按住 Select + Start 退出游戏。如果卡住，持续按住八秒可返回 Android。按住 Fn + Start 两秒也可返回 Android。</string>
   <string name="asl_ready">就绪</string>
   <string name="asl_scan">刷新镜像列表</string>
   <string name="asl_health_body">状态：%1$s\n镜像检查：%2$s\n操作：%3$s\n\n%4$s</string>

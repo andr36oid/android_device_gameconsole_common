@@ -75,10 +75,16 @@ type Config struct {
 	BackupGlob string
 
 	Direct      bool  // O_DIRECT on the disks (always on a console)
-	MinEmmc     int64 // smallest eMMC taken, sectors
-	MinUserdata int64 // smallest userdata, sectors
-	BigEmmc     int64 // from this size on, system and vendor get twice their size
-	BackupChunk int64 // bytes per backup file
+	MinEmmc     int64 // smallest eMMC taken for data on the eMMC, sectors
+	MinUserdata int64 // smallest userdata with data on the eMMC, sectors
+	// Below MinEmmc down to MinEmmcDatacard the eMMC is too small to hold
+	// Android's data, so only a data-card install is offered: the system goes
+	// on the eMMC and the data on an SD card. The eMMC userdata is then only a
+	// placeholder (and the copy scratch for a new card), so it needs little.
+	MinEmmcDatacard     int64 // smallest eMMC taken at all (data-card only), sectors
+	MinUserdataDatacard int64 // smallest eMMC userdata on a data-card install, sectors
+	BigEmmc             int64 // from this size on, system and vendor get twice their size
+	BackupChunk         int64 // bytes per backup file
 
 	lock func(cfg *Config, cid string, unlock bool) error // tests replace it
 	rnd  io.Reader
@@ -108,8 +114,12 @@ func DefaultConfig() *Config {
 		Direct:      true,
 		MinEmmc:     7 << 30 / Sector, // "8 GB" eMMCs have about 7.3 GiB
 		MinUserdata: 2 << 30 / Sector,
-		BigEmmc:     14 << 30 / Sector, // "16 GB" and up
-		BackupChunk: 1 << 30,           // fits FAT32 too
+		// "4 GB" eMMCs have about 3.6-3.8 GiB; 3.3 GiB leaves margin for the
+		// system (not grown on a small eMMC) and a small userdata placeholder.
+		MinEmmcDatacard:     3400 << 20 / Sector,
+		MinUserdataDatacard: 256 << 20 / Sector,
+		BigEmmc:             14 << 30 / Sector, // "16 GB" and up
+		BackupChunk:         1 << 30,           // fits FAT32 too
 	}
 }
 

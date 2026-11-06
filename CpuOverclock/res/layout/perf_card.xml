@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content" android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/perf_card_bg"
+    android:focusable="true" android:clickable="true"
+    android:padding="14dp" android:minHeight="156dp"
+    android:duplicateParentState="false">
+
+    <TextView
+        android:id="@+id/card_title"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:textColor="?android:attr/textColorPrimary" android:textSize="17sp"
+        android:textStyle="bold" android:fontFamily="sans-serif-medium" />
+
+    <TextView
+        android:id="@+id/card_tag"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:textColor="?android:attr/textColorSecondary" android:textSize="12sp"
+        android:layout_marginTop="6dp" android:maxLines="5" android:lineSpacingExtra="1dp" />
+
+    <TextView
+        android:id="@+id/card_selected"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:text="@string/perf_card_on"
+        android:textColor="?android:attr/colorAccent" android:textSize="12sp"
+        android:textStyle="bold" android:layout_marginTop="8dp"
+        android:visibility="gone" />
+</LinearLayout>

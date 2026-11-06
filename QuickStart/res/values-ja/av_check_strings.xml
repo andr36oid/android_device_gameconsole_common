@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="av_stick_hint">スティックが逆方向に動く場合は、ここで変更してください：</string>
+    <string name="av_chip_invert_x">左右を反転</string>
+    <string name="av_chip_invert_y">上下を反転</string>
+    <string name="av_chip_swap">2つのスティックを入れ替え</string>
+    <string name="av_chip_on">%1$s\nオン</string>
+    <string name="av_chip_off">%1$s\nオフ</string>
+    <string name="av_sound_title">サウンドチェック</string>
+    <string name="av_sound_body">短い曲を繰り返し再生しています。音楽が聞こえますか？</string>
+    <string name="av_sound_playing">音楽を再生中…</string>
+    <string name="av_sound_opt_speaker">はい – スピーカーから</string>
+    <string name="av_sound_opt_hp">はい – ヘッドホンから（接続してください）</string>
+    <string name="av_sound_opt_none">まったく聞こえない</string>
+    <string name="av_sound_skip">このチェックをスキップ</string>
+    <string name="av_sound_replay_hint">Yで曲をもう一度再生</string>
+    <string name="av_sound_speaker_ok">すばらしい – 音が出ています。</string>
+    <string name="av_sound_hp_prompt">ヘッドホンを接続してください。音楽がヘッドホンから聞こえたら、\"聞こえます\"を選択してください。</string>
+    <string name="av_sound_hp_hear">聞こえます</string>
+    <string name="av_sound_hp_still">まだ聞こえない</string>
+    <string name="av_sound_hp_fixed">ヘッドホンジャックの読み取り方法を切り替えました。もう一度聞いてください。</string>
+    <string name="av_sound_hp_no_fix">この本体には、ここで試せるヘッドホン修正はありません。</string>
+    <string name="av_sound_force_applied">スピーカーとヘッドホンを同時にオンにしました。今は音楽が聞こえますか？</string>
+    <string name="av_sound_no_knob">この本体には、ここで試せる音声修正はありません。今は音楽が聞こえますか？</string>
+    <string name="av_sound_hear_yes">はい、聞こえます</string>
+    <string name="av_sound_hear_no">まだ何も聞こえない</string>
+    <string name="av_sound_left_default">音声はデフォルトのままにしました。後で設定 › システム › カーネル調整から変更できます。</string>
+</resources>

@@ -392,4 +392,9 @@
     <string name="kt_stick_sens_right_title">Stick droit</string>
     <string name="kt_stick_sens_what">Réduit le déplacement signalé par un stick poussé à fond, séparément pour chaque côté. 100% est la valeur normale ; une valeur plus basse réduit le mouvement même à fond.</string>
     <string name="kt_stick_sens_why">Pour les clones dont les sticks répondent différemment ou sont trop sensibles. Réduisez un côté pour obtenir la même réponse des deux, ou pour viser plus calmement. Vérifiez le résultat dans le test de la manette.</string>
+    <string name="kt_profile_select_about">Choisis les réglages modifiés à importer. Les réglages non cochés conservent leurs valeurs enregistrées. « Modifications sûres uniquement » sélectionne les réglages déjà évalués comme sûrs ; les avertissements liés au modèle restent valables.</string>
+    <string name="kt_profile_safe_only">Modifications sûres uniquement</string>
+    <string name="kt_profile_none_selected">Aucun réglage modifié n’est sélectionné. Rien ne sera écrit.</string>
+    <string name="kt_profile_select_ready">Seuls les réglages cochés seront importés.</string>
+    <string name="kt_profile_dependency">Cette sélection utiliserait un stockage FUSE avec le pilote FUSE désactivé. Choisis une combinaison stockage/pilote compatible ou désélectionne ces modifications.</string>
 </resources>

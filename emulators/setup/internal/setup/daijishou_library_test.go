@@ -176,6 +176,46 @@ func TestDaijishouSyncLibrary(t *testing.T) {
 	}
 }
 
+// One gamelist that fails to write (a concurrent edit) must not skip the other
+// gamelists: the committed DB would otherwise stay ahead of the ones left unwritten.
+// Every list that still verifies is written and the failure is surfaced, whatever the
+// (map) order the lists happen to be written in.
+func TestDaijishouSyncLibraryWritesEveryGamelist(t *testing.T) {
+	c := newDJ(t, "", "")
+	c.run()
+	s := c.s
+	c.f.props["persist.andr36oid.sync.playcount"] = "1"
+	c.f.props["persist.andr36oid.sync.favorite"] = "1"
+	// Two platforms, each a game whose DB favorite/playcount differ from its ES
+	// gamelist, so the DB changes (favorite) and both gamelists need a write-back.
+	for _, p := range []string{"nes", "gba"} {
+		libraryGame(t, c, p, p+"/"+p+".nes", djLibraryState{false, 8, 0})
+		list := s.easyroms + "/" + p + "/gamelist.xml"
+		write(t, list, `<gameList><game><path>./`+p+`.nes</path><favorite>true</favorite><playcount>3</playcount></game></gameList>`)
+		must(t, os.Chmod(list, 0o664))
+	}
+	nes := s.easyroms + "/nes/gamelist.xml"
+	gba := s.easyroms + "/gba/gamelist.xml"
+	// A concurrent change to one gamelist (while Daijishou is stopped to apply the DB)
+	// makes its write-back fail, after the DB is already committed.
+	touched := false
+	c.f.handlers["am"] = func(a []string) (string, error) {
+		if a[0] == "force-stop" && !touched {
+			touched = true
+			write(t, gba, read(t, gba)+"<!-- concurrent edit -->")
+		}
+		return "", nil
+	}
+	c.running = true
+	s.SyncLibrary()
+	if !strings.Contains(read(t, nes), "<playcount>8</playcount>") {
+		c.fail("a failing gamelist skipped the others: nes not written:\n%s", read(t, nes))
+	}
+	if !logHas(s, "syncing subsystem library state failed") {
+		c.fail("the gamelist write failure was not surfaced")
+	}
+}
+
 func TestDaijishouLibraryExportAndCards(t *testing.T) {
 	c := newDJ(t, "", "")
 	c.run()

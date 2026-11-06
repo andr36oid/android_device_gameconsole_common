@@ -75,4 +75,30 @@
     <string name="app_profiles_about">デフォルトでは「パフォーマンス」で選んだプロファイルを使います。一部のエミュレーターは最初から「パフォーマンス」、一部のアプリは「バランス」または「省電力」に設定されています。ここで変更できます。\n\n個別のプロファイルがあるアプリでも、クイック設定のタイルと FN + R1 は使えます。その場合、選んだ設定はアプリを離れるまで有効です。\n\nオンの間は、小さな補助サービスが開いているアプリを監視します。オフの場合や、個別のプロファイルを持つアプリがない場合は動作しません。</string>
     <string name="app_profile_until_left"><xliff:g id="app">%1$s</xliff:g> を離れるまで</string>
     <string name="app_profile_tile"><xliff:g id="profile">%1$s</xliff:g>, <xliff:g id="app">%2$s</xliff:g></string>
+    <string name="game_turbo_title">Game Turbo（プレイ中は最大クロック）</string>
+    <string name="game_turbo_summary">ゲームが前面にある間、標準の CPU（1296 MHz）、GPU（520 MHz）、メモリのクロックを維持します。プレイ中はバッテリーを多く消費します。その後、以前の上限と通常のガバナーに戻ります。アプリごとの明示的なプロファイルが優先されます。オーバークロックは有効にしません。</string>
+    <string name="game_affinity_title">ゲームを専用コアに固定</string>
+    <string name="game_affinity_summary">実験的機能：RetroArch または PPSSPP をコア 2～3 に、バックグラウンド処理と選択したデバイス割り込みを 0～1 に固定してから元に戻します。4 つのコアは同一です。効果がある場合も競合の減少によるもので、保証されません。</string>
+    <string name="perf_subtitle">ゲーム中のコンソールの動作</string>
+    <string name="perf_hint">PS1、N64、PSP はパフォーマンスで最適に動作します。</string>
+    <string name="perf_mode_saver_tag">バッテリーが長持ちします。8 ビットと 16 ビットのゲームに最適です。</string>
+    <string name="perf_mode_balanced_tag">ゲームに必要なときだけ速度を上げます。</string>
+    <string name="perf_mode_performance_tag">最も滑らかで、レトロゲームの高フレームレートに最適です。PS1、N64、PSP 向け。少し温かくなります。</string>
+    <string name="perf_card_on">\u2713 オン</string>
+    <string name="perf_row_ingame_title">ゲーム内オプション</string>
+    <string name="perf_row_ingame_value">ゲームモード</string>
+    <string name="perf_row_perapp_title">アプリごとのパフォーマンス</string>
+    <string name="perf_row_advanced_title">詳細設定</string>
+    <string name="perf_row_advanced_value">オーバークロック、上限</string>
+    <string name="perf_ingame_title">ゲーム内オプション</string>
+    <string name="perf_ingame_brightness_title">ゲーム中の画面の明るさ</string>
+    <string name="perf_ingame_brightness_summary">ゲームが自分で切り替える明るさスイッチ</string>
+    <string name="perf_ingame_lowbatt_title">バッテリー残量低下の警告</string>
+    <string name="perf_ingame_lowbatt_summary">バッテリー残量が少なくなったときにゲーム内で知らせます</string>
+    <string name="perf_ingame_continue_title">最後のゲームに戻る</string>
+    <string name="perf_ingame_continue_summary">最後にプレイしたゲームへのショートカット</string>
+    <string name="perf_advanced_note">上級ユーザー向けです。デフォルト値はすべてのコンソールで安全です。</string>
+    <string name="perf_cat_limits">速度制限</string>
+    <string name="perf_status">現在実行中：CPU 最大 %1$s · %2$d°C</string>
+    <string name="perf_status_no_temp">現在実行中：CPU 最大 %1$s</string>
 </resources>

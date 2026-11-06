@@ -23,7 +23,8 @@
   <string name="asl_sync">Android と同期</string>
   <string name="asl_mute">Linux の音声をミュート</string>
   <string name="asl_hotkeys">システム終了ショートカット</string>
-  <string name="asl_hotkey_help">Select + Start を長押しするとゲームを終了します。動かなくなった場合は四秒間押し続けると Android に戻ります。Fn + Start を二秒間押しても Android に戻ります。</string>
+  <!-- TODO translate: review updated eight-second Android return. -->
+  <string name="asl_hotkey_help">Select + Start を長押しするとゲームを終了します。動かなくなった場合は八秒間押し続けると Android に戻ります。Fn + Start を二秒間押しても Android に戻ります。</string>
   <string name="asl_ready">準備完了</string>
   <string name="asl_scan">イメージ一覧を更新</string>
   <string name="asl_health_body">状態：%1$s\nイメージ検証：%2$s\n操作：%3$s\n\n%4$s</string>

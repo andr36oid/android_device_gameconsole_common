@@ -13,6 +13,7 @@ public class BootReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         if (!Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())
+                && !Intent.ACTION_LOCKED_BOOT_COMPLETED.equals(intent.getAction())
                 && !"org.andr36oid.syncsettings.UPDATE_SETTINGS".equals(intent.getAction())) return;
         final ComponentName entry = new ComponentName(context, SyncSettingsActivity.class);
         final int state = "1".equals(SystemProperties.get("persist.andr36oid.subsystem.booted", ""))

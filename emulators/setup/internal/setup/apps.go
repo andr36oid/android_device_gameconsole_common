@@ -127,8 +127,10 @@ type install struct {
 func (s *Setup) InstallAPKs() {
 	s.appsLeft = false
 	if !sys.IsDir(s.Apps) || len(s.apksOnAutoapk()) == 0 {
+		s.noteAutoapkProblem()
 		return
 	}
+	s.clearAutoapkProblem()
 	wait := s.appsWait()
 	skipRaw := s.Settings.Get("global", settingAppsSkip)
 	chosen := true
@@ -237,6 +239,75 @@ func (s *Setup) InstallAPKs() {
 	if wait {
 		s.Log("the bundled apps wait for the setup's app page")
 	}
+}
+
+// AUTOAPK that can't be read. Nothing installs from it then, apps-done is never
+// written and firstresize never gives the partition to userdata: "the apps aren't
+// installed and AUTOAPK is still there" (issue #9), with nothing in the log to say
+// why. InstallAPKs tells the two apart: the partition gone (reclaimed, or an image
+// without one) is the normal quiet case; the partition there and nothing readable at
+// Apps is the problem, and gets a log line, the autoapk-problem mark in State (for
+// problem reports) and the property below. Nothing else changes: the install and the
+// reclaim run as before, this only makes the next report diagnosable.
+const (
+	propAutoapkProblem = "sys.andr36oid.autoapk_problem"
+	autoapkProblemMark = "autoapk-problem"
+)
+
+// autoapkProblem is why nothing can be read from AUTOAPK although the card still has
+// the partition; "" when there is no problem to report.
+func (s *Setup) autoapkProblem() string {
+	if len(s.apksOnAutoapk()) > 0 {
+		return ""
+	}
+	if s.AutoapkDev == "" || !sys.Exists(s.AutoapkDev) {
+		return ""
+	}
+	switch {
+	case !sys.IsDir(s.Apps):
+		return "AUTOAPK is on the card but isn't mounted (" + s.Apps + " doesn't exist)"
+	case !s.mountedAt(s.Apps):
+		return "AUTOAPK is on the card but nothing is mounted at " + s.Apps
+	default:
+		return "AUTOAPK is mounted at " + s.Apps + " but holds no .apk files"
+	}
+}
+
+// mountedAt reads /proc/mounts for a file system mounted at dir.
+func (s *Setup) mountedAt(dir string) bool {
+	b, err := os.ReadFile(s.Mounts)
+	if err != nil {
+		return false
+	}
+	sc := bufio.NewScanner(strings.NewReader(string(b)))
+	for sc.Scan() {
+		if f := strings.Fields(sc.Text()); len(f) >= 2 && f[1] == dir {
+			return true
+		}
+	}
+	return false
+}
+
+func (s *Setup) noteAutoapkProblem() {
+	why := s.autoapkProblem()
+	if why == "" {
+		s.clearAutoapkProblem()
+		return
+	}
+	s.Log("%s: the bundled apps can't be installed and the partition can't be given to userdata (no apps-done); check the SD card (f3/h2testw) and the first start's resize log (BOOT/resize-log.txt)", why)
+	_ = fsx.WriteLine(s.state(autoapkProblemMark), why)
+	_ = s.Props.Set(propAutoapkProblem, "1")
+}
+
+// clearAutoapkProblem takes a problem back once AUTOAPK reads, or is gone.
+func (s *Setup) clearAutoapkProblem() {
+	mark := s.state(autoapkProblemMark)
+	if !sys.Exists(mark) {
+		return
+	}
+	_ = os.Remove(mark)
+	_ = s.Props.Set(propAutoapkProblem, "")
+	s.Log("AUTOAPK reads again (or is gone)")
 }
 
 // installOne is pm install, then the installed. or failed. mark.

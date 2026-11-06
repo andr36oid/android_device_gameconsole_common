@@ -281,6 +281,13 @@ on boot
     chown system system /sys/class/thermal/thermal_zone1/policy
     chown system system /sys/class/thermal/thermal_zone2/policy
 
+    # R36 Ultra stick-ring keros LED: on a fresh unit only (property never set),
+    # seed a visible default so the rings light out of the box. Skips any console
+    # without the keros node and never overrides a value the user already chose,
+    # so a user who turned the lights off stays dark across every boot. Runs here,
+    # after persisted props have loaded, so the saved choice is already visible.
+    exec - root root -- /system/bin/sh /system/etc/andr36oid-keros-seed.sh
+
     # Kernel Tweaks from ktweak
     	# Limit max perf event processing time to this much CPU usage
     	write /proc/sys/kernel/perf_cpu_time_max_percent 5
@@ -430,6 +437,53 @@ on property:persist.andr36oid.stick_cal=*
 # Settings > Controls > Rumble strength, 0-100 % of what a game asks for (0: off)
 on property:persist.andr36oid.rumble_strength=*
     write /sys/devices/platform/odroidgo3-joypad/rumble_strength ${persist.andr36oid.rumble_strength}
+
+# Stick-ring RGB (R36 Ultra and clones that wire it). The joypad LED engine
+# software-PWMs the gpio trio; apps set these props and init writes them to the
+# driver here and at boot. mode = off|static|breathing|rainbow|stick|battery;
+# color/color_right = RRGGBB hex; brightness = 0-255; speed = 1-100.
+on property:persist.andr36oid.stickled.mode=*
+    write /sys/devices/platform/odroidgo3-joypad/led_mode ${persist.andr36oid.stickled.mode}
+
+on property:persist.andr36oid.stickled.color=*
+    write /sys/devices/platform/odroidgo3-joypad/led_color ${persist.andr36oid.stickled.color}
+
+on property:persist.andr36oid.stickled.color_right=*
+    write /sys/devices/platform/odroidgo3-joypad/led_color_right ${persist.andr36oid.stickled.color_right}
+
+on property:persist.andr36oid.stickled.brightness=*
+    write /sys/devices/platform/odroidgo3-joypad/led_brightness ${persist.andr36oid.stickled.brightness}
+
+on property:persist.andr36oid.stickled.speed=*
+    write /sys/devices/platform/odroidgo3-joypad/led_speed ${persist.andr36oid.stickled.speed}
+
+# Stick-ring "keros" effect-LED IC (R36 Ultra). This chip plays ten fixed built-in
+# presets, no arbitrary colour/brightness/speed, exposed at
+# /sys/class/leds/keros::ambient/brightness as 0..9. The Stick lights app sets the
+# preset index directly (1:1) via persist.andr36oid.stickled.preset, so this is a
+# single generic handler that writes the value through. The node exists only on
+# that DTB; the write fails harmlessly on other consoles.
+# HW-verified preset map: 0 off, 1 red, 2 amber, 3 green, 4 teal, 5 blue, 6 pink,
+# 7 mint, 8 breathing (crossfade), 9 rainbow. Preset 0 writes 0, which drops the
+# chip's enable GPIO (chip unpowered) so the rings are guaranteed dark at zero
+# draw. A user who turns the lights off stays dark through every boot: the keros
+# driver also comes up dark at probe and the default is only seeded when the
+# property was never set (andr36oid-keros-seed.sh).
+on property:persist.andr36oid.stickled.preset=*
+    write /sys/class/leds/keros::ambient/brightness ${persist.andr36oid.stickled.preset}
+
+# Stick lights "Lights off" behaviour: when the keros rings go dark. Mapped to the
+# driver's sleep_mode attr (0 = off with the display, 1 = off when the SoC
+# suspends [default], 2 = never). Written at boot and on change; fails harmlessly
+# on consoles without the keros node.
+on property:persist.andr36oid.stickled.sleep=screen
+    write /sys/class/leds/keros::ambient/sleep_mode 0
+
+on property:persist.andr36oid.stickled.sleep=deepsleep
+    write /sys/class/leds/keros::ambient/sleep_mode 1
+
+on property:persist.andr36oid.stickled.sleep=never
+    write /sys/class/leds/keros::ambient/sleep_mode 2
 
 # Settings > Battery > Deep sleep: the firmware's sleep steps and wake-up sources
 # ("default" = the DTB's). Also runs at boot when the saved values are loaded.

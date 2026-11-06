@@ -293,8 +293,11 @@
     <!-- Feature flag to store TaskSnapshot in 16 bit pixel format to save memory. -->
     <bool name="config_use16BitTaskSnapshotPixelFormat">true</bool>
     
-     <!-- True if the firmware supports connected MAC randomization -->
-    <bool name="config_wifi_connected_mac_randomization_supported">true</bool>
+     <!-- Connected MAC randomization OFF: the RK915 SDIO wifi (R36 Ultra) and other cheap
+          clone chips cannot apply a framework-set random MAC, which leaves the hardware MAC and
+          the framework's randomized MAC mismatched and drops the link right after it connects
+          (self-deauth, reason 2). AOSP's own default here is false. Use the device MAC. -->
+    <bool name="config_wifi_connected_mac_randomization_supported">false</bool>
  
     <!-- The device supports freeform window management -->
     <bool name="config_freeformWindowManagement">true</bool>

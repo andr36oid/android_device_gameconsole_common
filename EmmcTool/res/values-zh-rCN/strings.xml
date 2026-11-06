@@ -308,4 +308,6 @@ eMMC 上的所有内容都会被此镜像替换。</string>
     <string name="inst_goback_no_backup">没有找到这台掌机原厂 eMMC 的备份。请把它的文件夹（在 \"eMMC backup\" 中）复制到这张卡的 EASYROMS 中，然后重新打开 eMMC 安装。\n\n保留 eMMC 上的 andr36oid 则会把 eMMC 更新为这张卡的版本，并把卡重新做成数据卡。</string>
     <string name="inst_goback_keep">保留 eMMC 上的 andr36oid</string>
     <string name="inst_goback_stock">关闭掌机。没有 SD 卡时，它启动原厂系统。插槽 1 插着这张卡时，它启动 andr36oid，带着你的应用和数据。</string>
+    <string name="inst_chk_size_datacard">容量足以安装数据卡（数据会保留在 SD 卡上）</string>
+    <string name="inst_dc_where_small">此 eMMC 太小，无法容纳 Android 数据，因此数据会保留在 SD 卡上。系统安装在 eMMC 中，主机使用该卡存储数据。数据卡必须留在主机中：没有数据卡，Android 无法启动。\n\n现在由你选择。eMMC 测试成功开始后，数据卡会最后创建。</string>
 </resources>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="av_stick_hint">Se um analógico se mover na direção errada, altere aqui:</string>
+    <string name="av_chip_invert_x">Inverter esquerda / direita</string>
+    <string name="av_chip_invert_y">Inverter cima / baixo</string>
+    <string name="av_chip_swap">Trocar os dois analógicos</string>
+    <string name="av_chip_on">%1$s\nLigado</string>
+    <string name="av_chip_off">%1$s\nDesligado</string>
+    <string name="av_sound_title">Teste de som</string>
+    <string name="av_sound_body">Uma melodia curta está a ser reproduzida em loop. Ouves a música?</string>
+    <string name="av_sound_playing">A música está a ser reproduzida…</string>
+    <string name="av_sound_opt_speaker">Sim – pelo altifalante</string>
+    <string name="av_sound_opt_hp">Sim – pelos auscultadores (liga-os)</string>
+    <string name="av_sound_opt_none">Nenhum som</string>
+    <string name="av_sound_skip">Ignorar este teste</string>
+    <string name="av_sound_replay_hint">Y reproduz a melodia novamente</string>
+    <string name="av_sound_speaker_ok">Ótimo – o som está a funcionar.</string>
+    <string name="av_sound_hp_prompt">Liga os auscultadores. Escolhe \"Estou a ouvir\" quando a música sair por eles.</string>
+    <string name="av_sound_hp_hear">Estou a ouvir</string>
+    <string name="av_sound_hp_still">Ainda sem som</string>
+    <string name="av_sound_hp_fixed">A forma como a entrada dos auscultadores é lida foi alterada. Ouve novamente.</string>
+    <string name="av_sound_hp_no_fix">Esta consola não tem uma correção para auscultadores para experimentar aqui.</string>
+    <string name="av_sound_force_applied">O altifalante e os auscultadores foram ligados em simultâneo. Ouves a música agora?</string>
+    <string name="av_sound_no_knob">Esta consola não tem uma correção de áudio para experimentar aqui. Ouves a música agora?</string>
+    <string name="av_sound_hear_yes">Sim, estou a ouvir</string>
+    <string name="av_sound_hear_no">Ainda nada</string>
+    <string name="av_sound_left_default">O som foi deixado no padrão. Podes alterá-lo mais tarde em Definições › Sistema › Ajustes do kernel.</string>
+</resources>

@@ -77,4 +77,38 @@
     <string name="continue_state_hint"><xliff:g id="game">%1$s</xliff:g> devam ettiriliyor. En yeni kayıt durumunuz (<xliff:g id="slot">%2$s</xliff:g>) oyunun kendi kaydından daha yeni. Kullanmak için RetroArch menüsünden (Select + X) yükleyin.</string>
     <string name="continue_slot">yuva <xliff:g id="slot">%1$d</xliff:g></string>
     <string name="continue_slot_auto">otomatik olan</string>
+    <string name="app_brightness_title">Uygulama parlaklığı</string>
+    <string name="app_brightness_summary">Her uygulama için manuel parlaklık seçimini hatırla</string>
+    <string name="app_brightness_enabled">Uygulama parlaklığını kullan</string>
+    <string name="app_brightness_about">Aşağıdan uygulamaları seçin. Parlaklıkları yalnızca manuel modda kullanılır. Uygulamadan çıkınca, kaydırıcıyı kendiniz değiştirmediyseniz önceki parlaklık geri yüklenir. Kaydırıcı değişikliği, yapılandırılmış uygulamalardan çıkana kadar kuralları duraklatır.\n\nKendi pencere parlaklığını yöneten uygulamalar atlanır. Denetim görev değiştiğinde yapılır; yalnızca pencereye yönelik sonraki değişiklikler bir sonraki görev değişikliğinde görülebilir. Pencere parlaklığı denetimi kullanılamıyorsa kural atlanır. Kurallar alt sistem başlatma ekranında ve konuk oturuma sahipken durur.</string>
+    <string-array name="app_brightness_entries"><item>Mevcut parlaklığı kullan</item><item>10%</item><item>25%</item><item>50%</item><item>75%</item><item>100%</item></string-array>
+    <string-array name="app_brightness_values" translatable="false"><item>off</item><item>10</item><item>25</item><item>50</item><item>75</item><item>100</item></string-array>
+    <string name="ra_repair_title">RetroArch performans ayarları</string>
+    <string name="ra_repair_summary">Onarımları seçin, değişiklikleri önizleyin ve yedek tutun</string>
+    <string name="ra_repair_about">Aşağıdan uygulanacak onarımları seçin. Başlangıçta tümü seçilidir; olduğu gibi kalmasını istediklerinizi kapatın. Kayıtlar, tuş atamaları ve kitaplık girişleri korunur. Oyun başına geçersiz kılmalar olduğu gibi kalır ve bu özellikleri yine de etkinleştirebilir. FPS artışı garanti edilmez. Devam etmeden önce RetroArch\'tan çıkın.</string>
+    <string name="ra_repair_shader">Genel gölgelendiricileri kapat</string>
+    <string name="ra_repair_shader_about">Grafik işini azaltmak için tarama çizgileri gibi ekran efektlerini ana ayarlardan kaldırır. Bir geçersiz kılma etkinleştirmediği sürece oyunlar bu efektleri kaybeder.</string>
+    <string name="ra_repair_preemptive">Genel Preemptive Frames\'i kapat</string>
+    <string name="ra_repair_preemptive_about">İşlemci yükünü azaltmak için ana ayarlardaki ek kare işlemeyi durdurur. Bu isteğe bağlı giriş gecikmesi azaltma özelliği kapatıldığı için kontroller daha az doğrudan hissedilebilir.</string>
+    <string name="ra_repair_gambatte">Gambatte çekirdek geçersiz kılmasını onar</string>
+    <string name="ra_repair_gambatte_about">Mevcut Game Boy / Game Boy Color çekirdek ayarlarında gölgelendiricileri ve Preemptive Frames\'i kapatır. Bu, ekran efektleri ve isteğe bağlı giriş gecikmesi azaltma pahasına grafik ve işlemci yükünü azaltır. Eksik bir geçersiz kılma eksik kalır.</string>
+    <string name="ra_repair_nestopia">Nestopia çekirdek geçersiz kılmasını onar</string>
+    <string name="ra_repair_nestopia_about">Mevcut Nestopia NES çekirdek ayarlarında gölgelendiricileri ve Preemptive Frames\'i kapatır. Bu, ekran efektleri ve isteğe bağlı giriş gecikmesi azaltma pahasına grafik ve işlemci yükünü azaltır. Eksik bir geçersiz kılma eksik kalır.</string>
+    <string name="ra_repair_fceumm">FCEUmm çekirdek geçersiz kılmasını onar</string>
+    <string name="ra_repair_fceumm_about">Mevcut FCEUmm NES çekirdek ayarlarında gölgelendiricileri ve Preemptive Frames\'i kapatır. Bu, ekran efektleri ve isteğe bağlı giriş gecikmesi azaltma pahasına grafik ve işlemci yükünü azaltır. Eksik bir geçersiz kılma eksik kalır.</string>
+    <string name="ra_repair_preview_selected">Seçilen onarımları önizle</string>
+    <string name="ra_repair_preview">Değişiklikleri önizle</string>
+    <string name="ra_repair_preview_body">%1$d yapılandırma dosyası değişecek.\n\nSeçilen onarımlar:\n%2$s\n\nYalnızca bu onarımlar uygulanacak. Çekirdek geçersiz kılmaları genel ayarlara öncelik verebilir. Uygulamadan önce değişen dosyaların yedeği alınır. Oyun başına geçersiz kılmalar korunur. Özel geçersiz kılma dizinleri desteklenmez.</string>
+    <string name="ra_repair_apply">Seçilen onarımları uygula</string>
+    <string name="ra_repair_restore">Yedeği geri yükle</string>
+    <string name="ra_repair_restore_about">Onarımdan önce kaydedilen dosyaları geri yükler. Bu dosyalar sonradan düzenlendiyse geri yükleme reddedilir. Önce RetroArch\'tan çıkın.</string>
+    <string name="ra_repair_wait">Kurulum çalışanı bekleniyor… RetroArch\'ı kapalı tutun.</string>
+    <string name="ra_repair_ready">Önizleme hazır. İptal etmek ayarlarınızı değiştirmez.</string>
+    <string name="ra_repair_applied">Seçilen onarımlar uygulandı. Yedeğe Yedeği geri yükle üzerinden ulaşabilirsiniz.</string>
+    <string name="ra_repair_restored">Yedek geri yüklendi.</string>
+    <string name="ra_repair_unchanged">Seçilen onarımların değiştirilmesine gerek yok. Mevcut yedek korundu.</string>
+    <string name="ra_repair_busy">RetroArch çalışıyor. Normal şekilde çıkıp tekrar deneyin.</string>
+    <string name="ra_repair_backup">Zaten bir yedek var. Başka bir onarım yapmadan önce geri yükleyin.</string>
+    <string name="ra_repair_error">İstek tamamlanamadı. RetroArch\'ın genel bir yapılandırmaya sahip olduğunu, varsayılan geçersiz kılma dizinini kullandığını ve kapalı olduğunu kontrol edin. Geri yükleme ayrıca mevcut bir yedek ve değiştirilmemiş onarılmış dosyalar gerektirir. Başarısız bir yazmadan önce oluşturulan yedek kurtarma için korunur.</string>
+    <string name="ra_repair_timeout">Kurulum çalışanı henüz yanıt vermedi. İstek hâlâ sırada olabilir; RetroArch\'ı kapalı tutun ve daha sonra tekrar kontrol edin.</string>
 </resources>

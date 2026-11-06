@@ -141,4 +141,9 @@
     </plurals>
     <string name="confirm_keep">Оставить</string>
     <string name="confirm_undo">Отменить</string>
+    <string name="profile_import">Импортировать профили…</string>
+    <string name="profile_export">Экспортировать именованные профили…</string>
+    <string name="profile_imported">Профили импортированы. Выберите профиль, чтобы использовать его. Настройки Fn и аварийного восстановления остаются на этой консоли.</string>
+    <string name="profile_exported">Именованные профили экспортированы. Настройки Fn и аварийного восстановления относятся к консоли и не включены.</string>
+    <string name="profile_document_failed">Не удалось сохранить или загрузить профили. Проверьте файл, поддерживаемые кнопки, безопасное управление меню и ограничение в 20 профилей.</string>
 </resources>

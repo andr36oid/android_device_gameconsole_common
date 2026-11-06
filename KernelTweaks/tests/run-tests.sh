@@ -73,6 +73,9 @@ EOF
 	printf '#!/bin/sh\nexit 0\n' >"$T/bin/log"
 	# the real sync can hang for minutes on a busy build host
 	printf '#!/bin/sh\nexit 0\n' >"$T/bin/sync"
+    for tool in mount umount; do
+        printf '#!/bin/sh\nexit 1\n' >"$T/bin/$tool"
+    done
 	chmod +x "$T/bin/"*
 	if [ -x "$TOYBOX" ]; then
 		[ -e "$T/lib64" ] || ln -s "$(dirname "$TOYBOX")/../lib64" "$T/lib64"
@@ -774,8 +777,9 @@ PY
 SRC=$HERE/../src/org/andr36oid/kerneltweaks
 if javac -encoding UTF-8 -d "$T/classes" "$T/java/android/content/Context.java" \
 	"$T/java/org/andr36oid/kerneltweaks/R.java" "$SRC/Tweak.java" "$SRC/Tweaks.java" \
-	"$SRC/Profile.java" "$HERE/ProfileTest.java" &&
-	java -cp "$T/classes" org.andr36oid.kerneltweaks.ProfileTest "$T/profiles/exported.txt"; then
+	"$SRC/Profile.java" "$SRC/ProfileSelection.java" "$HERE/ProfileTest.java" "$HERE/ProfileSelectionTest.java" &&
+	java -cp "$T/classes" org.andr36oid.kerneltweaks.ProfileTest "$T/profiles/exported.txt" &&
+    java -cp "$T/classes" org.andr36oid.kerneltweaks.ProfileSelectionTest; then
 	check "profile Java tests" passed passed
 else
 	check "profile Java tests" passed failed

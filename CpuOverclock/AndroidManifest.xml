@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.andr36oid.cpuoverclock"
+    android:versionCode="36"
+    android:versionName="11.6"
     android:sharedUserId="android.uid.system">
 
     <application
@@ -12,10 +14,10 @@
         <!-- Injected into the top level of the Settings app, right below Joystick mouse.
              Also opened by a long press on the tile. -->
         <activity
-            android:name=".OverclockActivity"
+            android:name=".PerformanceDashboardActivity"
             android:exported="true"
             android:label="@string/overclock_title"
-            android:theme="@android:style/Theme.DeviceDefault.Settings">
+            android:theme="@style/PerfTheme">
             <intent-filter>
                 <action android:name="com.android.settings.action.IA_SETTINGS" />
             </intent-filter>
@@ -41,6 +43,18 @@
                 android:name="com.android.settings.bg.hint"
                 android:resource="@color/overclock_icon_background" />
         </activity>
+
+        <!-- Performance dashboard sub-pages -->
+        <activity
+            android:name=".InGameActivity"
+            android:exported="false"
+            android:label="@string/perf_ingame_title"
+            android:theme="@style/PerfTheme" />
+        <activity
+            android:name=".AdvancedActivity"
+            android:exported="false"
+            android:label="@string/perf_row_advanced_title"
+            android:theme="@style/PerfTheme.Settings" />
 
         <!-- Off until the overclock is used for the first time, see Overclock.showTile() -->
         <service

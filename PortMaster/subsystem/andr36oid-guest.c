@@ -341,6 +341,7 @@ static void close_inherited_fds(void) {
     closedir(d);
 }
 static int supervise(char **argv,bool native,bool hotkeys) {
+    const int exit_hold_ms=hotkey_exit_hold_ms(getenv("A36_EXIT_HOLD_MS"));
     if(native && prctl(PR_ANDR36OID_GUEST,1UL,0UL,0UL,0UL)) fatal("guest input ABI unavailable; update the kernel");
     struct sigaction sa={.sa_handler=stop}; sigemptyset(&sa.sa_mask);
     sigaction(SIGTERM,&sa,NULL); sigaction(SIGINT,&sa,NULL); sigaction(SIGHUP,&sa,NULL);
@@ -398,7 +399,7 @@ static int supervise(char **argv,bool native,bool hotkeys) {
             }
             hotkey_event(pad,native,&keys,&ev);
         }
-        int action=hotkey_tick(&keys,now_ms());
+        int action=hotkey_tick_with_hold(&keys,now_ms(),exit_hold_ms);
         if(action&HOTKEY_EXIT_GAME)exit_game(payload);
         if(action&HOTKEY_RETURN_ANDROID)stopping=1;
     }

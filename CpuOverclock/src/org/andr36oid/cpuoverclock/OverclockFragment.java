@@ -2,24 +2,22 @@ package org.andr36oid.cpuoverclock;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
-import android.os.SystemProperties;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.SwitchPreference;
-import android.provider.Settings;
 import android.widget.Toast;
 
+/**
+ * The Advanced page of the Performance dashboard: expert clock controls only - the maximum CPU
+ * speed, the CPU overclock, the GPU/memory overclock and the undervolt. The everyday controls
+ * (the mode cards, in-game options, per-app profiles) live on the dashboard and its other pages.
+ * Categories with nothing the kernel supports are removed.
+ */
 public class OverclockFragment extends PreferenceFragment
         implements Preference.OnPreferenceChangeListener {
 
-    private static final String KEY_PROFILE = "profile";
-    private static final String KEY_PROFILE_ABOUT = "profile_about";
     private static final String KEY_CPU_CAP = "cpu_cap";
-    private static final String KEY_APP_PROFILES = "app_profiles";
-    private static final String KEY_CLOSE_APPS = "close_apps_on_game";
-    /** Read by GameComfort when a game comes to the front */
-    private static final String SETTING_CLOSE_APPS = "andr36oid_close_apps_on_game";
     private static final String KEY_ENABLED = "enabled";
     private static final String KEY_SPEED = "speed";
     private static final String KEY_UNDERVOLT_CATEGORY = "undervolt_category";
@@ -30,8 +28,6 @@ public class OverclockFragment extends PreferenceFragment
 
     private Overclock mOverclock;
     private PerformanceProfiles mProfiles;
-    private ListPreference mProfile;
-    private Preference mProfileAbout;
     private ListPreference mCpuCap;
     private SwitchPreference mEnabled;
     private ListPreference mSpeed;
@@ -46,22 +42,12 @@ public class OverclockFragment extends PreferenceFragment
         super.onCreate(savedInstanceState);
         mOverclock = new Overclock(getActivity());
         mProfiles = new PerformanceProfiles(getActivity());
-        addPreferencesFromResource(R.xml.overclock_settings);
-        mProfile = (ListPreference) findPreference(KEY_PROFILE);
-        mProfileAbout = findPreference(KEY_PROFILE_ABOUT);
+        addPreferencesFromResource(R.xml.advanced_settings);
         mCpuCap = (ListPreference) findPreference(KEY_CPU_CAP);
         mEnabled = (SwitchPreference) findPreference(KEY_ENABLED);
         mSpeed = (ListPreference) findPreference(KEY_SPEED);
         setUpUndervolt();
         setUpGpuRam();
-        findPreference(KEY_CLOSE_APPS).setOnPreferenceChangeListener(this);
-
-        final CharSequence[] profileValues = new CharSequence[PerformanceProfiles.COUNT];
-        for (int i = 0; i < profileValues.length; i++) {
-            profileValues[i] = String.valueOf(i);
-        }
-        mProfile.setEntryValues(profileValues);
-        mProfile.setOnPreferenceChangeListener(this);
 
         // Stock first, then the standard speeds below the top, highest first.
         final int[] caps = mProfiles.getCpuCapChoices();
@@ -110,12 +96,6 @@ public class OverclockFragment extends PreferenceFragment
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
         final boolean done;
-        if (KEY_CLOSE_APPS.equals(preference.getKey())) {
-            Settings.Global.putInt(getActivity().getContentResolver(), SETTING_CLOSE_APPS,
-                    (Boolean) newValue ? 1 : 0);
-            update();
-            return false;
-        }
         if (preference == mGpuOc || preference == mRamOc) {
             final String dev = preference == mGpuOc ? GpuRamOverclock.GPU : GpuRamOverclock.DMC;
             final int hz = preference == mGpuOc
@@ -135,9 +115,7 @@ public class OverclockFragment extends PreferenceFragment
             }
             return false;
         }
-        if (preference == mProfile) {
-            done = mProfiles.set(Integer.parseInt((String) newValue));
-        } else if (preference == mCpuCap) {
+        if (preference == mCpuCap) {
             done = mProfiles.setCpuCap(Integer.parseInt((String) newValue));
         } else if (preference == mUndervoltLevel) {
             done = mUndervolt.set(Integer.parseInt((String) newValue));
@@ -147,8 +125,7 @@ public class OverclockFragment extends PreferenceFragment
             done = mOverclock.setChosenSpeed(Integer.parseInt((String) newValue));
         }
         if (!done) {
-            Toast.makeText(getActivity(), preference == mProfile
-                    ? R.string.profile_failed : preference == mUndervoltLevel
+            Toast.makeText(getActivity(), preference == mUndervoltLevel
                     ? R.string.undervolt_failed : R.string.overclock_failed,
                     Toast.LENGTH_SHORT).show();
         }
@@ -158,17 +135,9 @@ public class OverclockFragment extends PreferenceFragment
     }
 
     private void update() {
-        final int profile = mProfiles.get();
-        mProfile.setValue(String.valueOf(profile));
-        mProfile.setSummary(mProfiles.getName(profile));
-        mProfileAbout.setSummary(describe(profile));
         updateCpuCap();
         updateUndervolt();
         updateGpuRam();
-        updateAppProfiles();
-        ((SwitchPreference) findPreference(KEY_CLOSE_APPS)).setChecked(
-                Settings.Global.getInt(getActivity().getContentResolver(), SETTING_CLOSE_APPS,
-                        0) != 0);
 
         if (!mOverclock.isSupported()) {
             return;
@@ -291,17 +260,6 @@ public class OverclockFragment extends PreferenceFragment
                 : getString(R.string.undervolt_step, uv / 1000));
     }
 
-    private void updateAppProfiles() {
-        final Preference apps = findPreference(KEY_APP_PROFILES);
-        if (!AppProfiles.isEnabled(getActivity())) {
-            apps.setSummary(R.string.app_profiles_off);
-            return;
-        }
-        final int count = AppProfiles.countSet(getActivity());
-        apps.setSummary(getResources().getQuantityString(R.plurals.app_profiles_on, count,
-                count));
-    }
-
     private void updateCpuCap() {
         final int cap = mProfiles.getCpuCap();
         mCpuCap.setValue(String.valueOf(cap));
@@ -318,26 +276,5 @@ public class OverclockFragment extends PreferenceFragment
                     mProfiles.formatMhz(mProfiles.getProfileCpuMax()));
         }
         mCpuCap.setSummary(state + "\n" + getString(R.string.cpu_cap_note));
-    }
-
-    private String describe(int profile) {
-        final String text;
-        switch (profile) {
-            case PerformanceProfiles.BATTERY_SAVER:
-                text = getString(R.string.profile_about_saver,
-                        mOverclock.formatSpeed(mProfiles.getSaverCpuSpeed()),
-                        mProfiles.getGpuLowestMhz());
-                break;
-            case PerformanceProfiles.PERFORMANCE:
-                text = getString(R.string.profile_about_performance,
-                        mOverclock.formatSpeed(mProfiles.getPerformanceCpuSpeed()),
-                        mProfiles.getGpuHighestMhz());
-                break;
-            default:
-                text = getString(R.string.profile_about_balanced);
-                break;
-        }
-        return text + getString(SystemProperties.getBoolean("ro.andr36oid.fn_hotkeys", false)
-                ? R.string.profile_about_footer_fn : R.string.profile_about_footer);
     }
 }

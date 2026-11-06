@@ -1,0 +1,32 @@
+{
+  "databaseVersion": 14,
+  "revisionNumber": 1,
+  "platform": {
+    "name": "Elektronika BK",
+    "uniqueId": "andr36oid.phase2.bk",
+    "shortname": "bk",
+    "description": "Elektronika BK-0010 and BK-0011 computers. Supply the machine ROMs in BIOS.",
+    "acceptedFilenameRegex": "(?i)^(?!(?:\\._|\\.).*).*\\.(?:bin|zip|7z)$",
+    "scraperSourceList": [],
+    "boxArtAspectRatioId": 0,
+    "useCustomBoxArtAspectRatio": false,
+    "customBoxArtAspectRatio": null,
+    "screenAspectRatioId": 1,
+    "useCustomScreenAspectRatio": false,
+    "customScreenAspectRatio": null,
+    "retroAchievementsConsoleIdList": [],
+    "extra": ""
+  },
+  "playerList": [
+    {
+      "name": "bk - RetroArch - bk",
+      "uniqueId": "andr36oid.phase2.bk.bk",
+      "description": "Local andr36oid player.",
+      "acceptedFilenameRegex": "(?i)^(?!(?:\\._|\\.).*).*\\.(?:bin|zip|7z)$",
+      "amStartArguments": "-n com.retroarch/com.retroarch.browser.retroactivity.RetroActivityFuture\n -e ROM {file.path}\n -e LIBRETRO bk\n -e CONFIGFILE /storage/emulated/0/Android/data/com.retroarch/files/retroarch.cfg",
+      "killPackageProcesses": true,
+      "killPackageProcessesWarning": true,
+      "extra": ""
+    }
+  ]
+}

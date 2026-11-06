@@ -1,0 +1,32 @@
+{
+  "databaseVersion": 14,
+  "revisionNumber": 1,
+  "platform": {
+    "name": "ONScripter visual novels",
+    "uniqueId": "andr36oid.phase2.onscripter",
+    "shortname": "onscripter",
+    "description": "ONScripter Yuri visual novels. Load 0.txt or nscript.dat beside the remaining game files and default.ttf.",
+    "acceptedFilenameRegex": "(?i)^(?!(?:\\._|\\.).*).*\\.(?:txt|dat|___|nt2|nt3|ons)$",
+    "scraperSourceList": [],
+    "boxArtAspectRatioId": 1,
+    "useCustomBoxArtAspectRatio": false,
+    "customBoxArtAspectRatio": null,
+    "screenAspectRatioId": 1,
+    "useCustomScreenAspectRatio": false,
+    "customScreenAspectRatio": null,
+    "retroAchievementsConsoleIdList": [],
+    "extra": ""
+  },
+  "playerList": [
+    {
+      "name": "onscripter - RetroArch - onsyuri",
+      "uniqueId": "andr36oid.phase2.onscripter.onsyuri",
+      "description": "Local andr36oid player.",
+      "acceptedFilenameRegex": "(?i)^(?!(?:\\._|\\.).*).*\\.(?:txt|dat|___|nt2|nt3|ons)$",
+      "amStartArguments": "-n com.retroarch/com.retroarch.browser.retroactivity.RetroActivityFuture\n -e ROM {file.path}\n -e LIBRETRO onsyuri\n -e CONFIGFILE /storage/emulated/0/Android/data/com.retroarch/files/retroarch.cfg",
+      "killPackageProcesses": true,
+      "killPackageProcessesWarning": true,
+      "extra": ""
+    }
+  ]
+}

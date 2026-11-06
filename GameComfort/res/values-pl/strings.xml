@@ -79,4 +79,38 @@
     <string name="continue_state_hint">Wznawianie <xliff:g id="game">%1$s</xliff:g>. Najnowszy stan gry (<xliff:g id="slot">%2$s</xliff:g>) jest nowszy od zapisu w samej grze. Aby go użyć, wczytaj go w menu RetroArch (Select + X).</string>
     <string name="continue_slot">miejsce <xliff:g id="slot">%1$d</xliff:g></string>
     <string name="continue_slot_auto">automatyczny</string>
+    <string name="app_brightness_title">Jasność aplikacji</string>
+    <string name="app_brightness_summary">Zapamiętuj ręcznie wybraną jasność dla każdej aplikacji</string>
+    <string name="app_brightness_enabled">Używaj jasności aplikacji</string>
+    <string name="app_brightness_about">Wybierz aplikacje poniżej. Ich jasność jest używana tylko w trybie ręcznym. Po wyjściu przywracana jest poprzednia jasność, chyba że samodzielnie zmienisz suwak. Zmiana suwaka wstrzymuje reguły do czasu opuszczenia skonfigurowanych aplikacji.\n\nAplikacje sterujące jasnością własnego okna są pomijane. Sprawdzenie odbywa się przy zmianie zadania; późniejsze zmiany dotyczące tylko okna mogą zostać wykryte dopiero przy następnej zmianie zadania. Jeśli sprawdzenie jasności okna jest niedostępne, reguła zostaje pominięta. Reguły zatrzymują się na ekranie uruchamiania podsystemu i gdy gość przejmuje sesję.</string>
+    <string-array name="app_brightness_entries"><item>Użyj bieżącej jasności</item><item>10%</item><item>25%</item><item>50%</item><item>75%</item><item>100%</item></string-array>
+    <string-array name="app_brightness_values" translatable="false"><item>off</item><item>10</item><item>25</item><item>50</item><item>75</item><item>100</item></string-array>
+    <string name="ra_repair_title">Ustawienia wydajności RetroArch</string>
+    <string name="ra_repair_summary">Wybierz naprawy, wyświetl podgląd zmian i zachowaj kopię zapasową</string>
+    <string name="ra_repair_about">Wybierz poniżej naprawy do zastosowania. Na początku wszystkie są zaznaczone; wyłącz te, które mają pozostać bez zmian. Zapisy, przypisania i wpisy biblioteki zostaną zachowane. Nadpisania dla gier pozostają bez zmian i nadal mogą włączać te funkcje. Wzrost liczby FPS nie jest gwarantowany. Przed kontynuowaniem wyjdź z RetroArch.</string>
+    <string name="ra_repair_shader">Wyłącz globalne shadery</string>
+    <string name="ra_repair_shader_about">Usuwa efekty ekranu, takie jak linie skanowania, z ustawień głównych, aby ograniczyć pracę grafiki. Gry utracą te efekty, chyba że włączy je nadpisanie.</string>
+    <string name="ra_repair_preemptive">Wyłącz globalne Preemptive Frames</string>
+    <string name="ra_repair_preemptive_about">Zatrzymuje dodatkowe przetwarzanie klatek w ustawieniach głównych, aby ograniczyć pracę procesora. Sterowanie może wydawać się mniej bezpośrednie, ponieważ ta opcjonalna redukcja opóźnienia wejścia jest wyłączona.</string>
+    <string name="ra_repair_gambatte">Napraw nadpisanie rdzenia Gambatte</string>
+    <string name="ra_repair_gambatte_about">Wyłącza shadery i Preemptive Frames w istniejących ustawieniach rdzenia Game Boy / Game Boy Color. Ogranicza to pracę grafiki i procesora kosztem efektów ekranu oraz opcjonalnej redukcji opóźnienia wejścia. Brakujące nadpisanie pozostanie brakujące.</string>
+    <string name="ra_repair_nestopia">Napraw nadpisanie rdzenia Nestopia</string>
+    <string name="ra_repair_nestopia_about">Wyłącza shadery i Preemptive Frames w istniejących ustawieniach rdzenia NES Nestopia. Ogranicza to pracę grafiki i procesora kosztem efektów ekranu oraz opcjonalnej redukcji opóźnienia wejścia. Brakujące nadpisanie pozostanie brakujące.</string>
+    <string name="ra_repair_fceumm">Napraw nadpisanie rdzenia FCEUmm</string>
+    <string name="ra_repair_fceumm_about">Wyłącza shadery i Preemptive Frames w istniejących ustawieniach rdzenia NES FCEUmm. Ogranicza to pracę grafiki i procesora kosztem efektów ekranu oraz opcjonalnej redukcji opóźnienia wejścia. Brakujące nadpisanie pozostanie brakujące.</string>
+    <string name="ra_repair_preview_selected">Wyświetl podgląd wybranych napraw</string>
+    <string name="ra_repair_preview">Wyświetl podgląd zmian</string>
+    <string name="ra_repair_preview_body">Zmieni się %1$d plików konfiguracji.\n\nWybrane naprawy:\n%2$s\n\nZostaną zastosowane tylko te naprawy. Nadpisania rdzeni mogą mieć pierwszeństwo przed ustawieniami globalnymi. Przed zastosowaniem zostanie zapisana kopia zapasowa zmienionych plików. Nadpisania dla gier zostaną zachowane. Niestandardowe katalogi nadpisań nie są obsługiwane.</string>
+    <string name="ra_repair_apply">Zastosuj wybrane naprawy</string>
+    <string name="ra_repair_restore">Przywróć kopię zapasową</string>
+    <string name="ra_repair_restore_about">Przywraca pliki zapisane przed naprawą. Przywracanie jest odrzucane, jeśli później edytowano te pliki. Najpierw wyjdź z RetroArch.</string>
+    <string name="ra_repair_wait">Oczekiwanie na usługę konfiguracji… Nie uruchamiaj RetroArch.</string>
+    <string name="ra_repair_ready">Podgląd gotowy. Anulowanie nie zmieni ustawień.</string>
+    <string name="ra_repair_applied">Zastosowano wybrane naprawy. Kopia zapasowa jest dostępna przez Przywróć kopię zapasową.</string>
+    <string name="ra_repair_restored">Przywrócono kopię zapasową.</string>
+    <string name="ra_repair_unchanged">Wybrane naprawy nie wymagają zmian. Istniejąca kopia zapasowa została zachowana.</string>
+    <string name="ra_repair_busy">RetroArch jest uruchomiony. Wyjdź z niego normalnie i spróbuj ponownie.</string>
+    <string name="ra_repair_backup">Kopia zapasowa już istnieje. Przywróć ją przed wykonaniem kolejnej naprawy.</string>
+    <string name="ra_repair_error">Nie udało się ukończyć żądania. Sprawdź, czy RetroArch ma konfigurację globalną, używa domyślnego katalogu nadpisań i jest zamknięty. Przywracanie wymaga również istniejącej kopii zapasowej oraz niezmienionych naprawionych plików. Kopia utworzona przed nieudaną próbą zapisu zostaje zachowana do odzyskiwania.</string>
+    <string name="ra_repair_timeout">Usługa konfiguracji jeszcze nie odpowiedziała. Żądanie może nadal czekać w kolejce; nie uruchamiaj RetroArch i sprawdź ponownie później.</string>
 </resources>

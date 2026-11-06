@@ -151,4 +151,9 @@
     <string name="fn_replaced_button"><xliff:g id="button">%1$s</xliff:g> é agora o FN. Só um botão pode ser FN, por isso <xliff:g id="old_button">%2$s</xliff:g> volta a funcionar como antes.</string>
     <string name="fn_replaced_volume"><xliff:g id="button">%1$s</xliff:g> é agora o FN, em vez da combinação de botões FN.</string>
     <string name="fn_cleared"><xliff:g id="button">%1$s</xliff:g> já não é o FN.</string>
+    <string name="profile_import">Importar perfis…</string>
+    <string name="profile_export">Exportar perfis nomeados…</string>
+    <string name="profile_imported">Perfis importados. Selecione um para usá-lo. As configurações de Fn e de recuperação permanecem neste console.</string>
+    <string name="profile_exported">Perfis nomeados exportados. As configurações de Fn e de recuperação são configurações do console e não estão incluídas.</string>
+    <string name="profile_document_failed">Não foi possível salvar ou carregar os perfis. Verifique o arquivo, os botões compatíveis, os controles seguros do menu e o limite de 20 perfis.</string>
 </resources>

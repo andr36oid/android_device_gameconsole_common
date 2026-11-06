@@ -1,0 +1,32 @@
+{
+  "databaseVersion": 14,
+  "revisionNumber": 1,
+  "platform": {
+    "name": "Vircon32",
+    "uniqueId": "andr36oid.phase2.vircon32",
+    "shortname": "vircon32",
+    "description": "Vircon32 fantasy console. GLES3 renderer; demanding games may be slow.",
+    "acceptedFilenameRegex": "(?i)^(?!(?:\\._|\\.).*).*\\.(?:v32)$",
+    "scraperSourceList": [],
+    "boxArtAspectRatioId": 1,
+    "useCustomBoxArtAspectRatio": false,
+    "customBoxArtAspectRatio": null,
+    "screenAspectRatioId": 1,
+    "useCustomScreenAspectRatio": false,
+    "customScreenAspectRatio": null,
+    "retroAchievementsConsoleIdList": [],
+    "extra": ""
+  },
+  "playerList": [
+    {
+      "name": "vircon32 - RetroArch - vircon32",
+      "uniqueId": "andr36oid.phase2.vircon32.vircon32",
+      "description": "Local andr36oid player.",
+      "acceptedFilenameRegex": "(?i)^(?!(?:\\._|\\.).*).*\\.(?:v32)$",
+      "amStartArguments": "-n com.retroarch/com.retroarch.browser.retroactivity.RetroActivityFuture\n -e ROM {file.path}\n -e LIBRETRO vircon32\n -e CONFIGFILE /storage/emulated/0/Android/data/com.retroarch/files/retroarch.cfg",
+      "killPackageProcesses": true,
+      "killPackageProcessesWarning": true,
+      "extra": ""
+    }
+  ]
+}

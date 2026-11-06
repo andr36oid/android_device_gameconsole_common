@@ -1,0 +1,32 @@
+{
+  "databaseVersion": 14,
+  "revisionNumber": 1,
+  "platform": {
+    "name": "Super Cassette Vision",
+    "uniqueId": "andr36oid.phase2.scv",
+    "shortname": "scv",
+    "description": "Epoch and Yeno Super Cassette Vision. Supply upd7801g.s01 in BIOS.",
+    "acceptedFilenameRegex": "(?i)^(?!(?:\\._|\\.).*).*\\.(?:cart|bin|rom|0|zip)$",
+    "scraperSourceList": [],
+    "boxArtAspectRatioId": 2,
+    "useCustomBoxArtAspectRatio": false,
+    "customBoxArtAspectRatio": null,
+    "screenAspectRatioId": 0,
+    "useCustomScreenAspectRatio": false,
+    "customScreenAspectRatio": null,
+    "retroAchievementsConsoleIdList": [],
+    "extra": ""
+  },
+  "playerList": [
+    {
+      "name": "scv - RetroArch - emuscv",
+      "uniqueId": "andr36oid.phase2.scv.emuscv",
+      "description": "Local andr36oid player.",
+      "acceptedFilenameRegex": "(?i)^(?!(?:\\._|\\.).*).*\\.(?:cart|bin|rom|0|zip)$",
+      "amStartArguments": "-n com.retroarch/com.retroarch.browser.retroactivity.RetroActivityFuture\n -e ROM {file.path}\n -e LIBRETRO emuscv\n -e CONFIGFILE /storage/emulated/0/Android/data/com.retroarch/files/retroarch.cfg",
+      "killPackageProcesses": true,
+      "killPackageProcessesWarning": true,
+      "extra": ""
+    }
+  ]
+}

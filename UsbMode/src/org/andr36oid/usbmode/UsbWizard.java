@@ -8,13 +8,14 @@ final class UsbWizard {
     static final int ROLE = 0, FUNCTIONS = 1, CONTROLLER = 2, STORAGE = 3,
             KEYBOARD = 4, MOUSE = 5, REVIEW = 6;
     // "custom" stays last so the use-case presets lead and the power-user path sits apart at the bottom.
-    static final String[] ROLES = {"pc", "input", "game", "drive", "wired", "music", "dac", "awake", "macro", "link", "custom"};
+    static final String[] ROLES = {"pc", "input", "game", "drive", "wired", "music", "dac", "mic", "awake", "macro", "link", "custom"};
 
     static int preset(String role, boolean debugging) {
         int mask = "pc".equals(role) ? UsbFunctions.STORAGE | UsbFunctions.KEYBOARD | UsbFunctions.MOUSE
                 : "input".equals(role) ? UsbFunctions.KEYBOARD | UsbFunctions.MOUSE
                 : "game".equals(role) ? UsbFunctions.XINPUT : "wired".equals(role) || "link".equals(role) ? UsbFunctions.NETWORK
                 : "music".equals(role) ? UsbFunctions.MIDI : "dac".equals(role) ? UsbFunctions.SOUND
+                : "mic".equals(role) ? UsbFunctions.SOUND | UsbFunctions.AUDIOIN
                 : "awake".equals(role) ? UsbFunctions.MOUSE
                 : "macro".equals(role) ? UsbFunctions.KEYBOARD | UsbFunctions.MEDIA : UsbFunctions.STORAGE;
         if (debugging && ("pc".equals(role) || "game".equals(role) || "drive".equals(role))) mask |= UsbFunctions.ADB;
@@ -44,7 +45,8 @@ final class UsbWizard {
     }
 
     static int[] blockers(String reason, int mask) {
-        if ("sound".equals(reason)) return new int[] {UsbFunctions.SOUNDBOARD, UsbFunctions.SOUND};
+        if ("sound".equals(reason)) return new int[] {(mask & UsbFunctions.AUDIOIN) != 0
+                ? UsbFunctions.AUDIOIN : UsbFunctions.SOUNDBOARD, UsbFunctions.SOUND};
         if ("networks".equals(reason)) return new int[] {UsbFunctions.NETWORK, UsbFunctions.RNDIS};
         if ("standalone".equals(reason)) {
             final int solo = Integer.lowestOneBit(mask & (UsbFunctions.FLIPPER | UsbFunctions.SWITCH
@@ -53,7 +55,7 @@ final class UsbWizard {
         }
         int group = mask & UsbFunctions.CONTROLLERS;
         if ("routing".equals(reason)) {
-            group = mask & (UsbFunctions.CONTROLLERS | UsbFunctions.MEDIA | UsbFunctions.MIDI | UsbFunctions.SOUNDBOARD);
+            group = mask & (UsbFunctions.CONTROLLERS | UsbFunctions.MEDIA | UsbFunctions.MIDI | UsbFunctions.SOUNDBOARD | UsbFunctions.AUDIOIN);
             if ((mask & (UsbFunctions.SOUNDBOARD | UsbFunctions.KEYBOARD)) == (UsbFunctions.SOUNDBOARD | UsbFunctions.KEYBOARD))
                 group = UsbFunctions.SOUNDBOARD | UsbFunctions.KEYBOARD;
         }

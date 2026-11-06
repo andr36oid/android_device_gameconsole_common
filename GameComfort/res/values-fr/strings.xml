@@ -77,4 +77,42 @@
     <string name="continue_state_hint">Reprise de <xliff:g id="game">%1$s</xliff:g>. Votre dernière sauvegarde instantanée (<xliff:g id="slot">%2$s</xliff:g>) est plus récente que celle du jeu lui-même. Pour l\'utiliser, chargez-la dans le menu RetroArch (Select + X).</string>
     <string name="continue_slot">emplacement <xliff:g id="slot">%1$d</xliff:g></string>
     <string name="continue_slot_auto">l\'automatique</string>
+    <string name="app_brightness_title">Luminosité des applications</string>
+    <string name="app_brightness_summary">Mémoriser un choix manuel de luminosité pour chaque application</string>
+    <string name="app_brightness_enabled">Utiliser la luminosité des applications</string>
+    <string name="app_brightness_about">Choisis des applications ci-dessous. Leur luminosité est utilisée uniquement en mode manuel. En les quittant, la luminosité précédente est rétablie, sauf si tu as modifié le curseur toi-même. Modifier le curseur met les règles en pause jusqu’à ce que tu quittes les applications configurées.\n\nLes applications qui contrôlent la luminosité de leur propre fenêtre sont ignorées. La vérification a lieu au changement de tâche ; les modifications ultérieures propres à la fenêtre peuvent être détectées au prochain changement de tâche. Si la vérification de la luminosité de la fenêtre est indisponible, la règle est ignorée. Les règles s’arrêtent sur l’écran de lancement du sous-système et lorsque l’invité contrôle la session.</string>
+    <string-array name="app_brightness_entries">
+        <item>Utiliser la luminosité actuelle</item><item>10 %</item><item>25 %</item><item>50 %</item><item>75 %</item><item>100 %</item>
+    </string-array>
+    <string-array name="app_brightness_values" translatable="false">
+        <item>off</item><item>10</item><item>25</item><item>50</item><item>75</item><item>100</item>
+    </string-array>
+    <string name="ra_repair_title">Réglages de performances de RetroArch</string>
+    <string name="ra_repair_summary">Choisir des réparations, prévisualiser les changements et conserver une sauvegarde</string>
+    <string name="ra_repair_about">Choisis les réparations à appliquer ci-dessous. Elles sont toutes sélectionnées au départ ; désactive celles que tu veux conserver telles quelles. Les sauvegardes, les commandes et les entrées de bibliothèque sont conservées. Les remplacements par jeu restent intacts et peuvent toujours activer ces fonctionnalités. Une hausse des FPS n’est pas garantie. Quitte RetroArch avant de continuer.</string>
+    <string name="ra_repair_shader">Désactiver les shaders globaux</string>
+    <string name="ra_repair_shader_about">Supprime les effets d’écran comme les lignes de balayage des réglages principaux afin de réduire le travail graphique. Les jeux perdent ces effets, sauf si un remplacement les active.</string>
+    <string name="ra_repair_preemptive">Désactiver les images Preemptive Frames globales</string>
+    <string name="ra_repair_preemptive_about">Arrête le traitement d’images supplémentaire des réglages principaux afin de réduire le travail du processeur. Les commandes peuvent sembler moins immédiates, car cette réduction facultative de la latence d’entrée est désactivée.</string>
+    <string name="ra_repair_gambatte">Réparer le remplacement du cœur Gambatte</string>
+    <string name="ra_repair_gambatte_about">Désactive les shaders et Preemptive Frames dans les réglages existants du cœur Game Boy / Game Boy Color. Cela réduit le travail graphique et du processeur, au prix des effets d’écran et de la réduction facultative de la latence d’entrée. Un remplacement absent le reste.</string>
+    <string name="ra_repair_nestopia">Réparer le remplacement du cœur Nestopia</string>
+    <string name="ra_repair_nestopia_about">Désactive les shaders et Preemptive Frames dans les réglages existants du cœur NES Nestopia. Cela réduit le travail graphique et du processeur, au prix des effets d’écran et de la réduction facultative de la latence d’entrée. Un remplacement absent le reste.</string>
+    <string name="ra_repair_fceumm">Réparer le remplacement du cœur FCEUmm</string>
+    <string name="ra_repair_fceumm_about">Désactive les shaders et Preemptive Frames dans les réglages existants du cœur NES FCEUmm. Cela réduit le travail graphique et du processeur, au prix des effets d’écran et de la réduction facultative de la latence d’entrée. Un remplacement absent le reste.</string>
+    <string name="ra_repair_preview_selected">Prévisualiser les réparations sélectionnées</string>
+    <string name="ra_repair_preview">Prévisualiser les changements</string>
+    <string name="ra_repair_preview_body">%1$d fichiers de configuration seraient modifiés.\n\nRéparations sélectionnées :\n%2$s\n\nSeules ces réparations seront appliquées. Les remplacements de cœur peuvent être prioritaires sur les réglages globaux. Une sauvegarde des fichiers modifiés est enregistrée avant l’application. Les remplacements par jeu sont conservés. Les répertoires de remplacement personnalisés ne sont pas pris en charge.</string>
+    <string name="ra_repair_apply">Appliquer les réparations sélectionnées</string>
+    <string name="ra_repair_restore">Restaurer la sauvegarde</string>
+    <string name="ra_repair_restore_about">Restaure les fichiers enregistrés avant la réparation. La restauration est refusée si ces fichiers ont été modifiés ensuite. Quitte d’abord RetroArch.</string>
+    <string name="ra_repair_wait">En attente du service de configuration… Garde RetroArch fermé.</string>
+    <string name="ra_repair_ready">Aperçu prêt. Annuler laisse tes réglages inchangés.</string>
+    <string name="ra_repair_applied">Réparations sélectionnées appliquées. La sauvegarde est disponible avec Restaurer la sauvegarde.</string>
+    <string name="ra_repair_restored">Sauvegarde restaurée.</string>
+    <string name="ra_repair_unchanged">Les réparations sélectionnées ne nécessitent aucune modification. Toute sauvegarde existante a été conservée.</string>
+    <string name="ra_repair_busy">RetroArch est en cours d’exécution. Quitte-le normalement et réessaie.</string>
+    <string name="ra_repair_backup">Une sauvegarde existe déjà. Restaure-la avant d’effectuer une autre réparation.</string>
+    <string name="ra_repair_error">Impossible de terminer la demande. Vérifie que RetroArch possède une configuration globale, utilise le répertoire de remplacement par défaut et est fermé. La restauration nécessite également une sauvegarde existante et des fichiers réparés inchangés. Toute sauvegarde créée avant une écriture échouée est conservée pour récupération.</string>
+    <string name="ra_repair_timeout">Le service de configuration n’a pas encore répondu. La demande est peut-être toujours en attente ; garde RetroArch fermé et vérifie à nouveau plus tard.</string>
 </resources>

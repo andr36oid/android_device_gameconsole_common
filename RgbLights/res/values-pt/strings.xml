@@ -25,4 +25,6 @@
         <item>purple</item>
         <item>white</item>
     </string-array>
+    <string name="rgb_row_effect">Efeito</string><string name="rgb_row_color">Cor</string><string name="rgb_row_brightness">Brilho</string><string name="rgb_row_speed">Velocidade</string><string name="rgb_auto">Automático</string><string name="rgb_preview_left">Esquerda</string><string name="rgb_preview_right">Direita</string><string name="rgb_stick_hint">Mova um controle para colorir as luzes</string><string name="rgb_hint">Cima/Baixo: escolher   Esquerda/Direita: alterar   B: voltar</string>
+    <string-array name="rgb_effect_names"><item>Desativado</item><item>Cor sólida</item><item>Respiração</item><item>Arco-íris</item><item>Seguir controle</item><item>Bateria</item></string-array>
 </resources>

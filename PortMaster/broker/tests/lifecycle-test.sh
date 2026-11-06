@@ -233,3 +233,28 @@ case ${1:-all} in all|happy)
   grep -Fqx 'sys.andr36oid.subsystem.session ended' "$tmp/properties" || fail 'session did not finish publishing its state'
   echo 'wrapper handoff happy path passed (initial mute and ES poweroff -> Android)'
 ;; esac
+
+case ${1:-all} in all|confine)
+  # A tool/port launch resolves a value from a property plus the user-writable
+  # games card. root_path follows symlinks, so a symlink inside /roms/tools or
+  # /roms/ports must not resolve out of that directory and be executed. Mirrors
+  # the RetroArch ROM/core confinement (audit ultra-night-2026-11-06).
+  load_functions root_path root_file resolve_run_target
+  mkdir -p "$ROOT/roms/tools" "$ROOT/roms/ports" "$ROOT/etc"
+  : > "$ROOT/roms/tools/Shaders.sh"; : > "$ROOT/roms/ports/Halo.sh"; : > "$ROOT/etc/secret"
+  ln -sf ../../etc/secret "$ROOT/roms/tools/escape"
+  ln -sf /etc/secret "$ROOT/roms/tools/absescape"
+  ln -sf ../tools/Shaders.sh "$ROOT/roms/ports/sneak"
+  IS_PM=0; RA_REQUEST=
+
+  IS_TOOL=1; CONFINE=/roms/tools
+  arg=/roms/tools/Shaders.sh; resolve_run_target || fail 'legit tool target rejected'
+  arg=/roms/tools/escape;    if resolve_run_target; then fail 'tool symlink escaping /roms/tools was allowed'; fi
+  arg=/roms/tools/absescape; if resolve_run_target; then fail 'tool absolute-symlink escape was allowed'; fi
+
+  IS_TOOL=0; CONFINE=/roms/ports
+  arg=/roms/ports/Halo.sh; resolve_run_target || fail 'legit port target rejected'
+  arg=/roms/ports/sneak;   if resolve_run_target; then fail 'port symlink escaping /roms/ports was allowed'; fi
+
+  echo 'tool/port confinement passed (symlink + absolute escapes rejected, legit allowed)'
+;; esac

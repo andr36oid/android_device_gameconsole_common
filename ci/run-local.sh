@@ -96,6 +96,25 @@ check_tests() {
 # Native host tests: joyMouse's cc_test_host, built with g++ and googletest.
 check_native() {
 	section native
+	# Broker native regressions: self-contained C tests that include and exercise
+	# the production subsystem/guest sources. Independent of joyMouse/googletest
+	# (plain cc). gamma-test.c needs a gamma-file argument (a helper), so skip it.
+	bdir=PortMaster/broker/tests
+	if command -v cc >/dev/null && [ -d "$bdir" ]; then
+		for f in "$bdir"/*.c; do
+			[ -e "$f" ] || continue
+			b=$(basename "$f"); [ "$b" = gamma-test.c ] && continue
+			echo "--- $f"
+			if ! cc -O1 -I"$bdir" "$f" -o "$T/broker_native" >"$T/out" 2>&1; then
+				cat "$T/out"; result native FAIL "broker: $b build"; continue
+			fi
+			if "$T/broker_native" >"$T/out" 2>&1; then
+				tail -n 1 "$T/out"; result native PASS "broker: $b"
+			else
+				cat "$T/out"; result native FAIL "broker: $b"
+			fi
+		done
+	fi
 	bp=joyMouse/Android.bp
 	[ -f "$bp" ] || { result native SKIP "no $bp"; return; }
 	command -v g++ >/dev/null || { result native SKIP "no g++"; return; }

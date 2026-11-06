@@ -99,4 +99,30 @@
     <string name="app_profiles_about">默认表示跟随“性能”中选择的模式。部分模拟器初始设为“性能”，部分应用设为“均衡”或“省电”。您可以在这里逐一更改。\n\n在有专属模式的应用中，快捷设置磁贴和 FN + R1 仍然有效。此时，您的选择会持续到离开应用为止。\n\n开启后，一个小型辅助服务会监测当前打开的应用。关闭时，或没有应用设置专属模式时，该服务不会运行。</string>
     <string name="app_profile_until_left">直到离开 <xliff:g id="app">%1$s</xliff:g></string>
     <string name="app_profile_tile"><xliff:g id="profile">%1$s</xliff:g>, <xliff:g id="app">%2$s</xliff:g></string>
+    <string name="game_turbo_title">Game Turbo（游戏时最高时钟频率）</string>
+    <string name="game_turbo_summary">游戏位于前台时，保持 CPU（1296 MHz）、GPU（520 MHz）和内存的标准时钟频率。游戏时会消耗更多电量。之后会恢复之前的限制和正常调速器。明确指定的应用配置优先。不启用超频。</string>
+    <string name="game_affinity_title">将游戏固定到专用核心</string>
+    <string name="game_affinity_summary">实验性功能：让 RetroArch 或 PPSSPP 使用核心 2–3，让后台工作和选定的设备中断使用核心 0–1，然后恢复原状。四个核心完全相同；任何收益都来自更少的争用，效果并不确定。</string>
+    <string name="perf_subtitle">主机运行游戏的方式</string>
+    <string name="perf_hint">PS1、N64 和 PSP 在“性能”模式下运行效果最佳。</string>
+    <string name="perf_mode_saver_tag">更长的电池续航。适合 8 位和 16 位游戏。</string>
+    <string name="perf_mode_balanced_tag">仅在游戏需要时提速。</string>
+    <string name="perf_mode_performance_tag">最流畅，最适合复古游戏的高帧率。适用于 PS1、N64 和 PSP。运行时会稍微更热。</string>
+    <string name="perf_card_on">\u2713 开启</string>
+    <string name="perf_row_ingame_title">游戏内选项</string>
+    <string name="perf_row_ingame_value">游戏模式</string>
+    <string name="perf_row_perapp_title">按应用设置性能</string>
+    <string name="perf_row_advanced_title">高级</string>
+    <string name="perf_row_advanced_value">超频、限制</string>
+    <string name="perf_ingame_title">游戏内选项</string>
+    <string name="perf_ingame_brightness_title">游戏中的屏幕亮度</string>
+    <string name="perf_ingame_brightness_summary">游戏可以自行打开的亮度开关</string>
+    <string name="perf_ingame_lowbatt_title">低电量警告</string>
+    <string name="perf_ingame_lowbatt_summary">电量不足时在游戏中显示提示</string>
+    <string name="perf_ingame_continue_title">返回上次的游戏</string>
+    <string name="perf_ingame_continue_summary">进入上次玩过的游戏的快捷方式</string>
+    <string name="perf_advanced_note">面向高级用户。默认值对所有主机都安全。</string>
+    <string name="perf_cat_limits">速度限制</string>
+    <string name="perf_status">当前运行：CPU 最高 %1$s · %2$d°C</string>
+    <string name="perf_status_no_temp">当前运行：CPU 最高 %1$s</string>
 </resources>

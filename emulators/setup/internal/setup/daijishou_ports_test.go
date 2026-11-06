@@ -115,6 +115,129 @@ func TestDaijishouReconcilePorts(t *testing.T) {
 	}
 }
 
+// Ports are top-level scripts only. Nested helper scripts that real ports keep
+// in subfolders (e.g. mcpe_launcher/UpdatePort.sh) must never be listed as
+// their own ports; Daijishou used to surface them and they fail to launch.
+func TestDaijishouReconcilePortsTopLevelOnly(t *testing.T) {
+	c := newDJPorts(t)
+	s := c.s
+	write(t, s.djPrefs(), androidPrefs)
+	write(t, s.easyroms+"/ports/Halo - Combat Evolved.sh", "halo\n")
+	write(t, s.easyroms+"/ports/mcpe_launcher/UpdatePort.sh", "update\n")
+	write(t, s.easyroms+"/ports/mcpe_launcher/SetupMcpe.sh", "setup\n")
+	write(t, s.easyroms+"/ports/mcpe_launcher/menu/update/deep.sh", "deep\n")
+	s.ReconcilePorts()
+	if got := c.sql("SELECT name FROM PlayableItemEntity WHERE attached_platform_id = (SELECT id FROM PlatformEntity WHERE unique_id = 'ports') ORDER BY name;"); got != "Halo - Combat Evolved\nPortMaster" {
+		c.fail("top-level ports only, nested helpers excluded: %q", got)
+	}
+}
+
+// The dArkOSen tools (PortMaster + the top-level tools/ scripts) are shown in
+// Daijishou by default and hidden only when the user turns the setting off.
+func TestDaijishouReconcileToolsHideable(t *testing.T) {
+	c := newDJPorts(t)
+	s := c.s
+	write(t, s.djPrefs(), androidPrefs)
+	write(t, s.easyroms+"/ports/Halo.sh", "halo\n")
+	write(t, s.easyroms+"/tools/PortMaster.sh", "pm\n")
+	write(t, s.easyroms+"/tools/Dave's Modern Shaders.sh", "shaders\n")
+	write(t, s.easyroms+"/tools/R36S Theme Patcher.sh", "theme\n")
+	must(t, os.MkdirAll(s.easyroms+"/tools/PortMaster", 0o755)) // nested dir ignored
+	toolsQ := "SELECT name FROM PlayableItemEntity WHERE attached_platform_id = (SELECT id FROM PlatformEntity WHERE unique_id = 'ports') ORDER BY name;"
+	const shown = "Dave's Modern Shaders\nHalo\nPortMaster\nR36S Theme Patcher"
+
+	s.ReconcilePorts()
+	if got := c.sql(toolsQ); got != shown {
+		c.fail("tools shown by default: %q", got)
+	}
+	// Tool markers live under tools/ with the exact filename so the broker
+	// resolves them in the TOOL: namespace, never as a port.
+	if got := c.sql("SELECT uri FROM PlayableItemEntity WHERE name = 'Dave''s Modern Shaders';"); !strings.Contains(got, "/gameconsole-ports/tools/") || !strings.HasSuffix(got, ".sh") {
+		c.fail("tool marker not under tools/ with its filename: %q", got)
+	}
+	// Tool markers are empty files: their stored md5 is the empty-file hash, exactly
+	// what Daijishou's own Sync recomputes, so a user Sync never sees them as changed.
+	if got := c.sql("SELECT DISTINCT md5 FROM PlayableItemEntity WHERE name IN ('PortMaster', 'Dave''s Modern Shaders', 'R36S Theme Patcher');"); got != fmt.Sprintf("%x", md5.Sum(nil)) {
+		c.fail("tool md5 is not the single empty-file hash: %q", got)
+	}
+	must(t, c.f.Set("persist.andr36oid.subsystem.daijishou_tools", "0"))
+	s.ReconcilePorts()
+	if got := c.sql(toolsQ); got != "Halo" {
+		c.fail("hiding tools leaves only real ports: %q", got)
+	}
+	must(t, c.f.Set("persist.andr36oid.subsystem.daijishou_tools", "1"))
+	s.ReconcilePorts()
+	if got := c.sql(toolsQ); got != shown {
+		c.fail("tools re-shown: %q", got)
+	}
+}
+
+// An extra Ports sync folder the user added in Daijishou (internal storage, a second
+// card) is not on the mounted EASYROMS card. It must be skipped gracefully: the pass
+// must not fail every boot, and the foreign folder's rows must survive untouched while
+// the EASYROMS folder still reconciles normally.
+func TestDaijishouReconcilePortsForeignSyncFolder(t *testing.T) {
+	c := newDJPorts(t)
+	s := c.s
+	write(t, s.djPrefs(), androidPrefs)
+	write(t, s.easyroms+"/ports/Local.sh", "local\n")
+	s.ReconcilePorts()
+
+	local := djTreeURI(djUUID, "ports")
+	foreign := djTreeURI("FFFF-0000", "ports")
+	c.sql("UPDATE PlatformEntity SET items_sync_tree_uri_list = '[\"" + local + "\",\"" + foreign + "\"]' WHERE unique_id = 'ports';")
+	c.sql("INSERT INTO PlayableItemEntity (is_singleton_disjoint_set, use_disjoint_set_primary_playable_item, playable_item_type, name, do_scrape_name, scraper_keyword_list, scrape_scraper_keywords, is_favorite, is_searchable, is_visible, attached_platform_id, uri, sync_tree_uri, md5, use_custom_player, play_count, added_date_timestamp, extra) SELECT 1, 0, 1, 'Foreign', 0, '[]', 0, 0, 1, 1, id, '" + foreign + "/document/x', '" + foreign + "', '', 0, 0, 1, '' FROM PlatformEntity WHERE unique_id = 'ports';")
+
+	before := read(t, s.djDB())
+	c.f.reset()
+	s.ReconcilePorts()
+	if logHas(s, "reconciling Daijishou's ports failed") {
+		c.fail("a foreign sync folder failed the whole reconcile")
+	}
+	if read(t, s.djDB()) != before || c.f.count("am") != 0 {
+		c.fail("a foreign sync folder changed the database or restarted home")
+	}
+	if got := c.sql("SELECT name FROM PlayableItemEntity WHERE attached_platform_id = (SELECT id FROM PlatformEntity WHERE unique_id = 'ports') ORDER BY name;"); got != "Foreign\nLocal\nPortMaster" {
+		c.fail("foreign/local/tool rows not all kept: %q", got)
+	}
+	// Removing the EASYROMS port prunes it; the foreign folder's row still survives.
+	must(t, os.Remove(s.easyroms+"/ports/Local.sh"))
+	s.ReconcilePorts()
+	if got := c.sql("SELECT name FROM PlayableItemEntity WHERE attached_platform_id = (SELECT id FROM PlatformEntity WHERE unique_id = 'ports') ORDER BY name;"); got != "Foreign\nPortMaster" {
+		c.fail("pruned the local port but should keep the foreign row and the tool: %q", got)
+	}
+}
+
+// The user keeps the Ports platform but removes its sync folder, so the tree list is
+// empty. Reconcile must succeed (no every-boot error), prune the now-orphaned rows,
+// and add no tools.
+func TestDaijishouReconcilePortsEmptySyncFolder(t *testing.T) {
+	c := newDJPorts(t)
+	s := c.s
+	write(t, s.djPrefs(), androidPrefs)
+	write(t, s.easyroms+"/ports/Old.sh", "old\n")
+	s.ReconcilePorts()
+	if got := c.sql("SELECT name FROM PlayableItemEntity WHERE attached_platform_id = (SELECT id FROM PlatformEntity WHERE unique_id = 'ports') ORDER BY name;"); got != "Old\nPortMaster" {
+		c.fail("setup: %q", got)
+	}
+
+	c.sql("UPDATE PlatformEntity SET items_sync_tree_uri_list = '[]' WHERE unique_id = 'ports';")
+	c.f.reset()
+	s.ReconcilePorts()
+	if logHas(s, "reconciling Daijishou's ports failed") {
+		c.fail("an empty sync-folder list failed the reconcile")
+	}
+	if got := c.sql("SELECT count(*) FROM PlayableItemEntity WHERE attached_platform_id = (SELECT id FROM PlatformEntity WHERE unique_id = 'ports');"); got != "0" {
+		c.fail("empty sync folder left %s stale rows", got)
+	}
+	before := read(t, s.djDB())
+	c.f.reset()
+	s.ReconcilePorts()
+	if read(t, s.djDB()) != before || c.f.count("am") != 0 {
+		c.fail("empty-folder reconcile is not idempotent")
+	}
+}
+
 func TestDaijishouReconcilePortsRespectsUserState(t *testing.T) {
 	for _, state := range []string{"missing database", "empty library", "deleted Ports", "unreadable database", "unmounted", "missing folder", "different card", "bad folder", "no seeded marker"} {
 		t.Run(state, func(t *testing.T) {

@@ -5,7 +5,9 @@
 #include <poll.h>
 #include <setjmp.h>
 #include <stdarg.h>
+#include <dirent.h>
 int stream_poll(struct pollfd *,nfds_t,int);
+DIR *stream_opendir(const char *);
 #define open stream_open
 #define close stream_close
 #define ioctl stream_ioctl
@@ -18,6 +20,7 @@ int stream_poll(struct pollfd *,nfds_t,int);
 #define access stream_access
 #define prctl stream_prctl
 #define usleep stream_usleep
+#define opendir stream_opendir
 #define main guest_program_main
 #include "../../subsystem/andr36oid-guest.c"
 #undef main
@@ -33,17 +36,22 @@ int stream_poll(struct pollfd *,nfds_t,int);
 #undef access
 #undef prctl
 #undef usleep
+#undef opendir
 
 static jmp_buf finished;
 static struct input_event queue[16];
 static unsigned queued,cursor,stage,opens,closes,queries,flushed,fail_left;
-static unsigned fn,start;
+static unsigned fn,start,select_key;
 static unsigned long snapshot[KEY_WORDS];
 static long long test_ms,closed_ms;
 static bool connected,inject_releases;
 static int read_fault;
 static unsigned sleeps;
 static bool fail_absent_poll;
+static bool policy_case,emergency_case,recovered_case;
+static int expected_hold;
+static unsigned game_exits;
+static long long chord_ms;
 static void hold(unsigned code) {snapshot[code/KEY_WORD_BITS]|=1UL<<(code%KEY_WORD_BITS);}
 static void key(unsigned code,int value) {
     assert(queued<sizeof(queue)/sizeof(*queue));
@@ -60,8 +68,8 @@ int stream_open(const char *path,int flags,...) {
     if(opens)assert(test_ms-closed_ms>=2000);
     connected=true;opens++;
     memset(snapshot,0,sizeof(snapshot));
-    if(opens==2) {hold(fn);hold(start);fail_left=2;}
-    if(opens==3) {hold(fn);hold(start);inject_releases=true;}
+    if(!policy_case && opens==2) {hold(fn);hold(start);fail_left=2;}
+    if(!policy_case && opens==3) {hold(fn);hold(start);inject_releases=true;}
     return 101;
 }
 int stream_close(int fd) {
@@ -102,6 +110,33 @@ int stream_poll(struct pollfd *p,nfds_t count,int timeout) {
     assert(p->fd==101 && connected);
     if(cursor!=queued) {p->revents=POLLIN;return 1;}
     cursor=queued=0;
+    if(policy_case) {
+        assert(!stopping && game_exits==(stage>=3 && !emergency_case ? 1U : 0U));
+        switch(stage++) {
+        case 0:
+            chord_ms=test_ms;
+            if(recovered_case) {
+                hold(select_key);hold(start);if(emergency_case)hold(fn);
+                syn(SYN_DROPPED);key(start,0);syn(SYN_REPORT);
+            } else {
+                key(select_key,1);key(start,1);if(emergency_case)key(fn,1);
+                syn(SYN_REPORT);
+            }
+            p->revents=POLLIN;return 1;
+        case 1:
+            // Environment changes after admission cannot alter this session's
+            // policy, including when the chord was recovered by SYN_DROPPED.
+            assert(setenv("A36_EXIT_HOLD_MS",expected_hold==1200?"6000":"1200",1)==0);
+            test_ms=chord_ms+(emergency_case?2000:expected_hold)-1;return 0;
+        case 2: test_ms=chord_ms+(emergency_case?2000:expected_hold);return 0;
+        case 3:
+            assert(!emergency_case);
+            test_ms=chord_ms+expected_hold+1;return 0;
+        case 4: test_ms=chord_ms+7999;return 0;
+        case 5: test_ms=chord_ms+8000;return 0;
+        default: assert(!"missing full-return action");
+        }
+    }
     switch(stage++) {
     case 0:
         hold(fn);hold(start);inject_releases=true;
@@ -141,7 +176,17 @@ pid_t stream_waitpid(pid_t pid,int *status,int options) {
     (void)status;assert(pid==-1 && options==WNOHANG);return 0;
 }
 int stream_kill(pid_t pid,int sig) {
-    (void)pid;(void)sig;assert(!"spurious escape action");return -1;
+    assert(policy_case && pid==-1 && sig==SIGTERM && stopping);
+    assert(test_ms==chord_ms+(emergency_case?2000:8000));
+    assert(game_exits==(emergency_case?0U:1U));
+    longjmp(finished,1);
+}
+DIR *stream_opendir(const char *path) {
+    // exit_game probes /proc once. Stub it to observe the request without
+    // inspecting or signalling host processes.
+    assert(policy_case && !emergency_case && !strcmp(path,"/proc"));
+    assert(test_ms==chord_ms+expected_hold && game_exits++==0);
+    return NULL;
 }
 int stream_access(const char *path,int mode) {(void)path;(void)mode;return -1;}
 int stream_prctl(int option,...) {assert(option==PR_ANDR36OID_GUEST);return 0;}
@@ -157,5 +202,29 @@ int main(void) {
         if(!setjmp(finished))supervise(argv,native,true);
         assert(opens==6 && closes==5 && queries==9 && flushed==2 && !stopping);
     }
-    puts("PASS: actual native/generic guest reader, resync boundary, fresh post-query edges, idle retry, HUP/EOF/short/error reconnect and 2000ms backoff");
+    const char *values[]={NULL,"","1200","2000","3000","4000","5000","6000",
+        "6001","8000","-1","6000junk"," 6000","06000","9999999999999999999"};
+    const int durations[]={1200,1200,1200,2000,3000,4000,5000,6000,
+        1200,1200,1200,1200,1200,1200,1200};
+    for(volatile int native=0;native<=1;native++) {
+        fn=native?BTN_TRIGGER_HAPPY5:KEY_HOMEPAGE;
+        start=native?BTN_TRIGGER_HAPPY2:BTN_START;
+        select_key=native?BTN_TRIGGER_HAPPY1:BTN_SELECT;
+        for(volatile unsigned choice=0;choice<sizeof(values)/sizeof(*values);choice++) {
+            for(volatile int scenario=0;scenario<4;scenario++) {
+                if(values[choice])assert(setenv("A36_EXIT_HOLD_MS",values[choice],1)==0);
+                else assert(unsetenv("A36_EXIT_HOLD_MS")==0);
+                policy_case=true;emergency_case=scenario>=2;recovered_case=scenario%2;
+                expected_hold=durations[choice];game_exits=0;
+                queued=cursor=stage=opens=closes=queries=flushed=fail_left=0;
+                test_ms=10000;closed_ms=0;connected=inject_releases=false;read_fault=0;stopping=0;
+                sleeps=0;fail_absent_poll=false;
+                char *argv[]={"unused",NULL};
+                if(!setjmp(finished))supervise(argv,native,true);
+                assert(opens==1 && closes==0 && stopping);
+                assert(queries==(recovered_case?2U:1U));
+            }
+        }
+    }
+    puts("PASS: actual native/generic guest reader, drop/reconnect/failed resync, validated 1.2/2/3/4/5/6s exits, exact 8s return and always-available 2s Fn emergency");
 }

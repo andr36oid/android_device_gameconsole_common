@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.andr36oid.usbmode"
+    android:versionCode="31"
+    android:versionName="11.1"
     android:sharedUserId="android.uid.system">
 
     <permission android:name="org.andr36oid.usbmode.FLIPPER_USB" android:protectionLevel="signature" />
@@ -142,6 +144,18 @@
                 <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" />
             </intent-filter>
         </receiver>
+
+        <activity android:name=".UsbFunctionsActivity" android:exported="false"
+            android:label="@string/usb_functions_title"
+            android:theme="@android:style/Theme.DeviceDefault.Dialog.NoActionBar" />
+        <!-- Available to add from QS edit; never auto-added or activated. -->
+        <service android:name=".UsbFunctionsTileService" android:exported="true"
+            android:icon="@drawable/ic_usb_mode" android:label="@string/usb_functions_title"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
 
         <!-- Off until the USB mode is changed for the first time, see UsbMode.showTile() -->
         <service

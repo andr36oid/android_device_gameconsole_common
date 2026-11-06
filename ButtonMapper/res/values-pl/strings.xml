@@ -154,4 +154,9 @@
     <string name="fn_replaced_button"><xliff:g id="button">%1$s</xliff:g> jest teraz FN. Tylko jeden przycisk może być FN, więc <xliff:g id="old_button">%2$s</xliff:g> znów działa jak wcześniej.</string>
     <string name="fn_replaced_volume"><xliff:g id="button">%1$s</xliff:g> jest teraz FN, zamiast kombinacji przycisków FN.</string>
     <string name="fn_cleared"><xliff:g id="button">%1$s</xliff:g> nie jest już FN.</string>
+    <string name="profile_import">Importuj profile…</string>
+    <string name="profile_export">Eksportuj nazwane profile…</string>
+    <string name="profile_imported">Profile zaimportowane. Wybierz jeden, aby go użyć. Ustawienia Fn i ratunkowe pozostają na tej konsoli.</string>
+    <string name="profile_exported">Nazwane profile wyeksportowane. Ustawienia Fn i ratunkowe są ustawieniami konsoli i nie zostały uwzględnione.</string>
+    <string name="profile_document_failed">Nie można zapisać ani wczytać profili. Sprawdź plik, obsługiwane przyciski, bezpieczne elementy sterowania menu i limit 20 profili.</string>
 </resources>

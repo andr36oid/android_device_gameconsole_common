@@ -2,4 +2,13 @@
 <resources>
     <!-- Background of the round icon on the Settings home page -->
     <color name="overclock_icon_background">#FB8C00</color>
+
+    <!-- Performance dashboard (andr36oid custom theme, dark console palette) -->
+    <color name="perf_bg">#0E1511</color>
+    <color name="perf_surface">#17201B</color>
+    <color name="perf_surface_sel">#1E2E24</color>
+    <color name="perf_border">#2A3A31</color>
+    <color name="perf_text">#D6EBDC</color>
+    <color name="perf_muted">#8FB29E</color>
+    <color name="perf_accent">#4FC98E</color>
 </resources>

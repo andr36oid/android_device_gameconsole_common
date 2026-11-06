@@ -11,6 +11,7 @@ public class EmulationStationActivity extends Activity {
         Intent i=new Intent(this,SubsystemSetupActivity.class);
         if(SubsystemSetupActivity.isReady() && SubsystemSetupActivity.get(SubsystemSetupActivity.P+"operation").isEmpty()) {
             i.putExtra(SubsystemSetupActivity.EXTRA_LAUNCH,"ES");
+            i.putExtra(SubsystemSetupActivity.EXTRA_LAUNCH_TOKEN,SubsystemSetupActivity.mintLaunchToken());
         }
         startActivity(i);
         finish();

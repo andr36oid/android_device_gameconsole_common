@@ -6,6 +6,12 @@ const align = 2048 // 1 MiB
 
 func roundUp(n int64) int64 { return (n + align - 1) / align * align }
 
+// SmallPlan reports whether an eMMC of emmcSecs sectors is too small to hold
+// Android's data and so gets a data-card layout (data on an SD card). It is
+// still big enough to install at all only from MinEmmcDatacard on; MakePlan
+// refuses anything smaller.
+func (c *Config) SmallPlan(emmcSecs int64) bool { return emmcSecs < c.MinEmmc }
+
 // The partitions andr36oid gets on the eMMC, in this order. BOOT must be the
 // first: U-Boot reads mmc 0:1.
 var planOrder = []struct {
@@ -23,10 +29,20 @@ var planOrder = []struct {
 // MakePlan lays out the eMMC (emmcSecs sectors) from the SD card's partitions:
 // BOOT, metadata, misc and cache as big as on the SD card; system and vendor a
 // quarter bigger (twice as big from BigEmmc on); userdata gets the rest.
+//
+// An eMMC smaller than MinEmmc can't hold Android's data, so it gets a
+// data-card layout instead (SmallPlan reports this): system and vendor are not
+// grown (no room, and the data lives on an SD card anyway) and userdata is only
+// the small placeholder that is left. Below MinEmmcDatacard the eMMC is refused.
 func (c *Config) MakePlan(emmcSecs int64, sd []Part) ([]Part, error) {
-	if emmcSecs < c.MinEmmc {
+	small := c.SmallPlan(emmcSecs)
+	floor, minUser := c.MinEmmc, c.MinUserdata
+	if small {
+		floor, minUser = c.MinEmmcDatacard, c.MinUserdataDatacard
+	}
+	if emmcSecs < floor {
 		return nil, fmt.Errorf("the eMMC has %d MiB, andr36oid needs one of at least %d MiB",
-			emmcSecs*Sector>>20, c.MinEmmc*Sector>>20)
+			emmcSecs*Sector>>20, floor*Sector>>20)
 	}
 	var parts []Part
 	next := int64(LoaderEnd)
@@ -36,7 +52,7 @@ func (c *Config) MakePlan(emmcSecs int64, sd []Part) ([]Part, error) {
 			return nil, fmt.Errorf("the SD card has no %s partition", p.name)
 		}
 		n := src.Sectors()
-		if p.grow {
+		if p.grow && !small {
 			if emmcSecs >= c.BigEmmc {
 				n *= 2
 			} else {
@@ -49,7 +65,7 @@ func (c *Config) MakePlan(emmcSecs int64, sd []Part) ([]Part, error) {
 	}
 	// userdata up to the last whole MiB before the backup GPT
 	end := (emmcSecs - 1 - gptTableSecs) / align * align
-	if end-next < c.MinUserdata {
+	if end-next < minUser {
 		return nil, fmt.Errorf("the eMMC has %d MiB, too little left for userdata (%d MiB)",
 			emmcSecs*Sector>>20, (end-next)*Sector>>20)
 	}

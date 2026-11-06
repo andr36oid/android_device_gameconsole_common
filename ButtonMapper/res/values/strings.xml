@@ -155,4 +155,10 @@
     <string name="confirm_keep">Keep</string>
     <string name="confirm_undo">Undo</string>
 
+    <!-- TODO translate -->
+    <string name="profile_import">Import profiles…</string>
+    <string name="profile_export">Export named profiles…</string>
+    <string name="profile_imported">Profiles imported. Select one to use it. Fn and rescue settings stay on this console.</string>
+    <string name="profile_exported">Named profiles exported. Fn and rescue settings are console settings and are not included.</string>
+    <string name="profile_document_failed">Could not save or load profiles. Check the file, supported buttons, safe menu controls and the 20-profile limit.</string>
 </resources>

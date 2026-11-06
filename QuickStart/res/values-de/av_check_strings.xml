@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="av_stick_hint">Wenn sich ein Stick in die falsche Richtung bewegt, ändere es hier:</string>
+    <string name="av_chip_invert_x">Links / rechts umkehren</string>
+    <string name="av_chip_invert_y">Oben / unten umkehren</string>
+    <string name="av_chip_swap">Die beiden Sticks tauschen</string>
+    <string name="av_chip_on">%1$s\nEin</string>
+    <string name="av_chip_off">%1$s\nAus</string>
+    <string name="av_sound_title">Soundtest</string>
+    <string name="av_sound_body">Eine kurze Melodie läuft in einer Schleife. Hörst du die Musik?</string>
+    <string name="av_sound_playing">Musik wird abgespielt…</string>
+    <string name="av_sound_opt_speaker">Ja – über den Lautsprecher</string>
+    <string name="av_sound_opt_hp">Ja – über Kopfhörer (einstecken)</string>
+    <string name="av_sound_opt_none">Kein Ton</string>
+    <string name="av_sound_skip">Diesen Test überspringen</string>
+    <string name="av_sound_replay_hint">Y spielt die Melodie erneut ab</string>
+    <string name="av_sound_speaker_ok">Großartig – der Ton funktioniert.</string>
+    <string name="av_sound_hp_prompt">Stecke deine Kopfhörer ein. Wähle \"Ich höre sie\", sobald die Musik über sie zu hören ist.</string>
+    <string name="av_sound_hp_hear">Ich höre sie</string>
+    <string name="av_sound_hp_still">Immer noch kein Ton</string>
+    <string name="av_sound_hp_fixed">Die Erkennung der Kopfhörerbuchse wurde umgeschaltet. Hör noch einmal hin.</string>
+    <string name="av_sound_hp_no_fix">Diese Konsole hat hier keine Kopfhörer-Korrektur zum Ausprobieren.</string>
+    <string name="av_sound_force_applied">Lautsprecher und Kopfhörer gleichzeitig eingeschaltet. Kannst du die Musik jetzt hören?</string>
+    <string name="av_sound_no_knob">Diese Konsole hat hier keine Audiokorrektur zum Ausprobieren. Kannst du die Musik jetzt hören?</string>
+    <string name="av_sound_hear_yes">Ja, ich höre sie</string>
+    <string name="av_sound_hear_no">Immer noch nichts</string>
+    <string name="av_sound_left_default">Den Ton auf der Standardeinstellung belassen. Du kannst ihn später unter Einstellungen › System › Kernel-Anpassungen ändern.</string>
+</resources>

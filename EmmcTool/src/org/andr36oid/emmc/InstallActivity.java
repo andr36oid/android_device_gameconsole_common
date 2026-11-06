@@ -636,7 +636,8 @@ public class InstallActivity extends Activity {
                 getString(R.string.inst_chk_sd), null);
         ok &= check(emmc != null, emmc == null ? getString(R.string.inst_chk_no_emmc)
                 : getString(R.string.inst_chk_emmc, emmc.optString("name"), size(emmcBytes())), null);
-        ok &= check(mInspect.optJSONArray("plan") != null, getString(R.string.inst_chk_size), null);
+        ok &= check(mInspect.optJSONArray("plan") != null, getString(mInspect.optBoolean("datacard_only")
+                ? R.string.inst_chk_size_datacard : R.string.inst_chk_size), null);
         final int cap = power == null ? -1 : power.optInt("capacity", -1);
         final boolean charger = power != null && power.optBoolean("charger");
         ok &= check(charger || cap >= 60, charger ? getString(R.string.inst_chk_charger)
@@ -1127,10 +1128,13 @@ public class InstallActivity extends Activity {
         final JSONObject o = mDcOptions;
         final JSONObject slot2 = o.optJSONObject("slot2");
         final boolean card2 = slot2 != null && slot2.optBoolean("present");
+        // A small eMMC (e.g. 4 GB) can't hold Android's data, so the data stays
+        // on an SD card and the "on the eMMC" choice is not offered.
+        final boolean datacardOnly = o.optBoolean("datacard_only");
         page(getString(R.string.inst_lbl_data), stepAt(1) - 50, getString(R.string.inst_dc_where_title),
-                getString(R.string.inst_dc_where));
+                getString(datacardOnly ? R.string.inst_dc_where_small : R.string.inst_dc_where));
         final RadioGroup group = new RadioGroup(this);
-        final RadioButton first = choice(group, getString(R.string.inst_dc_emmc),
+        final RadioButton first = datacardOnly ? null : choice(group, getString(R.string.inst_dc_emmc),
                 getString(R.string.inst_dc_emmc_sub), "emmc");
         final RadioButton original = choice(group, getString(R.string.inst_dc_original),
                 getString(R.string.inst_dc_original_sub, size(o.optLong("userdata_used"))), "original");
@@ -1154,7 +1158,7 @@ public class InstallActivity extends Activity {
         });
         mNext.setEnabled(false);
         group.setOnCheckedChangeListener((g, id) -> mNext.setEnabled(id != View.NO_ID));
-        first.requestFocus();
+        (first != null ? first : original).requestFocus();
     }
 
     /** A new card: copy everything (A), Android's data (B) or nothing (C), and AUTOAPK. */

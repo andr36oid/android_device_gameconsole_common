@@ -1,0 +1,34 @@
+{
+  "databaseVersion": 14,
+  "revisionNumber": 9,
+  "platform": {
+    "name": "Atari 8-bit computers",
+    "uniqueId": "atari800",
+    "shortname": "atari800",
+    "description": "Atari 400, 800, XL and XE home computers.",
+    "acceptedFilenameRegex": "^(?!(?:\\._|\\.).*).*\\.(?:xfd|atr|dcm|cas|bin|a52|zip|atx|car|rom|com|xex|m3u)$",
+    "scraperSourceList": [
+      "LIBRETRO:Atari - 8-bit"
+    ],
+    "boxArtAspectRatioId": 2,
+    "useCustomBoxArtAspectRatio": false,
+    "customBoxArtAspectRatio": null,
+    "screenAspectRatioId": 1,
+    "useCustomScreenAspectRatio": false,
+    "customScreenAspectRatio": null,
+    "retroAchievementsConsoleIdList": [],
+    "extra": ""
+  },
+  "playerList": [
+    {
+      "name": "atari800 - RetroArch - atari800",
+      "uniqueId": "atari800.andr36oid.atari800",
+      "description": "Added by andr36oid.",
+      "acceptedFilenameRegex": "^(?!(?:\\._|\\.).*).*\\.(?:xfd|atr|dcm|cas|bin|a52|zip|atx|car|rom|com|xex|m3u)$",
+      "amStartArguments": "-n com.retroarch/com.retroarch.browser.retroactivity.RetroActivityFuture\n -e ROM {file.path}\n -e LIBRETRO atari800\n -e CONFIGFILE /storage/emulated/0/Android/data/com.retroarch/files/retroarch.cfg",
+      "killPackageProcesses": true,
+      "killPackageProcessesWarning": true,
+      "extra": ""
+    }
+  ]
+}

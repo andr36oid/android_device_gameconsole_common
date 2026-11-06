@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Deliberately independent of SetupTheme: DeviceDefault inherits the system
+         accent overlay. Never pin colorAccent in this theme or its light variant. -->
+    <style name="SubsystemTheme" parent="android:style/Theme.DeviceDefault.Light.NoActionBar">
+        <item name="android:windowBackground">?android:attr/colorBackground</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowActionModeOverlay">true</item>
+        <item name="android:fontFamily">sans</item>
+        <item name="android:colorEdgeEffect">?android:attr/colorAccent</item>
+        <item name="android:windowLightNavigationBar">true</item>
+        <item name="android:navigationBarColor">?android:attr/colorBackground</item>
+    </style>
+    <style name="SubsystemButton" parent="android:style/Widget.DeviceDefault.Button">
+        <item name="android:background">@drawable/subsystem_row</item>
+        <item name="android:backgroundTint">@null</item>
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:minHeight">48dp</item>
+    </style>
+</resources>

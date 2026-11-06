@@ -100,6 +100,7 @@
     <string name="inst_chk_no_emmc">No built-in eMMC found. Switch it on in Kernel Tweaks > Built-in eMMC storage and restart.</string>
     <string name="inst_chk_emmc">Built-in eMMC: %1$s, %2$s</string>
     <string name="inst_chk_size">Big enough for andr36oid (8 GB or more)</string>
+    <string name="inst_chk_size_datacard">Big enough for a data-card install (data stays on the SD card)</string>
     <string name="inst_chk_charger">Charger connected</string>
     <string name="inst_chk_battery">Battery at %1$d%% (needs 60%% or a charger)</string>
     <string name="inst_chk_no_target">No storage for the backup</string>
@@ -242,6 +243,7 @@
     <string name="inst_lbl_data">Android\'s data</string>
     <string name="inst_dc_where_title">Where should Android keep its data?</string>
     <string name="inst_dc_where">Android\'s data is your apps, their saves and settings, and your files. It can stay on an SD card instead of the eMMC, which helps when the eMMC is small. A data card has to stay in the console: without it, Android doesn\'t start.\n\nYou choose now. The data card is made last, after the eMMC test start worked.</string>
+    <string name="inst_dc_where_small">This eMMC is too small to hold Android\'s data, so the data stays on an SD card. The system goes on the eMMC and the console uses the card for its data. The data card has to stay in the console: without it, Android doesn\'t start.\n\nYou choose now. The data card is made last, after the eMMC test start worked.</string>
     <string name="inst_dc_emmc">On the eMMC</string>
     <string name="inst_dc_emmc_sub">Like any installation. The SD card can come out at the end.</string>
     <string name="inst_dc_original">On this SD card</string>

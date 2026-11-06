@@ -76,4 +76,38 @@
     <string name="continue_state_hint">正在继续 <xliff:g id="game">%1$s</xliff:g>。最新的即时存档（<xliff:g id="slot">%2$s</xliff:g>）比游戏内存档更新。要使用它，请在 RetroArch 菜单（Select + X）中读取。</string>
     <string name="continue_slot">存档位 <xliff:g id="slot">%1$d</xliff:g></string>
     <string name="continue_slot_auto">自动存档</string>
+    <string name="app_brightness_title">应用亮度</string>
+    <string name="app_brightness_summary">记住每个应用的手动亮度选择</string>
+    <string name="app_brightness_enabled">使用应用亮度</string>
+    <string name="app_brightness_about">在下方选择应用。它们的亮度仅在手动模式下使用。离开应用时会恢复之前的亮度，除非你亲自调整了滑块。调整滑块后，规则会暂停，直到你离开已配置的应用。\n\n会跳过控制自身窗口亮度的应用。任务切换时会进行检查；之后仅窗口发生的变化可能要到下一次任务切换时才会发现。如果无法检查窗口亮度，则会跳过规则。在子系统启动屏幕以及访客拥有会话期间，规则会停止。</string>
+    <string-array name="app_brightness_entries"><item>使用当前亮度</item><item>10%</item><item>25%</item><item>50%</item><item>75%</item><item>100%</item></string-array>
+    <string-array name="app_brightness_values" translatable="false"><item>off</item><item>10</item><item>25</item><item>50</item><item>75</item><item>100</item></string-array>
+    <string name="ra_repair_title">RetroArch 性能设置</string>
+    <string name="ra_repair_summary">选择修复项、预览更改并保留备份</string>
+    <string name="ra_repair_about">在下方选择要应用的修复项。开始时会全部选中；关闭你想保持原样的项目。存档、按键映射和媒体库条目会保留。每个游戏的覆盖设置不会改变，仍可能启用这些功能。不保证 FPS 会提高。继续前请退出 RetroArch。</string>
+    <string name="ra_repair_shader">关闭全局着色器</string>
+    <string name="ra_repair_shader_about">从主设置中移除扫描线等屏幕效果，以减少图形处理。除非覆盖设置启用这些效果，否则游戏会失去它们。</string>
+    <string name="ra_repair_preemptive">关闭全局 Preemptive Frames</string>
+    <string name="ra_repair_preemptive_about">停止主设置中的额外帧处理，以减少处理器工作量。由于此可选的输入延迟减少功能已关闭，操作可能感觉不那么即时。</string>
+    <string name="ra_repair_gambatte">修复 Gambatte 核心覆盖设置</string>
+    <string name="ra_repair_gambatte_about">关闭现有 Game Boy / Game Boy Color 核心设置中的着色器和 Preemptive Frames。这会减少图形和处理器工作量，但会失去屏幕效果和可选的输入延迟减少功能。缺少的覆盖设置仍会保持缺少。</string>
+    <string name="ra_repair_nestopia">修复 Nestopia 核心覆盖设置</string>
+    <string name="ra_repair_nestopia_about">关闭现有 Nestopia NES 核心设置中的着色器和 Preemptive Frames。这会减少图形和处理器工作量，但会失去屏幕效果和可选的输入延迟减少功能。缺少的覆盖设置仍会保持缺少。</string>
+    <string name="ra_repair_fceumm">修复 FCEUmm 核心覆盖设置</string>
+    <string name="ra_repair_fceumm_about">关闭现有 FCEUmm NES 核心设置中的着色器和 Preemptive Frames。这会减少图形和处理器工作量，但会失去屏幕效果和可选的输入延迟减少功能。缺少的覆盖设置仍会保持缺少。</string>
+    <string name="ra_repair_preview_selected">预览所选修复项</string>
+    <string name="ra_repair_preview">预览更改</string>
+    <string name="ra_repair_preview_body">将更改 %1$d 个配置文件。\n\n所选修复项：\n%2$s\n\n只会应用这些修复项。核心覆盖设置可能优先于全局设置。应用前会保存已更改文件的备份。每个游戏的覆盖设置会保留。不支持自定义覆盖目录。</string>
+    <string name="ra_repair_apply">应用所选修复项</string>
+    <string name="ra_repair_restore">恢复备份</string>
+    <string name="ra_repair_restore_about">恢复修复前保存的文件。如果这些文件之后被编辑，则拒绝恢复。请先退出 RetroArch。</string>
+    <string name="ra_repair_wait">正在等待设置工作进程…请保持 RetroArch 关闭。</string>
+    <string name="ra_repair_ready">预览已准备好。取消不会更改你的设置。</string>
+    <string name="ra_repair_applied">已应用所选修复项。可通过“恢复备份”使用备份。</string>
+    <string name="ra_repair_restored">备份已恢复。</string>
+    <string name="ra_repair_unchanged">所选修复项无需更改。已有备份已保留。</string>
+    <string name="ra_repair_busy">RetroArch 正在运行。请正常退出后重试。</string>
+    <string name="ra_repair_backup">备份已存在。请先恢复它，再进行其他修复。</string>
+    <string name="ra_repair_error">无法完成请求。请检查 RetroArch 是否有全局配置、使用默认覆盖目录且已关闭。恢复还需要现有备份和未被更改的修复文件。在写入失败前创建的备份会保留，以便恢复。</string>
+    <string name="ra_repair_timeout">设置工作进程尚未响应。请求可能仍在排队；请保持 RetroArch 关闭，稍后再检查。</string>
 </resources>

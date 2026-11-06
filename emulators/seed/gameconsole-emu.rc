@@ -79,6 +79,15 @@ on property:sys.andr36oid.ports_changed=1
     start gameconsole-ports
     setprop sys.andr36oid.ports_changed 0
 
+# Toggling "show dArkOSen tools" in subsystem settings adds or removes the tool
+# entries (PortMaster + the shader/theme tools) from Daijishou's Ports library.
+# Refresh it so the change shows without waiting for the next boot or session.
+on property:persist.andr36oid.subsystem.daijishou_tools=0
+    setprop sys.andr36oid.ports_changed 1
+
+on property:persist.andr36oid.subsystem.daijishou_tools=1
+    setprop sys.andr36oid.ports_changed 1
+
 # Every subsystem session can change favorites or play history in EmulationStation.
 service gameconsole-library /system/bin/gameconsole-setup sync-library
     class main
@@ -100,3 +109,11 @@ on property:sys.andr36oid.subsystem_changed=1 && property:persist.andr36oid.sync
 
 on property:sys.andr36oid.subsystem_changed=1
     setprop sys.andr36oid.subsystem_changed 0
+
+# Explicit GameComfort preview/apply/restore, independent of automatic sync.
+service gameconsole-ra-repair /system/bin/gameconsole-setup repair-retroarch
+    class main
+    user root
+    group root system
+    disabled
+    oneshot

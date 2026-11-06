@@ -112,4 +112,43 @@ Based on R36 Tuner Next by zenmode-adri.</string>
     <string name="app_profile_until_left">Until you leave <xliff:g id="app">%1$s</xliff:g></string>
     <!-- Tile subtitle in an app with its own profile, e.g. "Performance, PPSSPP" -->
     <string name="app_profile_tile"><xliff:g id="profile">%1$s</xliff:g>, <xliff:g id="app">%2$s</xliff:g></string>
+    <!-- TODO translate -->
+    <string name="game_turbo_title">Game Turbo (max clocks while playing)</string>
+    <!-- TODO translate -->
+    <string name="game_turbo_summary">While a game is in front, hold stock CPU (1296 MHz), GPU (520 MHz) and memory clocks. Uses more battery while playing. Previous limits and normal governors return afterward. Explicit per-app profiles take priority. Does not enable overclocking.</string>
+    <!-- TODO translate -->
+    <string name="game_affinity_title">Pin game to dedicated cores</string>
+    <!-- TODO translate -->
+    <string name="game_affinity_summary">Experimental: keep RetroArch or PPSSPP on cores 2–3 and background work and selected device interrupts on 0–1, then restore. All four cores are identical; any gain comes from less contention and is uncertain.</string>
+
+    <!-- Performance dashboard (home) -->
+    <string name="perf_subtitle">How your console runs games</string>
+    <string name="perf_hint">PS1, N64 and PSP play best on Performance.</string>
+    <string name="perf_mode_saver_tag">Longer battery. Great for 8 and 16-bit games.</string>
+    <string name="perf_mode_balanced_tag">Speeds up only when a game needs it.</string>
+    <string name="perf_mode_performance_tag">Smoothest, and best for high frame rates in retro games. For PS1, N64 and PSP. Runs a little warmer.</string>
+    <!-- Shown on the chosen mode card -->
+    <string name="perf_card_on">\u2713 On</string>
+    <string name="perf_row_ingame_title">In-game options</string>
+    <string name="perf_row_ingame_value">Game mode</string>
+    <string name="perf_row_perapp_title">Per-app performance</string>
+    <!-- Per-app row value when some apps have their own mode, e.g. "3 apps" -->
+    <string name="perf_row_advanced_title">Advanced</string>
+    <string name="perf_row_advanced_value">Overclock, limits</string>
+
+
+    <!-- In-game options page -->
+    <string name="perf_ingame_title">In-game options</string>
+    <string name="perf_ingame_brightness_title">Screen brightness in games</string>
+    <string name="perf_ingame_brightness_summary">A brightness games switch to on their own</string>
+    <string name="perf_ingame_lowbatt_title">Low-battery warning</string>
+    <string name="perf_ingame_lowbatt_summary">A heads-up in a game when the battery gets low</string>
+    <string name="perf_ingame_continue_title">Jump back into your last game</string>
+    <string name="perf_ingame_continue_summary">A shortcut to the game you played last</string>
+    <!-- Advanced page -->
+    <string name="perf_advanced_note">For advanced users. The defaults are safe for every console.</string>
+
+    <string name="perf_cat_limits">Speed limit</string>
+    <string name="perf_status">Running now: CPU up to %1$s · %2$d°C</string>
+    <string name="perf_status_no_temp">Running now: CPU up to %1$s</string>
 </resources>

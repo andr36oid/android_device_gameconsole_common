@@ -175,6 +175,41 @@ func TestDaijishouFresh(t *testing.T) {
 	}
 }
 
+// A read failure on the post-seed platform count must not be mistaken for an empty
+// library and permanently mark the seed done: the library has to be seeded on a
+// later boot once the read works.
+func TestDaijishouSeedCountReadFailureRetries(t *testing.T) {
+	c := newDJ(t, "", "")
+	real := c.f.handlers["sqlite3"]
+	c.f.handlers["sqlite3"] = func(a []string) (string, error) {
+		for _, x := range a {
+			if x == "SELECT count(*) FROM PlatformEntity;" {
+				return "", errors.New("disk I/O error")
+			}
+		}
+		return real(a)
+	}
+	c.run()
+	if c.exists(c.s.djDone()) {
+		c.fail("a failed count permanently marked the library done")
+	}
+	if c.exists(c.s.djDB()) {
+		c.fail("library installed despite the count read failure")
+	}
+	if !logHas(c.s, "reading Daijishou's new library failed") {
+		c.fail("count read failure not logged")
+	}
+	// The read works on the next boot: the seed runs and the library is made.
+	c.f.handlers["sqlite3"] = real
+	c.run()
+	if !c.exists(c.s.djDone()) || !c.exists(c.s.djDB()) {
+		c.fail("seed did not retry after a transient count failure")
+	}
+	if err := c.checklib(); err != nil {
+		c.fail("retried seed: %v", err)
+	}
+}
+
 func TestDaijishouMissingCoreFolderApp(t *testing.T) {
 	c := newDJ(t, "picodrive", "gbc")
 	c.apps = ""

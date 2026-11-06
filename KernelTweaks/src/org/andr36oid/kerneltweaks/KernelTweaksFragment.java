@@ -24,6 +24,10 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ImageSpan;
 import android.text.style.StyleSpan;
+import android.widget.CheckBox;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
+import android.widget.TextView;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -72,6 +76,7 @@ public class KernelTweaksFragment extends PreferenceFragment {
     private Tweak mStorage;
     /** something was changed since the page opened or the restart question was asked */
     private boolean mChanged;
+    private final java.util.Set<Tweak> mProfileRestart = new java.util.LinkedHashSet<>();
     private String mWaitingFor;
     private long mWaitUntil;
 
@@ -435,53 +440,105 @@ public class KernelTweaksFragment extends PreferenceFragment {
             }
             sb.append('\n');
         }
-        final Map<Tweak, String> changes = new LinkedHashMap<>();
-        final List<String> unavailable = new ArrayList<>();
-        String storage = mStorage == null ? "" : get(mStorage.prop());
-        if (profile.values.containsKey(mStorage)) storage = profile.values.get(mStorage);
-        if (storage.isEmpty() && mStorage != null) storage = def(mStorage);
-        boolean boot = false;
-        for (Map.Entry<Tweak, String> v : profile.values.entrySet()) {
-            final Tweak t = v.getKey();
-            if (def(t).isEmpty()) {
-                unavailable.add(getString(t.title));
-                continue;
-            }
-            if ("fuse".equals(t.key) && "off".equals(v.getValue()) && "fuse".equals(storage)) {
-                sb.append(getString(t.title)).append(": ")
-                        .append(getString(R.string.kt_fuse_needed)).append('\n');
-                continue;
-            }
-            if (v.getValue().equals(get(t.prop()))) continue;
-            changes.put(t, v.getValue());
-            sb.append(getString(R.string.kt_profile_change, getString(t.title),
-                    label(t, cur(t)), label(t, v.getValue()))).append('\n');
-            boot |= t.atBoot;
-        }
-        if (changes.isEmpty()) sb.append(getString(R.string.kt_profile_no_changes)).append('\n');
+        final Map<Tweak, String> saved = profileSaved();
+        final Map<Tweak, String> defaults = profileDefaults();
+        final ProfileSelection selection = new ProfileSelection(profile, saved, defaults);
+        if (selection.changes.isEmpty()) sb.append(getString(R.string.kt_profile_no_changes)).append('\n');
         if (!profile.unknown.isEmpty()) sb.append('\n').append(getString(
                 R.string.kt_profile_unknown, String.join(", ", profile.unknown))).append('\n');
         if (!profile.invalid.isEmpty()) sb.append('\n').append(getString(
                 R.string.kt_profile_invalid, String.join(", ", profile.invalid))).append('\n');
+        final List<String> unavailable = new ArrayList<>();
+        for (Tweak t : selection.unavailable) unavailable.add(getString(t.title));
         if (!unavailable.isEmpty()) sb.append('\n').append(getString(
                 R.string.kt_profile_unavailable, String.join(", ", unavailable))).append('\n');
-        if (boot) sb.append('\n').append(getString(R.string.kt_restart_message)).append('\n');
         if (paused()) sb.append('\n').append(getString(R.string.kt_profile_paused)).append('\n');
         sb.append('\n').append(getString(R.string.kt_profile_keep));
-        final AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity())
-            .setTitle(entry.name)
-            .setMessage(sb)
-            .setNegativeButton(android.R.string.cancel, null);
-        if (!changes.isEmpty()) {
-            dialog.setPositiveButton(R.string.kt_profile_apply, (d, w) -> {
-                for (Map.Entry<Tweak, String> v : changes.entrySet()) {
-                    SystemProperties.set(v.getKey().prop(), v.getValue());
-                }
-                mChanged = true;
-                apply();
-            });
+        sb.append("\n\n").append(getString(R.string.kt_profile_select_about));
+
+        final Context context = getActivity();
+        final LinearLayout body = new LinearLayout(context);
+        body.setOrientation(LinearLayout.VERTICAL);
+        final int pad = Math.round(16 * getResources().getDisplayMetrics().density);
+        body.setPadding(pad, pad / 2, pad, pad / 2);
+        final TextView explanation = new TextView(context);
+        explanation.setText(sb);
+        body.addView(explanation);
+        final Map<Tweak, CheckBox> boxes = new LinkedHashMap<>();
+        for (Map.Entry<Tweak, String> v : selection.changes.entrySet()) {
+            final Tweak t = v.getKey();
+            final CheckBox box = new CheckBox(context);
+            box.setText(getString(R.string.kt_profile_change, getString(t.title),
+                    label(t, ProfileSelection.value(t, saved, defaults)), label(t, v.getValue()))
+                    + "\n" + getString(LEVEL_TEXTS[t.level - Tweak.SAFE]));
+            box.setChecked(selection.selected(t));
+            body.addView(box);
+            boxes.put(t, box);
         }
+        final TextView status = new TextView(context);
+        body.addView(status);
+        final ScrollView scroll = new ScrollView(context);
+        scroll.addView(body);
+        final AlertDialog dialog = new AlertDialog.Builder(context)
+            .setTitle(entry.name)
+            .setView(scroll)
+            .setNegativeButton(android.R.string.cancel, null)
+            .setNeutralButton(R.string.kt_profile_safe_only, null)
+            .setPositiveButton(R.string.kt_profile_apply, null)
+            .create();
+        dialog.setOnShowListener(ignored -> {
+            // Bound the scrollable content so buttons remain visible at 640x480.
+            final android.view.ViewGroup.LayoutParams lp = scroll.getLayoutParams();
+            lp.height = Math.round(getResources().getDisplayMetrics().heightPixels * 0.5f);
+            scroll.setLayoutParams(lp);
+            final Runnable update = () -> {
+                final ProfileSelection.Result result = selection.result(profileSaved(), profileDefaults());
+                dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(
+                        result.valid && !result.values.isEmpty());
+                status.setText(!result.valid ? R.string.kt_profile_dependency
+                        : result.values.isEmpty() ? R.string.kt_profile_none_selected
+                        : result.boot ? R.string.kt_restart_message : R.string.kt_profile_select_ready);
+            };
+            for (Map.Entry<Tweak, CheckBox> box : boxes.entrySet()) {
+                box.getValue().setOnCheckedChangeListener((button, checked) -> {
+                    selection.select(box.getKey(), checked);
+                    update.run();
+                });
+            }
+            dialog.getButton(AlertDialog.BUTTON_NEUTRAL).setOnClickListener(v -> {
+                selection.safeOnly();
+                for (Map.Entry<Tweak, CheckBox> box : boxes.entrySet()) {
+                    box.getValue().setChecked(selection.selected(box.getKey()));
+                }
+                update.run();
+            });
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> {
+                // Properties/availability can change while the preview is open.
+                final ProfileSelection.Result result = selection.result(profileSaved(), profileDefaults());
+                if (!result.valid || result.values.isEmpty()) { update.run(); return; }
+                for (Map.Entry<Tweak, String> change : result.values.entrySet()) {
+                    SystemProperties.set(change.getKey().prop(), change.getValue());
+                    if (change.getKey().atBoot) mProfileRestart.add(change.getKey());
+                }
+                apply();
+                dialog.dismiss();
+            });
+            update.run();
+            if (!boxes.isEmpty()) boxes.values().iterator().next().requestFocus();
+        });
         dialog.show();
+    }
+
+    private Map<Tweak, String> profileSaved() {
+        final Map<Tweak, String> values = new LinkedHashMap<>();
+        for (Tweak t : mTweaks) values.put(t, get(t.prop()));
+        return values;
+    }
+
+    private Map<Tweak, String> profileDefaults() {
+        final Map<Tweak, String> values = new LinkedHashMap<>();
+        for (Tweak t : mTweaks) values.put(t, def(t));
+        return values;
     }
 
     // ---------------------------------------------------------------------------- dialogs
@@ -622,9 +679,14 @@ public class KernelTweaksFragment extends PreferenceFragment {
      */
     boolean askRestart() {
         final Activity a = getActivity();
-        if (a == null || !mChanged || !restartPending()) return false;
+        boolean profileRestart = false;
+        for (Tweak t : mProfileRestart) {
+            if (!def(t).isEmpty() && !nextValue(t).equals(cur(t))) profileRestart = true;
+        }
+        if (a == null || !((mChanged && restartPending()) || profileRestart)) return false;
         // asked once per change: Back on the question, then Back again, leaves
         mChanged = false;
+        mProfileRestart.clear();
         final AlertDialog d = new AlertDialog.Builder(a)
             .setTitle(R.string.kt_restart_title)
             .setMessage(R.string.kt_restart_message)

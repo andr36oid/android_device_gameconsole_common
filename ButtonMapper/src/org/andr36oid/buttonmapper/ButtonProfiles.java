@@ -115,12 +115,8 @@ final class ButtonProfiles {
     /** Adds a profile after the others, without activating it. */
     Profile create(String name, String remap) {
         int id = 1;
-        for (Profile profile : mProfiles) {
-            try {
-                id = Math.max(id, Integer.parseInt(profile.id) + 1);
-            } catch (NumberFormatException e) {
-                // The standard profile.
-            }
+        while (find(Integer.toString(id)) != null) {
+            id++;
         }
         final Profile profile = new Profile(Integer.toString(id), sanitizeName(name), remap);
         mProfiles.add(profile);

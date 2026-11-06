@@ -44,6 +44,16 @@ public class ProfileCommandReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        if (intent.getBooleanExtra(GameTurbo.FOREGROUND, false)) {
+            if (ACTION_SET.equals(intent.getAction())) {
+                String pkg = intent.getStringExtra(GameTurbo.PACKAGE);
+                if (pkg == null || !pkg.matches("[a-zA-Z0-9_.]+")) return;
+                GameTurbo.foreground(context, pkg);
+            } else if (ACTION_RESTORE.equals(intent.getAction())) {
+                GameTurbo.foreground(context, "");
+            }
+            return;
+        }
         final PerformanceProfiles profiles = new PerformanceProfiles(context);
         final SharedPreferences prefs = prefs(context);
         if (ACTION_SET.equals(intent.getAction())) {

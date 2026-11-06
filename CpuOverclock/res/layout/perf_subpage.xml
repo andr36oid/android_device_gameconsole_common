@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical" android:background="@android:color/black"
+    android:paddingLeft="22dp" android:paddingRight="22dp"
+    android:paddingTop="20dp" android:paddingBottom="0dp">
+
+    <TextView
+        android:id="@+id/perf_subpage_title"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:textColor="?android:attr/textColorPrimary" android:textSize="26sp"
+        android:textStyle="bold" android:fontFamily="sans-serif-medium" />
+
+    <TextView
+        android:id="@+id/perf_subpage_note"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:textColor="?android:attr/textColorSecondary" android:textSize="13sp"
+        android:layout_marginTop="2dp" android:visibility="gone" />
+
+    <!-- Not focusable itself: the rows take focus and the ScrollView follows them. Otherwise it
+         grabs initial focus and the framework paints its default highlight over the whole view. -->
+    <ScrollView
+        android:layout_width="match_parent" android:layout_height="0dp"
+        android:layout_weight="1" android:layout_marginTop="16dp"
+        android:focusable="false" android:defaultFocusHighlightEnabled="false"
+        android:scrollbarStyle="outsideOverlay">
+        <LinearLayout
+            android:id="@+id/perf_subpage_content"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="vertical" android:paddingBottom="24dp" />
+    </ScrollView>
+</LinearLayout>

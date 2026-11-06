@@ -23,7 +23,8 @@
   <string name="asl_sync">Synchroniser avec Android</string>
   <string name="asl_mute">Couper le son de Linux</string>
   <string name="asl_hotkeys">Raccourcis pour quitter</string>
-  <string name="asl_hotkey_help">Maintenez Select + Start pour quitter un jeu. Maintenez-les quatre secondes pour revenir à Android en cas de blocage. Maintenez Fn + Start deux secondes pour revenir à Android.</string>
+  <!-- TODO translate: review updated eight-second Android return. -->
+  <string name="asl_hotkey_help">Maintenez Select + Start pour quitter un jeu. Maintenez-les huit secondes pour revenir à Android en cas de blocage. Maintenez Fn + Start deux secondes pour revenir à Android.</string>
   <string name="asl_ready">Prêt</string>
   <string name="asl_scan">Actualiser les images</string>
   <string name="asl_health_body">État : %1$s\nVérification de l’image : %2$s\nOpération : %3$s\n\n%4$s</string>

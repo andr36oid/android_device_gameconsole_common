@@ -191,7 +191,8 @@ Version: %6$s</string>
   <string name="asl_sync">Sync with Android</string>
   <string name="asl_mute">Mute Linux audio</string>
   <string name="asl_hotkeys">System exit hotkeys</string>
-  <string name="asl_hotkey_help">Hold Select + Start to exit a game. Keep holding for four seconds to return to Android if it is stuck. Hold Fn + Start for two seconds to return to Android.</string>
+  <!-- TODO translate: Android return now requires eight seconds. -->
+  <string name="asl_hotkey_help">Hold Select + Start to exit a game. Keep holding for eight seconds to return to Android if it is stuck. Hold Fn + Start for two seconds to return to Android.</string>
   <string name="asl_ready">Ready</string>
   <string name="asl_scan">Refresh images</string>
   <string name="asl_health_body">State: %1$s
@@ -226,6 +227,7 @@ Operation: %3$s
   <string name="asl_audio_rate">Audio sample rate (Hz)</string>
   <string name="asl_audio_buffer">Audio buffer (frames)</string>
   <string name="asl_daijishou_cores">Allow Daijishou dArkOSen cores (select the alternate player)</string>
+  <string name="asl_daijishou_tools">Show dArkOSen tools in Daijishou (PortMaster, shaders, theme tools)</string>
   <string name="asl_daijishou_disabled">Enable Daijishou dArkOSen cores in subsystem settings, then select RetroArch (dArkOSen). Android RetroArch is the default.</string>
   <!-- Custom subsystem shell. New strings intentionally fall back to English. -->
   <string name="ss_brand">andr36oid Subsystem for Linux</string>
@@ -310,9 +312,14 @@ Operation: %3$s
   <string name="ss_opt_verifying_description">Checking the converted image is complete and correct.</string>
   <string name="ss_opt_saving_description">Writing the optimized image to the card.</string>
   <string name="ss_opt_bytes">%1$d%% · %2$s of %3$s</string>
+  <string name="ss_unit_gb">GB</string>
+  <string name="ss_unit_mb">MB</string>
   <string name="ss_opt_estimating">Estimating.</string>
   <string name="ss_opt_eta_under_minute">Conversion: under a minute left</string>
-  <string name="ss_opt_eta_minutes">Conversion: about %1$d min left</string>
+  <plurals name="ss_opt_eta_minutes">
+    <item quantity="one">Conversion: about %1$d min left</item>
+    <item quantity="other">Conversion: about %1$d min left</item>
+  </plurals>
   <string name="ss_opt_elapsed">Elapsed %1$s</string>
   <string name="ss_opt_space">Card: %1$s available · %2$s needed</string>
   <string name="ss_opt_done">Optimization complete</string>
@@ -320,4 +327,28 @@ Operation: %3$s
   <string name="ss_opt_interrupted">Optimization interrupted</string>
   <string name="ss_opt_failed_title">Optimization failed</string>
   <string name="ss_opt_job">Job %1$s · View log for details</string>
+  <!-- TODO translate -->
+  <string name="ss_extract">Extract release</string>
+  <string name="ss_extract_summary">Copied release · %1$s · select to extract</string>
+  <string name="ss_extract_confirm">Extract this release into an image now? The archive (%1$s) is deleted once the image is ready.</string>
+  <string name="ss_extract_note">Keep the console plugged in. Extracting can take a few minutes.</string>
+  <string name="ss_extract_preparing_description">Checking the archive and free space.</string>
+  <string name="ss_extract_extracting">Extracting</string>
+  <string name="ss_extract_extracting_description">Unpacking the release image onto the card.</string>
+  <string name="ss_extract_saving_description">Finishing up and removing the archive.</string>
+  <string name="ss_extract_done">Extraction complete</string>
+  <string name="ss_extract_done_description">The release image is ready. Continue setup to use it.</string>
+  <string name="ss_extract_error_archive">That file is not a valid dArkOSen release archive.</string>
+  <string name="ss_extract_error_incomplete">The archive is incomplete. Some split parts are missing.</string>
+  <string name="ss_extract_error_failed">Extraction failed. The archive may be damaged.</string>
+  <!-- TODO translate -->
+  <string name="subsystem_exit_hold">Select + Start game-exit hold</string>
+  <string name="subsystem_exit_hold_note">Applies next Linux launch. Hold Select + Start for eight seconds to return to Android, or Fn + Start for two seconds in an emergency.</string>
+  <string name="subsystem_exit_hold_default">1.2 seconds (default)</string>
+  <string name="subsystem_exit_hold_two">2 seconds</string>
+  <string name="subsystem_exit_hold_three">3 seconds</string>
+  <!-- TODO translate -->
+  <string name="subsystem_exit_hold_four">4 seconds</string>
+  <string name="subsystem_exit_hold_five">5 seconds</string>
+  <string name="subsystem_exit_hold_six">6 seconds</string>
 </resources>

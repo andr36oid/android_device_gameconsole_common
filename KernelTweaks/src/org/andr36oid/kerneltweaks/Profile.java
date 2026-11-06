@@ -65,7 +65,7 @@ final class Profile {
         return out;
     }
 
-    private static boolean allowed(Tweak t, String value) {
+    static boolean allowed(Tweak t, String value) {
         if (t.kind == Tweak.AXES) return value.matches("[01](\\s+[01]){3}");
         if (t.kind == Tweak.STICKS) return Tweaks.sticks(value) != null;
         return Arrays.asList(t.values).contains(value);

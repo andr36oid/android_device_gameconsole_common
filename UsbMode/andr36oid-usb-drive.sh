@@ -31,12 +31,15 @@ put() {
 	[ -z "${STATE:-}" ] || printf 'write failed: %s%s\n' "$1" "${err:+: $err}" >"$STATE/step-detail" 2>/dev/null || true
 	return 1
 }
-# f_midi registers its ALSA card under a fixed name ("f_midi"), so only one midi
-# function can exist at a time and the kernel frees the old card asynchronously. A
-# midi.pads removed at the end of one session can leave this node around for a
-# moment; creating midi.pads again before it is gone fails with a sysfs "File
-# exists" (the "USB music never works after another mode" symptom). Wait for it.
-MIDI_STALE=/sys/devices/virtual/android_usb/android0/f_midi
+# f_midi registers its ALSA card (we name it "ar36midi") and the kernel frees the
+# old card asynchronously. A midi.pads removed at the end of one session can leave
+# the card around for a moment; creating midi.pads again before it is gone fails
+# with a sysfs "File exists" (the "USB music never works after another mode"
+# symptom). Wait for the card node itself. The old path here,
+# /sys/devices/virtual/android_usb/android0/f_midi, belongs to the legacy android
+# composite driver; this gadget is pure configfs so it never existed, which made
+# the wait return instantly and never actually wait.
+MIDI_STALE=/proc/asound/ar36midi
 wait_midi_clear() {
 	local n=0
 	while [ -e "$MIDI_STALE" ] && [ "$n" -lt 30 ]; do
@@ -664,9 +667,12 @@ configure_controller() {
 	fi
 	if has_function 1024; then
 		mkfun "$G/functions/uac2.speaker" || return 1
-		# USB OUT -> gadget capture; optional USB IN uses gadget playback.
+		# USB OUT -> gadget capture; optional USB IN uses gadget playback. The soundboard
+		# (131072) and audio-in (524288) modes both add the USB IN / gadget playback stream
+		# the host records as a microphone; they reuse this one uac2 node so teardown stays
+		# the single known path. The source differs (pad mixer vs RK817 ADC, in the daemon).
 		put "$G/functions/uac2.speaker/p_chmask" 0 || return 1
-		if has_function 131072; then
+		if has_function 131072 || has_function 524288; then
 			put "$G/functions/uac2.speaker/p_chmask" 3 || return 1
 			put "$G/functions/uac2.speaker/p_srate" 48000 || return 1
 			put "$G/functions/uac2.speaker/p_ssize" 2 || return 1
@@ -787,9 +793,24 @@ close_controller() {
 			ndc network interface remove local "$(cat "$G/functions/$function/ifname")" >/dev/null 2>&1 || :
 		fi
 	done
+	# Best effort, like clear_stale_functions: a function whose kernel resource is
+	# still freeing (uac2's ALSA card, an ncm/rndis netdev) can refuse to rmdir with
+	# EBUSY for a moment. Do NOT fail teardown over it -- failing here skips
+	# restore_android in cleanup and leaves USB (adb/MTP) dead until a reboot. Give
+	# the slow ones a few tries; the next session's clear_stale_functions sweeps
+	# anything still left behind.
 	for function in ffs.flipper ffs.xinput hid.andr36oid hid.keyboard hid.mouse hid.media midi.pads acm.echo uac2.speaker ncm.link rndis.link; do
-		[ ! -d "$G/functions/$function" ] || rmdir "$G/functions/$function" || return 1
+		[ -d "$G/functions/$function" ] || continue
+		n=0
+		while [ -d "$G/functions/$function" ] && [ "$n" -lt 20 ]; do
+			rmdir "$G/functions/$function" 2>/dev/null && break
+			sleep 0.1; n=$((n + 1))
+		done
 	done
+	# midi.pads' card frees asynchronously; make sure it is gone before returning so
+	# the next configure can recreate midi.pads without racing it.
+	wait_midi_clear
+	return 0
 }
 
 gate_android() {
@@ -975,11 +996,16 @@ cleanup() {
 	# Flush accepted writes before relocking, even after a failed detach.
 	if [ -d "$F" ] || [ -f "$STATE/storage" ]; then step sync || cleanup_ok=0; fi
 	step relock_emmc || cleanup_ok=0
-	# Keep the journal and ownership if backing files might still be open.
-	[ "$closed" = 1 ] || return 1
+	# Re-attach Android's own USB config no matter what close_drive did: this is the
+	# step that rebinds the UDC and brings data/adb/MTP back. Skipping it (e.g. a
+	# controller/audio function that was slow to free made close_drive return
+	# non-zero) is what left USB dead until a reboot.
 	if [ -e "$STATE/owned" ]; then
 		step restore_android || cleanup_ok=0
 	fi
+	# Keep the storage journal and ownership if backing files might still be open
+	# after a failed detach, so the next boot can recover them.
+	[ "$closed" = 1 ] || return 1
 	step restore_storage || cleanup_ok=0
 	rm -f "$STATE/storage"
 	[ "$cleanup_ok" = 1 ]

@@ -87,6 +87,22 @@ on property:sys.andr36oid.subsystem.request=optimize
     setprop sys.andr36oid.subsystem.request ""
     start andr36oid-subsystem-optimize
 
+# Unpack a copied dArkOSen release archive (.7z / split .7z.001 / .zip) into
+# darkosen.img, for people who copied the release without extracting it first.
+service andr36oid-subsystem-unpack /system/bin/sh /system/etc/andr36oid-subsystem.sh unpack-prop
+    class late_start
+    user root
+    group root system mount
+    seclabel u:r:shell:s0
+    disabled
+    oneshot
+
+on property:sys.andr36oid.subsystem.request=unpack
+    setprop sys.andr36oid.subsystem.unp_dispatch_job ${sys.andr36oid.subsystem.unp_request_id:-invalid}
+    setprop sys.andr36oid.subsystem.unp_dispatch_source ${sys.andr36oid.subsystem.unp_source:-invalid}
+    setprop sys.andr36oid.subsystem.request ""
+    start andr36oid-subsystem-unpack
+
 service andr36oid-subsystem-select /system/bin/sh /system/etc/andr36oid-subsystem.sh select-prop
     class late_start
     user root

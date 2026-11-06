@@ -23,7 +23,8 @@
   <string name="asl_sync">Mit Android synchronisieren</string>
   <string name="asl_mute">Linux-Audio stummschalten</string>
   <string name="asl_hotkeys">Tastenkombinationen zum Beenden</string>
-  <string name="asl_hotkey_help">Halte Select + Start, um ein Spiel zu beenden. Halte sie bei einem Hänger vier Sekunden lang, um zu Android zurückzukehren. Fn + Start für zwei Sekunden führt ebenfalls zurück zu Android.</string>
+  <!-- TODO translate: review updated eight-second Android return. -->
+  <string name="asl_hotkey_help">Halte Select + Start, um ein Spiel zu beenden. Halte sie bei einem Hänger acht Sekunden lang, um zu Android zurückzukehren. Fn + Start für zwei Sekunden führt ebenfalls zurück zu Android.</string>
   <string name="asl_ready">Bereit</string>
   <string name="asl_scan">Images aktualisieren</string>
   <string name="asl_health_body">Status: %1$s\nImageprüfung: %2$s\nVorgang: %3$s\n\n%4$s</string>

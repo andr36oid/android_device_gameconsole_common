@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:key="limits" android:title="@string/perf_cat_limits">
+        <ListPreference
+            android:key="cpu_cap"
+            android:persistent="false"
+            android:title="@string/cpu_cap_title" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:key="overclock" android:title="@string/overclock_category">
+        <SwitchPreference
+            android:key="enabled"
+            android:persistent="false"
+            android:title="@string/overclock_switch" />
+        <ListPreference
+            android:key="speed"
+            android:persistent="false"
+            android:title="@string/overclock_speed" />
+        <Preference
+            android:key="about"
+            android:selectable="false"
+            android:summary="@string/overclock_about" />
+    </PreferenceCategory>
+
+    <!-- Removed when the kernel lists no GPU or memory overclock speeds -->
+    <PreferenceCategory android:key="gpu_ram_category" android:title="@string/gpu_ram_category">
+        <SwitchPreference
+            android:key="gpu_oc"
+            android:persistent="false"
+            android:title="@string/gpu_oc_title" />
+        <ListPreference
+            android:key="ram_oc"
+            android:persistent="false"
+            android:title="@string/ram_oc_title" />
+        <Preference
+            android:key="gpu_ram_about"
+            android:selectable="false"
+            android:summary="@string/gpu_ram_about" />
+    </PreferenceCategory>
+
+    <!-- Removed when the kernel has no undervolt parameter -->
+    <PreferenceCategory android:key="undervolt_category" android:title="@string/undervolt_category">
+        <ListPreference
+            android:key="undervolt"
+            android:persistent="false"
+            android:title="@string/undervolt_title" />
+        <Preference
+            android:key="undervolt_about"
+            android:selectable="false"
+            android:summary="@string/undervolt_about" />
+    </PreferenceCategory>
+</PreferenceScreen>

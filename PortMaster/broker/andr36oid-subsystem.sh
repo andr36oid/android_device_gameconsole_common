@@ -86,6 +86,13 @@ forget_mount() {
     mv -f "$STATE/session.mounts.tmp" "$STATE/session.mounts" && "$SUPPORT" fsync "$STATE"
 }
 bind_mount() { mount -o bind "$1" "$2" && track_mount "$2"; }
+
+# True if the top mount at a path carries noexec in /proc/mounts. Mount points
+# here are space-free under $ROOT, so a plain field match is safe; the last
+# matching line wins (the topmost mount after a remount,exec,bind).
+mount_is_noexec() {
+  awk -v mp="$1" '$2==mp{o=$4} END{exit (o ~ /(^|,)noexec(,|$)/)?0:1}' /proc/mounts
+}
 detect_image() {
   [ -n "$IMAGE" ] && return 0
   local g
@@ -295,7 +302,10 @@ mount_storage() {
     [ -d "$src" ] || { log "internal games storage is unavailable"; return 1; }
   fi
   bind_mount "$src" "$ROOT/roms" || return 1
-  mount -o remount,exec,bind "$ROOT/roms" 2>/dev/null
+  _rerr=$(mount -o remount,exec,bind "$ROOT/roms" 2>&1)
+  if mount_is_noexec "$ROOT/roms"; then
+    log "warning: /roms is noexec (exec remount failed: ${_rerr:-flag stuck, no error}); ports and Tools there may not launch, games still work"
+  fi
   log "storage: $src -> /roms"
   ROMS_SOURCE="$src"
   printf '%s\t%s\n' "$src" /roms >> "$STATE/roms-map" || return 1
@@ -308,6 +318,7 @@ mount_storage() {
     # bind the vold mount, then drop noexec for this view
     if bind_mount "$src" "$dst"; then
       mount -o remount,exec,bind "$dst" 2>/dev/null
+      mount_is_noexec "$dst" && log "warning: ${dst#"$ROOT"} is noexec; ports there may not launch"
       printf '%s\t%s\n' "$src" "${dst#"$ROOT"}" >> "$STATE/roms-map" || return 1
       log "storage: $src -> ${dst#"$ROOT"}"; n=$((n+1))
     fi
@@ -319,6 +330,26 @@ mount_storage() {
 # interrupted or failed merge leaves no stamp; the next launch retries safely.
 # Stage on the games filesystem as media_rw. Only completed files are renamed
 # into place; a retry discards an incomplete staging tree before starting again.
+# dArkOS/ArkOS surfaces the user tools (PortMaster, shader packs, theme tools) in
+# EmulationStation's Tools menu by reading /opt/system/Tools, which upstream fills
+# with a `/roms/tools -> /opt/system/Tools` bind from its live fstab. We launch ES
+# without systemd and blank the guest fstab, so that bind never happens and the
+# Tools menu - PortMaster included - comes up empty. Re-create it here, after the
+# games card (and its merged tools/) is bound at /roms. Best effort: a tools menu
+# that cannot be surfaced must never block the session.
+mount_tools_menu() {
+  [ -d "$ROOT/roms/tools" ] || return 0
+  mkdir -p "$ROOT/opt/system/Tools" 2>/dev/null || return 0
+  if bind_mount "$ROOT/roms/tools" "$ROOT/opt/system/Tools"; then
+    mount -o remount,exec,bind "$ROOT/opt/system/Tools" 2>/dev/null
+    mount_is_noexec "$ROOT/opt/system/Tools" && log "warning: Tools menu is noexec; tools may not launch from ES"
+    log "tools: /roms/tools -> /opt/system/Tools (PortMaster + tools in ES menu)"
+  else
+    log "could not surface /roms/tools in the Tools menu"
+  fi
+  return 0
+}
+
 provision_darkos() {
   [ -f "$ROOT/roms.tar" ] || return 0
   local key stamp
@@ -969,6 +1000,10 @@ recover_session_locked() {
   fi
   if [ "$CLEANUP_FAILED" = 0 ]; then
     setprop sys.andr36oid.subsystem.session ended 2>/dev/null
+    # A recovered (crashed/killed) session may have installed or removed ports
+    # before dying; we cannot know, so refresh Daijishou's library (idempotent).
+    setprop sys.andr36oid.ports_changed 1 2>/dev/null
+    setprop sys.andr36oid.subsystem_changed 1 2>/dev/null
   else
     setprop sys.andr36oid.subsystem.session cleanup_failed 2>/dev/null
     return 1
@@ -987,13 +1022,91 @@ stop_session() {
   recover_session "$pid"
 }
 
+# History is best effort and never owns session lifecycle. Three sessions of
+# three 64 KiB tails plus one staging copy stay below 1 MiB, including metadata.
+# A failed snapshot leaves active logs in append mode rather than erasing them.
+history_index() {
+  local h="$STATE/log-history" slot
+  (
+    printf 'version=1\ncurrent session.history subsystem.log boot.log session.out\n'
+    for slot in 1 2 3; do
+      [ -d "$h/$slot" ] || continue
+      printf 'previous %s %s/session.info %s/subsystem.log %s/boot.log %s/session.out\n' \
+        "$slot" "$slot" "$slot" "$slot" "$slot"
+      [ ! -f "$h/$slot/session.info" ] || tail -c 512 "$h/$slot/session.info"
+      printf '\n'
+    done
+  ) > "$h/index.tmp" && chmod 0644 "$h/index.tmp" && mv -f "$h/index.tmp" "$h/index.txt"
+}
+
+history_archive() {
+  (
+    local h="$STATE/log-history" file prior=0
+    [ ! -L "$h" ] || exit 1
+    mkdir -p "$h" && chmod 0755 "$STATE" "$h" || exit 1
+    # An interrupted unpublished snapshot is disposable; published slots survive.
+    rm -rf "$h/.pending" || exit 1
+    for file in subsystem.log boot.log session.out session.history; do
+      [ ! -f "$STATE/$file" ] || prior=1
+    done
+    if [ "$prior" = 0 ]; then history_index; exit $?; fi
+    mkdir "$h/.pending" || exit 1
+    trap 'rm -rf "$h/.pending"' EXIT
+    for file in subsystem.log boot.log session.out; do
+      if [ -f "$STATE/$file" ] && [ ! -L "$STATE/$file" ]; then
+        tail -c 65536 "$STATE/$file" > "$h/.pending/$file" || exit 1
+      fi
+    done
+    if [ -f "$STATE/session.history" ] && [ ! -L "$STATE/session.history" ]; then
+      tail -c 512 "$STATE/session.history" > "$h/.pending/session.info" || exit 1
+    else
+      printf 'start=unknown\nend=unknown\nresult=interrupted-or-legacy\n' > "$h/.pending/session.info" || exit 1
+    fi
+    chmod 0755 "$h/.pending" && chmod 0644 "$h/.pending/"* || exit 1
+    # Fixed slot names bound both completed and interrupted rotations. No copy
+    # grows with runtime; never read a FIFO, device, directory or symlink as a log.
+    rm -rf "$h/3" || exit 1
+    [ ! -d "$h/2" ] || mv "$h/2" "$h/3" || exit 1
+    [ ! -d "$h/1" ] || mv "$h/1" "$h/2" || exit 1
+    mv "$h/.pending" "$h/1" || exit 1
+    history_index || exit 1
+  )
+}
+
+history_begin() {
+  ROTATE_LOGS=0; HISTORY_RECORD=0
+  if history_archive 2>/dev/null; then
+    ROTATE_LOGS=1
+    HISTORY_START=$(date -u '+%Y-%m-%dT%H:%M:%SZ')
+    if printf 'start=%s\nend=unknown\nresult=interrupted\n' "$HISTORY_START" > "$STATE/session.history.tmp" &&
+       chmod 0644 "$STATE/session.history.tmp" && mv -f "$STATE/session.history.tmp" "$STATE/session.history"; then
+      HISTORY_RECORD=1
+    fi
+  else
+    log 'history snapshot unavailable; preserving active logs in append mode'
+  fi
+  return 0
+}
+
+history_finish() {
+  [ "${HISTORY_RECORD:-0}" = 1 ] || return 0
+  printf 'start=%s\nend=%s\nresult=rc:%s\n' "$HISTORY_START" \
+    "$(date -u '+%Y-%m-%dT%H:%M:%SZ')" "$1" > "$STATE/session.history.tmp" &&
+    chmod 0644 "$STATE/session.history.tmp" && mv -f "$STATE/session.history.tmp" "$STATE/session.history"
+  return 0
+}
+
 # FIFO + a separately waited tee preserves the payload exit code (a shell
 # pipeline would report tee's status). Preparation, init, descendants and cleanup
 # all use the same stream; the app may open/tail boot.log as soon as running=1.
 start_live_log() {
   chmod 0755 "$STATE"
-  : > "$STATE/boot.log"; chmod 0644 "$STATE/boot.log"
-  : > "$SESSION_OUT"
+  if [ "${ROTATE_LOGS:-1}" = 1 ]; then
+    : > "$STATE/boot.log"
+    : > "$SESSION_OUT"
+  fi
+  touch "$STATE/boot.log" "$SESSION_OUT"
+  chmod 0644 "$STATE/boot.log" "$SESSION_OUT"
   rm -f "$STATE/session.fifo"
   mkfifo -m 0600 "$STATE/session.fifo" || return 1
   tee -a "$STATE/boot.log" < "$STATE/session.fifo" >> "$SESSION_OUT" & TEE_PID=$!
@@ -1008,8 +1121,15 @@ finish_session() {
   setprop sys.andr36oid.subsystem.provisioning "" 2>/dev/null
   restore_android
   [ "$CLEANUP_FAILED" = 0 ] || rc=1
-  [ "${IS_PM:-0}" = 1 ] && setprop sys.andr36oid.ports_changed 1 2>/dev/null
-  setprop sys.andr36oid.subsystem_changed 1 2>/dev/null
+  # Any session that reached a running frontend (ES, a port, PortMaster or a tool)
+  # may have installed or removed ports via PortMaster - now reachable from the ES
+  # Tools menu too - so refresh Daijishou's Ports library; the reconcile is a no-op
+  # when unchanged. Scoped to PORTS_MAYBE_CHANGED so an early mount failure, a
+  # RetroArch-core launch or a setup-only run does not trigger spurious churn.
+  if [ "${PORTS_MAYBE_CHANGED:-0}" = 1 ]; then
+    setprop sys.andr36oid.ports_changed 1 2>/dev/null
+    setprop sys.andr36oid.subsystem_changed 1 2>/dev/null
+  fi
   : > "$STATE/subsystem.clean"
   [ -n "${GUARD:-}" ] && kill "$GUARD" 2>/dev/null
   [ -n "${CONSOLE_FWD:-}" ] && kill "$CONSOLE_FWD" 2>/dev/null
@@ -1017,7 +1137,16 @@ finish_session() {
   if [ "${LIVE_LOG:-0}" = 1 ]; then
     LIVE_LOG=0
     exec 1>&3 2>&4 3>&- 4>&-
-    wait "$TEE_PID"
+    # Bound the log drain. A guest stuck in D-state can keep session.fifo open
+    # past kill_subsystem; an unbounded wait here would hang finish_session
+    # forever, leaving session.lock and the operation flock held and refusing
+    # ALL future subsystem launches until reboot. Android is already restored
+    # by this point and the log is best-effort, so cap the wait.
+    ( sleep 5; kill "$TEE_PID" 2>/dev/null ) &
+    _tee_wd=$!
+    wait "$TEE_PID" 2>/dev/null
+    kill "$_tee_wd" 2>/dev/null
+    wait "$_tee_wd" 2>/dev/null
   fi
   setprop sys.andr36oid.subsystem.boot_pending "" 2>/dev/null
   update_settings_entry org.andr36oid.syncsettings
@@ -1030,6 +1159,8 @@ finish_session() {
   else
     setprop sys.andr36oid.subsystem.session cleanup_failed 2>/dev/null
   fi
+  # Restoration and operation status must succeed even if history storage fails.
+  history_finish "$rc" 2>/dev/null || :
   operation_done "$rc"
   release_operation
   exit "$rc"
@@ -1686,42 +1817,119 @@ blank_session_backlight() {
     fi
   done < "$STATE/session.brightness"
 }
+capture_session_wake_sources() {
+  local phase=$1
+  # Read-only snapshots for IRQ deltas and active sources; never read the
+  # potentially blocking /sys/power/wakeup_count here.
+  cat /proc/interrupts 2>/dev/null > "$STATE/sleep.interrupts.$phase" || :
+  if ! cat /sys/kernel/debug/wakeup_sources 2>/dev/null > "$STATE/sleep.wakeup_sources.$phase"; then
+    cat /d/wakeup_sources 2>/dev/null > "$STATE/sleep.wakeup_sources.$phase" || :
+  fi
+}
+
 # A short power press (-> /run/.a36-session-sleep via the shim) is a real sleep,
 # not an exit. The guest cannot reach /sys/power/state (read-only bind); the
 # broker runs on Android as root and drives the same suspend-to-RAM the device
 # already wakes from on its power key. Blank the panel first so there is no
 # bright flash across the transition; the kernel freezer pauses the guest for us.
 do_session_sleep() {
-  rm -f "$ROOT/run/.a36-session-sleep"
-  local alarm=/sys/class/rtc/rtc0/wakealarm safety="${A36_SLEEP_SAFETY_SEC:-120}"
-  local error="$STATE/sleep.error" t0 t1 rc wake
-  case "$safety" in ''|*[!0-9]*) safety=120 ;; esac
-  [ "$safety" -gt 0 ] && [ "$safety" -le 3600 ] || safety=120
-  : > "$ROOT/run/.a36-sleeping" || return 1
-  blank_session_backlight 0
-  # Never enter real suspend without a recovery alarm. A wake by power key
-  # normally arrives first; cancel our safety alarm as soon as mem returns.
-  if printf '0\n' 2>"$error" > "$alarm" &&
-     printf '%s\n' "$(( $(date +%s) + safety ))" 2>>"$error" > "$alarm"; then
+  local sleep_worker saved_traps sleep_rc
+  saved_traps=$(trap)
+  # Isolate cleanup traps in a worker, with the watcher forwarding termination
+  # and waiting for restoration before it exits.
+  (
+    rm -f "$ROOT/run/.a36-session-sleep"
+    local error="$STATE/sleep.error" t0 t1 elapsed rc wake
+    local wake_mask_node=/sys/module/rockchip_pm_config/parameters/sleep_wakeup
+    local wake_mask_saved= current digits masked actual rest supply powered=0
+    : > "$ROOT/run/.a36-sleeping" || return 1
+    trap '
+      rc=$?
+      if [ -n "$wake_mask_saved" ]; then
+        if printf "%s\n" "$wake_mask_saved" > "$wake_mask_node" &&
+           read -r actual rest < "$wake_mask_node" && [ "$actual" = "$wake_mask_saved" ]; then
+          log "sleep: restored sleep_wakeup=$wake_mask_saved"
+        else
+          rc=1
+          log "sleep: ERROR restoring sleep_wakeup=$wake_mask_saved"
+        fi
+      fi
+      rm -f "$ROOT/run/.a36-sleeping"
+      blank_session_backlight 1
+      exit "$rc"
+    ' EXIT
+    trap 'exit 1' HUP INT TERM
+    blank_session_backlight 0
+    for supply in /sys/class/power_supply/ac /sys/class/power_supply/usb; do
+      if [ "$(cat "$supply/online" 2>/dev/null)" = 1 ] ||
+         grep -q '^POWER_SUPPLY_ONLINE=1$' "$supply/uevent" 2>/dev/null; then
+        powered=1
+        break
+      fi
+    done
+    if [ "$powered" = 1 ]; then
+      # PX30 USB_WKUP_EN is bit 7, also exposed by DeepSleepFragment. Do not
+      # disable GPIO/PMIC wake: the power key shares the PMIC's parent IRQ.
+      # The getter includes "default ..."; only its first token is writable.
+      if ! read -r current rest 2>/dev/null < "$wake_mask_node"; then
+        log "sleep: cannot read USB wake policy while externally powered; refusing suspend"
+        exit 1
+      fi
+      case "$current" in 0x*) digits=${current#0x} ;; *) digits= ;; esac
+      case "$digits" in ''|*[!0-9a-fA-F]*)
+        log "sleep: invalid sleep_wakeup=$current; refusing suspend"
+        exit 1 ;;
+      esac
+      [ "${#digits}" -le 8 ] || { log "sleep: oversized sleep_wakeup; refusing suspend"; exit 1; }
+      if [ "$((current & 128))" != 0 ]; then
+        masked=$(printf '0x%x' "$((current & ~128))")
+        # Save before attempting the write so a failed/partial change is undone.
+        wake_mask_saved=$current
+        if ! printf '%s\n' "$masked" 2>"$error" > "$wake_mask_node" ||
+           ! read -r actual rest 2>>"$error" < "$wake_mask_node" ||
+           [ "$actual" != "$masked" ]; then
+          log "sleep: could not mask USB wake; refusing suspend: $(cat "$error" 2>/dev/null)"
+          exit 1
+        fi
+        log "sleep: external power; masked USB wake sleep_wakeup=$current->$masked (power-key wake retained)"
+      else
+        log "sleep: external power; USB wake already disabled (sleep_wakeup=$current)"
+      fi
+    fi
+    # A future RTC alarm wakes healthy suspend and cannot rescue the clone's
+    # deep-sleep wake hang (which needs reset/power-off). Leave alarms untouched;
+    # detect an immediate return without scheduling a wake or retrying suspend.
     # Let the requesting press/release settle. Do not read wakeup_count here:
     # its blocking read can wait indefinitely while a wake source stays active.
     sleep 1
+    log "sleep: suspending SoC (no RTC safety alarm)"
+    capture_session_wake_sources before
+    # Wall time advances during suspend, unlike CLOCK_MONOTONIC on Linux.
     t0=$(date +%s)
-    log "sleep: suspending SoC (RTC safety ${safety}s)"
     if printf 'mem\n' 2>"$error" > /sys/power/state; then
       t1=$(date +%s)
+      elapsed=$((t1-t0))
       wake=$(cat /sys/kernel/wakeup_reasons/last_resume_reason 2>/dev/null) || wake=unknown
-      log "sleep: mem returned successfully after $((t1-t0))s; wake=$wake"
+      [ -n "$wake" ] || wake=unknown
+      if [ "$elapsed" -lt 3 ]; then
+        # A quick intentional wake is indistinguishable from an abort here.
+        # Both recover the panel and guardian below; never auto-retry.
+        log "sleep: mem returned after ${elapsed}s (instant abort or early wake); wake=$wake"
+      else
+        log "sleep: mem returned successfully after ${elapsed}s; wake=$wake"
+      fi
     else
       rc=$?
       log "sleep: mem failed rc=$rc: $(cat "$error" 2>/dev/null)"
     fi
-  else
-    log "sleep: RTC safety alarm failed; refusing suspend: $(cat "$error" 2>/dev/null)"
-  fi
-  printf '0\n' 2>>"$error" > "$alarm" || log "sleep: could not cancel RTC safety alarm"
-  rm -f "$ROOT/run/.a36-sleeping"
-  blank_session_backlight 1
+    capture_session_wake_sources after
+  ) &
+  sleep_worker=$!
+  trap 'kill -TERM "$sleep_worker" 2>/dev/null || :; wait "$sleep_worker" 2>/dev/null || :; exit 1' HUP INT TERM
+  if wait "$sleep_worker"; then sleep_rc=0; else sleep_rc=$?; fi
+  trap - HUP INT TERM
+  eval "$saved_traps"
+  return "$sleep_rc"
 }
 
 # A marker must interrupt the foreground payload, including a standalone port or
@@ -1739,6 +1947,7 @@ watch_session_markers() {
     fi
     # Real sleep: suspend the SoC, hold the session. The debounce swallows the
     # wake press so the guest's power handler cannot immediately re-sleep.
+    # The 30 ticks below are about 3 seconds at this loop's 0.1s interval.
     if [ "$sleep_cooldown" -gt 0 ]; then
       sleep_cooldown=$((sleep_cooldown-1))
       [ ! -f "$ROOT/run/.a36-session-sleep" ] || rm -f "$ROOT/run/.a36-session-sleep"
@@ -1943,21 +2152,40 @@ resolve_retroarch_target() {
 }
 
 resolve_run_target() {
-  local c
+  local c resolved
   if [ -n "${RA_REQUEST:-}" ]; then resolve_retroarch_target; return $?; fi
   if [ "${IS_PM:-0}" = 1 ]; then
     for c in /roms/tools/PortMaster.sh /roms/tools/PortMaster/PortMaster.sh /usr/bin/portmaster; do
       root_file "$ROOT" "$c" && { arg="$c"; break; }
     done
+  elif [ "${IS_TOOL:-0}" != 1 ]; then
+    # Daijishou strips the .sh from port names; resolve it after binding the card.
+    # Tools (TOOL: namespace) and PortMaster carry their exact target already and
+    # are resolved only where they live - never falling back to /roms/ports.
+    if ! root_file "$ROOT" "$arg" && root_file "$ROOT" "$arg.sh"; then arg="$arg.sh"; fi
   fi
-  # Daijisho strips the .sh from names; resolve it after binding the games card.
-  if ! root_file "$ROOT" "$arg" && root_file "$ROOT" "$arg.sh"; then arg="$arg.sh"; fi
   root_file "$ROOT" "$arg" || { log "launch target missing: $arg"; return 1; }
+  # Confine card-sourced targets to their directory even after symlink/.. resolution,
+  # mirroring the RetroArch ROM/core guard: a value from a property plus the
+  # user-writable games card must not resolve out of /roms/tools or /roms/ports.
+  if [ -n "${CONFINE:-}" ]; then
+    resolved=$(root_path "$ROOT" "$arg") || { log "cannot resolve launch target: $arg"; return 1; }
+    case "$resolved" in "$ROOT$CONFINE"/*) ;; *) log "launch target escapes $CONFINE: $arg"; return 1 ;; esac
+  fi
+}
+
+# Freeze the validated game-exit policy for the next guest invocation. Values
+# stay below the independent four-second return and never affect Fn emergency.
+prepare_exit_hold_policy() {
+  A36_EXIT_HOLD_MS=$(getprop persist.andr36oid.subsystem.exit_hold_ms)
+  case "$A36_EXIT_HOLD_MS" in 1200|2000|3000|4000|5000|6000) ;; *) A36_EXIT_HOLD_MS=1200 ;; esac
+  export A36_EXIT_HOLD_MS
 }
 
 run_session() {
   case "$cmd" in
     start)
+      PORTS_MAYBE_CHANGED=1
       if [ "$HANDOFF" = 0 ] && has_init "$ROOT"; then
         run_session_payload boot_subsystem_session
       elif ! find_es "$ROOT"; then
@@ -1979,6 +2207,7 @@ run_session() {
         run_session_payload run_in_subsystem "$arg" -L "$RA_LIBRARY" "$RA_ROM"
         return $?
       fi
+      PORTS_MAYBE_CHANGED=1
       log "launch port $arg (log -> $SESSION_OUT)"
       run_session_payload run_in_subsystem /bin/sh -c '
         cd "$(dirname "$1")" || exit 1
@@ -2023,6 +2252,17 @@ case "$cmd" in
     valid_job "$job" && valid_id "$pinned" || exit 2
     exec "$SUPPORT" namespace /system/bin/sh "$0" optimize-worker "$job" "$pinned" ;;
   optimize-worker) optimize_worker "$arg" "${3:-}"; exit 0 ;;
+  unpack-prop)
+    job=$(prop unp_dispatch_job); src=$(prop unp_dispatch_source)
+    valid_job "$job" || exit 2
+    case "$src" in ''|*/*|.*) exit 2 ;; esac
+    primary=
+    for d in /mnt/media_rw/*/subsystem/darkosen; do
+      [ -f "$d/$src" ] && { primary="$d/$src"; break; }
+    done
+    [ -n "$primary" ] || { publish opt_error selected_missing; publish opt_state failed; operation_done failed; exit 1; }
+    unpack_worker "$job" "$primary"; exit 0 ;;
+  unpack-worker) unpack_worker "$arg" "${3:-}"; exit 0 ;;
   boot-decision) boot_decision; exit 0 ;;
   scan-prop)
     [ "$(getprop sys.andr36oid.subsystem.request)" = scan ] && setprop sys.andr36oid.subsystem.request ""
@@ -2047,8 +2287,17 @@ case "$cmd" in
       RACORE:*) cmd=run; arg=/opt/retroarch/bin/retroarch; RA_REQUEST=${want#RACORE:}; RA_REQUEST=${RA_REQUEST:-invalid} ;;
       INIT) cmd=start; SESSION_MODE=systemd ;;
       PM) cmd=run; arg=/roms/tools/PortMaster.sh; IS_PM=1 ;;
+      TOOL:*)
+        cmd=run; rel=${want#TOOL:}
+        case "/$rel/" in *'/../'*|*'/./'*|*'//'*) log "rejected unsafe tool name: $rel"; exit 2 ;; esac
+        case "$rel" in
+          PortMaster|PortMaster.sh) arg=/roms/tools/PortMaster.sh; IS_PM=1 ;;
+          *) arg="/roms/tools/$rel"; IS_TOOL=1; CONFINE=/roms/tools ;;
+        esac ;;
       /*) cmd=run; arg="$want" ;;
-      *) cmd=run; arg="/roms/ports/$want" ;;
+      *)
+        case "/$want/" in *'/../'*|*'/./'*|*'//'*) log "rejected unsafe port name: $want"; exit 2 ;; esac
+        cmd=run; arg="/roms/ports/$want"; CONFINE=/roms/ports ;;
     esac ;;
   start|run|setup) : ;;
   *) echo "usage: $0 start | run <port.sh> | stop | scan | boot-decision" >&2; exit 2 ;;
@@ -2057,10 +2306,12 @@ esac
 acquire_operation run || { log "another storage operation is running"; exit 1; }
 if ! mkdir "$STATE/session.lock" 2>/dev/null; then
   if session_active || [ ! -f "$STATE/session.lock/pid" ]; then
-    log "session already running/preparing; ignoring launch"; exit 1
+    # These exits are before the EXIT trap is installed, so clear the operation
+    # prop we just published or a stale "storage busy" sticks until the next op.
+    log "session already running/preparing; ignoring launch"; release_operation; exit 1
   fi
   recover_session "$(cat "$STATE/session.lock/pid")"
-  mkdir "$STATE/session.lock" 2>/dev/null || exit 1
+  mkdir "$STATE/session.lock" 2>/dev/null || { release_operation; exit 1; }
 fi
 printf '%s\n' "$$" > "$STATE/session.lock/pid"
 cat /proc/sys/kernel/random/boot_id > "$STATE/session.lock/boot_id"
@@ -2071,7 +2322,9 @@ trap 'finish_session $?' EXIT
 trap 'exit 130' INT
 trap 'exit 143' TERM
 trap 'exit 129' HUP
-: > "$LOG"
+history_begin
+if [ "$ROTATE_LOGS" = 1 ]; then : > "$LOG"; fi
+chmod 0644 "$LOG" 2>/dev/null
 SESSION_OUT="$STATE/session.out"
 start_live_log || exit 1
 setprop sys.andr36oid.subsystem.provisioning "" 2>/dev/null
@@ -2090,6 +2343,7 @@ if find_es "$ROOT"; then prime_native_input || exit 1; fi
 bind_core || { log "core mounts failed"; exit 1; }
 mount_storage || { log "games storage preparation failed"; exit 1; }
 provision_darkos || exit 1
+mount_tools_menu
 publish_setup_complete || exit 1
 [ "$cmd" != setup ] || exit 0
 eligible_rootfs "$ROOT" || { log "rootfs has no init or launch target"; exit 1; }
@@ -2107,6 +2361,7 @@ if [ "$HANDOFF" = 1 ]; then handoff || exit 1; else log "no handoff: Android sta
 start_audio_route_guard || exit 1
 start_mute_guard || exit 1
 # Wait on a child so TERM interrupts wait immediately, including while init runs.
+prepare_exit_hold_policy
 run_session & SESSION_PID=$!
 mark_frontend_booted
 wait "$SESSION_PID"; session_rc=$?

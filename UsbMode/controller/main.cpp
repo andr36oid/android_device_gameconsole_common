@@ -773,7 +773,7 @@ int main(int argc, char** argv) {
     if (argc == 2 && std::string(argv[1]) == "--reasons") {
         std::string line;
         while (std::getline(std::cin, line)) {
-            if (line.empty() || line.size() > 6 || line.find_first_not_of("0123456789") != std::string::npos) return 2;
+            if (line.empty() || line.size() > 7 || line.find_first_not_of("0123456789") != std::string::npos) return 2;
             const unsigned mask = parseFunctions(line);
             const auto p = policy(mask);
             if (printf("%u %s %u %u %u\n", mask, p.reason, p.in, p.out, p.product) < 0) return 1;

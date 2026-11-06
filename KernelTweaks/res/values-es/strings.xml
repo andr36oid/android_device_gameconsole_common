@@ -392,4 +392,9 @@
     <string name="kt_stick_sens_right_title">Stick derecho</string>
     <string name="kt_stick_sens_what">Reduce el desplazamiento que indica un stick al llevarlo al tope, por separado para cada lado. El 100% es lo normal; un valor menor reduce el movimiento incluso al llevarlo al tope.</string>
     <string name="kt_stick_sens_why">Para clones con sticks desiguales o demasiado sensibles. Reduce un lado para que ambos respondan igual, o para apuntar con más calma. Comprueba el resultado en la prueba del mando.</string>
+    <string name="kt_profile_select_about">Elige los ajustes modificados que quieres importar. Los ajustes no seleccionados conservan sus valores guardados. Solo cambios seguros selecciona únicamente los ajustes ya clasificados como seguros; las advertencias del modelo siguen aplicándose.</string>
+    <string name="kt_profile_safe_only">Solo cambios seguros</string>
+    <string name="kt_profile_none_selected">No se han seleccionado ajustes modificados. No se escribirá nada.</string>
+    <string name="kt_profile_select_ready">Solo se importarán los ajustes marcados.</string>
+    <string name="kt_profile_dependency">Esta selección usaría almacenamiento FUSE con el controlador FUSE desactivado. Selecciona una combinación compatible de almacenamiento y controlador, o desmarca esos cambios.</string>
 </resources>

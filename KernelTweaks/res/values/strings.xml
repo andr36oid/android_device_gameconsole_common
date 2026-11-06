@@ -396,4 +396,10 @@
     <string name="kt_crash_split_balanced">Balanced</string>
     <string name="kt_crash_split_kernel">More kernel log</string>
     <string name="kt_crash_split_android">More Android log</string>
+    <!-- TODO translate -->
+    <string name="kt_profile_select_about">Choose the changed tweaks to import. Unchecked tweaks keep their saved values. Safe changes only selects tweaks already rated Safe; model warnings still apply.</string>
+    <string name="kt_profile_safe_only">Safe changes only</string>
+    <string name="kt_profile_none_selected">No changed tweaks selected. Nothing will be written.</string>
+    <string name="kt_profile_select_ready">Only the checked tweaks will be imported.</string>
+    <string name="kt_profile_dependency">This selection would use FUSE storage with the FUSE driver off. Select a compatible storage/driver combination or uncheck those changes.</string>
 </resources>

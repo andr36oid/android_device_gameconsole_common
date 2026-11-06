@@ -392,4 +392,9 @@
     <string name="kt_stick_sens_right_title">Analógico direito</string>
     <string name="kt_stick_sens_what">Reduz o deslocamento informado ao empurrar um analógico até o fim, separadamente para cada lado. 100% é o normal; um valor menor significa menos movimento mesmo no limite.</string>
     <string name="kt_stick_sens_why">Para clones com analógicos desiguais ou sensíveis demais. Reduza um dos lados para ambos responderem da mesma forma, ou para mirar com mais calma. Confira o resultado no teste do controle.</string>
+    <string name="kt_profile_select_about">Escolha os ajustes alterados para importar. Os ajustes não marcados mantêm os valores salvos. Somente alterações seguras seleciona apenas ajustes já classificados como Seguros; os avisos do modelo continuam valendo.</string>
+    <string name="kt_profile_safe_only">Somente alterações seguras</string>
+    <string name="kt_profile_none_selected">Nenhum ajuste alterado foi selecionado. Nada será gravado.</string>
+    <string name="kt_profile_select_ready">Somente os ajustes marcados serão importados.</string>
+    <string name="kt_profile_dependency">Esta seleção usaria armazenamento FUSE com o driver FUSE desativado. Escolha uma combinação compatível de armazenamento e driver ou desmarque essas alterações.</string>
 </resources>

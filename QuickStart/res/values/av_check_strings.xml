@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Setup A/V check (issue #5): stick-invert chips on the stick step and the new sound-check
+     step. New English strings; a later luna pass adds the other locales. -->
+<!-- TODO translate -->
+<resources>
+    <!-- Stick step: the invert / swap chips under the live dots -->
+    <string name="av_stick_hint">If a stick moves the wrong way, change it here:</string>
+    <string name="av_chip_invert_x">Flip left / right</string>
+    <string name="av_chip_invert_y">Flip up / down</string>
+    <string name="av_chip_swap">Swap the two sticks</string>
+    <!-- Shown under each chip\'s name as its state; "%1$s" is the chip name -->
+    <string name="av_chip_on">%1$s\nOn</string>
+    <string name="av_chip_off">%1$s\nOff</string>
+
+    <!-- Sound-check step -->
+    <string name="av_sound_title">Sound check</string>
+    <string name="av_sound_body">A short tune is playing on a loop. Do you hear the music?</string>
+    <string name="av_sound_playing">Music is playing…</string>
+    <string name="av_sound_opt_speaker">Yes – from the speaker</string>
+    <string name="av_sound_opt_hp">Yes – from headphones (plug in)</string>
+    <string name="av_sound_opt_none">No sound at all</string>
+    <string name="av_sound_skip">Skip this check</string>
+    <string name="av_sound_replay_hint">Y replays the tune</string>
+
+    <!-- Speaker: all good, nothing to change -->
+    <string name="av_sound_speaker_ok">Great – sound is working.</string>
+
+    <!-- Headphones -->
+    <string name="av_sound_hp_prompt">Plug in your headphones. Choose \"I hear it\" once the music comes through them.</string>
+    <string name="av_sound_hp_hear">I hear it</string>
+    <string name="av_sound_hp_still">Still no sound</string>
+    <string name="av_sound_hp_fixed">Switched how the headphone jack is read. Listen again.</string>
+    <string name="av_sound_hp_no_fix">This console has no headphone fix to try here.</string>
+
+    <!-- No sound at all -->
+    <string name="av_sound_force_applied">Turned on the speaker and headphones together. Can you hear the music now?</string>
+    <string name="av_sound_no_knob">This console has no audio fix to try here. Can you hear the music now?</string>
+    <string name="av_sound_hear_yes">Yes, I hear it</string>
+    <string name="av_sound_hear_no">Still nothing</string>
+    <string name="av_sound_left_default">Left the sound on its default. You can change it later in Settings › System › Kernel Tweaks.</string>
+</resources>

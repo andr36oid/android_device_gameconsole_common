@@ -11,6 +11,11 @@ public class UsbModeActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (UsbFunctionsActivity.isTilePreferences(getIntent())) {
+            startActivity(new android.content.Intent(this, UsbFunctionsActivity.class));
+            finish();
+            return;
+        }
         HintBar.attachDefault(this);
         final ActionBar actionBar = getActionBar();
         if (actionBar != null) actionBar.setDisplayHomeAsUpEnabled(true);

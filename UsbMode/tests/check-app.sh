@@ -14,7 +14,8 @@ mkdir -p "$T/hints/org/andr36oid/hints"
 COMPAT=${COMPAT:-$ANDROID/out/soong/.intermediates/external/setupcompat/setupcompat/android_common/package-res.apk}
 DESIGN=${DESIGN:-$ANDROID/out/soong/.intermediates/external/setupdesign/setupdesign/android_common/package-res.apk}
 "$AAPT2" compile --dir "$HERE/../SetupTheme/res" -o "$T/theme.zip"
-"$AAPT2" link --static-lib --no-static-lib-packages --auto-add-overlay -I "$COMPAT" -I "$DESIGN" -R "$T/theme.zip" -I "$RES" --manifest "$HERE/AndroidManifest.xml" --java "$T" \
+"$AAPT2" compile --dir "$HERE/../HintBar/res" -o "$T/hints.zip"
+"$AAPT2" link --static-lib --no-static-lib-packages --auto-add-overlay -I "$COMPAT" -I "$DESIGN" -R "$T/theme.zip" -R "$T/hints.zip" -I "$RES" --manifest "$HERE/AndroidManifest.xml" --java "$T" \
 	-o "$T/res.apk" "$T/resources.zip"
 # HintBar's resource IDs do not matter for a javac check.
 cat >"$T/hints/org/andr36oid/hints/R.java" <<'JAVA'

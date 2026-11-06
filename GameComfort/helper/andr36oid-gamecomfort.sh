@@ -5,7 +5,8 @@
 # runs as the system user, which can't read RetroArch's history and config or PPSSPP's
 # ppsspp.ini (they are on the internal storage and in RetroArch's private folder). This
 # only ever reads: it copies small text files for the app and tells times and sizes.
-# The app decides everything else.
+# The app decides everything else. The separate affinity mode below runs the
+# opt-in foreground CPU/IRQ placement worker, with its own root-only journal.
 #
 # The app writes $DIR/request and starts us with ctl.start. One TAB separated request
 # per line:
@@ -23,6 +24,12 @@
 # SD cards and USB drives (/mnt/media_rw) and RetroArch's own folder. Nothing with
 # "." or ".." in it. GAMECOMFORT_DIR and GAMECOMFORT_ROOT (put in front of every path
 # we look at) are for testing on a PC.
+
+if [ "${1:-}" = affinity ]; then
+    . "${GAMECOMFORT_AFFINITY_LIB:-/system/etc/andr36oid-game-affinity.sh}"
+    af_main
+    exit $?
+fi
 
 DIR=${GAMECOMFORT_DIR:-/data/misc/andr36oid-gamecomfort}
 ROOT=${GAMECOMFORT_ROOT:-}

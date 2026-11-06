@@ -151,4 +151,9 @@
     <string name="fn_replaced_button">„<xliff:g id="button">%1$s</xliff:g>“ ist jetzt FN. Es kann nur eine Taste FN sein, daher funktioniert „<xliff:g id="old_button">%2$s</xliff:g>“ wieder wie vorher.</string>
     <string name="fn_replaced_volume">„<xliff:g id="button">%1$s</xliff:g>“ ist jetzt FN und ersetzt die FN-Tastenkombination.</string>
     <string name="fn_cleared">„<xliff:g id="button">%1$s</xliff:g>“ ist nicht mehr FN.</string>
+    <string name="profile_import">Profile importieren…</string>
+    <string name="profile_export">Benannte Profile exportieren…</string>
+    <string name="profile_imported">Profile importiert. Wähle eines aus, um es zu verwenden. FN- und Rettungseinstellungen bleiben auf dieser Konsole.</string>
+    <string name="profile_exported">Benannte Profile exportiert. FN- und Rettungseinstellungen sind Konsoleneinstellungen und nicht enthalten.</string>
+    <string name="profile_document_failed">Profile konnten nicht gespeichert oder geladen werden. Prüfe die Datei, unterstützte Tasten, sichere Menüsteuerung und das Limit von 20 Profilen.</string>
 </resources>

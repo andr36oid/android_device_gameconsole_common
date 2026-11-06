@@ -1,32 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Settings > Display entry for the RGB LED of the R36 Ultra -->
-    <string name="rgb_title">RGB lights</string>
-    <string name="rgb_summary">Colour of the lights, or off</string>
-    <string name="rgb_colour_title">Colour</string>
-    <string name="rgb_about">The lights are off unless you pick a colour here. Your choice stays after a restart.</string>
-    <string name="rgb_missing">This console has no RGB lights</string>
+    <!-- Settings > Display entry + app label for the stick lights of the R36 Ultra -->
+    <string name="rgb_title">Stick lights</string>
+    <string name="rgb_summary">Colour for the lights around the sticks</string>
+    <string name="rgb_missing">This console has no stick lights</string>
 
-    <string-array name="rgb_colour_names">
-        <item>Off</item>
-        <item>Red</item>
-        <item>Green</item>
-        <item>Blue</item>
-        <item>Yellow</item>
-        <item>Cyan</item>
-        <item>Purple</item>
-        <item>White</item>
-    </string-array>
+    <!-- Preview ring captions -->
+    <string name="rgb_preview_left">Left</string>
+    <string name="rgb_preview_right">Right</string>
 
-    <!-- Must match the property triggers in init.rk30board.rc -->
-    <string-array name="rgb_colour_values" translatable="false">
-        <item>off</item>
-        <item>red</item>
-        <item>green</item>
-        <item>blue</item>
-        <item>yellow</item>
-        <item>cyan</item>
-        <item>purple</item>
-        <item>white</item>
-    </string-array>
+    <!-- Preset names. Index order matches the keros brightness value (0..9):
+         0 off, 1-7 steady colours, 8 breathing, 9 rainbow. -->
+    <string name="rgb_preset_off">Off</string>
+    <string name="rgb_preset_red">Red</string>
+    <string name="rgb_preset_amber">Amber</string>
+    <string name="rgb_preset_green">Green</string>
+    <string name="rgb_preset_teal">Teal</string>
+    <string name="rgb_preset_blue">Blue</string>
+    <string name="rgb_preset_pink">Pink</string>
+    <string name="rgb_preset_mint">Mint</string>
+    <string name="rgb_preset_breathing">Breathing</string>
+    <string name="rgb_preset_rainbow">Rainbow</string>
+
+    <!-- "Lights off" sleep-behaviour row: when the rings turn off. -->
+    <string name="rgb_sleep_label">Lights off</string>
+    <string name="rgb_sleep_screen">With screen</string>
+    <string name="rgb_sleep_deepsleep">At sleep</string>
+    <string name="rgb_sleep_never">Never</string>
 </resources>

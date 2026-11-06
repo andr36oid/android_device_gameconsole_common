@@ -100,4 +100,30 @@
     <string name="app_profiles_about">Varsayılan, uygulamanın Performans bölümünde seçilen profili kullanması demektir. Bazı emülatörler başlangıçta Performans, bazı uygulamalar ise Dengeli veya Pil tasarrufu kullanır. Hepsini buradan değiştirebilirsiniz.\n\nHızlı Ayarlar kutucuğu ve FN + R1, kendi profili olan uygulamalarda da çalışır. O zaman seçiminiz uygulamadan çıkana kadar geçerli olur.\n\nBu özellik açıkken küçük bir yardımcı hangi uygulamanın açık olduğunu izler. Özellik kapalıysa veya hiçbir uygulamanın kendi profili yoksa çalışmaz.</string>
     <string name="app_profile_until_left"><xliff:g id="app">%1$s</xliff:g> uygulamasından çıkana kadar</string>
     <string name="app_profile_tile"><xliff:g id="profile">%1$s</xliff:g>, <xliff:g id="app">%2$s</xliff:g></string>
+    <string name="game_turbo_title">Game Turbo (oyun oynarken maksimum saat hızları)</string>
+    <string name="game_turbo_summary">Bir oyun öndeyken stok CPU (1296 MHz), GPU (520 MHz) ve bellek saat hızlarını korur. Oyun oynarken daha fazla pil kullanır. Önceki sınırlar ve normal governor\'lar daha sonra geri yüklenir. Açıkça belirtilen uygulama profilleri önceliklidir. Hız aşırtmayı etkinleştirmez.</string>
+    <string name="game_affinity_title">Oyunu özel çekirdeklere sabitle</string>
+    <string name="game_affinity_summary">Deneysel: RetroArch veya PPSSPP\'yi 2–3. çekirdeklerde, arka plan işlerini ve seçilen cihaz kesmelerini 0–1. çekirdeklerde tutar, sonra geri yükler. Dört çekirdeğin tümü aynıdır; olası kazanç daha az çekişmeden kaynaklanır ve kesin değildir.</string>
+    <string name="perf_subtitle">Konsolunun oyunları çalıştırma şekli</string>
+    <string name="perf_hint">PS1, N64 ve PSP en iyi Performans modunda çalışır.</string>
+    <string name="perf_mode_saver_tag">Daha uzun pil ömrü. 8 ve 16 bit oyunlar için harika.</string>
+    <string name="perf_mode_balanced_tag">Yalnızca oyun ihtiyaç duyduğunda hızlanır.</string>
+    <string name="perf_mode_performance_tag">En akıcı seçenek; retro oyunlarda yüksek kare hızları için en iyisi. PS1, N64 ve PSP için. Biraz daha fazla ısınır.</string>
+    <string name="perf_card_on">\u2713 Açık</string>
+    <string name="perf_row_ingame_title">Oyun içi seçenekler</string>
+    <string name="perf_row_ingame_value">Oyun modu</string>
+    <string name="perf_row_perapp_title">Uygulama başına performans</string>
+    <string name="perf_row_advanced_title">Gelişmiş</string>
+    <string name="perf_row_advanced_value">Hız aşırtma, sınırlar</string>
+    <string name="perf_ingame_title">Oyun içi seçenekler</string>
+    <string name="perf_ingame_brightness_title">Oyunlarda ekran parlaklığı</string>
+    <string name="perf_ingame_brightness_summary">Oyunların kendi başına açabileceği bir parlaklık anahtarı</string>
+    <string name="perf_ingame_lowbatt_title">Düşük pil uyarısı</string>
+    <string name="perf_ingame_lowbatt_summary">Pil azalınca oyun içinde bir uyarı</string>
+    <string name="perf_ingame_continue_title">Son oyuna dön</string>
+    <string name="perf_ingame_continue_summary">Son oynadığın oyuna kısayol</string>
+    <string name="perf_advanced_note">İleri düzey kullanıcılar içindir. Varsayılanlar her konsol için güvenlidir.</string>
+    <string name="perf_cat_limits">Hız sınırı</string>
+    <string name="perf_status">Şu anda çalışıyor: CPU %1$s değerine kadar · %2$d°C</string>
+    <string name="perf_status_no_temp">Şu anda çalışıyor: CPU %1$s değerine kadar</string>
 </resources>

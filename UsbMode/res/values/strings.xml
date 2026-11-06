@@ -302,6 +302,12 @@
     <string name="usb_disc_failed">The image could not be changed. Check the file and card, then try again.</string>
     <string name="usb_floppy_summary">Put .img, .ima or .vfd floppy images in EASYROMS/isos: exactly 720 KB (737280 bytes), 1.44 MB (1474560) or 2.88 MB (2949120). They use a small removable USB disk and the read-only switch. Some BIOSes treat this as a floppy; it is not the USB floppy/UFI class and support varies.</string>
     <string name="usb_sound_mic">Live microphone (toggle): only enable if your console or attached headset has a microphone. Base models have none. Grant microphone access here before starting a session.</string>
+    <!-- TODO translate -->
+    <string name="usb_audioin_title">Audio in</string>
+    <!-- TODO translate -->
+    <string name="usb_audioin_toggle">Console audio to PC</string>
+    <!-- TODO translate -->
+    <string name="usb_audioin_toggle_summary">Capture the console\'s own sound at 48 kHz stereo and send it to the computer as a clean USB microphone, instead of recording the noisy headphone output. It shares the sound card\'s link to the computer, so it cannot run together with the soundboard microphone. Records through the codec\'s capture path. Works with the display off.</string>
     <string name="usb_webusb_title">Show a link in Chrome when connected</string>
     <string name="usb_webusb_summary">Show the andr36oid website on computers with WebUSB notifications.</string>
     <string name="usb_virtual_create">Create a disk image</string>
@@ -364,6 +370,8 @@
     <string name="usb_role_wired_summary">Wired network link to a computer.</string>
     <string name="usb_role_music_summary">MIDI drum pads for music apps.</string>
     <string name="usb_role_dac_summary">Play the computer\'s sound through this console as a USB speaker.</string>
+    <!-- TODO translate -->
+    <string name="usb_role_mic_summary">Send this console\'s own audio to the computer as a clean 48 kHz USB microphone.</string>
     <string name="usb_role_awake_summary">Nudge the mouse so a computer stays awake.</string>
     <string name="usb_role_macro_summary">Buttons send media and macro key combos.</string>
     <string name="usb_role_link_summary">Link two consoles over a USB cable.</string>
@@ -401,4 +409,8 @@
     <string name="usb_emulator_preparing_easyroms">Preparing EASYROMS… Apps using it may need time to close.</string>
     <string name="usb_emulator_stopping">Stopping USB Device Emulator…</string>
     <string name="usb_emulator_stop_wait">Waiting for storage to finish closing and return to Android.</string>
+    <!-- TODO translate -->
+    <string name="usb_functions_title">USB functions</string>
+    <string name="usb_functions_active">A USB session or storage operation is already active. Open it to check its status or stop it before choosing another function.</string>
+    <string name="usb_functions_open">Open current session</string>
 </resources>

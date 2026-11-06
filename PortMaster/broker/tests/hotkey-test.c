@@ -117,7 +117,8 @@ static void fn_regression(bool native) {
     assert(hotkey_tick(&keys,17000)==0);
     assert(hotkey_tick(&keys,18200)==HOTKEY_EXIT_GAME);
     assert(hotkey_tick(&keys,18201)==0);
-    assert(hotkey_tick(&keys,21000)==HOTKEY_RETURN_ANDROID);
+    assert(hotkey_tick(&keys,24999)==0);
+    assert(hotkey_tick(&keys,25000)==HOTKEY_RETURN_ANDROID);
 }
 static void boundary_regression(bool native) {
     unsigned fn=native?BTN_TRIGGER_HAPPY5:KEY_HOMEPAGE;
@@ -166,20 +167,73 @@ static void boundary_regression(bool native) {
             event(&keys,native,EV_KEY,start,0);
             event(&keys,native,EV_SYN,SYN_REPORT,0);
         } else assert(hotkey_sync(1,native,&keys));
-        long long base=100000+transition*10000;
+        long long base=100000+transition*20000;
         assert(hotkey_tick(&keys,base)==0);
         assert(hotkey_tick(&keys,base+1199)==0);
         assert(hotkey_tick(&keys,base+1200)==HOTKEY_EXIT_GAME);
         assert(hotkey_tick(&keys,base+1201)==0);
-        assert(hotkey_tick(&keys,base+3999)==0);
-        assert(hotkey_tick(&keys,base+4000)==HOTKEY_RETURN_ANDROID);
+        assert(hotkey_tick(&keys,base+7999)==0);
+        assert(hotkey_tick(&keys,base+8000)==HOTKEY_RETURN_ANDROID);
         // Release/repress before the next tick must reset the entire hold,
         // even if event timestamps have a very different numerical origin.
         frame(&keys,native,start,0,1700000000000LL);
         frame(&keys,native,start,1,1700000000001LL);
-        assert(hotkey_tick(&keys,base+5000)==0);
-        assert(hotkey_tick(&keys,base+6199)==0);
-        assert(hotkey_tick(&keys,base+6200)==HOTKEY_EXIT_GAME);
+        assert(hotkey_tick(&keys,base+9000)==0);
+        assert(hotkey_tick(&keys,base+10199)==0);
+        assert(hotkey_tick(&keys,base+10200)==HOTKEY_EXIT_GAME);
+    }
+}
+static void configured_hold_regression(bool native) {
+    unsigned select=native?BTN_TRIGGER_HAPPY1:BTN_SELECT;
+    unsigned start=native?BTN_TRIGGER_HAPPY2:BTN_START;
+    unsigned fn=native?BTN_TRIGGER_HAPPY5:KEY_HOMEPAGE;
+    const char *invalid[]={NULL,"","0","1199","1201","3999","5999","6001","7000","8000","-1","2000junk"," 2000","6000 ","03000","06000","9999999999999999999"};
+    for(unsigned i=0;i<sizeof(invalid)/sizeof(*invalid);i++)
+        assert(hotkey_exit_hold_ms(invalid[i])==1200);
+    for(int choice=0;choice<6;choice++) {
+        const char *values[]={"1200","2000","3000","4000","5000","6000"};
+        const int durations[]={1200,2000,3000,4000,5000,6000};
+        int duration=hotkey_exit_hold_ms(values[choice]);
+        assert(duration==durations[choice]);
+        assert(HOTKEY_RETURN_HOLD_MS==8000 && HOTKEY_RETURN_HOLD_MS-duration>=2000);
+        struct hotkey_state keys={0};
+        memset(held,0,sizeof(held));hold(select);hold(start);
+        // Every recovery path starts timing again; the chosen policy survives
+        // snapshots because policy is outside volatile evdev state.
+        for(int transition=0;transition<3;transition++) {
+            if(transition==1)hotkey_invalidate(&keys,false);
+            if(transition==2) {
+                event(&keys,native,EV_SYN,SYN_DROPPED,0);
+                assert(hotkey_tick_with_hold(&keys,999999,duration)==0);
+                event(&keys,native,EV_KEY,start,0);
+                event(&keys,native,EV_SYN,SYN_REPORT,0);
+            } else assert(hotkey_sync(1,native,&keys));
+            long long base=10000+transition*20000;
+            assert(hotkey_tick_with_hold(&keys,base,duration)==0);
+            frame(&keys,native,start,1,base+200); // Duplicate and repeat preserve timer.
+            frame(&keys,native,start,2,base+300);
+            assert(hotkey_tick_with_hold(&keys,base+duration-1,duration)==0);
+            assert(hotkey_tick_with_hold(&keys,base+duration,duration)==HOTKEY_EXIT_GAME);
+            assert(hotkey_tick_with_hold(&keys,base+duration+1,duration)==0);
+            assert(hotkey_tick_with_hold(&keys,base+7999,duration)==0);
+            assert(hotkey_tick_with_hold(&keys,base+8000,duration)==HOTKEY_RETURN_ANDROID);
+        }
+        // Disconnect prevents stale held state from firing.
+        hotkey_invalidate(&keys,false);
+        assert(hotkey_tick_with_hold(&keys,999999,duration)==0);
+        memset(held,0,sizeof(held));assert(hotkey_sync(1,native,&keys));
+        frame(&keys,native,select,1,100000); // Fn escape works with all three held.
+        frame(&keys,native,fn,1,100000);frame(&keys,native,start,1,100000);
+        assert(hotkey_tick_with_hold(&keys,100000,duration)==0);
+        assert(hotkey_tick_with_hold(&keys,101999,duration)==0);
+        assert(hotkey_tick_with_hold(&keys,102000,duration)==HOTKEY_RETURN_ANDROID);
+    }
+    const int invalid_ms[]={-1,0,1199,1201,3999,5999,6001,7000,8000,2147483647};
+    for(unsigned i=0;i<sizeof(invalid_ms)/sizeof(*invalid_ms);i++) {
+        struct hotkey_state keys={.select=true,.start=true};
+        assert(hotkey_tick_with_hold(&keys,1000,invalid_ms[i])==0);
+        assert(hotkey_tick_with_hold(&keys,2199,invalid_ms[i])==0);
+        assert(hotkey_tick_with_hold(&keys,2200,invalid_ms[i])==HOTKEY_EXIT_GAME);
     }
 }
 int main(void) {
@@ -211,6 +265,7 @@ int main(void) {
         fail_query=false;
         fn_regression(native);
         boundary_regression(native);
+        configured_hold_regression(native);
     }
-    puts("PASS: native/generic Fn taps, sticky combinations, held-key sets, repeats, drop/reconnect/failed resync, and timed escape chords");
+    puts("PASS: native/generic Fn taps, sticky combinations, held-key sets, repeats, drop/reconnect/failed resync, and validated 1.2/2/3/4/5/6s game exit with independent 2/8s escape chords");
 }

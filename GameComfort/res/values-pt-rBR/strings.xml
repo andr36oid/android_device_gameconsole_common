@@ -77,4 +77,38 @@
     <string name="continue_state_hint">Continuando <xliff:g id="game">%1$s</xliff:g>. Seu estado salvo mais recente (<xliff:g id="slot">%2$s</xliff:g>) é mais novo que o save do próprio jogo. Para usá-lo, carregue-o no menu do RetroArch (Select + X).</string>
     <string name="continue_slot">slot <xliff:g id="slot">%1$d</xliff:g></string>
     <string name="continue_slot_auto">o automático</string>
+    <string name="app_brightness_title">Brilho dos apps</string>
+    <string name="app_brightness_summary">Lembrar uma escolha manual de brilho para cada app</string>
+    <string name="app_brightness_enabled">Usar o brilho dos apps</string>
+    <string name="app_brightness_about">Escolha os apps abaixo. O brilho deles só é usado no modo manual. Ao sair, o brilho anterior é restaurado, a menos que você tenha alterado o controle deslizante. Uma alteração no controle pausa as regras até você sair dos apps configurados.\n\nApps que controlam o brilho da própria janela são ignorados. A verificação ocorre quando a tarefa muda; alterações posteriores apenas na janela podem ser detectadas na próxima mudança de tarefa. Se a verificação do brilho da janela não estiver disponível, a regra será ignorada. As regras param na tela de inicialização do subsistema e enquanto o convidado for o dono da sessão.</string>
+    <string-array name="app_brightness_entries"><item>Usar o brilho atual</item><item>10%</item><item>25%</item><item>50%</item><item>75%</item><item>100%</item></string-array>
+    <string-array name="app_brightness_values" translatable="false"><item>off</item><item>10</item><item>25</item><item>50</item><item>75</item><item>100</item></string-array>
+    <string name="ra_repair_title">Configurações de desempenho do RetroArch</string>
+    <string name="ra_repair_summary">Escolher reparos, visualizar alterações e manter um backup</string>
+    <string name="ra_repair_about">Escolha abaixo os reparos que serão aplicados. Todos começam selecionados; desative os que você quer manter como estão. Salvamentos, mapeamentos e entradas da biblioteca são mantidos. Substituições por jogo permanecem intactas e ainda podem ativar estes recursos. Não há garantia de aumento de FPS. Saia do RetroArch antes de continuar.</string>
+    <string name="ra_repair_shader">Desativar shaders globais</string>
+    <string name="ra_repair_shader_about">Remove efeitos de tela, como linhas de varredura, das configurações principais para reduzir o trabalho gráfico. Os jogos perdem esses efeitos, a menos que uma substituição os ative.</string>
+    <string name="ra_repair_preemptive">Desativar Preemptive Frames globais</string>
+    <string name="ra_repair_preemptive_about">Interrompe o processamento extra de quadros nas configurações principais para reduzir o trabalho do processador. Os controles podem parecer menos imediatos porque esta redução opcional do atraso de entrada está desativada.</string>
+    <string name="ra_repair_gambatte">Reparar substituição do core Gambatte</string>
+    <string name="ra_repair_gambatte_about">Desativa shaders e Preemptive Frames nas configurações existentes do core Game Boy / Game Boy Color. Isso reduz o trabalho gráfico e do processador, ao custo dos efeitos de tela e da redução opcional do atraso de entrada. Uma substituição ausente continua ausente.</string>
+    <string name="ra_repair_nestopia">Reparar substituição do core Nestopia</string>
+    <string name="ra_repair_nestopia_about">Desativa shaders e Preemptive Frames nas configurações existentes do core NES Nestopia. Isso reduz o trabalho gráfico e do processador, ao custo dos efeitos de tela e da redução opcional do atraso de entrada. Uma substituição ausente continua ausente.</string>
+    <string name="ra_repair_fceumm">Reparar substituição do core FCEUmm</string>
+    <string name="ra_repair_fceumm_about">Desativa shaders e Preemptive Frames nas configurações existentes do core NES FCEUmm. Isso reduz o trabalho gráfico e do processador, ao custo dos efeitos de tela e da redução opcional do atraso de entrada. Uma substituição ausente continua ausente.</string>
+    <string name="ra_repair_preview_selected">Visualizar reparos selecionados</string>
+    <string name="ra_repair_preview">Visualizar alterações</string>
+    <string name="ra_repair_preview_body">%1$d arquivos de configuração seriam alterados.\n\nReparos selecionados:\n%2$s\n\nSomente estes reparos serão aplicados. Substituições de core podem ter prioridade sobre as configurações globais. Um backup dos arquivos alterados é salvo antes da aplicação. Substituições por jogo são mantidas. Diretórios de substituição personalizados não são compatíveis.</string>
+    <string name="ra_repair_apply">Aplicar reparos selecionados</string>
+    <string name="ra_repair_restore">Restaurar backup</string>
+    <string name="ra_repair_restore_about">Restaura os arquivos salvos antes do reparo. A restauração é recusada se esses arquivos tiverem sido editados depois. Saia do RetroArch primeiro.</string>
+    <string name="ra_repair_wait">Aguardando o serviço de configuração… Mantenha o RetroArch fechado.</string>
+    <string name="ra_repair_ready">Visualização pronta. Cancelar não altera suas configurações.</string>
+    <string name="ra_repair_applied">Reparos selecionados aplicados. O backup está disponível em Restaurar backup.</string>
+    <string name="ra_repair_restored">Backup restaurado.</string>
+    <string name="ra_repair_unchanged">Os reparos selecionados não precisam de alterações. Qualquer backup existente foi mantido.</string>
+    <string name="ra_repair_busy">O RetroArch está em execução. Saia normalmente e tente novamente.</string>
+    <string name="ra_repair_backup">Já existe um backup. Restaure-o antes de fazer outro reparo.</string>
+    <string name="ra_repair_error">Não foi possível concluir a solicitação. Verifique se o RetroArch tem uma configuração global, usa o diretório de substituição padrão e está fechado. A restauração também exige um backup existente e arquivos reparados sem alterações. Qualquer backup feito antes de uma gravação malsucedida é mantido para recuperação.</string>
+    <string name="ra_repair_timeout">O serviço de configuração ainda não respondeu. A solicitação pode estar na fila; mantenha o RetroArch fechado e verifique novamente mais tarde.</string>
 </resources>

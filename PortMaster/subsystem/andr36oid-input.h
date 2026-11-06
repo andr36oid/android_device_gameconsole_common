@@ -119,8 +119,22 @@ static inline bool hotkey_event(int pad,bool native,struct hotkey_state *keys,co
     return false;
 }
 enum { HOTKEY_EXIT_GAME=1,HOTKEY_RETURN_ANDROID=2 };
-static inline int hotkey_tick(struct hotkey_state *keys,long long now) {
+#define HOTKEY_EXIT_HOLD_DEFAULT 1200
+/* Maximum game-exit hold is 6s; leave 2s before full subsystem teardown. */
+#define HOTKEY_RETURN_HOLD_MS 8000
+static inline int hotkey_exit_hold_ms(const char *value) {
+    if(value && !strcmp(value,"2000"))return 2000;
+    if(value && !strcmp(value,"3000"))return 3000;
+    if(value && !strcmp(value,"4000"))return 4000;
+    if(value && !strcmp(value,"5000"))return 5000;
+    if(value && !strcmp(value,"6000"))return 6000;
+    return HOTKEY_EXIT_HOLD_DEFAULT;
+}
+static inline int hotkey_tick_with_hold(struct hotkey_state *keys,long long now,int exit_hold_ms) {
     int action=0;
+    if(exit_hold_ms!=1200 && exit_hold_ms!=2000 && exit_hold_ms!=3000 &&
+       exit_hold_ms!=4000 && exit_hold_ms!=5000 && exit_hold_ms!=6000)
+        exit_hold_ms=HOTKEY_EXIT_HOLD_DEFAULT;
     if(keys->sync_needed)return 0;
     if(keys->fn && keys->start) {
         if(!keys->force_ms)keys->force_ms=now;
@@ -128,11 +142,15 @@ static inline int hotkey_tick(struct hotkey_state *keys,long long now) {
     } else keys->force_ms=0;
     if(keys->select && keys->start && !keys->fn) {
         if(!keys->combo_ms)keys->combo_ms=now;
-        if(now-keys->combo_ms>=1200 && !keys->exit_fired) {
+        if(now-keys->combo_ms>=exit_hold_ms && !keys->exit_fired) {
             action|=HOTKEY_EXIT_GAME;keys->exit_fired=true;
         }
-        if(now-keys->combo_ms>=4000)action|=HOTKEY_RETURN_ANDROID;
+        if(now-keys->combo_ms>=HOTKEY_RETURN_HOLD_MS)action|=HOTKEY_RETURN_ANDROID;
     } else {keys->combo_ms=0;keys->exit_fired=false;}
     return action;
+}
+/* Preserve the default API used by existing header consumers/fixtures. */
+static inline int hotkey_tick(struct hotkey_state *keys,long long now) {
+    return hotkey_tick_with_hold(keys,now,HOTKEY_EXIT_HOLD_DEFAULT);
 }
 #endif

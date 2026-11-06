@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="av_stick_hint">如果摇杆移动方向错误，请在此处更改：</string>
+    <string name="av_chip_invert_x">左右翻转</string>
+    <string name="av_chip_invert_y">上下翻转</string>
+    <string name="av_chip_swap">交换两个摇杆</string>
+    <string name="av_chip_on">%1$s\n开启</string>
+    <string name="av_chip_off">%1$s\n关闭</string>
+    <string name="av_sound_title">声音检查</string>
+    <string name="av_sound_body">短曲会循环播放。你能听到音乐吗？</string>
+    <string name="av_sound_playing">正在播放音乐…</string>
+    <string name="av_sound_opt_speaker">是 – 从扬声器播放</string>
+    <string name="av_sound_opt_hp">是 – 从耳机播放（插入耳机）</string>
+    <string name="av_sound_opt_none">完全没有声音</string>
+    <string name="av_sound_skip">跳过此检查</string>
+    <string name="av_sound_replay_hint">Y 重新播放曲目</string>
+    <string name="av_sound_speaker_ok">太好了 – 声音正常。</string>
+    <string name="av_sound_hp_prompt">插入耳机。音乐从耳机传出后，选择\"我听到了\"。</string>
+    <string name="av_sound_hp_hear">我听到了</string>
+    <string name="av_sound_hp_still">仍然没有声音</string>
+    <string name="av_sound_hp_fixed">已切换耳机插孔的读取方式。请再听一次。</string>
+    <string name="av_sound_hp_no_fix">此主机没有可在此处尝试的耳机修复方案。</string>
+    <string name="av_sound_force_applied">已同时打开扬声器和耳机。现在能听到音乐吗？</string>
+    <string name="av_sound_no_knob">此主机没有可在此处尝试的音频修复方案。现在能听到音乐吗？</string>
+    <string name="av_sound_hear_yes">是，我听到了</string>
+    <string name="av_sound_hear_no">还是没有声音</string>
+    <string name="av_sound_left_default">声音保持默认设置。稍后可以在设置 › 系统 › 内核调整中更改。</string>
+</resources>

@@ -25,4 +25,6 @@
         <item>purple</item>
         <item>white</item>
     </string-array>
+    <string name="rgb_row_effect">Efekt</string><string name="rgb_row_color">Renk</string><string name="rgb_row_brightness">Parlaklık</string><string name="rgb_row_speed">Hız</string><string name="rgb_auto">Otomatik</string><string name="rgb_preview_left">Sol</string><string name="rgb_preview_right">Sağ</string><string name="rgb_stick_hint">Işıkları renklendirmek için bir çubuğu hareket ettirin</string><string name="rgb_hint">Yukarı/Aşağı: seç   Sol/Sağ: değiştir   B: geri</string>
+    <string-array name="rgb_effect_names"><item>Kapalı</item><item>Sabit renk</item><item>Nefes</item><item>Gökkuşağı</item><item>Çubuğu takip et</item><item>Pil</item></string-array>
 </resources>

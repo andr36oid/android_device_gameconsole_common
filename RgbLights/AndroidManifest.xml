@@ -16,7 +16,8 @@
             android:enabled="false"
             android:exported="true"
             android:label="@string/rgb_title"
-            android:theme="@android:style/Theme.DeviceDefault.Settings">
+            android:screenOrientation="nosensor"
+            android:theme="@style/RgbTheme">
             <intent-filter>
                 <action android:name="com.android.settings.action.IA_SETTINGS" />
             </intent-filter>
@@ -38,8 +39,10 @@
              consoles -->
         <receiver
             android:name=".BootReceiver"
+            android:directBootAware="true"
             android:exported="false">
             <intent-filter>
+                <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED" />
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>

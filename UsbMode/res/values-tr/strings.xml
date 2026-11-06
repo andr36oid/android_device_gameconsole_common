@@ -399,4 +399,11 @@
     <string name="usb_emulator_stopping">USB Cihaz Emülatörü durduruluyor…</string>
     <string name="usb_emulator_stop_wait">Depolamanın kapanıp Android sistemine dönmesi bekleniyor.</string>
     <string name="usb_drive_image_unsupported">Bu disk kalıpları konsolun doğrudan paylaşamayacağı bir biçimde. Önce bunları düz bir .img dosyasına dönüştür: <xliff:g id="names">%1$s</xliff:g></string>
+    <string name="usb_audioin_title">Ses girişi</string>
+    <string name="usb_audioin_toggle">Konsol sesini PC\'ye aktar</string>
+    <string name="usb_audioin_toggle_summary">Konsolun kendi sesini 48 kHz stereo olarak yakalayıp gürültülü kulaklık çıkışını kaydetmek yerine bilgisayara temiz bir USB mikrofonu olarak gönderin. Ses kartının bilgisayara olan bağlantısını paylaşır; bu nedenle soundboard mikrofonuyla birlikte çalışamaz. Codec\'in yakalama yolu üzerinden kayıt yapar. Ekran kapalıyken çalışır.</string>
+    <string name="usb_role_mic_summary">Bu konsolun kendi sesini bilgisayara temiz bir 48 kHz USB mikrofonu olarak gönderin.</string>
+    <string name="usb_functions_title">USB işlevleri</string>
+    <string name="usb_functions_active">Bir USB oturumu veya depolama işlemi zaten etkin. Başka bir işlev seçmeden önce durumunu kontrol etmek ya da durdurmak için açın.</string>
+    <string name="usb_functions_open">Geçerli oturumu aç</string>
 </resources>

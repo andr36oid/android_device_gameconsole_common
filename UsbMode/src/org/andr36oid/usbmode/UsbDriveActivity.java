@@ -130,6 +130,15 @@ public class UsbDriveActivity extends Activity {
         mNext.setOnClickListener(v -> skipForward()); mBack.setOnClickListener(v -> goBack());
         mNext.setOnFocusChangeListener((v, focused) -> { if (focused) mFocus = "next"; });
         mBack.setOnFocusChangeListener((v, focused) -> { if (focused) mFocus = "back"; });
+        // A shortcut selects an existing wizard role only on fresh entry. It cannot
+        // replace an active lease, bypass Review/Start, or restart after recreation.
+        String shortcutRole = UsbFunctionsActivity.initialRole(getIntent(), state != null,
+                mUsbMode.isSupported(), UsbDriveControl.busy());
+        if (shortcutRole != null) {
+            chooseRole(shortcutRole);
+            mPage = CONNECT;
+            mIndex = 1;
+        }
         findSelected(); render(); scan();
     }
 
@@ -614,15 +623,15 @@ public class UsbDriveActivity extends Activity {
     private void roles() {
         page(R.string.usb_device_preset, getString(R.string.usb_wizard_role_summary));
         mHeaderInList = true;
-        // Parallel to UsbWizard.ROLES: pc, input, game, drive, wired, music, dac, awake, macro, link, custom.
+        // Parallel to UsbWizard.ROLES: pc, input, game, drive, wired, music, dac, mic, awake, macro, link, custom.
         final int[] titles = {R.string.usb_device_pc, R.string.usb_device_input, R.string.usb_device_game, R.string.usb_drive_title,
-                R.string.usb_device_wired, R.string.usb_device_music, R.string.usb_device_dac, R.string.usb_jiggle_preset,
+                R.string.usb_device_wired, R.string.usb_device_music, R.string.usb_device_dac, R.string.usb_audioin_title, R.string.usb_jiggle_preset,
                 R.string.usb_macro_title, R.string.usb_link_title, R.string.usb_device_custom};
         final int[] descriptions = {R.string.usb_role_pc_summary, R.string.usb_role_input_summary, R.string.usb_role_game_summary, R.string.usb_role_drive_summary,
-                R.string.usb_role_wired_summary, R.string.usb_role_music_summary, R.string.usb_role_dac_summary, R.string.usb_role_awake_summary,
+                R.string.usb_role_wired_summary, R.string.usb_role_music_summary, R.string.usb_role_dac_summary, R.string.usb_role_mic_summary, R.string.usb_role_awake_summary,
                 R.string.usb_role_macro_summary, R.string.usb_role_link_summary, R.string.usb_role_custom_summary};
         final int[] icons = {R.drawable.ic_usecase_pc, R.drawable.ic_usecase_input, R.drawable.ic_usecase_game, R.drawable.ic_usecase_drive,
-                R.drawable.ic_usecase_wired, R.drawable.ic_usecase_music, R.drawable.ic_usecase_dac, R.drawable.ic_usecase_awake,
+                R.drawable.ic_usecase_wired, R.drawable.ic_usecase_music, R.drawable.ic_usecase_dac, R.drawable.ic_usecase_mic, R.drawable.ic_usecase_awake,
                 R.drawable.ic_usecase_macro, R.drawable.ic_usecase_link, R.drawable.ic_usecase_custom};
         for (int i = 0; i < UsbWizard.ROLES.length; i++) {
             final String role = UsbWizard.ROLES[i];
@@ -686,7 +695,8 @@ public class UsbDriveActivity extends Activity {
         final int[] bits = UsbFunctions.BITS;
         final int[] titles = functionTitles();
         for (int i = 0; i < bits.length; i++) if (bit == bits[i]) return getString(titles[i]);
-        return getString(bit == UsbFunctions.SOUNDBOARD ? R.string.usb_sound_title : R.string.flipper_title);
+        return getString(bit == UsbFunctions.SOUNDBOARD ? R.string.usb_sound_title
+                : bit == UsbFunctions.AUDIOIN ? R.string.usb_audioin_title : R.string.flipper_title);
     }
     private int[] functionTitles() {
         return new int[] {R.string.usb_device_storage, R.string.usb_device_keyboard, R.string.usb_device_mouse,
@@ -743,7 +753,7 @@ public class UsbDriveActivity extends Activity {
             toggle("function:" + bit, titles[i], "ok".equals(why) ? getString(summaries[i]) : reason(why, mFunctions | bit),
                     checked, checked || "ok".equals(why), () -> {
                         mFunctions ^= bit;
-                        if ((mFunctions & UsbFunctions.SOUND) == 0) mFunctions &= ~UsbFunctions.SOUNDBOARD;
+                        if ((mFunctions & UsbFunctions.SOUND) == 0) mFunctions &= ~(UsbFunctions.SOUNDBOARD | UsbFunctions.AUDIOIN);
                         if ((mFunctions & (UsbFunctions.KEYBOARD | UsbFunctions.MEDIA)) != (UsbFunctions.KEYBOARD | UsbFunctions.MEDIA)) mMacro = false;
                         changed();
                     });
@@ -755,7 +765,18 @@ public class UsbDriveActivity extends Activity {
         final String why = board ? "ok" : mPolicy.reason(mFunctions | UsbFunctions.SOUNDBOARD);
         toggle("soundboard", R.string.usb_sound_title, "ok".equals(why) ? getString(R.string.usb_sound_summary)
                 : reason(why, mFunctions | UsbFunctions.SOUNDBOARD), board, board || "ok".equals(why),
-                () -> { mFunctions ^= UsbFunctions.SOUNDBOARD; changed(); });
+                () -> { mFunctions ^= UsbFunctions.SOUNDBOARD;
+                        if ((mFunctions & UsbFunctions.SOUNDBOARD) != 0) mFunctions &= ~UsbFunctions.AUDIOIN;
+                        changed(); });
+        // Audio in streams the console's own audio to the host as a 48 kHz microphone. It
+        // shares the uac2 device-to-host endpoint with the soundboard, so only one at a time.
+        final boolean adc = (mFunctions & UsbFunctions.AUDIOIN) != 0;
+        final String adcWhy = adc ? "ok" : mPolicy.reason(mFunctions | UsbFunctions.AUDIOIN);
+        toggle("audioin", R.string.usb_audioin_toggle, "ok".equals(adcWhy) ? getString(R.string.usb_audioin_toggle_summary)
+                : reason(adcWhy, mFunctions | UsbFunctions.AUDIOIN), adc, adc || "ok".equals(adcWhy),
+                () -> { mFunctions ^= UsbFunctions.AUDIOIN;
+                        if ((mFunctions & UsbFunctions.AUDIOIN) != 0) mFunctions &= ~UsbFunctions.SOUNDBOARD;
+                        changed(); });
         if (board) toggle("mic", R.string.usb_sound_mic, "", mPrefs.getBoolean("usb_sound_live", false), true, () -> {
             boolean enable = !mPrefs.getBoolean("usb_sound_live", false);
             if (enable && checkSelfPermission(android.Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {

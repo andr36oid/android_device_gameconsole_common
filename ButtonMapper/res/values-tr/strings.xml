@@ -151,4 +151,9 @@
     <string name="fn_replaced_button"><xliff:g id="button">%1$s</xliff:g> artık FN. Yalnızca bir tuş FN olabilir, bu yüzden <xliff:g id="old_button">%2$s</xliff:g> yeniden eski işine döndü.</string>
     <string name="fn_replaced_volume"><xliff:g id="button">%1$s</xliff:g> artık FN, FN tuş kombinasyonu yerine.</string>
     <string name="fn_cleared"><xliff:g id="button">%1$s</xliff:g> artık FN değil.</string>
+    <string name="profile_import">Profilleri içe aktar…</string>
+    <string name="profile_export">Adlandırılmış profilleri dışa aktar…</string>
+    <string name="profile_imported">Profiller içe aktarıldı. Kullanmak için birini seçin. Fn ve kurtarma ayarları bu konsolda kalır.</string>
+    <string name="profile_exported">Adlandırılmış profiller dışa aktarıldı. Fn ve kurtarma ayarları konsol ayarlarıdır ve dahil edilmez.</string>
+    <string name="profile_document_failed">Profiller kaydedilemedi veya yüklenemedi. Dosyayı, desteklenen düğmeleri, güvenli menü kontrollerini ve 20 profil sınırını kontrol edin.</string>
 </resources>

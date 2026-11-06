@@ -25,4 +25,6 @@
         <item>purple</item>
         <item>white</item>
     </string-array>
+    <string name="rgb_row_effect">Efek</string><string name="rgb_row_color">Warna</string><string name="rgb_row_brightness">Kecerahan</string><string name="rgb_row_speed">Kecepatan</string><string name="rgb_auto">Otomatis</string><string name="rgb_preview_left">Kiri</string><string name="rgb_preview_right">Kanan</string><string name="rgb_stick_hint">Gerakkan stik untuk memberi warna pada lampu</string><string name="rgb_hint">Atas/Bawah: pilih   Kiri/Kanan: ubah   B: kembali</string>
+    <string-array name="rgb_effect_names"><item>Mati</item><item>Warna solid</item><item>Bernapas</item><item>Pelangi</item><item>Ikuti stik</item><item>Baterai</item></string-array>
 </resources>

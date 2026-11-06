@@ -25,6 +25,7 @@ import java.util.Map;
 /** Property client only. Mounting, scanning and display ownership belong to the broker. */
 final class SubsystemBackend {
     static final String DAIJISHOU_CORES = "persist.andr36oid.subsystem.daijishou_cores";
+    static final String DAIJISHOU_TOOLS = "persist.andr36oid.subsystem.daijishou_tools";
     static final String DEFAULT = "persist.andr36oid.subsystem.default";
     static final String DEFAULT_TARGET = "persist.andr36oid.subsystem.default_target";
     static final String ROOTFS = "sys.andr36oid.subsystem.rootfs";
@@ -336,5 +337,62 @@ final class SubsystemBackend {
             if (path.equals(base) || path.startsWith(base + File.separator)) return true;
         }
         return false;
+    }
+
+    /** A copied-but-not-extracted dArkOSen release sitting in the games card. */
+    static final class Archive {
+        final String name, display; final long size;
+        Archive(String name, String display, long size) { this.name = name; this.display = display; this.size = size; }
+    }
+
+    /**
+     * Release archives a user copied into the games card's subsystem/darkosen without
+     * extracting them (split {@code *.7z.001}, a lone {@code *.7z}, or a {@code *.zip}).
+     * The broker's unpack dispatch looks for the primary volume by bare name under a
+     * games card's subsystem/darkosen, so only that directory is offered, and only when
+     * no usable image is there yet (the broker refuses to overwrite one anyway).
+     */
+    List<Archive> archives() {
+        final List<Archive> out = new ArrayList<>();
+        final File card = gamesCard();
+        if (card == null) return out;
+        final File dir = new File(card, "subsystem/darkosen");
+        if (!dir.isDirectory() || !dir.canRead()) return out;
+        if (new File(dir, IMAGE_NAME).exists() || new File(dir, PARTIAL_NAME).exists()) return out;
+        final File[] files = dir.listFiles();
+        if (files == null) return out;
+        final Map<String, Archive> byDisplay = new LinkedHashMap<>();
+        for (File file : files) {
+            if (!file.isFile() || !file.canRead()) continue;
+            final String name = file.getName();
+            final String lower = name.toLowerCase(java.util.Locale.ROOT);
+            final String display;
+            if (lower.endsWith(".7z.001")) display = name.substring(0, name.length() - 7);
+            else if (lower.endsWith(".7z")) {
+                if (new File(dir, name + ".001").exists()) continue; // first volume represents the set
+                display = name.substring(0, name.length() - 3);
+            } else if (lower.endsWith(".zip")) display = name.substring(0, name.length() - 4);
+            else continue;
+            if (name.indexOf('/') >= 0
+                    || name.getBytes(StandardCharsets.UTF_8).length > SystemProperties.PROP_VALUE_MAX) continue;
+            final long size = archiveSize(dir, name, lower);
+            if (size <= 0) continue;
+            byDisplay.put(display, new Archive(name, display, size));
+        }
+        out.addAll(byDisplay.values());
+        return out;
+    }
+
+    /** Total on-disk size of an archive, summing every split volume. */
+    private static long archiveSize(File dir, String primary, String lower) {
+        if (!lower.endsWith(".7z.001")) return new File(dir, primary).length();
+        final String base = primary.substring(0, primary.length() - 3); // keep "...7z.", drop "001"
+        long sum = 0;
+        for (int volume = 1; ; volume++) {
+            final File file = new File(dir, base + String.format(java.util.Locale.ROOT, "%03d", volume));
+            if (!file.isFile()) break;
+            sum += file.length();
+        }
+        return sum;
     }
 }

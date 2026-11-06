@@ -38,6 +38,8 @@ public class FunctionsTest {
                 UsbFunctions.NETWORK | UsbFunctions.RNDIS, UsbFunctions.SOUNDBOARD,
                 UsbFunctions.SOUND | UsbFunctions.SOUNDBOARD,
                 UsbFunctions.SOUND | UsbFunctions.SOUNDBOARD | UsbFunctions.KEYBOARD,
+                UsbFunctions.AUDIOIN, UsbFunctions.SOUND | UsbFunctions.AUDIOIN,
+                UsbFunctions.SOUND | UsbFunctions.AUDIOIN | UsbFunctions.SOUNDBOARD,
                 UsbFunctions.FLIPPER, UsbFunctions.FLIPPER | UsbFunctions.STORAGE);
         for (int mask = 1; mask < 64; mask++) requested.add(mask);
         functions.query(requested);
@@ -56,6 +58,9 @@ public class FunctionsTest {
         reason(functions, UsbFunctions.SOUNDBOARD, "sound");
         reason(functions, UsbFunctions.SOUND | UsbFunctions.SOUNDBOARD, "ok");
         reason(functions, UsbFunctions.SOUND | UsbFunctions.SOUNDBOARD | UsbFunctions.KEYBOARD, "routing");
+        reason(functions, UsbFunctions.AUDIOIN, "sound");
+        reason(functions, UsbFunctions.SOUND | UsbFunctions.AUDIOIN, "ok");
+        reason(functions, UsbFunctions.SOUND | UsbFunctions.AUDIOIN | UsbFunctions.SOUNDBOARD, "routing");
         reason(functions, UsbFunctions.FLIPPER, "ok");
         reason(functions, UsbFunctions.FLIPPER | UsbFunctions.STORAGE, "standalone");
         reason(functions, UsbFunctions.ALL, "unavailable");
@@ -69,8 +74,8 @@ public class FunctionsTest {
         reason(UsbFunctions.read(new StringReader("0 empty 0 0 54272\n"), masks(0)), 0, "empty");
         protocol(args[0], "", 0, "");
         protocol(args[0], "0\n2\n2", 0, "0 empty 0 0 54272\n2 ok 1 1 54274\n2 ok 1 1 54274\n");
-        protocol(args[0], "524288\n", 0, "524288 empty 0 0 16384\n");
-        for (String bad : new String[] {"\n", "xinput\n", "-1\n", "1 2\n", "1000000\n", "999999999999999999\n"})
+        protocol(args[0], "524288\n", 0, "524288 sound 0 0 24576\n");
+        for (String bad : new String[] {"\n", "xinput\n", "-1\n", "1 2\n", "10000000\n", "999999999999999999\n"})
             protocol(args[0], bad, 2, "");
         final Process removed = new ProcessBuilder(args[0], "--policies").start();
         try {
@@ -97,7 +102,7 @@ public class FunctionsTest {
             final int before = calls(dir);
             page.query(batch);
             final List<String> lines = Files.readAllLines(dir.resolve("request"));
-            if (batch.size() > 20 || lines.size() != batch.size() || calls(dir) != before + 1)
+            if (batch.size() > 21 || lines.size() != batch.size() || calls(dir) != before + 1)
                 throw new AssertionError("Unbounded device page policy query: " + lines.size());
             for (int mask : batch) if ("unavailable".equals(page.reason(mask))) throw new AssertionError(mask);
             page.queryMissing(batch);

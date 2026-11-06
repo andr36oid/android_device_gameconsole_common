@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="av_stick_hint">Si un stick se déplace dans le mauvais sens, modifie-le ici :</string>
+    <string name="av_chip_invert_x">Inverser gauche / droite</string>
+    <string name="av_chip_invert_y">Inverser haut / bas</string>
+    <string name="av_chip_swap">Permuter les deux sticks</string>
+    <string name="av_chip_on">%1$s\nActivé</string>
+    <string name="av_chip_off">%1$s\nDésactivé</string>
+    <string name="av_sound_title">Test audio</string>
+    <string name="av_sound_body">Une courte mélodie est jouée en boucle. Entends-tu la musique ?</string>
+    <string name="av_sound_playing">La musique est en cours de lecture…</string>
+    <string name="av_sound_opt_speaker">Oui – par le haut-parleur</string>
+    <string name="av_sound_opt_hp">Oui – dans le casque (branche-le)</string>
+    <string name="av_sound_opt_none">Aucun son</string>
+    <string name="av_sound_skip">Ignorer ce test</string>
+    <string name="av_sound_replay_hint">Y rejoue la mélodie</string>
+    <string name="av_sound_speaker_ok">Super – le son fonctionne.</string>
+    <string name="av_sound_hp_prompt">Branche ton casque. Choisis \"Je l\'entends\" dès que la musique passe dans le casque.</string>
+    <string name="av_sound_hp_hear">Je l\'entends</string>
+    <string name="av_sound_hp_still">Toujours aucun son</string>
+    <string name="av_sound_hp_fixed">Le mode de détection de la prise casque a été modifié. Réécoute.</string>
+    <string name="av_sound_hp_no_fix">Cette console ne propose aucune correction pour le casque ici.</string>
+    <string name="av_sound_force_applied">Haut-parleur et casque activés ensemble. Entends-tu la musique maintenant ?</string>
+    <string name="av_sound_no_knob">Cette console ne propose aucune correction audio ici. Entends-tu la musique maintenant ?</string>
+    <string name="av_sound_hear_yes">Oui, je l\'entends</string>
+    <string name="av_sound_hear_no">Toujours rien</string>
+    <string name="av_sound_left_default">Son conservé avec ses paramètres par défaut. Tu peux le modifier plus tard dans Paramètres › Système › Ajustements du noyau.</string>
+</resources>

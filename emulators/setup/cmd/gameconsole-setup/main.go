@@ -32,7 +32,7 @@ const (
 
 func main() {
 	if len(os.Args) != 2 {
-		fmt.Fprintln(os.Stderr, "usage: gameconsole-setup early|main|apps|players|magisk|reconcile-ports|sync-library|sync-retroarch")
+		fmt.Fprintln(os.Stderr, "usage: gameconsole-setup early|main|apps|players|magisk|reconcile-ports|sync-library|sync-retroarch|repair-retroarch")
 		os.Exit(2)
 	}
 	s := setup.New()
@@ -55,7 +55,7 @@ func main() {
 			s.Props.Set("sys.powerctl", "reboot,magisk")
 		}
 		return
-	case "main", "apps", "reconcile-ports", "sync-library", "sync-retroarch":
+	case "main", "apps", "reconcile-ports", "sync-library", "sync-retroarch", "repair-retroarch":
 	case "players":
 		if s.Props.Get("sys.boot_completed") != "1" {
 			return
@@ -89,47 +89,63 @@ func Work(s *setup.Setup, q *worker.Queue) {
 		return pmUp
 	}
 	inline := false
-	side := func() {
+	s.Poll = func() {
 		if inline {
 			return
 		}
 		inline = true
 		defer func() { inline = false }()
-		for _, job := range []string{"apps", "players"} {
-			if !q.Has(job) {
-				continue
-			}
-			q.Take(job)
-			if !ready() {
-				continue
-			}
-			run(s, job)
-		}
+		sidePoll(q, ready, func(job string) { run(s, job) })
 	}
-	s.Poll = side
+	drain(q, ready, func() {
+		s.Main()
+		if s.EasyromsLate() {
+			s.RunEasyromsLate()
+		}
+	}, func(job string) { run(s, job) })
+	s.Poll = nil
+}
+
+// sidePoll runs the quick app-page jobs (installs, player 1) that came in between the
+// main job's long steps. It takes a request only once the package manager is up, so a
+// request made during a still-degraded boot stays pending for a later retry instead of
+// being taken and dropped.
+func sidePoll(q *worker.Queue, ready func() bool, runJob func(job string)) {
+	for _, job := range []string{"apps", "players"} {
+		if !q.Has(job) {
+			continue
+		}
+		if !ready() {
+			return
+		}
+		q.Take(job)
+		runJob(job)
+	}
+}
+
+// drain runs every requested job, the main one first, until none is left. It takes a
+// request only once ready() reports the package manager is up; if it never comes up,
+// drain returns with the requests still pending so the work is retried (by the worker's
+// own re-lock, or a later start) rather than taken and silently lost.
+func drain(q *worker.Queue, ready func() bool, runMain func(), runJob func(job string)) {
 	for {
 		pending := q.Pending()
 		if len(pending) == 0 {
-			break
+			return
+		}
+		if !ready() {
+			return
 		}
 		if q.Has("main") {
 			q.Take("main")
-			if ready() {
-				s.Main()
-				if s.EasyromsLate() {
-					s.RunEasyromsLate()
-				}
-			}
+			runMain()
 			continue
 		}
 		for _, job := range pending {
 			q.Take(job)
-			if ready() {
-				run(s, job)
-			}
+			runJob(job)
 		}
 	}
-	s.Poll = nil
 }
 
 func run(s *setup.Setup, job string) {
@@ -144,5 +160,7 @@ func run(s *setup.Setup, job string) {
 		s.SyncLibrary()
 	case "sync-retroarch":
 		s.SyncRetroArch()
+	case "repair-retroarch":
+		s.RepairRetroArchJob()
 	}
 }

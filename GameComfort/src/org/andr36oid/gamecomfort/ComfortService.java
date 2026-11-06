@@ -63,6 +63,7 @@ public class ComfortService extends Service {
             return START_NOT_STICKY;
         }
         watchBattery(Comfort.isBatteryWarningOn(this));
+        // Refresh brightness rules even when the watched task has not changed.
         mGameWatcher.start();
         if (intent != null && intent.getBooleanExtra(EXTRA_AFTER_BOOT, false)) {
             if (intent.getBooleanExtra(EXTRA_GAME_WAS_OPEN, false) && Continue.isOnBoot(this)) {

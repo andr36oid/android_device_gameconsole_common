@@ -293,3 +293,68 @@ func TestAppsJobReportsAfterSetupDone(t *testing.T) {
 		t.Fatalf("stages %v", stages)
 	}
 }
+
+// An AUTOAPK that can't be read while the partition is still on the card is said so
+// (issue #9: apps not installed, AUTOAPK never removed, nothing in the log); a
+// reclaimed or missing partition stays quiet, and the install flow doesn't change.
+func TestAutoapkUnreadableIsReported(t *testing.T) {
+	f := newFake()
+	s, _ := newSetup(t, f)
+	mark := s.state("autoapk-problem")
+	problem := func() bool { return logHas(s, "can't be installed and the partition can't be given to userdata") }
+
+	// the partition is there, the mount folder isn't: firstresize's apps_mount failed
+	write(t, s.AutoapkDev, "")
+	s.InstallAPKs()
+	if !problem() || !logHas(s, "isn't mounted ("+s.Apps+" doesn't exist)") {
+		t.Fatalf("no mount folder: %v", s.Lines)
+	}
+	if read(t, mark) == "" || f.props["sys.andr36oid.autoapk_problem"] != "1" {
+		t.Fatal("no mark or property")
+	}
+	if sys_exists(s.AppsDoneFile) || f.count("pm install") != 0 {
+		t.Fatal("the control flow changed")
+	}
+
+	// the folder is there but nothing is mounted on it
+	s.Lines = nil
+	must(t, os.MkdirAll(s.Apps, 0o755))
+	write(t, s.Mounts, "/dev/block/mmcblk0p7 "+s.MediaRW+"/1234-ABCD exfat rw 0 0\n")
+	s.InstallAPKs()
+	if !problem() || !logHas(s, "nothing is mounted at "+s.Apps) {
+		t.Fatalf("not a mountpoint: %v", s.Lines)
+	}
+
+	// mounted, but empty (a broken copy at the first start, or a bad card)
+	s.Lines = nil
+	write(t, s.Mounts, "/dev/block/mmcblk0p13 "+s.Apps+" exfat ro 0 0\n")
+	s.InstallAPKs()
+	if !problem() || !logHas(s, "holds no .apk files") {
+		t.Fatalf("empty mount: %v", s.Lines)
+	}
+
+	// the partition is gone (reclaimed, or an image without AUTOAPK): quiet, the
+	// problem is taken back
+	s.Lines = nil
+	must(t, os.Remove(s.AutoapkDev))
+	s.InstallAPKs()
+	if problem() || sys_exists(mark) || f.props["sys.andr36oid.autoapk_problem"] != "" || !logHas(s, "reads again") {
+		t.Fatalf("after reclaim: %v, mark %v, prop %q", s.Lines, sys_exists(mark), f.props["sys.andr36oid.autoapk_problem"])
+	}
+	s.Lines = nil
+	s.InstallAPKs()
+	if len(s.Lines) != 0 {
+		t.Fatalf("a quiet start logs: %v", s.Lines)
+	}
+
+	// APKs readable: the normal install, no problem said
+	write(t, s.AutoapkDev, "")
+	write(t, s.Apps+"/Game.apk", "apk")
+	write(t, s.Apps+"/Game.yml", "package: org.game\nversion_code: 1\nrequired: true\n")
+	f.handlers["pm"] = func(a []string) (string, error) { return "Success", nil }
+	s.Lines = nil
+	s.InstallAPKs()
+	if problem() || sys_exists(mark) || f.count("pm install") != 1 {
+		t.Fatalf("readable AUTOAPK: %v, installs %d", s.Lines, f.count("pm install"))
+	}
+}

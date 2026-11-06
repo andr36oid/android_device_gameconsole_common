@@ -35,6 +35,11 @@
         android:selectable="false"
         android:summary="@string/game_mode_about" />
 
+    <Preference
+        android:key="retroarch_repair"
+        android:title="@string/ra_repair_title"
+        android:summary="@string/ra_repair_summary" />
+
     <PreferenceCategory
         android:key="continue"
         android:title="@string/continue_category">

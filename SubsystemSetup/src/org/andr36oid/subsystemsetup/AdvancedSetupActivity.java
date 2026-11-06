@@ -1,6 +1,7 @@
 package org.andr36oid.subsystemsetup;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
@@ -13,6 +14,7 @@ import android.text.Spanned;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
 import android.text.format.Formatter;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -43,7 +45,6 @@ import java.util.concurrent.Executors;
 /** In-house setup pages and settings; all privileged work is requested via properties. */
 public class AdvancedSetupActivity extends Activity {
     private enum Screen { WIZARD, HOME, SETTINGS, ADVANCED, PICKER, CONFIRM, CONSOLE }
-    private static final int WARN_COLOR = 0xFFE53935;
     private static final long POLL_MS = 1000;
     private static final long START_TIMEOUT_MS = 30_000;
     private static final int MAX_ENTRIES = 500;
@@ -447,6 +448,8 @@ public class AdvancedSetupActivity extends Activity {
         mSide.addView(modes);
         text(mSide, getString(mHandoff ? R.string.subsystem_handoff_explainer
                 : R.string.subsystem_headless_explainer));
+        mIdleControls.add(action(mSide, R.string.subsystem_exit_hold,
+                getString(R.string.subsystem_exit_hold_note), this::chooseExitHold, false));
         imageStatus();
         section(mSide, R.string.subsystem_launch);
         launchAction("OS", true, true);
@@ -488,6 +491,28 @@ public class AdvancedSetupActivity extends Activity {
     // "OS" boots the rootfs's own default frontend (the recommended, safe launch);
     // "ES"/"PM" go straight to that app; "INIT" boots the image's own init and is the
     // experimental Advanced-only target. primary highlights the recommended button.
+    private void chooseExitHold() {
+        final String property = "persist.andr36oid.subsystem.exit_hold_ms";
+        final String[] values = {"1200", "2000", "3000", "4000", "5000", "6000"};
+        final String[] labels = {getString(R.string.subsystem_exit_hold_default),
+                getString(R.string.subsystem_exit_hold_two), getString(R.string.subsystem_exit_hold_three),
+                getString(R.string.subsystem_exit_hold_four), getString(R.string.subsystem_exit_hold_five),
+                getString(R.string.subsystem_exit_hold_six)};
+        final String current = SubsystemBackend.get(property);
+        int checked = 0;
+        for (int i = 0; i < values.length; i++) {
+            if (values[i].equals(current)) { checked = i; break; }
+        }
+        new AlertDialog.Builder(this).setTitle(R.string.subsystem_exit_hold)
+                .setSingleChoiceItems(labels, checked, (dialog, which) -> {
+                    if (busy()) { dialog.dismiss(); return; }
+                    if (!SubsystemBackend.set(property, values[which])) {
+                        message(R.string.subsystem_setting_failed);
+                    }
+                    dialog.dismiss();
+                }).setNegativeButton(android.R.string.cancel, null).show();
+    }
+
     private void launchAction(String target, boolean advanced, boolean primary) {
         final int label, summary;
         switch (target) {
@@ -547,7 +572,7 @@ public class AdvancedSetupActivity extends Activity {
             text(mBodyExtra, getString(targetLabel(mTarget)));
             if ("INIT".equals(mTarget)) {
                 final TextView warn = text(mBodyExtra, getString(R.string.subsystem_init_warning));
-                warn.setTextColor(WARN_COLOR);
+                warn.setTextColor(themeColor(android.R.attr.colorError));
             }
             section(mBodyExtra, R.string.subsystem_rootfs);
             text(mBodyExtra, mConfirmReturn == Screen.ADVANCED && !mRootfs.isEmpty()
@@ -999,6 +1024,13 @@ public class AdvancedSetupActivity extends Activity {
 
     private int dp(int value) {
         return Math.round(value * getResources().getDisplayMetrics().density);
+    }
+
+    // Resolve a themed color per the app's convention; never pin a literal color.
+    private int themeColor(int attr) {
+        final TypedValue value = new TypedValue();
+        getTheme().resolveAttribute(attr, value, true);
+        return value.resourceId != 0 ? getColor(value.resourceId) : value.data;
     }
 
     private void message(int text) {

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="av_stick_hint">Si un stick se mueve en la dirección equivocada, cámbialo aquí:</string>
+    <string name="av_chip_invert_x">Invertir izquierda / derecha</string>
+    <string name="av_chip_invert_y">Invertir arriba / abajo</string>
+    <string name="av_chip_swap">Intercambiar los dos sticks</string>
+    <string name="av_chip_on">%1$s\nActivado</string>
+    <string name="av_chip_off">%1$s\nDesactivado</string>
+    <string name="av_sound_title">Comprobación de sonido</string>
+    <string name="av_sound_body">Una melodía corta se está reproduciendo en bucle. ¿Oyes la música?</string>
+    <string name="av_sound_playing">La música se está reproduciendo…</string>
+    <string name="av_sound_opt_speaker">Sí – por el altavoz</string>
+    <string name="av_sound_opt_hp">Sí – por los auriculares (conéctalos)</string>
+    <string name="av_sound_opt_none">No se oye nada</string>
+    <string name="av_sound_skip">Omitir esta comprobación</string>
+    <string name="av_sound_replay_hint">Y vuelve a reproducir la melodía</string>
+    <string name="av_sound_speaker_ok">Genial – el sonido funciona.</string>
+    <string name="av_sound_hp_prompt">Conecta tus auriculares. Elige \"La oigo\" cuando la música se escuche por ellos.</string>
+    <string name="av_sound_hp_hear">La oigo</string>
+    <string name="av_sound_hp_still">Sigue sin haber sonido</string>
+    <string name="av_sound_hp_fixed">Se ha cambiado la forma en que se detecta la toma de auriculares. Escucha de nuevo.</string>
+    <string name="av_sound_hp_no_fix">Esta consola no tiene ninguna solución para los auriculares que probar aquí.</string>
+    <string name="av_sound_force_applied">Se han activado el altavoz y los auriculares a la vez. ¿Oyes la música ahora?</string>
+    <string name="av_sound_no_knob">Esta consola no tiene ninguna solución de audio que probar aquí. ¿Oyes la música ahora?</string>
+    <string name="av_sound_hear_yes">Sí, la oigo</string>
+    <string name="av_sound_hear_no">Sigue sin oírse nada</string>
+    <string name="av_sound_left_default">Se ha dejado el sonido con su configuración predeterminada. Puedes cambiarla más tarde en Ajustes › Sistema › Ajustes del kernel.</string>
+</resources>

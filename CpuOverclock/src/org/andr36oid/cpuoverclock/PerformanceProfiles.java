@@ -88,6 +88,7 @@ final class PerformanceProfiles {
 
     /** Remembers the profile and applies it. Battery saver turns the overclock off. */
     boolean set(int profile) {
+        if (!GameTurbo.userChange(mContext)) return false;
         if (mInEffect && AppProfiles.pick(mContext, profile)) {
             // Only while this app is in front, the chosen profile stays
             return apply();
@@ -109,6 +110,7 @@ final class PerformanceProfiles {
 
     /** Remembers the maximum CPU speed (0 for none) and applies it. Turns the overclock off. */
     boolean setCpuCap(int khz) {
+        if (!GameTurbo.userChange(mContext)) return false;
         prefs().edit().putInt(PREF_CPU_CAP, Math.max(0, khz)).commit();
         updateTile(mContext);
         final Overclock overclock = new Overclock(mContext);
@@ -169,6 +171,8 @@ final class PerformanceProfiles {
             // An app in front may have a profile of its own, that one goes to the kernel
             return inEffect(mContext).apply();
         }
+        final int turbo = GameTurbo.intercept(mContext);
+        if (turbo != GameTurbo.NOT_HANDLED) return turbo == GameTurbo.OK;
         final int profile = get();
         // Balanced without a cap is what the kernel starts with, so boot only has to write
         // anything else (and put the tile in once). A memory hold left over from a game

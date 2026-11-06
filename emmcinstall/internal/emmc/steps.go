@@ -279,10 +279,13 @@ type Inspection struct {
 	SDLoader   string    `json:"sd_loader_sha256,omitempty"`
 	SDTable    []Part    `json:"sd_table,omitempty"`
 	Plan       []Part    `json:"plan,omitempty"`
-	Power      Power     `json:"power"`
-	State      *State    `json:"state,omitempty"`
-	TestFile   string    `json:"test_file,omitempty"`
-	Problems   []string  `json:"problems,omitempty"`
+	// DatacardOnly: the eMMC is too small to hold Android's data; the install
+	// is possible only as a data-card setup (data on an SD card).
+	DatacardOnly bool     `json:"datacard_only,omitempty"`
+	Power        Power    `json:"power"`
+	State        *State   `json:"state,omitempty"`
+	TestFile     string   `json:"test_file,omitempty"`
+	Problems     []string `json:"problems,omitempty"`
 	// Found: andr36oid on the eMMC, installed from another SD card (Adopt)
 	Found *Found `json:"found,omitempty"`
 }
@@ -344,6 +347,8 @@ func (c *Config) Inspect() *Inspection {
 	if in.SDTable != nil {
 		if in.Plan, err = c.MakePlan(info.Sectors, in.SDTable); err != nil {
 			bad(err)
+		} else {
+			in.DatacardOnly = c.SmallPlan(info.Sectors)
 		}
 	}
 	if in.BootedFrom == "sd" {
@@ -826,6 +831,16 @@ func (c *Config) WriteOS(p *Progress) error {
 	if err != nil {
 		return err
 	}
+	// An eMMC too small for Android's data gets a data-card layout: its userdata
+	// is only a placeholder, never meant to be the console's /data. Only the
+	// wizard kept the data-on-eMMC choice off its page; without a data card
+	// chosen, step 2 would still carve that placeholder and the eMMC system
+	// would set Android up on it after step 3. So the choice is required here.
+	if c.SmallPlan(r.info.Sectors) && (r.st.Datacard == nil || r.st.Datacard.Kind == "emmc") {
+		return fmt.Errorf("the eMMC has %d MiB, too small to hold Android's data: choose an SD card for the data first (the eMMC takes only the system)",
+			r.info.Sectors*Sector>>20)
+	}
+	step2Datacard := c.datacardFromStep2(r.st, r.info.Sectors, sdParts)
 	boot, _ := Find(sdParts, "BOOT")
 	bootName := filepath.Base(c.SDSys) + "p" + strconv.Itoa(boot.Num)
 	if m, err := c.mounts(c.SDSys, bootName); err != nil {
@@ -883,6 +898,15 @@ func (c *Config) WriteOS(p *Progress) error {
 				return err
 			}
 			copied[name], copiedLn[name] = s, src.Sectors()*Sector
+		}
+		if step2Datacard != "" {
+			// a small eMMC with the original card as its data card: the test start
+			// (and every start after) runs with the card's data, so Android never
+			// sets itself up on the eMMC's userdata placeholder
+			dst, _ := Find(plan, "BOOT")
+			if err := c.writeDatacardFile(p, dst, step2Datacard); err != nil {
+				return err
+			}
 		}
 		// Android formats these itself when their start reads blank
 		for _, b := range []struct {
@@ -960,8 +984,9 @@ func (c *Config) update(p *Progress, cmd string, system bool) error {
 		from, to span
 	}
 	var copies []partCopy
+	var sdParts []Part
 	if system {
-		sdParts, err := ReadGPT(sd)
+		sdParts, err = ReadGPT(sd)
 		if err != nil {
 			return fmt.Errorf("SD card: %w", err)
 		}
@@ -1023,10 +1048,17 @@ func (c *Config) update(p *Progress, cmd string, system bool) error {
 			}
 			r.st.Copied[cp.name], r.st.CopiedLn[cp.name] = h, cp.from.n()
 		}
+		// the SD card's BOOT has no datacard.txt: the eMMC keeps using its data
+		// card, finished or (a small eMMC, the original card) named from step 2
+		keep := ""
 		if d := r.st.Datacard; system && d != nil && d.UUID != "" && (d.Stage == "blank" || d.Stage == "done") {
-			// the SD card's BOOT has no datacard.txt: the eMMC keeps using its data card
+			keep = d.UUID
+		} else if system {
+			keep = c.datacardFromStep2(r.st, r.info.Sectors, sdParts)
+		}
+		if keep != "" {
 			boot, _ := Find(r.st.Plan, "BOOT")
-			if err := c.writeDatacardFile(p, boot, d.UUID); err != nil {
+			if err := c.writeDatacardFile(p, boot, keep); err != nil {
 				return err
 			}
 		}

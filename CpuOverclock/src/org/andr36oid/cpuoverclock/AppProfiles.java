@@ -67,6 +67,19 @@ final class AppProfiles {
                 context.getPackageName());
     }
 
+    /** Only explicit choices/picks veto Turbo, not the shipped default suggestions. */
+    static boolean hasExplicitProfile(Context context, String pkg) {
+        if (pkg == null || !isEnabled(context)) return false;
+        Front front = getFront(context);
+        return (prefs(context).contains(PREF_APP + pkg)
+                && AppProfileRules.valid(prefs(context).getInt(PREF_APP + pkg, AppProfileRules.FOLLOW)))
+                || (pkg.equals(front.pkg) && AppProfileRules.valid(front.picked));
+    }
+
+    static boolean hasEffectiveAppProfile(Context context, String pkg) {
+        return pkg != null && isEnabled(context) && AppProfileRules.valid(profileFor(context, pkg));
+    }
+
     /** Whether the watcher has something to do. */
     static boolean isNeeded(Context context) {
         return isEnabled(context) && AppProfileRules.anySet(chosen(context), defaults(context));
@@ -84,6 +97,9 @@ final class AppProfiles {
         }
         // The service looks again and stops itself if it isn't needed
         context.startService(new Intent(context, AppProfileService.class));
+        // Reconcile Turbo even when an explicit choice equals the shipped
+        // default and the cached foreground profile itself would not change.
+        new PerformanceProfiles(context).apply();
     }
 
     /** The profile in effect, given the chosen one. */

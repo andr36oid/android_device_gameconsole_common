@@ -1,5 +1,6 @@
 on post-fs-data
     mkdir /data/misc/andr36oid-gamecomfort 0770 system system
+    mkdir /data/misc/andr36oid-game-affinity 0700 root root
 
 # Started by Game comfort ("Continue playing") with ctl.start, see andr36oid-gamecomfort.sh
 service andr36oid-gamecomfort /system/bin/sh /system/etc/andr36oid-gamecomfort.sh
@@ -7,3 +8,19 @@ service andr36oid-gamecomfort /system/bin/sh /system/etc/andr36oid-gamecomfort.s
     group root system media_rw
     disabled
     oneshot
+
+# Only runs while the opt-in foreground experiment owns a session, or for recovery.
+service andr36oid-game-affinity /system/bin/sh /system/etc/andr36oid-gamecomfort.sh affinity
+    class late_start
+    user root
+    group root system
+    disabled
+    oneshot
+
+on property:sys.boot_completed=1
+    start andr36oid-game-affinity
+
+on property:init.svc.andr36oid-game-affinity=stopped && property:sys.andr36oid.gameaffinity.package=com.retroarch
+    start andr36oid-game-affinity
+on property:init.svc.andr36oid-game-affinity=stopped && property:sys.andr36oid.gameaffinity.package=org.ppsspp.ppsspp
+    start andr36oid-game-affinity

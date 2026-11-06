@@ -29,6 +29,18 @@ int card(const std::string& id) {
     for (int n = 0; n < 32; ++n) if (text("/proc/asound/card" + std::to_string(n) + "/id") == id) return n;
     return -1;
 }
+#ifdef __ANDROID__
+// The RK817 codec card carries the capture ADC. Its ALSA id is sanitised from the DT name
+// "rockchip,rk817-codec" (so "rockchiprk817co" on this board); match the substring so a
+// renamed revision still resolves, while never grabbing the gadget's own UAC2Gadget card.
+int codecCard() {
+    for (int n = 0; n < 32; ++n) {
+        const std::string id = text("/proc/asound/card" + std::to_string(n) + "/id");
+        if (!id.empty() && id != "UAC2Gadget" && id.find("rk817") != std::string::npos) return n;
+    }
+    return -1;
+}
+#endif
 }
 Bytes DhcpLease::reply(const Bytes& q, int64_t time) {
     if (q.size() < 240 || q.size() > 1500 || q[0] != 1 || q[1] != 1 || q[2] != 6 || q[3] ||
@@ -115,6 +127,7 @@ Services::~Services() {
 #ifdef __ANDROID__
     if (playback_) pcm_close(static_cast<pcm*>(playback_));
     if (pcm_) pcm_close(static_cast<pcm*>(pcm_));
+    if (adc_) pcm_close(static_cast<pcm*>(adc_));
 #endif
     for (int fd : {net_,serial_,audioServer_,audioClient_,files_,fileClient_}) if (fd >= 0) close(fd);
     for (const char* key : {"link","peer","net_iface","serial_text","audio"}) publish_(key,"");
@@ -226,7 +239,7 @@ void Services::audio() {
         const int fd = pcm_get_poll_fd(capture); fcntl(fd,F_SETFL,O_NONBLOCK);
         pcm_start(capture);
     }
-    if (functions_ & Soundboard) {
+    if (functions_ & (Soundboard | AudioIn)) {
         if (!playback_) {
             const int n = card("UAC2Gadget");
             pcm_config config{}; config.channels = 2; config.rate = 48000; config.period_size = 192;
@@ -236,17 +249,52 @@ void Services::audio() {
             playback_ = output; const int fd = pcm_get_poll_fd(output); fcntl(fd,F_SETFL,O_NONBLOCK);
         }
         pcm* output = static_cast<pcm*>(playback_);
-        const bool ok = captureBridge_.pump([&](uint8_t* data, size_t size) -> ssize_t {
-            if (audioClient_ < 0) return -EAGAIN;
-            ssize_t n = recv(audioClient_,data,size,MSG_DONTWAIT | MSG_TRUNC); return n < 0 ? -errno : n;
-        },[&](const uint8_t* data, size_t size) -> ssize_t {
-            snd_xferi transfer{}; transfer.buf = const_cast<uint8_t*>(data); transfer.frames = size / 4;
-            if (ioctl(pcm_get_poll_fd(output),SNDRV_PCM_IOCTL_WRITEI_FRAMES,&transfer) < 0) return -errno;
-            return transfer.result > 0 ? transfer.result * 4 : transfer.result;
-        },[&] { pcm_prepare(output); });
-        if (!ok) {
-            if (audioClient_ >= 0) close(audioClient_);
-            audioClient_ = -1; captureBridge_.clear();
+        if (functions_ & AudioIn) {
+            // Audio in: feed the gadget's device-to-host endpoint straight from the RK817
+            // capture ADC, so the host records the console's own sound at 48 kHz without the
+            // Android round trip the soundboard uses. The ADC's clean digital copy of the
+            // mix depends on the codec's adc-for-loopback path (see implementation notes).
+            if (!adc_) {
+                const int n = codecCard();
+                if (n < 0) { audioStatus("error"); return; }
+                mixer* m = mixer_open(n);
+                if (m) {
+                    mixer_ctl* ctl = mixer_get_ctl_by_name(m,"Capture MIC Path");
+                    if (ctl) mixer_ctl_set_enum_by_string(ctl,"Main Mic");
+                    mixer_close(m);
+                }
+                pcm_config config{}; config.channels = 2; config.rate = 48000;
+                config.period_size = 192; config.period_count = 4; config.format = PCM_FORMAT_S16_LE;
+                pcm* capture = pcm_open(n,0,PCM_IN,&config);
+                if (!capture || !pcm_is_ready(capture)) { if (capture) pcm_close(capture); audioStatus("error"); return; }
+                adc_ = capture; const int fd = pcm_get_poll_fd(capture); fcntl(fd,F_SETFL,O_NONBLOCK);
+                pcm_start(capture);
+            }
+            pcm* input = static_cast<pcm*>(adc_);
+            const bool ok = adcBridge_.pump([&](uint8_t* data, size_t size) -> ssize_t {
+                snd_xferi transfer{}; transfer.buf = data; transfer.frames = size / 4;
+                if (ioctl(pcm_get_poll_fd(input),SNDRV_PCM_IOCTL_READI_FRAMES,&transfer) < 0) return -errno;
+                return transfer.result > 0 ? transfer.result * 4 : transfer.result;
+            },[&](const uint8_t* data, size_t size) -> ssize_t {
+                snd_xferi transfer{}; transfer.buf = const_cast<uint8_t*>(data); transfer.frames = size / 4;
+                if (ioctl(pcm_get_poll_fd(output),SNDRV_PCM_IOCTL_WRITEI_FRAMES,&transfer) < 0) return -errno;
+                return transfer.result > 0 ? transfer.result * 4 : transfer.result;
+            },[&] { pcm_prepare(input); pcm_start(input); pcm_prepare(output); });
+            if (ok) audioStatus("playing");
+            else { pcm_close(input); adc_ = nullptr; audioStatus("error"); }
+        } else {
+            const bool ok = captureBridge_.pump([&](uint8_t* data, size_t size) -> ssize_t {
+                if (audioClient_ < 0) return -EAGAIN;
+                ssize_t n = recv(audioClient_,data,size,MSG_DONTWAIT | MSG_TRUNC); return n < 0 ? -errno : n;
+            },[&](const uint8_t* data, size_t size) -> ssize_t {
+                snd_xferi transfer{}; transfer.buf = const_cast<uint8_t*>(data); transfer.frames = size / 4;
+                if (ioctl(pcm_get_poll_fd(output),SNDRV_PCM_IOCTL_WRITEI_FRAMES,&transfer) < 0) return -errno;
+                return transfer.result > 0 ? transfer.result * 4 : transfer.result;
+            },[&] { pcm_prepare(output); });
+            if (!ok) {
+                if (audioClient_ >= 0) close(audioClient_);
+                audioClient_ = -1; captureBridge_.clear();
+            }
         }
     }
     pcm* capture = static_cast<pcm*>(pcm_);

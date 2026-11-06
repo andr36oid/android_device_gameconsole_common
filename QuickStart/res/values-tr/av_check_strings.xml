@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="av_stick_hint">Bir çubuk yanlış yöne hareket ediyorsa buradan değiştir:</string>
+    <string name="av_chip_invert_x">Solu / sağı çevir</string>
+    <string name="av_chip_invert_y">Yukarıyı / aşağıyı çevir</string>
+    <string name="av_chip_swap">İki çubuğu değiştir</string>
+    <string name="av_chip_on">%1$s\nAçık</string>
+    <string name="av_chip_off">%1$s\nKapalı</string>
+    <string name="av_sound_title">Ses kontrolü</string>
+    <string name="av_sound_body">Kısa bir melodi döngü halinde çalıyor. Müziği duyuyor musun?</string>
+    <string name="av_sound_playing">Müzik çalıyor…</string>
+    <string name="av_sound_opt_speaker">Evet – hoparlörden</string>
+    <string name="av_sound_opt_hp">Evet – kulaklıktan (tak)</string>
+    <string name="av_sound_opt_none">Hiç ses yok</string>
+    <string name="av_sound_skip">Bu kontrolü atla</string>
+    <string name="av_sound_replay_hint">Y melodiyi yeniden çalar</string>
+    <string name="av_sound_speaker_ok">Harika – ses çalışıyor.</string>
+    <string name="av_sound_hp_prompt">Kulaklığını tak. Müzik kulaklıktan gelince \"Duyuyorum\" seçeneğini belirle.</string>
+    <string name="av_sound_hp_hear">Duyuyorum</string>
+    <string name="av_sound_hp_still">Hâlâ ses yok</string>
+    <string name="av_sound_hp_fixed">Kulaklık jakının okunma biçimi değiştirildi. Tekrar dinle.</string>
+    <string name="av_sound_hp_no_fix">Bu konsolda burada denenebilecek bir kulaklık düzeltmesi yok.</string>
+    <string name="av_sound_force_applied">Hoparlör ve kulaklık birlikte açıldı. Şimdi müziği duyuyor musun?</string>
+    <string name="av_sound_no_knob">Bu konsolda burada denenebilecek bir ses düzeltmesi yok. Şimdi müziği duyuyor musun?</string>
+    <string name="av_sound_hear_yes">Evet, duyuyorum</string>
+    <string name="av_sound_hear_no">Hâlâ hiçbir şey yok</string>
+    <string name="av_sound_left_default">Ses varsayılan ayarında bırakıldı. Daha sonra Ayarlar › Sistem › Çekirdek Düzenlemeleri bölümünden değiştirebilirsin.</string>
+</resources>

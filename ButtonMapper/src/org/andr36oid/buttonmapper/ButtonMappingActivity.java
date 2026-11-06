@@ -4,6 +4,10 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.IOException;
 import android.database.ContentObserver;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -33,6 +37,11 @@ public class ButtonMappingActivity extends Activity implements ControllerView.Li
     private static final int SCAN_CODE_A = 304;
     private static final String NEW_PROFILE = "new";
     private static final String DELETE_PROFILE = "delete";
+    private static final String IMPORT_PROFILES = "import";
+    private static final String EXPORT_PROFILES = "export";
+    private static final int IMPORT_REQUEST = 41;
+    private static final int EXPORT_REQUEST = 42;
+    private byte[] mExportDocument;
 
     // What the drawing activates the selected button with.
     private static final List<String> OK_ACTIONS = Arrays.asList(
@@ -84,6 +93,9 @@ public class ButtonMappingActivity extends Activity implements ControllerView.Li
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
+        if (savedInstanceState != null) {
+            mExportDocument = savedInstanceState.getByteArray("exportDocument");
+        }
         mMapping = new ButtonMapping(this);
         mRemap = mMapping.getActiveRemap();
 
@@ -140,6 +152,7 @@ public class ButtonMappingActivity extends Activity implements ControllerView.Li
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt(STATE_SELECTION, mController.getSelection());
+        outState.putByteArray("exportDocument", mExportDocument);
     }
 
     @Override
@@ -404,13 +417,21 @@ public class ButtonMappingActivity extends Activity implements ControllerView.Li
             adapter.addCommand(getString(R.string.profile_delete_choose), DELETE_PROFILE);
         }
 
+        adapter.addCommand(getString(R.string.profile_import), IMPORT_PROFILES);
+        if (mMapping.getProfiles().size() > 1) {
+            adapter.addCommand(getString(R.string.profile_export), EXPORT_PROFILES);
+        }
         final ButtonProfiles.Profile active = mMapping.getActiveProfile();
         builder.setTitle(R.string.profiles_title)
                 .setSingleChoiceItems(adapter, adapter.findPosition(active.id, 0),
                         (dialog, which) -> {
                             dialog.dismiss();
                             final String id = adapter.getValue(which);
-                            if (NEW_PROFILE.equals(id)) {
+                            if (IMPORT_PROFILES.equals(id)) {
+                                openProfileDocument(false);
+                            } else if (EXPORT_PROFILES.equals(id)) {
+                                openProfileDocument(true);
+                            } else if (NEW_PROFILE.equals(id)) {
                                 createProfile();
                             } else if (DELETE_PROFILE.equals(id)) {
                                 showDeleteChooser();
@@ -426,6 +447,101 @@ public class ButtonMappingActivity extends Activity implements ControllerView.Li
                             showDeleteDialog(active));
         }
         showDialog(builder);
+    }
+
+    private boolean usableDocumentLayout(String value) {
+        final ButtonRemap remap = ButtonRemap.parse(value);
+        if (!remap.toString().equals(value)) return false;
+        if (!value.isEmpty()) {
+            for (String entry : value.split(",")) {
+                final String[] fields = entry.split(":");
+                final int scan = Integer.parseInt(fields[0]);
+                HardwareButton found = null;
+                for (HardwareButton button : mMapping.buttons) {
+                    if (button.scanCode == scan) found = button;
+                }
+                if (found == null || found.locked) return false;
+                final String action = fields[1];
+                if (ButtonMapping.FN_ACTION.equals(action)) return false;
+                if (ButtonActions.find(action) == null
+                        && !action.matches("BUTTON_([1-9]|1[0-6])")) return false;
+            }
+        }
+        return mMapping.findMissing(remap).isEmpty();
+    }
+
+    private void openProfileDocument(boolean export) {
+        try {
+            if (export) {
+                mExportDocument = ProfileDocument.export(mMapping.snapshot(),
+                        this::usableDocumentLayout);
+            }
+            final Intent intent = new Intent(export ? Intent.ACTION_CREATE_DOCUMENT
+                    : Intent.ACTION_OPEN_DOCUMENT).addCategory(Intent.CATEGORY_OPENABLE)
+                    .setType(export ? "text/plain" : "*/*");
+            if (export) intent.putExtra(Intent.EXTRA_TITLE, "button-profiles.txt");
+            startActivityForResult(intent, export ? EXPORT_REQUEST : IMPORT_REQUEST);
+        } catch (IOException | RuntimeException e) {
+            documentMessage(R.string.profile_document_failed);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int request, int result, Intent data) {
+        super.onActivityResult(request, result, data);
+        if (request != IMPORT_REQUEST && request != EXPORT_REQUEST) return;
+        final byte[] exported = mExportDocument;
+        mExportDocument = null;
+        if (result != RESULT_OK || data == null || data.getData() == null) return;
+        // Providers may be remote. Read completely before making any settings changes.
+        new Thread(() -> {
+            try {
+                if (request == EXPORT_REQUEST) {
+                    if (exported == null) throw new IOException("Missing export snapshot");
+                    try (OutputStream output = getContentResolver()
+                            .openOutputStream(data.getData(), "wt")) {
+                        if (output == null) throw new IOException("No output stream");
+                        output.write(exported);
+                    }
+                    runOnUiThread(() -> documentMessage(R.string.profile_exported));
+                } else {
+                    final ButtonProfiles imported;
+                    try (InputStream input = getContentResolver().openInputStream(data.getData())) {
+                        // Hardware-dependent validation is repeated on the UI thread below.
+                        imported = ProfileDocument.read(input, value -> true);
+                    }
+                    runOnUiThread(() -> installImportedProfiles(imported));
+                }
+            } catch (IOException | RuntimeException e) {
+                runOnUiThread(() -> documentMessage(R.string.profile_document_failed));
+            }
+        }, "ButtonProfileDocument").start();
+    }
+
+    private void installImportedProfiles(ButtonProfiles imported) {
+        if (isFinishing() || isDestroyed()) return;
+        try {
+            for (ButtonProfiles.Profile profile : imported.getAll()) {
+                if (!profile.isStandard() && !usableDocumentLayout(profile.remap)) {
+                    throw new IOException("Unsupported or unsafe layout");
+                }
+            }
+            final ButtonProfiles replacement = ProfileDocument.append(mMapping.snapshot(), imported);
+            // One write, only named profiles: active ID, live remap and Fn/rescue stay untouched.
+            if (!Settings.Global.putString(getContentResolver(), ButtonMapping.SETTING_PROFILES,
+                    replacement.serialize())) throw new IOException("Settings write failed");
+            mMapping.reload();
+            updateViews();
+            documentMessage(R.string.profile_imported);
+        } catch (IOException | RuntimeException e) {
+            documentMessage(R.string.profile_document_failed);
+        }
+    }
+
+    private void documentMessage(int message) {
+        if (!isFinishing() && !isDestroyed()) {
+            Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+        }
     }
 
     private void switchProfile(String id) {

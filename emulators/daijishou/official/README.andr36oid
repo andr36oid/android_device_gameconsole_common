@@ -1,0 +1,55 @@
+Platform sources
+
+The upstream platform JSON files here are from TapiocaFox/Daijishou at
+cde33bb64af2eb1cc56965c8a68702b3485a6d73, under the MIT license in LICENSE.
+
+Commodore128.json and Atari800.json are local derivatives, not official
+upstream platforms. That pinned upstream set has no dedicated C128 or Atari
+8-bit computer platform. They derive from Commodore64.json and Atari5200.json,
+respectively, with separate platform/player IDs and the matching core, so
+computer games do not default to the C64 or 5200 emulator. The Atari computer
+platform uses its own extensions and database; C128 has no configured scraper.
+Daijishou cannot update these two local platforms from its official catalog.
+
+New upstream files copied for the additional cores:
+  ScummVM.json, VIC20.json, CommodorePlus4.json, CommodorePET.json,
+  AmstradCPC.json, Quake.json, CaveStoryGameEngine.json, LowResNX.json,
+  SharpX68000.json, AtariJaguar.json.
+
+Phase 2 sources
+
+Unmodified files copied from that same cached revision:
+  AtariST.json, NECPCFX.json, NECPC98.json, NECPC88.json, TIC80.json, WASM4.json, Uzebox.json, WataraSupervision.json, FairchildChannelF.json, SharpX1.json, Arduboy.json, BBCMicro.json, MegaDuck.json, ZX81.json.
+
+The following are local derivatives, NOT members of the official catalog. Each
+has its own andr36oid.phase2 system and player IDs, no inherited scraper or
+achievements, and the supported extensions from dArkOSen's core info. Their
+system/folder names follow dArkOSen's EmulationStation systems where present.
+CBM-II and BK have no dedicated entry in that reference ES config; the local
+folders are named for the machines in the corresponding core info files.
+  Vircon32.json <- LowResNX.json; folder vircon32; core vircon32.
+  SuperCassetteVision.json <- ColecoVision.json; folder scv; core emuscv.
+  Macintosh.json <- DOS.json; folder vmac; core minivmac.
+  Wolfenstein3D.json <- DOOMGameEngine.json; folder wolf; core ecwolf.
+  ONScripter.json <- RPGMaker.json; folder onscripter; core onsyuri.
+  PuzzleScript.json <- LowResNX.json; folder puzzlescript; core puzzlescript.
+  CommodoreCBM2.json <- Commodore64.json; folder cbm2; core vice_xcbm2.
+  CommodoreCBM5x0.json <- Commodore64.json; folder cbm5x0; core vice_xcbm5x0.
+  ElektronikaBK.json <- ZXSpectrum.json; folder bk; core bk.
+
+The generator applies per-core filename filters for Phase 2 players. This fixes
+missing extensions in cached player definitions, and prevents synthesized players
+from inheriting another core's formats. The source JSON copies stay unchanged.
+Macintosh is the upstream Mini vMac Mac II build, not a claim of a Mac Plus
+variant. ECWolf uses native data extensions rather than ES shell launchers or
+.wolf/.ecwolf wrappers; those Linux launch scripts do not work on Android.
+Local platforms use the existing artwork fallback until host artwork regeneration.
+
+Additional libraries reusing Phase 1/base cores:
+  SegaSG1000.json and SegaPico.json are unchanged copies from the same cache.
+  AmstradGX4000.json is a local derivative of AmstradCPC.json with its own
+  andr36oid.phase2.gx4000 platform/player IDs and CPR cartridge player
+  (plus RetroArch archive extraction). Caprice32's pinned source has CPR
+  loading in cap32/cart.c. No new emulator binary is needed for these systems.
+  The c16 and atarixegs folders join their existing plus4 and atari800 platforms
+  to preserve dArkOSen card paths without duplicating a machine library.

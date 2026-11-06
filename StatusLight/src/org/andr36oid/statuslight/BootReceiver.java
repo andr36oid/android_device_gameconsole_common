@@ -11,7 +11,8 @@ public class BootReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (!Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) return;
+        if (!Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())
+                && !Intent.ACTION_LOCKED_BOOT_COMPLETED.equals(intent.getAction())) return;
         final ComponentName entry = new ComponentName(context, StatusLightActivity.class);
         final int state = Led.present() ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED
                 : PackageManager.COMPONENT_ENABLED_STATE_DISABLED;

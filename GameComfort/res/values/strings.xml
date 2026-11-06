@@ -81,4 +81,45 @@
     <string name="continue_state_hint">Continuing <xliff:g id="game">%1$s</xliff:g>. Your newest save state (<xliff:g id="slot">%2$s</xliff:g>) is newer than the game\'s own save. To use it, load it in the RetroArch menu (Select + X).</string>
     <string name="continue_slot">slot <xliff:g id="slot">%1$d</xliff:g></string>
     <string name="continue_slot_auto">the automatic one</string>
+    <!-- TODO translate -->
+    <string name="app_brightness_title">App brightness</string>
+    <string name="app_brightness_summary">Remember a manual brightness choice for each app</string>
+    <string name="app_brightness_enabled">Use app brightness</string>
+    <string name="app_brightness_about">Choose apps below. Their brightness is used only in manual mode. Leaving them restores the previous brightness unless you changed the slider yourself. A slider change pauses rules until you leave the configured apps.\n\nApps that control their own window brightness are skipped. The check runs when the task changes; later window-only changes may be seen on the next task change. If the window brightness check is unavailable, the rule is skipped. Rules stop on the subsystem launch screen and while the guest owns the session.</string>
+    <string-array name="app_brightness_entries">
+        <item>Use current brightness</item><item>10 %</item><item>25 %</item><item>50 %</item><item>75 %</item><item>100 %</item>
+    </string-array>
+    <string-array name="app_brightness_values" translatable="false">
+        <item>off</item><item>10</item><item>25</item><item>50</item><item>75</item><item>100</item>
+    </string-array>
+    <!-- TODO translate -->
+    <string name="ra_repair_title">RetroArch performance settings</string>
+    <string name="ra_repair_summary">Choose repairs, preview changes and keep a backup</string>
+    <string name="ra_repair_about">Choose the repairs to apply below. All are selected to start; turn off any you want to keep as they are. Saves, bindings and library entries are kept. Per-game overrides are left intact and may still enable these features. An FPS increase is not guaranteed. Exit RetroArch before continuing.</string>
+    <!-- TODO translate: individual repair choices and their tradeoffs -->
+    <string name="ra_repair_shader">Turn off global shaders</string>
+    <string name="ra_repair_shader_about">Removes screen effects such as scanlines from the main settings to reduce graphics work. Games lose those effects unless an override enables them.</string>
+    <string name="ra_repair_preemptive">Turn off global Preemptive Frames</string>
+    <string name="ra_repair_preemptive_about">Stops extra frame processing in the main settings to reduce processor work. Controls may feel less immediate because this optional input-delay reduction is disabled.</string>
+    <string name="ra_repair_gambatte">Repair Gambatte core override</string>
+    <string name="ra_repair_gambatte_about">Turns off shaders and Preemptive Frames in the existing Game Boy / Game Boy Color core settings. This reduces graphics and processor work, at the cost of screen effects and optional input-delay reduction. A missing override stays missing.</string>
+    <string name="ra_repair_nestopia">Repair Nestopia core override</string>
+    <string name="ra_repair_nestopia_about">Turns off shaders and Preemptive Frames in the existing Nestopia NES core settings. This reduces graphics and processor work, at the cost of screen effects and optional input-delay reduction. A missing override stays missing.</string>
+    <string name="ra_repair_fceumm">Repair FCEUmm core override</string>
+    <string name="ra_repair_fceumm_about">Turns off shaders and Preemptive Frames in the existing FCEUmm NES core settings. This reduces graphics and processor work, at the cost of screen effects and optional input-delay reduction. A missing override stays missing.</string>
+    <string name="ra_repair_preview_selected">Preview selected repairs</string>
+    <string name="ra_repair_preview">Preview changes</string>
+    <string name="ra_repair_preview_body">%1$d configuration files would change.\n\nSelected repairs:\n%2$s\n\nOnly these repairs will be applied. Core overrides can take priority over global settings. A backup of changed files is saved before applying. Per-game overrides are kept. Custom override directories are not supported.</string>
+    <string name="ra_repair_apply">Apply selected repairs</string>
+    <string name="ra_repair_restore">Restore backup</string>
+    <string name="ra_repair_restore_about">Restore the files saved before the repair. Restore is refused if those files were edited afterward. Exit RetroArch first.</string>
+    <string name="ra_repair_wait">Waiting for the setup worker… Keep RetroArch closed.</string>
+    <string name="ra_repair_ready">Preview ready. Cancel leaves your settings unchanged.</string>
+    <string name="ra_repair_applied">Selected repairs applied. The backup is available through Restore backup.</string>
+    <string name="ra_repair_restored">Backup restored.</string>
+    <string name="ra_repair_unchanged">The selected repairs need no changes. Any existing backup was kept.</string>
+    <string name="ra_repair_busy">RetroArch is running. Exit it normally and try again.</string>
+    <string name="ra_repair_backup">A backup already exists. Restore it before making another repair.</string>
+    <string name="ra_repair_error">Unable to complete the request. Check that RetroArch has a global configuration, uses the default override directory and is closed. Restore also requires an existing backup and unchanged repaired files. Any backup made before a failed write is kept for recovery.</string>
+    <string name="ra_repair_timeout">The setup worker has not answered yet. The request may still be queued; keep RetroArch closed and check again later.</string>
 </resources>

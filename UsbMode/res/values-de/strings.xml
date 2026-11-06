@@ -399,4 +399,11 @@
     <string name="usb_emulator_stopping">USB-Geräteemulator wird gestoppt…</string>
     <string name="usb_emulator_stop_wait">Warte, bis der Speicher vollständig geschlossen ist und wieder Android zur Verfügung steht.</string>
     <string name="usb_drive_image_unsupported">Diese Abbilder liegen in einem Format vor, das die Konsole nicht direkt teilen kann. Wandle sie zuerst in ein einfaches .img um: <xliff:g id="names">%1$s</xliff:g></string>
+    <string name="usb_audioin_title">Audioeingang</string>
+    <string name="usb_audioin_toggle">Konsolenton an PC</string>
+    <string name="usb_audioin_toggle_summary">Nimm den eigenen Ton der Konsole in 48 kHz Stereo auf und sende ihn als sauberes USB-Mikrofon an den Computer, statt den verrauschten Kopfhörerausgang aufzunehmen. Die Funktion teilt die Verbindung der Soundkarte mit dem Computer und kann daher nicht zusammen mit dem Soundboard-Mikrofon laufen. Die Aufnahme erfolgt über den Aufnahmeweg des Codecs. Funktioniert auch bei ausgeschaltetem Display.</string>
+    <string name="usb_role_mic_summary">Sende den eigenen Ton dieser Konsole als sauberes 48-kHz-USB-Mikrofon an den Computer.</string>
+    <string name="usb_functions_title">USB-Funktionen</string>
+    <string name="usb_functions_active">Eine USB-Sitzung oder ein Speichervorgang ist bereits aktiv. Öffne ihn, um den Status zu prüfen oder ihn zu beenden, bevor du eine andere Funktion auswählst.</string>
+    <string name="usb_functions_open">Aktuelle Sitzung öffnen</string>
 </resources>

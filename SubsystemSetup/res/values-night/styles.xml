@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Dark is the shipped device configuration; use the actual dark platform
+         palette and system accent, with true-black page and row surfaces. -->
+    <style name="SubsystemTheme" parent="android:style/Theme.DeviceDefault.NoActionBar">
+        <item name="android:colorBackground">#ff000000</item>
+        <item name="android:colorBackgroundFloating">#ff000000</item>
+        <item name="android:windowBackground">?android:attr/colorBackground</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowActionModeOverlay">true</item>
+        <item name="android:fontFamily">sans</item>
+        <item name="android:colorEdgeEffect">?android:attr/colorAccent</item>
+        <item name="android:windowLightNavigationBar">false</item>
+        <item name="android:navigationBarColor">?android:attr/colorBackground</item>
+    </style>
+</resources>

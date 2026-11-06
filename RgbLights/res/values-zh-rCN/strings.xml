@@ -25,4 +25,6 @@
         <item>purple</item>
         <item>white</item>
     </string-array>
+    <string name="rgb_row_effect">效果</string><string name="rgb_row_color">颜色</string><string name="rgb_row_brightness">亮度</string><string name="rgb_row_speed">速度</string><string name="rgb_auto">自动</string><string name="rgb_preview_left">左</string><string name="rgb_preview_right">右</string><string name="rgb_stick_hint">移动摇杆为灯光设置颜色</string><string name="rgb_hint">上/下：选择   左/右：更改   B：返回</string>
+    <string-array name="rgb_effect_names"><item>关闭</item><item>纯色</item><item>呼吸</item><item>彩虹</item><item>跟随摇杆</item><item>电池</item></string-array>
 </resources>

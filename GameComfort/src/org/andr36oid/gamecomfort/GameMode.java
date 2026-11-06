@@ -19,6 +19,42 @@ import java.util.Arrays;
  */
 final class GameMode {
 
+    private static String sTuningStamp;
+    private static boolean sTurboEnabled;
+    static final String TURBO = "andr36oid_game_turbo";
+    static final String AFFINITY = "andr36oid_game_affinity";
+
+    /** Independent of notification game mode: only the actual foreground game owns clocks. */
+    static void foreground(Context context, String pkg, boolean game) {
+        String target = game && pkg != null ? pkg : "";
+        boolean turbo = Settings.Global.getInt(context.getContentResolver(), TURBO, 1) != 0;
+        String stamp = target + ":" + turbo + ":" + Settings.Global.getInt(context.getContentResolver(), AFFINITY, 0);
+        if (stamp.equals(sTuningStamp)) return;
+        boolean migrate = sTuningStamp != null && turbo != sTurboEnabled
+                && !target.isEmpty() && isOnByAutomatic(context);
+        if (migrate && turbo) {
+            // Stop the old temporary owner before restoring legacy automatic
+            // game-mode clocks; Turbo then snapshots the actual prior state.
+            context.sendBroadcast(new Intent(ACTION_RESTORE_PROFILE).setPackage(PROFILES_PACKAGE)
+                    .putExtra("foreground_game", true));
+            context.sendBroadcast(new Intent(ACTION_RESTORE_PROFILE).setPackage(PROFILES_PACKAGE));
+        }
+        sTuningStamp = stamp;
+        sTurboEnabled = turbo;
+        context.sendBroadcast(new Intent(target.isEmpty() ? ACTION_RESTORE_PROFILE : ACTION_SET_PROFILE)
+                .setPackage(PROFILES_PACKAGE).putExtra("foreground_game", true)
+                .putExtra("game_package", target));
+        if (migrate && !turbo) requestLegacyClocks(context);
+    }
+
+    private static void requestLegacyClocks(Context context) {
+        final SharedPreferences preferences = prefs(context);
+        final int profile = Integer.parseInt(preferences.getString(KEY_PROFILE, "-1"));
+        final boolean memory = preferences.getBoolean(KEY_STEADY_MEMORY, true);
+        if (profile >= 0 || memory) context.sendBroadcast(new Intent(ACTION_SET_PROFILE)
+                .setPackage(PROFILES_PACKAGE).putExtra("profile", profile).putExtra("hold_memory", memory));
+    }
+
     static final String KEY_AUTOMATIC = "game_mode_automatic";
     /** Performance profile while game mode is on, -1 leaves it alone. */
     static final String KEY_PROFILE = "game_mode_profile";
@@ -100,7 +136,8 @@ final class GameMode {
             edit.putBoolean(KEY_BY_AUTOMATIC, automatic);
             final int profile = Integer.parseInt(prefs.getString(KEY_PROFILE, "-1"));
             final boolean steadyMemory = prefs.getBoolean(KEY_STEADY_MEMORY, true);
-            if (profile >= 0 || steadyMemory) {
+            if ((profile >= 0 || steadyMemory) && !(automatic
+                    && Settings.Global.getInt(resolver, TURBO, 1) != 0)) {
                 // -1 leaves the profile alone, the memory hold still applies
                 context.sendBroadcast(new Intent(ACTION_SET_PROFILE)
                         .setPackage(PROFILES_PACKAGE).putExtra("profile", profile)

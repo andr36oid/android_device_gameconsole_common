@@ -452,7 +452,6 @@ PRODUCT_PRODUCT_PROPERTIES += \
                               
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.wifi.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.wifi.xml \
-    frameworks/native/data/etc/android.hardware.wifi.direct.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.wifi.direct.xml \
     $(LOCAL_PATH)/configs/wifi/wpa_supplicant.conf:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/wpa_supplicant.conf \
     $(LOCAL_PATH)/configs/wifi/wpa_supplicant.conf:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/wpa_supplicant_overlay.conf \
     $(LOCAL_PATH)/configs/wifi/p2p_supplicant.conf:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/p2p_supplicant_overlay.conf \
@@ -622,6 +621,12 @@ PRODUCT_PACKAGES += andr36oid-fn-watch
 PRODUCT_PACKAGES += \
 	RgbLights
 
+# Boot-time default seed for the R36 Ultra stick-ring keros LED. Lights a fresh
+# unit out of the box but never overrides a saved choice (incl. "off"); no-op on
+# consoles without the keros node. Run from init.rk30board.rc "on boot".
+PRODUCT_PACKAGES += \
+	andr36oid-keros-seed
+
 # Status light (Settings > Display > Status light): battery, charging and notification
 # colours of the LED by the power button, on consoles whose DTB has the status LED
 PRODUCT_PACKAGES += \
@@ -672,6 +677,10 @@ PRODUCT_PACKAGES += \
 	BiosCheck \
 	andr36oid-bioscheck
 
+# Sound settings launches this package for notification and alarm sound selection.
+PRODUCT_PACKAGES += \
+	SoundPicker
+
 # Remove phone packages that added by default product configuration
 PRODUCT_PACKAGES += \
     	remove-BlockedNumberProvider \
@@ -682,7 +691,6 @@ PRODUCT_PACKAGES += \
 	remove-HTMLViewer \
 	remove-UserDictionaryProvider \
 	remove-SimAppDialog \
-	remove-SoundPicker \
 	remove-SecureElement \
 	remove-EasterEgg \
 	remove-CalendarProvider \

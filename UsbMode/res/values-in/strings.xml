@@ -399,4 +399,11 @@
     <string name="usb_emulator_stopping">Menghentikan Emulator Perangkat USB…</string>
     <string name="usb_emulator_stop_wait">Menunggu penyimpanan selesai ditutup dan kembali ke Android.</string>
     <string name="usb_drive_image_unsupported">Image disk ini dalam format yang tidak bisa dibagikan langsung oleh konsol. Ubah dulu ke .img biasa: <xliff:g id="names">%1$s</xliff:g></string>
+    <string name="usb_audioin_title">Audio masuk</string>
+    <string name="usb_audioin_toggle">Audio konsol ke PC</string>
+    <string name="usb_audioin_toggle_summary">Tangkap suara konsol sendiri dalam stereo 48 kHz dan kirim ke komputer sebagai mikrofon USB yang jernih, bukan merekam keluaran headphone yang berisik. Fitur ini berbagi koneksi kartu suara ke komputer, jadi tidak dapat berjalan bersama mikrofon soundboard. Merekam melalui jalur tangkap codec. Berfungsi saat layar mati.</string>
+    <string name="usb_role_mic_summary">Kirim audio konsol ini ke komputer sebagai mikrofon USB 48 kHz yang jernih.</string>
+    <string name="usb_functions_title">Fungsi USB</string>
+    <string name="usb_functions_active">Sesi USB atau operasi penyimpanan sudah aktif. Buka untuk memeriksa status atau menghentikannya sebelum memilih fungsi lain.</string>
+    <string name="usb_functions_open">Buka sesi saat ini</string>
 </resources>

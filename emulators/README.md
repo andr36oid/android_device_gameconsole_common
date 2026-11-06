@@ -125,13 +125,15 @@ What `ppsspp.ini` sets (every key checked against 1.19.3's `Core/Config.cpp`):
 |---|---|---|
 | `GraphicsBackend` | OpenGL | PPSSPP's Android default is Vulkan, which this Mali driver doesn't have |
 | `InternalResolution`, `AndroidHwScale` | 1x, native | PSP's 480x272; anything more is too much for the Mali-G31 |
-| `AutoFrameSkip`, `FrameSkip` | on, up to 2 | keeps speed and sound in heavy scenes (ArkOS, ROCKNIX RK3326) |
+| `AutoFrameSkip`, `FrameSkip` | on, 1 | skips only when behind; a nonzero value is required by 1.19.3 auto-frameskip |
 | `SkipBufferEffects` | off | buffered rendering; auto frameskip needs it, many games break without it |
-| `SkipGPUReadbackMode` | skip | GPU readbacks stall the Mali badly (ROCKNIX RK3326) |
+| `SkipGPUReadbackMode` | no skipping (0) | keeps readback-dependent effects and games working; per-game compat guards remain |
 | `TextureBackoffCache` | on | "lazy texture caching" speedhack (ArkOS, ROCKNIX) |
 | `TexScalingLevel`, `AnisotropyLevel`, `TextureShader` | off, 0, off | no texture upscaling or extra filtering (ArkOS) |
 | `SplineBezierQuality` | low | curved surfaces are CPU heavy (ArkOS, ROCKNIX) |
 | `HardwareTransform`, `SoftwareSkinning` | on, on | PPSSPP defaults, stated so a changed default can't slow us down |
+| `MultiThreading` | on | pins the upstream default; OpenGL already uses its own render thread |
+| `DisplayRefreshRate`, `FrameRate` | 60, 60 | pins normal PSP vblank timing and alternate speed 1; does not turn 30 fps games into 60 fps games |
 | `CPUCore`, `IOTimingMethod`, `SeparateSASThread` | JIT, fast, on | PPSSPP defaults (fastest) |
 | `iShowStatusFlags` | 0 | no FPS counter |
 | `ImmersiveMode` | on | full screen without system bars |
@@ -147,8 +149,9 @@ vertex shader and saves GPU work), `DepthRasterMode` (only on for the few games 
 flags, where it replaces a slower readback), `InflightFrames` 3, `UberShader*` on,
 `ShaderCache` on, `BloomHack` (does nothing at 1x), `RenderDuplicateFrames` off, no
 post shader, OpenGL's own render thread (always on for GL; `MultiThreading` is
-Vulkan only). Skipping readbacks breaks a few games that PPSSPP flags
-RequireBlockTransfer; `compat.ini` below turns readbacks back on for exactly those.
+Vulkan only). The global seed keeps GPU readbacks enabled. `compat.ini` retains readback-required
+game guards if the user later enables skipping for other games. PPSSPP 1.19.3 has
+no `VertexCache` INI option, so no ignored legacy key is seeded.
 
 `controls.ini` is PPSSPP's own Android pad map (face buttons, D-pad, stick, L2 = menu,
 R2 = fast forward) plus hotkeys like RetroArch's, hold Select and press:
@@ -397,11 +400,14 @@ ROM only while the user hasn't edited it (same manifest as the pad profile).
 
 It only holds values that differ from the core defaults (plus the recompilers, pinned):
 PCSX ReARMed simple sound interpolation and frameskip only against crackling;
-Mupen64Plus-Next at 320x240 with GLideN64 threaded and no frame buffer copies to N64
-memory; Snes9x 2010 threaded renderer and frameskip only against crackling; MAME
+Mupen64Plus-Next at native 1x with GLideN64 threaded, standard bilinear without
+the extra hybrid scaling filter, and compatible framebuffer copies; Snes9x 2010 threaded renderer and frameskip only against crackling; MAME
 2003-Plus no disclaimer screens and 22 kHz sound; PUAE 2021 "compatible" CPU timing
 and low resolution; VICE without true drive emulation. The keys and values are checked
-against the core sources at the pinned commits.
+against the core sources at the pinned commits. This Mupen build has no generic
+`gfxplugin-accuracy` option; accuracy-breaking global shortcuts are not substituted.
+Its 4:3 output stays 320x240 and native scaling stays 1x; native N64 buffer dimensions
+can vary by game. Overscan offsets stay at their defaults to avoid cropping game UI.
 
 PPSSPP's memory stick folder and settings: see [PPSSPP defaults](#ppsspp-defaults).
 Step 8 (`ppsspp_controls`) fixes its buttons afterwards: PPSSPP's Android default maps
