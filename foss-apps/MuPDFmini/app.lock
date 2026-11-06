@@ -1,0 +1,13 @@
+# MuPDF mini by Artifex Software, F-Droid build (F-Droid signs it, so F-Droid can update it).
+# sha256 from the F-Droid index (index-v2.json). A small, fast reader for PDF, XPS, EPUB, FB2
+# and comic archives (CBZ); the "mini" front-end is tuned for small screens.
+name=MuPDFmini
+package=com.artifex.mupdf.mini.app
+version_code=270
+version_name=1.28.5a
+spdx=AGPL-3.0-or-later
+sha256=1a8a97cc9c8e8647b60d8c0f22eb3693d2d494a8982cc881e6fbef5b45830d6a
+apk_url=https://f-droid.org/repo/com.artifex.mupdf.mini.app_270.apk
+source_url=https://github.com/ArtifexSoftware/mupdf-android-viewer-mini (F-Droid's source tarball: https://f-droid.org/repo/com.artifex.mupdf.mini.app_270_src.tar.gz)
+license_url=https://raw.githubusercontent.com/spdx/license-list-data/main/text/AGPL-3.0-or-later.txt
+published_by=F-Droid

@@ -1,0 +1,29 @@
+package: com.artifex.mupdf.mini.app
+version_code: 270
+author: github:ArtifexSoftware
+description:
+  en: "Reads PDF, EPUB and CBZ comics; light and fast"
+  de: "Liest PDF, EPUB und CBZ-Comics; leicht und schnell"
+  es: "Lee PDF, EPUB y cómics CBZ; ligero y rápido"
+  fr: "Lit les PDF, EPUB et bandes dessinées CBZ ; léger et rapide"
+  in: "Membaca PDF, EPUB, dan komik CBZ; ringan dan cepat"
+  ja: "PDF・EPUB・CBZ 漫画を軽快に表示"
+  pl: "Czyta pliki PDF, EPUB i komiksy CBZ; lekki i szybki"
+  pt: "Lê PDF, EPUB e banda desenhada CBZ; leve e rápido"
+  pt-BR: "Lê PDF, EPUB e quadrinhos CBZ; leve e rápido"
+  ru: "Читает PDF, EPUB и комиксы CBZ; лёгкий и быстрый"
+  tr: "PDF, EPUB ve CBZ çizgi romanlarını okur; hafif ve hızlı"
+  zh-CN: "阅读 PDF、EPUB 和 CBZ 漫画，轻巧流畅"
+warning:
+  en: "Needs mouse mode to turn pages without a touchscreen"
+  de: "Zum Blättern ohne Touchscreen brauchst du den Mausmodus"
+  es: "Necesita el modo ratón para pasar páginas sin pantalla táctil"
+  fr: "Mode souris nécessaire pour tourner les pages sans écran tactile"
+  in: "Perlu mode mouse untuk membalik halaman tanpa layar sentuh"
+  ja: "タッチ非対応ではページめくりにマウスモードが必要"
+  pl: "Bez ekranu dotykowego do zmiany stron potrzebny jest tryb myszy"
+  pt: "Precisa do modo rato para virar páginas sem ecrã tátil"
+  pt-BR: "Precisa do modo mouse para virar páginas sem tela sensível ao toque"
+  ru: "Без сенсорного экрана для перелистывания нужен режим мыши"
+  tr: "Dokunmatik ekran yoksa sayfa çevirmek için fare modu gerekir"
+  zh-CN: "无触摸屏时需用鼠标模式翻页"

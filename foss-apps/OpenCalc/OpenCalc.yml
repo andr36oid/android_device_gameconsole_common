@@ -1,0 +1,16 @@
+package: com.darkempire78.opencalculator
+version_code: 53
+author: github:Darkempire78
+description:
+  en: "Calculator with history and a scientific mode"
+  de: "Rechner mit Verlauf und wissenschaftlichem Modus"
+  es: "Calculadora con historial y modo científico"
+  fr: "Calculatrice avec historique et mode scientifique"
+  in: "Kalkulator dengan riwayat dan mode ilmiah"
+  ja: "履歴と関数電卓モードを備えた電卓"
+  pl: "Kalkulator z historią i trybem naukowym"
+  pt: "Calculadora com histórico e modo científico"
+  pt-BR: "Calculadora com histórico e modo científico"
+  ru: "Калькулятор с историей и инженерным режимом"
+  tr: "Geçmiş ve bilimsel mod içeren hesap makinesi"
+  zh-CN: "带历史记录和科学模式的计算器"

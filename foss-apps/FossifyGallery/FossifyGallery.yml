@@ -1,0 +1,29 @@
+package: org.fossify.gallery
+version_code: 30
+author: github:FossifyOrg
+description:
+  en: "Browse, view and edit your photos and videos offline"
+  de: "Deine Fotos und Videos offline durchsehen, ansehen und bearbeiten"
+  es: "Explora, ve y edita tus fotos y vídeos sin conexión"
+  fr: "Parcourez, visionnez et retouchez vos photos et vidéos hors ligne"
+  in: "Telusuri, lihat, dan edit foto serta video Anda secara luring"
+  ja: "写真や動画をオフラインで閲覧・表示・編集"
+  pl: "Przeglądaj, oglądaj i edytuj zdjęcia oraz filmy offline"
+  pt: "Explora, vê e edita as tuas fotos e vídeos sem ligação"
+  pt-BR: "Navegue, veja e edite suas fotos e vídeos offline"
+  ru: "Просмотр и редактирование фото и видео без интернета"
+  tr: "Fotoğraf ve videolarını çevrimdışı gez, görüntüle ve düzenle"
+  zh-CN: "离线浏览、查看和编辑照片与视频"
+warning:
+  en: "Zooming and editing are easier in mouse mode"
+  de: "Zoomen und Bearbeiten gehen im Mausmodus leichter"
+  es: "Ampliar y editar es más fácil en modo ratón"
+  fr: "Le zoom et les retouches sont plus faciles en mode souris"
+  in: "Memperbesar dan mengedit lebih mudah dengan mode mouse"
+  ja: "拡大や編集はマウスモードが便利"
+  pl: "Powiększanie i edycja są łatwiejsze w trybie myszy"
+  pt: "Ampliar e editar é mais fácil no modo rato"
+  pt-BR: "Ampliar e editar é mais fácil no modo mouse"
+  ru: "Масштабировать и редактировать удобнее в режиме мыши"
+  tr: "Yakınlaştırma ve düzenleme fare modunda daha kolay"
+  zh-CN: "在鼠标模式下缩放和编辑更方便"

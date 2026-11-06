@@ -1,0 +1,16 @@
+package: me.zhanghai.android.files
+version_code: 40
+author: github:zhanghai
+description:
+  en: "Full file manager: copy, move and extract ZIP archives"
+  de: "Vollwertiger Dateimanager: Kopieren, Verschieben und ZIP-Archive entpacken"
+  es: "Gestor de archivos completo: copia, mueve y extrae archivos ZIP"
+  fr: "Gestionnaire de fichiers complet : copier, déplacer et extraire des ZIP"
+  in: "Pengelola berkas lengkap: menyalin, memindahkan, dan mengekstrak ZIP"
+  ja: "本格的なファイルマネージャー。コピー・移動・ZIP の展開に対応"
+  pl: "Pełny menedżer plików: kopiowanie, przenoszenie i rozpakowywanie ZIP"
+  pt: "Gestor de ficheiros completo: copia, move e extrai arquivos ZIP"
+  pt-BR: "Gerenciador de arquivos completo: copia, move e extrai arquivos ZIP"
+  ru: "Полноценный файловый менеджер: копирование, перемещение и распаковка ZIP"
+  tr: "Tam donanımlı dosya yöneticisi: kopyala, taşı ve ZIP arşivlerini çıkar"
+  zh-CN: "功能完整的文件管理器：复制、移动并解压 ZIP 压缩包"

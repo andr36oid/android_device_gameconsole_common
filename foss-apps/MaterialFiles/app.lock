@@ -1,0 +1,13 @@
+# Material Files by Hai Zhang, F-Droid build (F-Droid signs it, so F-Droid can update it).
+# sha256 from the F-Droid index (index-v2.json). A full file manager next to the built-in
+# AOSP Files: copy/move, extract archives (zip/tar/7z), FTP/SFTP, browse the card.
+name=MaterialFiles
+package=me.zhanghai.android.files
+version_code=40
+version_name=1.7.5
+spdx=GPL-3.0-or-later
+sha256=2fe900bf43d725b655008d438f5ca46d0da0f301e3784403b5b96c3fc2df6e8a
+apk_url=https://f-droid.org/repo/me.zhanghai.android.files_40.apk
+source_url=https://github.com/zhanghai/MaterialFiles (F-Droid's source tarball: https://f-droid.org/repo/me.zhanghai.android.files_40_src.tar.gz)
+license_url=https://raw.githubusercontent.com/spdx/license-list-data/main/text/GPL-3.0-or-later.txt
+published_by=F-Droid

@@ -1,0 +1,13 @@
+# OpenCalc by Darkempire78, F-Droid build (F-Droid signs it, so F-Droid can update it).
+# sha256 from the F-Droid index (index-v2.json). A small offline calculator with history and
+# a scientific mode. No native code, so it runs on every arch.
+name=OpenCalc
+package=com.darkempire78.opencalculator
+version_code=53
+version_name=3.2.0
+spdx=GPL-3.0-only
+sha256=2642613868a8a80f0ce963a4863bc153e7281b97b3bbdf36ca92a99dded7134a
+apk_url=https://f-droid.org/repo/com.darkempire78.opencalculator_53.apk
+source_url=https://github.com/clementwzk/OpenCalc (F-Droid's source tarball: https://f-droid.org/repo/com.darkempire78.opencalculator_53_src.tar.gz)
+license_url=https://raw.githubusercontent.com/spdx/license-list-data/main/text/GPL-3.0-only.txt
+published_by=F-Droid
