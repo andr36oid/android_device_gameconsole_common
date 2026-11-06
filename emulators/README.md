@@ -438,8 +438,8 @@ its library the way Daijishou itself stores it, once, before it first runs:
   `cores.lock`. Platforms and players are the official ones (same uniqueId and player
   names), so Daijishou's own "update platforms" keeps working on them. A core the
   official file doesn't list (ClownMDEmu, and MAME 2003-Plus on the FBNeo arcade
-  platform) gets a player copied from the platform's first RetroArch player. nds and bios
-  get no platform: we ship nothing that plays them.
+  platform) gets a player copied from the platform's first RetroArch player. bios
+  gets no platform: it holds BIOS files, not games.
 - `daijishou/schema.sql`: Daijishou's Room schema (version 17, identity hash) exactly as
   its `DaijishouDatabase_Impl.createAllTables` makes it.
 - post-fs-data (`gameconsole-setup early`, run with `exec_start` before

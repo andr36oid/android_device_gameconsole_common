@@ -6,11 +6,12 @@
 # first: RetroArch cores by name (cores.lock), or app:<package> for an emulator app.
 # On the console the first one that is there becomes the platform's default player.
 #
-# Folders without a player we ship (nds) and bios get no platform.
+# Folders without a player we ship and bios get no platform.
 nes,famicom                        NintendoEntertainmentSystem.json        nestopia,fceumm,quicknes
 fds                 FamicomDiskSystem.json                  nestopia,fceumm
 snes,sfc,snes-hacks,snesmsu1       SuperNintendoEntertainmentSystem.json   snes9x2010,snes9x2005,snes9x
 n64                 Nintendo64.json                         mupen64plus_next_gles3
+nds                 NintendoDS.json                         melonds
 gb                                 NintendoGameBoy.json                    gambatte,sameboy,mgba
 gbc                                NintendoGameBoyColor.json               gambatte,sameboy,mgba
 gba                 NintendoGameBoyAdvance.json             mgba,gpsp
@@ -21,6 +22,7 @@ segacd              SegaCD.json                             genesis_plus_gx,pico
 sega32x             Sega32X.json                            picodrive
 psx                 SonyPlayStation.json                    pcsx_rearmed
 saturn              SegaSaturn.json                         yabasanshiro
+3do                 3DO.json                                opera
 psp                 SonyPSP.json                            app:org.ppsspp.ppsspp
 pcengine,turbografx            TurboGrafx16.json                       mednafen_pce_fast
 pcenginecd,turbografxcd          TurboGrafxCD.json                       mednafen_pce_fast

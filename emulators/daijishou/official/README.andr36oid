@@ -45,6 +45,17 @@ variant. ECWolf uses native data extensions rather than ES shell launchers or
 .wolf/.ecwolf wrappers; those Linux launch scripts do not work on Android.
 Local platforms use the existing artwork fallback until host artwork regeneration.
 
+Console coverage round sources
+
+Unmodified files copied from that same cached revision:
+  NintendoDS.json, 3DO.json.
+These give the nds and 3do folders a platform now that we ship a player for
+them (melonDS and Opera). Both are official catalog platforms (same uniqueId,
+shortname and player ids), so Daijishou's "update platforms" keeps working on
+them. The generator picks each platform's plain com.retroarch player for our
+core; the many other players in the files (DraStic, NooDS, the aarch64/aarch32
+RetroArch variants) are ignored.
+
 Additional libraries reusing Phase 1/base cores:
   SegaSG1000.json and SegaPico.json are unchanged copies from the same cache.
   AmstradGX4000.json is a local derivative of AmstradCPC.json with its own

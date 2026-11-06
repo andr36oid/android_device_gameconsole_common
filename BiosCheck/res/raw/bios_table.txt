@@ -136,3 +136,14 @@ file|pokemini|bios.min|optional|1e4fb124a3a886865acb574f388c803d|Pokemon Mini BI
 system|easyrpg|RPG Maker 2000 / 2003|easyrpg|shipped|Optional: most games bring everything they need. Games made for the RTP (the RPG Maker run time package) need it unpacked into these folders.
 file|easyrpg|rtp/2000/|optional|*|RPG Maker 2000 RTP|
 file|easyrpg|rtp/2003/|optional|*|RPG Maker 2003 RTP|
+
+system|nds|Nintendo DS|melonds|shipped|Optional: games start with melonDS's free built-in replacement. Real DS files help a few games; firmware.bin is needed for the DS menu, and every console's firmware is different.
+file|nds|bios7.bin|optional|df692a80a5b1bc90728bc3dfc76cd948|ARM7 BIOS|
+file|nds|bios9.bin|optional|a392174eb3e572fed6447e956bde4b25|ARM9 BIOS|
+file|nds|firmware.bin|optional|*|DS firmware (per console; needed for the DS menu)|
+
+system|3do|Panasonic 3DO|opera|installed|Games don't start without a real 3DO BIOS. One is enough; Opera uses panafz1.bin by default.
+file|3do|panafz1.bin|oneof|f47264dd47fe30f73ab3c010015c155b|Panasonic FZ-1 BIOS, used by default|
+file|3do|panafz10.bin|oneof|51f2f43ae2f3508a14d9f56597e2d3ce|Panasonic FZ-10 BIOS|
+file|3do|goldstar.bin|oneof|8639fd5e549bd6238cfee79e3e749114|Goldstar GDO-101M BIOS|
+file|3do|sanyotry.bin|oneof|35fa1a1ebaaeea286dc5cd15487c13ea|Sanyo Try IMP-21J BIOS|

@@ -112,3 +112,13 @@ b2 foss GPL-3.0-only jni . README.md,src/COPYING - https://github.com/zoltanvb/b
 bk foss LicenseRef-bk jni . COPYING - https://github.com/libretro/bk-emulator.git 92042a753289cedf05e7e6bd8e75849f83e48966
 sameduck foss MIT jni libretro LICENSE - https://github.com/LIJI32/SameBoy.git 5619abdb01cee6bedb47599cdb5532c318443b52
 81 noncommercial LicenseRef-81 script . LICENSE - https://github.com/libretro/81-libretro.git fa7094910d040baa5fd8b11dbf6a1a618330ecd9
+
+# Console coverage round: the two remaining mainstream consoles with no player.
+# melonDS fills the nds folder (which had no core; its freebios boots most games
+# without a Nintendo BIOS, DS firmware only helps a few). opera plays 3DO and needs
+# a real 3DO BIOS (bios_table); its FreeDO-inherited notice forbids commercial use,
+# so it stays in the opt-in noncommercial tier like the other restricted cores.
+# Both are jni cores built by scripts/build-cores.sh; the .so are not in the tree
+# yet (host NDK build + verify pending), see the more-cores report.
+melonds foss GPL-3.0-or-later jni . LICENSE - https://github.com/libretro/melonDS.git 66b5d2634cd0a79030562811e6e05f5532f800ba
+opera noncommercial LicenseRef-opera jni . LICENSE - https://github.com/libretro/opera-libretro.git b398d5592f93a0fe76626dc628748668b853488d
