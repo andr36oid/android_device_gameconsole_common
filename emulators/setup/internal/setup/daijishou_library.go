@@ -231,11 +231,15 @@ func (l *djLibraryList) write(states map[*djLibraryGame]djLibraryState) error {
 		(os.IsNotExist(err) && !l.missing) || (err == nil && l.missing) {
 		return fmt.Errorf("gamelist changed since read: %s", l.path)
 	}
-	f, err := os.CreateTemp(dirOf(l.path), ".gamelist.*")
+	// Fixed temp name (not CreateTemp's random suffix) so a leftover from a power
+	// cut between create and rename is overwritten on the next run instead of
+	// accumulating hidden .gamelist.* files on the card. Only one setup worker
+	// runs at a time (flock), so a fixed name is safe.
+	tmp := l.path + ".tmp"
+	f, err := os.OpenFile(tmp, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0o600)
 	if err != nil {
 		return err
 	}
-	tmp := f.Name()
 	defer os.Remove(tmp)
 	_, err = f.Write(next)
 	if cerr := f.Close(); err == nil {
@@ -408,7 +412,12 @@ func (s *Setup) djLibraryMatch(items []djLibraryItem, roots []string, fields lib
 			}
 			l, err := djLibraryParse(data)
 			if err != nil {
-				return nil, fmt.Errorf("%s: %w", path, err)
+				// One malformed gamelist (truncated by a prior power cut, or a
+				// third-party scraper's off-spec XML) must not abort the whole
+				// device's sync. Skip just this folder so every other list still
+				// reconciles - mirroring the per-list resilience of the write path.
+				s.Log("skipping unreadable gamelist %s: %v", path, err)
+				continue
 			}
 			l.path, l.root, l.system = path, root, folder
 			l.missing = missing
@@ -427,6 +436,15 @@ func (s *Setup) djLibraryMatch(items []djLibraryItem, roots []string, fields lib
 				byName[key] = append(byName[key], ref{l, g})
 			}
 		}
+	}
+	// Group lists by their unique id so resolving an item that has no gamelist
+	// entry yet only scans that system's lists, not every list on the device.
+	// On a freshly-seeded large library this turns an O(items x lists) scan into
+	// O(items x lists-for-that-system).
+	listsBySys := map[string][]*djLibraryList{}
+	for _, l := range lists {
+		u := folders[l.system]
+		listsBySys[u] = append(listsBySys[u], l)
 	}
 	var matched []djLibraryItem
 	for _, item := range items {
@@ -450,9 +468,9 @@ func (s *Setup) djLibraryMatch(items []djLibraryItem, roots []string, fields lib
 				}
 			}
 		} else if path != "" && sys.IsFile(path) {
-			for _, l := range lists {
+			for _, l := range listsBySys[item.unique] {
 				rel, err := filepath.Rel(dirOf(l.path), path)
-				if err == nil && filepath.IsLocal(rel) && folders[l.system] == item.unique {
+				if err == nil && filepath.IsLocal(rel) {
 					g := &djLibraryGame{fields: map[string][]djLibraryElement{"path": {{value: "./" + filepath.ToSlash(rel)}}}}
 					l.games = append(l.games, g)
 					item.list, item.game = l, g
@@ -759,13 +777,17 @@ func (s *Setup) djSyncLibrary(roots []string, fields librarySyncFields) error {
 		}
 		states[item.game] = fields.merge(state, row.state)
 	}
+	// The Daijishou DB is already committed above; write every gamelist we still can
+	// so one list that fails to verify (ES touched it, a card hiccup) does not skip
+	// the rest. Surface the first failure after the others are written.
+	var firstErr error
 	for l, states := range byList {
 		if s.djLibraryESRunning() {
-			return nil
+			return firstErr
 		}
-		if err := l.write(states); err != nil {
-			return err
+		if err := l.write(states); err != nil && firstErr == nil {
+			firstErr = err
 		}
 	}
-	return nil
+	return firstErr
 }

@@ -164,6 +164,7 @@ func (s *Setup) PPSSPPControls() {
 		}
 		all = all && found
 	}
+	recordDone := true
 	if all {
 		for i, l := range lines {
 			for _, f := range ppFace {
@@ -175,9 +176,18 @@ func (s *Setup) PPSSPPControls() {
 		}
 		if err := writeInPlace(ini, []byte(strings.Join(lines, "\n")+"\n")); err == nil {
 			s.Log("PPSSPP: face buttons by position (Cross = B) in %s", ini)
+		} else {
+			// A power cut can truncate controls.ini mid-write. Don't mark it done,
+			// so the next boot retries (PPSSPP regenerates a default ini meanwhile);
+			// otherwise the remap is silently lost forever.
+			s.Log("PPSSPP: writing %s failed, will retry next boot: %v", ini, err)
+			recordDone = false
 		}
 	} else {
 		s.Log("PPSSPP: face buttons in %s already changed, left alone", ini)
+	}
+	if !recordDone {
+		return
 	}
 	f, err := os.OpenFile(done, os.O_WRONLY|os.O_APPEND|os.O_CREATE, 0o600)
 	if err == nil {
