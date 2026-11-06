@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The sound-check step's right-hand area (issue #5): a "music is playing" line and the three
+     answers. The activity starts the looping tune and wires each button to the matching audio
+     fix. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/sound_status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="@string/av_sound_playing"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="?android:attr/colorAccent" />
+
+    <Button
+        android:id="@+id/option_speaker"
+        style="@style/Andr36oidSetupButton.Secondary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/av_sound_opt_speaker" />
+
+    <Button
+        android:id="@+id/option_hp"
+        style="@style/Andr36oidSetupButton.Secondary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="@string/av_sound_opt_hp" />
+
+    <Button
+        android:id="@+id/option_none"
+        style="@style/Andr36oidSetupButton.Secondary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="@string/av_sound_opt_none" />
+
+    <TextView
+        android:id="@+id/sound_replay_hint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/av_sound_replay_hint"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="?android:attr/textColorSecondary" />
+</LinearLayout>

@@ -1,6 +1,7 @@
 package org.andr36oid.guide;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -9,6 +10,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.ContentObserver;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -35,6 +37,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -87,6 +90,7 @@ public class TutorialActivity extends Activity {
     private static final int STEP_FACE = 1;
     private static final int STEP_DPAD = 2;
     private static final int STEP_STICKS = 3;
+    private static final int STEP_SOUND = 12;
     private static final int STEP_SHOULDERS = 4;
     private static final int STEP_HOME = 5;
     private static final int STEP_BRIGHTNESS = 6;
@@ -183,6 +187,12 @@ public class TutorialActivity extends Activity {
     private boolean mScreenWentOff;
     private boolean mMousePolling;
     private final float[] mStickAxes = new float[4];
+
+    // Sound check (issue #5): the looping tune, and the intended stick-fix values so a chip
+    // shows its new state right away, before the helper reports back
+    private MediaPlayer mSound;
+    private boolean[] mStickFlags;
+    private boolean mStickSwap;
 
     /** Whether a tutorial is open in this process, on screen or not. */
     static boolean isAlive() {
@@ -383,6 +393,8 @@ public class TutorialActivity extends Activity {
                 new int[] {R.string.tutorial_stick_left, R.string.tutorial_stick_right,
                         R.string.tutorial_stick_click},
                 new int[] {0, 0, 0});
+        // A/V check (issue #5): the sound check sits right after the stick screen
+        add(STEP_SOUND, R.string.av_sound_title, R.string.av_sound_body);
         add(STEP_SHOULDERS, R.string.tutorial_shoulder_title, R.string.tutorial_shoulder_body,
                 new int[] {R.string.tutorial_press_l1, R.string.tutorial_press_r1,
                         R.string.tutorial_press_l2, R.string.tutorial_press_r2},
@@ -572,9 +584,9 @@ public class TutorialActivity extends Activity {
         mExtra.removeAllViews();
         mStickView = null;
         if (step.id == STEP_STICKS) {
-            mStickView = new StickView(this);
-            mExtra.addView(mStickView, new FrameLayout.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            buildStickControls();
+        } else if (step.id == STEP_SOUND) {
+            buildSoundCheck();
         } else if (step.id == STEP_BRIGHTNESS) {
             mNote = getText(R.string.tutorial_brightness_hint);
         }
@@ -592,7 +604,13 @@ public class TutorialActivity extends Activity {
                 ? R.string.tutorial_open_guide : R.string.tutorial_skip_all);
         startDetectors();
         updateState();
-        mNext.requestFocus();
+        final View soundFirst = step.id == STEP_SOUND ? mExtra.findViewById(R.id.option_speaker)
+                : null;
+        if (soundFirst != null) {
+            soundFirst.requestFocus();
+        } else {
+            mNext.requestFocus();
+        }
         saveProgress();
     }
 
@@ -615,6 +633,9 @@ public class TutorialActivity extends Activity {
             next = R.string.tutorial_start;
         } else if (step.id == STEP_DONE) {
             next = R.string.tutorial_done;
+        } else if (step.id == STEP_SOUND) {
+            // No forced answer: the primary button just moves on, changing nothing
+            next = R.string.av_sound_skip;
         } else if (step.tasks.length == 0 || complete) {
             next = R.string.tutorial_next;
         } else {
@@ -819,8 +840,19 @@ public class TutorialActivity extends Activity {
             return true;
         }
 
-        if (key == KeyEvent.KEYCODE_DPAD_UP || key == KeyEvent.KEYCODE_DPAD_DOWN) {
-            // The buttons are all in one row, so up and down scroll the text instead
+        if (current().id == STEP_SOUND && key == KeyEvent.KEYCODE_BUTTON_Y) {
+            // Y replays the tune; the up is swallowed so it isn't used again
+            if (first) {
+                mSwallowUp.put(key, true);
+                replaySound();
+            }
+            return true;
+        }
+
+        if ((key == KeyEvent.KEYCODE_DPAD_UP || key == KeyEvent.KEYCODE_DPAD_DOWN)
+                && !stepHasFocusControls()) {
+            // The buttons are all in one row, so up and down scroll the text instead; on the
+            // steps with their own focusable chips or answers they move the focus as usual
             if (down) {
                 final int direction = key == KeyEvent.KEYCODE_DPAD_UP ? -1 : 1;
                 mTextScroll.smoothScrollBy(0, direction * mTextScroll.getHeight() / 3);
@@ -897,6 +929,218 @@ public class TutorialActivity extends Activity {
             return true;
         }
         return super.dispatchGenericMotionEvent(event);
+    }
+
+    // ---- A/V check (issue #5)
+
+    /** The steps that have their own focusable controls, so up and down move the focus. */
+    private boolean stepHasFocusControls() {
+        final int id = current().id;
+        return id == STEP_SOUND
+                || (id == STEP_STICKS
+                        && (KtApply.available("stick_invert") || KtApply.available("stick_swap")));
+    }
+
+    /**
+     * Stick step: the live dots on top, then a chip per stick fix. A chip writes the matching
+     * Kernel Tweak through the same apply path Settings uses (KtApply), so the next stick move
+     * comes in already fixed and the dots show it.
+     */
+    private void buildStickControls() {
+        final View controls = getLayoutInflater().inflate(R.layout.tutorial_stick_controls,
+                mExtra, false);
+        mExtra.addView(controls);
+        final FrameLayout holder = controls.findViewById(R.id.stick_holder);
+        mStickView = new StickView(this);
+        holder.addView(mStickView, new FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+
+        final boolean haveInvert = KtApply.available("stick_invert");
+        final boolean haveSwap = KtApply.available("stick_swap");
+        final Button chipX = controls.findViewById(R.id.chip_invert_x);
+        final Button chipY = controls.findViewById(R.id.chip_invert_y);
+        final Button chipSwap = controls.findViewById(R.id.chip_swap);
+        if (!haveInvert && !haveSwap) {
+            // This console has no stick knobs: just the dots, as before
+            controls.findViewById(R.id.stick_fix_hint).setVisibility(View.GONE);
+            controls.findViewById(R.id.stick_chips).setVisibility(View.GONE);
+            return;
+        }
+
+        if (haveInvert) {
+            mStickFlags = parseFlags(KtApply.current("stick_invert"));
+            updateChip(chipX, R.string.av_chip_invert_x, invertedAxis(0, 2));
+            updateChip(chipY, R.string.av_chip_invert_y, invertedAxis(1, 3));
+            chipX.setOnClickListener(v -> toggleInvert(chipX, R.string.av_chip_invert_x, 0, 2));
+            chipY.setOnClickListener(v -> toggleInvert(chipY, R.string.av_chip_invert_y, 1, 3));
+        } else {
+            chipX.setVisibility(View.GONE);
+            chipY.setVisibility(View.GONE);
+        }
+
+        if (haveSwap) {
+            mStickSwap = "1".equals(KtApply.current("stick_swap"));
+            updateChip(chipSwap, R.string.av_chip_swap, mStickSwap);
+            chipSwap.setOnClickListener(v -> {
+                mStickSwap = !mStickSwap;
+                KtApply.set("stick_swap", mStickSwap ? "1" : "0");
+                updateChip(chipSwap, R.string.av_chip_swap, mStickSwap);
+            });
+        } else {
+            chipSwap.setVisibility(View.GONE);
+        }
+    }
+
+    /** Whether either of the two flags of an axis pair differs from the kernel's default. */
+    private boolean invertedAxis(int a, int b) {
+        final boolean[] def = parseFlags(KtApply.def("stick_invert"));
+        return mStickFlags[a] != def[a] || mStickFlags[b] != def[b];
+    }
+
+    /** Flips an axis on both sticks against the default, writes it, and updates the chip. */
+    private void toggleInvert(Button chip, int nameRes, int a, int b) {
+        final boolean[] def = parseFlags(KtApply.def("stick_invert"));
+        final boolean on = !invertedAxis(a, b);
+        mStickFlags[a] = on ? !def[a] : def[a];
+        mStickFlags[b] = on ? !def[b] : def[b];
+        KtApply.set("stick_invert", flagsValue(mStickFlags));
+        updateChip(chip, nameRes, on);
+    }
+
+    private void updateChip(Button chip, int nameRes, boolean on) {
+        chip.setText(getString(on ? R.string.av_chip_on : R.string.av_chip_off,
+                getString(nameRes)));
+        chip.setActivated(on);
+    }
+
+    private static boolean[] parseFlags(String value) {
+        final String[] f = value.trim().split("\\s+");
+        final boolean[] out = new boolean[4];
+        for (int i = 0; i < out.length && i < f.length; i++) {
+            out[i] = "1".equals(f[i]);
+        }
+        return out;
+    }
+
+    private static String flagsValue(boolean[] flags) {
+        final StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < flags.length; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(flags[i] ? '1' : '0');
+        }
+        return sb.toString();
+    }
+
+    /** Sound step: starts the looping tune and wires the three answers. */
+    private void buildSoundCheck() {
+        final View sound = getLayoutInflater().inflate(R.layout.tutorial_sound, mExtra, false);
+        mExtra.addView(sound);
+        sound.findViewById(R.id.option_speaker).setOnClickListener(v -> onHeardSpeaker());
+        sound.findViewById(R.id.option_hp).setOnClickListener(v -> onHeardHeadphones());
+        sound.findViewById(R.id.option_none).setOnClickListener(v -> onNoSound());
+        startSound();
+    }
+
+    /** Heard from the speaker: nothing to change. */
+    private void onHeardSpeaker() {
+        toast(R.string.av_sound_speaker_ok);
+        goNext();
+    }
+
+    /**
+     * Headphones: plug them in and confirm. Still nothing means the jack's detection is likely
+     * wired the other way on this clone, so flip it (hp_det_flip) and listen again.
+     */
+    private void onHeardHeadphones() {
+        new AlertDialog.Builder(this)
+                .setMessage(R.string.av_sound_hp_prompt)
+                .setPositiveButton(R.string.av_sound_hp_hear, (d, w) -> goNext())
+                .setNegativeButton(R.string.av_sound_hp_still, (d, w) -> {
+                    final boolean applied = KtApply.available("hp_det_flip");
+                    if (applied) {
+                        KtApply.set("hp_det_flip", "Y");
+                        replaySound();
+                    }
+                    confirmHearNow(applied ? R.string.av_sound_hp_fixed
+                            : R.string.av_sound_hp_no_fix, applied ? "hp_det_flip" : null);
+                })
+                .show();
+    }
+
+    /**
+     * No sound at all: drive the speaker and headphones together (spk_hp_force, the SPK_HP
+     * fallback) and replay. If it's still silent, go back to the default and move on.
+     */
+    private void onNoSound() {
+        final boolean applied = KtApply.available("spk_hp_force");
+        if (applied) {
+            KtApply.set("spk_hp_force", "1");
+            replaySound();
+        }
+        confirmHearNow(applied ? R.string.av_sound_force_applied : R.string.av_sound_no_knob,
+                applied ? "spk_hp_force" : null);
+    }
+
+    /**
+     * After applying an audio fix: yes moves on and keeps it; no puts the knob back to the
+     * default (so a wrong guess changes nothing) and moves on. B dismisses either way, so the
+     * user is never stuck.
+     */
+    private void confirmHearNow(int message, String appliedKey) {
+        new AlertDialog.Builder(this)
+                .setMessage(message)
+                .setPositiveButton(R.string.av_sound_hear_yes, (d, w) -> goNext())
+                .setNegativeButton(R.string.av_sound_hear_no, (d, w) -> {
+                    if (appliedKey != null) {
+                        KtApply.clear(appliedKey);
+                    }
+                    toast(R.string.av_sound_left_default);
+                    goNext();
+                })
+                .show();
+    }
+
+    private void toast(int message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    private void startSound() {
+        stopSound();
+        try {
+            mSound = MediaPlayer.create(this, R.raw.sound_check);
+            if (mSound != null) {
+                mSound.setLooping(true);
+                mSound.start();
+            }
+        } catch (RuntimeException e) {
+            Log.w(TAG, "Couldn't play the sound check", e);
+        }
+    }
+
+    private void replaySound() {
+        if (mSound == null) {
+            startSound();
+            return;
+        }
+        try {
+            mSound.seekTo(0);
+            if (!mSound.isPlaying()) {
+                mSound.start();
+            }
+        } catch (RuntimeException e) {
+            startSound();
+        }
+    }
+
+    private void stopSound() {
+        if (mSound != null) {
+            try {
+                mSound.release();
+            } catch (RuntimeException e) {
+                // already gone
+            }
+            mSound = null;
+        }
     }
 
     // ---- FN, the shade and the power button: watched from the outside
@@ -1084,6 +1328,7 @@ public class TutorialActivity extends Activity {
         }
         mMousePolling = false;
         mHandler.removeCallbacks(mMousePoll);
+        stopSound();
     }
 
     private final Runnable mMousePoll = new Runnable() {
