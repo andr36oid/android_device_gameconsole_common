@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="org.andr36oid.blocks">
+
+    <application
+        android:allowBackup="false"
+        android:icon="@drawable/ic_blocks"
+        android:label="@string/blocks_label"
+        android:supportsRtl="true"
+        android:theme="@style/BlocksTheme">
+
+        <!-- A stand-alone game in the launcher. The D-pad and gamepad drive it; no touch. -->
+        <activity
+            android:name=".BlocksActivity"
+            android:exported="true"
+            android:label="@string/blocks_label"
+            android:launchMode="singleTask"
+            android:screenOrientation="nosensor"
+            android:theme="@style/BlocksTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>

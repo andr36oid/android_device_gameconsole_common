@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- A small stack of falling blocks, in the launcher's flat style. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+    <path android:fillColor="#2BD6E3" android:pathData="M6,26h10v10H6z" />
+    <path android:fillColor="#B260E0" android:pathData="M18,26h10v10H18z" />
+    <path android:fillColor="#E8903A" android:pathData="M30,26h10v10H30z" />
+    <path android:fillColor="#F2D840" android:pathData="M18,14h10v10H18z" />
+    <path android:fillColor="#4A74E8" android:pathData="M6,14h10v10H6z" />
+    <path android:fillColor="#46C65A" android:pathData="M30,14h10v10H30z" />
+    <path android:fillColor="#E5554E" android:pathData="M18,38h10v4H18z" />
+</vector>

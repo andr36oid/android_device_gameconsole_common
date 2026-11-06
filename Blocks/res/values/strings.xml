@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="blocks_label">Blocks</string>
+    <string name="blocks_title">Blocks</string>
+    <string name="blocks_pick_mode">Choose a mode</string>
+
+    <string name="blocks_mode_marathon">Marathon</string>
+    <string name="blocks_mode_sprint">Sprint 40</string>
+    <string name="blocks_mode_endless">Endless</string>
+    <string name="blocks_start_level">Start level: %1$d</string>
+
+    <string name="blocks_best_time">Best %1$s</string>
+    <string name="blocks_best_score">Best %1$d</string>
+
+    <string name="blocks_resume">Resume</string>
+    <string name="blocks_restart">Restart</string>
+    <string name="blocks_quit">Quit to menu</string>
+    <string name="blocks_paused">Paused</string>
+
+    <string name="blocks_hold">HOLD</string>
+    <string name="blocks_next">NEXT</string>
+    <string name="blocks_score">Score</string>
+    <string name="blocks_lines">Lines</string>
+    <string name="blocks_level">Level</string>
+    <string name="blocks_time">Time</string>
+    <string name="blocks_combo">Combo %1$d</string>
+
+    <string name="blocks_single">Single</string>
+    <string name="blocks_double">Double</string>
+    <string name="blocks_triple">Triple</string>
+    <string name="blocks_tetris">Tetris</string>
+    <string name="blocks_tspin">T-Spin</string>
+    <string name="blocks_tspin_mini">T-Spin Mini</string>
+    <string name="blocks_b2b">Back-to-Back</string>
+
+    <string name="blocks_over">Game over</string>
+    <string name="blocks_clear">Cleared!</string>
+    <string name="blocks_your_time">Time %1$s</string>
+    <string name="blocks_your_score">Score %1$d</string>
+
+    <string name="blocks_hint_choose">Choose</string>
+    <string name="blocks_hint_level">Level</string>
+    <string name="blocks_hint_play">Play</string>
+    <string name="blocks_hint_rotate">Rotate</string>
+    <string name="blocks_hint_drop">Hard drop</string>
+    <string name="blocks_hint_pause">Pause</string>
+    <string name="blocks_hint_select">Select</string>
+    <string name="blocks_hint_resume">Resume</string>
+    <string name="blocks_hint_again">Play again</string>
+    <string name="blocks_hint_menu">Menu</string>
+</resources>

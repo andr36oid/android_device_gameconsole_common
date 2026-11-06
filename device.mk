@@ -663,6 +663,10 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
 	SmoothnessTest
 
+# Blocks: a stand-alone falling-blocks game in the launcher, D-pad/gamepad only (no touch)
+PRODUCT_PACKAGES += \
+	Blocks
+
 # Low battery warning on top of games (Settings > Battery > Low battery warning),
 # game mode: Do Not Disturb while playing (Settings > Game mode, Quick Settings tile),
 # and Continue playing: back into the last game (tile, FN + A, power menu); its root

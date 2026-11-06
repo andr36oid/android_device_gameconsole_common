@@ -1,0 +1,14 @@
+// Blocks: a stand-alone falling-blocks game for the launcher, driven by the D-pad and
+// gamepad (no touch). Self-contained - the engine, rendering and all screens are its own
+// Java; it only shares the button-hint bar. Dark DayNight look with the user's accent.
+android_app {
+    name: "Blocks",
+    static_libs: ["andr36oid-hint-bar"],
+    srcs: ["src/**/*.java"],
+    resource_dirs: ["res"],
+    certificate: "platform",
+    platform_apis: true,
+    optimize: {
+        enabled: false,
+    },
+}
