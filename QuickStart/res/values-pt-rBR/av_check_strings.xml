@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="av_stick_hint">Se um analógico se mover na direção errada, altere aqui:</string>
+    <string name="av_chip_invert_x">Inverter esquerda / direita</string>
+    <string name="av_chip_invert_y">Inverter cima / baixo</string>
+    <string name="av_chip_swap">Trocar os dois analógicos</string>
+    <string name="av_chip_on">%1$s\nLigado</string>
+    <string name="av_chip_off">%1$s\nDesligado</string>
+    <string name="av_sound_title">Teste de som</string>
+    <string name="av_sound_body">Uma melodia curta está tocando em loop. Você ouve a música?</string>
+    <string name="av_sound_playing">A música está tocando…</string>
+    <string name="av_sound_opt_speaker">Sim – pelo alto-falante</string>
+    <string name="av_sound_opt_hp">Sim – pelos fones de ouvido (conecte-os)</string>
+    <string name="av_sound_opt_none">Nenhum som</string>
+    <string name="av_sound_skip">Pular este teste</string>
+    <string name="av_sound_replay_hint">Y reproduz a melodia novamente</string>
+    <string name="av_sound_speaker_ok">Ótimo – o som está funcionando.</string>
+    <string name="av_sound_hp_prompt">Conecte seus fones de ouvido. Escolha \"Estou ouvindo\" assim que a música sair por eles.</string>
+    <string name="av_sound_hp_hear">Estou ouvindo</string>
+    <string name="av_sound_hp_still">Ainda sem som</string>
+    <string name="av_sound_hp_fixed">Alteramos a forma como a entrada dos fones de ouvido é lida. Ouça novamente.</string>
+    <string name="av_sound_hp_no_fix">Este console não tem uma correção de fones de ouvido para tentar aqui.</string>
+    <string name="av_sound_force_applied">Ativamos o alto-falante e os fones de ouvido juntos. Você ouve a música agora?</string>
+    <string name="av_sound_no_knob">Este console não tem uma correção de áudio para tentar aqui. Você ouve a música agora?</string>
+    <string name="av_sound_hear_yes">Sim, estou ouvindo</string>
+    <string name="av_sound_hear_no">Ainda nada</string>
+    <string name="av_sound_left_default">Deixamos o som no padrão. Você pode alterá-lo mais tarde em Configurações › Sistema › Ajustes do kernel.</string>
+</resources>

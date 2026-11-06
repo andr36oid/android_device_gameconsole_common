@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="av_stick_hint">Если стик движется не в ту сторону, измените это здесь:</string>
+    <string name="av_chip_invert_x">Инвертировать влево / вправо</string>
+    <string name="av_chip_invert_y">Инвертировать вверх / вниз</string>
+    <string name="av_chip_swap">Поменять стики местами</string>
+    <string name="av_chip_on">%1$s\nВкл.</string>
+    <string name="av_chip_off">%1$s\nВыкл.</string>
+    <string name="av_sound_title">Проверка звука</string>
+    <string name="av_sound_body">Короткая мелодия воспроизводится по кругу. Вы слышите музыку?</string>
+    <string name="av_sound_playing">Воспроизводится музыка…</string>
+    <string name="av_sound_opt_speaker">Да – через динамик</string>
+    <string name="av_sound_opt_hp">Да – через наушники (подключите их)</string>
+    <string name="av_sound_opt_none">Звука нет</string>
+    <string name="av_sound_skip">Пропустить эту проверку</string>
+    <string name="av_sound_replay_hint">Y повторно воспроизводит мелодию</string>
+    <string name="av_sound_speaker_ok">Отлично – звук работает.</string>
+    <string name="av_sound_hp_prompt">Подключите наушники. Выберите \"Я слышу звук\", когда музыка начнёт звучать в них.</string>
+    <string name="av_sound_hp_hear">Я слышу звук</string>
+    <string name="av_sound_hp_still">Звука всё ещё нет</string>
+    <string name="av_sound_hp_fixed">Способ считывания разъёма для наушников изменён. Послушайте ещё раз.</string>
+    <string name="av_sound_hp_no_fix">Для этой консоли здесь нет исправления для наушников.</string>
+    <string name="av_sound_force_applied">Динамик и наушники включены одновременно. Вы слышите музыку теперь?</string>
+    <string name="av_sound_no_knob">Для этой консоли здесь нет исправления звука. Вы слышите музыку теперь?</string>
+    <string name="av_sound_hear_yes">Да, я слышу звук</string>
+    <string name="av_sound_hear_no">По-прежнему ничего</string>
+    <string name="av_sound_left_default">Звук оставлен по умолчанию. Позже его можно изменить в Настройки › Система › Настройки ядра.</string>
+</resources>

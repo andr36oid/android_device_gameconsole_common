@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="av_stick_hint">Jeśli drążek porusza się w złym kierunku, zmień to tutaj:</string>
+    <string name="av_chip_invert_x">Odwróć lewo / prawo</string>
+    <string name="av_chip_invert_y">Odwróć góra / dół</string>
+    <string name="av_chip_swap">Zamień miejscami oba drążki</string>
+    <string name="av_chip_on">%1$s\nWłączone</string>
+    <string name="av_chip_off">%1$s\nWyłączone</string>
+    <string name="av_sound_title">Test dźwięku</string>
+    <string name="av_sound_body">Krótka melodia jest odtwarzana w pętli. Czy słyszysz muzykę?</string>
+    <string name="av_sound_playing">Muzyka jest odtwarzana…</string>
+    <string name="av_sound_opt_speaker">Tak – z głośnika</string>
+    <string name="av_sound_opt_hp">Tak – ze słuchawek (podłącz je)</string>
+    <string name="av_sound_opt_none">Brak dźwięku</string>
+    <string name="av_sound_skip">Pomiń ten test</string>
+    <string name="av_sound_replay_hint">Y odtwarza melodię ponownie</string>
+    <string name="av_sound_speaker_ok">Świetnie – dźwięk działa.</string>
+    <string name="av_sound_hp_prompt">Podłącz słuchawki. Wybierz \"Słyszę ją\", gdy muzyka zacznie być w nich słyszalna.</string>
+    <string name="av_sound_hp_hear">Słyszę ją</string>
+    <string name="av_sound_hp_still">Nadal brak dźwięku</string>
+    <string name="av_sound_hp_fixed">Zmieniono sposób odczytu gniazda słuchawek. Posłuchaj ponownie.</string>
+    <string name="av_sound_hp_no_fix">Ta konsola nie ma tutaj poprawki słuchawek do wypróbowania.</string>
+    <string name="av_sound_force_applied">Włączono jednocześnie głośnik i słuchawki. Czy teraz słyszysz muzykę?</string>
+    <string name="av_sound_no_knob">Ta konsola nie ma tutaj poprawki dźwięku do wypróbowania. Czy teraz słyszysz muzykę?</string>
+    <string name="av_sound_hear_yes">Tak, słyszę ją</string>
+    <string name="av_sound_hear_no">Nadal nic</string>
+    <string name="av_sound_left_default">Pozostawiono domyślne ustawienia dźwięku. Możesz je później zmienić w Ustawienia › System › Dostosowania jądra.</string>
+</resources>

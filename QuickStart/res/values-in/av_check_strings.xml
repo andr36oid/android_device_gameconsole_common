@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="av_stick_hint">Jika stik bergerak ke arah yang salah, ubah di sini:</string>
+    <string name="av_chip_invert_x">Balikkan kiri / kanan</string>
+    <string name="av_chip_invert_y">Balikkan atas / bawah</string>
+    <string name="av_chip_swap">Tukar kedua stik</string>
+    <string name="av_chip_on">%1$s\nAktif</string>
+    <string name="av_chip_off">%1$s\nNonaktif</string>
+    <string name="av_sound_title">Pemeriksaan suara</string>
+    <string name="av_sound_body">Melodi singkat diputar berulang. Apakah kamu mendengar musiknya?</string>
+    <string name="av_sound_playing">Musik sedang diputar…</string>
+    <string name="av_sound_opt_speaker">Ya – dari speaker</string>
+    <string name="av_sound_opt_hp">Ya – dari headphone (colokkan)</string>
+    <string name="av_sound_opt_none">Tidak ada suara sama sekali</string>
+    <string name="av_sound_skip">Lewati pemeriksaan ini</string>
+    <string name="av_sound_replay_hint">Y memutar ulang melodinya</string>
+    <string name="av_sound_speaker_ok">Bagus – suara berfungsi.</string>
+    <string name="av_sound_hp_prompt">Colokkan headphone kamu. Pilih \"Saya mendengarnya\" setelah musik terdengar melaluinya.</string>
+    <string name="av_sound_hp_hear">Saya mendengarnya</string>
+    <string name="av_sound_hp_still">Masih tidak ada suara</string>
+    <string name="av_sound_hp_fixed">Cara pembacaan jack headphone telah diubah. Dengarkan lagi.</string>
+    <string name="av_sound_hp_no_fix">Konsol ini tidak memiliki perbaikan headphone untuk dicoba di sini.</string>
+    <string name="av_sound_force_applied">Speaker dan headphone dinyalakan bersamaan. Apakah kamu mendengar musiknya sekarang?</string>
+    <string name="av_sound_no_knob">Konsol ini tidak memiliki perbaikan audio untuk dicoba di sini. Apakah kamu mendengar musiknya sekarang?</string>
+    <string name="av_sound_hear_yes">Ya, saya mendengarnya</string>
+    <string name="av_sound_hear_no">Masih tidak ada apa-apa</string>
+    <string name="av_sound_left_default">Suara dibiarkan pada setelan default. Kamu dapat mengubahnya nanti di Setelan › Sistem › Penyesuaian Kernel.</string>
+</resources>
