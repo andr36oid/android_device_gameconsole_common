@@ -13,8 +13,9 @@ constexpr uint16_t kVendor = 0x18d1;
 constexpr uint16_t kProductBase = 0xd400;
 constexpr const char kProduct[] = "andr36oid XInput Device";
 enum Function { Storage = 1, XInput = 2, Gamepad = 4, Keyboard = 8, Mouse = 16, Adb = 32, Media = 64, Switch = 128, Midi = 256,
-    Serial = 512, Sound = 1024, Network = 2048, Ps3 = 4096, GameCube = 8192, Xbox = 16384, Rndis = 32768, Ps4 = 65536, Soundboard = 131072, Flipper = 262144 };
-constexpr unsigned kAllFunctions = 524287;
+    Serial = 512, Sound = 1024, Network = 2048, Ps3 = 4096, GameCube = 8192, Xbox = 16384, Rndis = 32768, Ps4 = 65536, Soundboard = 131072, Flipper = 262144,
+    AudioIn = 524288 };
+constexpr unsigned kAllFunctions = 1048575;
 constexpr unsigned kControllers = XInput | Gamepad | Switch | Ps3 | GameCube | Xbox | Ps4;
 constexpr unsigned kConsoleControllers = Switch | Ps3 | GameCube | Xbox | Ps4;
 struct FunctionBudget { unsigned bit, in, out, words, notify = 0; };
@@ -24,6 +25,9 @@ constexpr FunctionBudget kFunctions[] = {
     {Media,1,0,3}, {Switch,1,1,16}, {Midi,1,1,128},
     {Serial,2,1,128,3}, {Sound,0,1,0}, {Network,2,1,128,4},
     {Rndis,2,1,128,2}, {Ps3,1,1,16}, {GameCube,1,1,16}, {Xbox,1,1,8}, {Ps4,1,1,16}, {Soundboard,1,0,48},
+    // Audio in reuses the uac2 gadget's capture-to-host (device IN) endpoint, same
+    // shape as the soundboard; its source is the RK817 ADC instead of the pad mixer.
+    {AudioIn,1,0,48},
 };
 struct Policy { const char* reason; unsigned in, out; uint16_t product; uint16_t vendor = kVendor; };
 Policy endpointBudget(const std::vector<FunctionBudget>& functions);

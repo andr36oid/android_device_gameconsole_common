@@ -21,7 +21,9 @@ Policy policy(unsigned functions) {
     // Keep the old 64-mask identities. Console identities are standalone below;
     // their otherwise unused high bits leave room for the RNDIS variant.
     const unsigned set = (functions & 4095) | (functions & Rndis ? 4096 : 0);
-    Policy result{"ok",0,0,static_cast<uint16_t>(functions < 64 ? kProductBase + functions : 0x4000 + set + (functions & Soundboard ? 0x2000 : 0))};
+    // Audio in presents the same uac2 "card + capture" interface to the host as the
+    // soundboard, so it shares the identity bit; the two are mutually exclusive below.
+    Policy result{"ok",0,0,static_cast<uint16_t>(functions < 64 ? kProductBase + functions : 0x4000 + set + (functions & (Soundboard | AudioIn) ? 0x2000 : 0))};
     if (!functions || functions > kAllFunctions) { result.reason = "empty"; return result; }
     if ((functions & Flipper) && functions != Flipper) { result.reason = "standalone"; return result; }
     const unsigned controllers = functions & kControllers;
@@ -34,6 +36,10 @@ Policy policy(unsigned functions) {
     if (functions == Switch) { result.vendor = 0x0f0d; result.product = 0x0092; }
     if (functions == Ps4) { result.vendor = 0x054c; result.product = 0x09cc; }
     if ((functions & Soundboard) && !(functions & Sound)) { result.reason = "sound"; return result; }
+    // Audio in rides the uac2 function, so it needs the sound card present, and it owns the
+    // same device-to-host endpoint the soundboard would, so the two cannot coexist.
+    if ((functions & AudioIn) && !(functions & Sound)) { result.reason = "sound"; return result; }
+    if ((functions & AudioIn) && (functions & Soundboard)) { result.reason = "routing"; return result; }
     if (functions == Ps3) { result.vendor = 0x054c; result.product = 0x0268; }
     if (functions == GameCube) { result.vendor = 0x057e; result.product = 0x0337; }
     if (functions == Xbox) { result.vendor = 0x045e; result.product = 0x0289; }
@@ -77,7 +83,7 @@ unsigned parseFunctions(const std::string& text) {
     if (text == "xinput") return XInput;
     if (text == "gamepad") return Gamepad;
     if (text == "keyboard") return Keyboard | Mouse;
-    if (text.empty() || text.size() > 6 || text.find_first_not_of("0123456789") != std::string::npos)
+    if (text.empty() || text.size() > 7 || text.find_first_not_of("0123456789") != std::string::npos)
         return 0;
     return static_cast<unsigned>(std::stoi(text));
 }

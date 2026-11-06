@@ -53,7 +53,8 @@ public:
     int midiNode();
     bool ready() const {
         return (!(functions_ & (Network | Rndis)) || net_ >= 0) &&
-                (!(functions_ & Serial) || serial_ >= 0) && (!(functions_ & Sound) || pcm_ != nullptr) && (!(functions_ & Soundboard) || playback_ != nullptr);
+                (!(functions_ & Serial) || serial_ >= 0) && (!(functions_ & Sound) || pcm_ != nullptr) && (!(functions_ & Soundboard) || playback_ != nullptr)
+                && (!(functions_ & AudioIn) || (playback_ != nullptr && adc_ != nullptr));
     }
 private:
     void audio();
@@ -69,9 +70,11 @@ private:
     int net_ = -1, serial_ = -1, audioServer_ = -1, audioClient_ = -1;
     void* pcm_ = nullptr;
     void* playback_ = nullptr;
+    void* adc_ = nullptr;
     AudioPlayback captureBridge_;
     DhcpLease lease_;
     AudioBridge audioBridge_;
+    AudioBridge adcBridge_;
     std::string netName_, serialText_, audioStatus_;
     void audioStatus(const char* value) {
         if (audioStatus_ != value) { audioStatus_ = value; publish_("audio",value); }

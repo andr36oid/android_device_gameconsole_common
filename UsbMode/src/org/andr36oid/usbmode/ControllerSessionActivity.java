@@ -215,10 +215,10 @@ public class ControllerSessionActivity extends Activity {
         if ((mMask & UsbFunctions.MOUSE) != 0) names.add(getString(R.string.usb_device_mouse));
         if ((mMask & UsbFunctions.ADB) != 0) names.add(getString(R.string.usb_device_adb));
         final int[] bits = {UsbFunctions.MEDIA,UsbFunctions.SWITCH,UsbFunctions.MIDI,UsbFunctions.SERIAL,
-                UsbFunctions.SOUND,UsbFunctions.NETWORK,UsbFunctions.PS3,UsbFunctions.GAMECUBE,UsbFunctions.XBOX,UsbFunctions.RNDIS,UsbFunctions.PS4,UsbFunctions.SOUNDBOARD};
+                UsbFunctions.SOUND,UsbFunctions.NETWORK,UsbFunctions.PS3,UsbFunctions.GAMECUBE,UsbFunctions.XBOX,UsbFunctions.RNDIS,UsbFunctions.PS4,UsbFunctions.SOUNDBOARD,UsbFunctions.AUDIOIN};
         final int[] titles = {R.string.usb_device_media,R.string.usb_device_switch,R.string.usb_device_midi,
                 R.string.usb_device_serial,R.string.usb_device_sound,R.string.usb_device_network,
-                R.string.usb_device_ps3,R.string.usb_device_gamecube,R.string.usb_device_xbox,R.string.usb_device_rndis,R.string.usb_ds4_title,R.string.usb_sound_title};
+                R.string.usb_device_ps3,R.string.usb_device_gamecube,R.string.usb_device_xbox,R.string.usb_device_rndis,R.string.usb_ds4_title,R.string.usb_sound_title,R.string.usb_audioin_title};
         for (int i = 0; i < bits.length; i++) if ((mMask & bits[i]) != 0) names.add(getString(titles[i]));
         return android.text.TextUtils.join(" · ", names);
     }

@@ -664,9 +664,12 @@ configure_controller() {
 	fi
 	if has_function 1024; then
 		mkfun "$G/functions/uac2.speaker" || return 1
-		# USB OUT -> gadget capture; optional USB IN uses gadget playback.
+		# USB OUT -> gadget capture; optional USB IN uses gadget playback. The soundboard
+		# (131072) and audio-in (524288) modes both add the USB IN / gadget playback stream
+		# the host records as a microphone; they reuse this one uac2 node so teardown stays
+		# the single known path. The source differs (pad mixer vs RK817 ADC, in the daemon).
 		put "$G/functions/uac2.speaker/p_chmask" 0 || return 1
-		if has_function 131072; then
+		if has_function 131072 || has_function 524288; then
 			put "$G/functions/uac2.speaker/p_chmask" 3 || return 1
 			put "$G/functions/uac2.speaker/p_srate" 48000 || return 1
 			put "$G/functions/uac2.speaker/p_ssize" 2 || return 1

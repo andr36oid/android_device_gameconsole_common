@@ -14,8 +14,9 @@ import java.util.Set;
 final class UsbFunctions {
     static final int STORAGE = 1, XINPUT = 2, GAMEPAD = 4, KEYBOARD = 8, MOUSE = 16, ADB = 32,
             MEDIA = 64, SWITCH = 128, MIDI = 256, SERIAL = 512, SOUND = 1024, NETWORK = 2048,
-            PS3 = 4096, GAMECUBE = 8192, XBOX = 16384, RNDIS = 32768, PS4 = 65536, SOUNDBOARD = 131072, FLIPPER = 262144;
-    static final int ALL = 524287, CONTROLLERS = XINPUT | GAMEPAD | SWITCH | PS3 | GAMECUBE | XBOX | PS4;
+            PS3 = 4096, GAMECUBE = 8192, XBOX = 16384, RNDIS = 32768, PS4 = 65536, SOUNDBOARD = 131072, FLIPPER = 262144,
+            AUDIOIN = 524288;
+    static final int ALL = 1048575, CONTROLLERS = XINPUT | GAMEPAD | SWITCH | PS3 | GAMECUBE | XBOX | PS4;
     static final int[] BITS = {STORAGE, KEYBOARD, MOUSE, MEDIA, MIDI, NETWORK, ADB, SOUND, SERIAL, RNDIS};
     static final int[] CONTROLLER_BITS = {0, XINPUT, GAMEPAD, SWITCH, PS3, GAMECUBE, XBOX, PS4};
     private final HashMap<Integer,String> reasons = new HashMap<>();
@@ -33,6 +34,7 @@ final class UsbFunctions {
         masks.add(functions);
         for (int bit : BITS) masks.add(functions | bit);
         masks.add(functions | SOUNDBOARD);
+        masks.add(functions | AUDIOIN);
         for (int bit : CONTROLLER_BITS) masks.add((functions & ~CONTROLLERS) | bit);
         return masks;
     }

@@ -10,13 +10,14 @@ public final class WizardTest {
         if (!condition) throw new AssertionError("Wizard check " + checks);
     }
     public static void main(String[] args) {
-        check(UsbWizard.ROLES.length == 11);
-        // Index-aligned to ROLES: pc, input, game, drive, wired, music, dac, awake, macro, link, custom.
+        check(UsbWizard.ROLES.length == 12);
+        // Index-aligned to ROLES: pc, input, game, drive, wired, music, dac, mic, awake, macro, link, custom.
         // The custom entry's mask is only used to drive steps() (preset() is skipped for it below).
         int[] masks = {UsbFunctions.STORAGE | UsbFunctions.KEYBOARD | UsbFunctions.MOUSE, UsbFunctions.KEYBOARD | UsbFunctions.MOUSE,
                 UsbFunctions.XINPUT, UsbFunctions.STORAGE, UsbFunctions.NETWORK, UsbFunctions.MIDI, UsbFunctions.SOUND,
+                UsbFunctions.SOUND | UsbFunctions.AUDIOIN,
                 UsbFunctions.MOUSE, UsbFunctions.KEYBOARD | UsbFunctions.MEDIA, UsbFunctions.NETWORK, 0};
-        Integer[][] sequences = {{0,3,4,5,6}, {0,4,5,6}, {0,2,6}, {0,3,6}, {0,6}, {0,6}, {0,6}, {0,5,6}, {0,4,6}, {0,6}, {0,1,6}};
+        Integer[][] sequences = {{0,3,4,5,6}, {0,4,5,6}, {0,2,6}, {0,3,6}, {0,6}, {0,6}, {0,6}, {0,6}, {0,5,6}, {0,4,6}, {0,6}, {0,1,6}};
         for (int i = 0; i < UsbWizard.ROLES.length; i++) {
             String role = UsbWizard.ROLES[i];
             if (!"custom".equals(role)) check(UsbWizard.preset(role, false) == masks[i]);
@@ -56,6 +57,10 @@ public final class WizardTest {
         check(blockers[0] == UsbFunctions.SOUNDBOARD && blockers[1] == UsbFunctions.SOUND);
         blockers = UsbWizard.blockers("controllers", UsbFunctions.XINPUT | UsbFunctions.GAMEPAD);
         check(blockers[0] == UsbFunctions.XINPUT && blockers[1] == UsbFunctions.GAMEPAD);
+        blockers = UsbWizard.blockers("sound", UsbFunctions.AUDIOIN);
+        check(blockers[0] == UsbFunctions.AUDIOIN && blockers[1] == UsbFunctions.SOUND);
+        blockers = UsbWizard.blockers("routing", UsbFunctions.SOUND | UsbFunctions.SOUNDBOARD | UsbFunctions.AUDIOIN);
+        check((blockers[0] | blockers[1]) == (UsbFunctions.SOUNDBOARD | UsbFunctions.AUDIOIN));
         for (int single : new int[] {UsbFunctions.KEYBOARD, UsbFunctions.XINPUT, UsbFunctions.MEDIA})
             check(UsbWizard.blockers("routing", single)[1] == 0);
         check(!UsbWizard.captured("release_storage", true));
