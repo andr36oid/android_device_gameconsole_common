@@ -859,3 +859,175 @@ optimize_worker() {
   # EXIT cleanup tears down resources before declaring done and requesting scan.
 }
 
+# --- archive unpack: a copied dArkOSen release -> darkosen.img ---------------
+# dArkOSen is distributed as a split 7z (name.7z.001/.002...), sometimes a lone
+# .7z or a .zip. People copy the archive onto the games card without extracting
+# it first, so the subsystem finds no usable image. This unpacks it in place to
+# the short canonical darkosen.img - which also keeps the later loop-mount path
+# under the kernel's 64-byte backing-name limit. It reuses the optimize progress
+# channel (opt_* properties) so the app shows the same progress screen.
+#
+# The device's /system/xbin/7z ships without its codec library; p7zip derives its
+# home from argv[0], so a private home that links the on-device lib7z.so in as
+# 7z.so lets the stock binary extract with no reflash.
+UNPACK_HOME="$CONTROL/p7zip"
+ensure_7z() {
+  mkdir -p "$UNPACK_HOME" || return 1
+  [ -e /system/xbin/7z ] && [ -e /system/lib64/lib7z.so ] || return 1
+  ln -sfn /system/xbin/7z "$UNPACK_HOME/7z" || return 1
+  ln -sfn /system/lib64/lib7z.so "$UNPACK_HOME/7z.so" || return 1
+  SEVENZ="$UNPACK_HOME/7z"
+  "$SEVENZ" i >/dev/null 2>&1
+}
+# Full split-volume set oldest-first, or the single file. Fails when a split set
+# stops before a volume that 7z will then report as missing.
+unp_volumes() {
+  case "$1" in
+    *.7z.[0-9][0-9][0-9])
+      local base=${1%.[0-9][0-9][0-9]} n=1 vol
+      while vol=$(printf '%s.%03d' "$base" "$n"); [ -f "$vol" ]; do
+        printf '%s\n' "$vol"; n=$((n+1))
+      done
+      [ "$n" -gt 1 ] || return 1 ;;
+    *) printf '%s\n' "$1" ;;
+  esac
+}
+# Exactly one *.img member -> "<size>\t<name>", else non-zero.
+unp_inner_img() {
+  "$SEVENZ" l -slt "$1" 2>/dev/null | awk '
+    /^Path = /{p=substr($0,8)} /^Size = /{s=substr($0,8)}
+    /^$/{ if(p!=""){ if(tolower(p)~/\.img$/){c++;isz=s;inm=p}; p="";s="" } }
+    END{ if(p!=""&&tolower(p)~/\.img$/){c++;isz=s;inm=p}
+         if(c==1) print isz"\t"inm; else exit 1 }'
+}
+# A cheap integrity gate: the extracted image must carry a known rootfs
+# filesystem at byte 0 or a partition start. Full eligibility is checked at
+# launch; partition_offsets/image_fstype come from the broker (sourced first).
+unp_verify_rootfs() {
+  local off fs
+  for off in 0 $(partition_offsets "$1"); do
+    fs=$(image_fstype "$1" "$off"); [ -n "$fs" ] && return 0
+  done
+  return 1
+}
+unp_state() {
+  UNP_PHASE=$1; [ -z "$UNP_ERROR" ] || UNP_PHASE=failed
+  local bytes=0
+  if [ "$UNP_PHASE" = done ]; then bytes=${UNP_TOTAL:-0}
+  else [ -z "$UNP_DOWNLOAD" ] || [ ! -f "$UNP_DOWNLOAD" ] || bytes=$(stat -c %s "$UNP_DOWNLOAD" 2>/dev/null) || bytes=0; fi
+  publish opt_bytes "$bytes"
+  publish opt_elapsed "$(( $(clock_seconds)-UNP_START ))"
+  publish opt_error "$UNP_ERROR"
+  publish opt_state "$UNP_PHASE"
+  publish opt_status "$UNP_JOB:$UNP_PHASE"
+}
+unp_fail() { UNP_ERROR=$1; log "unpack $UNP_JOB: $1"; exit 1; }
+unp_cleanup() {
+  local rc=$1
+  trap - EXIT INT TERM HUP
+  [ -z "${UNP_PID:-}" ] || kill "$UNP_PID" 2>/dev/null
+  [ -z "${WAKE:-}" ] || printf '%s\n' "$WAKE" > /sys/power/wake_unlock 2>/dev/null
+  [ -z "${UNP_EXDIR:-}" ] || rm -rf "$UNP_EXDIR" 2>/dev/null
+  if [ "${UNP_LOCKED:-0}" = 1 ]; then
+    if [ "$rc" = 0 ] && [ -z "$UNP_ERROR" ]; then UNP_PHASE=done
+    elif [ "$UNP_ERROR" = interrupted ]; then UNP_PHASE=interrupted
+    else UNP_PHASE=failed; [ -n "$UNP_ERROR" ] || UNP_ERROR=io_error; fi
+    unp_state "$UNP_PHASE"
+    operation_done "$UNP_PHASE"
+    release_operation
+    [ "$UNP_PHASE" != done ] || [ -n "$(prop request)" ] || publish request scan
+  fi
+  [ "$UNP_PHASE" = done ] && exit 0
+  exit 1
+}
+# unpack_worker <job> <primary-archive-path under a games card's subsystem/darkosen>
+unpack_worker() {
+  UNP_JOB=$1; local primary=$2
+  valid_job "$UNP_JOB" || exit 2
+  UNP_PHASE=preparing; UNP_ERROR=; UNP_START=$(clock_seconds); UNP_LOCKED=0
+  UNP_EXDIR=; UNP_DOWNLOAD=; UNP_PID=; WAKE=; UNP_TOTAL=
+  trap 'unp_cleanup $?' EXIT
+  trap 'UNP_ERROR=interrupted; exit 1' INT TERM HUP
+  if ! acquire_operation unpack; then
+    publish opt_reject_error busy; publish opt_reject_job "$UNP_JOB"; operation_done busy; exit 1
+  fi
+  UNP_LOCKED=1
+  publish opt_error ""; publish opt_total ""; publish opt_required ""; publish opt_available ""; publish opt_free ""
+  publish opt_job "$UNP_JOB"; publish opt_bytes 0; publish opt_elapsed 0
+  unp_state preparing
+
+  case "$primary" in */subsystem/darkosen/*) ;; *) unp_fail invalid_archive ;; esac
+  case "${primary##*/}" in
+    *.7z.[0-9][0-9][0-9]|*.7z|*.7Z|*.zip|*.ZIP) ;;
+    *) unp_fail invalid_archive ;;
+  esac
+  [ -f "$primary" ] || unp_fail selected_missing
+  local dir=${primary%/*}
+  [ -d "$dir" ] || unp_fail selected_missing
+  [ ! -e "$dir/darkosen.img" ] && [ ! -L "$dir/darkosen.img" ] || unp_fail output_exists
+
+  ensure_7z || unp_fail tool_missing
+  local vols; vols=$(unp_volumes "$primary") || unp_fail incomplete_archive
+  local info; info=$(unp_inner_img "$primary") || unp_fail no_image_inside
+  local size=${info%%	*} iname=${info#*	}
+  case "$size" in ''|*[!0-9]*) unp_fail invalid_archive ;; esac
+  case "$iname" in */*|'') unp_fail invalid_archive ;; esac
+  UNP_TOTAL=$size; publish opt_total "$size"
+
+  # Reject an absurd/overflowing declared size before any shell arithmetic:
+  # size comes from the archive header, and 64 TiB is never a real rootfs, so
+  # this keeps "size + margin" well clear of signed-64-bit wraparound (a wrapped
+  # negative value would otherwise make the free-space guard pass).
+  bytes_ge 70368744177664 "$size" || unp_fail invalid_archive
+  # Free space on the card: the uncompressed image plus a 128 MiB margin.
+  local spaceinfo free flimit
+  spaceinfo=$("$SUPPORT" space "$dir" 2>/dev/null)
+  free=$(field "$spaceinfo" available)
+  flimit=$(field "$spaceinfo" file_limit)
+  [ -n "$free" ] || free=$(df "$dir" 2>/dev/null | awk 'NR==2{print $4*1024}')
+  [ -n "$free" ] || free=0
+  publish opt_available "$free"; publish opt_free "$free"
+  bytes_ge "$free" "$(( size + 134217728 ))" || unp_fail no_space
+  # FAT/exFAT cap a single file to file_limit (0 = no limit, e.g. ext4/f2fs):
+  # fail up front like optimize does, instead of after a full extraction pass.
+  if [ -n "$flimit" ] && [ "$flimit" != 0 ]; then
+    bytes_ge "$flimit" "$size" || unp_fail file_limit
+  fi
+
+  WAKE="a36-unpack-$UNP_JOB"
+  printf '%s 60000000000\n' "$WAKE" > /sys/power/wake_lock 2>/dev/null
+  UNP_EXDIR="$dir/.unpack.$UNP_JOB"
+  rm -rf "$UNP_EXDIR"; mkdir -p "$UNP_EXDIR" || unp_fail io_error
+  UNP_DOWNLOAD="$UNP_EXDIR/$iname"
+  unp_state extracting
+  # Extract ONLY the inner image, flattened ('e', not 'x'): a crafted archive
+  # then cannot fill the card with extra members (the space budget covers just
+  # this one image) nor write outside UNP_EXDIR via "../" or absolute members.
+  "$SEVENZ" e -y -bso0 -bsp0 -o"$UNP_EXDIR" "$primary" "$iname" >/dev/null 2>&1 &
+  UNP_PID=$!
+  while kill -0 "$UNP_PID" 2>/dev/null; do
+    printf '%s 60000000000\n' "$WAKE" > /sys/power/wake_lock 2>/dev/null
+    unp_state extracting
+    sleep 2
+  done
+  wait "$UNP_PID"; local rc=$?
+  UNP_PID=
+  { [ "$rc" = 0 ] && [ -f "$UNP_DOWNLOAD" ]; } || unp_fail extract_failed
+  # A member stored as a symlink would make darkosen.img point at an
+  # attacker-chosen backing file (it is later loop-mounted); refuse it.
+  if [ -L "$UNP_DOWNLOAD" ]; then unp_fail invalid_image; fi
+
+  unp_state verifying
+  unp_verify_rootfs "$UNP_DOWNLOAD" || unp_fail invalid_image
+
+  unp_state publishing
+  mv -f "$UNP_DOWNLOAD" "$dir/darkosen.img" || unp_fail io_error
+  UNP_DOWNLOAD=
+  "$SUPPORT" fsync "$dir" 2>/dev/null
+  rm -rf "$UNP_EXDIR"; UNP_EXDIR=
+  # darkosen.img is in place; drop the now-redundant archive (user chose this).
+  for v in $vols; do rm -f "$v"; done
+  "$SUPPORT" fsync "$dir" 2>/dev/null
+  # Success: the EXIT trap publishes done and requests a scan.
+}
+
