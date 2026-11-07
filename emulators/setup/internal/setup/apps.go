@@ -117,7 +117,12 @@ func (s *Setup) installOrder() []string {
 
 type install struct {
 	apk, marker, version string
+	downgrade            bool // pass -d so pm accepts a lower versionCode (Magisk repin)
 }
+
+// magiskPkg is pinned: only a new andr36oid image updates it. The app may not update
+// itself (see internal/magisk for the matching root-is-pinned policy).
+const magiskPkg = "com.topjohnwu.magisk"
 
 // InstallAPKs installs the APKs from AUTOAPK as regular user apps. They keep their own
 // signature, so F-Droid can update them, and the user can uninstall them: an app the
@@ -161,7 +166,7 @@ func (s *Setup) InstallAPKs() {
 				continue
 			}
 			s.Log("installing %s.apk (added to AUTOAPK, no .yml)", name)
-			todo = append(todo, install{apk, "apk." + name, "0"})
+			todo = append(todo, install{apk, "apk." + name, "0", false})
 			continue
 		}
 
@@ -173,6 +178,20 @@ func (s *Setup) InstallAPKs() {
 			continue
 		}
 		cur := s.installedVC(pkg)
+		// Magisk is pinned to the baked version. If the installed app has drifted
+		// (self-update, F-Droid, sideload) -- to a higher OR lower versionCode -- revert
+		// it by reinstalling the baked APK, downgrading when the drift was upward. Root
+		// stays the baked ramdisk (never repatched; see internal/magisk), so app and root
+		// remain matched and an app update can never brick root.
+		if pkg == magiskPkg && cur != "" && atoi(cur) != atoi(vc) {
+			_ = fsx.Touch(s.state("installed." + pkg))
+			if fsx.ReadTrim(s.state("failed."+pkg)) == vc {
+				continue
+			}
+			s.Log("repinning Magisk to baked %s (installed %s drifted; only the image updates Magisk)", vc, cur)
+			todo = append(todo, install{apk, pkg, vc, atoi(cur) > atoi(vc)})
+			continue
+		}
 		switch {
 		case cur != "":
 			// remember we have seen it, so an uninstall later on sticks
@@ -209,7 +228,7 @@ func (s *Setup) InstallAPKs() {
 			curText = "not installed"
 		}
 		s.Log("installing %s.apk (%s %s, currently: %s)", name, pkg, vc, curText)
-		todo = append(todo, install{apk, pkg, vc})
+		todo = append(todo, install{apk, pkg, vc, false})
 	}
 
 	var bytes int64
@@ -238,6 +257,27 @@ func (s *Setup) InstallAPKs() {
 	}
 	if wait {
 		s.Log("the bundled apps wait for the setup's app page")
+	}
+	s.pinMagiskUpdates()
+}
+
+// pinMagiskUpdates turns off the Magisk app's self-update check so it never fetches or
+// prompts a newer Magisk. Policy: only a new andr36oid image updates Magisk -- internal/magisk
+// pins root to the baked ramdisk and the repin above reverts any app that drifts. check_update
+// lives in the daemon DB (/data/adb/magisk.db settings); the magisk binary writes it.
+// Best-effort and idempotent: on a boot where Magisk root is not up yet it just retries next
+// boot. Not unit-tested (needs a real magisk binary) -- confirm on hardware.
+func (s *Setup) pinMagiskUpdates() {
+	if s.installedVC(magiskPkg) == "" {
+		return // the app is not installed (yet)
+	}
+	if out, err := s.R.Run("magisk", "--sqlite", "REPLACE INTO settings (key,value) VALUES('check_update',0)"); err != nil {
+		s.Log("magisk: could not disable the update check (will retry next boot): %s", strings.TrimSpace(out))
+		return
+	}
+	if !sys.Exists(s.state("magisk-update-off")) {
+		s.Log("magisk: self-update check disabled (only the image updates Magisk)")
+		_ = fsx.Touch(s.state("magisk-update-off"))
 	}
 }
 
@@ -314,7 +354,12 @@ func (s *Setup) clearAutoapkProblem() {
 func (s *Setup) installOne(t install) {
 	s.Progress.App(baseOf(t.apk))
 	defer s.Progress.App("")
-	out, err := s.R.Run("pm", "install", "-r", "-g", "--user", "0", t.apk)
+	args := []string{"install", "-r", "-g", "--user", "0"}
+	if t.downgrade {
+		args = append(args, "-d") // allow a lower versionCode (revert a drifted Magisk)
+	}
+	args = append(args, t.apk)
+	out, err := s.R.Run("pm", args...)
 	if err == nil {
 		_ = fsx.Touch(s.state("installed." + t.marker))
 		_ = os.Remove(s.state("failed." + t.marker))

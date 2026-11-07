@@ -3,8 +3,11 @@ LOCAL_PATH := $(call my-dir)
 # The Magisk app, the same APK the device mkimg.sh takes magiskinit and the
 # payload from. It is installed as a normal app on first boot (see
 # emulators/setup): a system app gets no native libs
-# extracted, and Magisk runs its binaries from there. As a normal app it also
-# updates itself.
+# extracted, and Magisk runs its binaries from there. It is pinned to this
+# baked version: only a new andr36oid image updates Magisk. The preinstaller
+# reverts any app that drifts and disables its self-update check, and
+# internal/magisk pins root to the baked ramdisk (an app-driven root repatch
+# bricks these SD-card uImage consoles).
 ifneq ($(wildcard $(LOCAL_PATH)/Magisk.apk),)
 include $(CLEAR_VARS)
 LOCAL_MODULE := MagiskApp

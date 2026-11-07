@@ -22,6 +22,14 @@ to `ramdisk.uimg` on a PC.
 To update, replace it with a newer release and bump the version_code in
 `Magisk.yml`. The same file is installed as a normal app on first boot, by the
 emulator preinstaller (a system app would get no native libs extracted).
+
+Magisk is PINNED: only a new andr36oid image updates it. The preinstaller
+(`emulators/setup` apps.go) reverts any installed Magisk that drifts from this
+baked version (reinstalling this APK, downgrading if needed) and turns off the
+app's self-update check, and `internal/magisk` pins root to the baked ramdisk
+rather than rebuilding it to match a newer app. A root repatch bricks these
+SD-card uImage consoles, so an app update must never drive one. Bumping the APK
++ version_code here is the only supported way to move Magisk forward.
 `magiskboot` runs from the APK's x86_64 build on the build machine (arm64
 through qemu-aarch64 on other hosts). Without the APK the image builds with the
 stock ramdisk and no root.

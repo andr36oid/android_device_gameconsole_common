@@ -113,18 +113,18 @@ func TestProgressAndInstallMarks(t *testing.T) {
 		return "Success", nil
 	}
 	s.Progress.Stage("apps")
-	s.installOne(install{"/fake/game.apk", "x", "1"})
+	s.installOne(install{"/fake/game.apk", "x", "1", false})
 	if len(f.propLog) != 0 {
 		t.Fatalf("props while disabled: %v", f.propLog)
 	}
 	s.Progress.Enabled = true
 	s.Progress.Stage("cores:2:3")
-	s.installOne(install{"/fake/My Game.apk", "example.game", "1"})
+	s.installOne(install{"/fake/My Game.apk", "example.game", "1", false})
 	if !sys_exists(s.state("installed.example.game")) || sys_exists(s.state("failed.example.game")) {
 		t.Fatal("install marks wrong")
 	}
 	fail = true
-	s.installOne(install{"/fake/Broken.apk", "example.broken", "2"})
+	s.installOne(install{"/fake/Broken.apk", "example.broken", "2", false})
 	if read(t, s.state("failed.example.broken")) != "2\n" {
 		t.Fatal("failed mark wrong")
 	}
@@ -146,7 +146,7 @@ func TestProgressAndInstallMarks(t *testing.T) {
 	}
 	// a failure while shutting down isn't remembered
 	f.props["sys.shutdown.requested"] = "0userrequested"
-	s.installOne(install{"/fake/Other.apk", "example.other", "3"})
+	s.installOne(install{"/fake/Other.apk", "example.other", "3", false})
 	if sys_exists(s.state("failed.example.other")) {
 		t.Fatal("failure during shutdown kept")
 	}
@@ -356,5 +356,22 @@ func TestAutoapkUnreadableIsReported(t *testing.T) {
 	s.InstallAPKs()
 	if problem() || sys_exists(mark) || f.count("pm install") != 1 {
 		t.Fatalf("readable AUTOAPK: %v, installs %d", s.Lines, f.count("pm install"))
+	}
+}
+
+// A Magisk repin reinstalls the baked APK with -d (downgrade); normal installs do not.
+func TestInstallOneDowngradeFlag(t *testing.T) {
+	f := newFake()
+	s, _ := newSetup(t, f)
+	var last string
+	f.handlers["pm"] = func(a []string) (string, error) { last = strings.Join(a, " "); return "Success", nil }
+
+	s.installOne(install{"/fake/Magisk.apk", magiskPkg, "31100", true})
+	if !strings.Contains(last, " -d ") {
+		t.Errorf("downgrade repin missing -d: %q", last)
+	}
+	s.installOne(install{"/fake/Other.apk", "example.x", "1", false})
+	if strings.Contains(last, " -d ") {
+		t.Errorf("normal install must not pass -d: %q", last)
 	}
 }

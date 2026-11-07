@@ -129,9 +129,14 @@ func TestRebuildWithRealMagiskboot(t *testing.T) {
 			return run(d, name, args...)
 		},
 	}
-	done, err := r.Check()
+	// Policy: the production Check() never rebuilds, even when the app is newer.
+	if done, err := r.Check(); done || err != nil {
+		t.Fatalf("Check must be a no-op (root pinned): %v %v", done, err)
+	}
+	// The retained rebuild mechanism still produces a correct patched ramdisk.
+	done, err := r.rebuildIfAppNewer()
 	if err != nil || !done {
-		t.Fatalf("Check: %v %v", done, err)
+		t.Fatalf("rebuildIfAppNewer: %v %v", done, err)
 	}
 	if len(props) != 2 || props[0] != "sys.andr36oid.resizing=3" || props[1] != "sys.andr36oid.resizing=0" {
 		t.Errorf("boot note props: %v", props)
@@ -161,13 +166,13 @@ func TestRebuildWithRealMagiskboot(t *testing.T) {
 	}
 
 	// the same app version again: tried already, nothing happens
-	if done, err := r.Check(); done || err != nil {
-		t.Errorf("second Check: %v %v", done, err)
+	if done, err := r.rebuildIfAppNewer(); done || err != nil {
+		t.Errorf("second rebuildIfAppNewer: %v %v", done, err)
 	}
 	// root as new as the app: nothing to do
 	os.Remove(r.P.Tried)
 	r.P.Magisk = fakeMagisk(t, dir, "31000")
-	if done, err := r.Check(); done || err != nil {
+	if done, err := r.rebuildIfAppNewer(); done || err != nil {
 		t.Errorf("up to date: %v %v", done, err)
 	}
 }

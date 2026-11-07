@@ -1,13 +1,15 @@
-// Package magisk keeps root as new as the Magisk app. Root lives in ramdisk.uimg on the
-// BOOT partition (device mkimg.sh, common/magisk/inject_magisk.sh), and there is no boot
-// image for the app's own "Direct install" to patch. So when the app was updated (F-Droid,
-// GitHub) past the root the console starts with, the start rebuilds ramdisk.uimg from the
-// plain ramdisk-stock.uimg with the new app's files, the same steps as inject_magisk.sh,
-// shows "Rebuilding Magisk RAM disk ..." on the boot animation and restarts into it.
+// Package magisk pins root to whatever the image baked into ramdisk.uimg. Root lives in
+// ramdisk.uimg on the BOOT partition (device mkimg.sh, common/magisk/inject_magisk.sh);
+// there is no boot image for the app's own "Direct install" to patch. On these SD-card
+// uImage consoles a root repatch bricks root, so the policy is: ONLY a new andr36oid image
+// updates Magisk. The app is never allowed to drive a root rebuild, and the preinstaller
+// holds the app itself at the baked version with its self-updater off (internal/setup
+// apps.go). Check() therefore never rebuilds -- see its comment.
 //
-// Each app version is tried once (a marker in State): a rebuild that somehow still starts
-// the old root can't loop. The ramdisk it replaces stays on BOOT as
-// ramdisk-magisk-previous.uimg.
+// rebuildIfAppNewer is the historical "rebuild root to match a newer app" mechanism (the
+// same steps as inject_magisk.sh). It is retained, unused in production and exercised only
+// by the tests, so the ramdisk-inject parity (including the v31.1 optional-stub layout)
+// stays covered; nothing calls it while root is pinned.
 package magisk
 
 import (
@@ -82,9 +84,18 @@ func run(dir, name string, args ...string) error {
 	return nil
 }
 
-// Check rebuilds the ramdisk when the app is newer than the root. It reports whether a new
-// ramdisk was written (the caller restarts then).
+// Check is the production entry point. Root is pinned to the image's baked ramdisk, so an
+// app update (self-update, F-Droid, sideload) must NOT trigger a root repatch -- that would
+// brick root on these uImage consoles. It therefore never rebuilds and always reports false
+// (no restart). Only a new andr36oid image changes Magisk; the preinstaller reverts any app
+// that drifts from the baked version.
 func (r *Rebuilder) Check() (bool, error) {
+	return false, nil
+}
+
+// rebuildIfAppNewer rebuilds the ramdisk when the app is newer than the root. Retained for
+// test coverage of the inject parity only; not called in production (root is pinned).
+func (r *Rebuilder) rebuildIfAppNewer() (bool, error) {
 	rootVC := r.rootVersion()
 	if rootVC == 0 {
 		return false, nil // no Magisk root (stock ramdisk): nothing to keep up to date
