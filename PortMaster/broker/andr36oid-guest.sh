@@ -204,7 +204,24 @@ write_guest_session() {
     local sudo_path
     sudo_path=$(root_path "$ROOT" /usr/local/bin/sudo) || return 1
     mkdir -p "${sudo_path%/*}"
-    printf '#!/bin/sh\nexec "$@"\n' > "$sudo_path" || return 1
+    # The guest already runs as root in its namespace, so sudo is a stand-in that
+    # just runs the command. It MUST drop sudo's own options first: PortMaster
+    # launches ports as `sudo --preserve-env=VAR,... cmd args`, and a bare
+    # `exec "$@"` would try to exec the --preserve-env flag as the command, so
+    # every port failed to launch. Skip leading options (consuming a value for the
+    # few that take a separate one) and exec the real command.
+    cat > "$sudo_path" <<'SUDO' || return 1
+#!/bin/sh
+while [ $# -gt 0 ]; do
+  case "$1" in
+    --) shift; break ;;
+    -u|--user|-g|--group|-C|--close-from|-p|--prompt|-r|--role|-t|--type|-T|--command-timeout|-R|--chroot|-D|--chdir|-h|--host) shift 2; continue ;;
+    -*) shift; continue ;;
+    *) break ;;
+  esac
+done
+exec "$@"
+SUDO
     chmod 0755 "$sudo_path"
   fi
   # Native status daemon requires NetworkManager; derive ES indicators from the

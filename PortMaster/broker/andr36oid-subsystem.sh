@@ -1224,7 +1224,16 @@ stop_android_display() {
   wait_service_stopped "$HWC" || return 1
   # SET_MASTER succeeds only when the old DRM owner has released card0. The
   # probe closes its descriptor before the guest or gamma restore opens card0.
-  "$GUEST" --check-drm || { log "DRM master still held; refusing display admission"; return 1; }
+  # SurfaceFlinger/hwcomposer can report "stopped" to init a moment before the
+  # kernel actually drops their card0 master handle, especially on a second
+  # handoff after a prior session. A single immediate check then races and the
+  # handoff is wrongly refused (back to Android at once). Poll briefly instead.
+  local tries=0
+  until "$GUEST" --check-drm; do
+    tries=$((tries+1))
+    [ "$tries" -lt 30 ] || { log "DRM master still held after 3s; refusing display admission"; return 1; }
+    sleep 0.1
+  done
 }
 
 # --- the handoff --------------------------------------------------------------
