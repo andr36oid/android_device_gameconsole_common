@@ -182,10 +182,16 @@ func (r *Rebuilder) rebuild(apk string) error {
 		"lib/arm64-v8a/libmagiskinit.so": "magiskinit",
 		"lib/arm64-v8a/libmagisk.so":     "magisk",
 		"lib/arm64-v8a/libinit-ld.so":    "init-ld",
-		"assets/stub.apk":                "stub.apk",
 	}); err != nil {
 		return err
 	}
+	// stub.apk is Magisk's app-hiding payload. v31.1 dropped it from the boot
+	// image (its boot_patch.sh injects only magisk.xz + init-ld.xz), so it is
+	// optional: extract it when a release still ships it (<= v31.0) and skip it
+	// otherwise. inject_magisk.sh treats it the same way.
+	_ = extract(apk, w, map[string]string{"assets/stub.apk": "stub.apk"})
+	_, stubErr := os.Stat(filepath.Join(w, "stub.apk"))
+	stub := stubErr == nil
 	if err := os.WriteFile(filepath.Join(w, "ramdisk.img"), stock, 0o600); err != nil {
 		return err
 	}
@@ -201,7 +207,11 @@ func (r *Rebuilder) rebuild(apk string) error {
 			return err
 		}
 	}
-	for _, f := range []string{"magisk", "stub.apk", "init-ld"} {
+	payload := []string{"magisk", "init-ld"}
+	if stub {
+		payload = append(payload, "stub.apk")
+	}
+	for _, f := range payload {
 		xz := strings.TrimSuffix(f, ".apk") + ".xz"
 		if err := r.Run(w, mb, "compress=xz", f, xz); err != nil {
 			return err
@@ -210,17 +220,22 @@ func (r *Rebuilder) rebuild(apk string) error {
 	if err := copyFile(filepath.Join(w, "ramdisk.cpio"), filepath.Join(w, "ramdisk.cpio.orig")); err != nil {
 		return err
 	}
-	if err := r.Run(w, mb, "cpio", "ramdisk.cpio",
+	cpioArgs := []string{"cpio", "ramdisk.cpio",
 		"add 0750 init magiskinit",
 		"mkdir 0750 overlay.d",
 		"mkdir 0750 overlay.d/sbin",
 		"add 0644 overlay.d/sbin/magisk.xz magisk.xz",
-		"add 0644 overlay.d/sbin/stub.xz stub.xz",
+	}
+	if stub {
+		cpioArgs = append(cpioArgs, "add 0644 overlay.d/sbin/stub.xz stub.xz")
+	}
+	cpioArgs = append(cpioArgs,
 		"add 0644 overlay.d/sbin/init-ld.xz init-ld.xz",
 		"patch",
 		"backup ramdisk.cpio.orig",
 		"mkdir 000 .backup",
-		"add 000 .backup/.magisk config"); err != nil {
+		"add 000 .backup/.magisk config")
+	if err := r.Run(w, mb, cpioArgs...); err != nil {
 		return err
 	}
 	if err := r.Run(w, mb, "compress=gzip", "ramdisk.cpio", "ramdisk.cpio.gz"); err != nil {
