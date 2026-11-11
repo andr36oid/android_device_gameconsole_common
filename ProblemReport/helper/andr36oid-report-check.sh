@@ -24,6 +24,9 @@ CMD=${CMD:-/system/bin/cmd}
 LOG=${LOG:-/system/bin/log}
 STATE=$DIR/boot-check
 RESTART_TAGS="system_server_crash system_server_watchdog system_server_native_crash"
+GETPROP=${GETPROP:-/system/bin/getprop}
+SETPROP=${SETPROP:-/system/bin/setprop}
+CACHE=${CACHE:-/cache/andr36oid}
 
 log() {
 	"$LOG" -t andr36oid-report "$*"
@@ -113,4 +116,28 @@ main() {
 	fi
 }
 
+# count_boot : persist.andr36oid.boot_count goes up by one for every start that Android
+# finished, once per kernel boot (sys.boot_completed also comes after a system_server
+# restart). It starts at 1 with the first image that has it and goes with /data: a factory
+# reset starts over. From the second completed start on the boot animation stops watching
+# for a card that loses its data (BootLogScreen.cpp, drawStorageWarning); it starts before
+# /data is there, so it gets a marker on /cache.
+count_boot() {
+	local n
+	[ "$("$GETPROP" sys.andr36oid.boot_counted)" = 1 ] && return 0
+	n=$("$GETPROP" persist.andr36oid.boot_count)
+	case $n in
+	'' | *[!0-9]*) n=0 ;;
+	esac
+	n=$((n + 1))
+	"$SETPROP" persist.andr36oid.boot_count "$n"
+	"$SETPROP" sys.andr36oid.boot_counted 1
+	log "completed start number $n"
+	if [ "$n" -ge 2 ] && [ ! -e "$CACHE/booted2" ]; then
+		mkdir -p "$CACHE" && chmod 0755 "$CACHE"
+		echo 1 >"$CACHE/booted2" && chmod 0644 "$CACHE/booted2"
+	fi
+}
+
+count_boot
 main

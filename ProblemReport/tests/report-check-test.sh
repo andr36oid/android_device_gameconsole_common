@@ -14,14 +14,19 @@ setup() {
 	mkdir -p "$T/w/pstore" "$T/w/dropbox" "$T/w/dir" "$T/w/prefs"
 	printf '#!/bin/sh\necho "$*" >>"%s"\n' "$T/w/cmd.log" >"$T/w/cmd"
 	printf '#!/bin/sh\n:\n' >"$T/w/log"
-	chmod +x "$T/w/cmd" "$T/w/log"
+	# getprop/setprop on files in $T/w/props
+	mkdir -p "$T/w/props" "$T/w/cache"
+	printf '#!/bin/sh\ncat "%s/$1" 2>/dev/null\n' "$T/w/props" >"$T/w/getprop"
+	printf '#!/bin/sh\nprintf "%%s\\n" "$2" >"%s/$1"\n' "$T/w/props" >"$T/w/setprop"
+	chmod +x "$T/w/cmd" "$T/w/log" "$T/w/getprop" "$T/w/setprop"
 	echo "100.25 80.00" >"$T/w/uptime"
 	: >"$T/w/cmd.log"
 }
 
 run() {
 	PSTORE=$T/w/pstore DROPBOX=$T/w/dropbox DIR=$T/w/dir APP_PREFS=$T/w/prefs/boot.xml \
-		UPTIME=$T/w/uptime CMD=$T/w/cmd LOG=$T/w/log $SH "$SCRIPT"
+		UPTIME=$T/w/uptime CMD=$T/w/cmd LOG=$T/w/log GETPROP=$T/w/getprop SETPROP=$T/w/setprop \
+		CACHE=$T/w/cache $SH "$SCRIPT"
 }
 
 # expect <what> <broadcasts wanted in total>
@@ -35,8 +40,34 @@ expect() {
 	fi
 }
 
+# expect_count <what> <boot count wanted> <marker wanted: yes|no>
+expect_count() {
+	local n m=no
+	n=$(cat "$T/w/props/persist.andr36oid.boot_count" 2>/dev/null)
+	[ -e "$T/w/cache/booted2" ] && m=yes
+	runs=$((runs + 1))
+	if [ "$n" != "$2" ] || [ "$m" != "$3" ]; then
+		echo "FAIL [$SH] $1: count '$n' marker $m, wanted $2 $3"
+		fails=$((fails + 1))
+	fi
+}
+
 for SH in dash bash mksh "busybox sh"; do
 	command -v "${SH%% *}" >/dev/null || continue
+
+	# the count of completed starts: once per kernel boot, marker from the second on
+	setup
+	run
+	expect_count "first start" 1 no
+	run
+	expect_count "system_server restart in the same boot" 1 no
+	rm -f "$T/w/props/sys.andr36oid.boot_counted"
+	run
+	expect_count "second start" 2 yes
+	rm -f "$T/w/props/sys.andr36oid.boot_counted"
+	echo junk >"$T/w/props/persist.andr36oid.boot_count"
+	run
+	expect_count "a broken value starts over" 1 yes
 	now=$(date +%s)
 
 	setup
