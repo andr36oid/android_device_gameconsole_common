@@ -9,6 +9,7 @@
 #include <vector>
 
 #include <linux/input.h>
+#include "andr36oid-gamepad.h"
 
 namespace joymouse {
 
@@ -16,10 +17,11 @@ using KeyBits = std::bitset<KEY_CNT>;
 
 // Logical pad buttons, independent of the key codes a particular driver uses.
 enum class Button : uint8_t {
-    A, B, X, Y,
-    L1, R1, L2, R2, L3, R3,
-    Select, Start, Mode,
-    Up, Down, Left, Right,
+    A=A36_PAD_A, B=A36_PAD_B, X=A36_PAD_X, Y=A36_PAD_Y,
+    L1=A36_PAD_L1, R1=A36_PAD_R1, L2=A36_PAD_L2, R2=A36_PAD_R2,
+    L3=A36_PAD_L3, R3=A36_PAD_R3, Select=A36_PAD_SELECT, Start=A36_PAD_START,
+    Mode=A36_PAD_MODE, Up=A36_PAD_UP, Down=A36_PAD_DOWN,
+    Left=A36_PAD_LEFT, Right=A36_PAD_RIGHT,
 };
 constexpr size_t kButtonCount = 17;
 
@@ -76,11 +78,13 @@ public:
     explicit ButtonMap(const KeyBits& supported);
 
     std::optional<Button> button(int code) const;
+    bool normalized() const { return normalized_; }
     bool has(Button b) const { return present_[index(b)]; }
 
 private:
     void add(int code, Button b);
 
+    bool normalized_ = false;
     std::array<int8_t, KEY_CNT> buttonForCode_;
     std::array<bool, kButtonCount> present_{};
 };

@@ -829,5 +829,32 @@ TEST_F(ControllerTest, AutorepeatOnlyForPassThrough) {
     EXPECT_EQ(mouse.keys(), (Keys{{BTN_LEFT, 1}, {BTN_LEFT, 0}}));
 }
 
+
+TEST_F(ControllerTest, NativeCanonicalCodesKeepLogicalButtonRoles) {
+    PadInfo info = r36sPad(); info.keys.reset();
+    for (auto e : a36_pad_bindings) info.keys.set(e.canonical);
+    ButtonMap map(info.keys); ASSERT_TRUE(map.normalized());
+    for (auto e : a36_pad_bindings) EXPECT_EQ(map.button(e.canonical), static_cast<Button>(e.role));
+    create(info);
+    key(706,1);key(707,1);advance(msToNanos(config.toggleMs+50));
+    key(706,0);key(707,0);advance(msToNanos(400));
+    ASSERT_EQ(controller->mode(),Mode::On);mouse.clear();pass.clear();
+    tap(311); EXPECT_EQ(mouse.keys(), (Keys{{BTN_LEFT,1},{BTN_LEFT,0}}));
+    mouse.clear();pass.clear();key(708,1);tap(312);key(708,0);
+    EXPECT_EQ(pass.keys(),(Keys{{708,1},{312,1},{312,0},{708,0}}));
+    EXPECT_TRUE(mouse.keys().empty());
+}
+TEST_F(ControllerTest, NativePadKeepsSavedLegacyHardwareRemaps) {
+    PadInfo info = r36sPad(); info.keys.reset();
+    for (auto e : a36_pad_bindings) info.keys.set(e.canonical);
+    config.buttonRemap="311:BUTTON_B,305:BUTTON_R1,307:NONE";
+    create(info);
+    key(706,1);key(707,1);advance(msToNanos(config.toggleMs+50));
+    key(706,0);key(707,0);advance(msToNanos(400));
+    ASSERT_EQ(controller->mode(),Mode::On);mouse.clear();pass.clear();
+    tap(304);tap(311);tap(307);
+    EXPECT_EQ(mouse.keys(),(Keys{{BTN_LEFT,1},{BTN_LEFT,0}}));
+    EXPECT_EQ(pass.keys(),(Keys{{311,1},{311,0},{307,1},{307,0}}));
+}
 }  // namespace
 }  // namespace joymouse

@@ -189,6 +189,13 @@ ButtonMap::ButtonMap() {
 }
 
 ButtonMap::ButtonMap(const KeyBits& supported) : ButtonMap() {
+    normalized_ = a36_pad_is_native([](const void* p, unsigned code) {
+        return static_cast<const KeyBits*>(p)->test(code);
+    }, &supported);
+    if (normalized_) {
+        for (const auto& entry : a36_pad_bindings) add(entry.canonical, static_cast<Button>(entry.role));
+        return;
+    }
     for (const Alias& a : kAliases) {
         if (supported.test(static_cast<size_t>(a.code))) add(a.code, a.button);
     }

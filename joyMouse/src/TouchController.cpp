@@ -18,7 +18,7 @@ namespace {
 
 // FN on the handhelds: KEY_HOMEPAGE, Home in the key layout. PhoneWindowManager
 // runs the FN shortcuts off this scan code.
-constexpr int kFnCode = KEY_HOMEPAGE;
+// FN is selected per pad through the shared raw-input contract.
 
 bool isDpadButton(Button b) {
     return b == Button::Up || b == Button::Down || b == Button::Left || b == Button::Right;
@@ -327,7 +327,8 @@ void TouchController::handleKeyOn(int code, int value, Nanos now) {
 
     const std::optional<Button> button = buttonMap_.button(code);
     // FN, and everything pressed while FN is held, belongs to the system.
-    const bool fnHeld = code == kFnCode || keysDown_.test(kFnCode);
+    const int fnCode = a36_pad_code(A36_PAD_MODE, buttonMap_.normalized());
+    const bool fnHeld = code == fnCode || keysDown_.test(fnCode);
     const TouchControl* control = nullptr;
     if (!fnHeld && button && *button != Button::Mode && profile_) {
         if (profile_->shift == button) {
@@ -452,7 +453,7 @@ void TouchController::updateDirections(StickSource s, Nanos now) {
     if (!profile_) return;
     const StickVector v = vectorFor(s);
     const float amount[kStickDirCount] = {-v.y, v.y, -v.x, v.x};  // up, down, left, right
-    const bool fnHeld = keysDown_.test(kFnCode);
+    const bool fnHeld = keysDown_.test(a36_pad_code(A36_PAD_MODE, buttonMap_.normalized()));
     for (size_t d = 0; d < kStickDirCount; ++d) {
         const StickDirection dir{s, static_cast<StickDir>(d)};
         KeyRoute& route = directionRoutes_[index(dir)];

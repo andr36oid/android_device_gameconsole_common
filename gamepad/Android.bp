@@ -1,0 +1,16 @@
+cc_library_headers {
+    name: "libandr36oid_gamepad_headers",
+    host_supported: true,
+    vendor_available: true,
+    recovery_available: true,
+    export_include_dirs: ["include"],
+}
+
+// Runs inside a glibc subsystem too, with no Android dynamic linker dependency.
+cc_binary {
+    name: "andr36oid-pad-codes",
+    srcs: ["andr36oid-pad-codes.c"],
+    static_executable: true,
+    header_libs: ["libandr36oid_gamepad_headers"],
+    cflags: ["-Wall", "-Wextra", "-Werror"],
+}

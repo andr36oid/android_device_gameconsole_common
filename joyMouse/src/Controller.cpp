@@ -12,7 +12,7 @@ namespace {
 constexpr uint16_t kMouseCodes[] = {BTN_LEFT, BTN_RIGHT, BTN_MIDDLE, BTN_SIDE, BTN_EXTRA};
 // FN's key codes: 172 on the built-in pads (PhoneWindowManager's FN_SCAN_CODE), BTN_MODE on
 // other pads
-constexpr int kFnCodes[] = {KEY_HOMEPAGE, BTN_MODE};
+// FN identity follows the same shared capability-gated map as every raw consumer.
 
 StickSide opposite(StickSide s) {
     return s == StickSide::Left ? StickSide::Right : StickSide::Left;
@@ -63,7 +63,7 @@ void Controller::configure(const Config& config, const Environment& env, Nanos n
     classic_ = config.classic;
     remap_.fill(kNotRemapped);
     for (const RemapEntry& e : parseButtonRemap(config.buttonRemap)) {
-        remap_[static_cast<size_t>(e.code)] =
+        remap_[static_cast<size_t>(buttonMap_.normalized() ? a36_pad_to_native(e.code) : e.code)] =
                 e.button ? static_cast<int8_t>(index(*e.button)) : kNotAButton;
     }
 
@@ -268,7 +268,7 @@ void Controller::handleKeyOn(int code, int value, std::optional<Button> button, 
         // While FN is held and goes through to Android, so does every button pressed with
         // it: the FN shortcuts (performance overlay, screenshot, ...) work in mouse mode too.
         bool fnShortcut = false;
-        for (int fn : kFnCodes) {
+        for (int fn : {static_cast<int>(a36_pad_code(A36_PAD_MODE, buttonMap_.normalized())), BTN_MODE}) {
             fnShortcut = fnShortcut || (code != fn && keysDown_.test(static_cast<size_t>(fn))
                     && routes_[static_cast<size_t>(fn)].route == Route::Passthrough);
         }

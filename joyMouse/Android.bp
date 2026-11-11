@@ -2,6 +2,7 @@
 
 cc_defaults {
     name: "joymouse_defaults",
+    header_libs: ["libandr36oid_gamepad_headers"],
     cflags: [
         "-Wall",
         "-Wextra",
@@ -16,6 +17,7 @@ cc_defaults {
 // Everything that doesn't touch a device node; also built for the host tests.
 cc_library_static {
     name: "libjoymouse",
+    export_header_lib_headers: ["libandr36oid_gamepad_headers"],
     defaults: ["joymouse_defaults"],
     host_supported: true,
     srcs: [

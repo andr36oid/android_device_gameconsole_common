@@ -14,6 +14,7 @@ android_app {
 
 cc_binary {
     name: "andr36oid-controller",
+    header_libs: ["libandr36oid_gamepad_headers"],
     srcs: ["controller/main.cpp", "controller/Controller.cpp", "controller/Keyboard.cpp",
         "controller/Protocols.cpp", "controller/Services.cpp", "controller/TextFiles.cpp", "controller/Flipper.cpp"],
     static_libs: ["libjoymouse"],

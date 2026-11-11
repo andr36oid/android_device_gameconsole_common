@@ -1,3 +1,4 @@
+#include "andr36oid-gamepad.h"
 #include "Controller.h"
 #include "Keyboard.h"
 #include "Protocols.h"
@@ -111,6 +112,7 @@ struct Input {
     std::array<bool, ABS_CNT> hasAxis{};
     bool dropped = false;
     bool calibrated = false;
+    bool normalized = false;
     void snapshot() {
         ioctl(fd, EVIOCGKEY(sizeof(keys)), keys.data());
         for (unsigned code = 0; code < ABS_CNT; ++code)
@@ -138,6 +140,7 @@ public:
             ioctl(fd, EVIOCGID, &id);
             ioctl(fd, EVIOCGNAME(sizeof(name)), name);
             ioctl(fd, EVIOCGBIT(EV_KEY, sizeof(d.supported)), d.supported.data());
+            d.normalized = a36_pad_native_words(d.supported.data(), d.supported.size());
             const bool builtIn = id.bustype != BUS_USB && id.bustype != BUS_BLUETOOTH &&
                     (id.vendor == 0x484b || strstr(name, "joypad") || strstr(name, "Gamepad"));
             const bool keys = id.bustype != BUS_USB && id.bustype != BUS_BLUETOOTH &&
@@ -193,7 +196,7 @@ public:
         State s;
         for (const auto& d : devices) {
             for (unsigned code = 0; code < KEY_CNT; ++code) {
-                int b = button(code);
+                int b = button(d.normalized ? a36_pad_to_legacy(code) : code);
                 if (b >= 0) s.buttons[b] = s.buttons[b] || bit(d.keys, code);
             }
             const unsigned codes[] = {ABS_X,ABS_Y,ABS_RX,ABS_RY};
