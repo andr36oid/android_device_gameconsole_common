@@ -276,7 +276,7 @@ public class CreditsActivity extends Activity {
                 getString(R.string.credits_on_youtube)));
 
         section(R.string.credits_based_on);
-        project(R.drawable.logo_351droid, "351droid", R.string.credits_351droid);
+        project(R.drawable.avatar_djparentx, "djparentx", R.string.credits_djparentx, true);
         project(R.drawable.logo_lineageos, "LineageOS", R.string.credits_lineageos);
         project(R.drawable.logo_android, "Android", R.string.credits_android);
         project(R.drawable.logo_sprout, "Sprout Launcher", R.string.credits_sprout);
@@ -412,13 +412,23 @@ public class CreditsActivity extends Activity {
 
     /** A project logo with the name and what it is next to it. */
     private void project(int logoRes, String name, int detailRes) {
+        project(logoRes, name, detailRes, false);
+    }
+
+    /** The same row; a person's picture fills the round avatar frame instead of a logo tile. */
+    private void project(int logoRes, String name, int detailRes, boolean avatar) {
         final LinearLayout row = new LinearLayout(this);
         row.setGravity(Gravity.CENTER_VERTICAL);
 
         final ImageView logo = new ImageView(this);
         logo.setImageResource(logoRes);
-        logo.setPadding(dp(6), dp(6), dp(6), dp(6));
-        clipTo(logo, R.drawable.logo_frame);
+        if (avatar) {
+            logo.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            clipTo(logo, R.drawable.avatar_frame);
+        } else {
+            logo.setPadding(dp(6), dp(6), dp(6), dp(6));
+            clipTo(logo, R.drawable.logo_frame);
+        }
         row.addView(logo, new LinearLayout.LayoutParams(dp(48), dp(48)));
 
         final LinearLayout lines = new LinearLayout(this);
