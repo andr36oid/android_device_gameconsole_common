@@ -54,13 +54,13 @@ CR=$(printf '\r')
 # Folders per wiring. tests/test-dtbhint.sh checks these against tests/boards.txt,
 # which is made from the DTBs (tests/gen-boards.py).
 F_GENUINE="Panels/Panel0 Panels/Panel1 Panels/Panel2 Panels/Panel3 Panels/Panel4 Panels/Panel5 Panels/Panel6 Panels/R36S-Plus Experimental/R36S-V21 Experimental/R36S-V21-2551-2552 Experimental/R36S-V22 Experimental/R36S-Y02-Y07 Experimental/R36S-V30 Experimental/R36S-V30-2603 Experimental/R36S-Panel3-Alt Experimental/R36S-Panel4-Type1 Experimental/KirbX-Clone"
-F_SOY="Experimental/Soy-Panel5 Experimental/Soy-Panel5-253x Experimental/Soy-Panel6 Experimental/Soy-Panel7 Experimental/Soy-Panel7-253x Experimental/Soy-V04-Panel2 Experimental/Soy-V05-2601"
+F_SOY="Experimental/Soy-Panel5 Experimental/Soy-Panel5-253x Experimental/Soy-Panel6 Experimental/Soy-Panel7 Experimental/Soy-Panel7-253x Experimental/Soy-V04-Panel2 Experimental/Soy-V05-2601 Experimental/Soy-V05-2551"
 # EE boards, stick mux enable on GPIO2_B4 (K36 style). This is a wiring
 # family, not a whole-board equivalence: K36S uses SDIO for onboard Wi-Fi,
 # while EE-K36-Panel4 retains the second SD slot (clone-9 V12 without Wi-Fi).
-F_EE_B4="Experimental/EE-K36-Panel1 Experimental/Kinhank-K36 Experimental/EE-K36-Panel4 Experimental/RX6H Experimental/EE-V12-Var2 Experimental/K36S Experimental/R36T Experimental/XF35H Experimental/R36-Max Experimental/S600 Experimental/R39-Max Experimental/T16-Max Experimental/XF40H"
+F_EE_B4="Experimental/EE-K36-Panel1 Experimental/Kinhank-K36 Experimental/EE-K36-Panel4 Experimental/RX6H Experimental/EE-V12-Var2 Experimental/K36S Experimental/R36T Experimental/XF35H Experimental/R36-Max Experimental/S600 Experimental/R39-Max Experimental/T16-Max Experimental/XF40H Experimental/OkRoll-Mux"
 # ... and on GPIO2_B3 (G80 style)
-F_EE_B3="Devices/EE-G80-Panel8 Experimental/EE-V12-Var1-Panel8 Experimental/EE-V12-Var1-Panel3 Experimental/EE-G80-Panel9 Experimental/EE-V12-Var3-Panel3 Experimental/EE-V12-Var3-PanelA Experimental/R36-Ultra"
+F_EE_B3="Devices/EE-G80-Panel8 Experimental/EE-V12-Var1-Panel8 Experimental/EE-V12-Var1-Panel3 Experimental/EE-G80-Panel9 Experimental/EE-V12-Var3-Panel3 Experimental/EE-V12-Var3-PanelA Experimental/R36-Ultra Experimental/R36-Ultra-X"
 
 log() {
 	if [ -n "$TEST" ]; then
@@ -382,6 +382,9 @@ installed_folder() {
 # A direct-SARADC console cannot use the R36S resistor/mux heuristics.
 # Identity describes the installed DT, not an independent hardware measurement.
 model_folder() {
+	# The final GRC802 uses a mux; older direct-ADC DTs still need identity
+	# fallback. A mux-equipped DT must use the wiring family checks below.
+	[ "$DT_WIRING" = unknown ] || return 0
 	case $MODEL in
 	"R36 Ultra X GRC802-MB V1.1") echo "Experimental/R36-Ultra-X"; return ;;
 	"andr36oid OkRoll clone (experimental)") echo "Devices/OkRoll-Clone"; return ;;
@@ -452,7 +455,7 @@ decide() {
 
 # folders <wiring or family> ; the folder list, 3 per line, indented
 folders() {
-	local l
+	local l f available
 	case $1 in
 	genuine) l=$F_GENUINE ;;
 	soy) l=$F_SOY ;;
@@ -461,6 +464,14 @@ folders() {
 	ee-b3) l=$F_EE_B3 ;;
 	*) l= ;;
 	esac
+	# OkRoll-Mux is a parity-kernel variant, absent on older/4.19 BOOTs.
+	# Never suggest it unless its actual Android DTB is on the mounted card.
+	available=
+	for f in $l; do
+		[ "$f" != Experimental/OkRoll-Mux ] || [ -f "$BOOT/$f/$DTB" ] || continue
+		available="$available $f"
+	done
+	l=$available
 	# shellcheck disable=SC2086 # one word per folder
 	printf '%s\n' $l | awk '{ printf "%s%s", (NR % 3 == 1 ? "    " : ", "), $0; if (NR % 3 == 0) print "" } END { if (NR % 3) print "" }'
 }
@@ -748,6 +759,7 @@ console_name() {
 	case $FOLDER in
 	Experimental/R36-Ultra-X) echo "R36 Ultra X" ;;
 	Devices/OkRoll-Clone) echo "OkRoll clone" ;;
+	Experimental/OkRoll-Mux) echo "OkRoll mux clone" ;;
 	Panels/Panel[0-9]*) echo "R36S P${FOLDER#Panels/Panel}" ;;
 	Panels/R36S-Plus) echo "R36S Plus" ;;
 	Experimental/R36S-V21* | Experimental/R36S-V22 | Experimental/R36S-V30*)
@@ -769,6 +781,7 @@ console_name() {
 	Experimental/*) echo "${FOLDER#Experimental/}" ;;
 	*)
 		case $MODEL in
+		*R45H*) echo "R45H" ;;
 		*R46H*) echo "R46H" ;;
 		*R50S*) echo "R50S" ;;
 		*D-28S*) echo "Diium D-28S" ;;
@@ -818,10 +831,10 @@ main() {
 		log "$MODEL: no resistor/mux hint for this console ($FOLDER)"
 		return 0
 	fi
-	# R46H, R50S, D-28S and G350 have their own DTB in BOOT/Devices; the folders and board
+	# R45H, R46H, R50S, D-28S and G350 have their own DTB in BOOT/Devices; the folders and board
 	# checks here are for R36S boards and would only point them the wrong way
 	case $MODEL in
-	*R46H* | *R50S* | *D-28S* | *G350*)
+	*R45H* | *R46H* | *R50S* | *D-28S* | *G350*)
 		log "$MODEL: no hint for this console"
 		FOLDER=
 		device_name

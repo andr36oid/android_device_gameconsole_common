@@ -339,7 +339,7 @@ cases() {
 	expect "info: no u-boot partition" grep -q -x "andr36oid.info.uboot=" "$R/test/info"
 
 	# R46H, R50S, D-28S and G350: no hint at all, nothing written on BOOT
-	for m in "Game Console R46H" "Game Console R50S" "Diium D-28S (EE clone, K36 board, 480x640 panel)" "BatleXP G350"; do
+	for m in "Game Console R45H" "Game Console R46H" "Game Console R50S" "Diium D-28S (EE clone, K36 board, 480x640 panel)" "BatleXP G350"; do
 		fake "$R" Panels/Panel4 Panels/Panel4
 		printf '%s\000' "$m" >"$R/proc/device-tree/model"
 		hint "$R"
@@ -348,7 +348,7 @@ cases() {
 		expect "$m: logged" contains "$R/test/log" "no hint for this console"
 		expect "$m: no board info" lacks "$R/test/info" "andr36oid.info.board"
 		case $m in
-		*R46H*) n=R46H ;; *R50S*) n=R50S ;; *D-28S*) n="Diium D-28S" ;; *) n="BatleXP G350" ;;
+		*R45H*) n=R45H ;; *R46H*) n=R46H ;; *R50S*) n=R50S ;; *D-28S*) n="Diium D-28S" ;; *) n="BatleXP G350" ;;
 		esac
 		expect "$m: device name" [ "$(cat "$R/test/device_name")" = "andr36oid on $n" ]
 	done
@@ -459,6 +459,24 @@ cases() {
 	expect "no boot: data copy" contains "$R/data/dtb-hint.txt" "a DTB that is not in Panels or Experimental"
 	expect "no boot: exit 0" [ "$(cat "$R/test/rc")" = 0 ]
 	expect "no boot: logged" contains "$R/test/log" "BOOT not found"
+
+	# Parity additions are real wiring variants. Do not advise a mux folder
+	# on a legacy card which does not ship it.
+	fake "$R" Experimental/EE-K36-Panel4 Experimental/OkRoll-Mux
+	hint "$R"
+	expect "OkRoll mux: available variant listed" contains "$R/boot/dtb-hint.txt" "Experimental/OkRoll-Mux"
+	mv "$W/shared/Experimental/OkRoll-Mux" "$W/okroll-mux-hidden"
+	fake "$R" Experimental/EE-K36-Panel4 Experimental/EE-K36-Panel4
+	hint "$R"
+	expect "OkRoll mux: absent variant not suggested" lacks "$R/boot/dtb-hint.txt" "Experimental/OkRoll-Mux"
+	mv "$W/okroll-mux-hidden" "$W/shared/Experimental/OkRoll-Mux"
+	fake "$R" Experimental/Soy-V05-2551 Experimental/Soy-V05-2551
+	hint "$R"
+	expect "Soy2551: family lists profile" contains "$R/boot/dtb-hint.txt" "Experimental/Soy-V05-2551"
+	fake "$R" Experimental/R36-Ultra-X Experimental/R36-Ultra-X
+	hint "$R"
+	expect "GRC mux: wiring family evaluated" [ "$(result "$R")" = ok ]
+	expect "GRC mux: family includes profile" contains "$R/boot/dtb-hint.txt" "Experimental/R36-Ultra-X"
 
 	# one button held at start is not enough for a verdict
 	fake "$R" Panels/Panel4 Panels/Panel4 adc0=900 pull=hi
