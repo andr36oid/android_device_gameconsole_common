@@ -1094,6 +1094,11 @@ restore_android() {
     # queue it now so the logo can appear as soon as SF accepts surfaces.
     local sf_state
     sf_state=$(getprop init.svc.surfaceflinger)
+    # Android's start message says "Returning to andr36oid" for a start shortly after
+    # this stamp (kernel uptime in seconds, suspend included like elapsedRealtime).
+    local up
+    up=$(cut -d. -f1 /proc/uptime 2>/dev/null)
+    case "$up" in ''|*[!0-9]*) ;; *) setprop sys.andr36oid.subsystem.returning "$up" 2>/dev/null ;; esac
     # Optional attended SPEED2 experiment. Only this return animation can skip
     # mandatory outro frames after WMS requests exit; normal boot stays intact.
     if [ "$(getprop persist.andr36oid.subsystem.fast_return)" = 1 ]; then
