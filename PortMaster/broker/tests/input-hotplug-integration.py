@@ -2,6 +2,7 @@
 """Real uinput/evdev on a disposable kernel VM; never opens host input devices."""
 from pathlib import Path
 import gzip
+import re
 import os
 import stat
 import subprocess
@@ -30,6 +31,28 @@ with tempfile.TemporaryDirectory(prefix='a36-input-vm-') as temp:
     add('dev/console', b'', stat.S_IFCHR | 0o600, 5, 1)
     add('init', init.read_bytes(), stat.S_IFREG | 0o755)
     add('guest', Path(guest).read_bytes(), stat.S_IFREG | 0o755)
+    udev_root=os.environ.get('A36_TEST_UDEV_ROOT')
+    if udev_root:
+        # Optional real stock libudev client: observe an input created only after
+        # its initial enumeration/monitor subscription, as SDL does.
+        probe=root/'udev-probe'
+        subprocess.run(['aarch64-linux-gnu-gcc','-O2','-Wall','-Wextra','-Werror',str(source.with_name('udev-probe.c')),'-ldl','-o',str(probe)],check=True)
+        add('udev-probe',probe.read_bytes(),stat.S_IFREG|0o755)
+        libdir=Path(udev_root)/'usr/lib/aarch64-linux-gnu'
+        pending={'libudev.so.1':libdir/'libudev.so.1.7.10','ld-linux-aarch64.so.1':libdir/'ld-linux-aarch64.so.1'};found={}
+        while pending:
+            name,src=pending.popitem()
+            if name in found:continue
+            found[name]=src
+            dynamic=subprocess.check_output(['readelf','-d',str(src)],text=True)
+            for dep in re.findall(r'Shared library: \[(.*?)\]',dynamic):
+                if dep in found:continue
+                candidates=[libdir/dep]+sorted(libdir.glob(dep+'.*'))
+                target=next((p for p in candidates if p.is_file()),None)
+                assert target,dep
+                pending[dep]=target
+        add('lib',b'',stat.S_IFDIR|0o755)
+        for name,src in found.items():add('lib/'+name,src.read_bytes(),stat.S_IFREG|0o755)
     add('TRAILER!!!', b'', 0)
     archive = root / 'initramfs.gz'
     archive.write_bytes(gzip.compress(ramdisk, mtime=0))
@@ -47,4 +70,6 @@ with tempfile.TemporaryDirectory(prefix='a36-input-vm-') as temp:
     assert 'guest input hotplug: kernel input uevents received' in output
     assert 'guest input hotplug: 50 ms sysfs probe' in output
     assert 'INPUT_MODE_PASS netlink' in output and 'INPUT_MODE_PASS fallback' in output
+    if udev_root:
+        assert output.count('REAL_LIBUDEV_LATE_MOUSE_ADD_XY_KEY_REMOVE_PASS')==3
     print('PASS: real kernel netlink delivery, forced fallback, 0666 despite 077, udev add/remove, and keyboard input through the new node')

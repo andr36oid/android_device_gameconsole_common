@@ -34,7 +34,7 @@ struct device {
     int fd;
     dev_t dev;
     char name[80], node[128], record[128];
-    long long began;
+    long long began,kernel_ready,sysfs_ready;
 };
 static long long ms(void) {
     struct timespec t;
@@ -42,17 +42,23 @@ static long long ms(void) {
     return (long long)t.tv_sec*1000 + t.tv_nsec/1000000;
 }
 static void dir(const char *p) { CK(!mkdir(p,0755) || errno==EEXIST); }
-static struct device attach(const char *name, bool pad) {
+enum input_kind { KEYBOARD, PAD, MIXED_MOUSE, REL_MOUSE };
+static struct device attach(const char *name, enum input_kind kind) {
     struct device d={0};
     d.fd=open("/dev/uinput",O_WRONLY|O_CLOEXEC);
     CK(d.fd>=0 && !ioctl(d.fd,UI_SET_EVBIT,EV_KEY));
-    CK(!ioctl(d.fd,UI_SET_KEYBIT,pad?BTN_SOUTH:KEY_ENTER));
+    CK(!ioctl(d.fd,UI_SET_KEYBIT,kind==PAD?BTN_SOUTH:kind==REL_MOUSE?BTN_LEFT:KEY_ENTER));
+    if(kind==MIXED_MOUSE || kind==REL_MOUSE) {
+        CK(!ioctl(d.fd,UI_SET_EVBIT,EV_REL));
+        CK(!ioctl(d.fd,UI_SET_RELBIT,REL_X));CK(!ioctl(d.fd,UI_SET_RELBIT,REL_Y));
+        CK(!ioctl(d.fd,UI_SET_KEYBIT,BTN_LEFT));
+    }
     struct uinput_setup setup={.id={.bustype=BUS_USB,.vendor=0x1234,.product=0x5678,.version=1}};
     snprintf(setup.name,sizeof(setup.name),"%s",name);
     snprintf(d.name,sizeof(d.name),"%s",name);
     CK(!ioctl(d.fd,UI_DEV_SETUP,&setup));
     d.began=ms();
-    CK(!ioctl(d.fd,UI_DEV_CREATE));
+    CK(!ioctl(d.fd,UI_DEV_CREATE));d.kernel_ready=ms();
     char sysname[64]={0},path[256],event[64]={0};
     CK(ioctl(d.fd,UI_GET_SYSNAME(sizeof(sysname)),sysname)>0);
     snprintf(path,sizeof(path),"/sys/class/input/%s",sysname);
@@ -73,7 +79,7 @@ static struct device attach(const char *name, bool pad) {
     FILE *f=fopen(path,"r");unsigned maj,min;
     CK(f && fscanf(f,"%u:%u",&maj,&min)==2);
     fclose(f);
-    d.dev=makedev(maj,min);
+    d.dev=makedev(maj,min);d.sysfs_ready=ms();
     snprintf(d.node,sizeof(d.node),"/dev/input/%s",event);
     snprintf(d.record,sizeof(d.record),"/run/udev/data/c%u:%u",maj,min);
     return d;
@@ -96,7 +102,7 @@ static void wait_input(const char *mode,struct device *d,bool pad) {
     while(!ready(d,pad) && ms()-d->began<250)usleep(1000);
     long long elapsed=ms()-d->began;
     CK(elapsed<250 && ready(d,pad));
-    printf("INPUT_ADD %s %s %lldms\n",mode,d->node,elapsed);
+    printf("INPUT_ADD %s %s %lldms kernel-ready-to-node-and-tags=%lldms sysfs-ready-to-node-and-tags=%lldms\n",mode,d->node,elapsed,ms()-d->kernel_ready,ms()-d->sysfs_ready);
 }
 static bool absent(const char *path) {
     struct stat s;
@@ -130,26 +136,80 @@ static void keyboard_read_once(struct device *d) {
         if(events[i].type==EV_KEY && events[i].code==KEY_ENTER && events[i].value==1)key=true;
     CK(key);close(fd);
 }
+static void mouse_read_once(const char *mode,enum input_kind kind) {
+    struct device d=attach(kind==MIXED_MOUSE?"Fake Keyboard":"Relative Mouse",kind);
+    while(ms()-d.began<250 && !record_has(d.record,"E:ID_INPUT_MOUSE=1\n"))usleep(1000);
+    CK(record_has(d.record,"E:ID_INPUT_MOUSE=1\n"));
+    CK(record_has(d.record,"E:ID_INPUT_KEYBOARD=1\n")== (kind==MIXED_MOUSE));
+    CK(record_has(d.record,"E:ID_INPUT_KEY=1\n")== (kind==MIXED_MOUSE));
+    CK(!record_has(d.record,"E:ID_INPUT_JOYSTICK=1\n"));
+    printf("INPUT_MOUSE_READY %s %s kernel-ready-to-node-and-tags=%lldms\n",mode,kind==MIXED_MOUSE?"combined":"pure",ms()-d.kernel_ready);
+    int fd=open(d.node,O_RDONLY|O_NONBLOCK|O_CLOEXEC);CK(fd>=0);
+    struct input_event sent[]={
+        {.type=EV_REL,.code=REL_X,.value=13},
+        {.type=EV_REL,.code=REL_Y,.value=-7},
+        {.type=EV_KEY,.code=BTN_LEFT,.value=1},
+        {.type=EV_SYN,.code=SYN_REPORT}
+    };
+    CK(write(d.fd,sent,sizeof(sent))==(ssize_t)sizeof(sent));
+    struct pollfd p={.fd=fd,.events=POLLIN};CK(poll(&p,1,250)==1);
+    struct input_event received[16];ssize_t count=read(fd,received,sizeof(received));
+    bool x=false,y=false,button=false;
+    for(ssize_t i=0;i<count/(ssize_t)sizeof(received[0]);i++) {
+        if(received[i].type==EV_REL && received[i].code==REL_X && received[i].value==13)x=true;
+        if(received[i].type==EV_REL && received[i].code==REL_Y && received[i].value==-7)y=true;
+        if(received[i].type==EV_KEY && received[i].code==BTN_LEFT && received[i].value==1)button=true;
+    }
+    CK(x && y && button);close(fd);
+    if(kind==MIXED_MOUSE)keyboard_read_once(&d);
+    long long start=detach(&d);wait_gone(mode,&d,start);
+    printf("INPUT_MOUSE_PASS %s %s: correct tags, REL_X/Y, button%s\n",mode,kind==MIXED_MOUSE?"combined":"pure",kind==MIXED_MOUSE?", keyboard key":"");
+}
+static void processed_late_mouse(void) {
+    for(int repeat=0;repeat<3;repeat++) {
+        const char *markers[]={"/monitor-ready","/monitor-open","/monitor-got-input","/monitor-done"};
+        for(unsigned i=0;i<sizeof(markers)/sizeof(*markers);i++)unlink(markers[i]);
+        pid_t p=fork();CK(p>=0);
+        if(!p) {execl("/lib/ld-linux-aarch64.so.1","ld-linux","--library-path","/lib","/udev-probe",NULL);_exit(127);}
+        long long start=ms();while(access("/monitor-ready",F_OK) && ms()-start<2000)usleep(1000);
+        CK(!access("/monitor-ready",F_OK));
+        struct device d=attach("Late Fake Keyboard",MIXED_MOUSE);
+        start=ms();while(access("/monitor-open",F_OK) && ms()-start<1000)usleep(1000);
+        CK(!access("/monitor-open",F_OK));
+        printf("INPUT_LATE_LIBUDEV_OPEN kernel-ready-to-open=%lldms\n",ms()-d.kernel_ready);
+        struct input_event events[]={
+            {.type=EV_REL,.code=REL_X,.value=19},{.type=EV_REL,.code=REL_Y,.value=-9},
+            {.type=EV_KEY,.code=KEY_ENTER,.value=1},{.type=EV_SYN,.code=SYN_REPORT}
+        };
+        CK(write(d.fd,events,sizeof(events))==(ssize_t)sizeof(events));
+        start=ms();while(access("/monitor-got-input",F_OK) && ms()-start<1000)usleep(1000);
+        CK(!access("/monitor-got-input",F_OK));detach(&d);
+        int status;CK(waitpid(p,&status,0)==p && WIFEXITED(status) && !WEXITSTATUS(status));
+        CK(!access("/monitor-done",F_OK));
+    }
+}
 static int payload(const char *mode,const char *seed,const char *record) {
     struct stat s;
     CK(!stat(seed,&s) && (s.st_mode&07777)==0666);
     CK(record_has(record,"E:ID_INPUT_KEYBOARD=1\n"));
     CK(umask(0077)==0077); // Node/database creation must not change payload umask.
-    struct device keyboard=attach("Fake Keyboard",false);
+    struct device keyboard=attach("Fake Keyboard",KEYBOARD);
     wait_input(mode,&keyboard,false);keyboard_read_once(&keyboard);
     long long start=detach(&keyboard);
     // A remove/add pair can reuse the same event number between probes.
-    struct device pad=attach("GO-Super Gamepad",true);
+    struct device pad=attach("GO-Super Gamepad",PAD);
     wait_input(mode,&pad,true);
     if(pad.dev!=keyboard.dev)wait_gone(mode,&keyboard,start);
     CK(!stat(alias,&s) && s.st_rdev==pad.dev);
     start=detach(&pad);wait_gone(mode,&pad,start);CK(absent(alias));
-    for(int i=0;i<3;i++) {
+    for(int i=0;i<12;i++) {
         usleep((unsigned)(7000+i*11000));
-        keyboard=attach("Fake Keyboard",false);
+        keyboard=attach("Fake Keyboard",KEYBOARD);
         wait_input(mode,&keyboard,false);keyboard_read_once(&keyboard);
         start=detach(&keyboard);wait_gone(mode,&keyboard,start);
     }
+    mouse_read_once(mode,MIXED_MOUSE);mouse_read_once(mode,REL_MOUSE);
+    if(!strcmp(mode,"netlink") && !access("/udev-probe",F_OK))processed_late_mouse();
     printf("INPUT_MODE_PASS %s: seed repaired, repeated add/remove, type swap, alias cleanup, real key delivery\n",mode);
     return 0;
 }
@@ -180,13 +240,17 @@ int main(int argc,char **argv) {
     dir("/proc");dir("/sys");dir("/dev");
     CK(!mount("proc","/proc","proc",0,NULL));CK(!mount("sysfs","/sys","sysfs",0,NULL));
     CK(!mount("devtmpfs","/dev","devtmpfs",0,NULL));
-    struct device seed=attach("Seed Keyboard",false);
+    struct device seed=attach("Seed Keyboard",KEYBOARD);
     const char *paths[]={"/g","/g/proc","/g/sys","/g/dev","/g/dev/input","/g/run","/g/tmp"};
     for(unsigned i=0;i<sizeof(paths)/sizeof(*paths);i++)dir(paths[i]);
     CK(!mount("/sys","/g/sys",NULL,MS_BIND,NULL));
     CK(!mount(NULL,"/g/sys",NULL,MS_BIND|MS_REMOUNT|MS_RDONLY,NULL));
     CK(!mknod("/g/dev/null",S_IFCHR|0666,makedev(1,3)));
     CK(!mknod("/g/dev/uinput",S_IFCHR|0666,makedev(10,223)));
+    if(!access("/udev-probe",F_OK)) {
+        dir("/g/lib");CK(!mount("/lib","/g/lib",NULL,MS_BIND,NULL));
+        copy("/udev-probe","/g/udev-probe");
+    }
     char seed_node[160],seed_record[160];
     snprintf(seed_node,sizeof(seed_node),"/g%s",seed.node);
     snprintf(seed_record,sizeof(seed_record),"/g%s",seed.record);

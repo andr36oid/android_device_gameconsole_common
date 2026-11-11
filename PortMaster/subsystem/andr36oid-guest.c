@@ -1,5 +1,6 @@
 #define _GNU_SOURCE
 #include <dirent.h>
+#include <arpa/inet.h>
 #include <errno.h>
 #include <fcntl.h>
 #include <limits.h>
@@ -178,6 +179,60 @@ static bool input_node_name(const char *name) {
     return *num && strlen(name)<=32 && strspn(num,"0123456789")==strlen(num);
 }
 static const char input_pad_alias[]="/dev/input/by-path/platform-odroidgo3-joypad-event-joystick";
+// Publish processed input events after the private node/database are ready.
+// SDL subscribes to libudev group2, not our kernel group1 wakeup socket. A
+// faster scan alone cannot recover an input created after SDL's initial scan.
+static int input_publish_fd=-1;
+static bool input_publish_retry=true,input_publish_warned;
+static bool input_record_read(const char *path,char *out,size_t size) {
+    FILE *f=fopen(path,"re");if(!f)return false;
+    size_t n=fread(out,1,size-1,f);bool ok=!ferror(f) && feof(f);fclose(f);
+    out[n]=0;return ok;
+}
+static bool input_publish(const char *action,const char *record) {
+    struct input_udev_header {
+        char prefix[8];uint32_t magic,header_size,properties_off,properties_len;
+        uint32_t subsystem_hash,devtype_hash,tag_bloom_hi,tag_bloom_lo;
+    } header={.prefix="libudev",.magic=htonl(0xfeedcafe)};
+    // libudev wire ABI: MurmurHash2("input",5,0), in network byte order.
+    header.subsystem_hash=htonl(0xc1a28470);
+    header.header_size=header.properties_off=sizeof(header);
+    char props[8192];size_t length=0;static unsigned long long seq;
+    int n=snprintf(props,sizeof(props),"ACTION=%s",action);
+    if(n<0 || n>=(int)sizeof(props))return false;
+    length=(size_t)n+1;
+    n=snprintf(props+length,sizeof(props)-length,"SEQNUM=%llu",++seq);
+    if(n<0 || (size_t)n>=sizeof(props)-length)return false;
+    length+=(size_t)n+1;
+    for(const char *line=record;*line;) {
+        const char *end=strchr(line,'\n');if(!end)end=line+strlen(line);
+        if(end-line>2 && line[0]=='E' && line[1]==':') {
+            size_t bytes=(size_t)(end-line)-2;
+            if(bytes+1>sizeof(props)-length)return false;
+            memcpy(props+length,line+2,bytes);length+=bytes;props[length++]=0;
+        }
+        line=*end?end+1:end;
+    }
+    header.properties_len=(uint32_t)length;
+    if(input_publish_fd<0) {
+        input_publish_fd=socket(AF_NETLINK,SOCK_DGRAM|SOCK_NONBLOCK|SOCK_CLOEXEC,NETLINK_KOBJECT_UEVENT);
+        struct sockaddr_nl local={.nl_family=AF_NETLINK};
+        if(input_publish_fd>=0 && bind(input_publish_fd,(struct sockaddr *)&local,sizeof(local))) {
+            close(input_publish_fd);input_publish_fd=-1;
+        }
+    }
+    if(input_publish_fd>=0) {
+        // Real device properties only, on the processed-udev group. Android's
+        // uevent listener explicitly rejects all non-kernel sender port IDs.
+        struct sockaddr_nl dest={.nl_family=AF_NETLINK,.nl_groups=2};
+        struct iovec iov[]={{.iov_base=&header,.iov_len=sizeof(header)},{.iov_base=props,.iov_len=length}};
+        struct msghdr msg={.msg_name=&dest,.msg_namelen=sizeof(dest),.msg_iov=iov,.msg_iovlen=2};
+        if(sendmsg(input_publish_fd,&msg,MSG_DONTWAIT)>=0 || errno==ESRCH || errno==ECONNREFUSED)return true;
+    }
+    input_publish_retry=true;
+    if(!input_publish_warned) {perror("guest processed input notification");input_publish_warned=true;}
+    return false;
+}
 static void forget_input_node(const char *node, const struct stat *st) {
     if(unlink(node))return;
     // A device can vanish between the add scan and the removal sweep.
@@ -185,6 +240,8 @@ static void forget_input_node(const char *node, const struct stat *st) {
     if(!S_ISCHR(st->st_mode))return;
     char record[64];
     snprintf(record,sizeof(record),"/run/udev/data/c%u:%u",major(st->st_rdev),minor(st->st_rdev));
+    char previous[8192];
+    if(input_record_read(record,previous,sizeof(previous)))input_publish("remove",previous);
     unlink(record);
 }
 static void mirror_inputs(void) {
@@ -192,8 +249,13 @@ static void mirror_inputs(void) {
     mode_t previous_mask=umask(0022);
     mkdir("/dev/input",0755);mkdir("/dev/input/by-path",0755);
     mkdir("/run/udev",0755);mkdir("/run/udev/data",0755);
+    // libudev disables processed-event subscriptions in a private tmpfs /dev
+    // unless this marker exists. We supply that channel for input devices;
+    // this is not a udevd control server (udevadm control remains unsupported).
+    int marker=open("/run/udev/control",O_WRONLY|O_CREAT|O_EXCL|O_CLOEXEC,0600);
+    if(marker>=0)close(marker);
     const char *alias=input_pad_alias;
-    bool found_alias=false;
+    bool found_alias=false,republish=input_publish_retry;input_publish_retry=false;
     struct dirent *e; char path[256],node[256],buf[256],temporary[272];
     while((e=readdir(d))) {
         if(!input_node_name(e->d_name))continue;
@@ -215,19 +277,51 @@ static void mirror_inputs(void) {
             umask(mask);
             if(rc)continue;
         }
-        bool js=e->d_name[0]=='j',pad=js;
+        bool js=e->d_name[0]=='j',pad=js,keyboard=false,mouse=false;
         int fd=js?-1:open(node,O_RDONLY|O_NONBLOCK|O_CLOEXEC);
         if(!js && fd<0)continue;
         unsigned long keys[(KEY_MAX+8*sizeof(long))/(8*sizeof(long))]={0};
-        if(fd>=0 && ioctl(fd,EVIOCGBIT(EV_KEY,sizeof(keys)),keys)>=0)
+        if(fd>=0 && ioctl(fd,EVIOCGBIT(EV_KEY,sizeof(keys)),keys)>=0) {
+            for(unsigned key=0;key<BTN_MISC;key++)
+                if(keys[key/(8*sizeof(long))]&(1UL<<(key%(8*sizeof(long))))) keyboard=true;
             for(unsigned key=BTN_JOYSTICK;key<=BTN_THUMBR;key++)
                 if(keys[key/(8*sizeof(long))]&(1UL<<(key%(8*sizeof(long))))) pad=true;
+        }
+        unsigned long rel[(REL_MAX+8*sizeof(long))/(8*sizeof(long))]={0};
+        if(fd>=0 && ioctl(fd,EVIOCGBIT(EV_REL,sizeof(rel)),rel)>=0)
+            mouse=(rel[REL_X/(8*sizeof(long))]&(1UL<<(REL_X%(8*sizeof(long))))) &&
+                  (rel[REL_Y/(8*sizeof(long))]&(1UL<<(REL_Y%(8*sizeof(long)))));
+        // uinput mappers commonly combine keys and relative axes in one device.
+        // libudev/SDL classifies each capability independently, not exclusively.
+        // Retain the prior keyboard fallback for otherwise unclassified inputs.
+        if(!pad && !mouse)keyboard=true;
+        char sysnode[256],resolved[PATH_MAX],record[8192],previous[8192];
+        snprintf(sysnode,sizeof(sysnode),"/sys/class/input/%.32s",e->d_name);
+        if(!realpath(sysnode,resolved) || strncmp(resolved,"/sys/",5)) {if(fd>=0)close(fd);continue;}
+        int length=snprintf(record,sizeof(record),
+            "I:1\nE:ID_INPUT=1\n%s%s%sE:DEVNAME=%s\nE:DEVPATH=%s\nE:SUBSYSTEM=input\nE:MAJOR=%u\nE:MINOR=%u\nV:1\n",
+            pad?"E:ID_INPUT_JOYSTICK=1\n":"",keyboard?"E:ID_INPUT_KEY=1\nE:ID_INPUT_KEYBOARD=1\n":"",
+            mouse?"E:ID_INPUT_MOUSE=1\n":"",node,resolved+4,major_num,minor_num);
+        if(length<0 || (size_t)length>=sizeof(record)) {if(fd>=0)close(fd);continue;}
         snprintf(path,sizeof(path),"/run/udev/data/c%u:%u",major_num,minor_num);
-        snprintf(temporary,sizeof(temporary),"%s.tmp",path);
-        f=fopen(temporary,"we");
-        if(f) {
-            fprintf(f,"I:1\nE:ID_INPUT=1\nE:ID_INPUT_%s=1\nE:DEVNAME=%s\nV:1\n",pad?"JOYSTICK":"KEYBOARD",node);
-            if(fclose(f) || rename(temporary,path))unlink(temporary);
+        bool existed=input_record_read(path,previous,sizeof(previous));
+        bool same=existed && !strcmp(previous,record);
+        bool published=same;
+        if(!same) {
+            snprintf(temporary,sizeof(temporary),"%s.tmp",path);
+            f=fopen(temporary,"we");
+            if(f) {
+                bool written=fwrite(record,1,(size_t)length,f)==(size_t)length;
+                int closed=fclose(f);
+                if(written && !closed && !rename(temporary,path))published=true;
+                else unlink(temporary);
+            }
+        }
+        if(published && (!same || republish)) {
+            // A remove/add can reuse the same event number before a scan. SDL
+            // must retire its old FD before accepting the replacement path.
+            if(existed && !same)input_publish("remove",previous);
+            input_publish("add",record);
         }
         if(fd>=0 && pad && ioctl(fd,EVIOCGNAME(sizeof(buf)),buf)>=0 && !strcmp(buf,"GO-Super Gamepad")) {
             found_alias=true;
@@ -514,6 +608,7 @@ static int supervise(char **argv,bool native,bool hotkeys) {
     if(!payload) {
         signal(SIGTERM,SIG_DFL); signal(SIGINT,SIG_DFL); signal(SIGHUP,SIG_DFL);
         if(inputs.fd>=0)close(inputs.fd);
+        if(input_publish_fd>=0)close(input_publish_fd);
         limit_guest();
         if(muted)hold_mixer_mute();
         // Internal shared storage must also remain writable by Android media_rw.
