@@ -1097,3 +1097,8 @@ PRODUCT_PACKAGES += andr36oid-pad-codes
 PRODUCT_COPY_FILES += \
     device/gameconsole/common/grc802/GRC802_Gamepad.kl:$(TARGET_COPY_OUT_SYSTEM)/usr/keylayout/GRC802_Gamepad.kl \
     device/gameconsole/common/grc802/grc802-joystick.kl:$(TARGET_COPY_OUT_SYSTEM)/usr/keylayout/grc802-joystick.kl
+
+# OkRoll names its separate direct-SARADC input after the DT node, play_joystick.
+# RX/RY are the right stick; Android gamepads conventionally expose it as Z/RZ.
+PRODUCT_COPY_FILES += \
+    device/gameconsole/common/gamepad/play_joystick.kl:$(TARGET_COPY_OUT_SYSTEM)/usr/keylayout/play_joystick.kl

@@ -1,0 +1,6 @@
+# Direct SARADC sticks on the OkRoll clone (input name: play_joystick).
+key 288 BUTTON_1
+axis 0x00 X
+axis 0x01 Y
+axis 0x03 Z
+axis 0x04 RZ
