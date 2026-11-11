@@ -2244,7 +2244,6 @@ A rtl8192cu v0BDAp817Cd*dc*dsc*dp*ic*isc*ip*in*
 A rtl8192cu v050Dp1102d*dc*dsc*dp*ic*isc*ip*in*
 A rtl8192cu v050Dp11F2d*dc*dsc*dp*ic*isc*ip*in*
 A rtl8192cu v06F8pE033d*dc*dsc*dp*ic*isc*ip*in*
-A rtl8192cu v07B8p8188d*dc*dsc*dp*ic*isc*ip*in*
 A rtl8192cu v07B8p8189d*dc*dsc*dp*ic*isc*ip*in*
 A rtl8192cu v0846p9041d*dc*dsc*dp*ic*isc*ip*in*
 A rtl8192cu v0846p9043d*dc*dsc*dp*ic*isc*ip*in*

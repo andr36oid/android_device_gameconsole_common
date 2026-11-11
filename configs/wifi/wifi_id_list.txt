@@ -685,7 +685,6 @@ f201 5370 rt2800usb /vendor/etc/modprobe.d/rt2800usb
 050d 1102 rtl8192cu /vendor/etc/modprobe.d/rtl8192cu
 050d 11f2 rtl8192cu /vendor/etc/modprobe.d/rtl8192cu
 06f8 e033 rtl8192cu /vendor/etc/modprobe.d/rtl8192cu
-07b8 8188 rtl8192cu /vendor/etc/modprobe.d/rtl8192cu
 07b8 8189 rtl8192cu /vendor/etc/modprobe.d/rtl8192cu
 0846 9041 rtl8192cu /vendor/etc/modprobe.d/rtl8192cu
 0846 9043 rtl8192cu /vendor/etc/modprobe.d/rtl8192cu
