@@ -1108,7 +1108,18 @@ handle_request() {
 	finish_request
 }
 
+# Nothing in flight and nothing left to recover: the helper can exit. Init
+# starts it again on the next request (see init.rk30board.rc), so an idle
+# console no longer pays for a five-times-a-second getprop loop.
+parked() {
+	[ ! -d "$STATE/virtual" ] && [ ! -e "$STATE/owned" ] && [ ! -e "$STATE/restore" ] &&
+		[ ! -e "$STATE/controller" ] && [ ! -d "$F" ] || return 1
+	case $(prop request) in start|create|repair|delete|rename) return 1 ;; esac
+	[ "$(prop scan)" != start ]
+}
+
 main() {
+	setprop "$P.parked" 0
 	if ! prepare_state; then
 		fail prepare_state || true
 		setprop "$P.request" stop
@@ -1149,6 +1160,12 @@ main() {
 			handle_request
 		fi
 		case $(prop request) in create|repair|delete|rename) virtual_request ;; esac
+		if parked; then
+			# Only a clean idle exit sets this. Init uses it to restart the helper
+			# for a request that lands while it is exiting; a crash stays stopped.
+			setprop "$P.parked" 1
+			return 0
+		fi
 		sleep 0.2
 	done
 }
