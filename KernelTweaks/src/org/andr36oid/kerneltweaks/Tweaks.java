@@ -73,6 +73,14 @@ final class Tweaks {
                     R.string.kt_sleep_log_times_what, R.string.kt_sleep_log_times_why,
                     "/sys/power/pm_print_times")
                 .level(Tweak.SAFE))
+            .add(Tweak.choice("wifi_wake_wait", R.string.kt_wifi_wake_wait,
+                    R.string.kt_wifi_wake_wait_what, R.string.kt_wifi_wake_wait_why,
+                    "/sys/module/rk915/parameters/pm_wake_ack_timeout_ms")
+                .values("0", "500")
+                .labels(R.string.kt_off, 0)
+                .unit(R.string.kt_unit_ms)
+                .whenPresent("/sys/module/rk915/parameters/pm_wake_ack_timeout_ms")
+                .level(Tweak.LAST_RESORT))
             .add(onOff("sleep_log_debug", R.string.kt_sleep_log_debug,
                     R.string.kt_sleep_log_debug_what, R.string.kt_sleep_log_debug_why,
                     "/sys/power/pm_debug_messages")
@@ -288,10 +296,12 @@ final class Tweaks {
                 .labels(R.string.kt_on, R.string.kt_off)
                 .atBoot()
                 .level(Tweak.SAFE))
-            .add(Tweak.choice("radios", R.string.kt_radios,
-                    R.string.kt_radios_what, R.string.kt_radios_why, "module.no_radios=1")
+            .add(Tweak.choice("radios", R.string.kt_no_radios,
+                    R.string.kt_no_radios_what, R.string.kt_no_radios_why, "module.no_radios=1")
+                // Keep existing saved/profile values: radios on means this switch is off.
                 .values("on", "off")
-                .labels(R.string.kt_on, R.string.kt_off)
+                .labels(R.string.kt_off, R.string.kt_on)
+                .whenPresent("/sys/module/module/parameters/no_radios")
                 .atBoot()
                 .level(Tweak.LAST_RESORT))
             .add(Tweak.choice("storage", R.string.kt_storage,

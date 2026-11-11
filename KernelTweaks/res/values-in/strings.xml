@@ -396,4 +396,12 @@
     <string name="kt_profile_none_selected">Tidak ada tweak yang diubah dipilih. Tidak ada yang akan ditulis.</string>
     <string name="kt_profile_select_ready">Hanya tweak yang dicentang yang akan diimpor.</string>
     <string name="kt_profile_dependency">Pilihan ini akan menggunakan penyimpanan FUSE dengan driver FUSE nonaktif. Pilih kombinasi penyimpanan/driver yang kompatibel atau batalkan pilihan perubahan tersebut.</string>
+
+    <!-- Optional kernel #27 controls; both default off. -->
+    <string name="kt_wifi_wake_wait">Batas tunggu bangun Wi-Fi</string>
+    <string name="kt_wifi_wake_wait_what">Nonaktif memakai waktu tunggu konfirmasi RK915 asli. 500 ms membatasi waktu tunggu ini saat melanjutkan, bukan seluruh proses melanjutkan.</string>
+    <string name="kt_wifi_wake_wait_why">Coba jika bangun dengan Wi-Fi RK915 bawaan terlalu lama. Respons lambat dapat memulai pemulihan lebih awal dan memutus Wi-Fi. Default nonaktif.</string>
+    <string name="kt_no_radios">Nonaktifkan radio saat boot</string>
+    <string name="kt_no_radios_what">Aktif mencegah driver Wi-Fi dan Bluetooth dimuat setelah mulai ulang, termasuk adaptor USB. Default nonaktif.</string>
+    <string name="kt_no_radios_why">Gunakan untuk tidak memakai radio atau membebaskan port USB bersama. Wi-Fi dan Bluetooth tidak tersedia selama aktif. Perubahan memerlukan mulai ulang.</string>
 </resources>

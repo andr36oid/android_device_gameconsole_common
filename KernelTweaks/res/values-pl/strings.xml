@@ -399,4 +399,12 @@
     <string name="kt_profile_none_selected">Nie wybrano zmienionych ulepszeń. Nic nie zostanie zapisane.</string>
     <string name="kt_profile_select_ready">Zostaną zaimportowane tylko zaznaczone ulepszenia.</string>
     <string name="kt_profile_dependency">Ten wybór używałby pamięci FUSE przy wyłączonym sterowniku FUSE. Wybierz zgodną kombinację pamięci i sterownika albo odznacz te zmiany.</string>
+
+    <!-- Optional kernel #27 controls; both default off. -->
+    <string name="kt_wifi_wake_wait">Limit oczekiwania na wybudzenie Wi-Fi</string>
+    <string name="kt_wifi_wake_wait_what">Wyłączone zachowuje pierwotny czas oczekiwania na potwierdzenie RK915. 500 ms ogranicza tylko to oczekiwanie przy wznawianiu, a nie całe wznawianie.</string>
+    <string name="kt_wifi_wake_wait_why">Wypróbuj, jeśli wybudzanie z wbudowanym Wi-Fi RK915 trwa zbyt długo. Wolna odpowiedź może wcześniej uruchomić odzyskiwanie i przerwać Wi-Fi. Domyślnie wyłączone.</string>
+    <string name="kt_no_radios">Wyłącz moduły radiowe przy starcie</string>
+    <string name="kt_no_radios_what">Włączone blokuje ładowanie sterowników Wi-Fi i Bluetooth po ponownym uruchomieniu, także dla adapterów USB. Domyślnie wyłączone.</string>
+    <string name="kt_no_radios_why">Pozwala nie używać modułów radiowych lub zwolnić współdzielony port USB. Gdy opcja jest włączona, Wi-Fi i Bluetooth są niedostępne. Zmiana wymaga ponownego uruchomienia.</string>
 </resources>

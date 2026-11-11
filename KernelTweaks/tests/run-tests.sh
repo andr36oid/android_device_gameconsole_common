@@ -304,6 +304,49 @@ setp persist.andr36oid.kt.boot_log off
 run apply
 check "boot log off removes the file" no "$([ -e "$T/boot/kernel-tweaks.txt" ] && echo yes || echo no)"
 
+# --- optional RK915 wake wait limit: default off, 500 ms opt-in, safe absence
+setup
+mkdir -p "$R/sys/module/rk915/parameters"
+echo 0 >"$R/sys/module/rk915/parameters/pm_wake_ack_timeout_ms"
+run boot
+check "wake cap default off" 0 "$(prop sys.andr36oid.ktd.wifi_wake_wait)"
+check "wake cap leaves legacy wait" 0 "$(cat "$R/sys/module/rk915/parameters/pm_wake_ack_timeout_ms")"
+setp persist.andr36oid.kt.wifi_wake_wait 500
+run apply
+check "wake cap writes 500 ms" 500 "$(cat "$R/sys/module/rk915/parameters/pm_wake_ack_timeout_ms")"
+check "wake cap reports current" 500 "$(prop sys.andr36oid.ktc.wifi_wake_wait)"
+setp persist.andr36oid.kt.wifi_wake_wait 0
+run apply
+check "wake cap disarms" 0 "$(cat "$R/sys/module/rk915/parameters/pm_wake_ack_timeout_ms")"
+setp persist.andr36oid.kt.wifi_wake_wait 500
+run boot
+check "wake cap saved opt-in applied at boot" 500 "$(cat "$R/sys/module/rk915/parameters/pm_wake_ack_timeout_ms")"
+check "wake cap boot default remains zero" 0 "$(prop sys.andr36oid.ktd.wifi_wake_wait)"
+setp persist.andr36oid.kt.paused 1
+run apply
+check "pause restores legacy wait" 0 "$(cat "$R/sys/module/rk915/parameters/pm_wake_ack_timeout_ms")"
+setup
+setp persist.andr36oid.kt.wifi_wake_wait 500
+run boot
+check "missing wake cap default absent" "" "$(prop sys.andr36oid.ktd.wifi_wake_wait)"
+check "missing wake cap current absent" "" "$(prop sys.andr36oid.ktc.wifi_wake_wait)"
+check "missing wake cap preference retained" 500 "$(prop persist.andr36oid.kt.wifi_wake_wait)"
+
+# A Wi-Fi HAL load/reload after KT boot still applies the saved opt-in.
+mkdir -p "$R/sys/module/rk915/parameters"
+echo 0 >"$R/sys/module/rk915/parameters/pm_wake_ack_timeout_ms"
+run apply
+check "late RK915 default stays off" 0 "$(prop sys.andr36oid.ktd.wifi_wake_wait)"
+check "late RK915 applies saved cap" 500 "$(cat "$R/sys/module/rk915/parameters/pm_wake_ack_timeout_ms")"
+rm "$R/sys/module/rk915/parameters/pm_wake_ack_timeout_ms"
+run apply
+check "unloaded RK915 clears current" "" "$(prop sys.andr36oid.ktc.wifi_wake_wait)"
+check "unloaded RK915 does not fail" "" "$(prop sys.andr36oid.kt.failed)"
+echo 0 >"$R/sys/module/rk915/parameters/pm_wake_ack_timeout_ms"
+run apply
+check "reloaded RK915 reapplies saved cap" 500 "$(cat "$R/sys/module/rk915/parameters/pm_wake_ack_timeout_ms")"
+check "late load keeps boot tries unchanged" 1 "$(prop persist.andr36oid.kt.tries)"
+
 # --- second SD card slot (Settings > Storage) and Wi-Fi/Bluetooth drivers: start options
 setup
 run boot

@@ -397,4 +397,12 @@
     <string name="kt_profile_none_selected">Keine geänderten Tweaks ausgewählt. Es wird nichts geschrieben.</string>
     <string name="kt_profile_select_ready">Nur die ausgewählten Tweaks werden importiert.</string>
     <string name="kt_profile_dependency">Diese Auswahl würde FUSE-Speicher mit deaktiviertem FUSE-Treiber verwenden. Wähle eine kompatible Speicher-/Treiberkombination oder hebe die Auswahl dieser Änderungen auf.</string>
+
+    <!-- Optional kernel #27 controls; both default off. -->
+    <string name="kt_wifi_wake_wait">WLAN-Aufwachwartezeit begrenzen</string>
+    <string name="kt_wifi_wake_wait_what">Aus behält die ursprüngliche RK915-Wartezeit auf die Aufwachbestätigung bei. 500 ms begrenzt diese Wartezeit beim Aufwachen, nicht den gesamten Vorgang.</string>
+    <string name="kt_wifi_wake_wait_why">Bei langsamem Aufwachen mit integriertem RK915-WLAN ausprobieren. Eine langsame Antwort kann eine frühere Wiederherstellung auslösen und WLAN unterbrechen. Standard ist Aus.</string>
+    <string name="kt_no_radios">Funkmodule beim Start deaktivieren</string>
+    <string name="kt_no_radios_what">Ein verhindert nach einem Neustart das Laden von WLAN- und Bluetooth-Treibern, auch für USB-Adapter. Standard ist Aus.</string>
+    <string name="kt_no_radios_why">Damit bleiben Funkmodule ungenutzt oder ein gemeinsamer USB-Anschluss frei. WLAN und Bluetooth sind dann nicht verfügbar. Änderungen erfordern einen Neustart.</string>
 </resources>

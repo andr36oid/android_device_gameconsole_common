@@ -362,4 +362,12 @@
     <string name="kt_profile_none_selected">Изменённые настройки не выбраны. Ничего не будет записано.</string>
     <string name="kt_profile_select_ready">Будут импортированы только отмеченные настройки.</string>
     <string name="kt_profile_dependency">При таком выборе будет использоваться хранилище FUSE с отключённым драйвером FUSE. Выберите совместимую комбинацию хранилища и драйвера или отмените выбор этих изменений.</string>
+
+    <!-- Optional kernel #27 controls; both default off. -->
+    <string name="kt_wifi_wake_wait">Предел ожидания пробуждения Wi-Fi</string>
+    <string name="kt_wifi_wake_wait_what">Выкл. сохраняет исходное ожидание подтверждения RK915. 500 мс ограничивает только это ожидание при возобновлении, а не весь процесс.</string>
+    <string name="kt_wifi_wake_wait_why">Попробуйте, если пробуждение со встроенным Wi-Fi RK915 слишком долгое. Медленный ответ может раньше запустить восстановление и прервать Wi-Fi. По умолчанию выключено.</string>
+    <string name="kt_no_radios">Отключать радиомодули при загрузке</string>
+    <string name="kt_no_radios_what">Вкл. запрещает загрузку драйверов Wi-Fi и Bluetooth после перезапуска, включая USB-адаптеры. По умолчанию выключено.</string>
+    <string name="kt_no_radios_why">Позволяет не использовать радиомодули или освободить общий USB-порт. Пока включено, Wi-Fi и Bluetooth недоступны. Изменение требует перезапуска.</string>
 </resources>

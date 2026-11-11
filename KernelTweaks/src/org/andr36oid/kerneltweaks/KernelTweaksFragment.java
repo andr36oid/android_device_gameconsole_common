@@ -30,6 +30,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import java.io.IOException;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -65,6 +66,7 @@ public class KernelTweaksFragment extends PreferenceFragment {
 
     private final Handler mHandler = new Handler(Looper.getMainLooper());
     private final Map<Tweak, Preference> mRows = new HashMap<>();
+    private final Map<Tweak, PreferenceCategory> mGroups = new HashMap<>();
     private final List<Tweak> mTweaks = new ArrayList<>();
     private SharedPreferences mPrefs;
     private SwitchPreference mUse;
@@ -194,6 +196,7 @@ public class KernelTweaksFragment extends PreferenceFragment {
                 });
                 group.addPreference(row);
                 mRows.put(t, row);
+                mGroups.put(t, group);
                 mTweaks.add(t);
                 if ("storage".equals(t.key)) mStorage = t;
             }
@@ -245,6 +248,11 @@ public class KernelTweaksFragment extends PreferenceFragment {
 
         for (Tweak t : mTweaks) {
             final Preference row = mRows.get(t);
+            if (t.requiredNode != null) {
+                final PreferenceCategory group = mGroups.get(t);
+                if (new File(t.requiredNode).exists()) group.addPreference(row);
+                else group.removePreference(row);
+            }
             final String def = def(t);
             final String cur = cur(t);
             final String want = get(t.prop());

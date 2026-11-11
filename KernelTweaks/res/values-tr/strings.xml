@@ -397,4 +397,12 @@
     <string name="kt_profile_none_selected">Değiştirilen ayar seçilmedi. Hiçbir şey yazılmayacak.</string>
     <string name="kt_profile_select_ready">Yalnızca işaretlenen ayarlar içe aktarılacak.</string>
     <string name="kt_profile_dependency">Bu seçim, FUSE sürücüsü kapalıyken FUSE depolamasını kullanır. Uyumlu bir depolama/sürücü bileşimi seçin veya bu değişikliklerin işaretini kaldırın.</string>
+
+    <!-- Optional kernel #27 controls; both default off. -->
+    <string name="kt_wifi_wake_wait">Wi-Fi uyanma bekleme sınırı</string>
+    <string name="kt_wifi_wake_wait_what">Kapalı, RK915’in özgün uyanma onayı bekleme süresini korur. 500 ms, devam ederken yalnızca bu beklemeyi sınırlar, tüm devam sürecini değil.</string>
+    <string name="kt_wifi_wake_wait_why">Dahili RK915 Wi-Fi ile uyanma çok uzun sürüyorsa deneyin. Yavaş yanıt, kurtarmayı daha erken başlatıp Wi-Fi bağlantısını kesebilir. Varsayılan kapalıdır.</string>
+    <string name="kt_no_radios">Açılışta radyoları devre dışı bırak</string>
+    <string name="kt_no_radios_what">Açık, yeniden başlattıktan sonra USB adaptörler dahil Wi-Fi ve Bluetooth sürücülerinin yüklenmesini engeller. Varsayılan kapalıdır.</string>
+    <string name="kt_no_radios_why">Radyoları kullanmamak veya paylaşılan USB bağlantı noktasını boşaltmak için kullanın. Açıkken Wi-Fi ve Bluetooth kullanılamaz. Değişiklik yeniden başlatma gerektirir.</string>
 </resources>

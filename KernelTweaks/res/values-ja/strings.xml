@@ -323,4 +323,12 @@
     <string name="kt_profile_none_selected">変更された調整項目が選択されていません。何も書き込みません。</string>
     <string name="kt_profile_select_ready">チェックした調整項目だけがインポートされます。</string>
     <string name="kt_profile_dependency">この選択では、FUSE ドライバーをオフにした FUSE ストレージを使用します。互換性のあるストレージとドライバーの組み合わせを選ぶか、これらの変更の選択を解除してください。</string>
+
+    <!-- Optional kernel #27 controls; both default off. -->
+    <string name="kt_wifi_wake_wait">Wi-Fi復帰待ち時間の制限</string>
+    <string name="kt_wifi_wake_wait_what">オフではRK915の元の復帰応答待ち時間を使います。500 msは復帰中のこの待機だけを制限し、復帰全体は制限しません。</string>
+    <string name="kt_wifi_wake_wait_why">内蔵RK915 Wi-Fiでの復帰が遅い場合に試してください。応答が遅いと復旧処理が早く始まり、Wi-Fiが途切れる場合があります。初期値はオフです。</string>
+    <string name="kt_no_radios">起動時に無線を無効化</string>
+    <string name="kt_no_radios_what">オンにすると、再起動後にUSBアダプターを含むWi-FiとBluetoothのドライバーが読み込まれません。初期値はオフです。</string>
+    <string name="kt_no_radios_why">無線を使わない場合や共有USBポートを空ける場合に使います。有効な間はWi-FiとBluetoothを利用できません。変更には再起動が必要です。</string>
 </resources>

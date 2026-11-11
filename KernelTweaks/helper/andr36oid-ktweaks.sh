@@ -47,6 +47,7 @@ sleep_test|bracket|once|/sys/power/pm_test
 sleep_console|plain||/sys/module/printk/parameters/console_suspend
 sleep_log_times|plain||/sys/power/pm_print_times
 sleep_log_debug|plain||/sys/power/pm_debug_messages
+wifi_wake_wait|plain||/sys/module/rk915/parameters/pm_wake_ack_timeout_ms
 cores|cores||
 heat_limit|thermal||1
 perf_metrics_off|prop||sys.andr36oid.perf_metrics_off
@@ -494,6 +495,16 @@ apply_all() {
 	# fed by a here-document, not a pipe: the loop runs in this shell and keeps $failed
 	while IFS='|' read -r key kind once paths; do
 		[ -n "$key" ] || continue
+        # RK915 is loaded by the Wi-Fi HAL, often after KT's boot service.
+        # Its explicit kernel ABI default is 0, including after a module reload.
+        if [ "$key" = wifi_wake_wait ]; then
+            if [ ! -e "$R/sys/module/rk915/parameters/pm_wake_ack_timeout_ms" ]; then
+                setprop sys.andr36oid.ktc.wifi_wake_wait ""
+                continue
+            fi
+            [ -n "$(getprop sys.andr36oid.ktd.wifi_wake_wait)" ] ||
+                setprop sys.andr36oid.ktd.wifi_wake_wait 0
+        fi
 		def=$(getprop "sys.andr36oid.ktd.$key")
 		[ -n "$def" ] || continue
 		if [ -n "$once" ]; then

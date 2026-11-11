@@ -396,4 +396,12 @@
     <string name="kt_profile_none_selected">未选择已更改的调整项。不会写入任何内容。</string>
     <string name="kt_profile_select_ready">只会导入已勾选的调整项。</string>
     <string name="kt_profile_dependency">此选择会在 FUSE 驱动关闭时使用 FUSE 存储。请选择兼容的存储/驱动组合，或取消选择这些更改。</string>
+
+    <!-- Optional kernel #27 controls; both default off. -->
+    <string name="kt_wifi_wake_wait">Wi-Fi 唤醒等待上限</string>
+    <string name="kt_wifi_wake_wait_what">关闭时保留 RK915 原有的唤醒确认等待。500 毫秒仅限制恢复过程中的这段等待，不限制整个恢复过程。</string>
+    <string name="kt_wifi_wake_wait_why">如果内置 RK915 Wi-Fi 唤醒过慢，可尝试此项。响应过慢可能提前触发恢复并中断 Wi-Fi。默认关闭。</string>
+    <string name="kt_no_radios">启动时禁用无线设备</string>
+    <string name="kt_no_radios_what">开启后，重启时不加载 Wi-Fi 和蓝牙驱动，包括 USB 适配器。默认关闭。</string>
+    <string name="kt_no_radios_why">用于不使用无线设备或释放共享 USB 接口。开启期间无法使用 Wi-Fi 和蓝牙。更改后需要重启。</string>
 </resources>

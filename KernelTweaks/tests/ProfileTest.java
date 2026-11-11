@@ -32,6 +32,20 @@ public final class ProfileTest {
 
     public static void main(String[] args) throws Exception {
         for (Tweaks.Category category : Tweaks.all()) TWEAKS.addAll(category.tweaks);
+        final Tweak wake = TWEAKS.stream().filter(t -> "wifi_wake_wait".equals(t.key))
+                .findFirst().get();
+        final Tweak radios = TWEAKS.stream().filter(t -> "radios".equals(t.key))
+                .findFirst().get();
+        check("0".equals(wake.values[0]) && "500".equals(wake.values[1]),
+                "wake cap only legacy or 500 ms");
+        check("/sys/module/rk915/parameters/pm_wake_ack_timeout_ms".equals(wake.requiredNode),
+                "wake cap hidden without real kernel node");
+        check("/sys/module/module/parameters/no_radios".equals(radios.requiredNode),
+                "radio switch hidden without real kernel node");
+        check("on".equals(radios.values[0]) && radios.labels[0] == R.string.kt_off,
+                "disable radios displays off for unchanged default");
+        check("off".equals(radios.values[1]) && radios.labels[1] == R.string.kt_on,
+                "disable radios preserves old profile meaning");
         for (Tweak t : TWEAKS) {
             if (t.once) continue;
             // STICKS keeps per-side options in values, not whole "left right" values

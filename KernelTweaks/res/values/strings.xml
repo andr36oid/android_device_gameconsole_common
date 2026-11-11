@@ -402,4 +402,12 @@
     <string name="kt_profile_none_selected">No changed tweaks selected. Nothing will be written.</string>
     <string name="kt_profile_select_ready">Only the checked tweaks will be imported.</string>
     <string name="kt_profile_dependency">This selection would use FUSE storage with the FUSE driver off. Select a compatible storage/driver combination or uncheck those changes.</string>
+
+    <!-- Optional kernel #27 controls; both default off. -->
+    <string name="kt_wifi_wake_wait">Wi-Fi wake wait limit</string>
+    <string name="kt_wifi_wake_wait_what">Off keeps the original RK915 wake acknowledgement wait. 500 ms limits this wait during resume; it does not limit the whole resume.</string>
+    <string name="kt_wifi_wake_wait_why">Try this if waking with built-in RK915 Wi-Fi takes too long. A slow response may trigger recovery earlier and interrupt Wi-Fi. Off is the default.</string>
+    <string name="kt_no_radios">Disable radios at boot</string>
+    <string name="kt_no_radios_what">On prevents Wi-Fi and Bluetooth drivers from loading after a restart, including USB adapters. Off is the default.</string>
+    <string name="kt_no_radios_why">Use this to leave radios unused or free a shared USB port. Wi-Fi and Bluetooth are unavailable while enabled. Changing it requires a restart.</string>
 </resources>

@@ -397,4 +397,12 @@
     <string name="kt_profile_none_selected">No se han seleccionado ajustes modificados. No se escribirá nada.</string>
     <string name="kt_profile_select_ready">Solo se importarán los ajustes marcados.</string>
     <string name="kt_profile_dependency">Esta selección usaría almacenamiento FUSE con el controlador FUSE desactivado. Selecciona una combinación compatible de almacenamiento y controlador, o desmarca esos cambios.</string>
+
+    <!-- Optional kernel #27 controls; both default off. -->
+    <string name="kt_wifi_wake_wait">Limitar espera al despertar Wi-Fi</string>
+    <string name="kt_wifi_wake_wait_what">Desactivado conserva la espera original de confirmación de RK915. 500 ms limita esta espera al reanudar, no toda la reanudación.</string>
+    <string name="kt_wifi_wake_wait_why">Pruébalo si despertar con Wi-Fi RK915 integrado tarda demasiado. Una respuesta lenta puede iniciar la recuperación antes e interrumpir Wi-Fi. Desactivado por defecto.</string>
+    <string name="kt_no_radios">Desactivar radios al arrancar</string>
+    <string name="kt_no_radios_what">Activado impide cargar controladores Wi-Fi y Bluetooth tras reiniciar, incluidos los adaptadores USB. Desactivado por defecto.</string>
+    <string name="kt_no_radios_why">Úsalo para no usar las radios o liberar un puerto USB compartido. Wi-Fi y Bluetooth no estarán disponibles mientras esté activado. Requiere reiniciar.</string>
 </resources>

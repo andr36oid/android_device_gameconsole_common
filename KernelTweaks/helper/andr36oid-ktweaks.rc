@@ -7,6 +7,11 @@ on post-fs-data
 on property:ro.persistent_properties.ready=true
     start andr36oid-ktweaks-boot
 
+# Wi-Fi HAL loads RK915 after persistent properties, and may reload it later.
+# Reapply saved runtime knobs once its nodes exist; do not rerun boot counters.
+on property:wlan.driver.status=ok && property:sys.andr36oid.kt.ready=1
+    start andr36oid-ktweaks
+
 # the start finished: the boot protection starts counting again
 on property:sys.boot_completed=1
     setprop persist.andr36oid.kt.tries 0

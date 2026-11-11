@@ -56,3 +56,17 @@ copies data but never evaluates or applies imported file contents. Boot options
 still go through the existing apply service and BOOT/kernel-tweaks.txt; the normal
 restart prompt handles them. Import preserves the Use tweaks switch, including a
 pause after failed starts.
+
+Optional wake/radio controls (kernel #27): Wi-Fi wake wait limit uses
+`/sys/module/rk915/parameters/pm_wake_ack_timeout_ms`, 0 (Off, legacy) or
+500 ms. Disable radios at boot uses the existing `radios` preference and
+`module.no_radios=1`; its displayed Off corresponds to the existing saved
+value `on`, preserving imported profiles. Neither option is enabled by default.
+Both rows are hidden unless their kernel node exists; unsupported saved choices
+are retained without emitting an ineffective radio boot argument. The wake
+limit is an opt-in resume ACK bound, not a guarantee of recovery or total resume
+time. No module unload or Wi-Fi restart is performed by this control.
+The Wi-Fi HAL loads RK915 after the early KT service and may reload it later.
+The existing apply service is also triggered by `wlan.driver.status=ok` once
+KT is ready; it records the confirmed ABI default 0 for a newly available node
+and reapplies a saved choice without rerunning boot-failure counters.

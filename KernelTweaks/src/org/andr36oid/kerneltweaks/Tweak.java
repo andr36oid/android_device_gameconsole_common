@@ -33,6 +33,8 @@ final class Tweak {
     boolean atBoot;
     /** a system property instead of a kernel file, {@link #file} is its name */
     boolean systemSetting;
+    /** Hide an optional control unless this kernel exports its node. */
+    String requiredNode;
     String[] values = {};
     /** a label per value, or 0 to use {@link #unit} */
     int[] labels;
@@ -96,6 +98,11 @@ final class Tweak {
 
     Tweak once() {
         once = true;
+        return this;
+    }
+
+    Tweak whenPresent(String path) {
+        requiredNode = path;
         return this;
     }
 
