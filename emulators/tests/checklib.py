@@ -17,7 +17,22 @@ import xml.etree.ElementTree as ET
 TREE = "content://com.android.externalstorage.documents/tree/"
 PKG = "com.magneticchen.daijishou"
 
+MAINSTREAM = {"nes", "snes", "n64", "gb", "gbc", "gba", "genesis", "psx", "psp", "ports"}
 errors = []
+
+
+def has_games(root, folders, exts):
+    if not exts:
+        return False
+    pattern = re.compile(r"\.(?:" + "|".join(exts) + r")$", re.I)
+    for folder in folders:
+        for path, dirs, files in os.walk(os.path.join(root, folder), followlinks=False):
+            dirs[:] = [d for d in dirs if not d.startswith(".")]
+            for name in files:
+                if (not name.startswith(".") and not name.lower().endswith(".pure.zip")
+                        and not os.path.islink(os.path.join(path, name)) and pattern.search(name)):
+                    return True
+    return False
 
 
 def check(cond, msg):
@@ -37,15 +52,20 @@ def expected(seed, root, cores, apps):
         f = line.rstrip("\n").split("\t")
         if f[0] == "platform":
             cur = [f[1], [x for x in f[2].split(",") if os.path.isdir(os.path.join(root, x))],
-                   [], sql_eval(f[3].split(",")[0])[0]]
+                   [], sql_eval(f[3].split(",")[0])[0], []]
             out.append(cur)
         elif f[0] == "player" and cur and f[1] == cur[0]:
             kind, _, name = f[2].partition(":")
             ok = (os.path.isfile(os.path.join(cores, name + "_libretro_android.so"))
                   if kind == "core" else name in apps)
+            # The production presence scan accepts extensions from the whole seed.
+            matches = re.findall(r"\(\?:([^)]*)\)\$", f[3])
+            if matches:
+                cur[4].append(matches[-1])
             if ok:
                 cur[2].append(sql_eval(f[3].split(",")[0])[0])
-    return [(p[3], p[1], p[2]) for p in out if p[1] and p[2]]
+    return [(p[3], p[1], p[2]) for p in out if p[1] and p[2]
+            and (p[3] in MAINSTREAM or has_games(root, p[1], p[4]))]
 
 
 def main(seed, schema, db, prefs, grants, root, cores, apps):

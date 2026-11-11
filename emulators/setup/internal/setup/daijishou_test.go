@@ -218,7 +218,7 @@ func TestDaijishouMissingCoreFolderApp(t *testing.T) {
 		c.fail("%v", err)
 	}
 	for _, id := range strings.Fields(c.sql("SELECT unique_id FROM PlatformEntity")) {
-		if id == "sega32x" || id == "gbc" || id == "psp" {
+		if id == "sega32x" || id == "psp" {
 			c.fail("platform %s without player or folder", id)
 		}
 	}

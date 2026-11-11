@@ -13,3 +13,9 @@ Only the pictures our platforms use, shrunk to at most 854x480 as JPEG by
 emulators/scripts/fetch-daijishou-art.py; the console names them like Daijishou does
 (files/platform_wallpapers/<id>.png). The game system names and looks shown belong to
 their owners.
+
+The sw-*.jpg pictures are not from the pack: they come from the Nintendo Switch
+EmulationStation theme that dArkOSen ships (es-theme-switch, Jetup13 fork,
+_art/artwork/), cropped from 600x600 to 16:9 and scaled to 854x480. They cover Ports,
+Doom, ScummVM and the systems the pack only has its default arcade cabinet for.
+scripts/gen-daijishou.py assigns them by platform id (OWN_ART).

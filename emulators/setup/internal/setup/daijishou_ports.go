@@ -393,6 +393,86 @@ func (s *Setup) djPorts(root string, trees []string) (ports []djPort, scanned []
 	return ports, scanned, nil
 }
 
+// djOwnArtFiles maps a platform's unique id to its picture from dArkOSen's
+// Switch theme. Keep in step with OWN_ART in scripts/gen-daijishou.py.
+var djOwnArtFiles = map[string]string{
+	"ports":                         "sw-ports.jpg",
+	"pico8":                         "sw-pico-8.jpg",
+	"doom":                          "sw-doom.jpg",
+	"scummvm":                       "sw-scummvm.jpg",
+	"fds":                           "sw-fds.jpg",
+	"ws":                            "sw-wonderswan.jpg",
+	"wsc":                           "sw-wonderswancolor.jpg",
+	"odyssey2":                      "sw-odyssey2.jpg",
+	"intellivision":                 "sw-intellivision.jpg",
+	"vectrex":                       "sw-vectrex.jpg",
+	"msx":                           "sw-msx.jpg",
+	"coleco":                        "sw-coleco.jpg",
+	"zxspectrum":                    "sw-zxspectrum.jpg",
+	"rpgmaker":                      "sw-easyrpg.jpg",
+	"cps1":                          "sw-cps1.jpg",
+	"cps2":                          "sw-cps2.jpg",
+	"cps3":                          "sw-cps3.jpg",
+	"c128":                          "sw-c128.jpg",
+	"vic20":                         "sw-vic20.jpg",
+	"plus4":                         "sw-plus4.jpg",
+	"pet":                           "sw-xpet.jpg",
+	"atari800":                      "sw-atari800.jpg",
+	"cavestory":                     "sw-cavestory.jpg",
+	"lowresnx":                      "sw-lowresnx.jpg",
+	"x68000":                        "sw-x68000.jpg",
+	"pc98":                          "sw-pc98.jpg",
+	"pc88":                          "sw-pc88.jpg",
+	"tic80":                         "sw-tic80.jpg",
+	"wasm4":                         "sw-wasm4.jpg",
+	"andr36oid.phase2.vircon32":     "sw-vircon32.jpg",
+	"uzebox":                        "sw-uzebox.jpg",
+	"andr36oid.phase2.wolf":         "sw-wolf.jpg",
+	"supervision":                   "sw-supervision.jpg",
+	"channelf":                      "sw-channelf.jpg",
+	"andr36oid.phase2.vmac":         "sw-vmac.jpg",
+	"andr36oid.phase2.scv":          "sw-scv.jpg",
+	"x1":                            "sw-x1.jpg",
+	"andr36oid.phase2.onscripter":   "sw-onscripter.jpg",
+	"andr36oid.phase2.puzzlescript": "sw-puzzlescript.jpg",
+	"arduboy":                       "sw-arduboy.jpg",
+	"bbcmicro":                      "sw-bbcmicro.jpg",
+	"megaduck":                      "sw-megaduck.jpg",
+	"zx81":                          "sw-zx81.jpg",
+	"sg1000":                        "sw-sg-1000.jpg",
+	"pico":                          "sw-pico.jpg",
+}
+
+// djOwnArt gives existing platforms those pictures, once. Earlier builds seeded
+// them from the COLORFUL pack (default arcade cabinet, gaming PC).
+// The marker keeps a picture the user chooses in Daijishou afterwards.
+func (s *Setup) djOwnArt(db string) {
+	marker := s.State + "/daijishou-own-art-1"
+	if sys.IsFile(marker) {
+		return
+	}
+	rows, err := s.sqlQuery(db, "SELECT group_concat(id || ':' || unique_id, char(10)) FROM PlatformEntity;")
+	if err != nil {
+		return
+	}
+	files := djOwnArtFiles
+	var arts []djArtItem
+	for _, row := range strings.Split(rows, "\n") {
+		idText, unique, _ := strings.Cut(row, ":")
+		id, err := strconv.Atoi(idText)
+		if err != nil || id <= 0 || files[unique] == "" || !sys.IsFile(s.djArt()+"/"+files[unique]) {
+			continue
+		}
+		arts = append(arts, djArtItem{id, files[unique]})
+	}
+	owner, err := fsx.OwnerOf(s.djData())
+	if err != nil {
+		return
+	}
+	s.djCopyArt(arts, owner)
+	_ = fsx.WriteFileAtomic(marker, nil)
+}
+
 func (s *Setup) djReconcilePorts(root string) error {
 	tmp, err := os.MkdirTemp(s.State, "daijishou-ports.")
 	if err != nil {
@@ -410,6 +490,7 @@ func (s *Setup) djReconcilePorts(root string) error {
 			return err
 		}
 	}
+	s.djOwnArt(db)
 	platform, err := s.sqlQuery(db, "SELECT id || char(10) || items_sync_tree_uri_list FROM PlatformEntity WHERE unique_id = 'ports';")
 	if err != nil || platform == "" {
 		// No database/platform after the user cleared the library: never recreate it.

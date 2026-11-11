@@ -116,6 +116,7 @@ func (s *Setup) Main() {
 	// after the cores and ROM folders: a platform needs both
 	s.Progress.Stage("library")
 	s.SeedDaijishou()
+	s.ReconcilePlatforms()
 	s.ReconcilePorts()
 	if s.syncEnabled("at_boot", true) {
 		s.SyncLibrary()

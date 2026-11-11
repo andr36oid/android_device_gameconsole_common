@@ -16,8 +16,12 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"os"
+	"os/exec"
+	"os/signal"
+	"syscall"
 	"time"
 
 	"andr36oid/gcsetup/internal/magisk"
@@ -32,12 +36,28 @@ const (
 
 func main() {
 	if len(os.Args) != 2 {
-		fmt.Fprintln(os.Stderr, "usage: gameconsole-setup early|main|apps|players|magisk|reconcile-ports|sync-library|sync-retroarch|repair-retroarch")
+		fmt.Fprintln(os.Stderr, "usage: gameconsole-setup early|main|apps|players|magisk|reconcile-ports|reconcile-platforms|watch-platforms|sync-library|sync-retroarch|repair-retroarch")
 		os.Exit(2)
 	}
 	s := setup.New()
 	job := os.Args[1]
 	switch job {
+	case "watch-platforms":
+		ctx, cancel := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
+		defer cancel()
+		executable, err := os.Executable()
+		if err != nil {
+			s.Log("ROM watcher: %v", err)
+			return
+		}
+		s.WatchPlatforms(ctx, func() {
+			// A separate client joins the same flock-backed worker as boot/setup
+			// and subsystem jobs; the watcher never writes the live databases.
+			if err := exec.CommandContext(ctx, executable, "reconcile-platforms").Run(); err != nil && ctx.Err() == nil {
+				s.Log("requesting ROM rescan failed: %v", err)
+			}
+		})
+		return
 	case "early":
 		s.Early()
 		return
@@ -55,7 +75,7 @@ func main() {
 			s.Props.Set("sys.powerctl", "reboot,magisk")
 		}
 		return
-	case "main", "apps", "reconcile-ports", "sync-library", "sync-retroarch", "repair-retroarch":
+	case "main", "apps", "reconcile-ports", "reconcile-platforms", "sync-library", "sync-retroarch", "repair-retroarch":
 	case "players":
 		if s.Props.Get("sys.boot_completed") != "1" {
 			return
@@ -156,7 +176,10 @@ func run(s *setup.Setup, job string) {
 		s.Players()
 	case "reconcile-ports":
 		s.ReconcilePorts()
+	case "reconcile-platforms":
+		s.ReconcilePlatforms()
 	case "sync-library":
+		s.ReconcilePlatforms()
 		s.SyncLibrary()
 	case "sync-retroarch":
 		s.SyncRetroArch()

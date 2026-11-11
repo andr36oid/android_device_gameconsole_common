@@ -25,6 +25,30 @@ on boot
 
 on property:sys.boot_completed=1
     start gameconsole-emu
+    start gameconsole-platform-watch
+
+# File notifications enqueue the same serialized worker used for setup. A
+# property/manual trigger also works when notifications are unavailable.
+service gameconsole-platform-watch /system/bin/gameconsole-setup watch-platforms
+    class main
+    user root
+    group root system
+    disabled
+
+service gameconsole-platforms /system/bin/gameconsole-setup reconcile-platforms
+    class main
+    user root
+    group root system
+    disabled
+    oneshot
+
+on property:sys.andr36oid.roms_changed=1
+    start gameconsole-platforms
+    setprop sys.andr36oid.roms_changed 0
+
+# A guest can change ROMs while Android is stopped. Reconcile once it returns.
+on property:sys.andr36oid.subsystem.session=ended
+    start gameconsole-platforms
 
 on property:sys.boot_completed=1 && property:persist.andr36oid.sync.at_boot=1
     start gameconsole-library

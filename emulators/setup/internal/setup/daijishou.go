@@ -376,6 +376,12 @@ type djArtItem struct {
 // card and the players that can run here; the first player is its default. Without
 // either, no platform (and no players for it).
 func (s *Setup) djSQL(root, uuid string) (string, []djArtItem) {
+	games, err := s.djGameFolders(root)
+	if err != nil {
+		// A failed scan must not produce a permanently incomplete first library.
+		s.Log("reading ROM folders failed: %v", err)
+		return "", nil
+	}
 	var b strings.Builder
 	var arts []djArtItem
 	pid, plat := 0, 0
@@ -401,6 +407,9 @@ func (s *Setup) djSQL(root, uuid string) (string, []djArtItem) {
 		case "platform":
 			flush()
 			art, uris, players, pnum = "", nil, nil, ""
+			if !djWantedPlatform(l, games) {
+				continue
+			}
 			for _, f := range strings.Split(l.arg, ",") {
 				if f != "" && sys.IsDir(root+"/"+f) {
 					uris = append(uris, `"`+djTreeURI(uuid, f)+`"`)
@@ -772,7 +781,11 @@ func (s *Setup) SeedDaijishou() {
 		return
 	}
 	defer os.RemoveAll(tmp)
+	s.djMainstreamFolders(s.easyroms)
 	rows, arts := s.djSQL(s.easyroms, uuid)
+	if rows == "" {
+		return
+	}
 	db := tmp + "/Daijishou.db"
 	if err := os.WriteFile(tmp+"/rows.sql", []byte(rows), 0o600); err != nil {
 		s.Log("making Daijishou's library failed: %v", err)
@@ -798,6 +811,10 @@ func (s *Setup) SeedDaijishou() {
 	if count == 0 {
 		s.Log("no Daijishou platform to add (no ROM folders or players)")
 		_ = fsx.Touch(s.djDone())
+		return
+	}
+	seedPlatforms, err := s.sqlQuery(db, djPlatformRows)
+	if err != nil {
 		return
 	}
 
@@ -846,6 +863,9 @@ func (s *Setup) SeedDaijishou() {
 	// that window must not leave our library looking like the user's on the next
 	// boot, which would permanently skip every djSeeded-gated feature.
 	_ = fsx.WriteLine(s.djSeeded(), uuid)
+	if err := s.djRecordSeedPlatforms(uuid, seedPlatforms); err != nil {
+		s.Log("recording the seeded system policy failed: %v", err)
+	}
 	_ = fsx.WriteFileAtomic(s.state("daijishou-games."+uuid), []byte(joinLines(s.djGames())))
 	s.djCopyArt(arts, owner)
 	prefs := s.djPrefs()

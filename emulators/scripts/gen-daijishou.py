@@ -216,10 +216,67 @@ def synth_player(platform, players, core):
     return p
 
 
+OWN_ART = {
+    "ports": "sw-ports.jpg",
+    "pico8": "sw-pico-8.jpg",
+    "doom": "sw-doom.jpg",
+    "scummvm": "sw-scummvm.jpg",
+    "fds": "sw-fds.jpg",
+    "ws": "sw-wonderswan.jpg",
+    "wsc": "sw-wonderswancolor.jpg",
+    "odyssey2": "sw-odyssey2.jpg",
+    "intellivision": "sw-intellivision.jpg",
+    "vectrex": "sw-vectrex.jpg",
+    "msx": "sw-msx.jpg",
+    "coleco": "sw-coleco.jpg",
+    "zxspectrum": "sw-zxspectrum.jpg",
+    "rpgmaker": "sw-easyrpg.jpg",
+    "cps1": "sw-cps1.jpg",
+    "cps2": "sw-cps2.jpg",
+    "cps3": "sw-cps3.jpg",
+    "c128": "sw-c128.jpg",
+    "vic20": "sw-vic20.jpg",
+    "plus4": "sw-plus4.jpg",
+    "pet": "sw-xpet.jpg",
+    "atari800": "sw-atari800.jpg",
+    "cavestory": "sw-cavestory.jpg",
+    "lowresnx": "sw-lowresnx.jpg",
+    "x68000": "sw-x68000.jpg",
+    "pc98": "sw-pc98.jpg",
+    "pc88": "sw-pc88.jpg",
+    "tic80": "sw-tic80.jpg",
+    "wasm4": "sw-wasm4.jpg",
+    "andr36oid.phase2.vircon32": "sw-vircon32.jpg",
+    "uzebox": "sw-uzebox.jpg",
+    "andr36oid.phase2.wolf": "sw-wolf.jpg",
+    "supervision": "sw-supervision.jpg",
+    "channelf": "sw-channelf.jpg",
+    "andr36oid.phase2.vmac": "sw-vmac.jpg",
+    "andr36oid.phase2.scv": "sw-scv.jpg",
+    "x1": "sw-x1.jpg",
+    "andr36oid.phase2.onscripter": "sw-onscripter.jpg",
+    "andr36oid.phase2.puzzlescript": "sw-puzzlescript.jpg",
+    "arduboy": "sw-arduboy.jpg",
+    "bbcmicro": "sw-bbcmicro.jpg",
+    "megaduck": "sw-megaduck.jpg",
+    "zx81": "sw-zx81.jpg",
+    "sg1000": "sw-sg-1000.jpg",
+    "pico": "sw-pico.jpg",
+}
+
+
 def art_file(index, platform):
     """The picture Daijishou's own import gives this platform from the COLORFUL pack
     (unique id, then short name, then the pack's default), as our file name in
     daijishou/art/. Same rules as scripts/fetch-daijishou-art.py."""
+    # Pictures from dArkOSen's Switch theme where the pack has nothing fitting
+    # (it falls back to an arcade cabinet, or shows a gaming PC for Doom and
+    # ScummVM). See daijishou/art/README.
+    own = OWN_ART.get(platform.get("uniqueId"))
+    if own:
+        if not os.path.isfile(os.path.join(DJ, "art", own)):
+            raise SystemExit("%s: no daijishou/art/%s" % (platform["uniqueId"], own))
+        return own
     name = None
     for key, field in (("matchPlatformUniqueId", "uniqueId"),
                        ("matchPlatformShortname", "shortname")):

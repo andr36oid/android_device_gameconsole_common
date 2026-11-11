@@ -3,8 +3,8 @@
 
 DaijishouLibraryModel.play$playPlayableItem checks packages from
 queryIntentActivities(MAIN + LAUNCHER, 0), not getPackageInfo. Exercise the
-shipped player arguments against the manifests with the runtime ES entry enabled
-(es_icon=1 and ready), on both fresh and kept-/data installs.
+shipped player arguments against the manifests on fresh and kept-/data installs.
+There is exactly one launcher entry, shown as EmulationStation and never toggled.
 This is host contract coverage; PackageManager and actual launches need hardware.
 """
 from pathlib import Path
@@ -19,6 +19,7 @@ ANDROID = '{http://schemas.android.com/apk/res/android}'
 BRIDGE = 'org.andr36oid.subsystem'
 SETUP = 'org.andr36oid.subsystemsetup'
 ES = '.EmulationStationLauncher'
+PLAYER = '.DaijishouPlayerLauncher'
 
 
 def components(manifest, disabled=(), runtime_enabled=()):
@@ -74,31 +75,40 @@ class PlayerLaunchersTest(unittest.TestCase):
         self.assertTrue(any(uid == 'ports.andr36oid.subsystem' for uid, _, _ in self.players))
         self.assertTrue(any(uid.endswith('.andr36oid.darkosen') for uid, _, _ in self.players))
         for kept_data in (False, True):
-            # BootReceiver / dashboard restore the alias from ready + es_icon.
-            # Old aliases removed from the APK cannot contribute launcher matches.
+            # Old aliases removed from the APK cannot contribute launcher matches,
+            # even if kept /data still records one as enabled.
             for uid, package, activity in self.players:
                 with self.subTest(player=uid, kept_data=kept_data):
                     self.assertEqual(package, SETUP)
                     enabled, launchers = components(self.manifests[package], runtime_enabled={ES})
-                    self.assertEqual(launchers, [ES])
+                    self.assertEqual(launchers, [PLAYER])
                     self.assertEqual(enabled[activity].get(ANDROID + 'exported'), 'true')
                     self.assertEqual(activity, '.LaunchPortActivity' if uid == 'ports.andr36oid.subsystem' else '.RetroArchActivity')
 
-    def test_only_es_can_appear_in_the_launcher(self):
+    def test_dashboard_match_is_independent_of_optional_es(self):
         for package, manifest in self.manifests.items():
             _, launchers = components(manifest, runtime_enabled={ES})
-            self.assertEqual(launchers, [ES] if package == SETUP else [])
+            self.assertEqual(launchers, [PLAYER] if package == SETUP else [])
             names = {n.get(ANDROID + 'name') for n in manifest.find('application')}
             self.assertNotIn('.SubsystemSetupLauncher', names)
+            self.assertNotIn(ES, names)
             self.assertNotIn('.PortMasterLauncher', names)
 
-    def test_disabling_es_documents_the_package_preflight_limit(self):
-        # With MAIN/LAUNCHER as the app list AND preflight, hiding the last entry
-        # also removes both players' package match. No hidden launcher workaround.
-        enabled, launchers = components(self.manifests[SETUP], disabled={ES})
+    def test_single_launcher_entry_is_emulationstation(self):
+        # One always-enabled alias: a second one meant two icons, and a runtime
+        # toggle could leave none and reproduce the preflight defect.
+        enabled, launchers = components(self.manifests[SETUP], runtime_enabled={ES})
         self.assertIn('.RetroArchActivity', enabled)
         self.assertIn('.LaunchPortActivity', enabled)
-        self.assertEqual(launchers, [])
+        self.assertEqual(launchers, [PLAYER])
+        alias = enabled[PLAYER]
+        self.assertEqual(alias.get(ANDROID + 'targetActivity'), '.EmulationStationActivity')
+        self.assertEqual(alias.get(ANDROID + 'enabled'), 'true')
+        self.assertEqual(alias.get(ANDROID + 'label'), '@string/asl_es')
+        self.assertEqual(alias.get(ANDROID + 'icon'), '@drawable/ic_emulationstation')
+        source = (COMMON / 'SubsystemSetup/src/org/andr36oid/subsystemsetup/SubsystemSetupActivity.java').read_text()
+        self.assertNotIn('setComponentEnabledSetting(alias', source)
+        self.assertEqual(components(self.manifests[SETUP], disabled={PLAYER})[1], [])
 
     def test_headless_bridge_remains_an_exported_transition_endpoint(self):
         enabled, launchers = components(self.manifests[BRIDGE])

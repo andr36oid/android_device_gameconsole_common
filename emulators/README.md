@@ -626,3 +626,35 @@ need assets from the online updater anyway, and Material UI's own `glui/font.ttf
 Ozone in Chinese would need `pkg/chinese-fallback-font.ttf`; Android's Noto CJK can't
 stand in, because RetroArch's font renderer on Android (stb_truetype 1.06) can't read
 its CFF outlines.
+
+### Systems shown in Daijishou
+
+A fresh library always offers NES, SNES, Nintendo 64, Game Boy, Game Boy Color,
+Game Boy Advance, Genesis/Mega Drive, PlayStation, PSP and Arcade (FinalBurn Neo),
+when their player is installed. Ports stays available for PortMaster even before
+any port is installed. Other systems are provisioned only when a supported game
+file exists in one of their ROM folders. Recognized extensions are matched
+without reading ROM contents; nested folders, folder aliases and uppercase
+extensions work. README files, saves, artwork, hidden trees and symlinks do not
+make a system nonempty.
+
+`gameconsole-setup watch-platforms` watches those folders recursively. Completed
+copies, renames and deletions enqueue `reconcile-platforms` after a two-second
+quiet period. Boot, late EASYROMS mount and subsystem return also reconcile.
+Root can request a refresh with `gameconsole-setup reconcile-platforms` or
+`setprop sys.andr36oid.roms_changed 1`. Inotify overflow rebuilds the watches;
+watch-limit failures fall back to rescanning once per minute. Failed queued updates leave a retry marker and are retried at most once per
+minute even after file-copy notifications stop. Normal idle does not repeatedly
+scan ROMs. A newly revealed system asks to sync its games, using
+the existing Daijishou autosync preference.
+
+On an automatically seeded library, reconciliation adds new populated systems
+and hides empty niche systems. It retains their database rows, favorites,
+history, artwork and player choices. It respects systems the user deleted or
+manually hid, custom/foreign sync folders, other cards and cleared/replaced app
+data. No matching game removal deletes a game/history row. The library and WAL
+are copied and validated first; the live transaction checks the read snapshot
+before applying changes. A pending state journal recovers interrupted visibility
+updates. The watcher only enqueues the existing serialized setup worker; it never
+writes the live database itself. Reconciliation waits while the subsystem owns
+the session, then runs on return.
