@@ -4,3 +4,10 @@ cc_binary {
     srcs: ["andr36oid-addpart.c"],
     cflags: ["-Wall", "-Werror"],
 }
+
+// Per-file fsync of the vfat resize log, for andr36oid-firstresize.sh
+cc_binary {
+    name: "andr36oid-fsync",
+    srcs: ["andr36oid-fsync.c"],
+    cflags: ["-Wall", "-Werror"],
+}

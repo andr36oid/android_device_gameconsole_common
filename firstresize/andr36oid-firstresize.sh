@@ -30,6 +30,7 @@ DEV=${RESIZE_DEV:-/dev/block}
 KMSG=${RESIZE_KMSG:-/dev/kmsg}
 BOOT_MNT=${RESIZE_BOOT_MNT:-/mnt/andr36oid-resize-boot}
 ADDPART=${RESIZE_ADDPART:-/system/bin/andr36oid-addpart}
+FSYNC=${RESIZE_FSYNC:-/system/bin/andr36oid-fsync}
 APPS_MNT=${RESIZE_APPS_MNT:-/mnt/andr36oid-apps}
 APPS_DONE=${RESIZE_APPS_DONE:-/metadata/andr36oid/apps-done}
 RESIZE_F2FS=${RESIZE_F2FS:-/system/bin/resize.f2fs}
@@ -39,7 +40,13 @@ BOOT=
 
 log() {
     echo "andr36oid-resize: $*" > "$KMSG" 2>/dev/null
-    [ -n "$BOOT" ] && echo "$*" >> "$BOOT/resize-log.txt"
+    if [ -n "$BOOT" ]; then
+        echo "$*" >> "$BOOT/resize-log.txt"
+        # Flush just this vfat file (not a global sync) so the last marker
+        # survives a cold power-off during a hang - the only post-mortem on
+        # a no-ADB, no-UART board. See andr36oid-fsync.c.
+        [ -x "$FSYNC" ] && "$FSYNC" "$BOOT/resize-log.txt" 2>/dev/null || :
+    fi
 }
 
 boot_mount() { # <ro|rw>
@@ -157,6 +164,7 @@ apps_move() {
     # APK is refused by the package manager when it's installed.
     ok=1
     t0=$(date +%s)
+    log "copying AUTOAPK (~2 GiB) to ${disk}p13 (can take a while)"
     cp -R "$TMP_MNT/old/." "$TMP_MNT/new/" 2>/dev/null || ok=0
     sync
     t1=$(date +%s)
@@ -173,10 +181,12 @@ apps_move() {
 # when it can't read the file system, so the second pass is judged by its output.
 # The last start may have been a crash or a pulled battery, not a clean shutdown.
 f2fs_ok() {
+    log "fsck.f2fs fix pass on ${disk}p6"
     out=$("$FSCK_F2FS" -f "$DEV/${disk}p6" < /dev/null 2>&1)
     r=$?
     log "fsck.f2fs: exit $r, $(echo "$out" | grep -c 'Fail\|Error\|FIX') problem lines"
     [ $r = 0 ] || return 1
+    log "fsck.f2fs verify pass on ${disk}p6"
     out=$("$FSCK_F2FS" -f --dry-run "$DEV/${disk}p6" < /dev/null 2>&1)
     r=$?
     if [ $r != 0 ] || echo "$out" | grep -q '\[Fail\]'; then
@@ -210,6 +220,7 @@ apps_reclaim() {
         out=$("$ADDPART" -r "$DEV/$disk" 6 "$first" "$last" 2>&1) || { log "$out"; return 1; }
         log "AUTOAPK removed, userdata now ${first}s-${last}s"
     fi
+    log "resize.f2fs growing userdata ${disk}p6 (can take a while)"
     out=$("$RESIZE_F2FS" "$DEV/${disk}p6" < /dev/null 2>&1)
     r=$?
     log "resize.f2fs: exit $r, $(echo "$out" | tail -1)"
@@ -302,6 +313,7 @@ else
     # sgdisk warns that the kernel keeps the old table; andr36oid-addpart is for that.
     # Android's sgdisk only knows the long options, and ignores what it doesn't know.
     # Bit 63 on userdata: Windows gives it no drive letter, so no "format disk?" popup.
+    log "writing userdata/EASYROMS partition table"
     out=$(sgdisk --move-second-header "$DEV/$disk" 2>&1) ||
         { log "sgdisk --move-second-header failed: $out"; boot_umount; exit 1; }
     set -- --set-alignment=1 --new="6:$USERDATA_START:$USERDATA_END" \
@@ -331,8 +343,14 @@ done
 
 # Blank start: Android formats userdata when it finds it empty. 1 MiB covers both
 # f2fs superblocks of a file system left there by something else.
+# Bracket this with console (kmsg) markers. On a no-ADB boot (init blocked before /data,
+# display loader too late) a UART trace is the only diagnosis, and an interrupted cold
+# power-off here looks identical on the card to one during the EASYROMS mkfs below - these
+# two markers tell them apart and pinpoint a stall to the exact step.
+log "blanking userdata ${disk}p6 (first MiB)"
 dd if=/dev/zero of="$DEV/${disk}p6" bs=1048576 count=1 conv=fsync 2>/dev/null ||
     { log "could not blank userdata"; boot_umount; exit 1; }
+log "userdata ${disk}p6 blanked"
 
 if [ -e "$SYS/$disk/${disk}p7" ]; then
     i=0
@@ -340,8 +358,10 @@ if [ -e "$SYS/$disk/${disk}p7" ]; then
         sleep 0.1
         i=$((i + 1))
     done
+    log "formatting EASYROMS ${disk}p7"
     out=$(mkfs.exfat -L EASYROMS "$DEV/${disk}p7" 2>&1) ||
         { log "mkfs.exfat failed: $out"; boot_umount; exit 1; }
+    log "EASYROMS ${disk}p7 formatted"
 fi
 
 rm -f "$BOOT/resize-pending"
