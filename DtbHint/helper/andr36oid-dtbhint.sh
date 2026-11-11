@@ -53,7 +53,7 @@ CR=$(printf '\r')
 
 # Folders per wiring. tests/test-dtbhint.sh checks these against tests/boards.txt,
 # which is made from the DTBs (tests/gen-boards.py).
-F_GENUINE="Panels/Panel0 Panels/Panel1 Panels/Panel2 Panels/Panel3 Panels/Panel4 Panels/Panel5 Panels/Panel6 Panels/R36S-Plus Experimental/R36S-V21 Experimental/R36S-V21-2551-2552 Experimental/R36S-V22 Experimental/R36S-Y02-Y07 Experimental/R36S-V30 Experimental/R36S-V30-2603 Experimental/R36S-Panel3-Alt Experimental/R36S-Panel4-Type1 Experimental/KirbX-Clone"
+F_GENUINE="Panels/Panel0 Panels/Panel1 Panels/Panel2 Experimental/R36S-Panel2-Repair Panels/Panel3 Panels/Panel4 Panels/Panel5 Panels/Panel6 Panels/R36S-Plus Experimental/R36S-V21 Experimental/R36S-V21-2551-2552 Experimental/R36S-V22 Experimental/R36S-Y02-Y07 Experimental/R36S-V30 Experimental/R36S-V30-2603 Experimental/R36S-Panel3-Alt Experimental/R36S-Panel4-Type1 Experimental/KirbX-Clone"
 F_SOY="Experimental/Soy-Panel5 Experimental/Soy-Panel5-253x Experimental/Soy-Panel6 Experimental/Soy-Panel7 Experimental/Soy-Panel7-253x Experimental/Soy-V04-Panel2 Experimental/Soy-V05-2601 Experimental/Soy-V05-2551"
 # EE boards, stick mux enable on GPIO2_B4 (K36 style). This is a wiring
 # family, not a whole-board equivalence: K36S uses SDIO for onboard Wi-Fi,
@@ -767,6 +767,7 @@ console_name() {
 		echo "R36S ${f%%-*}"
 		;;
 	Experimental/R36S-Y02-Y07) echo "R36S Y02" ;;
+	Experimental/R36S-Panel2-Repair) echo "R36S P2 repair (UNTESTED)" ;;
 	Experimental/R36S-Panel3-Alt) echo "R36S P3" ;;
 	Devices/EE-G80-Panel8 | Experimental/EE-G80-Panel8) echo "Clone G80C" ;;
 	Experimental/EE-G80-Panel9) echo "Clone G80CA" ;;
