@@ -58,7 +58,9 @@ fi
 IMAGEWIDTH=$SHORTSIDE
 IMAGEHEIGHT=$((IMAGEWIDTH / 3))
 
-# overlay.png is rendered for a 480px tall screen at 4x
+# The version line is no longer part of the frames: the player draws it at the bottom
+# edge of the real screen (drawVersionLine in BootLogScreen.cpp), so it also sits on the
+# edge of panels larger than these frames. overlay.png is kept for other users of it.
 OVERLAY=$PARAM_GENDIR/overlay.png
 cp "$PARAM_OVERLAY_PNG" "$OVERLAY"
 "$PARAM_MOGRIFY" -resize "$((SHORTSIDE * 100 / 1920))%" "$OVERLAY"
@@ -66,7 +68,6 @@ MARGIN=$((SHORTSIDE / 80))
 
 "$PARAM_MOGRIFY" -resize "$IMAGEWIDTH"x"$IMAGEHEIGHT" \
     -background black -gravity center -extent "$LONGSIDE"x"$SHORTSIDE" \
-    -gravity south -draw "image over 0,$MARGIN 0,0 '$OVERLAY'" \
     -colors 256 "$INTERMEDIATES"/*/*.png
 
 echo "$LONGSIDE $SHORTSIDE 60" > "$INTERMEDIATES/desc.txt"
