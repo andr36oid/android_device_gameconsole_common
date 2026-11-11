@@ -45,6 +45,7 @@ public class PerformanceDashboardActivity extends Activity {
     private boolean mFocusedOnce;
 
     private TextView mStatus;
+    private android.content.SharedPreferences.OnSharedPreferenceChangeListener mProfileWatch;
     private final Handler mHandler = new Handler(Looper.getMainLooper());
     // The SoC temperature drifts while you sit on this screen, so refresh it on a light timer;
     // the CPU ceiling also updates here the moment a mode is picked.
@@ -77,12 +78,20 @@ public class PerformanceDashboardActivity extends Activity {
         refresh();
         mHandler.removeCallbacks(mTick);
         mHandler.post(mTick);
+        // FN + R1 or a tile can switch the profile while this page is open
+        PerformanceProfiles.unwatch(this, mProfileWatch);
+        mProfileWatch = PerformanceProfiles.watch(this, () -> {
+            refresh();
+            updateStatus();
+        });
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         mHandler.removeCallbacks(mTick);
+        PerformanceProfiles.unwatch(this, mProfileWatch);
+        mProfileWatch = null;
     }
 
     /** "Running now: CPU up to 1.30 GHz · 52°C", read straight from the kernel so it is real. */

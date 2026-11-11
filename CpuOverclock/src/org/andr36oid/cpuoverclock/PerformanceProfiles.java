@@ -328,6 +328,27 @@ final class PerformanceProfiles {
         return result;
     }
 
+    /**
+     * Runs {@code changed} on the main thread whenever a profile setting is written while a
+     * page is open: FN + R1 and the tiles switch profiles behind its back. Keep the returned
+     * listener in a field (the framework only holds it weakly) and hand it to unwatch().
+     */
+    static SharedPreferences.OnSharedPreferenceChangeListener watch(Context context,
+            Runnable changed) {
+        final SharedPreferences.OnSharedPreferenceChangeListener listener =
+                (prefs, key) -> changed.run();
+        context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+                .registerOnSharedPreferenceChangeListener(listener);
+        return listener;
+    }
+
+    static void unwatch(Context context,
+            SharedPreferences.OnSharedPreferenceChangeListener listener) {
+        if (listener == null) return;
+        context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+                .unregisterOnSharedPreferenceChangeListener(listener);
+    }
+
     private SharedPreferences prefs() {
         return mContext.getSharedPreferences(PREFS, Context.MODE_PRIVATE);
     }

@@ -91,7 +91,19 @@ public class OverclockFragment extends PreferenceFragment
         super.onResume();
         // The tiles or FN + R1 may have switched things in the meantime.
         update();
+        // ... or do so while this page is open
+        PerformanceProfiles.unwatch(getActivity(), mProfileWatch);
+        mProfileWatch = PerformanceProfiles.watch(getActivity(), this::update);
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        PerformanceProfiles.unwatch(getActivity(), mProfileWatch);
+        mProfileWatch = null;
+    }
+
+    private android.content.SharedPreferences.OnSharedPreferenceChangeListener mProfileWatch;
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
