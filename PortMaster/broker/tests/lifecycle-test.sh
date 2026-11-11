@@ -227,7 +227,10 @@ case ${1:-all} in all|happy)
     finish_session "$rc"
   ) > "$tmp/happy.log" 2>&1 & actor=$!
   printf '%s\n' "$actor" >> "$tmp/pids"
-  wait_until not_alive "$actor"; wait "$actor" || fail 'ES poweroff did not finish cleanly'
+  # mksh can spend the full five-second bounded FIFO drain in finish_session.
+  # The fixture deadline must exceed that production bound.
+  A36_TEST_WAIT_LIMIT=200 wait_until not_alive "$actor"
+  wait "$actor" || fail 'ES poweroff did not finish cleanly'
   [ -f "$tmp/android-started" ] || fail 'ES poweroff did not restart Android'
   grep -Fqx 'ctl.start surfaceflinger' "$tmp/properties" || fail 'SurfaceFlinger was not restored'
   grep -Fqx 'sys.andr36oid.subsystem.session ended' "$tmp/properties" || fail 'session did not finish publishing its state'

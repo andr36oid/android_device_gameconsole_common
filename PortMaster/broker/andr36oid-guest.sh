@@ -64,15 +64,19 @@ select_image() {
 # an override after its function definitions: queries expand event_num at call
 # time. Resolve the actual alias, including multi-digit event numbers.
 repair_native_buttonmon() {
-  local helper staging
+  local helper staging codes
   helper=$(root_path "$ROOT" /usr/local/bin/buttonmon.sh) || return 1
   [ -f "$helper" ] || return 0
-  grep -q '^# andr36oid native pad alias v1$' "$helper" && return 0
+  codes=$(root_path "$ROOT" /usr/local/libexec/andr36oid-pad-codes) || return 1
+  mkdir -p "${codes%/*}" || return 1
+  cp /system/bin/andr36oid-pad-codes "$codes.tmp" && chmod 0755 "$codes.tmp" &&
+    mv -f "$codes.tmp" "$codes" || { rm -f "$codes.tmp"; return 1; }
+  grep -q '^# andr36oid native pad alias v2$' "$helper" && return 0
   staging=$(mktemp "${helper%/*}/.a36-buttonmon.XXXXXX") || return 1
   cp -p "$helper" "$staging" || { rm -f "$staging"; return 1; }
   cat >> "$staging" <<'A36_BUTTONMON'
 
-# andr36oid native pad alias v1
+# andr36oid native pad alias v2
 a36_pad_alias=/dev/input/by-path/platform-odroidgo3-joypad-event-joystick
 if [ -e "$a36_pad_alias" ]; then
   a36_pad_node=$(readlink -f "$a36_pad_alias") || return 1
@@ -80,8 +84,11 @@ if [ -e "$a36_pad_alias" ]; then
   a36_pad_number=${a36_pad_node#/dev/input/event}
   case "$a36_pad_number" in ''|*[!0-9]*) return 1 ;; esac
   event_num=$a36_pad_number
+  a36_pad_codes=$(/usr/local/libexec/andr36oid-pad-codes "$a36_pad_node") || return 1
+  read -r event_btn_a event_btn_b event_btn_x event_btn_y event_btn_r1 event_btn_r2 \
+    event_btn_l1 event_btn_l2 event_btn_hk <<< "$a36_pad_codes"
 fi
-unset a36_pad_alias a36_pad_node a36_pad_number
+unset a36_pad_alias a36_pad_node a36_pad_number a36_pad_codes
 A36_BUTTONMON
   mv -f "$staging" "$helper" || { rm -f "$staging"; return 1; }
 }

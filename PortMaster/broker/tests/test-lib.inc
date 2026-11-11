@@ -6,6 +6,8 @@ MUTE_PIDFILE="$STATE/mute-guard.pid"
 HANDOFF=1; SESSION_MODE=wrapper; SESSION_OWNED=1; DID_HANDOFF=0
 LOOPDEV=; BOUND=; SDL_PAD_MAP=; cmd=start; arg=; GUARD_GRACE=0
 mkdir -p "$STATE/session.lock" "$ROOT/run" "$ROOT/tmp"
+A36_POWER_DIR="$tmp/power"
+mkdir -p "$A36_POWER_DIR"
 printf '%s\n' "$$" > "$STATE/session.lock/pid"
 cat /proc/sys/kernel/random/boot_id > "$STATE/session.lock/boot_id"
 : > "$STATE/session.loop"
@@ -26,6 +28,15 @@ load_functions() {
   done
   . "$tmp/functions"
   rm "$tmp/functions"
+}
+build_guest_helper() {
+  local subsystem gamepad
+  subsystem=$(dirname "$broker")/../subsystem
+  gamepad="$subsystem/../../gamepad/include"
+  GUEST="$tmp/andr36oid-guest"
+  cc -O2 -Wall -Wextra -Werror -I"$gamepad" \
+    -I"$subsystem/../../../../../external/libdrm/include" \
+    "$subsystem/andr36oid-guest.c" -o "$GUEST"
 }
 fail() { echo "FAIL: $*" >&2; exit 1; }
 log() { printf '%s\n' "$*" >> "$LOG"; }
@@ -70,7 +81,7 @@ alive() {
 wait_until() {
   count=0
   until "$@"; do
-    count=$((count+1)); [ "$count" -lt 100 ] || fail "timed out: $*"
+    count=$((count+1)); [ "$count" -lt "${A36_TEST_WAIT_LIMIT:-100}" ] || fail "timed out: $*"
     sleep 0.05
   done
 }
@@ -103,3 +114,12 @@ acquire_operation() { OPERATION_LOCKED=1; }
 # Independent audible-route policy is outside the older lifecycle fixtures.
 start_audio_route_guard() { :; }
 stop_audio_route_guard() { :; }
+
+# Network and host-worker lifecycles have dedicated regressions. Older audio and
+# display fixtures do not simulate Android networking or start tracked workers.
+restore_android_network() { :; }
+stop_session_workers() { :; }
+
+# The Android power handback has a dedicated stateful fixture.
+begin_android_power_return() { :; }
+finish_android_power_return() { :; }

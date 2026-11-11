@@ -163,6 +163,17 @@ done
 A36_TEST_BROKER=${broker%/*}/andr36oid-guest.sh; broker=$A36_TEST_BROKER
 load_functions repair_native_buttonmon
 mkdir -p "$ROOT/usr/local/bin" "$tmp/input/by-path"
+# The normalized-keymap integration installs a static capability reader into
+# the guest. Supply its legacy-code output without requiring Android /system.
+printf '#!/bin/sh\necho "305 304 307 308 311 313 310 312 704"\n' > "$tmp/pad-codes"
+chmod +x "$tmp/pad-codes"
+cp() {
+  if [ "$1" = /system/bin/andr36oid-pad-codes ]; then
+    shift; command cp "$tmp/pad-codes" "$@"
+  else
+    command cp "$@"
+  fi
+}
 cp "$(dirname "$0")/fixtures/native-helpers/buttonmon.sh" "$ROOT/usr/local/bin/buttonmon.sh"
 repair_native_buttonmon
 cp "$ROOT/usr/local/bin/buttonmon.sh" "$tmp/once"
@@ -170,7 +181,9 @@ repair_native_buttonmon
 cmp "$tmp/once" "$ROOT/usr/local/bin/buttonmon.sh" || fail 'helper repair was not idempotent'
 : > "$tmp/input/event17"
 ln -s ../event17 "$tmp/input/by-path/platform-odroidgo3-joypad-event-joystick"
-sed "s@/dev/input@$tmp/input@g" "$ROOT/usr/local/bin/buttonmon.sh" > "$tmp/buttonmon"
+sed -e "s@/dev/input@$tmp/input@g" \
+    -e "s@/usr/local/libexec/@$ROOT/usr/local/libexec/@g" \
+    "$ROOT/usr/local/bin/buttonmon.sh" > "$tmp/buttonmon"
 A36_TEST_QUERY="$tmp/query"; export A36_TEST_QUERY
 bash -c '. "$1"; evtest() { printf "%s\n" "$*" > "$A36_TEST_QUERY"; }; Test_Button_A' bash "$tmp/buttonmon"
 grep -Fq -- "--query $tmp/input/event17 " "$tmp/query" || fail 'native alias did not follow event17'
@@ -232,8 +245,8 @@ repair_native_dingux_quotes
 [ ! -e "$dingux" ] || fail 'quote repair created an absent dingux profile'
 # Both shell interpreters also exercise the actual checked scalar and kernel
 # syscall policy code through the same compiler harness.
-cc -Wall -Wextra -Werror -O2 "$(dirname "$0")/supervisor-policy-test.c" -o "$tmp/policy"
+cc -I"$(dirname "$0")/../../../gamepad/include" -Wall -Wextra -Werror -O2 "$(dirname "$0")/supervisor-policy-test.c" -o "$tmp/policy"
 "$tmp/policy" > "$tmp/policy.log" 2>&1 || { cat "$tmp/policy.log"; fail 'supervisor policy regression'; }
-cc -Wall -Wextra -Werror -O2 "$(dirname "$0")/loop-retire-test.c" -o "$tmp/loop-retire"
+cc -I"$(dirname "$0")/../../../gamepad/include" -Wall -Wextra -Werror -O2 "$(dirname "$0")/loop-retire-test.c" -o "$tmp/loop-retire"
 "$tmp/loop-retire" > "$tmp/loop-retire.log" 2>&1 || { cat "$tmp/loop-retire.log"; fail 'loop ownership regression'; }
 echo 'PASS: review fixes: stopped+DRM admission, bounded blocked worker, loop identity journal, gamma recovery ordering, failed Stop status, native event17 alias, checked scalars and inherited mute filter'

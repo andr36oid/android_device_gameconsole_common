@@ -5,7 +5,10 @@ w=Path(__file__).resolve().parents[3]
 with tempfile.TemporaryDirectory(prefix='a36-namespace-') as temporary:
  b=Path(temporary);root=b/'root';root.mkdir()
  for name in ['proc','sys','run','tmp']: (root/name).mkdir()
- subprocess.run(['cc','-Wall','-Wextra','-Werror','-O2',str(w/'PortMaster/subsystem/andr36oid-guest.c'),'-o',str(b/'guest')],check=True)
+ # CI containers can forbid block mknod independently of mount namespaces.
+ # This test never uses loop nodes; actual node admission is tested in the VM.
+ (b/'mknod.c').write_text('#include <sys/stat.h>\nint __wrap_mknod(const char *p,mode_t m,dev_t d){(void)p;(void)m;(void)d;return 0;}\n')
+ subprocess.run(['cc','-Wl,--wrap=mknod',str(b/'mknod.c'),'-Wall' ,'-Wextra','-Werror','-O2',str(w/'PortMaster/subsystem/andr36oid-guest.c'),'-o',str(b/'guest')],check=True)
  source=r'''
 #define main guest_program_main
 #include "GUEST_SOURCE"
@@ -42,7 +45,8 @@ int main(int argc,char **argv) {
  assert(getppid()==1);
  char host[64];assert(!gethostname(host,sizeof(host)));assert(!strcmp(host,"andr36oid-linux"));
  struct __user_cap_header_struct h={.version=_LINUX_CAPABILITY_VERSION_3};struct __user_cap_data_struct c[2];assert(!syscall(SYS_capget,&h,c));
- int deny[]={CAP_SYS_ADMIN,CAP_SYS_MODULE,CAP_SYS_BOOT,CAP_SYS_RAWIO,CAP_SYS_TIME,CAP_NET_ADMIN,CAP_MKNOD,CAP_SYS_CHROOT,CAP_SYS_PTRACE,CAP_SETPCAP,CAP_DAC_READ_SEARCH,CAP_NET_RAW};
+ assert(c[0].effective & (1U<<CAP_SYS_ADMIN));
+ int deny[]={CAP_SYS_MODULE,CAP_SYS_BOOT,CAP_SYS_RAWIO,CAP_SYS_TIME,CAP_NET_ADMIN,CAP_MKNOD,CAP_SYS_CHROOT,CAP_SYS_PTRACE,CAP_SETPCAP,CAP_DAC_READ_SEARCH,CAP_NET_RAW};
  for(unsigned i=0;i<sizeof(deny)/sizeof(*deny);i++) {assert(!((c[deny[i]/32].effective|c[deny[i]/32].permitted|c[deny[i]/32].inheritable)&(1U<<(deny[i]%32))));assert(prctl(PR_CAPBSET_READ,deny[i])==0);}
  assert(prctl(PR_GET_NO_NEW_PRIVS,0,0,0,0)==1);
  errno=0;assert(chroot("/")==-1 && errno==EPERM);

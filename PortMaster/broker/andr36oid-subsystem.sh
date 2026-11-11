@@ -33,6 +33,7 @@ umask 022
 
 # --- configuration -----------------------------------------------------------
 STATE=${A36_STATE:-/data/local/tmp/portmaster}
+export A36_LOOP_JOURNAL="$STATE/session.guest-loops"
 ROOT=${A36_ROOT:-/data/local/tmp/darkfull}   # dArkOS rootfs mountpoint (or dir)
 IMAGE=${A36_IMAGE:-}                          # optional rootfs/disk image
 HANDOFF=${A36_HANDOFF:-1}
@@ -92,6 +93,32 @@ bind_mount() { mount -o bind "$1" "$2" && track_mount "$2"; }
 # matching line wins (the topmost mount after a remount,exec,bind).
 mount_is_noexec() {
   awk -v mp="$1" '$2==mp{o=$4} END{exit (o ~ /(^|,)noexec(,|$)/)?0:1}' /proc/mounts
+}
+# Wait (at most $1 seconds) until Android has mounted the games card that
+# andr36oid-easyroms resolved. Returns at once when there is no such card.
+wait_games_card_mount() {
+  local id n=0 dev dir rest
+  id=$(getprop sys.andr36oid.easyroms.id)
+  [ -n "$id" ] || return 0
+  while [ "$n" -lt "$1" ]; do
+    while read -r dev dir rest; do
+      [ "$dev" = "/dev/block/vold/$id" ] || continue
+      case "$dir" in /mnt/media_rw/*) return 0;; esac
+    done < /proc/mounts
+    sleep 1; n=$((n+1))
+  done
+  return 1
+}
+# Drop noexec from one bind mount. toybox 0.8.3 fails this bind remount with
+# EINVAL on the 5.10 kernel (it worked on 4.19), so fall back to the guest
+# helper, which issues the plain MS_BIND|MS_REMOUNT syscall.
+remount_exec() {
+  local err
+  err=$(mount -o remount,exec,bind "$1" 2>&1)
+  mount_is_noexec "$1" || return 0
+  "${GUEST:-/system/bin/andr36oid-guest}" --remount-exec "$1" 2>&1 && ! mount_is_noexec "$1" && return 0
+  [ -z "$err" ] || printf '%s\n' "$err"
+  return 1
 }
 detect_image() {
   [ -n "$IMAGE" ] && return 0
@@ -302,7 +329,7 @@ mount_storage() {
     [ -d "$src" ] || { log "internal games storage is unavailable"; return 1; }
   fi
   bind_mount "$src" "$ROOT/roms" || return 1
-  _rerr=$(mount -o remount,exec,bind "$ROOT/roms" 2>&1)
+  _rerr=$(remount_exec "$ROOT/roms")
   if mount_is_noexec "$ROOT/roms"; then
     log "warning: /roms is noexec (exec remount failed: ${_rerr:-flag stuck, no error}); ports and Tools there may not launch, games still work"
   fi
@@ -317,7 +344,7 @@ mount_storage() {
     mkdir -p "$dst"
     # bind the vold mount, then drop noexec for this view
     if bind_mount "$src" "$dst"; then
-      mount -o remount,exec,bind "$dst" 2>/dev/null
+      remount_exec "$dst" >/dev/null
       mount_is_noexec "$dst" && log "warning: ${dst#"$ROOT"} is noexec; ports there may not launch"
       printf '%s\t%s\n' "$src" "${dst#"$ROOT"}" >> "$STATE/roms-map" || return 1
       log "storage: $src -> ${dst#"$ROOT"}"; n=$((n+1))
@@ -341,7 +368,7 @@ mount_tools_menu() {
   [ -d "$ROOT/roms/tools" ] || return 0
   mkdir -p "$ROOT/opt/system/Tools" 2>/dev/null || return 0
   if bind_mount "$ROOT/roms/tools" "$ROOT/opt/system/Tools"; then
-    mount -o remount,exec,bind "$ROOT/opt/system/Tools" 2>/dev/null
+    remount_exec "$ROOT/opt/system/Tools" >/dev/null
     mount_is_noexec "$ROOT/opt/system/Tools" && log "warning: Tools menu is noexec; tools may not launch from ES"
     log "tools: /roms/tools -> /opt/system/Tools (PortMaster + tools in ES menu)"
   else
@@ -663,8 +690,9 @@ bind_core() {
   # logging FIFO either (a non-directory source loop-mounts and fails), so make a
   # FIFO in the container /dev and forward it into the same log stream.
   if mkfifo -m 0666 "$ROOT/dev/console" 2>/dev/null; then
-    ( while [ -p "$ROOT/dev/console" ]; do cat "$ROOT/dev/console" || break; done >> "$STATE/session.fifo" ) 2>/dev/null &
+    forward_session_console 2>/dev/null &
     CONSOLE_FWD=$!
+    record_session_worker console "$CONSOLE_FWD" || return 1
   else
     return 1
   fi
@@ -693,33 +721,107 @@ bind_core() {
 # restarting SurfaceFlinger would not get the display back). Identify them by
 # their chroot root pointing into $ROOT. Never kill unrelated DRM clients.
 kill_subsystem_payload() {
-  local p pid r
-  for p in /proc/[0-9]*; do
-    r=$(readlink "$p/root" 2>/dev/null) || continue
-    case "$r" in "$ROOT"|"$ROOT"/*) pid=${p#/proc/}; kill -9 "$pid" 2>/dev/null;; esac
-  done
-  return 0
+  "${GUEST:-/system/bin/andr36oid-guest}" --kill-guest-root "$ROOT"
 }
 
 kill_subsystem() {
-  local p r tries=0 alive
-  kill_subsystem_payload
-  [ -n "${SESSION_PID:-}" ] && kill "$SESSION_PID" 2>/dev/null
-  # SIGKILL is asynchronous. DRM/mixer restoration must wait for guest FDs to
-  # close, including orphaned descendants discovered by their private root.
-  while :; do
-    alive=0
-    for p in /proc/[0-9]*; do
-      r=$(readlink "$p/root" 2>/dev/null) || continue
-      case "$r" in "$ROOT"|"$ROOT"/*) alive=1; break;; esac
-    done
-    [ "$alive" = 1 ] || return 0
-    [ "$tries" -lt 30 ] || { log "guest processes did not exit"; return 1; }
-    sleep 0.1; tries=$((tries+1))
-  done
+  local survivors
+  # SIGKILL is asynchronous. Wait for guest FDs to close, including orphaned
+  # descendants discovered by their private root.
+  if ! survivors=$("${GUEST:-/system/bin/andr36oid-guest}" --stop-guest-root "$ROOT" 2>&1); then
+    log "guest processes did not exit: ${survivors:-no process details}"
+    return 1
+  fi
 }
 
 # --- teardown (idempotent) ----------------------------------------------------
+# Host shells keep Android's root, so kill_subsystem's chroot sweep cannot see
+# the session runner, its marker watcher, or the console FIFO forwarder. Publish
+# their PID/start-time/boot identity before admitting work, also for guardian
+# recovery after the original broker has died.
+record_session_worker() {
+  local role pid stamp boot
+  role=$1; pid=$2
+  stamp=$(process_start_time "$pid") || return 1
+  boot=$(cat /proc/sys/kernel/random/boot_id) || return 1
+  printf '%s %s %s\n' "$pid" "$stamp" "$boot" > "$STATE/session.$role.tmp" &&
+    mv -f "$STATE/session.$role.tmp" "$STATE/session.$role"
+}
+await_session_worker() {
+  local role pid rest identity tries=0
+  role=$1
+  read -r pid rest < /proc/self/stat
+  identity="$pid $(process_start_time "$pid") $(cat /proc/sys/kernel/random/boot_id)"
+  while session_active; do
+    [ "$(cat "$STATE/session.$role" 2>/dev/null)" != "$identity" ] || return 0
+    tries=$((tries+1)); [ "$tries" -lt 100 ] || return 1
+    sleep 0.1
+  done
+  return 1
+}
+forward_session_console() {
+  trap - EXIT HUP INT TERM
+  await_session_worker console || return 1
+  while [ -p "$ROOT/dev/console" ]; do
+    cat "$ROOT/dev/console" || break
+  done >> "$STATE/session.fifo"
+}
+run_session_worker() {
+  trap - EXIT HUP INT TERM
+  await_session_worker runner || return 1
+  run_session
+}
+stop_session_workers() {
+  local role pid stamp boot extra survivors failed=0
+  for role in runner console; do
+    [ -f "$STATE/session.$role" ] || continue
+    if ! read -r pid stamp boot extra < "$STATE/session.$role" || [ -n "$extra" ]; then
+      log "invalid $role worker identity; retaining recovery journal"
+      failed=1; continue
+    fi
+    if ! survivors=$("${GUEST:-/system/bin/andr36oid-guest}" --stop-worker-tree "$pid" "$stamp" "$boot" 2>&1); then
+      log "$role worker tree did not stop: ${survivors:-no process details}"
+      failed=1; continue
+    fi
+    # The identity check is in the helper. A stale journal must not wait on
+    # an unrelated child that happens to reuse the recorded PID.
+    log "teardown: $role worker checked"
+    rm -f "$STATE/session.$role" "$STATE/session.$role.tmp" || failed=1
+  done
+  return "$failed"
+}
+
+# Explicit ctl.stop zygote skips init's onrestart netd/wificond commands. Bare
+# `start` does nothing to an already-running daemon: netd would retain the old
+# system_server's netIds/routes while the new ConnectivityService reuses them.
+# Reset all Android Wi-Fi owners before starting the new framework, including
+# supplicant/HAL interface state. DHCP/IpClient is recreated by system_server;
+# supplicant is disabled/oneshot and must be started on demand by that framework.
+# A successful reset is journaled so repeated recovery cannot drop live Wi-Fi.
+restore_android_network() {
+  [ ! -f "$STATE/session.network-restored" ] || return 0
+  local service state
+  for service in wpa_supplicant vendor.wifi_hal_legacy wificond netd; do
+    state=$(getprop "init.svc.$service")
+    if [ -z "$state" ]; then
+      case "$service" in
+        netd|wificond) log "missing required network service: $service"; return 1 ;;
+        *) continue ;;
+      esac
+    fi
+    setprop ctl.stop "$service" 2>/dev/null || return 1
+    wait_service_stopped "$service" || return 1
+  done
+  for service in netd wificond vendor.wifi_hal_legacy; do
+    state=$(getprop "init.svc.$service")
+    [ -n "$state" ] || continue
+    setprop ctl.start "$service" 2>/dev/null || return 1
+    wait_service_running "$service" || return 1
+  done
+  : > "$STATE/session.network-restored" || return 1
+  log "network: reset Android netd/Wi-Fi owners; framework will restore saved connection and DHCP"
+}
+
 enable_hardware_master() {
   # 235 maps to attenuation 20, the R36S headphone default. tinymix's
   # boolean controls take numeric values, and the broker runs on Android.
@@ -746,15 +848,16 @@ audio_route_target() {
   force=$(cat "${A36_FORCE_SPK_HP:-/sys/module/snd_soc_rk817/parameters/force_spk_hp}" 2>/dev/null) || force=
   case "$force:$model" in
     Y:*|1:*|*:"R36S clone Soy Sauce V04, Panel 2 (experimental)") echo SPK_HP ;;
-    *:"Game Console R35S/R36S")
-      # ALSA's jack boolean already includes DT active-low XOR hp_det_flip.
-      # Do not invert it again (ogage's historical EV_SW mapping is unsuitable).
+    *)
+      # Every board with a working jack, clones included: follow the same ALSA
+      # jack boolean Android's audio HAL follows. It already includes DT
+      # active-low XOR hp_det_flip, so do not invert it again (ogage's historical
+      # EV_SW mapping is unsuitable). No readable jack means speaker.
       state=$("$GUEST" --headphone-state 2>/dev/null) || state=
       case "$state" in
         1) echo HP ;;
         *) echo SPK ;;
       esac ;;
-    *) echo SPK ;;
   esac
 }
 audio_route_once() {
@@ -873,17 +976,90 @@ prepare_retroarch_sync() {
   fi
 }
 
+session_uptime_seconds() {
+  local uptime rest
+  read -r uptime rest < /proc/uptime
+  printf '%s\n' "${uptime%%.*}"
+}
+
+begin_android_power_return() {
+  local now
+  now=$(session_uptime_seconds)
+  power_deadline=$((now+75))
+  # Convert the existing lock in place. The kernel timer also protects an
+  # interrupted restore and expires independently if recovery itself dies.
+  if { printf 'andr36oid-subsystem 90000000000\n' > "${A36_POWER_DIR:-/sys/power}/wake_lock"; } 2>/dev/null; then
+    power_timed=1
+  else
+    log "teardown: could not arm the session wake lock timeout"
+  fi
+  printf '%s\n' "$((now+90))" > "$STATE/session.lock/power-return-deadline" ||
+    log "teardown: could not journal the Android power return deadline"
+}
+
+android_power_return_in_progress() {
+  local deadline now
+  { read -r deadline < "$STATE/session.lock/power-return-deadline"; } 2>/dev/null || return 1
+  case "$deadline" in ''|*[!0-9]*) return 1 ;; esac
+  [ "${#deadline}" -le 12 ] || return 1
+  now=$(session_uptime_seconds)
+  [ "$deadline" -gt "$now" ] && [ "$deadline" -le "$((now+90))" ]
+}
+
+finish_android_power_return() {
+  local reason="framework restart unavailable" dump
+  if [ "$framework_started" = 1 ]; then
+    reason="framework power readiness timed out"
+    # The boot property can already be 1 from before handoff, and the power
+    # Binder is published before systemReady(). Ask the live service for its
+    # own boot phase, which also updates power policy and user activity.
+    while [ "$(session_uptime_seconds)" -lt "$power_deadline" ]; do
+      if [ "$(getprop init.svc.zygote)" = running ] &&
+         dump=$(timeout -k 1 2 dumpsys -t 1 power 2>/dev/null) &&
+         printf '%s\n' "$dump" | awk '
+           /^ *mSystemReady=true$/ {ready=1}
+           /^ *mBootCompleted=true$/ {booted=1}
+           END {exit !(ready && booted)}'; then
+        reason="Android power service ready"
+        break
+      fi
+      sleep 1
+    done
+  elif [ "$power_timed" = 1 ]; then
+    log "teardown: $reason; session wake lock will expire in the kernel"
+    return 0
+  fi
+  if { printf 'andr36oid-subsystem\n' > "${A36_POWER_DIR:-/sys/power}/wake_unlock"; } 2>/dev/null; then
+    log "teardown: released session wake lock ($reason)"
+  else
+    log "teardown: could not release session wake lock ($reason)"
+  fi
+}
+
 restore_android() {
   [ "$SESSION_OWNED" = 1 ] || return 0
+  local codec_unsafe=0 power_deadline=0 power_timed=0 framework_started=0
+  [ "$DID_HANDOFF" != 1 ] || begin_android_power_return
   # Stop live backlight repair before teardown starts restoring Android's state.
   rm -f "$ROOT/run/.a36-handoff"
   # Invalidate ownership and reap the watchdog before touching the shared codec
   # or restarting Android. This path is shared by EXIT and guardian recovery.
   CLEANUP_FAILED=0
-  local codec_unsafe=0
+  log "teardown: starting Android restore"
   stop_mute_guard || { CLEANUP_FAILED=1; codec_unsafe=1; }
   stop_audio_route_guard || { CLEANUP_FAILED=1; codec_unsafe=1; }
+  log "teardown: audio guards checked"
+  stop_session_workers || { CLEANUP_FAILED=1; codec_unsafe=1; }
   kill_subsystem || { CLEANUP_FAILED=1; codec_unsafe=1; }
+  log "teardown: guest root checked"
+  # The native parent normally reclaims these. Its durable ownership journal
+  # also covers SIGKILL/guardian recovery; never detach by loop number alone.
+  if [ -f "$STATE/session.guest-loops" ]; then
+    "${GUEST:-/system/bin/andr36oid-guest}" --cleanup-guest-loops "$ROOT" "$STATE/session.guest-loops" || {
+      CLEANUP_FAILED=1; log "guest loop cleanup incomplete; retaining ownership journal"
+    }
+    log "teardown: guest loop cleanup checked"
+  fi
   # Once guest KMS descriptors close, cover display-state restoration
   # with the fbdev logo; bootanimation needs SurfaceFlinger and cannot own DRM
   # until after the guest and the retained gamma snapshot have released it.
@@ -946,13 +1122,26 @@ restore_android() {
       mv -f "$STATE/retroarch-sync-dir.tmp" "$STATE/retroarch-sync-dir"
   fi
   if [ "$DID_HANDOFF" = 1 ]; then
+    # handoff() stopped joyMouse alongside the framework, but the bare `start`
+    # below only revives netd/surfaceflinger/zygote/zygote_secondary. joyMouse is
+    # class main with no onrestart hook, so without this it stays dead after a
+    # session: FN+X still toggles sys.joymouse.active (PhoneWindowManager rides
+    # the restarted zygote) but no daemon drives the cursor. Input is independent
+    # of the codec, so restart it even on the audio-withheld recovery path.
+    setprop ctl.start joyMouse 2>/dev/null || CLEANUP_FAILED=1
     if [ "$codec_unsafe" = 0 ] && [ ! -f "$STATE/session.mixer" ]; then
-      start 2>/dev/null || CLEANUP_FAILED=1
+      if restore_android_network; then
+        if start 2>/dev/null; then framework_started=1; else CLEANUP_FAILED=1; fi
+      else
+        CLEANUP_FAILED=1
+        log "network reset failed; retaining journal and withholding framework restart until recovery"
+      fi
     else
       # A stuck codec worker or guest may still have an in-flight audio ioctl.
       # Recover the display, but leave Android audio stopped until recovery.
       log "display recovery requested; audio/framework restart withheld until cleanup succeeds"
     fi
+    finish_android_power_return
   fi
   return 0
 }
@@ -982,7 +1171,7 @@ recover_session_locked() {
   if [ "$(cat "$STATE/session.lock/boot_id" 2>/dev/null)" != "$(cat /proc/sys/kernel/random/boot_id)" ]; then
     # /data survives reboot, mounts and PIDs do not. Never detach a loop or kill
     # a recycled PID from a previous boot based on its old metadata.
-    if ! rm -f "$STATE/session.mixer" "$STATE/session.gamma" "$STATE/session.brightness" "$STATE/session.loop" "$STATE/session.handoff" "$STATE/session.mounts" "$STATE/session.fifo" "$STATE/session.hw-master" "$MUTE_PIDFILE" "$STATE/mute-guard.owner" "$STATE/audio-route.owner" "$STATE/audio-route.pid" "$STATE/audio-route.pid.tmp" "$STATE/audio-route.ready" "$STATE/audio-route.failed" "$STATE/session.lock/pid" "$STATE/session.lock/boot_id" "$STATE/session.lock/start_time" ||
+    if ! rm -f "$STATE/session.guest-loops" "$STATE/session.guest-loops.tmp" "$STATE/session.mixer" "$STATE/session.gamma" "$STATE/session.brightness" "$STATE/session.network-restored" "$STATE/session.runner" "$STATE/session.runner.tmp" "$STATE/session.console" "$STATE/session.console.tmp" "$STATE/session.loop" "$STATE/session.handoff" "$STATE/session.mounts" "$STATE/session.fifo" "$STATE/session.hw-master" "$MUTE_PIDFILE" "$STATE/mute-guard.owner" "$STATE/audio-route.owner" "$STATE/audio-route.pid" "$STATE/audio-route.pid.tmp" "$STATE/audio-route.ready" "$STATE/audio-route.failed" "$STATE/session.lock/pid" "$STATE/session.lock/boot_id" "$STATE/session.lock/start_time" "$STATE/session.lock/power-return-deadline" ||
        ! rmdir "$STATE/session.lock" 2>/dev/null; then
       setprop sys.andr36oid.subsystem.session cleanup_failed 2>/dev/null
       return 1
@@ -990,12 +1179,13 @@ recover_session_locked() {
     setprop sys.andr36oid.subsystem.session ended 2>/dev/null
     return 0
   fi
+  log "teardown: recovering journal for broker $(cat "$STATE/session.lock/pid" 2>/dev/null)"
   SESSION_OWNED=1
   [ -f "$STATE/session.handoff" ] && DID_HANDOFF=1
   LOOPDEV=$(awk '{print $1; exit}' "$STATE/session.loop" 2>/dev/null)
   restore_android
   if [ "$CLEANUP_FAILED" = 0 ]; then
-    if ! rm -f "$STATE/session.loop" "$STATE/session.handoff" "$STATE/session.mounts" "$STATE/session.fifo" "$STATE/session.lock/pid" "$STATE/session.lock/boot_id" "$STATE/session.lock/start_time" ||
+    if ! rm -f "$STATE/session.network-restored" "$STATE/session.runner" "$STATE/session.runner.tmp" "$STATE/session.console" "$STATE/session.console.tmp" "$STATE/session.loop" "$STATE/session.handoff" "$STATE/session.mounts" "$STATE/session.fifo" "$STATE/session.lock/pid" "$STATE/session.lock/boot_id" "$STATE/session.lock/start_time" "$STATE/session.lock/power-return-deadline" ||
        ! rmdir "$STATE/session.lock" 2>/dev/null; then CLEANUP_FAILED=1; fi
   fi
   if [ "$CLEANUP_FAILED" = 0 ]; then
@@ -1015,9 +1205,20 @@ stop_session() {
   local pid tries=0
   pid=$(cat "$STATE/session.lock/pid" 2>/dev/null)
   if session_active; then
-    kill -TERM "$pid" 2>/dev/null
-    while session_active && [ "$tries" -lt 10 ]; do sleep 1; tries=$((tries+1)); done
-    session_active && kill -KILL "$pid" 2>/dev/null
+    if ! android_power_return_in_progress; then
+      log "teardown: stop requested for broker $pid"
+      kill -TERM "$pid" 2>/dev/null
+    fi
+    # A normal broker in its bounded power return can take much longer than
+    # the ten seconds allowed for an unresponsive session to begin teardown.
+    while session_active && { [ "$tries" -lt 10 ] || android_power_return_in_progress; }; do
+      sleep 1
+      tries=$((tries+1))
+    done
+    if session_active; then
+      log "teardown: broker $pid still active after stop wait; forcing recovery"
+      kill -KILL "$pid" 2>/dev/null
+    fi
   fi
   recover_session "$pid"
 }
@@ -1132,7 +1333,6 @@ finish_session() {
   fi
   : > "$STATE/subsystem.clean"
   [ -n "${GUARD:-}" ] && kill "$GUARD" 2>/dev/null
-  [ -n "${CONSOLE_FWD:-}" ] && kill "$CONSOLE_FWD" 2>/dev/null
   log "session ended rc=$rc"
   if [ "${LIVE_LOG:-0}" = 1 ]; then
     LIVE_LOG=0
@@ -1151,7 +1351,7 @@ finish_session() {
   setprop sys.andr36oid.subsystem.boot_pending "" 2>/dev/null
   update_settings_entry org.andr36oid.syncsettings
   if [ "$CLEANUP_FAILED" = 0 ]; then
-    if ! rm -f "$STATE/session.loop" "$STATE/session.handoff" "$STATE/session.mounts" "$STATE/session.fifo" "$STATE/session.lock/pid" "$STATE/session.lock/boot_id" "$STATE/session.lock/start_time" ||
+    if ! rm -f "$STATE/session.network-restored" "$STATE/session.runner" "$STATE/session.runner.tmp" "$STATE/session.console" "$STATE/session.console.tmp" "$STATE/session.loop" "$STATE/session.handoff" "$STATE/session.mounts" "$STATE/session.fifo" "$STATE/session.lock/pid" "$STATE/session.lock/boot_id" "$STATE/session.lock/start_time" "$STATE/session.lock/power-return-deadline" ||
        ! rmdir "$STATE/session.lock" 2>/dev/null; then CLEANUP_FAILED=1; rc=1; fi
   fi
   if [ "$CLEANUP_FAILED" = 0 ]; then
@@ -1217,6 +1417,16 @@ wait_service_stopped() {
     sleep 0.1; tries=$((tries+1))
   done
 }
+wait_service_running() {
+  local service state tries=0
+  service=$1
+  while :; do
+    state=$(getprop "init.svc.$service")
+    [ "$state" != running ] || return 0
+    [ "$tries" -lt 100 ] || { log "service did not start: $service ($state)"; return 1; }
+    sleep 0.1; tries=$((tries+1))
+  done
+}
 stop_android_display() {
   stop surfaceflinger || return 1
   wait_service_stopped surfaceflinger || return 1
@@ -1239,9 +1449,23 @@ stop_android_display() {
 # --- the handoff --------------------------------------------------------------
 handoff() {
   : > "$STATE/session.handoff" || return 1
-  DID_HANDOFF=1
   local service state
-  log "stop framework (keep netd and Android's connection)"
+  # Wi-Fi/adbd must remain reachable throughout the guest session. The guest
+  # shares Android's namespace and needs no exclusive network ownership: keep
+  # netd, wificond, supplicant, the Wi-Fi HAL and adbd alive. The netd reset on
+  # EXIT is for the replacement ConnectivityService, not guest admission.
+  # With system_server gone nothing holds a wake lock, so Android's suspend
+  # service (autosuspend, enabled since the first screen-off of this boot)
+  # would put the SoC back to sleep right after every wake. Hold a kernel wake
+  # lock for the session; the broker's own sleep writes /sys/power/state
+  # directly and is not blocked by it.
+  if ! { printf 'andr36oid-subsystem\n' > "${A36_POWER_DIR:-/sys/power}/wake_lock"; } 2>/dev/null; then
+    log "could not take session wake lock; refusing framework handoff"
+    rm -f "$STATE/session.handoff"
+    return 1
+  fi
+  DID_HANDOFF=1
+  log "stop framework (keep Android Wi-Fi, netd/wificond and adbd)"
   for service in zygote zygote_secondary audioserver iorapd joyMouse; do
     state=$(getprop "init.svc.$service")
     case "$state" in ''|stopped) ;; *) stop "$service" || return 1 ;; esac
@@ -1259,8 +1483,8 @@ handoff() {
 
 
 prepare_network() {
-  # The chroot shares Android's network namespace, interfaces and policy routes:
-  # never unshare -n, add a default route, or start a competing DHCP/WiFi manager.
+  # The chroot shares Android's network namespace, interfaces and policy routes.
+  # Keep Android's existing routes at entry and the guest network managers off.
   # glibc cannot use bionic's netd resolver, so snapshot Android's default-link
   # DNS into a real resolv.conf, replacing systemd-resolved's dangling stub link.
   # Overlay unit masks and temporary init-script binds keep the existing Android
@@ -1351,6 +1575,8 @@ grant_storage_groups() {
 
 prep_darkos_env() {
   local n
+  # The native supervisor snapshots existing Android/APEX/rootfs loops and
+  # creates ONLY free loop nodes in this session's private /dev before exec.
   if [ "$HANDOFF" = 1 ]; then
     chmod 0666 "$ROOT/dev/uinput" 2>/dev/null
     for n in "$ROOT"/dev/dri/card0 "$ROOT"/dev/dri/renderD128 "$ROOT"/dev/mali0; do [ -e "$n" ] && chmod 0666 "$n" 2>/dev/null; done
@@ -1571,16 +1797,24 @@ mute_all_once() {
   return "$failed"
 }
 # Boot ID plus /proc start time protects recovery from stale/recycled PIDs.
+# Shell builtins only: the session watchers call these ten times a second, and
+# every cat/awk they used to spawn cost a fork+exec on a memory-starved console.
 process_start_time() {
   local stat
-  stat=$(cat "/proc/$1/stat" 2>/dev/null) || return 1
-  printf '%s\n' "${stat##*) }" | awk '{print $20}'
+  { IFS= read -r stat < "/proc/$1/stat"; } 2>/dev/null || return 1
+  # Fields after "(comm) " start at field 3, so starttime (22) is the 20th.
+  set -- ${stat##*) }
+  [ -n "${20:-}" ] || return 1
+  echo "${20}"
 }
 recorded_process_alive() {
-  [ "$3" = "$(cat /proc/sys/kernel/random/boot_id)" ] || return 1
+  local boot stat
+  { IFS= read -r boot < /proc/sys/kernel/random/boot_id; } 2>/dev/null || return 1
+  [ "$3" = "$boot" ] || return 1
   case "$1:$2" in *[!0-9:]*|:*|*:) return 1 ;; esac
   [ "$(process_start_time "$1")" = "$2" ] && kill -0 "$1" 2>/dev/null || return 1
-  case "$(cat "/proc/$1/stat" 2>/dev/null)" in *') Z '*|*') X '*|'') return 1 ;; esac
+  { IFS= read -r stat < "/proc/$1/stat"; } 2>/dev/null || return 1
+  case "$stat" in *') Z '*|*') X '*|'') return 1 ;; esac
 }
 mute_guard_owned() {
   [ "$(cat "$STATE/mute-guard.owner" 2>/dev/null)" = "$owner" ] &&
@@ -1612,15 +1846,21 @@ freeze_process() {
   return 1
 }
 kill_process_children() {
-  local parent="$1" p stat child stamp failed=0 children=""
-  if [ -r "/proc/$parent/task/$parent/children" ]; then
-    # The worker and its mixer children are single-threaded. A frozen parent
-    # cannot fork, and this avoids an expensive whole-host scan per descendant.
-    read -r children < "/proc/$parent/task/$parent/children" || :
-  else
+  local parent="$1" p stat child stamp failed=0 children="" task kids have_children=0
+  # The runner also owns threaded processes. Linux lists a fork under the
+  # calling TID, not necessarily under the group leader. Walk every thread in
+  # the stopped process before killing it, or those children can be orphaned.
+  for task in /proc/"$parent"/task/[0-9]*/children; do
+    [ -r "$task" ] || continue
+    have_children=1
+    kids=
+    { IFS= read -r kids < "$task"; } 2>/dev/null || :
+    children="$children $kids"
+  done
+  if [ "$have_children" = 0 ]; then
     for p in /proc/[0-9]*; do
       process_deadline_reached && return 1
-      IFS= read -r stat < "$p/stat" 2>/dev/null || continue
+      { IFS= read -r stat < "$p/stat"; } 2>/dev/null || continue
       set -- ${stat##*) }
       [ "${2:-}" != "$parent" ] || children="$children ${p#/proc/}"
     done
@@ -1836,6 +2076,186 @@ capture_session_wake_sources() {
   fi
 }
 
+session_wifi_owns_link() {
+  [ "$DID_HANDOFF" = 1 ] && [ -f "$STATE/session.handoff" ] &&
+    [ ! -e "$ROOT/run/.a36-session-exit" ] && [ ! -e "$ROOT/run/.a36-session-reboot" ] &&
+    [ "$(getprop init.svc.zygote)" = stopped ] &&
+    [ "$(getprop init.svc.wpa_supplicant)" = running ] || return 1
+  case "$(getprop init.svc.zygote_secondary)" in ''|stopped) return 0 ;; esac
+  return 1
+}
+
+session_wifi_status() {
+  local status key value wifi_state=
+  [ "$(cat /sys/class/net/wlan0/carrier 2>/dev/null)" = 1 ] || return 1
+  status=$("${GUEST:-/system/bin/andr36oid-guest}" --session-wifi status 2>/dev/null) || return 1
+  wifi_seen_id=; wifi_seen_bssid=
+  while IFS='=' read -r key value; do
+    case "$key" in
+      wpa_state) wifi_state=$value ;;
+      id) wifi_seen_id=$value ;;
+      bssid) wifi_seen_bssid=$value ;;
+    esac
+  done <<STATUS
+$status
+STATUS
+  [ "$wifi_state" = COMPLETED ] || return 1
+  case "$wifi_seen_id" in ''|*[!0-9]*) return 1 ;; esac
+  case "$wifi_seen_bssid" in
+    [0-9a-fA-F][0-9a-fA-F]:[0-9a-fA-F][0-9a-fA-F]:[0-9a-fA-F][0-9a-fA-F]:[0-9a-fA-F][0-9a-fA-F]:[0-9a-fA-F][0-9a-fA-F]:[0-9a-fA-F][0-9a-fA-F]) return 0 ;;
+  esac
+  return 1
+}
+
+session_wifi_addresses() {
+  ip -o -4 addr show dev wlan0 scope global 2>/dev/null |
+    awk '$3 == "inet" {print $4}'
+}
+
+session_wifi_routes() {
+  ip -o -4 route show table all dev wlan0 2>/dev/null |
+    awk '$1 == "default" || $1 ~ /^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+(\/[0-9]+)?$/ {
+      gsub(/ +linkdown( |$)/, " "); sub(/ +$/, ""); print
+    }'
+}
+
+session_wifi_recovery_event() {
+  dmesg 2>/dev/null | awk '/RK915: .*fw error recovery end/ {last=$0} END {if (last) print last}'
+}
+
+session_wifi_gateway_alive() {
+  ping -I wlan0 -c 1 -W 1 "$wifi_gateway" >/dev/null 2>&1
+}
+
+snapshot_session_wifi() {
+  session_wifi_owns_link || return 0
+  if ! session_wifi_status; then
+    [ "$(cat /sys/class/net/wlan0/carrier 2>/dev/null)" != 1 ] ||
+      log "sleep: Wi-Fi control unavailable before suspend"
+    return 0
+  fi
+  wifi_id=$wifi_seen_id
+  wifi_bssid=$wifi_seen_bssid
+  wifi_addresses=$(session_wifi_addresses)
+  wifi_routes=$(session_wifi_routes)
+  wifi_gateway=$(printf '%s\n' "$wifi_routes" | awk '$1=="default" && $2=="via" {print $3; exit}')
+  if [ -n "$wifi_gateway" ] && session_wifi_gateway_alive; then wifi_probe=1; fi
+  wifi_recovery=$(session_wifi_recovery_event)
+}
+
+restore_session_wifi_ipv4() {
+  local address current routes route
+  current=$(session_wifi_addresses)
+  for address in $current; do
+    # A newly configured address wins over our saved lease.
+    if ! printf '%s\n' "$wifi_addresses" | grep -Fqx "$address"; then
+      log "sleep: Wi-Fi has a new IPv4 address; skipped saved state"
+      return 0
+    fi
+  done
+  for address in $wifi_addresses; do
+    session_wifi_owns_link || return 1
+    printf '%s\n' "$current" | grep -Fqx "$address" ||
+      ip -4 addr add "$address" dev wlan0 2>/dev/null || return 1
+  done
+  routes=$(session_wifi_routes)
+  # Connected routes must precede a default via their gateway. Keep each
+  # original table and metric. `add` cannot replace an existing route.
+  while IFS= read -r route; do
+    [ -n "$route" ] || continue
+    printf '%s\n' "$routes" | grep -Fqx "$route" && continue
+    session_wifi_owns_link || return 1
+    # Tokens are from iproute2 for the fixed wlan0 device.
+    if ! ip -4 route add $route 2>/dev/null &&
+       ! session_wifi_routes | grep -Fqx "$route"; then
+      return 1
+    fi
+  done <<ROUTES
+$(printf '%s\n' "$wifi_routes" | awk '$1=="default" {defaults=defaults $0 "\n"; next} {print} END {printf "%s", defaults}')
+ROUTES
+}
+
+session_wifi_recovered() {
+  session_wifi_status || return 1
+  if [ "$wifi_seen_id" != "$wifi_id" ] || [ "$wifi_seen_bssid" != "$wifi_bssid" ]; then
+    log "sleep: Wi-Fi associated to a different link; skipped saved IPv4 state"
+    return 0
+  fi
+  restore_session_wifi_ipv4 || return 1
+  [ "$wifi_probe" = 0 ] || session_wifi_gateway_alive
+}
+
+wait_session_wifi() {
+  local uptime rest deadline
+  read -r uptime rest < /proc/uptime
+  deadline=$(( ${uptime%%.*} + $1 ))
+  while :; do
+    session_wifi_owns_link || return 1
+    session_wifi_recovered && return 0
+    read -r uptime rest < /proc/uptime
+    [ "${uptime%%.*}" -lt "$deadline" ] || return 1
+    sleep 0.5
+  done
+}
+
+resume_session_wifi() {
+  local recovery error
+  [ -n "$wifi_id" ] && session_wifi_owns_link || return 0
+  recovery=$(session_wifi_recovery_event)
+  if { [ -z "$recovery" ] || [ "$recovery" = "$wifi_recovery" ] || [ "$wifi_probe" = 1 ]; } &&
+     session_wifi_recovered; then
+    log "sleep: Wi-Fi link ready after resume"
+    return 0
+  fi
+  log "sleep: Wi-Fi link lost or firmware reloaded; requesting reassociation"
+  session_wifi_owns_link || return 0
+  if error=$("${GUEST:-/system/bin/andr36oid-guest}" --session-wifi reassociate 2>&1); then
+    # Let the supplicant begin the scan before considering a reported link.
+    sleep 1
+    if wait_session_wifi 4; then
+      log "sleep: Wi-Fi reassociated; kept session DNS"
+      return 0
+    fi
+  else
+    log "sleep: Wi-Fi reassociation request failed: ${error:-no control response}"
+  fi
+  session_wifi_owns_link || return 0
+  log "sleep: Wi-Fi still unavailable; resetting wlan0 with supplicant kept"
+  if timeout -k 1 2 ip link set wlan0 down; then sleep 0.2; fi
+  # Pair the down request with up even if the driver timed out returning it.
+  if ! timeout -k 1 2 ip link set wlan0 up; then
+    log "sleep: Wi-Fi could not bring wlan0 up; Android will recover on exit"
+    return 0
+  fi
+  session_wifi_owns_link || return 0
+  "${GUEST:-/system/bin/andr36oid-guest}" --session-wifi reassociate >/dev/null 2>&1 || :
+  if wait_session_wifi 6; then
+    log "sleep: Wi-Fi recovered after interface reset; kept session DNS"
+  else
+    log "sleep: Wi-Fi recovery timed out; Android will recover on exit"
+  fi
+}
+
+session_wake_reason() {
+  local wake irq action
+  wake=$(cat /sys/kernel/wakeup_reasons/last_resume_reason 2>/dev/null) || wake=
+  case "$wake" in ''|unknown|Unknown) ;; *) printf '%s\n' "$wake"; return 0 ;; esac
+  irq=$(cat /sys/power/pm_wakeup_irq 2>/dev/null) || irq=
+  case "$irq" in ''|0|*[!0-9]*) printf 'unknown\n'; return 0 ;; esac
+  action=$(cat "/sys/kernel/irq/$irq/actions" 2>/dev/null) || action=
+  printf 'irq %s%s\n' "$irq" "${action:+ $action}"
+}
+
+log_session_wakeup_candidates() {
+  local sources
+  sources=$(awk '
+    FNR == 1 {next}
+    NR == FNR {before[$1]=$4; next}
+    $4 ~ /^[0-9]+$/ && $4 > before[$1] {printf "%s%s", sep, $1; sep=", "}
+  ' "$STATE/sleep.wakeup_sources.before" "$STATE/sleep.wakeup_sources.after")
+  [ -z "$sources" ] || log "sleep: wakeup counter increased for $sources"
+}
+
 # A short power press (-> /run/.a36-session-sleep via the shim) is a real sleep,
 # not an exit. The guest cannot reach /sys/power/state (read-only bind); the
 # broker runs on Android as root and drives the same suspend-to-RAM the device
@@ -1848,7 +2268,9 @@ do_session_sleep() {
   # and waiting for restoration before it exits.
   (
     rm -f "$ROOT/run/.a36-session-sleep"
-    local error="$STATE/sleep.error" t0 t1 elapsed rc wake
+    local error="$STATE/sleep.error" t0 t1 elapsed rc wake mem_ok=0
+    local wifi_id= wifi_bssid= wifi_seen_id= wifi_seen_bssid= wifi_addresses= wifi_routes=
+    local wifi_gateway= wifi_probe=0 wifi_recovery=
     local wake_mask_node=/sys/module/rockchip_pm_config/parameters/sleep_wakeup
     local wake_mask_saved= current digits masked actual rest supply powered=0
     : > "$ROOT/run/.a36-sleeping" || return 1
@@ -1865,6 +2287,7 @@ do_session_sleep() {
       fi
       rm -f "$ROOT/run/.a36-sleeping"
       blank_session_backlight 1
+      if [ "$rc" = 0 ] && [ "$mem_ok" = 1 ]; then resume_session_wifi; fi
       exit "$rc"
     ' EXIT
     trap 'exit 1' HUP INT TERM
@@ -1910,6 +2333,7 @@ do_session_sleep() {
     # detect an immediate return without scheduling a wake or retrying suspend.
     # Let the requesting press/release settle. Do not read wakeup_count here:
     # its blocking read can wait indefinitely while a wake source stays active.
+    snapshot_session_wifi
     sleep 1
     log "sleep: suspending SoC (no RTC safety alarm)"
     capture_session_wake_sources before
@@ -1918,8 +2342,8 @@ do_session_sleep() {
     if printf 'mem\n' 2>"$error" > /sys/power/state; then
       t1=$(date +%s)
       elapsed=$((t1-t0))
-      wake=$(cat /sys/kernel/wakeup_reasons/last_resume_reason 2>/dev/null) || wake=unknown
-      [ -n "$wake" ] || wake=unknown
+      mem_ok=1
+      wake=$(session_wake_reason)
       if [ "$elapsed" -lt 3 ]; then
         # A quick intentional wake is indistinguishable from an abort here.
         # Both recover the panel and guardian below; never auto-retry.
@@ -1932,6 +2356,7 @@ do_session_sleep() {
       log "sleep: mem failed rc=$rc: $(cat "$error" 2>/dev/null)"
     fi
     capture_session_wake_sources after
+    if [ "$mem_ok" = 1 ] && [ "$wake" = unknown ]; then log_session_wakeup_candidates; fi
   ) &
   sleep_worker=$!
   trap 'kill -TERM "$sleep_worker" 2>/dev/null || :; wait "$sleep_worker" 2>/dev/null || :; exit 1' HUP INT TERM
@@ -2231,7 +2656,10 @@ mark_frontend_booted() {
   [ "$(getprop persist.andr36oid.subsystem.booted)" = 1 ] && return 0
   [ "$cmd" = start ] || return 0
   local p root exe
-  while kill -0 "$SESSION_PID" 2>/dev/null; do
+  local stamp boot
+  stamp=$(process_start_time "$SESSION_PID") || return 0
+  boot=$(cat /proc/sys/kernel/random/boot_id)
+  while recorded_process_alive "$SESSION_PID" "$stamp" "$boot"; do
     for p in /proc/[0-9]*; do
       root=$(readlink "$p/root" 2>/dev/null) || continue
       [ "$root" = "$ROOT" ] || continue
@@ -2274,7 +2702,14 @@ case "$cmd" in
   unpack-worker) unpack_worker "$arg" "${3:-}"; exit 0 ;;
   boot-decision) boot_decision; exit 0 ;;
   scan-prop)
-    [ "$(getprop sys.andr36oid.subsystem.request)" = scan ] && setprop sys.andr36oid.subsystem.request ""
+    if [ "$(getprop sys.andr36oid.subsystem.request)" = scan ]; then
+      setprop sys.andr36oid.subsystem.request ""
+    else
+      # Boot scan: easyroms.ready only says the partition is known. Android mounts
+      # it around boot_completed, so a scan started by that trigger can run before
+      # the card is there and report no image. Give the mount a little time.
+      wait_games_card_mount 30
+    fi
     scan_images; exit 0 ;;
   scan) scan_images; exit 0 ;;
   stop-prop)
@@ -2371,7 +2806,8 @@ start_audio_route_guard || exit 1
 start_mute_guard || exit 1
 # Wait on a child so TERM interrupts wait immediately, including while init runs.
 prepare_exit_hold_policy
-run_session & SESSION_PID=$!
+run_session_worker & SESSION_PID=$!
+record_session_worker runner "$SESSION_PID" || exit 1
 mark_frontend_booted
 wait "$SESSION_PID"; session_rc=$?
 exit "$session_rc"

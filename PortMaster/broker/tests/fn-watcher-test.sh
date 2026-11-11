@@ -5,16 +5,16 @@ load_functions root_path
 broker=${broker%/*}/andr36oid-guest.sh
 load_functions repair_native_fn_watcher write_guest_session
 source_dir=$(CDPATH='' cd -- "$(dirname "$0")/../../subsystem" && pwd)
-cc -Wall -Wextra -Werror -O2 "$(dirname "$0")/hotkey-test.c" -o "$tmp/hotkeys"
+cc -I"$(dirname "$0")/../../../gamepad/include" -Wall -Wextra -Werror -O2 "$(dirname "$0")/hotkey-test.c" -o "$tmp/hotkeys"
 "$tmp/hotkeys"
-cc -Wall -Wextra -Werror -O2 "$(dirname "$0")/fn-watcher-stream-test.c" -o "$tmp/stream"
+cc -I"$(dirname "$0")/../../../gamepad/include" -Wall -Wextra -Werror -O2 "$(dirname "$0")/fn-watcher-stream-test.c" -o "$tmp/stream"
 "$tmp/stream"
-cc -Wall -Wextra -Werror -O2 "$(dirname "$0")/guest-input-stream-test.c" -o "$tmp/guest-stream"
+cc -I"$(dirname "$0")/../../../gamepad/include" -Wall -Wextra -Werror -O2 "$(dirname "$0")/guest-input-stream-test.c" -o "$tmp/guest-stream"
 "$tmp/guest-stream"
 # A static helper must execute in the native glibc image without Android's
 # dynamic linker. Both launch paths keep the image's original helper path.
 FN_WATCH="$tmp/fn-watch"
-cc -Wall -Wextra -Werror -O2 -static "$source_dir/andr36oid-fn-watch.c" -o "$FN_WATCH"
+cc -I"$(dirname "$0")/../../../gamepad/include" -Wall -Wextra -Werror -O2 -static "$source_dir/andr36oid-fn-watch.c" -o "$FN_WATCH"
 mkdir -p "$ROOT/usr/local/bin"
 helper="$ROOT/usr/local/bin/fn_menu_watcher.sh"
 cp "$(dirname "$0")/fixtures/native-helpers/fn_menu_watcher.sh" "$helper"

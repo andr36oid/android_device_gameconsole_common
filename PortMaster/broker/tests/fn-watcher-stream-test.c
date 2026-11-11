@@ -92,6 +92,9 @@ static int test_socket(int family,int type,int protocol) {
 static int test_ioctl(int fd,unsigned long request,...) {
     assert(fd==101);
     va_list ap;va_start(ap,request);void *arg=va_arg(ap,void *);va_end(ap);
+    if (_IOC_NR(request)==_IOC_NR(EVIOCGBIT(EV_KEY,1))) {
+        memset(arg,0,_IOC_SIZE(request));return _IOC_SIZE(request);
+    }
     if(request==EVIOCGNAME(128)) {strcpy(arg,"GO-Super Gamepad");return 17;}
     if(request==EVIOCSCLOCKID) {assert(*(int *)arg==CLOCK_MONOTONIC);return 0;}
     assert(request==EVIOCGKEY(sizeof(snapshot)));queries++;

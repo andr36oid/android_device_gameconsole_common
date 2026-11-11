@@ -119,7 +119,8 @@ for board in detected combined mechanical unknown; do
     reset_codec OFF; echo "$inserted" > "$tmp/jack"
     . "$tmp/boundary"
     expected=SPK
-    case "$board:$inserted" in detected:1) expected=HP ;; combined:*|mechanical:*) expected=SPK_HP ;; esac
+    # Every board with a readable jack follows it, like Android's audio HAL does.
+    case "$board:$inserted" in detected:1|unknown:1) expected=HP ;; combined:*|mechanical:*) expected=SPK_HP ;; esac
     route_is "$expected" || fail "$board/$inserted inherited OFF"
     cp "$STATE/session.mixer" "$tmp/snapshot"
     # Exercise both normal cleanup and guardian recovery against the same policy.
@@ -182,7 +183,10 @@ echo good > "$tmp/write-mode"
 restore_android; restored OFF
 # Missing DT/module files also have a defined default.
 rm -f "$A36_DT_MODEL" "$A36_FORCE_SPK_HP"
+echo 0 > "$tmp/jack"
 [ "$(audio_route_target)" = SPK ] || fail 'missing board metadata has no speaker default'
+echo 1 > "$tmp/jack"
+[ "$(audio_route_target)" = HP ] || fail 'missing board metadata ignores the jack'
 # Capture failure must prevent any route/volume mutation.
 reset_codec OFF; echo 1 > "$tmp/capture-fail"
 if (. "$tmp/boundary"); then fail 'capture failure admitted session'; fi
@@ -250,6 +254,6 @@ done
 grep -Fq 'Environment=PATH=/run/andr36oid-audio-bin:' "$ROOT/etc/systemd/system/ogage.service.d/30-host-route.conf" || fail 'systemd ogage bypasses filter'
 sed "s@/run/@$ROOT/run/@g" "$ROOT/usr/local/libexec/a36-session-fixvolume" > "$tmp/fixvolume"
 sh "$tmp/fixvolume" || fail 'host route policy allowed fixvolume execution'
-cc -Wall -Wextra -Werror -O2 "$(dirname "$0")/headphone-state-test.c" -o "$tmp/headphone-test"
+cc -I"$(dirname "$0")/../../../gamepad/include" -Wall -Wextra -Werror -O2 "$(dirname "$0")/headphone-state-test.c" -o "$tmp/headphone-test"
 "$tmp/headphone-test"
 echo 'PASS: audible route admission/tracking, mute isolation, per-board restoration and guest ownership'

@@ -4,7 +4,13 @@ set -eu
 # Exercise the power-write boundary against fake sysfs, never the host's nodes.
 sed "s@/sys/@$tmp/sys/@g" "$broker" > "$tmp/broker"
 broker="$tmp/broker"
-load_functions blank_session_backlight capture_session_wake_sources do_session_sleep
+load_functions blank_session_backlight capture_session_wake_sources session_wake_reason log_session_wakeup_candidates do_session_sleep
+snapshot_session_wifi() { :; }
+resume_session_wifi() {
+  [ "$(cat "$node")" = 70 ] || fail 'Wi-Fi recovery ran before restoring the panel'
+  [ ! -e "$ROOT/run/.a36-sleeping" ] || fail 'Wi-Fi recovery kept the sleep marker set'
+  : > "$tmp/wifi-resume"
+}
 sleep() { :; }
 node="$tmp/sys/devices/panel/brightness"
 state="$tmp/sys/power/state"
@@ -18,6 +24,7 @@ reset_fixture() {
   echo 70 > "$node"; : > "$state"; : > "$ROOT/run/.a36-session-sleep"
   echo 0 > "$ac/online"; echo 0 > "$usb/online"
   : > "$ac/uevent"; : > "$usb/uevent"; echo '0x83' > "$wake"
+  rm -f "$tmp/wifi-resume"
   rm -f "$STATE/sleep.interrupts.before" "$STATE/sleep.interrupts.after" "$LOG"
 }
 
@@ -32,6 +39,8 @@ do_session_sleep
 [ -f "$STATE/sleep.interrupts.before" ] && [ -f "$STATE/sleep.interrupts.after" ] \
   || fail 'battery sleep did not snapshot wake sources'
 [ "$(cat "$wake")" = 0x83 ] || fail 'battery sleep must not touch USB wake mask'
+[ -f "$tmp/wifi-resume" ] || fail 'successful suspend did not run Wi-Fi recovery'
+grep -q 'wake=48 rk817' "$LOG" || fail 'missing Android wake reason'
 
 # 2) External power with USB wake bit 7 set: mask it for the suspend, restore
 #    it on resume, and keep the power-key wake (do not disable all wake).
@@ -60,4 +69,18 @@ do_session_sleep || true
 grep -q 'sleep: mem failed rc=' "$LOG" || fail 'power-write failure was not reported'
 [ "$(cat "$node")" = 70 ] || fail 'failed suspend left panel blank'
 [ ! -f "$ROOT/run/.a36-sleeping" ] || fail 'failed suspend left guardian disabled'
+[ ! -f "$tmp/wifi-resume" ] || fail 'failed suspend triggered Wi-Fi recovery'
+
+# Generic kernel IRQ fallback when the Android reason is empty.
+mkdir -p "$tmp/sys/kernel/irq/55"
+printf '55\n' > "$tmp/sys/power/pm_wakeup_irq"
+printf 'rk808-rtc\n' > "$tmp/sys/kernel/irq/55/actions"
+: > "$reason"
+[ "$(session_wake_reason)" = 'irq 55 rk808-rtc' ] || fail 'IRQ fallback did not name wake source'
+rm "$tmp/sys/power/pm_wakeup_irq"
+[ "$(session_wake_reason)" = unknown ] || fail 'missing kernel data invented a wake reason'
+printf 'name active_count event_count wakeup_count\nrtc 0 0 0\n' > "$STATE/sleep.wakeup_sources.before"
+printf 'name active_count event_count wakeup_count\nrtc 1 1 1\n' > "$STATE/sleep.wakeup_sources.after"
+log_session_wakeup_candidates
+grep -q 'wakeup counter increased for rtc' "$LOG" || fail 'missing fallback wake counter delta'
 echo 'PASS: battery/external-power suspend, USB-wake masking + restore, refusal on unreadable policy, and panel/guardian recovery on state-write failure'

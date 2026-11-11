@@ -2,7 +2,9 @@
 #include <dirent.h>
 #include <errno.h>
 #include <fcntl.h>
+#include <limits.h>
 #include <linux/input.h>
+#include <linux/netlink.h>
 #include <drm/drm.h>
 #include <drm/drm_mode.h>
 #include <stdint.h>
@@ -22,7 +24,9 @@
 #include <string.h>
 #include <sys/mount.h>
 #include <sys/stat.h>
+#include <sys/statvfs.h>
 #include <sys/socket.h>
+#include <sys/un.h>
 #include <sys/sysmacros.h>
 #include <sys/ioctl.h>
 #include <sys/prctl.h>
@@ -166,41 +170,155 @@ done:
     fclose(f);close(fd);if(!restore)unlink(temporary);
     return result;
 }
+static bool input_node_name(const char *name) {
+    const char *num;
+    if(!strncmp(name,"event",5))num=name+5;
+    else if(!strncmp(name,"js",2))num=name+2;
+    else return false;
+    return *num && strlen(name)<=32 && strspn(num,"0123456789")==strlen(num);
+}
+static const char input_pad_alias[]="/dev/input/by-path/platform-odroidgo3-joypad-event-joystick";
+static void forget_input_node(const char *node, const struct stat *st) {
+    if(unlink(node))return;
+    // A device can vanish between the add scan and the removal sweep.
+    if(access(input_pad_alias,F_OK)<0 && errno==ENOENT)unlink(input_pad_alias);
+    if(!S_ISCHR(st->st_mode))return;
+    char record[64];
+    snprintf(record,sizeof(record),"/run/udev/data/c%u:%u",major(st->st_rdev),minor(st->st_rdev));
+    unlink(record);
+}
 static void mirror_inputs(void) {
     DIR *d=opendir("/sys/class/input"); if(!d) return;
+    mode_t previous_mask=umask(0022);
     mkdir("/dev/input",0755);mkdir("/dev/input/by-path",0755);
     mkdir("/run/udev",0755);mkdir("/run/udev/data",0755);
+    const char *alias=input_pad_alias;
+    bool found_alias=false;
     struct dirent *e; char path[256],node[256],buf[256],temporary[272];
     while((e=readdir(d))) {
-        if(strncmp(e->d_name,"event",5) && strncmp(e->d_name,"js",2)) continue;
-        if(strlen(e->d_name)>32) continue;
-        snprintf(path,sizeof(path),"/sys/class/input/%s/dev",e->d_name);
+        if(!input_node_name(e->d_name))continue;
+        snprintf(path,sizeof(path),"/sys/class/input/%.32s/dev",e->d_name);
         FILE *f=fopen(path,"re"); if(!f) continue;
         unsigned major_num,minor_num; int n=fscanf(f,"%u:%u",&major_num,&minor_num);fclose(f);
         if(n!=2) continue;
-        snprintf(node,sizeof(node),"/dev/input/%s",e->d_name);
+        snprintf(node,sizeof(node),"/dev/input/%.32s",e->d_name);
         struct stat st; dev_t dev=makedev(major_num,minor_num);
-        if(lstat(node,&st)==0 && (!S_ISCHR(st.st_mode)||st.st_rdev!=dev)) unlink(node);
-        if(mknod(node,S_IFCHR|0666,dev) && errno!=EEXIST) continue;
-        if(strncmp(e->d_name,"event",5)) continue;
-        int fd=open(node,O_RDONLY|O_NONBLOCK|O_CLOEXEC);if(fd<0) continue;
-        unsigned long keys[(KEY_MAX+8*sizeof(long))/(8*sizeof(long))];memset(keys,0,sizeof(keys));
-        bool pad=false;
-        if(ioctl(fd,EVIOCGBIT(EV_KEY,sizeof(keys)),keys)>=0)
+        bool exists=lstat(node,&st)==0;
+        if(exists && S_ISCHR(st.st_mode) && st.st_rdev==dev) {
+            if((st.st_mode&07777)!=0666 && chmod(node,0666))continue;
+        } else {
+            if(exists)forget_input_node(node,&st);
+            // The single-threaded supervisor owns creation; publish 0666 even
+            // with an inherited 022/077 umask. Restore it before any fork.
+            mode_t mask=umask(0);
+            int rc=mknod(node,S_IFCHR|0666,dev);
+            umask(mask);
+            if(rc)continue;
+        }
+        bool js=e->d_name[0]=='j',pad=js;
+        int fd=js?-1:open(node,O_RDONLY|O_NONBLOCK|O_CLOEXEC);
+        if(!js && fd<0)continue;
+        unsigned long keys[(KEY_MAX+8*sizeof(long))/(8*sizeof(long))]={0};
+        if(fd>=0 && ioctl(fd,EVIOCGBIT(EV_KEY,sizeof(keys)),keys)>=0)
             for(unsigned key=BTN_JOYSTICK;key<=BTN_THUMBR;key++)
                 if(keys[key/(8*sizeof(long))]&(1UL<<(key%(8*sizeof(long))))) pad=true;
         snprintf(path,sizeof(path),"/run/udev/data/c%u:%u",major_num,minor_num);
         snprintf(temporary,sizeof(temporary),"%s.tmp",path);
         f=fopen(temporary,"we");
-        if(f) { fprintf(f,"I:1\nE:ID_INPUT=1\nE:ID_INPUT_%s=1\nE:DEVNAME=%s\nV:1\n",pad?"JOYSTICK":"KEYBOARD",node); if(fclose(f)==0 && rename(temporary,path)) perror("udev record"); }
-        if(pad && ioctl(fd,EVIOCGNAME(sizeof(buf)),buf)>=0 && !strcmp(buf,"GO-Super Gamepad")) {
-            unlink("/dev/input/by-path/platform-odroidgo3-joypad-event-joystick");
-            snprintf(path,sizeof(path),"../%s",e->d_name);
-            if(symlink(path,"/dev/input/by-path/platform-odroidgo3-joypad-event-joystick")) perror("pad alias");
+        if(f) {
+            fprintf(f,"I:1\nE:ID_INPUT=1\nE:ID_INPUT_%s=1\nE:DEVNAME=%s\nV:1\n",pad?"JOYSTICK":"KEYBOARD",node);
+            if(fclose(f) || rename(temporary,path))unlink(temporary);
         }
-        close(fd);
+        if(fd>=0 && pad && ioctl(fd,EVIOCGNAME(sizeof(buf)),buf)>=0 && !strcmp(buf,"GO-Super Gamepad")) {
+            found_alias=true;
+            snprintf(path,sizeof(path),"../%.32s",e->d_name);
+            ssize_t len=readlink(alias,buf,sizeof(buf));
+            if(len!=(ssize_t)strlen(path) || memcmp(buf,path,strlen(path))) {
+                unlink(alias);
+                if(symlink(path,alias))perror("pad alias");
+            }
+        }
+        if(fd>=0)close(fd);
     }
     closedir(d);
+    umask(previous_mask);
+    if(!found_alias)unlink(alias);
+    d=opendir("/dev/input");if(!d)return;
+    while((e=readdir(d))) {
+        if(!input_node_name(e->d_name))continue;
+        snprintf(path,sizeof(path),"/sys/class/input/%.32s",e->d_name);
+        if(access(path,F_OK)==0 || errno!=ENOENT)continue;
+        snprintf(node,sizeof(node),"/dev/input/%.32s",e->d_name);
+        struct stat st;
+        if(!lstat(node,&st) && S_ISCHR(st.st_mode))forget_input_node(node,&st);
+    }
+    closedir(d);
+}
+
+// The netlink datagram is a NUL-separated header and environment. Use it only
+// as a wakeup: sysfs is authoritative for device numbers and current presence.
+static bool input_uevent(const char *buf, size_t len) {
+    bool input=false,change=false;
+    for(size_t i=0;i<len;) {
+        const char *field=buf+i,*end=memchr(field,0,len-i);
+        if(!end)return false;
+        if(!strcmp(field,"SUBSYSTEM=input"))input=true;
+        if(!strcmp(field,"ACTION=add") || !strcmp(field,"ACTION=remove"))change=true;
+        i=(size_t)(end-buf)+1;
+    }
+    return input && change;
+}
+static int input_uevent_open(void) {
+    int fd=socket(AF_NETLINK,SOCK_DGRAM|SOCK_NONBLOCK|SOCK_CLOEXEC,NETLINK_KOBJECT_UEVENT);
+    if(fd<0)return -1;
+    struct sockaddr_nl addr={.nl_family=AF_NETLINK,.nl_groups=1};
+    if(bind(fd,(struct sockaddr *)&addr,sizeof(addr))) {close(fd);return -1;}
+    return fd;
+}
+static bool input_uevents_pending(int fd) {
+    bool changed=false;
+    // Bound the drain so a burst of unrelated uevents cannot starve hotkeys.
+    for(int n=0;n<64;n++) {
+        char buf[4096];struct sockaddr_nl src={0};
+        struct iovec iov={.iov_base=buf,.iov_len=sizeof(buf)};
+        struct msghdr msg={.msg_name=&src,.msg_namelen=sizeof(src),.msg_iov=&iov,.msg_iovlen=1};
+        ssize_t len=recvmsg(fd,&msg,MSG_DONTWAIT);
+        if(len<=0)return changed || (len<0 && errno==ENOBUFS);
+        if(msg.msg_namelen==sizeof(src) && src.nl_family==AF_NETLINK && !src.nl_pid &&
+           ((msg.msg_flags&MSG_TRUNC) || input_uevent(buf,(size_t)len)))changed=true;
+    }
+    return changed;
+}
+static uint64_t input_signature(void) {
+    DIR *d=opendir("/sys/class/input");if(!d)return 0;
+    // A cheap directory probe also works when a socket binds but delivery is
+    // filtered. Include inode numbers, not just count, for same-count swaps.
+    uint64_t sig=14695981039346656037ULL;struct dirent *e;
+    while((e=readdir(d))) {
+        if(!input_node_name(e->d_name))continue;
+        sig=(sig^(uint64_t)e->d_ino)*1099511628211ULL;
+        for(const char *p=e->d_name;*p;p++)sig=(sig^(unsigned char)*p)*1099511628211ULL;
+    }
+    closedir(d);return sig;
+}
+struct input_watch {
+    bool enabled,seen_uevent;
+    int fd;
+    uint64_t signature;
+    long long next_probe,next_full;
+};
+static void input_watch_update(struct input_watch *w, long long now, bool changed) {
+    if(!w->enabled)return;
+    if(now>=w->next_probe) {
+        uint64_t sig=input_signature();
+        if(sig && sig!=w->signature)changed=true;
+        w->signature=sig;
+        w->next_probe=now+50;
+    }
+    if(changed || now>=w->next_full) {
+        mirror_inputs();
+        w->next_full=now+2000;
+    }
 }
 static pid_t parent_of(pid_t pid) {
     char path[64], buf[4096];
@@ -261,17 +379,55 @@ static bool exit_game(pid_t payload) {
     } else { signal_tree(payload,SIGTERM,0); killed=true; }
     closedir(d); return killed;
 }
-/* Guest programs cannot reload drivers, suspend/reboot the host, change its
- * network configuration, or remount shared kernel controls writable. */
+#include "andr36oid-guest-loops.h"
+#include "andr36oid-guest-teardown.h"
+/* Mount propagation is private. Ordinary storage tools must not change a shared
+ * filesystem's GLOBAL superblock flags or Android's global swap configuration.
+ * Bind remounts change only this namespace's view and remain available. This is
+ * deliberately not a syscall sandbox for hostile root code. */
+static void storage_mount_policy(void) {
+#if defined(__aarch64__)
+    const unsigned native=AUDIT_ARCH_AARCH64,compat=AUDIT_ARCH_ARM;
+#elif defined(__x86_64__)
+    const unsigned native=AUDIT_ARCH_X86_64,compat=AUDIT_ARCH_I386;
+#else
+#error "Define storage guard ABI"
+#endif
+    struct sock_filter code[]={
+        BPF_STMT(BPF_LD|BPF_W|BPF_ABS,offsetof(struct seccomp_data,arch)),
+        BPF_JUMP(BPF_JMP|BPF_JEQ|BPF_K,native,2,0),
+        BPF_JUMP(BPF_JMP|BPF_JEQ|BPF_K,compat,6,0),
+        BPF_STMT(BPF_RET|BPF_K,SECCOMP_RET_ERRNO|EPERM),
+        BPF_STMT(BPF_LD|BPF_W|BPF_ABS,offsetof(struct seccomp_data,nr)),
+        BPF_JUMP(BPF_JMP|BPF_JEQ|BPF_K,SYS_swapon,12,0),
+        BPF_JUMP(BPF_JMP|BPF_JEQ|BPF_K,SYS_swapoff,11,0),
+        BPF_JUMP(BPF_JMP|BPF_JEQ|BPF_K,SYS_mount,5,11),
+        BPF_STMT(BPF_RET|BPF_K,SECCOMP_RET_ALLOW),
+        BPF_STMT(BPF_LD|BPF_W|BPF_ABS,offsetof(struct seccomp_data,nr)),
+        BPF_JUMP(BPF_JMP|BPF_JEQ|BPF_K,87,7,0),
+        BPF_JUMP(BPF_JMP|BPF_JEQ|BPF_K,115,6,0),
+        BPF_JUMP(BPF_JMP|BPF_JEQ|BPF_K,21,0,6),
+        BPF_STMT(BPF_LD|BPF_W|BPF_ABS,offsetof(struct seccomp_data,args[3])),
+        BPF_JUMP(BPF_JMP|BPF_JSET|BPF_K,MS_REMOUNT,0,4),
+        BPF_JUMP(BPF_JMP|BPF_JSET|BPF_K,MS_BIND,3,2),
+        BPF_STMT(BPF_RET|BPF_K,SECCOMP_RET_ALLOW),
+        BPF_STMT(BPF_RET|BPF_K,SECCOMP_RET_ALLOW),
+        BPF_STMT(BPF_RET|BPF_K,SECCOMP_RET_ERRNO|EPERM),
+        BPF_STMT(BPF_RET|BPF_K,SECCOMP_RET_ALLOW),
+    };
+    struct sock_fprog policy={.len=sizeof(code)/sizeof(code[0]),.filter=code};
+    if(prctl(PR_SET_SECCOMP,SECCOMP_MODE_FILTER,&policy))fatal("storage mount policy");
+}
+/* Keep reboot/module/raw-I/O/network/mknod capabilities denied; normal mount(8)
+ * works in the private namespace. Host raw block nodes are never exposed. */
 static void limit_guest(void) {
     struct __user_cap_header_struct header={.version=_LINUX_CAPABILITY_VERSION_3,.pid=0};
     struct __user_cap_data_struct caps[2];
     if(syscall(SYS_capget,&header,caps)) fatal("capget");
-    /* File installation, setpriv and guest services need these ordinary root
-     * operations. No payload needs chroot, mount, mknod, ptrace or setpcap. */
+    /* File installation, guest services and real mount tools need these. */
     const uint64_t allow=(1ULL<<CAP_CHOWN)|(1ULL<<CAP_DAC_OVERRIDE)|
         (1ULL<<CAP_FOWNER)|(1ULL<<CAP_FSETID)|(1ULL<<CAP_KILL)|
-        (1ULL<<CAP_SETGID)|(1ULL<<CAP_SETUID);
+        (1ULL<<CAP_SETGID)|(1ULL<<CAP_SETUID)|(1ULL<<CAP_SYS_ADMIN);
     for(int cap=0;cap<64;cap++) {
         if(allow&(1ULL<<cap))continue;
         errno=0;
@@ -282,6 +438,7 @@ static void limit_guest(void) {
     }
     if(syscall(SYS_capset,&header,caps)) fatal("capset");
     if(prctl(PR_SET_NO_NEW_PRIVS,1,0,0,0))fatal("no new privileges");
+    storage_mount_policy();
 }
 /* Hold host-established OFF/zero controls for the entire muted guest lifetime.
  * Match the ioctl type/number independently of its structure size, so compat
@@ -345,12 +502,18 @@ static int supervise(char **argv,bool native,bool hotkeys) {
     if(native && prctl(PR_ANDR36OID_GUEST,1UL,0UL,0UL,0UL)) fatal("guest input ABI unavailable; update the kernel");
     struct sigaction sa={.sa_handler=stop}; sigemptyset(&sa.sa_mask);
     sigaction(SIGTERM,&sa,NULL); sigaction(SIGINT,&sa,NULL); sigaction(SIGHUP,&sa,NULL);
-    bool inputs=access("/dev/input",F_OK)==0;
-    if(inputs) mirror_inputs();
+    struct input_watch inputs={.enabled=access("/dev/input",F_OK)==0,.fd=-1};
+    if(inputs.enabled) {
+        // Subscribe before the initial scan so creation cannot fall in a gap.
+        inputs.fd=input_uevent_open();
+        fprintf(stderr,"guest input hotplug: %s50 ms sysfs probe\n",inputs.fd>=0?"kernel uevents + ":"");
+        input_watch_update(&inputs,now_ms(),true);
+    }
     bool muted=access("/run/.a36-muted",F_OK)==0;
     pid_t payload=fork(); if(payload<0) fatal("fork payload");
     if(!payload) {
         signal(SIGTERM,SIG_DFL); signal(SIGINT,SIG_DFL); signal(SIGHUP,SIG_DFL);
+        if(inputs.fd>=0)close(inputs.fd);
         limit_guest();
         if(muted)hold_mixer_mute();
         // Internal shared storage must also remain writable by Android media_rw.
@@ -358,7 +521,6 @@ static int supervise(char **argv,bool native,bool hotkeys) {
         execvp(argv[0],argv); fatal("exec guest");
     }
     int pad=hotkeys?pad_open():-1, status=0; long long last_retry=now_ms();
-    long long mirrored=now_ms();
     struct hotkey_state keys={0};
     if(pad>=0)hotkey_sync(pad,native,&keys);
     for(;;) {
@@ -372,16 +534,33 @@ static int supervise(char **argv,bool native,bool hotkeys) {
             kill(-1,SIGKILL); return 0;
         }
         long long now=now_ms();
-        if(inputs && now-mirrored>2000) { mirror_inputs();mirrored=now; }
+        input_watch_update(&inputs,now,false);
         if(hotkeys && pad<0 && now-last_retry>=2000) {
             pad=pad_open();last_retry=now;
             if(pad>=0)hotkey_sync(pad,native,&keys);
         }
-        struct pollfd poller={.fd=pad,.events=POLLIN};
-        int ready=poll(&poller,1,50);
+        struct pollfd pollers[]={{.fd=pad,.events=POLLIN},{.fd=inputs.fd,.events=POLLIN}};
+        int timeout=50;
+        if(inputs.enabled) {
+            long long until=inputs.next_probe-now_ms();
+            if(until<50)timeout=until>0?(int)until:0;
+        }
+        int ready=poll(pollers,inputs.fd>=0?2:1,timeout);
         if(ready<0 && errno==EINTR)continue;
+        if(ready>0 && inputs.fd>=0 && pollers[1].revents) {
+            bool changed=input_uevents_pending(inputs.fd);
+            if(changed && !inputs.seen_uevent) {
+                inputs.seen_uevent=true;
+                fprintf(stderr,"guest input hotplug: kernel input uevents received\n");
+            }
+            if(pollers[1].revents&(POLLHUP|POLLERR|POLLNVAL)) {
+                close(inputs.fd);inputs.fd=-1;changed=true;
+                fprintf(stderr,"guest input hotplug: uevent listener lost; using sysfs probe\n");
+            }
+            input_watch_update(&inputs,now_ms(),changed);
+        }
         struct input_event ev;
-        if(ready<0 || (poller.revents&(POLLHUP|POLLERR|POLLNVAL))) {
+        if(ready<0 || (pollers[0].revents&(POLLHUP|POLLERR|POLLNVAL))) {
             if(pad>=0)close(pad);
             pad=-1;hotkey_invalidate(&keys,false);last_retry=now_ms();
             // A failed poll on an absent pad also needs a delay: otherwise
@@ -404,7 +583,75 @@ static int supervise(char **argv,bool native,bool hotkeys) {
         if(action&HOTKEY_RETURN_ANDROID)stopping=1;
     }
 }
+/* Clear noexec on one bind mount, keeping its other per-mount flags. The broker's
+ * `mount -o remount,exec,bind` (toybox 0.8.3) fails with EINVAL on the 5.10 kernel,
+ * which left /roms noexec: PortMaster and every port script got "Permission denied". */
+static int remount_exec(const char *path) {
+    struct statvfs v;
+    if(statvfs(path,&v)) { perror("remount-exec: statvfs"); return 1; }
+    unsigned long flags=MS_BIND|MS_REMOUNT;
+    if(v.f_flag&ST_RDONLY)flags|=MS_RDONLY;
+    if(v.f_flag&ST_NOSUID)flags|=MS_NOSUID;
+    if(v.f_flag&ST_NODEV)flags|=MS_NODEV;
+    if(v.f_flag&ST_NOATIME)flags|=MS_NOATIME;
+    if(v.f_flag&ST_NODIRATIME)flags|=MS_NODIRATIME;
+    if(v.f_flag&ST_RELATIME)flags|=MS_RELATIME;
+    if(mount(NULL,path,NULL,flags,NULL)) { perror("remount-exec: mount"); return 1; }
+    return 0;
+}
+/* Android init supplies this global control socket to the kept supplicant.
+ * An autobound abstract client address leaves no socket file on /data. */
+static int session_wifi_control(const char *operation) {
+    const char *command;
+    if (!strcmp(operation, "status")) command = "IFNAME=wlan0 STATUS";
+    else if (!strcmp(operation, "reassociate")) command = "IFNAME=wlan0 REASSOCIATE";
+    else return 2;
+
+    struct sockaddr_un local = { .sun_family = AF_UNIX };
+    struct sockaddr_un server = { .sun_family = AF_UNIX, .sun_path = "/dev/socket/wpa_wlan0" };
+    int fd = socket(AF_UNIX, SOCK_DGRAM | SOCK_CLOEXEC | SOCK_NONBLOCK, 0);
+    if (fd < 0) { perror("session Wi-Fi socket"); return 1; }
+    int result = 1;
+    if (bind(fd, (struct sockaddr *)&local, sizeof(local.sun_family)) ||
+        connect(fd, (struct sockaddr *)&server, sizeof(server)) ||
+        send(fd, command, strlen(command), 0) != (ssize_t)strlen(command)) {
+        perror("session Wi-Fi supplicant control");
+        goto done;
+    }
+    struct pollfd reply = { .fd = fd, .events = POLLIN };
+    if (poll(&reply, 1, 750) <= 0) {
+        fputs("session Wi-Fi supplicant reply timed out\n", stderr);
+        goto done;
+    }
+    char data[4096];
+    ssize_t length = recv(fd, data, sizeof(data) - 1, 0);
+    if (length <= 0) goto done;
+    data[length] = 0;
+    if (!strcmp(operation, "status")) {
+        /* Keep SSIDs, MACs other than the BSSID, and all other status fields
+         * out of the broker's recovery logs and input parsing. */
+        char *next;
+        for (char *line = strtok_r(data, "\n", &next); line; line = strtok_r(NULL, "\n", &next)) {
+            if (!strncmp(line, "wpa_state=", 10) || !strncmp(line, "bssid=", 6) ||
+                !strncmp(line, "id=", 3)) puts(line);
+        }
+        result = 0;
+    } else if (!strcmp(data, "OK\n")) {
+        result = 0;
+    } else {
+        fputs("session Wi-Fi supplicant rejected reassociation\n", stderr);
+    }
+done:
+    close(fd);
+    return result;
+}
 int main(int argc,char **argv) {
+    if (argc == 3 && !strcmp(argv[1], "--session-wifi")) return session_wifi_control(argv[2]);
+    if (argc == 5 && !strcmp(argv[1], "--stop-worker-tree"))
+        return stop_worker_tree(argv[2], argv[3], argv[4]);
+    if (argc == 3 && !strcmp(argv[1], "--kill-guest-root")) return stop_guest_root(argv[2], false);
+    if (argc == 3 && !strcmp(argv[1], "--stop-guest-root")) return stop_guest_root(argv[2], true);
+    if(argc==4&&!strcmp(argv[1],"--cleanup-guest-loops"))return gl_recover(argv[2],argv[3]);
     if(argc==2 && !strcmp(argv[1],"--capture-mixer"))return capture_mixer();
     if(argc==2 && !strcmp(argv[1],"--headphone-state"))return headphone_state();
     if(argc==2 && !strcmp(argv[1],"--check-drm"))return check_drm();
@@ -417,6 +664,7 @@ int main(int argc,char **argv) {
         int status; if(waitpid(p,&status,0)!=p)return 125;
         return WIFEXITED(status)?WEXITSTATUS(status):125;
     }
+    if(argc==3 && !strcmp(argv[1],"--remount-exec"))return remount_exec(argv[2]);
     if(argc==4 && !strcmp(argv[1],"--bind")) {
         if(mount(argv[2],argv[3],NULL,MS_BIND,NULL)) fatal("bind guest hardware control");
         return 0;
@@ -433,12 +681,17 @@ int main(int argc,char **argv) {
         struct sigaction sa={.sa_handler=stop};sigemptyset(&sa.sa_mask);
         sigaction(SIGTERM,&sa,NULL);sigaction(SIGINT,&sa,NULL);sigaction(SIGHUP,&sa,NULL);
         close(gate[1]); char byte;
+        struct gl_state loops;
+        if(gl_start(&loops,argv[1],getenv("A36_LOOP_JOURNAL"))){perror("guest loop baseline");kill(init,SIGKILL);return 125;}
         if(read(gate[0],&byte,1)!=1 || write(gate[0],"1",1)!=1) {kill(init,SIGKILL);return 125;}
         close(gate[0]);
         int status; for(;;) {
             if(stopping) kill(init,SIGTERM);
-            if(waitpid(init,&status,0)==init) return WIFEXITED(status)?WEXITSTATUS(status):128+WTERMSIG(status);
-            if(errno!=EINTR) fatal("wait guest");
+            pid_t done=waitpid(init,&status,WNOHANG);
+            if(done==init){int rc=WIFEXITED(status)?WEXITSTATUS(status):128+WTERMSIG(status);if(gl_finish(&loops,true))return 125;return rc;}
+            if(done<0&&errno!=EINTR)fatal("wait guest");
+            if(gl_tick(&loops,init))kill(init,SIGKILL);
+            usleep(100000);
         }
     }
     close(gate[0]);

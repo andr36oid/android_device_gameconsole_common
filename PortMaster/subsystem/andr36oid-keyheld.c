@@ -3,6 +3,7 @@
 #include <glob.h>
 #include <limits.h>
 #include <linux/input.h>
+#include "andr36oid-gamepad.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -55,7 +56,9 @@ static int start_held(const char *path) {
 
     // Vendor_484b_Product_1100.kl: 315 BUTTON_START, 172 HOME. Do not mistake
     // HOME/Fn for START. Scan every gpio-keys node; variants may use ENTER.
-    if (!bit(supported, BTN_START)) {
+    if (a36_pad_native_bytes(supported, sizeof(supported))) {
+        code = a36_pad_code(A36_PAD_START, true);
+    } else if (!bit(supported, BTN_START)) {
         if (gpio && bit(supported, KEY_ENTER)) code = KEY_ENTER;
         else goto done;
     }

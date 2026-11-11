@@ -13,7 +13,12 @@ static unsigned long held[(KEY_MAX+8*sizeof(long))/(8*sizeof(long))];
 static int queries;
 static bool fail_query;
 int hotkey_test_ioctl(int fd,unsigned long request,...) {
-    (void)fd;assert(request==EVIOCGKEY(sizeof(held)));queries++;
+    (void)fd;
+    if (_IOC_NR(request)==_IOC_NR(EVIOCGBIT(EV_KEY,1))) {
+        va_list ap;va_start(ap,request);void *out=va_arg(ap,void *);va_end(ap);
+        memset(out,0,_IOC_SIZE(request));return _IOC_SIZE(request);
+    }
+    assert(request==EVIOCGKEY(sizeof(held)));queries++;
     if(fail_query)return -1;
     va_list ap;va_start(ap,request);void *out=va_arg(ap,void *);va_end(ap);
     memcpy(out,held,sizeof(held));return sizeof(held);

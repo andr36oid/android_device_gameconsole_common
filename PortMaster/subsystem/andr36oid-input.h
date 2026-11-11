@@ -4,6 +4,7 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <linux/input.h>
+#include "andr36oid-gamepad.h"
 #include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
@@ -14,7 +15,7 @@
 #define KEY_WORD_BITS (8*sizeof(unsigned long))
 #define KEY_WORDS ((KEY_MAX+KEY_WORD_BITS)/KEY_WORD_BITS)
 struct hotkey_state {
-    bool select,start,fn,dropped,sync_needed;
+    bool select,start,fn,dropped,sync_needed,canonical;
     unsigned long held[KEY_WORDS];
     unsigned other;
     bool combination_used,tap_pending,has_fired;
@@ -52,15 +53,16 @@ static inline void hotkey_invalidate(struct hotkey_state *keys,bool dropped) {
 static inline bool hotkey_sync(int pad,bool native,struct hotkey_state *keys) {
     unsigned long held[KEY_WORDS]={0};
     hotkey_invalidate(keys,false);
+    keys->canonical = native || a36_pad_native_fd(pad);
     // On this kernel EVIOCGKEY atomically snapshots and flushes EV_KEY on this
     // client. Call at open or after the dropped frame's SYN_REPORT. Readers
     // MUST read one event at a time: a userspace batch could replay stale keys
     // after this ioctl. Do not drain after querying (that could lose new keys).
     if(ioctl(pad,EVIOCGKEY(sizeof(held)),held)!=(int)sizeof(held))return false;
     memcpy(keys->held,held,sizeof(held));
-    unsigned fn=native?BTN_TRIGGER_HAPPY5:KEY_HOMEPAGE;
-    keys->select=key_held(keys,native?BTN_TRIGGER_HAPPY1:BTN_SELECT);
-    keys->start=key_held(keys,native?BTN_TRIGGER_HAPPY2:BTN_START);
+    unsigned fn=a36_pad_code(A36_PAD_MODE, native || keys->canonical);
+    keys->select=key_held(keys,a36_pad_code(A36_PAD_SELECT, native || keys->canonical));
+    keys->start=key_held(keys,a36_pad_code(A36_PAD_START, native || keys->canonical));
     keys->fn=key_held(keys,fn);
     for(unsigned code=0;code<=KEY_MAX;code++)
         if(code!=fn && key_held(keys,code))keys->other++;
@@ -84,7 +86,7 @@ static inline bool hotkey_event(int pad,bool native,struct hotkey_state *keys,co
         return fire;
     }
     if(ev->type!=EV_KEY || ev->code>KEY_MAX || ev->value<0 || ev->value>2)return false;
-    unsigned code=ev->code,fn=native?BTN_TRIGGER_HAPPY5:KEY_HOMEPAGE;
+    unsigned code=ev->code,fn=a36_pad_code(A36_PAD_MODE, native || keys->canonical);
     bool down=ev->value!=0,was=key_held(keys,code);
     long long time=(long long)ev->time.tv_sec*1000+ev->time.tv_usec/1000;
     if(code!=fn) {
@@ -112,8 +114,8 @@ static inline bool hotkey_event(int pad,bool native,struct hotkey_state *keys,co
         }
     } else if(down)keys->other++;
     else keys->other--;
-    keys->select=key_held(keys,native?BTN_TRIGGER_HAPPY1:BTN_SELECT);
-    keys->start=key_held(keys,native?BTN_TRIGGER_HAPPY2:BTN_START);
+    keys->select=key_held(keys,a36_pad_code(A36_PAD_SELECT, native || keys->canonical));
+    keys->start=key_held(keys,a36_pad_code(A36_PAD_START, native || keys->canonical));
     if(!keys->fn || !keys->start)keys->force_ms=0;
     if(!keys->select || !keys->start || keys->fn) {keys->combo_ms=0;keys->exit_fired=false;}
     return false;

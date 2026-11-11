@@ -1,4 +1,5 @@
 cc_binary {
+    header_libs: ["libandr36oid_gamepad_headers"],
     name: "andr36oid-keyheld",
     srcs: ["andr36oid-keyheld.c"],
     cflags: [
@@ -10,13 +11,17 @@ cc_binary {
 }
 
 cc_binary {
+    header_libs: ["libandr36oid_gamepad_headers"],
     name: "andr36oid-guest",
     srcs: ["andr36oid-guest.c"],
+    // Self-contained guest supervisor and host-side loop recovery helper.
+    static_executable: true,
     cflags: ["-Wall", "-Wextra", "-Werror"],
 }
 
 // Runs in a glibc rootfs too; no Android linker or shared libraries there.
 cc_binary {
+    header_libs: ["libandr36oid_gamepad_headers"],
     name: "andr36oid-fn-watch",
     srcs: ["andr36oid-fn-watch.c"],
     static_executable: true,

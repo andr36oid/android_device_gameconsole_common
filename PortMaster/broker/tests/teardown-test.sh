@@ -3,6 +3,7 @@
 set -eu
 . "$(dirname "$0")/test-lib.inc"
 load_functions kill_subsystem_payload kill_subsystem restore_android finish_session
+build_guest_helper
 cat > "$tmp/held.c" <<'EOF'
 #include <fcntl.h>
 #include <unistd.h>
