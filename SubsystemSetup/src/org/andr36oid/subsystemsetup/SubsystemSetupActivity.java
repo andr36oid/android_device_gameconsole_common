@@ -31,6 +31,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 import org.andr36oid.hints.HintBar;
+import java.io.File;
 import java.io.OutputStream;
 import java.io.RandomAccessFile;
 import java.nio.charset.StandardCharsets;
@@ -61,7 +62,7 @@ public class SubsystemSetupActivity extends Activity {
     static String mintLaunchToken(){String t=Long.toHexString(new java.security.SecureRandom().nextLong());sLaunchToken=t;return t;}
     private static boolean consumeLaunchToken(String t){String want=sLaunchToken;sLaunchToken=null;return want!=null&&want.equals(t);}
     private static final int SAVE_LOG=41;
-    private enum Screen { SPLASH, HOME, SETUP, PROGRESS, LOGS, SETTINGS, IMAGES, OPTIMIZE, SYNC }
+    private enum Screen { SPLASH, HOME, SETUP, PROGRESS, LOGS, SETTINGS, IMAGES, OPTIMIZE, SYNC, ADVANCED, PICKER }
     private final Handler handler=new Handler(Looper.getMainLooper());
     private final ExecutorService io=Executors.newSingleThreadExecutor();
     private final Runnable poll=this::refresh;
@@ -131,11 +132,8 @@ public class SubsystemSetupActivity extends Activity {
     static boolean isReady() {return "1".equals(get(P+"ready"))&&"1".equals(get(P+"image"));}
     static void updateLauncher(Activity context) {updateLauncher((android.content.Context)context);}
     static void updateLauncher(android.content.Context context) {
-        boolean visible=isReady()&&"1".equals(get(ICON));
-        ComponentName alias=new ComponentName(context,"org.andr36oid.subsystemsetup.EmulationStationLauncher");
-        int wanted=visible?PackageManager.COMPONENT_ENABLED_STATE_ENABLED:PackageManager.COMPONENT_ENABLED_STATE_DISABLED;
-        PackageManager pm=context.getPackageManager();
-        if(pm.getComponentEnabledSetting(alias)!=wanted)pm.setComponentEnabledSetting(alias,wanted,PackageManager.DONT_KILL_APP);
+        // The single launcher entry is fixed in the manifest (see DaijishouPlayerLauncher):
+        // toggling it broke Daijishou's player preflight or left two icons.
     }
     @Override public void onCreate(Bundle saved) {
         super.onCreate(saved);
@@ -145,6 +143,8 @@ public class SubsystemSetupActivity extends Activity {
         host=findViewById(R.id.screen_host);statusText=findViewById(R.id.status_text);statusDot=findViewById(R.id.status_dot);
         if(saved!=null) {
             try {restoreScreen=Screen.valueOf(saved.getString("screen","HOME"));}catch(IllegalArgumentException ignored) { }
+            if(restoreScreen==Screen.PICKER)restoreScreen=Screen.ADVANCED;
+            advancedRootfs=saved.getString("advanced_rootfs","");advancedHandoff=saved.getBoolean("advanced_handoff",true);
             setupIndex=saved.getInt("setup_step",0);keepOriginal=saved.getBoolean("keep_original");
             pending=saved.getBoolean("pending");pendingVerb=saved.getString("pending_verb","");
             deferredRequest=saved.getString("deferred_request","");
@@ -166,7 +166,7 @@ public class SubsystemSetupActivity extends Activity {
         }
         observedDone=get(P+"done_seq");
         // Construct all screens exactly once. No route rebuilds in the polling path.
-        buildSplash();buildHome();buildSetup();buildProgress();buildLogs();buildSettings();buildImages();buildOptimize();buildSync();
+        buildSplash();buildHome();buildSetup();buildProgress();buildLogs();buildSettings();buildImages();buildOptimize();buildSync();buildAdvanced();buildPicker();
         switchScreen(Screen.SPLASH);
         // An active operation owns the storage lock, so do not issue a competing scan.
         Snapshot opening=Snapshot.read();
@@ -178,6 +178,7 @@ public class SubsystemSetupActivity extends Activity {
     }
     @Override protected void onSaveInstanceState(Bundle out) {
         super.onSaveInstanceState(out);
+        out.putString("advanced_rootfs",advancedRootfs);out.putBoolean("advanced_handoff",advancedHandoff);
         out.putString("screen",screen.name());out.putInt("setup_step",setupIndex);out.putBoolean("keep_original",keepOriginal);
         out.putBoolean("pending",pending);out.putString("pending_verb",pendingVerb);out.putString("deferred_request",deferredRequest);out.putLong("requested_at",requestedAt);
         out.putString("request_done",requestDone);out.putString("launch_target",launchTarget);out.putBoolean("port_launch",portLaunch);
@@ -188,6 +189,7 @@ public class SubsystemSetupActivity extends Activity {
     @Override protected void onDestroy() {handler.removeCallbacksAndMessages(null);io.shutdownNow();super.onDestroy();}
     @Override public void onBackPressed() {
         if(screen==Screen.SETUP&&setupIndex>0) {setupIndex--;updateSetup();return;}
+        if(screen==Screen.PICKER&&!pickerPath.isEmpty()) {pickerUp();return;}
         if(!history.isEmpty()) {
             Screen previous=history.pop();
             if(previous==Screen.PROGRESS&&!isBusy())previous=idleScreen();
@@ -422,7 +424,7 @@ public class SubsystemSetupActivity extends Activity {
         });
         row(p.column,"↻",R.string.asl_scan,getString(R.string.ss_images_note),this::retryScan);
         row(p.column,"▣",R.string.ss_images,getString(R.string.ss_images_note),()->open(Screen.IMAGES)).chevron();
-        row(p.column,"⚙",R.string.asl_advanced,getString(R.string.ss_advanced_note),this::advanced).chevron();
+        row(p.column,"⚙",R.string.asl_advanced,getString(R.string.ss_advanced_note),()->open(Screen.ADVANCED)).chevron();
         updateSetup();
     }
     private void updateSetup() {
@@ -641,7 +643,6 @@ public class SubsystemSetupActivity extends Activity {
     }
     private void buildSettings() {
         Page p=new Page(Screen.SETTINGS,true);p.heading(R.string.ss_settings,R.string.ss_settings_note);
-        toggle(p.column,R.string.asl_launch_icon,ICON,false);
         toggle(p.column,R.string.asl_mute,"persist.andr36oid.subsystem.mute",false);
         toggle(p.column,R.string.asl_daijishou_cores,SubsystemBackend.DAIJISHOU_CORES,false);
         toggle(p.column,R.string.asl_daijishou_tools,SubsystemBackend.DAIJISHOU_TOOLS,true);
@@ -650,7 +651,7 @@ public class SubsystemSetupActivity extends Activity {
         choose(p.column,R.string.asl_audio_rate,"persist.andr36oid.subsystem.rate",new String[]{"44100","48000"},"44100");
         choose(p.column,R.string.asl_audio_buffer,"persist.andr36oid.subsystem.buffer",new String[]{"2048","4096","8192"},"4096");
         row(p.column,"⇄",R.string.asl_sync,getString(R.string.ss_sync_note),()->open(Screen.SYNC)).chevron();
-        row(p.column,"⚙",R.string.asl_advanced,getString(R.string.ss_advanced_note),this::advanced).chevron();
+        row(p.column,"⚙",R.string.asl_advanced,getString(R.string.ss_advanced_note),()->open(Screen.ADVANCED)).chevron();
     }
     private void buildSync() {
         Page p=new Page(Screen.SYNC,true);p.heading(R.string.asl_sync,R.string.ss_sync_note);
@@ -804,7 +805,128 @@ public class SubsystemSetupActivity extends Activity {
         }
         return getString(R.string.ss_opt_failed,getString(message),error.isEmpty()?"unknown":error);
     }
-    private void advanced() {startActivity(new Intent(this,AdvancedSetupActivity.class));}
+    // Advanced: another rootfs image, headless mode, native init. Same rows as every
+    // other page; the choices apply to launches started from this page only.
+    private String advancedRootfs="",pickerPath="";
+    private boolean advancedHandoff=true;
+    private int pickerGeneration;
+    private List<File> pickerRoots=new ArrayList<>();
+    private Row advancedImage,advancedDisplay,advancedHold;
+    private TextView advancedNote,pickerWhere,pickerMessage;
+    private LinearLayout pickerList;
+    private static final String EXIT_HOLD="persist.andr36oid.subsystem.exit_hold_ms";
+    private static final String[] EXIT_HOLD_VALUES={"1200","2000","3000","4000","5000","6000"};
+    private static final int[] EXIT_HOLD_LABELS={R.string.subsystem_exit_hold_default,R.string.subsystem_exit_hold_two,R.string.subsystem_exit_hold_three,
+            R.string.subsystem_exit_hold_four,R.string.subsystem_exit_hold_five,R.string.subsystem_exit_hold_six};
+    private void buildAdvanced() {
+        Page p=new Page(Screen.ADVANCED,true);p.heading(R.string.asl_advanced,R.string.ss_advanced_note);
+        advancedImage=row(p.column,"▣",R.string.subsystem_rootfs,"",()->showDialog(new AlertDialog.Builder(this).setTitle(R.string.subsystem_rootfs)
+            .setItems(new CharSequence[]{getString(R.string.subsystem_choose_image),getString(R.string.subsystem_automatic_image)},(d,w)->{
+                if(w==0){pickerPath="";open(Screen.PICKER);loadPicker();}else{advancedRootfs="";updateAdvanced();}
+            }).setNegativeButton(android.R.string.cancel,null)));
+        advancedDisplay=row(p.column,"◐",R.string.subsystem_display_mode,"",()->showDialog(new AlertDialog.Builder(this).setTitle(R.string.subsystem_display_mode)
+            .setSingleChoiceItems(new CharSequence[]{getString(R.string.subsystem_full_handoff),getString(R.string.subsystem_keep_android)},advancedHandoff?0:1,(d,w)->{
+                advancedHandoff=w==0;updateAdvanced();d.dismiss();
+            }).setNegativeButton(android.R.string.cancel,null)));
+        advancedHold=row(p.column,"≋",R.string.subsystem_exit_hold,"",()->{
+            CharSequence[] labels=new CharSequence[EXIT_HOLD_LABELS.length];for(int i=0;i<labels.length;i++)labels[i]=getString(EXIT_HOLD_LABELS[i]);
+            showDialog(new AlertDialog.Builder(this).setTitle(R.string.subsystem_exit_hold).setMessage(null)
+                .setSingleChoiceItems(labels,exitHoldIndex(),(d,w)->{
+                    try{put(EXIT_HOLD,EXIT_HOLD_VALUES[w]);}catch(RuntimeException e){toast(R.string.subsystem_setting_failed);}
+                    updateAdvanced();d.dismiss();
+                }).setNegativeButton(android.R.string.cancel,null));
+        });
+        row(p.column,"▶",R.string.subsystem_open_os,getString(R.string.subsystem_open_os_summary),()->advancedLaunch("OS"));
+        row(p.column,"▶",R.string.subsystem_open_init,getString(R.string.subsystem_open_init_summary),()->advancedLaunch("INIT"));
+        advancedNote=secondary("",12);p.column.addView(advancedNote,lp(-1,-2,0,8,0,0));
+        updateAdvanced();
+    }
+    private int exitHoldIndex() {int index=Arrays.asList(EXIT_HOLD_VALUES).indexOf(get(EXIT_HOLD));return index<0?0:index;}
+    private void updateAdvanced() {
+        advancedImage.subtitle(advancedRootfs.isEmpty()?getString(R.string.subsystem_automatic_image):advancedRootfs);
+        advancedDisplay.subtitle(getString(advancedHandoff?R.string.subsystem_full_handoff:R.string.subsystem_keep_android));
+        advancedHold.subtitle(getString(EXIT_HOLD_LABELS[exitHoldIndex()]));
+        setText(advancedNote,getString(advancedHandoff?R.string.subsystem_handoff_explainer:R.string.subsystem_headless_explainer)
+                +"\n\n"+getString(R.string.subsystem_exit_hold_note));
+    }
+    private void advancedLaunch(String target) {
+        if(isBusy())return;
+        showDialog(new AlertDialog.Builder(this).setTitle(R.string.subsystem_launch)
+            .setMessage(getString(advancedHandoff?R.string.subsystem_handoff_explainer:R.string.subsystem_headless_explainer))
+            .setNegativeButton(android.R.string.cancel,null).setPositiveButton(android.R.string.ok,(d,w)->{
+                final String rootfs=advancedRootfs;final boolean handoff=advancedHandoff;
+                io.execute(()->{
+                    final boolean valid=rootfs.isEmpty()||SubsystemBackend.eligible(new File(rootfs),backend.storageRoots());
+                    handler.post(()->{
+                        if(isDestroyed())return;
+                        if(!valid){toast(R.string.subsystem_image_invalid);return;}
+                        try{put(SubsystemBackend.ROOTFS,rootfs);put(SubsystemBackend.HANDOFF,handoff?"1":"0");put(SubsystemBackend.PORT,target);request("run");}
+                        catch(RuntimeException e){toast(R.string.subsystem_launch_failed);}
+                    });
+                });
+            }));
+    }
+    private void buildPicker() {
+        Page p=new Page(Screen.PICKER,true);p.heading(R.string.subsystem_choose_image,0);
+        pickerWhere=secondary("",12);pickerWhere.setTextColor(color(android.R.attr.colorAccent));p.column.addView(pickerWhere,lp(-1,-2,0,0,0,8));
+        pickerList=column();p.column.addView(pickerList,new LinearLayout.LayoutParams(-1,-2));
+        pickerMessage=secondary("",13);p.column.addView(pickerMessage,lp(-1,-2,0,8,0,0));
+    }
+    private void pickerUp() {
+        File current=new File(pickerPath);
+        pickerPath=pickerRoots.contains(current)||current.getParentFile()==null?"":current.getParent();
+        loadPicker();
+    }
+    /** One row per folder or eligible image, read off the main thread; stale results are dropped. */
+    private void loadPicker() {
+        final int generation=++pickerGeneration;final String path=pickerPath;
+        pickerList.removeAllViews();setText(pickerWhere,path);setText(pickerMessage,getString(R.string.subsystem_checking));
+        io.execute(()->{
+            final List<File> roots=backend.storageRoots(),entries=new ArrayList<>();
+            final List<String> names=new ArrayList<>(),notes=new ArrayList<>();
+            boolean failed=false,limited=false;
+            try {
+                if(path.isEmpty()) {for(File root:roots){entries.add(root);names.add(backend.storageLabel(root));}}
+                else {
+                    File directory=new File(path).getCanonicalFile();
+                    File[] files=SubsystemBackend.inside(directory,roots)?directory.listFiles():null;
+                    if(files==null)throw new java.io.IOException(path);
+                    Arrays.sort(files,java.util.Comparator.comparing((File f)->!f.isDirectory()).thenComparing(File::getName,String.CASE_INSENSITIVE_ORDER));
+                    for(File file:files) {
+                        if(file.isHidden()||!SubsystemBackend.inside(file,roots))continue;
+                        if(!(file.isDirectory()&&file.canRead())&&!SubsystemBackend.eligible(file,roots))continue;
+                        if(entries.size()==500){limited=true;break;}
+                        entries.add(file.getCanonicalFile());names.add(file.getName());
+                    }
+                }
+            } catch(java.io.IOException|SecurityException e){failed=true;}
+            final List<Boolean> folders=new ArrayList<>();
+            for(File file:entries){boolean folder=file.isDirectory();folders.add(folder);notes.add(folder?file.getAbsolutePath():android.text.format.Formatter.formatFileSize(this,file.length()));}
+            final boolean error=failed,truncated=limited;
+            handler.post(()->{
+                if(isDestroyed()||generation!=pickerGeneration)return;
+                pickerRoots=roots;
+                for(int i=0;i<entries.size();i++) {
+                    final File file=entries.get(i);final boolean folder=folders.get(i);
+                    Row row=new Row(folder?"▸":"▣",names.get(i),notes.get(i),()->{
+                        if(folder){pickerPath=file.getAbsolutePath();loadPicker();}
+                        else {advancedRootfs=file.getAbsolutePath();updateAdvanced();onBackPressedFromPicker();}
+                    });
+                    row.setContentDescription(getString(folder?R.string.subsystem_picker_folder:R.string.subsystem_picker_image,file.getAbsolutePath()));
+                    if(folder)row.chevron();
+                    pickerList.addView(row,lp(-1,dp(52),0,0,0,4));
+                }
+                setText(pickerMessage,getString(error?R.string.subsystem_picker_unavailable:truncated?R.string.subsystem_picker_limited
+                        :entries.isEmpty()?(path.isEmpty()?R.string.subsystem_picker_no_storage:R.string.subsystem_picker_empty):R.string.subsystem_picker_body));
+                if(screen==Screen.PICKER)focusFirst(pages.get(Screen.PICKER).root);
+            });
+        });
+    }
+    private void onBackPressedFromPicker() {
+        pickerGeneration++;
+        if(!history.isEmpty()&&history.peek()==Screen.ADVANCED){history.pop();}
+        switchScreen(Screen.ADVANCED);
+    }
     private void select(Image image) {
         CheckBox keep=new CheckBox(this);keep.setText(R.string.asl_keep_overlay);
         showDialog(new AlertDialog.Builder(this).setTitle(image.name).setMessage(R.string.asl_change).setView(keep)

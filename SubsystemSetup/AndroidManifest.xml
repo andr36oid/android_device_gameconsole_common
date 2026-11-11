@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.andr36oid.subsystemsetup"
+    android:versionCode="33"
+    android:versionName="11"
     android:sharedUserId="android.uid.system">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -36,8 +38,6 @@
                 android:resource="@drawable/ic_subsystem" />
         </activity>
 
-        <!-- Both Daijishou players target this package. Its optional ES entry
-             supplies the single MAIN/LAUNCHER package match when enabled. -->
         <activity android:name=".LaunchPortActivity" android:exported="true"
             android:excludeFromRecents="true" android:noHistory="true"
             android:theme="@style/SubsystemTheme">
@@ -48,10 +48,24 @@
         </activity>
 
         <activity android:name=".RetroArchActivity" android:exported="true" android:theme="@style/SubsystemTheme" />
-        <activity android:name=".AdvancedSetupActivity" android:exported="false" android:theme="@style/SubsystemTheme" />
         <activity android:name=".EmulationStationActivity" android:exported="false" android:theme="@style/SubsystemTheme" />
-        <activity-alias android:name=".EmulationStationLauncher" android:targetActivity=".EmulationStationActivity" android:enabled="false" android:exported="true" android:icon="@drawable/ic_emulationstation" android:label="@string/asl_es">
-            <intent-filter><action android:name="android.intent.action.MAIN"/><category android:name="android.intent.category.LAUNCHER"/></intent-filter>
+        <!-- The one launcher entry. Daijishou 1.5.0 checks MAIN/LAUNCHER package
+             membership even when launching an explicit activity, so this must
+             stay enabled or Ports/cores stop launching. It is never toggled at
+             run time (a kept-/data component state would otherwise hide it), and
+             it shows as EmulationStation: the activity opens ES when an image is
+             ready and the subsystem dashboard otherwise. -->
+        <activity-alias
+            android:name=".DaijishouPlayerLauncher"
+            android:targetActivity=".EmulationStationActivity"
+            android:enabled="true"
+            android:exported="true"
+            android:icon="@drawable/ic_emulationstation"
+            android:label="@string/asl_es">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity-alias>
 
         <!-- Shown by BootReceiver after the broker finds an image. -->

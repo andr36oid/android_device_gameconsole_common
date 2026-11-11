@@ -70,13 +70,14 @@ are left alone by the seeder; add a player manually if upgrading an existing lib
 Daijishou 1.5.0 checks the package against enabled `MAIN`/`LAUNCHER` activities
 before starting an explicit player component. Both Linux players now target
 `org.andr36oid.subsystemsetup`: `.RetroArchActivity` for cores and
-`.LaunchPortActivity` for Ports. The runtime-enabled `.EmulationStationLauncher`
-is their single shared package match and the only subsystem launcher icon.
-It requires a ready image and `persist.andr36oid.subsystem.es_icon=1`.
-Turning the ES entry off also removes both players' preflight package match;
-Settings discovery and a headless activity do not satisfy this check.
+`.LaunchPortActivity` for Ports. The always-enabled `.DaijishouPlayerLauncher`
+provides their package match and opens the subsystem dashboard. The optional
+`.EmulationStationLauncher` still requires a ready image and
+`persist.andr36oid.subsystem.es_icon=1`; turning it off no longer breaks players.
+MAIN/LAUNCHER aliases also appear in launcher app queries. Hiding the dashboard
+entry requires the launcher's app-list filter, separate from this manifest.
 
-The redundant Subsystem and PortMaster aliases are removed. SubsystemBridge
+The old Subsystem and PortMaster aliases are removed. SubsystemBridge
 remains a headless compatibility endpoint. Every boot's Ports reconciliation
 repoints the retained `ports.andr36oid.subsystem` player from the bridge to
 SubsystemSetup using the validated database-copy transaction, including when
