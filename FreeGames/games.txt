@@ -1,6 +1,7 @@
 # Free games put on a fresh EASYROMS card, see README.md.
 # One game per line, fields separated by |:
-#   folder | file name on the card | download URL | sha256 | zip member (or -) |
+#   folder | file name on the card | download URL | sha256 | zip member (or -; ending in /
+#   for a game that is a whole folder) |
 #   title | authors | licence | licence file(s) in licenses/ | where to get it and its source
 # Only games whose authors allow free redistribution (see the report free-games.md).
 gb|Libbet and the Magic Floor.gb|https://github.com/pinobatch/libbet/releases/download/v0.08/libbet.gb|3607412031c8287cf878299ce96e581e85b852dde703806343b95576fa3ff1a9|-|Libbet and the Magic Floor (v0.08)|Damian Yerrick (Pino)|zlib|libbet.LICENSE.txt|https://github.com/pinobatch/libbet
@@ -10,3 +11,4 @@ gbc|uCity.gbc|https://github.com/AntonioND/ucity/releases/download/v1.3/ucity.gb
 nes|RHDE - Furniture Fight.nes|https://github.com/pinobatch/rhde-nes/releases/download/v0.07/rhde.nes|b2c4748a5b3651e393572046daf126213653b58b55472cdfdf4b863834dd0241|-|RHDE: Furniture Fight (v0.07)|Damian Yerrick (Pino)|GNU All-Permissive License (Copyright 2011-2016 Damian Yerrick)|rhde-nes.LICENSE.txt|https://github.com/pinobatch/rhde-nes
 nes|Thwaite.nes|https://github.com/pinobatch/thwaite-nes/releases/download/v0.04/thwaite.nes|a2df24d9c9f72e56c2fdc4c703becc47a5700ad0158da8208247635ebeb3779c|-|Thwaite (v0.04)|Damian Yerrick (Pino)|GPL-3.0-or-later (some files: zlib-like)|GPL-3.0.txt|source: https://github.com/pinobatch/thwaite-nes/tree/v0.04 , a copy is in the andr36oid source (device/gameconsole/common/FreeGames/source/thwaite-nes-0.04.tar.gz)
 doom|freedoom1.wad|https://github.com/freedoom/freedoom/releases/download/v0.13.0/freedoom-0.13.0.zip|3f9b264f3e3ce503b4fb7f6bdcb1f419d93c7b546f4df3e874dd878db9688f59|freedoom-0.13.0/freedoom1.wad|Freedoom: Phase 1 (v0.13.0)|Contributors to the Freedoom project|BSD-3-Clause|freedoom.COPYING.txt|https://freedoom.github.io , source https://github.com/freedoom/freedoom
+psp|ExtremeTuxRacer|https://github.com/chriopter/psp-tuxracer/releases/download/v1.0.0/extremetuxracer-psp.zip|ab67da5902f27fdcf41d444d581a0107b5e14ce09c387680ef3195cfb4321c5e|PSP/GAME/ExtremeTuxRacer/|Extreme Tux Racer for PSP (v1.0.0, port of Extreme Tux Racer 0.8.4)|The Extreme Tux Racer team; PSP port by chriopter|GPL-2.0-or-later, libraries under their own licences (LICENSES folder in the game folder)|GPL-2.0.txt|https://github.com/chriopter/psp-tuxracer (game and full source: release v1.0.0, sources.tar.gz)

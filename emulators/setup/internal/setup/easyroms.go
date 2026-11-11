@@ -247,8 +247,8 @@ func (s *Setup) MakeRomFolders() {
 
 // FreeGames are a few games whose authors allow sharing them (FreeGames/games.txt), so a
 // new console has something to play before the user copies games. EASYROMS needs this
-// much free space for them, in KB (about 30 MB unpacked).
-const freeGamesMinFreeKB = 65536
+// much free space for them, in KB (about 85 MB unpacked, with room to spare).
+const freeGamesMinFreeKB = 196608
 
 // seedFreeGames copies each game into its ROM folder, and free-games-licenses.txt to the
 // top. A file that is already there is never overwritten, and a game whose folder doesn't
@@ -271,13 +271,19 @@ func (s *Setup) seedFreeGames(root string) {
 		return
 	}
 	want := map[string]bool{}
+	missing := map[string]bool{}
 	for _, m := range members {
 		if m == "" || strings.HasSuffix(m, "/") || strings.HasPrefix(m, "/") || strings.Contains(m, "..") {
 			continue
 		}
-		if i := strings.LastIndexByte(m, '/'); i > 0 {
+		// Only the ROM folder itself has to be there. A game that is a folder of
+		// files (psp/ExtremeTuxRacer/...) gets its own folders made below.
+		if i := strings.IndexByte(m, '/'); i > 0 {
 			if dir := m[:i]; !sys.IsDir(root + "/" + dir) {
-				s.Log("no %s/ folder on EASYROMS, left out %s", dir, m[i+1:])
+				if !missing[dir] {
+					s.Log("no %s/ folder on EASYROMS, left out its games", dir)
+				}
+				missing[dir] = true
 				continue
 			}
 		}
@@ -295,6 +301,9 @@ func (s *Setup) seedFreeGames(root string) {
 			return nil
 		}
 		dest := root + "/" + name
+		if i := strings.LastIndexByte(dest, '/'); i > len(root) {
+			_ = os.MkdirAll(dest[:i], 0775)
+		}
 		if err := s.copyTo(r, dest); err != nil {
 			_ = os.Remove(dest + ".part")
 			s.Log("couldn't copy %s to EASYROMS", name)

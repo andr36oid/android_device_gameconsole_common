@@ -53,11 +53,19 @@ while IFS='|' read -r folder name url sum member title authors licence _ where; 
 	case $folder in ''|\#*) continue ;; esac
 	f=$(fetch "$url" "$sum")
 	mkdir -p "$STAGE/$folder"
-	if [ "$member" = - ]; then
-		cp "$f" "$STAGE/$folder/$name"
-	else
-		unzip -p "$f" "$member" >"$STAGE/$folder/$name"
-	fi
+	case $member in
+	-) cp "$f" "$STAGE/$folder/$name" ;;
+	*/)
+		# a game that is a folder of files: the whole folder from the zip, and the
+		# licence texts its authors packed with it
+		x=$(mktemp -d)
+		unzip -q "$f" "$member*" 'LICENSES/*' -d "$x" 2>/dev/null || unzip -q "$f" "$member*" -d "$x"
+		mv "$x/${member%/}" "$STAGE/$folder/$name"
+		[ ! -d "$x/LICENSES" ] || mv "$x/LICENSES" "$STAGE/$folder/$name/LICENSES"
+		rm -rf "$x"
+		;;
+	*) unzip -p "$f" "$member" >"$STAGE/$folder/$name" ;;
+	esac
 	{
 		echo "$folder/$name"
 		echo "  Game:    $title"

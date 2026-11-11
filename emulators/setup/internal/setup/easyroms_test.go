@@ -191,14 +191,19 @@ func TestFreeGames(t *testing.T) {
 			}
 		}
 		if sys_exists(r+"/doom") || !sys_exists(r+"/README-andr36oid.txt") || !sys_exists(s.state("rom-folders.ABCD-1234")) ||
-			!logHas(s, "no doom/ folder on EASYROMS, left out freedoom1.wad") || !logHas(s, "copied 7 files") || !noPart(r) {
+			!logHas(s, "no doom/ folder on EASYROMS, left out its games") || !logHas(s, "copied 673 files") || !noPart(r) {
 			t.Errorf("log: %v", s.Lines)
 		}
 	})
 	t.Run("doom folder: Freedoom too", func(t *testing.T) {
 		s, r := romCard(t, true, archive)
 		s.MakeRomFolders()
-		if !sameAsArchive(t, r, "doom/freedoom1.wad") || !logHas(s, "copied 8 files") || !noPart(r) {
+		// a game that is a folder of files lands with its sub-folders
+		if !sameAsArchive(t, r, "psp/ExtremeTuxRacer/EBOOT.PBP") || !sys_exists(r+"/psp/ExtremeTuxRacer/LICENSES/ExtremeTuxRacer-GPL.txt") ||
+			!sys_exists(r+"/psp/ExtremeTuxRacer/data") {
+			t.Errorf("the folder game is incomplete: %v", s.Lines)
+		}
+		if !sameAsArchive(t, r, "doom/freedoom1.wad") || !logHas(s, "copied 674 files") || !noPart(r) {
 			t.Errorf("log: %v", s.Lines)
 		}
 	})
@@ -229,7 +234,7 @@ func TestFreeGames(t *testing.T) {
 		write(t, r+"/free-games-licenses.txt", "mine\n")
 		s.seedFreeGames(r)
 		if read(t, r+"/gb/2048.gb") != "mine\n" || read(t, r+"/free-games-licenses.txt") != "mine\n" ||
-			!sameAsArchive(t, r, "gb/Libbet and the Magic Floor.gb") || !logHas(s, "copied 5 files") {
+			!sameAsArchive(t, r, "gb/Libbet and the Magic Floor.gb") || !logHas(s, "copied 671 files") {
 			t.Errorf("log: %v", s.Lines)
 		}
 	})
@@ -248,7 +253,7 @@ func TestFreeGames(t *testing.T) {
 			}
 		}
 		if !noPart(r) || !sys_exists(s.state("rom-folders.ABCD-1234")) || sys_exists(s.state("rom-folders.pending.ABCD-1234")) ||
-			!logHas(s, "copied 7 files") {
+			!logHas(s, "copied 673 files") {
 			t.Errorf("log: %v", s.Lines)
 		}
 	})
