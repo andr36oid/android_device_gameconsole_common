@@ -69,8 +69,10 @@ repair_native_buttonmon() {
   [ -f "$helper" ] || return 0
   codes=$(root_path "$ROOT" /usr/local/libexec/andr36oid-pad-codes) || return 1
   mkdir -p "${codes%/*}" || return 1
-  cp /system/bin/andr36oid-pad-codes "$codes.tmp" && chmod 0755 "$codes.tmp" &&
-    mv -f "$codes.tmp" "$codes" || { rm -f "$codes.tmp"; return 1; }
+  if ! cmp -s /system/bin/andr36oid-pad-codes "$codes"; then
+    cp /system/bin/andr36oid-pad-codes "$codes.tmp" && chmod 0755 "$codes.tmp" &&
+      mv -f "$codes.tmp" "$codes" || { rm -f "$codes.tmp"; return 1; }
+  fi
   grep -q '^# andr36oid native pad alias v2$' "$helper" && return 0
   staging=$(mktemp "${helper%/*}/.a36-buttonmon.XXXXXX") || return 1
   cp -p "$helper" "$staging" || { rm -f "$staging"; return 1; }
@@ -99,6 +101,7 @@ repair_native_fn_watcher() {
   # Replace the image helper at its original path so both the wrapper and
   # fn-menu-watcher.service use the same state machine, with just one sender.
   [ -x "$FN_WATCH" ] || return 1
+  cmp -s "$FN_WATCH" "$helper" && return 0
   staging=$(mktemp "${helper%/*}/.a36-fn-watch.XXXXXX") || return 1
   cp "$FN_WATCH" "$staging" && chmod 0755 "$staging" && mv -f "$staging" "$helper" ||
     { rm -f "$staging"; return 1; }
@@ -206,7 +209,53 @@ EOF
 }
 # Hotkey daemons start inside the same PID namespace as the frontend.
 start_hotkeys() { :; }
+# A session-local ES command wrapper gives immediate relaunch a synchronous
+# stale-mount check, even when the previous launcher was SIGKILLed or replaced
+# its EXIT trap. Keep the user's original config in the rootfs unchanged.
+repair_port_launch_boundary() {
+  [ -z "$IMAGE" ] || return 0
+  local cfg original generated command
+  cfg=$(root_path "$ROOT" /etc/emulationstation/es_systems.cfg) || return 1
+  [ -f "$cfg" ] || return 0
+  original="$ROOT/run/andr36oid-es-systems.original"
+  generated="$ROOT/run/andr36oid-es-systems.cfg"
+  command='sudo perfmax %GOVERNOR% %ROM%; nice -n -19 %ROM%; sudo perfnorm'
+  if [ ! -f "$original" ]; then
+    grep -Fq "<command>$command</command>" "$cfg" || return 0
+    cp "$cfg" "$original" || return 1
+  fi
+  cp "$GUEST" "$ROOT/run/andr36oid-port-helper" && chmod 0755 "$ROOT/run/andr36oid-port-helper" || return 1
+  cat > "$ROOT/run/andr36oid-port-launch" <<'PORT'
+#!/bin/sh
+attempt=0
+until /run/andr36oid-port-helper --clean-port-mounts /; do
+  attempt=$((attempt+1))
+  if [ "$attempt" -ge 25 ]; then
+    echo "Port runtime cleanup is still busy; refusing an overlapping launch"
+    exit 125
+  fi
+  sleep 0.2
+done
+sudo perfmax "${2:-performance}" "$1"
+nice -n -19 "$1"
+status=$?
+sudo perfnorm
+exit "$status"
+PORT
+  chmod 0755 "$ROOT/run/andr36oid-port-launch" || return 1
+  awk -v old="$command" '
+    /<system>/ {ports=0}
+    /<name>ports<\/name>/ {ports=1}
+    ports && index($0,"<command>" old "</command>") {
+      sub(/<command>.*<\/command>/,"<command>/run/andr36oid-port-launch %ROM% %GOVERNOR%</command>")
+    }
+    {print}
+  ' "$original" > "$generated" || return 1
+  mounted_at "$cfg" || bind_mount "$generated" "$cfg" || return 1
+  log "ports: session-local prelaunch cleanup enabled"
+}
 write_guest_session() {
+  repair_port_launch_boundary || return 1
   if [ -z "$IMAGE" ]; then
     local sudo_path
     sudo_path=$(root_path "$ROOT" /usr/local/bin/sudo) || return 1
@@ -338,8 +387,10 @@ prepare_guest_hardware() {
     [ -f "$node" ] || continue
     real=$(readlink -f "$node") || return 1
     printf '%s %s\n' "$real" "$(cat "$node")" >> "$STATE/session.brightness"
-    "$GUEST" --bind "$real" "$ROOT$real" || return 1
-    track_mount "$ROOT$real" || return 1
+    if ! mounted_at "$ROOT$real" || ! grep -Fxq "$ROOT$real" "$STATE/session.mounts"; then
+      "$GUEST" --bind "$real" "$ROOT$real" || return 1
+      track_mount "$ROOT$real" || return 1
+    fi
   done
 }
 restore_guest_hardware() {

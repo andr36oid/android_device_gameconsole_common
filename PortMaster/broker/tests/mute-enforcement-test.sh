@@ -12,7 +12,7 @@ enable_hardware_master() {
   echo '235 235' > "$tmp/mixer-master"
   echo '235 235' > "$tmp/mixer-playback"
 }
-sed -n '/^prime_udev$/,/^# Wait/p' "$broker" > "$tmp/boundary"
+sed -n '/^# BEGIN session admission/,/^# Wait/p' "$broker" > "$tmp/boundary"
 
 tinymix() {
   case "$(cat "$tmp/mode"):$*" in

@@ -13,6 +13,7 @@ cc_binary {
 cc_binary {
     header_libs: ["libandr36oid_gamepad_headers"],
     name: "andr36oid-guest",
+    static_libs: ["liblz4"],
     srcs: ["andr36oid-guest.c"],
     // Self-contained guest supervisor and host-side loop recovery helper.
     static_executable: true,

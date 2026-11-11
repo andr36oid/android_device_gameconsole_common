@@ -17,7 +17,7 @@ getprop() {
 }
 stop() { echo "stop $*" >> "$tmp/events"; echo stopped > "$tmp/$1"; }
 start() { echo "start $*" >> "$tmp/events"; }
-setprop() { echo "setprop $*" >> "$tmp/events"; }
+setprop() { echo "setprop $*" >> "$tmp/events"; [ "$1" != ctl.stop ] || echo stopped > "$tmp/$2"; }
 for channel in release debug; do
   rm -f "$tmp/zygote" "$tmp/zygote_secondary" "$tmp/audioserver" "$tmp/iorapd" "$tmp/joyMouse"
   : > "$tmp/events"
@@ -34,6 +34,7 @@ done
 ip() { fail 'guest preparation changed host interfaces/routes'; }
 ifconfig() { fail 'guest preparation changed host interfaces'; }
 iptables() { fail 'guest preparation changed host firewall'; }
+timeout() { shift 3; dumpsys "$@"; }
 dumpsys() { printf 'Active default network: 100\nnetwork{100} DnsAddresses: [ /192.0.2.53 ]\n'; }
 bind_mount() { echo "bind $*" >> "$tmp/binds"; }
 mkdir -p "$ROOT/etc/init.d"

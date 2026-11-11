@@ -232,8 +232,11 @@ PRODUCT_COPY_FILES += \
 	$(LOCAL_PATH)/PortMaster/subsystem/andr36oid-subsystem.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/andr36oid-subsystem.rc \
 	$(LOCAL_PATH)/PortMaster/subsystem/input/es_input.cfg:$(TARGET_COPY_OUT_SYSTEM)/etc/andr36oid-es_input.cfg \
 	$(LOCAL_PATH)/PortMaster/subsystem/input/retroarch/GO-Super-Gamepad.cfg:$(TARGET_COPY_OUT_SYSTEM)/etc/andr36oid-retroarch-GO-Super-Gamepad.cfg \
-	$(LOCAL_PATH)/PortMaster/subsystem/splash/andr36oid-splash-640x480.raw:$(TARGET_COPY_OUT_SYSTEM)/etc/andr36oid-splash.raw \
+	$(LOCAL_PATH)/PortMaster/subsystem/splash/prebuilt/andr36oid-loading.pack:$(TARGET_COPY_OUT_SYSTEM)/etc/andr36oid-splash.raw \
 	$(LOCAL_PATH)/PortMaster/subsystem/shutdown/andr36oid-shutdownanimation.zip:$(TARGET_COPY_OUT_SYSTEM)/media/shutdownanimation.zip
+
+# Accepted KMS/loading splash is on by default; a persisted 0 remains an opt-out.
+PRODUCT_PRODUCT_PROPERTIES += persist.andr36oid.subsystem.kms_splash=1
 
 # BOOT/hotfix/*.fix.zip, applied before zygote on every start
 PRODUCT_PACKAGES += \

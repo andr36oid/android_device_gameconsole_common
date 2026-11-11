@@ -57,7 +57,7 @@ ctl.start wificond
 ctl.start vendor.wifi_hal_legacy
 framework-start
 DATA
-sed -n '/ctl.stop wpa_supplicant/,$p' "$tmp/events" > "$tmp/network-events"
+sed -n '/ctl.stop wpa_supplicant/,$p' "$tmp/events" | sed '/^ctl.start composer$/d; /^ctl.start surfaceflinger$/d; /^ctl.start joyMouse$/d; /^sys.andr36oid.subsystem.return_animation /d' > "$tmp/network-events"
 cmp "$tmp/expected" "$tmp/network-events" || fail 'network reset ordering changed'
 # Recovery retries after framework start fails must preserve the completed reset.
 : > "$tmp/events"

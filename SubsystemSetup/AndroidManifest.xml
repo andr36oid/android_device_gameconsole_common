@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.andr36oid.subsystemsetup"
-    android:versionCode="33"
+    android:versionCode="34"
     android:versionName="11"
     android:sharedUserId="android.uid.system">
 
@@ -89,6 +89,8 @@
                 android:resource="@drawable/ic_subsystem" />
         </activity>
 
+        <service android:name=".PrestageJob" android:permission="android.permission.BIND_JOB_SERVICE"
+            android:exported="true" />
         <receiver
             android:name=".BootReceiver"
             android:directBootAware="true"
@@ -96,6 +98,7 @@
             <intent-filter>
                 <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED" />
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.ACTION_SHUTDOWN" />
             </intent-filter>
         </receiver>
     </application>

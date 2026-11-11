@@ -30,3 +30,29 @@ start_drive() { return 1; }
 handle_request || exit 1
 (exec 6>"$USB_DRIVE_STORAGE_LOCK";flock -n 6 6>&6)
 echo 'PASS: USB sharing/virtual-image requests reject an active subsystem lease; cleanup holds the lease and releases it afterwards'
+# A dormant stage has no lifetime flock: eviction must run BEFORE USB takes it.
+export T USB_DRIVE_STORAGE_LOCK
+USB_DRIVE_SUBSYSTEM_BROKER="$T/evict"; export USB_DRIVE_SUBSYSTEM_BROKER
+cat > "$USB_DRIVE_SUBSYSTEM_BROKER" <<'EVICT'
+#!/bin/sh
+[ "$1" = unstage ] || exit 91
+(exec 8>"$USB_DRIVE_STORAGE_LOCK"; flock -n 8) || exit 92
+printf 'called\n' >> "$T/evictions"
+[ ! -f "$T/evict-failure" ] || exit 93
+[ ! -f "$T/evict-incomplete" ] || exit 0
+printf 0 > "$T/props/sys.andr36oid.subsystem.prestaged"
+EVICT
+chmod 0755 "$USB_DRIVE_SUBSYSTEM_BROKER"
+setprop sys.andr36oid.subsystem.prestaged 1
+handle_request || exit 1
+[ "$(cat "$T/evictions")" = called ]
+[ "$(getprop sys.andr36oid.subsystem.prestaged)" = 0 ]
+[ "$(getprop sys.andr36oid.subsystem.prestage_block)" = 0 ]
+for failure in evict-failure evict-incomplete; do
+  touch "$T/$failure";setprop sys.andr36oid.subsystem.prestaged 1
+  handle_request || exit 1
+  [ "$(prop request)" = stop ] && [ "$(prop error)" = storage_busy ]
+  [ "$(getprop sys.andr36oid.subsystem.prestage_block)" = 0 ]
+  rm "$T/$failure"
+done
+echo 'PASS: USB evicts dormant mounts before locking; failed/incomplete eviction cancels export and releases its inhibition'

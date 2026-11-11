@@ -40,6 +40,13 @@
 static volatile sig_atomic_t stopping;
 static void stop(int signo) { (void)signo; stopping = 1; }
 static void fatal(const char *what) { perror(what); exit(125); }
+static void guest_phase(const char *phase) {
+    struct timespec t;
+    if (!clock_gettime(CLOCK_BOOTTIME, &t))
+        fprintf(stderr, "guest phase: %s boot_ms=%lld\n", phase,
+                (long long)t.tv_sec*1000+t.tv_nsec/1000000);
+}
+
 static int check_drm(void) {
     int fd=open("/dev/dri/card0",O_RDWR|O_CLOEXEC);
     if(fd<0) {perror("DRM handoff");return 1;}
@@ -473,8 +480,8 @@ static bool exit_game(pid_t payload) {
     } else { signal_tree(payload,SIGTERM,0); killed=true; }
     closedir(d); return killed;
 }
-#include "andr36oid-guest-loops.h"
 #include "andr36oid-guest-teardown.h"
+#include "andr36oid-guest-loops.h"
 /* Mount propagation is private. Ordinary storage tools must not change a shared
  * filesystem's GLOBAL superblock flags or Android's global swap configuration.
  * Bind remounts change only this namespace's view and remain available. This is
@@ -613,6 +620,7 @@ static int supervise(char **argv,bool native,bool hotkeys) {
         if(muted)hold_mixer_mute();
         // Internal shared storage must also remain writable by Android media_rw.
         if(native) { if(setgid(1023))fatal("shared storage group");umask(0002); }
+        guest_phase("payload-exec");
         execvp(argv[0],argv); fatal("exec guest");
     }
     int pad=hotkeys?pad_open():-1, status=0; long long last_retry=now_ms();
@@ -740,12 +748,21 @@ done:
     close(fd);
     return result;
 }
+#include "andr36oid-splash.h"
+#include "andr36oid-splash-scanout.h"
 int main(int argc,char **argv) {
+    if(argc==8 && !strcmp(argv[1],"--splash-scanout")) {
+        char *end;errno=0;unsigned long wait_ms=strtoul(argv[6],&end,10);
+        if(errno||!*argv[6]||*end||wait_ms>10000)return 2;
+        return splash_scanout(argv[2],argv[3],argv[4],argv[5],(unsigned)wait_ms,argv[7]);
+    }
+    if(argc==5 && !strcmp(argv[1],"--splash"))return splash_paint(argv[2],argv[3],argv[4]);
     if (argc == 3 && !strcmp(argv[1], "--session-wifi")) return session_wifi_control(argv[2]);
     if (argc == 5 && !strcmp(argv[1], "--stop-worker-tree"))
         return stop_worker_tree(argv[2], argv[3], argv[4]);
     if (argc == 3 && !strcmp(argv[1], "--kill-guest-root")) return stop_guest_root(argv[2], false);
     if (argc == 3 && !strcmp(argv[1], "--stop-guest-root")) return stop_guest_root(argv[2], true);
+    if(argc==3&&!strcmp(argv[1],"--clean-port-mounts"))return gl_clean_ports(argv[2]);
     if(argc==4&&!strcmp(argv[1],"--cleanup-guest-loops"))return gl_recover(argv[2],argv[3]);
     if(argc==2 && !strcmp(argv[1],"--capture-mixer"))return capture_mixer();
     if(argc==2 && !strcmp(argv[1],"--headphone-state"))return headphone_state();
@@ -765,6 +782,7 @@ int main(int argc,char **argv) {
         return 0;
     }
     if(argc<6 || strcmp(argv[4],"--")) { fprintf(stderr,"usage: andr36oid-guest ROOT native|generic hotkeys|quiet -- command...\n"); return 2; }
+    guest_phase("supervisor-enter");
     close_inherited_fds();
     bool native=!strcmp(argv[2],"native")||!strcmp(argv[2],"native-init"),hotkeys=!strcmp(argv[3],"hotkeys");
     int gate[2];
@@ -778,6 +796,7 @@ int main(int argc,char **argv) {
         close(gate[1]); char byte;
         struct gl_state loops;
         if(gl_start(&loops,argv[1],getenv("A36_LOOP_JOURNAL"))){perror("guest loop baseline");kill(init,SIGKILL);return 125;}
+        guest_phase("loop-baseline-ready");
         if(read(gate[0],&byte,1)!=1 || write(gate[0],"1",1)!=1) {kill(init,SIGKILL);return 125;}
         close(gate[0]);
         int status; for(;;) {

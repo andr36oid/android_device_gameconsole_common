@@ -28,6 +28,7 @@ final class SubsystemBackend {
     static final String DAIJISHOU_TOOLS = "persist.andr36oid.subsystem.daijishou_tools";
     static final String DEFAULT = "persist.andr36oid.subsystem.default";
     static final String DEFAULT_TARGET = "persist.andr36oid.subsystem.default_target";
+    static final String PRESTAGE = "persist.andr36oid.subsystem.prestage";
     static final String ROOTFS = "sys.andr36oid.subsystem.rootfs";
     static final String HANDOFF = "sys.andr36oid.subsystem.handoff";
     static final String PORT = "sys.andr36oid.subsystem.port";
@@ -41,6 +42,14 @@ final class SubsystemBackend {
     private static final String DOWNLOAD_DIRECTORY = "download_directory";
     private static final String IMAGE_NAME = "darkosen.img";
     private static final String PARTIAL_NAME = "darkosen.img.download";
+
+    static void requestPrestage(boolean enable) {
+        if ("running".equals(get(SESSION)) || !get(REQUEST).isEmpty()) return;
+        if (enable && !"1".equals(get(IMAGE))) return;
+        set(ROOTFS, ""); set(HANDOFF, "1");
+        set(PORT, enable ? "PRESTAGE" : "UNSTAGE");
+        set(REQUEST, "run");
+    }
 
     static final class Snapshot {
         String image = "", session = "", log = "";

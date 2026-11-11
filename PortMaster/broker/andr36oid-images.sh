@@ -42,6 +42,14 @@ acquire_operation() {
     [ ! -d "$STATE/session.lock" ] || { exec 7>&- 9>&-; return 1; };;
   esac
   OPERATION_LOCKED=1
+  case "$1" in run)
+    if command -v prestage_blocked >/dev/null && prestage_blocked; then exec 7>&- 9>&-; OPERATION_LOCKED=0; return 1; fi ;;
+    scan|recover|prestage) : ;;
+    *)
+      if [ -f "$STATE/prestage.ready" ] || [ -s "$STATE/session.mounts" ]; then
+        prestage_unmount_locked || { exec 7>&- 9>&-; OPERATION_LOCKED=0; return 1; }
+      fi ;;
+  esac
   publish operation "$1"
 }
 release_operation() { publish operation ""; exec 9>&- 7>&-; OPERATION_LOCKED=0; }
@@ -732,7 +740,14 @@ optimize_worker() {
   OPT_KEEP=$(prop opt_dispatch_keep); [ "$OPT_KEEP" = 1 ] || OPT_KEEP=0
   trap 'opt_cleanup $?' EXIT
   trap 'OPT_ERROR=interrupted; exit 1' INT TERM HUP
-  if ! acquire_operation optimize; then
+  if [ "${A36_OPT_LOCKED:-0}" = 1 ]; then
+    # Dispatcher evicted the shared mounts before namespace isolation. These
+    # inherited open file descriptions retain both locks until opt_cleanup.
+    flock -n 7 7>&7 && flock -n 9 9>&9 || exit 2
+    OPERATION_LOCKED=1
+  elif [ -f "$STATE/prestage.ready" ] || [ -s "$STATE/session.mounts" ] || ! acquire_operation optimize; then
+    # A direct diagnostic private worker must not forget journals for mounts
+    # which still exist in Android's namespace. Use optimize-prop to evict.
     publish opt_reject_error busy; publish opt_reject_job "$OPT_JOB"; operation_done busy; exit 1
   fi
   OPT_LOCKED=1
@@ -1031,3 +1046,171 @@ unpack_worker() {
   # Success: the EXIT trap publishes done and requests a scan.
 }
 
+
+# --- opt-in resident mount stage ---------------------------------------------
+prestage_enabled() { [ "$(getprop persist.andr36oid.subsystem.prestage)" = 1 ]; }
+prestage_blocked() { case "$(getprop sys.andr36oid.subsystem.prestage_block)" in ""|0) ;; *) return 0;; esac; [ -n "$(getprop sys.powerctl)" ]; }
+phase_clock() {
+  local now idle seconds fraction
+  IFS=' ' read -r now idle < /proc/uptime || return 1
+  seconds=${now%.*}; fraction=${now#*.}
+  # proc uptime has centiseconds. Avoid an awk process at every phase edge.
+  if [ "$seconds" = 0 ]; then fraction=${fraction#0}; printf '%s\n' "$((fraction*10))"
+  else printf '%s%s0\n' "$seconds" "$fraction"; fi
+}
+phase() {
+  local name=$1 before after rc; shift
+  before=$(phase_clock); "$@"; rc=$?; after=$(phase_clock)
+  log "phase: $name  $((after-before))ms rc=$rc"
+  return "$rc"
+}
+prestage_storage_token() {
+  # Include mount device/path, so a missing/replaced/remounted card invalidates it.
+  awk '$5 ~ /^\/mnt\/media_rw\// {print $1,$3,$4,$5}' /proc/self/mountinfo
+}
+prestage_signature() {
+  local selected source effective source_stat effective_stat
+  selected=$(getprop "$SELECT_PROP")
+  if [ -n "$IMAGE" ]; then
+    source=$IMAGE; effective=$IMAGE
+  else
+    [ "${1:-}" = resolved ] || resolve_selected_image || return 1
+    [ "${DIAGNOSTIC_DIR:-0}" != 1 ] || return 1
+    source=$SOURCE; effective=$EFFECTIVE
+  fi
+  [ -f "$source" ] && [ -f "$effective" ] || return 1
+  source_stat=$(stat -c '%d:%i:%s:%Y' "$source") || return 1
+  if [ "$source" = "$effective" ]; then effective_stat=$source_stat
+  else effective_stat=$(stat -c '%d:%i:%s:%Y' "$effective") || return 1; fi
+  printf '%s\n' "$(boot_id)" "$selected" "$IMAGE" "$source" "$effective" \
+    "$source_stat" "$effective_stat" \
+    "$HANDOFF" "$(prestage_storage_token)" | sha256sum | cut -d' ' -f1
+}
+prestage_valid() {
+  local key old b loop dev ino offset extra
+  [ -f "$STATE/prestage.ready" ] && [ -s "$STATE/session.mounts" ] || return 1
+  [ "$(cat "$STATE/prestage.boot" 2>/dev/null)" = "$(boot_id)" ] || return 1
+  prestage_blocked && return 1
+  if [ -z "$IMAGE" ]; then
+    resolve_selected_image || return 1
+    prepare_writable_state || return 1
+    IMAGE_ID="$FAMILY:$GENERATION"
+  fi
+  ROMS_SOURCE=$(awk 'NR==1 {print $1}' "$STATE/roms-map")
+  old=$(cat "$STATE/prestage.ready")
+  key=$(prestage_signature resolved) || return 1
+  [ "$old" = "$key" ] || return 1
+  # One proc read and one awk, rather than a new process per retained mount.
+  awk -v root="$ROOT" '
+    NR==FNR {if(length($0)) expected[$0]=1; next}
+    {gsub(/\\040/," ",$2); gsub(/\\011/,"\t",$2); delete expected[$2]; if($2==root) mounted=1}
+    END {if(!mounted) exit 1; for(path in expected) exit 1}
+  ' "$STATE/session.mounts" /proc/mounts || return 1
+  read -r loop dev ino offset extra < "$STATE/session.loop" || return 1
+  [ -z "$extra" ] && "$SUPPORT" loop-owned "$loop" "$dev" "$ino" "$offset" || return 1
+  LOOPDEV=$loop; BOUND=$(cat "$STATE/session.mounts"); MOUNTED=1
+  return 0
+}
+prestage_forget() {
+  rm -f "$STATE/prestage.ready"
+  setprop sys.andr36oid.subsystem.prestaged 0
+}
+prestage_unmount_locked() {
+  # Caller owns the storage/operation locks; no framework, codec or power calls.
+  local b rc=0
+  rm -f "$STATE/prestage.ready"
+  # Keep the occupied flag until every mount and loop is actually released.
+  if [ ! -s "$STATE/prestage.boot" ]; then
+    if mounted_at "$ROOT" || mounted_at "$LOWER"; then
+      log "prestage: mount has no boot identity; refusing unowned eviction"
+      return 1
+    fi
+    # With no live mounts, unknown old metadata cannot justify detaching a
+    # possibly recycled loop. A new stage always records boot identity first.
+    rm -f "$STATE/session.loop" "$STATE/session.mounts" "$CONTROL/mounted-image"
+    prestage_forget
+    return 0
+  fi
+  if [ -f "$STATE/prestage.boot" ] && [ "$(cat "$STATE/prestage.boot")" != "$(boot_id)" ]; then
+    rm -f "$STATE/session.loop" "$STATE/session.mounts" "$STATE/prestage.boot" "$CONTROL/mounted-image"
+    prestage_forget
+    return 0
+  fi
+  if [ -d "$ROOT/proc" ] && mounted_at "$ROOT"; then
+    "$GUEST" --stop-guest-root "$ROOT" || return 1
+    if [ -f "$STATE/session.guest-loops" ]; then
+      "$GUEST" --cleanup-guest-loops "$ROOT" "$STATE/session.guest-loops" || return 1
+    fi
+  fi
+  if [ -f "$STATE/session.mounts" ]; then
+    BOUND=$(cat "$STATE/session.mounts")
+    while IFS= read -r b; do
+      [ -n "$b" ] || continue
+      if mounted_at "$b"; then umount "$b" 2>/dev/null || { log "prestage: busy mount $b; eviction refused"; rc=1; break; }; fi
+      forget_mount "$b" || { rc=1; break; }
+    done < "$STATE/session.mounts"
+  fi
+  [ "$rc" = 0 ] || return 1
+  release_session_loop || return 1
+  rm -f "$STATE/session.mounts" "$STATE/session.restore-complete" "$CONTROL/mounted-image" "$STATE/prestage.boot"
+  LOOPDEV=; BOUND=; STAGE_COMPLETE=0
+  prestage_forget
+  log "prestage: resident mounts released"
+}
+prestage_park() {
+  [ "$HANDOFF" = 1 ] && [ "${STAGE_COMPLETE:-0}" = 1 ] && [ "${FORCE_UNSTAGE:-0}" != 1 ] && prestage_enabled || return 1
+  prestage_blocked && return 1
+  local key
+  # The operation lock pins selection/conversion for the session. Re-stat the
+  # resolved paths; next launch still performs a fresh managed resolution.
+  # Avoid probing the whole catalog while Android is starting in parallel.
+  key=$(prestage_signature resolved) || return 1
+  printf '%s\n' "$(boot_id)" > "$STATE/prestage.boot" || return 1
+  printf '%s\n' "$key" > "$STATE/prestage.ready.tmp" && mv -f "$STATE/prestage.ready.tmp" "$STATE/prestage.ready" || return 1
+  setprop sys.andr36oid.subsystem.prestaged 1 || { rm -f "$STATE/prestage.ready"; return 1; }
+  PARKED_STAGE=1
+  log "prestage: mounts retained; Android owns display/audio/input"
+}
+stage_mounts() {
+  if prestage_valid; then
+    STAGE_COMPLETE=1; WARM_STAGE=1
+    prestage_forget
+    log "prestage: warm mount cache reused"
+    return 0
+  fi
+  if [ -e "$STATE/prestage.ready" ] || [ -s "$STATE/session.mounts" ]; then
+    prestage_unmount_locked || return 1
+  fi
+  printf '%s\n' "$(boot_id)" > "$STATE/prestage.boot" || return 1
+  : > "$STATE/session.mounts" || return 1
+  rm -f "$STATE/session.restore-complete"
+  [ "${STAGE_ONLY:-0}" != 1 ] || setprop sys.andr36oid.subsystem.prestaged 1 || return 1
+  WARM_STAGE=0
+  phase rootfs mount_rootfs || return 1
+  phase executable-repair fix_exec_bits
+  if find_es "$ROOT"; then phase native-input prime_native_input || return 1; fi
+  phase core-mounts bind_core || return 1
+  phase games-mounts mount_storage || return 1
+  phase roms-provision provision_darkos || return 1
+  phase tools-mount mount_tools_menu || return 1
+  publish_setup_complete || return 1
+  phase network prepare_network || return 1
+  phase chroot-prep prep_darkos_env || return 1
+  phase input-tags prime_udev
+  STAGE_COMPLETE=1; WARM_STAGE=0
+}
+prestage_command() {
+  [ "$1" != prestage ] || { prestage_enabled && ! prestage_blocked; } || return 0
+  acquire_operation prestage || return 1
+  if [ -d "$STATE/session.lock" ]; then release_operation; return 1; fi
+  SESSION_OWNED=1; DID_HANDOFF=0; STAGE_COMPLETE=0; PARKED_STAGE=0; STAGE_ONLY=1
+  if [ "$1" = unstage ]; then
+    prestage_unmount_locked; local rc=$?
+    SESSION_OWNED=0; operation_done "$rc"; release_operation; return "$rc"
+  fi
+  stage_mounts; local rc=$?
+  if [ "$rc" = 0 ]; then prestage_park || rc=1; fi
+  if [ "$rc" != 0 ]; then prestage_unmount_locked || :; fi
+  SESSION_OWNED=0; operation_done "$rc"; release_operation
+  return "$rc"
+}

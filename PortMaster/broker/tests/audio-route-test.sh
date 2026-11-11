@@ -82,7 +82,7 @@ show_splash() { :; }
 stop_android_display() { :; }
 # Only restore_android's display restart delay is irrelevant to the fixture.
 sleep() { case "$*" in 1) command sleep 0.1 ;; *) command sleep "$@" ;; esac; }
-sed -n '/^prime_udev$/,/^# Wait/p' "$production_broker/andr36oid-subsystem.sh" > "$tmp/boundary"
+sed -n '/^# BEGIN session admission/,/^# Wait/p' "$production_broker/andr36oid-subsystem.sh" > "$tmp/boundary"
 reset_codec() {
   stop_audio_route_guard
   echo "$1" > "$tmp/codec-path"
@@ -91,6 +91,7 @@ reset_codec() {
   echo 0 > "$tmp/codec-switch"
   echo good > "$tmp/write-mode"; echo 0 > "$tmp/capture-fail"
   rm -f "$tmp/writes" "$tmp/payload-killed" "$ROOT/run/.a36-session-exit" "$STATE/session.mixer"
+  rm -f "$STATE/session.restore-complete"
   DID_HANDOFF=0; SESSION_OWNED=1; SESSION_MUTED=0
 }
 select_board() {
@@ -254,6 +255,6 @@ done
 grep -Fq 'Environment=PATH=/run/andr36oid-audio-bin:' "$ROOT/etc/systemd/system/ogage.service.d/30-host-route.conf" || fail 'systemd ogage bypasses filter'
 sed "s@/run/@$ROOT/run/@g" "$ROOT/usr/local/libexec/a36-session-fixvolume" > "$tmp/fixvolume"
 sh "$tmp/fixvolume" || fail 'host route policy allowed fixvolume execution'
-cc -I"$(dirname "$0")/../../../gamepad/include" -Wall -Wextra -Werror -O2 "$(dirname "$0")/headphone-state-test.c" -o "$tmp/headphone-test"
+cc -I"$(dirname "$0")/../../../gamepad/include" -Wall -Wextra -Werror -O2 "$(dirname "$0")/headphone-state-test.c" -o "$tmp/headphone-test" -llz4
 "$tmp/headphone-test"
 echo 'PASS: audible route admission/tracking, mute isolation, per-board restoration and guest ownership'

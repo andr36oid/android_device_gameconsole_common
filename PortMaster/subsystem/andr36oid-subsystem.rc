@@ -113,3 +113,15 @@ service andr36oid-subsystem-select /system/bin/sh /system/etc/andr36oid-subsyste
 
 on property:sys.andr36oid.subsystem.request=select
     start andr36oid-subsystem-select
+
+# Optional resident mounts never retain a guest or a session wake lock.
+service andr36oid-subsystem-shutdown /system/bin/sh /system/etc/andr36oid-subsystem.sh shutdown
+    user root
+    group root system mount
+    seclabel u:r:shell:s0
+    disabled
+    oneshot
+    shutdown critical
+
+on shutdown
+    exec_start andr36oid-subsystem-shutdown

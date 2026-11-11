@@ -60,7 +60,7 @@ reset_return() {
   SESSION_OWNED=1; DID_HANDOFF=1; mode=ready
   echo 100 > "$tmp/clock"
   echo andr36oid-subsystem > "$wake"
-  rm -f "$unlock" "$deadline" "$LOG"
+  rm -f "$unlock" "$deadline" "$LOG" "$STATE/session.restore-complete"
 }
 
 reset_return

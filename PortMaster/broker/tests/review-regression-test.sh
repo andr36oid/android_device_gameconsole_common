@@ -245,7 +245,7 @@ repair_native_dingux_quotes
 [ ! -e "$dingux" ] || fail 'quote repair created an absent dingux profile'
 # Both shell interpreters also exercise the actual checked scalar and kernel
 # syscall policy code through the same compiler harness.
-cc -I"$(dirname "$0")/../../../gamepad/include" -Wall -Wextra -Werror -O2 "$(dirname "$0")/supervisor-policy-test.c" -o "$tmp/policy"
+cc -I"$(dirname "$0")/../../../gamepad/include" -Wall -Wextra -Werror -O2 "$(dirname "$0")/supervisor-policy-test.c" -o "$tmp/policy" -llz4
 "$tmp/policy" > "$tmp/policy.log" 2>&1 || { cat "$tmp/policy.log"; fail 'supervisor policy regression'; }
 cc -I"$(dirname "$0")/../../../gamepad/include" -Wall -Wextra -Werror -O2 "$(dirname "$0")/loop-retire-test.c" -o "$tmp/loop-retire"
 "$tmp/loop-retire" > "$tmp/loop-retire.log" 2>&1 || { cat "$tmp/loop-retire.log"; fail 'loop ownership regression'; }

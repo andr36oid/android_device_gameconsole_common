@@ -12,6 +12,11 @@ public class BootReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        if (Intent.ACTION_SHUTDOWN.equals(intent.getAction())) {
+            SubsystemBackend.set("sys.andr36oid.subsystem.prestage_block","shutdown");
+            SubsystemBackend.requestPrestage(false);
+            return;
+        }
         if (!Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())
                 && !Intent.ACTION_LOCKED_BOOT_COMPLETED.equals(intent.getAction())
                 && !"org.andr36oid.subsystemsetup.UPDATE_SETTINGS".equals(intent.getAction())) return;
@@ -28,6 +33,12 @@ public class BootReceiver extends BroadcastReceiver {
                 prefs.edit().remove("launch_pending").remove("launch_elapsed")
                         .remove("launch_saw_running").apply();
             }
+        }
+        if (Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction()) ||
+                ("org.andr36oid.subsystemsetup.UPDATE_SETTINGS".equals(intent.getAction()) &&
+                 !"1".equals(SubsystemBackend.get("sys.andr36oid.subsystem.prestaged")))) {
+            // Also cover a games card discovered after the first idle boot job.
+            PrestageJob.schedule(context);
         }
         SubsystemSetupActivity.updateLauncher(context);
         final ComponentName entry = new ComponentName(context, SubsystemBootActivity.class);

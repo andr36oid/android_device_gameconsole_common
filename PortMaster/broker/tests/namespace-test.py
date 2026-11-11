@@ -8,7 +8,7 @@ with tempfile.TemporaryDirectory(prefix='a36-namespace-') as temporary:
  # CI containers can forbid block mknod independently of mount namespaces.
  # This test never uses loop nodes; actual node admission is tested in the VM.
  (b/'mknod.c').write_text('#include <sys/stat.h>\nint __wrap_mknod(const char *p,mode_t m,dev_t d){(void)p;(void)m;(void)d;return 0;}\n')
- subprocess.run(['cc','-Wl,--wrap=mknod',str(b/'mknod.c'),'-Wall' ,'-Wextra','-Werror','-O2',str(w/'PortMaster/subsystem/andr36oid-guest.c'),'-o',str(b/'guest')],check=True)
+ subprocess.run(['cc','-Wl,--wrap=mknod',str(b/'mknod.c'),'-Wall' ,'-Wextra','-Werror','-O2',str(w/'PortMaster/subsystem/andr36oid-guest.c'),'-o',str(b/'guest'),'-llz4'],check=True)
  source=r'''
 #define main guest_program_main
 #include "GUEST_SOURCE"
@@ -69,7 +69,7 @@ int main(int argc,char **argv) {
 }
 '''
  (b/'payload.c').write_text(source.replace('GUEST_SOURCE',str(w/'PortMaster/subsystem/andr36oid-guest.c')))
- subprocess.run(['cc','-static','-O2',str(b/'payload.c'),'-o',str(root/'payload')],check=True)
+ subprocess.run(['cc','-static','-O2',str(b/'payload.c'),'-o',str(root/'payload'),'-llz4'],check=True)
  os.link(root/'payload',root/'emulationstation')
  def processes():
   found=[]

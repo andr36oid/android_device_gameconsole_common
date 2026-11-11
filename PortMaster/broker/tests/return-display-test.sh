@@ -33,18 +33,20 @@ restore_android
 [ "$CLEANUP_FAILED" = 0 ] || fail 'normal restoration failed'
 cat > "$tmp/expected" <<'EOF'
 guest-reaped
-splash
 drm-released
 gamma-restored
+splash
+sys.andr36oid.subsystem.return_animation 0
 ctl.start composer
 service.bootanim.exit 0
 ctl.start surfaceflinger
 ctl.start bootanim
-sync
-loop-released
 ctl.start joyMouse
 framework-start
 service.bootanim.exit 1
+sync
+loop-released
+sys.andr36oid.subsystem.return_animation 0
 EOF
 cmp "$tmp/expected" "$tmp/events" || fail 'animation did not precede slow cleanup/framework or raced DRM restoration'
 # joyMouse is stopped in handoff and has no onrestart hook, so restore must start

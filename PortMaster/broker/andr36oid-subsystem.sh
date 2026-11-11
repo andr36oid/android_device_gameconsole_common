@@ -29,6 +29,7 @@
 #   andr36oid-subsystem.sh stop            # force teardown + restore Android
 
 set -u
+IFS=' ' read -r BROKER_ENTER_UPTIME BROKER_IDLE_SECONDS < /proc/uptime
 umask 022
 
 # --- configuration -----------------------------------------------------------
@@ -59,8 +60,9 @@ IMAGE_SEARCH="/storage/*/subsystem/darkosen/*.img /mnt/media_rw/*/subsystem/dark
 mkdir -p "$STATE"
 LOG="$STATE/subsystem.log"
 log() {
-  local line
-  line="$(cut -d. -f1 /proc/uptime)s $*"
+  local line seconds idle
+  IFS=' ' read -r seconds idle < /proc/uptime
+  line="${seconds%.*}s $*"
   printf '%s\n' "$line" >> "$LOG"
   [ "${LIVE_LOG:-0}" = 1 ] && printf '%s\n' "$line"
   return 0
@@ -77,14 +79,12 @@ track_mount() {
   BOUND="$1
 $BOUND"
   printf '%s\n' "$BOUND" > "$STATE/session.mounts.tmp" &&
-    "$SUPPORT" fsync "$STATE/session.mounts.tmp" &&
-    mv -f "$STATE/session.mounts.tmp" "$STATE/session.mounts" && "$SUPPORT" fsync "$STATE"
+    mv -f "$STATE/session.mounts.tmp" "$STATE/session.mounts"
 }
 forget_mount() {
   BOUND=$(printf '%s\n' "$BOUND" | awk -v p="$1" '$0!=p')
   printf '%s\n' "$BOUND" > "$STATE/session.mounts.tmp" &&
-    "$SUPPORT" fsync "$STATE/session.mounts.tmp" &&
-    mv -f "$STATE/session.mounts.tmp" "$STATE/session.mounts" && "$SUPPORT" fsync "$STATE"
+    mv -f "$STATE/session.mounts.tmp" "$STATE/session.mounts"
 }
 bind_mount() { mount -o bind "$1" "$2" && track_mount "$2"; }
 
@@ -187,8 +187,7 @@ eligible_rootfs() {
 record_session_loop() {
   case "$1:$2:$3" in *[!0-9:]*|:*|*::*|*:) return 1 ;; esac
   printf '%s %s %s %s\n' "$LOOPDEV" "$1" "$2" "$3" > "$STATE/session.loop.tmp" &&
-    "$SUPPORT" fsync "$STATE/session.loop.tmp" &&
-    mv -f "$STATE/session.loop.tmp" "$STATE/session.loop" && "$SUPPORT" fsync "$STATE"
+    mv -f "$STATE/session.loop.tmp" "$STATE/session.loop"
 }
 release_session_loop() {
   local loop dev ino offset extra
@@ -202,7 +201,6 @@ release_session_loop() {
   # retain the journal. Never fall back to losetup -d on a bare name.
   "$SUPPORT" retire-owned "$loop" "$dev" "$ino" "$offset" || return 1
   rm -f "$STATE/session.loop" || return 1
-  "$SUPPORT" fsync "$STATE" || return 1
   LOOPDEV=
 }
 mount_generic_rootfs() {
@@ -689,12 +687,10 @@ bind_core() {
   # symlink would silently follow its new stdout. toybox mount cannot bind the
   # logging FIFO either (a non-directory source loop-mounts and fails), so make a
   # FIFO in the container /dev and forward it into the same log stream.
-  if mkfifo -m 0666 "$ROOT/dev/console" 2>/dev/null; then
-    forward_session_console 2>/dev/null &
-    CONSOLE_FWD=$!
-    record_session_worker console "$CONSOLE_FWD" || return 1
+  if [ "${STAGE_ONLY:-0}" = 1 ]; then
+    mkfifo -m 0666 "$ROOT/dev/console" || return 1
   else
-    return 1
+    start_session_console || return 1
   fi
   ln -s /proc/self/fd "$ROOT/dev/fd"
   ln -s /proc/self/fd/0 "$ROOT/dev/stdin"
@@ -758,6 +754,11 @@ await_session_worker() {
     sleep 0.1
   done
   return 1
+}
+start_session_console() {
+  [ -p "$ROOT/dev/console" ] || mkfifo -m 0666 "$ROOT/dev/console" || return 1
+  forward_session_console 2>/dev/null & CONSOLE_FWD=$!
+  record_session_worker console "$CONSOLE_FWD"
 }
 forward_session_console() {
   trap - EXIT HUP INT TERM
@@ -1038,8 +1039,18 @@ finish_android_power_return() {
 
 restore_android() {
   [ "$SESSION_OWNED" = 1 ] || return 0
-  local codec_unsafe=0 power_deadline=0 power_timed=0 framework_started=0
+  CLEANUP_FAILED=0
+  if [ -f "$STATE/session.restore-complete" ]; then
+    PARKED_STAGE=0; [ ! -f "$STATE/prestage.ready" ] || PARKED_STAGE=1
+    log "teardown: hardware restore already complete; finishing journal only"
+    return 0
+  fi
+  local codec_unsafe=0 power_deadline=0 power_timed=0 framework_started=0 network_ready=0 network_failed=0
+  PARKED_STAGE=0
+  case "$(getprop sys.powerctl)" in reboot|reboot,*|shutdown|shutdown,*) FORCE_SHUTDOWN=1;; esac
+  if [ "${FORCE_SHUTDOWN:-0}" = 1 ]; then DID_HANDOFF=0; FORCE_UNSTAGE=1; fi
   [ "$DID_HANDOFF" != 1 ] || begin_android_power_return
+  [ "$DID_HANDOFF" != 1 ] || start_return_splash
   # Stop live backlight repair before teardown starts restoring Android's state.
   rm -f "$ROOT/run/.a36-handoff"
   # Invalidate ownership and reap the watchdog before touching the shared codec
@@ -1050,7 +1061,7 @@ restore_android() {
   stop_audio_route_guard || { CLEANUP_FAILED=1; codec_unsafe=1; }
   log "teardown: audio guards checked"
   stop_session_workers || { CLEANUP_FAILED=1; codec_unsafe=1; }
-  kill_subsystem || { CLEANUP_FAILED=1; codec_unsafe=1; }
+  phase return-guest kill_subsystem || { CLEANUP_FAILED=1; codec_unsafe=1; }
   log "teardown: guest root checked"
   # The native parent normally reclaims these. Its durable ownership journal
   # also covers SIGKILL/guardian recovery; never detach by loop number alone.
@@ -1060,18 +1071,22 @@ restore_android() {
     }
     log "teardown: guest loop cleanup checked"
   fi
-  # Once guest KMS descriptors close, cover display-state restoration
-  # with the fbdev logo; bootanimation needs SurfaceFlinger and cannot own DRM
-  # until after the guest and the retained gamma snapshot have released it.
-  [ "$DID_HANDOFF" != 1 ] || show_splash
+  if [ "$DID_HANDOFF" = 1 ] && [ "$codec_unsafe" = 0 ] && [ "$CLEANUP_FAILED" = 0 ]; then
+    if phase return-network restore_android_network; then network_ready=1; else network_failed=1; fi
+  fi
   if [ "$CLEANUP_FAILED" = 0 ] && [ "$DID_HANDOFF" = 1 ] && [ -f "$STATE/session.gamma" ]; then
     # Recovery can run after Android has reacquired DRM. Re-establish exclusive
     # display ownership before consuming a retained gamma snapshot.
     stop_android_display || { CLEANUP_FAILED=1; log "pending gamma: display handoff failed"; }
   fi
   if [ "$CLEANUP_FAILED" = 0 ]; then
-    restore_guest_hardware || CLEANUP_FAILED=1
+    phase return-hardware restore_guest_hardware || CLEANUP_FAILED=1
   fi
+  if [ "$DID_HANDOFF" = 1 ]; then
+    finish_return_splash
+    show_splash return || :
+  fi
+  [ "$network_failed" = 0 ] || CLEANUP_FAILED=1
   if [ "$DID_HANDOFF" = 1 ]; then
     # Bring the display back before potentially slow mount/loop cleanup and
     # framework startup. bootanimation waits for SF's Binder service itself.
@@ -1079,6 +1094,11 @@ restore_android() {
     # queue it now so the logo can appear as soon as SF accepts surfaces.
     local sf_state
     sf_state=$(getprop init.svc.surfaceflinger)
+    # Optional attended SPEED2 experiment. Only this return animation can skip
+    # mandatory outro frames after WMS requests exit; normal boot stays intact.
+    if [ "$(getprop persist.andr36oid.subsystem.fast_return)" = 1 ]; then
+      setprop sys.andr36oid.subsystem.return_animation 1 2>/dev/null
+    else setprop sys.andr36oid.subsystem.return_animation 0 2>/dev/null; fi
     setprop ctl.start "$HWC" 2>/dev/null || CLEANUP_FAILED=1
     sleep 1
     if [ "$sf_state" != running ]; then
@@ -1094,7 +1114,31 @@ restore_android() {
     # bootFinished too. A repeated recovery with live SF must not clear that
     # exit request and cover an already restored Android with a new animation.
   fi
+  if [ "$DID_HANDOFF" = 1 ]; then
+    # handoff() stopped joyMouse alongside the framework, but the bare `start`
+    # below only revives netd/surfaceflinger/zygote/zygote_secondary. joyMouse is
+    # class main with no onrestart hook, so without this it stays dead after a
+    # session: FN+X still toggles sys.joymouse.active (PhoneWindowManager rides
+    # the restarted zygote) but no daemon drives the cursor. Input is independent
+    # of the codec, so restart it even on the audio-withheld recovery path.
+    setprop ctl.start joyMouse 2>/dev/null || CLEANUP_FAILED=1
+    if [ "$codec_unsafe" = 0 ] && [ "$CLEANUP_FAILED" = 0 ] && [ ! -f "$STATE/session.mixer" ]; then
+      if [ "$network_ready" = 1 ]; then
+        if phase return-framework-start start 2>/dev/null; then framework_started=1; else CLEANUP_FAILED=1; fi
+      else
+        CLEANUP_FAILED=1
+        log "network reset failed; retaining journal and withholding framework restart until recovery"
+      fi
+    else
+      # A stuck codec worker or guest may still have an in-flight audio ioctl.
+      # Recover the display, but leave Android audio stopped until recovery.
+      log "display recovery requested; audio/framework restart withheld until cleanup succeeds"
+    fi
+  fi
   prepare_retroarch_sync
+  if [ "$CLEANUP_FAILED" = 0 ] && command -v prestage_park >/dev/null && prestage_park; then
+    :
+  else
   local b tries
   # Newest first. Atomic journal replacement preserves this reader's inode.
   if [ -f "$STATE/session.mounts" ]; then
@@ -1117,31 +1161,15 @@ restore_android() {
   fi
   release_session_loop || { CLEANUP_FAILED=1; log "could not release owned session loop"; }
 
+  fi
+
   if [ "$CLEANUP_FAILED" = 0 ] && [ -n "$RA_SYNC_DIR" ]; then
     printf '%s\n' "$RA_SYNC_DIR" > "$STATE/retroarch-sync-dir.tmp" &&
       mv -f "$STATE/retroarch-sync-dir.tmp" "$STATE/retroarch-sync-dir"
   fi
   if [ "$DID_HANDOFF" = 1 ]; then
-    # handoff() stopped joyMouse alongside the framework, but the bare `start`
-    # below only revives netd/surfaceflinger/zygote/zygote_secondary. joyMouse is
-    # class main with no onrestart hook, so without this it stays dead after a
-    # session: FN+X still toggles sys.joymouse.active (PhoneWindowManager rides
-    # the restarted zygote) but no daemon drives the cursor. Input is independent
-    # of the codec, so restart it even on the audio-withheld recovery path.
-    setprop ctl.start joyMouse 2>/dev/null || CLEANUP_FAILED=1
-    if [ "$codec_unsafe" = 0 ] && [ ! -f "$STATE/session.mixer" ]; then
-      if restore_android_network; then
-        if start 2>/dev/null; then framework_started=1; else CLEANUP_FAILED=1; fi
-      else
-        CLEANUP_FAILED=1
-        log "network reset failed; retaining journal and withholding framework restart until recovery"
-      fi
-    else
-      # A stuck codec worker or guest may still have an in-flight audio ioctl.
-      # Recover the display, but leave Android audio stopped until recovery.
-      log "display recovery requested; audio/framework restart withheld until cleanup succeeds"
-    fi
     finish_android_power_return
+    setprop sys.andr36oid.subsystem.return_animation 0 2>/dev/null
   fi
   return 0
 }
@@ -1171,11 +1199,12 @@ recover_session_locked() {
   if [ "$(cat "$STATE/session.lock/boot_id" 2>/dev/null)" != "$(cat /proc/sys/kernel/random/boot_id)" ]; then
     # /data survives reboot, mounts and PIDs do not. Never detach a loop or kill
     # a recycled PID from a previous boot based on its old metadata.
-    if ! rm -f "$STATE/session.guest-loops" "$STATE/session.guest-loops.tmp" "$STATE/session.mixer" "$STATE/session.gamma" "$STATE/session.brightness" "$STATE/session.network-restored" "$STATE/session.runner" "$STATE/session.runner.tmp" "$STATE/session.console" "$STATE/session.console.tmp" "$STATE/session.loop" "$STATE/session.handoff" "$STATE/session.mounts" "$STATE/session.fifo" "$STATE/session.hw-master" "$MUTE_PIDFILE" "$STATE/mute-guard.owner" "$STATE/audio-route.owner" "$STATE/audio-route.pid" "$STATE/audio-route.pid.tmp" "$STATE/audio-route.ready" "$STATE/audio-route.failed" "$STATE/session.lock/pid" "$STATE/session.lock/boot_id" "$STATE/session.lock/start_time" "$STATE/session.lock/power-return-deadline" ||
+    if ! rm -f "$STATE/session.guest-loops" "$STATE/session.guest-loops.tmp" "$STATE/session.mixer" "$STATE/session.gamma" "$STATE/session.brightness" "$STATE/session.network-restored" "$STATE/session.runner" "$STATE/session.runner.tmp" "$STATE/session.console" "$STATE/session.console.tmp" "$STATE/session.handoff" "$STATE/session.fifo" "$STATE/session.hw-master" "$MUTE_PIDFILE" "$STATE/mute-guard.owner" "$STATE/audio-route.owner" "$STATE/audio-route.pid" "$STATE/audio-route.pid.tmp" "$STATE/audio-route.ready" "$STATE/audio-route.failed" "$STATE/session.lock/pid" "$STATE/session.lock/boot_id" "$STATE/session.lock/start_time" "$STATE/session.lock/power-return-deadline" ||
        ! rmdir "$STATE/session.lock" 2>/dev/null; then
       setprop sys.andr36oid.subsystem.session cleanup_failed 2>/dev/null
       return 1
     fi
+    rm -f "$STATE/session.loop" "$STATE/session.mounts" "$STATE/prestage.ready" "$STATE/prestage.boot" "$STATE/session.restore-complete"
     setprop sys.andr36oid.subsystem.session ended 2>/dev/null
     return 0
   fi
@@ -1183,9 +1212,14 @@ recover_session_locked() {
   SESSION_OWNED=1
   [ -f "$STATE/session.handoff" ] && DID_HANDOFF=1
   LOOPDEV=$(awk '{print $1; exit}' "$STATE/session.loop" 2>/dev/null)
+  STAGE_COMPLETE=0
   restore_android
+  if [ "$CLEANUP_FAILED" = 0 ]; then : > "$STATE/session.restore-complete"; fi
+  if [ "$CLEANUP_FAILED" = 0 ] && [ "${PARKED_STAGE:-0}" != 1 ]; then
+    rm -f "$STATE/session.loop" "$STATE/session.mounts"
+  fi
   if [ "$CLEANUP_FAILED" = 0 ]; then
-    if ! rm -f "$STATE/session.network-restored" "$STATE/session.runner" "$STATE/session.runner.tmp" "$STATE/session.console" "$STATE/session.console.tmp" "$STATE/session.loop" "$STATE/session.handoff" "$STATE/session.mounts" "$STATE/session.fifo" "$STATE/session.lock/pid" "$STATE/session.lock/boot_id" "$STATE/session.lock/start_time" "$STATE/session.lock/power-return-deadline" ||
+    if ! rm -f "$STATE/session.network-restored" "$STATE/session.runner" "$STATE/session.runner.tmp" "$STATE/session.console" "$STATE/session.console.tmp" "$STATE/session.handoff" "$STATE/session.fifo" "$STATE/session.lock/pid" "$STATE/session.lock/boot_id" "$STATE/session.lock/start_time" "$STATE/session.lock/power-return-deadline" ||
        ! rmdir "$STATE/session.lock" 2>/dev/null; then CLEANUP_FAILED=1; fi
   fi
   if [ "$CLEANUP_FAILED" = 0 ]; then
@@ -1220,7 +1254,8 @@ stop_session() {
       kill -KILL "$pid" 2>/dev/null
     fi
   fi
-  recover_session "$pid"
+  recover_session "$pid" || return 1
+  if [ "${FORCE_UNSTAGE:-0}" = 1 ]; then prestage_command unstage; fi
 }
 
 # History is best effort and never owns session lifecycle. Three sessions of
@@ -1321,6 +1356,7 @@ finish_session() {
   trap - EXIT INT TERM HUP
   setprop sys.andr36oid.subsystem.provisioning "" 2>/dev/null
   restore_android
+  if [ "$CLEANUP_FAILED" = 0 ]; then : > "$STATE/session.restore-complete"; fi
   [ "$CLEANUP_FAILED" = 0 ] || rc=1
   # Any session that reached a running frontend (ES, a port, PortMaster or a tool)
   # may have installed or removed ports via PortMaster - now reachable from the ES
@@ -1334,9 +1370,15 @@ finish_session() {
   : > "$STATE/subsystem.clean"
   [ -n "${GUARD:-}" ] && kill "$GUARD" 2>/dev/null
   log "session ended rc=$rc"
+  log "teardown: final bookkeeping begins"
   if [ "${LIVE_LOG:-0}" = 1 ]; then
     LIVE_LOG=0
-    exec 1>&3 2>&4 3>&- 4>&-
+    if [ -e /proc/self/fd/3 ] && [ -e /proc/self/fd/4 ]; then
+      exec 1>&3 2>&4 3>&- 4>&-
+    else
+      log "teardown: saved log descriptors missing; finishing with file log only"
+      exec >/dev/null 2>&1 3>&- 4>&-
+    fi
     # Bound the log drain. A guest stuck in D-state can keep session.fifo open
     # past kill_subsystem; an unbounded wait here would hang finish_session
     # forever, leaving session.lock and the operation flock held and refusing
@@ -1348,11 +1390,18 @@ finish_session() {
     kill "$_tee_wd" 2>/dev/null
     wait "$_tee_wd" 2>/dev/null
   fi
+  log "teardown: logger drained"
   setprop sys.andr36oid.subsystem.boot_pending "" 2>/dev/null
-  update_settings_entry org.andr36oid.syncsettings
+  # am waits for an ordered receiver. Bound this cosmetic Settings refresh so
+  # it cannot retain a completed session while Android is busy drawing home.
+  phase return-settings update_settings_entry org.andr36oid.syncsettings
+  log "teardown: settings refresh submitted"
+  if [ "$CLEANUP_FAILED" = 0 ] && [ "${PARKED_STAGE:-0}" != 1 ]; then
+    rm -f "$STATE/session.loop" "$STATE/session.mounts"
+  fi
   if [ "$CLEANUP_FAILED" = 0 ]; then
-    if ! rm -f "$STATE/session.network-restored" "$STATE/session.runner" "$STATE/session.runner.tmp" "$STATE/session.console" "$STATE/session.console.tmp" "$STATE/session.loop" "$STATE/session.handoff" "$STATE/session.mounts" "$STATE/session.fifo" "$STATE/session.lock/pid" "$STATE/session.lock/boot_id" "$STATE/session.lock/start_time" "$STATE/session.lock/power-return-deadline" ||
-       ! rmdir "$STATE/session.lock" 2>/dev/null; then CLEANUP_FAILED=1; rc=1; fi
+    if ! rm -f "$STATE/session.network-restored" "$STATE/session.runner" "$STATE/session.runner.tmp" "$STATE/session.console" "$STATE/session.console.tmp" "$STATE/session.handoff" "$STATE/session.fifo" "$STATE/session.lock/pid" "$STATE/session.lock/boot_id" "$STATE/session.lock/start_time" "$STATE/session.lock/power-return-deadline" ||
+       ! rmdir "$STATE/session.lock" 2>/dev/null; then log "teardown: retained lock entries: $(ls -A "$STATE/session.lock" 2>/dev/null)"; CLEANUP_FAILED=1; rc=1; fi
   fi
   if [ "$CLEANUP_FAILED" = 0 ]; then
     setprop sys.andr36oid.subsystem.session ended 2>/dev/null
@@ -1360,6 +1409,7 @@ finish_session() {
     setprop sys.andr36oid.subsystem.session cleanup_failed 2>/dev/null
   fi
   # Restoration and operation status must succeed even if history storage fails.
+  log "teardown: session status published; history finishing"
   history_finish "$rc" 2>/dev/null || :
   operation_done "$rc"
   release_operation
@@ -1380,27 +1430,57 @@ arm_guardian() {
   ) </dev/null >> "$LOG" 2>&1 & GUARD=$!
 }
 
-# Fill the framebuffer with the andr36oid splash so the handoff gaps (composer
-# stopped but the port not yet on card0, and the reverse on the way back) show the
-# logo instead of a blank screen. fbdev may pan to any of the triple buffers, so
-# the raw covers all three. Best-effort: silent if the node/file is absent, and a
-# no-op while something holds DRM master on card0 (the port's own output wins).
+# The raw fbdev allocation is not automatically bound to a scanned-out plane.
+# The accepted default enables ordinary kernel fbdev KMS restore/unblank, only after
+# the old DRM master has released. No KD_TEXT force, retained userspace master,
+# new FB allocation, or stale CRTC restore is used.
+scanout_splash_enabled() {
+  local enabled
+  enabled=$(getprop persist.andr36oid.subsystem.kms_splash)
+  [ "${enabled:-1}" = 1 ]
+}
 show_splash() {
+  [ "${1:-}" != return ] || [ "${RETURN_SPLASH_OK:-0}" != 1 ] || return 0
   [ -f "$SPLASH" ] && [ -c "$FB" ] || return 0
-  # Only paint when the splash is exactly the framebuffer's byte size (stride x
-  # virtual height). A panel of a different resolution would ship a differently
-  # sized splash; a mismatch means "no correct splash for this panel", so skip
-  # rather than paint garbage. stride x yres_virtual covers all pan buffers.
-  local stride vh want have
-  stride=$(cat /sys/class/graphics/fb0/stride 2>/dev/null)
-  vh=$(cat /sys/class/graphics/fb0/virtual_size 2>/dev/null); vh=${vh#*,}
-  case ${stride:-x}:${vh:-x} in *[!0-9:]*|*:x*|x*) return 0 ;; esac
-  want=$((stride * vh)); have=$(stat -c %s "$SPLASH" 2>/dev/null)
-  if [ "$want" = "$have" ]; then
-    dd if="$SPLASH" of="$FB" bs="$stride" 2>/dev/null && log "splash painted ($want b)"
-  else
-    log "splash skip: fb=$want splash=${have:-none}"
+  local rotation rc
+  rotation=$(getprop ro.surface_flinger.primary_display_orientation)
+  case "$rotation" in
+    ORIENTATION_90) rotation=90;; ORIENTATION_180) rotation=180;; ORIENTATION_270) rotation=270;;
+    ORIENTATION_0) rotation=0;; *) rotation=$(getprop ro.sf.hwrotation);;
+  esac
+  if scanout_splash_enabled; then
+    if [ "${1:-}" = wait ]; then
+      exec "$GUEST" --splash-scanout "$SPLASH" "$FB" "$rotation" /dev/dri/card0 "${2:-0}" "$STATE/session.brightness"
+    fi
+    "$GUEST" --splash-scanout "$SPLASH" "$FB" "$rotation" /dev/dri/card0 "${2:-0}" "$STATE/session.brightness" >> "$LOG" 2>&1
+    rc=$?
+    [ "$rc" = 0 ] || log "splash: KMS scanout not verified (busy owner or unavailable fbdev restore)"
+    return "$rc"
   fi
+  "$GUEST" --splash "$SPLASH" "$FB" "$rotation" >> "$LOG" 2>&1 || log "splash: framebuffer memory rendering unavailable"
+  return 0
+}
+start_return_splash() {
+  RETURN_SPLASH_PID=; RETURN_SPLASH_OK=0
+  scanout_splash_enabled || return 0
+  # Arm before audio/worker/loop/network cleanup. Activate as soon as ES drops
+  # master, rather than leaving an empty CRTC until the later bootanim frame.
+  ( trap - EXIT HUP INT TERM
+    exec </dev/null >> "$LOG" 2>&1 3>&- 4>&- 7>&- 9>&-
+    show_splash wait 10000
+  ) &
+  RETURN_SPLASH_PID=$!
+  log "splash: return gap armed pid=$RETURN_SPLASH_PID"
+}
+finish_return_splash() {
+  [ -n "${RETURN_SPLASH_PID:-}" ] || return 0
+  # Reap our own bounded helper before composer starts. It normally completes
+  # while earlier cleanup runs; never retain a master/worker into Android.
+  if kill -0 "$RETURN_SPLASH_PID" 2>/dev/null; then
+    kill -TERM "$RETURN_SPLASH_PID" 2>/dev/null || :
+  fi
+  if wait "$RETURN_SPLASH_PID" 2>/dev/null; then RETURN_SPLASH_OK=1; fi
+  RETURN_SPLASH_PID=
   return 0
 }
 
@@ -1476,6 +1556,9 @@ handoff() {
     wait_service_stopped "$service" optional || return 1
   done
   stop_android_display || return 1
+  setprop service.bootanim.exit 1 || return 1
+  setprop ctl.stop bootanim || return 1
+  wait_service_stopped bootanim optional || return 1
   show_splash
   case "$(getprop ro.andr36oid.channel)" in release|'') : ;; *) start adbd 2>/dev/null ;; esac
   return 0
@@ -1490,7 +1573,7 @@ prepare_network() {
   # Overlay unit masks and temporary init-script binds keep the existing Android
   # connection in charge, including when booting a generic rootfs's own init.
   local dns="" p snapshot net d unit path
-  snapshot=$(dumpsys connectivity 2>/dev/null)
+  snapshot=$(timeout -k 1 1 dumpsys -t 1 connectivity --short 2>/dev/null) || snapshot=
   net=$(printf '%s\n' "$snapshot" | awk '/Active default network:/ {print $NF; exit}')
   if [ -n "$net" ]; then
     dns=$(printf '%s\n' "$snapshot" | awk -v n="$net" '
@@ -1519,6 +1602,7 @@ prepare_network() {
   fi
   printf 'options timeout:2 attempts:2\n' >> "$STATE/resolv.conf"
   chmod 0644 "$STATE/resolv.conf"
+  [ "${WARM_STAGE:-0}" != 1 ] || { log "network: warm DNS refreshed"; return 0; }
   mkdir -p "$ROOT/etc"
   [ -L "$ROOT/etc/resolv.conf" ] && rm -f "$ROOT/etc/resolv.conf"
   : > "$ROOT/etc/resolv.conf"
@@ -2478,7 +2562,7 @@ run_es_wrapper() {
 # Boot receivers also run after a scan or session, so Settings need not wait
 # for another reboot. A stopped Android framework will refresh them at boot.
 update_settings_entry() {
-  /system/bin/am broadcast --user 0 -a "$1.UPDATE_SETTINGS" -n "$1/.BootReceiver" \
+  timeout -k 1 2 /system/bin/cmd activity broadcast --user 0 -a "$1.UPDATE_SETTINGS" -n "$1/.BootReceiver" \
     >/dev/null 2>&1 || true
 }
 
@@ -2687,6 +2771,11 @@ case "$cmd" in
   optimize-prop)
     job=$(prop opt_dispatch_job); pinned=$(prop opt_dispatch_source)
     valid_job "$job" && valid_id "$pinned" || exit 2
+    # Evict in Android's shared namespace BEFORE making the worker private.
+    # Keep both flocks across exec, so an idle stage cannot race this boundary.
+    acquire_operation optimize || { publish opt_reject_error busy; publish opt_reject_job "$job"; operation_done busy; exit 1; }
+    export A36_OPT_LOCKED=1
+    trap 'release_operation' EXIT
     exec "$SUPPORT" namespace /system/bin/sh "$0" optimize-worker "$job" "$pinned" ;;
   optimize-worker) optimize_worker "$arg" "${3:-}"; exit 0 ;;
   unpack-prop)
@@ -2725,6 +2814,8 @@ case "$cmd" in
     HANDOFF=$(getprop sys.andr36oid.subsystem.handoff); HANDOFF=${HANDOFF:-1}
     setprop sys.andr36oid.subsystem.request ""
     case "$want" in
+      PRESTAGE) setprop sys.andr36oid.subsystem.request ""; prestage_command prestage; exit $? ;;
+      UNSTAGE) setprop sys.andr36oid.subsystem.request ""; prestage_command unstage; exit $? ;;
       ES|OS|"") cmd=start ;;
       SETUP) cmd=setup; HANDOFF=0 ;;
       RA) cmd=run; arg=/opt/retroarch/bin/retroarch ;;
@@ -2743,6 +2834,8 @@ case "$cmd" in
         case "/$want/" in *'/../'*|*'/./'*|*'//'*) log "rejected unsafe port name: $want"; exit 2 ;; esac
         cmd=run; arg="/roms/ports/$want"; CONFINE=/roms/ports ;;
     esac ;;
+  prestage|unstage) prestage_command "$cmd"; exit $? ;;
+  shutdown) FORCE_SHUTDOWN=1; FORCE_UNSTAGE=1; stop_session; exit $? ;;
   start|run|setup) : ;;
   *) echo "usage: $0 start | run <port.sh> | stop | scan | boot-decision" >&2; exit 2 ;;
 esac
@@ -2761,12 +2854,14 @@ printf '%s\n' "$$" > "$STATE/session.lock/pid"
 cat /proc/sys/kernel/random/boot_id > "$STATE/session.lock/boot_id"
 process_start_time "$$" > "$STATE/session.lock/start_time"
 SESSION_OWNED=1
-: > "$STATE/session.mounts"
+rm -f "$STATE/session.restore-complete"
 trap 'finish_session $?' EXIT
 trap 'exit 130' INT
 trap 'exit 143' TERM
 trap 'exit 129' HUP
+ENTRY_HISTORY_BEFORE=$(phase_clock)
 history_begin
+ENTRY_HISTORY_AFTER=$(phase_clock)
 if [ "$ROTATE_LOGS" = 1 ]; then : > "$LOG"; fi
 chmod 0644 "$LOG" 2>/dev/null
 SESSION_OUT="$STATE/session.out"
@@ -2776,34 +2871,30 @@ setprop sys.andr36oid.subsystem.session running
 setprop sys.andr36oid.subsystem.launch_error ""
 [ -z "${RA_REQUEST:-}" ] || { read_retroarch_request "$RA_REQUEST" || exit 1; }
 log "subsystem $cmd arg=$arg handoff=$HANDOFF image=${IMAGE:-default}"
+log "timing: broker entered boot_s=$BROKER_ENTER_UPTIME history_ms=$((ENTRY_HISTORY_AFTER-ENTRY_HISTORY_BEFORE)) launch_log_ms=$(phase_clock)"
 case "$HANDOFF" in 0|1) : ;; *) log "handoff must be 0 or 1"; exit 2 ;; esac
 case "$IMAGE" in ''|/*) : ;; *) log "rootfs image path must be absolute"; exit 2 ;; esac
 SESSION_MUTED=$(getprop persist.andr36oid.subsystem.mute 2>/dev/null)
 [ "$SESSION_MUTED" = 1 ] || SESSION_MUTED=0
 arm_guardian
-mount_rootfs || { log "cannot prepare eligible rootfs"; exit 1; }
-fix_exec_bits
-if find_es "$ROOT"; then prime_native_input || exit 1; fi
-bind_core || { log "core mounts failed"; exit 1; }
-mount_storage || { log "games storage preparation failed"; exit 1; }
-provision_darkos || exit 1
-mount_tools_menu
-publish_setup_complete || exit 1
+phase stage stage_mounts || { log "cannot prepare eligible rootfs"; exit 1; }
 [ "$cmd" != setup ] || exit 0
 eligible_rootfs "$ROOT" || { log "rootfs has no init or launch target"; exit 1; }
-[ "$cmd" = run ] && { resolve_run_target || exit 1; }
-prepare_network || { log "network preparation failed"; exit 1; }
-prep_darkos_env || { log "runtime/audio preparation failed"; exit 1; }
-prime_udev
-prepare_session_policy || exit 1
-if [ -z "$IMAGE" ] && ! "$GUEST" --probe; then
+[ "$cmd" != run ] || resolve_run_target || exit 1
+if [ "${WARM_STAGE:-0}" = 1 ]; then
+  start_session_console || exit 1
+  phase network-refresh prepare_network || exit 1
+fi
+# BEGIN session admission
+phase policy prepare_session_policy || exit 1
+if [ -z "$IMAGE" ] && ! phase native-probe "$GUEST" --probe; then
   log "native input ABI unavailable: install the matching andr36oid kernel"; exit 1
 fi
-prepare_guest_hardware || exit 1
-if [ "$HANDOFF" = 1 ]; then handoff || exit 1; else log "no handoff: Android stays up; display devices hidden"; fi
+phase hardware-snapshot prepare_guest_hardware || exit 1
+if [ "$HANDOFF" = 1 ]; then phase handoff handoff || exit 1; else log "no handoff: Android stays up; display devices hidden"; fi
 # Each policy owns its codec writes in a recoverable worker.
-start_audio_route_guard || exit 1
-start_mute_guard || exit 1
+phase audio-admission start_audio_route_guard || exit 1
+phase mute-admission start_mute_guard || exit 1
 # Wait on a child so TERM interrupts wait immediately, including while init runs.
 prepare_exit_hold_policy
 run_session_worker & SESSION_PID=$!

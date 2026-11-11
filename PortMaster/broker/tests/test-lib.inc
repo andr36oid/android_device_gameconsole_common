@@ -36,7 +36,7 @@ build_guest_helper() {
   GUEST="$tmp/andr36oid-guest"
   cc -O2 -Wall -Wextra -Werror -I"$gamepad" \
     -I"$subsystem/../../../../../external/libdrm/include" \
-    "$subsystem/andr36oid-guest.c" -o "$GUEST"
+    "$subsystem/andr36oid-guest.c" -o "$GUEST" -llz4
 }
 fail() { echo "FAIL: $*" >&2; exit 1; }
 log() { printf '%s\n' "$*" >> "$LOG"; }
@@ -123,3 +123,13 @@ stop_session_workers() { :; }
 # The Android power handback has a dedicated stateful fixture.
 begin_android_power_return() { :; }
 finish_android_power_return() { :; }
+
+# Timing wrapper has no hardware effects; preserve the actual boundary calls.
+phase() { shift; "$@"; }
+
+# The session-local ES config is exercised separately.
+repair_port_launch_boundary() { :; }
+
+# Display-gap worker is tested separately; generic lifecycle fixtures have no DRM.
+start_return_splash() { :; }
+finish_return_splash() { :; }

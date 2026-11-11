@@ -1024,6 +1024,9 @@ prepare_state() {
 }
 
 finish_request() {
+    if [ "$(getprop sys.andr36oid.subsystem.prestage_block)" = usb ]; then
+        setprop sys.andr36oid.subsystem.prestage_block 0
+    fi
 	setprop "$P.request" stop
 	if [ -n "$(prop error)" ]; then
 		error=$(prop error)
@@ -1072,6 +1075,19 @@ change_disc() {
 }
 
 handle_request() {
+    error=
+    setprop "$P.detail" ''
+    setprop "$P.vdetail" ''
+    # Do this before taking the shared lock; the broker takes that same lock.
+    if [ "$(getprop sys.andr36oid.subsystem.prestaged)" = 1 ]; then
+        setprop sys.andr36oid.subsystem.prestage_block usb
+        if ! "${USB_DRIVE_SUBSYSTEM_BROKER:-/system/etc/andr36oid-subsystem.sh}" unstage ||
+           [ "$(getprop sys.andr36oid.subsystem.prestaged)" = 1 ]; then
+            fail storage_busy; setprop "$P.request" stop; status error
+            [ "$(getprop sys.andr36oid.subsystem.prestage_block)" != usb ] || setprop sys.andr36oid.subsystem.prestage_block 0
+            return 0
+        fi
+    fi
     exec 7>"${USB_DRIVE_STORAGE_LOCK:-/data/misc/andr36oid-storage.lock}"
     if ! flock -n 7 7>&7; then
         exec 7>&-; fail storage_busy; setprop "$P.request" stop; status error; return 0

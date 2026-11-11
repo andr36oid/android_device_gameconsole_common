@@ -351,4 +351,6 @@ Operation: %3$s
   <string name="subsystem_exit_hold_four">4 seconds</string>
   <string name="subsystem_exit_hold_five">5 seconds</string>
   <string name="subsystem_exit_hold_six">6 seconds</string>
+    <string name="ss_prestage_title">Keep the subsystem ready</string>
+    <string name="ss_prestage_summary">Starts games and ports faster. Uses some of Android\'s memory while you are not playing.</string>
 </resources>

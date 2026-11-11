@@ -12,6 +12,7 @@ kill_subsystem() {
 prepare_retroarch_sync() { RA_SYNC_DIR=; }
 # Keep the actual restoration/finish/recovery ordering and logger; mock hardware.
 for outcome in clean crash poweroff recovery; do
+  rm -f "$STATE/session.restore-complete"
   mkdir -p "$STATE/session.lock"
   printf '%s\n' "$$" > "$STATE/session.lock/pid"
   cat /proc/sys/kernel/random/boot_id > "$STATE/session.lock/boot_id"

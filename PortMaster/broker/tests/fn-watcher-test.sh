@@ -5,11 +5,11 @@ load_functions root_path
 broker=${broker%/*}/andr36oid-guest.sh
 load_functions repair_native_fn_watcher write_guest_session
 source_dir=$(CDPATH='' cd -- "$(dirname "$0")/../../subsystem" && pwd)
-cc -I"$(dirname "$0")/../../../gamepad/include" -Wall -Wextra -Werror -O2 "$(dirname "$0")/hotkey-test.c" -o "$tmp/hotkeys"
+cc -I"$(dirname "$0")/../../../gamepad/include" -Wall -Wextra -Werror -O2 "$(dirname "$0")/hotkey-test.c" -o "$tmp/hotkeys" -llz4
 "$tmp/hotkeys"
 cc -I"$(dirname "$0")/../../../gamepad/include" -Wall -Wextra -Werror -O2 "$(dirname "$0")/fn-watcher-stream-test.c" -o "$tmp/stream"
 "$tmp/stream"
-cc -I"$(dirname "$0")/../../../gamepad/include" -Wall -Wextra -Werror -O2 "$(dirname "$0")/guest-input-stream-test.c" -o "$tmp/guest-stream"
+cc -I"$(dirname "$0")/../../../gamepad/include" -Wall -Wextra -Werror -O2 "$(dirname "$0")/guest-input-stream-test.c" -o "$tmp/guest-stream" -llz4
 "$tmp/guest-stream"
 # A static helper must execute in the native glibc image without Android's
 # dynamic linker. Both launch paths keep the image's original helper path.
@@ -33,6 +33,8 @@ cmp "$FN_WATCH" "$helper" || fail 'watcher replacement was not idempotent'
 # rename failure, even after cp has already written partial output.
 for fault in mktemp cp chmod mv; do
   (
+    printf "\nold watcher\n" >> "$helper"
+    cp "$helper" "$tmp/prior-watch"
     mktemp() { [ "$fault" != mktemp ] || return 1; command mktemp "$@"; }
     cp() {
       if [ "$fault" = cp ]; then printf partial > "$2"; return 1; fi
@@ -41,11 +43,12 @@ for fault in mktemp cp chmod mv; do
     chmod() { [ "$fault" != chmod ] || return 1; command chmod "$@"; }
     mv() { [ "$fault" != mv ] || return 1; command mv "$@"; }
     if repair_native_fn_watcher; then fail "$fault failure reported success"; fi
-    cmp "$FN_WATCH" "$helper" || fail "$fault failure damaged installed watcher"
+    cmp "$tmp/prior-watch" "$helper" || fail "$fault failure damaged installed watcher"
     [ -x "$helper" ] || fail "$fault failure changed installed permissions"
     set -- "${helper%/*}"/.a36-fn-watch.*
     [ ! -e "$1" ] || fail "$fault failure leaked a staging file"
   )
+  repair_native_fn_watcher
 done
 # Observe the old complete inode at the publication boundary.
 (

@@ -58,6 +58,7 @@ func (s *Setup) WatchPlatforms(ctx context.Context, request func()) {
 		due = timer.C
 	}
 	refresh := func() {
+		s.evictDisabledPrestage()
 		found := s.easyromsMounted()
 		info, err := os.Stat(found)
 		if found == "" || err != nil {

@@ -82,7 +82,7 @@ public class SubsystemSetupActivity extends Activity {
     private ProgressBar workBar;
     private ScrollView logScroll;
     private LinearLayout imageList,splashActions;
-    private Row playRow,optimizeRow,imagesRow,setupContinue,keepRow,optimizeAction,recoverRow;
+    private Row setupReadyRow,playRow,optimizeRow,imagesRow,setupContinue,keepRow,optimizeAction,recoverRow;
     private Screen screen,restoreScreen;
     private Snapshot snapshot=new Snapshot(),cachedSnapshot;
     private String log="",optLog="",version="",latestLog="",exportLog="",launchTarget="";
@@ -418,8 +418,9 @@ public class SubsystemSetupActivity extends Activity {
         setupTitle=text("",22,true);setupTitle.setAccessibilityHeading(true);p.column.addView(setupTitle,lp(-1,-2,0,0,0,8));
         setupBody=secondary("",14);p.column.addView(setupBody,lp(-1,-2,0,0,0,8));
         setupInfo=secondary("",12);p.column.addView(setupInfo,lp(-1,-2,0,0,0,12));
+        setupReadyRow=toggle(p.column,R.string.ss_prestage_title,SubsystemBackend.PRESTAGE,false);
         setupContinue=row(p.column,"→",R.string.subsystem_continue,"",()->{
-            if(setupIndex<2){setupIndex++;updateSetup();pages.get(Screen.SETUP).focus=setupContinue;}
+            if(setupIndex<3){setupIndex++;updateSetup();pages.get(Screen.SETUP).focus=setupContinue;}
             else launch("SETUP",false);
         });
         row(p.column,"↻",R.string.asl_scan,getString(R.string.ss_images_note),this::retryScan);
@@ -428,13 +429,14 @@ public class SubsystemSetupActivity extends Activity {
         updateSetup();
     }
     private void updateSetup() {
-        setText(setupStep,getString(R.string.subsystem_step_count,setupIndex+1,3));
-        int title=setupIndex==0?R.string.subsystem_welcome:setupIndex==1?R.string.subsystem_image_title:R.string.ss_setup_review;
-        int body=setupIndex==0?R.string.subsystem_intro:setupIndex==1?R.string.asl_missing:R.string.asl_setup_body;
+        setText(setupStep,getString(R.string.subsystem_step_count,setupIndex+1,4));
+        int title=setupIndex==0?R.string.subsystem_welcome:setupIndex==1?R.string.subsystem_image_title:setupIndex==2?R.string.ss_prestage_title:R.string.ss_setup_review;
+        int body=setupIndex==0?R.string.subsystem_intro:setupIndex==1?R.string.asl_missing:setupIndex==2?R.string.ss_prestage_summary:R.string.asl_setup_body;
         setText(setupTitle,getString(title));setText(setupBody,getString(body));
-        setText(setupInfo,setupIndex==2?getString(R.string.asl_perf_note):
+        setText(setupInfo,setupIndex==3?getString(R.string.asl_perf_note):setupIndex==2?"":
                 setupIndex==1?(scanWaiting?getString(R.string.ss_phase_scan):selected()==null?getString(R.string.asl_empty):selected().name):getString(R.string.subsystem_step_ports_summary));
-        setupContinue.title(setupIndex==2?R.string.asl_start_setup:setupIndex==1&&snapshot.available()?R.string.ss_setup_next:R.string.subsystem_continue);
+        if(setupReadyRow!=null)setupReadyRow.setVisibility(setupIndex==2?View.VISIBLE:View.GONE);
+        setupContinue.title(setupIndex==3?R.string.asl_start_setup:setupIndex==1&&snapshot.available()?R.string.ss_setup_next:R.string.subsystem_continue);
         setupContinue.setEnabled((setupIndex==0||snapshot.available())&&!isBusy());
     }
     private void buildProgress() {
@@ -643,6 +645,7 @@ public class SubsystemSetupActivity extends Activity {
     }
     private void buildSettings() {
         Page p=new Page(Screen.SETTINGS,true);p.heading(R.string.ss_settings,R.string.ss_settings_note);
+        toggle(p.column,R.string.ss_prestage_title,SubsystemBackend.PRESTAGE,false);
         toggle(p.column,R.string.asl_mute,"persist.andr36oid.subsystem.mute",false);
         toggle(p.column,R.string.asl_daijishou_cores,SubsystemBackend.DAIJISHOU_CORES,false);
         toggle(p.column,R.string.asl_daijishou_tools,SubsystemBackend.DAIJISHOU_TOOLS,true);
@@ -667,7 +670,9 @@ public class SubsystemSetupActivity extends Activity {
         String value(){String value=get(key);return value.isEmpty()?defaultValue:value;}
         void update(){
             String value=value();boolean on="1".equals(value);
-            row.subtitle(toggle?getString(on?R.string.ss_on:R.string.ss_off):value);
+            String summary=toggle?getString(on?R.string.ss_on:R.string.ss_off):value;
+            if(SubsystemBackend.PRESTAGE.equals(key))summary=getString(R.string.ss_prestage_summary)+"\n"+summary;
+            row.subtitle(summary);
             if(toggle) {
                 setText(row.glyphView,on?"●":"○");
                 row.glyphView.setTextColor(color(on?android.R.attr.colorAccent:android.R.attr.textColorSecondary));
@@ -675,12 +680,21 @@ public class SubsystemSetupActivity extends Activity {
             }
         }
     }
-    private void toggle(LinearLayout parent,int label,String key,boolean defaultOn) {
+    private Row toggle(LinearLayout parent,int label,String key,boolean defaultOn) {
         Row row=row(parent,"○",label,"",()->{
             String current=get(key);boolean on=current.isEmpty()?defaultOn:"1".equals(current);
-            put(key,on?"0":"1");updateLauncher(this);updateSettings();
+            put(key,on?"0":"1");
+            if(SubsystemBackend.PRESTAGE.equals(key)) {
+                PrestageJob.schedule(this);SubsystemBackend.requestPrestage(!on);
+            }
+            updateLauncher(this);updateSettings();
         });
+        if(SubsystemBackend.PRESTAGE.equals(key)) {
+            row.detail.setSingleLine(false);row.detail.setMaxLines(3);
+            ViewGroup.LayoutParams params=row.getLayoutParams();params.height=dp(96);row.setLayoutParams(params);
+        }
         settings.add(new Setting(row,key,defaultOn?"1":"0",true));
+        return row;
     }
     private void choose(LinearLayout parent,int label,String key,String[] values,String defaultValue) {
         Row row=row(parent,"≋",label,"",()->{

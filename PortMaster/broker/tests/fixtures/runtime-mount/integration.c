@@ -34,6 +34,7 @@ static void read_marker(void){char path[4096],b[32]={0};snprintf(path,sizeof(pat
 static void wait_marker(const char *p){for(int i=0;access(p,F_OK)&&i<6000;i++)usleep(10000);CK(!access(p,F_OK));}
 static void leak(void){CK(!call("mount","loop,ro",source,target));loose_loop();put("/run/test-leak-ready");wait_marker("/run/test-leak-continue");}
 static void port(void){
+    CK(!chdir("/roms/ports/a port with spaces"));
     puts("PORT_TEST_BEGIN");
     CK(prctl(PR_GET_NO_NEW_PRIVS,0,0,0,0)==1);
     struct __user_cap_header_struct h={.version=_LINUX_CAPABILITY_VERSION_3};struct __user_cap_data_struct c[2];CK(!syscall(SYS_capget,&h,c));CK(c[0].effective&(1U<<CAP_SYS_ADMIN));CK(prctl(PR_CAPBSET_READ,CAP_SYS_ADMIN)==1);CK(!(c[0].effective&(1U<<CAP_MKNOD)));
@@ -59,15 +60,37 @@ static void port(void){
         CK(!call("umount",i==1?"-l":NULL,NULL,target));CK(!squash(target));
     }
     CK(!call("mount","loop,ro",source,target));char path[4096];snprintf(path,sizeof(path),"%s/marker",target);int held=open(path,O_RDONLY);CK(held>=0);CK(!call("umount","-l",NULL,target));char b[32];CK(read(held,b,sizeof(b))>0);close(held);
-    CK(!call("mount","loop,ro",source,target));loose_loop();read_marker();put("/run/test-port-ready");wait_marker("/run/test-port-continue");
+    CK(!call("mount","loop,ro",source,target));loose_loop();read_marker();if(access("/run/test-orphan-release",F_OK)) {
+        pid_t mapper=fork();CK(mapper>=0);if(!mapper){CK(!prctl(PR_SET_NAME,"gptokeyb",0,0,0));put("/run/test-orphan-ready");wait_marker("/run/test-orphan-release");_exit(0);}
+        wait_marker("/run/test-orphan-ready");
+    }
+    put("/run/test-port-ready");wait_marker("/run/test-port-continue");
     // Deliberately leave both mounted and manually attached loops behind.
 }
 static void frontend(void){
+    // ES can have an unrelated persistent child. It is not the port lifetime.
+    pid_t idle=fork();CK(idle>=0);if(!idle){for(;;)pause();}
     pid_t p=fork();CK(p>=0);if(!p){execl("/payload","/payload","port",NULL);_exit(127);}
-    wait_marker("/run/test-port-ready");wait_marker("/run/test-observer-checked");put("/run/test-port-continue");int s;CK(waitpid(p,&s,0)==p&&WIFEXITED(s)&&!WEXITSTATUS(s));
-    for(int i=0;squash(target)&&i<500;i++)usleep(10000);CK(!squash(target));puts("PORT_EXIT_CLEANUP_PASS");
+    wait_marker("/run/test-port-ready");wait_marker("/run/test-observer-checked");
+    CK(!kill(p,SIGKILL));int s;CK(waitpid(p,&s,0)==p&&WIFSIGNALED(s)&&WTERMSIG(s)==SIGKILL);
+    usleep(1500000);CK(squash(target));puts("ORPHAN_MAPPER_STILL_ACTIVE_MOUNT_PRESERVED_PASS");
+    put("/run/test-orphan-release");
+    for(int i=0;squash(target)&&i<500;i++)usleep(10000);CK(!squash(target));puts("PORT_EXIT_CLEANUP_PASS persistent-ES-child-alive");
+    // The same runtime mounts again after a killed/missing launcher cleanup.
+    put("/run/test-port-continue");
+    p=fork();CK(p>=0);if(!p){execl("/payload","/payload","port",NULL);_exit(127);}
+    CK(waitpid(p,&s,0)==p&&WIFEXITED(s)&&!WEXITSTATUS(s));
+    for(int i=0;squash(target)&&i<500;i++)usleep(10000);CK(!squash(target));
+    puts("SECOND_PORT_LAUNCH_PASS same-session persistent-ES-child-alive");
+    CK(!kill(idle,SIGTERM));CK(waitpid(idle,&s,0)==idle);
+
     put("/run/test-ready");wait_marker("/run/test-continue");
     p=fork();CK(p>=0);if(!p){execl("/payload","/payload","leak",NULL);_exit(127);}CK(waitpid(p,&s,0)==p&&WIFEXITED(s)&&!WEXITSTATUS(s));
+    CK(!run((char *[]){"/port-cleaner","--clean-port-mounts","/",NULL}));CK(!squash(target));
+    CK(!call("mount","loop,ro","/misc/image.sq",target));
+    CK(!run((char *[]){"/port-cleaner","--clean-port-mounts","/",NULL}));CK(!squash(target));
+    puts("SYNCHRONOUS_PREFLIGHT_CLEANUP_PASS inside-limited-guest bundled-and-shared-runtimes");
+    CK(!call("mount","loop,ro",source,target));put("/run/test-preflight-done");wait_marker("/run/test-preflight-continue");
     // Removing only this namespace's shared-card mount cannot unmount Android's.
     CK(!umount2("/roms",MNT_DETACH));puts("GUEST_CARD_UNMOUNT_PASS");
 }
@@ -83,23 +106,41 @@ int main(int argc,char **argv){setbuf(stdout,NULL);
     if(argc>1&&!strcmp(argv[1],"port")){port();return 0;}
     if(argc>1&&!strcmp(argv[1],"leak")){leak();return 0;}
     if(argc>1&&!strcmp(argv[1],"frontend")){frontend();return 0;}
+    if(argc>1&&!strcmp(argv[1],"startup-leak")){CK(!call("mount","loop,ro",source,target));return 0;}
+    if(argc>1&&!strcmp(argv[1],"startup-probe")){
+        CK(!squash(target));CK(access("/dev/loop0",F_OK)&&access("/dev/loop1",F_OK));
+        CK(!call("mount","loop,ro",source,target));read_marker();CK(!call("umount",NULL,NULL,target));return 0;
+    }
     dir("/proc");dir("/sys");dir("/dev");CK(!mount("proc","/proc","proc",0,NULL));CK(!mount("sysfs","/sys","sysfs",0,NULL));CK(!mount("devtmpfs","/dev","devtmpfs",0,NULL));dir("/card");dir("/state");
     for(int i=0;access("/dev/vda",F_OK)&&i<500;i++)usleep(10000);CK(!mount("/dev/vda","/card","exfat",MS_NODEV|MS_NOSUID,"uid=0,gid=0,fmask=0000,dmask=0000"));
     dir("/card/ports");dir("/card/ports/a port with spaces");dir("/card/ports/a port with spaces/runtime");dir("/card/ports/a port with spaces/runtime/long directory name for a runtime beyond losetup limits");dir("/card/ports/a port with spaces/.runtime");char dest[4096];snprintf(dest,sizeof(dest),"/card%s",source+5);copy("/runtime.squashfs",dest);
     dir("/g");for(const char **p=(const char *[]){"/g/proc","/g/sys","/g/dev","/g/run","/g/tmp","/g/roms","/g/misc",NULL};*p;p++)dir(*p);
     copy("/runtime.squashfs","/g/misc/image.sq");
+    copy("/guest","/g/port-cleaner");CK(!chmod("/g/port-cleaner",0755));
     copy("/init","/g/payload");CK(!chmod("/g/payload",0755));copy("/init","/g/emulationstation");CK(!chmod("/g/emulationstation",0755));CK(!mknod("/g/dev/null",S_IFCHR|0666,makedev(1,3)));
     CK(!mount("/sys","/g/sys",NULL,MS_BIND|MS_REC,NULL));CK(!mount(NULL,"/g/sys",NULL,MS_BIND|MS_REMOUNT|MS_RDONLY|MS_NOSUID|MS_NODEV|MS_NOEXEC,NULL));protect_loops();
     char android_host[80];CK(!gethostname(android_host,sizeof(android_host)));
+    if(getenv("A36_RUNTIME_STARTUP_ONLY")) {
+        CK(!mount("/card","/g/roms",NULL,MS_BIND,NULL));CK(!mount("/proc","/g/proc",NULL,MS_BIND,NULL));
+        for(int n=2;n<8;n++){char node[80];snprintf(node,sizeof(node),"/g/dev/loop%d",n);CK(!mknod(node,S_IFBLK|0600,makedev(7,n)));}
+        CK(!mknod("/g/dev/loop-control",S_IFCHR|0600,makedev(10,237)));
+        pid_t p=fork();CK(p>=0);if(!p){CK(!chroot("/g")&&!chdir("/"));execl("/payload","/payload","startup-leak",NULL);_exit(127);}
+        int status;CK(waitpid(p,&status,0)==p&&WIFEXITED(status)&&!WEXITSTATUS(status));
+        snprintf(dest,sizeof(dest),"/g%s",target);CK(squash(dest));
+        CK(!run((char *[]){"/guest","/g","generic","quiet","--","/payload","startup-probe",NULL}));
+        CK(squash(dest));CK(!umount2(dest,0));CK(!umount2("/g/proc",0));CK(!umount2("/g/roms",0));no_guest_loops();
+        puts("RUNTIME_STARTUP_PASS stale-port-view-removed new-launch-works outer-mount-and-APEX-rootfs-loops-preserved");
+        puts("RUNTIME_MOUNT_INTEGRATION_PASS startup-cleanup");reboot(RB_POWER_OFF);return 0;
+    }
     for(int sd=0;sd<2;sd++)for(int clean=0;clean<2;clean++){
-        const char *markers[]={"test-port-ready","test-port-continue","test-ready","test-continue","test-leak-ready","test-leak-continue","test-observer-checked"};for(unsigned i=0;i<7;i++){snprintf(dest,sizeof(dest),"/g/run/%s",markers[i]);unlink(dest);}
+        const char *markers[]={"test-port-ready","test-port-continue","test-ready","test-continue","test-leak-ready","test-leak-continue","test-observer-checked","test-orphan-ready","test-orphan-release","test-preflight-done","test-preflight-continue"};for(unsigned i=0;i<sizeof(markers)/sizeof(markers[0]);i++){snprintf(dest,sizeof(dest),"/g/run/%s",markers[i]);unlink(dest);}
         CK(!mount("/card","/g/roms",sd?"sdcardfs":NULL,sd?MS_NODEV|MS_NOSUID:MS_BIND,sd?"fsuid=0,fsgid=0,gid=0,mask=0":NULL));
         pid_t helper=fork();CK(helper>=0);if(!helper){CK(!setenv("A36_LOOP_JOURNAL","/state/loops",1));execl("/guest","/guest","/g","generic","quiet","--","/emulationstation","frontend",NULL);_exit(127);}
         guest_pid=helper;wait_file("/g/run/test-port-ready");snprintf(dest,sizeof(dest),"/g%s",target);CK(!squash(dest));CK(access("/card/ports/a port with spaces/.runtime/private-only",F_OK));struct statfs flags;CK(!statfs("/card",&flags)&&!(flags.f_flags&MS_RDONLY));char host[80];CK(!gethostname(host,sizeof(host))&&!strcmp(host,android_host));puts("ANDROID_NAMESPACE_UNCHANGED_PASS mounts card-flags hostname protected-loop-nodes");put("/g/run/test-observer-checked");wait_file("/g/run/test-ready");no_guest_loops();
         // Freeze the observer so manual losetup is killed BEFORE it can be
         // journaled. The baseline + canonical guest backing filename recover it.
-        if(!clean)CK(!kill(helper,SIGSTOP));put("/g/run/test-continue");wait_file("/g/run/test-leak-ready");int status;
-        if(clean){put("/g/run/test-leak-continue");CK(waitpid(helper,&status,0)==helper&&WIFEXITED(status)&&!WEXITSTATUS(status));}
+        if(!clean)CK(!kill(helper,SIGSTOP));put("/g/run/test-continue");wait_file("/g/run/test-leak-ready");put("/g/run/test-leak-continue");wait_file("/g/run/test-preflight-done");int status;
+        if(clean){put("/g/run/test-preflight-continue");CK(waitpid(helper,&status,0)==helper&&WIFEXITED(status)&&!WEXITSTATUS(status));}
         else{CK(!kill(helper,SIGKILL));CK(waitpid(helper,&status,0)==helper&&WIFSIGNALED(status));usleep(500000);CK(loop_count()>0);puts("UNOBSERVED_CRASH_LOOP_PRESENT");}
         CK(!run((char *[]){"/guest","--cleanup-guest-loops","/g","/state/loops",NULL}));CK(!run((char *[]){"/guest","--cleanup-guest-loops","/g","/state/loops",NULL}));no_guest_loops();CK(access("/state/loops",F_OK));CK(!squash(dest));CK(!statfs("/card",&flags)&&!(flags.f_flags&MS_RDONLY));CK(!umount2("/g/roms",0));printf("RUNTIME_FS_PASS %s %s protected-loops-intact\n",sd?"sdcardfs-on-exfat":"exfat",clean?"clean-session":"unobserved-helper-crash");
     }

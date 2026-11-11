@@ -42,7 +42,7 @@ with tempfile.TemporaryDirectory(prefix='a36-runtime-vm-') as temporary:
  for d in sorted(dirs,key=lambda x:(x.count('/'),x)):add(d,b'',stat.S_IFDIR|0o755)
  for dst,src in files.items():add('g/'+dst,src.read_bytes(),stat.S_IFREG|0o755)
  add('TRAILER!!!',b'',0);(b/'ramdisk.gz').write_bytes(gzip.compress(out,mtime=0))
- cmd=['qemu-system-aarch64','-machine','virt,gic-version=2','-cpu','cortex-a35','-smp','4','-m','1024','-nographic','-nic','none','-no-reboot','-monitor','none','-kernel',kernel,'-initrd',str(b/'ramdisk.gz'),'-append','console=ttyAMA0 rdinit=/init loglevel=7 panic=-1 nokaslr initcall_blacklist=system_heap_create,rockchip_drm_init','-drive','if=none,id=card,cache=unsafe,format=raw,file='+str(disk),'-device','virtio-blk-device,drive=card']
+ cmd=['qemu-system-aarch64','-machine','virt,gic-version=2','-cpu','cortex-a35','-smp','4','-m','1024','-nographic','-nic','none','-no-reboot','-monitor','none','-kernel',kernel,'-initrd',str(b/'ramdisk.gz'),'-append','console=ttyAMA0 rdinit=/init loglevel=7 panic=-1 nokaslr initcall_blacklist=system_heap_create,rockchip_drm_init'+(' A36_RUNTIME_STARTUP_ONLY=1' if os.getenv('A36_RUNTIME_STARTUP_ONLY') else ''),'-drive','if=none,id=card,cache=unsafe,format=raw,file='+str(disk),'-device','virtio-blk-device,drive=card']
  console=Path(os.getenv('A36_TEST_VM_LOG',str(b/'console.log')))
  with console.open('wb') as log:run=subprocess.run(cmd,stdout=log,stderr=subprocess.STDOUT,timeout=360)
  text=console.read_text(errors='backslashreplace');print(text)
