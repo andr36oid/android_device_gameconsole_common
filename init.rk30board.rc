@@ -56,6 +56,27 @@ on property:init.svc.andr36oid-controller=stopped
 on property:sys.andr36oid.usbdrive.scan=start
     start andr36oid-usb-drive
 
+# The helper exits when idle and sets parked=1. A request that arrives while it
+# is still exiting misses the triggers above (the service counts as running),
+# so start it again once it has stopped. A crashed helper never sets parked.
+on property:init.svc.andr36oid-usb-drive=stopped && property:sys.andr36oid.usbdrive.parked=1 && property:sys.andr36oid.usbdrive.request=start
+    start andr36oid-usb-drive
+
+on property:init.svc.andr36oid-usb-drive=stopped && property:sys.andr36oid.usbdrive.parked=1 && property:sys.andr36oid.usbdrive.request=create
+    start andr36oid-usb-drive
+
+on property:init.svc.andr36oid-usb-drive=stopped && property:sys.andr36oid.usbdrive.parked=1 && property:sys.andr36oid.usbdrive.request=repair
+    start andr36oid-usb-drive
+
+on property:init.svc.andr36oid-usb-drive=stopped && property:sys.andr36oid.usbdrive.parked=1 && property:sys.andr36oid.usbdrive.request=delete
+    start andr36oid-usb-drive
+
+on property:init.svc.andr36oid-usb-drive=stopped && property:sys.andr36oid.usbdrive.parked=1 && property:sys.andr36oid.usbdrive.request=rename
+    start andr36oid-usb-drive
+
+on property:init.svc.andr36oid-usb-drive=stopped && property:sys.andr36oid.usbdrive.parked=1 && property:sys.andr36oid.usbdrive.scan=start
+    start andr36oid-usb-drive
+
 on early-init
     # Full CPU clock while starting: the kernel picks schedutil, which climbs slowly through
     # a start that is mostly short bursts. sys.boot_completed hands it back to schedutil.
@@ -189,6 +210,11 @@ on late-fs
     write /sys/block/mmcblk0/bdi/read_ahead_kb 2048
     write /sys/block/mmcblk0/queue/nr_requests 256
 
+    # Hardware video codec (mpp_service, H.264 encoder/decoders). Built in on 4.19, a
+    # module on 5.10: without it /dev/mpp_service is missing, OMX.rk.video_encoder.avc
+    # never delivers buffers and the screen recorder takes SystemUI down.
+    # (A build with it built in has no such file; init then only logs the miss.)
+    insmod /vendor/lib/modules/rk_vcodec.ko
     #insmod /vendor/lib/modules/wlan.ko
     insmod /vendor/lib/modules/btintel.ko
     insmod /vendor/lib/modules/btbcm.ko
@@ -408,9 +434,31 @@ on property:sys.boot_completed=1
     # Step up after 1 ms so a game gets the clock fast; step down after 10 ms as before.
     write /sys/devices/system/cpu/cpufreq/policy0/schedutil/up_rate_limit_us 1000
     write /sys/devices/system/cpu/cpufreq/policy0/schedutil/down_rate_limit_us 10000
-    # Give the app on screen (top-app) a 10% schedtune boost, like Pixel 2/3 do.
-    # schedutil then clocks up sooner for the game or menu in front.
+    # Give the app on screen (top-app) a 10% boost, like Pixel 2/3 do, so schedutil
+    # clocks up sooner for the game or menu in front. 4.19 does this through schedtune
+    # (/dev/stune/top-app, which the base init.rc creates). 5.10 dropped schedtune for
+    # uclamp; that path needs its own cpu-controller group, set up in the guarded block
+    # below. This write is a harmless no-op on 5.10 (no /dev/stune) - one rc serves both.
     write /dev/stune/top-app/schedtune.boost 10
+
+# 5.10 top-app uclamp floor. The 5.10 kernel cmdline carries androidboot.uclamp=1 (which
+# init exposes as ro.boot.uclamp); 4.19 does not set it, so this block runs on 5.10 ONLY and
+# 4.19 keeps the schedtune path above untouched. That matters: base init.rc makes cpuset and
+# stune top-app but NOT cpu top-app, and on 4.19 (FAIR_GROUP_SCHED) creating a cpu cgroup
+# child + joining top-app to it would re-weight the group and can starve it - so we must not.
+# On 5.10 we create the group here; MaxPerformance's cpu JoinCgroup then lands the apps and
+# schedutil sees cpu.uclamp.min=10. Do this at post-fs-data: it is pre-zygote (so the group
+# exists BEFORE any top-app profile is applied) yet after the cgroup controllers are mounted.
+# If the group is missing at the first profile apply, SetCgroupAction caches FDS_INACCESSIBLE
+# and never retries it (task_profiles.cpp:157-178 + ExecuteForTask:234), so the boost would be
+# lost for the whole boot - creating it later (e.g. boot_completed) is too late.
+on post-fs-data && property:ro.boot.uclamp=1
+    mkdir /dev/cpuctl/top-app 0755 system system
+    chown system system /dev/cpuctl/top-app/tasks
+    chmod 0664 /dev/cpuctl/top-app/tasks
+    chown system system /dev/cpuctl/top-app/cgroup.procs
+    chmod 0664 /dev/cpuctl/top-app/cgroup.procs
+    write /dev/cpuctl/top-app/cpu.uclamp.min 10
 
 service usb_modeswitch /vendor/bin/usb_modeswitch -KW -v 0bda -p 1a2b
     class main

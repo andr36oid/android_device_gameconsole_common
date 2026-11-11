@@ -84,5 +84,19 @@ parallel_restorecon enabled
 /sys/devices/platform/andr36oid-status-led	notify	0664	system	system
 /sys/devices/platform/andr36oid-status-led	raw	0664	system	system
 
+# Backlight brightness: apply perms from ueventd, not a one-shot init chown,
+# so they land whenever the backlight device appears. On 5.10 pwm_bl can
+# deferred-probe after 'on init' runs, so the init.rk30board.rc chown/chmod
+# hit a missing node and the brightness file stays root:root 0644 - Settings
+# and auto-brightness then cannot write it. Wildcard also covers DSI-named
+# backlights on clone panels.
+/sys/class/backlight/*	brightness	0660	system	system
+
+# VOP color LUT (Night Light / extra dim via DisplayTransformManager): same
+# deferred-probe exposure as the backlight above - the init.rk30board.rc on-init
+# chown runs before the VOP may probe on 5.10, leaving color_lut root:root. Apply
+# it from ueventd so it lands when the VOP device appears.
+/sys/devices/platform/ff460000.vop	color_lut	0660	system	system
+
 # Controller mode is the only writer of the USB HID gadget reports.
 /dev/hidg*                0600   root       root

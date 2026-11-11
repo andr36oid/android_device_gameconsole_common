@@ -481,9 +481,18 @@ PRODUCT_COPY_FILES += \
     $(foreach f,$(shell cd $(USB_WIFI_PATH)/firmware/usbbt && find . -type f ! -path './LICENSES/*' ! -name README.md | sed 's|^\./||'),\
         $(USB_WIFI_PATH)/firmware/usbbt/$(f):$(TARGET_COPY_OUT_VENDOR)/firmware/$(f))
 	    
+# Physical keylayout is selected per kernel image. Public Android scan codes
+# remain legacy on both through the capability-gated EventHub layer.
+# The 5.10 build wrapper explicitly exports this flag; rollback leaves it unset.
+ifeq ($(TARGET_GAMECONSOLE_RG351_NORMALIZED_INPUT),true)
+A36_PAD_KEYLAYOUT := $(LOCAL_PATH)/gamepad/Vendor_484b_Product_1100-rg351.kl
+else
+A36_PAD_KEYLAYOUT := $(LOCAL_PATH)/Vendor_484b_Product_1100.kl
+endif
+
 # Copy device kcm
 PRODUCT_COPY_FILES += \
-        $(LOCAL_PATH)/Vendor_484b_Product_1100.kl:$(TARGET_COPY_OUT_SYSTEM)/usr/keylayout/Vendor_484b_Product_1100.kl \
+        $(A36_PAD_KEYLAYOUT):$(TARGET_COPY_OUT_SYSTEM)/usr/keylayout/Vendor_484b_Product_1100.kl \
         $(LOCAL_PATH)/Vendor_484b_Product_1100.kcm:$(TARGET_COPY_OUT_SYSTEM)/usr/keychars/Vendor_484b_Product_1100.kcm \
         $(LOCAL_PATH)/Vendor_484b_Product_1100.idc:$(TARGET_COPY_OUT_SYSTEM)/usr/idc/Vendor_484b_Product_1100.idc
 
@@ -1081,3 +1090,10 @@ else
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.logd.kernel=false
 endif
+
+PRODUCT_PACKAGES += andr36oid-pad-codes
+
+# GRC802 uses separate GPIO-button and direct-SARADC input devices.
+PRODUCT_COPY_FILES += \
+    device/gameconsole/common/grc802/GRC802_Gamepad.kl:$(TARGET_COPY_OUT_SYSTEM)/usr/keylayout/GRC802_Gamepad.kl \
+    device/gameconsole/common/grc802/grc802-joystick.kl:$(TARGET_COPY_OUT_SYSTEM)/usr/keylayout/grc802-joystick.kl
