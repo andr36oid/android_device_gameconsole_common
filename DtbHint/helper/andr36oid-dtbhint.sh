@@ -381,8 +381,14 @@ installed_folder() {
 # Identity describes the installed DT, not an independent hardware measurement.
 model_folder() {
 	case $MODEL in
+	"R36 Ultra X GRC802-MB V1.1") echo "Experimental/R36-Ultra-X"; return ;;
 	"andr36oid OkRoll clone (experimental)") echo "Devices/OkRoll-Clone"; return ;;
 	esac
+    if tr '\0' '\n' <"$PROC/device-tree/compatible" 2>/dev/null |
+        grep -q -x -F 'grc802,r36-ultra-x'; then
+        echo "Experimental/R36-Ultra-X"
+        return
+    fi
 	if tr '\0' '\n' <"$PROC/device-tree/compatible" 2>/dev/null |
 		grep -q -x -F 'andr36oid,okroll-clone'; then
 		echo "Devices/OkRoll-Clone"
@@ -720,6 +726,7 @@ notify() {
 console_name() {
 	local f
 	case $FOLDER in
+	Experimental/R36-Ultra-X) echo "R36 Ultra X" ;;
 	Devices/OkRoll-Clone) echo "OkRoll clone" ;;
 	Panels/Panel[0-9]*) echo "R36S P${FOLDER#Panels/Panel}" ;;
 	Panels/R36S-Plus) echo "R36S Plus" ;;
