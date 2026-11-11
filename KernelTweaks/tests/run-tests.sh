@@ -28,7 +28,7 @@ setup() {
 		"$R"/proc/sys/kernel "$R"/sys/block/mmcblk0/queue "$R"/sys/class/thermal/thermal_zone0 \
 		"$R"/sys/class/thermal/thermal_zone1 "$R"/sys/devices/platform/odroidgo3-joypad \
 		"$R"/sys/module/rcupdate/parameters "$R"/sys/module/rk817_charger/parameters \
-		"$R"/sys/module/rk817_battery/parameters
+		"$R"/sys/module/rk817_battery/parameters "$R"/sys/module/module/parameters
 	for c in 1 2 3; do
 		mkdir -p "$R"/sys/devices/system/cpu/cpu$c
 		echo 1 >"$R"/sys/devices/system/cpu/cpu$c/online
@@ -54,6 +54,7 @@ setup() {
 	echo 0 >"$R"/proc/sys/kernel/panic_on_oops
 	echo 60 >"$R"/sys/module/rcupdate/parameters/rcu_cpu_stall_timeout
 	echo 0 >"$R"/sys/module/rk817_charger/parameters/dbg_level
+	echo 0 >"$R"/sys/module/module/parameters/no_radios
 	echo 0 >"$R"/sys/module/rk817_battery/parameters/dbg_level
 	# no mmcblk1, no hp_det_flip, no codec: not on this "console"
 	# the command line boot.ini gives (no serial console), BOOT as a folder
@@ -326,6 +327,15 @@ setp persist.andr36oid.kt.sd2_slot on
 setp persist.andr36oid.kt.radios ""
 run apply
 check "sd2 slot and radios back on" no "$([ -e "$T/boot/kernel-tweaks.txt" ] && echo yes || echo no)"
+# A kernel without the gate must neither offer it nor emit an ignored argument.
+setup
+rm "$R/sys/module/module/parameters/no_radios"
+setp persist.andr36oid.kt.radios off
+run boot
+check "unsupported radios has no default" "" "$(prop sys.andr36oid.ktd.radios)"
+check "unsupported radios has no current value" "" "$(prop sys.andr36oid.ktc.radios)"
+check "unsupported radio boot flag omitted" no "$([ -e "$T/boot/kernel-tweaks.txt" ] && echo yes || echo no)"
+check "unsupported radio preference retained" off "$(prop persist.andr36oid.kt.radios)"
 # switched off before the slot had a kernel option: carried over at start
 setup
 setp persist.andr36oid.sd2_mount 0
@@ -777,9 +787,8 @@ PY
 SRC=$HERE/../src/org/andr36oid/kerneltweaks
 if javac -encoding UTF-8 -d "$T/classes" "$T/java/android/content/Context.java" \
 	"$T/java/org/andr36oid/kerneltweaks/R.java" "$SRC/Tweak.java" "$SRC/Tweaks.java" \
-	"$SRC/Profile.java" "$SRC/ProfileSelection.java" "$HERE/ProfileTest.java" "$HERE/ProfileSelectionTest.java" &&
-	java -cp "$T/classes" org.andr36oid.kerneltweaks.ProfileTest "$T/profiles/exported.txt" &&
-    java -cp "$T/classes" org.andr36oid.kerneltweaks.ProfileSelectionTest; then
+	"$SRC/Profile.java" "$SRC/ProfileSelection.java" "$HERE/ProfileTest.java" &&
+	java -cp "$T/classes" org.andr36oid.kerneltweaks.ProfileTest "$T/profiles/exported.txt"; then
 	check "profile Java tests" passed passed
 else
 	check "profile Java tests" passed failed

@@ -160,6 +160,9 @@ boot_read() {
 		v=$(arg_last odroidgo3_joypad.extra_gpios "$2")
 		echo "${v:-none}" ;;
 	radios)
+		# Some 5.10 variants intentionally omit the radio module-load gate.
+		# Do not offer an ineffective boot switch merely because its argument parses.
+		[ -e "$R/sys/module/module/parameters/no_radios" ] || return 0
 		[ "$(arg_last module.no_radios "$2")" = 1 ] && echo off || echo on ;;
 	storage)
 		[ "$(arg_last androidboot.storage_fuse "$2")" = 1 ] && echo fuse || echo sdcardfs ;;
