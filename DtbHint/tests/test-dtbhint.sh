@@ -283,6 +283,12 @@ cases() {
 	expect "old ee dtb: kernel lines in details" contains "$R/boot/dtb-hint.txt" "ff160000.serial"
 	expect "old ee dtb: notified" contains "$R/test/calls" "notify:"
 
+	# The B4 family contains both SD2 and onboard-Wi-Fi boards; do not equate them.
+	fake "$R" Experimental/EE-V12-Var3-Panel3 Experimental/EE-K36-Panel4
+	hint "$R"
+	expect "V12 B4 candidate distinguished" contains "$R/boot/dtb-hint.txt" "try EE-K36-Panel4 first"
+	expect "K36S SD2 caveat" contains "$R/boot/dtb-hint.txt" "gives up the second SD slot"
+
 	# joypad down without a serial clash on EE: try the other EE wiring
 	fake "$R" $K1 $K1 joy=down
 	hint "$R"

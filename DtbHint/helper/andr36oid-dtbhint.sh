@@ -55,7 +55,9 @@ CR=$(printf '\r')
 # which is made from the DTBs (tests/gen-boards.py).
 F_GENUINE="Panels/Panel0 Panels/Panel1 Panels/Panel2 Panels/Panel3 Panels/Panel4 Panels/Panel5 Panels/Panel6 Panels/R36S-Plus Experimental/R36S-V21 Experimental/R36S-V21-2551-2552 Experimental/R36S-V22 Experimental/R36S-Y02-Y07 Experimental/R36S-V30 Experimental/R36S-V30-2603 Experimental/R36S-Panel3-Alt Experimental/R36S-Panel4-Type1 Experimental/KirbX-Clone"
 F_SOY="Experimental/Soy-Panel5 Experimental/Soy-Panel5-253x Experimental/Soy-Panel6 Experimental/Soy-Panel7 Experimental/Soy-Panel7-253x Experimental/Soy-V04-Panel2 Experimental/Soy-V05-2601"
-# EE boards, stick mux enable on GPIO2_B4 (K36 style) ...
+# EE boards, stick mux enable on GPIO2_B4 (K36 style). This is a wiring
+# family, not a whole-board equivalence: K36S uses SDIO for onboard Wi-Fi,
+# while EE-K36-Panel4 retains the second SD slot (clone-9 V12 without Wi-Fi).
 F_EE_B4="Experimental/EE-K36-Panel1 Experimental/Kinhank-K36 Experimental/EE-K36-Panel4 Experimental/RX6H Experimental/EE-V12-Var2 Experimental/K36S Experimental/R36T Experimental/XF35H Experimental/R36-Max Experimental/S600 Experimental/R39-Max Experimental/T16-Max Experimental/XF40H"
 # ... and on GPIO2_B3 (G80 style)
 F_EE_B3="Devices/EE-G80-Panel8 Experimental/EE-V12-Var1-Panel8 Experimental/EE-V12-Var1-Panel3 Experimental/EE-G80-Panel9 Experimental/EE-V12-Var3-Panel3 Experimental/EE-V12-Var3-PanelA Experimental/R36-Ultra"
@@ -542,6 +544,12 @@ text_en() {
 		;;
 	esac
 	folders "$SUGGEST"
+	case $SUGGEST in
+	ee|ee-b4)
+		echo "For a V12 without built-in Wi-Fi, try EE-K36-Panel4 first."
+		echo "K36S is for built-in Wi-Fi and gives up the second SD slot."
+		;;
+	esac
 	echo ""
 	echo "How: put the SD card in a computer, open the BOOT drive, back up the"
 	echo "files at the top, then copy ALL files of the folder to the top of BOOT."
@@ -596,6 +604,12 @@ text_es() {
 		;;
 	esac
 	folders "$SUGGEST"
+	case $SUGGEST in
+	ee|ee-b4)
+		echo "En una V12 sin Wi-Fi integrado, prueba primero EE-K36-Panel4."
+		echo "K36S usa Wi-Fi integrado en lugar de la segunda ranura SD."
+		;;
+	esac
 	echo ""
 	echo "Como: pon la tarjeta SD en un ordenador, abre la unidad BOOT, guarda"
 	echo "una copia de los archivos de arriba y copia TODOS los archivos de la"
@@ -650,6 +664,12 @@ text_pt() {
 		;;
 	esac
 	folders "$SUGGEST"
+	case $SUGGEST in
+	ee|ee-b4)
+		echo "Numa V12 sem Wi-Fi integrado, teste EE-K36-Panel4 primeiro."
+		echo "K36S usa Wi-Fi integrado no lugar do segundo slot SD."
+		;;
+	esac
 	echo ""
 	echo "Como: coloque o cartao SD num computador, abra a unidade BOOT, faca"
 	echo "uma copia dos arquivos do topo e copie TODOS os arquivos da pasta para"
