@@ -5,6 +5,9 @@ import android.app.AlertDialog;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.view.Gravity;
 import android.os.SystemClock;
 import android.os.SystemProperties;
 import android.view.Choreographer;
@@ -19,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The on-screen editor, over the game it edits (translucent, the game stays visible). Works with
+ * The on-screen editor, over a snapshot of the game so the game pauses while editing. Works with
  * the buttons alone: a crosshair to point, a button to press for each control, menus for the
  * rest. Opened with FN + L1 in the game, or from Settings > Touch controls.
  */
@@ -46,6 +49,7 @@ public class EditorActivity extends Activity implements Choreographer.FrameCallb
     private static final float SIZE_STEP = 1.12f;
     private static final float RESIZE_SPEED = 1.2f;  // per second at full tilt, as a factor
 
+    private Bitmap mBackground;
     private EditorView mView;
     private Profile mProfile;
     private String mSavedJson;
@@ -84,8 +88,10 @@ public class EditorActivity extends Activity implements Choreographer.FrameCallb
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         final String pkg = getIntent().getStringExtra(EXTRA_PACKAGE);
+        mBackground = EditorBackground.take(pkg);
+        if (mBackground != null) setTheme(R.style.EditorSnapshotTheme);
+        super.onCreate(savedInstanceState);
         if (pkg == null) {
             finish();
             return;
@@ -103,6 +109,11 @@ public class EditorActivity extends Activity implements Choreographer.FrameCallb
                 WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_ALWAYS;
         getWindow().setDecorFitsSystemWindows(false);
         mView = new EditorView(this);
+        if (mBackground != null) {
+            final BitmapDrawable background = new BitmapDrawable(getResources(), mBackground);
+            background.setGravity(Gravity.FILL);
+            mView.setBackground(background);
+        }
         setContentView(mView);
         final WindowInsetsController insets = getWindow().getInsetsController();
         if (insets != null) {
@@ -126,6 +137,7 @@ public class EditorActivity extends Activity implements Choreographer.FrameCallb
     protected void onStop() {
         super.onStop();
         // FN (Home) or anything else that covers the editor leaves it; unsaved changes go.
+        // The opaque snapshot pauses the game so its resume callback cannot cover us.
         // Not on a restart for a configuration change: switching touch controls off removes
         // the virtual touchscreen, which is one.
         if (!isFinishing() && !isChangingConfigurations()) {
@@ -139,6 +151,7 @@ public class EditorActivity extends Activity implements Choreographer.FrameCallb
         super.onDestroy();
         // Let the watcher put the game's touch controls back.
         WatcherService.refresh(this);
+        mBackground = null;
     }
 
     // --- Input ----------------------------------------------------------------------------

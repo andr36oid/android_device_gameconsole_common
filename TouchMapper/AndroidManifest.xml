@@ -4,6 +4,7 @@
     android:sharedUserId="android.uid.system">
 
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.READ_FRAME_BUFFER" />
 
     <!-- No launcher icon: Settings > Touch controls, and FN + L1 in a game -->
     <application

@@ -13,4 +13,11 @@
         <item name="android:windowAnimationStyle">@null</item>
         <item name="android:windowLayoutInDisplayCutoutMode">always</item>
     </style>
+    <!-- A captured game frame on an opaque surface pauses games that relaunch themselves
+         from onResume. The translucent theme remains a fallback when capture fails. -->
+    <style name="EditorSnapshotTheme" parent="EditorTheme">
+        <item name="android:windowIsTranslucent">false</item>
+        <item name="android:windowBackground">@android:color/black</item>
+        <item name="android:windowDisablePreview">true</item>
+    </style>
 </resources>

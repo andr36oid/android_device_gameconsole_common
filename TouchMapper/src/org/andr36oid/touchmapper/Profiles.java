@@ -150,6 +150,7 @@ final class Profiles {
     }
 
     static Intent editIntent(Context context, String packageName) {
+        EditorBackground.capture(context, packageName);
         return new Intent(context, EditorActivity.class)
                 .putExtra(EditorActivity.EXTRA_PACKAGE, packageName)
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK
