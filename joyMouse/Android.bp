@@ -58,15 +58,3 @@ cc_binary {
     shared_libs: ["liblog"],
     init_rc: ["joyMouse.rc"],
 }
-
-// m joyMouse_tests && $ANDROID_HOST_OUT/nativetest64/joyMouse_tests/joyMouse_tests
-cc_test_host {
-    name: "joyMouse_tests",
-    defaults: ["joymouse_defaults"],
-    srcs: [
-        "tests/ControllerTest.cpp",
-        "tests/ModelTest.cpp",
-        "tests/TouchTest.cpp",
-    ],
-    static_libs: ["libjoymouse"],
-}

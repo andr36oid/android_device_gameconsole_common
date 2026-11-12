@@ -1,1 +1,0 @@
-content://com.android.externalstorage.documents/tree/primary%3APSPstick
