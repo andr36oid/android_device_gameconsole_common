@@ -491,3 +491,17 @@ TEST(ConfigTest, Equality) {
 
 }  // namespace
 }  // namespace joymouse
+
+TEST(PadLayoutRegression, CompleteConsoleLayoutsIncludeFnAndSelectStart) {
+    for (bool native : {false, true}) {
+        joymouse::KeyBits supported;
+        for (const auto& b : a36_pad_bindings) supported.set(a36_pad_code(b.role, native));
+        joymouse::ButtonMap map(supported);
+        EXPECT_EQ(native, map.normalized());
+        for (const auto& b : a36_pad_bindings) {
+            const auto actual = map.button(a36_pad_code(b.role, native));
+            ASSERT_TRUE(actual.has_value());
+            EXPECT_EQ(static_cast<joymouse::Button>(b.role), *actual);
+        }
+    }
+}
