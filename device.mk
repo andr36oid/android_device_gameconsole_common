@@ -24,6 +24,23 @@
 # PRODUCT_LOCALES; set before any inherit so it comes ahead of full_base's en_US.
 PRODUCT_LOCALES := en_GB
 
+# Experimental, fresh cards only. Validate every kernel in the declared image
+# set before compiling a system which can request a compression-feature format.
+ANDR36OID_USERDATA_COMPRESSION ?= off
+ifeq ($(ANDR36OID_USERDATA_COMPRESSION),lz4)
+ifeq ($(strip $(ANDR36OID_KERNEL_SET)),)
+$(error Compressed userdata requires ANDR36OID_KERNEL_SET JSON with every image-set kernel)
+endif
+_a36_f2fs_gate := $(shell python3 device/gameconsole/r36s/tools/check-userdata-compression.py "$(ANDR36OID_KERNEL_SET)" >/dev/null && echo PASS)
+ifneq ($(_a36_f2fs_gate),PASS)
+$(error Refusing compressed userdata: every image-set kernel must carry the hash-bound f2fs_compression=lz4 marker)
+endif
+PRODUCT_SYSTEM_DEFAULT_PROPERTIES += ro.andr36oid.userdata_compression=lz4
+PRODUCT_PACKAGES += andr36oid-userdata-compression
+else ifneq ($(ANDR36OID_USERDATA_COMPRESSION),off)
+$(error ANDR36OID_USERDATA_COMPRESSION must be off or lz4)
+endif
+
 # Inherit from those products. Most specific first.
 # Set TARGET_GAMECONSOLE_ZYGOTE64_ONLY := true in lineage_<device>.mk to drop
 # the 32-bit zygote. Saves one full zygote (preloaded classes/resources) but

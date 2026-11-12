@@ -1,0 +1,5 @@
+on post-fs-data && property:ro.andr36oid.userdata_compression=lz4
+    # Same ownership/modes as core init. No encryption policy is introduced.
+    mkdir /data/dalvik-cache 0771 root root
+    mkdir /data/resource-cache 0771 system system
+    exec - root root -- /system/bin/andr36oid-userdata-compression policy

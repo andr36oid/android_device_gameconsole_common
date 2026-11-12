@@ -1,0 +1,6 @@
+cc_binary {
+    name: "andr36oid-userdata-compression",
+    srcs: ["userdata-compression.c"],
+    cflags: ["-Wall", "-Wextra", "-Werror"],
+    init_rc: ["userdata-compression.rc"],
+}

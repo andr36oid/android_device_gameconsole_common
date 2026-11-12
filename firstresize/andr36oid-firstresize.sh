@@ -40,6 +40,18 @@ FSCK_F2FS=${RESIZE_FSCK_F2FS:-/system/bin/fsck.f2fs}
 TMP_MNT=${RESIZE_TMP_MNT:-/mnt/andr36oid-resize-apps}
 BOOT=
 
+compression_fresh_format() {
+    helper=${RESIZE_COMPRESSION_HELPER:-/system/bin/andr36oid-userdata-compression}
+    [ -x "$helper" ] || return 0
+    [ "$(getprop ro.andr36oid.userdata_compression)" = lz4 ] || return 0
+    # Caller has checked the GPT and PARTNAME. The helper independently checks
+    # the real block object and preserves every nonblank filesystem verbatim.
+    out=$("$helper" format-blank "$BYNAME/userdata" 2>&1) || {
+        log "fresh compressed userdata refused: $out"; return 1;
+    }
+    log "$out"
+}
+
 log() {
     echo "andr36oid-resize: $*" > "$KMSG" 2>/dev/null
     if [ -n "$BOOT" ]; then
@@ -333,6 +345,7 @@ if [ -e "$SYS/$disk/${disk}p6" ]; then
         exit 0
     fi
     if [ ! -e "$BOOT/resize-pending" ]; then
+        compression_fresh_format || { boot_umount; exit 1; }
         boot_umount
         apps_mount
         exit 0
@@ -447,6 +460,7 @@ log "blanking userdata ${disk}p6 (first MiB)"
 dd if=/dev/zero of="$DEV/${disk}p6" bs=1048576 count=1 conv=fsync 2>/dev/null ||
     { log "could not blank userdata"; boot_umount; exit 1; }
 log "userdata ${disk}p6 blanked"
+compression_fresh_format || { boot_umount; exit 1; }
 
 if [ -e "$SYS/$disk/${disk}p7" ]; then
     i=0
