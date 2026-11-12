@@ -441,7 +441,10 @@ decide() {
 		# every EE board has the volume ladder on channel 2, so with working
 		# volume keys the board is EE and only the stick/button wiring differs
 		VERDICT=other-ee
-		if [ "$DT_WIRING" = ee-b4 ]; then SUGGEST=ee-b3; else SUGGEST=ee-b4; fi
+		# Mux enable alone does not identify all button GPIOs: GRC802 and
+		# G80 both use B3 but have different button pins. Include both EE
+		# groups rather than excluding a valid same-mux candidate.
+		SUGGEST=ee
 	elif [ "$HW" = unknown ]; then
 		# the board ID wasn't recognised and the buttons don't fit: Soy Sauce boards
 		# are the ones whose ID we haven't seen yet
@@ -464,11 +467,14 @@ folders() {
 	ee-b3) l=$F_EE_B3 ;;
 	*) l= ;;
 	esac
-	# OkRoll-Mux is a parity-kernel variant, absent on older/4.19 BOOTs.
-	# Never suggest it unless its actual Android DTB is on the mounted card.
+	# Kernel-dependent variants must have their actual Android DTB on BOOT.
+	# In particular, older/4.19 cards may not include OkRoll-Mux or GRC802.
 	available=
 	for f in $l; do
-		[ "$f" != Experimental/OkRoll-Mux ] || [ -f "$BOOT/$f/$DTB" ] || continue
+		case $f in
+		Experimental/OkRoll-Mux|Experimental/R36-Ultra-X)
+			[ -f "$BOOT/$f/$DTB" ] || continue ;;
+		esac
 		available="$available $f"
 	done
 	l=$available
@@ -538,8 +544,8 @@ text_en() {
 		echo "newer andr36oid release. The folders for this kind of board:"
 		;;
 	other-ee)
-		echo "The buttons or sticks don't fit this DTB. EE clones come in two"
-		echo "wirings; try a folder of the other one:"
+		echo "The buttons or sticks don't fit this DTB. EE clones are wired in"
+		echo "several ways; try another EE folder:"
 		;;
 	symptoms-unknown-board)
 		echo "The buttons or sticks don't fit this DTB, and the board ID was not"
@@ -603,7 +609,7 @@ text_es() {
 		;;
 	other-ee)
 		echo "Los botones o los sticks no encajan con este DTB. Los clones EE"
-		echo "tienen dos cableados; prueba una carpeta del otro:"
+		echo "tienen varios cableados; prueba otra carpeta EE:"
 		;;
 	symptoms-unknown-board)
 		echo "Los botones o los sticks no encajan con este DTB y no se reconocio"
@@ -667,7 +673,7 @@ text_pt() {
 		;;
 	other-ee)
 		echo "Os botoes ou os analogicos nao combinam com este DTB. Os clones EE"
-		echo "tem duas ligacoes; teste uma pasta da outra:"
+		echo "tem varias ligacoes; teste outra pasta EE:"
 		;;
 	symptoms-unknown-board)
 		echo "Os botoes ou os analogicos nao combinam com este DTB e a placa nao"

@@ -249,7 +249,20 @@ matrix() {
 			h=$R/boot/dtb-hint.txt
 			xen=$(field "$X" 3) yen=$(field "$Y" 3)
 			if [ "$xen" = "$yen" ]; then
-				# same wiring: only the screen can differ, which can't be seen
+				# A shared mux-enable pin is not a complete button pinout.
+				# Match the fixture's low-unwired-pin model independently of
+				# the helper: GRC802/G80 differ at three button GPIOs.
+				unmatched=0
+				ypins=" $(field "$Y" 4) $(field "$Y" 5) "
+				for pin in $(field "$X" 4); do
+					case $ypins in *" $pin "*) ;; *) unmatched=$((unmatched + 1)) ;; esac
+				done
+				if [ "$1" = lo ] && [ "$(fam "$xen")" = ee ] && [ "$unmatched" -ge 2 ]; then
+					expect "same mux, different buttons: $X on $Y: symptoms" [ "$r" = other-ee ]
+					expect "same mux, different buttons: $X on $Y: candidate" contains "$h" "$Y"
+					expect "same mux, different buttons: $X on $Y: notify" contains "$R/test/calls" "notify:"
+					continue
+				fi
 				[ "$r" = ok ] || bad "matrix $1/${2:-675}: $X on $Y gave $r, want ok"
 				contains "$h" "$Y" || bad "matrix $1/${2:-675}: $X on $Y: $Y not listed"
 				[ ! -s "$R/test/calls" ] || bad "matrix: $X on $Y notified"
@@ -477,6 +490,26 @@ cases() {
 	hint "$R"
 	expect "GRC mux: wiring family evaluated" [ "$(result "$R")" = ok ]
 	expect "GRC mux: family includes profile" contains "$R/boot/dtb-hint.txt" "Experimental/R36-Ultra-X"
+
+	# Same mux enable does not mean the buttons fit: preserve the warning,
+	# include the correct same-mux alternative, and never auto-select a DTB.
+	for pair in 'Experimental/R36-Ultra-X Devices/EE-G80-Panel8' 'Devices/EE-G80-Panel8 Experimental/R36-Ultra-X'; do
+		set -- $pair
+		fake "$R" "$1" "$2" pull=lo
+		hint "$R"
+		expect "GRC/G80 low: mismatched buttons warn" [ "$(result "$R")" = other-ee ]
+		expect "GRC/G80 low: same-mux alternative" contains "$R/boot/dtb-hint.txt" "$2"
+		expect "GRC/G80 low: symptoms retained" contains "$R/test/calls" "notify:"
+		fake "$R" "$1" "$2" pull=hi
+		hint "$R"
+		expect "GRC/G80 high: no fabricated symptoms" [ "$(result "$R")" = ok ]
+		expect "GRC/G80 high: alternatives still included" contains "$R/boot/dtb-hint.txt" "$2"
+	done
+	mv "$W/shared/Experimental/R36-Ultra-X" "$W/grc-hidden"
+	fake "$R" Experimental/EE-K36-Panel4 Experimental/EE-K36-Panel4
+	hint "$R"
+	expect "GRC: absent variant not suggested" lacks "$R/boot/dtb-hint.txt" "Experimental/R36-Ultra-X"
+	mv "$W/grc-hidden" "$W/shared/Experimental/R36-Ultra-X"
 
 	# New factory profiles carry a pointer instead of duplicated BMPs. The hint
 	# must explain the second copy in all three languages, without copying DTBs.

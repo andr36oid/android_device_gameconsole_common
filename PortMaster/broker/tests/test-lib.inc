@@ -133,3 +133,6 @@ repair_port_launch_boundary() { :; }
 # Display-gap worker is tested separately; generic lifecycle fixtures have no DRM.
 start_return_splash() { :; }
 finish_return_splash() { :; }
+
+# Native storage menu transport has separate fixture and real-mount tests.
+prepare_storage_tools() { :; }
