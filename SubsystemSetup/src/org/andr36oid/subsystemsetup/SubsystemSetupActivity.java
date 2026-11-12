@@ -53,7 +53,6 @@ import java.util.concurrent.Executors;
 public class SubsystemSetupActivity extends Activity {
     static final String P="sys.andr36oid.subsystem.";
     static final String SELECT="persist.sys.andr36oid.subsystem.selected";
-    static final String ICON="persist.andr36oid.subsystem.es_icon";
     static final String EXTRA_LAUNCH="launch";
     static final String EXTRA_PORT_LAUNCH="port_launch";
     /** One-shot token proving an in-process entry (not a third-party app) sent the launch. */
@@ -406,7 +405,6 @@ public class SubsystemSetupActivity extends Activity {
                 .setItems(new CharSequence[]{getString(R.string.subsystem_open_es),getString(R.string.asl_ra)},(d,w)->launch(w==0?"ES":"RA",true))
                 .setNegativeButton(android.R.string.cancel,null));
         });
-        optimizeRow=row(p.column,"↗",R.string.ss_optimize,getString(R.string.ss_optimize_note),()->open(Screen.OPTIMIZE)).chevron();
         imagesRow=row(p.column,"▣",R.string.ss_images,getString(R.string.ss_images_note),()->open(Screen.IMAGES)).chevron();
         row(p.column,"⚙",R.string.ss_settings,getString(R.string.ss_settings_note),()->open(Screen.SETTINGS)).chevron();
         row(p.column,"≡",R.string.ss_logs,getString(R.string.ss_logs_note),()->open(Screen.LOGS)).chevron();
@@ -834,6 +832,9 @@ public class SubsystemSetupActivity extends Activity {
             R.string.subsystem_exit_hold_four,R.string.subsystem_exit_hold_five,R.string.subsystem_exit_hold_six};
     private void buildAdvanced() {
         Page p=new Page(Screen.ADVANCED,true);p.heading(R.string.asl_advanced,R.string.ss_advanced_note);
+        // Converting an image on the console is only for an image the user brought
+        // themselves: the dArkOSen we offer for download is already converted.
+        optimizeRow=row(p.column,"↗",R.string.ss_optimize,getString(R.string.ss_optimize_note),()->open(Screen.OPTIMIZE)).chevron();
         advancedImage=row(p.column,"▣",R.string.subsystem_rootfs,"",()->showDialog(new AlertDialog.Builder(this).setTitle(R.string.subsystem_rootfs)
             .setItems(new CharSequence[]{getString(R.string.subsystem_choose_image),getString(R.string.subsystem_automatic_image)},(d,w)->{
                 if(w==0){pickerPath="";open(Screen.PICKER);loadPicker();}else{advancedRootfs="";updateAdvanced();}
