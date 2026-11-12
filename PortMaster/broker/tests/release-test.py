@@ -69,7 +69,13 @@ A36_EROFS_SUPPORT=$BASE/support;A36_OPT_PRIVATE=1;A36_RELEASE_POLL=0.05;A36_POWE
 A36_UNXZ=UNXZ_VALUE;A36_FSCK_EROFS=$BASE/fsck
 mkdir -p "$STATE" "$ROOT"
 getprop() { if [ "$1" = ro.build.version.incremental ]; then echo eng.test.20261111.220000; else cat "$BASE/props/$1" 2>/dev/null || true; fi; }
-setprop() { printf '%s' "$2" > "$BASE/props/$1"; }
+setprop() {
+  printf '%s' "$2" > "$BASE/props/$1"
+  if [ "$1" = "$PROP.rel_state" ] && [ -n "${CANCEL_PHASE:-}" ] && [ "$2" = "$CANCEL_PHASE" ]; then
+    touch "$BASE/cancel-ready"
+    while [ ! -f "$BASE/cancel-go" ]; do sleep .02; done
+  fi
+}
 log() { printf '%s\\n' "$*" >> "$LOG"; }
 . IMAGES_LIB
 . RELEASE_LIB
@@ -96,11 +102,14 @@ if [ "${A36_TEST_LIFECYCLE:-0}" = 1 ]; then
     touch "$STATE/prestage.ready"
   }
 fi
-image_cards() { printf '%s\\tabcd-1234\\tfake\\trw\\n' "$BASE/card"; }
+image_cards() { printf '%s\\tabcd-1234\\tfake\\t%s\\n' "$BASE/card" "${TEST_CARD_MODE:-rw}"; }
 losetup() { [ "${1:-}" != -f ] || printf '/dev/loopMOCK\\n'; return 0; }
 mount() { for target; do :; done; cp -a "$BASE/tree/." "$target/"; }
 umount() { return 0; }
 case "$1" in
+ cancel) cancel_release "$2";;
+ report) write_catalog;;
+ report-preserve) SOURCE_ID=sentinel; write_release_report; [ "$SOURCE_ID" = sentinel ];;
  install) setprop "$PROP.rel_dispatch_job" "$2"; install_release_worker "$2" 'release.erofs.img.request.json';;
  recover) acquire_operation scan || exit 90; release_operation;;
  resolve)
@@ -145,7 +154,27 @@ esac
         for p in props.iterdir():p.unlink()
         (b/'hit').unlink(missing_ok=True)
         (b/'events').unlink(missing_ok=True)
+        (b/'cancel-ready').unlink(missing_ok=True)
+        (b/'cancel-go').unlink(missing_ok=True)
     if os.environ.get('A36_TEST_LIFECYCLE') == '1':
+        def report():
+            p=b/'state/release.txt'
+            assert p.stat().st_mode & 0o777 == 0o644
+            data=dict(line.split('=',1) for line in p.read_text().splitlines())
+            assert set(data)=={'version','darkosen','revision','origin','transport','source_id','partition','partition_capacity','parts_dir','parts_free'}
+            assert data['version']=='1' and data['partition']=='0' and data['partition_capacity']=='0'
+            return data
+        clear_installed();run('bash','report')
+        data=report();assert data['origin']=='own' and data['transport']=='file' and data['darkosen']=='' and data['revision']=='0'
+        assert data['parts_dir']==str(card) and int(data['parts_free'])>0
+        run('bash','report-preserve')
+        saved=b/'saved-original.img';(card/'old.img').rename(saved)
+        run('bash','report');data=report();assert data['transport']=='none' and data['source_id']==''
+        result=subprocess.run(['bash',str(worker),'report'],env={**os.environ,'TEST_CARD_MODE':'ro'},capture_output=True,text=True,timeout=30)
+        assert result.returncode==0,result
+        data=report();assert data['parts_dir']=='' and data['parts_free']=='0'
+        saved.rename(card/'old.img')
+        print('PASS release.txt own/none/readonly card/free bytes/0644/atomic snapshot and resolver globals preserved',flush=True)
         def persist(value='1'):
             (props/'persist.andr36oid.subsystem.prestage').write_text(value)
         def installed(shell):
@@ -165,6 +194,7 @@ esac
             assert not list(card.glob('.a36-release-*')) and not list(card.glob('payload.xz.*'))
             assert (b/'state/prestage.ready').exists() and not (b/'control/release-lifecycle/intent').exists()
             assert prop('rel_state')=='done' and (props/'persist.andr36oid.subsystem.prestage').read_text()=='1'
+            data=report();assert data['origin']=='release' and data['revision']=='2' and data['transport']=='file' and data['source_id']==prop('rel_image')
             assert (power/'wake_unlock').read_text().strip()=='a36-release-'+job
             old=installed(shell); job,m=request(1); run(shell,'install',job,fault='setupfail',ok=False)
             assert prop('rel_error')=='setup_failed' and prop('rel_cleanup_pending')=='0'
@@ -175,6 +205,28 @@ esac
             assert not (b/'state/prestage.ready').exists() and 'park ' not in (b/'events').read_text()
             assert (props/'persist.andr36oid.subsystem.prestage').read_text()=='0'
             print('PASS lifecycle',shell,'evict, SETUP then park, old-pair restoration on SETUP failure, property OFF respected, wake release')
+        import time
+        for shell in ['sh','bash','mksh']:
+            for phase in ['queued','checking','publishing']:
+                installed(shell);job,m=request(1)
+                proc=subprocess.Popen([shell,str(worker),'install',job],stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True,env={**os.environ,'CANCEL_PHASE':phase})
+                deadline=time.monotonic()+30
+                while not (b/'cancel-ready').exists() and proc.poll() is None and time.monotonic()<deadline:time.sleep(.02)
+                assert (b/'cancel-ready').exists(),(phase,proc.communicate(timeout=10))
+                run(shell,'cancel','f'*16)
+                assert not (b/f'control/release-cancel/{job}').exists()
+                run(shell,'cancel',job)
+                accepted=phase!='publishing'
+                assert (b/f'control/release-cancel/{job}').exists()==accepted
+                (b/'cancel-go').touch()
+                out,err=proc.communicate(timeout=60)
+                assert (proc.returncode!=0)==accepted,(phase,proc.returncode,out,err)
+                assert prop('rel_state')==('failed' if accepted else 'done')
+                assert prop('rel_error')==('interrupted' if accepted else '') and prop('rel_done_job')==job
+                assert (card/'release.erofs.img').read_bytes()==images[0 if accepted else 1]
+                assert (card/'payload.xz.001').exists()==accepted
+                assert not (b/'control/release-lifecycle/intent').exists()
+                print('PASS cancel',shell,phase,'accepted, parts+old image retained' if accepted else 'silently refused, commit completes',flush=True)
         installed('bash'); job,m=request(1); run('bash','install',job,fault='readyfail',ok=False)
         assert prop('rel_error')=='io_error' and prop('rel_cleanup_pending')=='1'
         assert (card/'payload.xz.001').exists() and list(card.glob('*.old'))

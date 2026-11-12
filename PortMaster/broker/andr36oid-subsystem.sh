@@ -2778,6 +2778,7 @@ mark_frontend_booted() {
 
 cmd=${1:-start}; arg=${2:-}
 case "$cmd" in
+  cancel-release-prop) cancel_release "$(prop rel_cancel_dispatch_job)"; exit 0 ;;
   select-prop)
     publish request ""
     select_image || { publish select_error failed; operation_done failed; exit 1; }; exit 0 ;;

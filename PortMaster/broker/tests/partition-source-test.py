@@ -119,6 +119,13 @@ mount_managed_rootfs
 mount_managed_rootfs # reuse verifies the actual direct read-only lower source
 write_catalog
 [ "$(wc -l < "$STATE/images.tsv")" = 2 ]
+grep -qx 'version=1' "$STATE/release.txt"
+grep -qx 'origin=release' "$STATE/release.txt"
+grep -qx 'transport=partition' "$STATE/release.txt"
+grep -qx "source_id=$part_id" "$STATE/release.txt"
+grep -qx 'partition=1' "$STATE/release.txt"
+grep -qx "parts_dir=$BASE/card/subsystem/darkosen" "$STATE/release.txt"
+[ "$(stat -c %a "$STATE/release.txt")" = 644 ]
 prestage_storage_token(){ echo fixture-card; }
 : > "$STATE/roms-map"
 setprop persist.andr36oid.subsystem.prestage 1

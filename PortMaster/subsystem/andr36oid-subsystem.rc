@@ -154,3 +154,16 @@ on property:sys.andr36oid.subsystem.request=apply-release-to-partition
     setprop sys.andr36oid.subsystem.rel_dispatch_source ${sys.andr36oid.subsystem.rel_source:-invalid}
     setprop sys.andr36oid.subsystem.request ""
     start andr36oid-subsystem-partition-update
+
+service andr36oid-subsystem-release-cancel /system/bin/sh /system/etc/andr36oid-subsystem.sh cancel-release-prop
+    class late_start
+    user root
+    group root system mount
+    seclabel u:r:shell:s0
+    disabled
+    oneshot
+
+on property:sys.andr36oid.subsystem.request=cancel-release
+    setprop sys.andr36oid.subsystem.rel_cancel_dispatch_job ${sys.andr36oid.subsystem.rel_request_job:-invalid}
+    setprop sys.andr36oid.subsystem.request ""
+    start andr36oid-subsystem-release-cancel

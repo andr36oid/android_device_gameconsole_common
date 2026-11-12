@@ -51,7 +51,13 @@ A36_OPT_PRIVATE=1; A36_RELEASE_TEST_INLINE=1
 export A36_RELEASE_WAKE_MS
 mkdir -p "$STATE" "$ROOT"
 getprop() { if [ "$1" = ro.build.version.incremental ]; then echo eng.test.20261112.020000; else cat "$BASE/props/$1" 2>/dev/null || :; fi; }
-setprop() { printf '%s' "$2" > "$BASE/props/$1"; }
+setprop() {
+  printf '%s' "$2" > "$BASE/props/$1"
+  if [ "$1" = "$PROP.rel_state" ] && [ -n "${CANCEL_PHASE:-}" ] && [ "$2" = "$CANCEL_PHASE" ]; then
+    touch "$BASE/cancel-ready"
+    while [ ! -f "$BASE/cancel-go" ]; do sleep .02; done
+  fi
+}
 log() { printf '%s\n' "$*" >> "$LOG"; }
 . @LIBS@/andr36oid-images.sh
 . @LIBS@/andr36oid-release.sh
@@ -83,7 +89,7 @@ resolve_selected_image() {
   fi
   FAMILY=$SOURCE_ID; GENERATION=$(field "$RECORD" generation); EFFECTIVE=$SOURCE
 }
-write_catalog() { :; }
+write_catalog() { write_release_report; }
 publish_resolution() { :; }
 publish_setup_state() { :; }
 prestage_unmount_locked() { echo unmount >> "$BASE/events"; rm -f "$STATE/prestage.ready"; }
@@ -102,6 +108,7 @@ prestage_park() {
   touch "$STATE/prestage.ready"
 }
 case "$1" in
+ cancel) cancel_release 0123456789abcdef ;;
  apply)
   setprop "$PROP.rel_dispatch_job" 0123456789abcdef
   acquire_operation apply-release-to-partition || exit 90
@@ -124,6 +131,7 @@ def reset(stage=True):
     for p in props.iterdir(): p.unlink()
     (casebase/'hit').unlink(missing_ok=True)
     (casebase/'events').write_text('')
+    for name in ['cancel-ready','cancel-go']:(casebase/name).unlink(missing_ok=True)
     (casebase/'state').mkdir()
     if stage: (casebase/'state/prestage.ready').touch()
     (props/'persist.andr36oid.subsystem.prestage').write_text('1' if stage else '0')
@@ -132,7 +140,14 @@ def reset(stage=True):
     part.write_bytes(original_part)
     (boot/'andr36oid-darkosen.json').write_bytes(manifest.read_bytes())
 def run_shell(shell, op='apply', fault='', ok=True):
-    result=subprocess.run([shell,str(worker),op],text=True,capture_output=True,timeout=60,env={**os.environ,'FAULT':fault})
+    try:
+        result=subprocess.run([shell,str(worker),op],text=True,capture_output=True,timeout=60,env={**os.environ,'FAULT':fault})
+    except subprocess.TimeoutExpired as error:
+        print('TIMEOUT STDOUT',error.stdout,'STDERR',error.stderr,flush=True)
+        print('TIMEOUT PROPS',{p.name:p.read_text() for p in props.iterdir()},flush=True)
+        print('TIMEOUT EVENTS',(casebase/'events').read_text(),flush=True)
+        print('TIMEOUT GATE',(casebase/'control/release-cancel/gate').read_text(),flush=True)
+        raise
     if (result.returncode==0)!=ok:
         print('PARTITION LOG', (casebase/'state/partition-update.log').read_text() if (casebase/'state/partition-update.log').exists() else '',flush=True)
     assert (result.returncode==0)==ok,(shell,op,fault,result)
@@ -140,13 +155,15 @@ def run_shell(shell, op='apply', fault='', ok=True):
 def prop(key):
     p=props/('sys.andr36oid.subsystem.'+key)
     return p.read_text() if p.exists() else ''
-for shell in ['sh','bash','mksh']:
+for shell in os.environ.get('A36_PARTITION_TEST_SHELLS','sh bash mksh').split():
     if not shutil.which(shell): continue
     reset();run_shell(shell)
     assert part.read_bytes()==new+original_part[len(new):]
     assert not sourcefile.exists() and not Path(str(sourcefile)+'.meta').exists()
     assert (casebase/'events').read_text().splitlines()==['unmount','setup partition','park partition']
     assert prop('rel_state')=='done' and prop('rel_transport')=='partition' and prop('rel_cleanup_pending')=='0'
+    report=dict(line.split('=',1) for line in (casebase/'state/release.txt').read_text().splitlines())
+    assert report['origin']=='release' and report['transport']=='partition' and report['partition']=='1' and int(report['partition_capacity'])==capacity
     assert (power/'wake_unlock').read_text().strip()=='a36-release-0123456789abcdef'
     reset();run_shell(shell,fault='setupfail',ok=False)
     assert sourcefile.exists() and prop('rel_error')=='setup_failed'
@@ -176,3 +193,21 @@ assert prop('rel_error')=='io_error' and prop('rel_cleanup_pending')=='1'
 run_shell('bash','recover')
 assert not sourcefile.exists() and not (casebase/'control/release-lifecycle/intent').exists()
 print('PASS partition failed durable ready write keeps fallback until committed recovery',flush=True)
+import time
+for shell in os.environ.get('A36_PARTITION_TEST_SHELLS','sh bash mksh').split():
+    for phase in ['verifying','copying']:
+        reset()
+        proc=subprocess.Popen([shell,str(worker),'apply'],text=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE,env={**os.environ,'CANCEL_PHASE':phase})
+        deadline=time.monotonic()+30
+        while not (casebase/'cancel-ready').exists() and proc.poll() is None and time.monotonic()<deadline:time.sleep(.02)
+        assert (casebase/'cancel-ready').exists(),(phase,proc.communicate(timeout=10))
+        run_shell(shell,'cancel')
+        accepted=phase=='verifying'
+        assert (casebase/'control/release-cancel/0123456789abcdef').exists()==accepted
+        (casebase/'cancel-go').touch();out,err=proc.communicate(timeout=60)
+        assert (proc.returncode!=0)==accepted,(shell,phase,out,err)
+        assert prop('rel_state')==('failed' if accepted else 'done') and prop('rel_error')==('interrupted' if accepted else '')
+        if accepted:
+            assert part.read_bytes()==original_part and sourcefile.exists()
+        else:assert not sourcefile.exists() and part.read_bytes()==new+original_part[len(new):]
+        print('PASS partition cancel',shell,phase,'accepted BEFORE any block write' if accepted else 'silently refused',flush=True)

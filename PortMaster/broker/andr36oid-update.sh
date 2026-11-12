@@ -3,6 +3,36 @@
 # Journals are root-owned data, never sourced/evaluated as shell commands.
 LIFE_DIR="$CONTROL/release-lifecycle"
 PART_UPDATE_DIR="$CONTROL/partition-update"
+RELEASE_CANCEL_DIR="$CONTROL/release-cancel"
+release_cancelled() { [ -f "$RELEASE_CANCEL_DIR/$1" ]; }
+release_cancel_phase() (
+  local job=$1 phase=$2 cancelled=0
+  valid_job "$job" || return 1
+  mkdir -p "$RELEASE_CANCEL_DIR" || return 1; chmod 0700 "$RELEASE_CANCEL_DIR"
+  exec 5>"$RELEASE_CANCEL_DIR/lock"; flock 5 5>&5 || { exec 5>&-; return 1; }
+  release_cancelled "$job" && cancelled=1
+  printf 'job=%s\nphase=%s\nboot=%s\npid=%s\nstart=%s\n' "$job" "$phase" "$(boot_id)" "$$" "$(process_start $$)" > "$RELEASE_CANCEL_DIR/gate.tmp" &&
+    mv -f "$RELEASE_CANCEL_DIR/gate.tmp" "$RELEASE_CANCEL_DIR/gate" || cancelled=1
+  exec 5>&-
+  [ "$cancelled" = 0 ]
+)
+cancel_release() (
+  local job=$1 data phase pid stamp rc=0
+  valid_job "$job" || return 0
+  [ -d "$RELEASE_CANCEL_DIR" ] || return 0
+  exec 5>"$RELEASE_CANCEL_DIR/lock"; flock 5 5>&5 || { exec 5>&-; return 0; }
+  data=$(cat "$RELEASE_CANCEL_DIR/gate" 2>/dev/null) || rc=1
+  phase=$(field "$data" phase); pid=$(field "$data" pid); stamp=$(field "$data" start)
+  case "$phase" in queued|verifying|unpacking|checking) ;; *) rc=1;; esac
+  [ "$(field "$data" job)" = "$job" ] && [ "$(field "$data" boot)" = "$(boot_id)" ] &&
+    [ -n "$stamp" ] && [ "$(process_start "$pid")" = "$stamp" ] || rc=1
+  if [ "$rc" = 0 ]; then
+    printf '%s\n' "$job" > "$RELEASE_CANCEL_DIR/cancel.tmp" &&
+      mv -f "$RELEASE_CANCEL_DIR/cancel.tmp" "$RELEASE_CANCEL_DIR/$job" || :
+  fi
+  exec 5>&-
+  return 0
+)
 life_intent() { [ -f "$LIFE_DIR/intent" ]; }
 life_write() {
   local tmp="$LIFE_DIR/intent.tmp"
@@ -51,6 +81,7 @@ release_lifecycle_begin() {
   exec 6</proc/self/ns/mnt || return 1
   mkdir -p "$LIFE_DIR" || return 1; chmod 0700 "$LIFE_DIR"
   LIFE_OPERATION=$operation; LIFE_JOB=$job; LIFE_PHASE=admitted
+  release_cancel_phase "$job" queued || return 1
   LIFE_OLD_ID=; LIFE_OLD_GENERATION=; LIFE_OLD_SOURCE=; LIFE_OLD_UUID=; LIFE_OLD_META_SHA=
   LIFE_WANT_STAGE=0; prestage_enabled && LIFE_WANT_STAGE=1
   life_wake_start "$job" || return 1
@@ -64,7 +95,8 @@ release_lifecycle_begin() {
   life_write || { life_wake_stop; return 1; }
 }
 life_forget() {
-  rm -f "$LIFE_DIR/intent" && "$SUPPORT" fsync "$LIFE_DIR"
+  release_cancel_phase "$LIFE_JOB" finished || :
+  rm -f "$RELEASE_CANCEL_DIR/$LIFE_JOB" "$LIFE_DIR/intent" && "$SUPPORT" fsync "$LIFE_DIR"
 }
 life_stage() {
   local selected=$1 key
@@ -167,6 +199,7 @@ life_cleanup_backups() {
 release_private_finish() {
   local rc=$1
   trap - EXIT INT TERM HUP
+  A36_RELEASE_CANCEL_ACTIVE=0
   if [ -n "$REL_CHILD" ] && [ -n "$REL_CHILD_START" ] && [ "$(process_start "$REL_CHILD")" = "$REL_CHILD_START" ]; then
     kill -KILL "$REL_CHILD" 2>/dev/null || :; wait "$REL_CHILD" 2>/dev/null || :
   fi
@@ -347,6 +380,7 @@ release_lifecycle_recover() {
 # --- verified file -> DARKOS -------------------------------------------------
 part_paths() { PART_MANIFEST="$PART_UPDATE_DIR/manifest.json"; PART_PROGRESS="$PART_UPDATE_DIR/progress"; }
 part_state() {
+  if [ "${A36_RELEASE_CANCEL_ACTIVE:-0}" = 1 ] && ! release_cancel_phase "$PART_JOB" "$1"; then part_fail interrupted; fi
   PART_PHASE=$1; publish rel_job "$PART_JOB"; publish rel_state "$1"
   publish rel_elapsed "$(( $(clock_seconds)-PART_START ))"
 }
@@ -415,6 +449,8 @@ partition_publish_boot() (
 partition_private_finish() {
   local rc=$1
   trap - EXIT INT TERM HUP
+  if ! release_cancel_phase "$PART_JOB" finalizing; then rc=1; PART_ERROR=interrupted; fi
+  A36_RELEASE_CANCEL_ACTIVE=0
   if [ -n "$PART_CHILD" ] && [ -n "$PART_CHILD_START" ] && [ "$(process_start "$PART_CHILD")" = "$PART_CHILD_START" ]; then
     kill -KILL "$PART_CHILD" 2>/dev/null || :; wait "$PART_CHILD" 2>/dev/null || :
   fi
@@ -436,6 +472,7 @@ apply_release_partition_worker() {
   part_paths; : > "$PART_PROGRESS"; : > "$STATE/partition-update.log"
   trap 'partition_private_finish $?; exit $?' EXIT
   trap 'PART_ERROR=interrupted; exit 1' INT TERM HUP
+  A36_RELEASE_CANCEL_ACTIVE=1
   publish rel_done_job ""; publish rel_error ""; publish rel_cleanup_pending 0; publish rel_fallback ""; publish rel_transport file
   part_state verifying
   IMAGE=
@@ -458,9 +495,11 @@ apply_release_partition_worker() {
   part_journal || part_fail io_error; PART_JOURNALED=1
   # Journal+selection survive a crash BEFORE any block byte changes. The guard
   # also protects a stale old cache/UUID from every native partition reader.
+  # Cancellation and admission to copying share fd5's gate. Once copying is
+  # published cancel is silently refused, BEFORE any partition byte can change.
+  part_state copying; part_journal || part_fail io_error
   PART_TOUCHED=1; part_journal || part_fail io_error
   "$SUPPORT" partition-hold "$PART_MANIFEST" "$PREPARED_DISK" "$PREPARED_PART" "${A36_BLOCK_SYS:-/sys/class/block}" "$PREPARED_DIR/cache" >> "$STATE/partition-update.log" 2>&1 || part_fail partition_invalid
-  part_state copying; part_journal || part_fail io_error
   part_child "$SUPPORT" partition-copy "$PART_MANIFEST" "$PART_FILE" "$PART_UUID" "$PREPARED_DISK" "$PREPARED_PART" "${A36_BLOCK_SYS:-/sys/class/block}" "$PREPARED_DIR/cache" "$PART_PROGRESS" || part_fail "${PART_ERROR:-verify_failed}"
   part_state publishing; part_journal || part_fail io_error
   part_target_ok && partition_publish_boot || part_fail io_error
@@ -477,7 +516,7 @@ partition_shared_finish() {
   if [ "$PART_COMMITTED" = 1 ]; then
     target=$PART_ID; rc=0
   elif [ -n "$PART_FALLBACK" ] && valid_id "$PART_FILE_ID"; then
-    target=$PART_FILE_ID; rc=0
+    target=$PART_FILE_ID; [ "$PART_ERROR" = interrupted ] || rc=0
   else
     target=$LIFE_OLD_ID
     # Once overwrite admission was durable the retained verified file is the

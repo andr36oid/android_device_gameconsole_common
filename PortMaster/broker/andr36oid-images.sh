@@ -325,7 +325,41 @@ $(image_cards)
 EOF_CARDS
   du -sk "$STATE/images" "$STATE/upper" 2>/dev/null | awk '{sum+=$1} END {print sum*1024}' > "$STATE/overlay-bytes"; chmod 0644 "$STATE/overlay-bytes"
   chmod 0644 "$STATE/images.tsv.tmp"; mv "$STATE/images.tsv.tmp" "$STATE/images.tsv"
+  write_release_report
 }
+# Isolate resolver/card globals: this read-only app snapshot must not change the
+# image pinned by a live caller. Geometry availability does not authorize writes.
+write_release_report() (
+  local darkosen= revision=0 origin=own transport=none source_id= partition=0 capacity=0 parts_dir= parts_free=0 info dir uuid dev opts tmp
+  if resolve_selected_image; then
+    case "${SOURCE_TRANSPORT:-file}" in partition|file) transport=${SOURCE_TRANSPORT:-file};; esac
+    if valid_id "${SOURCE_ID:-}"; then source_id=$SOURCE_ID; fi
+    if [ "$(field "${RECORD:-}" origin)" = release ]; then
+      origin=release; darkosen=$(field "$RECORD" darkosen); revision=$(field "$RECORD" revision)
+    fi
+  fi
+  if command -v prepared_devices >/dev/null && prepared_devices &&
+     info=$("$SUPPORT" partition-target "$PREPARED_DISK" "$PREPARED_PART" "${A36_BLOCK_SYS:-/sys/class/block}" 2>/dev/null); then
+    partition=1; capacity=$(field "$info" capacity)
+  fi
+  while IFS="$(printf '\t')" read -r dir uuid dev opts; do
+    case "$uuid" in internal|internal-legacy) continue;; esac
+    set_card "$dir" "$uuid" "$dev" "$opts"
+    [ "$CARD_RW" = 1 ] && [ -d "$IMAGE_DIR" ] && [ "$(readlink -f "$IMAGE_DIR")" = "$IMAGE_DIR" ] || continue
+    info=$("$SUPPORT" space "$IMAGE_DIR" 2>/dev/null) || continue
+    parts_dir=$IMAGE_DIR; parts_free=$(field "$info" available); break
+  done <<EOF_REPORT_CARDS
+$(image_cards)
+EOF_REPORT_CARDS
+  case "$revision" in ''|*[!0-9]*) revision=0;; esac
+  case "$capacity" in ''|*[!0-9]*) capacity=0;; esac
+  case "$parts_free" in ''|*[!0-9]*) parts_free=0;; esac
+  tmp=$(mktemp "$STATE/.release.XXXXXX") || exit 1
+  trap 'rm -f "$tmp"' EXIT
+  printf 'version=1\ndarkosen=%s\nrevision=%s\norigin=%s\ntransport=%s\nsource_id=%s\npartition=%s\npartition_capacity=%s\nparts_dir=%s\nparts_free=%s\n' \
+    "$darkosen" "$revision" "$origin" "$transport" "$source_id" "$partition" "$capacity" "$parts_dir" "$parts_free" > "$tmp" &&
+    chmod 0644 "$tmp" && mv -f "$tmp" "$STATE/release.txt"
+)
 publish_resolution() {
   local available=$1 seq
   # A busy scan and a session may publish concurrently. Serialize this small

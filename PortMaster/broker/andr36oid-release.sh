@@ -32,6 +32,7 @@ rel_paths() {
   REL_REQUEST="$REL_DIR/request.json"
 }
 rel_state() {
+  if [ "${A36_RELEASE_CANCEL_ACTIVE:-0}" = 1 ] && ! release_cancel_phase "$REL_JOB" "$1"; then rel_fail interrupted; fi
   REL_PHASE=$1; publish rel_state "$1"
   publish rel_elapsed "$(( $(clock_seconds)-REL_START ))"
 }
@@ -50,6 +51,7 @@ EOF_CARDS
 }
 rel_details() {
   local verified=0 written=0 info
+  if command -v release_cancelled >/dev/null && release_cancelled "$REL_JOB"; then REL_ERROR=interrupted; return 1; fi
   [ ! -f "$REL_DIR/verified" ] || verified=$(cat "$REL_DIR/verified")
   [ ! -f "$REL_DIR/written" ] || written=$(cat "$REL_DIR/written")
   case "$REL_PHASE" in
@@ -211,6 +213,7 @@ install_release_worker() {
   fi
   trap 'rel_finish $?' EXIT
   trap 'REL_ERROR=interrupted; exit 1' INT TERM HUP
+  if command -v release_cancel_phase >/dev/null; then A36_RELEASE_CANCEL_ACTIVE=1; fi
   publish rel_done_job ""; publish rel_job "$REL_JOB"; publish rel_error ""; publish rel_image ""; publish rel_cleanup_pending 0
   publish rel_bytes 0; publish rel_total 0; publish rel_free ""; publish rel_required ""; rel_state queued
   mkdir -p "$REL_DIR" "$STATE"; chmod 0700 "$REL_DIR"
