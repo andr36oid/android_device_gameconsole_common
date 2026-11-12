@@ -353,4 +353,64 @@ Operation: %3$s
   <string name="subsystem_exit_hold_six">6 seconds</string>
     <string name="ss_prestage_title">Keep the subsystem ready</string>
     <string name="ss_prestage_summary">Starts games and ports faster. Uses some of Android\'s memory while you are not playing.</string>
+  <string name="rel_title">dArkOSen version</string>
+  <string name="rel_note">Get dArkOSen or a newer version of it over Wi-Fi</string>
+  <string name="rel_get">Download dArkOSen</string>
+  <string name="rel_get_note">No image needed: the console fetches it over Wi-Fi</string>
+  <string name="rel_none">dArkOSen is not installed</string>
+  <string name="rel_installed">Installed: %1$s</string>
+  <string name="rel_own">Installed: your own image</string>
+  <string name="rel_name_revision">%1$s (revision %2$d)</string>
+  <string name="rel_on_partition">Stored on its own part of the system card</string>
+  <string name="rel_on_card">Stored as a file on the games card</string>
+  <string name="rel_has_partition">It will go on its own part of the system card</string>
+  <string name="rel_no_partition">It will be stored as a file on the games card</string>
+  <string name="rel_check">Check for a newer version</string>
+  <string name="rel_checking">Checking…</string>
+  <string name="rel_offline">No internet connection. Connect to Wi-Fi and try again.</string>
+  <string name="rel_server">The download server did not answer. Try again later.</string>
+  <string name="rel_nothing">No version is available yet</string>
+  <string name="rel_newest">You have the newest version</string>
+  <string name="rel_own_kept">Your own image is in use. It is not replaced.</string>
+  <string name="rel_available">%1$s is available, %2$s to download</string>
+  <string name="rel_install">Install</string>
+  <string name="rel_update">Update</string>
+  <string name="rel_install_note">Your games and saves are kept</string>
+  <string name="rel_keep">Updating replaces dArkOSen itself. Games, saves and settings on the games card stay.</string>
+  <string name="rel_confirm_title">Install dArkOSen %1$s?</string>
+  <string name="rel_confirm">The download is %1$s. The games card needs %2$s free while it runs.
+
+%3$s
+
+This takes a while. Keep the console on and near your Wi-Fi.</string>
+  <string name="rel_to_partition">dArkOSen is written to its own part of the system card.</string>
+  <string name="rel_to_card">dArkOSen is stored as a file on the games card.</string>
+  <string name="rel_working">Installing dArkOSen %1$s</string>
+  <string name="rel_step_download">Downloading</string>
+  <string name="rel_step_check">Checking and unpacking</string>
+  <string name="rel_step_write">Writing</string>
+  <string name="rel_step_finish">Finishing</string>
+  <string name="rel_bytes">%1$s of %2$s</string>
+  <string name="rel_stay_on">The console stays awake until this is done. You can stop until writing starts.</string>
+  <string name="rel_no_power_off">Do not switch the console off now.</string>
+  <string name="rel_cancel">Stop</string>
+  <string name="rel_continue">Keep going</string>
+  <string name="rel_cancel_confirm">Stop the installation? What is already downloaded is kept for the next try.</string>
+  <string name="rel_done">Done</string>
+  <string name="rel_result_ok">dArkOSen %1$s is installed</string>
+  <string name="rel_result_failed">dArkOSen %1$s was not installed</string>
+  <string name="rel_ok">Everything is ready to play.</string>
+  <string name="rel_ok_card">Everything is ready to play. This version did not fit its part of the system card, so it is stored as a file on the games card.</string>
+  <string name="rel_e_battery">The battery is below 30%. Plug in the charger and try again.</string>
+  <string name="rel_e_download">A downloaded file is damaged or missing. Try again; only the missing files are fetched.</string>
+  <string name="rel_e_space">There is not enough free space on the games card.</string>
+  <string name="rel_e_card">The games card is missing or cannot be written.</string>
+  <string name="rel_e_system">This version needs a newer andr36oid. Update the system first.</string>
+  <string name="rel_e_busy">dArkOSen is in use or another task is running. Try again when it has finished.</string>
+  <string name="rel_e_stopped">The installation was stopped. The version you had is still in place.</string>
+  <string name="rel_e_power">The console could not be kept awake, so nothing was changed.</string>
+  <string name="rel_e_exists">A file with the same name is already on the games card. Move or rename it and try again.</string>
+  <string name="rel_e_setup">The new version did not start correctly. The version you had is back in place.</string>
+  <string name="rel_e_partition">The system card\'s dArkOSen part cannot be used. The new version stays as a file on the games card.</string>
+  <string name="rel_e_other">Something went wrong. The log has the details.</string>
 </resources>

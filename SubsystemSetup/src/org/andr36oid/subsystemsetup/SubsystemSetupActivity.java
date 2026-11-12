@@ -61,7 +61,7 @@ public class SubsystemSetupActivity extends Activity {
     static String mintLaunchToken(){String t=Long.toHexString(new java.security.SecureRandom().nextLong());sLaunchToken=t;return t;}
     private static boolean consumeLaunchToken(String t){String want=sLaunchToken;sLaunchToken=null;return want!=null&&want.equals(t);}
     private static final int SAVE_LOG=41;
-    private enum Screen { SPLASH, HOME, SETUP, PROGRESS, LOGS, SETTINGS, IMAGES, OPTIMIZE, SYNC, ADVANCED, PICKER }
+    private enum Screen { SPLASH, HOME, SETUP, PROGRESS, LOGS, SETTINGS, IMAGES, OPTIMIZE, SYNC, ADVANCED, PICKER, UPDATE, UPDATING }
     private final Handler handler=new Handler(Looper.getMainLooper());
     private final ExecutorService io=Executors.newSingleThreadExecutor();
     private final Runnable poll=this::refresh;
@@ -88,6 +88,17 @@ public class SubsystemSetupActivity extends Activity {
     private String scanBaseline="",observedDone="",requestDone="",pendingVerb="",deferredRequest="";
     private long overlays,scanAt,requestedAt;
     private int setupIndex;
+    private ReleaseUpdate release;
+    private ReleaseUpdate.State relState=new ReleaseUpdate.State();
+    private ReleaseUpdate.Installed relInstalled=new ReleaseUpdate.Installed();
+    private ReleaseUpdate.Offer relOffer;
+    private String relCheckError="";
+    private boolean relChecking,relChecked;
+    private Row relCheckRow,relInstallRow,relHomeRow,relSetupRow,relDoneRow,relLogRow;
+    private TextView relInstalledText,relStoredText,relTitle,relDetail,relNote,relMessage;
+    private final TextView[] relSteps=new TextView[4];
+    private ProgressBar relBar;
+    private Button relCancel;
     private boolean portLaunch;
     private boolean resumed,reading,initialResolved,scanWaiting,scanAttempted,pending,wasBusy,wasCleanupFailed,keepOriginal,tailOptimization,followLog=true;
 
@@ -137,7 +148,7 @@ public class SubsystemSetupActivity extends Activity {
     @Override public void onCreate(Bundle saved) {
         super.onCreate(saved);
         setContentView(R.layout.subsystem_shell);
-        backend=new SubsystemBackend(this);
+        backend=new SubsystemBackend(this);release=new ReleaseUpdate(this);
         hints=HintBar.attachDefault(this);
         host=findViewById(R.id.screen_host);statusText=findViewById(R.id.status_text);statusDot=findViewById(R.id.status_dot);
         if(saved!=null) {
@@ -165,7 +176,7 @@ public class SubsystemSetupActivity extends Activity {
         }
         observedDone=get(P+"done_seq");
         // Construct all screens exactly once. No route rebuilds in the polling path.
-        buildSplash();buildHome();buildSetup();buildProgress();buildLogs();buildSettings();buildImages();buildOptimize();buildSync();buildAdvanced();buildPicker();
+        buildSplash();buildHome();buildSetup();buildProgress();buildLogs();buildSettings();buildImages();buildOptimize();buildSync();buildAdvanced();buildPicker();buildUpdate();buildUpdating();
         switchScreen(Screen.SPLASH);
         // An active operation owns the storage lock, so do not issue a competing scan.
         Snapshot opening=Snapshot.read();
@@ -189,6 +200,7 @@ public class SubsystemSetupActivity extends Activity {
     @Override public void onBackPressed() {
         if(screen==Screen.SETUP&&setupIndex>0) {setupIndex--;updateSetup();return;}
         if(screen==Screen.PICKER&&!pickerPath.isEmpty()) {pickerUp();return;}
+        if(screen==Screen.UPDATING) {if(relState.finished)finishRelease();else if(relState.cancellable)confirmCancelRelease();return;}
         if(!history.isEmpty()) {
             Screen previous=history.pop();
             if(previous==Screen.PROGRESS&&!isBusy())previous=idleScreen();
@@ -227,9 +239,12 @@ public class SubsystemSetupActivity extends Activity {
             String ver=tail("/data/local/tmp/portmaster/version.txt",1024);
             long used=number(tail("/data/local/tmp/portmaster/overlay-bytes",64));
             List<SubsystemBackend.Archive> foundArchives=backend.archives();
+            ReleaseUpdate.State updating=release.poll();
+            ReleaseUpdate.Installed have=ReleaseUpdate.installed();
             Snapshot next=Snapshot.read();
             handler.post(()->{
                 reading=false;if(isDestroyed())return;
+                relState=updating;relInstalled=have;
                 if(next.stable){archives.clear();archives.addAll(foundArchives);applySnapshot(next,found,boot,optimization,ver,used);}
                 retryScanIfTimedOut();
                 if(resumed)handler.postDelayed(poll,1000);
@@ -245,6 +260,8 @@ public class SubsystemSetupActivity extends Activity {
             String result=snapshot.value("result");
             failed=!result.isEmpty()&&!"done".equals(result)&&!"0".equals(result);
         }
+        // The update page reports its own failures; the worker's log is one press away there.
+        if(relState.active)failed=false;
         if(pending&&(snapshot.busy()||!requestDone.equals(done)))pending=false;
         if(pending&&SystemClock.elapsedRealtime()-requestedAt>30000) {pending=false;failed=true;}
         boolean cleanupFailed="cleanup_failed".equals(snapshot.value("session"));
@@ -254,13 +271,13 @@ public class SubsystemSetupActivity extends Activity {
         if(scanFinished)scanWaiting=false;
         if(!initialResolved&&(snapshot.working()||pending||snapshot.settled()||failed||cleanupFailed)) {
             initialResolved=true;
-            Screen destination=failed||cleanupFailed?Screen.LOGS:isBusy()?Screen.PROGRESS:idleScreen();
+            Screen destination=failed||cleanupFailed?Screen.LOGS:relState.active?Screen.UPDATING:isBusy()?Screen.PROGRESS:idleScreen();
             // Resolve launcher intents before exposing Home. request() paints
             // Progress before posting the broker trigger to the next frame.
             if(!launchTarget.isEmpty()&&snapshot.ready()&&!isBusy()) {
                 String target=launchTarget;launchTarget="";launch(target,false);
                 destination=isBusy()?Screen.PROGRESS:Screen.LOGS;
-            } else if(!isBusy()&&restoreScreen!=null&&restoreScreen!=Screen.SPLASH&&restoreScreen!=Screen.PROGRESS) {
+            } else if(!isBusy()&&!relState.active&&restoreScreen!=null&&restoreScreen!=Screen.SPLASH&&restoreScreen!=Screen.PROGRESS&&restoreScreen!=Screen.UPDATING) {
                 destination=restoreScreen==Screen.SETUP&&snapshot.ready()?Screen.HOME:restoreScreen;
             }
             if(screen==Screen.SPLASH)switchScreen(destination);
@@ -270,8 +287,11 @@ public class SubsystemSetupActivity extends Activity {
         // first poll). Only this case needs the neutral opening spinner.
         if(!initialResolved&&!scanAttempted&&!snapshot.working()&&!pending)requestScan();
         boolean busy=isBusy();
-        if(initialResolved) {
-            if(failed||(cleanupFailed&&!wasCleanupFailed)) {
+        if(initialResolved&&relState.active) {
+            if(screen!=Screen.UPDATING&&screen!=Screen.LOGS){history.clear();switchScreen(Screen.UPDATING);}
+        } else if(initialResolved) {
+            if(screen==Screen.UPDATING){history.clear();switchScreen(Screen.UPDATE);}
+            else if(failed||(cleanupFailed&&!wasCleanupFailed)) {
                 if(failed)toast(R.string.asl_failed);
                 if(screen!=Screen.LOGS)open(Screen.LOGS);
             } else if(busy&&!wasBusy&&screen!=Screen.PROGRESS) {
@@ -314,7 +334,7 @@ public class SubsystemSetupActivity extends Activity {
         optimizeRow.subtitle(optResult.isEmpty()?getString(R.string.ss_optimize_note):optResult.replace('\n',' '));
         optimizeRow.setEnabled((snapshot.available()||image!=null||optFailed)&&!isBusy());
         imagesRow.subtitle(image==null?getString(R.string.ss_images_note):image.name);
-        updateSetup();updateProgress();updateImages();updateSettings();
+        updateSetup();updateProgress();updateImages();updateSettings();updateRelease();
         setText(optimizeInfo,info());
         keepRow.subtitle(getString(keepOriginal?R.string.ss_on:R.string.ss_off));keepRow.setSelected(keepOriginal);
         setText(optimizeResult,optResult);optimizeResult.setVisibility(optResult.isEmpty()?View.GONE:View.VISIBLE);
@@ -406,6 +426,7 @@ public class SubsystemSetupActivity extends Activity {
                 .setNegativeButton(android.R.string.cancel,null));
         });
         imagesRow=row(p.column,"▣",R.string.ss_images,getString(R.string.ss_images_note),()->open(Screen.IMAGES)).chevron();
+        relHomeRow=row(p.column,"⇩",R.string.rel_title,"",()->open(Screen.UPDATE)).chevron();
         row(p.column,"⚙",R.string.ss_settings,getString(R.string.ss_settings_note),()->open(Screen.SETTINGS)).chevron();
         row(p.column,"≡",R.string.ss_logs,getString(R.string.ss_logs_note),()->open(Screen.LOGS)).chevron();
     }
@@ -421,6 +442,7 @@ public class SubsystemSetupActivity extends Activity {
             if(setupIndex<3){setupIndex++;updateSetup();pages.get(Screen.SETUP).focus=setupContinue;}
             else launch("SETUP",false);
         });
+        relSetupRow=row(p.column,"⇩",R.string.rel_get,getString(R.string.rel_get_note),()->open(Screen.UPDATE)).chevron();
         row(p.column,"↻",R.string.asl_scan,getString(R.string.ss_images_note),this::retryScan);
         row(p.column,"▣",R.string.ss_images,getString(R.string.ss_images_note),()->open(Screen.IMAGES)).chevron();
         row(p.column,"⚙",R.string.asl_advanced,getString(R.string.ss_advanced_note),()->open(Screen.ADVANCED)).chevron();
@@ -765,6 +787,135 @@ public class SubsystemSetupActivity extends Activity {
                 request("unpack");
             })
             .setNegativeButton(android.R.string.cancel,null));
+    }
+    private void buildUpdate() {
+        Page p=new Page(Screen.UPDATE,true);p.heading(R.string.rel_title,R.string.rel_note);
+        relInstalledText=text("",15,true);p.column.addView(relInstalledText,lp(-1,-2,0,4,0,2));
+        relStoredText=secondary("",13);p.column.addView(relStoredText,lp(-1,-2,0,0,0,12));
+        relCheckRow=row(p.column,"↻",R.string.rel_check,"",this::checkRelease);
+        relInstallRow=row(p.column,"⇩",R.string.rel_install,"",this::confirmRelease);
+        p.column.addView(secondary(getString(R.string.rel_keep),12),lp(-1,-2,0,8,0,0));
+    }
+    private void buildUpdating() {
+        Page p=new Page(Screen.UPDATING,false);
+        LinearLayout center=column();center.setGravity(Gravity.CENTER_VERTICAL);
+        p.column.addView(center,new LinearLayout.LayoutParams(-1,0,1));
+        relTitle=text("",22,true);relTitle.setAccessibilityHeading(true);center.addView(relTitle,lp(-1,-2,0,0,0,12));
+        for(int i=0;i<4;i++){relSteps[i]=text("",15,false);center.addView(relSteps[i],lp(-1,-2,8,2,0,2));}
+        relBar=new ProgressBar(this,null,android.R.attr.progressBarStyleHorizontal);relBar.setMax(1000);
+        relBar.setProgressTintList(accent());relBar.setIndeterminateTintList(accent());
+        center.addView(relBar,lp(-1,dp(12),8,14,8,6));
+        relDetail=secondary("",13);relDetail.setAccessibilityLiveRegion(View.ACCESSIBILITY_LIVE_REGION_POLITE);center.addView(relDetail,lp(-1,-2,8,0,0,10));
+        relMessage=text("",14,false);relMessage.setVisibility(View.GONE);center.addView(relMessage,lp(-1,-2,8,0,8,10));
+        relNote=secondary(getString(R.string.rel_stay_on),12);center.addView(relNote,lp(-1,-2,8,0,8,0));
+        relDoneRow=row(p.column,"✓",R.string.rel_done,"",this::finishRelease);
+        relLogRow=row(p.column,"≡",R.string.ss_view_log,"",()->open(Screen.LOGS)).chevron();
+        relCancel=button(R.string.rel_cancel,this::confirmCancelRelease,false);p.column.addView(relCancel,lp(-1,dp(48),0,0,0,0));
+    }
+    private String releaseName(String darkosen,long revision) {
+        // 11112026 reads as a date: show it as one, with the revision only when it matters.
+        String date=darkosen.matches("[0-9]{8}")?darkosen.substring(4)+"-"+darkosen.substring(0,2)+"-"+darkosen.substring(2,4):darkosen;
+        return revision>1?getString(R.string.rel_name_revision,date,revision):date;
+    }
+    private int releaseError(String code) {
+        switch(code) {
+            case "battery":return R.string.rel_e_battery;
+            case "download":case "download_invalid":case "unpack_failed":return R.string.rel_e_download;
+            case "no_space":case "file_limit":return R.string.rel_e_space;
+            case "card_unavailable":return R.string.rel_e_card;
+            case "incompatible_build":case "tool_missing":return R.string.rel_e_system;
+            case "busy":case "recovery_pending":return R.string.rel_e_busy;
+            case "interrupted":return R.string.rel_e_stopped;
+            case "power_hold":return R.string.rel_e_power;
+            case "output_exists":return R.string.rel_e_exists;
+            case "setup_failed":return R.string.rel_e_setup;
+            case "partition_invalid":return R.string.rel_e_partition;
+            default:return R.string.rel_e_other;
+        }
+    }
+    private void checkRelease() {
+        if(relChecking||relState.active)return;
+        relChecking=true;relCheckError="";updateRelease();
+        // Not the polling thread: a slow network must not freeze the rest of the page.
+        new Thread(()->{
+            ReleaseUpdate.Offer found=null;String error="";
+            try{found=release.check();if(found==null)error="none";}
+            catch(java.io.IOException|RuntimeException e){error=snapshotOnline()?"server":"offline";}
+            final ReleaseUpdate.Offer offer=found;final String problem=error;
+            handler.post(()->{if(isDestroyed())return;relChecking=false;relChecked=true;relOffer=offer;relCheckError=problem;updateRelease();
+                if(offer!=null&&relInstallRow.isShown()&&screen==Screen.UPDATE)relInstallRow.requestFocus();});
+        },"release-check").start();
+    }
+    private boolean snapshotOnline() {
+        android.net.ConnectivityManager cm=getSystemService(android.net.ConnectivityManager.class);
+        android.net.NetworkCapabilities caps=cm==null?null:cm.getNetworkCapabilities(cm.getActiveNetwork());
+        return caps!=null&&caps.hasCapability(android.net.NetworkCapabilities.NET_CAPABILITY_VALIDATED);
+    }
+    private boolean releaseWanted() {return relOffer!=null&&ReleaseUpdate.newer(relOffer,relInstalled);}
+    private void confirmRelease() {
+        if(relOffer==null||isBusy()||relState.active)return;
+        final ReleaseUpdate.Offer offer=relOffer;
+        String where=getString(relInstalled.partition&&offer.imageSize<=relInstalled.capacity?R.string.rel_to_partition:R.string.rel_to_card);
+        showDialog(new AlertDialog.Builder(this).setTitle(getString(R.string.rel_confirm_title,releaseName(offer.darkosen,offer.revision)))
+            .setMessage(getString(R.string.rel_confirm,size(offer.downloadSize),size(ReleaseUpdate.required(offer)),where))
+            .setPositiveButton(R.string.rel_install,(dialog,which)->io.execute(()->{
+                String problem=release.start(offer,ReleaseUpdate.installed());
+                handler.post(()->{if(isDestroyed())return;
+                    if(!problem.isEmpty()){showDialog(new AlertDialog.Builder(this).setMessage(releaseError(problem)).setPositiveButton(android.R.string.ok,null));return;}
+                    handler.removeCallbacks(poll);handler.post(poll);});
+            }))
+            .setNegativeButton(android.R.string.cancel,null));
+    }
+    private void confirmCancelRelease() {
+        if(!relState.active||relState.finished||!relState.cancellable)return;
+        showDialog(new AlertDialog.Builder(this).setMessage(R.string.rel_cancel_confirm)
+            .setPositiveButton(R.string.rel_cancel,(dialog,which)->io.execute(()->{release.cancel();handler.post(()->{handler.removeCallbacks(poll);handler.post(poll);});}))
+            .setNegativeButton(R.string.rel_continue,null));
+    }
+    private void finishRelease() {
+        io.execute(()->{release.acknowledge();handler.post(()->{if(isDestroyed())return;relChecked=false;relOffer=null;handler.removeCallbacks(poll);handler.post(poll);requestScan();});});
+    }
+    private void updateRelease() {
+        ReleaseUpdate.Installed have=relInstalled;
+        String installed=!have.present()?getString(R.string.rel_none):have.release()?getString(R.string.rel_installed,releaseName(have.darkosen,have.revision)):getString(R.string.rel_own);
+        setText(relInstalledText,installed);
+        setText(relStoredText,!have.present()?getString(have.partition?R.string.rel_has_partition:R.string.rel_no_partition)
+                :getString("partition".equals(have.transport)?R.string.rel_on_partition:R.string.rel_on_card));
+        relHomeRow.subtitle(installed);
+        relSetupRow.setVisibility(snapshot.available()?View.GONE:View.VISIBLE);
+        boolean wanted=releaseWanted();
+        relCheckRow.subtitle(relChecking?getString(R.string.rel_checking):!relCheckError.isEmpty()?getString("offline".equals(relCheckError)?R.string.rel_offline:"none".equals(relCheckError)?R.string.rel_nothing:R.string.rel_server)
+                :!relChecked?"":wanted?getString(R.string.rel_available,releaseName(relOffer.darkosen,relOffer.revision),size(relOffer.downloadSize))
+                :getString(have.release()?R.string.rel_newest:R.string.rel_own_kept));
+        relCheckRow.setEnabled(!relChecking&&!isBusy());
+        showControl(relInstallRow,wanted&&!relChecking,relCheckRow);
+        if(wanted){relInstallRow.title(have.present()?R.string.rel_update:R.string.rel_install);
+            relInstallRow.subtitle(getString(ReleaseUpdate.needsNewerSystem(relOffer)?R.string.rel_e_system:R.string.rel_install_note));
+            relInstallRow.setEnabled(!isBusy()&&!ReleaseUpdate.needsNewerSystem(relOffer));}
+        ReleaseUpdate.State st=relState;
+        getWindow().setFlags(st.active&&!st.finished?android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON:0,android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        if(!st.active)return;
+        String name=releaseName(st.version,1);
+        setText(relTitle,st.finished?getString(st.success?R.string.rel_result_ok:R.string.rel_result_failed,name):getString(R.string.rel_working,name));
+        int[] labels={R.string.rel_step_download,R.string.rel_step_check,R.string.rel_step_write,R.string.rel_step_finish};
+        for(int i=0;i<4;i++) {
+            boolean past=i<st.step||(st.finished&&st.success),now=i==st.step&&!st.finished,bad=i==st.step&&st.finished&&!st.success;
+            setText(relSteps[i],(past?"✓  ":now?"●  ":bad?"✕  ":"○  ")+getString(labels[i]));
+            relSteps[i].setTextColor(color(now||bad?android.R.attr.textColorPrimary:android.R.attr.textColorSecondary));
+            relSteps[i].setTypeface(Typeface.create(now?"sans-serif-medium":"sans-serif",Typeface.NORMAL));
+        }
+        boolean counted=st.total>0&&!st.finished;
+        relBar.setVisibility(st.finished?View.GONE:View.VISIBLE);relBar.setIndeterminate(!counted);
+        if(counted)relBar.setProgress((int)Math.min(1000,st.done*1000/st.total));
+        setText(relDetail,counted?getString(R.string.rel_bytes,size(Math.min(st.done,st.total)),size(st.total)):"");
+        relDetail.setVisibility(st.finished?View.GONE:View.VISIBLE);
+        relMessage.setVisibility(st.finished?View.VISIBLE:View.GONE);
+        if(st.finished)setText(relMessage,getString(!st.success?releaseError(st.error):st.storedAsFile?R.string.rel_ok_card:R.string.rel_ok));
+        relNote.setVisibility(st.finished?View.GONE:View.VISIBLE);
+        setText(relNote,getString(st.step>=ReleaseUpdate.WRITING?R.string.rel_no_power_off:R.string.rel_stay_on));
+        showControl(relCancel,!st.finished&&st.cancellable,relDoneRow);
+        showControl(relDoneRow,st.finished,relCancel);
+        showControl(relLogRow,st.finished&&!st.success,relDoneRow);
     }
     private void buildOptimize() {
         Page p=new Page(Screen.OPTIMIZE,true);p.heading(R.string.ss_optimize,R.string.ss_optimize_note);
