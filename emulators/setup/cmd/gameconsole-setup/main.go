@@ -36,7 +36,7 @@ const (
 
 func main() {
 	if len(os.Args) != 2 {
-		fmt.Fprintln(os.Stderr, "usage: gameconsole-setup early|main|apps|players|magisk|reconcile-ports|reconcile-platforms|watch-platforms|sync-library|sync-retroarch|repair-retroarch")
+		fmt.Fprintln(os.Stderr, "usage: gameconsole-setup early|main|apps|players|magisk|reconcile-ports|reconcile-platforms|watch-platforms|sync-library|sync-retroarch|repair-retroarch|firstboot")
 		os.Exit(2)
 	}
 	s := setup.New()
@@ -75,7 +75,7 @@ func main() {
 			s.Props.Set("sys.powerctl", "reboot,magisk")
 		}
 		return
-	case "main", "apps", "reconcile-ports", "reconcile-platforms", "sync-library", "sync-retroarch", "repair-retroarch":
+	case "main", "apps", "reconcile-ports", "reconcile-platforms", "sync-library", "sync-retroarch", "repair-retroarch", "firstboot":
 	case "players":
 		if s.Props.Get("sys.boot_completed") != "1" {
 			return
@@ -170,6 +170,8 @@ func drain(q *worker.Queue, ready func() bool, runMain func(), runJob func(job s
 
 func run(s *setup.Setup, job string) {
 	switch job {
+	case "firstboot":
+		s.FirstBootRecord()
 	case "apps":
 		s.AppsJob()
 	case "players":

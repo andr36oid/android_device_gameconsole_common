@@ -27,20 +27,27 @@ type Paths struct {
 	// AutoapkDev is the AUTOAPK partition's node (by-name): there until firstresize
 	// gives it to userdata. With it there and Apps unreadable, the apps can't be
 	// installed and the partition is never reclaimed; InstallAPKs says so.
-	AutoapkDev    string
-	AppData       string // /data/user/0
-	Media         string // /data/media/0, the internal storage as root sees it
-	MediaRW       string // /mnt/media_rw: other volumes as root sees them
-	Mounts        string // /proc/mounts
-	EasyromsPart  string // legacy sysfs path, before init published EASYROMS properties
-	EasyromsDev   string // legacy block device path
-	DTRoot        string // /proc/device-tree
-	BlockStat     string // /sys/block/mmcblk0/stat: the card's I/O counters
-	URIGrants     string // /data/system/urigrants.xml
-	ChromeCmdline string // /data/local/chrome-command-line
-	FirstStartAPK string
-	SubsystemRoot string // the broker's dArkOSen rootfs mountpoint
-	BrokerState   string // the broker's persistent overlays and sync directory marker
+	AutoapkDev       string
+	AppData          string // /data/user/0
+	Media            string // /data/media/0, the internal storage as root sees it
+	MediaRW          string // /mnt/media_rw: other volumes as root sees them
+	Mounts           string // /proc/mounts
+	EasyromsPart     string // legacy sysfs path, before init published EASYROMS properties
+	EasyromsDev      string // legacy block device path
+	DTRoot           string // /proc/device-tree
+	BlockStat        string // /sys/block/mmcblk0/stat: the card's I/O counters
+	URIGrants        string // /data/system/urigrants.xml
+	ChromeCmdline    string // /data/local/chrome-command-line
+	FirstStartAPK    string
+	SubsystemRoot    string // the broker's dArkOSen rootfs mountpoint
+	BrokerState      string // the broker's persistent overlays and sync directory marker
+	BootDev          string // the same boot disk's BOOT ("" disables firstboot publication in old tests)
+	BootMount        string // empty when BootDev is a host test directory
+	BootLock         string // shared mkdir/pid BOOT lock used by KT/DtbHint
+	SystemDev        string // by-name/system: derive same-card p14, never a global DARKOS label
+	BlockSys         string // /sys/class/block
+	SubsystemControl string
+	ErofsSupport     string
 }
 
 // Defaults are the console's paths.
@@ -48,25 +55,32 @@ func Defaults() Paths {
 	base := "/system/etc/gameconsole"
 	state := "/data/misc/gameconsole"
 	return Paths{
-		Base:          base,
-		State:         state,
-		LogFile:       state + "/gameconsole-emu.log",
-		Apps:          "/mnt/andr36oid-apps",
-		AppsDoneFile:  "/metadata/andr36oid/apps-done",
-		AutoapkDev:    "/dev/block/platform/ff370000.dwmmc/by-name/AUTOAPK",
-		AppData:       "/data/user/0",
-		Media:         "/data/media/0",
-		MediaRW:       "/mnt/media_rw",
-		Mounts:        "/proc/mounts",
-		EasyromsPart:  "/sys/block/mmcblk0/mmcblk0p7",
-		EasyromsDev:   "/dev/block/mmcblk0p7",
-		DTRoot:        "/proc/device-tree",
-		BlockStat:     "/sys/block/mmcblk0/stat",
-		URIGrants:     "/data/system/urigrants.xml",
-		ChromeCmdline: "/data/local/chrome-command-line",
-		FirstStartAPK: base + "/firststart/FirstStart.apk",
-		SubsystemRoot: "/data/local/tmp/darkfull",
-		BrokerState:   "/data/local/tmp/portmaster",
+		Base:             base,
+		State:            state,
+		LogFile:          state + "/gameconsole-emu.log",
+		Apps:             "/mnt/andr36oid-apps",
+		AppsDoneFile:     "/metadata/andr36oid/apps-done",
+		AutoapkDev:       "/dev/block/platform/ff370000.dwmmc/by-name/AUTOAPK",
+		AppData:          "/data/user/0",
+		Media:            "/data/media/0",
+		MediaRW:          "/mnt/media_rw",
+		Mounts:           "/proc/mounts",
+		EasyromsPart:     "/sys/block/mmcblk0/mmcblk0p7",
+		EasyromsDev:      "/dev/block/mmcblk0p7",
+		DTRoot:           "/proc/device-tree",
+		BlockStat:        "/sys/block/mmcblk0/stat",
+		URIGrants:        "/data/system/urigrants.xml",
+		ChromeCmdline:    "/data/local/chrome-command-line",
+		FirstStartAPK:    base + "/firststart/FirstStart.apk",
+		SubsystemRoot:    "/data/local/tmp/darkfull",
+		BrokerState:      "/data/local/tmp/portmaster",
+		BootDev:          "/dev/block/by-name/BOOT",
+		BootMount:        "/mnt/andr36oid-firstboot-boot",
+		BootLock:         "/dev/andr36oid-boot.lock",
+		SystemDev:        "/dev/block/by-name/system",
+		BlockSys:         "/sys/class/block",
+		SubsystemControl: "/data/misc/andr36oid-subsystem",
+		ErofsSupport:     "/system/bin/andr36oid-erofs-support",
 	}
 }
 

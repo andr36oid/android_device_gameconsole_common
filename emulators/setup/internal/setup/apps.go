@@ -419,7 +419,9 @@ func (s *Setup) preparationReady() {
 	s.djWidgetsAtEnd()
 	if err := s.Settings.Put("global", "andr36oid_daijishou_ready", "1"); err != nil {
 		s.Log("couldn't tell the guide that game preparation is done")
+		return
 	}
+	s.FirstBootRecord()
 }
 
 // DaijishouReady: Daijishou's library is made, or will be made when EASYROMS mounts.
