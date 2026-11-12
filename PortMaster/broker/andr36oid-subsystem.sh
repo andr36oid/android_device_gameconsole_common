@@ -1361,6 +1361,7 @@ start_live_log() {
 finish_session() {
   local rc="$1"
   trap - EXIT INT TERM HUP
+  command -v boot_autostart_end >/dev/null && boot_autostart_end
   setprop sys.andr36oid.subsystem.provisioning "" 2>/dev/null
   restore_android
   if [ "$CLEANUP_FAILED" = 0 ]; then : > "$STATE/session.restore-complete"; fi
@@ -2573,31 +2574,7 @@ update_settings_entry() {
     >/dev/null 2>&1 || true
 }
 
-boot_decision() {
-  # /dev is tmpfs: mkdir is an atomic once-per-boot guard, also across framework
-  # restarts that set boot_completed again. Never switch an existing session.
-  mkdir "${A36_BOOT_GUARD:-/dev/.andr36oid-subsystem-boot}" 2>/dev/null || return 0
-  if session_active || [ "$(getprop sys.andr36oid.subsystem.session)" = running ] ||
-    [ "$(getprop init.svc.andr36oid-subsystem)" = running ]; then return 0; fi
-  local effective target held=0
-  effective=$(getprop persist.andr36oid.subsystem.default)
-  [ "$effective" = subsystem ] || effective=android
-  target=$(getprop persist.andr36oid.subsystem.default_target)
-  [ "$target" = PM ] || target=ES
-  if "$KEYHELD"; then
-    held=1
-    if [ "$effective" = android ]; then effective=subsystem; else effective=android; fi
-  fi
-  log "boot selection: START=$held effective=$effective target=$target"
-  scan_images
-  if [ "$effective" = subsystem ]; then
-    setprop sys.andr36oid.subsystem.boot_pending 1
-    setprop sys.andr36oid.subsystem.rootfs ""
-    setprop sys.andr36oid.subsystem.handoff 1
-    setprop sys.andr36oid.subsystem.port "$target"
-    setprop sys.andr36oid.subsystem.request run
-  fi
-}
+# Boot decision/watch helpers are sourced with the image libraries below.
 
 # RACORE:<32 hex id> names a private, atomically published two-line request.
 # Keep paths out of Android properties (91-byte value limit) and shell programs.
@@ -2775,6 +2752,7 @@ mark_frontend_booted() {
 . "${A36_GUEST_LIB:-/system/etc/andr36oid-guest.sh}"
 # shellcheck source=andr36oid-update.sh
 . "${A36_UPDATE_LIB:-/system/etc/andr36oid-update.sh}"
+. "${A36_BOOT_LIB:-/system/etc/andr36oid-boot.sh}"
 
 cmd=${1:-start}; arg=${2:-}
 case "$cmd" in
@@ -2836,16 +2814,11 @@ case "$cmd" in
     unpack_worker "$job" "$primary"; exit 0 ;;
   unpack-worker) unpack_worker "$arg" "${3:-}"; exit 0 ;;
   boot-decision) boot_decision; exit 0 ;;
+  boot-watch) boot_watch; exit $? ;;
   scan-prop)
-    if [ "$(getprop sys.andr36oid.subsystem.request)" = scan ]; then
-      setprop sys.andr36oid.subsystem.request ""
-    else
-      # Boot scan: easyroms.ready only says the partition is known. Android mounts
-      # it around boot_completed, so a scan started by that trigger can run before
-      # the card is there and report no image. Give the mount a little time.
-      wait_games_card_mount 30
-    fi
-    scan_images; exit 0 ;;
+    [ "$(prop request)" != scan ] || publish request ""
+    if [ "$(getprop sys.boot_completed)" = 1 ]; then boot_decision; else scan_images; fi
+    exit 0 ;;
   scan) scan_images; exit 0 ;;
   stop-prop)
     [ "$(getprop sys.andr36oid.subsystem.request)" = stop ] && setprop sys.andr36oid.subsystem.request ""
@@ -2855,6 +2828,7 @@ case "$cmd" in
   launch-prop)
     req=$(getprop sys.andr36oid.subsystem.request)
     [ "$req" = run ] || exit 0
+    boot_autostart_capture
     want=$(getprop sys.andr36oid.subsystem.port)
     IMAGE=$(getprop sys.andr36oid.subsystem.rootfs)
     HANDOFF=$(getprop sys.andr36oid.subsystem.handoff); HANDOFF=${HANDOFF:-1}
@@ -2945,6 +2919,7 @@ phase mute-admission start_mute_guard || exit 1
 prepare_exit_hold_policy
 run_session_worker & SESSION_PID=$!
 record_session_worker runner "$SESSION_PID" || exit 1
+boot_autostart_running || exit 1
 mark_frontend_booted
 wait "$SESSION_PID"; session_rc=$?
 exit "$session_rc"

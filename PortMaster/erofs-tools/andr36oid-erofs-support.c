@@ -308,8 +308,10 @@ static void list_candidates(const char *path) {
 #include "andr36oid-partition.h"
 #include "andr36oid-partition-update.h"
 #include "andr36oid-layout.h"
+#include "andr36oid-autostart.h"
 int main(int argc,char **argv) {
     require(argc>=2,"command"); const char *cmd=argv[1];
+    if (!strcmp(cmd,"autostart-watch") && argc==6) { autostart_watch(argv[2],argv[3],argv[4],argv[5]);return 0; }
     if (release_command(argc,argv) || partition_command(argc,argv) || partition_update_command(argc,argv) || layout_command(argc,argv)) return 0;
     if (!strcmp(cmd,"id") && argc==4) { char out[65]; selection(argv[2],argv[3],out); puts(out); }
     else if (!strcmp(cmd,"list") && argc==3) list_candidates(argv[2]);

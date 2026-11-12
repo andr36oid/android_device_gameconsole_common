@@ -12,7 +12,7 @@ mount_rootfs() {
   mount_managed_rootfs
 }
 scan_images() {
-  scan_managed_images
+  scan_managed_images || return 1
   update_settings_entry org.andr36oid.subsystemsetup
 }
 publish_setup_complete() {

@@ -57,20 +57,30 @@ on property:sys.andr36oid.subsystem.request=stop
 on property:init.svc.andr36oid-subsystem=stopped && property:sys.andr36oid.subsystem.session=running
     start andr36oid-subsystem-stop
 
-# Automatic subsystem boot is intentionally disabled until a display handoff
-# with zygote and system_server left running has been validated on hardware.
-# In particular, the existing broker's handoff stops zygote; starting it here
-# would violate the in-place Android fallback. Unset is also treated as Android.
+# Ordinary Android boot first. The SINGLE scan service samples START before any
+# card wait, scans under storage/operation locks and decides once per /dev boot.
+# Later framework-return/storage triggers refresh the catalog without relaunch.
 on early-init
     setprop sys.andr36oid.boottarget android
 
-# Refresh the Settings status when the EASYROMS resolver publishes its result.
-# The card itself is mounted asynchronously by vold; Settings can also request
-# a scan once storage is available. Gate the automatic status probe on completed
-# Android startup as well: resolving EASYROMS in late-fs must not start a rootfs
-# probe alongside the pre-zygote storage/hotfix work. Explicit scans stay immediate.
+on property:sys.boot_completed=1
+    start andr36oid-subsystem-scan
+
 on property:sys.andr36oid.easyroms.ready=1 && property:sys.boot_completed=1
     start andr36oid-subsystem-scan
+
+on property:init.svc.andr36oid-subsystem=stopped && property:sys.andr36oid.subsystem.session=ended
+    start andr36oid-subsystem-scan
+
+# A separate, short-lived static watcher outlives a zygote restart and the scan
+# service. It clears the armed failure count only after a real live 30s payload.
+service andr36oid-subsystem-boot-watch /system/bin/sh /system/etc/andr36oid-subsystem.sh boot-watch
+    class late_start
+    user root
+    group root system
+    seclabel u:r:shell:s0
+    disabled
+    oneshot
 
 service andr36oid-subsystem-optimize /system/bin/sh /system/etc/andr36oid-subsystem.sh optimize-prop
     class late_start

@@ -1164,6 +1164,8 @@ unpack_worker() {
 # --- opt-in resident mount stage ---------------------------------------------
 prestage_enabled() { [ "$(getprop persist.andr36oid.subsystem.prestage)" = 1 ]; }
 prestage_blocked() {
+  [ "$(getprop sys.andr36oid.subsystem.boot_deciding)" != 1 ] || return 0
+  [ "$(getprop sys.andr36oid.subsystem.boot_pending)" != 1 ] || return 0
   if [ "${A36_RELEASE_FINALIZING:-0}" != 1 ] && [ -f "$CONTROL/release-lifecycle/intent" ]; then return 0; fi
   case "$(getprop sys.andr36oid.subsystem.prestage_block)" in ""|0) ;; *) return 0;; esac
   [ -n "$(getprop sys.powerctl)" ]
