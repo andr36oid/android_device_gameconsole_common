@@ -48,8 +48,10 @@ checks with a warning; the device still checks targets before binding.
 
 `--script ./hotfix.sh` supplies a custom script, with or without `--replace`.
 Replacement payloads are named `files/0`, `files/1`, etc., in argument order. The
-generator uses BOOT/andr36oid-build.txt from the release image, even when a custom
-script is supplied. It requires metadata format 1. It does not use the BOOT file
+generator uses BOOT/andr36oid-build-v2.txt (format2) first, or
+BOOT/andr36oid-build.txt (format1) when v2 is absent, even with a custom
+script. Malformed v2 never falls back to stale v1. The hotfix build key
+remains version|incremental. It does not use the BOOT file
 on a running console, which the flasher may remove.
 
 ## Make a delta between releases

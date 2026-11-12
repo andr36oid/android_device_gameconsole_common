@@ -478,6 +478,15 @@ cases() {
 	expect "GRC mux: wiring family evaluated" [ "$(result "$R")" = ok ]
 	expect "GRC mux: family includes profile" contains "$R/boot/dtb-hint.txt" "Experimental/R36-Ultra-X"
 
+	# New factory profiles carry a pointer instead of duplicated BMPs. The hint
+	# must explain the second copy in all three languages, without copying DTBs.
+	fake "$R" Panels/Panel4 Panels/Panel4
+	mkdir -p "$R/boot/Pictures/640x480"
+	hint "$R"
+	expect "pictures-1: English second copy" contains "$R/boot/dtb-hint.txt" "Pictures/<the name in pictures.txt>/"
+	expect "pictures-1: Spanish second copy" contains "$R/boot/dtb-hint.txt" "Pictures/<nombre de pictures.txt>/"
+	expect "pictures-1: Portuguese second copy" contains "$R/boot/dtb-hint.txt" "Pictures/<nome em pictures.txt>/"
+
 	# one button held at start is not enough for a verdict
 	fake "$R" Panels/Panel4 Panels/Panel4 adc0=900 pull=hi
 	sed -i '1s/ in  hi / in  lo /' "$R/sys/kernel/debug/gpio"

@@ -77,13 +77,23 @@ class Image:
 
     def build(self):
         values = {}
-        for line in self.boot_file("andr36oid-build.txt").decode("utf-8").splitlines():
+        # v2 is authoritative when present; malformed v2 must not fall back to a
+        # stale v1. Build targeting remains version|incremental in both formats.
+        filename = "andr36oid-build-v2.txt"
+        try:
+            data = self.boot_file(filename)
+        except ValueError as error:
+            if str(error) != "BOOT/" + filename + " is missing":
+                raise
+            filename = "andr36oid-build.txt"
+            data = self.boot_file(filename)
+        for line in data.decode("utf-8").splitlines():
             if "=" in line:
                 k, v = line.split("=", 1)
                 if k in values:
                     raise ValueError("duplicate build metadata field")
                 values[k] = v
-        if values.get("format") != "1":
+        if values.get("format") != ("2" if filename.endswith("-v2.txt") else "1"):
             raise ValueError("unsupported build metadata format")
         fields = [values.get(k, "") for k in
                   ("ro.andr36oid.version", "ro.product.build.version.incremental")]

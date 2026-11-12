@@ -24,7 +24,7 @@ tool = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(tool)
 
 
-def image(path, system=b"", vendor=b"", build=b"12345", boot=None):
+def image(path, system=b"", vendor=b"", build=b"12345", boot=None, metadata_name="andr36oid-build.txt", metadata_format=1):
     # FAT32 BOOT with a long-name metadata file, plus two optional filesystems.
     fat = bytearray(128 * 512)
     fat[0:3] = b"\xeb\x58\x90"
@@ -37,7 +37,7 @@ def image(path, system=b"", vendor=b"", build=b"12345", boot=None):
     fat[510:512] = b"\x55\xaa"
     for i in range(4):
         struct.pack_into("<I", fat, 512 + i * 4, 0x0fffffff)
-    name = "andr36oid-build.txt".encode("utf-16le") + b"\0\0"
+    name = metadata_name.encode("utf-16le") + b"\0\0"
     name += b"\xff\xff" * ((52 - len(name)) // 2)
     short = b"ANDR36~1TXT"
     checksum = 0
@@ -49,7 +49,7 @@ def image(path, system=b"", vendor=b"", build=b"12345", boot=None):
         chars = name[(number - 1) * 26:number * 26]
         e[1:11], e[14:26], e[28:32] = chars[:10], chars[10:22], chars[22:26]
         fat[1024 + pos * 32:1024 + (pos + 1) * 32] = e
-    metadata = b"format=1\nro.andr36oid.version=v1-test\nro.product.build.version.incremental=" + build + b"\n"
+    metadata = ("format=" + str(metadata_format) + "\nro.andr36oid.version=v1-test\nro.product.build.version.incremental=").encode() + build + b"\n"
     e = bytearray(32)
     e[:11], e[11] = short, 32
     struct.pack_into("<H", e, 26, 3)
@@ -89,6 +89,24 @@ class GeneratorTest(unittest.TestCase):
         image(self.img)
         self.file = self.dir / "replacement.so"
         self.file.write_bytes(b"replacement")
+
+    def test_v2_fat_and_build_key_priority(self):
+        image(self.img, build=b"67890", metadata_name="andr36oid-build-v2.txt", metadata_format=2)
+        with self.img.open("rb") as f:
+            self.assertEqual("v1-test|67890", tool.Image(f).build())
+        image(self.img, metadata_name="andr36oid-build-v2.txt", metadata_format=1)
+        with self.img.open("rb") as f:
+            with self.assertRaisesRegex(ValueError, "unsupported"):
+                tool.Image(f).build()
+        good1 = b"format=1\nro.andr36oid.version=legacy\nro.product.build.version.incremental=12345\n"
+        good2 = b"format=2\nro.andr36oid.version=modern\nro.product.build.version.incremental=67890\n"
+        with self.img.open("rb") as f:
+            obj = tool.Image(f)
+            with mock.patch.object(obj, "boot_file", side_effect=lambda n: good2 if n.endswith("-v2.txt") else good1):
+                self.assertEqual("modern|67890", obj.build())
+            with mock.patch.object(obj, "boot_file", side_effect=lambda n: b"format=99\n" if n.endswith("-v2.txt") else good1):
+                with self.assertRaisesRegex(ValueError, "unsupported"):
+                    obj.build()
 
     def args(self, **kw):
         values = dict(image=str(self.img), name="test", description="A test fix", script=None,

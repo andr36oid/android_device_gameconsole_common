@@ -54,7 +54,7 @@ CR=$(printf '\r')
 # Folders per wiring. tests/test-dtbhint.sh checks these against tests/boards.txt,
 # which is made from the DTBs (tests/gen-boards.py).
 F_GENUINE="Panels/Panel0 Panels/Panel1 Panels/Panel2 Experimental/R36S-Panel2-Repair Panels/Panel3 Panels/Panel4 Panels/Panel5 Panels/Panel6 Panels/R36S-Plus Experimental/R36S-V21 Experimental/R36S-V21-2551-2552 Experimental/R36S-V22 Experimental/R36S-Y02-Y07 Experimental/R36S-V30 Experimental/R36S-V30-2603 Experimental/R36S-Panel3-Alt Experimental/R36S-Panel4-Type1 Experimental/KirbX-Clone"
-F_SOY="Experimental/Soy-Panel5 Experimental/Soy-Panel5-253x Experimental/Soy-Panel6 Experimental/Soy-Panel7 Experimental/Soy-Panel7-253x Experimental/Soy-V04-Panel2 Experimental/Soy-V05-2601 Experimental/Soy-V05-2551"
+F_SOY="Experimental/Soy-Panel5 Experimental/Soy-Panel5-253x Experimental/Soy-Panel6 Experimental/Soy-Panel7 Experimental/Soy-Panel7-253x Experimental/Soy-V04-Panel2 Experimental/Soy-V05-2601 Experimental/Soy-V05-2551 Experimental/Soy-V05-Panel2"
 # EE boards, stick mux enable on GPIO2_B4 (K36 style). This is a wiring
 # family, not a whole-board equivalence: K36S uses SDIO for onboard Wi-Fi,
 # while EE-K36-Panel4 retains the second SD slot (clone-9 V12 without Wi-Fi).
@@ -566,6 +566,10 @@ text_en() {
 	echo "files at the top, then copy ALL files of the folder to the top of BOOT."
 	echo "Details: Panels/README.txt and Experimental/README.txt. The screen type"
 	echo "can't be detected: if the picture stays black, try the next folder."
+	if [ -d "$BOOT/Pictures" ]; then
+		echo "Also read pictures.txt in that folder, then copy the BMP files from"
+		echo "Pictures/<the name in pictures.txt>/ to the top of BOOT."
+	fi
 }
 
 text_es() {
@@ -626,6 +630,10 @@ text_es() {
 	echo "una copia de los archivos de arriba y copia TODOS los archivos de la"
 	echo "carpeta arriba del todo en BOOT. El tipo de pantalla no se puede"
 	echo "detectar: si la imagen sigue negra, prueba la siguiente carpeta."
+	if [ -d "$BOOT/Pictures" ]; then
+		echo "Lee tambien pictures.txt de esa carpeta y copia los BMP de"
+		echo "Pictures/<nombre de pictures.txt>/ arriba del todo en BOOT."
+	fi
 }
 
 text_pt() {
@@ -686,6 +694,10 @@ text_pt() {
 	echo "uma copia dos arquivos do topo e copie TODOS os arquivos da pasta para"
 	echo "o topo do BOOT. O tipo de tela nao pode ser detectado: se a imagem"
 	echo "continuar preta, teste a proxima pasta."
+	if [ -d "$BOOT/Pictures" ]; then
+		echo "Leia tambem pictures.txt nessa pasta e copie os BMP de"
+		echo "Pictures/<nome em pictures.txt>/ para o topo do BOOT."
+	fi
 }
 
 # stable facts only, so the file on BOOT doesn't change at every start
