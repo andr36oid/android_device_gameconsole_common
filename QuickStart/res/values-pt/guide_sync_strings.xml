@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="card_sync_q">Os mesmos saves em dois aparelhos</string>
-    <string name="card_sync_a">Definições &gt; Backup de saves &gt; Sincronizar saves mantém seus saves e save states iguais nesta consola e no seu PC, telemóvel ou outra consola, pelo Wi-Fi de casa. Não tem nuvem nem conta, e jogos e ficheiros de BIOS nunca são copiados. Ele sincroniza enquanto a consola carrega com Wi-Fi e enquanto essa página está aberta.</string>
-    <string name="card_sync_pair">No PC ou no telemóvel, instale o Syncthing e adicione o ID da consola mostrado nessa página, ou leia o código dele. O PC ou o telemóvel então aparece na consola em Adicionar um dispositivo: prima A nele. Para duas consolas, ative Sincronizar saves nos dois e depois escolha um no outro. Feche o jogo antes de jogar no outro aparelho.</string>
-</resources>
