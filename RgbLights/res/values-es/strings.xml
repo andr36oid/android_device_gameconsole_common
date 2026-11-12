@@ -25,6 +25,28 @@
         <item>purple</item>
         <item>white</item>
     </string-array>
-    <string name="rgb_row_effect">Efecto</string><string name="rgb_row_color">Color</string><string name="rgb_row_brightness">Brillo</string><string name="rgb_row_speed">Velocidad</string><string name="rgb_auto">Automático</string><string name="rgb_preview_left">Izquierda</string><string name="rgb_preview_right">Derecha</string><string name="rgb_stick_hint">Mueve un stick para dar color a las luces</string><string name="rgb_hint">Arriba/Abajo: elegir   Izquierda/Derecha: cambiar   B: atrás</string>
+    <string name="rgb_row_effect">Efecto</string>
+    <string name="rgb_row_color">Color</string>
+    <string name="rgb_row_brightness">Brillo</string>
+    <string name="rgb_row_speed">Velocidad</string>
+    <string name="rgb_auto">Automático</string>
+    <string name="rgb_preview_left">Izquierda</string>
+    <string name="rgb_preview_right">Derecha</string>
+    <string name="rgb_stick_hint">Mueve un stick para dar color a las luces</string>
+    <string name="rgb_hint">Arriba/Abajo: elegir   Izquierda/Derecha: cambiar   B: atrás</string>
     <string-array name="rgb_effect_names"><item>Desactivado</item><item>Color fijo</item><item>Respiración</item><item>Arcoíris</item><item>Seguir el stick</item><item>Batería</item></string-array>
+    <string name="rgb_preset_off">Apagado</string>
+    <string name="rgb_preset_red">Rojo</string>
+    <string name="rgb_preset_amber">Ámbar</string>
+    <string name="rgb_preset_green">Verde</string>
+    <string name="rgb_preset_teal">Verde azulado</string>
+    <string name="rgb_preset_blue">Azul</string>
+    <string name="rgb_preset_pink">Rosa</string>
+    <string name="rgb_preset_mint">Menta</string>
+    <string name="rgb_preset_breathing">Respiración</string>
+    <string name="rgb_preset_rainbow">Arcoíris</string>
+    <string name="rgb_sleep_label">Luces apagadas</string>
+    <string name="rgb_sleep_screen">Con la pantalla</string>
+    <string name="rgb_sleep_deepsleep">En suspensión</string>
+    <string name="rgb_sleep_never">Nunca</string>
 </resources>

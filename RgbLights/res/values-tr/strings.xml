@@ -25,6 +25,28 @@
         <item>purple</item>
         <item>white</item>
     </string-array>
-    <string name="rgb_row_effect">Efekt</string><string name="rgb_row_color">Renk</string><string name="rgb_row_brightness">Parlaklık</string><string name="rgb_row_speed">Hız</string><string name="rgb_auto">Otomatik</string><string name="rgb_preview_left">Sol</string><string name="rgb_preview_right">Sağ</string><string name="rgb_stick_hint">Işıkları renklendirmek için bir çubuğu hareket ettirin</string><string name="rgb_hint">Yukarı/Aşağı: seç   Sol/Sağ: değiştir   B: geri</string>
+    <string name="rgb_row_effect">Efekt</string>
+    <string name="rgb_row_color">Renk</string>
+    <string name="rgb_row_brightness">Parlaklık</string>
+    <string name="rgb_row_speed">Hız</string>
+    <string name="rgb_auto">Otomatik</string>
+    <string name="rgb_preview_left">Sol</string>
+    <string name="rgb_preview_right">Sağ</string>
+    <string name="rgb_stick_hint">Işıkları renklendirmek için bir çubuğu hareket ettirin</string>
+    <string name="rgb_hint">Yukarı/Aşağı: seç   Sol/Sağ: değiştir   B: geri</string>
     <string-array name="rgb_effect_names"><item>Kapalı</item><item>Sabit renk</item><item>Nefes</item><item>Gökkuşağı</item><item>Çubuğu takip et</item><item>Pil</item></string-array>
+    <string name="rgb_preset_off">Kapalı</string>
+    <string name="rgb_preset_red">Kırmızı</string>
+    <string name="rgb_preset_amber">Kehribar</string>
+    <string name="rgb_preset_green">Yeşil</string>
+    <string name="rgb_preset_teal">Turkuaz</string>
+    <string name="rgb_preset_blue">Mavi</string>
+    <string name="rgb_preset_pink">Pembe</string>
+    <string name="rgb_preset_mint">Nane</string>
+    <string name="rgb_preset_breathing">Nefes</string>
+    <string name="rgb_preset_rainbow">Gökkuşağı</string>
+    <string name="rgb_sleep_label">Işıklar kapalı</string>
+    <string name="rgb_sleep_screen">Ekranla birlikte</string>
+    <string name="rgb_sleep_deepsleep">Uykuda</string>
+    <string name="rgb_sleep_never">Asla</string>
 </resources>

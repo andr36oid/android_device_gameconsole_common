@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="no_subsystem">El subsistema dArkOSen no está instalado. Coloca primero una imagen de dArkOSen en subsystem/darkosen/.</string>
+</resources>

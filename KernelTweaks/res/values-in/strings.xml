@@ -404,4 +404,7 @@
     <string name="kt_no_radios">Nonaktifkan radio saat boot</string>
     <string name="kt_no_radios_what">Aktif mencegah driver Wi-Fi dan Bluetooth dimuat setelah mulai ulang, termasuk adaptor USB. Default nonaktif.</string>
     <string name="kt_no_radios_why">Gunakan untuk tidak memakai radio atau membebaskan port USB bersama. Wi-Fi dan Bluetooth tidak tersedia selama aktif. Perubahan memerlukan mulai ulang.</string>
+    <string name="kt_app_compile">Percepat aplikasi saat mengisi daya</string>
+    <string name="kt_app_compile_what">Saat konsol tidak digunakan dan tersambung ke pengisi daya, aplikasi yang Anda gunakan disiapkan agar terbuka lebih cepat. Proses ini memerlukan beberapa menit, kira-kira sekali sehari.</string>
+    <string name="kt_app_compile_why">Aplikasi terbuka hingga sepertiga lebih cepat. Nonaktifkan jika konsol menjadi sibuk atau panas saat mengisi daya.</string>
 </resources>

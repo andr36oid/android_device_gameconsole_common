@@ -405,4 +405,7 @@
     <string name="kt_no_radios">Désactiver les radios au démarrage</string>
     <string name="kt_no_radios_what">Activé empêche le chargement des pilotes Wi-Fi et Bluetooth après un redémarrage, adaptateurs USB compris. Désactivé par défaut.</string>
     <string name="kt_no_radios_why">Pour ne pas utiliser les radios ou libérer un port USB partagé. Le Wi-Fi et le Bluetooth sont indisponibles lorsque cette option est activée. Un redémarrage est nécessaire.</string>
+    <string name="kt_app_compile">Accélérer les applis pendant la charge</string>
+    <string name="kt_app_compile_what">Pendant que la console reste inactive sur le chargeur, elle prépare les applis que vous utilisez pour qu’elles s’ouvrent plus vite. Cela prend quelques minutes, environ une fois par jour.</string>
+    <string name="kt_app_compile_why">Les applis s’ouvrent jusqu’à un tiers plus vite. Désactivez cette option si la console travaille ou chauffe sur le chargeur.</string>
 </resources>

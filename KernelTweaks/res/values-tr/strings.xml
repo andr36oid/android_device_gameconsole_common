@@ -405,4 +405,7 @@
     <string name="kt_no_radios">Açılışta radyoları devre dışı bırak</string>
     <string name="kt_no_radios_what">Açık, yeniden başlattıktan sonra USB adaptörler dahil Wi-Fi ve Bluetooth sürücülerinin yüklenmesini engeller. Varsayılan kapalıdır.</string>
     <string name="kt_no_radios_why">Radyoları kullanmamak veya paylaşılan USB bağlantı noktasını boşaltmak için kullanın. Açıkken Wi-Fi ve Bluetooth kullanılamaz. Değişiklik yeniden başlatma gerektirir.</string>
+    <string name="kt_app_compile">Şarj olurken uygulamaları hızlandır</string>
+    <string name="kt_app_compile_what">Konsol şarj cihazında boşta dururken kullandığınız uygulamaları hazırlar, böylece daha hızlı açılırlar. Bu işlem birkaç dakika sürer ve yaklaşık günde bir kez yapılır.</string>
+    <string name="kt_app_compile_why">Uygulamalar üçte bir oranına kadar daha hızlı açılır. Konsol şarj olurken meşgul oluyor veya ısınıyorsa kapatın.</string>
 </resources>

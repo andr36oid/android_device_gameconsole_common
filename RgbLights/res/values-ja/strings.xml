@@ -25,6 +25,28 @@
         <item>purple</item>
         <item>white</item>
     </string-array>
-    <string name="rgb_row_effect">エフェクト</string><string name="rgb_row_color">色</string><string name="rgb_row_brightness">明るさ</string><string name="rgb_row_speed">速度</string><string name="rgb_auto">自動</string><string name="rgb_preview_left">左</string><string name="rgb_preview_right">右</string><string name="rgb_stick_hint">スティックを動かしてライトに色を付けます</string><string name="rgb_hint">上/下：選択   左/右：変更   B：戻る</string>
+    <string name="rgb_row_effect">エフェクト</string>
+    <string name="rgb_row_color">色</string>
+    <string name="rgb_row_brightness">明るさ</string>
+    <string name="rgb_row_speed">速度</string>
+    <string name="rgb_auto">自動</string>
+    <string name="rgb_preview_left">左</string>
+    <string name="rgb_preview_right">右</string>
+    <string name="rgb_stick_hint">スティックを動かしてライトに色を付けます</string>
+    <string name="rgb_hint">上/下：選択   左/右：変更   B：戻る</string>
     <string-array name="rgb_effect_names"><item>オフ</item><item>単色</item><item>ブリージング</item><item>レインボー</item><item>スティック追従</item><item>バッテリー</item></string-array>
+    <string name="rgb_preset_off">オフ</string>
+    <string name="rgb_preset_red">赤</string>
+    <string name="rgb_preset_amber">アンバー</string>
+    <string name="rgb_preset_green">緑</string>
+    <string name="rgb_preset_teal">青緑</string>
+    <string name="rgb_preset_blue">青</string>
+    <string name="rgb_preset_pink">ピンク</string>
+    <string name="rgb_preset_mint">ミント</string>
+    <string name="rgb_preset_breathing">ゆっくり点滅</string>
+    <string name="rgb_preset_rainbow">虹色</string>
+    <string name="rgb_sleep_label">ライトを消す</string>
+    <string name="rgb_sleep_screen">画面と同時</string>
+    <string name="rgb_sleep_deepsleep">スリープ時</string>
+    <string name="rgb_sleep_never">しない</string>
 </resources>

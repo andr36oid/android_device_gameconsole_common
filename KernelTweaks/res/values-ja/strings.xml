@@ -331,4 +331,7 @@
     <string name="kt_no_radios">起動時に無線を無効化</string>
     <string name="kt_no_radios_what">オンにすると、再起動後にUSBアダプターを含むWi-FiとBluetoothのドライバーが読み込まれません。初期値はオフです。</string>
     <string name="kt_no_radios_why">無線を使わない場合や共有USBポートを空ける場合に使います。有効な間はWi-FiとBluetoothを利用できません。変更には再起動が必要です。</string>
+    <string name="kt_app_compile">充電中にアプリを高速化</string>
+    <string name="kt_app_compile_what">コンソールを充電器につないで使っていない間に、使用するアプリを準備して起動を速くします。数分かかり、1日に1回ほど実行されます。</string>
+    <string name="kt_app_compile_why">アプリが最大で3分の1速く開きます。充電中にコンソールが忙しくなったり熱くなったりする場合はオフにしてください。</string>
 </resources>

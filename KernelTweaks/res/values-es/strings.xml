@@ -405,4 +405,7 @@
     <string name="kt_no_radios">Desactivar radios al arrancar</string>
     <string name="kt_no_radios_what">Activado impide cargar controladores Wi-Fi y Bluetooth tras reiniciar, incluidos los adaptadores USB. Desactivado por defecto.</string>
     <string name="kt_no_radios_why">Úsalo para no usar las radios o liberar un puerto USB compartido. Wi-Fi y Bluetooth no estarán disponibles mientras esté activado. Requiere reiniciar.</string>
+    <string name="kt_app_compile">Acelerar las apps mientras carga</string>
+    <string name="kt_app_compile_what">Mientras la consola está inactiva conectada al cargador, prepara las apps que usas para que se abran más rápido. Tarda unos minutos, aproximadamente una vez al día.</string>
+    <string name="kt_app_compile_why">Las apps se abren hasta un tercio más rápido. Desactívalo si la consola se ocupa o se calienta mientras carga.</string>
 </resources>

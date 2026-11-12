@@ -25,6 +25,28 @@
         <item>purple</item>
         <item>white</item>
     </string-array>
-    <string name="rgb_row_effect">Effekt</string><string name="rgb_row_color">Farbe</string><string name="rgb_row_brightness">Helligkeit</string><string name="rgb_row_speed">Geschwindigkeit</string><string name="rgb_auto">Automatisch</string><string name="rgb_preview_left">Links</string><string name="rgb_preview_right">Rechts</string><string name="rgb_stick_hint">Bewege einen Stick, um die Lichter einzufärben</string><string name="rgb_hint">Oben/Unten: auswählen   Links/Rechts: ändern   B: zurück</string>
+    <string name="rgb_row_effect">Effekt</string>
+    <string name="rgb_row_color">Farbe</string>
+    <string name="rgb_row_brightness">Helligkeit</string>
+    <string name="rgb_row_speed">Geschwindigkeit</string>
+    <string name="rgb_auto">Automatisch</string>
+    <string name="rgb_preview_left">Links</string>
+    <string name="rgb_preview_right">Rechts</string>
+    <string name="rgb_stick_hint">Bewege einen Stick, um die Lichter einzufärben</string>
+    <string name="rgb_hint">Oben/Unten: auswählen   Links/Rechts: ändern   B: zurück</string>
     <string-array name="rgb_effect_names"><item>Aus</item><item>Einfarbig</item><item>Atmen</item><item>Regenbogen</item><item>Stick folgen</item><item>Batterie</item></string-array>
+    <string name="rgb_preset_off">Aus</string>
+    <string name="rgb_preset_red">Rot</string>
+    <string name="rgb_preset_amber">Bernstein</string>
+    <string name="rgb_preset_green">Grün</string>
+    <string name="rgb_preset_teal">Türkis</string>
+    <string name="rgb_preset_blue">Blau</string>
+    <string name="rgb_preset_pink">Rosa</string>
+    <string name="rgb_preset_mint">Mint</string>
+    <string name="rgb_preset_breathing">Atmen</string>
+    <string name="rgb_preset_rainbow">Regenbogen</string>
+    <string name="rgb_sleep_label">Beleuchtung aus</string>
+    <string name="rgb_sleep_screen">Mit dem Bildschirm</string>
+    <string name="rgb_sleep_deepsleep">Im Ruhezustand</string>
+    <string name="rgb_sleep_never">Nie</string>
 </resources>

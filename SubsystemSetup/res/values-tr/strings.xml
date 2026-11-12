@@ -103,4 +103,66 @@
     <string name="subsystem_update_warning_title">dArkOSen içinden asla güncelleme yapmayın</string>
     <string name="subsystem_update_warning_body">dArkOSen, kendi donanımı üzerinde değil, andr36oid üzerinde konuk sistem olarak çalışır. Yerleşik güncelleyicisi ve yükseltme betikleri, tüm cihazın denetimine sahip olduklarını varsayar; bu nedenle burada güvenli değildir. Bunları dArkOSen içinden çalıştırırsanız yanlış yerlere yazabilir ve dArkOSen kurulumunu yok edebilir; hatta Android sisteminizi bozarak konsolun açılmasını engelleyebilir.\n\ndArkOSen, EmulationStation veya PortMaster içindeki Güncelle, Yükselt ya da çevrim içi güncelleme seçeneklerini kullanmayın.\n\ndArkOSen içinden güvenle güncelleme yapmak için Android\'e çıkın, cihazı kapatın ve depolama bölümündeki dArkOSen .img dosyasını yeni sürümle değiştirin. Güncellemenin desteklenen tek yolu budur.</string>
     <string name="subsystem_update_warning_ack">Anlıyorum ve dArkOSen içinden güncelleme yapmayacağım.</string>
+    <string name="rel_title">dArkOSen sürümü</string>
+    <string name="rel_note">Wi-Fi üzerinden dArkOSen veya daha yeni bir sürüm edinin</string>
+    <string name="rel_get">dArkOSen indir</string>
+    <string name="rel_get_note">İmaj gerekmez: konsol onu Wi-Fi üzerinden alır</string>
+    <string name="rel_none">dArkOSen yüklü değil</string>
+    <string name="rel_installed">Yüklü: %1$s</string>
+    <string name="rel_own">Yüklü: kendi imajınız</string>
+    <string name="rel_name_revision">%1$s (sürüm %2$d)</string>
+    <string name="rel_on_partition">Sistem kartının kendi bölümünde saklanıyor</string>
+    <string name="rel_on_card">Oyun kartında dosya olarak saklanıyor</string>
+    <string name="rel_has_partition">Sistem kartının kendi bölümüne yazılacak</string>
+    <string name="rel_no_partition">Oyun kartında dosya olarak saklanacak</string>
+    <string name="rel_check">Daha yeni sürümü denetle</string>
+    <string name="rel_checking">Denetleniyor…</string>
+    <string name="rel_offline">İnternet bağlantısı yok. Wi-Fi’ye bağlanıp tekrar deneyin.</string>
+    <string name="rel_server">İndirme sunucusu yanıt vermedi. Daha sonra tekrar deneyin.</string>
+    <string name="rel_nothing">Henüz kullanılabilir sürüm yok</string>
+    <string name="rel_newest">En yeni sürüme sahipsiniz</string>
+    <string name="rel_own_kept">Kendi imajınız kullanılıyor. Değiştirilmeyecek.</string>
+    <string name="rel_available">%1$s kullanılabilir, indirmek için %2$s</string>
+    <string name="rel_install">Yükle</string>
+    <string name="rel_update">Güncelle</string>
+    <string name="rel_install_note">Oyunlarınız ve kayıtlarınız korunur</string>
+    <string name="rel_keep">Güncelleme yalnızca dArkOSen’i değiştirir. Oyun kartındaki oyunlar, kayıtlar ve ayarlar korunur.</string>
+    <string name="rel_confirm_title">dArkOSen %1$s yüklensin mi?</string>
+    <string name="rel_confirm">İndirme boyutu %1$s. İşlem sırasında oyun kartında %2$s boş alan gerekir.
+
+%3$s
+
+Bu işlem biraz sürebilir. Konsolu açık ve Wi-Fi’ye yakın tutun.</string>
+    <string name="rel_to_partition">dArkOSen sistem kartının kendi bölümüne yazılır.</string>
+    <string name="rel_to_card">dArkOSen oyun kartında dosya olarak saklanır.</string>
+    <string name="rel_working">dArkOSen %1$s yükleniyor</string>
+    <string name="rel_step_download">İndiriliyor</string>
+    <string name="rel_step_check">Denetleniyor ve açılıyor</string>
+    <string name="rel_step_write">Yazılıyor</string>
+    <string name="rel_step_finish">Tamamlanıyor</string>
+    <string name="rel_bytes">%1$s / %2$s</string>
+    <string name="rel_stay_on">Konsol işlem bitene kadar uyanık kalır. Yazma başlamadan önce durdurabilirsiniz.</string>
+    <string name="rel_no_power_off">Konsolu şimdi kapatmayın.</string>
+    <string name="rel_cancel">Durdur</string>
+    <string name="rel_continue">Devam et</string>
+    <string name="rel_cancel_confirm">Yükleme durdurulsun mu? İndirilenler sonraki deneme için korunur.</string>
+    <string name="rel_done">Tamamlandı</string>
+    <string name="rel_result_ok">dArkOSen %1$s yüklendi</string>
+    <string name="rel_result_failed">dArkOSen %1$s yüklenemedi</string>
+    <string name="rel_ok">Oynamaya hazırsınız.</string>
+    <string name="rel_ok_card">Oynamaya hazırsınız. Bu sürüm sistem kartındaki kendi bölümüne sığmadı, bu yüzden oyun kartında dosya olarak saklanıyor.</string>
+    <string name="rel_e_battery">Pil %30’un altında. Şarj cihazını takıp tekrar deneyin.</string>
+    <string name="rel_e_download">İndirilen dosya bozuk veya eksik. Tekrar deneyin; yalnızca eksik dosyalar indirilir.</string>
+    <string name="rel_e_space">Oyun kartında yeterli boş alan yok.</string>
+    <string name="rel_e_card">Oyun kartı eksik veya karta yazılamıyor.</string>
+    <string name="rel_e_system">Bu sürüm daha yeni bir andr36oid gerektiriyor. Önce sistemi güncelleyin.</string>
+    <string name="rel_e_busy">dArkOSen kullanılıyor veya başka bir görev çalışıyor. Bittiğinde tekrar deneyin.</string>
+    <string name="rel_e_stopped">Yükleme durduruldu. Önceki sürümünüz yerinde duruyor.</string>
+    <string name="rel_e_power">Konsol uyanık tutulamadı, bu nedenle hiçbir şey değiştirilmedi.</string>
+    <string name="rel_e_exists">Oyun kartında aynı adlı bir dosya zaten var. Taşıyın veya yeniden adlandırıp tekrar deneyin.</string>
+    <string name="rel_e_setup">Yeni sürüm düzgün başlatılamadı. Önceki sürüm geri yüklendi.</string>
+    <string name="rel_e_partition">Sistem kartındaki dArkOSen bölümü kullanılamıyor. Yeni sürüm oyun kartında dosya olarak kalıyor.</string>
+    <string name="rel_e_other">Bir sorun oluştu. Ayrıntılar günlükte.</string>
+    <string name="ss_prestage_title">Alt sistemi hazır tut</string>
+    <string name="ss_prestage_summary">Oyunları ve portları daha hızlı başlatır. Oynamadığınız sırada Android belleğinin bir kısmını kullanır.</string>
 </resources>

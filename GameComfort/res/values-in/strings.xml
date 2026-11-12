@@ -63,6 +63,7 @@
     <string name="continue_category">Lanjut bermain</string>
     <string name="continue_now">Lanjutkan: <xliff:g id="game">%1$s</xliff:g></string>
     <string name="continue_now_none">Belum pernah memainkan game</string>
+    <string name="continue_now_retroarch">RetroArch, <xliff:g id="core">%1$s</xliff:g></string>
     <string name="continue_now_ppsspp">PPSSPP</string>
     <string name="continue_now_app">Game Android</string>
     <string name="continue_on_boot">Buka lagi setelah restart</string>

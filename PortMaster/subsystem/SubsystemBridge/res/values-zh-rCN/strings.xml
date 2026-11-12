@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="no_subsystem">未安装 dArkOSen 子系统。请先将 dArkOSen 镜像放入 subsystem/darkosen/。</string>
+</resources>

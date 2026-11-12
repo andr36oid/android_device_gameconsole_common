@@ -64,6 +64,7 @@
     <string name="continue_category">Oynamaya devam et</string>
     <string name="continue_now">Devam et: <xliff:g id="game">%1$s</xliff:g></string>
     <string name="continue_now_none">Henüz oyun oynanmadı</string>
+    <string name="continue_now_retroarch">RetroArch, <xliff:g id="core">%1$s</xliff:g></string>
     <string name="continue_now_ppsspp">PPSSPP</string>
     <string name="continue_now_app">Android oyunu</string>
     <string name="continue_on_boot">Yeniden başlattıktan sonra tekrar aç</string>

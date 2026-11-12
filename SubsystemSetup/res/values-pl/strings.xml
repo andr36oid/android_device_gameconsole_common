@@ -103,4 +103,66 @@
     <string name="subsystem_update_warning_title">Nigdy nie aktualizuj dArkOSen z jego wnętrza</string>
     <string name="subsystem_update_warning_body">dArkOSen działa jako system gościa na andr36oid, a nie na własnym sprzęcie. Wbudowany mechanizm aktualizacji i skrypty uaktualniania zakładają pełną kontrolę nad urządzeniem, więc nie są tu bezpieczne. Jeśli uruchomisz je z poziomu dArkOSen, zapiszą dane w niewłaściwych miejscach i mogą zniszczyć instalację dArkOSen, a nawet uszkodzić system Android i uniemożliwić uruchomienie konsoli.\n\nNie używaj w dArkOSen, EmulationStation ani PortMaster żadnej opcji „Aktualizuj”, „Uaktualnij” ani „Aktualizacja online”.\n\nAby bezpiecznie zaktualizować dArkOSen, wyjdź do Androida, wyłącz urządzenie i zastąp nową wersją plik .img dArkOSen na partycji pamięci. To jedyny obsługiwany sposób aktualizacji.</string>
     <string name="subsystem_update_warning_ack">Rozumiem i nie będę aktualizować dArkOSen z jego wnętrza.</string>
+    <string name="rel_title">Wersja dArkOSen</string>
+    <string name="rel_note">Pobierz dArkOSen lub nowszą wersję przez Wi-Fi</string>
+    <string name="rel_get">Pobierz dArkOSen</string>
+    <string name="rel_get_note">Obraz nie jest potrzebny: konsola pobierze go przez Wi-Fi</string>
+    <string name="rel_none">dArkOSen nie jest zainstalowany</string>
+    <string name="rel_installed">Zainstalowano: %1$s</string>
+    <string name="rel_own">Zainstalowano: własny obraz</string>
+    <string name="rel_name_revision">%1$s (wersja %2$d)</string>
+    <string name="rel_on_partition">Zapisano we własnej części karty systemowej</string>
+    <string name="rel_on_card">Zapisano jako plik na karcie gier</string>
+    <string name="rel_has_partition">Zostanie zapisany we własnej części karty systemowej</string>
+    <string name="rel_no_partition">Zostanie zapisany jako plik na karcie gier</string>
+    <string name="rel_check">Sprawdź nowszą wersję</string>
+    <string name="rel_checking">Sprawdzanie…</string>
+    <string name="rel_offline">Brak połączenia z internetem. Połącz się z Wi-Fi i spróbuj ponownie.</string>
+    <string name="rel_server">Serwer pobierania nie odpowiedział. Spróbuj ponownie później.</string>
+    <string name="rel_nothing">Nie ma jeszcze dostępnej wersji</string>
+    <string name="rel_newest">Masz najnowszą wersję</string>
+    <string name="rel_own_kept">Używany jest własny obraz. Nie zostanie zastąpiony.</string>
+    <string name="rel_available">Dostępna jest wersja %1$s, do pobrania %2$s</string>
+    <string name="rel_install">Zainstaluj</string>
+    <string name="rel_update">Aktualizuj</string>
+    <string name="rel_install_note">Gry i zapisy zostaną zachowane</string>
+    <string name="rel_keep">Aktualizacja zastępuje samo dArkOSen. Gry, zapisy i ustawienia na karcie gier pozostają.</string>
+    <string name="rel_confirm_title">Zainstalować dArkOSen %1$s?</string>
+    <string name="rel_confirm">Pobieranie ma rozmiar %1$s. W trakcie karta gier potrzebuje %2$s wolnego miejsca.
+
+%3$s
+
+To potrwa chwilę. Pozostaw konsolę włączoną i blisko Wi-Fi.</string>
+    <string name="rel_to_partition">dArkOSen zostanie zapisany we własnej części karty systemowej.</string>
+    <string name="rel_to_card">dArkOSen zostanie zapisany jako plik na karcie gier.</string>
+    <string name="rel_working">Instalowanie dArkOSen %1$s</string>
+    <string name="rel_step_download">Pobieranie</string>
+    <string name="rel_step_check">Sprawdzanie i rozpakowywanie</string>
+    <string name="rel_step_write">Zapisywanie</string>
+    <string name="rel_step_finish">Kończenie</string>
+    <string name="rel_bytes">%1$s z %2$s</string>
+    <string name="rel_stay_on">Konsola pozostanie aktywna do końca. Możesz zatrzymać proces przed rozpoczęciem zapisu.</string>
+    <string name="rel_no_power_off">Nie wyłączaj teraz konsoli.</string>
+    <string name="rel_cancel">Zatrzymaj</string>
+    <string name="rel_continue">Kontynuuj</string>
+    <string name="rel_cancel_confirm">Zatrzymać instalację? Pobrane dane zostaną zachowane na następną próbę.</string>
+    <string name="rel_done">Gotowe</string>
+    <string name="rel_result_ok">dArkOSen %1$s jest zainstalowany</string>
+    <string name="rel_result_failed">Nie udało się zainstalować dArkOSen %1$s</string>
+    <string name="rel_ok">Wszystko jest gotowe do gry.</string>
+    <string name="rel_ok_card">Wszystko jest gotowe do gry. Ta wersja nie zmieściła się w swojej części karty systemowej, więc zapisano ją jako plik na karcie gier.</string>
+    <string name="rel_e_battery">Bateria ma mniej niż 30%. Podłącz ładowarkę i spróbuj ponownie.</string>
+    <string name="rel_e_download">Pobrany plik jest uszkodzony lub go brakuje. Spróbuj ponownie; zostaną pobrane tylko brakujące pliki.</string>
+    <string name="rel_e_space">Na karcie gier jest za mało wolnego miejsca.</string>
+    <string name="rel_e_card">Brakuje karty gier albo nie można na niej zapisywać.</string>
+    <string name="rel_e_system">Ta wersja wymaga nowszego andr36oid. Najpierw zaktualizuj system.</string>
+    <string name="rel_e_busy">dArkOSen jest używany lub trwa inne zadanie. Spróbuj ponownie po jego zakończeniu.</string>
+    <string name="rel_e_stopped">Instalacja została zatrzymana. Poprzednia wersja nadal jest na miejscu.</string>
+    <string name="rel_e_power">Nie udało się utrzymać konsoli aktywnej, więc niczego nie zmieniono.</string>
+    <string name="rel_e_exists">Na karcie gier jest już plik o tej samej nazwie. Przenieś go lub zmień nazwę i spróbuj ponownie.</string>
+    <string name="rel_e_setup">Nowa wersja nie uruchomiła się poprawnie. Przywrócono poprzednią wersję.</string>
+    <string name="rel_e_partition">Nie można użyć części dArkOSen na karcie systemowej. Nowa wersja pozostaje plikiem na karcie gier.</string>
+    <string name="rel_e_other">Coś poszło nie tak. Szczegóły są w dzienniku.</string>
+    <string name="ss_prestage_title">Przygotuj podsystem</string>
+    <string name="ss_prestage_summary">Przyspiesza uruchamianie gier i portów. Gdy nie grasz, używa części pamięci Androida.</string>
 </resources>

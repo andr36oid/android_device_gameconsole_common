@@ -64,6 +64,7 @@
     <string name="continue_category">Reprendre la partie</string>
     <string name="continue_now">Reprendre : <xliff:g id="game">%1$s</xliff:g></string>
     <string name="continue_now_none">Aucun jeu lancé pour le moment</string>
+    <string name="continue_now_retroarch">RetroArch, <xliff:g id="core">%1$s</xliff:g></string>
     <string name="continue_now_ppsspp">PPSSPP</string>
     <string name="continue_now_app">Jeu Android</string>
     <string name="continue_on_boot">Rouvrir après un redémarrage</string>

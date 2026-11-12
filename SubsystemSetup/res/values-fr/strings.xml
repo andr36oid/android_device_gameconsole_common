@@ -103,4 +103,66 @@
     <string name="subsystem_update_warning_title">Ne mettez jamais dArkOSen à jour depuis l\'intérieur</string>
     <string name="subsystem_update_warning_body">dArkOSen s\'exécute en tant qu\'invité au-dessus d\'andr36oid, et non sur son propre matériel. Son programme de mise à jour intégré et ses scripts de mise à niveau supposent avoir le contrôle de l\'ensemble de l\'appareil ; ils ne sont donc pas sûrs ici. Si vous les exécutez depuis dArkOSen, ils écrivent aux mauvais endroits et peuvent détruire l\'installation de dArkOSen, voire endommager votre système Android et empêcher la console de démarrer.\n\nN\'utilisez aucune option de mise à jour, de mise à niveau ou de mise à jour en ligne dans dArkOSen, EmulationStation ou PortMaster.\n\nPour mettre dArkOSen à jour en toute sécurité, quittez-le pour revenir à Android, éteignez l\'appareil et remplacez le fichier .img de dArkOSen sur la partition de stockage par la nouvelle version. C\'est la seule méthode de mise à jour prise en charge.</string>
     <string name="subsystem_update_warning_ack">Je comprends et je ne mettrai pas dArkOSen à jour depuis l\'intérieur.</string>
+    <string name="rel_title">Version de dArkOSen</string>
+    <string name="rel_note">Obtenir dArkOSen ou une version plus récente en Wi-Fi</string>
+    <string name="rel_get">Télécharger dArkOSen</string>
+    <string name="rel_get_note">Aucune image nécessaire : la console la récupère en Wi-Fi</string>
+    <string name="rel_none">dArkOSen n’est pas installé</string>
+    <string name="rel_installed">Installé : %1$s</string>
+    <string name="rel_own">Installé : votre propre image</string>
+    <string name="rel_name_revision">%1$s (révision %2$d)</string>
+    <string name="rel_on_partition">Stocké sur sa propre partie de la carte système</string>
+    <string name="rel_on_card">Stocké comme fichier sur la carte de jeux</string>
+    <string name="rel_has_partition">Il sera placé sur sa propre partie de la carte système</string>
+    <string name="rel_no_partition">Il sera stocké comme fichier sur la carte de jeux</string>
+    <string name="rel_check">Rechercher une version plus récente</string>
+    <string name="rel_checking">Vérification…</string>
+    <string name="rel_offline">Pas de connexion Internet. Connectez-vous au Wi-Fi et réessayez.</string>
+    <string name="rel_server">Le serveur de téléchargement n’a pas répondu. Réessayez plus tard.</string>
+    <string name="rel_nothing">Aucune version disponible pour le moment</string>
+    <string name="rel_newest">Vous avez la dernière version</string>
+    <string name="rel_own_kept">Votre propre image est utilisée. Elle ne sera pas remplacée.</string>
+    <string name="rel_available">%1$s est disponible, %2$s à télécharger</string>
+    <string name="rel_install">Installer</string>
+    <string name="rel_update">Mettre à jour</string>
+    <string name="rel_install_note">Vos jeux et sauvegardes sont conservés</string>
+    <string name="rel_keep">La mise à jour remplace dArkOSen lui-même. Les jeux, sauvegardes et réglages de la carte de jeux restent en place.</string>
+    <string name="rel_confirm_title">Installer dArkOSen %1$s ?</string>
+    <string name="rel_confirm">Le téléchargement fait %1$s. La carte de jeux doit disposer de %2$s libres pendant l’opération.
+
+%3$s
+
+L’opération prend un moment. Gardez la console allumée près de votre Wi-Fi.</string>
+    <string name="rel_to_partition">dArkOSen est écrit sur sa propre partie de la carte système.</string>
+    <string name="rel_to_card">dArkOSen est stocké comme fichier sur la carte de jeux.</string>
+    <string name="rel_working">Installation de dArkOSen %1$s</string>
+    <string name="rel_step_download">Téléchargement</string>
+    <string name="rel_step_check">Vérification et décompression</string>
+    <string name="rel_step_write">Écriture</string>
+    <string name="rel_step_finish">Finalisation</string>
+    <string name="rel_bytes">%1$s sur %2$s</string>
+    <string name="rel_stay_on">La console reste active jusqu’à la fin. Vous pouvez arrêter avant le début de l’écriture.</string>
+    <string name="rel_no_power_off">N’éteignez pas la console maintenant.</string>
+    <string name="rel_cancel">Arrêter</string>
+    <string name="rel_continue">Continuer</string>
+    <string name="rel_cancel_confirm">Arrêter l’installation ? Les données déjà téléchargées seront conservées pour le prochain essai.</string>
+    <string name="rel_done">Terminé</string>
+    <string name="rel_result_ok">dArkOSen %1$s est installé</string>
+    <string name="rel_result_failed">dArkOSen %1$s n’a pas été installé</string>
+    <string name="rel_ok">Tout est prêt pour jouer.</string>
+    <string name="rel_ok_card">Tout est prêt pour jouer. Cette version ne tenait pas sur sa partie de la carte système ; elle est donc stockée comme fichier sur la carte de jeux.</string>
+    <string name="rel_e_battery">La batterie est sous 30 %. Branchez le chargeur et réessayez.</string>
+    <string name="rel_e_download">Un fichier téléchargé est endommagé ou manquant. Réessayez ; seuls les fichiers manquants seront récupérés.</string>
+    <string name="rel_e_space">L’espace libre sur la carte de jeux est insuffisant.</string>
+    <string name="rel_e_card">La carte de jeux est absente ou impossible à écrire.</string>
+    <string name="rel_e_system">Cette version nécessite un andr36oid plus récent. Mettez d’abord le système à jour.</string>
+    <string name="rel_e_busy">dArkOSen est utilisé ou une autre tâche est en cours. Réessayez une fois terminée.</string>
+    <string name="rel_e_stopped">L’installation a été arrêtée. Votre version précédente est toujours en place.</string>
+    <string name="rel_e_power">La console n’a pas pu rester active ; rien n’a donc été modifié.</string>
+    <string name="rel_e_exists">Un fichier portant le même nom existe déjà sur la carte de jeux. Déplacez-le ou renommez-le, puis réessayez.</string>
+    <string name="rel_e_setup">La nouvelle version n’a pas démarré correctement. Votre version précédente a été restaurée.</string>
+    <string name="rel_e_partition">La partie dArkOSen de la carte système est inutilisable. La nouvelle version reste un fichier sur la carte de jeux.</string>
+    <string name="rel_e_other">Une erreur s’est produite. Le journal contient les détails.</string>
+    <string name="ss_prestage_title">Garder le sous-système prêt</string>
+    <string name="ss_prestage_summary">Accélère le démarrage des jeux et des ports. Utilise une partie de la mémoire d’Android quand vous ne jouez pas.</string>
 </resources>

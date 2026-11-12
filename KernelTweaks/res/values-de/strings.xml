@@ -405,4 +405,7 @@
     <string name="kt_no_radios">Funkmodule beim Start deaktivieren</string>
     <string name="kt_no_radios_what">Ein verhindert nach einem Neustart das Laden von WLAN- und Bluetooth-Treibern, auch für USB-Adapter. Standard ist Aus.</string>
     <string name="kt_no_radios_why">Damit bleiben Funkmodule ungenutzt oder ein gemeinsamer USB-Anschluss frei. WLAN und Bluetooth sind dann nicht verfügbar. Änderungen erfordern einen Neustart.</string>
+    <string name="kt_app_compile">Apps beim Aufladen beschleunigen</string>
+    <string name="kt_app_compile_what">Wenn die Konsole ungenutzt am Ladegerät hängt, bereitet sie deine Apps vor, damit sie schneller öffnen. Das dauert ein paar Minuten, ungefähr einmal am Tag.</string>
+    <string name="kt_app_compile_why">Apps öffnen sich bis zu einem Drittel schneller. Deaktiviere die Option, wenn die Konsole am Ladegerät beschäftigt oder warm wird.</string>
 </resources>

@@ -64,6 +64,7 @@
     <string name="continue_category">Weiterspielen</string>
     <string name="continue_now">Fortsetzen: <xliff:g id="game">%1$s</xliff:g></string>
     <string name="continue_now_none">Noch kein Spiel gespielt</string>
+    <string name="continue_now_retroarch">RetroArch, <xliff:g id="core">%1$s</xliff:g></string>
     <string name="continue_now_ppsspp">PPSSPP</string>
     <string name="continue_now_app">Android-Spiel</string>
     <string name="continue_on_boot">Nach einem Neustart wieder öffnen</string>

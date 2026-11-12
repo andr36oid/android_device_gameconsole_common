@@ -103,4 +103,66 @@
     <string name="subsystem_update_warning_title">Jangan pernah memperbarui dArkOSen dari dalamnya</string>
     <string name="subsystem_update_warning_body">dArkOSen berjalan sebagai sistem tamu di atas andr36oid, bukan pada perangkat kerasnya sendiri. Pembaru bawaan dan skrip pemutakhirannya menganggap bahwa keduanya memiliki kendali atas seluruh perangkat, sehingga tidak aman digunakan di sini. Jika Anda menjalankannya dari dalam dArkOSen, keduanya akan menulis ke lokasi yang salah dan dapat merusak instalasi dArkOSen, atau bahkan merusak sistem Android Anda sehingga konsol tidak dapat melakukan boot.\n\nJangan gunakan opsi Perbarui, Tingkatkan, atau pembaruan online apa pun di dalam dArkOSen, EmulationStation, atau PortMaster.\n\nUntuk memperbarui dArkOSen dengan aman, keluar ke Android, matikan perangkat, lalu ganti file .img dArkOSen pada partisi penyimpanan dengan versi baru. Itulah satu-satunya cara memperbarui yang didukung.</string>
     <string name="subsystem_update_warning_ack">Saya mengerti dan tidak akan memperbarui dArkOSen dari dalamnya.</string>
+    <string name="rel_title">Versi dArkOSen</string>
+    <string name="rel_note">Dapatkan dArkOSen atau versi yang lebih baru melalui Wi-Fi</string>
+    <string name="rel_get">Unduh dArkOSen</string>
+    <string name="rel_get_note">Tidak perlu image: konsol akan mengambilnya melalui Wi-Fi</string>
+    <string name="rel_none">dArkOSen belum terpasang</string>
+    <string name="rel_installed">Terpasang: %1$s</string>
+    <string name="rel_own">Terpasang: image Anda sendiri</string>
+    <string name="rel_name_revision">%1$s (revisi %2$d)</string>
+    <string name="rel_on_partition">Disimpan di bagian tersendiri pada kartu sistem</string>
+    <string name="rel_on_card">Disimpan sebagai file di kartu game</string>
+    <string name="rel_has_partition">Akan ditempatkan di bagian tersendiri pada kartu sistem</string>
+    <string name="rel_no_partition">Akan disimpan sebagai file di kartu game</string>
+    <string name="rel_check">Periksa versi yang lebih baru</string>
+    <string name="rel_checking">Memeriksa…</string>
+    <string name="rel_offline">Tidak ada koneksi internet. Sambungkan ke Wi-Fi lalu coba lagi.</string>
+    <string name="rel_server">Server unduhan tidak menjawab. Coba lagi nanti.</string>
+    <string name="rel_nothing">Belum ada versi yang tersedia</string>
+    <string name="rel_newest">Anda memiliki versi terbaru</string>
+    <string name="rel_own_kept">Image Anda sendiri sedang digunakan dan tidak akan diganti.</string>
+    <string name="rel_available">%1$s tersedia, %2$s untuk diunduh</string>
+    <string name="rel_install">Pasang</string>
+    <string name="rel_update">Perbarui</string>
+    <string name="rel_install_note">Game dan simpanan Anda tetap ada</string>
+    <string name="rel_keep">Pembaruan mengganti dArkOSen saja. Game, simpanan, dan setelan di kartu game tetap ada.</string>
+    <string name="rel_confirm_title">Pasang dArkOSen %1$s?</string>
+    <string name="rel_confirm">Unduhan berukuran %1$s. Kartu game memerlukan ruang kosong %2$s selama proses berlangsung.
+
+%3$s
+
+Proses ini memerlukan waktu. Biarkan konsol menyala dan dekat dengan Wi-Fi.</string>
+    <string name="rel_to_partition">dArkOSen ditulis ke bagian tersendiri pada kartu sistem.</string>
+    <string name="rel_to_card">dArkOSen disimpan sebagai file di kartu game.</string>
+    <string name="rel_working">Memasang dArkOSen %1$s</string>
+    <string name="rel_step_download">Mengunduh</string>
+    <string name="rel_step_check">Memeriksa dan mengekstrak</string>
+    <string name="rel_step_write">Menulis</string>
+    <string name="rel_step_finish">Menyelesaikan</string>
+    <string name="rel_bytes">%1$s dari %2$s</string>
+    <string name="rel_stay_on">Konsol tetap menyala sampai selesai. Anda dapat menghentikannya sebelum penulisan dimulai.</string>
+    <string name="rel_no_power_off">Jangan matikan konsol sekarang.</string>
+    <string name="rel_cancel">Hentikan</string>
+    <string name="rel_continue">Lanjutkan</string>
+    <string name="rel_cancel_confirm">Hentikan pemasangan? Data yang sudah diunduh akan disimpan untuk percobaan berikutnya.</string>
+    <string name="rel_done">Selesai</string>
+    <string name="rel_result_ok">dArkOSen %1$s terpasang</string>
+    <string name="rel_result_failed">dArkOSen %1$s tidak terpasang</string>
+    <string name="rel_ok">Semuanya siap dimainkan.</string>
+    <string name="rel_ok_card">Semuanya siap dimainkan. Versi ini tidak muat di bagiannya pada kartu sistem, jadi disimpan sebagai file di kartu game.</string>
+    <string name="rel_e_battery">Baterai di bawah 30%. Sambungkan pengisi daya lalu coba lagi.</string>
+    <string name="rel_e_download">File yang diunduh rusak atau hilang. Coba lagi; hanya file yang hilang yang akan diunduh.</string>
+    <string name="rel_e_space">Ruang kosong di kartu game tidak cukup.</string>
+    <string name="rel_e_card">Kartu game tidak ada atau tidak dapat ditulisi.</string>
+    <string name="rel_e_system">Versi ini memerlukan andr36oid yang lebih baru. Perbarui sistem terlebih dahulu.</string>
+    <string name="rel_e_busy">dArkOSen sedang digunakan atau tugas lain sedang berjalan. Coba lagi setelah selesai.</string>
+    <string name="rel_e_stopped">Pemasangan dihentikan. Versi sebelumnya masih tersedia.</string>
+    <string name="rel_e_power">Konsol tidak dapat terus menyala, jadi tidak ada yang diubah.</string>
+    <string name="rel_e_exists">File dengan nama yang sama sudah ada di kartu game. Pindahkan atau ganti namanya lalu coba lagi.</string>
+    <string name="rel_e_setup">Versi baru tidak dimulai dengan benar. Versi sebelumnya dipulihkan.</string>
+    <string name="rel_e_partition">Bagian dArkOSen pada kartu sistem tidak dapat digunakan. Versi baru tetap sebagai file di kartu game.</string>
+    <string name="rel_e_other">Terjadi kesalahan. Detailnya ada di log.</string>
+    <string name="ss_prestage_title">Menyiapkan subsistem</string>
+    <string name="ss_prestage_summary">Memulai game dan port lebih cepat. Menggunakan sebagian memori Android saat Anda tidak bermain.</string>
 </resources>

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="no_subsystem">dArkOSen サブシステムがインストールされていません。まず subsystem/darkosen/ に dArkOSen イメージを配置してください。</string>
+</resources>

@@ -404,4 +404,7 @@
     <string name="kt_no_radios">启动时禁用无线设备</string>
     <string name="kt_no_radios_what">开启后，重启时不加载 Wi-Fi 和蓝牙驱动，包括 USB 适配器。默认关闭。</string>
     <string name="kt_no_radios_why">用于不使用无线设备或释放共享 USB 接口。开启期间无法使用 Wi-Fi 和蓝牙。更改后需要重启。</string>
+    <string name="kt_app_compile">充电时加快应用速度</string>
+    <string name="kt_app_compile_what">主机连接充电器且处于空闲状态时，会准备你使用的应用，让它们打开得更快。此过程需要几分钟，大约每天进行一次。</string>
+    <string name="kt_app_compile_why">应用打开速度最多可提升三分之一。如果主机充电时变得繁忙或发热，请关闭此选项。</string>
 </resources>

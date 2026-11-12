@@ -407,4 +407,7 @@
     <string name="kt_no_radios">Wyłącz moduły radiowe przy starcie</string>
     <string name="kt_no_radios_what">Włączone blokuje ładowanie sterowników Wi-Fi i Bluetooth po ponownym uruchomieniu, także dla adapterów USB. Domyślnie wyłączone.</string>
     <string name="kt_no_radios_why">Pozwala nie używać modułów radiowych lub zwolnić współdzielony port USB. Gdy opcja jest włączona, Wi-Fi i Bluetooth są niedostępne. Zmiana wymaga ponownego uruchomienia.</string>
+    <string name="kt_app_compile">Przyspiesz aplikacje podczas ładowania</string>
+    <string name="kt_app_compile_what">Gdy konsola jest bezczynna i podłączona do ładowarki, przygotowuje używane aplikacje, aby otwierały się szybciej. Trwa to kilka minut, mniej więcej raz dziennie.</string>
+    <string name="kt_app_compile_why">Aplikacje otwierają się nawet o jedną trzecią szybciej. Wyłącz, jeśli konsola przy ładowarce jest zajęta lub robi się ciepła.</string>
 </resources>

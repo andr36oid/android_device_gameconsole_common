@@ -103,4 +103,66 @@
     <string name="subsystem_update_warning_title">dArkOSen 内からは絶対に更新しないでください</string>
     <string name="subsystem_update_warning_body">dArkOSen は独自のハードウェア上ではなく、andr36oid 上でゲストとして動作しています。内蔵の更新機能やアップグレード用スクリプトは、デバイス全体を自分で管理できることを前提としているため、ここでは安全に使用できません。dArkOSen 内から実行すると、誤った場所に書き込みを行い、dArkOSen のインストールを破壊したり、Android システムまで破損させて、コンソールが起動できなくなったりするおそれがあります。\n\ndArkOSen、EmulationStation、PortMaster 内の「更新」「アップグレード」「オンライン更新」などのオプションは使用しないでください。\n\ndArkOSen を安全に更新するには、Android に戻り、電源を切ってから、ストレージパーティション上の dArkOSen の .img ファイルを新しいバージョンに置き換えてください。これがサポートされている唯一の更新方法です。</string>
     <string name="subsystem_update_warning_ack">理解しました。dArkOSen 内からは更新しません。</string>
+    <string name="rel_title">dArkOSen のバージョン</string>
+    <string name="rel_note">Wi-Fi 経由で dArkOSen または新しいバージョンを入手</string>
+    <string name="rel_get">dArkOSen をダウンロード</string>
+    <string name="rel_get_note">イメージは不要です。コンソールが Wi-Fi 経由で取得します</string>
+    <string name="rel_none">dArkOSen はインストールされていません</string>
+    <string name="rel_installed">インストール済み: %1$s</string>
+    <string name="rel_own">インストール済み: 自分のイメージ</string>
+    <string name="rel_name_revision">%1$s（リビジョン %2$d）</string>
+    <string name="rel_on_partition">システムカードの専用領域に保存</string>
+    <string name="rel_on_card">ゲームカードにファイルとして保存</string>
+    <string name="rel_has_partition">システムカードの専用領域に配置されます</string>
+    <string name="rel_no_partition">ゲームカードにファイルとして保存されます</string>
+    <string name="rel_check">新しいバージョンを確認</string>
+    <string name="rel_checking">確認中…</string>
+    <string name="rel_offline">インターネットに接続されていません。Wi-Fi に接続してもう一度お試しください。</string>
+    <string name="rel_server">ダウンロードサーバーから応答がありません。しばらくしてからもう一度お試しください。</string>
+    <string name="rel_nothing">利用できるバージョンはまだありません</string>
+    <string name="rel_newest">最新バージョンを使用しています</string>
+    <string name="rel_own_kept">自分のイメージを使用中です。置き換えられません。</string>
+    <string name="rel_available">%1$s を利用できます。ダウンロードには %2$s 必要です</string>
+    <string name="rel_install">インストール</string>
+    <string name="rel_update">更新</string>
+    <string name="rel_install_note">ゲームとセーブデータは保持されます</string>
+    <string name="rel_keep">更新されるのは dArkOSen 自体です。ゲームカード上のゲーム、セーブデータ、設定は保持されます。</string>
+    <string name="rel_confirm_title">dArkOSen %1$s をインストールしますか？</string>
+    <string name="rel_confirm">ダウンロード容量は %1$s です。実行中はゲームカードに %2$s の空き容量が必要です。
+
+%3$s
+
+しばらくかかります。コンソールを電源オンのまま Wi-Fi の近くに置いてください。</string>
+    <string name="rel_to_partition">dArkOSen はシステムカードの専用領域に書き込まれます。</string>
+    <string name="rel_to_card">dArkOSen はゲームカードにファイルとして保存されます。</string>
+    <string name="rel_working">dArkOSen %1$s をインストール中</string>
+    <string name="rel_step_download">ダウンロード中</string>
+    <string name="rel_step_check">確認と展開中</string>
+    <string name="rel_step_write">書き込み中</string>
+    <string name="rel_step_finish">仕上げ中</string>
+    <string name="rel_bytes">%1$s / %2$s</string>
+    <string name="rel_stay_on">完了するまでコンソールはスリープしません。書き込み開始前なら停止できます。</string>
+    <string name="rel_no_power_off">今はコンソールの電源を切らないでください。</string>
+    <string name="rel_cancel">停止</string>
+    <string name="rel_continue">続行</string>
+    <string name="rel_cancel_confirm">インストールを停止しますか？ダウンロード済みの内容は次回のために保持されます。</string>
+    <string name="rel_done">完了</string>
+    <string name="rel_result_ok">dArkOSen %1$s がインストールされました</string>
+    <string name="rel_result_failed">dArkOSen %1$s はインストールされませんでした</string>
+    <string name="rel_ok">プレイする準備ができました。</string>
+    <string name="rel_ok_card">プレイする準備ができました。このバージョンはシステムカードの専用領域に収まらないため、ゲームカードにファイルとして保存されています。</string>
+    <string name="rel_e_battery">バッテリー残量が 30% 未満です。充電器を接続してもう一度お試しください。</string>
+    <string name="rel_e_download">ダウンロードしたファイルが破損しているか見つかりません。もう一度お試しください。不足しているファイルだけが取得されます。</string>
+    <string name="rel_e_space">ゲームカードの空き容量が不足しています。</string>
+    <string name="rel_e_card">ゲームカードがないか、書き込めません。</string>
+    <string name="rel_e_system">このバージョンには新しい andr36oid が必要です。先にシステムを更新してください。</string>
+    <string name="rel_e_busy">dArkOSen が使用中か、別の処理が実行中です。完了してからもう一度お試しください。</string>
+    <string name="rel_e_stopped">インストールを停止しました。以前のバージョンはそのままです。</string>
+    <string name="rel_e_power">コンソールをスリープさせないようにできなかったため、変更はありません。</string>
+    <string name="rel_e_exists">同名のファイルがゲームカードにすでにあります。移動または名前を変更してから、もう一度お試しください。</string>
+    <string name="rel_e_setup">新しいバージョンを正しく起動できませんでした。以前のバージョンに戻しました。</string>
+    <string name="rel_e_partition">システムカードの dArkOSen 領域を使用できません。新しいバージョンはゲームカード上のファイルとして残ります。</string>
+    <string name="rel_e_other">問題が発生しました。詳しくはログを確認してください。</string>
+    <string name="ss_prestage_title">サブシステムを準備しておく</string>
+    <string name="ss_prestage_summary">ゲームとポートを速く起動します。プレイしていない間も Android のメモリを一部使用します。</string>
 </resources>

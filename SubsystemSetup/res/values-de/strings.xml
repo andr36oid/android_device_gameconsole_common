@@ -105,4 +105,64 @@
     <string name="subsystem_update_warning_ack">Ich verstehe es und werde dArkOSen nicht von innen heraus aktualisieren.</string>
     <string name="ss_prestage_title">Subsystem bereithalten</string>
     <string name="ss_prestage_summary">Startet Spiele und Ports schneller. Verwendet etwas Android-Arbeitsspeicher, während du nicht spielst.</string>
+    <string name="rel_title">dArkOSen-Version</string>
+    <string name="rel_note">dArkOSen oder eine neuere Version per WLAN beziehen</string>
+    <string name="rel_get">dArkOSen herunterladen</string>
+    <string name="rel_get_note">Kein Image nötig: Die Konsole lädt es per WLAN</string>
+    <string name="rel_none">dArkOSen ist nicht installiert</string>
+    <string name="rel_installed">Installiert: %1$s</string>
+    <string name="rel_own">Installiert: dein eigenes Image</string>
+    <string name="rel_name_revision">%1$s (Revision %2$d)</string>
+    <string name="rel_on_partition">Auf einem eigenen Teil der Systemkarte gespeichert</string>
+    <string name="rel_on_card">Als Datei auf der Spielekarte gespeichert</string>
+    <string name="rel_has_partition">Es wird auf einem eigenen Teil der Systemkarte abgelegt</string>
+    <string name="rel_no_partition">Es wird als Datei auf der Spielekarte gespeichert</string>
+    <string name="rel_check">Nach einer neueren Version suchen</string>
+    <string name="rel_checking">Wird geprüft…</string>
+    <string name="rel_offline">Keine Internetverbindung. Verbinde dich mit WLAN und versuche es erneut.</string>
+    <string name="rel_server">Der Downloadserver hat nicht geantwortet. Versuche es später erneut.</string>
+    <string name="rel_nothing">Noch keine Version verfügbar</string>
+    <string name="rel_newest">Du hast die neueste Version</string>
+    <string name="rel_own_kept">Dein eigenes Image wird verwendet und nicht ersetzt.</string>
+    <string name="rel_available">%1$s ist verfügbar, %2$s zum Herunterladen</string>
+    <string name="rel_install">Installieren</string>
+    <string name="rel_update">Aktualisieren</string>
+    <string name="rel_install_note">Deine Spiele und Spielstände bleiben erhalten</string>
+    <string name="rel_keep">Das Aktualisieren ersetzt nur dArkOSen selbst. Spiele, Spielstände und Einstellungen auf der Spielekarte bleiben erhalten.</string>
+    <string name="rel_confirm_title">dArkOSen %1$s installieren?</string>
+    <string name="rel_confirm">Der Download ist %1$s groß. Währenddessen braucht die Spielekarte %2$s freien Speicher.
+
+%3$s
+
+Das dauert eine Weile. Lass die Konsole eingeschaltet und in der Nähe deines WLANs.</string>
+    <string name="rel_to_partition">dArkOSen wird auf den eigenen Teil der Systemkarte geschrieben.</string>
+    <string name="rel_to_card">dArkOSen wird als Datei auf der Spielekarte gespeichert.</string>
+    <string name="rel_working">dArkOSen %1$s wird installiert</string>
+    <string name="rel_step_download">Wird heruntergeladen</string>
+    <string name="rel_step_check">Wird geprüft und entpackt</string>
+    <string name="rel_step_write">Wird geschrieben</string>
+    <string name="rel_step_finish">Wird abgeschlossen</string>
+    <string name="rel_bytes">%1$s von %2$s</string>
+    <string name="rel_stay_on">Die Konsole bleibt eingeschaltet, bis der Vorgang abgeschlossen ist. Du kannst ihn bis zum Schreiben anhalten.</string>
+    <string name="rel_no_power_off">Schalte die Konsole jetzt nicht aus.</string>
+    <string name="rel_cancel">Anhalten</string>
+    <string name="rel_continue">Fortfahren</string>
+    <string name="rel_cancel_confirm">Installation anhalten? Bereits heruntergeladene Daten bleiben für den nächsten Versuch erhalten.</string>
+    <string name="rel_done">Fertig</string>
+    <string name="rel_result_ok">dArkOSen %1$s ist installiert</string>
+    <string name="rel_result_failed">dArkOSen %1$s wurde nicht installiert</string>
+    <string name="rel_ok">Alles ist zum Spielen bereit.</string>
+    <string name="rel_ok_card">Alles ist zum Spielen bereit. Diese Version passte nicht auf ihren Teil der Systemkarte und wird deshalb als Datei auf der Spielekarte gespeichert.</string>
+    <string name="rel_e_battery">Der Akkustand liegt unter 30 %. Schließe das Ladegerät an und versuche es erneut.</string>
+    <string name="rel_e_download">Eine heruntergeladene Datei ist beschädigt oder fehlt. Versuche es erneut; nur fehlende Dateien werden geladen.</string>
+    <string name="rel_e_space">Auf der Spielekarte ist nicht genug freier Speicher vorhanden.</string>
+    <string name="rel_e_card">Die Spielekarte fehlt oder kann nicht beschrieben werden.</string>
+    <string name="rel_e_system">Diese Version benötigt ein neueres andr36oid. Aktualisiere zuerst das System.</string>
+    <string name="rel_e_busy">dArkOSen wird verwendet oder ein anderer Vorgang läuft. Versuche es erneut, wenn er abgeschlossen ist.</string>
+    <string name="rel_e_stopped">Die Installation wurde angehalten. Deine bisherige Version ist weiterhin vorhanden.</string>
+    <string name="rel_e_power">Die Konsole konnte nicht eingeschaltet bleiben, daher wurde nichts geändert.</string>
+    <string name="rel_e_exists">Eine Datei mit demselben Namen befindet sich bereits auf der Spielekarte. Verschiebe oder benenne sie um und versuche es erneut.</string>
+    <string name="rel_e_setup">Die neue Version ist nicht richtig gestartet. Deine bisherige Version wurde wiederhergestellt.</string>
+    <string name="rel_e_partition">Der dArkOSen-Teil der Systemkarte kann nicht verwendet werden. Die neue Version bleibt als Datei auf der Spielekarte.</string>
+    <string name="rel_e_other">Etwas ist schiefgelaufen. Im Protokoll stehen die Details.</string>
 </resources>
