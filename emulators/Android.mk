@@ -21,7 +21,7 @@ LOCAL_CHECK_ELF_FILES := false
 LOCAL_INIT_RC := seed/gameconsole-emu.rc
 LOCAL_REQUIRED_MODULES := gameconsole-preinstall-yml-RetroArch gameconsole-preinstall-yml-PPSSPP gameconsole-rom-folders \
     gameconsole-daijishou-seed gameconsole-daijishou-schema \
-    gameconsole-daijishou-widget-schema
+    gameconsole-daijishou-widget-schema gameconsole-platform-watch
 include $(BUILD_PREBUILT)
 
 # ROM folders the service makes on a fresh EASYROMS partition

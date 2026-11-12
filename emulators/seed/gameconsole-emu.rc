@@ -29,6 +29,9 @@ on property:sys.boot_completed=1
 
 # File notifications enqueue the same serialized worker used for setup. A
 # property/manual trigger also works when notifications are unavailable.
+# The existing entry point execs the small native dispatcher when available;
+# persist.andr36oid.ram.native_platform_watch=0 retains the original Go loop.
+# Keep this service's original executable/security admission and worker wiring.
 service gameconsole-platform-watch /system/bin/gameconsole-setup watch-platforms
     class main
     user root

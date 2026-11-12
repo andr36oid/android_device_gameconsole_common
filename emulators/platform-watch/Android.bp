@@ -1,0 +1,7 @@
+cc_binary {
+    name: "gameconsole-platform-watch",
+    srcs: ["platform-watch.c"],
+    cflags: ["-Wall", "-Wextra", "-Werror"],
+    shared_libs: ["libcutils"],
+    stl: "none",
+}

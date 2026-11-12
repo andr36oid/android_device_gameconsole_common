@@ -42,7 +42,19 @@ func main() {
 	s := setup.New()
 	job := os.Args[1]
 	switch job {
+	case "watch-config":
+		if err := s.NativeWatchConfig(os.Stdout); err != nil {
+			fmt.Fprintln(os.Stderr, err)
+			os.Exit(1)
+		}
+		return
 	case "watch-platforms":
+		if nativeWatcherEnabled(s.Props.Get, os.Getenv("A36_PLATFORM_WATCH_LEGACY")) {
+			const native = "/system/bin/gameconsole-platform-watch"
+			if err := syscall.Exec(native, []string{native}, os.Environ()); err != nil {
+				s.Log("native ROM watcher unavailable; using Go: %v", err)
+			}
+		}
 		ctx, cancel := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 		defer cancel()
 		executable, err := os.Executable()
@@ -94,6 +106,10 @@ func main() {
 		s.Log("setup worker: %v", err)
 		os.Exit(1)
 	}
+}
+
+func nativeWatcherEnabled(get func(string) string, legacy string) bool {
+	return legacy != "1" && get("persist.andr36oid.ram.native_platform_watch") != "0"
 }
 
 // Work runs every requested job, the main one first, until none is left. Between long
