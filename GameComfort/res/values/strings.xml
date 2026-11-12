@@ -68,6 +68,8 @@
     <string name="continue_category">Continue playing</string>
     <string name="continue_now">Continue: <xliff:g id="game">%1$s</xliff:g></string>
     <string name="continue_now_none">No game played yet</string>
+    <!-- Continue playing summary. Keep RetroArch as the app name; core is the emulator core name. [CHAR LIMIT=NONE] -->
+    <string name="continue_now_retroarch">RetroArch, <xliff:g id="core">%1$s</xliff:g></string>
     <string name="continue_now_ppsspp">PPSSPP</string>
     <string name="continue_now_app">Android game</string>
     <string name="continue_on_boot">Open it again after a restart</string>

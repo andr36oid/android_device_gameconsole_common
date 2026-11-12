@@ -84,7 +84,7 @@ public class GameModeFragment extends PreferenceFragment
         mContinueNow.setTitle(getString(R.string.continue_now, target.label));
         switch (target.kind) {
             case Target.RETROARCH:
-                mContinueNow.setSummary("RetroArch, " + target.coreName);
+                mContinueNow.setSummary(getString(R.string.continue_now_retroarch, target.coreName));
                 break;
             case Target.PPSSPP:
                 mContinueNow.setSummary(R.string.continue_now_ppsspp);
