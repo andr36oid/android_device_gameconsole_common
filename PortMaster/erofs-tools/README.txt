@@ -47,6 +47,43 @@ Support utility protocol (nonzero exit on invalid input or I/O failure):
   namespace PROGRAM ARGS...    private mount namespace + private propagation
   child PROGRAM ARGS...        parent-death SIGKILL before exec; stops orphan tools
 
+Release/update additions (broker owns global storage/operation/BOOT locks):
+  namespace-return 6 PROGRAM... restore the saved Android mount namespace,
+                              close the ticket, preserve flock descriptors7/9
+  wake-hold JOB POWERDIR MS    renew a60s hold every1..15000ms; parent-death-bound
+  release-manifest IMAGE UUID BUILD OUTPUT
+                              pin minimal release JSON from a completed file
+  partition-plan IMAGE UUID DISK PART SYS BUILD MANIFEST
+                              pin release + same-card DARKOS geometry; fits=0
+                              is a file fallback, never a target write
+  partition-target DISK PART SYS
+                              fresh GUID/family/first/capacity identity
+  partition-hold MANIFEST DISK PART SYS CACHE
+                              durable updating guard before any target write
+  partition-copy MANIFEST IMAGE UUID DISK PART SYS CACHE PROGRESS
+                              full source prehash, bounded copy/hash, target
+                              fsync/cache invalidation/full re-read SHA + cache
+  partition-recheck MANIFEST DISK PART SYS CACHE BUILD PROGRESS
+                              full target SHA for committed crash recovery
+  partition-publish MANIFEST DISK PART SYS CACHE BOOT_MOUNT
+                              verified cache + guard required; atomic BOOT JSON
+  partition-activate MANIFEST DISK PART SYS CACHE
+                              remove guard AFTER caller commits selection
+  release-remove-image MANIFEST IMAGE UUID RECORD_SHA
+                              full image+record validation before exact cleanup;
+                              image-gone/record-only cleanup is idempotent
+  release-backup-info IMAGE META UUID ORIGINAL_NAME GENERATION RECORD_SHA
+                              validate a hidden rollback pair, return fresh IDs
+  release-partial-info REQUEST JOB PARTIAL
+                              identify a fully written transaction partial by SHA
+
+The production helper accepts only the explicit boot-card DARKOS block node
+after GPT/sysfs identity and geometry checks. A36_PARTITION_FIXTURE permits sparse
+regular fixtures only in host-test binaries; it is never in the shipped build.
+Guarded partitions are ineligible even with an unchanged EROFS UUID or old cache.
+The broker keeps the verified source file until BOOT publication, durable
+selection and any required SETUP/resident-stage lifecycle have completed.
+
 Job IDs are exactly 16 lowercase hexadecimal characters.
 Record version 1 has exactly 13 unique keys: version, job, source_name_hex,
 source_id, generation, offset, sectors, source_size, card_uuid, tool, options,

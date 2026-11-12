@@ -30,6 +30,9 @@ publish_setup_complete() {
   publish ready 1
   setprop persist.andr36oid.subsystem.booted 1
   update_settings_entry org.andr36oid.subsystemsetup
+  # Join the native setup worker, never wait on its queue while holding the
+  # broker operation lock. The firstboot gate revalidates durable readiness.
+  if command -v gameconsole-setup >/dev/null; then gameconsole-setup firstboot >/dev/null 2>&1 7>&- 9>&- & fi
 }
 select_image() {
   local selected oldfamily="" newfamily family keep

@@ -232,7 +232,7 @@ mount_generic_rootfs() {
     LOOPDEV=$(losetup -f) || return 1
     record_session_loop "$(stat -c %d "$IMAGE")" "$(stat -c %i "$IMAGE")" "$off" || return 1
     # No -S: this device's toybox truncates large sizelimits to 32 bits.
-    if losetup -r -o "$off" "$LOOPDEV" "$IMAGE"; then
+    if loop_attach_ro "$LOOPDEV" "$IMAGE" "$off"; then
       local loop_check dev_check ino_check off_check
       read -r loop_check dev_check ino_check off_check < "$STATE/session.loop" || return 1
       "$SUPPORT" loop-owned "$LOOPDEV" "$dev_check" "$ino_check" "$off_check" || return 1
@@ -423,8 +423,10 @@ provision_darkos() {
   # settings screen (a bare launch, or a boot straight into the subsystem): bring
   # the progress UI to the front so a new user is not left on a blank screen.
   # Best effort - provisioning still runs without it.
-  /system/bin/am start -n org.andr36oid.subsystemsetup/.SubsystemSetupActivity \
-    --activity-single-top >/dev/null 2>&1 || true
+  if [ "${SOURCE_TRANSPORT:-file}" != partition ] || [ "${cmd:-}" != setup ]; then
+    /system/bin/am start -n org.andr36oid.subsystemsetup/.SubsystemSetupActivity \
+      --activity-single-top >/dev/null 2>&1 || true
+  fi
   log "Setting up dArkOSen... merging /roms.tar into $ROMS_SOURCE"
   "$GUEST" "$ROOT" generic quiet -- /usr/bin/setpriv --reuid=1023 --regid=1023 --clear-groups /bin/sh -c '
     PATH=/usr/bin:/bin; export PATH
@@ -2765,14 +2767,52 @@ mark_frontend_booted() {
 
 # shellcheck source=andr36oid-images.sh
 . "${A36_IMAGES_LIB:-/system/etc/andr36oid-images.sh}"
+# shellcheck source=andr36oid-release.sh
+. "${A36_RELEASE_LIB:-/system/etc/andr36oid-release.sh}"
+# shellcheck source=andr36oid-prepared.sh
+. "${A36_PREPARED_LIB:-/system/etc/andr36oid-prepared.sh}"
 # shellcheck source=andr36oid-guest.sh
 . "${A36_GUEST_LIB:-/system/etc/andr36oid-guest.sh}"
+# shellcheck source=andr36oid-update.sh
+. "${A36_UPDATE_LIB:-/system/etc/andr36oid-update.sh}"
 
 cmd=${1:-start}; arg=${2:-}
 case "$cmd" in
   select-prop)
     publish request ""
     select_image || { publish select_error failed; operation_done failed; exit 1; }; exit 0 ;;
+  install-release-prop)
+    job=$(prop rel_dispatch_job); request=$(prop rel_dispatch_request)
+    valid_job "$job" || exit 2
+    case "$request" in ''|.*|*[!a-zA-Z0-9_.+-]*) exit 2;; esac
+    acquire_operation install-release "$job" || {
+      publish rel_job "$job"; publish rel_error busy; publish rel_state failed
+      publish rel_done_job "$job"; operation_done busy; exit 1
+    }
+    export A36_REL_LOCKED=1
+    trap 'release_operation' EXIT
+    exec "$SUPPORT" namespace /system/bin/sh "$0" install-release-worker "$job" "$request" 6<&6 7>&7 9>&9 ;;
+  install-release-worker) install_release_worker "$arg" "${3:-}"; exit 0 ;;
+  apply-release-partition-prop)
+    job=$(prop rel_dispatch_job); pinned=$(prop rel_dispatch_source)
+    valid_job "$job" && valid_id "$pinned" || exit 2
+    acquire_operation apply-release-to-partition "$job" || {
+      publish rel_job "$job"; publish rel_error busy; publish rel_state failed
+      publish rel_done_job "$job"; operation_done busy; exit 1
+    }
+    trap 'release_operation' EXIT
+    exec "$SUPPORT" namespace /system/bin/sh "$0" apply-release-partition-worker "$job" "$pinned" 6<&6 7>&7 9>&9 ;;
+  apply-release-partition-worker) apply_release_partition_worker "$arg" "${3:-}"; exit 0 ;;
+  partition-finalize)
+    [ "${A36_RELEASE_RETURNED:-0}" = 1 ] || exit 2
+    case "$arg" in ''|*[!0-9]*) exit 2;; esac
+    [ "${#arg}" -le 3 ] && [ "$arg" -le 255 ] || exit 2
+    partition_shared_finish "$arg"; exit $? ;;
+  release-finalize)
+    [ "${A36_RELEASE_RETURNED:-0}" = 1 ] || exit 2
+    case "$arg" in ''|*[!0-9]*) exit 2;; esac
+    [ "${#arg}" -le 3 ] && [ "$arg" -le 255 ] || exit 2
+    release_shared_finish "$arg"; exit $? ;;
   optimize-prop)
     job=$(prop opt_dispatch_job); pinned=$(prop opt_dispatch_source)
     valid_job "$job" && valid_id "$pinned" || exit 2
@@ -2781,7 +2821,7 @@ case "$cmd" in
     acquire_operation optimize || { publish opt_reject_error busy; publish opt_reject_job "$job"; operation_done busy; exit 1; }
     export A36_OPT_LOCKED=1
     trap 'release_operation' EXIT
-    exec "$SUPPORT" namespace /system/bin/sh "$0" optimize-worker "$job" "$pinned" ;;
+    exec "$SUPPORT" namespace /system/bin/sh "$0" optimize-worker "$job" "$pinned" 7>&7 9>&9 ;;
   optimize-worker) optimize_worker "$arg" "${3:-}"; exit 0 ;;
   unpack-prop)
     job=$(prop unp_dispatch_job); src=$(prop unp_dispatch_source)

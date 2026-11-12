@@ -125,3 +125,32 @@ service andr36oid-subsystem-shutdown /system/bin/sh /system/etc/andr36oid-subsys
 
 on shutdown
     exec_start andr36oid-subsystem-shutdown
+
+# Verify/decompress a downloaded EROFS release without handing off Android.
+service andr36oid-subsystem-release /system/bin/sh /system/etc/andr36oid-subsystem.sh install-release-prop
+    class late_start
+    user root
+    group root system mount
+    seclabel u:r:shell:s0
+    disabled
+    oneshot
+
+on property:sys.andr36oid.subsystem.request=install-release
+    setprop sys.andr36oid.subsystem.rel_dispatch_job ${sys.andr36oid.subsystem.rel_request_job:-invalid}
+    setprop sys.andr36oid.subsystem.rel_dispatch_request ${sys.andr36oid.subsystem.rel_request:-invalid}
+    setprop sys.andr36oid.subsystem.request ""
+    start andr36oid-subsystem-release
+
+service andr36oid-subsystem-partition-update /system/bin/sh /system/etc/andr36oid-subsystem.sh apply-release-partition-prop
+    class late_start
+    user root
+    group root system mount
+    seclabel u:r:shell:s0
+    disabled
+    oneshot
+
+on property:sys.andr36oid.subsystem.request=apply-release-to-partition
+    setprop sys.andr36oid.subsystem.rel_dispatch_job ${sys.andr36oid.subsystem.rel_request_job:-invalid}
+    setprop sys.andr36oid.subsystem.rel_dispatch_source ${sys.andr36oid.subsystem.rel_source:-invalid}
+    setprop sys.andr36oid.subsystem.request ""
+    start andr36oid-subsystem-partition-update

@@ -8,6 +8,8 @@
 #include <inttypes.h>
 #include <limits.h>
 #include <linux/loop.h>
+#include <linux/magic.h>
+#include <linux/nsfs.h>
 #include <sched.h>
 #include <signal.h>
 #include <stdint.h>
@@ -23,7 +25,9 @@
 #include <sys/statvfs.h>
 #include <sys/syscall.h>
 #include <sys/types.h>
+#include <sys/wait.h>
 #include <sys/xattr.h>
+#include <time.h>
 #include <unistd.h>
 
 /* Wire output is bounded key=value text. Never evaluate it as shell code. */
@@ -62,26 +66,41 @@ static const uint32_t k[64] = {
     0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,
     0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2 };
 static uint32_t rr(uint32_t x, unsigned n) { return x>>n | x<<(32-n); }
-static void sha(const void *input, size_t len, char out[65]) {
-    uint32_t h[8]={0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19};
-    size_t total=(len+9+63)&~(size_t)63;
-    unsigned char *p=calloc(1,total); if (!p) die("calloc");
-    memcpy(p,input,len); p[len]=0x80;
-    for (unsigned j=0;j<8;++j) p[total-1-j]=(uint64_t)len*8>>(j*8);
-    for (size_t pos=0;pos<total;pos+=64) {
-        uint32_t w[64];
-        for (unsigned j=0;j<16;++j) { unsigned char *b=p+pos+j*4; w[j]=(uint32_t)b[0]<<24|(uint32_t)b[1]<<16|(uint32_t)b[2]<<8|b[3]; }
-        for (unsigned j=16;j<64;++j) w[j]=w[j-16]+(rr(w[j-15],7)^rr(w[j-15],18)^(w[j-15]>>3))+w[j-7]+(rr(w[j-2],17)^rr(w[j-2],19)^(w[j-2]>>10));
-        uint32_t a=h[0],b=h[1],c=h[2],d=h[3],e=h[4],f=h[5],g=h[6],v=h[7];
-        for (unsigned j=0;j<64;++j) {
-            uint32_t t=v+(rr(e,6)^rr(e,11)^rr(e,25))+((e&f)^(~e&g))+k[j]+w[j];
-            uint32_t u=(rr(a,2)^rr(a,13)^rr(a,22))+((a&b)^(a&c)^(b&c));
-            v=g;g=f;f=e;e=d+t;d=c;c=b;b=a;a=t+u;
-        }
-        h[0]+=a;h[1]+=b;h[2]+=c;h[3]+=d;h[4]+=e;h[5]+=f;h[6]+=g;h[7]+=v;
+struct sha256_state { uint32_t h[8]; uint64_t bytes; size_t used; unsigned char block[64]; };
+static void sha_init(struct sha256_state *s) {
+    static const uint32_t initial[8]={0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19};
+    memset(s,0,sizeof(*s)); memcpy(s->h,initial,sizeof(initial));
+}
+static void sha_block(struct sha256_state *s,const unsigned char *p) {
+    uint32_t w[64];
+    for (unsigned j=0;j<16;++j) { const unsigned char *b=p+j*4; w[j]=(uint32_t)b[0]<<24|(uint32_t)b[1]<<16|(uint32_t)b[2]<<8|b[3]; }
+    for (unsigned j=16;j<64;++j) w[j]=w[j-16]+(rr(w[j-15],7)^rr(w[j-15],18)^(w[j-15]>>3))+w[j-7]+(rr(w[j-2],17)^rr(w[j-2],19)^(w[j-2]>>10));
+    uint32_t a=s->h[0],b=s->h[1],c=s->h[2],d=s->h[3],e=s->h[4],f=s->h[5],g=s->h[6],v=s->h[7];
+    for (unsigned j=0;j<64;++j) {
+        uint32_t t=v+(rr(e,6)^rr(e,11)^rr(e,25))+((e&f)^(~e&g))+k[j]+w[j];
+        uint32_t u=(rr(a,2)^rr(a,13)^rr(a,22))+((a&b)^(a&c)^(b&c));
+        v=g;g=f;f=e;e=d+t;d=c;c=b;b=a;a=t+u;
     }
-    free(p);
-    for (unsigned j=0;j<8;++j) snprintf(out+j*8,9,"%08" PRIx32,h[j]);
+    s->h[0]+=a;s->h[1]+=b;s->h[2]+=c;s->h[3]+=d;s->h[4]+=e;s->h[5]+=f;s->h[6]+=g;s->h[7]+=v;
+}
+static void sha_update(struct sha256_state *s,const void *data,size_t len) {
+    const unsigned char *p=data; require(s->bytes<=UINT64_MAX-len,"sha length"); s->bytes+=len;
+    while (len) {
+        size_t n=64-s->used; if (n>len) n=len;
+        memcpy(s->block+s->used,p,n);s->used+=n;p+=n;len-=n;
+        if (s->used==64) {sha_block(s,s->block);s->used=0;}
+    }
+}
+static void sha_finish(struct sha256_state *s,char out[65]) {
+    require(s->bytes<=UINT64_MAX/8,"sha bit length"); uint64_t bits=s->bytes*8;
+    unsigned char padding[128]={0x80}; size_t n=s->used<56?56-s->used:120-s->used;
+    sha_update(s,padding,n);
+    for (unsigned j=0;j<8;++j) padding[7-j]=(unsigned char)(bits>>(j*8));
+    sha_update(s,padding,8);
+    for (unsigned j=0;j<8;++j) snprintf(out+j*8,9,"%08" PRIx32,s->h[j]);
+}
+static void sha(const void *input,size_t len,char out[65]) {
+    struct sha256_state state;sha_init(&state);sha_update(&state,input,len);sha_finish(&state,out);
 }
 static int basename_ok(const char *s) {
     size_t n=strlen(s);
@@ -144,7 +163,9 @@ static void print_probe(struct image x) {
     printf("format=%s\nsize=%" PRIu64 "\noffset=%" PRIu64 "\nsectors=%" PRIu64 "\nfs_uuid=%s\ngeneration=%s\ndevice=%" PRIu64 "\ninode=%" PRIu64 "\n",
         x.erofs?"erofs":"btrfs",(uint64_t)x.st.st_size,x.offset,x.sectors,x.uuid,x.generation,(uint64_t)x.st.st_dev,(uint64_t)x.st.st_ino);
 }
+static int release_record_if(const char *,const char *,const char *);
 static void record(const char *path, const char *uuid, const char *orphan_job) {
+    if (release_record_if(path,uuid,orphan_job)) return;
     struct image x={0};
     if (orphan_job) {
         struct stat absent;
@@ -283,8 +304,13 @@ static void list_candidates(const char *path) {
     closedir(dir); qsort(names,count,sizeof(*names),name_order);
     for (size_t i=0;i<count;++i) { puts(names[i]);free(names[i]); } free(names);
 }
+#include "andr36oid-release.h"
+#include "andr36oid-partition.h"
+#include "andr36oid-partition-update.h"
+#include "andr36oid-layout.h"
 int main(int argc,char **argv) {
     require(argc>=2,"command"); const char *cmd=argv[1];
+    if (release_command(argc,argv) || partition_command(argc,argv) || partition_update_command(argc,argv) || layout_command(argc,argv)) return 0;
     if (!strcmp(cmd,"id") && argc==4) { char out[65]; selection(argv[2],argv[3],out); puts(out); }
     else if (!strcmp(cmd,"list") && argc==3) list_candidates(argv[2]);
     else if (!strcmp(cmd,"overlay-safe") && argc==3) {
@@ -331,6 +357,14 @@ int main(int argc,char **argv) {
         if (unshare(CLONE_NEWNS) || mount(NULL,"/",NULL,MS_REC|MS_PRIVATE,NULL)) die("private mount namespace");
         if (setenv("A36_OPT_PRIVATE","1",1)) die("namespace marker");
         execv(argv[2],argv+2); die("exec namespace worker");
+    } else if (!strcmp(cmd,"namespace-return") && argc>=4) {
+        uint64_t descriptor=number(argv[2]);require(descriptor==6,"return namespace descriptor");
+        int fd=(int)descriptor;struct statfs fs;
+        require(!fstatfs(fd,&fs) && fs.f_type==NSFS_MAGIC && ioctl(fd,NS_GET_NSTYPE)==CLONE_NEWNS,"saved mount namespace");
+        if(setns(fd,CLONE_NEWNS))die("return to Android mount namespace");
+        close(fd);
+        if(unsetenv("A36_OPT_PRIVATE") || setenv("A36_RELEASE_RETURNED","1",1))die("return namespace marker");
+        execv(argv[3],argv+3);die("exec shared release finalizer");
     } else if (!strcmp(cmd,"child") && argc>=3) {
         pid_t parent=getppid(); require(parent>1,"orphan worker child");
         if (prctl(PR_SET_PDEATHSIG,SIGKILL)) die("parent-death signal");

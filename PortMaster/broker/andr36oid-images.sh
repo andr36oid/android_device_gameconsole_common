@@ -42,6 +42,10 @@ acquire_operation() {
     [ ! -d "$STATE/session.lock" ] || { exec 7>&- 9>&-; return 1; };;
   esac
   OPERATION_LOCKED=1
+  if command -v release_lifecycle_recover >/dev/null && ! release_lifecycle_recover; then release_operation; return 1; fi
+  case "$1" in install-release|apply-release-to-partition)
+    if command -v release_lifecycle_begin >/dev/null && ! release_lifecycle_begin "$1" "${2:-$(prop rel_dispatch_job)}"; then release_operation; return 1; fi ;;
+  esac
   case "$1" in run)
     if command -v prestage_blocked >/dev/null && prestage_blocked; then exec 7>&- 9>&-; OPERATION_LOCKED=0; return 1; fi ;;
     scan|recover|prestage) : ;;
@@ -51,6 +55,9 @@ acquire_operation() {
       fi ;;
   esac
   publish operation "$1"
+  if [ "$1" != install-release ] && command -v reconcile_release >/dev/null && ! reconcile_release; then
+    release_operation; return 1
+  fi
 }
 release_operation() { publish operation ""; exec 9>&- 7>&-; OPERATION_LOCKED=0; }
 operation_done() {
@@ -91,13 +98,19 @@ EOF_CARDS
 # Only canonical immediate regular files with safe names. No /storage aliases.
 candidate_probe() { "$SUPPORT" candidate "$IMAGE_DIR" "${1##*/}" 2>/dev/null; }
 completion_record() { "$SUPPORT" record "$1" "$CARD_UUID" 2>/dev/null; }
+release_version_rank() {
+  printf '%s %s\n' "$1" "$2" | awk '{printf "%s%s%s%010.0f",substr($1,5,4),substr($1,3,2),substr($1,1,2),$2}'
+}
+release_rank_newer() { awk -v a="$1" -v b="$2" 'BEGIN {exit !("x" a > "x" b)}'; }
 use_original() {
+  SOURCE_TRANSPORT=file
   SOURCE=$1; SOURCE_ID=$2; SOURCE_PROBE=$3
   GENERATION=$(field "$SOURCE_PROBE" generation); FAMILY=$SOURCE_ID
   EFFECTIVE=$SOURCE; ACTIVE_ID=$SOURCE_ID; EFFECTIVE_FORMAT=btrfs
   RESOLVE_STATE=ready_plain
 }
 use_completed() {
+  SOURCE_TRANSPORT=file
   SOURCE=$1; SOURCE_ID=$2; RECORD=$3
   FAMILY=$(field "$RECORD" source_id); GENERATION=$(field "$RECORD" generation)
   EFFECTIVE=$SOURCE; ACTIVE_ID=$SOURCE_ID; SOURCE_ID=$FAMILY; EFFECTIVE_FORMAT=erofs
@@ -106,9 +119,10 @@ use_completed() {
 # Optional argument pins optimize to the ID accepted by its request, even if the
 # Settings selection changes while init is starting the worker.
 resolve_on_card() {
+  SOURCE_TRANSPORT=file
   SOURCE=; SOURCE_ID=; SOURCE_PROBE=; EFFECTIVE=; ACTIVE_ID=; FAMILY=; GENERATION=
   RECORD=; RESOLVE_STATE=no_image; EFFECTIVE_FORMAT=; DIAGNOSTIC_DIR=0
-  local selected candidate name candidates id info format record first_original='' first_optimized='' first_info='' first_record=''
+  local selected candidate name candidates id info format record first_original='' first_optimized='' first_info='' first_record='' first_release='' release_record='' release_rank='' rank=''
   selected=${1-$(getprop "$SELECT_PROP")}
   RESOLVE_SELECTION=$selected; RESOLVE_PREFER=1
   if [ -n "$IMAGE" ]; then
@@ -174,6 +188,12 @@ resolve_on_card() {
       if [ "$format" = btrfs ]; then use_original "$candidate" "$id" "$info"; else use_completed "$candidate" "$id" "$record"; fi
       break
     fi
+    if [ "$format" = erofs ] && [ "$(field "$record" origin)" = release ]; then
+      rank=$(release_version_rank "$(field "$record" darkosen)" "$(field "$record" revision)")
+      if [ -z "$first_release" ] || release_rank_newer "$rank" "$release_rank"; then
+        first_release=$candidate; release_record=$record; release_rank=$rank
+      fi
+    fi
     if [ "$format" = btrfs ] && [ -z "$first_original" ]; then
       first_original=$candidate; first_info=$info
     elif [ "$format" = erofs ] && [ -z "$first_optimized" ]; then
@@ -183,7 +203,9 @@ resolve_on_card() {
 $candidates
 EOF_CANDIDATES
   if [ -z "$selected" ]; then
-    if [ -n "$first_original" ]; then
+    if [ -n "$first_release" ]; then
+      use_completed "$first_release" "$(selection_id "$CARD_UUID" "${first_release##*/}")" "$release_record"
+    elif [ -n "$first_original" ]; then
       use_original "$first_original" "$(selection_id "$CARD_UUID" "${first_original##*/}")" "$first_info"
     elif [ -n "$first_optimized" ]; then
       use_completed "$first_optimized" "$(selection_id "$CARD_UUID" "${first_optimized##*/}")" "$first_record"
@@ -205,19 +227,53 @@ EOF_CANDIDATES
   return 0
 }
 resolve_selected_image() {
-  local selected=${1-$(getprop "$SELECT_PROP")} dir uuid dev opts
+  local selected=${1-$(getprop "$SELECT_PROP")} dir uuid dev opts rank
+  local part_info= part_rank= fallback_dir= fallback_uuid= fallback_dev= fallback_opts= fallback_id=
+  local best_dir= best_uuid= best_dev= best_opts= best_id= best_rank=
   if [ -n "$IMAGE" ]; then resolve_on_card "$selected"; return $?; fi
+  if [ -n "$selected" ] && ! valid_id "$selected"; then RESOLVE_STATE=selected_missing; return 1; fi
+  if command -v resolve_partition >/dev/null && resolve_partition "$selected"; then
+    [ -z "$selected" ] || return 0
+    part_info=$PREPARED_INFO
+    part_rank=$(release_version_rank "$(field "$part_info" darkosen)" "$(field "$part_info" revision)")
+  fi
   while IFS="$(printf '\t')" read -r dir uuid dev opts; do
     [ -n "$dir" ] || continue
     set_card "$dir" "$uuid" "$dev" "$opts"
-    if resolve_on_card "$selected"; then return 0; fi
+    if resolve_on_card "$selected"; then
+      [ -z "$selected" ] || return 0
+      if [ "$EFFECTIVE_FORMAT" = erofs ] && [ "$(field "$RECORD" origin)" = release ]; then
+        rank=$(release_version_rank "$(field "$RECORD" darkosen)" "$(field "$RECORD" revision)")
+        if [ -z "$best_id" ] || release_rank_newer "$rank" "$best_rank"; then
+          best_dir=$dir; best_uuid=$uuid; best_dev=$dev; best_opts=$opts; best_id=$SOURCE_ID; best_rank=$rank
+        fi
+      elif [ -z "$fallback_id" ]; then
+        fallback_dir=$dir; fallback_uuid=$uuid; fallback_dev=$dev; fallback_opts=$opts; fallback_id=$SOURCE_ID
+      fi
+    fi
   done <<EOF_CARDS
 $(image_cards)
 EOF_CARDS
+  if [ -z "$selected" ]; then
+    if [ -n "$best_id" ] && { [ -z "$part_info" ] || release_rank_newer "$best_rank" "$part_rank"; }; then
+      set_card "$best_dir" "$best_uuid" "$best_dev" "$best_opts"
+      resolve_on_card "$best_id" || return 1
+      RESOLVE_SELECTION=; return 0
+    elif [ -n "$part_info" ]; then
+      PREPARED_INFO=$part_info; use_partition ""; return 0
+    elif [ -n "$fallback_id" ]; then
+      set_card "$fallback_dir" "$fallback_uuid" "$fallback_dev" "$fallback_opts"
+      resolve_on_card "$fallback_id" || return 1
+      RESOLVE_SELECTION=; return 0
+    fi
+  fi
+  if [ -n "$selected" ] && command -v resolve_partition >/dev/null && resolve_partition "$selected" verify; then return 0; fi
+  SOURCE_TRANSPORT=file
   SOURCE=;SOURCE_ID=;ACTIVE_ID=;FAMILY=;GENERATION=;EFFECTIVE=;EFFECTIVE_FORMAT=
   RESOLVE_STATE=no_image; [ -z "$selected" ] || RESOLVE_STATE=selected_missing
   return 1
 }
+
 ready_key() { printf '%s-%s-native1' "$FAMILY" "$GENERATION"; }
 publish_setup_state() {
   local ready=0
@@ -231,6 +287,12 @@ write_catalog() {
   local dir uuid dev opts names name info id record family gen original optimized ready
   mkdir -p "$STATE"; chmod 0755 "$STATE"
   : > "$STATE/images.tsv.tmp"
+  if command -v prepared_probe >/dev/null && prepared_probe cached; then
+    local partition_family partition_gen partition_ready=0
+    partition_family=$(field "$PREPARED_INFO" source_id); partition_gen=$(field "$PREPARED_INFO" generation)
+    [ ! -f "$CONTROL/ready/$partition_family-$partition_gen-native1" ] || partition_ready=1
+    printf '%s\tdArkOSen %s (DARKOS)\tDARKOS\t0\t%s\t%s\n' "$partition_family" "$(field "$PREPARED_INFO" darkosen)" "$(field "$PREPARED_INFO" size)" "$partition_ready" >> "$STATE/images.tsv.tmp"
+  fi
   while IFS="$(printf '\t')" read -r dir uuid dev opts; do
     [ -n "$dir" ] || continue
     set_card "$dir" "$uuid" "$dev" "$opts"
@@ -243,8 +305,11 @@ write_catalog() {
       if [ "$(field "$info" format)" = erofs ]; then
         record=$(completion_record "$IMAGE_DIR/$name") || continue
         family=$(field "$record" source_id); gen=$(field "$record" generation)
-        # A valid original row already represents this pair.
-        [ ! -f "$IMAGE_DIR/$(field "$record" source_name)" ] || continue
+        # A legacy conversion shares its original's row. A standalone release
+        # names itself and must remain visible without a btrfs source.
+        if [ "$(field "$record" origin)" != release ]; then
+          [ ! -f "$IMAGE_DIR/$(field "$record" source_name)" ] || continue
+        fi
         optimized=$original;original=0;id=$family
       else
         record=$(completion_record "$IMAGE_DIR/${name%.img}.erofs.img") || record=
@@ -288,6 +353,7 @@ scan_managed_images() {
     return 1
   fi
   reconcile_optimize
+  if command -v prepared_probe >/dev/null; then prepared_probe verify || :; fi
   write_catalog
   local available=0
   resolve_selected_image && available=1
@@ -352,7 +418,16 @@ prepare_writable_state() {
   mkdir -p "$UPPER" "$WORK" "$LOWER" "$ROOT"
 }
 
+# Android toybox stores its argv backing name in a64-byte loop label. Open the
+# full name in the shell, then let losetup open the inherited read-only FD via a
+# short proc path. The subshell scopes fd6; inode/offset ownership checks remain.
+loop_attach_ro() (
+  exec 6<"$2" || exit 1
+  losetup -r -o "$3" "$1" /proc/self/fd/6 6<&6
+)
+
 attach_lower() {
+  if [ "${SOURCE_TRANSPORT:-file}" = partition ]; then attach_partition_lower; return $?; fi
   local path=$1 format=$2 info record current offset=0
   info=$("$SUPPORT" probe "$path") || return 1
   [ "$(field "$info" format)" = "$format" ] || return 1
@@ -373,7 +448,7 @@ attach_lower() {
   LOOPDEV=$(losetup -f) || return 1
   record_session_loop "$(field "$info" device)" "$(field "$info" inode)" "$offset" || return 1
   # Offset only: toybox -S truncates the 8.5 GB partition limit to 32 bits.
-  losetup -r -o "$offset" "$LOOPDEV" "$path" || { LOOPDEV=; return 1; }
+  loop_attach_ro "$LOOPDEV" "$path" "$offset" || { LOOPDEV=; return 1; }
   if ! "$SUPPORT" loop-owned "$LOOPDEV" "$(field "$info" device)" "$(field "$info" inode)" "$offset"; then
     # Attachment succeeded but its backing file changed during resolution.
     release_session_loop || return 1; return 1
@@ -405,6 +480,10 @@ mount_managed_rootfs() {
     [ "$old" = "$identity" ] || { log "refusing mounted ROOT from a different source/lower"; return 1; }
     # Reuse only a recorded overlay; do not mistake an extracted tree for it.
     prepare_writable_state || return 1
+    if [ "${SOURCE_TRANSPORT:-file}" = partition ]; then
+      partition_lower_valid || return 1
+      LOOPDEV=; MOUNTED=1; publish_resolution 1; return 0
+    fi
     LOOPDEV=$(awk -v p="$LOWER" '$2==p {print $1; exit}' /proc/mounts)
     [ -n "$LOOPDEV" ] || return 1
     local mounted_probe mounted_offset=0
@@ -515,7 +594,7 @@ opt_fail() {
   opt_note "optimize $OPT_JOB: reason=$1 exit=1 phase=$OPT_PHASE"
   OPT_ERROR=$1; log "optimize $OPT_JOB: $1"; exit 1
 }
-power_hold() { printf '%s 60000000000\n' "$WAKE" > /sys/power/wake_lock; }
+power_hold() { printf '%s 60000000000\n' "$WAKE" > "${A36_POWER_DIR:-/sys/power}/wake_lock"; }
 opt_progress() {
   opt_run power_hold power_hold || { OPT_ERROR=power_hold; return 1; }
   games_card && [ "$CARD_UUID" = "$OPT_UUID" ] && [ "$CARD" = "$OPT_CARD" ] && [ "$CARD_RW" = 1 ] || { OPT_ERROR=no_card; return 1; }
@@ -599,7 +678,7 @@ opt_cleanup() {
       }
     fi
   fi
-  [ -z "$WAKE" ] || printf '%s\n' "$WAKE" > /sys/power/wake_unlock
+  [ -z "$WAKE" ] || printf '%s\n' "$WAKE" > "${A36_POWER_DIR:-/sys/power}/wake_unlock"
   if [ "$rc" = 0 ] && [ -z "$OPT_ERROR" ]; then
     if [ "${OPT_KEEP:-1}" = 0 ] && [ -z "$SRC_LOOP" ] && [ -z "$VERIFY_LOOP" ]; then
       completion_record "$FINAL" >/dev/null &&
@@ -804,7 +883,7 @@ optimize_worker() {
   SRC_LOOP=$(opt_run source_busy losetup -f) || opt_fail source_busy
   # Record ownership before attachment; detach-owned checks actual backing inode.
   opt_journal || opt_fail "$OPT_ERROR"
-  opt_run source_busy losetup -r -o "$OPT_OFFSET" "$SRC_LOOP" "$SOURCE" || opt_fail source_busy
+  opt_run source_busy loop_attach_ro "$SRC_LOOP" "$SOURCE" "$OPT_OFFSET" || opt_fail source_busy
   opt_run invalid_image mount -t btrfs -o ro,nologreplay "$SRC_LOOP" "$OPT_SRC" || opt_fail invalid_image
   SRC_MOUNTED=1
   opt_run invalid_image "$SUPPORT" metadata "$OPT_SRC" > "$OPT_DIR/source.metadata" || opt_fail invalid_image
@@ -842,7 +921,7 @@ optimize_worker() {
   opt_child "$FSCK" -d0 --extract "$PARTIAL" || opt_fail "${OPT_ERROR:-verify_failed}"
   VERIFY_LOOP=$(losetup -f) || opt_fail io_error
   opt_journal || opt_fail "$OPT_ERROR"
-  losetup -r "$VERIFY_LOOP" "$PARTIAL" || opt_fail io_error
+  loop_attach_ro "$VERIFY_LOOP" "$PARTIAL" 0 || opt_fail io_error
   mount -t erofs -o ro "$VERIFY_LOOP" "$OPT_VERIFY" || opt_fail verify_failed
   VERIFY_MOUNTED=1
   "$SUPPORT" metadata "$OPT_VERIFY" > "$OPT_DIR/output.metadata" || opt_fail verify_failed
@@ -941,7 +1020,7 @@ unp_cleanup() {
   local rc=$1
   trap - EXIT INT TERM HUP
   [ -z "${UNP_PID:-}" ] || kill "$UNP_PID" 2>/dev/null
-  [ -z "${WAKE:-}" ] || printf '%s\n' "$WAKE" > /sys/power/wake_unlock 2>/dev/null
+  [ -z "${WAKE:-}" ] || printf '%s\n' "$WAKE" > "${A36_POWER_DIR:-/sys/power}/wake_unlock" 2>/dev/null
   [ -z "${UNP_EXDIR:-}" ] || rm -rf "$UNP_EXDIR" 2>/dev/null
   if [ "${UNP_LOCKED:-0}" = 1 ]; then
     if [ "$rc" = 0 ] && [ -z "$UNP_ERROR" ]; then UNP_PHASE=done
@@ -967,6 +1046,8 @@ unpack_worker() {
     publish opt_reject_error busy; publish opt_reject_job "$UNP_JOB"; operation_done busy; exit 1
   fi
   UNP_LOCKED=1
+  WAKE="a36-unpack-$UNP_JOB"
+  power_hold || unp_fail power_hold
   publish opt_error ""; publish opt_total ""; publish opt_required ""; publish opt_available ""; publish opt_free ""
   publish opt_job "$UNP_JOB"; publish opt_bytes 0; publish opt_elapsed 0
   unp_state preparing
@@ -1009,8 +1090,7 @@ unpack_worker() {
     bytes_ge "$flimit" "$size" || unp_fail file_limit
   fi
 
-  WAKE="a36-unpack-$UNP_JOB"
-  printf '%s 60000000000\n' "$WAKE" > /sys/power/wake_lock 2>/dev/null
+  power_hold || unp_fail power_hold
   UNP_EXDIR="$dir/.unpack.$UNP_JOB"
   rm -rf "$UNP_EXDIR"; mkdir -p "$UNP_EXDIR" || unp_fail io_error
   UNP_DOWNLOAD="$UNP_EXDIR/$iname"
@@ -1021,7 +1101,7 @@ unpack_worker() {
   "$SEVENZ" e -y -bso0 -bsp0 -o"$UNP_EXDIR" "$primary" "$iname" >/dev/null 2>&1 &
   UNP_PID=$!
   while kill -0 "$UNP_PID" 2>/dev/null; do
-    printf '%s 60000000000\n' "$WAKE" > /sys/power/wake_lock 2>/dev/null
+    power_hold || unp_fail power_hold
     unp_state extracting
     sleep 2
   done
@@ -1049,7 +1129,11 @@ unpack_worker() {
 
 # --- opt-in resident mount stage ---------------------------------------------
 prestage_enabled() { [ "$(getprop persist.andr36oid.subsystem.prestage)" = 1 ]; }
-prestage_blocked() { case "$(getprop sys.andr36oid.subsystem.prestage_block)" in ""|0) ;; *) return 0;; esac; [ -n "$(getprop sys.powerctl)" ]; }
+prestage_blocked() {
+  if [ "${A36_RELEASE_FINALIZING:-0}" != 1 ] && [ -f "$CONTROL/release-lifecycle/intent" ]; then return 0; fi
+  case "$(getprop sys.andr36oid.subsystem.prestage_block)" in ""|0) ;; *) return 0;; esac
+  [ -n "$(getprop sys.powerctl)" ]
+}
 phase_clock() {
   local now idle seconds fraction
   IFS=' ' read -r now idle < /proc/uptime || return 1
@@ -1078,10 +1162,16 @@ prestage_signature() {
     [ "${DIAGNOSTIC_DIR:-0}" != 1 ] || return 1
     source=$SOURCE; effective=$EFFECTIVE
   fi
+  if [ "${SOURCE_TRANSPORT:-file}" = partition ]; then
+    [ -b "$source" ] && [ "$source" = "$effective" ] || return 1
+    source_stat=$(printf '%s\n' "$PREPARED_INFO" | sed '/^cache_hit=/d' | sha256sum | cut -d' ' -f1)
+    effective_stat=$source_stat
+  else
   [ -f "$source" ] && [ -f "$effective" ] || return 1
   source_stat=$(stat -c '%d:%i:%s:%Y' "$source") || return 1
   if [ "$source" = "$effective" ]; then effective_stat=$source_stat
   else effective_stat=$(stat -c '%d:%i:%s:%Y' "$effective") || return 1; fi
+  fi
   printf '%s\n' "$(boot_id)" "$selected" "$IMAGE" "$source" "$effective" \
     "$source_stat" "$effective_stat" \
     "$HANDOFF" "$(prestage_storage_token)" | sha256sum | cut -d' ' -f1
@@ -1106,9 +1196,15 @@ prestage_valid() {
     {gsub(/\\040/," ",$2); gsub(/\\011/,"\t",$2); delete expected[$2]; if($2==root) mounted=1}
     END {if(!mounted) exit 1; for(path in expected) exit 1}
   ' "$STATE/session.mounts" /proc/mounts || return 1
-  read -r loop dev ino offset extra < "$STATE/session.loop" || return 1
-  [ -z "$extra" ] && "$SUPPORT" loop-owned "$loop" "$dev" "$ino" "$offset" || return 1
-  LOOPDEV=$loop; BOUND=$(cat "$STATE/session.mounts"); MOUNTED=1
+  if [ "${SOURCE_TRANSPORT:-file}" = partition ]; then
+    partition_lower_valid || return 1
+    LOOPDEV=
+  else
+    read -r loop dev ino offset extra < "$STATE/session.loop" || return 1
+    [ -z "$extra" ] && "$SUPPORT" loop-owned "$loop" "$dev" "$ino" "$offset" || return 1
+    LOOPDEV=$loop
+  fi
+  BOUND=$(cat "$STATE/session.mounts"); MOUNTED=1
   return 0
 }
 prestage_forget() {
