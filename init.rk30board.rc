@@ -689,3 +689,17 @@ on shutdown
 on post-fs-data && property:ro.boot.storage_fuse=1
     setprop persist.sys.fuse true
     setprop persist.sys.fflag.override.settings_fuse true
+
+# The existing load_persist_props_action exec remains the synchronous pre-Wi-Fi
+# hook. Hotfix cleanup checks armed once; only an armed boot executes the loader.
+# ctl.start is serviced while exec is blocked; an on-property start would not be.
+service andr36oid-rk915-trial-watchdog /system/bin/andr36oid-rk915-trial-watchdog /data/misc/andr36oid-rk915-trial 180
+    user root
+    group root system inet
+    seclabel u:r:shell:s0
+    disabled
+    oneshot
+
+# An unexpectedly dead monitor cannot leave an active trial without fallback.
+on property:init.svc.andr36oid-rk915-trial-watchdog=stopped && property:sys.andr36oid.rk915_trial.active=1
+    setprop sys.powerctl reboot,rk915-trial-watchdog-stopped

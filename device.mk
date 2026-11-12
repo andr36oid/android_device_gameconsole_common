@@ -1130,3 +1130,16 @@ PRODUCT_COPY_FILES += \
 # RX/RY are the right stick; Android gamepads conventionally expose it as Z/RZ.
 PRODUCT_COPY_FILES += \
     device/gameconsole/common/gamepad/play_joystick.kl:$(TARGET_COPY_OUT_SYSTEM)/usr/keylayout/play_joystick.kl
+
+# Attended RK915 wake trial, for test images only: ANDR36OID_RK915_TRIAL=<key>
+# (k30-g2, k30-g7, k31-g2, k31-g7) packs that one candidate module, DISARMED
+# unless the owner creates the armed marker. Unset: nothing is packed, and the
+# hotfix helper's one stat finds no loader to run.
+ifneq ($(ANDR36OID_RK915_TRIAL),)
+PRODUCT_PACKAGES += andr36oid-rk915-trial-watchdog
+PRODUCT_COPY_FILES += \
+    device/gameconsole/common/rk915-trial/loader.sh:system/etc/andr36oid-rk915-trial-loader.sh \
+    device/gameconsole/common/rk915-trial/control.sh:system/etc/andr36oid-rk915-trial-control.sh \
+    device/gameconsole/common/rk915-trial/vendor/$(ANDR36OID_RK915_TRIAL)/rk915.ko:$(TARGET_COPY_OUT_VENDOR)/etc/andr36oid-rk915-trial/$(ANDR36OID_RK915_TRIAL)/rk915.ko \
+    device/gameconsole/common/rk915-trial/vendor/$(ANDR36OID_RK915_TRIAL)/manifest.conf:$(TARGET_COPY_OUT_VENDOR)/etc/andr36oid-rk915-trial/$(ANDR36OID_RK915_TRIAL)/manifest.conf
+endif

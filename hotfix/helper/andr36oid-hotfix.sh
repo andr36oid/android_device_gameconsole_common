@@ -23,6 +23,12 @@ cleanup() {
 	[ -z "$ROMS_MOUNTED" ] || release_roms
 	[ -z "$MOUNTED" ] || "$UNPACK" --wait 5 umount "$BOOT_MNT" 2>/dev/null
 	[ -z "$LOCKED" ] || rm -rf "$BOOT_LOCK"
+
+    # Exactly one builtin stat on an ordinary boot; no helper/service otherwise.
+    # This is after all hotfix children and cleanup, before init releases Wi-Fi.
+    if [ -e /data/misc/andr36oid-rk915-trial/armed ] && [ -z "${HOTFIX_REEXEC:-}" ]; then
+        /system/bin/sh /system/etc/andr36oid-rk915-trial-loader.sh || :
+    fi
 }
 trap 'cleanup' EXIT
 trap 'exit 0' HUP INT TERM
