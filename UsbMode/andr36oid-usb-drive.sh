@@ -765,6 +765,7 @@ restore_backlight() {
 }
 
 close_controller() {
+	local function n close_ok=1
 	# Before the gate is owned, Android still owns its links and binding.
 	if [ ! -e "$STATE/owned" ]; then
 		restore_controller || return 1
@@ -778,7 +779,7 @@ close_controller() {
 		i=$((i + 1)); [ "$i" -lt 50 ] || return 1
 		sleep 0.1
 	done
-	setprop "$P.ready" 0
+	setprop "$P.ready" 0 || return 1
 	unbind_udc || return 1
 	remove_links || return 1
 	if awk -v path="$FFS" '$5==path {found=1} END {exit !found}' "$MOUNTS"; then
@@ -787,7 +788,7 @@ close_controller() {
 	if awk -v path="$FLIPPER_FFS" '$5==path {found=1} END {exit !found}' "$MOUNTS"; then
 		umount "$FLIPPER_FFS" || return 1
 	fi
-	setprop "$P.flipper_mount" 0
+	setprop "$P.flipper_mount" 0 || return 1
 	for function in ncm.link rndis.link; do
 		if [ -d "$G/functions/$function" ]; then
 			ndc network interface remove local "$(cat "$G/functions/$function/ifname")" >/dev/null 2>&1 || :
@@ -795,10 +796,8 @@ close_controller() {
 	done
 	# Best effort, like clear_stale_functions: a function whose kernel resource is
 	# still freeing (uac2's ALSA card, an ncm/rndis netdev) can refuse to rmdir with
-	# EBUSY for a moment. Do NOT fail teardown over it -- failing here skips
-	# restore_android in cleanup and leaves USB (adb/MTP) dead until a reboot. Give
-	# the slow ones a few tries; the next session's clear_stale_functions sweeps
-	# anything still left behind.
+	# EBUSY for a moment. Retry briefly, then retain the recovery journal.
+	# cleanup returns USB/adb to Android even when this close reports failure.
 	for function in ffs.flipper ffs.xinput hid.andr36oid hid.keyboard hid.mouse hid.media midi.pads acm.echo uac2.speaker ncm.link rndis.link; do
 		[ -d "$G/functions/$function" ] || continue
 		n=0
@@ -806,11 +805,12 @@ close_controller() {
 			rmdir "$G/functions/$function" 2>/dev/null && break
 			sleep 0.1; n=$((n + 1))
 		done
+		[ ! -d "$G/functions/$function" ] || close_ok=0
 	done
 	# midi.pads' card frees asynchronously; make sure it is gone before returning so
 	# the next configure can recreate midi.pads without racing it.
 	wait_midi_clear
-	return 0
+	[ "$close_ok" = 1 ]
 }
 
 gate_android() {
@@ -967,7 +967,11 @@ restore_android() {
 	setprop sys.usb.config "$config" || restored=0
 	setprop "$P.gated" 0 || restored=0
 	[ "$restored" = 1 ] || return 1
-	rm -f "$STATE/owned" "$STATE/role" "$STATE/controller"
+	# These files are the recovery journal, not the live configfs gate. Android
+	# is already restored above; retain them until every guest function closes.
+	if [ "${1:-1}" = 1 ]; then
+		rm -f "$STATE/owned" "$STATE/role" "$STATE/controller"
+	fi
 }
 
 restore_storage() {
@@ -986,12 +990,27 @@ restore_storage() {
 	fi
 }
 
+# A failed close has already returned USB/adb to Android. Drain its configfs
+# actions again before retrying guest cleanup, without overwriting saved state.
+regate_android() {
+	setprop "$P.gated" 0 || return 1
+	setprop sys.usb.configfs 2 || return 1
+	local i=0
+	while [ "$(prop gated)" != 1 ]; do
+		i=$((i + 1)); [ "$i" -lt 50 ] || return 1
+		sleep 0.1
+	done
+}
+
 cleanup() {
 	status stopping
 	setprop "$P.routing" ''
 	setprop "$P.active_functions" 0
 	closed=1 cleanup_ok=1
-	step close_drive || closed=0
+	if [ -e "$STATE/owned" ] && [ "$(getprop sys.usb.configfs)" != 2 ]; then
+		step regate_android || closed=0
+	fi
+	if [ "$closed" = 1 ]; then step close_drive || closed=0; fi
 	step restore_backlight || cleanup_ok=0
 	# Flush accepted writes before relocking, even after a failed detach.
 	if [ -d "$F" ] || [ -f "$STATE/storage" ]; then step sync || cleanup_ok=0; fi
@@ -1001,9 +1020,9 @@ cleanup() {
 	# controller/audio function that was slow to free made close_drive return
 	# non-zero) is what left USB dead until a reboot.
 	if [ -e "$STATE/owned" ]; then
-		step restore_android || cleanup_ok=0
+		step restore_android "$closed" || cleanup_ok=0
 	fi
-	# Keep the storage journal and ownership if backing files might still be open
+	# Keep the recovery journal if backing files/functions might still be open
 	# after a failed detach, so the next boot can recover them.
 	[ "$closed" = 1 ] || return 1
 	step restore_storage || cleanup_ok=0
