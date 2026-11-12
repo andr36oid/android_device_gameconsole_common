@@ -182,6 +182,9 @@
     <string name="kt_boost_launch">Clock boost on app start</string>
     <string name="kt_boost_launch_what">Runs the processor at its top clock while an app or game starts, for up to 5 seconds.</string>
     <string name="kt_boost_launch_why">Apps open a little faster. Turn it off to compare.</string>
+    <string name="kt_app_compile">Speed up apps while charging</string>
+    <string name="kt_app_compile_what">While the console sits on the charger doing nothing, prepares the apps you use so they open faster. It takes a few minutes, about once a day.</string>
+    <string name="kt_app_compile_why">Apps open up to a third faster. Turn it off if the console gets busy or warm on the charger.</string>
     <string name="kt_boot_boost">Full clock while starting</string>
     <string name="kt_boot_boost_what">Runs the processor at its top clock until Android has finished starting.</string>
     <string name="kt_boot_boost_why">The console starts faster. Turn it off if it gets too warm or restarts while starting.</string>

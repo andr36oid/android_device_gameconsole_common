@@ -54,6 +54,7 @@ perf_metrics_off|prop||sys.andr36oid.perf_metrics_off
 boost_buttons|prop||persist.andr36oid.boost_off
 boost_length|prop||persist.andr36oid.boost_ms
 boost_launch|prop||persist.andr36oid.launch_boost_off
+app_compile|prop||persist.andr36oid.app_compile_off
 swappiness|plain||/proc/sys/vm/swappiness
 cache_pressure|plain||/proc/sys/vm/vfs_cache_pressure
 page_cluster|plain||/proc/sys/vm/page-cluster

@@ -130,6 +130,14 @@ final class Tweaks {
                 .labels(R.string.kt_on, R.string.kt_off)
                 .systemSetting()
                 .level(Tweak.SAFE))
+            // Read by GameComfort's idle job at every check; "0" (unset) is the default
+            .add(Tweak.choice("app_compile", R.string.kt_app_compile,
+                    R.string.kt_app_compile_what, R.string.kt_app_compile_why,
+                    "persist.andr36oid.app_compile_off")
+                .values("0", "1")
+                .labels(R.string.kt_on, R.string.kt_off)
+                .systemSetting()
+                .level(Tweak.SAFE))
             .add(Tweak.choice("boot_boost", R.string.kt_boot_boost,
                     R.string.kt_boot_boost_what, R.string.kt_boot_boost_why,
                     "androidboot.andr36oid_boot_boost=0")
