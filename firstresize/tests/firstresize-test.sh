@@ -5,6 +5,10 @@
 # Needs sgdisk, mkfs.vfat, mkfs.ext4, mkfs.exfat (exfatprogs), losetup, gcc and udev.
 # Run: sudo bash tests/firstresize-test.sh
 set -u
+# Missing losetup must never leave LOOP empty and turn test writes into /dev/p6.
+for tool in sgdisk mkfs.vfat mkfs.ext4 mkfs.exfat losetup gcc udevadm mount umount; do
+    command -v "$tool" >/dev/null 2>&1 || { echo "SKIP: host loop test requires $tool" >&2; exit 77; }
+done
 HERE=$(cd "$(dirname "$0")/.." && pwd)
 T=$(mktemp -d)
 LOOP=
@@ -51,7 +55,8 @@ new_card() {
     truncate -s "${1}000000000" "$T/card"
     # old data where userdata will go
     printf 'old card data' | dd of="$T/card" bs=512 seek=5701632 conv=notrunc status=none
-    LOOP=$(losetup -f --show -P "$T/card")
+    LOOP=$(losetup -f --show -P "$T/card") || exit 1
+    [ -n "$LOOP" ] && [ -b "$LOOP" ] || exit 1
     udevadm settle
     mkfs.vfat -n BOOT "${LOOP}p1" >/dev/null
     mkfs.ext4 -q -F "${LOOP}p2"

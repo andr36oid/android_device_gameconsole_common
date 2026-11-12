@@ -31,6 +31,8 @@ KMSG=${RESIZE_KMSG:-/dev/kmsg}
 BOOT_MNT=${RESIZE_BOOT_MNT:-/mnt/andr36oid-resize-boot}
 ADDPART=${RESIZE_ADDPART:-/system/bin/andr36oid-addpart}
 FSYNC=${RESIZE_FSYNC:-/system/bin/andr36oid-fsync}
+SUPPORT=${RESIZE_SUPPORT:-/system/bin/andr36oid-erofs-support}
+CLASS_SYS=${RESIZE_CLASS_SYS:-/sys/class/block}
 APPS_MNT=${RESIZE_APPS_MNT:-/mnt/andr36oid-apps}
 APPS_DONE=${RESIZE_APPS_DONE:-/metadata/andr36oid/apps-done}
 RESIZE_F2FS=${RESIZE_F2FS:-/system/bin/resize.f2fs}
@@ -111,6 +113,27 @@ disk=${sysdev##*/}
 disk=${disk%p[0-9]*}
 [ -e "$SYS/$disk/${disk}p2" ] || exit 0
 
+layout_refuse() {
+    setprop sys.andr36oid.storage_layout_error 1 2>/dev/null || :
+    log "Unsupported partition table: this card appears to have been written with a tool that changed the partition table. Rewrite it with the andr36oid SD flasher or a raw image writer. No partitions were repaired or formatted."
+    # Remount only our BOOT mount to persist the explanation, including when a
+    # later prepared-layout check failed while the inventory was mounted ro.
+    [ -z "$BOOT" ] || boot_umount
+    if boot_mount rw; then
+        log "Partition table mismatch: rewrite this card with the andr36oid SD flasher or a raw writer."
+        [ -z "${LAYOUT_DETAILS:-}" ] || log "$LAYOUT_DETAILS"
+        boot_umount
+    fi
+    return 1
+}
+
+audit_layout() {
+    LAYOUT_DETAILS=$("$SUPPORT" layout-audit "$DEV/$disk" "$CLASS_SYS" "$@" 2>&1) || { layout_refuse; return 1; }
+}
+# Do this before interpreting p6 as userdata, p7 as EASYROMS or p13 as AUTOAPK.
+# The helper reads GPT/types and kernel mappings; it never opens the disk rw.
+audit_layout || exit 1
+
 APPS_SECTORS=4194304    # 2 GiB, as in the image (mkimg.sh)
 
 part_first() { cat "$SYS/$disk/${disk}p$1/start"; }
@@ -127,12 +150,15 @@ wait_node() { # <number>
 
 # AUTOAPK read-only at $APPS_MNT, readable by everyone (the setup's app page is an app)
 apps_mount() {
+    audit_layout created || return 1
     [ -e "$SYS/$disk/${disk}p13" ] || return 0
     wait_node 13 || return 0
     mkdir -p "$APPS_MNT"
     mountpoint -q "$APPS_MNT" 2>/dev/null && return 0
     out=$(mount -t exfat -o ro,nosuid,nodev,noexec,uid=0,gid=0,fmask=0022,dmask=0022 \
-        "$DEV/${disk}p13" "$APPS_MNT" 2>&1) || log "AUTOAPK doesn't mount: $out"
+        "$DEV/${disk}p13" "$APPS_MNT" 2>&1) && return 0
+    fatout=$(mount -t vfat -o ro,nosuid,nodev,noexec,uid=0,gid=0,fmask=0022,dmask=0022,utf8 \
+        "$DEV/${disk}p13" "$APPS_MNT" 2>&1) || log "AUTOAPK doesn't mount (exfat: $out; vfat: $fatout)"
 }
 
 # apps_move ; first start: AUTOAPK (p12, right after system) is made again as p13 at
@@ -195,12 +221,65 @@ f2fs_ok() {
     fi
 }
 
+# A flasher-prepared card owns the space after system already. Its marker is
+# an inventory, not permission to reformat. After reclaim it intentionally still
+# describes the original p6+p13 pair; their union is the new userdata extent.
+prepared_layout_valid() {
+    [ -f "$BOOT/andr36oid-layout.txt" ] || return 1
+    [ "$(head -n 1 "$BOOT/andr36oid-layout.txt")" = prepared-1 ] || return 1
+    [ ! -e "$SYS/$disk/${disk}p12" ] && [ "$(part_last 2)" = "$SYSTEM_END" ] || return 1
+    awk 'NR==1 {next} NF!=3 || $1!~/^(userdata|AUTOAPK|EASYROMS|DARKOS)$/ ||
+      $2!~/^[0-9]+$/ || $3!~/^[0-9]+$/ || $2+0>$3+0 || seen[$1]++ {bad=1}
+      END {exit bad || !seen["userdata"] || !seen["AUTOAPK"]}' "$BOOT/andr36oid-layout.txt" || return 1
+    marker_span() { awk -v n="$1" '$1==n {print $2, $3}' "$BOOT/andr36oid-layout.txt"; }
+    set -- $(marker_span userdata); [ "$#" = 2 ] || return 1
+    [ "$1" = "$USERDATA_START" ] && [ "$1" = "$(part_first 6)" ] || return 1
+    planned_data_end=$2
+    set -- $(marker_span AUTOAPK); [ "$#" = 2 ] || return 1
+    [ "$1" = $((planned_data_end+1)) ] && [ $(( $1 % 2048 )) = 0 ] || return 1
+    if [ -e "$SYS/$disk/${disk}p13" ]; then
+        [ "$(part_last 6)" = "$planned_data_end" ] &&
+          [ "$(part_first 13)" = "$1" ] && [ "$(part_last 13)" = "$2" ] || return 1
+    else
+        [ "$(part_last 6)" = "$2" ] || return 1
+    fi
+    planned_apps_end=$2
+    for item in '7:EASYROMS' '14:DARKOS'; do
+        number=${item%%:*}; label=${item#*:}; span=$(marker_span "$label")
+        if [ -e "$SYS/$disk/${disk}p$number" ]; then
+            set -- $span; [ "$#" = 2 ] || return 1
+            [ "$(part_first "$number")" = "$1" ] && [ "$(part_last "$number")" = "$2" ] || return 1
+            [ "$1" -gt "$planned_apps_end" ] || return 1
+        else [ -z "$span" ] || return 1; fi
+    done
+    expected_tail=$(( $(cat "$SYS/$disk/size") - 34 ))
+    if [ -e "$SYS/$disk/${disk}p14" ]; then
+        [ "$(part_last 14)" = "$expected_tail" ] && [ $(( $(part_first 14) % 2048 )) = 0 ] || return 1
+        expected_tail=$(( $(part_first 14) - 1 ))
+    fi
+    if [ -e "$SYS/$disk/${disk}p7" ]; then
+        [ "$(part_first 7)" = $((planned_apps_end+1)) ] &&
+          [ $(( $(part_first 7) % 2048 )) = 0 ] && [ "$(part_last 7)" = "$expected_tail" ] || return 1
+    else [ "$planned_apps_end" = "$expected_tail" ] || return 1; fi
+}
+reclaim_bounds_safe() {
+    [ -e "$SYS/$disk/${disk}p13" ] || return 0
+    # This upper bound can only reach p13, never EASYROMS or the guest root.
+    for n in 7 14; do
+        [ ! -e "$SYS/$disk/${disk}p$n" ] || [ "$(part_last 13)" -lt "$(part_first "$n")" ] || return 1
+    done
+    partname=$(sed -n 's/^PARTNAME=//p' "$SYS/$disk/${disk}p13/uevent" 2>/dev/null)
+    [ -z "$partname" ] || [ "$partname" = AUTOAPK ]
+}
+
 # apps_reclaim ; userdata grows over AUTOAPK once the apps are installed. Only after
 # fsck finds userdata fine, anything off and it backs out with nothing changed and
 # tries again next start. Then the partition table and the kernel, then the file
 # system (resize.f2fs). A start cut off in the middle (BOOT/reclaim-pending) does the
 # file system part again, after another fsck.
 apps_reclaim() {
+    audit_layout || return 1
+    reclaim_bounds_safe || { log "AUTOAPK overlaps protected storage or has the wrong name, leaving it alone"; return 1; }
     first=$(part_first 6)
     if [ -e "$SYS/$disk/${disk}p13" ] && [ "$(part_last 6)" != $(( $(part_first 13) - 1 )) ]; then
         log "AUTOAPK isn't right behind userdata, leaving both alone"
@@ -232,6 +311,16 @@ apps_reclaim() {
 if [ -e "$SYS/$disk/${disk}p6" ]; then
     # Set up already, unless a start before was cut off in the middle
     boot_mount ro || { apps_mount; exit 0; }
+    if [ -e "$SYS/$disk/${disk}p14" ] || [ -e "$BOOT/andr36oid-layout.txt" ]; then
+        if [ -e "$BOOT/resize-pending" ]; then
+            log "prepared/DARKOS layout with legacy resize-pending: refusing destructive recovery"
+            LAYOUT_DETAILS="Unexpected legacy resize-pending on a protected prepared/DARKOS layout"; layout_refuse; exit 1
+        fi
+        if ! prepared_layout_valid; then
+            log "prepared/DARKOS layout inventory mismatch: leaving all partitions untouched"
+            LAYOUT_DETAILS="Prepared layout inventory does not match the partition table"; layout_refuse; exit 1
+        fi
+    fi
     if [ -e "$BOOT/reclaim-pending" ] ||
             { [ -e "$SYS/$disk/${disk}p13" ] && [ -e "$APPS_DONE" ]; }; then
         boot_umount
@@ -253,6 +342,9 @@ if [ -e "$SYS/$disk/${disk}p6" ]; then
     setprop sys.andr36oid.resizing 1 2>/dev/null
     log "a resize was cut off, setting up userdata and EASYROMS again"
 else
+    if [ -e "$SYS/$disk/${disk}p14" ]; then
+        LAYOUT_DETAILS="DARKOS exists without userdata: refusing legacy resize"; layout_refuse; exit 1
+    fi
     # Only on the layout the image makes: system ends right before userdata, and
     # nothing after it but the image's AUTOAPK right behind system
     p2_end=$(( $(cat "$SYS/$disk/${disk}p2/start") + $(cat "$SYS/$disk/${disk}p2/size") - 1 ))
@@ -273,6 +365,9 @@ else
         exit 0
     fi
     boot_mount rw || { log "BOOT doesn't mount, not resizing"; exit 0; }
+    if [ -e "$BOOT/andr36oid-layout.txt" ]; then
+        LAYOUT_DETAILS="Prepared marker exists without userdata: refusing legacy resize"; layout_refuse; exit 1
+    fi
     setprop sys.andr36oid.resizing 1 2>/dev/null
 
     CARD_SECTORS=$(cat "$SYS/$disk/size")
@@ -347,6 +442,7 @@ done
 # display loader too late) a UART trace is the only diagnosis, and an interrupted cold
 # power-off here looks identical on the card to one during the EASYROMS mkfs below - these
 # two markers tell them apart and pinpoint a stall to the exact step.
+audit_layout created || { boot_umount; exit 1; }
 log "blanking userdata ${disk}p6 (first MiB)"
 dd if=/dev/zero of="$DEV/${disk}p6" bs=1048576 count=1 conv=fsync 2>/dev/null ||
     { log "could not blank userdata"; boot_umount; exit 1; }
@@ -358,6 +454,7 @@ if [ -e "$SYS/$disk/${disk}p7" ]; then
         sleep 0.1
         i=$((i + 1))
     done
+    audit_layout created || { boot_umount; exit 1; }
     log "formatting EASYROMS ${disk}p7"
     out=$(mkfs.exfat -L EASYROMS "$DEV/${disk}p7" 2>&1) ||
         { log "mkfs.exfat failed: $out"; boot_umount; exit 1; }
