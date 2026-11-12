@@ -45,4 +45,10 @@
     <!-- Disable KeyguardSerivce -->
     <bool name="config_enableKeyguardService">false</bool>
 
+    <!-- KeyboardUI is the packaged Bluetooth dock auto-pairing service, not
+         ordinary Bluetooth/USB keyboards or the on-screen IME. No dock is sold
+         with these consoles (config_packagedKeyboardName is empty). -->
+    <string-array name="config_systemUIOptionalConsoleServices" translatable="false">
+        <item>com.android.systemui.keyboard.KeyboardUI</item>
+    </string-array>
 </resources>

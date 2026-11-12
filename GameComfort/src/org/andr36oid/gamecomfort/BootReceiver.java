@@ -19,6 +19,7 @@ public class BootReceiver extends BroadcastReceiver {
             Comfort.update(context, new Intent(context, ComfortService.class)
                     .putExtra(ComfortService.EXTRA_AFTER_BOOT, true)
                     .putExtra(ComfortService.EXTRA_GAME_WAS_OPEN, gameOpen));
+            BootChecks.run(context);
             GameMode.addTileOnce(context);
             Continue.addTileOnce(context);
         }

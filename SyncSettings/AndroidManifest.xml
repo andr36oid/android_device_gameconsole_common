@@ -35,6 +35,14 @@
         <receiver
             android:name=".BootReceiver"
             android:directBootAware="true"
+            android:exported="false" />
+
+        <!-- GameComfort checks entry visibility without starting this process.
+             Explicit broker UPDATE_SETTINGS broadcasts still use BootReceiver. -->
+        <receiver
+            android:name=".BootStartReceiver"
+            android:enabled="false"
+            android:directBootAware="true"
             android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED" />

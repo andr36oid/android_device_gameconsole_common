@@ -52,9 +52,10 @@
             </intent-filter>
         </receiver>
 
-        <!-- Posts the "check paused" reminder again after a restart -->
-        <receiver
-            android:name=".BootReceiver"
+        <!-- Consolidated boot checks call the private receiver only for progress.
+             BootStartReceiver is the independently switchable legacy fallback. -->
+        <receiver android:name=".BootReceiver" android:exported="false" />
+        <receiver android:name=".BootStartReceiver" android:enabled="false"
             android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />

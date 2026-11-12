@@ -12,7 +12,8 @@ public class BootReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (!Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) return;
+        if (!Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())
+                && !"org.andr36oid.cardcheck.RESTORE_PAUSED".equals(intent.getAction())) return;
         final long mb = Checker.pausedAnywhereMb();
         if (mb >= 0) FinishedReceiver.showPaused(context, mb);
     }

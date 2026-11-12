@@ -61,6 +61,7 @@ func (s *Setup) AppsJob() {
 	s.measureCard()
 	s.Progress.Stage("apps")
 	s.InstallAPKs()
+	s.ApplyBootPolicies()
 	s.SeedCromiteSearch()
 	s.Progress.Stage("appsettings")
 	s.SeedFirstrun()
@@ -85,6 +86,7 @@ func (s *Setup) Main() {
 	s.SeedNetTraffic()
 	s.FirstStart()
 	s.InstallAPKs()
+	s.ApplyBootPolicies()
 	// after the installs: the browsers are normal apps installed by InstallAPKs
 	s.SeedCromiteSearch()
 	s.poll()

@@ -39,6 +39,7 @@
              consoles -->
         <receiver
             android:name=".BootReceiver"
+            android:enabled="false"
             android:directBootAware="true"
             android:exported="false">
             <intent-filter>

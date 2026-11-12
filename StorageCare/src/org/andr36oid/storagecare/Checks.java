@@ -36,6 +36,14 @@ final class Checks {
 
     static void schedule(Context c) {
         final JobScheduler js = c.getSystemService(JobScheduler.class);
+        final boolean warn = Prefs.warn(c);
+        BootStart.set(c, warn);
+        if (!warn) {
+            js.cancel(JOB_PERIODIC);
+            js.cancel(JOB_SOON);
+            c.getSystemService(NotificationManager.class).cancelAll();
+            return;
+        }
         if (js.getPendingJob(JOB_PERIODIC) == null) {
             js.schedule(new JobInfo.Builder(JOB_PERIODIC, component(c))
                     .setPeriodic(PERIOD_MS)
@@ -47,6 +55,7 @@ final class Checks {
 
     /** A check in about a minute (after a start, or a card coming or going). */
     static void soon(Context c) {
+        if (!Prefs.warn(c)) return;
         c.getSystemService(JobScheduler.class).schedule(
                 new JobInfo.Builder(JOB_SOON, component(c))
                         .setMinimumLatency(60 * 1000L)
