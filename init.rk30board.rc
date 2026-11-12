@@ -269,6 +269,20 @@ on load_persist_props_action
 on property:sys.boot_completed=1
     setprop persist.andr36oid.hotfix.tries 0
 
+# Twenty apps wake up only to hear that the console has started and then sit in
+# memory. Once the start-up rush is over, let Android drop the ones it already
+# counts as idle (about 60 MB on a 1 GB console). persist.andr36oid.boot_trim=0
+# turns this off.
+service andr36oid-boot-trim /system/bin/sh -c "sleep 60; case $(getprop persist.andr36oid.boot_trim) in 0) ;; *) exec /system/bin/cmd activity kill-all;; esac"
+    user root
+    group root
+    seclabel u:r:shell:s0
+    disabled
+    oneshot
+
+on property:sys.boot_completed=1
+    start andr36oid-boot-trim
+
 on zygote-start
 
     # Create the directories used by the Wireless subsystem

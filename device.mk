@@ -290,6 +290,9 @@ PRODUCT_PACKAGES += \
 # 1 is AAUDIO_POLICY_NEVER  means only use Legacy path.
 # 2 is AAUDIO_POLICY_AUTO   means try MMAP then fallback to Legacy path.
 # 3 is AAUDIO_POLICY_ALWAYS means only use MMAP path.
+# The web view's starter process (17 MB) waits for the first page that needs it.
+PRODUCT_PROPERTY_OVERRIDES += ro.config.webview_zygote_lazy=true
+
 PRODUCT_PROPERTY_OVERRIDES += aaudio.mmap_policy=2
 # 1 is AAUDIO_POLICY_NEVER  means only use SHARED mode
 # 2 is AAUDIO_POLICY_AUTO   means try EXCLUSIVE then fallback to SHARED mode.
