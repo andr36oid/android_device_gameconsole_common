@@ -752,7 +752,10 @@ done:
 }
 #include "andr36oid-splash.h"
 #include "andr36oid-splash-scanout.h"
+#include "andr36oid-storage.h"
 int main(int argc,char **argv) {
+    if(argc==3&&!strcmp(argv[1],"--storage-recover"))return a36_storage_recover_cli(argv[2]);
+    if(argc==3&&!strcmp(argv[1],"--storage"))return a36_storage_client(argv[2]);
     if(argc==4&&!strcmp(argv[1],"--populate-dev"))return stage_dev(argv[2],!strcmp(argv[3],"1"));
     if(argc==3&&!strcmp(argv[1],"--storage-groups"))return stage_groups(argv[2]);
     if(argc==3&&!strcmp(argv[1],"--network-masks"))return stage_network_masks(argv[2]);
@@ -791,10 +794,27 @@ int main(int argc,char **argv) {
     guest_phase("supervisor-enter");
     close_inherited_fds();
     bool native=!strcmp(argv[2],"native")||!strcmp(argv[2],"native-init"),hotkeys=!strcmp(argv[3],"hotkeys");
+    /* Optional tool transport must never block ordinary session entry. Do not
+     * retain Android's namespace at all unless the prepared helper exists. */
+    char storage_helper[PATH_MAX];
+    const char *storage_ready=getenv("A36_STORAGE_READY");
+    bool storage_enabled=(!storage_ready||!strcmp(storage_ready,"1")) &&
+        !a36_storage_path(storage_helper,sizeof(storage_helper),argv[1],"/run/andr36oid-storage-helper") &&
+        !access(storage_helper,X_OK);
+    int original_ns=-1;
+    if(storage_enabled) {
+        original_ns=open("/proc/self/ns/mnt",O_RDONLY|O_CLOEXEC);
+        if(original_ns<0)perror("guest storage disabled; continuing without storage service");
+    }
     int gate[2];
     if(socketpair(AF_UNIX,SOCK_STREAM|SOCK_CLOEXEC,0,gate)) fatal("guest handshake");
     if(unshare(CLONE_NEWPID|CLONE_NEWNS|CLONE_NEWIPC|CLONE_NEWUTS)) fatal("unshare guest");
     if(mount(NULL,"/",NULL,MS_REC|MS_PRIVATE,NULL)) fatal("private mounts");
+    struct a36_storage storage; a36_storage_init(&storage);
+    if(original_ns>=0 && a36_storage_start(&storage,argv[1],original_ns)) {
+        perror("guest storage disabled; continuing without storage service");
+        a36_storage_finish(&storage);
+    }
     pid_t init=fork(); if(init<0) fatal("fork init");
     if(init) {
         struct sigaction sa={.sa_handler=stop};sigemptyset(&sa.sa_mask);
@@ -808,13 +828,15 @@ int main(int argc,char **argv) {
         int status; for(;;) {
             if(stopping) kill(init,SIGTERM);
             pid_t done=waitpid(init,&status,WNOHANG);
-            if(done==init){int rc=WIFEXITED(status)?WEXITSTATUS(status):128+WTERMSIG(status);if(gl_finish(&loops,true))return 125;return rc;}
+            if(done==init){int rc=WIFEXITED(status)?WEXITSTATUS(status):128+WTERMSIG(status);int cleanup=gl_finish(&loops,true);a36_storage_finish(&storage);return cleanup?125:rc;}
             if(done<0&&errno!=EINTR)fatal("wait guest");
             if(gl_tick(&loops,init))kill(init,SIGKILL);
+            a36_storage_serve(&storage,now_ms());
             usleep(100000);
         }
     }
     close(gate[0]);
+    a36_storage_close(&storage);
     if(prctl(PR_SET_PDEATHSIG,SIGKILL)) fatal("guest parent death");
     char byte;
     if(write(gate[1],"1",1)!=1 || read(gate[1],&byte,1)!=1) return 125;

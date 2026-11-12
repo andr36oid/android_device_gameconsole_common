@@ -2103,6 +2103,7 @@ start_mute_guard() {
 # Prepare policy after /run is mounted, before any session daemon or frontend.
 # The same boundary covers wrapper, bare, standalone ports and real init.
 prepare_session_policy() {
+  prepare_storage_tools || return 1
   rm -f "$ROOT/run/.a36-handoff" "$ROOT/run/.a36-muted" \
     "$ROOT/run/.a36-session-exit" "$ROOT/run/.a36-session-reboot" "$ROOT/run/.a36-session-sleep" "$ROOT/run/.a36-sleeping" \
     "$ROOT/run/.a36-es-stopped" "$ROOT/run/.a36-es-start" "$ROOT/run/.a36-es-restart"

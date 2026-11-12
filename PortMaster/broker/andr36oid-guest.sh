@@ -254,8 +254,116 @@ PORT
     }
     {print}
   ' "$original" > "$generated" || return 1
-  mounted_at "$cfg" || bind_mount "$generated" "$cfg" || return 1
+  if ! mounted_at "$cfg"; then
+    local base_alias
+    if ! base_alias=$(root_path "$ROOT" /etc/emulationstation/.andr36oid-es-base); then
+      disable_storage_tools 'ES base alias unavailable'
+    elif [ ! "$cfg" -ef "$base_alias" ]; then
+      if ! { rm -f "$base_alias" && ln "$cfg" "$base_alias"; } 2>/dev/null; then
+        disable_storage_tools 'ES base alias unavailable'
+      fi
+    fi
+    bind_mount "$generated" "$cfg" || return 1
+  fi
   log "ports: session-local prelaunch cleanup enabled"
+}
+# Keep native menu scripts and their user-visible behavior. Replace only the
+# physical-storage transport and the ES sed on our session-local config bind.
+# This is optional: native script changes or a read-only overlay must never
+# prevent a session. Disable the whole adaptation on failure, so no adapted
+# script is left depending on a partially installed service.
+disable_storage_tools() {
+  local path target original temporary
+  STORAGE_TOOLS_READY=0
+  log "storage tools disabled: $1; continuing with native tools"
+  rm -f "$ROOT/run/andr36oid-storage-helper" 2>/dev/null || :
+  for path in '/opt/system/System/USB Drive Mount.sh' '/opt/system/System/USB Drive Unmount.sh' \
+      '/usr/local/bin/Switch to SD2 for Roms.sh' '/usr/local/bin/Switch to Main SD for Roms.sh'; do
+    target=$(root_path "$ROOT" "$path") || continue
+    original="$target.andr36oid-native"; temporary="$target.a36-storage.tmp"
+    # A new native script may have replaced our overlay. Never replace it with
+    # an older saved version. Only roll back files carrying our own marker.
+    if [ -f "$original" ] && grep -q '^# andr36oid-storage-tools-v1$' "$target" 2>/dev/null; then
+      { cp -p "$original" "$temporary" && mv -f "$temporary" "$target"; } 2>/dev/null || :
+    fi
+    rm -f "$temporary" "$original.tmp" 2>/dev/null || :
+  done
+  return 0
+}
+prepare_storage_tools() {
+  STORAGE_TOOLS_READY=0
+  STORAGE_TOOLS_ERROR='preparation failed'
+  if prepare_storage_tools_apply 2>/dev/null; then
+    return 0
+  fi
+  disable_storage_tools "$STORAGE_TOOLS_ERROR"
+  return 0
+}
+prepare_storage_tools_apply() {
+  local mode path target output original temporary found=0
+  STORAGE_TOOLS_ERROR='config recovery failed'
+  "$GUEST" --storage-recover "$ROOT" || return 1
+  for mode in usb-mount usb-unmount sd2 main; do
+    case "$mode" in
+      usb-mount) path='/opt/system/System/USB Drive Mount.sh' ;;
+      usb-unmount) path='/opt/system/System/USB Drive Unmount.sh' ;;
+      sd2) path='/usr/local/bin/Switch to SD2 for Roms.sh' ;;
+      main) path='/usr/local/bin/Switch to Main SD for Roms.sh' ;;
+    esac
+    STORAGE_TOOLS_ERROR="$path: overlay preparation failed"
+    target=$(root_path "$ROOT" "$path") || return 1
+    [ -f "$target" ] || continue
+    found=1
+    original="$target.andr36oid-native"; temporary="$target.a36-storage.tmp"
+    if ! grep -q '^# andr36oid-storage-tools-v1$' "$target" || [ ! -f "$original" ]; then
+      cp -p "$target" "$original.tmp" && mv -f "$original.tmp" "$original" || return 1
+    fi
+    mkdir -p "$ROOT/run/andr36oid-storage-tools" || return 1
+    output="$ROOT/run/andr36oid-storage-tools/$mode"
+    awk -v mode="$mode" '
+      NR==1 {print; print "# andr36oid-storage-tools-v1"; next}
+      /filesystem=.*lsblk -no FSTYPE \/dev\/(sda1|mmcblk1p1|mmcblk0p3)/ {
+        if (mode=="usb-mount" || mode=="sd2" || mode=="main") {
+          verb=(mode=="sd2"?"mount-sd2":mode=="main"?"mount-main":"mount-usb")
+          print "filesystem=$(/run/andr36oid-storage-helper --storage " verb ")"
+          print "status=$?"; transport++; next
+        }
+      }
+      mode=="usb-mount" && /^sudo mount -t .*\/dev\/sda1 / { skipstatus=1; next }
+      mode=="usb-mount" && skipstatus && /^status=\$\?/ {next}
+      mode=="usb-unmount" && /^sudo umount \/mnt\/usbdrive/ {
+        print "/run/andr36oid-storage-helper --storage unmount-usb"; transport++; next
+      }
+      (mode=="sd2" || mode=="main") && /^sudo umount -l \/opt\/system\/Tools/ {next}
+      mode=="main" && /^sudo umount \/roms / {next}
+      mode=="main" && /^sudo mount -t .*\/dev\/mmcblk0p3 / {next}
+      mode=="main" && /^status=\$\?/ {next}
+      mode=="sd2" && !skipped && /^if \[ "\$filesystem" = "ext4" \]; then/ {skipmount=1; skipped=1}
+      mode=="sd2" && skipmount {if ($0 ~ /^status=\$\?/) skipmount=0; next}
+      (mode=="sd2" && /^if test \$status -eq 0/) || (mode=="main" && /^if \[ \$status -eq 0 \]/) { success=1 }
+      mode=="sd2" && success && /^then$/ {print; print "  sudo umount -l /opt/system/Tools";success=0;next}
+      mode=="main" && success {print; print "  sudo umount -l /opt/system/Tools";success=0;next}
+      (mode=="sd2" || mode=="main") && /sed -i .*<path>.*\/etc\/emulationstation\/es_systems.cfg/ {
+        print "  /run/andr36oid-storage-helper --storage config-" (mode=="sd2"?"sd2":"main")
+        config++; next
+      }
+      {print}
+      END {
+        if (mode=="main") {if(config!=1 || transport!=1)exit 1}
+        else if(transport!=1 || (mode=="sd2" && (!skipped || config!=1)))exit 1
+      }
+    ' "$original" > "$output" || { STORAGE_TOOLS_ERROR="$path: unknown native script format"; return 1; }
+    chmod 0755 "$output" || return 1
+    if ! cmp -s "$output" "$target"; then
+      cp -p "$target" "$temporary" && cat "$output" > "$temporary" &&
+        mv -f "$temporary" "$target" || return 1
+    fi
+  done
+  [ "$found" = 1 ] || return 0
+  STORAGE_TOOLS_ERROR='helper installation failed'
+  cp "$GUEST" "$ROOT/run/andr36oid-storage-helper" && chmod 0755 "$ROOT/run/andr36oid-storage-helper" || return 1
+  STORAGE_TOOLS_READY=1
+  return 0
 }
 write_guest_session() {
   repair_port_launch_boundary || return 1
@@ -340,6 +448,7 @@ run_in_subsystem() {
   fi
   PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
     HOME=/home/ark TERM=linux XDG_RUNTIME_DIR=/run/user/0 \
+    A36_STORAGE_READY="${STORAGE_TOOLS_READY:-0}" \
     ALSA_TMPDIR=/run/alsa TMPDIR=/tmp SDL_VIDEODRIVER="$video" \
     SDL_VIDEO_EGL_DRIVER=libEGL.so SDL_KMSDRM_REQUIRE_DRM_MASTER="$HANDOFF" \
     "$GUEST" "$ROOT" "$mode" "$keys" -- "$@"
