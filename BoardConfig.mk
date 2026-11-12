@@ -147,8 +147,8 @@ TARGET_COPY_OUT_VENDOR := vendor
 BOARD_VENDORIMAGE_PARTITION_RESERVED_SIZE := 33554432 # 32M
 ifeq ($(TARGET_GAMECONSOLE_VULKAN),true)
 # The g7p1 blobs and gralloc 4 add about 38M, so the image (about 167M used
-# plus the reserve) no longer fits 160M. The device mkimg.sh then makes the
-# vendor partition 192M. 16M free leaves room below that.
+# plus the reserve) may exceed 160M. This is a staging filesystem: mkimg must
+# fit the selected filesystem inside the frozen 160M partition or fail.
 BOARD_VENDORIMAGE_PARTITION_RESERVED_SIZE := 16777216 # 16M
 endif
 BOARD_VENDORIMAGE_FILE_SYSTEM_TYPE := ext4

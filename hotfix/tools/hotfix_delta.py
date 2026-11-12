@@ -370,6 +370,7 @@ def ext4_tree(raw, work):
     outputs = debugfs(raw, work, commands)
     inodes = {}
     dumps = []
+    attr_reads = []
     for i, nid in enumerate(ids):
         info, attrs = outputs[i * 2:i * 2 + 2]
         mode = re.search(r"Type: (.*?)\s+Mode:\s+([0-7]+)", info)
@@ -382,9 +383,16 @@ def ext4_tree(raw, work):
             raise ValueError("unreadable ext4 inode " + str(nid))
         entry = Entry(kinds[mode[1]] | int(mode[2], 8), int(owner[1]), int(owner[2]), int(size[1]))
         for line in attrs.splitlines():
-            m = re.fullmatch(r"\s+(\S+) \((\d+)\) = (.*)", line)
+            m = re.fullmatch(r"\s+(\S+) \((\d+)\)(?: = .*)?", line)
             if m:
-                entry.attrs[m[1]] = xvalue(m[3], int(m[2]))
+                # ea_list abbreviates long values. Read the bytes into a file,
+                # including binary capabilities and long SELinux labels.
+                name, length = m[1], int(m[2])
+                if not re.fullmatch(r"[A-Za-z0-9_.-]+", name):
+                    raise ValueError("unsupported ext4 xattr name: " + name)
+                target = work / ("attr-" + str(len(attr_reads)))
+                attr_reads.append((entry, name, length, target))
+                dumps.append(f'ea_get -f "{target}" <{nid}> {name}')
             elif line.strip() and line != "Extended attributes:":
                 raise ValueError("unreadable ext4 xattrs: " + line)
         if stat.S_ISREG(entry.mode):
@@ -403,6 +411,12 @@ def ext4_tree(raw, work):
         inodes[nid] = entry
     if dumps:
         debugfs(raw, work, dumps)
+    for entry, name, length, target in attr_reads:
+        value = target.read_bytes()
+        if len(value) != length:
+            raise ValueError("ext4 xattr extraction size mismatch")
+        entry.attrs[name] = value
+        target.unlink()
     for entry in inodes.values():
         if entry.source:
             if not entry.source.is_file() or entry.source.stat().st_size != entry.size:
