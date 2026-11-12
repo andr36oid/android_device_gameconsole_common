@@ -703,3 +703,18 @@ service andr36oid-rk915-trial-watchdog /system/bin/andr36oid-rk915-trial-watchdo
 # An unexpectedly dead monitor cannot leave an active trial without fallback.
 on property:init.svc.andr36oid-rk915-trial-watchdog=stopped && property:sys.andr36oid.rk915_trial.active=1
     setprop sys.powerctl reboot,rk915-trial-watchdog-stopped
+
+# Real-time threads (screen compositor, audio, interrupt handlers) wake many
+# times a second. By default every such wake-up forces the top CPU frequency,
+# which holds an idle Ultra at 1296 MHz a quarter of the time (measured: 26%
+# at 2% load, 1% with this off). Let them follow the real load once boot is
+# over; boot itself keeps the default. Only 5.10 has this file, the write
+# fails quietly on 4.19. persist.andr36oid.rt_top_speed=1 keeps the default.
+on property:sys.boot_completed=1
+    write /proc/sys/kernel/sched_util_clamp_min_rt_default 0
+
+on property:sys.boot_completed=1 && property:persist.andr36oid.rt_top_speed=1
+    write /proc/sys/kernel/sched_util_clamp_min_rt_default 1024
+
+on property:persist.andr36oid.rt_top_speed=0
+    write /proc/sys/kernel/sched_util_clamp_min_rt_default 0
