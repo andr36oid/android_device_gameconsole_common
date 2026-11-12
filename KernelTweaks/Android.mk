@@ -9,6 +9,7 @@ LOCAL_MODULE_CLASS := ETC
 LOCAL_MODULE_TAGS := optional
 LOCAL_MODULE_STEM := andr36oid-ktweaks.sh
 LOCAL_SRC_FILES := helper/andr36oid-ktweaks.sh
+LOCAL_REQUIRED_MODULES := andr36oid-guest
 LOCAL_INIT_RC := helper/andr36oid-ktweaks.rc
 include $(BUILD_PREBUILT)
 

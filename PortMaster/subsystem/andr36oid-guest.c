@@ -35,6 +35,8 @@
 #include <time.h>
 #include <unistd.h>
 #include "andr36oid-input.h"
+#include "andr36oid-properties.h"
+#include "andr36oid-stage.h"
 
 #define PR_ANDR36OID_GUEST 0x41333601
 static volatile sig_atomic_t stopping;
@@ -751,6 +753,10 @@ done:
 #include "andr36oid-splash.h"
 #include "andr36oid-splash-scanout.h"
 int main(int argc,char **argv) {
+    if(argc==4&&!strcmp(argv[1],"--populate-dev"))return stage_dev(argv[2],!strcmp(argv[3],"1"));
+    if(argc==3&&!strcmp(argv[1],"--storage-groups"))return stage_groups(argv[2]);
+    if(argc==3&&!strcmp(argv[1],"--network-masks"))return stage_network_masks(argv[2]);
+    if(argc==3&&!strcmp(argv[1],"--properties"))return a36_properties(argv[2]);
     if(argc==8 && !strcmp(argv[1],"--splash-scanout")) {
         char *end;errno=0;unsigned long wait_ms=strtoul(argv[6],&end,10);
         if(errno||!*argv[6]||*end||wait_ms>10000)return 2;

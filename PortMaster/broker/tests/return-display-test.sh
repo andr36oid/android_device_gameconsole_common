@@ -36,6 +36,7 @@ guest-reaped
 drm-released
 gamma-restored
 splash
+sys.andr36oid.subsystem.returning <uptime>
 sys.andr36oid.subsystem.return_animation 0
 ctl.start composer
 service.bootanim.exit 0
@@ -48,7 +49,8 @@ sync
 loop-released
 sys.andr36oid.subsystem.return_animation 0
 EOF
-cmp "$tmp/expected" "$tmp/events" || fail 'animation did not precede slow cleanup/framework or raced DRM restoration'
+sed 's/^sys.andr36oid.subsystem.returning [0-9][0-9]*$/sys.andr36oid.subsystem.returning <uptime>/' "$tmp/events" > "$tmp/events-stamped"
+cmp "$tmp/expected" "$tmp/events-stamped" || fail 'animation did not precede slow cleanup/framework or raced DRM restoration'
 # joyMouse is stopped in handoff and has no onrestart hook, so restore must start
 # it explicitly or FN+X mouse mode stays dead after a session.
 grep -qx 'ctl.start joyMouse' "$tmp/events" || fail 'joyMouse not restarted after session'

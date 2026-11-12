@@ -838,5 +838,11 @@ else
 fi
 
 check "no oversized property writes" no "$([ -s "$T/long-props" ] && echo yes || echo no)"
+if javac -encoding UTF-8 -d "$T/classes" "$SRC/RequestHints.java" "$HERE/RequestHintsTest.java" &&
+    java -cp "$T/classes" org.andr36oid.kerneltweaks.RequestHintsTest; then
+    check "request hint Java tests" passed passed
+else
+    check "request hint Java tests" passed failed
+fi
 echo "passed $pass, failed $fail (shell: $MKSH)"
 [ "$fail" = 0 ]

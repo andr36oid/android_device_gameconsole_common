@@ -342,13 +342,23 @@ public class KernelTweaksFragment extends PreferenceFragment {
     private void save(Tweak t, String value) {
         SystemProperties.set(t.prop(), value.equals(def(t)) ? "" : value);
         mChanged = true;
-        apply();
+        apply(t.key);
     }
 
-    /** ask the root helper to write everything, and refresh once it's done */
+    /** Full apply for reset, pause, profiles and callers without a key. */
     private void apply() {
-        mWaitingFor = Long.toString(SystemClock.elapsedRealtime());
+        apply(null);
+    }
+
+    private static long sRequestSerial;
+
+    private void apply(String changedKey) {
+        final String pending = get(REQUEST_PROP);
+        final String done = get(DONE_PROP);
+        mWaitingFor = SystemClock.elapsedRealtime() + "-" + (++sRequestSerial);
         mWaitUntil = SystemClock.uptimeMillis() + WAIT_MS;
+        SystemProperties.set("sys.andr36oid.kt.changed", RequestHints.singleKey(changedKey, pending, done));
+        SystemProperties.set("sys.andr36oid.kt.changed_for", mWaitingFor);
         SystemProperties.set(REQUEST_PROP, mWaitingFor);
         SystemProperties.set("ctl.start", SERVICE);
         mHandler.removeCallbacksAndMessages(null);

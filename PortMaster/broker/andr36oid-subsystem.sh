@@ -63,7 +63,8 @@ log() {
   local line seconds idle
   IFS=' ' read -r seconds idle < /proc/uptime
   line="${seconds%.*}s $*"
-  printf '%s\n' "$line" >> "$LOG"
+  if [ -n "${KSH_VERSION:-}" ]; then print -r -- "$line" >> "$LOG"
+  else printf '%s\n' "$line" >> "$LOG"; fi
   [ "${LIVE_LOG:-0}" = 1 ] && printf '%s\n' "$line"
   return 0
 }
@@ -78,7 +79,8 @@ BOUND=""; DID_HANDOFF=0; SESSION_OWNED=0
 track_mount() {
   BOUND="$1
 $BOUND"
-  printf '%s\n' "$BOUND" > "$STATE/session.mounts.tmp" &&
+  { if [ -n "${KSH_VERSION:-}" ]; then print -r -- "$BOUND"
+    else printf '%s\n' "$BOUND"; fi; } > "$STATE/session.mounts.tmp" &&
     mv -f "$STATE/session.mounts.tmp" "$STATE/session.mounts"
 }
 forget_mount() {
@@ -667,12 +669,17 @@ add_dev() {
   esac
 }
 bind_core() {
-  local n
+  local n native=0 helper="${GUEST:-/system/bin/andr36oid-guest}" rc
   mkdir -p "$ROOT/dev" "$ROOT/proc" "$ROOT/sys" "$ROOT/tmp" "$ROOT/run" || return 1
   # A separate /dev keeps shm and hidden display nodes local to this container.
   # Binding Android's whole /dev would create /dev/shm on the host as well.
   mount -t tmpfs -o mode=0755,nosuid tmpfs "$ROOT/dev" || return 1
   track_mount "$ROOT/dev" || return 1
+  if [ -x "$helper" ]; then
+    if "$helper" --populate-dev "$ROOT" "$HANDOFF"; then native=1
+    else rc=$?; [ "$rc" = 2 ] || return "$rc"; fi
+  fi
+  if [ "$native" != 1 ]; then
   for n in null zero full random urandom tty ptmx; do
     add_dev "$n" || return 1
   done
@@ -684,6 +691,7 @@ bind_core() {
       add_dev "$n" || return 1
     done
     [ -e "$ROOT/dev/graphics/fb0" ] && ln -s graphics/fb0 "$ROOT/dev/fb0"
+  fi
   fi
   # /dev/console: init may reopen it after replacing stdout, so a /proc/self/fd/1
   # symlink would silently follow its new stdout. toybox mount cannot bind the
@@ -1580,15 +1588,18 @@ prepare_network() {
   # DNS into a real resolv.conf, replacing systemd-resolved's dangling stub link.
   # Overlay unit masks and temporary init-script binds keep the existing Android
   # connection in charge, including when booting a generic rootfs's own init.
-  local dns="" p snapshot net d unit path
+  local dns="" p snapshot d unit path helper="${GUEST:-/system/bin/andr36oid-guest}"
   snapshot=$(timeout -k 1 1 dumpsys -t 1 connectivity --short 2>/dev/null) || snapshot=
-  net=$(printf '%s\n' "$snapshot" | awk '/Active default network:/ {print $NF; exit}')
-  if [ -n "$net" ]; then
-    dns=$(printf '%s\n' "$snapshot" | awk -v n="$net" '
-      index($0,"network{" n "}") && /DnsAddresses: *\[/ {
+  dns=$({ if [ -n "${KSH_VERSION:-}" ]; then print -r -- "$snapshot"
+          else printf '%s\n' "$snapshot"; fi; } | awk '
+    { line[NR]=$0 }
+    !seen && /Active default network:/ { n=$NF; seen=1 }
+    END { if (n!="") for (i=1;i<=NR;i++) {
+      $0=line[i]
+      if (index($0,"network{" n "}") && /DnsAddresses: *\[/) {
         sub(/.*DnsAddresses: *\[/,""); sub(/\].*/,""); gsub(/[,\/]/," "); print; exit
-      }')
-  fi
+      }
+    }}')
   if [ -z "$dns" ]; then
     for p in net.dns1 net.dns2 net.dns3 net.dns4; do dns="$dns $(getprop "$p")"; done
   fi
@@ -1625,11 +1636,14 @@ prepare_network() {
   fi
   chmod 0644 "$ROOT/etc/hosts"
   mkdir -p "$ROOT/run/systemd/system" "$ROOT/etc/systemd/system"
+  if [ -x "$helper" ] && "$helper" --network-masks "$ROOT" 2>/dev/null; then :
+  else
   for unit in NetworkManager NetworkManager-wait-online systemd-networkd systemd-networkd-wait-online systemd-resolved networking dhcpcd dhcpcd@ wpa_supplicant wpa_supplicant@ iwd connman; do
     ln -sf /dev/null "$ROOT/run/systemd/system/$unit.service"
     # /etc takes precedence over /run (including enabled custom unit files).
     ln -sf /dev/null "$ROOT/etc/systemd/system/$unit.service"
   done
+  fi
   printf '#!/bin/sh\n# Android owns networking in this shared namespace.\nexit 0\n' > "$STATE/network-disabled"
   chmod 0755 "$STATE/network-disabled"
   for path in /etc/init.d/networking /etc/init.d/network /etc/init.d/NetworkManager /etc/init.d/dhcpcd /etc/init.d/wpa_supplicant /etc/init.d/connman; do
@@ -1651,8 +1665,12 @@ prepare_network() {
 # NUMERIC gid, so adding ark to groups with those gids grants access. systemd reads
 # User=ark's groups from /etc/group when it starts ES, so this must run before boot.
 grant_storage_groups() {
-  local grp="$ROOT/etc/group" gid
+  local grp="$ROOT/etc/group" gid helper="${GUEST:-/system/bin/andr36oid-guest}" rc
   [ -f "$grp" ] || return 0
+  if [ -x "$helper" ]; then
+    if "$helper" --storage-groups "$ROOT"; then return 0
+    else rc=$?; [ "$rc" = 2 ] || return "$rc"; fi
+  fi
   for gid in 1023 1015 1004 1005 3003 3004 9997; do   # storage, input, audio, inet, net_raw, everybody
     if awk -F: -v g="$gid" '$3==g{f=1} END{exit !f}' "$grp"; then
       # a group already owns this gid: add ark to it if absent
@@ -1669,14 +1687,16 @@ prep_darkos_env() {
   local n
   # The native supervisor snapshots existing Android/APEX/rootfs loops and
   # creates ONLY free loop nodes in this session's private /dev before exec.
+  set --
   if [ "$HANDOFF" = 1 ]; then
-    chmod 0666 "$ROOT/dev/uinput" 2>/dev/null
-    for n in "$ROOT"/dev/dri/card0 "$ROOT"/dev/dri/renderD128 "$ROOT"/dev/mali0; do [ -e "$n" ] && chmod 0666 "$n" 2>/dev/null; done
+    [ ! -e "$ROOT/dev/uinput" ] || set -- "$@" "$ROOT/dev/uinput"
+    for n in "$ROOT"/dev/dri/card0 "$ROOT"/dev/dri/renderD128 "$ROOT"/dev/mali0; do [ ! -e "$n" ] || set -- "$@" "$n"; done
   fi
-  for n in "$ROOT"/dev/snd/*; do [ -e "$n" ] && chmod 0666 "$n" 2>/dev/null; done
+  for n in "$ROOT"/dev/snd/*; do [ ! -e "$n" ] || set -- "$@" "$n"; done
   # Raw input nodes for ports that read evdev directly (ES itself goes through ogage's
   # uinput device above, but Kodi and some ports open /dev/input/event* themselves).
-  for n in "$ROOT"/dev/input/event* "$ROOT"/dev/input/js*; do [ -e "$n" ] && chmod 0666 "$n" 2>/dev/null; done
+  for n in "$ROOT"/dev/input/event* "$ROOT"/dev/input/js*; do [ ! -e "$n" ] || set -- "$@" "$n"; done
+  [ "$#" = 0 ] || chmod 0666 "$@" 2>/dev/null
   grant_storage_groups
   mkdir -p "$ROOT/run/user/0" "$ROOT/run/user/1000" 2>/dev/null
   chmod 0700 "$ROOT/run/user/0" "$ROOT/run/user/1000" 2>/dev/null

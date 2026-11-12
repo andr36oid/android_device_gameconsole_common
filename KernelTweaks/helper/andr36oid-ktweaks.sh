@@ -102,6 +102,106 @@ emmc_power|boot||emmc_power
 boot_boost|boot||boot_boost
 '
 
+
+# Scalar kernel files are read with shell builtins. Preserve internal newlines,
+# as command substitution of cat did, including files without a final newline.
+if [ -n "${KSH_VERSION:-}" ]; then
+    kt_line() { print -r -- "$1"; }
+else
+    kt_line() { printf '%s\n' "$1"; }
+fi
+read_file() {
+    local line value= sep=
+    [ -r "$1" ] || return 1
+    while IFS= read -r line || [ -n "$line" ]; do
+        value="$value$sep$line"
+        sep='
+'
+    done < "$1"
+    kt_line "$value"
+}
+bracket_value() {
+    local line value
+    [ -r "$1" ] || return 1
+    while IFS= read -r line || [ -n "$line" ]; do
+        case "$line" in *'['*']'*) value=${line##*'['}; kt_line "${value%%']'*}" ;; esac
+    done < "$1"
+}
+
+KT_NATIVE=${KT_NATIVE:-/system/bin/andr36oid-guest}
+KT_FAST=0
+KT_SNAPSHOT=
+KT_UPDATES=
+KT_NL='
+'
+KT_TAB='	'
+kt_snapshot() {
+    local key kind once paths keys=
+    KT_FAST=0
+    [ -x "$KT_NATIVE" ] || return 0
+    while IFS='|' read -r key kind once paths; do
+        [ -n "$key" ] || continue
+        keys="$keys${KT_NL}sys.andr36oid.ktd.$key${KT_NL}sys.andr36oid.ktc.$key"
+        if [ -n "$once" ]; then keys="$keys${KT_NL}sys.andr36oid.kt.$key"
+        else keys="$keys${KT_NL}persist.andr36oid.kt.$key"; fi
+    done <<EOF
+$KNOBS
+EOF
+    keys="$keys${KT_NL}persist.andr36oid.kt.paused${KT_NL}persist.andr36oid.kt.tries${KT_NL}persist.andr36oid.sd2_mount${KT_NL}sys.andr36oid.kt.failed${KT_NL}sys.andr36oid.kt.done${KT_NL}sys.andr36oid.kt.changed${KT_NL}sys.andr36oid.kt.changed_for"
+    KT_SNAPSHOT=$("$KT_NATIVE" --properties get <<EOF
+$keys
+EOF
+    ) || { KT_SNAPSHOT=; return 0; }
+    KT_SNAPSHOT="$KT_NL$KT_SNAPSHOT$KT_NL"
+    KT_FAST=1
+}
+kt_getprop() {
+    local token rest
+    # Request/service readiness is volatile and is never sampled from a cache.
+    case "$1" in sys.andr36oid.kt.request|sys.boot_completed) command getprop "$@"; return ;; esac
+    if [ "$KT_FAST" = 1 ]; then
+        token="$KT_NL$1$KT_TAB"
+        case "$KT_UPDATES" in *"$token"*)
+            rest=${KT_UPDATES##*"$token"}; kt_line "${rest%%"$KT_NL"*}"; return ;; esac
+        case "$KT_SNAPSHOT" in *"$token"*)
+            rest=${KT_SNAPSHOT#*"$token"}; kt_line "${rest%%"$KT_NL"*}"; return ;; esac
+    fi
+    command getprop "$@"
+}
+kt_flush() {
+    local name value
+    [ -n "$KT_UPDATES" ] || return 0
+    if ! "$KT_NATIVE" --properties set <<EOF
+$KT_UPDATES
+EOF
+    then
+        # Older helpers and SELinux failures retain the original setprop path.
+        KT_FAST=0
+        while IFS="$KT_TAB" read -r name value; do
+            [ -n "$name" ] && command setprop "$name" "$value"
+        done <<EOF
+$KT_UPDATES
+EOF
+    fi
+    KT_UPDATES=
+    return 0
+}
+kt_publish() {
+    # Only bookkeeping values use the queue; live kernel-prop writes/readback
+    # still use the ordinary synchronous command, with its failure behavior.
+    if [ "$KT_FAST" = 1 ]; then
+        case "$2" in *"$KT_TAB"*|*"$KT_NL"*) kt_flush; KT_FAST=0 ;;
+        *) KT_UPDATES="$KT_UPDATES$KT_NL$1$KT_TAB$2$KT_NL"; return 0 ;; esac
+    fi
+    command setprop "$@"
+}
+truncate_property() {
+    local value=$1
+    # Boot options are ASCII; matches head -c91 without another executable.
+    while [ "${#value}" -gt 91 ]; do value=${value%?}; done
+    kt_line "$value"
+}
+
 # Start options. boot.ini reads kt_args=... from BOOT/kernel-tweaks.txt and puts it at
 # the end of the kernel command line, where it wins over the same options before it.
 # CMDLINE is what this start got, BASE the same without the part kernel-tweaks.txt
@@ -110,7 +210,7 @@ KT_FILE=kernel-tweaks.txt
 BOOT_DEVS=${KT_BOOT_DEVS:-"/dev/block/by-name/BOOT /dev/block/platform/ff370000.dwmmc/by-name/BOOT /dev/block/mmcblk0p1"}
 BOOT_MNT=${KT_BOOT_MNT:-/mnt/andr36oid-ktweaks-boot}
 BOOT_LOCK=${KT_BOOT_LOCK:-/dev/andr36oid-boot.lock}
-CMDLINE=$(cat "$R/proc/cmdline" 2>/dev/null)
+CMDLINE=$(read_file "$R/proc/cmdline" 2>/dev/null)
 BASE=$CMDLINE
 
 # arg_last <name> <cmdline> ; the value of the last name=value
@@ -277,7 +377,7 @@ boot_args() {
 boot_lock() {
 	n=0
 	while ! mkdir "$BOOT_LOCK" 2>/dev/null; do
-		pid=$(cat "$BOOT_LOCK/pid" 2>/dev/null)
+		pid=$(read_file "$BOOT_LOCK/pid" 2>/dev/null)
 		if [ -n "$pid" ] && ! kill -0 "$pid" 2>/dev/null; then
 			rm -rf "$BOOT_LOCK"
 			continue
@@ -294,7 +394,7 @@ boot_lock() {
 }
 
 boot_unlock() {
-	[ "$(cat "$BOOT_LOCK/pid" 2>/dev/null)" = "$$" ] && rm -rf "$BOOT_LOCK"
+	[ "$(read_file "$BOOT_LOCK/pid" 2>/dev/null)" = "$$" ] && rm -rf "$BOOT_LOCK"
 }
 
 # boot_mount <ro|rw> ; BOOT at $BOOT, or a test folder (KT_BOOT)
@@ -348,7 +448,7 @@ write_boot_args() {
 
 thermal_path() {
 	for z in "$R"/sys/class/thermal/thermal_zone*; do
-		if [ "$(cat "$z/type" 2>/dev/null)" = soc-thermal ]; then
+		if [ "$(read_file "$z/type" 2>/dev/null)" = soc-thermal ]; then
 			echo "${z#"$R"}/trip_point_$1_temp"
 			return
 		fi
@@ -369,7 +469,7 @@ zram_swapping() { grep -q '^/dev/block/zram0 ' "$R/proc/swaps" 2>/dev/null; }
 zram_wait() {
 	[ -e "$R$ZRAM/disksize" ] || return 1
 	n=0
-	while ! zram_swapping && [ "$(getprop sys.boot_completed)" != 1 ] && [ $n -lt 150 ]; do
+	while ! zram_swapping && [ "$(kt_getprop sys.boot_completed)" != 1 ] && [ $n -lt 150 ]; do
 		sleep 0.2
 		n=$((n + 1))
 	done
@@ -381,7 +481,7 @@ zram_read() {
 	zram_wait || return 0
 	case $1 in
 	size)
-		d=$(cat "$R$ZRAM/disksize" 2>/dev/null)
+		d=$(read_file "$R$ZRAM/disksize" 2>/dev/null)
 		m=$(mem_kb)
 		if ! zram_swapping || [ "${d:-0}" = 0 ] || [ -z "$m" ]; then
 			echo 0
@@ -391,8 +491,8 @@ zram_read() {
 		;;
 	algorithm)
 		# "lzo [lz4] deflate": the bracketed one is in use
-		v=$(sed -n 's/.*\[\([^]]*\)\].*/\1/p' "$R$ZRAM/comp_algorithm")
-		echo "${v:-$(cat "$R$ZRAM/comp_algorithm" 2>/dev/null)}"
+		v=$(bracket_value "$R$ZRAM/comp_algorithm")
+		echo "${v:-$(read_file "$R$ZRAM/comp_algorithm" 2>/dev/null)}"
 		;;
 	esac
 }
@@ -422,14 +522,14 @@ read_knob() {
 	cores)
 		n=1
 		for c in 1 2 3; do
-			[ "$(cat "$R/sys/devices/system/cpu/cpu$c/online" 2>/dev/null)" = 1 ] && n=$((n + 1))
+			[ "$(read_file "$R/sys/devices/system/cpu/cpu$c/online" 2>/dev/null)" = 1 ] && n=$((n + 1))
 		done
 		echo $n
 		return
 		;;
 	thermal) set -- plain "$(thermal_path "$2")" ;;
 	prop)
-		v=$(getprop "$2")
+		v=$(command getprop "$2")
 		echo "${v:-0}"
 		return
 		;;
@@ -448,9 +548,9 @@ read_knob() {
 		p=$R$p
 		[ -e "$p" ] || continue
 		case $kind in
-		bracket) sed -n 's/.*\[\([^]]*\)\].*/\1/p' "$p" ;;
+		bracket) bracket_value "$p" ;;
 		first) read -r v _ <"$p" && echo "$v" ;;
-		*) cat "$p" ;;
+		*) read_file "$p" ;;
 		esac
 		return
 	done
@@ -487,32 +587,89 @@ write_knob() {
 	done
 }
 
-# apply_all paused
+# The app's hint is advisory. Detect other unhandled saved values from the
+# existing wanted/current metadata even if another caller overwrote a request.
+# No unrelated live nodes, zram or BOOT file are touched to check the hint.
+selection_safe() {
+    local scope=$1 key kind once paths def want cur storage_next= bad
+    for bad in $(kt_getprop sys.andr36oid.kt.failed); do
+        [ "$bad" = "$scope" ] || { [ "$scope" = @boot ] && [ "$bad" = boot ]; } || return 1
+    done
+    while IFS='|' read -r key kind once paths; do
+        [ -n "$key" ] || continue
+        def=$(kt_getprop "sys.andr36oid.ktd.$key")
+        if [ -n "$once" ]; then want=$(kt_getprop "sys.andr36oid.kt.$key")
+        else want=$(kt_getprop "persist.andr36oid.kt.$key"); fi
+        if [ -z "$def" ]; then [ -z "$want" ] || return 1; continue; fi
+        [ -n "$want" ] || want=$def
+        [ "$key" = storage ] && storage_next=$want
+        [ "$key" = fuse ] && [ "$storage_next" = fuse ] && want=on
+        [ "$scope" = "$key" ] && continue
+        [ "$scope" != @boot ] || [ "$kind" != boot ] || continue
+        cur=$(kt_getprop "sys.andr36oid.ktc.$key")
+        [ "$cur" = "$want" ] || return 1
+    done <<EOF
+$KNOBS
+EOF
+    return 0
+}
+request_selection() {
+    local key kind once paths hint scope=
+    [ "$KT_FAST" = 1 ] && [ "$paused" != 1 ] && [ -n "$req" ] || return 0
+    [ "$req" != "$(kt_getprop sys.andr36oid.kt.done)" ] || return 0
+    [ "$(kt_getprop sys.andr36oid.kt.changed_for)" = "$req" ] || return 0
+    hint=$(kt_getprop sys.andr36oid.kt.changed)
+    [ -n "$hint" ] || return 0
+    while IFS='|' read -r key kind once paths; do
+        [ -n "$key" ] && [ "$key" = "$hint" ] || continue
+        [ -n "$(kt_getprop "sys.andr36oid.ktd.$key")" ] || return 0
+        if [ "$kind" = boot ]; then scope=@boot; else scope=$key; fi
+        break
+    done <<EOF
+$KNOBS
+EOF
+    [ -n "$scope" ] && selection_safe "$scope" && kt_line "$scope"
+    return 0
+}
+
+# apply_all paused [single-key|@boot] ; boot/reset/legacy/unknown always full
 apply_all() {
-	failed=
+	local selection=${2:-} bad ordered=
+	if [ -z "$selection" ]; then failed=
+    else
+        failed=
+        for bad in $(kt_getprop sys.andr36oid.kt.failed); do
+            [ "$bad" = "$selection" ] && continue
+            [ "$selection" != @boot ] || [ "$bad" != boot ] || continue
+            failed="$failed $bad"
+        done
+    fi
 	bootargs=
 	storage_next=
 	# fed by a here-document, not a pipe: the loop runs in this shell and keeps $failed
 	while IFS='|' read -r key kind once paths; do
 		[ -n "$key" ] || continue
+        if [ -n "$selection" ] && [ "$key" != "$selection" ]; then
+            [ "$selection" = @boot ] && [ "$kind" = boot ] || continue
+        fi
         # RK915 is loaded by the Wi-Fi HAL, often after KT's boot service.
         # Its explicit kernel ABI default is 0, including after a module reload.
         if [ "$key" = wifi_wake_wait ]; then
             if [ ! -e "$R/sys/module/rk915/parameters/pm_wake_ack_timeout_ms" ]; then
-                setprop sys.andr36oid.ktc.wifi_wake_wait ""
+                kt_publish sys.andr36oid.ktc.wifi_wake_wait ""
                 continue
             fi
-            [ -n "$(getprop sys.andr36oid.ktd.wifi_wake_wait)" ] ||
-                setprop sys.andr36oid.ktd.wifi_wake_wait 0
+            [ -n "$(kt_getprop sys.andr36oid.ktd.wifi_wake_wait)" ] ||
+                kt_publish sys.andr36oid.ktd.wifi_wake_wait 0
         fi
-		def=$(getprop "sys.andr36oid.ktd.$key")
+		def=$(kt_getprop "sys.andr36oid.ktd.$key")
 		[ -n "$def" ] || continue
 		if [ -n "$once" ]; then
-			want=$(getprop "sys.andr36oid.kt.$key")
+			want=$(kt_getprop "sys.andr36oid.kt.$key")
 		elif [ "$1" = 1 ]; then
 			want=
 		else
-			want=$(getprop "persist.andr36oid.kt.$key")
+			want=$(kt_getprop "persist.andr36oid.kt.$key")
 		fi
 		[ -n "$want" ] || want=$def
 		# shellcheck disable=SC2086 # paths is a space separated list
@@ -537,19 +694,32 @@ apply_all() {
 				log -t andr36oid-ktweaks "$key: wanted '$want', kernel kept '$cur'"
 			}
 		fi
-		setprop "sys.andr36oid.ktc.$key" "$cur"
+		kt_publish "sys.andr36oid.ktc.$key" "$cur"
 	done <<EOF
 $KNOBS
 EOF
-	write_boot_args "$bootargs" || failed="$failed boot"
-	# Property values allow 91 bytes; the BOOT file keeps the complete start options.
-	setprop sys.andr36oid.kt.args "$(printf '%s' "$bootargs" | head -c 91)"
-	setprop sys.andr36oid.kt.failed "${failed# }"
+    if [ -z "$selection" ] || [ "$selection" = @boot ]; then
+        write_boot_args "$bootargs" || failed="$failed boot"
+        # The BOOT file keeps complete options, the property allows 91 bytes.
+        kt_publish sys.andr36oid.kt.args "$(truncate_property "$bootargs")"
+    fi
+    if [ -n "$selection" ]; then
+        # Preserve the original KNOBS order of the failure message.
+        while IFS='|' read -r key kind once paths; do
+            [ -n "$key" ] || continue
+            case " $failed " in *" $key "*) ordered="$ordered $key" ;; esac
+        done <<EOF
+$KNOBS
+EOF
+        case " $failed " in *' boot '*) ordered="$ordered boot" ;; esac
+        failed=$ordered
+    fi
+	kt_publish sys.andr36oid.kt.failed "${failed# }"
 }
 
 any_set() {
 	echo "$KNOBS" | while IFS='|' read -r key kind once paths; do
-		if [ -n "$key" ] && [ -z "$once" ] && [ -n "$(getprop "persist.andr36oid.kt.$key")" ]; then
+		if [ -n "$key" ] && [ -z "$once" ] && [ -n "$(kt_getprop "persist.andr36oid.kt.$key")" ]; then
 			echo 1
 			break
 		fi
@@ -558,7 +728,7 @@ any_set() {
 
 # 1 while the tweaks are switched off
 is_paused() {
-	case $(getprop persist.andr36oid.kt.paused) in
+	case $(kt_getprop persist.andr36oid.kt.paused) in
 	1 | crash) echo 1 ;;
 	*) echo 0 ;;
 	esac
@@ -584,8 +754,8 @@ profile_easyroms() {
 		[ -d "${KT_PROFILE_EASYROMS:-}" ] && echo "$KT_PROFILE_EASYROMS"
 		return
 	fi
-	selected=$(getprop sys.andr36oid.easyroms.id)
-	if [ -z "$selected" ] && [ "$(getprop sys.andr36oid.easyroms.ready)" != 1 ]; then
+	selected=$(kt_getprop sys.andr36oid.easyroms.id)
+	if [ -z "$selected" ] && [ "$(kt_getprop sys.andr36oid.easyroms.ready)" != 1 ]; then
 		selected=public:179,7
 	fi
 	sm list-volumes public </dev/null 2>/dev/null | while read -r id state uuid; do
@@ -599,9 +769,9 @@ profile_identity() {
 	printf 'model=%s\n' "$(tr -d '\0\r\n' <"$R/proc/device-tree/model" 2>/dev/null | head -c 1024)"
 	printf 'compatible=%s\n' "$(tr '\0' ' ' <"$R/proc/device-tree/compatible" 2>/dev/null | tr -d '\r\n' | head -c 1024)"
 	printf 'profile=%s\n' "$(if [ -n "$BOOT" ]; then head -c 1024 "$BOOT/andr36oid-profile.txt" 2>/dev/null | head -n 1 | tr -d '\r'; fi)"
-	printf 'version=%s\n' "$(getprop ro.andr36oid.version)"
+	printf 'version=%s\n' "$(kt_getprop ro.andr36oid.version)"
 	local f panel
-	panel=$(getprop andr36oid.info.panel)
+	panel=$(kt_getprop andr36oid.info.panel)
 	if [ -n "$panel" ] && [ "$panel" != custom ]; then
 		printf 'panel=%s\n' "$panel"
 		return
@@ -693,7 +863,7 @@ profiles() {
 			echo "$KNOBS" | while IFS='|' read -r key kind once paths; do
 				[ -n "$key" ] || continue
 				[ -z "$once" ] || continue
-				v=$(getprop "persist.andr36oid.kt.$key")
+				v=$(kt_getprop "persist.andr36oid.kt.$key")
 				[ -n "$v" ] && printf 'persist.andr36oid.kt.%s=%s\n' "$key" "$v"
 			done
 		} >"$PROFILE_DIR/out"
@@ -734,12 +904,13 @@ if [ "$1" = profiles ]; then
 	exit $?
 fi
 
+kt_snapshot
 paused=$(is_paused)
 
 if [ "$1" = boot ]; then
 	# Second SD card switched off before the slot had a kernel option: carry it over
-	if [ "$(getprop persist.andr36oid.sd2_mount)" = 0 ] &&
-		[ -z "$(getprop persist.andr36oid.kt.sd2_slot)" ]; then
+	if [ "$(kt_getprop persist.andr36oid.sd2_mount)" = 0 ] &&
+		[ -z "$(kt_getprop persist.andr36oid.kt.sd2_slot)" ]; then
 		setprop persist.andr36oid.kt.sd2_slot off
 	fi
 	# The defaults of the start options: this start's command line without the part
@@ -753,8 +924,8 @@ if [ "$1" = boot ]; then
 			[ -n "$added" ] && BASE="${c%" $added "*} ${c##*" $added "}" ;;
 		esac
 	fi
-	setprop sys.andr36oid.kt.started_with "$(printf '%s' "${added:-}" | head -c 91)"
-	echo "$KNOBS" | while IFS='|' read -r key kind once paths; do
+	kt_publish sys.andr36oid.kt.started_with "$(truncate_property "${added:-}")"
+	while IFS='|' read -r key kind once paths; do
 		[ -n "$key" ] || continue
 		if [ "$kind" = boot ]; then
 			v=$(boot_read "$paths" "$BASE")
@@ -762,23 +933,28 @@ if [ "$1" = boot ]; then
 			# shellcheck disable=SC2086
 			v=$(read_knob "$kind" $paths 2>/dev/null)
 		fi
-		[ -n "$v" ] && setprop "sys.andr36oid.ktd.$key" "$v"
-	done
+		[ -n "$v" ] && kt_publish "sys.andr36oid.ktd.$key" "$v"
+	done <<EOF
+$KNOBS
+EOF
+	kt_flush
+	kt_snapshot
 	# Data with no tweaks saved but a kernel-tweaks.txt on BOOT: the first start of
 	# andr36oid installed on the eMMC (its BOOT is a copy of the SD card's) or after
 	# a reset. Take the start options over, apply_all would drop the file otherwise.
-	if [ -n "$added" ] && [ -z "$(any_set)" ] && [ -z "$(getprop persist.andr36oid.kt.paused)" ]; then
+	if [ -n "$added" ] && [ -z "$(any_set)" ] && [ -z "$(kt_getprop persist.andr36oid.kt.paused)" ]; then
 		echo "$KNOBS" | while IFS='|' read -r key kind once paths; do
 			[ "$kind" = boot ] || continue
-			def=$(getprop "sys.andr36oid.ktd.$key")
+			def=$(kt_getprop "sys.andr36oid.ktd.$key")
 			[ -n "$def" ] || continue
 			v=$(boot_read "$paths" "$CMDLINE")
 			[ -n "$v" ] && [ "$v" != "$def" ] && setprop "persist.andr36oid.kt.$key" "$v"
 		done
 		log -t andr36oid-ktweaks "no tweaks saved: took over kernel-tweaks.txt ($added)"
 	fi
+	kt_snapshot
 	if [ "$paused" != 1 ] && [ -n "$(any_set)" ]; then
-		tries=$(getprop persist.andr36oid.kt.tries)
+		tries=$(kt_getprop persist.andr36oid.kt.tries)
 		if [ "${tries:-0}" -ge 2 ]; then
 			log -t andr36oid-ktweaks "the last $tries starts didn't finish, pausing the tweaks"
 			setprop persist.andr36oid.kt.paused crash
@@ -789,15 +965,20 @@ if [ "$1" = boot ]; then
 		fi
 	fi
 	apply_all "$paused"
+	kt_flush
 	setprop sys.andr36oid.kt.ready 1
 	exit 0
 fi
 
 # apply: run again while the app asked for more during the run
 while :; do
-	req=$(getprop sys.andr36oid.kt.request)
+	req=$(kt_getprop sys.andr36oid.kt.request)
+	kt_snapshot
 	paused=$(is_paused)
-	apply_all "$paused"
+    selection=$(request_selection)
+    [ "$(kt_getprop sys.andr36oid.kt.request)" = "$req" ] || selection=
+	apply_all "$paused" "$selection"
+	kt_flush
 	setprop sys.andr36oid.kt.done "$req"
-	[ "$(getprop sys.andr36oid.kt.request)" = "$req" ] && break
+	[ "$(kt_getprop sys.andr36oid.kt.request)" = "$req" ] && break
 done
