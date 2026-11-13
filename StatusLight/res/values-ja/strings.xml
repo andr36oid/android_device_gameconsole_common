@@ -29,6 +29,10 @@
     <string name="sl_check_use">この色を使う</string>
     <string name="sl_follow_battery">充電器なしのときと同じ電池の色</string>
     <string name="sl_follow_charging">充電中と同じ</string>
+    <string name="sl_sleep">スリープ中のライト</string>
+    <string name="sl_sleep_automatic">自動</string>
+    <string name="sl_sleep_automatic_summary">本体で消灯できる場合は消灯</string>
+    <string name="sl_sleep_keep">起動中と同じ</string>
     <string name="sl_full">満充電のとき</string>
     <string name="sl_hardware">ハードウェアに任せる</string>
     <string name="sl_intro">本体中央、Fn の下にあるライトです。電池残量が少ないとき、充電中、通知が届いたときに表示する内容を選べます。本体がスリープ中も点灯は続き、点滅だけが止まります。</string>

@@ -44,6 +44,10 @@
     <string name="sl_full">Cuando está cargada del todo</string>
     <string name="sl_follow_battery">Colores de batería, como sin cargador</string>
     <string name="sl_follow_charging">Igual que mientras carga</string>
+    <string name="sl_sleep">Luz durante el reposo</string>
+    <string name="sl_sleep_automatic">Automático</string>
+    <string name="sl_sleep_automatic_summary">Apagada cuando la consola puede apagarla</string>
+    <string name="sl_sleep_keep">Igual que cuando está activa</string>
 
     <!-- Notifications -->
     <string name="sl_cat_notifications">Notificaciones</string>

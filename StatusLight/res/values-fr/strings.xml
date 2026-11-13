@@ -44,6 +44,10 @@
     <string name="sl_full">Une fois chargée à fond</string>
     <string name="sl_follow_battery">Couleurs de batterie, comme sans chargeur</string>
     <string name="sl_follow_charging">Pareil qu\'en charge</string>
+    <string name="sl_sleep">Voyant en veille</string>
+    <string name="sl_sleep_automatic">Automatique</string>
+    <string name="sl_sleep_automatic_summary">Éteint si la console peut l\'éteindre</string>
+    <string name="sl_sleep_keep">Comme lorsqu\'elle est active</string>
 
     <!-- Notifications -->
     <string name="sl_cat_notifications">Notifications</string>

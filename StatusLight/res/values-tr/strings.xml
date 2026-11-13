@@ -44,6 +44,10 @@
     <string name="sl_full">Tamamen dolduğunda</string>
     <string name="sl_follow_battery">Pil renkleri, şarj cihazı yokmuş gibi</string>
     <string name="sl_follow_charging">Şarj olurkenle aynı</string>
+    <string name="sl_sleep">Uyku sırasında ışık</string>
+    <string name="sl_sleep_automatic">Otomatik</string>
+    <string name="sl_sleep_automatic_summary">Konsol kapatabiliyorsa kapalı</string>
+    <string name="sl_sleep_keep">Uyanıkken olduğu gibi</string>
 
     <!-- Notifications -->
     <string name="sl_cat_notifications">Bildirimler</string>

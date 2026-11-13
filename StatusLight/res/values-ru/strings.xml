@@ -42,6 +42,10 @@
     <string name="sl_full">Когда полностью заряжена</string>
     <string name="sl_follow_battery">Цвета заряда, как без зарядки</string>
     <string name="sl_follow_charging">Так же, как во время зарядки</string>
+    <string name="sl_sleep">Индикатор во время сна</string>
+    <string name="sl_sleep_automatic">Автоматически</string>
+    <string name="sl_sleep_automatic_summary">Выключен, если консоль может его выключить</string>
+    <string name="sl_sleep_keep">Как при бодрствовании</string>
     <!-- Notifications -->
     <string name="sl_cat_notifications">Уведомления</string>
     <string name="sl_notify">Мигать при уведомлениях</string>

@@ -44,6 +44,10 @@
     <string name="sl_full">Bei vollem Akku</string>
     <string name="sl_follow_battery">Akkufarben, wie ohne Ladegerät</string>
     <string name="sl_follow_charging">Wie beim Laden</string>
+    <string name="sl_sleep">Licht im Ruhemodus</string>
+    <string name="sl_sleep_automatic">Automatisch</string>
+    <string name="sl_sleep_automatic_summary">Aus, wenn die Konsole es ausschalten kann</string>
+    <string name="sl_sleep_keep">Wie im Betrieb</string>
 
     <!-- Notifications -->
     <string name="sl_cat_notifications">Benachrichtigungen</string>

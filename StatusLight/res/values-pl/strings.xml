@@ -44,6 +44,10 @@
     <string name="sl_full">Gdy naładowana do pełna</string>
     <string name="sl_follow_battery">Kolory baterii, jak bez ładowarki</string>
     <string name="sl_follow_charging">Tak jak podczas ładowania</string>
+    <string name="sl_sleep">Lampka podczas uśpienia</string>
+    <string name="sl_sleep_automatic">Automatycznie</string>
+    <string name="sl_sleep_automatic_summary">Wyłączona, gdy konsola może ją wyłączyć</string>
+    <string name="sl_sleep_keep">Tak jak po wybudzeniu</string>
 
     <!-- Notifications -->
     <string name="sl_cat_notifications">Powiadomienia</string>

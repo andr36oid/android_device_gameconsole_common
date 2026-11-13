@@ -44,6 +44,10 @@
     <string name="sl_full">Saat terisi penuh</string>
     <string name="sl_follow_battery">Warna baterai, seperti tanpa charger</string>
     <string name="sl_follow_charging">Sama seperti saat mengisi daya</string>
+    <string name="sl_sleep">Lampu saat tidur</string>
+    <string name="sl_sleep_automatic">Otomatis</string>
+    <string name="sl_sleep_automatic_summary">Mati jika konsol dapat mematikannya</string>
+    <string name="sl_sleep_keep">Sama seperti saat aktif</string>
 
     <!-- Notifications -->
     <string name="sl_cat_notifications">Notifikasi</string>

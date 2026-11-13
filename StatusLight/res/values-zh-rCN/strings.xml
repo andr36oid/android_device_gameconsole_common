@@ -44,6 +44,10 @@
     <string name="sl_full">充满后</string>
     <string name="sl_follow_battery">跟电量颜色一样，就像没插充电器</string>
     <string name="sl_follow_charging">跟充电时一样</string>
+    <string name="sl_sleep">休眠时的灯光</string>
+    <string name="sl_sleep_automatic">自动</string>
+    <string name="sl_sleep_automatic_summary">主机可以关灯时关闭</string>
+    <string name="sl_sleep_keep">与唤醒时相同</string>
 
     <!-- Notifications -->
     <string name="sl_cat_notifications">通知</string>
