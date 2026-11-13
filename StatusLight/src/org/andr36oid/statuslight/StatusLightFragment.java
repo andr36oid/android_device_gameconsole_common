@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.preference.Preference;
+import android.preference.ListPreference;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
@@ -47,6 +48,7 @@ public class StatusLightFragment extends PreferenceFragment {
     private SwitchPreference mBlink;
     private Preference mCharging;
     private Preference mFull;
+    private ListPreference mSleep;
     private SwitchPreference mNotify;
     private List<String> mColors = new ArrayList<>();
 
@@ -116,6 +118,21 @@ public class StatusLightFragment extends PreferenceFragment {
             return true;
         });
         charger.addPreference(mFull);
+
+        if (Led.sleepSupported()) {
+            mSleep = new ListPreference(c);
+            mSleep.setPersistent(false);
+            mSleep.setTitle(R.string.sl_sleep);
+            mSleep.setOnPreferenceChangeListener((p, value) -> {
+                if (!(value instanceof String)
+                        || !Led.sleepValues(Led.colors()).contains(value)) return false;
+                Led.save("sleep", (String) value);
+                refreshSoon();
+                return true;
+            });
+            charger.addPreference(mSleep);
+        }
+
 
         final PreferenceCategory notif = category(screen, R.string.sl_cat_notifications);
         mNotify = new SwitchPreference(c);
@@ -198,6 +215,22 @@ public class StatusLightFragment extends PreferenceFragment {
         mBlink.setChecked(battery != null && hasBlink(battery));
         mCharging.setSummary(describeCharger(Led.read("charging"), R.string.sl_follow_battery));
         mFull.setSummary(describeCharger(Led.read("full"), R.string.sl_follow_charging));
+        if (mSleep != null) {
+            final List<String> values = Led.sleepValues(mColors);
+            final CharSequence[] labels = new CharSequence[values.size()];
+            labels[0] = getString(R.string.sl_sleep_automatic);
+            labels[1] = getString(R.string.sl_sleep_keep);
+            for (int i = 2; i < labels.length; i++) labels[i] = colorLabel(values.get(i));
+            mSleep.setEntries(labels);
+            mSleep.setEntryValues(values.toArray(new CharSequence[0]));
+            final String requested = Led.sleepPolicy();
+            mSleep.setValue(requested);
+            mSleep.setSummary("default".equals(requested)
+                    ? getString(R.string.sl_sleep_automatic_summary)
+                    : "keep".equals(requested) ? getString(R.string.sl_sleep_keep)
+                    : colorLabel(requested));
+        }
+
         mNotify.setChecked(Settings.System.getInt(getActivity().getContentResolver(),
                 NOTIFICATION_PULSE, 1) != 0);
 

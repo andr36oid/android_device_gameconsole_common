@@ -46,6 +46,12 @@
     <string name="sl_follow_battery">Battery colours, like without a charger</string>
     <string name="sl_follow_charging">Same as while charging</string>
 
+    <!-- Sleep policy: automatic may stay lit on boards without an off colour. -->
+    <string name="sl_sleep">Light while asleep</string>
+    <string name="sl_sleep_automatic">Automatic</string>
+    <string name="sl_sleep_automatic_summary">Off where the console can switch it off</string>
+    <string name="sl_sleep_keep">Same as awake</string>
+
     <!-- Notifications -->
     <string name="sl_cat_notifications">Notifications</string>
     <string name="sl_notify">Blink for notifications</string>

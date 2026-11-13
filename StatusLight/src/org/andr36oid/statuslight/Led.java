@@ -4,6 +4,7 @@ import android.os.SystemProperties;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ final class Led {
 
     static final String DIR = "/sys/devices/platform/andr36oid-status-led/";
     static final String PROP = "persist.andr36oid.led.";
-    static final String[] SETTINGS = {"table", "battery", "charging", "full", "mode"};
+    static final String[] SETTINGS = {"table", "battery", "charging", "full", "mode", "sleep"};
 
     /** "release": the pins float and the board does what it does without software */
     static final String RELEASE = "release";
@@ -56,6 +57,21 @@ final class Led {
         final String s = read("colors");
         if (s == null || s.isEmpty()) return new ArrayList<>();
         return new ArrayList<>(Arrays.asList(s.split("\\s+")));
+    }
+
+    static boolean sleepSupported() {
+        return new File(DIR + "sleep").exists();
+    }
+
+    /** Persist the requested policy, never the driver's effective colour. */
+    static String sleepPolicy() {
+        return SystemProperties.get(PROP + "sleep", "default");
+    }
+
+    static List<String> sleepValues(List<String> colors) {
+        final List<String> values = new ArrayList<>(Arrays.asList("default", "keep"));
+        values.addAll(colors);
+        return values;
     }
 
     static int pins() {
