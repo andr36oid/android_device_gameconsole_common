@@ -24,6 +24,10 @@ public class SampleJob extends JobService {
 
     /** Makes sure a sample is pending; replaces the old periodic job after an update. */
     static void schedule(Context context) {
+        if (NativeBoot.active()) {
+            context.getSystemService(JobScheduler.class).cancel(JOB_ID);
+            return;
+        }
         final JobInfo pending = context.getSystemService(JobScheduler.class)
                 .getPendingJob(JOB_ID);
         if (pending == null || pending.isPeriodic()) {
@@ -41,6 +45,7 @@ public class SampleJob extends JobService {
 
     @Override
     public boolean onStartJob(JobParameters params) {
+        if (NativeBoot.active()) return false;
         // A few sysfs reads and one appended line, fine on the main thread.
         History.record(this, Gauge.read());
         // Scheduling the same ID replaces this job, so do it once this run has returned.

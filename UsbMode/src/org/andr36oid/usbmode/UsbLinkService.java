@@ -105,6 +105,7 @@ public class UsbLinkService extends Service {
         super.onDestroy();
     }
     @Override public IBinder onBind(Intent intent) { return null; }
+    public static class BootReceiver extends Receiver {}
     public static class Receiver extends BroadcastReceiver {
         @Override public void onReceive(Context context, Intent intent) {
             context.startForegroundService(new Intent(context,UsbLinkService.class));

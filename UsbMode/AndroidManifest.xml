@@ -138,9 +138,13 @@
         <service android:name=".FlipperUsbService" android:exported="true"
             android:permission="org.andr36oid.usbmode.FLIPPER_USB" />
         <service android:name=".UsbLinkService" android:exported="false" />
-        <receiver android:name=".UsbLinkService$Receiver" android:exported="true">
+        <receiver android:name=".UsbLinkService$BootReceiver" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name=".UsbLinkService$Receiver" android:exported="true">
+            <intent-filter>
                 <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" />
             </intent-filter>
         </receiver>

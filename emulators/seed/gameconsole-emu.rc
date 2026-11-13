@@ -144,3 +144,10 @@ service gameconsole-ra-repair /system/bin/gameconsole-setup repair-retroarch
     group root system
     disabled
     oneshot
+
+# A crashed/replaced native watcher must not claim the history sampler is alive.
+on property:init.svc.gameconsole-platform-watch=stopped
+    setprop sys.andr36oid.ram.battery_sampler 0
+
+on property:init.svc.gameconsole-platform-watch=restarting
+    setprop sys.andr36oid.ram.battery_sampler 0

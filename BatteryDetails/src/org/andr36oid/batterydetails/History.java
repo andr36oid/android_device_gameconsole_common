@@ -45,6 +45,17 @@ final class History {
         if (gauge.percent == Gauge.UNKNOWN) {
             return;
         }
+        // The native sampler and the screen may record at the same time. Keep
+        // one stable lock inode across history rewrites, shared with the watcher.
+        try (FileOutputStream lock = new FileOutputStream(new File(context.getFilesDir(), "history.lock"), true);
+                java.nio.channels.FileLock held = lock.getChannel().lock()) {
+            recordLocked(context, gauge);
+        } catch (IOException e) {
+            Log.w(TAG, "Couldn't lock battery history", e);
+        }
+    }
+
+    private static void recordLocked(Context context, Gauge gauge) {
         final File file = new File(context.getFilesDir(), FILE);
         final String line = gauge.time + "," + gauge.percent + "," + gauge.voltage + ","
                 + gauge.current + "," + (gauge.isCharging() ? 1 : 0) + "\n";

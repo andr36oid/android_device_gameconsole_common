@@ -1143,3 +1143,10 @@ PRODUCT_COPY_FILES += \
     device/gameconsole/common/rk915-trial/vendor/$(ANDR36OID_RK915_TRIAL)/rk915.ko:$(TARGET_COPY_OUT_VENDOR)/etc/andr36oid-rk915-trial/$(ANDR36OID_RK915_TRIAL)/rk915.ko \
     device/gameconsole/common/rk915-trial/vendor/$(ANDR36OID_RK915_TRIAL)/manifest.conf:$(TARGET_COPY_OUT_VENDOR)/etc/andr36oid-rk915-trial/$(ANDR36OID_RK915_TRIAL)/manifest.conf
 endif
+
+# Opt-in RAM round 3: keep eager secondary zygote until hardware qualification.
+PRODUCT_SYSTEM_DEFAULT_PROPERTIES += ro.andr36oid.lazy_zygote32=0
+
+PRODUCT_SYSTEM_DEFAULT_PROPERTIES += ro.andr36oid.lazy_ime=0 ro.andr36oid.no_inline_autofill=0
+
+PRODUCT_SYSTEM_DEFAULT_PROPERTIES += ro.andr36oid.lazy_bluetooth=0

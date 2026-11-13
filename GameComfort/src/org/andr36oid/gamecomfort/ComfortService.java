@@ -52,6 +52,8 @@ public class ComfortService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+        // START_STICKY can recreate this process without another boot receiver.
+        BatteryBootCheck.start(this);
         mBanner = new Banner(this);
         mGameWatcher = new GameWatcher(this);
     }

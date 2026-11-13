@@ -31,6 +31,8 @@ final class BootChecks {
     // A private filesystem root lets host checks exercise moving a card between boards.
     static void run(Context context, File root) {
         AppCompileJob.schedule(context);
+        BatteryBootCheck.start(context);
+        BootEligibility.run(context, root);
         // Recheck at every boot: users move the card between consoles and change DTBs.
         // StorageCare normally owns its preference-aware receiver gate. A separate
         // process must be able to restore its opt-out while that receiver is off.
@@ -86,7 +88,7 @@ final class BootChecks {
         return managed;
     }
 
-    private static void updateEntry(Context context, String pkg, String activity, boolean show) {
+    static void updateEntry(Context context, String pkg, String activity, boolean show) {
         final ComponentName entry = new ComponentName(pkg, pkg + activity);
         final PackageManager pm = context.getPackageManager();
         try {

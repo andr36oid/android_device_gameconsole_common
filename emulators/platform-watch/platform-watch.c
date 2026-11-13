@@ -75,7 +75,10 @@ static void get_property(const char *name, char value[128], const char *fallback
     snprintf(value, 128, "%s", data);
 #endif
 }
+#include "battery-history.h"
+
 static void fallback(void) {
+    battery_property("0");
     if (notify_fd >= 0) close(notify_fd);
     fprintf(stderr, "platform-watch: using original Go watcher\n");
     setenv("A36_PLATFORM_WATCH_LEGACY", "1", 1);
@@ -325,6 +328,7 @@ int main(int argc, char **argv) {
     struct sigaction sa = { .sa_handler = signal_event };
     sigemptyset(&sa.sa_mask);
     sigaction(SIGTERM, &sa, NULL); sigaction(SIGINT, &sa, NULL); sigaction(SIGCHLD, &sa, NULL);
+    battery_property("0");
     char value[128];
     get_property("persist.andr36oid.ram.native_platform_watch", value, "1");
     if (!strcmp(value, "0") || !load_config()) { if (!stopping) fallback(); return 0; }
@@ -335,7 +339,7 @@ int main(int argc, char **argv) {
             pid_t reaped = waitpid(child, &status, WNOHANG);
             if (reaped == child || (reaped < 0 && errno == ECHILD)) child = 0;
         }
-        if (now >= next_poll) { refresh(now); next_poll = now + poll_ms; }
+        if (now >= next_poll) { battery_tick(); refresh(now); next_poll = now + poll_ms; }
         if (!child && eviction_pending) { eviction_pending = false; start_job(true); }
         if (!child && due && now >= due) { due = 0; if (*root) start_job(false); }
         int64_t wake = next_poll;
@@ -346,6 +350,7 @@ int main(int argc, char **argv) {
         if (count > 0 && p.revents) events(now_ms());
     }
     if (child) { kill(child, SIGKILL); while (waitpid(child, NULL, 0) < 0 && errno == EINTR) {} }
+    battery_property("0");
     clear_watches();
     while (folders) { struct folder *f = folders; folders = f->next; free(f->name); free(f->extensions); free(f); }
     return 0;

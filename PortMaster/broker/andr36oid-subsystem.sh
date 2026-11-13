@@ -1025,13 +1025,18 @@ cpu_transition_end() {
   local saved governor boot current node="${A36_CPU_GOVERNOR:-/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor}"
   [ -f "$STATE/session.cpu-boost" ] || return 0
   IFS= read -r boot < /proc/sys/kernel/random/boot_id || return 0
-  if { IFS=' ' read -r saved governor < "$STATE/session.cpu"; } 2>/dev/null && [ "$saved" = "$boot" ]; then
-    case "$governor" in ''|*[!a-zA-Z0-9_-]*) return 0 ;; esac
-    { IFS= read -r current < "$node"; } 2>/dev/null || current=
+  if ! { IFS=' ' read -r saved governor < "$STATE/session.cpu"; } 2>/dev/null; then
+    log "cpu: original governor journal unreadable; retaining transition ownership"; return 1
+  fi
+  if [ "$saved" = "$boot" ]; then
+    case "$governor" in ''|*[!a-zA-Z0-9_-]*) return 1 ;; esac
+    if ! { IFS= read -r current < "$node"; } 2>/dev/null || [ -z "$current" ]; then
+      log "cpu: governor unreadable; retaining transition journal"; return 1
+    fi
     # Do not override a governor selected by another owner after our boost.
     if [ "$current" = performance ]; then
       if ! { printf '%s\n' "$governor" > "$node"; } 2>/dev/null; then
-        log "cpu: could not restore Android governor $governor"; return 0
+        log "cpu: could not restore Android governor $governor"; return 1
       fi
     fi
     log "cpu: transition ended ($1), Android governor $governor"
@@ -1048,7 +1053,7 @@ cpu_transition_finish_return() {
        [ "$(getprop init.svc.bootanim)" != running ]; then break; fi
     sleep 1
   done
-  cpu_transition_end return
+  cpu_transition_end return || CLEANUP_FAILED=1
   [ -f "$STATE/session.cpu-boost" ] || rm -f "$STATE/session.cpu" "$STATE/session.cpu.tmp"
 }
 
@@ -1247,7 +1252,7 @@ restore_android() {
     cpu_transition_finish_return
     setprop sys.andr36oid.subsystem.return_animation 0 2>/dev/null
   else
-    cpu_transition_end "handoff cancelled"
+    cpu_transition_end "handoff cancelled" || CLEANUP_FAILED=1
     [ -f "$STATE/session.cpu-boost" ] || rm -f "$STATE/session.cpu" "$STATE/session.cpu.tmp"
   fi
   return 0
@@ -1931,7 +1936,7 @@ boot_subsystem_session() {
   # The rootfs runs in a container: it has no block devices to mount, so an empty
   # fstab keeps init's "mount -a" from erroring on a missing/stale fstab.
   : > "$ROOT/etc/fstab" 2>/dev/null || true
-  cpu_transition_end "guest init owns governor"
+  cpu_transition_end "guest init owns governor" || return 1
   log "boot rootfs init $INIT (PID namespace; console -> $STATE/boot.log)"
   SESSION_MODE=systemd
   run_in_subsystem "$@"
@@ -2814,7 +2819,7 @@ mark_frontend_booted() {
     [ "$(getprop persist.andr36oid.subsystem.booted)" != 1 ] || return 0
   fi
   local p root exe stamp boot deadline
-  stamp=$(process_start_time "$SESSION_PID") || { cpu_transition_end "worker exited"; return 0; }
+  stamp=$(process_start_time "$SESSION_PID") || { cpu_transition_end "worker exited"; return $?; }
   boot=$(cat /proc/sys/kernel/random/boot_id)
   deadline=$(( $(session_uptime_seconds) + 60 ))
   while recorded_process_alive "$SESSION_PID" "$stamp" "$boot"; do
@@ -2825,14 +2830,14 @@ mark_frontend_booted() {
       case "$exe" in
         */emulationstation|*/EmulationStation)
           [ "$cmd" != start ] || setprop persist.andr36oid.subsystem.booted 1
-          cpu_transition_end frontend
+          cpu_transition_end frontend || return 1
           return 0 ;;
         */init|*/systemd) continue ;;
-        *) if [ "$cmd" = run ]; then cpu_transition_end payload; return 0; fi ;;
+        *) if [ "$cmd" = run ]; then cpu_transition_end payload || return 1; return 0; fi ;;
       esac
     done
     if [ "$(session_uptime_seconds)" -ge "$deadline" ]; then
-      cpu_transition_end "frontend readiness timeout"
+      cpu_transition_end "frontend readiness timeout" || return 1
       return 0
     fi
     sleep 1
@@ -3018,6 +3023,6 @@ prepare_exit_hold_policy
 run_session_worker & SESSION_PID=$!
 record_session_worker runner "$SESSION_PID" || exit 1
 boot_autostart_running || exit 1
-mark_frontend_booted
+mark_frontend_booted || exit 1
 wait "$SESSION_PID"; session_rc=$?
 exit "$session_rc"
