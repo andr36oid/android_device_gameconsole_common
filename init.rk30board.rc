@@ -566,6 +566,8 @@ on property:persist.andr36oid.led.table=*
     write /sys/devices/platform/andr36oid-status-led/charging ${persist.andr36oid.led.charging}
     write /sys/devices/platform/andr36oid-status-led/full ${persist.andr36oid.led.full}
     write /sys/devices/platform/andr36oid-status-led/mode ${persist.andr36oid.led.mode}
+    # Last: a new table works the sleep colour out again, a saved choice goes on top.
+    write /sys/devices/platform/andr36oid-status-led/sleep ${persist.andr36oid.led.sleep}
 
 on property:persist.andr36oid.led.battery=*
     write /sys/devices/platform/andr36oid-status-led/battery ${persist.andr36oid.led.battery}
@@ -578,6 +580,10 @@ on property:persist.andr36oid.led.full=*
 
 on property:persist.andr36oid.led.mode=*
     write /sys/devices/platform/andr36oid-status-led/mode ${persist.andr36oid.led.mode}
+
+# The colour in sleep: "default" (worked out from the colour table), "keep" or a colour.
+on property:persist.andr36oid.led.sleep=*
+    write /sys/devices/platform/andr36oid-status-led/sleep ${persist.andr36oid.led.sleep}
 
 # Deep sleep page: switch the cores' idle states off while running ("1" = off).
 # state1 is core power-down, state2 cluster power-down (px30.dtsi).
