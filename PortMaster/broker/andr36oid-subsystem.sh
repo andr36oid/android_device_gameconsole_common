@@ -993,7 +993,67 @@ session_uptime_seconds() {
   printf '%s\n' "${uptime%%.*}"
 }
 
+# One cpufreq policy serves the RK3326 cluster on both kernels. Save Android's
+# policy before handoff, not the value left by a port at return. Journals live
+# beside the session journal so a replacement broker can undo an interrupted
+# transition. /sys stays read-only in the guest.
+cpu_transition_begin() {
+  local governor boot saved phase node="${A36_CPU_GOVERNOR:-/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor}"
+  [ "$HANDOFF" = 1 ] || return 0
+  [ "$(getprop ro.boot.andr36oid_boot_boost)" != 0 ] || return 0
+  IFS= read -r boot < /proc/sys/kernel/random/boot_id || return 0
+  if { IFS=' ' read -r saved phase < "$STATE/session.cpu"; } 2>/dev/null && [ "$saved" = "$boot" ]; then
+    :
+  else
+    { IFS= read -r governor < "$node"; } 2>/dev/null || return 0
+    case "$governor" in ''|*[!a-zA-Z0-9_-]*) return 0 ;; esac
+    # A boot-time performance governor is temporary too. boot_completed hands
+    # it to schedutil; do not carry the boot boost into a whole autostart session.
+    if [ "$(getprop sys.boot_completed)" != 1 ] && [ "$governor" = performance ]; then governor=schedutil; fi
+    printf '%s %s\n' "$boot" "$governor" > "$STATE/session.cpu.tmp" &&
+      mv -f "$STATE/session.cpu.tmp" "$STATE/session.cpu" || return 0
+  fi
+  printf '%s\n' "$1" > "$STATE/session.cpu-boost" || return 0
+  if { printf 'performance\n' > "$node"; } 2>/dev/null; then
+    log "cpu: $1 transition boost"
+  else
+    rm -f "$STATE/session.cpu-boost"
+    log "cpu: transition boost unavailable"
+  fi
+}
+cpu_transition_end() {
+  local saved governor boot current node="${A36_CPU_GOVERNOR:-/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor}"
+  [ -f "$STATE/session.cpu-boost" ] || return 0
+  IFS= read -r boot < /proc/sys/kernel/random/boot_id || return 0
+  if { IFS=' ' read -r saved governor < "$STATE/session.cpu"; } 2>/dev/null && [ "$saved" = "$boot" ]; then
+    case "$governor" in ''|*[!a-zA-Z0-9_-]*) return 0 ;; esac
+    { IFS= read -r current < "$node"; } 2>/dev/null || current=
+    # Do not override a governor selected by another owner after our boost.
+    if [ "$current" = performance ]; then
+      if ! { printf '%s\n' "$governor" > "$node"; } 2>/dev/null; then
+        log "cpu: could not restore Android governor $governor"; return 0
+      fi
+    fi
+    log "cpu: transition ended ($1), Android governor $governor"
+  fi
+  rm -f "$STATE/session.cpu-boost"
+}
+cpu_transition_finish_return() {
+  [ -f "$STATE/session.cpu-boost" ] || { rm -f "$STATE/session.cpu" "$STATE/session.cpu.tmp"; return 0; }
+  # WMS requests boot-animation exit only after its windows have drawn. The
+  # pre-entry sys.boot_completed is stale during a runtime framework restart.
+  # Share the existing return deadline; never add another unbounded wait.
+  while [ "$framework_started" = 1 ] && [ "$(session_uptime_seconds)" -lt "$power_deadline" ]; do
+    if [ "$(getprop service.bootanim.exit)" = 1 ] &&
+       [ "$(getprop init.svc.bootanim)" != running ]; then break; fi
+    sleep 1
+  done
+  cpu_transition_end return
+  [ -f "$STATE/session.cpu-boost" ] || rm -f "$STATE/session.cpu" "$STATE/session.cpu.tmp"
+}
+
 begin_android_power_return() {
+  cpu_transition_begin return
   local now
   now=$(session_uptime_seconds)
   power_deadline=$((now+75))
@@ -1184,7 +1244,11 @@ restore_android() {
   fi
   if [ "$DID_HANDOFF" = 1 ]; then
     finish_android_power_return
+    cpu_transition_finish_return
     setprop sys.andr36oid.subsystem.return_animation 0 2>/dev/null
+  else
+    cpu_transition_end "handoff cancelled"
+    [ -f "$STATE/session.cpu-boost" ] || rm -f "$STATE/session.cpu" "$STATE/session.cpu.tmp"
   fi
   return 0
 }
@@ -1219,7 +1283,7 @@ recover_session_locked() {
       setprop sys.andr36oid.subsystem.session cleanup_failed 2>/dev/null
       return 1
     fi
-    rm -f "$STATE/session.loop" "$STATE/session.mounts" "$STATE/prestage.ready" "$STATE/prestage.boot" "$STATE/session.restore-complete"
+    rm -f "$STATE/session.loop" "$STATE/session.mounts" "$STATE/prestage.ready" "$STATE/prestage.boot" "$STATE/session.restore-complete" "$STATE/session.cpu" "$STATE/session.cpu.tmp" "$STATE/session.cpu-boost"
     setprop sys.andr36oid.subsystem.session ended 2>/dev/null
     return 0
   fi
@@ -1544,6 +1608,7 @@ stop_android_display() {
 
 # --- the handoff --------------------------------------------------------------
 handoff() {
+  cpu_transition_begin entry
   : > "$STATE/session.handoff" || return 1
   local service state
   # Wi-Fi/adbd must remain reachable throughout the guest session. The guest
@@ -1866,6 +1931,7 @@ boot_subsystem_session() {
   # The rootfs runs in a container: it has no block devices to mount, so an empty
   # fstab keeps init's "mount -a" from erroring on a missing/stale fstab.
   : > "$ROOT/etc/fstab" 2>/dev/null || true
+  cpu_transition_end "guest init owns governor"
   log "boot rootfs init $INIT (PID namespace; console -> $STATE/boot.log)"
   SESSION_MODE=systemd
   run_in_subsystem "$@"
@@ -2375,6 +2441,7 @@ log_session_wakeup_candidates() {
 # already wakes from on its power key. Blank the panel first so there is no
 # bright flash across the transition; the kernel freezer pauses the guest for us.
 do_session_sleep() {
+  cpu_transition_end sleep
   local sleep_worker saved_traps sleep_rc
   saved_traps=$(trap)
   # Isolate cleanup traps in a worker, with the watcher forwarding termination
@@ -2742,12 +2809,14 @@ run_session() {
 # The session is busy during preparation too. Record the first boot only after
 # setup succeeds and the frontend binary is running inside this rootfs.
 mark_frontend_booted() {
-  [ "$(getprop persist.andr36oid.subsystem.booted)" = 1 ] && return 0
-  [ "$cmd" = start ] || return 0
-  local p root exe
-  local stamp boot
-  stamp=$(process_start_time "$SESSION_PID") || return 0
+  if [ ! -f "$STATE/session.cpu-boost" ]; then
+    [ "$cmd" = start ] || return 0
+    [ "$(getprop persist.andr36oid.subsystem.booted)" != 1 ] || return 0
+  fi
+  local p root exe stamp boot deadline
+  stamp=$(process_start_time "$SESSION_PID") || { cpu_transition_end "worker exited"; return 0; }
   boot=$(cat /proc/sys/kernel/random/boot_id)
+  deadline=$(( $(session_uptime_seconds) + 60 ))
   while recorded_process_alive "$SESSION_PID" "$stamp" "$boot"; do
     for p in /proc/[0-9]*; do
       root=$(readlink "$p/root" 2>/dev/null) || continue
@@ -2755,12 +2824,20 @@ mark_frontend_booted() {
       exe=$(readlink "$p/exe" 2>/dev/null) || continue
       case "$exe" in
         */emulationstation|*/EmulationStation)
-          setprop persist.andr36oid.subsystem.booted 1
+          [ "$cmd" != start ] || setprop persist.andr36oid.subsystem.booted 1
+          cpu_transition_end frontend
           return 0 ;;
+        */init|*/systemd) continue ;;
+        *) if [ "$cmd" = run ]; then cpu_transition_end payload; return 0; fi ;;
       esac
     done
+    if [ "$(session_uptime_seconds)" -ge "$deadline" ]; then
+      cpu_transition_end "frontend readiness timeout"
+      return 0
+    fi
     sleep 1
   done
+  cpu_transition_end "worker exited"
 }
 
 # shellcheck source=andr36oid-images.sh
