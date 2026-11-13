@@ -83,6 +83,7 @@ parallel_restorecon enabled
 /sys/devices/platform/andr36oid-status-led	full	0664	system	system
 /sys/devices/platform/andr36oid-status-led	notify	0664	system	system
 /sys/devices/platform/andr36oid-status-led	raw	0664	system	system
+/sys/devices/platform/andr36oid-status-led	sleep	0664	system	system
 
 # Backlight brightness: apply perms from ueventd, not a one-shot init chown,
 # so they land whenever the backlight device appears. On 5.10 pwm_bl can
