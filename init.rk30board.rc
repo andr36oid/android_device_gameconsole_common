@@ -683,6 +683,11 @@ on property:ro.boot.lcd_density=*
 # until the battery is flat. See andr36oid_sleep_wdt.c.
 on shutdown
     write /sys/module/andr36oid_sleep_wdt/parameters/shutdown_watch 1
+    # Magisk's daemon is no init service, so "stop all services" leaves it running with
+    # its database on /data and its log on /cache open. Both then fail to unmount, and
+    # the next start may spend 25 s checking /data (measured on an R36 Ultra: start
+    # 90 s, 65 s with the daemon gone).
+    exec - root root -- /system/bin/toybox pkill -9 magiskd
 
 # Kernel Tweaks > Storage layer set to FUSE (androidboot.storage_fuse=1 from
 # kernel-tweaks.txt): Android's own FUSE storage again. Runs after the action above.

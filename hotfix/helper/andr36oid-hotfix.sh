@@ -53,8 +53,31 @@ hotfix_folder() {
 	done
 }
 
+# Zips made for another build are skipped on every start. Reading that out of a zip
+# means copying and unpacking it, about a second each from an SD card, while init
+# waits. Remember them by name, size and date instead; a changed file is read again.
+remembered() {
+	local b s l z m n d
+	[ -f "$DIR/skipped" ] || return 1
+	while IFS='	' read -r b s l z m n d; do
+		if [ "$b" = "$build" ] && [ "$s" = "$source" ] && [ "$l" = "$1" ] && [ "$z" = "$2" ] && [ "$m" = "$3" ] && [ -n "$n" ]; then
+			HOTFIX_NAME=$n
+			description=$d
+			return 0
+		fi
+	done <"$DIR/skipped"
+	return 1
+}
+
+remember() {
+	# build, source, file name, size, date, hotfix name, description
+	case "$1$2$3$4$5$6$7" in *'	'*) return 0 ;; esac
+	[ -n "$4" ] && [ -n "$5" ] && [ -n "$6" ] || return 0
+	printf '%s\t%s\t%s\t%s\t%s\t%s\t%s\n' "$1" "$2" "$3" "$4" "$5" "$6" "$7" >>"$DIR/work/skipped"
+}
+
 collect() {
-	local folder zip bytes lower
+	local folder zip bytes lower mtime
 	source=$2
 	folder=$(hotfix_folder "$1")
 	[ -n "$folder" ] || return 0
@@ -70,12 +93,27 @@ collect() {
 		[ "$source" != BOOT ] || mkdir -p "$DIR/work/boot-files/$lower"
 		count=$((count + 1))
 		if [ "$count" -gt 16 ]; then status skipped limit; continue; fi
-		bytes=$("$UNPACK" --wait 5 stat -c %s "$zip" 2>>"$DIR/log")
+		bytes=$("$UNPACK" --wait 5 stat -c '%s %Y' "$zip" 2>>"$DIR/log")
+		mtime=${bytes#* }
+		bytes=${bytes%% *}
 		case $bytes in ''|*[!0-9]*) status failed storage; continue ;; esac
+		case $mtime in ''|*[!0-9]*) mtime= ;; esac
+		if [ -n "$mtime" ] && [ -n "$version" ] && [ -n "$incremental" ] && remembered "$lower" "$bytes" "$mtime"; then
+			remember "$build" "$source" "$lower" "$bytes" "$mtime" "$HOTFIX_NAME" "$description"
+			if [ "$source" = BOOT ]; then
+				mkdir -p "$DIR/work/boot-names/$HOTFIX_NAME"
+			elif [ -e "$DIR/work/boot-names/$HOTFIX_NAME" ]; then
+				status skipped duplicate
+				continue
+			fi
+			if [ -n "$reason" ]; then status skipped "$reason"; else status skipped build; fi
+			continue
+		fi
 		if [ "$bytes" -gt "$3" ]; then status failed invalid; continue; fi
 		if [ "$((staged + bytes))" -gt 268435456 ]; then status skipped limit; continue; fi
 		if "$UNPACK" --wait 10 cp "$zip" "$DIR/work/$source/" 2>>"$DIR/log"; then
 			staged=$((staged + bytes))
+			[ -z "$mtime" ] || printf '%s\t%s\t%s\n' "$lower" "$bytes" "$mtime" >"$DIR/work/$source/${zip##*/}.seen"
 		else
 			rm -f "$DIR/work/$source/${zip##*/}"
 			status failed storage
@@ -253,6 +291,9 @@ for zip in "$DIR/work/BOOT/"*.fix.zip "$DIR/work/EASYROMS/"*.fix.zip; do
 	if [ "$wanted" = any ]; then
 		note "$HOTFIX_NAME: build=any, applies to every build"
 	elif [ -z "$version" ] || [ -z "$incremental" ] || [ "$wanted" != "$build" ]; then
+		if [ -n "$version" ] && [ -n "$incremental" ] && IFS='	' read -r seen_name seen_bytes seen_mtime <"$zip.seen"; then
+			remember "$build" "$source" "$seen_name" "$seen_bytes" "$seen_mtime" "$HOTFIX_NAME" "$description"
+		fi 2>/dev/null
 		status skipped build
 		continue
 	fi
@@ -279,4 +320,9 @@ for zip in "$DIR/work/BOOT/"*.fix.zip "$DIR/work/EASYROMS/"*.fix.zip; do
 	esac
 done
 rm -rf "$DIR/work/BOOT" "$DIR/work/EASYROMS"
+if [ -f "$DIR/work/skipped" ]; then
+	mv -f "$DIR/work/skipped" "$DIR/skipped"
+else
+	rm -f "$DIR/skipped"
+fi
 exit 0
