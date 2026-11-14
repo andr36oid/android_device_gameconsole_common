@@ -142,8 +142,23 @@ public class SubsystemSetupActivity extends Activity {
     static boolean isReady() {return "1".equals(get(P+"ready"))&&"1".equals(get(P+"image"));}
     static void updateLauncher(Activity context) {updateLauncher((android.content.Context)context);}
     static void updateLauncher(android.content.Context context) {
-        // The single launcher entry is fixed in the manifest (see DaijishouPlayerLauncher):
-        // toggling it broke Daijishou's player preflight or left two icons.
+        // One launcher entry (see DaijishouPlayerLauncher), shown only while the broker
+        // has an image: a console that cannot hold dArkOSen (a small eMMC install) gets
+        // no EmulationStation icon, and setup stays reachable from Settings > System.
+        // Decided again at every start and settings update, so a state kept in /data
+        // cannot hide it for good; an unfinished scan (empty) changes nothing.
+        final String image=SubsystemBackend.get(SubsystemBackend.IMAGE);
+        if(image.isEmpty())return;
+        final android.content.ComponentName entry=new android.content.ComponentName(
+                context.getPackageName(),"org.andr36oid.subsystemsetup.DaijishouPlayerLauncher");
+        final int state="0".equals(image)
+                ?android.content.pm.PackageManager.COMPONENT_ENABLED_STATE_DISABLED
+                :android.content.pm.PackageManager.COMPONENT_ENABLED_STATE_DEFAULT;
+        final android.content.pm.PackageManager pm=context.getPackageManager();
+        try {
+            if(pm.getComponentEnabledSetting(entry)!=state)
+                pm.setComponentEnabledSetting(entry,state,android.content.pm.PackageManager.DONT_KILL_APP);
+        } catch(RuntimeException ignored) { }
     }
     @Override public void onCreate(Bundle saved) {
         super.onCreate(saved);

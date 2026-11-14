@@ -51,10 +51,10 @@
         <activity android:name=".EmulationStationActivity" android:exported="false" android:theme="@style/SubsystemTheme" />
         <!-- The one launcher entry. Daijishou 1.5.0 checks MAIN/LAUNCHER package
              membership even when launching an explicit activity, so this must
-             stay enabled or Ports/cores stop launching. It is never toggled at
-             run time (a kept-/data component state would otherwise hide it), and
-             it shows as EmulationStation: the activity opens ES when an image is
-             ready and the subsystem dashboard otherwise. -->
+             be enabled whenever an image exists or Ports/cores stop launching.
+             SubsystemSetupActivity.updateLauncher hides it only after a scan
+             found no image, and decides again at every start. It shows as
+             EmulationStation and opens ES when the image is ready. -->
         <activity-alias
             android:name=".DaijishouPlayerLauncher"
             android:targetActivity=".EmulationStationActivity"
