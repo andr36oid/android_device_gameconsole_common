@@ -153,19 +153,24 @@ EOF
 $keys
 EOF
     ) || { KT_SNAPSHOT=; return 0; }
-    KT_SNAPSHOT="$KT_NL$KT_SNAPSHOT$KT_NL"
+    # One shell variable per property. Searching the whole snapshot text for
+    # every lookup took about a second each on the console.
+    while IFS="$KT_TAB" read -r key paths; do
+        [ -n "$key" ] || continue
+        kt_var "$key"; eval "$KT_V=\$paths; ${KT_V}_set=1"
+    done <<EOF
+$KT_SNAPSHOT
+EOF
     KT_FAST=1
 }
+kt_var() { KT_V=KTP_${1//[!A-Za-z0-9_]/_}; }
 kt_getprop() {
-    local token rest
+    local known
     # Request/service readiness is volatile and is never sampled from a cache.
     case "$1" in sys.andr36oid.kt.request|sys.boot_completed) command getprop "$@"; return ;; esac
     if [ "$KT_FAST" = 1 ]; then
-        token="$KT_NL$1$KT_TAB"
-        case "$KT_UPDATES" in *"$token"*)
-            rest=${KT_UPDATES##*"$token"}; kt_line "${rest%%"$KT_NL"*}"; return ;; esac
-        case "$KT_SNAPSHOT" in *"$token"*)
-            rest=${KT_SNAPSHOT#*"$token"}; kt_line "${rest%%"$KT_NL"*}"; return ;; esac
+        kt_var "$1"; eval "known=\${${KT_V}_set-}"
+        if [ "$known" = 1 ]; then eval "kt_line \"\$$KT_V\""; return; fi
     fi
     command getprop "$@"
 }
@@ -192,7 +197,8 @@ kt_publish() {
     # still use the ordinary synchronous command, with its failure behavior.
     if [ "$KT_FAST" = 1 ]; then
         case "$2" in *"$KT_TAB"*|*"$KT_NL"*) kt_flush; KT_FAST=0 ;;
-        *) KT_UPDATES="$KT_UPDATES$KT_NL$1$KT_TAB$2$KT_NL"; return 0 ;; esac
+        *) KT_UPDATES="$KT_UPDATES$KT_NL$1$KT_TAB$2$KT_NL"
+            kt_var "$1"; eval "$KT_V=\$2; ${KT_V}_set=1"; return 0 ;; esac
     fi
     command setprop "$@"
 }
