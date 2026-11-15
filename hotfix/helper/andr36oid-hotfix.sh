@@ -2,6 +2,11 @@
 # Runs after persistent properties are loaded, before zygote. HOTFIX_* overrides
 # point the host tests at a fake root, cards and unpacker.
 
+# Capture before directory/property work; read and echo are shell builtins.
+TIMING_START=?
+IFS=' ' read -r TIMING_START TIMING_IDLE 2>/dev/null < /proc/uptime || TIMING_START=?
+TIMING_ACTIVE=
+
 DIR=${HOTFIX_STATE:-/data/misc/andr36oid-hotfix}
 BOOT_MNT=${HOTFIX_BOOT_MNT:-/mnt/andr36oid-hotfix-boot}
 EASYROMS_MNT=${HOTFIX_EASYROMS_MNT:-/mnt/andr36oid-hotfix-roms}
@@ -18,27 +23,50 @@ APPLYING=
 export HOTFIX_DIR HOTFIX_NAME HOTFIX_STORE
 umask 077
 
+stamp() {
+	[ -n "$TIMING_ACTIVE" ] || return 0
+	local up idle
+	if [ "$1" = start ]; then
+		up=$TIMING_START
+	else
+		up=?
+		IFS=' ' read -r up idle 2>/dev/null < /proc/uptime || up=?
+	fi
+	echo "timing: uptime=$up pid=$$ phase=$1 ${2:-}" 2>/dev/null >>"$DIR/log" || :
+}
+
 cleanup() {
+	stamp cleanup.begin
 	[ -z "$APPLYING" ] || setprop sys.andr36oid.hotfix.applying 0
 	[ -z "$ROMS_MOUNTED" ] || release_roms
-	[ -z "$MOUNTED" ] || "$UNPACK" --wait 5 umount "$BOOT_MNT" 2>/dev/null
+	if [ -n "$MOUNTED" ]; then
+		stamp boot.umount.begin cleanup
+		"$UNPACK" --wait 5 umount "$BOOT_MNT" 2>/dev/null
+		stamp boot.umount.end "rc=$? cleanup"
+	fi
 	[ -z "$LOCKED" ] || rm -rf "$BOOT_LOCK"
 
     # Exactly one builtin stat on an ordinary boot; no helper/service otherwise.
     # This is after all hotfix children and cleanup, before init releases Wi-Fi.
     if [ -e /data/misc/andr36oid-rk915-trial/armed ] && [ -z "${HOTFIX_REEXEC:-}" ]; then
+        stamp rk915_trial.begin
         /system/bin/sh /system/etc/andr36oid-rk915-trial-loader.sh || :
+        stamp rk915_trial.end
     fi
+	stamp end
 }
 trap 'cleanup' EXIT
 trap 'exit 0' HUP INT TERM
 
 release_roms() {
+	stamp easyroms.umount.begin
 	if ! "$UNPACK" --wait 5 umount "$EASYROMS_MNT" 2>>"$DIR/log"; then
 		note "EASYROMS: unmount failed, detaching private mount"
-		"$UNPACK" --wait 5 umount -l "$EASYROMS_MNT" 2>>"$DIR/log" || return 1
+		stamp easyroms.umount.lazy
+		"$UNPACK" --wait 5 umount -l "$EASYROMS_MNT" 2>>"$DIR/log" || { stamp easyroms.umount.end failed; return 1; }
 	fi
 	ROMS_MOUNTED=
+	stamp easyroms.umount.end
 }
 
 hotfix_folder() {
@@ -123,39 +151,57 @@ collect() {
 
 easyroms_collect() {
 	local dev
+	stamp easyroms.check.begin
 	if [ "$(getprop sys.andr36oid.easyroms.ready)" != 1 ]; then
 		note "EASYROMS: lookup not ready, skipping"
+		stamp easyroms.check.end not_ready
 		return 0
 	fi
 	dev=$(getprop sys.andr36oid.easyroms.dev)
 	case $dev in
-	'') note "EASYROMS: no partition on this install"; return 0 ;;
-	*/*) note "EASYROMS: invalid device, skipping"; return 0 ;;
+	'') note "EASYROMS: no partition on this install"; stamp easyroms.check.end absent; return 0 ;;
+	*/*) note "EASYROMS: invalid device, skipping"; stamp easyroms.check.end invalid; return 0 ;;
 	mmcblk[0-9]*p7) ;;
-	*) note "EASYROMS: invalid device, skipping"; return 0 ;;
+	*) note "EASYROMS: invalid device, skipping"; stamp easyroms.check.end invalid; return 0 ;;
 	esac
 	dev=$R/dev/block/$dev
 	# Read the exFAT dirty/error flags without repairing or writing the card.
 	if ! "$UNPACK" --wait 5 "$UNPACK" --check-exfat "$dev" 2>>"$DIR/log"; then
 		note "EASYROMS: dirty or unreadable, skipping"
+		stamp easyroms.check.end failed
 		return 0
 	fi
-	mkdir -p "$EASYROMS_MNT" || return 0
+	stamp easyroms.check.end clean
+	stamp easyroms.mount.begin
+	mkdir -p "$EASYROMS_MNT" || { stamp easyroms.mount.end mkdir_failed; return 0; }
 	# vold uses the in-kernel exfat driver, with these flags and media_rw's mask.
 	if "$UNPACK" --wait 5 mount -t exfat -o ro,nodev,nosuid,noexec,noatime,uid=0,gid=1023,fmask=0007,dmask=0007 "$dev" "$EASYROMS_MNT" 2>>"$DIR/log"; then
 		ROMS_MOUNTED=1
+		stamp easyroms.mount.end mounted
+		stamp easyroms.scan.begin
 		collect "$EASYROMS_MNT" EASYROMS 134217728
+		stamp easyroms.scan.end
 		release_roms || return 1
 	else
+		stamp easyroms.mount.end failed
 		note "EASYROMS: read-only mount failed or timed out, skipping"
 		# A timeout may have arrived just as mount succeeded.
+		stamp easyroms.umount.begin mount_failure
 		"$UNPACK" --wait 5 umount -l "$EASYROMS_MNT" 2>/dev/null
+		stamp easyroms.umount.end "rc=$? mount_failure"
 	fi
 	return 0
 }
 
 boot_mount() {
-	if [ -n "${HOTFIX_BOOT:-}" ]; then BOOT=$HOTFIX_BOOT; return 0; fi
+	stamp lock.begin
+	if [ -n "${HOTFIX_BOOT:-}" ]; then
+		BOOT=$HOTFIX_BOOT
+		stamp lock.end override
+		stamp boot.mount.begin override
+		stamp boot.mount.end override
+		return 0
+	fi
 	local n=0 pid dev devs
 	while ! mkdir "$BOOT_LOCK" 2>/dev/null; do
 		pid=$(cat "$BOOT_LOCK/pid" 2>/dev/null)
@@ -164,11 +210,13 @@ boot_mount() {
 			continue
 		fi
 		n=$((n + 1))
-		[ "$n" -gt 150 ] && return 1
+		[ "$n" -gt 150 ] && { stamp lock.end "timeout polls=$n"; return 1; }
 		sleep 0.2
 	done
 	LOCKED=1
 	echo $$ >"$BOOT_LOCK/pid"
+	stamp lock.end "acquired polls=$n"
+	stamp boot.mount.begin
 	grep -o ' /mnt/andr36oid-[a-z]*-boot ' /proc/mounts 2>/dev/null | while read -r m; do
 		"$UNPACK" --wait 5 umount "$m" 2>/dev/null
 	done
@@ -176,9 +224,9 @@ boot_mount() {
 	case $(getprop ro.boot.boot_devices) in
 	ff390000.dwmmc) devs="$R/dev/block/platform/ff390000.dwmmc/by-name/BOOT $R/dev/block/mmcblk2p1" ;;
 	''|ff370000.dwmmc) devs="$R/dev/block/platform/ff370000.dwmmc/by-name/BOOT $R/dev/block/mmcblk0p1" ;;
-	*) return 1 ;;
+	*) stamp boot.mount.end unknown_disk; return 1 ;;
 	esac
-	mkdir -p "$BOOT_MNT" || return 1
+	mkdir -p "$BOOT_MNT" || { stamp boot.mount.end mkdir_failed; return 1; }
 	for dev in ${HOTFIX_BOOT_DEVS:-$devs}; do
 		[ -e "$dev" ] || continue
 		# Bounded via the unpacker like the EASYROMS mount: init blocks on
@@ -187,8 +235,10 @@ boot_mount() {
 		"$UNPACK" --wait 5 mount -t vfat -o ro,noatime "$dev" "$BOOT_MNT" 2>>"$DIR/log" || continue
 		BOOT=$BOOT_MNT
 		MOUNTED=1
+		stamp boot.mount.end mounted
 		return 0
 	done
+	stamp boot.mount.end unavailable
 	return 1
 }
 
@@ -216,6 +266,9 @@ cat /proc/sys/kernel/random/boot_id >"$DIR/started"
 : >"$DIR/log"
 chown root:system "$DIR/status" "$DIR/log"
 chmod 0640 "$DIR/status" "$DIR/log"
+TIMING_ACTIVE=1
+stamp start
+stamp properties.begin
 
 version=$(getprop ro.andr36oid.version)
 incremental=$(getprop ro.product.build.version.incremental)
@@ -240,20 +293,31 @@ if [ -z "$HOTFIX_REEXEC" ] && [ -z "$reason" ] && [ "$tries" -ge 2 ]; then
 fi
 # A safe start still records the pause after two failed starts.
 if [ "$(getprop ro.boot.andr36oid_safe)" = 1 ]; then reason=safe; fi
+stamp properties.end
 count=0
 staged=0
 source=BOOT
 if boot_mount; then
+	stamp boot.scan.begin
 	collect "$BOOT" BOOT 67108864
+	stamp boot.scan.end
 else
 	HOTFIX_NAME=BOOT
 	description=
 	status skipped unavailable
 fi
-if [ -n "$MOUNTED" ]; then "$UNPACK" --wait 5 umount "$BOOT_MNT" 2>>"$DIR/log"; MOUNTED=; fi
+stamp boot.umount.begin
+if [ -n "$MOUNTED" ]; then
+	"$UNPACK" --wait 5 umount "$BOOT_MNT" 2>>"$DIR/log"
+	stamp boot.umount.end "rc=$?"
+	MOUNTED=
+else
+	stamp boot.umount.end skipped
+fi
 if [ -n "$LOCKED" ]; then rm -rf "$BOOT_LOCK"; LOCKED=; fi
 easyroms_collect || exit 0
 
+stamp apply.begin
 count=0
 used=0
 counted=
@@ -319,6 +383,7 @@ for zip in "$DIR/work/BOOT/"*.fix.zip "$DIR/work/EASYROMS/"*.fix.zip; do
 	*) status failed exit ;;
 	esac
 done
+stamp apply.end
 rm -rf "$DIR/work/BOOT" "$DIR/work/EASYROMS"
 if [ -f "$DIR/work/skipped" ]; then
 	mv -f "$DIR/work/skipped" "$DIR/skipped"
