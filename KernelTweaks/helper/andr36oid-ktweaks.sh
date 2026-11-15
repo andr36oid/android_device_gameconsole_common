@@ -131,6 +131,7 @@ bracket_value() {
 
 KT_NATIVE=${KT_NATIVE:-/system/bin/andr36oid-guest}
 KT_FAST=0
+KT_CACHE_GEN=0
 KT_SNAPSHOT=
 KT_UPDATES=
 KT_NL='
@@ -139,6 +140,7 @@ KT_TAB='	'
 kt_snapshot() {
     local key kind once paths keys=
     KT_FAST=0
+    KT_CACHE_GEN=$((KT_CACHE_GEN + 1))
     [ -x "$KT_NATIVE" ] || return 0
     while IFS='|' read -r key kind once paths; do
         [ -n "$key" ] || continue
@@ -157,20 +159,27 @@ EOF
     # every lookup took about a second each on the console.
     while IFS="$KT_TAB" read -r key paths; do
         [ -n "$key" ] || continue
-        kt_var "$key"; eval "$KT_V=\$paths; ${KT_V}_set=1"
+        kt_var "$key" || return 0
+        eval "$KT_V=\$paths; ${KT_V}_set=\$KT_CACHE_GEN"
     done <<EOF
 $KT_SNAPSHOT
 EOF
     KT_FAST=1
 }
-kt_var() { KT_V=KTP_${1//[!A-Za-z0-9_]/_}; }
+kt_var() {
+    # Encode punctuation injectively: e.g. a.b and a_b are distinct properties.
+    case "$1" in ''|*[!A-Za-z0-9_.-]*) return 1 ;; esac
+    KT_V=${1//_/_u}
+    KT_V=${KT_V//./_d}
+    KT_V=KTP_${KT_V//-/_h}
+}
 kt_getprop() {
     local known
     # Request/service readiness is volatile and is never sampled from a cache.
     case "$1" in sys.andr36oid.kt.request|sys.boot_completed) command getprop "$@"; return ;; esac
-    if [ "$KT_FAST" = 1 ]; then
-        kt_var "$1"; eval "known=\${${KT_V}_set-}"
-        if [ "$known" = 1 ]; then eval "kt_line \"\$$KT_V\""; return; fi
+    if [ "$KT_FAST" = 1 ] && kt_var "$1"; then
+        eval "known=\${${KT_V}_set-}"
+        if [ "$known" = "$KT_CACHE_GEN" ]; then eval "kt_line \"\$$KT_V\""; return; fi
     fi
     command getprop "$@"
 }
@@ -197,8 +206,11 @@ kt_publish() {
     # still use the ordinary synchronous command, with its failure behavior.
     if [ "$KT_FAST" = 1 ]; then
         case "$2" in *"$KT_TAB"*|*"$KT_NL"*) kt_flush; KT_FAST=0 ;;
-        *) KT_UPDATES="$KT_UPDATES$KT_NL$1$KT_TAB$2$KT_NL"
-            kt_var "$1"; eval "$KT_V=\$2; ${KT_V}_set=1"; return 0 ;; esac
+        *) if kt_var "$1"; then
+                KT_UPDATES="$KT_UPDATES$KT_NL$1$KT_TAB$2$KT_NL"
+                eval "$KT_V=\$2; ${KT_V}_set=\$KT_CACHE_GEN"; return 0
+            fi
+            kt_flush; KT_FAST=0 ;; esac
     fi
     command setprop "$@"
 }
