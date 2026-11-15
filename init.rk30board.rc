@@ -452,30 +452,17 @@ on property:sys.boot_completed=1
     write /sys/devices/system/cpu/cpufreq/policy0/schedutil/up_rate_limit_us 1000
     write /sys/devices/system/cpu/cpufreq/policy0/schedutil/down_rate_limit_us 10000
     # Give the app on screen (top-app) a 10% boost, like Pixel 2/3 do, so schedutil
-    # clocks up sooner for the game or menu in front. 4.19 does this through schedtune
-    # (/dev/stune/top-app, which the base init.rc creates). 5.10 dropped schedtune for
-    # uclamp; that path needs its own cpu-controller group, set up in the guarded block
-    # below. This write is a harmless no-op on 5.10 (no /dev/stune) - one rc serves both.
+    # clocks up sooner for the game or menu in front. Both kernel lines do this through schedtune
+    # (/dev/stune/top-app, which the base init.rc creates; our 5.10 still has it).
     write /dev/stune/top-app/schedtune.boost 10
 
-# 5.10 top-app uclamp floor. The 5.10 kernel cmdline carries androidboot.uclamp=1 (which
-# init exposes as ro.boot.uclamp); 4.19 does not set it, so this block runs on 5.10 ONLY and
-# 4.19 keeps the schedtune path above untouched. That matters: base init.rc makes cpuset and
-# stune top-app but NOT cpu top-app, and on 4.19 (FAIR_GROUP_SCHED) creating a cpu cgroup
-# child + joining top-app to it would re-weight the group and can starve it - so we must not.
-# On 5.10 we create the group here; MaxPerformance's cpu JoinCgroup then lands the apps and
-# schedutil sees cpu.uclamp.min=10. Do this at post-fs-data: it is pre-zygote (so the group
-# exists BEFORE any top-app profile is applied) yet after the cgroup controllers are mounted.
-# If the group is missing at the first profile apply, SetCgroupAction caches FDS_INACCESSIBLE
-# and never retries it (task_profiles.cpp:157-178 + ExecuteForTask:234), so the boost would be
-# lost for the whole boot - creating it later (e.g. boot_completed) is too late.
-on post-fs-data && property:ro.boot.uclamp=1
-    mkdir /dev/cpuctl/top-app 0755 system system
-    chown system system /dev/cpuctl/top-app/tasks
-    chmod 0664 /dev/cpuctl/top-app/tasks
-    chown system system /dev/cpuctl/top-app/cgroup.procs
-    chmod 0664 /dev/cpuctl/top-app/cgroup.procs
-    write /dev/cpuctl/top-app/cpu.uclamp.min 10
+# No cpu-controller group for the app in front on 5.10. One used to be made here to carry a
+# 10 % uclamp floor, but every process that was ever in front (zygote, system_server, SystemUI,
+# the launcher) stayed in it, and with FAIR_GROUP_SCHED the whole group then weighs as one task
+# against each native service. Measured on the R36 Ultra with a held shoulder button, three
+# alternating rounds: typical frame 67 ms with the group, 62 ms without, and 7 against 5 frames
+# over 100 ms. All tasks stay in the root group, as on 4.19. The clock is already raised within
+# 3 ms of a button press by the power service, so the floor bought nothing.
 
 service usb_modeswitch /vendor/bin/usb_modeswitch -KW -v 0bda -p 1a2b
     class main
