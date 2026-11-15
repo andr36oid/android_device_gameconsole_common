@@ -417,7 +417,9 @@ void Daemon::onMouseModeChanged(bool active) {
     if (touch_) touch_->setSuspended(active, monotonicNow());
     wantActive_ = active;
     setProperty(kActiveProperty, active ? "1" : "0");
-    if (!config_.toast || getProperty("sys.boot_completed") != "1") return;
+    if (getProperty("sys.boot_completed") != "1") return;
+    announcer_.notifyStatusBar();
+    if (!config_.toast) return;
     announcer_.announce(describe(active));
 }
 

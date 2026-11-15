@@ -39,6 +39,16 @@ void Announcer::warmUp(Nanos now) {
     });
 }
 
+void Announcer::notifyStatusBar() {
+    run({
+            kCmd, "activity", "broadcast",
+            "-a", kStatusBarAction,
+            "-p", "com.android.systemui",
+            "--receiver-foreground",
+            "--receiver-registered-only",
+    });
+}
+
 void Announcer::reap() {
     int status = 0;
     while (waitpid(-1, &status, WNOHANG) > 0) {

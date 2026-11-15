@@ -34,11 +34,14 @@ public:
     static constexpr const char kPackage[] = "com.gameconsole.joymouse";
     static constexpr const char kAction[] = "com.gameconsole.joymouse.action.MODE_CHANGED";
     static constexpr const char kWarmUpAction[] = "com.gameconsole.joymouse.action.WARM_UP";
+    static constexpr const char kStatusBarAction[] = "org.andr36oid.action.MOUSE_MODE_CHANGED";
     // A cached app stays around for a while; don't send one per chord press.
     static constexpr Nanos kWarmUpInterval = msToNanos(20000);
 
     void announce(Announcement a);
     void warmUp(Nanos now);
+    // Has the status bar re-read the mode property and show or hide its mouse icon.
+    void notifyStatusBar();
     // Call on SIGCHLD.
     void reap();
 
