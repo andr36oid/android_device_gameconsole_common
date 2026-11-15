@@ -1,5 +1,6 @@
 #!/system/bin/sh
-# Foreground-only experiment. No clocks, voltage, thermal or online-core writes.
+# Places an emulator's busiest threads on cores of their own while it is in front.
+# No clocks, voltage, thermal or online-core writes.
 # The read-only fake root and command functions are injectable by host fixtures.
 AF_ROOT=${GAME_AFFINITY_ROOT:-}
 AF_STATE=${GAME_AFFINITY_STATE:-/data/misc/andr36oid-game-affinity}
@@ -26,26 +27,41 @@ af_setmask() { taskset -p "$2" "$1" >/dev/null 2>&1; }
 af_identity() {
     [ "$(af_stamp "$1" "$2")" = "$3" ]
 }
+# Which core a thread gets, by its name; anything else is left alone. One core each for
+# the emulated CPU and for the thread that feeds the graphics chip, the driver's worker
+# and the sound mixer on the other two. Measured in a PSP game at the stock clock:
+# 29 fps against 28 without and 27 with every thread on cores 2-3, and 29.5 against 24
+# in the heaviest stretch.
+af_target() {
+    case "$1" in
+        EmuThread) AF_WANT=8 ;;
+        VulkanRenderMan) AF_WANT=4 ;;
+        mali-cmar-backe|SAS) AF_WANT=3 ;;
+        *) AF_WANT= ;;
+    esac
+}
 af_thread() {
-    local pid=$1 tid=$2 stamp old file="$AF_STATE/thread-$2"
-    if [ -e "$file" ]; then
-        # Do not fight an application/Android affinity change; retire the session.
-        if [ "$(af_mask "$tid")" != c ] && [ -d "$AF_ROOT/proc/$pid/task/$tid" ]; then return 1; fi
+    local pid=$1 tid=$2 stamp old comm file="$AF_STATE/thread-$2"
+    case " $AF_SEEN " in *" $tid "*) return 0 ;; esac
+    read -r comm < "$AF_ROOT/proc/$pid/task/$tid/comm" 2>/dev/null || return 0
+    af_target "$comm"
+    if [ -z "$AF_WANT" ]; then
+        # A thread started by a pinned one inherits its single core; give it all four.
+        # A name set after the thread started is picked up on the next pass.
+        case " $AF_FREED " in *" $tid "*) return 0 ;; esac
+        AF_FREED="$AF_FREED $tid"
+        [ "${AF_INITIAL:-0}" = 1 ] || af_setmask "$tid" f
         return 0
     fi
+    AF_SEEN="$AF_SEEN $tid"
     stamp=$(af_stamp "$pid" "$tid") || return 0
     old=$(af_mask "$tid") || return 0
     case "$old" in ''|*[!0-9a-f]*) return 0 ;; esac
-    # Threads created after admission inherit c; restore their pre-policy main
-    # thread baseline on exit. Existing threads retain individual original masks.
-    [ "${AF_INITIAL:-0}" = 1 ] || [ "$old" != c ] || old=$AF_MAIN_OLD
-    printf '%s %s %s %s c\n' "$pid" "$tid" "$stamp" "$old" > "$file.tmp" && mv "$file.tmp" "$file" || return 1
+    # Whatever a pinned parent handed down is not the thread's own choice.
+    [ "${AF_INITIAL:-0}" = 1 ] || old=$AF_MAIN_OLD
+    printf '%s %s %s %s %s\n' "$pid" "$tid" "$stamp" "$old" "$AF_WANT" > "$file.tmp" && mv "$file.tmp" "$file" || return 1
     af_identity "$pid" "$tid" "$stamp" || return 0
-    if ! af_setmask "$tid" c; then
-        af_identity "$pid" "$tid" "$stamp" || return 0
-        return 1
-    fi
-    [ "$(af_mask "$tid")" = c ] || { af_identity "$pid" "$tid" "$stamp" || return 0; return 1; }
+    af_setmask "$tid" "$AF_WANT" || { af_identity "$pid" "$tid" "$stamp" || return 0; return 1; }
     return 0
 }
 af_background() {
@@ -127,14 +143,10 @@ af_restore() {
     [ "$failed" = 0 ] || return 1
     rm -f "$AF_STATE/boot"
 }
-af_foreground() {
-    /system/bin/timeout 1 /system/bin/dumpsys activity activities 2>/dev/null |
-        sed -n 's/.*mResumedActivity:.* u[0-9]* \([^ /}]*\)\/.*/\1/p' | head -1
-}
 af_live() {
-    [ "$(getprop "$AF_PROP")" = "$1" ] && [ "$(af_foreground)" = "$1" ] &&
-        [ -n "$(pidof org.andr36oid.gamecomfort)" ] &&
-        [ "$(getprop sys.andr36oid.subsystem.session)" != running ]
+    # The app clears the request when the game leaves the front or a guest session
+    # starts. Asking the system for the front app here cost 15 % of a core in a game.
+    [ "$(getprop "$AF_PROP")" = "$1" ]
 }
 af_pid() {
     local p line
@@ -169,19 +181,17 @@ af_main() {
         stamp=$(af_stamp "$pid" "$pid") || break
         AF_MAIN_OLD=$(af_mask "$pid") || break
         printf '%s\n' "$AF_BOOT" > "$AF_STATE/boot" || return 1
-        AF_INITIAL=1
-        while af_live "$pkg" && af_identity "$pid" "$pid" "$stamp"; do
-            [ "$(af_read /sys/devices/system/cpu/online)" = 0-3 ] || return 1
+        AF_INITIAL=1; AF_SEEN=; AF_FREED=
+        while af_live "$pkg" && [ -d "$AF_ROOT/proc/$pid" ]; do
             for path in "$AF_ROOT/proc/$pid/task/"[0-9]*; do
                 [ -d "$path" ] || continue
                 tid=${path##*/}; af_thread "$pid" "$tid" || return 1
             done
-            [ "$(af_mask "$pid")" = c ] || return 1
             AF_INITIAL=0
-            af_background || return 1
-            for irq in $(af_irqs); do af_irq "$irq" || return 1; done
+            # Background work and device interrupts stay where they are: the measured
+            # gain is from the thread placement alone.
             setprop sys.andr36oid.gameaffinity.state active
-            sleep 1
+            sleep 5
         done
         af_restore || return 1
         if [ "$(getprop "$AF_PROP")" = "$pkg" ]; then

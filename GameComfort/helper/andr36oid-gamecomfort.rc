@@ -9,7 +9,7 @@ service andr36oid-gamecomfort /system/bin/sh /system/etc/andr36oid-gamecomfort.s
     disabled
     oneshot
 
-# Only runs while the opt-in foreground experiment owns a session, or for recovery.
+# Only runs while a game in front has its threads placed, or for recovery.
 service andr36oid-game-affinity /system/bin/sh /system/etc/andr36oid-gamecomfort.sh affinity
     class late_start
     user root

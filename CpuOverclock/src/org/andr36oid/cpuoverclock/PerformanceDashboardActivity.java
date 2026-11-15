@@ -185,7 +185,7 @@ public class PerformanceDashboardActivity extends Activity {
         Settings.Global.putInt(cr, GameTurbo.ENABLED,
                 mode == PerformanceProfiles.BATTERY_SAVER ? 0 : 1);
         Settings.Global.putInt(cr, GameTurbo.AFFINITY,
-                mode == PerformanceProfiles.PERFORMANCE ? 1 : 0);
+                mode == PerformanceProfiles.BATTERY_SAVER ? 0 : 1);
 
         final PerformanceProfiles profiles = new PerformanceProfiles(this);
         final boolean ok = profiles.set(mode);
