@@ -5,7 +5,7 @@ What ships, and how it gets onto the device:
 | Component | Version | License | On /system |
 |---|---|---|---|
 | RetroArch (F-Droid, `com.retroarch`) | 1.22.2 | GPL-3.0-only | 30.9 MB (APK) |
-| PPSSPP (F-Droid, `org.ppsspp.ppsspp`) | 1.19.3 | GPL-2.0-or-later | 41.3 MB (APK) |
+| PPSSPP (our build for the RK3326, `org.ppsspp.ppsspp`, patch in `preinstall/PPSSPP-andr36oid.patch`) | 1.19.3 | GPL-2.0-or-later | 23.6 MB (APK) |
 | libretro cores, FOSS tier (30) | pinned commits | GPL/LGPL/AGPL/MPL/MIT/Zlib/Artistic | 23.1 MB (tar.gz), 95 MB unpacked |
 | libretro cores, non-commercial tier (9, opt-in) | pinned commits | non-commercial | 30.0 MB (tar.gz), 128 MB unpacked |
 
@@ -48,7 +48,7 @@ the `gameconsole-emu` service (`seed/`) runs once `sys.boot_completed=1`:
 
 1. `pm install -g` the APKs as normal user apps, each described by its `.yml` in `preinstall/`.
    RetroArch (`required: true`) always, PPSSPP when it's ticked on the setup's app page (it
-   is at first). The APKs are byte-identical to F-Droid's, so F-Droid can update them and
+   is at first). RetroArch is byte-identical to F-Droid's, so F-Droid can update it (PPSSPP is our own build) and
    users can uninstall them. A removed app stays removed, a failing version isn't retried
    every boot.
 2. Set up RetroArch, see [RetroArch defaults](#retroarch-defaults) below, and on a fresh

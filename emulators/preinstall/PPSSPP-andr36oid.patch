@@ -1,0 +1,149 @@
+diff --git a/Core/MIPS/ARM64/Arm64CompVFPU.cpp b/Core/MIPS/ARM64/Arm64CompVFPU.cpp
+index d722deb..9d29aa1 100644
+--- a/Core/MIPS/ARM64/Arm64CompVFPU.cpp
++++ b/Core/MIPS/ARM64/Arm64CompVFPU.cpp
+@@ -736,10 +736,13 @@ namespace MIPSComp {
+ 					break;
+ 				}
+ 				case 6:  // vsge
+-					DISABLE;  // pending testing
+-					break;
+ 				case 7:  // vslt
+-					DISABLE;  // pending testing
++					// d[i] = (s[i] >= t[i]) or (s[i] < t[i]) ? 1.0f : 0.0f, and 0.0f when either is NaN.
++					// After FCMP, GE (N == V) and MI (N set) are both false for unordered operands.
++					MOVI2R(SCRATCH1, 0x3F800000);
++					fp.FCMP(fpr.V(sregs[i]), fpr.V(tregs[i]));
++					CSEL(SCRATCH1, SCRATCH1, WZR, ((op >> 23) & 7) == 6 ? CC_GE : CC_MI);
++					fp.FMOV(fpr.V(tempregs[i]), SCRATCH1);
+ 					break;
+ 				}
+ 				break;
+@@ -771,6 +774,27 @@ namespace MIPSComp {
+ 			return;
+ 		}
+ 
++		// vsin/vcos/vnsin on a single element without prefixes: call the same helper the interpreter uses,
++		// straight from and to the register's memory slot, instead of leaving the block for the interpreter.
++		{
++			int subop = (op >> 16) & 0x1f;
++			if ((subop == 18 || subop == 19 || subop == 26) && GetVecSize(op) == V_Single && js.HasNoPrefix()) {
++				u8 sreg, dreg;
++				GetVectorRegs(&sreg, V_Single, _VS);
++				GetVectorRegs(&dreg, V_Single, _VD);
++				gpr.FlushBeforeCall();
++				fpr.FlushAll();
++				fp.LDR(32, INDEX_UNSIGNED, S0, CTXREG, fpr.GetMipsRegOffsetV(sreg));
++				RestoreRoundingMode();
++				QuickCallFunction(SCRATCH2_64, subop == 19 ? (void *)&vfpu_cos : (void *)&vfpu_sin);
++				ApplyRoundingMode();
++				if (subop == 26)
++					fp.FNEG(S0, S0);
++				fp.STR(32, INDEX_UNSIGNED, S0, CTXREG, fpr.GetMipsRegOffsetV(dreg));
++				return;
++			}
++		}
++
+ 		// Catch the disabled operations immediately so we don't map registers unnecessarily later.
+ 		// Move these down to the big switch below as they are implemented.
+ 		switch ((op >> 16) & 0x1f) {
+diff --git a/Core/MIPS/IR/IRCompVFPU.cpp b/Core/MIPS/IR/IRCompVFPU.cpp
+index 5507d6f..c1802ed 100644
+--- a/Core/MIPS/IR/IRCompVFPU.cpp
++++ b/Core/MIPS/IR/IRCompVFPU.cpp
+@@ -1162,14 +1162,80 @@ namespace MIPSComp {
+ 
+ 	void IRFrontend::Comp_Vh2f(MIPSOpcode op) {
+ 		CONDITIONAL_DISABLE(VFPU_VEC);
+-		if (js.HasUnknownPrefix() || !IsPrefixWithinSize(js.prefixS, op)) {
++		if (js.HasUnknownPrefix() || js.HasSPrefix()) {
+ 			DISABLE;
+ 		}
+ 
+ 		// Vector expand half to float
+ 		// d[N*2] = float(lowerhalf(s[N])), d[N*2+1] = float(upperhalf(s[N]))
++		//
++		// Same steps as ExpandHalf() (half_to_float_fast5), written with integer and float ops
++		// so it stays in translated code instead of calling the interpreter:
++		//   bits = float((h & 0x7fff) << 13) * 2^112
++		//   Inf/NaN (exponent 31): bits = 0x7f800000 | (h & 0x3ff)
++		//   bits |= sign
+ 
+-		DISABLE;
++		VectorSize sz = GetVecSize(op);
++		VectorSize outsize;
++		switch (sz) {
++		case V_Single:
++			outsize = V_Pair;
++			break;
++		case V_Pair:
++			outsize = V_Quad;
++			break;
++		default:
++			DISABLE;
++		}
++
++		u8 sregs[2], dregs[4];
++		GetVectorRegsPrefixS(sregs, sz, _VS);
++		GetVectorRegsPrefixD(dregs, outsize, _VD);
++		int nOut = GetNumVectorElements(outsize);
++
++		const u8 word = IRTEMP_0, h = IRTEMP_1, bits = IRTEMP_2, mask = IRTEMP_3;
++		const u8 ftemp = IRVTEMP_0, fmagic = IRVTEMP_0 + 1;
++		ir.Write(IROp::SetConstF, fmagic, ir.AddConstantFloat(5192296858534827628530496329220096.0f));  // 2^112
++
++		// Results go to temps first, the destination may overlap the source.
++		for (int i = 0; i < nOut; i++) {
++			ir.Write(IROp::FMovToGPR, h, sregs[i / 2]);
++			if (i & 1)
++				ir.Write(IROp::ShrImm, h, h, 16);
++			else
++				ir.Write(IROp::AndConst, h, h, ir.AddConstant(0xFFFF));
++
++			// Finite values.
++			ir.Write(IROp::AndConst, bits, h, ir.AddConstant(0x7FFF));
++			ir.Write(IROp::ShlImm, bits, bits, 13);
++			ir.Write(IROp::FMovFromGPR, ftemp, bits);
++			ir.Write(IROp::FMul, ftemp, ftemp, fmagic);
++			ir.Write(IROp::FMovToGPR, bits, ftemp);
++
++			// mask = all ones when the exponent is 31.
++			ir.Write(IROp::AndConst, mask, h, ir.AddConstant(0x7C00));
++			ir.Write(IROp::AddConst, mask, mask, ir.AddConstant(0x0400));
++			ir.Write(IROp::ShrImm, mask, mask, 15);
++			ir.Write(IROp::Neg, mask, mask);
++
++			// word = 0x7f800000 | (h & 0x3ff), then select it where mask is set.
++			ir.Write(IROp::OrConst, word, h, ir.AddConstant(0xFFFFFC00));
++			ir.Write(IROp::AndConst, word, word, ir.AddConstant(0x7F8003FF));
++			ir.Write(IROp::Xor, word, word, bits);
++			ir.Write(IROp::And, word, word, mask);
++			ir.Write(IROp::Xor, bits, bits, word);
++
++			// Sign.
++			ir.Write(IROp::AndConst, h, h, ir.AddConstant(0x8000));
++			ir.Write(IROp::ShlImm, h, h, 16);
++			ir.Write(IROp::Or, bits, bits, h);
++			ir.Write(IROp::FMovFromGPR, IRVTEMP_PFX_T + i, bits);
++		}
++
++		for (int i = 0; i < nOut; i++) {
++			ir.Write(IROp::FMov, dregs[i], IRVTEMP_PFX_T + i);
++		}
++		ApplyPrefixD(dregs, outsize, _VD);
+ 	}
+ 
+ 	void IRFrontend::Comp_Vf2i(MIPSOpcode op) {
+diff --git a/UI/MiscScreens.cpp b/UI/MiscScreens.cpp
+index 2c16336..68a7339 100644
+--- a/UI/MiscScreens.cpp
++++ b/UI/MiscScreens.cpp
+@@ -894,7 +894,7 @@ void LogoScreen::DrawForeground(UIContext &dc) {
+ 
+ #if !PPSSPP_PLATFORM(UWP) || defined(_DEBUG)
+ 	// Draw the graphics API, except on UWP where it's always D3D11
+-	std::string apiName = screenManager()->getDrawContext()->GetInfoString(InfoField::APINAME);
++	std::string apiName = "andr36oid RK3326-optimized w/ " + screenManager()->getDrawContext()->GetInfoString(InfoField::APINAME);
+ #ifdef _DEBUG
+ 	apiName += ", debug build ";
+ 	// Add some emoji for testing.
