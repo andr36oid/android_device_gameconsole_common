@@ -27,7 +27,7 @@ yabasanshiro is pirry's Yaba Sanshiro for the R36S
 ([pirrypirrypirry/yabasanshiro-pirry](https://github.com/pirrypirrypirry/yabasanshiro-pirry),
 made for ArkOS, based on devMiyax's Yaba Sanshiro), built as a libretro core from our fork
 [andr36oid/yabasanshiro-pirry](https://github.com/andr36oid/yabasanshiro-pirry), branch
-`andr36oid`: pirry's 1.6.0 plus the fixes its libretro build needed (bundled libchdr for
+`andr36oid`: pirry's 1.6.3 plus the fixes its libretro build needed (bundled libchdr for
 CHD, GLES 3.1 constants, glue for pirry's core changes). The SH-2 dynarec (devMiyax's
 AArch64 one) is the default. It needs a real Saturn BIOS (`saturn_bios.bin`,
 `sega_101.bin` or `mpr-17933.bin` in the bios folder); without one it won't start a game.

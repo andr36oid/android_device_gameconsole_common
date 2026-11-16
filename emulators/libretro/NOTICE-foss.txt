@@ -23423,8 +23423,8 @@ Public License instead of this License.
 ================================================================================
 yabasanshiro  (GPL-2.0-or-later)
 source: https://github.com/andr36oid/yabasanshiro-pirry.git
-commit: 7907b5be6a2cb8241453c02c65bbbe829f476df5
-sha256: 461bd3a4d5c528512d7445433250c647c0890ceed52f665b256d227a71933781
+commit: 94fbf37a8cffeb945af2301d85e9fcab9d20cf78
+sha256: c6ac41a6efe2bc0e146ba9a5073e3c17a6e7798f05d575d7b9a304a0c1207f91
 ================================================================================
 GNU GENERAL PUBLIC LICENSE
 		       Version 2, June 1991
