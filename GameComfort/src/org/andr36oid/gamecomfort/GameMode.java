@@ -28,7 +28,7 @@ final class GameMode {
     static void foreground(Context context, String pkg, boolean game) {
         String target = game && pkg != null ? pkg : "";
         boolean turbo = Settings.Global.getInt(context.getContentResolver(), TURBO, 1) != 0;
-        String stamp = target + ":" + turbo + ":" + Settings.Global.getInt(context.getContentResolver(), AFFINITY, 1);
+        String stamp = target + ":" + turbo + ":" + Settings.Global.getInt(context.getContentResolver(), AFFINITY, 0);
         if (stamp.equals(sTuningStamp)) return;
         boolean migrate = sTuningStamp != null && turbo != sTurboEnabled
                 && !target.isEmpty() && isOnByAutomatic(context);

@@ -180,12 +180,13 @@ public class PerformanceDashboardActivity extends Activity {
     }
 
     private void selectMode(int mode) {
-        // Fold the in-game boost and core pinning into the mode. The watcher reads these flags.
+        // Fold the in-game boost into the mode. The watcher reads these flags.
         final ContentResolver cr = getContentResolver();
         Settings.Global.putInt(cr, GameTurbo.ENABLED,
                 mode == PerformanceProfiles.BATTERY_SAVER ? 0 : 1);
-        Settings.Global.putInt(cr, GameTurbo.AFFINITY,
-                mode == PerformanceProfiles.BATTERY_SAVER ? 0 : 1);
+        // Core pinning stays off in every mode: with the emulator thread held on one core a
+        // heavy PSP scene ran at 83 % speed against 87 % when the scheduler placed it.
+        Settings.Global.putInt(cr, GameTurbo.AFFINITY, 0);
 
         final PerformanceProfiles profiles = new PerformanceProfiles(this);
         final boolean ok = profiles.set(mode);

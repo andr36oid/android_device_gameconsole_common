@@ -96,7 +96,7 @@ final class GameTurbo {
     }
 
     static void affinity(Context c, String pkg) {
-        boolean on = Settings.Global.getInt(c.getContentResolver(), AFFINITY, 1) != 0;
+        boolean on = Settings.Global.getInt(c.getContentResolver(), AFFINITY, 0) != 0;
         String requested = on && !guestBusy() && pkg.equals(top(c))
                 && (pkg.equals("com.retroarch") || pkg.equals("org.ppsspp.ppsspp")) ? pkg : "";
         try {
