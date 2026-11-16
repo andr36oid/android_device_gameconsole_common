@@ -2,7 +2,7 @@ PPSSPP 1.19.3 (org.ppsspp.ppsspp, versionCode 119030100) - GPL-2.0-or-later
 
 Built by andr36oid for the RK3326 from the PPSSPP 1.19.3 source with the changes in
 PPSSPP-andr36oid.patch (next to this file in the device tree), arm64 only, tuned for the
-Cortex-A35 and compiled with a profile of real play. sha256 5e1e26c494716d722e222736f09b9589b1ced5ea78c8b33cc4b1a4856494c76a.
+Cortex-A35 and compiled with a profile of real play. sha256 cb98a6f23ff3c43b9a4d914ae85d36f5a965374ce79d6f91b98ef3eb8e861e10.
 Signed with andr36oid's own key, so F-Droid's PPSSPP cannot update it or replace it.
 Source: https://github.com/hrydgard/ppsspp/tree/v1.19.3 (commit e49c0bd8836a8a8f678565357773386f1174d3f5)
 

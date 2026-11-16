@@ -1,3 +1,18 @@
+diff --git a/Core/HLE/sceDisplay.cpp b/Core/HLE/sceDisplay.cpp
+index fe64364..ceda08d 100644
+--- a/Core/HLE/sceDisplay.cpp
++++ b/Core/HLE/sceDisplay.cpp
+@@ -428,7 +428,9 @@ static void DoFrameTiming(bool throttle, bool *skipFrame, float scaledTimestep,
+ 	if (g_Config.bAutoFrameSkip && !g_Config.bSkipBufferEffects) {
+ 		// autoframeskip
+ 		// Argh, we are falling behind! Let's skip a frame and see if we catch up.
+-		if (curFrameTime > nextFrameTime && doFrameSkip) {
++		// Only once we are half a frame late, not at the first microsecond: a scene that is a little
++		// too heavy then loses one frame now and then instead of every other one.
++		if (curFrameTime > nextFrameTime + 0.5 * scaledTimestep && doFrameSkip) {
+ 			*skipFrame = true;
+ 		}
+ 	} else if (frameSkipNum >= 1) {
 diff --git a/Core/MIPS/ARM64/Arm64CompVFPU.cpp b/Core/MIPS/ARM64/Arm64CompVFPU.cpp
 index d722deb..9d29aa1 100644
 --- a/Core/MIPS/ARM64/Arm64CompVFPU.cpp
