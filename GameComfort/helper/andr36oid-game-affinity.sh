@@ -36,7 +36,7 @@ af_target() {
     case "$1" in
         EmuThread) AF_WANT=8 ;;
         VulkanRenderMan) AF_WANT=4 ;;
-        mali-cmar-backe|SAS) AF_WANT=3 ;;
+        mali-cmar-backe|SAS|AudioTrack) AF_WANT=3 ;;
         *) AF_WANT= ;;
     esac
 }

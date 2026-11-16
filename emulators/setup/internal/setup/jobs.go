@@ -129,6 +129,7 @@ func (s *Setup) Main() {
 	s.RAHotkeys()
 	// PPSSPP isn't running this early; it writes controls.ini back when it quits
 	s.PPSSPPControls()
+	s.PPSSPPGameConfigs()
 	// last: the first unpack takes a while
 	s.Progress.Stage("cheats")
 	s.SeedCheats()

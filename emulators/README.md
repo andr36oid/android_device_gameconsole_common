@@ -123,7 +123,7 @@ What `ppsspp.ini` sets (every key checked against 1.19.3's `Core/Config.cpp`):
 
 | Setting | Value | Why |
 |---|---|---|
-| `GraphicsBackend` | OpenGL | PPSSPP's Android default is Vulkan, which this Mali driver doesn't have |
+| `GraphicsBackend` | OpenGL, Vulkan on images with the Vulkan driver | the seed says OpenGL, which every image has; the setup service writes Vulkan into the copy when `/vendor/lib64/hw/vulkan.<ro.hardware.vulkan>.so` exists (measured in a heavy 3D scene: OpenGL 47 % of full speed, Vulkan 90 %) |
 | `InternalResolution`, `AndroidHwScale` | 1x, native | PSP's 480x272; anything more is too much for the Mali-G31 |
 | `AutoFrameSkip`, `FrameSkip` | on, 1 | skips only when behind; a nonzero value is required by 1.19.3 auto-frameskip |
 | `SkipBufferEffects` | off | buffered rendering; auto frameskip needs it, many games break without it |
@@ -131,10 +131,10 @@ What `ppsspp.ini` sets (every key checked against 1.19.3's `Core/Config.cpp`):
 | `TextureBackoffCache` | on | "lazy texture caching" speedhack (ArkOS, ROCKNIX) |
 | `TexScalingLevel`, `AnisotropyLevel`, `TextureShader` | off, 0, off | no texture upscaling or extra filtering (ArkOS) |
 | `SplineBezierQuality` | low | curved surfaces are CPU heavy (ArkOS, ROCKNIX) |
-| `HardwareTransform`, `SoftwareSkinning` | on, on | PPSSPP defaults, stated so a changed default can't slow us down |
+| `HardwareTransform`, `SoftwareSkinning` | on, off | skinning on the graphics chip measured 1 to 6 points faster in a heavy scene, same picture |
 | `MultiThreading` | on | pins the upstream default; OpenGL already uses its own render thread |
 | `DisplayRefreshRate`, `FrameRate` | 60, 60 | pins normal PSP vblank timing and alternate speed 1; does not turn 30 fps games into 60 fps games |
-| `CPUCore`, `IOTimingMethod`, `SeparateSASThread` | JIT, fast, on | PPSSPP defaults (fastest) |
+| `CPUCore`, `IOTimingMethod`, `SeparateSASThread` | 3 (JIT using IR), fast, on | the IR translator measured 3 to 9 points faster than the classic JIT (1) here; the others are PPSSPP defaults |
 | `iShowStatusFlags` | 0 | no FPS counter |
 | `ImmersiveMode` | on | full screen without system bars |
 | `ShowTouchControls`, `ShowTouchPause` | off | no touch screen; PPSSPP would draw its touch pad over the game |

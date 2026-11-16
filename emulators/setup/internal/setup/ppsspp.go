@@ -51,6 +51,17 @@ func (s *Setup) SeedPPSSPP() {
 			s.Log("writing PPSSPP's %s failed", f)
 			return
 		}
+		if f == "ppsspp.ini" && s.hasVulkan() {
+			// The seed asks for OpenGL, which every image has. With a Vulkan driver
+			// PPSSPP runs about twice as fast on Vulkan (47 % against 90 % of full
+			// speed in a heavy scene), so the copy asks for that.
+			if b, err := os.ReadFile(dest); err == nil {
+				n := ppBackendRe.ReplaceAllString(string(b), "GraphicsBackend = 3 (VULKAN)")
+				if n != string(b) && fsx.WriteFileAtomic(dest, []byte(n)) == nil {
+					s.Log("PPSSPP draws with Vulkan")
+				}
+			}
+		}
 		_ = fsx.SetOwnerMode(dest, extOwner(owner), 0o660)
 		s.Log("seeded PPSSPP's %s", f)
 	}
@@ -192,6 +203,85 @@ func (s *Setup) PPSSPPControls() {
 	f, err := os.OpenFile(done, os.O_WRONLY|os.O_APPEND|os.O_CREATE, 0o600)
 	if err == nil {
 		_, _ = f.WriteString(ini + "\n")
+		f.Close()
+	}
+}
+
+// God of War: Chains of Olympus asks for 30 frames a second, which this chip cannot
+// deliver in battles, so the whole game runs in slow motion and the sound breaks up. With
+// the emulated PSP's processor at 150 MHz the game drops to 20 by itself and stays at
+// full speed, as it did on a real PSP.
+var ppSlowCPUGames = []string{"UCAS40198", "UCUS98653", "UCES00842", "ULJM05438"}
+
+// hasVulkan: the image carries a Vulkan driver (the property alone is set on every image).
+func (s *Setup) hasVulkan() bool {
+	hw := s.Props.Get("ro.hardware.vulkan")
+	return hw != "" && sys.IsFile("/vendor/lib64/hw/vulkan."+hw+".so")
+}
+
+var ppBackendRe = regexp.MustCompile(`(?m)^GraphicsBackend *=.*$`)
+
+var ppCPUSpeedRe = regexp.MustCompile(`^CPUSpeed *=.*$`)
+
+// PPSSPPGameConfigs gives the games above their own settings file. PPSSPP takes every
+// per-game setting from such a file and its defaults for what is missing, so the file is
+// a copy of the present ppsspp.ini with only the processor speed changed. Once per memory
+// stick (State/ppsspp-gameini): a game config the user deletes or changes later stays.
+func (s *Setup) PPSSPPGameConfigs() {
+	root := s.ppMemstick()
+	if root == "" {
+		return
+	}
+	sysDir := root + "/PSP/SYSTEM"
+	ini := sysDir + "/ppsspp.ini"
+	if !sys.IsFile(ini) {
+		return
+	}
+	done := s.state("ppsspp-gameini")
+	if b, err := os.ReadFile(done); err == nil {
+		for _, l := range splitLines(string(b)) {
+			if l == sysDir {
+				return
+			}
+		}
+	}
+	b, err := os.ReadFile(ini)
+	if err != nil {
+		return
+	}
+	lines := splitLines(string(b))
+	found := false
+	for i, l := range lines {
+		if ppCPUSpeedRe.MatchString(l) {
+			lines[i] = "CPUSpeed = 150"
+			found = true
+		}
+	}
+	if !found {
+		// PPSSPP has not written its settings yet, next boot
+		return
+	}
+	owner, err := fsx.OwnerOf(ini)
+	if err != nil {
+		return
+	}
+	data := []byte(strings.Join(lines, "\n") + "\n")
+	for _, id := range ppSlowCPUGames {
+		dest := sysDir + "/" + id + "_ppsspp.ini"
+		if sys.Exists(dest) {
+			continue
+		}
+		if err := fsx.WriteFileAtomic(dest, data); err != nil {
+			s.Log("PPSSPP: writing %s failed, next boot: %v", dest, err)
+			return
+		}
+		_ = fsx.SetOwnerMode(dest, owner, 0o660)
+		s.Log("PPSSPP: %s runs with the PSP's processor at 150 MHz", id)
+	}
+	s.restorecon(true, sysDir)
+	f, err := os.OpenFile(done, os.O_WRONLY|os.O_APPEND|os.O_CREATE, 0o600)
+	if err == nil {
+		_, _ = f.WriteString(sysDir + "\n")
 		f.Close()
 	}
 }
