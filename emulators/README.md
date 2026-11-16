@@ -125,7 +125,7 @@ What `ppsspp.ini` sets (every key checked against 1.19.3's `Core/Config.cpp`):
 |---|---|---|
 | `GraphicsBackend` | OpenGL, Vulkan on images with the Vulkan driver | the seed says OpenGL, which every image has; the setup service writes Vulkan into the copy when `/vendor/lib64/hw/vulkan.<ro.hardware.vulkan>.so` exists (measured in a heavy 3D scene: OpenGL 47 % of full speed, Vulkan 90 %) |
 | `InternalResolution`, `AndroidHwScale` | 1x, native | PSP's 480x272; anything more is too much for the Mali-G31 |
-| `AutoFrameSkip`, `FrameSkip` | on, 1 | skips only when behind; a nonzero value is required by 1.19.3 auto-frameskip |
+| `AutoFrameSkip`, `FrameSkip` | on, 2 | our build skips only once it is half a frame late, so a slightly too heavy scene loses a frame now and then (measured: full speed with 24 of 30 frames instead of 20); 2 is the most frames skipped in a row |
 | `SkipBufferEffects` | off | buffered rendering; auto frameskip needs it, many games break without it |
 | `SkipGPUReadbackMode` | no skipping (0) | keeps readback-dependent effects and games working; per-game compat guards remain |
 | `TextureBackoffCache` | on | "lazy texture caching" speedhack (ArkOS, ROCKNIX) |
